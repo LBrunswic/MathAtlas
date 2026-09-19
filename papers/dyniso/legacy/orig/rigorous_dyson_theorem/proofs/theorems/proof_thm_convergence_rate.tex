@@ -1,0 +1,66 @@
+% Proof of Theorem \ref{thm:convergence-rate}
+\begin{proof}
+We decompose the error into bias and variance:
+\begin{align}
+\E[\norm{\mcG_N - \bTr(\mcM)}^2]
+&= \E\Bigl[\norm{\bTr(\mcR_N) - \bTr(\mcM)}^2\Bigr] \\
+&= \norm{\E[\bTr(\mcR_N)] - \bTr(\mcM)}^2 + \E\Bigl[\norm{\bTr(\mcR_N) - \E[\bTr(\mcR_N)]}^2\Bigr] \\
+&= (\text{Bias})^2 + \text{Variance}.
+\end{align}
+
+\textbf{Step 1: Bias bound.} From the convergence proof (Section 3.5), we established
+\[
+\norm{\E[\bTr(\mcR_N)] - \bTr(\mcM)} = \norm{E_N} \leq \frac{C(\eta, \sigma, \norm{A})}{N}.
+\]
+
+Thus $(\text{Bias})^2 \leq \frac{C}{N^2}$.
+
+\textbf{Step 2: Variance bound.} We compute
+\begin{align}
+\Var(\bTr(\mcR_N))
+&= \E\bigl[\norm{\bTr(\mcR_N) - \E[\bTr(\mcR_N)]}^2\bigr].
+\end{align}
+
+Using the Poincaré inequality for Gaussian measures (see Appendix B),
+\[
+\Var(f(X)) \leq \frac{\sigma^2}{N} \sum_{i,j} \E\Bigl[\Bigl(\frac{\partial f}{\partial X_{ij}}\Bigr)^2\Bigr],
+\]
+where $f(X) = \bTr(\mcR(X))$.
+
+From the resolvent derivative calculation (Section 3.3, Step 2), we have
+\[
+\frac{\partial \mcR}{\partial X_{ij}} = -\mcR \begin{pmatrix} 0 & -e_i e_j^\top \\ -e_j e_i^\top & 0 \end{pmatrix} \mcR.
+\]
+
+Thus
+\[
+\Bigl\|\frac{\partial \mcR}{\partial X_{ij}}\Bigr\|_F \leq \norm{\mcR}^2 \cdot \norm{e_i e_j^\top}_F = \frac{1}{\eta^2}.
+\]
+
+The block trace operation reduces this by a factor of $1/N$:
+\[
+\Bigl|\frac{\partial (\bTr(\mcR))_{kl}}{\partial X_{ij}}\Bigr| \leq \frac{1}{N\eta^2}.
+\]
+
+Summing over all $N^2$ entries and all $4$ blocks (the $2 \times 2$ matrix $\bTr(\mcR)$):
+\begin{align}
+\sum_{i,j} \E\Bigl[\Bigl(\frac{\partial \bTr(\mcR)}{\partial X_{ij}}\Bigr)^2\Bigr]
+&\leq N^2 \cdot 4 \cdot \frac{1}{N^2\eta^4} = \frac{4}{\eta^4}.
+\end{align}
+
+By Poincaré's inequality,
+\[
+\Var(\bTr(\mcR)) \leq \frac{\sigma^2}{N} \cdot \frac{4}{\eta^4} = \frac{4\sigma^2}{N\eta^4}.
+\]
+
+\textbf{Step 3: Combining bounds.} We have
+\begin{align}
+\E[\norm{\mcG_N - \bTr(\mcM)}^2]
+&\leq (\text{Bias})^2 + \text{Variance} \\
+&\leq \frac{C}{N^2} + \frac{4\sigma^2}{N\eta^4} \\
+&\leq \frac{C(\eta, \sigma, \norm{A})}{N^2\eta^2},
+\end{align}
+where in the last step we absorbed the $\eta^{-4}$ term into the constant (since $\eta$ is fixed) and used $N \geq 1$.
+
+This gives the claimed rate of $O(1/(N^2\eta^2))$.
+\end{proof}

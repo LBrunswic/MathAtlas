@@ -1,0 +1,51 @@
+%!TEX root = ../../main.tex
+
+\section{Spectral Theory and Computation}\label{sec:spectral-theory}
+
+We now develop the spectral machinery that makes the bistochastic-vs-orthogonal comparison quantitatively precise: the scalar Dyson equation for standard residual networks~\cite{tarnowski2019dynamical}, its operator-valued extension for Kronecker-structured skip connections, and the numerical pipeline that solves both. Full derivations are deferred to the appendices.
+
+\subsection{From scalar Dyson equation to dynamical isometry}\label{sec:dyson-resnet}
+
+A residual network with $L$ layers of width $N$ has forward propagation $x^{l+1} = \phi(W^l x^l) + a\, x^l$, producing the input-output Jacobian
+\begin{equation}\label{eq:jacobian}
+J = \prod_{l=1}^{L} Y^l, \qquad Y^l = D^l W^l + aI,
+\end{equation}
+where $D^l = \mathrm{diag}(\phi'(h^l_i))$ is the diagonal matrix of activation derivatives. In the mean-field limit ($N \to \infty$), $D^l$ concentrates and becomes effectively deterministic, so that $D^l W^l$ inherits the isotropy of $W^l$~\cite{pennington2017resurrecting}.
+
+For standard residual networks with scalar skip $a$, a Schwinger--Dyson calculation (Appendix~\ref{app:scalar-recovery}) yields a scalar self-consistent equation---the \emph{scalar Dyson equation}---for the order parameter $m(z)$. For $L$ identical layers, free multiplicative convolution gives a closed-form \emph{$z_1$-mapping} that converts the single-layer solution to the $L$-layer Cauchy transform without numerically fragile S-transform inversion. Together, these recover the \emph{universal spectral equation} of Tarnowski et al.~\cite{tarnowski2019dynamical}: the Jacobian spectrum depends on the activation function $\phi$ only through the effective cumulant $c = L\sigma^2$, where $\sigma^2 = \sigma_w^2\,\E[\phi'(\sqrt{q}\,Z)^2]$. A network achieves \emph{dynamical isometry}\label{def:dynamical-isometry}---singular values of its Jacobian concentrated near $1$---when $c = 1/2$, regardless of activation function or depth.
+
+This is the scalar theory; it applies when $A_q = (a)$---a single scalar skip. Hyper-Connections use a $q \times q$ twist matrix, and here the scalar theory breaks down: the scalar trace $\frac{1}{N}\Tr$ averages over $A_q$'s distinct spectral sectors, erasing the information needed to distinguish bistochastic from orthogonal skip connections. The operator-valued Dyson equation (Proposition~\ref{prop:kronecker-collapse}) resolves individual sectors by promoting the order parameter from a scalar $m(z) \in \C$ to a matrix $M(z) \in M_q(\C)$.
+
+\subsection{Kronecker collapse to $q \times q$}\label{sec:kronecker-skip}
+
+Hyper-Connections~\cite{zhu2024hyperconnections} replace the scalar skip with a Kronecker product $A = A_q \otimes I_p$ ($N = qp$), where $A_q \in \R^{q \times q}$ is the twist matrix encoding inter-stream mixing. The Jacobian factor becomes $Y^l = (A_q^l \otimes I_p) + D^l W^l$.
+
+When $A_q$ has non-trivial eigenvalue structure, the scalar trace $(1/N)\Tr$ averages over $A_q$'s spectral sectors and loses the block geometry. The correct tool is the \emph{operator-valued Dyson equation} over the base algebra $\mcB = M_q(\C)$~\cite{voiculescu1995operations,speicher1998combinatorial}. The Kronecker structure respects the block decomposition of $M_N(\C)$ into $q \times q$ blocks of size $p \times p$, and the isotropy of $W$ ensures the self-energy has no off-diagonal $p \times p$ structure (Appendix~\ref{app:kronecker-derivation}). The result is:
+
+\begin{proposition}[Kronecker collapse]\label{prop:kronecker-collapse}
+Under the Kronecker structure and isotropy, the $\mcB$-valued order parameter $M(z) \in M_q(\C)$ satisfies
+\begin{equation}\label{eq:matrix-dyson}
+M(z) = A_h(M) \cdot \bigl(zI_q - A_h(M)^\top A_h(M)\bigr)^{-1},
+\end{equation}
+where $A_h(M) := A_q + \sigma^2 M$ is the $q \times q$ dressed matrix. The scalar Cauchy transform is $G(z) = \frac{1}{q}\Tr_q\bigl(zI_q - A_h(M)^\top A_h(M)\bigr)^{-1}$. When $q = 1$, the scalar Dyson equation~\eqref{eq:dyson-fp} is recovered.
+\end{proposition}
+
+\noindent This collapses the spectral problem from $O(N^3)$ to $O(q^6)$, making spectral analysis of Hyper-Connections tractable at any network width.
+
+\subsection{Numerical pipeline}\label{sec:numerical}
+
+\noindent\textbf{Scalar solver.}
+We solve~\eqref{eq:dyson-fp} by Newton's method with analytical derivatives, sweeping the $z$-grid from large $|z|$ to small $|z|$ so each solve is seeded from the previous solution (\emph{branch continuation}). Full details are in Appendix~\ref{app:numerical-details}.
+
+\medskip
+\noindent\textbf{Multi-layer: the $z_1$-mapping.}\label{sec:z1-mapping}
+For $L$ identical layers, the S-transform multiplicative property $S_{J^\top J}(w) = S_{Y^\top Y}(w)^L$ reduces the $L$-layer problem to a reparametrisation of the single-layer Cauchy transform, avoiding numerically fragile S-transform inversion (Appendix~\ref{app:scalar-recovery}).
+
+\medskip
+\noindent\textbf{Matrix and operator-valued solvers.}\label{sec:matrix-dyson-numerics}
+For Kronecker skip connections, the $q \times q$ matrix equation~\eqref{eq:matrix-dyson} is solved by Newton's method in $\C^{q^2}$ at cost $O(q^6)$ per step. For heterogeneous multi-layer networks ($A_q^{l_1} \neq A_q^{l_2}$), the full operator-valued pipeline uses Dykema's twisted S-transform multiplicativity~\cite{dykema2006multilinear} (Appendix~\ref{app:ov-s-transform}) at cost $O(Lq^{10})$ per $z$-point; in practice $q \leq 4$ and $O(1)$ outer iterations suffice with continuation (Appendix~\ref{app:ov-pipeline}).
+
+% Backward-compatibility labels for old section structure
+\label{sec:num-dyson}\label{sec:ov-free-prob}\label{sec:matrix-dyson-theory}%
+\label{sec:ov-multilayer}\label{sec:identical-vs-hetero}%
+\label{sec:w-domain-newton}\label{sec:ov-pipeline-numerics}

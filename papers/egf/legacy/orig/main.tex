@@ -1,0 +1,1422 @@
+%%%%%%%% ICML 2025 EXAMPLE LATEX SUBMISSION FILE %%%%%%%%%%%%%%%%%
+
+\documentclass{article}
+
+\usepackage{caption}
+\usepackage{subcaption}
+
+% Recommended, but optional, packages for figures and better typesetting:
+\usepackage{microtype}
+\usepackage{graphicx}
+% \usepackage{subfigure}
+\usepackage{booktabs} % for professional tables
+\usepackage{pifont}
+
+% hyperref makes hyperlinks in the resulting PDF.
+% If your build breaks (sometimes temporarily if a hyperlink spans a page)
+% please comment out the following usepackage line and replace
+% \usepackage{icml2025} with \usepackage[nohyperref]{icml2025} above.
+\usepackage{hyperref}
+\usepackage{svg}
+
+% Attempt to make hyperref and algorithmic work together better:
+\newcommand{\theHalgorithm}{\arabic{algorithm}}
+
+% Use the following line for the initial blind version submitted for review:
+% \usepackage{icml2025}
+
+% If accepted, instead use the following line for the camera-ready submission:
+\usepackage[accepted]{icml2025}
+
+% For theorems and such
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage[all]{xy}
+% if you use cleveref..
+\usepackage[capitalize,noabbrev]{cleveref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THEOREMS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\theoremstyle{fact}
+\newtheorem{fact}[theorem]{Fact}
+% Todonotes is useful during development; simply uncomment the next line
+%    and comment out the line below the next line to turn off comments
+%\usepackage[disable,textsize=tiny]{todonotes}
+\usepackage[textsize=tiny]{todonotes}
+
+
+% The \icmltitle you define below is probably too long as a header.
+% Therefore, a short form for the running title is supplied here:
+\icmltitlerunning{Ergodic Generative Flows}
+
+\begin{document}
+\input{math_command.tex}
+\twocolumn[
+\icmltitle{Ergodic Generative Flows}
+
+% It is OKAY to include author information, even for blind
+% submissions: the style file will automatically remove it for you
+% unless you've provided the [accepted] option to the icml2025
+% package.
+
+% List of affiliations: The first argument should be a (short)
+% identifier you will use later to specify author affiliations
+% Academic affiliations should list Department, University, City, Region, Country
+% Industry affiliations should list Company, City, Region, Country
+
+% You can specify symbols, otherwise they are numbered in order.
+% Ideally, you should not use this facility. Affiliations will be numbered
+% in order of appearance and this is the preferred way.
+%\icmlsetsymbol{equal}{*}
+
+\begin{icmlauthorlist}
+\icmlauthor{Leo Maxime Brunswic*}{mtl}
+\icmlauthor{Mateo Clemente*}{mtl}
+\icmlauthor{Rui Heng Yang}{mtl}
+\icmlauthor{Adam Sigal}{mtl}
+%\icmlauthor{}{sch}
+\icmlauthor{Amir Rasouli}{mtl}
+\icmlauthor{Yinchuan Li}{huawei}
+%\icmlauthor{}{sch}
+%\icmlauthor{}{sch}
+\end{icmlauthorlist}
+
+\icmlaffiliation{mtl}{Huawei Technologies Canada, Noah's Ark Laboratories}
+\icmlaffiliation{huawei}{Huawei}
+
+% \icmlcorrespondingauthor{Yinchuan Li}{liyinchuan@huawei.com}
+\icmlcorrespondingauthor{Leo Maxime Brunswic}{leo.maxime.brunswic@h-partners.com}
+
+% You may provide any keywords that you
+% find helpful for describing your paper; these are used to populate
+% the "keywords" metadata in the PDF but will not be shown in the document
+\icmlkeywords{Machine Learning, ICML}
+
+\vskip 0.3in
+]
+
+% this must go after the closing bracket ] following \twocolumn[ ...
+
+% This command actually creates the footnote in the first column
+% listing the affiliations and the copyright notice.
+% The command takes one argument, which is text to display at the start of the footnote.
+% The \icmlEqualContribution command is standard text for equal contribution.
+% Remove it (just {}) if you do not need this facility.
+
+%\printAffiliationsAndNotice{}  % leave blank if no need to mention equal contribution
+\printAffiliationsAndNotice{\icmlEqualContribution} % otherwise use the standard text.
+
+\begin{abstract}
+Generative Flow Networks (GFNs) were initially introduced on directed acyclic graphs to sample from an unnormalized distribution density. Recent works have extended the theoretical framework for generative methods allowing more flexibility and enhancing application range. However, many challenges remain in training GFNs in continuous settings and for imitation learning (IL), including intractability of flow-matching loss, limited tests of non-acyclic training, and the need for a separate reward model in imitation learning. The present work proposes a family of generative flows called Ergodic Generative Flows (EGFs) which are used to address the aforementioned issues. First, we leverage ergodicity to build simple generative flows with finitely many globally defined transformations (diffeomorphisms) with universality guarantees and tractable flow-matching loss (FM loss). Second, we introduce a new loss involving cross-entropy coupled to weak flow-matching control, coined KL-weakFM loss. It is designed for IL training without a separate reward model. We evaluate IL-EGFs on toy 2D tasks and real-world datasets from NASA on the sphere, using the KL-weakFM loss.  Additionally, we conduct toy 2D reinforcement learning experiments with a target reward using the FM loss.
+\end{abstract}
+
+\section{Introduction}
+\label{Introduction}
+    Generative models aim to sample from a target distribution $\target$ on a space $\Statespace$, possibly conditioned on additional context or variables. The target distribution $\target$ is either specified by an unnormalized density with respect to a background measure $\lambda$, as in reinforcement learning (RL), or defined by a dataset of samples $\mathcal D$ as in imitation learning (IL). While RL \cite{brooks2011handbook, sutton2018reinforcement, haarnoja2018soft, bengio2023gflownet} and IL \cite{ goodfellow2020generative, ho2020denoising, song2020score,rozen2021moser, papamakarios2021normalizing} methods are often considered to be separate approaches, it is a common practice to first train a reward model from a dataset and then use RL techniques to solve an IL task \cite{chung2024scaling, zhang2022generative,zhang2022unifying,sendera2024improved}.
+    
+    Among IL methods, normalizing flows (NFs), although capable of leveraging advanced neural ODEs \cite{chen2018neural,grathwohl2018ffjord}, have not achieved state-of-the-art performance due to architectural constraints (i.e. the requirement of sequentially combined parameterized diffeomorphisms) and numerical instabilities \cite{caterini2021variational,verine2023expressivity}. 
+
+    While NFs are deterministic models, stochasticity has proven to be a crucial component of IL generative models, such as diffusion models as its simplest embodiment \cite{ho2020denoising,song2020score}. However, diffusion models face a challenging trade-off between loss function tractability and the time-consuming denoising process for generation. This trade-off drives continued efforts to accelerate the diffusion inference process \cite{lu2022dpm, tang2025adadiff, chen2024accelerating}. Such issues are particularly important when the computational and time budgets of generation are highly constrained, which is typical on real-time tasks or mobile devices. The present work leverages the flexibility of Generative Flow Networks (GFNs) \cite{bengio2021flow, bengio2023gflownet} to address these issues by building simple yet highly expressive models with short sampling trajectories. 
+
+   Generative Flow Networks (GFNs), originally formulated for RL tasks, are a family of generative methods designed to sample proportionally based on a reward function $r = \varphi_\target$, which represents the density of a target distribution $\target$. They were initially restricted to directed acyclic graphs, but have since been extended to other settings. Subsequent work has extended GFNs to generalize to continuous state spaces \cite{li2023cflownets, lahlou2023theory} and non-acyclic structures \cite{brunswic2024theory}.
+    
+    Despite these advancements, GFNs still face four key challenges that hinder their application in RL and IL settings. First, although it has been suggested that GFNs themselves could be used as a reward model in the IL setting (see \citet{bengio2023gflownet} p37), previous works \cite{zhang2022generative, lahlou2023theory} train a separate reward model on samples from $\target$, effectively reducing the problem to an RL task. The need to train an additional reward model, which results in additional training and computation costs, stems from a lack of control of the so-called flow-matching (FM) property of the flow. Indeed, the FM-loss is zero by construction of the GFN self-defined reward model.
+    
+    Second, the FM training loss presents significant challenges in continuous settings, as its evaluation is intractable in naive implementations \cite{li2023cflownets}, necessitating the training of an imperfect estimator when directly enforcing the FM constraint. Addressing this issue requires either handcrafting or training an additional backward policy $\BackwardPolicyStar$, or resorting to higher-variance loss functions, such as the Detailed Balance (DB) \cite{bengio2021flow} and Trajectory Balance (TB) \cite{malkin2022trajectory} losses. 
+    
+    Third, the acyclicity requirements \cite{lahlou2023theory} mean that additional structures must be manually crafted. Cycles appear naturally in naive implementations and RL environments. \citet{brunswic2024theory} offers a theory for non-acyclic flows and stable FM losses, but these have yet to be tested in strongly non-acyclic settings. 
+    
+    Lastly, \citet{li2023cflownets} argues that exact cycles are negligible in the continuous setting due to their zero probability, whereas \citet{brunswic2024theory} argues that 0-flows, ergodic measures $\xi$ for $\ForwardPolicyStar$, need to be addressed. Otherwise, the divergence-based losses used by \citet{bengio2023gflownet} may become unstable in the presence of $\xi$ — a prediction that remains untested.
+    
+    We present Ergodic Generative Flows (EGFs), which addresses the aforementioned key limitations. EGFs are built using a policy choosing at a given state from finitely many globally defined transformations, i.e. diffeomorphisms of the state space. This allows for tractable inverse flow policy, hence tractable FM-loss. Since we favor finitely many simple transformations, the universality of EGFs is non trivial. We provide provable guarantee with an {\it ergodicity} \cite{walters2000introduction, kifer2012ergodic} assumption of the group generated by the EGFs transformations. 
+    
+    \textbf{Main contributions}: 
+    \begin{enumerate}
+      \item We extend the theoretical framework of generative flows, in particular providing quantitative versions of the sampling theorem for non-acylic generative flows.
+      \item  We develop a theory of EGFs, presenting a universality criterion and demonstrating that, in any dimension on tori and spheres, this criterion can be fulfilled with four simple transformations.
+      \item  We propose a coupled KL-weakFM loss to train EGFs directly for IL. This allows to train EGFs for IL without a separate reward model.
+    \end{enumerate}
+
+\section{Preliminaries: GFN for RL and IL}
+\label{sec:preliminaries}
+    In this work, we focus on generative flows in the continuous setting, encompassing scenarios where the state space $\Statespace$ is either a vector space, $\Statespace = \mathbb{R}^d$, or potentially a Riemannian manifold \cite{lee2018introduction, gemici2016normalizing}. Both are instances of Polish\footnote{A topological measurable space is Polish if its topology is completely metrizable and it is endowed with its Borel $\sigma$-algebra.} spaces that admit a natural finite background measure $\lambda$ (usually the Lebesgue, Haar \cite{halmos2013measureHaar} or Riemmanian volume measures). 
+    
+    A measure $\mu$ is dominated by $\nu$, denoted $\mu\ll \nu$ if $\nu(A)=0 \Rightarrow \mu(A)=0$ for any measurable $A\subset \Statespace$; then, the Radon-Nikodym derivative of $\mu$ with respect to $\nu$, denoted $\frac{d\mu}{d\nu}\in L^1(\nu)$, is the unique $\nu$-integrable function $\varphi$ such that $\varphi \nu = \mu$. A 
+    Markov kernel $\pi:\mathcal X\rightarrow \mathcal Y$ is a stochastic map denoted $\pi(x)$. The image measure of $\mu$ by $\pi$ denoted $\mu \pi$ is defined by $\mu\pi(A) = \int_{x\in \mathcal X} \mathbb P(\pi(x)\in A) d\mu(x)$ for any measurable $A\subset \mathcal Y$. Their tensor product is the kernel  $\mu\otimes \pi(A\rightarrow B):=\int_{x\in A}\mathbb P(\pi(x)\in B)d\mu(x)$.
+    Even when $\mu$ is an unnormalized distribution, we write $x\sim \mu$ for ``the law of $x$ is $\frac{1}{\mu(\Statespace)}\mu$".
+    
+    We adopt a formulation of generative flows that differs from \citet{lahlou2023theory} and \citet{brunswic2024theory}, providing the necessary flexibility for the subsequent sections. Let $(\Statespace,\lambda)$ be a Polish space with a finite background measure. A generative flow on $\Statespace$ is the data of a star forward policy, i.e. a Markov kernel $\ForwardPolicyStar:\Statespace\rightarrow \Statespace$, and a star outflow, i.e. a finite non-negative measure $\Foutstar$ on $\Statespace$. 
+    
+    With unnormalized initial and terminal distributions $\Finit$ and $\Fterm$,  it induces a Markov chain $(\underline s_t)_{g\geq 1}$ defined by $\underline s_{1}\sim \Finit$and $\underline s_{t+1} = \ForwardPolicyStar(\underline s_t)$. 
+    Define the sampling time $\tau \in \mathbb N_{\geq 1}$ as the random variable given by\footnote{Clearly $\Fterm \ll \Fterm+\Foutstar$ so the Radon-Nikodym derivative is well-defined.} $\mathbb P(\tau\geq 1)=1$ and $\mathbb P(\tau = t|\tau\geq t) = \frac{d\Fterm}{d(\Fterm+\Foutstar)}(\underline s_t)$. 
+    The sampler associated with a generative flow is obtained by emulating the Markov chain $(\underline s_t)_{t\geq1}$ and sampling $\underline s_\tau$.
+    By extending the sampling Markov chain with a source $s_0$ and sink $s_f$ state, we can summarize the flow as follows:
+    \begin{equation}
+        \xymatrix{
+        s_0 \ar[r]^\Finit&\Statespace \ar@(ur,ul)_{\Foutstar\otimes\ForwardPolicyStar}\ar[r]^\Fterm& s_f
+        }.
+    \end{equation}
+
+
+    
+    % The fundamental result of generative flows is the sampling Theorem: 
+  The following theorem  provides theoretical guarantees on the sampler associated with a generative flow.
+
+    \begin{theorem}
+        [\cite{bengio2021flow, brunswic2024theory}] \label{theo:sampling_theorem} 
+        Let $\Finit$, and $\Fterm$ be unnormalized distributions with $\Fterm\neq0$ and let $(\ForwardPolicyStar, \Foutstar)$ be a generative flow. If the flow-matching constraint 
+        \begin{equation}
+        \label{equ:FM_const}
+            \Finit + \Foutstar\ForwardPolicyStar = \Fterm + \Foutstar
+        \end{equation}
+        is satisfied then $\Finit(\Statespace)=\Fterm(\Statespace)$ and:
+        \begin{equation}
+            \mathbb E(\tau)\leq \frac{\Foutstar(\Statespace)}{\Finit(\Statespace)}+1,\quad \quad \underline s_\tau \sim \Fterm. \nonumber
+        \end{equation}
+    
+    \end{theorem}
+
+    The pair $(\Foutstar, \ForwardPolicyStar)$ is trained using gradient descent to minimize a loss function that enforces the flow-matching constraint in equation \eqref{equ:FM_const}. Once convergence is achieved, the generative flow sampler yields samples of the random variable $s_\tau$. Hence, by Theorem \ref{theo:sampling_theorem},  the generative flow sampler samples from $\Fterm$. For example, we can use the most straightforward stable FM-loss:
+    \begin{equation}\label{equ:FMloss}
+        \LFMstableq = \mathbb E_{s\sim \nu_{\mathrm{train}}}\left[ \left(\finit + \finstar - \fterm - \foutstar\right)^q(s) \right]
+    \end{equation}
+    where $\finit = \frac{d\Finit}{d\lambda}$, $\fterm=\frac{d\Fterm}{d\lambda}$ and $\finstar=\frac{d\Finstar}{d\lambda} = \frac{d(\Foutstar\ForwardPolicyStar)}{d\lambda}$. 
+    
+    In general, both $\finit$ and $\foutstar$ are determined by the chosen parametrization, with $\foutstar$ being problem-dependent, while $\finstar$ requires the computation of an image measure density. However, the previously mentioned methods outlined above face several limitations:
+
+    \textbf{Limitation \ding{172}:} The first limitation arises in IL. $\fterm$ is unknown so one has to build a density model for $\Fterm$. Disregarding solutions based on separate energy models, we can attempt to set $\Fterm= \Finit + \Finstar - \Foutstar$, assuming $\Finstar$ is tractable.
+    We then use a cross-entropy loss to train $\Fterm$ to approximate $\target$. Despite the FM loss formally and trivially becoming 0, $\Fterm$ may not be positive. Therefore, the existing theoretical framework fails and so does the sampling. At this stage, we move beyond the existing theoretical framework.
+
+    \textbf{Limitation \ding{173}:} The second limitation arises in RL. At the inference time, the reward may be unknown, either because of its costly nature or because it is simply inaccessible. A straightforward solution consists of using $\Fterm = \target$ during training and $\Fterm= \Finit + \Finstar - \Foutstar$ during inference. However, this reward-less sampling is ill-controlled because $\Fterm$ may not be positive.
+
+    \textbf{Limitation \ding{174}:} Both training and inference are based on the tractability of $\finstar$. For instance, naive forward policies, such as those used in diffusion models add noise in $\mathbb{R}^d$. These policies are typically defined as $\ForwardPolicyStar(x) = m(x) + \epsilon$, where $m$ is a deterministic model and $\epsilon \sim \mathcal{N}(0, \eta)$ represents Gaussian noise. This leads to an intractable star inflow as the integral in equation \eqref{equ:intractable_inflow} becomes computationally intensive.
+    \begin{equation}
+        \label{equ:intractable_inflow}
+         \finstar(y)  \propto \int_{x\in \mathbb R^d} \foutstar(x) \exp\left(-\frac{(m(x)-y)^2}{2\eta^2}\right)d\lambda(x).
+    \end{equation}
+
+    \textbf{Limitation \ding{175}:} Although \citet{li2023cflownets} argues that exact cycles are negligible in the continuous setting due to their zero probability, \citet{brunswic2024theory} disputes that their generalization called 0-flows must still be addressed. 0-flows are measures $\xi$ for which $\ForwardPolicyStar$ is ergodic \cite{walters2000introduction}. \citet{brunswic2024theory} predicts that divergence-based losses used by \citet{bengio2023gflownet} are unstable if such a $\xi$ exists. This has yet to be tested.
+        
+\section{Ergodic Generative Flows for  RL and IL} \label{sec:fundamentals_EGF}
+    To address the four issues outlined above, we propose Ergodic Generative Flows (EGFs).
+   
+    \begin{definition}[Ergodic Generative Flows] 
+        Let $\Statespace$ be Riemannian manifold endowed with its volume measure $\lambda$ and let $(\Phi_{i})_{i=1}^p$ be a family of diffeomorphisms $\Statespace\rightarrow \Statespace$. An EGF is a generative flow, where  
+        \begin{eqnarray} \label{equ:forward_policy}
+            \ForwardPolicyStar(s) = \sum_{i=1}^p\forwardalpha^i(s) \delta_{\Phi_i(s)}
+        \end{eqnarray}    
+        for some policy $\forwardalpha:\Statespace \rightarrow [0,1]^p$, and such that the group of diffeomorphisms generated by the $\Phi_i$ is topologically ergodic. That is for all $x,y \in \Statespace$ and any neighborhood $\mathcal U$ of $y$, there exists a sequence $i_1,\cdots, i_t$ such that $x\Phi_{i_1}\Phi_{i_2}\cdots \Phi_{i_t} \in \mathcal U$.
+    \end{definition}
+    There are two key ideas that motivate this definition:
+
+     \textbf{Tractability} of  star inflow $\finstar$ is achieved by only using finitely many diffeomorphisms. Let say that $\Statespace=\mathbb R^d$ endowed with Lebesgue measure $\lambda$ and that each move $\Phi_i$ is a parametrizable diffeomorphism. Then, a closed form formula for the backward policy may be deduced from a detailed balance argument, see appendix \ref{sec:appendix_backward} for details:
+    \begin{eqnarray}\label{equ:tractable_inflow}
+\BackwardPolicy^*(s) &=& \sum_{i=1}^p\backwardalpha^i(s) \delta_{\Phi_i^{-1}(s)} \\ 
+\backwardalpha^i(s) &=& \frac{(\forwardalpha^if^*_\rightarrow)\circ \Phi_i^{-1}(s)|J_s {\Phi_i^{-1}}| }{ \sum_j (\forwardalpha^jf^*_\rightarrow)\circ \Phi_j^{-1}(s) |J_s {\Phi_j^{-1}}|}
+\end{eqnarray}
+where $J_s$ denotes the Jacobian matrix at $s$.
+Therefore, we have a closed-form formula for the density of the star inflow,
+\begin{equation} \label{equ:finstar}
+    \finstar(s)  = \sum_{i=1}^p  (\forwardalpha^i\foutstar)\circ \Phi_i^{-1}(s) |\det J_s \Phi_i^{-1}|.
+\end{equation}
+All terms in equation \eqref{equ:finstar} are tractable, so  $\finstar$ is tractable as long as the number of diffeomorphisms $p$ is small. 
+As a consequence, the flow-matching loss given in Equation \eqref{equ:FMloss} is tractable for $p$ small enough.
+
+\textbf{Expressivity} can potentially be an issue if the number of diffeomorphisms is small and each move is too simple \cite{rezende2020normalizing}. Ergodicity guarantees that the parameterized family of EGFs is able to be flow-matching for any non-zero $\Finit\ll \lambda$ and  $\Fterm\ll \lambda$ even with simple transformations, such as affine maps on tori and rotations on spheres. 
+
+% The following sub-sections are organized as follows: we begin in section \ref{sec:universality}  by demonstrating the universality of EGFs, then in section \ref{sec:theory1} we provide additional theoretical results for general generative flows which are then used in section \ref{sec:ILloss} as a basis for the design of our KL-weakFM loss for IL training.
+
+The following sub-sections are organized as follow: Section \ref{sec:universality} establishes the universality of EGFs. In Section \ref{sec:theory1}, we present theoretical advancements for general generative flows, which forms the basis for the design of the KL-weakFM loss used IL training, described in Section \ref{sec:ILloss}.
+
+
+
+\subsection{Universality From Ergodicity}
+\label{sec:universality}
+We begin with a formalization of universality in conjunction with the master universality Theorem.
+\begin{definition}
+On a state space $(\Statespace,\lambda)$, a family of generative flow family is 
+universal if for any two distributions $\mu,\nu\ll \lambda$ with bounded density there is a flow $(\foutstar,\ForwardPolicyStar)$ in the family that is flow matching for $\Finit=\nu$ and $\Fterm=\mu$.
+\end{definition}
+
+
+% We begin by providing our master universality theorem, section \ref{sec:universality_master}, which is then applied on tori and spheres to provide simple instances of universal families, see sections \ref{sec:universality_tori} and \ref{sec:universality_sphere} below. 
+We begin with the presentation of our master universality theorem in section \ref{sec:universality_master}. This theorem is then applied to tori and spheres, providing simple examples of universal families, as detailed in sections \ref{sec:universality_tori} and \ref{sec:universality_sphere}.
+
+
+\subsubsection{Master Universality Theorem}
+\label{sec:universality_master}
+The next theorem states that if the family contains a sufficiently strong ergodic policy $\ForwardPolicyStar$, then the family is universal. More precisely,
+\begin{definition} A Markov kernel $\pi$ on $(\Statespace,\lambda)$ is summably $L^2$-mixing if $\pi$ admits an invariant measure $\widehat \lambda$ equivalent to $\lambda$ and such that the $L^2$-mixing coefficients given by,
+\begin{equation}
+    \gamma_n := \sup_{\varphi \in H} \int_{s\in \Statespace}
+    \left(\varphi\pi^n(s)\right)^2 d\widehat \lambda(s), 
+\end{equation}
+with $H = \{\varphi \in L^2(\lambda)~|~\|\varphi\|_2 = 1 \text{ and } \int_{s\in \Statespace} \varphi(s)=0\}$
+are summable: $\sum_{n\geq 0} \gamma_n < +\infty$.
+\end{definition}
+
+The technical summably $L^2$-mixing property informally means that iterating the Markov kernel $\pi$ is averaging out functions fast enough to ensure that the sum of errors is finite. In contrast, ergodicity alone ensures the convergence of $\varphi \pi^n$ in the much weaker Cesaro sense.
+
+This property is in particular satisfied if the policy $\pi$ induces a Koopman operator $\phi \mapsto \frac{d (\phi\lambda)\pi}{d\lambda}$ on $L^2(\Statespace)$, which has a so-called {\it spectral gap} \cite{conze2013ergodicity}. Informally the spectrum of the Koopman operator is bounded away from 1 on the subspace $\{\phi~|~\int \phi d\lambda =0\}$. 
+In this case, the convergence of iterates by $\pi$ is exponential.
+
+
+\begin{theorem} \label{theo:universality}A parameterized family  of EGF is universal provided  that it contains some summably $L^2$-mixing $\ForwardPolicyStar$  and that the set of $\foutstar$ is dense in $L^2(\Statespace,\lambda)$.
+\end{theorem}
+
+\subsubsection{Ergodicity on Tori}
+\label{sec:universality_tori}
+For the sake of simplicity, let $\mathbb T^d$ be a flat torus of side 1 endowed with Lebesgue measure $\lambda$ and let $P:\mathbb R^d \rightarrow \mathbb T^d$ be the natural universal covering projection. The simplest family of transformations is the group of affine transformations,
+\begin{equation}\mathrm{Aff}(\mathbb T^d) :=
+\{x\mapsto Ax+b ~|~ b\in \mathbb R^d \text{ and } A\in \mathrm{SL}_d(\mathbb Z)\},
+\end{equation}
+with $ \mathrm{SL}_d(\mathbb Z)$ denoting the set of square matrices of order $d$ with integral coefficients and determinant 1. 
+
+Given that $(\Phi_i)_{i=1}^p$ are all in $\mathrm{Aff}(\mathbb R^d)$, we can build a continuous family of generative flows using equation \eqref{equ:forward_policy}, which is then parameterized by the translation part of each $\Phi_i$ together with  a model having a softmax head $\forwardalpha$ and a scalar head $\foutstar$. We call such a family an {\it affine toroidal} family.
+
+
+\begin{theorem}\label{theo:universality_tori} Any affine toroidal family is a universal EGF family provided mild technical assumptions on the $(\Phi_i)_{i=1}^p$.
+\end{theorem}
+The ``technical assumptions" above is in particular satisfied if the group generated by the linear part of the $\Phi_i$ is the whole group $\mathrm{SL}_d(\mathbb Z)$. It is shown in \citet{conder2025generating} that $\mathrm{SL}_d(\mathbb Z)$ has a presentation with two generators. Therefore, in any dimension, EGF are universal with $p=4$ and well-chosen $(\Phi_i)_{i=1}^4$: the two generators and their inverse.
+
+\subsubsection{Ergodicity on Spheres}
+\label{sec:universality_sphere}
+Consider the round sphere $\mathbb S^d=\{x\in \mathbb R^{d+1}~|~ \|x\|=1\}$ endowed with its natural Riemannian volume measure $\lambda$. Again a simple family of diffeomorphisms is provided by the so-called projective transformations, 
+\begin{equation}
+    \mathrm{PGL}_{d+1}(\mathbb R) := \{x\mapsto Ax/\|Ax\| ~|~ A\in \mathrm{GL}_{d+1}(\mathbb R)\},
+\end{equation}
+where $\mathrm{GL}_{d+1}(\mathbb{R})$ is the group of invertible matrices of order $d+1$.
+Similar to tori, we build a continuous family of EGFs using equation \eqref{equ:forward_policy} by parametrizing $(\Phi_i)_{i=1}^p$ in $\mathrm{PGL}_{d+1}(\mathbb R)$ which is a Lie group, and choose a tractable model that have a softmax head $\forwardalpha$ and a scalar head $\foutstar$. Such a family is called a {\it projective spherical} family. 
+We focus on the sub-family of {\it isometry spherical} family composed of rotations $\Phi_i\in \mathrm{SO}_{d+1}(\mathbb R)$ for which we have theoretical guarantees.
+
+\begin{theorem}\label{theo:universality_sphere} An isometry spherical family is a universal EGF family, provided technical assumptions on the $(\Phi_i)_{i=1}^p$.
+\end{theorem}
+The technical assumption is satisfied if the $\Phi_i$ have algebraic coefficients and are frozen: this is a consequence of the main theorem of \citet{bourgain2012spectral} (see also \citet{benoist2016spectral}) that guarantees a spectral gap under this assumption. Furthermore, the main Theorem of \citet{breuillard2003dense} allows to build a dense subgroup of $\mathrm{SO}_{d}(\mathbb R)$ with two generators and algebraic coefficients.
+Therefore, EGF are universal on spheres with $p=4$ and well-chosen $(\Phi_i)_{i=1}^4$: the two generators and their inverse.
+
+\subsection{Quantitative Sampling Theorem}
+\label{sec:theory1}
+% We provide a quantitative sampling theorem for generative flows, its proof boils down to the fact that any generative flow is flow matching up to twisting the initial and terminal distributions.
+
+We present a quantitative sampling theorem for generative flows. The key idea of the proof is that any generative flow matches the flow up to a transformation of the initial and terminal distributions.
+
+\begin{definition}[Virtual initial and terminal flow] Let $(\ForwardPolicyStar,\foutstar)$ be a generative flow and let $\Finit,\Fterm$ be initial and terminal distributions. Define the initial and terminal errors as $\delta\Finit:=(\Finit+\Finstar-\Fterm-\Foutstar)^-$ and $\delta\Fterm:=(\Finit+\Finstar-\Fterm-\Foutstar)^+$ respectively. Define the positive and negative parts of a measure $\mu$ as ${\mu}^\pm$.
+The virtual initial and terminal distributions are $\Finithat := \Finit+ \delta\Finit$ and $\Ftermhat := \Fterm+ \delta\Fterm$.
+\end{definition}
+
+We note that once the initial and terminal distributions $\Finit,\Fterm$ are specified, then any generative flow $(\ForwardPolicyStar,\foutstar)$ is a FM with respect to the virtual initial and terminal distributions, $\Finithat$ and $\Ftermhat$. This enables the presentation of a quantitative formulation of the sampling theorem for generative flows. 
+\begin{theorem}[Quantitative Sampling of Generative Flows]
+\label{theo:negative_control}
+    Let $(\ForwardPolicyStar, \foutstar)$ be a generative flow and let $\Finit$ and $\Fterm$ initial and terminal distributions. Assume that $\Finit\neq 0$ and consider the sample $s_\tau$ of the generative flow Markov chain from $\Finit$ to $\Ftermhat$ then:
+    \begin{equation}
+        \TV\left(s_\tau \left\| \frac{1}{\Ftermhat(\Statespace )} \Ftermhat\right.\right) \leq  \frac{\delta\Finit(\Statespace)}{\Ftermhat(\Statespace)},
+    \end{equation}
+    with $\TV$  the total variation.
+\end{theorem}
+\begin{corollary} For a generative flow trained on the target $\target$ with $\Finit(\Statespace)=1$ and using $\Fterm=\widehat\target := \left(\Finit+\Finstar-\Foutstar\right)^+$ during inference, the sampling error is controlled by:
+    \begin{eqnarray}
+      \TV\left(s_\tau \left\| \frac{\target}{\target(\Statespace )} \right.\right) \leq  \frac{\delta}{1+\delta}+\TV\left(\frac{\widehat\target}{\widehat\target(\Statespace)} \left\| \frac{\target}{\target(\Statespace )} \right.\right),
+\end{eqnarray}
+with $\delta :=  \left(\Finit+\Finstar-\Foutstar\right)^-(\Statespace)$.
+\end{corollary}
+Commonly the training loss is designed to control the total variation term in the upper bound. However, a secondary regularization term controlling $\delta =\delta\Finit$ may be added to enhance reward-less sampling. 
+
+To substantiate this quantitative bound, let's consider the RL case with a reward $r$ defined on a finite DAG $(\mathcal V,\mathcal E)$ with $\mathcal V=\Statespace\cup\{s_0,s_f\}$, trained using a flow-matching loss, say $\LFMstableq$. Let's take $\nu_{\mathrm{train}}$ the uniform distribution on the vertices and $q=1$, then $\LFMstableq= \frac{1}{|\mathcal V|}\left(\delta + \sum_{s\in\Statespace} |\widehat r(s) - r(s)|\right)$ with $\widehat r(s)$ the density of $\widehat \kappa$ with respect to the counting measure.
+We may also rewrite $\TV\left(\frac{\widehat\target}{\widehat\target(\Statespace)} \left\| \frac{\target}{\target(\Statespace )} \right.\right) =\frac{1}{2}\sum_{s\in\Statespace} |\frac{\widehat r(s)}{\sum_{s'\in \Statespace}\widehat r(s')} - \frac{ r(s)}{\sum_{s'\in \Statespace} r(s')}|$ 
+so that if $Z=\sum_{s\in \Statespace} r(s)$ then
+\begin{equation}
+     \TV\left(s_\tau \left\| \frac{\target}{\target(\Statespace )} \right.\right) \leq \left( 1+\frac{1}{Z}\right)|\mathcal V| \LFMstableq.
+\end{equation}
+
+% In the RL setting, this theorem may be used to control the convergence of the training by the loss.
+%     \begin{corollary} Let $(\Statespace,\lambda)$ be a Polish space endowed with a non-negative finite background measure. Let $\kappa\ll \lambda$ be a target distribution with known density with respect  to $\lambda$.
+    
+%     For a generative flow $(\ForwardPolicyStar,\foutstar)$ trained on the target $\Fterm = \target$ with loss $\LFMstableq$; but   using $\Fterm=\widehat\target := \left(\Finit+\Finstar-\Foutstar\right)^+$ during inference, the sampling error is controlled by:
+%     \begin{eqnarray}
+%       \TV\left(s_\tau \left\| \frac{\target}{\target(\Statespace )} \right.\right) \leq  C\LFMstableq 
+% \end{eqnarray}
+% with $C=\left\|\frac{d\lambda}{d\nu_{\mathrm{train}}}\right\|_{L^\infty}\lambda(\Statespace)^{1-1/q}\left(1+\frac{2}{\kappa(\Statespace)}\right)$.
+% \end{corollary}
+% To help understand this last bound, let assume that $\Statespace$ is finite graph endowed with the counting measure $\lambda$. A GFlowNet trained using the quadratic stable FM-loss $q=2$ with $\Finit$ as the uniform distribution on the vertices of the graph. Then, $\kappa(\Statespace)$ is the total reward (denoted $Z$ in \citet{bengio2021flow}) and we have $C\leq (1+2/Z)|\Statespace|^{3/2}$ so the total variation error of sampling is bounded by the stable loss with a constant depending polynomially in the number of vertices of the graph.
+
+
+\subsection{KL-WeakFM loss and IL algorithm}
+\label{sec:ILloss}
+Henceforth, we assume that $\Statespace$ is a Polish space equipped with a background measure $\lambda$ and $\target$ is a target probability distribution.
+% We now leverage Theorem \ref{theo:negative_control} to design a loss for IL training of a Generative Flow without separate reward model, we call it KL-weakFM loss:
+
+Leveraging Theorem \ref{theo:negative_control}, we design the KL-weakFM loss, $\mathcal L_{KL-wFM}$, which enables IL training of a generative flow without requiring a separate reward model.
+Let $\deltafinit=\min(0,\finit+\finstar-\foutstar)$  and $\ftermhat = \max(0,\finit+\finstar-\foutstar)$. The KL-weakFM loss can then be defined as follows:
+\begin{multline}\label{equ:weakFM}
+     \mathcal L_{KL-wFM} (\theta) :=\\ b\mathbb E_{s\sim \nu_{\mathrm{train}}} \deltafinit( s)-  \mathbb E_{s\sim \target}\log \ftermhat(s),
+\end{multline}
+for some training distribution of paths $\nu_{\mathrm{train}}$ and  $b>0$.
+
+The name of the loss is derived from two components: on the one hand, the cross-entropy term, which controls the Kullback-Leibler divergence between $\Ftermhat$ and $\target$; on the other hand, the term  $\mathbb E_{s\sim \nu_{\mathrm{train}}} \deltafinit( s)$, which resembles the FM-loss but controls only the negative part of the FM defect.
+% The name of the loss comes from, on the one hand, the cross-entropy term which controls the Kullback-Leibler divergence between $\Ftermhat$ and $\target$; On the other hand, the term $\mathbb E_{\underline s} \sum_{t=1}^\tau \left(\deltafinit(\underline s_t)\right)^2$ is similar to the FM-loss except that only the negative part of flow-matching defect is controlled.
+We now provide a detailed description and motivation for $\LKLwFM$. The discussion begins with a corollary of Theorem \ref{theo:negative_control}, based on Pinsker's inequality:
+
+
+% We now describe and motivate $\LKLwFM$ in more details. The starting point of the discussion is a corollary of Theorem \ref{theo:negative_control} using Pinsker inequality:
+\begin{corollary} \label{cor:pinsker_negative_control}
+Let $(\ForwardPolicyStar, \foutstar)$ be a generative flow. We train the generative flow on target probability distribution $\target$ with $\Finit(\Statespace)=1$. By using $\Fterm=\widehat\target:=  \left(\Finit+\Finstar-\Foutstar\right)^+$ during inference, the sampling error is bounded as follow:
+\begin{eqnarray}\label{equ:control_pinsker}
+  \TV\left(s_\tau \left\| \target \right.\right) &\leq&  \frac{\delta}{1+\delta} +\sqrt{\frac{1}{2}\KL\left(\left.\frac{\widehat\target}{\widehat\target(\Statespace)} \right\| \target \right)},
+\end{eqnarray}
+with $\delta :=  \int_{s\in\Statespace} \deltafinit(s)d\lambda(s)$.
+\end{corollary}
+
+\begin{algorithm}
+\caption{Ergodic flow: IL training}\label{alg:IL_EGF}
+\begin{algorithmic}
+\STATE {\bfseries Input:} A list of trainable bi-Lipchitz maps $\Phi_1,\cdots, \Phi_p$
+\STATE {\bfseries Input:} A softmax model $\alpha:\Statespace \rightarrow \mathcal P(\{1,\cdots,p\})$
+\STATE {\bfseries Input:} A trainable star outflow  model $f^*_\rightarrow:\Statespace\rightarrow \mathbb R_+$
+\STATE {\bfseries Input:} A target samplable distribution $\target$
+\STATE {\bfseries Input:} A source $\Finit$  samplable and of  density  $\finit$
+ 
+\REPEAT
+\STATE Fill replay buffer $\mathcal B=\mathcal B_{\rightarrow} \cup \mathcal B_{\leftarrow}$ with $B$ trajectories $(\underline s_t)_{t=1}^{t_{\text{max}}}$ using $(\Finit, \ForwardPolicy^*)$ for $\mathcal B_{\rightarrow}$ and $(\kappa, \BackwardPolicy^*)$ for $\mathcal B_{\leftarrow}$ with $t\in \{1,\cdots,\tau\}$
+\STATE Minimization step of
+$$ 
+ \mathcal L =\frac{1}{2B}\sum_{t=1}^\tau\deltafinit(\underline s_t)p_t(\underline s)- b \mathbb E_{s\sim \target}\log \ftermhat(s),
+$$
+with 
+\begin{eqnarray*}
+   p_t(\underline s) &=&\prod_{t'<t}  \left(1+(\ftermhat/\foutstar)(\underline s_{t'})\right)^{-1}\quad \text{if } \underline s\in \mathcal B_{\rightarrow}\\
+     &=&\prod_{t'<t}  \left(1+(\deltafinit/\finstar)(\underline s_{t'})\right)^{-1}\quad \text{if } \underline s\in \mathcal B_{\leftarrow} 
+\end{eqnarray*}
+\UNTIL{converged}
+\end{algorithmic}
+\end{algorithm}
+
+
+First, the weak-FM term $\mathbb E_{\underline s} \sum_{t=1}^\tau \left(\deltafinit(\underline s_t)\right)^2$ in equation \eqref{equ:weakFM} controls the term $\frac{\delta}{1 + \delta}$ in equation \eqref{equ:control_pinsker}.
+
+
+Second, since the target $\target$ has unknown density, we employ reward-less inference, using $\Fterm = (\Finit+\Finstar-\Foutstar)^+$.
+% It is then natural to directly train the density of $(\Finit+\Finstar-\Foutstar)^+$ to fit $\target$ via cross-entropy, hence the second right-hand side term in equation \eqref{equ:weakFM}.
+It is therefore natural to directly train the density of  $(\Finit+\Finstar-\Foutstar)^+$ to match $\target$ using cross-entropy, leading to the second term on the right-hand side of Equation \eqref{equ:weakFM}.
+Corollary \ref{cor:pinsker_negative_control} demonstrates that controlling the Kullback-Leibler divergence through cross-entropy also controls the total variation sampling error.
+% Corollary \ref{cor:pinsker_negative_control} shows that a control of the Kullback-Leibler divergence via cross-entropy yields a control of the total variation sampling error.
+
+Third, more precisely, the KL term may be decomposed into
+\begin{multline}
+    \KL\left(\left.\frac{\widehat\target}{\widehat\target(\Statespace)} \right\| \target \right) =\\ \underbrace{-\mathbb E_{s\sim \target}\log \ftermhat(s)}_{\text{cross-entropy}} + \underbrace{\log \int_{s\in \Statespace} \ftermhat(s)d\lambda(s)}_{\text{normalization}} -  \mathcal H(\kappa), 
+\end{multline}
+where $\mathcal H(\kappa)=-\mathbb E_{s\sim \kappa} \log\frac{d\kappa}{d\lambda}(s) $ is the entropy of $\kappa$.
+Since the normalization constant is unknown a priori,  the cross-entropy is insufficient to fully control the KL divergence. However, 
+\begin{equation}
+    \int_{s\in \Statespace} \ftermhat(s)d\lambda(s) =1 + \int_{s\in \Statespace} \deltafinit(s)d\lambda(s).
+\end{equation}
+Therefore, the weak-FM term in equation \eqref{equ:weakFM} also controls the normalization factor of $\ftermhat$. 
+
+
+
+
+\section{Experiments}
+We proceed with experiments wherein the state space $\Statespace$ is either a flat torus $\mathbb T^2$, or sphere $\mathbb S^2$. 
+An EGF family is built by randomly choosing diffeomorphisms from affine toroidal families on $\mathbb T^2$ and from isometry spherical families on $\mathbb S^2$,
+together with two multi-layer perceptron (MLP) models: one for $\foutstar$ and one for $\forwardalpha$. The MLPs are $\tanh$ hyperbolic activated and initialized using orthogonal initialization \cite{saxe2013exact,hu2020provable}. We use the AdamW optimizer \cite{kingma2015adam,loshchilov2019international} for training.  
+
+The KL-WeakFM loss tends to favor $\Ftermhat$ positive on the whole $\Statespace$, therefore, even with highly localized target distributions, the EGF reward model tends to have a small background inducing unwanted outliers. We filter it out by replacing $\ftermhat$ with $\mathbf{1}_{\ftermhat>\eta}\ftermhat$ during inference, where $\eta$ is chosen to minimize negative likelihood on a validation dataset. See Appendix \ref{sec:filter} for details.
+
+
+
+\subsection{RL Experiments}
+Two dimensional distributions are tested  in RL settings, which allow us to conduct sanity-check on  the tractability of the EGF, its stability and expressivity. An EGF on $\Statespace = \mathbb T^2$ is built with 16 transformations (8 translations and 2 elements of $\mathrm{SL}_d(\mathbb Z)$ together with their inverse). Their MLPs have 5 hidden layers of width 32 to parameterize $\foutstar$ and $\ForwardPolicyStar$. This EGF is trained either with stable $ \mathcal L_{\mathrm{FM}}^{\mathrm{stable}}$ or unstable $\mathcal L_{\mathrm{FM}}^{\mathrm{div}}$  FM-losses, with or without regularization  $\mathcal R$ (see equations~\eqref{equ:FMloss},\eqref{equ:RL_losses} and \eqref{equ:RL_reg}). 
+\begin{eqnarray}\label{equ:RL_losses}
+      \mathcal L_{\mathrm{FM}}^{\mathrm{div}} &=& \mathbb E_{\underline s}\sum_{t=1}^\tau \log\left(\frac{\finstar+\finit}{\foutstar+\fterm}\right)^2(\underline s_t) \\
+            \mathcal R &=& \mathbb E_{\underline s}\sum_{t=1}^\tau (\foutstar)^2(\underline s_t) \label{equ:RL_reg}.
+\end{eqnarray}
+The regularization $\mathcal R$ is motivated by the stability Theory of \citet{brunswic2024theory}:
+as long as the directional derivative of $\mathcal R$ is positive on 0-flows directions, such a regularization helps reducing the unstability of a loss. See also \citet{morozov2025revisiting} for a study of the impact of such regularizations for detailed balance losses on graphs.
+
+ A stability comparison to divergence-based FM loss (see figure~\ref{fig:RL_checkerboard}) shows the expressivity of very small EGF as well as the unstability $\mathcal L_{\mathrm{FM}}^{\mathrm{div}}$ as predicted by \citet{brunswic2024theory}(refer to limitation 4 in section \ref{sec:preliminaries}). 
+
+\begin{figure}
+    \centering
+    \captionsetup[subfigure]{labelformat=simple}
+    % Row 1
+    \begin{subfigure}{\linewidth}
+        \centering
+        \begin{subfigure}{0.48\linewidth}
+            \centering
+            \includegraphics[width=\linewidth]{images/checkerjet_reward_stablenoreg.JPG}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.48\linewidth}
+            \centering
+            \includegraphics[width=\linewidth]{images/checkerjet_reward_stablenoreg_samples.JPG}
+        \end{subfigure}
+        \caption{EGF 32x5, density (left) and samples (right).}
+    \end{subfigure}
+ \begin{subfigure}{\linewidth}
+        \centering
+        \begin{subfigure}{0.48\linewidth}
+            \centering
+            \includegraphics[width=\linewidth]{images/Loss2vtauexpectancy_RL_checkere.JPG}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.48\linewidth}
+            \centering
+            \includegraphics[width=\linewidth]{images/Loss2vtauexpectancy_RL_checkere_legend_corrected.jpg}
+        \end{subfigure}
+        \caption{EGF 32x5, stability comparison between FM losses. Unregularized unstable loss (blue) flow size (dashed lines) and sampling time $\tau$ (solid lines) blow up while stable loss (red) converges. Regularization helps stabilization for both losses.}
+    \end{subfigure}
+    \caption{Checkerboard RL task.}
+    \label{fig:RL_checkerboard}
+\end{figure}
+
+
+ 
+
+
+\subsection{IL Experiments}
+We proceed with imitation learning experiments on tori $\mathbb T^2$ and spheres $\mathbb S^2$.
+
+ % On $\mathbb T^2$, we compare small Moser Flows and EGFs to show how we are able to generate good distributions with EGF while Moser flow breaks down.
+ On $\mathbb{T}^2$, we compare small Moser Flows, DDPM and EGFs, demonstrating that EGFs can generate well-behaved distributions even when Moser Flows break down.
+ An EGF is built with the minimal four affine transformations described in section \ref{sec:universality_tori}, implemented as MLPs with 3 hidden layers of width 32. These transformations parameterize $\foutstar$ and $\ForwardPolicyStar$. The Moser Flow is trained using the implementation provided in the authors' GitHub repository \cite{mosergithub}  with the only modification being the model size set to 32x3. Our EGF is trained using the KL-weakFM loss together with a  regularization $\mathcal R$ as in the RL setting.
+  Figure \ref{fig:toyimg} shows how Moser Flow fails to train with such a small model while minimal EGF reproduces the target distribution with high fidelity.
+
+  On $\mathbb S^2$, we benchmark EGFs on the earth science volcano dataset \cite{volcano}. A sample distribution is given for the dataset in Figure \ref{fig:volcanos} and negative log-likelihoods are given in Table \ref{table:nll}. We only use six rotations: a rotation of angle $\pi/4$ around each of the three axes plus their respective inverse.  The two core MLPs of EGF are of size 256x5, compared to the 512x6 used by \citet{rozen2021moser}. The learning rate is 1e-3 with an exponential decay to 1e-5 at 3000 epochs of 25 steps.  We outperform Moser Flow and all related baselines. Notably, the EGF achieved its reported performance with a training time 10 times shorter.
+
+\begin{figure}
+    \centering
+    \captionsetup[subfigure]{labelformat=simple}
+    % % Row 1
+    % \begin{subfigure}{\linewidth}
+    %     \centering
+    %     \begin{subfigure}{0.48\linewidth}
+    %         \centering
+    %         \includegraphics[width=\linewidth]{images/ffjord_checker.JPG}
+    %     \end{subfigure}
+    %     \hfill
+    %     \begin{subfigure}{0.48\linewidth}
+    %         \centering
+    %         \includegraphics[width=\linewidth]{images/ffjord_spiral.JPG}
+    %     \end{subfigure}
+    %     \caption{FFJORD}
+    % \end{subfigure}
+    % Row 2
+    \begin{subfigure}{\linewidth}
+        \centering
+        \begin{subfigure}{0.45\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={1cm 1cm 1cm 1cm},clip]{images/star_moser_32x3.JPG}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.45\linewidth}
+            \centering
+            \includegraphics[width=\linewidth]{images/spiral_moser_32x3.JPG}
+        \end{subfigure}
+        \caption{Moser Flow}
+    \end{subfigure}
+     \begin{subfigure}{\linewidth}
+        \centering
+        \begin{subfigure}{0.45\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={0cm 0cm 0cm 0cm},clip]{images/star_3x32_100.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.45\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={0cm 0cm 0cm 0cm},clip]{images/DDPM_3x32_100.png}
+        \end{subfigure}
+        \caption{DDPM}
+    \end{subfigure}
+    % Row 2
+    \begin{subfigure}{\linewidth}
+        \centering
+        \begin{subfigure}{0.45\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={7cm 7cm 7cm 7cm},clip]{images/star_EGF_32x3_filtre.JPG}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.45\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={4cm 4cm 4cm 4cm},clip]{images/spiral_EGF_32x3.JPG}
+        \end{subfigure}
+        \caption{EGF}
+    \end{subfigure}\vspace{-0.3cm}
+    
+    % % Row 3
+    % \begin{subfigure}{\linewidth}
+    %     \centering
+    %     \begin{subfigure}{0.48\linewidth}
+    %         \centering
+    %         \includegraphics[width=\linewidth]{images/diffusion_checker1.png}
+    %     \end{subfigure}
+    %     \hfill
+    %     \begin{subfigure}{0.48\linewidth}
+    %         \centering
+    %         \includegraphics[width=\linewidth]{images/diffusion_spiral1.png}
+    %     \end{subfigure}
+    %     \caption{Denoising Diffusion Probabilistic Model}
+    % \end{subfigure}
+
+    % % Row 4
+    % \begin{subfigure}{\linewidth}
+    %     \centering
+    %     \begin{subfigure}{0.48\linewidth}
+    %         \centering
+    %         \includegraphics[width=\linewidth]{images/checker_minimal.jpg}
+    %     \end{subfigure}
+    %     \hfill
+    %     \begin{subfigure}{0.48\linewidth}
+    %         \centering
+    %         \includegraphics[width=\linewidth]{example-image-c}
+    %     \end{subfigure}
+    %     \caption{Ergodic Generative Flows (ours)}
+    % \end{subfigure}
+    \caption{Comparison of imitation learning on standard toy distributions using tiny 32x3 MLP models. Background filter is applied to EGF, a similar filter on Moser flow would yield worse results. Without a filter, EGF samples have outliers similar to DDPM. Since DDPM does not give access to density, only samples are provided. For fairness, DDPM is sampled using 100 denoising steps.}
+    \label{fig:toyimg} \vspace{-0.5cm}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \captionsetup[subfigure]{labelformat=simple}
+        \centering
+        \begin{subfigure}{0.45\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={14cm 6cm 14cm 7cm},clip]{images/volcano_less_points.jpg}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.45\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={14cm 6cm 14cm 7cm},clip]{images/volcano_test.jpg}
+        \end{subfigure}\vspace{-0.3cm}
+    \caption{EGF generated points with reward field $\ftermhat$ (left) and whole dataset point with KDE field (right) for the volcano task.}
+    \label{fig:volcanos}
+\end{figure}
+
+
+\begin{table}
+    \caption{Negative log-likelihood scores of the volcano dataset.}
+    \centering
+    \begin{tabular}{c c c c}
+       & Volcano
+       & Earthquake & Flood
+       \\
+     \hline
+     Mixture vMF & -0.31  
+     & 0.59 & 1.09 
+     \\
+     Stereographic & -0.64 
+     & 0.43 & 0.99
+     \\
+     Riemannian & -0.97 
+     & 0.19 & 0.90
+     \\
+     Moser Flow & -2.02 & -0.09 & 0.62 
+     \\
+     EGFN & \textbf{-2.31} & \textbf{-0.12} & \textbf{0.56} 
+     \\
+     \hline
+    \end{tabular}
+    \label{table:nll}
+\end{table}
+% \begin{table}[h]
+%     \centering
+%     \begin{tabular}{c c c c}
+%        & Volcano & Earthquake & Flood \\
+%      \hline
+%      Mixture vMF & $-0.31_{\pm 0.07}$  & $0.59_{\pm 0.01}$ & $1.09_{\pm 0.01}$ \\
+%      Stereographic & $-0.64_{\pm 0.20}$ & $0.43_{\pm 0.04}$ & $0.99_{\pm 0.04}$\\
+%      Riemannian & $-0.97_{\pm 0.15}$ & $0.19_{\pm 0.04}$ & $0.90_{\pm 0.03}$\\
+%      Moser Flow & $-2.02_{\pm 0.42}$ & $-0.09_{\pm 0.02}$ & $0.62_{\pm 0.04}$ \\
+%      EGFN & -1.47 &  tbd & tbd  \\
+%      \hline
+%     \end{tabular}
+%     \caption{Negative log-likelihood scores of the earth sciences datasets.}
+%     \label{table:nll}
+% \end{table}
+
+\section{Related Work}
+\label{Related Work}
+EGFs draw inspiration from NFs for their transformation blocks, as well as from denoising diffusion models (DDMs) \cite{ho2020denoising} for incorporating stochasticity. While similar approaches have been explored in previous works \cite{wu2020stochastic, zhang2021diffusion}, our method stands out by leveraging general generative flows theory to construct a more efficient framework. Compared to previous works, EGFs are more compact and demonstrate faster convergence as illustrated in our experiments. Furthermore, DDMs and their variants \cite{song2020denoising} rely on a fixed discretization of inference denoising trajectories, whereas EGFs enable trainable sampling times, offering greater flexibility and adaptability.
+
+A particularly notable comparison arises when examining the relationship between our EGFs and NFs introduced in  \citet{rezende2020normalizing}, as both utilize affine toroidal families and projective spherical families. However, while our EGF framework provides universality guarantees, the NF setting lacks such guarantees as it solely relies on affine and projective transforms. Indeed, both projective and affine transformations form groups (compositions of affine transforms are affine), thus limiting the expressivity. This distinction highlights a fundamental advantage of EGFs, further reinforcing their theoretical robustness and practical effectiveness. 
+
+Broadly speaking, previous methods, such as Riemannian Continuous Normalizing Flows \cite{mathieu2020riemannian} and Flow Matching on Manifolds \cite{chen2024flow} rely on either handcrafted non-linear transformations or sophisticated NeuralODEs \cite{chen2018neural}. Our EGF does not incorporate NeuralODEs, as we do not face expressivity limitations that justify their usage. However, these techniques remain fully compatible with EGFs and could be integrated into future extensions of our framework to further enhance its flexibility and adaptability if needed.
+
+Since EGFs' elementary transformation are derived from the transformation blocks of NFs, EGFs can be viewed as a stochastic sampler for NF architectures. In particular, any EGFs sampled trajectory can be defined as $(s_t)_{t=1}^\tau$, where the trajectory $(s_t)_{t=1}^\tau$ is obtained by composing NF transformations as follows: $s_1 \sim \mathcal{F}_{\text{init}}, \quad s_2 = \Phi_{k_1}(s_1), \quad \dots, \quad s_\tau = \Phi_{k_{\tau-1}} \circ \cdots \circ \Phi_{k_1}(s_1)$,  
+with the transition probability $\mathbb{P}(k_{t+1} \mid k_t) = \forwardalpha^i(s_t)$. Each composition $\Phi_{k_{\tau-1}} \circ \cdots \circ \Phi_{k_1}$ is a diffeomorphism, and the terminal distribution is given by $\Fterm=\mathbb E_K(\Finit K)$, where $K=\Phi_{k_{\tau-1}} \circ \cdots \circ \Phi_{k_1}$ represents a random NF.
+In other words, an EGF with $p$ diffeomorphisms can be represented as a pair $(\iota, \pi)$, where $\iota : \mathcal T_p \rightarrow \mathrm{Diffeo}(\Statespace)$ is a trainable embedding of the $p$-ary tree into the space of diffeomorphisms on the state space, and $\pi$ is a random walk policy on $\mathcal T_p$ with a random stopping time.
+However, the policy $\pi$ is intractable as it is defined by $\pi(\Phi_{k} | \Phi_{k_t}\circ \cdots \Phi_{k_1}) = \frac{1}{\Fout(\Statespace)}\int_{s\in\Statespace} \forwardalpha^k(s)d\Fout(s)$, where $\Fout := \Foutstar + \Fterm$.
+
+Building on this formulation, we can draw comparisons between EGFs and three related research directions: Continuously Indexed Normalizing Flows (CINF) \cite{caterini2021variational}, Neural Architecture Search (NAS) \cite{elsken2019neural}, and Wasserstein Gradient Descent (WGD) \cite{NEURIPS2018_a1afc58c}. First, CINFs attempt to overcome the limitations of NFs by using a fixed architecture, with conditioning sampled from a latent distribution. This approach generates the target distribution as an expectation, $\Fterm=\mathbb E_K(\Finit K)$, where the random NF $K$ is drawn from a continuous distribution of NFs. In contrast, our method samples $K$ from a tree structure. Second, NAS aims to find the optimal neural network architecture for a given task. In comparison, our EGF constructs a distribution of suitable NFs, where the sampling time can be interpreted as a learned depth of the resulting architecture. Third, by training over a distribution of architectures and considering the expectation of the output (with $\Finit$ as the input and $\Fterm$ as the output), our approach parallels the setup of Wasserstein Gradient Descent (WGD). Extending the theorems of \citet{NEURIPS2018_a1afc58c} to EGFs would be a valuable addition to our theoretical framework.
+
+Lastly, from the proof of the universality Theorem \ref{theo:universality}, we observe that $\foutstar$ can be obtained as a fixed point of a flow operator dependent on $\ForwardPolicyStar, \Finit$, and $\Fterm$. This operator is a contraction for the affine toroidal family. Although we train $\foutstar$ via gradient descent, this approach bears similarities to Deep Equilibrium Models (DEQ) \cite{bai2019deep, bai2020multiscale}, where the fixed point is computed by a contraction neural network. The key difference is that we explicitly approximate the fixed point with a neural network, while DEQ models use a black-box solver and the implicit function theorem for gradients. Future work could develop a DEQ-EGF, where $\foutstar$ is implicitly obtained as a fixed point instead of via a feedforward network.
+% The key distinction is that we explicitly approximate this fixed point with a neural network, whereas DEQ models use a black-box solver and the implicit function theorem to compute gradients. Future work could explore the development of a DEQ-EGF, where $\foutstar$ is obtained implicitly as a fixed point rather than through a standard feedforward network.
+
+
+
+
+% EGFs are inspired by NF for the move building blocks and Denoising Diffusion Models for the stochasticity. Similar attempts were conducted \cite{wu2020stochastic,zhang2021diffusion}; our approach mainly differs in leveraging general Generative Flows Theory to build an efficient framework. 
+% Compared to these approaches, our models tend to be smaller and converge very quickly on toy examples. Furthermore, DDM \cite{ho2020denoising} and relatives \cite{song2020denoising} use a fixed discretization of the inference trajectories while the sampling time of EGF is trainable.
+
+
+% A striking comparison may be done between EGF and \citet{rezende2020normalizing} in which the same affine toroidal families and projective spherical families were considered. However, while our EGF framework provides universality guarantees, no universality can be obtained in their plain NF setting because projective and affine transforms both form a group: composition of affine transforms is still affine. 
+% More generally, Normalizing Flows  \cite{mathieu2020riemannian} or Flow Matching on manifolds \cite{chen2024flow} both rely either on handcrafted non-linear transforms or more sophisticated NeuralODEs \cite{chen2018neural}. Although we did not use NeuralODEs in our work, such technics are compatible and could be included in future works.
+
+% Since EGF's elementary moves are derived from the transformation blocks of NF, EGF can thus be viewed as a stochastic sampler for NF architectures. In particular, we can define any EGF's sampling trajectory as $(s_t)_{t=1}^\tau$, where $(s_t)_{t=1}^\tau$ is obtained by composing NF moves as $s_1\sim \Finit, s_2=\Phi_{k_1}(s_1),\cdots, s_{\tau}=\Phi_{k_{\tau-1}}\circ\cdots \circ \Phi_{k_1}(s_1)$ with $\mathbb P(k_{t+1}|k_{t}) = \forwardalpha^i(s_t)$. 
+% Each of the composition $\Phi_{k_{\tau-1}}\circ\cdots \circ \Phi_{k_1}$ is a diffeomorphism and $\Fterm=\mathbb E_K(\Finit K)$  with $K=\Phi_{k_{\tau-1}}\circ\cdots \circ \Phi_{k_1}$ which is a random Normalizing Flow.  
+
+% Since EGF elementary moves are taken from Normalizing Flow elementary blocks, we may see EGF as a stochastic sampler of Normalizing Flow architectures. More precisely, any sampling trajectory of an EGF $(s_t)_{t=1}^\tau$ is obtained by composing moves: $s_1\sim \Finit, s_2=\Phi_{k_1}(s_1),\cdots, s_{\tau}=\Phi_{k_{\tau-1}}\circ\cdots \circ \Phi_{k_1}(s_1)$ with $\mathbb P(k_{t+1}|k_{t}) = \forwardalpha^i(s_t)$. 
+% Each of the composition $\Phi_{k_{\tau-1}}\circ\cdots \circ \Phi_{k_1}$ is a diffeomorphism and $\Fterm=\mathbb E_K(\Finit K)$  with $K=\Phi_{k_{\tau-1}}\circ\cdots \circ \Phi_{k_1}$ which is a random Normalizing Flow.
+
+% In other words, we may see a EGF with $p$ moves as a couple $(\iota,\pi)$ with $\iota : \mathcal T_p \rightarrow \mathrm{Diffeo}(\Statespace)$ a trainable embedding of the $p$-ary tree into the space of Diffeomorphisms of the state space, together with a random walk policy $\pi$ with a random stopping time. The policy $\pi$ is intractable as, for a flow-matching EGF, $\pi(\Phi_{k} | \Phi_{k_t}\circ \cdots \Phi_{k_1}) = \frac{1}{\Fout(\Statespace)}\int_{s\in\Statespace} \forwardalpha^k(s)d\Fout(s)$ with $\Fout:=\Foutstar+\Fterm$.
+
+% We may then compare EGF to three research thread: Continuously Indexed Normalizing Flows (CINF) \cite{caterini2021variational}, Neural Architecture Search (NAS) \cite{elsken2019neural} and Wasserstein Gradient Descent (WGD) \cite{NEURIPS2018_a1afc58c}. First, CINF tried to bypass NF limitation by using fixed architecture with a conditionning sampled from a latent distribution, the method thus also generates the target distribution as an expectancy $\Fterm=\mathbb E_K(\Finit K)$ except that the random NF $K$ is sampled from a continuous distribution of NF while ours is sampled from a tree. Second, NAS tries to find best architecture of neural net for a given task, our EGF builds a distribution of suitable Normalization flows, in particular the sampling time may be interpreted as a learned depth of the learnt architecture. Third, by training a over distribution of architecture and considering the expectancy of the output (the input being $\Finit$ and the output $\Fterm$) we are in a similar setup as that of WGD. An extension of theorems of  \citet{NEURIPS2018_a1afc58c} to EGF would be a nice addition to our theoretical framework.
+
+% From the proof of the universality Theorem \ref{theo:universality}, we see that $\foutstar$ may be obtained as a fixed point of a flow operator depending on  $\ForwardPolicyStar, \Finit$ and $\Fterm$ which is a contraction for affine toroidal family. Although we train $\foutstar$ via gradient descent, this has similarities to Deep Equilibrium Model \cite{bai2019deep,bai2020multiscale} as DEQ models compute it as the fixed point of a contraction neural network. 
+% The main difference is that we explicitly approximate this fixed point using a neural net, while DEQ uses a black-box solver and implicit function theorem to compute gradients. It would certainly be interesting in future works to build a DEQ-EGF in which the flow $\foutstar$ is obtained implicitly as a fixed point instead of a plain feedforward network.
+
+
+
+
+\section{Limitations and Future Work}
+% First and foremost, our experiments are limited to low-dimensional settings. While ergodicity can be achieved with a dimension-independent number of generators (e.g., a single randomly initialized, non-trainable translation suffices on tori), the technical requirement of $L^2$-mixing summability for universality is more nuanced. EGFs currently suffer from limited proven applicability in this regard. Further theoretical advancements are needed to facilitate the enforcement of $L^2$-mixing summability in higher dimensions, along with corresponding experimental validation.
+
+
+First and foremost, our experiments are limited to low dimensions. Although ergodicity is easily achievable with a number of generators independent from the dimension (for instance on tori, one randomly initialized non-trainable translation is sufficient to ensure ergodicity), the technical assumption of $L^2$-mixing summability needed for universality is more subtle. 
+EGFs suffer from limited proven applicability, further theory is needed to easily enforce $L^2$-mixing summability in higher dimension together with related experiments. More precisely, a theoretical bound on the minimal number of transformations necessary to achieve universality would be useful for hyperparameter tuning. We give such a bound only for affine toroidal and isometry spherical families where two transformations are sufficient to achieve universality.
+
+% Second, our implementation is inefficient. For instance, a key possible advantage of EGF is the control over trajectory length to reduce the inference time. Since the number of calls to MLPs in our implementation of EGF is close to that of a DDM, in order to fully benefit from shortened trajectory length it would be necessary to use the reduced size of our core MLP computing $\foutstar$ and $\forwardalpha$ and parallelize the computation of $\finstar$ which requires calling both $\foutstar$ and $\forwardalpha$ once for each move. This optimization was not implemented in the present work.
+
+Second, the $L^2$-mixing summability property is essential to ensure universality. It is likely that training would be improved if some control over this property was to be achieved, say by adding a regularization. There is extensive mathematical literature on the so-called spectral gap \cite{kontoyiannis2012geometric,guivarc2016spectral,marrakchi2018strongly,bekka2020spectral}, which is a sufficient condition for $L^2$-mixing summability, and absolutely continuous invariant measures \cite{gora2003absolutely,bahsoun2004absolutely,galatolo2015statistical} including stability results \cite{froyland2014stability}. A systematic review of this literature would certainly yield such regularization.
+
+Lastly, our focus was on the theoretical advancements of generative flow theory through EGF. As a result, we did not exploit EGF's high modularity, which enables sophisticated transformations, replay buffers, or neural architectures. Additionally, hyperparameter tuning was minimal, leaving room for future work to perform a systematic analysis.
+
+% Last, our emphasis is on the theoretical advances of generative flow theory embodied by EGF. Therefore,  we did not leverage the high modularity of EGFs which allows sophisticated transformations, replay buffers or neural net architectures. In addition, our hyperparameter tuning was limited.  Future work could carry out a systematic hyperparameter analysis. 
+
+% Last, we used a plain online experience replay buffer \cite{lin1992self} without memory across epochs, and minimal tuning of model capacity was conducted.  It is expected that a rolling replay buffer containing some off-policy trajectories together with prioritization \cite{schaul2015prioritized} would improve training speed and stability. More generally, our EGF implementation contains a number of manually tuned hyperparameters. A systematic analysis of hyperparameter settings would likely yield a better understanding of important factors.
+
+\section{Conclusion}
+% We proposed a new family of generative flows leveraging the ergodicity property to offer universality guarantees while using very simple diffeomorphisms and neural networks. Our results show that EGFs keep their expressivity even with a number of parameters at which Moser Flow\cite{rozen2021moser} breaks down. This simplicity allows us to beat our baselines on NASA dataset with model 30 times smaller and  training time 100 times shorter.
+% 
+We propose a new family of generative flows that leverage ergodicity to provide universality guarantees while utilizing simple diffeomorphisms and neural networks. Our results demonstrate that EGFs maintain their expressivity even at parameter counts where Moser Flow \cite{rozen2021moser} fails. This simplicity enables us to outperform our baselines on the NASA volcano dataset with a model 30 times smaller.
+
+\section*{Impact Statement}
+This paper presents work whose goal is to advance the field of Machine Learning. There are many potential societal consequences of our work, none which we feel must be specifically highlighted here.
+\bibliography{note}
+\bibliographystyle{icml2025}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% APPENDIX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\appendix
+\onecolumn
+\section{Fundamentals of EGFs} \label{sec:appendix_backward},
+
+As stated in section \ref{sec:fundamentals_EGF}, on a Differential manifold $\Statespace$ endowed with a background measure $\lambda$ absolutely continuous with respect to Lebesgue measure, we define an EGF as a Generative Flow  $(\ForwardPolicyStar, \Foutstar)$ with 
+$\Foutstar = \foutstar \lambda$ and $\ForwardPolicyStar(s\rightarrow \cdot) = \sum_{i=1}^p\forwardalpha^{i}(s)\delta_{\Phi_i(s)}$ where $\Phi_i$ are diffeomorphisms of $\Statespace$.  With these definitions, the backward policy automatically has a closed form formula.
+\begin{theorem} Let $(\ForwardPolicyStar,\Foutstar)$ as above, the induced Generative Flow  on $\Statespace$ has a backward star policy given by  
+    \begin{eqnarray}\label{equ:tractable_inflow_appendix}
+\BackwardPolicy^*(s) &=& \sum_{i=1}^p\backwardalpha^i(s) \delta_{\Phi_i^{-1}(s)} \\ 
+\backwardalpha^i(s) &=& \frac{(\forwardalpha^if^*_\rightarrow)\circ \Phi_i^{-1}(s)|J_s {\Phi_i^{-1}}| }{ \finstar(s)} \\
+\finstar &=&  \sum_j (\forwardalpha^jf^*_\rightarrow)\circ \Phi_j^{-1}(s) |J_s {\Phi_j^{-1}}|.
+\end{eqnarray}
+\end{theorem}
+\begin{proof}
+    From \cite{brunswic2024theory} section 3.2 and Proposition 1 in their appendix, we have for any measurable $X\subset \Statespace$:
+    \begin{eqnarray}
+        \Finstar(Y) &=&  \Foutstar \otimes \ForwardPolicyStar (\Statespace \rightarrow Y) \\
+        \BackwardPolicyStar(s\rightarrow X) &=&  \frac{d \Finstar \otimes \BackwardPolicyStar ( \cdot \rightarrow X)}{d\Finstar}(s)    \\
+ \Finstar \otimes \BackwardPolicyStar(Y\rightarrow X) &=&  \Foutstar \otimes \ForwardPolicyStar(X\rightarrow Y). 
+\end{eqnarray}
+Therefore, for all measurables $X,Y\subset \Statespace$:
+\begin{eqnarray}
+\Finstar \otimes \BackwardPolicyStar (Y\rightarrow X) &=&  \Foutstar \otimes \ForwardPolicyStar (X\rightarrow Y) \\ 
+     &=& \int_{s\in \Statespace} \mathbf{1}_{X}(s) \ForwardPolicyStar(s\rightarrow Y) d\Foutstar(s) \\ 
+    &=& \int_{s\in \Statespace}\mathbf{1}_{X}(s)  \ForwardPolicyStar(s\rightarrow Y) \foutstar(s) d\lambda(s)\\ 
+    &=& \int_{s\in \Statespace} \sum_{i=1}^p \mathbf{1}_{X}(s) \forwardalpha^i(s) \delta_{\Phi_i(s)}(Y) \foutstar(s) d\lambda(s)\\ 
+    &=& \sum_{i=1}^p\int_{s\in \Statespace} \mathbf{1}_{X}(s)  \forwardalpha^i(s) \mathbf{1}_{Y}(\Phi_i(s)) \foutstar(s) d\lambda(s)\\ 
+    &=& \sum_{i=1}^p\int_{u\in \Statespace} \mathbf{1}_{X}(\Phi_i^{-1}(u)) \forwardalpha^i(\Phi_i^{-1}(u)) \mathbf{1}_{Y}(u) \foutstar(\Phi_i^{-1}(u)) |J_{u} \Phi_i^{-1}| d\lambda(u)\\  
+    &=& \sum_{i=1}^p\int_{u\in Y} \mathbf{1}_{X}(\Phi_i^{-1}(u))  \forwardalpha^i(\Phi_i^{-1}(u)) \foutstar(\Phi_i^{-1}(u)) |J_{u} \Phi_i^{-1}| d\lambda(u)\\  
+    &=&\int_{u\in Y} \sum_{i=1}^p  \delta_{\Phi_i^{-1}(u))}(X)  \forwardalpha^i(\Phi_i^{-1}(u)) \foutstar(\Phi_i^{-1}(u)) |J_{u} \Phi_i^{-1}| d\lambda(u).  
+\end{eqnarray}
+\end{proof}
+Since this formula is true for any $Y\subset \Statespace$, we deduce that $\Finstar \otimes \BackwardPolicyStar(\cdot \rightarrow X)\ll \lambda$ and that 
+\begin{eqnarray}
+    \frac{d\Finstar \otimes \BackwardPolicyStar(\cdot \rightarrow X)}{d\lambda}(x) &=& \sum_{i=1}^p  \delta_{\Phi_i^{-1}(x)}(X)  \forwardalpha^i(\Phi_i^{-1}(x)) \foutstar(\Phi_i^{-1}(x)) |J_{x} \Phi_i^{-1}|\\
+    &=& \left(\sum_{i=1}^p   \forwardalpha^i(\Phi_i^{-1}(x)) \foutstar(\Phi_i^{-1}(x)) |J_{x} \Phi_i^{-1}| \delta_{\Phi_i^{-1}(x)} \right) (X)\\
+    \finstar(x) &=&  \frac{d\Finstar \otimes \BackwardPolicyStar(\cdot \rightarrow \Statespace)}{d\lambda}(x) \\&=&   \sum_{i=1}^p  \delta_{\Phi_i^{-1}(x)}(\Statespace)  \forwardalpha^i(\Phi_i^{-1}(x)) \foutstar(\Phi_i^{-1}(x)) |J_{x} \Phi_i^{-1}|\\
+    &=&\sum_{i=1}^p   \forwardalpha^i(\Phi_i^{-1}(x)) \foutstar(\Phi_i^{-1}(x)) |J_{x} \Phi_i^{-1}|
+\end{eqnarray}
+The result follows.
+
+
+
+\section{Universality Theorems}
+\subsection{General Universality Theorem}
+We shall both write the theorems in a more formal way and provide rigorous proof of each statements. 
+
+The following theorem implies Theorem \ref{theo:universality}.
+\begin{theorem} \label{theo:universality_true}Let $(\Statespace,\lambda)$ be a measured Polish space and let $\ForwardPolicyStar$ be a Markov kernel acting on $\Statespace$. Assume that $\ForwardPolicyStar$ is ergodic on $(\Statespace,\lambda)$ with summable $L^2$-mixing coefficients, then for any probability distributions $\Finit,\Fterm \ll \lambda$ with density in $L^2(\lambda)$ and any $\varepsilon>0$, there exists $\foutstar\in L^2(\lambda)$ such that the generative flow $(\ForwardPolicyStar,\foutstar)$ from $\Finit$ to $\Fterm$ is such that $\delta\Finit(\Statespace)+\delta\Fterm(\Statespace)<\varepsilon$.
+\end{theorem}
+
+\begin{proof}
+    Let $H:\nu \mapsto \nu\pi^*+\Finit - \Fterm$,  let $\nu_0=\Finit-\Fterm$ and let $\nu_{t+1} = H(\nu_t)$. By assumption, $\nu_0$ density is in $L^2(\lambda)$, then the density of $\nu_t$ with respect to $\lambda$ is $L^2$ for all $t\in \mathbb N$.
+    
+    We have
+    \begin{eqnarray}
+    \nu_T &=& H^T(\nu)   \\
+    &=& \sum_{t=0}^T (\Finit-\Fterm)(\ForwardPolicyStar)^t \\
+    &=& \sum_{t=0}^T\epsilon_t
+    \end{eqnarray}
+    with $\epsilon_t =  (\Finit-\Fterm)(\ForwardPolicyStar)^t$.  
+    For all $t\in \mathbb N, \epsilon_t(\Statespace)=0$, hence by assumption  
+    $\sum_{t\geq 0}\int_{s\in \Statespace}\left(\frac{d\epsilon_t}{d\lambda}(s)\right)^2d\lambda(s)< +\infty$. Therefore, $\nu_T$ converges as $T\rightarrow +\infty$ to  some $\nu_{\infty}$ and $|\nu_\infty |_2\leq \sum_{t\geq 0}\int_{s\in \Statespace}\left(\frac{d\epsilon_t}{d\lambda}(s)\right)^2d\lambda(s)<+\infty$, hence $\nu_{\infty}\ll \lambda$ and $\frac{d\nu_\infty}{d\lambda}\in L^2(\lambda)$. 
+    Furthermore, $\nu_{\infty}$ is a fix point of $H$ so $\nu_{\infty} =  \nu_\infty \pi^*- R + \Finit$. 
+   
+    Now, $\nu_\infty$ does not necessarily provide a suitable $\foutstar$ because it may happen that the negative part $\nu_\infty^-\neq 0$.
+    Since for any $\eta > 0$ we have $H(\nu_\infty + \eta\lambda) = H(\nu_\infty) + \eta \lambda \ForwardPolicyStar = \nu_\infty + \eta \lambda$, we may add $\eta \lambda$ to $\nu_\infty$ to get another fix point $\nu_\infty^\eta := \nu_\infty +\eta\lambda$ of $H$. Define $\foutstar= \frac{d(\nu_\infty^\eta)^+}{d\lambda}$, so that: 
+    \begin{eqnarray}
+        \Finit + (\foutstar \lambda)\ForwardPolicyStar - \Fterm - \foutstar\lambda &=&  \Finit + (\foutstar \lambda- \nu_\infty^\eta + \nu_\infty^\eta)\ForwardPolicyStar - \Fterm -  (\foutstar \lambda- \nu_\infty^\eta + \nu_\infty^\eta) \\ 
+        &=& (\foutstar \lambda- \nu_\infty^\eta)\ForwardPolicyStar  -  (\foutstar \lambda- \nu_\infty^\eta) 
+    \end{eqnarray}
+    Therefore, $\delta\Finit := \left[(\foutstar \lambda- \nu_\infty^\eta)\ForwardPolicyStar  -  (\foutstar \lambda- \nu_\infty^\eta)\right]^-$ and 
+     $\delta\Fterm := \left[(\foutstar \lambda- \nu_\infty^\eta)\ForwardPolicyStar  -  (\foutstar \lambda- \nu_\infty^\eta)\right]^+$. 
+    So that
+     \begin{equation}\delta\Finit(\Statespace)+\delta\Fterm(\Statespace)=|(\nu_\infty^\eta)^-(\ForwardPolicyStar-1)|(\Statespace) \leq 2(\nu_\infty^\eta)^-(\Statespace).
+     \end{equation}
+     Since $\nu_\infty\ll \lambda$ in particular $\lim_{\eta\rightarrow +\infty} (\nu_\infty^\eta)^-(\Statespace) = 0$, the result follows by choosing $\eta$ big enough.
+\end{proof}
+
+
+
+\subsection{Universality on Tori}
+The universality Theorem on tori is obtained as a consequence of the spectral gap for Affine Toroidal families. We use the following result.
+\begin{theorem}[Theorem 5 of \cite{bekka2015spectral}  ]
+\label{theo:spectral_gap_tori}
+    Let $H$ be a countable subgroup of $\mathrm{Aff}(\mathbb T^d)$. The following properties are equivalent:
+    \begin{enumerate}
+        \item[(i)]  The action of H on $\mathbb{T}$ does not have a spectral gap.
+\item[(ii)] There exists a non-trivial $H$-invariant factor torus $\overline{\mathbb T}$ such that the projection of $H$ on $\mathrm{Aut}(\overline {\mathbb T})$ is amenable.
+    \end{enumerate}
+\end{theorem}
+If condition $(ii)$ of Theorem \ref{theo:spectral_gap_tori} is false for the group generated by the transformations $(\Phi_i)_{i=1}^p$, the we deduce any $\ForwardPolicyStar$  induced by equation \eqref{equ:forward_policy} has spectral gap if $\forall i,\forwardalpha^i=\frac{1}{p}$.
+Since each $\Phi_i$ keep the Lebesgue measure $\lambda$ invariant,  by universality master Theorem \ref{theo:universality_true}, the family is universal. Our technical condition of Theorem \ref{theo:universality_tori} is then 
+"The set of transforms $(\Phi_i)_{i=1}^p$ is stable by inverse and the group generated by $(\Phi_i)_{i=1}^p$ violates condition $(ii)$."
+In particular, if the linear part of $H$ is the whole $\mathrm{SL}(d,\mathbb Z)$, projections such as the one in condition $(ii)$ are never amenable since  $\mathrm{SL}(d,\mathbb Z)$ contains a free group with two generators. 
+
+
+
+
+\subsection{Universality on Spheres}
+The universality Theorem on spheres is obtained as a consequence of the spectral gap for isometry spherical families.
+Before stating the technical mathematical result we use, we recall that a real number $x\in \mathbb R$ is {\it algebraic} if there exists a non-zero polynomial $P\in \mathbb Z[X]$ with integral coefficients such that $P(x)=0$. The set of algebraic real number is denoted $\overline {\mathbb Q}$.
+We use the following result.
+\begin{theorem}[Reformulation of Theorem 1 of \cite{bourgain2012spectral}  ]
+\label{theo:spectral_gap_sphere} 
+ Assume that $(\Phi_1,\cdots, \Phi_p) \in \mathrm{SO}(d)\cap\mathrm{Mat}_{d\times d}(\overline {\mathbb Q})$, that the group generated by $\Phi_1,\cdots,\Phi_p$ is dense in $\mathrm{SO}(d,\mathbb R)$ and that $\forall i\in \{1,\cdots,p\}, \exists j \in \{1,\cdots,p\}, \Phi_i^{-1}=\Phi_j$. 
+ Assume that, $\forall i, \forwardalpha^i = \frac{1}{p}$ then the associated Markov kernel $\ForwardPolicyStar$ given by equation \eqref{equ:forward_policy} has a spectral gap.
+\end{theorem}
+
+ With the technical condition "The set of transforms $(\Phi_i)_{i=1}^p$ is stable by inverse, the group generated by $(\Phi_i)_{i=1}^p$ is dense in $\mathrm{SO}(d,\mathbb R)$ and each of the $\Phi_i$ has algebraic coefficients", Theorem \ref{theo:universality_sphere} then follows from master Theorem \ref{theo:universality_true}.
+
+
+
+
+
+
+\section{Quantitative Sampling Theorem}
+\begin{theorem}
+\label{theo:negative_control_appendix}
+  Let $(\ForwardPolicyStar, \foutstar)$ be a generative flow and let $\Finit$ and $\Fterm$ initial and terminal distributions. Assume that $\Finit\neq 0$, and consider the sample $s_\tau$ of the generative flow Markov chain from $\Finit$ to $\Ftermhat$ then:
+    \begin{equation}
+        \TV\left(s_\tau \left\| \frac{1}{\Ftermhat(\Statespace )} \Ftermhat\right.\right) \leq  \frac{\delta\Finit(\Statespace)}{\Ftermhat(\Statespace)}
+    \end{equation}
+    with $\TV$  the total variation.
+\end{theorem}
+\begin{proof}
+    For any generative flow $\mathbb F:=(\ForwardPolicy^*,\Fout^*)$, define $\ForwardPolicy^{\tau,\mathbb F}$ the kernel $x\mapsto (s_{\tau}|s_1=x)$  for the stopping condition $\Ftermhat$. The sampling distribution $s_\tau$ of $\mathbb F$ is then $\frac{1}{\Finit(\Statespace)}\Finit \ForwardPolicy^{\tau,\mathbb F}$. 
+    Furthermore, we have $\delta\Fterm(\Statespace)-\delta\Finit(\Statespace)=\Finit(\Statespace)+\Fout^* \pi^*(\Statespace)-\Fout^*(\Statespace)-\Fterm(\Statespace)=\Finit(\Statespace)-\Fterm(\Statespace)$.
+    In particular, $\Ftermhat(\Statespace)\geq \Finit(\Statespace)> 0$ so $\Ftermhat \neq 0$.
+    
+    We notice that the generative flow $\mathbb F':=(\ForwardPolicy^*,\Fout^*)$ satisfies the flow-matching constraint from $\Finithat$ to $\Ftermhat$  and that $\pi^{\tau,\mathbb F'} = \pi^{\tau,\mathbb F}$.  
+    Applying the sampling Theorem to $\mathbb F'$, we obtain 
+    \begin{eqnarray}
+        \Finithat\ForwardPolicy^{\tau,\mathbb F'} &=& \Ftermhat\\
+        (\Finit+\delta\Finit)\ForwardPolicy^{\tau,\mathbb F'} &=& \Ftermhat\\
+        \Finit\ForwardPolicy^{\tau,\mathbb F'}+\delta\Finit\ForwardPolicy^{\tau,\mathbb F'} &=& \Ftermhat \\
+         \alpha\times \underbrace{\left(\frac{1}{\Finit(\Statespace)}\Finit \ForwardPolicy^{\tau,\mathbb F}\right)}_{s_\tau}+(1-\alpha) \times  \frac{1}{\delta\Finit(\Statespace)}\delta\Finit\ForwardPolicy^{\tau,\mathbb F'} &=& \frac{1}{\Ftermhat(\Statespace)}\Ftermhat
+    \end{eqnarray}
+    with $\alpha = \frac{\Finit(\Statespace)}{\Ftermhat(\Statespace)}=\frac{\Ftermhat(\Statespace)-\delta\Finit(\Statespace)}{\Ftermhat(\Statespace)}=1-\frac{\delta\Finit(\Statespace)}{\Ftermhat(\Statespace)}$. 
+    The result follows.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Implementation considerations}
+\subsection{Density filtering}\label{sec:filter}
+Since EGFs give us access to a tractable density $\ftermhat$, we can estimate its mean $m$ and standard deviation $\sigma$ on the state space to filter out any unwanted outliers when sampling. By choosing a lower bound saturation value $\widehat{f}_{sat} = m - k\sigma$ where $k$ defines how strong the filter should be, we can then define a stricter sampling density $\tilde{f}_{\mathrm{term}}$ as:
+\begin{equation}
+\tilde{f}_{term} = 
+    \begin{cases}
+       \text{$\ftermhat$} & \text{if $\ftermhat$} \geq \ftermhat\\
+       0 & \text{otherwise}\\
+    \end{cases}       
+\end{equation}
+
+Since the new sampling density $\tilde{f}_{\mathrm{term}} = 0$ for all points of low true density, the next state of the Markov Chain is guaranteed not be the sink state. This ensures the EGF only generates samples associated with high density. The factor $k$ can be chosen manually to obtain a more strict or lenient filter, or it can be automatically optimized by recalculating the negative log-likelihood on the training dataset to systematically evaluate all $k$ values.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth,clip]{images/filter_cutoff.jpg}
+    \caption{NLL estimation for a range of values of $k$ for a given model on the volcano dataset.}
+\end{figure}
+
+Note that this filtering is applied on the density rather than on the samples, meaning that no samples are filtered out. Therefore, this simply has the effect of preventing the trajectories from stopping at low density points. Figure~\ref{fig:filter_effect} demonstrates that using the optimal filter value concentrates the samples in the zones of high true density, bypassing the uniform background noise that would otherwise be found prior to filtering.
+    
+\begin{figure}[H]
+    \centering
+
+
+    \captionsetup[subfigure]{labelformat=simple}
+
+    % Row 1
+    \begin{subfigure}{\linewidth}
+        \centering
+        \begin{subfigure}{0.33\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={14cm 6cm 14cm 7cm},clip]{images/xtrue.jpg}
+            \caption{Target distribution}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.33\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={14cm 6cm 14cm 7cm},clip]{images/xpred.jpg}
+            \caption{Unfiltered samples}
+        \end{subfigure}
+        \begin{subfigure}{0.33\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={14cm 6cm 14cm 7cm},clip]{images/xpred_opt.jpg}
+            \caption{Samples with optimal filter}
+        \end{subfigure}
+        
+    \end{subfigure}
+
+    \caption{Comparison of the EGF's samples using the same model with and without a density filter.}
+    \label{fig:filter_effect}
+\end{figure}
+
+\section{Ablation study on the size of EGF}
+
+
+
+%fout then selector
+
+\begin{figure}
+    \centering
+    \captionsetup[subfigure]{labelformat=simple}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \begin{subfigure}{0.19\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={4cm 5cm 6cm 5cm},clip]{ablation/22.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.19\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={4cm 5cm 6cm 5cm},clip]{ablation/23.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.19\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={4cm 5cm 6cm 5cm},clip]{ablation/24.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.19\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={4cm 5cm 6cm 5cm},clip]{ablation/25.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.19\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={4cm 5cm 6cm 5cm},clip]{ablation/26.png}
+        \end{subfigure}
+        \caption{ From left to right, the depth of $\foutstar$ is kept constant while $\forwardalpha$ depth increases.}
+    \end{subfigure}
+    % Row 2
+    \begin{subfigure}{\linewidth}
+        \centering
+        \begin{subfigure}{0.19\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={4cm 5cm 6cm 5cm},clip]{ablation/22.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.19\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={4cm 5cm 6cm 5cm},clip]{ablation/32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.19\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={4cm 5cm 6cm 5cm},clip]{ablation/42.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.19\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={4cm 5cm 6cm 5cm},clip]{ablation/52.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.19\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={4cm 5cm 6cm 5cm},clip]{ablation/62.png}
+        \end{subfigure}
+        \caption{From left to right, the depth of $\forwardalpha$ is kept constant while $\foutstar$ depth increases.} 
+    \end{subfigure}
+
+    \caption{Variation of $\foutstar$ and $\forwardalpha$ depths from 2x32 to 6x32. The theoretical prediction is that $\forwardalpha$ may be kept constant while $\foutstar$ is trained. Keeping $\forwardalpha$ constant indeed yields improvements, however the improvement obtained by increasing the depth of $\forwardalpha$ instead of $\foutstar$ is comparatively better.}
+    \label{fig:toyimg}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \captionsetup[subfigure]{labelformat=simple}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \begin{subfigure}{0.48\linewidth}
+            \centering
+            \includegraphics[width=\linewidth]{images/checker_minimal.jpg}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.48\linewidth}
+            \centering
+            \includegraphics[width=\linewidth]{images/checker_minimal_samples.JPG}
+        \end{subfigure}
+    \end{subfigure}
+    \caption{Theoretically minimal EGF with four affine moves on the torus $\mathbb T^2$ ie two generators of $\mathrm{SL}(2,\mathbb Z)$ together with their inverse. The MLPs parameterizing $\foutstar$ and $\forwardalpha$ have size 4x128. We see that the generated checkerboard has high quality, sharp boundaries but some under densities}
+    \label{fig:toyimg}
+\end{figure}
+
+
+
+% \begin{figure}
+
+
+%     \centering
+%     \captionsetup[subfigure]{labelformat=simple}
+
+%     % Row 1
+%     \begin{subfigure}{\linewidth}
+%         \centering
+%         \begin{subfigure}{0.24\linewidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{images/checkerjet_reward_stablenoreg.JPG}
+%         \end{subfigure}
+%         \begin{subfigure}{0.24\linewidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{images/checkerjet_reward_stablenoreg_samples.JPG}
+%         \end{subfigure}
+%         \begin{subfigure}{0.24\linewidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{images/checkerjet_reward_stablenoreg_samples.JPG}
+%         \end{subfigure}
+%         \begin{subfigure}{0.24\linewidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{images/checkerjet_reward_stablenoreg_samples.JPG}
+%         \end{subfigure}
+
+%          \begin{subfigure}{0.24\linewidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{images/checkerjet_reward_stablenoreg.JPG}
+%         \end{subfigure}
+%         \begin{subfigure}{0.24\linewidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{images/checkerjet_reward_stablenoreg_samples.JPG}
+%         \end{subfigure}
+%         \begin{subfigure}{0.24\linewidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{images/checkerjet_reward_stablenoreg_samples.JPG}
+%         \end{subfigure}
+%         \begin{subfigure}{0.24\linewidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{images/checkerjet_reward_stablenoreg_samples.JPG}
+%         \end{subfigure}
+
+%          \begin{subfigure}{0.24\linewidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{images/checkerjet_reward_stablenoreg.JPG}
+%         \end{subfigure}
+%         \begin{subfigure}{0.24\linewidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{images/checkerjet_reward_stablenoreg_samples.JPG}
+%         \end{subfigure}
+%         \begin{subfigure}{0.24\linewidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{images/checkerjet_reward_stablenoreg_samples.JPG}
+%         \end{subfigure}
+%         \begin{subfigure}{0.24\linewidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{images/checkerjet_reward_stablenoreg_samples.JPG}
+%         \end{subfigure}
+
+%          \begin{subfigure}{0.24\linewidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{images/checkerjet_reward_stablenoreg.JPG}
+%         \end{subfigure}
+%         \begin{subfigure}{0.24\linewidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{images/checkerjet_reward_stablenoreg_samples.JPG}
+%         \end{subfigure}
+%         \begin{subfigure}{0.24\linewidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{images/checkerjet_reward_stablenoreg_samples.JPG}
+%         \end{subfigure}
+%         \begin{subfigure}{0.24\linewidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{images/checkerjet_reward_stablenoreg_samples.JPG}
+%         \end{subfigure}
+%         \caption{EGF 32x5, density (left) and samples (right).}
+        
+%     \end{subfigure}
+    
+
+
+
+%     \caption{Variation of $\foutstar$ and $\forwardalpha$ depths and widths. Both MLPs are kept identical. }
+% \end{figure}
+
+
+
+\begin{figure}
+    \centering
+    \captionsetup[subfigure]{labelformat=simple}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/star_2x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/star_3x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/star_4x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/star_5x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/star_6x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/star_7x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/star_8x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/star_9x32.png}
+        \end{subfigure}
+        \caption{Generation of spin wheel with variations of MLPs for both $\foutstar$ and $\forwardalpha$ from 2x32 to 5x32 (TOP) and 6x32 to 9x32 (BOT). }
+    \end{subfigure}
+
+
+      \begin{subfigure}{\linewidth}
+        \centering
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/star_2x64.png}
+        \end{subfigure}
+        \hfill
+       \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/star_3x64.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/star_4x64.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/star_5x64.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/star_6x64.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/star_7x64.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/star_8x64.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/star_9x64.png}
+        \end{subfigure}
+        \hfill
+       \caption{Generation of spin wheel with variations of MLPs for both $\foutstar$ and $\forwardalpha$ from 2x64 to 5x64 (TOP) and 6x64 to 9x64 (BOT). }
+    \end{subfigure}
+
+    \caption{Variation of $\foutstar$ and $\forwardalpha$ depths and width from 2x32 to 9x64. Increasing depth and width increases quality until depth 4 then the training seemingly becomes lest stable as shown by the 9x64 experiment. Since we keep the learning rate constant at 1e-3, it is likely that the MLPs training becomes unstable.
+    The state space is $\Statespace = \mathbb R^2$,  to ensure $\Fout(\Statespace)<+\infty$, we constrain $\foutstar$ to be zero outside $[-4,4]^2$. 
+The EGF has 8 transformations which are translations, while the MLPs for $\forwardalpha$ and $\foutstar$ vary from 2x32 (2 hidden layer of width 32) to 9x64. Learning rate is kept at 0.001.
+    }
+    \label{fig:toyimg}
+\end{figure}
+
+\newpage
+\begin{figure}
+    \centering
+    \captionsetup[subfigure]{labelformat=simple}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/4Circles/2x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/4Circles/3x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/4Circles/4x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/4Circles/5x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/4Circles/6x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/4Circles/7x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/4Circles/8x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/4Circles/9x32.png}
+        \end{subfigure}
+        \caption{Generation of 4 circles with variations of MLPs for both $\foutstar$ and $\forwardalpha$ from 2x32 to 5x32 (TOP) and 6x32 to 9x32 (BOT). }
+    \end{subfigure}
+
+      \begin{subfigure}{\linewidth}
+        \centering
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/4Circles/2x64.png}
+        \end{subfigure}
+        \hfill
+       \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/4Circles/3x64.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/4Circles/4x64.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/4Circles/5x64.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/4Circles/6x64.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/4Circles/7x64.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/4Circles/8x64.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/4Circles/9x64.png}
+        \end{subfigure}
+        \hfill
+       \caption{Generation of 4 circles with variations of MLPs for both $\foutstar$ and $\forwardalpha$ from 2x64 to 5x64 (TOP) and 6x64 to 9x64 (BOT). }
+    \end{subfigure}
+
+    \caption{Variation of $\foutstar$ and $\forwardalpha$ depths and width from 2x32 to 9x64. Increasing depth and width increases quality until depth 4 then the training seemingly becomes lest stable as shown by the 9x64 experiment. Since we keep the learning rate constant at 1e-3, it is likely that the MLPs training becomes unstable.
+    The state space is $\Statespace = \mathbb R^2$,  to ensure $\Fout(\Statespace)<+\infty$, we constrain $\foutstar$ to be zero outside $[-4,4]^2$. 
+The EGF has 8 transformations which are translations, while the MLPs for $\forwardalpha$ and $\foutstar$ vary from 2x32 (2 hidden layer of width 32) to 9x64. Learning rate is kept at 0.001.
+    }
+    \label{fig:toyimg}
+\end{figure}
+
+
+
+
+
+\begin{figure}
+    \centering
+    \captionsetup[subfigure]{labelformat=simple}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/2spiral/2x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/2spiral/3x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/2spiral/4x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/2spiral/5x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/2spiral/6x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/2spiral/7x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/2spiral/8x32.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/2spiral/9x32.png}
+        \end{subfigure}
+        \caption{Generation of 2spirals with variations of MLPs for both $\foutstar$ and $\forwardalpha$ from 2x32 to 5x32 (TOP) and 6x32 to 9x32 (BOT). }
+    \end{subfigure}
+
+      \begin{subfigure}{\linewidth}
+        \centering
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/2spiral/2x64.png}
+        \end{subfigure}
+        \hfill
+       \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/2spiral/3x64.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/2spiral/4x128.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/2spiral/5x128.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/2spiral/6x64.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/2spiral/7x64.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/2spiral/8x64.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.24\linewidth}
+            \centering
+            \includegraphics[width=\linewidth,trim={3.5cm 4.5cm 5.5cm 4.5cm},clip]{ablation/2spiral/9x64.png}
+        \end{subfigure}
+        \hfill
+       \caption{Generation of 2 spirals with variations of MLPs for both $\foutstar$ and $\forwardalpha$ from 2x64 to 5x64 (TOP) and 6x64 to 9x64 (BOT). }
+    \end{subfigure}
+
+    \caption{Variation of $\foutstar$ and $\forwardalpha$ depths and width from 2x32 to 9x64. Increasing depth and width increases quality until depth 4 then the training seemingly becomes lest stable as shown by the 9x64 experiment. Since we keep the learning rate constant at 1e-3, it is likely that the MLPs training becomes unstable.
+    The state space is $\Statespace = \mathbb R^2$,  to ensure $\Fout(\Statespace)<+\infty$, we constrain $\foutstar$ to be zero outside $[-4,4]^2$. 
+The EGF has 8 transformations which are translations, while the MLPs for $\forwardalpha$ and $\foutstar$ vary from 2x32 (2 hidden layer of width 32) to 9x64. Learning rate is kept at 0.001.
+    }
+    \label{fig:toyimg}
+\end{figure}
+
+% \section{Ablation study of DDPM on tiny models and toy 2D datasets}
+
+% \include{results/latex_figs/appendix_samples}
+\end{document}

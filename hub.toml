@@ -1,0 +1,27 @@
+# LeanArticles — hub configuration. Read by tools/*.py; nothing environmental is hardcoded elsewhere.
+
+[hub]
+name = "LeanArticles"
+canonical_host = "node1"          # the only host that runs lake, the gates and commits
+toolchain = "leanprover/lean4:v4.31.0"
+mathlib_rev = "fabf563a7c95a166b8d7b6efca11c8b4dc9d911f"
+
+# Directories that must never sync to Dropbox (xattr user.com.dropbox.ignored=1).
+# tools/dropbox_ignore.py creates them if absent and sets the attribute; `--check` fails
+# if one exists without it. Must run BEFORE the first `lake build`.
+dropbox_ignored = ["lean/.lake"]
+
+# The freeze: until this date nothing in the GFN line (GFNBoundsLean, GFNCertified, GFN Bounds)
+# is written by this repository, and `lib-check` is skipped under FREEZE=1 (DEC-2).
+[freeze]
+until = "2026-09-25"
+
+[papers]
+# slug -> directory under papers/. Order is the author's priority (DEC-4).
+order = ["egf", "nonacyclic", "ett", "syracuse", "dyniso", "gx", "yamabe"]
+
+# A paper whose gates cannot run yet, with the open question that blocks it. tools/papers_check.py
+# skips it LOUDLY, and tools/registers.py requires the question to exist and be OPEN: once it is
+# RULED, the block expires and the gate fails until the paper's gates run for real.
+[papers.blocked]
+nonacyclic = "OQ-3"

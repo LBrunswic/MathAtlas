@@ -1,0 +1,17 @@
+%!TEX root = ../../main.tex
+
+\section{Discussion}\label{sec:discussion}
+
+The Birkhoff polytope is the wrong constraint manifold for Hyper-Connections. Its contractive eigenvalue geometry causes partial spectral collapse that worsens with depth, and eigenspace misalignment between layers accelerates the decay. Orthogonal skip connections eliminate both failure modes while providing a strictly richer function class (dimension $q^2$ vs.\ $(q-1)^2 + 1$). The operator-valued Dyson pipeline developed here---collapsing the $N$-dimensional spectral problem to dimension $q$ via Kronecker structure---is what makes this comparison quantitatively precise.
+
+\medskip
+\noindent\textbf{Spectral stalling.}
+Partial spectral collapse is not merely an asymptotic concern. Four independent mechanisms in modern training each impose a hard cutoff $\sigma^*$ on the Jacobian singular values, below which gradient directions are operationally invisible to the optimiser (Appendix~\ref{app:spectral-stalling}). The binding constraint is $\sigma^* = \max(\sigma^*_{\mathrm{time}}, \sigma^*_{\mathrm{Adam}}, \sigma^*_{\mathrm{bf16}}, \sigma^*_{\mathrm{noise}})$, arising respectively from finite training horizon~\cite{saxe2014exact}, Adam's $\epsilon$-normalisation~\cite{kingma2015adam}, bf16 swamping~\cite{micikevicius2018mixed}, and mini-batch noise. In typical modern training (Adam, bf16, $T \sim 10^5$ steps), the bf16 floor and finite-time horizon are the dominant cutoffs. Our Dyson pipeline gives the spectral measure $\mu_\Sigma$ as a function of $A_q$, so the \emph{stalling fraction}---the mass below $\sigma^*$---is computable: $\rho_{\mathrm{stall}}(A_q, L, \sigma^*) = \int_0^{\sigma^*} d\mu_\Sigma(\sigma)$. For doubly stochastic $A_q$, contracting eigenvalue sectors push $\rho_{\mathrm{stall}}$ upward with depth. For orthogonal $A_q$, no sector contracts, and $\rho_{\mathrm{stall}}$ remains small. The effective training dimension is $n_{\mathrm{eff}} = n \cdot (1 - \rho_{\mathrm{stall}})$: spectral collapse becomes \emph{capacity loss}.
+
+\medskip
+\noindent\textbf{Limitations.}
+The Dyson equation requires isotropy of $D^l W^l$ (Section~\ref{sec:dyson-resnet}), which holds for i.i.d.\ Gaussian or orthogonally invariant weights but excludes sparse, low-rank, convolutional, or batch-normalised weight matrices. The mean-field treatment of the activation derivatives $D^l$ becomes exact only as $N \to \infty$~\cite{pennington2017resurrecting}. The Kronecker structure $A_q \otimes I_p$ captures multi-stream architectures but not general structured skip connections. The exponential-map parametrisation of $O(q)$ costs a matrix exponential per forward pass---negligible for the small $q \leq 8$ relevant in practice, but requiring more efficient parametrisations at larger $q$.
+
+\medskip
+\noindent\textbf{Outlook.}
+The most immediate next step is testing whether the spectral advantage persists at scale, in the large language models where mHC was originally developed. Extending the spectral analysis from initialisation to training dynamics---tracking how the Jacobian spectrum evolves as isotropy progressively breaks down---would connect the present theory to the dynamics of learning.

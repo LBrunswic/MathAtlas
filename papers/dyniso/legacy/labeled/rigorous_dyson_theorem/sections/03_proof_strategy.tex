@@ -1,0 +1,109 @@
+%!TEX root = ../../rigorous_dyson_theorem.tex
+
+\section{Proof Strategy for Main Theorem}
+
+We now prove Theorem \ref{thm:main} in several steps.
+
+\subsection{Exact resolvent expansion}
+
+From Lemma \ref{lem:resolvent-identity} applied to $\mcL = \mcL_0 - \mcX$, we have the exact identity:
+\begin{equation}\label{eq:exact-expansion}
+\mcR = \mcR_0 + \mcR_0 \mcX \mcR.
+\end{equation}
+
+Taking expectations and using that $\mcR_0$ is deterministic:
+\begin{equation}\label{eq:expectation-expansion}
+\E[\mcR] = \mcR_0 + \mcR_0 \E[\mcX \mcR].
+\end{equation}
+
+\textbf{The key challenge} is to compute $\E[\mcX \mcR]$ in terms of $\E[\mcR]$ alone, closing the equation.
+
+\subsection{Gaussian integration by parts}
+
+We first establish the integration by parts formula for Gaussian random variables.
+
+\input{rigorous_dyson_theorem/statements/lemmas/lem_stein}
+\emph{(Proof: See Appendix B, Lemma~\ref{lem:stein}).}
+
+\subsection{Self-energy computation}
+
+This is the heart of the proof. We compute $\E[\mcX \mcR]$ using Stein's lemma and isotropy.
+
+\input{rigorous_dyson_theorem/statements/propositions/prop_self_energy}
+\emph{(Proof: See Appendix B, Proposition~\ref{prop:self-energy}).}
+
+\begin{remark}[Isotropy Forces Scalar Structure]
+The key observation is that isotropy $\E[XBX^\top] = (\sigma^2/N)\Tr(B)I$ forces the self-energy to be proportional to the identity matrix in each block. This reduces the infinite-dimensional problem of tracking full $N \times N$ matrix structures to a finite-dimensional problem of tracking only two scalar order parameters $(m_{12}, m_{21})$. This dimensional reduction is the crucial simplification that makes the analysis tractable.
+\end{remark}
+
+\subsection{Fixed point analysis}
+
+We now prove that the Dyson equation \eqref{eq:dyson} has a unique solution.
+
+\input{rigorous_dyson_theorem/statements/propositions/prop_fixed_point}
+\emph{(Proof: See Appendix B, Proposition~\ref{prop:fixed-point}).}
+
+\subsection{Convergence proof}
+
+We now prove Part B of Theorem \ref{thm:main}.
+
+% CERTAINTY SCORE: 3/5 - FLAG FOR HUMAN EXPERT REVIEW
+% JUSTIFICATION: Self-consistent error equation E_N = K_N · E_N + R_N is stated but not derived rigorously.
+% KEY CONCERNS: (1) The matrix K_N and its properties (||K_N|| < 1) are not explicitly constructed.
+%               (2) Step 1 needs detailed derivation showing how E_N satisfies this equation.
+%               (3) Coupling to concentration inequality in Step 3 should be made more explicit.
+\begin{proof}[Proof of Theorem \ref{thm:main}, Part B]
+We need to show $\mcG_N(z) = \bTr(\E[\mcR_N(z)]) \to \bTr(\mcM(z))$ almost surely.
+
+\textbf{Step 1: Self-consistent error equation.} From Proposition \ref{prop:self-energy}, we have
+\[
+\E[\mcR] = \mcR_0 + \mcR_0 \bigl(\Sigma[\E[\mcR]] \E[\mcR] + \text{Error}\bigr).
+\]
+
+Rearranging:
+\[
+\bigl(\mcL_0 - \Sigma[\E[\mcR]]\bigr) \E[\mcR] = I + \mcR_0 \cdot \text{Error}.
+\]
+
+Taking the inverse:
+\[
+\E[\mcR] = \bigl(\mcL_0 - \Sigma[\E[\mcR]]\bigr)^{-1} + (\text{correction from Error}).
+\]
+
+Define the error $E_N = \bTr(\E[\mcR_N]) - \bTr(\mcM)$, where $\mcM$ is the fixed point of Proposition \ref{prop:fixed-point}.
+
+By the structure of the equations, $E_N$ satisfies
+\[
+E_N = K_N \cdot E_N + R_N,
+\]
+where:
+\begin{itemize}
+\item $K_N$ is a $2 \times 2$ matrix (deterministic given $A_N$) with $\norm{K_N} \leq C < 1$ for large $N$
+\item $R_N$ is the residual term from the Error in Proposition \ref{prop:self-energy}, with $\norm{R_N} = O(1/N)$
+\end{itemize}
+
+\textbf{Step 2: Solving for $E_N$.} From the self-consistent equation,
+\[
+(I - K_N) E_N = R_N.
+\]
+
+For large enough $N$, $I - K_N$ is invertible (since $\norm{K_N} < 1$), giving
+\[
+\norm{E_N} \leq \norm{(I - K_N)^{-1}} \cdot \norm{R_N} \leq \frac{1}{1 - \norm{K_N}} \cdot O(1/N) = O(1/N).
+\]
+
+\textbf{Step 3: Almost sure convergence.} The bound $\norm{E_N} = O(1/N)$ holds in expectation. By the concentration inequality (to be proven in Section 3.6), we also have
+\[
+\mathbb{P}\bigl(\norm{\mcG_N - \bTr(\mcM)} > t\bigr) \leq Ce^{-cNt^2}.
+\]
+
+By the Borel-Cantelli lemma, this implies almost sure convergence.
+\end{proof}
+
+\subsection{Concentration bounds}
+
+We establish the concentration of $\mcG_N$ around its expectation.
+
+\input{rigorous_dyson_theorem/statements/lemmas/lem_concentration}
+\emph{(Proof: See Appendix B, Lemma~\ref{lem:concentration}).}
+

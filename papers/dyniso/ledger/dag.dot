@@ -1,0 +1,40 @@
+digraph formalization {
+  rankdir=BT; node [style=filled,fontname="Helvetica",fontsize=9];
+  edge [color="#888888",arrowsize=0.6];
+  subgraph "cluster_body" {
+    label="body"; color="#cccccc";
+    "prop:kronecker-collapse" [label="prop:kronecker-collapse\nKronecker collapse", shape=ellipse, fillcolor="#ffffff"];
+    "def:r-transform" [label="def:r-transform\nFree Cumulants and R-transfo", shape=box, fillcolor="#ffffff"];
+    "prop:r-cauchy-relation" [label="prop:r-cauchy-relation\nR-transform functional equat", shape=ellipse, fillcolor="#ffffff"];
+    "ex:free-poisson" [label="ex:free-poisson\nFree Poisson distribution", shape=ellipse, fillcolor="#ffffff"];
+    "def:s-transform" [label="def:s-transform\nS-transform", shape=box, fillcolor="#ffffff"];
+    "rem:reconciliation_cauchy__s_transform_relation" [label="rem:reconciliation_cauchy__s_transform_relation\nReconciliation with the Cauc", shape=note, fillcolor="#ffffff"];
+    "rem:s_transform_particularly_natural_measures" [label="rem:s_transform_particularly_natural_measures\n", shape=note, fillcolor="#ffffff"];
+    "thm:s-linearization" [label="thm:s-linearization\nS-transform linearization", shape=doubleoctagon, fillcolor="#ffffff"];
+    "def:free-multiplicative-convolution" [label="def:free-multiplicative-convolution\nFree multiplicative convolut", shape=box, fillcolor="#ffffff"];
+    "thm:asymptotic-freeness" [label="thm:asymptotic-freeness\nAsymptotic freeness of indep", shape=doubleoctagon, fillcolor="#ffffff"];
+    "cor:jacobian-free-convolution" [label="cor:jacobian-free-convolution\nJacobian products in ResNets", shape=ellipse, fillcolor="#ffffff"];
+    "prop:s-from-dyson" [label="prop:s-from-dyson\nS-transform from Dyson equat", shape=ellipse, fillcolor="#ffffff"];
+    "thm:universal-via-s" [label="thm:universal-via-s\nUniversal spectral equation ", shape=doubleoctagon, fillcolor="#ffffff"];
+    "rem:universality_interpretation" [label="rem:universality_interpretation\nUniversality interpretation", shape=note, fillcolor="#ffffff"];
+    "rem:dynamical_isometry" [label="rem:dynamical_isometry\nDynamical isometry", shape=note, fillcolor="#ffffff"];
+    "thm:dykema" [label="thm:dykema\nDykema, 2006", shape=doubleoctagon, fillcolor="#ffffff"];
+    "prop:scalar-dyson" [label="prop:scalar-dyson\nScalar Dyson equation and z_", shape=ellipse, fillcolor="#ffffff"];
+    "rem:verification_recovery" [label="rem:verification_recovery\nVerification: q = 1 recovery", shape=note, fillcolor="#ffffff"];
+  }
+  "cor:jacobian-free-convolution" -> "thm:asymptotic-freeness";
+  "prop:s-from-dyson" -> "def:s-transform";
+  "thm:universal-via-s" -> "cor:jacobian-free-convolution";
+  "thm:universal-via-s" -> "prop:s-from-dyson";
+  "thm:universal-via-s" -> "def:s-transform";
+  "rem:universality_interpretation" -> "thm:universal-via-s";
+  "rem:verification_recovery" -> "def:s-transform";
+  subgraph "cluster_legend" {
+    label="legend"; color="#cccccc"; fontsize=10;
+    l0 [label="closed in Lean", fillcolor="#b7e4c7", shape=box];
+    l1 [label="stated, partial", fillcolor="#ffe08a", shape=box];
+    l2 [label="scaffold", fillcolor="#ffd6a5", shape=box];
+    l3 [label="no Lean", fillcolor="#ffffff", shape=box];
+    l0 -> l1 -> l2 -> l3 [style=invis];
+  }
+}

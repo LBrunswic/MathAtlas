@@ -1,0 +1,23 @@
+% Proof of Theorem \ref{thm:universal-resnet}
+\begin{proof}[Proof sketch]
+\textbf{Step 1: Free convolution.} The spectrum of a product $AB$ of free random matrices is given by the free multiplicative convolution $\mu_A \boxtimes \mu_B$. For residual networks, each layer contributes a factor $Y^l$, so
+\[
+\mu_{J^\top J} = \mu_{Y^1} \boxtimes \mu_{Y^2} \boxtimes \cdots \boxtimes \mu_{Y^L}.
+\]
+
+\textbf{Step 2: S-transform.} The S-transform linearizes free multiplicative convolution:
+\[
+S_{J^\top J}(z) = \prod_{l=1}^L S_{Y^l}(z).
+\]
+
+For $Y^l = aI + X^l$ with isotropic $X^l$, the S-transform can be computed from the Dyson equation (Theorem \ref{thm:main}) via the relation $S(z) = \frac{z+1}{z} G((z+1)/z)$.
+
+\textbf{Step 3: Composition and limit.} Composing the S-transforms and taking $L \to \infty$ with $c^l \sim c/L$ gives
+\[
+S_J(z) = a^{2L} \exp\Bigl(\int_0^z \frac{2c}{w(w+1)} dw\Bigr) = a^{2L} \exp\Bigl(2c\log\frac{z+1}{z}\Bigr).
+\]
+
+Inverting the S-transform to obtain $G(z)$ yields equation \eqref{eq:universal}.
+
+The detailed calculations are given in \cite{tarnowski2019dynamical}, equations (23)--(25).
+\end{proof}

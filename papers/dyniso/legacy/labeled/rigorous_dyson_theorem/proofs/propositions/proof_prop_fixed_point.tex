@@ -1,0 +1,119 @@
+% Proof of Proposition \ref{prop:fixed-point}
+\begin{proof}
+We prove existence and uniqueness using the Banach contraction mapping theorem on $\C$.
+
+\textbf{Step 1: Define the space.}
+Let
+\[
+\mcX = \bigl\{x \in \C : |x| \leq R\bigr\}
+\]
+for $R > 0$ to be determined. Equipped with the standard absolute value metric, $\mcX$ is a closed subset of the complete metric space $\C$.
+
+\textbf{Step 2: Explicit formula for $K(x)$.}
+For $x \in \mcX$, the perturbed linearization is
+\[
+\mcL_0(z) - \Sigma(x)
+= \begin{pmatrix} zI & -(A + \sigma^2 x I) \\ -(A^\top + \sigma^2 x I) & I \end{pmatrix}.
+\]
+
+By Lemma \ref{lem:block-inversion}, the $(1,2)$ block of the inverse is:
+\begin{align}
+\bigl((\mcL_0 - \Sigma(x))^{-1}\bigr)_{12}
+&= -(zI)^{-1}(A + \sigma^2 x I) \bigl(I - (A^\top + \sigma^2 x I)(zI)^{-1}(A + \sigma^2 x I)\bigr)^{-1} \notag\\
+&= \frac{1}{z}(A + \sigma^2 x I) \bigl(I - \tfrac{1}{z}(A^\top + \sigma^2 x I)(A + \sigma^2 x I)\bigr)^{-1}. \label{eq:K-explicit}
+\end{align}
+
+Taking the normalized block trace:
+\begin{equation}\label{eq:K-formula}
+K(x) = \frac{1}{Nz}\Tr\left((A + \sigma^2 x I)\left(I - \tfrac{1}{z}(A^\top + \sigma^2 x I)(A + \sigma^2 x I)\right)^{-1}\right).
+\end{equation}
+
+\textbf{Step 3: Bounded operator.}
+We show $K: \mcX \to \mcX$ for appropriate choice of $R$.
+
+Define $H(x) = (A^\top + \sigma^2 x I)(A + \sigma^2 x I)$. This matrix is self-adjoint and satisfies
+\[
+\norm{H(x)} \leq (\norm{A} + \sigma^2 |x|)^2 \leq (\norm{A} + \sigma^2 R)^2.
+\]
+
+For $|z| \geq \eta$ and $\eta > (\norm{A} + \sigma^2 R)^2/\eta$, the resolvent is bounded:
+\[
+\norm{\bigl(I - \tfrac{1}{z}H(x)\bigr)^{-1}} \leq \frac{|z|}{|z| - \norm{H(x)}/|z|} \leq \frac{\eta}{\eta - (\norm{A} + \sigma^2 R)^2/\eta}.
+\]
+
+Thus:
+\begin{align}
+|K(x)|
+&\leq \frac{1}{|z|} \cdot \frac{1}{N}\norm{A + \sigma^2 x I} \cdot \norm{\bigl(I - \tfrac{1}{z}H(x)\bigr)^{-1}} \cdot \sqrt{N} \notag\\
+&\leq \frac{1}{\eta} \cdot (\norm{A} + \sigma^2 R) \cdot \frac{\eta}{\eta - (\norm{A} + \sigma^2 R)^2/\eta}. \label{eq:K-bound}
+\end{align}
+
+Choose $R = \frac{2(\norm{A} + 1)}{\eta}$. Then for $\eta^2 > 2(\norm{A} + \sigma^2 R)^2$, we have
+\[
+|K(x)| \leq \frac{(\norm{A} + \sigma^2 R)}{\eta - (\norm{A} + \sigma^2 R)^2/\eta} \leq R/2 < R.
+\]
+
+Thus $K$ maps $\mcX$ to $\mcX$ when $\eta > \sqrt{2}(\norm{A} + 1)\sigma$.
+
+\textbf{Step 4: Lipschitz constant via resolvent derivative.}
+For $x^1, x^2 \in \mcX$, define $R_1 = (\mcL_0 - \Sigma(x^1))^{-1}$ and $R_2 = (\mcL_0 - \Sigma(x^2))^{-1}$.
+
+By the resolvent identity (Lemma \ref{lem:resolvent-identity}):
+\[
+R_1 - R_2 = R_1 \bigl(\Sigma(x^2) - \Sigma(x^1)\bigr) R_2.
+\]
+
+The self-energy difference satisfies:
+\[
+\Sigma(x^2) - \Sigma(x^1) = \sigma^2(x^2 - x^1) \begin{pmatrix} 0 & I \\ I & 0 \end{pmatrix},
+\quad
+\norm{\Sigma(x^2) - \Sigma(x^1)} \leq 2\sigma^2 |x^2 - x^1|.
+\]
+
+Taking the $(1,2)$ block and extracting the block trace:
+\begin{align}
+|K(x^1) - K(x^2)|
+&= \bigl|\bTr\bigl((R_1)_{12} - (R_2)_{12}\bigr)\bigr| \notag\\
+&\leq \frac{1}{N}\norm{(R_1)_{12} - (R_2)_{12}}_F \cdot \sqrt{N} \notag\\
+&\leq \norm{R_1} \cdot \norm{\Sigma(x^2) - \Sigma(x^1)} \cdot \norm{R_2} \notag\\
+&\leq \frac{C^2}{\eta^2} \cdot 2\sigma^2 |x^2 - x^1|, \label{eq:lipschitz-K}
+\end{align}
+where $C = C(\norm{A})$ is the resolvent bound constant.
+
+For $\eta > \sqrt{2}C\sigma$, the Lipschitz constant $L = 2C^2\sigma^2/\eta^2 < 1$.
+
+\textbf{Step 5: Apply Banach fixed-point theorem.}
+Under the condition $\eta > \max\{\sqrt{2}(\norm{A} + 1)\sigma, \sqrt{2}C\sigma\} = 2(1 + \norm{A})\sigma$, the operator $K: \mcX \to \mcX$ is a contraction on the closed subset $\mcX$ of the complete metric space $(\C, |\cdot|)$.
+
+By the Banach fixed-point theorem, there exists a unique fixed point $x^* \in \mcX$ satisfying $x^* = K(x^*)$.
+
+\textbf{Step 6: Herglotz property.}
+We verify that $\Im(m_{11}) > 0$ where $m_{11}$ is given by \eqref{eq:m11-from-x}.
+
+Define $H = (A + \sigma^2 x^* I)(A^\top + \sigma^2 x^* I)$. This matrix is self-adjoint and positive semidefinite.
+
+By the spectral theorem, $H = U \Lambda U^\top$ with $U$ orthogonal and $\Lambda = \mathrm{diag}(\lambda_1, \ldots, \lambda_N)$ with $\lambda_j \geq 0$. Thus:
+\[
+(zI - H)^{-1} = U \mathrm{diag}\Bigl(\frac{1}{z - \lambda_j}\Bigr) U^\top.
+\]
+
+For $z = x + iy$ with $y = \Im(z) > 0$ and real $\lambda_j \geq 0$:
+\[
+\Im\Bigl(\frac{1}{z - \lambda_j}\Bigr) = \frac{y}{|z - \lambda_j|^2} > 0.
+\]
+
+By the spectral decomposition:
+\[
+\Im((zI - H)^{-1}) = U \cdot \mathrm{diag}\Bigl(\frac{y}{|z - \lambda_j|^2}\Bigr) \cdot U^\top \succeq 0.
+\]
+
+Since this is positive semidefinite, its normalized trace is positive:
+\[
+\Im(m_{11}) = \Im\Bigl(\frac{1}{N}\Tr((zI - H)^{-1})\Bigr) = \frac{1}{N}\sum_{j=1}^N \frac{y}{|z - \lambda_j|^2} > 0.
+\]
+
+\textbf{Step 7: Dyson equation.}
+Setting $m_{12} = m_{21} = x^*$ and computing $m_{11}, m_{22}$ via \eqref{eq:m11-from-x}--\eqref{eq:m22-from-x}, the $2 \times 2$ matrix $m = (m_{ij})$ satisfies $m = T(m)$ where $T$ is the operator from the original matrix formulation.
+
+The corresponding $2N \times 2N$ block matrix $\mcM(z) = \mcM[m]$ with blocks $M_{ij} = m_{ij} I_N$ satisfies the Dyson equation \eqref{eq:dyson-fp}. Continuity of $x(z)$ in $z$ follows from the contraction mapping theorem.
+\end{proof}

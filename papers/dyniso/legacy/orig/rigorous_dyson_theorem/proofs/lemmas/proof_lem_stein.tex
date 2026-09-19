@@ -1,0 +1,12 @@
+% Proof of Lemma \ref{lem:stein}
+\begin{proof}
+This is the standard Gaussian integration by parts (Stein's lemma). For $X_{ij} \sim \mathcal{N}(0, \sigma^2/N)$ independent of other variables, and any smooth function $\phi$:
+\begin{align}
+\E[X_{ij} \phi(X)]
+&= \int X_{ij} \phi(X) \cdot \frac{\sqrt{N}}{\sigma\sqrt{2\pi}} e^{-N X_{ij}^2/(2\sigma^2)} dX_{ij} \\
+&= \int \phi(X) \cdot \Bigl(-\frac{\sigma^2}{N} \frac{\partial}{\partial X_{ij}}\Bigr) \frac{\sqrt{N}}{\sigma\sqrt{2\pi}} e^{-NX_{ij}^2/(2\sigma^2)} dX_{ij} \\
+&= \frac{\sigma^2}{N} \int \frac{\partial \phi}{\partial X_{ij}}(X) \cdot \frac{\sqrt{N}}{\sigma\sqrt{2\pi}} e^{-NX_{ij}^2/(2\sigma^2)} dX_{ij} \\
+&= \frac{\sigma^2}{N} \E\Bigl[\frac{\partial \phi}{\partial X_{ij}}\Bigr].
+\end{align}
+Applying componentwise to $F$ gives the result.
+\end{proof}

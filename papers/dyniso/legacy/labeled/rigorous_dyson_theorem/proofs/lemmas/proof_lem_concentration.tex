@@ -1,0 +1,31 @@
+% Proof of Lemma \ref{lem:concentration}
+\begin{proof}
+We use the Lipschitz concentration inequality for Gaussian random variables.
+
+\textbf{Step 1: Lipschitz constant.} The function $F(X) = \bTr(\mcR(X))$ depends on $X$ through the resolvent. We compute the Lipschitz constant with respect to the Frobenius norm on $X$.
+
+Let $X, X'$ differ in a single entry $(i, j)$ by amount $\Delta$. Then
+\begin{align}
+\norm{\mcR(X) - \mcR(X')}_F
+&\leq \norm{\mcR(X)(\mcL(X') - \mcL(X))\mcR(X')}_F \\
+&= \norm{\mcR(X) \cdot \Delta \cdot e_i e_j^\top \cdot \mcR(X')}_F \\
+&\leq |\Delta| \cdot \norm{\mcR(X)} \cdot \norm{\mcR(X')} \\
+&\leq \frac{|\Delta|}{\eta^2},
+\end{align}
+using Corollary \ref{cor:block-resolvent-bounds}.
+
+Thus the Lipschitz constant is $L = \frac{1}{\eta^2}$ per entry.
+
+\textbf{Step 2: Total Lipschitz bound.} Summing over all $N^2$ entries with variance $\sigma^2/N$ each:
+\[
+\text{Total Lipschitz constant} \leq \frac{N^2 \cdot \sigma^2/N}{\eta^4} = \frac{N\sigma^2}{\eta^4}.
+\]
+
+\textbf{Step 3: Gaussian concentration.} By the Gaussian concentration inequality (see Appendix B),
+\[
+\mathbb{P}(|F(X) - \E[F(X)]| > t) \leq 2\exp\Bigl(-\frac{t^2}{2L^2}\Bigr),
+\]
+where $L^2 = \frac{C \sigma^2}{\eta^4 N}$ is the variance-adjusted Lipschitz constant.
+
+Substituting gives the result.
+\end{proof}

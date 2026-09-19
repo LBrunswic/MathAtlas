@@ -1,0 +1,20 @@
+\begin{theorem}[Universal Spectrum for Residual Networks]\label{thm:universal-resnet}
+Consider a residual network with $L$ layers, skip connection $a = 1$, and activation function $\phi$. Define the \emph{effective cumulant}
+\begin{equation}\label{eq:effective-cumulant}
+c = \frac{1}{L}\sum_{l=1}^L c^l, \quad c^l = \frac{\sigma_w^2}{L} \, \E_{Z\sim\mathcal{N}(0,1)}\bigl[\phi'(\sqrt{q^l}\,Z)^2\bigr],
+\end{equation}
+where $q^l$ is the variance of pre-activations at layer $l$.
+
+In the large depth limit $L \to \infty$, the Stieltjes transform $G(z)$ of the singular values of $J$ satisfies the \emph{universal equation}:
+\begin{equation}\label{eq:universal}
+\boxed{a^{2L} G(z) = (zG(z) - 1) \exp\bigl(z(1 - 2c G(z))\bigr).}
+\end{equation}
+
+\textbf{Crucially, this equation depends only on:}
+\begin{itemize}
+\item The depth $L$
+\item The effective cumulant $c$
+\item The skip connection strength $a$
+\end{itemize}
+and is \textbf{independent of the specific choice of activation function} $\phi$ (beyond its contribution to $c$).
+\end{theorem}

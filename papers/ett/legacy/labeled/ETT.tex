@@ -1,0 +1,2362 @@
+\documentclass[a4paper,twoside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+
+\usepackage{yhmath,amsfonts,amssymb,amsmath,MnSymbol, mathrsfs,amsbsy,eqnarray}
+\usepackage{wrapfig}
+\usepackage{amsthm}
+\usepackage[colorlinks=true, linkcolor=black,citecolor=black]{hyperref}
+
+\usepackage{enumerate}
+\usepackage{mdframed}
+\usepackage{graphicx}
+\usepackage[all]{xy}
+\usepackage{pgf,tikz}
+\usepackage{epigraph}
+\usepackage{makeidx}
+
+%% Other Packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{color}                          % colors
+\usepackage{framed}                         % frames
+
+\usepackage{enumitem}
+
+% Interval-of-integers brackets (formerly supplied by stmaryrd).
+\providecommand{\lsem}{[\![}
+\providecommand{\rsem}{]\!]}
+
+% ---------------------------------------------------------------------------
+% Editorial switch.  \draftnotestrue  makes the remaining editorial gaps
+% visible in the margin and in the text; \draftnotesfalse produces the clean
+% submission build.  See the "Editorial status" note at the end of the source.
+% ---------------------------------------------------------------------------
+\newif\ifdraftnotes
+\draftnotestrue
+\newcommand{\gap}[1]{\ifdraftnotes\medskip\noindent\fbox{\begin{minipage}{0.92\linewidth}\small\textbf{[to be supplied]} #1\end{minipage}}\medskip\fi}
+
+\newcommand{\fonction}[5]{\displaystyle#1:\begin{array}{l|rcl}
+& \displaystyle #2 & \longrightarrow & \displaystyle #3 \\
+    & \displaystyle #4 & \longmapsto & \displaystyle #5 \end{array}}
+
+\newcommand{\fonctiondeux}[7]{\displaystyle#1:\begin{array}{l|rcl}
+& \displaystyle #2 & \longrightarrow & \displaystyle #3 \\
+    & \displaystyle #4 & \longmapsto & \displaystyle #5 \\
+     & \displaystyle #6 & \longmapsto & \displaystyle #7\end{array}}
+
+\newcommand{\fonctionn}[4]{
+	\displaystyle\begin{array}{l|rcl}
+	& \displaystyle #1 & \longrightarrow & \displaystyle #2 \\
+    & \displaystyle #3 & \longmapsto & \displaystyle #4 \end{array}
+}
+
+\newcommand{\connexe}[2]{
+	\mathrm{CC}\left(#1,#2\right)
+}
+
+\input{alias.tex}
+% Title Page
+\title{Topological spacetimes (I): from scratch to Geroch's and Choquet-Bruhat--Geroch's Theorems}
+\author{Léo Brunswic}
+
+\newcommand{\mass}[1]{\mathbb{E}^{1,2}_{#1}}
+\newcommand{\dS}[1]{\mathbb S^{1,1}_{#1} }
+
+\newtheorem{lem}{Lemma}[section]
+\newtheorem{cor}[lem]{Corollary}
+\newtheorem{prop}[lem]{Proposition}
+\newtheorem*{propn}{Proposition}
+\newtheorem{propri}[lem]{Property}
+\newtheorem{defi}[lem]{Definition}
+\newtheorem*{defin}{Definition}
+\newtheorem{theo}{Theorem}
+\newtheorem*{theon}{Theorem}
+\newtheorem*{problem}{Problem}
+\newtheorem{cexemple}[lem]{Counter-example}
+\newtheorem{exemple}[lem]{Example}
+\newtheorem{rem}[lem]{Remark}
+\newtheorem{conjecture}[lem]{Conjecture}
+\newtheorem{question}[lem]{Open questions}
+\newtheorem{notation}[lem]{Notation}
+\newtheorem{exercice}[lem]{Exercise}
+
+\renewcommand{\thefigure}{\arabic{figure}}
+
+\makeindex
+\newcommand\subsetcirc{\mathrel{\mathpalette\opncls\circ}}
+\newcommand\cls{\mathrel{\mathpalette\opncls\bullet}}
+\newcommand{\opncls}[2]{%
+  \ooalign{$#1\subset$\cr
+  \hidewidth\raisefix{#1}\hbox{\scalebox{0.8}{\hbox{$#1#2\mkern.55mu$}}}\cr}}
+
+\def\raisefix#1{%
+  \ifx#1\displaystyle
+    \raise-.35ex
+  \else
+    \ifx#1\textstyle
+      \raise-.35ex
+    \else
+      \ifx#1\scriptstyle
+        \raise-.20ex
+      \else
+        \raise.150ex
+      \fi
+    \fi
+  \fi
+}
+
+	\definecolor{DarkColor}{gray}{0.75}
+	\definecolor{LightColor}{gray}{0.9}
+	\definecolor{LightGrey}{rgb}{0.96,0.96,0.96}
+	\definecolor{DarkGrey}{rgb}{0.83,0.83,0.83}
+	\definecolor{BaseColor}{rgb}{0.64,0.69,0.31}
+	\definecolor{TextColor}{rgb}{0.44,0.49,0.11}
+
+\def\tll{\ll}
+\def\tlleq{\ll}
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We propose a notion of \emph{topological spacetime}: a second countable Hausdorff space endowed
+with a sheaf of pairs of relations, one a causal preorder and one an open chronological relation.
+This axiomatises causality without reference to a metric, to a manifold structure or to a cone
+field, and it covers at once Lorentzian manifolds of low regularity, cone fields, and the singular
+flat spacetimes carrying massive particles and BTZ lines.
+
+The framework is built around one deliberate omission: we do \emph{not} assume the push-up property
+$\mathrm{Int}(J^\pm)\subset \overline{I^\pm}$. Push-up is the silent hypothesis of classical causal
+theory, and it fails in both families of spacetimes we wish to cover. Below Lipschitz regularity
+light cones bubble up, and a causal bubble is by definition a non-empty open subset of $J^+$
+disjoint from $I^+$; at a BTZ point, $I^-(p)$ is empty while $J^-(p)$ is not. The two failures are
+the same phenomenon, and together they are the reason the classical construction of a time function
+breaks down precisely where these spacetimes are interesting.
+
+We first prove that a family of absolutely minimal local causalities on an open cover of a Baire
+space generates a causality; this equips every singular $(G,X)$-manifold with a canonical causal
+structure. We then introduce the \emph{continuously reachable} past and future $K^\pm$, which
+coincides with $I^\pm$ exactly where push-up holds and which replaces it as the support of an
+admissible (Dieckmann) measure. Using $K^\pm$ we prove a generalised Geroch theorem --- for a
+metrizable, locally compact, tarentin, causally arc-connected and locally causally convex
+topological spacetime carrying admissible measures, global hyperbolicity, the existence of a Cauchy
+time function and the existence of a Cauchy hypersurface are equivalent --- and we specialise it to
+singular flat spacetimes, where we further obtain the splitting $M\simeq \Sigma\times \RR$.
+
+Admissibility, it turns out, must be taken one-sided: no measure on a spacetime carrying a BTZ line
+is admissible in the past and in the future at once.
+
+Finally we prove the Choquet-Bruhat--Geroch theorem in this setting: a globally hyperbolic singular
+flat spacetime admits a maximal Cauchy extension, unique up to isomorphism. Here $K^-$ plays a second
+role. What obstructs the gluing of two Cauchy extensions is a pair of points that the quotient fails
+to separate, and such a pair is detected by the equality of their continuously reachable pasts; the
+statement that makes this work is not the injectivity of $x\mapsto K^-(x)$ but the fact that it is an
+embedding of ordered sets, which we deduce from the density of $K^\pm$ in $J^\pm$.
+\end{abstract}
+
+\newpage
+
+\setlength{\voffset}{-.50in}
+\tableofcontents
+
+\section{General Introduction}
+
+A Lorentzian manifold $M$ is an orientable differential manifold of dimension
+$n\in \N^*$ endowed with a metric, i.e. with a field $g$ of non-degenerate symmetric
+$2$-tensors of signature $(1,n-1)$. Such a manifold comes naturally with a
+``causality'': a distinguished class $\CC$ of connected curves, stable under
+concatenation and under passing to connected subsets. An element of this class is
+called a causal curve, and one says that a point $p$ lies in the past of a point $q$
+when there is such a curve starting at $p$ and ending at $q$. Since the metric is not
+definite, the tangent vectors $X_p\in T_pM$ split according to the sign of
+$g(X_p,X_p)$. When $n\geq 3$, this trichotomy divides the set of non-trivial vectors
+above a point $p$ into five connected components: two of negative ``norm'', two of
+zero ``norm'' and one of positive ``norm''. If a continuous choice of ``negative''
+component can be made over all of $M$, the manifold is said to be time orientable.
+Historically it is mainly $\CC^1$ Lorentzian manifolds that were considered; in that
+context the theory works perfectly and everything is nice and easy.
+
+Much recent work (Brunswic, Barbot, Sbierski, Seppi, Bonsante, Schlenker, Fillastre,
+Chru\'sciel, Galloway, Fathi, Siconolfi, S\'anchez, Bernal, Fl\'orez, Papadopoulos,
+\dots) and some older work (Busemann, Swiss-cheese spacetimes) has come to consider
+more general classes of spacetimes which are Lorentzian only in a weak sense, or not
+Lorentzian at all. \emph{Weakly Lorentzian} may mean that the metric is known only up
+to a conformal factor, or that it has low regularity
+\cite{MR2949547,MR3500220,MR4047145,lefloch2010global}. Examples of non-Lorentzian
+spacetimes are given by spacetimes with singularities occurring at specific places
+\cite{carlip_1998,0264-9381-10-5-019,tHooft1988,seppiH2,Particules_2,Particules_1,brunswic:hal-01317447,thesis,GXramcover},
+and by causalities arising from weaker structures such as a non-definite Finsler
+metric \cite{MR4009771}, a cone field \cite{MR2887877,MR3783554,MR3955368}, a
+time-separation function \cite{papadopoulos:hal-01276762}, a PDE-driven definition, or
+a synthetic geometric definition \cite{MR3916126}. To our knowledge, Busemann and
+Sorkin excepted, few attempts at formalising the notion of causal structure have been
+made so far.
+
+Our goal is to be able to carry out effective causal arguments under weak topological
+assumptions and irrespectively of the way the causality was constructed. Among the
+``elementary'' theorems one would like to have in a good theory of topological
+spacetimes, those of Geroch and of Choquet-Bruhat--Geroch play a central role. Three
+new difficulties arise:
+\begin{itemize}
+\item the local topology of our spacetime need not even be that of a manifold;
+\item the local causality may be wildly different from that of Minkowski space;
+\item theorems such as Choquet-Bruhat--Geroch need a notion of analyticity adapted to
+this weak setting.
+\end{itemize}
+
+A fourth difficulty is less visible and turns out to organise the whole work. Classical causal
+theory rests on the push-up property: the interior of a causal future is contained in the closure of
+the corresponding chronological future. That property is not available to us. Below local Lipschitz
+regularity of the metric it fails outright --- light cones cease to be hypersurfaces and bubble up,
+and a \emph{causal bubble} is a non-empty open subset of $J^+(p)$ disjoint from $I^+(p)$
+\cite{MR2949547,MR3500220,samann2024nonregular} --- and it fails again, in degenerate form, at the
+BTZ points of a singular flat spacetime, where the chronological past is empty while the causal past
+is not. Since our stated aim is to cover both, push-up cannot be an axiom; we isolate it as the
+property of being \emph{causally plain} (Definition \ref{defi:causalement_plat}) and require it only
+where it is genuinely needed. The invariant $K^\pm$ of Definition \ref{defi:futur_continue} is what
+takes its place.
+
+We do retain one hypothesis of the same family: that $\ll$ is open. This is not innocent either ---
+Grant, Kunzinger and S\"amann \cite{MR4047145} construct continuous metrics whose chronological
+futures are not open --- and we state it as a limitation rather than pass over it.
+
+This work is threefold: first we lay down foundations around a notion of topological
+spacetime; second we prove classical causality results in this context, in particular
+an adaptation of Geroch's Theorem; third we show how recent work relates to our
+definitions and hypotheses.
+
+\section{Definition, constructions, examples}
+	\subsection{Causality}
+		\begin{defi}[The category $\mathbf{C}$]\label{defi:categorie_C}
+			Let $\mathbf{C}$ be the category whose objects are triples $(X,\leq, \tlleq)$ where $X$ is a topological space, $\leq$ is a preorder, and $\tlleq$ is a transitive relation contained in $\leq$ and open --- that is, $\{y~|~x\tlleq y\}$ and $\{y~|~y \tlleq x\}$ are open for every $x\in X$; and whose morphisms are the non-decreasing maps.
+		\end{defi}
+		\begin{rem}\label{rem:relation_not_assumed_reflexive} The relation $\tlleq$ is \emph{not} assumed reflexive: no point of Minkowski space lies in its own chronological future, and a BTZ point has empty chronological past (Definition \ref{defi:causal_E0}).
+		\end{rem}
+		\begin{defi}[Causality]\label{defi:causalite}
+			Let $M$ be a topological space. A causality $\mathscr{C}$ on $M$ is a sheaf on $M$ with values in the category $\mathbf{C}$.
+			For every open subset $\U$ of $M$ and every subset $A\subset \U$ we write
+			$$J^+_\U(A) := \{y\in \U ~|~ \exists x\in A, x\leq_\U y\}, \quad \quad I^+_\U(A):=\{y\in \U ~|~\exists x\in A, x\tll_\U y\}, $$
+			$$J^-_\U(A) := \{y\in \U ~|~ \exists x\in A, x\geq_\U y\}, \quad \quad I^-_\U(A):=\{y\in \U ~|~\exists x\in A, x\succ_\U y\}.$$
+
+			Openness of $\ll$ is a standing assumption of this work. It is not innocent: Grant, Kunzinger and S\"amann \cite{MR4047145} exhibit continuous Lorentzian metrics whose chronological futures fail to be open. Our framework therefore stops short of that regularity, and we say so deliberately rather than silently.
+
+			Equivalently, a causality is a pair $(\leq,\tll )=(\leq_{\U},\ll_\U)_{\U\subset M}$ of families of preorder relations on $M$, where $\U$ ranges over the open subsets of $M$, such that the following holds for every open subset $\U$ of $M$:
+			\begin{enumerate}[label=(\alph*)]
+				\item $\leq_\U$ is a preorder, i.e. reflexive and transitive;
+				\item for every open $\V\subset \U$ and all $x,y\in \V$,
+					$$x\leq_{\V}y \Rightarrow  x\leq_{\U}y \quad \text{and }\quad x\ll_{\V}y\Rightarrow  x\ll_{\U}y;$$
+				\item for every $A\subset \U$, $$I_\U^\pm(A)\subset J_\U^\pm(A).$$
+			\end{enumerate}
+		\end{defi}
+
+		\begin{defi}[Category of topological spacetimes]\label{def:category_topological_spacetimes}
+			A topological spacetime is a second countable Hausdorff topological space endowed with a causality. A strong morphism $M\rightarrow N$ between topological spacetimes $M$ and $N$ is an open map inducing a sheaf morphism.
+
+			A weak morphism $\phi:M\rightarrow N$ is a continuous map such that for every $x\in M$ and every neighbourhood $\U$ of $\phi(x)$ there exists a neighbourhood $\V\subset \phi^{-1}(\U)$ of $x$ such that $\phi_{|\V}^{|\U}$ is non-decreasing.
+		\end{defi}
+		\begin{exemple}\label{ex:open_subset}
+		 An open subset of a topological spacetime carries a unique topological spacetime structure for which the inclusion is a strong morphism.
+
+		 More generally, if $\phi:N\rightarrow M$ is a local homeomorphism onto a topological spacetime $M$, then $N$ carries a unique causality for which $\phi$ is a local isomorphism of topological spacetimes.
+		\end{exemple}
+
+		\begin{exemple}[Causalities on lines]\label{ex:causalities_lines}
+		\begin{enumerate}
+			\item \textbf{The timelike line}
+				$(\RR,\leq,\leq)$ is $\RR$ endowed with the family of binary relations $(\leq_\U,\ll_\U)_{\U}$ given by:
+				$x\leq_\U y$ (resp. $x\ll_\U y$) if and only if $x\leq y$ (resp. $x< y$) and $x,y$ lie in the same connected component of $\U$, where $\leq$ is the usual order of $\RR$.
+			\item
+				\textbf{The lightlike line} $(\RR,\leq,\emptyset)$ is $\RR$ endowed with the family of binary relations $(\leq_\U,\ll_\U)_{\U}$ where $\leq_\U$ is the same as for the timelike line and $\ll_\U=\emptyset$ for every open $\U$.
+			\item \textbf{The spacelike line} $(\RR,\emptyset,\emptyset)$.
+			\item Galileo's spacetime $(\RR^{n+1},\leq,\ll)$, where for every open $\U$,
+				$$(t,x_1,\cdots,x_n)\ll_{\U}  (t',x_1',\cdots,x_n')$$ if $t<t'$ and both points lie in the same connected component of $\U$; and $p\leq_\U q$ if $p\ll_\U q$ or $p=q$.
+			\item
+				Minkowski spacetime $\E^{1,n}$ for $n\geq1$, and more generally every Lorentzian manifold.
+		\end{enumerate}
+		\end{exemple}
+
+
+We single out, but do \emph{not} require, the property which classical causal theory takes for granted.
+
+\begin{defi}[Causally plain]\label{defi:causalement_plat}\index{Causally plain}
+A topological spacetime $M$ is \emph{causally plain} if for every open subset $\U$ of $M$ and every $A\subset \U$,
+$$\mathrm{Int}\left(J^\pm_\U(A)\right)\subset \overline{I^\pm_\U(A)},$$
+equivalently if every non-empty open subset of $J^\pm_\U(A)$ meets $I^\pm_\U(A)$.
+\end{defi}
+
+\begin{rem}[Why causal plainness is not an axiom]\label{rem:pas_plat}
+This is the \emph{push-up} property, and it fails in the two families of spacetimes this work exists to cover. The two failures are the same phenomenon.
+
+\begin{enumerate}[label=(\roman*)]
+\item \emph{Low regularity.} Local Lipschitz continuity of the metric is the threshold below which causal theory degenerates: light cones cease to be hypersurfaces and \emph{bubble up}, and a \emph{causal bubble} is by definition a non-empty open subset of $J^+(p)$ disjoint from $I^+(p)$ --- an explicit violation of Definition \ref{defi:causalement_plat}. See Chru\'sciel and Grant \cite{MR2949547}, S\"amann \cite{MR3500220} and the survey \cite{samann2024nonregular}.
+\item \emph{Singularities.} At a BTZ point $p$ of a $\mass{\geq0}$-manifold, $I^-(p)=\emptyset$ while $J^-(p)$ is the singular half-line below $p$ (Definition \ref{defi:causal_E0}). This is the degenerate case of the same defect: causal past without chronological past.
+\end{enumerate}
+
+Imposing causal plainness as an axiom would therefore exclude precisely the objects announced in the introduction. This is the reason for the invariant $K^\pm$ of Definition \ref{defi:futur_continue}: it agrees with $I^\pm$ wherever push-up holds (Proposition \ref{prop:tarentin_fort_K}), and it is what carries Geroch's Theorem through where push-up fails.
+\end{rem}
+\begin{rem}\label{rem:droites_pas_plates}
+Items $2$ and $3$ are not causally plain: for the lightlike line, $\mathrm{Int}\left(J^+(0)\right)=]0,+\infty[$ whereas $I^+(0)=\emptyset$. They are the simplest illustrations of Remark \ref{rem:pas_plat}, and they are topological spacetimes in our sense precisely because Definition \ref{defi:causalement_plat} is not an axiom.
+		\end{rem}
+
+We single out a second, relational form of push-up. It is logically independent of Definition
+\ref{defi:causalement_plat}, it is likewise not an axiom, and it is the form that singular flat
+spacetimes do satisfy.
+
+\begin{defi}[Push-up property]\label{defi:pushup}\index{Push-up}
+A topological spacetime $M$ has the \emph{push-up property} if for every open subset $\U$ of $M$ and
+every $x\in \U$,
+$$J^\pm_\U\left(I^\pm_\U(x)\right)\subset I^\pm_\U(x) \qquad\text{and}\qquad I^\pm_\U\left(J^\pm_\U(x)\right)\subset I^\pm_\U(x);$$
+equivalently, concatenating a causal relation with a chronological one produces a chronological one.
+\end{defi}
+
+\begin{rem}[The two forms are independent]\label{rem:deux_pushup}
+Definitions \ref{defi:causalement_plat} and \ref{defi:pushup} are the topological and the relational
+form of one classical phenomenon, and neither implies the other. The lightlike line has
+$I^\pm=\emptyset$, so it has the push-up property vacuously while failing to be causally plain
+(Remark \ref{rem:droites_pas_plates}). Conversely, causal plainness is a statement about
+$\mathrm{Int}\left(J^\pm\right)$ and is silent at a point whose causal future or past has empty
+interior.
+
+The two are used for different purposes below. Causal plainness is what makes $K^\pm$ collapse onto
+$I^\pm$ (Proposition \ref{prop:tarentin_fort_K}). The push-up property is what makes $I^\pm(x)$
+\emph{dense} in $J^\pm(x)$, hence what turns the injectivity of $x\mapsto K^\pm(x)$ into an embedding
+of ordered sets (Proposition \ref{prop:K_plongement_ordre}); it is local (Lemma
+\ref{lem:pushup_local}) and it holds in the model spaces of Section \ref{subsec:sing_spacetime_defi}
+(Remark \ref{rem:pushup}).
+\end{rem}
+\begin{defi}[Causal chain]\label{def:causal_chain}
+Let $(M,\leq,\ll)$ be a topological spacetime.
+A causal chain is an embedding $c:(X,\leq) \rightarrow M$ where $(X,\leq)$ is linearly ordered and endowed with the order topology, and where $c$ is a causal morphism.
+A subset $S\subset M$ is a causal chain of $M$ if for every $x\in S$ and every neighbourhood $\U$ of $x$ there exists a neighbourhood $\V\subset \U$ of $x$ such that $S\cap \V$ is totally ordered for $\leq_\V$.
+\end{defi}
+\begin{defi}[Maximal chain]\label{def:maximal_chain}
+A causal chain of $M$ is maximal if it is maximal for the inclusion among causal chains of $M$.
+\end{defi}
+\begin{defi}[Causally connected]\label{def:causally_connected}
+Let $(M,\leq,\ll)$ be a topological spacetime.
+$M$ is causally connected if for all $p,q\in M$ such that $p\leq_M q$ there exists a connected maximal causal chain from $p$ to $q$.
+\end{defi}
+
+\begin{defi}[Diamonds]\label{def:diamonds}
+Let $M$ be a topological spacetime. For every open $\U$ of $M$ and all $p,q \in M$ we define
+\begin{itemize}
+\item $J_\U(p,q) := J^-_\U(q)\cap J^+_\U(p)$, the full diamond from $p$ to $q$;
+\item $\ring{J}_\U(p,q): = \mathrm{Int}(J_\U(p,q))$, the open diamond from $p$ to $q$.
+\end{itemize}
+\end{defi}
+
+\begin{defi}[Causally compact]\label{def:causally_compact}
+Let $(M,\leq,\ll)$ be a topological spacetime. $M$ is causally compact if the diamond $J(p,q)$ is compact for all $p,q\in M$.
+\end{defi}
+\begin{defi}[Causally complete]\label{def:causally_complete}
+Let $(M,\leq,\ll)$ be a topological spacetime. $M$ is causally complete if every maximal causal chain is Dedekind-complete \cite{MR1631533}.
+\end{defi}
+\begin{rem}\label{rem:causal_completeness_slightly_weaker}
+Causal completeness is slightly weaker than causal compactness.
+\end{rem}
+
+\begin{defi}[Causal/chronological curve]\label{def:causal_chronological_curve} Let $(M,\leq,\ll)$ be a topological spacetime and let $I$ be an interval of $\RR$. A causal curve $c:I\rightarrow M$ is a connected causal chain.
+\end{defi}
+
+\subsection{Generated causality}
+\begin{defi}[Precausality]\label{def:precausality}\index{Precausality}
+Let $M$ be a topological space. A sheaf $(\leq,\ll)$ of pairs of transitive binary relations is a precausality if it satisfies hypotheses $(a)$ and $(b)$ of Definition \ref{defi:causalite}.
+\end{defi}
+\begin{lem}\label{lem:union_causalite} Let $M$ be a topological space and let $(\U_i)_{i\in I}$ be an open cover of $M$.
+Assume that
+\begin{enumerate}[label=(\Alph*)]
+\item each $\U_i$ is endowed with a precausality;
+\item for all $i,j\in I$, the restrictions of $\ll^i$ and $\ll^j$ (resp. of $\leq^i$ and $\leq^j$) to $\U_i\cap \U_j$ are equal.
+\end{enumerate}
+Then there exists a minimal precausality $(\leq,\ll)$ extending the family $(\leq^i,\ll^i)_{i\in I}$, and it is moreover unique.
+\end{lem}
+\begin{proof}
+For $x\in M$ and $\U$ an open subset of $M$, set
+\begin{enumerate}
+\item $I^{+,(0)}_\U(x):=\bigcup_{i\in I} I^+_{\U\cap \U_i} (x)$;
+\item $I^{+,(n+1)}_{\U}(x):=I^{+,(n)}_{\U}(x)\cup \bigcup_{i\in I} I^+_{\U\cap \U_i}\left(I^{+,(n)}_\U(x) \right)$;
+\item $I^+_\U(x):=\bigcup_{n\in \N} I^{+,(n)}_{\U}(x) $.
+\end{enumerate}
+Then $I^+_{*}(*)$ defines a sheaf of transitive binary relations on $M$, which we denote by $\ll$.
+One defines $J^+_{*}(*)$ in the same way, so as to obtain a sheaf $(\leq,\ll)$ of pairs of transitive binary relations on $M$.
+Property $(B)$ guarantees that this sheaf extends the family $(\U_i,\leq^i,\ll^i)_{i\in I}$.
+
+Finally, the sheaf is characterised by the following property: for every open $\U$,
+$p\ll_\U q$ (resp. $p\leq_\U q)$ if and only if there exists a finite sequence
+$(p_k)_{k\in \lsem 0,n\rsem}$ of points \emph{of $\U$} with $p_0=p$, $p_n=q$ and such that for every $k\in \lsem0,n-1 \rsem$ there is some $i\in I$ with
+$p_k,p_{k+1}\in \U\cap \U_i$ and $p_k\ll^i_{\U\cap \U_i} p_{k+1}$ (resp. $p_k\leq^i_{\U\cap \U_i} p_{k+1}$).
+Both localisations matter: without them the family would not be monotone in $\U$, hence not a precausality.
+It is clear that any sheaf satisfying $(b)$ of Definition \ref{defi:causalite} and extending the family $(\leq^i,\ll^i)_{i\in I}$ satisfies this property; hence $(\leq,\ll)$ is minimal.
+\end{proof}
+\begin{defi}\label{def:precausality_generated_notation_lemma}\index{Precausality!generated} With the notation of Lemma \ref{lem:union_causalite}, $(\leq,\ll)$ is called the precausality generated by the family $(\U_i,\leq^i,\ll^i)_{i\in I}$.
+\end{defi}
+
+The notion of an absolutely minimal precausality, together with the two lemmas below, guarantees that the choice of the cover is immaterial in the cases we consider. In particular, we shall be able to consider precausalities generated by refinements of a given cover.
+\begin{defi}\label{def:topological_space_causality_absolutely} Let $M$ be a topological space.\index{Causality!absolutely minimal}
+A precausality $(\leq,\ll)$ on $M$ is absolutely minimal if for every open cover $(\U_i)_{i\in I}$ the precausality generated by $(\U_i,\leq_{\U_i}, \ll_{\U_i})_{i\in I}$ is equal to $(\leq,\ll)$.
+\end{defi}
+
+We first isolate the hypothesis under which absolute minimality is well behaved.
+
+\begin{defi}[Causal arc-connectedness]\label{def:causal_arc_connectedness}\index{Causally!arc-connected} Let $M$ be a topological spacetime. $M$ is causally arc-connected if for every open subset
+$\U$ and all $p,q\in \U$ the following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+\item $p\leq_\U q$ (resp. $p\ll_\U q$);
+\item there exists a future causal (resp. future chronal) curve $c:[0,1]\rightarrow \U$ with $c(0)=p$ and $c(1)=q$.
+\end{enumerate}
+\end{defi}
+
+\begin{defi}[Local causal arc-connectedness]\label{def:local_causal_arc_connectedness}\index{Locally causally arc-connected} Let $M$ be a topological spacetime.
+$M$ is locally causally arc-connected if for every $x\in M$ and every neighbourhood $\U$ of $x$ there
+exists an open neighbourhood $\V$ of $x$ contained in $\U$ which is causally arc-connected.
+\end{defi}
+\begin{rem}\label{rem:cac_local} Causal arc-connectedness is a condition bearing on \emph{every} open subset of $M$.
+Consequently every open subset of a causally arc-connected topological spacetime is itself
+causally arc-connected, and a causally arc-connected topological spacetime is in particular
+locally causally arc-connected.
+\end{rem}
+
+\begin{prop}\label{prop:cac_engendre} Let $M$ be a locally causally arc-connected topological spacetime.
+For every cover $(\U_i)_{i\in I}$ of $M$ by causally arc-connected open subsets the following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+\item the causality of $M$ is the causality generated by the family $(\U_i,\leq^i,\ll^i)_{i\in I}$;
+\item $M$ is causally arc-connected.
+\end{enumerate}
+\end{prop}
+\begin{proof}\
+\begin{itemize}
+\item We first prove $(i)\Rightarrow (ii)$.
+
+Let $\V$ be an open subset of $M$ and let $p,q\in \V$ be such that $p<_\V q$. By the construction of the minimal causality of $M$ given in
+the proof of Proposition~\ref{prop:union_causalite}, there exist a finite sequence $p_0=p,p_1,p_2,\cdots,p_n=q$
+and a sequence $(i_{k})_{k\in \lsem 0,n-1\rsem}$
+such that for every $k\in \lsem 0,n-1\rsem$ we have $p_k,p_{k+1}\in \U_{i_k}$ and $p_k<_{\U_{i_k}} p_{k+1}$.
+Since each $\U_{i_k}$ is causally arc-connected, there is a future causal curve joining
+$p_{k}$ to $p_{k+1}$ for every $k\in \lsem 0,n-1\rsem$, and therefore, by concatenation, a future causal curve joining $p$
+to $q$. The case $p\ll_\V q$ is treated in the same way.
+\item We now prove $(ii)\Rightarrow (i)$.
+
+Let $\V$ be an open subset of $M$ and let $p,q\in \V$ be such that $p<_\V q$.
+Since $M$ is causally arc-connected there is a future causal curve $c:[0,1]\rightarrow \V$ joining $p$ to $q$.
+For every $t\in[0,1]$ choose $i(t)\in I$ with $c(t)\in \U_{i(t)}$; then $c^{-1}\left(\V\cap \U_{i(t)}\right)$ is an open
+neighbourhood of $t$ in $[0,1]$. These sets cover the compact $[0,1]$, so there is a Lebesgue number for the cover and hence
+a subdivision $0=t_0<t_1<\cdots<t_n=1$ and indices $i_0,\cdots,i_{n-1}$ with
+$c\left([t_k,t_{k+1}]\right)\subset \V\cap \U_{i_k}$ for every $k$.
+The restriction of $c$ to $[t_k,t_{k+1}]$ is then a future causal curve of the open set $\V\cap \U_{i_k}$ joining
+$c(t_k)$ to $c(t_{k+1})$; since $\U_{i_k}$ is causally arc-connected, this gives
+$c(t_k)\leq^{i_k}_{\V\cap \U_{i_k}} c(t_{k+1})$.
+The points $c(t_k)$ all lie in $\V$, so this is a chain witnessing $p<_\V q$ for the causality generated by $(\U_i)_{i\in I}$.
+One shows in the same way that if $p\ll_\V q$ for the causality of $M$ then $p\ll_{\V}q$ for the causality
+generated by $(\U_i)_{i\in I}$.
+By minimality of the causality generated
+by $(\U_i,\leq_{\U_i},\ll_{\U_i})_{i\in I}$, these two causalities are equal.
+\end{itemize}
+\end{proof}
+
+\begin{cor}\label{cor:causalement_connexe_minimal}
+Let $M$ be a topological spacetime. If $M$ is causally arc-connected, then the causality of $M$ is absolutely minimal.
+\end{cor}
+% [editorial] proof supplied 2026-08-20 -- verify
+\begin{proof}
+Let $(\U_i)_{i\in I}$ be an arbitrary open cover of $M$. By Remark \ref{rem:cac_local} each
+$\U_i$ is causally arc-connected and $M$ is locally causally arc-connected, so Proposition
+\ref{prop:cac_engendre} applies to $(\U_i)_{i\in I}$. Since $M$ is causally arc-connected,
+implication $(ii)\Rightarrow(i)$ shows that the causality generated by the family is the
+causality of $M$. As the cover was arbitrary, the causality of $M$ is absolutely minimal.
+\end{proof}
+
+Absolute minimality is \emph{not} inherited by open subsets.
+
+\begin{cexemple}[A line with a transparent point]\label{cexemple:point_transparent}
+Endow $M=\RR$ with the following causality: for $\W$ open and $x,y\in \W$,
+$$x\leq_\W y \iff x\leq y \text{ and } [x,y]\subset \W\cup\{0\}, \qquad
+  x\ll_\W y \iff x< y \text{ and } [x,y]\subset \W\cup\{0\},$$
+that is, the timelike line except that the point $0$ is \emph{transparent}: causality remembers it even once it has been removed from the ambient open set. Equivalently, $x\leq_\W y$ if $x\leq y$ and $x,y$ lie in the same connected component of $\W\cup\{0\}$.
+
+This is a topological spacetime, and it is even causally plain. Reflexivity and transitivity are clear, monotonicity $(b)$ holds because $[x,y]\subset \V\cup\{0\}$ implies $[x,y]\subset \W\cup\{0\}$ for $\V\subset \W$, and $\ll_\W$ is open since $I^+_\W(x)=]x,b[\,\cap\, \W$ with $b=\sup\{t~|~[x,t]\subset \W\cup\{0\}\}$.
+
+It is absolutely minimal on $\RR$. Let $(\O_a)_{a\in A}$ be an open cover of $\RR$, let $\W$ be open and let $x\leq_\W y$ with $x<y$. If $0\notin[x,y]$ or $0\in \W$, then $[x,y]$ is a compact subset of $\W$; a Lebesgue number for the cover $(\W\cap \O_a)_a$ of $[x,y]$ provides a subdivision $x=p_0<\cdots<p_n=y$ with $[p_k,p_{k+1}]\subset \W\cap \O_{a_k}$, whence $p_k\leq_{\W\cap \O_{a_k}}p_{k+1}$. If $0\in\,]x,y[$ and $0\notin \W$, choose $\O_{a_0}\ni 0$ and $\delta>0$ with $]-\delta,\delta[\,\subset \O_{a_0}$ and $\delta<\min(|x|,y)$, and put $u=-\delta/2$, $v=\delta/2$: then $u,v\in \W$ and $[u,v]\subset (\W\cap \O_{a_0})\cup\{0\}$, so $u\leq_{\W\cap \O_{a_0}}v$ is a single step across the puncture; the compact segments $[x,u]$ and $[v,y]$ lie in $\W$ and are subdivided as before.
+
+Its restriction to the open subset $\U:=\RR\setminus\{0\}$ is \emph{not} absolutely minimal. Cover $\U$ by $\V_-=\,]-\infty,0[$ and $\V_+=\,]0,+\infty[$, and take $\W=\,]-2,2[\,\setminus\{0\}$. Then $-1\leq_\W 1$, since $[-1,1]\subset \W\cup\{0\}$. But $\W\cap \V_-=\,]-2,0[$ and $\W\cap \V_+=\,]0,2[$ are disjoint, so every step of a generated chain relates two points on the same side of $0$: starting from $-1$ no chain leaves $]-2,0[$. Hence the generated precausality is strictly smaller than the restriction of $(\leq,\ll)$ to $\U$.
+\end{cexemple}
+
+\begin{rem}\label{rem:minimalite_non_hereditaire}
+The obstruction is structural. For $\U$ open and $\mathcal O$ an open cover of $M$, restriction commutes with generation: $\mathrm{Gen}(\mathcal O,P)|_\U=\mathrm{Gen}(\mathcal O|_\U,P|_\U)$, where $\mathcal O|_\U=(\O_a\cap \U)_a$. So the covers of $\U$ reachable from covers of $M$ are the ones refined by some trace $\mathcal O|_\U$; quantifying over arbitrarily fine covers of $\U$ this forces $\overline\U\cap(M\setminus \U)=\emptyset$, i.e. $\U$ clopen. Absolute minimality is hereditary only for clopen subsets.
+\end{rem}
+
+Under the hypothesis under which we shall use it, the statement is nevertheless true.
+
+\begin{lem}\label{lem:precausalite_restriction_minimale} Let $M$ be a locally causally arc-connected topological spacetime whose causality is absolutely minimal. Then the restriction of the causality of $M$ to $\U$ is absolutely minimal, for every open subset $\U$ of $M$.
+\end{lem}
+% [editorial] proof supplied 2026-08-21 -- verify
+\begin{proof}
+Local causal arc-connectedness provides a cover of $M$ by causally arc-connected open sets. Absolute minimality says that the causality of $M$ is the one generated by that cover, which is property $(i)$ of Proposition \ref{prop:cac_engendre}; hence $M$ is causally arc-connected. By Remark \ref{rem:cac_local} every open subset of $M$ is then causally arc-connected, and Corollary \ref{cor:causalement_connexe_minimal} applies to it.
+\end{proof}
+
+\begin{lem}\label{lem:precausalite_engendre_minimale}
+Let $M$ be a topological space and let $(\leq,\ll)$ be the precausality generated by a family $(\U_i,\leq^i,\ll^i)_{i\in I}$.
+If the precausalities $(\leq^i,\ll^i)$ are absolutely minimal, then so is $(\leq,\ll)$.
+\end{lem}
+% [editorial] proof supplied 2026-08-21 -- verify
+\begin{proof}
+Generation can only shrink a precausality: every step of a generated chain is a relation of $(\leq,\ll)$ by monotonicity $(b)$, and $(\leq,\ll)$ is transitive. It therefore suffices to show that $(\leq,\ll)$ is contained in the precausality it generates over an arbitrary open cover.
+
+Let $(\O_a)_{a\in A}$ be an open cover of $M$, let $\W$ be an open subset of $M$ and let $p\leq_\W q$. By Lemma \ref{lem:union_causalite} there is a finite chain $p=p_0,\cdots,p_n=q$ of points of $\W$ such that for every $k$ there is $i_k\in I$ with $p_k,p_{k+1}\in \W\cap \U_{i_k}$ and $p_k\leq^{i_k}_{\W\cap \U_{i_k}} p_{k+1}$.
+
+Fix $k$ and write $\U:=\U_{i_k}$. The family $(\O_a\cap \U)_{a\in A}$ is an open cover of $\U$, and $\W\cap \U$ is an open subset of $\U$. Absolute minimality of $(\leq^{i_k},\ll^{i_k})$ \emph{on $\U$} --- a statement quantified over every open cover of $\U$ and every open subset of $\U$ --- therefore provides a chain $p_k=r_0,\cdots,r_m=p_{k+1}$ of points of $\W\cap \U$ with $r_l\leq^{i_k}_{\W\cap \U\cap \O_{a_l}} r_{l+1}$ for every $l$. Now $\W\cap \U\cap \O_{a_l}=(\W\cap \O_{a_l})\cap \U_{i_k}$, so each of these relations is a single step of $(\leq,\ll)$ localised in the open set $\W\cap \O_{a_l}$.
+
+Concatenating over $k\in\lsem 0,n-1\rsem$ yields a chain from $p$ to $q$ whose points all lie in $\W$ and whose steps are all localised in the sets $\W\cap \O_a$; that is, $p\leq_\W q$ for the precausality generated by $(\O_a)_{a\in A}$. The argument for $\ll$ is identical.
+\end{proof}
+
+We now prove the main result of this subsection.
+\begin{theo}\label{theo:causalite_engendre}\label{prop:union_causalite} Let $M$ be a topological space and let $(\U_i)_{i\in I}$ be an open cover of $M$.
+Assume that
+\begin{enumerate}[label=(\Alph*)]
+\item each $\U_i$ is endowed with an absolutely minimal causality $(\leq^i,\ll^i)$;
+\item for all $i,j\in I$, the restrictions of $\ll^i$ and $\ll^j$ (resp. of $\leq^i$ and $\leq^j$) to $\U_i\cap \U_j$ are equal;
+\item $M$ is a Baire space.
+\end{enumerate}
+Then the precausality generated by the family $(\U_i,\leq^i,\ll^i)$ is an absolutely minimal causality.
+
+If moreover each $(\leq^i,\ll^i)$ is causally plain, then so is the generated causality.
+\end{theo}
+\begin{proof}Consider the precausality $(\ll,\leq)$ generated by the family $(\leq^i,\ll^i)_{i\in I}$; it exists by Lemma \ref{lem:union_causalite}.
+By Lemma \ref{lem:precausalite_engendre_minimale} it is absolutely minimal.
+Since $M$ is second countable, we may assume $I$ countable.
+Properties $(a)$, $(b)$ and $(c)$ of Definition \ref{defi:causalite} are clear from the construction given in Lemma \ref{lem:union_causalite}.
+
+Assume now that each $(\leq^i,\ll^i)$ is causally plain, and let us prove that the generated causality is causally plain as well.
+Let $\U$ be an open subset of $M$ and let $A\subset \U$. We first note that the construction of Lemma \ref{lem:union_causalite} gives
+$$J^+_\U(A)=\bigcup_{i\in I,n\in \N} J^+_{\U_i}(A_{i,n})$$ for a suitable family $(A_{i,n})_{i\in I,n\in \N}$ of subsets of $\U$; in particular
+$$ J^+_\U(A)\subset
+\bigcup_{i\in I,n\in \N} \mathrm{Int}\left \{J^+_{\U_i}(A_{i,n})\right\} \cup \bigcup_{i\in I, n\in \N} \partial J^+_{\U_i}(A_{i,n}).$$
+Moreover, since each $(\leq^i,\ll^i)$ is causally plain, for every $i\in I$ and every subset $B\subset \U_i$ we have
+$\mathrm{Int}\left(J^+_{\U_i}(B)\right) \subset \overline{I^+_{\U_i}(B)}$, whence
+\begin{eqnarray*}
+\overline{\bigcup_{i\in I,n\in \N} \mathrm{Int}\left \{J^+_{\U_i}(A_{i,n})\right\}}   &\subset& \overline{\bigcup_{i\in I, n\in \N} \overline{I^+_{\U_i}(A_{i,n})}}\\
+&=& \overline{\bigcup_{i\in I, n\in \N} {I^+_{\U_i}(A_{i,n})}}\\
+&=& \overline{I^+_\U(A)}.
+\end{eqnarray*}
+Let $x\in \mathrm{Int}(J^+_\U(A))$; we wish to show that $x\in \overline{I^+_\U(A)}$.
+Let $\V$ be a neighbourhood of $x$ and let $\W$ be a neighbourhood of $x$ contained in $\mathrm{Int}(J^+_\U(A))$;
+the intersection $\V\cap \W$ is a neighbourhood of $x$ contained in $\mathrm{Int}(J^+_\U(A))$.
+Since $\bigcup_{i\in I, n\in \N} \partial J^+_{\U_i}(A_{i,n})$ is a countable union of closed sets with empty interior and since
+$M$ is a Baire space, $\bigcup_{i\in I, n\in \N} \partial J^+_{\U_i}(A_{i,n})$ has empty interior.
+Hence $$\W\cap \V\nsubset  \bigcup_{i\in I, n\in \N} \partial J^+_{\U_i}(A_{i,n}),$$
+so that $$\W\cap \V \cap \bigcup_{i\in I,n\in \N} \mathrm{Int}\left\{J^+_{\U_i}(A_{i,n})\right\}\neq \emptyset.$$
+We deduce that
+$$x\in  \overline{\bigcup_{i\in I,n\in \N} \mathrm{Int}\left\{J^+_{\U_i}(A_{i,n})\right\}}$$
+and therefore $x\in \overline{I^+_\U(A)}$.
+\end{proof}
+
+Push-up, unlike causal plainness, needs no Baire hypothesis to localise: it propagates from a cover
+to the whole spacetime by a single-step argument.
+
+\begin{lem}[Push-up is local]\label{lem:pushup_local}
+Let $M$ be a causally arc-connected topological spacetime and let $(\U_i)_{i\in I}$ be a cover of $M$
+by open subsets each having the push-up property. Then $M$ has the push-up property.
+\end{lem}
+% [editorial] supplied 2026-08-22 -- verify
+\begin{proof}
+We prove $I^-\left(J^-(x)\right)\subset I^-(x)$; the three other inclusions are obtained by
+exchanging past and future and by reversing the roles of $\leq$ and $\ll$, and the same argument
+applies verbatim inside an arbitrary open subset of $M$, every open subset of $M$ being causally
+arc-connected by Remark \ref{rem:cac_local} and covered by the open sets $\U_i\cap \U$.
+
+\emph{One step.} We first show: if $y\ll z$ in $M$, if $i\in I$ and if $z\leq_{\U_i} w$, then
+$y\ll w$. Indeed, $M$ being causally arc-connected there is a future chronal curve
+$\gamma:[0,1]\rightarrow M$ with $\gamma(0)=y$ and $\gamma(1)=z$. The set $\gamma^{-1}(\U_i)$ is an
+open neighbourhood of $1$ in $[0,1]$, so there is $s<1$ with $\gamma([s,1])\subset \U_i$; put
+$z':=\gamma(s)$. Then $z'\ll_{\U_i} z$, and $z\leq_{\U_i}w$, so $z'\ll_{\U_i}w$ by the push-up
+property of $\U_i$; hence $z'\ll w$ in $M$ by axiom $(b)$. Since $y\ll z'$ --- or $y=z'$ if $s=0$ ---
+transitivity of $\ll$ gives $y\ll w$.
+
+\emph{Concatenation.} Let now $y\ll z$ and $z\leq x$. Since $M$ is causally arc-connected there is a
+future causal curve $c:[0,1]\rightarrow M$ from $z$ to $x$. The sets $c^{-1}(\U_i)$, $i\in I$, form
+an open cover of the compact $[0,1]$; a Lebesgue number for it provides a subdivision
+$0=t_0<t_1<\cdots<t_n=1$ and indices $i_0,\dots,i_{n-1}$ with $c\left([t_k,t_{k+1}]\right)\subset
+\U_{i_k}$ for every $k$. Each restriction $c_{|[t_k,t_{k+1}]}$ is a future causal curve of
+$\U_{i_k}$, so $c(t_k)\leq_{\U_{i_k}}c(t_{k+1})$ --- here we use that $\U_{i_k}$, being an open
+subset of $M$, is causally arc-connected. Applying the one-step claim $n$ times, starting from
+$y\ll z=c(t_0)$, we obtain $y\ll c(t_n)=x$.
+\end{proof}
+\subsubsection{The causality of $(G,X)$-manifolds and of singular $(G,X)$-manifolds}\label{subsubsec:GX_causality}
+We record two immediate corollaries of Theorem \ref{theo:causalite_engendre}. They are the bridge
+between the general theory and every locally homogeneous application: a causality on the model
+space(s) propagates to all manifolds locally modelled on them.
+\begin{prop}\label{prop:GX_espace_temps_topo} Let $(G,X)$ be an analytic structure and let
+$(M,\A)$ be a $(G,X)$-manifold.
+
+If $X$ is a causally arc-connected Baire topological spacetime on which $G$ acts by morphisms of topological spacetimes,
+then $M$ admits a unique topological spacetime structure such that for every chart $(\U,\V,\phi)\in\A$
+the map $\phi:\U\rightarrow \V$ is an isomorphism of topological spacetimes.
+\end{prop}
+% [editorial] proof supplied 2026-08-20 -- verify
+\begin{proof}
+The domains of the charts of $\A$ form an open cover $(\U_i)_{i\in I}$ of $M$. By
+Example \ref{ex:open_subset} each $\V_i\subset X$ carries a causality, which we transport
+to $\U_i$ along the homeomorphism $\phi_i$. Since $X$ is causally arc-connected, so is each open
+subset $\V_i$ by Remark \ref{rem:cac_local}, and therefore the causality of $\V_i$ is absolutely
+minimal by Corollary \ref{cor:causalement_connexe_minimal}. Hypothesis $(A)$ of Theorem
+\ref{theo:causalite_engendre} is therefore satisfied.
+
+The transition maps of $\A$ are restrictions of elements of $G$, which act on $X$ by
+morphisms of topological spacetimes; hence the transported causalities agree on overlaps,
+which is hypothesis $(B)$.
+
+Finally, $M$ is locally homeomorphic to $X$, and being a Baire space is a local property:
+a space admitting an open cover by Baire subspaces is Baire. Hence $M$ is Baire and
+hypothesis $(C)$ holds. Theorem \ref{theo:causalite_engendre} then produces an absolutely
+minimal causality on $M$ for which every chart is an isomorphism, and minimality gives
+uniqueness.
+\end{proof}
+
+\begin{prop}\label{prop:GX_sing_espace_temps_topo} Let $(G,X,X_A)$ be an analytic singular structure and
+let $(M,\A)$ be a $(G,X,X_A)$-manifold. Assume moreover that
+\begin{enumerate}[label=(\alph*)]
+\item $X$ is a causally arc-connected Baire topological spacetime on which $G$ acts by morphisms of topological spacetimes;
+\item for every $\alpha \in A$, the model space $X_\alpha$ is a causally arc-connected topological spacetime whose causality extends the natural causality of $\reg(X_\alpha)$ given by its $(G,X)$-manifold structure.
+\end{enumerate}
+Then $M$ admits a unique topological spacetime structure such that for every chart $(\U,Y,\V,\phi)$ of $\A$
+the homeomorphism $\phi:\U\rightarrow \V$ is an isomorphism of topological spacetimes.
+\end{prop}
+% [editorial] proof supplied 2026-08-20 -- verify
+\begin{proof}
+The argument is that of Proposition \ref{prop:GX_espace_temps_topo}, the charts now taking
+their values in the model spaces $X_\alpha$, $\alpha\in A$, as well as in $X$. Hypothesis
+$(A)$ of Theorem \ref{theo:causalite_engendre} follows from assumptions $(a)$ and $(b)$
+together with Remark \ref{rem:cac_local} and Corollary \ref{cor:causalement_connexe_minimal}; hypothesis $(B)$ from the
+fact that transition maps are restrictions of elements of $G$ and of isomorphisms of the
+model spaces; hypothesis $(C)$ from the locality of the Baire property.
+\end{proof}
+
+\begin{rem}\label{rem:hypotheses_proposition_prop_gx} Under the hypotheses of Proposition \ref{prop:GX_sing_espace_temps_topo}, every
+branched $(G,X)$-morphism is a morphism of topological spacetimes.
+\end{rem}
+
+The hypotheses of Propositions \ref{prop:GX_espace_temps_topo} and
+\ref{prop:GX_sing_espace_temps_topo} are verified in Section \ref{subsec:sing_spacetime_defi} for
+the model spaces of singular flat geometry; every $\mass{\geq0}$-manifold thereby acquires a
+canonical, absolutely minimal causality (Corollaries \ref{cor:massA_causalite} and
+\ref{cor:massA_cac}).
+
+\subsection{Tarentin spacetimes, Alexandrov topology and strong causality}
+
+The first four definitions are transcriptions of the classical ones.
+
+\begin{defi}[Alexandrov topology]\label{def:alexandrov_topology}\index{Topology!Alexandrov} Let $M$ be a topological spacetime.
+The Alexandrov topology on $M$ is the topology generated by the open diamonds of $M$.
+\end{defi}
+
+\begin{defi}[Causal spacetime]\label{def:causal_spacetime}\index{Causal!spacetime}
+A topological spacetime is causal if the relation $\leq_M$ is an order relation on $M$.
+\end{defi}
+
+\begin{defi}[Causal convexity]\index{Causally!convex}\label{defi:convexite_causale}Let $M$ be a topological spacetime and let $\U,\V$ be two open subsets of $M$ with $\V\subset\U$.
+The open set $\V$ is {\it causally convex in $\U$} if for all $p,q\in \V$
+the full diamond $J_\U(p,q)$ is contained in $\V$.
+\end{defi}
+
+\begin{defi}[Strongly causal spacetime]\label{def:strongly_causal_spacetime}\index{Causal!strongly causal spacetime}
+Let $M$ be a topological spacetime. $M$ is strongly causal if
+for every $p\in M$ and every neighbourhood $\U$ of $p$ there exists a neighbourhood $\V\subset \U$ of $p$
+which is causally convex in $M$.
+\end{defi}
+\begin{rem}\label{rem:topological_spacetime_strongly_causal} Let $M$ be a topological spacetime. If $M$ is strongly causal then $M$ is causal.
+\end{rem}
+
+\begin{rem}\label{rem:galileo_spacetime_not_strongly} Galileo's spacetime is not strongly causal: if a causally convex open set contains two
+points with distinct times $t_0<t_1$ --- and every non-empty open set does --- then it contains the
+whole slab $\{t_0<t<t_1\}$, so no point has a basis of causally convex neighbourhoods. The flat
+model spacetimes of Section \ref{subsec:sing_spacetime_defi} are, by contrast, strongly causal.
+\end{rem}
+
+We now introduce a new causal hypothesis.
+\begin{defi}[Tarentin spacetime]\label{def:tarentin_spacetime}\index{Tarentin}
+A topological spacetime $M$ is tarentin if for every $x\in M$ and every neighbourhood $\U$ of $x$
+there exist $p,q\in \U$ such that $x\in \mathrm{Int}\left(J_M(p,q)\right)$.
+\end{defi}
+\begin{rem}\label{rem:terminology_borrowed_archytas_tarentum}
+The terminology is borrowed from Archytas of Tarentum, who asked whether an observer standing at
+the outermost edge of the heaven could extend a hand or a staff beyond it. We read the condition
+as the assertion that every observer may ``hold out a staff'' both into the future and into the
+past --- that is, has a future and a past.
+\end{rem}
+
+\begin{rem}\label{rem:tarentin_exemples}
+Lorentzian manifolds are tarentin, and so is every $\mass{\geq0}$-manifold (Remark
+\ref{rem:sing_tarentin}). The hypothesis is nevertheless not innocent: a singular flat spacetime
+containing a Misner singularity fails it (Counter-example \ref{cexemple:misner_tarentin}).
+\end{rem}
+
+\begin{defi}[Causally open spacetime / open causality]\label{def:causally_open_spacetime_open}\index{Causally!open}
+Let $M$ be a topological spacetime. The causality of $M$ is open, and $M$ is causally open, if for every open subset $\U$ of $M$
+and every open subset $\V\subset \U$ the set $J^+_\U(\V)$ is open.
+\end{defi}
+\begin{prop}\label{prop:topological_spacetime_absolutely_minimal}Let $M$ be a topological spacetime. If $M$ is absolutely minimal and if for every $p\in M$ there
+exists a neighbourhood $\U$ of $p$ whose causality is open, then
+the causality of $M$ is open.
+\end{prop}
+\begin{proof}
+Let $\U$ be an open subset of $M$,
+let $\V$ be an open subset of $\U$ and let $(\U_i,\leq^i,\ll^i)$ be an open cover of $M$
+such that each $(\leq^i,\ll^i)$ is an open causality.
+Reprising the construction given in the proof
+of Lemma \ref{lem:union_causalite}, we have
+$$J^{+,(0)}(\V)= \bigcup_{i\in I} J^+_{\U_i\cap \U}(\V), \quad J^{+,(n+1)}(\V)=\bigcup_{i\in I} J^+_{\U_i\cap \U}(\U_i\cap J^{+,(n)}(\V)).$$
+Since $\V$ is open and each $(\leq^i,\ll^i)$ is an open causality, $J^{+,(0)}(\V)$ is open, and by induction $J^{+,(n)}(\V)$
+is open. Hence $J^+_\U(\V)=\bigcup_{n\in \N} J^{+,(n)}_\U(\V)$ is open.
+\end{proof}
+
+\begin{prop}\label{prop:tarentin_topological_spacetime_causality} Let $M$ be a tarentin topological spacetime. If the causality of $M$ is open, then the following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+\item $M$ is strongly causal;
+\item the Alexandrov topology on $M$ coincides with the topology of $M$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof} Since open diamonds are open for the topology of $M$,
+the topology of $M$ is finer than the Alexandrov topology on $M$.
+\begin{itemize}
+\item We first prove $(i)\Rightarrow (ii)$.
+
+Assume $M$ strongly causal.
+Let $p\in M$ and let $\U$ be an open neighbourhood of $p$. Since $M$ is strongly causal
+there exists an open neighbourhood $\V\subset \U$ of $p$ such that every closed diamond with vertices in $\V$ is contained in
+$\V$. Fix such a $\V\subset \U$. Since $M$ is tarentin there is an open diamond with vertices in $\V$
+containing $p$. Such a diamond is open, contains $p$ and is contained in $\V$.
+Hence the Alexandrov topology on $M$ coincides with the topology of $M$.
+\item We now prove $(ii)\Rightarrow (i)$.
+
+Assume that the Alexandrov topology coincides with the topology
+of $M$.
+Let $p\in M$ and let $\U$ be an open neighbourhood of $p$.
+
+There exists an open set
+$$ \bigcup_{i\in I}\bigcap_{j\in J} \ring{J}_M(a_{i,j},b_{i,j}) \subset \U$$
+containing $p$, and therefore a finite intersection of open diamonds
+$\W:=\bigcap_{i\in I}\ring{J}(a_i,b_i) \subset \U$ containing $p$.
+Let $a,b\in \W$. Since the causality of $M$ is open, for every
+$i\in I$,
+\begin{eqnarray*}
+J(a,b)&=& J^+(a)\cap J^-(b) \\
+&\subset&J^+(\ring J^+(a_i)) \cap J^-(\ring J^-(b_i))\\
+&=&\ring J^+(a_i)\cap \ring J^-(b_i)\\
+&=&\ring J (a_i,b_i),
+\end{eqnarray*}
+and therefore $J(a,b)\subset \W\subset \U$.
+\end{itemize}
+\end{proof}
+
+\subsection{Continuously reachable past and future}
+In this subsection we introduce the notions of continuously reachable past and future, which will be useful
+in the proofs of Geroch's Theorem and of Choquet-Bruhat--Geroch's Theorem.
+The definition is ``technical'': we have chosen it so as to make the argument of the next subsection work,
+in particular Proposition \ref{prop:cont_ext_cont}.
+
+\begin{defi}[Continuously reachable future and past]\index{KM@$K^\pm_M$}\label{defi:futur_continue}
+Let $M$ be a topological spacetime and let $p\in M$. We let $K^+(p)$ (resp. $K^-(p)$) denote the continuously reachable future (resp. past) of $p$:
+$$K^\pm(p)=\bigcap_{p_n\rightarrow p} \bigcup_{N\in \N} \mathrm{Int}_{J^\pm(p)}\left( J^\pm(p)\cap \bigcap_{n\geq N} J^\pm(p_n)\right),
+$$
+the intersection being taken over all sequences $(p_n)_{n\in \N}$ of $M$ converging to $p$.
+For a subset $A\subset M$ we set
+$$K^\pm(A):=\bigcup_{p\in A} K^\pm(p),$$
+and for $\U$ open we write $K^\pm_\U$ for the operator obtained by applying these definitions inside the topological spacetime $\U$ (Example \ref{ex:open_subset}); thus $K^\pm=K^\pm_M$.
+\end{defi}
+\begin{rem}\label{rem:K_ensemble}
+One has $K^\pm(\emptyset)=\emptyset$, $K^\pm(A)\subset J^\pm(A)$, and $K^\pm$ is monotone for inclusion. Note that $A\not\subset K^\pm(A)$ in general: for a BTZ point $p$ of a causal $\mass{\geq0}$-manifold, $p\notin K^-(p)=J^-(p)\setminus\{p\}$ (Proposition \ref{prop:K_calcul}).
+\end{rem}
+
+To become familiar with the notion, we begin by showing that it coincides with $I^\pm$ at the
+least pathological points of a topological spacetime.
+\begin{defi}[Strongly tarentin point]\label{def:strongly_tarentin_point}\index{Tarentin!strongly tarentin point}
+Let $M$ be a topological spacetime. A point $p\in M$ is strongly tarentin in the future (resp. in the past)
+if for every neighbourhood $\U$ of $p$ the set $I^+(p)\cap \U$ is non-empty (resp. $I^-(p)\cap \U$ is non-empty).
+
+We write $Z^+(M)$ (resp. $Z^-(M)$) for the set of points of $M$ which are strongly tarentin in the future (resp. in the past).
+\end{defi}
+\begin{rem}\label{rem:absolutely_minimal_topological_spacetime} If $M$ is an absolutely minimal topological spacetime, then a point is strongly tarentin
+in the past (resp. in the future) if and only if its chronological past (resp. future) is non-empty.
+\end{rem}
+\begin{rem}\label{rem:lorentz_tarentin}
+Every point of a Lorentzian manifold is strongly tarentin in the future and in the past. The notion
+only becomes discriminating on singular or low-regularity spacetimes: on a $\mass{\geq0}$-manifold
+the points which fail to be strongly tarentin in the past are exactly the BTZ points (Remark
+\ref{rem:btz_pas_tarentin}).
+\end{rem}
+
+\begin{rem}\label{rem:suite_croissante} Let $M$ be a topological spacetime. If $p\in M$ is strongly tarentin in the past, then one may construct
+by induction sequences which are increasing for $\ll$ and converge to $p$. Indeed, start from an arbitrary point $p_0\in I^-(p)$ and from a countable basis of
+open neighbourhoods $(\U_n)_{n\in \N}$ of $p$;
+observe that $I^+(p_0)\cap \U_1$ is an open neighbourhood of $p$, so that there exists $p_1\in I^+(p_0)\cap \U_1\cap I^-(p)$.
+Inductively one constructs a sequence $(p_n)_{n\in \N}$ such that for every $n\geq 1$,
+$p_n\in \U_n$ and $p_{n-1}\ll p_n$. Such a sequence converges to $p$ and is increasing for $\ll$.
+\end{rem}
+
+\begin{lem}\label{lem:K_facile}Let $M$ be a tarentin topological spacetime and let $p\in M$.
+Let $(p_n)_{n\in \N}$ be a sequence of points of $M$ converging to $p$ and such that $p\in \ring J^{+}(p_n)$ for every $n\in \N$.
+Then
+$$K^-(p) = \bigcup_{N\in \N} \mathrm{Int}_{J^-(p)}\left(\bigcap_{n\geq N} J^-(p_n)\right).$$
+\end{lem}
+\begin{proof}
+The inclusion $\subset$ is trivial; let us prove the inclusion $\supset$. Let $(q_n)_{n\in \N}$ be a sequence with
+$q_n \xrightarrow{n\rightarrow +\infty} p$.
+Let $m\in \N$. Since $p\in \ring J^+(p_m)$ there exists $N\in \N$ such that $q_n \in \ring J^+(p_m)$ for every $n\geq N$, and therefore such that
+$J^-(p_m)\subset J^-(q_n)$ for every $n\geq N$.
+Since $p_m\leq p$, there exists $N\in \N$ such that
+\begin{eqnarray*} J^-(p_m) &\subset& J^-(p)\cap \bigcap_{n\geq N} J^-(q_n), \\
+\mathrm{Int}_{J^-(p)}( J^-(p_m)) &\subset&  \mathrm{Int}_{J^-(p)}\left( J^-(p)\cap \bigcap_{n\geq N} J^-(q_n) \right).
+\end{eqnarray*}
+Hence, for every $m\in \N$,
+$$  \mathrm{Int}_{J^-(p)}( J^-(p_m)) \subset \bigcup_{N\in \N}
+\mathrm{Int}_{J^-(p)}\left( J^-(p)\cap \bigcap_{n\geq N} J^-(q_n) \right).$$
+Therefore, for every $N_0\in \N$,
+$$\mathrm{Int}_{J^-(p)}\left( \bigcap_{m\geq N_0} \mathrm{Int}_{J^-(p)}( J^-(p_m))\right) \subset \bigcup_{N\in \N} \mathrm{Int}_{J^-(p)}\left( J^-(p)\cap \bigcap_{n\geq N} J^-(q_n) \right).$$
+Now for every topological space $X$ and every family $(A_n)_{n\in \N}$ of subsets of $X$,
+$$\mathrm{Int} \left( \bigcap_{n\geq 0} \mathrm{Int}(A_n)\right) = \mathrm{Int}\left( \bigcap_{n\geq 0} A_n\right),$$
+so that for every $N_0\in \N$,
+$$\mathrm{Int}_{J^-(p)}\left( \bigcap_{m\geq N_0}  J^-(p_m)\right) \subset \bigcup_{N\in \N} \mathrm{Int}_{J^-(p)}\left( J^-(p)\cap \bigcap_{n\geq N} J^-(q_n) \right),$$
+and therefore
+$$\bigcup_{N\in \N}\mathrm{Int}_{J^-(p)}\left( \bigcap_{n\geq N}  J^-(p_n)\right) \subset \bigcup_{N\in \N} \mathrm{Int}_{J^-(p)}\left( J^-(p)\cap \bigcap_{n\geq N} J^-(q_n) \right).$$
+
+Since this last inclusion holds for every choice of sequence $q_n\rightarrow p$, we conclude that
+$$\bigcup_{N\in \N}\mathrm{Int}_{J^-(p)}\left( \bigcap_{n\geq N}  J^-(p_n)\right) \subset \bigcap_{q_n\rightarrow p} \bigcup_{N\in \N} \mathrm{Int}_{J^-(p)}\left( J^-(p)\cap \bigcap_{n\geq N} J^-(q_n) \right)=K^-(p).$$
+\end{proof}
+\begin{rem}\label{rem:equivalent_lemma_obviously_holds} An equivalent lemma obviously holds for $K^+$.
+\end{rem}
+\begin{rem}[Measurability]\label{rem:K_borelien}
+Definition \ref{defi:futur_continue} presents $K^\pm(p)$ as an intersection over the \emph{uncountable}
+family of sequences converging to $p$, so its measurability is not immediate --- yet inner regularity
+is applied to it in Proposition \ref{prop:cont_ext_cont}. Lemma \ref{lem:K_facile} settles the point:
+if $M$ is tarentin, one may choose a single sequence $(p_n)$ with $p\in \ring J^+(p_n)$, and then
+$K^-(p)$ is a countable union of sets open in $J^\pm(p)$, hence a Borel subset of $M$.
+\end{rem}
+
+\begin{lem}\label{lem:passe_coherent} Let $M$ be a causally plain topological spacetime.
+For every point $p\in M$ strongly tarentin in the past, $$J^-(I^-(p))= I^-(p).$$
+\end{lem}
+\begin{proof}
+Since the relation $\leq$ is reflexive, the inclusion $\supset$ is trivial. Let us prove the inclusion $\subset$.
+
+Let $p\in M$ and let $q\in J^-(I^-(p))$; choose $p'\in I^-(p)$ with $q\in J^-(p')$.
+We have $I^+(p')\subset J^+(p')\subset J^+(q)$, hence $I^+(p')\cap I^-(p)\subset J^+(q)$. Now
+$p\in Z^-(M)$ and $p\in I^+(p')$, so $I^+(p')\cap I^-(p)\neq \emptyset$.
+Therefore $I^+(p')\cap I^-(p)$ is a non-empty open set contained in $J^+(q)$. Since $M$ is causally plain, $\mathrm{Int}(J^+(q))\subset \overline {I^+(q)}$ (Definition \ref{defi:causalement_plat}), so every non-empty open set contained in $J^+(q)$ meets $I^+(q)$. In particular $I^+(p')\cap I^-(p)$ meets $I^+(q)$.
+Finally there exists $r\in M$ with $q\ll r\ll p$, hence $q\in I^-(p)$.
+\end{proof}
+
+\begin{prop}\label{prop:tarentin_fort_K}
+Let $M$ be a causally plain, absolutely minimal, tarentin topological spacetime and let $p\in M$.
+If $p$ is strongly tarentin in the past, then $K^-(p) = I^-(p)$.
+\end{prop}
+\begin{proof}
+Assume $p\in Z^-(M)$.
+
+Let $q\in I^-(p)$. By Remark \ref{rem:suite_croissante} there exists a sequence $(p_n)_{n\in \N}$ in $I^-(p)$, increasing for the relation $\ll$,
+converging to $p$ and with $p_0=q$. For such a sequence, $q\in I^-(p_1)\subset I^-(p_n)$ for every $n\geq 1$. Now
+$I^-(p_1)$ is open in $M$, hence in $J^-(p)$; applying Lemma \ref{lem:K_facile} we obtain
+$$ q\in I^-(p_1)\subset \bigcup_{N\in \N} \mathrm{Int}_{J^-(p)}\left(\bigcap_{n\geq N} J^-(p_n)\right)=K^-(p). $$
+Hence $I^-(p)\subset K^-(p)$.
+
+Consider again a sequence $(p_n)_{n\in \N}$ increasing for $\ll$ and converging to $p$.
+By Lemma \ref{lem:passe_coherent} we have $J^-(I^-(p))=I^-(p)$, hence $J^-(p_n) \subset I^-(p)$ for every $n\in \N$.
+Applying Lemma \ref{lem:K_facile} once more we obtain
+$$K^-(p) = \bigcup_{N\in \N} \mathrm{Int}_{J^-(p)}\left(\bigcap_{n\geq N} J^-(p_n)\right) \subset I^-(p). $$
+\end{proof}
+\begin{rem}\label{rem:comparable_property_obviously_holds}
+A comparable property obviously holds for $K^+$.
+\end{rem}
+\begin{rem}[Where $K^\pm$ and $I^\pm$ part company]\label{rem:K_neq_I}
+Causal plainness cannot be dropped from Proposition \ref{prop:tarentin_fort_K}. If $B$ is a causal
+bubble of $J^+(p)$ --- a non-empty open set contained in $J^+(p)$ and disjoint from $I^+(p)$, as
+occurs below Lipschitz regularity \cite{MR2949547,MR3500220,samann2024nonregular} --- then $B$ meets
+$K^+(p)$ while $B\cap I^+(p)=\emptyset$, so $K^+(p)\neq I^+(p)$. The same separation occurs, in
+degenerate form, at a BTZ point, where $I^-(p)=\emptyset$ while
+$K^-(p)=J^-(p)\setminus\{p\}\neq \emptyset$ (Proposition \ref{prop:K_calcul}).
+
+This is the whole point of $K^\pm$. Everything that follows --- admissible measures, continuity of
+$x\mapsto \mu(J^\pm(x))$, and Geroch's Theorem --- is built on $K^\pm$ rather than on $I^\pm$, and
+therefore survives in both settings.
+\end{rem}
+
+\begin{cor}\label{cor:K_lorentzien} Let $M$ be a Lorentzian manifold. Then
+$$\forall p\in M, \quad K^\pm(p)=I^\pm(p).$$
+\end{cor}
+% [editorial] proof supplied 2026-08-20 -- verify
+\begin{proof}
+A Lorentzian manifold is a tarentin topological spacetime whose causality is absolutely minimal,
+and by Remark \ref{rem:lorentz_tarentin} each of its points is strongly tarentin in the future and
+in the past. Proposition \ref{prop:tarentin_fort_K} and its analogue for $K^+$ give the conclusion.
+\end{proof}
+
+\begin{prop} \label{prop:FZenon_injectif}Let $M$ be a topological spacetime. If $M$ is strongly causal, then
+the map $$\fonctionn{Z^\pm(M)}{\mathcal{P}(M)}{x}{I^\pm(x)}$$
+is injective.
+\end{prop}
+\begin{rem}\label{rem:manifolds_specialises_brunswic_cauchy}
+For $\mass{\geq0}$-manifolds this specialises to \cite[Prop.~1.10]{brunswic2021cauchy}, which states the injectivity of $x\mapsto I^+(x)$ on all of $M$ and of $x\mapsto I^-(x)$ on $M\setminus \sing_0(M)$ --- the two domains being exactly $Z^+(M)$ and $Z^-(M)$ in the present language.
+\end{rem}
+\begin{proof}
+Let $x,y\in Z^+(M)$ be such that $I^+(x)=I^+(y)$. Let $\U_x,\U_y$ be open neighbourhoods
+of $x$ and $y$ respectively. Since $M$ is strongly causal
+there exists a neighbourhood $\V_x\subset \U_x$ of $x$ (resp. $\V_y\subset \U_y$ of $y$) causally convex in $M$.
+Since $x$ is strongly tarentin in the future, choose $a\in \V_x\cap I^+(x)$.
+Since $I^+(x)=I^+(y)$ we have $a\in I^+(y)$, hence $y\in I^-(a)$; now $I^-(a)\cap \V_y$ is an open set containing $y$
+and $y$ is strongly tarentin, so there exists $b\in I^-(a)\cap \V_y \cap I^+(y)$; fix such a $b$.
+Since $b\in I^+(y)=I^+(x)$ we obtain $b\in I_M(x,a)$; now $I_M(x,a)\subset J_M(x,a) \subset \V_x$ because $\V_x$
+is causally convex in $M$ and $x,a\in \V_x$. Hence $b\in \V_x$, so $\V_x\cap \V_y\neq \emptyset$
+and therefore $\U_x\cap \U_y\neq \emptyset$.
+Thus every neighbourhood of $x$ meets every neighbourhood of $y$; since $M$ is Hausdorff, $x=y$.
+Finally $x\mapsto I^+(x)$ is injective on $Z^+(M)$, and one shows in the same way that
+$x\mapsto I ^-(x)$ is injective on $Z^-(M)$.
+\end{proof}
+
+Injectivity is not, however, the statement one wants downstream. What the construction of an
+admissible measure asks for (hypothesis $(ii)$ of Proposition \ref{prop:mesure_dieckmann_topo}), and
+what the proof of the Choquet-Bruhat--Geroch theorem asks for (Lemma \ref{lem:corresponding_K}), is
+that $x\mapsto K^-(x)$ recover the causal order and not merely the point. The following criterion
+reduces that to a density statement, and it is the reason for isolating the push-up property.
+
+\begin{prop}[$K^\pm$ as an embedding of ordered sets]\label{prop:K_plongement_ordre}
+Let $M$ be a causal topological spacetime. Assume that for every $x\in M$
+\begin{enumerate}[label=(\alph*)]
+\item $J^\pm(x)$ is closed, and
+\item $J^\pm(x)\subset \overline{K^\pm(x)}$, i.e. $K^\pm(x)$ is dense in $J^\pm(x)$.
+\end{enumerate}
+Then for all $x,y\in M$,
+$$K^-(x)\subset K^-(y)\ \Longrightarrow\ x\leq y, \qquad K^+(y)\subset K^+(x)\ \Longrightarrow\ x\leq y,$$
+and in particular the maps $x\mapsto K^\pm(x)$ are injective.
+
+If moreover $K^-$ is monotone --- $q\leq p \Rightarrow K^-(q)\subset K^-(p)$, which is hypothesis
+$(ii)$ of Proposition \ref{prop:mesure_dieckmann_topo} --- then for all $x,y\in M$
+$$x\leq y \iff K^-(x)\subset K^-(y),$$
+so that $x\mapsto K^-(x)$ is an isomorphism of ordered sets from $(M,\leq)$ onto its image in
+$\left(\mathcal P(M),\subset\right)$. The symmetric statement holds for $K^+$, with the order
+reversed.
+\end{prop}
+% [editorial] supplied 2026-08-22 -- verify
+\begin{proof}
+Assume $K^-(x)\subset K^-(y)$. By $(b)$ and by $K^-(y)\subset J^-(y)$,
+$$J^-(x)\subset \overline{K^-(x)}\subset \overline{K^-(y)}\subset \overline{J^-(y)}=J^-(y),$$
+the last equality by $(a)$. Since $\leq$ is reflexive, $x\in J^-(x)\subset J^-(y)$, that is $x\leq y$.
+The argument for $K^+$ is symmetric and gives $y\in J^+(y)\subset J^+(x)$, again $x\leq y$.
+
+If $K^-(x)=K^-(y)$ we obtain $x\leq y$ and $y\leq x$, hence $x=y$ because $M$ is causal; the same
+for $K^+$. The last assertion is the conjunction of the implication just proved with the assumed
+monotonicity.
+\end{proof}
+
+\begin{rem}\label{rem:K_plongement_hypotheses}
+Neither hypothesis can be dispensed with. Without $(a)$ one only gets $x\in \overline{J^-(y)}$; global
+hyperbolicity supplies $(a)$ through Proposition \ref{prop:GH_Jferme}. Hypothesis $(b)$ is where
+push-up enters: at a point which is strongly tarentin in the past and around which $M$ is causally
+plain, $K^-(x)=I^-(x)$ (Proposition \ref{prop:tarentin_fort_K}) and $(b)$ reads
+$J^-(x)\subset\overline{I^-(x)}$, the classical density of the chronological past in the causal past.
+Proposition \ref{prop:K_densite_sing} establishes $(b)$ for singular flat spacetimes --- including at
+BTZ points, where $I^-(x)$ is empty and only $K^-(x)$ can be dense.
+\end{rem}
+We conclude with a useful lemma.
+
+\begin{lem}\label{lem:cup_cap} Let $M$ be an absolutely minimal topological spacetime, let $p\in M$ and let $(p_n)_{n\in \N}\in M^\N$ be a sequence converging to
+$p$.
+If $J^+(x)$ is closed for every $x\in M$, then
+$$I^{-}(p)\subset \mathrm{Int}\left(\bigcup_{N\in \N}\bigcap_{n\geq N} I^-(p_n)\right)\subset \ring J^-(p) \cap Z^{+}(M). $$
+\end{lem}
+\begin{proof} \
+\begin{itemize}
+\item Let $x\in I^-(p)$; then $p\in I^+(x)$. Since $I^+(x)$ is open there exists $N\in \N$ such that $p_n\in I^+(x)$ for every $n\geq N$,
+and therefore such that $x\in I^-(p_n)$ for every $n\geq N$.
+Hence $I^-(p)\subset \bigcup_{N\in \N}\bigcap_{n\geq N} I^-(p_n)$;
+since $I^-(p)$ is open, $$I^{-}(p)\subset \mathrm{Int}\left(\bigcup_{N\in \N}\bigcap_{n\geq N} I^-(p_n)\right).$$
+
+\item Let $x\in \bigcup_{N\in \N}\bigcap_{n\geq N} I^-(p_n)$ and let $N\in \N$ be such that
+$x\in I^-(p_n)$ for every $n\geq N$.
+Then $p_n\in I^+(x)\subset J^+(x)$ for every $n\geq N$.
+In particular $I^+(x)\neq \emptyset$, so $x\in Z^+(M)$.
+Moreover $J^+(x)$ is closed, hence
+$$p=\lim_{n\rightarrow +\infty } p_n \in J^+(x),$$
+so that $x\in J^-(p)$.
+
+Finally,
+$$\mathrm{Int}\left(\bigcup_{N\in \N}\bigcap_{n\geq N} I^-(p_n)\right)\subset \ring J^-(p)\cap Z^+(M).$$
+\end{itemize}
+\end{proof}
+
+\begin{rem}\label{rem:same_notation_one_proves} With the same notation, one proves in the same way the corresponding property for the chronological future:
+if $J^-(x)$ is closed for every $x\in M$, then
+$$I^{+}(p)\subset \mathrm{Int}\left(\bigcup_{N\in \N}\bigcap_{n\geq N} I^+(p_n)\right)\subset \ring J^+(p) \cap Z^{-}(M). $$
+\end{rem}
+
+\subsection{Geroch's Theorem}
+Geroch's splitting theorem states that a globally hyperbolic Lorentzian manifold admits a Cauchy surface.
+
+\begin{defi}[Globally hyperbolic]\label{def:globally_hyperbolic}\index{Globally hyperbolic} Let $M$ be a topological spacetime. $M$ is globally hyperbolic if $M$ is causal and
+if $J_M(p,q)$ is compact for all $p,q\in M$.
+\end{defi}
+
+\begin{defi}[Cauchy surface]\label{def:cauchy_surface}\index{Surface!Cauchy} Let $M$ be a topological spacetime. A Cauchy surface in $M$ is a subset
+$S\subset M$ such that every causal curve of $M$ meets $S$ exactly once.
+\end{defi}
+\begin{theo}[Geroch \cite{MR0270697}]\label{theo:geroch_mr}\index{Theorem!Geroch} Let $M$ be a Lorentzian manifold. The following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+\item $M$ is globally hyperbolic;
+\item $M$ admits a Cauchy hypersurface.
+\end{enumerate}
+Moreover, if these properties hold, then $M$ is homeomorphic to $\Sigma\times \RR$.
+\end{theo}
+This theorem is fundamental in the study of Lorentzian spacetimes,
+and we wish to have a version of it for singular flat spacetimes. A complete proof would be at once laborious and, for the most part,
+redundant with the literature.
+We therefore content ourselves with retracing its main steps, following the very clear exposition of \cite{MR2196783} and generalising the important points to the setting of singular flat spacetimes.
+
+\subsubsection{Admissible measures}
+The first step of the proof is to define continuous time functions on a spacetime
+$M$; see Definition \ref{defi:fonction_temps}.
+A classical theorem of Hawking states that the existence of time functions is equivalent to stable causality.
+On the one hand this notion is not yet clearly defined for topological spacetimes, and on the other hand the work needed
+to find the minimal hypotheses under which a generalisation of Hawking's theorem can be stated has not yet been carried out.
+The classical method \cite{MR0270697,MR0334862,MR962333,MR2196783} for constructing continuous time functions
+consists in building a finite measure $\mu$ on $M$ compatible with the
+topology of $M$ and with its causality --- such a measure is called {\it admissible} (Definition \ref{defi:mesure_dieckmann}); on a spacetime carrying BTZ lines one needs two of them, one for the past and one for the future (Remark \ref{rem:mesure_unilaterale}) ---
+and then studying the continuity of the functions $t^\pm : x\mapsto \mu(J^\pm(x))$.
+Usually the sets $I^\pm$ are used as the support of the admissible measure. This is not possible in general, because they may be empty!
+The notion of continuously reachable past and future (Definition \ref{defi:futur_continue}) generalises $I^\pm$ as the support of an admissible measure
+to more general spacetimes, including the case of $\mass{\geq0}$-manifolds.
+
+\begin{defi}[Time function]\index{Time function} \label{defi:fonction_temps}Let $(M,\leq,\ll)$ be a topological spacetime. A time function $T$ on $M$ is a morphism of topological spacetimes
+$$(M,\leq,\ll)\xrightarrow{~~T~~}(\RR,\leq,<).$$
+\end{defi}
+
+\begin{defi}[Admissible measure]\label{defi:mesure_dieckmann}\index{Admissible measure} Let $M$ be a topological spacetime. A measure $\mu$ on $M$ is admissible \emph{in the past} (resp. \emph{in the future})
+if it satisfies the following properties:
+\begin{enumerate}
+\item $\mu$ is a regular Borel measure on $M$;
+\item $\mu(M)<+\infty$;
+\item for all $p,q\in M$, if $p<q$ then
+$$\mu(J^-(q)\setminus J^-(p))>0 \qquad \left(\text{resp.}\quad  \mu(J^+(p)\setminus J^+(q))>0\right) ; $$
+\item for every $A \subset M$, $\mu(J^-(A)\setminus K^-(A))=0$ \quad (resp. $\mu(J^+(A)\setminus K^+(A))=0$).
+\end{enumerate}
+\end{defi}
+\begin{rem}\label{rem:mesure_bord}
+In property $4$ the set $J^\pm(A)$ need not be Borel; the condition is to be read for the completion of $\mu$, equivalently as $\mu^*\left(J^\pm(A)\setminus K^\pm(A)\right)=0$ for the associated outer measure.
+\end{rem}
+\begin{rem}[Why the notion is one-sided]\label{rem:mesure_unilaterale_ptr}
+The one-sided formulation is not a stylistic choice. As soon as a spacetime carries the analogue of
+a BTZ line --- a causal chain along which chronological pasts are empty --- no measure on it is
+admissible in the past and in the future at once, property $4$ being the obstruction; the
+computation is carried out in Remark \ref{rem:mesure_unilaterale} of Section
+\ref{subsec:geroch_sing}. Geroch's Theorem \ref{theo:geroch} is accordingly fed a \emph{pair} of
+measures.
+\end{rem}
+
+\begin{prop}\label{prop:mesure_dieckmann_Lorentz} Let $M$ be a strongly causal Lorentzian manifold. Then $M$ admits a measure which is admissible both in the past and in the future.
+\end{prop}
+\begin{proof}
+Since $M$ is strongly causal and Lorentzian, the Alexandrov topology is the manifold topology of $M$
+and diamonds always have non-empty interior.
+One then checks easily that conditions $3.$ and $4.$ hold for a measure admissible in the sense of
+Dieckmann. The classical result then applies; see for instance \cite{MR2196783}, Section 3.1.
+\end{proof}
+
+\begin{lem}[Restriction to a causally convex open set]\label{lem:restriction_convexe}
+% [editorial] supplied 2026-08-21 -- verify
+Let $M$ be a causally arc-connected topological spacetime and let $\U$ be an open subset of $M$
+causally convex in $M$. Then for every $x\in \U$,
+$$J^\pm_\U(x)=J^\pm(x)\cap \U,\qquad I^\pm_\U(x)=I^\pm(x)\cap \U,\qquad K^\pm_\U(x)=K^\pm(x)\cap \U,$$
+and consequently $J^\pm_\U(A)=J^\pm(A)\cap \U$ and $K^\pm_\U(A)=K^\pm(A)\cap \U$ for every $A\subset \U$.
+\end{lem}
+\begin{proof}
+We treat the past, the future being symmetric.
+
+The inclusions $J^-_\U(x)\subset J^-(x)\cap \U$ and $I^-_\U(x)\subset I^-(x)\cap \U$ are axiom $(b)$ of
+Definition \ref{defi:causalite}. Conversely let $y\in \U$ with $y\leq x$. Since $M$ is causally
+arc-connected there is a future causal curve $c:[0,1]\rightarrow M$ from $y$ to $x$; for every
+$t\in[0,1]$ we have $y\leq c(t)\leq x$, hence $c([0,1])\subset J_M(y,x)\subset \U$ by causal convexity
+of $\U$. Thus $c$ is a future causal curve of $\U$, and causal arc-connectedness applied to the open
+set $\U$ gives $y\leq_\U x$. The same argument with a chronological curve gives
+$I^-(x)\cap \U\subset I^-_\U(x)$.
+
+Fix now $x\in \U$. Since $\U$ is an open neighbourhood of $x$, a sequence of $M$ converges to $x$ if
+and only if one of its tails is a sequence of $\U$ converging to $x$; and the sets
+$\bigcap_{n\geq N}J^-(p_n)$ increase with $N$, so discarding a tail changes neither side of the
+identity to be proved. Let $(p_n)_{n\in \N}$ be a sequence of $\U$ converging to $x$ and let $N\in \N$.
+By the first part,
+$$J^-_\U(x)\cap \bigcap_{n\geq N} J^-_\U(p_n)=\left(J^-(x)\cap \bigcap_{n\geq N} J^-(p_n)\right)\cap \U .$$
+Moreover $J^-_\U(x)=J^-(x)\cap \U$ is open in $J^-(x)$, so
+$\mathrm{Int}_{J^-_\U(x)}(S)=\mathrm{Int}_{J^-(x)}(S)$ for every $S\subset J^-(x)\cap \U$, and
+$\mathrm{Int}_{J^-(x)}(S\cap \U)=\mathrm{Int}_{J^-(x)}(S)\cap \U$ for every $S\subset J^-(x)$. Taking
+the union over $N$ and the intersection over sequences gives $K^-_\U(x)=K^-(x)\cap \U$. The statements
+for $A\subset \U$ follow by taking unions over $x\in A$.
+\end{proof}
+
+\begin{prop}\label{prop:mesure_dieckmann_topo} Let $M$ be a causally arc-connected, strongly causal
+topological spacetime. Assume that
+\begin{enumerate}[label=(\roman*)]
+\item for every $p\in M$ there is an open neighbourhood $\U_p$ of $p$, causally convex in $M$,
+carrying a measure admissible in the past;
+\item for every $p\in M$ and every $q\leq p$, $K^-(q)\subset K^-(p)$.
+\end{enumerate}
+Then $M$ carries a measure admissible in the past. The symmetric statement holds in the future.
+\end{prop}
+\begin{proof}
+Since $M$ is second countable, there exists a family $(\U_n)_{n\in \N}$ of open subsets of $M$ covering $M$
+and such that for every $n\in \N$ the set $\U_n$ carries a measure admissible in the past and is causally convex in $M$. For every $n\in \N$ choose
+such a measure $\mu_n$ on $\U_n$, normalised so that $\mu_n(\U_n)=1$.
+Set $\mu := \sum_{n\in \N} 2^{-n-1} \mu_n$.
+
+Since each $\mu_n$ is a normalised regular Borel measure, $\mu$ is a regular Borel measure of finite total mass.
+Let $p<q$ in $M$. Since $M$ is causally arc-connected, its causality is absolutely minimal by
+Corollary \ref{cor:causalement_connexe_minimal}, so there exist $n_0\in \N$ and $q'\in \U_{n_0}$
+such that $p\in \U_{n_0}$ and $p<_{\U_{n_0}}q'$ with $q'\leq q$. Then
+\begin{eqnarray*}
+\mu(J^-(q)\setminus J^-(p))&\geq& \mu(J^-(q')\setminus J^-(p))\\
+&\geq& 2^{-n_0-1}\,\mu_{n_0}\left((J^-(q')\setminus J^-(p))\cap \U_{n_0} \right)\\
+&=& 2^{-n_0-1}\,\mu_{n_0}\left(J_{\U_{n_0}}^-(q')\setminus J_{\U_{n_0}}^-(p)\right)\\
+&>& 0 .
+\end{eqnarray*}
+The last-but-one line follows from Lemma \ref{lem:restriction_convexe}, and the last from the
+admissibility of $\mu_{n_0}$ in the past. Property $3.$ therefore holds.
+
+% [editorial] proof supplied 2026-08-21 -- verify
+It remains to prove property $4.$ Let $A\subset M$ and put $B_n:=J^-(A)\cap \U_n$ for $n\in \N$.
+\begin{itemize}
+\item \emph{$B_n$ is its own causal past in $\U_n$.} Indeed $B_n\subset J^-_{\U_n}(B_n)$ since
+$\leq_{\U_n}$ is reflexive; conversely if $x\in \U_n$ satisfies $x\leq_{\U_n}q$ for some $q\in B_n$,
+then $x\leq q$ by axiom $(b)$ and $q\leq p$ for some $p\in A$, hence $x\in J^-(A)\cap \U_n=B_n$.
+Thus $J^-_{\U_n}(B_n)=B_n$.
+\item \emph{$K^-_{\U_n}(B_n)\subset K^-(A)$.} By Lemma \ref{lem:restriction_convexe},
+$K^-_{\U_n}(B_n)=K^-(B_n)\cap \U_n\subset K^-(B_n)$; and every $q\in B_n$ satisfies $q\leq p$ for
+some $p\in A$, so $K^-(q)\subset K^-(p)\subset K^-(A)$ by hypothesis $(ii)$.
+\end{itemize}
+Since $\mu_n$ is admissible in the past on $\U_n$, property $4.$ applied to $B_n\subset \U_n$ gives
+$$\mu_n\left(J^-_{\U_n}(B_n)\setminus K^-_{\U_n}(B_n)\right)=\mu_n\left(B_n\setminus K^-_{\U_n}(B_n)\right)=0 .$$
+By the second item, $\left(J^-(A)\setminus K^-(A)\right)\cap \U_n\subset B_n\setminus K^-_{\U_n}(B_n)$,
+so this set is $\mu_n$-negligible. Each $\mu_n$ being carried by $\U_n$,
+$$\mu\left(J^-(A)\setminus K^-(A)\right)=\sum_{n\in \N}2^{-n-1}\,\mu_n\left(\left(J^-(A)\setminus K^-(A)\right)\cap \U_n\right)=0,$$
+which is property $4.$ The proof in the future is symmetric.
+\end{proof}
+\begin{rem}\label{rem:recursion_these}
+The argument above uses neither the recursion
+$K^{-,(0)}(A)=K^-_{\U_1}(A)$, $K^{-,(n+1)}(A)=K^{-,(n)}(A)\cup K^-_{\U_{n+1}}\left(K^{-,(n)}(A)\cap \U_{n+1}\right)$
+of \cite{thesis}, nor the further hypothesis made there. That recursion is in any case mis-seeded:
+if $A\subset \U_5$ and $A\cap\left(\U_1\cup\cdots\cup \U_4\right)=\emptyset$, then every
+$K^{-,(n)}(A)$ is empty, since $A$ enters the recursion only through $\U_1$.
+\end{rem}
+
+\begin{prop}\label{prop:relation_fermee}
+Let $M$ be a tarentin topological spacetime. If $J^\pm(x)$ is closed for every $x\in M$, then the
+relation $\leq_M$ is closed in $M\times M$.
+\end{prop}
+% [editorial] proof supplied 2026-08-21 -- verify
+\begin{proof}
+Since $M$ is second countable, so is $M\times M$; it therefore suffices to prove that $\leq_M$ is
+sequentially closed. Let $(k_n)_{n\in \N}$ and $(q_n)_{n\in \N}$ be sequences of $M$ with
+$k_n\leq q_n$ for every $n\in \N$, $k_n\rightarrow k$ and $q_n\rightarrow q$.
+
+Let $(\U_m)_{m\in \N}$ be a decreasing countable basis of neighbourhoods of $q$. Since $M$ is
+tarentin, for every $m\in \N$ there exist $a_m,b_m\in \U_m$ with $q\in \ring J_M(a_m,b_m)$. As
+$\ring J_M(a_m,b_m)\subset J_M(a_m,b_m)\subset J^-(b_m)$, the set $J^-(b_m)$ is a neighbourhood of
+$q$; and $b_m\in \U_m$, so $b_m\rightarrow q$.
+
+Fix $m\in \N$. Since $q_n\rightarrow q$ and $\ring J_M(a_m,b_m)$ is an open neighbourhood of $q$,
+there is $N\in \N$ such that $q_n\in \ring J_M(a_m,b_m)$, hence $q_n\leq b_m$, for every $n\geq N$;
+by transitivity $k_n\leq b_m$, that is $k_n\in J^-(b_m)$. Since $J^-(b_m)$ is closed and
+$k_n\rightarrow k$, we obtain $k\in J^-(b_m)$, that is $b_m\in J^+(k)$.
+
+This holds for every $m\in \N$. Since $J^+(k)$ is closed and $b_m\rightarrow q$, we conclude
+$q\in J^+(k)$, that is $k\leq q$.
+\end{proof}
+\begin{rem}\label{rem:proof_uses_neither_causal}
+The proof uses neither causal curves, nor $I^\pm$, nor causal plainness. This matters: it is exactly
+the classical argument that ``$J^\pm(x)$ closed for every $x$ implies $\leq$ closed'', with the
+tarentin hypothesis playing the role that $q\in \overline{I^+(q)}$ plays in the Lorentzian case.
+The classical formulation is unavailable here, since $I^+(q)$ may be empty.
+\end{rem}
+
+\begin{prop} \label{prop:GH_Jferme}Let $M$ be a topological spacetime. If $M$ is
+tarentin and globally hyperbolic, then $\leq_M$ is closed in $M\times M$ and $J^\pm(K)$ is closed
+for every compact $K\subset M$.
+\end{prop}
+\begin{proof}
+Assume $M$ globally hyperbolic and tarentin.
+We first prove that $J^+(p)$ is closed for every $p\in M$; the case of $J^-$ is symmetric.
+
+Let $p\in M$. Since $M$ is second countable, it suffices to show that $J^+(p)$ is sequentially closed.
+Let $(q_n)_{n\in \N}$ be a sequence in $J^+(p)$ converging to some $q\in M$. Since $M$ is tarentin
+there exist $a,b\in M$ with $q\in \ring J_M(a,b)$; in particular $J^-(b)$ is a neighbourhood of $q$.
+For $n$ large enough $q_n\in J^-(b)$, hence $q_n \in J_M(p,b)$. Since $M$ is globally hyperbolic,
+$J_M(p,b)$ is compact, hence closed because $M$ is Hausdorff, and therefore $q\in J_M(p,b)\subset J^+(p)$.
+
+By Proposition \ref{prop:relation_fermee} the relation $\leq_M$ is closed in $M\times M$.
+Let $K\subset M$ be compact. The projection $\pi:K\times M\rightarrow M$ is a closed map, $K$ being
+compact, and $\leq_M\cap\,(K\times M)$ is closed in $K\times M$; hence
+$$J^+(K)=\pi\left(\leq_M\cap\,(K\times M)\right)$$
+is closed. The case of $J^-$ is symmetric.
+\end{proof}
+
+\begin{prop} \label{prop:GH_fortement_causal}Let $M$ be a tarentin topological spacetime.
+If $M$ is globally hyperbolic, then $M$ is strongly causal.
+\end{prop}
+\begin{proof}
+Let $p\in M$ and let $\U$ be a neighbourhood of $p$.
+Suppose for contradiction that for all $a,b \in \U$ with $p\in \ring{J}_M(a,b)$ we have $J_M(a,b) \nsubset \U$.
+Since $M$ is tarentin there exist sequences $(a_n)_{n\in \N}$ and $(b_n)_{n\in \N}$, respectively increasing and decreasing,
+of points of $\U$ converging to $p$ and such that $p\in \ring J_M(a_n,b_n)$ for every $n\in \N$.
+The sequence $\left(J_M(a_n,b_n)\setminus \U \right)_{n\in \N}$
+is a decreasing sequence of non-empty compact sets, because $M$ is globally hyperbolic and Hausdorff; hence, by the finite intersection property,
+$$\bigcap_{n\in \N}\left(J_M(a_n,b_n)\setminus \U \right) \neq \emptyset.$$
+Let $q$ be a point of this intersection.
+Note that $a_n \in J^-(q)$ and $b_n \in J^+(q)$ for every $n\in \N$; now $a_n,b_n\xrightarrow{n\rightarrow +\infty} p$
+and the sets $J^\pm(q)$ are closed by Proposition \ref{prop:GH_Jferme}. Hence $p\in J^\pm(q)$, that is, $p\leq q$ and $q\leq p$.
+This is absurd, since $M$ is causal (i.e. $\leq$ is antisymmetric) and $p\neq q$.
+We may therefore choose $a,b\in M$ with $p\in \ring J_M(a,b) \subset \U$. The open set
+$\ring J_M(a,b)$ contains $p$, is contained in $\U$ and is causally convex in $M$.
+Finally, $M$ is locally causally convex, hence strongly causal.
+\end{proof}
+
+\begin{prop}\label{prop:cont_ext_cont}
+Let $M$ be a topological spacetime. If $M$ is
+tarentin and globally hyperbolic and if $\mu$ is a measure admissible in the past (resp. in the
+future) on $M$, then $p\mapsto \mu(J^-(p))$ (resp. $p\mapsto \mu(J^+(p))$) is continuous.
+\end{prop}
+\begin{proof}Let $p\in M$, let $\varepsilon>0$ and let $(q_n)_{n\in \N}$ be a sequence converging to
+$p$.
+\begin{itemize}
+\item  Choose a compact set $C\subset K^-(p)$ such that
+$\mu(K^-(p)\setminus C)<\varepsilon$.
+
+Since $C\subset K^-(p)$, the set $C$ is covered by the open sets $$\mathrm{Int}_{J^-(p)}\left(\bigcap_{n\geq N}J^-(q_n)\cap J^-(p)\right),\quad \quad N\in \N;$$
+since $C$ is compact, finitely many of them already cover $C$. There therefore exists
+$N\in \N$ such that for every
+$n\geq N$, $$C\subset J^-(q_n)\cap J^-(p) \subset J^-(q_n). $$
+Fixing such an $N\in\N$, for every $n\geq N$ we obtain
+$$\mu(J^-(q_n))  \geq \mu(C)\geq \mu(K^-(p))-\varepsilon=\mu(J^-(p))-\varepsilon.$$
+
+\item Choose a compact set $C\subset M\setminus J^-(p)$ such that
+$\mu(C)>\mu(M\setminus J^-(p))-\varepsilon$.
+
+Since $C$ is compact and $M$ globally hyperbolic, $J^+(C)$ is closed.
+Since $C\subset M\setminus J^-(p)$ we have $p\notin J^+(C)$, so
+$M\setminus J^+(C)$ is an open neighbourhood of $p$. Choose $N\in \N$ such that $q_n\notin J^+(C)$ for every $n\geq N$.
+For such $n$ no point of $C$ lies in $J^-(q_n)$, that is, $J^-(q_n)\subset M\setminus C$, whence
+$$\mu(J^-(q_n))\leq \mu(M\setminus C)= \mu(M)-\mu(C)< \mu(M)-\mu(M\setminus J^-(p))+\varepsilon = \mu(J^-(p))+\varepsilon.$$
+\end{itemize}
+We deduce that $p\mapsto \mu(J^-(p))$ is continuous. The case of a measure admissible in the future is symmetric.
+\end{proof}
+
+\subsubsection{Cauchy time function of a globally hyperbolic spacetime}
+
+\begin{defi}[Cauchy time function]\label{def:cauchy_time_function}\index{Cauchy time function} Let $M$ be a topological spacetime. A time function $T$ is a Cauchy time function
+if for every inextensible causal curve $c:\RR\rightarrow M$,
+$$-\lim_{-\infty} (T\circ c) = \lim_{+\infty}(T\circ c) = +\infty.$$
+\end{defi}
+
+\begin{theo}[Generalised Geroch]\label{theo:geroch}\index{Theorem!Geroch}
+Let $M$ be a metrizable, locally compact topological spacetime.
+Assume moreover that $M$ is tarentin, causally arc-connected and locally causally convex, and that
+$J^\pm(p)\neq \{p\}$ for every $p\in M$.
+If $M$ admits a pair $(\mu_+,\mu_-)$ of measures admissible respectively in the future and in the
+past, then the following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+\item $M$ is globally hyperbolic;
+\item $M$ admits a Cauchy time function;
+\item $M$ admits a Cauchy hypersurface.
+\end{enumerate}
+\end{theo}
+\begin{proof}[Sketch of proof]\
+\begin{itemize}
+\item \underline{$(i)\Rightarrow(ii)$}
+
+Assume $M$ globally hyperbolic.
+We use Proposition \ref{prop:cont_ext_cont} to show that the functions
+$t^+:x\mapsto \mu_+(J^+(x))$ and $t^-:x\mapsto -\mu_-(J^-(x))$ are time functions (hence continuous).
+They do not vanish: since $J^\pm(p)\neq \{p\}$, property $3$ applied to any $q\in J^+(p)\setminus\{p\}$
+(resp. $q\in J^-(p)\setminus\{p\}$) gives $t^+(p)>0$ and $t^-(p)<0$. Note that $I^\pm$ cannot be used
+here: at a BTZ point $\mu_-(I^-(p))=0$ whereas $\mu_-(J^-(p))>0$.
+We then set $$\fonction{T}{M}{\RR}{x}{\log\left(-\frac{t^-(x)}{t^+(x)}\right)}.$$
+$T$ is a time function. Suppose that $\lim_{s\rightarrow 0}T\circ c(s)>-\infty$ for a given future causal curve $c:I\rightarrow M$ with
+$I=[0,1]$ or $ I=]0,1]$.
+Choose a decreasing sequence $(x_n)_{n\in \N}$ of $I$ converging to $0$. The sets $J^-(c(x_n))$ then
+decrease and $\mu_-$ is finite, so
+$$\mu_-\left(\bigcap_{n\in \N}J^-(c(x_n))\right)=\lim_{n\rightarrow +\infty} \mu_-\left(J^-(c(x_n))\right)=l>0,$$
+and there exists $q\in \bigcap_{n\in\N} J^-(c(x_n))$.
+The causal curve $c$ is entirely contained in $J^+(q)$, and for $t<1$ we have $c(t)\in J_M(q,c(0))$,
+which is compact; hence $c(s)$ admits accumulation points as $s$ tends to $0$.
+If $c$ had two distinct accumulation points $p_1$ and $p_2$, there would exist disjoint causally convex neighbourhoods
+$\U_1$ and $\U_2$ of $p_1$ and $p_2$ respectively, since $M$ is Hausdorff and strongly causal by Proposition \ref{prop:GH_fortement_causal}.
+As $c$ would have to return infinitely often to both $\U_1$ and $\U_2$, this would contradict the causal convexity of $\U_1$ and $\U_2$.
+We deduce that $c$ has a single accumulation point, hence admits a limit $p$ at $0$.
+If $I=]0,1]$ then $c$ is extensible by setting $c(0)=p$. Assume now $I=[0,1]$.
+Since $J^-(p)\neq \{p\}$ there exists $q'\in J^-(p)\setminus\{p\}$.
+By causal arc-connectedness we may extend $c$ by prepending a future causal curve from $q'$ to $p$,
+so $c$ is extensible.
+Finally, for every past-inextensible curve $c:I\rightarrow M$ we have $\lim_{s\rightarrow \inf I} T\circ c(s)=-\infty$.
+One shows in the same way that for every future-inextensible curve $c:I\rightarrow M$,
+$\lim_{s\rightarrow \sup I} T\circ c(s)=+\infty$. Hence $T$ is a Cauchy time function.
+\item \underline{$(ii)\Rightarrow(iii)$}
+
+It suffices to take $S=T^{-1}(0)$ as Cauchy hypersurface.
+\item \underline{$(iii)\Rightarrow(i)$}
+
+This step is technical and uses the notion of quasi-limit of a sequence of causal curves (Definition 7, p.~407 of \cite{oneil}).
+The proof is the object of Proposition 8 and of Theorem 35, p.~415 of \cite{oneil}. That proof carries over verbatim under the hypotheses
+of metrizability and local compactness.
+\end{itemize}
+\end{proof}
+
+This ``Geroch theorem'' does not fully imply the usual Geroch theorem for Lorentzian manifolds.
+Two elements are missing: on the one hand the fact that the topology of a globally
+hyperbolic spacetime $M$ splits, $M\simeq \Sigma\times \RR$; on the other hand that every Cauchy surface
+is a $\CC^0$-surface.
+The first point is false for general topological spacetimes, as shown by the example of
+two copies of $(\RR,\leq,<)$ glued along $\RR_-$: this topological spacetime is globally hyperbolic
+and one checks that it does admit a Cauchy time function, yet it is not topologically split.
+The second point only makes sense if $M$ is a manifold of class at least $\CC^0$; we shall return to it
+when we discuss the Seifert--Bernal--S\'anchez theorem.
+
+\section{Singular flat spacetimes}
+\label{subsec:sing_spacetime_defi}
+
+\subsection{Model spaces and their causality}
+We recall the model spaces and the causal facts about them that are used below. All of them are
+established in \cite{thesis,brunswic:hal-01317447} and are stated, in the form quoted here, in
+\cite{brunswic2021cauchy}; we give the precise reference for each.
+
+For $\alpha>0$, $\mass{\alpha}$ is Minkowski space $\mass{}=\E^{1,2}$ with a cone singularity of
+angle $\alpha$ along a timelike line --- a massive particle --- and $\mass{2\pi}=\mass{}$; in
+cylindrical coordinates $(t,r,\theta)$ its metric is $-\d t^2+\d r^2+r^2\d \theta^2$. The space
+$\mass{0}$ is the extreme BTZ model, with metric $-\d \tau^2+\d \r^2+\r^2\d \theta^2$ in
+coordinates $(\tau,\r,\theta)$; its singular locus $\{\r=0\}$ is a lightlike line. We write
+$\sing(\mass{\alpha})$ for the singular line and $\reg(\mass{\alpha})$ for its complement, which is
+an $(\isom(\mass{}),\mass{})$-manifold.
+
+\begin{defi}[Causal structure of the model spaces]\label{defi:causal_Ealpha}
+The causal and chronological orders of $\mass{\alpha}$ give rise to a sheaf with values in
+$\mathbf{C}$: for $\U\subset \mass{\alpha}$ open and $x,y\in \U$, one sets $x\leq_\U y$ (resp.
+$x\ll_\U y$) if and only if there is a future causal (resp. chronological) curve from $x$ to $y$
+in $\U$. On any $\mass{\geq0}$-manifold $M$ there is then a unique causal structure inducing that
+of $\mass{\alpha}$ in every chart, and $I^\pm(x)$ is always an open --- possibly empty --- subset
+of $M$. For $\alpha>0$ the singular line is timelike, hence locally chronal.
+\end{defi}
+
+\begin{defi}[Causal structure at a BTZ point]\label{defi:causal_E0}
+For $\alpha=0$ the singular line is lightlike: locally causal, but not locally chronal. More
+precisely \cite[Section~1.2]{brunswic2021cauchy}, for a singular point $p\in \sing(\mass{0})$,
+$$I^-(p)=\emptyset \qquad\text{and}\qquad J^-(p)=\{\r=0,~\tau\leq \tau(p)\},$$
+that is, the causal past of $p$ is exactly the singular half-line below $p$. In particular a BTZ
+point is strongly tarentin in the future but not in the past, and a $\mass{\geq0}$-manifold with at
+least one extreme BTZ white hole is not past distinguishing.
+
+% [editorial] quoted from \cite{thesis}, where it is asserted without proof -- verify
+Dually, the chronological future of a BTZ point $p$ is
+$$I^+(p)=\reg\left(J^+(p)\right)=J^+(p)\setminus \sing_0\left(\mass{0}\right):$$
+every non-BTZ point of the causal future of $p$ lies in its chronological future.
+\end{defi}
+
+\begin{rem}\label{rem:btz_pas_tarentin}
+Every point of a $\mass{\geq 0}$-manifold is strongly tarentin in the future, and the points which
+fail to be strongly tarentin in the past are exactly the BTZ points: this is immediate from
+Definitions \ref{defi:causal_Ealpha} and \ref{defi:causal_E0} read in a chart.
+\end{rem}
+
+\begin{rem}\label{rem:sing_tarentin}
+Every $\mass{\geq0}$-manifold is a tarentin topological spacetime.
+\end{rem}
+
+\begin{cexemple}\label{cexemple:misner_tarentin}
+Consider a singular $\mass{}$-manifold $M$ containing a Misner singularity, as constructed in
+\cite{thesis}. The causality extends to all of $M$, but every causal curve issued from a
+singular point is future directed, so a singular point has no past. Hence $M$ is not tarentin.
+\end{cexemple}
+
+\begin{rem}[Push-up]\label{rem:pushup}
+In the model spaces, the concatenation of a future causal curve with a future chronological one is
+future chronological. Equivalently, for every $x$,
+$$J^+(I^+(x))\subset I^+(x)\quad\text{and}\quad I^+(J^+(x))\subset I^+(x),$$
+and symmetrically in the past. Since this holds in every open subset of $\mass{\kappa}$, the model
+spaces have the push-up property of Definition \ref{defi:pushup}.
+\end{rem}
+
+We may now construct a causality on $\mass{\geq 0}$-manifolds by the $(G,X)$-machinery of Section
+\ref{subsubsec:GX_causality}: it remains to know that the causalities of the model spaces
+$\mass{\kappa}$, $\kappa \geq 0$, are absolutely minimal, which causal arc-connectedness supplies.
+
+\begin{cor}\label{cor:model_minimal} For every $\kappa\geq 0$ the causality of $\mass{\kappa}$ is absolutely minimal.
+\end{cor}
+% [editorial] proof supplied 2026-08-20 -- verify
+\begin{proof}
+The model spaces $\mass{\kappa}$, $\kappa\geq 0$, are causally arc-connected
+\cite{thesis,brunswic:hal-01317447}: two points are causally (resp. chronologically) related in an open
+subset exactly when they are joined by a future causal (resp. chronal) curve in that subset.
+Corollary \ref{cor:causalement_connexe_minimal} gives the conclusion.
+\end{proof}
+
+\begin{cor}\label{cor:massA_causalite} Every $\mass{\geq 0}$-manifold carries a natural absolutely minimal causality.
+\end{cor}
+% [editorial] proof supplied 2026-08-20 -- verify
+\begin{proof}
+By Corollary \ref{cor:model_minimal} the model spaces $\mass{\kappa}$, $\kappa\geq0$, are
+absolutely minimal, and $\isom(\mass{})$ acts on $\mass{}$ by morphisms of topological
+spacetimes; $\mass{}$ is moreover locally compact Hausdorff, hence Baire. The hypotheses of
+Proposition \ref{prop:GX_sing_espace_temps_topo} are therefore satisfied by the analytic
+singular structure $(\isom(\mass{}),\mass{},\mass{\geq0})$, which yields the causality; it is
+absolutely minimal by Theorem \ref{theo:causalite_engendre}.
+\end{proof}
+
+\begin{cor}\label{cor:massA_cac} Every $\mass{\geq 0}$-manifold is causally arc-connected.
+\end{cor}
+% [editorial] proof supplied 2026-08-21 -- verify
+\begin{proof}
+The chart domains form a cover of $M$ by causally arc-connected open sets: the model spaces are
+causally arc-connected, hence so are their open subsets by Remark \ref{rem:cac_local}. In particular
+$M$ is locally causally arc-connected, and by Proposition \ref{prop:GX_sing_espace_temps_topo} its
+causality is the one generated by that cover. Implication $(i)\Rightarrow(ii)$ of Proposition
+\ref{prop:cac_engendre} concludes.
+\end{proof}
+
+\begin{cor}\label{cor:pushup_sing}
+Every $\mass{\geq0}$-manifold has the push-up property.
+\end{cor}
+% [editorial] supplied 2026-08-22 -- verify
+\begin{proof}
+The chart domains form a cover of $M$ by open sets isomorphic, as topological spacetimes, to open
+subsets of the model spaces (Corollary \ref{cor:massA_causalite}); each of them has the push-up
+property by Remark \ref{rem:pushup}. Moreover $M$ is causally arc-connected by Corollary
+\ref{cor:massA_cac}. Lemma \ref{lem:pushup_local} concludes.
+\end{proof}
+
+
+The next two statements are, respectively, Corollary 1.7 and Lemma 1.9 of
+\cite{brunswic2021cauchy}. We restate them because they are used constantly below, and we reprove
+the second in the language of topological spacetimes.
+
+\begin{propri}[{\cite[Cor.~1.7]{brunswic2021cauchy}}]\label{prop:GX_sing_dec}
+A $\mass{\geq 0}$-manifold $M$ is a smooth $3$-manifold and its singular locus is a closed
+$1$-submanifold. Furthermore, for every $\alpha\in \RR_+$, $\sing_\alpha(M)$ is a closed
+$1$-submanifold.
+\end{propri}
+
+\begin{lem}[Computation of $I^\pm$ and $J^\pm$ in the model spaces]\label{lem:IJ_calc}
+For every $\kappa\geq 0$ and every $p\in \mass{\kappa}$,
+$$\ring J^\pm(p)\cap Z^\mp(\mass{\kappa})=I^\pm(p).$$
+\end{lem}
+% [editorial] proof supplied 2026-08-20 -- verify
+\begin{proof}
+By Definition \ref{defi:causal_Ealpha} every point of $\mass{\kappa}$ has non-empty chronological
+future, so $Z^+(\mass{\kappa})=\mass{\kappa}$; by Definition \ref{defi:causal_E0},
+$Z^-(\mass{\kappa})=\mass{\kappa}$ if $\kappa>0$, while $Z^-(\mass{0})=\reg(\mass{0})$.
+
+We prove the equality for $+$; the case of $-$ is obtained by exchanging the roles of past and
+future throughout.
+
+The inclusion $\supset$: the set $I^+(p)$ is open and contained in $J^+(p)$, hence
+$I^+(p)\subset \ring J^+(p)$. Moreover, if $q\in I^+(p)$ then $p\in I^-(q)$, so $I^-(q)\neq
+\emptyset$ and therefore $q\in Z^-(\mass{\kappa})$.
+
+The inclusion $\subset$: let $q\in \ring J^+(p)\cap Z^-(\mass{\kappa})$. The set $\ring J^+(p)$ is
+an open neighbourhood of $q$, and $q$ is strongly tarentin in the past, so
+$I^-(q)\cap \ring J^+(p)\neq \emptyset$. Pick $r$ in this intersection: then $p\leq r$ and
+$r\ll q$, hence $p\ll q$ by the push-up property of Remark \ref{rem:pushup}. Thus $q\in I^+(p)$.
+\end{proof}
+
+\begin{lem}[Density in the model spaces]\label{lem:densite_modele}
+Let $\kappa\geq 0$ and let $p\in \mass{\kappa}$. Then
+\begin{enumerate}[label=(\alph*)]
+\item $J^+(p)=\overline{I^+(p)}$;
+\item $J^-(p)=\overline{I^-(p)}$ if $\kappa>0$, or if $\kappa=0$ and $p\in \reg(\mass{0})$;
+\item $J^-(p)=\overline{J^-(p)\setminus\{p\}}$ if $\kappa=0$ and $p\in \sing(\mass{0})$.
+\end{enumerate}
+The same holds in any causally convex open subset of $\mass{\kappa}$, with $J^\pm$ and $I^\pm$ taken
+in that subset.
+\end{lem}
+% [editorial] supplied 2026-08-22 -- verify
+\begin{proof}
+Item $(c)$ is immediate from Definition \ref{defi:causal_E0}: $J^-(p)$ is the half-line
+$\{\r=0,~\tau\leq \tau(p)\}$ of $\sing(\mass{0})\simeq \RR$, of which $J^-(p)\setminus\{p\}$ is a
+dense subset.
+
+For $(a)$ and $(b)$ we use the explicit description of the causal cones of the model spaces
+\cite[Section~1.2]{brunswic2021cauchy}: for every $p$ the set $J^\pm(p)$ is the closure of its
+interior. Granting this, if $p\in Z^\mp(\mass{\kappa})$ then $I^\pm(p)=\ring J^\pm(p)\cap
+Z^\mp(\mass{\kappa})$ by Lemma \ref{lem:IJ_calc}, and $\mass{\kappa}\setminus
+Z^\mp(\mass{\kappa})$ is either empty or the singular line, a closed $1$-submanifold of the
+$3$-manifold $\mass{\kappa}$ and hence a set with empty interior; removing it from the open set
+$\ring J^\pm(p)$ does not change the closure, so
+$$\overline{I^\pm(p)}=\overline{\ring J^\pm(p)}=J^\pm(p).$$
+This covers $(b)$, and covers $(a)$ for $\kappa>0$ and for $p\in \reg(\mass 0)$. There remains $(a)$
+for $\kappa=0$ and $p\in \sing(\mass{0})$: there $I^+(p)=\reg\left(J^+(p)\right)$ by Definition
+\ref{defi:causal_E0}, and $J^+(p)\cap \sing(\mass{0})$ is again contained in a $1$-submanifold,
+whereas $J^+(p)$ is the closure of its interior; so $\overline{I^+(p)}=J^+(p)$.
+
+Finally, if $\V$ is causally convex in $\mass{\kappa}$ then $J^\pm_\V(x)=J^\pm(x)\cap \V$ and
+$I^\pm_\V(x)=I^\pm(x)\cap \V$ for $x\in \V$ by Lemma \ref{lem:restriction_convexe}, and intersecting
+with the open set $\V$ commutes with the closures above.
+\end{proof}
+
+\subsection{Definition}
+
+\begin{defi}[Singular flat spacetime]\label{def:singular_spacetime}\index{Spacetime!singular flat}
+Let $A$ be a subset of $\RR_+$.
+An $\mass{A}$-spacetime is a connected $\E^{1,2}_A$-manifold endowed with the causality generated
+by its $X_A$-atlas and by the causalities of $X$ and of the
+$(X_\alpha)_{\alpha\geq 0}$.
+
+We simply say singular flat spacetime when $A=\RR_+$.
+\end{defi}
+\begin{rem}\label{rem:singular_flat_spacetime_therefore}
+A singular flat spacetime is therefore a differential manifold and satisfies all the
+hypotheses of Geroch's Theorem \ref{theo:geroch}.
+\end{rem}
+
+\subsection{Some causal properties of singular flat spacetimes}
+
+\begin{lem}[{\cite[Lem.~1.9]{brunswic2021cauchy}}] \label{lem:past_BTZ}
+Let $M$ be a singular spacetime. Then
+\begin{enumerate}[label=(\alph*)]
+\item for every $\alpha\in \RR_+$, each connected component of $\sing_\alpha(M)$ is an inextensible causal curve;
+if $\alpha>0$, such a connected component is moreover chronal;
+\item every causal curve $c$ of $M$ decomposes as
+$$c=\Delta\cup c^0$$
+with $\Delta=c\cap \sing_0(M)$ and
+$c^0=c\setminus \sing_0(M)$.
+Moreover $\Delta$ and $c^0$ are connected, $\Delta$ is closed and lies in the past of $c^0$.
+\end{enumerate}
+\end{lem}
+\begin{proof}\
+\begin{enumerate}[label=(\alph*)]
+\item Let $\alpha \in \RR_+$ and let $\Delta$ be a connected component of $\sing_\alpha(M)$. By Property \ref{prop:GX_sing_dec}
+it is a connected $1$-dimensional submanifold; since $M$ is a differential manifold, it is parametrisable by $\RR$.
+Moreover it is locally chronal by Definition \ref{defi:causal_Ealpha} if $\alpha>0$, and
+locally causal by Definition \ref{defi:causal_E0} if $\alpha=0$. Consequently
+it is a chronal curve if $\alpha>0$ and a causal curve if $\alpha=0$. Finally, $\Delta$ is inextensible, being a closed submanifold without boundary.
+\item
+Let $c:\RR\rightarrow M$ be a future causal curve of $M$, let $\Delta:=c\cap \sing_0(M)$ and let $c^0:= c\cap \reg(M)$.
+We show that
+$$\forall s_0\in \RR,~~\left(c(s_0)\in \Delta ~~\Rightarrow~~ \forall s<s_0,~ c(s)\in \Delta\right), $$
+from which the stated property follows easily.
+Assume $\Delta\neq \emptyset$ and take $s_0\in \RR$ with $c(s_0) \in \Delta$. Set
+$$I:=\{s\in ]-\infty,s_0]~|~ c([s,s_0])\subset \Delta\}. $$
+\begin{itemize}
+\item $s_0\in I$, hence $I\neq \emptyset$.
+\item For $s\in I$, the point $c(s)$ is locally modelled on $\mass{0}$, and in a local chart $\U$ we have
+$J^-_\U(c(s))\subset \sing_0(\U)$.
+Hence for some $\varepsilon>0$ we get $c(]s-\varepsilon,s])\subset \sing_0(\U)\subset \sing_0(M)$;
+therefore $]s-\varepsilon,s_0]\subset I$ and $I$ is open in $]-\infty,s_0]$.
+\item Let $(s_n)_{n\in \N}\in I^\N$ be a decreasing sequence converging in $\RR$ to $s_\infty$.
+On the one hand $c([s_n, s_0])\subset \sing_0(M)$ for every $n\in \N$, hence $c(]s_\infty,s_0])\subset \sing_0(M)$;
+on the other hand $\sing_0(M)$ is closed; hence $c([s_\infty,s_0]) \subset \sing_0(M)$ and therefore $s_\infty\in I$.
+Thus $I$ is closed in $]-\infty,s_0]$.
+\end{itemize}
+$I$ is a non-empty open and closed subset of the connected set $]-\infty, s_0]$, hence $I=]-\infty,s_0]$
+and therefore $c(]-\infty,s_0])\subset \Delta$.
+\end{enumerate}
+\end{proof}
+
+\begin{prop}\label{prop:K_calcul} Let $M$ be a $\mass{\geq 0}$-manifold and let $p\in M$.
+\begin{enumerate}[label=(\alph*)]
+\item $K^\pm(p)=I^\pm(p)$ if $p\notin \sing_0(M)$;
+\item $K^+(p)=I^+(p)$ if $p\in \sing_0(M)$;
+\item if $M$ is causal and $p\in \sing_0(M)$, then $K^-(p)=J^-(p)\setminus \{p\}$.
+\end{enumerate}
+\end{prop}
+\begin{proof}
+Only the third case is not a direct consequence of Proposition \ref{prop:tarentin_fort_K}.
+Assume $M$ causal and $p\in \sing_0(M)$, and
+consider a sequence $p_n\in J^-(p)\setminus \{p\}$, increasing and converging to $p$.
+By Lemma \ref{lem:past_BTZ}, $J^-(p_n)$ is contained in the BTZ line through $p$; now
+$M$ is causal and $p_n< p$ for every $n\in \N$, hence $p \notin J^-(p_n)$ for every $n\in \N$. We deduce the inclusion
+$K^-(p)\subset J^-(p)\setminus \{p\}$. Lemma \ref{lem:K_facile} then gives
+$$K^-(p)=\bigcup_{N\in \N} \mathrm{Int}_{J^-(p)}\left(\bigcap_{n\geq N} J^-(p_n)\right)\supset J^-(p_0),$$
+and since $p_0$ may be chosen arbitrarily in $J^-(p)\setminus \{p\}$ we obtain
+$K^-(p)\supset J^-(p)\setminus \{p\}$.
+\end{proof}
+\begin{cor}\label{cor:K_injectif} If $M$ is a strongly causal $\mass{\geq 0}$-manifold, then
+the map
+$$\fonctionn{M}{\mathcal P(M)}{x}{K^\pm(x)}$$
+is injective.
+\end{cor}
+% [editorial] proof supplied 2026-08-20 -- verify
+\begin{proof}
+Consider first $K^+$. By Remark \ref{rem:btz_pas_tarentin} every point of a $\mass{\geq0}$-manifold is
+strongly tarentin in the future, so $Z^+(M)=M$, and by Proposition \ref{prop:K_calcul} we have
+$K^+=I^+$ on all of $M$. Proposition \ref{prop:FZenon_injectif} then gives the injectivity of $K^+$.
+
+Consider now $K^-$, and let $x,y\in M$ with $K^-(x)=K^-(y)$.
+\begin{itemize}
+\item If $x,y\notin \sing_0(M)$, then $x,y\in Z^-(M)$ by Remark \ref{rem:btz_pas_tarentin} and
+$K^-=I^-$ at both points by Proposition \ref{prop:K_calcul}, so $x=y$ by Proposition \ref{prop:FZenon_injectif}.
+\item If $x\in \sing_0(M)$ and $y\notin \sing_0(M)$, then $K^-(x)=J^-(x)\setminus\{x\}$ is contained in the
+BTZ line through $x$ by Lemma \ref{lem:past_BTZ}, hence in a $1$-dimensional submanifold of the
+$3$-manifold $M$ by Property \ref{prop:GX_sing_dec}; whereas $K^-(y)=I^-(y)$ is open and non-empty.
+An open non-empty subset of $M$ is not contained in a $1$-dimensional submanifold, so this case cannot occur.
+\item If $x,y\in \sing_0(M)$, then $K^-(x)=J^-(x)\setminus\{x\}$ and $K^-(y)=J^-(y)\setminus\{y\}$ are
+contained in BTZ lines. By Lemma \ref{lem:past_BTZ} the BTZ line $\Delta$ through $x$ is an inextensible
+causal curve parametrised by $\RR$, on which $\leq$ induces the usual order, and
+$J^-(x)\setminus\{x\}=\{z\in \Delta ~|~ z<x\}$. Equality of the two sets forces $x$ and $y$ to lie on the
+same line $\Delta$ and to have the same strict past in it, hence $x=y$ since $M$ is causal.
+\end{itemize}
+\end{proof}
+
+Corollary \ref{cor:K_injectif} says that $K^\pm$ separates points. The next two propositions say
+considerably more: $K^\pm$ is monotone, and it is dense in $J^\pm$. Together with Proposition
+\ref{prop:K_plongement_ordre} they turn the injectivity into an embedding of ordered sets
+(Corollary \ref{cor:K_ordre}), which is the form in which $K^-$ is used both in Proposition
+\ref{prop:mesure_admissible} and in Section \ref{sec:CBG}.
+
+\begin{prop}[Monotonicity of $K^\pm$]\label{prop:K_monotone}
+Let $M$ be a causal $\mass{\geq0}$-manifold and let $q\leq p$ in $M$. Then
+$$K^-(q)\subset K^-(p) \qquad\text{and}\qquad K^+(p)\subset K^+(q).$$
+\end{prop}
+% [editorial] supplied 2026-08-22, extracted from the proof of Proposition \ref{prop:mesure_admissible} -- verify
+\begin{proof}
+\emph{The future.} By Proposition \ref{prop:K_calcul} we have $K^+=I^+$ everywhere on $M$, and
+$x\in I^+(p)$ with $q\leq p$ gives $x\in I^+(q)$ by the push-up property (Corollary
+\ref{cor:pushup_sing}).
+
+\emph{The past.} We distinguish four cases.
+\begin{itemize}
+\item $q,p\notin \sing_0(M)$: then $K^-(q)=I^-(q)$ and $K^-(p)=I^-(p)$ by Proposition
+\ref{prop:K_calcul}, and $x\ll q\leq p$ gives $x\ll p$ by push-up.
+\item $q\notin \sing_0(M)$ and $p\in \sing_0(M)$: impossible, since $J^-(p)$ is contained in the BTZ
+line through $p$ by Lemma \ref{lem:past_BTZ}, so $q\leq p$ would force $q\in \sing_0(M)$.
+\item $q,p\in \sing_0(M)$: then $K^-(q)=J^-(q)\setminus\{q\}$ and $K^-(p)=J^-(p)\setminus\{p\}$, and
+$J^-(q)\subset J^-(p)$ by transitivity. Moreover $p\in J^-(q)$ would give $p\leq q\leq p$, hence
+$p=q$ since $M$ is causal; so $J^-(q)\setminus\{q\}\subset J^-(p)\setminus\{p\}$.
+\item $q\in \sing_0(M)$ and $p\notin \sing_0(M)$: then $K^-(q)=J^-(q)\setminus\{q\}$ is contained in
+the BTZ line through $q$ (Lemma \ref{lem:past_BTZ}). For $x$ in it we have $x\leq q\leq p$ with $p$
+non-BTZ, hence $x\ll p$ by Definition \ref{defi:causal_E0} and push-up; thus
+$K^-(q)\subset I^-(p)=K^-(p)$.
+\end{itemize}
+\end{proof}
+
+\begin{prop}[Density of $K^\pm$]\label{prop:K_densite_sing}
+Let $M$ be a strongly causal $\mass{\geq0}$-manifold. Then for every $x\in M$,
+$$J^\pm(x)\subset \overline{K^\pm(x)}.$$
+\end{prop}
+% [editorial] supplied 2026-08-22 -- verify
+\begin{proof}
+Throughout, $M$ is causally arc-connected (Corollary \ref{cor:massA_cac}), has the push-up property
+(Corollary \ref{cor:pushup_sing}), and every point of $M$ is strongly tarentin in the future while
+the points which are not strongly tarentin in the past are exactly the BTZ points (Remark
+\ref{rem:btz_pas_tarentin}). Note first that $x\in \overline{K^\pm(x)}$ in all cases: in the future
+because $x\in Z^+(M)$ and $K^+(x)=I^+(x)$; in the past because either $x\in Z^-(M)$ and
+$K^-(x)=I^-(x)$, or $x\in \sing_0(M)$ and $K^-(x)=J^-(x)\setminus\{x\}$, which accumulates at $x$
+since the BTZ line through $x$ is an inextensible causal curve parametrised by $\RR$ (Lemma
+\ref{lem:past_BTZ}). We may therefore assume $y\neq x$ below.
+
+\emph{The past, $x\in \sing_0(M)$.} Then $J^-(x)$ is contained in the BTZ line through $x$ (Lemma
+\ref{lem:past_BTZ}) and $K^-(x)=J^-(x)\setminus\{x\}$ (Proposition \ref{prop:K_calcul}), so every
+$y\in J^-(x)\setminus\{x\}$ lies in $K^-(x)$ itself.
+
+\emph{The past, $x\notin \sing_0(M)$.} Here $K^-(x)=I^-(x)$. Let $y< x$ and let $c:[0,1]\rightarrow M$
+be a future causal curve from $y$ to $x$, which exists by causal arc-connectedness. By Lemma
+\ref{lem:past_BTZ} the set $\Delta:=c\cap \sing_0(M)$ is closed in $c$ and lies in the past of
+$c^0:=c\setminus \sing_0(M)$, and $c^0\neq\emptyset$ because $x\in c^0$.
+\begin{itemize}
+\item If $y\in \sing_0(M)$, put $s_0:=\max\{s~|~c(s)\in \Delta\}$, which exists since $\Delta$ is a
+closed subinterval containing $0$ and not $1$. Choose a chart neighbourhood $\U$ of $c(s_0)$,
+causally convex in $M$ and modelled on $\mass{0}$, and $s>s_0$ with $c(s)\in \U$; then $c(s)\in
+\reg(M)$ and $c(s_0)\leq_\U c(s)$, so $c(s_0)\ll_\U c(s)$ by Definition \ref{defi:causal_E0} and
+hence $c(s_0)\ll c(s)$ in $M$. From $y\leq c(s_0)\ll c(s)\leq x$ and push-up we get $y\ll x$, that is
+$y\in I^-(x)=K^-(x)$.
+\item If $y\notin \sing_0(M)$ then $\Delta=\emptyset$, so $c$ is entirely regular. Let $\V$ be a
+neighbourhood of $y$. Strong causality provides a chart neighbourhood $\U\subset \V$ of $y$, causally
+convex in $M$ and modelled on some $\mass{\kappa}$. Let $\tau:=\sup\{s~|~c([0,s])\subset \U\}>0$. If
+$c$ were constant equal to $y$ on $[0,\tau[$ then, by continuity, either $c(\tau)=y\in \U$,
+contradicting the definition of $\tau$, or $\tau=1$ and $x=y$, which is excluded. So there is
+$s<\tau$ with $z:=c(s)\neq y$, and $c([0,s])\subset \U$, so that $y\leq_\U z$ by causal
+arc-connectedness of $\U$. Moreover $z\in Z^-(M)$, so Lemma \ref{lem:densite_modele} applied in $\U$
+gives $y\in \overline{I^-_\U(z)}$. Hence there is $y'\in \V\cap I^-_\U(z)$; then $y'\ll z\leq x$, so
+$y'\ll x$ by push-up, that is $y'\in \V\cap K^-(x)$. As $\V$ was arbitrary, $y\in \overline{K^-(x)}$.
+\end{itemize}
+
+\emph{The future.} Here $K^+(x)=I^+(x)$ for every $x$ (Proposition \ref{prop:K_calcul}). Let $x<y$.
+\begin{itemize}
+\item If $y\notin \sing_0(M)$, let $\V$ be a neighbourhood of $y$, let $\U\subset \V$ be a chart
+neighbourhood of $y$ causally convex in $M$, and let $w\in \U$, $w\neq y$, be a point of a future
+causal curve from $x$ to $y$. Then $w\leq_\U y$ and $y\in Z^-(M)$, so Lemma \ref{lem:densite_modele}
+gives $y\in \overline{I^+_\U(w)}$; picking $y'\in \V\cap I^+_\U(w)$ we get $x\leq w\ll y'$, hence
+$x\ll y'$ by push-up and $y'\in \V\cap K^+(x)$.
+\item If $y\in \sing_0(M)$ then $x\in \sing_0(M)$ as well (Lemma \ref{lem:past_BTZ}), and $x,y$ lie on
+the same BTZ line $\Delta$. Let $\V$ be a neighbourhood of $y$ and let $\U\subset \V$ be a chart
+neighbourhood of $y$ causally convex in $M$ and modelled on $\mass{0}$. Choose $w\in \Delta\cap \U$
+with $x\leq w<y$. By Lemma \ref{lem:densite_modele}$(a)$ applied in $\U$ we have
+$y\in \overline{I^+_\U(w)}$, so there is $y'\in \V\cap I^+_\U(w)$; then $x\leq w\ll y'$ and push-up
+gives $y'\in \V\cap I^+(x)=\V\cap K^+(x)$.
+\end{itemize}
+In all cases every neighbourhood of $y$ meets $K^\pm(x)$, which is the assertion.
+\end{proof}
+
+\begin{cor}[$K^\pm$ recovers the causal order]\label{cor:K_ordre}
+Let $M$ be a globally hyperbolic $\mass{\geq0}$-manifold. Then for all $x,y\in M$,
+$$x\leq y \iff K^-(x)\subset K^-(y) \iff K^+(y)\subset K^+(x).$$
+In particular $x\mapsto K^-(x)$ is an isomorphism of ordered sets from $(M,\leq)$ onto its image in
+$\left(\mathcal P(M),\subset\right)$, and $x\mapsto K^+(x)$ is an anti-isomorphism onto its image.
+\end{cor}
+% [editorial] supplied 2026-08-22 -- verify
+\begin{proof}
+A $\mass{\geq0}$-manifold is tarentin, so $J^\pm(x)$ is closed for every $x$ by Proposition
+\ref{prop:GH_Jferme}, and $M$ is strongly causal by Proposition \ref{prop:GH_fortement_causal}.
+Hypotheses $(a)$ and $(b)$ of Proposition \ref{prop:K_plongement_ordre} are then given by
+Proposition \ref{prop:GH_Jferme} and Proposition \ref{prop:K_densite_sing} respectively, and the
+required monotonicity is Proposition \ref{prop:K_monotone}.
+\end{proof}
+
+\subsection{Geroch's Theorem for singular flat spacetimes}\label{subsec:geroch_sing}
+
+This causal study allows us to prove Geroch's Theorem for singular flat spacetimes. We first
+justify the one-sidedness of Definition \ref{defi:mesure_dieckmann}, announced in Remark
+\ref{rem:mesure_unilaterale_ptr}.
+
+\begin{rem}[The two senses are incompatible]\label{rem:mesure_unilaterale}
+% [editorial] supplied 2026-08-21 -- verify
+One cannot ask for admissibility in the past and in the future at once as soon as the spacetime
+carries a BTZ line, and property $4$ is the obstruction. Let $M$ be a causal
+$\mass{\geq0}$-manifold and let $p<q$ be two BTZ points of one singular line $\Delta$. By
+Definition \ref{defi:causal_E0} the set $J^-(q)\setminus J^-(p)$ is the segment $]p,q]$ of
+$\Delta$, so property $3$ in the past forces $\mu(]p,q])>0$. But every $r\in\,]p,q]$ is a BTZ
+point, hence $I^-(r)=\emptyset$ and therefore $r\notin I^+(p)=K^+(p)$ by Proposition
+\ref{prop:K_calcul}; thus $]p,q]\subset J^+(p)\setminus K^+(p)$ and property $4$ in the future
+forces $\mu(]p,q])=0$. No measure on $M$ is therefore admissible in the past and in the future at
+once.
+\end{rem}
+
+\begin{prop}\label{prop:mesure_admissible} Let $M$ be a strongly causal $\mass{\geq 0}$-manifold.
+Then $M$ carries a measure $\mu_-$ admissible in the past and a measure $\mu_+$ admissible in the future.
+\end{prop}
+% [editorial] proof rewritten 2026-08-21 -- verify
+\begin{proof}
+$M$ is causally arc-connected by Corollary \ref{cor:massA_cac} and strongly causal by hypothesis, so
+Proposition \ref{prop:mesure_dieckmann_topo} applies once its two hypotheses are checked.
+
+\emph{Hypothesis $(i)$.} Let $p\in M$. Strong causality provides a relatively compact open
+neighbourhood $\U_p$ of $p$, causally convex in $M$ and contained in a chart with model
+$\mass{\kappa}$. On $\mass{\kappa}$ with $\kappa>0$ the Lebesgue measure $\lambda_3$ of $\RR^3$
+satisfies properties $1$, $3$ and $4$ in the past and in the future. On $\mass{0}$ it satisfies them
+in the future, whereas $\lambda_3+\lambda_1$ satisfies them in the past, $\lambda_1$ denoting the
+Lebesgue measure of $\sing(\mass{0})\simeq\RR$; this is the measure used in \cite{thesis} and
+recalled in \cite[Section~1.2]{brunswic2021cauchy}, and the singular term is exactly what property
+$3$ in the past requires along a BTZ line. Restricted to the relatively compact $\U_p$ these measures
+are finite, so property $2$ holds too, and Lemma \ref{lem:restriction_convexe} turns properties $3$
+and $4$ of the model into properties $3$ and $4$ of $\U_p$.
+
+\emph{Hypothesis $(ii)$.} This is exactly the monotonicity of $K^-$, and of $K^+$ with the order
+reversed, established in Proposition \ref{prop:K_monotone}.
+
+Proposition \ref{prop:mesure_dieckmann_topo}, applied once in the past and once in the future, concludes.
+\end{proof}
+We recall the following lemma, whose proof is identical to the classical one.
+\begin{lem}\label{lem:vecteur} Let $M$ be a singular flat spacetime. There exists a vector field $X$
+on $M$ such that:
+\begin{itemize}
+\item $X$ is $\CC^1$ and non-singular;
+\item $X$ is future causal;
+\item for $p\in \sing(M)$, $X_p$ is parallel to the direction of the singular line through $p$.
+\end{itemize}
+\end{lem}
+\begin{proof}[Sketch of proof]
+The proof is identical to that of Lemma 32, p.~145 of \cite{oneil}.
+One uses the paracompactness of $M$ to construct a partition of unity $(f_\alpha)_{\alpha\in A}$
+on $M$ such that for every $\alpha\in A$ the support of $f_\alpha$ is contained in a chart domain.
+For $\kappa\geq 0$ the vertical vector field $X_\kappa$ of $\mass{\kappa}$ is $\CC^1$, non-singular, future causal
+and parallel to the singular direction at every singular point.
+Consequently, writing $(\U_\alpha,\mass{\kappa(\alpha)},\V_\alpha,\varphi_\alpha)_{\alpha\in A}$
+for a set of charts containing the supports of the functions $(f_\alpha)_{\alpha\in A}$, the vector field
+$$X:=\sum_{\alpha\in A} f_{\alpha} \varphi_\alpha^*X_{\kappa(\alpha)}$$
+has the desired properties.
+\end{proof}
+
+\begin{theo}\label{theo:geroch_sing}\index{Theorem!Geroch}
+Let $M$ be a singular flat spacetime. The following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+\item $M$ is globally hyperbolic;
+\item $M$ admits a Cauchy time function;
+\item $M$ admits a Cauchy hypersurface.
+\end{enumerate}
+Moreover, if $\Sigma$ is a Cauchy surface of $M$, then $M$ is homeomorphic to $\Sigma\times \RR$.
+\end{theo}
+\begin{proof}
+The first part is a direct consequence of Theorem \ref{theo:geroch} and of Proposition
+\ref{prop:mesure_admissible}: a singular flat spacetime is tarentin, is causally arc-connected by
+Corollary \ref{cor:massA_cac}, and satisfies $J^\pm(p)\neq \{p\}$ for every $p$ --- for a BTZ point
+$p$ the set $J^-(p)$ is the singular half-line below $p$ and $J^+(p)$ is $3$-dimensional
+(Definition \ref{defi:causal_E0}).
+
+Let $\Sigma$ be a Cauchy surface of $M$.
+Let $X$ be a vector field given by Lemma \ref{lem:vecteur}; up to multiplying it by a positive
+scalar field we may assume its flow to be complete. Let $\Phi : M\times \RR \rightarrow M$ be the flow of $X$
+and consider the map
+$$\fonction{\psi}{\Sigma\times \RR}{M}{(x,t)}{\Phi(x,t)}.$$
+Since $X$ is non-singular, $\psi$ is a local diffeomorphism.
+Moreover $X$ is causal, so the curves $c_x:t\mapsto \psi(x,t)$, $x\in \Sigma$, are inextensible causal
+curves. They therefore meet $\Sigma$ exactly once.
+Hence $\psi$ is bijective, and so it is a diffeomorphism.
+\end{proof}
+
+\subsection{Some complementary causal lemmas}
+We prove two lemmas which allow one to reconstruct the reachable future of a point in a way that is easier to handle.
+\begin{lem}\label{lem:J_int}
+Let $M$ be a strongly causal singular flat spacetime.
+For every $p\in M$,
+$$\ring J^\pm(p)\cap Z^\mp(M)=I^\pm(p).$$
+\end{lem}
+\begin{proof} Let $p\in M$ be of type $\kappa\geq 0$. Since $M$ is strongly causal, it suffices to prove the equality in a chart
+$(\U,\mass{\kappa},\V,\phi)$ of $M$ around $p$ such that $\U$ is causally convex in $M$. It may be chosen so that
+$\V$ is causally convex in $\mass{\kappa}$. We are thus reduced to proving the lemma in the case where $M$
+is a model space
+$\mass{\kappa}$, and the computation of $I^\pm$ and $J^\pm$ in the model spaces carried out in Lemma \ref{lem:IJ_calc} allows us to conclude.
+\end{proof}
+
+\begin{lem}\label{lem:cup_cap_sing}
+Let $M$ be a globally hyperbolic singular flat spacetime, let
+$p\in M$ and let $(p_n)_{n\in \N}$ be a sequence of $M$ converging to $p$.
+Then
+$$I^{\pm}(p)=\mathrm{Int}\left(\bigcup_{N\in \N}\bigcap_{n\geq N} I^\pm(p_n)\right).$$
+\end{lem}
+\begin{proof} We prove the lemma for $-$, the proof for $+$ being similar.
+By Lemma \ref{lem:cup_cap}, the right-hand term contains $I^-(p)$ and is contained
+in $\ring J^-(p)\cap Z^+(M)$.
+Now $M$ is globally hyperbolic, hence strongly causal, so by Lemma \ref{lem:J_int} we obtain
+$$I^{-}(p)\subset \mathrm{Int}\left(\bigcup_{N\in \N}\bigcap_{n\geq N} I^-(p_n)\right) \subset \ring J^-(p)\cap Z^+(M) = I^-(p).$$
+\end{proof}
+
+\begin{lem}\label{lem:cup_cap_BTZ}
+Let $M$ be a strongly causal singular flat spacetime, let
+$p\in M$ and let $(p_n)_{n\in \N}$ be a sequence of $M$ converging to $p$.
+If $p \notin J^-(p_n)$ for every $n\in \N$ and if $p\in \sing_0(M)$, then
+$$\bigcup_{N\in \N}\bigcap_{n\geq N} J^-(p_n)=J^-(p)\setminus \{p\}.$$
+\end{lem}
+\begin{proof}
+One proceeds in the same way as in the proof of Lemma \ref{lem:J_int}.
+\end{proof}
+
+\section{The Choquet-Bruhat--Geroch Theorem}\label{sec:CBG}
+
+Geroch's Theorem describes a single globally hyperbolic spacetime. The Choquet-Bruhat--Geroch
+Theorem \cite{MR0250640} compares them: it asserts that a globally hyperbolic spacetime admits a
+\emph{maximal} globally hyperbolic extension with the same Cauchy surface, unique up to isomorphism.
+In its original form it is a global existence statement for the Einstein equations, and the
+Hausdorffness of the object one constructs comes from the local uniqueness of their solutions. Here
+the spacetimes are described by a local algebraic model rather than by a partial differential
+equation, and local uniqueness is replaced by the rigidity of $\mass{\geq0}$-morphisms --- the
+statement that the singular structure $\left(\isom(\mass{}),\mass{},\mass{\geq0}\right)$ is analytic
+\cite[Section~2.3]{thesis}. What remains is a gluing problem, and it is solved with the causal
+material of Sections \ref{subsec:sing_spacetime_defi} and \ref{sec:CBG}: the continuously reachable
+past $K^-$ is what identifies the pairs of points that fail to be separated in the glued object,
+through Corollary \ref{cor:K_ordre}.
+
+We follow the argument of Sbierski \cite{sbierski_geroch}, a refinement of the original one which
+dispenses with Zorn's lemma. Throughout this section, spacetime means singular flat spacetime in the
+sense of Definition \ref{def:singular_spacetime}, and $\mass{\geq0}$-morphism means a map which reads
+as an element of $\isom(\mass{})$ in the charts of Section \ref{subsec:sing_spacetime_defi}; such a
+map is in particular a local homeomorphism and a morphism of topological spacetimes.
+
+\subsection{Cauchy embeddings and Cauchy extensions}
+
+\begin{defi}[Cauchy embedding, Cauchy extension]\label{def:cauchy_embedding_cauchy_extension}\index{Cauchy!embedding}\index{Cauchy!extension}
+Let $M$ and $N$ be globally hyperbolic singular flat spacetimes. A \emph{Cauchy embedding} of $M$
+into $N$ is an injective $\mass{\geq0}$-morphism $\phi:M\rightarrow N$ carrying some Cauchy surface
+of $M$ onto a Cauchy surface of $N$. We then say that $N$, together with $\phi$, is a \emph{Cauchy
+extension} of $M$.
+\end{defi}
+
+\begin{lem}\label{lem:Cauchy_plongement_toutes}
+Let $M$ and $N$ be globally hyperbolic singular flat spacetimes and let $\phi:M\rightarrow N$ be an
+injective $\mass{\geq0}$-morphism. The following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+\item there exists a Cauchy surface $\Sigma$ of $M$ whose image $\phi(\Sigma)$ is a Cauchy surface of $N$;
+\item for every Cauchy surface $\Sigma$ of $M$, the image $\phi(\Sigma)$ is a Cauchy surface of $N$.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+Only $(i)\Rightarrow(ii)$ requires an argument. Let $\Sigma_1$ be as in $(i)$ and let $\Sigma_2$ be
+another Cauchy surface of $M$. Let $c$ be an inextensible causal curve of $N$. Since $\phi$ is an
+open injective morphism, every connected component of $\phi^{-1}\left(c\cap \phi(M)\right)$ is an
+inextensible causal curve of $M$, so it meets $\Sigma_1$ and $\Sigma_2$ exactly once each. Hence
+$$\#\left(c\cap \phi(\Sigma_2)\right)=\#\left(\phi^{-1}(c\cap \phi(M))\cap \Sigma_2\right)
+=\#\left(\phi^{-1}(c\cap \phi(M))\cap \Sigma_1\right)=\#\left(c\cap \phi(\Sigma_1)\right)=1 .$$
+\end{proof}
+
+\subsection{Statement and strategy}
+
+\begin{theo}[Choquet-Bruhat--Geroch]\label{theo:CBG}\index{Theorem!Choquet-Bruhat--Geroch}
+Let $M_0$ be a globally hyperbolic singular flat spacetime. Then $M_0$ admits a maximal Cauchy
+extension, and that extension is unique up to isomorphism.
+\end{theo}
+
+The proof occupies the rest of this section. Its core is the following statement: given two Cauchy
+extensions $M_0\rightarrow M_1$ and $M_0\rightarrow M_2$, one builds their greatest common
+sub-extension $\pgcd$, glues $M_1$ and $M_2$ along it, and shows that the result is again a
+spacetime --- the only delicate point being that the quotient is Hausdorff.
+$$
+	\xymatrix{
+		&&& M_1\ar@{-->}[ddr] &\\ &&&&\\
+	M_0\ar[ddrrr]\ar[uurrr]\ar@{-->}[rr]&&\pgcd\ar@{-->}[uur]\ar@{-->}[ddr]& &\ppcm:=(M_1\coprod M_2)/\pgcd\\ &&&&\\
+	&&&M_2\ar@{-->}[uur]&
+	}
+$$
+The family of Cauchy extensions of $M_0$ is then directed, hence admits an inductive limit, which is
+the maximal Cauchy extension.
+
+\begin{rem}[Where the Einstein equations were]\label{rem:CBG_analytique}
+In \cite{MR0250640} the Hausdorffness of the glued object follows from the local uniqueness of the
+solutions of the Einstein equations. Here it follows from the fact that there is no unreasonable
+morphism between open subsets of the model spaces: the structure
+$\left(\isom(\mass{}),\mass{},\mass{\geq0}\right)$ is analytic \cite[Prop.~2.3.14]{thesis}, so two
+$\mass{\geq0}$-morphisms defined on a connected manifold and agreeing on a non-empty open set agree
+everywhere \cite[Prop.~1.2.11]{thesis}. We use both facts as quoted.
+\end{rem}
+
+\subsection{Common sub-extensions}\label{subsec:CBG_pgcd}
+
+\begin{defi}[Common sub-extension]\label{def:common_sub_extension}
+Let $M_0$ be a globally hyperbolic singular flat spacetime and let $M_0\xrightarrow{i_1} M_1$ and
+$M_0\xrightarrow{i_2} M_2$ be two Cauchy extensions of $M_0$. A \emph{common sub-extension} of $M_1$
+and $M_2$ is a singular flat spacetime $M$ equipped with Cauchy embeddings $M_0\rightarrow M$,
+$M\rightarrow M_1$ and $M\rightarrow M_2$ making the diagram
+$$
+	\xymatrix{
+		& &M_1\\
+		M_0\ar[urr]^{i_1} \ar[drr]_{i_2}\ar[r]&M\ar[ur]\ar[dr]& \\
+		&& M_2
+	}
+$$
+commute. A morphism of common sub-extensions $M\rightarrow M'$ is a $\mass{\geq0}$-morphism
+commuting with the embeddings into $M_1$ and $M_2$; if it is bijective, $M$ and $M'$ are
+\emph{equivalent}. A common sub-extension $M$ is \emph{maximal} if every morphism of common
+sub-extensions $M\rightarrow M'$ is bijective.
+\end{defi}
+
+\begin{lem}\label{lem:C_ext_connexe}
+Let $M$ be a connected globally hyperbolic singular flat spacetime and let $\phi:M\rightarrow N$ be a
+Cauchy extension. If $A$ and $B$ are open subsets of $N$ containing $\phi(M)$ and such that the
+inclusions $\phi(M)\rightarrow A$ and $\phi(M)\rightarrow B$ are Cauchy embeddings, then $A\cap B$ is
+connected.
+\end{lem}
+\begin{proof}
+Let $\Sigma$ be a Cauchy surface of $M$; it is connected because $M$ is, being homeomorphic to
+$\Sigma\times \RR$ by Theorem \ref{theo:geroch_sing}. The map $M\rightarrow A\cap B$ is a Cauchy
+embedding, so $\phi(\Sigma)$ is a Cauchy surface of $A\cap B$ and every point of $A\cap B$ lies on an
+inextensible causal curve meeting $\phi(\Sigma)$. Hence $A\cap B$ is arcwise connected.
+\end{proof}
+
+\begin{prop}[Greatest common sub-extension]\label{prop:Cauchy_pgcd}
+Let $M_0$ be a globally hyperbolic singular flat spacetime and let $M_0\xrightarrow{i_1} M_1$ and
+$M_0\xrightarrow{i_2} M_2$ be two Cauchy extensions of $M_0$. There exists a common sub-extension
+$\pgcd$ of $M_1$ and $M_2$ which is maximal, and it is unique up to equivalence.
+\end{prop}
+\begin{proof}
+Consider the set $\mathcal E$ of pairs $(M,\phi_M)$ such that
+\begin{enumerate}[label=(\alph*)]
+\item $i_1(M_0)\subset M\subset M_1$, $M$ open, and the inclusion $i_1(M_0)\rightarrow M$ is a Cauchy embedding;
+\item $\phi_M:M\rightarrow M_2$ is a $\mass{\geq0}$-morphism with $\phi_M\circ i_1=i_2$.
+\end{enumerate}
+Put $\pgcd:=\bigcup_{(M,\phi_M)\in \mathcal E} M$ and define $\phi$ on $\pgcd$ by $\phi(x)=\phi_M(x)$
+for $x\in M$. This is well defined: for two pairs $(M,\phi_M)$ and $(M',\phi_{M'})$ of $\mathcal E$,
+the intersection $M\cap M'$ is connected by Lemma \ref{lem:C_ext_connexe}, and $\phi_M$ and
+$\phi_{M'}$ agree on the non-empty open set $i_1(M_0)$, hence on $M\cap M'$ by the rigidity of
+$\mass{\geq0}$-morphisms (Remark \ref{rem:CBG_analytique}). Thus $(\pgcd,\phi)\in \mathcal E$, and it
+is by construction the largest element of $\mathcal E$.
+
+If $(N,a,b,c)$ is a common sub-extension of $M_1$ and $M_2$, then $\left(b(N),c\circ
+b^{-1}\right)\in \mathcal E$, so $b(N)\subset \pgcd$ and $c\circ b^{-1}=\phi_{|b(N)}$; hence $\pgcd$
+is maximal, and any maximal common sub-extension is equivalent to it.
+\end{proof}
+
+\subsection{Common over-extensions}\label{subsec:CBG_ppcm}
+
+\begin{defi}[Common over-extension]\label{def:common_over_extension}
+Let $M_0$ be a globally hyperbolic singular flat spacetime and let $M_0\xrightarrow{i_1} M_1$ and
+$M_0\xrightarrow{i_2} M_2$ be two Cauchy extensions of $M_0$. A \emph{common over-extension} of
+$M_1$ and $M_2$ is a singular flat spacetime $M$ equipped with Cauchy embeddings $M_1\rightarrow M$
+and $M_2\rightarrow M$ making the diagram
+$$
+	\xymatrix{
+		& M_1\ar[dr]&\\
+		M_0\ar[ur]^{i_1} \ar[dr]_{i_2}&&M \\
+		& M_2\ar[ur]&
+	}
+$$
+commute. Morphisms and equivalence of common over-extensions are defined as in Section
+\ref{subsec:CBG_pgcd}, and a common over-extension $M$ is \emph{minimal} if for every common
+over-extension $M'$ there is a morphism $M\rightarrow M'$.
+\end{defi}
+
+\begin{defi}\label{defi:ppcm}
+With the notation above, let
+$$\ppcm := \left(M_1\coprod M_2\right)/\!\sim,$$
+where $p\sim q$ if there is $x\in \pgcd$ whose images in $M_1$ and $M_2$ are $p$ and $q$, in either
+order.
+\end{defi}
+
+\begin{prop}[Least common over-extension]\label{prop:ppcm_Cauchy}
+Let $M_0$ be a globally hyperbolic singular flat spacetime and let $M_0\xrightarrow{i_1} M_1$ and
+$M_0\xrightarrow{i_2} M_2$ be two Cauchy extensions of $M_0$. Then $\ppcm$ is, up to equivalence,
+the unique minimal common over-extension of $M_1$ and $M_2$.
+\end{prop}
+
+The quotient $\ppcm$ is a $\mass{\geq0}$-manifold by construction --- the charts of $M_1$ and $M_2$
+descend --- and it is second countable. Everything therefore reduces to the Hausdorff property, and
+that is what the rest of this subsection establishes.
+
+\subsubsection*{Setting}
+For the remainder of Section \ref{subsec:CBG_ppcm} we fix $M_0$ globally hyperbolic, two Cauchy
+extensions $M_0\xrightarrow{i_1}M_1$ and $M_0\xrightarrow{i_2}M_2$, and a common sub-extension $N$
+with its Cauchy embeddings $j_1:N\rightarrow M_1$ and $j_2:N\rightarrow M_2$. We fix a Cauchy
+surface $\Sigma_0$ of $M_0$ and write $\Sigma$, $\Sigma_1$, $\Sigma_2$ for its images in $N$, $M_1$
+and $M_2$. Let
+$$\pi:M_1\coprod M_2\longrightarrow \left(M_1\coprod M_2\right)/N$$
+be the natural projection and set
+$$C:=\left\{(p,q)\in M_1\times M_2 ~\middle|~ \pi(p)\text{ and }\pi(q)\text{ are not separated}\right\};$$
+we then say that $p$ and $q$ \emph{correspond}. Finally we write $f:=j_2\circ j_1^{-1}$, an
+isomorphism from $j_1(N)$ onto $j_2(N)$.
+
+\begin{rem}\label{rem:non_separe_cas}
+If $p,q\in M_1\coprod M_2$ have non-separated images, then exactly one of the following holds:
+$p=q$; or $p=j_1(x)$ and $q=j_2(x)$ for some $x\in N$, or the same with the roles of $j_1$ and $j_2$
+exchanged; or $p\in \partial_{M_1}j_1(N)$ and $q\in \partial_{M_2}j_2(N)$, or the same with the
+roles of $M_1$ and $M_2$ exchanged. Only the last case obstructs the Hausdorff property, and it is
+the case $C\neq \emptyset$.
+\end{rem}
+
+\begin{lem}\label{lem:image_diamant}
+Let $M$ be a globally hyperbolic singular flat spacetime with Cauchy surface $\Sigma$, let
+$i:M\rightarrow N$ be a Cauchy extension and let $p\in J^+_M(\Sigma)$. Then
+$$i\left(J_M(\Sigma,p)\right)=J_N\left(i(\Sigma),i(p)\right).$$
+\end{lem}
+\begin{proof}
+Write $K:=J_M(\Sigma,p)$, $K':=i(K)$ and $K'':=J_N(i(\Sigma),i(p))$. The inclusion $K'\subset K''$ is
+clear. Conversely let $q\in K''$ and let $c:[0,1]\rightarrow N$ be a past causal curve with
+$c(0)=i(p)$ and $c(1)=q$. Put $I:=\{s\in[0,1] ~|~ c([0,s])\subset K'\}$. Since $M$ is globally
+hyperbolic $K$ is compact, hence so is $K'$, hence $c^{-1}(K')$ is closed and $I$ is closed; let
+$s_1:=\max I$. Suppose $s_1<1$. As $i(M)$ is open in $N$ there is $\varepsilon>0$ with
+$c\left([s_1,s_1+\varepsilon]\right)\subset i(M)$; the curve $i^{-1}\circ c$ is then a past causal
+curve of $M$ issued from a point of $K$ and remaining in $J^-(p)$, and it stays above $\Sigma$
+because $c(1)=q\in K''$ lies above $i(\Sigma)$ and $\Sigma$ is a Cauchy surface. Hence
+$c\left([0,s_1+\varepsilon]\right)\subset K'$, contradicting the maximality of $s_1$. Therefore
+$s_1=1$ and $q\in K'$.
+\end{proof}
+
+\begin{lem}\label{lem:passe_pgcd}
+Let $M$ be a globally hyperbolic singular flat spacetime with Cauchy surface $\Sigma$, let
+$i:M\rightarrow N$ be a Cauchy extension and let $p\in \partial i(M)\cap J^+\left(i(\Sigma)\right)$.
+Then
+$$K^-_N(p)\cap J^+\left(i(\Sigma)\right)\subset i(M);$$
+explicitly, $I^-_N(p)\cap J^+\left(i(\Sigma)\right)\subset i(M)$ if $p\notin \sing_0(N)$, and
+$J_N\left(i(\Sigma),p\right)\setminus \{p\}\subset i(M)$ if $p\in \sing_0(N)$.
+\end{lem}
+\begin{proof}
+Since $p\in \partial i(M)$ there is a sequence $(p_n)_{n\in \N}$ of points of $i(M)$ converging to
+$p$. By Definition \ref{defi:futur_continue},
+$$K^-_N(p)\subset \bigcup_{N_0\in \N}\ \bigcap_{n\geq N_0} J^-_N(p_n),$$
+this particular sequence being one of those over which the intersection defining $K^-$ is taken.
+Intersecting with $J^+\left(i(\Sigma)\right)$ gives
+$$K^-_N(p)\cap J^+\left(i(\Sigma)\right)\subset \bigcup_{N_0\in \N}\ \bigcap_{n\geq N_0}
+J_N\left(i(\Sigma),p_n\right),$$
+and each $J_N\left(i(\Sigma),p_n\right)$ is contained in $i(M)$ by Lemma \ref{lem:image_diamant},
+$p_n$ being a point of $i(M)$. The two explicit forms follow from Proposition \ref{prop:K_calcul}.
+\end{proof}
+
+\begin{lem}[A Cauchy surface separates]\label{lem:Sigma_separe}
+Let $M$ be a globally hyperbolic singular flat spacetime, let $\Sigma$ be a Cauchy surface of $M$ and
+let $\psi:\Sigma\times \RR\rightarrow M$ be the homeomorphism of Theorem \ref{theo:geroch_sing}.
+Then
+$$J^+(\Sigma)=\psi\left(\Sigma\times \RR_+\right)\qquad\text{and}\qquad J^-(\Sigma)=\psi\left(\Sigma\times \RR_-\right).$$
+In particular $J^\pm(\Sigma)$ are closed, $J^+(\Sigma)\cap J^-(\Sigma)=\Sigma$, and $J^+(\Sigma)$ is
+a neighbourhood of each of its points outside $\Sigma$.
+\end{lem}
+% [editorial] supplied 2026-08-22 -- verify
+\begin{proof}
+The curves $t\mapsto \psi(x,t)$ are future causal, so $\psi\left(\Sigma\times \RR_+\right)\subset
+J^+(\Sigma)$. Conversely let $t<0$ and suppose $\psi(x,t)\in J^+(\Sigma)$, say $\sigma\leq
+\psi(x,t)$ with $\sigma\in \Sigma$. Since $\psi(x,t)\leq \psi(x,0)\in \Sigma$ we get $\sigma\leq
+\psi(x,0)$, and concatenating a causal curve from $\sigma$ to $\psi(x,t)$ with the flow segment from
+$\psi(x,t)$ to $\psi(x,0)$ produces a causal curve meeting $\Sigma$ at $\sigma$ and at $\psi(x,0)$.
+As $\Sigma$ is a Cauchy surface these two points coincide, whence $\psi(x,0)\leq \psi(x,t)\leq
+\psi(x,0)$ and $t=0$ because $M$ is causal --- a contradiction. The description of $J^-(\Sigma)$ is
+symmetric, and the three consequences follow at once, $\psi$ being a homeomorphism.
+\end{proof}
+
+\begin{cor}\label{cor:K_ordre_Sigma}
+Let $M$ be a globally hyperbolic singular flat spacetime, let $\Sigma$ be a Cauchy surface of $M$
+and let $x,y\in J^+(\Sigma)\setminus \Sigma$. If
+$$K^-(x)\cap J^+(\Sigma)\subset K^-(y)\cap J^+(\Sigma),$$
+then $x\leq y$. In particular $x\mapsto K^-(x)\cap J^+(\Sigma)$ is injective on $J^+(\Sigma)\setminus \Sigma$.
+\end{cor}
+% [editorial] supplied 2026-08-22 -- verify
+\begin{proof}
+By Lemma \ref{lem:Sigma_separe} the set $J^+(\Sigma)$ is a neighbourhood of $x$, so every
+neighbourhood $\V$ of $x$ contains a neighbourhood of $x$ contained in $J^+(\Sigma)$; since
+$x\in \overline{K^-(x)}$ by Proposition \ref{prop:K_densite_sing}, such a neighbourhood meets
+$K^-(x)$, and therefore $\V$ meets $K^-(x)\cap J^+(\Sigma)$. Hence
+$$x\in \overline{K^-(x)\cap J^+(\Sigma)}\subset \overline{K^-(y)}\subset \overline{J^-(y)}=J^-(y),$$
+the last equality because $J^-(y)$ is closed (Proposition \ref{prop:GH_Jferme}, $M$ being tarentin
+and globally hyperbolic). Thus $x\leq y$. If the two sets are equal, the same argument gives $y\leq
+x$ as well, hence $x=y$ since $M$ is causal.
+\end{proof}
+
+\begin{lem}\label{lem:corresponding_K}
+Let $p\in \partial j_1(N)\cap J^+(\Sigma_1)$ and $q\in \partial j_2(N)\cap J^+(\Sigma_2)$. The
+following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+\item $(p,q)\in C$;
+\item $f$ induces a bijection
+$$K^-(p)\cap J^+(\Sigma_1)\xrightarrow{\quad f\quad} K^-(q)\cap J^+(\Sigma_2).$$
+\end{enumerate}
+\end{lem}
+\begin{proof}
+$(i)\Rightarrow(ii)$. Let $(a_n)_{n\in \N}$ be a sequence of $N$ with $j_1(a_n)\rightarrow p$ and
+$j_2(a_n)\rightarrow q$, which exists because $\pi(p)$ and $\pi(q)$ are not separated. Lemmas
+\ref{lem:cup_cap_sing} and \ref{lem:image_diamant}, applied to the sequences $(j_1(a_n))_n$ and
+$(j_2(a_n))_n$, show that $f$ induces a bijection
+$$I^-(p)\cap J^+(\Sigma_1)\xrightarrow{\quad\quad} I^-(q)\cap J^+(\Sigma_2).$$
+In particular $I^-(p)$ is empty if and only if $I^-(q)$ is, so $p$ is a BTZ point if and only if $q$
+is (Remark \ref{rem:btz_pas_tarentin}).
+\begin{itemize}
+\item If $p$ is not a BTZ point, then $K^-(p)=I^-(p)$ and $K^-(q)=I^-(q)$ by Proposition
+\ref{prop:K_calcul} and we are done.
+\item If $p$ and $q$ are BTZ points, then $K^-(p)=J^-(p)\setminus\{p\}$ and
+$K^-(q)=J^-(q)\setminus\{q\}$ by Proposition \ref{prop:K_calcul}, and Lemmas
+\ref{lem:cup_cap_BTZ} and \ref{lem:image_diamant} applied to the same two sequences give the
+bijection.
+\end{itemize}
+
+$(ii)\Rightarrow(i)$. We first produce an increasing sequence $(a_n)_{n\in \N}$ of $N$ with
+$j_1(a_n)\rightarrow p$. If $p$ is not a BTZ point, Remark \ref{rem:suite_croissante} provides a
+sequence increasing for $\ll$, converging to $p$ and contained in $I^-(p)$; discarding finitely many
+terms we may assume it lies in $I^-(p)\cap J^+(\Sigma_1)$, which is contained in $j_1(N)$ by Lemma
+\ref{lem:passe_pgcd}. If $p$ is a BTZ point, take an increasing sequence converging to $p$ along the
+BTZ line through $p$, which lies in $J^-(p)\setminus\{p\}$; above $\Sigma_1$ this is again contained
+in $j_1(N)$ by Lemma \ref{lem:passe_pgcd}. In both cases $a_n:=j_1^{-1}$ of the $n$-th
+term defines the required sequence of $N$. The sequence $\left(j_2(a_n)\right)_{n}$ is
+increasing and bounded above by $q$ in $M_2$, which is globally hyperbolic, so it converges to some
+$q'\in J(\Sigma_2,q)$. By construction $(p,q')\in C$, so the implication already proved gives a
+bijection $K^-(p)\cap J^+(\Sigma_1)\rightarrow K^-(q')\cap J^+(\Sigma_2)$, whence
+$$K^-(q)\cap J^+(\Sigma_2)=K^-(q')\cap J^+(\Sigma_2).$$
+Both $q$ and $q'$ lie in $J^+(\Sigma_2)\setminus \Sigma_2$ --- they are limits of points of
+$j_2(N)$ above $\Sigma_2$ and they are not in $j_2(N)\supset \Sigma_2$ --- so Corollary
+\ref{cor:K_ordre_Sigma} applies and gives $q=q'$. Finally $j_1\circ a$ converges to
+$p$ and $j_2\circ a$ converges to $q$, so $(p,q)\in C$.
+\end{proof}
+
+\begin{cor}\label{cor:ext_continue}
+Let $(p,q)\in C$. Then $f$ extends continuously to $p$ by setting $f(p)=q$.
+\end{cor}
+% [editorial] supplied 2026-08-22 -- verify
+\begin{proof}
+Let $\V$ be a neighbourhood of $q$ in $M_2$ and suppose that no neighbourhood $\U$ of $p$ satisfies
+$f\left(\U\cap j_1(N)\right)\subset \V$. Taking a countable decreasing basis $(\U_m)$ of
+neighbourhoods of $p$ we obtain $x_m\in \U_m\cap j_1(N)$ with $f(x_m)\notin \V$. Then $x_m
+\rightarrow p$, and the sequence $\left(f(x_m)\right)_m$ stays outside $\V$; by Lemma
+\ref{lem:corresponding_K} and Corollary \ref{cor:model_corresponding} any accumulation point $q''$
+of $\left(f(x_m)\right)_m$ satisfies $(p,q'')\in C$, hence $q''=q\in \V$, a contradiction --- the
+sequence does accumulate, since it eventually lies in a compact diamond of $M_2$ by Lemma
+\ref{lem:image_diamant}.
+\end{proof}
+\begin{cor}\label{cor:model_corresponding}
+A point $p\in \partial j_1(N)$ has at most one corresponding point $q$. Moreover, if $(p,q)\in C$
+and $p\in \sing_\alpha(M_1)$, then $q\in \sing_\alpha(M_2)$.
+\end{cor}
+% [editorial] supplied 2026-08-22 -- verify
+\begin{proof}
+If $(p,q)$ and $(p,q')$ are in $C$ then Lemma \ref{lem:corresponding_K} gives $K^-(q)\cap
+J^+(\Sigma_2)=K^-(q')\cap J^+(\Sigma_2)$, hence $q=q'$ by Corollary \ref{cor:K_ordre_Sigma}. For
+the second assertion, $f$ is an isomorphism of $\mass{\geq0}$-manifolds from $j_1(N)$ onto $j_2(N)$
+and extends continuously to $p$ with value $q$ (Corollary \ref{cor:ext_continue}); the cone angle is
+a local invariant preserved by $\mass{\geq0}$-morphisms, and it is constant along each connected
+component of the singular locus (Lemma \ref{lem:past_BTZ}), so it is the same at $p$ and at $q$.
+\end{proof}
+
+
+We use one further classical notion. A subset $S$ of a spacetime $M$ is \emph{acausal} if no two of
+its points are causally related, and the \emph{Cauchy development} $D(S)$ of $S$ is the set of points
+$x$ such that every inextensible causal curve through $x$ meets $S$; it is causally convex, and $S$
+is a Cauchy surface of $\mathrm{Int}\,D(S)$.
+
+\begin{prop}\label{prop:Cauchy_non_max}
+If there exists $(p,q)\in C$ with $J_{M_1}(\Sigma_1,p)\setminus\{p\}\subset j_1(N)$, then $N$ is not
+maximal among the common sub-extensions of $M_1$ and $M_2$.
+\end{prop}
+% [editorial] translated from \cite[Section~3.4]{thesis} -- verify
+\begin{proof}
+Without loss of generality $M_0\subset N\subset M_1$ and $j_1$ is the inclusion. Let $\alpha\in
+\RR_+$ with $p\in \sing_\alpha(M_1)$ --- with the convention $\alpha=2\pi$ if $p$ is regular --- so
+that $q\in \sing_\alpha(M_2)$ by Corollary \ref{cor:model_corresponding}. Choose charts
+$(\U_1,\mass{\alpha},\V_1,\phi_1)$ of $M_1$ around $p$ and $(\U_2,\mass{\alpha},\V_2,\phi_2)$ of
+$M_2$ around $q$; shrinking them, we may assume that $\V_1$ and $\V_2$ are open diamonds of
+$\mass{\alpha}$, that $\U_1$ and $\U_2$ are causally convex in $M_1$ and $M_2$ respectively, and
+that $\U_1\subset \ring J^+(\Sigma_1)$ and $\U_2\subset \ring J^+(\Sigma_2)$.
+
+\begin{itemize}
+\item By Corollary \ref{cor:ext_continue} the map $f$ extends continuously to $p$ with $\overline
+f(p)=q$; we may therefore choose $\U_1$ so small that $f\left(\U_1\cap N\right)\subset \U_2$.
+
+\item By hypothesis $N\cap \U_1$ is an open set containing $J^-_{\U_1}(p)$, so there is a connected
+acausal surface $\Sigma_1'$ of $\U_1$ containing $p$ and contained in $N\cap \U_1\cup\{p\}$. Let
+$D_1$ be the interior of its Cauchy development in $\U_1$. The image $\Sigma_2':=\overline
+f(\Sigma_1')$ is acausal in $\U_2$; let $D_2$ be the interior of its Cauchy development in $\U_2$.
+
+\item \emph{$\W_1:=D_1\cap N$ and $\W_2:=D_2\cap f(N)$ are connected and causally convex.} Both
+$D_1$ and $N$ are causally convex in $M_1$, hence so is their intersection. Let $x_1,x_2\in \W_1$ and
+let $c_1,c_2$ be inextensible causal curves of $D_1$ through $x_1$ and $x_2$; each meets
+$\Sigma_1'$, and $N$ being causally convex in $M_1$ each is contained in $N$. Since $\Sigma_1'$ is
+connected, a path in $\Sigma_1'$ joins $c_1\cap \Sigma_1'$ to $c_2\cap \Sigma_1'$, so $x_1$ and
+$x_2$ are joined inside $\W_1$. The same argument applies to $\W_2$.
+
+\item \emph{$\W_1=\U_1\cap f^{-1}(\W_2)$.} Let $x\in \W_1$; then $f(x)\in \U_2$. Let $c$ be an
+inextensible causal curve of $\U_2$ through $f(x)$. As $f(N)$ is causally convex in $M_2$, the
+intersection $c\cap f(N)$ is connected, hence an inextensible causal curve of $f(N)\cap \U_2$, and
+$f^{-1}(c\cap f(N))$ is an inextensible causal curve of $N\cap f^{-1}(\U_2)$. Extend it to an
+inextensible causal curve $c_3$ of $\U_1$; since $x\in D_1$, $c_3$ meets $\Sigma_1'$, at $c_3(s_0)$
+say. Either $c_3(s_0)=p$, and then $c_3(s)\in N\cap \U_1$ for every $s<s_0$ by the hypothesis
+$J_{M_1}(\Sigma_1,p)\setminus\{p\}\subset N$, so that $\overline f$ maps $c_{3|]-\infty,s_0]}$ into
+the closed curve $c$ and $q\in c\cap \Sigma_2'$; or $c_3(s_0)\in N\cap \U_1$ and then $f(c_3(s_0))\in
+c\cap \Sigma_2'$. In both cases $c$ meets $\Sigma_2'$, so $f(x)\in D_2$ and $x\in
+\U_1\cap f^{-1}(\W_2)$. The reverse inclusion is proved in the same way.
+
+\item Since $\W_1$ is connected and contained in $\U_1\cap f^{-1}\left(\U_2\cap f(N)\right)$, the
+rigidity of $\mass{\geq0}$-morphisms (Remark \ref{rem:CBG_analytique}) provides $g\in
+\isom(\mass{\alpha})$ with $f_{|\W_1}=\phi_2^{-1}\circ g\circ \phi_{1|\W_1}$. As $\W_1=D_1\cap N$,
+the map
+$$\fonctiondeux{\widetilde f}{N\cup D_1}{M_2}{x \in N}{ f(x) }{x\in D_1}{\phi_2^{-1} \circ g \circ \phi_1(x)}$$
+is well defined and is a $\mass{\geq0}$-morphism.
+
+\item \emph{$\Sigma_1$ is a Cauchy surface of $N\cup D_1$.} Let $c$ be an inextensible future causal
+curve of $N\cup D_1$; it suffices to show that $c\cap N\neq \emptyset$, for then $c\cap N$ is an
+inextensible causal curve of $N$ and meets $\Sigma_1$. Now $\U_1$ is causally convex in $M_1$ and
+$D_1$ is causally convex in $\U_1$, so $D_1$ is causally convex in $M_1$. If $c\cap D_1=\emptyset$
+then $c\subset N$. Otherwise $c\cap D_1$ is an inextensible causal curve of $D_1$ and meets
+$\Sigma_1'$ at some $c(s_0)$; as above $c(s)\in N$ for every $s<s_0$.
+\end{itemize}
+
+Writing $\widetilde{j_1}:N\cup D_1\rightarrow M_1$ for the inclusion, the triple $\left(N\cup
+D_1,\widetilde{j_1},\widetilde f\right)$ is a common sub-extension of $M_1$ and $M_2$, and the
+inclusion $N\rightarrow N\cup D_1$ is a non-bijective morphism of common sub-extensions --- it misses
+$p$. Hence $N$ is not maximal.
+\end{proof}
+
+\begin{prop}\label{prop:C_connexe}
+The set $C_1:=\left\{p\in \partial j_1(N) ~|~ \exists q,~(p,q)\in C\right\}$ is open in $\partial
+j_1(N)$, and $C$ is closed in $\partial j_1(N)\times \partial j_2(N)$.
+\end{prop}
+% [editorial] translated from \cite[Section~3.4]{thesis} -- verify
+\begin{proof}
+Again we assume $M_0\subset N\subset M_1$ with $j_1$ the inclusion, and we fix $(p,q)\in C$ and
+charts $(\U_1,\mass{\alpha},\V_1,\phi_1)$ and $(\U_2,\mass{\alpha},\V_2,\phi_2)$ around $p$ and $q$.
+
+\emph{$C_1$ is open.} By Corollary \ref{cor:ext_continue} we may choose $\U_1$ with
+$f(\U_1\cap N)\subset \U_2$. Next, there is a connected open neighbourhood $\W$ of $p$ contained in
+$\U_1$ such that $\W\cap N$ is connected and $f(\W\cap N)\subset \U_2$: the set $\overline
+f^{-1}(\U_2)$ is an open neighbourhood of $p$ in $N\cup\{p\}$, one takes a connected open subset
+$\V$ of $\left(N\cup\{p\}\right)\cap \U_1$ inside it, then an open set $\V'$ of $\U_1$ with
+$\V'\cap\left(N\cup\{p\}\right)=\V$, and finally the connected component $\W$ of $p$ in $\V'$; then
+$\W\cap\left(N\cup\{p\}\right)=\V$ is connected and $\V\setminus\{p\}$ is connected, so $\W\cap N$
+is connected. Rigidity then provides $g\in \isom(\mass{\alpha})$ with $f_{|\W\cap
+N}=\phi_2^{-1}\circ g\circ \phi_{1|\W\cap N}$, and letting $\W'$ be the connected component of
+$\W\cap N$ in $\W\cap \phi_1^{-1}\left(g^{-1}\V_2\right)$, the map
+$$\fonctiondeux{\widetilde f}{N\cup \W'}{M_2}{x \in N}{ f(x) }{x\in \W'}{\phi_2^{-1} \circ g \circ \phi_1(x)}$$
+is well defined. Every point of $\W'\cap \partial N$ then has a corresponding point, namely its image
+under $\widetilde f$; so $\W'\cap \partial N$ is a neighbourhood of $p$ in $\partial N$ contained in
+$C_1$.
+
+\emph{$C$ is closed.} Let $(p_n,q_n)\in C$ converge to $(p,q)\in \partial N\times \partial f(N)$ and
+let $\U,\V$ be neighbourhoods of $p$ and $q$. For $n$ large, $p_n\in \U$ and $q_n\in \V$; since
+$(p_n,q_n)\in C$ and $\U$, $\V$ are neighbourhoods of $p_n$ and $q_n$, the set $f(\U\cap N)\cap \V$
+is non-empty. Hence $\pi(p)$ and $\pi(q)$ are not separated, that is $(p,q)\in C$.
+\end{proof}
+
+\begin{prop}\label{prop:Cauchy_point_min}
+If $C\neq \emptyset$, then there exists $(p',q')\in C$ with
+$$J_{M_1}(\Sigma_1,p')\setminus\{p'\}\subset j_1(N).$$
+\end{prop}
+% [editorial] translated from \cite[Section~3.4]{thesis} -- verify
+\begin{proof}
+Start from $(p,q)\in C$ and run the following procedure, which produces a sequence $(P_n)_{n\in A}$,
+$A=\lsem 0,n^*\lsem$ with $n^*\in \N\cup\{\infty\}$, of points of $\partial j_1(N)$.
+\begin{enumerate}[label=(\Alph*)]
+\item Set $P:=p$.
+\item If $J_{M_1}(\Sigma_1,P)\setminus\{P\}\subset j_1(N)$, follow a past lightlike geodesic
+$c:[0,T^*[\,\rightarrow J^+(\Sigma_1)$ with $c(0)=P$ and such that $c(s)\notin j_1(N)$ for some
+$s>0$; let the new $P$ be the first point $c(s)$ at which either $c(s)\in \sing(M_1)$ with $s>0$, or
+$c$ returns arbitrarily close to $j_1(N)$, i.e. every interval $]s,s+\varepsilon[$ meets
+$c^{-1}(j_1(N))$. Return to $(B)$.
+\item Otherwise stop and return $P$.
+\end{enumerate}
+Write $c_n:[0,s_n]\rightarrow M_1$ for the lightlike geodesic joining $P_n$ to $P_{n+1}$.
+
+\emph{The procedure is well defined and does not stall.} Since $\Sigma_1$ does not contain $P$, a
+past outgoing lightlike geodesic through $P$ exists. For any such geodesic $c$, the set $\{s\geq
+0~|~c(s)\in j_1(N)\}$ is an open interval not containing $0$ by Lemma \ref{lem:image_diamant}; so if
+$J_{M_1}(\Sigma_1,P)\setminus\{P\}\not\subset j_1(N)$, some past lightlike geodesic leaves
+$j_1(N)$. Moreover $P$ cannot lie in $\sing_0(M_1)$: otherwise $J^-(P)\setminus\{P\}$ would be
+contained in the BTZ line through $P$ (Lemma \ref{lem:past_BTZ}) and Lemma \ref{lem:passe_pgcd}
+would give $J_{M_1}(\Sigma_1,P)\setminus\{P\}\subset j_1(N)$, so the procedure would have stopped.
+Hence all outgoing lightlike geodesics are regular near $P$.
+
+\emph{Every $P_n$ lies in $C_1$.} This holds for $P_0=p$. Assume $P_n\in C_1$. As just observed
+$P_n\notin \sing_0(M_1)$, so $I^-(P_n)$ is dense in $J^-(P_n)$ by Proposition
+\ref{prop:K_densite_sing} and Proposition \ref{prop:K_calcul}; the same holds at every point of
+$c_n\setminus\{P_n,P_{n+1}\}\subset \reg(M_1)$. By Lemma \ref{lem:passe_pgcd},
+$I^-(P_n)\cap J^+(\Sigma_1)\subset j_1(N)$, so $c_n$ lies in the closure of $j_1(N)$; being disjoint
+from $j_1(N)$, it lies in $\partial j_1(N)$. Proposition \ref{prop:C_connexe} then shows that $c_n$
+is entirely contained in $C_1$, and in particular $P_{n+1}\in C_1$.
+
+\emph{The procedure stops.} If $P_{n+1}\in \sing_\alpha(M_1)$ with $\alpha<2\pi$, then $I^-(c_n)$
+contains $J^-(P_{n+1})\setminus\{P_{n+1}\}$, so the procedure stops at $P_{n+1}$. If
+$P_{n+1}\in \reg(M_1)$, then $I^-(c_n)$ contains the complement, in $\partial J^-(P_{n+1})$, of the
+lightlike geodesic prolonging $c_n$; as $c_n$ cannot be prolonged to a longer geodesic of $\partial
+j_1(N)$, we get $J_{M_1}(\Sigma_1,P_{n+1})\setminus\{P_{n+1}\}\subset j_1(N)$ and the procedure stops
+again. Finally, let $c$ be the past causal curve obtained by concatenating the $c_n$. If $P_n\in
+\sing_\alpha(M_1)$ then the singular segment below $P_n$, open at $P_n$ and reaching down to
+$\Sigma_1$, lies entirely in $j_1(N)$; hence $c$ cannot meet the same connected component of
+$\sing(M_1)$ twice. Since $J^-(P_0)\cap \Sigma_1$ is a compact subset of $\Sigma_1$ and
+$\Sigma_1\cap \sing(M_1)$ is discrete, only finitely many singular lines can be met. The procedure
+therefore stops, at a point of $C_1$ with the required property.
+\end{proof}
+
+\begin{proof}[Proof of Proposition \ref{prop:ppcm_Cauchy}]
+Take $N=\pgcd$. If $C$ were non-empty, Proposition \ref{prop:Cauchy_point_min} would produce
+$(p',q')\in C$ with $J_{M_1}(\Sigma_1,p')\setminus\{p'\}\subset j_1(\pgcd)$, and Proposition
+\ref{prop:Cauchy_non_max} would then contradict the maximality of $\pgcd$ established in Proposition
+\ref{prop:Cauchy_pgcd}. Hence $C=\emptyset$, so by Remark \ref{rem:non_separe_cas} the quotient
+$\ppcm$ is Hausdorff, and it is a singular flat spacetime.
+
+Let now $M$ be a common over-extension of $M_1$ and $M_2$, with Cauchy embeddings
+$M_1\xrightarrow{a}M$ and $M_2\xrightarrow{b}M$. The maps $a\circ j_1$ and $b\circ j_2$ from $\pgcd$
+to $M$ agree on $M_0$, hence agree by rigidity (Remark \ref{rem:CBG_analytique}). Therefore
+$a\coprod b$ descends to the quotient and yields a Cauchy embedding $\ppcm\rightarrow M$, which is a
+morphism of common over-extensions. Minimality and uniqueness up to equivalence follow.
+\end{proof}
+
+\subsection{Conclusion}
+
+\begin{proof}[Proof of Theorem \ref{theo:CBG}]
+By Proposition \ref{prop:ppcm_Cauchy} any two Cauchy extensions of $M_0$ admit a common
+over-extension, so the family of Cauchy extensions of $M_0$ is directed. It admits an inductive limit
+$\overline{M_0}$ in the category of Hausdorff spaces endowed with a $\mass{\geq0}$-structure; the
+limit is maximal and unique up to equivalence, and the natural map $M_0\rightarrow \overline{M_0}$ is
+a Cauchy embedding.
+\end{proof}
+
+\begin{rem}[What is missing]\label{rem:CBG_manquant}
+Two points of the argument above are not established here.
+\begin{enumerate}[label=(\roman*)]
+\item The inductive limit $\overline{M_0}$ is Hausdorff and carries a $\mass{\geq0}$-structure, but
+we have not checked that it is \emph{second countable}, hence that it is a topological spacetime in
+the sense of Definition \ref{defi:causalite}. The proof should follow Geroch's argument for
+Lorentzian manifolds, in the appendix of \cite{MR0234703}; this is exactly the point left open in
+\cite[Section~3.4]{thesis}.
+\item The existence of the inductive limit also requires a small skeleton of the category of
+globally hyperbolic $\mass{\geq0}$-manifolds, i.e. a full subcategory containing one representative
+of each isomorphism class and whose morphisms form a set. Since all such manifolds have the
+cardinality of the continuum, this is routine, and we do not detail it.
+\end{enumerate}
+\end{rem}
+
+	\addcontentsline{toc}{section}{References}
+	\bibliographystyle{alpha}
+	\bibliography{note}
+	\label{LastPage}
+\end{document}

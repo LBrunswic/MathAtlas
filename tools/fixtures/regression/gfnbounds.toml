@@ -1,0 +1,113 @@
+# Regression fixture: `tools/ledger.py` configured exactly as `~/Dropbox/GFN Bounds/
+# formalization_ledger.py` is hardcoded, so that the generalised tool must reproduce that paper's
+# committed ledger byte for byte. Read-only on the source: outputs go to [output].dir (a tmp
+# directory supplied by tools/regression_ledger.sh), seeded with the committed JSON so curated
+# fields carry over as they do in the original.
+
+[paper]
+root = "/home/maxbrain/Dropbox/GFN Bounds"
+document = "gfnbounds_iclr2027.tex"
+notation = ["notation.tex"]
+aux = "gfnbounds_iclr2027.aux"
+files = [
+  ["introduction.tex", "body", "S1"],
+  ["universality.tex", "body", "S2"],
+  ["cv_stable.tex", "body", "S3"],
+  ["cv_divergence.tex", "body", "S4"],
+  ["experiments.tex", "body", "S5"],
+  ["conclusion.tex", "body", "S6"],
+  ["proofs.tex", "appendix", "A"],
+  ["silva_comparison.tex", "appendix", "B"],
+  ["app_finit.tex", "appendix", "C"],
+  ["app_replay.tex", "appendix", "D"],
+  ["app_pbtrain.tex", "appendix", "E"],
+  ["app_sgd.tex", "appendix", "F"],
+  ["app_program.tex", "appendix", "G"],
+  ["app_doubling.tex", "appendix", "H"],
+  ["app_lean.tex", "appendix", "I"],
+]
+statement_envs = ["theorem", "proposition", "lemma", "corollary", "definition",
+                  "assumption", "remark", "conjecture", "example"]
+label_prefixes = ["theo", "lem", "prop", "cor", "def", "rem", "assum"]
+coverage_skip = ["gfnbounds_*", "notation.tex", "*.premerge*"]
+
+[paper.titles]
+S1 = "Body §1 --- Introduction"
+S2 = "Body §2 --- $L^p$-universality"
+S3 = "Body §3 --- Convergence bounds for stable losses"
+S4 = "Body §4 --- Convergence bounds for divergence losses"
+S5 = "Body §5 --- Experiments"
+S6 = "Body §6 --- Conclusion"
+body = "Main text"
+A = "A --- Proofs"
+B = "B --- Comparison with Silva et al."
+C = "C --- The initial flow"
+D = "D --- The replay buffer and the training measure"
+E = "E --- Trained backward policies"
+F = "F --- Stochastic gradients"
+G = "G --- Experimental program"
+H = "H --- The doubling graph"
+I = "I --- The doubling graph, certified"
+
+[paper.out_of_document]
+"empirical_training.tex" = "A6, cut from the paper on 2026-08-25 and never finished."
+"notes_finit_replay.tex" = "The lab record behind Appendices C and D, a standalone document."
+
+[paper.twins]
+"theo:IL_CV_bound_body" = "theo:IL_CV_bound"
+"theo:universality_L2" = "theo:universality_L2_full"
+"theo:RL_CV_bound" = "theo:RL_CV_bound_full"
+"theo:training_speed" = "theo:training_speed_full"
+"theo:first_variation" = "theo:first_variation_full"
+"theo:gd_diffusion" = "theo:gd_diffusion_full"
+"theo:db_stable_frozen" = "theo:db_stable_frozen_full"
+"theo:local_convergence" = "theo:local_convergence_full"
+"prop:frozen_unstable" = "prop:frozen_unstable_full"
+"theo:global_dichotomy" = "theo:global_dichotomy_full"
+
+[lean]
+root = "/home/maxbrain/GFNBoundsLean"
+strict = ["GFNBounds"]
+scaffold = ["scaffold"]
+scope = ["A", "B", "H"]
+paper_map = "paper-map.json"
+strict_label = "GFNBounds/"
+scaffold_label = "scaffold/GFNBoundsScaffold/"
+
+[output]
+dir = "__OUT__"
+json = "formalization-ledger.json"
+markdown = "FORMALIZATION-LEDGER.md"
+dot = "formalization-dag.dot"
+tool_name = "formalization_ledger.py"
+render = false
+
+[markdown]
+roadmap_intro = "The Lean library `~/GFNBoundsLean` covers **Appendices A, B and H** — widened from H alone on 2026-09-08. Appendices C–G are tracked here but are **not** formalization targets. Bucket `B` is what is reachable with Mathlib as it stands; grouped into milestones, dependencies first:"
+obstruction_note = "The three that recur: **a Markov chain** (Mathlib v4.31 has no discrete-time chain theory), **a calculus of variations on measures** (the first-variation block and everything downstream of it), and **an SDE layer** (Appendix F's noise floor)."
+scope_blurb = "Appendices A, B, H and the body theorems whose full forms live there"
+
+[[markdown.milestones]]
+name = "Milestone 1 — the core: L^p universality (App. A)"
+blurb = "The paper's headline, and the layer everything measure-theoretic reuses. `Core/Mixing.lean` (the mixing sum and the Poisson equation), `Core/Universality.lean` (the lifted outflow, the defect identity, the quantitative bound), `Core/UniversalityLp.lean` (Step 3, by dominated convergence), `Core/Flow.lean` (the mean projection, and the intertwining identities derived rather than assumed)."
+labels = ["def:universality", "lem:sigma_mixing", "theo:universality_L2_full", "theo:universality_L2"]
+
+[[markdown.milestones]]
+name = "Milestone 2 — the finite-graph layer (App. A)"
+blurb = "Finite marked graphs, their loop closure, and the balanced flow — the discrete half of the universality theory. `GFNBounds/Doubling/Kac.lean` already proves the doubling instance of `prop:morozov_rate` without a chain; this generalizes that argument."
+labels = ["def:path_connected", "def:loop_closure", "theo:universality_graphs", "prop:morozov_rate", "prop:frozen_unstable_full", "prop:frozen_unstable"]
+
+[[markdown.milestones]]
+name = "Milestone 3 — the stable bounds (App. A)"
+blurb = "Section 3's convergence bound and its imitation-learning twin. Needs Core/Flow's defect algebra and the dual norm `A_q`; no chain, no calculus."
+labels = ["theo:RL_CV_bound_full", "theo:RL_CV_bound", "theo:IL_CV_bound", "theo:IL_CV_bound_body"]
+
+[[markdown.milestones]]
+name = "Milestone 4 — Appendix B, the Silva comparison"
+blurb = "Finite state space, finite sums, explicit constants and an explicit counter-family. The whole appendix is two propositions and four remarks."
+labels = ["prop:silva_explicit", "prop:silva_no_uniform"]
+
+[[markdown.milestones]]
+name = "Milestone 5 — the balance and lift block (App. A)"
+blurb = "The edge lift and the mass identity: the parts of the frozen-policy theory that do not need a calculus of variations. `prop:no_distant_equilibrium`(1) and `theo:global_dichotomy_full`(1) are sign arguments once the loss is written."
+labels = ["lem:adjoint", "def:edge_lift", "lem:lift_wellposed", "prop:db_lift", "lem:lift_mixing", "prop:no_distant_equilibrium", "theo:global_dichotomy_full", "theo:global_dichotomy"]

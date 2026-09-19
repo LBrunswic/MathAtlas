@@ -1,0 +1,91 @@
+% Proof of Proposition \ref{prop:self-energy}
+\begin{proof}
+We compute each block of $\mcX \mcR$ separately.
+
+\textbf{Step 1: Block structure.} We have
+\[
+\mcX = \begin{pmatrix} 0 & X \\ X^\top & 0 \end{pmatrix}, \quad
+\mcR = \begin{pmatrix} R_{11} & R_{12} \\ R_{21} & R_{22} \end{pmatrix},
+\]
+so
+\[
+\mcX \mcR = \begin{pmatrix} X R_{21} & X R_{22} \\ X^\top R_{11} & X^\top R_{12} \end{pmatrix}.
+\]
+
+\textbf{Step 2: Isotropy-based evaluation.} We need to evaluate $\E[\mcX \mcR]$ in terms of $\E[\mcR]$. Since $\E[X] = 0$, the naive expansion $\E[\mcX]\E[\mcR] = 0$ vanishes. The leading non-zero contribution comes from Gaussian integration by parts combined with the isotropy condition.
+
+From Step 1, we have
+\[
+\mcX \mcR = \begin{pmatrix} X R_{21} & X R_{22} \\ X^\top R_{11} & X^\top R_{12} \end{pmatrix}.
+\]
+
+The key insight is that the self-energy $\E[\mcX \mcR]$ involves quadratic forms in $X$ which can be evaluated directly using the isotropy condition.
+
+\textbf{Step 3: Apply isotropy to key contractions.} The dominant contribution comes from terms of the form $\E[X M X^\top]$ for deterministic or weakly random matrices $M$. By isotropy (Definition \ref{def:isotropy}),
+\begin{equation}\label{eq:isotropy-contraction-1}
+\boxed{\E[X M_{21} X^\top] = \frac{\sigma^2}{N}\Tr(M_{21}) I}
+\end{equation}
+for any deterministic matrix $M_{21}$.
+
+Similarly, for the $(2,1)$ block of $\E[\mcX \mcR]$, which is $\E[X^\top R_{11}]$, we have
+\begin{equation}\label{eq:isotropy-contraction-2}
+\boxed{\E[X^\top M_{12} X] = \frac{\sigma^2}{N}\Tr(M_{12}) I.}
+\end{equation}
+
+\textbf{Step 4: Leading-order self-energy.} Applying \eqref{eq:isotropy-contraction-1} and \eqref{eq:isotropy-contraction-2} with $M = \E[\mcR]$, we obtain
+\begin{align}
+\E[(\mcX \mcR)_{12}] &= \E[X R_{22}] \\
+&\approx \sigma^2 \cdot \frac{1}{N}\Tr(\E[R_{21}]) \cdot I + \text{(correction terms)} \\
+&= \sigma^2 m_{21}^{(0)} I + O(1/N),
+\end{align}
+where $m_{21}^{(0)} = \frac{1}{N}\Tr(\E[R_{21}])$ is the zeroth-order approximation.
+
+More carefully, the Wick contraction via Gaussian integration by parts (using Lemma \ref{lem:stein} and the isotropy condition) gives:
+\begin{align}
+\E[\mcX \mcR]
+&\approx \begin{pmatrix} 0 & \sigma^2 \frac{1}{N}\Tr(\E[R_{12}]) I \\ \sigma^2 \frac{1}{N}\Tr(\E[R_{21}]) I & 0 \end{pmatrix} \cdot \E[\mcR] + \text{Error}.
+\end{align}
+
+Define
+\begin{equation}
+\Sigma[\mcM] := \begin{pmatrix} 0 & \sigma^2 m_{12} I \\ \sigma^2 m_{21} I & 0 \end{pmatrix},
+\quad
+m_{ij} = \frac{1}{N}\Tr(M_{ij}),
+\end{equation}
+where $\mcM = \E[\mcR]$.
+
+Then we have established
+\begin{equation}\label{eq:wick-closure}
+\E[\mcX \mcR] = \Sigma[\E[\mcR]] \cdot \E[\mcR] + \text{Error}.
+\end{equation}
+
+\textbf{Step 5: Error bound.} The error terms come from:
+\begin{enumerate}
+\item \textbf{Replacement error:} Replacing $R_{ij}$ with $\E[R_{ij}]$ inside the isotropy formula. By resolvent bounds (Lemma \ref{lem:resolvent-bounds}), $\norm{R_{ij}} \leq C/\eta$, so
+\[
+\norm{\E[X (R_{21} - \E[R_{21}]) X^\top]}_F \leq \frac{\sigma^2}{N} \norm{R_{21} - \E[R_{21}]}_F \cdot N \leq C \norm{R_{21} - \E[R_{21}]}_F.
+\]
+This couples to the error we're bounding (self-consistent equation below).
+
+\item \textbf{Trace approximation error:} Replacing the full matrix $M_{ij}$ with the scalar $\frac{1}{N}\Tr(M_{ij}) \cdot I$. We have
+\begin{align}
+\norm{M_{ij} - \frac{1}{N}\Tr(M_{ij}) I}_F^2
+&= \norm{M_{ij}}_F^2 - \frac{1}{N}|\Tr(M_{ij})|^2 \\
+&\leq \norm{M_{ij}}_F^2 \leq \frac{C}{\eta^2} N.
+\end{align}
+Thus $\norm{M_{ij} - \frac{1}{N}\Tr(M_{ij}) I}_F \leq C\sqrt{N}/\eta$, giving a contribution of order $O(1/\sqrt{N})$ to the error.
+
+\item \textbf{Higher-order Wick contractions:} Terms with four or more $X$ factors. By Wick's theorem, these contribute at most
+\[
+\E[\norm{X}^4 \norm{R}^2] \leq \frac{C}{N^2} \cdot \frac{1}{\eta^2} = O(1/N^2),
+\]
+using the fourth moment bound (Assumption A4).
+\end{enumerate}
+
+Combining these estimates, we obtain
+\begin{equation}
+\norm{\text{Error}}_F \leq \frac{C(\eta, \sigma, \norm{A})}{N}.
+\end{equation}
+
+This completes the proof of equation \eqref{eq:self-energy-formula}.
+\end{proof}

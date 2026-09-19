@@ -1,0 +1,33 @@
+%!TEX root = ../../main.tex
+
+\section{Introduction}\label{sec:intro}
+
+The residual connection~\cite{he2016deep}---the per-layer update $x^{l+1} = F(x^l) + x^l$---is the dominant connectivity pattern in modern deep learning, underpinning Transformers~\cite{vaswani2017attention} and virtually every large-scale architecture deployed today. Its variants---Pre-Norm, DeepNorm~\cite{wang2022deepnorm}---pushed to thousands of layers. Yet every variant keeps the skip connection as a scalar multiple of the identity, anchoring the neural function to identity and bounding its expressivity.
+
+Hyper-Connections (HC)~\cite{zhu2024hyperconnections} broke out of this constraint by replacing the identity with a learnable mixing matrix $A_q \in \R^{q \times q}$ acting on $q$ parallel residual streams:
+\begin{equation}\label{eq:hc-skip}
+x^{l+1} = \phi(W^l x^l) + (A_q^l \otimes I_p)\, x^l, \quad N = qp.
+\end{equation}
+The network learns \emph{which} information flows where---a strictly richer connection pattern. The gains are most dramatic in the Mixture-of-Experts (MoE) setting, where HC halved the training tokens needed to match baseline on OLMoE and improved BBH and GSM8K by $+7$ points on DeepSeek's 27B MoE model~\cite{zhu2024hyperconnections,xie2025mhc}. Both MoE and HC are learnable routing mechanisms---one for tokens across experts, the other for residual streams across layers---and both face the same stability challenge: unconstrained, they diverge (signal gains exceeding $3000\times$ at 27B scale~\cite{xie2025mhc}).
+
+Manifold-Constrained Hyper-Connections (mHC)~\cite{xie2025mhc} tames this instability by projecting $A_q$ onto the Birkhoff polytope of doubly stochastic matrices via the Sinkhorn-Knopp algorithm. The intuition is natural: doubly stochastic matrices preserve total mass and act as transport plans \cite{villani2021topics}, so they should maintain proper information flow. Concurrent work explores alternative parametrisations of the same polytope~\cite{kromhc2026,noguer2026}, but none performs a spectral analysis of the resulting Jacobian. The doubly stochastic constraint is justified by mass preservation and empirical stability---not by any study of spectral structure.
+
+This is where the argument breaks down.\label{sec:spectral-failure} Training deep networks requires that the singular values of the input-output Jacobian $J = \prod_{l=1}^{L} Y^l$ remain concentrated near~$1$---a property called \emph{dynamical isometry}~\cite{saxe2014exact,pennington2017resurrecting}. Without it, gradients either explode or vanish exponentially. Tarnowski et al.~\cite{tarnowski2019dynamical} proved that for scalar skip connections, dynamical isometry is universal: for any activation function, it is achieved when a single condition on the weight variance is met. A generalization of their free probability method to $(A_q^l \otimes I_p)$-twisting of skip-connection seems within reach.  
+
+We extend the theory to the operator-valued setting via operator-valued free probability~\cite{voiculescu1995operations,dykema2006multilinear}, where the Kronecker structure of~\eqref{eq:hc-skip} collapses the spectral problem from network width~$N$ to twist dimension~$q$. This reveals two failure modes of doubly stochastic skip connections. The first is \emph{eigenvalue contraction}: a doubly stochastic matrix has its Perron eigenvalue pinned at one, but generically all others lie strictly inside the unit disk, and deep composition drives $|\lambda|^L \to 0$. The second is \emph{eigenspace misalignment}: eigenbases of successive layers are unrelated, so composition scrambles directions and accelerates the collapse beyond what per-layer spectra predict. Together, these produce a partial spectral collapse---a growing fraction of the Jacobian's singular values drifting toward zero---that no reparametrisation of the Birkhoff polytope can escape (Appendix~\ref{app:spectral-stalling}).
+
+Orthogonal matrices eliminate both failure modes: all eigenvalues lie on the unit circle, so no contraction is possible, and group closure under composition prevents misalignment at any depth. We propose replacing the Birkhoff constraint with the orthogonal group $O(q)$, parametrised via the Cayley transform~\cite{li2020cayley}. Beyond spectral preservation, this provides a strictly richer function class (the linear span of $O(q)$ is the full algebra $M_q(\R)$, dimension $q^2$, versus $(q{-}1)^2 + 1$ for the Birkhoff polytope) and implicit geometric nonlinearity from the curvature of the orthogonal manifold.
+
+\medskip
+\noindent\textbf{Contributions.}
+\begin{enumerate}
+\item \textbf{Spectral diagnosis.} We identify eigenvalue contraction and eigenspace misalignment as the mechanisms by which doubly stochastic skip connections break dynamical isometry, and show that this collapse converts to concrete capacity loss in modern training (\emph{spectral stalling}).
+
+\item \textbf{Orthogonal prescription.} We propose orthogonal skip connections as a principled alternative that preserves dynamical isometry at all depths, with a Cayley-transform parametrisation for efficient Riemannian optimisation~\cite{li2020cayley,lezcano2019trivializations}.
+
+\item \textbf{Implicit differentiation} We optimize both Sinkhorn and Cayley fixed-point methods via implicit differentiation based upon \cite{A unified framework for implicit sinkhorn differentiation}
+
+\item \textbf{Operator-valued Dyson pipeline.} We develop the first numerical implementation of the full operator-valued free probability pipeline---from the matrix Dyson equation through Dykema's twisted S-transform multiplicativity to multi-layer spectral densities.
+
+\item \textbf{Experimental validation.} We confirm the spectral predictions against Monte Carlo simulation and validate the practical consequence on a modified Tiny Recursive Model~\cite{jolicoeur2025trm} evaluated on ARC-AGI-1~\cite{chollet2019arc}: orthogonal skip connections converge faster and reach higher accuracy than bistochastic ones.
+\end{enumerate}

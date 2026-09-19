@@ -1,0 +1,746 @@
+% The Yamabe gap
+% by Leo Brunswic and Thomas Buchert
+%
+% First version by Leo on June 23, 2021 V0
+% Update by Thomas on June 24-25, 2021 V1
+% Update by Leo on June 25, 2021 V2
+% Update by Thomas on June 26, 2021 V3
+% Updates by Leo until August 5, 2021 V4 and V5
+% Update by Thomas on August 5-6, 2021 V6
+% Update by Leo on August 6, 2021 V7
+% Update by Thomas on August 8, 2021 V8
+% Update by Leo until August 12, 2021 V9
+% Update by Thomas on August 13, 2021 V10
+% Update by Leo until August 18, 2021 V11
+% Update by Leo until May 1, 2023 V12
+% Update by Leo until May 9, 2023 V13
+% Update by Thomas on May 10, 2023 V14
+% Update by Leo until May 16, 2023 V15
+% Update by Thomas until May 17, 2023 V16
+% Update by Leo until May 18, 2023 V17
+% Update by Thomas on May 18, 2023 V18
+% Update by Leo until May 22, 2023 V19
+% V20, August 2026: rebuilt from V19 for Physical Review D (revtex4-2);
+%      co-author notes resolved; Secs. VI-VII rewritten; Appendices A-B added;
+%      local bibliography Yamabegap.bib (extracted from note.bib).
+%
+\documentclass[aps,prd,reprint,amsmath,amssymb,nofootinbib,longbibliography]{revtex4-2}
+%
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{amsthm}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage{xcolor}
+\definecolor{linkblue}{rgb}{0,0,0.55}
+\usepackage[colorlinks=true,linkcolor=linkblue,citecolor=linkblue,urlcolor=linkblue,%
+  pdftitle={The Yamabe gap: inhomogeneity measure and morphological driver of cosmic expansion},%
+  pdfauthor={Leo Brunswic and Thomas Buchert}]{hyperref}
+%
+% ---------- operators ----------
+\DeclareMathOperator{\Vol}{Vol}
+\DeclareMathOperator{\tr}{tr}
+% ---------- sets ----------
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\Sph}{\mathbb{S}}
+\newcommand{\Torus}{\mathbb{T}}
+\newcommand{\Eucl}{\mathbb{E}}
+% ---------- geometry ----------
+\newcommand{\g}{\mathbf{g}}                 % spatial metric
+\newcommand{\gbar}{\bar{\mathbf{g}}}        % metric on the closed filling
+\newcommand{\Rs}{\mathcal{R}}               % spatial Ricci scalar
+\newcommand{\Ric}{\mathbf{Ric}}             % spatial Ricci tensor
+\newcommand{\vol}{\boldsymbol{\eta}}        % volume form of Sigma
+\newcommand{\bvol}{\boldsymbol{\varpi}}     % volume form of the boundary
+\newcommand{\M}{\mathcal{M}}                % spacetime
+\newcommand{\sigbd}{\sigma_\partial}       % relative Yamabe invariant
+\newcommand{\cpst}{\operatorname{cap}_*}    % capacity with neutralising background
+\newcommand{\Atil}{\widetilde{A}}
+\newcommand{\Sigbar}{\bar{\Sigma}}          % closed filling of Sigma
+\newcommand{\ini}[1]{{#1}_{\mathbf{i}}}     % value at initial time
+\newcommand{\inirho}{\ini{\varrho}}
+\newcommand{\mBY}{m_{\mathrm{BY}}}
+\newcommand{\Href}{H_{\mathrm{ref}}}
+% ---------- Yamabe quantities ----------
+\newcommand{\EH}{\mathcal{E}}               % Yamabe energy
+\newcommand{\EHB}{\mathcal{E}^{\partial}}   % boundary-normalized Yamabe energy
+\newcommand{\Y}{\mathcal{Y}}                % Yamabe constant of a conformal class
+\newcommand{\YB}{\mathcal{Y}^{\partial}}    % boundary Yamabe constant
+\newcommand{\pstar}{p^{*}}
+\newcommand{\psharp}{p^{\sharp}}
+\newcommand{\rd}{\mathrm{d}}
+\newcommand{\aN}{a_N}
+\newcommand{\cN}{c_N}
+\newcommand{\Fq}{\mathsf{F}}                % trace-Sobolev quotient
+% ---------- theorem environments: one shared counter ----------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+%
+\begin{document}
+%
+\title{The Yamabe gap: inhomogeneity measure and morphological driver of cosmic expansion}
+%
+\author{L\'eo Brunswic}
+\email{leo.brunswic@ens-lyon.fr}
+\author{Thomas Buchert}
+\email{buchert@ens-lyon.fr}
+\affiliation{Univ Lyon, Ens de Lyon, Univ Lyon1, CNRS, Centre de Recherche Astrophysique de Lyon UMR5574, F--69007 Lyon, France}
+%
+\begin{abstract}
+We study the average dynamics of a cosmic void modeled as a compact manifold with boundary, the boundary components enclosing the overdense regions, within the scalar averaging framework of inhomogeneous cosmology and under the assumption that the spatial leaves have constant scalar curvature. The averaged scalar curvature---the only term of the averaged acceleration law that is not controlled by a conservation law---is governed by the Yamabe energy of the leaves, and we define the Yamabe gap as the difference between the Yamabe invariant of the spatial topology and the Yamabe energy of the leaf. For closed leaves of non-positive scalar curvature the gap is non-negative, it vanishes exactly for Einstein (in three dimensions: Friedmann--Lema\^{\i}tre--Robertson--Walker) leaves, and it measures the deviation of the curvature term from its Friedmannian value whenever the Yamabe invariant is attained, in particular for hyperbolic, flat, spherical and real-projective spatial topologies. For leaves with boundary we obtain the same acceleration law with an effective matter source that contains the Brown--York mass of the excised regions. For punctured flat tori with Schwarzschild-like (minimal) punctures we prove that the relative Yamabe constant is strictly negative and derive an explicit upper bound in terms of a trace-Sobolev quotient; the non-negativity of the gap in this setting is again a theorem, and its size is bounded below by a definite fraction of the excised mass. We discuss the resulting open problems, among them a Yamabe problem with a Brown--York constraint.
+\end{abstract}
+%
+\maketitle
+%
+% =====================================================================
+\section{Introduction}
+\label{sec:intro}
+% =====================================================================
+
+The standard model of cosmology belongs to the class of Friedmann--Lema\^{\i}tre--Robertson--Walker (FLRW) solutions of Einstein's equations, which have trivial morphology: homogeneous and isotropic geometry on simply connected spatial leaves. Cosmic structure formation is described as evolving on this background, which is regarded as an idealized average model. Structure formation is influenced by the background dynamics but has, by construction, no influence back on it. The impact of structure on the average dynamics---called \textit{cosmological backreaction}---is, however, at the very heart of general relativity: it entails deviations of the average curvature from that of the idealized model as a consequence of inhomogeneous geometry and, in general, of nontrivial topology \cite{Buchert_2007}.
+
+The scalar averaging framework makes this statement quantitative. Averaging the Raychaudhuri equation and the Hamiltonian constraint over a comoving domain of a flow-orthogonal foliation yields effective Friedmann-like equations for the volume scale factor of the domain, in which two additional terms appear: the kinematical backreaction $\mathcal{Q}$ and the averaged spatial scalar curvature $\langle \Rs \rangle$ \cite{Buchert_2007}. The system is not closed. A combination of the averaged equations with the conservation law eliminates $\mathcal{Q}$ and leaves a single acceleration law in which $\langle \Rs\rangle$ is the only term not controlled by a conservation law \cite{brunswic2020gaussbonnetchern}. Knowledge of the averaged scalar curvature is therefore equivalent to knowledge of the average expansion history. In the two-dimensional case the Gauss--Bonnet theorem turns this observation into a theorem: for closed leaves $\langle\Rs\rangle\Vol(\Sigma_t)$ is a topological constant, so that the Friedmannian curvature law $\langle\Rs\rangle\propto a^{-2}$ holds without any homogeneity assumption \cite{brunswic2020gaussbonnetchern}. In three and more dimensions no such conservation law exists, and the question becomes whether topology and the \emph{type} of inhomogeneity still constrain $\langle\Rs\rangle$.
+
+The present work proposes an answer based on the Yamabe problem \cite{MR125546,MR240748,MR448404,Aubin1976JMPA,MR788292,LeeParker1987}. The total scalar curvature, normalized to be invariant under homotheties, is the \textit{Yamabe energy} $\EH(\Sigma,\g)$ of a leaf. Its infimum over a conformal class is the Yamabe constant of the class, and the supremum of the Yamabe constants over all conformal classes is the \textit{Yamabe invariant} $\sigma(\Sigma)$, a differential-topological invariant of the leaf. Under the assumption that the leaves have constant scalar curvature (a relaxation of homogeneity and isotropy that we motivate in Sec.~\ref{sec:model}), the averaged scalar curvature is $\langle\Rs\rangle = \EH(\Sigma_t,\g_t)\Vol(\Sigma_t)^{-2/N}$, and the acceleration law can be rewritten in terms of the \textit{Yamabe gap}
+\begin{equation*}
+\delta(\Sigma_t) := \sigma(\Sigma) - \EH(\Sigma_t,\g_t)\ .
+\end{equation*}
+For leaves of non-positive scalar curvature the gap is non-negative, it vanishes exactly for Einstein metrics---in three dimensions, for FLRW leaves---and it enters the acceleration law with a positive sign: inhomogeneities of the leaf, measured by $\delta$, always reduce the deceleration. (They need not produce acceleration: $\partial_{tt}(a^N)>0$ already for a decelerating Einstein--de Sitter model.) When the Yamabe invariant is attained by a constant-curvature metric, which is the case for hyperbolic, flat, spherical and real-projective spatial topologies, the remaining curvature term is exactly the Friedmannian one (Sec.~\ref{sec:closed}). The Yamabe gap thus provides a geometric measure of inhomogeneity and structure formation relative to the FLRW case, comparable in spirit to relative entropy measures \cite{2004PhRvL92n1302H} (Sec.~\ref{sec:interpretation}).
+
+The real Universe contains singularities and violent small-scale phenomena that break the constant-scalar-curvature hypothesis. We therefore model a void as a manifold with boundary, the boundary components enclosing the overdense regions. The Yamabe energy acquires a boundary term, the natural reference is a flat FLRW leaf with isometrically embedded boundaries, and the acceleration law keeps its form with an effective source in which the mass of the excised regions reappears through the Brown--York quasi-local mass of the boundary (Sec.~\ref{sec:boundary}). For the simplest configuration---a flat torus with Schwarzschild-like punctures---we prove that the relative Yamabe constant of the void is strictly negative and obtain an explicit upper bound in terms of a trace-Sobolev quotient (Sec.~\ref{sec:torus}, with proofs in Appendix~\ref{app:proofs}). The bound does not decide the sign of the Yamabe gap, whose non-negativity in this setting again follows from the extremal characterization, and which we bound below quantitatively. Section~\ref{sec:discussion} summarizes the results and lists the open problems, in particular a Yamabe problem with a Brown--York constraint.
+
+Throughout, we use the metric signature $(-,+,\dots,+)$ and units in which $8\pi G = c = 1$; Greek indices run from $0$ to $N$. $N\ge 3$ denotes the dimension of the spatial leaves, $n$ the number of boundary components, indexed by $j\in\{1,\dots,n\}$, and the subscript $\mathbf{i}$ refers to an initial time.
+
+% =====================================================================
+\section{The void manifold model and the averaged acceleration law}
+\label{sec:model}
+% =====================================================================
+
+Our spacetime is an $(N+1)$-dimensional Lorentzian manifold $\M$ with boundary. We restrict ourselves to $N\geq 3$, while the case $N=2$ is mentioned for comparison. We focus on a simple matter model, an irrotational pressureless perfect fluid with a cosmological constant $\Lambda$, so that Einstein's equations read
+\begin{equation}
+\label{eq:einstein}
+\mathrm{Ric}_{\mu\nu}-\frac{\mathrm{R}}{2}\,g_{\mu\nu}=\varrho \, u_\mu u_\nu -\Lambda\, g_{\mu\nu} \ ,
+\end{equation}
+with the spacetime Ricci tensor $\mathrm{Ric}_{\mu\nu}$, its trace $\mathrm{R}$, the rest mass density $\varrho$ and the fluid velocity $u^\mu$. We assume $\M$ globally hyperbolic and foliated by flow-orthogonal compact leaves $(\Sigma_t)_{t\in I}$, $t$ being the proper time of the fluid; the leaves carry the induced Riemannian metric $\g_t$, with volume form $\vol$ and scalar curvature $\Rs_{\g_t}$.
+
+The boundary components of $\Sigma_t$ are conceived as to enclose overdensities (galaxies, clusters, black holes), which are thus ``outside'' our manifold with boundary. We may imagine the overdensities to be almost stationary and of negligible volume in comparison with the volume of the void, but these particular assumptions are not needed for most of the discussion; they enter only when we want the effective source of Sec.~\ref{sec:boundary} to be constant in time. The boundary is comoving with the fluid.
+
+For any time $t$ we define the volume scale factor
+\begin{equation*}
+a(t) := \left[\Vol(\Sigma_t)/\Vol(\Sigma_{\ini t})\right]^{1/N}
+\end{equation*}
+and, for any scalar field $\psi$, its spatial average $\langle \psi\rangle_{\Sigma_t} := \left(\int_{\Sigma_t}\psi \,\vol\right)/\Vol(\Sigma_t)$. Combining the averaged Raychaudhuri equation, the averaged Hamiltonian constraint and mass conservation, the volume scale factor obeys the general acceleration law \cite{Buchert_2007,brunswic2020gaussbonnetchern}
+\begin{equation}
+\label{eq:accel}
+\frac{\partial_{tt} (a^N)}{a^N} = \frac{N}{N-1}\, \frac{\inirho}{a^N} + \frac{2N}{N-1}\Lambda - \langle \Rs_{\g_t} \rangle_{\Sigma_t}\ ,
+\end{equation}
+with $\inirho := \langle\varrho\rangle_{\Sigma_{\ini t}}$. Equation~\eqref{eq:accel} holds for any comoving domain, in particular for our void with comoving boundary, and it does not contain the kinematical backreaction. As a consequence, the dynamics of the volume scale factor is completely determined by the averaged spatial scalar curvature.
+
+In the FLRW model the averaged scalar curvature follows the simple law $\langle \Rs \rangle_{\Sigma_t} \propto a^{-2}$. For $N=2$, this law is a consequence of the Gauss--Bonnet theorem for closed leaves, without any homogeneity assumption \cite{brunswic2020gaussbonnetchern}. For $N\geq3$ it is untrue in general; its failure is the curvature part of cosmological backreaction \cite{Buchert_2007}. To constrain backreaction we add a partial homogeneity assumption to the void model: \emph{the spatial leaves have constant scalar curvature.} We deem this assumption reasonable on three counts: (i) it is a relaxation of the standard homogeneity and isotropy hypotheses, keeping homogeneity of a single scalar as a weaker geometric datum; (ii) we restrict the model to void domains, which are more homogeneous content-wise and therefore expected to be more homogeneous geometry-wise; (iii) the model allows for the anisotropies that are expected when traveling from one dense region to another through a void.
+
+Since most of our considerations concern a single leaf $\Sigma_t$ compared with the reference leaf $\Sigma_{\ini t}$, we mostly drop the index $t$ in what follows and write $(\Sigma,\g)$ for a leaf with its metric.
+
+% =====================================================================
+\section{Closed leaves: Yamabe energy, Yamabe invariant, and the Yamabe gap}
+\label{sec:closed}
+% =====================================================================
+
+We first consider the naive version of the model in which the boundary is empty, so that $(\Sigma,\g)$ is a closed (compact, without boundary) Riemannian manifold of dimension $N\ge 3$.
+
+\begin{definition}[Yamabe energy, Yamabe constant, Yamabe invariant]
+\label{def:yamabe}
+The \emph{Yamabe energy} of $(\Sigma,\g)$ is
+\begin{equation}
+\label{eq:yamabe-energy}
+\EH(\Sigma,\g) := \frac{\int_{\Sigma}\Rs_{\g}\,\vol}{\Vol(\Sigma,\g)^{(N-2)/N}} = \langle\Rs_\g\rangle_\Sigma\,\Vol(\Sigma,\g)^{2/N}\ .
+\end{equation}
+The \emph{Yamabe constant} of the conformal class $[\g]$ and the \emph{Yamabe invariant} of $\Sigma$ are
+\begin{align}
+\label{eq:yamabe-constant}
+\Y(\Sigma,[\g]) &:= \inf_{\phi>0}\EH\big(\Sigma,\phi^{4/(N-2)}\g\big)\ ,\\
+\label{eq:yamabe-invariant}
+\sigma(\Sigma) &:= \sup_{[\g]}\Y(\Sigma,[\g])\ ,
+\end{align}
+the infimum being taken over smooth positive functions and the supremum over all conformal classes of Riemannian metrics on $\Sigma$.
+\end{definition}
+
+The Yamabe energy is invariant under homotheties $\g\mapsto\lambda\g$, $\lambda>0$.\footnote{The Yamabe energy is coupled to the kinematical backreaction $\mathcal{Q}_{\Sigma_t}$ through the integrability condition of the averaged equations, $\partial_t(\mathcal{Q}_{\Sigma_t}a^{2N}) + a^{2N-2}\,\partial_t\big(\langle\Rs\rangle_{\Sigma_t}a^2\big)=0$ \cite{Buchert_2007,brunswic2020gaussbonnetchern}, which by \eqref{eq:yamabe-energy} reads $a^{2N-2}\,\partial_t\EH(\Sigma_t,\g_t) = -\ini V^{2/N}\partial_t(\mathcal{Q}_{\Sigma_t}a^{2N})$ with $\ini V:=\Vol(\Sigma_{\ini t})$.} Under a conformal change $\tilde\g=\phi^{4/(N-2)}\g$ one has the classical formula
+\begin{equation}
+\label{eq:conformal-energy}
+\EH(\Sigma,\tilde\g) = \frac{\int_\Sigma\big(\aN|\nabla\phi|^2_\g + \Rs_\g\,\phi^2\big)\vol}{\|\phi\|^2_{L^{\pstar}(\Sigma,\g)}}\ ,
+\end{equation}
+with $\aN:=4(N-1)/(N-2)$ and the critical Sobolev exponent $\pstar := 2N/(N-2)$, so that $\Y(\Sigma,[\g])$ is the best constant in a Sobolev-type inequality. The literature is not consistent in the use of ``Yamabe constant'' and ``Yamabe invariant''; we follow the convention of \cite{LeeParker1987,MR1957657}.
+
+\begin{theorem}[Yamabe, Trudinger, Aubin, Schoen \cite{MR125546,MR240748,MR448404,Aubin1976JMPA,MR788292}]
+\label{thm:yamabe}
+Let $\Sigma$ be a closed manifold of dimension $N\ge 3$ and $\g$ a Riemannian metric on $\Sigma$.
+\begin{enumerate}
+\item[(a)] (Aubin bound) $\Y(\Sigma,[\g])\le \Y(\Sph^N,[\g_{\mathrm{round}}]) = N(N-1)\,\omega_N^{2/N}$, where $\omega_N$ is the volume of the unit round $N$-sphere; in particular $\sigma(\Sigma)\le\sigma(\Sph^N)=N(N-1)\omega_N^{2/N}$.
+\item[(b)] The infimum in \eqref{eq:yamabe-constant} is attained by a smooth positive function $\phi$, and every minimizing metric $\phi^{4/(N-2)}\g$ has constant scalar curvature, equal to $\Y(\Sigma,[\g])\Vol(\Sigma,\phi^{4/(N-2)}\g)^{-2/N}$.
+\end{enumerate}
+\end{theorem}
+
+We call a minimizing metric a \emph{Yamabe metric}. Every conformal class thus contains a constant scalar curvature metric. The converse relation between constant scalar curvature metrics and Yamabe metrics depends on the sign of the scalar curvature.
+
+\begin{proposition}[Constant scalar curvature versus Yamabe metrics]
+\label{prop:csc-yamabe}
+Let $(\Sigma,\g)$ be closed, $N\ge3$, with constant scalar curvature $\Rs_\g$.
+\begin{enumerate}
+\item[(a)] If $\Rs_\g\le 0$, then $\EH(\Sigma,\g)=\Y(\Sigma,[\g])$, i.e.\ $\g$ is a Yamabe metric, and $\g$ is, up to homotheties, the only constant scalar curvature metric in $[\g]$.
+\item[(b)] If $\Rs_\g>0$, then $\Y(\Sigma,[\g])>0$ and $\EH(\Sigma,\g)\ge\Y(\Sigma,[\g])$, where the inequality may be strict: the conformal class of the product metric on $\Sph^1(L)\times\Sph^{N-1}$ contains, for $L$ large, constant scalar curvature metrics that are not Yamabe metrics.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+The first assertion of (a) and the first assertion of (b) are the closed case of Lemma~\ref{lem:kobayashi} in Appendix~\ref{app:proofs}, cf.\ \cite[Lemma~1.6]{MR919505}. The uniqueness in (a) follows from the maximum principle applied to the Yamabe equation, see \cite{LeeParker1987,Schoen1989}; the examples in (b) are due to Schoen \cite{Schoen1989}.
+\end{proof}
+
+The Yamabe invariant is linked to Einstein metrics by the following classical facts.
+
+\begin{theorem}[Realizations of the Yamabe invariant]
+\label{thm:extremal}
+Let $\Sigma$ be a closed manifold of dimension $N\geq 3$.
+\begin{enumerate}
+\item[(a)] Let $\g$ be a Yamabe metric with $\Y(\Sigma,[\g])=\sigma(\Sigma)$. If $\sigma(\Sigma)\le0$, or if $\g$ is the unique Yamabe metric of $[\g]$ up to homotheties, then $\g$ is Einstein, $\Ric_\g=\frac{\Rs_\g}{N}\g$ \cite{Schoen1989,MR867684,Anderson2005}.
+\item[(b)] The Yamabe invariant is attained by the metric of constant sectional curvature when $\Sigma$ is a closed hyperbolic $3$-manifold \cite{MR2213687}, a closed flat manifold (then $\sigma(\Sigma)=0$ \cite{MR569070}), the sphere $\Sph^N$ \cite{MR448404,Obata1971} or the real projective space $\RR\mathrm{P}^3$ \cite{BrayNeves2004,MR2081443}. In these cases $\sigma(\Sigma)=\Rs_{\g_0}\Vol(\Sigma,\g_0)^{2/N}$ for the constant-curvature metric $\g_0$.
+\end{enumerate}
+\end{theorem}
+
+For other spherical space forms the question whether $\sigma$ is attained by the round metric is open; for $N=3$, part (a) applies in particular whenever $\sigma(\Sigma)\le0$.\footnote{In the positive case the difficulty is the possible non-uniqueness of Yamabe metrics, which prevents the differentiability of $[\g]\mapsto\Y(\Sigma,[\g])$; see \cite{Anderson2005}.}
+
+We now return to the acceleration law. Since $\langle\Rs_\g\rangle_\Sigma=\EH(\Sigma,\g)\Vol(\Sigma)^{-2/N}$ and $\Vol(\Sigma_t)=a^N\ini V$, Eq.~\eqref{eq:accel} reads
+\begin{equation}
+\label{eq:accel-yamabe}
+\frac{\partial_{tt} (a^N)}{a^N} = \frac{N}{N-1}\, \frac{\inirho}{a^N} + \frac{2N}{N-1}\Lambda - \frac{\EH(\Sigma_t,\g_t)}{\ini V^{2/N}a^2}\ .
+\end{equation}
+Defining the \emph{Yamabe gap} and the constant
+\begin{equation}
+\label{eq:gap-def}
+\delta(\Sigma_t) := \sigma(\Sigma)-\EH(\Sigma_t,\g_t)\ ,\qquad k:=\frac{\sigma(\Sigma)}{\ini V^{2/N}}\ ,
+\end{equation}
+we obtain the form that is at the core of the present work:
+\begin{equation}
+\label{eq:accel-gap}
+\frac{\partial_{tt} (a^N)}{a^N} = \frac{N}{N-1}\, \frac{\inirho}{a^N} + \frac{2N}{N-1}\Lambda - \frac{k}{a^2} + \frac{\delta(\Sigma_t)}{\ini V^{2/N}a^2}\ .
+\end{equation}
+
+\begin{corollary}[Non-negativity and rigidity of the Yamabe gap]
+\label{cor:gap-nonneg}
+Assume that the leaf $(\Sigma_t,\g_t)$ is closed, has constant scalar curvature $\Rs_{\g_t}\le 0$, or more generally that $\g_t$ is a Yamabe metric. Then:
+\begin{enumerate}
+\item[(a)] $\delta(\Sigma_t)\ge 0$, and $\delta(\Sigma_t)=0$ if and only if $\g_t$ attains the Yamabe invariant; in that case, if $\sigma(\Sigma)\le0$ (which is automatic when $\Rs_{\g_t}\le0$), $\g_t$ is Einstein, hence of constant curvature when $N=3$, i.e.\ an FLRW leaf.
+\item[(b)] If $\Sigma$ is diffeomorphic to a closed hyperbolic $3$-manifold, a closed flat manifold, $\Sph^N$ or $\RR\mathrm{P}^3$, then $-k/a^2$ in \eqref{eq:accel-gap} is exactly the curvature term of the FLRW model whose leaf at time $\ini t$ has constant curvature and volume $\ini V$, and the Yamabe gap is the full deviation of the averaged scalar curvature from its Friedmannian value.
+\end{enumerate}
+\end{corollary}
+\begin{proof}
+(a) If $\g_t$ is a Yamabe metric then $\EH(\Sigma_t,\g_t)=\Y(\Sigma,[\g_t])\le\sigma(\Sigma)$ by definition; if $\Rs_{\g_t}\le0$ is constant, $\g_t$ is a Yamabe metric by Proposition~\ref{prop:csc-yamabe}(a). Equality $\delta=0$ means $\Y(\Sigma,[\g_t])=\sigma(\Sigma)$; if $\Rs_{\g_t}\le 0$ then $\sigma(\Sigma)=\EH(\Sigma_t,\g_t)\le0$ and Theorem~\ref{thm:extremal}(a) applies. In dimension three Einstein metrics have constant sectional curvature. (b) By Theorem~\ref{thm:extremal}(b), $\sigma(\Sigma)=\Rs_{\g_0}\Vol(\Sigma,\g_0)^{2/N}$ for the constant-curvature metric $\g_0$; rescaling $\g_0$ to volume $\ini V$ gives $k=\Rs_{\g_0}$, and the FLRW curvature term is $\Rs_{\g_0}/a^2$.
+\end{proof}
+
+\begin{corollary}[Volume comparison]
+\label{cor:volume}
+Let $\Sigma$ be a closed hyperbolic $3$-manifold with hyperbolic metric $\g_{\mathrm{hyp}}$, and let $\g$ be a metric on $\Sigma$ of constant scalar curvature $\Rs_\g=\Rs_{\g_{\mathrm{hyp}}}<0$. Then $\Vol(\Sigma,\g)\ge\Vol(\Sigma,\g_{\mathrm{hyp}})$, with equality if and only if $\g$ is isometric to $\g_{\mathrm{hyp}}$.
+\end{corollary}
+\begin{proof}
+By Proposition~\ref{prop:csc-yamabe}(a) and Theorem~\ref{thm:extremal}(b),
+\begin{align*}
+\Rs_\g\Vol(\Sigma,\g)^{2/3}&=\Y(\Sigma,[\g])\le\sigma(\Sigma)\\
+&=\Rs_{\g_{\mathrm{hyp}}}\Vol(\Sigma,\g_{\mathrm{hyp}})^{2/3}\ .
+\end{align*}
+Dividing by the negative constant $\Rs_\g=\Rs_{\g_{\mathrm{hyp}}}$ reverses the inequality. Equality forces $\g$ to attain $\sigma(\Sigma)<0$, hence to be Einstein by Theorem~\ref{thm:extremal}(a), i.e.\ hyperbolic, and Mostow rigidity gives the isometry.
+\end{proof}
+
+Corollary~\ref{cor:volume} is the precise form of the statement that, at equal (negative) scalar curvature, a void leaf is always at least as large as its FLRW counterpart.
+
+% =====================================================================
+\section{Interpretation of the Yamabe gap}
+\label{sec:interpretation}
+% =====================================================================
+
+Under the hypotheses of Corollary~\ref{cor:gap-nonneg} we may interpret the Yamabe gap as a \emph{measure} (i.e.\ a non-negative quantity) of inhomogeneity and structure formation relative to the FLRW case, which vanishes exactly on FLRW leaves. It thus measures cosmological backreaction within our assumptions. This is similar to a relative entropy \cite{2004PhRvL92n1302H}, with the difference that the relative entropy proposed in \cite{2004PhRvL92n1302H} is defined with respect to the average distribution and not with respect to an FLRW model; the latter forms a subcase that holds under our modeling assumption of homogeneity of the scalar curvature.
+
+Proposition~\ref{prop:csc-yamabe} and Theorem~\ref{thm:extremal} distinguish two tiers of inhomogeneities. \emph{Conformal} inhomogeneities, i.e.\ a non-constant conformal factor relative to the Yamabe metric of the class, raise the Yamabe energy above $\Y(\Sigma,[\g])$, by \eqref{eq:conformal-energy}; \emph{anisotropic} inhomogeneities, i.e.\ a non-vanishing traceless Ricci tensor of the Yamabe metric, lower the Yamabe constant below $\sigma(\Sigma)$. Our constant-scalar-curvature hypothesis excludes the first tier when $\Rs\le0$; the Yamabe gap then measures the second one.
+
+We may sketch an intuitive picture of the evolution of the Yamabe energy and of the associated dynamics of the volume scale factor (Fig.~\ref{fig:EH-evolution}). At the time $t_{\mathrm{CMB}}$ of last scattering of the Cosmic Microwave Background photons we imagine the Universe to be very homogeneous according to the standard-model paradigm, hence $\EH(\Sigma_t,\g_t)$ close to $\sigma(\Sigma)$. Several phases of structure formation may lead to a decrease of the Yamabe energy, each of them producing, by \eqref{eq:accel-gap}, an additional acceleration, until the structures are network-like, mutually weakly interacting, and stabilize. Taking the FLRW family as reference, an interesting phenomenon is a possible transition from a positively curved model to a negatively curved one \cite{Heinesen_2020}. The Yamabe energy of the standard model is constant and equal to $\sigma(\Sigma)$.
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[scale=0.62,>=Stealth]
+	\draw[->] (0, 0)  -- (10.4, 0) node[right] {$t$};
+	\draw[->] (0, -2.6) -- (0, 2.2) node[above] {$\EH(\Sigma_t,\g_t)$};
+	\draw[dotted,thick] (0, 1)  node[left] {$\sigma(\Sigma)$} -- (10.4, 1);
+	\filldraw[black] (1,0) circle (2pt) node[below] {$t_{\mathrm{CMB}}$};
+	\filldraw[black] (3,0) circle (2pt) node[below] {$t_{1}$};
+	\filldraw[black] (5,0) circle (2pt) node[below] {$t_{2}$};
+	\filldraw[black] (7,0) circle (2pt) node[below] {$t_{3}$};
+	\draw[red,thick] plot [smooth] coordinates {(0,1) (1,1) (2,0.8) (3,0.1) (4,0.09) (5,-1) (5.5,-1) (6,-1.1) (7,-1) (8,-.5) (9,-.5) (10,-.5)};
+	\draw[<->] (8.6,1) -- (8.6,-0.5) node[midway,right] {$\delta$};
+\end{tikzpicture}
+\caption{\label{fig:EH-evolution}Qualitative sketch of the evolution of the Yamabe energy of the leaves under the hypotheses of Corollary~\ref{cor:gap-nonneg}. The only rigorous content is the bound $\EH(\Sigma_t,\g_t)\le\sigma(\Sigma)$, with equality for FLRW leaves; the shape of the curve (decrease during structure-formation epochs $t_1$, $t_2$, $t_3$, a possible change of sign, saturation) is illustrative and not the result of a computation.}
+\end{figure}
+
+In principle, this provides a test of the model. Choosing a law linking the volume scale factor to redshift or to redshift-drift observations, one could draw the graph of $a(t)$, deduce $\EH(\Sigma_t,\g_t)$ from \eqref{eq:accel-yamabe}, and compare the variations of $\EH$ with the expected epochs of structure formation. Conversely, any model that predicts $a(t)$ by non-geometric means (phenomenological curvature laws, truncated perturbation schemes, effective equations of state) has to satisfy $\EH(\Sigma_t,\g_t)\le\sigma(\Sigma)$ at all times; the bound is a falsifiable constraint on such models, while FLRW models saturate it.
+
+The picture described above is, however, naive, for the following reasons: (i) the observational determination of the spatial volume scale factor is a difficult enterprise and foliation-dependent; (ii) the real Universe has singularities that break the constant-scalar-curvature hypothesis; (iii) small-scale phenomena can be rather violent curvature-wise. For (i) we note that the acceleration law \eqref{eq:accel} and its variants are covariantly defined for a given foliation of spacetime \cite{heinesen2019covariance}, while the foliation dependence has been discussed in \cite{buchert2018cosmological}; the link of the volume scale factor to observational variables is a subject of research, and many authors adopt the argument of R\"as\"anen \cite{rasanen2009light}. We deal with (ii) and (iii) by cutting the singularities and the small-scale phenomena out of the void manifold, which entails an enrichment of the model through its boundaries. While these regions are physically expected to be decoupled from the large-scale expansion (quasi-virialized), the void domain is expected to be the dominant driver of the large-scale expansion.
+
+% =====================================================================
+\section{Leaves with boundary}
+\label{sec:boundary}
+% =====================================================================
+
+\subsection{Yamabe energy with boundary}
+
+Let $(\Sigma,\g)$ be a compact Riemannian manifold of dimension $N\ge3$ with smooth boundary $\partial\Sigma=\bigsqcup_{j=1}^n B_j$, $\bvol$ the induced volume form of the boundary, $\nu$ the outward unit normal of $\Sigma$ along $\partial\Sigma$, and $H_\g$ the mean curvature of $\partial\Sigma$ with respect to $\nu$, normalized as the average of the principal curvatures, $H_\g=\frac{1}{N-1}\tr\mathrm{II}_\nu$; with this sign convention the unit ball of Euclidean space has $H=+1$.
+
+\begin{definition}[Yamabe energy and relative Yamabe constant with boundary]
+\label{def:yamabe-bdry}
+Let
+\begin{equation}
+\label{eq:EH-action}
+\mathcal{S}(\Sigma,\g):=\int_{\Sigma}\Rs_\g\,\vol+2(N-1)\int_{\partial \Sigma}H_\g\,\bvol
+\end{equation}
+be the Einstein--Hilbert action with its Gibbons--Hawking--York boundary term. The \emph{Yamabe energy} of $(\Sigma,\g)$ and its \emph{boundary-normalized} version are
+\begin{align}
+\label{eq:yamabe-energy-bdry}
+\EH(\Sigma,\g) &:= \frac{\mathcal{S}(\Sigma,\g)}{\Vol(\Sigma,\g)^{(N-2)/N}}\ ,\\
+\label{eq:yamabe-energy-bdry-norm}
+\EHB(\Sigma,\g) &:= \frac{\mathcal{S}(\Sigma,\g)}{\Vol(\partial\Sigma,\g)^{(N-2)/(N-1)}}\ ,
+\end{align}
+and the \emph{relative Yamabe constant} and \emph{boundary Yamabe constant} of the conformal class $[\g]$ are
+\begin{align}
+\label{eq:relative-yamabe}
+\Y_{[\g]}(\Sigma) &:= \inf_{\phi>0}\EH\big(\Sigma,\phi^{4/(N-2)}\g\big)\ ,\\
+\label{eq:boundary-yamabe}
+\YB_{[\g]}(\Sigma) &:= \inf_{\phi>0}\EHB\big(\Sigma,\phi^{4/(N-2)}\g\big)\ .
+\end{align}
+\end{definition}
+
+Under a conformal change $\tilde\g=\phi^{4/(N-2)}\g$ the normal-derivative terms produced by the scalar curvature and by the mean curvature cancel, and one obtains \cite{MR1152225,MR1173925}
+\begin{multline}
+\label{eq:conformal-energy-bdry}
+\EH(\Sigma,\tilde\g)\,\|\phi\|^2_{L^{\pstar}(\Sigma,\g)}=\int_\Sigma\big(\aN|\nabla\phi|^2_\g+\Rs_\g\phi^2\big)\vol\\
++2(N-1)\int_{\partial\Sigma}H_\g\phi^2\,\bvol\ ,
+\end{multline}
+and the same right-hand side equals $\EHB(\Sigma,\tilde\g)$ multiplied by $\|\phi\|^2_{L^{\psharp}(\partial\Sigma,\g)}$, where the critical trace exponent is $\psharp:=2(N-1)/(N-2)$. Escobar's functional \cite{MR1152225,MR1173925} is $\frac{N-2}{4(N-1)}$ times ours; the invariants of Akutagawa and Botvinnik \cite{MR1957657} are defined with $H$ replaced by the trace of the second fundamental form and the infimum restricted to minimal-boundary representatives, which gives the same numbers since functions with vanishing normal derivative are dense in $W^{1,2}(\Sigma)$. We shall use the following facts.
+\begin{enumerate}
+\item[(i)] Every conformal class contains a metric with minimal boundary, $H\equiv0$ \cite[Lemma~1.1]{MR1152225}; for such a representative the boundary term in \eqref{eq:conformal-energy-bdry} vanishes.
+\item[(ii)] Under mild hypotheses---always satisfied for $N=3$---the infimum $\Y_{[\g]}(\Sigma)$ is attained by a smooth metric with constant scalar curvature and minimal boundary \cite{MR1152225,MR2189679,MR3210959}, see also \cite{MR625363,MR1712631,MR1792375,MR4097243,MR3781875,MR4011798} and references therein.
+\item[(iii)] If $\g$ has constant scalar curvature and minimal boundary, then $\Rs_\g\le0$ if and only if $\Y_{[\g]}(\Sigma)\le0$, and in that case $\EH(\Sigma,\g)=\Y_{[\g]}(\Sigma)$ (Lemma~\ref{lem:kobayashi}, cf.\ \cite[Proposition~6.1]{MR1957657}).
+\item[(iv)] For every compact $(\Sigma,\g)$ with boundary, $\YB_{[\g]}(\Sigma)\le\YB(\bar B^N)=\EHB(\bar B^N,\g_{\mathrm{flat}})$, and the flat ball attains the boundary Yamabe constant of its conformal class \cite{Escobar1988,MR1173925}. Explicitly,
+\begin{equation}
+\label{eq:cN}
+\cN:=\YB(\bar B^N) = 2(N-1)\,\omega_{N-1}^{1/(N-1)}\ ,\qquad c_3 = 4\sqrt{4\pi}\ ,
+\end{equation}
+where $\omega_{N-1}$ is the area of the unit round $(N-1)$-sphere.
+\end{enumerate}
+
+\subsection{The reference, and the mass of the excised regions}
+
+A comparison with a homogeneous model requires a reference value for the Yamabe energy. In the closed case that value is the Yamabe invariant $\sigma(\Sigma)$ of Definition~\ref{def:yamabe}, the supremum of the Yamabe energy over all conformal classes---the most homogeneous metric the topology admits. For a manifold with boundary the corresponding object is the \emph{relative Yamabe invariant} of Akutagawa and Botvinnik \cite{MR1957657},
+\begin{equation}
+\label{eq:sigma-bdry}
+\sigbd(\Sigma):=\sup_{[\g]}\,\Y_{[\g]}(\Sigma)\ ,
+\end{equation}
+and we define the Yamabe gap of a leaf with boundary by
+\begin{equation}
+\label{eq:gap-bdry}
+\delta(\Sigma,\g):=\sigbd(\Sigma)-\EH(\Sigma,\g)\ .
+\end{equation}
+
+\begin{proposition}[Non-negativity of the gap with boundary]
+\label{prop:gap-bdry-nonneg}
+If $\g$ has constant scalar curvature, minimal boundary and $\Rs_\g\le0$, then $\delta(\Sigma,\g)\ge0$.
+\end{proposition}
+\begin{proof}
+By fact (iii) of Sec.~\ref{sec:boundary}, $\EH(\Sigma,\g)=\Y_{[\g]}(\Sigma)$, and $\Y_{[\g]}(\Sigma)\le\sigbd(\Sigma)$ by \eqref{eq:sigma-bdry}.
+\end{proof}
+
+This is the exact analogue of Corollary~\ref{cor:gap-nonneg} and, unlike the construction it replaces, it requires no conjecture. The two readings of ``the reference'' coincide for the case of interest. Topologically, $\sigbd$ depends on $\Sigma$ alone; for $\Sigma=\Torus^3\setminus\bigsqcup_j\mathrm{int}\,D_j$ we have
+\begin{equation}
+\label{eq:sigma-torus}
+\sigbd(\Sigma)=0\ ,
+\end{equation}
+the inequality $\le0$ being Proposition~\ref{prop:nonpositive} and the reverse following by attaching Schwarzschild collars of mass tending to zero, whose energy tends to zero. Observationally, the flat FLRW model is the one selected by the measured spatial flatness. The two answers agree, and they agree with the closed-case value $\sigma(\Torus^3)=0$.
+
+\begin{remark}[What this replaces]
+\label{rem:old-reference}
+An earlier version of this work compared $\EH(\Sigma,\g)$ with the energy of a flat leaf built by embedding each $(B_j,\g|_{B_j})$ isometrically in $\Eucl^3$ and rescaling so as to match $\Vol(\Sigma,\g)$. That comparison manifold is rebuilt from the \emph{deformed} boundary areas and volume of the very metric being compared, and the resulting gap is non-positive for every metric in the flat conformal class, with equality only for the constant conformal factor. The defect is the one Ellis and Stoeger \cite{EllisStoeger1987} identify in the standard model---an implicitly chosen smoothing---made local. Definition \eqref{eq:sigma-bdry} removes it: the reference is fixed by the topology, not by the metric under comparison.
+\end{remark}
+
+The Euclidean embeddings are still needed, not as a reference leaf but as the frame in which the mass of the excised regions is read off.
+
+\begin{definition}[Euclidean reference embedding]
+\label{def:reference}
+Let $N=3$ and assume that each boundary component $(B_j,\g|_{B_j})$ is a $2$-sphere of positive Gauss curvature. By the Weyl--Nirenberg embedding theorem \cite{MR58265} each $(B_j,\g|_{B_j})$ admits an isometric embedding into $\Eucl^3$ as the boundary of a convex body $C_j$, unique up to rigid motions. We write $\Href$ for the mean curvature of $\partial C_j$ with respect to the normal pointing \emph{into} $C_j$; for a round sphere of radius $r_j$, $\Href=-1/r_j$.
+\end{definition}
+
+The ``mass'' of the enclosed systems is read off as the deviation of the boundary mean curvature from its Euclidean reference value,
+\begin{equation}
+\label{eq:mass-def}
+M := \int_{\partial\Sigma}\big(H_\g-\Href\big)\bvol\ ,
+\end{equation}
+i.e.\ $\int_{\partial \Sigma} H_\g \, \bvol = \int_{\partial \Sigma}\Href\, \bvol +  M$.
+
+\begin{proposition}[Relation to the Brown--York mass]
+\label{prop:brown-york}
+Let $\mBY(B_j):=\int_{B_j}(k_0-k)\,\bvol$ be the Brown--York quasi-local mass of $B_j$ \cite{MR1188439,BrownYork1993} (in units $8\pi G=1$), where $k$ is the trace of the second fundamental form of $B_j\subset\Sigma$ with respect to the unit normal pointing out of the enclosed region, i.e.\ into the void, and $k_0$ the corresponding quantity for the isometric embedding of $B_j$ into $\Eucl^3$. Then
+\begin{equation}
+\label{eq:mass-BY}
+M=\frac{1}{N-1}\sum_{j=1}^n\mBY(B_j)\ .
+\end{equation}
+In particular, if $B_j$ is a minimal round sphere of radius $r_j$ (the horizon of a Schwarzschild-like end), then $\mBY(B_j)=(N-1)\omega_{N-1}r_j^{N-2}$, i.e.\ $8\pi r_j$ for $N=3$, and the contribution of $B_j$ to $M$ equals the mass parameter $m_j$ of the Schwarzschild solution with horizon radius $r_j$.
+\end{proposition}
+\begin{proof}
+The outward normal $\nu$ of the void is the opposite of the normal pointing out of the enclosed region, so $(N-1)H_\g=\tr\mathrm{II}_\nu=-k$; likewise $(N-1)\Href=-k_0$. Hence $(N-1)(H_\g-\Href)=k_0-k$ and \eqref{eq:mass-BY} follows by integration. For a minimal round sphere $k=0$ and $k_0=(N-1)/r_j$. In units $8\pi G=1$ the Schwarzschild solution of mass parameter $m$ has horizon radius $r_s=2Gm=m/(4\pi)$, so that $\mBY=8\pi r_s=2m$ at the horizon and $\mBY/2=m$.
+\end{proof}
+
+The Brown--York mass of a Schwarzschild end decreases from $2m$ at the horizon to $m$ at infinity; for boundaries of large area it is asymptotic to the Hawking \cite{MR3960907} and ADM \cite{2008GReGr..40.1997A} masses \cite{MR1916951,MR2562923}.
+
+\subsection{Acceleration law with boundary}
+
+\begin{proposition}[Acceleration law for the void]
+\label{prop:accel-bdry}
+Let $\Sigma_t$ carry a metric $\g_t$ with minimal boundary, $H_{\g_t}\equiv0$, and let $\delta(\Sigma_t)=\sigbd(\Sigma)-\EH(\Sigma_t,\g_t)$ be the Yamabe gap \eqref{eq:gap-bdry}. Then
+\begin{equation}
+\label{eq:accel-bdry}
+\frac{\partial_{tt} (a^N)}{a^N} = \frac{N}{N-1}\, \frac{\inirho}{a^N} + \frac{2N}{N-1}\Lambda + \frac{\delta(\Sigma_t)-\sigbd(\Sigma)}{\ini V^{2/N}a^2}\ .
+\end{equation}
+For a punctured flat torus, $\sigbd(\Sigma)=0$ by \eqref{eq:sigma-torus} and the last term is $\delta(\Sigma_t)/(\ini V^{2/N}a^2)$. If the boundary is not minimal, the right-hand side acquires the further term $2(N-1)\int_{\partial\Sigma}H_{\g_t}\bvol/(\ini V a^N)$.
+\end{proposition}
+
+The proof is a direct computation given in Appendix~\ref{app:derivation}. Equation \eqref{eq:accel-bdry} is \emph{identical} to the closed-leaf law \eqref{eq:accel-gap}: excising the overdensities changes nothing in the form of the acceleration law, and no separate source term for the excised mass appears. The reason is a cancellation. The Gibbons--Hawking--York term contributes $2(N-1)\int_{\partial\Sigma}H_\g\,\bvol$, which vanishes for a minimal boundary, so that $\langle\Rs\rangle_\Sigma=\EH(\Sigma,\g)/V^{2/N}$ exactly; the mass of the excised regions is then carried entirely by the gap. It reappears quantitatively in Sec.~\ref{sec:torus}, where Theorem~\ref{thm:lower-bound} bounds $\delta$ from below by a multiple of $M$.
+
+This is a simplification with respect to the earlier formulation, which introduced an effective density $\varrho_{\mathrm{eff}}=\inirho+\frac{2(N-1)^2}{N}M/\ini V$ carrying the excised mass with weight $8/3$. That weight was an artefact of the discarded reference: the same $2(N-1)M/(\ini V a^N)$ appears here inside $\delta$, and Theorem~\ref{thm:lower-bound} recovers a definite fraction $\kappa$ of it as a theorem rather than all of it as a conjecture.
+
+\begin{remark}[Gap and conformal gap]
+\label{rem:conformal-gap}
+By \eqref{eq:relative-yamabe}, $\EH(\Sigma,\g)\ge\Y_{[\g]}(\Sigma)$, so that $\delta(\Sigma)\le\delta_{\mathrm{conf}}(\Sigma):=\sigbd(\Sigma)-\Y_{[\g]}(\Sigma)$, with equality when $\g$ has constant scalar curvature, minimal boundary and $\Rs_\g\le0$ (fact (iii) above). Sec.~\ref{sec:torus} treats minimal boundaries, for which $\delta=\delta_{\mathrm{conf}}$.
+\end{remark}
+
+\begin{remark}[Positive mass and Penrose inequalities]
+\label{rem:positive-mass}
+The non-negativity of the Yamabe gap may be viewed as a cosmological analogue of a positive mass theorem, identifying the most homogeneous configuration (FLRW) as the one in which the matter content has the least influence on the geometry; sharper lower bounds on $\delta$ under a Brown--York-type constraint at the boundary would be analogues of Penrose inequalities \cite{penrose1969gravitational,MR1916951}. Shi and Tam \cite{MR1987378} proved the positivity of the Brown--York mass of the boundary of a compact manifold with non-negative scalar curvature and positive mean curvature, i.e.\ of the \emph{enclosed} region. In the void the outward mean curvature is non-positive and the scalar curvature is negative, so that no direct implication holds; the two statements are nonetheless closely related.
+\end{remark}
+
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}[scale=0.44,>=Stealth]
+\begin{scope}
+\draw[thick] (0,0) rectangle (7,7);
+\draw[->,thick] (3.3,7) -- (3.8,7); \draw[->,thick] (3.3,0) -- (3.8,0);
+\draw[->>,thick] (0,3.3) -- (0,3.8); \draw[->>,thick] (7,3.3) -- (7,3.8);
+\fill[gray!30] plot[smooth cycle,tension=0.8] coordinates {(1.6,1.6) (2.9,1.3) (3.3,2.4) (2.4,3.2) (1.4,2.6)};
+\draw[thick] plot[smooth cycle,tension=0.8] coordinates {(1.6,1.6) (2.9,1.3) (3.3,2.4) (2.4,3.2) (1.4,2.6)};
+\fill[gray!30] plot[smooth cycle,tension=0.9] coordinates {(4.6,4.4) (5.9,4.2) (6.1,5.4) (5.0,6.0) (4.3,5.3)};
+\draw[thick] plot[smooth cycle,tension=0.9] coordinates {(4.6,4.4) (5.9,4.2) (6.1,5.4) (5.0,6.0) (4.3,5.3)};
+\draw[->,thick] (2.55,3.35) -- (2.45,2.55);
+\node at (2.9,3.7) {\footnotesize $\nu$};
+\node at (2.3,2.1) {\footnotesize $B_1$}; \node at (5.2,5.1) {\footnotesize $B_2$};
+\node at (5.4,1.3) {\footnotesize $\Sigma_t$};
+\end{scope}
+\begin{scope}[xshift=9.6cm]
+\draw[thick,dashed,gray] (0,0) rectangle (7,7);
+\fill[gray!30] (2.4,2.3) circle (0.95); \draw[thick] (2.4,2.3) circle (0.95);
+\fill[gray!30] (5.2,5.2) circle (0.85); \draw[thick] (5.2,5.2) circle (0.85);
+\draw[->,thick] (2.4,3.75) -- (2.4,3.25);
+\node at (2.85,4.0) {\footnotesize $\nu$};
+\node at (2.4,2.3) {\footnotesize $C_1$}; \node at (5.2,5.2) {\footnotesize $C_2$};
+\node at (5.4,1.3) {\footnotesize $\Eucl^3$};
+\end{scope}
+\end{tikzpicture}
+\caption{\label{fig:void-reference}Void leaf $\Sigma_t$ (left), drawn for a toroidal spatial topology (opposite sides identified), and the Euclidean reference embeddings $C_j$ of its boundary components (right). The $B_j$ enclose the overdensities, which are not part of the manifold; the outward unit normal $\nu$ of the void points into the excised regions, so that $\Href=-1/r_j$ for a round hole of radius $r_j$. The bodies $C_j$ serve only to fix the reference mean curvature $\Href$, hence the mass \eqref{eq:mass-def} and the Brown--York mass of Proposition~\ref{prop:brown-york}; the reference for the Yamabe energy is the topological invariant $\sigbd(\Sigma)$ of \eqref{eq:sigma-bdry}, not a comparison leaf.}
+\end{figure}
+
+% =====================================================================
+\section{Punctured flat tori: what can be proven}
+\label{sec:torus}
+% =====================================================================
+
+We now consider the simplest void model with boundary, a flat torus with Schwarzschild-like punctures, and state what is proven about its Yamabe gap. Proofs are given in Appendix~\ref{app:proofs}. Throughout this section $\Sigma$ is a compact connected $N$-manifold with boundary $\partial\Sigma=\bigsqcup_{j=1}^nB_j$, each $B_j$ diffeomorphic to $\Sph^{N-1}$, and $\Sigbar$ denotes the closed manifold obtained by gluing a closed $N$-ball $D_j$ to each $B_j$. The case of interest is $\Sigbar=\Torus^3$, but several statements hold for any $\Sigbar$ whose Yamabe invariant is non-positive, e.g.\ any enlargeable manifold in the sense of Gromov and Lawson \cite{MR569070}, such as tori and manifolds carrying a metric of non-positive sectional curvature.
+
+\paragraph*{Setting.} A metric $\g$ on $\Sigma$ is called \emph{Schwarzschild-like punctured} if $\g$ has constant scalar curvature, $\partial\Sigma$ is minimal ($H_\g\equiv0$), and each $(B_j,\g|_{B_j})$ is a round sphere of radius $r_j$. For such a metric $M=-\int_{\partial\Sigma}\Href\,\bvol=\omega_{N-1}\sum_jr_j^{N-2}$, and the quantity that will bound the gap is the value of the trace-Sobolev quotient \eqref{eq:trace-sobolev} on the constant function,
+\begin{align}
+\label{eq:F1-torus}
+\Fq_\g(1)&=\cN\,\frac{\sum_{j}\Vol(B_j,\g)^{(N-2)/(N-1)}}{\Vol(\Sigma,\g)^{(N-2)/N}}\nonumber\\
+&=\frac{2(N-1)\,\omega_{N-1}\sum_j r_j^{N-2}}{\Vol(\Sigma,\g)^{(N-2)/N}}
+ =\frac{2(N-1)\,M}{\Vol(\Sigma,\g)^{(N-2)/N}}\ ,
+\end{align}
+which for $N=3$ reads $\Fq_\g(1)=4M/\Vol(\Sigma,\g)^{1/3}$ with $M=\sum_jm_j$, $m_j=4\pi r_j$, by Proposition~\ref{prop:brown-york}. The constant-scalar-curvature hypothesis is the only one that is difficult to realize; the following two results show that it forces negative scalar curvature.
+
+\begin{proposition}[Non-positive type]
+\label{prop:nonpositive}
+Assume that $\Sigbar$ is enlargeable and that for each $j$ the conformal class of $\g|_{B_j}$ has positive Yamabe constant (automatic for $N=3$). Then $\Y_{[\g]}(\Sigma)\le0$. Consequently, if $\g$ has constant scalar curvature and minimal boundary, then $\Rs_\g\le0$ and $\EH(\Sigma,\g)=\Y_{[\g]}(\Sigma)$.
+\end{proposition}
+
+\begin{remark}[Existence]
+\label{rem:existence}
+Metrics satisfying the hypotheses of Proposition~\ref{prop:nonpositive} exist in abundance. Starting from any metric on $\Sigma$ with minimal boundary---for instance a flat torus with holes to which Schwarzschild collars are attached---fact (ii) of Sec.~\ref{sec:boundary} provides a constant-scalar-curvature metric with minimal boundary in its conformal class, and for $N=3$ each boundary component stays conformally round. Whether the boundary spheres can moreover be made \emph{isometrically} round within a prescribed conformal class is part of the constrained Yamabe problem discussed in Sec.~\ref{sec:discussion}; Theorem~\ref{thm:upper-bound} below does not require it.
+\end{remark}
+
+For a nonzero function $u\in W^{1,2}(\Sigma)$ define the \emph{trace-Sobolev quotient}
+\begin{equation}
+\label{eq:trace-sobolev}
+\Fq_{\g}(u):=\frac{\aN\|\nabla u\|^2_{L^2(\Sigma,\g)}+\cN\sum_{j=1}^n\|u\|^2_{L^{\psharp}(B_j,\g)}}{\|u\|^2_{L^{\pstar}(\Sigma,\g)}}\ ,
+\end{equation}
+where the boundary norms are those of the trace of $u$, which is well defined in $L^{\psharp}(\partial\Sigma)$ by the trace theorem.
+
+\begin{theorem}[Upper bound on the relative Yamabe constant]
+\label{thm:upper-bound}
+Assume that $\sigma(\Sigbar)\le0$, that $\g$ has constant scalar curvature and minimal boundary, and that each $(B_j,\g|_{B_j})$ is conformally equivalent to the round sphere (automatic for $N=3$). Then
+\begin{equation}
+\label{eq:upper-bound}
+\Y_{[\g]}(\Sigma)\ \le\ -\inf_{u\in W^{1,2}(\Sigma)\setminus\{0\}}\Fq_{\g}(u)\ .
+\end{equation}
+\end{theorem}
+
+\begin{corollary}[Strict negativity]
+\label{cor:negative}
+Under the hypotheses of Theorem~\ref{thm:upper-bound}, $\inf\Fq_\g>0$; hence $\Y_{[\g]}(\Sigma)<0$ and $\Rs_\g<0$. In particular a Schwarzschild-like punctured torus is never scalar flat.
+\end{corollary}
+
+\begin{remark}[What Theorem~\ref{thm:upper-bound} does and does not say]
+\label{rem:sign}
+On the constant function, \eqref{eq:F1-torus} gives $\Fq_\g(1)=2(N-1)M/\Vol(\Sigma,\g)^{(N-2)/N}$. The first variation of $\Fq_\g$ at $u=1$ in a direction $\varphi$ with $\int_\Sigma\varphi\,\vol=0$ and $\varphi\le0$, $\varphi\not\equiv0$ on $\partial\Sigma$ is strictly negative (Appendix~\ref{app:proofs}), so that $\inf\Fq_\g<\Fq_\g(1)$: the constant function is never optimal, and any bound of the form $\inf\Fq_\g\ge\kappa\Fq_\g(1)$ must have $\kappa<1$. Theorem~\ref{thm:upper-bound} therefore yields $\delta>0$ but no size. The size is the content of the next theorem.
+\end{remark}
+
+\begin{theorem}[Quantitative lower bound on the gap]
+\label{thm:lower-bound}
+Under the hypotheses of Theorem~\ref{thm:upper-bound}, let $\cpst(\Sigma,\g)$ denote the capacity of $\partial\Sigma$ against a uniform neutralising background, i.e.\ the least Dirichlet energy of a function whose mean over $\Sigma$ exceeds its (area-weighted) mean over $\partial\Sigma$ by one, and set
+\begin{equation}
+\label{eq:theta-def}
+\theta:=\frac{\aN\,\cpst(\Sigma,\g)}{\cN\sum_j\Vol(B_j,\g)^{(N-2)/(N-1)}}\ .
+\end{equation}
+Then
+\begin{equation}
+\label{eq:lower-bound}
+\delta(\Sigma,\g)\ \ge\ \kappa\,\Fq_\g(1)
+ =\ \kappa\,\frac{2(N-1)M}{\Vol(\Sigma,\g)^{(N-2)/N}}\ ,
+\end{equation}
+with an explicit
+\begin{equation}
+\label{eq:kappa}
+\kappa=\frac{\theta}{1+\theta}\Big(1-\tfrac{\Atil\,\theta\,\Fq_\g(1)}{\aN(1+\theta)^2}+O(\Fq_\g(1)^2)\Big)\ ,
+\end{equation}
+where $\Atil$ depends only on the Sobolev--Poincar\'e and Poincar\'e constants of $(\Sigma,\g)$. The factor $\theta/(1+\theta)$ is optimal. One has $\theta=2$ for a Euclidean ball in every dimension and $\theta=1$ for a Schwarzschild collar, so that $\kappa\to1/2$ in the dilute limit relevant here, giving
+\begin{equation}
+\label{eq:R-bound}
+|\Rs_\g|\,\Vol(\Sigma,\g)^{2/N}\ \ge\ \frac{(N-1)M}{\Vol(\Sigma,\g)^{(N-2)/N}}\big(1+o(1)\big)\ ,
+\end{equation}
+i.e.\ $|\Rs_\g|\ge2M/\Vol(\Sigma,\g)$ for $N=3$.
+\end{theorem}
+
+The proof is analytic rather than geometric and is given in the companion paper \cite{BrunswicPerforated}; we indicate only its shape. Writing $X=\|\nabla u\|_{L^2}$ and $Y=(\sum_j\|u\|^2_{L^{\psharp}(B_j)})^{1/2}$, a capacitary trace-Poincar\'e inequality and an optimally weighted H\"older step give
+\begin{gather*}
+\Vol(\Sigma)^{1/\pstar}\,\bar u\ \le\ C_1X+C_2Y\ ,\\[2pt]
+\frac{\aN}{C_1^2}=\theta\,\Fq_\g(1)\ ,\qquad \frac{\cN}{C_2^2}=\Fq_\g(1)\ ,
+\end{gather*}
+and the two constants are exactly calibrated to the two terms of the numerator of $\Fq_\g$; minimizing $\aN X^2+\cN Y^2$ under that linear constraint returns $\theta/(1+\theta)$ with no loss whatever. Everything that depends on the punctures is exact; the only inequality that costs anything is a quadratic Sobolev inequality on $\Sigma$ that does not see the boundary decomposition, and it costs $O(\Fq_\g(1))$.
+
+Combining \eqref{eq:lower-bound} with the reverse inequality gives a two-sided estimate. For every metric in the flat conformal class a Cauchy--Schwarz argument on each boundary component---the same computation that invalidates the reference construction discussed in Remark~\ref{rem:old-reference}---yields $\EH(\Sigma,\g)\ge-\Fq_\g(1)$, that is $\delta\le\Fq_\g(1)$. Hence
+\begin{equation}
+\label{eq:sandwich}
+\kappa\,\Fq_\g(1)\ \le\ \delta(\Sigma,\g)\ \le\ \Fq_\g(1)\ ,
+\end{equation}
+which pins the gap to within a factor $1/\kappa\simeq2$ for Schwarzschild-like punctures. Numerically, solving the minimal-boundary Yamabe problem on a periodic perforated torus gives $\delta/\Fq_\g(1)=0.60,\,0.63,\,0.68,\,0.74,\,0.79$ at $a/d=0.05,\,0.07,\,0.10,\,0.15,\,0.20$, consistent with \eqref{eq:sandwich} throughout.
+
+% =====================================================================
+\section{Discussion and outlook}
+\label{sec:discussion}
+% =====================================================================
+
+Within the scalar averaging framework and under the constant-scalar-curvature hypothesis, the averaged acceleration law of a closed leaf is governed by its Yamabe energy, and the Yamabe gap $\delta=\sigma(\Sigma)-\EH(\Sigma_t,\g_t)$ is a non-negative measure of inhomogeneity that vanishes exactly on FLRW leaves and enters the acceleration law with a positive sign (Corollary~\ref{cor:gap-nonneg}); at equal negative scalar curvature the void is at least as large as its FLRW counterpart (Corollary~\ref{cor:volume}). For voids with minimal boundary the law keeps exactly the same form, the Brown--York mass of the excised regions being absorbed into the gap (Proposition~\ref{prop:accel-bdry}), and for punctured flat tori we have proven that the relative Yamabe constant is negative and bounded above by a trace-Sobolev quotient (Proposition~\ref{prop:nonpositive}, Theorem~\ref{thm:upper-bound}, Corollary~\ref{cor:negative}) and that the gap is bounded below by a definite fraction of that mass (Theorem~\ref{thm:lower-bound}), so that $\kappa\Fq_\g(1)\le\delta\le\Fq_\g(1)$. We close with the open problems raised by this program.
+
+\paragraph*{A Yamabe problem with a Brown--York constraint.}
+In addition to the constant-scalar-curvature condition, a realistic void model must prescribe the mass of the excised regions, i.e.\ the quantity $M$ of \eqref{eq:mass-def}, equivalently the total boundary mean curvature relative to the reference embedding. The natural variational problem is to minimize the Yamabe energy \eqref{eq:yamabe-energy-bdry} in a conformal class under the constraint $\int_{\partial\Sigma}(H-\Href)\bvol=M$. The constraint is non-local: while $H$ transforms under a conformal change by a local first-order operator, the reference mean curvature $\Href$ of the conformally deformed boundary metric is obtained by solving the Weyl problem on $\partial\Sigma$, hence is a non-local function of the conformal factor; its first variation is known \cite{MR2504860}. The existing theory of Yamabe-type problems on manifolds with boundary \cite{MR625363,MR1152225,MR1173925,MR1444473,MR1990532,MR1416000,MR1712631,MR1792375,MR2189679,MR3210959,MR4097243,MR3781875,MR4011798} does not cover such constraints, and no existence theorem is available. A possible route is a generalization of Bartnik's quasi-spherical construction \cite{MR1198599}, which preserves constant scalar curvature while filling in a prescribed boundary.
+
+\paragraph*{Stability of the constant-scalar-curvature hypothesis.}
+The hypothesis is imposed leaf by leaf; its compatibility with the Einstein flow is not established. Open questions are: Do there exist non-FLRW dust spacetimes, with or without boundary, that are foliated by constant-scalar-curvature leaves? Do conformal inhomogeneities---the first tier of Sec.~\ref{sec:interpretation}---decay in nearly empty regions under the Einstein evolution, so that the hypothesis becomes an attractor for voids? The conformal inhomogeneity of a leaf may be quantified by the normalized variance of the scalar curvature, $\int_\Sigma(\Rs-\langle\Rs\rangle)^2\vol/\Vol(\Sigma)^{(N-4)/N}$, whose evolution under the averaged equations would be a natural object of study.
+
+\paragraph*{Phenomenology.}
+A physicist reader expects numbers. Normalizing the volume scale factor to unity today and dividing \eqref{eq:accel-bdry} by the square of the present Hubble rate expresses the acceleration law in terms of dimensionless density parameters $\Omega_m$, $\Omega_\Lambda$ and a gap parameter $\Omega_\delta\ge0$. The excised mass is in principle accessible through a mass function $\zeta(t)$ describing the statistical time evolution of the number and masses of collapsed objects; $M(t)$, and with it the bound \eqref{eq:lower-bound}, then acquires the status of a statistical quantity. For a conservative estimate one should separate the reference density, which is part of the FLRW comparison model, from the excess, which is the backreaction contribution, following the bookkeeping of effective sources in \cite{brunswic2020gaussbonnetchern}. Theorem~\ref{thm:lower-bound} now supplies a \emph{lower} bound: with $\gamma:=\delta/\Fq_\g(1)\in[\kappa,1]$ by \eqref{eq:sandwich}, the gap parameter obeys $\Omega_\delta=\frac{2\gamma}{3}(M/V)/H^2$ for $N=3$, so that $\Omega_\delta\ge\frac{1}{3}(M/V)/H^2$ for Schwarzschild-like punctures. Reaching $\Omega_\delta\simeq0.7$ at $\Omega_m\simeq0.3$ then requires the excised mass density to exceed the residual density of the void by a factor of order $1.5$--$1.9$. We stress the scaling: with $M$ quasi-stationary, $\Fq_\g(1)\propto a^{-(N-2)}$ and the gap term in \eqref{eq:accel-bdry} scales as $a^{-N}$, i.e.\ like dust. It dresses the mass rather than mimicking a cosmological constant, and a genuine dark-energy behaviour would require $M$ to grow through structure formation, via the mass function $\zeta(t)$.
+
+\paragraph*{Computing the Yamabe gap: coupled Ricci--Yamabe flow.}
+The exact computation of the gap is out of reach in general; a flexible approach would be numerical. Two flows act on metrics in a suitable way. The Ricci flow with boundary conditions of Gianniotis \cite{MR3557306} does not decrease the Yamabe constant \cite{MR2326418}, with a version for the relative Yamabe constant under minimal boundary conditions \cite{MR4121783}, while preserving the conformal class of the boundary and its mean curvature; the Yamabe flow with minimal boundary \cite{MR4166805} decreases the Yamabe energy within a conformal class and converges to a Yamabe metric. Alternating the two flows, starting from a template metric that satisfies the geometric constraints suggested by observations (boundary masses, number and size of the components), is a computational strategy to approximate the constrained supremum of the Yamabe energy, hence the gap. The available theorems cover minimal boundaries only; every additional observational constraint shrinks the set of admissible metrics and can only enlarge the constrained gap.
+
+\paragraph*{Observational determination of the volume scale factor.}
+The acceleration law is covariant for a given foliation \cite{heinesen2019covariance}, but the choice of the foliation matters \cite{buchert2018cosmological}, and the relation between the volume scale factor and observables such as redshift or redshift drift relies on arguments of the type given in \cite{rasanen2009light}. Any such relation, combined with the bound $\EH(\Sigma_t,\g_t)\le\sigma(\Sigma)$, constrains phenomenological models.
+
+\paragraph*{Curved references.}
+We restricted the reference leaf to a flat FLRW model. Comparisons with curved references require the isometric embedding of the boundary spheres into spherical or hyperbolic space forms, for which the Weyl problem in Riemannian ambient spaces \cite{MR4123102} provides the existence theory, and a consistent matching of volumes and scalar curvatures; the corresponding $k\ne0$ version of \eqref{eq:accel-bdry} would then interpolate between \eqref{eq:accel-gap} and the flat case.
+
+\begin{acknowledgments}
+This work is part of a project that has received funding from the European Research Council (ERC) under the European Union's Horizon 2020 research and innovation programme (grant agreement ERC advanced grant 740021--ARTHUS, PI: TB).
+\end{acknowledgments}
+
+\appendix
+
+% =====================================================================
+\section{Derivation of the acceleration law with boundary}
+\label{app:derivation}
+% =====================================================================
+
+We prove Proposition~\ref{prop:accel-bdry}. Write $V:=\Vol(\Sigma_t,\g_t)=a^N\ini V$ and omit the index $t$. By \eqref{eq:yamabe-energy-bdry},
+\begin{equation*}
+\langle\Rs\rangle_\Sigma=\frac{1}{V}\int_\Sigma\Rs\,\vol=\frac{\EH(\Sigma,\g)}{V^{2/N}}-\frac{2(N-1)}{V}\int_{\partial\Sigma}H_\g\,\bvol\ .
+\end{equation*}
+For a minimal boundary the last term vanishes, so that $\langle\Rs\rangle_\Sigma=\EH(\Sigma,\g)/V^{2/N}$. Inserting $\EH(\Sigma,\g)=\sigbd(\Sigma)-\delta$ and $V^{2/N}=\ini V^{2/N}a^2$,
+\begin{equation*}
+\langle\Rs\rangle_\Sigma=\frac{\sigbd(\Sigma)-\delta(\Sigma_t)}{\ini V^{2/N}a^2}\ ,
+\end{equation*}
+and substituting into \eqref{eq:accel} gives \eqref{eq:accel-bdry}. If $H_\g\not\equiv0$ the discarded term reappears as $2(N-1)\int_{\partial\Sigma}H_\g\bvol/(\ini V a^N)$.
+
+The excised mass does not appear. It is instructive to see where it went. Writing $\int_{\partial\Sigma}H_\g\,\bvol=\int_{\partial\Sigma}\Href\,\bvol+M$ and using \eqref{eq:F1-torus} in the form $\int_{\partial\Sigma}\Href\,\bvol=-\Fq_\g(1)V^{(N-2)/N}/\big(2(N-1)\big)$, the boundary term equals $-\Fq_\g(1)/V^{2/N}+2(N-1)M/V$. For a minimal boundary these two contributions cancel identically, since then $M=-\int_{\partial\Sigma}\Href\,\bvol$. The mass therefore enters the dynamics only through the gap, and Theorem~\ref{thm:lower-bound} makes that dependence quantitative: $\delta\ge\kappa\Fq_\g(1)$ contributes at least $2(N-1)\kappa M/(\ini V a^N)$ to \eqref{eq:accel-bdry}, against the $2(N-1)M/(\ini V a^N)$ that the discarded reference asserted without proof. \qed
+
+% =====================================================================
+\section{Proofs for Section~\ref{sec:torus}}
+\label{app:proofs}
+% =====================================================================
+
+Throughout, $(\Sigma,\g)$ is a compact connected Riemannian $N$-manifold with boundary, $N\ge3$, $\aN=4(N-1)/(N-2)$, $\pstar=2N/(N-2)$, $\psharp=2(N-1)/(N-2)$, and all norms are taken with respect to $\g$ unless stated otherwise. We use the conformal transformation law \eqref{eq:conformal-energy-bdry} and the H\"older inequalities
+\begin{align}
+\|u\|^2_{L^2(\Sigma)}&\le\Vol(\Sigma)^{2/N}\|u\|^2_{L^{\pstar}(\Sigma)}\ ,\nonumber\\
+\label{eq:hoelder}
+\|u\|^2_{L^2(B_j)}&\le\Vol(B_j)^{2/(N-1)}\|u\|^2_{L^{\psharp}(B_j)}\ .
+\end{align}
+For constants $\beta_j\ge0$ we write $\Fq^{(\beta)}_\g$ for the quotient \eqref{eq:trace-sobolev} with $\cN$ replaced by $\beta_j$ in the $j$-th boundary term, so that $\Fq_\g=\Fq^{(\beta)}_\g$ when all $\beta_j=\cN$.
+
+\begin{lemma}[Lower bound of Kobayashi type]
+\label{lem:kobayashi}
+Assume $H_\g\equiv0$ (or $\partial\Sigma=\emptyset$).
+\begin{enumerate}
+\item[(a)] If $m:=\min(0,\min_\Sigma\Rs_\g)$, then for every $u\in W^{1,2}(\Sigma)\setminus\{0\}$
+\begin{equation}
+\label{eq:kobayashi}
+\EH\big(\Sigma,u^{4/(N-2)}\g\big)\ \ge\ \aN\frac{\|\nabla u\|^2_{L^2(\Sigma)}}{\|u\|^2_{L^{\pstar}(\Sigma)}}+m\Vol(\Sigma)^{2/N}\ ;
+\end{equation}
+in particular $\Y_{[\g]}(\Sigma)\ge m\Vol(\Sigma)^{2/N}$. If $\Rs_\g$ is constant and non-positive, then $\EH(\Sigma,\g)=\Y_{[\g]}(\Sigma)$.
+\item[(b)] If $\min_\Sigma\Rs_\g>0$, then $\Y_{[\g]}(\Sigma)>0$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+(a) With $H_\g\equiv0$, \eqref{eq:conformal-energy-bdry} and \eqref{eq:hoelder} give, since $m\le0$,
+\begin{align*}
+\EH\big(u^{4/(N-2)}\g\big)\,\|u\|^2_{\pstar}&=\aN\|\nabla u\|^2_2+\int_\Sigma\Rs_\g u^2\,\vol\\
+&\ge\aN\|\nabla u\|^2_2+m\Vol(\Sigma)^{2/N}\|u\|^2_{\pstar}\ .
+\end{align*}
+Taking the infimum gives $\Y_{[\g]}(\Sigma)\ge m\Vol(\Sigma)^{2/N}$. If $\Rs_\g\equiv m\le0$ is constant, then $\EH(\Sigma,\g)=m\Vol(\Sigma)^{2/N}$, so that $\EH(\Sigma,\g)\le\Y_{[\g]}(\Sigma)\le\EH(\Sigma,\g)$. (b) If $\Rs_\g\ge\rho_0>0$, then
+\begin{align*}
+\EH\big(u^{4/(N-2)}\g\big)\,\|u\|^2_{\pstar}&\ \ge\ \min(\aN,\rho_0)\,\|u\|^2_{W^{1,2}}\\
+&\ \ge\ C^{-1}\min(\aN,\rho_0)\,\|u\|^2_{\pstar}
+\end{align*}
+by the Sobolev embedding $W^{1,2}(\Sigma)\hookrightarrow L^{\pstar}(\Sigma)$ on compact manifolds with boundary \cite{Hebey1996}.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:nonpositive}]
+Let $C:=[\g]$ and suppose $\Y_C(\Sigma)>0$. Then $\sup\{\Y_{\bar C}(\Sigma):\partial\bar C=\partial C\}>0$, and since the boundary class $\partial C$ is positive on each component, Corollary~5.3 of \cite{MR1957657} (a consequence of their gluing Theorem~5.1) shows that the double $X:=\Sigma\cup_{\partial\Sigma}(-\Sigma)$, a closed manifold, has positive Yamabe invariant. By Theorem~\ref{thm:yamabe}(b) a conformal class with positive Yamabe constant contains a metric of positive scalar curvature, so $X$ carries such a metric. On the other hand, putting all the balls in a single chart one sees that
+\begin{equation*}
+X\ \cong\ \Sigbar\,\#\,(-\Sigbar)\,\#\,(n-1)\big(\Sph^{N-1}\times\Sph^1\big)\ ,
+\end{equation*}
+which is enlargeable because $\Sigbar$ is, enlargeability being preserved under connected sums with closed manifolds \cite{MR569070}; closed enlargeable manifolds carry no metric of positive scalar curvature \cite{MR569070} (spin case, which covers all orientable $3$-manifolds; for the general case see \cite{MR4232210}). This contradiction proves $\Y_{[\g]}(\Sigma)\le0$. If moreover $\g$ has constant scalar curvature and minimal boundary, Lemma~\ref{lem:kobayashi}(b) excludes $\Rs_\g>0$, and Lemma~\ref{lem:kobayashi}(a) gives $\EH(\Sigma,\g)=\Y_{[\g]}(\Sigma)$.
+\end{proof}
+
+\begin{lemma}[Gluing estimate]
+\label{lem:gluing-estimate}
+Let $(\Sigbar,\gbar)$ be a smooth closed Riemannian $N$-manifold with $\Y_{[\gbar]}(\Sigbar)\le0$, let $\Sigma\subset\Sigbar$ be a compact connected domain with smooth boundary $\partial\Sigma=\bigsqcup_jB_j$, and let $D_j$ be the closures of the components of $\Sigbar\setminus\Sigma$, each $D_j$ meeting $\Sigma$ along $B_j$. Put $\g:=\gbar|_\Sigma$, $\g_j:=\gbar|_{D_j}$, and assume $H_\g\equiv0$ on $\partial\Sigma$ and $\beta_j:=\YB_{[\g_j]}(D_j)>-\infty$. Then there exists a smooth positive function $u$ on $\Sigma$ such that, with $m:=\min(0,\min_\Sigma\Rs_\g)$,
+\begin{equation}
+\label{eq:gluing-estimate}
+m\,\Vol(\Sigma,\g)^{2/N}\ \le\ -\Fq^{(\beta)}_\g(u)+\Y_{[\gbar]}(\Sigbar)\Big(\frac{\Vol(\Sigbar,\bar h)}{\Vol(\Sigma,\bar h)}\Big)^{\frac{N-2}{N}}\ ,
+\end{equation}
+where $\bar h$ is a Yamabe metric of $[\gbar]$; the last term is non-positive.
+\end{lemma}
+\begin{proof}
+By Theorem~\ref{thm:yamabe}(b) there is a smooth $\psi>0$ on $\Sigbar$ such that $\bar h:=\psi^{4/(N-2)}\gbar$ has constant scalar curvature $\Rs_{\bar h}=\Y_{[\gbar]}(\Sigbar)\Vol(\Sigbar,\bar h)^{-2/N}\le0$. Let $u:=\psi|_\Sigma$ and $h:=\bar h|_\Sigma=u^{4/(N-2)}\g$. By Lemma~\ref{lem:kobayashi}(a),
+\begin{equation}
+\label{eq:glue-lower}
+\EH(\Sigma,h)\ \ge\ \aN\frac{\|\nabla u\|^2_{2}}{\|u\|^2_{\pstar}}+m\Vol(\Sigma,\g)^{2/N}\ .
+\end{equation}
+We now bound $\EH(\Sigma,h)$ from above. Since $\bar h$ is smooth across $B_j$, the mean curvature of $B_j$ in $(\Sigma,h)$ with respect to the outward normal of $\Sigma$ is the opposite of its mean curvature in $(D_j,\bar h|_{D_j})$ with respect to the outward normal of $D_j$: $H^{\Sigma}_{h}=-H^{D_j}_{\bar h}$ on $B_j$. By definition of the boundary Yamabe constant, with $A_j:=\Vol(B_j,\bar h)$,
+\begin{multline*}
+\int_{D_j}\Rs_{\bar h}\,\vol_{\bar h}+2(N-1)\int_{B_j}H^{D_j}_{\bar h}\,\bvol_{\bar h}\\
+=\EHB(D_j,\bar h|_{D_j})\,A_j^{(N-2)/(N-1)}\ \ge\ \beta_jA_j^{(N-2)/(N-1)}\ ,
+\end{multline*}
+hence
+\begin{equation*}
+2(N-1)\int_{B_j}H^{\Sigma}_h\,\bvol_{\bar h}\ \le\ \Rs_{\bar h}\Vol(D_j,\bar h)-\beta_jA_j^{(N-2)/(N-1)}\ .
+\end{equation*}
+Summing over $j$ and using that $\Rs_{\bar h}$ is constant, with $\Vol(\Sigbar,\bar h)=\Vol(\Sigma,\bar h)+\sum_j\Vol(D_j,\bar h)$ and $\Rs_{\bar h}\Vol(\Sigbar,\bar h)=\Y_{[\gbar]}(\Sigbar)\Vol(\Sigbar,\bar h)^{(N-2)/N}$, we obtain
+\begin{multline}
+\label{eq:glue-upper}
+\Vol(\Sigma,\bar h)^{(N-2)/N}\,\EH(\Sigma,h)\ \le\ \Y_{[\gbar]}(\Sigbar)\Vol(\Sigbar,\bar h)^{(N-2)/N}\\
+-\sum_j\beta_jA_j^{(N-2)/(N-1)}\ .
+\end{multline}
+Finally, since $\vol_{\bar h}=u^{\pstar}\vol$ and $\bvol_{\bar h}=u^{\psharp}\bvol$,
+\begin{equation*}
+\Vol(\Sigma,\bar h)^{\frac{N-2}{N}}=\|u\|^2_{L^{\pstar}(\Sigma)}\ ,\quad A_j^{\frac{N-2}{N-1}}=\|u\|^2_{L^{\psharp}(B_j)}\ .
+\end{equation*}
+Dividing \eqref{eq:glue-upper} by $\|u\|^2_{L^{\pstar}(\Sigma)}$ and combining with \eqref{eq:glue-lower} gives \eqref{eq:gluing-estimate}.
+\end{proof}
+
+\begin{lemma}[Gluing a flat-class filling]
+\label{lem:gluing}
+Let $(\Sigma,\g)$ satisfy the hypotheses of Theorem~\ref{thm:upper-bound}. For every $\tau>0$ there exist a metric $\tilde\g_\tau$ on $\Sigma$ with $H_{\tilde\g_\tau}\equiv0$ and a smooth metric $\gbar_\tau$ on $\Sigbar$ such that $\gbar_\tau|_\Sigma=\tilde\g_\tau$, $\gbar_\tau|_{D_j}$ is conformally equivalent to the flat unit ball for every $j$, and, as $\tau\to0$, $\tilde\g_\tau\to\g$ and $\Rs_{\tilde\g_\tau}\to\Rs_\g$ uniformly on $\Sigma$.
+\end{lemma}
+\begin{proof}
+Since $H_\g\equiv0$, the approximation theorem of Akutagawa and Botvinnik \cite[Theorem~4.6]{MR1957657} provides metrics $\tilde\g_\tau$ on $\Sigma$ with minimal boundary such that $\tilde\g_\tau\to\g$ and $\Rs_{\tilde\g_\tau}\to\Rs_\g$ in the $C^0$ topology, $\tilde\g_\tau=\g$ outside a $\tau$-collar of $\partial\Sigma$, and $\tilde\g_\tau=w_\tau^{4/(N-2)}\big(\g|_{\partial\Sigma}+\rd r^2\big)$ on a collar $U_\varepsilon=[0,\varepsilon)\times\partial\Sigma$, $r$ being the distance to the boundary and $w_\tau>0$ smooth. Fix $j$ and write $\g_{B_j}:=\g|_{B_j}=e^{2\omega_j}\g_{\mathrm{round}}$ with $\omega_j\in C^\infty(B_j)$ (conformal roundness hypothesis). On the punctured closed ball $\bar B^N\setminus\{0\}$ with polar coordinate $s=|x|$ put $\rho:=\log s\le0$; the flat metric is $\rd s^2+s^2\g_{\mathrm{round}}=e^{2\rho}(\rd\rho^2+\g_{\mathrm{round}})$, so the cylinder metric $\rd\rho^2+\g_{\mathrm{round}}$ is conformally flat, and so is $e^{2\omega_j}(\rd\rho^2+\g_{\mathrm{round}})$, which we identify with $\g_{B_j}+\rd\tilde r^2$ near $\rho=0$ by a change of the normal coordinate ($\rd\tilde r=e^{\omega_j}\rd\rho$ at first order, the identification being a diffeomorphism of a collar of $\partial D_j$ onto $(-\varepsilon',0]\times B_j$). Let $\hat w_j$ be a smooth positive extension of $w_\tau|_{[0,\varepsilon)\times B_j}$ to $(-\varepsilon',\varepsilon)\times B_j$ (Seeley extension), and let $\chi$ be a smooth cutoff equal to $1$ for $-\varepsilon'/3\le\rho\le0$ and to $0$ for $\rho\le-2\varepsilon'/3$. Define on $D_j$ the metric
+\begin{equation*}
+\hat\g_{j,\tau}:=\Big(\chi\,\hat w_j\,\Theta_j+(1-\chi)\Big)^{4/(N-2)}\g_{\mathrm{flat}}\ ,
+\end{equation*}
+where $\Theta_j>0$ is the smooth conformal factor with $\Theta_j^{4/(N-2)}\g_{\mathrm{flat}}=\g_{B_j}+\rd\tilde r^2$ on the collar. Then $\hat\g_{j,\tau}$ is smooth on $D_j$, conformally equivalent to $\g_{\mathrm{flat}}$, equal to $\hat w_j^{4/(N-2)}(\g_{B_j}+\rd\tilde r^2)$ near $\partial D_j$ and to $\g_{\mathrm{flat}}$ near the center. Gluing $\tilde\g_\tau$ and the $\hat\g_{j,\tau}$ along $B_j$ produces a metric $\gbar_\tau$ which, on the two-sided collar $(-\varepsilon',\varepsilon)\times B_j$, equals $\hat w_j^{4/(N-2)}(\g_{B_j}+\rd r^2)$ with $\hat w_j$ smooth across $r=0$; hence $\gbar_\tau$ is smooth.
+\end{proof}
+
+\begin{lemma}[Stability of the trace-Sobolev quotient]
+\label{lem:stability}
+Let $\g,\g'$ be metrics on $\Sigma$ with $(1+\varepsilon)^{-1}\g\le\g'\le(1+\varepsilon)\g$ as quadratic forms, $\varepsilon\ge0$. Then for every $u\in W^{1,2}(\Sigma)\setminus\{0\}$ and all $\beta_j\ge0$,
+\begin{equation*}
+(1+\varepsilon)^{-N}\ \le\ \frac{\Fq^{(\beta)}_{\g'}(u)}{\Fq^{(\beta)}_{\g}(u)}\ \le\ (1+\varepsilon)^{N}\ ,
+\end{equation*}
+Consequently $\inf\Fq^{(\beta)}_{\g'}\to\inf\Fq^{(\beta)}_\g$ when $\g'\to\g$ uniformly.
+\end{lemma}
+\begin{proof}
+Pointwise, $|\nabla u|^2_{\g'}\le(1+\varepsilon)|\nabla u|^2_\g$, $(1+\varepsilon)^{-N/2}\vol_\g\le\vol_{\g'}\le(1+\varepsilon)^{N/2}\vol_\g$ and $\bvol_{\g'}\le(1+\varepsilon)^{(N-1)/2}\bvol_\g$. Hence
+\begin{align*}
+\|\nabla u\|^2_{L^2(\g')}&\le(1+\varepsilon)^{1+N/2}\,\|\nabla u\|^2_{L^2(\g)}\ ,\\
+\|u\|^2_{L^{\psharp}(B_j,\g')}&\le(1+\varepsilon)^{(N-1)/\psharp}\,\|u\|^2_{L^{\psharp}(B_j,\g)}\ ,\\
+\|u\|^2_{L^{\pstar}(\g')}&\ge(1+\varepsilon)^{-N/\pstar}\,\|u\|^2_{L^{\pstar}(\g)}\ ,
+\end{align*}
+with $(N-1)/\psharp=N/\pstar=(N-2)/2$. The quotient is therefore at most $(1+\varepsilon)^{1+N/2+(N-2)/2}=(1+\varepsilon)^N$ times $\Fq^{(\beta)}_\g(u)$; the lower bound is symmetric.
+\end{proof}
+
+\begin{lemma}[Positivity of the trace-Sobolev quotient]
+\label{lem:positivity}
+For every metric $\g$ on the compact connected manifold with non-empty boundary $\Sigma$, $\inf_{u\ne0}\Fq_\g(u)>0$.
+\end{lemma}
+\begin{proof}
+Suppose $u_k\in W^{1,2}(\Sigma)$ with $\|u_k\|_{L^{\pstar}(\Sigma)}=1$ and $\Fq_\g(u_k)\to0$; then $\|\nabla u_k\|_{L^2}\to0$ and $\|u_k\|_{L^{\psharp}(B_j)}\to0$ for every $j$. By \eqref{eq:hoelder}, $(u_k)$ is bounded in $W^{1,2}(\Sigma)$, so by the Rellich--Kondrachov theorem a subsequence converges in $L^2(\Sigma)$ and weakly in $W^{1,2}(\Sigma)$ to some $u_\infty$ with $\|\nabla u_\infty\|_{L^2}\le\liminf\|\nabla u_k\|_{L^2}=0$; since $\Sigma$ is connected, $u_\infty\equiv c$ is constant. The trace operator $W^{1,2}(\Sigma)\to L^2(\partial\Sigma)$ is compact, so the traces converge to $c$ in $L^2(\partial\Sigma)$; but $\|u_k\|_{L^2(B_j)}\le\Vol(B_j)^{1/(N-1)}\|u_k\|_{L^{\psharp}(B_j)}\to0$, whence $c=0$. Thus $u_k\to0$ in $W^{1,2}(\Sigma)$, and the Sobolev embedding $W^{1,2}(\Sigma)\hookrightarrow L^{\pstar}(\Sigma)$ \cite{Hebey1996} gives $\|u_k\|_{L^{\pstar}}\to0$, a contradiction.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:upper-bound}]
+We prove the theorem together with Corollary~\ref{cor:negative}. By Proposition~\ref{prop:nonpositive}, or directly by hypothesis, $\Rs_\g\le0$ is constant and $H_\g\equiv0$, so that $\Y_{[\g]}(\Sigma)=\EH(\Sigma,\g)$, i.e.\ $\Y_{[\g]}(\Sigma)=\Rs_\g\Vol(\Sigma,\g)^{2/N}$, by Lemma~\ref{lem:kobayashi}(a). For $\tau>0$ let $\tilde\g_\tau$ and $\gbar_\tau$ be as in Lemma~\ref{lem:gluing}. Since $\sigma(\Sigbar)\le0$, $\Y_{[\gbar_\tau]}(\Sigbar)\le0$, and since $\gbar_\tau|_{D_j}$ is in the conformal class of the flat ball, the constants of Lemma~\ref{lem:gluing-estimate} are $\beta_j=\cN$ by fact (iv) of Sec.~\ref{sec:boundary}. Lemma~\ref{lem:gluing-estimate} applied to $(\Sigbar,\gbar_\tau)$, after dropping its non-positive last term, yields, with $m_\tau:=\min\big(0,\min_\Sigma\Rs_{\tilde\g_\tau}\big)$,
+\begin{equation*}
+m_\tau\Vol(\Sigma,\tilde\g_\tau)^{2/N}\ \le\ -\inf_{u\ne0}\Fq_{\tilde\g_\tau}(u)\ .
+\end{equation*}
+As $\tau\to0$, $m_\tau\Vol(\Sigma,\tilde\g_\tau)^{2/N}\to\Rs_\g\Vol(\Sigma,\g)^{2/N}=\Y_{[\g]}(\Sigma)$ by the uniform convergence of $\Rs_{\tilde\g_\tau}$ and $\tilde\g_\tau$, and $\inf\Fq_{\tilde\g_\tau}\to\inf\Fq_\g$ by Lemma~\ref{lem:stability}. This proves \eqref{eq:upper-bound}. Corollary~\ref{cor:negative} follows from Lemma~\ref{lem:positivity}: $\Y_{[\g]}(\Sigma)\le-\inf\Fq_\g<0$, and $\Rs_\g=\Y_{[\g]}(\Sigma)\Vol(\Sigma,\g)^{-2/N}<0$.
+\end{proof}
+
+\begin{proof}[First variation at $u=1$ (Remark~\ref{rem:sign})]
+Let $\varphi$ be smooth and $u_\epsilon:=1+\epsilon\varphi$. For any domain $B$ and exponent $q$,
+\begin{equation*}
+\frac{\rd}{\rd\epsilon}\Big|_{\epsilon=0}\|u_\epsilon\|^2_{L^q(B)}=2\Vol(B)^{2/q-1}\int_B\varphi\ ,
+\end{equation*}
+while the gradient term of $\Fq_\g(u_\epsilon)$ is $O(\epsilon^2)$. The quotient rule therefore gives, if $\int_\Sigma\varphi\,\vol=0$,
+\begin{multline*}
+\frac{\rd}{\rd\epsilon}\Big|_{\epsilon=0}\Fq_\g(1+\epsilon\varphi)\\
+=\frac{2\cN}{\Vol(\Sigma)^{(N-2)/N}}\sum_j\Vol(B_j)^{-1/(N-1)}\int_{B_j}\varphi\,\bvol\ ,
+\end{multline*}
+which is strictly negative when $\varphi\le0$, $\varphi\not\equiv0$ on $\partial\Sigma$. Such $\varphi$ exist (take $\varphi=-1$ near $\partial\Sigma$ and positive in the interior with zero mean), so $\inf\Fq_\g<\Fq_\g(1)$.
+\end{proof}
+
+\bibliographystyle{apsrev4-2}
+\bibliography{Yamabegap}
+\end{document}

@@ -1,0 +1,33 @@
+# Ledger configuration for dyniso. Phase 0: ledger and label audit only; the Lean namespace is not built yet.
+[paper]
+root = "../legacy/labeled"
+document = "main.tex"
+notation = ["rigorous_dyson_theorem/preamble.tex"]
+
+
+label_prefixes = ["thm", "theo", "lem", "prop", "cor", "def", "rem", "ex"]
+coverage_recursive = true
+
+[lean]
+root = "../../../lean"
+strict = ["DynIso"]
+scaffold = ["scaffold/DynIsoScaffold"]
+scope = ["*"]
+
+[output]
+dir = "."
+json = "ledger.json"
+markdown = "LEDGER.md"
+dot = "dag.dot"
+tool_name = "tools/ledger.py"
+
+# main.tex (2026-02-19, commit 8856a85) inputs a subset of the tree; the rest is the author's
+# work in progress -- statement and proof files not (yet) placed, and alternative sections.
+# They are not the document, and a statement in them is not a claim the paper makes.
+[paper.out_of_document]
+"rigorous_dyson_theorem/statements/*" = "Statement files main.tex does not input (draft in flux)."
+"rigorous_dyson_theorem/proofs/*" = "Proof files main.tex does not input (draft in flux)."
+"rigorous_dyson_theorem/sections/0[2-7]_*" = "Sections main.tex does not input (draft in flux)."
+"rigorous_dyson_theorem/appendices/[ABFG]_*" = "Appendices main.tex does not input (draft in flux)."
+"rigorous_dyson_theorem/appendices/[CDE]_proofs_*" = "Appendix proofs main.tex does not input (draft in flux)."
+"rigorous_dyson_theorem/appendices/D_technical_*" = "Appendix main.tex does not input (draft in flux)."

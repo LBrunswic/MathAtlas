@@ -1,0 +1,33 @@
+# Ledger configuration for EGF (Ergodic Generative Flows, ICML 2025 camera-ready).
+[paper]
+root = "../legacy/labeled"
+document = "main.tex"
+notation = ["math_command.tex"]
+files = [["main.tex", "body", "P"]]
+coverage_skip = ["main_0.tex", "beamer.tex"]
+label_prefixes = ["theo", "lem", "prop", "cor", "def", "rem", "assum", "fact"]
+
+[paper.titles]
+P = "Ergodic Generative Flows (body and appendices, one file)"
+
+[paper.out_of_document]
+"math_command.tex" = "Macros only."
+
+[lean]
+root = "../../../lean"
+strict = ["EGF"]
+scaffold = ["scaffold/EGFScaffold"]
+scope = ["*"]
+strict_label = "EGF/"
+scaffold_label = "scaffold/EGFScaffold/"
+
+[output]
+dir = "."
+json = "ledger.json"
+markdown = "LEDGER.md"
+dot = "dag.dot"
+tool_name = "tools/ledger.py"
+
+[markdown]
+roadmap_intro = "The library namespace is `EGF`, reusing `GFNBounds.Core` (kernels, mixing sums, the sampling theorem). Anchors are assembly theorems, one per story fragment; everything else is Lean-side."
+scope_blurb = "the whole paper: one file, one namespace"

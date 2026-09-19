@@ -1,0 +1,55 @@
+%!TEX root = ../../main.tex
+
+\section{Spectral Theory of Residual Networks}\label{sec:resnets}
+
+This section develops the spectral machinery that makes the bistochastic-vs-orthogonal comparison quantitatively precise. We begin with the scalar Dyson equation for standard residual networks~\cite{tarnowski2019dynamical}, extend it to the Kronecker structure arising in Hyper-Connections, and then state the spectral predictions that Section~\ref{sec:experiments} will validate.
+
+\subsection{The Dyson equation for ResNets}\label{sec:dyson-resnet}
+
+A residual network with $L$ layers of width $N$ has forward propagation $x^{l+1} = \phi(W^l x^l) + a\, x^l$, producing the input-output Jacobian
+\begin{equation}\label{eq:jacobian}
+J = \prod_{l=1}^{L} Y^l, \qquad Y^l = D^l W^l + aI,
+\end{equation}
+where $D^l = \mathrm{diag}(\phi'(h^l_i))$ is the diagonal matrix of activation derivatives. In the mean-field limit ($N \to \infty$), $D^l$ concentrates and becomes effectively deterministic, so that $D^l W^l$ inherits the isotropy of $W^l$~\cite{pennington2017resurrecting}. The Dyson equation then gives the single-layer spectral density exactly: the Cauchy transform of $Y^\top Y$ satisfies
+\begin{equation}\label{eq:dyson-fp}
+m(z) = \frac{1}{N}\Tr\bigl(A(z)(zI_N - A(z)^\top A(z))^{-1}\bigr), \qquad A(z) = aI + \sigma^2 m(z)\, I,
+\end{equation}
+where $\sigma^2 = \sigma_w^2 \,\E[\phi'(\sqrt{q}\, Z)^2]$ is the effective self-energy. This is a scalar fixed-point equation: for each spectral parameter $z$, Newton's method with branch continuation finds $m(z)$, from which the spectral density follows via Stieltjes inversion (Section~\ref{sec:numerical}).
+
+\subsection{Multi-layer composition and dynamical isometry}\label{sec:multi-layer}
+
+For $L$ identical layers, free multiplicative convolution (Appendix~A) gives the $L$-layer spectrum from the single-layer one. The result is the \emph{universal spectral equation} of Tarnowski et al.~\cite{tarnowski2019dynamical}: the Jacobian spectrum depends on the activation function $\phi$ only through a single scalar, the effective cumulant $c = L\sigma^2$.
+
+\begin{definition}[Dynamical Isometry]\label{def:dynamical-isometry}
+A neural network achieves \emph{dynamical isometry} if the singular values of its input-output Jacobian are concentrated near $1$.
+\end{definition}
+
+\noindent The universal equation implies that dynamical isometry is achieved when $c = 1/2$, regardless of the activation function or depth~\cite{tarnowski2019dynamical}. This is the scalar theory. It applies when $A_q = (a)$---a single scalar skip. But Hyper-Connections use a $q \times q$ twist matrix, and here the scalar theory breaks down.
+
+\subsection{Kronecker-structured skip connections}\label{sec:kronecker-skip}
+
+Hyper-Connections~\cite{zhu2024hyperconnections} replace the scalar skip $aI_N$ with a Kronecker product
+\begin{equation}\label{eq:kronecker-skip}
+A = A_q \otimes I_p, \quad N = qp,
+\end{equation}
+where $A_q \in \R^{q \times q}$ is the twist matrix encoding inter-stream mixing. The Jacobian factor becomes
+\begin{equation}\label{eq:kronecker-layer}
+Y^l = (A_q^l \otimes I_p) + D^l W^l.
+\end{equation}
+
+When $A_q$ has non-trivial eigenvalue structure, the scalar trace $(1/N)\Tr$ averages over $A_q$'s spectral sectors and loses the block geometry. The correct tool is the \emph{operator-valued Dyson equation}, which collapses the $N \times N$ problem to a $q \times q$ fixed-point (Section~\ref{sec:ov-free-prob}). This Kronecker collapse is the computational enabler for everything that follows: it reduces the cost from $O(N^3)$ to $O(q^6)$, making spectral analysis of Hyper-Connections tractable at any network width.
+
+\subsection{Bistochastic vs.\ orthogonal skip connections}\label{sec:bistochastic-vs-ortho}
+
+The Kronecker framework enables a direct spectral comparison between the two constraint manifolds for $A_q$---the central question of this paper.
+
+\medskip
+\noindent\textbf{Doubly stochastic $A_q$.}
+A doubly stochastic matrix has Perron eigenvalue $\lambda_1 = 1$ and remaining eigenvalues $|\lambda_j| < 1$ generically. The operator-valued Dyson equation (Section~\ref{sec:ov-free-prob}) predicts that the Jacobian's singular value density inherits this asymmetry: the Perron sector contributes a peak near $\sigma = 1$, while the contracting sectors produce mass near $\sigma = 0$. Across $L$ layers, contraction compounds: the fraction of singular values near zero grows as $|\lambda_j|^{2L} \to 0$. This is the \emph{partial spectral collapse} identified in Section~\ref{sec:spectral-failure}.
+
+\medskip
+\noindent\textbf{Orthogonal $A_q$.}
+An orthogonal matrix has all eigenvalues on the unit circle: $|\lambda_j| = 1$ for all $j$. No sector contracts, at any depth. Moreover, the product of orthogonal matrices is orthogonal, so eigenspace misalignment does not compound---the group structure prevents the scrambling effect described in Section~\ref{sec:spectral-failure}.
+
+\medskip
+The spectral densities computed from the operator-valued Dyson solver confirm these predictions quantitatively; see Section~\ref{sec:experiments}.

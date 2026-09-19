@@ -1,0 +1,74 @@
+%!TEX root = ../../main.tex
+
+\section{Operator-Valued Free Probability for Kronecker Skip Connections}\label{sec:ov-free-prob}
+
+The Hyper-Connection skip $A_q \otimes I_p$ (Section~\ref{sec:kronecker-skip}) has non-trivial eigenvalue structure when $A_q$ is bistochastic or orthogonal, and the scalar Dyson equation cannot resolve the individual spectral sectors. This section develops the \emph{operator-valued} (matrix-valued) generalization over the base algebra $\mcB = M_q(\C)$, which is what makes the spectral comparison of Section~\ref{sec:bistochastic-vs-ortho} quantitatively precise. We state results without proof, following~\cite{voiculescu1995operations,speicher1998combinatorial,dykema2006multilinear}; see~\cite{mingo2017free} for a comprehensive treatment.
+
+\subsection{Kronecker collapse to a $q \times q$ fixed-point}\label{sec:matrix-dyson-theory}
+
+The key insight is that the Kronecker structure of $A_q \otimes I_p$ respects the block decomposition of $M_N(\C)$ into $q \times q$ blocks of size $p \times p$. The conditional expectation $E_\mcB = \mathrm{id}_q \otimes \tr_p$ (the normalized partial trace over $p$-fibers) extracts the $q \times q$ block structure, and the isotropy of $W$ ensures the self-energy has no off-diagonal $p \times p$ structure. The result is a collapse from an $N$-dimensional to a $q$-dimensional fixed-point.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{kronecker_panel_q4.png}
+\caption{Single-layer singular value density for Kronecker skip connections $A = A_q \otimes I_p$ with $q = 4$ and various twist matrices $A_q$ (identity, rotation, permutation, bistochastic). Solid curves: matrix-valued Dyson equation (Proposition~\ref{prop:kronecker-collapse}). Histograms: Monte Carlo simulation ($N = 400$, 200 samples, $\eta = 0.01$). The non-trivial eigenvalue structure of $A_q$ produces multi-modal spectral densities that the scalar theory cannot capture.}
+\label{fig:kronecker-panel}
+\end{figure}
+
+\begin{proposition}[Kronecker collapse]\label{prop:kronecker-collapse}
+Under the Kronecker structure~\eqref{eq:kronecker-skip} and the isotropy assumption on $W$, the $\mcB$-valued order parameter $M(z) \in M_q(\C)$ satisfies the self-consistent equation
+\begin{equation}\label{eq:matrix-dyson}
+M(z) = A_h(M) \cdot \bigl(zI_q - A_h(M)^\top A_h(M)\bigr)^{-1},
+\end{equation}
+where $A_h(M) := A_q + \sigma^2 M$ is the $q \times q$ dressed matrix. The $\mcB$-valued Cauchy transform is
+\begin{equation}\label{eq:G-B}
+G^{(\mcB)}(z) = \bigl(zI_q - A_h(M)^\top A_h(M)\bigr)^{-1},
+\end{equation}
+and the scalar Cauchy transform is $G(z) = \frac{1}{q}\Tr_q(G^{(\mcB)}(z))$. When $q = 1$, the scalar theory of Sections~\ref{sec:num-dyson}--\ref{sec:z1-mapping} is recovered exactly.
+\end{proposition}
+
+\subsection{Operator-valued S-transform and Dykema's twisted multiplicativity}\label{sec:ov-s-transform}
+
+For multi-layer composition with $q > 1$, the S-transform generalises to a $\mcB$-valued map. The $\mcB$-valued S-transform is $S^{(\mcB)}(W) := G^{(\mcB)}(b) \cdot W^{-1}$, where $b$ solves the \emph{Psi-inversion}
+\begin{equation}\label{eq:psi-inversion}
+b \cdot G^{(\mcB)}(b) - I_q = W.
+\end{equation}
+This inherits a \emph{twist} from the non-commutativity of $\mcB$:
+
+\begin{theorem}[Dykema, 2006]\label{thm:dykema}
+Let $x$ and $y$ be $\mcB$-freely independent positive elements. Then
+\begin{equation}\label{eq:twisted-mult}
+S^{(\mcB)}_{xy}(W) = S^{(\mcB)}_y(W) \cdot S^{(\mcB)}_x\!\bigl(S^{(\mcB)}_y(W)^{-1} \, W \, S^{(\mcB)}_y(W)\bigr).
+\end{equation}
+\end{theorem}
+
+\noindent For $L$ layers, this gives the twisted recursion:
+\begin{equation}\label{eq:twisted-fold}
+S_{\mathrm{cumul}} \leftarrow S^{(\mcB)}_L(W); \quad \text{for } k = L{-}1, \ldots, 1: \;\; W_{\mathrm{tw}} = S_{\mathrm{cumul}}^{-1} W S_{\mathrm{cumul}}, \;\; S_{\mathrm{cumul}} \leftarrow S_{\mathrm{cumul}} \cdot S^{(\mcB)}_k(W_{\mathrm{tw}}).
+\end{equation}
+When $q = 1$, the twist is trivial (scalars commute) and~\eqref{eq:twisted-fold} reduces to $S_{\mathrm{cumul}} = \prod_l S_l(w)$.
+
+\subsection{Multi-layer spectrum recovery}\label{sec:ov-multilayer}
+
+The $L$-layer $\mcB$-valued Cauchy transform is obtained by solving the consistency equation: find $W \in M_q(\C)$ such that
+\begin{equation}\label{eq:outer-consistency}
+(W + I_q)\bigl(S_{\mathrm{prod}}(W) \cdot W\bigr)^{-1} = z I_q,
+\end{equation}
+where $S_{\mathrm{prod}}(W)$ is the twisted product~\eqref{eq:twisted-fold}. The scalar density is then $G_L(z) = \frac{1}{qz}\Tr_q(W + I_q)$.
+
+\subsection{Dispatch and identical-vs-heterogeneous layers}\label{sec:identical-vs-hetero}
+
+When all layers share the same $A_q$ and $\sigma^2$, the scalar $z_1$-mapping (Proposition~\ref{prop:z1-mapping}) applied to $G_1(z) = \frac{1}{q}\Tr_q(G^{(\mcB)}_1(z))$ produces the exact $L$-layer scalar Cauchy transform, because identical operator-valued S-transforms commute on $\{wI_q\}$. For non-commuting twist matrices, however, the scalar product deviates from the projection of the twisted product~\eqref{eq:twisted-fold}, and the full pipeline is required (Appendix~\ref{app:ov-pipeline}, Figure~\ref{fig:hetero-panel}). The method is selected as follows:
+
+\begin{center}
+\begin{tabular}{llc}
+\hline
+\textbf{Scenario} & \textbf{Method} & \textbf{Exact?} \\
+\hline
+$L = 1$, any $q$ & Direct matrix Dyson (Section~\ref{sec:matrix-dyson-numerics}) & Yes \\
+$L > 1$, identical $A_q$ & $z_1$-mapping (Section~\ref{sec:z1-mapping}) & Yes \\
+$L > 1$, heterogeneous, $q = 1$ & Scalar $w$-domain Newton (Appendix~\ref{app:w-domain}) & Yes \\
+$L > 1$, heterogeneous, $q > 1$ & OV twisted S-transform (Appendix~\ref{app:ov-pipeline}) & Yes \\
+\hline
+\end{tabular}
+\end{center}

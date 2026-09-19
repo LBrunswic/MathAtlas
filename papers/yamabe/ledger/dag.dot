@@ -1,0 +1,62 @@
+digraph formalization {
+  rankdir=BT; node [style=filled,fontname="Helvetica",fontsize=9];
+  edge [color="#888888",arrowsize=0.6];
+  subgraph "cluster_P" {
+    label="P"; color="#cccccc";
+    "def:yamabe" [label="def:yamabe\nYamabe energy, Yamabe consta", shape=box, fillcolor="#ffffff"];
+    "thm:yamabe" [label="thm:yamabe\nYamabe, Trudinger, Aubin, Sc", shape=doubleoctagon, fillcolor="#ffffff"];
+    "prop:csc-yamabe" [label="prop:csc-yamabe\nConstant scalar curvature ve", shape=ellipse, fillcolor="#ffffff"];
+    "thm:extremal" [label="thm:extremal\nRealizations of the Yamabe i", shape=doubleoctagon, fillcolor="#ffffff"];
+    "cor:gap-nonneg" [label="cor:gap-nonneg\nNon-negativity and rigidity ", shape=ellipse, fillcolor="#ffffff"];
+    "cor:volume" [label="cor:volume\nVolume comparison", shape=ellipse, fillcolor="#ffffff"];
+    "def:yamabe-bdry" [label="def:yamabe-bdry\nYamabe energy and relative Y", shape=box, fillcolor="#ffffff"];
+    "prop:gap-bdry-nonneg" [label="prop:gap-bdry-nonneg\nNon-negativity of the gap wi", shape=ellipse, fillcolor="#ffffff"];
+    "rem:old-reference" [label="rem:old-reference\nWhat this replaces", shape=note, fillcolor="#ffffff"];
+    "def:reference" [label="def:reference\nEuclidean reference embeddin", shape=box, fillcolor="#ffffff"];
+    "prop:brown-york" [label="prop:brown-york\nRelation to the Brown--York ", shape=ellipse, fillcolor="#ffffff"];
+    "prop:accel-bdry" [label="prop:accel-bdry\nAcceleration law for the voi", shape=ellipse, fillcolor="#ffffff"];
+    "rem:conformal-gap" [label="rem:conformal-gap\nGap and conformal gap", shape=note, fillcolor="#ffffff"];
+    "rem:positive-mass" [label="rem:positive-mass\nPositive mass and Penrose in", shape=note, fillcolor="#ffffff"];
+    "prop:nonpositive" [label="prop:nonpositive\nNon-positive type", shape=ellipse, fillcolor="#ffffff"];
+    "rem:existence" [label="rem:existence\nExistence", shape=note, fillcolor="#ffffff"];
+    "thm:upper-bound" [label="thm:upper-bound\nUpper bound on the relative ", shape=doubleoctagon, fillcolor="#ffffff"];
+    "cor:negative" [label="cor:negative\nStrict negativity", shape=ellipse, fillcolor="#ffffff"];
+    "rem:sign" [label="rem:sign\nWhat Theorem~thm:upper-bound", shape=note, fillcolor="#ffffff"];
+    "thm:lower-bound" [label="thm:lower-bound\nQuantitative lower bound on ", shape=doubleoctagon, fillcolor="#ffffff"];
+    "lem:kobayashi" [label="lem:kobayashi\nLower bound of Kobayashi typ", shape=ellipse, fillcolor="#ffffff"];
+    "lem:gluing-estimate" [label="lem:gluing-estimate\nGluing estimate", shape=ellipse, fillcolor="#ffffff"];
+    "lem:gluing" [label="lem:gluing\nGluing a flat-class filling", shape=ellipse, fillcolor="#ffffff"];
+    "lem:stability" [label="lem:stability\nStability of the trace-Sobol", shape=ellipse, fillcolor="#ffffff"];
+    "lem:positivity" [label="lem:positivity\nPositivity of the trace-Sobo", shape=ellipse, fillcolor="#ffffff"];
+  }
+  "prop:csc-yamabe" -> "lem:kobayashi";
+  "cor:gap-nonneg" -> "prop:csc-yamabe";
+  "cor:gap-nonneg" -> "thm:extremal";
+  "cor:volume" -> "prop:csc-yamabe";
+  "cor:volume" -> "thm:extremal";
+  "rem:existence" -> "prop:nonpositive";
+  "rem:existence" -> "thm:upper-bound";
+  "cor:negative" -> "thm:upper-bound";
+  "rem:sign" -> "thm:upper-bound";
+  "rem:sign" -> "cor:negative";
+  "rem:sign" -> "prop:nonpositive";
+  "rem:sign" -> "lem:kobayashi";
+  "rem:sign" -> "lem:gluing";
+  "rem:sign" -> "lem:gluing-estimate";
+  "rem:sign" -> "lem:stability";
+  "rem:sign" -> "lem:positivity";
+  "thm:lower-bound" -> "thm:upper-bound";
+  "thm:lower-bound" -> "thm:yamabe";
+  "thm:lower-bound" -> "lem:kobayashi";
+  "lem:gluing-estimate" -> "thm:yamabe";
+  "lem:gluing-estimate" -> "lem:kobayashi";
+  "lem:gluing" -> "thm:upper-bound";
+  subgraph "cluster_legend" {
+    label="legend"; color="#cccccc"; fontsize=10;
+    l0 [label="closed in Lean", fillcolor="#b7e4c7", shape=box];
+    l1 [label="stated, partial", fillcolor="#ffe08a", shape=box];
+    l2 [label="scaffold", fillcolor="#ffd6a5", shape=box];
+    l3 [label="no Lean", fillcolor="#ffffff", shape=box];
+    l0 -> l1 -> l2 -> l3 [style=invis];
+  }
+}

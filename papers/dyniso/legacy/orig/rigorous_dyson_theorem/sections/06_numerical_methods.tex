@@ -1,0 +1,51 @@
+%!TEX root = ../../main.tex
+
+\section{Numerical Computation of the Multi-Layer Spectrum}\label{sec:numerical}
+
+The spectral comparison between bistochastic and orthogonal skip connections (Section~\ref{sec:bistochastic-vs-ortho}) requires computing the Jacobian's singular value density for arbitrary twist matrices $A_q$. This section outlines the numerical pipeline; full implementation details are given in Appendix~\ref{app:numerical-details}.
+
+\subsection{Single-layer Dyson solver}\label{sec:num-dyson}
+
+For a single layer $Y = (A_q \otimes I_p) + DW$, the Cauchy transform of the eigenvalue measure of $Y^\top Y$ is
+\begin{equation}\label{eq:cauchy-single}
+G_1(z) = \frac{1}{N}\Tr\bigl((zI_N - A(z)^\top A(z))^{-1}\bigr), \quad z \in \C^+,
+\end{equation}
+where the dressed matrix $A(z) = A + \sigma^2 m(z) I_N$ depends on the scalar order parameter $m(z)$ satisfying the self-consistent Dyson equation~\eqref{eq:dyson-fp}.
+We solve~\eqref{eq:dyson-fp} by Newton's method with analytical derivatives (Appendix~\ref{app:scalar-jacobian}), sweeping the $z$-grid from large $|z|$ to small $|z|$ so that each Newton solve is seeded from the previous solution (\emph{continuation}), maintaining the physical Stieltjes branch throughout.
+
+\subsection{Multi-layer spectrum via the $z_1$-mapping}\label{sec:z1-mapping}
+
+For $L$ identical layers, the S-transform multiplicative property (Theorem~\ref{thm:s-linearization}) gives $S_{J^\top J}(w) = S_{Y^\top Y}(w)^L$. A direct inversion of this product is numerically fragile because the map $z \mapsto w = zG_1(z) - 1$ is non-monotone. We bypass the inversion entirely:
+
+\begin{proposition}[$z_1$-mapping for identical layers]\label{prop:z1-mapping}
+Let $G_1(z)$ be the single-layer Cauchy transform. Then for any $z_1 \in \C^+$:
+\begin{equation}\label{eq:z1-to-zL}
+z_L(z_1) := z_1 \cdot \left(\frac{z_1 G_1(z_1) - 1}{G_1(z_1)}\right)^{L-1}, \qquad
+G_L(z_L) = \frac{z_1 \, G_1(z_1)}{z_L}.
+\end{equation}
+\end{proposition}
+
+\noindent The idea is to demand that $z_1$ and $z_L$ correspond to the same point in the S-transform domain, so the $L$-th power acts as a reparametrisation of the $z$-grid rather than an inversion problem. The proof is given in Appendix~\ref{app:z1-proof}. The spectral density is then recovered via Stieltjes inversion:
+\begin{equation}\label{eq:stieltjes-inversion}
+\rho_{\mathrm{eig}}(x) = -\frac{1}{\pi} \lim_{\eta \to 0^+} \mathrm{Im}\, G_L(x + i\eta), \qquad \rho(\sigma) = 2\sigma \, \rho_{\mathrm{eig}}(\sigma^2).
+\end{equation}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{sv_showcase_panel.png}
+\caption{Singular value density of the Jacobian $J = \prod_{l=1}^L Y^l$ for $L \in \{1, 3, 10, 50\}$ layers with scalar skip $A = I$ and dynamical isometry condition $L\sigma^2 = 1/2$. Solid curves: Dyson equation prediction via the $z_1$-mapping (Proposition~\ref{prop:z1-mapping}). Histograms: Monte Carlo simulation ($N = 2000$, 100 samples, $\eta = 0.01$). As $L$ increases, the spectrum sharpens around $\sigma = 1$, confirming dynamical isometry.}
+\label{fig:showcase}
+\end{figure}
+
+\subsection{Matrix-valued and operator-valued solvers}\label{sec:matrix-dyson-numerics}
+
+For Kronecker skip connections $A = A_q \otimes I_p$, the scalar Dyson equation is replaced by the $q \times q$ matrix equation~\eqref{eq:matrix-dyson}. We solve this by Newton's method in $\C^{q^2}$, using an analytical Jacobian that costs $O(q^6)$ per step---a speedup of $(p/q)^3$ over the $N \times N$ scalar solver (Appendix~\ref{app:matrix-dyson-details}).
+
+For heterogeneous multi-layer networks ($L > 1$ with $A_q^{l_1} \neq A_q^{l_2}$), the full operator-valued pipeline is required. This involves a triple-nested Newton structure: the outer solve targets the consistency equation~\eqref{eq:outer-consistency}, calling the twisted S-product~\eqref{eq:twisted-fold} at each iteration, which in turn calls the matrix-argument Dyson solver for each layer's Psi-inversion. The per-$z$-point cost is $O(Lq^{10})$ per outer iteration; in practice $q \leq 4$ and $O(1)$ outer iterations suffice with continuation (Appendix~\ref{app:ov-pipeline}).
+
+\label{sec:w-domain-newton}
+\label{sec:ov-pipeline-numerics}
+
+\begin{remark}[Heterogeneous layers]
+For heterogeneous networks with $q = 1$, a simpler $w$-domain Newton method applies (Appendix~\ref{app:w-domain}). The dispatch between methods follows the table in Section~\ref{sec:identical-vs-hetero}.
+\end{remark}

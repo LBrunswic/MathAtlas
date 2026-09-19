@@ -1,0 +1,23 @@
+%!TEX root = ../../main.tex
+
+\section{Related Work}\label{sec:related-work}
+
+\subsection{Hyper-Connections and structured skip connections}
+
+The standard residual connection $x^{l+1} = F(x^l) + x^l$~\cite{he2016deep} has been extended in several directions. Hyper-Connections (HC)~\cite{zhu2024hyperconnections} replace the identity skip with a learnable mixing matrix $A_q \otimes I_p$ acting on $q$ residual streams, yielding substantial performance gains on language modeling. Manifold-Constrained Hyper-Connections (mHC)~\cite{xie2025mhc} address the resulting training instability by projecting $A_q$ onto the Birkhoff polytope via the Sinkhorn-Knopp algorithm. Two concurrent works explore related directions: KromHC~\cite{kromhc2026} parametrises doubly stochastic matrices as Kronecker products of smaller bistochastic factors via the Birkhoff-von Neumann theorem, and Noguer I Alonso~\cite{noguer2026} proposes an operator-constrained framework. All of these remain within the Birkhoff polytope. Our work departs from this line by showing that the polytope's contractive geometry causes spectral collapse, and proposes the orthogonal group as the correct constraint manifold.
+
+\subsection{Orthogonal constraints in neural networks}
+
+Orthogonal and unitary weight constraints have a rich history in recurrent networks, where they prevent gradient decay across time steps~\cite{arjovsky2016unitary,wisdom2016full}. Lezcano-Casado~\cite{lezcano2019trivializations} developed a general framework for gradient-based optimisation on matrix manifolds via trivializations (exponential map, Cayley transform), enabling efficient training with hard orthogonal constraints. We apply these parametrisation techniques not to weight matrices but to the skip connection matrices $A_q$ in Hyper-Connections, motivated by our spectral analysis showing that orthogonality of $A_q$ is the decisive property for preserving dynamical isometry.
+
+\subsection{Signal propagation and mean-field theory}
+
+The mean-field theory of deep networks~\cite{schoenholz2017deep} studies the propagation of pre-activation moments, identifying the edge-of-chaos phase transition. Yang and Schoenholz~\cite{yang2017mean} extended this to residual networks. Pennington, Schoenholz, and Ganguli~\cite{pennington2017resurrecting} connected signal propagation to the Jacobian's singular value distribution, introducing dynamical isometry for nonlinear networks. These works characterise signal propagation through scalar order parameters; our work computes the full spectral density, revealing failure modes---such as partial spectral collapse in bistochastic skip connections---that are invisible to mean-field analysis.
+
+\subsection{Random matrix theory for neural networks}
+
+Pennington and Worah~\cite{pennington2017nonlinear} developed nonlinear random matrix theory for single-layer networks using the S-transform. Xiao et al.~\cite{xiao2018dynamical} extended this to convolutional architectures. Tarnowski et al.~\cite{tarnowski2019dynamical} derived the universal spectral equation for deep residual networks, showing the Jacobian spectrum depends on the activation only through the effective cumulant $c$, with dynamical isometry at $c = 1/2$. We build on~\cite{tarnowski2019dynamical} in two ways: providing the numerical pipeline needed to solve the spectral equation, and extending the theory from scalar skip connections to the Kronecker structure arising in Hyper-Connections.
+
+\subsection{Operator-valued free probability}
+
+Operator-valued free probability was introduced by Voiculescu~\cite{voiculescu1995operations} and developed combinatorially by Speicher~\cite{speicher1998combinatorial}. The analytic theory was advanced by Belinschi, Mai, and Speicher~\cite{belinschi2017analytic}. The quadratic matrix equation in our Dyson solver was studied by Helton, Far, and Speicher~\cite{helton2007operator}. The twisted multiplicativity of the operator-valued S-transform (Theorem~\ref{thm:dykema}) is due to Dykema~\cite{dykema2006multilinear}; see~\cite{nica2006lectures,mingo2017free} for comprehensive treatments. Our contribution is computational: the first numerical implementation of the full operator-valued pipeline, specialised to the Kronecker structure arising in Hyper-Connections.

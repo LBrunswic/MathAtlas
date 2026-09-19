@@ -1,0 +1,74 @@
+\begin{theorem}[Dyson Equation Under Isotropy]\label{thm:main}
+Let $\{(A_N, X_N)\}_{N \in \N}$ satisfy the following assumptions:
+
+\medskip
+\noindent\textbf{Assumption (A1):} \emph{Deterministic bound.} There exists $C > 0$ such that $\norm{A_N} \leq C$ for all $N$.
+
+\medskip
+\noindent\textbf{Assumption (A2):} \emph{Isotropy.} For each $N$, the random matrix $X_N$ satisfies $\E[X_N] = 0$ and
+\begin{equation}\label{eq:isotropy}
+\boxed{\E[X_N B X_N^\top] = \frac{\sigma^2}{N}\Tr(B) I \quad \text{for all deterministic } B \in \R^{N \times N}.}
+\end{equation}
+
+\medskip
+\noindent\textbf{Assumption (A3):} \emph{Gaussian entries.} The matrix $X_N$ has independent Gaussian entries: $X_{ij} \sim \mathcal{N}(0, \sigma^2/N)$ i.i.d.
+
+\medskip
+\noindent\textbf{Assumption (A4):} \emph{Fourth moment bound.} We have $\E[X_{ij}^4] \leq C/N^2$ uniformly.
+
+\medskip
+\noindent Define the \emph{block trace} operator on $2 \times 2$ block matrices:
+\begin{equation}
+\bTr\begin{pmatrix} M_{11} & M_{12} \\ M_{21} & M_{22} \end{pmatrix}
+= \begin{pmatrix} \frac{1}{N}\Tr(M_{11}) & \frac{1}{N}\Tr(M_{12}) \\ \frac{1}{N}\Tr(M_{21}) & \frac{1}{N}\Tr(M_{22}) \end{pmatrix} \in \C^{2 \times 2}.
+\end{equation}
+
+\noindent Define the \emph{generalized Green's function}:
+\begin{equation}
+\mcG_N(z) = \bTr\bigl(\E[\mcR_N(z)]\bigr) = \begin{pmatrix} g_{11}(z) & g_{12}(z) \\ g_{21}(z) & g_{22}(z) \end{pmatrix}.
+\end{equation}
+
+Then the following hold:
+
+\medskip
+\noindent\textbf{Part A (Deterministic Equivalent).} For each $z \in \C^+$, there exists a unique deterministic $2N \times 2N$ block matrix $\mcM(z)$ with blocks proportional to the identity, characterized by its $2 \times 2$ block trace $\bTr(\mcM(z))$, satisfying the \emph{Dyson equation}:
+\begin{equation}\label{eq:dyson}
+\boxed{\mcM(z) = \Bigl(\mcL_0(z) - \Sigma[\mcM(z)]\Bigr)^{-1},}
+\end{equation}
+where
+\begin{equation}
+\mcL_0(z) = \begin{pmatrix} zI & -A \\ -A^\top & I \end{pmatrix}, \quad
+\Sigma[\mcM] = \begin{pmatrix} 0 & \sigma^2 m_{12} I \\ \sigma^2 m_{21} I & 0 \end{pmatrix},
+\end{equation}
+with order parameters
+\begin{equation}\label{eq:order-params}
+\boxed{m_{12} = \frac{1}{N}\Tr(M_{12}), \quad m_{21} = \frac{1}{N}\Tr(M_{21}).}
+\end{equation}
+
+\begin{remark}[Symmetry Constraint and Scalar Reduction]
+The symmetry of the block linearization matrix implies $m_{12} = m_{21}$. Thus the Dyson equation effectively reduces to a \emph{scalar fixed-point equation} $x = K(x)$ for $x := m_{12} = m_{21}$, with the diagonal entries $m_{11}$ and $m_{22}$ following as derived quantities via the Schur complement formula. This dimensional reduction from a $2 \times 2$ matrix problem to a single complex scalar problem significantly simplifies both the analysis and the numerical implementation.
+\end{remark}
+
+Furthermore, $\mcM(z)$ satisfies $\Im(M_{11}(z)) > 0$ for $z \in \C^+$ (Herglotz property).
+
+\medskip
+\noindent\textbf{Part B (Almost Sure Convergence).} For all $z \in \C^+$ with $\Im(z) \geq \eta > 0$,
+\begin{equation}
+\norm{\mcG_N(z) - \bTr(\mcM(z))}_F \to 0 \quad \text{almost surely as } N \to \infty,
+\end{equation}
+uniformly on compact subsets of $\{z \in \C : \Im(z) \geq \eta\}$.
+
+\medskip
+\noindent\textbf{Part C (Convergence Rate).} Under Assumptions (A1)-(A4), for all $z \in \C^+$ with $\Im(z) \geq \eta > 0$,
+\begin{equation}\label{eq:rate}
+\boxed{\E\bigl[\norm{\mcG_N(z) - \bTr(\mcM(z))}^2_F\bigr] \leq \frac{C(\eta, \sigma, \norm{A})}{N^2 \eta^2},}
+\end{equation}
+where $C(\eta, \sigma, \norm{A})$ is a constant depending only on $\eta$, $\sigma$, and $\norm{A}$.
+
+\medskip
+\noindent\textbf{Part D (Spectral Convergence).} Let $\mu_N$ denote the empirical spectral measure of $S_N = Y_N Y_N^\top$ and let $\mu$ be the probability measure determined by the Stieltjes transform $g_{11}(z)$. Then $\mu_N \Rightarrow \mu$ weakly as $N \to \infty$ almost surely.
+\end{theorem}
+
+\begin{remark}[Block Linearization Technique]
+The block linearization approach embeds the $N \times N$ problem into a $2N \times 2N$ auxiliary system, which allows the use of standard resolvent identities. This technique is particularly powerful when combined with the isotropy assumption, as it reduces the self-energy to a simple scalar form characterized by the two order parameters $m_{12}$ and $m_{21}$. The key advantage is that the infinite-dimensional space of $N \times N$ matrices collapses to a two-dimensional space of order parameters in the large-$N$ limit.
+\end{remark}

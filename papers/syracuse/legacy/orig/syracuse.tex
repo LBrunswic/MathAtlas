@@ -1,0 +1,404 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,mathrsfs}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{enumitem,graphicx}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\author{Léo Brunswic}
+\title{On non trivial cycles of the 3$x$+1 problem}
+\usepackage{amsthm}
+\usepackage{MnSymbol}
+\newtheorem{lem}{Lemma}[section]
+\newtheorem{cor}[lem]{Corollaire}
+\newtheorem{prop}[lem]{Proposition}
+
+\newtheorem{propri}[lem]{Propriété}
+\newtheorem{defi}[lem]{Définition}
+\newtheorem{theo}{Théorème}
+
+\newtheorem{cexemple}[lem]{Contre-exemple}
+\newtheorem{exemple}[lem]{Exemple}
+\newtheorem{rem}[lem]{Remarque}
+\newtheorem{conjecture}[lem]{Conjecture}
+\newtheorem{question}[lem]{Question ouverte}
+\newtheorem{notation}[lem]{Notation}
+\newtheorem{exercice}[lem]{Exercice}
+\newcommand{\fonction}[5]{\displaystyle#1:\begin{array}{l|rcl}
+& \displaystyle #2 & \longrightarrow & \displaystyle #3 \\
+    & \displaystyle #4 & \longmapsto & \displaystyle #5 \end{array}}
+\newcommand{\fonctiondeux}[7]{\displaystyle#1:\begin{array}{l|rcl}
+& \displaystyle #2 & \longrightarrow & \displaystyle #3 \\
+    & \displaystyle #4 & \longmapsto & \displaystyle #5 \\
+     & \displaystyle #6 & \longmapsto & \displaystyle #7\end{array}}
+\def\RR{\mathbb{R}}
+\def\CC{\mathbb{C}}
+\def\NN{\mathbb{N}}
+\def\ZZ{\mathbb{Z}}
+\def\A{\mathcal{A}}
+\def\D{\mathcal{D}}
+\begin{document}
+\maketitle
+\abstract{We present known result on the so-called 3$x$+1 problem also known as Syracuse sequences problem or Collatz problem.  Let $u_0$ be any integer, define the recurring sequence by $u_{n+1}= u_n/2$ if $u_n$ is even and $3u_n+1$ if $u_n$ is odd.  The only known positive cycle is $(1,4,2)$, the conjecture being that the sequence converges to this cycle whatever positive first term is chosen. We present an extension of a method of Terras to show the only cycles are the known one. Leaving open the rest of the conjecture.
+}
+
+\section{Known facts and conventions}
+A Syracuse is an integer sequence $(u_n)_{n\in\NN}$ such that   $$u_0\in \ZZ, \text{ and }\quad \forall n\in \NN,\quad u_{n+1}=\left\{\begin{array}{ll}
+\displaystyle \frac{1}{2}u_{n} & \text{if }u_n \equiv 0~[2]\\
+\displaystyle 3u_n+1&\text{if }u_n \equiv 1~[2]\\
+\end{array}\right.$$
+The sequence is defined {\it a priori} for rational integers but one notices that the definition makes sense in any interal commutative unitary ring $A$ such that $A/2A \simeq \ZZ/2\ZZ$.  Indeed, in such a ring, $2\neq 0$ and if $x\notin 2A$ then $3x+1\in 2A$. Furthermore, if $x\in 2A$, there exists $y\in A$ such that $2y=x$, and two such $y$ are equal since the ring is integral.  In particular, if $A$ is an algebraic integer ring  fully ramified above $2$ or even the 2-adic completion  of $A$, syracuse sequences are well defined. In such a ring, $4\neq 0$, thus $(1,4,2)$ is a cycle.
+We notice that if $\bigcap_{n\in \NN} (2A)^n \neq \{0\}$ then there exists an infinite Syracuse sequence in $2A$. We would like to exclude such a situation and thus assume $A$ is noetherian (which thus exclude this situation by Krull intersection Theorem).
+In the following, a noetherian ring $A$ such that $A/2A \simeq \ZZ/2\ZZ$ is called a $\ZZ/2\ZZ$-ring. In such a ring, the 2-valuation is well defined $\nu_2(x):= \max \{n\in \NN ~|~ x\in 2^n A\}$, as well as the associated absolute value and the 2-completion of $A$ we will denote by $A_2$. Actually, one can show that for any $\ZZ/2\ZZ$-ring $A$, $A_2$ is naturally isomorphic to the ring of 2-adic integers $\ZZ_2$.
+
+\begin{defi}  Let $A$ be a  $\ZZ/2\ZZ$-ring, define
+$$ \fonctiondeux{f_A}{A}{A}{x\in 2A}{3x+1}{x\notin 2A}{x/2} \text{ and }\fonction{T_A}{2A+1}{2A+1}{x}{\frac{3x+1}{2^{\nu_2(3x+1)}}}.$$
+\end{defi}
+The proof of the following property is left to the reader.
+\begin{prop} Let $A$ be a $\ZZ/2\ZZ$-ring, both $f_A$ and $T_A$ are continuous and extends continuously to $A_2$. Furthermore, their extension is $f_{A_2}$ and $T_{A_2}$ respectively.
+\end{prop}
+
+\begin{defi} Let $A$ be a $\ZZ/2\ZZ$-ring. 
+For $n\in \NN$, define $$\fonction{a_n}{2A+1}{\NN}{x}{\nu_2(3 T^n_A(x)+1)}$$ and 
+$$\fonction{p_n}{2A+1}{\NN}{x}{\sum_{k<n}a_k(x)}$$
+
+\end{defi}
+
+\begin{lem}\label{lem:base}Let $A$ be a $\ZZ/2\ZZ$-ring and let $x\in A$, one has : 
+$$\forall n\in \NN, \quad 2^{p_n(x)}T_A^n(x)-3^n x = \sum_{k=0}^{n-1} 2^{p_k(x)}\,3^{n-1-k} .$$
+\end{lem}
+\begin{proof} 
+By induction on $n$, for all $x\in 2A+1$, since $T_A(x) = 2^{-a_1(x)}(3x+1)$ and $a_1(x)=p_1(x)$, the right hand side reduces to $1$ and one obtain the very definition of $T_A(x)$.
+
+Assume the formula is true for all $x\in 2A+1$ and some $n \geq 0$, then 
+\begin{eqnarray*}
+2^{p_{n+1}(x)}T_A^{n+1}(x)-3^{n+1} x &=& 2^{a_{1}(x)} 2^{p_n(T_A(x))} T_A^n( T_A(x))-3^{n+1}x\\&=& 2^{a_1(x)} \left(3^n T_A(x)+ \sum_{k=0}^{n-1} 2^{p_k(T_A(x))}\,3^{n-1-k}  \right) - 3^{n+1}x  \\&=& \sum_{k=1}^{n} 2^{p_{k+1}(x)}3^{n-1-k}+3^n\left( 2^{a_1(x)}T_A(x)-3x\right)
+\\&=&\sum_{k=1}^{n} 2^{p_{k+1}(x)}3^{n-1-k}+3^n 
+\\&=& \sum_{k=0}^{n} 2^{p_{k+1}(x)}3^{n-1-k}
+ \end{eqnarray*}
+\end{proof}
+\begin{defi}
+Let $n\in\NN^*$ and let $a\in (\NN^*)^\ZZ$, define $$ A_{u}^n(a)=\sum_{k=0}
+^{n-1}3^k\prod_{i=0}^{n-1-k}2^{a_{u+i}} $$ 
+\end{defi}
+\begin{lem} Let $A$ be a $\ZZ/2\ZZ$-ring. 
+For $n\in \NN$, the maps $$\fonction{RHS_n}{\{p\in \NN^n~|~ p_0=0~\wedge~p_n \nearrow\nearrow \} }{A}{p}{\sum_{k=0}^{n-1}2^{p_k}3^{n-1-k}} $$ 
+are injective.
+\end{lem}
+\begin{theo}\label{theo:rep} The map $$\fonction{\phi}{2A_2+1}{\{p\in \NN^\NN~|~ p_0=0 ~\wedge~ (p_n) \nearrow\nearrow\}}{x}{(p_n(x))_{n\in \NN}} $$
+is bijective and its inverse is: 
+$$\fonction{\phi^{-1}}{\{p\in \NN^\NN~|~ p_0=0 ~\wedge~ (p_n) \nearrow\nearrow\}}{2A_2+1}{p}{ -\frac{1}{3}\sum_{n = 0}^{\infty}\frac{2^{p_n}}{3^{n}}}.$$
+\end{theo}
+\begin{proof} Recall that $3\in A_2^{\times}$. From Lemma \ref{lem:base},
+ $$\forall x\in 2A+1,\quad  x = -\frac{1}{3}\sum_{k=0}^{n-1}\frac{2^{p_k(x)}}{3^k}+ \frac{2^{p_n(x)}}{3^n}T_A^n(x)$$
+and since $\left|\frac{2^{p_n(x)}}{3^n}T_A^n(x)  \right| \leq 2^{-p_n(x)} $ and $p_n(x)\rightarrow +\infty$ as $n\rightarrow +\infty$, we obtain the result. 
+\end{proof}
+\begin{cor}Let $A$ be a $\ZZ/2\ZZ$-ring and  $x\in A$. The following are equivalent : 
+\begin{enumerate}
+\item  $\left(a_n(x)\right)_{n\in \NN}$ is periodic of period $n$
+\item  $\left(T^n(x)\right)_{n\in \NN}$ is periodic of period $n$
+\end{enumerate}
+\end{cor}
+\begin{proof}
+ The only non obvious part is $(i)\Rightarrow (ii)$.  
+ From Theorem \ref{theo:rep}, one has 
+ $$ x= -\frac{1}{3}\sum_{k=0}^{+\infty} \frac{2^{p_k(x)}}{3^k} = -\frac{1}{3}\sum_{k=0}^{+\infty} \frac{2^{p_k(T^n(x))}}{3^k} = T^n(x)  $$
+\end{proof}
+\begin{cor}  Let $A$ be a $\ZZ/2\ZZ$-ring and  $x\in A$ such that $\left(T^k(x)\right)_{k\in\NN}$ is $n$-periodic for some $n$.  If $n$ the minimal period then :
+$$\forall i,j\in \lsem 1,n\rsem,\quad A_i^n(a(x))-A_j^n(a(x)) \neq 0$$
+\end{cor}
+\begin{cor}  
+\end{cor}
+We now concentrate on  $A=\ZZ$ case. 
+
+\begin{lem} Let $x\in \ZZ^*$ such that $\forall n\in\NN, |T^n(x)|\geq |x|$, one has : $$p_n(x) \log(2) - n \log(3)\leq n\log\left(1+ \frac{1}{|x|}\right)  $$
+\end{lem}
+\begin{proof}
+From Lemma \ref{lem:base}, one has 
+\begin{eqnarray*}
+e^{\log(2)p_n(x)-n\log(3)}T^n(x) - x &=& \sum_{k=0}^{n-1} e^{\log(2)p_k(x)-k\log(3)}
+\\
+e^{\log(2)p_n(x)-n\log(3)}&\leq &1+\frac{1}{|x|} \sum_{k=0}^{n-1} e^{\log(2)p_k(x)-k\log(3)}
+\end{eqnarray*}
+Applying Gronwall's Lemma to the sequence $u_k = \exp\left(\log(2)p_k(x)-n\log(3)\right)$ we get 
+$$ e^{\log(2)p_n(x)-n\log(3)} \leq \left(1+\frac{1}{x}\right)^n$$
+from which the result follows.
+\end{proof}
+\begin{lem} Let $x\in \NN^*$.
+
+\begin{itemize}
+\item If $n\in\NN$ is such that $T^n(x)\leq x$ then 
+$$p_n(x)\log(2)-n\log(3) >0$$ 
+\item If furthermore $\forall n\in\NN,~T^n(x)\leq x $ then $$\forall n\in \NN,\quad  p_n(x)\log(2)-n\log(3) \geq n \log\left(1+\frac{1}{x} \right).$$ 
+\end{itemize}
+
+
+\end{lem}
+\begin{proof}
+Proceed the same way as the preceding Lemma.
+\end{proof}
+\begin{cor} Let $x\in \NN$ such that $T^n(x) \xrightarrow{n\rightarrow +\infty} +\infty$, then $$\limsup_{n\rightarrow+\infty} \frac{p_n}{n}\leq \log_2(3) $$
+\end{cor}
+\begin{cor}\label{cor:bounds} Let $x\in \NN$ such that $\exists n\in \NN^*,~ T^n(x) = x$, then for such a $n\in \NN^*$, $$\log_2\left(1+\frac{1}{\min_{k\in \NN}(T^k(x))}\right)  \leq \frac{p_n}{n}-\log_2(3)\leq  \log_2\left(1+\frac{1}{\max_{k\in \NN}(T^k(x))}\right) $$
+\end{cor}
+
+\begin{theo}[\cite{MR1074572}]
+Let $a,b\in \ZZ$ such that $|a\log(2)-b\log(3)|\leq e^{-a/\delta}$ with $\delta \geq 1$ then 
+$$a < 2^{800}\log(3)^{25}\delta^{25} $$
+\end{theo}
+
+\begin{theo}[Steiner \cite{}] Let $x\in \NN^*$. 
+If 
+$$\exists n\in\NN^*,\quad T^n(x)=x \text{~and~} \forall k< n,~p_k(x)=k$$
+then $x=1$.
+\end{theo}
+
+\begin{theo}[Matveev] Let $a,b\in \NN^*$ such that $2^a>3^b$.
+ Then :
+ $$2^a-3^b \geq \frac{2^a}{e^da^d} $$
+ where $d = 3.5\cdot 10^6$.
+\end{theo}
+\begin{cor} Let $\mathcal P(\Gamma)$ a property defined on cycles $\Gamma$. If
+$$\exists \varepsilon>0,\forall \Gamma, \quad \left(\mathcal P(\Gamma)\quad\Rightarrow \quad \mathrm{GCD}(A_i(\Gamma)~:~ i\in \ZZ) \ll  2^{|\Gamma|(1-\varepsilon)}\right) $$ then there exists only finitely many cycles $\Gamma$ such that $\mathcal P(\Gamma)$.
+
+If furthermore, the domination is effective then the cycles can be determined effectively.
+\end{cor}
+\begin{proof}
+ If the property above is satisfyied, then only finitely many couple $(|\Gamma|,n)$ are possible. For each admissible couple $(|\Gamma|,n)$, there are only finitely many $a(\Gamma)$ of type $(|\Gamma|,n)$, and for each such $a(\Gamma)$ there is at most one syracuse cycle of type $a(\Gamma)$. Each step being effective, if the domination is effective then the determination of the $\mathcal P$-syracuse-cycle  is effective.
+\end{proof}
+\section{Constraints on cycles}
+Our starting point is the following.
+\begin{prop} Let $x\in \ZZ$ and $n\in \NN^*$ such that $T^n(x)=x$. 
+We have : 
+$$ 2^{p_n(x)}-3^n = \mathrm{GCD}\left(\sum_{k=0}^{n-1}3^k 2^{p_n(x)-\sum_{i=l-k}^{l} a_i(x) } : l \in 
+\lsem 0,n-1 \rsem \right) $$
+\end{prop}
+\begin{proof}
+ From Lemma \ref{lem:base}, 
+$$\forall l\in \lsem0,n-1\rsem,\quad\left( 2^{p_n(x)}-3^n\right)T^l(x) = \sum_{k=0}^{n-1}3^k 2^{p_n(x)-\sum_{i=l-k}^{l} a_i(x) }$$
+thus 
+$$\forall l\in \lsem0,n-1\rsem,\quad\left( 2^{p_n(x)}-3^n\right) ~\left|~ \sum_{k=0}^{n-1}3^k 2^{p_n(x)-\sum_{i=l-k}^{l} a_i(x) }\right.$$
+and thus
+$$2^{p_n(x)}-3^n ~\left| ~\mathrm{GCD}\left(\sum_{k=0}^{n-1}3^k 2^{p_n(x)-\sum_{i=l-k}^{l} a_i(x) } : l \in 
+\lsem 0,n-1 \rsem \right)\right. 
+.$$
+And since, 
+$$3\sum_{k=0}^{n-1}3^k 2^{p_n(x)-\sum_{i=-k}^{0} a_i(x) }-2^{a_1(x)}\sum_{k=0}^{n-1}3^k 2^{p_n(x)-\sum_{i=1-k}^{1} a_i(x) } = 3^n-2^{p_n(x)} $$
+we have the result.
+\end{proof}
+
+We expect the right hand side to be small and bounds like the one obtained by Baker thus give a lower bound on the GCD side which is roughly of size of $3^n$. So any upper bound on the GCD which is $o(3^n)$ would imply there are finitely many cycles. 
+
+Let us notice there are many "1" among the $a_i(x)$ is $x$ is part of a cycle. 
+
+\begin{prop} Let $x\in \ZZ$  and $n\in \NN^*$ such that $T^n(x)=x$. 
+If $|x|>1000$ then : 
+$$ \#\left\{i\in \lsem 1,n\rsem ~|~ a_i(x) =1\right\} \geq \alpha n $$
+with $\alpha = 2-\log_2(3)-10^{-10}> 0.415037499$
+
+\end{prop}
+\begin{proof}
+Since the conjecture has been tested for all integers lesser than $10^{10}$ and no cycles have been found containing an integer bigger than $1000$, then $|x|>10^{10}$. Let $a=\#\left\{i\in \lsem 1,n\rsem  ~|~ a_i(x) =1\right\} $, we have $p_n\geq a+2(n-a)$. Therefore, from Corollary \ref{cor:bounds} we  have 
+$$ \log(1+1/|x|) \geq \frac{a+2(n-a)}{n} - \log_2(3)$$
+and thus :
+$$ \frac{a}{n} \geq 2-\log_2(3)-\log(1+1/|x|). $$
+
+\end{proof}
+\begin{lem} Let $n,p\in\NN^*$ with $p< n$ and let $a \in (\NN^*)^\ZZ$ $n$-periodic, if there exists $i,j\in \lsem 0,n-1\rsem$, such that $$i\neq j\quad \text{and}\quad \forall k\in\lsem 1,p\rsem,~  a_{i+k}=a_{j+k} $$
+then :
+$$ \nu_2(A_i-A_j)\geq \sum_{k=1}^p a_k \quad \text{and}\quad  \nu_3(A_{p+i}-A_{p+j})\geq p  $$
+
+$$A_i- A_j \neq 0 $$
+\end{lem}
+\begin{defi}[$\varepsilon$-circuit] Let $x\in \ZZ$ and $\varepsilon>0$. $\left(x\right)_{n\in\NN}$ is an $\varepsilon$-circuit if the sequence is $n$-periodic for some 
+$n\in\NN^*$ and their exists a term $y$ in the sequence such that $$\forall i \in \lsem
+ 1,p\rsem,~a_i(y)=1$$
+for some $p\geq \varepsilon n-1$.
+\end{defi}
+Notice that a circuit (in the sense Steinitz) is a 1-circuit.
+\begin{theo} If $\varepsilon\geq 10^{-14}$, there exists no $\varepsilon$-circuit other than the known ones.
+\end{theo}
+\begin{proof}
+Let $x$ a $\varepsilon$-circuit of minimal period $n\geq1$, let $i\in \NN$ and  let $p\geq \varepsilon n$ such that  
+ $$\forall k \in \lsem
+ 1,p\rsem,~a_{i+k}(x)=1.$$
+We consider $A_{p+i}(y)-A_{p+i+1}(y)$.
+
+On the one hand, from the previous Lemma, this difference is divisible by $3^p$, and since $i\neq i+1$ and $n$ is a minimal period we have $A_{p+i}(y)-A_{p+i+1}(y)\neq 0$. 
+Furthermore, $2^{p_n}-3^n$ is not divisible by $3$ thus 
+$$2^{p_n}-3^n \leq 3^{-p}\left|A_{p+i}(y)-A_{p+i+1}(y)\right|.$$
+Furthermore
+\begin{eqnarray}
+3^{-p}\left(A_{p+i}(y)-A_{p+i+1}(y)\right)&=& \sum_{k=1}^{n-1-p} 3^{n-1-p-k}\left( 2^{\sum_{j=0}^{k-1} a_{p+i}(y)}-2^{\sum_{j=0}^{k-1} a_{p+i+1}(y)} \right) \\
+&=&\sum_{k=1}^{n-1-p} 3^{n-1-p-k} 2^{\sum_{j=1}^{k-1} a_{p+i}(y)}\left(2^{a_{p+i}}-2^{a_{p+i+k}(y)} \right) \\
+&=&\sum_{k=1}^{n-1-p} 3^{n-1-p-k} 2^{\sum_{j=1}^{k-1} a_{p+i}(y)}\left(2-2^{a_{p+i+k}(y)} \right) \\
+&\leq& 3^{n-p}\frac{3^{n\eta}-1}{3^\eta-1}\\
+&\leq&  2\log(3)3^{(1-\varepsilon+\eta)n}.
+\end{eqnarray} 
+
+On the other hand from Matveev Theorem, one has  
+$$\left| 2^{p_n}-3^{n}\right|\geq \frac{2^{p_n}}{(p_ne)^C}$$
+with $C = \frac{1}{2}e2^{4.5}30^5\log(3) \simeq 3.6\cdot 10^{8}$.
+
+Since $2^{p_n}\geq 3^n$ and $p_n\leq n\log(3+\eta)$ we thus obtain 
+$$  3^{n(\epsilon-\eta)} \leq 2 \left(\log(3+\eta)n\right)^{3.7\cdot 10^8}.$$
+
+
+\end{proof}
+
+
+
+\begin{eqnarray}
+3^{-p}\left(A_{p+i}(y)-A_{p+i+1}(y)\right)&=& \sum_{k=1}^{n-1-p} 3^{n-1-p-k}\left( 2^{\sum_{j=0}^{k-1} a_{p+j}(y)}-2^{\sum_{j=0}^{k-1} a_{p+j}(y)} \right) \\
+&\leq&\sum_{k=1}^{n-1-p}3^{n-1-p-k}\left(2^{k(\log_2(3+\eta)}-2^{k}\right)\\
+&\leq&\sum_{k=1}^{n-1-p}3^{n-1-p}3^{k\eta} \\
+&\leq& 3^{n(1-1/\log(n))}\frac{3^{(1-1/\log(n))n\eta}-1}{3^\eta-1}\\
+&\leq&  2\log(3)3^{(1-\varepsilon+\eta)n}.
+\end{eqnarray} 
+
+
+
+
+
+
+
+
+
+
+
+\section{Upper bounds}
+Let $S := \{2^a3^b ~:~ a,b\in \ZZ\}$
+\begin{defi} Let $\Gamma=(x_i~:~ i \in \ZZ)$ be syracuse cycle of period $n>0$, denote $\forall i\in\ZZ , a_i :=T^i(x_0)$.
+ We denote by $\mathcal A_\Gamma$ the set of ascending term  in a give cycle $\Gamma$ and by $\mathcal D_\Gamma$ the set of descending terms : 
+ $$\A_\Gamma = \{i\in \ZZ~|~ a_i=1\} \quad\quad \D_\Gamma = \{i\in \ZZ~|~ a_i>1\}$$
+\end{defi}
+\begin{lem}
+Let $(\Gamma,a)$ be a Syracuse cycle and let $i\in\ZZ$, then 
+$$ \Delta_i := A_{i+1}-A_{i} = \sum_{k=1}^{n-1}3^{n-1-k}2^{a_i+\cdots+a_{i+k-1}} \left(2^{a_{i+k}}-2^{a_i}\right)$$ 
+
+In particular, if $a_i=1$ then :
+$$ \Delta_i = \sum_{k=1,k\in\D}^{n-1}3^{n-1-k}2^{a_i+\cdots+a_{i+k-1}} \left(2^{a_{i+k}}-2\right)$$ 
+\end{lem}
+ 
+\begin{lem}
+Let $(\Gamma,a)$ be a Syracuse cycle, let $m = \mathrm{GCD}(A_i ~:~ i\in \ZZ)=2^{p_n}-3^n$ and let $i\in\ZZ$, then, : 
+
+$$a_i=a_{i+1}=1 \quad\Rightarrow \quad\Delta_{i} \sim_S \Delta_{i+1}$$
+\end{lem}
+
+\begin{cor}
+If $\A$ and $\D$ are intertwined.
+$$ m = A_0\bigwedge_{i=\D}\Delta_{i-1} $$
+\end{cor}
+
+\begin{theo}[Steiner] Let $\Gamma$ be a Syracuse n-cycle.
+ If $\#\D_\Gamma=1$ then $\Gamma = (\cdots,1,\cdots)$.  
+\end{theo}
+\begin{proof}
+Assume $\D=n\ZZ$, from the preceding corollary,
+$m = A_0 \wedge \Delta_{-1}$. We write $\alpha = a_0-1 = \frac{1}{2}(|a(\Gamma)|-n)$
+In particular we have~:
+$$\Delta_1 \sim_S  2^{\alpha}-1$$
+But since $2^\alpha = 2^{|\Gamma|-n}\leq 2^{|\Gamma|(1-\log_3(2))}$ the hypothesis to the corollary to Matveev Theorem are satisfied (effectively) and the finitely many cycle $\Gamma$ such that $\#\D_\Gamma=1$ can be effectively determined. With the aid of a computer, one  can check that the only one is $(\cdots,1,\cdots)$.
+\end{proof}
+
+
+\begin{theo} Let $\Gamma$ be a Syracuse $n$-cycle, then $\#(\D_\Gamma\cap \lsem 1,n\rsem)\neq 2$.
+\end{theo}
+\begin{proof} Let $k_1,k_2\in\lsem 1,n\rsem$ such that $\#\D_\Gamma=(k_1+n\ZZ)\cup(k_2+n\ZZ)$.  Consider $\Delta_i$ and $\Delta_j$ for $i,j\in \ZZ$ in such a way that $a_i=a_j=1$, $k_2-n< j<k_1<i < k_2$. 
+We have : 
+\begin{eqnarray}
+\Delta_i&=&  3^{n-1-(k_1-i)}2^{k_1-i}\left(2^{a_{k_1}}-2\right)
+	+3^{n-1-(k_2-i)}2^{k_2-i+a_{k_1}-1}\left(2^{a_{k_2}}-2\right)\\
+\Delta_j&=&  3^{n-1-(k_2-j)}2^{k_2-j}\left(2^{a_{k_2}}-2\right)
++3^{n-1-(k_1+n-j)}2^{k_1+n-j+a_{k_2}-1}\left(2^{a_{k_1}}-2\right)
+\end{eqnarray} 
+We write $\delta_1 = k_2-k_1 $, $\delta_2 = n+k_1-k_2$, $\alpha_1 = a_{k_1}-1$ et $\alpha_2=a_{k_2}-1$ so that we get : 
+\begin{eqnarray}
+\Delta_i&\sim_S&  3^{\delta_2}\left(2^{\alpha_1}-1\right)
+	+2^{\delta_2+\alpha_1}\left(2^{\alpha_2}-1\right)\\
+\Delta_j&\sim_S&  3^{\delta_1}\left(2^{\alpha_2}-1\right)
+	+2^{\delta_1+\alpha_2}\left(2^{\alpha_1}-1\right)\\
+\end{eqnarray} 
+Without loss of generality we may assumer $\delta_1\leq\delta_2$. We thus have $\delta_1\leq n/2$ and $\alpha_1+\alpha_2 = |\Gamma|-n$, and thus : 
+$$ \Delta_j \leq 3^{n/2}2^{|\Gamma|-n}+ 2^{|\Gamma|-n}2^{n/2}\leq 2^{|\Gamma|-(\log_3(2)-1/2)|\Gamma|}\leq 2^{|\Gamma|(1-\varepsilon)}$$
+with $\varepsilon=\log_3(2)-1/2$.
+One can then use the corollary to Matveev Theorem and check the finitely many remaining cases.
+
+It remains to consider the case where $k_2=k_1+1$. 
+Consider
+\begin{eqnarray}
+A_{k_2}-A_i &=& \sum_{k=0}^{n-1}3^{n-1-k}2^{a_i+\cdots a_{i+k_2-1}}
+\end{eqnarray}
+
+\end{proof}
+
+\section{Cyclotomic arithmetic}
+We now wish to study the GCD problem to obtain generic upper bounds. 
+We may notice that a the $A_i$ can be written as convolution product of $(3^k)_{k\in\lsem 1,n\rsem}$ with $\left(2^{p_{k+i}-p_i}\right)_{k\in \lsem1,n\rsem}$. 
+To begin with 
+\begin{eqnarray}
+\left(2^{|\Gamma|}-3^n\right)\begin{pmatrix}
+I_0 \\ \vdots \\ I_n 
+\end{pmatrix} &=& \begin{pmatrix}
+&&\\
+&2^{p_{i+j}-p_i}&\\
+&&
+\end{pmatrix} \begin{pmatrix}
+3^{n-1}\\ \vdots \\ 1
+\end{pmatrix}
+\\
+\left(2^{|\Gamma|}-3^n\right)\begin{pmatrix}
+ \vdots \\ 2^{p_{i}-i|\Gamma|/n}I_i \\ \vdots
+\end{pmatrix}&=&\begin{pmatrix}
+&&\\
+&2^{p_{i+j}-(i+j)|\Gamma|/n}&\\
+&&
+\end{pmatrix} 
+\begin{pmatrix}
+\vdots \\ 2^{i|\Gamma|/n}3^{n-i}\\ \vdots
+\end{pmatrix}
+\\
+\left(2^{|\Gamma|}-3^n\right)\begin{pmatrix}
+ \vdots \\ 2^{p_{i}-i|\Gamma|/n}I_i \\ \vdots
+\end{pmatrix}&=&\begin{pmatrix}
+\vdots\\
+2^{p_{i}-i|\Gamma|/n}\\
+\vdots
+\end{pmatrix} 
+\star
+\begin{pmatrix}
+\vdots \\ 2^{(n-i)|\Gamma|/n}3^{i}\\ \vdots
+\end{pmatrix}
+\end{eqnarray} 
+Therefore, using discrete Fourier transform we have :
+$$\left(2^{|\Gamma|}-3^n\right)\mathcal F\begin{pmatrix}
+ \vdots \\ 2^{p_{i}-i|\Gamma|/n}I_i \\ \vdots
+\end{pmatrix}=\mathcal F\begin{pmatrix}
+\vdots\\
+2^{p_{i}-i|\Gamma|/n}\\
+\vdots
+\end{pmatrix} 
+\mathcal F
+\begin{pmatrix}
+\vdots \\ 2^{(n-i)|\Gamma|/n}3^{i}\\ \vdots
+\end{pmatrix}
+$$ 
+
+The first coordinate of which gives:
+ $$\left( 2^{|\Gamma|}-3^n\right)\sum_{k = 0}^{n-1} I_k 2^{p_k-k|\Gamma|/n}  = 
+ \sum_{k=0}^{n-1}2^{p_{k}-k|\Gamma|/n}  \sum_{k=0}^{n-1}3^{k}2^{(n-k)|\Gamma|/n}  
+ =\frac{3^{n}-2^{|\Gamma|}}{3-2^{|\Gamma|/n}}\sum_{k=0}^{n-1}2^{p_{k}-k|\Gamma|/n} $$
+Hence, 
+ $$\left( 2^{|\Gamma|/n}-3\right)\sum_{k = 0}^{n-1} I_k 2^{p_k-k|\Gamma|/n}   
+ =\sum_{k=0}^{n-1}2^{p_{k}-k|\Gamma|/n} $$
+Thus:
+$$\sum_{k = 0}^{n-1} 2^{p_k-k|\Gamma|/n}\left(I_k\left( 2^{|\Gamma|/n}-3\right)-1\right)   
+ =0$$
+ Define $\omega$ a primitive $n$-th root of unity and $b:=2^{1/n}$ and 
+ $K=\mathbb Q[\omega,b]$.
+ We have :
+ $$\sum_{k = 0}^{n-1} b^{np_k-k|\Gamma|}\left(I_k\left( b^{|\Gamma|}-b^n-1\right)-1\right)   
+ =0$$
+\bibliography{ref}	
+\end{document}
