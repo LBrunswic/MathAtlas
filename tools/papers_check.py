@@ -56,6 +56,11 @@ def main():
         ok &= run("ledger", ["python3", os.path.join(TOOLS, "ledger.py"), "-c", cfg, "check"])
         ok &= run("story", ["python3", os.path.join(TOOLS, "story_lint.py"), "--paper", pdir])
         ok &= run("no-legacy-prose", ["python3", os.path.join(TOOLS, "no_legacy_prose.py"), "--paper", pdir])
+        # The double DAG, once the paper has one: its committed artifacts must be what a build
+        # would write. A paper with no Lean yet has no doubledag/ and nothing to check.
+        if os.path.isdir(os.path.join(ROOT, pdir, "doubledag")):
+            ok &= run("doubledag", ["python3", os.path.join(TOOLS, "doubledag.py"), "check",
+                                    "--paper", pdir])
         if not ok:
             fail += 1
     if fail:

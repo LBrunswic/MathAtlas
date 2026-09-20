@@ -34,9 +34,40 @@ becomes `papers/gfnbounds/` (plan, Phase 1).
 |---|---|
 | `lean/` | the Lean library: one package, per project a strict lib (`warningAsError`, `sorry` is an error) and a scaffold lib; `projects.toml` lists them and every audit iterates it |
 | `papers/<slug>/` | one per paper: `paper.toml`, `STORY.md`, `legacy/` (frozen snapshot + `MANIFEST.json`), `ledger/` (generated statement ledger + DAG), `certificate/` (anchors, exposition), `paper/body/**` (prose only) and `paper/generated/**` |
-| `tools/` | the gates and generators (stdlib Python); `tools/leanlink` is the LeanLink submodule |
+| `tools/` | the gates and generators (stdlib Python); `tools/leanlink` is the LeanLink submodule; `tools/cassettes/` holds every recorded model exchange |
+| `tests/` | the tools' own tests, run by `make check`; they replay cassettes and never call a model |
+| `reports/` | measured evidence: `doubledag/gfnbounds/` is the double DAG of the one pair where both halves exist |
 | `registers/` | WORK, QA, DECISIONS, RISKS, DEPS — state, kept by the project-manager agent, gated by `tools/registers.py` |
 | `bib/note.bib` | the master bibliography |
+
+## The double DAG
+
+Two graphs over one mathematics, and the reason this repository holds both halves.
+
+- **The statement DAG** is read top-down off the draft: nodes are `\label`s, edges are the
+  references a statement or its proof makes (`tools/ledger.py`).
+- **The Lean DAG** is read bottom-up off the compiled environment: nodes are declarations, edges
+  are `uses_type` (the statement's vocabulary) and `uses_value` (the proof term's).
+
+`tools/doubledag.py` couples them through the map `label -> declarations` and compares them edge
+by edge. The projection goes through **principals**: within a label, a declaration that another
+declaration of the same label transitively uses is *subordinate*; the rest are principals, and a
+walk stops only at another label's principal. That is what stops a helper listed under two labels
+from fabricating an edge between them — measured on the GFN pair, it removes 55% of the Lean-only
+edges while keeping 66% of the agreements (`reports/doubledag/gfnbounds/DOUBLEDAG.md`).
+
+Every edge is `both`, `lean-only`, `tex-only`, `twin` (a body statement and its full form: a
+restatement, not a dependency) or `tex-only-unformalized`. **A Lean edge carries a witness**: the
+shortest chain of declarations from one principal to the other. An edge a reader cannot check is
+an assertion, not evidence.
+
+`tools/dag_reconcile.py` asks Claude Opus what a disagreement *means* — one edge per question,
+with both statements, the witness chain and each declaration's elaborated type in front of it —
+and writes proposals. It never edits the ledger, the draft or the map: **the model proposes and
+the author disposes.** Every exchange is recorded in a cassette under `tools/cassettes/`, so the
+tests replay them offline for nothing and a reviewer reads what was asked beside what came back.
+**No gate calls a model** (`tests/test_no_model_in_gates.py`, which runs the whole gate with
+every ask refused).
 
 ## Rules that are gates, not advice
 
@@ -56,6 +87,8 @@ becomes `papers/gfnbounds/` (plan, Phase 1).
   (`.llk` → `.llr`) between passes.
 - **Every legacy statement gets a `\label`** in `legacy/labeled/`; the ledger keys on labels and
   `ledger.py check` fails on an unlabeled statement environment.
+- **A model proposes, it never decides.** No gate calls one; every exchange is recorded; an
+  answer naming a label or a declaration that does not exist is refused, not returned.
 - `pipefail` in every Makefile; never `cmd | tail` without it; assert every programmatic edit.
 
 ## Governance (light, DEC-1)

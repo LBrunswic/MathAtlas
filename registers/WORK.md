@@ -15,3 +15,7 @@ fails on a malformed row. Status: `PROPOSED · APPROVED · IN-PROGRESS · BLOCKE
 | WP-8 | 1 | Absorb GFNBoundsLean in-tree (subtree), `projects.toml`, generalised audits | PROPOSED | 2026-09-19 | after 2026-09-25; OQ-1 |
 | WP-9 | 1 | Absorb GFNCertified as `papers/gfnbounds`, `tools/paper.mk` | PROPOSED | 2026-09-19 | after WP-8 |
 | WP-10 | 1 | EGF pilot end to end: `lean/EGF`, anchors, exposition, fresh body, PDF with computed badges | PROPOSED | 2026-09-19 | DEC-3 |
+| WP-11 | 0 | The double DAG: `tools/doubledag.py` (principals, witnesses, twin edges, the flat baseline) | DONE | 2026-09-20 | DEC-5; measured on the GFN pair, `reports/doubledag/gfnbounds/` |
+| WP-12 | 0 | The Opus backend: `tools/llm.py`, cassettes, refusal on an invented name, `verify` | DONE | 2026-09-20 | DEC-5; 9 cassettes, 6.40 USD recorded |
+| WP-13 | 0 | `tools/dag_reconcile.py` and its proposals on the GFN pair | DONE | 2026-09-20 | DEC-5; 9 edges read, none applied — OQ-6 |
+| WP-14 | 0 | The test suite: 50 tests, offline; `make test`, `gate-tests`, `gate-cassettes` | DONE | 2026-09-20 | DEC-5 |

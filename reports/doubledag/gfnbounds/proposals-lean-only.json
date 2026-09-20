@@ -1,0 +1,144 @@
+{
+  "kind": "lean-only",
+  "model": "claude-opus-5",
+  "doubledag": "dd.json",
+  "cost_usd": 4.4386,
+  "proposals": [
+    {
+      "source": "prop:no_distant_equilibrium",
+      "target": "theo:gd_diffusion",
+      "kind": "lean-only",
+      "witness": [
+        "GFNBounds.Balance.cycle_flow_converges_check",
+        "GFNBounds.Balance.no_distant_equilibrium_three_of_init",
+        "GFNBounds.Balance.no_distant_equilibrium_three_converges",
+        "GFNBounds.Balance.training_speed_full_of_init",
+        "GFNBounds.Balance.training_speed_full_of_pos",
+        "GFNBounds.Balance.training_speed_full",
+        "GFNBounds.Balance.local_convergence_full",
+        "GFNBounds.Balance.perp_decay_on",
+        "GFNBounds.Balance.energy_lower_perp",
+        "GFNBounds.Balance.energy_lower",
+        "GFNBounds.Balance.linHess_coercive"
+      ],
+      "cassette": "140cb483",
+      "verdict": "mapping-artefact",
+      "confidence": "medium",
+      "why": "The draft proves `prop:no_distant_equilibrium`(3) by LaSalle plus the mass identity, never linearizing. `no_distant_equilibrium_three_converges` instead routes through `training_speed_full_of_init` and `local_convergence_full` — a formalization shortcut its own file declares (\"LaSalle is not proved and not used\"), so reaching `linHess_coercive` reflects the Lean route, not the paper's argument.",
+      "action": "Leave the draft's citations unchanged; record the route-induced edge as an expected DAG inversion, as GlobalConvergence.lean's SCOPE already notes."
+    },
+    {
+      "source": "prop:no_distant_equilibrium",
+      "target": "theo:gd_diffusion_full",
+      "kind": "lean-only",
+      "witness": [
+        "GFNBounds.Balance.cycle_flow_converges_check",
+        "GFNBounds.Balance.no_distant_equilibrium_three_of_init",
+        "GFNBounds.Balance.no_distant_equilibrium_three_converges",
+        "GFNBounds.Balance.training_speed_full_of_init",
+        "GFNBounds.Balance.training_speed_full_of_pos",
+        "GFNBounds.Balance.training_speed_full",
+        "GFNBounds.Balance.local_convergence_full",
+        "GFNBounds.Balance.perp_decay_on",
+        "GFNBounds.Balance.energy_lower_perp",
+        "GFNBounds.Balance.energy_lower",
+        "GFNBounds.Balance.linHess_coercive"
+      ],
+      "cassette": "d505bed6",
+      "verdict": "mapping-artefact",
+      "confidence": "high",
+      "why": "The draft proves `prop:no_distant_equilibrium`(3) by mass identity, compactness and LaSalle — no linearization. Lean instead routes through `training_speed_full_of_init` and `local_convergence_full`, and only reaches `theo:gd_diffusion_full` at `linHess_coercive`, an algebraic inequality about `linHess` filed under that label. `GlobalConvergence.lean` documents the divergence itself.",
+      "action": "Add no citation. Record the LaSalle-versus-quantitative route divergence in the label map so this edge stops being flagged."
+    },
+    {
+      "source": "rem:visit_ratio",
+      "target": "theo:gd_diffusion",
+      "kind": "lean-only",
+      "witness": [
+        "GFNBounds.Balance.RemarksA.freezing_four_logSq_converges",
+        "GFNBounds.Balance.no_distant_equilibrium_three_of_init",
+        "GFNBounds.Balance.no_distant_equilibrium_three_converges",
+        "GFNBounds.Balance.training_speed_full_of_init",
+        "GFNBounds.Balance.training_speed_full_of_pos",
+        "GFNBounds.Balance.training_speed_full",
+        "GFNBounds.Balance.local_convergence_full",
+        "GFNBounds.Balance.perp_decay_on",
+        "GFNBounds.Balance.energy_lower_perp",
+        "GFNBounds.Balance.energy_lower",
+        "GFNBounds.Balance.linHess_coercive"
+      ],
+      "cassette": "3f931c72",
+      "verdict": "proof-detail",
+      "confidence": "high",
+      "why": "The chain reaches `theo:gd_diffusion` only through the internals of `GFNBounds.Balance.local_convergence_full` — `energy_lower`, then `linHess_coercive`, a coercivity bound on the linearized Hessian. The remark already points at `theo:local_convergence_full` for the rate ϱ; the linearization sits inside that theorem's proof, which the draft takes as read.",
+      "action": "Leave the draft as is; optionally note in `rem:visit_ratio`'s scope_notes that the ϱ pointer carries this linearization."
+    },
+    {
+      "source": "rem:visit_ratio",
+      "target": "theo:gd_diffusion_full",
+      "kind": "lean-only",
+      "witness": [
+        "GFNBounds.Balance.RemarksA.freezing_four_logSq_converges",
+        "GFNBounds.Balance.no_distant_equilibrium_three_of_init",
+        "GFNBounds.Balance.no_distant_equilibrium_three_converges",
+        "GFNBounds.Balance.training_speed_full_of_init",
+        "GFNBounds.Balance.training_speed_full_of_pos",
+        "GFNBounds.Balance.training_speed_full",
+        "GFNBounds.Balance.local_convergence_full",
+        "GFNBounds.Balance.perp_decay_on",
+        "GFNBounds.Balance.energy_lower_perp",
+        "GFNBounds.Balance.energy_lower",
+        "GFNBounds.Balance.linHess_coercive"
+      ],
+      "cassette": "ce9978e2",
+      "verdict": "proof-detail",
+      "confidence": "medium",
+      "why": "The chain leaves the remark through `freezing_four_logSq_converges` into the proof of `training_speed_full` and `local_convergence_full`, bottoming out at `linHess_coercive` — the coercivity behind the rate ϱ the remark only points at. That is machinery inside a theorem the remark already cites, not an uncited premise.",
+      "action": "Leave the draft as is; the existing pointer to `theo:local_convergence_full` already carries this, per the remark's scope-note ruling."
+    },
+    {
+      "source": "def:universality",
+      "target": "lem:sigma_mixing",
+      "kind": "lean-only",
+      "witness": [
+        "GFNBounds.Core.Family.stronglyUniversal_const_kernel_top",
+        "GFNBounds.Core.Family.stronglyUniversal_fixedPolicyFamily_top",
+        "GFNBounds.Core.stronglyUniversal_of_kernel_top",
+        "GFNBounds.Core.stronglyUniversal_top",
+        "GFNBounds.Core.stronglyUniversalAt_top",
+        "GFNBounds.Core.stronglyUniversalAt_of_le",
+        "GFNBounds.Core.defect_eq_truncation",
+        "GFNBounds.Core.Mixing.poisson_solved",
+        "GFNBounds.Core.Mixing.poisson_left_apply",
+        "GFNBounds.Core.Mixing.poisson_left"
+      ],
+      "cassette": "839e440a",
+      "verdict": "mapping-artefact",
+      "confidence": "high",
+      "why": "`def:universality` is a definition with nothing to prove; its only link here, `GFNBounds.Core.Family.stronglyUniversal_const_kernel_top`, is a non-vacuity witness. Links 2–10 are documented as clauses of `theo:universality_L2_full`, and that theorem's proof is where `lem:sigma_mixing`'s Poisson identity (`GFNBounds.Core.Mixing.poisson_left`) is properly invoked and cited.",
+      "action": "Dismiss; optionally re-anchor the inhabitation witness so a definition's label stops sourcing proof chains through `theo:universality_L2_full`."
+    },
+    {
+      "source": "theo:global_dichotomy",
+      "target": "theo:gd_diffusion",
+      "kind": "lean-only",
+      "witness": [
+        "GFNBounds.Balance.global_dichotomy_full_one_converges",
+        "GFNBounds.Balance.no_distant_equilibrium_three_converges",
+        "GFNBounds.Balance.training_speed_full_of_init",
+        "GFNBounds.Balance.training_speed_full_of_pos",
+        "GFNBounds.Balance.training_speed_full",
+        "GFNBounds.Balance.local_convergence_full",
+        "GFNBounds.Balance.perp_decay_on",
+        "GFNBounds.Balance.energy_lower_perp",
+        "GFNBounds.Balance.energy_lower",
+        "GFNBounds.Balance.linHess_coercive"
+      ],
+      "cassette": "e5554058",
+      "verdict": "proof-detail",
+      "confidence": "high",
+      "why": "`GFNBounds.Balance.linHess_coercive` is the coercivity of the operator `theo:gd_diffusion` identifies, and the chain uses it only inside `GFNBounds.Balance.local_convergence_full`'s energy estimate. The draft cites `theo:gd_diffusion`'s full form there; `theo:global_dichotomy`'s proof rightly delegates to `prop:no_distant_equilibrium` instead of repeating it.",
+      "action": "No change. Optionally note in the paper-map that the link is transitive through the local-convergence proof, which already cites theorem 8."
+    }
+  ]
+}

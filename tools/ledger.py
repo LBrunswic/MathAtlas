@@ -200,6 +200,23 @@ def git_commit(path):
         return "unknown"
 
 
+def source_commit():
+    """The commit of the DRAFT, not of this repository.
+
+    A snapshotted legacy draft lives inside the hub, so `git rev-parse HEAD` there returns the
+    hub's own head -- which moves with every unrelated commit and would stale every ledger on
+    disk. The draft's provenance is in `legacy/MANIFEST.json`, recorded when it was snapshotted;
+    that is what belongs in the ledger. A paper read in place (the GFN Bounds regression) keeps
+    its own repository's commit.
+    """
+    man = os.path.join(os.path.dirname(CFG.root), "MANIFEST.json")
+    if os.path.basename(os.path.dirname(CFG.root)) == "legacy" or os.path.exists(man):
+        if os.path.exists(man):
+            return json.load(open(man, encoding="utf-8")).get("source_git_commit") or "snapshot"
+        return "snapshot"
+    return git_commit(CFG.root)
+
+
 def env_span(fname, line, env):
     r"""1-indexed inclusive `(first, last)` of the `\begin{env}` starting at `line`."""
     path = os.path.join(CFG.root, fname)
@@ -534,7 +551,7 @@ def build(write=True):
     prev_top = load_ledger().get("paper", {})
     led = {
         "paper": {"root": CFG.root, "document": CFG.document,
-                  "git_commit": git_commit(CFG.root),
+                  "git_commit": source_commit(),
                   "files": [f for f, _, _ in CFG.files_or_expand()],
                   **{k: prev_top[k] for k in CURATED_TOP if k in prev_top}},
         "lean": {"root": CFG.lean_root, "git_commit": git_commit(CFG.lean_root)},

@@ -8,9 +8,9 @@ SHELL := /bin/bash
 PY := python3
 
 .PHONY: check selftest gate-host gate-dropbox-ignore gate-registers gate-deps lib-check papers-check \
-        ledgers regression
+        gate-cassettes gate-tests ledgers regression test doubledag
 
-check: gate-host gate-dropbox-ignore gate-registers gate-deps lib-check papers-check
+check: gate-host gate-dropbox-ignore gate-registers gate-deps gate-cassettes gate-tests lib-check papers-check
 	@echo "check: all gates green"
 
 gate-host:
@@ -26,6 +26,23 @@ gate-registers:
 
 gate-deps:
 	$(PY) tools/deps_register.py
+
+# Every recorded model exchange is sound and keyed by its own contents: a cassette edited by
+# hand no longer answers the question it claims to answer, and that is a failure.
+gate-cassettes:
+	$(PY) tools/llm.py verify
+
+# The tools' own tests. They run with the model backend in replay -- `tests/
+# test_no_model_in_gates.py` asserts that the whole gate passes with every ask refused.
+# `tests/test_no_model_in_gates.py` runs this whole target to prove the gate needs no model, so
+# running the suite again from inside it would not terminate. That test sets the variable.
+gate-tests:
+ifeq ($(LEANARTICLES_IN_TESTS),1)
+	@echo "gate-tests: already inside the suite (test_no_model_in_gates) -- not re-entering"
+else
+	LEANARTICLES_LLM=cassette LEANARTICLES_LLM_CMD=false \
+	  $(PY) -m unittest discover -s tests -t . -q
+endif
 
 # The Lean library's own gate. Under FREEZE=1 (DEC-2, until hub.toml [freeze].until, enforced by
 # gate-registers) the library is a read-only submodule of GFNBoundsLean and its gate is that
@@ -47,6 +64,14 @@ ledgers:
 # The generalised ledger reproduces the GFN Bounds ledger byte for byte (modulo commit ids).
 regression:
 	bash tools/regression_ledger.sh
+
+# The test suite on its own, verbosely.
+test:
+	LEANARTICLES_LLM=cassette LEANARTICLES_LLM_CMD=false $(PY) -m unittest discover -s tests -t . -v
+
+# The double DAG of the one pair on this host where both halves exist (read-only on both).
+doubledag:
+	bash tools/doubledag_gfnbounds.sh
 
 # Every gate has a fixture that makes it fail; selftest fails if one passes on its fixture.
 selftest:

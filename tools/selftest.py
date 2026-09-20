@@ -18,7 +18,8 @@ FIX = os.path.join(ROOT, "tools", "fixtures")
 # gate script -> fixture directory (registers has its own selftest; the regression is a test, not a gate)
 GATES = {"host_guard.py": "host", "dropbox_ignore.py": "dropbox-ignore", "deps_register.py": "deps",
          "legacy_check.py": "legacy-frozen", "ledger.py": "ledger", "story_lint.py": "story",
-         "no_legacy_prose.py": "no-legacy-prose", "papers_check.py": "papers-check"}
+         "no_legacy_prose.py": "no-legacy-prose", "papers_check.py": "papers-check",
+         "doubledag.py": "doubledag"}
 
 
 def main():
