@@ -1,0 +1,411 @@
+# Authored. The curated fields of the ett ledger: which declarations carry each label, how far
+# the rest is, and what formalizing found in the paper. `tools/ledger_curate.py --paper papers/ett`
+# writes them into ledger/ledger.json and rebuilds the ledger; nothing here is computed.
+#
+# The Lean library is `Causal` (strict) and `CausalScaffold` (scaffold), in `lean-causal/`.
+# A row is `closed` in the ledger when a strict module announces its label and compiles without
+# `sorry`; the overrides below are there to say LESS than that default, never more.
+
+# ---------------------------------------------------------------- triage ----
+
+[[findings_triage]]
+label = "theo:causalite_engendre"
+kind = "sentence"
+one_line = "hypothesis (C) is not needed, and two steps of the Baire argument do not go through as written"
+
+[[findings_triage]]
+label = "prop:GH_fortement_causal"
+kind = "sentence"
+one_line = "the causal convexity of the open diamond, on which the proof ends, is not proved"
+
+[[findings_triage]]
+label = "def:causally_open_spacetime_open"
+kind = "sentence"
+one_line = "the definition is one-sided; the proof of prop:tarentin_topological_spacetime_causality uses both sides"
+
+[[findings_triage]]
+label = "def:causal_chronological_curve"
+kind = "sentence"
+one_line = "an embedding cannot be constant, and two proofs need a causal curve from a point to itself"
+
+[[findings_triage]]
+label = "ex:causalities_lines"
+kind = "sentence"
+one_line = "the spacelike line is written (R, empty, empty); axiom (a) asks the causal relation reflexive"
+
+[[findings_triage]]
+label = "prop:tarentin_fort_K"
+kind = "context"
+one_line = "absolute minimality and the tarentin hypothesis are not used"
+
+[[findings_triage]]
+label = "prop:cont_ext_cont"
+kind = "context"
+one_line = "the measurability of K^-(p) is not needed"
+
+[[findings_triage]]
+label = "prop:relation_fermee"
+kind = "context"
+one_line = "second countability is not used, here or in prop:GH_Jferme and prop:GH_fortement_causal"
+
+[[findings_triage]]
+label = "prop:cac_engendre"
+kind = "context"
+one_line = "local causal arc-connectedness follows from the cover and is not used"
+
+# ------------------------------------------------ Causal/Causality.lean ----
+
+[[row]]
+label = "defi:causalite"
+decls = ["Causal.Causality", "Causal.Precausality.Jplus", "Causal.Precausality.Jminus", "Causal.Precausality.Iplus", "Causal.Precausality.Iminus"]
+bucket = "A"
+notes = "Carried in the paper's 'equivalently' form: a preorder and an open transitive relation on every open set, (a), (b), (c). No gluing axiom is stated in the paper and none is carried."
+paper_findings = ["The first sentence defines a causality as a sheaf with values in C; the definition then used is the 'equivalently' one, which has no gluing axiom. The equivalence is asserted, not proved, and nothing downstream uses a gluing property."]
+
+[[row]]
+label = "def:precausality"
+decls = ["Causal.Precausality"]
+bucket = "A"
+
+# ----------------------------------------------- Causal/Properties.lean ----
+
+[[row]]
+label = "defi:causalement_plat"
+decls = ["Causal.Causality.CausallyPlain", "Causal.Causality.causallyPlain_iff"]
+bucket = "A"
+
+[[row]]
+label = "defi:pushup"
+decls = ["Causal.Causality.PushUp", "Causal.Causality.pushUp_iff"]
+bucket = "A"
+
+[[row]]
+label = "def:diamonds"
+decls = ["Causal.Causality.diamond", "Causal.Causality.openDiamond"]
+bucket = "A"
+
+[[row]]
+label = "def:causally_compact"
+decls = ["Causal.Causality.CausallyCompact"]
+bucket = "A"
+
+[[row]]
+label = "def:alexandrov_topology"
+decls = ["Causal.Causality.alexandrovTopology"]
+bucket = "A"
+
+[[row]]
+label = "def:causal_spacetime"
+decls = ["Causal.Causality.IsCausal"]
+bucket = "A"
+
+[[row]]
+label = "def:tarentin_spacetime"
+decls = ["Causal.Causality.Tarentin"]
+bucket = "A"
+
+[[row]]
+label = "def:strongly_tarentin_point"
+decls = ["Causal.Causality.Zplus", "Causal.Causality.Zminus"]
+bucket = "A"
+
+[[row]]
+label = "def:globally_hyperbolic"
+decls = ["Causal.Causality.GloballyHyperbolic"]
+bucket = "A"
+
+[[row]]
+label = "defi:convexite_causale"
+extra_lean_files = ["Causal/Properties.lean"]
+decls = ["Causal.Causality.CausallyConvexIn"]
+bucket = "A"
+notes = "Defined for every subset V of the open U; the paper's definition is the case V open."
+
+[[row]]
+label = "def:strongly_causal_spacetime"
+extra_lean_files = ["Causal/Properties.lean"]
+decls = ["Causal.Causality.StronglyCausal", "Causal.Causality.StronglyCausalOpen"]
+lean_proved_override = "partial"
+bucket = "B"
+blocked_on = "OQ-8: is the causally convex neighbourhood V of def:strongly_causal_spacetime open?"
+notes = "Two forms are carried: `StronglyCausal` (V a neighbourhood) and `StronglyCausalOpen` (V open, the literal reading through defi:convexite_causale). Hypotheses use the first, conclusions the strongest form proved."
+
+[[row]]
+label = "def:causally_open_spacetime_open"
+extra_lean_files = ["Causal/Properties.lean"]
+decls = ["Causal.Causality.CausallyOpenFuture", "Causal.Causality.CausallyOpen"]
+bucket = "A"
+notes = "`CausallyOpenFuture` is the definition as written; `CausallyOpen` is its conjunction with the time-reversed one."
+paper_findings = ["The definition asks J^+_U(V) open only. The proof of prop:tarentin_topological_spacetime_causality, (ii) implies (i), uses J^-(Int J^-(b_i)) = Int J^-(b_i), which needs J^-_U(V) open as well. Either the definition is meant with J^pm, or that proposition needs the time-reversed hypothesis."]
+
+# ------------------------------------------ Causal/StrongCausality.lean ----
+
+[[row]]
+label = "rem:topological_spacetime_strongly_causal"
+decls = ["Causal.Causality.StronglyCausal.isCausal"]
+bucket = "A"
+
+[[row]]
+label = "prop:FZenon_injectif"
+decls = ["Causal.Causality.Iplus_injOn_Zplus", "Causal.Causality.Iminus_injOn_Zminus"]
+bucket = "A"
+nl_status_override = "proved"
+nl_reason = "its proof is the proof environment at ETT.tex:901, after rem:manifolds_specialises_brunswic_cauchy"
+
+[[row]]
+label = "rem:manifolds_specialises_brunswic_cauchy"
+nl_status_override = "informal"
+nl_reason = "the proof environment which follows it proves prop:FZenon_injectif"
+
+[[row]]
+label = "prop:tarentin_topological_spacetime_causality"
+extra_lean_files = ["Causal/StrongCausality.lean"]
+decls = ["Causal.Causality.StronglyCausal.alexandrovTopology_eq", "Causal.Causality.stronglyCausalOpen_of_alexandrovTopology_eq", "Causal.Causality.stronglyCausal_iff_alexandrovTopology_eq", "Causal.Causality.stronglyCausalOpen_iff_alexandrovTopology_eq"]
+lean_proved_override = "partial"
+bucket = "B"
+blocked_on = "OQ-9: is causal openness one-sided or two-sided?"
+notes = "(i) implies (ii) is proved as stated, and without causal openness. (ii) implies (i) is proved under two-sided causal openness, which is more than def:causally_open_spacetime_open gives. Under that hypothesis the equivalence holds for both forms of strong causality."
+paper_findings = ["(ii) implies (i) uses J^-(Int J^-(b_i)) = Int J^-(b_i): causal openness in the past, which def:causally_open_spacetime_open does not state.", "(i) implies (ii) uses neither causal openness nor second countability; (ii) implies (i) does not use the tarentin hypothesis."]
+
+# -------------------------------------- Causal/GlobalHyperbolicity.lean ----
+
+[[row]]
+label = "prop:relation_fermee"
+decls = ["Causal.Causality.isClosed_le"]
+bucket = "A"
+paper_findings = ["Second countability is not used: the passage through sequential closedness can be replaced by an argument on neighbourhoods. The same holds for prop:GH_Jferme and prop:GH_fortement_causal, where the decreasing sequence of compact sets becomes a directed family."]
+
+[[row]]
+label = "prop:GH_Jferme"
+decls = ["Causal.Causality.GloballyHyperbolic.isClosed_le_and_isClosed_J", "Causal.Causality.GloballyHyperbolic.isClosed_Jplus_singleton", "Causal.Causality.isClosed_Jplus_of_isCompact"]
+bucket = "A"
+
+[[row]]
+label = "prop:GH_fortement_causal"
+extra_lean_files = ["Causal/GlobalHyperbolicity.lean"]
+decls = ["Causal.Causality.GloballyHyperbolic.exists_diamond_subset", "Causal.Causality.GloballyHyperbolic.stronglyCausal", "Causal.Causality.GloballyHyperbolic.stronglyCausalOpen"]
+lean_proved_override = "partial"
+bucket = "B"
+blocked_on = "OQ-8: is the causally convex neighbourhood V of def:strongly_causal_spacetime open?"
+notes = "Proved with the full diamond J(a,b) as causally convex neighbourhood (`StronglyCausal`), under the paper's hypotheses; and with the open diamond (`StronglyCausalOpen`) under two-sided causal openness, which the paper does not assume."
+paper_findings = ["The proof ends: 'The open set Int J_M(a,b) contains p, is contained in U and is causally convex in M.' Causal convexity of the open diamond is not proved: for x, y in the interior of J(a,b) and x <= z <= y one gets z in J(a,b), not z in its interior. The full diamond J(a,b) is causally convex and is a neighbourhood of p, which proves the statement if the neighbourhood V of def:strongly_causal_spacetime need not be open; an open V is obtained under two-sided causal openness."]
+
+# ------------------------------------------------ Causal/Reachable.lean ----
+
+[[row]]
+label = "defi:futur_continue"
+decls = ["Causal.Causality.Kplus", "Causal.Causality.Kminus", "Causal.interiorWithin", "Causal.Causality.mem_Kplus_singleton_iff_seq_mem"]
+bucket = "A"
+notes = "K^pm_U is defined with the sequences of M converging to p; for p in U this is the paper's definition with the sequences of U (`mem_Kplus_singleton_iff_seq_mem`), and for p outside U it gives the empty set."
+
+[[row]]
+label = "rem:K_ensemble"
+decls = ["Causal.Causality.K_ensemble"]
+lean_proved_override = "partial"
+bucket = "D"
+blocked_on = "the model spaces of Section 3 (prop:K_calcul)"
+notes = "The three general assertions are closed. The last sentence, on a BTZ point, is prop:K_calcul's."
+
+[[row]]
+label = "rem:suite_croissante"
+decls = ["Causal.Causality.exists_seq_lt_tendsto_of_mem_Zminus", "Causal.Causality.exists_seq_lt_tendsto_of_mem_Zplus"]
+bucket = "A"
+
+[[row]]
+label = "lem:K_facile"
+decls = ["Causal.Causality.Kminus_eq_of_tendsto"]
+bucket = "A"
+paper_findings = ["The tarentin hypothesis is not used by the proof: it is what provides a sequence with p in Int J^+(p_n), which the statement assumes anyway. The proof here avoids the identity Int(cap Int A_n) = Int(cap A_n)."]
+
+[[row]]
+label = "rem:equivalent_lemma_obviously_holds"
+decls = ["Causal.Causality.Kplus_eq_of_tendsto"]
+bucket = "A"
+
+[[row]]
+label = "lem:passe_coherent"
+decls = ["Causal.Causality.Jminus_Iminus_eq_of_mem_Zminus"]
+bucket = "A"
+
+[[row]]
+label = "prop:tarentin_fort_K"
+decls = ["Causal.Causality.Kminus_eq_Iminus_of_mem_Zminus"]
+bucket = "A"
+paper_findings = ["Absolute minimality and the tarentin hypothesis are not used: causal plainness, a countable basis of neighbourhoods at p, and p strongly tarentin in the past suffice."]
+
+[[row]]
+label = "rem:comparable_property_obviously_holds"
+decls = ["Causal.Causality.Kplus_eq_Iplus_of_mem_Zplus"]
+bucket = "A"
+
+[[row]]
+label = "prop:K_plongement_ordre"
+decls = ["Causal.Causality.K_order_embedding", "Causal.Causality.le_of_Kminus_subset", "Causal.Causality.le_of_Kplus_subset"]
+bucket = "A"
+paper_findings = ["That M is causal is used for the injectivity of x -> K^pm(x) only; the two implications and the two equivalences hold without it."]
+
+# ------------------------------------------------ Causal/Generated.lean ----
+
+[[row]]
+label = "lem:union_causalite"
+decls = ["Causal.Precausality.existsUnique_minimal_extension", "Causal.Precausality.generated", "Causal.Precausality.Compatible", "Causal.LocalCausality.exists_extension"]
+extra_lean_files = ["Causal/Local.lean"]
+bucket = "A"
+notes = "A precausality on U_i is carried by a precausality on M of which only the restriction to U_i is read; `Causal/Local.lean` proves that every precausality given on the open subsets of U_i alone is such a restriction."
+
+[[row]]
+label = "def:precausality_generated_notation_lemma"
+decls = ["Causal.Precausality.generated"]
+bucket = "A"
+
+[[row]]
+label = "def:topological_space_causality_absolutely"
+decls = ["Causal.Precausality.AbsolutelyMinimal", "Causal.Precausality.AbsolutelyMinimalOn", "Causal.Precausality.absolutelyMinimal_iff"]
+bucket = "A"
+
+[[row]]
+label = "lem:precausalite_engendre_minimale"
+decls = ["Causal.Precausality.generated_absolutelyMinimal"]
+bucket = "A"
+
+[[row]]
+label = "theo:causalite_engendre"
+decls = ["Causal.Causality.generated_isAbsolutelyMinimal_and_causallyPlain", "Causal.Causality.generated", "Causal.Causality.generated_absolutelyMinimal", "Causal.Causality.generated_causallyPlain", "Causal.Causality.mem_closure_Iplus_of_le_of_lt"]
+lean_proved_override = "partial"
+bucket = "B"
+blocked_on = "OQ-10: which separation does the statement of theo:causalite_engendre assume?"
+notes = "Proved for a T1 space M, without hypothesis (C) and without countability. The statement says 'topological space'; its proof says 'since M is second countable'. For a Hausdorff M, which is what a topological spacetime is, the Lean statement has fewer hypotheses than the paper's. 'Is an absolutely minimal causality' needs no separation and no (B); the plainness clause uses T1 and (B)."
+paper_findings = ["Hypothesis (C), M is a Baire space, is not needed, nor is the reduction to a countable index set.", "The Baire argument does not go through as written. The sets J^+_{U_i}(A_{i,n}) are neither open nor closed in general, and the boundary of such a set may have non-empty interior, so the union of the boundaries is not a countable union of closed sets with empty interior.", "The identity closure(union I^+_{U_i}(A_{i,n})) = closure(I^+_U(A)) is asserted with the sets A_{i,n} of the decomposition of J^+_U(A), which are causal iterates: a point of I^+_{U_i}(A_{i,n}) is reached by a causal chain followed by one chronological step, and is not in I^+_U(A) without push-up.", "Another route proves the clause: J^+_U(A) cap U_i is its own causal future in U cap U_i, so local plainness applies to it directly; and the chronological future of a causal future lies in the closure of the chronological future, by absolute minimality of the charts, (B), and the fact that points are closed.", "The statement takes M a topological space, and the proof uses that M is second countable: the hypothesis on M should be stated."]
+
+# -------------------------------------------------- Causal/Minimal.lean ----
+
+[[row]]
+label = "prop:topological_spacetime_absolutely_minimal"
+decls = ["Causal.Causality.AbsolutelyMinimal.causallyOpenFuture", "Causal.Causality.AbsolutelyMinimal.causallyOpen"]
+bucket = "A"
+
+[[row]]
+label = "rem:absolutely_minimal_topological_spacetime"
+decls = ["Causal.Causality.AbsolutelyMinimal.mem_Zplus_iff", "Causal.Causality.AbsolutelyMinimal.mem_Zminus_iff"]
+bucket = "A"
+
+[[row]]
+label = "lem:cup_cap"
+decls = ["Causal.Causality.Iminus_subset_interior_and_subset"]
+bucket = "A"
+paper_findings = ["Absolute minimality is used for the inclusion in Z^+(M) only, through rem:absolutely_minimal_topological_spacetime; the two other inclusions hold in every topological spacetime."]
+
+[[row]]
+label = "rem:same_notation_one_proves"
+decls = ["Causal.Causality.Iplus_subset_interior_and_subset"]
+bucket = "A"
+
+# ---------------------------------------------------- Causal/Lines.lean ----
+
+[[row]]
+label = "rem:droites_pas_plates"
+decls = ["Causal.lines_not_causallyPlain", "Causal.lightlikeLine_interior_Jplus_zero"]
+bucket = "A"
+
+[[row]]
+label = "ex:causalities_lines"
+extra_lean_files = ["Causal/Lines.lean"]
+decls = ["Causal.timelikeLine", "Causal.lightlikeLine", "Causal.spacelikeLine", "Causal.timelikeLine_le_iff"]
+lean_proved_override = "partial"
+bucket = "D"
+blocked_on = "Galileo's spacetime and Minkowski spacetime (items 4 and 5) are not constructed"
+notes = "Items 1, 2 and 3 are constructed. The timelike line is shown causally plain, absolutely minimal, tarentin, causal, globally hyperbolic and with push-up: the hypotheses of the library are jointly satisfiable."
+paper_findings = ["Item 3 writes the spacelike line (R, empty, empty). Axiom (a) of defi:causalite asks the causal relation reflexive, so it cannot be empty: the diagonal is meant."]
+
+[[row]]
+label = "rem:deux_pushup"
+extra_lean_files = ["Causal/Lines.lean"]
+decls = ["Causal.lightlikeLine_pushUp", "Causal.lightlikeLine_not_causallyPlain"]
+lean_proved_override = "partial"
+bucket = "B"
+blocked_on = "an example which is causally plain and has not the push-up property"
+notes = "First half: the lightlike line has the push-up property and is not causally plain. The converse independence is argued in the remark, not exhibited."
+
+# -------------------------------------------------- Causal/Measure.lean ----
+
+[[row]]
+label = "defi:mesure_dieckmann"
+decls = ["Causal.Causality.AdmissiblePast", "Causal.Causality.AdmissibleFuture"]
+bucket = "A"
+
+[[row]]
+label = "rem:mesure_bord"
+decls = ["Causal.Causality.AdmissiblePast"]
+bucket = "A"
+notes = "mathlib's `μ s` is the outer measure of `s` for every set `s`: property 4. is read as the remark asks."
+
+[[row]]
+label = "prop:cont_ext_cont"
+decls = ["Causal.Causality.AdmissiblePast.continuous_measure_Jminus", "Causal.Causality.AdmissibleFuture.continuous_measure_Jplus"]
+bucket = "A"
+paper_findings = ["The measurability of K^-(p), which rem:K_borelien establishes, is not needed: property 4. gives a measurable null set Z containing J^-(p) minus K^-(p), and inner regularity applied to J^-(p) minus Z, a measurable subset of K^-(p) with the measure of J^-(p), does what the proof asks.", "Property 4. is used for A = {p} only."]
+
+# ------------------------------------- scaffold: the layer of the curves ----
+
+[[row]]
+label = "def:causal_chronological_curve"
+extra_lean_files = ["Causal/Curves.lean"]
+decls = ["Causal.Causality.CausalCurveOn", "Causal.Causality.ChronalCurveOn", "Causal.CurveOn"]
+bucket = "A"
+notes = "No `sorry`. The definition is the one ruled by DEC-6 (OQ-7): a map locally non-decreasing at every scale, the weak morphism of def:category_topological_spacetimes, not asked to be an embedding. Continuity is a consequence."
+paper_findings = ["A causal curve is 'a connected causal chain', and a causal chain is an embedding. An embedding is injective, so no causal curve joins a point to itself; but the proof of lem:restriction_convexe takes a future causal curve from y to x for y <= x, equality allowed, and that of lem:pushup_local considers 'y = z' if s = 0'. def:causal_arc_connectedness, read with embeddings, fails at p = q.", "'Causal morphism' is not defined; def:category_topological_spacetimes defines strong and weak morphisms."]
+
+[[row]]
+label = "def:causal_arc_connectedness"
+extra_lean_files = ["Causal/ArcConnected.lean"]
+decls = ["Causal.Causality.CausallyArcConnected", "Causal.Causality.CausallyArcConnectedOn", "Causal.Causality.causallyArcConnectedOn_iff"]
+bucket = "A"
+notes = "No `sorry`. Under DEC-6, (ii) implies (i) holds in every topological spacetime: causal arc-connectedness is the existence of curves."
+
+[[row]]
+label = "def:local_causal_arc_connectedness"
+extra_lean_files = ["Causal/ArcConnected.lean"]
+decls = ["Causal.Causality.LocallyCausallyArcConnected"]
+bucket = "A"
+
+[[row]]
+label = "rem:cac_local"
+extra_lean_files = ["Causal/ArcConnected.lean"]
+decls = ["Causal.Causality.CausallyArcConnectedOn.mono", "Causal.Causality.CausallyArcConnected.locallyCausallyArcConnected"]
+bucket = "A"
+
+[[row]]
+label = "prop:cac_engendre"
+extra_lean_files = ["Causal/ArcConnected.lean"]
+decls = ["Causal.Causality.generated_eq_iff_causallyArcConnected"]
+bucket = "A"
+notes = "No `sorry`."
+paper_findings = ["That M is locally causally arc-connected follows from the cover by causally arc-connected open subsets and rem:cac_local; it is not used."]
+
+[[row]]
+label = "cor:causalement_connexe_minimal"
+extra_lean_files = ["Causal/ArcConnected.lean"]
+decls = ["Causal.Causality.CausallyArcConnected.absolutelyMinimal", "Causal.Causality.CausallyArcConnectedOn.absolutelyMinimalOn"]
+bucket = "A"
+notes = "No `sorry`. Proved for every open subset."
+
+[[row]]
+label = "lem:precausalite_restriction_minimale"
+extra_lean_files = ["Causal/ArcConnected.lean"]
+decls = ["Causal.Causality.LocallyCausallyArcConnected.absolutelyMinimalOn", "Causal.Causality.LocallyCausallyArcConnected.causallyArcConnected"]
+bucket = "A"
+notes = "No `sorry`."
+
+[[row]]
+label = "lem:pushup_local"
+extra_lean_files = ["Causal/ArcConnected.lean"]
+decls = ["Causal.Causality.CausallyArcConnected.pushUp", "Causal.Causality.PushUpOn"]
+bucket = "A"
+notes = "No `sorry`. The parameter s of the one-step claim is taken in ]0,1[, so the case 'y = z'' does not occur."
+
+[[row]]
+label = "lem:restriction_convexe"
+extra_lean_files = ["Causal/ArcConnected.lean"]
+decls = ["Causal.Causality.restriction_convexe_past", "Causal.Causality.restriction_convexe_future"]
+bucket = "A"
+notes = "No `sorry`."

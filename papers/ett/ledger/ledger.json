@@ -5,11 +5,58 @@
     "git_commit": "snapshot",
     "files": [
       "ETT.tex"
+    ],
+    "findings_triage": [
+      {
+        "label": "theo:causalite_engendre",
+        "kind": "sentence",
+        "one_line": "hypothesis (C) is not needed, and two steps of the Baire argument do not go through as written"
+      },
+      {
+        "label": "prop:GH_fortement_causal",
+        "kind": "sentence",
+        "one_line": "the causal convexity of the open diamond, on which the proof ends, is not proved"
+      },
+      {
+        "label": "def:causally_open_spacetime_open",
+        "kind": "sentence",
+        "one_line": "the definition is one-sided; the proof of prop:tarentin_topological_spacetime_causality uses both sides"
+      },
+      {
+        "label": "def:causal_chronological_curve",
+        "kind": "sentence",
+        "one_line": "an embedding cannot be constant, and two proofs need a causal curve from a point to itself"
+      },
+      {
+        "label": "ex:causalities_lines",
+        "kind": "sentence",
+        "one_line": "the spacelike line is written (R, empty, empty); axiom (a) asks the causal relation reflexive"
+      },
+      {
+        "label": "prop:tarentin_fort_K",
+        "kind": "context",
+        "one_line": "absolute minimality and the tarentin hypothesis are not used"
+      },
+      {
+        "label": "prop:cont_ext_cont",
+        "kind": "context",
+        "one_line": "the measurability of K^-(p) is not needed"
+      },
+      {
+        "label": "prop:relation_fermee",
+        "kind": "context",
+        "one_line": "second countability is not used, here or in prop:GH_Jferme and prop:GH_fortement_causal"
+      },
+      {
+        "label": "prop:cac_engendre",
+        "kind": "context",
+        "one_line": "local causal arc-connectedness follows from the cover and is not used"
+      }
     ]
   },
   "lean": {
-    "root": "/home/maxbrain/Dropbox/LeanArticles/lean",
-    "git_commit": "2e9865c"
+    "root": "/home/maxbrain/Dropbox/LeanArticles/lean-causal",
+    "git_commit": "0775118"
   },
   "statements": [
     {
@@ -100,12 +147,24 @@
       "nl_status_auto": "definition",
       "statement_sha256": "3990a3a19f6af63ff011f0e37c80bcbcad76818847ce54484f08e3b9ef430d49",
       "statement_sha256_current": "3990a3a19f6af63ff011f0e37c80bcbcad76818847ce54484f08e3b9ef430d49",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Causality.lean"
+      ],
+      "decls": [
+        "Causal.Causality",
+        "Causal.Precausality.Jplus",
+        "Causal.Precausality.Jminus",
+        "Causal.Precausality.Iplus",
+        "Causal.Precausality.Iminus"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Carried in the paper's 'equivalently' form: a preorder and an open transitive relation on every open set, (a), (b), (c). No gluing axiom is stated in the paper and none is carried.",
+      "notes": "Carried in the paper's 'equivalently' form: a preorder and an open transitive relation on every open set, (a), (b), (c). No gluing axiom is stated in the paper and none is carried.",
+      "paper_findings": [
+        "The first sentence defines a causality as a sheaf with values in C; the definition then used is the 'equivalently' one, which has no gluing axiom. The equivalence is asserted, not proved, and nothing downstream uses a gluing property."
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -193,12 +252,28 @@
       "nl_status_auto": "open",
       "statement_sha256": "9bb02a8148c22952422b7c2d98e0085c107c2dfaf645ff1205731d843ee27394",
       "statement_sha256_current": "9bb02a8148c22952422b7c2d98e0085c107c2dfaf645ff1205731d843ee27394",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Lines.lean"
+      ],
+      "decls": [
+        "Causal.timelikeLine",
+        "Causal.lightlikeLine",
+        "Causal.spacelikeLine",
+        "Causal.timelikeLine_le_iff"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
+      "bucket": "D",
+      "scope_notes": "Items 1, 2 and 3 are constructed. The timelike line is shown causally plain, absolutely minimal, tarentin, causal, globally hyperbolic and with push-up: the hypotheses of the library are jointly satisfiable.",
+      "notes": "Items 1, 2 and 3 are constructed. The timelike line is shown causally plain, absolutely minimal, tarentin, causal, globally hyperbolic and with push-up: the hypotheses of the library are jointly satisfiable.",
+      "blocked_on": "Galileo's spacetime and Minkowski spacetime (items 4 and 5) are not constructed",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "Item 3 writes the spacelike line (R, empty, empty). Axiom (a) of defi:causalite asks the causal relation reflexive, so it cannot be empty: the diagonal is meant."
+      ],
+      "extra_lean_files": [
+        "Causal/Lines.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -224,12 +299,18 @@
       "nl_status_auto": "definition",
       "statement_sha256": "8262a1214019e008349fc3209ceba388af951d37b576bb37ac3b88666df38f19",
       "statement_sha256_current": "8262a1214019e008349fc3209ceba388af951d37b576bb37ac3b88666df38f19",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Properties.lean"
+      ],
+      "decls": [
+        "Causal.Causality.CausallyPlain",
+        "Causal.Causality.causallyPlain_iff"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Properties.lean**\n\n## SCOPE (disclosed)\n\n* **Causal convexity is defined for every subset, not only for open ones**\n  (`CausallyConvexIn`). The paper's `defi:convexite_causale` takes `V` open; the open case is\n  the same predicate applied to an open set.\n* **`StronglyCausal` is the definition of strong causality** (DEC-7): the causally convex\n  neighbourhood `V ⊂ U` of `def:strongly_causal_spacetime` is any neighbourhood, not necessarily\n  open. `StronglyCausalOpen`, which asks `V` open, is kept as an auxiliary notion; it implies\n  the definition (`StronglyCausalOpen.stronglyCausal`) and is equivalent to it on a tarentin,\n  causally open spacetime (`StronglyCausal.stronglyCausalOpen`).\n* **`CausallyOpen` is the definition of causal openness** (DEC-8):\n  `def:causally_open_spacetime_open` is read with `J^±`. `CausallyOpenFuture`, the sentence as\n  printed with `J^+` alone, is kept as an auxiliary notion.\n* Interiors and closures are taken in `M`. For a subset of an open `U` this is the interior in\n  `U`; for the closure it is the closure in `U` once intersected with `U`, and both\n  `defi:causalement_plat` inclusions have a left-hand side contained in `U`.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -298,12 +379,18 @@
       "nl_status_auto": "informal",
       "statement_sha256": "3ea69c7eb7ba3d916878a5c153a4e98613b17f7dcbc38285af5b6c5b39e2db16",
       "statement_sha256_current": "3ea69c7eb7ba3d916878a5c153a4e98613b17f7dcbc38285af5b6c5b39e2db16",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Lines.lean"
+      ],
+      "decls": [
+        "Causal.lines_not_causallyPlain",
+        "Causal.lightlikeLine_interior_Jplus_zero"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Lines.lean**\n\n## SCOPE (disclosed)\n\n* \"`x, y` lie in the same connected component of `U`\" is carried as `Icc x y ⊆ U`;\n  `timelikeLine_le_iff` proves that the two say the same.\n* **The spacelike line is `(ℝ, =, ∅)`.** The paper writes `(ℝ, ∅, ∅)`; axiom (a) of\n  `defi:causalite` asks `≤_U` reflexive, so the causal relation carried is the diagonal.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -329,12 +416,18 @@
       "nl_status_auto": "definition",
       "statement_sha256": "28c22764b1d5fb48317534774fd769cf76da0bae7f474901d43a233ac0936138",
       "statement_sha256_current": "28c22764b1d5fb48317534774fd769cf76da0bae7f474901d43a233ac0936138",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Properties.lean"
+      ],
+      "decls": [
+        "Causal.Causality.PushUp",
+        "Causal.Causality.pushUp_iff"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Properties.lean**\n\n## SCOPE (disclosed)\n\n* **Causal convexity is defined for every subset, not only for open ones**\n  (`CausallyConvexIn`). The paper's `defi:convexite_causale` takes `V` open; the open case is\n  the same predicate applied to an open set.\n* **`StronglyCausal` is the definition of strong causality** (DEC-7): the causally convex\n  neighbourhood `V ⊂ U` of `def:strongly_causal_spacetime` is any neighbourhood, not necessarily\n  open. `StronglyCausalOpen`, which asks `V` open, is kept as an auxiliary notion; it implies\n  the definition (`StronglyCausalOpen.stronglyCausal`) and is equivalent to it on a tarentin,\n  causally open spacetime (`StronglyCausal.stronglyCausalOpen`).\n* **`CausallyOpen` is the definition of causal openness** (DEC-8):\n  `def:causally_open_spacetime_open` is read with `J^±`. `CausallyOpenFuture`, the sentence as\n  printed with `J^+` alone, is kept as an auxiliary notion.\n* Interiors and closures are taken in `M`. For a subset of an open `U` this is the interior in\n  `U`; for the closure it is the closure in `U` once intersected with `U`, and both\n  `defi:causalement_plat` inclusions have a left-hand side contained in `U`.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -368,12 +461,23 @@
       "nl_status_auto": "informal",
       "statement_sha256": "83b6be7dee213ea47e520279caaf77c513e463c34104539402674881af5913de",
       "statement_sha256_current": "83b6be7dee213ea47e520279caaf77c513e463c34104539402674881af5913de",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Lines.lean"
+      ],
+      "decls": [
+        "Causal.lightlikeLine_pushUp",
+        "Causal.lightlikeLine_not_causallyPlain"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
+      "bucket": "B",
+      "scope_notes": "First half: the lightlike line has the push-up property and is not causally plain. The converse independence is argued in the remark, not exhibited.",
+      "notes": "First half: the lightlike line has the push-up property and is not causally plain. The converse independence is argued in the remark, not exhibited.",
+      "blocked_on": "an example which is causally plain and has not the push-up property",
+      "lean_proved_override": "partial",
+      "extra_lean_files": [
+        "Causal/Lines.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -492,12 +596,18 @@
       "nl_status_auto": "definition",
       "statement_sha256": "159b3c6068df1be8945bfc7ebe3d3537ce696f182b3ca1d26602191b2bbf80f6",
       "statement_sha256_current": "159b3c6068df1be8945bfc7ebe3d3537ce696f182b3ca1d26602191b2bbf80f6",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Properties.lean"
+      ],
+      "decls": [
+        "Causal.Causality.diamond",
+        "Causal.Causality.openDiamond"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Properties.lean**\n\n## SCOPE (disclosed)\n\n* **Causal convexity is defined for every subset, not only for open ones**\n  (`CausallyConvexIn`). The paper's `defi:convexite_causale` takes `V` open; the open case is\n  the same predicate applied to an open set.\n* **`StronglyCausal` is the definition of strong causality** (DEC-7): the causally convex\n  neighbourhood `V ⊂ U` of `def:strongly_causal_spacetime` is any neighbourhood, not necessarily\n  open. `StronglyCausalOpen`, which asks `V` open, is kept as an auxiliary notion; it implies\n  the definition (`StronglyCausalOpen.stronglyCausal`) and is equivalent to it on a tarentin,\n  causally open spacetime (`StronglyCausal.stronglyCausalOpen`).\n* **`CausallyOpen` is the definition of causal openness** (DEC-8):\n  `def:causally_open_spacetime_open` is read with `J^±`. `CausallyOpenFuture`, the sentence as\n  printed with `J^+` alone, is kept as an auxiliary notion.\n* Interiors and closures are taken in `M`. For a subset of an open `U` this is the interior in\n  `U`; for the closure it is the closure in `U` once intersected with `U`, and both\n  `defi:causalement_plat` inclusions have a left-hand side contained in `U`.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -523,12 +633,17 @@
       "nl_status_auto": "definition",
       "statement_sha256": "b6c6771f3b56ef198a5381b31d5a4d5fe787600dcb731a29f9843a9e405c1977",
       "statement_sha256_current": "b6c6771f3b56ef198a5381b31d5a4d5fe787600dcb731a29f9843a9e405c1977",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Properties.lean"
+      ],
+      "decls": [
+        "Causal.Causality.CausallyCompact"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Properties.lean**\n\n## SCOPE (disclosed)\n\n* **Causal convexity is defined for every subset, not only for open ones**\n  (`CausallyConvexIn`). The paper's `defi:convexite_causale` takes `V` open; the open case is\n  the same predicate applied to an open set.\n* **`StronglyCausal` is the definition of strong causality** (DEC-7): the causally convex\n  neighbourhood `V ⊂ U` of `def:strongly_causal_spacetime` is any neighbourhood, not necessarily\n  open. `StronglyCausalOpen`, which asks `V` open, is kept as an auxiliary notion; it implies\n  the definition (`StronglyCausalOpen.stronglyCausal`) and is equivalent to it on a tarentin,\n  causally open spacetime (`StronglyCausal.stronglyCausalOpen`).\n* **`CausallyOpen` is the definition of causal openness** (DEC-8):\n  `def:causally_open_spacetime_open` is read with `J^±`. `CausallyOpenFuture`, the sentence as\n  printed with `J^+` alone, is kept as an auxiliary notion.\n* Interiors and closures are taken in `M`. For a subset of an open `U` this is the interior in\n  `U`; for the closure it is the closure in `U` once intersected with `U`, and both\n  `defi:causalement_plat` inclusions have a left-hand side contained in `U`.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -618,12 +733,26 @@
       "nl_status_auto": "definition",
       "statement_sha256": "515035be1feb59c52b455276796bec81fb16047dd2c9c6f4093b8a11c27b732f",
       "statement_sha256_current": "515035be1feb59c52b455276796bec81fb16047dd2c9c6f4093b8a11c27b732f",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Curves.lean"
+      ],
+      "decls": [
+        "Causal.Causality.CausalCurveOn",
+        "Causal.Causality.ChronalCurveOn",
+        "Causal.CurveOn"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "No `sorry`. The definition is the one ruled by DEC-6 (OQ-7): a map locally non-decreasing at every scale, the weak morphism of def:category_topological_spacetimes, not asked to be an embedding. Continuity is a consequence.",
+      "notes": "No `sorry`. The definition is the one ruled by DEC-6 (OQ-7): a map locally non-decreasing at every scale, the weak morphism of def:category_topological_spacetimes, not asked to be an embedding. Continuity is a consequence.",
+      "paper_findings": [
+        "A causal curve is 'a connected causal chain', and a causal chain is an embedding. An embedding is injective, so no causal curve joins a point to itself; but the proof of lem:restriction_convexe takes a future causal curve from y to x for y <= x, equality allowed, and that of lem:pushup_local considers 'y = z' if s = 0'. def:causal_arc_connectedness, read with embeddings, fails at p = q.",
+        "'Causal morphism' is not defined; def:category_topological_spacetimes defines strong and weak morphisms."
+      ],
+      "extra_lean_files": [
+        "Causal/Curves.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -651,12 +780,17 @@
       "nl_status_auto": "definition",
       "statement_sha256": "31648564f496663bc7405abc333f4a5baa8406d72a13fdc0a0082221b3f576b9",
       "statement_sha256_current": "31648564f496663bc7405abc333f4a5baa8406d72a13fdc0a0082221b3f576b9",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Causality.lean"
+      ],
+      "decls": [
+        "Causal.Precausality"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Causality.lean**\n\n## SCOPE (disclosed)\n\n* The structure is the paper's **\"equivalently\"** form. The paper's first sentence says *sheaf\n  with values in `𝐂`*; no gluing axiom is stated there and none is carried here.\n* `defi:categorie_C` is carried on the side of objects only (a preorder and an open transitive\n  relation contained in it, which is what each `(U, ≤_U, ≪_U)` is); its morphisms are not defined\n  in this file, so that label is not claimed.\n* `dual` (time reversal) is not in the paper: it is the device by which a statement about the\n  past is the statement about the future of the reversed causality.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -687,12 +821,24 @@
       "nl_status_auto": "proved",
       "statement_sha256": "052c68982a98c3151ea82453ee04698b5fb1a9851b35eac2c4c6619c88045936",
       "statement_sha256_current": "052c68982a98c3151ea82453ee04698b5fb1a9851b35eac2c4c6619c88045936",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Generated.lean",
+        "Causal/Local.lean"
+      ],
+      "decls": [
+        "Causal.Precausality.existsUnique_minimal_extension",
+        "Causal.Precausality.generated",
+        "Causal.Precausality.Compatible",
+        "Causal.LocalCausality.exists_extension"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "A precausality on U_i is carried by a precausality on M of which only the restriction to U_i is read; `Causal/Local.lean` proves that every precausality given on the open subsets of U_i alone is such a restriction.",
+      "notes": "A precausality on U_i is carried by a precausality on M of which only the restriction to U_i is read; `Causal/Local.lean` proves that every precausality given on the open subsets of U_i alone is such a restriction.",
+      "extra_lean_files": [
+        "Causal/Local.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -720,12 +866,17 @@
       "nl_status_auto": "definition",
       "statement_sha256": "d177fc63a4181f1f096b2a7394a3b43b01401464c7fd22eae8479e0d0644cd66",
       "statement_sha256_current": "d177fc63a4181f1f096b2a7394a3b43b01401464c7fd22eae8479e0d0644cd66",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Generated.lean"
+      ],
+      "decls": [
+        "Causal.Precausality.generated"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Generated.lean**\n\n## SCOPE (disclosed)\n\n* **A causality on the open subset `U_i` is carried by a causality on `M` of which only the\n  restriction to `U_i` is read.** Every statement of this file reads `(P i).le V` and\n  `(P i).lt V` for `V ≤ U i` only, so it is a statement about the restrictions. No generality\n  is lost: a precausality given on the open subsets of `U_i` alone extends to `M` (the causal\n  relation by the diagonal, the chronological one by nothing).\n* **The generated relations are the paper's characterisation, taken as the definition**: `p ≤_V q`\n  if there is a finite sequence of points of `V` from `p` to `q`, each step being a relation\n  `≤^i_{V ∩ U_i}` for some `i`; at least one step is asked, reflexivity coming from the cover.\n* `AbsolutelyMinimal` is the paper's sentence (\"the precausality generated by\n  `(U_i, ≤_{U_i}, ≪_{U_i})` is equal to `(≤,≪)`\", for every open cover).\n  `AbsolutelyMinimalOn W` is the same property of the open subset `W` seen as a spacetime,\n  written on the relations; `absolutelyMinimal_iff` identifies the two for `W = M`. Covers are\n  sets of open subsets, which loses nothing against indexed families (`linkLe_of_family`).\n* **The plainness clause of `theo:causalite_engendre` is proved by another route than the\n  paper's**, and without hypothesis (C). The proof there writes `J^+_U(A)` as a countable union\n  of sets `J^+_{U_i}(A_{i,n})` and discards their boundaries by Baire's theorem; the boundary of\n  a set which is neither open nor closed may have non-empty interior, and the identity\n  `closure(⋃ I^+_{U_i}(A_{i,n})) = closure(I^+_U(A))` is asserted for sets `A_{i,n}` which are\n  causal, not chronological, iterates. Here: `J^+_V(A) ∩ U_i` is its own causal future in\n  `V ∩ U_i`, local plainness applies to it, and the chronological future of a causal future is\n  brought back into the closure of the chronological future by\n  `mem_closure_Iplus_of_le_of_lt`, which is where absolute minimality and (B) are used.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -751,12 +902,19 @@
       "nl_status_auto": "definition",
       "statement_sha256": "2cdf1d347bdb1a1f2293e78f365a5d98536f1ae8e8df0e65acde6f93fd5a4b59",
       "statement_sha256_current": "2cdf1d347bdb1a1f2293e78f365a5d98536f1ae8e8df0e65acde6f93fd5a4b59",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Generated.lean"
+      ],
+      "decls": [
+        "Causal.Precausality.AbsolutelyMinimal",
+        "Causal.Precausality.AbsolutelyMinimalOn",
+        "Causal.Precausality.absolutelyMinimal_iff"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Generated.lean**\n\n## SCOPE (disclosed)\n\n* **A causality on the open subset `U_i` is carried by a causality on `M` of which only the\n  restriction to `U_i` is read.** Every statement of this file reads `(P i).le V` and\n  `(P i).lt V` for `V ≤ U i` only, so it is a statement about the restrictions. No generality\n  is lost: a precausality given on the open subsets of `U_i` alone extends to `M` (the causal\n  relation by the diagonal, the chronological one by nothing).\n* **The generated relations are the paper's characterisation, taken as the definition**: `p ≤_V q`\n  if there is a finite sequence of points of `V` from `p` to `q`, each step being a relation\n  `≤^i_{V ∩ U_i}` for some `i`; at least one step is asked, reflexivity coming from the cover.\n* `AbsolutelyMinimal` is the paper's sentence (\"the precausality generated by\n  `(U_i, ≤_{U_i}, ≪_{U_i})` is equal to `(≤,≪)`\", for every open cover).\n  `AbsolutelyMinimalOn W` is the same property of the open subset `W` seen as a spacetime,\n  written on the relations; `absolutelyMinimal_iff` identifies the two for `W = M`. Covers are\n  sets of open subsets, which loses nothing against indexed families (`linkLe_of_family`).\n* **The plainness clause of `theo:causalite_engendre` is proved by another route than the\n  paper's**, and without hypothesis (C). The proof there writes `J^+_U(A)` as a countable union\n  of sets `J^+_{U_i}(A_{i,n})` and discards their boundaries by Baire's theorem; the boundary of\n  a set which is neither open nor closed may have non-empty interior, and the identity\n  `closure(⋃ I^+_{U_i}(A_{i,n})) = closure(I^+_U(A))` is asserted for sets `A_{i,n}` which are\n  causal, not chronological, iterates. Here: `J^+_V(A) ∩ U_i` is its own causal future in\n  `V ∩ U_i`, local plainness applies to it, and the chronological future of a causal future is\n  brought back into the closure of the chronological future by\n  `mem_closure_Iplus_of_le_of_lt`, which is where absolute minimality and (B) are used.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -782,12 +940,22 @@
       "nl_status_auto": "definition",
       "statement_sha256": "23a489107e7d1a382dcaa477559f91f1a7ab4c8b8aafd8cfe77aa16571ff3bef",
       "statement_sha256_current": "23a489107e7d1a382dcaa477559f91f1a7ab4c8b8aafd8cfe77aa16571ff3bef",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/ArcConnected.lean"
+      ],
+      "decls": [
+        "Causal.Causality.CausallyArcConnected",
+        "Causal.Causality.CausallyArcConnectedOn",
+        "Causal.Causality.causallyArcConnectedOn_iff"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "No `sorry`. Under DEC-6, (ii) implies (i) holds in every topological spacetime: causal arc-connectedness is the existence of curves.",
+      "notes": "No `sorry`. Under DEC-6, (ii) implies (i) holds in every topological spacetime: causal arc-connectedness is the existence of curves.",
+      "extra_lean_files": [
+        "Causal/ArcConnected.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -813,12 +981,20 @@
       "nl_status_auto": "definition",
       "statement_sha256": "62e29cb985b80dd9cd6ba6914f7ee51fe7a64829565b7923d3805dcbe3887ff7",
       "statement_sha256_current": "62e29cb985b80dd9cd6ba6914f7ee51fe7a64829565b7923d3805dcbe3887ff7",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/ArcConnected.lean"
+      ],
+      "decls": [
+        "Causal.Causality.LocallyCausallyArcConnected"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**ArcConnected.lean**\n\n## SCOPE (disclosed)\n\n* With the curves of `Causal.Curves` the implication (ii)⇒(i) of\n  `def:causal_arc_connectedness` holds in every topological spacetime\n  (`CausalCurveOn.le_of_le`, `ChronalCurveOn.lt_of_lt`): causal arc-connectedness is the\n  existence of curves.\n* `lem:restriction_convexe` is proved for points and for subsets, for `J^±`, `I^±` and `K^±`.",
+      "scope_from_lean": true,
+      "extra_lean_files": [
+        "Causal/ArcConnected.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -844,12 +1020,21 @@
       "nl_status_auto": "informal",
       "statement_sha256": "adda3833d73ead8d52d31810224613908cc0c48515e023f852a7c4ace04b6bc6",
       "statement_sha256_current": "adda3833d73ead8d52d31810224613908cc0c48515e023f852a7c4ace04b6bc6",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/ArcConnected.lean"
+      ],
+      "decls": [
+        "Causal.Causality.CausallyArcConnectedOn.mono",
+        "Causal.Causality.CausallyArcConnected.locallyCausallyArcConnected"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**ArcConnected.lean**\n\n## SCOPE (disclosed)\n\n* With the curves of `Causal.Curves` the implication (ii)⇒(i) of\n  `def:causal_arc_connectedness` holds in every topological spacetime\n  (`CausalCurveOn.le_of_le`, `ChronalCurveOn.lt_of_lt`): causal arc-connectedness is the\n  existence of curves.\n* `lem:restriction_convexe` is proved for points and for subsets, for `J^±`, `I^±` and `K^±`.",
+      "scope_from_lean": true,
+      "extra_lean_files": [
+        "Causal/ArcConnected.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -878,12 +1063,23 @@
       "nl_status_auto": "proved",
       "statement_sha256": "603258fda96c1eb140f64a35e65c8f67c81c8f29c2e38cd968d2af25f59473a5",
       "statement_sha256_current": "603258fda96c1eb140f64a35e65c8f67c81c8f29c2e38cd968d2af25f59473a5",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/ArcConnected.lean"
+      ],
+      "decls": [
+        "Causal.Causality.generated_eq_iff_causallyArcConnected"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "No `sorry`.",
+      "notes": "No `sorry`.",
+      "paper_findings": [
+        "That M is locally causally arc-connected follows from the cover by causally arc-connected open subsets and rem:cac_local; it is not used."
+      ],
+      "extra_lean_files": [
+        "Causal/ArcConnected.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -915,12 +1111,21 @@
       "nl_status_auto": "proved",
       "statement_sha256": "68b86175308d60b0e3f9a7d1fb9e71f232e1dc4c0579d5a9222ce3155379ea08",
       "statement_sha256_current": "68b86175308d60b0e3f9a7d1fb9e71f232e1dc4c0579d5a9222ce3155379ea08",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/ArcConnected.lean"
+      ],
+      "decls": [
+        "Causal.Causality.CausallyArcConnected.absolutelyMinimal",
+        "Causal.Causality.CausallyArcConnectedOn.absolutelyMinimalOn"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "No `sorry`. Proved for every open subset.",
+      "notes": "No `sorry`. Proved for every open subset.",
+      "extra_lean_files": [
+        "Causal/ArcConnected.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -1015,12 +1220,21 @@
       "nl_status_auto": "proved",
       "statement_sha256": "e5c0295cc62efdde939b044615c932b06989d3c8963d5c6eea45c6ea2f98f311",
       "statement_sha256_current": "e5c0295cc62efdde939b044615c932b06989d3c8963d5c6eea45c6ea2f98f311",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/ArcConnected.lean"
+      ],
+      "decls": [
+        "Causal.Causality.LocallyCausallyArcConnected.absolutelyMinimalOn",
+        "Causal.Causality.LocallyCausallyArcConnected.causallyArcConnected"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "No `sorry`.",
+      "notes": "No `sorry`.",
+      "extra_lean_files": [
+        "Causal/ArcConnected.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -1051,12 +1265,17 @@
       "nl_status_auto": "proved",
       "statement_sha256": "27562e9fc173623058620b0ee1f0a773926ba465d852f0eb051a50d1343b5229",
       "statement_sha256_current": "27562e9fc173623058620b0ee1f0a773926ba465d852f0eb051a50d1343b5229",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Generated.lean"
+      ],
+      "decls": [
+        "Causal.Precausality.generated_absolutelyMinimal"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Generated.lean**\n\n## SCOPE (disclosed)\n\n* **A causality on the open subset `U_i` is carried by a causality on `M` of which only the\n  restriction to `U_i` is read.** Every statement of this file reads `(P i).le V` and\n  `(P i).lt V` for `V ≤ U i` only, so it is a statement about the restrictions. No generality\n  is lost: a precausality given on the open subsets of `U_i` alone extends to `M` (the causal\n  relation by the diagonal, the chronological one by nothing).\n* **The generated relations are the paper's characterisation, taken as the definition**: `p ≤_V q`\n  if there is a finite sequence of points of `V` from `p` to `q`, each step being a relation\n  `≤^i_{V ∩ U_i}` for some `i`; at least one step is asked, reflexivity coming from the cover.\n* `AbsolutelyMinimal` is the paper's sentence (\"the precausality generated by\n  `(U_i, ≤_{U_i}, ≪_{U_i})` is equal to `(≤,≪)`\", for every open cover).\n  `AbsolutelyMinimalOn W` is the same property of the open subset `W` seen as a spacetime,\n  written on the relations; `absolutelyMinimal_iff` identifies the two for `W = M`. Covers are\n  sets of open subsets, which loses nothing against indexed families (`linkLe_of_family`).\n* **The plainness clause of `theo:causalite_engendre` is proved by another route than the\n  paper's**, and without hypothesis (C). The proof there writes `J^+_U(A)` as a countable union\n  of sets `J^+_{U_i}(A_{i,n})` and discards their boundaries by Baire's theorem; the boundary of\n  a set which is neither open nor closed may have non-empty interior, and the identity\n  `closure(⋃ I^+_{U_i}(A_{i,n})) = closure(I^+_U(A))` is asserted for sets `A_{i,n}` which are\n  causal, not chronological, iterates. Here: `J^+_V(A) ∩ U_i` is its own causal future in\n  `V ∩ U_i`, local plainness applies to it, and the chronological future of a causal future is\n  brought back into the closure of the chronological future by\n  `mem_closure_Iplus_of_le_of_lt`, which is where absolute minimality and (B) are used.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -1089,12 +1308,30 @@
       "nl_status_auto": "proved",
       "statement_sha256": "0553a72f0f6fc60f1ed83d4ca9b6127dd489fadf4ce2a3d3021b2a27632aba68",
       "statement_sha256_current": "0553a72f0f6fc60f1ed83d4ca9b6127dd489fadf4ce2a3d3021b2a27632aba68",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Generated.lean"
+      ],
+      "decls": [
+        "Causal.Causality.generated_isAbsolutelyMinimal_and_causallyPlain",
+        "Causal.Causality.generated",
+        "Causal.Causality.generated_absolutelyMinimal",
+        "Causal.Causality.generated_causallyPlain",
+        "Causal.Causality.mem_closure_Iplus_of_le_of_lt"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
+      "bucket": "B",
+      "scope_notes": "Proved for a T1 space M, without hypothesis (C) and without countability. The statement says 'topological space'; its proof says 'since M is second countable'. For a Hausdorff M, which is what a topological spacetime is, the Lean statement has fewer hypotheses than the paper's. 'Is an absolutely minimal causality' needs no separation and no (B); the plainness clause uses T1 and (B).",
+      "notes": "Proved for a T1 space M, without hypothesis (C) and without countability. The statement says 'topological space'; its proof says 'since M is second countable'. For a Hausdorff M, which is what a topological spacetime is, the Lean statement has fewer hypotheses than the paper's. 'Is an absolutely minimal causality' needs no separation and no (B); the plainness clause uses T1 and (B).",
+      "blocked_on": "OQ-10: which separation does the statement of theo:causalite_engendre assume?",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "Hypothesis (C), M is a Baire space, is not needed, nor is the reduction to a countable index set.",
+        "The Baire argument does not go through as written. The sets J^+_{U_i}(A_{i,n}) are neither open nor closed in general, and the boundary of such a set may have non-empty interior, so the union of the boundaries is not a countable union of closed sets with empty interior.",
+        "The identity closure(union I^+_{U_i}(A_{i,n})) = closure(I^+_U(A)) is asserted with the sets A_{i,n} of the decomposition of J^+_U(A), which are causal iterates: a point of I^+_{U_i}(A_{i,n}) is reached by a causal chain followed by one chronological step, and is not in I^+_U(A) without push-up.",
+        "Another route proves the clause: J^+_U(A) cap U_i is its own causal future in U cap U_i, so local plainness applies to it directly; and the chronological future of a causal future lies in the closure of the chronological future, by absolute minimality of the charts, (B), and the fact that points are closed.",
+        "The statement takes M a topological space, and the proof uses that M is second countable: the hypothesis on M should be stated."
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -1125,12 +1362,21 @@
       "nl_status_auto": "proved",
       "statement_sha256": "c51cebdc428c6543ff93ebb2dc47b4d49334e2e0e092a91c796db05f93a996af",
       "statement_sha256_current": "c51cebdc428c6543ff93ebb2dc47b4d49334e2e0e092a91c796db05f93a996af",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/ArcConnected.lean"
+      ],
+      "decls": [
+        "Causal.Causality.CausallyArcConnected.pushUp",
+        "Causal.Causality.PushUpOn"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "No `sorry`. The parameter s of the one-step claim is taken in ]0,1[, so the case 'y = z'' does not occur.",
+      "notes": "No `sorry`. The parameter s of the one-step claim is taken in ]0,1[, so the case 'y = z'' does not occur.",
+      "extra_lean_files": [
+        "Causal/ArcConnected.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -1267,12 +1513,17 @@
       "nl_status_auto": "definition",
       "statement_sha256": "a2e6914a23f77d638b6762ccf17fc5d0ee85734928f7525822af3ea9a3aecc37",
       "statement_sha256_current": "a2e6914a23f77d638b6762ccf17fc5d0ee85734928f7525822af3ea9a3aecc37",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Properties.lean"
+      ],
+      "decls": [
+        "Causal.Causality.alexandrovTopology"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Properties.lean**\n\n## SCOPE (disclosed)\n\n* **Causal convexity is defined for every subset, not only for open ones**\n  (`CausallyConvexIn`). The paper's `defi:convexite_causale` takes `V` open; the open case is\n  the same predicate applied to an open set.\n* **`StronglyCausal` is the definition of strong causality** (DEC-7): the causally convex\n  neighbourhood `V ⊂ U` of `def:strongly_causal_spacetime` is any neighbourhood, not necessarily\n  open. `StronglyCausalOpen`, which asks `V` open, is kept as an auxiliary notion; it implies\n  the definition (`StronglyCausalOpen.stronglyCausal`) and is equivalent to it on a tarentin,\n  causally open spacetime (`StronglyCausal.stronglyCausalOpen`).\n* **`CausallyOpen` is the definition of causal openness** (DEC-8):\n  `def:causally_open_spacetime_open` is read with `J^±`. `CausallyOpenFuture`, the sentence as\n  printed with `J^+` alone, is kept as an auxiliary notion.\n* Interiors and closures are taken in `M`. For a subset of an open `U` this is the interior in\n  `U`; for the closure it is the closure in `U` once intersected with `U`, and both\n  `defi:causalement_plat` inclusions have a left-hand side contained in `U`.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -1298,12 +1549,17 @@
       "nl_status_auto": "definition",
       "statement_sha256": "bec96ca816fa4e7cb84433b66d300300bbdd18ba15bfe715dc9ac83938d88844",
       "statement_sha256_current": "bec96ca816fa4e7cb84433b66d300300bbdd18ba15bfe715dc9ac83938d88844",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Properties.lean"
+      ],
+      "decls": [
+        "Causal.Causality.IsCausal"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Properties.lean**\n\n## SCOPE (disclosed)\n\n* **Causal convexity is defined for every subset, not only for open ones**\n  (`CausallyConvexIn`). The paper's `defi:convexite_causale` takes `V` open; the open case is\n  the same predicate applied to an open set.\n* **`StronglyCausal` is the definition of strong causality** (DEC-7): the causally convex\n  neighbourhood `V ⊂ U` of `def:strongly_causal_spacetime` is any neighbourhood, not necessarily\n  open. `StronglyCausalOpen`, which asks `V` open, is kept as an auxiliary notion; it implies\n  the definition (`StronglyCausalOpen.stronglyCausal`) and is equivalent to it on a tarentin,\n  causally open spacetime (`StronglyCausal.stronglyCausalOpen`).\n* **`CausallyOpen` is the definition of causal openness** (DEC-8):\n  `def:causally_open_spacetime_open` is read with `J^±`. `CausallyOpenFuture`, the sentence as\n  printed with `J^+` alone, is kept as an auxiliary notion.\n* Interiors and closures are taken in `M`. For a subset of an open `U` this is the interior in\n  `U`; for the closure it is the closure in `U` once intersected with `U`, and both\n  `defi:causalement_plat` inclusions have a left-hand side contained in `U`.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -1329,12 +1585,20 @@
       "nl_status_auto": "definition",
       "statement_sha256": "25b31cf7e51e924afd191604ca17fc5ee97dadfce13d6db31190613ecea4e07d",
       "statement_sha256_current": "25b31cf7e51e924afd191604ca17fc5ee97dadfce13d6db31190613ecea4e07d",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Properties.lean"
+      ],
+      "decls": [
+        "Causal.Causality.CausallyConvexIn"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Defined for every subset V of the open U; the paper's definition is the case V open.",
+      "notes": "Defined for every subset V of the open U; the paper's definition is the case V open.",
+      "extra_lean_files": [
+        "Causal/Properties.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -1360,12 +1624,23 @@
       "nl_status_auto": "definition",
       "statement_sha256": "eef6c84eeffc111341fc609ffe4fac988d73657b933d39c8d7caa262210c80f5",
       "statement_sha256_current": "eef6c84eeffc111341fc609ffe4fac988d73657b933d39c8d7caa262210c80f5",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Properties.lean"
+      ],
+      "decls": [
+        "Causal.Causality.StronglyCausal",
+        "Causal.Causality.StronglyCausalOpen"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
+      "bucket": "B",
+      "scope_notes": "Two forms are carried: `StronglyCausal` (V a neighbourhood) and `StronglyCausalOpen` (V open, the literal reading through defi:convexite_causale). Hypotheses use the first, conclusions the strongest form proved.",
+      "notes": "Two forms are carried: `StronglyCausal` (V a neighbourhood) and `StronglyCausalOpen` (V open, the literal reading through defi:convexite_causale). Hypotheses use the first, conclusions the strongest form proved.",
+      "blocked_on": "OQ-8: is the causally convex neighbourhood V of def:strongly_causal_spacetime open?",
+      "lean_proved_override": "partial",
+      "extra_lean_files": [
+        "Causal/Properties.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -1391,12 +1666,17 @@
       "nl_status_auto": "informal",
       "statement_sha256": "43be96282425dd529852b69cbae0e5f77a1ca5f26f42faa38236f0b9bdc21620",
       "statement_sha256_current": "43be96282425dd529852b69cbae0e5f77a1ca5f26f42faa38236f0b9bdc21620",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/StrongCausality.lean"
+      ],
+      "decls": [
+        "Causal.Causality.StronglyCausal.isCausal"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**StrongCausality.lean**\n\n## SCOPE (disclosed)\n\n* `prop:tarentin_topological_spacetime_causality` is the theorem\n  `stronglyCausal_iff_alexandrovTopology_eq`. The step `J^-(\\ring J^-(b_i)) = \\ring J^-(b_i)`\n  of (ii)⇒(i) is where causal openness in the past is used. The equivalence is also proved for\n  the auxiliary open form (`stronglyCausalOpen_iff_alexandrovTopology_eq`).",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -1453,12 +1733,17 @@
       "nl_status_auto": "definition",
       "statement_sha256": "3226b16cad9406b2224e46394f8d892b3c62887abe9cc2d0cefbc5975c63307a",
       "statement_sha256_current": "3226b16cad9406b2224e46394f8d892b3c62887abe9cc2d0cefbc5975c63307a",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Properties.lean"
+      ],
+      "decls": [
+        "Causal.Causality.Tarentin"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Properties.lean**\n\n## SCOPE (disclosed)\n\n* **Causal convexity is defined for every subset, not only for open ones**\n  (`CausallyConvexIn`). The paper's `defi:convexite_causale` takes `V` open; the open case is\n  the same predicate applied to an open set.\n* **`StronglyCausal` is the definition of strong causality** (DEC-7): the causally convex\n  neighbourhood `V ⊂ U` of `def:strongly_causal_spacetime` is any neighbourhood, not necessarily\n  open. `StronglyCausalOpen`, which asks `V` open, is kept as an auxiliary notion; it implies\n  the definition (`StronglyCausalOpen.stronglyCausal`) and is equivalent to it on a tarentin,\n  causally open spacetime (`StronglyCausal.stronglyCausalOpen`).\n* **`CausallyOpen` is the definition of causal openness** (DEC-8):\n  `def:causally_open_spacetime_open` is read with `J^±`. `CausallyOpenFuture`, the sentence as\n  printed with `J^+` alone, is kept as an auxiliary notion.\n* Interiors and closures are taken in `M`. For a subset of an open `U` this is the interior in\n  `U`; for the closure it is the closure in `U` once intersected with `U`, and both\n  `defi:causalement_plat` inclusions have a left-hand side contained in `U`.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -1549,12 +1834,24 @@
       "nl_status_auto": "definition",
       "statement_sha256": "89f3c0887c80cfbfe7f089e701a57ee93f7e2d0b6bcc40a74cd0078822221c9c",
       "statement_sha256_current": "89f3c0887c80cfbfe7f089e701a57ee93f7e2d0b6bcc40a74cd0078822221c9c",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Properties.lean"
+      ],
+      "decls": [
+        "Causal.Causality.CausallyOpenFuture",
+        "Causal.Causality.CausallyOpen"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "`CausallyOpenFuture` is the definition as written; `CausallyOpen` is its conjunction with the time-reversed one.",
+      "notes": "`CausallyOpenFuture` is the definition as written; `CausallyOpen` is its conjunction with the time-reversed one.",
+      "paper_findings": [
+        "The definition asks J^+_U(V) open only. The proof of prop:tarentin_topological_spacetime_causality, (ii) implies (i), uses J^-(Int J^-(b_i)) = Int J^-(b_i), which needs J^-_U(V) open as well. Either the definition is meant with J^pm, or that proposition needs the time-reversed hypothesis."
+      ],
+      "extra_lean_files": [
+        "Causal/Properties.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -1585,12 +1882,18 @@
       "nl_status_auto": "proved",
       "statement_sha256": "555fbbd68eeac1844d09f7ef38d866da82f2123c5bf76628f9b4e1e43903c2b3",
       "statement_sha256_current": "555fbbd68eeac1844d09f7ef38d866da82f2123c5bf76628f9b4e1e43903c2b3",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Minimal.lean"
+      ],
+      "decls": [
+        "Causal.Causality.AbsolutelyMinimal.causallyOpenFuture",
+        "Causal.Causality.AbsolutelyMinimal.causallyOpen"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Minimal.lean**\n\n## SCOPE (disclosed)\n\n* `prop:topological_spacetime_absolutely_minimal` is proved for causal openness **as the paper\n  defines it** (`CausallyOpenFuture`, `J^+_U(V)` open) and also for the two-sided form\n  (`CausallyOpen`), each from the corresponding local hypothesis.\n* In `lem:cup_cap` absolute minimality is used only for the inclusion in `Z^+(M)`, through\n  `rem:absolutely_minimal_topological_spacetime`.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -1619,12 +1922,29 @@
       "nl_status_auto": "proved",
       "statement_sha256": "9d9796480b26a719246e20bd8c6d96f2a5a199f01935b3162c3fa1f493387a05",
       "statement_sha256_current": "9d9796480b26a719246e20bd8c6d96f2a5a199f01935b3162c3fa1f493387a05",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/StrongCausality.lean"
+      ],
+      "decls": [
+        "Causal.Causality.StronglyCausal.alexandrovTopology_eq",
+        "Causal.Causality.stronglyCausalOpen_of_alexandrovTopology_eq",
+        "Causal.Causality.stronglyCausal_iff_alexandrovTopology_eq",
+        "Causal.Causality.stronglyCausalOpen_iff_alexandrovTopology_eq"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
+      "bucket": "B",
+      "scope_notes": "(i) implies (ii) is proved as stated, and without causal openness. (ii) implies (i) is proved under two-sided causal openness, which is more than def:causally_open_spacetime_open gives. Under that hypothesis the equivalence holds for both forms of strong causality.",
+      "notes": "(i) implies (ii) is proved as stated, and without causal openness. (ii) implies (i) is proved under two-sided causal openness, which is more than def:causally_open_spacetime_open gives. Under that hypothesis the equivalence holds for both forms of strong causality.",
+      "blocked_on": "OQ-9: is causal openness one-sided or two-sided?",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "(ii) implies (i) uses J^-(Int J^-(b_i)) = Int J^-(b_i): causal openness in the past, which def:causally_open_spacetime_open does not state.",
+        "(i) implies (ii) uses neither causal openness nor second countability; (ii) implies (i) does not use the tarentin hypothesis."
+      ],
+      "extra_lean_files": [
+        "Causal/StrongCausality.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -1652,12 +1972,20 @@
       "nl_status_auto": "definition",
       "statement_sha256": "ffd13ac6e14bf2d97218431cf6bce8f2be704b03d305502ed7450ed97e400e48",
       "statement_sha256_current": "ffd13ac6e14bf2d97218431cf6bce8f2be704b03d305502ed7450ed97e400e48",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Reachable.lean"
+      ],
+      "decls": [
+        "Causal.Causality.Kplus",
+        "Causal.Causality.Kminus",
+        "Causal.interiorWithin",
+        "Causal.Causality.mem_Kplus_singleton_iff_seq_mem"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "K^pm_U is defined with the sequences of M converging to p; for p in U this is the paper's definition with the sequences of U (`mem_Kplus_singleton_iff_seq_mem`), and for p outside U it gives the empty set.",
+      "notes": "K^pm_U is defined with the sequences of M converging to p; for p in U this is the paper's definition with the sequences of U (`mem_Kplus_singleton_iff_seq_mem`), and for p outside U it gives the empty set.",
       "in_lean_scope": true,
       "stale": false
     },
@@ -1685,12 +2013,19 @@
       "nl_status_auto": "informal",
       "statement_sha256": "482d0805aad5685d6589b941a38a697d2351823a91217cd0ae96acf383006bc0",
       "statement_sha256_current": "482d0805aad5685d6589b941a38a697d2351823a91217cd0ae96acf383006bc0",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Reachable.lean"
+      ],
+      "decls": [
+        "Causal.Causality.K_ensemble"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
+      "bucket": "D",
+      "scope_notes": "The three general assertions are closed. The last sentence, on a BTZ point, is prop:K_calcul's.",
+      "notes": "The three general assertions are closed. The last sentence, on a BTZ point, is prop:K_calcul's.",
+      "blocked_on": "the model spaces of Section 3 (prop:K_calcul)",
+      "lean_proved_override": "partial",
       "in_lean_scope": true,
       "stale": false
     },
@@ -1716,12 +2051,18 @@
       "nl_status_auto": "definition",
       "statement_sha256": "c3991a6c559bb0c94641895e8a3ee378257a0d4f05eaf53b02285839edf918b8",
       "statement_sha256_current": "c3991a6c559bb0c94641895e8a3ee378257a0d4f05eaf53b02285839edf918b8",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Properties.lean"
+      ],
+      "decls": [
+        "Causal.Causality.Zplus",
+        "Causal.Causality.Zminus"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Properties.lean**\n\n## SCOPE (disclosed)\n\n* **Causal convexity is defined for every subset, not only for open ones**\n  (`CausallyConvexIn`). The paper's `defi:convexite_causale` takes `V` open; the open case is\n  the same predicate applied to an open set.\n* **`StronglyCausal` is the definition of strong causality** (DEC-7): the causally convex\n  neighbourhood `V ⊂ U` of `def:strongly_causal_spacetime` is any neighbourhood, not necessarily\n  open. `StronglyCausalOpen`, which asks `V` open, is kept as an auxiliary notion; it implies\n  the definition (`StronglyCausalOpen.stronglyCausal`) and is equivalent to it on a tarentin,\n  causally open spacetime (`StronglyCausal.stronglyCausalOpen`).\n* **`CausallyOpen` is the definition of causal openness** (DEC-8):\n  `def:causally_open_spacetime_open` is read with `J^±`. `CausallyOpenFuture`, the sentence as\n  printed with `J^+` alone, is kept as an auxiliary notion.\n* Interiors and closures are taken in `M`. For a subset of an open `U` this is the interior in\n  `U`; for the closure it is the closure in `U` once intersected with `U`, and both\n  `defi:causalement_plat` inclusions have a left-hand side contained in `U`.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -1747,12 +2088,18 @@
       "nl_status_auto": "informal",
       "statement_sha256": "e92e94236df8c3e4125524d715b92f1da914aff0e30826c4d1ad0f9156e73d07",
       "statement_sha256_current": "e92e94236df8c3e4125524d715b92f1da914aff0e30826c4d1ad0f9156e73d07",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Minimal.lean"
+      ],
+      "decls": [
+        "Causal.Causality.AbsolutelyMinimal.mem_Zplus_iff",
+        "Causal.Causality.AbsolutelyMinimal.mem_Zminus_iff"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Minimal.lean**\n\n## SCOPE (disclosed)\n\n* `prop:topological_spacetime_absolutely_minimal` is proved for causal openness **as the paper\n  defines it** (`CausallyOpenFuture`, `J^+_U(V)` open) and also for the two-sided form\n  (`CausallyOpen`), each from the corresponding local hypothesis.\n* In `lem:cup_cap` absolute minimality is used only for the inclusion in `Z^+(M)`, through\n  `rem:absolutely_minimal_topological_spacetime`.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -1811,12 +2158,18 @@
       "nl_status_auto": "informal",
       "statement_sha256": "05c5e47353bef0b0ad17031c3c0e4ee805922edfe7bfae3f8b316f9f3b1b900e",
       "statement_sha256_current": "05c5e47353bef0b0ad17031c3c0e4ee805922edfe7bfae3f8b316f9f3b1b900e",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Reachable.lean"
+      ],
+      "decls": [
+        "Causal.Causality.exists_seq_lt_tendsto_of_mem_Zminus",
+        "Causal.Causality.exists_seq_lt_tendsto_of_mem_Zplus"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Reachable.lean**\n\n## SCOPE (disclosed)\n\n* **`K^±_U` is defined with sequences of `M`, not of `U`.** For `p ∈ U` the two definitions\n  agree, a sequence converging to `p` being eventually in `U` and the sets\n  `⋂_{n ≥ N} J^±_U(p_n)` increasing with `N`: this is `mem_Kplus_singleton_iff_seq_mem`. For\n  `p ∉ U` the definition here gives `K^±_U(p) = ∅`.\n* The relative interior `Int_A(S)` is `interiorWithin A S`, the set of the points of `A` at\n  which `S` is a neighbourhood within `A`.\n* `rem:K_ensemble` is certified for its three general assertions. Its last sentence is about BTZ\n  points of `E^{1,2}_{≥0}`-manifolds and belongs to `prop:K_calcul`.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -1845,12 +2198,20 @@
       "nl_status_auto": "proved",
       "statement_sha256": "13e6e8d740b599d1dd30228265246cf22c05445f0d195752a05dd5b31c306a40",
       "statement_sha256_current": "13e6e8d740b599d1dd30228265246cf22c05445f0d195752a05dd5b31c306a40",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Reachable.lean"
+      ],
+      "decls": [
+        "Causal.Causality.Kminus_eq_of_tendsto"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Reachable.lean**\n\n## SCOPE (disclosed)\n\n* **`K^±_U` is defined with sequences of `M`, not of `U`.** For `p ∈ U` the two definitions\n  agree, a sequence converging to `p` being eventually in `U` and the sets\n  `⋂_{n ≥ N} J^±_U(p_n)` increasing with `N`: this is `mem_Kplus_singleton_iff_seq_mem`. For\n  `p ∉ U` the definition here gives `K^±_U(p) = ∅`.\n* The relative interior `Int_A(S)` is `interiorWithin A S`, the set of the points of `A` at\n  which `S` is a neighbourhood within `A`.\n* `rem:K_ensemble` is certified for its three general assertions. Its last sentence is about BTZ\n  points of `E^{1,2}_{≥0}`-manifolds and belongs to `prop:K_calcul`.",
+      "scope_from_lean": true,
+      "paper_findings": [
+        "The tarentin hypothesis is not used by the proof: it is what provides a sequence with p in Int J^+(p_n), which the statement assumes anyway. The proof here avoids the identity Int(cap Int A_n) = Int(cap A_n)."
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -1876,12 +2237,17 @@
       "nl_status_auto": "informal",
       "statement_sha256": "efe60127ebf2eff14091c69e3bcfc41d9cd5a9775dfd7376781dc900f86935bd",
       "statement_sha256_current": "efe60127ebf2eff14091c69e3bcfc41d9cd5a9775dfd7376781dc900f86935bd",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Reachable.lean"
+      ],
+      "decls": [
+        "Causal.Causality.Kplus_eq_of_tendsto"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Reachable.lean**\n\n## SCOPE (disclosed)\n\n* **`K^±_U` is defined with sequences of `M`, not of `U`.** For `p ∈ U` the two definitions\n  agree, a sequence converging to `p` being eventually in `U` and the sets\n  `⋂_{n ≥ N} J^±_U(p_n)` increasing with `N`: this is `mem_Kplus_singleton_iff_seq_mem`. For\n  `p ∉ U` the definition here gives `K^±_U(p) = ∅`.\n* The relative interior `Int_A(S)` is `interiorWithin A S`, the set of the points of `A` at\n  which `S` is a neighbourhood within `A`.\n* `rem:K_ensemble` is certified for its three general assertions. Its last sentence is about BTZ\n  points of `E^{1,2}_{≥0}`-manifolds and belongs to `prop:K_calcul`.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -1947,12 +2313,17 @@
       "nl_status_auto": "proved",
       "statement_sha256": "9aaff28ea39aee0e54564120f8c7ab9ae0c9a6c582bd44f9ccac8f4536b42182",
       "statement_sha256_current": "9aaff28ea39aee0e54564120f8c7ab9ae0c9a6c582bd44f9ccac8f4536b42182",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Reachable.lean"
+      ],
+      "decls": [
+        "Causal.Causality.Jminus_Iminus_eq_of_mem_Zminus"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Reachable.lean**\n\n## SCOPE (disclosed)\n\n* **`K^±_U` is defined with sequences of `M`, not of `U`.** For `p ∈ U` the two definitions\n  agree, a sequence converging to `p` being eventually in `U` and the sets\n  `⋂_{n ≥ N} J^±_U(p_n)` increasing with `N`: this is `mem_Kplus_singleton_iff_seq_mem`. For\n  `p ∉ U` the definition here gives `K^±_U(p) = ∅`.\n* The relative interior `Int_A(S)` is `interiorWithin A S`, the set of the points of `A` at\n  which `S` is a neighbourhood within `A`.\n* `rem:K_ensemble` is certified for its three general assertions. Its last sentence is about BTZ\n  points of `E^{1,2}_{≥0}`-manifolds and belongs to `prop:K_calcul`.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -1985,12 +2356,20 @@
       "nl_status_auto": "proved",
       "statement_sha256": "851e5063465a4dec3409bdf357552c0cf4efdecd9f7f2c2bb51c7a78e769cac0",
       "statement_sha256_current": "851e5063465a4dec3409bdf357552c0cf4efdecd9f7f2c2bb51c7a78e769cac0",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Reachable.lean"
+      ],
+      "decls": [
+        "Causal.Causality.Kminus_eq_Iminus_of_mem_Zminus"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Reachable.lean**\n\n## SCOPE (disclosed)\n\n* **`K^±_U` is defined with sequences of `M`, not of `U`.** For `p ∈ U` the two definitions\n  agree, a sequence converging to `p` being eventually in `U` and the sets\n  `⋂_{n ≥ N} J^±_U(p_n)` increasing with `N`: this is `mem_Kplus_singleton_iff_seq_mem`. For\n  `p ∉ U` the definition here gives `K^±_U(p) = ∅`.\n* The relative interior `Int_A(S)` is `interiorWithin A S`, the set of the points of `A` at\n  which `S` is a neighbourhood within `A`.\n* `rem:K_ensemble` is certified for its three general assertions. Its last sentence is about BTZ\n  points of `E^{1,2}_{≥0}`-manifolds and belongs to `prop:K_calcul`.",
+      "scope_from_lean": true,
+      "paper_findings": [
+        "Absolute minimality and the tarentin hypothesis are not used: causal plainness, a countable basis of neighbourhoods at p, and p strongly tarentin in the past suffice."
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -2016,12 +2395,17 @@
       "nl_status_auto": "informal",
       "statement_sha256": "1b122a0eb71767c9327ff2f219c6b2087143ad7192b235b50862a255b8d5c490",
       "statement_sha256_current": "1b122a0eb71767c9327ff2f219c6b2087143ad7192b235b50862a255b8d5c490",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Reachable.lean"
+      ],
+      "decls": [
+        "Causal.Causality.Kplus_eq_Iplus_of_mem_Zplus"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Reachable.lean**\n\n## SCOPE (disclosed)\n\n* **`K^±_U` is defined with sequences of `M`, not of `U`.** For `p ∈ U` the two definitions\n  agree, a sequence converging to `p` being eventually in `U` and the sets\n  `⋂_{n ≥ N} J^±_U(p_n)` increasing with `N`: this is `mem_Kplus_singleton_iff_seq_mem`. For\n  `p ∉ U` the definition here gives `K^±_U(p) = ∅`.\n* The relative interior `Int_A(S)` is `interiorWithin A S`, the set of the points of `A` at\n  which `S` is a neighbourhood within `A`.\n* `rem:K_ensemble` is certified for its three general assertions. Its last sentence is about BTZ\n  points of `E^{1,2}_{≥0}`-manifolds and belongs to `prop:K_calcul`.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -2118,16 +2502,24 @@
       "twin": null,
       "cites": [],
       "deps": [],
-      "nl_status": "open",
+      "nl_status": "proved",
       "nl_status_auto": "open",
       "statement_sha256": "795316123ec933490f6e57d4113350cf9c7cda8e872131e80737744a856a0e4f",
       "statement_sha256_current": "795316123ec933490f6e57d4113350cf9c7cda8e872131e80737744a856a0e4f",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/StrongCausality.lean"
+      ],
+      "decls": [
+        "Causal.Causality.Iplus_injOn_Zplus",
+        "Causal.Causality.Iminus_injOn_Zminus"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**StrongCausality.lean**\n\n## SCOPE (disclosed)\n\n* `prop:tarentin_topological_spacetime_causality` is the theorem\n  `stronglyCausal_iff_alexandrovTopology_eq`. The step `J^-(\\ring J^-(b_i)) = \\ring J^-(b_i)`\n  of (ii)⇒(i) is where causal openness in the past is used. The equivalence is also proved for\n  the auxiliary open form (`stronglyCausalOpen_iff_alexandrovTopology_eq`).",
+      "scope_from_lean": true,
+      "nl_status_override": "proved",
+      "nl_reason": "its proof is the proof environment at ETT.tex:901, after rem:manifolds_specialises_brunswic_cauchy",
       "in_lean_scope": true,
       "stale": false
     },
@@ -2154,7 +2546,7 @@
         "brunswic2021cauchy"
       ],
       "deps": [],
-      "nl_status": "proved",
+      "nl_status": "informal",
       "nl_status_auto": "proved",
       "statement_sha256": "f81703fec2869cb3ec7a09c95fe108b457685abb97969de3fe945a276989ebab",
       "statement_sha256_current": "f81703fec2869cb3ec7a09c95fe108b457685abb97969de3fe945a276989ebab",
@@ -2164,6 +2556,8 @@
       "lean_proved": "none",
       "bucket": "",
       "scope_notes": "",
+      "nl_status_override": "informal",
+      "nl_reason": "the proof environment which follows it proves prop:FZenon_injectif",
       "in_lean_scope": true,
       "stale": false
     },
@@ -2194,12 +2588,22 @@
       "nl_status_auto": "proved",
       "statement_sha256": "fefbbb63cca22c46f8857b7893019e6bb27ea3652e848c017bd42743eecc0099",
       "statement_sha256_current": "fefbbb63cca22c46f8857b7893019e6bb27ea3652e848c017bd42743eecc0099",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Reachable.lean"
+      ],
+      "decls": [
+        "Causal.Causality.K_order_embedding",
+        "Causal.Causality.le_of_Kminus_subset",
+        "Causal.Causality.le_of_Kplus_subset"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Reachable.lean**\n\n## SCOPE (disclosed)\n\n* **`K^±_U` is defined with sequences of `M`, not of `U`.** For `p ∈ U` the two definitions\n  agree, a sequence converging to `p` being eventually in `U` and the sets\n  `⋂_{n ≥ N} J^±_U(p_n)` increasing with `N`: this is `mem_Kplus_singleton_iff_seq_mem`. For\n  `p ∉ U` the definition here gives `K^±_U(p) = ∅`.\n* The relative interior `Int_A(S)` is `interiorWithin A S`, the set of the points of `A` at\n  which `S` is a neighbourhood within `A`.\n* `rem:K_ensemble` is certified for its three general assertions. Its last sentence is about BTZ\n  points of `E^{1,2}_{≥0}`-manifolds and belongs to `prop:K_calcul`.",
+      "scope_from_lean": true,
+      "paper_findings": [
+        "That M is causal is used for the injectivity of x -> K^pm(x) only; the two implications and the two equivalences hold without it."
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -2263,12 +2667,20 @@
       "nl_status_auto": "proved",
       "statement_sha256": "aae9428be7c93fdde2d03cd4e9d35d2529f9504bfc902dff19ff8101726d0fb1",
       "statement_sha256_current": "aae9428be7c93fdde2d03cd4e9d35d2529f9504bfc902dff19ff8101726d0fb1",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Minimal.lean"
+      ],
+      "decls": [
+        "Causal.Causality.Iminus_subset_interior_and_subset"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Minimal.lean**\n\n## SCOPE (disclosed)\n\n* `prop:topological_spacetime_absolutely_minimal` is proved for causal openness **as the paper\n  defines it** (`CausallyOpenFuture`, `J^+_U(V)` open) and also for the two-sided form\n  (`CausallyOpen`), each from the corresponding local hypothesis.\n* In `lem:cup_cap` absolute minimality is used only for the inclusion in `Z^+(M)`, through\n  `rem:absolutely_minimal_topological_spacetime`.",
+      "scope_from_lean": true,
+      "paper_findings": [
+        "Absolute minimality is used for the inclusion in Z^+(M) only, through rem:absolutely_minimal_topological_spacetime; the two other inclusions hold in every topological spacetime."
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -2294,12 +2706,17 @@
       "nl_status_auto": "informal",
       "statement_sha256": "daf7f30102d39a831009be5ac39e71f9f70274ed24af121b21c15fe4dbbb7bc9",
       "statement_sha256_current": "daf7f30102d39a831009be5ac39e71f9f70274ed24af121b21c15fe4dbbb7bc9",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Minimal.lean"
+      ],
+      "decls": [
+        "Causal.Causality.Iplus_subset_interior_and_subset"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Minimal.lean**\n\n## SCOPE (disclosed)\n\n* `prop:topological_spacetime_absolutely_minimal` is proved for causal openness **as the paper\n  defines it** (`CausallyOpenFuture`, `J^+_U(V)` open) and also for the two-sided form\n  (`CausallyOpen`), each from the corresponding local hypothesis.\n* In `lem:cup_cap` absolute minimality is used only for the inclusion in `Z^+(M)`, through\n  `rem:absolutely_minimal_topological_spacetime`.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -2325,12 +2742,17 @@
       "nl_status_auto": "definition",
       "statement_sha256": "e6a29bb6c20ad2ff0c8115272e0e23b78bf83d980ae07566318e489839dded3c",
       "statement_sha256_current": "e6a29bb6c20ad2ff0c8115272e0e23b78bf83d980ae07566318e489839dded3c",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Properties.lean"
+      ],
+      "decls": [
+        "Causal.Causality.GloballyHyperbolic"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Properties.lean**\n\n## SCOPE (disclosed)\n\n* **Causal convexity is defined for every subset, not only for open ones**\n  (`CausallyConvexIn`). The paper's `defi:convexite_causale` takes `V` open; the open case is\n  the same predicate applied to an open set.\n* **`StronglyCausal` is the definition of strong causality** (DEC-7): the causally convex\n  neighbourhood `V ⊂ U` of `def:strongly_causal_spacetime` is any neighbourhood, not necessarily\n  open. `StronglyCausalOpen`, which asks `V` open, is kept as an auxiliary notion; it implies\n  the definition (`StronglyCausalOpen.stronglyCausal`) and is equivalent to it on a tarentin,\n  causally open spacetime (`StronglyCausal.stronglyCausalOpen`).\n* **`CausallyOpen` is the definition of causal openness** (DEC-8):\n  `def:causally_open_spacetime_open` is read with `J^±`. `CausallyOpenFuture`, the sentence as\n  printed with `J^+` alone, is kept as an auxiliary notion.\n* Interiors and closures are taken in `M`. For a subset of an open `U` this is the interior in\n  `U`; for the closure it is the closure in `U` once intersected with `U`, and both\n  `defi:causalement_plat` inclusions have a left-hand side contained in `U`.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -2451,12 +2873,18 @@
       "nl_status_auto": "definition",
       "statement_sha256": "923daa75bc58f3e5ca3e67aa152d8d943d6397343daecc0db5b3debe27dd5325",
       "statement_sha256_current": "923daa75bc58f3e5ca3e67aa152d8d943d6397343daecc0db5b3debe27dd5325",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Measure.lean"
+      ],
+      "decls": [
+        "Causal.Causality.AdmissiblePast",
+        "Causal.Causality.AdmissibleFuture"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Measure.lean**\n\n## SCOPE (disclosed)\n\n* **`prop:cont_ext_cont` is proved without the measurability of `K^-(p)`.** The paper applies\n  inner regularity to `K^-(p)` (and `rem:K_borelien` explains why it is Borel). Here property 4.\n  gives a measurable null set `Z ⊃ J^-(p) ∖ K^-(p)`, and inner regularity is applied to the\n  measurable set `J^-(p) ∖ Z ⊂ K^-(p)`, which has the measure of `J^-(p)`.\n* Property 4. is used for `A = {p}` only.\n* `AdmissiblePast.lt_of_le_of_ne` is the monotonicity used in the sketch of proof of\n  `theo:geroch`, (i)⇒(ii): `x < y` implies `μ(J^-(x)) < μ(J^-(y))`. The theorem itself is not\n  stated in this file.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -2482,12 +2910,17 @@
       "nl_status_auto": "informal",
       "statement_sha256": "1eafc4b4e35d299b4017610a3ad84af8075c0faf75a8463797954692a086eb8c",
       "statement_sha256_current": "1eafc4b4e35d299b4017610a3ad84af8075c0faf75a8463797954692a086eb8c",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Measure.lean"
+      ],
+      "decls": [
+        "Causal.Causality.AdmissiblePast"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "mathlib's `μ s` is the outer measure of `s` for every set `s`: property 4. is read as the remark asks.",
+      "notes": "mathlib's `μ s` is the outer measure of `s` for every set `s`: property 4. is read as the remark asks.",
       "in_lean_scope": true,
       "stale": false
     },
@@ -2588,12 +3021,21 @@
       "nl_status_auto": "proved",
       "statement_sha256": "ad4e6274916a7d85ed2aa9865d011a8594f0f22ea357aef8e8759607ee4bc524",
       "statement_sha256_current": "ad4e6274916a7d85ed2aa9865d011a8594f0f22ea357aef8e8759607ee4bc524",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/ArcConnected.lean"
+      ],
+      "decls": [
+        "Causal.Causality.restriction_convexe_past",
+        "Causal.Causality.restriction_convexe_future"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "No `sorry`.",
+      "notes": "No `sorry`.",
+      "extra_lean_files": [
+        "Causal/ArcConnected.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -2692,12 +3134,20 @@
       "nl_status_auto": "proved",
       "statement_sha256": "325342ceadcc5660fa0409755250ea178670c6b2caa2d96c2c7bb3f889344d19",
       "statement_sha256_current": "325342ceadcc5660fa0409755250ea178670c6b2caa2d96c2c7bb3f889344d19",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/GlobalHyperbolicity.lean"
+      ],
+      "decls": [
+        "Causal.Causality.isClosed_le"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**GlobalHyperbolicity.lean**\n\n## SCOPE (disclosed)\n\n* `prop:GH_fortement_causal`. The paper's proof ends: \"The open set $\\ring J_M(a,b)$ contains\n  $p$, is contained in $\\U$ and is causally convex in $M$.\" Causal convexity of an **open**\n  diamond is not proved there and is not a consequence of the axioms used: for `x, y` in the\n  interior of `J(a,b)` and `x ≤ z ≤ y` one gets `z ∈ J(a,b)`, not `z` in its interior. The\n  proof here takes the full diamond `J(a,b)`, which is causally convex and is a neighbourhood\n  of `p`: that is the statement, the neighbourhood of the definition not being asked open\n  (DEC-7). `GloballyHyperbolic.stronglyCausalOpen` gives an open one under causal openness,\n  where an open diamond is causally convex (`CausallyOpen.causallyConvexIn_openDiamond`).",
+      "scope_from_lean": true,
+      "paper_findings": [
+        "Second countability is not used: the passage through sequential closedness can be replaced by an argument on neighbourhoods. The same holds for prop:GH_Jferme and prop:GH_fortement_causal, where the decreasing sequence of compact sets becomes a directed family."
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -2759,12 +3209,19 @@
       "nl_status_auto": "proved",
       "statement_sha256": "936e020797c26ff765285185292538c06a0c2a93e31dae83fcfb84e82a9596c5",
       "statement_sha256_current": "936e020797c26ff765285185292538c06a0c2a93e31dae83fcfb84e82a9596c5",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/GlobalHyperbolicity.lean"
+      ],
+      "decls": [
+        "Causal.Causality.GloballyHyperbolic.isClosed_le_and_isClosed_J",
+        "Causal.Causality.GloballyHyperbolic.isClosed_Jplus_singleton",
+        "Causal.Causality.isClosed_Jplus_of_isCompact"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**GlobalHyperbolicity.lean**\n\n## SCOPE (disclosed)\n\n* `prop:GH_fortement_causal`. The paper's proof ends: \"The open set $\\ring J_M(a,b)$ contains\n  $p$, is contained in $\\U$ and is causally convex in $M$.\" Causal convexity of an **open**\n  diamond is not proved there and is not a consequence of the axioms used: for `x, y` in the\n  interior of `J(a,b)` and `x ≤ z ≤ y` one gets `z ∈ J(a,b)`, not `z` in its interior. The\n  proof here takes the full diamond `J(a,b)`, which is causally convex and is a neighbourhood\n  of `p`: that is the statement, the neighbourhood of the definition not being asked open\n  (DEC-7). `GloballyHyperbolic.stronglyCausalOpen` gives an open one under causal openness,\n  where an open diamond is causally convex (`CausallyOpen.causallyConvexIn_openDiamond`).",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -2795,12 +3252,27 @@
       "nl_status_auto": "proved",
       "statement_sha256": "26c3165808772ba4f89d8ad32433170db3a3a487cf1ff47ef6ad0c1af5708419",
       "statement_sha256_current": "26c3165808772ba4f89d8ad32433170db3a3a487cf1ff47ef6ad0c1af5708419",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/GlobalHyperbolicity.lean"
+      ],
+      "decls": [
+        "Causal.Causality.GloballyHyperbolic.exists_diamond_subset",
+        "Causal.Causality.GloballyHyperbolic.stronglyCausal",
+        "Causal.Causality.GloballyHyperbolic.stronglyCausalOpen"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
+      "bucket": "B",
+      "scope_notes": "Proved with the full diamond J(a,b) as causally convex neighbourhood (`StronglyCausal`), under the paper's hypotheses; and with the open diamond (`StronglyCausalOpen`) under two-sided causal openness, which the paper does not assume.",
+      "notes": "Proved with the full diamond J(a,b) as causally convex neighbourhood (`StronglyCausal`), under the paper's hypotheses; and with the open diamond (`StronglyCausalOpen`) under two-sided causal openness, which the paper does not assume.",
+      "blocked_on": "OQ-8: is the causally convex neighbourhood V of def:strongly_causal_spacetime open?",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "The proof ends: 'The open set Int J_M(a,b) contains p, is contained in U and is causally convex in M.' Causal convexity of the open diamond is not proved: for x, y in the interior of J(a,b) and x <= z <= y one gets z in J(a,b), not z in its interior. The full diamond J(a,b) is causally convex and is a neighbourhood of p, which proves the statement if the neighbourhood V of def:strongly_causal_spacetime need not be open; an open V is obtained under two-sided causal openness."
+      ],
+      "extra_lean_files": [
+        "Causal/GlobalHyperbolicity.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -2829,12 +3301,22 @@
       "nl_status_auto": "proved",
       "statement_sha256": "53612b80ef705595524354ee33c735330562254b462e802544b0c0525f1bbcc1",
       "statement_sha256_current": "53612b80ef705595524354ee33c735330562254b462e802544b0c0525f1bbcc1",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Measure.lean"
+      ],
+      "decls": [
+        "Causal.Causality.AdmissiblePast.continuous_measure_Jminus",
+        "Causal.Causality.AdmissibleFuture.continuous_measure_Jplus"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Measure.lean**\n\n## SCOPE (disclosed)\n\n* **`prop:cont_ext_cont` is proved without the measurability of `K^-(p)`.** The paper applies\n  inner regularity to `K^-(p)` (and `rem:K_borelien` explains why it is Borel). Here property 4.\n  gives a measurable null set `Z ⊃ J^-(p) ∖ K^-(p)`, and inner regularity is applied to the\n  measurable set `J^-(p) ∖ Z ⊂ K^-(p)`, which has the measure of `J^-(p)`.\n* Property 4. is used for `A = {p}` only.\n* `AdmissiblePast.lt_of_le_of_ne` is the monotonicity used in the sketch of proof of\n  `theo:geroch`, (i)⇒(ii): `x < y` implies `μ(J^-(x)) < μ(J^-(y))`. The theorem itself is not\n  stated in this file.",
+      "scope_from_lean": true,
+      "paper_findings": [
+        "The measurability of K^-(p), which rem:K_borelien establishes, is not needed: property 4. gives a measurable null set Z containing J^-(p) minus K^-(p), and inner regularity applied to J^-(p) minus Z, a measurable subset of K^-(p) with the measure of J^-(p), does what the proof asks.",
+        "Property 4. is used for A = {p} only."
+      ],
       "in_lean_scope": true,
       "stale": false
     },

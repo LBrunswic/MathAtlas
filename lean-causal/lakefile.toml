@@ -1,0 +1,30 @@
+name = "Causal"
+defaultTargets = ["Causal"]
+
+# PROVISIONAL HOME. The hub's plan puts every project in the one package under `lean/`
+# (strict lib `Causal`, scaffold lib `CausalScaffold`). Until GFNBoundsLean is absorbed in-tree
+# (WP-8, open question OQ-1) `lean/` is a read-only submodule, so the ETT library is grown here,
+# in the layout it will have there: graduation into `lean/` is `git mv lean-causal/Causal
+# lean/Causal` and `git mv lean-causal/scaffold/CausalScaffold lean/scaffold/CausalScaffold`.
+#
+# Mathlib at the hub's pin (hub.toml): tag v4.31.0, frozen by lake-manifest.json to
+# fabf563a7c95 -- the manifest is the one of `lean/`, so `lake exe cache get` hits
+# ~/.cache/mathlib and a lemma can move between the two trees without a version fight.
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "v4.31.0"
+
+# The STRICT library. `sorry` is a compile error here: warningAsError turns Lean's own
+# "declaration uses 'sorry'" warning into one.
+[[lean_lib]]
+name = "Causal"
+globs = ["Causal.*"]
+leanOptions = { warningAsError = true }
+
+# The SCAFFOLD library. `sorry` is permitted and tagged. Not a default target, and never
+# imported by `Causal`: graduation is a file move.
+[[lean_lib]]
+name = "CausalScaffold"
+srcDir = "scaffold"
+globs = ["CausalScaffold.*"]

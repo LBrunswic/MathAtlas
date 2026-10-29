@@ -33,6 +33,7 @@ becomes `papers/gfnbounds/` (plan, Phase 1).
 | path | what |
 |---|---|
 | `lean/` | the Lean library: one package, per project a strict lib (`warningAsError`, `sorry` is an error) and a scaffold lib; `projects.toml` lists them and every audit iterates it |
+| `lean-causal/` | the ETT library (`Causal` strict, `CausalScaffold` scaffold), a package of its own at the hub's pin **while `lean/` is a read-only submodule** (OQ-11); laid out so that moving it into `lean/` is a file move. `make -C lean-causal check` is its gate; read `lean-causal/README.md` |
 | `papers/<slug>/` | one per paper: `paper.toml`, `STORY.md`, `legacy/` (frozen snapshot + `MANIFEST.json`), `ledger/` (generated statement ledger + DAG), `certificate/` (anchors, exposition), `paper/body/**` (prose only) and `paper/generated/**` |
 | `tools/` | the gates and generators (stdlib Python); `tools/leanlink` is the LeanLink submodule; `tools/cassettes/` holds every recorded model exchange |
 | `tests/` | the tools' own tests, run by `make check`; they replay cassettes and never call a model |
