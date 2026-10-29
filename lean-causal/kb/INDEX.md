@@ -17,3 +17,8 @@ rediscover. One fact per entry.
 | [0009](entries/0009-subdivision.md) | pattern | The Lebesgue-number step is `exists_subdivision_Icc` |
 | [0010](entries/0010-dot-notation-on-unfolded-props.md) | pitfall | `h.foo` fails when the type of `h` unfolds to a `∀` |
 | [0011](entries/0011-never-outrun-the-paper.md) | house-rule | A Lean statement narrower than the paper's is never its certificate |
+| [0012](entries/0012-model-facts-as-hypotheses.md) | pattern | The singular part's model facts are named hypotheses, witnessed on a line |
+| [0013](entries/0013-measures-on-open-sets.md) | convention | A measure on an open `U` is a measure on `M` with `μ Uᶜ = 0` |
+| [0014](entries/0014-no-gluing-axiom.md) | pitfall | No gluing axiom: a counterexample may exploit it, and must say so |
+| [0015](entries/0015-graduation-checklist.md) | house-rule | Graduating a scaffold file: what the gates do not catch by themselves |
+| [0016](entries/0016-namespace-shadowing.md) | pitfall | Names that resolve to the wrong lemma inside `namespace Causality` |

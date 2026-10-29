@@ -1,0 +1,109 @@
+{
+  "package": "WP-5",
+  "files": [
+    "scaffold/CausalScaffold/MeasureSum.lean",
+    "scaffold/CausalScaffold/MeasureLocal.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "prop:mesure_dieckmann_topo",
+      "tex_lines": [
+        1094,
+        1139
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.Causality.mesure_dieckmann_topo_past",
+        "Causal.Causality.mesure_dieckmann_topo_future",
+        "Causal.Causality.exists_admissiblePast_of_local",
+        "Causal.Causality.exists_admissibleFuture_of_local",
+        "Causal.Causality.AdmissiblePastOn",
+        "Causal.Causality.AdmissibleFutureOn"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M causally arc-connected",
+          "here": "carried",
+          "note": "used for cor:causalement_connexe_minimal (property 3) and lem:restriction_convexe (properties 3 and 4)"
+        },
+        {
+          "paper": "M strongly causal",
+          "here": "weakened",
+          "note": "not used; carried unused (_hsc) in mesure_dieckmann_topo_*, absent from exists_admissible*_of_local. Hypothesis (i) already supplies the causally convex neighbourhoods"
+        },
+        {
+          "paper": "M second countable (def:category_topological_spacetimes)",
+          "here": "weakened",
+          "note": "LindelofSpace M: only a countable subcover of (U_p) is used"
+        },
+        {
+          "paper": "M Hausdorff (def:category_topological_spacetimes)",
+          "here": "weakened",
+          "note": "R1Space M, used only for the regularity of the countable sum (compact -> closed approximation)"
+        },
+        {
+          "paper": "regular Borel measure",
+          "here": "carried",
+          "note": "BorelSpace M, Measure.Regular, as in Causal.Measure"
+        },
+        {
+          "paper": "(i) open causally convex neighbourhood U_p carrying a measure admissible in the past",
+          "here": "carried",
+          "note": "AdmissiblePastOn U nu: a measure on M carried by U, regular, finite, properties 3 and 4 with J^-_U, K^-_U for A subset of U. Proved: for nu a measure on the subspace U, AdmissiblePastOn U (map val nu) iff nu regular, finite, and properties 3/4 hold for nu on the val-preimages of J^-_U(q) minus J^-_U(p) and of J^-_U(A) minus K^-_U(A) (admissiblePastOn_map_subtype_iff, R1Space); every AdmissiblePastOn measure is such a push-forward (AdmissiblePastOn.exists_subtype). Not proved: that these traces are J^- and K^- of a causality on the type U (no restricted causality on a subtype exists in the library, kb/0001)."
+        },
+        {
+          "paper": "(ii) q <= p implies K^-(q) subset K^-(p)",
+          "here": "carried",
+          "note": "used for property 4 only; future form p <= q implies K^+(q) subset K^+(p), the time reversal"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1094: 'strongly causal' is not used by the proof (l.1103-1139); hypothesis (i) already provides causally convex neighbourhoods. It can be dropped from the statement.",
+        "ETT.tex:1104: 'Since M is second countable' — only the Lindelöf property is used (a countable subcover of (U_p)).",
+        "ETT.tex:1106-1107: 'normalised so that mu_n(U_n)=1' is not always possible: a measure admissible in the past on U_n may be the zero measure (when U_n contains no pair p <_{U_n} q, property 3 is vacuous). Weights 2^{-n-1}/(1+mu_n(U_n)), or simply dropping zero terms, repair it.",
+        "ETT.tex:1110: 'Since each mu_n is a normalised regular Borel measure, mu is a regular Borel measure' is true but not immediate: outer regularity is not stable under the countable intersection of open sets the termwise argument would produce. It holds because the total mass is finite: inner regularity by closed sets passes to the sum (finite unions), and for a finite measure that gives outer regularity; this uses Hausdorff (R1). Proved as Causal.regular_sum.",
+        "ETT.tex:1111-1113: the existence of n_0, q' with p in U_{n_0}, p <_{U_{n_0}} q', q' <= q is correct: take the first link of the chain given by cor:causalement_connexe_minimal that leaves p (Causal.transGen_exists_first_ne).",
+        "Hypothesis (i) is necessary (admissiblePast_local_of_admissiblePast: U_p = M), so the proposition says that, under (ii), admissibility in the past is a local property for causally convex covers."
+      ],
+      "questions": [
+        "(i) 'U_p carrying a measure admissible in the past' is read as a measure on the spacetime U_p (ex:open_subset), encoded as a measure on M carried by U_p. Proved: equivalent to a measure nu on the subspace U_p that is regular, finite, and satisfies properties 3 and 4 on the traces of J^-_{U_p}, K^-_{U_p} (admissiblePastOn_map_subtype_iff). That these traces are the J^-, K^- of the spacetime U_p rests on the library's convention of indexing by open sets (kb/0001); K^-_U agrees with the sequence definition inside U (mem_Kminus_singleton_iff_seq_mem). Confirm this is the intended meaning.",
+        "The future statement is read as the time reversal: (i) with measures admissible in the future, (ii) as 'for every p and every q >= p, K^+(q) subset K^+(p)'. Confirm."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.innerRegularWRT_add",
+    "Causal.innerRegularWRT_finset_sum",
+    "Causal.innerRegularWRT_sum",
+    "Causal.regular_sum",
+    "Causal.exists_weights_tsum_lt",
+    "Causal.sum_smul_apply",
+    "Causal.sum_apply_eq_zero_iff",
+    "Causal.lt_sum_apply_of_lt",
+    "Causal.measure_eq_inter_of_compl_null",
+    "Causal.regular_map_subtype_val",
+    "Causal.map_subtype_val_compl_null",
+    "Causal.exists_regular_subtype_of_compl_null",
+    "Causal.transGen_exists_first_ne",
+    "Causal.Causality.dual_admissiblePastOn",
+    "Causal.Causality.dual_admissibleFutureOn",
+    "Causal.Causality.admissiblePastOn_top",
+    "Causal.Causality.admissibleFutureOn_top",
+    "Causal.Causality.admissiblePast_local_of_admissiblePast",
+    "Causal.Causality.admissiblePastOn_map_subtype_iff",
+    "Causal.Causality.admissibleFutureOn_map_subtype_iff",
+    "Causal.Causality.AdmissiblePastOn.exists_subtype",
+    "Causal.Causality.AdmissibleFutureOn.exists_subtype"
+  ],
+  "kb_proposals": [
+    "A measure on an open U seen as a spacetime is a Measure M with mu Uᶜ = 0 (Causal.Causality.AdmissiblePastOn); regular_map_subtype_val / exists_regular_subtype_of_compl_null transport regularity to and from the subtype (R1Space).",
+    "A countable sum of regular measures of finite total mass is regular: Causal.regular_sum (R1Space, BorelSpace); the route is InnerRegularWRT IsClosed IsOpen of the sum + InnerRegularWRT.weaklyRegular_of_finite (note the namespace).",
+    "Positive finite weights for a countable family of finite masses: ENNReal.exists_pos_tsum_mul_lt_of_countable, wrapped as Causal.exists_weights_tsum_lt; Measure.sum_apply_of_countable evaluates a countable sum on ANY set (property 4 is an outer-measure statement).",
+    "Second countability used for a countable subcover: ask LindelofSpace and use LindelofSpace.elim_nhds_subcover."
+  ],
+  "notes": "Both files build (lake build CausalScaffold.MeasureSum CausalScaffold.MeasureLocal), no sorry, no warning; axioms of the main theorems are propext, Classical.choice, Quot.sound. MeasureLocal imports Causal.ArcConnected, Causal.Measure and CausalScaffold.MeasureSum only (no other agent's file). The files should compile under warningAsError and could graduate to the strict library directly; AdmissiblePastOn/AdmissibleFutureOn would then naturally sit beside AdmissiblePast in Causal/Measure.lean. Revision after audit (2026-10-29): added the transport of properties 3 and 4 between a measure on the subspace U and its push-forward (admissiblePastOn_map_subtype_iff / admissibleFutureOn_map_subtype_iff, via MeasurableEmbedding.subtype_coe ... map_apply and comap_map), and AdmissiblePastOn.exists_subtype / AdmissibleFutureOn.exists_subtype; SCOPE narrowed to exactly that. No existing declaration renamed; still 0 sorry, warningAsError clean."
+}

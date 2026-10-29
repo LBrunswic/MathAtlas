@@ -51,12 +51,57 @@
         "label": "prop:cac_engendre",
         "kind": "context",
         "one_line": "local causal arc-connectedness follows from the cover and is not used"
+      },
+      {
+        "label": "ex:open_subset",
+        "kind": "sentence",
+        "one_line": "both uniqueness claims are false as written: the diagonal causality, and a non-local one"
+      },
+      {
+        "label": "rem:mesure_unilaterale_ptr",
+        "kind": "sentence",
+        "one_line": "false as stated: the lightlike line carries a measure admissible in both directions"
+      },
+      {
+        "label": "rem:non_separe_cas",
+        "kind": "sentence",
+        "one_line": "C contains the graph, so \"C ≠ ∅\" holds even when the gluing is Hausdorff; distinct images are meant"
+      },
+      {
+        "label": "rem:galileo_spacetime_not_strongly",
+        "kind": "sentence",
+        "one_line": "false for n = 0, where Galileo is the timelike line"
+      },
+      {
+        "label": "prop:K_calcul",
+        "kind": "sentence",
+        "one_line": "cites prop:tarentin_fort_K, whose causal plainness is never established for E_{≥0}-manifolds; push-up suffices"
+      },
+      {
+        "label": "defi:fonction_temps",
+        "kind": "sentence",
+        "one_line": "under DEC-10 a time function is open, and the Geroch sketch never argues openness"
+      },
+      {
+        "label": "rem:K_borelien",
+        "kind": "sentence",
+        "one_line": "\"hence Borel\" needs J^-(p) Borel"
+      },
+      {
+        "label": "prop:mesure_dieckmann_topo",
+        "kind": "context",
+        "one_line": "strong causality is unused, second countability is used as Lindelöf, and μ_n(U_n) = 1 is not always possible"
+      },
+      {
+        "label": "lem:J_int",
+        "kind": "context",
+        "one_line": "the reduction to a causally convex chart, hence strong causality, is not needed"
       }
     ]
   },
   "lean": {
     "root": "/home/maxbrain/Dropbox/LeanArticles/lean-causal",
-    "git_commit": "0775118"
+    "git_commit": "05703e3"
   },
   "statements": [
     {
@@ -81,12 +126,29 @@
       "nl_status_auto": "definition",
       "statement_sha256": "569b4f1e5814546285a4eeb0f49c25fbb8983fd1bb1bfe763c35e597525b4e6d",
       "statement_sha256_current": "569b4f1e5814546285a4eeb0f49c25fbb8983fd1bb1bfe763c35e597525b4e6d",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "scaffold/CausalScaffold/Morphism.lean"
+      ],
+      "decls": [
+        "Causal.IsCObject",
+        "Causal.CObj",
+        "Causal.CObj.Hom",
+        "Causal.Causality.toCObj"
+      ],
+      "lean_stated": "scaffold",
+      "lean_proved": "partial",
+      "bucket": "B",
+      "scope_notes": "No `sorry`. In the scaffold (`CausalScaffold.Morphism`): it rests on reading (a) of OQ-12, that a morphism of C sends ≪ to ≪ as well as ≤ to ≤, and on morphisms not being asked continuous, as written. WP-1, audited.",
+      "notes": "No `sorry`. In the scaffold (`CausalScaffold.Morphism`): it rests on reading (a) of OQ-12, that a morphism of C sends ≪ to ≪ as well as ≤ to ≤, and on morphisms not being asked continuous, as written. WP-1, audited.",
+      "blocked_on": "OQ-12: the sub-readings of DEC-10",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "ETT.tex:233 the objects of C are topological spaces, but its morphisms are only 'non-decreasing maps', with no continuity asked. Formalized as written (no continuity); the author may want 'continuous non-decreasing maps'."
+      ],
+      "extra_lean_files": [
+        "scaffold/CausalScaffold/Morphism.lean"
+      ],
+      "size": "S",
       "in_lean_scope": true,
       "stale": false
     },
@@ -190,12 +252,39 @@
       "nl_status_auto": "definition",
       "statement_sha256": "d2cf2d978a4e0c10ae85640feda3be35b073ff52d6c9010addb00aca9cb9f085",
       "statement_sha256_current": "d2cf2d978a4e0c10ae85640feda3be35b073ff52d6c9010addb00aca9cb9f085",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "scaffold/CausalScaffold/Morphism.lean"
+      ],
+      "decls": [
+        "Causal.StrongMorphism",
+        "Causal.WeakMorphism",
+        "Causal.StrongMorphism.component",
+        "Causal.StrongMorphism.of_components",
+        "Causal.StrongMorphism.id",
+        "Causal.StrongMorphism.comp",
+        "Causal.StrongMorphism.weakMorphism",
+        "Causal.StrongMorphism.le_of_mapsTo",
+        "Causal.StrongMorphism.lt_of_mapsTo",
+        "Causal.WeakMorphism.id",
+        "Causal.WeakMorphism.comp",
+        "Causal.Spacetime"
+      ],
+      "lean_stated": "scaffold",
+      "lean_proved": "partial",
+      "bucket": "B",
+      "scope_notes": "No `sorry`. In the scaffold (`CausalScaffold.Morphism`). Strong morphism as ruled by DEC-10; weak morphism with open neighbourhoods. Identity, composition and strong ⇒ weak are proved, so the strong morphisms form a category. WP-1, audited.",
+      "notes": "No `sorry`. In the scaffold (`CausalScaffold.Morphism`). Strong morphism as ruled by DEC-10; weak morphism with open neighbourhoods. Identity, composition and strong ⇒ weak are proved, so the strong morphisms form a category. WP-1, audited.",
+      "blocked_on": "OQ-12: the sub-readings of DEC-10",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "ETT.tex:255 'an open map inducing a sheaf morphism': continuity is implicit (φ⁻¹U must be open for the component at U to exist). Carried as an explicit field, per DEC-10. Naturality of the sheaf morphism is automatic, since every component is a restriction of φ.",
+        "A strong morphism is a weak morphism (StrongMorphism.weakMorphism); both classes contain the identity and are closed under composition, so the strong morphisms form a category (instCategorySpacetime). Openness of φ is not used for any of this.",
+        "Library, not paper: Causal/Curves.lean's docstring says a causal curve 'is the weak morphism ... from the segment with the causality of the timelike line'. Under reading (a) that is the chronal curve; the causal curve is the weak morphism from the LIGHTLIKE line. Under the ≤-only reading the docstring is correct. Worth one sentence there once (a) is ruled."
+      ],
+      "extra_lean_files": [
+        "scaffold/CausalScaffold/Morphism.lean"
+      ],
+      "size": "S",
       "in_lean_scope": true,
       "stale": false
     },
@@ -221,12 +310,47 @@
       "nl_status_auto": "open",
       "statement_sha256": "a973def526339fdc33072b619527fd757469a725cd398facecebe6e62b90932b",
       "statement_sha256_current": "a973def526339fdc33072b619527fd757469a725cd398facecebe6e62b90932b",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "scaffold/CausalScaffold/Morphism.lean"
+      ],
+      "decls": [
+        "Causal.LocalCausality.InclusionStrong",
+        "Causal.Causality.restrict_inclusionStrong",
+        "Causal.LocalCausality.InclusionStrong.le_restrict",
+        "Causal.LocalCausality.InclusionStrong.eq_restrict",
+        "Causal.LocalCausality.diagonal",
+        "Causal.LocalCausality.diagonal_inclusionStrong",
+        "Causal.openSubset_not_unique",
+        "Causal.LocalCausality.toSubtype",
+        "Causal.LocalCausality.inclusionStrong_iff",
+        "Causal.LocalIsomorphism",
+        "Causal.Causality.pullback",
+        "Causal.Causality.pullback_localIsomorphism",
+        "Causal.LocalIsomorphism.le_of_absolutelyMinimal",
+        "Causal.LocalIsomorphism.unique",
+        "Causal.timelikeLineTop",
+        "Causal.localIsomorphism_not_unique",
+        "Causal.timelikeLineTop_not_isCausal",
+        "Causal.timelikeLineTop_not_absolutelyMinimal"
+      ],
+      "lean_stated": "scaffold",
+      "lean_proved": "partial",
+      "bucket": "B",
+      "scope_notes": "No `sorry`. In the scaffold. Both uniqueness claims are false as written and proved in corrected forms: the restriction is the greatest causality making the inclusion a strong morphism, and the unique one if the inclusion reflects the relations; the pull-back along a local homeomorphism exists with no hypothesis and is unique among absolutely minimal causalities. WP-1, audited.",
+      "notes": "No `sorry`. In the scaffold. Both uniqueness claims are false as written and proved in corrected forms: the restriction is the greatest causality making the inclusion a strong morphism, and the unique one if the inclusion reflects the relations; the pull-back along a local homeomorphism exists with no hypothesis and is unique among absolutely minimal causalities. WP-1, audited.",
+      "blocked_on": "OQ-13: the uniqueness ex:open_subset intends",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "ETT.tex:260 uniqueness is false as written: the diagonal causality (≤_V equality on V, ≪_V empty) also makes the inclusion of any open W a strong morphism, since a strong morphism only asks the relations of W to imply those of M (openSubset_not_unique, on the timelike line). What is true: the restriction is the GREATEST such causality, and the unique one for which the inclusion also reflects the relations (an isomorphism onto W). Suggested wording: 'a unique structure for which the inclusion is an isomorphism onto its image' or 'the largest structure for which ...'.",
+        "ETT.tex:262 uniqueness fails without a gluing property; among absolutely minimal causalities it holds (LocalIsomorphism.unique). Witness (localIsomorphism_not_unique): id : ℝ → ℝ is a local isomorphism to the timelike line both from the timelike line and from timelikeLineTop, which relates every pair of ℝ in ℝ itself. timelikeLineTop is a causality only because the library, like the paper's 'equivalently' form, has no gluing axiom: it is not causal (timelikeLineTop_not_isCausal), not absolutely minimal (timelikeLineTop_not_absolutelyMinimal), and not local in the sheaf sense. The paper's own use at ETT.tex:599 (X causally arc-connected, hence absolutely minimal) supplies the hypothesis under which uniqueness holds.",
+        "ETT.tex:262 'local isomorphism of topological spacetimes' needs N second countable and Hausdorff, and the paper says nothing about N: the line with two origins mapping to ℝ is a local homeomorphism from a non-Hausdorff space. The formalization asks nothing of N (the pull-back exists regardless), so N is a topological spacetime only if those hypotheses are added.",
+        "ETT.tex:262 existence holds for every local homeomorphism with no hypothesis on M (Causality.pullback, pullback_localIsomorphism): chains of relations read through φ in open sets on which φ is injective.",
+        "ETT.tex:262 'local isomorphism of topological spacetimes' is not defined in the paper."
+      ],
+      "extra_lean_files": [
+        "scaffold/CausalScaffold/Morphism.lean"
+      ],
+      "size": "M",
       "in_lean_scope": true,
       "stale": false
     },
@@ -1151,12 +1275,24 @@
       "nl_status_auto": "open",
       "statement_sha256": "a07e5d2019b1881a2b585f66de06e1019b0b943fc91e44ffc1f92ef20f9f01ed",
       "statement_sha256_current": "a07e5d2019b1881a2b585f66de06e1019b0b943fc91e44ffc1f92ef20f9f01ed",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/TransparentLine.lean"
+      ],
+      "decls": [
+        "Causal.transparentLine",
+        "Causal.transparentLine_le_iff",
+        "Causal.transparentLine_causallyPlain",
+        "Causal.transparentLine_absolutelyMinimalOn_top",
+        "Causal.transparentLine_absolutelyMinimal",
+        "Causal.realMinusZero",
+        "Causal.transparentLine_not_absolutelyMinimalOn",
+        "Causal.point_transparent"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "No `sorry`. Every assertion proved, no added hypothesis. WP-2, audited.",
+      "notes": "No `sorry`. Every assertion proved, no added hypothesis. WP-2, audited.",
       "in_lean_scope": true,
       "stale": false
     },
@@ -1182,12 +1318,34 @@
       "nl_status_auto": "informal",
       "statement_sha256": "b0fb0bf0af315717a53eac1082b235be795f936cfd02efcb8d9a0ebb8ec0cec4",
       "statement_sha256_current": "b0fb0bf0af315717a53eac1082b235be795f936cfd02efcb8d9a0ebb8ec0cec4",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/TransparentLine.lean",
+        "Causal/Galileo.lean",
+        "Causal/LinesReachable.lean"
+      ],
+      "decls": [
+        "Causal.generated_restrict_le",
+        "Causal.generated_restrict_lt",
+        "Causal.Precausality.AbsolutelyMinimalOn.of_isClosed",
+        "Causal.Precausality.AbsolutelyMinimal.absolutelyMinimalOn_of_isClopen",
+        "Causal.timelikeLine_rules_out_per_precausality_reading"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
+      "bucket": "C",
+      "scope_notes": "No `sorry`. Restriction commutes with generation, and absolute minimality restricts to clopen subsets. The per-precausality reading of the last sentence is ruled out (the timelike line on ]0,+∞[); the subset reading is open, even for ℝ and ]0,+∞[. WP-2, audited.",
+      "notes": "No `sorry`. Restriction commutes with generation, and absolute minimality restricts to clopen subsets. The per-precausality reading of the last sentence is ruled out (the timelike line on ]0,+∞[); the subset reading is open, even for ℝ and ]0,+∞[. WP-2, audited.",
+      "blocked_on": "OQ-15: what heredity only for clopen subsets asserts",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "ETT.tex:486, 'quantifying over arbitrarily fine covers of U this forces closure(U) ∩ (M∖U) = ∅' is an argument sketch: no precausality is exhibited, and the transparent-point construction of cexemple:point_transparent needs a boundary point of U with points of U on both sides (it does not apply to U = ]0,+∞[ ⊂ ℝ). Proved: restriction commutes with generation; clopen ⇒ hereditary. The per-precausality reading (P|_U absolutely minimal ⇒ U clopen) is not the paper's intent — it would contradict lem:precausalite_restriction_minimale (ETT.tex:491) — and is formally ruled out by timelikeLine_rules_out_per_precausality_reading."
+      ],
+      "extra_lean_files": [
+        "Causal/TransparentLine.lean",
+        "Causal/Galileo.lean",
+        "Causal/LinesReachable.lean"
+      ],
+      "size": "M",
       "in_lean_scope": true,
       "stale": false
     },
@@ -1702,12 +1860,42 @@
       "nl_status_auto": "informal",
       "statement_sha256": "b3b9d874509ced399abe2f6bff1a053e0a97e841797c8bf8cb20ea72970d7630",
       "statement_sha256_current": "b3b9d874509ced399abe2f6bff1a053e0a97e841797c8bf8cb20ea72970d7630",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/TransparentLine.lean",
+        "Causal/Galileo.lean",
+        "Causal/LinesReachable.lean"
+      ],
+      "decls": [
+        "Causal.galileoOn",
+        "Causal.galileo",
+        "Causal.galileoOn_isCausal",
+        "Causal.galileoOn_diamond_top",
+        "Causal.galileoOn_slab_subset",
+        "Causal.exists_before_after_of_mem_nhds",
+        "Causal.galileoOn_not_convex_basis",
+        "Causal.galileoOn_not_stronglyCausal",
+        "Causal.galileo_not_stronglyCausal",
+        "Causal.galileoOn_stronglyCausal_of_subsingleton",
+        "Causal.galileo_zero_stronglyCausal"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
+      "bucket": "D",
+      "scope_notes": "No `sorry`. Proved for n ≥ 1 (⚠ strengthened); false for n = 0, which is proved. The sentence on the flat model spacetimes is not stated: those spaces are not in the library. WP-2, audited.",
+      "notes": "No `sorry`. Proved for n ≥ 1 (⚠ strengthened); false for n = 0, which is proved. The sentence on the flat model spacetimes is not stated: those spaces are not in the library. WP-2, audited.",
+      "blocked_on": "the flat model spacetimes of subsec:sing_spacetime_defi",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "ETT.tex:273 / 670: Galileo's spacetime R^{n+1} is written with n unrestricted; for n = 0 it is the timelike line, which is strongly causal (galileo_zero_stronglyCausal; also timelikeLine_stronglyCausal in Causal.Lines). The remark holds for n ≥ 1 only.",
+        "ETT.tex:274-275: 'p ≤_U q if p ≪_U q or p = q' needs p ∈ U in the second case (relations of a causality on U hold between points of U); carried so.",
+        "ETT.tex:672-673: the last sentence (flat model spacetimes are strongly causal) is about the model spaces of subsec:sing_spacetime_defi, absent from the library; not stated."
+      ],
+      "extra_lean_files": [
+        "Causal/TransparentLine.lean",
+        "Causal/Galileo.lean",
+        "Causal/LinesReachable.lean"
+      ],
+      "size": "S",
       "in_lean_scope": true,
       "stale": false
     },
@@ -2277,12 +2465,34 @@
       "nl_status_auto": "informal",
       "statement_sha256": "a6bed38a8be4019b5d77e51b1c110f6ff6868f117a5a79a3631b973c62b6713e",
       "statement_sha256_current": "a6bed38a8be4019b5d77e51b1c110f6ff6868f117a5a79a3631b973c62b6713e",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/PushUp.lean",
+        "Causal/MeasureRemarks.lean"
+      ],
+      "decls": [
+        "Causal.Causality.exists_seq_mem_interior_Jplus",
+        "Causal.Causality.Kminus_eq_inter_isOpen",
+        "Causal.Causality.Kplus_eq_inter_isOpen",
+        "Causal.Causality.measurableSet_Kminus",
+        "Causal.Causality.measurableSet_Kplus",
+        "Causal.Causality.measurableSet_K_of_globallyHyperbolic"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
+      "bucket": "C",
+      "scope_notes": "No `sorry`. K^-(p) = J^-(p) ∩ O with O open: Borel whenever J^-(p) is (⚠ strengthened), and outright for a tarentin, globally hyperbolic, Hausdorff spacetime. WP-3, audited.",
+      "notes": "No `sorry`. K^-(p) = J^-(p) ∩ O with O open: Borel whenever J^-(p) is (⚠ strengthened), and outright for a tarentin, globally hyperbolic, Hausdorff spacetime. WP-3, audited.",
+      "blocked_on": "whether K^-(p) is Borel when J^-(p) is not",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "ETT.tex:833-834: 'a countable union of sets open in J^±(p), hence a Borel subset of M' needs J^-(p) Borel: a relatively open subset of a non-Borel set need not be Borel. Proved: K^-(p) = J^-(p) ∩ O with O open (the countable union is itself open in J^-(p)), hence Borel whenever J^-(p) is, in particular in the setting of prop:cont_ext_cont where J^-(p) is closed. 'open in J^±(p)' should read J^-(p).",
+        "The library's prop:cont_ext_cont (Causal/Measure.lean) does not need this remark at all: it applies inner regularity to a measurable subset of K^-(p) of full measure."
+      ],
+      "extra_lean_files": [
+        "Causal/PushUp.lean",
+        "Causal/MeasureRemarks.lean"
+      ],
+      "size": "S",
       "in_lean_scope": true,
       "stale": false
     },
@@ -2438,12 +2648,42 @@
       "nl_status_auto": "informal",
       "statement_sha256": "fb07eac24e2b4f52c5ec9f23156a5c0d0a173be14248775219ce9269b6321742",
       "statement_sha256_current": "fb07eac24e2b4f52c5ec9f23156a5c0d0a173be14248775219ce9269b6321742",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/TransparentLine.lean",
+        "Causal/Galileo.lean",
+        "Causal/LinesReachable.lean"
+      ],
+      "decls": [
+        "Causal.halfChronoLine",
+        "Causal.halfChronoLine_tarentin",
+        "Causal.halfChronoLine_absolutelyMinimal",
+        "Causal.halfChronoLine_isCausal",
+        "Causal.halfChronoLine_mem_Zminus",
+        "Causal.halfChronoLine_not_causallyPlain",
+        "Causal.halfChronoLine_neg_two_mem_Kminus",
+        "Causal.causallyPlain_cannot_be_dropped",
+        "Causal.causallyPlain_cannot_be_dropped_plus",
+        "Causal.pointedLine",
+        "Causal.pointedLine_Kplus_zero",
+        "Causal.bubble_need_not_meet_Kplus"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
+      "bucket": "D",
+      "scope_notes": "No `sorry`. Certified: causal plainness cannot be dropped from prop:tarentin_fort_K (halfChronoLine). The bubble mechanism fails in general but is open under prop:tarentin_fort_K's hypotheses; the BTZ sentence needs E_0. WP-2, audited.",
+      "notes": "No `sorry`. Certified: causal plainness cannot be dropped from prop:tarentin_fort_K (halfChronoLine). The bubble mechanism fails in general but is open under prop:tarentin_fort_K's hypotheses; the BTZ sentence needs E_0. WP-2, audited.",
+      "blocked_on": "the BTZ model E_0",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "ETT.tex:872-875: the conclusion (causal plainness cannot be dropped from prop:tarentin_fort_K) is certified by halfChronoLine (timelike causal relation, chronology only after −1): tarentin, absolutely minimal, causal, 0 ∈ Z^-, not causally plain, ]−∞,−1[ a bubble of J^-(0), −2 ∈ K^-(0) ∖ I^-(0).",
+        "ETT.tex:875-877: the BTZ sentence rests on prop:K_calcul and the model space E_0, absent from the library; not stated."
+      ],
+      "extra_lean_files": [
+        "Causal/TransparentLine.lean",
+        "Causal/Galileo.lean",
+        "Causal/LinesReachable.lean"
+      ],
+      "size": "M",
       "in_lean_scope": true,
       "stale": false
     },
@@ -2633,12 +2873,48 @@
       "nl_status_auto": "informal",
       "statement_sha256": "3a5438251dffbef9d7f6fee7c76bceb38b5f55f68b36ee6a22e17bf0a8461867",
       "statement_sha256_current": "3a5438251dffbef9d7f6fee7c76bceb38b5f55f68b36ee6a22e17bf0a8461867",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/TransparentLine.lean",
+        "Causal/Galileo.lean",
+        "Causal/LinesReachable.lean"
+      ],
+      "decls": [
+        "Causal.Causality.mem_closure_Jminus_of_Kminus_subset",
+        "Causal.Causality.mem_closure_Jplus_of_Kplus_subset",
+        "Causal.Causality.GloballyHyperbolic.hypothesis_a",
+        "Causal.Causality.K_order_embedding_of_globallyHyperbolic",
+        "Causal.Causality.Jminus_subset_closure_Kminus_iff",
+        "Causal.Causality.Jplus_subset_closure_Kplus_iff",
+        "Causal.Causality.Jminus_subset_closure_Iminus_of_pushUp",
+        "Causal.Causality.Jplus_subset_closure_Iplus_of_pushUp",
+        "Causal.PuncturedPlane",
+        "Causal.puncturedPlane",
+        "Causal.hypothesis_a_needed",
+        "Causal.spacelikeLine_Kminus",
+        "Causal.spacelikeLine_Kplus",
+        "Causal.spacelikeLine_pushUp",
+        "Causal.hypothesis_b_needed",
+        "Causal.pushUp_does_not_give_hypothesis_b"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
+      "bucket": "D",
+      "scope_notes": "No `sorry`. 'Neither hypothesis can be dispensed with' is certified by two counterexamples; 'around which M is causally plain' is used as 'M causally plain' (⚠ strengthened). WP-2, audited.",
+      "notes": "No `sorry`. 'Neither hypothesis can be dispensed with' is certified by two counterexamples; 'around which M is causally plain' is used as 'M causally plain' (⚠ strengthened). WP-2, audited.",
+      "blocked_on": "prop:K_densite_sing (the singular model spaces)",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "ETT.tex:952 'Neither hypothesis can be dispensed with' is certified by two counterexamples: (a) the punctured null plane (ℝ²∖{0}, product order with the null rays through the puncture blocked) is causal, satisfies (b) at every point for both signs, J^-((1,0)) is not closed, and K^-((−1,0)) ⊂ K^-((1,0)), K^+((1,0)) ⊂ K^+((−1,0)) while (−1,0) ≰ (1,0); (b) the spacelike line is causal, satisfies (a), K^± ≡ ∅, and both the order conclusion and injectivity fail.",
+        "ETT.tex:323-324 (rem:deux_pushup) and 953: imprecise rather than false. The paper uses 'push-up' for two properties: ETT.tex:290 calls causal plainness 'the push-up property', defi:pushup defines a relational one. With defi:pushup, density of I^-(x) in J^-(x) needs J^-(x) ⊆ Z^- as well (Jminus_subset_closure_Iminus_of_pushUp); without it the spacelike line has defi:pushup (vacuously) and fails density and (b) everywhere (pushUp_does_not_give_hypothesis_b). At ETT.tex:953 the sentence reasons through prop:tarentin_fort_K, so its 'push-up' is causal plainness, which the spacelike line lacks: that sentence is not contradicted. Suggest naming one property per word.",
+        "ETT.tex:954 'around which M is causally plain': prop:tarentin_fort_K is for a causally plain M; a local version is not proved anywhere. Certified with global plainness.",
+        "ETT.tex:957-958: prop:K_densite_sing belongs to the singular model spaces, absent from the library; not stated."
+      ],
+      "extra_lean_files": [
+        "Causal/TransparentLine.lean",
+        "Causal/Galileo.lean",
+        "Causal/LinesReachable.lean"
+      ],
+      "size": "M",
       "in_lean_scope": true,
       "stale": false
     },
@@ -2842,12 +3118,47 @@
       "nl_status_auto": "definition",
       "statement_sha256": "65bd1e1e58cc01f9efd22f8f028475adb0deb274c341672884b7ccdc6d95490b",
       "statement_sha256_current": "65bd1e1e58cc01f9efd22f8f028475adb0deb274c341672884b7ccdc6d95490b",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "scaffold/CausalScaffold/Morphism.lean"
+      ],
+      "decls": [
+        "Causal.Causality.IsTimeFunction",
+        "Causal.Causality.IsTimeFunction.continuous",
+        "Causal.Causality.IsTimeFunction.isOpenMap",
+        "Causal.Causality.IsTimeFunction.le",
+        "Causal.Causality.IsTimeFunction.lt",
+        "Causal.Causality.IsTimeFunction.Icc_subset",
+        "Causal.Causality.IsTimeFunction.monotoneOn",
+        "Causal.Causality.IsTimeFunction.strictMonoOn",
+        "Causal.Causality.IsTimeFunction.weakMorphism",
+        "Causal.Causality.IsTimeFunction.comp",
+        "Causal.Causality.IsTimeFunction.dual",
+        "Causal.Causality.dual_isTimeFunction",
+        "Causal.Causality.IsTimeFunction.isTimeFunctionOrder",
+        "Causal.orderLine",
+        "Causal.Causality.IsTimeFunctionOrder",
+        "Causal.Causality.isTimeFunctionOrder_iff",
+        "Causal.Causality.isTimeFunction_iff_order",
+        "Causal.orderLine_id_not_isTimeFunction",
+        "Causal.timelikeLine_isTimeFunction_id",
+        "Causal.timelikeSpacetime",
+        "Causal.isTimeFunction_iff_exists_hom"
+      ],
+      "lean_stated": "scaffold",
+      "lean_proved": "partial",
+      "bucket": "B",
+      "scope_notes": "No `sorry`. In the scaffold. A strong morphism to the timelike line (DEC-10); monotone along causal curves, strictly along chronal ones; −T is a time function for the dual. WP-1, audited.",
+      "notes": "No `sorry`. In the scaffold. A strong morphism to the timelike line (DEC-10); monotone along causal curves, strictly along chronal ones; −T is a time function for the dual. WP-1, audited.",
+      "blocked_on": "OQ-12: the sub-readings of DEC-10",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "Under DEC-10 a time function must be an OPEN map. The Geroch sketch ETT.tex:1272-1276 shows only that t^± = ±μ_±(J^±(x)) are continuous ('time functions (hence continuous)') and never argues that t^±, or T = log(-t^-/t^+), is open; nor, under the within-components reading (b), that [T x, T y] ⊆ U whenever x ≤_{T⁻¹U} y. The second point is automatic there, because Geroch assumes causal arc-connectedness (isTimeFunction_iff_order); the openness is a gap in (i)⇒(ii) of theo:geroch.",
+        "Notation: ETT.tex:267 calls the timelike line '(ℝ,≤,≤)' while ETT.tex:1029 calls the target of a time function '(ℝ,≤,<)'; the relations defined at l.267-268 are ≤ and <, so l.267 should read (ℝ,≤,<)."
+      ],
+      "extra_lean_files": [
+        "scaffold/CausalScaffold/Morphism.lean"
+      ],
+      "size": "S",
       "in_lean_scope": true,
       "stale": false
     },
@@ -2949,12 +3260,36 @@
       "nl_status_auto": "informal",
       "statement_sha256": "19d373d9a40b9196032775fca041a02f7f550062e4464155862a7b305af6ff71",
       "statement_sha256_current": "19d373d9a40b9196032775fca041a02f7f550062e4464155862a7b305af6ff71",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/PushUp.lean",
+        "Causal/MeasureRemarks.lean"
+      ],
+      "decls": [
+        "Causal.Causality.not_admissiblePast_and_admissibleFuture",
+        "Causal.Causality.not_admissiblePast_and_admissibleFuture_of_pushUp",
+        "Causal.lightlikeLine_admissible_past_and_future",
+        "Causal.lightlikeLine_chain",
+        "Causal.pointedLineMR",
+        "Causal.pointedLineMR_Kplus_zero",
+        "Causal.pointedLineMR_obstruction_hypotheses",
+        "Causal.pointedLineMR_not_admissible"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
+      "bucket": "D",
+      "scope_notes": "No `sorry`. False in the generality stated: on the lightlike line the Gaussian measure is admissible in the past and in the future. The obstruction is proved under K^+(p) ⊂ I^+(p), with a witness (pointedLineMR). WP-3, audited.",
+      "notes": "No `sorry`. False in the generality stated: on the lightlike line the Gaussian measure is admissible in the past and in the future. The obstruction is proved under K^+(p) ⊂ I^+(p), with a witness (pointedLineMR). WP-3, audited.",
+      "blocked_on": "the BTZ model E_0 (K^+(p) = I^+(p) at a BTZ point)",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "ETT.tex:1047-1049 is false in the generality stated: the lightlike line (ex:causalities_lines, item 2) is a causal chain along which every chronological past is empty, and the standard Gaussian measure on it is admissible in the past AND in the future (Lean: lightlikeLine_admissible_past_and_future; there K^-(p) = ]-∞,p[, K^+(p) = ]p,+∞[, so J^±(A) \\ K^±(A) has at most one point). The computation of rem:mesure_unilaterale also uses K^+(p) = I^+(p) at the lower end p (prop:K_calcul (b)), which fails on the lightlike line; with it the obstruction is proved. Suggested wording: 'a BTZ line, along which chronological pasts are empty while K^+ = I^+ (as at a BTZ point of an E_{≥0}-manifold)'.",
+        "Satisfiability (audit request): every hypothesis of not_admissiblePast_and_admissibleFuture holds on the pointed line (rebuilt locally as pointedLineMR from WP-2's pointedLine) at p = 0, q = 1: J^-(1) \\ J^-(0) = {1} ⊂ J^+(0), I^- = ∅, K^+(0) = ∅ = I^+(0); hence no measure on it is admissible in both senses (pointedLineMR_not_admissible). The _of_pushUp form has NO Lean witness: p ∈ Z^+(M) forces points r ≫ p arbitrarily close to p, with I^-(r) ∋ p, hence off the chain ]p,q]; a witness needs a second direction (dimension ≥ 2, as in the BTZ model) and is not built."
+      ],
+      "extra_lean_files": [
+        "Causal/PushUp.lean",
+        "Causal/MeasureRemarks.lean"
+      ],
+      "size": "M",
       "in_lean_scope": true,
       "stale": false
     },
@@ -3067,12 +3402,30 @@
       "nl_status_auto": "proved",
       "statement_sha256": "cf616bf7a0c90329fb58953b8af8e9349001cb1fed37278a68df0d6ca656a6bc",
       "statement_sha256_current": "cf616bf7a0c90329fb58953b8af8e9349001cb1fed37278a68df0d6ca656a6bc",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/MeasureLocal.lean"
+      ],
+      "decls": [
+        "Causal.Causality.mesure_dieckmann_topo_past",
+        "Causal.Causality.mesure_dieckmann_topo_future",
+        "Causal.Causality.exists_admissiblePast_of_local",
+        "Causal.Causality.exists_admissibleFuture_of_local",
+        "Causal.Causality.AdmissiblePastOn",
+        "Causal.Causality.AdmissibleFutureOn"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "No `sorry`. Past and future, with the paper's hypotheses; strong causality carried unused, and `exists_admissible*_of_local` needs only Lindelöf and R1. WP-5, audited.",
+      "notes": "No `sorry`. Past and future, with the paper's hypotheses; strong causality carried unused, and `exists_admissible*_of_local` needs only Lindelöf and R1. WP-5, audited.",
+      "paper_findings": [
+        "ETT.tex:1094: 'strongly causal' is not used by the proof (l.1103-1139); hypothesis (i) already provides causally convex neighbourhoods. It can be dropped from the statement.",
+        "ETT.tex:1104: 'Since M is second countable' — only the Lindelöf property is used (a countable subcover of (U_p)).",
+        "ETT.tex:1106-1107: 'normalised so that mu_n(U_n)=1' is not always possible: a measure admissible in the past on U_n may be the zero measure (when U_n contains no pair p <_{U_n} q, property 3 is vacuous). Weights 2^{-n-1}/(1+mu_n(U_n)), or simply dropping zero terms, repair it.",
+        "ETT.tex:1110: 'Since each mu_n is a normalised regular Borel measure, mu is a regular Borel measure' is true but not immediate: outer regularity is not stable under the countable intersection of open sets the termwise argument would produce. It holds because the total mass is finite: inner regularity by closed sets passes to the sum (finite unions), and for a finite measure that gives outer regularity; this uses Hausdorff (R1). Proved as Causal.regular_sum.",
+        "ETT.tex:1111-1113: the existence of n_0, q' with p in U_{n_0}, p <_{U_{n_0}} q', q' <= q is correct: take the first link of the chain given by cor:causalement_connexe_minimal that leaves p (Causal.transGen_exists_first_ne).",
+        "Hypothesis (i) is necessary (admissiblePast_local_of_admissiblePast: U_p = M), so the proposition says that, under (ii), admissibility in the past is a local property for causally convex covers."
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -3983,12 +4336,41 @@
       "nl_status_auto": "proved",
       "statement_sha256": "77e54f1085a097a49a5e8d196eb8d845cc80d810e877b157e5fc4f21adf46111",
       "statement_sha256_current": "77e54f1085a097a49a5e8d196eb8d845cc80d810e877b157e5fc4f21adf46111",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/PushUp.lean",
+        "Causal/MeasureRemarks.lean"
+      ],
+      "decls": [
+        "Causal.Causality.PushUp.Jminus_Iminus_eq",
+        "Causal.Causality.PushUp.Kminus_eq_Iminus",
+        "Causal.Causality.PushUp.Kplus_eq_Iplus",
+        "Causal.Causality.SingularPastAt",
+        "Causal.Causality.Kminus_eq_Jminus_diff",
+        "Causal.Causality.K_calcul",
+        "Causal.Causality.singularPastAt_of_le_iff",
+        "Causal.Causality.singularPastAt_of_ge_iff",
+        "Causal.timelikeLine_K_monotone_hypotheses",
+        "Causal.lightlikeLine_singularPastAt",
+        "Causal.lightlikeLine_K"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
+      "bucket": "D",
+      "scope_notes": "No `sorry`. The BTZ facts enter as named hypotheses (a set S for sing_0, SingularPastAt); (a)/(b) are proved from push-up instead of causal plainness (OQ-16). The timelike line with S = ]-∞,0] satisfies the hypotheses. WP-3, audited.",
+      "notes": "No `sorry`. The BTZ facts enter as named hypotheses (a set S for sing_0, SingularPastAt); (a)/(b) are proved from push-up instead of causal plainness (OQ-16). The timelike line with S = ]-∞,0] satisfies the hypotheses. WP-3, audited.",
+      "blocked_on": "the BTZ model E_0 (lem:past_BTZ, defi:causal_E0)",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "ETT.tex:1565: (a) and (b) are derived from prop:tarentin_fort_K, whose hypothesis 'causally plain' is established for E_{≥0}-manifolds nowhere in the paper (l.303-305 presents push-up as 'the form that singular flat spacetimes do satisfy'). Repair, proved here: under push-up lem:passe_coherent is immediate (J^-(I^-(p)) ⊂ I^-(p) is push-up itself, at every point and in every open set, no Z^- needed), and the proof of prop:tarentin_fort_K then goes through unchanged (PushUp.Kminus_eq_Iminus). The paper may want a push-up variant of prop:tarentin_fort_K and to cite cor:pushup_sing here.",
+        "ETT.tex:1571: '⊃ J^-(p_0)' is false as written: on the half-line J^-(p) the relative interior of J^-(p_0) is J^-(p_0) \\ {p_0}. The conclusion survives because p_0 is arbitrary (x < p_0 gives x ∈ Int_{J^-(p)} J^-(p_0)).",
+        "ETT.tex:1570: applying lem:K_facile needs p ∈ Int J^+(p_n) for every n, which the proof does not check; at a BTZ point it rests on the shape of the future cone of the singular line (defi:causal_E0, whose description of I^+ at a BTZ point is flagged in the source as asserted without proof).",
+        "ETT.tex:1567-1570: the inclusion K^-(p) ⊂ J^-(p) \\ {p} uses only one sequence p_n → p with p_n < p and causality; 'J^-(p_n) is contained in the BTZ line' (lem:past_BTZ) is not needed."
+      ],
+      "extra_lean_files": [
+        "Causal/PushUp.lean",
+        "Causal/MeasureRemarks.lean"
+      ],
+      "size": "M",
       "in_lean_scope": true,
       "stale": false
     },
@@ -4062,12 +4444,30 @@
       "nl_status_auto": "proved",
       "statement_sha256": "5f56dd9fc82a3f4f6640887ccafa2fc61392308d95d4cc183cc66a687e3dc7a1",
       "statement_sha256_current": "5f56dd9fc82a3f4f6640887ccafa2fc61392308d95d4cc183cc66a687e3dc7a1",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/PushUp.lean",
+        "Causal/MeasureRemarks.lean"
+      ],
+      "decls": [
+        "Causal.Causality.K_monotone",
+        "Causal.timelikeLine_K_monotone_hypotheses"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
+      "bucket": "D",
+      "scope_notes": "No `sorry`. Under the hypotheses of prop:K_calcul plus S closed under J^- and x BTZ, x ≤ y ∉ S ⇒ x ≪ y. Witness: the timelike line. WP-3, audited.",
+      "notes": "No `sorry`. Under the hypotheses of prop:K_calcul plus S closed under J^- and x BTZ, x ≤ y ∉ S ⇒ x ≪ y. Witness: the timelike line. WP-3, audited.",
+      "blocked_on": "the BTZ model E_0",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "ETT.tex:1630: case 'q ∈ sing_0, p ∉ sing_0' rests on I^+(x) = J^+(x) \\ sing_0 for x BTZ (defi:causal_E0, l.1352-1356, marked in the source '[editorial] asserted without proof -- verify'); push-up is not needed in that case once that is granted.",
+        "The future half uses K^+ = I^+ at every point, i.e. prop:K_calcul (a)(b), hence inherits the causal-plainness gap reported there; it holds under push-up."
+      ],
+      "extra_lean_files": [
+        "Causal/PushUp.lean",
+        "Causal/MeasureRemarks.lean"
+      ],
+      "size": "M",
       "in_lean_scope": true,
       "stale": false
     },
@@ -4332,12 +4732,30 @@
       "nl_status_auto": "proved",
       "statement_sha256": "3d827df51a202e2a3bba3f587ee263a7b37218a5b6ff6ff62903ef255444177a",
       "statement_sha256_current": "3d827df51a202e2a3bba3f587ee263a7b37218a5b6ff6ff62903ef255444177a",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/PushUp.lean",
+        "Causal/MeasureRemarks.lean"
+      ],
+      "decls": [
+        "Causal.Causality.interior_Jplus_inter_Zminus",
+        "Causal.Causality.interior_Jminus_inter_Zplus",
+        "Causal.Causality.J_int"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
+      "bucket": "D",
+      "scope_notes": "No `sorry`. Proved in any T1, absolutely minimal spacetime with push-up — the three properties the paper proves of singular flat spacetimes (cor:pushup_sing, cor:massA_causalite, prop:GX_sing_dec). Strong causality is not used. WP-3, audited.",
+      "notes": "No `sorry`. Proved in any T1, absolutely minimal spacetime with push-up — the three properties the paper proves of singular flat spacetimes (cor:pushup_sing, cor:massA_causalite, prop:GX_sing_dec). Strong causality is not used. WP-3, audited.",
+      "blocked_on": "the class of singular flat spacetimes",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "ETT.tex:1805-1809: the reduction to a causally convex chart (hence strong causality) is not needed: the proof of lem:IJ_calc (l.1449-1461) works verbatim in any T1, absolutely minimal topological spacetime with push-up. lem:J_int therefore holds for every E_{≥0}-manifold, strongly causal or not. Note that the step 'I^-(q) ≠ ∅, therefore q ∈ Z^-' of lem:IJ_calc is rem:absolutely_minimal_topological_spacetime."
+      ],
+      "extra_lean_files": [
+        "Causal/PushUp.lean",
+        "Causal/MeasureRemarks.lean"
+      ],
+      "size": "S",
       "in_lean_scope": true,
       "stale": false
     },
@@ -4369,12 +4787,30 @@
       "nl_status_auto": "proved",
       "statement_sha256": "6b9b5c8b8e33e18a500cb19287f3ea31af1da5ecc40b185d43d8d46f121d29d5",
       "statement_sha256_current": "6b9b5c8b8e33e18a500cb19287f3ea31af1da5ecc40b185d43d8d46f121d29d5",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/PushUp.lean",
+        "Causal/MeasureRemarks.lean"
+      ],
+      "decls": [
+        "Causal.Causality.Iminus_eq_interior_iUnion_iInter",
+        "Causal.Causality.Iplus_eq_interior_iUnion_iInter",
+        "Causal.Causality.cup_cap_sing"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
+      "bucket": "D",
+      "scope_notes": "No `sorry`. As lem:J_int, plus tarentin, T2 and J^±(x) closed; strong causality is not used. WP-3, audited.",
+      "notes": "No `sorry`. As lem:J_int, plus tarentin, T2 and J^±(x) closed; strong causality is not used. WP-3, audited.",
+      "blocked_on": "the class of singular flat spacetimes",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "The proof's appeal to strong causality (l.1820) is unnecessary; the statement for '-' needs only J^+(x) closed for every x (and for '+' only J^-(x) closed), plus the three class properties."
+      ],
+      "extra_lean_files": [
+        "Causal/PushUp.lean",
+        "Causal/MeasureRemarks.lean"
+      ],
+      "size": "S",
       "in_lean_scope": true,
       "stale": false
     },
@@ -4706,12 +5142,33 @@
       "nl_status_auto": "definition",
       "statement_sha256": "194274eb67f6a5f95d0cf9c97bed744a1b4b8e8be950a211d5c49594ca740c3c",
       "statement_sha256_current": "194274eb67f6a5f95d0cf9c97bed744a1b4b8e8be950a211d5c49594ca740c3c",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Pushout.lean"
+      ],
+      "decls": [
+        "Causal.GlueRel",
+        "Causal.Gluing",
+        "Causal.Gluing.mk",
+        "Causal.Gluing.ι₁",
+        "Causal.Gluing.ι₂",
+        "Causal.Gluing.mk_eq_mk_iff",
+        "Causal.Gluing.ι₁_eq_ι₂_iff",
+        "Causal.Gluing.ι₁_j₁",
+        "Causal.Gluing.isOpenEmbedding_ι₁",
+        "Causal.Gluing.isOpenEmbedding_ι₂",
+        "Causal.Gluing.isOpenMap_mk",
+        "Causal.Gluing.desc",
+        "Causal.Gluing.eq_desc"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "No `sorry`. The quotient of X ⊔ Y by the paper's relation, for any maps j₁, j₂ (Cauchy embeddings weakened to open embeddings in the API). WP-4, audited.",
+      "notes": "No `sorry`. The quotient of X ⊔ Y by the paper's relation, for any maps j₁, j₂ (Cauchy embeddings weakened to open embeddings in the API). WP-4, audited.",
+      "paper_findings": [
+        "ETT.tex:1990 the relation ∼ is not reflexive (p ∼ p only for p in the image of M1∧M2), so it is not an equivalence relation; the quotient is meant by the equivalence relation it generates, which is 'p = q or p ∼ q' when both maps are injective (Gluing.mk_eq_mk_iff). Suggest: 'the equivalence relation generated by …', or add 'p = q or'.",
+        "ETT.tex:1953-1960 (prop:Cauchy_pgcd, not this package): condition (b) of ℰ asks φ_M only to be a 𝕄≥0-morphism, not injective nor a Cauchy embedding, so (M1∧M2, φ) ∈ ℰ does not by itself make M1∧M2 a common sub-extension. defi:ppcm needs φ injective: if φ is not, M1 → M1∨M2 is not injective (Gluing.injective_j₂_of_injective_ι₁: ι₁ injective and j₁ injective force j₂ injective)."
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -4777,12 +5234,45 @@
       "nl_status_auto": "informal",
       "statement_sha256": "37edca20c225b48f4f91551fed1c5c938cca998a2d6ea387e49dab7ebc2557b4",
       "statement_sha256_current": "37edca20c225b48f4f91551fed1c5c938cca998a2d6ea387e49dab7ebc2557b4",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/Pushout.lean"
+      ],
+      "decls": [
+        "Causal.Gluing.nonSeparated_cases",
+        "Causal.Gluing.BoundaryPair",
+        "Causal.Gluing.t2Space_iff_frontier",
+        "Causal.Gluing.t2Space_iff_Cdist_eq_empty",
+        "Causal.Gluing.C",
+        "Causal.Gluing.Cdist",
+        "Causal.Gluing.graph",
+        "Causal.Gluing.C_eq_closure",
+        "Causal.Gluing.Cdist_eq",
+        "Causal.Gluing.Cdist_subset_frontier",
+        "Causal.Gluing.graph_subset_C",
+        "Causal.Gluing.C_nonempty",
+        "Causal.Gluing.t2Space_and_C_nonempty",
+        "Causal.Gluing.t2Space_iff",
+        "Causal.Gluing.disjoint_nhds_ι₁_ι₂_iff",
+        "Causal.Gluing.LineTwoOrigins",
+        "Causal.Gluing.lineTwoOrigins_mem_Cdist",
+        "Causal.Gluing.lineTwoOrigins_not_t2Space"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
+      "bucket": "B",
+      "scope_notes": "No `sorry`. The trichotomy and 'only the last case obstructs' are proved; the last sentence is false for the literal C (which contains the graph) and proved for the pairs with distinct images (Gluing.Cdist). WP-4, audited.",
+      "notes": "No `sorry`. The trichotomy and 'only the last case obstructs' are proved; the last sentence is false for the literal C (which contains the graph) and proved for the pairs with distinct images (Gluing.Cdist). WP-4, audited.",
+      "blocked_on": "OQ-14: the set C of rem:non_separe_cas",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "ETT.tex:2011 C is defined as the pairs (p,q) ∈ M1×M2 with π(p), π(q) not separated. Two equal points are never separated, so C contains every (j₁(x), j₂(x)) (Gluing.graph_subset_C) and C ≠ ∅ as soon as N ≠ ∅, even when the quotient is Hausdorff (Gluing.t2Space_and_C_nonempty). The last sentence of rem:non_separe_cas ('it is the case C ≠ ∅') is therefore false as written, and so is prop:Cauchy_point_min's hypothesis 'C ≠ ∅' in its literal reading. Every use of C (lem:corresponding_K, cor:model_corresponding, prop:C_connexe 'C is closed', prop:Cauchy_point_min, proof of prop:ppcm_Cauchy at l.2320-2324) needs the pairs with DISTINCT non-separated images. Suggest: add 'distinct' (or π(p) ≠ π(q)) to the definition of C. With that reading (Gluing.Cdist) the remark is proved: Cdist = closure(graph) ∖ graph ⊆ ∂j₁(N) × ∂j₂(N), and the quotient is Hausdorff iff Cdist = ∅.",
+        "The literal C is exactly the closure in M1×M2 of the graph {(j₁(x), j₂(x))} (Gluing.C_eq_closure, no separation axiom): this is the neighbourhood form of the sentence 'a sequence (a_n) with j₁(a_n) → p and j₂(a_n) → q exists because π(p) and π(q) are not separated' in the proof of lem:corresponding_K (l.2111). A cleaner statement of the whole remark: the gluing is Hausdorff iff M1, M2 are and the graph of f = j₂∘j₁⁻¹ is closed in M1×M2 (Gluing.t2Space_iff).",
+        "The remark is a necessary condition only: a pair in ∂j₁(N)×∂j₂(N) need not be non-separated; 'only the last case obstructs' is proved as: for Hausdorff M1, M2 the quotient is Hausdorff iff every pair of ∂j₁(N)×∂j₂(N) has separated images (Gluing.t2Space_iff_frontier). The line with two origins (two copies of ℝ glued along ℝ∖{0}) is the example: (0,0) ∈ Cdist and the gluing is not Hausdorff."
+      ],
+      "extra_lean_files": [
+        "Causal/Pushout.lean"
+      ],
+      "size": "S",
       "in_lean_scope": true,
       "stale": false
     },
@@ -4923,12 +5413,30 @@
       "nl_status_auto": "proved",
       "statement_sha256": "0b195e91abae8303c66be004409e4cacb72f335394ecf3d329e7dc70f1884a33",
       "statement_sha256_current": "0b195e91abae8303c66be004409e4cacb72f335394ecf3d329e7dc70f1884a33",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Causal/PushUp.lean",
+        "Causal/MeasureRemarks.lean"
+      ],
+      "decls": [
+        "Causal.Causality.le_of_Kminus_inter_subset",
+        "Causal.Causality.K_ordre_Sigma",
+        "Causal.timelikeLine_K_ordre_Sigma_hypotheses"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
+      "bucket": "D",
+      "scope_notes": "No `sorry`. The two model facts are named hypotheses (J^- ⊂ cl K^-, J^+(Σ) a neighbourhood of J^+(Σ) ∖ Σ). Witness: the timelike line with Σ = {0}. WP-3, audited.",
+      "notes": "No `sorry`. The two model facts are named hypotheses (J^- ⊂ cl K^-, J^+(Σ) a neighbourhood of J^+(Σ) ∖ Σ). Witness: the timelike line with Σ = {0}. WP-3, audited.",
+      "blocked_on": "prop:K_densite_sing and lem:Sigma_separe (singular models, Cauchy surfaces)",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "The proof uses of prop:K_densite_sing only x ∈ closure K^-(x), and of lem:Sigma_separe only that J^+(Σ) is a neighbourhood of x; the hypothesis on y is needed only for injectivity."
+      ],
+      "extra_lean_files": [
+        "Causal/PushUp.lean",
+        "Causal/MeasureRemarks.lean"
+      ],
+      "size": "M",
       "in_lean_scope": true,
       "stale": false
     },

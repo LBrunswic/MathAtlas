@@ -1,3 +1,6 @@
+import CausalScaffold.Morphism
+import CausalScaffold.PushoutCausal
+
 /-!
 # CausalScaffold
 
@@ -6,5 +9,6 @@ missing (a tagged `sorry`), or the file rests on a reading of the paper which aw
 ruling. Each module says which. Never imported by `Causal`.
 
 The modules of the campaign of 2026-09-27 (DEC-9) land here, one package per agent; graduation
-into `Causal/` is a file move and is the master session's.
+into `Causal/` is a file move and is the master session's. Every module is imported here, so
+that `scripts/AxiomSweep.lean` sweeps it: a module not imported is a module the gate cannot see.
 -/

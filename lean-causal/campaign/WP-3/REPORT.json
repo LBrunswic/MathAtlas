@@ -1,0 +1,323 @@
+{
+  "package": "WP-3",
+  "files": [
+    "scaffold/CausalScaffold/PushUp.lean",
+    "scaffold/CausalScaffold/MeasureRemarks.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "rem:K_borelien",
+      "tex_lines": [
+        829,
+        835
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.exists_seq_mem_interior_Jplus",
+        "Causal.Causality.Kminus_eq_inter_isOpen",
+        "Causal.Causality.Kplus_eq_inter_isOpen",
+        "Causal.Causality.measurableSet_Kminus",
+        "Causal.Causality.measurableSet_Kplus",
+        "Causal.Causality.measurableSet_K_of_globallyHyperbolic"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M tarentin",
+          "here": "carried",
+          "note": "used at p only"
+        },
+        {
+          "paper": "M second countable (category of topological spacetimes)",
+          "here": "weakened",
+          "note": "FirstCountableTopology M"
+        },
+        {
+          "paper": "(none) 'hence a Borel subset of M'",
+          "here": "strengthened",
+          "note": "MeasurableSet (J^-(p)) in measurableSet_Kminus; no added hypothesis in measurableSet_K_of_globallyHyperbolic (tarentin, globally hyperbolic, T2: the setting of prop:cont_ext_cont, where J^-(p) is closed)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:833-834: 'a countable union of sets open in J^±(p), hence a Borel subset of M' needs J^-(p) Borel: a relatively open subset of a non-Borel set need not be Borel. Proved: K^-(p) = J^-(p) ∩ O with O open (the countable union is itself open in J^-(p)), hence Borel whenever J^-(p) is, in particular in the setting of prop:cont_ext_cont where J^-(p) is closed. 'open in J^±(p)' should read J^-(p).",
+        "The library's prop:cont_ext_cont (Causal/Measure.lean) does not need this remark at all: it applies inner regularity to a measurable subset of K^-(p) of full measure."
+      ],
+      "questions": [
+        "Is K^-(p) meant to be Borel in a tarentin second-countable spacetime whose J^-(p) is not Borel? No counterexample was constructed; the reading taken is 'Borel when J^-(p) is'."
+      ]
+    },
+    {
+      "label": "rem:mesure_unilaterale_ptr",
+      "tex_lines": [
+        1045,
+        1052
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.not_admissiblePast_and_admissibleFuture",
+        "Causal.Causality.not_admissiblePast_and_admissibleFuture_of_pushUp",
+        "Causal.lightlikeLine_admissible_past_and_future",
+        "Causal.lightlikeLine_chain",
+        "Causal.pointedLineMR",
+        "Causal.pointedLineMR_Kplus_zero",
+        "Causal.pointedLineMR_obstruction_hypotheses",
+        "Causal.pointedLineMR_not_admissible"
+      ],
+      "hypotheses": [
+        {
+          "paper": "a causal chain p < q",
+          "here": "carried",
+          "note": "p ≤ q, p ≠ q, and J^-(q) \\ J^-(p) ⊂ J^+(p) (the segment ]p,q] lies on the chain)"
+        },
+        {
+          "paper": "chronological pasts empty along the chain",
+          "here": "carried",
+          "note": "I^-(r) = ∅ for r ∈ J^-(q) \\ J^-(p)"
+        },
+        {
+          "paper": "(not stated in this remark; used by the computation of rem:mesure_unilaterale)",
+          "here": "strengthened",
+          "note": "K^+(p) ⊂ I^+(p), which stands for prop:K_calcul (b) at a BTZ point; or, in the _of_pushUp form, push-up (cor:pushup_sing), p ∈ Z^+(M) (rem:btz_pas_tarentin) and FirstCountableTopology"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1047-1049 is false in the generality stated: the lightlike line (ex:causalities_lines, item 2) is a causal chain along which every chronological past is empty, and the standard Gaussian measure on it is admissible in the past AND in the future (Lean: lightlikeLine_admissible_past_and_future; there K^-(p) = ]-∞,p[, K^+(p) = ]p,+∞[, so J^±(A) \\ K^±(A) has at most one point). The computation of rem:mesure_unilaterale also uses K^+(p) = I^+(p) at the lower end p (prop:K_calcul (b)), which fails on the lightlike line; with it the obstruction is proved. Suggested wording: 'a BTZ line, along which chronological pasts are empty while K^+ = I^+ (as at a BTZ point of an E_{≥0}-manifold)'.",
+        "Satisfiability (audit request): every hypothesis of not_admissiblePast_and_admissibleFuture holds on the pointed line (rebuilt locally as pointedLineMR from WP-2's pointedLine) at p = 0, q = 1: J^-(1) \\ J^-(0) = {1} ⊂ J^+(0), I^- = ∅, K^+(0) = ∅ = I^+(0); hence no measure on it is admissible in both senses (pointedLineMR_not_admissible). The _of_pushUp form has NO Lean witness: p ∈ Z^+(M) forces points r ≫ p arbitrarily close to p, with I^-(r) ∋ p, hence off the chain ]p,q]; a witness needs a second direction (dimension ≥ 2, as in the BTZ model) and is not built."
+      ],
+      "questions": []
+    },
+    {
+      "label": "lem:J_int",
+      "tex_lines": [
+        1800,
+        1810
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.interior_Jplus_inter_Zminus",
+        "Causal.Causality.interior_Jminus_inter_Zplus",
+        "Causal.Causality.J_int"
+      ],
+      "hypotheses": [
+        {
+          "paper": "singular flat spacetime",
+          "here": "strengthened",
+          "note": "replaced by three properties the paper proves of every E_{≥0}-manifold: PushUp (cor:pushup_sing), AbsolutelyMinimal (cor:massA_causalite), T1Space (a manifold). No model fact beyond these is used."
+        },
+        {
+          "paper": "strongly causal",
+          "here": "weakened",
+          "note": "not used: the chart reduction is unnecessary, the proof of lem:IJ_calc is abstract"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1805-1809: the reduction to a causally convex chart (hence strong causality) is not needed: the proof of lem:IJ_calc (l.1449-1461) works verbatim in any T1, absolutely minimal topological spacetime with push-up. lem:J_int therefore holds for every E_{≥0}-manifold, strongly causal or not. Note that the step 'I^-(q) ≠ ∅, therefore q ∈ Z^-' of lem:IJ_calc is rem:absolutely_minimal_topological_spacetime."
+      ],
+      "questions": [
+        "Is the label certified once the master accepts 'singular flat spacetime ⇒ push-up, absolutely minimal, Hausdorff' (cor:pushup_sing, cor:massA_causalite, prop:GX_sing_dec) as the reduction? The Lean statement is a generalisation with no other hypothesis; it is left unmarked because the library has no class of singular flat spacetimes."
+      ]
+    },
+    {
+      "label": "lem:cup_cap_sing",
+      "tex_lines": [
+        1812,
+        1823
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.Iminus_eq_interior_iUnion_iInter",
+        "Causal.Causality.Iplus_eq_interior_iUnion_iInter",
+        "Causal.Causality.cup_cap_sing"
+      ],
+      "hypotheses": [
+        {
+          "paper": "singular flat spacetime",
+          "here": "strengthened",
+          "note": "PushUp (cor:pushup_sing), AbsolutelyMinimal (cor:massA_causalite), T2Space (a manifold), Tarentin (rem:sing_tarentin)"
+        },
+        {
+          "paper": "globally hyperbolic",
+          "here": "carried",
+          "note": "in cup_cap_sing; the one-sided forms use only J^+(x) (resp. J^-(x)) closed for every x"
+        },
+        {
+          "paper": "(proof) globally hyperbolic hence strongly causal",
+          "here": "weakened",
+          "note": "not used (lem:J_int needs no strong causality)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "The proof's appeal to strong causality (l.1820) is unnecessary; the statement for '-' needs only J^+(x) closed for every x (and for '+' only J^-(x) closed), plus the three class properties."
+      ],
+      "questions": [
+        "As for lem:J_int: unmarked only because the class of singular flat spacetimes is not in the library."
+      ]
+    },
+    {
+      "label": "prop:K_calcul",
+      "tex_lines": [
+        1557,
+        1574
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.PushUp.Jminus_Iminus_eq",
+        "Causal.Causality.PushUp.Kminus_eq_Iminus",
+        "Causal.Causality.PushUp.Kplus_eq_Iplus",
+        "Causal.Causality.SingularPastAt",
+        "Causal.Causality.Kminus_eq_Jminus_diff",
+        "Causal.Causality.K_calcul",
+        "Causal.Causality.singularPastAt_of_le_iff",
+        "Causal.Causality.singularPastAt_of_ge_iff",
+        "Causal.timelikeLine_K_monotone_hypotheses",
+        "Causal.lightlikeLine_singularPastAt",
+        "Causal.lightlikeLine_K"
+      ],
+      "hypotheses": [
+        {
+          "paper": "E_{≥0}-manifold",
+          "here": "strengthened",
+          "note": "PushUp (cor:pushup_sing); FirstCountableTopology (a manifold); a set S standing for sing_0(M)"
+        },
+        {
+          "paper": "(model) every point strongly tarentin in the future; points off sing_0 strongly tarentin in the past",
+          "here": "strengthened",
+          "note": "hZp : ∀ p, p ∈ Z^+, hZm : ∀ p ∉ S, p ∈ Z^- (rem:btz_pas_tarentin)"
+        },
+        {
+          "paper": "(model) the past of a BTZ point is the half-line below it",
+          "here": "strengthened",
+          "note": "SingularPastAt p for p ∈ S (defi:causal_E0, lem:past_BTZ): a sequence p_n → p with p_n < p; and for every x < p a non-decreasing sequence p_n → p with p ∈ Int J^+(p_n) and x ∈ Int_{J^-(p)} J^-(p_0). Satisfied at every point of the lightlike line (past and, by dual, future) and of the timelike line"
+        },
+        {
+          "paper": "(c) M causal",
+          "here": "carried",
+          "note": ""
+        },
+        {
+          "paper": "(via prop:tarentin_fort_K) causally plain, absolutely minimal, tarentin",
+          "here": "weakened",
+          "note": "causal plainness replaced by push-up; absolute minimality and tarentin not used"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1565: (a) and (b) are derived from prop:tarentin_fort_K, whose hypothesis 'causally plain' is established for E_{≥0}-manifolds nowhere in the paper (l.303-305 presents push-up as 'the form that singular flat spacetimes do satisfy'). Repair, proved here: under push-up lem:passe_coherent is immediate (J^-(I^-(p)) ⊂ I^-(p) is push-up itself, at every point and in every open set, no Z^- needed), and the proof of prop:tarentin_fort_K then goes through unchanged (PushUp.Kminus_eq_Iminus). The paper may want a push-up variant of prop:tarentin_fort_K and to cite cor:pushup_sing here.",
+        "ETT.tex:1571: '⊃ J^-(p_0)' is false as written: on the half-line J^-(p) the relative interior of J^-(p_0) is J^-(p_0) \\ {p_0}. The conclusion survives because p_0 is arbitrary (x < p_0 gives x ∈ Int_{J^-(p)} J^-(p_0)).",
+        "ETT.tex:1570: applying lem:K_facile needs p ∈ Int J^+(p_n) for every n, which the proof does not check; at a BTZ point it rests on the shape of the future cone of the singular line (defi:causal_E0, whose description of I^+ at a BTZ point is flagged in the source as asserted without proof).",
+        "ETT.tex:1567-1570: the inclusion K^-(p) ⊂ J^-(p) \\ {p} uses only one sequence p_n → p with p_n < p and causality; 'J^-(p_n) is contained in the BTZ line' (lem:past_BTZ) is not needed."
+      ],
+      "questions": [
+        "Are E_{≥0}-manifolds meant to be causally plain? If so, which result shows it; if not, prop:K_calcul (a)/(b) should cite push-up (cor:pushup_sing) through a push-up form of prop:tarentin_fort_K."
+      ]
+    },
+    {
+      "label": "prop:K_monotone",
+      "tex_lines": [
+        1608,
+        1632
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.K_monotone",
+        "Causal.timelikeLine_K_monotone_hypotheses"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M causal",
+          "here": "carried",
+          "note": ""
+        },
+        {
+          "paper": "E_{≥0}-manifold",
+          "here": "strengthened",
+          "note": "the hypotheses of K_calcul (push-up, first countable, S, Z^+ = M, Z^- off S, SingularPastAt on S), plus: S closed under J^- (lem:past_BTZ: the past of a BTZ point lies on its BTZ line), and x ∈ S, y ∉ S, x ≤ y ⇒ x ≪ y (defi:causal_E0: I^+(x) = J^+(x) \\ sing_0 at a BTZ point). All jointly satisfied by the timelike line with S = ]-∞,0]"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1630: case 'q ∈ sing_0, p ∉ sing_0' rests on I^+(x) = J^+(x) \\ sing_0 for x BTZ (defi:causal_E0, l.1352-1356, marked in the source '[editorial] asserted without proof -- verify'); push-up is not needed in that case once that is granted.",
+        "The future half uses K^+ = I^+ at every point, i.e. prop:K_calcul (a)(b), hence inherits the causal-plainness gap reported there; it holds under push-up."
+      ],
+      "questions": []
+    },
+    {
+      "label": "cor:K_ordre_Sigma",
+      "tex_lines": [
+        2082,
+        2098
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.le_of_Kminus_inter_subset",
+        "Causal.Causality.K_ordre_Sigma",
+        "Causal.timelikeLine_K_ordre_Sigma_hypotheses"
+      ],
+      "hypotheses": [
+        {
+          "paper": "globally hyperbolic",
+          "here": "carried",
+          "note": ""
+        },
+        {
+          "paper": "singular flat spacetime",
+          "here": "strengthened",
+          "note": "Tarentin (rem:sing_tarentin), T2Space (a manifold), and J^-(x) ⊂ closure K^-(x) for every x (prop:K_densite_sing; only x ∈ closure K^-(x) is used)"
+        },
+        {
+          "paper": "Σ a Cauchy surface",
+          "here": "strengthened",
+          "note": "replaced by the one consequence used: J^+(Σ) is a neighbourhood of each point of J^+(Σ) \\ Σ (lem:Sigma_separe)"
+        },
+        {
+          "paper": "y ∈ J^+(Σ) \\ Σ",
+          "here": "weakened",
+          "note": "not used for the implication; used for injectivity"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "The proof uses of prop:K_densite_sing only x ∈ closure K^-(x), and of lem:Sigma_separe only that J^+(Σ) is a neighbourhood of x; the hypothesis on y is needed only for injectivity."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.dual_pushUp",
+    "Causal.Causality.PushUp.lt_of_lt_of_le",
+    "Causal.Causality.PushUp.lt_of_le_of_lt",
+    "Causal.Causality.PushUp.Jminus_Iminus_eq",
+    "Causal.Causality.PushUp.Kminus_eq_Iminus",
+    "Causal.Causality.PushUp.Kplus_eq_Iplus",
+    "Causal.tendsto_sub_div_nat",
+    "Causal.tendsto_add_div_nat",
+    "Causal.div_succ_antitone",
+    "Causal.timelikeLine_le_top",
+    "Causal.lightlikeLine_le_top",
+    "Causal.timelikeLine_mem_Zplus",
+    "Causal.timelikeLine_mem_Zminus",
+    "Causal.lightlikeLine_isCausal",
+    "Causal.lightlikeLine_Jminus_diff_Kminus_subsingleton",
+    "Causal.lightlikeLine_Jplus_diff_Kplus_subsingleton",
+    "Causal.gaussianReal_Ioo_pos"
+  ],
+  "kb_proposals": [
+    "Under push-up, lem:passe_coherent is a one-liner and prop:tarentin_fort_K holds without causal plainness: use CausalScaffold.PushUp's PushUp.Kminus_eq_Iminus wherever the paper invokes prop:tarentin_fort_K for E_{≥0}-manifolds.",
+    "Model facts of the singular part are carried as named hypotheses: SingularPastAt (the BTZ half-line), a set S for sing_0, Z^+ = M / Z^- off S; the lines of Causal/Lines.lean witness them (singularPastAt_of_le_iff / _of_ge_iff for any causality on ℝ whose ≤_ℝ is the order or its reverse).",
+    "Inside `namespace Causality`, `le_of_lt` resolves to `Causality.le_of_lt`: write `_root_.le_of_lt` for the order lemma. `mem_sdiff` is ambiguous with `Filter.mem_sdiff` when Filter is open: write `Set.mem_sdiff`.",
+    "A finite measure with full support and no atoms on ℝ: `ProbabilityTheory.gaussianReal 0 1` (regular by instance, `noAtoms_gaussianReal`, positivity of intervals via `gaussianReal_absolutelyContinuous'`)."
+  ],
+  "notes": "Both files are sorry-free, build as modules (lake build CausalScaffold.PushUp CausalScaffold.MeasureRemarks rebuilt nothing upstream) and depend only on propext, Classical.choice, Quot.sound. MeasureRemarks imports PushUp. No label is marked: lem:J_int and lem:cup_cap_sing are generalisations whose only hypotheses (push-up, absolute minimality, Hausdorff, tarentin, global hyperbolicity) are paper-proved properties of singular flat spacetimes; the master may mark them if that reduction is accepted. Generic names that another package might also define: dual_pushUp, PushUp.lt_of_lt_of_le, PushUp.lt_of_le_of_lt, lightlikeLine_isCausal, timelikeLine_mem_Zplus/Zminus, timelikeLine_le_top, lightlikeLine_le_top, tendsto_sub_div_nat; dedupe at graduation if they collide. The headline finding is rem:mesure_unilaterale_ptr: certified counterexample on the lightlike line. Audit addition: pointedLineMR (a local copy of WP-2's pointedLine, not imported because LinesReachable is in motion) witnesses the hypotheses of not_admissiblePast_and_admissibleFuture; the _of_pushUp form has no cheap witness (needs dimension ≥ 2), stated in its docstring. If both files graduate, pointedLineMR duplicates pointedLine and may be replaced by it."
+}

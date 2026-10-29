@@ -20,7 +20,7 @@ submodule, so the library is grown here in the layout it will have there: gradua
 | library | where | rule |
 |---|---|---|
 | `Causal` | `Causal/` | strict: `warningAsError`, so a `sorry`, an unused variable or a deprecation fails the build |
-| `CausalScaffold` | `scaffold/CausalScaffold/` | `sorry` permitted and tagged; never imported by `Causal`. A module is here either because a proof is missing or because it rests on a **reading of the paper awaiting the author's ruling** — each module says which. The layer of the curves graduated on 2026-09-27 (DEC-6); the scaffold holds the campaign's files (`docs/CAMPAIGN.md`) until they graduate |
+| `CausalScaffold` | `scaffold/CausalScaffold/` | `sorry` permitted and tagged; never imported by `Causal`. A module is here either because a proof is missing or because it rests on a **reading of the paper awaiting the author's ruling** — each module says which. The layer of the curves graduated on 2026-09-27 (DEC-6); the scaffold holds the campaign's files (`docs/CAMPAIGN.md`) until they graduate; today `Morphism` and `PushoutCausal`, both on the sub-readings of DEC-10 (OQ-12) |
 
 ## Modules
 
@@ -40,6 +40,16 @@ submodule, so the library is grown here in the layout it will have there: gradua
 | `Causal.Curves` | `def:causal_chronological_curve` | causal and chronal curves, as ruled by DEC-6 (OQ-7) |
 | `Causal.ArcConnected` | `def:causal_arc_connectedness`, `def:local_causal_arc_connectedness`, `rem:cac_local`, `prop:cac_engendre`, `cor:causalement_connexe_minimal`, `lem:precausalite_restriction_minimale`, `lem:pushup_local`, `lem:restriction_convexe` | causal arc-connectedness |
 | `Causal.LinesCurves` | — | the timelike line is causally arc-connected |
+| `Causal.TransparentLine` | `cexemple:point_transparent` | `rem:minimalite_non_hereditaire` partial (OQ-15) |
+| `Causal.Galileo` | — | `rem:galileo_spacetime_not_strongly` partial: needs n ≥ 1 |
+| `Causal.LinesReachable` | — | `rem:K_neq_I`, `rem:K_plongement_hypotheses` partial: counterexamples on lines |
+| `Causal.PushUp` | — | the order-topological cores of `lem:J_int`, `lem:cup_cap_sing`, `prop:K_calcul`, `prop:K_monotone`, `cor:K_ordre_Sigma`; model facts as hypotheses (kb/0012) |
+| `Causal.MeasureRemarks` | — | `rem:K_borelien`, `rem:mesure_unilaterale_ptr` partial |
+| `Causal.MeasureSum` | — | countable weighted sums of regular measures |
+| `Causal.MeasureLocal` | `prop:mesure_dieckmann_topo` | admissibility is local for causally convex covers |
+| `Causal.Pushout` | `defi:ppcm` | `rem:non_separe_cas` partial (OQ-14); the Hausdorff criterion of a gluing |
+| `CausalScaffold.Morphism` | — (OQ-12) | **C**, strong and weak morphisms, `ex:open_subset`, time functions (DEC-10) |
+| `CausalScaffold.PushoutCausal` | — (OQ-12) | the causality of a gluing; rests on `Morphism` |
 
 What each label's status is, which declarations carry it and what formalizing found in the paper
 is in `papers/ett/ledger/LEDGER.md`, generated from the sources and from

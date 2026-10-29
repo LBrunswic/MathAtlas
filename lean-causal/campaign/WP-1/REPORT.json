@@ -1,0 +1,217 @@
+{
+  "package": "WP-1",
+  "files": [
+    "scaffold/CausalScaffold/Morphism.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "defi:categorie_C",
+      "tex_lines": [
+        232,
+        234
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.IsCObject",
+        "Causal.CObj",
+        "Causal.CObj.Hom",
+        "Causal.instCategoryCObj",
+        "Causal.Causality.toCObj"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:233 the objects of C are topological spaces, but its morphisms are only 'non-decreasing maps', with no continuity asked. Formalized as written (no continuity); the author may want 'continuous non-decreasing maps'."
+      ],
+      "questions": [
+        "(a) Does 'non-decreasing' cover the chronological relation as well, i.e. x ≤ y ⇒ f x ≤ f y AND x ≪ y ⇒ f x ≪ f y? Taken: yes, both (CObj.Hom.map_le, map_lt). Consequence, measured: under this reading a weak morphism from the lightlike line (ℝ,≤,∅) is exactly a causal curve, and one from the timelike line is exactly a chronal curve (weakMorphism_lightlikeLine_iff, weakMorphism_timelikeLine_iff).",
+        "Are the morphisms of C required to be continuous? Taken: no, as written."
+      ]
+    },
+    {
+      "label": "def:category_topological_spacetimes",
+      "tex_lines": [
+        254,
+        258
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.StrongMorphism",
+        "Causal.WeakMorphism",
+        "Causal.StrongMorphism.component",
+        "Causal.StrongMorphism.of_components",
+        "Causal.StrongMorphism.id",
+        "Causal.StrongMorphism.comp",
+        "Causal.StrongMorphism.weakMorphism",
+        "Causal.StrongMorphism.le_of_mapsTo",
+        "Causal.StrongMorphism.lt_of_mapsTo",
+        "Causal.WeakMorphism.id",
+        "Causal.WeakMorphism.comp",
+        "Causal.Spacetime",
+        "Causal.instCategorySpacetime"
+      ],
+      "hypotheses": [
+        {
+          "paper": "spacetimes second countable and Hausdorff",
+          "here": "weakened",
+          "note": "used by no lemma; carried only in the bundled Spacetime structure on which the Category instance lives"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:255 'an open map inducing a sheaf morphism': continuity is implicit (φ⁻¹U must be open for the component at U to exist). Carried as an explicit field, per DEC-10. Naturality of the sheaf morphism is automatic, since every component is a restriction of φ.",
+        "A strong morphism is a weak morphism (StrongMorphism.weakMorphism); both classes contain the identity and are closed under composition, so the strong morphisms form a category (instCategorySpacetime). Openness of φ is not used for any of this.",
+        "Library, not paper: Causal/Curves.lean's docstring says a causal curve 'is the weak morphism ... from the segment with the causality of the timelike line'. Under reading (a) that is the chronal curve; the causal curve is the weak morphism from the LIGHTLIKE line. Under the ≤-only reading the docstring is correct. Worth one sentence there once (a) is ruled."
+      ],
+      "questions": [
+        "(a) as for defi:categorie_C: the 'non-decreasing' of φ|V^|U is read on both relations.",
+        "In a weak morphism, are the 'neighbourhoods' U of φ(x) and V of x open? Taken: open (≤_V is only defined for V open)."
+      ]
+    },
+    {
+      "label": "ex:open_subset",
+      "tex_lines": [
+        259,
+        263
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.LocalCausality.InclusionStrong",
+        "Causal.Causality.restrict_inclusionStrong",
+        "Causal.LocalCausality.InclusionStrong.le_restrict",
+        "Causal.LocalCausality.InclusionStrong.eq_restrict",
+        "Causal.LocalCausality.diagonal",
+        "Causal.LocalCausality.diagonal_inclusionStrong",
+        "Causal.openSubset_not_unique",
+        "Causal.LocalCausality.toSubtype",
+        "Causal.LocalCausality.inclusionStrong_iff",
+        "Causal.LocalIsomorphism",
+        "Causal.Causality.pullback",
+        "Causal.Causality.pullback_localIsomorphism",
+        "Causal.LocalIsomorphism.le_of_absolutelyMinimal",
+        "Causal.LocalIsomorphism.unique",
+        "Causal.timelikeLineTop",
+        "Causal.localIsomorphism_not_unique",
+        "Causal.timelikeLineTop_not_isCausal",
+        "Causal.timelikeLineTop_not_absolutelyMinimal"
+      ],
+      "hypotheses": [
+        {
+          "paper": "uniqueness (first sentence): the inclusion is a strong morphism",
+          "here": "strengthened",
+          "note": "false as written; unique when the inclusion also reflects the relations (eq_restrict); the restriction is in any case the greatest such causality (le_restrict)"
+        },
+        {
+          "paper": "uniqueness (second sentence): φ is a local isomorphism",
+          "here": "strengthened",
+          "note": "fails without a gluing property (the witness timelikeLineTop is not causal, not absolutely minimal, not a sheaf); unique among absolutely minimal causalities (LocalIsomorphism.unique)"
+        },
+        {
+          "paper": "φ a local homeomorphism (existence)",
+          "here": "carried",
+          "note": "pullback_localIsomorphism; the definition of the pull-back only needs φ continuous"
+        },
+        {
+          "paper": "N a topological spacetime (second countable, Hausdorff)",
+          "here": "weakened",
+          "note": "the paper never states it of N; not asked; false in general for the source of a local homeomorphism (line with two origins)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:260 uniqueness is false as written: the diagonal causality (≤_V equality on V, ≪_V empty) also makes the inclusion of any open W a strong morphism, since a strong morphism only asks the relations of W to imply those of M (openSubset_not_unique, on the timelike line). What is true: the restriction is the GREATEST such causality, and the unique one for which the inclusion also reflects the relations (an isomorphism onto W). Suggested wording: 'a unique structure for which the inclusion is an isomorphism onto its image' or 'the largest structure for which ...'.",
+        "ETT.tex:262 uniqueness fails without a gluing property; among absolutely minimal causalities it holds (LocalIsomorphism.unique). Witness (localIsomorphism_not_unique): id : ℝ → ℝ is a local isomorphism to the timelike line both from the timelike line and from timelikeLineTop, which relates every pair of ℝ in ℝ itself. timelikeLineTop is a causality only because the library, like the paper's 'equivalently' form, has no gluing axiom: it is not causal (timelikeLineTop_not_isCausal), not absolutely minimal (timelikeLineTop_not_absolutelyMinimal), and not local in the sheaf sense. The paper's own use at ETT.tex:599 (X causally arc-connected, hence absolutely minimal) supplies the hypothesis under which uniqueness holds.",
+        "ETT.tex:262 'local isomorphism of topological spacetimes' needs N second countable and Hausdorff, and the paper says nothing about N: the line with two origins mapping to ℝ is a local homeomorphism from a non-Hausdorff space. The formalization asks nothing of N (the pull-back exists regardless), so N is a topological spacetime only if those hypotheses are added.",
+        "ETT.tex:262 existence holds for every local homeomorphism with no hypothesis on M (Causality.pullback, pullback_localIsomorphism): chains of relations read through φ in open sets on which φ is injective.",
+        "ETT.tex:262 'local isomorphism of topological spacetimes' is not defined in the paper."
+      ],
+      "questions": [
+        "Which corrected uniqueness does the author intend in the first sentence: 'greatest', or 'the inclusion is an isomorphism onto W'? Both are proved.",
+        "Which corrected uniqueness in the second sentence: among absolutely minimal causalities (proved), or another class?",
+        "Reading taken of 'local isomorphism': φ a local homeomorphism, each point with an open neighbourhood V, φ injective on V, such that for every open V' ⊆ V and y, z ∈ V': y ≤_{V'} z ⇔ φ y ≤_{φ(V')} φ z, and likewise for ≪.",
+        "'Carries a structure' was stated with LocalCausality W (kb/0001); LocalCausality.inclusionStrong_iff proves that InclusionStrong is exactly StrongMorphism (L.toSubtype) C Subtype.val on the subspace ↥W, so nothing is lost."
+      ]
+    },
+    {
+      "label": "defi:fonction_temps",
+      "tex_lines": [
+        1028,
+        1030
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.IsTimeFunction",
+        "Causal.Causality.IsTimeFunction.continuous",
+        "Causal.Causality.IsTimeFunction.isOpenMap",
+        "Causal.Causality.IsTimeFunction.le",
+        "Causal.Causality.IsTimeFunction.lt",
+        "Causal.Causality.IsTimeFunction.Icc_subset",
+        "Causal.Causality.IsTimeFunction.monotoneOn",
+        "Causal.Causality.IsTimeFunction.strictMonoOn",
+        "Causal.Causality.IsTimeFunction.weakMorphism",
+        "Causal.Causality.IsTimeFunction.comp",
+        "Causal.Causality.IsTimeFunction.dual",
+        "Causal.Causality.dual_isTimeFunction",
+        "Causal.Causality.IsTimeFunction.isTimeFunctionOrder",
+        "Causal.orderLine",
+        "Causal.Causality.IsTimeFunctionOrder",
+        "Causal.Causality.isTimeFunctionOrder_iff",
+        "Causal.Causality.isTimeFunction_iff_order",
+        "Causal.orderLine_id_not_isTimeFunction",
+        "Causal.timelikeLine_isTimeFunction_id",
+        "Causal.timelikeSpacetime",
+        "Causal.isTimeFunction_iff_exists_hom"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [
+        "Under DEC-10 a time function must be an OPEN map. The Geroch sketch ETT.tex:1272-1276 shows only that t^± = ±μ_±(J^±(x)) are continuous ('time functions (hence continuous)') and never argues that t^±, or T = log(-t^-/t^+), is open; nor, under the within-components reading (b), that [T x, T y] ⊆ U whenever x ≤_{T⁻¹U} y. The second point is automatic there, because Geroch assumes causal arc-connectedness (isTimeFunction_iff_order); the openness is a gap in (i)⇒(ii) of theo:geroch.",
+        "Notation: ETT.tex:267 calls the timelike line '(ℝ,≤,≤)' while ETT.tex:1029 calls the target of a time function '(ℝ,≤,<)'; the relations defined at l.267-268 are ≤ and <, so l.267 should read (ℝ,≤,<)."
+      ],
+      "questions": [
+        "(a) Does 'non-decreasing' cover ≪ ↦ <? Taken: yes. Then a time function satisfies x ≪_V y ⇒ T x < T y (IsTimeFunction.lt) and is increasing along chronal curves (strictMonoOn).",
+        "(b) Which causality does ℝ carry on a disconnected open U: the order restricted to U (orderLine), or the order within the components of U (the timelike line of ex:causalities_lines)? Taken: the timelike line (Causal/Lines.lean's timelikeLine, reused). The two readings agree on a causally arc-connected M (isTimeFunction_iff_order) and differ in general: id is a time function on orderLine in the restricted reading and not in the components reading (orderLine_id_not_isTimeFunction). In the restricted reading a time function is just a continuous open map with ≤_M ⇒ ≤ and ≪_M ⇒ < (isTimeFunctionOrder_iff)."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.preimageOpens",
+    "Causal.coe_preimageOpens",
+    "Causal.exists_Ioo_subset_opens",
+    "Causal.WeakMorphism.causalCurveOn",
+    "Causal.WeakMorphism.chronalCurveOn",
+    "Causal.exists_interval_of_curveOn",
+    "Causal.continuous_of_curveOn",
+    "Causal.weakMorphism_lightlikeLine_iff",
+    "Causal.weakMorphism_timelikeLine_iff",
+    "Causal.imageOpens",
+    "Causal.imageOpens_le",
+    "Causal.imageOpens_mono",
+    "Causal.val_mem_imageOpens",
+    "Causal.imageOpens_eq_inf",
+    "Causal.PullLink",
+    "Causal.PullLink.mem_left",
+    "Causal.PullLink.mem_right",
+    "Causal.PullLink.mono",
+    "Causal.PullLink.transGen_mem_left",
+    "Causal.PullLink.transGen_mem_right",
+    "Causal.PullLink.transGen_imp",
+    "Causal.PullLink.isOpen_transGen_right",
+    "Causal.PullLink.isOpen_transGen_left",
+    "Causal.id_localIsomorphism_of_eq",
+    "Causal.Causality.Icc_subset_of_curveOn"
+  ],
+  "kb_proposals": [
+    "A structure field 'for every open U, a morphism from φ⁻¹U' is stated as '∀ U V, (V : Set M) = φ ⁻¹' U → …': no continuity proof inside the statement, and SetLike.coe_injective recovers V = preimageOpens hc U when needed.",
+    "Opens of a subspace ↥W: push forward with imageOpens V := ⟨Subtype.val '' V, W.isOpen.isOpenMap_subtype_val _ V.isOpen⟩; Subtype.image_preimage_coe does not fire against the SetLike coercion of ↥W, prove val '' (val ⁻¹' U) = U ∩ W by ext.",
+    "A CObj-valued def used as a category object should be an abbrev, or the carrier (C.toCObj U).carrier does not unfold to ↥U and point coercions fail.",
+    "A causality is not determined by its restrictions to a cover: to prove two causalities equal from local data, ask absolute minimality of one (then le_of_transGen after TransGen.mono)."
+  ],
+  "notes": "Module builds standalone (lake build CausalScaffold.Morphism: 1414 jobs, no Causal.* or mathlib rebuild), zero sorry, zero warning, axioms propext/Classical.choice/Quot.sound only (checked by a temporary #print axioms file, since removed). Imports Causal.ArcConnected, Causal.Lines, Causal.Local and three mathlib modules (IsLocalHomeomorph, CategoryTheory.Category.Basic, Order.IntermediateValue). No label is marked: three rest on readings (a)/(b)/(c) awaiting the author's ruling, and ex:open_subset's uniqueness is false as written in both sentences (two counterexamples proved). Once (a) and (b) are ruled as taken here, defi:categorie_C, def:category_topological_spacetimes and defi:fonction_temps can be marked without any change to the proofs. Two subtypes appear in statements, both as bridges and disclosed: Causality.toCObj (an object of C is a space) and LocalCausality.toSubtype / inclusionStrong_iff (the library's LocalCausality form is the paper's strong morphism on ↥W). Curves.lean's docstring sentence on weak morphisms from the timelike line is off under reading (a); see the finding under def:category_topological_spacetimes. Audit round (2026-10-29): docstrings and SCOPE now disclose that timelikeLineTop is a gluing-free pathology; two lemmas added (timelikeLineTop_not_isCausal, timelikeLineTop_not_absolutelyMinimal); no existing declaration renamed or retyped (CausalScaffold.Pushout imports this module)."
+}

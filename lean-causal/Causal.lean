@@ -12,6 +12,14 @@ import Causal.Measure
 import Causal.Curves
 import Causal.ArcConnected
 import Causal.LinesCurves
+import Causal.TransparentLine
+import Causal.Galileo
+import Causal.LinesReachable
+import Causal.PushUp
+import Causal.MeasureRemarks
+import Causal.MeasureSum
+import Causal.MeasureLocal
+import Causal.Pushout
 
 /-!
 # Causal — topological spacetimes
