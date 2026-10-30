@@ -1,5 +1,5 @@
 import Causal.Pushout
-import CausalScaffold.Morphism
+import Causal.Morphism
 
 /-!
 # A causality on the gluing of two topological spacetimes
@@ -31,7 +31,7 @@ library. This file gives the topological-spacetime counterpart:
 
 ## SCOPE (disclosed)
 
-* "Strong morphism" and "local isomorphism" are those of `CausalScaffold.Morphism`, under its
+* "Strong morphism" and "local isomorphism" are those of `Causal.Morphism`, under its
   readings (SCOPE (a), (c) there) awaiting the author. This is why the file stays in the scaffold.
 * The generated causality is one choice among the causalities restricting to `C₁` and `C₂`; it is
   the minimal one (`lem:union_causalite`). Uniqueness is not stated here.
@@ -383,7 +383,7 @@ theorem strongMorphism_ι₂ (hC : CompatibleAlong j₁ j₂ C₁ C₂) :
     rw [causality_lt_ι₂ hC inf_le_right, hpre]
     exact hxy
 
-/-- `ι₁` is a local isomorphism (in the reading of `CausalScaffold.Morphism`) onto its image. -/
+/-- `ι₁` is a local isomorphism (in the reading of `Causal.Morphism`) onto its image. -/
 theorem localIsomorphism_ι₁ (hC : CompatibleAlong j₁ j₂ C₁ C₂) :
     LocalIsomorphism C₁ (causality hj₁ hj₂ C₁ C₂) (ι₁ j₁ j₂) := by
   refine ⟨(isOpenEmbedding_ι₁ hj₁ hj₂).isLocalHomeomorph, fun _ => ⟨⊤, trivial,

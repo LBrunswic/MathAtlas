@@ -22,3 +22,6 @@ rediscover. One fact per entry.
 | [0014](entries/0014-no-gluing-axiom.md) | pitfall | No gluing axiom: a counterexample may exploit it, and must say so |
 | [0015](entries/0015-graduation-checklist.md) | house-rule | Graduating a scaffold file: what the gates do not catch by themselves |
 | [0016](entries/0016-namespace-shadowing.md) | pitfall | Names that resolve to the wrong lemma inside `namespace Causality` |
+| [0017](entries/0017-curves-over-intervals.md) | pattern | Curves over an interval, inextensibility, and the two traps of "maximal under extension" |
+| [0018](entries/0018-charts-and-maximal-atlases.md) | pattern | Causalities through charts: transport, `ChartIso`, the maximal atlas |
+| [0019](entries/0019-discrete-counterexamples.md) | pitfall | A discrete counterexample is non-local, and says nothing about local causalities |

@@ -1,0 +1,234 @@
+{
+  "package": "WP-6",
+  "files": [
+    "scaffold/CausalScaffold/Chains.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "def:causal_chain",
+      "tex_lines": [
+        329,
+        333
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.linearCausality",
+        "Causal.linearCausality_real",
+        "Causal.Causality.IsCausalChainMap",
+        "Causal.Causality.IsCausalChain",
+        "Causal.WeakMorphism.le_of_Icc_subset",
+        "Causal.Causality.IsCausalChainMap.isCausalChain_range",
+        "Causal.Causality.isCausalChainMap_of_isCausalChain",
+        "Causal.Causality.isCausalChainMap_real_iff",
+        "Causal.Causality.dual_isCausalChain",
+        "Causal.Causality.isCausalChain_empty",
+        "Causal.Causality.isCausalChain_singleton",
+        "Causal.Causality.IsCausalChain.mono",
+        "Causal.timelikeLine_isCausalChainMap_id",
+        "Causal.spacelikeLine_not_isCausalChainMap_id",
+        "Causal.timelikeLine_isCausalChain",
+        "Causal.spacelikeLine_not_isCausalChain_univ"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(1) c an embedding",
+          "here": "carried",
+          "note": "IsEmbedding; DEC-6 dropped injectivity for curves only, chains keep it as the paper says"
+        },
+        {
+          "paper": "(1) c a causal morphism",
+          "here": "reading",
+          "note": "⚠ reading (a), OQ-12: WeakMorphism (DEC-6) from linearCausality X, whose ≪ is EMPTY and whose ≤_W asks Icc x y ⊆ W; on ℝ this is lightlikeLine by rfl"
+        },
+        {
+          "paper": "(implicit) the two notions of chain agree: image of (1) is (2)",
+          "here": "strengthened",
+          "note": "isCausalChain_range asks X conditionally complete and densely ordered (ℝ, intervals); the supremum argument needs both"
+        },
+        {
+          "paper": "(implicit) (2) is the image of (1)",
+          "here": "strengthened",
+          "note": "isCausalChainMap_of_isCausalChain: S = range e, e an embedding of a linearly ordered space whose order is reflected by ≤_M (e x ≤_M e y ⇒ x ≤ y)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:331 'causal morphism' is not defined; it is read as the weak morphism of def:category_topological_spacetimes (DEC-6), with (X,≤) given the lightlike causality of its order (no ≪). Then a chain map from ℝ is exactly an injective DEC-6 causal curve which is an embedding (isCausalChainMap_real_iff).",
+        "ETT.tex:330-332 the paper gives two notions under one name and never relates them. Image ⇒ subset chain holds when X is conditionally complete and densely ordered (isCausalChain_range); for a general linearly ordered X (e.g. ℚ) the proof needs to chain local relations of ≤_V across [y,z], which needs compact connected intervals, and I could not exclude a counterexample built from a non-local causality. Subset chain ⇒ image of a chain map holds when S carries a linear order reflected by ≤_M whose order topology is the subspace topology; without that hypothesis S need not even be globally comparable (two disjoint timelike lines, or X minus its vertex below).",
+        "Every subset of the timelike line is a causal chain (timelikeLine_isCausalChain): def (2) is a purely local condition, so discrete sets, Cantor sets etc. are chains. In the spacelike line exactly the subsets whose points are all isolated are chains."
+      ],
+      "questions": [
+        "In (2), is the neighbourhood V open? Taken: yes, since ≤_V is only defined for open V (kb/0001); U is any neighbourhood. The two readings agree.",
+        "'Totally ordered for ≤_V' — comparability only, or also antisymmetry? Taken: comparability (as dispatched). Antisymmetry is automatic in a causal spacetime since ≤_V ⊆ ≤_M.",
+        "Which causality does (X,≤) carry: only ≤ (lightlike, taken) or also ≪ = < (timelike, which would make chains chronal)?"
+      ]
+    },
+    {
+      "label": "def:maximal_chain",
+      "tex_lines": [
+        334,
+        336
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.IsMaximalChain",
+        "Causal.Causality.dual_isMaximalChain",
+        "Causal.Causality.IsCausalChain.insert_of_notMem_closure",
+        "Causal.Causality.IsMaximalChain.dense",
+        "Causal.timelikeLine_isMaximalChain_iff",
+        "Causal.spacelikeLine_not_isMaximalChain",
+        "Causal.Causality.HasUnrelatedOpensIn",
+        "Causal.Causality.not_isMaximalChain_of_hasUnrelatedOpensIn",
+        "Causal.Causality.not_isMaximalChain_of_hasUnrelatedOpensIn_top",
+        "Causal.spacelikeLine_hasUnrelatedOpensIn_top"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:335 with the subset notion (2), a maximal chain of a T1 space is DENSE (IsMaximalChain.dense): any point outside the closure of a chain can be added to it.",
+        "Abstract consequence, proved (not_isMaximalChain_of_hasUnrelatedOpensIn): in a nonempty T1 space, if every point has an open neighbourhood U such that every non-empty open O ⊆ U contains two non-empty open sets with no ≤_U relation between their points, there is no maximal chain. Proof: the dense maximal chain S meets both unrelated sets inside the V ⊆ U where S ∩ V is totally ordered for ≤_V, and ≤_V ⊆ ≤_U by axiom (b). The global form (U = ⊤) is not_isMaximalChain_of_hasUnrelatedOpensIn_top; the spacelike line satisfies it (spacelikeLine_hasUnrelatedOpensIn_top), which re-derives spacelikeLine_not_isMaximalChain.",
+        "Application to Lorentzian manifolds (prose; no Lorentzian manifold is in the library): let M have dimension ≥ 2, chronology and causality conditions arbitrary (vicious spacetimes included). Take at each x a convex normal neighbourhood U, with ≤_U the relation 'joined by a causal curve in U'. Every non-empty open O ⊆ U contains two points spacelike-separated in U (e.g. on a short spacelike geodesic), and since J_U is closed in U × U for a convex normal U, small balls around them are ≤_U-unrelated. So the hypothesis holds with local U, and there is NO maximal causal chain. Because only ≤_U for small U is used, no global causality condition is needed. Consequently, as written, causal completeness holds vacuously in every Lorentzian manifold of dimension ≥ 2 and causal connectedness fails there. The paper presumably means maximal among CONNECTED chains, or among chain maps / curves maximal under extension (DEC-11)."
+      ],
+      "questions": [
+        "Maximal among which chains: all subset chains (as written, taken — and then maximal chains are dense, see finding), connected subset chains, or chain maps / causal curves under extension (DEC-11)?"
+      ]
+    },
+    {
+      "label": "def:causally_connected",
+      "tex_lines": [
+        337,
+        340
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.CausallyConnected",
+        "Causal.Causality.dual_causallyConnected",
+        "Causal.timelikeLine_causallyConnected",
+        "Causal.spacelikeLine_not_causallyConnected"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:339 as written (maximal among all subset chains), causal connectedness fails in every spacetime with no maximal chain, Minkowski space of dimension ≥ 2 included (see def:maximal_chain); the condition holds for the timelike line only because its unique maximal chain is the whole line."
+      ],
+      "questions": [
+        "'A connected maximal causal chain from p to q': taken as containing p and q. If S is meant to lie in the diamond J(p,q) with endpoints p and q, maximality must be relative to J(p,q), not to M — which?"
+      ]
+    },
+    {
+      "label": "def:causally_complete",
+      "tex_lines": [
+        353,
+        355
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.chainPreorder",
+        "Causal.Causality.DedekindComplete",
+        "Causal.Causality.CausallyComplete",
+        "Causal.Causality.dedekindComplete_iff",
+        "Causal.Causality.DedekindComplete.dual",
+        "Causal.Causality.DedekindComplete.exists_isGLB",
+        "Causal.Causality.dual_dedekindComplete",
+        "Causal.Causality.dual_causallyComplete",
+        "Causal.timelikeLine_causallyComplete",
+        "Causal.spacelikeLine_causallyComplete"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:354 a maximal chain is only locally totally ordered, so 'Dedekind-complete' (a notion for linear orders) needs an order on a set which need not be linear. Read for the preorder ≤_M induced on S: every non-empty subset bounded above has an IsLUB (mathlib vocabulary). The IsGLB half then follows in any preorder (DedekindComplete.exists_isGLB), so the reading is time-symmetric (dual_dedekindComplete)."
+      ],
+      "questions": [
+        "Which order is 'Dedekind-complete' asked of: ≤_M restricted to S (taken), or the local orders ≤_V? And must S be linearly ordered by it (it need not be: X minus its vertex, below)? MR1631533 could not be checked from here."
+      ]
+    },
+    {
+      "label": "rem:causal_completeness_slightly_weaker",
+      "tex_lines": [
+        356,
+        358
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Bowtie",
+        "Causal.bowtie",
+        "Causal.bowtie_le",
+        "Causal.bowtie_isCausal",
+        "Causal.bowtie_causallyCompact",
+        "Causal.bowtie_isCausalChain",
+        "Causal.bowtie_isMaximalChain_univ",
+        "Causal.bowtie_not_causallyComplete",
+        "Causal.not_causallyCompact_imp_causallyComplete",
+        "Causal.fan",
+        "Causal.fanRel",
+        "Causal.fan_le",
+        "Causal.fan_isCausal",
+        "Causal.fan_isCausalChain",
+        "Causal.fan_causallyComplete",
+        "Causal.fan_not_causallyCompact",
+        "Causal.not_causallyComplete_imp_causallyCompact",
+        "Causal.eq_of_transGen_eq",
+        "Causal.AbsolutelyMinimalOn.eq_of_discrete",
+        "Causal.causallyCompact_of_le_top_eq",
+        "Causal.causallyComplete_of_le_top_eq",
+        "Causal.AbsolutelyMinimalOn.causallyCompact_of_discrete",
+        "Causal.AbsolutelyMinimalOn.causallyComplete_of_discrete",
+        "Causal.diagonalCausality",
+        "Causal.diagonalCausality_absolutelyMinimalOn",
+        "Causal.diagonalCausality_lt"
+      ],
+      "hypotheses": [
+        {
+          "paper": "standing assumptions: M second countable, Hausdorff, a causality",
+          "here": "carried",
+          "note": "both witnesses are T2, second countable and causal (antisymmetric ≤_M), but NON-LOCAL (Causality.ofRelation, kb/0014; not absolutely minimal)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:357 'slightly weaker' asserts two things: (i) causally compact ⇒ causally complete, and (ii) not conversely. Half (ii) is CONFIRMED (not_causallyComplete_imp_causallyCompact): the fan, ℕ discrete with 0 below and 1 above every other event, is causal, T2, second countable, causally complete, and J(0,1) = ℕ is not compact. The fan is non-local (ofRelation).",
+        "Half (i) is refuted only for NON-LOCAL causalities (not_causallyCompact_imp_causallyComplete): the bowtie, four discrete events a1,a2 < b1,b2 with the restrictions of a global order (ofRelation), is causal, T2, second countable, causally compact (finite diamonds), and {a1,a2} is bounded above with no least upper bound. The refutation rests on non-locality: on a discrete space an absolutely minimal causality has ≤ the diagonal (AbsolutelyMinimalOn.eq_of_discrete), hence is causally compact and causally complete (AbsolutelyMinimalOn.causallyCompact_of_discrete, …causallyComplete_of_discrete). Correction to the audit's wording: ≪ is then contained in the diagonal but need NOT be empty — diagonalCausality (≤ = ≪ = diagonal) is absolutely minimal with x ≪ x (diagonalCausality_absolutelyMinimalOn, diagonalCausality_lt). Compactness and completeness depend on ≤ only, so the conclusion stands.",
+        "A LOCAL witness against (i), in prose only (not formalized: not cheap — it needs the induced causality on a subtype of ℝ², the comparability case analysis inside its diamonds for transitivity, absolute minimality via a subdivision along the two branches, and compactness of diamonds as images of segments; estimated several hundred lines). X = the two null lines |x| = |t| of 1+1 Minkowski space through the origin o, with x ≤_U y iff y is in the Minkowski causal future of x and the diamond {z ∈ X : x ≤ z ≤ y} — a segment, or two half-segments through o — lies in U. This is absolutely minimal (relations are generated along segments), causal, T2, second countable, and its diamonds are compact. X minus o is a chain; o cannot be added (every neighbourhood of o meets both future branches, which are ≤-incomparable), and any other missing point can, so X \\ {o} is the unique maximal chain. One past branch is bounded above by every point of both future branches and has no least upper bound in X \\ {o}. If this is accepted, (i) fails for local causalities too: compactness fills a gap with a point of M, but nothing forces that point into the chain, and the chain need not be linearly ordered.",
+        "totalLine (any two points related, ofRelation) is kept only as a NON-CAUSAL sanity example and is not a witness for the remark."
+      ],
+      "questions": [
+        "Is (i) meant under a different def:maximal_chain (connected chains, or inextensible causal curves per DEC-11)? Under the current definitions it fails for non-local causalities (formalized) and, by the X witness, for local ones (prose)."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.linearCausality",
+    "Causal.linearCausality_le",
+    "Causal.WeakMorphism.le_of_Icc_subset",
+    "Causal.Causality.IsCausalChain.insert_of_notMem_closure",
+    "Causal.Causality.IsMaximalChain.dense",
+    "Causal.totalLine (non-causal sanity example)",
+    "Causal.totalLine_le",
+    "Causal.totalLine_isCausalChain",
+    "Causal.totalLine_causallyComplete",
+    "Causal.totalLine_not_causallyCompact",
+    "Causal.Causality.HasUnrelatedOpensIn",
+    "Causal.Causality.not_isMaximalChain_of_hasUnrelatedOpensIn",
+    "Causal.eq_of_transGen_eq",
+    "Causal.diagonalCausality"
+  ],
+  "kb_proposals": [
+    "WeakMorphism.le_of_Icc_subset generalises CurveOn.rel_of_lt from ℝ to any conditionally complete densely ordered X by a sSup argument (exists_Ioc_subset_of_mem_nhds, exists_lt_of_lt_csSup, exists_Ico_subset_of_mem_nhds, exists_between) — no subdivision needed.",
+    "An open order-convex neighbourhood in an order topology: ordConnectedComponent (c ⁻¹' U) t is open (ordConnectedComponent_eq + ordConnectedComponent_mem_nhds, Mathlib.Topology.Order.T5).",
+    "Inside namespace Causality, a theorem named IsCausalChain.insert shadows Set insert in its own body: name it insert_of_notMem_closure (kb/0016 family).",
+    "rcases pattern ⟨⟨s, -⟩, h1, h2⟩ on ∃ s : ↥S, P s silently loses h1 h2 (they depend on the cleared membership): name the membership.",
+    "At this pin push_neg is deprecated (a warningAsError failure): write `push Not at h`.",
+    "A finite discrete type with ofRelation is the cheapest counterexample carrier: every subset is compact (Set.toFinite _).isCompact and every subset is a chain; ℕ with isCompact_iff_finite for an infinite one. ConnectedSpace ℝ is not inferred; use ⟨univ_nonempty, PreconnectedSpace.isPreconnected_univ⟩.",
+    "A discrete counterexample built with Causality.ofRelation is non-local: on a discrete space any absolutely minimal causality has ≤ = diagonal (Chains.AbsolutelyMinimalOn.eq_of_discrete); scope such refutations explicitly.",
+    "Inside `namespace Causal`, a lemma about a Precausality predicate (AbsolutelyMinimalOn) declared as `AbsolutelyMinimalOn.foo` is Causal.AbsolutelyMinimalOn.foo; `h.foo` fails (kb/0010): call it by name."
+  ],
+  "notes": "Zero sorry; builds with -DwarningAsError=true and lake build CausalScaffold.Chains (only Chains rebuilt); axioms propext, Classical.choice, Quot.sound. Imports CausalScaffold.Morphism (WeakMorphism, exists_Ioo_subset_opens, weakMorphism_lightlikeLine_iff) and Causal.LinesReachable (Causality.ofRelation), plus Mathlib.Topology.Order.T5. The module must be added to scaffold/CausalScaffold.lean by the master session (kb/0015 item 3); I did not edit it. Three anonymous instances on Causal.Bowtie (TopologicalSpace ⊥, DiscreteTopology, Finite/SecondCountable) are not curated decls (kb/0015 item 5). None of the five labels is marked: each definition rests on a reading. For the remark: the strictness half is confirmed (fan); the implication is refuted only for non-local causalities (bowtie), and the local X-shaped witness is prose only. Revised 2026-10-30 after the audit: no declaration renamed; added HasUnrelatedOpensIn and not_isMaximalChain_of_hasUnrelatedOpensIn(_top), spacelikeLine_hasUnrelatedOpensIn_top, the discrete-triviality lemmas, diagonalCausality."
+}

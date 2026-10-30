@@ -1,0 +1,275 @@
+{
+  "package": "WP-7",
+  "files": [
+    "scaffold/CausalScaffold/Inextensible.lean",
+    "scaffold/CausalScaffold/Cauchy.lean",
+    "scaffold/CausalScaffold/Geroch.lean",
+    "scaffold/CausalScaffold/GerochEquiv.lean"
+  ],
+  "builds": true,
+  "sorry_count": 1,
+  "labels": [
+    {
+      "label": "def:cauchy_surface",
+      "tex_lines": [
+        999,
+        1001
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.Causality.IsCauchySurfaceOn",
+        "Causal.Causality.IsCauchySurface",
+        "Causal.Causality.IsCauchySurfaceLiteral",
+        "Causal.Causality.not_isCauchySurfaceLiteral",
+        "Causal.timelikeLine_not_isCauchySurfaceLiteral",
+        "Causal.timelikeLine_isCauchySurface_zero",
+        "Causal.Causality.isCauchySurfaceOn_top"
+      ],
+      "hypotheses": [
+        {
+          "paper": "every causal curve of M meets S exactly once",
+          "here": "carried",
+          "note": "DEC-14: every INEXTENSIBLE causal curve meets S exactly once (IsCauchySurfaceOn / IsCauchySurface); the sentence as printed admits no Cauchy surface (not_isCauchySurfaceLiteral), which is why DEC-14 was ruled. 'Exactly once' on the image, as the paper counts it (ETT.tex:1878)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Ruled by DEC-14 (2026-10-30): the definition is 'every inextensible causal curve meets S exactly once'.",
+        "ETT.tex:1000 read literally, def:cauchy_surface admits no Cauchy surface once some causal curve is non-constant: constant curves are causal curves (DEC-6), so S must contain every point, and a non-constant curve then meets S twice (not_isCauchySurfaceLiteral; on the timelike line, timelikeLine_not_isCauchySurfaceLiteral). Suggested wording: 'every inextensible causal curve of M meets S exactly once'.",
+        "ETT.tex:1005 and 1265 say 'Cauchy hypersurface' while def:cauchy_surface defines 'Cauchy surface'; the theorem never asks S to be a hypersurface (which would need a manifold structure).",
+        "Witness: on the timelike line {0} is a Cauchy surface in the reading taken (timelikeLine_isCauchySurface_zero)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "def:cauchy_time_function",
+      "tex_lines": [
+        1251,
+        1254
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.Causality.IsCauchyTimeFunction",
+        "Causal.Causality.CausalCurveIn",
+        "Causal.Causality.StrictlyExtends",
+        "Causal.Causality.Extensible",
+        "Causal.Causality.Inextensible",
+        "Causal.timelikeLine_inextensible_id",
+        "Causal.timelikeLine_not_inextensible_Icc",
+        "Causal.Causality.exists_naive_extension",
+        "Causal.timelikeLine_isCauchyTimeFunction_id",
+        "Causal.timelikeLine_not_inextensible_min",
+        "Causal.Causality.StrictlyExtendsPast",
+        "Causal.Causality.StrictlyExtendsFuture",
+        "Causal.Causality.PastExtensible",
+        "Causal.Causality.FutureExtensible",
+        "Causal.Causality.PastInextensible",
+        "Causal.Causality.FutureInextensible",
+        "Causal.Causality.inextensible_iff",
+        "Causal.Causality.extensible_iff",
+        "Causal.Causality.dual_pastInextensible_iff",
+        "Causal.Causality.dual_futureInextensible_iff"
+      ],
+      "hypotheses": [
+        {
+          "paper": "inextensible (undefined in the paper)",
+          "here": "carried",
+          "note": "DEC-11, made precise by DEC-13: strict extension = c = c' ∘ φ with φ strictly increasing onto a sub-interval and a new value; inextensible = no strict extension; one-sided notions PastInextensible, FutureInextensible with inextensible_iff"
+        },
+        {
+          "paper": "time function",
+          "here": "carried",
+          "note": "strong morphism to the timelike line (DEC-10, DEC-12)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Ruled by DEC-13 (2026-10-30): the strict-extension definition is confirmed, and past-/future-inextensibility are defined (StrictlyExtendsPast/Future: the image of φ is a final/initial segment of I'); Inextensible ↔ PastInextensible ∧ FutureInextensible (inextensible_iff), exchanged by time reversal (dual_pastInextensible_iff, dual_futureInextensible_iff).",
+        "Inextensible (used ~20 times, ruled DEC-11 as maximal under extension): with DEC-6 the naive 'larger domain, same values' extension makes every curve extensible by a constant piece (exists_naive_extension), so nothing would be inextensible and every time function would be a Cauchy time function. Formalized: (I', c') strictly extends (I, c) iff c' is a causal curve over the interval I', some strictly increasing φ : I → I' with interval image has c' ∘ φ = c on I, and the image grows (c' takes a value c does not).",
+        "Reparametrisation must be allowed: with domain inclusion alone every curve over ℝ (constant ones included) is inextensible, because no interval strictly contains ℝ, and no Cauchy time function could exist.",
+        "Sanity: on the timelike line id : ℝ → ℝ is inextensible, id : [0,1] → ℝ is not, and t ↦ min t 0 over ℝ is not (timelikeLine_inextensible_id, timelikeLine_not_inextensible_Icc, timelikeLine_not_inextensible_min); the last exercises the reparametrisation clause: its constant tail is squeezed by φ into [0,1[ and the extension rises after it, which no extension with φ = id can do. id is a Cauchy time function (timelikeLine_isCauchyTimeFunction_id).",
+        "def:cauchy_time_function quantifies over curves c : ℝ → M, def:cauchy_surface over curves on intervals. They see the same curves only when inextensible curves have open domains: under causal arc-connectedness, causality and J^±(p) ≠ {p}, every inextensible curve over an interval is a reparametrised inextensible curve over ℝ (Inextensible.reparam). Without these hypotheses an inextensible curve can have a closed end (a point with J^-(p) = {p}).",
+        "φ is automatically a homeomorphism onto its image (strictly increasing, interval onto interval, hence an order isomorphism); it is not asked to be continuous. 'The image grows' differs from parametrised maximality in non-causal spacetimes: a surjective curve, or a closed causal loop run forever, is inextensible under it although a longer parametrisation exists. Both are disclosed in Inextensible's SCOPE."
+      ],
+      "questions": []
+    },
+    {
+      "label": "theo:geroch",
+      "tex_lines": [
+        1256,
+        1307
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.geroch",
+        "Causal.Causality.geroch_i_imp_ii",
+        "Causal.Causality.GloballyHyperbolic.isCauchyTimeFunction_gerochTime",
+        "Causal.Causality.gerochTime",
+        "Causal.Causality.isTimeFunction_gerochTime",
+        "Causal.Causality.isOpenMap_gerochTime",
+        "Causal.Causality.continuous_gerochTime",
+        "Causal.Causality.gerochTime_lt",
+        "Causal.Causality.gerochTime_le",
+        "Causal.Causality.gerochTime_dual",
+        "Causal.Causality.exists_le_of_bddBelow",
+        "Causal.Causality.tendsto_atBot_gerochTime",
+        "Causal.Causality.tendsto_atTop_gerochTime",
+        "Causal.Causality.extensible_of_forall_le",
+        "Causal.Causality.extensible_of_forall_ge",
+        "Causal.Causality.IsCauchyTimeFunction.exists_mem_zero",
+        "Causal.Causality.IsCauchyTimeFunction.isCauchySurface",
+        "Causal.Causality.geroch_ii_imp_iii",
+        "Causal.Causality.geroch_i_imp_iii",
+        "Causal.Causality.geroch_iii_imp_i",
+        "Causal.Causality.geroch_tfae_strict",
+        "Causal.timelikeLine_admissible_past_and_future",
+        "Causal.timelikeLine_exists_strict_isCauchyTimeFunction",
+        "Causal.timelikeLine_geroch_tfae",
+        "Causal.Causality.pastExtensible_of_forall_le",
+        "Causal.Causality.futureExtensible_of_forall_ge",
+        "Causal.Causality.tendsto_atBot_gerochTime_of_pastInextensible",
+        "Causal.Causality.tendsto_atTop_gerochTime_of_futureInextensible"
+      ],
+      "hypotheses": [
+        {
+          "paper": "metrizable",
+          "here": "weakened",
+          "note": "(i)⇒(ii): T2Space + FirstCountableTopology; (ii)⇒(iii): T1Space; the assembled equivalence carries MetrizableSpace"
+        },
+        {
+          "paper": "locally compact",
+          "here": "weakened",
+          "note": "used by neither proved implication; carried in the assembled equivalence for the cited (iii)⇒(i)"
+        },
+        {
+          "paper": "tarentin",
+          "here": "weakened",
+          "note": "(i)⇒(ii): carried; (ii)⇒(iii): not used"
+        },
+        {
+          "paper": "causally arc-connected",
+          "here": "carried",
+          "note": "both implications"
+        },
+        {
+          "paper": "locally causally convex (strongly causal, DEC-7)",
+          "here": "reading",
+          "note": "read as StronglyCausal (DEC-7: causally convex neighbourhoods, not necessarily open); ETT.tex:1215–1216 suggests OPEN causally convex neighbourhoods, which is stronger, so the Lean hypothesis is weaker. (i)⇒(ii): not used at all (follows from global hyperbolicity, prop:GH_fortement_causal); (ii)⇒(iii): carried (with T1 it gives causality)"
+        },
+        {
+          "paper": "J^±(p) ≠ {p}",
+          "here": "carried",
+          "note": "both implications"
+        },
+        {
+          "paper": "(μ₊, μ₋) admissible in the future and in the past",
+          "here": "weakened",
+          "note": "(i)⇒(ii): carried, with BorelSpace M; (ii)⇒(iii): not used"
+        },
+        {
+          "paper": "(ii) a Cauchy time function strictly increasing along ≤ (DEC-15)",
+          "here": "carried",
+          "note": "geroch (= geroch_tfae_strict) is the paper's theorem as ruled; (i)⇒(ii) produces such a T (gerochTime_lt), (ii)⇒(iii) uses it (geroch_ii_imp_iii)"
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "Causal.Causality.geroch_iii_imp_i",
+          "obstruction": "(iii)⇒(i) is cited by the paper (O'Neill, Prop. 8 and Thm 35); quasi-limits of causal curves are not in the library"
+        }
+      ],
+      "findings": [
+        "ETT.tex:1300 (ii)⇒(iii) 'take S = T⁻¹(0)' is false for a Cauchy time function in the sense of DEC-10 alone (≤ ↦ ≤, ≪ ↦ <): on 1+1 Minkowski space T(t,x) = t − g(x), with g smooth bounded, |g'| ≤ 1 and g(x) = x on [0,1], is continuous, open, non-decreasing along ≤, increasing along ≪, and tends to ±∞ along every inextensible causal curve, yet T⁻¹(0) contains the null segment from (0,0) to (1,1), which the inextensible null line t = x meets infinitely often. Not formalized (no Minkowski plane in the library). This is why the author ruled DEC-15 ((ii) asks T strictly increasing along ≤); with it the step is proved (geroch_ii_imp_iii), and the T of (i)⇒(ii) is strict (gerochTime_lt). The DEC-10-only form of (ii)⇒(iii) and its sorry were removed.",
+        "The open-map gap WP-1 found in (i)⇒(ii) is closed (isOpenMap_gerochTime), with no added hypothesis: in a causally arc-connected causal T1 spacetime with J^-(x) ≠ {x}, J^+(x) is never a neighbourhood of x (Jplus_not_mem_nhds), so the tarentin diamond J(p,q) ⊂ V around x (V causally convex, from strong causality) has p ≠ x ≠ q, T(p) < T(x) < T(q), and [T p, T q] ⊂ T(V) by the intermediate value theorem along a causal curve from p to q. The same lemma gives chronology, x ≪ y ⇒ x ≠ y (ne_of_lt_top), which ≪ ↦ < needs.",
+        "ETT.tex:1274 't⁺ : x ↦ μ₊(J⁺(x)) and t⁻ : x ↦ −μ₋(J⁻(x)) are time functions': both are non-increasing along ≤ (J⁺(x) shrinks and J⁻(x) grows as x moves to the future), so neither is a time function as stated. T = log(−t⁻/t⁺) has the right sign and is the one formalized; the time-function property of −t^± is not proved here.",
+        "ETT.tex:1291 'If I = ]0,1] then c is extensible by setting c(0) = p' needs two repairs, both available in the sketch: (a) the adjoined point must be causally related to the curve inside small open sets, which is proved from closed causal pasts, strong causality and causal arc-connectedness (causalCurveIn_insert); in a general spacetime it fails; (b) if c is constant near 0 then p is already on the curve and nothing is extended; prepending a curve from q' ∈ J⁻(p) ∖ {p} (the I = [0,1] step) repairs it (extensible_of_tendsto).",
+        "ETT.tex:1287–1290 the uniqueness-of-the-accumulation-point step needs neither Hausdorffness nor a second accumulation point: one causally convex neighbourhood of an accumulation point that the curve visits arbitrarily far in the past contains the whole tail (tendsto_of_mapClusterPt). T2 is still used upstream in (i)⇒(ii), for strong causality (prop:GH_fortement_causal) and for the closedness of J⁻(x) (prop:GH_Jferme); only this step avoids it.",
+        "(i)⇒(ii) uses neither local compactness nor strong causality as a hypothesis (strong causality follows from global hyperbolicity, prop:GH_fortement_causal); (ii)⇒(iii) uses neither the measures, nor tarentin, nor local compactness, and only T1.",
+        "The sketch takes 'a decreasing sequence (x_n) converging to 0' for curves over I = [0,1] or ]0,1], while def:cauchy_time_function is about curves over ℝ; formalized over ℝ with x_n = −n and a log reparametrisation onto ]0, ∞[.",
+        "The hypotheses of theo:geroch are jointly satisfiable: on the timelike line the standard Gaussian measure is admissible in the past and in the future (timelikeLine_admissible_past_and_future; K⁻(a) ⊇ ]−∞,a[, so J⁻(A)∖K⁻(A) has at most one point and is null, the argument of lightlikeLine_admissible_past_and_future in Causal/MeasureRemarks.lean). geroch_i_imp_ii then gives a strict Cauchy time function (timelikeLine_exists_strict_isCauchyTimeFunction), and timelikeLine_geroch_tfae instantiates geroch_tfae. The construction is due to the WP-7 audit; the earlier claim that no admissible measure exists in the library was wrong.",
+        "(i)⇒(ii) is proved in the one-sided form of the sketch (ETT.tex:1295–1296, DEC-13): T → −∞ along every past-inextensible causal curve over ℝ (tendsto_atBot_gerochTime_of_pastInextensible) and T → +∞ along every future-inextensible one (tendsto_atTop_gerochTime_of_futureInextensible); the extension built is at the past end (pastExtensible_of_forall_le)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "theo:geroch_mr",
+      "tex_lines": [
+        1002,
+        1008
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [
+        "Cited (Geroch, MR0270697); not formalized because the library has no Lorentzian manifolds. Mentioned in the SCOPE of CausalScaffold.GerochEquiv."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.CurveOn.congr",
+    "Causal.CurveOn.of_lt",
+    "Causal.CurveOn.comp_strictMonoOn",
+    "Causal.CurveOn.neg",
+    "Causal.Causality.CausalCurveIn.le_of_le",
+    "Causal.Causality.CausalCurveIn.mem",
+    "Causal.Causality.CausalCurveIn.comp",
+    "Causal.Causality.CausalCurveIn.reverse",
+    "Causal.Causality.CausalCurveIn.continuous",
+    "Causal.Causality.Extensible.of_comp",
+    "Causal.Causality.Extensible.of_dual_reverse",
+    "Causal.Causality.Inextensible.dual_reverse",
+    "Causal.Causality.le_of_causallyConvexIn",
+    "Causal.Causality.mem_of_insert",
+    "Causal.Causality.le_of_tendsto",
+    "Causal.Causality.causalCurveIn_insert",
+    "Causal.Causality.exists_prepend",
+    "Causal.Causality.exists_ne_of_ne_singleton",
+    "Causal.Causality.extensible_of_isLeast",
+    "Causal.Causality.extensible_of_isGreatest",
+    "Causal.Causality.extensible_of_tendsto",
+    "Causal.timelikeLine_causalCurveOn_id",
+    "Causal.timelikeLine_causalCurveIn_id",
+    "Causal.range_arctan_unit",
+    "Causal.eq_setOf_of_ordConnected",
+    "Causal.exists_strictMono_range",
+    "Causal.Causality.Inextensible.no_least",
+    "Causal.Causality.Inextensible.no_greatest",
+    "Causal.Causality.Inextensible.reparam",
+    "Causal.Causality.Jplus_not_mem_nhds",
+    "Causal.Causality.ne_of_lt_top",
+    "Causal.Causality.tendsto_of_mapClusterPt",
+    "Causal.Causality.toReal_measure_Jminus_pos",
+    "Causal.Causality.toReal_measure_Jplus_pos",
+    "Causal.timelikeLine_Jminus_ne",
+    "Causal.timelikeLine_Jplus_ne",
+    "Causal.timelikeLine_causalCurveOn_of_monotone",
+    "Causal.timelikeLine_Jminus_top_singleton",
+    "Causal.timelikeLine_Jplus_top_singleton",
+    "Causal.timelikeLine_mem_Kminus_of_lt",
+    "Causal.timelikeLine_mem_Kplus_of_lt",
+    "Causal.timelikeLine_Jminus_diff_Kminus_subsingleton",
+    "Causal.timelikeLine_Jplus_diff_Kplus_subsingleton",
+    "Causal.Causality.PastExtensible.extensible",
+    "Causal.Causality.FutureExtensible.extensible",
+    "Causal.Causality.FutureExtensible.of_dual_reverse",
+    "Causal.Causality.PastExtensible.of_dual_reverse",
+    "Causal.Causality.PastExtensible.of_comp",
+    "Causal.Causality.pastExtensible_of_isLeast",
+    "Causal.Causality.pastExtensible_of_tendsto"
+  ],
+  "kb_proposals": [
+    "A causal curve over an interval I is CausalCurveIn W I c (Causal curve over every segment of I); reparametrise with CausalCurveIn.comp (continuous strictly monotone), reverse with CausalCurveIn.reverse (a C.dual curve over -I), and move between ℝ and an open interval with exists_strictMono_range / Inextensible.reparam.",
+    "Inextensibility (DEC-11) must ask the image to grow and allow reparametrisation: with DEC-6 a domain-inclusion definition is vacuous (exists_naive_extension) in one direction and makes every ℝ-curve inextensible in the other.",
+    "A causally convex set V, open or not (DEC-7), inside an open N: causally related points of V are related in N under causal arc-connectedness (le_of_causallyConvexIn). This is the local-closedness tool the curve proofs need; le_iff_of_causallyConvexIn asks V open.",
+    "In a causally arc-connected causal T1 spacetime with J^-(x) ≠ {x}, J^+(x) is not a neighbourhood of x (Jplus_not_mem_nhds): this gives chronology (x ≪ y ⇒ x ≠ y) and the openness of time functions built from measures.",
+    "Past end ⇒ future end by time reversal needs three transports: CausalCurveIn.reverse, Extensible.of_dual_reverse and gerochTime_dual; Set.neg_univ and simpa turn -univ into univ.",
+    "simp normalises Tendsto (fun x => -f x) l atBot to Tendsto f l atTop: state the intermediate goal in that form, or use Tendsto.congr with the explicit pointwise identity."
+  ],
+  "notes": "All four modules build with lake build CausalScaffold.<Module>, nothing upstream rebuilt. Inextensible, Cauchy and Geroch typecheck with -DwarningAsError=true and contain no sorry; #print axioms of geroch_i_imp_ii, geroch_ii_imp_iii, geroch_i_imp_iii, isOpenMap_gerochTime, Inextensible.reparam, not_isCauchySurfaceLiteral, timelikeLine_isCauchySurface_zero shows only propext, Classical.choice, Quot.sound. GerochEquiv has TWO tagged sorries, not the one the dispatch foresaw: the cited (iii)⇒(i), and (ii)⇒(iii) for a DEC-10 (non-strict) Cauchy time function, which the formalization found to be a gap in the sketch (finding under theo:geroch). geroch_tfae_strict (with (ii) read as a strictly increasing Cauchy time function) rests on the cited step alone; geroch_tfae (the paper's statement) rests on both. Before graduation: add the four modules to scaffold/CausalScaffold.lean (kb/0015 item 3) and to README's module table; none is marked. Cauchy.lean imports Mathlib.Analysis.SpecialFunctions.Trigonometric.Arctan (for the reparametrisation of a bounded open interval). exists_ne_of_ne_singleton is a general set lemma placed in namespace Causal.Causality; it may deserve a better home. Audit round (2026-10-30): added the Gaussian witness (Geroch.lean, section Witness; GerochEquiv.timelikeLine_geroch_tfae, which depends on both sorries), the reparametrisation sanity lemma timelikeLine_not_inextensible_min, SCOPE notes on φ and on 'image grows' vs parametrised maximality, and the ⚠ reading row for 'locally causally convex'. Geroch.lean now also imports Causal.MeasureRemarks. No declaration renamed; sorry count unchanged (2, both in GerochEquiv). Ruling round (2026-10-30, DEC-13/14/15): one-sided inextensibility added with inextensible_iff and duals; (i)⇒(ii) restated one-sided (old two-sided lemmas kept as corollaries, same names); def:cauchy_surface and def:cauchy_time_function marked in Cauchy.lean; GerochEquiv: the DEC-10-only (ii)⇒(iii) sorry and geroch_tfae removed, `geroch` is the principal statement of theo:geroch (identical to geroch_tfae_strict), timelikeLine_geroch_tfae retargeted to the strict form. sorry_count is now 1 (the cited (iii)⇒(i)); theo:geroch stays unmarked for it."
+}

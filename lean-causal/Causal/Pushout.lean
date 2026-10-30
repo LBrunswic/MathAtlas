@@ -37,7 +37,7 @@ Both are stated for any spaces `X`, `Y`, `W` and maps `j₁ : W → X`, `j₂ : 
   is closed in `X × Y`; and `disjoint_nhds_ι₁_ι₂_iff`, `C_eq_closure` — the paper's `C` is the
   closure of the graph, with no separation axiom.
 * The line with two origins: `lineTwoOrigins_not_t2Space`, `lineTwoOrigins_mem_Cdist`.
-* The causal structure of the gluing is in `CausalScaffold.PushoutCausal`.
+* The causal structure of the gluing is in `Causal.PushoutCausal`.
 
 ## Hypothesis checklist
 
@@ -64,7 +64,7 @@ Both are stated for any spaces `X`, `Y`, `W` and maps `j₁ : W → X`, `j₂ : 
 * The remark gives a necessary condition only: a pair of `∂j₁(N) × ∂j₂(N)` need not be
   non-separated. Nothing beyond the paper is claimed there.
 * The `𝕄≥0`-manifold structure of `ppcm` (charts descend) is not formalized: the library has no
-  `𝕄≥0`-manifolds. A causality on the gluing is built in `CausalScaffold.PushoutCausal`, which is
+  `𝕄≥0`-manifolds. A causality on the gluing is built in `Causal.PushoutCausal`, which is
   an addition, not a paper label.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.

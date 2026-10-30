@@ -20,7 +20,7 @@ submodule, so the library is grown here in the layout it will have there: gradua
 | library | where | rule |
 |---|---|---|
 | `Causal` | `Causal/` | strict: `warningAsError`, so a `sorry`, an unused variable or a deprecation fails the build |
-| `CausalScaffold` | `scaffold/CausalScaffold/` | `sorry` permitted and tagged; never imported by `Causal`. A module is here either because a proof is missing or because it rests on a **reading of the paper awaiting the author's ruling** — each module says which. The layer of the curves graduated on 2026-09-27 (DEC-6); the scaffold holds the campaign's files (`docs/CAMPAIGN.md`) until they graduate; today `Morphism` and `PushoutCausal`, both on the sub-readings of DEC-10 (OQ-12) |
+| `CausalScaffold` | `scaffold/CausalScaffold/` | `sorry` permitted and tagged; never imported by `Causal`. A module is here either because a proof is missing or because it rests on a **reading of the paper awaiting the author's ruling** — each module says which. The layer of the curves graduated on 2026-09-27 (DEC-6); the scaffold holds the campaign's files (`docs/CAMPAIGN.md`) until they graduate; today `GerochEquiv` (the cited step of `theo:geroch`) and `GXSingular` (OQ-19) |
 
 ## Modules
 
@@ -48,8 +48,15 @@ submodule, so the library is grown here in the layout it will have there: gradua
 | `Causal.MeasureSum` | — | countable weighted sums of regular measures |
 | `Causal.MeasureLocal` | `prop:mesure_dieckmann_topo` | admissibility is local for causally convex covers |
 | `Causal.Pushout` | `defi:ppcm` | `rem:non_separe_cas` partial (OQ-14); the Hausdorff criterion of a gluing |
-| `CausalScaffold.Morphism` | — (OQ-12) | **C**, strong and weak morphisms, `ex:open_subset`, time functions (DEC-10) |
-| `CausalScaffold.PushoutCausal` | — (OQ-12) | the causality of a gluing; rests on `Morphism` |
+| `Causal.Morphism` | `defi:categorie_C`, `def:category_topological_spacetimes`, `defi:fonction_temps` | strong and weak morphisms (DEC-10, DEC-12); `ex:open_subset` partial (OQ-13) |
+| `Causal.PushoutCausal` | — | the causality of a gluing |
+| `Causal.Chains` | — | causal chains, maximal chains, causal connectedness and completeness, as written (OQ-17) |
+| `Causal.Inextensible` | — | strict extension and inextensibility, two- and one-sided (DEC-11, DEC-13) |
+| `Causal.Cauchy` | `def:cauchy_surface`, `def:cauchy_time_function` | Cauchy surfaces (DEC-14) and Cauchy time functions |
+| `Causal.Geroch` | — | `theo:geroch` (i)⇒(ii) and (ii)⇒(iii), (ii) strict (DEC-15); the Gaussian witness on the timelike line |
+| `Causal.GXStructure` | — | (G,X)-manifolds over a maximal atlas (DEC-16); `prop:GX_espace_temps_topo` partial (OQ-18) |
+| `CausalScaffold.GerochEquiv` | — | `theo:geroch`, the equivalence; one `sorry`, the cited (iii)⇒(i) |
+| `CausalScaffold.GXSingular` | — (OQ-19) | `prop:GX_sing_espace_temps_topo` for abstracted model spaces |
 
 What each label's status is, which declarations carry it and what formalizing found in the paper
 is in `papers/ett/ledger/LEDGER.md`, generated from the sources and from

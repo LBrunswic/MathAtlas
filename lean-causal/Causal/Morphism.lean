@@ -8,10 +8,11 @@ import Mathlib.Topology.Order.IntermediateValue
 /-!
 # Morphisms of topological spacetimes, and time functions
 
-`defi:categorie_C` — `ETT.tex:232`. `def:category_topological_spacetimes` — `ETT.tex:254`.
-`ex:open_subset` — `ETT.tex:259`. `defi:fonction_temps` — `ETT.tex:1028`.
-None is marked: the first, second and fourth rest on readings awaiting the author (SCOPE (a),
-(b), (c)); the uniqueness of `ex:open_subset` is false as written, in both sentences.
+**`defi:categorie_C`** — `ETT.tex:232`. **`def:category_topological_spacetimes`** — `ETT.tex:254`.
+`ex:open_subset` — `ETT.tex:259`. **`defi:fonction_temps`** — `ETT.tex:1028`.
+The readings (a), (b), (c) of SCOPE were ruled by the author on 2026-10-30 (DEC-12, which rules
+OQ-12) as taken here, so the first, second and fourth are certified. `ex:open_subset` is not
+marked: its uniqueness is false as written, in both sentences (OQ-13).
 
 > Let $\mathbf{C}$ be the category whose objects are triples $(X,\leq, \tlleq)$ where $X$ is a
 > topological space, $\leq$ is a preorder, and $\tlleq$ is a transitive relation contained in
@@ -43,15 +44,16 @@ None is marked: the first, second and fourth rest on readings awaiting the autho
 
 ## SCOPE (disclosed)
 
-* **(a)** "Non-decreasing" (a morphism of `𝐂`) is read `≤ ↦ ≤` **and** `≪ ↦ ≪`. Morphisms of
+* **(a)** (ruled, DEC-12) "Non-decreasing" (a morphism of `𝐂`) is read `≤ ↦ ≤` **and** `≪ ↦ ≪`. Morphisms of
   `𝐂` are not asked to be continuous. Consequence: a weak morphism from the *lightlike* line is a
   causal curve and one from the *timelike* line a chronal curve (`weakMorphism_lightlikeLine_iff`,
   `weakMorphism_timelikeLine_iff`).
-* **(b)** `(ℝ,≤,<)` is `timelikeLine` (related within a component of the open set). The other
+* **(b)** (ruled, DEC-12: "both are valid, but the local construction of causality gives the
+  within component one") `(ℝ,≤,<)` is `timelikeLine` (related within a component of the open set). The other
   reading is `orderLine` (the order restricted to the open set). They agree for a causally
   arc-connected `M` (`isTimeFunction_iff_order`) and differ in general
   (`orderLine_id_not_isTimeFunction`).
-* **(c)** "Neighbourhood" in a weak morphism is read *open*. "Local isomorphism" is read: a local
+* **(c)** (ruled, DEC-12) "Neighbourhood" in a weak morphism is read *open*. "Local isomorphism" is read: a local
   homeomorphism such that each point has an open neighbourhood `V`, `φ` injective on `V`, with
   `y ≤_{V'} z ↔ φ y ≤_{φ V'} φ z` (and `≪`) for every open `V' ⊆ V` and `y, z ∈ V'`.
   `N` is not asked to be second countable or Hausdorff; the paper says nothing of `N`, and a

@@ -18,9 +18,11 @@ DEC-6 (2026-09-27): "injectivity is not an hypothesis for causal curves."
 A **future causal curve of the open set `W`** over `[a, b]` is a map `c` with values in `W` on
 `[a, b]` which is locally non-decreasing at every scale: for every `t ∈ [a, b]` and every open
 `N ⊂ W` containing `c t`, there is an interval around `t` on which `s < s'` implies
-`c s ≤_N c s'`. A **future chronal curve** is the same with `≪_N`. This is the *weak morphism*
-of `def:category_topological_spacetimes`, from the segment with the causality of the timelike
-line.
+`c s ≤_N c s'`. A **future chronal curve** is the same with `≪_N`. With a morphism of **C**
+preserving both relations (DEC-12), a causal curve is the *weak morphism* of
+`def:category_topological_spacetimes` from the segment with the causality of the **lightlike**
+line, and a chronal curve the one from the **timelike** line (`weakMorphism_lightlikeLine_iff`,
+`weakMorphism_timelikeLine_iff` in `Causal.Morphism`).
 
 | what the paper says | here |
 |---|---|
@@ -34,9 +36,9 @@ line.
 * "Causal morphism" is read as the weak morphism; DEC-6 rules on injectivity and does not
   address this.
 * `def:causal_chain` (the subsets which are causal chains), `def:maximal_chain`,
-  `def:causally_connected`, `def:causally_complete` are not carried.
-* Curves over a non-compact interval and inextensible curves (`def:cauchy_time_function`,
-  `def:cauchy_surface`) are not carried.
+  `def:causally_connected`, `def:causally_complete` are carried in `Causal.Chains`.
+* Curves over an arbitrary interval and inextensible curves (`def:cauchy_time_function`,
+  `def:cauchy_surface`) are carried in `Causal.Inextensible` and `Causal.Cauchy`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/

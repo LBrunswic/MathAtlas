@@ -1,5 +1,5 @@
-import CausalScaffold.Morphism
-import CausalScaffold.PushoutCausal
+import CausalScaffold.GerochEquiv
+import CausalScaffold.GXSingular
 
 /-!
 # CausalScaffold

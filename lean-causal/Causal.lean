@@ -20,6 +20,13 @@ import Causal.MeasureRemarks
 import Causal.MeasureSum
 import Causal.MeasureLocal
 import Causal.Pushout
+import Causal.Morphism
+import Causal.PushoutCausal
+import Causal.Chains
+import Causal.Inextensible
+import Causal.Cauchy
+import Causal.Geroch
+import Causal.GXStructure
 
 /-!
 # Causal — topological spacetimes
