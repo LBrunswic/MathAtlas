@@ -518,17 +518,6 @@ notes = "No `sorry`. 'Neither hypothesis can be dispensed with' is certified by 
 paper_findings = ["ETT.tex:952 'Neither hypothesis can be dispensed with' is certified by two counterexamples: (a) the punctured null plane (ℝ²∖{0}, product order with the null rays through the puncture blocked) is causal, satisfies (b) at every point for both signs, J^-((1,0)) is not closed, and K^-((−1,0)) ⊂ K^-((1,0)), K^+((1,0)) ⊂ K^+((−1,0)) while (−1,0) ≰ (1,0); (b) the spacelike line is causal, satisfies (a), K^± ≡ ∅, and both the order conclusion and injectivity fail.", "ETT.tex:323-324 (rem:deux_pushup) and 953: imprecise rather than false. The paper uses 'push-up' for two properties: ETT.tex:290 calls causal plainness 'the push-up property', defi:pushup defines a relational one. With defi:pushup, density of I^-(x) in J^-(x) needs J^-(x) ⊆ Z^- as well (Jminus_subset_closure_Iminus_of_pushUp); without it the spacelike line has defi:pushup (vacuously) and fails density and (b) everywhere (pushUp_does_not_give_hypothesis_b). At ETT.tex:953 the sentence reasons through prop:tarentin_fort_K, so its 'push-up' is causal plainness, which the spacelike line lacks: that sentence is not contradicted. Suggest naming one property per word.", "ETT.tex:954 'around which M is causally plain': prop:tarentin_fort_K is for a causally plain M; a local version is not proved anywhere. Certified with global plainness.", "ETT.tex:957-958: prop:K_densite_sing belongs to the singular model spaces, absent from the library; not stated."]
 
 [[row]]
-label = "rem:galileo_spacetime_not_strongly"
-extra_lean_files = ["Causal/TransparentLine.lean", "Causal/Galileo.lean", "Causal/LinesReachable.lean"]
-lean_proved_override = "partial"
-decls = ["Causal.galileoOn", "Causal.galileo", "Causal.galileoOn_isCausal", "Causal.galileoOn_diamond_top", "Causal.galileoOn_slab_subset", "Causal.exists_before_after_of_mem_nhds", "Causal.galileoOn_not_convex_basis", "Causal.galileoOn_not_stronglyCausal", "Causal.galileo_not_stronglyCausal", "Causal.galileoOn_stronglyCausal_of_subsingleton", "Causal.galileo_zero_stronglyCausal"]
-bucket = "D"
-size = "S"
-blocked_on = "the flat model spacetimes of subsec:sing_spacetime_defi"
-notes = "No `sorry`. Proved for n ≥ 1 (⚠ strengthened); false for n = 0, which is proved. The sentence on the flat model spacetimes is not stated: those spaces are not in the library. WP-2, audited."
-paper_findings = ["ETT.tex:273 / 670: Galileo's spacetime R^{n+1} is written with n unrestricted; for n = 0 it is the timelike line, which is strongly causal (galileo_zero_stronglyCausal; also timelikeLine_stronglyCausal in Causal.Lines). The remark holds for n ≥ 1 only.", "ETT.tex:274-275: 'p ≤_U q if p ≪_U q or p = q' needs p ∈ U in the second case (relations of a causality on U hold between points of U); carried so.", "ETT.tex:672-673: the last sentence (flat model spacetimes are strongly causal) is about the model spaces of subsec:sing_spacetime_defi, absent from the library; not stated."]
-
-[[row]]
 label = "rem:minimalite_non_hereditaire"
 extra_lean_files = ["Causal/TransparentLine.lean", "Causal/Galileo.lean", "Causal/LinesReachable.lean"]
 lean_proved_override = "partial"
@@ -685,50 +674,6 @@ notes = "No `sorry` beneath the strict part. Both notions are defined: a chain m
 paper_findings = ["ETT.tex:331 'causal morphism' is not defined; it is read as the weak morphism of def:category_topological_spacetimes (DEC-6), with (X,≤) given the lightlike causality of its order (no ≪). Then a chain map from ℝ is exactly an injective DEC-6 causal curve which is an embedding (isCausalChainMap_real_iff).", "ETT.tex:330-332 the paper gives two notions under one name and never relates them. Image ⇒ subset chain holds when X is conditionally complete and densely ordered (isCausalChain_range); for a general linearly ordered X (e.g. ℚ) the proof needs to chain local relations of ≤_V across [y,z], which needs compact connected intervals, and I could not exclude a counterexample built from a non-local causality. Subset chain ⇒ image of a chain map holds when S carries a linear order reflected by ≤_M whose order topology is the subspace topology; without that hypothesis S need not even be globally comparable (two disjoint timelike lines, or X minus its vertex below).", "Every subset of the timelike line is a causal chain (timelikeLine_isCausalChain): def (2) is a purely local condition, so discrete sets, Cantor sets etc. are chains. In the spacelike line exactly the subsets whose points are all isolated are chains."]
 
 [[row]]
-label = "def:causally_complete"
-extra_lean_files = ["Causal/Chains.lean"]
-lean_proved_override = "partial"
-decls = ["Causal.Causality.chainPreorder", "Causal.Causality.DedekindComplete", "Causal.Causality.CausallyComplete", "Causal.Causality.dedekindComplete_iff", "Causal.Causality.DedekindComplete.dual", "Causal.Causality.DedekindComplete.exists_isGLB", "Causal.Causality.dual_dedekindComplete", "Causal.Causality.dual_causallyComplete", "Causal.timelikeLine_causallyComplete", "Causal.spacelikeLine_causallyComplete"]
-bucket = "C"
-size = "S"
-blocked_on = "OQ-17: chains"
-notes = "No `sorry` beneath the strict part. Dedekind completeness read for ≤_M on the chain; vacuous wherever no maximal chain exists. WP-6, audited twice."
-paper_findings = ["ETT.tex:354 a maximal chain is only locally totally ordered, so 'Dedekind-complete' (a notion for linear orders) needs an order on a set which need not be linear. Read for the preorder ≤_M induced on S: every non-empty subset bounded above has an IsLUB (mathlib vocabulary). The IsGLB half then follows in any preorder (DedekindComplete.exists_isGLB), so the reading is time-symmetric (dual_dedekindComplete)."]
-
-[[row]]
-label = "def:causally_connected"
-extra_lean_files = ["Causal/Chains.lean"]
-lean_proved_override = "partial"
-decls = ["Causal.Causality.CausallyConnected", "Causal.Causality.dual_causallyConnected", "Causal.timelikeLine_causallyConnected", "Causal.spacelikeLine_not_causallyConnected"]
-bucket = "C"
-size = "S"
-blocked_on = "OQ-17: chains"
-notes = "No `sorry` beneath the strict part. Defined as written; it fails wherever no maximal chain exists (def:maximal_chain). WP-6, audited twice."
-paper_findings = ["ETT.tex:339 as written (maximal among all subset chains), causal connectedness fails in every spacetime with no maximal chain, Minkowski space of dimension ≥ 2 included (see def:maximal_chain); the condition holds for the timelike line only because its unique maximal chain is the whole line."]
-
-[[row]]
-label = "def:maximal_chain"
-extra_lean_files = ["Causal/Chains.lean"]
-lean_proved_override = "partial"
-decls = ["Causal.Causality.IsMaximalChain", "Causal.Causality.dual_isMaximalChain", "Causal.Causality.IsCausalChain.insert_of_notMem_closure", "Causal.Causality.IsMaximalChain.dense", "Causal.timelikeLine_isMaximalChain_iff", "Causal.spacelikeLine_not_isMaximalChain", "Causal.Causality.HasUnrelatedOpensIn", "Causal.Causality.not_isMaximalChain_of_hasUnrelatedOpensIn", "Causal.Causality.not_isMaximalChain_of_hasUnrelatedOpensIn_top", "Causal.spacelikeLine_hasUnrelatedOpensIn_top"]
-bucket = "C"
-size = "M"
-blocked_on = "OQ-17: chains"
-notes = "No `sorry` beneath the strict part. As written (maximal among subset chains) a maximal chain of a T1 spacetime is dense, so none exists in a spacetime with locally unrelated open sets (Minkowski space of dimension ≥ 2, in prose); the definition is degenerate. WP-6, audited twice."
-paper_findings = ["ETT.tex:335 with the subset notion (2), a maximal chain of a T1 space is DENSE (IsMaximalChain.dense): any point outside the closure of a chain can be added to it.", "Abstract consequence, proved (not_isMaximalChain_of_hasUnrelatedOpensIn): in a nonempty T1 space, if every point has an open neighbourhood U such that every non-empty open O ⊆ U contains two non-empty open sets with no ≤_U relation between their points, there is no maximal chain. Proof: the dense maximal chain S meets both unrelated sets inside the V ⊆ U where S ∩ V is totally ordered for ≤_V, and ≤_V ⊆ ≤_U by axiom (b). The global form (U = ⊤) is not_isMaximalChain_of_hasUnrelatedOpensIn_top; the spacelike line satisfies it (spacelikeLine_hasUnrelatedOpensIn_top), which re-derives spacelikeLine_not_isMaximalChain.", "Application to Lorentzian manifolds (prose; no Lorentzian manifold is in the library): let M have dimension ≥ 2, chronology and causality conditions arbitrary (vicious spacetimes included). Take at each x a convex normal neighbourhood U, with ≤_U the relation 'joined by a causal curve in U'. Every non-empty open O ⊆ U contains two points spacelike-separated in U (e.g. on a short spacelike geodesic), and since J_U is closed in U × U for a convex normal U, small balls around them are ≤_U-unrelated. So the hypothesis holds with local U, and there is NO maximal causal chain. Because only ≤_U for small U is used, no global causality condition is needed. Consequently, as written, causal completeness holds vacuously in every Lorentzian manifold of dimension ≥ 2 and causal connectedness fails there. The paper presumably means maximal among CONNECTED chains, or among chain maps / curves maximal under extension (DEC-11)."]
-
-[[row]]
-label = "rem:causal_completeness_slightly_weaker"
-extra_lean_files = ["Causal/Chains.lean"]
-lean_proved_override = "partial"
-decls = ["Causal.Bowtie", "Causal.bowtie", "Causal.bowtie_le", "Causal.bowtie_isCausal", "Causal.bowtie_causallyCompact", "Causal.bowtie_isCausalChain", "Causal.bowtie_isMaximalChain_univ", "Causal.bowtie_not_causallyComplete", "Causal.not_causallyCompact_imp_causallyComplete", "Causal.fan", "Causal.fanRel", "Causal.fan_le", "Causal.fan_isCausal", "Causal.fan_isCausalChain", "Causal.fan_causallyComplete", "Causal.fan_not_causallyCompact", "Causal.not_causallyComplete_imp_causallyCompact", "Causal.eq_of_transGen_eq", "Causal.AbsolutelyMinimalOn.eq_of_discrete", "Causal.causallyCompact_of_le_top_eq", "Causal.causallyComplete_of_le_top_eq", "Causal.AbsolutelyMinimalOn.causallyCompact_of_discrete", "Causal.AbsolutelyMinimalOn.causallyComplete_of_discrete", "Causal.diagonalCausality", "Causal.diagonalCausality_absolutelyMinimalOn", "Causal.diagonalCausality_lt"]
-bucket = "C"
-size = "M"
-blocked_on = "OQ-17: chains"
-notes = "No `sorry` beneath the strict part. 'Not conversely' is confirmed (the fan). 'Compact ⇒ complete' is refuted only for a non-local causality (the bowtie; on a discrete space every absolutely minimal causality is trivial, hence compact and complete); a local counterexample is in prose. WP-6, audited twice."
-paper_findings = ["ETT.tex:357 'slightly weaker' asserts two things: (i) causally compact ⇒ causally complete, and (ii) not conversely. Half (ii) is CONFIRMED (not_causallyComplete_imp_causallyCompact): the fan, ℕ discrete with 0 below and 1 above every other event, is causal, T2, second countable, causally complete, and J(0,1) = ℕ is not compact. The fan is non-local (ofRelation).", "Half (i) is refuted only for NON-LOCAL causalities (not_causallyCompact_imp_causallyComplete): the bowtie, four discrete events a1,a2 < b1,b2 with the restrictions of a global order (ofRelation), is causal, T2, second countable, causally compact (finite diamonds), and {a1,a2} is bounded above with no least upper bound. The refutation rests on non-locality: on a discrete space an absolutely minimal causality has ≤ the diagonal (AbsolutelyMinimalOn.eq_of_discrete), hence is causally compact and causally complete (AbsolutelyMinimalOn.causallyCompact_of_discrete, …causallyComplete_of_discrete). Correction to the audit's wording: ≪ is then contained in the diagonal but need NOT be empty — diagonalCausality (≤ = ≪ = diagonal) is absolutely minimal with x ≪ x (diagonalCausality_absolutelyMinimalOn, diagonalCausality_lt). Compactness and completeness depend on ≤ only, so the conclusion stands.", "A LOCAL witness against (i), in prose only (not formalized: not cheap — it needs the induced causality on a subtype of ℝ², the comparability case analysis inside its diamonds for transitivity, absolute minimality via a subdivision along the two branches, and compactness of diamonds as images of segments; estimated several hundred lines). X = the two null lines |x| = |t| of 1+1 Minkowski space through the origin o, with x ≤_U y iff y is in the Minkowski causal future of x and the diamond {z ∈ X : x ≤ z ≤ y} — a segment, or two half-segments through o — lies in U. This is absolutely minimal (relations are generated along segments), causal, T2, second countable, and its diamonds are compact. X minus o is a chain; o cannot be added (every neighbourhood of o meets both future branches, which are ≤-incomparable), and any other missing point can, so X \\ {o} is the unique maximal chain. One past branch is bounded above by every point of both future branches and has no least upper bound in X \\ {o}. If this is accepted, (i) fails for local causalities too: compactness fills a gap with a point of M, but nothing forces that point into the chain, and the chain need not be linearly ordered.", "totalLine (any two points related, ofRelation) is kept only as a NON-CAUSAL sanity example and is not a witness for the remark."]
-
-[[row]]
 label = "def:cauchy_surface"
 extra_lean_files = ["Causal/Cauchy.lean", "Causal/Geroch.lean"]
 decls = ["Causal.Causality.IsCauchySurfaceOn", "Causal.Causality.IsCauchySurface", "Causal.Causality.IsCauchySurfaceLiteral", "Causal.Causality.not_isCauchySurfaceLiteral", "Causal.timelikeLine_not_isCauchySurfaceLiteral", "Causal.timelikeLine_isCauchySurface_zero", "Causal.Causality.isCauchySurfaceOn_top"]
@@ -743,17 +688,6 @@ decls = ["Causal.Causality.IsCauchyTimeFunction", "Causal.Causality.CausalCurveI
 bucket = "A"
 notes = "No `sorry` beneath the strict part. A DEC-10 time function tending to ∓∞ along every inextensible causal curve over ℝ; inextensibility as ruled by DEC-11/DEC-13, two- and one-sided. WP-7, audited twice."
 paper_findings = ["Ruled by DEC-13 (2026-10-30): the strict-extension definition is confirmed, and past-/future-inextensibility are defined (StrictlyExtendsPast/Future: the image of φ is a final/initial segment of I'); Inextensible ↔ PastInextensible ∧ FutureInextensible (inextensible_iff), exchanged by time reversal (dual_pastInextensible_iff, dual_futureInextensible_iff).", "Inextensible (used ~20 times, ruled DEC-11 as maximal under extension): with DEC-6 the naive 'larger domain, same values' extension makes every curve extensible by a constant piece (exists_naive_extension), so nothing would be inextensible and every time function would be a Cauchy time function. Formalized: (I', c') strictly extends (I, c) iff c' is a causal curve over the interval I', some strictly increasing φ : I → I' with interval image has c' ∘ φ = c on I, and the image grows (c' takes a value c does not).", "Reparametrisation must be allowed: with domain inclusion alone every curve over ℝ (constant ones included) is inextensible, because no interval strictly contains ℝ, and no Cauchy time function could exist.", "Sanity: on the timelike line id : ℝ → ℝ is inextensible, id : [0,1] → ℝ is not, and t ↦ min t 0 over ℝ is not (timelikeLine_inextensible_id, timelikeLine_not_inextensible_Icc, timelikeLine_not_inextensible_min); the last exercises the reparametrisation clause: its constant tail is squeezed by φ into [0,1[ and the extension rises after it, which no extension with φ = id can do. id is a Cauchy time function (timelikeLine_isCauchyTimeFunction_id).", "def:cauchy_time_function quantifies over curves c : ℝ → M, def:cauchy_surface over curves on intervals. They see the same curves only when inextensible curves have open domains: under causal arc-connectedness, causality and J^±(p) ≠ {p}, every inextensible curve over an interval is a reparametrised inextensible curve over ℝ (Inextensible.reparam). Without these hypotheses an inextensible curve can have a closed end (a point with J^-(p) = {p}).", "φ is automatically a homeomorphism onto its image (strictly increasing, interval onto interval, hence an order isomorphism); it is not asked to be continuous. 'The image grows' differs from parametrised maximality in non-causal spacetimes: a surjective curve, or a closed causal loop run forever, is inextensible under it although a longer parametrisation exists. Both are disclosed in Inextensible's SCOPE."]
-
-[[row]]
-label = "theo:geroch"
-extra_lean_files = ["scaffold/CausalScaffold/GerochEquiv.lean", "Causal/Geroch.lean"]
-lean_proved_override = "partial"
-decls = ["Causal.Causality.geroch", "Causal.Causality.geroch_i_imp_ii", "Causal.Causality.GloballyHyperbolic.isCauchyTimeFunction_gerochTime", "Causal.Causality.gerochTime", "Causal.Causality.isTimeFunction_gerochTime", "Causal.Causality.isOpenMap_gerochTime", "Causal.Causality.continuous_gerochTime", "Causal.Causality.gerochTime_lt", "Causal.Causality.gerochTime_le", "Causal.Causality.gerochTime_dual", "Causal.Causality.exists_le_of_bddBelow", "Causal.Causality.tendsto_atBot_gerochTime", "Causal.Causality.tendsto_atTop_gerochTime", "Causal.Causality.extensible_of_forall_le", "Causal.Causality.extensible_of_forall_ge", "Causal.Causality.IsCauchyTimeFunction.exists_mem_zero", "Causal.Causality.IsCauchyTimeFunction.isCauchySurface", "Causal.Causality.geroch_ii_imp_iii", "Causal.Causality.geroch_i_imp_iii", "Causal.Causality.geroch_iii_imp_i", "Causal.Causality.geroch_tfae_strict", "Causal.timelikeLine_admissible_past_and_future", "Causal.timelikeLine_exists_strict_isCauchyTimeFunction", "Causal.timelikeLine_geroch_tfae", "Causal.Causality.pastExtensible_of_forall_le", "Causal.Causality.futureExtensible_of_forall_ge", "Causal.Causality.tendsto_atBot_gerochTime_of_pastInextensible", "Causal.Causality.tendsto_atTop_gerochTime_of_futureInextensible"]
-bucket = "D"
-size = "L"
-blocked_on = "(iii)⇒(i): quasi-limits of causal curves (O'Neill), cited by the paper"
-notes = "No `sorry` beneath the strict part. (i)⇒(ii) and (ii)⇒(iii) proved in the strict library with no sorry, (ii) strict as ruled by DEC-15, the Geroch time function shown open; the equivalence (`geroch`, scaffold) rests on the cited (iii)⇒(i) alone. The hypotheses are jointly satisfiable (the timelike line with a Gaussian measure). WP-7, audited twice."
-paper_findings = ["ETT.tex:1300 (ii)⇒(iii) 'take S = T⁻¹(0)' is false for a Cauchy time function in the sense of DEC-10 alone (≤ ↦ ≤, ≪ ↦ <): on 1+1 Minkowski space T(t,x) = t − g(x), with g smooth bounded, |g'| ≤ 1 and g(x) = x on [0,1], is continuous, open, non-decreasing along ≤, increasing along ≪, and tends to ±∞ along every inextensible causal curve, yet T⁻¹(0) contains the null segment from (0,0) to (1,1), which the inextensible null line t = x meets infinitely often. Not formalized (no Minkowski plane in the library). This is why the author ruled DEC-15 ((ii) asks T strictly increasing along ≤); with it the step is proved (geroch_ii_imp_iii), and the T of (i)⇒(ii) is strict (gerochTime_lt). The DEC-10-only form of (ii)⇒(iii) and its sorry were removed.", "The open-map gap WP-1 found in (i)⇒(ii) is closed (isOpenMap_gerochTime), with no added hypothesis: in a causally arc-connected causal T1 spacetime with J^-(x) ≠ {x}, J^+(x) is never a neighbourhood of x (Jplus_not_mem_nhds), so the tarentin diamond J(p,q) ⊂ V around x (V causally convex, from strong causality) has p ≠ x ≠ q, T(p) < T(x) < T(q), and [T p, T q] ⊂ T(V) by the intermediate value theorem along a causal curve from p to q. The same lemma gives chronology, x ≪ y ⇒ x ≠ y (ne_of_lt_top), which ≪ ↦ < needs.", "ETT.tex:1274 't⁺ : x ↦ μ₊(J⁺(x)) and t⁻ : x ↦ −μ₋(J⁻(x)) are time functions': both are non-increasing along ≤ (J⁺(x) shrinks and J⁻(x) grows as x moves to the future), so neither is a time function as stated. T = log(−t⁻/t⁺) has the right sign and is the one formalized; the time-function property of −t^± is not proved here.", "ETT.tex:1291 'If I = ]0,1] then c is extensible by setting c(0) = p' needs two repairs, both available in the sketch: (a) the adjoined point must be causally related to the curve inside small open sets, which is proved from closed causal pasts, strong causality and causal arc-connectedness (causalCurveIn_insert); in a general spacetime it fails; (b) if c is constant near 0 then p is already on the curve and nothing is extended; prepending a curve from q' ∈ J⁻(p) ∖ {p} (the I = [0,1] step) repairs it (extensible_of_tendsto).", "ETT.tex:1287–1290 the uniqueness-of-the-accumulation-point step needs neither Hausdorffness nor a second accumulation point: one causally convex neighbourhood of an accumulation point that the curve visits arbitrarily far in the past contains the whole tail (tendsto_of_mapClusterPt). T2 is still used upstream in (i)⇒(ii), for strong causality (prop:GH_fortement_causal) and for the closedness of J⁻(x) (prop:GH_Jferme); only this step avoids it.", "(i)⇒(ii) uses neither local compactness nor strong causality as a hypothesis (strong causality follows from global hyperbolicity, prop:GH_fortement_causal); (ii)⇒(iii) uses neither the measures, nor tarentin, nor local compactness, and only T1.", "The sketch takes 'a decreasing sequence (x_n) converging to 0' for curves over I = [0,1] or ]0,1], while def:cauchy_time_function is about curves over ℝ; formalized over ℝ with x_n = −n and a log reparametrisation onto ]0, ∞[.", "The hypotheses of theo:geroch are jointly satisfiable: on the timelike line the standard Gaussian measure is admissible in the past and in the future (timelikeLine_admissible_past_and_future; K⁻(a) ⊇ ]−∞,a[, so J⁻(A)∖K⁻(A) has at most one point and is null, the argument of lightlikeLine_admissible_past_and_future in Causal/MeasureRemarks.lean). geroch_i_imp_ii then gives a strict Cauchy time function (timelikeLine_exists_strict_isCauchyTimeFunction), and timelikeLine_geroch_tfae instantiates geroch_tfae. The construction is due to the WP-7 audit; the earlier claim that no admissible measure exists in the library was wrong.", "(i)⇒(ii) is proved in the one-sided form of the sketch (ETT.tex:1295–1296, DEC-13): T → −∞ along every past-inextensible causal curve over ℝ (tendsto_atBot_gerochTime_of_pastInextensible) and T → +∞ along every future-inextensible one (tendsto_atTop_gerochTime_of_futureInextensible); the extension built is at the past end (pastExtensible_of_forall_le)."]
 
 [[row]]
 label = "prop:GX_espace_temps_topo"
@@ -787,3 +721,382 @@ size = "S"
 blocked_on = "OQ-19: branched (G,X)-morphisms"
 notes = "No `sorry` beneath the strict part. Proved for unbranched maps at regular points only: a map reading in charts as an element of G is a strong morphism when the source causality is absolutely minimal. WP-8, audited twice."
 paper_findings = ["'Branched (G,X)-morphism' is not defined in the paper and the remark gives no proof. Proved for unbranched maps at regular points only: an open continuous map which reads, near every point, in charts into X, as an element of G is a strong morphism when the source causality is absolutely minimal (strongMorphism_of_gxMorphism; general form strongMorphism_of_locally). At singular and branch points the argument says nothing."]
+
+# ------------------------------------------------- wave 3 (DEC-9), 2026-10-30 ----
+
+[[findings_triage]]
+label = "defi:causal_E0"
+kind = "sentence"
+one_line = "the metric printed at l.1330 makes the singular line timelike, not lightlike; the flat extreme-BTZ metric has the form −2dτdρ+ρ²dθ²"
+
+[[findings_triage]]
+label = "defi:causal_Ealpha"
+kind = "context"
+one_line = "the period of θ (ℝ/αℤ) is never stated, and it is the only place α enters"
+
+[[findings_triage]]
+label = "rem:pushup"
+kind = "sentence"
+one_line = "the concatenation of a causal and a chronological curve is not itself chronological; its endpoints are chronologically related"
+
+[[findings_triage]]
+label = "rem:singular_flat_spacetime_therefore"
+kind = "sentence"
+one_line = "nothing makes a singular flat spacetime strongly causal (E_α modulo a translation along its singular line); ruled DEC-18"
+
+[[findings_triage]]
+label = "lem:cup_cap_BTZ"
+kind = "sentence"
+one_line = "false with strong causality only (E_0 minus a point of its BTZ line); true for globally hyperbolic M, as used; ruled DEC-19"
+
+[[findings_triage]]
+label = "prop:Cauchy_pgcd"
+kind = "sentence"
+one_line = "φ is never shown injective, and the Cauchy inclusion into the union is not argued"
+
+[[findings_triage]]
+label = "lem:image_diamant"
+kind = "sentence"
+one_line = "compactness of J⁺(Σ) ∩ J⁻(p) does not follow from compact diamonds between two points"
+
+[[findings_triage]]
+label = "lem:IJ_calc"
+kind = "context"
+one_line = "the step I⁻(q) ≠ ∅ ⇒ q ∈ Z⁻ needs absolute minimality (rem:absolutely_minimal_topological_spacetime, cor:model_minimal), not cited"
+
+[[row]]
+label = "defi:causal_Ealpha"
+extra_lean_files = ["Causal/Model/Massive.lean", "Causal/Model/Cone.lean", "Causal/Static.lean", "Causal/Minkowski.lean", "Causal/LinesReachable.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.Massive", "Causal.massive", "Causal.massive_le_top_iff", "Causal.massive_lt_top_iff", "Causal.massive_isOpen_I", "Causal.singLine", "Causal.regPart", "Causal.singLine_chronalCurveOn", "Causal.singLine_lt", "Causal.singLine_locallyChronal", "Causal.Cone", "Causal.StaticCurve", "Causal.staticLe", "Causal.staticLt", "Causal.staticCausality", "Causal.Minkowski", "Causal.minkowski", "Causal.staticCausality.le_top_iff", "Causal.staticCausality.lt_top_iff", "Causal.staticCausality.sanity", "Causal.isOpen_setOf_staticLt", "Causal.minkowski_le_top_iff_sq", "Causal.minkowski_lt_top_iff_sq"]
+bucket = "D"
+size = "L"
+blocked_on = "the BTZ model E_0, not constructed by the paper"
+notes = "For α > 0: E_α is the static spacetime ℝ × C_α over the flat cone (a proper geodesic metric space), with the curve-defined causality; the singular line is timelike and locally chronal; E_{2π} ≅ Minkowski. κ = 0 and the (G,X) uniqueness sentence are not covered. (WP-10, WP-9, audited)"
+paper_findings = ["l.1327-1329 gives the metric -dt^2+dr^2+r^2 dtheta^2 for every alpha without saying that theta runs over R/alphaZ: the angle alpha enters only through the period of theta, which the sentence should state ('theta in R/alpha Z').", "For alpha > 0, E_alpha = R x C_alpha with C_alpha the Euclidean cone over the circle of length alpha, d^2 = r1^2 + r2^2 - 2 r1 r2 cos(min(delta, pi)); proper and geodesic for every alpha > 0, alpha > 2pi included (there geodesics between directions >= pi apart run through the apex and are not unique). The relations defined by curves in every open set form a causality, I^pm_U(A) open, and the singular line {r = 0} is a chronal curve in every open set containing it ('timelike, hence locally chronal', l.1341, confirmed).", "The sentence 'On any E>=0-manifold there is then a unique causal structure inducing that of E_alpha in every chart' (l.1339-1341) is the (G,X) part, not addressed.", "Formalized for Minkowski space R^{1,n} (and every static R x X over a geodesic space): the relations defined by curves in every open set form a causality (axioms (a)-(c), << transitive, I^pm_U(x) open), as l.1336-1339 assert; the openness of I^pm needs the geodesic hypothesis (a perturbed endpoint is reached by a geodesic segment inside a ball of U). The sentence 'On any E>=0-manifold there is then a unique causal structure...' (l.1339-1341) is not addressed.", "l.1337 does not define 'future chronological curve'. The uniform reading (c-Lipschitz for one c < 1) and the pointwise one (speed < 1 at every point, supremum possibly 1) define the same <<_U in every open U, so no question to the author is needed: a pointwise-timelike curve has strict chords d(gamma s, gamma s') < |s - s'|; a fine enough inscribed polygon of geodesic segments stays in a thickening of the compact graph, hence in U, and its finitely many slopes have a maximum c < 1. The argument is in prose (Static.lean SCOPE), not formalized; causallyArcConnected independently proves that staticLt U is equivalent to a chronal curve of Causal/Curves.lean in U. (Question withdrawn after audit.)"]
+
+[[row]]
+label = "rem:pushup"
+extra_lean_files = ["Causal/Model/Massive.lean", "Causal/Static.lean", "Causal/LinesReachable.lean", "Causal/Minkowski.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.massive_pushUp", "Causal.massive_pushUpOn", "Causal.staticLt_of_staticLt_of_staticLe", "Causal.staticLt_of_staticLe_of_staticLt", "Causal.staticCausality.pushUp", "Causal.staticCausality.pushUpOn", "Causal.minkowski_pushUp"]
+bucket = "D"
+size = "S"
+blocked_on = "the BTZ model E_0"
+notes = "Push-up in every open subset of every static spacetime over a geodesic space, hence of Minkowski space and of E_α, α > 0. (WP-10, WP-9, audited)"
+paper_findings = ["The wording finding of WP-9 applies verbatim to E_alpha: the concatenation itself is not chronological; its end points are joined by a chronological curve in the same open set (Static.staticLt_of_staticLt_of_staticLe).", "l.1375-1376 'the concatenation of a future causal curve with a future chronological one is future chronological' is false for the concatenated curve itself: a chronological curve followed by a null segment is not chronological (it has a null piece). What holds, and what the 'Equivalently' formula and defi:pushup need, is that the END POINTS are chronologically related in the same open set, through another curve: Lean re-times the concatenation (the chronological part sped up, the causal part slowed down) inside a tube of U (staticLt_of_staticLt_of_staticLe). Suggested wording: '...the end points of the concatenation of a future causal curve with a future chronological one are joined by a future chronological curve in the same open set.'"]
+
+[[row]]
+label = "cor:model_minimal"
+extra_lean_files = ["Causal/Model/Massive.lean", "Causal/Static.lean", "Causal/Minkowski.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.massive_causallyArcConnected", "Causal.massive_absolutelyMinimal", "Causal.staticCausality.causallyArcConnected", "Causal.staticCausality.absolutelyMinimal", "Causal.staticCausality.causalCurveOn_graph", "Causal.staticCausality.chronalCurveOn_graph", "Causal.minkowski_absolutelyMinimal", "Causal.minkowski_causallyArcConnected"]
+bucket = "D"
+size = "S"
+blocked_on = "the BTZ model E_0"
+notes = "E_α (α > 0) is causally arc-connected, hence absolutely minimal, as the paper argues. (WP-10, WP-9, audited)"
+paper_findings = ["For alpha > 0 the paper's proof is the formal one: causal arc-connectedness of E_alpha (which the paper cites to [thesis, brunswic:hal-01317447]) is proved here, and cor:causalement_connexe_minimal concludes.", "The graphs of 1-Lipschitz (resp. c-Lipschitz, c<1) maps are causal (resp. chronal) curves of Causal/Curves.lean (DEC-6), which is the bridge between defi:causal_Ealpha's curves and def:causal_arc_connectedness."]
+
+[[row]]
+label = "lem:IJ_calc"
+extra_lean_files = ["Causal/Model/Massive.lean", "Causal/PushUp.lean", "Causal/Static.lean", "Causal/LinesReachable.lean", "Causal/Properties.lean", "Causal/Minkowski.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.massive_IJ_calc", "Causal.staticCausality.interior_Jplus_inter_Zminus", "Causal.staticCausality.interior_Jminus_inter_Zplus", "Causal.staticCausality.interior_Jplus", "Causal.staticCausality.interior_Jminus", "Causal.staticCausality.mem_Zplus", "Causal.staticCausality.mem_Zminus", "Causal.minkowski_IJ_calc"]
+bucket = "D"
+size = "S"
+blocked_on = "the BTZ model E_0"
+notes = "Int J^±(p) ∩ Z^∓ = I^±(p) for every static spacetime, Minkowski and E_α (α > 0). (WP-10, WP-9, audited)"
+paper_findings = ["Missing citation, not an error. The proof (l.1446-1447, l.1452-1454) passes from 'I^-(q) is non-empty' to 'q in Z^-' (and from non-empty chronological futures to Z^+ = E_kappa). That step is rem:absolutely_minimal_topological_spacetime (l.780-782), which applies because the models are absolutely minimal by cor:model_minimal (l.1386); Lean's proof goes the same way (AbsolutelyMinimal.mem_Zminus_iff). Suggested wording: '... so I^-(q) is non-empty and therefore, by Remark rem:absolutely_minimal_topological_spacetime and Corollary cor:model_minimal, q in Z^-(E_kappa).' For the static models Z^pm = M is also proved directly (mem_Zplus, mem_Zminus)."]
+
+[[row]]
+label = "lem:densite_modele"
+extra_lean_files = ["Causal/Model/Massive.lean", "Causal/Static.lean", "Causal/Minkowski.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.massive_densite", "Causal.massive_densite_of_causallyConvexIn", "Causal.staticCausality.closure_Iplus", "Causal.staticCausality.closure_Iminus", "Causal.staticCausality.Jplus_eq_closure_Iplus_of_causallyConvexIn", "Causal.staticCausality.Jminus_eq_closure_Iminus_of_causallyConvexIn", "Causal.minkowski_densite", "Causal.minkowski_densite_of_causallyConvexIn"]
+bucket = "D"
+size = "S"
+blocked_on = "the BTZ model E_0 (item (c))"
+notes = "(a)(b) for α > 0, also in causally convex open subsets; the citation the proof gives is not needed there. (WP-10, WP-9, audited)"
+paper_findings = ["For alpha > 0 the proof's appeal to [brunswic2021cauchy, Section 1.2] for 'J^pm(p) is the closure of its interior' (l.1480-1482) is not needed: Z^mp(E_alpha) = E_alpha, and J^pm(p) = closure I^pm(p) follows from the vertical time shift (Static.closure_Iplus). The citation is needed only for kappa = 0."]
+
+[[row]]
+label = "rem:sing_tarentin"
+extra_lean_files = ["Causal/Model/Massive.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.massive_tarentin"]
+bucket = "D"
+size = "S"
+blocked_on = "E≥0-manifolds (the (G,X) layer for the singular structure) and E_0"
+notes = "E_α (α > 0) is tarentin. (WP-10, audited)"
+
+[[row]]
+label = "rem:btz_pas_tarentin"
+extra_lean_files = ["Causal/Model/Massive.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.massive_Zplus", "Causal.massive_Zminus"]
+bucket = "D"
+size = "S"
+blocked_on = "the BTZ model E_0"
+notes = "For α > 0 every point is strongly tarentin both ways (Z⁺ = Z⁻ = E_α); the BTZ half is a field of SingularFlatAxioms. (WP-10, audited)"
+
+[[row]]
+label = "prop:mesure_dieckmann_Lorentz"
+lean_proved_override = "none"
+extra_lean_files = ["scaffold/CausalScaffold/MinkowskiMeasure.lean", "Causal/Static.lean"]
+decls = ["Causal.minkowski_mesure_dieckmann", "Causal.minkowski_mesure_dieckmann_of", "Causal.minkowski_exists_measure", "Causal.staticCausality.Kminus_eq_Iminus", "Causal.staticCausality.Kplus_eq_Iplus", "Causal.staticCausality.Jminus_diff_Kminus_subset_frontier", "Causal.staticCausality.Jplus_diff_Kplus_subset_frontier", "Causal.staticCausality.exists_isOpen_subset_Jminus_diff", "Causal.staticCausality.exists_isOpen_subset_Jplus_diff"]
+bucket = "C"
+size = "M"
+blocked_on = "the null boundary of past sets (Lipschitz achronal boundaries, Hawking–Ellis 6.3.1) is not in mathlib"
+notes = "Stated on Minkowski space only (the library has no Lorentzian manifolds), reduced to a measure null on the boundary of every open past or future set, which is the tagged sorry. (WP-9, audited)"
+paper_findings = ["l.1058-1059 'one then checks easily that conditions 3. and 4. hold': condition 4 for an ARBITRARY A rests on the classical theorem that achronal boundaries are Lipschitz hypersurfaces (Hawking-Ellis, Prop. 6.3.1), hence Lebesgue-null; the paper's sentence stands once that fact is cited. Concretely, with K^pm(A) = I^pm(A) (push-up and Z^pm = M) condition 4 asks that mu not charge J^pm(A) \\ I^pm(A), a subset of the frontier of the open past/future set I^pm(A). Condition 3 is elementary (J^-(q) \\ J^-(p) contains a non-empty open set, exists_isOpen_subset_Jminus_diff). The sorry'd existence statement is true for every n, n = 0 included (a Gaussian), so it is not vacuous.", "Row status for the ledger: stated, on the Minkowski instance only (hypothesis strengthened)."]
+
+[[row]]
+label = "rem:galileo_spacetime_not_strongly"
+extra_lean_files = ["Causal/Galileo.lean", "Causal/Minkowski.lean", "Causal/Static.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.galileoOn", "Causal.galileo", "Causal.galileoOn_isCausal", "Causal.galileoOn_diamond_top", "Causal.galileoOn_slab_subset", "Causal.exists_before_after_of_mem_nhds", "Causal.galileoOn_not_convex_basis", "Causal.galileoOn_not_stronglyCausal", "Causal.galileo_not_stronglyCausal", "Causal.galileoOn_stronglyCausal_of_subsingleton", "Causal.galileo_zero_stronglyCausal", "Causal.minkowski_stronglyCausal", "Causal.staticCausality.stronglyCausal", "Causal.staticCausality.diamond_vertical"]
+bucket = "D"
+size = "S"
+blocked_on = "the flat model spacetimes E_0"
+notes = "Galileo's spacetime is not strongly causal for n ≥ 1 (false for n = 0); Minkowski space and E_α (α > 0) are strongly causal. (WP-2, WP-9, audited)"
+paper_findings = ["ETT.tex:273 / 670: Galileo's spacetime R^{n+1} is written with n unrestricted; for n = 0 it is the timelike line, which is strongly causal (galileo_zero_stronglyCausal; also timelikeLine_stronglyCausal in Causal.Lines). The remark holds for n ≥ 1 only.", "ETT.tex:274-275: 'p ≤_U q if p ≪_U q or p = q' needs p ∈ U in the second case (relations of a causality on U hold between points of U); carried so.", "ETT.tex:672-673: the last sentence (flat model spacetimes are strongly causal) is about the model spaces of subsec:sing_spacetime_defi, absent from the library; not stated.", "The sentence 'the flat model spacetimes ... are strongly causal' (l.672-674) holds for Minkowski space: the vertical diamonds J((t-e,x),(t+e,x)) are causally convex and lie in the closed e-ball (stronglyCausal)."]
+
+[[row]]
+label = "def:singular_spacetime"
+extra_lean_files = ["scaffold/CausalScaffold/SingularGeroch.lean", "Causal/SingularFlat.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.Causality.SingularFlatSpacetime", "Causal.Causality.SingularFlatAxioms", "Causal.timelikeLine_singularFlatSpacetime"]
+bucket = "D"
+size = "M"
+blocked_on = "the singular (G,X) structure; model facts are named hypotheses (kb/0012)"
+notes = "Abstracted as SingularFlatSpacetime: SingularFlatAxioms (the causal facts the paper derives for E≥0-manifolds, each citing its line) plus connectedness; witnessed on the timelike line; no witness with sing_0 ≠ ∅. (WP-11, audited)"
+
+[[row]]
+label = "lem:past_BTZ"
+extra_lean_files = ["Causal/SingularFlat.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.Causality.SingularFlatAxioms.past_BTZ_b", "Causal.Causality.mem_of_causalCurveOn", "Causal.Causality.SingularFlatAxioms.mem_sing_zero_of_causalCurveOn", "Causal.Causality.BTZAxioms", "Causal.Causality.SingularFlatAxioms", "Causal.Causality.SingularFlatAxioms.Jminus_subset_component", "Causal.Causality.SingularFlatAxioms.mem_sing_zero_of_le", "Causal.Causality.SingularFlatAxioms.Jminus_eq_image", "Causal.Causality.SingularFlatAxioms.isClosed_Jminus", "Causal.timelikeLine_past_BTZ_b"]
+bucket = "D"
+size = "M"
+blocked_on = "the model facts (SingularFlatAxioms)"
+notes = "(b) proved by the paper's argument for every causal curve over any interval; (a) is a field. (WP-11, audited)"
+
+[[row]]
+label = "cor:K_injectif"
+extra_lean_files = ["Causal/SingularFlat.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.Causality.SingularFlatAxioms.K_injectif", "Causal.timelikeLine_K_injectif"]
+bucket = "D"
+size = "S"
+blocked_on = "the model facts (SingularFlatAxioms)"
+notes = "Proved under SingularFlatAxioms. (WP-11, audited)"
+
+[[row]]
+label = "prop:K_densite_sing"
+extra_lean_files = ["Causal/SingularFlat.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.Causality.SingularFlatAxioms.K_densite_sing", "Causal.Causality.SingularFlatAxioms.K_densite_sing_of_stronglyCausal", "Causal.Causality.SingularPastAt.mem_closure", "Causal.Causality.SingularPastAt.Jminus_diff_subset_Kminus", "Causal.timelikeLine_K_densite_sing"]
+bucket = "D"
+size = "S"
+blocked_on = "the model facts; Iplus_eq is the assertion flagged at l.1351"
+notes = "Proved under SingularFlatAxioms, without strong causality. (WP-11, audited)"
+paper_findings = ["The proof l.1640-1690 can be replaced by three lines, given I^+(p) = J^+(p) \\ sing_0 at BTZ points in its global form (the field Iplus_eq): every point is strongly tarentin in the future, so push-up gives J^+(x) in closure I^+(x) = closure K^+(x); in the past a regular y <= x is strongly tarentin in the past (push-up again), a BTZ y <= x with x regular has y << x by I^+(y) = J^+(y) \\ sing_0, and at a BTZ x the half-line accumulates at x. Strong causality and lem:densite_modele (l.1464) are not needed. Causal arc-connectedness is unneeded only because Iplus_eq is assumed globally: the paper states it in the model (l.1352), and deriving the global form in M is the chart plus causal arc-connectedness argument of l.1663-1669."]
+
+[[row]]
+label = "cor:K_ordre"
+extra_lean_files = ["Causal/SingularFlat.lean", "Causal/PushUp.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.Causality.SingularFlatAxioms.K_ordre", "Causal.Causality.SingularFlatAxioms.K_monotone", "Causal.Causality.SingularFlatAxioms.K_calcul", "Causal.timelikeLine_K_ordre"]
+bucket = "D"
+size = "S"
+blocked_on = "the model facts (SingularFlatAxioms)"
+notes = "Proved under SingularFlatAxioms for globally hyperbolic M. (WP-11, audited)"
+
+[[row]]
+label = "lem:cup_cap_BTZ"
+extra_lean_files = ["scaffold/CausalScaffold/SingularGeroch.lean", "Causal/SingularFlat.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.Causality.cupCapBTZAsPrinted_of_globallyHyperbolic", "Causal.Causality.SingularFlatAxioms.cup_cap_BTZ", "Causal.Causality.cup_cap_BTZ_of_isClosed", "Causal.Causality.SingularPastAt.Jminus_diff_subset_iUnion_iInter", "Causal.Causality.iUnion_iInter_subset_Jminus_diff", "Causal.Causality.CupCapBTZAsPrinted", "Causal.lightlikeLine_cup_cap_BTZ", "Causal.timelikeLine_cupCapBTZAsPrinted"]
+bucket = "D"
+size = "S"
+blocked_on = "the model facts (SingularFlatAxioms)"
+notes = "Proved for globally hyperbolic M (DEC-19); the printed strongly causal form is kept as a Prop with its finding. (WP-11, audited)"
+paper_findings = ["The reason for DEC-19. By hand, not formalized (no E_0 in the library): in E_0 minus a point w of the BTZ line below p, with z on that line below w, z << p_n for regular p_n -> p with p ∉ J^-(p_n) (a chronal curve from a BTZ point leaves the line at once and avoids w), while J^-(p) = ]w,p]; so lem:cup_cap_BTZ as printed (strongly causal) fails for this strongly causal singular flat spacetime, granted that E_0 is strongly causal and p ∈ Int J^+(z) (the fact the proof of prop:K_calcul (c) uses). Its only use (l.2122) is in a globally hyperbolic setting, where it holds. The proof 'as for lem:J_int' (l.1831) does not reduce to a chart: z may lie outside it. Under DEC-19 the lemma is stated for globally hyperbolic M and its certificate is cupCapBTZAsPrinted_of_globallyHyperbolic; the printed strongly causal form stays the Prop Causal.Causality.CupCapBTZAsPrinted, not asserted, with this finding. SingularFlatAxioms.cup_cap_BTZ has no witness at a BTZ point (the full structure has none); the certificate is instantiated on the timelike line only vacuously (sing 0 = ∅)."]
+
+[[row]]
+label = "prop:mesure_admissible"
+extra_lean_files = ["scaffold/CausalScaffold/SingularGeroch.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.Causality.SingularFlatAxioms.mesure_admissible", "Causal.Causality.ModelMeasures", "Causal.timelikeLine_modelMeasures", "Causal.timelikeLine_mesure_admissible"]
+bucket = "D"
+size = "S"
+blocked_on = "measures in charts (ModelMeasures)"
+notes = "From prop:mesure_dieckmann_topo with the local measures as a named hypothesis; asks only causality. (WP-11, audited)"
+
+[[row]]
+label = "rem:singular_flat_spacetime_therefore"
+extra_lean_files = ["scaffold/CausalScaffold/SingularGeroch.lean", "Causal/Static.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.Causality.SingularFlatAxioms.geroch_hypotheses", "Causal.Causality.SingularFlatAxioms.geroch_hypotheses_of_singularFlat", "Causal.Causality.SingularFlatAxioms.Jplus_ne_singleton", "Causal.Causality.SingularFlatAxioms.Jminus_ne_singleton", "Causal.Causality.SingularFlatAxioms.not_open_subset_singleton", "Causal.timelikeLine_geroch_hypotheses"]
+bucket = "D"
+size = "S"
+blocked_on = "the model facts and ModelMeasures"
+notes = "With strong causality assumed (DEC-18), a singular flat spacetime satisfies the hypotheses of theo:geroch. (WP-11, audited)"
+paper_findings = ["The reason for DEC-18. As printed (no strong causality), the remark overclaims: theo:geroch asks local causal convexity and a pair of admissible measures, and prop:mesure_admissible gives the measures only for strongly causal M; nothing in Section 3 makes a singular flat spacetime strongly causal (l.1216 reads 'locally causally convex => strongly causal'). By hand, not formalized (no E_alpha in the library): for alpha > 0, E_alpha modulo a translation along its timelike singular line is a connected singular flat spacetime with a non-empty singular locus (so the example does not depend on whether A = R_+ allows an empty one); its singular line closes into a closed timelike curve, it is totally vicious (J^-(q) = M for every q), and it carries no measure admissible in the past (property 3 fails). E^{1,2} modulo a timelike translation is the same example if an empty singular locus is allowed. None of (i)-(iii) holds there, so theo:geroch_sing without strong causality is not refuted, but its proof (l.1781-1785) needs strong causality for (ii)=>(iii) and (iii)=>(i). The example is local (not a kb/0014 artefact). Since line/massive_line ask the closed embedding only when M is causal, the structure does not exclude such a quotient. Under DEC-18 the remark and theo:geroch_sing assume M strongly causal.", "J^±(p) ≠ {p} (l.1783-1785) follows abstractly: I^±(p) is non-empty and open (or J^-(p) accumulates at p at a BTZ point) and M has no isolated point; the '3-dimensional J^+(p)' is not needed."]
+
+[[row]]
+label = "theo:geroch_sing"
+extra_lean_files = ["scaffold/CausalScaffold/SingularGeroch.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.Causality.SingularFlatAxioms.geroch_sing_of_stronglyCausal", "Causal.Causality.SingularFlatAxioms.geroch_sing_i_imp_ii", "Causal.Causality.SingularFlatAxioms.geroch_sing_i_imp_iii", "Causal.Causality.SingularFlatAxioms.geroch_sing_split", "Causal.Causality.VecteurFlow", "Causal.timelikeLine_geroch_sing_i_imp_ii", "Causal.timelikeLine_geroch_sing_i_imp_iii", "Causal.timelikeLine_geroch_sing", "Causal.timelikeLine_vecteurFlow", "Causal.timelikeLine_geroch_sing_split", "Causal.timelikeLine_split_zero"]
+bucket = "D"
+size = "L"
+blocked_on = "the cited (iii)⇒(i) of theo:geroch, the model facts, and the flow of lem:vecteur (VecteurFlow)"
+notes = "Strongly causal (DEC-18). The equivalence rests only on theo:geroch's cited step; the Σ × ℝ splitting is proved from the flow of lem:vecteur as a named hypothesis (its openness is asserted, not argued, by the paper). (WP-11, audited)"
+paper_findings = ["See rem:singular_flat_spacetime_therefore: the proof's 'direct consequence of theo:geroch and prop:mesure_admissible' needs strong causality, which, without DEC-18, is available only in direction (i)=>(ii)/(iii). The E_alpha-modulo-a-translation example is the reason for DEC-18. The former paper-form geroch_sing and its tagged sorry stronglyCausal_of_ii_or_iii are removed; no form without strong causality is stated."]
+
+[[row]]
+label = "defi:causal_E0"
+lean_proved_override = "none"
+extra_lean_files = ["Causal/SingularFlat.lean"]
+decls = ["Causal.Causality.BTZAxioms"]
+bucket = "D"
+size = "L"
+blocked_on = "E_0 is not constructed by the paper"
+notes = "Not formalized; its causal facts are fields of BTZAxioms (SingularFlat). (WP-11, audited)"
+paper_findings = ["l.1329-1331 (the sentence before the definition; the audit cited l.1327) give E_0 the metric −dτ² + dρ² + ρ²dθ² and call its singular locus {ρ = 0} a lightlike line. With that metric ∂_τ has norm −1 on {ρ = 0}, so the line is timelike, contradicting 'lightlike' (and defi:causal_E0's I^-(p) = ∅). Most likely a transcription error: the flat extreme-BTZ metric has the form −2 dτ dρ + ρ² dθ², for which {ρ = 0} is lightlike. (Auditor's side observation, by hand; nothing in WP-11 depends on the metric.)", "The sentence I^+(p) = J^+(p) \\ sing_0 (l.1352-1355) is flagged in the source at l.1351 as quoted from the thesis where it is asserted without proof; WP-11's field Iplus_eq assumes it, globally, and lt_of_le_of_not_mem, K_monotone, K_densite_sing, K_ordre and mesure_admissible rest on it."]
+
+[[row]]
+label = "def:cauchy_embedding_cauchy_extension"
+extra_lean_files = ["Causal/CauchyExtension.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.IsCauchyEmbedding", "Causal.IsCauchyInclusion", "Causal.IsEMorphismOn", "Causal.IsEMorphism", "Causal.isEMorphism_iff", "Causal.IsEMorphism.id", "Causal.not_isEMorphism_const", "Causal.IsCauchyEmbedding.rangeOpens", "Causal.IsCauchyEmbedding.coe_rangeOpens", "Causal.timelikeLine_isCauchyEmbedding_id", "Causal.not_isCauchyEmbedding_const", "Causal.timelikeLine_isCauchyInclusion_top", "Causal.not_timelikeLine_isCauchyInclusion_bot", "Causal.IsCauchyInclusion.isEMorphismOn_id"]
+bucket = "B"
+size = "S"
+blocked_on = "the singular structure, abstracted: globally hyperbolic topological spacetimes and E≥0-morphisms read by DEC-17"
+notes = "Defined for globally hyperbolic topological spacetimes with IsEMorphism (DEC-17). (WP-12, audited)"
+
+[[row]]
+label = "lem:Cauchy_plongement_toutes"
+extra_lean_files = ["Causal/CauchyExtension.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.IsEMorphism.cauchy_plongement_toutes", "Causal.IsEMorphism.isCauchySurface_image", "Causal.IsCauchyEmbedding.isCauchySurface_image", "Causal.IsEMorphism.isCauchySurface_iff", "Causal.Causality.IsCauchySurfaceOn.isCauchySurface_of_open", "Causal.Causality.inextensible_ordConnectedComponent", "Causal.Causality.not_futureExtensible_of_component", "Causal.Causality.futureExtensible_of_final", "Causal.IsEMorphismOn.isCauchySurfaceOn_image_iff", "Causal.IsEMorphismOn.inextensible_iff_invComp", "Causal.IsEMorphismOn.inextensible_iff_comp", "Causal.timelikeLine_cauchy_plongement_toutes"]
+bucket = "B"
+size = "S"
+blocked_on = "the abstraction (DEC-17)"
+notes = "(i)⇒(ii) with N causal and Hausdorff only; (ii)⇒(i) given a Cauchy surface of M (theo:geroch_sing). (WP-12, audited)"
+
+[[row]]
+label = "def:common_sub_extension"
+extra_lean_files = ["scaffold/CausalScaffold/SubExtension.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.CommonSubExtension", "Causal.CommonSubExtension.IsMorphism", "Causal.CommonSubExtension.Equivalent", "Causal.CommonSubExtension.IsMaximal", "Causal.CommonSubExtension.isMorphism_id", "Causal.CommonSubExtension.equivalent_refl", "Causal.CommonSubExtension.base", "Causal.CommonSubExtension.base_isMaximal", "Causal.CommonSubExtension.timelikeLine_base_isMaximal"]
+bucket = "B"
+size = "S"
+blocked_on = "the abstraction (DEC-17)"
+notes = "Defined, with morphisms, equivalence and maximality; carriers not asked connected or T2. (WP-12, audited)"
+
+[[row]]
+label = "def:common_over_extension"
+extra_lean_files = ["scaffold/CausalScaffold/SubExtension.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.CommonOverExtension", "Causal.CommonOverExtension.IsMorphism", "Causal.CommonOverExtension.Equivalent", "Causal.CommonOverExtension.IsMinimal", "Causal.CommonOverExtension.isMorphism_id", "Causal.CommonOverExtension.self", "Causal.CommonOverExtension.self_isMinimal", "Causal.CommonSubExtension.gluing_comm", "Causal.CommonSubExtension.exists_unique_desc"]
+bucket = "B"
+size = "S"
+blocked_on = "the abstraction (DEC-17)"
+notes = "Defined; the gluing of defi:ppcm closes the square and, under rigidity, maps uniquely to every common over-extension. (WP-12, audited)"
+
+[[row]]
+label = "lem:image_diamant"
+extra_lean_files = ["Causal/CauchyDiamond.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.IsCauchyEmbedding.image_diamant", "Causal.IsCauchyEmbedding.diamond_subset_range", "Causal.timelikeLine_cauchy_diamond_hypotheses", "Causal.timelikeLine_Jplus_zero_inter"]
+bucket = "D"
+size = "S"
+blocked_on = "named hypotheses: compactness of J⁺(Σ) ∩ J⁻(p), M = J⁺(Σ) ∪ J⁻(Σ), curves extend"
+notes = "Proved under the named hypotheses the proof uses. (WP-12, audited)"
+paper_findings = ["ETT.tex:2031-2032: 'Since M is globally hyperbolic K is compact' — def:globally_hyperbolic gives compact diamonds J(p,q) between two points, not the compactness of J_M(Σ,p) = J⁺(Σ) ∩ J⁻(p); this needs an argument (carried as a hypothesis).", "ETT.tex:2035-2037: 'it stays above Σ because c(1)=q lies above i(Σ) and Σ is a Cauchy surface' — the relation σ' ≤ q holds in N, not in M. The step uses M = J⁺(Σ) ∪ J⁻(Σ) (lem:Sigma_separe, stated later) and the acausality of i(Σ) in N (from lem:Cauchy_plongement_toutes and the extension of curves): a point of the pulled-back curve in J⁻_M(Σ) is then forced onto Σ."]
+
+[[row]]
+label = "lem:passe_pgcd"
+extra_lean_files = ["Causal/CauchyDiamond.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.IsCauchyEmbedding.passe_pgcd", "Causal.IsCauchyEmbedding.passe_pgcd_explicit"]
+bucket = "D"
+size = "S"
+blocked_on = "the sing_0 facts, named"
+notes = "Proved, with p only in the closure of i(M). (WP-12, audited)"
+paper_findings = ["ETT.tex:2054-2055: lem:image_diamant is applied to p_n ∈ i(M), but it requires i⁻¹(p_n) ∈ J⁺_M(Σ); points below i(Σ) need a separate (easy) argument, the diamond J_N(i(Σ), p_n) being {p_n} by acausality of i(Σ) (diamond_subset_range)."]
+
+[[row]]
+label = "lem:Sigma_separe"
+extra_lean_files = ["Causal/CauchyDiamond.lean", "Causal/CauchyExtension.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.Causality.sigma_separe", "Causal.Causality.IsCauchySplitting", "Causal.Causality.IsCauchySplitting.Jplus_eq", "Causal.Causality.IsCauchySplitting.Jminus_eq", "Causal.Causality.IsCauchySplitting.cover", "Causal.Causality.IsAcausal", "Causal.Causality.IsCauchySurface.isAcausal", "Causal.Causality.CurvesExtend", "Causal.timelikeLineSplitting", "Causal.timelikeLine_isCauchySplitting", "Causal.timelikeLine_isAcausal_zero"]
+bucket = "D"
+size = "S"
+blocked_on = "the homeomorphism ψ of theo:geroch_sing, named"
+notes = "All five claims, with ψ and Σ acausal as hypotheses. (WP-12, audited)"
+paper_findings = ["Minor, aimed at the EDITORIAL proof ('[editorial] supplied 2026-08-22 -- verify', l.2068), not the author's: an omitted standard step. ETT.tex:2071-2074 concatenates a causal curve from σ to ψ(x,t) with the flow segment and invokes the Cauchy property, but a Cauchy surface constrains inextensible causal curves only (DEC-14), so the finite concatenated curve must first be extended to an inextensible one (existence of inextensible extensions, standard in the Lorentzian setting); the curve from σ to ψ(x,t) also uses causal arc-connectedness. What is used is the acausality of Σ.", "lem:Sigma_separe (l.2062) is stated after lem:image_diamant (l.2024), whose proof uses its consequence M = J⁺(Σ) ∪ J⁻(Σ)."]
+
+[[row]]
+label = "lem:C_ext_connexe"
+extra_lean_files = ["scaffold/CausalScaffold/SubExtension.lean"]
+decls = ["Causal.IsCauchyEmbedding.c_ext_connexe", "Causal.IsCauchyEmbedding.c_ext_connexe_of_isCauchySurfaceOn", "Causal.IsCauchyEmbedding.isCauchySurfaceOn_inf", "Causal.IsCauchyEmbedding.exists_mem_image_inf", "Causal.IsCauchyEmbedding.eq_of_mem_image_inter", "Causal.isConnected_of_curves", "Causal.isConnected_of_homeomorph", "Causal.timelikeLine_c_ext_connexe_hypotheses", "Causal.timelikeLine_rangeOpens_id"]
+bucket = "C"
+size = "M"
+blocked_on = "the unargued step: φ(Σ) is a Cauchy surface of A ∩ B (needs inextensible extensions inside an open set)"
+notes = "The rest of the proof is sorry-free given that step as a hypothesis (c_ext_connexe_of_isCauchySurfaceOn); the statement rests on a tagged sorry. (WP-12, audited)"
+paper_findings = ["ETT.tex:1940-1941: 'The map M → A∩B is a Cauchy embedding, so φ(Σ) is a Cauchy surface of A∩B' is asserted without argument. That φ(Σ) meets each causal curve of A∩B at most once is proved (eq_of_mem_image_inter); that it meets every inextensible curve of A∩B is the open step. In the Lorentzian case it holds by an end-point argument (the future end points of the two extensions coincide and would lie in (A∖B) ∩ (B∖A)).", "ETT.tex:1941-1942: 'every point of A∩B lies on an inextensible causal curve' — the existence of inextensible causal curves through every point is proved nowhere (GerochEquiv's SCOPE notes the same gap); carried as a model fact."]
+
+[[row]]
+label = "prop:Cauchy_pgcd"
+extra_lean_files = ["scaffold/CausalScaffold/SubExtension.lean"]
+decls = ["Causal.cauchy_pgcd", "Causal.IsPgcdCandidate", "Causal.IsPgcdCandidate.eqOn", "Causal.pgcdOpens", "Causal.pgcdMap", "Causal.pgcdMap_eqOn", "Causal.subset_pgcdOpens", "Causal.timelikeLine_isPgcdCandidate", "Causal.IsRigid", "Causal.isRigid_of_subsingleton", "Causal.timelikeLine_not_isRigid", "Causal.OrderIso.isEMorphism_timelikeLine", "Causal.kinkIso", "Causal.kinkIso_apply", "Causal.IsEMorphism.comp", "Causal.pointSpace", "Causal.pointSpace_globallyHyperbolic", "Causal.pointSpace_isCauchySurface_univ", "Causal.pointSpace_isCauchyEmbedding_id", "Causal.pointSpace_rangeOpens_id", "Causal.pointSpace_cauchy_pgcd_hypotheses"]
+bucket = "C"
+size = "L"
+blocked_on = "two gaps of the paper's argument and two obstructions of the abstraction (no gluing axiom)"
+notes = "ℰ and the gluing step proved under rigidity and connected overlaps; the proposition is a tagged sorry. (WP-12, audited)"
+paper_findings = ["ETT.tex:1953-1960 (confirms WP-4): ℰ's condition (b) does not ask φ_M injective, so the step '(∧, φ) ∈ ℰ, hence ∧ is a common sub-extension' does not show ∧ → M₂ injective. A gap in the argument, not a refutation: no counterexample is known, and injectivity is plausibly recoverable.", "ETT.tex:1960-1961: 'Thus (∧, φ) ∈ ℰ' needs that the inclusion of i₁(M₀) into the union ∧ is a Cauchy embedding (global hyperbolicity of ∧ and the Cauchy property of i₁(Σ₀) in ∧), which does not follow from the same facts for each M; it is not argued."]
+
+[[row]]
+label = "theo:geroch"
+extra_lean_files = ["scaffold/CausalScaffold/GerochEquiv.lean", "Causal/Geroch.lean"]
+lean_proved_override = "partial"
+decls = ["Causal.Causality.geroch", "Causal.Causality.geroch_i_imp_ii", "Causal.Causality.GloballyHyperbolic.isCauchyTimeFunction_gerochTime", "Causal.Causality.gerochTime", "Causal.Causality.isTimeFunction_gerochTime", "Causal.Causality.isOpenMap_gerochTime", "Causal.Causality.continuous_gerochTime", "Causal.Causality.gerochTime_lt", "Causal.Causality.gerochTime_le", "Causal.Causality.gerochTime_dual", "Causal.Causality.exists_le_of_bddBelow", "Causal.Causality.tendsto_atBot_gerochTime", "Causal.Causality.tendsto_atTop_gerochTime", "Causal.Causality.extensible_of_forall_le", "Causal.Causality.extensible_of_forall_ge", "Causal.Causality.IsCauchyTimeFunction.exists_mem_zero", "Causal.Causality.IsCauchyTimeFunction.isCauchySurface", "Causal.Causality.geroch_ii_imp_iii", "Causal.Causality.geroch_i_imp_iii", "Causal.Causality.geroch_iii_imp_i", "Causal.Causality.geroch_tfae_strict", "Causal.timelikeLine_admissible_past_and_future", "Causal.timelikeLine_exists_strict_isCauchyTimeFunction", "Causal.timelikeLine_geroch_tfae", "Causal.Causality.pastExtensible_of_forall_le", "Causal.Causality.futureExtensible_of_forall_ge", "Causal.Causality.tendsto_atBot_gerochTime_of_pastInextensible", "Causal.Causality.tendsto_atTop_gerochTime_of_futureInextensible"]
+bucket = "D"
+size = "L"
+blocked_on = "(iii)⇒(i): quasi-limits of causal curves (O'Neill), cited by the paper"
+notes = "(i)⇒(ii) and (ii)⇒(iii) proved in the strict library with no sorry, (ii) strict as ruled by DEC-15, the Geroch time function shown open; the equivalence (`geroch`, scaffold) rests on the cited (iii)⇒(i) alone. The hypotheses are jointly satisfiable (the timelike line with a Gaussian measure). DEC-15's counterexample is a Lean theorem on Minkowski space (minkowski2_dec15). (WP-7, WP-9, audited)"
+paper_findings = ["ETT.tex:1300 (ii)⇒(iii) 'take S = T⁻¹(0)' is false for a Cauchy time function in the sense of DEC-10 alone (≤ ↦ ≤, ≪ ↦ <): on 1+1 Minkowski space T(t,x) = t − g(x), with g smooth bounded, |g'| ≤ 1 and g(x) = x on [0,1], is continuous, open, non-decreasing along ≤, increasing along ≪, and tends to ±∞ along every inextensible causal curve, yet T⁻¹(0) contains the null segment from (0,0) to (1,1), which the inextensible null line t = x meets infinitely often. Not formalized (no Minkowski plane in the library). This is why the author ruled DEC-15 ((ii) asks T strictly increasing along ≤); with it the step is proved (geroch_ii_imp_iii), and the T of (i)⇒(ii) is strict (gerochTime_lt). The DEC-10-only form of (ii)⇒(iii) and its sorry were removed.", "The open-map gap WP-1 found in (i)⇒(ii) is closed (isOpenMap_gerochTime), with no added hypothesis: in a causally arc-connected causal T1 spacetime with J^-(x) ≠ {x}, J^+(x) is never a neighbourhood of x (Jplus_not_mem_nhds), so the tarentin diamond J(p,q) ⊂ V around x (V causally convex, from strong causality) has p ≠ x ≠ q, T(p) < T(x) < T(q), and [T p, T q] ⊂ T(V) by the intermediate value theorem along a causal curve from p to q. The same lemma gives chronology, x ≪ y ⇒ x ≠ y (ne_of_lt_top), which ≪ ↦ < needs.", "ETT.tex:1274 't⁺ : x ↦ μ₊(J⁺(x)) and t⁻ : x ↦ −μ₋(J⁻(x)) are time functions': both are non-increasing along ≤ (J⁺(x) shrinks and J⁻(x) grows as x moves to the future), so neither is a time function as stated. T = log(−t⁻/t⁺) has the right sign and is the one formalized; the time-function property of −t^± is not proved here.", "ETT.tex:1291 'If I = ]0,1] then c is extensible by setting c(0) = p' needs two repairs, both available in the sketch: (a) the adjoined point must be causally related to the curve inside small open sets, which is proved from closed causal pasts, strong causality and causal arc-connectedness (causalCurveIn_insert); in a general spacetime it fails; (b) if c is constant near 0 then p is already on the curve and nothing is extended; prepending a curve from q' ∈ J⁻(p) ∖ {p} (the I = [0,1] step) repairs it (extensible_of_tendsto).", "ETT.tex:1287–1290 the uniqueness-of-the-accumulation-point step needs neither Hausdorffness nor a second accumulation point: one causally convex neighbourhood of an accumulation point that the curve visits arbitrarily far in the past contains the whole tail (tendsto_of_mapClusterPt). T2 is still used upstream in (i)⇒(ii), for strong causality (prop:GH_fortement_causal) and for the closedness of J⁻(x) (prop:GH_Jferme); only this step avoids it.", "(i)⇒(ii) uses neither local compactness nor strong causality as a hypothesis (strong causality follows from global hyperbolicity, prop:GH_fortement_causal); (ii)⇒(iii) uses neither the measures, nor tarentin, nor local compactness, and only T1.", "The sketch takes 'a decreasing sequence (x_n) converging to 0' for curves over I = [0,1] or ]0,1], while def:cauchy_time_function is about curves over ℝ; formalized over ℝ with x_n = −n and a log reparametrisation onto ]0, ∞[.", "The hypotheses of theo:geroch are jointly satisfiable: on the timelike line the standard Gaussian measure is admissible in the past and in the future (timelikeLine_admissible_past_and_future; K⁻(a) ⊇ ]−∞,a[, so J⁻(A)∖K⁻(A) has at most one point and is null, the argument of lightlikeLine_admissible_past_and_future in Causal/MeasureRemarks.lean). geroch_i_imp_ii then gives a strict Cauchy time function (timelikeLine_exists_strict_isCauchyTimeFunction), and timelikeLine_geroch_tfae instantiates geroch_tfae. The construction is due to the WP-7 audit; the earlier claim that no admissible measure exists in the library was wrong.", "(i)⇒(ii) is proved in the one-sided form of the sketch (ETT.tex:1295–1296, DEC-13): T → −∞ along every past-inextensible causal curve over ℝ (tendsto_atBot_gerochTime_of_pastInextensible) and T → +∞ along every future-inextensible one (tendsto_atTop_gerochTime_of_futureInextensible); the extension built is at the past end (pastExtensible_of_forall_le).", "Witness only (the theorem is WP-7's). DEC-15's counterexample is now a Lean theorem, with a LOCAL (absolutely minimal) causality, not Causality.ofRelation: on R^{1,n}, n >= 1 (n = 1: minkowski2_dec15), T(t,x) = t - g(x) with g(x) = max(0, min(<x,e>, 1)) (bounded, 1-Lipschitz, g(tau e) = tau on [0,1]) is a Cauchy time function in the DEC-10 sense, is not strictly increasing along <= ((0,0) <= (1,e), same T), and T^{-1}(0) contains the null segment {(tau, tau e)} and is not a Cauchy surface (DEC-14): the null line tau -> (tau, tau e), inextensible, meets it at least twice. This confirms why l.1300 'it suffices to take S = T^{-1}(0)' needs DEC-15. The time coordinate is a strictly increasing Cauchy time function (minkowski_time_strict), so (ii) as ruled is satisfiable there.", "Lean declarations of this witness (not row decls, so as not to overwrite WP-7's theo:geroch row): Causal.minkowski_dec15, Causal.minkowski2_dec15, Causal.staticCausality.not_strict_and_not_isCauchySurface, Causal.staticCausality.isCauchyTimeFunction_sub, Causal.staticCausality.isTimeFunction_sub, Causal.staticCausality.tendsto_time_atTop, Causal.staticCausality.tendsto_time_atBot, Causal.staticCausality.inextensible_nullLine, Causal.minkowski_inextensible_nullLine, Causal.minkowski_time_strict, Causal.Causality.Inextensible.not_tendsto_atBot, Causal.Causality.Inextensible.not_tendsto_atTop, Causal.Causality.inextensible_of_unbounded."]
+
+[[row]]
+label = "def:maximal_chain"
+bucket = "T"
+terminal_reason = "Superseded by the author's rulings DEC-20 and DEC-21: as written, a maximal chain is dense (IsMaximalChain.dense) and none exists in Minkowski space of dimension ≥ 2 (a Lean theorem, minkowski_not_isMaximalChain); causal connectedness is read with inextensible causal curves and causal completeness with maximal chains of the ordered set (M, ≤)."
+notes = "The literal definition stays in Causal.Chains as the record of the finding. (WP-6, WP-6b, WP-9, audited)"
+paper_findings = ["ETT.tex:335 with the subset notion (2), a maximal chain of a T1 space is DENSE (IsMaximalChain.dense): any point outside the closure of a chain can be added to it.", "Abstract consequence, proved (not_isMaximalChain_of_hasUnrelatedOpensIn): in a nonempty T1 space, if every point has an open neighbourhood U such that every non-empty open O ⊆ U contains two non-empty open sets with no ≤_U relation between their points, there is no maximal chain. Proof: the dense maximal chain S meets both unrelated sets inside the V ⊆ U where S ∩ V is totally ordered for ≤_V, and ≤_V ⊆ ≤_U by axiom (b). The global form (U = ⊤) is not_isMaximalChain_of_hasUnrelatedOpensIn_top; the spacelike line satisfies it (spacelikeLine_hasUnrelatedOpensIn_top), which re-derives spacelikeLine_not_isMaximalChain.", "Application to Lorentzian manifolds (prose; no Lorentzian manifold is in the library): let M have dimension ≥ 2, chronology and causality conditions arbitrary (vicious spacetimes included). Take at each x a convex normal neighbourhood U, with ≤_U the relation 'joined by a causal curve in U'. Every non-empty open O ⊆ U contains two points spacelike-separated in U (e.g. on a short spacelike geodesic), and since J_U is closed in U × U for a convex normal U, small balls around them are ≤_U-unrelated. So the hypothesis holds with local U, and there is NO maximal causal chain. Because only ≤_U for small U is used, no global causality condition is needed. Consequently, as written, causal completeness holds vacuously in every Lorentzian manifold of dimension ≥ 2 and causal connectedness fails there. The paper presumably means maximal among CONNECTED chains, or among chain maps / curves maximal under extension (DEC-11).", "Superseded by DEC-20: Causal.Chains keeps the literal definition (IsMaximalChain) as the record of the finding (a maximal chain is dense; none exists in Minkowski space). Relation proved here: the image of an inextensible causal curve over ℝ which is an embedding is a subset causal chain (CausalCurveIn.isCausalChain_range), and in ℝ^{1,n}, n ≥ 1, through every p ≤ q passes such a curve whose image is a chain and is not maximal (minkowski_curveChain_not_maximal).", "Witness only (the definition is Causal/Chains.lean's, OQ-17). As written, Minkowski space R^{1,n}, n >= 1 (indeed every static R x X with X geodesic with two points), has NO maximal causal chain: every open set contains two small balls at one time, spatially apart, with no causal relation between them (hasUnrelatedOpensIn), and not_isMaximalChain_of_hasUnrelatedOpensIn applies. Hence def:causally_connected fails in Minkowski space and def:causally_complete holds vacuously there (minkowski_not_causallyConnected, minkowski_causallyComplete). This is with the local causality of curves, so it is not an artefact of non-local causalities (kb/0019).", "Lean declarations of this witness (not row decls, so as not to overwrite Causal/Chains.lean's def:maximal_chain row): Causal.minkowski_not_isMaximalChain, Causal.minkowski_not_causallyConnected, Causal.minkowski_causallyComplete, Causal.staticCausality.not_isMaximalChain, Causal.staticCausality.hasUnrelatedOpensIn."]
+
+[[row]]
+label = "def:causally_connected"
+extra_lean_files = ["Causal/Chains.lean", "Causal/ChainsCurves.lean"]
+decls = ["Causal.Causality.CausallyConnected", "Causal.Causality.dual_causallyConnected", "Causal.timelikeLine_causallyConnected", "Causal.spacelikeLine_not_causallyConnected", "Causal.Causality.CausallyConnectedCurves", "Causal.Causality.CausallyConnectedCurves.dual", "Causal.Causality.dual_causallyConnectedCurves", "Causal.Causality.CausalCurveIn.isConnected_image", "Causal.Causality.causallyConnectedCurves_iff_of_isCausal", "Causal.staticCausality.exists_inextensible_graph", "Causal.staticCausality.causallyConnectedCurves", "Causal.timelikeLine_causallyConnectedCurves", "Causal.minkowski_causallyConnectedCurves", "Causal.Causality.causallyConnectedCurves_of_curvesExtend", "Causal.rat_causalCurveIn_subsingleton", "Causal.rat_not_causallyConnectedCurves", "Causal.rat_not_causallyArcConnected", "Causal.rat_not_absolutelyMinimal"]
+bucket = "A"
+notes = "DEC-20: for p ≤ q an inextensible causal curve meets p, then q (the order is immaterial in a causal spacetime). Minkowski space and every static spacetime over a geodesic space are causally connected; ℚ (non-local) is not. OQ-20 asks whether it should read with maximal chains of (M, ≤) instead. (WP-6, WP-6b, audited)"
+paper_findings = ["ETT.tex:339 as written (maximal among all subset chains), causal connectedness fails in every spacetime with no maximal chain, Minkowski space of dimension ≥ 2 included (see def:maximal_chain); the condition holds for the timelike line only because its unique maximal chain is the whole line.", "Under DEC-20 Minkowski space ℝ^{1,n} is causally connected for every n (minkowski_causallyConnectedCurves), where the literal definition fails for n ≥ 1 (minkowski_not_causallyConnected, CausalScaffold.Minkowski). More generally every static spacetime ℝ × X over a geodesic metric space is: through p ≤ q passes the graph of a 1-Lipschitz map — the geodesic segment from p to q prolonged by the vertical lines through p and q — which is inextensible because time is unbounded along it (staticCausality.exists_inextensible_graph).", "Negative example (audit): ℚ with the causality of its order (linearCausality ℚ) is not causally connected: ℚ is totally disconnected, so every causal curve is constant (rat_not_causallyConnectedCurves). It is non-local and not causally arc-connected, both proved: rat_not_absolutelyMinimal (the cover by the two sides of √2), rat_not_causallyArcConnected (kb/0019). Under causal arc-connectedness and causality, connectedness follows from CurvesExtend (CauchyExtension.lean:82), here as a hypothesis (causallyConnectedCurves_of_curvesExtend)."]
+
+[[row]]
+label = "def:causally_complete"
+extra_lean_files = ["Causal/Chains.lean", "Causal/ChainsOrder.lean", "Causal/ChainsCurves.lean"]
+decls = ["Causal.Causality.chainPreorder", "Causal.Causality.DedekindComplete", "Causal.Causality.CausallyComplete", "Causal.Causality.dedekindComplete_iff", "Causal.Causality.DedekindComplete.dual", "Causal.Causality.DedekindComplete.exists_isGLB", "Causal.Causality.dual_dedekindComplete", "Causal.Causality.dual_causallyComplete", "Causal.timelikeLine_causallyComplete", "Causal.spacelikeLine_causallyComplete", "Causal.Causality.IsComparableClosedChain", "Causal.Causality.isMaxChain_iff_comparableClosed", "Causal.Causality.IsAuthorChain", "Causal.Causality.causallyCompleteOrder_iff_author", "Causal.Causality.CausallyCompleteOrder", "Causal.Causality.dual_isMaxChain_le", "Causal.Causality.dual_causallyCompleteOrder", "Causal.Causality.dedekindComplete_iff_isLUBOn", "Causal.Causality.dedekindComplete_iff_cuts", "Causal.timelikeLine_causallyCompleteOrder", "Causal.minkowski_causallyCompleteOrder", "Causal.exists_isMaxChain_le", "Causal.halfPlane_le_iff", "Causal.halfPlaneWedge", "Causal.halfPlaneWedge_isChain", "Causal.hpt", "Causal.mem_halfPlaneWedge_of_comparable", "Causal.halfPlaneWedge_isMaxChain", "Causal.halfPlane_not_causallyCompleteOrder", "Causal.rat_not_causallyCompleteOrder", "Causal.rat_causallyCompleteCurves", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.IsLUBOn", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.SupCompleteIn", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.AmbientDedekindComplete", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.CausallyCompleteCurves", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.dual_ambientDedekindComplete", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.CausallyCompleteCurves.dual", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.dual_causallyCompleteCurves", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.CausalCurveIn.exists_isLUBOn", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.CausalCurveIn.supCompleteIn_image", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.CausalCurveIn.ambientDedekindComplete_image", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.causallyCompleteCurves_of_unbounded", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.CausallyCompleteCurves.not_forall_le", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.causallyCompleteCurves_iff_unbounded", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.dedekindComplete_of_isLUBOn", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.AmbientDedekindComplete.dedekindComplete", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.CausalCurveIn.dedekindComplete_image", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.staticCausality.Inextensible.not_forall_le", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.staticCausality.Inextensible.not_forall_ge", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.staticCausality.causallyCompleteCurves", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.geodesicSpace_Ioi_zero", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.nullRay", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.nullRay_snd", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.nullRay_causalCurveIn", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.nullRay_inextensible", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.halfPlane_not_causallyCompleteCurves", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.halfPlane_nullRay_dedekindComplete", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.timelikeLine_causallyCompleteCurves", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.minkowski_causallyCompleteCurves"]
+bucket = "A"
+notes = "DEC-21: every maximal chain of the ordered set (M, ≤) is Dedekind-complete (equivalently, every cut has its bound in the chain). Minkowski space and every static spacetime over a complete geodesic space are causally complete; the half-plane ℝ × ]0,∞[ is not (a local example). The curve reading (b) of DEC-20 is kept, unmarked, as a related notion. (WP-6, WP-6b, audited)"
+paper_findings = ["ETT.tex:354 a maximal chain is only locally totally ordered, so 'Dedekind-complete' (a notion for linear orders) needs an order on a set which need not be linear. Read for the preorder ≤_M induced on S: every non-empty subset bounded above has an IsLUB (mathlib vocabulary). The IsGLB half then follows in any preorder (DedekindComplete.exists_isGLB), so the reading is time-symmetric (dual_dedekindComplete).", "The master's reading of DEC-21 and the author's literal sentence agree on causal spacetimes: requiring every 'author-chain' (totally ordered; a point cutting S into two NON-EMPTY pieces, strictly below and strictly above, lies in S) to be Dedekind-complete is equivalent to CausallyCompleteOrder (causallyCompleteOrder_iff_author, due to the WP-6b audit).", "Under DEC-21 the notion is neither vacuous nor trivial. Maximal chains of (M, ≤) exist through every chain (Zorn, exists_isMaxChain_le) and are not dense. Every maximal chain of Minkowski space ℝ^{1,n} (every n) and of the timelike line is Dedekind-complete (minkowski_causallyCompleteOrder, timelikeLine_causallyCompleteOrder), as is every static spacetime over a complete geodesic space, proper or not (staticCausality.causallyCompleteOrder).", "LOCAL negative example: the half-plane ℝ × ]0,∞[ (an open subset of 1+1 Minkowski, its causality of curves; causal, tarentin, strongly causal, causally arc-connected, absolutely minimal). The two null rays t + x = 1 and t − x = 1 form a maximal chain of (M, ≤) (halfPlaneWedge_isMaxChain) whose cut at the missing corner (1, 0) has no bound (halfPlane_not_causallyCompleteOrder).", "Relation with the curve reading (b) (CausallyCompleteCurves, ChainsCurves): reading (b) does NOT imply the DEC-21 notion — ℚ with its order is complete for curves (all causal curves constant, rat_causallyCompleteCurves) and not order-complete (ℚ is its own maximal chain, cut at √2, rat_not_causallyCompleteOrder); the witness is non-local and not causally arc-connected (rat_not_absolutelyMinimal, rat_not_causallyArcConnected). Whether the DEC-21 notion implies (b), in general or under DEC-22's hypotheses, is open: both follow from causal compactness under them, both fail on the half-plane, both hold over ℝ × C([0,1], ℝ)."]
+
+[[row]]
+label = "rem:causal_completeness_slightly_weaker"
+extra_lean_files = ["Causal/Chains.lean", "Causal/ChainsOrder.lean", "Causal/ChainsCurves.lean"]
+decls = ["Causal.Bowtie", "Causal.bowtie", "Causal.bowtie_le", "Causal.bowtie_isCausal", "Causal.bowtie_causallyCompact", "Causal.bowtie_isCausalChain", "Causal.bowtie_isMaximalChain_univ", "Causal.bowtie_not_causallyComplete", "Causal.not_causallyCompact_imp_causallyComplete", "Causal.fan", "Causal.fanRel", "Causal.fan_le", "Causal.fan_isCausal", "Causal.fan_isCausalChain", "Causal.fan_causallyComplete", "Causal.fan_not_causallyCompact", "Causal.not_causallyComplete_imp_causallyCompact", "Causal.eq_of_transGen_eq", "Causal.AbsolutelyMinimalOn.eq_of_discrete", "Causal.causallyCompact_of_le_top_eq", "Causal.causallyComplete_of_le_top_eq", "Causal.AbsolutelyMinimalOn.causallyCompact_of_discrete", "Causal.AbsolutelyMinimalOn.causallyComplete_of_discrete", "Causal.diagonalCausality", "Causal.diagonalCausality_absolutelyMinimalOn", "Causal.diagonalCausality_lt", "Causal.Causality.HasChainSups", "Causal.Causality.HasChainSups.causallyCompleteOrder", "Causal.Causality.hasChainSups_of_causallyCompact", "Causal.Causality.causallyCompleteOrder_of_causallyCompact", "Causal.staticCausality.hasChainSups", "Causal.staticCausality.causallyCompleteOrder", "Causal.not_causallyCompleteOrder_imp_causallyCompact", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.Inextensible.not_forall_le_of_causallyCompact", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.Inextensible.not_forall_ge_of_causallyCompact", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.causallyCompleteCurves_of_causallyCompact", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.bump", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.bump_apply", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.bcfStatic_not_causallyCompact", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.not_causallyCompleteCurves_imp_causallyCompact", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.halfPlane_hypotheses", "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.minkowski_causallyCompleteCurves'", "Causal.tent", "Causal.four_le_two_pow", "Causal.tentPt", "Causal.tent_apply", "Causal.tent_tentPt", "Causal.tent_tentPt_ne", "Causal.norm_tent_le", "Causal.one_le_dist_tent", "Causal.tentStatic_not_causallyCompact"]
+bucket = "A"
+notes = "DEC-22: compact ⇒ complete under T2, tarentin and causal (fewer than DEC-22 lists); not conversely, by ℝ × (ℕ →ᵇ ℝ), local but not locally compact. (WP-6, WP-6b, audited)"
+paper_findings = ["ETT.tex:357 'slightly weaker' asserts two things: (i) causally compact ⇒ causally complete, and (ii) not conversely. Half (ii) is CONFIRMED (not_causallyComplete_imp_causallyCompact): the fan, ℕ discrete with 0 below and 1 above every other event, is causal, T2, second countable, causally complete, and J(0,1) = ℕ is not compact. The fan is non-local (ofRelation).", "Half (i) is refuted only for NON-LOCAL causalities (not_causallyCompact_imp_causallyComplete): the bowtie, four discrete events a1,a2 < b1,b2 with the restrictions of a global order (ofRelation), is causal, T2, second countable, causally compact (finite diamonds), and {a1,a2} is bounded above with no least upper bound. The refutation rests on non-locality: on a discrete space an absolutely minimal causality has ≤ the diagonal (AbsolutelyMinimalOn.eq_of_discrete), hence is causally compact and causally complete (AbsolutelyMinimalOn.causallyCompact_of_discrete, …causallyComplete_of_discrete). Correction to the audit's wording: ≪ is then contained in the diagonal but need NOT be empty — diagonalCausality (≤ = ≪ = diagonal) is absolutely minimal with x ≪ x (diagonalCausality_absolutelyMinimalOn, diagonalCausality_lt). Compactness and completeness depend on ≤ only, so the conclusion stands.", "A LOCAL witness against (i), in prose only (not formalized: not cheap — it needs the induced causality on a subtype of ℝ², the comparability case analysis inside its diamonds for transitivity, absolute minimality via a subdivision along the two branches, and compactness of diamonds as images of segments; estimated several hundred lines). X = the two null lines |x| = |t| of 1+1 Minkowski space through the origin o, with x ≤_U y iff y is in the Minkowski causal future of x and the diamond {z ∈ X : x ≤ z ≤ y} — a segment, or two half-segments through o — lies in U. This is absolutely minimal (relations are generated along segments), causal, T2, second countable, and its diamonds are compact. X minus o is a chain; o cannot be added (every neighbourhood of o meets both future branches, which are ≤-incomparable), and any other missing point can, so X \\ {o} is the unique maximal chain. One past branch is bounded above by every point of both future branches and has no least upper bound in X \\ {o}. If this is accepted, (i) fails for local causalities too: compactness fills a gap with a point of M, but nothing forces that point into the chain, and the chain need not be linearly ordered.", "totalLine (any two points related, ofRelation) is kept only as a NON-CAUSAL sanity example and is not a witness for the remark.", "Under DEC-21 and DEC-22 the remark is proved in both halves for second countable Hausdorff spacetimes. 'Compact ⇒ complete' needs only T2, tarentin and causal. The witness of strictness is local and second countable but not locally compact; a locally compact one is not known (the half-plane fails both properties).", "Audit correction: the first witness ℝ × (ℕ →ᵇ ℝ) is not second countable (indicators of subsets of ℕ form an uncountable 1-separated set); replaced by ℝ × C([0,1], ℝ) in both not_causallyCompleteOrder_imp_causallyCompact and not_causallyCompleteCurves_imp_causallyCompact, whose quantified class now includes [SecondCountableTopology N]."]

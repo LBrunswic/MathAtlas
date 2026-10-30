@@ -67,7 +67,7 @@ DEC-15: (ii) asks a Cauchy time function strictly increasing: `x ≤ y`, `x ≠ 
   `dual_pastInextensible_iff`).
 * **(ii)⇒(iii) with `S = T⁻¹(0)` needs `T` strictly increasing along the causal relation**, which
   a time function (DEC-10: `≤ ↦ ≤`, `≪ ↦ <`) need not be; this is why the author ruled DEC-15.
-  *Finding, not formalized (the library has no Minkowski plane):* on 1+1 Minkowski space, `T(t,x) = t − g(x)` with `g` smooth, bounded,
+  *Finding, formalized as `minkowski2_dec15` in `Causal.Minkowski` (with `g` a Lipschitz clamp):* on 1+1 Minkowski space, `T(t,x) = t − g(x)` with `g` smooth, bounded,
   `|g'| ≤ 1` and `g(x) = x` on `[0, 1]` is a Cauchy time function in the sense of DEC-10, and
   `T⁻¹(0)` contains the null segment from `(0,0)` to `(1,1)`, which an inextensible null geodesic
   meets in infinitely many points. What holds for every Cauchy time function is that `T⁻¹(0)`

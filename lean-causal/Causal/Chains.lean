@@ -52,7 +52,8 @@ refuted only for non-local causalities (`bowtie`) and is open for local ones.
 * **Findings.** In a `T1` space a maximal chain is dense (`IsMaximalChain.dense`), so there is
   none where every point has a neighbourhood `U` with two unrelated open sets for `≤_U` in each
   open subset (`not_isMaximalChain_of_hasUnrelatedOpensIn`): the spacelike line, and Lorentzian
-  manifolds of dimension ≥ 2 (prose). Their causal completeness is vacuous.
+  manifolds of dimension ≥ 2 (prose; for Minkowski space `ℝ^{1,n}`, `n ≥ 1`, it is the theorem
+  `minkowski_not_isMaximalChain` of `Causal.Minkowski`). Their causal completeness is vacuous.
 * **The remark's witnesses are non-local.** `bowtie` and `fan` are discrete, built with
   `Causality.ofRelation` (kb/0014). On a discrete space an absolutely minimal causality has
   `≤` the diagonal and `≪` inside it (not necessarily empty: `diagonalCausality_lt`), hence is

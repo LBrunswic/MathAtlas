@@ -1,5 +1,8 @@
 import CausalScaffold.GerochEquiv
 import CausalScaffold.GXSingular
+import CausalScaffold.MinkowskiMeasure
+import CausalScaffold.SingularGeroch
+import CausalScaffold.SubExtension
 
 /-!
 # CausalScaffold

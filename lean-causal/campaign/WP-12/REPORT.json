@@ -1,0 +1,469 @@
+{
+  "package": "WP-12",
+  "files": [
+    "scaffold/CausalScaffold/CauchyExtension.lean",
+    "scaffold/CausalScaffold/CauchyDiamond.lean",
+    "scaffold/CausalScaffold/SubExtension.lean"
+  ],
+  "builds": true,
+  "sorry_count": 2,
+  "labels": [
+    {
+      "label": "def:cauchy_embedding_cauchy_extension",
+      "tex_lines": [
+        1858,
+        1863
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.IsCauchyEmbedding",
+        "Causal.IsCauchyInclusion",
+        "Causal.IsEMorphismOn",
+        "Causal.IsEMorphism",
+        "Causal.isEMorphism_iff",
+        "Causal.IsEMorphism.id",
+        "Causal.not_isEMorphism_const",
+        "Causal.IsCauchyEmbedding.rangeOpens",
+        "Causal.IsCauchyEmbedding.coe_rangeOpens",
+        "Causal.timelikeLine_isCauchyEmbedding_id",
+        "Causal.not_isCauchyEmbedding_const",
+        "Causal.timelikeLine_isCauchyInclusion_top",
+        "Causal.not_timelikeLine_isCauchyInclusion_bot",
+        "Causal.IsCauchyInclusion.isEMorphismOn_id"
+      ],
+      "hypotheses": [
+        {
+          "paper": "singular flat spacetimes",
+          "here": "weakened",
+          "note": "topological spacetimes"
+        },
+        {
+          "paper": "E≥0-morphism",
+          "here": "weakened",
+          "note": "reading: IsEMorphism = strong morphism (DEC-10) which is a local isomorphism (Morphism.lean's LocalIsomorphism), isEMorphism_iff; the paper (l.1851) says local homeomorphism + morphism of topological spacetimes, the local matching of the relations is added by the reading; rigidity is not part of it"
+        },
+        {
+          "paper": "M, N globally hyperbolic",
+          "here": "carried",
+          "note": "fields of IsCauchyEmbedding"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "Is an E≥0-morphism a local isomorphism in the sense of Causal.LocalIsomorphism (on a small open set V, x ≤_{V'} y ⟺ φx ≤_{φV'} φy for every open V' ⊆ V)? Taken: yes; it is what lets inextensible curves and Cauchy surfaces pull back (isCauchySurfaceOn_image_iff)."
+      ]
+    },
+    {
+      "label": "lem:Cauchy_plongement_toutes",
+      "tex_lines": [
+        1865,
+        1880
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.IsEMorphism.cauchy_plongement_toutes",
+        "Causal.IsEMorphism.isCauchySurface_image",
+        "Causal.IsCauchyEmbedding.isCauchySurface_image",
+        "Causal.IsEMorphism.isCauchySurface_iff",
+        "Causal.Causality.IsCauchySurfaceOn.isCauchySurface_of_open",
+        "Causal.Causality.inextensible_ordConnectedComponent",
+        "Causal.Causality.not_futureExtensible_of_component",
+        "Causal.Causality.futureExtensible_of_final",
+        "Causal.IsEMorphismOn.isCauchySurfaceOn_image_iff",
+        "Causal.IsEMorphismOn.inextensible_iff_invComp",
+        "Causal.IsEMorphismOn.inextensible_iff_comp",
+        "Causal.timelikeLine_cauchy_plongement_toutes"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M, N globally hyperbolic singular flat spacetimes",
+          "here": "weakened",
+          "note": "N causal and Hausdorff; nothing on M. Not a finding: Hausdorffness is part of the paper's definition of a topological spacetime (l.124, l.255) and causality of N is part of its global hyperbolicity. The component claim of l.1874-1876 is proved (inextensible_ordConnectedComponent) from exactly these two properties of N"
+        },
+        {
+          "paper": "φ injective E≥0-morphism",
+          "here": "weakened",
+          "note": "injective IsEMorphism (reading, see def:cauchy_embedding_cauchy_extension)"
+        },
+        {
+          "paper": "(ii)⇒(i)",
+          "here": "strengthened",
+          "note": "needs a Cauchy surface of M to exist (hex); in the paper's setting it comes from theo:geroch_sing (i)⇒(iii), so this is a disclosure about the abstraction, not a finding about the paper. (i)⇒(ii) needs nothing added"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "lem:Sigma_separe",
+      "tex_lines": [
+        2062,
+        2080
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.sigma_separe",
+        "Causal.Causality.IsCauchySplitting",
+        "Causal.Causality.IsCauchySplitting.Jplus_eq",
+        "Causal.Causality.IsCauchySplitting.Jminus_eq",
+        "Causal.Causality.IsCauchySplitting.cover",
+        "Causal.Causality.IsAcausal",
+        "Causal.Causality.IsCauchySurface.isAcausal",
+        "Causal.Causality.CurvesExtend",
+        "Causal.timelikeLineSplitting",
+        "Causal.timelikeLine_isCauchySplitting",
+        "Causal.timelikeLine_isAcausal_zero"
+      ],
+      "hypotheses": [
+        {
+          "paper": "ψ : Σ×ℝ → M the homeomorphism of theo:geroch_sing",
+          "here": "strengthened",
+          "note": "named hypothesis IsCauchySplitting: a homeomorphism with ψ(x,0) = x and future causal lines (kb/0012)"
+        },
+        {
+          "paper": "Σ a Cauchy surface",
+          "here": "strengthened",
+          "note": "what the proof uses is that Σ is acausal (IsAcausal); a Cauchy surface is acausal under CurvesExtend + causal arc-connectedness (IsCauchySurface.isAcausal)"
+        },
+        {
+          "paper": "M globally hyperbolic",
+          "here": "weakened",
+          "note": "M causal only"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Minor, aimed at the EDITORIAL proof ('[editorial] supplied 2026-08-22 -- verify', l.2068), not the author's: an omitted standard step. ETT.tex:2071-2074 concatenates a causal curve from σ to ψ(x,t) with the flow segment and invokes the Cauchy property, but a Cauchy surface constrains inextensible causal curves only (DEC-14), so the finite concatenated curve must first be extended to an inextensible one (existence of inextensible extensions, standard in the Lorentzian setting); the curve from σ to ψ(x,t) also uses causal arc-connectedness. What is used is the acausality of Σ.",
+        "lem:Sigma_separe (l.2062) is stated after lem:image_diamant (l.2024), whose proof uses its consequence M = J⁺(Σ) ∪ J⁻(Σ)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "lem:image_diamant",
+      "tex_lines": [
+        2024,
+        2040
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.IsCauchyEmbedding.image_diamant",
+        "Causal.IsCauchyEmbedding.diamond_subset_range",
+        "Causal.timelikeLine_cauchy_diamond_hypotheses",
+        "Causal.timelikeLine_Jplus_zero_inter"
+      ],
+      "hypotheses": [
+        {
+          "paper": "K = J_M(Σ,p) compact 'since M is globally hyperbolic'",
+          "here": "strengthened",
+          "note": "named hypothesis IsCompact (J⁺(Σ) ∩ J⁻(p))"
+        },
+        {
+          "paper": "(implicit) M = J⁺(Σ) ∪ J⁻(Σ)",
+          "here": "strengthened",
+          "note": "named hcover, supplied by IsCauchySplitting.cover (lem:Sigma_separe)"
+        },
+        {
+          "paper": "(implicit) N causally arc-connected",
+          "here": "strengthened",
+          "note": "named; for the causal curve from q to i(p) (cor:massA_cac in the paper)"
+        },
+        {
+          "paper": "(implicit) curves of N extend",
+          "here": "strengthened",
+          "note": "named CurvesExtend, to make i(Σ) acausal"
+        },
+        {
+          "paper": "i a Cauchy extension, N Hausdorff",
+          "here": "carried",
+          "note": "IsCauchyEmbedding, T2Space N"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:2031-2032: 'Since M is globally hyperbolic K is compact' — def:globally_hyperbolic gives compact diamonds J(p,q) between two points, not the compactness of J_M(Σ,p) = J⁺(Σ) ∩ J⁻(p); this needs an argument (carried as a hypothesis).",
+        "ETT.tex:2035-2037: 'it stays above Σ because c(1)=q lies above i(Σ) and Σ is a Cauchy surface' — the relation σ' ≤ q holds in N, not in M. The step uses M = J⁺(Σ) ∪ J⁻(Σ) (lem:Sigma_separe, stated later) and the acausality of i(Σ) in N (from lem:Cauchy_plongement_toutes and the extension of curves): a point of the pulled-back curve in J⁻_M(Σ) is then forced onto Σ."
+      ],
+      "questions": [
+        "Which result gives the compactness of J⁺(Σ) ∩ J⁻(p) for a Cauchy surface Σ of a globally hyperbolic singular flat spacetime?"
+      ]
+    },
+    {
+      "label": "lem:passe_pgcd",
+      "tex_lines": [
+        2042,
+        2060
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.IsCauchyEmbedding.passe_pgcd",
+        "Causal.IsCauchyEmbedding.passe_pgcd_explicit"
+      ],
+      "hypotheses": [
+        {
+          "paper": "p ∈ ∂i(M) ∩ J⁺(i(Σ))",
+          "here": "weakened",
+          "note": "p ∈ closure(i(M)); neither the rest of ∂ nor J⁺(i(Σ)) is used"
+        },
+        {
+          "paper": "prop:K_calcul facts on sing₀(N)",
+          "here": "strengthened",
+          "note": "named: a set Sing with K⁻(q) = I⁻(q) off Sing and K⁻(q) = J⁻(q) ∖ {q} on it (kb/0012)"
+        },
+        {
+          "paper": "second countable",
+          "here": "weakened",
+          "note": "FirstCountableTopology N"
+        },
+        {
+          "paper": "hypotheses of lem:image_diamant",
+          "here": "strengthened",
+          "note": "named, at every m ∈ J⁺(Σ)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:2054-2055: lem:image_diamant is applied to p_n ∈ i(M), but it requires i⁻¹(p_n) ∈ J⁺_M(Σ); points below i(Σ) need a separate (easy) argument, the diamond J_N(i(Σ), p_n) being {p_n} by acausality of i(Σ) (diamond_subset_range)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "def:common_sub_extension",
+      "tex_lines": [
+        1914,
+        1930
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CommonSubExtension",
+        "Causal.CommonSubExtension.IsMorphism",
+        "Causal.CommonSubExtension.Equivalent",
+        "Causal.CommonSubExtension.IsMaximal",
+        "Causal.CommonSubExtension.isMorphism_id",
+        "Causal.CommonSubExtension.equivalent_refl",
+        "Causal.CommonSubExtension.base",
+        "Causal.CommonSubExtension.base_isMaximal",
+        "Causal.CommonSubExtension.timelikeLine_base_isMaximal",
+        "Causal.IsCauchyEmbedding.isCauchyEmbedding_id"
+      ],
+      "hypotheses": [
+        {
+          "paper": "singular flat spacetimes, Cauchy embeddings, E≥0-morphisms",
+          "here": "weakened",
+          "note": "topological spacetimes, IsCauchyEmbedding, IsEMorphism (reading)"
+        },
+        {
+          "paper": "M a singular flat spacetime: connected (l.1502), Hausdorff and second countable (l.255)",
+          "here": "weakened",
+          "note": "the carrier of CommonSubExtension is an arbitrary topological space with a causality: not required connected, T2 or second countable; the carrier lives in the universe of M₀, M₁, M₂, harmless here since it injects into M₁ (via the injective b)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "lem:C_ext_connexe",
+      "tex_lines": [
+        1932,
+        1943
+      ],
+      "status": "stated",
+      "marked": false,
+      "decls": [
+        "Causal.IsCauchyEmbedding.c_ext_connexe",
+        "Causal.IsCauchyEmbedding.c_ext_connexe_of_isCauchySurfaceOn",
+        "Causal.IsCauchyEmbedding.isCauchySurfaceOn_inf",
+        "Causal.IsCauchyEmbedding.exists_mem_image_inf",
+        "Causal.IsCauchyEmbedding.eq_of_mem_image_inter",
+        "Causal.isConnected_of_curves",
+        "Causal.isConnected_of_homeomorph",
+        "Causal.timelikeLine_c_ext_connexe_hypotheses",
+        "Causal.timelikeLine_rangeOpens_id"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M connected GH, φ a Cauchy extension, inclusions φ(M) → A, B Cauchy embeddings",
+          "here": "carried",
+          "note": "ConnectedSpace M, IsCauchyEmbedding, IsCauchyInclusion"
+        },
+        {
+          "paper": "M ≅ Σ × ℝ (theo:geroch_sing)",
+          "here": "strengthened",
+          "note": "named: a homeomorphism ψ : Σ × ℝ ≃ₜ M (only its being a homeomorphism is used)"
+        },
+        {
+          "paper": "(implicit) every point of A∩B lies on an inextensible causal curve",
+          "here": "strengthened",
+          "note": "named model fact hthrough"
+        },
+        {
+          "paper": "(implicit) N causally arc-connected, curves of N extend",
+          "here": "strengthened",
+          "note": "named, for the uniqueness half (φ(Σ) acausal)"
+        },
+        {
+          "paper": "(unargued, l.1940-1941) φ(Σ) a Cauchy surface of A∩B",
+          "here": "strengthened",
+          "note": "named hypothesis of c_ext_connexe_of_isCauchySurfaceOn (sorry-free); c_ext_connexe instead derives it from isCauchySurfaceOn_inf, whose existence half is the sorry exists_mem_image_inf"
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "Causal.IsCauchyEmbedding.exists_mem_image_inf",
+          "obstruction": "an inextensible causal curve of A ∩ B is in general extensible in A and in B; that it meets φ(Σ) needs (1) every causal curve of A (resp. B) over an interval to lie on an inextensible one of A (CurvesExtend relative to an open set, Zorn-type), (2) the two extensions to leave A ∩ B through one end point, which must exist in A and in B (a limit along the curve) and be unique (Hausdorff), and (3) at an end point in A ∩ B a short causal curve inside A ∩ B (J^±_{A∩B}(p) ≠ {p} with local causal arc-connectedness). None is proved for topological spacetimes, and the paper gives no argument. The three facts are neither proved nor carried as hypotheses, so the abstract statement of exists_mem_image_inf MAY BE FALSE in the setting of topological spacetimes: its truth there is unestablished, and c_ext_connexe rests on it. The sorry-free core is c_ext_connexe_of_isCauchySurfaceOn, which takes the paper's unargued step 'φ(Σ) is a Cauchy surface of A∩B' (l.1940-1941) as a named hypothesis."
+        }
+      ],
+      "findings": [
+        "ETT.tex:1940-1941: 'The map M → A∩B is a Cauchy embedding, so φ(Σ) is a Cauchy surface of A∩B' is asserted without argument. That φ(Σ) meets each causal curve of A∩B at most once is proved (eq_of_mem_image_inter); that it meets every inextensible curve of A∩B is the open step. In the Lorentzian case it holds by an end-point argument (the future end points of the two extensions coincide and would lie in (A∖B) ∩ (B∖A)).",
+        "ETT.tex:1941-1942: 'every point of A∩B lies on an inextensible causal curve' — the existence of inextensible causal curves through every point is proved nowhere (GerochEquiv's SCOPE notes the same gap); carried as a model fact."
+      ],
+      "questions": []
+    },
+    {
+      "label": "prop:Cauchy_pgcd",
+      "tex_lines": [
+        1945,
+        1966
+      ],
+      "status": "stated",
+      "marked": false,
+      "decls": [
+        "Causal.cauchy_pgcd",
+        "Causal.IsPgcdCandidate",
+        "Causal.IsPgcdCandidate.eqOn",
+        "Causal.pgcdOpens",
+        "Causal.pgcdMap",
+        "Causal.pgcdMap_eqOn",
+        "Causal.subset_pgcdOpens",
+        "Causal.timelikeLine_isPgcdCandidate",
+        "Causal.IsRigid",
+        "Causal.isRigid_of_subsingleton",
+        "Causal.timelikeLine_not_isRigid",
+        "Causal.OrderIso.isEMorphism_timelikeLine",
+        "Causal.kinkIso",
+        "Causal.kinkIso_apply",
+        "Causal.IsEMorphism.comp",
+        "Causal.pointSpace",
+        "Causal.pointSpace_globallyHyperbolic",
+        "Causal.pointSpace_isCauchySurface_univ",
+        "Causal.pointSpace_isCauchyEmbedding_id",
+        "Causal.pointSpace_rangeOpens_id",
+        "Causal.pointSpace_cauchy_pgcd_hypotheses"
+      ],
+      "hypotheses": [
+        {
+          "paper": "rigidity of E≥0-morphisms (rem:CBG_analytique)",
+          "here": "strengthened",
+          "note": "named IsRigid C₁ C₂. Not implied by the abstraction: on the timelike line id and a piecewise linear order automorphism agree on ]-∞,0[ and differ at 1 (timelikeLine_not_isRigid) — a fact about the abstraction, not the paper. Jointly satisfiable with the Cauchy-embedding hypotheses and ℰ-membership: on the point space (pointSpace_cauchy_pgcd_hypotheses; degenerate, rigidity there holds because the target is a subsingleton)"
+        },
+        {
+          "paper": "M₁, M₂ Hausdorff",
+          "here": "carried",
+          "note": "T2Space"
+        },
+        {
+          "paper": "M₀ connected: spacetime means singular flat spacetime (l.1849), connected by def:singular_spacetime (l.1502)",
+          "here": "carried",
+          "note": "[ConnectedSpace M₀], part of the paper's setting, not a strengthening"
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "Causal.cauchy_pgcd",
+          "obstruction": "Two points of the step '(∧, φ) ∈ ℰ' are not argued in the paper: (1) condition (b) of ℰ does not ask φ_M injective and nothing shows the glued φ injective, so ∧ → M₂ is not shown to be a Cauchy embedding (WP-4; a gap in the argument, not a refutation — injectivity is plausibly recoverable); (2) the inclusion of i₁(M₀) into the union ∧ = ⋃M is not shown to be a Cauchy embedding: neither global hyperbolicity of ∧ nor that i₁(Σ₀) meets every inextensible curve of ∧ follows from the same facts for each M. Two further obstructions belong to the ABSTRACTION, not to the paper's proof: (3) the library's causality has no gluing axiom (kb/0014), so the strong-morphism condition of φ on ∧ does not follow from its restrictions; (4) maximality and uniqueness need (b(N), c∘b⁻¹) ∈ ℰ, i.e. b(N) with the causality restricted from M₁ globally hyperbolic with a Cauchy surface, which a local isomorphism of non-local causalities does not transport without absolute minimality. The gluing step also uses lem:C_ext_connexe, itself resting on the sorry exists_mem_image_inf."
+        }
+      ],
+      "findings": [
+        "ETT.tex:1953-1960 (confirms WP-4): ℰ's condition (b) does not ask φ_M injective, so the step '(∧, φ) ∈ ℰ, hence ∧ is a common sub-extension' does not show ∧ → M₂ injective. A gap in the argument, not a refutation: no counterexample is known, and injectivity is plausibly recoverable.",
+        "ETT.tex:1960-1961: 'Thus (∧, φ) ∈ ℰ' needs that the inclusion of i₁(M₀) into the union ∧ is a Cauchy embedding (global hyperbolicity of ∧ and the Cauchy property of i₁(Σ₀) in ∧), which does not follow from the same facts for each M; it is not argued."
+      ],
+      "questions": []
+    },
+    {
+      "label": "def:common_over_extension",
+      "tex_lines": [
+        1970,
+        1985
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CommonOverExtension",
+        "Causal.CommonOverExtension.IsMorphism",
+        "Causal.CommonOverExtension.Equivalent",
+        "Causal.CommonOverExtension.IsMinimal",
+        "Causal.CommonOverExtension.isMorphism_id",
+        "Causal.CommonOverExtension.self",
+        "Causal.CommonOverExtension.self_isMinimal",
+        "Causal.CommonSubExtension.gluing_comm",
+        "Causal.CommonSubExtension.exists_unique_desc"
+      ],
+      "hypotheses": [
+        {
+          "paper": "singular flat spacetimes, Cauchy embeddings, E≥0-morphisms",
+          "here": "weakened",
+          "note": "topological spacetimes, IsCauchyEmbedding, IsEMorphism (reading)"
+        },
+        {
+          "paper": "relation to defi:ppcm (Causal.Pushout.Gluing)",
+          "here": "carried",
+          "note": "for a common sub-extension X the gluing Gluing X.b X.c closes the square (gluing_comm); under rigidity and X connected it receives a unique map to every common over-extension compatible with e₁, e₂ (exists_unique_desc). That this map is a morphism is not stated: the gluing carries no causality here"
+        },
+        {
+          "paper": "M a singular flat spacetime: connected (l.1502), Hausdorff and second countable (l.255)",
+          "here": "weakened",
+          "note": "the carrier of CommonOverExtension is an arbitrary topological space with a causality: not required connected, T2 or second countable"
+        },
+        {
+          "paper": "minimal: a morphism to every common over-extension M'",
+          "here": "weakened",
+          "note": "IsMinimal quantifies only over over-extensions whose carrier is in Type u (the universe of M₀, M₁, M₂); unlike sub-extensions, over-extensions are not bounded in size by M₁ or M₂, so this restricts the quantifier. self_isMinimal's hypothesis (the two embeddings of every over-extension coincide) is not witnessed"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "Minimality asks for a morphism M → M' to every common over-extension M', not a unique one. Is uniqueness intended (a universal property)? Under rigidity the map out of the gluing is unique (exists_unique_desc)."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.GloballyHyperbolicOn",
+    "Causal.Causality.globallyHyperbolicOn_top",
+    "Causal.Causality.dual_globallyHyperbolicOn",
+    "Causal.Causality.dual_isAcausal",
+    "Causal.Causality.CausalCurveIn.mono_opens",
+    "Causal.Causality.CausalCurveIn.congr",
+    "Causal.Causality.CausalCurveIn.continuousOn_Icc",
+    "Causal.Causality.Extensible.congr",
+    "Causal.Causality.inextensible_congr",
+    "Causal.IsEMorphismOn.imageOpens",
+    "Causal.IsEMorphismOn.mono",
+    "Causal.IsEMorphismOn.congr",
+    "Causal.IsEMorphismOn.causalCurveOn_comp",
+    "Causal.IsEMorphismOn.causalCurveIn_comp",
+    "Causal.IsEMorphismOn.leftInvOn_image",
+    "Causal.IsEMorphismOn.causalCurveOn_invComp",
+    "Causal.IsEMorphismOn.causalCurveIn_invComp",
+    "Causal.timelikeLine_curvesExtend",
+    "Causal.timelikeLine_isGloballyHyperbolicOn_not",
+    "Causal.IsCauchyInclusion.isEMorphismOn_id"
+  ],
+  "kb_proposals": [
+    "The component of an inextensible curve c over I in an open set U is inextensible in U: Causality.inextensible_ordConnectedComponent with mathlib's ordConnectedComponent (I ∩ c⁻¹' U) t₀; needs M causal and Hausdorff; the past end is the future end of C.dual (dual_futureInextensible_iff).",
+    "Splicing a future extension of a final segment J ⊆ I into one of the whole curve: Causality.futureExtensible_of_final (shift by δ = φ t₀ − t₀, CurveOn.concat, comp_affine with k := 1 and all implicits named); the new value is new for all of c only because M is causal.",
+    "A Cauchy surface (DEC-14) is acausal only under CurvesExtend (every causal curve over a segment lies on an inextensible one, a named model fact) and causal arc-connectedness: Causality.IsCauchySurface.isAcausal. Arguments 'a causal curve meeting Σ twice' about finite curves need it.",
+    "Abstract E≥0-morphisms on an open set W: IsEMorphismOn (= StrongMorphism ∧ LocalIsomorphism on W = ⊤, isEMorphism_iff). Curves, inextensibility and Cauchy surfaces transport between V ⊆ W and φ(V) (isCauchySurfaceOn_image_iff); get Nonempty M from a curve point, then use invFunOn and InjOn.leftInvOn_invFunOn.",
+    "Rigidity (rem:CBG_analytique) does not follow from 'local homeomorphism + morphism of topological spacetimes': timelikeLine_not_isRigid (kinkIso). Carry IsRigid as a named hypothesis.",
+    "`[[a, b]]` needs `open scoped Interval`; a structure declared under `variable (...) in` only takes the variables it mentions (CommonOverExtension has no C₀ argument); a def named `trivial` in a namespace shadows `trivial` in every declaration of that namespace."
+  ],
+  "notes": "Build order: CauchyExtension → CauchyDiamond → SubExtension (each `lake build CausalScaffold.<File>` built only that module; no Causal.* or mathlib rebuild). CauchyExtension and CauchyDiamond are sorry-free and typecheck with -DwarningAsError=true, axioms [propext, Classical.choice, Quot.sound]; they are in the scaffold because they rest on the abstraction of E≥0-morphisms (IsEMorphism) and on named model hypotheses the author has not ruled on. SubExtension has two sorries (exists_mem_image_inf, cauchy_pgcd) and now imports Causal.LinesReachable (for Causality.ofRelation). The three modules are not yet imported by scaffold/CausalScaffold.lean (kb/0015 item 3; master's step). Nothing is marked. Fixer pass after the audit: [ConnectedSpace M₀] added to cauchy_pgcd (part of the setting, l.1502/l.1849; the former finding and question on it are withdrawn); the sorry text of cauchy_pgcd separates the two gaps of the paper's argument from the two obstructions of the abstraction (no gluing axiom, kb/0014; no transport of global hyperbolicity without absolute minimality); the two lem:Cauchy_plongement_toutes findings are withdrawn as findings — (ii)⇒(i)'s Cauchy surface comes from theo:geroch_sing and Hausdorffness is part of the paper's definition (l.124, l.255); they are disclosures about the abstraction, kept in the hypotheses notes and the file's SCOPE; the lem:Sigma_separe curve-extension finding is downgraded to an omitted standard step of the editorial proof (l.2068); the carriers of CommonSubExtension/CommonOverExtension are disclosed as not required connected, T2 or second countable, and IsMinimal as restricted to Type u; exists_mem_image_inf is disclosed as possibly false in the abstract setting, and c_ext_connexe_of_isCauchySurfaceOn is the sorry-free core of lem:C_ext_connexe (the paper's unargued step as a named hypothesis); IsRigid is witnessed jointly with IsCauchyEmbedding and IsPgcdCandidate on the point space (pointSpace_cauchy_pgcd_hypotheses); IsCauchyInclusion's docstring claim is now proved (IsCauchyInclusion.isEMorphismOn_id, for any A ≤ B); CauchyDiamond's 'Σ a Cauchy surface' row reads strengthened, and its claim that the timelike line satisfies every named hypothesis now says the Sing facts hold only vacuously and passe_pgcd only in the trivial case."
+}

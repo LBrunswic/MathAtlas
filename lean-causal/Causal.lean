@@ -27,6 +27,15 @@ import Causal.Inextensible
 import Causal.Cauchy
 import Causal.Geroch
 import Causal.GXStructure
+import Causal.Static
+import Causal.Minkowski
+import Causal.SingularFlat
+import Causal.CauchyExtension
+import Causal.CauchyDiamond
+import Causal.ChainsCurves
+import Causal.ChainsOrder
+import Causal.Model.Cone
+import Causal.Model.Massive
 
 /-!
 # Causal — topological spacetimes

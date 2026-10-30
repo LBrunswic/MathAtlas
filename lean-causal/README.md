@@ -20,7 +20,7 @@ submodule, so the library is grown here in the layout it will have there: gradua
 | library | where | rule |
 |---|---|---|
 | `Causal` | `Causal/` | strict: `warningAsError`, so a `sorry`, an unused variable or a deprecation fails the build |
-| `CausalScaffold` | `scaffold/CausalScaffold/` | `sorry` permitted and tagged; never imported by `Causal`. A module is here either because a proof is missing or because it rests on a **reading of the paper awaiting the author's ruling** — each module says which. The layer of the curves graduated on 2026-09-27 (DEC-6); the scaffold holds the campaign's files (`docs/CAMPAIGN.md`) until they graduate; today `GerochEquiv` (the cited step of `theo:geroch`) and `GXSingular` (OQ-19) |
+| `CausalScaffold` | `scaffold/CausalScaffold/` | `sorry` permitted and tagged; never imported by `Causal`. A module is here either because a proof is missing or because it rests on a **reading of the paper awaiting the author's ruling** — each module says which. The layer of the curves graduated on 2026-09-27 (DEC-6); the scaffold holds the campaign's files (`docs/CAMPAIGN.md`) until they graduate; today the modules resting on a `sorry` (`GerochEquiv`, `MinkowskiMeasure`, `SubExtension`), on one (`SingularGeroch`), or on an unruled reading (`GXSingular`, OQ-19) |
 
 ## Modules
 
@@ -55,8 +55,18 @@ submodule, so the library is grown here in the layout it will have there: gradua
 | `Causal.Cauchy` | `def:cauchy_surface`, `def:cauchy_time_function` | Cauchy surfaces (DEC-14) and Cauchy time functions |
 | `Causal.Geroch` | — | `theo:geroch` (i)⇒(ii) and (ii)⇒(iii), (ii) strict (DEC-15); the Gaussian witness on the timelike line |
 | `Causal.GXStructure` | — | (G,X)-manifolds over a maximal atlas (DEC-16); `prop:GX_espace_temps_topo` partial (OQ-18) |
+| `Causal.Static` | — | static spacetimes ℝ × X over a geodesic metric space, with the curve-defined causality of `defi:causal_Ealpha`: absolutely minimal, push-up, tarentin, strongly causal, globally hyperbolic, `J = cl I` |
+| `Causal.Minkowski` | — | Minkowski space `ℝ^{1,n}`; DEC-15's counterexample and the absence of maximal chains as theorems |
+| `Causal.Model.Cone`, `Causal.Model.Massive` | — | the flat cone `C_α` (a proper geodesic metric space) and `E_α = ℝ × C_α`, `α > 0`: the model facts of Section 3.1 for `α > 0`; `E_{2π} ≅` Minkowski |
+| `Causal.SingularFlat` | — | singular flat spacetimes, with the model facts as named hypotheses (`SingularFlatAxioms`, kb/0012): `lem:past_BTZ`, `cor:K_injectif`, `prop:K_densite_sing`, `cor:K_ordre`, `lem:cup_cap_BTZ` (DEC-19) |
+| `Causal.CauchyExtension`, `Causal.CauchyDiamond` | — | Cauchy embeddings and extensions, abstractly (DEC-17); `lem:image_diamant`, `lem:passe_pgcd`, `lem:Sigma_separe` |
+| `Causal.ChainsCurves` | `def:causally_connected` | causal connectedness by inextensible curves (DEC-20) |
+| `Causal.ChainsOrder` | `def:causally_complete`, `rem:causal_completeness_slightly_weaker` | causal completeness by maximal chains of `(M, ≤)` (DEC-21, DEC-22) |
 | `CausalScaffold.GerochEquiv` | — | `theo:geroch`, the equivalence; one `sorry`, the cited (iii)⇒(i) |
 | `CausalScaffold.GXSingular` | — (OQ-19) | `prop:GX_sing_espace_temps_topo` for abstracted model spaces |
+| `CausalScaffold.SingularGeroch` | — | `theo:geroch_sing` (DEC-18), `prop:mesure_admissible`; rests on `GerochEquiv` |
+| `CausalScaffold.MinkowskiMeasure` | — | `prop:mesure_dieckmann_Lorentz` on Minkowski space; one `sorry` (null boundaries of past sets) |
+| `CausalScaffold.SubExtension` | — | common sub- and over-extensions, `lem:C_ext_connexe`, `prop:Cauchy_pgcd`; two `sorry`s |
 
 What each label's status is, which declarations carry it and what formalizing found in the paper
 is in `papers/ett/ledger/LEDGER.md`, generated from the sources and from

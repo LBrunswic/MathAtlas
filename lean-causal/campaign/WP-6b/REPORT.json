@@ -1,0 +1,242 @@
+{
+  "package": "WP-6b",
+  "files": [
+    "scaffold/CausalScaffold/ChainsCurves.lean",
+    "scaffold/CausalScaffold/ChainsOrder.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "def:causally_connected",
+      "tex_lines": [
+        337,
+        340
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.Causality.CausallyConnectedCurves",
+        "Causal.Causality.CausallyConnectedCurves.dual",
+        "Causal.Causality.dual_causallyConnectedCurves",
+        "Causal.Causality.CausalCurveIn.isConnected_image",
+        "Causal.Causality.causallyConnectedCurves_iff_of_isCausal",
+        "Causal.staticCausality.exists_inextensible_graph",
+        "Causal.staticCausality.causallyConnectedCurves",
+        "Causal.timelikeLine_causallyConnectedCurves",
+        "Causal.minkowski_causallyConnectedCurves",
+        "Causal.Causality.causallyConnectedCurves_of_curvesExtend",
+        "Causal.rat_causalCurveIn_subsingleton",
+        "Causal.rat_not_causallyConnectedCurves",
+        "Causal.rat_not_causallyArcConnected",
+        "Causal.rat_not_absolutelyMinimal"
+      ],
+      "hypotheses": [
+        {
+          "paper": "a connected maximal causal chain",
+          "here": "carried",
+          "note": "DEC-20: an inextensible causal curve (DEC-11/13) over an interval I, in W = ⊤; its image is connected by construction (CausalCurveIn.isConnected_image), so connectedness is not asked separately"
+        },
+        {
+          "paper": "from p to q",
+          "here": "carried",
+          "note": "read: c s = p, c t = q with s ≤ t (p met first). In a causal spacetime the order is immaterial: causallyConnectedCurves_iff_of_isCausal proves the unordered version equivalent"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Under DEC-20 Minkowski space ℝ^{1,n} is causally connected for every n (minkowski_causallyConnectedCurves), where the literal definition fails for n ≥ 1 (minkowski_not_causallyConnected, CausalScaffold.Minkowski). More generally every static spacetime ℝ × X over a geodesic metric space is: through p ≤ q passes the graph of a 1-Lipschitz map — the geodesic segment from p to q prolonged by the vertical lines through p and q — which is inextensible because time is unbounded along it (staticCausality.exists_inextensible_graph).",
+        "Negative example (audit): ℚ with the causality of its order (linearCausality ℚ) is not causally connected: ℚ is totally disconnected, so every causal curve is constant (rat_not_causallyConnectedCurves). It is non-local and not causally arc-connected, both proved: rat_not_absolutelyMinimal (the cover by the two sides of √2), rat_not_causallyArcConnected (kb/0019). Under causal arc-connectedness and causality, connectedness follows from CurvesExtend (CauchyExtension.lean:82), here as a hypothesis (causallyConnectedCurves_of_curvesExtend)."
+      ],
+      "questions": [
+        "OQ-20 (open, mentioned in SCOPE (a)): should causal connectedness also read 'a connected maximal chain of (M, ≤) containing p and q', as completeness does under DEC-21? The ordered reading of 'from p to q' is kept (the paper's plain text; immaterial under causality)."
+      ]
+    },
+    {
+      "label": "def:causally_complete",
+      "tex_lines": [
+        353,
+        355
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.Causality.IsComparableClosedChain",
+        "Causal.Causality.isMaxChain_iff_comparableClosed",
+        "Causal.Causality.IsAuthorChain",
+        "Causal.Causality.causallyCompleteOrder_iff_author",
+        "Causal.Causality.CausallyCompleteOrder",
+        "Causal.Causality.dual_isMaxChain_le",
+        "Causal.Causality.dual_causallyCompleteOrder",
+        "Causal.Causality.dedekindComplete_iff_isLUBOn",
+        "Causal.Causality.dedekindComplete_iff_cuts",
+        "Causal.timelikeLine_causallyCompleteOrder",
+        "Causal.minkowski_causallyCompleteOrder",
+        "Causal.exists_isMaxChain_le",
+        "Causal.halfPlane_le_iff",
+        "Causal.halfPlaneWedge",
+        "Causal.halfPlaneWedge_isChain",
+        "Causal.hpt",
+        "Causal.mem_halfPlaneWedge_of_comparable",
+        "Causal.halfPlaneWedge_isMaxChain",
+        "Causal.halfPlane_not_causallyCompleteOrder",
+        "Causal.rat_not_causallyCompleteOrder",
+        "Causal.rat_causallyCompleteCurves",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.IsLUBOn",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.SupCompleteIn",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.AmbientDedekindComplete",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.CausallyCompleteCurves",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.dual_ambientDedekindComplete",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.CausallyCompleteCurves.dual",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.dual_causallyCompleteCurves",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.CausalCurveIn.exists_isLUBOn",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.CausalCurveIn.supCompleteIn_image",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.CausalCurveIn.ambientDedekindComplete_image",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.causallyCompleteCurves_of_unbounded",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.CausallyCompleteCurves.not_forall_le",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.causallyCompleteCurves_iff_unbounded",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.dedekindComplete_of_isLUBOn",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.AmbientDedekindComplete.dedekindComplete",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.CausalCurveIn.dedekindComplete_image",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.staticCausality.Inextensible.not_forall_le",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.staticCausality.Inextensible.not_forall_ge",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.staticCausality.causallyCompleteCurves",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.geodesicSpace_Ioi_zero",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.nullRay",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.nullRay_snd",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.nullRay_causalCurveIn",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.nullRay_inextensible",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.halfPlane_not_causallyCompleteCurves",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.halfPlane_nullRay_dedekindComplete",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.timelikeLine_causallyCompleteCurves",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.minkowski_causallyCompleteCurves"
+      ],
+      "hypotheses": [
+        {
+          "paper": "maximal causal chain",
+          "here": "carried",
+          "note": "DEC-21 as read by the master session: IsMaxChain (C.le ⊤) S, a totally ordered subset of (M, ≤_M) containing every point comparable to all of S. isMaxChain_iff_comparableClosed proves IsMaxChain is exactly DEC-21's 'every point comparable to all of S lies in S'. For a non-causal C, ≤_M is only a preorder and an IsMaxChain is total for it, not 'totally ordered' in the author's sense (SCOPE (a))"
+        },
+        {
+          "paper": "Dedekind-complete",
+          "here": "carried",
+          "note": "DedekindComplete of Causal.Chains (non-empty parts bounded above in S have a least upper bound in S), proved equivalent for chains to the cut form of DEC-21: every partition S = L ⊔ U, L, U non-empty, L ≤ U, has a greatest element of L or a least element of U (dedekindComplete_iff_cuts)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "The master's reading of DEC-21 and the author's literal sentence agree on causal spacetimes: requiring every 'author-chain' (totally ordered; a point cutting S into two NON-EMPTY pieces, strictly below and strictly above, lies in S) to be Dedekind-complete is equivalent to CausallyCompleteOrder (causallyCompleteOrder_iff_author, due to the WP-6b audit).",
+        "Under DEC-21 the notion is neither vacuous nor trivial. Maximal chains of (M, ≤) exist through every chain (Zorn, exists_isMaxChain_le) and are not dense. Every maximal chain of Minkowski space ℝ^{1,n} (every n) and of the timelike line is Dedekind-complete (minkowski_causallyCompleteOrder, timelikeLine_causallyCompleteOrder), as is every static spacetime over a complete geodesic space, proper or not (staticCausality.causallyCompleteOrder).",
+        "LOCAL negative example: the half-plane ℝ × ]0,∞[ (an open subset of 1+1 Minkowski, its causality of curves; causal, tarentin, strongly causal, causally arc-connected, absolutely minimal). The two null rays t + x = 1 and t − x = 1 form a maximal chain of (M, ≤) (halfPlaneWedge_isMaxChain) whose cut at the missing corner (1, 0) has no bound (halfPlane_not_causallyCompleteOrder).",
+        "Relation with the curve reading (b) (CausallyCompleteCurves, ChainsCurves): reading (b) does NOT imply the DEC-21 notion — ℚ with its order is complete for curves (all causal curves constant, rat_causallyCompleteCurves) and not order-complete (ℚ is its own maximal chain, cut at √2, rat_not_causallyCompleteOrder); the witness is non-local and not causally arc-connected (rat_not_absolutelyMinimal, rat_not_causallyArcConnected). Whether the DEC-21 notion implies (b), in general or under DEC-22's hypotheses, is open: both follow from causal compactness under them, both fail on the half-plane, both hold over ℝ × C([0,1], ℝ)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "rem:causal_completeness_slightly_weaker",
+      "tex_lines": [
+        356,
+        358
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.Causality.HasChainSups",
+        "Causal.Causality.HasChainSups.causallyCompleteOrder",
+        "Causal.Causality.hasChainSups_of_causallyCompact",
+        "Causal.Causality.causallyCompleteOrder_of_causallyCompact",
+        "Causal.staticCausality.hasChainSups",
+        "Causal.staticCausality.causallyCompleteOrder",
+        "Causal.not_causallyCompleteOrder_imp_causallyCompact",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.Inextensible.not_forall_le_of_causallyCompact",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.Inextensible.not_forall_ge_of_causallyCompact",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.Causality.causallyCompleteCurves_of_causallyCompact",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.bump",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.bump_apply",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.bcfStatic_not_causallyCompact",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.not_causallyCompleteCurves_imp_causallyCompact",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.halfPlane_hypotheses",
+        "(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.minkowski_causallyCompleteCurves'",
+        "Causal.tent",
+        "Causal.four_le_two_pow",
+        "Causal.tentPt",
+        "Causal.tent_apply",
+        "Causal.tent_tentPt",
+        "Causal.tent_tentPt_ne",
+        "Causal.norm_tent_le",
+        "Causal.one_le_dist_tent",
+        "Causal.tentStatic_not_causallyCompact"
+      ],
+      "hypotheses": [
+        {
+          "paper": "T2, tarentin, causal (DEC-22)",
+          "here": "carried",
+          "note": "compact ⇒ complete: causallyCompleteOrder_of_causallyCompact; through closed J^±(x) (prop:GH_Jferme) a non-empty chain bounded above has a least upper bound in M (hasChainSups_of_causallyCompact), comparable to all of any maximal chain containing the part, hence on it"
+        },
+        {
+          "paper": "causally arc-connected, J^±(p) ≠ {p} (DEC-22); second countable (ETT.tex:255)",
+          "here": "weakened",
+          "note": "not used for compact ⇒ complete"
+        },
+        {
+          "paper": "not conversely, for second countable Hausdorff spacetimes (ETT.tex:255) under DEC-22",
+          "here": "carried",
+          "note": "witness ℝ × C([0,1], ℝ): SECOND COUNTABLE (mathlib's ContinuousMap instance), T2, tarentin, causal, causally arc-connected, J^±(p) ≠ {p}, absolutely minimal (local, kb/0014, kb/0019), strongly causal; causally complete (staticCausality.hasChainSups: spatial parts of a bounded chain are Cauchy; C([0,1], ℝ) is complete) and not causally compact (tentStatic_not_causallyCompact: J((0,0),(2,0)) contains (1, tent n), dyadic tents of disjoint support pairwise at distance ≥ 1). It is NOT LOCALLY COMPACT. The earlier witness ℝ × (ℕ →ᵇ ℝ) (bcfStatic_not_causallyCompact, kept) is not second countable"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Under DEC-21 and DEC-22 the remark is proved in both halves for second countable Hausdorff spacetimes. 'Compact ⇒ complete' needs only T2, tarentin and causal. The witness of strictness is local and second countable but not locally compact; a locally compact one is not known (the half-plane fails both properties).",
+        "Audit correction: the first witness ℝ × (ℕ →ᵇ ℝ) is not second countable (indicators of subsets of ℕ form an uncountable 1-separated set); replaced by ℝ × C([0,1], ℝ) in both not_causallyCompleteOrder_imp_causallyCompact and not_causallyCompleteCurves_imp_causallyCompact, whose quantified class now includes [SecondCountableTopology N]."
+      ],
+      "questions": [
+        "The witness of 'not conversely' is not locally compact (ℕ →ᵇ ℝ is infinite-dimensional). If the remark is meant in a locally compact setting, a witness is still owed."
+      ]
+    },
+    {
+      "label": "def:maximal_chain",
+      "tex_lines": [
+        334,
+        336
+      ],
+      "status": "superseded (DEC-20)",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.CausalCurveIn.isCausalChain_range",
+        "Causal.minkowski_curveChain_not_maximal"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [
+        "Superseded by DEC-20: Causal.Chains keeps the literal definition (IsMaximalChain) as the record of the finding (a maximal chain is dense; none exists in Minkowski space). Relation proved here: the image of an inextensible causal curve over ℝ which is an embedding is a subset causal chain (CausalCurveIn.isCausalChain_range), and in ℝ^{1,n}, n ≥ 1, through every p ≤ q passes such a curve whose image is a chain and is not maximal (minkowski_curveChain_not_maximal)."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.image_neg_comp",
+    "Causal.Causality.dedekindComplete_of_isLUBOn",
+    "Causal.Causality.CausalCurveIn.exists_isLUBOn",
+    "Causal.Causality.CausalCurveIn.isConnected_image",
+    "Causal.geodesicSpace_Ioi_zero",
+    "Causal.staticCausality.exists_inextensible_graph",
+    "Causal.Causality.dedekindComplete_iff_isLUBOn",
+    "Causal.Causality.HasChainSups",
+    "Causal.staticCausality.hasChainSups",
+    "Causal.exists_isMaxChain_le",
+    "Causal.Causality.isMaxChain_iff_comparableClosed",
+    "Causal.Causality.causallyCompleteOrder_iff_author",
+    "Causal.tentStatic_not_causallyCompact"
+  ],
+  "kb_proposals": [
+    "A completeness or boundedness notion along inextensible curves: reduce to curves over ℝ with Inextensible.reparam (Causal.Cauchy), then use the extension steps of Causal.Geroch (futureExtensible_of_forall_ge / pastExtensible_of_forall_le) or, in static spacetimes over a complete X, tendsto_time_atTop/atBot.",
+    "A supremum along a curve: take σ = sSup of the parameters; 'least' goes through IsClosed.csSup_mem on {t ∈ [v, σ] | c t ∈ J^-(c v)}, closed by ContinuousOn.preimage_isClosed_of_isClosed — no causality needed (CausalCurveIn.exists_isLUBOn).",
+    "Cheap local counterexamples: static spacetimes over a non-complete or non-proper geodesic X — the half-plane ℝ × Ioi 0 (geodesicSpace_Ioi_zero) for a curve running into a boundary, ℝ × (ℕ →ᵇ ℝ) for a non-compact diamond (bump n, pairwise at distance 1). Both are absolutely minimal (kb/0014, kb/0019 satisfied).",
+    "An anonymous instance cannot be curated (kb/0015): name it (geodesicSpace_Ioi_zero).",
+    "Maximal chains of the causal order: mathlib IsMaxChain (C.le ⊤) S (IsChain is Pairwise over x ≠ y of r x y ∨ r y x); to show a point p lies on a maximal chain, prove it comparable to all of S and use hS.2 on IsChain.insert.",
+    "Least upper bounds of chains in a causally compact T2 spacetime with closed J^±: IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed (not dot-callable) on t a = J(a₀,u) ∩ J^+(a) ∩ ⋂ upper bounds J^-(v), directed along the chain.",
+    "Half-plane computations: write ≤ in null coordinates (halfPlane_le_iff: t+x and t−x both increase) and everything is linarith.",
+    "A second countable, complete, non-proper geodesic space for counterexamples: C(Icc (0:ℝ) 1, ℝ) (SecondCountableTopology from ContinuousMap.instSecondCountableTopology, geodesic by GeodesicSpace.ofNormedSpace); dyadic tents `tent n` are 1-separated in the unit ball. ℕ →ᵇ ℝ is NOT second countable."
+  ],
+  "notes": "Two new files, no existing file touched: ChainsCurves.lean (revised: SCOPE (a) negative example, CurvesExtend reduction, OQ-20; SCOPE (d) and minkowski_curveChain_not_maximal reworded; header points def:causally_complete and the remark to ChainsOrder) and ChainsOrder.lean (imports ChainsCurves, Mathlib.Order.Zorn, Mathlib.NumberTheory.Real.Irrational, Mathlib.Analysis.SpecificLimits.Basic). ChainsCurves now also imports Mathlib.Topology.Instances.RatLemmas, Mathlib.Topology.ContinuousMap.Compact, Mathlib.Topology.ContinuousMap.SecondCountableSpace, Mathlib.NumberTheory.Real.Irrational. Both clean under lake env lean -DwarningAsError=true; lake build CausalScaffold.ChainsCurves and CausalScaffold.ChainsOrder built only these modules; axioms propext, Classical.choice, Quot.sound. No declaration renamed. Marks: def:causally_connected in ChainsCurves; def:causally_complete and rem:causal_completeness_slightly_weaker in ChainsOrder. ChainsCurves' curve notion (CausallyCompleteCurves, reading (b)) stays unmarked as a related notion. On graduation add both imports to scaffold/CausalScaffold.lean (kb/0015 item 3); both depend on CausalScaffold.Minkowski/Static. Revision 3 (audit): witnesses of 'not conversely' now second countable (ℝ × C([0,1], ℝ)); [SecondCountableTopology N] added to both quantified statements; reading lemmas isMaxChain_iff_comparableClosed and causallyCompleteOrder_iff_author added (from the auditor's /tmp/audit6b/a.lean, renamed); ℚ non-locality backed by rat_not_causallyArcConnected and rat_not_absolutelyMinimal. The remark stays marked: both halves hold under DEC-22 for second countable spacetimes."
+}

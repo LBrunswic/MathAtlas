@@ -1,0 +1,312 @@
+{
+ "package": "WP-9",
+ "files": [
+  "scaffold/CausalScaffold/Static.lean",
+  "scaffold/CausalScaffold/Minkowski.lean",
+  "scaffold/CausalScaffold/MinkowskiMeasure.lean"
+ ],
+ "builds": true,
+ "sorry_count": 1,
+ "labels": [
+  {
+   "label": "defi:causal_Ealpha",
+   "tex_lines": [
+    1335,
+    1342
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.GeodesicSpace",
+    "Causal.StaticCurve",
+    "Causal.staticLe",
+    "Causal.staticLt",
+    "Causal.staticCausality",
+    "Causal.Minkowski",
+    "Causal.minkowski",
+    "Causal.staticCausality.le_top_iff",
+    "Causal.staticCausality.lt_top_iff",
+    "Causal.staticCausality.sanity",
+    "Causal.isOpen_setOf_staticLt",
+    "Causal.minkowski_le_top_iff_sq",
+    "Causal.minkowski_lt_top_iff_sq"
+   ],
+   "hypotheses": [
+    {
+     "paper": "the model space E^{1,2} (and its cones E_alpha)",
+     "here": "weakened",
+     "note": "R x X for any geodesic metric space X; Minkowski R^{1,n} for every n. Cones E_alpha (alpha != 2pi) and E_0 not covered: the next package instantiates Static.lean"
+    },
+    {
+     "paper": "future chronological curve (undefined)",
+     "here": "carried",
+     "note": "read as the graph of a c-Lipschitz map for one c < 1 over a non-trivial segment (uniformly timelike). Not a restriction: it gives the same <<_U as 'speed < 1 at every point' in every open U (see findings and Static.lean SCOPE)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Formalized for Minkowski space R^{1,n} (and every static R x X over a geodesic space): the relations defined by curves in every open set form a causality (axioms (a)-(c), << transitive, I^pm_U(x) open), as l.1336-1339 assert; the openness of I^pm needs the geodesic hypothesis (a perturbed endpoint is reached by a geodesic segment inside a ball of U). The sentence 'On any E>=0-manifold there is then a unique causal structure...' (l.1339-1341) is not addressed.",
+    "l.1337 does not define 'future chronological curve'. The uniform reading (c-Lipschitz for one c < 1) and the pointwise one (speed < 1 at every point, supremum possibly 1) define the same <<_U in every open U, so no question to the author is needed: a pointwise-timelike curve has strict chords d(gamma s, gamma s') < |s - s'|; a fine enough inscribed polygon of geodesic segments stays in a thickening of the compact graph, hence in U, and its finitely many slopes have a maximum c < 1. The argument is in prose (Static.lean SCOPE), not formalized; causallyArcConnected independently proves that staticLt U is equivalent to a chronal curve of Causal/Curves.lean in U. (Question withdrawn after audit.)"
+   ],
+   "questions": []
+  },
+  {
+   "label": "rem:pushup",
+   "tex_lines": [
+    1374,
+    1380
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.staticLt_of_staticLt_of_staticLe",
+    "Causal.staticLt_of_staticLe_of_staticLt",
+    "Causal.staticCausality.pushUp",
+    "Causal.staticCausality.pushUpOn",
+    "Causal.minkowski_pushUp"
+   ],
+   "hypotheses": [
+    {
+     "paper": "the model spaces E_kappa",
+     "here": "weakened",
+     "note": "proved for every static spacetime, Minkowski included; E_alpha (alpha != 2pi) and E_0 not covered"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.1375-1376 'the concatenation of a future causal curve with a future chronological one is future chronological' is false for the concatenated curve itself: a chronological curve followed by a null segment is not chronological (it has a null piece). What holds, and what the 'Equivalently' formula and defi:pushup need, is that the END POINTS are chronologically related in the same open set, through another curve: Lean re-times the concatenation (the chronological part sped up, the causal part slowed down) inside a tube of U (staticLt_of_staticLt_of_staticLe). Suggested wording: '...the end points of the concatenation of a future causal curve with a future chronological one are joined by a future chronological curve in the same open set.'"
+   ],
+   "questions": []
+  },
+  {
+   "label": "cor:model_minimal",
+   "tex_lines": [
+    1386,
+    1394
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.staticCausality.causallyArcConnected",
+    "Causal.staticCausality.absolutelyMinimal",
+    "Causal.staticCausality.causalCurveOn_graph",
+    "Causal.staticCausality.chronalCurveOn_graph",
+    "Causal.minkowski_absolutelyMinimal",
+    "Causal.minkowski_causallyArcConnected"
+   ],
+   "hypotheses": [
+    {
+     "paper": "kappa >= 0",
+     "here": "weakened",
+     "note": "Minkowski space (kappa = 2pi) and every static spacetime only, by the paper's route: causally arc-connected, then cor:causalement_connexe_minimal"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "The graphs of 1-Lipschitz (resp. c-Lipschitz, c<1) maps are causal (resp. chronal) curves of Causal/Curves.lean (DEC-6), which is the bridge between defi:causal_Ealpha's curves and def:causal_arc_connectedness."
+   ],
+   "questions": []
+  },
+  {
+   "label": "lem:IJ_calc",
+   "tex_lines": [
+    1441,
+    1462
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.staticCausality.interior_Jplus_inter_Zminus",
+    "Causal.staticCausality.interior_Jminus_inter_Zplus",
+    "Causal.staticCausality.interior_Jplus",
+    "Causal.staticCausality.interior_Jminus",
+    "Causal.staticCausality.mem_Zplus",
+    "Causal.staticCausality.mem_Zminus",
+    "Causal.minkowski_IJ_calc"
+   ],
+   "hypotheses": [
+    {
+     "paper": "every kappa >= 0",
+     "here": "weakened",
+     "note": "Minkowski space and static spacetimes only; Z^+ = Z^- = M there, so the identity reads Int J^pm(p) = I^pm(p)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Missing citation, not an error. The proof (l.1446-1447, l.1452-1454) passes from 'I^-(q) is non-empty' to 'q in Z^-' (and from non-empty chronological futures to Z^+ = E_kappa). That step is rem:absolutely_minimal_topological_spacetime (l.780-782), which applies because the models are absolutely minimal by cor:model_minimal (l.1386); Lean's proof goes the same way (AbsolutelyMinimal.mem_Zminus_iff). Suggested wording: '... so I^-(q) is non-empty and therefore, by Remark rem:absolutely_minimal_topological_spacetime and Corollary cor:model_minimal, q in Z^-(E_kappa).' For the static models Z^pm = M is also proved directly (mem_Zplus, mem_Zminus)."
+   ],
+   "questions": []
+  },
+  {
+   "label": "lem:densite_modele",
+   "tex_lines": [
+    1464,
+    1499
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.staticCausality.closure_Iplus",
+    "Causal.staticCausality.closure_Iminus",
+    "Causal.staticCausality.Jplus_eq_closure_Iplus_of_causallyConvexIn",
+    "Causal.staticCausality.Jminus_eq_closure_Iminus_of_causallyConvexIn",
+    "Causal.minkowski_densite",
+    "Causal.minkowski_densite_of_causallyConvexIn"
+   ],
+   "hypotheses": [
+    {
+     "paper": "every kappa >= 0",
+     "here": "weakened",
+     "note": "(a) and (b) for Minkowski space and static spacetimes; (c) concerns BTZ points and does not arise. The causally convex version is proved with the closure read in V (closure ∩ V), through lem:restriction_convexe"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "prop:mesure_dieckmann_Lorentz",
+   "tex_lines": [
+    1054,
+    1061
+   ],
+   "status": "stated",
+   "marked": false,
+   "decls": [
+    "Causal.minkowski_mesure_dieckmann",
+    "Causal.minkowski_mesure_dieckmann_of",
+    "Causal.minkowski_exists_measure",
+    "Causal.staticCausality.Kminus_eq_Iminus",
+    "Causal.staticCausality.Kplus_eq_Iplus",
+    "Causal.staticCausality.Jminus_diff_Kminus_subset_frontier",
+    "Causal.staticCausality.Jplus_diff_Kplus_subset_frontier",
+    "Causal.staticCausality.exists_isOpen_subset_Jminus_diff",
+    "Causal.staticCausality.exists_isOpen_subset_Jplus_diff"
+   ],
+   "hypotheses": [
+    {
+     "paper": "a strongly causal Lorentzian manifold",
+     "here": "strengthened",
+     "note": "Minkowski space R^{1,n} only (the library has no Lorentzian manifolds): the row is 'stated on the Minkowski instance', not a statement for strongly causal Lorentzian manifolds"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "Causal.minkowski_exists_measure",
+     "obstruction": "a finite regular measure on R^{1+n}, positive on non-empty open sets, null on the frontier of I^pm(A) for EVERY A: the frontier of I^-(A) lies in the graph of the 1-Lipschitz x -> sup_{a in A} (a.1 - |x - a.2|), Lebesgue-null by Fubini; neither step is in mathlib at this pin. Everything else is proved: the proposition is reduced to this measure (minkowski_mesure_dieckmann_of)"
+    }
+   ],
+   "findings": [
+    "l.1058-1059 'one then checks easily that conditions 3. and 4. hold': condition 4 for an ARBITRARY A rests on the classical theorem that achronal boundaries are Lipschitz hypersurfaces (Hawking-Ellis, Prop. 6.3.1), hence Lebesgue-null; the paper's sentence stands once that fact is cited. Concretely, with K^pm(A) = I^pm(A) (push-up and Z^pm = M) condition 4 asks that mu not charge J^pm(A) \\ I^pm(A), a subset of the frontier of the open past/future set I^pm(A). Condition 3 is elementary (J^-(q) \\ J^-(p) contains a non-empty open set, exists_isOpen_subset_Jminus_diff). The sorry'd existence statement is true for every n, n = 0 included (a Gaussian), so it is not vacuous.",
+    "Row status for the ledger: stated, on the Minkowski instance only (hypothesis strengthened)."
+   ],
+   "questions": []
+  },
+  {
+   "label": "theo:geroch",
+   "tex_lines": [
+    1256,
+    1306
+   ],
+   "status": "witness",
+   "marked": false,
+   "decls": [],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [
+    "Witness only (the theorem is WP-7's). DEC-15's counterexample is now a Lean theorem, with a LOCAL (absolutely minimal) causality, not Causality.ofRelation: on R^{1,n}, n >= 1 (n = 1: minkowski2_dec15), T(t,x) = t - g(x) with g(x) = max(0, min(<x,e>, 1)) (bounded, 1-Lipschitz, g(tau e) = tau on [0,1]) is a Cauchy time function in the DEC-10 sense, is not strictly increasing along <= ((0,0) <= (1,e), same T), and T^{-1}(0) contains the null segment {(tau, tau e)} and is not a Cauchy surface (DEC-14): the null line tau -> (tau, tau e), inextensible, meets it at least twice. This confirms why l.1300 'it suffices to take S = T^{-1}(0)' needs DEC-15. The time coordinate is a strictly increasing Cauchy time function (minkowski_time_strict), so (ii) as ruled is satisfiable there.",
+    "Lean declarations of this witness (not row decls, so as not to overwrite WP-7's theo:geroch row): Causal.minkowski_dec15, Causal.minkowski2_dec15, Causal.staticCausality.not_strict_and_not_isCauchySurface, Causal.staticCausality.isCauchyTimeFunction_sub, Causal.staticCausality.isTimeFunction_sub, Causal.staticCausality.tendsto_time_atTop, Causal.staticCausality.tendsto_time_atBot, Causal.staticCausality.inextensible_nullLine, Causal.minkowski_inextensible_nullLine, Causal.minkowski_time_strict, Causal.Causality.Inextensible.not_tendsto_atBot, Causal.Causality.Inextensible.not_tendsto_atTop, Causal.Causality.inextensible_of_unbounded."
+   ],
+   "questions": []
+  },
+  {
+   "label": "def:maximal_chain",
+   "tex_lines": [
+    334,
+    336
+   ],
+   "status": "witness",
+   "marked": false,
+   "decls": [],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [
+    "Witness only (the definition is Causal/Chains.lean's, OQ-17). As written, Minkowski space R^{1,n}, n >= 1 (indeed every static R x X with X geodesic with two points), has NO maximal causal chain: every open set contains two small balls at one time, spatially apart, with no causal relation between them (hasUnrelatedOpensIn), and not_isMaximalChain_of_hasUnrelatedOpensIn applies. Hence def:causally_connected fails in Minkowski space and def:causally_complete holds vacuously there (minkowski_not_causallyConnected, minkowski_causallyComplete). This is with the local causality of curves, so it is not an artefact of non-local causalities (kb/0019).",
+    "Lean declarations of this witness (not row decls, so as not to overwrite Causal/Chains.lean's def:maximal_chain row): Causal.minkowski_not_isMaximalChain, Causal.minkowski_not_causallyConnected, Causal.minkowski_causallyComplete, Causal.staticCausality.not_isMaximalChain, Causal.staticCausality.hasUnrelatedOpensIn."
+   ],
+   "questions": []
+  },
+  {
+   "label": "rem:galileo_spacetime_not_strongly",
+   "tex_lines": [
+    670,
+    674
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.minkowski_stronglyCausal",
+    "Causal.staticCausality.stronglyCausal",
+    "Causal.staticCausality.diamond_vertical"
+   ],
+   "hypotheses": [
+    {
+     "paper": "the flat model spacetimes of Section subsec:sing_spacetime_defi",
+     "here": "weakened",
+     "note": "Minkowski space of every dimension, and every static spacetime; the cones E_alpha, E_0 and the singular flat spacetimes are not covered. The Galileo half is Causal/Galileo.lean's"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "The sentence 'the flat model spacetimes ... are strongly causal' (l.672-674) holds for Minkowski space: the vertical diamonds J((t-e,x),(t+e,x)) are causally convex and lie in the closed e-ball (stronglyCausal)."
+   ],
+   "questions": []
+  }
+ ],
+ "extra_decls": [
+  "Causal.GeodesicSpace",
+  "Causal.GeodesicSpace.ofNormedSpace",
+  "Causal.exists_segment",
+  "Causal.LipOn",
+  "Causal.LipOn.concat",
+  "Causal.LipOn.comp_affine",
+  "Causal.LipOn.continuousOn",
+  "Causal.LipOn.dist_graph_le",
+  "Causal.StaticCurve.concat",
+  "Causal.StaticCurve.isCompact_graph",
+  "Causal.staticLe_of_ball",
+  "Causal.staticLt_of_ball",
+  "Causal.staticLe_univ_iff",
+  "Causal.staticLt_univ_iff",
+  "Causal.flipT",
+  "Causal.staticLe_flip_iff",
+  "Causal.staticLt_flip_iff",
+  "Causal.staticCausality.isCausal",
+  "Causal.staticCausality.tarentin",
+  "Causal.staticCausality.globallyHyperbolic",
+  "Causal.staticCausality.isClosed_Jplus_top",
+  "Causal.staticCausality.isClosed_Jminus_top",
+  "Causal.staticCausality.Jplus_ne_singleton",
+  "Causal.staticCausality.Jminus_ne_singleton",
+  "Causal.staticCausality.not_tendsto_hypotheses",
+  "Causal.staticCausality.isCauchyTimeFunction_fst",
+  "Causal.Causality.Inextensible.not_tendsto_atBot",
+  "Causal.Causality.Inextensible.not_tendsto_atTop",
+  "Causal.Causality.inextensible_of_unbounded",
+  "Causal.unitVec",
+  "Causal.clampCoord",
+  "Causal.dec15Time",
+  "Causal.clampCoord_hypotheses",
+  "Causal.minkowski_tarentin",
+  "Causal.minkowski_globallyHyperbolic",
+  "Causal.minkowski_isCausal"
+ ],
+ "kb_proposals": [
+  "The model spaces' causality lives in CausalScaffold.Static: staticCausality X over any GeodesicSpace X (relations by Lipschitz graphs in each open set); Minkowski = staticCausality (EuclideanSpace ℝ (Fin n)). The cone E_alpha should prove its local facts by charts to it or reuse StaticCurve/LipOn.",
+  "Past from future without a dual causality: a time flip (t,x) ↦ (−t,x) as a preimage of open sets (flipT, staticLt_flip_iff) gives isOpen_lt_left and the second push-up from the first.",
+  "Push-up by re-timing: speed the chronological part up, slow the causal part down, and keep the graph inside a thickening of the compact graph (IsCompact.exists_thickening_subset_open + mem_thickening_iff).",
+  "An inextensible curve over ℝ has no limit at either end under the hypotheses of extensible_of_tendsto (Causality.Inextensible.not_tendsto_atBot/atTop, by c ∘ log over ]0,∞[); a curve along which a ≤-monotone function is unbounded both ways is inextensible (inextensible_of_unbounded).",
+  "EuclideanSpace's MeasurableSpace instance needs import Mathlib.Analysis.Normed.Lp.MeasurableSpace; a causality on EuclideanSpace must be a noncomputable abbrev."
+ ],
+ "notes": "Static.lean and Minkowski.lean are sorry-free and pass lake env lean -DwarningAsError=true; #print axioms of the main theorems shows only propext, Classical.choice, Quot.sound. MinkowskiMeasure.lean carries the one tagged sorry (minkowski_exists_measure) and imports Mathlib.Analysis.Normed.Lp.MeasurableSpace. The three files are not yet imported by scaffold/CausalScaffold.lean (not mine to edit): add import CausalScaffold.Static, CausalScaffold.Minkowski, CausalScaffold.MinkowskiMeasure so the axiom sweep sees them (kb/0015 item 3). No ** mark anywhere: every label is an instance (Minkowski / static), as dispatched. Status 'witness' (theo:geroch, def:maximal_chain): these rows carry findings only, decls empty, their Lean names in findings; merge them as findings into WP-7's and Causal/Chains.lean's rows, never as row content. prop:mesure_dieckmann_Lorentz: record as stated on the Minkowski instance only. To move at graduation (general lemmas, not about static spacetimes; left in Static.lean, names unchanged): Causal.Causality.Inextensible.not_tendsto_atBot, Causal.Causality.Inextensible.not_tendsto_atTop, Causal.Causality.inextensible_of_unbounded -> Causal/Inextensible.lean or Causal/Cauchy.lean. Post-audit fixes (audit items 4-7): the chronological-curve question is withdrawn and its equivalence argument recorded (finding + Static.lean SCOPE); the lem:IJ_calc finding is a missing citation; the prop:mesure_dieckmann_Lorentz finding is softened to 'cite the Lipschitz-achronal-boundary theorem'; theo:geroch and def:maximal_chain are witnesses. Items 1-3 (CausalScaffold.lean import, moving the general lemmas, Causal/Geroch.lean:70 and Causal/Chains.lean:55 prose) are the master session's."
+}
