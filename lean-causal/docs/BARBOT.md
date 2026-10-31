@@ -7,7 +7,7 @@ work packages WP-29 … WP-34. Read `docs/CAMPAIGN.md` (the protocol) and `kb/IN
 
 | what | where |
 |---|---|
-| the paper, labelled, read-only | `papers/barbot/legacy/labeled/GHFspace.tex` (line numbers below are this file's; the original is `legacy/orig/`) |
+| the paper, labelled, read-only | `papers/barbot/legacy/labeled/GHFspace.tex`. **Line numbers in this file are those of `legacy/orig/GHFspace.tex`**; the labelled copy runs 3–45 lines later (each inserted `\label` is one line) |
 | the PDF | `papers/gx/sources/math_0402257/math_0402257.pdf` |
 | the ledger | `papers/barbot/ledger/LEDGER.md` — 44 statements, 5 terminal |
 | the Lean | `Causal/Flat/*` (strict, namespace `Causal.Flat`), `scaffold/CausalScaffold/Flat/*` (scaffold) |
@@ -129,6 +129,17 @@ Classes: **T** causal / order-topological / affine in Minkowski space; **D** met
   - **Gap:** Theorem B's "standard spacetime" identification is asserted in a parenthesis.
 - `bthm:cmc` 12.1 — terminal.
 
+## Findings of the statement design (2026-10-31, `docs/BARBOT-THEOREMS.md`)
+
+- **F1** — [11.i] "Misner spacetimes are absolutely maximal" is false when `Γ` has no loxodromic
+  element (Γ trivial: the wedge `{t > |x₁|}` sits non-surjectively in 𝐌ⁿ); the proof assumes one.
+  The Misner family carries "∃ γ ∈ Γ with nonzero boost parameter".
+- **F2** — [10.G] never treats torsion in `L(Γ)`; a candidate counterexample (infinitely generated
+  `π₁`) to the literal "Cauchy-hyperbolic × torus" family is in `BARBOT-THEOREMS.md` §5 G5, to be checked.
+- Rem 2.3 is false as written (slab `Γ\{0<t<1}` in a translation spacetime); the corrected form needs
+  **lemma K** (a closed connected spacelike hypersurface of a GH spacetime is Cauchy), which gx needs
+  too.
+
 ## The spine
 
 1. **Theorem A.**
@@ -155,6 +166,27 @@ achronal `Σ` such that:
 
 Lemma 8.6 needs Σ strictly achronal. The bridge (paper ⇒ (CC′)) is wave 3. The models satisfy (CC′)
 through explicit slices (§3) and the cosmological time (wave 4).
+
+## The contract with gx (agreed 2026-10-31, binding)
+
+gx's Section 4 (WP-28) imports `Causal.Flat.*` and redefines none of Minkowski space, `isom d` or
+the flat causality; its BTZ models extend them. Therefore:
+
+- `isom d`'s `MulAction` and `ContinuousConstSMul` stay **instances** (gx's analytic-action class is
+  stated over them). Names in `Form`, `IsomCausal`, `Achronal`, `Penrose` are an API once graduated:
+  rename only with a message to the gx session.
+- **The induced length** (`LipschitzGraph` / `CauchyComplete`, DEC-35) must provide:
+  (a) chart-local — the length structure of an achronal 1-Lipschitz hypersurface `Σ` of an **open**
+  `V ⊆ Minkowski d`, as a length of curves in `Σ ∩ V`;
+  (b) `isom`-invariance — `φ ∈ isom d` maps `Σ` to `φ(Σ)` and preserves lengths;
+  (c) locality — the length of a curve depends only on `Σ` near the curve, agreeing on overlaps;
+  (d) **the specialisation theorem** — for a piecewise-smooth spacelike `Σ`, the induced length is
+  the classical one (DEC-31, the author's ruling for gx, holds through it);
+  (e) wanted — `lengthOn Σ V : C(I, Σ ∩ V) → ℝ≥0∞` and the induced `PseudoEMetricSpace` on `Σ ∩ V`,
+  so that Cauchy-complete is `CompleteSpace` of the glued metric.
+- `lean-causal` never imports `lean-gx` (gx imports `Causal`, DEC-33): the universal cover and the
+  developing theorem are ported from `GX.Topology.UniversalCover` / `GX.Structure.Developing` once
+  they graduate, with the origin cited.
 
 ## Waves
 
