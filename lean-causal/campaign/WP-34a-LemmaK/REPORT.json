@@ -1,0 +1,127 @@
+{
+  "package": "WP-34a-LemmaK",
+  "files": [
+    "scaffold/CausalScaffold/CompactCauchy.lean"
+  ],
+  "builds": true,
+  "sorry_count": 1,
+  "labels": [
+    {
+      "label": "DEC-44 Lemma K (Barbot Rem 2.3 `clomax` and §11, prose; no b-label)",
+      "tex_lines": [
+        569,
+        576
+      ],
+      "tex_lines_note": "GHFspace.tex original numbering: Rem 2.3 l.569-576, §11 l.3494-3497 and l.3535-3538; in legacy/labeled: Rem 2.3 block 571-579 (\\label{clomax} at 572, quoted sentence 576-578), §11 3537-3540 and 3578-3581",
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.isCauchySurface_of_isLocallyCauchyTwoSided",
+        "Causal.Causality.IsLocallyCauchy",
+        "Causal.Causality.IsLocallyCauchyTwoSided",
+        "Causal.Causality.isCauchySurface_of_isLocallyCauchy"
+      ],
+      "hypotheses": [
+        {
+          "paper": "C a causality on M",
+          "here": "carried",
+          "note": ""
+        },
+        {
+          "paper": "M connected",
+          "here": "carried",
+          "note": "[ConnectedSpace M]; used only to make S0 (the base of the splitting) connected"
+        },
+        {
+          "paper": "separation / countability",
+          "here": "weakened",
+          "note": "[T2Space M] only; no countability (kb/0007): compactness arguments by finite subcovers, cluster points of filters and the clopen-set form of connectedness"
+        },
+        {
+          "paper": "C.GloballyHyperbolic",
+          "here": "carried",
+          "note": ""
+        },
+        {
+          "paper": "Σ compact, connected",
+          "here": "carried",
+          "note": "IsCompact S, IsConnected S"
+        },
+        {
+          "paper": "locally Cauchy (DEC-44)",
+          "here": "strengthened",
+          "note": "IsLocallyCauchyTwoSided: each chart U (open, CausallyConvexIn U ⊤, IsCauchySurfaceOn U (S ∩ U)) also has IsOpen (C.Jplus U (S ∩ U) \\ S) and IsOpen (C.Jminus U (S ∩ U) \\ S)"
+        },
+        {
+          "paper": "-",
+          "here": "strengthened",
+          "note": "added C.Tarentin, C.CausallyArcConnected, ∀ p, C.Jminus ⊤ {p} ≠ {p}, ∀ p, C.Jplus ⊤ {p} ≠ {p} (the hypotheses of theo:geroch; used for Inextensible.reparam and extensible_of_forall_ge); for gx: Tarentin and CausallyArcConnected are fields of SingularFlatAxioms (tarentin, causallyArcConnected; T2 is its t2 field), and J^-(p) ≠ {p} at BTZ points by singularPastAt (the past half-line)"
+        },
+        {
+          "paper": "-",
+          "here": "strengthened",
+          "note": "named (kb/0012): C.CurvesExtend (Causal/CauchyExtension.lean:82)"
+        },
+        {
+          "paper": "-",
+          "here": "strengthened",
+          "note": "named (kb/0012): a global splitting ψ : S₀ × ℝ ≃ₜ M with C.IsCauchySplitting S₀ ψ (Causal/CauchyDiamond.lean:72): only 's ≤ t → ψ(x,s) ≤ ψ(x,t)' is used, NOT chronality, and the field ψ(x,0) = x is unused; S₀ need not be Cauchy"
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "Causal.Causality.isCauchySurface_of_isLocallyCauchy",
+          "obstruction": "the bare DEC-44 form (locally Cauchy only), stated as gx's target and open in ETT generality, possibly false: (1) no global projection: without a splitting or covering map of M there is nothing to compare Σ with (Brunswic's covering step uses N ≃ Σ_N × ℝ); (2) no two-sidedness: in a chart U a point near Σ may be related to Σ ∩ U only through points of Σ outside U, so the box step's time window is uncontrolled, and excluding it needs global acausality of Σ, which is the conclusion. Proved under both data as isCauchySurface_of_isLocallyCauchyTwoSided. No declaration depends on it (sorryAx appears only in its own #print axioms)."
+        }
+      ],
+      "findings": [
+        "DEC-44's hypotheses as dispatched (locally Cauchy only) are not what this library can prove from: the proved form needs (a) a global splitting, to compare Σ with the lines (Brunswic's projection/covering step), and (b) two-sidedness in the charts, without which the time window of the box step is uncontrolled: a point of U near Σ may be related to Σ only through points of Σ outside U, which only the conclusion (global acausality) would exclude. Both are what 'spacelike hypersurface' (Barbot Rem 2.3, §11) means in the smooth setting, so this is not a defect of the paper.",
+        "Chronal splitting lines would be the cheap route to the box step and are impossible for gx: at a BTZ point I^-(p) = ∅ (SingularFlatAxioms.Iminus_eq_empty; lem:past_BTZ), so a splitting line through a BTZ point contains the BTZ half-line below it and is not chronal. The proof therefore uses only causally monotone lines (exactly IsCauchySplitting) and pays with two-sidedness, which holds at BTZ points (the line point above x is in the interior of J^+_U(Σ ∩ U)).",
+        "Brunswic arXiv 2108.12631, prop:cauchy_abs_max (BTZ_1.tex:1048-1074, the unnumbered 'propou' the dispatch calls Prop 2.16): the covering argument (projection is a local diffeomorphism, proper, a covering; the lowest-point section is continuous) is rebuilt without covering theory: the set of points of Σ that are lowest on their line is shown open and closed in Σ (exists_graph); the intersection-number step ('inextendible causal curves are all homotopic ... intersection number 1') is replaced by the sign of F = τ − h∘π and the intermediate value theorem; O'Neill's Lemma 14.45 (achronality from π₁-surjectivity) is replaced by the local sign structure at each crossing (isAcausal_of_graph). Brunswic's continuity step argues with sequences; none is needed.",
+        "Barbot's 'any spacelike hypersurface in a given CGH spacetime is a Cauchy hypersurface' (Rem 2.3) still needs 'closed' and 'connected' (the slab counterexample lives in a Flat file; a disjoint union of two Cauchy slices is a compact disconnected locally Cauchy set met twice by every inextensible curve)."
+      ],
+      "questions": [
+        "Is two-sidedness (IsOpen (C.Jplus U (S ∩ U) \\ S) and IsOpen (C.Jminus U (S ∩ U) \\ S) in each chart) an acceptable reading of 'locally Cauchy' / 'spacelike' for DEC-44? gx must discharge it in its singular charts; for U = M it follows from a splitting along S (IsCauchySurface.isLocallyCauchyTwoSided_of_splitting).",
+        "Is a GLOBAL splitting of M (IsCauchySplitting S₀ ψ, DEC-32) the data gx will supply near BTZ lines? The lemma needs one splitting of the whole spacetime, with causally monotone lines; S₀ need not be Cauchy and ψ(x,0) = x is not used."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.IsLocallyCauchyTwoSided.isLocallyCauchy",
+    "Causal.Causality.causallyConvexIn_top",
+    "Causal.Causality.IsCauchySurface.isLocallyCauchy",
+    "Causal.Causality.IsCauchySurface.isLocallyCauchyTwoSided",
+    "Causal.Causality.reverseSplitting",
+    "Causal.Causality.reverseSplitting_apply",
+    "Causal.Causality.IsCauchySplitting.dual",
+    "Causal.Causality.IsCauchySplitting.isOpen_Jplus_diff",
+    "Causal.Causality.IsCauchySurface.isLocallyCauchyTwoSided_of_splitting",
+    "Causal.Causality.le_of_mem_causallyConvexIn",
+    "Causal.Causality.eq_of_le_of_isCauchySurfaceOn",
+    "Causal.Causality.mem_Jplus_or_Jminus_of_isCauchySurfaceOn",
+    "Causal.Causality.mem_of_mem_Jplus_of_mem_Jminus",
+    "Causal.Causality.exists_box",
+    "Causal.Causality.exists_box_of_twoSided",
+    "Causal.Causality.exists_graph",
+    "Causal.Causality.exists_sign_nhds",
+    "Causal.Causality.isAcausal_of_graph",
+    "Causal.Causality.exists_not_mem_Jminus_of_isCompact",
+    "Causal.Causality.exists_not_mem_Jplus_of_isCompact",
+    "Causal.timelikeLine_isLocallyCauchyTwoSided_zero",
+    "Causal.timelikeLine_lemmaK_hypotheses",
+    "Causal.timelikeLine_isCauchySurface_zero_of_lemmaK",
+    "Causal.timelikeLine_strongMorphism_neg_add",
+    "Causal.timelikeLine_isCauchySurface_singleton",
+    "Causal.timelikeLine_isLocallyCauchyTwoSided_singleton",
+    "Causal.timelikeLine_lemmaK_hypotheses_one",
+    "Causal.timelikeLine_isCauchySurface_one_of_lemmaK"
+  ],
+  "kb_proposals": [
+    "kb/0016 addendum: inside namespace Causality, `isClosed_le` is Causality.isClosed_le (prop:relation_fermee); the order-topology lemma is `_root_.isClosed_le`.",
+    "kb/0004 addendum at this pin: `push_neg` is deprecated (use `push Not`), `Set.diff_eq` -> `Set.sdiff_eq`, `Set.Iic_diff_right` -> `Set.Iic_sdiff_right` (and `Ici_sdiff_left`).",
+    "Pattern: in a causally arc-connected spacetime, inside a causally convex open U the relation ≤_U is ≤_⊤ restricted (le_of_causallyConvexIn with V = U), and a ⊤-monotone segment between two points of U stays in U: no curve has to be checked to stay in U.",
+    "Pattern: a covering-space argument over a splitting (projection of a compact Σ is a covering, the lowest-point section is continuous) becomes: the set of lowest points is open and closed in Σ, then isPreconnected_iff_subset_of_disjoint with u, v the unions of the witnessing open sets.",
+    "Pattern: 'an inextensible curve leaves J^-(K), K compact' needs no time function: cover K by finitely many open diamonds (tarentin), the tail lies in finitely many compact diamonds, its cluster point bounds the curve above (J^+(c s) closed), and extensible_of_forall_ge applies (exists_not_mem_Jminus_of_isCompact)."
+  ],
+  "notes": "Zero errors; one warning, `declaration uses sorry`, on the tagged DEC-44 target isCauchySurface_of_isLocallyCauchy (sorry_count 1). `#print axioms` of the main theorem isCauchySurface_of_isLocallyCauchyTwoSided and of both timelike-line applications: propext, Classical.choice, Quot.sound; sorryAx only in the DEC-44 target, which nothing uses. Imports only Causal.CauchyDiamond (strict library); no Flat, no Minkowski. Built with `taskset -c 0-11 lake env lean` only. FIXER pass (2026-10-31), applying the audit: (1) the bare DEC-44 form is now stated with a tagged sorry, as the dispatch asked, so gx has a declaration to point at; it carries the ETT regularity hypotheses of the proved form (T2, Tarentin, CausallyArcConnected, J^±(p) ≠ {p}), all dischargeable by gx, and drops only the two named data; the author's concern that a possibly-false sorry misleads is answered in its docstring (OPEN, nothing may depend on it) and in the tag. (2) labelled-file line numbers corrected (Rem 2.3 571-579, §11 3537-3540). (3) The module is NOT imported by scaffold/CausalScaffold.lean: that file is outside this package's write scope, so registration (and AxiomSweep coverage) is left to the master session, which should add `import CausalScaffold.CompactCauchy`. (4) gx contract (a)-(f): N/A, this module defines no length or metric; it touches only the Cauchy-surface API gx imports (stated in SCOPE). (5) A non-degenerate witness added: Σ = {1} over the splitting along S₀ = {0} (timelikeLine_lemmaK_hypotheses_one), with {1} Cauchy via the Cauchy time function p ↦ p - 1 (timelikeLine_isCauchySurface_singleton); the chart is still U = M, a chart U ≠ M would need IsCauchySurfaceOn on an interval and was not added. (6) The provenance of the added hypotheses for gx is given in the checklist and here. The design doc BARBOT-WAVE3.md has no section for this package; nothing in it was followed or contradicted."
+}

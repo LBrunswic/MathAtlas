@@ -1,0 +1,145 @@
+{
+  "package": "WP-32c-InducedLength",
+  "files": [
+    "scaffold/CausalScaffold/Flat/InducedLength.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "[8.L] Lipschitz spacelike hypersurfaces and their (non-riemannian) length metric (prose, no environment)",
+      "tex_lines": [
+        2307,
+        2319
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.graphOver",
+        "Causal.Flat.IsLipschitzHypersurfaceIn",
+        "Causal.Flat.IsSpacelikeLipschitzIn",
+        "Causal.Flat.lorentzLength",
+        "Causal.Flat.curveExtend",
+        "Causal.Flat.IsLipschitzCurve",
+        "Causal.Flat.lengthOn",
+        "Causal.Flat.InducedLength",
+        "Causal.Flat.InducedLength.toSubtype",
+        "Causal.Flat.InducedLength.edist_def",
+        "Causal.Flat.instPseudoEMetricSpaceInducedLength",
+        "Causal.Flat.lengthOn_eq_integral",
+        "Causal.Flat.lengthOn_eq_integral_of_isPiecewiseC1On",
+        "Causal.Flat.IsSpacelikeLipschitzIn.isHomeomorph_toSubtype",
+        "Causal.Flat.IsSpacelikeLipschitzIn.eq_of_edist_eq_zero",
+        "Causal.Flat.nullGraph_edist_eq_zero",
+        "Causal.Flat.not_continuous_toSubtype_nullGraph",
+        "Causal.Flat.InducedLength.edist_le_iInf_piecewiseC1"
+      ],
+      "hypotheses": [
+        {
+          "paper": "c a C^1 curve in R^{n-1}; length of phi o c",
+          "here": "weakened",
+          "note": "every Lipschitz curve of S ∩ V (lengthOn); for Lipschitz, C^1 and piecewise C^1 curves the length is the classical integral of sqrt(minkQ gamma') (lengthOn_eq_integral, lengthOn_eq_integral_of_isPiecewiseC1On)"
+        },
+        {
+          "paper": "integrand sqrt(1 - phi'(c(t))^2) ||c'(t)||",
+          "here": "carried",
+          "note": "carried in corrected form (W2 finding): sqrt(minkQ gamma'), gamma = (phi o c, c) in a frame; equal to Barbot's only for n-1 = 1. File checklist tag now \"✓ carried (corrected form, W2 finding)\", matching."
+        },
+        {
+          "paper": "(local) graphs of contracting maps",
+          "here": "carried",
+          "note": "IsSpacelikeLipschitzIn: near each point, in a frame g ∈ isom d, a c-Lipschitz graph with c < 1 depending on the point (contract item (f)); IsLipschitzHypersurfaceIn: 1-Lipschitz, plus achronality for ≪_V (a reading; file tag \"✓ carried (in a reading)\")"
+        },
+        {
+          "paper": "'this low regularity is sufficient to define a length metric'",
+          "here": "carried",
+          "note": "proved for IsSpacelikeLipschitzIn: a genuine metric whose topology is the subspace topology; refuted for merely 1-Lipschitz achronal graphs (null graph)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "W2 confirmed (labelled l.2318-2319, orig l.2289-2290): the integrand sqrt(1 - phi'(c(t))^2)||c'(t)|| is correct only for n - 1 = 1; in general it is sqrt(||c'||^2 - (dphi_{c(t)} c'(t))^2) = sqrt(minkQ((phi o c)', c')), and phi'(c(t)) need not exist along c (c may run inside the null set where phi is not differentiable), while (phi o c)' exists a.e. in t. The formula used here is sqrt(minkQ gamma').",
+        "W3 confirmed, and cheaper in the achronal case (l.2315-2317): on the null graph {t = <e,x>} (||e|| = 1, any n >= 2) the induced pseudo-distance between (0,0) and (1,e) is 0, so 'length metric' is false for 1-Lipschitz graphs and the induced topology is not the subspace topology (not_continuous_toSubtype_nullGraph). For acausal (strictly contracting) graphs W3's f = ∫σ counterexample is recorded but not formalized.",
+        "Positive form of l.2315-2317: for locally uniformly spacelike Lipschitz hypersurfaces (c < 1 per point), the induced length is a genuine extended metric and its topology is the subspace topology (IsSpacelikeLipschitzIn.isHomeomorph_toSubtype), from the local comparison sqrt(1-c^2)||Δx|| <= d <= ||Δx||. The upper half holds for every achronal 1-Lipschitz hypersurface.",
+        "The restriction to Lipschitz curves (⊤ otherwise) is necessary: a non-absolutely-continuous reparametrisation (Cantor staircase) has derivative 0 a.e. and length 0 between distinct points; Barbot's restriction to C^1 curves c is a special case."
+      ],
+      "questions": [
+        "l.2308 'contracting map': strict (|Δphi| < |Δx|, acausal graph) or locally uniform (c < 1)? Reading taken: locally uniform, c depending on the point (W3 shows strict is not enough for the length to be a metric); the 1-Lipschitz predicate is also provided.",
+        "Should the induced distance be the infimum over Lipschitz curves (here) or over piecewise C^1 curves (classical, DEC-31)? For a piecewise-smooth spacelike Σ they agree, but only edist ≤ the classical inf is proved (InducedLength.edist_le_iInf_piecewiseC1); the ≥ direction (approximating Lipschitz paths of Σ by piecewise-C^1 paths of Σ with converging lengths) is not, and is now a SCOPE bullet in the docstring. gx's DEC-31 completeness argument must not rely on equality until it is proved."
+      ]
+    },
+    {
+      "label": "[2.4] Cauchy-complete GH spacetime (prose, no environment; DEC-35)",
+      "tex_lines": [
+        551,
+        557
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.InducedLength",
+        "Causal.Flat.instPseudoEMetricSpaceInducedLength",
+        "Causal.Flat.IsSpacelikeLipschitzIn.isHomeomorph_toSubtype"
+      ],
+      "hypotheses": [
+        {
+          "paper": "a Cauchy hypersurface where the ambient metric restricts as a complete riemannian metric",
+          "here": "weakened",
+          "note": "only the chart-local length space of a spacelike Lipschitz hypersurface of an open V ⊆ M^n (contract item (a)); gluing along the Cauchy surface and CompleteSpace are the consumer's (CauchyComplete.lean, gx) File checklist row added: \"⚠ weakened: chart-local length space only\"."
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.Flat.lorentzLength_add",
+    "Causal.Flat.lorentzLength_mono",
+    "Causal.Flat.lorentzLength_congr",
+    "Causal.Flat.lorentzLength_isom",
+    "Causal.Flat.lorentzLength_comp_affine",
+    "Causal.Flat.lorentzLength_comp_const_sub",
+    "Causal.Flat.lorentzLength_le_of_lipschitzWith",
+    "Causal.Flat.lorentzLength_eq_ofReal_integral",
+    "Causal.Flat.deriv_isom_comp",
+    "Causal.Flat.lengthOn_congr",
+    "Causal.Flat.lengthOn_refl",
+    "Causal.Flat.lengthOn_symm",
+    "Causal.Flat.lengthOn_trans",
+    "Causal.Flat.lengthOn_trans_le",
+    "Causal.Flat.lengthOn_curveSMul",
+    "Causal.Flat.InducedLength.edist_smulMap",
+    "Causal.Flat.InducedLength.edist_inclusion_le",
+    "Causal.Flat.InducedLength.edist_le_lengthOn",
+    "Causal.Flat.InducedLength.edist_le_frame",
+    "Causal.Flat.IsLipschitzHypersurfaceIn.smul",
+    "Causal.Flat.IsSpacelikeLipschitzIn.smul",
+    "Causal.Flat.IsSpacelikeLipschitzIn.toIsLipschitzHypersurfaceIn",
+    "Causal.Flat.IsLipschitzHypersurfaceIn.continuous_toSubtype_symm",
+    "Causal.Flat.IsSpacelikeLipschitzIn.continuous_toSubtype",
+    "Causal.Flat.isLipschitzHypersurfaceIn_graphOver",
+    "Causal.Flat.isSpacelikeLipschitzIn_graphOver",
+    "Causal.Flat.isLipschitzHypersurfaceIn_nullGraph",
+    "Causal.Flat.IsPiecewiseC1On",
+    "Causal.Flat.IsPiecewiseC1On.exists_lipschitzOnWith",
+    "Causal.Flat.isLipschitzCurve_of_lipschitzOnWith",
+    "Causal.Flat.le_lorentzLength_of_frame",
+    "Causal.Flat.norm_sub_le_integral_norm_deriv",
+    "Causal.Flat.abs_deriv_fst_le",
+    "Causal.Flat.le_sqrt_minkQ",
+    "Causal.Flat.sqrt_minkQ_le",
+    "Causal.Flat.isom_lipschitzWith",
+    "Causal.Flat.LipschitzOnWith.Icc_union_Icc",
+    "Causal.Flat.lipschitzWith_piecewise_le",
+    "Causal.Flat.coe_smulOpens"
+  ],
+  "kb_proposals": [
+    "Inside a file with `open scoped unitInterval`, `σ` is notation (unitInterval.symm): it cannot be a local name.",
+    "`Σ` is a Lean keyword (sigma types): hypersurfaces are `S` in Lean statements.",
+    "Vector-valued FTC for Lipschitz curves is not in mathlib at fabf563a; `norm_sub_le_integral_norm_deriv` (InducedLength.lean) gets ‖X b − X a‖ ≤ ∫‖X'‖ from the scalar `AbsolutelyContinuousOnInterval.integral_deriv_eq_sub` applied to ⟪X b − X a, X ·⟫.",
+    "Change of variables for set lintegrals on ℝ: `MeasureTheory.lintegral_image_eq_lintegral_abs_deriv_mul` with `image_affine_Icc'` / `image_const_sub_Icc`, after `setLIntegral_congr Ioc_ae_eq_Icc`; `deriv_comp_mul_left`, `deriv_comp_add_const`, `deriv_comp_const_sub` hold with no differentiability hypothesis.",
+    "`Path.extend_symm`, `Path.extend_trans_of_le_half`, `Path.extend_trans_of_half_le` give the reverse/concatenation of a path on all of ℝ; length additivity then reduces to `lorentzLength_congr` on Ioo and an affine change of variables."
+  ],
+  "notes": "Zero errors, zero warnings, zero sorry (checked with `taskset -c 0-11 lake env lean`; #print axioms of the main theorems: propext, Classical.choice, Quot.sound). Imports: CausalScaffold.Flat.Form, Causal.GXStructure (strict, for smulOpens/StrongMorphism/smul_rel_iff) and mathlib only; no other scaffold file. isom d's MulAction/ContinuousConstSMul instances untouched. DEVIATIONS from BARBOT-WAVE3 §1E: (1) Σ → S (keyword). (2) the frame graph is named `graphOver U f`; the design's inline set. (3) `IsLipschitzHypersurfaceIn.smul`/`IsSpacelikeLipschitzIn.smul` take `hG : ∀ g : isom d, StrongMorphism (minkowski d) (minkowski d) (g • ·)` — exactly `IsomCausal.isom_strongMorphism`, not importable in this wave; used only for the achronality field (≪_V transport via GXStructure.smul_rel_iff). At graduation, either discharge it at call sites or import IsomCausal and drop it. The target open set is `smulOpens g V` (= IsomCausal.isomImage g V by rfl). (4) lengthOn's Lipschitz condition is on `curveExtend γ` (IccExtend to ℝ), equivalent to Lipschitz on I. (5) edist is the infimum over mathlib `Path x y` in the subtype ↥(S ∩ V) (`InducedLength.lengthDist`, `edist_def`); `InducedLength.toSubtype` is the identity Equiv. (6) (d) is proved for every Lipschitz curve (`lengthOn_eq_integral (hγ : IsLipschitzCurve γ)`), and for piecewise C¹ via `IsPiecewiseC1On` ⇒ Lipschitz (`lengthOn_eq_integral_of_isPiecewiseC1On`) — design's single `lengthOn_eq_integral (hγ : piecewise C¹)` is split in two. (7) `tendsto_chordSum` not stated (optional in the dispatch; nothing reads it). (8) Added: `lengthOn_trans` (equality), `lengthOn_curveSMul`, `InducedLength.smulMap`/`edist_smulMap` (isom invariance of the metric, contract (b)), `InducedLength.inclusion`/`edist_inclusion_le` (contract (c), metric form), `eq_of_edist_eq_zero`, inhabitants `isLipschitzHypersurfaceIn_graphOver`/`isSpacelikeLipschitzIn_graphOver`, the counterexample `nullGraph` (renamed from nullHyperplane to leave that name to §3's U_g, which plans `nullHyperplane (fixedLine g)`). (9) (e) is `IsSpacelikeLipschitzIn.isHomeomorph_toSubtype` as designed, plus its two halves; the subspace→length half holds for every IsLipschitzHypersurfaceIn. Line numbers in tex_lines are of the LABELLED file (orig: l.2278–2290 and l.549–555). The design's W3 'pseudo-metric is complete but topology wrong' is now a theorem in its achronal form; the acausal W3 example stays a remark. FIXER PASS (2026-10-31, after the read-only audit; 0 blocking, 7 minor — all applied): (i) docstring SCOPE now discloses that DEC-31 is not proved at the metric level and only ≤ follows; the ≤ direction is a new theorem InducedLength.edist_le_iInf_piecewiseC1. (ii) checklist tags normalised to kb/0006 (✓ carried / ⚠ weakened), the isometries row tagged, a row added for the l.551–553 Cauchy-complete passage; REPORT hypotheses agree. (iii) SCOPE discloses that CausalScaffold.Flat.Achronal (graph f, isAchronal_graph_iff) was outside the dispatched imports, so graphOver univ f = graph f, nullGraph e = graph (inner e ·) and not_lt_top_of_graphOver re-derive it; at graduation import Achronal and restate. (iv) SCOPE states that hG on IsLipschitzHypersurfaceIn.smul / IsSpacelikeLipschitzIn.smul is dropped at graduation (import IsomCausal), so those signatures imported by gx WILL CHANGE — the gx session must be told. Not done now: IsomCausal is outside the dispatched imports. (v) label ids [8.L] and [2.4] now named (unmarked) in the first 4000 characters of the docstring. [8.L] and [2.4] are NOT registered in docs/BARBOT.md's label list (this fixer may write only the Lean file and REPORT.json); the master session should register them or remap them. (vi) extra imports (Causal.GXStructure + mathlib) listed in SCOPE. (vii) lengthOn docstring marks the rectifiable-reparametrisation remark as informal and unused downstream. Re-typechecked: `taskset -c 0-11 lake env lean` prints nothing; 0 sorry."
+}
