@@ -1,0 +1,120 @@
+{
+  "package": "WP-30a-IsomCausal",
+  "files": [
+    "scaffold/CausalScaffold/Flat/IsomCausal.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "[2.3] flat spacetime = (Isom(M^n), M^n)-manifold (prose, no environment)",
+      "tex_lines": [
+        484,
+        492
+      ],
+      "status": "closed",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.flat_existsUnique_causality",
+        "Causal.Flat.flatCausality",
+        "Causal.Flat.flatCausality_chartIso",
+        "Causal.Flat.flatCausality_chartIso_chartAt",
+        "Causal.Flat.flatCausality_absolutelyMinimal",
+        "Causal.Flat.eq_flatCausality",
+        "Causal.Flat.flatCausality_self",
+        "Causal.Flat.eq_flatCausality_of_covering_chart"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M a (G,X)-manifold, X = M^n, G = Isom(M^n)",
+          "here": "carried",
+          "note": "ChartedSpace (Minkowski d) M + HasGroupoid M (gxGroupoid (isom d) (Minkowski d)); charts of the maximal atlas (DEC-16)"
+        },
+        {
+          "paper": "M Hausdorff / second countable / connected (implicit for spacetimes)",
+          "here": "weakened",
+          "note": "not used"
+        },
+        {
+          "paper": "the causal structure of a flat spacetime (from the Lorentzian metric)",
+          "here": "carried",
+          "note": "modelling choice: ETT's causality via prop:GX_espace_temps_topo; not compared with the metric-defined causality of a general flat M (SCOPE); locally, on chart preimages of convex opens, it is the cone (le_iff_of_convex through ChartIso)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.490 writes $G = \\mbox{Isom}(M^{n})$ with a plain M where l.482 has the bold {\\bf M}^n: typo.",
+        "l.476: 'since here the consider' should read 'since here we consider'.",
+        "l.485-490 never states that isometries preserve the causal relations of OPEN SUBSETS (only implicit in 'locally modeled on the Minkowski space', l.486); in the ETT framework it is a theorem (le_iff_le_isomImage), proved here without pushing curves through boosts."
+      ],
+      "questions": []
+    },
+    {
+      "label": "[2.2] Isom(M^n) acts by causal automorphisms of M^n (implicit, l.471-482)",
+      "tex_lines": [
+        471,
+        482
+      ],
+      "status": "closed",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.le_iff_le_isomImage",
+        "Causal.Flat.lt_iff_lt_isomImage",
+        "Causal.Flat.isom_le_iff",
+        "Causal.Flat.isom_lt_iff",
+        "Causal.Flat.rel_iff_rel_isomImage",
+        "Causal.Flat.isom_strongMorphism",
+        "Causal.Flat.isom_weakMorphism",
+        "Causal.Flat.isom_localIsomorphism",
+        "Causal.Flat.isom_isEMorphism",
+        "Causal.Flat.Jplus_isomImage",
+        "Causal.Flat.Jminus_isomImage",
+        "Causal.Flat.Iplus_isomImage",
+        "Causal.Flat.Iminus_isomImage",
+        "Causal.Flat.isomTransport_eq"
+      ],
+      "hypotheses": [
+        {
+          "paper": "isometry: affine, linear part in SO0(1,n-1)",
+          "here": "carried",
+          "note": "isom d of Flat/Form.lean"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.imp_of_agree_on_basis",
+    "Causal.Causality.eq_of_agree_on_basis",
+    "Causal.Flat.isomImage",
+    "Causal.Flat.coe_isomImage",
+    "Causal.Flat.smul_mem_isomImage",
+    "Causal.Flat.mem_isomImage",
+    "Causal.Flat.isomImage_eq_smulOpens",
+    "Causal.Flat.isomImage_top",
+    "Causal.Flat.isomImage_one",
+    "Causal.Flat.isomImage_mul",
+    "Causal.Flat.isomImage_mono",
+    "Causal.Flat.isomImage_inf",
+    "Causal.Flat.isomImage_inv_isomImage",
+    "Causal.Flat.isomImage_eq_of_coe_eq_preimage",
+    "Causal.Flat.convex_isomImage",
+    "Causal.Flat.isomChart",
+    "Causal.Flat.isomChart_apply",
+    "Causal.Flat.isomChart_source",
+    "Causal.Flat.chartImage_isomChart",
+    "Causal.Flat.isomTransport",
+    "Causal.Flat.isomTransport_chartIso",
+    "Causal.Flat.isomTransport_absolutelyMinimalOn",
+    "Causal.Flat.isomTransport_le_iff_of_convex",
+    "Causal.Flat.isomTransport_lt_iff_of_convex",
+    "Causal.Flat.exists_convex_opens"
+  ],
+  "kb_proposals": [
+    "To show a causality equals a curve-defined one, do not transport curves: show both are absolutely minimal on every open set and agree on a basis (Causality.eq_of_agree_on_basis, Flat/IsomCausal.lean); for Minkowski, convex balls are the basis and le_iff_of_convex gives the agreement.",
+    "flatCausality d M (Flat/IsomCausal.lean) is THE causality of a flat spacetime; use flatCausality_chartIso / flatCausality_chartIso_chartAt / eq_flatCausality, never Classical.choose directly."
+  ],
+  "notes": "No ledger label certified (§2.2-2.3 are prose); no ** mark in the docstring. Two general lemmas (Causal.Causality.imp_of_agree_on_basis, eq_of_agree_on_basis) are not about Minkowski space and are candidates for Causal/GXStructure.lean or Causal/Generated.lean at graduation. isomImage g U is definitionally smulOpens g U (isomImage_eq_smulOpens, rfl), so GXStructure's smul_rel_iff applies to it. flatCausality takes d and M explicitly. Imports: CausalScaffold.Flat.Form, Causal.GXStructure, Causal.CauchyExtension. Typechecked with lake env lean: zero errors, zero warnings, axioms propext/Classical.choice/Quot.sound only. FIXER pass (2026-10-31): (1) the 'uniqueness ... strengthened' hypothesis row is dropped; uniqueness is not claimed by the paper (l.484-492), so it is extra content: unique among absolutely minimal causalities (SCOPE), and outright with a covering chart (new eq_flatCausality_of_covering_chart, from existsUnique_causality_GX_of_covering_chart). Status 'closed' is now consistent with the docstring checklist. (2) isomImage is now a noncomputable abbrev for smulOpens (GXStructure.lean:449); isomImage_eq_smulOpens stays as an rfl bridge, so graduation can keep one name; smul_rel_iff applies verbatim. (3) SCOPE gains a line: the metric-defined causality of a general flat Lorentzian manifold is not compared with flatCausality; only the local agreement on convex chart images is proved. The checklist row for the causal structure is no longer ticked as settled. (4) SCOPE notes that flatCausality_self uses the one-chart atlas of M^n and does not exercise a non-trivial maximal atlas; a quotient example (translation spacetimes) is wave 2's. Re-typechecked: zero errors, zero warnings, 0 sorry, axioms propext/Classical.choice/Quot.sound."
+}

@@ -1,0 +1,171 @@
+{
+  "package": "WP-30b-Achronal",
+  "files": [
+    "scaffold/CausalScaffold/Flat/Achronal.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "[8.G] the developed hypersurface is the graph of a contracting map, achronal and closed",
+      "tex_lines": [
+        2307,
+        2328
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.graph",
+        "Causal.Flat.isAchronal_graph_iff",
+        "Causal.Flat.isAcausal_graph_iff",
+        "Causal.Flat.isAchronal_iff_minkQ",
+        "Causal.Flat.isAcausal_iff_minkQ",
+        "Causal.Flat.isClosed_graph",
+        "Causal.Flat.exists_lipschitz_graph_of_isAchronal",
+        "Causal.Causality.IsAchronal"
+      ],
+      "hypotheses": [
+        {
+          "paper": "S~ is the developed image of a complete spacelike hypersurface (bprop:project)",
+          "here": "replaced",
+          "note": "the file proves the causal facts about entire graphs; that D(S~) IS such a graph is bprop:project's content (wave 3)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.2323-2326: 'achronal ... meaning that ... one cannot be contained in the past or future cone of the other, i.e. |x-y|^2>0' defines ACAUSALITY (strict), not achronality; both are proved: achronal graph <-> 1-Lipschitz, acausal graph <-> |f x - f y| < |x - y| for x != y (isAcausal_iff_minkQ is exactly |x-y|^2 > 0).",
+        "l.2308: 'contracting' is ambiguous (1-Lipschitz / strictly contracting / k-Lipschitz with k<1); only the last makes the graph Cauchy in M^n, the first two do not (hyperboloid)."
+      ],
+      "questions": [
+        "Which 'contracting' is meant at l.2308 and l.2311? The reading taken: both weak and strict are proved; the Cauchy criterion needs a uniform k < 1."
+      ]
+    },
+    {
+      "label": "bcor:quo",
+      "tex_lines": [
+        2263,
+        2270
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.existsUnique_mem_graph_line",
+        "Causal.Flat.eq_of_mem_line_of_isAchronal",
+        "Causal.Flat.exists_lipschitz_graph_iff",
+        "Causal.Flat.lt_top_line",
+        "Causal.Flat.exists_lipschitz_graph_of_isAchronal_of_exists"
+      ],
+      "hypotheses": [
+        {
+          "paper": "S~ developed by D o f~",
+          "here": "replaced",
+          "note": "only the clause 'intersects every timelike geodesic' is proved, for any entire 1-Lipschitz graph, and exactly once; the embedding/injectivity assertions are not attempted"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "(CC')(a) of docs/BARBOT.md is a theorem: S is an entire 1-Lipschitz graph iff S meets every future-timelike affine line exactly once (exists_lipschitz_graph_iff); achronality is then automatic."
+      ],
+      "questions": []
+    },
+    {
+      "label": "[Rem 2.2] S = Omega cap {Q = -1} is not a Cauchy hypersurface of M^n",
+      "tex_lines": [
+        538,
+        546
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.hyperboloid",
+        "Causal.Flat.graph_hyperboloid",
+        "Causal.Flat.isAcausal_graph_hyperboloid",
+        "Causal.Flat.isClosed_graph_hyperboloid",
+        "Causal.Flat.lipschitzWith_one_hyperboloid",
+        "Causal.Flat.not_isCauchySurface_graph_hyperboloid",
+        "Causal.Flat.not_lipschitz_hyperboloid",
+        "Causal.Flat.not_forall_isAcausal_graph_isCauchySurface",
+        "Causal.Flat.isCauchySurface_graph_hyperboloid_zero",
+        "Causal.Flat.graph_neg_hyperboloid",
+        "Causal.Flat.not_isCauchySurface_graph_neg_hyperboloid",
+        "Causal.Flat.connectedComponentIn_of_fst_pos",
+        "Causal.Flat.connectedComponentIn_of_fst_neg",
+        "Causal.Flat.not_isCauchySurface_connectedComponentIn_inter"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Omega a connected component of {Q < 0}",
+          "here": "carried",
+          "note": "both components: they are proved to be exactly the open future and past timelike cones (connectedComponentIn_of_fst_pos/_neg), and not_isCauchySurface_connectedComponentIn_inter covers every connectedComponentIn {Q<0} p, Q(p)<0"
+        },
+        {
+          "paper": "M^n, any n",
+          "here": "strengthened",
+          "note": "0 < d (Barbot's n >= 2) is needed: for n = 1 the hyperboloid is the point t = 1 of the line and IS a Cauchy surface (isCauchySurface_graph_hyperboloid_zero)"
+        },
+        {
+          "paper": "S is a Cauchy hypersurface for Omega",
+          "here": "not attempted",
+          "note": "needs IsCauchySurfaceOn Omega (curves inextensible in the open set Omega); this is why the label stays partial"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.544: 'S is not a Cauchy hypersurface in M^n' holds for n >= 2 only; for n = 1 S is a single point, a Cauchy surface of the line. Harmless (the paper works in n >= 2 throughout) but unstated.",
+        "Against nothing in the paper (Barbot says it himself): an entire, closed, acausal (strictly contracting) graph need not be Cauchy in M^n — the inextensible null line t -> (t, t e) misses the hyperboloid. So (CC')(a) of docs/BARBOT.md does not give Cauchy by itself; the criterion proved here needs k-Lipschitz with k < 1, and (CC')(b) or completeness must carry the rest."
+      ],
+      "questions": []
+    },
+    {
+      "label": "[3.U] Cauchy argument for S_f (by causal geodesics)",
+      "tex_lines": [
+        729,
+        741
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "decls": [],
+      "hypotheses": [
+        {
+          "paper": "S_f in the slab Omega, checked on nonspacelike geodesics",
+          "here": "not treated",
+          "note": "none of [3.U]'s own assertions (about S_f, Omega, IsCauchySurfaceOn Omega) is stated. The file only proves the M^n criterion isCauchySurface_graph (every k-Lipschitz entire graph, k<1, is a Cauchy surface over every inextensible causal curve, DEC-14), listed in extra_decls, which addresses the method gap of l.740"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.740: 'any nonspacelike geodesic intersects S_f: this is a criteria proving that S_f is indeed a Cauchy hypersurface' checks existence on geodesics only; uniqueness and non-geodesic causal curves are not argued. In M^n the gap closes for k-Lipschitz entire graphs, k<1, by t - f(x) being a Cauchy time function strictly increasing along <= (no boundedness of f needed). Strict contraction alone does not suffice: it does not imply that every null geodesic meets the graph (the hyperboloid is strictly contracting and the null line t -> (t, t e) misses it)."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.IsAchronal (general causality, namespace Causal.Causality, beside IsAcausal)",
+    "Causal.Causality.dual_isAchronal",
+    "Causal.Causality.IsAchronal.mono",
+    "Causal.Causality.IsAcausal.isAchronal",
+    "Causal.Causality.IsAcausal.isAchronal_of_causallyArcConnected",
+    "Causal.Flat.minkowski_not_lt_self",
+    "Causal.Flat.abs_sub_le_of_lipschitz",
+    "Causal.Flat.norm_snd_lt_fst",
+    "Causal.Flat.isFutureTimelike_vertical",
+    "Causal.Flat.graph_eq_preimage",
+    "Causal.Flat.isCauchyTimeFunction_graphTime (t - f(x) Cauchy for unbounded k-Lipschitz f, k<1; complements staticCausality.isCauchyTimeFunction_sub which needs f bounded)",
+    "Causal.Flat.isCauchySurface_graph (addresses [3.U]'s method gap; [3.U] proper not attempted)",
+    "Causal.Flat.isCauchyTimeFunction_graphTime (addresses [3.U]'s method gap; [3.U] proper not attempted)",
+    "Causal.Flat.graphTime_lt_of_le (addresses [3.U]'s method gap; [3.U] proper not attempted)",
+    "Causal.Flat.graphTime_le_of_le (addresses [3.U]'s method gap; [3.U] proper not attempted)",
+    "Causal.Flat.isCauchySurface_graph_zero (addresses [3.U]'s method gap; [3.U] proper not attempted)",
+    "Causal.Flat.minkowski_isAchronal_of_isAcausal (non-vacuity witness for IsAcausal.isAchronal_of_causallyArcConnected on minkowski d, kb/0011/0012)",
+    "Causal.Flat.exists_lipschitz_graph_of_isAchronal_of_exists (achronal + meets every vertical line at least once => 1-Lipschitz graph)",
+    "Causal.Flat.abs_lt_sqrt_one_add_sq",
+    "Causal.Flat.isFutureTimelike_iff_norm_lt",
+    "Causal.Flat.convex_isFutureTimelike",
+    "Causal.Flat.fst_pos_of_mem_connectedComponentIn"
+  ],
+  "kb_proposals": [
+    "A Cauchy surface of minkowski d from a time function: prove IsCauchyTimeFunction + strict monotonicity along <=, then IsCauchyTimeFunction.isCauchySurface (Geroch.lean) with minkowski_causallyArcConnected, minkowski_stronglyCausal, staticCausality.J(minus|plus)_ne_singleton; the interval/reparametrisation issue is already inside it.",
+    "A theorem named Foo.bar in namespace Causal.Flat is not reachable by dot notation on h : C.Foo (it looks for Causal.Causality.Foo.bar): name Flat lemmas about Causality predicates without the dotted prefix (kb/0010)."
+  ],
+  "notes": "Imports CausalScaffold.Flat.Form, Causal.CauchyExtension (for IsAcausal), Causal.Geroch. Typechecks with `taskset -c 0-11 lake env lean` (no output: zero errors, zero warnings), no sorry; axioms propext/Classical.choice/Quot.sound only. The general-causality section (IsAchronal and its dual/mono/acausal lemmas) lives in namespace Causal.Causality and is a candidate to graduate beside IsAcausal in Causal/CauchyExtension.lean. Causal.Flat.graph does not clash with Causal.Gluing.graph (Pushout.lean). Line numbers: docs/BARBOT.md cites Rem 2.2 at l.536 and [8.G] at l.2278; in papers/barbot/legacy/labeled/GHFspace.tex they are l.538-546 and l.2307-2328 (bcor:quo at l.2263-2270, [3.U]'s Cauchy argument l.729-741). FIXER pass (audit minors): checklist rewritten in kb/0006 vocabulary (Rem 2.2's 0<d marked strengthened; [8.G]/bcor:quo hypotheses marked replaced; [3.U] not treated); l.48 now says 'one reading of Barbot's contracting'; Rem 2.2 extended to BOTH connected components of {Q<0} (components identified as the two open timelike cones, lower sheet = graph of -sqrt(1+|x|^2), not Cauchy); [3.U] status moved to not-attempted with its decls moved to extra_decls; non-vacuity witness for isAchronal_of_causallyArcConnected added and used in lipschitzWith_one_hyperboloid; 'at least once' variant of exists_lipschitz_graph_of_isAchronal added; [3.U] finding reworded. All audit minors applied; none disputed."
+}

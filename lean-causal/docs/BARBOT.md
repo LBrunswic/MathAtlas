@@ -184,6 +184,10 @@ the flat causality; its BTZ models extend them. Therefore:
   the classical one (DEC-31, the author's ruling for gx, holds through it);
   (e) wanted — `lengthOn Σ V : C(I, Σ ∩ V) → ℝ≥0∞` and the induced `PseudoEMetricSpace` on `Σ ∩ V`,
   so that Cauchy-complete is `CompleteSpace` of the glued metric.
+  (f) **spacelikeness is point-local** — `IsSpacelikeLipschitzIn V Σ` asks, for EACH point of
+  `Σ ∩ V`, a neighbourhood on which `Σ` is a `c`-Lipschitz graph with `c < 1`, `c` depending on the
+  point; never one `c` uniform over `V` (near a BTZ line the slope tends to 1; gx completes the
+  regular part's metric). A uniform `c` is a blocking audit finding.
 - `lean-causal` never imports `lean-gx` (gx imports `Causal`, DEC-33): the universal cover and the
   developing theorem are ported from `GX.Topology.UniversalCover` / `GX.Structure.Developing` once
   they graduate, with the origin cited.

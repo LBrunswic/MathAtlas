@@ -1,0 +1,341 @@
+{
+  "package": "WP-30c-Penrose",
+  "files": [
+    "scaffold/CausalScaffold/Flat/Penrose.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bdef:omega_lambda",
+      "tex_lines": [
+        892,
+        911
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.omegaPlus",
+        "Causal.Flat.omegaMinus",
+        "Causal.Flat.convex_omegaPlus",
+        "Causal.Flat.convex_omegaMinus",
+        "Causal.Flat.Jplus_omegaPlus_subset",
+        "Causal.Flat.Jminus_omegaMinus_subset",
+        "Causal.Flat.add_smul_mem_omegaPlus",
+        "Causal.Flat.sub_smul_mem_omegaMinus",
+        "Causal.Flat.disjoint_omegaPlus_omegaMinus",
+        "Causal.Flat.not_futureRegular_ray"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Lambda nonempty (l.882)",
+          "here": "weakened",
+          "note": "used only for the disjointness of Omega^+ and Omega^-"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "The sentence closing Def 4.4 (l.901-902), 'If Lambda contains at least 2 elements, then Omega^pm(Lambda), if nonempty, is regular', is false under Def 4.5 for non-closed Lambda: Lambda = {u0} x ]0,inf[ has many elements and Omega^+ = {<v|p> <= 0}, nonempty and not open (not_futureRegular_ray). For closed Lambda it holds with any number of elements (Lemma 4.8). The number of elements is not the relevant condition; closedness is.",
+        "The observations l.907-911 (convex, future/past complete, Omega^+ and Omega^- disjoint) are all true; disjointness needs Lambda nonempty (l.882).",
+        "[4.J] normalisation slip, l.782-783 and l.785-789: on {N(v) = 1, |v| = 0} one has x0^2 = sum xi^2 = 1/2, so 'necessarily x0 = 1/2' should read x0 = 1/sqrt 2, and the induced metric is the round metric of the sphere of radius 1/sqrt 2, not of the unit sphere. The Lean parametrisation (nullVec u = (1,u), u on the unit sphere) is related to Barbot's by (u,s) -> (nullVec u/sqrt 2, s/sqrt 2); nothing downstream depends on the radius, and the conformal factor a(g,v) = 1/N(L(g)v) is the same in both normalisations."
+      ],
+      "questions": [
+        "l.909 'geodesically complete in the future' is read as J^+(Omega^+) subset Omega^+ and its ray form p + t v, v future causal, t >= 0; in Minkowski space these coincide."
+      ]
+    },
+    {
+      "label": "bdef:regular_domain",
+      "tex_lines": [
+        913,
+        919
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.Flat.FutureRegular",
+        "Causal.Flat.PastRegular",
+        "Causal.Flat.futureRegular_and_pastRegular_cone"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "Def 4.5 counts a singleton Lambda as regular (Omega^+ an open half-space), while l.1001-1003 and l.901 suggest regular domains come from Lambda 'not reduced to one point' (Bonsante's convention?). The Lean definition follows Def 4.5 literally; should a singleton be excluded?"
+      ]
+    },
+    {
+      "label": "blem:fermons",
+      "tex_lines": [
+        926,
+        945
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.Flat.interior_omegaPlus_subset",
+        "Causal.Flat.interior_omegaMinus_subset"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [
+        "Typo l.938: 'for some element (v,s) of Omega^+(cl Lambda)' should read 'of cl Lambda'."
+      ],
+      "questions": []
+    },
+    {
+      "label": "bcor:closeregular",
+      "tex_lines": [
+        950,
+        960
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.Flat.FutureRegular.closure_futureRegular",
+        "Causal.Flat.PastRegular.closure_pastRegular"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "blem:closecool",
+      "tex_lines": [
+        962,
+        984
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.Flat.isOpen_omegaPlus_of_isClosed",
+        "Causal.Flat.isOpen_omegaMinus_of_isClosed"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "blem:fermonsbis",
+      "tex_lines": [
+        986,
+        998
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.Flat.omegaPlus_closure_eq_interior",
+        "Causal.Flat.omegaPlus_closure_eq_interior_of_futureRegular",
+        "Causal.Flat.omegaMinus_closure_eq_interior"
+      ],
+      "hypotheses": [
+        {
+          "paper": "cl Lambda future regular",
+          "here": "weakened",
+          "note": "not used: Omega^+(cl Lambda) = Int Omega^+(Lambda) for every Lambda, since Omega^+(cl Lambda) is open by Lemma 4.8"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "The hypothesis 'with future regular closure' of Lemma 4.9 (l.989-990) is superfluous."
+      ],
+      "questions": []
+    },
+    {
+      "label": "bprop:regular_iff_bounded",
+      "tex_lines": [
+        1007,
+        1033
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.futureRegular_iff_exists_lt",
+        "Causal.Flat.pastRegular_iff_exists_gt",
+        "Causal.Flat.omegaPlus_nonempty_iff",
+        "Causal.Flat.omegaMinus_nonempty_iff",
+        "Causal.Flat.RegularIffBoundedAsPrinted",
+        "Causal.Flat.not_regularIffBoundedAsPrinted"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Lambda closed",
+          "here": "carried",
+          "note": "weakened for the nonemptiness half: Omega^+(Lambda) nonempty iff s bounded below, for every Lambda"
+        },
+        {
+          "paper": "compactness of S (l.1030)",
+          "here": "weakened",
+          "note": "Cauchy-Schwarz gives |<v|x>| <= |x0| + |x1| uniformly"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "SIGN ERROR confirmed. The statement (l.1011-1013) says future regular iff s < C (resp. past regular iff s > C); the proof (l.1017-1031) shows Lambda subset {s > C} implies Omega^+ nonempty and Omega^+ nonempty implies s bounded below. With P^+ = {<v|p> - s < 0} (l.887-890) the correct statement is: closed Lambda is future regular iff s is bounded BELOW, past regular iff bounded ABOVE (proved). The printed form is refuted for every d >= 1 (Barbot n >= 2) by Lambda = S x [0,inf[, closed, future regular (Omega^+ = open future cone of 0) and unbounded above."
+      ],
+      "questions": []
+    },
+    {
+      "label": "bcor:futetpast",
+      "tex_lines": [
+        1035,
+        1040
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.futureRegular_and_pastRegular_iff_isCompact",
+        "Causal.Flat.futureRegular_and_pastRegular_of_isCompact",
+        "Causal.Flat.futureRegular_pastRegular_not_isCompact"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Lambda closed (not printed; standing convention l.1001-1009)",
+          "here": "carried",
+          "note": "needed: the compact => regular direction holds without it"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Corollary 4.11 needs Lambda closed, which it does not print: Lambda = {u0} x ([0,1] minus {1/2}) is future and past regular (Omega^+ = P^+(u0,0), Omega^- = P^-(u0,1)) and not compact (futureRegular_pastRegular_not_isCompact). With Lambda closed it is proved. Unmarked only because the closedness is a reading of l.1001-1009; if the author rules that the convention covers 4.11, the row is closed as it stands."
+      ],
+      "questions": [
+        "Does the standing convention of l.1001-1004 ('regular convex domains ... associated to closed sets Lambda') cover Corollary 4.11? If yes, mark it."
+      ]
+    },
+    {
+      "label": "bprop:laoucapulse",
+      "tex_lines": [
+        854,
+        866
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.norm_lorentzSphere_sub_sq",
+        "Causal.Flat.dist_lorentzSphere_sq",
+        "Causal.Flat.IsExpandingAt",
+        "Causal.Flat.isExpandingAt_lorentzSphere",
+        "Causal.Flat.LaoucapulseMetricReading",
+        "Causal.Flat.Laoucapulse.boostIsom",
+        "Causal.Flat.not_laoucapulseMetricReading_two",
+        "Causal.Flat.Laoucapulse.boostFun",
+        "Causal.Flat.Laoucapulse.boostFun_boostFun",
+        "Causal.Flat.Laoucapulse.boostL",
+        "Causal.Flat.Laoucapulse.boostL_apply",
+        "Causal.Flat.Laoucapulse.coords3",
+        "Causal.Flat.Laoucapulse.boostL_mem",
+        "Causal.Flat.Laoucapulse.boostIsom_smul",
+        "Causal.Flat.Laoucapulse.lorentzScale_boost",
+        "Causal.Flat.Laoucapulse.isomPenrose_boost",
+        "Causal.Flat.Laoucapulse.laoBase",
+        "Causal.Flat.Laoucapulse.laoX",
+        "Causal.Flat.Laoucapulse.laoY",
+        "Causal.Flat.Laoucapulse.laoX_sq_add_laoY_sq",
+        "Causal.Flat.Laoucapulse.laoCurve",
+        "Causal.Flat.Laoucapulse.continuous_laoX",
+        "Causal.Flat.Laoucapulse.continuous_laoCurve",
+        "Causal.Flat.Laoucapulse.laoCurve_zero",
+        "Causal.Flat.Laoucapulse.laoS",
+        "Causal.Flat.Laoucapulse.laoCurve_coord_zero",
+        "Causal.Flat.Laoucapulse.dist_laoBase_laoCurve_sq",
+        "Causal.Flat.Laoucapulse.laoucapulse_ineq"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [
+        "'Expanding' is undefined, and the reading matters. g.(v,s) = ([L]v, a(g,v)s) with tau = 0; the s-component has v-derivative s * d_v a, so off s = 0 the differential is not conformal (it is the matrix [[a R, 0], [s grad a, a]]). In the metric reading (LaoucapulseMetricReading: expanding at x = some l > 1 with l*dist <= dist(f,f) near x) Prop 4.2 (l.859-865) is FALSE, and this is now proved in Lean for d = 2 (Barbot's n = 3): not_laoucapulseMetricReading_two. Counterexample: the boost Laoucapulse.boostIsom with cosh = 5/4, sinh = 3/4 in the (t, x) plane, u0 = (-3/5, 4/5) where a(g,u0) = 5/4 > 1 (so [L(g)] is expanding at u0), and the point (u0, 4) of J+ where g is not expanding: along the curve t -> (R_t u0, s(t)), R_t the rotation with tan(theta/2) = t, s(t) = 4 c(R_t u0)/c(u0), the two images have the same s-component and the image distance is at most the distance (squared: 6.25 t^2 against 36 t^2 as t -> 0). The Lean metric is the sup product of the chordal metric and |.|; the counterexample transfers (argument in SCOPE, not formalized) to Barbot's Riemannian product of the round metric and any euclidean metric on R. The statement holds for volume expansion (Jacobian a^d > 1 iff a > 1, d >= 2), which is the only reading the common-factor remark l.849-851 justifies."
+      ],
+      "questions": [
+        "Which meaning of 'expanding' does Prop 4.2 intend: volume expansion, or expansion of every tangent vector? Its use in the loxodromic case (blem:loxregular, §10) should say which is needed."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.Flat.PenroseSphere",
+    "Causal.Flat.nullVec",
+    "Causal.Flat.norm_penroseSphere",
+    "Causal.Flat.minkB_nullVec",
+    "Causal.Flat.minkQ_nullVec",
+    "Causal.Flat.isFutureCausal_nullVec",
+    "Causal.Flat.nullVec_ne_zero",
+    "Causal.Flat.isLinearMap_minkB",
+    "Causal.Flat.lorentz.minkB_apply",
+    "Causal.Flat.abs_minkB_nullVec_le",
+    "Causal.Flat.abs_minkB_nullVec_le_two_mul_norm",
+    "Causal.Flat.minkB_nullVec_le_of_le",
+    "Causal.Flat.continuous_minkB_nullVec",
+    "Causal.Flat.continuous_minkB_nullVec_param",
+    "Causal.Flat.lightHyperplane",
+    "Causal.Flat.halfPlus",
+    "Causal.Flat.halfMinus",
+    "Causal.Flat.mem_halfPlus",
+    "Causal.Flat.mem_halfMinus",
+    "Causal.Flat.IsLightlikeHyperplane",
+    "Causal.Flat.isLightlikeHyperplane_lightHyperplane",
+    "Causal.Flat.IsLightlikeHyperplane.exists_eq",
+    "Causal.Flat.lightHyperplane_injective",
+    "Causal.Flat.isOpen_halfPlus",
+    "Causal.Flat.isOpen_halfMinus",
+    "Causal.Flat.convex_halfPlus",
+    "Causal.Flat.convex_halfMinus",
+    "Causal.Flat.Jplus_halfPlus_subset",
+    "Causal.Flat.Jminus_halfMinus_subset",
+    "Causal.Flat.minkB_nullVec_sub_time",
+    "Causal.Flat.tendsto_sub_time",
+    "Causal.Flat.frontier_halfPlus",
+    "Causal.Flat.frontier_halfMinus",
+    "Causal.Flat.lorentzScale",
+    "Causal.Flat.lorentzScale_pos",
+    "Causal.Flat.norm_lorentz_nullVec_snd",
+    "Causal.Flat.lorentzSphere",
+    "Causal.Flat.nullVec_lorentzSphere",
+    "Causal.Flat.minkB_nullVec_lorentzSphere",
+    "Causal.Flat.minkB_nullVec_nullVec",
+    "Causal.Flat.isomPenrose",
+    "Causal.Flat.minkB_isomPenrose",
+    "Causal.Flat.isom_preimage_lightHyperplane",
+    "Causal.Flat.isom_preimage_halfPlus",
+    "Causal.Flat.isom_preimage_halfMinus",
+    "Causal.Flat.continuous_nullVec",
+    "Causal.Flat.continuous_lorentzScale",
+    "Causal.Flat.mem_omegaPlus",
+    "Causal.Flat.mem_omegaMinus",
+    "Causal.Flat.omegaPlus_anti",
+    "Causal.Flat.omegaMinus_anti",
+    "Causal.Flat.isFutureCausal_smul",
+    "Causal.Flat.negS",
+    "Causal.Flat.negS_apply",
+    "Causal.Flat.omegaMinus_eq_neg",
+    "Causal.Flat.minkB_nullVec_apex",
+    "Causal.Flat.sphereBase",
+    "Causal.Flat.omegaPlus_eq_halfPlus_of_least",
+    "Causal.Flat.omegaMinus_eq_halfMinus_of_greatest",
+    "Causal.Flat.isom_preimage_omegaPlus",
+    "Causal.Flat.isom_preimage_omegaMinus",
+    "Causal.Flat.le_top_of_mem_segment",
+    "Causal.Flat.le_of_le_top_of_segment_subset",
+    "Causal.Flat.diamond_eq_of_causallyConvexIn",
+    "Causal.Flat.globallyHyperbolicOn_of_causallyConvexIn",
+    "Causal.Flat.causallyConvexIn_of_Jplus_subset",
+    "Causal.Flat.causallyConvexIn_of_Jminus_subset",
+    "Causal.Flat.globallyHyperbolicOn_of_Jplus_subset",
+    "Causal.Flat.globallyHyperbolicOn_of_Jminus_subset",
+    "Causal.Flat.FutureRegular.opens",
+    "Causal.Flat.PastRegular.opens",
+    "Causal.Flat.FutureRegular.globallyHyperbolicOn",
+    "Causal.Flat.PastRegular.globallyHyperbolicOn",
+    "Causal.Flat.norm_sq_fin_two",
+    "Causal.Flat.minkQ_two",
+    "Causal.Flat.norm_eq_one_of_fin_two"
+  ],
+  "kb_proposals": [
+    "Past halves of statements about half-spaces of Minkowski space come cheaply from the point reflection p -> -p together with (u,s) -> (u,-s) (omegaMinus_eq_neg, Homeomorph.preimage_closure/interior); minkowski d has no dual identification with itself in the library, so C.dual does not apply here.",
+    "In Minkowski space ANY causally convex open set is globally hyperbolic on W (globallyHyperbolicOn_of_causallyConvexIn): le_W agrees with le_top on W because the straight segment of a causal pair stays in the diamond; convexity is not needed. Future- or past-complete open sets are the special case.",
+    "Inside `theorem Foo.closure`, the identifier `closure` resolves to the theorem itself: name such lemmas otherwise (FutureRegular.closure_futureRegular).",
+    "A concrete element of lorentz d (det = 1) is cheap: write the map by coordinates, conjugate by a hand-made LinearEquiv to Fin (d+1) -> R, then LinearMap.det_conj, LinearMap.det_toMatrix', Matrix.det_fin_three and one simp (Laoucapulse.boostL_mem in Flat/Penrose.lean).",
+    "To get <=_W from a causal pair whose segment lies in an open W, thicken the segment: IsCompact.exists_thickening_subset_open gives a convex open thickening inside W, Form.le_iff_of_convex applies to it, then le_mono (le_of_le_top_of_segment_subset); no curve needs to be built by hand."
+  ],
+  "notes": "Builds with `lake env lean` (also with -DwarningAsError=true): zero errors, zero warnings, zero sorry. Imports CausalScaffold.Flat.Form and Causal.CauchyExtension (for GloballyHyperbolicOn). FIXER pass (audit of 2026-10-31): (1) BLOCKING fixed: Causal.Flat.minkB_neg_right is now private; six generic minkB/minkQ lemmas (minkB_add_right, minkB_sub_right, minkB_neg_right, minkB_smul_right, minkB_smul_left, minkQ_add) are PRIVATE because CausalScaffold.Flat.Isometries declares the same names publicly, in other argument orders; the section docstring says six. A name scan of every public declaration of this file against all of Causal/ and scaffold/ finds no collision. The audit's preferred fix (import Isometries and reuse its lemmas) was not applied: Isometries has no built .olean in .lake (only Form is built) and the fixer may not run lake build; at graduation move one set into Form and drop the other. lorentz.minkB_apply duplicates Isometries' minkB_map_of_minkQ / minkB_map in content (different names, no collision). (2) the normalisation slip x0 = 1/sqrt 2 (l.782-783, l.785-789) is now a finding under bdef:omega_lambda and a sentence of the docstring's Parametrisation paragraph. (3) frontier_halfMinus added (l.885-886, both P^+ and P^- have P as boundary). (4) bprop:laoucapulse: the metric reading is now REFUTED in Lean for d = 2 (not_laoucapulseMetricReading_two, explicit boost; its helpers live in the sub-namespace Causal.Flat.Laoucapulse to keep names like boostL, laoX, coords3 out of Causal.Flat); the label stays partial and unmarked because 'expanding' is undefined in the paper and the volume reading is not formalized. (5) le_of_le_top_of_segment_subset no longer copies the body of Form.le_iff_of_convex: it derives it on a convex open thickening of the segment. (6) the bold 'conformal' docstring of norm_lorentzSphere_sub_sq is reworded to 'chordal-distance identity (implies conformality)'. Normalisation: nullVec u = (1,u) (time-normalised) instead of Barbot's N(v) = 1; the conformal factor a(g,v) = 1/N(L(g)v) is the same in both. Global hyperbolicity of regular domains (not a Barbot label) is proved in ETT's sense (GloballyHyperbolicOn) for every causally convex open subset of Minkowski space."
+}

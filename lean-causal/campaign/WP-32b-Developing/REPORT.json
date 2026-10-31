@@ -1,0 +1,78 @@
+{
+  "package": "WP-32b-Developing",
+  "files": [
+    "scaffold/CausalScaffold/Flat/Developing.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [],
+  "prose_items": [
+    {
+      "item": "[2.3] flat spacetimes are (Isom(M^n), M^n)-manifolds; existence of the developing map and the holonomy morphism",
+      "tex_lines": [
+        482,
+        492
+      ],
+      "also_cited": [
+        2190,
+        2201
+      ],
+      "status": "closed",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.isAnalyticAction_isom",
+        "Causal.Flat.analyticStructure_isom",
+        "Causal.Flat.flatCoverChartedSpace",
+        "Causal.Flat.hasGroupoid_flatCover",
+        "Causal.Flat.isGXMorphism_flatCover_proj",
+        "Causal.Flat.flat_developing_theorem",
+        "Causal.Flat.flat_developing_theorem_fundamentalGroup",
+        "Causal.Flat.flat_developing_unique",
+        "Causal.Flat.flat_developing_descends",
+        "Causal.Flat.flat_developing_minkowski"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M a flat spacetime = (Isom(M^n), M^n)-manifold",
+          "here": "carried",
+          "note": "[ChartedSpace (Minkowski d) M] [HasGroupoid M (gxGroupoid (isom d) (Minkowski d))] (DEC-16)"
+        },
+        {
+          "paper": "M connected, Hausdorff, second countable",
+          "here": "weakened",
+          "note": "not used for dev, hol, uniqueness; ConnectedSpace M only for flat_developing_descends"
+        },
+        {
+          "paper": "M time-oriented",
+          "here": "weakened",
+          "note": "not used; encoded in isom d (linear part in SO0(1,d))"
+        },
+        {
+          "paper": "the universal cover exists",
+          "here": "proved",
+          "note": "LocPathConnectedSpace M (ChartedSpace.locPathConnectedSpace) and SemilocallySimplyConnected M (new: semilocallySimplyConnected_of_chartedSpace, charts onto convex balls), so no hypothesis is added"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.486: the model group is typeset `Isom(M^n)` (plain M), elsewhere `Isom({\\bf M}^n)`; typographic only.",
+        "§2.3 needs no topological hypothesis on M beyond the (G,X)-atlas: local path-connectedness and semilocal simple connectedness follow from the model being a normed space, and dev/hol/uniqueness need neither connectedness nor Hausdorffness of M.",
+        "Wave 2 (Flat/Quotient): no HasGroupoid (U : Opens (Minkowski d)) (gxGroupoid (isom d) (Minkowski d)) instance is synthesized (gxGroupoid not shown ClosedUnderRestriction), so these theorems do not yet apply to an open Ω ⊆ M^n with its subspace atlas; recorded in SCOPE (c)."
+      ],
+      "questions": [
+        "The flat structure of the universal cover is a reducible def (flatCoverChartedSpace d M x0) used through `letI`, mirroring the port's coverChartedSpace; it is not a global instance. If gx/§8 prefer an instance on UniversalCover M x0, that is a one-line change for the master session to rule on (an instance would fire for every ChartedSpace (Minkowski d) M).",
+        "Schema: CAMPAIGN.md's REPORT shape has only `labels`; §2.3 is unlabelled prose, so this item is recorded under a `prose_items` key (same fields as a label entry, `item` in place of `label`) and `labels` is []. Master session: confirm this is the accepted shape for unlabelled Barbot items, or move it into `labels` under whatever key the ledger tooling expects."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.semilocallySimplyConnected_of_chartedSpace",
+    "Causal.Flat.locPathConnectedSpace_of_flat",
+    "Causal.Flat.semilocallySimplyConnected_of_flat"
+  ],
+  "kb_proposals": [
+    "ChartedSpace's model is an outParam: a lemma `[ChartedSpace (Minkowski d) M] : P M` whose conclusion does not mention d silently drops d and the instance from its signature (section variables); give d and the instance as explicit binders.",
+    "A space charted over a real normed space is SemilocallySimplyConnected (ported sense): Causal.semilocallySimplyConnected_of_chartedSpace — loop in chart⁻¹(ball), Convex.contractibleSpace on the ball subtype, Path.Homotopic.map by e.symm, then pathCast."
+  ],
+  "notes": "No ledger label (§2.3 is prose), so nothing is marked. The theorems are thin specialisations of Causal.developing_theorem / developing_theorem_fundamentalGroup / developing_unique / developing_descends (CausalScaffold.Port.Developing) to G = isom d, X = Minkowski d; the only new mathematics is the analytic action of isom d (faithful: AffineEquiv.ext; rigid: AffineEquiv.ext_on + IsOpen.affineSpan_eq_top) and semilocal simple connectedness of charted spaces over a normed space. Imports only CausalScaffold.Flat.Form, CausalScaffold.Port.Developing and mathlib. Typechecked with `lake env lean -DwarningAsError=true`: 0 errors, 0 warnings; #print axioms on the main theorems gives only propext, Classical.choice, Quot.sound. The module was not `lake build`-ed (dispatch rule); item 4 (quotients Γ\\Ω) left to wave 2 as instructed. Fixer pass (post-audit): added `example`s applying flat_developing_theorem, flat_developing_theorem_fundamentalGroup, flat_developing_unique and flat_developing_descends at M := Minkowski d (self chart, hasGroupoid_model_space), so non-vacuity is recorded in the file; SCOPE (c) now records the missing HasGroupoid instance on Opens (Minkowski d) for wave 2; SCOPE (d) discloses that Causal.semilocallySimplyConnected_of_chartedSpace is general (any real normed model) and sits here only because Port files are not this package's to edit — move it beside SemilocallySimplyConnected in CausalScaffold.Port.UniversalCover at graduation. Re-typechecked with `taskset -c 0-11 lake env lean` both plain and -DwarningAsError=true: 0 errors, 0 warnings, no sorry, no axiom."
+}
