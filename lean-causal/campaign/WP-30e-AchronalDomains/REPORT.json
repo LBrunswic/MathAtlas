@@ -1,0 +1,341 @@
+{
+  "package": "WP-30e-AchronalDomains",
+  "files": [
+    "scaffold/CausalScaffold/Flat/AchronalDomains.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "[7.0] the achronal domain Omega_g (prose, no environment)",
+      "tex_lines": [
+        2022,
+        2028
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.achronalDomain",
+        "Causal.Flat.achronalDomainPrinted",
+        "Causal.Flat.achronalDomainPrinted_eq_empty",
+        "Causal.Flat.mem_achronalDomain_iff",
+        "Causal.Flat.mem_achronalDomain_conj",
+        "Causal.Flat.mem_achronalDomain_isomConj",
+        "Causal.Flat.achronalDomain_eq_preimage_isomConj",
+        "Causal.Flat.isOpen_achronalDomain_of_isomConj",
+        "Causal.Flat.isOpen_achronalDomain_elliptic",
+        "Causal.Flat.isOpen_achronalDomain_parabolic",
+        "Causal.Flat.not_isOpen_achronalDomain_lox",
+        "Causal.Flat.IsAperiodic",
+        "Causal.Flat.isAperiodic_of_mem_achronalDomain",
+        "Causal.Flat.isOpen_achronalDomain_lox_iff"
+      ],
+      "hypotheses": [
+        {
+          "paper": "forall q in Z (q = 0 included)",
+          "here": "reading",
+          "note": "q != 0; the printed set is empty (achronalDomainPrinted_eq_empty)"
+        },
+        {
+          "paper": "'It is the open set' (l.2026)",
+          "here": "strengthened",
+          "note": "finding: decided per class -- open for every elliptic and every parabolic g; for loxodromic g in normal form, open iff tau = 0 and L(g) has finite order on the orthogonal of the null frame (isOpen_achronalDomain_lox_iff)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.2024: the printed definition quantifies over all q in Z, including q = 0 where |g^0 x - x|^2 = 0, so Omega_g is empty as written; the intended reading is q != 0 (achronalDomainPrinted_eq_empty).",
+        "l.2026: 'It is the open set' is false in general; decided per class: open for every elliptic g (isOpen_achronalDomain_elliptic) and every parabolic g (isOpen_achronalDomain_parabolic); for loxodromic g in normal form (L(g) tau = tau), Omega_g is open iff tau = 0 and L(g) has finite order on the orthogonal of the null frame (isOpen_achronalDomain_lox_iff). Normal-form tau != 0 means g has no fixed point (lox_exists_fixed_iff); then Omega_g = {xy <= 0} is not open (witness boostShift_not_isOpen, d >= 2). For tau = 0 it fails exactly when some w orthogonal to the frame is not L(g)-periodic (e.g. an irrational rotation part, d >= 3; witness not formalized); the open case is inhabited by a pure boost (boostIsom_isOpen). Omega_g is an intersection of infinitely many open sets, which is why openness can fail."
+      ],
+      "questions": [
+        "Omega_g is read with q != 0 (l.2024). Confirm."
+      ]
+    },
+    {
+      "label": "[7.E] elliptic case (prose)",
+      "tex_lines": [
+        2029,
+        2053
+      ],
+      "status": "closed",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.achronalDomain_elliptic_timelike",
+        "Causal.Flat.achronalDomain_elliptic_spacelike",
+        "Causal.Flat.achronalDomain_elliptic_lightlike",
+        "Causal.Flat.achronalDomain_elliptic_lightlike_eq_compl_ker",
+        "Causal.Flat.achronalDomain_elliptic_lightlike_of_pow_eq_one",
+        "Causal.Flat.exists_periodic_iff",
+        "Causal.Flat.minkQ_pow_smul_sub_of_fixed",
+        "Causal.Flat.minkQ_pow_sub_le",
+        "Causal.Flat.isOpen_achronalDomain_elliptic",
+        "Causal.Flat.achronalDomain_isomTrans_timeUnit",
+        "Causal.Flat.achronalDomain_isomTrans_spaceUnit",
+        "Causal.Flat.achronalDomain_isomTrans_null"
+      ],
+      "hypotheses": [
+        {
+          "paper": "g x = R x + tau, R a rotation fixing tau (l.2031)",
+          "here": "carried",
+          "note": "IsElliptic (L g) and L(g) tau = tau; the normal form is reachable by IsElliptic.exists_transConj_fixed"
+        },
+        {
+          "paper": "tau lightlike includes tau = 0 (l.2050-2051)",
+          "here": "carried",
+          "note": "minkQ tau = 0"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.2047-2049: confirmed; 'the R^n-fixed points' must read R^N for one N > 0 (not n the dimension): the periodic points are ker(L(g)^N - id), N = k! once ker(L(g)^{k!} - id) stabilises (exists_periodic_iff).",
+        "Survey caveat checked: it is the lightlike case of the paper's statement, not a defect: if L(g) has finite order every point is periodic and Omega_g is empty, tau != 0 null included (achronalDomain_elliptic_lightlike_of_pow_eq_one; witness achronalDomain_isomTrans_null).",
+        "l.2036: 'I which contains |(R^q - id)(x)|^2' should read '(R^q - id)(x)' (typo)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "[7.L] loxodromic case (prose)",
+      "tex_lines": [
+        2055,
+        2082
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.nullXY",
+        "Causal.Flat.nullV",
+        "Causal.Flat.minkQ_eq_nullXY_add",
+        "Causal.Flat.minkQ_pow_smul_sub_lox",
+        "Causal.Flat.mem_achronalDomain_lox_iff",
+        "Causal.Flat.achronalDomain_lox_of_ne_zero",
+        "Causal.Flat.achronalDomain_lox_of_eq_zero",
+        "Causal.Flat.interior_achronalDomain_lox",
+        "Causal.Flat.not_isOpen_achronalDomain_lox",
+        "Causal.Flat.achronalDomain_isLoxodromic",
+        "Causal.Flat.boostShift",
+        "Causal.Flat.boostShift_not_isOpen",
+        "Causal.Flat.exists_lox_dominates",
+        "Causal.Flat.lox_factor_neg",
+        "Causal.Flat.isOpen_achronalDomain_lox_iff",
+        "Causal.Flat.lox_exists_fixed_iff",
+        "Causal.Flat.boostIsom",
+        "Causal.Flat.boostIsom_isOpen"
+      ],
+      "hypotheses": [
+        {
+          "paper": "L(g)(x,y,v) = (lambda x, lambda^-1 y, R v), tau in R^{n-2} (l.2063-2070)",
+          "here": "weakened",
+          "note": "only null eigenvectors u, u' (eigenvalues lambda, lambda^-1, 0 < lambda != 1) of a minkQ-preserving L(g) with minkB u u' != 0, and L(g) tau = tau; tau in R^{n-2} follows, R is not assumed; achronalDomain_isLoxodromic supplies the frame from IsLoxodromic.frame"
+        },
+        {
+          "paper": "conclusion Omega_g = {xy < 0} (l.2081)",
+          "here": "strengthened",
+          "note": "finding: true of interior(Omega_g); Omega_g itself equals {xy < 0} iff tau = 0 and L(g) has finite order on the frame's orthogonal"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.2081 is inaccurate (DEC-27): the exact set is {xy < 0} union {xy = 0 and (tau != 0 or v not L(g)-periodic)} (mem_achronalDomain_lox_iff). For normal-form tau != 0 (equivalently: g has no fixed point, lox_exists_fixed_iff), Omega_g = {xy <= 0}, which is not open (achronalDomain_lox_of_ne_zero, not_isOpen_achronalDomain_lox); for tau = 0, Omega_g = {xy < 0} union {xy = 0, v not periodic} (achronalDomain_lox_of_eq_zero), and Omega_g = {xy < 0} (open) iff L(g) has finite order on the orthogonal of the frame (isOpen_achronalDomain_lox_iff). In every case interior(Omega_g) = {xy < 0} (interior_achronalDomain_lox), which is what the later use needs.",
+        "l.2068 and l.2075: the normalisations disagree: (lambda^q - 1)(lambda^-q - 1) = -4 sh^2(q log(lambda)/2), so lambda = e^{zeta/2} gives -4 sh^2(q zeta/4), and for the boost of rapidity zeta of l.1881-1887 lambda = e^zeta and the factor is -4 sh^2(q zeta/2), not -4 sh^2(q zeta). Harmless: only its sign and exponential growth are used (lox_factor_neg, exists_lox_dominates)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "[7.P] parabolic case (prose)",
+      "tex_lines": [
+        2084,
+        2163
+      ],
+      "status": "closed",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.ch2",
+        "Causal.Flat.ch3",
+        "Causal.Flat.pow_smul_parabolic",
+        "Causal.Flat.minkQ_pow_smul_sub_parabolic",
+        "Causal.Flat.achronalDomain_parabolic_linear",
+        "Causal.Flat.isOpen_achronalDomain_parabolic_linear",
+        "Causal.Flat.achronalDomain_parabolic_tangent",
+        "Causal.Flat.eventually_minkQ_neg_parabolic_transverse",
+        "Causal.Flat.achronalDomain_parabolic_transverse",
+        "Causal.Flat.isOpen_achronalDomain_parabolic",
+        "Causal.Flat.exists_quartic_neg",
+        "Causal.Flat.pOf_mem_nullPart_iff",
+        "Causal.Flat.minkQ_pOf_nonneg",
+        "Causal.Flat.minkQ_nonneg_of_mem_minkOrth_nullPart",
+        "Causal.Flat.achronalDomain_nullRotShift",
+        "Causal.Flat.stdNullRot_u_mem_nullPart",
+        "Causal.Flat.stdNullRot_hyps",
+        "Causal.Flat.nullRotIsom",
+        "Causal.Flat.achronalDomain_nullRotIsom",
+        "Causal.Flat.nullRotTime",
+        "Causal.Flat.achronalDomain_nullRotTime"
+      ],
+      "hypotheses": [
+        {
+          "paper": "tau fixed by R and in v1^perp (l.2092-2093)",
+          "here": "weakened",
+          "note": "R tau = tau only; tau orthogonal to v1 is never used"
+        },
+        {
+          "paper": "linear case tau = 0 (l.2109)",
+          "here": "carried",
+          "note": "trOf g = 0; reachable by IsLinearCase.exists_transConj_eq_zero"
+        },
+        {
+          "paper": "parabolic: R a non-trivial elliptic element (l.1974)",
+          "here": "weakened",
+          "note": "reading inherited from Flat/Isometries (IsParabolic): R = id is admitted, as Sec. 9's purely unipotent case (l.2865) needs; plus U != id (strengthened reading, also inherited)"
+        },
+        {
+          "paper": "non-vacuity",
+          "here": "carried",
+          "note": "witnesses with R = id: linear nullRotIsom (Omega = complement of J^perp), tangent nullRotShift (Omega = M^n), transverse nullRotTime (tau = t, <t+e_i|t> = -1, Omega = empty)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.2109-2163 confirmed in all three cases, including the leading coefficient (q-1)(5-q)/12 |p tau|^2 of T(q) in the transverse case; the tangent conclusion (l.2138) needs only R tau = tau, not tau orthogonal to v1."
+      ],
+      "questions": []
+    },
+    {
+      "label": "blem:paranongh",
+      "tex_lines": [
+        2173,
+        2209
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.CausallyRelated",
+        "Causal.Flat.Paranongh",
+        "Causal.Flat.ParanonghPts",
+        "Causal.Flat.paranongh_of_paranonghPts",
+        "Causal.Flat.paranongh_iff",
+        "Causal.Flat.paranonghPts_iff",
+        "Causal.Flat.paranongh_of_le_two",
+        "Causal.Flat.paranonghPts_of_le_two",
+        "Causal.Flat.not_paranongh",
+        "Causal.Flat.not_paranonghPts",
+        "Causal.Flat.IsParabolicNontrivR",
+        "Causal.Flat.ParanonghStrict",
+        "Causal.Flat.not_paranonghStrict",
+        "Causal.Flat.paranongh_transverse",
+        "Causal.Flat.paranongh_transverse_normal",
+        "Causal.Flat.paranongh_normal_of_not_mem",
+        "Causal.Flat.paranongh_linear",
+        "Causal.Flat.paranongh_linear_normal",
+        "Causal.Flat.paranongh_tangent",
+        "Causal.Flat.paranongh_tangent_normal",
+        "Causal.Flat.not_paranongh_tangent_normal",
+        "Causal.Flat.nullRotShift",
+        "Causal.Flat.nullRotShift_counterexample",
+        "Causal.Flat.nullRotShift_isTangentCase",
+        "Causal.Flat.nullRotShift_fixed",
+        "Causal.Flat.achronalDomain_nullRotShift",
+        "Causal.Flat.halfTurnShift",
+        "Causal.Flat.halfTurnShift_counterexample",
+        "Causal.Flat.finite_causallyRelated_zero_of_fixed_spacelike",
+        "Causal.Flat.visibility_isomConj",
+        "Causal.Flat.IsAperiodic",
+        "Causal.Flat.infinite_image_of_isAperiodic",
+        "Causal.Flat.isAperiodic_isomConj"
+      ],
+      "hypotheses": [
+        {
+          "paper": "g parabolic, x0 any point",
+          "here": "strengthened",
+          "note": "false as printed: for d >= 3 (n >= 4) with R = id parabolic (IsParabolic admits it; Sec. 9's purely unipotent case l.2865 needs it), and for d >= 5 (n >= 6) with R != id required (l.1974, not_paranonghStrict); true for d <= 2 (paranongh_iff, paranonghPts_iff); tangent case: true for x0 off an affine hyperplane c + J^perp, false at c (paranongh_tangent)"
+        },
+        {
+          "paper": "parabolic",
+          "here": "weakened",
+          "note": "R = id admitted (reading of Flat/Isometries); the strict reading IsParabolicNontrivR is also treated"
+        },
+        {
+          "paper": "'infinitely many g-iterates' (l.2177)",
+          "here": "strengthened",
+          "note": "reading: Paranongh counts exponents q, ParanonghPts counts distinct points g^q x; both are equivalent to d <= 2, and every positive result gives distinct points (IsAperiodic)"
+        },
+        {
+          "paper": "'in the future or in the past of x0'",
+          "here": "carried",
+          "note": "CausallyRelated x0 (g^q x) = (minkowski d).le top in either direction, via le_top_iff_minkQ"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Lemma 7.1 (l.2173-2180) is FALSE as printed. (i) With 'parabolic' admitting R = id (Flat/Isometries' IsParabolic, as Sec. 9's purely unipotent case l.2865 requires), it fails for n >= 4 (d >= 3): g = (unit translation along x_k) o (null rotation in the (t, x_i, x_j) plane) has R = id, is parabolic, in Barbot's tangent case, Omega_g = M^n, and for x0 = 0 every x has only finitely many iterates causally related to x0, since |g^q x|^2 = |x|^2 + 2q<x|tau> + q^2|tau|^2 (nullRotShift_counterexample, not_paranongh). (ii) With 'parabolic' read as in Sec. 6.2 (l.1974, R non-trivial), it fails for n >= 6 (d >= 5): compose the same element with the half-turn in a plane orthogonal to t, x_i, x_j, x_k (halfTurnShift_counterexample, not_paranonghStrict); for n = 4, 5 a dimension count (R fixes the 4-dimensional I + <v_n> + <tau>, det R = 1) rules the tangent case out and the lemma would hold (not formalized). In reading (i) it holds exactly for n <= 3 (paranongh_iff, paranonghPts_iff), where the tangent case does not occur (Rem 6.1). Strongest true form, in every dimension: transverse, every x0 with x = x0 (paranongh_transverse); linear, every x0 (paranongh_linear); tangent, every x0 off an affine hyperplane c + J^perp, failing at x0 = c (paranongh_tangent), all with infinitely many distinct iterates.",
+        "Proof, l.2187-2188: |g^q x - x0|^2 = |x|^2 + |x0|^2 - 2<g^q x|x0> uses |g^q x|^2 = |x|^2, false unless g is linear (tau = 0); the dropped term grows like q^2|tau|^2 in the tangent case and is exactly what defeats the lemma. l.2191: <g^q x|x0> = <g^q x0|x> is false (for linear g it is <x|g^{-q} x0>). In the transverse case the true leading term of |g^q x - x0|^2 is quartic, -q^4|p tau|^2/12, not the cubic of l.2193; the conclusion survives.",
+        "Proof, l.2207-2209 (linear case): an x with <p^2(x)|x0> > 0 exists only if x0 is not in J^perp (p^2 x lies in J); that choice is paranongh_normal_of_not_mem. For x0 in J^perp the statement still holds but needs another choice: x = t u with u an R-fixed timelike vector, |t| large and sign(t) = sign<x0|p u>, since |g^q x - x0|^2 = |x - x0|^2 - 2q<x0|p x> (paranongh_linear_normal). Both choices give a point off J^perp, hence in Omega_g, hence with pairwise distinct iterates.",
+        "Use in Sec. 9 (l.2776-2783): 'select the base point x0 in S~' must avoid the exceptional affine hyperplane parallel to J^perp in the tangent case; a spacelike hypersurface is not contained in a null hyperplane, so the choice is possible, but the claim 'x can be selected up to Delta_0' is tied to the printed proof and is not checked here."
+      ],
+      "questions": [
+        "Which corrected form of Lemma 7.1 should Sec. 9 rest on: (a) 'for every x0 off an affine hyperplane parallel to J^perp' (proved in all three cases, each transported to the whole class: paranongh_linear and paranongh_transverse for every x0, paranongh_tangent off c + J^perp), or (b) the printed statement restricted in dimension, which depends on the reading of 'parabolic': n <= 3 if R = id is admitted (as l.2865 needs), n <= 5 if R != id is required as at l.1974 (n >= 6 refuted and formalized; n = 4, 5 by a dimension count, not formalized)?",
+        "'Infinitely many g-iterates' (l.2177) is read in two ways: infinitely many exponents q (Paranongh) or infinitely many distinct points g^q x (ParanonghPts). They agree here (both iff d <= 2, and every positive construction has pairwise distinct iterates). Confirm that the points reading is the intended one.",
+        "'Causally related' is read as the ETT relation (minkowski d).le top in either direction (causal, not timelike). The printed proof aims at |g^q x - x0|^2 < 0; every positive result here gives a strict inequality for large q except the case x0 in J^perp of the linear case, where <= 0 is what is shown."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.Flat.linOf",
+    "Causal.Flat.trOf",
+    "Causal.Flat.smul_eq_lin_add",
+    "Causal.Flat.linEquiv_pow_succ_apply",
+    "Causal.Flat.minkQ_pow_apply",
+    "Causal.Flat.minkB_pow_apply",
+    "Causal.Flat.pow_apply_eq_self",
+    "Causal.Flat.minkB_pow_sub_fixed",
+    "Causal.Flat.minkQ_nonneg_of_orth_timelike",
+    "Causal.Flat.minkQ_parallelogram",
+    "Causal.Flat.minkQ_smul_add3",
+    "Causal.Flat.le_top_or_of_minkQ_nonpos",
+    "Causal.Flat.minkB_fixed_pow_sub",
+    "Causal.Flat.minkQ_pow_sub_nonneg",
+    "Causal.Flat.pow_apply_eq_of_minkQ_eq_zero",
+    "Causal.Flat.isomTrans",
+    "Causal.Flat.isomConj",
+    "Causal.Flat.isomConj_eq",
+    "Causal.Flat.linOf_isomConj",
+    "Causal.Flat.trOf_isomConj",
+    "Causal.Flat.pow_smul_of_fixed",
+    "Causal.Flat.zpow_smul_of_fixed",
+    "Causal.Flat.zpow_apply_tr",
+    "Causal.Flat.minkB_fixed_eigen",
+    "Causal.Flat.pow_eigen",
+    "Causal.Flat.minkB_pow_eigen_orth",
+    "Causal.Flat.minkQ_nonneg_of_orth_frame",
+    "Causal.Flat.continuous_nullXY",
+    "Causal.Flat.causallyRelated_of_minkQ_nonpos",
+    "Causal.Flat.minkQ_nonpos_of_causallyRelated",
+    "Causal.Flat.causallyRelated_smul_iff",
+    "Causal.Flat.causallyRelated_conj_iff",
+    "Causal.Flat.finite_int_quadratic_nonpos",
+    "Causal.Flat.infinite_of_forall_ge",
+    "Causal.Flat.exists_quadratic_neg",
+    "Causal.Flat.pOf_pow_R",
+    "Causal.Flat.linOf_eq_linearPart",
+    "Causal.Flat.isAperiodic_of_eventually",
+    "Causal.Flat.halfTurnLin",
+    "Causal.Flat.quarterTurnLin",
+    "Causal.Flat.halfTurn",
+    "Causal.Flat.halfTurn_apply",
+    "Causal.Flat.halfTurn_fix",
+    "Causal.Flat.halfTurn_props",
+    "Causal.Flat.halfTurnLin_involutive",
+    "Causal.Flat.minkQ_halfTurnLin",
+    "Causal.Flat.minkQ_quarterTurnLin",
+    "Causal.Flat.halfTurnLin_eq_sq",
+    "Causal.Flat.halfTurn_facts"
+  ],
+  "kb_proposals": [
+    "For g : isom d, linOf g / trOf g are abbrevs for (g : AffineEquiv).linear and transPart; linOf g = linearPart g (linOf_eq_linearPart). g ^ n • x unfolds by pow_succ', mul_smul, smul_eq_lin_add, and LinearEquiv powers by pow_succ', LinearEquiv.mul_apply.",
+    "x ∈ minkOrth W is LinearMap.IsOrtho, which rw cannot see through: use Isometries' mem_minkOrth (Iff.rfl, ∀ w ∈ W, minkB w x = 0) or mem_minkOrth' — mem_minkOrth.1 hx _ hw : minkB w x = 0. No local helper needed.",
+    "An achronal domain is an intersection over q of open sets: check openness per class; for loxodromic g it holds iff tau = 0 and L(g) has finite order on the frame's orthogonal.",
+    "Polynomial-in-q asymptotics in this library: write minkQ of a combination with minkQ_smul_add3, substitute the vanishing pairings, finish with linear_combination using star_identity instances; exponential vs quadratic via tendsto_pow_const_div_const_pow_of_one_lt.",
+    "'Infinitely many iterates' has two readings (exponents vs points); prove the per-case results with IsAperiodic g x (from x ∈ Omega_g, or eventually g^n x ≠ x) and get the points reading by infinite_image_of_isAperiodic.",
+    "A rotation in SO0(1,d) without trigonometry: the half-turn x ↦ x − 2⟨x|e_a⟩e_a − 2⟨x|e_b⟩e_b is LinearEquiv.ofInvolutive, and det = 1 via det_eq_one_of_eq_sq with the quarter-turn (halfTurn_props)."
+  ],
+  "notes": "Fixer pass after the read-only audit (no blocking item; all eight minor items applied). Imports CausalScaffold.Flat.Isometries (olean built once as instructed) and nothing else of Flat. No sorry, no axiom beyond propext/Classical.choice/Quot.sound (checked with #print axioms on 20 main theorems through a temporary copy in /tmp, nothing written to the repository). Zero errors and zero warnings under `lake env lean`. Changes: helper minkB_of_mem_minkOrth removed in favour of Isometries' mem_minkOrth; linOf related to Form's linearPart by linOf_eq_linearPart (kept as an abbrev to preserve definitional unfolding); checklist recast in kb/0006 markers; paranongh per-case results now return IsAperiodic, the linear normal case no longer uses a fixed point (Barbot's choice for x0 off J^perp, x = t u for x0 in J^perp), so they hold in the points reading too (ParanonghPts, paranonghPts_iff); tangent case transported (paranongh_tangent); loxodromic openness decided (isOpen_achronalDomain_lox_iff, lox_exists_fixed_iff, witness boostIsom_isOpen); parabolic linear/transverse witnesses (nullRotIsom, nullRotTime); R != id counterexample for d >= 5 (halfTurnShift, not_paranonghStrict). Statement shapes changed for paranongh_transverse(_normal), paranongh_linear(_normal), paranongh_tangent_normal (they now carry IsAperiodic): no other file imports this module yet. The tex_lines are those of the labelled file legacy/labeled/GHFspace.tex."
+}

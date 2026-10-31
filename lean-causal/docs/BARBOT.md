@@ -140,6 +140,15 @@ Classes: **T** causal / order-topological / affine in Minkowski space; **D** met
   **lemma K** (a closed connected spacelike hypersurface of a GH spacetime is Cauchy), which gx needs
   too.
 
+## Findings against ETT (for the author; the ETT ledger is not edited from this campaign)
+
+- **ETT.tex:1792**, the "Moreover" of `theo:geroch_sing`: "ψ is a local diffeomorphism" needs `Σ`
+  smooth and transverse to the field; for a topological Cauchy surface the replacement is "J^±(Σ)
+  closed" — necessary and sufficient for the flow map to be a splitting
+  (`CausalScaffold.Splitting`, `isClosed_iff_exists_isCauchySplitting`). `lem:Sigma_separe` derives
+  that closedness *from* the splitting, so it cannot build it.
+- On the lightlike line (ETT's BTZ-line model) `J⁺(S)∖S ≠ I⁺(S)` (`lightlikeLine_Jplus_diff_ne_Iplus`).
+
 ## The spine
 
 1. **Theorem A.**

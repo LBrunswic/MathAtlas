@@ -1,0 +1,322 @@
+{
+  "package": "WP-30d-Isometries",
+  "files": [
+    "scaffold/CausalScaffold/Flat/Isometries.lean"
+  ],
+  "builds": true,
+  "sorry_count": 1,
+  "labels": [
+    {
+      "label": "[6.N] normal forms through p = L(g) - id; the classes (prose, no environment)",
+      "tex_lines": [
+        1851,
+        1901
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.minkForm",
+        "Causal.Flat.minkOrth",
+        "Causal.Flat.pOf",
+        "Causal.Flat.star_identity",
+        "Causal.Flat.ker_pOf_eq_minkOrth",
+        "Causal.Flat.mem_minkOrth_range_iff",
+        "Causal.Flat.transPart",
+        "Causal.Flat.apply_eq_linear_add_transPart",
+        "Causal.Flat.transConj",
+        "Causal.Flat.transConj_mem_isom",
+        "Causal.Flat.linear_transConj",
+        "Causal.Flat.transPart_transConj",
+        "Causal.Flat.exists_transConj_iff",
+        "Causal.Flat.exists_fixed_iff",
+        "Causal.Flat.IsElliptic",
+        "Causal.Flat.IsHyperbolic",
+        "Causal.Flat.IsUnipotent",
+        "Causal.Flat.IsLoxodromic",
+        "Causal.Flat.IsParabolic",
+        "Causal.Flat.isElliptic_one",
+        "Causal.Flat.IsHyperbolic.isLoxodromic",
+        "Causal.Flat.IsUnipotent.isParabolic",
+        "Causal.Flat.classes_conj_iff",
+        "Causal.Flat.linear_conj",
+        "Causal.Flat.IsLoxodromic.frame",
+        "Causal.Flat.IsParabolic.exists_jordan",
+        "Causal.Flat.IsLoxodromic.not_isElliptic",
+        "Causal.Flat.IsParabolic.not_isElliptic",
+        "Causal.Flat.IsParabolic.not_isLoxodromic",
+        "Causal.Flat.range_inf_ker_eq_bot_of_preserves",
+        "Causal.Flat.IsElliptic.range_inf_ker",
+        "Causal.Flat.IsElliptic.isCompl",
+        "Causal.Flat.IsElliptic.exists_transConj_fixed",
+        "Causal.Flat.IsElliptic.exists_fixed_timelike",
+        "Causal.Flat.isElliptic_of_fixed_timelike",
+        "Causal.Flat.isElliptic_iff_exists_fixed_timelike",
+        "Causal.Flat.IsElliptic.range_spacelike",
+        "Causal.Flat.range_pOf_eq_bot_iff",
+        "Causal.Flat.IsLoxodromic.range_inf_ker",
+        "Causal.Flat.IsLoxodromic.exists_transConj_fixed",
+        "Causal.Flat.IsHyperbolic.exists_transConj_fixed",
+        "Causal.Flat.lorentz_trichotomy",
+        "Causal.Flat.pOf_apply",
+        "Causal.Flat.apply_eq_add_pOf",
+        "Causal.Flat.transConj_apply",
+        "Causal.Flat.IsElliptic.conj",
+        "Causal.Flat.IsHyperbolic.conj",
+        "Causal.Flat.IsUnipotent.conj",
+        "Causal.Flat.IsLoxodromic.conj",
+        "Causal.Flat.IsParabolic.conj",
+        "Causal.Flat.conj_conj_inv",
+        "Causal.Flat.IsLoxodromic.exists_eigen",
+        "Causal.Flat.isUnipotent_one",
+        "Causal.Flat.isHyperbolic_boost",
+        "Causal.Flat.stdBoost",
+        "Causal.Flat.stdBoost_mem_lorentz",
+        "Causal.Flat.stdBoost_isHyperbolic",
+        "Causal.Flat.stdBoost_isLoxodromic",
+        "Causal.Flat.isUnipotent_nullRot",
+        "Causal.Flat.nullRot_ne_one",
+        "Causal.Flat.stdNullRot",
+        "Causal.Flat.stdNullRot_mem_lorentz",
+        "Causal.Flat.stdNullRot_isParabolic"
+      ],
+      "hypotheses": [
+        {
+          "paper": "g an isometry, L(g) in SO0(1,n-1)",
+          "here": "weakened",
+          "note": "(∗), ker p = I^⊥ and tau mod I use only minkQ ∘ L(g) = minkQ and L(g) a linear equivalence (no determinant, no time orientation)"
+        },
+        {
+          "paper": "hyperbolic: the boost matrix of rapidity ζ",
+          "here": "strengthened",
+          "note": "reading ζ ≠ 0 (Barbot's matrix allows the identity)"
+        },
+        {
+          "paper": "loxodromic R∘A, parabolic R∘A, factors isometries",
+          "here": "carried",
+          "note": "factors required in lorentz d, as Barbot's R, A are elements of SO0(1,n-1)"
+        },
+        {
+          "paper": "parabolic: A unipotent",
+          "here": "strengthened",
+          "note": "reading U ≠ id (else every elliptic element is parabolic)"
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "Causal.Flat.lorentz_trichotomy",
+          "obstruction": "'Up to conjugacy, every isometry is of the following form' (l.1868): the existence half of the trichotomy is not yet formalized. Brouwer, Perron–Frobenius and Krein–Rutman are absent from mathlib at this pin, but none is needed. Brouwer-free route: an A-invariant subspace of dimension ≤ 2 (from a complex eigenvalue), then the minkB-orthogonal split and induction on dimension, giving a fixed timelike vector (elliptic, isElliptic_of_fixed_timelike) or a null eigenvector; the loxodromic boost factor is `boost` in the null frame (determinant by det_eq_one_of_eq_sq); the parabolic factor comes from mathlib's additive Jordan–Chevalley (Module.End.exists_isNilpotent_isSemisimple: A = s + n, U = s⁻¹A), with the semisimple part s shown to lie in SO₀(1,d) and to be elliptic. Disjointness of the three classes, the elliptic characterisation (a fixed point in H^{n-1}) and non-vacuity of every class are proved."
+        }
+      ],
+      "findings": [
+        "l.1852 (orig l.1828): 'p the element L(g)−id of SO₀(1,n−1)': p = L(g) − id is an endomorphism of 𝐌ⁿ (an element of the Lie algebra's ambient End(𝐌ⁿ)), not an element of SO₀(1,n−1); it is not even invertible unless L(g) has no fixed vector. Read 'p the endomorphism L(g) − id of 𝐌ⁿ' (pOf). The module docstring now quotes the sentence verbatim.",
+        "l.1875–1876 (orig l.1851–1852): 'I is spacelike, except if R is the identity map' — R is not defined in the elliptic item (it first appears at l.1894); read 'except if L(g) = id'. With spacelike meaning minkQ > 0 on I \\ {0}, the exception is vacuous: I = 0 exactly when L(g) = id (range_pOf_eq_bot_iff), so the true statement is 'I is spacelike, and nonzero unless L(g) = id' (IsElliptic.range_spacelike).",
+        "l.1873 (orig l.1849): 'since M^n = I ⊕ I^⊥' is not justified; it holds for elliptic L(g) because Im p ∩ ker p = 0 (p y = x, p x = 0 make L(g)^k y = y + k x unbounded for the invariant norm) — IsElliptic.isCompl; it is false for unipotent L(g) ≠ id, where J = I ∩ I^⊥ ≠ 0.",
+        "l.1880–1887 (orig l.1856–1863): the hyperbolic matrix does not exclude ζ = 0 (the identity). Barbot's list is up to conjugacy and overlaps by design (hyperbolic ⊂ loxodromic, unipotent ⊂ parabolic), so overlap as such is not the defect; but with ζ = 0 allowed, every elliptic element is loxodromic (R∘id), so loxodromic ∩ elliptic ≠ ∅ and the trichotomy elliptic / loxodromic / parabolic is not a partition. ζ ≠ 0 is the reading that makes it one (IsLoxodromic.not_isElliptic).",
+        "l.1890 with l.1908 (orig l.1866, l.1884): 'Unipotent: p is nilpotent' includes L(g) = id, for which J = I ∩ I^⊥ = 0, contradicting 'J = I ∩ I^⊥ is a nontrivial isotropic space'. Strongest true form: under p ≠ 0, J is a null line (exists_mem_nullPart_ne_zero, nullPart_eq_span_of_mem); counterexample: any translation (p = 0).",
+        "l.1898–1899 vs l.1973–1974 (orig l.1874–1875, l.1949–1950): parabolic as listed (R elliptic, A unipotent, commuting) contains every elliptic element (A = id) and every unipotent one (R = id); §6.2 instead takes R non-trivial, which would exclude pure unipotents, while §7 (l.2085ff) treats id + p as parabolic. Formalized: U ≠ id, R any elliptic; then the classes are pairwise disjoint (proved).",
+        "l.1943–1951 (orig l.1919–1927): 'L(g) is then represented, in a non-orthogonal frame, by the matrix' — the displayed matrix (p v1 = v0, p vn = v1, zero elsewhere) is the matrix of p = L(g) − id, not of L(g) (unipotent_frame).",
+        "l.1929–1931 (orig l.1905–1907): 'v1' = p(vn) is a non-trivial element of I \\ J' is asserted without argument; it follows from (∗) at (vn, vn): if p vn = c v0 then 2c⟨vn|v0⟩ = 0, so p vn = 0, i.e. vn ∈ I^⊥, which is orthogonal to v0. Gap filled, not an error.",
+        "l.1985–1989 (orig l.1961–1965): the R-invariant vn is obtained through an R-invariant euclidean orthogonal of J^⊥; an alternative needing no euclidean norm: otherwise v0 ∈ (𝓘^⊥)^⊥ = 𝓘, and 𝓘 ∩ 𝓘^⊥ = 0 for elliptic R (parabolic_exists_fixed_not_mem).",
+        "l.2008–2014 (orig l.1984–1990): 'the linear case if τ belongs to I' is meaningful only after the normalisation τ ∈ 𝓘^⊥, since τ is defined modulo I ⊕ 𝓘 (l.2001), not modulo I; as an invariant of g it reads τ ∈ Im(L(g) − id), i.e. g has a fixed point (IsLinearCase, exists_fixed_iff, parabolic_mem_range_iff)."
+      ],
+      "questions": [
+        "IsHyperbolic: is the rapidity meant to be nonzero (reading taken: ζ ≠ 0)?",
+        "IsParabolic: U ≠ id and R arbitrary elliptic (reading taken), or R non-trivial as in §6.2 l.1974?",
+        "The tangent/transverse cases are defined relative to the unipotent factor U (J = J(U)); for a parabolic g this presumes the decomposition L(g) = R∘U is unique, which is true (Jordan–Chevalley) but not proved here. Should J be defined intrinsically (the fixed null line of L(g))?",
+        "'Preserves some euclidean norm' is read as: preserves a symmetric positive definite bilinear form; it is proved equivalent, in SO0(1,d), to fixing a future timelike vector (isElliptic_iff_exists_fixed_timelike)."
+      ]
+    },
+    {
+      "label": "[6.U] unipotent linear parts, with Rem 6.1 (prose)",
+      "tex_lines": [
+        1906,
+        1969
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.nullPart",
+        "Causal.Flat.nullPart_le_ker",
+        "Causal.Flat.exists_mem_nullPart_ne_zero",
+        "Causal.Flat.nullPart_eq_span_of_mem",
+        "Causal.Flat.minkQ_eq_zero_of_mem_nullPart",
+        "Causal.Flat.pOf_mem_nullPart",
+        "Causal.Flat.pOf_pOf_mem_nullPart",
+        "Causal.Flat.pOf_pOf_pOf",
+        "Causal.Flat.mem_minkOrth_nullPart_of_pOf_mem",
+        "Causal.Flat.unipotent_frame",
+        "Causal.Flat.minkOrth_nullPart_eq_sup",
+        "Causal.Flat.finrank_nullPart",
+        "Causal.Flat.finrank_range_pOf",
+        "Causal.Flat.finrank_minkOrth_nullPart",
+        "Causal.Flat.range_eq_minkOrth_nullPart_of_dim_three",
+        "Causal.Flat.IsLinearCase",
+        "Causal.Flat.IsTangentCase",
+        "Causal.Flat.IsTransverseCase",
+        "Causal.Flat.linear_or_tangent_or_transverse",
+        "Causal.Flat.isLinearCase_transConj_iff",
+        "Causal.Flat.transPart_transConj_mem_iff",
+        "Causal.Flat.IsLinearCase.exists_transConj_eq_zero",
+        "Causal.Flat.IsTangentCase.exists_transConj_mem_minkOrth",
+        "Causal.Flat.not_isTangentCase_of_dim_three",
+        "Causal.Flat.unipotent_not_transverse_iff",
+        "Causal.Flat.minkB_eq_zero_of_mem_nullPart",
+        "Causal.Flat.nullPart_le_range",
+        "Causal.Flat.range_le_minkOrth_nullPart",
+        "Causal.Flat.minkOrth_range_le_minkOrth_nullPart",
+        "Causal.Flat.pOf_apply_mem_minkOrth_nullPart",
+        "Causal.Flat.pOf_eq_zero_of_mem_nullPart",
+        "Causal.Flat.pOf_mem_nullPart_of_pOf_pOf",
+        "Causal.Flat.nullPart_one",
+        "Causal.Flat.two_le_of_unipotent"
+      ],
+      "hypotheses": [
+        {
+          "paper": "L(g) ∈ SO0(1,n-1)",
+          "here": "weakened",
+          "note": "only minkQ-preservation is used"
+        },
+        {
+          "paper": "p nilpotent",
+          "here": "strengthened",
+          "note": "plus p ≠ 0, which 'J nontrivial' (l.1908) needs; DEC-27 strongest true form, counterexample p = 0"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "see [6.N]: J nontrivial needs p ≠ 0 (l.1908); the frame matrix is that of p (l.1943); I \\ J gap at l.1929–1931 filled. Proved additionally: p³ = 0, dim I = 2, dim J = 1, dim J^⊥ = d, J^⊥ = I + I^⊥ (used without proof at l.1961). Barbot's p̄ = 0 on J^⊥/J (l.1912–1916) is proved by a descent on (∗) rather than through the quotient norm.",
+        "Counterexample stated in Lean: L(g) = id is unipotent (isUnipotent_one) and nullPart 1 = ⊥ (nullPart_one), so 'J = I ∩ I^⊥ is a nontrivial isotropic space' (l.1908) fails for p = 0. Moreover a nontrivial unipotent forces n ≥ 3 (two_le_of_unipotent): for n = 2 the unipotent class is {id}."
+      ],
+      "questions": []
+    },
+    {
+      "label": "[6.P] parabolic linear parts (prose)",
+      "tex_lines": [
+        1971,
+        2017
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.pOf_comm_of_comm",
+        "Causal.Flat.parabolic_R_mem_nullPart",
+        "Causal.Flat.parabolic_R_mem_minkOrth_range",
+        "Causal.Flat.parabolic_R_mem_range",
+        "Causal.Flat.parabolic_R_mem_minkOrth_nullPart",
+        "Causal.Flat.parabolic_R_fix_nullPart",
+        "Causal.Flat.parabolic_R_fix_range",
+        "Causal.Flat.parabolic_R_pOf",
+        "Causal.Flat.parabolic_range_le_minkOrth",
+        "Causal.Flat.parabolic_rangeR_le_minkOrth",
+        "Causal.Flat.parabolic_exists_fixed_not_mem",
+        "Causal.Flat.pOf_mul_parabolic",
+        "Causal.Flat.range_pOf_mul_parabolic",
+        "Causal.Flat.parabolic_range_inf_rangeR",
+        "Causal.Flat.parabolic_range_le_minkOrth_nullPart",
+        "Causal.Flat.parabolic_exists_transConj_normal",
+        "Causal.Flat.parabolic_mem_range_iff",
+        "Causal.Flat.parabolic_not_transverse_iff",
+        "Causal.Flat.parabolic_isTransverseCase_transConj_iff",
+        "Causal.Flat.transPart_mem_iff_map_eq"
+      ],
+      "hypotheses": [
+        {
+          "paper": "R non-trivial elliptic (l.1974)",
+          "here": "weakened",
+          "note": "R any elliptic element of SO0(1,d), so the unipotent case R = id is covered"
+        },
+        {
+          "paper": "p nilpotent",
+          "here": "strengthened",
+          "note": "plus U ≠ id (p ≠ 0)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "see [6.N]: the linear case 'τ ∈ I' (l.2010) is a normal-form statement; as a class it is τ ∈ Im(L(g) − id). The final claim (l.2016–2017) is proved for every affine subspace with direction J^⊥ (parabolic_not_transverse_iff), from a general criterion transPart_mem_iff_map_eq."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.Flat.minkB_add_left",
+    "Causal.Flat.minkB_add_right",
+    "Causal.Flat.minkB_smul_left",
+    "Causal.Flat.minkB_smul_right",
+    "Causal.Flat.minkB_neg_left",
+    "Causal.Flat.minkB_neg_right",
+    "Causal.Flat.minkB_sub_left",
+    "Causal.Flat.minkB_sub_right",
+    "Causal.Flat.minkB_zero_left",
+    "Causal.Flat.minkB_zero_right",
+    "Causal.Flat.minkQ_add",
+    "Causal.Flat.eq_zero_of_forall_minkB",
+    "Causal.Flat.minkForm_apply",
+    "Causal.Flat.minkForm_isRefl",
+    "Causal.Flat.minkForm_nondegenerate",
+    "Causal.Flat.finrank_minkowski",
+    "Causal.Flat.mem_minkOrth",
+    "Causal.Flat.mem_minkOrth'",
+    "Causal.Flat.minkOrth_antitone",
+    "Causal.Flat.minkOrth_minkOrth",
+    "Causal.Flat.finrank_minkOrth",
+    "Causal.Flat.mem_minkOrth_span_singleton",
+    "Causal.Flat.minkB_map_of_minkQ",
+    "Causal.Flat.minkB_map",
+    "Causal.Flat.minkQ_nonneg_of_null_orth",
+    "Causal.Flat.eq_smul_of_null_orth",
+    "Causal.Flat.minkQ_pos_of_orth_timelike",
+    "Causal.Flat.lorentz.eigen_pos_of_null",
+    "Causal.Flat.IsElliptic.eigen_sq",
+    "Causal.Flat.IsElliptic.eigen_eq_one",
+    "Causal.Flat.eigen_line",
+    "Causal.Flat.euclForm",
+    "Causal.Flat.euclForm_pos",
+    "Causal.Flat.timelikeForm",
+    "Causal.Flat.continuous_bilin_diag",
+    "Causal.Flat.exists_coercive",
+    "Causal.Flat.lorentz.conj_mem",
+    "Causal.Flat.pOf_one",
+    "Causal.Flat.pOf_ne_zero",
+    "Causal.Flat.pOf_conj",
+    "Causal.Flat.pow_pOf_conj",
+    "Causal.Flat.exists_transConj_mem_of_mem_sup",
+    "Causal.Flat.exists_transConj_fixed_of_range_inf_ker",
+    "Causal.Flat.det_sq_of_minkQ",
+    "Causal.Flat.det_eq_one_of_eq_sq",
+    "Causal.Flat.minkB_neg_of_future",
+    "Causal.Flat.timeUnit",
+    "Causal.Flat.minkQ_timeUnit",
+    "Causal.Flat.mem_lorentz_of",
+    "Causal.Flat.boostLin",
+    "Causal.Flat.boostLin_apply",
+    "Causal.Flat.minkB_boostLin_e₀",
+    "Causal.Flat.minkB_boostLin_e₁",
+    "Causal.Flat.boostLin_comp",
+    "Causal.Flat.boostLin_zero",
+    "Causal.Flat.minkQ_boostLin",
+    "Causal.Flat.boost",
+    "Causal.Flat.boost_apply",
+    "Causal.Flat.spaceUnit",
+    "Causal.Flat.minkQ_spaceUnit",
+    "Causal.Flat.minkB_timeUnit_spaceUnit",
+    "Causal.Flat.minkB_spaceUnit_spaceUnit",
+    "Causal.Flat.nullRotLin",
+    "Causal.Flat.nullRotLin_apply",
+    "Causal.Flat.minkB_nullRotLin_u",
+    "Causal.Flat.minkB_nullRotLin_e",
+    "Causal.Flat.nullRotLin_comp",
+    "Causal.Flat.nullRotLin_zero",
+    "Causal.Flat.minkQ_nullRotLin",
+    "Causal.Flat.nullRot",
+    "Causal.Flat.nullRot_apply"
+  ],
+  "kb_proposals": [
+    "minkB-orthogonals: use minkOrth W := (minkForm d).orthogonal W (Flat/Isometries); membership unfolds to IsOrtho, so a rw by minkB lemmas fails on `hx w hw` until restated as `have : minkB w x = 0 := hx w hw` (or `show minkB _ _ = 0`).",
+    "Destructuring `x ∈ W ⊓ W'` with rintro yields coerced memberships `x ∈ ↑W`; re-ascribe (`have h : x ∈ W := h`) before `rw [LinearMap.mem_ker]`.",
+    "A Brouwer-free fixed point in H^d for an elliptic Lorentz map: minimise the invariant euclidean norm on the future unit hyperboloid; the minimiser is unique by reverse Cauchy–Schwarz and strict convexity (IsElliptic.exists_fixed_timelike). The trichotomy itself still needs a cone eigenvector.",
+    "Linear-algebra facts about Lorentz maps reduce to two tools: (∗) and 'two orthogonal null vectors are proportional' (eq_smul_of_null_orth); eigenvalue arguments go through eigen_line (eigenvalue l with l² ≠ 1 gives a null line).",
+    "Determinant 1 for a Lorentz map without computing it: if A = B ∘ B with B minkQ-preserving, det A = (det B)² ≥ 0 and det A² = 1 (Gram matrix: LinearMap.toMatrix₂_compl₁₂ + LinearMap.nondegenerate_iff_det_ne_zero, import Mathlib.LinearAlgebra.Matrix.SesquilinearForm), so det A = 1; one-parameter families (boostLin_comp, nullRotLin_comp) give the square root (Flat/Isometries det_eq_one_of_eq_sq)."
+  ],
+  "notes": "Typechecked with `taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/Isometries.lean`: zero errors, one warning (the tagged sorry in lorentz_trichotomy); no axiom, no native_decide, default heartbeats. `lake build` was not run (per dispatch). Imports: CausalScaffold.Flat.Form, Mathlib.LinearAlgebra.BilinearForm.Orthogonal, Mathlib.LinearAlgebra.AffineSpace.AffineSubspace.Basic, Mathlib.Tactic.Module. (1) Penrose.lean has private copies of minkB_add_right/sub_right/neg_right/smul_right/smul_left and minkQ_add; no clash (private), but they could become the public ones here, or move to Form. Argument order here is minkB_smul_left (c v w), Penrose's is (v p c). (2) Line numbers: BARBOT.md's §6 range l.1824–1993 (and the dispatch's l.1851 typo) are legacy/orig numbers; in legacy/labeled §6 is l.1848–2017 (+24); other BARBOT.md rows look orig-numbered too (bprop:laoucapulse l.852 vs 855 labelled, blem:paranongh l.2149 vs 2174). This file cites the labelled file. (3) For §7: elliptic/loxodromic normal forms give τ fixed by L(g) (…exists_transConj_fixed); parabolic gives R τ = τ and ⟨τ|v1⟩ = 0 (parabolic_exists_transConj_normal); the Jordan block is IsParabolic.exists_jordan; the unipotent frame is unipotent_frame. FIXER PASS (2026-10-31): applied all eight audit minors except the last, which is a graduation action. (a) checklist rows for p ≠ 0, U ≠ id, ζ ≠ 0 now read '⚠ strengthened', matching this report, plus a '⚠ weakened' row for §6.2's 'R non-trivial'. (b) the trichotomy SORRY and SCOPE no longer say Brouwer/PF is needed; the Brouwer-free route and mathlib's Jordan–Chevalley are named. The sorry stays: the route (complexification for the ≤2-dim invariant subspace, orthogonal induction with varying signature, Jordan–Chevalley inside SO₀) is a separate work package, not a fix. (c) witnesses: stdBoost (d ≥ 1) is hyperbolic, in lorentz d and loxodromic; stdNullRot (d ≥ 2) is unipotent, ≠ 1, in lorentz d and parabolic; membership in lorentz d through mem_lorentz_of (minkQ, time unit to the future, det 1), det 1 because each map is the square of a minkQ-preserving map and det² = 1 (det_sq_of_minkQ, via the Gram matrix; new import Mathlib.LinearAlgebra.Matrix.SesquilinearForm). The SCOPE sentence about determinants is replaced. (d) nullPart_one + isUnipotent_one state the p = 0 counterexample in Lean. (e) the first quote is verbatim and the l.1852 slip is a finding. (f) the ζ finding is rephrased: ζ ≠ 0 is what makes E/L/P a partition. (g) the 17 unlisted public decls are now listed, with the new ones. (h) minkB_map duplicating Penrose's lorentz.minkB_apply: agreed, but not actionable in this file (Form and Penrose are not mine); at graduation move minkB linearity (minkB_add_left … minkB_zero_right, minkQ_add), minkForm and minkB_map_of_minkQ into Form.lean and derive lorentz.minkB_apply and minkB_map from it. Also new and general enough for Form at graduation: timeUnit, mem_lorentz_of, det_sq_of_minkQ, minkB_neg_of_future. Typechecked after the pass: zero errors, one warning (the tagged sorry), default heartbeats, no axiom."
+}

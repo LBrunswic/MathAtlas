@@ -1,0 +1,142 @@
+{
+  "package": "WP-33a-Bieberbach",
+  "files": [
+    "scaffold/CausalScaffold/Flat/Bieberbach.lean"
+  ],
+  "builds": true,
+  "builds_meaning": "elaboration check only: `taskset -c 0-11 lake env lean` (also with -DwarningAsError=true) gives zero errors, zero warnings. `lake build CausalScaffold.Flat.Bieberbach` was NOT run (forbidden by the dispatch); the master must run the module build before graduating.",
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "[5.B] Bieberbach (prose, Barbot §5.1, label bieb)",
+      "tex_lines": [
+        1688,
+        1749
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.discreteSubmodule_free",
+        "Causal.Flat.discreteSubmodule_finite",
+        "Causal.Flat.discreteSubmodule_finrank",
+        "Causal.Flat.spanLattice",
+        "Causal.Flat.spanLattice.discreteTopology",
+        "Causal.Flat.spanLattice.isZLattice",
+        "Causal.Flat.spanLatticeEquiv",
+        "Causal.Flat.orthToCLM",
+        "Causal.Flat.IsOpDiscrete",
+        "Causal.Flat.latticeStab",
+        "Causal.Flat.finite_latticeStab",
+        "Causal.Flat.linearIsometryEquiv_eq_one_of_unipotent",
+        "Causal.Flat.euclLinearPart",
+        "Causal.Flat.euclLinearPart_apply",
+        "Causal.Flat.euclTranslations",
+        "Causal.Flat.constVAdd_mem_euclTranslations",
+        "Causal.Flat.apply_eq_add_of_mem_euclTranslations",
+        "Causal.Flat.mem_euclTranslations_iff",
+        "Causal.Flat.mem_euclTranslations_of_unipotent",
+        "Causal.Flat.translationVectors",
+        "Causal.Flat.IsDiscreteEucl",
+        "Causal.Flat.isDiscreteEucl_iff_exists",
+        "Causal.Flat.discreteTopology_translationVectors",
+        "Causal.Flat.translationsEquiv",
+        "Causal.Flat.translationVectors_isZLattice",
+        "Causal.Flat.finrank_translationVectors",
+        "Causal.Flat.isDiscreteEucl_zpowers_constVAdd",
+        "Causal.Flat.not_isDiscreteEucl_euclTranslations",
+        "Causal.Flat.finiteIndex_euclTranslations",
+        "Causal.Flat.finite_linearParts_of_isOpDiscrete",
+        "Causal.Flat.IsInvariantSubspace",
+        "Causal.Flat.ActsByTranslationsOn",
+        "Causal.Flat.ActsEffectivelyOn",
+        "Causal.Flat.translationVectorsOn",
+        "Causal.Flat.BieberbachConclusion",
+        "Causal.Flat.BieberbachI",
+        "Causal.Flat.actsByTranslationsOn_of_unipotent",
+        "Causal.Flat.bieberbachConclusion_of_finite_linearParts",
+        "Causal.Flat.bieberbachI_of_finite",
+        "Causal.Flat.bieberbachI_of_finrank_le_one",
+        "Causal.Flat.bieberbachI_euclideanSpace_fin_one",
+        "Causal.Flat.virtuallyFree_of_actsByTranslationsOn",
+        "Causal.Flat.virtuallyFree_le_finrank_direction",
+        "Causal.Flat.virtuallyFree_of_bieberbachConclusion",
+        "Causal.Flat.virtuallyFree_of_bieberbachI",
+        "Causal.Flat.virtuallyFree_of_isOpDiscrete_linearParts",
+        "Causal.Flat.BieberbachMaxConclusion",
+        "Causal.Flat.BieberbachCocompactConclusion",
+        "Causal.Flat.translationLocus",
+        "Causal.Flat.mem_translationLocus",
+        "Causal.Flat.bieberbachMaxConclusion_of_bieberbachConclusion",
+        "Causal.Flat.mem_direction_of_fixed",
+        "Causal.Flat.bieberbachCocompactConclusion_of_bieberbachMaxConclusion",
+        "Causal.Flat.bieberbachMaxConclusion_of_bieberbachI",
+        "Causal.Flat.bieberbachCocompactConclusion_of_bieberbachI",
+        "Causal.Flat.virtuallyFree_of_bieberbachCocompactConclusion",
+        "Causal.Flat.bieberbachMaxConclusion_of_finite_linearParts",
+        "Causal.Flat.bieberbachCocompactConclusion_of_finite_linearParts"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Gamma discrete group of isometries (l.1723)",
+          "here": "carried",
+          "note": "as IsDiscreteEucl: forall x R, finitely many gamma in Gamma with dist (gamma x) x <= R; proved equivalent to mathlib's ProperlyDiscontinuousSMul Gamma E, and one base point suffices"
+        },
+        {
+          "paper": "L(Gamma) in SO(n) discrete (l.1727)",
+          "here": "weakened",
+          "note": "L(Gamma) in O(E). Convention note, NOT an erratum: Barbot reserves 'isometry' for orientation-preserving maps (l.476-481; also l.1775 'holonomy in SO(R^n/U)'), so SO(n) is consistent as written. O(E) is taken because the downstream use at l.2305 restricts an SO0(1,n-1) element to a spacelike U, and that restriction can reverse U's orientation."
+        },
+        {
+          "paper": "L(Gamma) finite => kernel of L|Gamma of finite index",
+          "here": "weakened",
+          "note": "discreteness of Gamma not used for the finite-index part; it is used only for the lattice / Z^k part"
+        },
+        {
+          "paper": "Euclidean space of dimension n",
+          "here": "carried",
+          "note": "any finite-dimensional real inner product space E; dropped where unused (the unipotent lemmas, the IsDiscreteEucl criteria, and both upgrade theorems)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.1732-1733: 'the kernel of the restriction morphism Gamma -> Isom(U) is a finite index subgroup of Gamma_nd' is false as written: that kernel is the pointwise stabiliser of U in Gamma, which for a discrete Gamma lies in the stabiliser of a point and is therefore FINITE, so it has finite index only when Gamma is finite. The step the argument needs is that Gamma_nd itself acts on U by translations (the closing 'unipotent elements of Isom(U) are translations', proved here as actsByTranslationsOn_of_unipotent), followed by an extra step the paper omits: the finite kernel of Gamma_nd -> Isom(U) has to be avoided by a further finite-index subgroup (finite-by-Z^j is virtually Z^j) before 'free abelian' follows.",
+        "l.2611-2612 ('up to finite index, there is a unique maximal affine subspace U on which Gamma acts by translations'): the phrase 'up to finite index' alone does not determine U. Example: the screw motion g of R^3, rotation by 2*pi/m about the z-axis composed with the translation e_z, acts by translations only on the axis, while its index-m subgroup <g^m> (translation by m*e_z) acts by translations on all of R^3. In §5.1 itself the U is canonical (l.1729-1730): it is the unique maximal unipotent subspace of the specific subgroup Gamma_nd (bthm:unip's uniqueness); in the example Gamma_nd = <g^m> and U = R^3. For a FIXED finite-index Gamma' the maximal subspace is unique (it is the translation locus of Gamma'; formalized as BieberbachMaxConclusion). Only the phrasing at l.2611 is ambiguous.",
+        "Correction of the previous report: the downstream uses do NOT need existence only. Maximality is spent at l.2611-2614 (U is timelike only because a MAXIMAL U contains the direction Delta_0 fixed by L(Gamma) in SO(n-1); a spacelike line for Gamma = Z acting by spacelike translations does not) and at l.2889-2891 ('since U_0 is the *maximal* lambda(Gamma)-unipotent subspace, it must contain every U_t', about the U produced at l.2877). Cocompactness is spent at l.1772-1775 ('a twisted product of a flat torus Gamma\\U by R^n/U') and in the crystallographic corollary l.1737-1749 (reasoning with dim U). Both forms are now PROVED from the weak BieberbachI (bieberbachMaxConclusion_of_bieberbachConclusion, mem_direction_of_fixed, bieberbachCocompactConclusion_of_bieberbachMaxConclusion, virtuallyFree_of_bieberbachCocompactConclusion).",
+        "l.1772-1775 ('the argument in the preceding section actually show that any locally euclidean manifold is a twisted product of a flat torus Gamma\\U by R^n/U'): the U must be the COCOMPACT subspace (translation vectors spanning U), which in general is not the maximal unipotent subspace of the preceding argument. Example: Gamma = Z acting by a translation on R^2; L(Gamma) is trivial, Gamma_nd = Gamma, its maximal unipotent subspace is R^2, and Gamma\\R^2 is a cylinder, not a torus; the statement holds with U the line spanned by the translation vector. The maximal and the cocompact U are different subspaces, so no single U serves l.2611 and l.1773 at once.",
+        "Line numbers: in papers/barbot/legacy/labeled/GHFspace.tex §5 starts at l.1688 and §5.1 ([5.B]) runs l.1690-1749 (the dispatch and docs/BARBOT.md give l.1667-1726 / l.1667-1822, which are the orig/ numbers). The REPORT and the docstring use the labelled file's numbers."
+      ],
+      "questions": [
+        "Discreteness (l.1723, and wherever 'discrete group of isometries' is used): the reading taken is IsDiscreteEucl, i.e. uniformly locally finite orbits, which is the same as properly discontinuous (proved) and, classically, as discrete in the compact-open topology of Isom(E) (not formalized, because mathlib puts no topology on E ≃ᵃⁱ[ℝ] E). Is that the intended meaning?",
+        "Reading of 'up to finite index, the unique maximal U' (l.2611) taken: a finite-index Gamma' NORMAL in Gamma, and U the greatest affine subspace on which Gamma' acts by translations (unique for that Gamma', Gamma-invariant by normality). 'Flat torus Gamma\\U' (l.1773) is read as: Gamma' normal of finite index acting effectively by translations on a Gamma-invariant U whose translation vectors span U's direction (so Gamma' ≅ Z^{dim U} under discreteness). Downstream WPs should keep the weak BieberbachI as their hypothesis and call the two upgrade lemmas. Are these the intended readings?"
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.Flat.discreteTopology_of_finite_ball",
+    "Causal.Flat.exists_addEquiv_finsupp_span",
+    "Causal.Flat.exists_addEquiv_finsupp",
+    "Causal.Flat.orthToCLM_apply",
+    "Causal.Flat.orthToCLM_injective",
+    "Causal.Flat.finite_of_isOpDiscrete",
+    "Causal.Flat.finite_maps_lattice",
+    "Causal.Flat.linearIsometry_apply_eq_self_of_unipotent",
+    "Causal.Flat.instMulActionAffineIsometryEquiv",
+    "Causal.Flat.affineIsometryEquiv_smul_def",
+    "Causal.Flat.constVAdd_add",
+    "Causal.Flat.constVAdd_neg",
+    "Causal.Flat.isDiscreteEucl_iff_properlyDiscontinuousSMul",
+    "Causal.Flat.finite_linearIsometryEquiv_of_finrank_le_one",
+    "Causal.Flat.pow_apply_of_translation",
+    "Causal.Flat.eq_of_pow_apply",
+    "Causal.Flat.translation_vector_unique",
+    "Causal.Flat.conj_mem_of_normal"
+  ],
+  "kb_proposals": [
+    "At this mathlib pin E ≃ᵃⁱ[ℝ] E has a Group instance but NO MulAction on E and NO topology: Flat/Bieberbach.lean adds the action as a SCOPED instance Causal.Flat.instMulActionAffineIsometryEquiv (active inside namespace Causal.Flat or after `open Causal.Flat`); reuse it, do not redefine it. Discreteness is the metric IsDiscreteEucl, proved equivalent to ProperlyDiscontinuousSMul.",
+    "Discrete subgroups as lattices are already in mathlib: instModuleFree_of_discrete_submodule, instModuleFinite_of_discrete_submodule, Real.finrank_eq_int_finrank_of_discrete. To use them on an AddSubgroup S, give the instance explicitly with `letI : DiscreteTopology (AddSubgroup.toIntSubmodule S) := h`: it is defeq to S's, but instance search will not find it.",
+    "A unipotent linear isometry fixes every vector it moves unipotently, pointwise and with no invariance hypothesis (linearIsometry_apply_eq_self_of_unipotent).",
+    "Bieberbach has two different 'U's: the maximal one (greatest translation subspace of a normal finite-index Gamma', needed for 'U contains every L(Gamma)-fixed direction') and the cocompact one (translation vectors span U, needed for 'Gamma\\U is a torus'). For Z acting by a translation on R^2 they are R^2 and a line. Keep the weak BieberbachI as the hypothesis and call bieberbachMaxConclusion_of_bieberbachConclusion / bieberbachCocompactConclusion_of_bieberbachMaxConclusion.",
+    "For X : Subgroup K, (X.map K.subtype).subgroupOf K = X is Subgroup.comap_map_eq_self_of_injective K.subtype_injective X (subgroupOf is comap of the subtype); the normal core of a finite-index subgroupOf is finite index by instance (Subgroup.finiteIndex_normalCore)."
+  ],
+  "notes": "Fixer pass after the read-only audit. Zero errors, zero warnings, zero sorry under `taskset -c 0-11 lake env lean` (and with -DwarningAsError=true); #print axioms on the main theorems (both upgrades, mem_direction_of_fixed, virtuallyFree_of_bieberbachCocompactConclusion, virtuallyFree_of_isOpDiscrete_linearParts, the witnesses) shows only propext, Classical.choice, Quot.sound. Imports are mathlib only (six modules); nothing from Causal. BLOCKING item: fixed by the audit's option (ii) — BieberbachI keeps the weak conclusion (weakest hypothesis, kb/0007) and the file PROVES from it, with no discreteness, (a) BieberbachMaxConclusion: Gamma' normal of finite index (normal core) and U the greatest affine subspace on which Gamma' acts by translations (the translation locus), Gamma-invariant; plus mem_direction_of_fixed (the maximal U contains every L(Gamma')-fixed direction: the step of l.2612-2614); (b) BieberbachCocompactConclusion: same Gamma', a Gamma-invariant U whose translation vectors span its direction (barycentre of the Gamma/Gamma'-representatives modulo W); with discreteness Gamma' ≅ Z^{dim U}. Findings[2] and questions[1] are corrected against l.2611-2614, l.2889-2891, l.1773. DISAGREEMENT with the audit's option (i): adding 'translation vectors of Gamma' span U.direction' to the MAXIMAL U would make the Prop FALSE (Gamma = Z by a translation of R^2: the greatest translation subspace is R^2, the vectors span a line), so maximality and cocompactness are two separate forms with two different U's, not one strengthened conclusion. MINOR items: SO->O reworded as a convention note (moved from findings to the hypotheses row); the Gamma_nd pinning of U added to the 'up to finite index' finding; all declarations listed and extra_decls made disjoint from labels[0].decls (sibling convention); 'builds' qualified by builds_meaning; Provenance line now says 'wave 4, run early alongside wave 1b'; the MulAction instance is now SCOPED (no global diamond; kb proposal); the sharper bound k <= finrank U.direction is now stated (virtuallyFree_le_finrank_direction, via virtuallyFree_of_actsByTranslationsOn, k = dim span of the translation vectors), the old k <= finrank E statement kept as a corollary. The BARBOT.md §5 line ranges (l.1667-1822) are the master's to correct; this file uses the labelled file's numbers. New finding: l.1772-1775's 'flat torus Gamma\\U' needs the cocompact U, not the maximal unipotent subspace of §5.1's argument. The general BieberbachI remains an external (not reduced to finite linear parts: irrational screw motion of R^3, not formalized). No b-label is marked."
+}
