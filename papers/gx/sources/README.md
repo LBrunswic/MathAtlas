@@ -8,3 +8,5 @@
 | `math_0402257/` | math/0402257 | Barbot, *Globally hyperbolic flat space-times*, JGP 2005 = bib `barbot_globally_2004` | the classification used in Section 4 (DEC-26) |
 
 Each directory holds the PDF and `src/`, the arXiv e-print unpacked.
+| `1309.7591/` | 1309.7591 v3 | Sbierski, *On the existence of a maximal Cauchy development for the Einstein equations: a dezornification* = bib `sbierski_geroch` | the proof order of CBG (DEC-29) |
+| `thesis/` | — | Brunswic, PhD thesis *Surfaces de Cauchy polyédrales des espaces temps plats singuliers* (copied from `~/Dropbox/Archive/these_2/`, 2020-03-21) = bib `thesis` | a source for CBG and BTZ extensions (DEC-29) |
