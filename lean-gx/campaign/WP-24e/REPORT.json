@@ -1,0 +1,562 @@
+{
+  "package": "WP-24e",
+  "files": [
+    "scaffold/GXScaffold/Singular/Atlas.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "def:almost_everywhere_atlas_topological",
+      "tex_lines": [
+        402,
+        403
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.IsAEAtlas",
+        "GX.isAEAtlas_iff_exists_isPortly",
+        "GX.IsSubchart",
+        "GX.completion",
+        "GX.IsComplete",
+        "GX.IsThinner",
+        "GX.AELe",
+        "GX.IsGXAtlas.isGXAtlas_completion",
+        "GX.isComplete_completion",
+        "GX.IsThinner.isThinner_completion"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "'Supported by some portly subset' read as 'the support is portly'; equivalent to 'the support contains a portly subset' (isAEAtlas_iff_exists_isPortly) since supports are open. The unlabelled notions of l.406 (complete, completion, thinner) are formalized with their two claims (completion is a complete (G,X)-atlas; completion of a thinner atlas is thinner)."
+      ]
+    },
+    {
+      "label": "lem:GX_atlas_union",
+      "tex_lines": [
+        412,
+        454
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.isAEAtlas_iUnion",
+        "GX.not_isAEAtlas_iUnion_empty"
+      ],
+      "hypotheses": [
+        {
+          "paper": "N locally connected",
+          "here": "weakened",
+          "note": "not used: chart sources are locally connected through X"
+        },
+        {
+          "paper": "(G,X) analytical",
+          "here": "weakened",
+          "note": "X locally connected + Hausdorff, rigid action, by homeomorphisms"
+        },
+        {
+          "paper": "(implicit) K nonempty",
+          "here": "strengthened",
+          "note": "[Nonempty K]"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.412: for an empty family the union is the empty atlas, whose support ∅ is not portly in a nonempty N, so the lemma needs K nonempty (GX.not_isAEAtlas_iUnion_empty). Harmless for its only use, cor:maximal_atlas, where the family contains A."
+      ],
+      "questions": []
+    },
+    {
+      "label": "cor:maximal_atlas",
+      "tex_lines": [
+        458,
+        469
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.maximal_atlas",
+        "GX.maximalAEAtlas",
+        "GX.IsAEAtlas.maximalAEAtlas",
+        "GX.IsAEAtlas.aeLe_maximalAEAtlas",
+        "GX.maximalAEAtlas_eq_of_aeLe",
+        "GX.IsMaximalAEAtlas",
+        "GX.isMaximalAEAtlas_iff",
+        "GX.IsAEAtlas.isMaximalAEAtlas_maximalAEAtlas",
+        "GX.AELe.trans",
+        "GX.IsGXAtlas.aeLe_refl"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M locally connected Hausdorff",
+          "here": "weakened",
+          "note": "not used"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "The maximum is proved both for the preorder <= (it is >= every B >= A) and for inclusion (IsGreatest), which makes it unique; <= is shown reflexive and transitive. maximalAEAtlas_eq_of_aeLe: A <= B gives the same maximum."
+      ]
+    },
+    {
+      "label": "def:structure_topological_space_atlas",
+      "tex_lines": [
+        471,
+        472
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.IsAEStructure"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "def:singular_manifold_locally_connected",
+      "tex_lines": [
+        474,
+        478
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.SingularGXStructure",
+        "GX.aeAtlas",
+        "GX.isMaximalAEAtlas_aeAtlas",
+        "GX.Reg",
+        "GX.Sing",
+        "GX.isPortly_reg",
+        "GX.isOpen_reg",
+        "GX.isSkeletal_sing",
+        "GX.isClosed_sing",
+        "GX.SingGXCat",
+        "GX.SingularGXStructure.ofHasGroupoid",
+        "GX.isMaximalAEAtlas_maximalAtlas"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M locally connected Hausdorff second countable",
+          "here": "carried",
+          "note": "as instance arguments where used; all three bundled in SingGXCat"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "The class SingularGXStructure carries only the maximal a.e. atlas (DEC-25); the topological hypotheses are separate instances, each theorem asking for those it uses."
+      ]
+    },
+    {
+      "label": "def:morphism",
+      "tex_lines": [
+        480,
+        485
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.IsAEMorphismOf",
+        "GX.IsAEMorphism",
+        "GX.IsRegularOn",
+        "GX.IsRegularOn.of_exists",
+        "GX.IsRegularOn.isLocalHomeomorphOn",
+        "GX.isAEMorphismOf_iff"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "'f restricted to U, V is a (G,X)-morphism' is read subtype-free as IsRegularOn (continuous on U, f(U) ⊆ Reg N, in charts of A at x and of B at f x locally an element of G), the WP-24c reading of a (G,X)-morphism; chart independence IsRegularOn.of_exists. isAEMorphismOf_iff: V may always be taken to be Reg(N)."
+      ]
+    },
+    {
+      "label": "rem:composition_morphisms_morphisms_category",
+      "tex_lines": [
+        487,
+        489
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.IsAEMorphismOf.comp",
+        "GX.IsAEMorphism.comp",
+        "GX.isAEMorphismOf_id",
+        "GX.isAEMorphism_id",
+        "GX.SingGXCat",
+        "GX.SingGXCat.isoOfHomeomorph",
+        "GX.SingGXCat.homeomorphOfIso",
+        "GX.IsAEMorphismOf.symm_of_homeomorph",
+        "GX.IsAEMorphism.symm_of_homeomorph",
+        "GX.IsPortly.inter_preimage_of_isLocalHomeomorphOn"
+      ],
+      "hypotheses": [
+        {
+          "paper": "singular manifolds locally connected",
+          "here": "carried",
+          "note": "the source of the composite: the trace of the preimage of a portly set under a map that is a local homeomorphism on a portly set is portly"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "The paper's assertion that isomorphisms are exactly the homeomorphisms which are a.e. morphisms needs the inverse to be an a.e. morphism; proved (IsAEMorphismOf.symm_of_homeomorph, via lem:GX_sing_homeo_reg and the atlas transport of rem:consequence)."
+      ]
+    },
+    {
+      "label": "rem:morphisms_analytical_two_equal",
+      "tex_lines": [
+        491,
+        493
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.IsAEMorphismOf.eq_of_eqOn",
+        "GX.IsAEMorphism.eq_of_eqOn",
+        "GX.analytic_counterexample_empty",
+        "GX.analytic_counterexample_disconnected",
+        "GX.hasGroupoid_sum_translation"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M connected",
+          "here": "strengthened",
+          "note": "PreconnectedSpace M added"
+        },
+        {
+          "paper": "the open set nonempty",
+          "here": "strengthened",
+          "note": "W.Nonempty added"
+        },
+        {
+          "paper": "N Hausdorff",
+          "here": "carried",
+          "note": "T2Space N"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.491: 'if two [a.e. (G,X)-morphisms] are equal on an open set, they are equal everywhere' is false as written: (1) the open set must be nonempty (id and the translation by 1 on R agree on ∅, GX.analytic_counterexample_empty); (2) M must be connected, which def:singular_manifold_locally_connected does not ask (on R ⊕ R with the translations, id and the map translating the second copy agree on the first copy, GX.analytic_counterexample_disconnected). Both counterexamples satisfy every hypothesis of the paper (locally connected, Hausdorff, second countable, empty singular locus)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "prop:GX_sing_morph_local",
+      "tex_lines": [
+        497,
+        505
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.isAEMorphismOf_tfae",
+        "GX.IsAEMorphismOn",
+        "GX.isRegularOn_iUnion",
+        "GX.isRegularOn_sUnion"
+      ],
+      "hypotheses": [
+        {
+          "paper": "singular manifolds",
+          "here": "weakened",
+          "note": "source locally connected, target an a.e. atlas; source atlas arbitrary"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "The paper does not define the a.e. structure induced on an open (or portly) subset W, nor 'locally an a.e. morphism'. Read: 'f|W is an a.e. morphism' = some U ⊆ W, portly in W (Portly's subtype convention), on which f induces a (G,X)-morphism into Reg N (IsAEMorphismOn); 'locally' = every point has an open W with f|W an a.e. morphism. Under this reading all three equivalences are proved."
+      ]
+    },
+    {
+      "label": "lem:singular_manifolds_morphism_set",
+      "tex_lines": [
+        507,
+        516
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.isGreatest_regLocusOf",
+        "GX.isGreatest_regLocus",
+        "GX.isRegularOn_regLocusOf"
+      ],
+      "hypotheses": [
+        {
+          "paper": "f an a.e. morphism",
+          "here": "weakened",
+          "note": "any map"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "def:singular_manifolds_morphism_maximal",
+      "tex_lines": [
+        518,
+        521
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.regLocusOf",
+        "GX.regLocus"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "lem:regf1",
+      "tex_lines": [
+        523,
+        536
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.IsAEMorphismOf.regLocusOf_eq",
+        "GX.IsAEMorphism.regLocus_eq",
+        "GX.exists_smul_eq_on_of_isPreconnected",
+        "GX.regLocusOf_subset",
+        "GX.IsAEMorphismOf.isPortly_regLocusOf"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M, N singular manifolds",
+          "here": "weakened",
+          "note": "a.e. atlases suffice (no maximality, no topological hypothesis on M, N)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "rem:though_may_tempted_include",
+      "tex_lines": [
+        538,
+        539
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.zero_notMem_regLocusOf_pow",
+        "GX.not_isAEMorphismOf_pow",
+        "GX.not_injOn_pow_of_mem_nhds"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "Informal remark. Formalized content: for p ≠ 1, 0 ∉ Reg(z ↦ z^p) for every pair of a.e. atlases on C (no hypothesis), hence (lem:regf1) z ↦ z^p is an a.e. morphism for no a.e. structures regular at 0 and at 0^p. The sentence 'there is no simple definition of Riemann surfaces as (G,X)-manifolds' is not formalized."
+      ]
+    },
+    {
+      "label": "lem:aepullback",
+      "tex_lines": [
+        541,
+        552
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.existsUnique_aePullback",
+        "GX.IsAEMorphismOf.eq_of_isMaximalAEAtlas",
+        "GX.IsAELocalHomeomorph",
+        "GX.aePullback_counterexample_nonmaximal"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M locally connected Hausdorff",
+          "here": "weakened",
+          "note": "not used"
+        },
+        {
+          "paper": "N a singular manifold",
+          "here": "weakened",
+          "note": "B an a.e. atlas suffices"
+        },
+        {
+          "paper": "f continuous, a.e. a local homeomorphism",
+          "here": "carried",
+          "note": "IsAELocalHomeomorph read from the proof's first line"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.545: 'there exists a unique a.e. (G,X)-structure' — an a.e. structure is an a.e. atlas (def:structure_topological_space_atlas, l.471), and uniqueness fails among all of them (two different a.e. atlases on R make id an a.e. morphism, GX.aePullback_counterexample_nonmaximal); the proof's appeal to maximality shows uniqueness is meant among maximal ones, which is what is proved."
+      ],
+      "questions": [
+        "'f is a.e. a local homeomorphism' is undefined; read from the proof: portly O ⊆ M and P ⊆ Reg(N) with f(O) ⊆ P and f a local homeomorphism on O."
+      ]
+    },
+    {
+      "label": "def:notations_lemma_lem_aepullback",
+      "tex_lines": [
+        554,
+        557
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.aePullback",
+        "GX.aePullback_spec",
+        "GX.eq_aePullback",
+        "GX.aePullback_spec_of_isAELocalHomeomorph"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "aePullback G B f is the unique maximal structure when one exists and ∅ (junk) otherwise."
+      ]
+    },
+    {
+      "label": "cor:locally_connected_hausdorff_topological",
+      "tex_lines": [
+        558,
+        561
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.aePullback_comp"
+      ],
+      "hypotheses": [
+        {
+          "paper": "L, M locally connected Hausdorff",
+          "here": "weakened",
+          "note": "only L locally connected used (composition)"
+        },
+        {
+          "paper": "(implicit) g, f a.e. local homeomorphisms into Reg(N), Reg(g^*A)",
+          "here": "strengthened",
+          "note": "added: without them the pullbacks f^*g^*A, (g∘f)^*A are not defined by lem:aepullback"
+        },
+        {
+          "paper": "A an a.e. structure on N",
+          "here": "carried",
+          "note": "an a.e. atlas"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.558: the corollary does not say that g and f are almost everywhere local homeomorphisms (into Reg N and into Reg of g^*A), without which g^*A and f^*g^*A are undefined; those hypotheses are added."
+      ],
+      "questions": []
+    },
+    {
+      "label": "lem:GX_sing_homeo_reg",
+      "tex_lines": [
+        592,
+        601
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.IsAEMorphismOf.regLocusOf_eq_inter_isLocalHomeomorphOn",
+        "GX.IsAEMorphism.regLocus_eq_inter_isLocalHomeomorphOn",
+        "GX.IsAEMorphismOf.mem_support_of_isLocalHomeomorphOn",
+        "GX.IsMaximalAEAtlas.mem_of_compatible"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M a singular manifold",
+          "here": "weakened",
+          "note": "an a.e. atlas suffices; N's atlas maximal is used"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "'f is a local homeomorphism around x' read as IsLocalHomeomorphOn f {x}. The proof is not the paper's (which goes through f^*B = A): the chart e ∘ h⁻¹ built from a local inverse h is compatible with B, so belongs to B by maximality (mem_of_compatible)."
+      ]
+    },
+    {
+      "label": "cor:morphisms_also_local_homemorphism",
+      "tex_lines": [
+        603,
+        604
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.IsAEMorphismOf.preimage_support_eq",
+        "GX.IsAEMorphism.preimage_reg_sing",
+        "GX.IsAEMorphismOf.mem_support_of_isLocalHomeomorphOn'"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "'Preserves both regular and singular loci' read (strongly) as f⁻¹(Reg N) = Reg M and f⁻¹(Sing N) = Sing M; needs both atlases maximal."
+      ]
+    },
+    {
+      "label": "rem:consequence_isomorphism_singular_manifolds",
+      "tex_lines": [
+        606,
+        609
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.IsAEMorphismOf.mem_iff_of_homeomorph",
+        "GX.IsAEMorphismOf.eq_aePullback_of_homeomorph",
+        "GX.IsAEMorphism.aeAtlas_eq_of_homeomorph"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "Proved: f^*B = A, and concretely e ∈ A ↔ e ∘ f⁻¹ ∈ B. The final sentence ('an isomorphism in every natural ways') is informal and not formalized."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.isOpen_support",
+    "GX.support_mono",
+    "GX.IsSubchart.refl",
+    "GX.IsSubchart.trans",
+    "GX.isSubchart_restrOpen",
+    "GX.subset_completion",
+    "GX.support_completion",
+    "GX.IsGXAtlas.mono",
+    "GX.IsAEAtlas.isAEAtlas_completion",
+    "GX.IsGXAtlas.eventually_smul_eq",
+    "GX.isGXAtlas_of_eventually",
+    "GX.IsGXAtlas.isThinner_completion_of_subset",
+    "GX.exists_smul_eq_on_of_isPreconnected",
+    "GX.subset_maximalAEAtlas",
+    "GX.IsAEAtlas.subset_maximalAEAtlas",
+    "GX.IsMaximalAEAtlas.maximalAEAtlas_eq",
+    "GX.IsMaximalAEAtlas.mem_of_compatible",
+    "GX.IsMaximalAEAtlas.isComplete",
+    "GX.IsMaximalAEAtlas.restrOpen_mem",
+    "GX.IsRegularOn.mono",
+    "GX.IsRegularOn.subset_regLocusOf",
+    "GX.IsPortly.inter_preimage_of_isLocalHomeomorphOn",
+    "GX.support_maximalAtlas",
+    "GX.isMaximalAEAtlas_maximalAtlas",
+    "GX.isAEMorphismOf_maximalAtlas_iff",
+    "GX.translationAtlas",
+    "GX.sumTranslationAtlas",
+    "GX.hasGroupoid_sum_translation"
+  ],
+  "kb_proposals": [
+    "Maximal a.e. atlases: IsMaximalAEAtlas.mem_of_compatible (a chart locally G-compatible with every chart of A is in A) is the workhorse — completeness, lem:GX_sing_homeo_reg, the cor and the iso remark all reduce to it; prove membership by building the chart and checking local compatibility.",
+    "Rigidity on any preconnected subset of a chart source (exists_smul_eq_on_of_isPreconnected, F arbitrary, S need not be open) plus Set.EqOn.of_subset_closure over a portly set is the 'locally constant g on the portly trace, then density' step of lem:GX_atlas_union and lem:regf1.",
+    "Singular-manifold notions are stated for explicit atlases (IsAEMorphismOf G A B f, regLocusOf G A B f) with class-level wrappers over SingularGXStructure; the explicit form is what the pullback (structure on M varies) needs.",
+    "A (G,X)-manifold is a singular one with empty Sing: isMaximalAEAtlas_maximalAtlas and isAEMorphismOf_maximalAtlas_iff; cheap counterexamples on ℝ and ℝ ⊕ ℝ with Multiplicative ℝ (hasGroupoid_sum_translation) come from this bridge."
+  ],
+  "notes": "0 sorry; builds with -DwarningAsError=true; axioms of the main results are propext/Classical.choice/Quot.sound only. lake build GXScaffold.Singular.Atlas rebuilt only this module. Imports GXScaffold.Topology.Portly and GXScaffold.Structure.Basic (unchanged). Defines a global instance GX.hasGroupoid_sum_translation : HasGroupoid (ℝ ⊕ ℝ) (gxGroupoid (Multiplicative ℝ) ℝ) and a CategoryTheory.Category instance on GX.SingGXCat (needs ContinuousConstSMul G X and LocallyConnectedSpace X). Six rows are partial: two DEC-27 findings with counterexamples (rem:morphisms_analytical_two_equal: M connected + nonempty open set; lem:aepullback: uniqueness only among maximal structures), one pedantic finding (lem:GX_atlas_union: nonempty family), one implicit hypothesis added (cor:locally_connected_hausdorff_topological), two readings (prop:GX_sing_morph_local, rem:though_may_tempted_include)."
+}

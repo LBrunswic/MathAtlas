@@ -1,0 +1,45 @@
+{
+  "package": "WP-24b",
+  "round": 2,
+  "file": "scaffold/GXScaffold/Topology/UniversalCover.lean",
+  "verdict": "clean",
+  "builds": true,
+  "sorry_count": 0,
+  "checks": {
+    "build": "taskset -c 0-11 lake env lean on the file: EXIT 0, no output; also EXIT 0 under -DwarningAsError=true. lake build --no-build GXScaffold.Topology.UniversalCover: all targets up to date (olean 3 s newer than the source). The only occurrence of the word 'sorry' is in the module docstring. #print axioms (via lake env lean --stdin, nothing written) on isCoveringMap_proj, deckEquiv, simplyConnectedSpace, existsUnique_lift, isCoveringMap_of_comp_eq, exists_homeomorph_of_simplyConnected, countable_fundamentalGroup, both composition theorems, the iff and the LPC instance: propext, Classical.choice, Quot.sound only.",
+    "fidelity": "SemilocallySimplyConnected is Hatcher's definition (a neighbourhood U of y in which every loop at y is null in Y), which is also the dispatch's definition and the paper's own :1451-1456. UniversalCover is a structure with data fields only (pt, cls), so no proposition is hidden in a field. Its topology is generateFrom of B(c,U) over open U, which is a genuine basis; proj is the endpoint map. The hypotheses can be satisfied: probes instantiate isCoveringMap_proj and deckEquiv at Y = R. The covering, the path-connected, simply connected and LPC total space, the exists-unique universal property, Deck as a Subgroup (E homeo E) (probe: (phi*psi) x = phi (psi x) by rfl), Deck = pi_1 and countable pi_1 are all at least as strong as the dispatch and paper. Every dropped hypothesis is genuinely unused: Y connected, Y Hausdorff, and every hypothesis on E in the universal property. SLSC is needed for countability (Hawaiian earring). Composition comes in two true forms. Finite fibres on the lower map p is the right finite condition; finite fibres on the upper map is not enough by the classical counterexample. The LPC+SLSC-base form is also true. The round-1 issues are addressed: the composition finding is corrected, the uniqueness homeomorphism has been added, the root lemma is now in GX, the universe restriction of the iff is documented, and the aliases work. A probe confirms hp.comp_of_finite resolves after open GX.",
+    "docstring": "No label is marked. This is correct: the package has no ledger label. The SCOPE section discloses the :1156 reading, the unproved general failure of composition, and the use at :1137. The hypothesis table matches the code.",
+    "report": "The status 'partial (reading of :1156)' follows the CAMPAIGN definition. The findings are accurate and the :1137 finding is now correct. Every decl listed resolves. One inaccuracy, minor: the hypotheses note on uniqueness says LPC of E is 'needed'."
+  },
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "UniversalCover.exists_homeomorph_of_simplyConnected; REPORT.json labels[0].hypotheses (uniqueness entry)",
+      "problem": "[LocPathConnectedSpace E] is redundant. It follows from hq.isLocalHomeomorph and [LocPathConnectedSpace Y] by the file's own GX.locPathConnectedSpace_of_isLocalHomeomorph. A stdin probe proves the theorem without that hypothesis in two lines. The REPORT says this hypothesis is 'needed by mathlib's lifting criterion', which is true of the criterion's interface but not of the statement. The paper does not state uniqueness with this hypothesis.",
+      "fix": "Drop [LocPathConnectedSpace E] from the signature and haveI it inside the proof. Correct the REPORT note."
+    },
+    {
+      "severity": "minor",
+      "where": "section Comp / SCOPE (2)",
+      "problem": "The general failure of 'a composite of coverings is a covering' is asserted but not proved. DEC-27 asks for a counterexample where a statement the paper uses is false. That statement is used in the proof of another label (:1137, prop:branched_covering_composition), and the dispatch asked only for the strongest true version. The gap is disclosed in the docstring and the REPORT.",
+      "fix": "Leave it to the prop:branched_covering_composition package or the master: either formalize a Hawaiian-earring-type counterexample, or show that the setting at :1137 supplies a hypothesis (finite fibres of q, or SLSC of Z_1)."
+    },
+    {
+      "severity": "minor",
+      "where": "UniversalCover (API for :1185-1186)",
+      "problem": "The paper's prop:universality argues 'maximal among coverings hence its universal covering'. The file gives uniqueness for a simply connected E, but no 'a connected covering with the universal property (maximal) is isomorphic to UniversalCover'. That converse follows from existsUnique_lift both ways together with uniqueness of lifts from connected E. Downstream will have to assemble it.",
+      "fix": "Optionally add a lemma: E connected and LPC, q a covering, and for every covering of Y a morphism from E exists, imply E homeo UniversalCover over Y."
+    },
+    {
+      "severity": "minor",
+      "where": "instance UniversalCover.instSimplyConnectedSpaceUnitInterval; theorem UniversalCover.simplyConnectedSpace",
+      "problem": "A global instance SimplyConnectedSpace unitInterval is inherited by every importer. #synth with full Mathlib picks the GX instance, so mathlib has none at this pin and nothing clashes today; this is already flagged for the graduation checklist. Separately, simplyConnectedSpace is a theorem taking hY, so downstream users must haveI it. That is acceptable, since it cannot be an instance without an SLSC class.",
+      "fix": "Keep it, listed on the kb/0015 graduation checklist as an upstream candidate."
+    }
+  ],
+  "questions_for_author": [
+    "RamcovGX.tex:1137: which hypothesis makes (q o p)|X_1 -> Z_1 a covering: finite fibres of q, semilocal simple connectedness of Z_1, or an argument specific to the ordinary loci? Without one of these, the composite of two coverings need not be a covering.",
+    "RamcovGX.tex:1156: confirm that 'every loop in X of base point x' should read 'every loop in U' (Hatcher; agrees with :1451-1456)."
+  ],
+  "summary": "Round 2: clean. The file builds with 0 sorry, also under warningAsError, using standard axioms only. Every dispatch item is a genuine construction proved at full strength: SLSC, the universal cover with its basis topology, proj an IsCoveringMap, a path-connected, simply connected and LPC total space, the exists-unique universal property with the lift itself a covering, uniqueness up to homeomorphism, Deck as a subgroup with Deck = pi_1, composition in its two true forms, and countable pi_1. Hypotheses are satisfiable (instantiated at R) and every weakening is disclosed. All round-1 issues are addressed, including the major one (the :1137 composition finding). Four minor issues remain: a redundant [LocPathConnectedSpace E] in the uniqueness theorem, together with an inaccurate REPORT note saying it is needed; no formal counterexample to unrestricted composition, which is disclosed and belongs to another package; no 'maximal implies universal' API for :1185; and the global SimplyConnectedSpace I instance, which is already on the graduation list."
+}

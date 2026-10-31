@@ -1,0 +1,41 @@
+{
+  "package": "WP-24e",
+  "round": 1,
+  "auditor": "read-only auditor, round 1",
+  "file": "scaffold/GXScaffold/Singular/Atlas.lean",
+  "verdict": "clean",
+  "builds": true,
+  "sorry_count": 0,
+  "summary": "The file builds clean: `taskset -c 0-11 lake env lean` prints no warnings or errors, and `lake build GXScaffold.Singular.Atlas` succeeds and rebuilt nothing upstream. It has 0 sorry. #print axioms on all 114 named declarations shows only propext/Classical.choice/Quot.sound. Portly.lean carries two sorried declarations (l.851, l.1276), but no Atlas declaration depends on them. All 19 dispatched labels are present. Every statement was checked against RamcovGX.tex l.397-611, statements and proofs. The definitions match the paper: IsAEAtlas, IsThinner (l.406, quantifiers correct), AELe = completion thinner, IsMaximalAEAtlas, IsRegularOn = (G,X)-morphism U -> supp B in charts, IsAEMorphismOf, regLocusOf, Reg/Sing. None of them trivialises its notion, and isMaximalAEAtlas_maximalAtlas shows they are inhabited. The six partial rows are honest and their findings hold. (1) l.491 really needs M connected and a nonempty open set; both counterexamples are valid on the analytic structure (Multiplicative R, R) and satisfy every hypothesis of the paper. (2) l.545 uniqueness fails among non-maximal a.e. atlases; the counterexample {refl} vs translationAtlas is valid. (3) l.412 an empty family gives a false statement; this is pedantic and correct. (4) l.558 the a.e.-local-homeomorphism hypotheses that make the pullbacks defined are added, disclosed. (5) prop:GX_sing_morph_local is under a disclosed reading of 'restriction' and 'locally'. (6) rem:though_may_tempted_include is an informal remark, and its mathematical content is proved for all atlases. Every hypothesis added in a Lean statement is in the checklist and in the findings. Every marked label is proved in full with no added hypothesis. Topological hypotheses the paper's singular manifolds carry (M locally connected for composition, N Hausdorff for analyticity) are used only where the paper has them. No blocker or major issue found.",
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "Atlas.lean declaration docstrings l.346, 775, 847, 926, 1011, 1211",
+      "problem": "Declaration-level docstrings bold-mark labels that are partial (lem:GX_atlas_union, rem:morphisms_analytical_two_equal, prop:GX_sing_morph_local, lem:aepullback, cor:locally_connected_hausdorff_topological, rem:though_may_tempted_include). The module docstring correctly leaves them unmarked, so the kb/0006 contract (the module docstring) is satisfied. A grep-based reader of the whole file would still see them as certified.",
+      "fix": "Write these six labels as `label`, without the ** mark, in the declaration docstrings too."
+    },
+    {
+      "severity": "minor",
+      "where": "Atlas.lean l.1503 `instance hasGroupoid_sum_translation`",
+      "problem": "A global instance HasGroupoid (R ⊕ R) (gxGroupoid (Multiplicative R) R) exists only to serve a counterexample. It leaks into every downstream importer of the module. Mathlib has no competing instance, so nothing breaks today.",
+      "fix": "Make it a theorem used via `haveI`, or a scoped or local instance in the Counterexamples section."
+    },
+    {
+      "severity": "minor",
+      "where": "Atlas.lean l.1152 `IsAEMorphismOf.eq_aePullback_of_homeomorph`",
+      "problem": "The name and argument suggest the homeomorphism is used, but the statement is eq_aePullback with f := φ. The equality A = f^*B holds for any a.e. morphism from a maximal atlas. The real content of the remark is mem_iff_of_homeomorph.",
+      "fix": "Note in the docstring that the homeomorphism is not needed, or generalise and keep this name as an alias."
+    },
+    {
+      "severity": "minor",
+      "where": "Atlas.lean, Singular section",
+      "problem": "kb/0011 asks for an example where cheap, and the file has no singular manifold with nonempty Sing. Every inhabitant built here has empty singular locus (maximalAtlas bridge). That a maximal a.e. atlas can have proper support, e.g. a cone point, is not exhibited.",
+      "fix": "Optional. Downstream §2.4 examples may supply one; otherwise add a small one, e.g. a nontrivial-holonomy punctured cone, or report the absence."
+    }
+  ],
+  "report_json_check": "Statuses are honest. The 13 closed rows are fully proved with only weakened or carried hypotheses. The 6 partial rows each have a correct finding or a disclosed reading. All tex_lines match the labels. The claims 'builds', 'sorry_count 0' and 'axioms clean' are re-verified.",
+  "questions_for_author": [
+    "l.491: should rem:morphisms_analytical_two_equal be restricted to connected M (and a nonempty open set), or to an open set meeting every component?",
+    "l.545: is 'unique a.e. (G,X)-structure' meant up to the equivalence A ~ maximalAEAtlas A, i.e. among maximal atlases? If so, def:structure_topological_space_atlas (l.471) could identify a structure with its maximal atlas."
+  ]
+}

@@ -1,0 +1,139 @@
+{
+ "package": "WP-24b",
+ "files": [
+  "scaffold/GXScaffold/Topology/UniversalCover.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "infra:universal-cover (no ledger label; cited at RamcovGX.tex:1156, used at :292-293, :317, :1170, :1195-1196)",
+   "tex_lines": [
+    1156,
+    1156
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.SemilocallySimplyConnected",
+    "GX.IsGoodSet",
+    "GX.UniversalCover",
+    "GX.UniversalCover.proj",
+    "GX.UniversalCover.base",
+    "GX.UniversalCover.basic",
+    "GX.UniversalCover.isTopologicalBasis",
+    "GX.UniversalCover.isCoveringMap_proj",
+    "GX.UniversalCover.instPathConnectedSpace",
+    "GX.UniversalCover.simplyConnectedSpace",
+    "GX.UniversalCover.instLocPathConnectedSpace",
+    "GX.UniversalCover.existsUnique_lift",
+    "GX.UniversalCover.isCoveringMap_of_comp_eq",
+    "GX.UniversalCover.lift_surjective",
+    "GX.deckGroup",
+    "GX.Deck",
+    "GX.UniversalCover.deckHom",
+    "GX.UniversalCover.deckEquiv",
+    "GX.isCoveringMap_comp_of_finite",
+    "GX.UniversalCover.exists_homeomorph_of_simplyConnected",
+    "GX.isCoveringMap_comp_of_semilocallySimplyConnected",
+    "GX.IsCoveringMap.comp_of_finite",
+    "GX.IsCoveringMap.comp_of_semilocallySimplyConnected",
+    "GX.UniversalCover.countable_fundamentalGroup",
+    "GX.semilocallySimplyConnected_of_isCoveringMap",
+    "GX.semilocallySimplyConnected_iff_exists_simplyConnected_cover"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Y connected",
+     "here": "weakened",
+     "note": "not used for the covering, the deck isomorphism, the universal property or countability; the total space is path-connected for every Y (fibres over points not joined to y0 are empty). PathConnectedSpace Y is used only for surjectivity of proj and in the iff."
+    },
+    {
+     "paper": "Y locally path-connected",
+     "here": "carried",
+     "note": "[LocPathConnectedSpace Y] wherever the topology of Y matters; not needed for path-connectedness of the total space"
+    },
+    {
+     "paper": "Y Hausdorff",
+     "here": "weakened",
+     "note": "never used"
+    },
+    {
+     "paper": "Y semilocally simply connected",
+     "here": "carried",
+     "note": "in the reading 'every loop at y in U is null in Y' (see questions)"
+    },
+    {
+     "paper": "E connected, locally path-connected (universal property)",
+     "here": "weakened",
+     "note": "nothing assumed on E; the lift F is moreover a covering map (isCoveringMap_of_comp_eq) and onto when E is path-connected"
+    },
+    {
+     "paper": "pi_1 countable: Y second countable",
+     "here": "carried",
+     "note": "[SecondCountableTopology Y] + LPC + SLSC"
+    },
+    {
+     "paper": "composite of coverings (used at :1137)",
+     "here": "carried",
+     "note": "two true forms: finite fibres of the second map (isCoveringMap_comp_of_finite), or base locally path-connected and semilocally simply connected (isCoveringMap_comp_of_semilocallySimplyConnected); no hypothesis on X or E in either"
+    },
+    {
+     "paper": "uniqueness of the universal covering (:1156, :1185-1186)",
+     "here": "carried",
+     "note": "exists_homeomorph_of_simplyConnected: E simply connected and locally path-connected (the latter needed by mathlib's lifting criterion for the map E → UniversalCover)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "RamcovGX.tex:1156 defines semi-local simple connectedness as 'every loop γ in X of base point x is trivial in X'; read literally this says π₁(X,x) = 1 for all x. It should read 'every loop γ in U'. The paper's own Definition at :1451 and Remark :1456 use the correct version (loops in V∩U).",
+    "RamcovGX.tex:1156: 'necessary and sufficient condition ... to admit a universal covering' — both halves are formalized (semilocallySimplyConnected_iff_exists_simplyConnected_cover) for a path-connected, locally path-connected space; Hausdorffness is never needed.",
+    "CORRECTED (round 1; the round-0 report wrongly said the paper states no composition result). The proof of prop:branched_covering_composition, direction (ii)⇒(i), RamcovGX.tex:1137, concludes '(q∘p)|X_1^{Z_1} is a composition of covering hence a covering' with no finiteness of fibres and no semilocal simple connectedness of Z_1, which is only an open portly subset of Z. The composite of two coverings is not a covering in general (classical counterexamples over a base that is not semilocally simply connected, Hawaiian-earring type); the general failure is NOT proved here. The two true forms are formalized: isCoveringMap_comp_of_finite (finite fibres of q, the paper's second map — which cannot serve :1137, branched coverings there may have infinite fibres) and isCoveringMap_comp_of_semilocallySimplyConnected (Z_1 locally path-connected and semilocally simply connected — the paper does not assume the latter of Z_1). This is a possible DEC-27 missing hypothesis in a proof another package must formalize; flagged for the prop:branched_covering_composition package. (:1123, direction (i)⇒(ii), uses 'composition of coverings' only descriptively: there q∘p is already known to be a covering on the ordinary locus, so no composition theorem is invoked.)"
+   ],
+   "questions": [
+    "Reading of :1156: 'loop in X' taken as 'loop in U' (Hatcher's definition, and the dispatch's). Confirm, or record that the dispatch's definition supersedes the :1156 wording (then the row is closed).",
+    "For the prop:branched_covering_composition package and the author: at :1137, which hypothesis makes (q∘p)|X_1 → Z_1 a covering — finite fibres of q, semilocal simple connectedness of Z_1 (e.g. inherited from a standing assumption of the section), or an argument specific to the ordinary loci of branched coverings? As written it invokes the composite-of-coverings theorem, which is false in general."
+   ],
+   "status_note": "partial only because of a reading: :1156's 'every loop γ in X' is read as 'every loop in U' (Hatcher; the dispatch's own definition; the paper's :1451-1456). If the master records that the dispatch's definition supersedes the :1156 wording, the row is closed: every assertion is proved with 0 sorry and no added hypothesis."
+  }
+ ],
+ "extra_decls": [
+  "GX.isEvenlyCovered_of_sheets",
+  "GX.IsEvenlyCovered.exists_sheets",
+  "GX.exists_isGoodSet",
+  "GX.IsGoodSet.mono",
+  "GX.SemilocallySimplyConnected.of_simplyConnectedSpace",
+  "GX.exists_countable_cover_of_chain",
+  "GX.IsPreconnected.subset_of_pairwise_disjoint",
+  "GX.quot_trans_left_cancel",
+  "GX.quot_trans_right_cancel",
+  "GX.quot_eq_of_conj_eq_refl",
+  "GX.path_trans_mem",
+  "GX.path_symm_mem",
+  "GX.UniversalCover.segPath",
+  "GX.UniversalCover.rawLift",
+  "GX.UniversalCover.liftFrom",
+  "GX.UniversalCover.continuous_rawLift",
+  "GX.UniversalCover.isPathConnected_basic",
+  "GX.UniversalCover.injOn_basic",
+  "GX.UniversalCover.isOpenMap_proj",
+  "GX.UniversalCover.continuous_proj",
+  "GX.UniversalCover.proj_surjective",
+  "GX.UniversalCover.leftMul",
+  "GX.UniversalCover.leftMulHomeomorph",
+  "GX.UniversalCover.instSimplyConnectedSpaceUnitInterval",
+  "GX.locPathConnectedSpace_of_isLocalHomeomorph",
+  "GX.exists_path_lifts_comp",
+  "GX.eq_of_comp_homotopicRel_const"
+ ],
+ "kb_proposals": [
+  "Universal cover as a structure ⟨pt, cls : Path.Homotopic.Quotient y₀ pt⟩ with topology generateFrom of basic sets B(c,U); B(c',U) = B(c,U) whenever c' ∈ B(c,U), so the basis axiom needs no local path-connectedness.",
+  "Canonical lift t ↦ c·[δ ∘ segPath 0 t] with segPath the affine path in I; I is SimplyConnectedSpace via (convex_Icc 0 1).contractibleSpace, which makes every reparametrisation identity a one-liner (paths_homotopic). Endpoint equalities of the dependent pairs go through Path.Homotopic.hpath_hext (namespace Path.Homotopic, not .Quotient) and cast_heq.",
+  "To prove IsCoveringMap, use IsOpen.trivializationDiscrete via GX.isEvenlyCovered_of_sheets (open sheets, InjOn, SurjOn, pairwise disjoint, cover; f continuous and open); GX.IsEvenlyCovered.exists_sheets goes the other way.",
+  "grind on Path.Homotopic.Quotient group-like identities timed out (whnf) here; explicit trans_assoc/symm_trans/trans_refl calc is instant.",
+  "FundamentalGroup is End, so a * b = b ≫ a = b.trans a; the action c ↦ (g⁻¹)·c is then a homomorphism by mul_inv_rev, with no symm lemma needed.",
+  "Generalized field notation finds GX.Foo.bar for h : Foo only after `open GX` (it works in a downstream file with `open GX in`, but NOT inside `namespace GX` itself): inside the defining file call GX.IsPreconnected.subset_of_pairwise_disjoint explicitly.",
+  "Composite of coverings over an LPC SLSC base: sheets = path components of (p∘q)⁻¹W for a good path-connected W; injectivity from IsCoveringMap.homotopicRel_iff_comp applied twice (p then q) to the loop's null-homotopy; LPC of E from IsLocalHomeomorph via OpenPartialHomeomorph + JoinedIn.map_continuousOn."
+ ],
+ "notes": "0 sorry; builds with taskset -c 0-11 lake build GXScaffold.Topology.UniversalCover and under -DwarningAsError=true; axioms propext, Classical.choice, Quot.sound only. Round 1 (fixer): finding on composition corrected (paper uses it at :1137); added the SLSC-base composition theorem, the uniqueness homeomorphism, LPC transfer along local homeomorphisms, dispatch-named aliases GX.IsCoveringMap.comp_of_finite / comp_of_semilocallySimplyConnected (dot notation after `open GX`); moved the root lemma to GX.IsPreconnected.subset_of_pairwise_disjoint (no downstream user existed); documented the universe restriction of the iff; row status changed to partial (reading of :1156). GRADUATION CHECKLIST (kb/0015), upstream candidate: the global instance GX.UniversalCover.instSimplyConnectedSpaceUnitInterval (SimplyConnectedSpace unitInterval, absent from mathlib at this pin) is inherited by every importer and will clash if mathlib adds one; kept global (I could not edit kb/), the master should list it. Not done: a formal counterexample to the unrestricted composition (needs a Hawaiian-earring-type base; the cheap attempt over a totally disconnected base, the one-point compactification of ℕ, fails, because its composite re-arranges into sheets and IS a covering). Deck p is an abbrev for ↥(deckGroup p). No connectedness of Y is assumed anywhere except proj_surjective and the iff."
+}

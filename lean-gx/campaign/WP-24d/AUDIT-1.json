@@ -1,0 +1,67 @@
+{
+  "package": "WP-24d",
+  "round": 1,
+  "auditor": "read-only auditor, round 1",
+  "file": "scaffold/GXScaffold/Spread/Basic.lean",
+  "verdict": "clean",
+  "builds": true,
+  "sorry_count": 0,
+  "checks": {
+    "build": "taskset -c 0-11 lake env lean scaffold/GXScaffold/Spread/Basic.lean: no errors, no warnings; lake build GXScaffold.Spread.Basic --no-build: all targets up to date. No sorry/admit/axiom/native_decide in the file. #print axioms on spread_partial_covering, Spread.ord_iso, cex_openess, cex_portlyness, unitTrue_counterexample, isCoveringMap_restrict_ordX, ordY_portlyInv_nonempty, notMem_ordX_of_notMem_interior, IsSpread.restrict, not_isPreconnected_ordY_abs/ordX_abs, image_compl_ordX, Spread.instCategory: only propext, Classical.choice, Quot.sound (none rests on Portly.lean's two sorries). Every decl named in REPORT.json exists.",
+    "fidelity": "IsSpread = continuity + topology equal to generateFrom of connectedComponentIn (p^-1 U) (literal reading of l.826). Spread.Hom = pairs of continuous maps with p' o g = f o p (l.828-833). IsEvenlyCoveredSet/ordY/ordX transcribe l.839-841 literally, with the open neighbourhood required. IsSpread.restrict, image_compl_ordX, spread_partial_covering and Spread.ord_iso are at least as strong as the paper (only standing hypotheses carried: T2Space X, LocallyConnectedSpace X, the latter weaker than locally path-connected); dropped hypotheses (V open, p continuous, Y's standing hypotheses, spreadness in ord_iso) are reported as weakened. spread_partial_covering uses mathlib IsCoveringMap of the restriction, the weakest reading. No vacuous or circular hypotheses: IsPortly is open/dense/locally-connected-in, satisfied by univ; no structure field encodes a conclusion.",
+    "counterexamples": "cex:openess is a genuine Lean counterexample (lineIncl, X1 = univ portly, Y1 = range not open, Y1 disjoint from ord(Y), ord(X) = empty) and also refutes the literal 'ord(Y) = empty' (ord(Y) = complement of the line). cex:portlyness item 2's literal claim is refuted for every topology on the paper's X (ball_subset_ordY_portlyInv; checked: portlyInv has norm >= 1 on the rays and outside the disc); the lemma's failure without density is shown on zigzag x |-> ||x|-1| (X1 = (1,oo) open, locally connected, not dense; all three conclusions fail). unitTrue_counterexample is a genuine counterexample to the surjective reading of rem:ordinary_locii_open_but.",
+    "docstring": "Marked: def:category_spreads, rem:spread_open_respectively_co, def:continuous_map_ordinary_locus, rem:singular_on_singular, lem:spread_partial_covering, lem:ord_iso, each fully proved with no added hypothesis. Unmarked and explained in SCOPE: rem:ordinary_locii_open_but, cex:openess, cex:portlyness. All labels within the first 4000 characters; quote block, hypothesis checklist, SCOPE and provenance present (kb/0006).",
+    "report_honesty": "Statuses match the file: 6 closed+marked, 3 partial+unmarked; the findings and questions describe the file accurately.",
+    "missing_labels": "None: all nine dispatched labels present; every assertion of each multi-part statement addressed (lem:spread_partial_covering's three conclusions, lem:ord_iso's two, rem:ordinary_locii_open_but's open/not-connected/covering parts, cex:portlyness's two items)."
+  },
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "REPORT.json, row lem:spread_partial_covering (and def:continuous_map_ordinary_locus question)",
+      "problem": "The closed status of lem:spread_partial_covering's first two conclusions depends on the literal (vacuous) reading of 'evenly covered', which the report asks the author about in the def row. Under the non-vacuous reading (p^-1(U) nonempty), Y1 ⊆ ord(Y) fails for a mathlib covering whose image misses part of Y1 (empty fibres allowed), so the lemma would need the covering X1 -> Y1 to be surjective. The coupling is not stated in the lemma row.",
+      "fix": "Add a note to the lem:spread_partial_covering row: closed under the literal reading; if the author excludes the vacuous case, the statement must also assume the restriction surjective (as the paper's 'covering' probably means)."
+    },
+    {
+      "severity": "minor",
+      "where": "Basic.lean, not_isPreconnected_ordY_abs",
+      "problem": "The witness that ord(Y) may be disconnected uses -1 ∈ ord(Y) for |x|, which holds only vacuously (empty preimage). It would not survive the non-vacuous reading the report itself raises. ordX's witness is unaffected.",
+      "fix": "Also give a witness that works under both readings, e.g. zigzag (already in the file): (0,1) and (1,oo) are ordinary with nonempty preimage (four and two sheets) and 1 is not (one_notMem_ordY_zigzag)."
+    },
+    {
+      "severity": "minor",
+      "where": "Basic.lean, cex:portlyness item 2 (portlyX, portlyInv)",
+      "problem": "The paper's own example is built only as far as refuting 'ord(Y) = empty'. Its listed properties (Hausdorff, second countable, locally path-connected, a spread, X1 -> Y1 a homeomorphism) and the intended true claim (p(X) ∩ ord(Y) = empty, so Y1 ⊄ ord(Y)) are not formalized; the zigzag stands in. This is reported (row partial, question about the 'coarsest topology'), so it is not a hidden weakening.",
+      "fix": "Optional, for a later round: under the reading proposed in the question (topology generated by the subspace-topology components of X ∩ U), build the topology and prove Y1 ⊄ ord(Y)."
+    },
+    {
+      "severity": "minor",
+      "where": "Basic.lean, isCoveringMap_of_homeomorph",
+      "problem": "The lemma assumes T2Space E, which is not needed for a homeomorphism to be a covering map. It is an artefact of the IsClosedMap.isCoveringMapOn_of_openPartialHomeomorph route and limits reuse downstream.",
+      "fix": "Prove it without T2: give the trivialization over univ with a one-point fibre, or show IsCoveringMap id and use mathlib's IsCoveringMap.homeomorph_comp (Topology/Covering/Basic.lean:392)."
+    },
+    {
+      "severity": "minor",
+      "where": "Basic.lean, not_injOn_of_notMem_interior / notMem_ordX_of_notMem_interior (cex:portlyness item 1)",
+      "problem": "Item 1 is proved as a general theorem, but no instance shows its hypotheses can hold with a non-open X1 (kb/0011: give a cheap inhabitant).",
+      "fix": "Add a one-line instance: Prod.fst : ℝ×ℝ -> ℝ with X1 = ℝ×{0}, Y1 = univ; the restriction is a homeomorphism, hence a covering."
+    },
+    {
+      "severity": "minor",
+      "where": "Basic.lean, rem:ordinary_locii_open_but (covering part)",
+      "problem": "Under the literal reading, the strongest true form of the remark is that ord(X) -> ord(Y) ∩ p(X) is a surjective covering. It is not stated. Only the mathlib-covering form and, separately, surjectivity for surjective p are given.",
+      "fix": "Optional: state that the corestriction of ord(X) -> ord(Y) to ord(Y) ∩ range p is a surjective covering map."
+    },
+    {
+      "severity": "minor",
+      "where": "Basic.lean, structure Spread",
+      "problem": "Source and target live in one universe Type u. Disclosed in SCOPE; harmless for this paper.",
+      "fix": "None needed; keep the disclosure."
+    }
+  ],
+  "questions_for_author": [
+    "Is a set with empty preimage meant to count as evenly covered (l.839)? Under that reading 'ord(Y) = empty' at l.872 and l.880 is false. Under the other reading lem:spread_partial_covering needs a surjective covering.",
+    "Does 'covering' (l.844, l.851) include surjectivity and/or a connected total space?",
+    "l.877: which topology is 'the coarsest topology making the natural injection a spread'? Is it the one generated by the subspace-topology components of X ∩ U?"
+  ],
+  "summary": "The file builds with 0 sorry and only the standard axioms, and the module is up to date. All nine labels are present. The six marked labels are proved at least as strongly as the paper states them, with only standing hypotheses carried. The three partial rows are correctly unmarked, and each carries a genuine Lean counterexample to the false-as-written claim plus a true replacement. REPORT.json is honest. There are no blockers and no majors. The minor issues: the closed status of the partial-covering lemma and two witnesses depend on the vacuous reading of 'evenly covered', and the report does not say so in the lemma row; isCoveringMap_of_homeomorph assumes an unnecessary T2Space; there is no inhabitant for cex:portlyness item 1; the paper's item-2 space is not built (disclosed)."
+}

@@ -1,0 +1,100 @@
+{
+  "package": "WP-24f",
+  "files": ["scaffold/GXScaffold/Structure/Developing.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "infra:developing-theorem (no ledger label; RamcovGX.tex:293, introduction)",
+      "tex_lines": [293, 293],
+      "status": "closed",
+      "marked": false,
+      "decls": [
+        "GX.developing_theorem",
+        "GX.developing_theorem_fundamentalGroup",
+        "GX.developing_unique",
+        "GX.developing_descends",
+        "GX.developing_theorem_of_simplyConnected",
+        "GX.exists_developingMap",
+        "GX.developing_unique_of_preconnected",
+        "GX.coverChartedSpace",
+        "GX.hasGroupoid_cover",
+        "GX.isGXMorphism_cover_proj"
+      ],
+      "hypotheses": [
+        {"paper": "action faithful and rigid (analytical)", "here": "carried", "note": "IsAnalyticAction G X; faithfulness makes the sheets of the developing covering disjoint and the holonomy well defined"},
+        {"paper": "action by homeomorphisms", "here": "carried", "note": "ContinuousConstSMul G X"},
+        {"paper": "X Hausdorff", "here": "weakened", "note": "never used: uniqueness of developing maps goes through uniqueness of sections of the developing covering (IsCoveringMap.eq_of_comp_eq), not through closedness of {D = D'}"},
+        {"paper": "X connected, locally (path-)connected", "here": "weakened", "note": "never used"},
+        {"paper": "M second countable, Hausdorff", "here": "weakened", "note": "never used"},
+        {"paper": "M connected", "here": "weakened", "note": "not used for existence or uniqueness (UniversalCover M x0 is path-connected for every M); carried as ConnectedSpace M for descent (surjectivity of proj)"},
+        {"paper": "as long as the universal covering exists", "here": "carried", "note": "LocPathConnectedSpace M + SemilocallySimplyConnected M (WP-24b's universal cover; equivalent to existence of a simply connected cover for connected locally path-connected M). LocPathConnectedSpace M follows from the introduction's X locally path-connected via ChartedSpace.locPathConnectedSpace"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "'developing map' is read as a (G,X)-morphism M~ -> X for the structure pulled back along the universal covering (near every point a translate of the chart); the paper never defines it for regular manifolds (def:developing_map at l.1726 is for the singular setting)."
+      ]
+    },
+    {
+      "label": "infra:developing-theorem-344 (no ledger label; RamcovGX.tex:344, commented out)",
+      "tex_lines": [344, 344],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.developing_theorem_fundamentalGroup",
+        "GX.developing_unique",
+        "GX.developing_unique_fails_for_bare_maps"
+      ],
+      "hypotheses": [
+        {"paper": "D a map, rho-equivariant", "here": "strengthened", "note": "D is required to be a (G,X)-morphism (developing map); for bare equivariant maps uniqueness is false (counterexample formalized)"}
+      ],
+      "sorries": [],
+      "findings": [
+        "RamcovGX.tex:344 (commented out) asks only for 'a map D : M~ -> X which is rho-equivariant'. Read literally, existence is trivial (a constant map with rho = 1) and the uniqueness 'such couples only differ by conjugation' is false: on the simply connected line with its translation structure, (id, 1) and (const 0, 1) are both equivariant couples and no translation relates them (GX.developing_unique_fails_for_bare_maps). The true statement needs D to be a local (G,X)-isomorphism / (G,X)-morphism; with that, uniqueness holds with a UNIQUE g, dev' = g.dev and hol' = g hol g^-1 (GX.developing_unique). Should the line be restored, it wants 'a (G,X)-morphism (developing map) D'."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "GX.eq_of_eventuallyEq_smul",
+    "GX.DevSpace",
+    "GX.DevSpace.germ",
+    "GX.DevSpace.germ_apply",
+    "GX.DevSpace.basic",
+    "GX.DevSpace.instTopologicalSpace",
+    "GX.DevSpace.mem_basic_self",
+    "GX.DevSpace.basic_mono",
+    "GX.DevSpace.exists_basic_subset",
+    "GX.DevSpace.isOpen_basic",
+    "GX.DevSpace.basic_mem_nhds",
+    "GX.DevSpace.isTopologicalBasis",
+    "GX.DevSpace.mem_nhds_iff",
+    "GX.DevSpace.continuous_pt",
+    "GX.DevSpace.injOn_pt_basic",
+    "GX.DevSpace.exists_germ_eq",
+    "GX.DevSpace.pt_image_basic",
+    "GX.DevSpace.isOpenMap_pt",
+    "GX.DevSpace.isCoveringMap_pt",
+    "GX.DevSpace.eventually_germ_eq",
+    "GX.isGXMorphism_of_eventually",
+    "GX.DevSpace.isGXMorphism_of_section",
+    "GX.DevSpace.sectionOf",
+    "GX.DevSpace.sectionOf_pt",
+    "GX.DevSpace.germ_sectionOf",
+    "GX.DevSpace.germ_sectionOf_self",
+    "GX.DevSpace.continuous_sectionOf",
+    "GX.IsGXMorphism.eq_of_eventuallyEq",
+    "GX.IsGXMorphism.smul_injective",
+    "GX.pullback_chartAt_apply",
+    "GX.isGXMorphism_of_comp_eq_pullback",
+    "GX.exists_developingMap_translation"
+  ],
+  "kb_proposals": [
+    "The developing map is a SECTION of the etale space of germs GX.DevSpace G X N (points <x,g> = germ of g . chartAt X x, basic sets B(c,U)); it is a covering trivial over each chart domain (GX.DevSpace.isCoveringMap_pt), so Mathlib's IsCoveringMap.existsUnique_continuousMap_lifts gives existence on a simply connected base and IsCoveringMap.eq_of_comp_eq gives uniqueness with NO Hausdorff hypothesis on X.",
+    "letI in a theorem STATEMENT is inlined at elaboration (no let survives in the goal): prove such a statement with letI := <same instance> in the proof, never intro.",
+    "Inside namespace GX, while declaring IsGXMorphism.foo, a bare eq_of_eqOn resolves to IsGXMorphism.eq_of_eqOn: write GX.eq_of_eqOn.",
+    "A structure whose type must carry an unused parameter (the model X) needs explicit binders in its header: variable (G X N) in drops X because the fields never mention it."
+  ],
+  "notes": "Imports GXScaffold.Structure.Basic, GXScaffold.Topology.UniversalCover (neither edited) and Mathlib.Analysis.LocallyConvex.WithSeminorms (only for LocPathConnectedSpace R in the inhabitant GX.exists_developingMap_translation; drop it with that theorem if the import is unwanted). All main theorems depend only on propext, Classical.choice, Quot.sound. lake env lean is warning-free; lake build GXScaffold.Structure.Developing built only this module. Pulled-back statements are phrased with letI := coverChartedSpace X hM x0 in the statement. The (3) descent needs no IsAnalyticAction. Two label rows: l.293 closed (no mark: no ledger label), l.344 partial (literal reading false; counterexample proved)."
+}

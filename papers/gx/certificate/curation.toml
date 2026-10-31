@@ -74,3 +74,223 @@ terminal_reason = "After \\end{document} (RamcovGX.tex l.2402): discarded draft 
 label = "prop:branched_weak_devmap"
 bucket = "T"
 terminal_reason = "After \\end{document} (RamcovGX.tex l.2402): discarded draft material, not part of the published paper."
+[[row]]
+label = "def:portly_skeletal_subset"
+decls = ["GX.IsLocallyConnectedIn", "GX.IsPortly", "GX.IsSkeletal", "GX.isLocallyConnectedIn_iff_isConnected"]
+bucket = "A"
+notes = "WP-24a, audited clean (wave 1, WP-24). Readings taken: l.362 'W ∩ U is connected': read with IsPreconnected (empty set allowed). For open dense U it is equivalent to the IsConnected reading (GX.isLocallyConnectedIn_iff_isConnected), so IsPortly is unaffected; the reading only matters for 'locally connected in X' applied to non-dense sets."
+
+[[row]]
+label = "ex:following_example_skeletal_itemize"
+decls = ["GX.isSkeletal_of_finite_surface", "GX.isSkeletal_of_countable", "GX.isSkeletal_of_tameKnot", "GX.isSkeletal_of_locallyFlat", "GX.bowtie_counterexample", "GX.isSkeletal_skeletonSpace", "GX.isSkeletal_skeletonSpace_codim_two", "GX.not_isLocallyStronglyConnected_bowtie", "GX.isSkeletal_of_isTotallyDisconnected", "GX.isPreconnected_compl_of_isTotallyDisconnected", "GX.eq_empty_of_isSkeletal_real"]
+bucket = "C"
+extra_lean_files = ["scaffold/GXScaffold/Topology/PortlyExamples.lean"]
+lean_proved_override = "partial"
+notes = "WP-24a, audited clean (wave 1, WP-24). Partial: tagged sorry: dimension theory: a closed totally disconnected subset of R^n is zero-dimensional and a subset of dimension <= n-2 does not separate R^n (Hurewicz-Wallman Thm IV 4 / Alexander duality / Borsuk separation). Not in mathlib; mathlib's countable-complement argument does not reach uncountable K, and straight-line general position fails (a Cantor set can meet every ray from a point). Everything else of item 4 (chart localisation, transfer of total disconnectedness through univBall, density) is proved.; local structure theory of geometric simplicial complexes, absent from mathlib (carrier of a point, open stars as a neighbourhood basis of K.space, star of a point as the cone on its link, connectedness of an open simplex with its open codimension-one faces, and the general-position step that a path avoiding the (n-2)-skeleton crosses facets only through open (n-1)-faces). The reduction k < n-2 to k = n-2 is proved (GX.isSkeletal_skeletonSpace). Readings taken: 'surface' read as a Hausdorff space charted on R^2 (no second countability, no smoothness). | 'tame knot' read as a closed locally flat subset (charts onto open subsets of R x R^2 sending the knot to R x {0}); the circle structure is unused. | 'Cantor wildly embedded' read as a closed totally disconnected subset (compactness and perfectness unused). | 'pure n-dimensional simplicial complex' read as a finite geometric complex (mathlib Geometry.SimplicialComplex) in a finite-dimensional real normed space with the subspace topology; pure = every face has <= n+1 vertices and lies in a face with n+1 vertices."
+paper_findings = ["Item 3 (l.372) is false as written: the bow-tie (two closed triangles of R^2 sharing only the vertex 0) is a finite pure 2-dimensional simplicial complex whose 0-skeleton is not skeletal: a small open star of 0 is connected, removing 0 disconnects it (GX.bowtie_counterexample, built as a mathlib Geometry.SimplicialComplex). The item needs local strong connectivity in codimension >= 2 (every two n-simplices containing a simplex of dimension <= n-2 are joined through (n-1)-faces containing it), as for normal pseudomanifolds; the bow-tie fails exactly this (GX.not_isLocallyStronglyConnected_bowtie). The same caveat applies to l.625 ('gluings of projective polyhedra ... complement of the (n-2)-skeleton ... skeletal'), which is true for gluings that are pseudomanifolds but not for arbitrary face gluings.", "Item 4 (l.373) needs n >= 2: in R no nonempty subset is skeletal (GX.eq_empty_of_isSkeletal_real), so a Cantor set in a 1-manifold is not skeletal. 'Wildly' presupposes n >= 3 anyway, so this is a precision rather than an error; the statement holds for tame and wild embeddings alike.", "The closure properties l.383-390 never use Hausdorff; the two map items (l.389, l.390) need only the SOURCE locally connected; 'U portly in X, U ⊆ V implies U portly in V' (l.385) holds for an arbitrary subset V, not only open ones, when X is locally connected."]
+
+[[row]]
+label = "lem:path_covering"
+decls = ["GX.path_covering", "GX.exists_path_of_isPortly_of_isOpen", "GX.Path.exists_infConcat"]
+bucket = "A"
+notes = "WP-24a, audited clean (wave 1, WP-24)."
+
+[[row]]
+label = "lem:portly_first_countable"
+decls = ["GX.portly_first_countable", "GX.isPathConnected_inter_of_isPortly"]
+bucket = "A"
+notes = "WP-24a, audited clean (wave 1, WP-24)."
+
+[[row]]
+label = "def:category_spreads"
+decls = ["GX.spreadBasis", "GX.IsSpread", "GX.isSpread_iff", "GX.isSpread_iff_of_locallyConnectedSpace", "GX.IsSpread.isTopologicalBasis", "GX.IsSpread.locallyConnectedSpace", "GX.IsSpread.of_isInducing", "GX.Spread", "GX.Spread.Hom", "GX.Spread.Iso.homeoX", "GX.Spread.Iso.homeoY"]
+bucket = "A"
+notes = "WP-24d, audited clean (wave 1, WP-24). Readings taken: 'generated by' is read as TopologicalSpace.generateFrom of the components; equivalently (GX.isSpread_iff) the components are open and form a basis, so the source of a spread is locally connected. Objects of GX.Spread have source and target in one universe."
+
+[[row]]
+label = "rem:spread_open_respectively_co"
+decls = ["GX.IsSpread.restrict"]
+bucket = "A"
+notes = "WP-24d, audited clean (wave 1, WP-24)."
+
+[[row]]
+label = "def:continuous_map_ordinary_locus"
+decls = ["GX.IsEvenlyCoveredSet", "GX.ordY", "GX.ordX", "GX.mem_ordX", "GX.isEvenlyCoveredSet_of_preimage_eq_empty", "GX.subset_ordY_of_preimage_eq_empty", "GX.compl_closure_range_subset_ordY"]
+bucket = "A"
+notes = "WP-24d, audited clean (wave 1, WP-24). Readings taken: Is the vacuous case intended (U with p^{-1}(U) = ∅ evenly covered)? The formalization follows the text. If not, the definition should add p^{-1}(U) ≠ ∅ or restrict to y ∈ closure p(X)."
+paper_findings = ["Read literally, a set with empty preimage is evenly covered (vacuously), so every point outside the closure of p(X) is ordinary (GX.compl_closure_range_subset_ordY). This is what makes the two claims 'ord(Y) = ∅' at l.872 and l.880 false."]
+
+[[row]]
+label = "rem:ordinary_locii_open_but"
+decls = ["GX.isOpen_ordY", "GX.isOpen_ordX", "GX.not_isPreconnected_ordY_abs", "GX.not_isPreconnected_ordX_abs", "GX.isSpread_abs", "GX.isEvenlyCovered_of_isEvenlyCoveredSet", "GX.isCoveringMapOn_ordY", "GX.isCoveringMap_restrict_ordX", "GX.surjective_restrict_ordX", "GX.unitTrue_counterexample"]
+bucket = "C"
+extra_lean_files = ["GX/Spread/Basic.lean"]
+lean_proved_override = "partial"
+notes = "WP-24d, audited clean (wave 1, WP-24). Partial: paper statement corrected (DEC-27) Readings taken: What does 'covering' mean in the paper (surjective? connected total space?) — rem:ordinary_part_branched_covering (l.1001) suggests connected total space is part of it."
+paper_findings = ["l.844: with mathlib's notion of covering map (fibres may be empty, total space need not be connected), ord(X) → ord(Y) is a covering whenever X is locally connected, connected or not (GX.isCoveringMap_restrict_ordX). If 'covering' includes surjectivity, connectedness of ord(X) is NOT the only obstruction: for the spread Unit → Bool, () ↦ true, ord(X) = Unit is connected and ord(Y) = Bool, but the restriction misses false (GX.unitTrue_counterexample), again because of the vacuous evenly-covered sets. It does hold for a surjective p (GX.surjective_restrict_ordX)."]
+
+[[row]]
+label = "rem:singular_on_singular"
+decls = ["GX.image_compl_ordX"]
+bucket = "A"
+notes = "WP-24d, audited clean (wave 1, WP-24)."
+
+[[row]]
+label = "lem:spread_partial_covering"
+decls = ["GX.spread_partial_covering", "GX.preimage_subset_of_sheets", "GX.exists_homeomorph_of_sheet", "GX.isEvenlyCoveredSet_of_sheets", "GX.IsPreconnected.subset_of_pairwiseDisjoint"]
+bucket = "A"
+notes = "WP-24d, audited clean (wave 1, WP-24)."
+
+[[row]]
+label = "cex:openess"
+decls = ["GX.lineIncl", "GX.cex_openess", "GX.ordY_lineIncl", "GX.ordX_lineIncl", "GX.isSpread_lineIncl", "GX.isCoveringMap_lineIncl_restrict", "GX.not_isOpen_range_lineIncl", "GX.isCoveringMap_of_homeomorph"]
+bucket = "C"
+extra_lean_files = ["GX/Spread/Basic.lean"]
+lean_proved_override = "partial"
+notes = "WP-24d, audited clean (wave 1, WP-24). Partial: paper statement corrected (DEC-27)"
+paper_findings = ["l.872: 'ord(Y) = ∅' is false as written: ord(Y) = ℝ² ∖ (ℝ×{0}) (GX.ordY_lineIncl), because a disc missing the line has empty preimage. What is true, and what the counterexample needs: Y₁ ∩ ord(Y) = ∅ and ord(X) = ∅ (GX.cex_openess). Suggested wording: 'but ord(X) = ∅ and ord(Y) ∩ Y₁ = ∅'."]
+
+[[row]]
+label = "cex:portlyness"
+decls = ["GX.not_injOn_of_notMem_interior", "GX.notMem_ordX_of_notMem_interior", "GX.notMem_ordY_of_forall_not_injOn", "GX.zigzag", "GX.cex_portlyness", "GX.isSpread_zigzag", "GX.isCoveringMap_zigzag_restrict", "GX.portlyX", "GX.portlyInv", "GX.ball_subset_ordY_portlyInv", "GX.ordY_portlyInv_nonempty"]
+bucket = "C"
+extra_lean_files = ["GX/Spread/Basic.lean"]
+lean_proved_override = "partial"
+notes = "WP-24d, audited clean (wave 1, WP-24). Partial: paper statement corrected (DEC-27) Readings taken: l.877: 'the coarsest topology making the natural injection X → Y a spread' — such a coarsest topology is not obviously well defined (spreadness depends on components, which depend on the topology). Which topology is meant: the one generated by the subspace-topology components of X ∩ U?"
+paper_findings = ["Item 1 holds and is proved as a theorem (GX.notMem_ordX_of_notMem_interior).", "Item 2, l.880: 'ord(Y) = ∅' is false as written: p(X) avoids the open unit disc (‖p(x)‖ ≥ 1), so the disc is (vacuously) ordinary whatever topology X carries (GX.ball_subset_ordY_portlyInv). The intended claim is ord(Y) ∩ p(X) = ∅.", "Item 2's own space (X ⊆ ℝ² with 'the coarsest topology making the injection a spread') is not built. A counterexample with every property the paper lists (X = ℝ connected, Hausdorff, second countable, locally path-connected; p = x ↦ ||x|-1| a spread; X₁ = (1,∞) open and locally connected in X but not dense; Y₁ = (0,∞) open; X₁ → Y₁ a homeomorphism) is GX.cex_portlyness: 1 ∉ ord(Y), 2 ∈ X₁ ∖ ord(X), and p^{-1}(Y₁) ∋ -2 so p^{-1}(Y₁) ≠ X₁."]
+
+[[row]]
+label = "lem:ord_iso"
+decls = ["GX.Spread.ord_iso", "GX.image_ordX_of_homeomorph", "GX.image_ordY_of_homeomorph", "GX.IsEvenlyCoveredSet.image_homeomorph"]
+bucket = "A"
+notes = "WP-24d, audited clean (wave 1, WP-24)."
+
+[[row]]
+label = "def:almost_everywhere_atlas_topological"
+decls = ["GX.IsAEAtlas", "GX.isAEAtlas_iff_exists_isPortly", "GX.IsSubchart", "GX.completion", "GX.IsComplete", "GX.IsThinner", "GX.AELe", "GX.IsGXAtlas.isGXAtlas_completion", "GX.isComplete_completion", "GX.IsThinner.isThinner_completion"]
+bucket = "A"
+notes = "WP-24e, audited clean (wave 1, WP-24). Readings taken: 'Supported by some portly subset' read as 'the support is portly'; equivalent to 'the support contains a portly subset' (isAEAtlas_iff_exists_isPortly) since supports are open. The unlabelled notions of l.406 (complete, completion, thinner) are formalized with their two claims (completion is a complete (G,X)-atlas; completion of a thinner atlas is thinner)."
+
+[[row]]
+label = "lem:GX_atlas_union"
+decls = ["GX.isAEAtlas_iUnion", "GX.not_isAEAtlas_iUnion_empty"]
+bucket = "C"
+extra_lean_files = ["GX/Singular/Atlas.lean"]
+lean_proved_override = "partial"
+notes = "WP-24e, audited clean (wave 1, WP-24). Partial: paper statement corrected (DEC-27)"
+paper_findings = ["l.412: for an empty family the union is the empty atlas, whose support ∅ is not portly in a nonempty N, so the lemma needs K nonempty (GX.not_isAEAtlas_iUnion_empty). Harmless for its only use, cor:maximal_atlas, where the family contains A."]
+
+[[row]]
+label = "cor:maximal_atlas"
+decls = ["GX.maximal_atlas", "GX.maximalAEAtlas", "GX.IsAEAtlas.maximalAEAtlas", "GX.IsAEAtlas.aeLe_maximalAEAtlas", "GX.maximalAEAtlas_eq_of_aeLe", "GX.IsMaximalAEAtlas", "GX.isMaximalAEAtlas_iff", "GX.IsAEAtlas.isMaximalAEAtlas_maximalAEAtlas", "GX.AELe.trans", "GX.IsGXAtlas.aeLe_refl"]
+bucket = "A"
+notes = "WP-24e, audited clean (wave 1, WP-24). Readings taken: The maximum is proved both for the preorder <= (it is >= every B >= A) and for inclusion (IsGreatest), which makes it unique; <= is shown reflexive and transitive. maximalAEAtlas_eq_of_aeLe: A <= B gives the same maximum."
+
+[[row]]
+label = "def:structure_topological_space_atlas"
+decls = ["GX.IsAEStructure"]
+bucket = "A"
+notes = "WP-24e, audited clean (wave 1, WP-24)."
+
+[[row]]
+label = "def:singular_manifold_locally_connected"
+decls = ["GX.SingularGXStructure", "GX.aeAtlas", "GX.isMaximalAEAtlas_aeAtlas", "GX.Reg", "GX.Sing", "GX.isPortly_reg", "GX.isOpen_reg", "GX.isSkeletal_sing", "GX.isClosed_sing", "GX.SingGXCat", "GX.SingularGXStructure.ofHasGroupoid", "GX.isMaximalAEAtlas_maximalAtlas"]
+bucket = "A"
+notes = "WP-24e, audited clean (wave 1, WP-24). Readings taken: The class SingularGXStructure carries only the maximal a.e. atlas (DEC-25); the topological hypotheses are separate instances, each theorem asking for those it uses."
+
+[[row]]
+label = "def:morphism"
+decls = ["GX.IsAEMorphismOf", "GX.IsAEMorphism", "GX.IsRegularOn", "GX.IsRegularOn.of_exists", "GX.IsRegularOn.isLocalHomeomorphOn", "GX.isAEMorphismOf_iff"]
+bucket = "A"
+notes = "WP-24e, audited clean (wave 1, WP-24). Readings taken: 'f restricted to U, V is a (G,X)-morphism' is read subtype-free as IsRegularOn (continuous on U, f(U) ⊆ Reg N, in charts of A at x and of B at f x locally an element of G), the WP-24c reading of a (G,X)-morphism; chart independence IsRegularOn.of_exists. isAEMorphismOf_iff: V may always be taken to be Reg(N)."
+
+[[row]]
+label = "rem:composition_morphisms_morphisms_category"
+decls = ["GX.IsAEMorphismOf.comp", "GX.IsAEMorphism.comp", "GX.isAEMorphismOf_id", "GX.isAEMorphism_id", "GX.SingGXCat", "GX.SingGXCat.isoOfHomeomorph", "GX.SingGXCat.homeomorphOfIso", "GX.IsAEMorphismOf.symm_of_homeomorph", "GX.IsAEMorphism.symm_of_homeomorph", "GX.IsPortly.inter_preimage_of_isLocalHomeomorphOn"]
+bucket = "A"
+notes = "WP-24e, audited clean (wave 1, WP-24). Readings taken: The paper's assertion that isomorphisms are exactly the homeomorphisms which are a.e. morphisms needs the inverse to be an a.e. morphism; proved (IsAEMorphismOf.symm_of_homeomorph, via lem:GX_sing_homeo_reg and the atlas transport of rem:consequence)."
+
+[[row]]
+label = "rem:morphisms_analytical_two_equal"
+decls = ["GX.IsAEMorphismOf.eq_of_eqOn", "GX.IsAEMorphism.eq_of_eqOn", "GX.analytic_counterexample_empty", "GX.analytic_counterexample_disconnected", "GX.hasGroupoid_sum_translation"]
+bucket = "C"
+extra_lean_files = ["GX/Singular/Atlas.lean"]
+lean_proved_override = "partial"
+notes = "WP-24e, audited clean (wave 1, WP-24). Partial: paper statement corrected (DEC-27)"
+paper_findings = ["l.491: 'if two [a.e. (G,X)-morphisms] are equal on an open set, they are equal everywhere' is false as written: (1) the open set must be nonempty (id and the translation by 1 on R agree on ∅, GX.analytic_counterexample_empty); (2) M must be connected, which def:singular_manifold_locally_connected does not ask (on R ⊕ R with the translations, id and the map translating the second copy agree on the first copy, GX.analytic_counterexample_disconnected). Both counterexamples satisfy every hypothesis of the paper (locally connected, Hausdorff, second countable, empty singular locus)."]
+
+[[row]]
+label = "prop:GX_sing_morph_local"
+decls = ["GX.isAEMorphismOf_tfae", "GX.IsAEMorphismOn", "GX.isRegularOn_iUnion", "GX.isRegularOn_sUnion"]
+bucket = "C"
+extra_lean_files = ["GX/Singular/Atlas.lean"]
+lean_proved_override = "partial"
+notes = "WP-24e, audited clean (wave 1, WP-24). Partial: a reading awaiting the author Readings taken: The paper does not define the a.e. structure induced on an open (or portly) subset W, nor 'locally an a.e. morphism'. Read: 'f|W is an a.e. morphism' = some U ⊆ W, portly in W (Portly's subtype convention), on which f induces a (G,X)-morphism into Reg N (IsAEMorphismOn); 'locally' = every point has an open W with f|W an a.e. morphism. Under this reading all three equivalences are proved."
+
+[[row]]
+label = "lem:singular_manifolds_morphism_set"
+decls = ["GX.isGreatest_regLocusOf", "GX.isGreatest_regLocus", "GX.isRegularOn_regLocusOf"]
+bucket = "A"
+notes = "WP-24e, audited clean (wave 1, WP-24)."
+
+[[row]]
+label = "def:singular_manifolds_morphism_maximal"
+decls = ["GX.regLocusOf", "GX.regLocus"]
+bucket = "A"
+notes = "WP-24e, audited clean (wave 1, WP-24)."
+
+[[row]]
+label = "lem:regf1"
+decls = ["GX.IsAEMorphismOf.regLocusOf_eq", "GX.IsAEMorphism.regLocus_eq", "GX.exists_smul_eq_on_of_isPreconnected", "GX.regLocusOf_subset", "GX.IsAEMorphismOf.isPortly_regLocusOf"]
+bucket = "A"
+notes = "WP-24e, audited clean (wave 1, WP-24)."
+
+[[row]]
+label = "rem:though_may_tempted_include"
+decls = ["GX.zero_notMem_regLocusOf_pow", "GX.not_isAEMorphismOf_pow", "GX.not_injOn_pow_of_mem_nhds"]
+bucket = "C"
+extra_lean_files = ["GX/Singular/Atlas.lean"]
+lean_proved_override = "partial"
+notes = "WP-24e, audited clean (wave 1, WP-24). Partial: a reading awaiting the author Readings taken: Informal remark. Formalized content: for p ≠ 1, 0 ∉ Reg(z ↦ z^p) for every pair of a.e. atlases on C (no hypothesis), hence (lem:regf1) z ↦ z^p is an a.e. morphism for no a.e. structures regular at 0 and at 0^p. The sentence 'there is no simple definition of Riemann surfaces as (G,X)-manifolds' is not formalized."
+
+[[row]]
+label = "lem:aepullback"
+decls = ["GX.existsUnique_aePullback", "GX.IsAEMorphismOf.eq_of_isMaximalAEAtlas", "GX.IsAELocalHomeomorph", "GX.aePullback_counterexample_nonmaximal"]
+bucket = "C"
+extra_lean_files = ["GX/Singular/Atlas.lean"]
+lean_proved_override = "partial"
+notes = "WP-24e, audited clean (wave 1, WP-24). Partial: paper statement corrected (DEC-27) Readings taken: 'f is a.e. a local homeomorphism' is undefined; read from the proof: portly O ⊆ M and P ⊆ Reg(N) with f(O) ⊆ P and f a local homeomorphism on O."
+paper_findings = ["l.545: 'there exists a unique a.e. (G,X)-structure' — an a.e. structure is an a.e. atlas (def:structure_topological_space_atlas, l.471), and uniqueness fails among all of them (two different a.e. atlases on R make id an a.e. morphism, GX.aePullback_counterexample_nonmaximal); the proof's appeal to maximality shows uniqueness is meant among maximal ones, which is what is proved."]
+
+[[row]]
+label = "def:notations_lemma_lem_aepullback"
+decls = ["GX.aePullback", "GX.aePullback_spec", "GX.eq_aePullback", "GX.aePullback_spec_of_isAELocalHomeomorph"]
+bucket = "A"
+notes = "WP-24e, audited clean (wave 1, WP-24). Readings taken: aePullback G B f is the unique maximal structure when one exists and ∅ (junk) otherwise."
+
+[[row]]
+label = "cor:locally_connected_hausdorff_topological"
+decls = ["GX.aePullback_comp"]
+bucket = "C"
+extra_lean_files = ["GX/Singular/Atlas.lean"]
+lean_proved_override = "partial"
+notes = "WP-24e, audited clean (wave 1, WP-24). Partial: paper statement corrected (DEC-27)"
+paper_findings = ["l.558: the corollary does not say that g and f are almost everywhere local homeomorphisms (into Reg N and into Reg of g^*A), without which g^*A and f^*g^*A are undefined; those hypotheses are added."]
+
+[[row]]
+label = "lem:GX_sing_homeo_reg"
+decls = ["GX.IsAEMorphismOf.regLocusOf_eq_inter_isLocalHomeomorphOn", "GX.IsAEMorphism.regLocus_eq_inter_isLocalHomeomorphOn", "GX.IsAEMorphismOf.mem_support_of_isLocalHomeomorphOn", "GX.IsMaximalAEAtlas.mem_of_compatible"]
+bucket = "A"
+notes = "WP-24e, audited clean (wave 1, WP-24). Readings taken: 'f is a local homeomorphism around x' read as IsLocalHomeomorphOn f {x}. The proof is not the paper's (which goes through f^*B = A): the chart e ∘ h⁻¹ built from a local inverse h is compatible with B, so belongs to B by maximality (mem_of_compatible)."
+
+[[row]]
+label = "cor:morphisms_also_local_homemorphism"
+decls = ["GX.IsAEMorphismOf.preimage_support_eq", "GX.IsAEMorphism.preimage_reg_sing", "GX.IsAEMorphismOf.mem_support_of_isLocalHomeomorphOn'"]
+bucket = "A"
+notes = "WP-24e, audited clean (wave 1, WP-24). Readings taken: 'Preserves both regular and singular loci' read (strongly) as f⁻¹(Reg N) = Reg M and f⁻¹(Sing N) = Sing M; needs both atlases maximal."
+
+[[row]]
+label = "rem:consequence_isomorphism_singular_manifolds"
+decls = ["GX.IsAEMorphismOf.mem_iff_of_homeomorph", "GX.IsAEMorphismOf.eq_aePullback_of_homeomorph", "GX.IsAEMorphism.aeAtlas_eq_of_homeomorph"]
+bucket = "A"
+notes = "WP-24e, audited clean (wave 1, WP-24). Readings taken: Proved: f^*B = A, and concretely e ∈ A ↔ e ∘ f⁻¹ ∈ B. The final sentence ('an isomorphism in every natural ways') is informal and not formalized."

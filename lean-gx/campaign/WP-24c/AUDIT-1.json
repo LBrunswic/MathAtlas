@@ -1,0 +1,60 @@
+{
+  "package": "WP-24c",
+  "round": 1,
+  "auditor": "read-only auditor, round 1",
+  "file": "scaffold/GXScaffold/Structure/Basic.lean",
+  "verdict": "clean",
+  "builds": true,
+  "summary": "Builds clean on node1: `taskset -c 0-11 lake env lean` prints no output, also under -DwarningAsError=true (EXIT 0). The .olean (14:50) is newer than the source (14:49). Real sorry count 0 (grep finds none). #print axioms on the headline decls shows only propext/Classical.choice/Quot.sound. Statements match l.293/341-343 and the l.549 pullback. IsRigidAction is the l.341 rigidity; IsAnalyticAction adds FaithfulSMul; isAnalyticAction_iff proves the l.293 form equivalent for nonempty X. IsGXAtlas is the per-component condition exactly (connectedComponentIn of a point of the overlap, e' = g • e). hasGroupoid_iff_isGXAtlas and exists_isGXAtlas_iff_exists_hasGroupoid prove the DEC-16 equivalence. Each direction uses only what it needs: the forward direction uses rigidity alone, the reverse local connectedness of X alone. Uniqueness of phi uses both, matching the paper's 'by analyticity'. Morphisms are continuous maps that are locally g • chart in charts. The file proves their chart independence over maximal atlases, id, comp, local homeomorphism, open map, and analyticity (PreconnectedSpace M, T2Space N). T2Space N is needed: the line with two origins is a counterexample without it, and the paper's manifolds are Hausdorff anyway. Pullback along a local homeomorphism: existence, HasGroupoid, p is a morphism, uniqueness of the maximal atlas, and the covering-map case. No hypothesis is vacuous: the translations of R satisfy the whole analytic-structure bundle, and id inhabits IsGXMorphism. No structure field hides a conclusion. The port from lean-causal is faithful and cites its origin; the one change (Opens bound restated as a Set inclusion) is disclosed. No ledger label exists in l.290-345, so no row is marked, which is correct. Every issue is minor: two REPORT statuses that should read 'partial' by the protocol's own 'a reading' clause, one docstring decl name that does not exist, and API gaps the singular-atlas module will hit (ClosedUnderRestriction, open restriction).",
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "campaign/WP-24c/REPORT.json, rows 'unlabelled:GX-morphism' and 'unlabelled:pullback'",
+      "problem": "Both rows are 'closed'. The morphism row rests on a reading of a notion the paper never defines for regular manifolds, and the pullback row's uniqueness depends on that reading and on 'uniqueness = equality of maximal atlases'. Both readings are disclosed (SCOPE (b), the 'questions' fields), but CAMPAIGN.md defines 'partial' as 'some assertions, or an added hypothesis, or a reading'.",
+      "fix": "Set status 'partial' on these two rows, keeping marked=false, or have the master session record explicitly that the dispatch's definition settles the reading."
+    },
+    {
+      "severity": "minor",
+      "where": "Basic.lean, section Groupoid (no ClosedUnderRestriction instance)",
+      "problem": "`ClosedUnderRestriction (gxGroupoid G X)` is not provided (inferInstance fails). The singular-atlas module restricts structures to open subsets (reg(M), portly O, A|O'∩O at l.552), and mathlib's TopologicalSpace.Opens HasGroupoid instance and restr_mem_maximalAtlas both need it. The auditor checked that it closes in 6 lines: rw [closedUnderRestriction_iff_id_le]; obtain ⟨s, hs, hes⟩; mem_of_eqOnSource; mem_groupoid_of_pregroupoid.2 with g = 1 and hs.mem_nhds.",
+      "fix": "Add `instance : ClosedUnderRestriction (gxGroupoid G X)` in this module."
+    },
+    {
+      "severity": "minor",
+      "where": "Basic.lean, section Morphism (API for downstream)",
+      "problem": "The file has no lemma for: (i) restricting a morphism to an open subset, or the inclusion of an open subset being a morphism; def:morphism (l.483) is phrased with phi|U^V between open subsets. (ii) A chart being a morphism from its source to X. (iii) The global form on a connected chart domain: a morphism D into X equals g • e on the whole connected source; lem:regf1's proof (l.531) and the developing theorem use this. (i) and (ii) need (2) first.",
+      "fix": "Add IsGXMorphism lemmas for Opens.subtype / restriction, a chart-is-morphism lemma, and an eq_smul_on_connected-source corollary of eq_of_eqOn or exists_smul_eq_on_connectedComponentIn."
+    },
+    {
+      "severity": "minor",
+      "where": "Basic.lean module docstring, Contents (l.44)",
+      "problem": "Cites `GX.IsGXAtlas.unique`, which does not exist. The decls are `GX.IsGXAtlas.existsUnique` and `GX.eq_of_forall_mem_connectedComponentIn`. Separately, the hypothesis checklist says 'M connected — ✓ carried: PreconnectedSpace M'; that is a weakening.",
+      "fix": "Rename the reference to `GX.IsGXAtlas.existsUnique`; mark the M-connected row ⚠ weakened (preconnected)."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json row 'unlabelled:analytic-structure', questions: []",
+      "problem": "The paper's 'non trivial open subset' (l.293, l.341) is read as 'nonempty open' (IsRigidAction, U.Nonempty) without saying so. A 'proper nonempty' reading differs only in degenerate cases, but kb/0011 asks that a reading be reported.",
+      "fix": "Add the reading 'non trivial = nonempty' to questions, and a SCOPE line in the docstring."
+    },
+    {
+      "severity": "minor",
+      "where": "Basic.lean: `GX.support`, global instances `isAnalyticAction_translation` / `continuousConstSMul_translation`",
+      "problem": "`support` is a generic name and collides with `Function.support` for a downstream file that opens both GX and Function. The example's global instances on `Multiplicative ℝ` acting on `ℝ` are exported to every importer. They are Prop-valued, so there is no diamond, but they are unscoped.",
+      "fix": "Consider `atlasSupport` (or `IsGXAtlas.support`) and scoped/local instances for the example."
+    }
+  ],
+  "checks": {
+    "build": "taskset -c 0-11 lake env lean scaffold/GXScaffold/Structure/Basic.lean: no output; with -DwarningAsError=true: EXIT=0",
+    "sorry_count": 0,
+    "axioms": "propext, Classical.choice, Quot.sound (hasGroupoid_iff_isGXAtlas, exists_isGXAtlas_iff_exists_hasGroupoid, IsGXMorphism.eq_of_eqOn, existsUnique_pullback_of_isCoveringMap, IsGXAtlas.existsUnique, IsGXMorphism.isLocalHomeomorph, analyticStructure_translation)",
+    "statement_fidelity": "no added hypothesis beyond the paper's (T2Space N and PreconnectedSpace M are the paper's Hausdorff/connected); all hypothesis changes are weakenings and disclosed",
+    "vacuity": "inhabited: translations of R give AnalyticStructure; id and smul are morphisms; pullback existence proved, so uniqueness is not vacuous",
+    "docstring_contract": "no **`label`** mark (no ledger label in l.290-345): correct",
+    "port": "gxPregroupoid/gxGroupoid identical to lean-causal/Causal/GXStructure.lean l.396-423; exists_smul_eq_of_mem_gxGroupoid restates the Opens bound as a Set inclusion, disclosed; no import of lean-causal"
+  },
+  "questions_for_author": [
+    "Does the master session accept 'closed' for rows whose object is the dispatch's own definition (GX-morphism), or should every reading-based row be 'partial' as CAMPAIGN.md says?",
+    "Should ClosedUnderRestriction (gxGroupoid G X) and open-subset restriction of morphisms be added here, before the singular-atlas module, which will need them, imports this one?"
+  ]
+}

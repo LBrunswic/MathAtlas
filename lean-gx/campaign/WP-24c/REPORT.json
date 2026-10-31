@@ -1,0 +1,81 @@
+{
+  "package": "WP-24c",
+  "files": ["scaffold/GXScaffold/Structure/Basic.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "unlabelled:analytic-structure (RamcovGX.tex:293, 341)",
+      "tex_lines": [293, 341],
+      "status": "closed",
+      "marked": false,
+      "decls": ["GX.IsRigidAction", "GX.IsAnalyticAction", "GX.AnalyticStructure", "GX.eq_of_eqOn", "GX.IsAnalyticAction.of_eq_of_eqOn", "GX.isAnalyticAction_iff", "GX.analyticStructure_translation"],
+      "hypotheses": [
+        {"paper": "X connected, locally connected, Hausdorff", "here": "weakened", "note": "bundled in AnalyticStructure; each theorem asks only what it uses"},
+        {"paper": "faithful + rigid action", "here": "weakened", "note": "IsRigidAction alone suffices everywhere except the uniqueness of phi, which uses IsAnalyticAction"}
+      ],
+      "sorries": [],
+      "findings": [
+        "l.293 and l.341 give two different definitions of an analytical structure: l.293 asks X locally PATH-connected Hausdorff and 'agree on a nontrivial open set => g = h'; l.341 asks X connected, LOCALLY connected Hausdorff, a FAITHFUL action and 'agree on an open set => agree on X'. The two rigidity formulations are equivalent for nonempty X (GX.isAnalyticAction_iff); the topological hypotheses differ, and the library uses only l.341's local connectedness.",
+        "l.341 typo: 'if the action of $\\phi_1$ and $\\phi_1$ agree on $\\U$' should read $\\phi_1$ and $\\phi_2$."
+      ],
+      "questions": []
+    },
+    {
+      "label": "unlabelled:GX-atlas (RamcovGX.tex:342-343)",
+      "tex_lines": [342, 343],
+      "status": "closed",
+      "marked": false,
+      "decls": ["GX.IsGXAtlas", "GX.support", "GX.IsGXAtlas.existsUnique", "GX.eq_of_forall_mem_connectedComponentIn", "GX.exists_smul_eq_on_connectedComponentIn", "GX.IsGXAtlas.symm_trans_mem", "GX.isGXAtlas_of_symm_trans_mem", "GX.hasGroupoid_iff_isGXAtlas", "GX.isGXAtlas_maximalAtlas", "GX.chartedSpaceOfAtlas", "GX.hasGroupoid_chartedSpaceOfAtlas", "GX.exists_isGXAtlas_iff_exists_hasGroupoid"],
+      "hypotheses": [
+        {"paper": "analytical structure (G,X)", "here": "weakened", "note": "HasGroupoid -> IsGXAtlas needs only IsRigidAction; IsGXAtlas -> HasGroupoid needs only LocallyConnectedSpace X; uniqueness of phi needs both local connectedness and IsAnalyticAction"},
+        {"paper": "M second countable Hausdorff", "here": "weakened", "note": "not used"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": ["The paper's atlas is an indexed family (U_i,V_i,phi_i); it is read as a set of OpenPartialHomeomorph M X (repetitions change nothing). The per-component phi is read on connectedComponentIn (e.source ∩ e'.source) x."]
+    },
+    {
+      "label": "unlabelled:GX-morphism (dispatch reading; the paper uses it from l.480 without defining it for regular manifolds)",
+      "tex_lines": [480, 491],
+      "status": "closed",
+      "marked": false,
+      "decls": ["GX.IsGXMorphism", "GX.isGXMorphism_iff'", "GX.IsGXMorphism.exists_smul_eq_of_mem_maximalAtlas", "GX.isGXMorphism_iff_maximalAtlas", "GX.isGXMorphism_id", "GX.IsGXMorphism.comp", "GX.IsGXMorphism.isLocalHomeomorph", "GX.IsGXMorphism.isOpenMap", "GX.IsGXMorphism.eq_of_eqOn", "GX.isGXMorphism_iff_model", "GX.isGXMorphism_smul"],
+      "hypotheses": [
+        {"paper": "M connected (analyticity of morphisms)", "here": "carried", "note": "PreconnectedSpace M"},
+        {"paper": "N Hausdorff", "here": "carried", "note": "T2Space N, used by the closure step"},
+        {"paper": "analytic action", "here": "weakened", "note": "IsRigidAction only; no HasGroupoid needed for analyticity, comp, local homeomorphism"}
+      ],
+      "sorries": [],
+      "findings": ["The paper never defines a (G,X)-morphism between (regular) (G,X)-manifolds although def:morphism (l.480) and lem:aepullback (l.549) rest on it; the reading taken is the standard one (continuous, locally a restriction of an element of G in charts), and it is shown chart independent over the maximal atlases."],
+      "questions": ["Reading of '(G,X)-morphism' for regular manifolds: continuous + in preferred charts near each point equal to g • chart. Equivalent to the same over all maximal-atlas charts (isGXMorphism_iff_maximalAtlas)."]
+    },
+    {
+      "label": "unlabelled:pullback (RamcovGX.tex:549, 'by usual results', inside the proof of lem:aepullback)",
+      "tex_lines": [549, 549],
+      "status": "closed",
+      "marked": false,
+      "decls": ["GX.gxPullbackAtlas", "GX.localHomeomorphAt", "GX.pullbackChartedSpace", "GX.hasGroupoid_pullback", "GX.isGXMorphism_pullback", "GX.IsGXMorphism.maximalAtlas_eq", "GX.maximalAtlas_pullback", "GX.existsUnique_pullback", "GX.existsUnique_pullback_of_isCoveringMap"],
+      "hypotheses": [
+        {"paper": "p a local homeomorphism (resp. covering map)", "here": "carried", "note": "uniqueness (IsGXMorphism.maximalAtlas_eq) needs no hypothesis on p beyond being a morphism"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": ["Uniqueness is stated as equality of maximal atlases (the structure), which is the paper's notion of (G,X)-structure; the ChartedSpace instances themselves (choice of chartAt) are not unique."]
+    }
+  ],
+  "extra_decls": [
+    "GX.gxPregroupoid", "GX.gxGroupoid", "GX.mem_gxGroupoid_iff", "GX.exists_smul_eq_of_mem_gxGroupoid",
+    "GX.eventually_smul_eq_of_mem_gxGroupoid", "GX.symm_trans_mem_gxGroupoid", "GX.symm_trans_mem_gxGroupoid_iff",
+    "GX.eventually_smul_eq_of_eventually_smul_eq", "GX.eventually_smul_eq_of_mem_maximalAtlas", "GX.mem_maximalAtlas_iff_eventually",
+    "GX.mem_support", "GX.support_eq_univ_iff", "GX.isOpen_connectedComponentIn_of_subset_source",
+    "GX.mem_localHomeomorphAt_source", "GX.coe_localHomeomorphAt",
+    "GX.isAnalyticAction_translation", "GX.continuousConstSMul_translation"
+  ],
+  "kb_proposals": [
+    "gxGroupoid membership is pointwise: symm_trans_mem_gxGroupoid_iff (e' = g • e eventually near each overlap point); maximal-atlas membership is mem_maximalAtlas_iff_eventually — prove chart facts with filter_upwards, not with Opens.",
+    "Rigidity, not faithfulness, is what propagates a local translation along a connected component (exists_smul_eq_on_connectedComponentIn) and gives analyticity of morphisms; FaithfulSMul is needed only to make the g unique.",
+    "Two ChartedSpace instances on one M: state with @HasGroupoid X _ M _ cs G, @IsGXMorphism G X _ _ _ M _ N _ cs _ f and @StructureGroupoid.maximalAtlas X M _ _ cs G (M precedes the instances there); prove with letI := cs."
+  ],
+  "notes": "0 sorry, builds with -DwarningAsError=true (strict-ready), axioms propext/Classical.choice/Quot.sound only. The ported groupoid keeps lean-causal's names (gxPregroupoid, gxGroupoid, exists_smul_eq_of_mem_gxGroupoid); the latter now bounds O by (O : Set M) ⊆ e.source ∩ e'.source instead of lean-causal's chartSource ⊓. IsRigidAction (README's name) and IsAnalyticAction (dispatch's name: FaithfulSMul + IsRigidAction) both exist. The module defines global instances isAnalyticAction_translation and continuousConstSMul_translation for Multiplicative ℝ acting on ℝ (lean-causal's is a local instance of the same content; no diamond since Prop-valued). None of the four rows corresponds to a ledger label (l.290-345 carry no \\label); the master session decides how to ledger them."
+}

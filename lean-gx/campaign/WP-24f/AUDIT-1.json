@@ -1,0 +1,51 @@
+{
+  "package": "WP-24f",
+  "round": 1,
+  "auditor": "read-only auditor, round 1",
+  "file": "scaffold/GXScaffold/Structure/Developing.lean",
+  "verdict": "clean",
+  "builds": true,
+  "sorry_count": 0,
+  "checks": {
+    "build": "taskset -c 0-11 lake env lean scaffold/GXScaffold/Structure/Developing.lean: no errors, no warnings. Developing.olean (15:25) is newer than the source and both sibling oleans. 0 `sorry` tokens (the only grep hit is the docstring's 'no `sorry`'). #print axioms on developing_theorem, developing_unique, developing_descends, developing_theorem_of_simplyConnected, developing_theorem_fundamentalGroup, developing_unique_fails_for_bare_maps, exists_developingMap_translation: [propext, Classical.choice, Quot.sound] only. All 42 declarations named in REPORT.json exist.",
+    "statement_fidelity": "(1) developing_theorem: dev : UniversalCover M x0 -> X an IsGXMorphism for the pulled-back structure, IsLocalHomeomorph, hol : Deck proj ->* G, dev (gamma z) = hol gamma . dev z, for every gamma and z. pi_1 form: developing_theorem_fundamentalGroup through deckHom. (2) developing_unique: there is a UNIQUE g with dev' = g . dev and hol' = g hol g^-1, which is stronger than the dispatch's 'unique-enough'. (3) developing_descends: trivial hol gives D : M -> X, an IsGXMorphism, with dev = D o proj. (4) developing_theorem_of_simplyConnected: existence, plus uniqueness up to a unique g. Hypotheses: IsAnalyticAction (faithful + rigid; this is l.293's 'analytically') and ContinuousConstSMul are carried. T2, second countability and connectedness/local connectedness of X are dropped. Connectedness of M is dropped except in (3), where it is needed: proj must be surjective. Nothing is vacuous: developing_theorem instantiates on M = R with translations (checked), exists_developingMap_translation is an inhabitant, and (3)'s hypotheses are met by any simply connected M. No structure field carries a conclusion. IsGXMorphism into X is read through chartedSpaceSelf (isGXMorphism_iff_model: near every point a translate of the chart). This matches the paper's own def:developing_map (l.1726: a developing map is an (a.e.) (G,X)-morphism to X).",
+    "docstring_contract": "No `**`label`**` mark appears anywhere, which is correct: there is no ledger label. The other bold spans ('No ledger label', '(1)'..'(4)', 'without') are not of the label form. Quotes, the hypothesis checklist, SCOPE and provenance are all present.",
+    "report_honesty": "l.293 row 'closed': honest. l.293 has X locally path-connected, so LocPathConnectedSpace M follows (ChartedSpace.locPathConnectedSpace). SemilocallySimplyConnected M is the reading of 'as long as the universal covering exists', and semilocallySimplyConnected_iff_exists_simplyConnected_cover confirms the equivalence. l.344 row 'partial': honest and conservative. The literal 'a map D ... rho-equivariant' makes existence trivial and uniqueness false, the counterexample is proved, and the finding is recorded."
+  },
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "Developing.lean docstring checklist row '(4) N simply connected'; developing_theorem_of_simplyConnected; exists_developingMap; REPORT.json l.293 row hypotheses",
+      "problem": "(4) carries [LocPathConnectedSpace N]. The checklist marks it '✓ carried', and the REPORT's hypotheses list does not mention it for (4). Neither the dispatch's (4) ('any connected (G,X)-manifold that is simply connected') nor the l.341 analytical structure (X only locally connected) supplies it. Only l.293's X locally path-connected implies it.",
+      "fix": "Change the checklist row to say the hypothesis is implied under l.293's reading (X locally path-connected) but is a strengthening relative to l.341's AnalyticStructure. Add the matching hypotheses entry to the REPORT. A finding is optional, since the hypothesis is standard for the lifting criterion and no counterexample without it is claimed."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json l.344 row, 'hypotheses'",
+      "problem": "l.344 sits in Section 2 under l.341's analytical structure (X connected, locally connected, Hausdorff; not locally path-connected). Its Lean certificates carry LocPathConnectedSpace M and SemilocallySimplyConnected M. The l.344 row records only the 'D is a (G,X)-morphism' strengthening, not these two.",
+      "fix": "List LocPathConnectedSpace M and SemilocallySimplyConnected M in the l.344 row as the reading of the implicit existence of M̃. The row is already 'partial', so no status change is needed."
+    },
+    {
+      "severity": "minor",
+      "where": "GX.developing_unique_fails_for_bare_maps",
+      "problem": "The counterexample to the literal l.344 is stated for maps R -> R on the simply connected line itself, not on UniversalCover R 0 with deck-equivariance. Its link to the literal statement about M̃ is argued in the docstring rather than formalized. It is mathematically fine, because any constant map on M̃ is equivariant for rho = 1 and is not related to a developing map by any g.",
+      "fix": "Optional: restate it on UniversalCover R 0, using the pulled-back structure, a pair (dev, hol) from developing_theorem and the constant pair (const, 1). Or keep it and say in the finding that it is the N = M̃ ≅ R instance."
+    },
+    {
+      "severity": "minor",
+      "where": "import Mathlib.Analysis.LocallyConvex.WithSeminorms",
+      "problem": "A heavy import, pulled in only for LocPathConnectedSpace R (via LocallyConvexSpace.toLocPathConnectedSpace) in the inhabitant exists_developingMap_translation. Every downstream module inherits it.",
+      "fix": "Move the inhabitant to a separate examples file, or use a lighter import that provides LocPathConnectedSpace R."
+    },
+    {
+      "severity": "minor",
+      "where": "API: coverChartedSpace / developing_* statements",
+      "problem": "The pulled-back structure is passed by `letI` in each statement, and HasGroupoid has to be re-established by hand (haveI := hasGroupoid_cover hM x0) in every downstream proof. The pi_1 form has no uniqueness counterpart (developing_unique is only stated over Deck).",
+      "fix": "Optional: a type synonym with instances (ChartedSpace, HasGroupoid) for the structured universal cover, and a developing_unique_fundamentalGroup through deckEquiv."
+    }
+  ],
+  "questions_for_author": [
+    "l.344 (commented out) and l.341: in Section 2 the analytical structure assumes X only locally connected, while the introduction (l.293) assumes X locally path-connected. The developing theorem (covering theory on M̃) uses local path-connectedness. Which hypothesis is intended for the regular theory?"
+  ],
+  "summary": "Builds clean, 0 sorry, standard axioms only. All four dispatch items are proved under the requested names. Uniqueness holds with a unique g, and analyticity of developing maps needs no Hausdorff hypothesis (via uniqueness of covering lifts). The (G,X)-morphism reading of 'developing map' is the paper's own (def:developing_map, l.1726). No hypothesis is vacuous: the theorem instantiates on the translation line. The REPORT statuses are honest: l.293 closed, l.344 partial with a proved counterexample to the literal reading. Only minor issues: the bookkeeping of LocPathConnectedSpace in (4) and in the l.344 row, a counterexample stated on R rather than on M̃, a heavy import, and API convenience."
+}

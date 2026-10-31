@@ -1,0 +1,57 @@
+{
+  "package": "WP-24b",
+  "round": 1,
+  "file": "scaffold/GXScaffold/Topology/UniversalCover.lean",
+  "verdict": "issues",
+  "builds": true,
+  "sorry_count": 0,
+  "checks": {
+    "build": "taskset -c 0-11 lake env lean on the file: EXIT 0, no output (no errors or warnings). lake build --no-build GXScaffold.Topology.UniversalCover: all targets up to date. grep finds no sorry, admit, axiom, native_decide or implemented_by. #print axioms on isCoveringMap_proj, deckEquiv, simplyConnectedSpace, existsUnique_lift, countable_fundamentalGroup, isCoveringMap_comp_of_finite, the iff and both instances gives propext, Classical.choice, Quot.sound only. Every decl listed in REPORT.json (labels[0].decls and extra_decls) resolves.",
+    "fidelity": "SemilocallySimplyConnected is Hatcher's definition (a neighbourhood U of y in which every loop at y is null in Y). It is not vacuous: SemilocallySimplyConnected.of_simplyConnectedSpace holds, and an audit example instantiates isCoveringMap_proj and deckEquiv at Y = R. The topology is generateFrom of B(c,U) over open U, which is a genuine basis (isTopologicalBasis). proj is the endpoint map, not a trivialising definition. The fibre over y0 injects into pi_1, which is used in countability and deckHom_injective. Every hypothesis carried is used, and the dropped ones (connected, Hausdorff, anything on E) really are unnecessary. The universal property is stated for C(.,E) with exists-unique, and the lift is moreover a covering (isCoveringMap_of_comp_eq) and onto for path-connected E. Deck p is the subgroup {phi : E homeo E | p o phi = p}, with deckHom_apply exposing the explicit action. The :1156 equivalence is proved for path-connected plus LPC Y, which is equivalent to the paper's connected plus LPC.",
+    "docstring": "No label is marked; this is correct, because the package has no ledger label. The SCOPE and hypothesis table match the code.",
+    "report": "Statuses and hypotheses are accurate. One finding is factually wrong (see the major issue). Status 'closed' coexists with a reading of :1156 (see the minor issue)."
+  },
+  "issues": [
+    {
+      "severity": "major",
+      "where": "REPORT.json findings[2]; UniversalCover.lean isCoveringMap_comp_of_finite (section Comp) and SCOPE (2)",
+      "problem": "REPORT says 'The paper does not state a composition result, so this is not a defect of the paper'. That is false. The proof of prop:branched_covering_composition, direction (ii)=>(i) (RamcovGX.tex:1137), concludes '(q o p)|X_1^Z_1 is a composition of covering hence a covering' with no finiteness of fibres and no semilocal hypothesis on Z_1, which is only an open portly subset of a connected LPC Hausdorff space. The composite of coverings is not a covering in general; the docstring asserts this but nothing proves it. The only version supplied (finite fibres of the second map) cannot serve :1137, since branched coverings there have infinite fibres. The master session is therefore told there is no paper issue where there is a potential DEC-27 gap in a proof another package must formalize.",
+      "fix": "Correct the finding. The paper uses the unrestricted composition at :1137 (and builds a composition at :1123). Flag it for the prop:branched_covering_composition package as a possible missing hypothesis. Ideally also add the second standard true variant (Z locally path-connected and semilocally simply connected implies p o q is a covering) and/or a formal counterexample to the unrestricted statement, as the dispatch's 'strongest true version' asked. At minimum, state in the docstring that the general failure is unproved here."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[0].status = 'closed'",
+      "problem": "CAMPAIGN.md defines 'partial' to include 'a reading', and the row records a reading of :1156 ('loop in X' read as 'loop in U') together with a finding that :1156 as written is wrong (literally it makes the necessary-and-sufficient claim false, e.g. for S^1). The dispatch itself defines SLSC the Hatcher way and the paper's own :1451-1456 agree, so the formal content is sound. Only the status label is in tension with the protocol.",
+      "fix": "Either mark the row 'partial (reading of :1156)' or have the master record explicitly that the dispatch's definition supersedes the :1156 wording, keeping 'closed'."
+    },
+    {
+      "severity": "minor",
+      "where": "UniversalCover.lean (missing API)",
+      "problem": "There is no uniqueness-up-to-isomorphism statement: a covering q : E -> Y with E simply connected (and LPC) is homeomorphic over Y to UniversalCover Y y0. The paper uses this at :1156 ('admit a universal covering') and in the proof of prop:universality at :1185-1186 ('maximal among covering of Y\\S hence its universal covering'). Downstream Fox-completion packages will need it. existsUnique_lift, isCoveringMap_of_comp_eq and lift_surjective give the maximality half only.",
+      "fix": "Add e.g. UniversalCover.homeomorphOfSimplyConnected : (E simply connected, q covering, q e0 = y0) -> UniversalCover Y y0 homeo E commuting with proj/q and sending base to e0. Build it from the two lifts and existsUnique uniqueness."
+    },
+    {
+      "severity": "minor",
+      "where": "UniversalCover.lean: _root_.IsPreconnected.subset_of_pairwise_disjoint; instance instSimplyConnectedSpaceUnitInterval",
+      "problem": "One lemma goes into the root namespace, against the 'Namespace GX' convention, and is a collision risk at a mathlib bump. A global instance SimplyConnectedSpace I is added under GX.UniversalCover, so every downstream importer silently inherits it and it will clash if mathlib adds one. Both are disclosed in notes/extra_decls.",
+      "fix": "Move the lemma to GX (e.g. GX.IsPreconnected.subset_of_pairwise_disjoint). Keep the instance but list it on the graduation checklist (kb/0015) as an upstream candidate."
+    },
+    {
+      "severity": "minor",
+      "where": "UniversalCover.lean semilocallySimplyConnected_iff_exists_simplyConnected_cover",
+      "problem": "The right-hand side quantifies over E : Type u (Y's universe), so the iff's converse is universe-restricted. The universe-polymorphic converse exists separately as semilocallySimplyConnected_of_isCoveringMap, so nothing is lost mathematically.",
+      "fix": "Mention it in the docstring, or leave as is."
+    },
+    {
+      "severity": "minor",
+      "where": "isCoveringMap_comp_of_finite (name)",
+      "problem": "The dispatch named the result IsCoveringMap.comp; the file uses GX.isCoveringMap_comp_of_finite. Dot notation hp.comp is unavailable downstream.",
+      "fix": "Optionally add an alias GX.IsCoveringMap.comp_of_finite."
+    }
+  ],
+  "questions_for_author": [
+    "RamcovGX.tex:1137: is the composition (q o p)|X_1 -> Z_1 a covering for a reason specific to the setting (e.g. Fox spreads over a portly ordinary locus), or is a hypothesis missing? Unrestricted, the composite of two coverings need not be a covering.",
+    "Confirm the :1156 reading: 'every loop in U based at x is trivial in X' (Hatcher; matches :1451-1456)."
+  ],
+  "summary": "The file builds clean with 0 sorry and standard axioms only. The construction is genuine and every dispatch item is proved: SLSC, the universal cover with its basis topology, the covering endpoint map, path-connected/simply connected/LPC total space, the universal property (with the lift itself a covering), Deck as a subgroup with Deck = pi_1 via an explicit action, composition under finite fibres, and countable pi_1. Statements are at least as strong as the paper's, every weakening is reported, and the hypotheses are satisfiable (checked at Y = R). One major issue: REPORT wrongly says the paper states no composition result, while :1137 uses an unrestricted 'composition of coverings is a covering', which is false in general and is not served by the finite-fibre version. The other issues are minor: a status/reading tension, missing uniqueness-up-to-iso API, namespace/global-instance hygiene, a universe restriction in the iff, and naming."
+}

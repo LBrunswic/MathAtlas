@@ -1,0 +1,57 @@
+{
+  "package": "WP-24a",
+  "round": 1,
+  "file": "scaffold/GXScaffold/Topology/Portly.lean",
+  "verdict": "clean",
+  "builds": true,
+  "sorry_count_measured": 2,
+  "summary": "Builds with 0 errors under taskset -c 0-11 lake env lean (exit 0); exactly two 'declaration uses sorry' warnings (l.851 isPreconnected_compl_of_isTotallyDisconnected, l.1276 isSkeletal_skeletonSpace_codim_two), matching REPORT sorry_count 2. #print axioms (run via stdin, nothing written) is clean for path_covering, portly_first_countable, bowtie_counterexample, not_isLocallyStronglyConnected_bowtie, isSkeletal_of_tameKnot, isSkeletal_of_finite_surface, eq_empty_of_isSkeletal_real, isLocallyConnectedIn_iff_isConnected and all seven closure properties; sorryAx only under isSkeletal_of_isTotallyDisconnected and isSkeletal_skeletonSpace, as reported. Fidelity: the three marked labels (def:portly_skeletal_subset, lem:path_covering, lem:portly_first_countable) are at least as strong as the paper (Hausdorff and connectedness dropped, nothing added; the IsPreconnected reading of 'locally connected in X' is proved equivalent for dense U, so IsPortly is the paper's notion). All seven unlabelled closure properties of l.383-390 are proved, sorry-free, with weaker ambient hypotheses than the paper. The example row is honestly partial and unmarked: items 1 and 2 closed (2 under a disclosed locally-flat reading of 'tame'), item 3 refuted as written by a genuine mathlib SimplicialComplex counterexample (bow-tie) with a corrected form resting on a tagged sorry, item 4 generalised and resting on a tagged sorry for a true Euclidean separation fact. No vacuous hypotheses, no definitional trivialisation, no conclusion hidden in a structure field. Every decl named in REPORT exists. No blocker or major; minor issues only.",
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "isSkeletal_skeletonSpace (corrected item 3, k < n-2), l.1287-1296",
+      "problem": "The k < n-2 case is derived from the codimension-two case, so it carries IsLocallyStronglyConnected K n (chains through (n-1)-faces at every face of dim <= n-2). That hypothesis is sufficient but not necessary for k < n-2, so this is not the 'strongest true form' DEC-27 asks for. Counterexample to necessity: two 3-simplices sharing exactly an edge (n=3, k=0). The 0-skeleton is skeletal: near a vertex of the shared edge, star minus vertex stays connected through the open edge. But the complex is not locally strongly connected (sigma = the edge, the two tetrahedra share no 2-face).",
+      "fix": "Either state the k < n-2 case under the condition matching k (chains of n-faces containing sigma, consecutive ones meeting in a face of dimension >= k+1, for faces sigma of dim <= k), or say in SCOPE/REPORT that the k < n-2 form is a sufficient condition only, citing the two-tetrahedra example."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json ex row, hypotheses item 4; module docstring Hypothesis checklist",
+      "problem": "Item 4 is labelled 'weakened', but the Lean theorem adds 2 <= finrank E (and FiniteDimensional), which the paper's 'n-manifold' does not state. The addition is justified (eq_empty_of_isSkeletal_real; findings mention it), but by kb/0006 an added hypothesis is '⚠ strengthened'. The docstring's Hypothesis checklist also has no rows for the example items at all, so item 3's added hypotheses (local strong connectivity, finiteness) and item 4's dimension bound appear only in SCOPE.",
+      "fix": "Relabel the item-4 entry 'strengthened' (dim >= 2, with its counterexample). Add example rows to the Hypothesis checklist: item 3 ⚠ strengthened (LSC, finite K), item 4 ⚠ strengthened (dim >= 2) / ⚠ weakened (closed totally disconnected instead of Cantor)."
+    },
+    {
+      "severity": "minor",
+      "where": "isPreconnected_compl_of_isTotallyDisconnected, l.851 (SORRY obstruction text)",
+      "problem": "The obstruction names dimension theory / Alexander duality as absent. But there is a route through what mathlib does have: Eilenberg's criterion (maps from simply connected, locally path-connected R^n to the circle lift through the exp covering, via IsCoveringMap lifting at this pin) gives unicoherence of R^n, and Phragmén-Brouwer/Janiszewski in a unicoherent locally connected space then reduces separation by a closed set to separation by one of its components (here points, which do not separate R^n, n >= 2). That is still a sizeable development, so the sorry is legitimate, but the note overstates how far mathlib is from it.",
+      "fix": "Amend the SORRY text and REPORT obstruction to name the cheaper route (unicoherence of simply connected LPC spaces via IsCoveringMap lifting + Phragmén-Brouwer), so a successor package can target it."
+    },
+    {
+      "severity": "minor",
+      "where": "IsLocallyConnectedIn, l.104-105 (API for downstream)",
+      "problem": "For non-dense U the IsPreconnected reading is strictly weaker than the paper's l.362 definition (e.g. U = ∅ is locally connected in X here, and not in the paper). The paper also uses the notion on its own: l.531 ('reg(f) is locally connected in M and U connected, so φ(U ∩ reg(f)) is connected'). Downstream, that step gives only preconnectedness from IsLocallyConnectedIn and needs density for nonemptiness. The point is disclosed in a question, and IsPortly is unaffected.",
+      "fix": "Optionally add IsLocallyConnectedIn.isConnected_inter (under Dense U) and a remark in the def docstring pointing downstream users to IsPortly.isConnected_inter."
+    },
+    {
+      "severity": "minor",
+      "where": "isSkeletal_of_tameKnot, l.818-829",
+      "problem": "'Tame knot' is read as 'closed locally flat subset'. The classical implication tame (ambient-homeomorphic to polygonal) ⇒ locally flat is what connects the paper's word to the Lean hypothesis, and it is not proved. It is disclosed as a question and the row is partial, so this is not an overclaim, but under DEC-23 it is a cited fact assumed through a reading.",
+      "fix": "Note in SCOPE that the reading defers 'polygonal knots are locally flat' (the easy direction), or prove it as a follow-up."
+    },
+    {
+      "severity": "minor",
+      "where": "API: missing skeletal-form map lemma",
+      "problem": "Downstream (l.1003-1007, branched coverings) uses preimages of skeletal and portly sets constantly. IsSkeletal.preimage_of_isLocalHomeomorph (f⁻¹(S) skeletal, from preimage_compl) is a one-liner that is absent, unlike the other skeletal forms (union, anti).",
+      "fix": "Add IsSkeletal.preimage_of_isLocalHomeomorph next to IsPortly.preimage_of_isLocalHomeomorph."
+    },
+    {
+      "severity": "minor",
+      "where": "module docstring quote block, l.47",
+      "problem": "The locality item is quoted with '[…]' in place of the paper's parenthetical, which carries its actual content (the family U_i, V_i ⊆ U_i portly in U_i ⇒ ⋃V_i portly in ⋃U_i). kb/0006 asks for quotation, not elision.",
+      "fix": "Quote l.388 in full."
+    }
+  ],
+  "questions_for_author": [
+    "Item 3 (l.372) and l.625: did 'pure n-dimensional simplicial complex' (and 'gluings of projective polyhedra') intend a pseudomanifold-type condition (strong connectivity of links in codimension >= 2)? The bow-tie shows the item is false without one.",
+    "Is 'tame knot' meant as 'locally flat', or as 'ambient isotopic to a polygonal knot'? Only the locally flat property is used."
+  ]
+}

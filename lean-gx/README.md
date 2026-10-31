@@ -30,3 +30,15 @@ is ported, with its origin cited. Graduation into `lean/` is two `git mv`s.
 - The knowledge base of `lean-causal/kb/` applies where it is not about causality (the docstring
   contract 0006, never outrun the paper 0011, names at this pin 0004, charts 0018); gx-specific
   entries are in `kb/INDEX.md`.
+
+## Modules
+
+| module | certifies | note |
+|---|---|---|
+| `GX.Topology.Portly` | `def:portly_skeletal_subset`, `lem:path_covering`, `lem:portly_first_countable` | the closure properties of l.383–390; infinite concatenation of paths |
+| `GX.Topology.UniversalCover` | — (infrastructure, cited at l.1156) | `SemilocallySimplyConnected`; the universal cover constructed, simply connected, `IsCoveringMap`, universal property; `Deck ≃* π₁`; composition of coverings; π₁ countable |
+| `GX.Structure.Basic` | — (l.293, l.341–343) | analytic actions, the paper's (G,X)-atlases ⇔ `HasGroupoid (gxGroupoid G X)` (ported from `lean-causal/Causal/GXStructure.lean`), (G,X)-morphisms, pullback along local homeomorphisms |
+| `GX.Structure.Developing` | — (the classical developing theorem, l.293/344; DEC-23) | `GX.developing_theorem`, `GX.developing_unique`, `GX.developing_descends`, `GX.developing_theorem_of_simplyConnected`; the literal l.344 statement refuted for bare maps |
+| `GX.Spread.Basic` | `def:category_spreads`, `rem:spread_open_respectively_co`, `def:continuous_map_ordinary_locus`, `rem:singular_on_singular`, `lem:spread_partial_covering`, `lem:ord_iso` | `rem:ordinary_locii_open_but`, `cex:openess`, `cex:portlyness` partial (readings of "covering" and of an empty preimage) |
+| `GX.Singular.Atlas` | `def:almost_everywhere_atlas_topological`, `cor:maximal_atlas`, the category of singular (G,X)-manifolds, `lem:regf1`, `lem:GX_sing_homeo_reg`, … | `lem:GX_atlas_union`, `rem:morphisms_analytical_two_equal`, `lem:aepullback` and three more partial (corrected or read; findings in the ledger) |
+| `GXScaffold.Topology.PortlyExamples` | — | `ex:following_example_skeletal_itemize` partial: item 3 false as written (bow-tie); two tagged `sorry`s (dimension theory; local structure of simplicial complexes) |

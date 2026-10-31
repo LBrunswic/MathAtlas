@@ -1,0 +1,103 @@
+{
+  "package": "WP-24a",
+  "files": ["scaffold/GXScaffold/Topology/Portly.lean"],
+  "builds": true,
+  "sorry_count": 2,
+  "labels": [
+    {
+      "label": "def:portly_skeletal_subset",
+      "tex_lines": [362, 365],
+      "status": "closed",
+      "marked": true,
+      "decls": ["GX.IsLocallyConnectedIn", "GX.IsPortly", "GX.IsSkeletal", "GX.isLocallyConnectedIn_iff_isConnected"],
+      "hypotheses": [
+        {"paper": "X Hausdorff, locally connected (ambient of the definition)", "here": "weakened", "note": "the predicates take no hypothesis; each theorem carries the classes it uses"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": ["l.362 'W ∩ U is connected': read with IsPreconnected (empty set allowed). For open dense U it is equivalent to the IsConnected reading (GX.isLocallyConnectedIn_iff_isConnected), so IsPortly is unaffected; the reading only matters for 'locally connected in X' applied to non-dense sets."]
+    },
+    {
+      "label": "ex:following_example_skeletal_itemize",
+      "tex_lines": [367, 374],
+      "status": "partial",
+      "marked": false,
+      "decls": ["GX.isSkeletal_of_finite_surface", "GX.isSkeletal_of_countable", "GX.isSkeletal_of_tameKnot", "GX.isSkeletal_of_locallyFlat", "GX.bowtie_counterexample", "GX.isSkeletal_skeletonSpace", "GX.isSkeletal_skeletonSpace_codim_two", "GX.not_isLocallyStronglyConnected_bowtie", "GX.isSkeletal_of_isTotallyDisconnected", "GX.isPreconnected_compl_of_isTotallyDisconnected", "GX.eq_empty_of_isSkeletal_real"],
+      "hypotheses": [
+        {"paper": "item 1: S finite, X a surface", "here": "weakened", "note": "proved for S closed countable in any space charted on a real normed space of dimension > 1 (no Hausdorff needed there); the surface corollary assumes T2 only to get S closed"},
+        {"paper": "item 2: S a tame knot in a 3-manifold", "here": "carried", "note": "reading: closed locally flat subset (flat charts onto open subsets of R x R^2 sending S to R x {0}); general codimension >= 2 version GX.isSkeletal_of_locallyFlat needs only X locally connected"},
+        {"paper": "item 3: k-skeleton of a pure n-dim simplicial complex, k <= n-2", "here": "strengthened", "note": "false as written; corrected form adds local strong connectivity in codimension >= 2 (GX.IsLocallyStronglyConnected) and finiteness of K"},
+        {"paper": "item 4: a Cantor wildly embedded in an n-manifold", "here": "weakened", "note": "any closed totally disconnected subset, any embedding, finite-dimensional model of dimension >= 2"}
+      ],
+      "sorries": [
+        {"decl": "GX.isPreconnected_compl_of_isTotallyDisconnected", "obstruction": "dimension theory: a closed totally disconnected subset of R^n is zero-dimensional and a subset of dimension <= n-2 does not separate R^n (Hurewicz-Wallman Thm IV 4 / Alexander duality / Borsuk separation). Not in mathlib; mathlib's countable-complement argument does not reach uncountable K, and straight-line general position fails (a Cantor set can meet every ray from a point). Everything else of item 4 (chart localisation, transfer of total disconnectedness through univBall, density) is proved."},
+        {"decl": "GX.isSkeletal_skeletonSpace_codim_two", "obstruction": "local structure theory of geometric simplicial complexes, absent from mathlib (carrier of a point, open stars as a neighbourhood basis of K.space, star of a point as the cone on its link, connectedness of an open simplex with its open codimension-one faces, and the general-position step that a path avoiding the (n-2)-skeleton crosses facets only through open (n-1)-faces). The reduction k < n-2 to k = n-2 is proved (GX.isSkeletal_skeletonSpace)."}
+      ],
+      "findings": [
+        "Item 3 (l.372) is false as written: the bow-tie (two closed triangles of R^2 sharing only the vertex 0) is a finite pure 2-dimensional simplicial complex whose 0-skeleton is not skeletal: a small open star of 0 is connected, removing 0 disconnects it (GX.bowtie_counterexample, built as a mathlib Geometry.SimplicialComplex). The item needs local strong connectivity in codimension >= 2 (every two n-simplices containing a simplex of dimension <= n-2 are joined through (n-1)-faces containing it), as for normal pseudomanifolds; the bow-tie fails exactly this (GX.not_isLocallyStronglyConnected_bowtie). The same caveat applies to l.625 ('gluings of projective polyhedra ... complement of the (n-2)-skeleton ... skeletal'), which is true for gluings that are pseudomanifolds but not for arbitrary face gluings.",
+        "Item 4 (l.373) needs n >= 2: in R no nonempty subset is skeletal (GX.eq_empty_of_isSkeletal_real), so a Cantor set in a 1-manifold is not skeletal. 'Wildly' presupposes n >= 3 anyway, so this is a precision rather than an error; the statement holds for tame and wild embeddings alike.",
+        "The closure properties l.383-390 never use Hausdorff; the two map items (l.389, l.390) need only the SOURCE locally connected; 'U portly in X, U ⊆ V implies U portly in V' (l.385) holds for an arbitrary subset V, not only open ones, when X is locally connected."
+      ],
+      "questions": [
+        "'surface' read as a Hausdorff space charted on R^2 (no second countability, no smoothness).",
+        "'tame knot' read as a closed locally flat subset (charts onto open subsets of R x R^2 sending the knot to R x {0}); the circle structure is unused.",
+        "'Cantor wildly embedded' read as a closed totally disconnected subset (compactness and perfectness unused).",
+        "'pure n-dimensional simplicial complex' read as a finite geometric complex (mathlib Geometry.SimplicialComplex) in a finite-dimensional real normed space with the subspace topology; pure = every face has <= n+1 vertices and lies in a face with n+1 vertices."
+      ]
+    },
+    {
+      "label": "lem:path_covering",
+      "tex_lines": [967, 972],
+      "status": "closed",
+      "marked": true,
+      "decls": ["GX.path_covering", "GX.exists_path_of_isPortly_of_isOpen", "GX.Path.exists_infConcat"],
+      "hypotheses": [
+        {"paper": "X connected", "here": "weakened", "note": "PreconnectedSpace"},
+        {"paper": "X first countable", "here": "carried", "note": ""},
+        {"paper": "X locally path-connected", "here": "carried", "note": ""},
+        {"paper": "X Hausdorff", "here": "weakened", "note": "not used"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "lem:portly_first_countable",
+      "tex_lines": [974, 983],
+      "status": "closed",
+      "marked": true,
+      "decls": ["GX.portly_first_countable", "GX.isPathConnected_inter_of_isPortly"],
+      "hypotheses": [
+        {"paper": "X connected", "here": "weakened", "note": "not used: the path lemma is applied in its relative form inside a connected open V"},
+        {"paper": "X first countable, locally path-connected, Hausdorff", "here": "carried", "note": "Hausdorff used only for the Hausdorff conclusion"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "GX.isPreconnected_of_local", "GX.IsLocallyConnectedIn.isPreconnected_of_subset",
+    "GX.IsSkeletal.isClosed", "GX.IsSkeletal.interior_eq_empty", "GX.isSkeletal_iff", "GX.isSkeletal_compl_iff",
+    "GX.IsPortly.isPreconnected", "GX.IsPortly.isConnected", "GX.IsPortly.isPreconnected_inter", "GX.IsPortly.isConnected_inter",
+    "GX.isPortly_univ", "GX.isSkeletal_empty",
+    "GX.IsPortly.inter", "GX.isPortly_biInter_finset", "GX.isPortly_iInter", "GX.IsSkeletal.union",
+    "GX.IsPortly.mono", "GX.IsSkeletal.anti", "GX.IsPortly.union", "GX.isPortly_iUnion",
+    "GX.IsPortly.subtype", "GX.IsPortly.trans", "GX.IsPortly.of_subtype", "GX.isPortly_subtype_iff",
+    "GX.isPortly_iUnion_of_local", "GX.IsPortly.preimage_of_isLocalHomeomorph", "GX.IsPortly.image_of_isOpenMap",
+    "GX.locallyFinite_Icc_nat", "GX.infConcatReal", "GX.infConcatReal_eqOn", "GX.continuousOn_infConcatReal", "GX.infConcatReal_mem", "GX.Path.exists_infConcat",
+    "GX.isSkeletal_of_local", "GX.exists_nhds_of_chart", "GX.isPreconnected_ball_diff_countable", "GX.nonempty_ball_diff_countable",
+    "GX.IsPureOfDim", "GX.skeletonSpace", "GX.skeletonSpace_mono", "GX.isClosed_skeletonSpace", "GX.IsLocallyStronglyConnected",
+    "GX.bowtie", "GX.bowtieA", "GX.bowtieB", "GX.isPureOfDim_bowtie", "GX.bowtie_faces_finite", "GX.bowtie_space",
+    "GX.affineIndependent_triangle", "GX.convexHull_fst_eq"
+  ],
+  "kb_proposals": [
+    "Portly API lives in GXScaffold/Topology/Portly.lean: the workhorse is GX.isPreconnected_of_local (a dense subset of a preconnected W is preconnected if it is locally preconnected); every closure property and every example reduces to it.",
+    "To show a closed S is skeletal, use GX.isSkeletal_of_local, and in a chart GX.exists_nhds_of_chart reduces it to small balls around e x; OpenPartialHomeomorph.univBall turns 'ball minus T' into 'E minus preimage of T'.",
+    "Infinite concatenation of paths: GX.Path.exists_infConcat (paths phi n : c n ~> c (n+1) shrinking to b give a path c 0 ~> b); built on ℝ by floor + Path.extend and LocallyFinite.continuousOn_iUnion, then reparametrised by t/(1-t).",
+    "At this pin symm_image_image_of_subset_source is stated on PartialEquiv: for an OpenPartialHomeomorph use e.toPartialEquiv.symm_image_image_of_subset_source via Eq.trans (rw does not see through the coercion).",
+    "Affine independence of a Finset's vertices in a Geometry.SimplicialComplex: state it as AffineIndependent ℝ (Subtype.val : ↥(s : Set E) → E); the ((↑) : (s : Set E) → E) spelling fails to elaborate. For three points go through affineIndependent_iff_not_collinear_set and h.range.",
+    "A def quantifying over Finset intersections (IsLocallyStronglyConnected) must take [DecidableEq E], not open Classical: otherwise the instance differs from instDecidableEqProd at use sites and terms do not unify."
+  ],
+  "notes": "Two tagged sorries, both in ex:following_example_skeletal_itemize and both on theories absent from mathlib (dimension theory for item 4; local structure of geometric simplicial complexes for corrected item 3). Every other declaration is sorry-free (#print axioms checked for path_covering, portly_first_countable, bowtie_counterexample, isSkeletal_of_tameKnot, isSkeletal_of_finite_surface, isPortly_iUnion_of_local, IsPortly.image_of_isOpenMap). The file imports Mathlib wholesale. The strict-library linters are clean on the sorry-free part (no warnings besides the two 'declaration uses sorry'). The closure properties l.383-390 carry no label in the tex; they are listed in the module docstring and in extra_decls."
+}
