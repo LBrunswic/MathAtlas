@@ -1,0 +1,175 @@
+{
+  "package": "WP-31d-TwistedProduct",
+  "files": [
+    "scaffold/CausalScaffold/Flat/TwistedProduct.lean"
+  ],
+  "builds": true,
+  "sorry_count": 1,
+  "labels": [
+    {
+      "label": "blem:suspendre",
+      "tex_lines": [
+        1833,
+        1845
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.suspendre",
+        "Causal.Flat.AffineMinkEmbedding.baseSpacetime",
+        "Causal.Flat.AffineMinkEmbedding.isQuotientOf_baseSpacetime",
+        "Causal.Flat.AffineMinkEmbedding.restrictGroup",
+        "Causal.Flat.AffineMinkEmbedding.preimageOpens",
+        "Causal.Flat.AffineMinkEmbedding.instInvariantRestrict",
+        "Causal.Flat.AffineMinkEmbedding.instIsCancelSMulRestrict",
+        "Causal.Flat.AffineMinkEmbedding.instProperlyDiscontinuousSMulRestrict",
+        "Causal.Flat.AffineMinkEmbedding.connectedSpace_base",
+        "Causal.Flat.AffineMinkEmbedding.split",
+        "Causal.Flat.AffineMinkEmbedding.Restricts.split_smul",
+        "Causal.Flat.AffineMinkEmbedding.mem_iff_retract_mem",
+        "Causal.Flat.TwistedProduct.not_restrictsIn_glideGroup",
+        "Causal.Flat.TwistedProduct.not_restricts_glide_of_range",
+        "Causal.Flat.TwistedProduct.not_restrictsIn_glideGroup_of_range"
+      ],
+      "hypotheses": [
+        {
+          "paper": "B a flat spacetime (l.1836)",
+          "here": "carried",
+          "note": "B : FlatSpacetime d"
+        },
+        {
+          "paper": "quotient of an open Omega of M^n by isometries acting freely and properly discontinuously (l.1837-1838)",
+          "here": "carried",
+          "note": "IsQuotientOf B Gamma Omega, [Invariant] [IsCancelSMul] [ProperlyDiscontinuousSMul]"
+        },
+        {
+          "paper": "Gamma preserves a timelike affine subspace U (l.1839)",
+          "here": "strengthened",
+          "note": "added RestrictsIn iota Gamma (each element restricts to U as an SO0-affine isometry, i.e. preserves the orientation of U); implies preservation (RestrictsIn.preserves); necessary for every parametrization of U (not_restrictsIn_glideGroup_of_range). U = range iota with iota orthochronous (hι : iota.Orthochronous, Barbot's time-oriented convention l.469-480); no loss: exists_affineMinkEmbedding_of_isTimelike now returns an orthochronous iota (f chosen future). Spatial orientation of iota not asked (not canonical: depends on an orientation of U^perp)."
+        },
+        {
+          "paper": "Omega invariant by translations by U^perp (l.1840-1841)",
+          "here": "carried",
+          "note": "forall w in iota.perp, forall p in Omega, p + w in Omega; equivalent to Omega + w = Omega (perpInvariant_iff). This is BARBOT-THEOREMS §6 G6, carried as a hypothesis; its proof for Omega(S~) is owed downstream."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Lemma 5.5 (l.1836-1844) is false as written in dimension >= 3: in M^3 the glide gamma(t,x) = (t+1,-x) is in Isom(M^3) (linear part diag(1,-1,-1), det 1), generates a free properly discontinuous Z on Omega = M^3 (invariant under all translations), preserves the timelike plane U = {x_2 = 0}, but restricts to U as (t,x) -> (t+1,-x), det -1, not in Isom(M^2) = SO0-affine (Barbot's convention l.469-480); Gamma\\U is a non-orientable timelike Moebius strip, not a flat spacetime in Barbot's sense. Fix: ask that Gamma preserve the orientation of U (true after passing to a subgroup of index <= 2, consistent with Theorem A's 'up to finite coverings'). Formalized as TwistedProduct.not_restrictsIn_glideGroup (for iota = plane) and, independently of the parametrization, TwistedProduct.not_restrictsIn_glideGroup_of_range (every iota' with range = {x_2 = 0}: the restriction is linearly conjugate to the flip, det -1); the corrected lemma is suspendre (DEC-27)."
+      ],
+      "questions": [],
+      "notes": [
+        "'the linear twisted product of M by U^perp' (l.1843-1844) is read in the quotient form of BARBOT-THEOREMS §1 (IsLTPOver: B = Gamma\\Omega, M = Gamma_U\\(U cap Omega)), adopted with DEC-43; the suspension structure of §5.S is proved at the level of Omega (split, split_smul: gamma acts on M^{d1+1} x U^perp diagonally by (g, L(gamma)|U^perp), a linear isometry of the euclidean U^perp) and not descended to a bundle map B -> M.",
+        "Omega is not asked to be connected (not a paper hypothesis): M is connected because B is (connectedSpace_base)."
+      ]
+    },
+    {
+      "label": "produi",
+      "tex_lines": [
+        1751,
+        1797
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.IsLTPOver",
+        "Causal.Flat.IsLTPData",
+        "Causal.Flat.IsTimelikeSubspace",
+        "Causal.Flat.AffineMinkEmbedding",
+        "Causal.Flat.AffineMinkEmbedding.range",
+        "Causal.Flat.AffineMinkEmbedding.timelikeImage",
+        "Causal.Flat.AffineMinkEmbedding.perp",
+        "Causal.Flat.AffineMinkEmbedding.minkQ_pos_of_mem_perp",
+        "Causal.Flat.exists_affineMinkEmbedding_of_isTimelike",
+        "Causal.Flat.perpInvariant_iff",
+        "Causal.Flat.isLTPOver_refl",
+        "Causal.Flat.isLTPOver_refl_minkowski",
+        "Causal.Flat.isLTPOver_bot_timeAxis",
+        "Causal.Flat.isLTPOver_timeGroup",
+        "Causal.Flat.AffineMinkEmbedding.Orthochronous",
+        "Causal.Flat.AffineMinkEmbedding.refl_orthochronous",
+        "Causal.Flat.AffineMinkEmbedding.timeAxis_orthochronous"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [],
+      "notes": [
+        "Definition in BARBOT-THEOREMS §1 quotient form (DEC-43 reading R1), not §5.S's suspension of M~ x N by pi_1(M). IsLTPData carries, beside BARBOT-THEOREMS §1: `orthochronous` (iota preserves time orientation; without it iota = (t,x) -> (-t,x), Gamma = 1, Omega = {t>0} gives IsLTPOver {t>0} {t<0}, the time reverse, not isometric as a time-oriented flat spacetime — audit blocking finding, fixed) and `restricts` (RestrictsIn, needed to define Gamma restricted to U as a subgroup of Isom(M^{d1+1}) — see the blem:suspendre finding). Fields `timelike` and `preserves` are derivable (timelikeImage, RestrictsIn.preserves) and kept to mirror BARBOT-THEOREMS §1. Non-vacuity: trivial LTP (iota = id, every quotient over itself), the product M^n over the time axis (Gamma = 1), and Z e0\\M^n over the timelike circle Z\\M^1 (Gamma != 1); all with orthochronous iota."
+      ]
+    },
+    {
+      "label": "rem:5.3 (causal half, l.1800-1805)",
+      "tex_lines": [
+        1800,
+        1814
+      ],
+      "status": "stated",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.gh_of_isLTPOver",
+        "Causal.Flat.AffineMinkEmbedding.coproj_isFutureCausal",
+        "Causal.Flat.AffineMinkEmbedding.retract_le_top"
+      ],
+      "hypotheses": [],
+      "sorries": [
+        {
+          "decl": "Causal.Flat.gh_of_isLTPOver",
+          "obstruction": "the causal structure of a quotient Gamma\\Omega is not available (Flat.Quotient SCOPE: lifting <= on the top open set through chains of local relations is not proved), and comparing <=_Omega with <=_{U cap Omega} along the retraction needs reparametrizing the image of a causal curve as a graph over the time of M^{d1+1}, plus a fibre bound for compactness of diamonds; Barbot's own argument (t o q a proper time function) goes through Geroch (iii)=>(i), itself a cited sorry in GerochEquiv. Only the linear core (retract is a causal map of M^n onto M^{d1+1} for orthochronous iota) is proved."
+        }
+      ],
+      "findings": [],
+      "questions": [],
+      "notes": [
+        "Only the linear-twisted-product case of Rem 5.3 is stated; the remark (l.1801-1805) covers twisted products by every euclidean manifold, flat tori included. Orthochronous iota is now part of IsLTPData, so the proved linear core (retract_le_top) applies to every IsLTPOver."
+      ]
+    },
+    {
+      "label": "rem:5.4 (l.1816-1828)",
+      "tex_lines": [
+        1816,
+        1828
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [],
+      "notes": [
+        "Rem 5.4 concerns Bieberbach / finite index, not causality; out of this package's scope."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.Flat.exists_affineMinkEmbedding_of_isTimelike",
+    "Causal.Flat.AffineMinkEmbedding.coproj",
+    "Causal.Flat.AffineMinkEmbedding.minkB_coproj",
+    "Causal.Flat.AffineMinkEmbedding.retract",
+    "Causal.Flat.AffineMinkEmbedding.split",
+    "Causal.Flat.AffineMinkEmbedding.injective",
+    "Causal.Flat.AffineMinkEmbedding.Restricts",
+    "Causal.Flat.AffineMinkEmbedding.RestrictsIn",
+    "Causal.Flat.AffineMinkEmbedding.Restricts.linear_mem_perp",
+    "Causal.Flat.AffineMinkEmbedding.Restricts.retract_smul",
+    "Causal.Flat.AffineMinkEmbedding.refl",
+    "Causal.Flat.AffineMinkEmbedding.timeAxis",
+    "Causal.Flat.AffineMinkEmbedding.restrictsIn_bot",
+    "Causal.Flat.AffineMinkEmbedding.restrictsIn_timeGroup",
+    "Causal.Flat.TwistedProduct.instInvariantBot",
+    "Causal.Flat.TwistedProduct.instIsCancelSMulBot",
+    "Causal.Flat.TwistedProduct.instProperlyDiscontinuousSMulBot",
+    "Causal.Flat.TwistedProduct.flipLin_mem_lorentz",
+    "Causal.Flat.TwistedProduct.flipLin_not_mem_lorentz",
+    "Causal.Flat.TwistedProduct.glide",
+    "Causal.Flat.TwistedProduct.glideGroup"
+  ],
+  "kb_proposals": [
+    "An SO0(1,d) element preserving a timelike affine subspace U restricts to U only in O+(1,d1): any (Isom,M^n)-structure statement about Gamma\\U needs an orientation hypothesis on U (RestrictsIn).",
+    "Sylvester for a timelike subspace: LinearMap.BilinForm.exists_orthogonal_basis on minkB restricted to f^perp cap D (f unit timelike) gives the isometric parametrization; see exists_affineMinkEmbedding_of_isTimelike.",
+    "In a proof, `set n := Module.finrank ℝ W` after obtaining a basis `b : Basis (Fin (finrank ℝ W))` shadows b and makes hypotheses about it refer to b✝; write finrank out instead.",
+    "A definition 'X is a twisted product over Y' through an isometric embedding iota must ask iota orthochronous in a time-oriented setting; otherwise it relates X to the time reverse of Y (audit of WP-31d)."
+  ],
+  "notes": "Resumed from an interrupted author; the file on disk already typechecked. This session added exists_affineMinkEmbedding_of_isTimelike (the converse claimed in SCOPE but previously absent; now proved, so U = range iota loses no timelike affine subspace), factored the positivity lemma into private tp_minkQ_pos_of_orth, and fixed two stale docstring references (flipGroup -> TwistedProduct.not_restrictsIn_glideGroup). Build: `taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/TwistedProduct.lean` gives zero errors and one warning, the tagged sorry in gh_of_isLTPOver. Imports only CausalScaffold.Flat.Quotient and Mathlib.Analysis.InnerProductSpace.Dual. Generic minkB algebra is private (tp_*) to avoid collisions with Flat/AchronalDomains. No b-label is marked. FIXER pass (audit 2026-10-31): blocking fix applied — IsLTPData gains field `orthochronous : ι.Orthochronous`; `suspendre` takes `(hι : ι.Orthochronous)`; witnesses discharge it (refl_orthochronous, timeAxis_orthochronous); exists_affineMinkEmbedding_of_isTimelike now chooses f future and concludes ι.Orthochronous ∧ ι.range = U. Minor fixes applied: checklist vocabulary (only '⚠ strengthened' on the U row; Ω-connected moved to a note); Rem 5.3 linear-only narrowing recorded (SCOPE + REPORT); counterexample made parametrization-independent (not_restricts_glide_of_range, not_restrictsIn_glideGroup_of_range, proved by a determinant-of-conjugate argument); TimelikeImage docstring rephrased; G6 recorded as carried hypothesis; Rem 5.4 sentence moved to notes; redundancy of `timelike`/`preserves` noted in their docstrings. Declined (disagreement): importing Flat/Isometries to reuse minkForm — it is being edited in parallel this run, and keeping the import closure at Flat.Quotient keeps this file robust; the duplication is now disclosed in SCOPE. baseSpacetime/connectedSpace_base do not need hι (constructions independent of time orientation), so it is not added there. gh_of_isLTPOver remains sorry: the causality of Γ\\Ω is unavailable upstream. No downstream Lean file uses IsLTPOver/IsLTPData/suspendre (grep), so the new field breaks nothing. Re-typecheck: zero errors, one warning (the tagged sorry)."
+}

@@ -1,0 +1,385 @@
+{
+  "package": "WP-32f-Develop",
+  "files": [
+    "scaffold/CausalScaffold/Flat/Develop.lean"
+  ],
+  "builds": true,
+  "sorry_count": 3,
+  "labels": [
+    {
+      "label": "bcor:quo",
+      "tex_lines": [
+        2263,
+        2271
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.bcor_quo",
+        "Causal.Flat.holonomy_smul_eq",
+        "Causal.Flat.eq_one_of_holonomy_fix",
+        "Causal.Flat.holonomy_proper",
+        "Causal.Flat.ccAction_of_developsCC",
+        "Causal.Flat.deck_eq_one_of_apply_eq",
+        "Causal.Flat.IsDevelopingPair",
+        "Causal.Flat.DevelopsCC",
+        "Causal.Flat.exists_isDevelopingPair",
+        "Causal.Flat.proj_deck_apply",
+        "Causal.Flat.injective_proj_minkowski",
+        "Causal.Flat.isDevelopingPair_minkowski",
+        "Causal.Flat.developsCC_minkowski"
+      ],
+      "hypotheses": [
+        {
+          "paper": "S complete Riemannian, f an isometric immersion",
+          "here": "strengthened",
+          "note": "DEC-35: S a Cauchy surface of M with DevelopsCC ((CC') for Sigma = D(p^-1 S), D injective on p^-1 S)"
+        },
+        {
+          "paper": "S-tilde the universal cover of S, Gamma = pi_1(S)",
+          "here": "reading",
+          "note": "S-tilde := p^-1(S) in the universal cover of M; Gamma := rho(Deck(M~ -> M))"
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "Causal.Flat.holonomy_proper",
+          "obstruction": "proper discontinuity of Gamma on Sigma needs (1) D|S~ : S~ -> Sigma a homeomorphism (Barbot's 'D o f~ is an embedding', from Prop 8.1, not carried by (CC') as designed: S~ must be shown a local graph over open sets of R^d in flat charts so that the injective D|S~ is open), and (2) the deck group of M~ -> M acting properly discontinuously on M~; neither is in the library or the port"
+        }
+      ],
+      "findings": [
+        "Proved sorry-free from DevelopsCC: rho injective, rho(Gamma) preserves Sigma and acts freely on it, Sigma meets every timelike line (CCPrime). 'f and D o f~ are embeddings' and the immersion form are not derivable from (CC') without the local-graph structure of S~ (l.2266).",
+        "Not proved, disclosed in SCOPE: the design's conjunct IsPreconnected S~ (S~ = p^-1 S). Sigma = D(S~) is preconnected (CCAction.isPreconnected), so it follows once D|S~ : S~ -> Sigma is a homeomorphism, fact (1) of holonomy_proper's sorry.",
+        "Non-vacuity (kb/0011): developsCC_minkowski inhabits DevelopsCC with M = Minkowski d, D = proj (injective: Minkowski space is simply connected), rho = 1, S = {t = 0}; bcor_quo is instantiated on it in an example. Nontrivial holonomy is still not witnessed."
+      ],
+      "questions": [
+        "DevelopsCC carries no topological-embedding field for D|S~; adding one (it is what Prop 8.1 provides) would discharge holonomy_proper's first half. Should the bridge (CauchyComplete) export it?"
+      ]
+    },
+    {
+      "label": "bdef:U_g",
+      "tex_lines": [
+        2332,
+        2349
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.Ug",
+        "Causal.Flat.IsNonspacelikeElliptic",
+        "Causal.Flat.IsSpacelikeElliptic",
+        "Causal.Flat.IsParabolicPair",
+        "Causal.Flat.IsLinearParabolic",
+        "Causal.Flat.IsTangentParabolic",
+        "Causal.Flat.IsTransverseParabolic",
+        "Causal.Flat.nullHyperplanes",
+        "Causal.Flat.Ug_subset_achronalDomain",
+        "Causal.Flat.compl_nullHyperplanes_subset_achronalDomain",
+        "Causal.Flat.smul_mem_Ug",
+        "Causal.Flat.classes_of_not",
+        "Causal.Flat.smul_mem_nullHyperplanes",
+        "Causal.Flat.IsNonspacelikeElliptic.conj",
+        "Causal.Flat.isNonspacelikeElliptic_conj_iff",
+        "Causal.Flat.IsLinearParabolic.conj",
+        "Causal.Flat.isLinearParabolic_conj_iff",
+        "Causal.Flat.IsParabolicPair.conj",
+        "Causal.Flat.conj_smul_smul",
+        "Causal.Flat.smul_mem_UGamma"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [
+        "W4 confirmed: U(id) = emptyset (id is nonspacelike elliptic), so U(Gamma) must range over gamma != 1; Omega_g over q != 0.",
+        "l.2343 'J the lightlike affine line of fixed points': for a linear parabolic g with R = id the fixed set c + ker(L(g) - id) has dimension n-2, not a line; J is read as the null direction nullPart U through a fixed point c, and J^perp as the union over decompositions L(g) = R U and fixed points of c + (nullPart U)^perp.",
+        "The last branch Ug = Omega_g covers exactly 'loxodromic, spacelike elliptic, non linear parabolic' given the trichotomy (classes_of_not, through LorentzTrichotomy)."
+      ],
+      "questions": [
+        "Uniqueness of the parabolic decomposition (hence of J) is not proved; the union reading is independent of it. Accept?"
+      ]
+    },
+    {
+      "label": "blem:SdanU",
+      "tex_lines": [
+        2353,
+        2390
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.blem_SdanU",
+        "Causal.Flat.CCAction",
+        "Causal.Flat.CCAction.dependenceDomain_subset_UGamma",
+        "Causal.Flat.CCAction.dependenceDomain_subset_achronalDomain",
+        "Causal.Flat.CCAction.dependenceDomain_subset_compl_nullHyperplanes",
+        "Causal.Flat.CCAction.not_isNonspacelikeElliptic",
+        "Causal.Flat.CCAction.false_of_le_smul",
+        "Causal.Flat.ccAction_bot",
+        "Causal.Flat.CCAction.nonempty",
+        "Causal.Flat.CCAction.smul_mem",
+        "Causal.Flat.CCAction.pow_ne_one",
+        "Causal.Flat.CCAction.not_isOfFinOrder",
+        "Causal.Flat.CCAction.false_of_injective",
+        "Causal.Flat.CCAction.isPreconnected"
+      ],
+      "hypotheses": [
+        {
+          "paper": "S-tilde complete spacelike (via Cor 8.2/8.3)",
+          "here": "strengthened",
+          "note": "DEC-35: CCAction = (CC') + Gamma-invariant + free + properly discontinuous on Sigma"
+        },
+        {
+          "paper": "U(Gamma) over all gamma",
+          "here": "reading",
+          "note": "W4, gamma != 1"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "NO sorry: fully proved in the (CC') reading; markable if the master accepts DEC-35's hypotheses and W4 as the statement.",
+        "The paper's interior argument (l.2383-2389: 'the complement of U(gamma) is a union of lightlike geodesics') is false for loxodromic gamma: through a point with xy > 0 every null line leaves {xy >= 0} (along (x+sa)(y+sb) with 2ab + |w|^2 = 0). Repaired: D(Sigma) subset U(Gamma) (domain of dependence, LipschitzGraph) and Sigma subset int D(Sigma).",
+        "The transverse parabolic case needs no Lemma 7.1 (false for d >= 3, AchronalDomains): Sigma subset Omega_gamma and Omega_gamma = emptyset.",
+        "Torsion is excluded first: a finite-order isometry is nonspacelike elliptic (isNonspacelikeElliptic_of_pow_eq_one, barycentres), whose timelike fixed line meets Sigma."
+      ],
+      "questions": []
+    },
+    {
+      "label": "bdef:omega_gamma",
+      "tex_lines": [
+        2394,
+        2400
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.UGamma",
+        "Causal.Flat.omegaGamma",
+        "Causal.Flat.omegaS",
+        "Causal.Flat.omegaSOpens",
+        "Causal.Flat.omegaS_eq",
+        "Causal.Flat.subset_omegaS",
+        "Causal.Flat.isOpen_omegaS"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [
+        "Depends on the W4 reading of U(Gamma). Omega(S~) defined as the union of components of Omega(Gamma) meeting Sigma; it is one component under CCAction (omegaS_eq)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "bprop:ghyp",
+      "tex_lines": [
+        2420,
+        2451
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.bprop_ghyp_of_trichotomy",
+        "Causal.Flat.bprop_ghyp",
+        "Causal.Flat.IsCausalPiece",
+        "Causal.Flat.convex_causallyConvex_connectedComponentIn",
+        "Causal.Flat.isCausalPiece_UGamma",
+        "Causal.Flat.isCausalPiece_Ug",
+        "Causal.Flat.isCausalPiece_compl_nullHyperplanes",
+        "Causal.Flat.isCausalPiece_achronalDomain_lox",
+        "Causal.Flat.isCausalPiece_achronalDomain_spacelikeElliptic",
+        "Causal.Flat.isCausalPiece_achronalDomain_tangent",
+        "Causal.Flat.smul_omegaS",
+        "Causal.Flat.LorentzTrichotomy",
+        "Causal.Flat.lorentzTrichotomy",
+        "Causal.Flat.isCausalPiece_achronalDomain",
+        "Causal.Flat.isCausalPiece_of_isomConj",
+        "Causal.Flat.isCausalPiece_empty",
+        "Causal.Flat.isCausalPiece_univ",
+        "Causal.Flat.IsTangentParabolic",
+        "Causal.Flat.omegaS_subset_omegaGamma"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(implicit) the classification of isometries",
+          "here": "carried",
+          "note": "lorentzTrichotomy := fun _ hA => lorentz_trichotomy hA (Flat/Isometries, proved by the WP-30d fixer); bprop_ghyp_of_trichotomy keeps the named Prop LorentzTrichotomy as hypothesis"
+        },
+        {
+          "paper": "S-tilde complete, Gamma = pi_1(S)",
+          "here": "strengthened",
+          "note": "CCAction (DEC-35), W4 reading of U(Gamma)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "W8: 'convexity of the connected components of every U(gamma)' (l.2430-2431) is false for U(gamma) = Omega_gamma loxodromic with tau != 0 (Omega_gamma = {xy <= 0}, connected, not convex); and convexity of components of each U(gamma) does not give convexity of the components of int(intersection) (interior of an infinite intersection). Repair: the piece property (segments and diamonds of two points of a connected subset of int A lie in A), proved class by class, stable under intersection, and a neighbourhood argument giving convexity and causal convexity of the components (convex_causallyConvex_connectedComponentIn).",
+        "Global hyperbolicity is ETT's (causal + compact diamonds) from causal convexity; Beem-Ehrlich and 'distinguished' are not used.",
+        "Gamma-invariance of Omega(S~) needs conjugation invariance of the classes and of J^perp (smul_mem_Ug), not stated in the paper.",
+        "Fixer pass: no sorry in this file for bprop_ghyp. #print axioms still shows sorryAx, because the Isometries olean on disk (built 16:29) predates the proof of lorentz_trichotomy in its source (edited 22:55). It becomes sorry-free when Isometries is rebuilt, with no change here. Not marked: proved in the DEC-35/W4 readings."
+      ],
+      "questions": []
+    },
+    {
+      "label": "bprop:splitting",
+      "tex_lines": [
+        2459,
+        2467
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.isCauchySurface_liftSet",
+        "Causal.Flat.isCauchySurface_preimage",
+        "Causal.Flat.inextensible_comp",
+        "Causal.Flat.lift_causalCurveIn",
+        "Causal.Flat.isLocalIsometry_flatCover_proj",
+        "Causal.Flat.isCoveringMap_flatCover_proj",
+        "Causal.Flat.continuousOn_of_strictMonoOn"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M globally hyperbolic",
+          "here": "weakened",
+          "note": "(flatCausality d M).IsCausal (W10), for uniqueness"
+        },
+        {
+          "paper": "'nonspacelike geodesic'",
+          "here": "reading",
+          "note": "inextensible causal curve (DEC-14 Cauchy surface)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "The lift half ('any nonspacelike geodesic in M~ intersects S~') is proved sorry-free for any flat covering (covering map + local isometry). The homeomorphism M = S x R is not treated here (CausalScaffold.Splitting; its flow is a sorry)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "bprop:danom",
+      "tex_lines": [
+        2469,
+        2494
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.bprop_danom"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M Cauchy-complete GH with S a complete Cauchy hypersurface",
+          "here": "strengthened",
+          "note": "DEC-35: DevelopsCC S, and IsCausal (W10)"
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "Causal.Flat.bprop_danom",
+          "obstruction": "step 1 (injectivity of D, l.2476-2485): the component of D^-1(vertical line) through a point is an inextensible causal curve of M~ (maximal lift through the local homeomorphism D, which is not a covering) - not in the library (WAVE3 risk R1)"
+        },
+        {
+          "decl": "Causal.Flat.holonomy_proper",
+          "obstruction": "used through ccAction_of_developsCC for D(Sigma) subset U(Gamma)"
+        }
+      ],
+      "findings": [
+        "W7 confirmed and repaired without slices: given injectivity, D is an isometric embedding, Sigma is a Cauchy surface of the open D(M~) (transported from isCauchySurface_liftSet), hence D(M~) subset D(Sigma) subset U(Gamma) (Lemma 8.6's core), and D(M~) open connected containing Sigma lies in Omega(S~). The design's step 4 (Gamma free and achronal on Omega') is not needed."
+      ],
+      "questions": []
+    },
+    {
+      "label": "remplacefini",
+      "tex_lines": [
+        2403,
+        2408
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.achronalDomain_subset_zpow",
+        "Causal.Flat.UGamma_antitone",
+        "Causal.Flat.Ug_zpow",
+        "Causal.Flat.UGamma_eq_of_index"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Gamma' of finite index",
+          "here": "strengthened",
+          "note": "Gamma torsion-free added (needed under W4)"
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "Causal.Flat.Ug_zpow",
+          "obstruction": "U(g^n) = U(g): Omega_{g^n} subset Omega_g and the stability of 'nonspacelike elliptic', 'linear parabolic' and of the hyperplanes c + J^perp under nonzero powers need the normal forms of sections 6-7 class by class (lorentz_trichotomy is now available) and the mutual exclusivity of the classes for a power, which nothing in the library states"
+        }
+      ],
+      "findings": [
+        "Under W4, U(Gamma') = U(Gamma) for finite index is false with torsion: Gamma = {1, gamma}, gamma^2 = 1, Gamma' = 1 gives U(Gamma') = M^n, U(Gamma) = emptyset. Torsion-freeness holds under CCAction (CCAction.pow_ne_one)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "nini",
+      "tex_lines": [
+        2411,
+        2415
+      ],
+      "status": "closed",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.nini",
+        "Causal.Flat.achronalDomain_eq_empty_of_isTransverseParabolic",
+        "Causal.Flat.CCAction.zpow_ne_one"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Gamma the holonomy of a Cauchy-complete GH spacetime",
+          "here": "strengthened",
+          "note": "CCAction (DEC-35)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Not a ledger label (no b-prefix). Proved sorry-free: no nonspacelike elliptic, no transverse parabolic, no torsion."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.Flat.ccPrime_smul",
+    "Causal.Flat.isNonspacelikeElliptic_of_pow_eq_one",
+    "Causal.Flat.IsFutureTimelike.add",
+    "Causal.Flat.linOf_pow",
+    "Causal.Flat.linOf_mul",
+    "Causal.Flat.linOf_inv",
+    "Causal.Flat.linOf_conj",
+    "Causal.Flat.isom_smul_add_smul",
+    "Causal.Flat.smul_sub_smul",
+    "Causal.Flat.minkB_linOf",
+    "Causal.Flat.isCompact_Jminus_inter_graph",
+    "Causal.Flat.isCompact_Jplus_inter_graph",
+    "Causal.Flat.exists_mem_line_of_mem_dependenceDomain",
+    "Causal.Flat.exists_mem_nullLine_of_mem_dependenceDomain",
+    "Causal.Flat.minkB_nonpos_of_future",
+    "Causal.Flat.pos_mul_of_null",
+    "Causal.Flat.IsCausalPiece.preimage_add",
+    "Causal.Flat.isCausalPiece_of_interior_eq_nullXY",
+    "Causal.Flat.isPreconnected_graph",
+    "Causal.Flat.continuousOn_of_strictMonoOn",
+    "Causal.Flat.continuousOn_of_forall_Icc",
+    "Causal.Flat.locPathConnectedSpace_of_ordConnected",
+    "Causal.Flat.lift_causalCurveIn",
+    "Causal.Flat.inextensible_comp",
+    "Causal.Flat.isCauchySurface_preimage",
+    "Causal.Flat.mem_nullPart_of_conj",
+    "Causal.Flat.smul_UGamma",
+    "Causal.Flat.smul_omegaGamma",
+    "Causal.Flat.linOf_symm_apply",
+    "Causal.Flat.minkQ_linOf_symm"
+  ],
+  "kb_proposals": [
+    "A statement whose type mentions no `d` (e.g. about `Deck (UniversalCover.proj M x₀)`) does not pick up section variable `{d}` nor `[ChartedSpace (Minkowski d) M]`: give it explicit `(d : ℕ)` binders outside the section; `hasGroupoid_flatCover M x₀` needs `(d := d)`.",
+    "Barbot §8's 'small convex neighbourhood B' arguments are best replaced by the domain of dependence: prove the inclusion on `dependenceDomain (minkowski d) ⊤ Σ`, then `graph_subset_interior_dependenceDomain` gives the interior.",
+    "`linOf g` elaborates to `AffineEquiv.linearHom ↑g`: multiplicativity is `show`, `Subgroup.coe_mul`/`coe_pow`/`coe_inv`, `map_mul`, `rfl`; use `linOf_mem g` (not `g.2`) for `lorentz` membership.",
+    "Mathlib has no continuity lemma for a strictly monotone map with interval image; `Flat.Develop.continuousOn_of_strictMonoOn` gives it, which is what lifting a `StrictlyExtends` reparametrisation through a covering needs."
+  ],
+  "notes": "FIXER PASS (2026-10-31): typechecks with `taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/Develop.lean`: zero errors; the only warnings are the 3 `declaration uses sorry` (Ug_zpow, holonomy_proper, bprop_danom step 1). Audit minors applied: (1) lorentzTrichotomy closed by `fun _ hA => lorentz_trichotomy hA` (Isometries' source has 0 sorries; WP-30d REPORT sorry_count 0); bprop_ghyp is sorry-free in this file, and its sorryAx in #print axioms is the stale Isometries olean's (16:29, before the 22:55 proof), gone on rebuild with no edit here; SCOPE, the bprop_ghyp docstring and the Ug_zpow comment updated. (2) the dropped `IsPreconnected S~` conjunct of Cor 8.2 is disclosed in SCOPE and in bcor:quo's findings. (3) witness developsCC_minkowski added (M = Minkowski d, D = proj, rho = 1, S = {t = 0}) with injective_proj_minkowski and isDevelopingPair_minkowski; reuses Achronal's isCauchySurface_graph_zero and LipschitzGraph's ccPrime_graph_const. (4) linEquiv_conj_apply, linEquiv_inv_apply_self, linEquiv_apply_inv_apply and conj_conj_inv_isom made private. (5) explicit {S} binders on exists_mem_line_of_mem_dependenceDomain / exists_mem_nullLine_of_mem_dependenceDomain. (6) REPORT decls completed; checklist uses only kb/0006's terms (DEC-35 rows are '⚠ strengthened'), adds a '⚠ strengthened: Gamma torsion-free' row for Rem 8.8, and the proof-route rows (small convex B, W8 convexity, Beem-Ehrlich, W7 slices) moved to a SCOPE 'Proof repairs' bullet because they are not hypotheses. `lake build` not run (campaign rule). #print axioms (via `lake env lean --stdin`, no temp file): blem_SdanU, nini, bcor_quo, bprop_ghyp_of_trichotomy, isCauchySurface_liftSet, developsCC_minkowski, isDevelopingPair_minkowski are sorry-free (propext, Classical.choice, Quot.sound); bprop_ghyp has sorryAx only through the stale olean; bprop_danom and UGamma_eq_of_index depend on sorries, as disclosed. Graduation dedupe: minkB_nonpos_of_future duplicates Cosmological's minkB_nonpos_of_isFutureCausal (Cosmological is not imported here, so the copy is kept); continuousOn_of_forall_Icc and locPathConnectedSpace_of_ordConnected duplicate private lemmas of Flat/Quotient; lift_causalCurveIn generalises Quotient.liftsCausalCurves. Unchanged: Ug_zpow, holonomy_proper and bprop_danom step 1 stay tagged sorries (obstructions in their comments). Nothing is marked: every label is proved in the DEC-35/W4 readings or only in part, and kb/0006 forbids the mark in those cases."
+}

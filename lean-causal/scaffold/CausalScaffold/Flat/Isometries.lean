@@ -3,6 +3,10 @@ import Mathlib.LinearAlgebra.BilinearForm.Orthogonal
 import Mathlib.LinearAlgebra.AffineSpace.AffineSubspace.Basic
 import Mathlib.Tactic.Module
 import Mathlib.LinearAlgebra.Matrix.SesquilinearForm
+import Mathlib.RingTheory.Artinian.Module
+import Mathlib.Analysis.Calculus.LocalExtr.Basic
+import Mathlib.Analysis.Calculus.Deriv.Pow
+import Mathlib.Analysis.Calculus.Deriv.Mul
 
 /-!
 # `CausalScaffold.Flat.Isometries` — Barbot §6, the classification of isometries of `𝐌ⁿ`
@@ -40,7 +44,8 @@ dimensions, so Barbot's `n` is `d + 1` and his `SO₀(1, n−1)` is `lorentz d`.
   (`IsLoxodromic.not_isElliptic`, `IsParabolic.not_isElliptic`, `IsParabolic.not_isLoxodromic`);
   `isElliptic_iff_exists_fixed_timelike` (a fixed point in `𝐇ⁿ⁻¹`); `IsElliptic.range_spacelike`;
   `τ` fixed by `L(g)` up to conjugacy for elliptic, hyperbolic and loxodromic `g`.
-  `lorentz_trichotomy` — **stated, `sorry`** (SCOPE).
+  `lorentz_trichotomy`: every element of `SO₀(1, d)` is elliptic, loxodromic or parabolic,
+  Brouwer-free (SCOPE).
 * [6.U] `nullPart` (`J = I ∩ I^⊥`), `unipotent_frame`, `pOf_pOf_mem_nullPart` (`Im p² ⊂ J`),
   `minkOrth_nullPart_eq_sup` (`J^⊥ = I + I^⊥`), the cases `IsLinearCase`, `IsTangentCase`,
   `IsTransverseCase` and their normal forms; Rem 6.1 `not_isTangentCase_of_dim_three`;
@@ -60,14 +65,19 @@ dimensions, so Barbot's `n` is `d + 1` and his `SO₀(1, n−1)` is `lorentz d`.
 | parabolic: `R` elliptic, `A` unipotent, commuting ([6.N], [6.P]) | ⚠ strengthened (reading): plus `U ≠ id` (SCOPE, question); factors in `SO₀` as Barbot's `R`, `A` are |
 | parabolic §6.2: `R` non-trivial (l.1974) | ⚠ weakened: `R` any elliptic element, so `R = id` (pure unipotent) is covered |
 | hyperbolic: the boost matrix | ⚠ strengthened (reading): plus rapidity `ζ ≠ 0` (SCOPE, question) |
+| `L(g) ∈ SO₀(1,n−1)` for the trichotomy ("Up to conjugacy, every isometry is of the following form", l.1868) | ✓ carried: `A ∈ lorentz d`, every `d` (for `d ≤ 1` the parabolic alternative is empty) |
 
 ## SCOPE (disclosed)
-* `lorentz_trichotomy` is a `sorry`: not yet formalized. Brouwer, Perron–Frobenius and
-  Krein–Rutman are absent from mathlib, but none is needed: a Brouwer-free route is an
-  `A`-invariant subspace of dimension `≤ 2` (from a complex eigenvalue), the `minkB`-orthogonal
-  split and induction on dimension; the parabolic factor comes from mathlib's additive
-  Jordan–Chevalley (`Module.End.exists_isNilpotent_isSemisimple`, `A = s + n`, `U = s⁻¹ A`), with
-  the semisimple part `s` shown to lie in `SO₀(1, d)` and to be elliptic.
+* `lorentz_trichotomy` is proved without Brouwer, Perron–Frobenius or Krein–Rutman (absent from
+  mathlib). The cone eigenvector comes from a variational argument
+  (`lorentz.exists_null_eigen_or_fixed_timelike`): absent a null eigenvector,
+  `x ↦ |x|² / ⟨A x | x⟩` attains its maximum on the compact section `{x₀ = 1}` of the future cone
+  at a timelike `v`, whose first variation makes `span {v, A v}` invariant. The loxodromic factor
+  is `boost` in the null frame of the two null eigenvectors (`isLoxodromic_of_null_eigen`); the
+  parabolic factor comes from the Fitting decomposition `ker pᴺ ⊕ Im pᴺ` of `p = A − id`
+  (mathlib `LinearMap.eventually_isCompl_ker_pow_range_pow`), whose summands are
+  `minkB`-orthogonal (`isElliptic_or_isParabolic_of_null_fixed`). The decomposition `A = R ∘ U` is
+  not shown unique.
 * Readings: `ζ ≠ 0` in `IsHyperbolic`; `U ≠ id` in `IsParabolic` (else every elliptic element is
   parabolic); `τ`-cases relative to the unipotent factor `U`, the linear case being
   `τ ∈ Im (L(g) − id)`, which is Barbot's `τ ∈ I` after his normalisation `R τ = τ`
@@ -82,7 +92,7 @@ dimensions, so Barbot's `n` is `d + 1` and his `SO₀(1, n−1)` is `lorentz d`.
   the square of a `minkQ`-preserving map (`det_eq_one_of_eq_sq`, from `det_sq_of_minkQ`).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. WP-30d (wave 1b of the
-Barbot campaign, DEC-34).
+Barbot campaign, DEC-34); `lorentz_trichotomy` closed by the WP-30d fixer pass (2026-10-31).
 -/
 
 namespace Causal.Flat
@@ -1931,20 +1941,600 @@ theorem stdNullRot_isParabolic {i j : Fin d} (hij : i ≠ j) {s : ℝ} (hs : s �
   have := congrArg Prod.fst h
   simp [timeUnit, spaceUnit] at this
 
-/-! ### The trichotomy -/
+/-! ### The trichotomy (l.1868–1901): a cone eigenvector, the boost factor, the Fitting split -/
+
+/-- Two future causal vectors have `minkB ≤ 0`. -/
+theorem minkB_le_zero_of_isFutureCausal {z w : Minkowski d} (hz : IsFutureCausal z)
+    (hw : IsFutureCausal w) : minkB z w ≤ 0 := by
+  have hzn : ‖z.2‖ ≤ z.1 := by nlinarith [norm_nonneg z.2, minkQ_le_zero_iff.1 hz.2, hz.1]
+  have hwn : ‖w.2‖ ≤ w.1 := by nlinarith [norm_nonneg w.2, minkQ_le_zero_iff.1 hw.2, hw.1]
+  have hin := real_inner_le_norm z.2 w.2
+  simp only [minkB]
+  nlinarith [norm_nonneg w.2, norm_nonneg z.2]
+
+/-- A future causal vector which is timelike is future timelike. -/
+theorem IsFutureCausal.isFutureTimelike_of_neg {v : Minkowski d} (hv : IsFutureCausal v)
+    (hq : minkQ v < 0) : IsFutureTimelike v :=
+  ⟨lt_of_le_of_ne hv.1 fun h => absurd hq (not_lt.2 (minkQ_nonneg_of_fst_eq_zero h.symm)), hq⟩
+
+/-- A timelike vector pairing negatively with a future causal vector is future timelike. -/
+theorem isFutureTimelike_of_minkB_neg {w u : Minkowski d} (hw : minkQ w < 0)
+    (hu : IsFutureCausal u) (h : minkB w u < 0) : IsFutureTimelike w := by
+  rcases isFutureTimelike_or_neg hw with h1 | h1
+  · exact h1
+  · exfalso
+    have hu0 : u ≠ 0 := by rintro rfl; simp at h
+    have := minkB_neg_of_future hu hu0 h1
+    rw [minkB_neg_right, minkB_comm] at this
+    linarith
+
+/-- **A criterion for `SO₀(1, d)`** (`mem_lorentz_of` for any future timelike `e`): a
+`minkQ`-preserving automorphism of determinant `1` sending one future timelike vector to a future
+timelike vector lies in `lorentz d`. -/
+theorem mem_lorentz_of_future {A : Minkowski d ≃ₗ[ℝ] Minkowski d}
+    (hQ : ∀ v, minkQ (A v) = minkQ v) {e : Minkowski d} (he : IsFutureTimelike e)
+    (hAe : IsFutureTimelike (A e))
+    (hdet : LinearMap.det (A : Minkowski d →ₗ[ℝ] Minkowski d) = 1) : A ∈ lorentz d := by
+  refine ⟨hQ, fun v hv => ?_, hdet⟩
+  have hq : minkQ (A v) ≤ 0 := by rw [hQ]; exact hv.2
+  refine ⟨?_, hq⟩
+  by_contra hneg
+  push Not at hneg
+  have hz : IsFutureCausal (-(A v)) := ⟨by simp; linarith, by simpa using hq⟩
+  have hz0 : -(A v) ≠ 0 := fun h => by
+    have : (A v).1 = 0 := by simpa using congrArg Prod.fst h
+    linarith
+  have h1 := minkB_neg_of_future hz hz0 hAe
+  rw [minkB_neg_left, minkB_map hQ] at h1
+  have h2 := minkB_le_zero_of_isFutureCausal hv ⟨he.1.le, he.2.le⟩
+  linarith
+
+/-- **Reverse Cauchy–Schwarz**: for `v` timelike, `|v|² |w|² ≤ ⟨v | w⟩²`. -/
+theorem minkQ_mul_le_minkB_sq {v w : Minkowski d} (hv : minkQ v < 0) :
+    minkQ v * minkQ w ≤ minkB v w ^ 2 := by
+  have hv' : minkQ v ≠ 0 := hv.ne
+  set t := minkB v w / minkQ v with ht
+  set z := w - t • v with hz
+  have hvz : minkB v z = 0 := by
+    rw [hz, minkB_sub_right, minkB_smul_right, ← minkQ_eq_minkB, ht]; field_simp; ring
+  have hzq : 0 ≤ minkQ z := by
+    rcases eq_or_ne z 0 with h | h
+    · rw [h, minkQ_zero]
+    · exact (minkQ_pos_of_orth_timelike hv hvz h).le
+  have e : minkQ z * minkQ v = minkQ w * minkQ v - minkB v w ^ 2 := by
+    have : z = w + (-t) • v := by rw [hz, sub_eq_add_neg, neg_smul]
+    rw [this, minkQ_add, minkQ_smul, minkB_smul_right, minkB_comm w v, ht]
+    field_simp; ring
+  nlinarith
+
+
+/-- A quadratic polynomial `C + a t + b t²` with a local minimum at `0` has `a = 0`. -/
+theorem quadratic_linCoeff_eq_zero {f : ℝ → ℝ} {C a b : ℝ} (hf : ∀ t, f t = C + a * t + b * t ^ 2)
+    (hmin : IsLocalMin f 0) : a = 0 := by
+  have hd : HasDerivAt f a 0 := by
+    have h1 : HasDerivAt (fun t : ℝ => C + a * t + b * t ^ 2) (a * 1 + b * (2 * 0 ^ 1)) 0 :=
+      (HasDerivAt.const_add C (HasDerivAt.const_mul a (hasDerivAt_id' (0 : ℝ)))).add
+        (HasDerivAt.const_mul b (hasDerivAt_pow 2 (0 : ℝ)))
+    have e : f = fun t : ℝ => C + a * t + b * t ^ 2 := funext hf
+    rw [e]; simpa using h1
+  exact hmin.hasDerivAt_eq_zero hd
+
+/-- The future timelike cone `{x | IsFutureTimelike x}` is open. -/
+theorem isOpen_futureTimelikeCone : IsOpen {x : Minkowski d | IsFutureTimelike x} :=
+  (isOpen_lt continuous_const continuous_fst).inter (isOpen_lt continuous_minkQ continuous_const)
+
+
+/-- **A cone eigenvector, Brouwer-free.** An element of `SO₀(1, d)` has a nonzero null
+eigenvector, or fixes a timelike vector. If it has no null eigenvector, `⟨A x | x⟩ < 0` on the
+closed future cone, so `x ↦ |x|² / ⟨A x | x⟩` (homogeneous of degree `0`) is continuous on the
+compact section `{x₀ = 1}` of the cone and attains its maximum `m > 0` at a timelike `v`. The first
+variation at `v` (the cone is open there) gives `2 v = m (A v + A⁻¹ v)`, so `span {v, A v}` is
+`A`-invariant; reverse Cauchy–Schwarz gives `m ≤ 1`; `m < 1` produces a null eigenvector in that
+plane (excluded), and `m = 1` gives `A v = v`. -/
+theorem lorentz.exists_null_eigen_or_fixed_timelike {A : Minkowski d ≃ₗ[ℝ] Minkowski d}
+    (hA : A ∈ lorentz d) :
+    (∃ u : Minkowski d, u ≠ 0 ∧ minkQ u = 0 ∧ ∃ c : ℝ, A u = c • u) ∨
+      ∃ v : Minkowski d, minkQ v < 0 ∧ A v = v := by
+  by_cases hnull : ∃ u : Minkowski d, u ≠ 0 ∧ minkQ u = 0 ∧ ∃ c : ℝ, A u = c • u
+  · exact Or.inl hnull
+  right
+  push Not at hnull
+  have hQ := hA.1
+  -- `D x = ⟨A x | x⟩ < 0` on the nonzero future causal vectors
+  have hD : ∀ x, IsFutureCausal x → x ≠ 0 → minkB (A x) x < 0 := by
+    intro x hx hx0
+    have hAx := lorentz.isFutureCausal_apply hA hx
+    have hAx0 : A x ≠ 0 := fun h => hx0 (A.injective (by rw [h, map_zero]))
+    refine lt_of_le_of_ne (minkB_le_zero_of_isFutureCausal hAx hx) fun h0 => ?_
+    by_cases hxq : minkQ x < 0
+    · exact (minkB_neg_of_future hAx hAx0 (hx.isFutureTimelike_of_neg hxq)).ne h0
+    · have hxq' : minkQ x = 0 := le_antisymm hx.2 (not_lt.1 hxq)
+      obtain ⟨c, hc⟩ := eq_smul_of_null_orth hxq' hx0 (by rw [hQ, hxq'])
+        (by rw [minkB_comm]; exact h0)
+      exact hnull x hx0 hxq' c hc
+  -- the compact section `K` of the closed future cone
+  set K : Set (Minkowski d) := {x | x.1 = 1 ∧ minkQ x ≤ 0} with hKdef
+  have hKf : ∀ x ∈ K, IsFutureCausal x ∧ x ≠ 0 := fun x hx =>
+    ⟨⟨by rw [hx.1]; norm_num, hx.2⟩, fun h => by
+      have := hx.1; rw [h] at this; simp at this⟩
+  have hK : IsCompact K := by
+    apply Metric.isCompact_of_isClosed_isBounded
+    · exact (isClosed_eq continuous_fst continuous_const).inter
+        (isClosed_le continuous_minkQ continuous_const)
+    · rw [Metric.isBounded_iff_subset_closedBall 0]
+      refine ⟨1, fun x hx => ?_⟩
+      rw [Metric.mem_closedBall, dist_zero_right, Prod.norm_def]
+      have h1 := minkQ_le_zero_iff.1 hx.2
+      rw [hx.1] at h1
+      refine max_le (by rw [hx.1]; simp) ?_
+      nlinarith [norm_nonneg x.2]
+  have hAc : Continuous A := (A : Minkowski d →ₗ[ℝ] Minkowski d).continuous_of_finiteDimensional
+  have hDc : Continuous fun x : Minkowski d => minkB (A x) x := by
+    unfold minkB
+    exact ((continuous_fst.comp hAc).mul continuous_fst).neg.add
+      ((continuous_snd.comp hAc).inner continuous_snd)
+  set φ : Minkowski d → ℝ := fun x => minkQ x / minkB (A x) x with hφ
+  have hφc : ContinuousOn φ K :=
+    continuous_minkQ.continuousOn.div hDc.continuousOn fun x hx =>
+      (hD x (hKf x hx).1 (hKf x hx).2).ne
+  have hτK : timeUnit d ∈ K := ⟨rfl, by simp⟩
+  obtain ⟨v, hvK, hvmax⟩ := hK.exists_isMaxOn ⟨_, hτK⟩ hφc
+  set m := φ v with hm
+  have hDv := hD v (hKf v hvK).1 (hKf v hvK).2
+  have hm0 : 0 < m := by
+    have h1 := isMaxOn_iff.1 hvmax _ hτK
+    have h2 : 0 < φ (timeUnit d) := by
+      simp only [hφ, minkQ_timeUnit]
+      exact div_pos_of_neg_of_neg (by norm_num) (hD _ (hKf _ hτK).1 (hKf _ hτK).2)
+    linarith
+  have hvq : minkQ v < 0 := by
+    rcases div_pos_iff.1 hm0 with h | h
+    · exact absurd h.2 (not_lt.2 hDv.le)
+    · exact h.1
+  have hvF : IsFutureTimelike v := (hKf v hvK).1.isFutureTimelike_of_neg hvq
+  have hmv : m * minkB (A v) v = minkQ v := div_mul_cancel₀ _ hDv.ne
+  -- `m ⟨A x | x⟩ ≤ |x|²` on the closed future cone
+  have hF : ∀ x, IsFutureCausal x → m * minkB (A x) x ≤ minkQ x := by
+    intro x hx
+    rcases eq_or_ne x 0 with rfl | hx0
+    · simp
+    have hx1 : 0 < x.1 := lt_of_le_of_ne hx.1 fun h => hx0 (eq_zero_of_fst_eq_zero h.symm hx.2)
+    set y := x.1⁻¹ • x with hy
+    have hyK : y ∈ K := ⟨by simp [hy, hx1.ne'], by
+      rw [hy, minkQ_smul]; exact mul_nonpos_of_nonneg_of_nonpos (sq_nonneg _) hx.2⟩
+    have hφy : φ y = φ x := by
+      simp only [hφ, hy, map_smul, minkQ_smul, minkB_smul_left, minkB_smul_right]
+      rw [← mul_assoc, ← pow_two]
+      exact mul_div_mul_left _ _ (pow_ne_zero 2 (inv_ne_zero hx1.ne'))
+    have h1 := isMaxOn_iff.1 hvmax y hyK
+    rw [hφy] at h1
+    exact (div_le_iff_of_neg (hD x hx hx0)).1 h1
+  -- first variation at the maximum: `2 v = m (A v + A⁻¹ v)`
+  have hvar : ∀ w, 2 * minkB v w - m * (minkB (A v) w + minkB (A w) v) = 0 := by
+    intro w
+    set f : ℝ → ℝ := fun t => minkQ (v + t • w) - m * minkB (A (v + t • w)) (v + t • w)
+    have hf : ∀ t, f t = (minkQ v - m * minkB (A v) v) +
+        (2 * minkB v w - m * (minkB (A v) w + minkB (A w) v)) * t +
+        (minkQ w - m * minkB (A w) w) * t ^ 2 := fun t => by
+      simp only [f, map_add, map_smul, minkQ_add, minkQ_smul, minkB_add_left, minkB_add_right,
+        minkB_smul_left, minkB_smul_right]
+      ring
+    refine quadratic_linCoeff_eq_zero hf ?_
+    have hcont : Continuous fun t : ℝ => v + t • w := by fun_prop
+    have hev : ∀ᶠ t in nhds (0 : ℝ), v + t • w ∈ {x : Minkowski d | IsFutureTimelike x} :=
+      hcont.continuousAt.eventually_mem (isOpen_futureTimelikeCone.mem_nhds (by simpa using hvF))
+    refine hev.mono fun t ht => ?_
+    have h0 : f 0 = 0 := by simp only [f, zero_smul, add_zero]; linarith
+    have h1 := hF _ ⟨ht.1.le, ht.2.le⟩
+    show f 0 ≤ f t
+    rw [h0]; simp only [f]; linarith
+  have hinv : ∀ w, minkB (A w) v = minkB w (A.symm v) := fun w => by
+    conv_lhs => rw [← A.apply_symm_apply v]
+    exact minkB_map hQ _ _
+  have hkey : (2 : ℝ) • v = m • (A v + A.symm v) := by
+    rw [← sub_eq_zero]
+    refine eq_zero_of_forall_minkB fun w => ?_
+    have := hvar w
+    rw [hinv, minkB_comm v w, minkB_comm (A v) w] at this
+    simp only [minkB_sub_right, minkB_smul_right, minkB_add_right]
+    linarith
+  -- reverse Cauchy–Schwarz: `m ≤ 1`
+  have hrcs := minkQ_mul_le_minkB_sq (w := A v) hvq
+  rw [hQ, minkB_comm] at hrcs
+  have hm1 : m ≤ 1 := by
+    by_contra h
+    push Not at h
+    have : minkQ v * minkQ v ≤ (minkQ v / m) ^ 2 := by
+      rwa [show minkB (A v) v = minkQ v / m by field_simp; linarith] at hrcs
+    rw [div_pow] at this
+    have hq2 : 0 < minkQ v ^ 2 := by have := hvq.ne; positivity
+    rw [le_div_iff₀ (pow_pos hm0 2)] at this
+    have hm2 : 1 < m ^ 2 := by nlinarith
+    nlinarith [mul_lt_mul_of_pos_left hm2 hq2]
+  rcases hm1.lt_or_eq with hm1 | hm1
+  · -- `m < 1`: a null eigenvector in the plane `span {v, A v}`, excluded
+    exfalso
+    set c := 2 / m with hc
+    have hc2 : 2 < c := by rw [hc, lt_div_iff₀ hm0]; linarith
+    have hAAv : A (A v) = c • A v - v := by
+      have h1 := congrArg A hkey
+      rw [map_smul, map_smul, map_add, A.apply_symm_apply] at h1
+      rw [hc, eq_sub_iff_add_eq]
+      have : A (A v) + v = (2 / m) • A v := by
+        rw [div_eq_inv_mul, mul_smul, h1, smul_smul, inv_mul_cancel₀ hm0.ne', one_smul]
+      exact this
+    set s := Real.sqrt (c ^ 2 - 4) with hs
+    have hs2 : s ^ 2 = c ^ 2 - 4 := Real.sq_sqrt (by nlinarith)
+    have hs0 : 0 ≤ s := Real.sqrt_nonneg _
+    set l := (c + s) / 2
+    set μ := (c - s) / 2
+    have hlμ : l * μ = 1 := by simp only [l, μ]; nlinarith
+    have hl1 : 1 < l := by simp only [l]; linarith
+    set u := A v - μ • v with hu
+    have hAu : A u = l • u := by
+      rw [hu, map_sub, map_smul, hAAv, smul_sub, smul_smul, hlμ, one_smul]
+      have : l = c - μ := by simp only [l, μ]; ring
+      rw [this, sub_smul]; abel
+    have hu0 : u ≠ 0 := by
+      intro h0
+      have hAv : A v = μ • v := by rw [hu, sub_eq_zero] at h0; exact h0
+      have h1 := hQ v
+      rw [hAv, minkQ_smul] at h1
+      have hμ2 : μ ^ 2 = 1 := by
+        have : (μ ^ 2 - 1) * minkQ v = 0 := by linarith
+        exact sub_eq_zero.1 ((mul_eq_zero.1 this).resolve_right hvq.ne)
+      have hμ0 : 0 < μ := by nlinarith
+      nlinarith
+    have huq : minkQ u = 0 := by
+      have h1 := hQ u
+      rw [hAu, minkQ_smul] at h1
+      have : (l ^ 2 - 1) * minkQ u = 0 := by linarith
+      exact (mul_eq_zero.1 this).resolve_left (by nlinarith)
+    exact hnull u hu0 huq l hAu
+  · -- `m = 1`: `A v = v`
+    refine ⟨v, hvq, ?_⟩
+    rw [hm1, one_mul] at hmv
+    set w := A v - v with hw
+    have hwq : minkQ w = 0 := by
+      rw [hw, sub_eq_add_neg, minkQ_add, minkQ_neg, minkB_neg_right, hQ, hmv]; ring
+    have hvw : minkB v w = 0 := by
+      rw [hw, minkB_sub_right, minkB_comm, hmv, ← minkQ_eq_minkB, sub_self]
+    by_contra hne
+    have hw0 : w ≠ 0 := fun h => hne (sub_eq_zero.1 h)
+    have := minkQ_pos_of_orth_timelike hvq hvw hw0
+    linarith
+
+
+/-- **A null eigenvector of eigenvalue `l ≠ 1` makes `A` loxodromic.** `A − l⁻¹` maps into
+`u^⊥`, so it is not surjective, hence has a kernel: a second null eigenvector `u'` for `l⁻¹`, with
+`⟨u | u'⟩ ≠ 0`. In the frame `e₀, e₁ = (u ± u'')/2` (`⟨u | u''⟩ = −2`) the boost `H` of rapidity
+`log l` agrees with `A` on `span {e₀, e₁}` and commutes with `A`, and `R = A H⁻¹` fixes the
+timelike `e₀`, hence is elliptic. -/
+theorem isLoxodromic_of_null_eigen {A : Minkowski d ≃ₗ[ℝ] Minkowski d} (hA : A ∈ lorentz d)
+    {u : Minkowski d} (hu0 : u ≠ 0) (hq : minkQ u = 0) {l : ℝ} (hl : 0 < l) (hl1 : l ≠ 1)
+    (hAu : A u = l • u) : IsLoxodromic A := by
+  have hQ := hA.1
+  have hl0 : l ≠ 0 := hl.ne'
+  have hll : l * l ≠ 1 := fun h => hl1 (by nlinarith)
+  have hll' : l⁻¹ * l⁻¹ ≠ 1 := by
+    rw [← mul_inv]; intro h; exact hll (inv_eq_one.1 h)
+  -- the second null eigenvector, for `l⁻¹`
+  have hmB : ∀ w, minkB u (A w) = l⁻¹ * minkB u w := fun w => by
+    have h1 := minkB_map hQ u w
+    rw [hAu, minkB_smul_left] at h1
+    rw [← h1, ← mul_assoc, inv_mul_cancel₀ hl0, one_mul]
+  set T : Minkowski d →ₗ[ℝ] Minkowski d :=
+    (A : Minkowski d →ₗ[ℝ] Minkowski d) - l⁻¹ • LinearMap.id with hT
+  have hTs : ¬ Function.Surjective T := by
+    intro hs
+    obtain ⟨w₀, hw₀⟩ : ∃ w, minkB u w ≠ 0 := by
+      by_contra h; push Not at h
+      exact hu0 (eq_zero_of_forall_minkB fun z => by rw [minkB_comm]; exact h z)
+    obtain ⟨y, hy⟩ := hs w₀
+    apply hw₀
+    rw [← hy, hT, LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply, minkB_sub_right,
+      minkB_smul_right, LinearEquiv.coe_coe, hmB, sub_self]
+  have hTi : ¬ Function.Injective T := fun hi => hTs (LinearMap.injective_iff_surjective.1 hi)
+  rw [injective_iff_map_eq_zero] at hTi
+  push Not at hTi
+  obtain ⟨u', hTu', hu'0⟩ := hTi
+  have hAu' : A u' = l⁻¹ • u' := by
+    rw [hT, LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply, LinearEquiv.coe_coe,
+      sub_eq_zero] at hTu'
+    exact hTu'
+  have hq' : minkQ u' = 0 := by
+    have h1 := hQ u'
+    rw [hAu', minkQ_smul] at h1
+    have : (l⁻¹ * l⁻¹ - 1) * minkQ u' = 0 := by linear_combination h1
+    exact (mul_eq_zero.1 this).resolve_left (sub_ne_zero.2 hll')
+  have hb : minkB u u' ≠ 0 := by
+    intro h0
+    obtain ⟨c, hc⟩ := eq_smul_of_null_orth hq hu0 hq' h0
+    have h1 := hAu'
+    rw [hc, map_smul, hAu, smul_smul, smul_smul] at h1
+    have h2 : (c * l - l⁻¹ * c) • u = 0 := by rw [sub_smul, h1, sub_self]
+    rcases smul_eq_zero.1 h2 with h3 | h3
+    · have hc0 : c = 0 := by
+        have : c * (l - l⁻¹) = 0 := by linear_combination h3
+        refine (mul_eq_zero.1 this).resolve_right fun h4 => hll ?_
+        have : l = l⁻¹ := sub_eq_zero.1 h4
+        calc l * l = l * l⁻¹ := by rw [← this]
+          _ = 1 := mul_inv_cancel₀ hl0
+      exact hu'0 (by rw [hc, hc0, zero_smul])
+    · exact hu0 h3
+  -- the null frame, normalised by `⟨u | u''⟩ = −2`
+  set b := minkB u u' with hbdef
+  set u'' := (-2 / b) • u' with hu''
+  have hq'' : minkQ u'' = 0 := by rw [hu'', minkQ_smul, hq', mul_zero]
+  have hb'' : minkB u u'' = -2 := by rw [hu'', minkB_smul_right, ← hbdef]; field_simp
+  have hAu'' : A u'' = l⁻¹ • u'' := by rw [hu'', map_smul, hAu', smul_comm]
+  obtain ⟨e₀, he₀⟩ : ∃ e : Minkowski d, e = (1 / 2 : ℝ) • (u + u'') := ⟨_, rfl⟩
+  obtain ⟨e₁, he₁⟩ : ∃ e : Minkowski d, e = (1 / 2 : ℝ) • (u - u'') := ⟨_, rfl⟩
+  have h0 : minkQ e₀ = -1 := by
+    rw [he₀, minkQ_smul, minkQ_add, hq, hq'', hb'']; ring
+  have h1 : minkQ e₁ = 1 := by
+    rw [he₁, minkQ_smul, sub_eq_add_neg, minkQ_add, minkQ_neg, minkB_neg_right, hq, hq'', hb'']
+    ring
+  have h01 : minkB e₀ e₁ = 0 := by
+    rw [he₀, he₁, minkB_smul_left, minkB_smul_right, minkB_add_left, minkB_sub_right,
+      minkB_sub_right, ← minkQ_eq_minkB, ← minkQ_eq_minkB, hq, hq'', minkB_comm u'' u]; ring
+  set ζ := Real.log l with hζdef
+  have hexp : Real.exp ζ = l := Real.exp_log hl
+  have hch : Real.cosh ζ = (l + l⁻¹) / 2 := by rw [Real.cosh_eq, Real.exp_neg, hexp]
+  have hsh : Real.sinh ζ = (l - l⁻¹) / 2 := by rw [Real.sinh_eq, Real.exp_neg, hexp]
+  have hζ : ζ ≠ 0 := fun h => hl1 (by rw [← hexp, h, Real.exp_zero])
+  have hAe₀ : A e₀ = Real.cosh ζ • e₀ + Real.sinh ζ • e₁ := by
+    rw [he₀, he₁, map_smul, map_add, hAu, hAu'', hch, hsh]; module
+  have hAe₁ : A e₁ = Real.sinh ζ • e₀ + Real.cosh ζ • e₁ := by
+    rw [he₀, he₁, map_smul, map_sub, hAu, hAu'', hch, hsh]; module
+  -- the boost
+  obtain ⟨H, hH⟩ : ∃ H : Minkowski d ≃ₗ[ℝ] Minkowski d, H = boost h0 h1 h01 ζ := ⟨_, rfl⟩
+  have hQH : ∀ v, minkQ (H v) = minkQ v := fun v => by
+    rw [hH]; exact minkQ_boostLin h0 h1 h01 ζ v
+  have h0' : minkB e₀ e₀ = -1 := by rw [← minkQ_eq_minkB, h0]
+  have h1' : minkB e₁ e₁ = 1 := by rw [← minkQ_eq_minkB, h1]
+  have hHe₀ : H e₀ = Real.cosh ζ • e₀ + Real.sinh ζ • e₁ := by
+    rw [hH, boost_apply, boostLin_apply, h0', h01]; module
+  have hHyp : IsHyperbolic H := by rw [hH]; exact isHyperbolic_boost h0 h1 h01 hζ
+  have hHmem : H ∈ lorentz d := by
+    have hdet : LinearMap.det (H : Minkowski d →ₗ[ℝ] Minkowski d) = 1 :=
+      det_eq_one_of_eq_sq (B := boostLin e₀ e₁ (ζ / 2)) hQH
+        (by rw [boostLin_comp h0 h1 h01, add_halves, hH]; rfl)
+    have hHB : minkB (H e₀) e₀ < 0 := by
+      rw [hHe₀, minkB_add_left, minkB_smul_left, minkB_smul_left, h0', minkB_comm, h01]
+      have := Real.cosh_pos ζ
+      linarith
+    rcases isFutureTimelike_or_neg (show minkQ e₀ < 0 by rw [h0]; norm_num) with he | he
+    · exact mem_lorentz_of_future hQH he
+        (isFutureTimelike_of_minkB_neg (by rw [hQH, h0]; norm_num) ⟨he.1.le, he.2.le⟩ hHB) hdet
+    · refine mem_lorentz_of_future hQH he
+        (isFutureTimelike_of_minkB_neg (by rw [hQH, minkQ_neg, h0]; norm_num)
+          ⟨he.1.le, he.2.le⟩ ?_) hdet
+      rw [map_neg, minkB_neg_left, minkB_neg_right, neg_neg]; exact hHB
+  -- `A` commutes with the boost
+  have hcomm : ∀ x, A (H x) = H (A x) := by
+    intro x
+    have ha := minkB_map hQ x e₀
+    have hb := minkB_map hQ x e₁
+    rw [hAe₀, minkB_add_right, minkB_smul_right, minkB_smul_right] at ha
+    rw [hAe₁, minkB_add_right, minkB_smul_right, minkB_smul_right] at hb
+    have hcs := Real.cosh_sq_sub_sinh_sq ζ
+    have ha' : minkB (A x) e₀ = Real.cosh ζ * minkB x e₀ - Real.sinh ζ * minkB x e₁ := by
+      linear_combination Real.cosh ζ * ha - Real.sinh ζ * hb - minkB (A x) e₀ * hcs
+    have hb' : minkB (A x) e₁ = Real.cosh ζ * minkB x e₁ - Real.sinh ζ * minkB x e₀ := by
+      linear_combination Real.cosh ζ * hb - Real.sinh ζ * ha - minkB (A x) e₁ * hcs
+    rw [hH, boost_apply, boost_apply, boostLin_apply, boostLin_apply, map_add, map_add, map_smul,
+      map_smul, hAe₀, hAe₁, ha', hb']
+    module
+  have hc : A * H = H * A := LinearEquiv.ext fun x => hcomm x
+  set R := A * H⁻¹ with hR
+  have hRmem : R ∈ lorentz d := (lorentz d).mul_mem hA ((lorentz d).inv_mem hHmem)
+  have hRe₀ : R e₀ = e₀ := by
+    have hc' : A * H⁻¹ = H⁻¹ * A := (Commute.inv_right hc)
+    rw [hR, hc', LinearEquiv.mul_apply, hAe₀, ← hHe₀, ← LinearEquiv.mul_apply, inv_mul_cancel]
+    rfl
+  refine ⟨R, H, hRmem, hHmem, isElliptic_of_fixed_timelike hRmem.1 (by rw [h0]; norm_num) hRe₀,
+    hHyp, (inv_mul_cancel_right A H).symm, ?_⟩
+  rw [hR, inv_mul_cancel_right, ← mul_assoc, ← hc, mul_inv_cancel_right]
+
+
+/-- **A fixed null vector makes `A` elliptic or parabolic.** Fitting decomposition of
+`p = A − id`: `M = ker pᴺ ⊕ Im pᴺ`, the two summands are `minkB`-orthogonal (the adjoint of `p`
+is `−A⁻¹ p`) and `A`-invariant. `U = A` on `ker pᴺ`, `id` on `Im pᴺ` is unipotent, preserves
+`minkQ`, has determinant `1` (it is the square of `1 + p_U/2 − p_U²/8`, `p_U³ = 0`) and fixes the
+future null vector, hence lies in `SO₀(1, d)`; `R = A U⁻¹` is `id` on `ker pᴺ`, which is
+nondegenerate and contains the fixed null vector, hence a timelike vector: `R` is elliptic. Then
+`A = R U = U R`, parabolic if `U ≠ id`, elliptic otherwise. This is the multiplicative
+Jordan–Chevalley decomposition restricted to the eigenvalue `1`, without the uniqueness of the
+decomposition. -/
+theorem isElliptic_or_isParabolic_of_null_fixed {A : Minkowski d ≃ₗ[ℝ] Minkowski d}
+    (hA : A ∈ lorentz d) {u : Minkowski d} (hu0 : u ≠ 0) (hq : minkQ u = 0) (hAu : A u = u) :
+    IsElliptic A ∨ IsParabolic A := by
+  have hQ := hA.1
+  -- a future representative of the fixed null line
+  obtain ⟨uf, huf0, hufF, hufq, hAuf⟩ : ∃ uf : Minkowski d, uf ≠ 0 ∧ IsFutureCausal uf ∧
+      minkQ uf = 0 ∧ A uf = uf := by
+    have hu1 : u.1 ≠ 0 := fun h => hu0 (eq_zero_of_fst_eq_zero h hq.le)
+    rcases lt_or_gt_of_ne hu1 with h | h
+    · exact ⟨-u, neg_ne_zero.2 hu0, ⟨by simp; linarith, by simp [hq]⟩, by simp [hq],
+        by rw [map_neg, hAu]⟩
+    · exact ⟨u, hu0, ⟨h.le, hq.le⟩, hq, hAu⟩
+  -- the Fitting decomposition of `p = A − id`
+  set p := pOf A with hp
+  obtain ⟨N, hN, hN1⟩ := ((LinearMap.eventually_isCompl_ker_pow_range_pow p).and
+    (Filter.eventually_ge_atTop 1)).exists
+  set G := LinearMap.ker (p ^ N) with hG
+  set G' := LinearMap.range (p ^ N) with hG'
+  have hpA : ∀ x, p (A x) = A (p x) := fun x => by simp [hp, pOf_apply]
+  have hpowA : ∀ k x, (p ^ k) (A x) = A ((p ^ k) x) := by
+    intro k
+    induction k with
+    | zero => intro x; rfl
+    | succ k ih => intro x; rw [pow_succ', Module.End.mul_apply, Module.End.mul_apply, ih, hpA]
+  have hGA : ∀ g ∈ G, A g ∈ G := fun g hg => by
+    rw [hG, LinearMap.mem_ker] at hg ⊢; rw [hpowA, hg, map_zero]
+  have hG'A : ∀ g ∈ G', A g ∈ G' := by
+    rintro _ ⟨z, rfl⟩; exact ⟨A z, hpowA N z⟩
+  have hGp : ∀ g ∈ G, p g ∈ G := fun g hg => by
+    rw [hG, LinearMap.mem_ker] at hg ⊢
+    rw [← Module.End.mul_apply, ← pow_succ, pow_succ', Module.End.mul_apply, hg, map_zero]
+  have hufG : uf ∈ G := by
+    rw [hG, LinearMap.mem_ker]
+    obtain ⟨k, rfl⟩ := Nat.exists_eq_add_of_le' hN1
+    rw [pow_succ, Module.End.mul_apply, show p uf = 0 by simp [hp, pOf_apply, hAuf], map_zero]
+  -- `ker pᴺ ⊥ Im pᴺ`: the `minkB`-adjoint of `p` is `−A⁻¹ p`
+  have hpinv : ∀ y, p (A.symm y) = A.symm (p y) := fun y => by
+    simp [hp, pOf_apply]
+  have hpowinv : ∀ k y, (p ^ k) (A.symm y) = A.symm ((p ^ k) y) := by
+    intro k
+    induction k with
+    | zero => intro y; rfl
+    | succ k ih =>
+      intro y; rw [pow_succ', Module.End.mul_apply, Module.End.mul_apply, ih, hpinv]
+  have hadj : ∀ x z, minkB x (p z) = -minkB (A.symm (p x)) z := fun x z => by
+    have h1 : minkB x (A z) = minkB (A.symm x) z := by
+      conv_lhs => rw [← A.apply_symm_apply x]
+      exact minkB_map hQ _ _
+    rw [hp, pOf_apply, pOf_apply, map_sub, LinearEquiv.symm_apply_apply, minkB_sub_right,
+      minkB_sub_left, h1]
+    ring
+  have horth_aux : ∀ k x, (p ^ k) x = 0 → ∀ z, minkB x ((p ^ k) z) = 0 := by
+    intro k
+    induction k with
+    | zero => intro x hx z; rw [pow_zero] at hx; rw [show x = 0 from hx, minkB_zero_left]
+    | succ k ih =>
+      intro x hx z
+      rw [pow_succ', Module.End.mul_apply, hadj, ih (A.symm (p x)) ?_ z, neg_zero]
+      rw [hpowinv, ← Module.End.mul_apply, ← pow_succ, hx, map_zero]
+  have horth : ∀ g ∈ G, ∀ g' ∈ G', minkB g g' = 0 := by
+    rintro g hg _ ⟨z, rfl⟩; exact horth_aux N g hg z
+  have hdec : ∀ x, ∃ g ∈ G, ∃ g' ∈ G', x = g + g' := fun x => by
+    have : x ∈ G ⊔ G' := by rw [hN.sup_eq_top]; exact mem_top
+    obtain ⟨g, hg, g', hg', h⟩ := mem_sup.1 this
+    exact ⟨g, hg, g', hg', h.symm⟩
+  -- `U = A` on `ker pᴺ`, `id` on `Im pᴺ`
+  set U₀ : Minkowski d →ₗ[ℝ] Minkowski d :=
+    LinearMap.ofIsCompl hN ((A : Minkowski d →ₗ[ℝ] Minkowski d) ∘ₗ G.subtype) G'.subtype
+    with hU₀def
+  have hU₀ : ∀ g ∈ G, ∀ g' ∈ G', U₀ (g + g') = A g + g' := by
+    intro g hg g' hg'
+    have e1 := LinearMap.ofIsCompl_apply_left hN
+      (φ := (A : Minkowski d →ₗ[ℝ] Minkowski d) ∘ₗ G.subtype) (ψ := G'.subtype) ⟨g, hg⟩
+    have e2 := LinearMap.ofIsCompl_apply_right hN
+      (φ := (A : Minkowski d →ₗ[ℝ] Minkowski d) ∘ₗ G.subtype) (ψ := G'.subtype) ⟨g', hg'⟩
+    rw [map_add, hU₀def, e1, e2]
+    rfl
+  have hU₀G : ∀ g ∈ G, U₀ g = A g := fun g hg => by
+    simpa using hU₀ g hg 0 (zero_mem _)
+  have hQU : ∀ x, minkQ (U₀ x) = minkQ x := fun x => by
+    obtain ⟨g, hg, g', hg', rfl⟩ := hdec x
+    rw [hU₀ g hg g' hg', minkQ_add, minkQ_add, hQ, horth g hg g' hg', horth _ (hGA g hg) g' hg']
+  have hinj : Function.Injective U₀ := by
+    rw [injective_iff_map_eq_zero]
+    intro x hx
+    refine eq_zero_of_forall_minkB fun z => ?_
+    rw [← minkB_map_of_minkQ hQU z x, hx, minkB_zero_right]
+  set U := LinearEquiv.ofInjectiveEndo U₀ hinj with hUdef
+  have hUapp : ∀ x, U x = U₀ x := fun x => rfl
+  have hQU' : ∀ x, minkQ (U x) = minkQ x := hQU
+  have hpU : ∀ g ∈ G, pOf U g = p g := fun g hg => by
+    rw [pOf_apply, hUapp, hU₀G g hg, hp, pOf_apply]
+  have hpU' : ∀ g ∈ G, ∀ g' ∈ G', pOf U (g + g') = p g := fun g hg g' hg' => by
+    rw [pOf_apply, hUapp, hU₀ g hg g' hg', hp, pOf_apply]; abel
+  -- `U` is unipotent
+  have hpowU : ∀ k, ∀ g ∈ G, (pOf U ^ k) g = (p ^ k) g := by
+    intro k
+    induction k with
+    | zero => intro g _; rfl
+    | succ k ih =>
+      intro g hg
+      rw [pow_succ, Module.End.mul_apply, hpU g hg, ih _ (hGp g hg), pow_succ,
+        Module.End.mul_apply]
+  have hnil : IsNilpotent (pOf U) := by
+    refine ⟨N + 1, LinearMap.ext fun x => ?_⟩
+    obtain ⟨g, hg, g', hg', rfl⟩ := hdec x
+    rw [pow_succ, Module.End.mul_apply, hpU' g hg g' hg', hpowU N _ (hGp g hg),
+      ← Module.End.mul_apply, ← pow_succ, pow_succ', Module.End.mul_apply,
+      show (p ^ N) g = 0 from hg, map_zero, LinearMap.zero_apply]
+  -- `det U = 1`: `U` is the square of `1 + p_U/2 − p_U²/8`
+  have h3 : ∀ x, pOf U (pOf U (pOf U x)) = 0 := fun x => by
+    by_cases hp0 : pOf U = 0
+    · simp [hp0]
+    · exact pOf_pOf_pOf hQU' hnil hp0 x
+  set B : Minkowski d →ₗ[ℝ] Minkowski d :=
+    LinearMap.id + (1 / 2 : ℝ) • pOf U - (1 / 8 : ℝ) • (pOf U ∘ₗ pOf U) with hB
+  have hBB : (U : Minkowski d →ₗ[ℝ] Minkowski d) = B ∘ₗ B := by
+    refine LinearMap.ext fun x => ?_
+    rw [LinearEquiv.coe_coe, apply_eq_add_pOf U x]
+    simp only [hB, LinearMap.comp_apply, LinearMap.add_apply, LinearMap.sub_apply,
+      LinearMap.smul_apply, LinearMap.id_apply, map_add, map_sub, map_smul, h3, map_zero,
+      smul_zero, sub_zero]
+    module
+  have hdet : LinearMap.det (U : Minkowski d →ₗ[ℝ] Minkowski d) = 1 :=
+    det_eq_one_of_eq_sq hQU' hBB
+  -- `U` preserves the future cone (it fixes `uf`)
+  have hτ : IsFutureTimelike (timeUnit d) := ⟨by simp [timeUnit], by simp⟩
+  have hUuf : U uf = uf := by rw [hUapp, hU₀G uf hufG, hAuf]
+  have hUτ : IsFutureTimelike (U (timeUnit d)) := by
+    refine isFutureTimelike_of_minkB_neg (by rw [hQU', minkQ_timeUnit]; norm_num) hufF ?_
+    conv_lhs => rw [← hUuf]
+    rw [minkB_map hQU', minkB_comm]
+    exact minkB_neg_of_future hufF huf0 hτ
+  have hUmem : U ∈ lorentz d := mem_lorentz_of_future hQU' hτ hUτ hdet
+  -- `A` and `U` commute
+  have hcomm : A * U = U * A := by
+    refine LinearEquiv.ext fun x => ?_
+    obtain ⟨g, hg, g', hg', rfl⟩ := hdec x
+    rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, hUapp, hUapp, hU₀ g hg g' hg', map_add,
+      map_add, hU₀ _ (hGA g hg) _ (hG'A g' hg')]
+  -- a timelike vector in `ker pᴺ`
+  obtain ⟨z, hzG, hzq⟩ : ∃ z ∈ G, minkQ z < 0 := by
+    obtain ⟨y, hy⟩ : ∃ y, minkB uf y ≠ 0 := by
+      by_contra h; push Not at h
+      exact huf0 (eq_zero_of_forall_minkB fun z => by rw [minkB_comm]; exact h z)
+    obtain ⟨g, hg, g', hg', rfl⟩ := hdec y
+    rw [minkB_add_right, horth uf hufG g' hg', add_zero] at hy
+    refine ⟨(1 + minkQ g / 2) • uf + (-minkB uf g) • g, add_mem (smul_mem _ _ hufG)
+      (smul_mem _ _ hg), ?_⟩
+    rw [minkQ_add, minkQ_smul, minkQ_smul, minkB_smul_left, minkB_smul_right, hufq]
+    have : 0 < minkB uf g ^ 2 := by positivity
+    nlinarith
+  -- `R = A U⁻¹` fixes the timelike `A z`
+  set R := A * U⁻¹ with hR
+  have hRmem : R ∈ lorentz d := (lorentz d).mul_mem hA ((lorentz d).inv_mem hUmem)
+  have hRfix : R (A z) = A z := by
+    have h1 : R (U z) = A z := by
+      rw [hR, LinearEquiv.mul_apply, ← LinearEquiv.mul_apply U⁻¹, inv_mul_cancel]; rfl
+    rwa [hUapp, hU₀G z hzG] at h1
+  have hRe : IsElliptic R := isElliptic_of_fixed_timelike hRmem.1 (by rw [hQ]; exact hzq) hRfix
+  by_cases hU1 : U = 1
+  · left
+    have : R = A := by rw [hR, hU1, inv_one, mul_one]
+    rw [← this]; exact hRe
+  · right
+    refine ⟨R, U, hRmem, hUmem, hRe, hnil, hU1, (inv_mul_cancel_right A U).symm, ?_⟩
+    rw [hR, inv_mul_cancel_right, ← mul_assoc, ← hcomm, mul_inv_cancel_right]
 
 /-- **"Up to conjugacy, every isometry is of the following form"** (l.1868–1901), on linear
 parts: every element of `SO₀(1, d)` is elliptic, loxodromic or parabolic (and exactly one, by
-`IsLoxodromic.not_isElliptic`, `IsParabolic.not_isElliptic`, `IsParabolic.not_isLoxodromic`). -/
+`IsLoxodromic.not_isElliptic`, `IsParabolic.not_isElliptic`, `IsParabolic.not_isLoxodromic`).
+Brouwer-free: a nonzero null eigenvector or a fixed timelike vector
+(`lorentz.exists_null_eigen_or_fixed_timelike`); a fixed timelike vector is elliptic
+(`isElliptic_of_fixed_timelike`); a null eigenvalue `l > 0` (`lorentz.eigen_pos_of_null`) with
+`l ≠ 1` is loxodromic (`isLoxodromic_of_null_eigen`), with `l = 1` elliptic or parabolic
+(`isElliptic_or_isParabolic_of_null_fixed`). The proof is uniform in `d`, no dimension being
+excluded or treated apart; for `d ≤ 1` the parabolic alternative is empty
+(`two_le_of_unipotent`). -/
 theorem lorentz_trichotomy {A : Minkowski d ≃ₗ[ℝ] Minkowski d} (hA : A ∈ lorentz d) :
     IsElliptic A ∨ IsLoxodromic A ∨ IsParabolic A := by
-  -- The three cases are disjoint and each is characterised above; what is missing is existence.
-  -- Brouwer-free route: an `A`-invariant subspace of dimension `≤ 2` (a complex eigenvalue),
-  -- then the `minkB`-orthogonal split and induction on dimension, giving a fixed timelike vector
-  -- (elliptic, `isElliptic_of_fixed_timelike`) or a null eigenvector. For the loxodromic factor
-  -- the boost is `boost` in the null frame (`det_eq_one_of_eq_sq` gives its determinant); for the
-  -- parabolic one, additive Jordan–Chevalley (`Module.End.exists_isNilpotent_isSemisimple`,
-  -- `A = s + n`, `U = s⁻¹ A`) with `s` shown in `SO₀(1, d)` and elliptic.
-  sorry -- SORRY([6.N] trichotomy): not yet formalized; Brouwer-free route: an A-invariant subspace of dimension ≤ 2 (complex eigenvalue) + minkB-orthogonal split and induction on dimension; parabolic factor from additive Jordan–Chevalley (mathlib `Module.End.exists_isNilpotent_isSemisimple`), with the semisimple part shown in SO₀(1, d) and elliptic
+  rcases lorentz.exists_null_eigen_or_fixed_timelike hA with ⟨u, hu0, hq, c, hc⟩ | ⟨v, hv, hAv⟩
+  · have hc0 := lorentz.eigen_pos_of_null hA hu0 hq hc
+    by_cases hc1 : c = 1
+    · rw [hc1, one_smul] at hc
+      rcases isElliptic_or_isParabolic_of_null_fixed hA hu0 hq hc with h | h
+      · exact Or.inl h
+      · exact Or.inr (Or.inr h)
+    · exact Or.inr (Or.inl (isLoxodromic_of_null_eigen hA hu0 hq hc0 hc1 hc))
+  · exact Or.inl (isElliptic_of_fixed_timelike hA.1 hv hAv)
 
 end Causal.Flat

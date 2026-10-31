@@ -1,0 +1,298 @@
+{
+  "package": "WP-32g-CauchyComplete",
+  "files": [
+    "scaffold/CausalScaffold/Flat/CauchyComplete.lean"
+  ],
+  "builds": true,
+  "sorry_count": 4,
+  "labels": [
+    {
+      "label": "[2.4] Cauchy-complete (prose, DEC-35)",
+      "tex_lines": [
+        551,
+        558
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.IsCauchyComplete",
+        "Causal.Flat.IsSpacelikeLipschitz",
+        "Causal.Flat.InducedLengthSpace",
+        "Causal.Flat.InducedLengthSpace.toSubtype",
+        "Causal.Flat.chartSys",
+        "Causal.Flat.LocalLengthSpace",
+        "Causal.Flat.localDensity",
+        "Causal.Flat.localLength",
+        "Causal.Flat.LocLipAt",
+        "Causal.Flat.IsLocLip",
+        "Causal.Flat.pathLength",
+        "Causal.Flat.pathLength_refl",
+        "Causal.Flat.pathLength_symm",
+        "Causal.Flat.pathLength_trans",
+        "Causal.Flat.localDensity_chartSys_eq",
+        "Causal.Flat.localLength_chartSys_minkowski",
+        "Causal.Flat.isLocLip_pulled_iff",
+        "Causal.Flat.chartSys_minkowski",
+        "Causal.Flat.interTopHomeo",
+        "Causal.Flat.curveExtend_map_interTop",
+        "Causal.Flat.isLocLip_chartSys_minkowski_iff",
+        "Causal.Flat.pathLength_chartSys_minkowski",
+        "Causal.Flat.edist_inducedLengthSpace_minkowski",
+        "Causal.Flat.isCauchyComplete_minkowski",
+        "Causal.Flat.isCauchyComplete_minkowskiSpace",
+        "Causal.Flat.edist_inducedLengthSpace_slice",
+        "Causal.Flat.completeSpace_inducedLengthSpace_slice",
+        "Causal.Flat.continuous_toSubtype_slice",
+        "Causal.Flat.sliceHomeo",
+        "Causal.Flat.pathLength_pulled_congr"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M GH",
+          "here": "carried",
+          "note": "ETT's GH reading (BARBOT-THEOREMS §1, 'ETT's is used'); classically implied by the Cauchy surface (Barbot's GH is its existence), but in the library Geroch (iii)=>(i) is itself a sorry, so it is carried, not derived; not inside IsCauchyComplete (AMGH composes GH with the class); consumed only by the bridge's B1"
+        },
+        {
+          "paper": "a Cauchy hypersurface",
+          "here": "carried",
+          "note": "ETT's IsCauchySurface of flatCausality"
+        },
+        {
+          "paper": "the ambient Lorentzian metric restricts as a Riemannian metric",
+          "here": "weakened",
+          "note": "reading DEC-31/35: point-locally spacelike Lipschitz in the chart at each point, slope c < 1 depending on the point (contract (f))"
+        },
+        {
+          "paper": "complete",
+          "here": "carried",
+          "note": "CompleteSpace of the glued length pseudo-emetric, plus the topology-compatibility field of the design (W3); for spacelike S that field holds chart-locally (IsSpacelikeLipschitzIn.isHomeomorph_toSubtype, InducedLength.lean:1196) but its gluing is not proved. Non-vacuity: isCauchyComplete_minkowski (the slice t = 0 of Mn, glued length = Euclidean distance)."
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "Reading of Cauchy-complete: the length of a path of S is the integral of sqrt(minkQ) of its velocity read in the chart AT EACH POINT (no subdivision), charged infinity unless Lipschitz in charts; the topology-compatibility field is kept as in BARBOT-WAVE3.md although it should be redundant for point-locally spacelike S. Is that the notion?"
+      ],
+      "notes": "Reuse link for gx (audit minor 3, applied): for S ⊆ Mn with its one-chart atlas, IsLocLip (chartSys) γ.extend <-> IsLipschitzCurve (isLocLip_chartSys_minkowski_iff, via isLocLip_pulled_iff: local => global Lipschitz on [0,1] by LocallyLipschitzOn.exists_lipschitzOnWith_of_compact and projIcc), pathLength = InducedLength.lengthOn S ⊤ (pathLength_chartSys_minkowski) and the edists of InducedLengthSpace d S and InducedLength S ⊤ agree (edist_inducedLengthSpace_minkowski). For a general M the chart-local link is the density (localDensity_chartSys_eq); an edist comparison on chart domains is not restated."
+    },
+    {
+      "label": "bprop:project",
+      "tex_lines": [
+        2232,
+        2261
+      ],
+      "status": "stated",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.bprop_project",
+        "Causal.Flat.isCoveringMap_projAlong_comp",
+        "Causal.Flat.isHomeomorph_of_isCoveringMap",
+        "Causal.Flat.SpacelikeDevelopment",
+        "Causal.Flat.PulledLength",
+        "Causal.Flat.projAlong",
+        "Causal.Flat.orthSub",
+        "Causal.Flat.projAlong_eq_iff",
+        "Causal.Flat.completeSpace_pulledLength_slice",
+        "Causal.Flat.edist_pulledLength_slice",
+        "Causal.Flat.edist_eq_iInf_pathLength_slice",
+        "Causal.Flat.spacelikeDevelopment_slice"
+      ],
+      "hypotheses": [
+        {
+          "paper": "f : S -> M an isometric immersion of a complete Riemannian hypersurface; S~, D o f~",
+          "here": "weakened",
+          "note": "any connected T2 space X with F : X -> Mn a SpacelikeDevelopment (local embedding onto spacelike Lipschitz pieces) whose pulled-back length is complete"
+        },
+        {
+          "paper": "Delta a timelike direction",
+          "here": "carried",
+          "note": "minkQ Delta < 0, either time orientation"
+        },
+        {
+          "paper": "Q(Delta) = Mn/Delta with the metric making pi isometric on Delta-orthogonal hyperplanes",
+          "here": "carried",
+          "note": "Q(Delta) modelled TOPOLOGICALLY by the hyperplane Delta-perp (orthSub), pi = projection along Delta, the identity on Delta-perp. The paper's metric is minkQ restricted to Delta-perp (positive definite); the subtype carries the sup-product metric of R x R^d, equivalent but not equal. Only the topology enters the homeomorphism."
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "Causal.Flat.isCoveringMap_projAlong_comp",
+          "obstruction": "R1/W5: (i) pi o F is a local homeomorphism (local injectivity from spacelike separation in the c<1 frame; openness of the image by an intermediate-value argument along Delta-lines); (ii) evenly covered neighbourhoods from lifts of straight segments of Delta-perp: the lift of a segment has pulled length at most the segment's, a maximal lift on [0,t) is Cauchy in PulledLength F and converges by completeness; radial lifts give sheets. No covering-from-segment-lifts lemma in mathlib or the port. The final step (covering => homeomorphism, target simply connected) is PROVED: isHomeomorph_of_isCoveringMap."
+        }
+      ],
+      "findings": [
+        "W5 confirmed, l.2244-2257: the maximal lifting c of an arbitrary path c-bar is Cauchy only if c-bar is rectifiable (the bound d(c(t_n), c(t_m)) <= length of c-bar on [t_n, t_m]). Repair: lift straight segments only. The step 'distance increasing, and thus, a local homeomorphism' (l.2244-2245) is NOT a defect of the paper: in Barbot's smooth setting the differential of pi o D o f~ satisfies |d pi(v)| >= |v| on spacelike v, so it is an immersion between manifolds of equal dimension (n-1) and a local diffeomorphism by the inverse function theorem (or, read metrically, local injectivity plus invariance of domain); the step is a standard implicit one. Only in this campaign's Lipschitz generalisation (no differential) must it be argued otherwise: from the local graph structure (pi injective on the c<1 pieces) plus an intermediate-value argument along Delta-lines, as planned in isCoveringMap_projAlong_comp's comment."
+      ],
+      "questions": [],
+      "notes": "Non-vacuity (kb/0011, audit minor 4, applied): spacelikeDevelopment_slice + completeSpace_pulledLength_slice inhabit the hypotheses of 8.1 and 8.3 (X = R^d connected T2, F = the slice t = 0, pulled length isometric to R^d)."
+    },
+    {
+      "label": "[8.G] the graph remark, and bcor:quo's last clause",
+      "tex_lines": [
+        2263,
+        2309
+      ],
+      "status": "stated",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.isEntireAcausalGraph_range",
+        "Causal.Flat.SpacelikeDevelopment.injective_of_complete",
+        "Causal.Flat.SpacelikeDevelopment.exists_add_smul_mem_range",
+        "Causal.Flat.SpacelikeDevelopment.isAchronal_range",
+        "Causal.Flat.SpacelikeDevelopment.exists_graph",
+        "Causal.Flat.SpacelikeDevelopment.not_null_pair",
+        "Causal.Flat.IsSpacelikeLipschitzIn.not_eventually_add_smul_mem",
+        "Causal.Flat.lipschitzWith_one_segment"
+      ],
+      "hypotheses": [
+        {
+          "paper": "as Prop 8.1",
+          "here": "carried",
+          "note": "proved from bprop_project with no further sorry; inherits its sorry"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.2307-2309 'the graph of a contracting map' is proved in the strict form (IsEntireAcausalGraph: acausal, i.e. strictly contracting, and meeting every timelike line). Strictness is not automatic from 8.1: 8.1 for every timelike Delta only gives a 1-Lipschitz graph; a 1-Lipschitz graph attaining slope 1 between two points contains the whole null segment (lipschitzWith_one_segment), which a point-locally c<1 piece cannot contain (IsSpacelikeLipschitzIn.not_eventually_add_smul_mem). The paper does not say why the contraction is strict."
+      ],
+      "questions": []
+    },
+    {
+      "label": "bcor:quoiso",
+      "tex_lines": [
+        2277,
+        2290
+      ],
+      "status": "stated",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.bcor_quoiso"
+      ],
+      "hypotheses": [
+        {
+          "paper": "the set-up of 8.1 (S~ identified with its image)",
+          "here": "weakened",
+          "note": "as for bprop:project"
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "Causal.Flat.bcor_quoiso",
+          "obstruction": "W6: frame P0 = {t - x1 = c}, Delta0 = (1, e1), range F = graph f (SpacelikeDevelopment.exists_graph; strictly contracting by isEntireAcausalGraph_range through isEntireAcausalGraph_iff); Y_c = {y perp e1 | exists s, f(y + s e1) - s = c}. Open: s -> f(y + s e1) - s strictly decreasing, values on both sides of c persist for nearby y, IVT. Closed: the lift y -> y + s(y) e1 of a segment of e1-perp has minkQ-length equal to the segment's Euclidean length, so 8.1's completeness argument applies; this is the same missing segment-lifting lemma (R1). e1-perp connected."
+        }
+      ],
+      "findings": [
+        "W6 confirmed, l.2287-2290: 'completely similar' hides two distinct steps, an openness step by the intermediate value theorem (no completeness) and a closedness step that is the completeness argument of 8.1 run on the (n-2)-dimensional S~ cap P0; the projection P0 -> P0/Delta0 restricted to S~ cap P0 is indeed isometric (Delta0 is the null direction of P0)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "the bridge, IsCauchyComplete => (CC') (DEC-35; no paper label)",
+      "tex_lines": [
+        2215,
+        2290
+      ],
+      "status": "stated",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.developsCC_of_isCauchyComplete",
+        "Causal.Flat.exists_developsCC_of_isCauchyComplete",
+        "Causal.Flat.connectedSpace_preimage_cauchy",
+        "Causal.Flat.spacelikeDevelopment_restrict",
+        "Causal.Flat.completeSpace_pulledLength_restrict",
+        "Causal.Flat.t2Space_universalCover",
+        "Causal.Flat.t2Space_of_isCoveringMap",
+        "Causal.Flat.IsSpacelikeLipschitzIn.restrict"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M GH flat, S a Cauchy surface complete for its induced metric",
+          "here": "carried",
+          "note": "GH M; S Cauchy, IsSpacelikeLipschitz, CompleteSpace, topology field; dev any developing map (IsGXMorphism from the universal cover)"
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "Causal.Flat.connectedSpace_preimage_cauchy",
+          "obstruction": "B1: p^-1(S) connected iff pi1(S) -> pi1(M) onto; for a Cauchy surface of a GH spacetime that is the splitting M = S x R (Prop 8.11, class E, GerochEquiv's sorry) or a deformation retraction along a Cauchy time function; neither available."
+        },
+        {
+          "decl": "Causal.Flat.completeSpace_pulledLength_restrict",
+          "obstruction": "B3: a covering of a complete length space is complete: pulled length on S^ = glued length of the projection (localDensity_chartSys_eq through dev, proj), a Cauchy sequence projects to a convergent one, a length ball about the limit lies in an evenly covered neighbourhood (uses the topology field), the tail lies in one sheet."
+        }
+      ],
+      "findings": [
+        "Against the design (BARBOT-WAVE3.md §4, 'External: the homeomorphism half of 8.11 ... not used below'): (CC')'s DevelopsCC is stated on S^ = p^-1(S) in the universal cover of M, whereas Barbot's §8 works on the universal cover S~ of S with a lift f~ (l.2215-2223). They agree iff S^ is connected, i.e. pi1(S) -> pi1(M) is onto, which Barbot never states and which, for a Cauchy surface, is the topological splitting (Prop 8.11, class E). So the bridge as stated against p^-1(S) depends on 8.11's homeomorphism half (B1), or on an independent retraction argument. Stating DevelopsCC on S~ (a covering of S, with f~) would avoid it for 8.1/8.3 but move it to the injectivity of D on p^-1(S) used by 8.12."
+      ],
+      "questions": [
+        "Should DevelopsCC (Develop.lean) be stated on p^-1(S) (needs B1 = the splitting, class E) or on the universal cover of S with a lift f~ (Barbot's literal set-up, B1 not needed for 8.1/8.3)?"
+      ],
+      "notes": "B2 (spacelikeDevelopment_restrict) is now PROVED: near z, dev = g • psi o proj (both IsGXMorphisms), proj a local homeomorphism e; on W ∋ z, dev|Ŝ∩W = g • (e.trans psi) restricted (an embedding), image g • (T ∩ V') with V' = (e.trans psi) '' W; IsSpacelikeLipschitzIn.restrict (new, achronality by lt_mono) and IsSpacelikeLipschitzIn.smul (isom_strongMorphism). Remaining sorries B1, B3. The bridge's hypotheses are inhabited: isCauchyComplete_minkowskiSpace with gh_minkowskiSpace. Stated against the explicit conjunction (Cauchy, InjOn dev Ŝ, IsEntireAcausalGraph, NullSaturated), NOT against Develop.lean's DevelopsCC (written in parallel, not imported): the master connects the two."
+    }
+  ],
+  "extra_decls": [
+    "Causal.Flat.isHomeomorph_of_isCoveringMap",
+    "Causal.Flat.t2Space_of_isCoveringMap",
+    "Causal.Flat.LocalLengthSpace.instPseudoEMetricSpace (anonymous instance on LocalLengthSpace φ)",
+    "Causal.Flat.localDensity_comp_affine",
+    "Causal.Flat.localDensity_comp_const_sub",
+    "Causal.Flat.localDensity_congr",
+    "Causal.Flat.localLength_add",
+    "Causal.Flat.localLength_congr",
+    "Causal.Flat.localLength_comp_affine",
+    "Causal.Flat.localLength_comp_const_sub",
+    "Causal.Flat.LocLipAt.congr",
+    "Causal.Flat.LocLipAt.comp_affine",
+    "Causal.Flat.LocLipAt.comp_const_sub",
+    "Causal.Flat.isLocLip_trans",
+    "Causal.Flat.lipschitzOnWith_congr_of_eqOn",
+    "Causal.Flat.localLength_pulled",
+    "Causal.Flat.minkBL",
+    "Causal.Flat.minkBL_apply",
+    "Causal.Flat.minkB_self",
+    "Causal.Flat.mem_orthSub",
+    "Causal.Flat.projAlongₗ",
+    "Causal.Flat.projAlong_coe",
+    "Causal.Flat.eventually_add_smul_mem",
+    "Causal.Flat.abs_fst_eq_norm_of_minkQ_eq_zero",
+    "Causal.Flat.lipschitzWith_one_segment",
+    "Causal.Flat.locLipAt_const",
+    "Causal.Flat.localLength_eq_Icc",
+    "Causal.Flat.localLength_const",
+    "Causal.Flat.localDensity_const",
+    "Causal.Flat.pathLength_of_isLocLip",
+    "Causal.Flat.pathLength_of_not_isLocLip",
+    "Causal.Flat.isLocLip_symm",
+    "Causal.Flat.pathLength_trans_le",
+    "Causal.Flat.LocalLengthSpace.toSpace",
+    "Causal.Flat.LocalLengthSpace.edist_def",
+    "Causal.Flat.SpacelikeDevelopment.eq_of_projAlong_eq",
+    "Causal.Flat.PulledLength.toSpace",
+    "Causal.Flat.segmentPath"
+  ],
+  "kb_proposals": [
+    "Gluing chart-local lengths needs no subdivision: take the density at t in the chart AT c t (localDensity φ c t, φ x = chart at x); locality and Isom-invariance become one pointwise lemma (localDensity_chartSys_eq), and the pseudo-emetric laws are proved once for any 'local developing system' φ : X → X → 𝐌ⁿ (charts, or a single developing map).",
+    "A covering of a simply connected, locally path-connected space by a connected space is a homeomorphism in ten lines: lift the identity (IsCoveringMap.existsUnique_continuousMap_lifts), then IsCoveringMap.eq_of_comp_eq (isHomeomorph_of_isCoveringMap).",
+    "A Submodule of 𝐌ⁿ used as a type is SimplyConnectedSpace and LocPathConnectedSpace by inferInstance (RealTopologicalVectorSpace.contractibleSpace, LocallyConvexSpace): model a quotient 𝐌ⁿ/Δ by Δ^⊥ rather than by the quotient module.",
+    "A module importing a scaffold file you are writing cannot be typechecked without lake build; test snippets in /tmp with `lake env lean /tmp/x.lean` importing only built dependencies, never as a new file under scaffold/.",
+    "Local-to-global Lipschitz along a path: IsLocLip of γ.extend gives a global Lipschitz bound via LocallyLipschitzOn.exists_lipschitzOnWith_of_compact on Icc 0 1, then γ.extend = γ.extend ∘ projIcc and LipschitzWith.projIcc (isLocLip_pulled_iff).",
+    "Never `set` a term occurring in the TYPE of a bound variable before a `change`: `set` re-introduces the variable and the goal then mentions the shadowed x✝, so `change` fails; state the lemma on the base type instead."
+  ],
+  "notes": "Builds with `taskset -c 0-11 lake env lean`: zero errors, no warning other than the four `declaration uses sorry` (isCoveringMap_projAlong_comp R1/W5, bcor_quoiso W6, bridge-B1, bridge-B3). #print axioms (file piped to `lean --stdin`): spacelikeDevelopment_restrict, IsSpacelikeLipschitzIn.restrict, isCauchyComplete_minkowski(Space), completeSpace_pulledLength_slice, the reuse-link lemmas are sorry-free; developsCC_of_isCauchyComplete depends on sorryAx only through 8.1, 8.3, B1, B3. Imports CausalScaffold.Flat.{InducedLength, FlatSpacetime, LipschitzGraph, Developing}; does NOT import Develop.lean (parallel): the bridge states DevelopsCC's content as the explicit conjunction (IsCauchySurface S ∧ InjOn dev Ŝ ∧ IsEntireAcausalGraph (dev '' Ŝ) ∧ NullSaturated (dev '' Ŝ)) for EVERY developing map dev; the master connects it to DevelopsCC. Name-collision grep against Causal/ and scaffold/ (all new names included) found none. Nothing is marked; no axiom. A stray scratch file scaffold/CausalScaffold/Flat/CCTmp1.lean was created for under a minute in the first round and deleted; it was never built.",
+  "fixer": {
+    "round": "audit fix",
+    "applied": [
+      "BLOCKING: bprop:project finding reworded (l.2244-2245 is the inverse function theorem / invariance of domain in the smooth setting, not a non sequitur; only the Lipschitz generalisation needs another argument); W5 half kept",
+      "minor 1: InducedLength.isHomeomorph_toSubtype -> IsSpacelikeLipschitzIn.isHomeomorph_toSubtype (file checklist and REPORT)",
+      "minor 2: projAlong docstring and checklist row 8.1: Q(Delta) modelled topologically by Delta-perp; metric equivalent, not equal",
+      "minor 3: reuse link with InducedLength proved for S ⊆ Mn (isLocLip_chartSys_minkowski_iff, pathLength_chartSys_minkowski, edist_inducedLengthSpace_minkowski)",
+      "minor 4: non-vacuity witnesses proved (completeSpace_pulledLength_slice; isCauchyComplete_minkowski / _minkowskiSpace)",
+      "minor 5: extra_decls completed",
+      "minor 6: bcor_quoiso comment cites isEntireAcausalGraph_range / isEntireAcausalGraph_iff for strictness",
+      "minor 7: hGH role noted in the checklist row and REPORT",
+      "minor 8: checklist header 'paper hypothesis'",
+      "sorry closed: bridge-B2 (spacelikeDevelopment_restrict), with the new IsSpacelikeLipschitzIn.restrict"
+    ],
+    "disagreements": []
+  }
+}
