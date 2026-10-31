@@ -1,0 +1,110 @@
+{
+  "package": "WP-34b-CurvesExtend",
+  "files": [
+    "scaffold/CausalScaffold/CurvesExtend.lean"
+  ],
+  "builds": true,
+  "build_note": "taskset -c 0-11 lake env lean scaffold/CausalScaffold/CurvesExtend.lean: zero errors, zero warnings (re-checked after the fixer pass, 2026-10-31); #print axioms of exists_inextensible_of_timeFunction, minkowski_curvesExtend, IsCauchySurface.isAcausal_of_globallyHyperbolic (via --stdin, nothing written): propext, Classical.choice, Quot.sound only. lake build not run (dispatch forbids it).",
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "[2.GH] Barbot's GH definition, extension clause (prose, no b-label)",
+      "tex_lines": [
+        498,
+        507
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.exists_inextensible_univ_of_isCauchyTimeFunction",
+        "Causal.Causality.GloballyHyperbolic.exists_inextensible_univ"
+      ],
+      "hypotheses": [
+        {
+          "paper": "proper time function t with spacelike fibers (l.498-502)",
+          "here": "reading",
+          "note": "a continuous T strictly increasing along <=_M which is a Cauchy time function (DEC-15); properness and spacelike fibers not used"
+        },
+        {
+          "paper": "restriction of t to the extended curve is a diffeomorphism onto t(M) (l.502-504)",
+          "here": "reading",
+          "note": "T o gamma = id on R (homeomorphism onto R); no smoothness in ETT"
+        },
+        {
+          "paper": "GH (Barbot: proper time function with Cauchy fibres)",
+          "here": "carried",
+          "note": "ETT GloballyHyperbolic (Causal/Properties.lean:144) in GloballyHyperbolic.*"
+        },
+        {
+          "paper": "(none: Barbot's GH sentence has no such hypotheses)",
+          "here": "strengthened",
+          "note": "Geroch hypotheses added in GloballyHyperbolic.* to obtain the time function via geroch_i_imp_ii: T2, first countable, Borel, admissible mu+-, tarentin, causally arc-connected, J+-(p) != {p}. The time-function forms need none of them."
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [],
+      "tex_lines_note": "GHFspace.tex original numbering (legacy/orig, per docs/BARBOT.md): GH definition l.498-507, first quote l.498-504, second l.504-507, the extension sentence l.502-504; in legacy/labeled the same lines are 500-509 (offset 2)."
+    },
+    {
+      "label": "model fact Causality.CurvesExtend (Causal/CauchyExtension.lean:82; no paper label)",
+      "tex_lines": [],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.exists_inextensible_of_timeFunction",
+        "Causal.Causality.curvesExtend_of_timeFunction",
+        "Causal.Causality.GloballyHyperbolic.curvesExtend",
+        "Causal.staticCausality.curvesExtend",
+        "Causal.minkowski_curvesExtend",
+        "Causal.Causality.IsCauchySurface.isAcausal_of_timeFunction",
+        "Causal.Causality.IsCauchySurface.isAcausal_of_globallyHyperbolic",
+        "Causal.staticCausality.isAcausal_of_isCauchySurface",
+        "Causal.minkowski_isAcausal_of_isCauchySurface"
+      ],
+      "hypotheses": [
+        {
+          "paper": "every causality (the fact as named)",
+          "here": "strengthened",
+          "note": "a continuous T : M -> R strictly increasing along <=_M (x <= y, x != y => T x < T y). No separation, no countability, no causal arc-connectedness. Conclusion strengthened: every open W, every interval I, and T o gamma = id on the parameter interval."
+        },
+        {
+          "paper": "static spacetime over a complete/proper geodesic space (dispatch's candidate)",
+          "here": "weakened",
+          "note": "any geodesic metric space X; time = fst is the time function"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "CurvesExtend in full ETT generality is NOT proved and NOT stated. Conjectured counterexample (not formalized): the long ray with its order causality (local: locally the timelike line). Every curve over a real interval has sigma-compact image, bounded since omega_1 has uncountable cofinality, hence extensible: there is no inextensible curve at all, so CurvesExtend fails at any constant curve. The long ray is not second countable; whether CurvesExtend holds in every second countable or strongly causal spacetime is open.",
+        "Barbot's own GH definition (GHFspace.tex:502-504 (orig numbering)) asks exactly what the general theorem proves: curves extend to curves on which the time function is the parameter, onto t(M) = R. In ETT this is a theorem of GH + Geroch's hypotheses, not part of the definition."
+      ],
+      "questions": [
+        "Should CurvesExtend remain a named hypothesis of IsCauchySurface.isAcausal / lemma K, or be replaced by the time-function hypothesis (or by the Geroch hypotheses, which every consumer already carries)? The time-function form is strictly more general than the GH form."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.CurveOn.of_comp_monotoneOn",
+    "Causal.Causality.CausalCurveOn.causalCurveIn_Icc",
+    "Causal.Causality.CausalCurveIn.eq_of_time_eq",
+    "Causal.Causality.CausalCurveIn.time_mono",
+    "Causal.Causality.CausalCurveIn.timeReparam",
+    "Causal.Causality.IsTimeGraph",
+    "Causal.Causality.IsTimeGraph.time_invFunOn",
+    "Causal.Causality.IsTimeGraph.invFunOn_time",
+    "Causal.Causality.IsTimeGraph.image_invFunOn",
+    "Causal.Causality.CausalCurveIn.isTimeGraph_image",
+    "Causal.Causality.isTimeGraph_sUnion",
+    "Causal.Causality.IsTimeGraph.inextensible_of_maximal",
+    "Causal.staticCausality.fst_lt_of_le",
+    "Causal.staticCausality.exists_inextensible_graph_of_causalCurveIn",
+    "Causal.timelikeLine_curvesExtend_of_timeFunction",
+    "Causal.timelikeLine_curvesExtend_of_globallyHyperbolic"
+  ],
+  "kb_proposals": [
+    "Zorn over causal curves: do not order parametrised curves; order their IMAGES by inclusion, re-parametrised by a strict time function T (IsTimeGraph: T injective on K, invFunOn T K a curve over T(K)). The union of a chain is a time graph with no limit argument, and maximality is exactly DEC-13 inextensibility (CurvesExtend.lean).",
+    "Collapsing constant pieces: CurveOn.of_comp_monotoneOn turns c = gamma o h (h continuous non-decreasing) into a curve gamma; cut the window at the two ends sInf/sSup of the fibre."
+  ],
+  "notes": "Lemma K with hext discharged is NOT stated: CausalScaffold.CompactCauchy has no .olean (import fails with 'object file ... does not exist') and this package may not build it. Once built, the corollary is one term: Causality.isCauchySurface_of_isLocallyCauchyTwoSided hT hG hC hJm hJp (Causality.curvesExtend_of_timeFunction hTc hTs) hψ hSc hSconn hloc, or with (hG.curvesExtend hμp hμm hT hC hJm hJp) under the Geroch hypotheses. The relative form (any open W) answers item (1) of the obstruction at SubExtension.lean:338 when a time function exists. IsTimeGraph carries [Nonempty M] (invFunOn needs it); theorems build the instance from the curve. Module not yet registered in the scaffold root CausalScaffold.lean (outside write scope). Fixer pass 2026-10-31: REPORT.json moved from campaign/CurvesExtend/ to campaign/WP-34b-CurvesExtend/ (package renamed); tex citations converted to legacy/orig numbering (BARBOT.md:10); checklist GH row split into 'GH carried' + 'Geroch hypotheses: strengthened' (kb/0011). Still open: lemma K corollary (CompactCauchy.olean still absent on 2026-10-31); long-ray counterexample remains a conjecture (no long line at the mathlib pin to build on; not formalized); root registration in CausalScaffold.lean is the master session's."
+}

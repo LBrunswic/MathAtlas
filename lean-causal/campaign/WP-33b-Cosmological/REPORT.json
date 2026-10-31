@@ -1,0 +1,275 @@
+{
+  "package": "WP-33b-Cosmological",
+  "package_note": "Renamed from WP-33c-Cosmological on 2026-10-31 (fixer pass): the audit reports that the dispatch named the package WP-33b-Cosmological; the directory campaign/WP-33c-Cosmological was moved to campaign/WP-33b-Cosmological and the module docstring's provenance line updated.",
+  "files": [
+    "scaffold/CausalScaffold/Flat/Cosmological.lean"
+  ],
+  "builds": true,
+  "build_note": "taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/Cosmological.lean: zero errors, zero warnings, no sorry, no axiom. Imports: CausalScaffold.Flat.Penrose, CausalScaffold.Flat.Achronal, Mathlib.Analysis.Convex.Continuous. CausalScaffold.Flat.InducedLength could NOT be imported: its .olean still does not exist in .lake/build (re-checked 2026-10-31), and building is forbidden to this package.",
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "[4.CT] the cosmological time (prose, Bonsante's results quoted without proof)",
+      "tex_lines": [
+        1043,
+        1070
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.CosmoRegular",
+        "Causal.Flat.segTime",
+        "Causal.Flat.cosmoPast",
+        "Causal.Flat.cosmoTimes",
+        "Causal.Flat.cosmoTime",
+        "Causal.Flat.cosmoRetract",
+        "Causal.Flat.isGreatest_cosmoTimes",
+        "Causal.Flat.bddAbove_cosmoTimes",
+        "Causal.Flat.cosmoTime_eq_segTime",
+        "Causal.Flat.cosmoTime_eq_sSup_cosmoPast",
+        "Causal.Flat.segTime_le_cosmoTime",
+        "Causal.Flat.cosmoTime_pos",
+        "Causal.Flat.eq_cosmoRetract",
+        "Causal.Flat.eq_cosmoRetract_of_frontier",
+        "Causal.Flat.minkB_cosmoRetract_le",
+        "Causal.Flat.cosmoTime_mul_le",
+        "Causal.Flat.concaveOn_cosmoTime",
+        "Causal.Flat.continuousOn_cosmoTime",
+        "Causal.Flat.locallyLipschitzOn_cosmoTime",
+        "Causal.Flat.cosmoTime_lt_of_le",
+        "Causal.Flat.cosmoTime_le_of_le",
+        "Causal.Flat.cosmoTime_lt_of_le_opens",
+        "Causal.Flat.cosmoTime_sq_le",
+        "Causal.Flat.tendsto_cosmoTime_frontier",
+        "Causal.Flat.cosmoTime_sq_add_smul_ge",
+        "Causal.Flat.tendsto_cosmoTime_add_smul",
+        "Causal.Flat.le_cosmoTime_add_time",
+        "Causal.Flat.gaussMap",
+        "Causal.Flat.minkQ_gaussMap",
+        "Causal.Flat.isFutureTimelike_gaussMap",
+        "Causal.Flat.cosmoTime_add_smul_gaussMap",
+        "Causal.Flat.cosmoLevel",
+        "Causal.Flat.isAcausal_cosmoLevel",
+        "Causal.Flat.cosmoLevel_add_eq_image",
+        "Causal.Flat.exists_mk_mem_cosmoLevel",
+        "Causal.Flat.cosmoGraph",
+        "Causal.Flat.cosmoLevel_eq_graph",
+        "Causal.Flat.lipschitzWith_cosmoGraph",
+        "Causal.Flat.isClosed_cosmoLevel",
+        "Causal.Flat.abs_fst_sub_le_of_mem_cosmoLevel",
+        "Causal.Flat.isSpacelikeLipschitz_cosmoLevel",
+        "Causal.Flat.cosmoRegular_cone",
+        "Causal.Flat.omegaPlus_cone",
+        "Causal.Flat.cosmoTime_cone",
+        "Causal.Flat.gaussMap_cone",
+        "Causal.Flat.CosmoBoundedAsPrinted",
+        "Causal.Flat.not_cosmoBoundedAsPrinted",
+        "Causal.Flat.exists_lt_cosmoTime_of_futureInextensible",
+        "Causal.Flat.exists_cosmoTime_lt_of_pastInextensible"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Λ future regular (Def 4.5, l.913-919)",
+          "here": "carried",
+          "note": "FutureRegular Λ, field `regular` of CosmoRegular"
+        },
+        {
+          "paper": "Λ has at least 2 elements (Def 4.4, l.900-901: 'If Λ contains at least 2 elements, then Ω±(Λ), if nonempty, is regular'; standing convention l.1001-1004: closed Λ 'not reduced to one point')",
+          "here": "strengthened",
+          "note": "two elements with DISTINCT null directions (CosmoRegular.two). The paper's condition is too weak: two elements may share a direction, and the printed boundedness then fails (not_cosmoBoundedAsPrinted, Λ = {(u,0),(u,1)}). CosmoRegular.two is Bonsante's Def 4.1 (two non-parallel null support planes)"
+        },
+        {
+          "paper": "Λ closed (standing convention l.1001-1004)",
+          "here": "weakened",
+          "note": "not used"
+        },
+        {
+          "paper": "sup over future timelike curves from ∂Ω",
+          "here": "weakened",
+          "note": "read on straight segments (the reverse triangle inequality makes them maximal); the curve form is not stated, the library's causal curves carry no proper time"
+        },
+        {
+          "paper": "T a time function",
+          "here": "reading",
+          "note": "continuousOn_cosmoTime plus strict monotonicity along ≤_⊤ and ≤_Ω; the library's IsTimeFunction (Causal/Morphism.lean:832) is global, with no On-version for an open set"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.1049-1052 with Def 4.4 (l.900-901) and l.1001-1004: 'The proper times of all these curves are uniformly bounded' is false under the paper's own hypotheses on Λ (closed, at least 2 elements / not reduced to one point, future regular), for d >= 1 (Barbot's n >= 2): Λ = {(u,0),(u,1)} is closed, has two elements, is future regular with Ω⁺(Λ) = P⁺(u,0) (the second plane is parallel and redundant), and the proper times from the boundary to (1,0) are sqrt(2a-1), unbounded (not_cosmoBoundedAsPrinted, CosmoBoundedAsPrinted stated with IsClosed Λ, Λ.Nontrivial, FutureRegular Λ). The paper's 'at least 2 elements' does not imply Bonsante's two non-parallel null support planes (Bonsante Def 4.1), since two elements may share their null direction; so Barbot's 'completely equivalent' (l.921-922) is false and the condition should read 'Λ contains two elements with distinct null directions'. With that (CosmoRegular) the bound, the maximum and everything downstream hold.",
+        "l.1055: 'T(p) is equal to −sqrt(|p−π(p)|²)' should read sqrt(−|p−π(p)|²) (the printed form is minus the root of a negative number).",
+        "l.1064: the denominator of n(p) reads ⟨p−π(p) | p−n(p)⟩; it should be ⟨p−π(p) | p−π(p)⟩.",
+        "l.1058-1060: 'T is a C¹-convex function': T is concave as a function (its superlevel sets {T ≥ t} are convex); concavity is proved here (concaveOn_cosmoTime), C¹ is not.",
+        "Bonsante's results quoted at l.1053-1070 and l.1144-1145 that are PROVED here causally (DEC-36: no longer externals): uniqueness of π(p) (Prop 4.3), continuity of T, the level sets being spacelike (point-local c<1) entire Lipschitz graphs, the normal flow S(p+εn(p)) = S(p)+ε and S_{t+ε} = S_t + εn (Cor 4.5), T → 0 at ∂Ω, T → ∞ along every future-inextensible causal curve of Ω and T → 0 along every past-inextensible one, and Lemma 4.9 (every S_t is a Cauchy surface of Ω)."
+      ],
+      "questions": [
+        "Should Barbot's Def 4.4/4.5 (future regular, 'at least 2 elements') be amended to Bonsante's (two elements of Λ with distinct null directions), or should [4.CT] carry the hypothesis? The formalization carries it (CosmoRegular)."
+      ],
+      "note": "T → ∞ along future-inextensible curves is proved in the one-sided (DEC-13) form exists_lt_cosmoTime_of_futureInextensible: for every B, T > B on a final segment of every FutureInextensible causal curve of Ω; the ray form tendsto_cosmoTime_add_smul is kept. isSpacelikeLipschitz_cosmoLevel is listed here only (it serves 4.14 as well)."
+    },
+    {
+      "label": "bprop:lip",
+      "tex_lines": [
+        1073,
+        1105
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.minkQ_gaussMap_sub_le",
+        "Causal.Flat.sqrt_minkQ_gaussMap_sub_le",
+        "Causal.Flat.minkQ_gaussMap_sub_nonneg",
+        "Causal.Flat.minkQ_sub_nonneg_of_mem_frontier"
+      ],
+      "hypotheses": [
+        {
+          "paper": "the hyperbolic metric on ℍⁿ⁻¹ and the induced Riemannian metric on S_t",
+          "here": "weakened",
+          "note": "chordal form: t²|n(p)−n(p')|² ≤ |p−p'|² for all p,p' ∈ S_t, with the Minkowski-form chord on both sides; the passage to the length metrics (inf of chord sums, l.1087-1091) is not proved"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Barbot's proof (ε < t, q(p) = p − εn(p), 'the convexity of S_{t−ε} implies the positivity', then ε → t) works directly at ε = t with q = π(p) ∈ ∂Ω: the positivity of ⟨π(p)−π(p') | n(p)−n(p')⟩ is the support property of π (minkB_cosmoRetract_le), and the dropped term |π(p)−π(p')|² ≥ 0 is the achronality of ∂Ω (minkQ_sub_nonneg_of_mem_frontier), which the proof uses silently."
+      ],
+      "questions": []
+    },
+    {
+      "label": "bcor:level_sets_complete",
+      "tex_lines": [
+        1108,
+        1142
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [],
+      "note": "blocked by the build: CausalScaffold.Flat.InducedLength (the induced length and its PseudoEMetricSpace) has no .olean and this package may not build it, so CompleteSpace (InducedLength S_t Ω) cannot even be stated. The inputs are ready: S_t is a closed entire 1-Lipschitz graph, spacelike with point-local c<1 (isSpacelikeLipschitz_cosmoLevel), and the Gauss-map chord bound holds."
+    },
+    {
+      "label": "bprop:regular_cauchy_complete",
+      "tex_lines": [
+        1144,
+        1152
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.regular_cauchy",
+        "Causal.Flat.Bonsante_exhaustion",
+        "Causal.Flat.isCauchySurfaceOn_cosmoLevel_of",
+        "Causal.Flat.bonsante_exhaustion",
+        "Causal.Flat.bonsante_exhaustion_cone",
+        "Causal.Flat.isCauchySurfaceOn_cosmoLevel",
+        "Causal.Flat.futureExtensible_of_cosmoTime_le",
+        "Causal.Flat.pastExtensible_of_le_cosmoTime",
+        "Causal.Flat.two_mul_fst_sub_le_cosmoTime_sq"
+      ],
+      "hypotheses": [
+        {
+          "paper": "future complete regular convex domain",
+          "here": "strengthened",
+          "note": "two null directions (CosmoRegular), see [4.CT]"
+        },
+        {
+          "paper": "Bonsante Lemma 4.9 (cited, l.1144-1145)",
+          "here": "carried",
+          "note": "NOT assumed: proved (bonsante_exhaustion, no sorry). The DEC-36 Prop Bonsante_exhaustion is kept as the curve content of Lemma 4.9 and is now a theorem for every CosmoRegular Λ, with the cone witness bonsante_exhaustion_cone (kb/0012). The 'here' value 'carried' records that the paper's citation is honoured, not that a hypothesis is added."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Bonsante's Lemma 4.9, which Barbot cites without proof (l.1144-1145), has a short causal proof in the flat setting: an inextensible causal curve of Ω along which T ≤ B has bounded time coordinate (T(x)² ≥ 2(z₀ − ‖z⃗‖)(x − p)₀ on J⁺(p), z = p − r(p)), so it is Cauchy at its future end and converges to a point of J⁺(Ω) ⊆ Ω, where it extends; one along which T ≥ ε has time bounded below by the two null planes, converges at its past end to a point of cl Ω not on ∂Ω (T → 0 there), and extends. Only the W-local form of the library's extension lemma was missing; it is proved here (pastExtensible_of_tendsto_opens, futureExtensible_of_tendsto_opens)."
+      ],
+      "questions": [],
+      "note": "Globally hyperbolic: proved (FutureRegular.globallyHyperbolicOn, Penrose). Level sets Cauchy surfaces of Ω (IsCauchySurfaceOn), acausal, closed: proved, no sorry. Spacelike with point-local c<1: isSpacelikeLipschitz_cosmoLevel (listed under [4.CT]). Cauchy-complete: not stated (InducedLength not importable). The status stays partial for the completeness half and the CosmoRegular strengthening."
+    },
+    {
+      "label": "bprop:agissons",
+      "tex_lines": [
+        1173,
+        1206
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.agissons_invariant",
+        "Causal.Flat.cosmoTime_smul",
+        "Causal.Flat.cosmoTimes_smul",
+        "Causal.Flat.smul_cosmoLevel",
+        "Causal.Flat.smul_mem_cosmoLevel_iff",
+        "Causal.Flat.cosmoRetract_smul",
+        "Causal.Flat.preimage_omegaPlus_of_isomPenrose"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Γ discrete subgroup of Isom(𝐌ⁿ)",
+          "here": "weakened",
+          "note": "any subgroup (any isometry) preserving Ω; discreteness and torsion-freeness are not used because only the invariance is proved"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [],
+      "note": "Proved: T Γ-invariant, every S_t Γ-invariant, r equivariant. Not attempted: the isometric action on (S_t, induced length) (InducedLength not importable), proper discontinuity, freeness, the quotient Γ\\Ω (another package)."
+    }
+  ],
+  "extra_decls": [
+    "Causal.Flat.isFutureCausal_iff_norm_le",
+    "Causal.Flat.sqrt_mul_sqrt_le_neg_minkB",
+    "Causal.Flat.minkB_nonpos_of_isFutureCausal",
+    "Causal.Flat.minkB_neg_of_isFutureTimelike",
+    "Causal.Flat.isFutureCausal_add",
+    "Causal.Flat.isFutureTimelike_add",
+    "Causal.Flat.IsFutureTimelike.isFutureCausal",
+    "Causal.Flat.sqrt_neg_minkQ_add_le",
+    "Causal.Flat.sqrt_neg_minkQ_smul",
+    "Causal.Flat.minkQ_sub_pos_of_ne",
+    "Causal.Flat.closure_omegaPlus_subset",
+    "Causal.Flat.norm_add_penroseSphere_le",
+    "Causal.Flat.norm_add_penroseSphere_lt",
+    "Causal.Flat.fst_sub_le_of_mem_closure",
+    "Causal.Flat.isClosed_le_top_left",
+    "Causal.Flat.isCompact_cosmoPast",
+    "Causal.Flat.neg_minkQ_add_time",
+    "Causal.Flat.exists_isMax_cosmoPast",
+    "Causal.Flat.cosmoRetract_spec",
+    "Causal.Flat.cosmoRetract_facts",
+    "Causal.Flat.smul_gaussMap",
+    "Causal.Flat.cosmoRetract_add_smul_gaussMap",
+    "Causal.Flat.add_smul_gaussMap_mem_cosmoLevel",
+    "Causal.Flat.exists_add_smul_gaussMap_eq",
+    "Causal.Flat.eq_of_mk_mem_cosmoLevel",
+    "Causal.Flat.mk_cosmoGraph_mem",
+    "Causal.Flat.cosmoLevel_subset",
+    "Causal.Flat.segTime_nonneg",
+    "Causal.Flat.continuous_segTime_left",
+    "Causal.Flat.sq_segTime",
+    "Causal.Causality.CausalCurveIn.of_top_of_mem",
+    "Causal.Causality.pastExtensible_of_tendsto_opens",
+    "Causal.Causality.futureExtensible_of_tendsto_opens",
+    "Causal.Causality.FutureExtensible.of_comp",
+    "Causal.Causality.futureExtensible_of_isGreatest",
+    "Causal.Causality.CausalCurveIn.arctanReparam",
+    "Causal.Flat.Jplus_opens_ne_singleton",
+    "Causal.Flat.Jminus_opens_ne_singleton",
+    "Causal.Flat.dist_le_of_le_top",
+    "Causal.Flat.Ioo_subset_of_isLUB",
+    "Causal.Flat.Ioo_subset_of_isGLB",
+    "Causal.Flat.exists_tendsto_of_bddAbove",
+    "Causal.Flat.exists_tendsto_of_bddBelow",
+    "Causal.Flat.ordConnected_insert_of_isLUB",
+    "Causal.Flat.ordConnected_insert_of_isGLB"
+  ],
+  "kb_proposals": [
+    "Lorentzian convexity does the analysis: the cosmological time is an inf of affine functions / concave, so ConcaveOn.continuousOn (Mathlib.Analysis.Convex.Continuous) gives continuity and local Lipschitz for free; the support property of the maximiser replaces every derivative in Bonsante.",
+    "The bilinear lemmas minkB_add/sub/smul_left/right and minkQ_add/sub exist privately in Penrose, publicly in Isometries (in progress) and privately again in Cosmological: one public copy in Form at graduation.",
+    "A scaffold module whose .olean is missing (InducedLength at wave 4) is not importable by `lake env lean`; dispatches listing a module as 'built, importable' should check .lake/build/lib/lean first.",
+    "The library's extension-at-a-limit lemmas (pastExtensible_of_tendsto, extensible_of_tendsto) are for W = ⊤ only, but the W-local form is cheap: adjoin the limit in ⊤ (causalCurveIn_insert), restrict to W (CurveOn.restrict, image in W), prepend in W (exists_prepend works for any W). See Causal.Causality.pastExtensible_of_tendsto_opens / futureExtensible_of_tendsto_opens in Flat/Cosmological; they belong in Causal/Inextensible.lean at graduation.",
+    "To reach a finite open end, reparametrise by arctan (CausalCurveIn.arctanReparam): one argument then covers bounded and unbounded parameter intervals; FutureExtensible.of_comp is the missing twin of PastExtensible.of_comp."
+  ],
+  "notes": "No sorry, no axiom, zero warnings. At graduation: (1) import CausalScaffold.Flat.InducedLength and restate isSpacelikeLipschitz_cosmoLevel as IsSpacelikeLipschitzIn h.regular.opens (cosmoLevel Λ t) (its three fields are written out with frame g = 1; graphOver U f = {q | q.2 ∈ U ∧ q.1 = f q.2}); then bcor:level_sets_complete and the isometric action of 4.16 (via InducedLength.edist_smulMap and edist_inclusion_le, with smul_cosmoLevel giving g•S_t = S_t) can be stated. (2) The private bilinear lemmas mB_* / mQ_* duplicate Penrose's and Isometries'. (3) The six model-free lemmas in namespace Causal.Causality at the top of the file (W-local extension, FutureExtensible.of_comp, futureExtensible_of_isGreatest, arctanReparam) belong in Causal/Inextensible.lean. (4) The file is not registered in CausalScaffold.lean (outside write scope). (5) Fixer pass 2026-10-31: CosmoBoundedAsPrinted restated with the paper's hypotheses (closed, Nontrivial, FutureRegular) and refuted with Λ = {(u,0),(u,1)}; the finding rewritten (the paper's '≥2 elements' is too weak, not absent); Bonsante_exhaustion proved (sorry discharged) with the cone witness; T → ∞ along future-inextensible and T → 0 along past-inextensible curves added; the package renamed WP-33b-Cosmological; isSpacelikeLipschitz_cosmoLevel listed once."
+}
