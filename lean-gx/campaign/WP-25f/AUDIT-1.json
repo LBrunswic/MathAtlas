@@ -1,0 +1,67 @@
+{
+ "package": "WP-25f",
+ "round": 1,
+ "note_on_round": "Audit of the agent's round-3 state (REPORT.json 'round': 3; source 22:37, olean 22:38). This file is the AUDIT-1.json the dispatch names. It replaces the earlier AUDIT-1.json, which audited the agent's round-1 state; AUDIT-2.json audited Quotient.round1.bak.",
+ "file": "scaffold/GXScaffold/Singular/Quotient.lean",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count": 0,
+ "checks": {
+  "build": "taskset -c 0-11 lake env lean on the file (5584 lines): exit 0, no errors, no warnings, about 24 s wall. The olean (22:38) is newer than the source (22:37). A whole-word grep finds no sorry, admit, axiom, native_decide, implemented_by or extern. A scratch check on stdin imports the built module and writes nothing in the hub: '#check' of all 232 names in REPORT.json (labels[].decls and extra_decls) gives 0 unknown identifiers. '#print axioms' of 25 main theorems gives [propext, Classical.choice, Quot.sound] for every one. The 25 include aeGXQuotient, existsUnique_aeGXQuotient, gxQuotient(_counterexample), quotientBase_counterexample, btz_whitehole_isom0, btz_blackhole_iso_whitehole, btz_blackhole_isom0, misner_isom0, misnerDev_spacelike_counterexample, conical, conical_isomPlus, conical_metric, conical_printed_metric_two_pi, rotations_metric, conical_quotient_rotations_isometry, ptStab_subgroup_eq_rootsOfUnity, previous_examples_universalCover, Cone.isGeodesic and Cone.apex_not_euclidean.",
+  "marked_label": "The only bold mark is prop:aeGXquotient: module docstring l.19, plus the declaration docstrings l.715, 748 and 791. All other labels are written unbolded with 'partial'. The AUDIT-2 minor is fixed: grep '\\*\\*`[a-z]*:' finds only those four lines. The mark is justified. The hypotheses are the paper's or weaker: Γ any group; only the neighbourhood half of proper discontinuity, which the two standard definitions imply (proved); invariance of U not used. The analytic structure is weakened to IsRigidAction + LocallyConnectedSpace X + T2Space X + ContinuousConstSMul. The singular manifold's local connectedness is carried (l.474 includes it). The conclusion is the paper's under DEC-42: existence, SameAEStructure, and ExistsUnique of the maximal atlas. Uniqueness is proved on the target, by eq_of_isMaximalAEAtlas_right, a genuine proof. Hausdorffness and second countability of the quotient, from the proof's first paragraph, are orbits_topology, under the full reading.",
+  "round2_fixes": "AUDIT-2 major 1 (black hole, variations): fixed. btz_blackhole formalizes D' = D∘timeFlip. btz_blackhole_iso_whitehole proves that the descended timeFlip and its inverse are a.e. morphisms between the two quotient structures, a genuine isomorphism, via isAEMorphismOf_quotientBase and symm_of_homeomorph. btz_blackhole_isom0 instantiates it in Isom_0. The variations are misner_btz and misner_isom0, with the boost family B_θ fixing x₀+ℝu, u = (0,0,1), and boost_mem in NullIsom0. AUDIT-2 major 2 (metric for every n): fixed. The model is ConicalSpace α E = WithLp 2 (Cone α × E). conicalMetricHomeo shows that the cone metric induces the quotient topology. conical_locally_euclidean_prod gives local Euclideanity along the developing map. rotations_metric and conical_quotient_rotations_isometry give the quotient distance min_γ|γx − y| of μ_p\\E^n, carried to the metric of E^n_{2π/p}, for every E. conicalMetricHomeo_eq_rotations shows that the singular isomorphism conicalRootsHomeo is that isometry. AUDIT-2 minors: the √α witness is conical_printed_metric and conical_printed_metric_two_pi, genuine via conical_metric at √α. The bold marks are fixed. conical_isomPlus covers every α > 0 and every E, with ρ = rotAff (Circle.exp α). ptStab_subgroup_eq_rootsOfUnity proves that every order-p subgroup of ptStab equals comap ptStabUnits μ_p, via pow_card_eq_one' and eq_of_le_of_card_ge. BTZ for every future lightlike u: exists_isom0_nullU builds the explicit transitivity (parab', boost, translation, all proved in NullIsom0), and btz_whitehole_isom0 follows.",
+  "statement_fidelity": "Checked against l.347–351, 612–686. prop:GXquotient: the corrected form gxQuotient adds 'by (G,X)-morphisms'. The counterexample is valid, and its conclusion is strong: no ChartedSpace at all makes the projection a morphism. Its hypotheses are certified as conjuncts: HasGroupoid, T2, second countable, full IsProperlyDiscontinuous, free, continuous. ex:quotient_base: DInfty's topology is generateFrom of exactly the paper's generators (l.661). quotientBase has the paper's hypotheses, with α ≠ 0 weaker than α > 0. M ≅ ℂ × Z is cylHomeomorph. quotientBase_counterexample (α = 2π, D = r e^{iθ}) refutes 'sing(M) = {r=0}' with every hypothesis met. LorentzIsom0 is non-trivial: it preserves Q, has det > 0 and maps the future cone into itself. In null coordinates, u = (1,0,0) is future lightlike and nullB v u = −v_b/2, so the hypothesis 0 < v.2.1 is exactly ⟨v|u⟩ < 0. misnerDev_spacelike_counterexample is valid: v = (1,0,1) has Q = 1, and the image lies in the plane b = b(x₀). ex:conical: conical proves holonomy ρ_α, existence and uniqueness, and support = univ ↔ α = 2π, with the whole axis singular otherwise. Cone (ported) uses the correct cone distance, sqrt(r²+s²−2rs cos min(d,π)). ex:consider_identifying: IsomPlus is a faithful reading (affine, linear part preserving |w|²+|z|², det > 0). ptStab is the pointwise stabilizer of {0}×E, and rotStab_bijective gives SO(2). rem:previous_examples: previous_examples_universalCover proves SimplyConnectedSpace of {r>0}, IsCoveringMap over π{r>0}, semilocal simple connectedness, and a covering isomorphism with UniversalCover (strict GX.Topology.UniversalCover). No vacuous, circular or unsatisfiable hypothesis was found. No definition trivialises its notion.",
+  "rulings": "DEC-39: carried as weakenings (no ConnectedSpace X, no faithfulness needed). Local path-connectedness is derived for the concrete spaces where covering theory is used (Z a normed space in previous_examples_universalCover). DEC-42: applied correctly (uniqueness among maximal a.e. atlases; SameAEStructure for arbitrary ones). DEC-27: applied to prop:GXquotient, ex:quotient_base (sing locus, black hole, v spacelike), ex:conical (√α) and rem:previous_examples (branching locus ⊋ sing). Each refutation is proved, and each row is 'partial'. DEC-40 and DEC-41 are not engaged. DEC-23: the cited instances (massive particle, BTZ, Misner) are constructed, not assumed.",
+  "report_honesty": "REPORT.json is accurate on build, sorry count (0), declarations (all 232 resolve), statuses (one closed and marked; five partial and unmarked), hypotheses and findings. Every omission is disclosed in SCOPE, findings or questions: tachyons and photons, polyhedral gluings, the H^n/S^n/KP^n variations, spacelike u only in coordinates, Fox-universality, and the Riemannian length metric. Two small overstatements are listed as minors 3 and 4."
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "ex:quotient_base l.679 (variations); GX.misner_btz / GX.misner_isom0; SCOPE (c); REPORT hypotheses row 'variations'",
+   "problem": "Arbitrary spacelike u is not covered. The variations are proved for the coordinate u = (0,0,1) only, while the paper takes any spacelike u (and any x₀). This is disclosed, and the row is partial. It is avoidable along the lines of exists_isom0_nullU: Isom_0 is transitive on (point, spacelike vector of fixed Q), boost_mem and parab'_mem supply the generators, and devAtlas_smul does the transport. A rescaling t ↦ λt of the cylinder normalises Q(u).",
+   "fix": "Add exists_isom0_nullS (h(0) = x₀, h.linear nullS = u/√Q(u)) and misner_isom0_general, as for btz_whitehole_isom0, or keep as disclosed."
+  },
+  {
+   "severity": "minor",
+   "where": "ex:consider_identifying_point_wise_stabilizer l.631; GX.ptStab_subgroup_eq_rootsOfUnity, GX.quotient_rotations_isomPlus, GX.rotations_metric",
+   "problem": "The headline statements are not transported to an arbitrary Γ. ptStab_subgroup_eq_rootsOfUnity identifies any order-p subgroup H ≤ Stab(S) with comap ptStabUnits μ_p. But the singular structure, the isomorphism with E^n_{2π/p} and the isometry are stated for Γ = rootsOfUnity p ℂ acting by rotMulAction, never for Orbits H (ℂ × E). The REPORT's 'no loss of generality' is mathematically right but has no Lean statement. quotient_rotations would apply to H directly: χ = ptStabUnits, hχ from ptStab_smul_eq, hG trivial.",
+   "fix": "Instantiate quotient_rotations at Γ = H, or state the homeomorphism Orbits H (ℂ × E) ≃ₜ Orbits (rootsOfUnity p ℂ) (ℂ × E) induced by ptStabUnits. Otherwise keep it as a disclosed reading."
+  },
+  {
+   "severity": "minor",
+   "where": "GX.btz_whitehole_isom0 (l.5561); REPORT hypotheses row 'BTZ'",
+   "problem": "The white-hole theorem is existential in the parametrisation. It proves that SOME parabolic one-parameter family parabConj h θ fixing x₀+ℝu pointwise works. The paper's 'the 1-parameter family of parabolic isometries' is unique only up to θ ↦ cθ, and a given family P_θ is not shown to work. The SCOPE does not say that the parametrisation is chosen.",
+   "fix": "Say in SCOPE (c) that the family is chosen up to reparametrisation. Optionally prove that every such family is parabConj h (cθ) for some c ≠ 0, and absorb c into α."
+  },
+  {
+   "severity": "minor",
+   "where": "GX.btz_whitehole docstring (l.2953–2958) and REPORT labels[ex:quotient_base].findings[3]",
+   "problem": "One finding and one docstring assert more than any Lean statement proves. Both say that D is a homeomorphism of {r>0} onto a half-space, but only IsLocalHomeomorphOn is stated. The homeomorphism is implicit in the proof (btzCoord ∘ cylPosHomeo).",
+   "fix": "Add a one-line Homeomorph cylPos ℝ ≃ₜ {y | b(x₀) < y.2.1} (or an IsOpenEmbedding statement), or soften the wording to 'local homeomorphism (by a homeomorphism onto a half-space in the proof)'."
+  },
+  {
+   "severity": "minor",
+   "where": "ex:quotient_base l.682–683, l.681; ex:consider_identifying l.636–637",
+   "problem": "Some informal claims are not formalized: tachyons and photons ('can be obtained … hyperbolic/parabolic action', no formula), 'all these examples can also be obtained via gluings of polyhedra', and the H^n/S^n/KP^n variations. All are disclosed in SCOPE, and the rows are partial. This is listed for completeness, not as a defect.",
+   "fix": "None required; keep disclosed."
+  }
+ ],
+ "findings_verified": [
+  "prop:GXquotient l.639 false without 'by (G,X)-morphisms': valid (gxQuotient_counterexample, all hypotheses certified).",
+  "ex:quotient_base l.667 'sing(M) = {r=0}' false at α = 2π: valid (quotientBase_counterexample).",
+  "Dimension slip l.664–667 (cyl{n} = D_∞ × R^n vs X ⊂ R^n): valid.",
+  "Massive particle l.673: deck generator gives rotation by cα = 1 for c = 1/α (massiveDev_smul): arithmetic correct.",
+  "Black hole l.678: D' = D∘T with T equivariant gives an isomorphic structure (btz_blackhole_iso_whitehole): valid and genuinely proved.",
+  "Variations l.679: 'v spacelike' is insufficient (v = (1,0,1)): valid; v_a v_b ≠ 0 suffices and holds for timelike v (timelike_ab_ne_zero).",
+  "ex:conical l.347: the printed metric has angle √α and its apex is not Euclidean at α = 2π: valid under the declared reading Cone (√α).",
+  "ex:conical l.350–351: the holonomy is no obstruction for α ∈ 2πN*∖{2π}, but the claim still holds (conical): valid.",
+  "rem:previous_examples l.685: the branching locus π{r=0} can strictly contain sing(M): valid."
+ ],
+ "questions_for_author": [
+  "l.673: is the massive-particle developing map meant to be (z + σθ/α, r cos θ, r sin θ)? As printed the holonomy angle is 1, not α.",
+  "l.678: was the extreme BTZ black hole meant to use a past lightlike u (or a time reversal of X)? D(r,θ,−t) gives a structure isomorphic to the white hole.",
+  "l.679: should the variations require v outside span(u, a null eigenvector of the boosts)? 'v spacelike' alone allows a degenerate D.",
+  "l.347: is the metric meant to be α² r² dθ² on ℝ/ℤ (or r² dθ² on ℝ/αℤ)? As printed the cone angle is √α."
+ ],
+ "summary": "The file builds clean (5584 lines, 0 sorry, no warnings). All 232 reported declarations exist, and 25 main theorems use the standard axioms only. prop:aeGXquotient is the only marked label, and it is certified at full strength under DEC-42 with weaker hypotheses. Both AUDIT-2 majors are fixed with genuine proofs: (1) the extreme BTZ black hole, its proved isomorphism to the white hole, and the Misner/BTZ variations, with a counterexample for 'v spacelike'; (2) the metric for every n, ConicalSpace = C_α × ℝ^{n-2}, whose metric induces the quotient topology and carries μ_p\\E^n isometrically onto E^n_{2π/p}. So are the AUDIT-2 minors: the √α Lean witness, no bold marks on partial labels, conical for Isom+ at every α, every order-p subgroup of Stab(S) is μ_p, and BTZ for every future lightlike u by explicit Isom_0-transitivity. All findings check out. The five partial rows are honestly scoped. Only minors remain: spacelike u only in coordinates; results not transported from μ_p to an arbitrary order-p Γ; the BTZ family existential in its parametrisation; 'homeomorphism onto a half-space' with no Lean statement; disclosed informal claims not formalized. Verdict: clean."
+}

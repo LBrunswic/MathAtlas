@@ -1,0 +1,30 @@
+{
+  "package": "WP-25d",
+  "round": 1,
+  "file": "scaffold/GXScaffold/Branched/Basic.lean",
+  "verdict": "clean",
+  "builds": true,
+  "sorry_count_measured": 0,
+  "summary": "Builds with no errors and no warnings under taskset -c 0-11 lake env lean (host node1). `lake build --no-build GXScaffold.Branched.Basic` reports all targets up to date, so nothing is waiting to be rebuilt. The file has 0 occurrences of 'sorry'. #print axioms, run through stdin so nothing was written, gives only [propext, Classical.choice, Quot.sound] for complete_path_carac, branched_covering_restriction, subcovering_general, spread_connected_image, subcovering_portly, ordinary_part, isPortly_preimage, branching_locii and isBranchedCovering_id. No sorryAx comes in through the sibling GXScaffold.Spread.Completion either. Fidelity, label by label against l.988-1087. def:branched_covering: IsBranchedCovering has exactly the paper's fields: spread, complete in the sibling's IsCompleteSpread, which is the paper's l.903 definition (ends over closure(p X)), surjective, ConnectedSpace X and Y, ordX and ordY portly. The definition is satisfiable (isBranchedCovering_id), and branchingLocus, IsPossiblyBranchedOver and fiber match the text. rem:branching_locii: both loci are skeletal, closed and have empty interior. rem:ordinary_part: a surjective IsCoveringMap ordX -> ordY (DEC-40), plus connectedness of both loci as the justification says. lem:portly_preimage_branched: as stated. lem:complete_path_carac: the TFAE of all four items. X1 -> Y1 is read as MapsTo + IsCoveringMap + Surjective (DEC-40). (iii) keeps Q Hausdorff and locally connected, and (iv) is the paper's. The partial-lift reading (I -> X continuous on [0,1)) is equivalent to the paper's and is disclosed. (iii) is per-universe w, the theorem is universe-polymorphic, and this is disclosed. The standing hypotheses carried (T2 and loc. path-connected on X and Y, Y first countable) are all used. Y connected and surjectivity are derived, not assumed. Fox's extension corollary is built for homotopies and paths, with Q only locally connected, and is not assumed (DEC-23). (iv) => (ii) is built through the space of ends, using the sibling's completion. lem:branched_covering_restriction: U open preconnected (weaker), V a component via IsCompOf. The extra MapsTo argument is only a proof term that types the restriction; it is derivable (IsCompOf.mapsTo) and disclosed. cor:spread_connected_image: the open-map and p''V = U parts are both proved, with fewer hypotheses than the paper. cor:subcovering_portly and lem:subcovering_general: as stated, on subspace topologies through Set.restrictPreimage. No hypothesis is added, none is vacuous or circular, no definition trivialises its notion, and no structure field carries a conclusion. The nine marks are justified. The module docstring follows kb/0006: marks within the first 4000 characters, quotes, a hypothesis checklist, SCOPE and provenance. REPORT.json is honest: every listed decl exists, sorry_count is 0 and builds is true. Its two findings are real: Y connected is used but neither assumed nor argued in the paper's (iv) => (i), and the paper embeds X in a completion that need not exist. Only minor issues remain.",
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "REPORT.json, lem:complete_path_carac findings",
+      "problem": "The line numbers are off by one. The proof applies lem:path_covering in Y at l.1032, not l.1031: l.1031 is the '(i)=>(ii) by definition ...' sentence. The embedding into the completion X-bar is at l.1033 alone, not l.1032-1033.",
+      "fix": "Cite l.1032 for the Y-connected finding and l.1033 for the completion finding."
+    },
+    {
+      "severity": "minor",
+      "where": "Basic.lean, docstrings of IsBranchedCovering.branching_locii, .ordinary_part, .isPortly_preimage",
+      "problem": "These declaration docstrings are only the label, with no statement sentence. Other marked theorems in the file restate the claim, and these do not. The content is in the module docstring, so this is style only.",
+      "fix": "Add a one-line statement to each, for example 'The branching loci are skeletal, hence closed with empty interior.'"
+    },
+    {
+      "severity": "minor",
+      "where": "Basic.lean, branched_covering_restriction signature",
+      "problem": "The theorem takes `h : MapsTo p V U` as an explicit argument, and it is redundant given `hV : IsCompOf p U V`. It does not weaken the statement, because any proof works (IsCompOf.mapsTo hV). Callers do have to supply it.",
+      "fix": "Optionally add a wrapper stated with `hV.mapsTo`, or keep the current form; it is already disclosed in SCOPE."
+    }
+  ],
+  "questions_for_author": []
+}

@@ -8,18 +8,35 @@ The preliminaries on spreads of `papers/gx` (`RamcovGX.tex:822–902`).
 * **`def:category_spreads`** — `RamcovGX.tex:825`: `GX.IsSpread` (with `GX.spreadBasis`,
   characterised by `GX.isSpread_iff`), the category `GX.Spread` with morphisms `GX.Spread.Hom`.
 * **`rem:spread_open_respectively_co`** — `RamcovGX.tex:835`: `GX.IsSpread.restrict`.
-* **`def:continuous_map_ordinary_locus`** — `RamcovGX.tex:838`: `GX.IsEvenlyCoveredSet`,
-  `GX.ordY`, `GX.ordX`.
-* `rem:ordinary_locii_open_but` — `RamcovGX.tex:843` — partial (a reading of "covering"):
-  `GX.isOpen_ordY`, `GX.isOpen_ordX`; not connected: `GX.not_isPreconnected_ordY_abs`,
-  `GX.not_isPreconnected_ordX_abs`; covering: `GX.isCoveringMapOn_ordY`,
-  `GX.isCoveringMap_restrict_ordX`; the surjectivity caveat `GX.unitTrue_counterexample`.
+* **`def:continuous_map_ordinary_locus`** — `RamcovGX.tex:838`, read by DEC-40 (an ordinary
+  point has a neighbourhood with **non-empty**, evenly covered preimage): `GX.IsEvenlyCoveredSet`,
+  `GX.ordY`, `GX.ordX`; `GX.ordY_subset_range`.
+* **`rem:ordinary_locii_open_but`** — `RamcovGX.tex:843`, "covering" = surjective covering map
+  (DEC-40): `GX.ordinary_locii_open_but` (`GX.isOpen_ordY`, `GX.isOpen_ordX`,
+  `GX.isCoveringMap_restrict_ordX`, `GX.surjective_restrict_ordX`): the restriction is *always* a
+  surjective covering map, which gives the positive reading of "the only obstruction is the
+  connectedness of `ord(X)`" (connected `ord(X)` ⇒ covering) in a stronger form; with a connected
+  total space required, `GX.isCoveringMap_restrict_ordX_connected_iff`; a disconnected `ord(X)`
+  with a surjective covering anyway: `GX.abs_ordX_not_isPreconnected_covering`. Not connected:
+  `GX.not_isPreconnected_ordY_nFold`, `GX.not_isPreconnected_ordX_nFold`,
+  `GX.not_isPreconnected_ordX_abs`.
 * **`rem:singular_on_singular`** — `RamcovGX.tex:846`: `GX.image_compl_ordX`.
-* **`lem:spread_partial_covering`** — `RamcovGX.tex:851`: `GX.spread_partial_covering`.
-* `cex:openess` — `RamcovGX.tex:870` — partial (false as written): `GX.cex_openess`,
-  `GX.ordY_lineIncl`.
-* `cex:portlyness` — `RamcovGX.tex:874` — partial: item 1 `GX.notMem_ordX_of_notMem_interior`;
-  item 2 false as written (`GX.ordY_portlyInv_nonempty`), replaced by `GX.cex_portlyness`.
+* **`lem:spread_partial_covering`** — `RamcovGX.tex:851`, "covering" = surjective covering map:
+  `GX.spread_partial_covering`; for a not necessarily surjective covering map
+  `GX.spread_partial_covering'` (`p(X₁) ⊆ ord(Y)`), and surjectivity is needed for `Y₁ ⊆ ord(Y)`:
+  `GX.spread_partial_covering_surjective_needed`.
+* **`cex:openess`** — `RamcovGX.tex:870`: `GX.cex_openess` (`ord(Y) = ∅`, `GX.ordY_lineIncl`).
+* **`cex:portlyness`** — `RamcovGX.tex:874`: item 1 `GX.notMem_ordX_of_notMem_interior`
+  (`GX.not_injOn_of_notMem_interior`), inhabited by `GX.cex_portlyness_fst`; item 2 on the paper's
+  own space `GX.PortlySpace`, `X` with the coarsest topology making the injection a spread
+  (`GX.isSpread_portlyι`, `GX.le_portlyTop_of_isSpread`): `GX.cex_portlyness_paper`, with every
+  listed property — Hausdorff, second countable, locally path-connected, inner rays `≅ ∐_ℕ (0,1)`
+  (`GX.nonempty_inner_homeomorph_sigma`), `p` a spread (`GX.isSpread_portlyP`), `X₁` open and
+  locally connected in `X` (`GX.isLocallyConnectedIn_portlyX₁`), `X₁ → Y₁` a homeomorphism — and
+  `ord(Y) = ∅` (`GX.ordY_portlyP`; for every topology finer than the subspace one,
+  `GX.ordY_portlyInv_eq_empty`). A one-dimensional variant with every hypothesis of
+  `lem:spread_partial_covering` but density, all three conclusions failing:
+  `GX.cex_portlyness` (`x ↦ ||x| - 1|`; there `ord(Y) ≠ ∅`).
 * **`lem:ord_iso`** — `RamcovGX.tex:889`: `GX.Spread.ord_iso`, general form
   `GX.image_ordX_of_homeomorph`, `GX.image_ordY_of_homeomorph`.
 
@@ -60,11 +77,12 @@ The preliminaries on spreads of `papers/gx` (`RamcovGX.tex:822–902`).
 |---|---|
 | §3 standing: spaces Hausdorff, locally path-connected, first countable | ⚠ weakened: each theorem carries what it uses (`T2Space X`, `LocallyConnectedSpace X`) |
 | `rem:spread_open_respectively_co`: `V` open | ⚠ weakened: not used |
-| `rem:ordinary_locii_open_but`: (covering part) `X` locally path-connected | ✓ carried as `LocallyConnectedSpace X` (standing hypothesis) |
+| `rem:ordinary_locii_open_but`: (covering part) `X` locally path-connected | ⚠ weakened: `LocallyConnectedSpace X` |
 | `rem:singular_on_singular`: `p` continuous | ⚠ weakened: not used |
-| `lem:spread_partial_covering`: `X` Hausdorff, locally path-connected | ✓ carried (`T2Space X`, `LocallyConnectedSpace X`) |
+| `lem:spread_partial_covering`: `X` Hausdorff, locally path-connected | ✓ carried (`T2Space X`; `LocallyConnectedSpace X`, weaker) |
 | `lem:spread_partial_covering`: `Y` Hausdorff, locally path-connected, first countable | ⚠ weakened: not used |
-| `lem:spread_partial_covering`: "covering `X₁ → Y₁`" | ⚠ weakened: mathlib's `IsCoveringMap` (no surjectivity, no connectedness) |
+| `lem:spread_partial_covering`: "covering `X₁ → Y₁`" | ✓ `IsCoveringMap` and surjective (DEC-40) |
+| `cex:portlyness`, item 1: covering `X₁ → Y₁`, `Y₁` open | ⚠ weakened: non-injectivity needs only that the restriction is an open map; `x ∉ ord(X)` uses `LocallyConnectedSpace X` (standing) |
 | `lem:ord_iso`: `p₁`, `p₂` spreads | ⚠ weakened: any maps; only the homeomorphisms and `p₂ ∘ g = f ∘ p₁` are used |
 
 ## SCOPE (disclosed)
@@ -73,18 +91,26 @@ The preliminaries on spreads of `papers/gx` (`RamcovGX.tex:822–902`).
   (`GX.IsSpread.isTopologicalBasis`) and the source is locally connected
   (`GX.IsSpread.locallyConnectedSpace`). The objects of `GX.Spread` have source and target in one
   universe.
-* "Evenly covered" is read literally: a set with empty preimage is evenly covered, so every
-  point off `closure (p X)` is ordinary (`GX.compl_closure_range_subset_ordY`). This reading is what
-  makes the two "`ord(Y) = ∅`" of the counterexamples false.
-* `rem:ordinary_locii_open_but`: "covering" is read as mathlib's `IsCoveringMap`; with it the
-  restriction is a covering whether or not `ord(X)` is connected. If "covering" includes
-  surjectivity the remark fails (`GX.unitTrue_counterexample`), and holds for a surjective `p`
-  (`GX.surjective_restrict_ordX`).
-* `cex:openess`: `ord(Y) = ∅` is false; `ord(Y) = Y ∖ p(X)`, `ord(X) = ∅` and `Y₁ ∩ ord(Y) = ∅`.
-* `cex:portlyness`, item 2: the paper's `X` with "the coarsest topology making the injection a
-  spread" is not built. Whatever its topology, `ord(Y)` contains the open unit disc
-  (`GX.ball_subset_ordY_portlyInv`), so `ord(Y) = ∅` is false. The counterexample is
-  `GX.cex_portlyness` (`x ↦ ||x| - 1|` on `ℝ`), with every property the paper lists.
+* The ordinary locus follows DEC-40: `U` must have non-empty preimage, so `ord(Y) ⊆ p(X)`
+  (`GX.ordY_subset_range`). "Evenly covered" (`GX.IsEvenlyCoveredSet`) itself is literal, and is
+  vacuous on a set with empty preimage (`GX.isEvenlyCoveredSet_of_preimage_eq_empty`).
+* "Covering" is a surjective covering map (DEC-40): mathlib's `IsCoveringMap` together with
+  `Function.Surjective`. `rem:ordinary_locii_open_but`: the restriction `ord(X) → ord(Y)` is always
+  a surjective covering map (over a locally connected source), which certifies "connected `ord(X)`
+  ⇒ covering" in a stronger form; the converse reading ("a disconnected `ord(X)` prevents a
+  covering") is false under DEC-40 (`GX.abs_ordX_not_isPreconnected_covering`), and holds only if
+  a covering is required to have a connected total space
+  (`GX.isCoveringMap_restrict_ordX_connected_iff`, a restatement).
+* `cex:portlyness`, item 2: "the coarsest topology making the injection a spread" is built as
+  the topology generated by the components of `X ∩ U` in the subspace topology (`GX.portlyTop`);
+  that it is the coarsest such topology is proved (`GX.isSpread_portlyι`,
+  `GX.le_portlyTop_of_isSpread`), so this is the paper's space, not a reading. The proofs do not
+  use that the subspace components of `X ∩ U` stay connected for this topology — they need not
+  (for `U = ℝ² ∖ {μu}`, `u` a rational unit vector and `0 < μ < 1`, the segment `(0, μ)u` lies in
+  the subspace closure of the rest of `X ∩ U` but is clopen in it for `GX.portlyTop`; this remark
+  is not formalized); they go through local path-connectedness instead
+  (`GX.exists_isPathConnected_subset`: balls off the disc, ray segments, cones `GX.portlyCone` at
+  the circle). "Locally connected in `X`" is the strict library's `GX.IsLocallyConnectedIn`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -206,6 +232,108 @@ theorem IsSpread.restrict {p : X → Y} (hp : IsSpread p) {U : Set X} {V : Set Y
   obtain ⟨o, ho, hoz⟩ := hWO (hsub ⟨z, hz, rfl⟩)
   rwa [← Subtype.ext hoz]
 
+/-! ### Topologies generated by components -/
+
+/-- The open sets of the topology generated by `spreadBasis p` contain, around each point, a
+component of the preimage of an open set. -/
+theorem exists_connectedComponentIn_subset_of_isOpen_generateFrom {p : X → Y} {O : Set X}
+    (hO : IsOpen[TopologicalSpace.generateFrom (spreadBasis p)] O) {x : X} (hx : x ∈ O) :
+    ∃ U : Set Y, IsOpen U ∧ p x ∈ U ∧ connectedComponentIn (p ⁻¹' U) x ⊆ O := by
+  induction hO generalizing x with
+  | basic s hs =>
+    obtain ⟨U, hU, x₀, hx₀, rfl⟩ := hs
+    refine ⟨U, hU, show p x ∈ U from connectedComponentIn_subset (p ⁻¹' U) x₀ hx, ?_⟩
+    rw [connectedComponentIn_eq hx]
+  | univ => exact ⟨univ, isOpen_univ, mem_univ _, subset_univ _⟩
+  | inter s t _ _ ihs iht =>
+    obtain ⟨U₁, hU₁, hx₁, h₁⟩ := ihs hx.1
+    obtain ⟨U₂, hU₂, hx₂, h₂⟩ := iht hx.2
+    refine ⟨U₁ ∩ U₂, hU₁.inter hU₂, ⟨hx₁, hx₂⟩, subset_inter ?_ ?_⟩
+    · exact (connectedComponentIn_mono x (preimage_mono inter_subset_left)).trans h₁
+    · exact (connectedComponentIn_mono x (preimage_mono inter_subset_right)).trans h₂
+  | sUnion S _ ih =>
+    obtain ⟨s, hsS, hxs⟩ := mem_sUnion.1 hx
+    obtain ⟨U, hU, hxU, h⟩ := ih s hsS hxs
+    exact ⟨U, hU, hxU, h.trans (subset_sUnion_of_mem hsS)⟩
+
+/-- A continuous map from a locally connected space stays continuous for the topology generated
+by the components of preimages of open sets. -/
+theorem continuous_generateFrom_spreadBasis {Z : Type*} [TopologicalSpace Z]
+    [LocallyConnectedSpace Z] {p : X → Y} (hp : Continuous p) {γ : Z → X} (hγ : Continuous γ) :
+    Continuous[_, TopologicalSpace.generateFrom (spreadBasis p)] γ := by
+  rw [continuous_generateFrom_iff]
+  rintro s ⟨U, hU, x₀, -, rfl⟩
+  rw [isOpen_iff_forall_mem_open]
+  intro z hz
+  have hW : IsOpen (γ ⁻¹' (p ⁻¹' U)) := hU.preimage (hp.comp hγ)
+  have hzW : z ∈ γ ⁻¹' (p ⁻¹' U) := (connectedComponentIn_subset (p ⁻¹' U) x₀ hz :)
+  refine ⟨connectedComponentIn (γ ⁻¹' (p ⁻¹' U)) z, ?_, hW.connectedComponentIn,
+    mem_connectedComponentIn hzW⟩
+  intro z' hz'
+  show γ z' ∈ connectedComponentIn (p ⁻¹' U) x₀
+  rw [connectedComponentIn_eq hz]
+  exact (isPreconnected_connectedComponentIn.image γ hγ.continuousOn).subset_connectedComponentIn
+    ⟨z, mem_connectedComponentIn hzW, rfl⟩
+    (image_subset_iff.2 (connectedComponentIn_subset _ _)) ⟨z', hz', rfl⟩
+
+/-- A local criterion for `s ∩ A` to be preconnected: `s` preconnected, `A` open, `s ∩ A` dense in
+`s`, and every point of `s` has an open neighbourhood `N` with `N ∩ s ∩ A` preconnected. -/
+theorem isPreconnected_inter_of_local {s A : Set X} (hs : IsPreconnected s)
+    (hdense : s ⊆ closure (s ∩ A))
+    (hloc : ∀ w ∈ s, ∃ N : Set X, IsOpen N ∧ w ∈ N ∧ IsPreconnected (N ∩ s ∩ A)) :
+    IsPreconnected (s ∩ A) := by
+  rw [isPreconnected_iff_subset_of_disjoint]
+  intro u v hu hv hsuv hdisj
+  choose! N hNo hwN hNc using hloc
+  have hmeet : ∀ w ∈ s, (N w ∩ s ∩ A).Nonempty := fun w hw => by
+    obtain ⟨z, hzN, hz⟩ := mem_closure_iff.1 (hdense hw) (N w) (hNo w hw) (hwN w hw)
+    exact ⟨z, ⟨hzN, hz.1⟩, hz.2⟩
+  have hside : ∀ w ∈ s, N w ∩ s ∩ A ⊆ u ∨ N w ∩ s ∩ A ⊆ v := fun w hw => by
+    refine isPreconnected_iff_subset_of_disjoint.1 (hNc w hw) u v hu hv
+      (fun z hz => hsuv ⟨hz.1.2, hz.2⟩) ?_
+    rw [eq_empty_iff_forall_notMem]
+    intro z hz
+    have : z ∈ s ∩ A ∩ (u ∩ v) := ⟨⟨hz.1.1.2, hz.1.2⟩, hz.2⟩
+    rw [hdisj] at this; exact this
+  set U' := ⋃ w ∈ {w | w ∈ s ∧ N w ∩ s ∩ A ⊆ u}, N w
+  set V' := ⋃ w ∈ {w | w ∈ s ∧ N w ∩ s ∩ A ⊆ v}, N w
+  have hU' : IsOpen U' := isOpen_biUnion fun w hw => hNo w hw.1
+  have hV' : IsOpen V' := isOpen_biUnion fun w hw => hNo w hw.1
+  have hsUV : s ⊆ U' ∪ V' := fun w hw => by
+    rcases hside w hw with h | h
+    · exact Or.inl (mem_biUnion ⟨hw, h⟩ (hwN w hw))
+    · exact Or.inr (mem_biUnion ⟨hw, h⟩ (hwN w hw))
+  have hUV : s ∩ (U' ∩ V') = ∅ := by
+    rw [eq_empty_iff_forall_notMem]
+    rintro w ⟨hw, hwU, hwV⟩
+    obtain ⟨w₁, ⟨hw₁s, hw₁u⟩, hw₁N⟩ := mem_iUnion₂.1 hwU
+    obtain ⟨w₂, ⟨hw₂s, hw₂v⟩, hw₂N⟩ := mem_iUnion₂.1 hwV
+    obtain ⟨z, hzN, hz⟩ := mem_closure_iff.1 (hdense hw) (N w₁ ∩ N w₂)
+      ((hNo w₁ hw₁s).inter (hNo w₂ hw₂s)) ⟨hw₁N, hw₂N⟩
+    have hzu := hw₁u ⟨⟨hzN.1, hz.1⟩, hz.2⟩
+    have hzv := hw₂v ⟨⟨hzN.2, hz.1⟩, hz.2⟩
+    have : z ∈ s ∩ A ∩ (u ∩ v) := ⟨hz, hzu, hzv⟩
+    rw [hdisj] at this; exact this
+  rcases isPreconnected_iff_subset_of_disjoint.1 hs U' V' hU' hV' hsUV hUV with h | h
+  · left
+    intro z hz
+    obtain ⟨w, ⟨hws, hwu⟩, hwN⟩ := mem_iUnion₂.1 (h hz.1)
+    exact hwu ⟨⟨hwN, hz.1⟩, hz.2⟩
+  · right
+    intro z hz
+    obtain ⟨w, ⟨hws, hwv⟩, hwN⟩ := mem_iUnion₂.1 (h hz.1)
+    exact hwv ⟨⟨hwN, hz.1⟩, hz.2⟩
+
+/-- A preconnected set of reals consisting of rational numbers is a subsingleton. -/
+theorem IsPreconnected.subsingleton_of_subset_range_ratCast {s : Set ℝ} (hs : IsPreconnected s)
+    (h : s ⊆ range ((↑) : ℚ → ℝ)) : s.Subsingleton := by
+  intro a ha b hb
+  by_contra hab
+  rcases lt_or_gt_of_ne hab with hlt | hlt
+  · obtain ⟨r, hr, h1, h2⟩ := exists_irrational_btwn hlt
+    exact hr (h (hs.Icc_subset ha hb ⟨h1.le, h2.le⟩))
+  · obtain ⟨r, hr, h1, h2⟩ := exists_irrational_btwn hlt
+    exact hr (h (hs.Icc_subset hb ha ⟨h1.le, h2.le⟩))
 
 /-! ### The category of spreads -/
 
@@ -285,10 +413,10 @@ each connected component of `p ⁻¹' U` homeomorphically onto `U`. -/
 def IsEvenlyCoveredSet (p : X → Y) (U : Set Y) : Prop :=
   ∀ x ∈ p ⁻¹' U, ∃ e : connectedComponentIn (p ⁻¹' U) x ≃ₜ U, ∀ z, (e z : Y) = p z
 
-/-- `def:continuous_map_ordinary_locus`. The ordinary locus `ord_p(Y)`: the points of `Y` with an
-open neighbourhood evenly covered by `p`. -/
+/-- `def:continuous_map_ordinary_locus` (DEC-40). The ordinary locus `ord_p(Y)`: the points of
+`Y` with an open neighbourhood `U` whose preimage is **non-empty** and evenly covered by `p`. -/
 def ordY (p : X → Y) : Set Y :=
-  {y | ∃ U : Set Y, IsOpen U ∧ y ∈ U ∧ IsEvenlyCoveredSet p U}
+  {y | ∃ U : Set Y, IsOpen U ∧ y ∈ U ∧ (p ⁻¹' U).Nonempty ∧ IsEvenlyCoveredSet p U}
 
 /-- `def:continuous_map_ordinary_locus`. The ordinary locus `ord_p(X) = p⁻¹(ord_p(Y))`. -/
 def ordX (p : X → Y) : Set X :=
@@ -298,26 +426,38 @@ variable {p : X → Y}
 
 theorem mem_ordX {x : X} : x ∈ ordX p ↔ p x ∈ ordY p := Iff.rfl
 
-/-- With the paper's definition, a set with empty preimage is (vacuously) evenly covered. -/
+/-- A set with empty preimage is (vacuously) evenly covered; DEC-40 excludes it from `ordY`. -/
 theorem isEvenlyCoveredSet_of_preimage_eq_empty {U : Set Y} (h : p ⁻¹' U = ∅) :
     IsEvenlyCoveredSet p U := fun x hx => by
   rw [h] at hx; exact absurd hx (notMem_empty x)
 
-theorem subset_ordY_of_preimage_eq_empty {U : Set Y} (hU : IsOpen U) (h : p ⁻¹' U = ∅) :
-    U ⊆ ordY p := fun _ hy => ⟨U, hU, hy, isEvenlyCoveredSet_of_preimage_eq_empty h⟩
+theorem IsEvenlyCoveredSet.image_eq {U : Set Y} (hU : IsEvenlyCoveredSet p U) {x : X}
+    (hx : x ∈ p ⁻¹' U) : p '' connectedComponentIn (p ⁻¹' U) x = U := by
+  obtain ⟨e, he⟩ := hU x hx
+  ext y
+  constructor
+  · rintro ⟨z, hz, rfl⟩; exact (connectedComponentIn_subset (p ⁻¹' U) x hz :)
+  · intro hy
+    refine ⟨e.symm ⟨y, hy⟩, (e.symm ⟨y, hy⟩).2, ?_⟩
+    rw [← he, e.apply_symm_apply]
 
-/-- Every point off the closure of the image is ordinary (vacuously). -/
-theorem compl_closure_range_subset_ordY : (closure (range p))ᶜ ⊆ ordY p := by
-  refine subset_ordY_of_preimage_eq_empty isClosed_closure.isOpen_compl ?_
-  ext x
-  simp only [mem_preimage, mem_compl_iff, mem_empty_iff_false, iff_false, not_not]
-  exact subset_closure (mem_range_self x)
+/-- An evenly covered set with non-empty preimage lies in the image. -/
+theorem IsEvenlyCoveredSet.subset_range {U : Set Y} (hU : IsEvenlyCoveredSet p U)
+    (hne : (p ⁻¹' U).Nonempty) : U ⊆ range p := by
+  obtain ⟨x, hx⟩ := hne
+  rw [← hU.image_eq hx]
+  exact image_subset_range _ _
+
+/-- Under DEC-40, an ordinary point is a value of `p`. -/
+theorem ordY_subset_range : ordY p ⊆ range p := by
+  rintro y ⟨U, -, hyU, hne, hcov⟩
+  exact hcov.subset_range hne hyU
 
 /-- `rem:ordinary_locii_open_but`. The ordinary locus of `Y` is open. -/
 theorem isOpen_ordY : IsOpen (ordY p) := by
   rw [isOpen_iff_forall_mem_open]
-  rintro y ⟨U, hU, hyU, hcov⟩
-  exact ⟨U, fun y' hy' => ⟨U, hU, hy', hcov⟩, hU, hyU⟩
+  rintro y ⟨U, hU, hyU, hne, hcov⟩
+  exact ⟨U, fun y' hy' => ⟨U, hU, hy', hne, hcov⟩, hU, hyU⟩
 
 /-- `rem:ordinary_locii_open_but`. The ordinary locus of `X` is open. -/
 theorem isOpen_ordX (hp : Continuous p) : IsOpen (ordX p) :=
@@ -329,16 +469,6 @@ theorem IsEvenlyCoveredSet.injOn {U : Set Y} (hU : IsEvenlyCoveredSet p U) {x : 
   intro a ha b hb hab
   have : e ⟨a, ha⟩ = e ⟨b, hb⟩ := Subtype.ext (by rw [he, he]; exact hab)
   exact congrArg Subtype.val (e.injective this)
-
-theorem IsEvenlyCoveredSet.image_eq {U : Set Y} (hU : IsEvenlyCoveredSet p U) {x : X}
-    (hx : x ∈ p ⁻¹' U) : p '' connectedComponentIn (p ⁻¹' U) x = U := by
-  obtain ⟨e, he⟩ := hU x hx
-  ext y
-  constructor
-  · rintro ⟨z, hz, rfl⟩; exact (connectedComponentIn_subset (p ⁻¹' U) x hz :)
-  · intro hy
-    refine ⟨e.symm ⟨y, hy⟩, (e.symm ⟨y, hy⟩).2, ?_⟩
-    rw [← he, e.apply_symm_apply]
 
 /-- A preconnected set covered by pairwise disjoint open sets lies in the one it meets. -/
 theorem IsPreconnected.subset_of_pairwiseDisjoint {ι : Type*} {s : Set X} (hs : IsPreconnected s)
@@ -375,7 +505,7 @@ theorem isEvenlyCoveredSet_of_sheets {ι : Type*} {U : Set Y} (S : ι → Set X)
 connected): the component of an evenly covered open set. -/
 theorem exists_injOn_of_mem_ordX [LocallyConnectedSpace X] (hp : Continuous p) {x : X}
     (hx : x ∈ ordX p) : ∃ V, IsOpen V ∧ x ∈ V ∧ InjOn p V := by
-  obtain ⟨U, hU, hxU, hcov⟩ := hx
+  obtain ⟨U, hU, hxU, -, hcov⟩ := hx
   exact ⟨_, (hU.preimage hp).connectedComponentIn, mem_connectedComponentIn hxU,
     hcov.injOn hxU⟩
 
@@ -452,7 +582,7 @@ mathlib's sense: discrete fibres, evenly covered neighbourhoods, fibres possibly
 ordinary locus. -/
 theorem isCoveringMapOn_ordY [LocallyConnectedSpace X] (hp : Continuous p) :
     IsCoveringMapOn p (ordY p) := by
-  rintro y ⟨U, hU, hyU, hcov⟩
+  rintro y ⟨U, hU, hyU, -, hcov⟩
   exact isEvenlyCovered_of_isEvenlyCoveredSet hp hU hcov hyU
 
 /-- `rem:ordinary_locii_open_but`. The restriction `ord(X) → ord(Y)` is a covering map. -/
@@ -460,12 +590,41 @@ theorem isCoveringMap_restrict_ordX [LocallyConnectedSpace X] (hp : Continuous p
     IsCoveringMap ((ordY p).restrictPreimage p) :=
   (isCoveringMapOn_ordY hp).isCoveringMap_restrictPreimage
 
-/-- For a surjective `p`, the restriction `ord(X) → ord(Y)` is surjective. -/
-theorem surjective_restrict_ordX (hp : Function.Surjective p) :
-    Function.Surjective ((ordY p).restrictPreimage p) := by
+/-- Under DEC-40 the restriction `ord(X) → ord(Y)` is surjective (for any `p`). -/
+theorem surjective_restrict_ordX : Function.Surjective ((ordY p).restrictPreimage p) := by
   rintro ⟨y, hy⟩
-  obtain ⟨x, rfl⟩ := hp y
+  obtain ⟨x, rfl⟩ := ordY_subset_range hy
   exact ⟨⟨x, hy⟩, rfl⟩
+
+/-- `rem:ordinary_locii_open_but`, the covering part ("covering" = surjective covering map,
+DEC-40): over a locally connected source, `ord(X) → ord(Y)` is a surjective covering map. -/
+theorem isCoveringMap_surjective_restrict_ordX [LocallyConnectedSpace X] (hp : Continuous p) :
+    IsCoveringMap ((ordY p).restrictPreimage p) ∧
+      Function.Surjective ((ordY p).restrictPreimage p) :=
+  ⟨isCoveringMap_restrict_ordX hp, surjective_restrict_ordX⟩
+
+/-- `rem:ordinary_locii_open_but`, "the only obstruction for `ord(X) → ord(Y)` to be a covering
+is the connectedness of `ord(X)`", under the reading in which a covering has a connected total
+space: since the restriction is *always* a surjective covering map
+(`GX.isCoveringMap_surjective_restrict_ordX`), it is a surjective covering map with connected
+source exactly when `ord(X)` is connected. (The first two conjuncts hold unconditionally, so this
+records the reading rather than adding content. Under the bare reading "covering = surjective
+covering map" (DEC-40) there is no obstruction at all: `GX.abs_ordX_not_isPreconnected_covering`.) -/
+theorem isCoveringMap_restrict_ordX_connected_iff [LocallyConnectedSpace X] (hp : Continuous p) :
+    (IsCoveringMap ((ordY p).restrictPreimage p) ∧
+        Function.Surjective ((ordY p).restrictPreimage p) ∧ ConnectedSpace (ordX p)) ↔
+      IsConnected (ordX p) := by
+  rw [isConnected_iff_connectedSpace]
+  exact ⟨fun h => h.2.2, fun h => ⟨isCoveringMap_restrict_ordX hp, surjective_restrict_ordX, h⟩⟩
+
+/-- `rem:ordinary_locii_open_but` (DEC-40), assembled: both ordinary loci are open, and over a
+locally connected source the restriction `ord(X) → ord(Y)` is a surjective covering map, which
+has a connected source exactly when `ord(X)` is connected. (That the loci "may not be connected"
+is `GX.not_isPreconnected_ordY_nFold`, `GX.not_isPreconnected_ordX_abs`.) -/
+theorem ordinary_locii_open_but [LocallyConnectedSpace X] (hp : Continuous p) :
+    IsOpen (ordY p) ∧ IsOpen (ordX p) ∧ IsCoveringMap ((ordY p).restrictPreimage p) ∧
+      Function.Surjective ((ordY p).restrictPreimage p) :=
+  ⟨isOpen_ordY, isOpen_ordX hp, isCoveringMap_restrict_ordX hp, surjective_restrict_ordX⟩
 
 
 /-! ### The partial-covering lemma -/
@@ -526,14 +685,15 @@ theorem preimage_subset_of_sheets [T2Space X] [LocallyConnectedSpace X] (hp : Co
   have hwz' : w = z := hinj i hwi hzi hwz
   exact Set.disjoint_left.1 hWW' hzW (hwz' ▸ hwW')
 
-/-- `lem:spread_partial_covering`. Let `p : X → Y` be continuous, inducing a covering map
-`X₁ → Y₁` with `X₁` portly and `Y₁` open. Then `Y₁ ⊆ ord(Y)`, `X₁ ⊆ ord(X)` and
-`p⁻¹(Y₁) = X₁`. -/
-theorem spread_partial_covering [T2Space X] [LocallyConnectedSpace X]
+/-- `lem:spread_partial_covering`, for a covering map in mathlib's sense (possibly not
+surjective): if `p : X → Y` is continuous and induces a covering map `X₁ → Y₁` with `X₁` portly and
+`Y₁` open, then `p(X₁) ⊆ ord(Y)`, `X₁ ⊆ ord(X)` and `p⁻¹(Y₁) = X₁`. -/
+theorem spread_partial_covering' [T2Space X] [LocallyConnectedSpace X]
     (hp : Continuous p) {X₁ : Set X} {Y₁ : Set Y} (hX₁ : IsPortly X₁) (hY₁ : IsOpen Y₁)
     (hmaps : MapsTo p X₁ Y₁) (hcov : IsCoveringMap (hmaps.restrict p X₁ Y₁)) :
-    Y₁ ⊆ ordY p ∧ X₁ ⊆ ordX p ∧ p ⁻¹' Y₁ = X₁ := by
-  have key : ∀ y ∈ Y₁, ∃ U, IsOpen U ∧ y ∈ U ∧ IsEvenlyCoveredSet p U ∧ p ⁻¹' U ⊆ X₁ := by
+    p '' X₁ ⊆ ordY p ∧ X₁ ⊆ ordX p ∧ p ⁻¹' Y₁ = X₁ := by
+  have key : ∀ y ∈ Y₁, ∃ U, IsOpen U ∧ y ∈ U ∧ IsEvenlyCoveredSet p U ∧ p ⁻¹' U ⊆ X₁ ∧
+      (y ∈ p '' X₁ → (p ⁻¹' U).Nonempty) := by
     intro y hy
     set r := hmaps.restrict p X₁ Y₁ with hr
     set I := r ⁻¹' {(⟨y, hy⟩ : Y₁)} with hI
@@ -597,8 +757,10 @@ theorem spread_partial_covering [T2Space X] [LocallyConnectedSpace X]
       have hempty : p ⁻¹' ((↑) '' U') = ∅ := eq_empty_of_forall_notMem fun x hx => by
         obtain ⟨i, -⟩ := mem_iUnion.1 (hS₀cov ⟨hx, hsub hx⟩)
         exact hIe.elim i
-      exact ⟨_, hU'o, hyU'', isEvenlyCoveredSet_of_preimage_eq_empty hempty,
-        by rw [hempty]; exact empty_subset _⟩
+      refine ⟨_, hU'o, hyU'', isEvenlyCoveredSet_of_preimage_eq_empty hempty,
+        by rw [hempty]; exact empty_subset _, ?_⟩
+      rintro ⟨x, hx, rfl⟩
+      exact hIe.elim ⟨⟨x, hx⟩, rfl⟩
     -- a sheet makes `U'` locally connected near `y`; shrink to the connected `U`
     have hS₀img : p '' S₀ i₀ = (↑) '' U' := by
       refine subset_antisymm ?_ (hS₀surj i₀)
@@ -630,7 +792,10 @@ theorem spread_partial_covering [T2Space X] [LocallyConnectedSpace X]
     have hsub : p ⁻¹' U ⊆ X₁ := preimage_subset_of_sheets hp hX₁ hUo S hSo hSd hScov
       (fun i => inter_subset_left.trans (hS₀₁ i)) (fun i => (hS₀inj i).mono inter_subset_left)
       hSsurj (fun i W hW => hS₀open i W (hW.trans inter_subset_left))
-    refine ⟨U, hUo, hyU, ?_, hsub⟩
+    refine ⟨U, hUo, hyU, ?_, hsub, fun _ => ?_⟩
+    rotate_left
+    · obtain ⟨x, hx, -⟩ := hSsurj i₀ hyU
+      exact ⟨x, hx.2⟩
     have hhom : ∀ i, ∃ e : S i ≃ₜ U, ∀ z, (e z : Y) = p z := fun i =>
       exists_homeomorph_of_sheet hp (hSo i) ((hS₀inj i).mono inter_subset_left)
         (subset_antisymm (by rintro _ ⟨x, hx, rfl⟩; exact hx.2) (hSsurj i))
@@ -653,13 +818,27 @@ theorem spread_partial_covering [T2Space X] [LocallyConnectedSpace X]
   have hpre : p ⁻¹' Y₁ = X₁ := by
     apply subset_antisymm
     · intro x hx
-      obtain ⟨U, -, hxU, -, hsub⟩ := key (p x) hx
+      obtain ⟨U, -, hxU, -, hsub, -⟩ := key (p x) hx
       exact hsub hxU
     · exact hmaps
-  have hY : Y₁ ⊆ ordY p := fun y hy => by
-    obtain ⟨U, hU, hyU, hcovU, -⟩ := key y hy
-    exact ⟨U, hU, hyU, hcovU⟩
-  refine ⟨hY, fun x hx => hY (hmaps hx), hpre⟩
+  have hY : p '' X₁ ⊆ ordY p := by
+    rintro _ ⟨x, hx, rfl⟩
+    obtain ⟨U, hU, hyU, hcovU, -, hne⟩ := key (p x) (hmaps hx)
+    exact ⟨U, hU, hyU, hne ⟨x, hx, rfl⟩, hcovU⟩
+  exact ⟨hY, fun x hx => hY ⟨x, hx, rfl⟩, hpre⟩
+
+/-- `lem:spread_partial_covering` ("covering" = surjective covering map, DEC-40). Let
+`p : X → Y` be continuous, inducing a covering `X₁ → Y₁` with `X₁` portly and `Y₁` open. Then
+`Y₁ ⊆ ord(Y)`, `X₁ ⊆ ord(X)` and `p⁻¹(Y₁) = X₁`. -/
+theorem spread_partial_covering [T2Space X] [LocallyConnectedSpace X]
+    (hp : Continuous p) {X₁ : Set X} {Y₁ : Set Y} (hX₁ : IsPortly X₁) (hY₁ : IsOpen Y₁)
+    (hmaps : MapsTo p X₁ Y₁) (hcov : IsCoveringMap (hmaps.restrict p X₁ Y₁))
+    (hsurj : Function.Surjective (hmaps.restrict p X₁ Y₁)) :
+    Y₁ ⊆ ordY p ∧ X₁ ⊆ ordX p ∧ p ⁻¹' Y₁ = X₁ := by
+  obtain ⟨h₁, h₂, h₃⟩ := spread_partial_covering' hp hX₁ hY₁ hmaps hcov
+  refine ⟨fun y hy => h₁ ?_, h₂, h₃⟩
+  obtain ⟨x, hx⟩ := hsurj ⟨y, hy⟩
+  exact ⟨x, x.2, congrArg Subtype.val hx⟩
 
 
 /-! ### Invariance of the ordinary locus under isomorphisms -/
@@ -668,21 +847,24 @@ section Iso
 
 variable {X' Y' : Type*} [TopologicalSpace X'] [TopologicalSpace Y'] {p' : X' → Y'}
 
+theorem preimage_image_homeomorph (g : X ≃ₜ X') (f : Y ≃ₜ Y')
+    (hcomm : ∀ x, p' (g x) = f (p x)) (U : Set Y) : p' ⁻¹' (f '' U) = g '' (p ⁻¹' U) := by
+  ext x'
+  constructor
+  · rintro ⟨u, hu, hux⟩
+    refine ⟨g.symm x', ?_, g.apply_symm_apply x'⟩
+    show p (g.symm x') ∈ U
+    have : f (p (g.symm x')) = f u := by rw [← hcomm, g.apply_symm_apply, hux]
+    rwa [f.injective this]
+  · rintro ⟨x, hx, rfl⟩
+    exact ⟨p x, hx, (hcomm x).symm⟩
+
 /-- Homeomorphisms `g`, `f` with `p' ∘ g = f ∘ p` carry evenly covered sets to evenly covered
 sets. -/
 theorem IsEvenlyCoveredSet.image_homeomorph (g : X ≃ₜ X') (f : Y ≃ₜ Y')
     (hcomm : ∀ x, p' (g x) = f (p x)) {U : Set Y} (hU : IsEvenlyCoveredSet p U) :
     IsEvenlyCoveredSet p' (f '' U) := by
-  have hpre : p' ⁻¹' (f '' U) = g '' (p ⁻¹' U) := by
-    ext x'
-    constructor
-    · rintro ⟨u, hu, hux⟩
-      refine ⟨g.symm x', ?_, g.apply_symm_apply x'⟩
-      show p (g.symm x') ∈ U
-      have : f (p (g.symm x')) = f u := by rw [← hcomm, g.apply_symm_apply, hux]
-      rwa [f.injective this]
-    · rintro ⟨x, hx, rfl⟩
-      exact ⟨p x, hx, (hcomm x).symm⟩
+  have hpre := preimage_image_homeomorph g f hcomm U
   intro x' hx'
   have hx'' := hx'
   rw [hpre] at hx''
@@ -709,11 +891,14 @@ theorem image_ordY_of_homeomorph (g : X ≃ₜ X') (f : Y ≃ₜ Y')
   have hcomm' : ∀ x', p (g.symm x') = f.symm (p' x') := fun x' => by
     rw [eq_comm, f.symm_apply_eq, ← hcomm, g.apply_symm_apply]
   apply subset_antisymm
-  · rintro _ ⟨y, ⟨U, hU, hyU, hcov⟩, rfl⟩
-    exact ⟨f '' U, f.isOpenMap U hU, mem_image_of_mem f hyU, hcov.image_homeomorph g f hcomm⟩
-  · rintro y' ⟨U, hU, hyU, hcov⟩
-    refine ⟨f.symm y', ⟨f.symm '' U, f.symm.isOpenMap U hU, mem_image_of_mem _ hyU,
+  · rintro _ ⟨y, ⟨U, hU, hyU, hne, hcov⟩, rfl⟩
+    refine ⟨f '' U, f.isOpenMap U hU, mem_image_of_mem f hyU, ?_,
+      hcov.image_homeomorph g f hcomm⟩
+    rw [preimage_image_homeomorph g f hcomm]; exact hne.image _
+  · rintro y' ⟨U, hU, hyU, hne, hcov⟩
+    refine ⟨f.symm y', ⟨f.symm '' U, f.symm.isOpenMap U hU, mem_image_of_mem _ hyU, ?_,
       hcov.image_homeomorph g.symm f.symm hcomm'⟩, f.apply_symm_apply y'⟩
+    rw [preimage_image_homeomorph g.symm f.symm hcomm']; exact hne.image _
 
 /-- `lem:ord_iso`, on the source: `g(ord(X₁)) = ord(X₂)`. -/
 theorem image_ordX_of_homeomorph (g : X ≃ₜ X') (f : Y ≃ₜ Y')
@@ -768,15 +953,55 @@ theorem notMem_ordX_of_notMem_interior [LocallyConnectedSpace X] (hp : Continuou
 
 /-! ### Homeomorphisms are covering maps -/
 
+/-- A homeomorphism is a covering map (no separation axiom needed). -/
 theorem isCoveringMap_of_homeomorph {E B : Type*} [TopologicalSpace E] [TopologicalSpace B]
-    [T2Space E] (e : E ≃ₜ B) : IsCoveringMap e := by
-  rw [isCoveringMap_iff_isCoveringMapOn_univ]
-  refine e.isClosedMap.isCoveringMapOn_of_openPartialHomeomorph (fun y _ => ?_) ?_
-  · refine Set.Subsingleton.finite ?_
-    intro a ha b hb
-    exact e.injective (ha.trans hb.symm)
-  · intro x _
-    exact ⟨e.toOpenPartialHomeomorph, mem_univ x, rfl⟩
+    (e : E ≃ₜ B) : IsCoveringMap e := by
+  intro x
+  haveI : Unique (e ⁻¹' {x}) := ⟨⟨⟨e.symm x, by simp⟩⟩, fun z => Subtype.ext
+    (e.injective (by rw [show e z = x from z.2]; simp))⟩
+  refine ⟨inferInstance, univ, mem_univ _, isOpen_univ, isOpen_univ,
+    (((Homeomorph.Set.univ E).trans e).trans (Homeomorph.Set.univ B).symm).trans
+      (Homeomorph.prodUnique _ (e ⁻¹' {x})).symm, fun z => ?_⟩
+  rfl
+
+/-! ### `cex:portlyness`, first item, inhabited -/
+
+/-- The line `ℝ × {0}`, projected homeomorphically onto `ℝ` by `Prod.fst`. -/
+def fstLineHomeo : {q : ℝ × ℝ | q.2 = 0} ≃ₜ (univ : Set ℝ) where
+  toFun q := ⟨q.1.1, mem_univ _⟩
+  invFun t := ⟨(t.1, 0), rfl⟩
+  left_inv q := Subtype.ext (Prod.ext rfl q.2.symm)
+  right_inv t := rfl
+  continuous_toFun := by fun_prop
+  continuous_invFun := by fun_prop
+
+theorem zero_notMem_interior_fstLine : ((0 : ℝ), (0 : ℝ)) ∉ interior {q : ℝ × ℝ | q.2 = 0} := by
+  intro h
+  obtain ⟨ε, hε, hball⟩ := Metric.mem_nhds_iff.1 (mem_interior_iff_mem_nhds.1 h)
+  have hmem : ((0 : ℝ), ε / 2) ∈ Metric.ball ((0 : ℝ), (0 : ℝ)) ε := by
+    rw [Metric.mem_ball, Prod.dist_eq, dist_self, Real.dist_eq, sub_zero,
+      abs_of_pos (by positivity), max_eq_right (by positivity)]
+    linarith
+  have : ε / 2 = 0 := hball hmem
+  linarith
+
+/-- `cex:portlyness`, item 1, inhabited: `p = Prod.fst : ℝ² → ℝ`, `X₁ = ℝ × {0}` (not open),
+`Y₁ = ℝ`; the restriction `X₁ → Y₁` is a homeomorphism, hence a surjective covering map, and the
+non-interior point `(0, 0)` of `X₁` is singular. -/
+theorem cex_portlyness_fst :
+    IsOpen (univ : Set ℝ) ∧
+      IsCoveringMap ((mapsTo_univ Prod.fst {q : ℝ × ℝ | q.2 = 0}).restrict Prod.fst _ _) ∧
+      Function.Surjective ((mapsTo_univ Prod.fst {q : ℝ × ℝ | q.2 = 0}).restrict Prod.fst _ _) ∧
+      ¬ IsOpen {q : ℝ × ℝ | q.2 = 0} ∧
+      ((0 : ℝ), (0 : ℝ)) ∉ ordX (Prod.fst : ℝ × ℝ → ℝ) ∧ (0 : ℝ) ∉ ordY (Prod.fst : ℝ × ℝ → ℝ) := by
+  have heq : (mapsTo_univ Prod.fst {q : ℝ × ℝ | q.2 = 0}).restrict Prod.fst _ _ = fstLineHomeo :=
+    rfl
+  have hcov : IsCoveringMap ((mapsTo_univ Prod.fst {q : ℝ × ℝ | q.2 = 0}).restrict Prod.fst _ _) := by
+    rw [heq]; exact isCoveringMap_of_homeomorph _
+  have h := notMem_ordX_of_notMem_interior continuous_fst isOpen_univ _ hcov
+    (show ((0 : ℝ), (0 : ℝ)) ∈ {q : ℝ × ℝ | q.2 = 0} from rfl) zero_notMem_interior_fstLine
+  refine ⟨isOpen_univ, hcov, by rw [heq]; exact fstLineHomeo.surjective, fun ho => ?_, h.1, h.2⟩
+  exact zero_notMem_interior_fstLine (ho.interior_eq.symm ▸ (rfl : ((0 : ℝ), (0 : ℝ)).2 = 0))
 
 
 /-! ### Spreads on the real line: locally distance-preserving maps -/
@@ -878,11 +1103,6 @@ theorem zero_notMem_ordY_abs : (0 : ℝ) ∉ ordY (fun x : ℝ => |x|) := by
     fun V hV h0 => not_injOn_of_even (fun z => abs_neg z) hV h0
   simpa using this
 
-theorem neg_one_mem_ordY_abs : (-1 : ℝ) ∈ ordY (fun x : ℝ => |x|) := by
-  refine subset_ordY_of_preimage_eq_empty (U := Iio 0) isOpen_Iio ?_ (by norm_num : (-1:ℝ) < 0)
-  ext x; simp only [mem_preimage, mem_Iio, mem_empty_iff_false, iff_false, not_lt]
-  exact abs_nonneg x
-
 /-- The homeomorphism `(-∞, 0) ≃ₜ (0, ∞)`, `z ↦ -z`. -/
 def negIioIoi : (Iio (0 : ℝ)) ≃ₜ (Ioi (0 : ℝ)) where
   toFun z := ⟨-z, show (0 : ℝ) < -(z : ℝ) from neg_pos.2 z.2⟩
@@ -895,7 +1115,7 @@ def negIioIoi : (Iio (0 : ℝ)) ≃ₜ (Ioi (0 : ℝ)) where
 @[simp] theorem negIioIoi_apply (z : Iio (0 : ℝ)) : (negIioIoi z : ℝ) = -z := rfl
 
 theorem one_mem_ordY_abs : (1 : ℝ) ∈ ordY (fun x : ℝ => |x|) := by
-  refine ⟨Ioi 0, isOpen_Ioi, by norm_num, ?_⟩
+  refine ⟨Ioi 0, isOpen_Ioi, by norm_num, ⟨1, by norm_num⟩, ?_⟩
   let S : Bool → Set ℝ := fun b => Bool.rec (Iio 0) (Ioi 0) b
   refine isEvenlyCoveredSet_of_sheets S (fun b => ?_) (fun b => ?_) ?_ ?_ (fun b => ?_)
   · cases b
@@ -927,13 +1147,8 @@ theorem one_mem_ordY_abs : (1 : ℝ) ∈ ordY (fun x : ℝ => |x|) := by
     · exact ⟨negIioIoi, fun z => by rw [negIioIoi_apply]; exact (abs_of_neg z.2).symm⟩
     · exact ⟨Homeomorph.refl _, fun z => (abs_of_pos (z.2 : (0:ℝ) < z)).symm⟩
 
-/-- `rem:ordinary_locii_open_but`, "may not be connected": for the spread `x ↦ |x|` on `ℝ`,
-neither ordinary locus is connected. -/
-theorem not_isPreconnected_ordY_abs : ¬ IsPreconnected (ordY (fun x : ℝ => |x|)) := by
-  rw [isPreconnected_iff_ordConnected]
-  intro h
-  exact zero_notMem_ordY_abs (h.out neg_one_mem_ordY_abs one_mem_ordY_abs ⟨by norm_num, by norm_num⟩)
-
+/-- `rem:ordinary_locii_open_but`, "may not be connected": for the spread `x ↦ |x|` on `ℝ`, the
+ordinary locus of the source is not connected. -/
 theorem not_isPreconnected_ordX_abs : ¬ IsPreconnected (ordX (fun x : ℝ => |x|)) := by
   rw [isPreconnected_iff_ordConnected]
   intro h
@@ -945,7 +1160,15 @@ theorem not_isPreconnected_ordX_abs : ¬ IsPreconnected (ordX (fun x : ℝ => |x
   exact zero_notMem_ordY_abs (by simpa [mem_ordX] using h0)
 
 
-/-! ### `rem:ordinary_locii_open_but`: surjectivity of `ord(X) → ord(Y)` -/
+/-- `rem:ordinary_locii_open_but`: a disconnected `ord(X)` does not prevent `ord(X) → ord(Y)` from
+being a surjective covering map (`x ↦ |x|`, `ord(X) = ℝ ∖ 0`). -/
+theorem abs_ordX_not_isPreconnected_covering :
+    ¬ IsPreconnected (ordX (fun x : ℝ => |x|)) ∧
+      IsCoveringMap ((ordY (fun x : ℝ => |x|)).restrictPreimage (fun x : ℝ => |x|)) ∧
+      Function.Surjective ((ordY (fun x : ℝ => |x|)).restrictPreimage (fun x : ℝ => |x|)) :=
+  ⟨not_isPreconnected_ordX_abs, isCoveringMap_surjective_restrict_ordX continuous_abs⟩
+
+/-! ### `lem:spread_partial_covering`: surjectivity of the covering is used -/
 
 /-- The constant map `Unit → Bool` with value `true`. -/
 def unitTrue : Unit → Bool := fun _ => true
@@ -956,12 +1179,13 @@ theorem isSpread_unitTrue : IsSpread unitTrue := by
   refine ⟨univ, isOpen_univ, mem_univ _, fun z _ => ?_⟩
   rwa [Subsingleton.elim z x]
 
-theorem ordY_unitTrue : ordY unitTrue = univ := by
-  refine eq_univ_of_forall fun b => ?_
-  cases b
-  · refine subset_ordY_of_preimage_eq_empty (U := {false}) (isOpen_discrete _) ?_ rfl
-    ext x; simp [unitTrue]
-  · refine ⟨{true}, isOpen_discrete _, rfl, fun x hx => ?_⟩
+theorem ordY_unitTrue : ordY unitTrue = {true} := by
+  apply subset_antisymm
+  · intro b hb
+    obtain ⟨x, rfl⟩ := ordY_subset_range hb
+    rfl
+  · rintro b (rfl : b = true)
+    refine ⟨{true}, isOpen_discrete _, rfl, ⟨(), rfl⟩, fun x hx => ?_⟩
     refine ⟨{ toFun := fun _ => ⟨true, rfl⟩
               invFun := fun _ => ⟨x, mem_connectedComponentIn hx⟩
               left_inv := fun a => Subsingleton.elim _ _
@@ -970,22 +1194,28 @@ theorem ordY_unitTrue : ordY unitTrue = univ := by
               continuous_invFun := continuous_of_discreteTopology }, fun z => rfl⟩
 
 theorem ordX_unitTrue : ordX unitTrue = univ := by
-  rw [ordX, ordY_unitTrue, preimage_univ]
+  rw [ordX, ordY_unitTrue]; exact eq_univ_of_forall fun _ => rfl
 
-/-- `rem:ordinary_locii_open_but`: with the paper's (vacuous) evenly-covered condition,
-`ord(X)` may be connected while `ord(X) → ord(Y)` misses a point of `ord(Y)`; so if "covering"
-includes surjectivity, connectedness of `ord(X)` is not the only obstruction (cf.
-`surjective_restrict_ordX` for a surjective `p`). -/
-theorem unitTrue_counterexample :
-    IsSpread unitTrue ∧ IsConnected (ordX unitTrue) ∧
-      IsCoveringMap ((ordY unitTrue).restrictPreimage unitTrue) ∧
-      ¬ Function.Surjective ((ordY unitTrue).restrictPreimage unitTrue) := by
-  refine ⟨isSpread_unitTrue, ?_, isCoveringMap_restrict_ordX continuous_of_discreteTopology, ?_⟩
-  · rw [ordX_unitTrue]; exact isConnected_univ
+theorem mapsTo_unitTrue : MapsTo unitTrue univ univ := mapsTo_univ _ _
+
+/-- `lem:spread_partial_covering` needs the covering `X₁ → Y₁` to be surjective: for the spread
+`unitTrue : Unit → Bool`, `X₁ = Unit` (portly), `Y₁ = Bool` (open), the restriction is a covering
+map in mathlib's sense, not surjective, and `Y₁ ⊄ ord(Y)`. -/
+theorem spread_partial_covering_surjective_needed :
+    IsSpread unitTrue ∧ IsPortly (univ : Set Unit) ∧ IsOpen (univ : Set Bool) ∧
+      IsCoveringMap (mapsTo_unitTrue.restrict unitTrue univ univ) ∧
+      ¬ Function.Surjective (mapsTo_unitTrue.restrict unitTrue univ univ) ∧
+      ¬ ((univ : Set Bool) ⊆ ordY unitTrue) := by
+  refine ⟨isSpread_unitTrue, isPortly_univ, isOpen_univ, ?_, ?_, ?_⟩
+  · exact IsCoveringMap.of_discreteTopology (f := mapsTo_unitTrue.restrict unitTrue univ univ)
   · intro h
-    obtain ⟨x, hx⟩ := h ⟨false, by rw [ordY_unitTrue]; exact mem_univ _⟩
+    obtain ⟨x, hx⟩ := h ⟨false, mem_univ _⟩
     have := congrArg Subtype.val hx
-    simp [Set.restrictPreimage, unitTrue] at this
+    simp [MapsTo.restrict, unitTrue] at this
+  · intro h
+    have := h (mem_univ false)
+    rw [ordY_unitTrue] at this
+    simp at this
 
 /-! ### `cex:openess` -/
 
@@ -1020,10 +1250,12 @@ theorem not_isOpen_range_lineIncl : ¬ IsOpen (range lineIncl) := by
   simp [lineIncl] at this
   linarith
 
-/-- `cex:openess`, the correct computation: `ord(Y) = Y ∖ p(X)`. -/
-theorem ordY_lineIncl : ordY lineIncl = (range lineIncl)ᶜ := by
-  apply subset_antisymm
-  · rintro y ⟨U, hU, hyU, hcov⟩ ⟨x, rfl⟩
+/-- `cex:openess`: `ord(Y) = ∅`. -/
+theorem ordY_lineIncl : ordY lineIncl = ∅ := by
+  refine eq_empty_of_forall_notMem fun y hy => ?_
+  obtain ⟨x, rfl⟩ := ordY_subset_range hy
+  revert hy
+  · rintro ⟨U, hU, hyU, -, hcov⟩
     have hx : x ∈ lineIncl ⁻¹' U := hyU
     have himg := hcov.image_eq hx
     have hnhds : {t : ℝ | (x, t) ∈ U} ∈ 𝓝 (0 : ℝ) :=
@@ -1036,8 +1268,6 @@ theorem ordY_lineIncl : ordY lineIncl = (range lineIncl)ᶜ := by
     have := congrArg Prod.snd hz
     simp [lineIncl] at this
     linarith
-  · rw [← isClosed_range_lineIncl.closure_eq]
-    exact compl_closure_range_subset_ordY
 
 theorem ordX_lineIncl : ordX lineIncl = ∅ := by
   ext x
@@ -1054,25 +1284,24 @@ theorem isCoveringMap_lineIncl_restrict :
   rw [this]
   exact isCoveringMap_of_homeomorph _
 
-/-- `cex:openess`. For the inclusion `ℝ → ℝ²` (a spread) and `X₁ = ℝ` (portly), `Y₁ = p(X)`,
-the restriction `X₁ → Y₁` is a covering map but `Y₁` is not open, and every conclusion of
-`lem:spread_partial_covering` fails: `Y₁ ∩ ord(Y) = ∅` and `ord(X) = ∅`. The paper's
-"`ord(Y) = ∅`" is false as written: `ord(Y) = Y ∖ p(X)` (`ordY_lineIncl`). -/
+theorem surjective_lineIncl_restrict :
+    Function.Surjective (MapsTo.restrict lineIncl univ (range lineIncl) mapsTo_lineIncl) := by
+  rintro ⟨_, x, rfl⟩
+  exact ⟨⟨x, mem_univ x⟩, rfl⟩
+
+/-- `cex:openess`, as written (DEC-40). The inclusion `p : ℝ → ℝ², x ↦ (x, 0)` is continuous,
+even a spread, and induces a covering (a surjective covering map) `X → p(X) ⊆ Y`, but
+`ord(Y) = ∅`. Also: `X₁ = ℝ` is portly, `Y₁ = p(X)` is not open, and `ord(X) = ∅`, so every
+conclusion of `lem:spread_partial_covering` fails. -/
 theorem cex_openess :
-    IsSpread lineIncl ∧ IsPortly (univ : Set ℝ) ∧
+    Continuous lineIncl ∧ IsSpread lineIncl ∧
       IsCoveringMap (MapsTo.restrict lineIncl univ (range lineIncl) mapsTo_lineIncl) ∧
-      ¬ IsOpen (range lineIncl) ∧ Disjoint (range lineIncl) (ordY lineIncl) ∧
-      ordX lineIncl = ∅ ∧ ¬ (range lineIncl ⊆ ordY lineIncl) ∧ (ordY lineIncl).Nonempty := by
-  refine ⟨isSpread_lineIncl, isPortly_univ, isCoveringMap_lineIncl_restrict,
-    not_isOpen_range_lineIncl, ?_, ordX_lineIncl, ?_, ?_⟩
-  · rw [ordY_lineIncl]; exact disjoint_compl_right
-  · intro h
-    have := h ⟨0, rfl⟩
-    rw [ordY_lineIncl] at this
-    exact this ⟨0, rfl⟩
-  · refine ⟨(0, 1), ?_⟩
-    rw [ordY_lineIncl, range_lineIncl]
-    simp
+      Function.Surjective (MapsTo.restrict lineIncl univ (range lineIncl) mapsTo_lineIncl) ∧
+      ordY lineIncl = ∅ ∧ IsPortly (univ : Set ℝ) ∧ ¬ IsOpen (range lineIncl) ∧
+      ordX lineIncl = ∅ := by
+  exact ⟨isEmbedding_lineIncl.continuous, isSpread_lineIncl, isCoveringMap_lineIncl_restrict,
+    surjective_lineIncl_restrict, ordY_lineIncl, isPortly_univ, not_isOpen_range_lineIncl,
+    ordX_lineIncl⟩
 
 
 /-! ### `cex:portlyness`, second item: without density of `X₁` -/
@@ -1112,12 +1341,13 @@ def shiftIoi : (Ioi (1 : ℝ)) ≃ₜ (Ioi (0 : ℝ)) where
   continuous_toFun := ((continuous_sub_right 1).comp continuous_subtype_val).subtype_mk _
   continuous_invFun := ((continuous_add_const 1).comp continuous_subtype_val).subtype_mk _
 
+theorem zigzag_restrict_eq : MapsTo.restrict zigzag (Ioi 1) (Ioi 0) mapsTo_zigzag = shiftIoi := by
+  funext z
+  exact Subtype.ext (zigzag_of_one_lt z.2)
+
 theorem isCoveringMap_zigzag_restrict :
     IsCoveringMap (MapsTo.restrict zigzag (Ioi 1) (Ioi 0) mapsTo_zigzag) := by
-  have : MapsTo.restrict zigzag (Ioi 1) (Ioi 0) mapsTo_zigzag = shiftIoi := by
-    funext z
-    exact Subtype.ext (zigzag_of_one_lt z.2)
-  rw [this]
+  rw [zigzag_restrict_eq]
   exact isCoveringMap_of_homeomorph _
 
 theorem isLocallyConnectedIn_Ioi_one : IsLocallyConnectedIn (Ioi (1 : ℝ)) := by
@@ -1132,7 +1362,7 @@ theorem not_dense_Ioi_one : ¬ Dense (Ioi (1 : ℝ)) := by
   have h0 : (0 : ℝ) ∈ Ici (1 : ℝ) := this ▸ mem_univ 0
   exact absurd (h0 : (1 : ℝ) ≤ 0) (by norm_num)
 
-/-- `cex:portlyness`, second item, in the strongest true form: a connected, second countable,
+/-- `cex:portlyness`, second item, a one-dimensional variant: a connected, second countable,
 locally path-connected Hausdorff `X = ℝ`, a spread `p = zigzag`, `X₁ = (1, ∞)` open and locally
 connected in `X` but not dense, `Y₁ = (0, ∞)` open, `X₁ → Y₁` a homeomorphism (hence a covering
 map) — and all three conclusions of `lem:spread_partial_covering` fail. -/
@@ -1140,10 +1370,13 @@ theorem cex_portlyness :
     IsSpread zigzag ∧ IsOpen (Ioi (1 : ℝ)) ∧ IsLocallyConnectedIn (Ioi (1 : ℝ)) ∧
       ¬ Dense (Ioi (1 : ℝ)) ∧ IsOpen (Ioi (0 : ℝ)) ∧
       IsCoveringMap (MapsTo.restrict zigzag (Ioi 1) (Ioi 0) mapsTo_zigzag) ∧
+      Function.Surjective (MapsTo.restrict zigzag (Ioi 1) (Ioi 0) mapsTo_zigzag) ∧
       ¬ (Ioi (0 : ℝ) ⊆ ordY zigzag) ∧ ¬ (Ioi (1 : ℝ) ⊆ ordX zigzag) ∧
       zigzag ⁻¹' Ioi 0 ≠ Ioi 1 := by
   refine ⟨isSpread_zigzag, isOpen_Ioi, isLocallyConnectedIn_Ioi_one, not_dense_Ioi_one,
-    isOpen_Ioi, isCoveringMap_zigzag_restrict, fun h => ?_, fun h => ?_, fun h => ?_⟩
+    isOpen_Ioi, isCoveringMap_zigzag_restrict,
+    by rw [zigzag_restrict_eq]; exact shiftIoi.surjective,
+    fun h => ?_, fun h => ?_, fun h => ?_⟩
   · exact one_notMem_ordY_zigzag (h (by norm_num : (0 : ℝ) < 1))
   · have h2 := h (by norm_num : (1 : ℝ) < 2)
     rw [mem_ordX, zigzag_of_one_lt (by norm_num)] at h2
@@ -1155,7 +1388,7 @@ theorem cex_portlyness :
     rw [h] at hm
     exact absurd (hm : (1 : ℝ) < -2) (by norm_num)
 
-/-! ### The paper's second example: `ord(Y)` is not empty -/
+/-! ### The paper's second example: the set and the map -/
 
 /-- The set `X ⊆ ℝ²` of `cex:portlyness`, second item: the complement of the open unit disc,
 together with the rational rays `{λ x | λ ∈ (0,1], ‖x‖ = 1, x ∈ ℚ²}`. -/
@@ -1184,19 +1417,1563 @@ theorem one_le_norm_portlyInv (x : portlyX) : 1 ≤ ‖portlyInv x‖ := by
     exact one_le_inv_iff₀.2 ⟨hpos, h⟩
   · exact (not_le.1 h).le
 
-/-- `cex:portlyness`, second item: the paper's "`ord(Y) = ∅`" is false as written. Whatever
-topology `X` carries, the open unit disc has empty preimage and is therefore (vacuously) in the
-ordinary locus. -/
-theorem ball_subset_ordY_portlyInv (τ : TopologicalSpace portlyX) :
-    Metric.ball (0 : EuclideanSpace ℝ (Fin 2)) 1 ⊆ @ordY portlyX _ τ _ portlyInv := by
-  refine @subset_ordY_of_preimage_eq_empty portlyX _ τ _ portlyInv _ Metric.isOpen_ball ?_
-  ext x
-  simp only [mem_preimage, Metric.mem_ball, dist_zero_right, mem_empty_iff_false, iff_false,
-    not_lt]
-  exact one_le_norm_portlyInv x
+/-! ### `rem:ordinary_locii_open_but`: the ordinary locus of the target need not be connected -/
 
-theorem ordY_portlyInv_nonempty (τ : TopologicalSpace portlyX) :
-    (@ordY portlyX _ τ _ portlyInv).Nonempty :=
-  ⟨0, ball_subset_ordY_portlyInv τ (Metric.mem_ball_self one_pos)⟩
+theorem isLocDistPres_neg : IsLocDistPres (fun x : ℝ => -x) :=
+  fun x => ⟨1, one_pos, fun z _ => by
+    show |-z - -x| = |z - x|
+    rw [show -z - -x = -(z - x) by ring, abs_neg]⟩
+
+/-- Being locally distance-preserving is a local property. -/
+theorem IsLocDistPres.of_local {f : ℝ → ℝ}
+    (h : ∀ x, ∃ g : ℝ → ℝ, IsLocDistPres g ∧ ∃ ε > 0, ∀ z, |z - x| < ε → f z = g z) :
+    IsLocDistPres f := by
+  intro x
+  obtain ⟨g, hg, ε, hε, hfg⟩ := h x
+  obtain ⟨r, hr, hgr⟩ := hg x
+  refine ⟨min r ε, lt_min hr hε, fun z hz => ?_⟩
+  rw [hfg z (hz.trans_le (min_le_right _ _)), hfg x (by simpa using hε)]
+  exact hgr z (hz.trans_le (min_le_left _ _))
+
+/-- A map symmetric about `a` near `a` is injective on no neighbourhood of `a`. -/
+theorem not_injOn_of_locally_symm {f : ℝ → ℝ} {a δ : ℝ} (hδ : 0 < δ)
+    (hf : ∀ t, |t| < δ → f (a + t) = f (a - t)) {V : Set ℝ} (hV : IsOpen V) (ha : a ∈ V) :
+    ¬ InjOn f V := by
+  intro hinj
+  obtain ⟨ε, hε, hεV⟩ := Metric.isOpen_iff.1 hV a ha
+  set t := min ε δ / 2 with ht
+  have htpos : 0 < t := by positivity
+  have htε : t < ε := by have := min_le_left ε δ; linarith
+  have htδ : t < δ := by have := min_le_right ε δ; linarith
+  have h1 : a + t ∈ V := hεV (by
+    rw [Metric.mem_ball, Real.dist_eq, add_sub_cancel_left, abs_of_pos htpos]; exact htε)
+  have h2 : a - t ∈ V := hεV (by
+    rw [Metric.mem_ball, Real.dist_eq, sub_sub_cancel_left, abs_neg, abs_of_pos htpos]
+    exact htε)
+  have := hinj h1 h2 (hf t (by rw [abs_of_pos htpos]; exact htδ))
+  linarith
+
+/-- A sheet with the whole preimage: if `p⁻¹(U)` is a non-empty open preconnected set mapped
+homeomorphically onto the open `U`, then `U ⊆ ord(Y)`. -/
+theorem subset_ordY_of_single_sheet {U : Set Y} {S : Set X} (hU : IsOpen U) (hS : IsOpen S)
+    (hSc : IsPreconnected S) (hne : S.Nonempty) (hpre : p ⁻¹' U = S)
+    (e : S ≃ₜ U) (he : ∀ z, (e z : Y) = p z) : U ⊆ ordY p := by
+  intro y hy
+  refine ⟨U, hU, hy, hpre ▸ hne, isEvenlyCoveredSet_of_sheets (fun _ : Unit => S)
+    (fun _ => hS) (fun _ => hSc) (fun i j hij => absurd (Subsingleton.elim i j) hij)
+    (by rw [hpre, iUnion_const]) (fun _ => ⟨e, he⟩)⟩
+
+/-- The `N`-shaped map `x ↦ x - |x| + |x - 1| - 1`: the identity on `(-∞, 0]`, `-x` on `[0, 1]`,
+`x - 2` on `[1, ∞)`. -/
+def nFold : ℝ → ℝ := fun x => x - |x| + |x - 1| - 1
+
+theorem nFold_of_le_one {x : ℝ} (hx : x ≤ 1) : nFold x = -|x| := by
+  simp only [nFold]; rw [abs_of_nonpos (by linarith : x - 1 ≤ 0)]; ring
+
+theorem nFold_of_nonneg {x : ℝ} (hx : 0 ≤ x) : nFold x = |x - 1| - 1 := by
+  simp only [nFold]; rw [abs_of_nonneg hx]; ring
+
+theorem isLocDistPres_nFold : IsLocDistPres nFold := by
+  refine IsLocDistPres.of_local fun x => ?_
+  rcases lt_or_ge x 1 with hx | hx
+  · refine ⟨fun z => -|z|, isLocDistPres_neg.comp isLocDistPres_abs, 1 - x, by linarith,
+      fun z hz => nFold_of_le_one ?_⟩
+    have := (abs_lt.1 hz).2; linarith
+  · refine ⟨fun z => |z - 1| - 1,
+      (isLocDistPres_sub_const 1).comp ((isLocDistPres_abs).comp (isLocDistPres_sub_const 1)),
+      x, by linarith, fun z hz => nFold_of_nonneg ?_⟩
+    have := (abs_lt.1 hz).1; linarith
+
+theorem isSpread_nFold : IsSpread nFold := isLocDistPres_nFold.isSpread
+
+theorem continuous_nFold : Continuous nFold := isLocDistPres_nFold.continuous
+
+theorem preimage_nFold_Iio : nFold ⁻¹' Iio (-1) = Iio (-1) := by
+  ext z
+  simp only [mem_preimage, mem_Iio]
+  rcases le_total z 1 with hz | hz
+  · rw [nFold_of_le_one hz]
+    constructor
+    · intro h
+      rcases le_total 0 z with h0 | h0
+      · rw [abs_of_nonneg h0] at h; linarith
+      · rw [abs_of_nonpos h0] at h; linarith
+    · intro h; rw [abs_of_neg (by linarith)]; linarith
+  · rw [nFold_of_nonneg (by linarith)]
+    constructor
+    · intro h; have := abs_nonneg (z - 1); linarith
+    · intro h; linarith
+
+theorem preimage_nFold_Ioi : nFold ⁻¹' Ioi 0 = Ioi 2 := by
+  ext z
+  simp only [mem_preimage, mem_Ioi]
+  rcases le_total z 1 with hz | hz
+  · rw [nFold_of_le_one hz]
+    constructor
+    · intro h; have := abs_nonneg z; linarith
+    · intro h; linarith
+  · rw [nFold_of_nonneg (by linarith), abs_of_nonneg (by linarith : 0 ≤ z - 1)]
+    constructor <;> intro h <;> linarith
+
+/-- The homeomorphism `(c, ∞) ≃ₜ (0, ∞)`, `x ↦ x - c`. -/
+def subIoi (c : ℝ) : (Ioi c) ≃ₜ (Ioi (0 : ℝ)) where
+  toFun z := ⟨z - c, show (0 : ℝ) < z - c by have : c < (z : ℝ) := z.2; linarith⟩
+  invFun z := ⟨z + c, show c < (z : ℝ) + c by have : (0 : ℝ) < z := z.2; linarith⟩
+  left_inv z := by ext; simp
+  right_inv z := by ext; simp
+  continuous_toFun := ((continuous_sub_right c).comp continuous_subtype_val).subtype_mk _
+  continuous_invFun := ((continuous_add_const c).comp continuous_subtype_val).subtype_mk _
+
+theorem neg_two_mem_ordY_nFold : (-2 : ℝ) ∈ ordY nFold := by
+  refine subset_ordY_of_single_sheet isOpen_Iio isOpen_Iio isPreconnected_Iio
+    ⟨-2, show (-2 : ℝ) < -1 by norm_num⟩ preimage_nFold_Iio (Homeomorph.refl _) (fun z => ?_)
+    (show (-2 : ℝ) < -1 by norm_num)
+  have hz : (z : ℝ) < -1 := z.2
+  show (z : ℝ) = nFold z
+  rw [nFold_of_le_one (by linarith), abs_of_neg (by linarith), neg_neg]
+
+theorem one_mem_ordY_nFold : (1 : ℝ) ∈ ordY nFold := by
+  refine subset_ordY_of_single_sheet isOpen_Ioi isOpen_Ioi isPreconnected_Ioi
+    ⟨3, show (2 : ℝ) < 3 by norm_num⟩ preimage_nFold_Ioi (subIoi 2) (fun z => ?_)
+    (show (0 : ℝ) < 1 by norm_num)
+  have hz : (2 : ℝ) < z := z.2
+  show (z : ℝ) - 2 = nFold z
+  rw [nFold_of_nonneg (by linarith), abs_of_nonneg (by linarith)]; ring
+
+theorem neg_one_notMem_ordY_nFold : (-1 : ℝ) ∉ ordY nFold := by
+  have := notMem_ordY_of_forall_not_injOn (p := nFold) continuous_nFold (x := 1)
+    fun V hV h1 => not_injOn_of_locally_symm one_pos (fun t ht => by
+      have := (abs_lt.1 ht)
+      rw [nFold_of_nonneg (by linarith), nFold_of_nonneg (by linarith)]
+      rw [show 1 + t - 1 = t by ring, show 1 - t - 1 = -t by ring, abs_neg]) hV h1
+  rwa [show nFold 1 = -1 by norm_num [nFold]] at this
+
+/-- `rem:ordinary_locii_open_but`, "may not be connected", on the target: for the spread
+`nFold : ℝ → ℝ` (connected source and target), `ord(Y)` is not connected (`-1` is a fold value
+between the ordinary values `-2` and `1`), and neither is `ord(X)`. -/
+theorem not_isPreconnected_ordY_nFold : ¬ IsPreconnected (ordY nFold) := by
+  rw [isPreconnected_iff_ordConnected]
+  intro h
+  exact neg_one_notMem_ordY_nFold
+    (h.out neg_two_mem_ordY_nFold one_mem_ordY_nFold ⟨by norm_num, by norm_num⟩)
+
+theorem not_isPreconnected_ordX_nFold : ¬ IsPreconnected (ordX nFold) := by
+  rw [isPreconnected_iff_ordConnected]
+  intro h
+  have h1 : (-2 : ℝ) ∈ ordX nFold := by
+    rw [mem_ordX, show nFold (-2) = -2 by norm_num [nFold]]; exact neg_two_mem_ordY_nFold
+  have h2 : (3 : ℝ) ∈ ordX nFold := by
+    rw [mem_ordX, show nFold 3 = 1 by norm_num [nFold]]; exact one_mem_ordY_nFold
+  have h0 := h.out h1 h2 ⟨by norm_num, by norm_num⟩ (a := 1)
+  rw [mem_ordX, show nFold 1 = -1 by norm_num [nFold]] at h0
+  exact neg_one_notMem_ordY_nFold h0
+
+/-! ### `cex:portlyness`, second item: the paper's space
+
+`portlyX`, `portlyInv` are above. The paper's claim `ord(Y) = ∅` (DEC-40) holds for *every*
+topology on `portlyX` finer than the subspace topology (`GX.ordY_portlyInv_eq_empty`), in
+particular for the paper's "coarsest topology making the injection a spread", built as
+`GX.PortlySpace`. -/
+
+section PortlyPaper
+
+local notation "𝔼" => EuclideanSpace ℝ (Fin 2)
+
+theorem norm_single_eq (i : Fin 2) (t : ℝ) : ‖(EuclideanSpace.single i t : 𝔼)‖ = |t| := by
+  simp
+
+theorem norm_sq_eq_coord (w : 𝔼) : ‖w‖ ^ 2 = w 0 ^ 2 + w 1 ^ 2 := by
+  rw [EuclideanSpace.norm_eq, Real.sq_sqrt (by positivity)]; simp [Fin.sum_univ_two]
+
+/-- The points of the plane on the vertical axis or on a line through `0` of rational slope. -/
+def ratSlope : Set 𝔼 := {w | w 0 = 0 ∨ ∃ r : ℚ, w 1 = r * w 0}
+
+theorem exists_notMem_ratSlope_of_ne {w : 𝔼} (hw : w 0 ≠ 0) {ε : ℝ} (hε : 0 < ε) :
+    ∃ w' ∈ Metric.ball w ε, w' ∉ ratSlope := by
+  have hw0 : 0 < |w 0| := abs_pos.2 hw
+  have hδ : 0 < ε / (2 * |w 0|) := by positivity
+  obtain ⟨r, hr, hr1, hr2⟩ := exists_irrational_btwn
+    (show w 1 / w 0 < w 1 / w 0 + ε / (2 * |w 0|) by linarith)
+  refine ⟨w + EuclideanSpace.single 1 (w 0 * (r - w 1 / w 0)), ?_, ?_⟩
+  · rw [Metric.mem_ball, dist_eq_norm, add_sub_cancel_left, norm_single_eq, abs_mul]
+    have h1 : |r - w 1 / w 0| < ε / (2 * |w 0|) := by
+      rw [abs_of_pos (by linarith)]; linarith
+    calc |w 0| * |r - w 1 / w 0| < |w 0| * (ε / (2 * |w 0|)) := mul_lt_mul_of_pos_left h1 hw0
+      _ = ε / 2 := by field_simp
+      _ < ε := by linarith
+  · have h0 : (w + EuclideanSpace.single 1 (w 0 * (r - w 1 / w 0)) : 𝔼) 0 = w 0 := by simp
+    have h1 : (w + EuclideanSpace.single 1 (w 0 * (r - w 1 / w 0)) : 𝔼) 1 = r * w 0 := by
+      simp; field_simp; ring
+    rintro (h | ⟨q, hq⟩)
+    · rw [h0] at h; exact hw h
+    · rw [h0, h1] at hq
+      exact hr ⟨q, (mul_right_cancel₀ hw hq).symm⟩
+
+/-- `ratSlope` has empty interior. -/
+theorem eq_empty_of_isOpen_subset_ratSlope {O : Set 𝔼} (hO : IsOpen O) (h : O ⊆ ratSlope) :
+    O = ∅ := by
+  refine eq_empty_of_forall_notMem fun w hw => ?_
+  obtain ⟨ε, hε, hball⟩ := Metric.isOpen_iff.1 hO w hw
+  by_cases hw0 : w 0 = 0
+  · set w₁ : 𝔼 := w + EuclideanSpace.single 0 (ε / 2) with hw₁def
+    have hw₁ : w₁ 0 ≠ 0 := by
+      have : w₁ 0 = ε / 2 := by simp [w₁, hw0]
+      rw [this]; positivity
+    have hdist : dist w₁ w = ε / 2 := by
+      rw [dist_eq_norm, hw₁def, add_sub_cancel_left, norm_single_eq, abs_of_pos (by positivity)]
+    obtain ⟨w', hw', hnot⟩ := exists_notMem_ratSlope_of_ne hw₁ (half_pos hε)
+    refine hnot (h (hball ?_))
+    rw [Metric.mem_ball] at hw' ⊢
+    linarith [dist_triangle w' w₁ w]
+  · obtain ⟨w', hw', hnot⟩ := exists_notMem_ratSlope_of_ne hw0 hε
+    exact hnot (h (hball hw'))
+
+theorem smul_mem_ratSlope {v : 𝔼} (hv : ∀ i, ∃ q : ℚ, v i = q) (c : ℝ) : c • v ∈ ratSlope := by
+  obtain ⟨q₀, h₀⟩ := hv 0
+  obtain ⟨q₁, h₁⟩ := hv 1
+  by_cases hq : q₀ = 0
+  · left; simp [h₀, hq]
+  · right
+    refine ⟨q₁ / q₀, ?_⟩
+    have hq' : (q₀ : ℝ) ≠ 0 := Rat.cast_ne_zero.2 hq
+    simp only [PiLp.smul_apply, smul_eq_mul, h₀, h₁]
+    push_cast
+    field_simp
+
+theorem portlyInv_of_norm_le {x : portlyX} (hx : ‖(x : 𝔼)‖ ≤ 1) :
+    portlyInv x = (‖(x : 𝔼)‖ ^ 2)⁻¹ • (x : 𝔼) := by
+  unfold portlyInv; rw [if_pos hx]
+
+theorem portlyInv_of_one_lt_norm {x : portlyX} (hx : 1 < ‖(x : 𝔼)‖) : portlyInv x = x := by
+  unfold portlyInv; rw [if_neg (not_le.2 hx)]
+
+/-- The open unit disc of `portlyX` (rational rays) is mapped into `ratSlope`. -/
+theorem portlyInv_mem_ratSlope {x : portlyX} (hx : ‖(x : 𝔼)‖ < 1) : portlyInv x ∈ ratSlope := by
+  rw [portlyInv_of_norm_le hx.le]
+  rcases x.2 with hy | ⟨l, -, v, -, hv, hxv⟩
+  · exact absurd hx (not_lt.2 hy)
+  · rw [hxv, smul_smul]; exact smul_mem_ratSlope hv _
+
+theorem continuous_portlyInv : Continuous portlyInv := by
+  have hn : Continuous fun x : portlyX => ‖(x : 𝔼)‖ := continuous_norm.comp continuous_subtype_val
+  unfold portlyInv
+  refine Continuous.if_le ?_ continuous_subtype_val hn continuous_const ?_
+  · exact ((hn.pow 2).inv₀ fun x => (pow_pos (norm_pos_of_mem_portlyX x.2) 2).ne').smul
+      continuous_subtype_val
+  · intro x hx; rw [hx]; simp
+
+/-- The rational parametrisation `t ↦ ((1 - t²)/(1 + t²), 2t/(1 + t²))` of the unit circle. -/
+def stereo (t : ℝ) : 𝔼 := !₂[(1 - t ^ 2) / (1 + t ^ 2), 2 * t / (1 + t ^ 2)]
+
+theorem continuous_stereo : Continuous stereo := by
+  unfold stereo; fun_prop (disch := (intro; positivity))
+
+theorem norm_stereo (t : ℝ) : ‖stereo t‖ = 1 := by
+  have h : ‖stereo t‖ ^ 2 = 1 := by
+    rw [norm_sq_eq_coord]; simp [stereo]; field_simp; ring
+  have := norm_nonneg (stereo t)
+  nlinarith
+
+theorem stereo_rat (q : ℚ) : ∀ i, ∃ r : ℚ, stereo q i = r := by
+  intro i; fin_cases i
+  · exact ⟨(1 - q ^ 2) / (1 + q ^ 2), by simp [stereo]⟩
+  · exact ⟨2 * q / (1 + q ^ 2), by simp [stereo]⟩
+
+theorem stereo_inv {u : 𝔼} (hu : ‖u‖ = 1) (h0 : u 0 ≠ -1) : stereo (u 1 / (1 + u 0)) = u := by
+  have h := norm_sq_eq_coord u
+  rw [hu] at h
+  have ha : 1 + u 0 ≠ 0 := fun h' => h0 (by linarith)
+  ext i; fin_cases i
+  · simp [stereo]; field_simp; linear_combination (1 + u 0) * h
+  · simp [stereo]; field_simp; linear_combination u 1 * h
+
+/-- Every unit vector is `± stereo t₀` for some `t₀`. -/
+theorem exists_sign_stereo {u : 𝔼} (hu : ‖u‖ = 1) :
+    ∃ σ : ℚ, (σ = 1 ∨ σ = -1) ∧ ∃ t₀ : ℝ, (σ : ℝ) • stereo t₀ = u := by
+  by_cases h0 : u 0 = -1
+  · refine ⟨-1, Or.inr rfl, (-u) 1 / (1 + (-u) 0), ?_⟩
+    rw [stereo_inv (by rw [norm_neg, hu]) (by simp [h0]; norm_num)]
+    simp
+  · exact ⟨1, Or.inl rfl, u 1 / (1 + u 0), by rw [stereo_inv hu h0]; simp⟩
+
+/-- Density of the rational rays, seen through `p`: every open set meeting `{‖y‖ ≥ 1}` contains
+`p(x)` for some `x ∈ X` in the open unit disc. -/
+theorem exists_inner_portlyInv_mem {y : 𝔼} (hy : 1 ≤ ‖y‖) {U : Set 𝔼} (hU : IsOpen U)
+    (hyU : y ∈ U) : ∃ x : portlyX, ‖(x : 𝔼)‖ < 1 ∧ portlyInv x ∈ U := by
+  have hy0 : 0 < ‖y‖ := one_pos.trans_le hy
+  set u : 𝔼 := ‖y‖⁻¹ • y with hu
+  have hun : ‖u‖ = 1 := by rw [hu, norm_smul, norm_inv, norm_norm, inv_mul_cancel₀ hy0.ne']
+  obtain ⟨σ, hσ, t₀, ht₀⟩ := exists_sign_stereo hun
+  set c : ℝ × ℝ → 𝔼 := fun st => st.1 • ((σ : ℝ) • stereo st.2) with hc
+  have hcc : Continuous c := continuous_fst.smul (continuous_const.smul
+    (continuous_stereo.comp continuous_snd))
+  have hc₀ : c (‖y‖, t₀) = y := by
+    simp only [hc]; rw [ht₀, hu, smul_smul, mul_inv_cancel₀ hy0.ne', one_smul]
+  obtain ⟨ε, hε, hball⟩ := Metric.isOpen_iff.1 (hU.preimage hcc) (‖y‖, t₀)
+    (by simp only [mem_preimage]; rw [hc₀]; exact hyU)
+  obtain ⟨q, hq1, hq2⟩ := exists_rat_btwn (show t₀ < t₀ + ε / 2 by linarith)
+  set s := ‖y‖ + ε / 2 with hs
+  have hs1 : 1 < s := by rw [hs]; linarith
+  have hs0 : 0 < s := one_pos.trans hs1
+  have hcU : c (s, q) ∈ U := by
+    refine hball ?_
+    rw [Metric.mem_ball, Prod.dist_eq, Real.dist_eq, Real.dist_eq]
+    refine max_lt ?_ ?_
+    · rw [hs, add_sub_cancel_left, abs_of_pos (by positivity)]; linarith
+    · rw [abs_of_pos (by linarith)]; linarith
+  set v : 𝔼 := (σ : ℝ) • stereo q with hv
+  have hvn : ‖v‖ = 1 := by
+    rw [hv, norm_smul, norm_stereo, mul_one]
+    rcases hσ with rfl | rfl <;> norm_num
+  have hvq : ∀ i, ∃ r : ℚ, v i = r := by
+    intro i
+    obtain ⟨r, hr⟩ := stereo_rat q i
+    exact ⟨σ * r, by rw [hv, PiLp.smul_apply, smul_eq_mul, hr]; push_cast; ring⟩
+  have hmem : s⁻¹ • v ∈ portlyX :=
+    Or.inr ⟨s⁻¹, ⟨inv_pos.2 hs0, inv_le_one_of_one_le₀ hs1.le⟩, v, hvn, hvq, rfl⟩
+  have hnorm : ‖s⁻¹ • v‖ = s⁻¹ := by
+    rw [norm_smul, hvn, mul_one, norm_inv, Real.norm_eq_abs, abs_of_pos hs0]
+  refine ⟨⟨s⁻¹ • v, hmem⟩, ?_, ?_⟩
+  · show ‖s⁻¹ • v‖ < 1
+    rw [hnorm]; exact inv_lt_one_of_one_lt₀ hs1
+  · have hle : ‖((⟨s⁻¹ • v, hmem⟩ : portlyX) : 𝔼)‖ ≤ 1 := by
+      show ‖s⁻¹ • v‖ ≤ 1
+      rw [hnorm]; exact inv_le_one_of_one_le₀ hs1.le
+    rw [portlyInv_of_norm_le hle]
+    show (‖s⁻¹ • v‖ ^ 2)⁻¹ • (s⁻¹ • v) ∈ U
+    rw [hnorm, smul_smul, inv_pow, inv_inv, sq, mul_assoc, mul_inv_cancel₀ hs0.ne', mul_one]
+    exact hcU
+
+/-- `cex:portlyness`, second item: `ord(Y) = ∅` (DEC-40), for **every** topology `τ` on `X`
+finer than the subspace topology of `ℝ²`. -/
+theorem ordY_portlyInv_eq_empty (τ : TopologicalSpace portlyX)
+    (hτ : τ ≤ instTopologicalSpaceSubtype) : @ordY portlyX _ τ _ portlyInv = ∅ := by
+  letI := τ
+  have hval : Continuous (Subtype.val : portlyX → 𝔼) := continuous_le_dom hτ continuous_subtype_val
+  refine eq_empty_of_forall_notMem fun y hy => ?_
+  have hy1 : 1 ≤ ‖y‖ := by
+    obtain ⟨x, rfl⟩ := ordY_subset_range hy
+    exact one_le_norm_portlyInv x
+  obtain ⟨U, hU, hyU, -, hcov⟩ := hy
+  obtain ⟨x, hx1, hxU⟩ := exists_inner_portlyInv_mem hy1 hU hyU
+  obtain ⟨e, he⟩ := hcov x hxU
+  set W : Set (connectedComponentIn (portlyInv ⁻¹' U) x) :=
+    {c | ‖((c : portlyX) : 𝔼)‖ < 1} with hWdef
+  have hW : IsOpen W :=
+    isOpen_lt (continuous_norm.comp (hval.comp continuous_subtype_val)) continuous_const
+  have hO : IsOpen ((↑) '' (e '' W) : Set 𝔼) := hU.isOpenMap_subtype_val _ (e.isOpenMap W hW)
+  have hsub : ((↑) '' (e '' W) : Set 𝔼) ⊆ ratSlope := by
+    rintro _ ⟨_, ⟨c, hc, rfl⟩, rfl⟩
+    rw [he]; exact portlyInv_mem_ratSlope hc
+  have hempty := eq_empty_of_isOpen_subset_ratSlope hO hsub
+  have hmem : portlyInv x ∈ ((↑) '' (e '' W) : Set 𝔼) :=
+    ⟨_, ⟨⟨x, mem_connectedComponentIn hxU⟩, hx1, rfl⟩, he _⟩
+  rw [hempty] at hmem
+  exact hmem
+
+theorem ordX_portlyInv_eq_empty (τ : TopologicalSpace portlyX)
+    (hτ : τ ≤ instTopologicalSpaceSubtype) : @ordX portlyX _ τ _ portlyInv = ∅ := by
+  rw [ordX, ordY_portlyInv_eq_empty τ hτ, preimage_empty]
+
+/-- The space `X` of `cex:portlyness`, item 2, with the paper's topology: "the coarsest topology
+making the natural injection `X → Y` a spread", the topology generated by the connected
+components of `X ∩ U` (subspace topology), `U` open in `ℝ²`. That it is the coarsest such topology
+is `GX.isSpread_portlyι` with `GX.le_portlyTop_of_isSpread`. -/
+@[reducible] def portlyTop : TopologicalSpace portlyX :=
+  TopologicalSpace.generateFrom (spreadBasis (Subtype.val : portlyX → 𝔼))
+
+/-- `portlyX` carrying `GX.portlyTop`. -/
+def PortlySpace : Type := portlyX
+
+instance : TopologicalSpace PortlySpace := portlyTop
+
+/-- The point of `portlyX` underlying a point of `PortlySpace`. -/
+def PortlySpace.toX (x : PortlySpace) : portlyX := x
+
+/-- The natural injection `X → ℝ²`. -/
+def portlyι (x : PortlySpace) : 𝔼 := (PortlySpace.toX x : 𝔼)
+
+/-- The map `p` of `cex:portlyness`, item 2, on the paper's space. -/
+def portlyP (x : PortlySpace) : 𝔼 := portlyInv (PortlySpace.toX x)
+
+/-- The paper's topology is finer than the subspace topology. -/
+theorem portlySpace_le : portlyTop ≤ instTopologicalSpaceSubtype := by
+  rw [TopologicalSpace.le_def]
+  intro O hO
+  obtain ⟨V, hV, rfl⟩ := hO
+  rw [@isOpen_iff_forall_mem_open portlyX portlyTop]
+  intro x hx
+  exact ⟨connectedComponentIn (Subtype.val ⁻¹' V : Set portlyX) x,
+    connectedComponentIn_subset _ _,
+    TopologicalSpace.isOpen_generateFrom_of_mem ⟨V, hV, x, hx, rfl⟩,
+    mem_connectedComponentIn hx⟩
+
+theorem continuous_portlyι : Continuous portlyι :=
+  continuous_le_dom portlySpace_le continuous_subtype_val
+
+theorem continuous_portlyP : Continuous portlyP :=
+  continuous_le_dom portlySpace_le continuous_portlyInv
+
+theorem injective_portlyι : Function.Injective portlyι := fun _ _ h => Subtype.ext h
+
+instance : T2Space PortlySpace :=
+  T2Space.of_injective_continuous injective_portlyι continuous_portlyι
+
+theorem ordY_portlyP : ordY portlyP = ∅ := ordY_portlyInv_eq_empty _ portlySpace_le
+
+theorem ordX_portlyP : ordX portlyP = ∅ := ordX_portlyInv_eq_empty _ portlySpace_le
+
+/-- Near a point of norm `> 1`, an open set of the paper's topology contains a Euclidean ball. -/
+theorem portlySpace_outer_nhds {O : Set PortlySpace} (hO : IsOpen O) {x : PortlySpace}
+    (hx : x ∈ O) (h1 : 1 < ‖portlyι x‖) :
+    ∃ ε > 0, ∀ w : 𝔼, dist w (portlyι x) < ε → ∃ hw : w ∈ portlyX, (⟨w, hw⟩ : portlyX) ∈ O := by
+  induction hO generalizing x with
+  | basic s hs =>
+    obtain ⟨V, hV, x₀, hx₀, rfl⟩ := hs
+    have hxV : (PortlySpace.toX x : 𝔼) ∈ V :=
+      connectedComponentIn_subset (Subtype.val ⁻¹' V : Set portlyX) x₀
+        (show PortlySpace.toX x ∈ _ from hx)
+    obtain ⟨ε₁, hε₁, hball⟩ := Metric.isOpen_iff.1 hV _ hxV
+    have hε₂ : 0 < ‖portlyι x‖ - 1 := by linarith
+    refine ⟨min ε₁ (‖portlyι x‖ - 1), lt_min hε₁ hε₂, fun w hw => ?_⟩
+    set ε := min ε₁ (‖portlyι x‖ - 1)
+    have hout : ∀ w : 𝔼, dist w (portlyι x) < ε → 1 < ‖w‖ := fun w hw => by
+      have h₁ := norm_sub_norm_le (portlyι x) w
+      rw [← dist_eq_norm, dist_comm] at h₁
+      have := hw.trans_le (min_le_right _ _)
+      linarith
+    have hwX : w ∈ portlyX := Or.inl (hout w hw).le
+    refine ⟨hwX, ?_⟩
+    have hC : connectedComponentIn (Subtype.val ⁻¹' V : Set portlyX) x₀ =
+        connectedComponentIn (Subtype.val ⁻¹' V : Set portlyX) (PortlySpace.toX x) :=
+      connectedComponentIn_eq hx
+    change (⟨w, hwX⟩ : portlyX) ∈ connectedComponentIn (Subtype.val ⁻¹' V : Set portlyX) x₀
+    rw [hC]
+    set B : Set portlyX := Subtype.val ⁻¹' Metric.ball (portlyι x) ε
+    have hBimg : (Subtype.val '' B : Set 𝔼) = Metric.ball (portlyι x) ε := by
+      rw [Subtype.image_preimage_coe, inter_eq_right]
+      intro z hz; exact Or.inl (hout z hz).le
+    have hBc : IsPreconnected B := by
+      rw [← Topology.IsInducing.subtypeVal.isPreconnected_image, hBimg]
+      exact (convex_ball _ _).isPreconnected
+    have hxB : PortlySpace.toX x ∈ B := Metric.mem_ball_self (lt_min hε₁ hε₂)
+    have hBV : B ⊆ Subtype.val ⁻¹' V := fun z hz => hball (Metric.ball_subset_ball
+      (min_le_left _ _) hz)
+    exact hBc.subset_connectedComponentIn hxB hBV hw
+  | univ =>
+    refine ⟨‖portlyι x‖ - 1, by linarith, fun w hw => ⟨Or.inl ?_, mem_univ _⟩⟩
+    show 1 ≤ ‖w‖
+    have h₁ := norm_sub_norm_le (portlyι x) w
+    rw [← dist_eq_norm, dist_comm] at h₁
+    linarith
+  | inter s t _ _ ihs iht =>
+    obtain ⟨ε₁, hε₁, h₁⟩ := ihs hx.1 h1
+    obtain ⟨ε₂, hε₂, h₂⟩ := iht hx.2 h1
+    refine ⟨min ε₁ ε₂, lt_min hε₁ hε₂, fun w hw => ?_⟩
+    obtain ⟨hw₁, hm₁⟩ := h₁ w (hw.trans_le (min_le_left _ _))
+    obtain ⟨hw₂, hm₂⟩ := h₂ w (hw.trans_le (min_le_right _ _))
+    exact ⟨hw₁, hm₁, hm₂⟩
+  | sUnion S _ ih =>
+    obtain ⟨s, hsS, hxs⟩ := mem_sUnion.1 hx
+    obtain ⟨ε, hε, h⟩ := ih s hsS hxs h1
+    exact ⟨ε, hε, fun w hw => by
+      obtain ⟨hw', hm⟩ := h w hw
+      exact ⟨hw', mem_sUnion.2 ⟨s, hsS, hm⟩⟩⟩
+
+/-- `X₁ = {‖x‖ > 1}` in the paper's space. -/
+def portlyX₁ : Set PortlySpace := {x | 1 < ‖portlyι x‖}
+
+/-- `Y₁ = {‖y‖ > 1}`. -/
+def portlyY₁ : Set 𝔼 := {y | 1 < ‖y‖}
+
+theorem isOpen_portlyX₁ : IsOpen portlyX₁ :=
+  isOpen_lt continuous_const (continuous_norm.comp continuous_portlyι)
+
+theorem isOpen_portlyY₁ : IsOpen portlyY₁ := isOpen_lt continuous_const continuous_norm
+
+theorem portlyP_of_mem_X₁ {x : PortlySpace} (hx : x ∈ portlyX₁) : portlyP x = portlyι x :=
+  portlyInv_of_one_lt_norm hx
+
+theorem mapsTo_portlyP : MapsTo portlyP portlyX₁ portlyY₁ := fun x hx => by
+  show 1 < ‖portlyP x‖
+  rw [portlyP_of_mem_X₁ hx]; exact hx
+
+/-- `X₁ → Y₁` is a homeomorphism (the identity). -/
+def portlyHomeo : portlyX₁ ≃ₜ portlyY₁ where
+  toFun z := ⟨portlyι z, z.2⟩
+  invFun y := ⟨(⟨(y : 𝔼), Or.inl (le_of_lt (show 1 < ‖(y : 𝔼)‖ from y.2))⟩ : portlyX), y.2⟩
+  left_inv z := rfl
+  right_inv y := rfl
+  continuous_toFun := (continuous_portlyι.comp continuous_subtype_val).subtype_mk _
+  continuous_invFun := by
+    refine Continuous.subtype_mk (continuous_def.2 fun O hO => ?_) _
+    rw [Metric.isOpen_iff]
+    intro y hy
+    obtain ⟨ε, hε, h⟩ := portlySpace_outer_nhds hO hy y.2
+    refine ⟨ε, hε, fun y' hy' => ?_⟩
+    obtain ⟨hw', hm⟩ := h y' hy'
+    exact hm
+
+theorem portlyHomeo_apply (z : portlyX₁) : (portlyHomeo z : 𝔼) = portlyP z := by
+  show portlyι (z : PortlySpace) = portlyP z
+  exact (portlyP_of_mem_X₁ z.2).symm
+
+theorem portlyRestrict_eq : mapsTo_portlyP.restrict portlyP portlyX₁ portlyY₁ = portlyHomeo := by
+  funext z; exact Subtype.ext (portlyHomeo_apply z).symm
+
+/-- The point `(1/2, 0)`, on the rational ray of `(1, 0)`. -/
+theorem half_mem_portlyX : ((1 / 2 : ℝ) • EuclideanSpace.single 0 1 : 𝔼) ∈ portlyX := by
+  refine Or.inr ⟨1 / 2, ⟨by norm_num, by norm_num⟩, EuclideanSpace.single 0 1, by simp,
+    fun i => ?_, rfl⟩
+  fin_cases i
+  · exact ⟨1, by simp⟩
+  · exact ⟨0, by simp⟩
+
+theorem not_dense_portlyX₁ : ¬ Dense portlyX₁ := by
+  intro h
+  obtain ⟨x, hx, hx₁⟩ := h.inter_open_nonempty {x | ‖portlyι x‖ < 1}
+    (isOpen_lt (continuous_norm.comp continuous_portlyι) continuous_const)
+    ⟨(⟨_, half_mem_portlyX⟩ : portlyX), by
+      show ‖((1 / 2 : ℝ) • EuclideanSpace.single 0 1 : 𝔼)‖ < 1
+      rw [norm_smul, norm_single_eq]; norm_num⟩
+  exact lt_asymm (show 1 < ‖portlyι x‖ from hx₁) hx
+
+theorem preimage_portlyY₁_ne : portlyP ⁻¹' portlyY₁ ≠ portlyX₁ := by
+  intro h
+  set x : PortlySpace := (⟨_, half_mem_portlyX⟩ : portlyX)
+  have hn : ‖portlyι x‖ = 1 / 2 := by
+    show ‖((1 / 2 : ℝ) • EuclideanSpace.single 0 1 : 𝔼)‖ = 1 / 2
+    rw [norm_smul, norm_single_eq]; norm_num
+  have hx : x ∈ portlyP ⁻¹' portlyY₁ := by
+    show 1 < ‖portlyInv (PortlySpace.toX x)‖
+    rw [portlyInv_of_norm_le (show ‖portlyι x‖ ≤ 1 by rw [hn]; norm_num)]
+    rw [norm_smul, norm_inv, norm_pow, norm_norm]
+    change 1 < (‖portlyι x‖ ^ 2)⁻¹ * ‖portlyι x‖
+    rw [hn]; norm_num
+  rw [h] at hx
+  have : (1 : ℝ) < 1 / 2 := hn ▸ hx
+  norm_num at this
+
+/-! #### The paper's space: local path-connectedness, spreads, second countability -/
+
+/-- A point of `portlyX` as a point of `PortlySpace`. -/
+def PortlySpace.ofX (x : portlyX) : PortlySpace := x
+
+@[simp] theorem portlyι_ofX (x : portlyX) : portlyι (PortlySpace.ofX x) = x := rfl
+
+theorem continuous_toX : Continuous PortlySpace.toX :=
+  continuous_le_dom (α := portlyX) portlySpace_le continuous_id
+
+/-- A map from a locally connected space, continuous into `X ⊆ ℝ²` with the subspace topology, is
+continuous into the paper's space. -/
+theorem continuous_ofX {Z : Type*} [TopologicalSpace Z] [LocallyConnectedSpace Z]
+    {γ : Z → portlyX} (hγ : Continuous γ) : Continuous fun z => PortlySpace.ofX (γ z) :=
+  continuous_generateFrom_spreadBasis continuous_subtype_val hγ
+
+/-- A preconnected subset of the paper's space lies in the subspace component. -/
+theorem subset_connectedComponentIn_of_isPreconnected {N : Set PortlySpace}
+    (hN : IsPreconnected N) {x : PortlySpace} (hx : x ∈ N) {U : Set 𝔼}
+    (hNU : ∀ z ∈ N, portlyι z ∈ U) :
+    ∀ z ∈ N, PortlySpace.toX z ∈
+      connectedComponentIn (Subtype.val ⁻¹' U : Set portlyX) (PortlySpace.toX x) := fun z hz =>
+  (hN.image _ continuous_toX.continuousOn).subset_connectedComponentIn ⟨x, hx, rfl⟩
+    (by rintro _ ⟨w, hw, rfl⟩; exact hNU w hw) ⟨z, hz, rfl⟩
+
+/-- Paths in `X ⊆ ℝ²` (subspace topology) are paths of the paper's space. -/
+theorem joinedIn_of_unit {F : Set PortlySpace} {a b : PortlySpace} (f : unitInterval → 𝔼)
+    (hf : Continuous f) (hX : ∀ t, f t ∈ portlyX) (hF : ∀ t, PortlySpace.ofX ⟨f t, hX t⟩ ∈ F)
+    (ha : f 0 = portlyι a) (hb : f 1 = portlyι b) : JoinedIn F a b := by
+  set γ : unitInterval → portlyX := fun t => ⟨f t, hX t⟩
+  have hγ : Continuous γ := hf.subtype_mk _
+  set h : ℝ → PortlySpace := fun s => PortlySpace.ofX (γ (projIcc 0 1 zero_le_one s))
+  have hh : Continuous h := continuous_ofX (hγ.comp continuous_projIcc)
+  have hval : ∀ t : unitInterval, h t = PortlySpace.ofX (γ t) := fun t => by
+    simp only [h, projIcc_val]
+  refine ⟨⟨⟨fun t => h t, hh.comp continuous_subtype_val⟩, ?_, ?_⟩, fun t => ?_⟩
+  · show h ((0 : unitInterval) : ℝ) = a
+    rw [hval]; exact Subtype.ext ha
+  · show h ((1 : unitInterval) : ℝ) = b
+    rw [hval]; exact Subtype.ext hb
+  · show h t ∈ F
+    rw [hval]; exact hF t
+
+theorem mem_portlyX_of_one_le {w : 𝔼} (h : 1 ≤ ‖w‖) : w ∈ portlyX := Or.inl h
+
+theorem smul_mem_portlyX {v : 𝔼} (hv : ‖v‖ = 1) (hq : ∀ i, ∃ q : ℚ, v i = q) {l : ℝ}
+    (hl0 : 0 < l) (hl1 : l ≤ 1) : l • v ∈ portlyX :=
+  Or.inr ⟨l, ⟨hl0, hl1⟩, v, hv, hq, rfl⟩
+
+/-- A point of `X` in the open unit disc lies on a rational ray. -/
+theorem exists_ray_of_norm_lt_one {x : 𝔼} (hx : x ∈ portlyX) (h : ‖x‖ < 1) :
+    ∃ v : 𝔼, ‖v‖ = 1 ∧ (∀ i, ∃ q : ℚ, v i = q) ∧ x = ‖x‖ • v := by
+  rcases hx with hx | ⟨l, ⟨hl0, -⟩, v, hv, hq, rfl⟩
+  · exact absurd h (not_lt.2 hx)
+  · refine ⟨v, hv, hq, ?_⟩
+    rw [norm_smul, hv, mul_one, Real.norm_eq_abs, abs_of_pos hl0]
+
+theorem norm_portlyι_pos (x : PortlySpace) : 0 < ‖portlyι x‖ :=
+  norm_pos_of_mem_portlyX (PortlySpace.toX x).2
+
+/-! #### Outer balls -/
+
+theorem one_lt_norm_of_dist_lt {w y : 𝔼} {r : ℝ} (hw : dist w y < r) (hr : r ≤ ‖y‖ - 1) :
+    1 < ‖w‖ := by
+  have h₁ := norm_sub_norm_le y w
+  rw [← dist_eq_norm, dist_comm] at h₁
+  linarith
+
+theorem isPathConnected_outer_ball {x : PortlySpace} {r : ℝ} (hr : 0 < r)
+    (hr1 : r ≤ ‖portlyι x‖ - 1) :
+    IsPathConnected {z : PortlySpace | dist (portlyι z) (portlyι x) < r} := by
+  refine ⟨x, by simpa using hr, fun y hy => ?_⟩
+  set f : unitInterval → 𝔼 := fun t => portlyι x + (t : ℝ) • (portlyι y - portlyι x)
+  have hdist : ∀ t : unitInterval, dist (f t) (portlyι x) < r := fun t => by
+    simp only [f, dist_eq_norm, add_sub_cancel_left, norm_smul, Real.norm_eq_abs,
+      abs_of_nonneg t.2.1]
+    have hy' : ‖portlyι y - portlyι x‖ < r := by rw [← dist_eq_norm]; exact hy
+    calc (t : ℝ) * ‖portlyι y - portlyι x‖ ≤ 1 * ‖portlyι y - portlyι x‖ :=
+          mul_le_mul_of_nonneg_right t.2.2 (norm_nonneg _)
+      _ < r := by rw [one_mul]; exact hy'
+  have hX : ∀ t, f t ∈ portlyX := fun t =>
+    mem_portlyX_of_one_le (one_lt_norm_of_dist_lt (hdist t) hr1).le
+  refine joinedIn_of_unit f (by fun_prop) hX (fun t => hdist t) ?_ ?_
+  · simp [f]
+  · simp [f]
+
+/-! #### Inner segments -/
+
+/-- The direction coordinates `(x / ‖x‖) i`, continuous on `X`. -/
+theorem continuous_dir_coord (i : Fin 2) :
+    Continuous fun z : portlyX => (‖(z : 𝔼)‖⁻¹ • (z : 𝔼)) i := by
+  have hn : Continuous fun z : portlyX => ‖(z : 𝔼)‖ := continuous_norm.comp continuous_subtype_val
+  have h : Continuous fun z : portlyX => ‖(z : 𝔼)‖⁻¹ • (z : 𝔼) :=
+    (hn.inv₀ fun z => (norm_pos_of_mem_portlyX z.2).ne').smul continuous_subtype_val
+  exact (EuclideanSpace.proj (𝕜 := ℝ) i).continuous.comp h
+
+theorem isPathConnected_segment {x : PortlySpace} {v : 𝔼} (hv : ‖v‖ = 1)
+    (hq : ∀ i, ∃ q : ℚ, v i = q) (hxv : portlyι x = ‖portlyι x‖ • v) {r : ℝ} (hr0 : 0 < r)
+    (hr : r ≤ ‖portlyι x‖) (hr' : r ≤ 1 - ‖portlyι x‖) :
+    IsPathConnected {z : PortlySpace | ∃ l, |l - ‖portlyι x‖| < r ∧ portlyι z = l • v} := by
+  refine ⟨x, ⟨_, by simpa using hr0, hxv⟩, fun y ⟨l, hl, hyl⟩ => ?_⟩
+  set n := ‖portlyι x‖
+  set m : unitInterval → ℝ := fun t => (1 - (t : ℝ)) * n + t * l
+  have hm : ∀ t : unitInterval, |m t - n| < r := fun t => by
+    have : m t - n = t * (l - n) := by simp only [m]; ring
+    rw [this, abs_mul, abs_of_nonneg t.2.1]
+    calc (t : ℝ) * |l - n| ≤ 1 * |l - n| := mul_le_mul_of_nonneg_right t.2.2 (abs_nonneg _)
+      _ < r := by rw [one_mul]; exact hl
+  have hm0 : ∀ t, 0 < m t := fun t => by
+    have := hm t; rw [abs_lt] at this; linarith
+  have hm1 : ∀ t, m t ≤ 1 := fun t => by
+    have := hm t; rw [abs_lt] at this; linarith
+  refine joinedIn_of_unit (fun t => m t • v) (by fun_prop)
+    (fun t => smul_mem_portlyX hv hq (hm0 t) (hm1 t)) (fun t => ⟨m t, hm t, rfl⟩) ?_ ?_
+  · show m 0 • v = portlyι x
+    rw [hxv]; simp [m]
+  · show m 1 • v = portlyι y
+    rw [hyl]; simp [m]
+
+/-- Around a point of an inner ray, the subspace component of `X ∩ B` is the segment of the ray
+(the other rays are separated from it by their rational directions). -/
+theorem connectedComponentIn_ball_inner {x : PortlySpace} {v : 𝔼} (hv : ‖v‖ = 1)
+    (hq : ∀ i, ∃ q : ℚ, v i = q) (hxv : portlyι x = ‖portlyι x‖ • v) {r : ℝ} (hr0 : 0 < r)
+    (hr : r ≤ ‖portlyι x‖) (hr' : r ≤ 1 - ‖portlyι x‖) :
+    connectedComponentIn (Subtype.val ⁻¹' Metric.ball (portlyι x) r : Set portlyX)
+        (PortlySpace.toX x) =
+      {z : portlyX | ∃ l, |l - ‖portlyι x‖| < r ∧ (z : 𝔼) = l • v} := by
+  set S : Set PortlySpace := {z | ∃ l, |l - ‖portlyι x‖| < r ∧ portlyι z = l • v}
+  have hSc := (isPathConnected_segment hv hq hxv hr0 hr hr').isConnected.isPreconnected
+  have hxS : x ∈ S := ⟨_, by simpa using hr0, hxv⟩
+  apply subset_antisymm
+  · intro z hz
+    set K := connectedComponentIn (Subtype.val ⁻¹' Metric.ball (portlyι x) r : Set portlyX)
+      (PortlySpace.toX x)
+    have hKball : ∀ w ∈ K, dist (w : 𝔼) (portlyι x) < r := fun w hw =>
+      Metric.mem_ball.1 (connectedComponentIn_subset _ _ hw :
+        (w : portlyX) ∈ Subtype.val ⁻¹' Metric.ball (portlyι x) r)
+    have hKin : ∀ w ∈ K, ‖(w : 𝔼)‖ < 1 := fun w hw => by
+      have h₁ := norm_sub_norm_le (w : 𝔼) (portlyι x)
+      rw [← dist_eq_norm] at h₁
+      linarith [hKball w hw]
+    -- the direction of every point of `K` is rational, hence constant
+    have hdir : ∀ w ∈ K, ‖(w : 𝔼)‖⁻¹ • (w : 𝔼) = v := by
+      intro w hw
+      have hxK : PortlySpace.toX x ∈ K :=
+        mem_connectedComponentIn (Metric.mem_ball_self hr0 : portlyι x ∈ _)
+      ext i
+      have hsub : ((fun z : portlyX => (‖(z : 𝔼)‖⁻¹ • (z : 𝔼)) i) '' K) ⊆
+          range ((↑) : ℚ → ℝ) := by
+        rintro _ ⟨w', hw', rfl⟩
+        obtain ⟨v', hv', hq', hw'v⟩ := exists_ray_of_norm_lt_one w'.2 (hKin w' hw')
+        obtain ⟨q, hq⟩ := hq' i
+        have hdir' : ‖(w' : 𝔼)‖⁻¹ • (w' : 𝔼) = v' := by
+          nth_rw 2 [hw'v]
+          rw [smul_smul, inv_mul_cancel₀ (norm_pos_of_mem_portlyX w'.2).ne', one_smul]
+        refine ⟨q, ?_⟩
+        show (q : ℝ) = (‖(w' : 𝔼)‖⁻¹ • (w' : 𝔼)) i
+        rw [hdir', hq]
+      have := IsPreconnected.subsingleton_of_subset_range_ratCast
+        (isPreconnected_connectedComponentIn.image _ (continuous_dir_coord i).continuousOn) hsub
+        ⟨w, hw, rfl⟩ ⟨_, hxK, rfl⟩
+      refine this.trans ?_
+      show (‖portlyι x‖⁻¹ • portlyι x) i = v i
+      nth_rw 2 [hxv]
+      rw [smul_smul, inv_mul_cancel₀ (norm_portlyι_pos x).ne', one_smul]
+    refine ⟨‖(z : 𝔼)‖, ?_, ?_⟩
+    · have h₁ := abs_norm_sub_norm_le (z : 𝔼) (portlyι x)
+      rw [← dist_eq_norm] at h₁
+      exact h₁.trans_lt (hKball z hz)
+    · have := hdir z hz
+      rw [← this, smul_smul, mul_inv_cancel₀ (norm_pos_of_mem_portlyX z.2).ne', one_smul]
+  · intro z hz
+    refine subset_connectedComponentIn_of_isPreconnected hSc hxS (U := Metric.ball (portlyι x) r)
+      ?_ z hz
+    rintro w ⟨l, hl, hw⟩
+    show dist (portlyι w) (portlyι x) < r
+    rw [hw, dist_eq_norm]
+    conv_lhs => rw [hxv]
+    rw [← sub_smul, norm_smul, hv, mul_one, Real.norm_eq_abs]; exact hl
+
+
+theorem isOpen_segment {x : PortlySpace} {v : 𝔼} (hv : ‖v‖ = 1)
+    (hq : ∀ i, ∃ q : ℚ, v i = q) (hxv : portlyι x = ‖portlyι x‖ • v) {r : ℝ} (hr0 : 0 < r)
+    (hr : r ≤ ‖portlyι x‖) (hr' : r ≤ 1 - ‖portlyι x‖) :
+    IsOpen {z : PortlySpace | ∃ l, |l - ‖portlyι x‖| < r ∧ portlyι z = l • v} := by
+  have : IsOpen[portlyTop] (connectedComponentIn
+      (Subtype.val ⁻¹' Metric.ball (portlyι x) r : Set portlyX) (PortlySpace.toX x)) :=
+    TopologicalSpace.isOpen_generateFrom_of_mem ⟨_, Metric.isOpen_ball, _,
+      Metric.mem_ball_self hr0, rfl⟩
+  rw [connectedComponentIn_ball_inner hv hq hxv hr0 hr hr'] at this
+  exact this
+
+/-! #### Cones at the unit circle -/
+
+/-- A truncated cone around a unit vector `u`: radial segments stay in it. -/
+def portlyCone (u : 𝔼) (δ : ℝ) : Set 𝔼 :=
+  {w | 1 - δ < ‖w‖ ∧ ‖w‖ < 1 + δ ∧ (1 - δ) * ‖w‖ < inner ℝ w u}
+
+theorem isOpen_portlyCone (u : 𝔼) (δ : ℝ) : IsOpen (portlyCone u δ) := by
+  have h3 : Continuous fun w : 𝔼 => inner ℝ w u := continuous_id.inner continuous_const
+  exact (isOpen_lt continuous_const continuous_norm).inter
+    ((isOpen_lt continuous_norm continuous_const).inter
+      (isOpen_lt (continuous_const.mul continuous_norm) h3))
+
+theorem mem_portlyCone_self {u : 𝔼} (hu : ‖u‖ = 1) {δ : ℝ} (hδ : 0 < δ) :
+    u ∈ portlyCone u δ := by
+  refine ⟨by rw [hu]; linarith, by rw [hu]; linarith, ?_⟩
+  rw [real_inner_self_eq_norm_sq, hu]; linarith
+
+theorem portlyCone_subset_ball {u : 𝔼} (hu : ‖u‖ = 1) {ε δ : ℝ} (hε : 0 < ε) (hδ0 : 0 < δ)
+    (hδ : δ ≤ min (1 / 2) (ε ^ 2 / 8)) : portlyCone u δ ⊆ Metric.ball u ε := by
+  rintro w ⟨h1, h2, h3⟩
+  have hδ1 : δ ≤ 1 / 2 := hδ.trans (min_le_left _ _)
+  have hδ2 : δ ≤ ε ^ 2 / 8 := hδ.trans (min_le_right _ _)
+  have hsq : ‖w - u‖ ^ 2 < ε ^ 2 := by
+    rw [norm_sub_sq_real, hu]
+    nlinarith [norm_nonneg w]
+  rw [Metric.mem_ball, dist_eq_norm]
+  exact lt_of_pow_lt_pow_left₀ 2 hε.le hsq
+
+/-- A path inside the cone from an outer point `y` to the point `m • u`. -/
+theorem joinedIn_cone_outer {F : Set PortlySpace} {u : 𝔼} (hu : ‖u‖ = 1) {δ : ℝ} (hδ0 : 0 < δ)
+    (hδ1 : δ < 1) {y b : PortlySpace} (hy : portlyι y ∈ portlyCone u δ) (hy1 : 1 ≤ ‖portlyι y‖)
+    {m : ℝ} (hm1 : 1 ≤ m) (hm2 : m < 1 + δ) (hb : portlyι b = m • u)
+    (hF : ∀ z : PortlySpace, portlyι z ∈ portlyCone u δ → min ‖portlyι y‖ m ≤ ‖portlyι z‖ →
+      z ∈ F) : JoinedIn F y b := by
+  obtain ⟨-, hy2, hy3⟩ := hy
+  set n := ‖portlyι y‖ with hn
+  set c : unitInterval → 𝔼 := fun t => (1 - (t : ℝ)) • portlyι y + (t : ℝ) • u
+  set L : unitInterval → ℝ := fun t => (1 - (t : ℝ)) * n + t
+  set ℓ : unitInterval → ℝ := fun t => (1 - (t : ℝ)) * n + t * m
+  have ht0 : ∀ t : unitInterval, 0 ≤ (t : ℝ) := fun t => t.2.1
+  have ht1 : ∀ t : unitInterval, (t : ℝ) ≤ 1 := fun t => t.2.2
+  have hcn : ∀ t, ‖c t‖ ≤ L t := fun t => by
+    refine (norm_add_le _ _).trans ?_
+    rw [norm_smul, norm_smul, hu, Real.norm_eq_abs, Real.norm_eq_abs,
+      abs_of_nonneg (by linarith [ht1 t]), abs_of_nonneg (ht0 t), mul_one]
+  have hcu : ∀ t, (1 - δ) * L t < inner ℝ (c t) u := fun t => by
+    simp only [c, L, inner_add_left, real_inner_smul_left, real_inner_self_eq_norm_sq, hu]
+    have h1 : 0 ≤ (1 - (t : ℝ)) * (inner ℝ (portlyι y) u - (1 - δ) * n) :=
+      mul_nonneg (by linarith [ht1 t]) (by linarith)
+    rcases (ht0 t).eq_or_lt with h | h
+    · rw [← h]; simp only [sub_zero, one_mul, zero_mul, add_zero]; linarith
+    · nlinarith
+  have hL1 : ∀ t, 1 ≤ L t := fun t => by
+    simp only [L]; nlinarith [ht0 t, ht1 t]
+  have hcpos : ∀ t, 0 < ‖c t‖ := fun t => by
+    have := real_inner_le_norm (c t) u
+    rw [hu, mul_one] at this
+    nlinarith [hcu t, hL1 t]
+  have hℓ1 : ∀ t, min n m ≤ ℓ t := fun t => by
+    simp only [ℓ]
+    nlinarith [ht0 t, ht1 t, min_le_left n m, min_le_right n m]
+  have hℓ2 : ∀ t, ℓ t < 1 + δ := fun t => by
+    have hmax : max n m < 1 + δ := max_lt hy2 hm2
+    have h1 := mul_le_mul_of_nonneg_left (le_max_left n m) (by linarith [ht1 t] : 0 ≤ 1 - (t : ℝ))
+    have h2 := mul_le_mul_of_nonneg_left (le_max_right n m) (ht0 t)
+    simp only [ℓ]; nlinarith
+  have hmin : 1 ≤ min n m := le_min hy1 hm1
+  have hℓpos : ∀ t, 0 < ℓ t := fun t => by linarith [hℓ1 t]
+  set f : unitInterval → 𝔼 := fun t => ℓ t • (‖c t‖⁻¹ • c t)
+  have hfn : ∀ t, ‖f t‖ = ℓ t := fun t => by
+    simp only [f]
+    rw [norm_smul, norm_smul, norm_inv, norm_norm, inv_mul_cancel₀ (hcpos t).ne', mul_one,
+      Real.norm_eq_abs, abs_of_pos (hℓpos t)]
+  have hfc : ∀ t, f t ∈ portlyCone u δ := fun t => by
+    refine ⟨by rw [hfn]; linarith [hℓ1 t], by rw [hfn]; exact hℓ2 t, ?_⟩
+    rw [hfn]
+    simp only [f, real_inner_smul_left]
+    have h1 : (1 - δ) * ‖c t‖ < inner ℝ (c t) u :=
+      lt_of_le_of_lt (mul_le_mul_of_nonneg_left (hcn t) (by linarith)) (hcu t)
+    have h2 : (1 - δ) < ‖c t‖⁻¹ * inner ℝ (c t) u := by
+      rw [lt_inv_mul_iff₀ (hcpos t)]; linarith
+    nlinarith [hℓpos t]
+  have hcc : Continuous c := by fun_prop
+  have hfcont : Continuous f :=
+    (by fun_prop : Continuous ℓ).smul (((continuous_norm.comp hcc).inv₀
+      fun t => (hcpos t).ne').smul hcc)
+  have hX : ∀ t, f t ∈ portlyX := fun t =>
+    mem_portlyX_of_one_le (by rw [hfn]; linarith [hℓ1 t])
+  refine joinedIn_of_unit f hfcont hX (fun t => hF _ (hfc t) (by
+    show min n m ≤ ‖f t‖
+    rw [hfn]; exact hℓ1 t)) ?_ ?_
+  · simp only [f, c, ℓ, Set.Icc.coe_zero, sub_zero, one_smul, zero_smul, add_zero, one_mul,
+      zero_mul]
+    rw [smul_smul, ← hn, mul_inv_cancel₀ (by linarith : n ≠ 0), one_smul]
+  · simp only [f, c, ℓ, Set.Icc.coe_one, sub_self, zero_smul, one_smul, zero_add, zero_mul,
+      one_mul, hu, inv_one, hb]
+
+
+/-- The part of `X` in a cone at a point of the unit circle is path-connected. -/
+theorem isPathConnected_cone {x : PortlySpace} (hx : ‖portlyι x‖ = 1) {δ : ℝ} (hδ0 : 0 < δ)
+    (hδ1 : δ < 1) : IsPathConnected {z : PortlySpace | portlyι z ∈ portlyCone (portlyι x) δ} := by
+  set u := portlyι x
+  set F := {z : PortlySpace | portlyι z ∈ portlyCone u δ}
+  have hxF : x ∈ F := mem_portlyCone_self hx hδ0
+  have hout : ∀ y ∈ F, 1 ≤ ‖portlyι y‖ → JoinedIn F y x := fun y hy hy1 =>
+    joinedIn_cone_outer hx hδ0 hδ1 hy hy1 le_rfl (by linarith) (by simp [u])
+      fun z hz _ => hz
+  refine ⟨x, hxF, fun {y} hy => ?_⟩
+  by_cases hy1 : 1 ≤ ‖portlyι y‖
+  · exact (hout y hy hy1).symm
+  · push Not at hy1
+    obtain ⟨v, hv, hq, hyv⟩ := exists_ray_of_norm_lt_one (PortlySpace.toX y).2 hy1
+    replace hyv : portlyι y = ‖portlyι y‖ • v := hyv
+    obtain ⟨hy2, -, hy3⟩ := hy
+    set n := ‖portlyι y‖
+    have hn0 : 0 < n := norm_portlyι_pos y
+    have hvu : (1 - δ) < inner ℝ v u := by
+      have : inner ℝ (portlyι y) u = n * inner ℝ v u := by
+        conv_lhs => rw [show portlyι y = n • v from hyv]
+        rw [real_inner_smul_left]
+      rw [this] at hy3
+      exact lt_of_mul_lt_mul_left (by linarith) hn0.le
+    set vp : PortlySpace := PortlySpace.ofX ⟨v, mem_portlyX_of_one_le hv.ge⟩
+    have hvp : vp ∈ F := ⟨by simp [vp, hv]; linarith, by simp [vp, hv]; linarith,
+      by simp only [vp, portlyι_ofX, hv, mul_one]; exact hvu⟩
+    have h1 : JoinedIn F vp x := hout vp hvp (by simp [vp, hv])
+    -- the radial segment from `y` to `v`
+    set m : unitInterval → ℝ := fun t => (1 - (t : ℝ)) * n + t
+    have hm0 : ∀ t, 1 - δ < m t := fun t => by
+      simp only [m]; nlinarith [t.2.1, t.2.2]
+    have hm1 : ∀ t, m t ≤ 1 := fun t => by
+      simp only [m]; nlinarith [t.2.1, t.2.2]
+    have h2 : JoinedIn F y vp := by
+      refine joinedIn_of_unit (fun t => m t • v) (by fun_prop)
+        (fun t => smul_mem_portlyX hv hq (by linarith [hm0 t]) (hm1 t)) (fun t => ?_) ?_ ?_
+      · have hmpos : 0 < m t := by linarith [hm0 t]
+        have hnorm : ‖m t • v‖ = m t := by
+          rw [norm_smul, hv, mul_one, Real.norm_eq_abs, abs_of_pos hmpos]
+        refine ⟨?_, ?_, ?_⟩
+        · show 1 - δ < ‖m t • v‖; rw [hnorm]; exact hm0 t
+        · show ‖m t • v‖ < 1 + δ; rw [hnorm]; linarith [hm1 t]
+        · show (1 - δ) * ‖m t • v‖ < inner ℝ (m t • v) u
+          rw [hnorm, real_inner_smul_left]
+          exact mul_lt_mul_of_pos_left hvu hmpos |>.trans_le' (by rw [mul_comm])
+      · show m 0 • v = portlyι y
+        rw [hyv]; simp [m, n]
+      · show m 1 • v = portlyι vp
+        simp [m, vp]
+    exact (h2.trans h1).symm
+
+/-- The part of `X₁ = {‖·‖ > 1}` in a cone at a point of the unit circle is path-connected. -/
+theorem isPathConnected_cone_outer {x : PortlySpace} (hx : ‖portlyι x‖ = 1) {δ : ℝ}
+    (hδ0 : 0 < δ) (hδ1 : δ < 1) :
+    IsPathConnected {z : PortlySpace | portlyι z ∈ portlyCone (portlyι x) δ ∧
+      1 < ‖portlyι z‖} := by
+  set u := portlyι x
+  have hm : ‖(1 + δ / 2) • u‖ = 1 + δ / 2 := by
+    rw [norm_smul, hx, mul_one, Real.norm_eq_abs, abs_of_pos (by linarith)]
+  set b : PortlySpace := PortlySpace.ofX ⟨(1 + δ / 2) • u, mem_portlyX_of_one_le (by
+    rw [hm]; linarith)⟩
+  have hbF : portlyι b ∈ portlyCone u δ ∧ 1 < ‖portlyι b‖ := by
+    refine ⟨⟨?_, ?_, ?_⟩, ?_⟩
+    · show 1 - δ < ‖(1 + δ / 2) • u‖; rw [hm]; linarith
+    · show ‖(1 + δ / 2) • u‖ < 1 + δ; rw [hm]; linarith
+    · show (1 - δ) * ‖(1 + δ / 2) • u‖ < inner ℝ ((1 + δ / 2) • u) u
+      rw [hm, real_inner_smul_left, real_inner_self_eq_norm_sq, hx]; nlinarith
+    · show 1 < ‖(1 + δ / 2) • u‖; rw [hm]; linarith
+  refine ⟨b, hbF, fun {y} hy => ?_⟩
+  refine (joinedIn_cone_outer hx hδ0 hδ1 hy.1 hy.2.le (m := 1 + δ / 2) (by linarith)
+    (by linarith) rfl fun z hz hmin => ?_).symm
+  exact ⟨hz, lt_of_lt_of_le (lt_min hy.2 (by linarith)) hmin⟩
+
+/-- The paper's space has a basis of path-connected open neighbourhoods: Euclidean balls off the
+closed disc, segments of the inner rays, and cones at the unit circle. -/
+theorem exists_isPathConnected_subset {x : PortlySpace} {O : Set PortlySpace} (hO : IsOpen O)
+    (hxO : x ∈ O) : ∃ N : Set PortlySpace, IsOpen N ∧ x ∈ N ∧ IsPathConnected N ∧ N ⊆ O := by
+  obtain ⟨U, hU, hxU, hsub⟩ :=
+    exists_connectedComponentIn_subset_of_isOpen_generateFrom (p := Subtype.val) hO hxO
+  obtain ⟨ε, hε, hball⟩ := Metric.isOpen_iff.1 hU _ hxU
+  have hsub' : ∀ N : Set PortlySpace, IsPreconnected N → x ∈ N →
+      (∀ z ∈ N, portlyι z ∈ Metric.ball (portlyι x) ε) → N ⊆ O := fun N hN hxN hNb z hz =>
+    hsub (subset_connectedComponentIn_of_isPreconnected hN hxN (fun z hz => hball (hNb z hz)) z hz)
+  rcases lt_trichotomy ‖portlyι x‖ 1 with h | h | h
+  · -- inner point: a segment of its ray
+    obtain ⟨v, hv, hq, hxv⟩ := exists_ray_of_norm_lt_one (PortlySpace.toX x).2 h
+    replace hxv : portlyι x = ‖portlyι x‖ • v := hxv
+    set r := min ε (min ‖portlyι x‖ (1 - ‖portlyι x‖))
+    have hr0 : 0 < r := lt_min hε (lt_min (norm_portlyι_pos x) (by linarith))
+    have hr1 : r ≤ ‖portlyι x‖ := (min_le_right _ _).trans (min_le_left _ _)
+    have hr2 : r ≤ 1 - ‖portlyι x‖ := (min_le_right _ _).trans (min_le_right _ _)
+    set N : Set PortlySpace := {z | ∃ l, |l - ‖portlyι x‖| < r ∧ portlyι z = l • v}
+    have hpc := isPathConnected_segment hv hq hxv hr0 hr1 hr2
+    have hNeq := connectedComponentIn_ball_inner hv hq hxv hr0 hr1 hr2
+    have hxN : x ∈ N := ⟨‖portlyι x‖, by rw [sub_self, abs_zero]; exact hr0, hxv⟩
+    refine ⟨N, isOpen_segment hv hq hxv hr0 hr1 hr2, hxN, hpc, ?_⟩
+    · refine hsub' N hpc.isConnected.isPreconnected hxN ?_
+      intro z hz
+      have hz' : PortlySpace.toX z ∈ connectedComponentIn
+          (Subtype.val ⁻¹' Metric.ball (portlyι x) r : Set portlyX) (PortlySpace.toX x) := by
+        rw [hNeq]; exact hz
+      exact Metric.ball_subset_ball (min_le_left _ _) (connectedComponentIn_subset _ _ hz' :
+        PortlySpace.toX z ∈ Subtype.val ⁻¹' Metric.ball (portlyι x) r)
+  · -- a point of the unit circle: a cone
+    set δ := min (1 / 2) (ε ^ 2 / 8)
+    have hδ0 : 0 < δ := lt_min (by norm_num) (by positivity)
+    have hδ1 : δ < 1 := (min_le_left _ _).trans_lt (by norm_num)
+    have hpc := isPathConnected_cone h hδ0 hδ1
+    refine ⟨_, (isOpen_portlyCone _ δ).preimage continuous_portlyι, mem_portlyCone_self h hδ0,
+      hpc, hsub' _ hpc.isConnected.isPreconnected (mem_portlyCone_self h hδ0) fun z hz =>
+        portlyCone_subset_ball h hε hδ0 le_rfl hz⟩
+  · -- a point off the closed disc: a Euclidean ball
+    set r := min ε (‖portlyι x‖ - 1)
+    have hr0 : 0 < r := lt_min hε (by linarith)
+    have hpc := isPathConnected_outer_ball (x := x) hr0 (min_le_right _ _)
+    have hxN : x ∈ {z : PortlySpace | dist (portlyι z) (portlyι x) < r} := by
+      show dist (portlyι x) (portlyι x) < r; rw [dist_self]; exact hr0
+    refine ⟨_, isOpen_lt (continuous_dist.comp₂ continuous_portlyι continuous_const)
+      continuous_const, hxN, hpc, hsub' _ hpc.isConnected.isPreconnected hxN fun z hz => ?_⟩
+    exact Metric.ball_subset_ball (min_le_left _ _) hz
+
+/-- `cex:portlyness`, item 2: the paper's space is locally path-connected. -/
+instance : LocPathConnectedSpace PortlySpace where
+  path_connected_basis x := ⟨fun s => ⟨fun hs => by
+    obtain ⟨O, hOs, hO, hxO⟩ := mem_nhds_iff.1 hs
+    obtain ⟨N, hN, hxN, hNc, hNO⟩ := exists_isPathConnected_subset hO hxO
+    exact ⟨N, ⟨hN.mem_nhds hxN, hNc⟩, hNO.trans hOs⟩,
+    fun ⟨t, ⟨ht, _⟩, hts⟩ => mem_of_superset ht hts⟩⟩
+
+example : LocallyConnectedSpace PortlySpace := inferInstance
+
+
+/-- `cex:portlyness`, item 2: the natural injection `X → ℝ²` is a spread for the paper's
+topology. -/
+theorem isSpread_portlyι : IsSpread portlyι := by
+  refine isSpread_iff_of_locallyConnectedSpace.2 ⟨continuous_portlyι, fun x O hO hxO => ?_⟩
+  obtain ⟨U, hU, hxU, hsub⟩ :=
+    exists_connectedComponentIn_subset_of_isOpen_generateFrom (p := Subtype.val) hO hxO
+  exact ⟨U, hU, hxU, fun z hz => hsub (subset_connectedComponentIn_of_isPreconnected
+    isPreconnected_connectedComponentIn (mem_connectedComponentIn hxU)
+    (fun w hw => (connectedComponentIn_subset _ _ hw : w ∈ portlyι ⁻¹' U)) z hz)⟩
+
+/-- The inversion `y ↦ y / ‖y‖²`. -/
+def portlyInvE (y : 𝔼) : 𝔼 := (‖y‖ ^ 2)⁻¹ • y
+
+theorem portlyInvE_portlyInvE {y : 𝔼} (hy : y ≠ 0) : portlyInvE (portlyInvE y) = y := by
+  have hn : 0 < ‖y‖ := norm_pos_iff.2 hy
+  unfold portlyInvE
+  rw [norm_smul, norm_inv, norm_pow, norm_norm, smul_smul]
+  field_simp
+  rw [one_smul]
+
+theorem norm_portlyInvE (y : 𝔼) : ‖portlyInvE y‖ = ‖y‖⁻¹ := by
+  rcases eq_or_ne y 0 with rfl | hy
+  · simp [portlyInvE]
+  · have hn : 0 < ‖y‖ := norm_pos_iff.2 hy
+    unfold portlyInvE
+    rw [norm_smul, norm_inv, norm_pow, norm_norm]
+    field_simp
+
+theorem continuousOn_portlyInvE : ContinuousOn portlyInvE {y | y ≠ 0} := by
+  intro y hy
+  exact (((continuous_norm.pow 2).continuousAt.inv₀ (pow_ne_zero _ (norm_ne_zero_iff.2 hy))).smul
+    continuousAt_id).continuousWithinAt
+
+theorem portlyP_eq_inv {x : PortlySpace} (hx : ‖portlyι x‖ ≤ 1) :
+    portlyP x = portlyInvE (portlyι x) := portlyInv_of_norm_le hx
+
+theorem portlyP_eq_of_one_lt {x : PortlySpace} (hx : 1 < ‖portlyι x‖) : portlyP x = portlyι x :=
+  portlyInv_of_one_lt_norm hx
+
+theorem portlyι_ne_zero (x : PortlySpace) : portlyι x ≠ 0 :=
+  norm_pos_iff.1 (norm_portlyι_pos x)
+
+/-- `cex:portlyness`, item 2: `p` is a spread for the paper's topology. -/
+theorem isSpread_portlyP : IsSpread portlyP := by
+  refine isSpread_iff_of_locallyConnectedSpace.2 ⟨continuous_portlyP, fun x O hO hxO => ?_⟩
+  obtain ⟨U₀, hU₀, hxU₀, hsub⟩ := (isSpread_iff.1 isSpread_portlyι).2.2 x O hO hxO
+  have hA : IsOpen {z : PortlySpace | 1 < ‖portlyι z‖} :=
+    isOpen_lt continuous_const (continuous_norm.comp continuous_portlyι)
+  have hB : IsOpen {z : PortlySpace | ‖portlyι z‖ < 1} :=
+    isOpen_lt (continuous_norm.comp continuous_portlyι) continuous_const
+  have hAB : Disjoint {z : PortlySpace | 1 < ‖portlyι z‖} {z | ‖portlyι z‖ < 1} :=
+    disjoint_left.2 fun z h1 h2 => by
+      simp only [mem_setOf_eq] at h1 h2; exact lt_asymm h1 h2
+  -- it suffices that the component of `p⁻¹(V)` lies in `ι⁻¹(U₀)`
+  have key : ∀ V : Set 𝔼, portlyP x ∈ V →
+      connectedComponentIn (portlyP ⁻¹' V) x ⊆ portlyι ⁻¹' U₀ →
+      connectedComponentIn (portlyP ⁻¹' V) x ⊆ O := fun V hxV hV =>
+    (isPreconnected_connectedComponentIn.subset_connectedComponentIn
+      (mem_connectedComponentIn (show x ∈ portlyP ⁻¹' V from hxV)) hV).trans hsub
+  rcases lt_trichotomy ‖portlyι x‖ 1 with h | h | h
+  · -- inner point: `p` is the inversion near `x`
+    set V : Set 𝔼 := {y | y ≠ 0} ∩ portlyInvE ⁻¹' (U₀ ∩ {w | ‖w‖ < 1})
+    have hV : IsOpen V := continuousOn_portlyInvE.isOpen_inter_preimage
+      (isOpen_ne) (hU₀.inter (isOpen_lt continuous_norm continuous_const))
+    have hxV : portlyP x ∈ V := by
+      rw [portlyP_eq_inv h.le]
+      refine ⟨?_, ?_⟩
+      · show portlyInvE (portlyι x) ≠ 0
+        rw [← norm_ne_zero_iff, norm_portlyInvE]
+        exact inv_ne_zero (norm_portlyι_pos x).ne'
+      · show portlyInvE (portlyInvE (portlyι x)) ∈ U₀ ∩ {w | ‖w‖ < 1}
+        rw [portlyInvE_portlyInvE (portlyι_ne_zero x)]; exact ⟨hxU₀, h⟩
+    refine ⟨V, hV, hxV, key V hxV ?_⟩
+    have hsubB : connectedComponentIn (portlyP ⁻¹' V) x ⊆ {z | ‖portlyι z‖ < 1} := by
+      refine isPreconnected_connectedComponentIn.subset_right_of_subset_union hA hB hAB
+        (fun z hz => ?_) ⟨x, mem_connectedComponentIn hxV, h⟩
+      have hzV : portlyP z ∈ V := connectedComponentIn_subset (portlyP ⁻¹' V) x hz
+      rcases lt_trichotomy ‖portlyι z‖ 1 with hz1 | hz1 | hz1
+      · exact Or.inr hz1
+      · exfalso
+        have := hzV.2.2
+        rw [portlyP_eq_inv hz1.le, portlyInvE_portlyInvE (portlyι_ne_zero z), mem_setOf_eq,
+          hz1] at this
+        exact lt_irrefl _ this
+      · exact Or.inl hz1
+    intro z hz
+    have hzV := (connectedComponentIn_subset (portlyP ⁻¹' V) x hz : portlyP z ∈ V).2
+    have hz1 := hsubB hz
+    rw [mem_preimage, portlyP_eq_inv (le_of_lt hz1),
+      portlyInvE_portlyInvE (portlyι_ne_zero z)] at hzV
+    exact hzV.1
+  · -- a point of the unit circle
+    set V : Set 𝔼 := U₀ ∩ ({y | y ≠ 0} ∩ portlyInvE ⁻¹' U₀)
+    have hV : IsOpen V := hU₀.inter (continuousOn_portlyInvE.isOpen_inter_preimage isOpen_ne hU₀)
+    have hpx : portlyP x = portlyι x := by
+      rw [portlyP_eq_inv h.le, portlyInvE, h]; simp
+    have hxV : portlyP x ∈ V := by
+      rw [hpx]
+      refine ⟨hxU₀, portlyι_ne_zero x, ?_⟩
+      show portlyInvE (portlyι x) ∈ U₀
+      rw [portlyInvE, h]; simpa using hxU₀
+    refine ⟨V, hV, hxV, key V hxV fun z hz => ?_⟩
+    have hzV : portlyP z ∈ V := connectedComponentIn_subset (portlyP ⁻¹' V) x hz
+    rcases le_or_gt ‖portlyι z‖ 1 with hz1 | hz1
+    · have := hzV.2.2
+      rw [mem_preimage, portlyP_eq_inv hz1, portlyInvE_portlyInvE (portlyι_ne_zero z)] at this
+      exact this
+    · have := hzV.1
+      rwa [portlyP_eq_of_one_lt hz1] at this
+  · -- a point off the closed disc: `p` is the identity near `x`
+    set V : Set 𝔼 := U₀ ∩ {w | 1 < ‖w‖}
+    have hV : IsOpen V := hU₀.inter (isOpen_lt continuous_const continuous_norm)
+    have hxV : portlyP x ∈ V := by rw [portlyP_eq_of_one_lt h]; exact ⟨hxU₀, h⟩
+    refine ⟨V, hV, hxV, key V hxV ?_⟩
+    have hsubA : connectedComponentIn (portlyP ⁻¹' V) x ⊆ {z | 1 < ‖portlyι z‖} := by
+      refine isPreconnected_connectedComponentIn.subset_left_of_subset_union hA hB hAB
+        (fun z hz => ?_) ⟨x, mem_connectedComponentIn hxV, h⟩
+      have hzV : portlyP z ∈ V := connectedComponentIn_subset (portlyP ⁻¹' V) x hz
+      rcases lt_trichotomy ‖portlyι z‖ 1 with hz1 | hz1 | hz1
+      · exact Or.inr hz1
+      · exfalso
+        have := hzV.2
+        rw [portlyP_eq_inv hz1.le, mem_setOf_eq, norm_portlyInvE, hz1, inv_one] at this
+        exact lt_irrefl _ this
+      · exact Or.inl hz1
+    intro z hz
+    have hzV := (connectedComponentIn_subset (portlyP ⁻¹' V) x hz : portlyP z ∈ V).1
+    rw [portlyP_eq_of_one_lt (hsubA hz)] at hzV
+    exact hzV
+
+/-! #### `X₁` is locally connected in `X` -/
+
+/-- The radial retraction `w ↦ w / min(‖w‖, 1)` of `ℝ² ∖ 0` onto `{‖·‖ ≥ 1}`. -/
+def portlyRad (w : 𝔼) : 𝔼 := (min ‖w‖ 1)⁻¹ • w
+
+theorem one_le_norm_portlyRad {w : 𝔼} (hw : 0 < ‖w‖) : 1 ≤ ‖portlyRad w‖ := by
+  have hm : 0 < min ‖w‖ 1 := lt_min hw one_pos
+  rw [portlyRad, norm_smul, norm_inv, Real.norm_eq_abs, abs_of_pos hm,
+    le_inv_mul_iff₀ hm, mul_one]
+  exact min_le_left _ _
+
+/-- The radial retraction of the paper's space onto `{‖·‖ ≥ 1}`. -/
+def portlyρ (z : PortlySpace) : PortlySpace :=
+  PortlySpace.ofX ⟨portlyRad (portlyι z),
+    mem_portlyX_of_one_le (one_le_norm_portlyRad (norm_portlyι_pos z))⟩
+
+theorem portlyι_portlyρ (z : PortlySpace) : portlyι (portlyρ z) = portlyRad (portlyι z) := rfl
+
+theorem continuous_portlyρ : Continuous portlyρ := by
+  refine continuous_ofX (Continuous.subtype_mk ?_ _)
+  exact (((continuous_norm.comp continuous_portlyι).min continuous_const).inv₀
+    fun z => (lt_min (norm_portlyι_pos z) one_pos).ne').smul continuous_portlyι
+
+theorem portlyρ_of_one_le {z : PortlySpace} (hz : 1 ≤ ‖portlyι z‖) : portlyρ z = z := by
+  refine Subtype.ext ?_
+  show portlyRad (portlyι z) = portlyι z
+  rw [portlyRad, min_eq_right hz, inv_one, one_smul]
+
+theorem portlyι_portlyρ_of_ray {z : PortlySpace} {v : 𝔼} (hv : ‖v‖ = 1) {l : ℝ} (hl0 : 0 < l)
+    (hl1 : l ≤ 1) (hz : portlyι z = l • v) : portlyι (portlyρ z) = v := by
+  rw [portlyι_portlyρ, portlyRad, hz, norm_smul, hv, mul_one, Real.norm_eq_abs, abs_of_pos hl0,
+    min_eq_left hl1, smul_smul, inv_mul_cancel₀ hl0.ne', one_smul]
+
+/-- The radial retraction is locally constant on the open unit disc. -/
+theorem portlyρ_locallyConst {z : PortlySpace} (hz : ‖portlyι z‖ < 1) :
+    ∃ N : Set PortlySpace, IsOpen N ∧ z ∈ N ∧ ∀ z' ∈ N, portlyρ z' = portlyρ z := by
+  obtain ⟨v, hv, hq, hzv⟩ := exists_ray_of_norm_lt_one (PortlySpace.toX z).2 hz
+  replace hzv : portlyι z = ‖portlyι z‖ • v := hzv
+  set r := min ‖portlyι z‖ (1 - ‖portlyι z‖)
+  have hr0 : 0 < r := lt_min (norm_portlyι_pos z) (by linarith)
+  have hr1 : r ≤ ‖portlyι z‖ := min_le_left _ _
+  have hr2 : r ≤ 1 - ‖portlyι z‖ := min_le_right _ _
+  refine ⟨_, isOpen_segment hv hq hzv hr0 hr1 hr2,
+    ⟨‖portlyι z‖, by rw [sub_self, abs_zero]; exact hr0, hzv⟩, ?_⟩
+  rintro z' ⟨l, hl, hz'⟩
+  rw [abs_lt] at hl
+  refine Subtype.ext ((portlyι_portlyρ_of_ray hv (by linarith) (by linarith) hz').trans
+    (portlyι_portlyρ_of_ray hv (norm_portlyι_pos z) hz.le hzv).symm)
+
+/-- `cex:portlyness`, item 2: `X₁ = {‖x‖ > 1}` is locally connected in `X` (with the paper's
+topology): an open preconnected `W` meets it in a preconnected set. -/
+theorem isLocallyConnectedIn_portlyX₁ : IsLocallyConnectedIn portlyX₁ := by
+  intro G hG hGc
+  rcases (G ∩ portlyX₁).eq_empty_or_nonempty with hne | ⟨a, haG, ha₁⟩
+  · rw [hne]; exact isPreconnected_empty
+  -- the retraction keeps `G`: the points of `G` whose image leaves `G` form a clopen subset
+  have hρG : ∀ z ∈ G, portlyρ z ∈ G := by
+    set v : Set PortlySpace :=
+      {z | ∃ N : Set PortlySpace, IsOpen N ∧ z ∈ N ∧ N ⊆ G ∧ ∀ z' ∈ N, portlyρ z' ∉ G}
+    have hv : IsOpen v := isOpen_iff_forall_mem_open.2 fun z ⟨N, hN, hzN, hNG, hNρ⟩ =>
+      ⟨N, fun z' hz' => ⟨N, hN, hz', hNG, hNρ⟩, hN, hzN⟩
+    have hu : IsOpen (G ∩ portlyρ ⁻¹' G) := hG.inter (hG.preimage continuous_portlyρ)
+    have hdisj : Disjoint (G ∩ portlyρ ⁻¹' G) v := disjoint_left.2 fun z hz ⟨N, _, hzN, _, hNρ⟩ =>
+      hNρ z hzN hz.2
+    have hcover : G ⊆ (G ∩ portlyρ ⁻¹' G) ∪ v := by
+      intro z hz
+      by_cases hρz : portlyρ z ∈ G
+      · exact Or.inl ⟨hz, hρz⟩
+      · right
+        have hz1 : ‖portlyι z‖ < 1 := by
+          by_contra h
+          exact hρz (by rw [portlyρ_of_one_le (not_lt.1 h)]; exact hz)
+        obtain ⟨N, hN, hzN, hNρ⟩ := portlyρ_locallyConst hz1
+        exact ⟨N ∩ G, hN.inter hG, ⟨hzN, hz⟩, inter_subset_right, fun z' hz' => by
+          rw [hNρ z' hz'.1]; exact hρz⟩
+    have haρ : portlyρ a = a := portlyρ_of_one_le (le_of_lt ha₁)
+    have := hGc.subset_left_of_subset_union hu hv hdisj hcover
+      ⟨a, haG, haG, by rw [mem_preimage, haρ]; exact haG⟩
+    exact fun z hz => (this hz).2
+  -- `G ∩ {‖·‖ ≥ 1}` is the image of `G` under the retraction, hence preconnected
+  set s : Set PortlySpace := G ∩ {z | 1 ≤ ‖portlyι z‖}
+  have hs_eq : portlyρ '' G = s := by
+    ext z
+    constructor
+    · rintro ⟨w, hw, rfl⟩
+      exact ⟨hρG w hw, one_le_norm_portlyRad (norm_portlyι_pos w)⟩
+    · rintro ⟨hz, hz1⟩
+      exact ⟨z, hz, portlyρ_of_one_le hz1⟩
+  have hsc : IsPreconnected s := hs_eq ▸ hGc.image _ continuous_portlyρ.continuousOn
+  have hGs : G ∩ portlyX₁ = s ∩ portlyX₁ := by
+    ext z
+    refine ⟨fun h => ⟨⟨h.1, ?_⟩, h.2⟩, fun h => ⟨h.1.1, h.2⟩⟩
+    exact (show 1 < ‖portlyι z‖ from h.2).le
+  rw [hGs]
+  refine isPreconnected_inter_of_local hsc ?_ ?_
+  · -- `X₁` is dense in `s`: push a circle point outwards
+    rintro w ⟨hwG, (hw1 : 1 ≤ ‖portlyι w‖)⟩
+    rcases hw1.lt_or_eq with hw1 | hw1
+    · exact subset_closure ⟨⟨hwG, hw1.le⟩, hw1⟩
+    rw [mem_closure_iff]
+    intro N hN hwN
+    have hX : ∀ t : ℝ, (1 + |t|) • portlyι w ∈ portlyX := fun t =>
+      mem_portlyX_of_one_le (by rw [norm_smul, ← hw1, mul_one, Real.norm_eq_abs,
+        abs_of_pos (by positivity)]; linarith [abs_nonneg t])
+    set f : ℝ → PortlySpace := fun t => PortlySpace.ofX ⟨(1 + |t|) • portlyι w, hX t⟩
+    have hf : Continuous f := continuous_ofX (by fun_prop)
+    have hf0 : f 0 = w := Subtype.ext (by
+      show (1 + |(0 : ℝ)|) • portlyι w = portlyι w
+      simp)
+    obtain ⟨e, he, hball⟩ := Metric.isOpen_iff.1 ((hN.inter hG).preimage hf) 0
+      (by rw [mem_preimage, hf0]; exact ⟨hwN, hwG⟩)
+    have hmem := hball (show e / 2 ∈ Metric.ball (0 : ℝ) e by
+      rw [Metric.mem_ball, dist_zero_right, Real.norm_eq_abs, abs_of_pos (by positivity)]
+      linarith)
+    have hnorm : ‖portlyι (f (e / 2))‖ = 1 + e / 2 := by
+      show ‖(1 + |e / 2|) • portlyι w‖ = 1 + e / 2
+      rw [norm_smul, ← hw1, mul_one, abs_of_pos (by positivity : 0 < e / 2), Real.norm_eq_abs,
+        abs_of_pos (by positivity)]
+    exact ⟨f (e / 2), hmem.1, ⟨hmem.2, by
+      show 1 ≤ ‖portlyι (f (e / 2))‖; rw [hnorm]; linarith⟩, by
+      show 1 < ‖portlyι (f (e / 2))‖; rw [hnorm]; linarith⟩
+  · rintro w ⟨hwG, (hw1 : 1 ≤ ‖portlyι w‖)⟩
+    rcases hw1.lt_or_eq with hw1 | hw1
+    · -- off the closed disc: a Euclidean ball inside `G`
+      obtain ⟨ε, hε, hεG⟩ := portlySpace_outer_nhds hG hwG hw1
+      set r := min ε (‖portlyι w‖ - 1)
+      have hr0 : 0 < r := lt_min hε (by linarith)
+      set N : Set PortlySpace := {z | dist (portlyι z) (portlyι w) < r}
+      have hwN : w ∈ N := by
+        show dist (portlyι w) (portlyι w) < r; rw [dist_self]; exact hr0
+      refine ⟨N, isOpen_lt (continuous_dist.comp₂ continuous_portlyι continuous_const)
+        continuous_const, hwN, ?_⟩
+      have hNeq : N ∩ s ∩ portlyX₁ = N := by
+        refine subset_antisymm (fun z hz => hz.1.1) fun z hz => ?_
+        have hz1 : 1 < ‖portlyι z‖ := one_lt_norm_of_dist_lt hz (min_le_right _ _)
+        obtain ⟨hzX, hzG⟩ := hεG (portlyι z) (lt_of_lt_of_le hz (min_le_left _ _))
+        exact ⟨⟨hz, hzG, hz1.le⟩, hz1⟩
+      rw [hNeq]
+      exact (isPathConnected_outer_ball hr0 (min_le_right _ _)).isConnected.isPreconnected
+    · -- a point of the unit circle: a cone inside `G`
+      obtain ⟨U, hU, hwU, hsub⟩ :=
+        exists_connectedComponentIn_subset_of_isOpen_generateFrom (p := Subtype.val) hG hwG
+      obtain ⟨ε, hε, hball⟩ := Metric.isOpen_iff.1 hU _ hwU
+      set δ := min (1 / 2) (ε ^ 2 / 8)
+      have hδ0 : 0 < δ := lt_min (by norm_num) (by positivity)
+      have hδ1 : δ < 1 := (min_le_left _ _).trans_lt (by norm_num)
+      set N : Set PortlySpace := {z | portlyι z ∈ portlyCone (portlyι w) δ}
+      have hNG : N ⊆ G := fun z hz => hsub (subset_connectedComponentIn_of_isPreconnected
+        (isPathConnected_cone hw1.symm hδ0 hδ1).isConnected.isPreconnected
+        (mem_portlyCone_self hw1.symm hδ0)
+        (fun z hz => hball (portlyCone_subset_ball hw1.symm hε hδ0 le_rfl hz)) z hz)
+      refine ⟨N, (isOpen_portlyCone _ δ).preimage continuous_portlyι,
+        mem_portlyCone_self hw1.symm hδ0, ?_⟩
+      have hNeq : N ∩ s ∩ portlyX₁ =
+          {z : PortlySpace | portlyι z ∈ portlyCone (portlyι w) δ ∧ 1 < ‖portlyι z‖} := by
+        ext z
+        exact ⟨fun h => ⟨h.1.1, h.2⟩, fun h => ⟨⟨h.1, hNG h.1, h.2.le⟩, h.2⟩⟩
+      rw [hNeq]
+      exact (isPathConnected_cone_outer hw1.symm hδ0 hδ1).isConnected.isPreconnected
+
+/-! #### Second countability -/
+
+/-- The points with rational coordinates. -/
+def ratPts : Set 𝔼 := {w | ∀ i, ∃ q : ℚ, w i = q}
+
+theorem countable_ratPts : ratPts.Countable := by
+  refine (countable_range fun q : Fin 2 → ℚ => (WithLp.toLp 2 fun i => (q i : ℝ) : 𝔼)).mono ?_
+  intro w hw
+  choose q hq using hw
+  exact ⟨q, by ext i; simp [hq]⟩
+
+theorem exists_ratPts_dist_lt (z : 𝔼) {ε : ℝ} (hε : 0 < ε) : ∃ w ∈ ratPts, dist w z < ε := by
+  obtain ⟨q₀, h₀, h₀'⟩ := exists_rat_btwn (show z 0 < z 0 + ε / 2 by linarith)
+  obtain ⟨q₁, h₁, h₁'⟩ := exists_rat_btwn (show z 1 < z 1 + ε / 2 by linarith)
+  refine ⟨!₂[(q₀ : ℝ), q₁], fun i => ?_, ?_⟩
+  · fin_cases i
+    · exact ⟨q₀, by simp⟩
+    · exact ⟨q₁, by simp⟩
+  · rw [dist_eq_norm]
+    have hsq : ‖(!₂[(q₀ : ℝ), q₁] : 𝔼) - z‖ ^ 2 < ε ^ 2 := by
+      rw [norm_sq_eq_coord]
+      simp only [PiLp.sub_apply]
+      simp
+      nlinarith
+    exact lt_of_pow_lt_pow_left₀ 2 hε.le hsq
+
+/-- The points of the paper's space with rational coordinates. -/
+def portlyD : Set PortlySpace := portlyι ⁻¹' ratPts
+
+theorem countable_portlyD : portlyD.Countable :=
+  countable_ratPts.preimage injective_portlyι
+
+theorem exists_portlyD_of_outer {U : Set PortlySpace} (hU : IsOpen U) {x : PortlySpace}
+    (hx : x ∈ U) (h1 : 1 < ‖portlyι x‖) : (U ∩ portlyD).Nonempty := by
+  obtain ⟨ε, hε, hεU⟩ := portlySpace_outer_nhds hU hx h1
+  obtain ⟨w, hw, hwd⟩ := exists_ratPts_dist_lt (portlyι x) (lt_min hε (by linarith :
+    0 < ‖portlyι x‖ - 1))
+  obtain ⟨hwX, hwU⟩ := hεU w (hwd.trans_le (min_le_left _ _))
+  exact ⟨PortlySpace.ofX ⟨w, hwX⟩, hwU, hw⟩
+
+theorem dense_portlyD : Dense portlyD := by
+  rw [dense_iff_inter_open]
+  rintro U hU ⟨x, hx⟩
+  rcases lt_trichotomy ‖portlyι x‖ 1 with h | h | h
+  · obtain ⟨v, hv, hq, hxv⟩ := exists_ray_of_norm_lt_one (PortlySpace.toX x).2 h
+    replace hxv : portlyι x = ‖portlyι x‖ • v := hxv
+    set n := ‖portlyι x‖
+    have hn0 : 0 < n := norm_portlyι_pos x
+    set c : ℝ → ℝ := fun t => max (n / 2) (min t ((1 + n) / 2))
+    have hc0 : ∀ t, 0 < c t := fun t => lt_of_lt_of_le (by positivity) (le_max_left _ _)
+    have hc1 : ∀ t, c t ≤ 1 := fun t => max_le (by linarith) ((min_le_right _ _).trans
+      (by linarith))
+    have hX : ∀ t, c t • v ∈ portlyX := fun t => smul_mem_portlyX hv hq (hc0 t) (hc1 t)
+    set g : ℝ → PortlySpace := fun t => PortlySpace.ofX ⟨c t • v, hX t⟩
+    have hg : Continuous g := continuous_ofX (Continuous.subtype_mk (by fun_prop) _)
+    have hcn : c n = n := by
+      simp only [c]
+      rw [min_eq_left (by linarith), max_eq_right (by linarith)]
+    have hgn : g n = x := Subtype.ext (by
+      show c n • v = portlyι x
+      rw [hcn, hxv])
+    obtain ⟨e, he, hball⟩ := Metric.isOpen_iff.1 (hU.preimage hg) n
+      (by rw [mem_preimage, hgn]; exact hx)
+    set e' := min e (min (n / 2) ((1 - n) / 2))
+    have he' : 0 < e' := lt_min he (lt_min (by positivity) (by linarith))
+    obtain ⟨q, hq1, hq2⟩ := exists_rat_btwn (show n - e' < n by linarith)
+    have hqb : (q : ℝ) ∈ Metric.ball n e := by
+      rw [Metric.mem_ball, Real.dist_eq, abs_lt]
+      constructor <;> linarith [min_le_left e (min (n / 2) ((1 - n) / 2))]
+    have hcq : c q = q := by
+      have h1 : e' ≤ n / 2 := (min_le_right _ _).trans (min_le_left _ _)
+      have h2 : e' ≤ (1 - n) / 2 := (min_le_right _ _).trans (min_le_right _ _)
+      simp only [c]
+      rw [min_eq_left (by linarith), max_eq_right (by linarith)]
+    refine ⟨g q, hball hqb, fun i => ?_⟩
+    obtain ⟨r, hr⟩ := hq i
+    refine ⟨q * r, ?_⟩
+    show (c q • v) i = _
+    rw [hcq, PiLp.smul_apply, smul_eq_mul, hr]; push_cast; ring
+  · have hX : ∀ t : ℝ, (1 + |t|) • portlyι x ∈ portlyX := fun t =>
+      mem_portlyX_of_one_le (by rw [norm_smul, h, mul_one, Real.norm_eq_abs,
+        abs_of_pos (by positivity)]; linarith [abs_nonneg t])
+    set f : ℝ → PortlySpace := fun t => PortlySpace.ofX ⟨(1 + |t|) • portlyι x, hX t⟩
+    have hf : Continuous f := continuous_ofX (by fun_prop)
+    have hf0 : f 0 = x := Subtype.ext (by
+      show (1 + |(0 : ℝ)|) • portlyι x = portlyι x
+      simp)
+    obtain ⟨e, he, hball⟩ := Metric.isOpen_iff.1 (hU.preimage hf) 0
+      (by rw [mem_preimage, hf0]; exact hx)
+    have hmem := hball (show e / 2 ∈ Metric.ball (0 : ℝ) e by
+      rw [Metric.mem_ball, dist_zero_right, Real.norm_eq_abs, abs_of_pos (by positivity)]
+      linarith)
+    refine exists_portlyD_of_outer hU hmem ?_
+    show 1 < ‖(1 + |e / 2|) • portlyι x‖
+    rw [norm_smul, h, mul_one, abs_of_pos (by positivity : 0 < e / 2), Real.norm_eq_abs,
+      abs_of_pos (by positivity)]
+    linarith
+  · exact exists_portlyD_of_outer hU hx h
+
+/-- `cex:portlyness`, item 2: the paper's space is second countable — the components of `X ∩ B`,
+`B` in a countable basis of `ℝ²`, form a countable basis (each component is open and meets the
+countable dense set of rational points). -/
+instance : SecondCountableTopology PortlySpace := by
+  set F : Set 𝔼 × PortlySpace → Set PortlySpace := fun Bd =>
+    @connectedComponentIn portlyX _ (Subtype.val ⁻¹' Bd.1) (PortlySpace.toX Bd.2) with hF
+  have hopen : ∀ B ∈ TopologicalSpace.countableBasis 𝔼, ∀ d : PortlySpace, IsOpen (F (B, d)) := by
+    intro B hB d
+    by_cases hd : PortlySpace.toX d ∈ (Subtype.val ⁻¹' B : Set portlyX)
+    · exact TopologicalSpace.isOpen_generateFrom_of_mem
+        ⟨B, TopologicalSpace.isOpen_of_mem_countableBasis hB, _, hd, rfl⟩
+    · rw [hF]; dsimp only
+      rw [connectedComponentIn_eq_empty hd]; exact isOpen_empty
+  have hb : TopologicalSpace.IsTopologicalBasis
+      (F '' (TopologicalSpace.countableBasis 𝔼 ×ˢ portlyD)) := by
+    refine TopologicalSpace.isTopologicalBasis_of_isOpen_of_nhds ?_ ?_
+    · rintro _ ⟨⟨B, d⟩, ⟨hB, -⟩, rfl⟩; exact hopen B hB d
+    · intro a O haO hO
+      obtain ⟨U, hU, haU, hsub⟩ :=
+        exists_connectedComponentIn_subset_of_isOpen_generateFrom (p := Subtype.val) hO haO
+      obtain ⟨B, hB, haB, hBU⟩ :=
+        (TopologicalSpace.isBasis_countableBasis 𝔼).exists_subset_of_mem_open haU hU
+      have haK : a ∈ F (B, a) := @mem_connectedComponentIn portlyX _ _ _ haB
+      obtain ⟨d, hdK, hdD⟩ := dense_portlyD.inter_open_nonempty (F (B, a)) (hopen B hB a)
+        ⟨a, haK⟩
+      have hK : F (B, a) = F (B, d) := @connectedComponentIn_eq portlyX _ _ _ _ hdK
+      refine ⟨F (B, d), ⟨(B, d), ⟨hB, hdD⟩, rfl⟩, hK ▸ haK, ?_⟩
+      rw [← hK]
+      exact (connectedComponentIn_mono (α := portlyX) (PortlySpace.toX a)
+        (preimage_mono hBU)).trans hsub
+  exact hb.secondCountableTopology
+    (((TopologicalSpace.countable_countableBasis 𝔼).prod countable_portlyD).image F)
+
+/-! #### The inner rays are `∐_ℕ (0,1)` -/
+
+/-- The rational unit vectors. -/
+def PortlyDir : Type := {v : 𝔼 // ‖v‖ = 1 ∧ ∀ i, ∃ q : ℚ, v i = q}
+
+instance : Countable PortlyDir := by
+  have : ({v : 𝔼 | ‖v‖ = 1 ∧ ∀ i, ∃ q : ℚ, v i = q}).Countable :=
+    countable_ratPts.mono fun v hv => hv.2
+  exact this.to_subtype
+
+theorem stereo_injective : Function.Injective stereo := by
+  have key : ∀ t : ℝ, t = stereo t 1 / (1 + stereo t 0) := fun t => by
+    have h : (0 : ℝ) < 1 + t ^ 2 := by positivity
+    simp only [stereo]
+    simp
+    field_simp
+    ring
+  intro s t h
+  rw [key s, key t, h]
+
+instance : Infinite PortlyDir :=
+  Infinite.of_injective (fun q : ℚ => (⟨stereo q, norm_stereo q, stereo_rat q⟩ : PortlyDir))
+    fun _ _ h => Rat.cast_injective (stereo_injective (congrArg Subtype.val h))
+
+/-- The direction of a point of an inner ray. -/
+theorem dir_mem_portlyDir {z : PortlySpace} (hz : ‖portlyι z‖ < 1) :
+    ‖‖portlyι z‖⁻¹ • portlyι z‖ = 1 ∧ ∀ i, ∃ q : ℚ, (‖portlyι z‖⁻¹ • portlyι z) i = q := by
+  obtain ⟨v, hv, hq, hzv⟩ := exists_ray_of_norm_lt_one (PortlySpace.toX z).2 hz
+  replace hzv : portlyι z = ‖portlyι z‖ • v := hzv
+  have : ‖portlyι z‖⁻¹ • portlyι z = v := by
+    nth_rw 2 [hzv]; rw [smul_smul, inv_mul_cancel₀ (norm_portlyι_pos z).ne', one_smul]
+  rw [this]; exact ⟨hv, hq⟩
+
+/-- `cex:portlyness`, item 2: the inner rays `{λx | λ ∈ (0,1), ‖x‖ = 1, x ∈ ℚ²}` of the paper's
+space are homeomorphic to `∐_ℕ (0,1)`. -/
+theorem nonempty_inner_homeomorph_sigma :
+    Nonempty ({z : PortlySpace // ‖portlyι z‖ < 1} ≃ₜ Σ _ : ℕ, Ioo (0 : ℝ) 1) := by
+  obtain ⟨_⟩ := nonempty_denumerable PortlyDir
+  set en : ℕ ≃ PortlyDir := (Denumerable.eqv PortlyDir).symm
+  have hen : ∀ n, ‖(en n).1‖ = 1 := fun n => (en n).2.1
+  have hl : ∀ l : Ioo (0 : ℝ) 1, ∀ v : 𝔼, ‖v‖ = 1 → ‖(l : ℝ) • v‖ = l := fun l v hv => by
+    rw [norm_smul, hv, mul_one, Real.norm_eq_abs, abs_of_pos l.2.1]
+  set fwd : (Σ _ : ℕ, Ioo (0 : ℝ) 1) → {z : PortlySpace // ‖portlyι z‖ < 1} := fun nl =>
+    ⟨PortlySpace.ofX ⟨(nl.2 : ℝ) • (en nl.1).1, smul_mem_portlyX (en nl.1).2.1 (en nl.1).2.2
+      nl.2.2.1 nl.2.2.2.le⟩, by
+        show ‖(nl.2 : ℝ) • (en nl.1).1‖ < 1
+        rw [hl _ _ (hen _)]; exact nl.2.2.2⟩ with hfwd
+  set bwd : {z : PortlySpace // ‖portlyι z‖ < 1} → (Σ _ : ℕ, Ioo (0 : ℝ) 1) := fun z =>
+    ⟨en.symm ⟨_, dir_mem_portlyDir z.2⟩, ⟨‖portlyι z.1‖, norm_portlyι_pos _, z.2⟩⟩ with hbwd
+  have hleft : Function.LeftInverse bwd fwd := by
+    rintro ⟨n, l⟩
+    have hn : ‖portlyι (fwd ⟨n, l⟩).1‖ = l := hl _ _ (hen n)
+    have hdir : ‖portlyι (fwd ⟨n, l⟩).1‖⁻¹ • portlyι (fwd ⟨n, l⟩).1 = (en n).1 := by
+      rw [hn]
+      show (l : ℝ)⁻¹ • ((l : ℝ) • (en n).1) = (en n).1
+      rw [smul_smul, inv_mul_cancel₀ l.2.1.ne', one_smul]
+    refine Sigma.ext ?_ (heq_of_eq (Subtype.ext hn))
+    show en.symm ⟨_, _⟩ = n
+    rw [Equiv.symm_apply_eq]
+    exact Subtype.ext hdir
+  have hright : Function.RightInverse bwd fwd := by
+    rintro ⟨z, hz⟩
+    refine Subtype.ext (Subtype.ext ?_)
+    show (‖portlyι z‖ : ℝ) • (en (en.symm ⟨_, dir_mem_portlyDir hz⟩)).1 = portlyι z
+    rw [Equiv.apply_symm_apply]
+    show ‖portlyι z‖ • (‖portlyι z‖⁻¹ • portlyι z) = portlyι z
+    rw [smul_smul, mul_inv_cancel₀ (norm_portlyι_pos z).ne', one_smul]
+  set e : (Σ _ : ℕ, Ioo (0 : ℝ) 1) ≃ {z : PortlySpace // ‖portlyι z‖ < 1} :=
+    ⟨fwd, bwd, hleft, hright⟩
+  haveI : LocallyConnectedSpace (Ioo (0 : ℝ) 1) := isOpen_Ioo.locallyConnectedSpace
+  have hcont : Continuous e := by
+    refine continuous_sigma fun n => Continuous.subtype_mk ?_ _
+    exact continuous_ofX (Continuous.subtype_mk (by fun_prop) _)
+  have hopen : IsOpenMap e := by
+    refine isOpenMap_sigma.2 fun n O hO => ?_
+    set v := (en n).1
+    rw [isOpen_induced_iff]
+    refine ⟨{z : PortlySpace | ∃ l : Ioo (0 : ℝ) 1, l ∈ O ∧ portlyι z = (l : ℝ) • v}, ?_, ?_⟩
+    · rw [isOpen_iff_forall_mem_open]
+      rintro z ⟨l, hlO, hzl⟩
+      have hO' : IsOpen ((↑) '' O : Set ℝ) := isOpen_Ioo.isOpenMap_subtype_val O hO
+      obtain ⟨r, hr, hball⟩ := Metric.isOpen_iff.1 hO' l ⟨l, hlO, rfl⟩
+      have hzn : ‖portlyι z‖ = l := by rw [hzl]; exact hl l v (hen n)
+      have hzv : portlyι z = ‖portlyι z‖ • v := by rw [hzn]; exact hzl
+      set r' := min r (min (l : ℝ) (1 - l))
+      have hr'0 : 0 < r' := lt_min hr (lt_min l.2.1 (by linarith [l.2.2]))
+      have hr'1 : r' ≤ ‖portlyι z‖ := hzn ▸ (min_le_right _ _).trans (min_le_left _ _)
+      have hr'2 : r' ≤ 1 - ‖portlyι z‖ := hzn ▸ (min_le_right _ _).trans (min_le_right _ _)
+      refine ⟨_, ?_, isOpen_segment (en n).2.1 (en n).2.2 hzv hr'0 hr'1 hr'2,
+        ⟨‖portlyι z‖, by rw [sub_self, abs_zero]; exact hr'0, hzv⟩⟩
+      rintro w ⟨l', hl', hw⟩
+      rw [hzn] at hl'
+      obtain ⟨l'', hl''O, hl''⟩ := hball (show l' ∈ Metric.ball (l : ℝ) r by
+        rw [Metric.mem_ball, Real.dist_eq]; exact hl'.trans_le (min_le_left _ _))
+      exact ⟨l'', hl''O, by rw [hw, hl'']⟩
+    · ext w
+      constructor
+      · rintro ⟨l, hlO, hwl⟩
+        exact ⟨l, hlO, Subtype.ext (Subtype.ext hwl.symm)⟩
+      · rintro ⟨l, hlO, rfl⟩
+        exact ⟨l, hlO, rfl⟩
+  exact ⟨(e.toHomeomorphOfContinuousOpen hcont hopen).symm⟩
+
+/-- The paper's topology is the **coarsest** topology on `X` making the natural injection a spread:
+every such topology is finer than it (and it is one, `GX.isSpread_portlyι`). -/
+theorem le_portlyTop_of_isSpread (τ : TopologicalSpace portlyX)
+    (h : @IsSpread portlyX 𝔼 τ _ Subtype.val) : τ ≤ portlyTop := by
+  -- inside this proof `τ` is the local instance; the subspace topology is written explicitly
+  rw [TopologicalSpace.le_generateFrom_iff_subset_isOpen]
+  rintro _ ⟨V, hV, x₀, -, rfl⟩
+  have hle : τ ≤ instTopologicalSpaceSubtype := continuous_iff_le_induced.1 h.continuous
+  have hopen := (isSpread_iff.1 h).2.1
+  rw [mem_setOf_eq, isOpen_iff_forall_mem_open]
+  intro x hx
+  have hxV : x ∈ (Subtype.val ⁻¹' V : Set portlyX) :=
+    @connectedComponentIn_subset portlyX instTopologicalSpaceSubtype _ _ _ hx
+  refine ⟨connectedComponentIn (Subtype.val ⁻¹' V) x, ?_,
+    hopen _ ⟨V, hV, x, hxV, rfl⟩, mem_connectedComponentIn hxV⟩
+  have hpre : @IsPreconnected portlyX instTopologicalSpaceSubtype
+      (connectedComponentIn (Subtype.val ⁻¹' V) x) := by
+    have hc : @Continuous portlyX portlyX τ instTopologicalSpaceSubtype id :=
+      continuous_le_dom hle (@continuous_id portlyX instTopologicalSpaceSubtype)
+    have := @IsPreconnected.image portlyX portlyX τ instTopologicalSpaceSubtype
+      (connectedComponentIn (Subtype.val ⁻¹' V) x) isPreconnected_connectedComponentIn id
+      (@Continuous.continuousOn portlyX portlyX τ instTopologicalSpaceSubtype _
+        (connectedComponentIn (Subtype.val ⁻¹' V) x) hc)
+    rwa [image_id] at this
+  rw [@connectedComponentIn_eq portlyX instTopologicalSpaceSubtype _ _ _ hx]
+  exact @IsPreconnected.subset_connectedComponentIn portlyX instTopologicalSpaceSubtype _ _ _
+    hpre (mem_connectedComponentIn hxV) (connectedComponentIn_subset _ _)
+
+/-- `X₁` is not portly in the paper's space (it is not dense). -/
+theorem not_isPortly_portlyX₁ : ¬ IsPortly portlyX₁ := fun h => not_dense_portlyX₁ h.dense
+
+/-- `cex:portlyness`, second item, on the paper's own space (DEC-40), with every property the
+paper lists. `X` carries the coarsest topology making the natural injection a spread
+(`GX.PortlySpace`; it is one, and every topology making the injection a spread is finer). For it,
+`X` is Hausdorff, second countable and locally path-connected, the inner rays
+`{λx | λ ∈ (0,1), ‖x‖ = 1, x ∈ ℚ²}` are homeomorphic to `∐_ℕ (0,1)`, `p` is a spread,
+`X₁ = Y₁ = {‖·‖ > 1}` are open, `X₁` is locally connected in `X` but not dense (so not portly),
+`X₁ → Y₁` is a homeomorphism, hence a surjective covering map — and `ord(Y) = ∅`, `ord(X) = ∅`;
+all three conclusions of `lem:spread_partial_covering` fail. -/
+theorem cex_portlyness_paper :
+    (IsSpread portlyι ∧
+      ∀ τ : TopologicalSpace portlyX, @IsSpread portlyX 𝔼 τ _ Subtype.val → τ ≤ portlyTop) ∧
+      T2Space PortlySpace ∧ SecondCountableTopology PortlySpace ∧
+      LocPathConnectedSpace PortlySpace ∧
+      Nonempty ({z : PortlySpace // ‖portlyι z‖ < 1} ≃ₜ Σ _ : ℕ, Ioo (0 : ℝ) 1) ∧
+      IsSpread portlyP ∧
+      IsOpen portlyX₁ ∧ IsLocallyConnectedIn portlyX₁ ∧ ¬ Dense portlyX₁ ∧ IsOpen portlyY₁ ∧
+      IsCoveringMap (mapsTo_portlyP.restrict portlyP portlyX₁ portlyY₁) ∧
+      Function.Surjective (mapsTo_portlyP.restrict portlyP portlyX₁ portlyY₁) ∧
+      ordY portlyP = ∅ ∧ ordX portlyP = ∅ ∧
+      ¬ (portlyY₁ ⊆ ordY portlyP) ∧ ¬ (portlyX₁ ⊆ ordX portlyP) ∧
+      portlyP ⁻¹' portlyY₁ ≠ portlyX₁ := by
+  refine ⟨⟨isSpread_portlyι, le_portlyTop_of_isSpread⟩, inferInstance, inferInstance,
+    inferInstance, nonempty_inner_homeomorph_sigma, isSpread_portlyP, isOpen_portlyX₁,
+    isLocallyConnectedIn_portlyX₁, not_dense_portlyX₁, isOpen_portlyY₁, ?_, ?_, ordY_portlyP,
+    ordX_portlyP, ?_, ?_, preimage_portlyY₁_ne⟩
+  · rw [portlyRestrict_eq]; exact isCoveringMap_of_homeomorph _
+  · rw [portlyRestrict_eq]; exact portlyHomeo.surjective
+  · intro h
+    have := h (show (EuclideanSpace.single 0 2 : 𝔼) ∈ portlyY₁ by
+      show 1 < ‖(EuclideanSpace.single 0 2 : 𝔼)‖
+      rw [norm_single_eq]; norm_num)
+    rw [ordY_portlyP] at this; exact this
+  · intro h
+    have hx : (⟨EuclideanSpace.single 0 2, Or.inl (by
+        show 1 ≤ ‖(EuclideanSpace.single 0 2 : 𝔼)‖
+        rw [norm_single_eq]; norm_num)⟩ : portlyX) ∈ portlyX₁ := by
+      show 1 < ‖(EuclideanSpace.single 0 2 : 𝔼)‖
+      rw [norm_single_eq]; norm_num
+    have := h hx
+    rw [ordX_portlyP] at this; exact this
+
+end PortlyPaper
 
 end GX

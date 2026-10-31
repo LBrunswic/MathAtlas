@@ -1,0 +1,102 @@
+{
+  "package": "WP-25b",
+  "round": 1,
+  "auditor": "read-only auditor, round 1 (independent re-audit, 2026-10-31; supersedes the 15:54 draft of this file)",
+  "file": "GX/Singular/Atlas.lean",
+  "verdict": "clean",
+  "builds": true,
+  "checks": {
+    "lake_env_lean_warningAsError": "EXIT 0, no output (taskset -c 0-11 lake env lean -DwarningAsError=true GX/Singular/Atlas.lean, 7.6 s)",
+    "lake_build_GX": "taskset -c 0-11 lake build GX: 'Build completed successfully (8566 jobs)', EXIT 0. The GX.Spread.Basic failure the earlier draft recorded (WP-25a's working-tree edit) no longer reproduces; all strict modules build together with this file",
+    "sorry_count": "0 (grep for sorry/admit/axiom/native_decide/implemented_by: no hits)",
+    "axioms": "#print axioms via lake env lean --stdin (nothing written) of IsAEMorphismOf.eq_of_eqOn, IsAEMorphism.eq_of_eqOn, aepullback, existsUnique_aePullback, aePullback_counterexample_nonmaximal, analytic_counterexample_disconnected, analytic_counterexample_empty, isAEAtlas_iUnion, not_isAEAtlas_iUnion_empty, aePullback_comp, aePullback_comp_of_exists, isAEMorphismOf_tfae, isAEMorphism_tfae, not_isAEMorphismOf_pow, IsAEMorphismOf.maximalAEAtlas_eq_aePullback, IsMaximalAEAtlas.sameAEStructure_iff: propext, Classical.choice, Quot.sound only",
+    "file_unchanged_since_report": "Atlas.lean mtime 15:49:37Z precedes REPORT.json (15:50Z); audited as on disk",
+    "diff_vs_HEAD": "151+/20-; every removed line is docstring, checklist or SCOPE text (the old 'partial' marks of the two rows and the old 'strengthened' checklist row); no declaration removed, renamed or re-stated",
+    "docstring_contract": "15 bold marks in the first 4000 characters; the two new marks sit at characters 1303 (rem:morphisms_analytical_two_equal) and 2267 (lem:aepullback); the four partial rows are unmarked; quote block, hypothesis checklist, SCOPE (a)-(j) and provenance line present"
+  },
+  "rows": [
+    {
+      "label": "rem:morphisms_analytical_two_equal",
+      "tex_lines": [
+        491,
+        494
+      ],
+      "reported": "closed, marked",
+      "audit": "agree",
+      "notes": "IsAEMorphismOf.eq_of_eqOn: [IsRigidAction G X] [PreconnectedSpace M] [T2Space N], W open and W.Nonempty, f1 f2 a.e. morphisms for the SAME (arbitrary) atlases A, B; conclusion f1 = f2. PreconnectedSpace M with W nonempty is exactly DEC-42's 'M connected, open set nonempty'; N Hausdorff is part of the singular-manifold hypothesis; A, B need not even be a.e. atlases, so this is at least as strong as the paper under the ruling. The proof is genuine (clopen argument on the portly R = U1 ∩ U2, rigidity at closure points, density extension). Singular-manifold form IsAEMorphism.eq_of_eqOn present. Both counterexamples verified: id vs translation by 1 on R agree on ∅; on R ⊕ R (locally connected, Hausdorff, second countable, maximal atlas) id vs Sum.map id (+1) agree on range inl. The mark is licensed by DEC-42 ('Both rows close under these readings') and kb/0022 (after a ruling the hypothesis row reads 'carried')."
+    },
+    {
+      "label": "lem:aepullback",
+      "tex_lines": [
+        541,
+        552
+      ],
+      "reported": "closed, marked",
+      "audit": "agree",
+      "notes": "GX.aepullback proves (1) existence of an a.e. atlas making f an a.e. morphism, (2) any two a.e. atlases making f an a.e. morphism have the same maximal atlas (SameAEStructure), (3) ∃! maximal one (existsUnique_aePullback). (3) is DEC-42's 'uniqueness among maximal a.e. atlases'; (2) is the l.471 identification. SameAEStructure is not trivialising: on maximal atlases it is equality (IsMaximalAEAtlas.sameAEStructure_iff). Weakenings are genuine: B any a.e. atlas (the paper's is maximal), M locally connected and Hausdorff unused. The atlas the proof obtains 'by usual results' is constructed (A0 and its maximal atlas), not assumed. The non-uniqueness counterexample is verified: translationAtlas vs {refl} on R are distinct a.e. atlases both making id an a.e. morphism (the restriction of refl to (0,1) lies in one and not the other)."
+    },
+    {
+      "label": "lem:GX_atlas_union",
+      "tex_lines": [
+        412,
+        456
+      ],
+      "reported": "partial, unmarked",
+      "audit": "agree",
+      "notes": "[Nonempty K] is needed (not_isAEAtlas_iUnion_empty, valid on any nonempty M) and no ruling (DECISIONS.md searched for the label: none) reads the family as nonempty, so the row stays partial under DEC-27. The question to the author is the right one."
+    },
+    {
+      "label": "prop:GX_sing_morph_local",
+      "tex_lines": [
+        497,
+        505
+      ],
+      "reported": "partial, unmarked",
+      "audit": "agree",
+      "notes": "The paper defines neither 'locally an a.e. morphism' nor the a.e. structure induced on a subset; the reading (IsAEMorphismOn: some U ⊆ W portly in W on which f is regular for the ambient atlases) is disclosed in SCOPE (d) and asked as a question (kb/0011). All four implications are proved; isAEMorphism_tfae is the singular-manifold form. DEC-42 does not settle the reading."
+    },
+    {
+      "label": "rem:though_may_tempted_include",
+      "tex_lines": [
+        538,
+        540
+      ],
+      "reported": "partial, unmarked",
+      "audit": "agree",
+      "notes": "0 ∉ Reg(z ↦ z^p) for p ≠ 1 is proved for arbitrary atlases (p = 0 included), and with lem:regf1 not_isAEMorphismOf_pow gives 'the Lemma would force p = 1'. The sentence about Riemann surfaces and 'maps locally modelled on z^p' (only the literal z^p on C is treated) are not formalized, disclosed in SCOPE (g). No ruling; partial is correct."
+    },
+    {
+      "label": "cor:locally_connected_hausdorff_topological",
+      "tex_lines": [
+        558,
+        562
+      ],
+      "reported": "partial, unmarked",
+      "audit": "agree",
+      "notes": "The corollary states no hypothesis making g^*A and f^*g^*A defined; aePullback_comp_of_exists proves it whenever the left side is defined (and yields existence of (g∘f)^*A), aePullback_comp under the a.e.-local-homeomorphism hypotheses of lem:aepullback. Both genuine. No ruling accepts the presupposition, so partial with the question is the honest status."
+    }
+  ],
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "GX.IsAELocalHomeomorph / GX.aepullback (lem:aepullback, SCOPE (e))",
+      "problem": "'f is a.e. a local homeomorphism' is undefined in the paper and is read from the proof's first line (portly O, portly P ⊆ supp B, f(O) ⊆ P). The plainer reading 'f is a local homeomorphism on some portly O' is not bridged in Lean. Under the paper's own hypothesis M locally connected the readings coincide (take O ∩ f⁻¹(supp B), portly by IsPortly.inter_preimage_of_isLocalHomeomorphOn, and P = supp B), so nothing is lost, but the closed row rests on a reading the REPORT does not list as a question.",
+      "fix": "Add a short corollary under [LocallyConnectedSpace M] taking only ∃ O, IsPortly O ∧ IsLocalHomeomorphOn f O (or a lemma IsAELocalHomeomorph ↔ that), and mention it in SCOPE (e)."
+    },
+    {
+      "severity": "minor",
+      "where": "GX.isAEAtlas_iUnion (lem:GX_atlas_union)",
+      "problem": "DEC-27 asks for the strongest true form: the (G,X)-atlas half of the conclusion does not use [Nonempty K], and the a.e. conclusion also holds when M is empty; neither stronger form is stated.",
+      "fix": "Optional: state IsGXAtlas G (⋃ k, B k) without [Nonempty K], and/or weaken [Nonempty K] to Nonempty K ∨ IsEmpty M."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/README.md module table; papers/gx/ledger",
+      "problem": "README still lists rem:morphisms_analytical_two_equal and lem:aepullback among the partial rows of GX.Singular.Atlas, and LEDGER.md rows 115/121 read 'partial'. Outside the package's write scope, so not a package defect.",
+      "fix": "Master session: update README and regenerate the ledger when graduating WP-25b."
+    }
+  ],
+  "report_honesty": "REPORT.json is accurate: builds true and sorry_count 0 verified; every listed decl exists; hypothesis rows match the Lean signatures (rem:morphisms uses IsRigidAction only, no ContinuousConstSMul; existsUnique_aePullback has no LocallyConnectedSpace M); axiom and 'purely additive' claims verified. Its only omission is not listing the IsAELocalHomeomorph reading as a question (minor issue 1).",
+  "missing_labels_or_parts": "None. l.491: the one assertion is covered. l.545: existence and uniqueness, the latter in both the SameAEStructure and the ∃!-maximal forms. The other four rows carry every formalizable assertion and state what is left in SCOPE.",
+  "cited_results": "Nothing assumed: the 'usual results' of the lem:aepullback proof (the atlas induced on O from f) are constructed in existsUnique_aePullback; cor:maximal_atlas is proved in-file from isAEAtlas_iUnion."
+}

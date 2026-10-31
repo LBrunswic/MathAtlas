@@ -19,22 +19,26 @@ a.e. `(G,X)`-morphisms, their regular loci, and the pullback (`RamcovGX.tex:397`
 * **`rem:composition_morphisms_morphisms_category`** — `RamcovGX.tex:487`:
   `GX.IsAEMorphismOf.comp`, the category `SingGXCat`, `GX.SingGXCat.isoOfHomeomorph`,
   `GX.SingGXCat.homeomorphOfIso`, `GX.IsAEMorphism.symm_of_homeomorph`.
-* `rem:morphisms_analytical_two_equal` — `RamcovGX.tex:491` — partial: `GX.IsAEMorphismOf.eq_of_eqOn`
-  needs `M` connected and the open set nonempty (`GX.analytic_counterexample_disconnected`,
-  `GX.analytic_counterexample_empty`).
+* **`rem:morphisms_analytical_two_equal`** — `RamcovGX.tex:491`, read as DEC-42 rules (`M`
+  connected, the open set nonempty): `GX.IsAEMorphismOf.eq_of_eqOn`, `GX.IsAEMorphism.eq_of_eqOn`;
+  the correction is recorded by `GX.analytic_counterexample_disconnected` and
+  `GX.analytic_counterexample_empty` (the statement as written is false without either reading).
 * `prop:GX_sing_morph_local` — `RamcovGX.tex:497` — partial (a reading of "locally" and of
-  restriction): `GX.isAEMorphismOf_tfae`.
+  restriction, SCOPE (d)): `GX.isAEMorphismOf_tfae`, `GX.isAEMorphism_tfae`.
 * **`lem:singular_manifolds_morphism_set`** — `RamcovGX.tex:507`: `GX.isGreatest_regLocusOf`.
 * **`def:singular_manifolds_morphism_maximal`** — `RamcovGX.tex:518`: `GX.regLocusOf`,
   `GX.regLocus`.
 * **`lem:regf1`** — `RamcovGX.tex:523`: `GX.IsAEMorphismOf.regLocusOf_eq`.
 * `rem:though_may_tempted_include` — `RamcovGX.tex:538` — partial (an informal remark, read):
   `GX.zero_notMem_regLocusOf_pow`, `GX.not_isAEMorphismOf_pow`.
-* `lem:aepullback` — `RamcovGX.tex:541` — partial: `GX.existsUnique_aePullback`, uniqueness among
-  MAXIMAL a.e. structures only (`GX.aePullback_counterexample_nonmaximal`).
+* **`lem:aepullback`** — `RamcovGX.tex:541`, read as DEC-42 rules (an a.e. structure identified
+  with its maximal atlas, l.471): `GX.aepullback`, `GX.existsUnique_aePullback`,
+  `GX.IsAEMorphismOf.sameAEStructure`, `GX.SameAEStructure`; the correction is recorded by
+  `GX.aePullback_counterexample_nonmaximal` (no uniqueness among arbitrary a.e. atlases).
 * **`def:notations_lemma_lem_aepullback`** — `RamcovGX.tex:554`: `GX.aePullback`.
 * `cor:locally_connected_hausdorff_topological` — `RamcovGX.tex:558` — partial (the implicit
-  hypotheses under which the pullbacks exist, added): `GX.aePullback_comp`.
+  hypotheses under which the pullbacks exist, added, SCOPE (e′)): `GX.aePullback_comp_of_exists`
+  (only "the left side is defined"), `GX.aePullback_comp` (a.e. local homeomorphisms).
 * **`lem:GX_sing_homeo_reg`** — `RamcovGX.tex:592`:
   `GX.IsAEMorphismOf.regLocusOf_eq_inter_isLocalHomeomorphOn`.
 * **`cor:morphisms_also_local_homemorphism`** — `RamcovGX.tex:603`:
@@ -67,14 +71,15 @@ a.e. `(G,X)`-morphisms, their regular loci, and the pullback (`RamcovGX.tex:397`
 
 | paper hypothesis | here |
 |---|---|
-| `(G,X)` analytical: `X` connected, locally connected, Hausdorff; action faithful, rigid, by homeomorphisms | ⚠ weakened: `LocallyConnectedSpace X`, `T2Space X`, `IsRigidAction`, `ContinuousConstSMul` where used; connectedness of `X` and faithfulness never used |
+| `(G,X)` analytical (l.341, DEC-39): `X` connected, locally connected, Hausdorff; action faithful, rigid, by homeomorphisms | ⚠ weakened: `LocallyConnectedSpace X`, `T2Space X`, `IsRigidAction`, `ContinuousConstSMul` where used; connectedness of `X` and faithfulness never used; no covering theory here, so no local path-connectedness (DEC-39) |
 | `lem:GX_atlas_union`: `N` locally connected | ⚠ weakened: not used |
 | `lem:GX_atlas_union`: the family (implicitly) nonempty | ⚠ strengthened: `[Nonempty K]`, a finding |
 | `cor:maximal_atlas`, `lem:aepullback`: `M` locally connected Hausdorff | ⚠ weakened: not used |
 | singular manifolds locally connected | ✓ carried where used (composition, `prop:GX_sing_morph_local`, `SingGXCat`) |
 | singular manifolds Hausdorff, second countable | ⚠ weakened: not used (bundled in `SingGXCat`); `N` Hausdorff carried for analyticity |
-| `rem:morphisms_analytical_two_equal`: `M` connected, open set nonempty | ⚠ strengthened: both added, a finding |
+| `rem:morphisms_analytical_two_equal`: `M` connected, open set nonempty | ✓ the reading DEC-42 rules (`PreconnectedSpace M`, `W.Nonempty`); the statement as written is false, a recorded finding |
 | `lem:aepullback`: `N` a singular manifold (maximal `B`) | ⚠ weakened: `B` an a.e. atlas suffices |
+| `lem:aepullback`: "unique a.e. structure" | ✓ the reading DEC-42 rules: unique up to `SameAEStructure` (same maximal atlas), the maximal representative unique; uniqueness among arbitrary a.e. atlases is false, a recorded finding |
 | `cor:locally_connected_hausdorff_topological`: `f`, `g` a.e. local homeomorphisms | ⚠ strengthened: implicit in the paper (the pullbacks must exist), added |
 | `lem:singular_manifolds_morphism_set`: `f` an a.e. morphism | ⚠ weakened: any map |
 
@@ -96,8 +101,14 @@ a.e. `(G,X)`-morphisms, their regular loci, and the pullback (`RamcovGX.tex:397`
   which `f` induces a `(G,X)`-morphism; "locally" means around every point, on an open `W`.
 * **(e)** `lem:aepullback`: "`f` is a.e. a local homeomorphism" is `IsAELocalHomeomorph`, read
   from the proof's first line (portly `O ⊆ M`, `P ⊆ Reg N`, `f(O) ⊆ P`, `f` a local homeomorphism
-  on `O`); uniqueness is among maximal a.e. atlases (it fails otherwise). `aePullback` is `∅`
-  when no such structure exists.
+  on `O`); uniqueness is among maximal a.e. atlases (it fails otherwise), equivalently up to
+  `SameAEStructure` (DEC-42). `aePullback` is `∅` when no such structure exists.
+* **(e′)** `cor:locally_connected_hausdorff_topological` is an equation between pullbacks, which
+  are defined (`def:notations_lemma_lem_aepullback`, "with the notations of Lemma
+  `lem:aepullback`") only when the lemma's hypotheses hold; the corollary states none. It is
+  proved under the weakest such hypothesis, that `g^*A` and `f^*g^*A` exist
+  (`aePullback_comp_of_exists`), which then gives the existence of `(g∘f)^*A`; no ruling yet says
+  whether this reading closes the row.
 * **(f)** "`f` is a local homeomorphism around `x`" is `IsLocalHomeomorphOn f {x}`;
   "preserves the regular and singular loci" is `f⁻¹(Reg N) = Reg M`, `f⁻¹(Sing N) = Sing M`.
 * **(g)** `rem:though_may_tempted_include` is read as: `0 ∉ Reg(z ↦ z^p)` for `p ≠ 1`, whatever
@@ -105,6 +116,14 @@ a.e. `(G,X)`-morphisms, their regular loci, and the pullback (`RamcovGX.tex:397`
   and `0^p`. The sentence about Riemann surfaces is not formalized.
 * **(h)** `rem:consequence_isomorphism_singular_manifolds`'s last sentence ("an isomorphism in
   every natural ways") is not formalized.
+* **(i)** DEC-42: an a.e. `(G,X)`-structure (`def:structure_topological_space_atlas`, l.471) is
+  identified with its maximal atlas — `SameAEStructure G A₁ A₂` iff `maximalAEAtlas G A₁ =
+  maximalAEAtlas G A₂`, the maximal atlases being the canonical representatives
+  (`IsMaximalAEAtlas.sameAEStructure_iff`, `IsAEAtlas.sameAEStructure_maximalAEAtlas`).
+* **(j)** `lem:GX_atlas_union` stays partial: for an EMPTY family the union is the empty atlas,
+  not an a.e. atlas on a nonempty space (`not_isAEAtlas_iUnion_empty`), and no ruling (DEC-42
+  included) reads the family as nonempty; `[Nonempty K]` is carried. Its one use,
+  `cor:maximal_atlas`, has a nonempty family.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Builds on
 `GX.Structure.Basic` (WP-24c) and `GX.Topology.Portly`.
@@ -772,9 +791,9 @@ theorem IsAEMorphismOf.comp [LocallyConnectedSpace M] {A : Set (OpenPartialHomeo
   rw [h1, h2, mul_smul]
 
 omit [ContinuousConstSMul G X] in
-/-- **`rem:morphisms_analytical_two_equal`** (`RamcovGX.tex:491`), with `M` connected and the
-open set nonempty: two a.e. `(G,X)`-morphisms into a Hausdorff space which agree on a nonempty
-open set agree everywhere. Both added hypotheses are necessary (`analytic_counterexample_empty`,
+/-- **`rem:morphisms_analytical_two_equal`** (`RamcovGX.tex:491`), read as DEC-42 rules (`M`
+connected, the open set nonempty): two a.e. `(G,X)`-morphisms into a Hausdorff space which agree on
+a nonempty open set agree everywhere. Both readings are necessary (`analytic_counterexample_empty`,
 `analytic_counterexample_disconnected`). -/
 theorem IsAEMorphismOf.eq_of_eqOn [IsRigidAction G X] [PreconnectedSpace M] [T2Space N]
     {A : Set (OpenPartialHomeomorph M X)} {B : Set (OpenPartialHomeomorph N X)} {f₁ f₂ : M → N}
@@ -923,9 +942,10 @@ theorem IsAEMorphismOf.eq_of_isMaximalAEAtlas [LocallyConnectedSpace X] [T2Space
   rw [← h₁.maximalAEAtlas_eq, ← h₂.maximalAEAtlas_eq, ← maximalAEAtlas_eq_of_aeLe hC h₁.1 hC₁,
     ← maximalAEAtlas_eq_of_aeLe hC h₂.1 hC₂]
 
-/-- **`lem:aepullback`** (`RamcovGX.tex:541`): if `f : M → N` is continuous and almost everywhere
-a local homeomorphism into the regular locus of an a.e. `(G,X)`-atlas `B`, there is a unique
-maximal a.e. `(G,X)`-atlas on `M` for which `f` is an a.e. `(G,X)`-morphism. The paper's `M`
+/-- **`lem:aepullback`** (`RamcovGX.tex:541`), maximal form (DEC-42; the paper-worded form is
+`aepullback`): if `f : M → N` is continuous and almost everywhere a local homeomorphism into the
+regular locus of an a.e. `(G,X)`-atlas `B`, there is a unique maximal a.e. `(G,X)`-atlas on `M`
+for which `f` is an a.e. `(G,X)`-morphism. The paper's `M`
 locally connected Hausdorff, and the maximality of `B`, are not used. -/
 theorem existsUnique_aePullback [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
     {B : Set (OpenPartialHomeomorph N X)} (hB : IsAEAtlas G B) {f : M → N} (hf : Continuous f)
@@ -967,6 +987,82 @@ theorem existsUnique_aePullback [LocallyConnectedSpace X] [T2Space X] [IsRigidAc
     exact ⟨e, hsub he, c, hc, hxe, hfxc, g, hg⟩
   exact ⟨_, ⟨hAmax, hmor⟩, fun A' hA' => IsAEMorphismOf.eq_of_isMaximalAEAtlas hA'.1 hAmax hA'.2
     hmor⟩
+
+/-! ### An a.e. `(G,X)`-structure is identified with its maximal atlas (DEC-42, l.471) -/
+
+variable (G) in
+/-- Two a.e. `(G,X)`-atlases *define the same a.e. `(G,X)`-structure* when they have the same
+maximal atlas (`cor:maximal_atlas`): the identification of an a.e. structure with its maximal
+atlas which `RamcovGX.tex:471` suggests and DEC-42 rules. -/
+def SameAEStructure (A₁ A₂ : Set (OpenPartialHomeomorph M X)) : Prop :=
+  GX.maximalAEAtlas G A₁ = GX.maximalAEAtlas G A₂
+
+omit [ContinuousConstSMul G X] in
+theorem SameAEStructure.refl (A : Set (OpenPartialHomeomorph M X)) : SameAEStructure G A A := rfl
+
+omit [ContinuousConstSMul G X] in
+theorem SameAEStructure.symm {A₁ A₂ : Set (OpenPartialHomeomorph M X)}
+    (h : SameAEStructure G A₁ A₂) : SameAEStructure G A₂ A₁ := Eq.symm h
+
+omit [ContinuousConstSMul G X] in
+theorem SameAEStructure.trans {A₁ A₂ A₃ : Set (OpenPartialHomeomorph M X)}
+    (h₁ : SameAEStructure G A₁ A₂) (h₂ : SameAEStructure G A₂ A₃) : SameAEStructure G A₁ A₃ :=
+  Eq.trans h₁ h₂
+
+/-- An a.e. atlas defines the same a.e. structure as its maximal atlas. -/
+theorem IsAEAtlas.sameAEStructure_maximalAEAtlas [LocallyConnectedSpace X] [T2Space X]
+    [IsRigidAction G X] {A : Set (OpenPartialHomeomorph M X)} (hA : IsAEAtlas G A) :
+    SameAEStructure G A (GX.maximalAEAtlas G A) :=
+  hA.isMaximalAEAtlas_maximalAEAtlas.maximalAEAtlas_eq.symm
+
+/-- Two maximal a.e. atlases define the same a.e. structure iff they are equal: the maximal
+atlases are the canonical representatives. -/
+theorem IsMaximalAEAtlas.sameAEStructure_iff [LocallyConnectedSpace X]
+    {A₁ A₂ : Set (OpenPartialHomeomorph M X)} (h₁ : IsMaximalAEAtlas G A₁)
+    (h₂ : IsMaximalAEAtlas G A₂) : SameAEStructure G A₁ A₂ ↔ A₁ = A₂ := by
+  rw [SameAEStructure, h₁.maximalAEAtlas_eq, h₂.maximalAEAtlas_eq]
+
+/-- An a.e. `(G,X)`-morphism for an a.e. atlas `A` is one for the maximal atlas of `A`. -/
+theorem IsAEMorphismOf.maximalAEAtlas_left [LocallyConnectedSpace X] [T2Space X]
+    [IsRigidAction G X] {A : Set (OpenPartialHomeomorph M X)} {B : Set (OpenPartialHomeomorph N X)}
+    (hA : IsAEAtlas G A) (hB : IsAEAtlas G B) {f : M → N} (hf : IsAEMorphismOf G A B f) :
+    IsAEMorphismOf G (GX.maximalAEAtlas G A) B f := by
+  obtain ⟨U, V, hU, hV, hVB, hUV, hr⟩ := hf.exists_isRegularOn
+  refine ⟨hf.continuous, U, V, hU, hV, hVB, hUV, IsRegularOn.of_exists hA.maximalAEAtlas.1 hB.1
+    hr.isOpen (hr.subset_support.trans (support_mono hA.subset_maximalAEAtlas)) hr.mapsTo
+    hr.continuousOn fun x hx => ?_⟩
+  obtain ⟨e, he, hxe⟩ := mem_support.1 (hr.subset_support hx)
+  obtain ⟨e', he', hfxe'⟩ := mem_support.1 (hr.mapsTo hx)
+  exact ⟨e, hA.subset_maximalAEAtlas he, e', he', hxe, hfxe',
+    hr.exists_smul_eq x hx e he e' he' hxe hfxe'⟩
+
+/-- **Uniqueness in `lem:aepullback`, up to identification** (DEC-42): two a.e. `(G,X)`-atlases
+on `M` for which `f` is an a.e. `(G,X)`-morphism into `B` define the same a.e. structure. -/
+theorem IsAEMorphismOf.sameAEStructure [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+    {A₁ A₂ : Set (OpenPartialHomeomorph M X)} {B : Set (OpenPartialHomeomorph N X)}
+    (hA₁ : IsAEAtlas G A₁) (hA₂ : IsAEAtlas G A₂) (hB : IsAEAtlas G B) {f : M → N}
+    (hf₁ : IsAEMorphismOf G A₁ B f) (hf₂ : IsAEMorphismOf G A₂ B f) :
+    SameAEStructure G A₁ A₂ :=
+  (hf₁.maximalAEAtlas_left hA₁ hB).eq_of_isMaximalAEAtlas hA₁.isMaximalAEAtlas_maximalAEAtlas
+    hA₂.isMaximalAEAtlas_maximalAEAtlas (hf₂.maximalAEAtlas_left hA₂ hB)
+
+/-- **`lem:aepullback`** (`RamcovGX.tex:541`), in the paper's words under DEC-42 (an a.e.
+`(G,X)`-structure being identified with its maximal atlas, l.471): if `f : M → N` is continuous
+and almost everywhere a local homeomorphism into the regular locus of an a.e. `(G,X)`-atlas `B`,
+there is an a.e. `(G,X)`-structure on `M` for which `f` is an a.e. `(G,X)`-morphism, any two such
+define the same a.e. structure, and its canonical representative, the maximal one, is unique
+(`existsUnique_aePullback`). Uniqueness among arbitrary a.e. atlases fails
+(`aePullback_counterexample_nonmaximal`). -/
+theorem aepullback [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+    {B : Set (OpenPartialHomeomorph N X)} (hB : IsAEAtlas G B) {f : M → N} (hf : Continuous f)
+    (hloc : IsAELocalHomeomorph B f) :
+    (∃ A : Set (OpenPartialHomeomorph M X), IsAEAtlas G A ∧ IsAEMorphismOf G A B f) ∧
+    (∀ A₁ A₂ : Set (OpenPartialHomeomorph M X), IsAEAtlas G A₁ → IsAEAtlas G A₂ →
+      IsAEMorphismOf G A₁ B f → IsAEMorphismOf G A₂ B f → SameAEStructure G A₁ A₂) ∧
+    ∃! A : Set (OpenPartialHomeomorph M X), IsMaximalAEAtlas G A ∧ IsAEMorphismOf G A B f := by
+  have h := existsUnique_aePullback hB hf hloc
+  obtain ⟨A, hA, hfA⟩ := h.exists
+  exact ⟨⟨A, hA.1, hfA⟩, fun _ _ h₁ h₂ hf₁ hf₂ => hf₁.sameAEStructure h₁ h₂ hB hf₂, h⟩
 
 end Morphism
 
@@ -1020,6 +1116,28 @@ theorem aePullback_comp [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X
   have hM := aePullback_spec_of_isAELocalHomeomorph hB hg hgl
   have hL := aePullback_spec_of_isAELocalHomeomorph hM.1.1 hf hfl
   exact eq_aePullback hL.1 (hM.2.comp hL.2)
+
+/-- `cor:locally_connected_hausdorff_topological`, whenever its left side is defined: if `g^* B`
+and `f^* g^* B` exist (some maximal a.e. atlases make `g` and `f` a.e. morphisms), then
+`(g ∘ f)^* B` exists and equals `f^* g^* B`. No local-homeomorphism hypothesis, `L` locally
+connected. -/
+theorem aePullback_comp_of_exists [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+    [LocallyConnectedSpace L] {B : Set (OpenPartialHomeomorph N X)} {g : M → N}
+    (hg : ∃ A : Set (OpenPartialHomeomorph M X), IsMaximalAEAtlas G A ∧ IsAEMorphismOf G A B g)
+    {f : L → M} (hf : ∃ A : Set (OpenPartialHomeomorph L X),
+      IsMaximalAEAtlas G A ∧ IsAEMorphismOf G A (aePullback G B g) f) :
+    aePullback G (aePullback G B g) f = aePullback G B (g ∘ f) :=
+  have hM := aePullback_spec hg
+  have hL := aePullback_spec hf
+  eq_aePullback hL.1 (hM.2.comp hL.2)
+
+/-- With an a.e. structure identified with its maximal atlas (DEC-42): every a.e. atlas making
+`f` an a.e. morphism into `B` has the pullback `f^* B` as maximal atlas. -/
+theorem IsAEMorphismOf.maximalAEAtlas_eq_aePullback [LocallyConnectedSpace X] [T2Space X]
+    [IsRigidAction G X] {A : Set (OpenPartialHomeomorph M X)} {B : Set (OpenPartialHomeomorph N X)}
+    (hA : IsAEAtlas G A) (hB : IsAEAtlas G B) {f : M → N} (hf : IsAEMorphismOf G A B f) :
+    GX.maximalAEAtlas G A = aePullback G B f :=
+  eq_aePullback hA.isMaximalAEAtlas_maximalAEAtlas (hf.maximalAEAtlas_left hA hB)
 
 /-- An a.e. `(G,X)`-morphism which is a local homeomorphism at a regular point `x` sends it to a
 regular point (the core of `lem:GX_sing_homeo_reg`). -/
@@ -1369,11 +1487,22 @@ theorem IsAEMorphism.comp [LocallyConnectedSpace M] {f : M → N} {f' : N → P}
   IsAEMorphismOf.comp hf' hf
 
 omit [ContinuousConstSMul G X] in
-/-- `rem:morphisms_analytical_two_equal`, for singular manifolds (`M` connected, `W ≠ ∅`). -/
+/-- **`rem:morphisms_analytical_two_equal`**, for singular manifolds (`M` connected, `W ≠ ∅`,
+DEC-42). -/
 theorem IsAEMorphism.eq_of_eqOn [IsRigidAction G X] [PreconnectedSpace M] [T2Space N]
     {f₁ f₂ : M → N} (hf₁ : IsAEMorphism G X f₁) (hf₂ : IsAEMorphism G X f₂) {W : Set M}
     (hW : IsOpen W) (hne : W.Nonempty) (heq : EqOn f₁ f₂ W) : f₁ = f₂ :=
   IsAEMorphismOf.eq_of_eqOn hf₁ hf₂ hW hne heq
+
+omit [ContinuousConstSMul G X] in
+/-- `prop:GX_sing_morph_local` (`RamcovGX.tex:497`), for singular manifolds, under the readings of
+SCOPE (d). -/
+theorem isAEMorphism_tfae [LocallyConnectedSpace M] {f : M → N} (hf : Continuous f) :
+    List.TFAE [IsAEMorphism G X f,
+      ∀ x : M, ∃ W : Set M, IsOpen W ∧ x ∈ W ∧
+        IsAEMorphismOn G (aeAtlas G X M) (aeAtlas G X N) f W,
+      ∃ U : Set M, IsPortly U ∧ IsAEMorphismOn G (aeAtlas G X M) (aeAtlas G X N) f U] :=
+  isAEMorphismOf_tfae (isMaximalAEAtlas_aeAtlas G X N).1 hf
 
 /-- **`lem:regf1`** (`RamcovGX.tex:523`): `Reg(f) = Reg(M) ∩ f⁻¹(Reg(N))`. -/
 theorem IsAEMorphism.regLocus_eq [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
@@ -1476,7 +1605,8 @@ def SingGXCat.homeomorphOfIso [ContinuousConstSMul G X] [LocallyConnectedSpace X
 
 end Category
 
-/-! ### `rem:morphisms_analytical_two_equal` needs `M` connected and the open set nonempty -/
+/-! ### The corrections DEC-42 records: `rem:morphisms_analytical_two_equal` needs `M` connected
+and the open set nonempty; `lem:aepullback` is unique only among maximal atlases -/
 
 section Counterexamples
 
@@ -1551,7 +1681,8 @@ theorem analytic_counterexample_disconnected :
 
 /-- `lem:aepullback` asserts uniqueness of the a.e. `(G,X)`-STRUCTURE, and an a.e. structure is
 an a.e. atlas (`def:structure_topological_space_atlas`); uniqueness holds only among MAXIMAL ones
-(`IsAEMorphismOf.eq_of_isMaximalAEAtlas`), as the proof's appeal to maximality shows. Here two
+(`IsAEMorphismOf.eq_of_isMaximalAEAtlas`), as the proof's appeal to maximality shows, i.e. up to
+`SameAEStructure` (DEC-42 records this correction). Here two
 different a.e. atlases on `ℝ` make `id` an a.e. morphism into the translation structure. -/
 theorem aePullback_counterexample_nonmaximal :
     ∃ A A' : Set (OpenPartialHomeomorph ℝ ℝ), IsAEAtlas (Multiplicative ℝ) A ∧

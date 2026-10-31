@@ -1,0 +1,306 @@
+{
+  "package": "WP-25a",
+  "files": [
+    "GX/Spread/Basic.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "def:continuous_map_ordinary_locus",
+      "tex_lines": [
+        838,
+        842
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.IsEvenlyCoveredSet",
+        "GX.ordY",
+        "GX.ordX",
+        "GX.ordY_subset_range"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "DEC-40 applied: y is ordinary iff some open U ∋ y has p⁻¹(U) non-empty and each component of p⁻¹(U) mapped homeomorphically onto U; consequently ord(Y) ⊆ p(X) (GX.ordY_subset_range)."
+      ]
+    },
+    {
+      "label": "rem:ordinary_locii_open_but",
+      "tex_lines": [
+        843,
+        845
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.ordinary_locii_open_but",
+        "GX.isOpen_ordY",
+        "GX.isOpen_ordX",
+        "GX.isCoveringMap_restrict_ordX",
+        "GX.surjective_restrict_ordX",
+        "GX.isCoveringMap_surjective_restrict_ordX",
+        "GX.isCoveringMap_restrict_ordX_connected_iff",
+        "GX.not_isPreconnected_ordY_nFold",
+        "GX.not_isPreconnected_ordX_nFold",
+        "GX.not_isPreconnected_ordX_abs",
+        "GX.abs_ordX_not_isPreconnected_covering"
+      ],
+      "hypotheses": [
+        {
+          "paper": "X locally path-connected (standing, covering part)",
+          "here": "weakened",
+          "note": "LocallyConnectedSpace X"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Under DEC-40 the restriction ord(X) → ord(Y) is ALWAYS a surjective covering map over a locally connected source (GX.isCoveringMap_surjective_restrict_ordX), connected or not. This proves the positive reading of 'the only obstruction ... is the connectedness of ord(X)' (connected ord(X) ⇒ covering) in a stronger form. The negative reading (a disconnected ord(X) prevents a covering) is FALSE under DEC-40: GX.abs_ordX_not_isPreconnected_covering (x ↦ |x|, ord(X) = ℝ ∖ 0 disconnected, restriction still a surjective covering map). GX.isCoveringMap_restrict_ordX_connected_iff only restates the remark for a connected total space; its docstring now says so."
+      ],
+      "questions": [
+        "Does 'covering' in rem:ordinary_locii_open_but (l.844) include a connected total space? If yes, the remark is exactly GX.isCoveringMap_restrict_ordX_connected_iff. If no (DEC-40 as written), the restriction is always a covering and the sentence could read 'the restriction ord(X) → ord(Y) is a covering; it is connected iff ord(X) is'. The row is kept closed because the unconditional statement is stronger than the positive reading; the master may mark it partial until the author answers."
+      ]
+    },
+    {
+      "label": "rem:singular_on_singular",
+      "tex_lines": [
+        846,
+        848
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.image_compl_ordX"
+      ],
+      "hypotheses": [
+        {
+          "paper": "p continuous",
+          "here": "weakened",
+          "note": "not used"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "lem:spread_partial_covering",
+      "tex_lines": [
+        851,
+        875
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.spread_partial_covering",
+        "GX.spread_partial_covering'",
+        "GX.spread_partial_covering_surjective_needed",
+        "GX.preimage_subset_of_sheets"
+      ],
+      "hypotheses": [
+        {
+          "paper": "X Hausdorff, locally path-connected (standing)",
+          "here": "weakened",
+          "note": "T2Space X, LocallyConnectedSpace X"
+        },
+        {
+          "paper": "Y Hausdorff, locally path-connected, first countable (standing)",
+          "here": "weakened",
+          "note": "not used"
+        },
+        {
+          "paper": "covering X₁ → Y₁",
+          "here": "carried",
+          "note": "IsCoveringMap and Function.Surjective (DEC-40)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Surjectivity of the covering is used for Y₁ ⊆ ord(Y): for a covering map in mathlib's sense (possibly non-surjective) one gets p(X₁) ⊆ ord(Y), X₁ ⊆ ord(X), p⁻¹(Y₁) = X₁ (GX.spread_partial_covering'), and Y₁ ⊆ ord(Y) fails for unitTrue : Unit → Bool, X₁ = Unit, Y₁ = Bool (GX.spread_partial_covering_surjective_needed). Consistent with DEC-40's 'covering = surjective covering map'.",
+        "Necessity of portlyness (density) is now witnessed with every other hypothesis of the Lean statement, including T2Space and LocallyConnectedSpace X (even LocPathConnectedSpace, second countable) and X₁ locally connected in X: GX.cex_portlyness_paper."
+      ],
+      "questions": []
+    },
+    {
+      "label": "cex:openess",
+      "tex_lines": [
+        870,
+        873
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.cex_openess",
+        "GX.ordY_lineIncl",
+        "GX.ordX_lineIncl"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "As written under DEC-40: p continuous, a spread, the induced X → p(X) a surjective covering map, ord(Y) = ∅. Also recorded: X₁ = ℝ portly, p(X) not open, ord(X) = ∅."
+      ]
+    },
+    {
+      "label": "cex:portlyness",
+      "tex_lines": [
+        874,
+        886
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.notMem_ordX_of_notMem_interior",
+        "GX.not_injOn_of_notMem_interior",
+        "GX.cex_portlyness_fst",
+        "GX.fstLineHomeo",
+        "GX.zero_notMem_interior_fstLine",
+        "GX.cex_portlyness_paper",
+        "GX.PortlySpace",
+        "GX.portlyTop",
+        "GX.isSpread_portlyι",
+        "GX.le_portlyTop_of_isSpread",
+        "GX.isSpread_portlyP",
+        "GX.instLocPathConnectedSpacePortlySpace",
+        "GX.instSecondCountableTopologyPortlySpace",
+        "GX.exists_isPathConnected_subset",
+        "GX.nonempty_inner_homeomorph_sigma",
+        "GX.isLocallyConnectedIn_portlyX₁",
+        "GX.not_dense_portlyX₁",
+        "GX.not_isPortly_portlyX₁",
+        "GX.portlyHomeo",
+        "GX.ordY_portlyP",
+        "GX.ordX_portlyP",
+        "GX.ordY_portlyInv_eq_empty",
+        "GX.ordX_portlyInv_eq_empty",
+        "GX.cex_portlyness"
+      ],
+      "hypotheses": [
+        {
+          "paper": "item 1: covering X₁ → Y₁ (lemma's hypotheses), X locally path-connected (standing)",
+          "here": "weakened",
+          "note": "non-injectivity needs only that the restriction is an open map; x ∉ ord(X) uses LocallyConnectedSpace X"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Item 2 is proved as written for the paper's own space, with every listed property (GX.cex_portlyness_paper): the topology generated by the subspace components of X ∩ U (GX.portlyTop) makes the injection a spread (GX.isSpread_portlyι) and is the coarsest such topology (GX.le_portlyTop_of_isSpread: every topology making the injection a spread is finer), so the paper's 'coarsest topology' exists and is this one; X is Hausdorff, second countable, locally path-connected; the inner rays are homeomorphic to ∐_ℕ (0,1); p is a spread; X₁ = Y₁ open, X₁ locally connected in X (GX.IsLocallyConnectedIn), X₁ → Y₁ a homeomorphism; ord(Y) = ord(X) = ∅. Since LocallyConnectedSpace and T2Space hold, the example refutes the density-free form of the Lean lem:spread_partial_covering exactly as the paper intends.",
+        "The read-only audit's suggested route (subspace components of X ∩ U are portlyTop-connected) is FALSE for this X: for U = ℝ² ∖ {μu} (u a rational unit vector, 0 < μ < 1) the segment (0,μ)u lies in the subspace closure of the rest of X ∩ U, so X ∩ U is subspace-connected, but the segment is clopen for portlyTop. The proofs avoid this: local path-connectedness from explicit bases (Euclidean balls off the disc, ray segments, truncated cones GX.portlyCone at circle points), then 'spread' from local connectedness. The counterexample to the audit's route is recorded in SCOPE as prose, not formalized.",
+        "Item 1 now has a cheap inhabitant (GX.cex_portlyness_fst): p = Prod.fst : ℝ² → ℝ, X₁ = ℝ × {0} (not open), Y₁ = ℝ; X₁ → Y₁ a homeomorphism (surjective covering map) and (0,0) ∉ ord(X), 0 ∉ ord(Y)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "lem:ord_iso",
+      "tex_lines": [
+        889,
+        902
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.Spread.ord_iso",
+        "GX.image_ordX_of_homeomorph",
+        "GX.image_ordY_of_homeomorph",
+        "GX.preimage_image_homeomorph"
+      ],
+      "hypotheses": [
+        {
+          "paper": "p₁, p₂ spreads",
+          "here": "weakened",
+          "note": "any maps; only the homeomorphisms and the commutation are used"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "GX.ordY_subset_range",
+    "GX.IsEvenlyCoveredSet.subset_range",
+    "GX.preimage_image_homeomorph",
+    "GX.IsLocDistPres.of_local",
+    "GX.isLocDistPres_neg",
+    "GX.not_injOn_of_locally_symm",
+    "GX.subset_ordY_of_single_sheet",
+    "GX.subIoi",
+    "GX.nFold",
+    "GX.isSpread_nFold",
+    "GX.ratSlope",
+    "GX.eq_empty_of_isOpen_subset_ratSlope",
+    "GX.stereo",
+    "GX.norm_stereo",
+    "GX.stereo_inv",
+    "GX.exists_sign_stereo",
+    "GX.exists_inner_portlyInv_mem",
+    "GX.continuous_portlyInv",
+    "GX.portlySpace_outer_nhds",
+    "GX.norm_single_eq",
+    "GX.norm_sq_eq_coord",
+    "GX.exists_connectedComponentIn_subset_of_isOpen_generateFrom",
+    "GX.continuous_generateFrom_spreadBasis",
+    "GX.isPreconnected_inter_of_local",
+    "GX.IsPreconnected.subsingleton_of_subset_range_ratCast",
+    "GX.isCoveringMap_of_homeomorph (T2Space hypothesis dropped)",
+    "GX.PortlySpace.ofX",
+    "GX.continuous_toX",
+    "GX.continuous_ofX",
+    "GX.subset_connectedComponentIn_of_isPreconnected",
+    "GX.joinedIn_of_unit",
+    "GX.mem_portlyX_of_one_le",
+    "GX.smul_mem_portlyX",
+    "GX.exists_ray_of_norm_lt_one",
+    "GX.norm_portlyι_pos",
+    "GX.one_lt_norm_of_dist_lt",
+    "GX.isPathConnected_outer_ball",
+    "GX.continuous_dir_coord",
+    "GX.isPathConnected_segment",
+    "GX.connectedComponentIn_ball_inner",
+    "GX.isOpen_segment",
+    "GX.portlyCone",
+    "GX.isOpen_portlyCone",
+    "GX.mem_portlyCone_self",
+    "GX.portlyCone_subset_ball",
+    "GX.joinedIn_cone_outer",
+    "GX.isPathConnected_cone",
+    "GX.isPathConnected_cone_outer",
+    "GX.portlyInvE",
+    "GX.portlyInvE_portlyInvE",
+    "GX.norm_portlyInvE",
+    "GX.continuousOn_portlyInvE",
+    "GX.portlyP_eq_inv",
+    "GX.portlyP_eq_of_one_lt",
+    "GX.portlyι_ne_zero",
+    "GX.portlyRad",
+    "GX.one_le_norm_portlyRad",
+    "GX.portlyρ",
+    "GX.continuous_portlyρ",
+    "GX.portlyρ_of_one_le",
+    "GX.portlyι_portlyρ_of_ray",
+    "GX.portlyρ_locallyConst",
+    "GX.ratPts",
+    "GX.countable_ratPts",
+    "GX.exists_ratPts_dist_lt",
+    "GX.portlyD",
+    "GX.countable_portlyD",
+    "GX.exists_portlyD_of_outer",
+    "GX.dense_portlyD",
+    "GX.PortlyDir",
+    "GX.stereo_injective",
+    "GX.dir_mem_portlyDir"
+  ],
+  "kb_proposals": [
+    "A non-instance topology on an existing subtype: define it as a @[reducible] def (class-valued defs must be reducible), then a non-reducible type synonym `def T : Type := S` with `instance : TopologicalSpace T := thatDef`; inside generic-τ proofs `letI := τ` takes priority over the global subtype instance.",
+    "EuclideanSpace ℝ (Fin 2) at this pin: build points with !₂[a, b]; `EuclideanSpace.norm_single` is deprecated (use `by simp` for ‖single i t‖ = |t|); `(w + v : E) i` needs the type ascription before applying to a coordinate; `fun_prop (disch := (intro; positivity))` handles divisions by 1 + t².",
+    "A binder `(τ : TopologicalSpace X)` in a theorem is a LOCAL INSTANCE and overrides the global one everywhere in the statement and proof (e.g. on a subtype): write the other topology explicitly (`@IsPreconnected X instTopologicalSpaceSubtype s`, `@Continuous.continuousOn _ _ τ σ _ s h`) or the elaborator reports 'synthesized τ, inferred instTopologicalSpaceSubtype'.",
+    "On a type synonym `def T := S` with its own topology, `connectedComponentIn (F : Set S) x` used where `Set T` is expected elaborates with T's topology; force the intended one with `@connectedComponentIn S _ F x` or `(α := S)`.",
+    "unitInterval has no LocallyConnectedSpace instance at this pin: to transport a path through a lemma needing a locally connected domain, compose with `Set.projIcc 0 1 zero_le_one : ℝ → unitInterval` (`projIcc_val` recovers t).",
+    "The topology generated by components (generateFrom (spreadBasis p)) receives every continuous map from a locally connected space (GX.continuous_generateFrom_spreadBasis) — the tool to build paths and prove connectedness in such a topology."
+  ],
+  "notes": "Fixer round 1. Strict file edited in place; `lake env lean -DwarningAsError=true GX/Spread/Basic.lean` clean, `lake build GX.Spread.Basic` green (8559 jobs), 0 sorry; #print axioms of cex_portlyness_paper, cex_portlyness_fst, abs_ordX_not_isPreconnected_covering, spread_partial_covering, ordinary_locii_open_but, cex_openess: propext, Classical.choice, Quot.sound only. Only the aggregator GX.lean imports GX.Spread.Basic, so nothing downstream can break. API changes this round: isCoveringMap_of_homeomorph lost its [T2Space E] instance argument (all callers unaffected); cex_portlyness_paper is RESHAPED (now: (IsSpread portlyι ∧ coarsest) ∧ T2 ∧ SecondCountable ∧ LocPathConnected ∧ inner ≅ ∐_ℕ(0,1) ∧ IsSpread portlyP ∧ IsOpen X₁ ∧ IsLocallyConnectedIn X₁ ∧ ¬Dense X₁ ∧ IsOpen Y₁ ∧ covering ∧ surjective ∧ ordY = ∅ ∧ ordX = ∅ ∧ three failed conclusions; the continuity conjuncts are subsumed by the spreads); new instances LocPathConnectedSpace PortlySpace and SecondCountableTopology PortlySpace; all other names kept. The module grew from 1821 to ~2980 lines. Audit minors: (2) docstring reworded + Lean counterexample added (row kept closed, question to the author); (3) docstring fixed; (5) T2 dropped; (6) Prod.fst inhabitant added; (4) ledger/README are the master's: LEDGER.md:65,71,84 and ledger.json still cite removed declarations (compl_closure_range_subset_ordY, subset_ordY_of_preimage_eq_empty, not_isPreconnected_ordY_abs, unitTrue_counterexample, ball_subset_ordY_portlyInv, ordY_portlyInv_nonempty) and the superseded 'ord(Y)=∅ false' findings. README module-table row for GX.Spread.Basic should now read: certifies def:category_spreads, rem:spread_open_respectively_co, def:continuous_map_ordinary_locus, rem:ordinary_locii_open_but, rem:singular_on_singular, lem:spread_partial_covering, cex:openess, cex:portlyness, lem:ord_iso. Backup of the pre-WP-25a file: campaign/WP-25a/Basic.lean.orig.",
+  "round": 1,
+  "fixer_round": 1
+}

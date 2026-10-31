@@ -1,0 +1,46 @@
+{
+  "package": "WP-25e",
+  "round": 1,
+  "auditor": "read-only auditor, round 1",
+  "file": "scaffold/GXScaffold/Branched/Universality.lean",
+  "verdict": "clean",
+  "builds": true,
+  "sorry_count": 0,
+  "checks": {
+    "build": "taskset -c 0-11 lake env lean on the file: no errors, no warnings (~4 s). Olean newer than source. grep finds no sorry/admit/axiom/native_decide. #print axioms on 14 main decls (branched_covering_composition, not_isSkeletal_of_isBranchedCovering_comp, completion_covering(_unique), maxBranched_universal/_isMaximal/_unique, IsMaximalPossiblyBranched.nonempty_homeomorph, sphere2_maxBranched_trivial, cex_branched_covering_composition, cexS_not_isSkeletal, isBranchedCovering_of_isSpreadCompletion, isBranchedCovering_of_comm, isBranchedCovering_comp_of_isSkeletal): [propext, Classical.choice, Quot.sound] only, so no sorry upstream either.",
+    "fidelity": "prop:branched_covering_composition: (i)=>(ii) as printed is refuted by a genuine Lean counterexample (not_isSkeletal_of_isBranchedCovering_comp). Its total space MaxBranchedCover is T2 and first countable (#synth SpreadEnd.t2Space, SpreadEnd.firstCountableTopology) and LPC (maxBranched_basic), so it satisfies the section 3 standing assumptions. Corrected (i)=>(ii) (closure skeletal) is proved with no extra hypothesis. (ii)=>(i) takes the alternative 'q has finite fibres OR Z1 semilocally simply connected'. That fills the real gap at l.1137 (a composite of coverings is a covering), the dispatch asked for it, and REPORT discloses it; the printed (ii) is also derived. Row partial and unmarked, which is correct. rem:completion_covering: X is a completion of p^-1(U)->Y, the space of ends is too, and there is a unique iso over Y and under p^-1(U); hypotheses T0/T2/locally connected are standing; marked, which is correct. prop:universality: Y^S is the Fox completion (SpreadEnd) of the constructed universal cover of Y minus S (DEC-23 satisfied: both are built, not assumed). Existence, maximality in every universe, the universal property with Phi a branched covering over Y possibly branched over p^-1(S), and uniqueness (maxBranched_unique needs only a continuous map over Y, which is stronger than the paper) are all proved. Added: Y first countable (section 3 standing, needed by complete_path_carac and SpreadEnd.locPathConnectedSpace) and a base point y0 (its existence is proved). Marked, which is correct. rem:considering: S^2 with S a point gives a homeomorphism and an empty branching locus, different from S; marked, which is correct. cex: the paper's S is proved not closed and not skeletal; the corrected S union {apex} gives the intended conclusion; q is proved to be a branched covering; alpha = 1 is reported as a reading; row partial, which is correct. DEC-40 (ordY nonempty preimage) and DEC-41 (SLSC: loops in U null in the space) are used as defined in the strict library. No vacuous or circular hypotheses: every alternative hypothesis is instantiated (open subsets of C are SLSC, in the counterexample).",
+    "docstring_contract": "The module docstring bolds exactly the three closed labels (rem:completion_covering, prop:universality, rem:considering_maximal_covering_possibly) and leaves the three partial ones plain. There is a SCOPE section and a hypothesis checklist.",
+    "report_honesty": "REPORT.json matches the file: statuses, marks, sorry_count 0, builds true. Every hypothesis change and finding is recorded."
+  },
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "prop:branched_covering_composition (ii)=>(i); isBranchedCovering_comp_of_finite / _of_semilocallySimplyConnected",
+      "problem": "Nobody has shown the added alternative (finite fibres OR Z1 SLSC) is necessary: no counterexample shows (ii)=>(i) failing without it. REPORT says so honestly.",
+      "fix": "Optional: build a counterexample (coverings over a base that is SLSC on no open set, where the composite fails at every point), or keep the open question in findings."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json, cex:proposition_prop_branched_covering findings",
+      "problem": "The secondary claim that Y minus S (for the paper's S) is not SLSC at the apex appears as a finding with no proof. It is plausible but not obvious, because homotopies may pass through the apex.",
+      "fix": "Either prove it, or phrase it as unverified ('expected to fail; not formalized') so the master session does not record it as established."
+    },
+    {
+      "severity": "minor",
+      "where": "rem:one_could_sum_up",
+      "problem": "The category equivalence is not packaged. The object and morphism parts are proved, but the restriction direction for morphisms is not stated: a branched-covering morphism over Y restricting to a covering morphism over the O-parts.",
+      "fix": "Optional: state the restriction direction, or leave as is (row correctly partial and unmarked)."
+    },
+    {
+      "severity": "minor",
+      "where": "prop:universality, IsMaximalPossiblyBranched",
+      "problem": "'Maximal' is read as 'greatest' (it dominates every competitor). The poset-maximal reading of uniqueness is not stated as its own corollary, though it follows in one line from maxBranched_universal plus maxBranched_unique. The reading is disclosed.",
+      "fix": "Optional: add the poset-maximal corollary for completeness."
+    }
+  ],
+  "questions_for_author": [
+    "prop:branched_covering_composition: does the author accept (a) the closure of q(Y minus ord_p(Y)) in (ii) (the printed (i)=>(ii) is formally refuted), and (b) adding 'q has finite fibres or Z1 semilocally simply connected'?",
+    "cex: confirm alpha = 1 and the corrected S union {apex}."
+  ],
+  "summary": "Builds clean with 0 sorry and standard axioms only. The three marked labels are certified in full. The three partial labels are honestly scoped, and both refutations of the paper are genuine Lean proofs on spaces that satisfy the standing assumptions. Four minor issues, none blocking or major."
+}

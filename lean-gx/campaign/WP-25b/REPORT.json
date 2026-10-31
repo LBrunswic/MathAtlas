@@ -1,0 +1,111 @@
+{
+  "package": "WP-25b",
+  "files": ["GX/Singular/Atlas.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "rem:morphisms_analytical_two_equal",
+      "tex_lines": [491, 494],
+      "status": "closed",
+      "marked": true,
+      "decls": ["GX.IsAEMorphismOf.eq_of_eqOn", "GX.IsAEMorphism.eq_of_eqOn", "GX.analytic_counterexample_empty", "GX.analytic_counterexample_disconnected"],
+      "hypotheses": [
+        {"paper": "M connected (DEC-42)", "here": "carried", "note": "PreconnectedSpace M, which is what DEC-42's 'connected' amounts to once the open set is nonempty"},
+        {"paper": "the open set nonempty (DEC-42)", "here": "carried", "note": "W.Nonempty"},
+        {"paper": "N Hausdorff (singular manifold)", "here": "carried", "note": "T2Space N"},
+        {"paper": "(G,X) analytical (l.341, DEC-39)", "here": "weakened", "note": "IsRigidAction only"}
+      ],
+      "sorries": [],
+      "findings": ["l.491 is false as written (recorded by DEC-42): it needs a nonempty open set (GX.analytic_counterexample_empty) and M connected (GX.analytic_counterexample_disconnected, R ⊕ R with translations). Closed under DEC-42's reading; both counterexamples are kept in the file."],
+      "questions": []
+    },
+    {
+      "label": "lem:aepullback",
+      "tex_lines": [541, 552],
+      "status": "closed",
+      "marked": true,
+      "decls": ["GX.aepullback", "GX.existsUnique_aePullback", "GX.IsAEMorphismOf.sameAEStructure", "GX.IsAEMorphismOf.eq_of_isMaximalAEAtlas", "GX.SameAEStructure", "GX.IsAEMorphismOf.maximalAEAtlas_left", "GX.aePullback_counterexample_nonmaximal"],
+      "hypotheses": [
+        {"paper": "unique a.e. structure (DEC-42: identified with its maximal atlas, l.471)", "here": "carried", "note": "GX.aepullback: existence of an a.e. atlas making f an a.e. morphism, any two such have the same maximal atlas (SameAEStructure), and the maximal one is unique (ExistsUnique)"},
+        {"paper": "M locally connected Hausdorff", "here": "weakened", "note": "not used"},
+        {"paper": "N a singular manifold (B maximal)", "here": "weakened", "note": "B any a.e. atlas"},
+        {"paper": "f a.e. a local homeomorphism", "here": "carried", "note": "IsAELocalHomeomorph, read from the proof's first line (SCOPE (e))"}
+      ],
+      "sorries": [],
+      "findings": ["l.545 'unique a.e. (G,X)-structure' is false among arbitrary a.e. atlases (GX.aePullback_counterexample_nonmaximal: two distinct a.e. atlases on R make id an a.e. morphism); under DEC-42 (unique up to maximal atlas) it closes. Counterexample kept."],
+      "questions": []
+    },
+    {
+      "label": "lem:GX_atlas_union",
+      "tex_lines": [412, 456],
+      "status": "partial",
+      "marked": false,
+      "decls": ["GX.isAEAtlas_iUnion", "GX.not_isAEAtlas_iUnion_empty"],
+      "hypotheses": [
+        {"paper": "family nonempty (implicit)", "here": "strengthened", "note": "[Nonempty K]; no ruling covers it (SCOPE (j))"},
+        {"paper": "N locally connected", "here": "weakened", "note": "not used"}
+      ],
+      "sorries": [],
+      "findings": ["l.412: for an empty family the union is the empty atlas, not an a.e. atlas on a nonempty space (GX.not_isAEAtlas_iUnion_empty). Unchanged; no ruling yet settles it (a one-line ruling 'K nonempty' would close the row with the existing proof)."],
+      "questions": ["Does the author rule the family nonempty in lem:GX_atlas_union (its only use, cor:maximal_atlas, has a nonempty family)? If so the row closes as is."]
+    },
+    {
+      "label": "prop:GX_sing_morph_local",
+      "tex_lines": [497, 505],
+      "status": "partial",
+      "marked": false,
+      "decls": ["GX.isAEMorphismOf_tfae", "GX.isAEMorphism_tfae", "GX.IsAEMorphismOn"],
+      "hypotheses": [
+        {"paper": "M locally connected (singular manifold)", "here": "carried", "note": "LocallyConnectedSpace M"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": ["'f is locally an a.e. morphism' and 'f|U is an a.e. morphism' are not defined in the paper: read as IsAEMorphismOn (some subset portly in W on which f induces a (G,X)-morphism for the ambient atlases), 'locally' = around every point on an open W (SCOPE (d)). DEC-42's identification does not settle this reading; a ruling accepting it would close the row. New: the singular-manifold form GX.isAEMorphism_tfae."]
+    },
+    {
+      "label": "rem:though_may_tempted_include",
+      "tex_lines": [538, 540],
+      "status": "partial",
+      "marked": false,
+      "decls": ["GX.zero_notMem_regLocusOf_pow", "GX.not_isAEMorphismOf_pow"],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": ["An informal remark; read as 0 ∉ Reg(z ↦ z^p) for p ≠ 1 whatever the a.e. atlases on C (SCOPE (g)); the sentence about Riemann surfaces is not formalizable as stated. No ruling covers it; unchanged."]
+    },
+    {
+      "label": "cor:locally_connected_hausdorff_topological",
+      "tex_lines": [558, 562],
+      "status": "partial",
+      "marked": false,
+      "decls": ["GX.aePullback_comp_of_exists", "GX.aePullback_comp"],
+      "hypotheses": [
+        {"paper": "g^*A and f^*g^*A defined (implicit)", "here": "strengthened", "note": "aePullback_comp_of_exists asks only that the left side be defined (some maximal atlases make g and f a.e. morphisms) and then yields existence of (g∘f)^*A; aePullback_comp asks the a.e.-local-homeomorphism hypotheses of lem:aepullback"},
+        {"paper": "L locally connected", "here": "carried", "note": "used for composition"},
+        {"paper": "L, M, N Hausdorff; M, N locally connected", "here": "weakened", "note": "not used"}
+      ],
+      "sorries": [],
+      "findings": ["l.558 states no hypothesis making g^*A and f^*g^*A defined (def:notations_lemma_lem_aepullback defines f^* only under lem:aepullback's hypotheses). Now proved under the weakest such hypothesis, 'the left side is defined' (GX.aePullback_comp_of_exists)."],
+      "questions": ["Does the author accept 'whenever g^*A and f^*g^*A are defined' as the corollary's implicit hypothesis (it is forced by the notation of l.554)? If so the row closes with GX.aePullback_comp_of_exists; no current ruling (DEC-42 included) says so, so the row stays partial (SCOPE (e'))."]
+    }
+  ],
+  "extra_decls": [
+    "GX.SameAEStructure",
+    "GX.SameAEStructure.refl",
+    "GX.SameAEStructure.symm",
+    "GX.SameAEStructure.trans",
+    "GX.IsAEAtlas.sameAEStructure_maximalAEAtlas",
+    "GX.IsMaximalAEAtlas.sameAEStructure_iff",
+    "GX.IsAEMorphismOf.maximalAEAtlas_left",
+    "GX.IsAEMorphismOf.sameAEStructure",
+    "GX.aepullback",
+    "GX.aePullback_comp_of_exists",
+    "GX.IsAEMorphismOf.maximalAEAtlas_eq_aePullback",
+    "GX.isAEMorphism_tfae"
+  ],
+  "kb_proposals": [
+    "DEC-42's identification is GX.SameAEStructure (equal maximalAEAtlas); an a.e. morphism for an a.e. atlas is one for its maximal atlas (IsAEMorphismOf.maximalAEAtlas_left), so any a.e. atlas making f an a.e. morphism has maximal atlas aePullback G B f (IsAEMorphismOf.maximalAEAtlas_eq_aePullback)."
+  ],
+  "notes": "Strict file edited per dispatch; purely additive: no existing declaration renamed, removed or re-stated (only docstrings changed), so downstream API is untouched. The only importer is GX.lean. lake env lean -DwarningAsError=true clean; taskset -c 0-11 lake build GX.Singular.Atlas succeeded without rebuilding upstream GX/mathlib modules. 0 sorry; #print axioms of the new theorems and the counterexamples: propext, Classical.choice, Quot.sound only. Module docstring: rem:morphisms_analytical_two_equal and lem:aepullback now bold-marked (closed under DEC-42), hypothesis checklist rows updated, SCOPE (e) amended, (e'), (i), (j) added. Four rows stay partial (GX_atlas_union, GX_sing_morph_local, though_may_tempted_include, locally_connected_hausdorff_topological): no ruling settles their remaining gap; each carries a precise SCOPE entry and a question."
+}

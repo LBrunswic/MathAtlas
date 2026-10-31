@@ -1,0 +1,126 @@
+{
+  "package": "WP-25g",
+  "files": ["scaffold/GXScaffold/Singular/Suspension.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "def:topological_suspension",
+      "tex_lines": [710, 715],
+      "status": "closed",
+      "marked": true,
+      "decls": ["GX.suspSetoid", "GX.Susp", "GX.Susp.mk", "GX.Susp.r", "GX.Susp.O", "GX.Susp.gens", "GX.Susp.instTopologicalSpace", "GX.Susp.continuous_mk", "GX.Susp.hasBasis_nhds_O", "GX.Susp.nhds_mk_of_pos", "GX.Susp.continuous_of"],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": ["R_+ read as [0,∞) (NNReal); susp(Σ) is the quotient type, so susp(∅) = ∅ and O = {r = 0} is a single point iff Σ ≠ ∅ — the paper's literal definition."]
+    },
+    {
+      "label": "rem:one_may_check_suspension",
+      "tex_lines": [716, 717],
+      "status": "closed",
+      "marked": true,
+      "decls": ["GX.Susp.instT2Space", "GX.Susp.instFirstCountableTopology", "GX.Susp.instSecondCountableTopology", "GX.Susp.instLocallyConnectedSpace"],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "rem:infinite_angle_disc_suspension",
+      "tex_lines": [718, 720],
+      "status": "closed",
+      "marked": true,
+      "decls": ["GX.Susp.dInftyHomeomorphSusp", "GX.Susp.homeomorphDInfty", "GX.Susp.toDInfty", "GX.Susp.ofDInfty"],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": ["D_∞ is GX.DInfty of GXScaffold.Singular.Quotient (WP-25f) with the topology of ex:quotient_base; 'is the suspension' read as a homeomorphism (r,θ) ↔ (θ,r)."]
+    },
+    {
+      "label": "cex:topology_chose_same_quotient",
+      "tex_lines": [722, 727],
+      "status": "closed",
+      "marked": true,
+      "decls": ["GX.Susp.quotTop", "GX.SuspQ", "GX.Susp.quotTop_le", "GX.Susp.eq_quotTop_of_compactSpace", "GX.SuspQ.not_firstCountableTopology_real", "GX.SuspQ.instTopologicalSpace_ne_quotTop_real"],
+      "hypotheses": [{"paper": "Σ compact", "here": "carried", "note": "CompactSpace S, via the tube lemma"}],
+      "sorries": [],
+      "findings": [
+        "l.723: the neighbourhoods are written U_f := {(x,r) | r < f(r)}; it should read r < f(x).",
+        "l.725: g(n) := ½ min(f_k : k ≤ n) should read ½ min(f_k(n) : k ≤ n), and the proof does not say how g is made continuous nor why the U_f form a basis; the Lean proof bypasses both with the locally finite closed set ⋃_n {n} × [t_n, ∞[ (t_n > 0 chosen inside the n-th basic neighbourhood)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "rem:topological_suspension_fact_functor",
+      "tex_lines": [729, 731],
+      "status": "closed",
+      "marked": true,
+      "decls": ["GX.Susp.functor", "GX.Susp.map", "GX.Susp.cmap", "GX.Susp.map_mk", "GX.Susp.map_id", "GX.Susp.map_comp", "GX.Susp.continuous_map", "GX.Susp.map_injective", "GX.Susp.map_surjective", "GX.Susp.isInducing_map", "GX.Susp.isEmbedding_map"],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": ["'functor from the category of topological spaces to itself' read as CategoryTheory.Functor TopCat TopCat (GX.Susp.functor), with the paper's topology."]
+    },
+    {
+      "label": "prop:susp_portly",
+      "tex_lines": [745, 747],
+      "status": "closed",
+      "marked": true,
+      "decls": ["GX.Susp.susp_portly", "GX.Susp.isPortly_image_mk", "GX.Susp.isPortly_image_of_suspLike", "GX.Susp.range_map_val_diff_O", "GX.Susp.exists_box", "GX.Susp.susp_portly_needs_connected"],
+      "hypotheses": [
+        {"paper": "Σ Hausdorff", "here": "weakened", "note": "not used (it only makes susp(Σ) Hausdorff, GX.Susp.instT2Space)"},
+        {"paper": "Σ connected", "here": "weakened", "note": "PreconnectedSpace; necessary: GX.Susp.susp_portly_needs_connected (Σ = Bool, U = Σ)"},
+        {"paper": "Σ locally connected", "here": "carried", "note": "LocallyConnectedSpace S"}
+      ],
+      "sorries": [],
+      "findings": [
+        "l.774: the proof's lower-semicontinuity step uses 'since Σ is first countable', which is not a hypothesis of prop:susp_portly (l.745). The statement is nevertheless true without it: the Lean proof (local connectedness criterion, GX.isPreconnected_of_local) needs at O only the ball {r < ε} ⊆ W, whose trace on susp(U)∖O is π(U × ]0,ε[), connected because U is (Σ connected, U portly). Neither first countability nor the function f nor lem:connected_union is needed for the paper's topology."
+      ],
+      "questions": ["susp(U) ∖ {O} for U ⊆ Σ read as range(susp(U ↪ Σ)) ∖ O (the functor applied to the inclusion), proved equal to π(U × ℝ₊*)."]
+    },
+    {
+      "label": "lem:connected_union",
+      "tex_lines": [749, 755],
+      "status": "closed",
+      "marked": true,
+      "decls": ["GX.connected_union", "GX.connected_union_quot"],
+      "hypotheses": [{"paper": "non-empty family of non-empty connected open subsets", "here": "carried", "note": "[Nonempty ι], IsConnected (U i), IsOpen (U i); openness is used only for ⇒"}],
+      "sorries": [],
+      "findings": ["l.752: 'The ⋃ U_i is connected' — typo for 'Then'. The paper omits the proof; it is proved here from mathlib's IsPreconnected.transGen_of_iUnion and IsConnected.iUnion_of_reflTransGen."],
+      "questions": ["'I/∼ is a singleton' read as Subsingleton (Quot ∼) (I nonempty), equivalently ∀ i j, EqvGen ∼ i j."]
+    },
+    {
+      "label": "rem:proof_above_works_quotient",
+      "tex_lines": [784, 786],
+      "status": "closed",
+      "marked": true,
+      "decls": ["GX.SuspQ.susp_portly", "GX.SuspQ.mkQ", "GX.SuspQ.isOpen_iff", "GX.SuspQ.continuous_mkQ"],
+      "hypotheses": [
+        {"paper": "(as prop:susp_portly) Σ Hausdorff", "here": "weakened", "note": "not used"},
+        {"paper": "(as prop:susp_portly) Σ connected", "here": "weakened", "note": "PreconnectedSpace"},
+        {"paper": "(as prop:susp_portly) Σ locally connected", "here": "carried", "note": ""}
+      ],
+      "sorries": [],
+      "findings": ["For the quotient topology the apex step is genuinely different (a quotient neighbourhood of O need not contain a ball): the Lean proof uses the tube neighbourhood π(⋃_σ B_σ × [0,δ_σ[) with B_σ connected open and chains the pieces π((B_σ ∩ U) × ]0,δ_σ[) by lem:connected_union-style reflexive-transitive chaining over the connected Σ — so lem:connected_union is where the quotient version needs it; still no first countability."],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "GX.Susp.isPortly_image_of_suspLike",
+    "GX.Susp.isPreconnected_ball",
+    "GX.Susp.exists_ball_subset_of_isOpen",
+    "GX.Susp.hasBasis_nhds_O_nat",
+    "GX.Susp.isOpen_of_subset_pos",
+    "GX.Susp.continuous_r",
+    "GX.Susp.instLocallyConnectedSpace",
+    "GX.Susp.eq_of_mk_eq_of_pos",
+    "GX.Susp.preimage_image_mk"
+  ],
+  "kb_proposals": [
+    "A quotient Σ × ℝ≥0 / (Σ × {0}) with a generateFrom topology: prove the apex neighbourhood basis by induction on GenerateOpen (positive generators never contain the apex) and 𝓝 (mk p) = map mk (𝓝 p) off the apex; every topological property then splits into two cases.",
+    "Writing (univ : Set Bool) → Bool parses as a Π-binder named univ; write ↥(univ : Set Bool) → Bool.",
+    "At this pin zero_le has its argument implicit (zero_le : 0 ≤ a); use eq_zero_or_pos / nonpos_iff_eq_zero for ℝ≥0 case splits; ReflTransGen.symmetric is deprecated for the Std.Symm instance."
+  ],
+  "notes": "Imports GXScaffold.Singular.Quotient (for GX.DInfty and the instance GX.locallyConnectedSpace_prod it defines) and Mathlib.Topology.Category.TopCat.Basic. Builds with no warnings (lake env lean and lake build GXScaffold.Singular.Suspension), 0 sorry; axioms of all headline results are propext, Classical.choice, Quot.sound. When Quotient.lean graduates, this file's DInfty import moves with it. Namespaces: GX.Susp (paper topology) and GX.SuspQ (quotient topology, a type synonym); GX.Susp.map is the suspension functor on maps (it shadows Filter.map only under `open GX.Susp`)."
+}

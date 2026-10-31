@@ -1,0 +1,311 @@
+{
+  "package": "WP-25d",
+  "files": [
+    "scaffold/GXScaffold/Branched/Basic.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "def:branched_covering",
+      "tex_lines": [
+        988,
+        992
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.IsBranchedCovering",
+        "GX.branchingLocus",
+        "GX.IsPossiblyBranchedOver",
+        "GX.fiber",
+        "GX.isBranchedCovering_id"
+      ],
+      "hypotheses": [
+        {
+          "paper": "complete surjective spread, X and Y connected, ord(X), ord(Y) portly",
+          "here": "carried",
+          "note": "IsSpread, IsCompleteSpread (GXScaffold.Spread.Completion), Surjective, ConnectedSpace X/Y, IsPortly (ordX p), IsPortly (ordY p)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "rem:branching_locii_branched_covering",
+      "tex_lines": [
+        998,
+        999
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.IsBranchedCovering.branching_locii"
+      ],
+      "hypotheses": [
+        {
+          "paper": "§3 standing hypotheses",
+          "here": "weakened",
+          "note": "none used"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "rem:ordinary_part_branched_covering",
+      "tex_lines": [
+        1000,
+        1002
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.IsBranchedCovering.ordinary_part"
+      ],
+      "hypotheses": [
+        {
+          "paper": "covering",
+          "here": "carried",
+          "note": "surjective covering map (DEC-40); also ord(X), ord(Y) connected, as the paper's justification says"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "lem:portly_preimage_branched",
+      "tex_lines": [
+        1003,
+        1009
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.IsBranchedCovering.isPortly_preimage"
+      ],
+      "hypotheses": [
+        {
+          "paper": "§3 standing hypotheses",
+          "here": "weakened",
+          "note": "none used (source locally connected comes from the spread)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "lem:complete_path_carac",
+      "tex_lines": [
+        1014,
+        1034
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.complete_path_carac",
+        "GX.PathLiftExtends",
+        "GX.HomotopyLiftExtends",
+        "GX.exists_extend_of_isCompleteSpread",
+        "GX.exists_extend_path_of_isCompleteSpread",
+        "GX.isCompleteSpread_of_pathLiftExtends",
+        "GX.exists_partial_lift"
+      ],
+      "hypotheses": [
+        {
+          "paper": "X connected; induces a covering X1 -> Y1 with X1, Y1 portly",
+          "here": "carried",
+          "note": "ConnectedSpace X; MapsTo + IsCoveringMap + Surjective of the restriction (DEC-40)"
+        },
+        {
+          "paper": "X, Y Hausdorff, locally path-connected (standing)",
+          "here": "carried",
+          "note": ""
+        },
+        {
+          "paper": "Y first countable (standing)",
+          "here": "carried",
+          "note": "used by lem:path_covering in Y and in the Fox completion"
+        },
+        {
+          "paper": "X first countable (standing)",
+          "here": "weakened",
+          "note": "not used"
+        },
+        {
+          "paper": "(iii): Q Hausdorff locally connected",
+          "here": "carried",
+          "note": "kept in HomotopyLiftExtends; Fox's extension property itself (exists_extend_of_isCompleteSpread) needs only Q locally connected, and needs only Y T1 locally connected on the base"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.1031: the proof applies lem:path_covering in Y, which needs Y connected, but the lemma does not assume Y connected. It follows (Y1 is dense and lies in p(X), which is connected since X is), so the statement is true; the proof should say so.",
+        "l.1032-1033: the proof embeds X in 'the completion' X̄ with X portly in X̄; by WP-25c a completion in the paper's sense need not exist (theo:Fox_completion_functor existence is false in general). The argument is repaired with Fox's space of ends, in which only the image of X1 = p^{-1}(Y1) needs to be portly; it is, being base^{-1}(Y1) (ends over ordinary points are realised)."
+      ],
+      "questions": [
+        "Partial lifts on [0,1) (resp. Q x [0,1)) are read as functions on I (resp. Q x I) continuous on {t < 1}; the value at t = 1 is ignored."
+      ]
+    },
+    {
+      "label": "lem:branched_covering_restriction",
+      "tex_lines": [
+        1041,
+        1050
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.branched_covering_restriction",
+        "GX.IsBranchedCovering.image_connectedComponentIn",
+        "GX.IsCompOf.mapsTo"
+      ],
+      "hypotheses": [
+        {
+          "paper": "U open connected",
+          "here": "weakened",
+          "note": "IsOpen and IsPreconnected"
+        },
+        {
+          "paper": "V a connected component of p^{-1}(U)",
+          "here": "carried",
+          "note": "GX.IsCompOf p U V; the MapsTo proof is an argument, implied by it (GX.IsCompOf.mapsTo)"
+        },
+        {
+          "paper": "X, Y Hausdorff, locally path-connected; Y first countable",
+          "here": "carried",
+          "note": ""
+        },
+        {
+          "paper": "X first countable",
+          "here": "weakened",
+          "note": "not used"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "cor:spread_connected_image",
+      "tex_lines": [
+        1053,
+        1060
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.spread_connected_image"
+      ],
+      "hypotheses": [
+        {
+          "paper": "standing hypotheses on X",
+          "here": "weakened",
+          "note": "none used"
+        },
+        {
+          "paper": "standing hypotheses on Y",
+          "here": "weakened",
+          "note": "T1Space, LocPathConnectedSpace, FirstCountableTopology"
+        },
+        {
+          "paper": "U connected open",
+          "here": "weakened",
+          "note": "open and preconnected"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "cor:subcovering_portly",
+      "tex_lines": [
+        1062,
+        1066
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.subcovering_portly"
+      ],
+      "hypotheses": [
+        {
+          "paper": "standing hypotheses",
+          "here": "carried",
+          "note": "X, Y T2 and locally path-connected, Y first countable; X first countable not used"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "lem:subcovering_general",
+      "tex_lines": [
+        1069,
+        1087
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.subcovering_general",
+        "GX.IsSpread.restrict_of_locallyConnectedSpace",
+        "GX.subset_ordY_restrict",
+        "GX.IsEvenlyCoveredSet.restrict",
+        "GX.IsEvenlyCoveredSet.mono_of_isPreconnected",
+        "GX.pathLiftExtends_restrict"
+      ],
+      "hypotheses": [
+        {
+          "paper": "standing hypotheses",
+          "here": "carried",
+          "note": "X, Y T2, locally path-connected, first countable (X first countable is used through lem:portly_first_countable)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "GX.dense_setOf_lt_one",
+    "GX.eq_one_of_not_lt_one",
+    "GX.FoxGood",
+    "GX.foxGood_exists",
+    "GX.foxGood_tail",
+    "GX.foxTime",
+    "GX.foxTime_exists",
+    "GX.foxTime_spec",
+    "GX.mem_foxComp",
+    "GX.foxEnd",
+    "GX.foxEnd_apply",
+    "GX.mem_foxEnd",
+    "GX.exists_extend_of_isCompleteSpread",
+    "GX.exists_extend_path_of_isCompleteSpread",
+    "GX.exists_partial_lift",
+    "GX.isCompleteSpread_of_pathLiftExtends",
+    "GX.IsSpread.restrict_of_locallyConnectedSpace",
+    "GX.isOpen_image_inter_of_homeomorph",
+    "GX.IsEvenlyCoveredSet.mono_of_isPreconnected",
+    "GX.IsEvenlyCoveredSet.restrict",
+    "GX.subset_ordY_restrict",
+    "GX.pathLiftExtends_restrict",
+    "GX.IsPortly.preimage_val_of_isOpen",
+    "GX.IsPortly.connectedSpace_of_subset",
+    "GX.IsCompOf.mapsTo",
+    "GX.isBranchedCovering_id"
+  ],
+  "kb_proposals": [
+    "Lifting a path on [0,1) through a covering: liftHomotopy over A = {t : I | t < 1} with H(s,a) = γ(s*a), then f(a) = Γ(1,a); f(0) = e by IsCoveringMap.eq_of_comp_eq (GX.exists_partial_lift).",
+    "Fox's extension property for complete spreads is now GX.exists_extend_of_isCompleteSpread (homotopy, Q locally connected) and GX.exists_extend_path_of_isCompleteSpread (path): build the end at H(q,1) from the components of tails F(N × (l,1)).",
+    "The criterion 'every partial path lift extends ⇒ complete' is GX.isCompleteSpread_of_pathLiftExtends; it needs only Y1 open ⊆ ord(Y) with p⁻¹(Y1) portly, and is reusable for (co)restrictions with GX.pathLiftExtends_restrict and GX.subset_ordY_restrict.",
+    "A (co)restriction of a spread to any LOCALLY CONNECTED subset (not only an open one) is a spread: GX.IsSpread.restrict_of_locallyConnectedSpace.",
+    "In `connectedComponentIn_subset _ _ hz` with hz in a component of a preimage, give the set and point explicitly: the elaborator otherwise unifies against the target-side set and fails."
+  ],
+  "notes": "One file, 0 sorry, builds with `lake build GXScaffold.Branched.Basic` (no rebuild of GX.* or mathlib); axioms of the main theorems: propext, Classical.choice, Quot.sound. Imports GXScaffold.Spread.Completion (sibling, read-only) and through it GX.Spread.Basic / GX.Topology.Portly. The strict library is not touched. All nine labels are marked: every hypothesis is carried or weakened, none added. Two findings on the proof of lem:complete_path_carac (Y connected used but not assumed — it follows; the completion it embeds into need not exist — repaired via Fox's space of ends). File compiles warning-free, so it should be graduation-ready once GXScaffold.Spread.Completion graduates (it depends on it)."
+}

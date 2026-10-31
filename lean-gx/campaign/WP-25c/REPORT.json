@@ -1,0 +1,286 @@
+{
+  "package": "WP-25c",
+  "files": [
+    "scaffold/GXScaffold/Spread/Completion.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "def:complete_spread_spread_completion",
+      "tex_lines": [
+        903,
+        912
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.IsCNbhd",
+        "GX.IsCompOf",
+        "GX.SpreadEnd",
+        "GX.SpreadEnd.ofPoint",
+        "GX.IsCompleteSpread",
+        "GX.isCompleteSpread_iff",
+        "GX.IsSpreadCompletion",
+        "GX.IsFoxCompletion"
+      ],
+      "hypotheses": [
+        {
+          "paper": "open and connected neighbourhood",
+          "here": "carried",
+          "note": "IsOpen ∧ IsPreconnected ∧ y ∈ U (same thing for a set containing y)"
+        },
+        {
+          "paper": "chi defined on connected open neighbourhoods only",
+          "here": "carried",
+          "note": "SpreadEnd.toFun is total, normalised to ∅ off the connected open neighbourhoods (eq_empty), so an end is determined by its values there (ext_of_isCNbhd)"
+        },
+        {
+          "paper": "y ∈ closure p(X)",
+          "here": "carried",
+          "note": "literal in IsCompleteSpread; over a locally connected base it is automatic (SpreadEnd.base_mem_closure, isCompleteSpread_iff)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "theo:Fox_completion_functor",
+      "tex_lines": [
+        914,
+        916
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.SpreadEnd.isFoxCompletion_base",
+        "GX.SpreadEnd.isSpread_base",
+        "GX.SpreadEnd.isCompleteSpread_base",
+        "GX.SpreadEnd.isEmbedding_ofPoint",
+        "GX.SpreadEnd.denseRange_ofPoint",
+        "GX.SpreadEnd.isLocallyConnectedIn_range_ofPoint",
+        "GX.SpreadEnd.isSpreadCompletion_base_iff",
+        "GX.IsFoxCompletion.homeomorph",
+        "GX.IsFoxCompletion.existsUnique_homeomorph",
+        "GX.IsSpreadCompletion.existsUnique_homeomorph",
+        "GX.IsSpreadCompletion.isOpen_range_ofPoint",
+        "GX.exists_isSpreadCompletion_iff",
+        "GX.not_exists_isSpreadCompletion_foxSeq",
+        "GX.SpreadEnd.map",
+        "GX.SpreadEnd.map_ofPoint",
+        "GX.SpreadEnd.continuous_map",
+        "GX.SpreadEnd.eq_map",
+        "GX.SpreadEnd.map_id",
+        "GX.SpreadEnd.map_comp",
+        "GX.SpreadEnd.map_injective",
+        "GX.foxCompletionFunctor",
+        "GX.not_full_foxCompletionFunctor",
+        "GX.completion_not_full",
+        "GX.SpreadEnd.isSpreadCompletion_base_of_subset_ordY",
+        "GX.SpreadEnd.isSpreadCompletion_id",
+        "GX.SpreadEnd.t2Space",
+        "GX.SpreadEnd.firstCountableTopology",
+        "GX.SpreadEnd.secondCountableTopology",
+        "GX.not_isSpreadCompletion_of_not_isOpen",
+        "GX.not_isSpreadCompletion_foxSeq",
+        "GX.IsFoxCompletion.extend",
+        "GX.IsFoxCompletion.continuous_extend",
+        "GX.IsFoxCompletion.extend_comm",
+        "GX.IsFoxCompletion.extend_comp",
+        "GX.IsFoxCompletion.existsUnique_extend",
+        "GX.SpreadEnd.isPathConnected_apply",
+        "GX.SpreadEnd.exists_joinedIn_ofPoint",
+        "GX.SpreadEnd.isPathConnected_basicSet",
+        "GX.SpreadEnd.locPathConnectedSpace",
+        "GX.isLCSpread_foxCompletion",
+        "GX.foxCompletionEndofunctor",
+        "GX.foxCompletionEndofunctor_comp_ι",
+        "GX.not_full_foxCompletionEndofunctor"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Y Hausdorff, locally (path-)connected (§3 standing)",
+          "here": "weakened",
+          "note": "LocallyConnectedSpace Y everywhere; T1Space Y to realise ends; T2Space Y for uniqueness of isomorphisms/extensions and Hausdorffness of the completion"
+        },
+        {
+          "paper": "X, X' Hausdorff (§3 standing)",
+          "here": "weakened",
+          "note": "T0Space X (ι an embedding), T0Space X' (comparison map injective)"
+        },
+        {
+          "paper": "every spread admits a completion",
+          "here": "strengthened",
+          "note": "iff the image of X in its space of ends is open (exists_isSpreadCompletion_iff); sufficient: p lands in an open V ⊆ ord(Y) (isSpreadCompletion_base_of_subset_ordY), or p complete"
+        },
+        {
+          "paper": "functor on Spread",
+          "here": "strengthened",
+          "note": "foxCompletionFunctor is defined on the full subcategory IsLCSpread of spreads with LocallyConnectedSpace Y, T2Space Y, T0Space X (the space of ends needs a locally connected base); the completion stays in IsLCSpread (isLCSpread_foxCompletion), so it is an endofunctor of that subcategory (foxCompletionEndofunctor, faithful, not full)"
+        },
+        {
+          "paper": "§3 standing: locally path-connected, first countable (completion is again such a space)",
+          "here": "carried",
+          "note": "GX.SpreadEnd.locPathConnectedSpace: LocPathConnectedSpace X, LocallyConnectedSpace Y, FirstCountableTopology Y (local path-connectedness of Y not needed); first countability is used only here"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.915 existence is false as written: the inclusion of ℂ ∖ {1/(n+1)} into ℂ is a spread (Hausdorff, second countable, locally path-connected source, GX.locPathConnectedSpace_compl_countable) with NO completion in the paper's sense (GX.not_exists_isSpreadCompletion_foxSeq; in every universe: GX.not_isSpreadCompletion_foxSeq, and in general GX.not_isSpreadCompletion_of_not_isOpen): by uniqueness every completion is id_ℂ, and the image ℂ ∖ {1/(n+1)} is not open (0 is a limit of removed points). What is true: Fox's completion (space of ends) always exists with a dense, locally-connected-in image (Fox's own notion; IsFoxCompletion), and it is a completion in the paper's sense iff that image is open (GX.exists_isSpreadCompletion_iff) — e.g. when p lands in an open subset of its ordinary locus (the completion of a covering of a portly subset, the case l.1147/l.1170/l.1439 use).",
+        "l.915 uniqueness holds, in the strong form: any two completions (even in Fox's sense) are isomorphic by a UNIQUE homeomorphism over Y and under X (GX.IsFoxCompletion.existsUnique_homeomorph).",
+        "l.915 'fully faithful' is false (as the 2021 draft): the completion functor is faithful but not full (GX.not_full_foxCompletionFunctor: ℂ∖{0} and ℂ∖{1} both complete to ℂ, and the identity between the completions extends no morphism ℂ∖{0} → ℂ∖{1}; also GX.completion_not_full for the paper's completions id_ℂ). What l.1170 and l.1439 actually use is true and proved: every spread morphism (f, g) extends uniquely and continuously to the completions (GX.SpreadEnd.map, GX.SpreadEnd.eq_map), functorially (map_id, map_comp), and the extension determines g (map_injective); the same holds between ARBITRARY completions (Fox's or the paper's), as l.1170/l.1439 use it (GX.IsFoxCompletion.existsUnique_extend: a unique continuous ḡ with p₂'∘ḡ = f∘p₁' and ḡ∘ι₁ = ι₂∘g).",
+        "Local path-connectedness of the completion (needed for 'completion is a functor from Spread to itself' under the §3 standing assumptions, and used by lem:complete_path_carac l.1033 via lem:path_covering on the completion) is proved: GX.SpreadEnd.locPathConnectedSpace (paths to an end are infinite concatenations through e(W_n), W_n a decreasing basis at the base)."
+      ],
+      "questions": [
+        "The paper's 'completion of spread is a functor from Spread to itself' needs a locally connected base for the space of ends to be a spread; the functor is formalized on the full subcategory LocallyConnectedSpace Y ∧ T2Space Y ∧ T0Space X (the §3 standing assumptions imply it). Is that the intended domain?"
+      ]
+    },
+    {
+      "label": "prop:spread_fiber",
+      "tex_lines": [
+        924,
+        946
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.DiscreteSets",
+        "GX.FiberThread",
+        "GX.fiberMap",
+        "GX.continuous_fiberMap",
+        "GX.isInducing_fiberMap",
+        "GX.injective_fiberMap",
+        "GX.isEmbedding_fiberMap",
+        "GX.isOpenMap_fiberMap_iff",
+        "GX.mem_range_fiberMap_iff",
+        "GX.surjective_fiberMap_iff_threads",
+        "GX.FiberThread.toEnd",
+        "GX.surjective_fiberMap_iff_ends",
+        "GX.isCompleteSpread_iff_forall_surjective_fiberMap",
+        "GX.fiberHomeomorph",
+        "GX.fiberMap_exp_bijective_not_complete",
+        "GX.isCompleteSpread_iff_forall_exists_surjective_fiberMap",
+        "GX.combSet",
+        "GX.combProj",
+        "GX.isSpread_combProj",
+        "GX.combBasis",
+        "GX.combThread",
+        "GX.combThread_eq_of_lt",
+        "GX.combThread_ne",
+        "GX.combFiber_eq",
+        "GX.not_isOpenMap_fiberMap_comb",
+        "GX.fiberMapNhds",
+        "GX.fiberMap_eq_fiberMapNhds",
+        "GX.continuous_fiberMapNhds",
+        "GX.isInducing_fiberMapNhds",
+        "GX.isEmbedding_fiberMapNhds",
+        "GX.mem_range_fiberMapNhds_iff"
+      ],
+      "hypotheses": [
+        {
+          "paper": "𝓤 a connected neighbourhood basis of b",
+          "here": "reading",
+          "note": "read as a family of OPEN connected neighbourhoods (IsCNbhd) forming a basis of 𝓝 b for the comparison with ends and the completeness criteria; the embedding and the image criterion are ALSO proved under the widest reading, 𝓤 any family of neighbourhoods of b (neither open nor connected) forming a basis (GX.fiberMapNhds, GX.isEmbedding_fiberMapNhds, GX.mem_range_fiberMapNhds_iff; equal to fiberMap on open connected ones by rfl)"
+        },
+        {
+          "paper": "X Hausdorff (standing)",
+          "here": "weakened",
+          "note": "T0Space X for injectivity"
+        },
+        {
+          "paper": "Y Hausdorff (standing)",
+          "here": "weakened",
+          "note": "T1Space Y for the surjectivity criteria, LocallyConnectedSpace Y for 'iff complete'"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.928 'injective open': injective and an embedding (open onto its image) is proved (GX.isEmbedding_fiberMap); the literal 'open map into the inverse limit' is equivalent to the image being open (GX.isOpenMap_fiberMap_iff) and is FALSE, proved by GX.not_isOpenMap_fiberMap_comb: X = GX.combSet ⊆ ℝ², the x-axis with the arms {(t, r_n − t) : 0 < t ≤ r_n}, r_n = 2⁻ⁿ (Hausdorff, second countable, locally path-connected — instance), p = first projection (a spread, GX.isSpread_combProj), b = 0, 𝓤 = {(−ρ, ρ)}: p⁻¹(0) is the origin, and the arm-n thread (GX.combThread) agrees with the origin's on every (−ρ, ρ) with ρ > r_n (combThread_eq_of_lt) but is unrealised (combThread_ne), so every cylinder around φ(origin) leaves the image. The proof's identity φ(V ∩ p⁻¹(b)) = π_U⁻¹(V) (l.940) holds only when every thread through V is realised.",
+        "l.929 'homeomorphism iff complete' is false for a fixed b: exp : ℝ → ℝ at b = 1 has the natural map a homeomorphism for every basis while exp is not complete (GX.fiberMap_exp_bijective_not_complete). True forms: for fixed b, onto iff every thread (equivalently every end at b) has a point (surjective_fiberMap_iff_threads, surjective_fiberMap_iff_ends); complete iff onto for every b and every basis (GX.isCompleteSpread_iff_forall_surjective_fiberMap), equivalently for one basis at each b (GX.isCompleteSpread_iff_forall_exists_surjective_fiberMap), and then a homeomorphism (GX.fiberHomeomorph)."
+      ],
+      "questions": [
+        "Is 'injective open' meant as 'a homeomorphism onto its image' (proved) rather than 'an open map into the limit' (false, comb)?",
+        "Is 'connected neighbourhood basis' meant to allow non-open connected neighbourhoods? The comparison with ends is stated for open ones (IsCNbhd); the embedding is proved for any neighbourhood basis (fiberMapNhds)."
+      ]
+    },
+    {
+      "label": "cor:totdiscont",
+      "tex_lines": [
+        947,
+        948
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.isTotallyDisconnected_fiber"
+      ],
+      "hypotheses": [
+        {
+          "paper": "X Hausdorff (standing)",
+          "here": "weakened",
+          "note": "T0Space X; it is needed (an indiscrete two-point space over a point is a spread with a connected fibre)"
+        },
+        {
+          "paper": "Y standing assumptions",
+          "here": "weakened",
+          "note": "not used"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "GX.exists_isCNbhd_subset",
+    "GX.hasBasis_nhds_isCNbhd",
+    "GX.eq_of_forall_isCNbhd",
+    "GX.SpreadEnd.eq_ofPoint_iff",
+    "GX.SpreadEnd.base_mem_closure",
+    "GX.SpreadEnd.hasBasis_nhds",
+    "GX.SpreadEnd.connectedComponentIn_base_preimage",
+    "GX.SpreadEnd.locallyConnectedSpace",
+    "GX.SpreadEnd.exists_mem_of_isEvenlyCoveredSet",
+    "GX.SpreadEnd.isOpen_range_ofPoint_of_forall",
+    "GX.SpreadEnd.surjective_ofPoint_of_isCompleteSpread",
+    "GX.countable_isCompOf",
+    "GX.isCompleteSpread_id",
+    "GX.isSpread_id",
+    "GX.isPreconnected_ball_diff_countable",
+    "GX.isPathConnected_ball_diff_countable",
+    "GX.isPreconnected_diff_countable",
+    "GX.locallyConnectedSpace_compl_countable",
+    "GX.locPathConnectedSpace_compl_countable",
+    "GX.isFoxCompletion_compl_countable",
+    "GX.isSpreadCompletion_compl_singleton",
+    "GX.isSpread_exp",
+    "GX.not_isCompleteSpread_exp",
+    "GX.Spread.foxCompletion",
+    "GX.IsLCSpread",
+    "GX.isPathConnected_of_forall_mem",
+    "GX.combR",
+    "GX.combR_eq_of_mem",
+    "GX.combArm",
+    "GX.isOpen_combArm",
+    "GX.connectedComponentIn_subset_combArm",
+    "GX.connectedComponentIn_subset_combAxis",
+    "GX.combNbhd",
+    "GX.hasBasis_nhds_combNbhd",
+    "GX.isPathConnected_combNbhd",
+    "GX.instLocPathConnectedSpaceElemProdRealCombSet"
+  ],
+  "kb_proposals": [
+    "Fox completion = SpreadEnd p: a structure with base and a TOTAL toFun : Set Y → Set X normalised to ∅ off the connected open neighbourhoods; then equality of ends is plain structure ext (no dependent types), which made every comparison map easy.",
+    "The neighbourhood basis of an end e is basicSet W (e W), W a connected open nbhd of e.base; the only non-trivial fact is that basicSet W (e W) is the component of base⁻¹(W) (partition into the open sets basicSet W D).",
+    "Uniqueness of completions needs only dense + locally-connected-in image (Fox's notion), never openness; openness of the image is exactly the existence obstruction in the paper's definition.",
+    "ℂ minus a countable set: balls stay (path-)connected via OpenPartialHomeomorph.univBall + Set.Countable.isPathConnected_compl_of_one_lt_rank; open connected sets via GX.isPreconnected_of_local.",
+    "Elaboration pitfall: lemmas whose hypothesis is IsCNbhd (p x) U can unify p x with SpreadEnd.base e (p := base); pass (p := p) (x := x) explicitly. connectedComponentIn_subset _ _ h also mis-unifies; give F and x.",
+    "Local path-connectedness of a space of ends: chain paths through e(W_n) for a decreasing basis W_n := connectedComponentIn (interior (s n) ∩ W) base and close with GX.Path.exists_infConcat; the infConcat's 'every point before 1 is on some φ n' clause gives containment in the basic set.",
+    "Separating components of p⁻¹ V in a concrete subspace: IsPreconnected.subset_left_of_subset_union with two globally disjoint open sets of the subspace defined by continuous coordinate functions; isolate a discrete set of values (arm heights) by an open interval to get openness.",
+    "Path-connected subsets of a subtype S ⊆ ℝ²: prove it for the image set in ℝ² and pull back with IsInducing.subtypeVal.isPathConnected_iff + Subtype.image_preimage_coe.",
+    "To make a functor C ⥤ Spread into an endofunctor of a full subcategory P, use P.lift F hF (ObjectProperty.lift); Faithful transfers by instance, and ¬Full transfers via (P.lift F hF ⋙ P.ι = F) := rfl."
+  ],
+  "notes": "Round 2 (fixer, after AUDIT-2 'clean' with two minor items). Both addressed: (1) GX.isLCSpread_foxCompletion + GX.foxCompletionEndofunctor (ObjectProperty.lift of foxCompletionFunctor; faithful instance; GX.not_full_foxCompletionEndofunctor), so 'a functor from Spread to itself' is formalized as an endofunctor of IsLCSpread; (2) the wider reading of prop:spread_fiber's basis: GX.fiberMapNhds over any neighbourhood basis (not necessarily open or connected), continuous, inducing, an embedding (T0 X), image criterion (T1 Y); GX.fiberMap_eq_fiberMapNhds is rfl. File 0 sorry; `taskset -c 0-11 lake env lean` prints nothing; `taskset -c 0-11 lake build GXScaffold.Spread.Completion` succeeds (only this module rebuilt); #print axioms on the new declarations: propext, Classical.choice, Quot.sound. Round 1 (fixer). File now ~2360 lines, 0 sorry, `taskset -c 0-11 lake build GXScaffold.Spread.Completion` succeeds (only this module rebuilt), `lake env lean` prints nothing; #print axioms on the new main declarations (not_isOpenMap_fiberMap_comb, SpreadEnd.locPathConnectedSpace, IsFoxCompletion.existsUnique_extend, not_isSpreadCompletion_foxSeq, isCompleteSpread_iff_forall_exists_surjective_fiberMap, exists_isSpreadCompletion_iff): propext, Classical.choice, Quot.sound only. Imports GX.Spread.Basic only (Path.exists_infConcat comes transitively from GX.Topology.Portly). Audit-1 fixes: (major) the comb counterexample to the literal 'open' of prop:spread_fiber is formalized (GX.not_isOpenMap_fiberMap_comb); (major) local path-connectedness of the completion is proved (GX.SpreadEnd.locPathConnectedSpace); (minor) countable_isCompOf moved to namespace GX (GX.countable_isCompOf now exists); (minor) the IsCNbhd reading of 𝓤 is relabelled a reading and asked as a question; (minor) exists_isSpreadCompletion_iff now has X₀ : Type u, Y₀ : Type v, X' : Type (max u v), and non-existence is stated universe-free (not_isSpreadCompletion_of_not_isOpen, not_isSpreadCompletion_foxSeq); (minor) the ∃-basis variant isCompleteSpread_iff_forall_exists_surjective_fiberMap is added; (minor) extension to arbitrary completions IsFoxCompletion.extend / existsUnique_extend is added. Uses `attribute [local instance] Classical.propDecidable` and `set_option linter.unusedSectionVars false` (file-local). The rows theo:Fox_completion_functor and prop:spread_fiber stay partial because the paper's statements are false as written (DEC-27), each falsity now proved in Lean.",
+  "round": 2
+}
