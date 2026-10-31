@@ -29,3 +29,4 @@ rediscover. One fact per entry.
 | [0021](entries/0021-metric-from-a-formula.md) | pattern | A space given by a distance formula with identifications: `SeparationQuotient` |
 | [0022](entries/0022-rulings-and-printed-forms.md) | house-rule | After a ruling, the strengthened theorem is principal and the printed form becomes a `Prop` |
 | [0023](entries/0023-maximal-chains-of-the-order.md) | pattern | Maximal chains of the causal order, and abstract Section 4 |
+| [0024](entries/0024-two-papers-one-library.md) | house-rule | Two papers in one library: Barbot labels are `bthm:`/`bprop:`/…, modules under `Flat/` |

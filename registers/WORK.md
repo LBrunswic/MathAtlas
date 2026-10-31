@@ -32,4 +32,10 @@ fails on a malformed row. Status: `PROPOSED · APPROVED · IN-PROGRESS · BLOCKE
 | WP-25 | 2 | gx: the agent campaign, wave 2 — spreads, Fox completion, branched coverings and the maximal branched covering | PROPOSED | 2026-10-31 | DEC-27 |
 | WP-26 | 2 | gx: the agent campaign, wave 3 — paths, Galois theory, codimension-2 examples | PROPOSED | 2026-10-31 | DEC-27 |
 | WP-27 | 2 | gx: the agent campaign, wave 4 — singular (G,X)-manifolds, tameness, singular models, the singular developing map | PROPOSED | 2026-10-31 | DEC-25 |
-| WP-28 | 2 | gx: the agent campaign, wave 5 — Minkowski space, the BTZ model, uniformization of BTZ-manifolds, and the cited results (brunswic2021cauchy Thm 3, Barbot) | PROPOSED | 2026-10-31 | DEC-26; scoped first |
+| WP-28 | 2 | gx: the agent campaign, wave 5 — Minkowski space, the BTZ model, uniformization of BTZ-manifolds, and the cited results (brunswic2021cauchy Thm 3, Barbot) | PROPOSED | 2026-10-31 | DEC-26; scoped first; Barbot is owned by WP-29…WP-34 and consumed here (DEC-34) |
+| WP-29 | 2 | barbot: wave 0 — `papers/barbot/` (snapshot of arXiv math/0402257, b-prefixed labels, ledger, curation, reading map), the campaign document `lean-causal/docs/BARBOT.md`, kb/0024 | IN-PROGRESS | 2026-10-31 | DEC-34; 44 statements, 5 terminal |
+| WP-30 | 2 | barbot: wave 1 — the geometry of Minkowski space: the form, the Lorentz and Poincaré groups, isometries are causal automorphisms, achronal sets and entire acausal graphs as Cauchy surfaces, the Penrose boundary and regular convex domains (§4.1–4.2), classification of isometries (§6), achronal domains (§7) | PROPOSED | 2026-10-31 | DEC-34, DEC-38 |
+| WP-31 | 2 | barbot: wave 2 — flat spacetimes as (Isom, Minkowski)-manifolds with their causality, quotients Γ\Ω, the elementary models (§3), twisted products (§5) | PROPOSED | 2026-10-31 | DEC-34 |
+| WP-32 | 2 | barbot: wave 3 — the universal cover, the developing map and holonomy, Cauchy-completeness and (CC′), the §8 spine to `bprop:danom` | PROPOSED | 2026-10-31 | DEC-35, DEC-37 |
+| WP-33 | 2 | barbot: wave 4 — named external hypotheses, Bieberbach-light, the cosmological time of regular domains | PROPOSED | 2026-10-31 | DEC-36 |
+| WP-34 | 2 | barbot: wave 5 — the nonloxodromic and loxodromic cases (§9–§10), Theorems A and B, absolute maximality (§11) | PROPOSED | 2026-10-31 | OQ-21, OQ-22, OQ-23 |

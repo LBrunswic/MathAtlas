@@ -1,0 +1,25 @@
+# Ledger configuration for barbot: T. Barbot, Globally hyperbolic flat space-times (arXiv math/0402257,
+# J. Geom. Phys. 2005), an EXTERNAL paper formalized on the ETT library (DEC-34). The Lean library is
+# `Causal` / `CausalScaffold` in `lean-causal/`, shared with papers/ett; the labels carry b-prefixed
+# kinds (bthm, bprop, ...) so that neither ledger reads the other's docstring marks (kb/0024).
+[paper]
+root = "../legacy/labeled"
+document = "GHFspace.tex"
+notation = []
+files = [["GHFspace.tex", "body", "P"]]
+env_alias = { thma = "theorem", prop = "proposition", lema = "lemma", cora = "corollary", defina = "definition" }
+label_prefixes = ["bthm", "bprop", "blem", "bcor", "bdef"]
+coverage_recursive = false
+
+[lean]
+root = "../../../lean-causal"
+strict = ["Causal"]
+scaffold = ["scaffold/CausalScaffold"]
+scope = ["*"]
+
+[output]
+dir = "."
+json = "ledger.json"
+markdown = "LEDGER.md"
+dot = "dag.dot"
+tool_name = "tools/ledger.py"
