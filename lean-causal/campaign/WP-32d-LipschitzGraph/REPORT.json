@@ -1,0 +1,219 @@
+{
+  "package": "WP-32d-LipschitzGraph",
+  "files": [
+    "scaffold/CausalScaffold/Flat/LipschitzGraph.lean"
+  ],
+  "builds": true,
+  "sorry_count": 1,
+  "labels": [
+    {
+      "label": "[8.G] (l.2307-2309, l.2320-2326): the contracting graph and its achronality; the null-line Cauchy criterion for entire strictly contracting graphs (design §1A-B)",
+      "tex_lines": [
+        2307,
+        2326
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.timeSub",
+        "Causal.Flat.IsStrictContraction",
+        "Causal.Flat.mem_graph_iff_timeSub",
+        "Causal.Flat.isAcausal_graph_iff_isStrictContraction",
+        "Causal.Flat.IsStrictContraction.lipschitzWith",
+        "Causal.Flat.isTimeFunction_timeSub",
+        "Causal.Flat.timeSub_le_of_le",
+        "Causal.Flat.timeSub_lt_of_le",
+        "Causal.Flat.timeLine",
+        "Causal.Flat.inextensible_timeLine",
+        "Causal.Flat.exists_mem_line_of_isCauchySurfaceOn",
+        "Causal.Flat.exists_ray_of_tendsto",
+        "Causal.Flat.bddBelow_fst_Jminus_inter",
+        "Causal.Flat.bddAbove_fst_Jplus_inter",
+        "Causal.Flat.isCauchySurface_graph_iff"
+      ],
+      "hypotheses": [
+        {
+          "paper": "S~ is the developed complete spacelike hypersurface",
+          "here": "replaced",
+          "note": "an arbitrary entire strictly contracting graph; that S~ is one is bprop:project (CauchyComplete)"
+        },
+        {
+          "paper": "'contracting' (l.2308)",
+          "here": "carried",
+          "note": "strict reading IsStrictContraction (= acausal graph); 1-Lipschitz where it suffices"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "The exact Cauchy criterion for an entire strictly contracting graph of M^n is 'meets every null affine line' (isCauchySurface_graph_iff, both directions closed); timelike lines are met automatically (existsUnique_mem_graph_line). It sharpens Achronal's SCOPE remark that a uniform kappa < 1 is sufficient, not necessary. What it says about l.2491 is recorded under the separate bprop:danom entry."
+      ],
+      "questions": []
+    },
+    {
+      "label": "bprop:danom, l.2489-2491 'every nonspacelike line of M meets D(S~ x {t})' (W7; false as written)",
+      "tex_lines": [
+        2489,
+        2491
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.isCauchySurface_graph_iff",
+        "Causal.Flat.exists_mem_graph_hyperboloid_null_iff",
+        "Causal.Flat.exists_mem_graph_hyperboloid_null_iff_isFutureTimelike",
+        "Causal.Flat.dependenceDomain_hyperboloid",
+        "Causal.Flat.not_isCauchySurface_graph_hyperboloid_of_criterion"
+      ],
+      "hypotheses": [
+        {
+          "paper": "D(S~ x {t}) the developed slice (D = developing map)",
+          "here": "replaced",
+          "note": "an arbitrary entire strictly contracting graph of M^n; no developing map, no quotient"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "By isCauchySurface_graph_iff, l.2491's claim, for a strictly contracting entire graph (here the developed slice D(S~ x {t}), D the developing map), says exactly that the slice is a Cauchy surface of M^n. The hyperboloid (Rem 2.2) is a strictly contracting entire graph whose domain of dependence is only the open future cone (dependenceDomain_hyperboloid) and which is no Cauchy surface of M^n (not_isCauchySurface_graph_hyperboloid): the claim fails for it. This confirms docs/BARBOT-WAVE3.md §0 W7 (in the hyperboloid quotient, null lines through the vertex miss every slice) and is why the design repairs bprop:danom without slices. Barbot does not use a Cauchy criterion at l.2491; he asserts the meeting property, which is what fails."
+      ],
+      "questions": []
+    },
+    {
+      "label": "Rem 2.2 (the hyperboloid, standard example)",
+      "tex_lines": [
+        540,
+        545
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.exists_nullLine_not_mem_graph_hyperboloid",
+        "Causal.Flat.not_isCauchySurface_graph_hyperboloid_of_criterion",
+        "Causal.Flat.dependenceDomain_hyperboloid",
+        "Causal.Flat.isOpen_setOf_isFutureTimelike",
+        "Causal.Flat.isOpen_dependenceDomain_hyperboloid",
+        "Causal.Flat.isCauchySurfaceOn_futureCone_hyperboloid",
+        "Causal.Flat.exists_mem_graph_hyperboloid_null_iff",
+        "Causal.Flat.exists_mem_graph_hyperboloid_null_iff_isFutureTimelike"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M^n, any n",
+          "here": "strengthened",
+          "note": "0 < d (n >= 2) for dependenceDomain_hyperboloid and isOpen_dependenceDomain_hyperboloid, where it is needed (for d = 0 the hyperboloid is the point t = 1 and D is the whole line; Achronal's isCauchySurface_graph_hyperboloid_zero), and for isCauchySurfaceOn_futureCone_hyperboloid, where it is NOT needed (for d = 0, Omega = {t > 0} and S = {t = 1} is still Cauchy for Omega) but inherited from the proof route through D(S); the d = 0 case of that theorem is not stated"
+        },
+        {
+          "paper": "Omega 'a connected component' of {Q < 0}",
+          "here": "weakened",
+          "note": "only the future component {t > |x|}; the past one (graph of -hyperboloid, Achronal's graph_neg_hyperboloid) follows by time reflection and is not stated (disclosed in SCOPE)"
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "Causal.Flat.isCauchySurfaceOn_futureCone_hyperboloid",
+          "obstruction": "rests on isCauchySurfaceOn_interior_dependenceDomain (below); D(hyperboloid) = future cone and its openness are closed"
+        }
+      ],
+      "findings": [
+        "The hyperboloid misses many null lines, not only those through the vertex: the null line r + s l (l != 0, Q(l) = 0) meets it iff l.1 * <r|l> < 0 (exists_mem_graph_hyperboloid_null_iff, closed); for l = (1, e), |e| = 1, iff <r.2, e> < r.1, i.e. iff the line enters the open future cone {t > |x|} = D(S) (exists_mem_graph_hyperboloid_null_iff_isFutureTimelike, closed). E.g. (-1, 0) + s(1, e) misses it without passing through 0. The null lines through the vertex are the boundary case <r|l> = 0 (exists_nullLine_not_mem_graph_hyperboloid proves one of them). Its domain of dependence in M^n is exactly the open future cone {Q < 0, t > 0} (dependenceDomain_hyperboloid, closed): Rem 2.2's Omega is D(S).",
+        "The hyperboloid satisfies (CC') (ccPrime_graph_hyperboloid, closed: on a null hyperplane <r|l> is constant, so either all or none of its l-lines meet S), although it is no Cauchy surface of M^n: (CC') is Cauchy-completeness, consistent with Rem 2.2's 'Omega is MGH'."
+      ],
+      "questions": []
+    },
+    {
+      "label": "design §1C: causal convexity, hub lemma, (CC') transfer",
+      "tex_lines": [
+        2420,
+        2451
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.segment_subset_of_isCauchySurfaceOn",
+        "Causal.Flat.isCompact_Jminus_inter_timeSub",
+        "Causal.Flat.isCompact_Jplus_inter_timeSub",
+        "Causal.Flat.IsEntireAcausalGraph",
+        "Causal.Flat.NullSaturated",
+        "Causal.Flat.CCPrime",
+        "Causal.Flat.isEntireAcausalGraph_iff",
+        "Causal.Flat.ccPrime_of_isCauchySurfaceOn",
+        "Causal.Flat.nullSaturated_graph_hyperboloid",
+        "Causal.Flat.ccPrime_graph_hyperboloid",
+        "Causal.Flat.ccPrime_graph_const"
+      ],
+      "hypotheses": [
+        {
+          "paper": "design: Sigma ⊆ W in segment_subset_of_isCauchySurfaceOn",
+          "here": "weakened",
+          "note": "not needed"
+        },
+        {
+          "paper": "design: lgraph f ⊆ W and 0 <= T z in the hub lemma",
+          "here": "weakened",
+          "note": "not needed (T z < 0 makes the set empty)"
+        },
+        {
+          "paper": "Prop 8.10 (bprop:ghyp), l.2420-2451",
+          "here": "replaced",
+          "note": "only the causal core the design assigns here (causal convexity, hub compactness, (CC') transfer), all closed without sorry; bprop:ghyp itself is not claimed"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "W8's obligation (components causally convex) has a general form: any open W ⊆ M^n with an acausal Cauchy surface is causally convex, segments included (segment_subset_of_isCauchySurfaceOn). Prop 8.12 (step 3, Sigma Cauchy in Omega' = range D) can cite it. Prop 8.10 / W8 cannot without circularity (causal convexity of the components of int U(Gamma) is an input to their global hyperbolicity, so no Cauchy surface is yet available); there convexity of the components already gives the segment form.",
+        "CCPrime is inhabited (kb/0011): ccPrime_graph_const (horizontal hyperplanes) and ccPrime_graph_hyperboloid."
+      ],
+      "questions": []
+    },
+    {
+      "label": "design §1D: domain of dependence",
+      "tex_lines": [
+        2486,
+        2494
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.dependenceDomain",
+        "Causal.Flat.mem_dependenceDomain",
+        "Causal.Flat.dependenceDomain_subset",
+        "Causal.Flat.subset_dependenceDomain",
+        "Causal.Flat.dependenceDomain_eq_of_isCauchySurfaceOn",
+        "Causal.Flat.dependenceDomain_graph_eq_univ",
+        "Causal.Flat.graph_subset_interior_dependenceDomain",
+        "Causal.Flat.isCauchySurfaceOn_interior_dependenceDomain"
+      ],
+      "hypotheses": [
+        {
+          "paper": "design: isOpen_dependenceDomain (general)",
+          "here": "not stated",
+          "note": "interior used throughout (design's fallback); openness proved for the hyperboloid"
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "Causal.Flat.isCauchySurfaceOn_interior_dependenceDomain",
+          "obstruction": "existence only (uniqueness proved): a causal curve inextensible in W = int D(S), not in M^n, must meet S. With T > 0 along it, its past part lies in the compact J^-(c t0) ∩ {T >= 0} (bddBelow_fst_Jminus_inter applies since every causal line through a point of D(S) meets S), so it has a past limit P; needed: (1) J^-(y) ∩ {T >= 0} ⊆ int D(S) for y ∈ int D(S) (concatenation of inextensible curves through y, plus openness), and (2) a W-relative pastExtensible_of_tendsto / Inextensible.reparam (the library has both for ⊤ only: Causal/Inextensible.lean:859, Causal/Cauchy.lean:251)"
+        }
+      ],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.Flat.timeLine_fst",
+    "Causal.Flat.timeLine_param",
+    "Causal.Flat.timeLine_self",
+    "Causal.Flat.timeLine_injective",
+    "Causal.Flat.timeLine_eq_add_smul",
+    "Causal.Flat.le_top_timeLine",
+    "Causal.Flat.IsStrictContraction.neg",
+    "Causal.Flat.continuous_timeSub",
+    "Causal.Flat.abs_sub_le_norm_of_lipschitzWith_one",
+    "Causal.Flat.timeSub_apply"
+  ],
+  "kb_proposals": [
+    "Time reflection (t,x) -> (-t,x) with f -> -f turns every past-side statement about graphs into the future one by pure algebra on points (le flips, T_{-f}(refl p) = -T_f(p)); state the past lemma for functions g : R -> M^n with the explicit cone inequality rather than for causal curves, so the reflected function satisfies it without transporting inextensibility.",
+    "A causal affine line of M^n is an inextensible causal curve over R once parametrised by time (timeLine p v, inextensible_timeLine); its components in an open W (inextensible_ordConnectedComponent) are the way to use IsCauchySurfaceOn W."
+  ],
+  "notes": "Fixer pass (2026-10-31) after the read-only audit. Blocking items fixed: (1) the Rem 2.2 finding no longer says the hyperboloid fails the criterion 'exactly at the null lines through the vertex'; the exact set of missed null lines is now PROVED (exists_mem_graph_hyperboloid_null_iff: meets iff l.1*<r|l> < 0; exists_mem_graph_hyperboloid_null_iff_isFutureTimelike: iff the line enters the open future cone = D(S)). (2) The l.2491 finding is split into its own entry (bprop:danom, tex_lines 2489-2491) and now states that, through the criterion, l.2491 claims the developed slice is a Cauchy surface of M^n, which the hyperboloid refutes (W7); the module docstring bullet and SCOPE are reworded the same way, and the bold is removed from every partial label ([8.G], bprop:danom, Rem 2.2: none is certified). Minor items applied: tex_lines (new entry); 8.10 citation narrowed to 8.12 step 3 with the circularity stated; the 0 < d inheritance of isCauchySurfaceOn_futureCone_hyperboloid listed in the strengthened row (not removed: the d = 0 case needs the same W-relative argument as the sorry); the past component disclosed in SCOPE and the checklist; not_isCauchySurface_graph_hyperboloid_of_criterion kept with a docstring saying it restates Achronal's theorem on purpose; CCPrime witnesses added (ccPrime_graph_const, and the stronger ccPrime_graph_hyperboloid with nullSaturated_graph_hyperboloid). Not applied here (master-session item, per the audit): the scaffold root CausalScaffold.lean imports neither Flat.Achronal nor Flat.LipschitzGraph, so scripts/AxiomSweep.lean does not see this module's sorry. Still one sorry (SORRY(D-cauchy-interior)) in isCauchySurfaceOn_interior_dependenceDomain; isCauchySurfaceOn_futureCone_hyperboloid (Rem 2.2's first half) rests on it. Not closed: it needs a W-relative pastExtensible_of_tendsto / Inextensible.reparam (library: ⊤ only) and J^-(y) ∩ {T >= 0} ⊆ int D(S) for y ∈ int D(S) (a concatenation of inextensible curves), several hundred lines of new causal-curve machinery. Typecheck: taskset -c 0-11 lake env lean, zero errors, one warning ('declaration uses sorry', isCauchySurfaceOn_interior_dependenceDomain). #print axioms via stdin: all five new theorems, the criterion and dependenceDomain_hyperboloid depend only on propext, Classical.choice, Quot.sound. New public names grepped against Causal/ and scaffold/: no collision. Imports only CausalScaffold.Flat.Achronal. Generic helpers stay private."
+}
