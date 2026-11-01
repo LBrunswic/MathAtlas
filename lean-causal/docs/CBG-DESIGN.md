@@ -104,3 +104,20 @@ points; (vi) second countability of E_{≥0}-manifolds; (vii) `sigmaCompact`.
 Parallel start: 1, 2, 3, 8; then 9, 11; then 4, 5; then 6, 7, 10, 12.
 Risks: R1 `sigmaCompact` (compactness of J⁺(Σ) ∩ J⁻(p)); R2 SC with singular charts; R3 K⁻ at BTZ
 points; R4 no duality; R5 the ruling on "maximal".
+
+## 6. Rulings and review outcomes (2026-11-01)
+- DEC-59 maximal = universal; DEC-60 the thesis framework (rigid morphisms of singular (G,X)-manifolds);
+  DEC-61 start now; gx DEC-62 X_A-morphisms in the LOCAL form; gx DEC-63 these.tex:3176 quantifies over
+  EVERY singular point; DEC-64 fix ETT's `BTZAxioms.Iplus_eq` (false in E₀) → `Iplus_of_lt`.
+- gx review (`lean-gx/campaign/WP-28-scope/CBG-REVIEW.md`): C1 corrected BTZ bundle; C2 second
+  countability carried (Dev, admissible-M fields, new `secondCountable_of_cauchy`); C3 `curvesExtend`
+  for GH M only; C4 strong `localUnique_sing` (B21 `prop:isom_strong`); C5 export the charted-space
+  gluing with package 11.
+- **A3 at BTZ points stays as stated, without (B)** (gx, `A3-B-INVESTIGATION.md`): (B) = these.tex
+  l.6634–6638, the hypothesis of `prop:Cauchy_non_max` ("J_{M₁}(Σ₁,p) ∖ {p} ⊂ j₁(N)"), named only at
+  l.6693, is Sbierski Lemma 3.9's conclusion — A4's hypothesis, not A3's; adding it to A3 breaks
+  Sbierski's order. Future side at BTZ points: (B) automatic (thesis `lem:passe_pgcd`, l.6541–6554);
+  past side: (B) can fail (U = I⁺(0) ∪ {τ+r > 1/2}, Σ = {τ+r = 1}) while A3 still holds. gx owes for
+  E₀: the two connectedness arguments, the past-side B2 step outside U, K⁺ injectivity.
+- **Findings against the thesis** (author's): the stray "(B)" label (l.6693); the missing `∖{p}` at
+  l.6658; the past side is never treated, which E₀'s time asymmetry requires.
