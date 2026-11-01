@@ -12,6 +12,7 @@ import CausalScaffold.Flat.Nonlox.BTrivial
 import CausalScaffold.Flat.Nonlox.UnipotentRestriction
 import CausalScaffold.Flat.Nonlox.UnipotentFrame
 import CausalScaffold.Flat.Nonlox.UnipotentLTP
+import CausalScaffold.Flat.Nonlox.UnipotentUpToFrame
 import Mathlib.NumberTheory.Real.Irrational
 import Mathlib.NumberTheory.DiophantineApproximation.Basic
 
@@ -47,9 +48,10 @@ nonloxodromic case" (label `nol`), lines of the **labelled** `papers/barbot/lega
   (`b_trivial_model`, `b_eq_zero_model`); [9.U] l.2865–2938 (`inner_comm_of_commute`,
   `isSymmOn_span`, `nu_mul`); Rem 9.4 `unipcomplet` l.2958–2963 (`unipcomplet_model`); [9.A]
   l.3101–3129 (`nolA_mul`, `choixcoord_nolA`, `unipAction_nolToMink`, `conclusion_model`,
-  `nonloxodromic_parabolic` — assembled, its one `sorry` the [9.U] step
+  `nonloxodromic_parabolic` — assembled, no `sorry`: its [9.U] step
   `exists_unipotent_restriction_up_to_frame`, whose frame-free form is refuted in
-  `Flat/Nonlox/UnipotentRestriction`); `Stab(v₀)` in coordinates (`exists_nolParam`) and [9.b] in `𝐌ⁿ`
+  `Flat/Nonlox/UnipotentRestriction`, is proved up to a null frame change in
+  `Flat/Nonlox/UnipotentUpToFrame`); `Stab(v₀)` in coordinates (`exists_nolParam`) and [9.b] in `𝐌ⁿ`
   (`b_trivial`); G6, closed for `Ω(S̃)` of the whole holonomy group (`perp_invariant_omegaS_of_null`,
   `UGamma_add_mem`, `Ug_add_mem_of_isParabolic`, and the finite-index bridge
   `linOf_fix_of_relIndex`, `perp_invariant_omegaS_of_relIndex`,
@@ -133,16 +135,18 @@ finite-index passage is explicit: `Γ'' ≤ Γ`, `Γ''.relIndex Γ ≠ 0`.
 
 ## SCOPE (disclosed)
 
-* **Sorries (1)**: `exists_unipotent_restriction_up_to_frame` ([9.U], §4b; its obstruction is in
-  the tag). **Integration (WP-34c, 2026-11-01)**: `nonloxodromic_elliptic` is CLOSED (no `sorry`,
+* **Sorries (0).** `exists_unipotent_restriction_up_to_frame` ([9.U], §4b) is PROVED
+  (WP-34c, 2026-11-01) by `Nonlox.exists_unipotentRestriction_upToFrame`
+  (`Flat/Nonlox/UnipotentUpToFrame`, with `Flat/Nonlox/NullSlices`), from `BieberbachI ℝᵈ` only.
+  **Integration (WP-34c, 2026-11-01)**: `nonloxodromic_elliptic` is CLOSED (no `sorry`,
   axioms `propext`, `Classical.choice`, `Quot.sound`) from `Flat/Nonlox/EllipticBieberbach`
   (Bieberbach for `Γ'` in the euclidean form fixed by `L(Γ')`), `SpacelikeSpan` (the span of the
   translation vectors is spacelike) and `TranslationLTP` (`suspendre`); `nonloxodromic_parabolic`
   is assembled from `Flat/Nonlox/NullFrame` (the frame `φ` taking `v₀` to `ofNull 1 0 0`),
   `BTrivial` ([9.b] for any parabolic `γ₁`), Prop 9.3/9.5 here, `UnipotentFrame` (the frame `φ₁`
-  diagonalising `T`) and `UnipotentLTP` (`Ω ⊆ Ω(S̃)`, `𝒟(M̃) ⊆ Ω`, the quotients), and depends on
-  `sorryAx` only through `exists_unipotent_restriction_up_to_frame`. `nonloxodromic` is assembled
-  (no `sorry` of its own).
+  diagonalising `T`) and `UnipotentLTP` (`Ω ⊆ Ω(S̃)`, `𝒟(M̃) ⊆ Ω`, the quotients), and
+  `UnipotentUpToFrame` ([9.U] in the frame `ψ_w`); it no longer depends on `sorryAx`.
+  `nonloxodromic` is assembled (no `sorry` of its own).
 * **The parabolic output was restated (audit, 2026-11-01).** An earlier draft concluded that
   `M(S) = Γ''\Ω(S̃)` is an LTP over a spacetime embedding in a unipotent one; Rem 9.4 refutes it
   (finding 6), and the statement now follows l.3126 and DEC-43 R1: `B = Γ''\Ω` with
@@ -233,8 +237,11 @@ finite-index passage is explicit: `Γ'' ≤ Γ`, `Γ''.relIndex Γ ≠ 0`.
   Bieberbach in `ℝ³`): l.2881–2892's "`𝒰̄_t` does not depend on `t`" fails for an irrational
   screw motion in `𝐌⁵` (the `𝒰̄_t` are parallel axes `t w + ℝ e₂`). The assembly therefore rests on
   the corrected form `exists_unipotent_restriction_up_to_frame` (the same conclusion after SOME
-  frame `ψ`; in the counterexample the null rotation `n_w` works), whose truth in general is not
-  established — it is the one `sorry` of the file.
+  frame `ψ`; in the counterexample the null rotation `n_w` works), now PROVED in general
+  (`Flat/Nonlox/UnipotentUpToFrame`): the frame is the null rotation `ψ_w` fixing `v₀` and `y`,
+  `w = (p₁ − p₀)/(t₁ − t₀)` for points `pᵢ` of the Bieberbach subspaces of two slices `{y = tᵢ}`
+  (then `v(γ) + R(γ) w − w` lies in the common fixed space of the rotations), which replaces
+  Barbot's maximality argument.
 * Non-vacuity: `Flat/Examples`' unipotent groups are `A_{T, 0}` for diagonal `T`
   (`unipAction_nolToMink`, `isSymmOn_diagLin`); no model inhabitant of `bprop_limites_model`'s
   hypotheses (an achronal `S_f`) is given here.
@@ -2548,9 +2555,9 @@ end Spacetime
 /-! ## §4b Frames and the [9.U] step (integration of `Flat/Nonlox/*`)
 
 Bookkeeping for the two assemblies of §5: conjugating the §8 data by a frame `φ ∈ Isom(𝐌ⁿ)`
-(`CCAction.frameConj_smul`), and the one step of [9.U] that is not proved, in the corrected
-form that `Flat/Nonlox/UnipotentRestriction`'s counterexample leaves open
-(`exists_unipotent_restriction_up_to_frame`). -/
+(`CCAction.frameConj_smul`), and the [9.U] step in the corrected form that
+`Flat/Nonlox/UnipotentRestriction`'s counterexample leaves open
+(`exists_unipotent_restriction_up_to_frame`, proved in `Flat/Nonlox/UnipotentUpToFrame`). -/
 
 section Frames
 
@@ -2609,8 +2616,8 @@ theorem CCAction.frameConj_smul {Γ : Subgroup (isom d)} {St : Set (Minkowski d)
     refine ⟨γ, ⟨hγ, φ⁻¹ • (φ * γ * φ⁻¹) • k, ⟨φ⁻¹ • k, ⟨k, hk, rfl⟩, ?_⟩, ⟨_, hxK, rfl⟩⟩, rfl⟩
     simp [smul_smul, mul_assoc]
 
-/-- **[9.U], up to a frame — the one unproved step of `nonloxodromic_parabolic`** (l.2865–2938,
-unmarked; truth NOT established). Hypotheses: those of the dispatched
+/-- **[9.U], up to a frame — the [9.U] step of `nonloxodromic_parabolic`** (l.2865–2938,
+unmarked; PROVED, `Nonlox.exists_unipotentRestriction_upToFrame`). Hypotheses: those of the dispatched
 `exists_unipotent_restriction` (`Flat/Nonlox/UnipotentRestriction`'s
 `UnipotentRestrictionStatement`): `CCAction G Σ`, `L(G)` fixing `v₀ = ofNull 1 0 0`, `y`
 preserved (`b ≡ 0`, [9.b]), a parabolic element. Conclusion: the dispatched conclusion
@@ -2622,19 +2629,17 @@ preserved (`b ≡ 0`, [9.b]), a parabolic element. Conclusion: the dispatched co
 Why the frame: the frame-free form is FALSE — `Nonlox.not_unipotentRestrictionStatement`
 (a counterexample in `𝐌⁵`: the axes `𝒰̄_t` of the screw motions `λ_t(γ)` depend on `t`, against
 l.2881–2892's "`𝒰̄_t` does not depend on `t`"). In that example the conclusion holds after the
-null rotation `n_w` fixing `v₀` (`UnipotentRestriction`'s SCOPE, not formalized). Whether the
-corrected form holds in general is open: it is Barbot's maximality argument (l.2881–2892) in a
-frame adapted to `⋃_t 𝒰̄_t × {t}`, plus Bieberbach on `λ(Γ)` (point (3) l.2660–2663), `u(Γ)` a
-lattice with `v = T ∘ u`, the normalisation `ylo = −yhi` (l.2937–2938), the form `ℓ`
-(`nu_mul`) and the orientation of `𝒰`. -/
+null rotation `n_w` fixing `v₀`. The corrected form holds in general
+(`Flat/Nonlox/UnipotentUpToFrame`): `ψ = ψ_w` with `w` read off the Bieberbach subspaces of two
+slices; point (3) and the heights are `Flat/Nonlox/NullSlices`. -/
 theorem exists_unipotent_restriction_up_to_frame
-    (_hBieb : BieberbachI (EuclideanSpace ℝ (Fin d))) {G : Subgroup (isom (d + 1))}
-    {St : Set (Minkowski (d + 1))} (_hcc : CCAction G St)
-    (_hfix : ∀ γ ∈ G, linOf γ (ofNull 1 0 0) = ofNull 1 0 0)
-    (_hb : ∀ γ ∈ G, ∀ p : Minkowski (d + 1), nullY (γ • p) = nullY p)
-    (_hpar : ∃ γ ∈ G, IsParabolic (linOf γ)) :
-    ∃ ψ : isom (d + 1), Nonlox.UnipotentRestrictionConclusion d (frameConj ψ G) (ψ • St) := by
-  sorry -- SORRY([9.U]): the reduction of a parabolic `Γ` fixing `v₀`, with `b ≡ 0`, to a unipotent group `A_{T,ℓ}` on an invariant timelike `𝒰 ∋ v₀`, in SOME frame `ψ`. The frame-free statement is refuted (`Nonlox.not_unipotentRestrictionStatement`: the `𝒰̄_t` of l.2881–2892 depend on `t` for an irrational screw motion in `𝐌⁵`); missing: (a) a frame `ψ` (a null rotation fixing `v₀`) making `⋃_t 𝒰̄_t × {t}` vertical, and whether such a frame always exists (true in the counterexample, not addressed in general); (b) Bieberbach for `λ(Γ)` on `P̄₀ × {0}` (properness of `α(Γ)`, point (3) l.2660–2663, needs Cor 8.3's homeomorphism) and the maximality argument; (c) `Γ ≅ ℤᵏ`, `u(Γ)` a lattice, `v = T ∘ u` linear and symmetric on `span L`; (d) the normalisation `ylo = −yhi` by a shift `y₀` (l.2937–2938); (e) the linear `ℓ` extending `ν = μ + ⟨u|Tu⟩/2` (`nu_mul`); (f) `RestrictsIn` and orthochronous `ι` (orientation of `𝒰`); (g) every height of `]ylo, yhi[` met by `Σ ∩ 𝒰`
+    (hBieb : BieberbachI (EuclideanSpace ℝ (Fin d))) {G : Subgroup (isom (d + 1))}
+    {St : Set (Minkowski (d + 1))} (hcc : CCAction G St)
+    (hfix : ∀ γ ∈ G, linOf γ (ofNull 1 0 0) = ofNull 1 0 0)
+    (hb : ∀ γ ∈ G, ∀ p : Minkowski (d + 1), nullY (γ • p) = nullY p)
+    (hpar : ∃ γ ∈ G, IsParabolic (linOf γ)) :
+    ∃ ψ : isom (d + 1), Nonlox.UnipotentRestrictionConclusion d (frameConj ψ G) (ψ • St) :=
+  Nonlox.exists_unipotentRestriction_upToFrame hBieb hcc hfix hb hpar
 
 end Frames
 
@@ -2803,7 +2808,8 @@ containing `S̃`, thickened by `U^⊥` — such that `B = Γ''\Ω` is a linear t
 by Rem 9.4 `Ω(S̃)` may be all of `𝐌ⁿ` while `Ω` is a slab (SCOPE, finding 6).
 Assembled: frame `φ` (`Nonlox.exists_isom_linear_null_frame`), [9.b]
 (`Nonlox.nullY_smul_eq_of_isParabolic`), [9.U] up to a further frame `ψ`
-(`exists_unipotent_restriction_up_to_frame`, the one `sorry`; SCOPE finding 8), Prop 9.3
+(`exists_unipotent_restriction_up_to_frame`, proved in `Flat/Nonlox/UnipotentUpToFrame`;
+SCOPE finding 8), Prop 9.3
 (`bprop_limites_model`), Prop 9.5 (`bprop_extension`), `mem_omegaA_of_limites`, the frame `φ₁`
 (`Nonlox.exists_unipotent_frame_of_symm`) and [9.A] (`Nonlox.exists_unipotent_ltp_of_frame`,
 with `𝒟(M̃) ⊆ D(Σ)`, `range_subset_dependenceDomain_of_developsCC`). `d = 0` is vacuous. -/

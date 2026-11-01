@@ -20,6 +20,9 @@ import CausalScaffold.Flat.Lox.PerpInvariant
 import CausalScaffold.Flat.Lox.RestrictLimitSet
 import CausalScaffold.Flat.Lox.NullLevelFix
 import CausalScaffold.Flat.Lox.RegularLattice
+import CausalScaffold.Flat.Lox.FiniteIndexND
+import CausalScaffold.Flat.Lox.RestrictUnipotent
+import Mathlib.GroupTheory.Schreier
 
 /-!
 # `CausalScaffold.Flat.Loxodromic` — Barbot §10, the loxodromic case
@@ -68,9 +71,12 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
   gap G6 `limitOpens_add_perp` (`Flat.Lox.PerpInvariant`), the base domain
   `preimage_omega_limitSetJ` and `limitSetJ_eq_of_relIndex_ne_zero` (`Flat.Lox.RestrictLimitSet`),
   the `𝒩`-conjuncts without `CCAction` `kerTranslations_lattice_of_limitSetJ`
-  (`Flat.Lox.RegularLattice`) proved;
-  the conclusion `loxo_generic_centralExtension`, family (b), and `loxo_generic_torusProduct`,
-  family (a) under `π₁` finitely generated through Selberg, are `sorry`).
+  (`Flat.Lox.RegularLattice`) proved; the reduction to `U` `exists_generic_reduction` and the
+  conclusion in `𝐌ⁿ` `generic_isCHCentralExtension` proved (wave 7, `Flat.Lox.FiniteIndexND`,
+  `Flat.Lox.RestrictUnipotent`); the conclusion `loxo_generic_centralExtension`, family (b), and
+  `loxo_generic_torusProduct`, family (a) under `π₁` finitely generated through Selberg, are
+  proved, **no `sorry` of their own**: they rest on `bprop_LU_discrete`'s one `sorry` (the branch
+  `L_U(Γ_nd) = {1}`) and on `Flat.Develop`'s upstream `sorry`s through `ccAction_of_developsCC`).
 * gx exports (the contract of `docs/BARBOT.md`): `uniformization_injective`,
   `uniformization_image`, `uniformization_properlyDiscontinuous`, and `uniformization`.
 
@@ -124,7 +130,12 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
   `bprop_U_timelike`.
 * [10.G]: `exists_finiteIndex_linOf_eq_on_span_kerTranslations` (a finite-index `Γ'` with
   `L(γ)|_E = id`), `limitSetJ_eq_of_relIndex_ne_zero`, `limitOpens_eq_of_relIndex_ne_zero`,
-  `preimage_omega_limitSetJ`, `limitOpens_add_perp`, `kerTranslations_lattice_of_limitSetJ`.
+  `preimage_omega_limitSetJ`, `limitOpens_add_perp`, `kerTranslations_lattice_of_limitSetJ`; the
+  reduction to `U` and the conclusion (wave 7): `IsNonelementary.of_relIndex`,
+  `exists_loxodromic_of_relIndex`, `omegaSOpens_eq_limitOpens_of_relIndex`, `omegaSOpens_add_perp`,
+  `exists_loxodromic_restrictGroup`, `restrict_kerTranslations_lattice`, `exists_generic_reduction`
+  (`U` timelike, `Γ₂` of index `≤ 2` restricting to `U` with `Γ₂_nd = Γ_nd`, `L_U(Γ₂)` discrete),
+  `exists_finiteIndex_restrict_trivial_on_span`, `generic_isCHCentralExtension`.
 * [10.M] under `CCAction`: `exists_invariant_nullLevel_of_ccAction`,
   `exists_invariant_nullLevels_of_ccAction`.
 * Families: `IsNonelementary`, `IsFutureAdmissible`, `IsPastAdmissible`, `IsAdmissible`,
@@ -150,13 +161,16 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
 | Def 4.18 / family (b): `L(Γ)` without global fixed point (l.1212–1214) | ⚠ reading: Def 4.18's condition, weaker than `docs/BARBOT-THEOREMS.md` §1's "discrete nonelementary" (an infinite dihedral group with a loxodromic is elementary and has none) |
 | Def 4.18: `Ω^±(Λ(ρ))` | ⚠ reading: sign tied to the side of admissibility (`IsFutureAdmissible` ↦ `Ω⁺`, `IsPastAdmissible` ↦ `Ω⁻`) |
 | [10.G]: Selberg (DEC-44) for family (a) | ✓ carried (`SelbergLemma`, `ρ.range.FG`) |
+| [10.M], [10.G]: `M` a (Hausdorff) manifold | ✓ carried (`[T2Space M]`, added 2026-11-01 as for `Flat.Develop`'s Prop 8.12: Barbot's spacetimes are Hausdorff manifolds; it gives `ccAction_of_developsCC`) |
+| [10.G]: the setting `hcaus` (`M` causal) | ⚠ weakened: carried, unused by `loxo_generic_centralExtension` and `loxo_generic_torusProduct` |
+| [10.G]: Prop 10.5 for `Γ` (l.3368) | ⚠ applied to the index-`≤ 2` subgroup `Γ₂` restricting to `U` (`Γ` itself need not restrict: orientation of `U`); `Γ₂ ⊇ Γ_nd`, so `Γ₂_nd = Γ_nd` (`Lox.nonDiscretePart_eq_of_le`) |
 
 ## SCOPE (disclosed)
 
-* **Sorries (4)**: `loxo_elementary_misner` ([10.M], after its first step),
-  `bprop_LU_discrete` (the Lie-theoretic input on the branch `L_U(Γ_nd) = {1}` only),
-  `loxo_generic_centralExtension`,
-  `loxo_generic_torusProduct` ([10.G]). Each names its obstruction. `loxo_cauchyComplete` is proved
+* **Sorries (2)**: `loxo_elementary_misner` ([10.M], after its first step),
+  `bprop_LU_discrete` (the Lie-theoretic input on the branch `L_U(Γ_nd) = {1}` only). Each names
+  its obstruction. `loxo_generic_centralExtension` and `loxo_generic_torusProduct` ([10.G]) are
+  proved (wave 7) and inherit `bprop_LU_discrete`'s `sorry` through `exists_generic_reduction`. `loxo_cauchyComplete` is proved
   (`Flat.Lox.LevelComplete`, `Flat.Lox.QuotientComplete`). `blem_sanlox`, `blem_loxregular`,
   `interior_achronalDomain_eq_quadrants`,
   `subset_UGamma_of_oneSided`, `loxo_properlyDiscontinuous`, `bcor_loxo_proper`, `bprop_U_timelike`,
@@ -166,7 +180,8 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
   `sorry`.
 * **Upstream.** Through `ccAction_of_developsCC` and `bprop_danom`, the gx exports inherit
   `Flat.Develop`'s two `sorry`s (`holonomy_proper`; Prop 8.12 step 1); Cor 10.3's properness adds
-  none. Under a given `CCAction` (in `𝐌ⁿ`) Lemma 10.2 and Cor 10.3 (completeness included) are
+  none. So do the three [10.M]/[10.G] conclusions, which since 2026-11-01 carry `[T2Space M]` and
+  read `CCAction ρ.range Σ` through `ccAction_of_developsCC`. Under a given `CCAction` (in `𝐌ⁿ`) Lemma 10.2 and Cor 10.3 (completeness included) are
   sorry-free.
 * **Lemma modules** (`Flat/Lox/`, wave 5): `LevelComplete`, `QuotientComplete` (Cor 10.3's
   completeness), `CentralFix`, `RestrictFix` (Props 10.4/10.5), `LatticeTrivial`
@@ -174,7 +189,10 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
   `FixLoxodromic` ([10.M]'s first step), `SelbergMono` (Selberg in dimension `d₁ ≤ d`), and
   (wave 6) `EllipticCommonFix`, `CommuteOnFix`, `NilpotentFix` (Prop 10.4's spacelike case),
   `UnipotentCentre` (Prop 10.5's centre step), `PerpInvariant`, `RestrictLimitSet`,
-  `RegularLattice` ([10.G]), `NullLevelFix` ([10.M]). Their
+  `RegularLattice` ([10.G]), `NullLevelFix` ([10.M]), and (wave 7) `FiniteIndexND` (`SO₀(1, d)` a
+  topological group; `Γ_nd` unchanged on a finite-index subgroup containing it), `RestrictUnipotent`
+  (the restricting subgroup contains `Γ_nd`; loxodromics restrict to loxodromics; the restriction
+  hom and pull-backs; the restricted proper action; `d₁ ≤ d`) ([10.G]). Their
   declarations live in `Causal.Flat.Lox` (`completeSpace_inducedLength_cosmoLevel` in
   `Causal.Flat`).
 * **Readings.** `Λ₀` is the set of all repulsive fixed points (`IsRepulsiveFixedJ`), not one per
@@ -219,6 +237,14 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
   is elementary; but the direction of `U` contains the `(x, y)`-plane, so `Γ_U` is non-abelian, and
   no presentation as an LTP over a Misner spacetime (an abelian group) exists. `loxo_elementary_misner`
   is stated for a finite-index `Γ'` (DEC-43's R1).
+* **[10.M] l.3320–3321: "the action on `π_P^{-1}(0)` is free and properly discontinuous" is false
+  for `Γ`** (true for `Γ₀ = ker a`). In `𝐌⁴` (form `xy + |z|²`, `z ∈ ℝ²`) let
+  `γ₀(x, z, y) = (e⁻¹x, R_θ z, e y)`, `θ/π` irrational, and `Γ = ⟨γ₀⟩`: `Γ` is elementary (it fixes
+  both null axes), loxodromic, acts freely and properly on `Ω = {x > 0, y < 0} × ℝ²` and on the
+  (CC′) surface `{xy = −1} ∩ Ω` (as in the finding below for `σ`); yet `γ₀` acts on
+  `π_P^{-1}(0) = {x = y = 0} ≅ ℝ²` by the rotation `R_θ`, which fixes `0` and has dense orbits on
+  circles. The conclusion of [10.M] still holds there (`U' = {z = 0}`, a Misner spacetime in `𝐌²`):
+  the Bieberbach step (l.3322) must be run for `Γ₀`, normalised by `Γ`, not for `Γ`.
 * **Prop 4.17's proof (l.1255–1266) needs less than it uses**: the basin of repulsion of the
   repulsive point `x₀` of `γ` is all of `𝒥` off the fibre over the attractive point `v₁` of `γ`
   (not only some `δ⁻¹(U)`, `tendsto_isomPenrose_inv_pow`), so no closure of `δ(Λ)` is needed: if
@@ -2219,7 +2245,7 @@ restriction to the direction of `U` is non-abelian, while a Misner group is abel
 `d₁ + 1 ≤ d' + 1`. -/
 theorem loxo_elementary_misner {d' : ℕ} {M : Type*} [TopologicalSpace M]
     [ChartedSpace (Minkowski (d' + 1)) M]
-    [HasGroupoid M (gxGroupoid (isom (d' + 1)) (Minkowski (d' + 1)))] {x₀ : M}
+    [HasGroupoid M (gxGroupoid (isom (d' + 1)) (Minkowski (d' + 1)))] [T2Space M] {x₀ : M}
     {D : UniversalCover M x₀ → Minkowski (d' + 1)}
     {ρ : Deck (UniversalCover.proj M x₀) →* isom (d' + 1)} {S : Set M}
     (hpair : IsDevelopingPair x₀ D ρ) (hcaus : (flatCausality (d' + 1) M).IsCausal)
@@ -2238,7 +2264,26 @@ theorem loxo_elementary_misner {d' : ℕ} {M : Type*} [TopologicalSpace M]
   obtain ⟨H, hH, hHi, hu⟩ := helem
   obtain ⟨Γ₁, hΓ₁, hΓ₁i, k, hk, hγ₀k, u₀, u₁, hu₀₁, hf₀, hf₁, hfix₀⟩ :=
     Lox.exists_finiteIndex_fix_loxodromic hγ₀ hlox₀ ⟨H, hH, hHi, hu⟩
-  sorry -- SORRY([10.M]): l.3241–3330 is a chain of unproved steps after the first (done above: `Γ₁`, `L(Γ₁)` fixing `u₀`, `γ₀ᵏ ∈ Γ₁`, `Lox.exists_finiteIndex_fix_loxodromic`): a further finite-index subgroup also fixing `Δ₁ = u₁` (l.3286–3299, through `L(Γ₀)` finite); then the linear normal form `L(γ)(1,u₀) = e^{-a}(1,u₀)`, `L(γ)(1,u₁) = e^{a}(1,u₁)`, `P = (1,u₀)^⊥ ∩ (1,u₁)^⊥` preserved, loxodromic iff `a ≠ 0` is `Lox.lorentz_normalForm_of_fix_two`; the induced action on `Q₀` and `b ≡ 0` (l.3250–3257; under `CCAction` this is now `exists_invariant_nullLevel_of_ccAction`, from `Lox.exists_invariant_nullLevel`); `Γ₀ = ker a` discrete and elliptic (the conjugation formula l.3264–3269); its nondiscrete part `Γ₀^nd`, the maximal unipotent `U` (Carrière–Dal'bo, `bthm:unip`) and "we recover the purely unipotent case" (§9, `Flat.Nonloxodromic`); `blem:suspendre` (`Flat.TwistedProduct`, under its `RestrictsIn` hypothesis, which `Lox.exists_restrictsIn_relIndex_le_two` supplies on an index-`≤ 2` subgroup once `Γ'` preserves `U`, and its `hperp` for `Ω^±(Λ(Γ))`, now `limitOpens_add_perp`); `L(Γ₀)` finite and the totally geodesic `𝓗` of its fixed points; the affine half of the normal form `γ(x,z,y) = (e^{-a}x, Rz + u, e^{a}y)` (`x(γ) = y(γ) = 0`: under `CCAction`, now `exists_invariant_nullLevels_of_ccAction` once `u₀, u₁` are both fixed) and finally "an appropriate use of Bieberbach's theorem" (l.3327, gap G7). The statement carries no `[T2Space M]`, so `ccAction_of_developsCC` (hence `blem_loxregular`, `loxregular_sign` and the two null-level lemmas above) is not available here
+  -- `hcaus` is §8's setting (the proof below does not reach a use of it)
+  have _ := hcaus
+  -- `[T2Space M]` gives §8's data in `𝐌ⁿ` (`ccAction_of_developsCC`)
+  have h' := ccAction_of_developsCC hpair h
+  -- l.3250–3257, `b ≡ 0` for `Γ₁`: a `Γ₁`-invariant lightlike level `{⟨(1,u₀)|·⟩ = s₀}`
+  have hlox₁ : ∃ γ ∈ Γ₁, IsLoxodromic (linOf γ) := ⟨γ₀ ^ k, hγ₀k, by
+    have := hlox₀.zpow_linOf (n := (k : ℤ)) (by exact_mod_cast hk.ne')
+    rwa [zpow_natCast] at this⟩
+  -- (the argument of `exists_invariant_nullLevel_of_ccAction`, below, inlined)
+  obtain ⟨s₀, -⟩ : ∃ s₀ : ℝ, ∀ γ ∈ Γ₁, ∀ p : Minkowski (d' + 1),
+      minkB (nullVec u₀) p = s₀ → minkB (nullVec u₀) (γ • p) = s₀ := by
+    obtain ⟨x, hx⟩ := h'.nonempty
+    refine Lox.exists_invariant_nullLevel (fun γ hγ => hfix₀ _ ⟨γ, hγ, rfl⟩) hlox₁
+      (Ω := omegaS ρ.range _) ⟨x, subset_omegaS h' hx⟩ ?_
+    rcases loxregular_sign h' with hF | hP
+    · exact Or.inl fun p hp => mem_omegaPlus.2 fun w ⟨γ, hγ, hw⟩ =>
+        mem_halfPlus.1 (hF w ⟨γ, hΓ₁ hγ, hw⟩ hp)
+    · exact Or.inr fun p hp => mem_omegaMinus.2 fun w ⟨γ, hγ, hw⟩ =>
+        mem_halfMinus.1 (hP w ⟨γ, hΓ₁ hγ, hw⟩ hp)
+  sorry -- SORRY([10.M]): l.3241–3330 is a chain of unproved steps after the first two (done above: `Γ₁` of finite index, `L(Γ₁)` fixing `u₀`, `γ₀ᵏ ∈ Γ₁`, `Lox.exists_finiteIndex_fix_loxodromic`; and, now that the statement carries `[T2Space M]` so that `ccAction_of_developsCC` applies, `b ≡ 0`: the invariant lightlike level `s₀`, `exists_invariant_nullLevel_of_ccAction`). Left: a further finite-index subgroup also fixing `Δ₁ = u₁` (l.3286–3299, through `L(Γ₀)` finite, `Γ₀ = ker a`); this needs "we recover the purely unipotent case" (l.3277–3278: `Γ₀` preserves `S̃`, has no loxodromic and acts trivially on `Q₁`, so §9's unipotent analysis — `Flat.Nonloxodromic`, outside this file's import closure — gives `U` timelike and `Γ₀^nd` spacelike translations after `blem:suspendre`); then the linear normal form (`Lox.lorentz_normalForm_of_fix_two`), `x(γ) = y(γ) = 0` (`exists_invariant_nullLevels_of_ccAction`, once `u₀, u₁` are both fixed: the invariant spacelike `Q = π_P^{-1}(0)`), and "an appropriate use of Bieberbach's theorem" (l.3322, gap G7) for the action on `Q` — which must be run for `Γ₀ = ker a` (normalised by `Γ`), not for `Γ`: the printed "the action on `π_P^{-1}(0)` is free and properly discontinuous" (l.3320–3321) is false for `Γ = ⟨γ₀⟩`, `γ₀ = boost × irrational rotation` (finding, module docstring) — and the identification of the restricted group with a frame conjugate of `misnerGroup L` (pure translations along `Q ∩ U'`, no rotation part) on a further finite-index subgroup and a timelike `U'`. None of the §9 unipotent reduction, the Bieberbach step for `Γ₀` on `Q`, or the Misner identification is in this file's import closure
 
 end Misner
 
@@ -2725,17 +2770,254 @@ theorem exists_invariant_nullLevels_of_ccAction (h : CCAction Γ S) {Γ₁ : Sub
 
 end Generic
 
+/-! ## 11b. [10.G] The reduction to `U` and the family (b) conclusion in `𝐌ⁿ` -/
+
+section GenericReduction
+
+variable {Γ : Subgroup (isom d)} {S : Set (Minkowski d)}
+
+/-- **Nonelementary passes to finite-index subgroups**: a finite-index subgroup of `L(Γ')` has
+finite index in `L(Γ)`. -/
+theorem IsNonelementary.of_relIndex {Γ Γ' : Subgroup (isom d)} (hne : IsNonelementary Γ)
+    (hle : Γ' ≤ Γ) (hidx : Γ'.relIndex Γ ≠ 0) : IsNonelementary Γ' := fun H hH hHi hfix =>
+  hne H (hH.trans (Subgroup.map_mono hle))
+    (Subgroup.relIndex_ne_zero_trans hHi (Lox.relIndex_map_ne_zero linearPart hidx)) hfix
+
+/-- `𝒩` is monotone in the group. -/
+theorem kerTranslations_subset_of_le {Γ Γ' : Subgroup (isom d)} (hle : Γ' ≤ Γ) :
+    kerTranslations Γ' ⊆ kerTranslations Γ := fun _ ⟨γ, hγ, h⟩ => ⟨γ, hle hγ, h⟩
+
+/-- **A finite-index subgroup of a group with a loxodromic element has one** (a positive power). -/
+theorem exists_loxodromic_of_relIndex {Γ Γ' : Subgroup (isom d)} (hidx : Γ'.relIndex Γ ≠ 0)
+    (hlox : ∃ γ ∈ Γ, IsLoxodromic (linOf γ)) : ∃ γ ∈ Γ', IsLoxodromic (linOf γ) := by
+  obtain ⟨γ, hγ, hl⟩ := hlox
+  obtain ⟨k, hk, -, hmem⟩ := Subgroup.exists_pow_mem_of_relIndex_ne_zero hidx hγ
+  refine ⟨γ ^ k, hmem.1, ?_⟩
+  have := hl.zpow_linOf (n := (k : ℤ)) (by exact_mod_cast hk.ne')
+  rwa [zpow_natCast] at this
+
+/-- **[10.G], l.3398–3403 and l.3418: `Ω(S̃) = Ω^±(Λ(Γ'))` for every finite-index `Γ' ≤ Γ`**
+(`generic_omegaS_eq`, `limitOpens_eq_of_relIndex_ne_zero`). -/
+theorem omegaSOpens_eq_limitOpens_of_relIndex (h : CCAction Γ S)
+    (hlox : ∃ γ ∈ Γ, IsLoxodromic (linOf γ)) {Γ' : Subgroup (isom d)} (hle : Γ' ≤ Γ)
+    (hidx : Γ'.relIndex Γ ≠ 0) :
+    omegaSOpens Γ S = limitOpensPlus Γ' ∨ omegaSOpens Γ S = limitOpensMinus Γ' := by
+  obtain ⟨e₁, e₂⟩ := limitOpens_eq_of_relIndex_ne_zero hle hidx
+  rcases generic_omegaS_eq h hlox with ⟨he, -⟩ | ⟨he, -⟩
+  · exact Or.inl (he.trans e₁.symm)
+  · exact Or.inr (he.trans e₂.symm)
+
+/-- **[10.G], l.3391–3396: `Ω(S̃)` is invariant under `U^⊥`** for a finite-index `Γ' ≤ Γ`
+restricting to `U = range ι` (`limitOpens_add_perp` through
+`omegaSOpens_eq_limitOpens_of_relIndex`). -/
+theorem omegaSOpens_add_perp (h : CCAction Γ S) (hlox : ∃ γ ∈ Γ, IsLoxodromic (linOf γ))
+    {d₁ : ℕ} (ι : AffineMinkEmbedding d₁ d) {Γ' : Subgroup (isom d)} (hle : Γ' ≤ Γ)
+    (hidx : Γ'.relIndex Γ ≠ 0) (hres : ι.RestrictsIn Γ') :
+    ∀ w ∈ ι.perp, ∀ p ∈ omegaSOpens Γ S, p + w ∈ omegaSOpens Γ S := by
+  rcases omegaSOpens_eq_limitOpens_of_relIndex h hlox hle hidx with he | he <;> rw [he]
+  · exact (limitOpens_add_perp ι hres).1
+  · exact (limitOpens_add_perp ι hres).2
+
+/-- **The restricted group has a loxodromic element** (the restriction of a power of a
+loxodromic element of `Γ`, `Lox.Restricts.isLoxodromic`). -/
+theorem exists_loxodromic_restrictGroup (hlox : ∃ γ ∈ Γ, IsLoxodromic (linOf γ))
+    {d₁ : ℕ} {ι : AffineMinkEmbedding d₁ d} {Γ' : Subgroup (isom d)} (hidx : Γ'.relIndex Γ ≠ 0)
+    (hres : ι.RestrictsIn Γ') : ∃ g ∈ ι.restrictGroup Γ', IsLoxodromic (linOf g) := by
+  obtain ⟨γ, hγ, hl⟩ := exists_loxodromic_of_relIndex hidx hlox
+  obtain ⟨g, hg⟩ := hres γ hγ
+  exact ⟨g, ⟨γ, hγ, hg⟩, Lox.Restricts.isLoxodromic hg hl⟩
+
+/-- **[10.G], l.3406–3417 and l.3432–3435, for the restricted group** `Γ'_U` acting on
+`ι⁻¹ Ω(S̃)`: its translation vectors span a spacelike `E`, are discrete, and `ι⁻¹ Ω(S̃) + E =
+ι⁻¹ Ω(S̃)` (`kerTranslations_lattice_of_limitSetJ`, with the restricted proper action
+`Lox.proper_restrictGroup` and the base domain `preimage_omega_limitSetJ`). -/
+theorem restrict_kerTranslations_lattice (h : CCAction Γ S)
+    (hlox : ∃ γ ∈ Γ, IsLoxodromic (linOf γ)) {d₁ : ℕ} (ι : AffineMinkEmbedding d₁ d)
+    (hι : ι.Orthochronous) {Γ' : Subgroup (isom d)} (hle : Γ' ≤ Γ) (hidx : Γ'.relIndex Γ ≠ 0)
+    (hres : ι.RestrictsIn Γ') :
+    IsSpacelikeSubmodule (Submodule.span ℝ (kerTranslations (ι.restrictGroup Γ'))) ∧
+      (∀ R : ℝ, (kerTranslations (ι.restrictGroup Γ') ∩ Metric.closedBall 0 R).Finite) ∧
+      ∀ v ∈ Submodule.span ℝ (kerTranslations (ι.restrictGroup Γ')),
+        ∀ p ∈ ι ⁻¹' omegaS Γ S, p + v ∈ ι ⁻¹' omegaS Γ S := by
+  have hgh := bprop_ghyp h
+  have hperp := omegaSOpens_add_perp h hlox ι hle hidx hres
+  obtain ⟨x, hx⟩ := h.nonempty
+  have hxΩ : x ∈ omegaSOpens Γ S := subset_omegaS h hx
+  have hne : (ι ⁻¹' omegaS Γ S).Nonempty :=
+    ⟨ι.retract x, (ι.mem_iff_retract_mem (Ω := omegaSOpens Γ S) hperp).1 hxΩ⟩
+  have hinv : ∀ g ∈ ι.restrictGroup Γ', ∀ p ∈ ι ⁻¹' omegaS Γ S, g • p ∈ ι ⁻¹' omegaS Γ S := by
+    rintro g ⟨γ, hγ, hr⟩ p hp
+    show ι (g • p) ∈ omegaS Γ S
+    rw [hr]
+    have := Set.smul_mem_smul_set (a := γ) (show ι p ∈ omegaS Γ S from hp)
+    rwa [hgh.2.2.2.1 γ (hle hγ)] at this
+  have hprop := Lox.proper_restrictGroup ι (Γ := Γ') (Ω := omegaS Γ S) fun K hK hKc =>
+    (loxo_properlyDiscontinuous h hlox K hK hKc).subset fun γ hγ => ⟨hle hγ.1, hγ.2⟩
+  have hside : ι ⁻¹' omegaS Γ S ⊆ omegaPlus (limitSetJ (ι.restrictGroup Γ')) ∨
+      ι ⁻¹' omegaS Γ S ⊆ omegaMinus (limitSetJ (ι.restrictGroup Γ')) := by
+    obtain ⟨e₁, e₂⟩ := preimage_omega_limitSetJ ι hι hres
+    rcases omegaSOpens_eq_limitOpens_of_relIndex h hlox hle hidx with he | he
+    · left
+      have : omegaS Γ S = omegaPlus (limitSetJ Γ') := by
+        rw [show omegaS Γ S = (omegaSOpens Γ S : Set (Minkowski d)) from rfl, he]; rfl
+      rw [this, e₁]
+    · right
+      have : omegaS Γ S = omegaMinus (limitSetJ Γ') := by
+        rw [show omegaS Γ S = (omegaSOpens Γ S : Set (Minkowski d)) from rfl, he]; rfl
+      rw [this, e₂]
+  exact kerTranslations_lattice_of_limitSetJ ((isOpen_omegaS Γ S).preimage ι.continuous)
+    (hgh.2.1.affine_preimage ι.toAffineMap) hne hinv hprop hside
+    (exists_loxodromic_restrictGroup hlox hidx hres)
+
+/-- **[10.G], l.3339–3403: the reduction to the maximal unipotent subspace `U`** — under §8's data
+in the nonelementary case, there are an orthochronous `ι : 𝐌^{d₁+1} → 𝐌ⁿ` onto the maximal
+`Γ_nd`-unipotent subspace `U` (timelike, `bprop_U_timelike`) and a finite-index `Γ₂ ≤ Γ`
+restricting to `U`, with `L_U(Γ₂)` discrete (`bprop_LU_discrete`, applied to `Γ₂`, whose
+non-discrete part is `Γ`'s: `Lox.exists_restrictsIn_ge`, `Lox.nonDiscretePart_eq_of_le`). -/
+theorem exists_generic_reduction (h : CCAction Γ S) (hne : IsNonelementary Γ)
+    (hA : AuslanderCarriereDalbo d) (hU : MaxUnipotentSubspace d) :
+    ∃ (d₁ : ℕ) (ι : AffineMinkEmbedding d₁ d) (Γ₂ : Subgroup (isom d)), Γ₂ ≤ Γ ∧
+      Γ₂.relIndex Γ ≠ 0 ∧ ι.Orthochronous ∧ ι.RestrictsIn Γ₂ ∧
+        DiscreteTopology (linearImage (ι.restrictGroup Γ₂)) := by
+  have hdisc := Lox.ccAction_discreteTopology h
+  obtain ⟨U, -, hmax, hinv⟩ := exists_invariant_maxUnipotent hA hU hdisc
+  have hUt := bprop_U_timelike hA hU hdisc h hne hmax
+  obtain ⟨d₁, ι, hι, rfl⟩ := exists_affineMinkEmbedding_of_isTimelike hUt
+  have hrange : (ι.range : Set (Minkowski d)) = Set.range ι := by
+    rw [AffineMinkEmbedding.range, AffineSubspace.coe_map, AffineSubspace.top_coe, image_univ]
+  have hpres : ∀ γ ∈ Γ, (fun p => γ • p) '' Set.range ι = Set.range ι := by
+    intro γ hγ
+    ext q
+    constructor
+    · rintro ⟨p, hp, rfl⟩
+      rw [← hrange] at hp ⊢
+      exact (hinv γ hγ p).2 hp
+    · intro hq
+      refine ⟨γ⁻¹ • q, ?_, smul_inv_smul γ q⟩
+      rw [← hrange] at hq ⊢
+      exact (hinv γ hγ _).1 (by rwa [smul_inv_smul])
+  obtain ⟨Γ₂, hle, hidx, hres, hnd⟩ := Lox.exists_restrictsIn_ge ι hpres (nonDiscretePart_le Γ)
+    fun γ hγ => hmax.1.2 γ hγ
+  have hmax₂ : IsMaxUnipotent (nonDiscretePart Γ₂) ι.range := by
+    rw [Lox.nonDiscretePart_eq_of_le hle hidx hnd]; exact hmax
+  have h₂ := Lox.ccAction_mono h hle
+  exact ⟨d₁, ι, Γ₂, hle, hidx, hι, hres, bprop_LU_discrete hA hU (Lox.ccAction_discreteTopology h₂)
+    h₂ (hne.of_relIndex hle hidx) ι hmax₂ hres⟩
+
+/-- **[10.G], l.3389–3456: the conclusion, family (b), for a given finite-index `Γ'`** — if `Γ'`
+lies in a subgroup `Γ₂` restricting to `U = range ι` with `L_U(Γ₂)` discrete, and `L_U(g)` is
+trivial on `E = span 𝒩(Γ'_U)` for `g ∈ Γ'_U` (l.3412–3417), then `B = Γ'\Ω(S̃)` exists and is a
+linear twisted product (`blem:suspendre`) over `M₁ = Γ'_U\(ι⁻¹ Ω(S̃))`, which is a central
+extension over a Cauchy-hyperbolic spacetime for the group `Γ'_U`. -/
+theorem generic_isCHCentralExtension (h : CCAction Γ S)
+    (hlox : ∃ γ ∈ Γ, IsLoxodromic (linOf γ)) (hne : IsNonelementary Γ) {d₁ : ℕ}
+    (ι : AffineMinkEmbedding d₁ d) (hι : ι.Orthochronous) {Γ₂ Γ' : Subgroup (isom d)}
+    (hres : ι.RestrictsIn Γ₂) (hdisc : DiscreteTopology (linearImage (ι.restrictGroup Γ₂)))
+    (hle' : Γ' ≤ Γ₂) (hle₂ : Γ₂ ≤ Γ) (hidx : Γ'.relIndex Γ ≠ 0)
+    (hE : ∀ g ∈ ι.restrictGroup Γ', ∀ v ∈ Submodule.span ℝ (kerTranslations (ι.restrictGroup Γ')),
+      linOf g v = v) :
+    ∃ B : FlatSpacetime.{0} d, IsQuotientOf B Γ' (omegaSOpens Γ S) ∧
+      ∃ M₁ : FlatSpacetime.{0} d₁, IsLTPOver B M₁ ∧ IsCHCentralExtensionOf M₁ (ι.restrictGroup Γ') := by
+  have hle : Γ' ≤ Γ := hle'.trans hle₂
+  have hres' : ι.RestrictsIn Γ' := Lox.restrictsIn_mono hres hle'
+  have hgh := bprop_ghyp h
+  set Ω := omegaSOpens Γ S with hΩ
+  haveI : FlatQuotient.Invariant Γ' Ω := ⟨fun γ p hp => by
+    have := Set.smul_mem_smul_set (a := (γ : isom d)) (show p ∈ omegaS Γ S from hp)
+    rwa [hgh.2.2.2.1 γ (hle γ.2)] at this⟩
+  haveI : IsCancelSMul Γ' Ω :=
+    isCancelSMul_of_free fun γ hγ h1 x hx => loxo_free h γ (hle hγ) h1 x hx
+  haveI : ProperlyDiscontinuousSMul Γ' Ω :=
+    properlyDiscontinuousSMul_of_finite fun K hK hKc =>
+      (loxo_properlyDiscontinuous h hlox K hK hKc).subset fun γ hγ => ⟨hle hγ.1, hγ.2⟩
+  obtain ⟨x, hx⟩ := h.nonempty
+  have hconn : IsConnected (Ω : Set (Minkowski d)) :=
+    ⟨⟨x, subset_omegaS h hx⟩, hgh.2.1.isPreconnected⟩
+  set B := FlatQuotient.toFlatSpacetime Γ' Ω hconn
+  have hB : IsQuotientOf B Γ' Ω := FlatQuotient.isQuotientOf_toFlatSpacetime _ _ _
+  have hperp := omegaSOpens_add_perp h hlox ι hle hidx hres'
+  set M₁ := ι.baseSpacetime B hB hres' hperp
+  have hM₁ : IsQuotientOf M₁ (ι.restrictGroup Γ') (ι.preimageOpens Ω) :=
+    ι.isQuotientOf_baseSpacetime B hB hres' hperp
+  refine ⟨B, hB, M₁, suspendre B hB ι hι hres' hperp, ?_⟩
+  -- the conjuncts of family (b) for `H = Γ'_U`
+  set H := ι.restrictGroup Γ' with hHdef
+  obtain ⟨hsp, hfin, hEinv⟩ := restrict_kerTranslations_lattice h hlox ι hι hle hidx hres'
+  obtain ⟨g₀, hg₀, hlox₀⟩ := exists_loxodromic_restrictGroup hlox hidx hres'
+  have hdiscH : DiscreteTopology (linearImage H) :=
+    DiscreteTopology.of_subset (s := (linearImage (ι.restrictGroup Γ₂) : Set (lorentz d₁)))
+      (t := (linearImage H : Set (lorentz d₁))) hdisc
+      (Subgroup.map_mono (Lox.restrictGroup_mono ι hle'))
+  have hnfix : ¬HasGlobalFixedPoint (linearImage H) := by
+    rintro (⟨v, hv, hfix⟩ | ⟨u, hu⟩)
+    · have hv0 : v ≠ 0 := fun h0 => by rw [h0] at hv; simp [minkQ] at hv
+      have hfv := hfix (linearPart g₀) ⟨g₀, hg₀, rfl⟩
+      have hl : IsLoxodromic ((linearPart g₀ : lorentz d₁) : Minkowski d₁ ≃ₗ[ℝ] Minkowski d₁) := by
+        rw [← linOf_eq_linearPart]; exact hlox₀
+      have := minkQ_pos_of_fixed_pow_loxodromic hl one_ne_zero (by rw [pow_one]; exact hfv) hv0
+      linarith
+    · obtain ⟨H', hH', hidx', u', hu'⟩ := Lox.exists_finiteIndex_fix_of_restrictGroup ι hres'
+        (H := linearImage H) le_rfl (by rw [Subgroup.relIndex_self]; exact one_ne_zero) hu
+      exact hne H' (hH'.trans (Subgroup.map_mono hle))
+        (Subgroup.relIndex_ne_zero_trans hidx' (Lox.relIndex_map_ne_zero linearPart hidx))
+        ⟨u', hu'⟩
+  refine ⟨_, hsp, rfl, hfin, hE, hdiscH, hnfix, ?_⟩
+  obtain ⟨e₁, e₂⟩ := preimage_omega_limitSetJ ι hι hres'
+  rcases omegaSOpens_eq_limitOpens_of_relIndex h hlox hle hidx with he | he
+  · have hpre : ι.preimageOpens Ω = limitOpensPlus H := by
+      refine Opens.ext ?_
+      show ι ⁻¹' (Ω : Set (Minkowski d)) = omegaPlus (limitSetJ H)
+      rw [hΩ, he]; exact e₁
+    refine Or.inl ⟨hpre ▸ hM₁, fun v hv p hp => ?_⟩
+    have hpre' : ι ⁻¹' omegaS Γ S = omegaPlus (limitSetJ H) :=
+      congrArg (fun U : Opens _ => (U : Set (Minkowski d₁))) hpre
+    rw [← hpre'] at hp ⊢
+    exact hEinv v hv p hp
+  · have hpre : ι.preimageOpens Ω = limitOpensMinus H := by
+      refine Opens.ext ?_
+      show ι ⁻¹' (Ω : Set (Minkowski d)) = omegaMinus (limitSetJ H)
+      rw [hΩ, he]; exact e₂
+    refine Or.inr ⟨hpre ▸ hM₁, fun v hv p hp => ?_⟩
+    have hpre' : ι ⁻¹' omegaS Γ S = omegaMinus (limitSetJ H) :=
+      congrArg (fun U : Opens _ => (U : Set (Minkowski d₁))) hpre
+    rw [← hpre'] at hp ⊢
+    exact hEinv v hv p hp
+
+/-- **[10.G], l.3412–3417, after the reduction**: a finite-index `Γ' ≤ Γ₂` on whose restriction
+`L_U` is trivial on `E = span 𝒩(Γ'_U)` — `Lox.exists_finiteIndex_linOf_eq_on_span` for the
+restricted group `Γ₂_U`, pulled back to `Γ₂` (`Lox.exists_le_restrictGroup_le`). -/
+theorem exists_finiteIndex_restrict_trivial_on_span (h : CCAction Γ S)
+    (hlox : ∃ γ ∈ Γ, IsLoxodromic (linOf γ)) {d₁ : ℕ} (ι : AffineMinkEmbedding d₁ d)
+    (hι : ι.Orthochronous) {Γ₂ : Subgroup (isom d)} (hle₂ : Γ₂ ≤ Γ) (hidx₂ : Γ₂.relIndex Γ ≠ 0)
+    (hres : ι.RestrictsIn Γ₂) :
+    ∃ Γ' : Subgroup (isom d), Γ' ≤ Γ₂ ∧ Γ'.relIndex Γ₂ ≠ 0 ∧
+      ∀ Γ'' : Subgroup (isom d), Γ'' ≤ Γ' →
+        ∀ g ∈ ι.restrictGroup Γ'', ∀ v ∈ Submodule.span ℝ (kerTranslations (ι.restrictGroup Γ'')),
+          linOf g v = v := by
+  obtain ⟨hsp, hfin, -⟩ := restrict_kerTranslations_lattice h hlox ι hι hle₂ hidx₂ hres
+  obtain ⟨H₀, -, hH₀i, hH₀E⟩ := Lox.exists_finiteIndex_linOf_eq_on_span hsp hfin
+    fun _ hγ _ hv => linOf_mem_kerTranslations hγ hv
+  obtain ⟨Γ', hle', hidx', hrG⟩ := Lox.exists_le_restrictGroup_le ι hres hH₀i
+  refine ⟨Γ', hle', hidx', fun Γ'' hle'' g hg v hv => hH₀E g (hrG (Lox.restrictGroup_mono ι hle'' hg))
+    v (Submodule.span_mono (kerTranslations_subset_of_le
+      (Lox.restrictGroup_mono ι (hle''.trans hle'))) hv)⟩
+
+end GenericReduction
+
 section GenericConclusion
 
 variable {M : Type*} [TopologicalSpace M] [ChartedSpace (Minkowski d) M]
-  [HasGroupoid M (gxGroupoid (isom d) (Minkowski d))] {x₀ : M}
+  [HasGroupoid M (gxGroupoid (isom d) (Minkowski d))] [T2Space M] {x₀ : M}
   {D : UniversalCover M x₀ → Minkowski d} {ρ : Deck (UniversalCover.proj M x₀) →* isom d}
   {S : Set M}
 
 /-- **[10.G], the conclusion in the central-extension form (b)** (l.3416–3456; DEC-43's R1, DEC-44):
 in the nonelementary loxodromic case, a finite-index subgroup `Γ' ≤ Γ` (on which conjugation acts
 trivially on `𝒩`) gives `B = Γ'\Ω(S̃)`, a linear twisted product (over the timelike `U` of
-Prop 10.4, `blem:suspendre`) over a spacetime of family (b). -/
+Prop 10.4, `blem:suspendre`) over a spacetime of family (b). Proved (wave 7) through
+`exists_generic_reduction`, `exists_finiteIndex_restrict_trivial_on_span` and
+`generic_isCHCentralExtension`; `[T2Space M]` (added 2026-11-01) gives `ccAction_of_developsCC`.
+The family-(b) group of `M₁` is the restriction `Γ'_U`. -/
 theorem loxo_generic_centralExtension (hpair : IsDevelopingPair x₀ D ρ)
     (hcaus : (flatCausality d M).IsCausal) (h : DevelopsCC x₀ D S)
     (hlox : ∃ γ ∈ ρ.range, IsLoxodromic (linOf γ)) (hne : IsNonelementary ρ.range)
@@ -2745,12 +3027,26 @@ theorem loxo_generic_centralExtension (hpair : IsDevelopingPair x₀ D ρ)
         IsQuotientOf B Γ' (omegaSOpens ρ.range (D '' (UniversalCover.proj M x₀ ⁻¹' S))) ∧
         ∃ (d₁ : ℕ) (M₁ : FlatSpacetime.{0} d₁), d₁ ≤ d ∧ IsLTPOver B M₁ ∧
           IsCHCentralExtension M₁ := by
-  sorry -- SORRY([10.G]): proved here are the pieces that hold in `𝐌ⁿ`: `Ω(S̃) = Ω^±(Λ(Γ))` (`generic_omegaS_eq`), `𝒩` spacelike, discrete and `L(Γ)`-stable (`kerTranslations_spacelike`, `_ballFinite`, `linOf_mem_kerTranslations`), `E = span 𝒩` spacelike (`span_kerTranslations_spacelike`, a step the paper does not justify) and `Ω(S̃) + E = Ω(S̃)` (`omegaS_add_mem_span`). Prop 10.4 (`bprop_U_timelike`) is now proved (through `Lox.exists_finiteIndex_fix_of_nilpotent_normal`), Prop 10.5 (`bprop_LU_discrete`) up to its branch `L_U(Γ_nd) = {1}` (sorry); for `blem:suspendre`'s reduction to `U = 𝐌ⁿ` (l.3391–3396) the `U^⊥`-invariance of `Ω^±(Λ(Γ))` (gap G6) is now `limitOpens_add_perp`, the base domain `ι⁻¹Ω^±(Λ(Γ)) = Ω^±(Λ(Γ_U))` is `preimage_omega_limitSetJ`, `Λ` is unmoved by a finite-index subgroup (`limitSetJ_eq_of_relIndex_ne_zero`, `limitOpens_eq_of_relIndex_ne_zero`), and the `𝒩`-conjuncts of family (b) for a group without `CCAction` (the restricted `Γ_U`) are `kerTranslations_lattice_of_limitSetJ`, which still needs the restricted group's proper action on `ι⁻¹Ω(S̃)` and a loxodromic element of `Γ_U`; the finite-index subgroup on which `L(Γ)|_E` is trivial is now proved under `CCAction` (`exists_finiteIndex_linOf_eq_on_span_kerTranslations`, from `Lox.exists_finiteIndex_linOf_eq_on_span`), and the `RestrictsIn` hypothesis of `blem:suspendre` on an index-`≤ 2` subgroup preserving `U` (`Lox.exists_restrictsIn_relIndex_le_two`), but this statement carries no `[T2Space M]`, so `ccAction_of_developsCC` does not apply to `ρ.range` here; the quotient `𝐌ⁿ/E` as a Minkowski space `Minkowski d₁` (an orthochronous `AffineMinkEmbedding` onto `E^⊥`, not built) carrying the discrete group `L(Γ)` with `p(Ω(S̃))` its regular domain (l.3436–3446, "it should be clear to the reader"); the quotient `M(S) = Γ'\Ω(S̃)` itself is available (a finite-index `Γ'` inherits Cor 10.3's free and properly discontinuous action, `loxo_properlyDiscontinuous`, now proved), but the LTP structure over `M₁` needs the reduction above
+  -- `hcaus` is the setting of §8 (kept in the statement); the proof does not use it (⚠ weakened)
+  have _ := hcaus
+  have h' := ccAction_of_developsCC hpair h
+  -- the reduction to `U` (Props 10.4, 10.5, `blem:suspendre`'s orientation step)
+  obtain ⟨d₁, ι, Γ₂, hle₂, hidx₂, hι, hres, hdisc⟩ := exists_generic_reduction h' hne hA hU
+  -- l.3412–3417: the finite-index subgroup on which `L_U` is trivial on `E`
+  obtain ⟨Γ', hle', hidx', hE⟩ :=
+    exists_finiteIndex_restrict_trivial_on_span h' hlox ι hι hle₂ hidx₂ hres
+  have hidx : Γ'.relIndex ρ.range ≠ 0 := Subgroup.relIndex_ne_zero_trans hidx' hidx₂
+  obtain ⟨B, hB, M₁, hltp, hM₁⟩ :=
+    generic_isCHCentralExtension h' hlox hne ι hι hres hdisc hle' hle₂ hidx (hE Γ' le_rfl)
+  exact ⟨Γ', hle'.trans hle₂, hidx, B, hB, d₁, M₁, Lox.le_of_affineMinkEmbedding ι, hltp, _, hM₁⟩
 
 /-- **[10.G], family (a) under "`π₁` finitely generated"** (DEC-44, finding F2/gap G5): through
 Selberg's lemma (a named external, `Flat.Externals`), a further finite-index subgroup has
 torsion-free linear part, and family (b) with `L(Γ)` torsion-free is the literal
-"Cauchy-hyperbolic × torus" (a). -/
+"Cauchy-hyperbolic × torus" (a). Proved (wave 7): `Γ'` is cut down by Selberg in dimension `d`
+(torsion-free `L(Γ')`) and, after restriction to `U`, by Selberg in dimension `d₁`
+(`Lox.selbergLemma_minkowski_of_le`; torsion-freeness does not pass to `L_U`), the restricted group
+being finitely generated by Schreier's lemma. -/
 theorem loxo_generic_torusProduct (hpair : IsDevelopingPair x₀ D ρ)
     (hcaus : (flatCausality d M).IsCausal) (h : DevelopsCC x₀ D S)
     (hlox : ∃ γ ∈ ρ.range, IsLoxodromic (linOf γ)) (hne : IsNonelementary ρ.range)
@@ -2766,7 +3062,37 @@ theorem loxo_generic_torusProduct (hpair : IsDevelopingPair x₀ D ρ)
   -- `L(Γ)` does not pass to `L_U(Γ)`, so the external is moved down instead
   have hS₁ : ∀ d₁ ≤ d, SelbergLemma (Minkowski d₁) := fun _ hd₁ =>
     Lox.selbergLemma_minkowski_of_le hd₁ hS
-  sorry -- SORRY([10.G]): Selberg's step is done (`Γ₁`, from `exists_finiteIndex_torsionFree_linOf`, and `hS₁` in every dimension `d₁ ≤ d`, `Lox.selbergLemma_minkowski_of_le`, for the base group, a subgroup of `isom d₁`); what remains is `loxo_generic_centralExtension`'s construction run for the finite-index `Γ' ⊓ Γ₁` (its own sorry), whose linear part is then torsion-free, which is `IsCHTorusProduct` by definition; its statement cannot be applied as a black box, since the `M₁` it returns is family (b) for an unnamed group with no tie to `Γ' ⊓ Γ₁` (the base group of `M₁` is `L(Γ')` acting on `𝐌ⁿ/E`, which the statement does not expose)
+  have _ := hcaus
+  have h' := ccAction_of_developsCC hpair h
+  obtain ⟨d₁, ι, Γ₂, hle₂, hidx₂, hι, hres, hdisc⟩ := exists_generic_reduction h' hne hA hU
+  obtain ⟨Γ', hle', hidx', hE⟩ :=
+    exists_finiteIndex_restrict_trivial_on_span h' hlox ι hι hle₂ hidx₂ hres
+  -- intersect with Selberg's subgroup in dimension `d`
+  set Γ'' := Γ' ⊓ Γ₁ with hΓ''
+  have hidx'' : Γ''.relIndex ρ.range ≠ 0 :=
+    Subgroup.relIndex_inf_ne_zero (Subgroup.relIndex_ne_zero_trans hidx' hidx₂) hidx₁
+  have hle'' : Γ'' ≤ Γ₂ := inf_le_left.trans hle'
+  have hres'' := Lox.restrictsIn_mono hres hle''
+  -- `Γ''` is finitely generated (finite index in the finitely generated `Γ`)
+  have hfg'' : Γ''.FG := by
+    haveI : Group.FG ρ.range := (Group.fg_iff_subgroup_fg _).2 hfg
+    haveI : (Γ''.subgroupOf ρ.range).FiniteIndex := ⟨hidx''⟩
+    have h1 : (Γ''.subgroupOf ρ.range).FG := (Group.fg_iff_subgroup_fg _).1 inferInstance
+    have h2 := fg_map_of_fg h1 ρ.range.subtype
+    rwa [Subgroup.subgroupOf_map_subtype, inf_of_le_left (hle''.trans hle₂)] at h2
+  -- so is its restriction to `U`; Selberg in dimension `d₁` there
+  have hGfg : (ι.restrictGroup Γ'').FG := by
+    rw [← Lox.range_restrictHom ι hres'', MonoidHom.range_eq_map]
+    exact fg_map_of_fg (Group.fg_def.1 ((Group.fg_iff_subgroup_fg Γ'').2 hfg'')) _
+  obtain ⟨H₁, -, hH₁i, htfH₁⟩ :=
+    exists_finiteIndex_torsionFree_linOf (hS₁ d₁ (Lox.le_of_affineMinkEmbedding ι)) hGfg
+  obtain ⟨Γ₃, hle₃, hidx₃, hrG⟩ := Lox.exists_le_restrictGroup_le ι hres'' hH₁i
+  have hidx3 : Γ₃.relIndex ρ.range ≠ 0 := Subgroup.relIndex_ne_zero_trans hidx₃ hidx''
+  obtain ⟨B, hB, M₁, hltp, hM₁⟩ := generic_isCHCentralExtension h' hlox hne ι hι hres hdisc
+    (hle₃.trans hle'') hle₂ hidx3 (hE Γ₃ (hle₃.trans inf_le_left))
+  exact ⟨Γ₃, (hle₃.trans hle'').trans hle₂, hidx3,
+    fun γ hγ hf => htf₁ γ ((hle₃.trans inf_le_right) hγ) hf, B, hB, d₁, M₁,
+    Lox.le_of_affineMinkEmbedding ι, hltp, _, hM₁, fun g hg hf => htfH₁ g (hrG hg) hf⟩
 
 end GenericConclusion
 

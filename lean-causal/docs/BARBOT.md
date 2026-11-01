@@ -139,6 +139,11 @@ Classes: **T** causal / order-topological / affine in Minkowski space; **D** met
 - Rem 2.3 is false as written (slab `Γ\{0<t<1}` in a translation spacetime); the corrected form needs
   **lemma K** (a closed connected spacelike hypersurface of a GH spacetime is Cauchy), which gx needs
   too.
+- **F3** — [10.M], l.3320–3321: "the action on π_P⁻¹(0) is free and properly discontinuous" is false
+  for Γ. In 𝐌⁴, Γ = ⟨γ₀⟩ with γ₀(x,z,y) = (e⁻¹x, R_θ z, e y), θ/π irrational, is elementary
+  loxodromic and acts freely and properly on the domain, but acts on π_P⁻¹(0) by a rotation fixing 0.
+  The claim holds for Γ₀ = ker a; [10.M]'s conclusion is not refuted (that example is Misner in 𝐌²).
+  Found 2026-11-01, WP-34d REPORT.json.
 
 ## Findings against ETT (for the author; the ETT ledger is not edited from this campaign)
 

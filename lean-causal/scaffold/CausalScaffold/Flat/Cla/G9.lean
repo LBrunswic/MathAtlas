@@ -39,10 +39,17 @@ module serves `cauclo_from_embedding`'s steps (3)–(4). Line numbers are those 
   (G9): if `B` is GH and Cauchy-compact, `f : M' → B` a surjective isometric embedding, and `B` a
   linear twisted product over a model `M₁` of Theorem A (translation, Misner, unipotent or the
   central extension (b)), then some finite cover `M₁'` of `M'` is a translation spacetime, a
-  Misner spacetime, or a torus product (a). It rests on **one** tagged `sorry`, in
-  `fg_and_nonelementary_of_cauchyCompact` (G9d's geometric input: `Γ` finitely generated, no
-  finite-index subgroup of `L(Γ)` with a global fixed point); G9a, G9b, G9c and the rest of G9d
-  are proved.
+  Misner spacetime, or a torus product (a). It rests on **one** tagged `sorry`,
+  `false_of_cauchyCompact_of_fixed_pair` (the residual case of G9d's (NE), below); G9a, G9b, G9c
+  and the rest of G9d are proved.
+* `fg_and_nonelementary_of_cauchyCompact` — **G9d's geometric input**, assembled: **(FG) proved**
+  (`fg_of_isQuotientOf_cauchyCompact`, sorry-free: the lift of the compact Cauchy surface is
+  connected by lifting the deformation of the splitting, `isPreconnected_preimage_of_splitting`,
+  then an elementary Švarc–Milnor, `fg_of_isPreconnected_of_properlyDiscontinuous`); **(NE)
+  reduced**, sorry-free (`not_hasGlobalFixedPoint_of_relIndex_ne_zero`: a fixed timelike vector of
+  a finite-index `L(Γ')` averages to one of `L(Γ)`; a fixed point of `𝒮` has a finite orbit, fixed
+  pointwise by the normal core, of one point, of three or more — a fixed timelike `n₁ + n₂` — or of
+  an invariant pair) to the pair case, the module's one `sorry`.
 * `isCompact_image_of_isQuotientOf` — **the obstruction to Cauchy-compactness**, sorry-free: if
   `M = Γ\Ω` is causal with a compact Cauchy surface `K`, and `F` is a continuous `Γ`-invariant
   function on `𝐌ⁿ` constant along a causal direction `v`, then `F(Ω)` is compact. This is the
@@ -84,16 +91,17 @@ module serves `cauclo_from_embedding`'s steps (3)–(4). Line numbers are those 
 | `M` maximal (Theorem B) | ⚠ weakened: not assumed for `B` — not needed: G9a, G9b and G9d hold for any Cauchy-compact GH LTP over a model |
 | `M` Cauchy-compact GH | ✓ carried, on `B` (`hGH`, `hC`) |
 | `M` finitely covered by a space embedded in an LTP (Theorem A) | ✓ carried as `f` surjective (after [11.ii]) and `hltp` |
-| "π₁ finitely generated" (DEC-44, for family (b) → (a)) | not assumed: derived from Cauchy-compactness in the `sorry` (FG); the reduction `exists_torusProduct_cover_of_fg` carries it as `Γ.FG` |
+| "π₁ finitely generated" (DEC-44, for family (b) → (a)) | not assumed: **proved** from Cauchy-compactness (`fg_of_isQuotientOf_cauchyCompact`); the reduction `exists_torusProduct_cover_of_fg` carries it as `Γ.FG` |
 | Selberg's lemma (DEC-36, DEC-44) | ✓ carried as the named external `hSel` |
 
 ## SCOPE (disclosed)
 
-`fg_and_nonelementary_of_cauchyCompact` carries the one `sorry`: for a GH Cauchy-compact
-`B = Γ\Ω^±(Λ(Γ))` of family (b), (FG) `Γ` is finitely generated (an elementary Švarc–Milnor on the
-lifted compact Cauchy surface, whose connectedness is not in the library either), and (NE) no
-finite-index subgroup of `L(Γ)` has a global fixed point on `𝐇̄` (Barbot: `L(Γ)` acts cocompactly
-on some `𝐇ᵏ`, `k ≥ 2`). Everything downstream of these two facts is proved. Copies, kept
+`false_of_cauchyCompact_of_fixed_pair` carries the one `sorry`: for a GH Cauchy-compact
+`B = Γ\Ω^±(Λ(Γ))` of family (b), no finite-index `N ≤ Γ` fixes (in `L`) two distinct points of `𝒮`
+whose pair `L(Γ)` preserves — the elementary-loxodromic case of (NE) (Barbot: `L(Γ)` acts
+cocompactly on some `𝐇ᵏ`, `k ≥ 2`; equivalently `Γ` virtually `ℤ^{1+dim E}`, `dim E ≤ d − 2`,
+cannot act cocompactly on the lifted Cauchy surface). It is a special case of (NE), hence true.
+(FG) and every other case of (NE) are proved; everything downstream is proved. Copies, kept
 `private`: Classification's `isCancelSMul_of_isCoveringMap` / `properlyDiscontinuousSMul_of_…`,
 FiniteCover's sheet criterion, Lox.RestrictLimitSet's `repJ_eq_of_relIndex_ne_zero` (this module
 may import none of them).
@@ -1827,21 +1835,403 @@ theorem exists_torusProduct_cover_of_fg (hSel : SelbergLemma (Minkowski d))
 
 end G9dReduction
 
+/-! ## G9d — the geometric input: finite generation and the reduction of (NE) -/
+
+section G9dInput
+
+variable {d : ℕ}
+
+open scoped unitInterval
+
+/-- **The lift of a split Cauchy surface along a covering is connected** (G9d (FG), the
+connectedness that the obstruction asked for): if `ψ : S × ℝ ≃ₜ X` with `ψ(x, 0) = x` and
+`π : E → X` is a covering with `E` connected, then `π⁻¹(S)` is preconnected. The deformation
+`(t, e) ↦ ψ(σ(πe), (1 − t) τ(πe))` of `π` lifts (`IsCoveringMap.liftHomotopy`); its end map
+`E → π⁻¹(S)` is onto, being the identity on `π⁻¹(S)` (uniqueness of lifts). -/
+theorem isPreconnected_preimage_of_splitting {E X : Type*} [TopologicalSpace E]
+    [TopologicalSpace X] [ConnectedSpace E] {π : E → X} (hπ : IsCoveringMap π) {S : Set X}
+    (ψ : S × ℝ ≃ₜ X) (hψ : ∀ x : S, ψ (x, 0) = x) : IsPreconnected (π ⁻¹' S) := by
+  have hc : Continuous π := hπ.continuous
+  let H : C(I × E, X) :=
+    ⟨fun te => ψ ((ψ.symm (π te.2)).1, (1 - (te.1 : ℝ)) * (ψ.symm (π te.2)).2), by fun_prop⟩
+  have H0 : ∀ a, H (0, a) = π (ContinuousMap.id E a) := fun a => by
+    simp [H]
+  set L := hπ.liftHomotopy H (ContinuousMap.id E) H0 with hL
+  have hlift : ∀ te, π (L te) = H te := fun te => congr_fun (hπ.liftHomotopy_lifts H _ H0) te
+  have h1 : ∀ e, L (1, e) ∈ π ⁻¹' S := fun e => by
+    rw [mem_preimage, hlift]
+    simp only [H, ContinuousMap.coe_mk, Icc.coe_one, sub_self, zero_mul, hψ]
+    exact Subtype.coe_prop _
+  have h2 : ∀ e ∈ π ⁻¹' S, L (1, e) = e := by
+    intro e he
+    have hsy : ψ.symm (π e) = (⟨π e, he⟩, 0) := by
+      rw [Homeomorph.symm_apply_eq, hψ]
+    have hconst : ∀ t : I, H (t, e) = π e := fun t => by
+      simp only [H, ContinuousMap.coe_mk, hsy, mul_zero, hψ]
+    have := hπ.eq_of_comp_eq (g₁ := fun t : I => L (t, e)) (g₂ := fun _ => e)
+      (L.continuous.comp (Continuous.prodMk_left e)) continuous_const
+      (funext fun t => by simp only [comp_apply, hlift, hconst]) 0
+      (hπ.liftHomotopy_zero H _ H0 e)
+    exact congr_fun this 1
+  have hrange : π ⁻¹' S = range fun e => L (1, e) := by
+    ext e
+    exact ⟨fun he => ⟨e, h2 e he⟩, by rintro ⟨e', rfl⟩; exact h1 e'⟩
+  rw [hrange]
+  exact isPreconnected_range (L.continuous.comp (Continuous.prodMk_right 1))
+
+/-- **An elementary Švarc–Milnor lemma** (G9d (FG)): if `Γ` acts properly discontinuously on `T`,
+`K ⊆ T` is preconnected and `Γ`-invariant, and an open `V` inside a compact `C` meets `K` and
+meets every orbit of a point of `K`, then the finite set `{γ | γC ∩ C ≠ ∅}` generates `Γ`. The
+translates `γV` with `γ` in the generated subgroup, and those with `γ` outside it, are disjoint
+open sets covering `K`. -/
+theorem fg_of_isPreconnected_of_properlyDiscontinuous {G : Type*} [Group G] {Γ : Subgroup G}
+    {T : Type*} [TopologicalSpace T] [MulAction Γ T] [ContinuousConstSMul Γ T]
+    [ProperlyDiscontinuousSMul Γ T] {K : Set T} (hK : IsPreconnected K)
+    (hinv : ∀ γ : Γ, ∀ x ∈ K, γ • x ∈ K) {C V : Set T} (hC : IsCompact C) (hV : IsOpen V)
+    (hVC : V ⊆ C) (hcov : ∀ x ∈ K, ∃ γ : Γ, γ • x ∈ V) (hne : (K ∩ V).Nonempty) : Γ.FG := by
+  set T0 : Set Γ := {γ : Γ | ((γ • ·) '' C ∩ C).Nonempty} with hT0
+  have hT0f : T0.Finite := ProperlyDiscontinuousSMul.finite_disjoint_inter_image hC hC
+  set S0 : Set G := Subtype.val '' T0 with hS0
+  set P : Γ → Prop := fun γ => (γ : G) ∈ Subgroup.closure S0 with hP
+  have hT0P : ∀ γ : Γ, ∀ x ∈ V, γ • x ∈ V → P γ := fun γ x hx hγx =>
+    Subgroup.subset_closure ⟨γ, ⟨γ • x, ⟨x, hVC hx, rfl⟩, hVC hγx⟩, rfl⟩
+  have hPmul : ∀ γ δ : Γ, P γ → P δ → P (γ * δ) := fun γ δ h1 h2 => by
+    simp only [hP, Subgroup.coe_mul]; exact Subgroup.mul_mem _ h1 h2
+  have hPinv : ∀ γ : Γ, P γ → P γ⁻¹ := fun γ h => by
+    simp only [hP, Subgroup.coe_inv]; exact Subgroup.inv_mem _ h
+  set U1 : Set T := ⋃ γ ∈ {γ : Γ | P γ}, (fun x => γ⁻¹ • x) ⁻¹' V
+  set U2 : Set T := ⋃ γ ∈ {γ : Γ | ¬ P γ}, (fun x => γ⁻¹ • x) ⁻¹' V
+  have hU1 : IsOpen U1 := isOpen_biUnion fun γ _ => hV.preimage (continuous_const_smul _)
+  have hU2 : IsOpen U2 := isOpen_biUnion fun γ _ => hV.preimage (continuous_const_smul _)
+  have hdisj : Disjoint U1 U2 := by
+    rw [Set.disjoint_left]
+    intro x hx1 hx2
+    simp only [U1, U2, mem_iUnion, mem_preimage, mem_setOf_eq, exists_prop] at hx1 hx2
+    obtain ⟨γ, hγ, hγx⟩ := hx1
+    obtain ⟨δ, hδ, hδx⟩ := hx2
+    have h : P (δ⁻¹ * γ) := hT0P _ _ hγx (by rwa [mul_smul, smul_inv_smul])
+    apply hδ
+    have := hPmul _ _ hγ (hPinv _ h)
+    simpa using this
+  have hsub : K ⊆ U1 ∪ U2 := by
+    intro x hx
+    obtain ⟨γ, hγ⟩ := hcov x hx
+    by_cases h : P γ⁻¹
+    · exact Or.inl (mem_biUnion (x := γ⁻¹) h (by simpa using hγ))
+    · exact Or.inr (mem_biUnion (x := γ⁻¹) h (by simpa using hγ))
+  obtain ⟨x₀, hx₀K, hx₀V⟩ := hne
+  have hKU1 : K ⊆ U1 := hK.subset_left_of_subset_union hU1 hU2 hdisj hsub
+    ⟨x₀, hx₀K, mem_biUnion (x := 1) (by simp [hP]) (by simpa using hx₀V)⟩
+  have hall : ∀ γ : Γ, P γ := by
+    intro γ
+    have := hKU1 (hinv γ x₀ hx₀K)
+    simp only [U1, mem_iUnion, mem_preimage, mem_setOf_eq, exists_prop] at this
+    obtain ⟨δ, hδ, hδx⟩ := this
+    have h : P (δ⁻¹ * γ) := hT0P _ _ hx₀V (by rwa [mul_smul])
+    simpa using hPmul _ _ hδ h
+  rw [Subgroup.fg_iff]
+  refine ⟨S0, le_antisymm ?_ fun g hg => hall ⟨g, hg⟩, hT0f.image _⟩
+  rw [Subgroup.closure_le]
+  rintro _ ⟨γ, -, rfl⟩
+  exact γ.2
+/-- **G9d (FG): the group of a Cauchy-compact quotient is finitely generated**: if `B = Γ\Ω` is
+causal and Cauchy-compact and `Ω` is connected, then `Γ` is finitely generated. The lift `π⁻¹(K)`
+of the compact Cauchy surface is connected (`isPreconnected_preimage_of_splitting`, along the
+splitting `K × ℝ ≃ₜ B` of the chronal causal flow of every flat spacetime), and finitely many
+relatively compact charts of `Ω` cover `K` (`fg_of_isPreconnected_of_properlyDiscontinuous`). -/
+theorem fg_of_isQuotientOf_cauchyCompact {B : FlatSpacetime.{u} d}
+    (hcaus : (flatCausality d B).IsCausal) (hC : CauchyCompact B) {Γ : Subgroup (isom d)}
+    {Ω : Opens (Minkowski d)} (hq : IsQuotientOf B Γ Ω)
+    (hΩ : IsConnected (Ω : Set (Minkowski d))) : Γ.FG := by
+  haveI := hq.invariant
+  haveI : ConnectedSpace Ω := isConnected_iff_connectedSpace.1 hΩ
+  obtain ⟨S, hS, hSc, hac⟩ := hC
+  obtain ⟨π, hcov, hloc, hsurj, hfib⟩ := hq.quot
+  haveI : ProperlyDiscontinuousSMul Γ Ω := properlyDiscontinuousSMul_of_isCoveringMap' hcov hfib
+  have hflow : (flatCausality d B).HasChronalCausalFlow := flat_hasChronalCausalFlow
+  obtain ⟨ψ, hψ⟩ := flat_exists_isCauchySplitting hflow hcaus hS hac
+  have hK : IsPreconnected (π ⁻¹' S) := isPreconnected_preimage_of_splitting hcov ψ hψ.zero
+  -- a compact `C` and an open `V ⊆ C` of `Ω` with `S ⊆ π V`
+  have hnhds : ∀ e : Ω, ∃ C : Set Ω, IsCompact C ∧ C ∈ 𝓝 e := fun e => exists_compact_mem_nhds e
+  choose Cf hCf hCn using hnhds
+  have hopen : IsOpenMap π := hloc.isOpenMap
+  obtain ⟨t, ht⟩ := hSc.elim_finite_subcover (fun e : Ω => π '' interior (Cf e))
+    (fun e => hopen _ isOpen_interior) (fun s _ => by
+      obtain ⟨e, rfl⟩ := hsurj s
+      exact mem_iUnion.2 ⟨e, e, mem_interior_iff_mem_nhds.2 (hCn e), rfl⟩)
+  set V : Set Ω := ⋃ e ∈ t, interior (Cf e)
+  set C : Set Ω := ⋃ e ∈ t, Cf e
+  have hVo : IsOpen V := isOpen_biUnion fun _ _ => isOpen_interior
+  have hCc : IsCompact C := t.isCompact_biUnion fun e _ => hCf e
+  have hVC : V ⊆ C := biUnion_mono subset_rfl fun _ _ => interior_subset
+  have hSV : ∀ s ∈ S, ∃ v ∈ V, π v = s := by
+    intro s hs
+    obtain ⟨e, he, v, hv, rfl⟩ := mem_iUnion₂.1 (ht hs)
+    exact ⟨v, mem_biUnion he hv, rfl⟩
+  refine fg_of_isPreconnected_of_properlyDiscontinuous hK ?_ hCc hVo hVC ?_ ?_
+  · intro γ x hx
+    rw [mem_preimage, ((hfib x (γ • x)).2 ⟨γ, γ.2, rfl⟩).symm]
+    exact hx
+  · intro x hx
+    obtain ⟨v, hv, hvx⟩ := hSV (π x) hx
+    obtain ⟨γ, hγ, hγv⟩ := (hfib v x).1 hvx
+    refine ⟨(⟨γ, hγ⟩ : Γ)⁻¹, ?_⟩
+    have : (⟨γ, hγ⟩ : Γ) • v = x := Subtype.ext hγv
+    rw [← this, inv_smul_smul]
+    exact hv
+  · obtain ⟨m⟩ : Nonempty B := inferInstance
+    obtain ⟨v, hv, hvs⟩ := hSV _ (ψ.symm m).1.2
+    exact ⟨v, by rw [mem_preimage, hvs]; exact (ψ.symm m).1.2, hv⟩
+
+/-- A function on `Γ` that is right `H`-invariant, `H` of finite index in `Γ`, takes finitely many
+values on `Γ` (one per coset). -/
+theorem finite_image_of_relIndex_ne_zero {G X : Type*} [Group G] {Γ H : Subgroup G}
+    (hH : H.relIndex Γ ≠ 0) (f : G → X) (hf : ∀ γ ∈ Γ, ∀ h ∈ H, f (γ * h) = f γ) :
+    (f '' (Γ : Set G)).Finite := by
+  haveI : (H.subgroupOf Γ).FiniteIndex := ⟨hH⟩
+  refine (Set.finite_range fun q : Γ ⧸ H.subgroupOf Γ => f (q.out : G)).subset ?_
+  rintro _ ⟨γ, hγ, rfl⟩
+  obtain ⟨h, hh⟩ := QuotientGroup.mk_out_eq_mul (H.subgroupOf Γ) (⟨γ, hγ⟩ : Γ)
+  refine ⟨(⟨γ, hγ⟩ : Γ), ?_⟩
+  simp only [hh, Subgroup.coe_mul]
+  exact hf γ hγ _ (Subgroup.mem_subgroupOf.1 h.2)
+
+/-- `L(γδ) = L(γ) L(δ)`, applied. -/
+private theorem linearPart_mul_apply (γ δ : isom d) (v : Minkowski d) :
+    (linearPart (γ * δ) : Minkowski d ≃ₗ[ℝ] Minkowski d) v =
+      (linearPart γ : Minkowski d ≃ₗ[ℝ] Minkowski d)
+        ((linearPart δ : Minkowski d ≃ₗ[ℝ] Minkowski d) v) := by
+  rw [map_mul, Subgroup.coe_mul, LinearEquiv.mul_apply]
+
+/-- The action on `𝒮` is an action: `[A B] = [A] ∘ [B]` (copy of `Lox.CentralFix`'s private one). -/
+private theorem lorentzSphere_mul' (A B : lorentz d) (u : PenroseSphere d) :
+    lorentzSphere (A * B) u = lorentzSphere A (lorentzSphere B u) := by
+  have hA := (lorentzScale_pos A (lorentzSphere B u)).ne'
+  have hB := (lorentzScale_pos B u).ne'
+  have hAB := (lorentzScale_pos (A * B) u).ne'
+  refine nullVec_injective_smul
+    (c := (lorentzScale (A * B) u)⁻¹ * (lorentzScale A (lorentzSphere B u) * lorentzScale B u)) ?_
+  rw [nullVec_lorentzSphere, nullVec_lorentzSphere A, nullVec_lorentzSphere B, map_smul,
+    smul_smul, smul_smul, Subgroup.coe_mul, LinearEquiv.mul_apply]
+  congr 1
+  field_simp
+
+/-- **G9d (NE), timelike case**: if a finite-index subgroup `Γ'` of `Γ` has linear parts fixing
+a timelike vector, `L(Γ)` has a global fixed point: the sum of the finite `L(Γ)`-orbit of the
+future one of `±v` is future timelike (`isFutureTimelike_add`) and `L(Γ)`-fixed. -/
+theorem hasGlobalFixedPoint_of_fixed_timelike {Γ Γ' : Subgroup (isom d)} (hidx : Γ'.relIndex Γ ≠ 0)
+    {v : Minkowski d} (hv : minkQ v < 0)
+    (hfix : ∀ γ ∈ Γ', (linearPart γ : Minkowski d ≃ₗ[ℝ] Minkowski d) v = v) :
+    HasGlobalFixedPoint (linearImage Γ) := by
+  obtain ⟨w, hw, hfw⟩ : ∃ w, IsFutureTimelike w ∧
+      ∀ γ ∈ Γ', (linearPart γ : Minkowski d ≃ₗ[ℝ] Minkowski d) w = w := by
+    rcases isFutureTimelike_or_neg hv with h | h
+    · exact ⟨v, h, hfix⟩
+    · exact ⟨-v, h, fun γ hγ => by rw [map_neg, hfix γ hγ]⟩
+  set f : isom d → Minkowski d := fun γ => (linearPart γ : Minkowski d ≃ₗ[ℝ] Minkowski d) w
+  have hO : (f '' (Γ : Set (isom d))).Finite := finite_image_of_relIndex_ne_zero hidx f
+    (fun γ _ h hh => by simp only [f, linearPart_mul_apply, hfw h hh])
+  set O := hO.toFinset
+  have hOmem : ∀ x, x ∈ O ↔ ∃ γ ∈ Γ, f γ = x := fun x => by simp [O]
+  have hOne : O.Nonempty := ⟨f 1, (hOmem _).2 ⟨1, Γ.one_mem, rfl⟩⟩
+  have hft : IsFutureTimelike (∑ x ∈ O, x) := by
+    refine Finset.sum_induction_nonempty _ IsFutureTimelike
+      (fun a b ha hb => isFutureTimelike_add ha ⟨hb.1.le, hb.2.le⟩) hOne ?_
+    intro x hx
+    obtain ⟨γ, -, rfl⟩ := (hOmem x).1 hx
+    exact lorentz.isFutureTimelike_apply (linearPart γ).2 hw
+  refine Or.inl ⟨∑ x ∈ O, x, hft.2, ?_⟩
+  rintro _ ⟨γ, hγ, rfl⟩
+  set A := (linearPart γ : Minkowski d ≃ₗ[ℝ] Minkowski d)
+  have himg : O.image A = O := by
+    ext x
+    simp only [Finset.mem_image, hOmem]
+    constructor
+    · rintro ⟨_, ⟨δ, hδ, rfl⟩, rfl⟩
+      exact ⟨γ * δ, Γ.mul_mem hγ hδ, by simp only [f, A, linearPart_mul_apply]⟩
+    · rintro ⟨δ, hδ, rfl⟩
+      refine ⟨f (γ⁻¹ * δ), ⟨γ⁻¹ * δ, Γ.mul_mem (Γ.inv_mem hγ) hδ, rfl⟩, ?_⟩
+      simp only [f, A, ← linearPart_mul_apply, mul_inv_cancel_left]
+  rw [map_sum]
+  conv_rhs => rw [← himg]
+  rw [Finset.sum_image (fun x _ y _ h => A.injective h)]
+
+/-- **Three fixed points of `𝒮` give a fixed timelike vector**: a Lorentz map fixing three
+distinct points of `𝒮` has eigenvalues `cᵢ cⱼ = 1` on their null lines (`⟨nᵢ | nⱼ⟩ ≠ 0` is
+preserved), so all `cᵢ = 1` and `n₁ + n₂` is fixed. -/
+theorem fixes_add_of_three_fixed {A : lorentz d} {u₁ u₂ u₃ : PenroseSphere d} (h12 : u₁ ≠ u₂)
+    (h13 : u₁ ≠ u₃) (h23 : u₂ ≠ u₃) (h1 : lorentzSphere A u₁ = u₁)
+    (h2 : lorentzSphere A u₂ = u₂) (h3 : lorentzSphere A u₃ = u₃) :
+    (A : Minkowski d ≃ₗ[ℝ] Minkowski d) (nullVec u₁ + nullVec u₂) = nullVec u₁ + nullVec u₂ := by
+  have heig : ∀ {u}, lorentzSphere A u = u →
+      (A : Minkowski d ≃ₗ[ℝ] Minkowski d) (nullVec u) = lorentzScale A u • nullVec u := by
+    intro u hu
+    have := nullVec_lorentzSphere A u
+    rw [hu] at this
+    calc (A : Minkowski d ≃ₗ[ℝ] Minkowski d) (nullVec u)
+        = lorentzScale A u • ((lorentzScale A u)⁻¹ •
+            (A : Minkowski d ≃ₗ[ℝ] Minkowski d) (nullVec u)) := by
+          rw [smul_smul, mul_inv_cancel₀ (lorentzScale_pos A u).ne', one_smul]
+      _ = lorentzScale A u • nullVec u := by rw [← this]
+  have hprod : ∀ {u u'}, u ≠ u' → lorentzSphere A u = u → lorentzSphere A u' = u' →
+      lorentzScale A u * lorentzScale A u' = 1 := by
+    intro u u' hne hu hu'
+    have hB := lorentz.minkB_apply A.2 (nullVec u) (nullVec u')
+    rw [heig hu, heig hu', minkB_smul_left, minkB_smul_right] at hB
+    have hne0 : minkB (nullVec u) (nullVec u') ≠ 0 := by
+      rw [minkB_nullVec_nullVec]
+      have : 0 < ‖(u : EuclideanSpace ℝ (Fin d)) - u'‖ :=
+        norm_pos_iff.2 (sub_ne_zero.2 fun h => hne (Subtype.ext h))
+      have := pow_pos this 2
+      intro h; linarith
+    have : (lorentzScale A u * lorentzScale A u' - 1) * minkB (nullVec u) (nullVec u') = 0 := by
+      linear_combination hB
+    rcases mul_eq_zero.1 this with h | h
+    · linarith
+    · exact absurd h hne0
+  have p12 := hprod h12 h1 h2
+  have p13 := hprod h13 h1 h3
+  have p23 := hprod h23 h2 h3
+  have c1 := lorentzScale_pos A u₁
+  have c2 := lorentzScale_pos A u₂
+  have c3 := lorentzScale_pos A u₃
+  have e23 : lorentzScale A u₂ = lorentzScale A u₃ := by
+    have : lorentzScale A u₁ * (lorentzScale A u₂ - lorentzScale A u₃) = 0 := by
+      linear_combination p12 - p13
+    rcases mul_eq_zero.1 this with h | h
+    · linarith
+    · linarith
+  have e2 : lorentzScale A u₂ = 1 := by
+    rw [← e23] at p23
+    nlinarith
+  have e1 : lorentzScale A u₁ = 1 := by rw [e2, mul_one] at p12; exact p12
+  rw [map_add, heig h1, heig h2, e1, e2, one_smul, one_smul]
+
+/-- The sum of the null vectors of two distinct points of `𝒮` is timelike (parallelogram law). -/
+theorem minkQ_nullVec_add_neg {u₁ u₂ : PenroseSphere d} (h : u₁ ≠ u₂) :
+    minkQ (nullVec u₁ + nullVec u₂) < 0 := by
+  have hpar := parallelogram_law_with_norm ℝ (u₁ : EuclideanSpace ℝ (Fin d)) u₂
+  rw [norm_penroseSphere, norm_penroseSphere] at hpar
+  have hpos : 0 < ‖(u₁ : EuclideanSpace ℝ (Fin d)) - u₂‖ :=
+    norm_pos_iff.2 (sub_ne_zero.2 fun e => h (Subtype.ext e))
+  have := mul_pos hpos hpos
+  simp only [minkQ, nullVec, Prod.fst_add, Prod.snd_add]
+  nlinarith
+
+
+/-- **G9d (NE), the reduction to an invariant pair**: if `L(Γ)` has no global fixed point, a
+finite-index subgroup `Γ'` acquires one only if some finite-index `N ≤ Γ` (the normal core of
+`Γ'`) has linear parts fixing two distinct points `u₁ ≠ u₂` of `𝒮` whose pair `L(Γ)` preserves
+(`hpair` rules that out). A fixed timelike vector of `L(Γ')` is excluded by
+`hasGlobalFixedPoint_of_fixed_timelike`; a fixed `u ∈ 𝒮` has a finite `L(Γ)`-orbit fixed
+pointwise by the normal core `N`, which is one point (a global fixed point), at least three
+(`fixes_add_of_three_fixed`: a timelike vector fixed by `N`), or the pair. -/
+theorem not_hasGlobalFixedPoint_of_relIndex_ne_zero {Γ : Subgroup (isom d)}
+    (hnf : ¬HasGlobalFixedPoint (linearImage Γ))
+    (hpair : ∀ N : Subgroup (isom d), N ≤ Γ → N.relIndex Γ ≠ 0 →
+      ∀ u₁ u₂ : PenroseSphere d, u₁ ≠ u₂ →
+      (∀ γ ∈ N, lorentzSphere (linearPart γ) u₁ = u₁ ∧ lorentzSphere (linearPart γ) u₂ = u₂) →
+      (∀ γ ∈ Γ, ∀ u ∈ ({u₁, u₂} : Set (PenroseSphere d)),
+        lorentzSphere (linearPart γ) u ∈ ({u₁, u₂} : Set (PenroseSphere d))) → False)
+    {Γ' : Subgroup (isom d)} (hidx : Γ'.relIndex Γ ≠ 0) :
+    ¬HasGlobalFixedPoint (linearImage Γ') := by
+  rintro (⟨v, hv, hfix⟩ | ⟨u, hfix⟩)
+  · exact hnf (hasGlobalFixedPoint_of_fixed_timelike hidx hv fun γ hγ => hfix _ ⟨γ, hγ, rfl⟩)
+  haveI : (Γ'.subgroupOf Γ).FiniteIndex := ⟨hidx⟩
+  set K := (Γ'.subgroupOf Γ).normalCore with hK
+  set N := K.map Γ.subtype with hN
+  have hNle : N ≤ Γ := by
+    rintro _ ⟨k, -, rfl⟩
+    exact k.2
+  have hNidx : N.relIndex Γ ≠ 0 := by
+    have : N.subgroupOf Γ = K := Subgroup.comap_map_eq_self_of_injective Γ.subtype_injective K
+    rw [Subgroup.relIndex, this]
+    exact Subgroup.FiniteIndex.index_ne_zero
+  have hfixu : ∀ γ ∈ Γ', lorentzSphere (linearPart γ) u = u := fun γ hγ => hfix _ ⟨γ, hγ, rfl⟩
+  set f : isom d → PenroseSphere d := fun γ => lorentzSphere (linearPart γ) u with hf
+  have hfmul : ∀ γ δ, f (γ * δ) = lorentzSphere (linearPart γ) (f δ) := fun γ δ => by
+    simp only [f, map_mul, lorentzSphere_mul']
+  have hf1 : f 1 = u := by
+    simp only [f, map_one]
+    exact lorentzSphere_eq_of_eigen (c := 1) (by simp)
+  have hNfix : ∀ n ∈ N, ∀ γ ∈ Γ, lorentzSphere (linearPart n) (f γ) = f γ := by
+    rintro _ ⟨k, hk, rfl⟩ γ hγ
+    have hc := hk (⟨γ, hγ⟩ : Γ)⁻¹
+    rw [Subgroup.mem_subgroupOf] at hc
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv, inv_inv] at hc
+    rw [Subgroup.coe_subtype, ← hfmul]
+    have : (k : isom d) * γ = γ * (γ⁻¹ * k * γ) := by group
+    rw [this, hfmul, show f (γ⁻¹ * k * γ) = u from hfixu _ hc]
+  by_cases hall : ∀ γ ∈ Γ, f γ = u
+  · exact hnf (Or.inr ⟨u, by rintro _ ⟨γ, hγ, rfl⟩; exact hall γ hγ⟩)
+  push Not at hall
+  obtain ⟨γ₁, hγ₁, hx⟩ := hall
+  by_cases h3 : ∃ γ ∈ Γ, f γ ≠ u ∧ f γ ≠ f γ₁
+  · obtain ⟨γ₂, hγ₂, hyu, hyx⟩ := h3
+    refine hnf (hasGlobalFixedPoint_of_fixed_timelike hNidx
+      (minkQ_nullVec_add_neg (Ne.symm hx)) fun n hn => ?_)
+    have h1 := hNfix n hn 1 Γ.one_mem
+    rw [hf1] at h1
+    exact fixes_add_of_three_fixed (Ne.symm hx) (Ne.symm hyu) (Ne.symm hyx) h1
+      (hNfix n hn γ₁ hγ₁) (hNfix n hn γ₂ hγ₂)
+  push Not at h3
+  refine hpair N hNle hNidx u (f γ₁) (Ne.symm hx) (fun n hn => ?_) ?_
+  · have h1 := hNfix n hn 1 Γ.one_mem
+    rw [hf1] at h1
+    exact ⟨h1, hNfix n hn γ₁ hγ₁⟩
+  · have hmem : ∀ γ ∈ Γ, f γ ∈ ({u, f γ₁} : Set (PenroseSphere d)) := fun γ hγ => by
+      by_cases h : f γ = u
+      · exact Or.inl h
+      · exact Or.inr (h3 γ hγ h)
+    rintro γ hγ w (rfl | rfl)
+    · exact hmem γ hγ
+    · rw [← hfmul]; exact hmem _ (Γ.mul_mem hγ hγ₁)
+
+end G9dInput
+
 /-! ## G9 -/
 
 section G9
 
 variable {d : ℕ}
 
+/-- **G9d (NE), the residual case: a finite-index subgroup fixing an `L(Γ)`-invariant pair of
+`𝒮`** (DEC-44; l.3454–3456; l.3536–3548). For a GH Cauchy-compact central extension
+`B = Γ\Ω^±(Λ(Γ))` (family (b)), no finite-index `N ≤ Γ` has linear parts fixing two distinct
+points `u₁ ≠ u₂` of `𝒮` whose pair `L(Γ)` preserves. **The one `sorry` of this module.** It is a
+special case of (NE), so it is true (Barbot: `L(Γ)` acts cocompactly on some `𝐇ᵏ`, `k ≥ 2`); every
+other case of (NE) is reduced to it (`not_hasGlobalFixedPoint_of_relIndex_ne_zero`). -/
+theorem false_of_cauchyCompact_of_fixed_pair {B : FlatSpacetime.{0} d} (_hGH : GH B)
+    (_hC : CauchyCompact B) {Γ : Subgroup (isom d)} (_hB : IsCHCentralExtensionOf B Γ)
+    {N : Subgroup (isom d)} (_hle : N ≤ Γ) (_hidx : N.relIndex Γ ≠ 0) {u₁ u₂ : PenroseSphere d}
+    (_hne : u₁ ≠ u₂)
+    (_hfix : ∀ γ ∈ N, lorentzSphere (linearPart γ) u₁ = u₁ ∧ lorentzSphere (linearPart γ) u₂ = u₂)
+    (_hpair : ∀ γ ∈ Γ, ∀ u ∈ ({u₁, u₂} : Set (PenroseSphere d)),
+      lorentzSphere (linearPart γ) u ∈ ({u₁, u₂} : Set (PenroseSphere d))) : False := by
+  sorry -- SORRY(bthm:cauclo, G9d-NE pair): the elementary-loxodromic configuration must contradict Cauchy-compactness, and the library has no argument for it. Setting: `N` normal of finite index in `Γ` (Barbot's elementary case [10.M] with a swap: `L(Γ)` preserves `{u₁, u₂}`, some element exchanges them since `L(Γ)` has no global fixed point), `L(γ) nᵢ = λ(γ)^{±1} nᵢ` on `N` with some `λ ≠ 1` (else `n₁ + n₂` is fixed, `hasGlobalFixedPoint_of_fixed_timelike`), `L(N)` virtually cyclic (discrete in `SO₀(1,1) × O(P^⊥)`, `P = span(n₁, n₂)`), `E ⊆ P^⊥`, `E ≠ P^⊥` (the swap reverses `P^⊥`'s orientation and fixes `E`). Then `Γ` is virtually `ℤ^{1 + dim E}` with `1 + dim E ≤ d − 1 + 1 = d` and equality impossible, so it cannot act cocompactly on the lifted Cauchy surface `≅ ℝᵈ` — Barbot's route is that `K` compact makes `L(Γ)` act cocompactly on a totally geodesic `𝐇ᵏ`, `k ≥ 2`. Missing: (i) `Λ(Γ) ⊆ {u₁, u₂} × ℝ` from the repulsive points of the loxodromics of `Γ` (powers in `N`), so `Ω` is a wedge `W × A` over the codimension-2 spacelike `A`; (ii) an invariant of the action on `Ω` that is constant along a causal line and has non-compact image — the `P^⊥`-coordinate alone fails when `N` acts cocompactly on `A` (a boost composed with a translation along `A`), and the mixed coordinate `y − log(−⟨p − c, n₁⟩)/log λ` is continuous on `Ω` only and needs a common centre `c`; `isCompact_image_of_isQuotientOf` asks for `F` continuous on `𝐌ⁿ`; (iii) or a cohomological-dimension / growth argument (a free cocompact action of a virtually `ℤᵐ` group on a contractible `d`-manifold forces `m = d`), not in mathlib
+
 /-- **G9d, the geometric input** (DEC-44; l.3454–3456; l.3536–3548): for a GH Cauchy-compact
 central extension `B = Γ\Ω^±(Λ(Γ))` (family (b)), `Γ` is finitely generated and no finite-index
-subgroup of `L(Γ)` has a global fixed point on `𝐇̄`. **The one `sorry` of this module.** The
-second conjunct is not a consequence of family (b) alone (module SCOPE, finding). -/
+subgroup of `L(Γ)` has a global fixed point on `𝐇̄`. (FG) is proved
+(`fg_of_isQuotientOf_cauchyCompact`); (NE) is reduced (`not_hasGlobalFixedPoint_of_relIndex_ne_zero`)
+to the residual pair case `false_of_cauchyCompact_of_fixed_pair`, **the one `sorry` of this
+module**, which this theorem reaches. The second conjunct is not a consequence of family (b) alone
+(module SCOPE, finding). -/
 theorem fg_and_nonelementary_of_cauchyCompact {B : FlatSpacetime.{0} d} (_hGH : GH B)
     (_hC : CauchyCompact B) {Γ : Subgroup (isom d)} (_hB : IsCHCentralExtensionOf B Γ) :
     Γ.FG ∧ ∀ Γ' : Subgroup (isom d), Γ' ≤ Γ → Γ'.relIndex Γ ≠ 0 →
       ¬HasGlobalFixedPoint (linearImage Γ') := by
-  sorry -- SORRY(bthm:cauclo, G9d): two facts about `Γ` that Barbot reads off the compact Cauchy surface `K` of `B = Γ\Ω` and that the library does not have. (FG) `Γ ≅ π₁(K)` is finitely generated: `Γ` acts freely, properly discontinuously (`properlyDiscontinuousSMul_of_isCoveringMap'`) and cocompactly on the lift `K̃ = π⁻¹K`, so an elementary Švarc–Milnor argument (`{γ | γV ∩ V ≠ ∅}` generates `Γ` for a relatively compact open `V` with `ΓV = K̃`) applies once `K̃` is connected — which needs `K̃` to be the graph of a 1-Lipschitz function over the projection of the convex `Ω` (`Flat.Achronal`'s graph lemmas, after showing `K̃` achronal in `𝐌ⁿ`); neither the connectedness nor the generation lemma is in the library. (NE) no finite-index `Γ' ≤ Γ` has `HasGlobalFixedPoint (L Γ')`: a fixed timelike vector would give one for `L(Γ)` (sum over a finite orbit), but a fixed point of `𝒮` need not (the infinite dihedral group of a boost and a half-turn has no global fixed point, its index-2 cyclic subgroup has two); Barbot's input is that, `K` compact, `L(Γ)` acts cocompactly on a totally geodesic `𝐇ᵏ`, `k ≥ 2` (the case `k = 1` is excluded by `L(γ)|_E = id` and the orientation of `SO₀(1, d)`), hence is non-elementary together with its finite-index subgroups — a cocompactness/cohomological-dimension argument not in the library
+  obtain ⟨E, -, -, -, -, -, hnf, hcase⟩ := id _hB
+  refine ⟨?_, fun Γ' _ hidx => not_hasGlobalFixedPoint_of_relIndex_ne_zero hnf
+    (fun N hle hNidx u₁ u₂ hne hfix hpair =>
+      false_of_cauchyCompact_of_fixed_pair _hGH _hC _hB hle hNidx hne hfix hpair) hidx⟩
+  rcases hcase with ⟨hq, -⟩ | ⟨hq, -⟩
+  · obtain ⟨π, -, -, hπs, -⟩ := hq.quot
+    obtain ⟨p, -⟩ := hπs (Classical.arbitrary B)
+    exact fg_of_isQuotientOf_cauchyCompact _hGH.1 _hC hq ⟨⟨p, p.2⟩, (convex_omegaPlus _).isPreconnected⟩
+  · obtain ⟨π, -, -, hπs, -⟩ := hq.quot
+    obtain ⟨p, -⟩ := hπs (Classical.arbitrary B)
+    exact fg_of_isQuotientOf_cauchyCompact _hGH.1 _hC hq ⟨⟨p, p.2⟩, (convex_omegaMinus _).isPreconnected⟩
 
 /-- **G9d, family (b) → (a) under Cauchy-compactness** (DEC-44; l.3454–3456; Theorem B's
 "Cauchy-hyperbolic × torus", l.355–359): a GH Cauchy-compact central extension `B` over a
