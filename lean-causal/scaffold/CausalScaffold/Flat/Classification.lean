@@ -22,10 +22,11 @@ import CausalScaffold.Flat.Cla.CoverComp
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §11
 "Summary of the proof" (`sumup`, `GHFspace.tex` l.3477–3679 of the labelled file
 `papers/barbot/legacy/labeled/GHFspace.tex`) and the two theorems it assembles. **No label is
-marked**: both rest on named external hypotheses (DEC-36) and on tagged `sorry`s — Theorem A on
-two upstream ones only (Loxodromic's `loxo_elementary_misner` and `bprop_LU_discrete`), Theorem B
-on those two and three in its plan lemmas (`Flat/Cla/*`); **this file has no `sorry`** (since
-2026-11-01) — so both are partial (SCOPE).
+marked**: both rest on named external hypotheses (DEC-36). **Theorem A (`barbot_A`, `barbot_A₀`)
+is sorry-free** (2026-11-01: `#print axioms` gives propext, Classical.choice, Quot.sound only);
+Theorem B rests on two plan-lemma `sorry`s (`Cla.exists_capEnvelope_succ`, the smoothing envelope,
+and `Cla.maximal_of_isFiniteCover`, which waits on CBG); **this file has no `sorry`**. The leaf
+paragraph below is the earlier snapshot; `docs/BARBOT-DEPENDENCIES.md` is current.
 
 * `bthm:caucomp` — `GHFspace.tex:338` (Theorem A), **stated and assembled** under reading R1
   (DEC-43): `barbot_A`, through the layering G3 `barbot_A₀` (embedding) → [11.i] → `barbot_A`.
@@ -488,7 +489,7 @@ theorem caseOutput_generic [T2Space M] (hA : AuslanderCarriereDalbo d)
 end Cases
 
 /-- **The elementary loxodromic case in the common form** ([10.M], Misner), in `𝐌^{d'+2}`.
-Inherits Loxodromic's `loxo_elementary_misner` `sorry`. -/
+Sorry-free since 2026-11-01 (`loxo_elementary_misner` closed, under `hBieb`). -/
 theorem caseOutput_misner {d' : ℕ} {M : Type*} [TopologicalSpace M]
     [ChartedSpace (Minkowski (d' + 1)) M]
     [HasGroupoid M (gxGroupoid (isom (d' + 1)) (Minkowski (d' + 1)))] [T2Space M] {x₀ : M}

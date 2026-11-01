@@ -4,12 +4,13 @@ import CausalScaffold.Flat.Loxodromic
 import CausalScaffold.CompactCauchy
 import CausalScaffold.CurvesExtend
 import CausalScaffold.Flat.Cla.CCComponent
+import CausalScaffold.Flat.Cla.SmoothCone
 
 /-!
 # `CausalScaffold.Flat.Cla.CompactComplete` — a Cauchy-compact GH flat spacetime is Cauchy-complete
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §2.4 and
-§11. **No label is marked**: the theorem rests on one tagged `sorry` (the smoothing step, SCOPE).
+§11. **No label is marked**: the theorem rests on one tagged `sorry` (the cap envelope of the smoothing step, SCOPE).
 Cited UNMARKED: `bthm:cauclo` — `GHFspace.tex:353` (Theorem B, l.352–360), whose proof (l.3536)
 feeds Theorem A a Cauchy-compact `M`, which must therefore be Cauchy-complete; `[2.4]`
 Cauchy-complete — l.551–553 (prose, DEC-35, a reading); Cauchy-compact — l.560–565 (prose,
@@ -42,10 +43,16 @@ dimensions, so Barbot's `n` is `d + 1`.
 * `exists_isSpacelikeLipschitz_of_isCompact_cauchy` — a compact connected spacelike Lipschitz
   hypersurface `H`. **Its Cauchy property is not part of it.** Proved for `d = 0` (a point,
   `Flat/Cla/CCComponent.lean`'s `isSpacelikeLipschitz_singleton_zero`) and, for `d + 1`, from
-* `exists_nonempty_isSpacelikeLipschitz_succ` — **the one `sorry`** of the module
-  (`SORRY(bthm:cauclo, compact ⇒ complete, smoothing, d ≥ 1)`): a NONEMPTY compact spacelike
-  Lipschitz `H`, connectedness being free (`Flat/Cla/CCComponent.lean`'s `exists_isConnected_isSpacelikeLipschitz_subset`:
-  a connected component of a spacelike Lipschitz set is spacelike Lipschitz).
+* `exists_nonempty_isSpacelikeLipschitz_succ` — a NONEMPTY compact spacelike Lipschitz `H`,
+  connectedness being free (`Flat/Cla/CCComponent.lean`'s `exists_isConnected_isSpacelikeLipschitz_subset`:
+  a connected component of a spacelike Lipschitz set is spacelike Lipschitz). Proved, as
+  `H := K ∖ I⁻(K)` (`Flat/Cla/SmoothCone.lean`: compact, nonempty in the chronological `M`,
+  spacelike Lipschitz by the cone-increasing zero-set criterion), from
+* `exists_capEnvelope_succ` — **the one `sorry`** of the module
+  (`SORRY(bthm:cauclo, compact ⇒ complete, smoothing, d ≥ 1)`): a nonempty compact `K` (intended:
+  finitely many future-hyperboloid caps over a net of `S`) whose upper part `K ∖ I⁻(K)` is, in the
+  chart at each of its points, locally the zero set of a continuous `c`-cone-increasing function,
+  `c < 1` (`IsLocallyConeZeroSetAt`).
 * PROVED, `isCauchySurface_of_isSpacelikeLipschitz`: in a GH flat spacetime with an acausal Cauchy
   surface, a compact connected spacelike Lipschitz `H` is a Cauchy surface — Barbot's "closed
   spacelike hypersurfaces are Cauchy" (l.3537–3538) for spacelike Lipschitz `H`: lemma K
@@ -82,19 +89,26 @@ dimensions, so Barbot's `n` is `d + 1`.
 | compact ⇒ complete (implicit, l.560 "Among Cauchy-complete spacetimes") | ✓ proved for a compact spacelike Lipschitz surface, with no second countability and no Hausdorff hypothesis beyond `M`'s |
 
 ## SCOPE (disclosed)
-* **The smoothing step is not proved for `d ≥ 1`** (`exists_nonempty_isSpacelikeLipschitz_succ`,
-  one tagged `sorry`): a NONEMPTY compact spacelike Lipschitz hypersurface. It is not asked to be
-  Cauchy (lemma K, proved here, supplies that) nor connected (a component is taken,
-  `Flat/Cla/CCComponent.lean`), and `d = 0` is closed by a point. The cosmological-time route
-  (level sets of Barbot's cosmological time, spacelike Lipschitz on regular domains) is circular
-  here: a regular-domain presentation of a Cauchy-compact `M` is Theorem A's conclusion, whose
-  input is the Cauchy-completeness this step feeds. A topological acausal Cauchy surface is only a
+* **The smoothing step is not proved for `d ≥ 1`**: its global half, the cap envelope
+  (`exists_capEnvelope_succ`, one tagged `sorry`), is open. Its analytic half is proved in
+  `Flat/Cla/SmoothCone.lean`: a set whose chart pictures are locally zero sets of continuous
+  `c`-cone-increasing functions (`c < 1`) is spacelike Lipschitz, finite max/min of hyperboloid
+  functions centred chronologically before the point are such functions, and the upper part
+  `K ∖ I⁻(K)` of a nonempty compact `K` is nonempty and compact. What remains is to choose the
+  caps and prove the chart description of the upper part: burial of each cap's relative boundary
+  in `I⁻(K)` (the acausality gap of `S` at scale `δ`, by compactness) and locality of `I⁻(K)` near
+  a point of the upper part (one causally convex chart domain). The sorry text says so in full.
+  `H` is not asked to be Cauchy (lemma K, proved here, supplies that) nor connected (a component is
+  taken, `Flat/Cla/CCComponent.lean`), and `d = 0` is closed by a point. The cosmological-time
+  route (level sets of Barbot's cosmological time, spacelike Lipschitz on regular domains) is
+  circular here: a regular-domain presentation of a Cauchy-compact `M` is Theorem A's conclusion,
+  whose input is the Cauchy-completeness this step feeds. A finite max/min of chart-local
+  functions glued by clamping cannot replace the causal gluing `K ∖ I⁻(K)`: a cone-increasing
+  piece is large at the future edge of its chart box. A topological acausal Cauchy surface is only a
   strict contraction in flat charts, with no slope bound `c < 1`: in the flat torus spacetime
   `𝐌¹/⟨(0, 2π)⟩` the graph of `sin` is an acausal compact Cauchy surface whose slope tends to `1`
-  at `x = 0` in every frame, so `S` itself cannot be used. The obstruction (no intrinsic envelope
-  construction on `M`, its locality, compactness and connectedness) is stated in full at the
-  `sorry`. Everything downstream of it is proved, and the statement of the theorem is the
-  dispatched one, unchanged.
+  at `x = 0` in every frame, so `S` itself cannot be used. Everything downstream of the cap
+  envelope is proved, and the statement of the theorem is the dispatched one, unchanged.
 * The local graph form and local domain of dependence are PRIVATE copies of
   `Flat/Cla/LocallyCauchy.lean` §1–§3 (`ballRetract`, `exists_isStrictContraction_extension`,
   `graphLocalDomain` and its saturation lemmas, `tarentin_flatCausality`,
@@ -1269,22 +1283,49 @@ end LocCauchy
 
 /-! ### The smoothing step, lemma K, and the theorem -/
 
+/-- **The cap envelope** (the global half of the smoothing step, in dimension `d + 1 ≥ 1`; the one
+assertion of this module that is not proved): a NONEMPTY COMPACT `K ⊆ M` whose UPPER PART
+`K ∖ I⁻(K)` has, at each of its points, a chart picture that is locally the zero set of a
+continuous `c`-cone-increasing function, `c < 1` (`IsLocallyConeZeroSetAt`). The intended `K` is a
+finite union of compact future-hyperboloid caps over an `ε′`-net of `S`; at a point of the upper
+part the picture is then a finite `min` of hyperboloid functions (`isLocallyConeZeroSetAt_of_inf'_sqTimeSep`). -/
+theorem exists_capEnvelope_succ (M : FlatSpacetime.{u} (d + 1)) (_hGH : GH M)
+    {S : Set M} (_hS : (flatCausality (d + 1) M).IsCauchySurface S) (_hSc : IsCompact S)
+    (_hac : (flatCausality (d + 1) M).IsAcausal S) :
+    ∃ K : Set M, IsCompact K ∧ K.Nonempty ∧
+      ∀ x ∈ K \ (flatCausality (d + 1) M).Iminus ⊤ K,
+        IsLocallyConeZeroSetAt (d + 1) (K \ (flatCausality (d + 1) M).Iminus ⊤ K) x := by
+  sorry -- SORRY(bthm:cauclo, compact ⇒ complete, smoothing, d ≥ 1): the cap envelope. PROVED around it (Flat/Cla/SmoothCone.lean, no sorry): H := K ∖ I⁻(K) is compact for compact K (I⁻ open) and nonempty for nonempty K in a chronological spacetime (a finite subcover by I⁻(kᵢ) closes a chronological chain, k ≪ k); a set whose chart pictures are locally zero sets of continuous c-cone-increasing functions (f a < f b whenever c‖b.2 − a.2‖ < b.1 − a.1), c < 1, is spacelike Lipschitz (intermediate value theorem on vertical segments, uniqueness and the c-Lipschitz bound from the cone condition, frame 1); finite max/min of hyperboloid functions sqTimeSep q · − k with all centres q chronologically before the point are such functions near it (isLocallyConeZeroSetAt_of_inf'_sqTimeSep). MISSING (the construction): K = finitely many compact future-hyperboloid caps Cₖ = eₖ⁻¹{p ∈ B̄ₖ | sqTimeSep qₖ p = ε²} (eₖ a chart at a point yₖ of an ε′-net of S, qₖ a point just to the chart past of S, B̄ₖ a closed spatial ball of radius δ), and at each x ∈ K ∖ I⁻(K) the chart description {min over the caps through x of (sqTimeSep q′ₖ · − ε²) = 0} (q′ₖ = the centre read in chartAt x through the local transition isometry). It needs (a) BURIAL: the relative boundary of each Cₖ lies in I⁻(K) — in chart k, from the acausality gap ‖y − y′‖ − |G y − G y′| ≥ η > ε + 2ε′ for ‖y − y′‖ ≥ δ (G the local strict contraction of S, η by compactness of S), as for the continuum envelope x ↦ inf_y (G y + √(ε² + ‖x − y‖²)); burial then forces x ≤ c ∈ K ⇒ x = c (a null ray from x to a relatively interior cap point is pushed into I⁻ of that cap, the cap being spacelike), so only the caps through x matter near x; (b) LOCALITY: for p near x, p ≪_M c with c ∈ K iff the chart relation, i.e. the relevant caps and the timelike curves from p to them stay in one causally convex chart domain (a graphLocalDomain of S, §LocCauchy above, mem_Jplus_chart_iff), whose future horizon must lie above K (first exit). (c) compactness of each Cₖ (closed subset of the compact chart preimage of B̄ₖ × [−T, T]). Refused routes: Barbot's cosmological time and a Γ-invariant max in one copy of 𝐌ⁿ (both circular, see REPORT closer_L9_smoothing); and a finite max/min of chart-local functions glued by clamping, with no causal set: a c-cone-increasing piece on a chart box is LARGE at the box's future edge, so it can be neither clamped nor dominated there — the gluing has to go through an intrinsic causal set, which is why H is K ∖ I⁻(K).
+
 /-- **The smoothing step proper, in dimension `d + 1 ≥ 1`** (Barbot's `n ≥ 2`): a NONEMPTY
-COMPACT spacelike Lipschitz `H` (the one assertion of this module that is not proved). Neither
-connectedness (`exists_isConnected_isSpacelikeLipschitz_subset` takes a component) nor the Cauchy
-property (lemma K, `isCauchySurface_of_isSpacelikeLipschitz`) is part of it, and `d = 0` is closed
-by a point (`isSpacelikeLipschitz_singleton_zero`). -/
+COMPACT spacelike Lipschitz `H`. Proved from the cap envelope `exists_capEnvelope_succ` (the one
+`sorry` of the module): `H := K ∖ I⁻(K)` is compact (`isCompact_diff_Iminus`), nonempty
+(`nonempty_diff_Iminus`, `M` being chronological: `not_lt_self_of_Jminus_ne` along the chronal
+causal flow of every flat spacetime) and spacelike Lipschitz
+(`isSpacelikeLipschitz_of_locally_coneIncreasing`). Neither connectedness
+(`exists_isConnected_isSpacelikeLipschitz_subset` takes a component) nor the Cauchy property
+(lemma K, `isCauchySurface_of_isSpacelikeLipschitz`) is part of it, and `d = 0` is closed by a
+point (`isSpacelikeLipschitz_singleton_zero`). -/
 theorem exists_nonempty_isSpacelikeLipschitz_succ (M : FlatSpacetime.{u} (d + 1)) (_hGH : GH M)
     {S : Set M} (_hS : (flatCausality (d + 1) M).IsCauchySurface S) (_hSc : IsCompact S)
     (_hac : (flatCausality (d + 1) M).IsAcausal S) :
     ∃ H : Set M, H.Nonempty ∧ IsCompact H ∧ IsSpacelikeLipschitz (d + 1) H := by
-  sorry -- SORRY(bthm:cauclo, compact ⇒ complete, smoothing, d ≥ 1): a NONEMPTY COMPACT hypersurface that is spacelike Lipschitz (`c < 1` point-locally in charts). Connectedness is NOT asked (`exists_isConnected_isSpacelikeLipschitz_subset`, proved: a component of a spacelike Lipschitz set is spacelike Lipschitz, the set being locally a graph over a ball), nor the Cauchy property (lemma K, proved), and `d = 0` is closed (a point, `isSpacelikeLipschitz_singleton_zero`). `S` itself does not qualify: acausal only makes it strictly contracting in charts, the slope may tend to 1 (in the flat torus spacetime `Minkowski 1 / ⟨(0, 2π)⟩`, Barbot's `𝐌²`, the graph of `sin` is an acausal compact Cauchy surface with no `c < 1` at `x = 0`, in any frame). Routes checked and refused (2026-11-01 closer pass): (A) Barbot's cosmological time (`Flat.Cosmological`, `Lox/LevelComplete`, Cor 4.13 proved) gives spacelike Lipschitz level sets only on a regular domain `Ω` with `M = Γ\Ω`; for a Cauchy-compact `M` that presentation is Theorem A's conclusion, whose input is the Cauchy-completeness this lemma feeds (`Develop.DevelopsCC` — injectivity of `𝒟` on the lift of `S` and (CC′) — is produced only by `exists_developsCC_of_isCauchyComplete'`), so the route is circular; (B) a Γ-invariant max of finitely many hyperboloid graphs over a compact fundamental domain in `𝐌ⁿ` needs the same injectivity of `𝒟` to place the pieces in one copy of `𝐌ⁿ` (circular); done directly in `M` it is the envelope below. Missing: a global smoothing of `S` in `M` — the envelope of the future Lorentzian ε-hyperboloids of the points of `S` (or, frame-free, the future boundary of `⋃ᵢ J⁺(Pᵢ)` for finitely many short hyperboloid caps `Pᵢ`), which in the chart at a point of `S` is the graph of `x ↦ inf_y (G y + √(ε² + ‖x − y‖²))` over `‖x − y‖ ≤ δ` (`G` the local strict contraction), `c`-Lipschitz with `c = δ/√(ε² + δ²) < 1` as soon as the acausality gap `‖x − y‖ − |G x − G y| ≥ η > ε` holds for `‖x − y‖ ≥ δ` (compactness of `S`). The library lacks (i) an intrinsic definition of that envelope on `M` (no Lorentzian time separation on `M`; a transition is one isometry only on a connected overlap, and boosts do not preserve Euclidean smallness, so the hyperboloid pieces must be cut by a Lebesgue number of a finite cover of `S` by charts each inside a larger convex chart), (ii) the locality statement that near a point of the envelope only the hyperboloids of nearby points of `S` contribute (the past of a point just above `S`, down to `S`, is small: `graphCone_past` in one chart, globally the shrinking of `J⁻(p) ∩ J⁺(S)` to `{x}` as `p ↓ x`, from compact diamonds and the closedness of `J^±(S)`), (iii) compactness (a closed subset of the compact slab `J⁺(S) ∩ J⁻(φ_T(S))`). Bernal–Sánchez's smooth spacelike Cauchy surfaces are not in the library either
+  obtain ⟨K, hKc, hKne, hloc⟩ := exists_capEnvelope_succ M _hGH _hS _hSc _hac
+  have hflow : (flatCausality (d + 1) M).HasChronalCausalFlow := flat_hasChronalCausalFlow
+  obtain ⟨φ, hφ, -⟩ := id hflow
+  have hchr : ∀ x : M, ¬ (flatCausality (d + 1) M).lt ⊤ x x := fun x =>
+    (flatCausality (d + 1) M).not_lt_self_of_Jminus_ne
+      (flatCausality_causallyArcConnected (d + 1) M) _hGH.1
+      (jminus_ne_singleton_of_isCausalFlow hφ x) ⊤
+  exact ⟨_, nonempty_diff_Iminus _ hchr hKc hKne, isCompact_diff_Iminus _ hKc,
+    isSpacelikeLipschitz_of_locally_coneIncreasing hloc⟩
 
 /-- **A compact connected spacelike Lipschitz hypersurface from a compact acausal topological
 Cauchy surface** (the smoothing step). Its Cauchy property is NOT part of the assertion: lemma K
 gives it (`isCauchySurface_of_isSpacelikeLipschitz`). Proved for `d = 0` (a point,
-`isSpacelikeLipschitz_singleton_zero`); for `d + 1` from the module's one `sorry`,
-`exists_nonempty_isSpacelikeLipschitz_succ` (a nonempty compact spacelike Lipschitz `H`), by
+`isSpacelikeLipschitz_singleton_zero`); for `d + 1` from
+`exists_nonempty_isSpacelikeLipschitz_succ` (a nonempty compact spacelike Lipschitz `H`, resting on
+the module's one `sorry`, `exists_capEnvelope_succ`), by
 taking a connected component (`exists_isConnected_isSpacelikeLipschitz_subset`). -/
 theorem exists_isSpacelikeLipschitz_of_isCompact_cauchy (M : FlatSpacetime.{u} d) (_hGH : GH M)
     {S : Set M} (_hS : (flatCausality d M).IsCauchySurface S) (_hSc : IsCompact S)

@@ -25,6 +25,10 @@ import CausalScaffold.Flat.Lox.FiniteIndexND
 import CausalScaffold.Flat.Lox.RestrictUnipotent
 import CausalScaffold.Flat.Lox.ClosedSubgroupNhds
 import CausalScaffold.Flat.Lox.SecondNullFix
+import CausalScaffold.Flat.Lox.MisnerFrame
+import CausalScaffold.Flat.Lox.MisnerLimitSet
+import CausalScaffold.Flat.Lox.MisnerBieberbach
+import CausalScaffold.Flat.Lox.MisnerRestrict
 import Mathlib.GroupTheory.Schreier
 
 /-!
@@ -65,10 +69,13 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
 * `bdef:definitioncauchyhyp` — `GHFspace.tex:1277` (Def 4.18), partial (readings):
   `IsCauchyHyperbolic`, `IsFutureAdmissible`, `IsPastAdmissible`, `IsAdmissible`.
 * Prose: [10.M] l.3235–3330 (`loxo_elementary_misner`, for a finite-index `Γ'`, under the cited
-  Bieberbach I, `sorry`; its steps `b ≡ 0` and `x(γ) = y(γ) = 0` proved under `CCAction`,
-  `exists_invariant_nullLevel_of_ccAction`, `exists_invariant_nullLevels_of_ccAction`, from
-  `Flat.Lox.NullLevelFix`; the second null direction `Δ₁`, l.3260–3299, fixed by **all** of
-  `L(Γ₁)`, proved by a route other than the paper's, `Lox.fix_second_null`, `Flat.Lox.SecondNullFix`); [10.G] l.3333–3456
+  Bieberbach I, **no `sorry`** (`#print axioms`: `propext`, `Classical.choice`, `Quot.sound`); its
+  steps `b ≡ 0` and `x(γ) = y(γ) = 0` under `CCAction`, `exists_invariant_nullLevel_of_ccAction`,
+  `exists_invariant_nullLevels_of_ccAction`, from `Flat.Lox.NullLevelFix`; the second null
+  direction `Δ₁`, l.3260–3299, fixed by **all** of `L(Γ₁)`, by a route other than the paper's,
+  `Lox.fix_second_null`, `Flat.Lox.SecondNullFix`; the Misner identification l.3302–3330 through
+  `Flat.Lox.MisnerFrame`, `MisnerLimitSet`, `MisnerBieberbach` (finding F3), `MisnerRestrict`
+  (finding F1)); [10.G] l.3333–3456
   (`generic_omegaS_eq`, `kerTranslations_spacelike`, `kerTranslations_ballFinite`,
   `linOf_mem_kerTranslations`, `omegaS_add_mem_span`, `span_kerTranslations_spacelike` proved;
   gap G6 `limitOpens_add_perp` (`Flat.Lox.PerpInvariant`), the base domain
@@ -139,7 +146,9 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
   (`U` timelike, `Γ₂` of index `≤ 2` restricting to `U` with `Γ₂_nd = Γ_nd`, `L_U(Γ₂)` discrete),
   `exists_finiteIndex_restrict_trivial_on_span`, `generic_isCHCentralExtension`.
 * [10.M] under `CCAction`: `exists_invariant_nullLevel_of_ccAction`,
-  `exists_invariant_nullLevels_of_ccAction`.
+  `exists_invariant_nullLevels_of_ccAction`; the conclusion `loxo_elementary_misner` (§9, placed
+  after §11b, whose `generic_omegaS_eq`, `limitSetJ_eq_of_relIndex_ne_zero` and
+  `omegaSOpens_add_perp` its proof uses).
 * Families: `IsNonelementary`, `IsFutureAdmissible`, `IsPastAdmissible`, `IsAdmissible`,
   `IsCauchyHyperbolic`, `kerTranslations`, `IsSpacelikeSubmodule`, `IsCHCentralExtensionOf`,
   `IsCHCentralExtension` (b), `IsCHTorusProduct` (a, for the same `Γ`).
@@ -160,7 +169,9 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
 | 10.4: Cor 8.4 (a finite-index subgroup abelian, l.3354–3356) | ⚠ replaced: `L(Γ_nd)` nilpotent (`bthm:ausl`) and `Lox.exists_finiteIndex_fix_of_nilpotent_normal`; Cor 8.4 is false as printed (finding); `CCAction` (`h`) is carried but unused (⚠ weakened) |
 | 10.4: `U` nonempty and `Γ`-invariant ("being unique", l.3343–3344) | ✓ derived (`exists_invariant_maxUnipotent` and the uniqueness of `MaxUnipotentSubspace`) |
 | [10.M]: "up to finite index" `L(Γ)` fixes `Δ₀` (l.3236–3238) | ⚠ conclusion for a finite-index `Γ' ≤ Γ` (DEC-43's R1): the paper's conclusion for `Γ` itself (l.3326–3330) is false (finding) |
-| [10.M]: "an appropriate use of Bieberbach's theorem" (l.3327) | ⚠ strengthened: a cited external, as `BarbotExternals` (`hBieb : ∀ k ≤ d' + 1 + 1, BieberbachI (EuclideanSpace ℝ (Fin k))`, the form of `BarbotExternals.bieberbach` and of `nonloxodromic_*`; added 2026-11-01 by master ruling: the conclusion implies Bieberbach I, finding). Used at `k = d'` by `Lox.fix_second_null` |
+| [10.M]: "an appropriate use of Bieberbach's theorem" (l.3327) | ⚠ strengthened: a cited external, as `BarbotExternals` (`hBieb : ∀ k ≤ d' + 1 + 1, BieberbachI (EuclideanSpace ℝ (Fin k))`, the form of `BarbotExternals.bieberbach` and of `nonloxodromic_*`; added 2026-11-01 by master ruling: the conclusion implies Bieberbach I, finding). Used at `k = d'` by `Lox.fix_second_null` and at `k = d' + 1` by `Lox.misner_bieberbach` (the euclidean model of `Γ₁` on `ℝ × ℝ^{d'}`) |
+| [10.M]: "the action on `π_P⁻¹(0)` is free and properly discontinuous" (l.3320–3321), Bieberbach for it (l.3322) | ⚠ replaced: false for `Γ` (finding F3); Bieberbach is applied to `Γ₁`'s euclidean model `(s, z) ↦ (s + a, Az + u)`, discrete by properness on the tube, and `𝒲 ∋ e_s` (`Lox.misner_bieberbach`) |
+| [10.M]: the setting `hcaus` (`M` causal) | ⚠ weakened: carried, unused by `loxo_elementary_misner` |
 | [10.M]: `α(Γ₀)` discrete, the conjugation argument for `v(γ') = 0` (l.3260–3270) | ⚠ replaced: discreteness of the slice actions of `Γ₀` and translation lengths (`Flat.Lox.SecondNullFix`); the paper's formula omits the screw part of `α(γ)` (finding F4) |
 | Def 4.18 / family (b): `L(Γ)` without global fixed point (l.1212–1214) | ⚠ reading: Def 4.18's condition, weaker than `docs/BARBOT-THEOREMS.md` §1's "discrete nonelementary" (an infinite dihedral group with a loxodromic is elementary and has none) |
 | Def 4.18: `Ω^±(Λ(ρ))` | ⚠ reading: sign tied to the side of admissibility (`IsFutureAdmissible` ↦ `Ω⁺`, `IsPastAdmissible` ↦ `Ω⁻`) |
@@ -171,11 +182,14 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
 
 ## SCOPE (disclosed)
 
-* **Sorries (1)**: `loxo_elementary_misner` ([10.M], after its first three steps: `Γ₁`, `b ≡ 0`, and
-  `Δ₁` fixed by all of `L(Γ₁)`, `Lox.fix_second_null`); the obstruction is the Misner
-  identification l.3302–3330 (a two-null-vector frame, the normal form on `Γ₁`, Bieberbach for the
-  euclidean model `γ ↦ ((s, z) ↦ (s + a(γ), R(γ) z + u(γ)))` of `Γ₁` on `ℝ × ℝ^{d'}`,
-  `Ω(S̃) = Ω^±({(u₀,s₀),(u₁,s₁)})`, `restrictGroup Γ' = misnerGroup L`): routine, not formalized.
+* **Sorries (0)**: `loxo_elementary_misner` ([10.M]) is closed (integrator, 2026-11-01): after its
+  first three steps (`Γ₁`, `b ≡ 0`, `Δ₁` fixed by all of `L(Γ₁)`, `Lox.fix_second_null`) the Misner
+  identification l.3302–3330 is the glue over four lemma modules — the two-null-vector frame and
+  the normal form on `Γ₁` (`Lox.misner_frame`), `limitSetJ Γ₁ = {(u₀,s₀),(u₁,s₁)}`
+  (`Lox.misner_limitSet`), Bieberbach for the euclidean model `(s, z) ↦ (s + a, Az + u)` of `Γ₁` on
+  `ℝ × ℝ^{d'}` (`Lox.misner_bieberbach`, F3), `restrictGroup Γ' = misnerGroup L` with a nonzero
+  boost (`Lox.misner_restrict`, F1) — each sorry-free; `#print axioms loxo_elementary_misner`:
+  `propext`, `Classical.choice`, `Quot.sound`. The proof runs under `maxHeartbeats 400000`.
   The statement carries Bieberbach I since 2026-11-01 (master ruling: the conclusion implies
   Bieberbach I for torsion-free orientation-preserving crystallographic groups of `ℝ^{d'}`).
   `bprop_LU_discrete` is closed (closer, 2026-11-01): the branch `L_U(Γ_nd) = {1}` by
@@ -209,7 +223,9 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
   topological group; `Γ_nd` unchanged on a finite-index subgroup containing it), `RestrictUnipotent`
   (the restricting subgroup contains `Γ_nd`; loxodromics restrict to loxodromics; the restriction
   hom and pull-backs; the restricted proper action; `d₁ ≤ d`) ([10.G]), and (closer)
-  `ClosedSubgroupNhds` (Prop 10.5's Lie-theoretic input, `exists_nhds_subset_connectedComponentIn_closure`).
+  `ClosedSubgroupNhds` (Prop 10.5's Lie-theoretic input, `exists_nhds_subset_connectedComponentIn_closure`),
+  and (integrator, 2026-11-01) `MisnerFrame`, `MisnerLimitSet`, `MisnerBieberbach`, `MisnerRestrict`
+  ([10.M]'s Misner identification; none imports this file or a sibling of the four).
   Their
   declarations live in `Causal.Flat.Lox` (`completeSpace_inducedLength_cosmoLevel` in
   `Causal.Flat`).
@@ -2263,83 +2279,6 @@ theorem IsCHTorusProduct.isCHCentralExtension {M : FlatSpacetime.{u} d}
 
 end Families
 
-/-! ## 9. [10.M] The elementary case: Misner spacetimes -/
-
-section Misner
-
-/-- **[10.M] (l.3235–3330): the elementary loxodromic case, up to finite index.** If, up to finite
-index, `L(Γ)` preserves an isotropic direction and `Γ` has a loxodromic element, then for a
-finite-index subgroup `Γ' ≤ Γ` the quotient `B = Γ'\Ω(S̃)` is a linear twisted product over a Misner
-spacetime — with an element of nonzero boost parameter (finding F1). This is DEC-43's R1 (a finite
-cover of `M(S)`); the paper states the conclusion for `Γ` itself (l.3326–3330), which fails (finding:
-in `𝐌⁴` the group generated by a boost `γ₀` and a glide `σ(x,z₁,z₂,y) = (−y, z₁+1, −z₂, −x)` with
-`σγ₀σ⁻¹ = γ₀⁻¹` is elementary up to index 2, satisfies `CCAction` on `{x > 0, y < 0} × ℝ²`, and its
-restriction to the direction of `U` is non-abelian, while a Misner group is abelian). `d = d' + 1`
-(`IsMisnerSpacetime` lives in `Minkowski (d' + 1)`); the Misner base has dimension
-`d₁ + 1 ≤ d' + 1`. **⚠ strengthened: a cited external, as `BarbotExternals`**: `hBieb`, Bieberbach I
-in every dimension `≤ d' + 2` (master ruling 2026-11-01, DEC-36's named-externals policy: the
-conclusion implies Bieberbach I for torsion-free orientation-preserving crystallographic groups of
-`ℝ^{d'}`, so it cannot be proved without it). Proved steps: `Γ₁`, `b ≡ 0`, and the second null
-direction fixed by all of `L(Γ₁)` (`Lox.fix_second_null`); the Misner identification is the
-remaining `sorry`. -/
-theorem loxo_elementary_misner {d' : ℕ} {M : Type*} [TopologicalSpace M]
-    [ChartedSpace (Minkowski (d' + 1)) M]
-    [HasGroupoid M (gxGroupoid (isom (d' + 1)) (Minkowski (d' + 1)))] [T2Space M] {x₀ : M}
-    {D : UniversalCover M x₀ → Minkowski (d' + 1)}
-    {ρ : Deck (UniversalCover.proj M x₀) →* isom (d' + 1)} {S : Set M}
-    (hBieb : ∀ k ≤ d' + 1 + 1, BieberbachI (EuclideanSpace ℝ (Fin k)))
-    (hpair : IsDevelopingPair x₀ D ρ) (hcaus : (flatCausality (d' + 1) M).IsCausal)
-    (h : DevelopsCC x₀ D S) (hlox : ∃ γ ∈ ρ.range, IsLoxodromic (linOf γ))
-    (helem : ¬IsNonelementary ρ.range) :
-    ∃ Γ' : Subgroup (isom (d' + 1)), Γ' ≤ ρ.range ∧ Γ'.relIndex ρ.range ≠ 0 ∧
-      ∃ B : FlatSpacetime.{0} (d' + 1),
-        IsQuotientOf B Γ' (omegaSOpens ρ.range (D '' (UniversalCover.proj M x₀ ⁻¹' S))) ∧
-        ∃ (d₁ : ℕ) (M₁ : FlatSpacetime.{0} (d₁ + 1)), d₁ ≤ d' ∧ IsLTPOver B M₁ ∧
-          IsMisnerSpacetime M₁ := by
-  -- l.3237–3240, the first step (`Flat.Lox.FixLoxodromic`): a finite-index `Γ₁ ≤ Γ` containing a
-  -- power of the loxodromic `γ₀`, with `L(Γ₁)` fixing the direction `Δ₀ = u₀`, one of the two
-  -- distinct fixed points `u₀ ≠ u₁` of `L(γ₀)` on `𝒮`.
-  obtain ⟨γ₀, hγ₀, hlox₀⟩ := hlox
-  simp only [IsNonelementary, not_forall, not_not] at helem
-  obtain ⟨H, hH, hHi, hu⟩ := helem
-  obtain ⟨Γ₁, hΓ₁, hΓ₁i, k, hk, hγ₀k, u₀, u₁, hu₀₁, hf₀, hf₁, hfix₀⟩ :=
-    Lox.exists_finiteIndex_fix_loxodromic hγ₀ hlox₀ ⟨H, hH, hHi, hu⟩
-  -- `hcaus` is §8's setting and `hBieb` the cited Bieberbach I (the proof below reaches a use of
-  -- neither: both are spent in the sorried remainder)
-  have _ := hcaus
-  have _ := hBieb
-  -- `[T2Space M]` gives §8's data in `𝐌ⁿ` (`ccAction_of_developsCC`)
-  have h' := ccAction_of_developsCC hpair h
-  -- l.3250–3257, `b ≡ 0` for `Γ₁`: a `Γ₁`-invariant lightlike level `{⟨(1,u₀)|·⟩ = s₀}`
-  have hlox₁ : ∃ γ ∈ Γ₁, IsLoxodromic (linOf γ) := ⟨γ₀ ^ k, hγ₀k, by
-    have := hlox₀.zpow_linOf (n := (k : ℤ)) (by exact_mod_cast hk.ne')
-    rwa [zpow_natCast] at this⟩
-  -- (the argument of `exists_invariant_nullLevel_of_ccAction`, below, inlined)
-  obtain ⟨s₀, hs₀⟩ : ∃ s₀ : ℝ, ∀ γ ∈ Γ₁, ∀ p : Minkowski (d' + 1),
-      minkB (nullVec u₀) p = s₀ → minkB (nullVec u₀) (γ • p) = s₀ := by
-    obtain ⟨x, hx⟩ := h'.nonempty
-    refine Lox.exists_invariant_nullLevel (fun γ hγ => hfix₀ _ ⟨γ, hγ, rfl⟩) hlox₁
-      (Ω := omegaS ρ.range _) ⟨x, subset_omegaS h' hx⟩ ?_
-    rcases loxregular_sign h' with hF | hP
-    · exact Or.inl fun p hp => mem_omegaPlus.2 fun w ⟨γ, hγ, hw⟩ =>
-        mem_halfPlus.1 (hF w ⟨γ, hΓ₁ hγ, hw⟩ hp)
-    · exact Or.inr fun p hp => mem_omegaMinus.2 fun w ⟨γ, hγ, hw⟩ =>
-        mem_halfMinus.1 (hP w ⟨γ, hΓ₁ hγ, hw⟩ hp)
-  -- l.3260–3299, the second null direction (`Flat.Lox.SecondNullFix`, proved under Bieberbach I
-  -- in `ℝ^{d'}`): ALL of `L(Γ₁)` fixes `u₁`, the second fixed point of `γ₀ᵏ` — not the paper's
-  -- route (its conjugation formula l.3264–3265 omits the screw part of `α(γ)`: finding F4)
-  have hloxk : IsLoxodromic (linOf (γ₀ ^ k)) := by
-    have := hlox₀.zpow_linOf (n := (k : ℤ)) (by exact_mod_cast hk.ne')
-    rwa [zpow_natCast] at this
-  have hfix₁ : ∀ γ ∈ Γ₁, lorentzSphere (linearPart γ) u₁ = u₁ :=
-    Lox.fix_second_null (hBieb d' (by omega)) h' hΓ₁ hγ₀k hloxk hu₀₁
-      (fun γ hγ => hfix₀ _ ⟨γ, hγ, rfl⟩) (by rw [map_pow]; exact Lox.lorentzSphere_fix_pow hf₁ k)
-      hs₀
-  have _ := hfix₁
-  sorry -- SORRY([10.M]): l.3302–3330, the Misner identification, after the steps above (`Γ₁` of finite index fixing `u₀` and, by `Lox.fix_second_null`, `u₁`; `b ≡ 0`). Not formalized: (1) the two invariant null levels (`exists_invariant_nullLevels_of_ccAction`, available) and a two-null-vector frame `φ` (`L(φ)(1,u₀) ∝ ofNull 1 0 0`, `L(φ)(1,u₁) ∝ ofNull 0 1 0`, `φ` sending `{⟨(1,u₀)|·⟩ = s₀} ∩ {⟨(1,u₁)|·⟩ = s₁}` to `{x = y = 0}`; only the one-vector frame `Nonlox.nf_exists_of_pos` exists); (2) the normal form `γ (ofNull x y z) = ofNull (eᵃ x) (e⁻ᵃ y) (R z + u)` on `Γ₁` (`Lox.lorentz_normalForm_of_fix_two` is its linear half); (3) the Bieberbach step for `Γ₁` itself through the euclidean model `γ ↦ ((s, z) ↦ (s + a, R z + u))` of `ℝ × ℝ^{d'}` (dimension `d' + 1 ≤ d' + 2`, covered by `hBieb`): its discreteness from the properness of `Γ₁` on `Ω(S̃)`, the invariant `𝒲 ⊇ ℝ e_s` (`mem_direction_of_fixed`), `W = 𝒲 ∩ {s = 0}`, a finite-index `Γ'` translating `𝒲` — this replaces l.3326–3330, whose first sentence is false for `Γ` itself (finding F3) and, run for `Γ₀ = ker a` alone, gives no `Γ`-invariant `W`; (4) `Ω(S̃) = Ω^±({(u₀,s₀),(u₁,s₁)})` (`omegaSOpens_eq_limitOpens_of_relIndex`, plus the computation `limitSetJ Γ' = {(u₀,s₀),(u₁,s₁)}`), so `ι⁻¹ Ω(S̃)` is `misnerWedge` or `misnerWedgePast` for `ι (ofNull x y z) = ofNull x y (w₀ + J z)` in the frame; (5) `restrictGroup Γ' = misnerGroup L`, `L` ball-finite (the restricted action is proper, `instProperlyDiscontinuousSMulRestrict`), with an element of nonzero boost (a power of `γ₀`, finding F1); then `suspendre` and `omegaSOpens_add_perp`
-
-end Misner
-
 /-! ## 10. `bprop:U_timelike` (Prop 10.4), `bprop:LU_discrete` (Prop 10.5) -/
 
 section UTimelike
@@ -3232,6 +3171,192 @@ theorem exists_finiteIndex_restrict_trivial_on_span (h : CCAction Γ S)
       (Lox.restrictGroup_mono ι (hle''.trans hle'))) hv)⟩
 
 end GenericReduction
+
+/-! ## 9. [10.M] The elementary case: Misner spacetimes
+
+Placed after §11b (out of numerical order): the proof uses `generic_omegaS_eq` (§11),
+`limitSetJ_eq_of_relIndex_ne_zero` and `omegaSOpens_add_perp` (§11b). -/
+
+section Misner
+
+-- the glue below exceeds the default 200000 heartbeats
+set_option maxHeartbeats 400000 in
+/-- **[10.M] (l.3235–3330): the elementary loxodromic case, up to finite index.** If, up to finite
+index, `L(Γ)` preserves an isotropic direction and `Γ` has a loxodromic element, then for a
+finite-index subgroup `Γ' ≤ Γ` the quotient `B = Γ'\Ω(S̃)` is a linear twisted product over a Misner
+spacetime — with an element of nonzero boost parameter (finding F1). This is DEC-43's R1 (a finite
+cover of `M(S)`); the paper states the conclusion for `Γ` itself (l.3326–3330), which fails (finding:
+in `𝐌⁴` the group generated by a boost `γ₀` and a glide `σ(x,z₁,z₂,y) = (−y, z₁+1, −z₂, −x)` with
+`σγ₀σ⁻¹ = γ₀⁻¹` is elementary up to index 2, satisfies `CCAction` on `{x > 0, y < 0} × ℝ²`, and its
+restriction to the direction of `U` is non-abelian, while a Misner group is abelian). `d = d' + 1`
+(`IsMisnerSpacetime` lives in `Minkowski (d' + 1)`); the Misner base has dimension
+`d₁ + 1 ≤ d' + 1`. **⚠ strengthened: a cited external, as `BarbotExternals`**: `hBieb`, Bieberbach I
+in every dimension `≤ d' + 2` (master ruling 2026-11-01, DEC-36's named-externals policy: the
+conclusion implies Bieberbach I for torsion-free orientation-preserving crystallographic groups of
+`ℝ^{d'}`, so it cannot be proved without it); used at `k = d'` (`Lox.fix_second_null`) and
+`k = d' + 1` (`Lox.misner_bieberbach`). `hcaus` is carried, unused (⚠ weakened).
+
+**No `sorry` in this proof.** The steps: `Γ₁` of finite index fixing `u₀`
+(`Lox.exists_finiteIndex_fix_loxodromic`); `b ≡ 0` (the invariant level `s₀`); `Δ₁ = u₁` fixed by
+all of `L(Γ₁)` (`Lox.fix_second_null`, finding F4); then the Misner identification l.3302–3330,
+through the four lemma modules `Flat.Lox.Misner*`: the second level `s₁`; the two-null-vector
+frame `φ` and the normal form `γ(φ·ofNull x y z) = φ·ofNull (eᵃx) (e⁻ᵃy) (Az + u)` on `Γ₁`
+(`Lox.misner_frame`, either order of the two axes); `limitSetJ Γ₁ = {(u₀,s₀),(u₁,s₁)}`
+(`Lox.misner_limitSet`), hence for `Γ` by finite index and `Ω(S̃) = Ω^±` of it
+(`generic_omegaS_eq`); Bieberbach for the euclidean model `(s, z) ↦ (s + a, Az + u)` of `Γ₁` on
+`ℝ^{d'+1}`, discrete by properness on the tube — not for the action on `π_P⁻¹(0)` (finding F3) —
+giving `Γ'`, `J`, `z₀` and a boost (`Lox.misner_bieberbach`); `restrictGroup Γ' = misnerGroup L`
+with `L` ball-finite and of nonzero boost (`Lox.misner_restrict`, finding F1); then `B = Γ'\Ω(S̃)`,
+`omegaSOpens_add_perp`, `suspendre`, and `ι⁻¹Ω(S̃)` is `misnerWedge d₁` or `misnerWedgePast d₁`
+(frame `1`). The lemma modules' own `sorry`s, if any, are inherited (none at this writing). -/
+theorem loxo_elementary_misner {d' : ℕ} {M : Type*} [TopologicalSpace M]
+    [ChartedSpace (Minkowski (d' + 1)) M]
+    [HasGroupoid M (gxGroupoid (isom (d' + 1)) (Minkowski (d' + 1)))] [T2Space M] {x₀ : M}
+    {D : UniversalCover M x₀ → Minkowski (d' + 1)}
+    {ρ : Deck (UniversalCover.proj M x₀) →* isom (d' + 1)} {S : Set M}
+    (hBieb : ∀ k ≤ d' + 1 + 1, BieberbachI (EuclideanSpace ℝ (Fin k)))
+    (hpair : IsDevelopingPair x₀ D ρ) (hcaus : (flatCausality (d' + 1) M).IsCausal)
+    (h : DevelopsCC x₀ D S) (hlox : ∃ γ ∈ ρ.range, IsLoxodromic (linOf γ))
+    (helem : ¬IsNonelementary ρ.range) :
+    ∃ Γ' : Subgroup (isom (d' + 1)), Γ' ≤ ρ.range ∧ Γ'.relIndex ρ.range ≠ 0 ∧
+      ∃ B : FlatSpacetime.{0} (d' + 1),
+        IsQuotientOf B Γ' (omegaSOpens ρ.range (D '' (UniversalCover.proj M x₀ ⁻¹' S))) ∧
+        ∃ (d₁ : ℕ) (M₁ : FlatSpacetime.{0} (d₁ + 1)), d₁ ≤ d' ∧ IsLTPOver B M₁ ∧
+          IsMisnerSpacetime M₁ := by
+  -- l.3237–3240, the first step (`Flat.Lox.FixLoxodromic`): a finite-index `Γ₁ ≤ Γ` containing a
+  -- power of the loxodromic `γ₀`, with `L(Γ₁)` fixing the direction `Δ₀ = u₀`, one of the two
+  -- distinct fixed points `u₀ ≠ u₁` of `L(γ₀)` on `𝒮`.
+  obtain ⟨γ₀, hγ₀, hlox₀⟩ := hlox
+  simp only [IsNonelementary, not_forall, not_not] at helem
+  obtain ⟨H, hH, hHi, hu⟩ := helem
+  obtain ⟨Γ₁, hΓ₁, hΓ₁i, k, hk, hγ₀k, u₀, u₁, hu₀₁, hf₀, hf₁, hfix₀⟩ :=
+    Lox.exists_finiteIndex_fix_loxodromic hγ₀ hlox₀ ⟨H, hH, hHi, hu⟩
+  -- `hcaus` is §8's setting (carried, unused: ⚠ weakened); `hBieb` is the cited Bieberbach I, spent at
+  -- `k = d'` (`Lox.fix_second_null`) and `k = d' + 1` (`Lox.misner_bieberbach`)
+  have _ := hcaus
+  -- `[T2Space M]` gives §8's data in `𝐌ⁿ` (`ccAction_of_developsCC`)
+  have h' := ccAction_of_developsCC hpair h
+  -- l.3250–3257, `b ≡ 0` for `Γ₁`: a `Γ₁`-invariant lightlike level `{⟨(1,u₀)|·⟩ = s₀}`
+  have hlox₁ : ∃ γ ∈ Γ₁, IsLoxodromic (linOf γ) := ⟨γ₀ ^ k, hγ₀k, by
+    have := hlox₀.zpow_linOf (n := (k : ℤ)) (by exact_mod_cast hk.ne')
+    rwa [zpow_natCast] at this⟩
+  -- (the argument of `exists_invariant_nullLevel_of_ccAction`, below, inlined)
+  obtain ⟨s₀, hs₀⟩ : ∃ s₀ : ℝ, ∀ γ ∈ Γ₁, ∀ p : Minkowski (d' + 1),
+      minkB (nullVec u₀) p = s₀ → minkB (nullVec u₀) (γ • p) = s₀ := by
+    obtain ⟨x, hx⟩ := h'.nonempty
+    refine Lox.exists_invariant_nullLevel (fun γ hγ => hfix₀ _ ⟨γ, hγ, rfl⟩) hlox₁
+      (Ω := omegaS ρ.range _) ⟨x, subset_omegaS h' hx⟩ ?_
+    rcases loxregular_sign h' with hF | hP
+    · exact Or.inl fun p hp => mem_omegaPlus.2 fun w ⟨γ, hγ, hw⟩ =>
+        mem_halfPlus.1 (hF w ⟨γ, hΓ₁ hγ, hw⟩ hp)
+    · exact Or.inr fun p hp => mem_omegaMinus.2 fun w ⟨γ, hγ, hw⟩ =>
+        mem_halfMinus.1 (hP w ⟨γ, hΓ₁ hγ, hw⟩ hp)
+  -- l.3260–3299, the second null direction (`Flat.Lox.SecondNullFix`, proved under Bieberbach I
+  -- in `ℝ^{d'}`): ALL of `L(Γ₁)` fixes `u₁`, the second fixed point of `γ₀ᵏ` — not the paper's
+  -- route (its conjugation formula l.3264–3265 omits the screw part of `α(γ)`: finding F4)
+  have hloxk : IsLoxodromic (linOf (γ₀ ^ k)) := by
+    have := hlox₀.zpow_linOf (n := (k : ℤ)) (by exact_mod_cast hk.ne')
+    rwa [zpow_natCast] at this
+  have hfix₁ : ∀ γ ∈ Γ₁, lorentzSphere (linearPart γ) u₁ = u₁ :=
+    Lox.fix_second_null (hBieb d' (by omega)) h' hΓ₁ hγ₀k hloxk hu₀₁
+      (fun γ hγ => hfix₀ _ ⟨γ, hγ, rfl⟩) (by rw [map_pow]; exact Lox.lorentzSphere_fix_pow hf₁ k)
+      hs₀
+  have hfix₀' : ∀ γ ∈ Γ₁, lorentzSphere (linearPart γ) u₀ = u₀ := fun γ hγ => hfix₀ _ ⟨γ, hγ, rfl⟩
+  -- (g1) the second invariant level
+  obtain ⟨s₁, hs₁⟩ : ∃ s₁ : ℝ, ∀ γ ∈ Γ₁, ∀ p : Minkowski (d' + 1),
+      minkB (nullVec u₁) p = s₁ → minkB (nullVec u₁) (γ • p) = s₁ := by
+    obtain ⟨x, hx⟩ := h'.nonempty
+    refine Lox.exists_invariant_nullLevel hfix₁ hlox₁
+      (Ω := omegaS ρ.range _) ⟨x, subset_omegaS h' hx⟩ ?_
+    rcases loxregular_sign h' with hF | hP
+    · exact Or.inl fun p hp => mem_omegaPlus.2 fun w ⟨γ, hγ, hw⟩ =>
+        mem_halfPlus.1 (hF w ⟨γ, hΓ₁ hγ, hw⟩ hp)
+    · exact Or.inr fun p hp => mem_omegaMinus.2 fun w ⟨γ, hγ, hw⟩ =>
+        mem_halfMinus.1 (hP w ⟨γ, hΓ₁ hγ, hw⟩ hp)
+  -- (g2) the frame and the normal form
+  obtain ⟨φ, hφP, hφM, hnf⟩ := Lox.misner_frame hu₀₁ hfix₀' hfix₁ hs₀ hs₁
+  -- (g3) the limit set and `Ω(S̃)`
+  set Sig := D '' (UniversalCover.proj M x₀ ⁻¹' S) with hSig
+  have hlox : ∃ γ ∈ ρ.range, IsLoxodromic (linOf γ) := ⟨γ₀, hγ₀, hlox₀⟩
+  have hΛ₁ : limitSetJ Γ₁ = ({(u₀, s₀), (u₁, s₁)} : Set (PenroseSphere (d' + 1) × ℝ)) :=
+    Lox.misner_limitSet hu₀₁ hfix₀' hfix₁ hs₀ hs₁ hlox₁
+  have hΛ : limitSetJ ρ.range = ({(u₀, s₀), (u₁, s₁)} : Set (PenroseSphere (d' + 1) × ℝ)) := by
+    rw [← limitSetJ_eq_of_relIndex_ne_zero hΓ₁ hΓ₁i, hΛ₁]
+  set Ω := omegaSOpens ρ.range Sig with hΩ
+  have hΩside : ((Ω : Set (Minkowski (d' + 1))) =
+      omegaPlus ({(u₀, s₀), (u₁, s₁)} : Set (PenroseSphere (d' + 1) × ℝ))) ∨
+      ((Ω : Set (Minkowski (d' + 1))) =
+      omegaMinus ({(u₀, s₀), (u₁, s₁)} : Set (PenroseSphere (d' + 1) × ℝ))) := by
+    rcases generic_omegaS_eq h' hlox with ⟨he, -⟩ | ⟨he, -⟩
+    · left; rw [hΩ, he, ← hΛ]; rfl
+    · right; rw [hΩ, he, ← hΛ]; rfl
+  -- (g4) properness on `Ω` and the tube
+  have hprop₁ : ∀ K ⊆ (Ω : Set (Minkowski (d' + 1))), IsCompact K →
+      {γ : isom (d' + 1) | γ ∈ Γ₁ ∧ (γ • K ∩ K).Nonempty}.Finite := fun K hK hKc =>
+    (loxo_properlyDiscontinuous h' hlox K hK hKc).subset fun γ hγ => ⟨hΓ₁ hγ.1, hγ.2⟩
+  obtain ⟨x₁, y₁, htube⟩ : ∃ x₁ y₁ : ℝ, ∀ (b : ℝ) (z : EuclideanSpace ℝ (Fin d')),
+      φ • ofNull (Real.exp b * x₁) (Real.exp (-b) * y₁) z ∈ (Ω : Set (Minkowski (d' + 1))) := by
+    rcases hΩside with he | he
+    · refine ⟨1, -1, fun b z => ?_⟩
+      rw [he, hφP]
+      exact ⟨by positivity, by nlinarith [Real.exp_pos (-b)]⟩
+    · refine ⟨-1, 1, fun b z => ?_⟩
+      rw [he, hφM]
+      exact ⟨by nlinarith [Real.exp_pos b], by positivity⟩
+  -- (g5) Bieberbach through the euclidean model
+  obtain ⟨a₀, A₀, v₀, hnf₀, hl₀⟩ := hnf _ hγ₀k
+  obtain ⟨Γ', hΓ', hΓ'i, d₁, J, z₀, hd₁, htr, hboost⟩ :=
+    Lox.misner_bieberbach (hBieb (d' + 1) (by omega)) φ (fun γ hγ => by
+        obtain ⟨a, A, u, h1, -⟩ := hnf γ hγ; exact ⟨a, A, u, h1⟩)
+      hprop₁ htube ⟨_, hγ₀k, a₀, hl₀ hloxk, A₀, v₀, hnf₀⟩
+  -- (g6) the restriction to `U`
+  obtain ⟨ι, L, hιf, hι, hres, hrg, hBF, hLb⟩ :=
+    Lox.misner_restrict φ J z₀ htr hboost (fun K hK hKc => (hprop₁ K hK hKc).subset
+      fun γ hγ => ⟨hΓ' hγ.1, hγ.2⟩) htube
+  -- (g7) `B = Γ'\Ω(S̃)` and `suspendre`
+  have hle : Γ' ≤ ρ.range := hΓ'.trans hΓ₁
+  have hidx : Γ'.relIndex ρ.range ≠ 0 := Subgroup.relIndex_ne_zero_trans hΓ'i hΓ₁i
+  have hgh := bprop_ghyp h'
+  haveI : FlatQuotient.Invariant Γ' Ω := ⟨fun γ p hp => by
+    have := Set.smul_mem_smul_set (a := (γ : isom (d' + 1))) (show p ∈ omegaS ρ.range Sig from hp)
+    rwa [hgh.2.2.2.1 γ (hle γ.2)] at this⟩
+  haveI : IsCancelSMul Γ' Ω :=
+    isCancelSMul_of_free fun γ hγ h1 x hx => loxo_free h' γ (hle hγ) h1 x hx
+  haveI : ProperlyDiscontinuousSMul Γ' Ω :=
+    properlyDiscontinuousSMul_of_finite fun K hK hKc =>
+      (loxo_properlyDiscontinuous h' hlox K hK hKc).subset fun γ hγ => ⟨hle hγ.1, hγ.2⟩
+  obtain ⟨x, hx⟩ := h'.nonempty
+  have hconn : IsConnected (Ω : Set (Minkowski (d' + 1))) :=
+    ⟨⟨x, subset_omegaS h' hx⟩, hgh.2.1.isPreconnected⟩
+  set B := FlatQuotient.toFlatSpacetime Γ' Ω hconn
+  have hB : IsQuotientOf B Γ' Ω := FlatQuotient.isQuotientOf_toFlatSpacetime _ _ _
+  have hperp := omegaSOpens_add_perp h' hlox ι hle hidx hres
+  set M₁ := ι.baseSpacetime B hB hres hperp
+  have hM₁ : IsQuotientOf M₁ (ι.restrictGroup Γ') (ι.preimageOpens Ω) :=
+    ι.isQuotientOf_baseSpacetime B hB hres hperp
+  refine ⟨Γ', hle, hidx, B, hB, d₁, M₁, hd₁, suspendre B hB ι hι hres hperp, ?_⟩
+  -- (g8) `M₁` is a Misner spacetime (frame `1`, absorbed in `ι`)
+  have hιp : ∀ p : Minkowski (d₁ + 1),
+      ι p = φ • ofNull (nullX p) (nullY p) (z₀ + J (nullZ p)) := fun p => by
+    conv_lhs => rw [← Nonlox.ULTP.ofNull_null p]
+    exact hιf _ _ _
+  refine ⟨1, L, hBF, hLb, ?_⟩
+  rw [frameConj_one, isomImage_one, isomImage_one, ← hrg]
+  rcases hΩside with he | he
+  · left
+    have hpre : ι.preimageOpens Ω = misnerWedge d₁ := by
+      refine Opens.ext (Set.ext fun p => ?_)
+      show ι p ∈ (Ω : Set (Minkowski (d' + 1))) ↔ p ∈ omegaPlus (misnerΛ d₁)
+      rw [he, hιp, hφP, mem_omegaPlus_misnerΛ]
+    exact hpre ▸ hM₁
+  · right
+    have hpre : ι.preimageOpens Ω = misnerWedgePast d₁ := by
+      refine Opens.ext (Set.ext fun p => ?_)
+      show ι p ∈ (Ω : Set (Minkowski (d' + 1))) ↔ nullX p < 0 ∧ 0 < nullY p
+      rw [he, hιp, hφM]
+    exact hpre ▸ hM₁
+
+end Misner
 
 section GenericConclusion
 

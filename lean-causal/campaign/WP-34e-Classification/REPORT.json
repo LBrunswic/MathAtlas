@@ -628,5 +628,47 @@
   "notes": "Theorem B's leaf Cla.false_of_cauchyCompact_of_fixed_pair (L11) is gone: after the builder rebuilds G9 and Classification, barbot_B's sorry leaves should be the remaining ones of theoremB_part2 minus this one (loxo_elementary_misner, bprop_LU_discrete if still open upstream, L9, L10); re-derive at graduation.",
   "route": "not Barbot's route for the family-(b) step (his: L(Γ) cocompact on a totally geodesic 𝐇ᵏ, k ≥ 2; DEC-44 supplies the nonelementary input of family (b)→(a)); neither that nor a cohomological-dimension count is used. The elementary configuration itself is in the paper: [10.M] (l.3237–3239) treats L(Γ) preserving an isotropic direction up to finite index, which includes the swap case.",
   "audit_fix": "2026-11-01, node1: findings[0], findings[1] and route rewritten after the read-only audit. Before: 'never occurs in Theorem B', and the paper 'does not address' the configuration. After: it never occurs in family (b), and outside family (b) it exists (the d = 3 Misner finite-quotient example), covered by [10.M] l.3237–3239. G9Pair.lean's module docstring paragraph 'Not the Misner branch' was rewritten to match; this is a docstring-only change, with no statement or proof touched. taskset -c 0-11 lake env lean G9Pair.lean: 0 errors, 0 warnings; lake build CausalScaffold.Flat.Cla.G9Pair: built (only G9Pair). G9.lean was not touched in this fix."
+ },
+ "closer_L9_smoothing_r2": {
+  "date": "2026-11-01",
+  "host": "node1",
+  "decl": "Causal.Flat.Cla.exists_nonempty_isSpacelikeLipschitz_succ",
+  "status": "left (no sorry of its own any more; proved from the narrower sorried exists_capEnvelope_succ)",
+  "files_written": [
+   "scaffold/CausalScaffold/Flat/Cla/CompactComplete.lean",
+   "scaffold/CausalScaffold/Flat/Cla/SmoothCone.lean (new)"
+  ],
+  "build": "taskset -c 0-11 lake build CausalScaffold.Flat.Cla.SmoothCone: built (only SmoothCone; CauchyComplete checked up to date with --no-build first); lake env lean SmoothCone.lean: 0 errors, 0 warnings. lake env lean CompactComplete.lean: 0 errors, exactly 1 warning ('declaration uses sorry' at exists_capEnvelope_succ, 1 tagged sorry term). CompactComplete's olean is STALE (new import SmoothCone): a builder must rebuild CausalScaffold.Flat.Cla.CompactComplete before Classification is re-checked. #print axioms of every new SmoothCone theorem: propext, Classical.choice, Quot.sound.",
+  "statement_changes": "none: exists_nonempty_isSpacelikeLipschitz_succ, exists_isSpacelikeLipschitz_of_isCompact_cauchy, isCauchyComplete_of_isCompact_cauchy textually unchanged (signatures and binder names); docstrings re-say where the sorry sits.",
+  "route_committed": "(A), reformulated without achronal-boundary theory: H := K \\ I⁻(K), the UPPER PART of a compact K = finitely many compact future-hyperboloid caps over a net of S. Near a point of H the chart picture is {min over the caps through it of (sqTimeSep q'ₖ · − ε²) = 0}. Compactness and nonemptiness of H are then free (no J⁻(K) closedness, no Cauchy property, no connectedness of M).",
+  "closed": [
+   "Analytic half, Flat/Cla/SmoothCone.lean, no sorry: IsConeIncreasingOn c f A (f a < f b whenever c‖b.2 − a.2‖ < b.1 − a.1); stable under finite sup'/inf' and constants; exists_isSpacelikeLipschitzIn_zeroSet: the zero set of a continuous c-cone-increasing f, 0 ≤ c < 1, is IsSpacelikeLipschitzIn a sup-norm ball (IVT on vertical segments, uniqueness and the c-Lipschitz bound from the cone condition, achronality, frame 1); isSpacelikeLipschitz_of_locally_coneIncreasing: on any M charted over 𝐌ⁿ, chart pictures locally such zero sets (IsLocallyConeZeroSetAt) ⇒ IsSpacelikeLipschitz.",
+   "Hyperboloids: sqTimeSep q p = (p.1 − q.1)² − ‖p.2 − q.2‖² is c-cone-increasing on any set (no convexity) of points in the future of q with ‖p.2 − q.2‖ ≤ c(p.1 − q.1) (Δ ≥ (α+β)(s − c‖v‖)); exists_isConeIncreasingOn_sup'_inf' and isLocallyConeZeroSetAt_of_sup'_sqTimeSep / _of_inf'_sqTimeSep: a finite max/min of hyperboloid functions whose centres are chronologically before the point gives IsLocallyConeZeroSetAt — the whole local analysis of the envelope (the previous obstruction's 'c = δ/√(ε²+δ²) < 1') is discharged.",
+   "Gluing: isCompact_diff_Iminus (K \\ I⁻(K) compact, I⁻ open) and nonempty_diff_Iminus (any causality with ¬ x ≪ x: a finite subcover of K by I⁻(kᵢ) closes a chronological chain by pigeonhole). In CompactComplete, chronology of a GH flat M from not_lt_self_of_Jminus_ne along the chronal causal flow. This discharges the previous obstructions (i) 'intrinsic definition on M' (K \\ I⁻(K) is intrinsic; no time separation on M is needed) and (iii) 'compactness'."
+  ],
+  "sorries": [
+   {
+    "decl": "Causal.Flat.Cla.exists_capEnvelope_succ",
+    "tag": "SORRY(bthm:cauclo, compact ⇒ complete, smoothing, d ≥ 1)",
+    "statement": "M : FlatSpacetime (d+1), GH, S acausal compact Cauchy ⇒ ∃ K compact nonempty, ∀ x ∈ K \\ I⁻(K), IsLocallyConeZeroSetAt (d+1) (K \\ I⁻(K)) x",
+    "true_because": "K = finitely many caps Cₖ = eₖ⁻¹{p ∈ B̄ₖ | sqTimeSep qₖ p = ε²} over an ε′-net of S, qₖ just to the chart past of S: with ε + 2ε′ < η (the acausality gap of S at scale δ, by compactness) cap boundaries are buried in I⁻(K), so only the caps through x matter near x, and there the picture is a finite min of hyperboloids (isLocallyConeZeroSetAt_of_inf'_sqTimeSep), centres chronologically before x",
+    "obstruction": "the construction: (a) burial of each cap's relative boundary in I⁻(K) (chart estimate from the acausality gap; then x ≤ c ∈ K, x ∉ I⁻(K) ⇒ x = c, by pushing a null ray to a relatively interior point of a spacelike cap into I⁻ of the cap); (b) locality of I⁻_M(K) near a point of the upper part (relevant caps and timelike curves to them in one causally convex chart domain — a graphLocalDomain of S — whose future horizon lies above K); (c) compactness of each cap (closed in a compact chart preimage)"
+   }
+  ],
+  "routes_refused_new": [
+   "A finite max/min of CHART-LOCAL functions glued by clamping (ψ̂ₖ = clamp(ψₖ) on Dₖ, constant outside), with no causal set: a c-cone-increasing piece on a chart box is large at the box's future edge, so it can neither be clamped to the outside constant nor dominated there by the other pieces; the gluing must go through an intrinsic causal set. K \\ I⁻(K) (equivalently the frontier of ⋃ₖ J⁻(Cₖ) once caps are buried) is that set.",
+   "Geroch volume functions p ↦ μ(I⁻(p)) under admissible measures (GerochFlat): intrinsic and plausibly spacelike for spread densities, but the cone-increasing bound in a spacelike displacement needs a quantitative bound on μ(I⁻(p) Δ I⁻(q)), i.e. Lipschitz control of the global null boundary ∂I⁻(p): not in the library and not local."
+  ],
+  "findings": [
+   "The upper part K \\ I⁻(K) of any nonempty compact set in a chronological spacetime is a nonempty compact set; for K a union of buried spacelike caps it is the smoothing of S (the frontier of ⋃ J⁻(Cₖ) collapses onto K once cap edges are in I⁻(K)). This replaces the achronal-boundary formulation ∂J⁻(K) and needs neither global hyperbolicity nor closedness of J⁻(K) for compactness/nonemptiness.",
+   "The squared time separation is cone-increasing without any convexity of the domain, so the local analysis of hyperboloid envelopes needs no convex chart pieces; only the global locality (b) does."
+  ],
+  "public_name_collisions": "none: IsConeIncreasingOn, sqTimeSep, continuous_sqTimeSep, isConeIncreasingOn_sqTimeSep, exists_isConeIncreasingOn_sup'_inf', exists_isSpacelikeLipschitzIn_zeroSet, IsLocallyConeZeroSetAt, isSpacelikeLipschitz_of_locally_coneIncreasing, isLocallyConeZeroSetAt_of_sup'_sqTimeSep, isLocallyConeZeroSetAt_of_inf'_sqTimeSep, isCompact_diff_Iminus, nonempty_diff_Iminus, exists_capEnvelope_succ: 0 hits across scaffold/ and Causal/ before naming",
+  "statements_false": "none found",
+  "sorry_count_CompactComplete": "1 → 1 (moved and narrowed: from exists_nonempty_isSpacelikeLipschitz_succ, an arbitrary nonempty compact spacelike Lipschitz H, to exists_capEnvelope_succ, the chart description of the upper part of a compact K)",
+  "kb_proposals": [
+   "Smoothing in a flat spacetime: glue finitely many chart pieces through an intrinsic causal set (the upper part K \\ I⁻(K)), never by clamping chart-local functions; the local analysis is Flat/Cla/SmoothCone's cone-increasing zero-set criterion."
+  ],
+  "notes": "SmoothCone imports only CausalScaffold.Flat.CauchyComplete and is imported by CompactComplete. The scaffold root scaffold/CausalScaffold.lean (5 imports) does not import CompactComplete, Classification or SmoothCone, so by kb/0025 none of them is seen by scripts/AxiomSweep.lean: the axiom check above was run by hand (#print axioms on each new theorem). Pre-existing for the Flat tree; the root is not this closer's file."
  }
 }
