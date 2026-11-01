@@ -7,10 +7,10 @@
   "sorry_count": 0,
   "labels": [
     {
-      "label": "theo:CBG (gluing step: the 'inductive limit', ETT.tex:2335; Sbierski Thm 2.8 proof, glueing + point 1 Hausdorff + second countability; design package 8)",
+      "label": "theo:CBG (statement ETT.tex:1884; gluing step: the 'inductive limit' of its proof, ETT.tex:2335-2340; Sbierski Thm 2.8 proof, glueing + point 1 Hausdorff + second countability; design package 8)",
       "tex_lines": [
         2335,
-        2335
+        2340
       ],
       "status": "partial",
       "marked": false,
@@ -78,7 +78,7 @@
         {
           "paper": "(3.15) is an equivalence relation (transitivity from maximality of the MCGHD)",
           "here": "carried",
-          "note": "field `cocycle` in Sbierski's form; reflexivity/symmetry from U_self, phi_self; equivalent to mathlib MkCore's t_inter + cocycle (mem_U_of_mem)"
+          "note": "field `cocycle` in Sbierski's form is the transitivity; reflexivity from U_self, phi_self; symmetry from phi_mem together with the derived inverse law phi_phi (cocycle at k = i plus phi_self). phi_mem (phi i j lands in U j i, so with phi_phi U j i = phi i j (U i j)) encodes the symmetry of the MCGHD (U_ki = psi_ik(U_ik)), which Sbierski uses implicitly but never states; package 10 must supply it. Equivalent to mathlib MkCore's t_inter + cocycle (mem_U_of_mem)"
         },
         {
           "paper": "M~ Hausdorff from Thm 2.7 applied to pairs",
@@ -87,8 +87,8 @@
         },
         {
           "paper": "M~ second countable (Geroch's theorem, point 5)",
-          "here": "different",
-          "note": "ADDED hypotheses: `[Countable I]` and every piece second countable (secondCountableTopology). Sbierski's index set A is uncountable and he uses Geroch's theorem instead. This theorem does NOT cover design step 7 / package 10, whose index (SmallDev M0) is not countable in general; second countability of the maximal extension stays a geometry fact (design rem:CBG_manquant (i), DEC-49) - not this package."
+          "here": "strengthened",
+          "note": "ADDED hypotheses: `[Countable I]` and every piece second countable (secondCountableTopology); this is not Sbierski's point 5. Sbierski's index set A is uncountable and he uses Geroch's theorem instead. This theorem does NOT cover design step 7 / package 10, whose index (SmallDev M0) is not countable in general; second countability of the maximal extension stays a geometry fact (design rem:CBG_manquant (i), DEC-49) - not this package."
         },
         {
           "paper": "structure (metric / M>=0 charts) on M~",
@@ -108,9 +108,7 @@
       ],
       "sorries": [],
       "findings": [
-        "Sbierski's Hausdorff argument (proof of Thm 2.8, point 1) needs the map j~_ik : (M_i ⊔ M_k)/~ -> M~ to be injective, which uses that the restriction of the family relation (3.15) to M_i ⊔ M_k is the pair relation; this holds because (3.15) is already transitive (the cocycle). Formalized as injective_pair; no gap.",
-        "The SCOPE claim that mathlib's TopCat.GlueData.MkCore yields a FamilyGlueData is now formalized (ofMkCore: t_inter at (j,i,k) on t i j x plus MkCore.t_inv gives x in V i k, then MkCore.cocycle). The converse direction is not formalized.",
-        "secondCountableTopology adds [Countable I]: it does not discharge second countability for package 10's uncountable index SmallDev M0."
+        "Sbierski's Hausdorff argument (proof of Thm 2.8, point 1) needs the map j~_ik : (M_i ⊔ M_k)/~ -> M~ to be injective, which uses that the restriction of the family relation (3.15) to M_i ⊔ M_k is the pair relation; this holds because (3.15) is already transitive (the cocycle). Formalized as injective_pair; no gap."
       ],
       "questions": []
     }
@@ -143,12 +141,14 @@
     "Causal.CBG.FamilyGlueData.preimage_ι_subset",
     "Causal.CBG.FamilyGlueData.preimage_ι_subset_range_φ",
     "Causal.CBG.FamilyGlueData.preimage_val_eq",
-    "Causal.Causality.pullback_le_lt_iff_of_injective"
+    "Causal.Causality.pullback_le_lt_iff_of_injective",
+    "Causal.CBG.FamilyGlueData.coe_t",
+    "Causal.CBG.FamilyGlueData.φ_eq_comp"
   ],
   "kb_proposals": [
     "Family gluing: mathlib's TopCat.GlueData forces one universe and bundled morphisms; CausalScaffold.CBG.FamilyGluing is MkCore's data unbundled over Σ i, M i with Quot, and its pair gluings ARE Causal.Gluing (Subtype.val) (φ i j), so every two-space Hausdorff fact transfers via the open embedding `pair`.",
     "In a `rintro ⟨i, x⟩ ⟨j, y⟩ ⟨h, rfl⟩` on a relation written with `a.1`, `a.2`, subst fails (the projections are not reduced): `dsimp only at h e; subst e` first.",
     "Causality.pullback along an injective continuous map reads the relations on the image (Causality.pullback_le_lt_iff_of_injective): no local-injectivity cover is needed, membership is recovered from injectivity."
   ],
-  "notes": "Fixer pass (audit minors 1-6 applied): docstring names corrected (isGluedCausality_causality, exists_isGluedCausality_iff); REPORT second-countability row relabelled 'different' with the added hypotheses and the package-10 non-coverage stated; CompatibleAlong witnesses added (compatibleAlong_ofOpens, compatibleAlong_const, const_timelikeLine with absolutely minimal pieces); decl lists completed; ofMkCore formalizes the MkCore claim (new import Mathlib.Topology.Gluing, mathlib only); uniqueness among absolutely minimal glued causalities added (IsGluedCausality.unique, eq_causality_of_isGluedCausality). Zero sorry, zero errors, zero warnings with `taskset -c 0-11 lake env lean`; no lake build. #print axioms on the new and principal theorems: [propext, Classical.choice, Quot.sound]. Imports Causal.PushoutCausal and Mathlib.Topology.Gluing only (no lean-gx). No ETT label marked. Name grep: no collision in Causal/ or scaffold/ for the new names. The module CausalScaffold.CBG.FamilyGluing must be added to the scaffold root by the master (kb/0025). For package 10 (Maximal): instantiate FamilyGlueData with U i j = pairwise MCGHD, phi = the MCGHD map; cocycle from maximality + rigidity; t2Space_iff reduces T2 to package 6/7's pair result; causality via CompatibleAlong + causality_absolutelyMinimal, unique by eq_causality_of_isGluedCausality; second countability NOT from secondCountableTopology (uncountable index)."
+  "notes": "Fixer pass (audit minors 1-6 applied): docstring names corrected (isGluedCausality_causality, exists_isGluedCausality_iff); REPORT second-countability row relabelled 'different' with the added hypotheses and the package-10 non-coverage stated; CompatibleAlong witnesses added (compatibleAlong_ofOpens, compatibleAlong_const, const_timelikeLine with absolutely minimal pieces); decl lists completed; ofMkCore formalizes the MkCore claim (new import Mathlib.Topology.Gluing, mathlib only); uniqueness among absolutely minimal glued causalities added (IsGluedCausality.unique, eq_causality_of_isGluedCausality). Zero sorry, zero errors, zero warnings with `taskset -c 0-11 lake env lean`; no lake build. #print axioms on the new and principal theorems: [propext, Classical.choice, Quot.sound]. Imports Causal.PushoutCausal and Mathlib.Topology.Gluing only (no lean-gx). No ETT label marked. Name grep: no collision in Causal/ or scaffold/ for the new names. The module CausalScaffold.CBG.FamilyGluing must be added to the scaffold root by the master (kb/0025). For package 10 (Maximal): instantiate FamilyGlueData with U i j = pairwise MCGHD, phi = the MCGHD map; cocycle from maximality + rigidity; t2Space_iff reduces T2 to package 6/7's pair result; causality via CompatibleAlong + causality_absolutelyMinimal, unique by eq_causality_of_isGluedCausality; second countability NOT from secondCountableTopology (uncountable index). Second fixer pass (audit minors 1-5 applied): checklist row (3.15) now credits symmetry to phi_mem + phi_phi and names phi_mem as the MCGHD symmetry package 10 must supply (also as the field's docstring); second-countability row relabelled 'strengthened' in file and REPORT (kb/0006/kb/0011 vocabulary); coe_t and phi_eq_comp added to extra_decls; tex_lines now [2335, 2340] (proof step mirrored; statement at ETT.tex:1884, named in the label text); two Lean-scope sentences moved from findings to notes: The SCOPE claim that mathlib's TopCat.GlueData.MkCore yields a FamilyGlueData is now formalized (ofMkCore: t_inter at (j,i,k) on t i j x plus MkCore.t_inv gives x in V i k, then MkCore.cocycle). The converse direction is not formalized. | secondCountableTopology adds [Countable I]: it does not discharge second countability for package 10's uncountable index SmallDev M0. Rebuilt with `taskset -c 0-11 lake env lean`: exit 0, no output (zero errors, zero warnings, no sorry). Docs-only changes; no declaration changed."
 }

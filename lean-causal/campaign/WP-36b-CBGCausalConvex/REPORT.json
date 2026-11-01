@@ -1,15 +1,27 @@
 {
   "package": "WP-36b-CBGCausalConvex",
-  "files": ["scaffold/CausalScaffold/CBG/CausalConvex.lean"],
+  "files": [
+    "scaffold/CausalScaffold/CBG/CausalConvex.lean"
+  ],
   "builds": true,
   "sorry_count": 0,
   "labels": [
     {
       "label": "lem:C_ext_connexe",
-      "tex_lines": [1932, 1943],
+      "tex_lines": [
+        1932,
+        1943
+      ],
       "status": "partial",
       "marked": false,
       "decls": [
+        "Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace",
+        "Causal.IsCauchyEmbedding.isPreconnected_inf_of_preconnectedSpace",
+        "Causal.Causality.inf_component_meets",
+        "Causal.Causality.exists_inextensible_inf_meeting_of_subsingleton",
+        "Causal.Causality.mem_connectedComponentIn_inf_of_subsingleton",
+        "Causal.Causality.isPreconnected_inf_of_subset",
+        "Causal.IsCauchyEmbedding.isCauchySurfaceOn_inf_iff",
         "Causal.IsCauchyEmbedding.c_ext_connexe'",
         "Causal.IsCauchyEmbedding.c_ext_connexe_of_isConnected",
         "Causal.IsCauchyEmbedding.isPreconnected_inf",
@@ -19,47 +31,114 @@
         "Causal.Causality.isPreconnected_inf"
       ],
       "hypotheses": [
-        {"paper": "singular flat spacetimes, M≥0-morphisms", "here": "weakened", "note": "any causality; IsEMorphism / IsCauchyEmbedding (DEC-17 abstraction)"},
-        {"paper": "M connected (Sigma connected via theo:geroch_sing)", "here": "carried", "note": "[ConnectedSpace M] + splitting psi, as in SubExtension.c_ext_connexe; c_ext_connexe_of_isConnected / isPreconnected_inf need only Sigma (pre)connected"},
-        {"paper": "N singular flat (curves extend)", "here": "named", "note": "D.CurvesExtend (kb/0012); discharged by any time function (CurvesExtend.lean)"},
-        {"paper": "phi(Sigma) a Cauchy surface of A cap B; every point on an inextensible curve; N causally arc-connected", "here": "weakened", "note": "none of the three is used: SubExtension.c_ext_connexe needed hthrough, hDac and the sorry exists_mem_image_inf"}
+        {
+          "paper": "singular flat spacetimes, M>=0-morphisms",
+          "here": "weakened",
+          "note": "any causality; IsCauchyEmbedding / IsCauchyInclusion (DEC-17 abstraction)"
+        },
+        {
+          "paper": "M connected",
+          "here": "carried",
+          "note": "[ConnectedSpace M] exactly (c_ext_connexe_of_connectedSpace); PreconnectedSpace M gives A cap B preconnected. The splitting psi / connected Sigma of the wave-1 c_ext_connexe' is no longer needed: the connected set used is phi(M) itself"
+        },
+        {
+          "paper": "M globally hyperbolic",
+          "here": "carried",
+          "note": "part of IsCauchyEmbedding (a Cauchy surface of M exists); used only through phi(Sigma) meeting every inextensible curve of N at most once"
+        },
+        {
+          "paper": "N singular flat (curves extend)",
+          "here": "named",
+          "note": "D.CurvesExtend (kb/0012); discharged by any continuous time function (CurvesExtend.lean); N Hausdorff ([T2Space N]) named likewise"
+        },
+        {
+          "paper": "phi: M -> N a Cauchy extension; A, B open containing phi(M) with phi(M) -> A, phi(M) -> B Cauchy embeddings",
+          "here": "carried",
+          "note": "IsCauchyEmbedding C D phi, IsCauchyInclusion D phi.rangeOpens A, IsCauchyInclusion D phi.rangeOpens B"
+        }
       ],
       "sorries": [],
       "findings": [
-        "ETT.tex:1940-1941: the proof's middle step 'M -> A cap B is a Cauchy embedding, so phi(Sigma) is a Cauchy surface of A cap B' is not needed: the conclusion of l.1941-1942 (every point of A cap B lies on an inextensible causal curve of A cap B meeting phi(Sigma)) holds directly, by extending the constant curve at x to an inextensible curve of N and taking its components in A and in B, which meet phi(Sigma) at the single point where the curve of N does. The middle step itself (existence half) remains unproved in the abstract setting.",
-        "In the abstract setting A cap B is moreover causally convex in N and globally hyperbolic (IsCauchyEmbedding.inf_causallyConvexIn, N causally arc-connected): of 'M -> A cap B is a Cauchy embedding' only 'every inextensible curve of A cap B meets phi(Sigma)' remains open."
+        "ETT.tex:1940-1941: the middle step 'M -> A cap B is a Cauchy embedding, so phi(Sigma) is a Cauchy surface of A cap B' is not needed for the conclusion; the last sentence (every point of A cap B on an inextensible causal curve of A cap B meeting phi(Sigma)) holds directly, and with phi(M) connected and contained in A cap B it gives connectedness from M connected alone, without Geroch's splitting / a connected Cauchy surface.",
+        "Of the middle step, the uniqueness half is proved (every causal curve of every open set of N meets phi(Sigma) at most once, given CurvesExtend); the existence half (every inextensible curve of A cap B meets phi(Sigma)) stays unproved in the abstract setting: CurvesExtend extends segments only, and an inextensible curve of A cap B over an open interval would need to lie, with a reparametrisation, on an inextensible curve of N.",
+        "Hypotheses of SubExtension.c_ext_connexe that are not the paper's are not used here: N causally arc-connected, hthrough, and the sorry'd exists_mem_image_inf ('phi(Sigma) is a Cauchy surface of A cap B', an intermediate step of the paper's proof, not a hypothesis). The generic core needs only: T Cauchy in A and in B, and T meeting every inextensible curve of N at most once (Cauchy in N, or acausal in N)."
       ],
       "questions": []
     },
     {
       "label": "prop:Cauchy_pgcd",
-      "tex_lines": [1945, 1966],
+      "tex_lines": [
+        1945,
+        1966
+      ],
       "status": "partial",
       "marked": false,
       "decls": [
         "Causal.isCauchyInclusion_iSup",
         "Causal.isCauchyInclusion_sSup",
+        "Causal.isCauchyInclusion_iSup_of_common",
+        "Causal.Causality.isCauchySurfaceOn_iSup",
         "Causal.IsCauchyInclusion.of_le",
         "Causal.IsCauchyInclusion.trans",
-        "Causal.IsCauchyInclusion.causallyConvexIn"
+        "Causal.IsCauchyInclusion.causallyConvexIn",
+        "Causal.Causality.causallyConvexIn_of_isCauchySurfaceOn",
+        "Causal.timelikeLine_causalConvex_proper"
       ],
       "hypotheses": [
-        {"paper": "(design step 3) union of the elements of E is a Cauchy inclusion of i1(M0)", "here": "carried", "note": "inside an open B (= M1) into which A (= i1(M0)) is Cauchy-included, B causally arc-connected with CurvesExtendOn B, M Hausdorff; non-empty family; no common Cauchy surface assumed"}
+        {
+          "paper": "(design §3 step 3, union) union of a directed / compatible family of Cauchy inclusions with a common Cauchy surface",
+          "here": "weakened",
+          "note": "no directedness or compatibility (the members are open sets of one spacetime); common Cauchy surface either assumed (isCauchyInclusion_iSup_of_common) or produced from A -> W i, A -> B (isCauchyInclusion_iSup)"
+        },
+        {
+          "paper": "(design §3 step 3, union) the ambient spacetime (M1) into which the family sits",
+          "here": "strengthened",
+          "note": "an ambient open B with A -> B a Cauchy inclusion (or S Cauchy in B), <=_B antisymmetric, M Hausdorff"
+        },
+        {
+          "paper": "(design §3 step 3, union) curves of the ambient spacetime extend",
+          "here": "named",
+          "note": "CurvesExtendOn B (kb/0012); the only ingredient beyond the ambient B that the Cauchy property of the union uses (isCauchySurfaceOn_iSup, no arc-connectedness)"
+        },
+        {
+          "paper": "(design §3 step 3, union) ambient B causally arc-connected",
+          "here": "strengthened",
+          "note": "inherited from convexity; used only for convexity of the union, hence its GH and the IsCauchyInclusion conclusion (isCauchyInclusion_iSup, _of_common); not used by isCauchySurfaceOn_iSup"
+        },
+        {
+          "paper": "(design §3 step 3, convexity) Cauchy inclusion into a causal T2 spacetime with CurvesExtend is causally convex",
+          "here": "strengthened",
+          "note": "needs B causally arc-connected in addition; necessary among non-local causalities (gated line, not absolutely minimal: gateLine_cauchyInclusion_not_causallyConvex conjoins ¬ AbsolutelyMinimalOn gateLine ⊤); open for absolutely minimal ones (Level A). Discharged on flat instances (flatCausality_causallyArcConnected, Flat/CauchyComplete.lean:2582; SingularFlatAxioms.causallyArcConnected)"
+        }
       ],
       "sorries": [],
       "findings": [
-        "Closes obstruction (2) of SubExtension.cauchy_pgcd's sorry (ETT ledger gap 2): the inclusion of i1(M0) into the union of the elements of E IS a Cauchy inclusion, and the union is causally convex in M1. Cauchy property by components (Sbierski Thm 3.4 step 2), global hyperbolicity by causal convexity (not by Geroch). This file does not assemble cauchy_pgcd itself (package Pgcd)."
+        "Closes obstruction (2) of SubExtension.cauchy_pgcd's sorry (ETT ledger gap 2) under CausallyArcConnected M1 and CurvesExtendOn M1 (both dischargeable on flat instances; cauchy_pgcd's signature, SubExtension.lean:519, carries neither): the union of the elements of E is a Cauchy inclusion of i1(M0), causally convex in M1; Cauchy property by components (Sbierski Thm 3.4 step 2; uniqueness by CurvesExtendOn M1 alone), global hyperbolicity by causal convexity (not by Geroch). This file does not assemble cauchy_pgcd itself (package Pgcd).",
+        "CBG-DESIGN.md §3 step 3 'a Cauchy inclusion into a causal T2 spacetime with CurvesExtend is causally convex' is false as stated for non-absolutely-minimal (non-local) causalities: the gated line (timelike line plus an isolated point *, with a <= * for a <= 10 in every open set containing a, * and the gate 5) is causal, T2, globally hyperbolic with a continuous time function (so CurvesExtend), A = ]-1,1[ u {*} is Cauchy-included in it with the common Cauchy surface {g 0, *}, and A is not causally convex (g 0 <= 5 <= *, 5 notin A); the gated line is not absolutely minimal (conjunct of the witness theorem; gateLine_not_absolutelyMinimalOn). Under Level A (absolutely minimal on every open), the setting the design's claim concerns, whether arc-connectedness can be dropped is OPEN. The repair carried here is causal arc-connectedness of the ambient set, which flat instances have.",
+        "isCauchySurfaceOn_iSup (the union has S as a Cauchy surface) needs no arc-connectedness: uniqueness puts the segment of the curve between two parameters meeting S on an inextensible curve of B (CurvesExtendOn B) — Sbierski's 'gamma is also a segment of an inextendible curve in M'. Arc-connectedness is used only for convexity, hence GH of the union.",
+        "Non-trivial joint witness: timelikeLine_causalConvex_proper (A = ]-1,1[ a proper open subset of B = ℝ on the timelike line: Cauchy inclusion, B arc-connected with curves extending, A causally convex, union of {A, B} a Cauchy inclusion of A)."
       ],
-      "questions": []
+      "questions": [
+        "Can absolute minimality of the causality (Level A's standing assumption) replace causal arc-connectedness in step 1? The witness does not settle it."
+      ]
     },
     {
       "label": "lem:Cauchy_plongement_toutes",
-      "tex_lines": [1865, 1870],
+      "tex_lines": [
+        1865,
+        1870
+      ],
       "status": "partial",
       "marked": false,
-      "decls": ["Causal.Causality.IsCauchySurfaceOn.of_le"],
+      "decls": [
+        "Causal.Causality.IsCauchySurfaceOn.of_le"
+      ],
       "hypotheses": [
-        {"paper": "N globally hyperbolic", "here": "weakened", "note": "only the antisymmetry of <=_B and M Hausdorff; relative form: S1, S2 in U <= B Cauchy in U, S1 Cauchy in B => S2 Cauchy in B"}
+        {
+          "paper": "N globally hyperbolic",
+          "here": "weakened",
+          "note": "only the antisymmetry of <=_B and M Hausdorff; relative form: S1, S2 in U <= B Cauchy in U, S1 Cauchy in B => S2 Cauchy in B"
+        }
       ],
       "sorries": [],
       "findings": [],
@@ -91,12 +170,48 @@
     "Causal.IsCauchyEmbedding.image_subset_inf",
     "Causal.IsCauchyEmbedding.inf_causallyConvexIn",
     "Causal.timelikeLine_curvesExtendOn",
-    "Causal.timelikeLine_causalConvex_hypotheses"
+    "Causal.timelikeLine_causalConvex_hypotheses",
+    "Causal.Causality.IsCauchySurface.inter_subsingleton",
+    "Causal.Causality.IsAcausal.inter_subsingleton",
+    "Causal.Causality.inter_subsingleton_of_curvesExtend",
+    "Causal.Causality.isCauchySurfaceOn_iff_of_curvesExtend",
+    "Causal.Causality.inextensible_of_le_of_mem",
+    "Causal.gateLine",
+    "Causal.gateLine_le_inl_inl",
+    "Causal.gateLine_le_inl_inr",
+    "Causal.gateLine_le_inr_inl",
+    "Causal.gateLine_le_inr_inr",
+    "Causal.gateLine_le_antisymm",
+    "Causal.gateLine_isCausal",
+    "Causal.gateLine_diamond_inl_inl",
+    "Causal.gateLine_globallyHyperbolicOn",
+    "Causal.gateLine_curvesExtend",
+    "Causal.gateLine_curve_cases",
+    "Causal.gateLine_isEMorphism_inl_comp",
+    "Causal.gateLineOpens",
+    "Causal.gateStar",
+    "Causal.gateLine_isCauchySurfaceOn_lineOpens",
+    "Causal.gateLine_isCauchySurfaceOn_of_line",
+    "Causal.gateArc",
+    "Causal.gateArc_strictMono",
+    "Causal.gateArc_continuous",
+    "Causal.gateArc_isOpenMap",
+    "Causal.gateArc_lt_one",
+    "Causal.gateA",
+    "Causal.gate_notMem_gateA",
+    "Causal.gateLine_cauchyInclusion_not_causallyConvex",
+    "Causal.gateLine_not_absolutelyMinimalOn",
+    "Causal.timelikeLine_globallyHyperbolicOn",
+    "Causal.timelikeLine_isEMorphism_gateArc",
+    "Causal.timelikeArcOpens"
   ],
   "kb_proposals": [
     "An open set U seen as a spacetime without a subtype: C.relativeTo U := (C.restrict U).extend (Causal/Local.lean). Inextensible U for C is Inextensible ⊤ for C.relativeTo U (relativeTo_inextensible_top), and inextensibility in W <= U reads only the relations below W (inextensible_congr_causality); so every ⊤-only curve lemma (e.g. inextensible_ordConnectedComponent) gets its relative form in ~5 lines (inextensible_ordConnectedComponent_of_le), needing only <=_U antisymmetric.",
     "Do not read Cauchy surfaces of C.relativeTo U on ⊤: constant curves at points outside U are inextensible there and meet nothing; transfer curve statements, not IsCauchySurface, and reprove the relative Cauchy lemma (IsCauchySurfaceOn.of_le) with the relative component lemma.",
-    "Causal convexity of a Cauchy inclusion needs causal arc-connectedness of the ambient open set (to realise <=_B by a curve) besides T2 and CurvesExtendOn; GH of the inclusion is not used."
+    "Causal convexity of a Cauchy inclusion is proved with causal arc-connectedness of the ambient open set (to realise <=_B by a curve) besides T2 and CurvesExtendOn; GH of the inclusion is not used. The Cauchy property of a union of Cauchy inclusions needs only CurvesExtendOn of the ambient set (segments of a curve lie on inextensible curves of B), not arc-connectedness.",
+    "lem:C_ext_connexe needs no connected Cauchy surface: phi(M) is connected and inside A cap B, and every point of A cap B is joined to phi(Sigma) inside A cap B (inf_component_meets); use c_ext_connexe_of_connectedSpace, whose hypotheses are the paper's (M connected) plus N T2 and CurvesExtend.",
+    "Convexity is false without causal arc-connectedness for non-absolutely-minimal (non-local) causalities (gated line witness, which is not absolutely minimal; kb/0019 scope); open under Level A. A causality whose relations are not realised by curves (nor by chains of localised relations) can add relations that Cauchy surfaces, defined through curves, do not see. Carry CausallyArcConnectedOn B (flat instances have it).",
+    "Abstract counterexamples on a disjoint union ℝ ⊕ Unit are cheap: inl ∘ g (g strictly monotone, continuous, open) is an IsEMorphism from timelikeLine, so isCauchySurfaceOn_image_iff transports {s} Cauchy; causal curves stay in one summand (Sum.isLeft continuous into discrete Bool on each segment)."
   ],
-  "notes": "Model-free; imports CausalScaffold.SubExtension (for isConnected_of_homeomorph; none of its sorry'd declarations is used — #print axioms on isCauchyInclusion_iSup, c_ext_connexe', inf_causallyConvexIn, IsCauchyInclusion.causallyConvexIn and the witness gives [propext, Classical.choice, Quot.sound]) and CausalScaffold.CurvesExtend (relative CurvesExtendOn from a time function). Not added to the scaffold root (kb/0025: the master does it). Built only with `taskset -c 0-11 lake env lean`; `lake build` not run per dispatch. Design-step (1) is stated relative to an ambient open B (B = ⊤ gives the design's form); step (2) is stated for a non-empty family inside one spacetime, where compatibility is automatic; a CurvesExtendOn/CausallyArcConnectedOn pair on B is what Pgcd must supply for B = M1 (for B = ⊤ they are CurvesExtend and CausallyArcConnected, definitionally). c_ext_connexe' has the hypotheses of SubExtension.c_ext_connexe minus hDac, hthrough (and the sorry beneath it), so it can replace it in Pgcd's gluing step."
+  "notes": "Wave-2 revision of the wave-1 file (same package, same names kept; no downstream user exists yet). Model-free; imports CausalScaffold.SubExtension (isConnected_of_homeomorph, timelikeLine witnesses), CausalScaffold.CurvesExtend (relative CurvesExtendOn from a time function), CausalScaffold.CompactCauchy (timelikeLine_isCauchySurface_singleton, for the witness) and Mathlib.Order.Interval.Set.IsoIoo (orderIsoIooNegOneOne); none of SubExtension's sorry'd declarations is used — #print axioms on gateLine_cauchyInclusion_not_causallyConvex, gateLine_not_absolutelyMinimalOn, c_ext_connexe_of_connectedSpace, isCauchyInclusion_iSup, isCauchyInclusion_iSup_of_common, isCauchySurfaceOn_iSup, isCauchySurfaceOn_inf_iff, timelikeLine_causalConvex_proper gives [propext, Classical.choice, Quot.sound]. Zero errors, zero warnings. Not added to the scaffold root (kb/0025: the master does it). Built only with `taskset -c 0-11 lake env lean`; `lake build` not run per dispatch. Name grep over Causal/, scaffold/ and lean-gx: no collision. For Pgcd: use isCauchyInclusion_iSup (or _of_common) with B = M1, supplying CausallyArcConnectedOn M1 and CurvesExtendOn M1; for the gluing step use c_ext_connexe_of_connectedSpace in place of SubExtension.c_ext_connexe. The witness namespace is Causal (as the timelikeLine witnesses), names prefixed gate*. Fixer pass (post-audit): wording of the arc-connectedness necessity scoped to non-absolutely-minimal (non-local) causalities in the module docstring, the witness docstring, the checklist and this REPORT (kb/0014, kb/0019), and the witness statement now conjoins ¬ AbsolutelyMinimalOn gateLine ⊤ (gateLine_not_absolutelyMinimalOn moved before it); hC dropped from Causality.isCauchySurfaceOn_iSup (uniqueness by CurvesExtendOn B on the segment) and from its two call sites; design numbering made consistent (§3 step 1 = lem:C_ext_connexe, §3 step 3 = convexity and union); hypothesis rows reclassified (ambient-B hypotheses of the union strengthened / named; non-paper items moved to findings); new non-trivial witness timelikeLine_causalConvex_proper (A = ]-1,1[ ⊊ B = ℝ); dead obtain removed from c_ext_connexe_of_connectedSpace. Rebuilt: zero errors, zero warnings, no sorry. For Pgcd: cauchy_pgcd's signature (SubExtension.lean:519) carries neither CausallyArcConnected M1 nor CurvesExtend M1; the package must supply both (flat: flatCausality_causallyArcConnected; CurvesExtend from a time function)."
 }

@@ -67,9 +67,9 @@ filtrante à droite et donc admet une limite inductive").
 | Sbierski Thm 2.8 / ETT `theo:CBG` gluing | here |
 |---|---|
 | a set-indexed family of GHDs, `U_{ik}` the MCGHDs, `ψ_{ik}` isometric embeddings | ⚠ weakened: any index type `I`, any topological spaces, `U i j` open, `φ i j` continuous with continuous inverse `φ j i` (the topological content of an injective structure morphism) |
-| (3.15) is an equivalence relation (transitivity from maximality of the MCGHD) | ✓ carried as the field `cocycle`; reflexivity and symmetry as `U_self`, `φ_self` (derived inverse law `φ_φ`) |
+| (3.15) is an equivalence relation (transitivity from maximality of the MCGHD) | ✓ carried: transitivity is the field `cocycle`; reflexivity is `U_self`, `φ_self`; symmetry is `φ_mem` with the derived inverse law `φ_φ` (`cocycle` at `k = i` plus `φ_self`). `φ_mem` (`φ i j` lands in `U j i`, hence with `φ_φ` `U j i = φ i j (U i j)`) is the symmetry of the MCGHD (`U_{ki} = ψ_{ik}(U_{ik})`), which Sbierski uses without stating it; package 10 must supply it |
 | Hausdorffness of `M̃` from Theorem 2.7 (pairs) | ✓ proved as an equivalence (`t2Space_iff`); no separation axiom on the pieces |
-| second countability of `M̃` (Geroch) | ⚠ different: here from `I` countable and the pieces second countable; Sbierski's `A` is uncountable and he uses Geroch's theorem, which is a geometry fact (design §1, `rem:CBG_manquant` (i)) |
+| second countability of `M̃` (Geroch) | ⚠ strengthened (added hypotheses `[Countable I]` and second-countable pieces; this is not Sbierski's point 5): Sbierski's `A` is uncountable and he uses Geroch's theorem, which is a geometry fact (design §1, `rem:CBG_manquant` (i)) |
 | the structure (metric, `𝕄≥0`-charts) of `M̃` | not here: the design's `Geometry.glue` (package 1) |
 | causalities of the pieces compatible along the `U i j` | ✓ carried: `CompatibleAlong` (necessary and sufficient, `exists_isGluedCausality_iff`) |
 
@@ -171,6 +171,8 @@ structure FamilyGlueData (I : Type v) (M : I → Type u) [∀ i, TopologicalSpac
   /-- The transition from `U i j` to `M j`. -/
   φ : ∀ i j : I, U i j → M j
   continuous_φ : ∀ i j, Continuous (φ i j)
+  /-- `φ i j` lands in `U j i` (with `φ_φ`, `U j i = φ i j (U i j)`): the symmetry of the MCGHD,
+  implicit in Sbierski; it gives the symmetry of (3.15). -/
   φ_mem : ∀ i j (x : U i j), φ i j x ∈ U j i
   U_self : ∀ i, U i i = ⊤
   φ_self : ∀ i (x : U i i), φ i i x = x

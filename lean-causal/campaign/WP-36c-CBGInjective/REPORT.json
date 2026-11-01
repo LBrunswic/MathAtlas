@@ -1,0 +1,145 @@
+{
+  "package": "WP-36c-CBGInjective",
+  "files": [
+    "scaffold/CausalScaffold/CBG/Injective.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "sbierski:lem:3.3",
+      "tex_lines": [],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.injOn_of_injOn_cauchy",
+        "Causal.CBG.injective_of_injOn_cauchy",
+        "Causal.CBG.injective_of_mapsTo_cauchy",
+        "Causal.CBG.sbierski_lemma_3_3",
+        "Causal.CBG.injective_of_globallyHyperbolic",
+        "Causal.CBG.minkowski_injective_hypotheses",
+        "Causal.CBG.minkowski_sbierski_lemma_3_3",
+        "Causal.CBG.timelikeLine_injective_of_globallyHyperbolic"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(M,g) globally hyperbolic",
+          "here": "strengthened",
+          "note": "abstract setting: a continuous T strictly increasing along <=_M is CARRIED (M Hausdorff); in the abstract framework GH(M) does not give T and T does not give GH, so the two are incomparable and T is an added hypothesis. Compact diamonds are never used. T is automatic for smooth GH spacetimes, and is derived from GH only under theo:geroch's (i)=>(ii) hypotheses (injective_of_globallyHyperbolic, via geroch_i_imp_ii). sbierski_lemma_3_3 carries GH(M) AND T."
+        },
+        {
+          "paper": "(M',g') globally hyperbolic",
+          "here": "strengthened",
+          "note": "principal form (injOn_of_injOn_cauchy, injective_of_injOn_cauchy): only N Hausdorff and causal (weaker than GH). injective_of_mapsTo_cauchy carries CausallyArcConnected and CurvesExtend of N; sbierski_lemma_3_3 carries GH(N) (its conclusion IsCauchyEmbedding contains it) AND CausallyArcConnected and CurvesExtend of N, as model facts (kb/0012) — strictly more than Sbierski prints in the abstract setting, automatic for smooth spacetimes."
+        },
+        {
+          "paper": "Sigma' a Cauchy surface of M'",
+          "here": "weakened",
+          "note": "only phi(Sigma) acausal in N; injective_of_mapsTo_cauchy recovers Sbierski's form (phi(Sigma) inside a Cauchy surface Sigma', acausal by IsCauchySurface.isAcausal)"
+        },
+        {
+          "paper": "psi an isometric immersion",
+          "here": "reading",
+          "note": "abstract E-morphism IsEMorphismOn / IsEMorphism (DEC-17); shown to be a local homeomorphism (exists_chart_of_isEMorphismOn)"
+        },
+        {
+          "paper": "psi|Sigma : Sigma -> Sigma' a diffeomorphism",
+          "here": "weakened",
+          "note": "injective on Sigma; surjectivity onto Sigma' used only for the IsCauchyEmbedding conclusion"
+        },
+        {
+          "paper": "Sigma Cauchy surface of M",
+          "here": "weakened",
+          "note": "Sigma a Cauchy surface of an open U of M (IsCauchySurfaceOn U), conclusion InjOn phi U, kb/0001; T strict along <=_M on all of M"
+        },
+        {
+          "paper": "uniqueness of geodesics (implicit rigidity)",
+          "here": "weakened",
+          "note": "not used: only uniqueness of lifts along a local homeomorphism with Hausdorff source"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Sbierski 1309.7591 Lemma 3.3 (p.13, pdftotext l.611-613): of 'psi|Sigma a diffeomorphism onto Sigma' only injectivity on Sigma and acausality of psi(Sigma) are used; neither GH of M' nor the Cauchy property of Sigma' is needed for injectivity.",
+        "Sbierski's step 'the geodesics psi.gamma and psi.sigma cannot intersect Sigma' more than once' is the acausality of psi(Sigma) together with causality of M'; his inextendible geodesic sigma is the maximal lift of psi.gamma, inextensible because it has no limit at its end (exists_lift), completed by an inextensible T-parametrised curve kappa (exists_inextensible_of_timeFunction)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "prop:Cauchy_pgcd",
+      "tex_lines": [
+        1945,
+        1966
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.injOn_of_injOn_cauchy"
+      ],
+      "hypotheses": [
+        {
+          "paper": "phi : pgcd -> M2 a M>=0-morphism with phi.i1 = i2",
+          "here": "strengthened",
+          "note": "instantiate U = pgcd (open of M1), Sigma = i1(Sigma0); phi injective on Sigma since i2 is. The instantiation ALSO needs two things beyond the paper's hypotheses: (a) a continuous T on M1 strictly increasing along <=_{M1} (a time function of M1; in the abstract setting not given by GH(M1), cf. theo:geroch (i)=>(ii)), and (b) acausality of phi(Sigma) = i2(Sigma0) in M2, which in the abstract setting comes from IsCauchySurface.isAcausal and needs CausallyArcConnected and CurvesExtend of M2 (model facts, kb/0012). Both are automatic for smooth spacetimes."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1945-1966: the proof never shows phi : pgcd -> M2 injective, so (pgcd, phi) is not shown to be a common sub-extension (ETT ledger gap 1, SubExtension 'nothing shows phi injective'). injOn_of_injOn_cauchy closes this gap in the open-set form the union needs; assembling cauchy_pgcd is package Pgcd."
+      ],
+      "questions": []
+    },
+    {
+      "label": "theo:CBG",
+      "tex_lines": [
+        1884
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.injective_of_injOn_cauchy",
+        "Causal.CBG.sbierski_lemma_3_3"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [
+        "Design §3 step 2 (Sbierski Lemma 3.3) supplied: morphisms of Cauchy developments (f.phi = phi') are injective, hence Cauchy embeddings, without being asked to be."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.CBG.IsLiftOn",
+    "Causal.CBG.IsLiftOn.mono",
+    "Causal.CBG.IsLiftOn.eqOn",
+    "Causal.CBG.IsLiftOn.extend",
+    "Causal.CBG.eq_of_lift_const",
+    "Causal.CBG.exists_lift",
+    "Causal.CBG.exists_chart_of_isEMorphismOn",
+    "Causal.CBG.locallyInjOn_of_isEMorphismOn",
+    "Causal.CBG.isEMorphismOn_dual",
+    "Causal.CBG.causalCurveOn_of_lift",
+    "Causal.CBG.exists_inextensible_through",
+    "Causal.CBG.eq_of_mem_Icc_of_isCausal",
+    "Causal.CBG.mem_of_map_mem_image",
+    "Causal.CBG.eq_of_curve_to_cauchy"
+  ],
+  "kb_proposals": [
+    "Path lifting along a local homeomorphism with Hausdorff source is in CBG/Injective.lean (exists_lift: full segment or half-open [a,e) with no limit; IsLiftOn.eqOn uniqueness): reuse it for any curve-lifting argument instead of geodesics.",
+    "An IsEMorphismOn C D U phi is a local homeomorphism on U with charts sourced in U (exists_chart_of_isEMorphismOn) and is a morphism of the dual causalities (isEMorphismOn_dual).",
+    "In the abstract framework GH(M) does not give a time function; theorems needing one carry T (continuous, strict along <=_M) and get it from geroch_i_imp_ii only under theo:geroch's hypotheses."
+  ],
+  "notes": "File was on disk complete from an earlier interrupted run of this package; this run re-verified it: `taskset -c 0-11 lake env lean scaffold/CausalScaffold/CBG/Injective.lean` exits with no errors and no warnings; #print axioms of every principal theorem and both Minkowski witnesses gives only propext, Classical.choice, Quot.sound; no sorry, no axiom. Imports CausalScaffold.CurvesExtend and CausalScaffold.Splitting only (no lean-gx). Public-name collision grep over Causal/ and scaffold/ (22 declarations, namespace Causal.CBG): none. Model-free; no ETT label marked. 'sbierski:lem:3.3' is not an ETT label; its status is 'partial', not 'closed': every hypothesis of Sbierski is weakened or read (IsEMorphism for isometric immersion, DEC-17) EXCEPT that the abstract framework's GH(M) does not provide a time function, so the theorems carry T (or, in injective_of_globallyHyperbolic, theo:geroch's (i)=>(ii) hypotheses) — an added hypothesis in the abstract setting, automatic for smooth GH spacetimes. lake build of the module not run (dispatch forbids lake build). FIX ROUND (audit of 2026-11-01): `taskset -c 0-11 lake env lean scaffold/CausalScaffold/CBG/Injective.lean` re-run after the edits: exit 0, no errors, no warnings; #print axioms on a /tmp scratch copy for injOn_of_injOn_cauchy, sbierski_lemma_3_3, injective_of_globallyHyperbolic, injective_of_mapsTo_cauchy, both Minkowski witnesses, timelikeLine_injective_of_globallyHyperbolic and eq_of_mem_Icc_of_isCausal: only propext, Classical.choice, Quot.sound. The scaffold root (scaffold/CausalScaffold.lean) does not import CausalScaffold.CBG.Injective, so make check's axiom sweep cannot see this module: the scaffold root must import CausalScaffold.CBG.Injective (kb/0025, master's edit). Vocabulary: in the abstract setting the time function T (and, for sbierski_lemma_3_3 / injective_of_mapsTo_cauchy, CausallyArcConnected and CurvesExtend of N) are STRENGTHENED (added) hypotheses, not weakenings; this is why sbierski:lem:3.3 stays 'partial'.",
+  "fix_round": {
+    "audit": "read-only audit, 6 minor, 0 blocking",
+    "applied": [
+      "checklist + REPORT: GH(M) row relabelled 'strengthened (abstract setting)': T carried, incomparable with GH, automatic for smooth GH, derived only under theo:geroch (i)=>(ii); GH(M') row now says sbierski_lemma_3_3 (and injective_of_mapsTo_cauchy) carry CausallyArcConnected and CurvesExtend of N as model facts (kb/0012)",
+      "prop:Cauchy_pgcd row: 'carried' -> 'strengthened', with the time function of M1 and acausality of i2(Sigma0) in M2 (IsCauchySurface.isAcausal + CausallyArcConnected + CurvesExtend) named",
+      "renamed Causal.CBG.CausalCurveIn.eq_of_mem_Icc -> Causal.CBG.eq_of_mem_Icc_of_isCausal (kb/0016; collision grep over Causal/ and scaffold/: none); 3 call sites updated",
+      "docstring of mem_of_map_mem_image: bold-backtick header replaced by '**φ⁻¹(φ Σ) ∩ U ⊆ Σ.**' (the inclusion actually proved; no mark shape)",
+      "added REPORT note: scaffold root must import CausalScaffold.CBG.Injective for make check's axiom sweep (kb/0025, master)",
+      "added witness Causal.CBG.timelikeLine_injective_of_globallyHyperbolic: every hypothesis of injective_of_globallyHyperbolic on the timelike line M^{1,0} with the Gaussian measure (timelikeLine_admissible_past_and_future), and the theorem applied. NOT on M^{1,d} as the audit suggested: minkowski_mesure_dieckmann rests on the tagged sorry minkowski_exists_measure (prop:mesure_dieckmann_Lorentz), which would make the witness sorry-dependent"
+    ],
+    "declined": []
+  }
+}

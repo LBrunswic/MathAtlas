@@ -42,7 +42,11 @@ in full, with no `sorry` and no rigidity:
   a lift of a causal curve is a causal curve (`causalCurveOn_of_lift`); `φ⁻¹(φ Σ) ∩ U ⊆ Σ`
   (`mem_of_map_mem_image`).
 * **Witnesses** (kb/0011): `minkowski_injective_hypotheses` (every hypothesis of the principal
-  theorem on `𝐌^{1,d}`, the identity, `{t = 0}`), `minkowski_sbierski_lemma_3_3`.
+  theorem on `𝐌^{1,d}`, the identity, `{t = 0}`), `minkowski_sbierski_lemma_3_3`;
+  `timelikeLine_injective_of_globallyHyperbolic` (every hypothesis of the globally hyperbolic
+  form on the timelike line `𝐌^{1,0}`, with the Gaussian measure; on `𝐌^{1,d}` the admissible
+  measure rests on the open item `prop:mesure_dieckmann_Lorentz` (`minkowski_exists_measure`),
+  so that witness is not used).
 
 ## The proof: lifts of curves for geodesics
 
@@ -64,8 +68,8 @@ maximal lift, inextensible because it has no limit — completed here by `κ`.
 
 | paper hypothesis | here |
 |---|---|
-| `(M, g)` globally hyperbolic | ⚠ weakened: `M` Hausdorff with a continuous `T` strictly increasing along `≤_M`; compact diamonds never used (`injective_of_globallyHyperbolic` gets `T` from GH) |
-| `(M', g')` globally hyperbolic | ⚠ weakened: `N` Hausdorff and causal (`sbierski_lemma_3_3` carries GH for its conclusion) |
+| `(M, g)` globally hyperbolic | ⚠ strengthened (abstract setting): `M` Hausdorff with a continuous `T` strictly increasing along `≤_M` carried — incomparable with GH in the abstract framework (GH does not give `T`, `T` does not give GH); compact diamonds never used; `T` is automatic for smooth GH spacetimes, and derived from GH only under the hypotheses of `theo:geroch` (i)⇒(ii) (`injective_of_globallyHyperbolic`); `sbierski_lemma_3_3` carries GH(M) **and** `T` |
+| `(M', g')` globally hyperbolic | principal form: `N` Hausdorff and causal (weaker than GH); `sbierski_lemma_3_3`: ⚠ strengthened — carries GH(N) (for its conclusion) **and** `CausallyArcConnected`, `CurvesExtend` of `N` as model facts (kb/0012), as does `injective_of_mapsTo_cauchy` |
 | `Σ`, `Σ'` Cauchy surfaces | `Σ` ✓ (of the open `U`); `Σ'` ⚠ weakened to: `φ(Σ)` acausal |
 | `ψ` an isometric immersion | ⚠ reading: `IsEMorphismOn` (DEC-17) |
 | `ψ|_Σ : Σ → Σ'` a diffeomorphism | ⚠ weakened: injective on `Σ`; onto `Σ'` only for the `IsCauchyEmbedding` conclusion |
@@ -73,7 +77,8 @@ maximal lift, inextensible because it has no limit — completed here by `κ`.
 
 ## SCOPE (disclosed)
 
-* `T` replaces global hyperbolicity of `M` because step (3) extends a curve over a half-open
+* `T` is carried in place of global hyperbolicity of `M` (an added hypothesis in the abstract
+  setting, see the checklist) because step (3) extends a curve over a half-open
   interval: the library's `CurvesExtend` covers segments only, and `T` is also what
   parametrises `κ`. No compactness of diamonds is used.
 * Rigidity is not used and not needed: Sbierski uses uniqueness of geodesics only as uniqueness
@@ -385,7 +390,7 @@ theorem exists_inextensible_through (hTc : Continuous T)
 
 /-- In a causal spacetime, a causal curve taking one value at two parameters is constant between
 them. -/
-theorem CausalCurveIn.eq_of_mem_Icc {I : Set ℝ} {c : ℝ → N} (hD : D.IsCausal)
+theorem eq_of_mem_Icc_of_isCausal {I : Set ℝ} {c : ℝ → N} (hD : D.IsCausal)
     (hc : D.CausalCurveIn ⊤ I c) {s s' r : ℝ} (hs : s ∈ I) (hs' : s' ∈ I) (hr : r ∈ Icc s s')
     (h : c s = c s') : c r = c s := by
   have hrI : r ∈ I := hc.ordConnected.out hs hs' hr
@@ -394,7 +399,7 @@ theorem CausalCurveIn.eq_of_mem_Icc {I : Set ℝ} {c : ℝ → N} (hD : D.IsCaus
   rw [← h] at h2
   exact hD h2 h1
 
-/-- **`φ⁻¹(φ Σ) ∩ U = Σ ∩ U`.** If `x ∈ U` and `φ x ∈ φ(Σ)`, then `x ∈ Σ`: an inextensible curve
+/-- **φ⁻¹(φ Σ) ∩ U ⊆ Σ.** If `x ∈ U` and `φ x ∈ φ(Σ)`, then `x ∈ Σ`: an inextensible curve
 of `U` through `x` meets `Σ` at a point `v`; `φ x` and `φ v` are causally related points of the
 acausal set `φ(Σ)`, hence equal; `N` being causal, `φ` is constant along the curve between them,
 so the curve (a lift of a constant) is constant there, and `x = v`. Injectivity on `Σ` is not
@@ -416,11 +421,11 @@ theorem mem_of_map_mem_image [T2Space M] (hφ : IsEMorphismOn C D U φ) (hTc : C
   rcases le_total s s' with h | h
   · have heq : φ (β s) = φ (β s') := hac _ hx _ hvS (hmap (hβ.1.le_of_le hs hs' h))
     have := eq_of_lift_const hinjl h (hβ.1.continuousOn_Icc hs hs') (hβU hs hs')
-      (fun r hr => CausalCurveIn.eq_of_mem_Icc hD hφβ hs hs' hr heq)
+      (fun r hr => eq_of_mem_Icc_of_isCausal hD hφβ hs hs' hr heq)
     rw [← this]; exact hv
   · have heq : φ (β s') = φ (β s) := hac _ hvS _ hx (hmap (hβ.1.le_of_le hs' hs h))
     have := eq_of_lift_const hinjl h (hβ.1.continuousOn_Icc hs' hs) (hβU hs' hs)
-      (fun r hr => CausalCurveIn.eq_of_mem_Icc hD hφβ hs' hs hr heq)
+      (fun r hr => eq_of_mem_Icc_of_isCausal hD hφβ hs' hs hr heq)
     rw [this]; exact hv
 
 /-- **Lemma 3.3, the case of a future curve from `q` to `Σ`**, in an open set `U`. Let `p, q ∈ U`,
@@ -541,7 +546,7 @@ theorem eq_of_curve_to_cauchy [T2Space M] [T2Space N] (hφ : IsEMorphismOn C D U
       have htb : t ≤ b := htIco.2.le.trans he.2
       have htI' : t ∈ I := hIab ⟨htI.1, htb⟩
       have heq : c t = c b := hac _ hct _ hcb (hc.le_of_le htI' hb htb)
-      exact key t htIco fun r hr => (CausalCurveIn.eq_of_mem_Icc hD hc htI' hb hr heq).trans heq
+      exact key t htIco fun r hr => (eq_of_mem_Icc_of_isCausal hD hc htI' hb hr heq).trans heq
 
 /-! ### Lemma 3.3 -/
 
@@ -636,6 +641,32 @@ theorem minkowski_sbierski_lemma_3_3 (d : ℕ) :
   exact sbierski_lemma_3_3 minkowski_globallyHyperbolic minkowski_globallyHyperbolic
     IsEMorphism.id continuous_fst minkowski_time_strict.2 hS (by rw [image_id]; exact hS)
     (injOn_id _) minkowski_causallyArcConnected (minkowski_curvesExtend d)
+
+/-- **The globally hyperbolic form is non-vacuous** (kb/0011): on the timelike line `𝐌^{1,0}`
+with the standard Gaussian measure (`timelikeLine_admissible_past_and_future`), every hypothesis
+of `injective_of_globallyHyperbolic` holds for the identity and the Cauchy surface `{0}`, and it
+applies. (On `𝐌^{1,d}` the admissible measure is `minkowski_mesure_dieckmann`, which rests
+on the open item `prop:mesure_dieckmann_Lorentz` (`minkowski_exists_measure`); it is
+deliberately not used here.) -/
+theorem timelikeLine_injective_of_globallyHyperbolic :
+    (timelikeLine.AdmissibleFuture (ProbabilityTheory.gaussianReal 0 1) ∧
+      timelikeLine.AdmissiblePast (ProbabilityTheory.gaussianReal 0 1) ∧ timelikeLine.Tarentin ∧
+      timelikeLine.CausallyArcConnected ∧ (∀ p : ℝ, timelikeLine.Jminus ⊤ {p} ≠ {p}) ∧
+      (∀ p : ℝ, timelikeLine.Jplus ⊤ {p} ≠ {p}) ∧ timelikeLine.GloballyHyperbolic ∧
+      IsEMorphism timelikeLine timelikeLine id ∧ timelikeLine.IsCauchySurface ({0} : Set ℝ) ∧
+      InjOn id ({0} : Set ℝ) ∧ timelikeLine.IsAcausal (id '' ({0} : Set ℝ)) ∧
+      timelikeLine.IsCausal) ∧ Injective (id : ℝ → ℝ) := by
+  have hac : timelikeLine.IsAcausal (id '' ({0} : Set ℝ)) := by
+    rw [image_id]; exact timelikeLine_isAcausal_zero
+  refine ⟨⟨timelikeLine_admissible_past_and_future.2, timelikeLine_admissible_past_and_future.1,
+    timelikeLine_tarentin, timelikeLine_causallyArcConnected, timelikeLine_Jminus_ne,
+    timelikeLine_Jplus_ne, timelikeLine_globallyHyperbolic, IsEMorphism.id,
+    timelikeLine_isCauchySurface_zero, injOn_id _, hac, timelikeLine_isCausal⟩, ?_⟩
+  exact injective_of_globallyHyperbolic (C := timelikeLine) (D := timelikeLine)
+    timelikeLine_admissible_past_and_future.2 timelikeLine_admissible_past_and_future.1
+    timelikeLine_tarentin timelikeLine_causallyArcConnected timelikeLine_Jminus_ne
+    timelikeLine_Jplus_ne timelikeLine_globallyHyperbolic IsEMorphism.id
+    timelikeLine_isCauchySurface_zero (injOn_id _) hac timelikeLine_isCausal
 
 end CBG
 
