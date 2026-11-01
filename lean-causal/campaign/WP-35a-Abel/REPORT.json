@@ -27,7 +27,10 @@
     "Causal.Flat.gamma4_not_fix_timelike",
     "Causal.Flat.bcor_abel_hypotheses_witness",
     "Causal.Flat.IsVirtuallyFreeAbelian",
-    "Causal.Flat.IsSpacelikeAffine"
+    "Causal.Flat.IsSpacelikeAffine",
+    "Causal.Flat.bcor_abel_virtual",
+    "Causal.Flat.bcor_abel_twoNull_virtual",
+    "Causal.Flat.bcor_abel_unified"
    ],
    "hypotheses": [
     {
@@ -38,30 +41,31 @@
     {
      "paper": "Gamma preserves a spacelike affine subspace U (l.2295)",
      "here": "carried",
-     "note": "IsSpacelikeAffine U (every nonzero direction vector spacelike; a point qualifies), U nonempty, Gamma-invariant"
+     "note": "IsSpacelikeAffine U (every nonzero direction vector spacelike; a point qualifies), U nonempty, Gamma-invariant; a point qualifies only under the point reading (relevant at d = 2 only)"
     },
     {
      "paper": "Delta subset U^perp timelike (proof, l.2300)",
      "here": "strengthened",
-     "note": "bcor_abel asks Delta = R v Gamma-invariant (L(gamma) v in R v); necessary, since without it the statement is false (not_bcorAbelPrinted). Orthogonality Delta perp U is not used (weakened). bcor_abel_twoNull replaces it by two Gamma-invariant null directions (the [10.M] shape)"
+     "note": "bcor_abel asks Delta = R v Gamma-invariant (L(gamma) v in R v). Some strengthening is necessary (not_bcorAbelPrinted); Gamma-invariance of a timelike Delta is one sufficient strengthening (only virtually needed: bcor_abel_virtual, a finite-index Gamma0 <= Gamma preserving Delta), two Gamma0-invariant null directions another (bcor_abel_twoNull, bcor_abel_twoNull_virtual, the [10.M] shape); bcor_abel_unified takes the disjunction. Orthogonality Delta perp U is not used (weakened)"
     },
     {
      "paper": "Bieberbach's Theorem (l.2305)",
      "here": "carried",
-     "note": "external BieberbachI (DEC-36, Flat/Bieberbach) in dimension dim U (bcor_abel) or 1 + dim U (bcor_abel_twoNull); a Prop hypothesis, not an axiom"
+     "note": "external BieberbachI (DEC-36, Flat/Bieberbach) in dimension dim U (bcor_abel, bcor_abel_virtual), 1 + dim U (bcor_abel_twoNull, bcor_abel_twoNull_virtual), both (bcor_abel_unified); a Prop hypothesis, not an axiom"
     }
    ],
    "sorries": [],
    "findings": [
-    "Cor 8.4 (l.2295-2296) is FALSE as printed, now formalized (not_bcorAbelPrinted, no sorry, axioms propext/Classical.choice/Quot.sound) in every dimension d >= 2 (Barbot's n >= 3). Witness bcor_abel_counterexample: Gamma4 = image of the level-4 congruence subgroup Gamma(4) of SL(2,Z) acting on (t,x0,x1) by X = [[t+x0,x1],[x1,t-x0]] -> M X M^T and trivially on the other coordinates; Sigma = the hyperboloid. Hypotheses satisfied: CCAction Gamma4 Sigma (Sigma satisfies (CC'), is Gamma4-invariant, the action is free (a fixed point in H^2 forces |tr M| < 2 while tr M = 2 mod 4) and properly discontinuous (integer entries bounded on compacta)), i.e. Gamma4 is the holonomy of the Cauchy-complete GH flat spacetime Gamma4 \\ {t > |x|} in the DEC-35 reading; Gamma4 fixes POINTWISE the spacelike U = {t = x0 = x1 = 0} (a point for d = 2, a line for d = 3, containing e_i for i >= 2). Conclusion fails: no finite-index subgroup of Gamma4 is commutative (u^k l^m != l^m u^k for the two unipotent generators), so Gamma4 is not virtually Z^k. The spacetime is Cauchy-complete, not Cauchy-compact (Gamma(4) is not cocompact); the earlier Fuchsian x Z example (cocompact) is not formalized.",
+    "Cor 8.4 (l.2295-2296) is FALSE as printed, now formalized (not_bcorAbelPrinted, no sorry, axioms propext/Classical.choice/Quot.sound) in every dimension d >= 3 (Barbot's n >= 4) unconditionally (U a line or larger), and at d = 2 (Barbot's n = 3) under the reading of a point as a spacelike affine subspace. Witness bcor_abel_counterexample: Gamma4 = image of the level-4 congruence subgroup Gamma(4) of SL(2,Z) acting on (t,x0,x1) by X = [[t+x0,x1],[x1,t-x0]] -> M X M^T and trivially on the other coordinates; Sigma = the hyperboloid. Hypotheses satisfied: CCAction Gamma4 Sigma (Sigma satisfies (CC'), is Gamma4-invariant, the action is free (a fixed point in H^2 forces |tr M| < 2 while tr M = 2 mod 4) and properly discontinuous (integer entries bounded on compacta)), so Gamma4 meets Section 8's standing hypotheses in the DEC-35 reading; the spacetime Gamma4 \\ {t > |x|} itself is not constructed (DEC-35's bridge runs paper hypotheses => CCAction, not back; the converse for this witness, a GH quotient with complete Cauchy surface Gamma4\\H, is true but not built here); Gamma4 fixes POINTWISE the spacelike U = {t = x0 = x1 = 0} (a point for d = 2, a line for d = 3, containing e_i for i >= 2). Conclusion fails: no finite-index subgroup of Gamma4 is commutative (u^k l^m != l^m u^k for the two unipotent generators), so Gamma4 is not virtually Z^k. The spacetime is Cauchy-complete, not Cauchy-compact (Gamma(4) is not cocompact); the earlier Fuchsian x Z example (cocompact) is not formalized.",
     "The failing step is l.2300-2301 'the action of Gamma on pi(U) has to be free and properly discontinuous, and the same is true for the action on U': its freeness half on U is refuted as a Prop (not_bcorAbelStepPrinted: Gamma4 fixes U pointwise). pi is Gamma-equivariant only if Delta is Gamma-invariant, and no nontrivial element of Gamma4 preserves any timelike direction (gamma4_not_fix_timelike).",
-    "Strongest true form (bcor_abel): add 'Delta = R v is Gamma-invariant' (equivalently L(Gamma) fixes the future timelike v, linOf_eq_self_of_smul). Then Gamma acts freely and properly discontinuously on ALL of M^n (abel_free_of_fix, abel_proper_of_fix, unconditional: the line x + R v meets Sigma at s with gamma s - s = gamma x - x), the restriction Gamma -> Isom(U) (read in an orthonormal frame of U, exists_spacelike_frame, Mazur-Ulam) is injective with discrete image, and BieberbachI gives a finite-index subgroup ~ Z^m, m <= dim U. Delta perp U is not needed.",
+    "A true repaired form (bcor_abel): add 'Delta = R v is Gamma-invariant' (equivalently L(Gamma) fixes the future timelike v, linOf_eq_self_of_smul). Then Gamma acts freely and properly discontinuously on ALL of M^n (abel_free_of_fix, abel_proper_of_fix, unconditional: the line x + R v meets Sigma at s with gamma s - s = gamma x - x), the restriction Gamma -> Isom(U) (read in an orthonormal frame of U, exists_spacelike_frame, Mazur-Ulam) is injective with discrete image, and BieberbachI gives a finite-index subgroup ~ Z^m, m <= dim U. Delta perp U is not needed.",
     "[10.M] l.3326 ('As in corollary abel, we see that the action on pi_P^{-1}(0) is free and properly discontinuous'): false as printed too, since there L(Gamma) preserves two null directions and a pure boost fixes P pointwise (Misner; not formalized). The true replacement is bcor_abel_twoNull: if Gamma preserves a spacelike U and two distinct null directions R l0, R l1 (eigenvalues lambda^{-1}, lambda), gamma -> (log lambda(gamma), gamma|_U) embeds Gamma discretely in Isom(R x U), so Gamma is virtually Z^m, m <= dim U + 1 (conditional on BieberbachI(R x R^{dim U})). Neither l_i perp U nor dim U = d - 1 is used. It yields 'virtually abelian' for [10.M], not yet the 'linear twisted product over a Misner spacetime' conclusion.",
+    "Virtual and unified forms: bcor_abel_virtual and bcor_abel_twoNull_virtual ask the invariant direction(s) only of a finite-index Gamma0 <= Gamma (CCAction restricts to subgroups; finite index is transitive, Subgroup.relIndex_ne_zero_trans); bcor_abel_unified takes 'Gamma0 preserves a timelike direction OR two distinct null directions', conclusion virtually Z^m, m <= dim U + 1, conditional on BieberbachI in dims dim U and dim U + 1. These are the most general forms in the file; no claim is made that any is the strongest true form.",
     "Prop 10.4 (l.3355-3356, spacelike case) cannot be served by either corrected form: there L(Gamma) is non-elementary, and in that regime Cor 8.4's conclusion fails (the Gamma4 example is non-elementary); Flat/Loxodromic's route around Cor 8.4 stands."
    ],
    "questions": [
     "Is a point (0-dimensional U) a 'spacelike affine subspace' in Barbot's sense? The formalization admits it (IsSpacelikeAffine is vacuous on direction {0}); the counterexample does not depend on this for d >= 3, where U is at least a line.",
-    "Which corrected statement should the ledger row carry as principal (kb/0022): bcor_abel (Delta-invariant, the repair of the printed proof) or bcor_abel_twoNull (the shape [10.M] uses)? Both are in the file; the author may want a single statement covering 'L(Gamma)|_{U^perp} fixes a timelike vector or two null directions'."
+    "Which corrected statement should the ledger row carry as principal (kb/0022): bcor_abel (Delta-invariant, the repair of the printed proof), bcor_abel_twoNull (the shape [10.M] uses), or bcor_abel_unified (virtual, timelike-or-two-null, which answers the earlier request for a single statement)?"
    ]
   }
  ],
@@ -88,7 +92,7 @@
   "Causal.Flat.isClosed_of_ccPrime",
   "Causal.Flat.abel_finite_dist_le",
   "Causal.Flat.exists_spacelike_frame",
-  "Causal.Flat.SpSub",
+  "Causal.Flat.AbelSpSub",
   "Causal.Flat.uFrameConj",
   "Causal.Flat.uFrameHom",
   "Causal.Flat.tnConj",
@@ -106,5 +110,5 @@
   "Flat/Examples defines Causal.Flat.frameConj (conjugating a group by an isometry); importing Examples clashes with any new 'frameConj'. Grep the imported modules, not only the target directory.",
   "In a long proof over WithLp 2 (R x E) and a set-bound monoid hom, 'set' and 'rw ... at' on dist hypotheses hit isDefEq timeouts; isolate WithLp arithmetic in small standalone lemmas (abel_dist_L2_bound, twoNull_disp_bound)."
  ],
- "notes": "Single file, no sorry, no axiom; #print axioms of not_bcorAbelPrinted, bcor_abel, bcor_abel_twoNull, abel_free_of_fix, abel_proper_of_fix = propext, Classical.choice, Quot.sound. Build: taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/Abel.lean, zero errors, zero warnings (~25 s). Imports: Flat.Develop, Flat.Bieberbach, Flat.Examples, Mathlib MazurUlam; none of the concurrently edited modules. 112 public names checked free across Causal/, scaffold/ and lean-gx (the first draft's frameConj collided with Flat/Examples and was renamed uFrameConj). bcor_abel and bcor_abel_twoNull are conditional on the external BieberbachI (DEC-36), carried as an explicit hypothesis. The label stays unmarked (printed statement false; corrected forms add a hypothesis). curation.toml's bcor:abel row ('No Lean ... not formalized') is now out of date: the counterexample is formalized here. The module is not yet in the scaffold root import list (kb/0025: the axiom sweep cannot see it until the master adds it)."
+ "notes": "Single file, no sorry, no axiom; #print axioms of not_bcorAbelPrinted, bcor_abel, bcor_abel_virtual, bcor_abel_twoNull, bcor_abel_twoNull_virtual, bcor_abel_unified, abel_free_of_fix, abel_proper_of_fix = propext, Classical.choice, Quot.sound. Build: taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/Abel.lean, zero errors, zero warnings (19 s wall at the fix pass; the audit measured 61 s, load-dependent). Imports: Flat.Develop, Flat.Bieberbach, Flat.Examples, Mathlib MazurUlam; none of the concurrently edited modules. Fix pass (after the read-only audit, 6 minor findings, all applied): 'i.e. holonomy of the GH spacetime' reworded to the DEC-35 reading with the spacetime not constructed; 'Delta-invariance necessary' reworded to 'some strengthening necessary, Delta-invariance one sufficient strengthening'; virtual and unified forms added and 'strongest true form' softened to 'a true repaired form'; the dimension claim split into d >= 3 unconditional and d = 2 under the point reading; generic helpers renamed or made private (coordT/coord0/coord1 -> abelCoordT/abelCoord0/abelCoord1, cT_eq -> abelCoordT_eq, SpSub -> AbelSpSub; int_abs_le_sq, four_le_sq_two_add_four_mul, injective_of_minkQ private; CCAction restriction kept as a private abel_ccAction_mono, since Flat/Nonloxodromic has a public CCAction.mono). 112 public names, all grepped free across LeanArticles (new: bcor_abel_virtual, bcor_abel_twoNull_virtual, bcor_abel_unified, abelCoord*, AbelSpSub). The first draft's frameConj collided with Flat/Examples and was renamed uFrameConj. bcor_abel* are conditional on the external BieberbachI (DEC-36), carried as an explicit hypothesis. The label stays unmarked (printed statement false; corrected forms add a hypothesis). curation.toml's bcor:abel row ('No Lean ... not formalized') is now out of date: the counterexample is formalized here. The module is not yet in the scaffold root import list (kb/0025: the axiom sweep cannot see it until the master adds it)."
 }

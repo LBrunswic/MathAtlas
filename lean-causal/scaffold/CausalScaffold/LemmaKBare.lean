@@ -1,21 +1,26 @@
 import CausalScaffold.CompactCauchy
 import CausalScaffold.Splitting
 import CausalScaffold.CurvesExtend
+import Causal.Model.Massive
 
 /-!
 # Lemma K without a splitting — a compact connected locally Cauchy set is a Cauchy surface when its strict causal future and past are open
 
 No label is marked. Lemma K is DEC-44's abstraction of a sentence Barbot asserts twice and never
-proves (Rem 2.3 `clomax`, `GHFspace.tex:571–579` of the labelled file, the sentence at l.576–578;
-§11, l.3537–3540 and l.3578–3580); its bare form is `isCauchySurface_of_isLocallyCauchy`
-(`CausalScaffold.CompactCauchy`), a tagged `sorry`. This file **settles the bare form wherever
-curves extend, `C` has push-up and `Z^± = M`** (e.g. every static spacetime over a proper
-connected geodesic space), with no splitting and no two-sidedness. It does not settle the bare
-form as stated: those three hypotheses are not among its hypotheses. Barbot's `𝐌ⁿ` is
-the library's `Minkowski d`, `n = d + 1` (it enters only through the static corollary).
+proves (Rem 2.3 `clomax`, label at `GHFspace.tex:572` of the labelled file, block l.571–579, the
+sentence at l.576–578; §11, l.3537–3540 and l.3578–3580); Lemma K itself carries no paper label.
+Its bare form is `isCauchySurface_of_isLocallyCauchy` (`CausalScaffold.CompactCauchy`), a tagged
+`sorry`. This file **settles the bare form wherever curves extend, `C` has push-up and
+`Z^± = M`** (e.g. every static spacetime over a proper geodesic space), with no splitting and no
+two-sidedness. It does not settle the bare form as stated: those three hypotheses are not among
+its hypotheses, and no counterexample was found (SCOPE). Barbot's `𝐌ⁿ` is the library's
+`Minkowski d`, `n = d + 1` (it enters only through the static corollary).
 
 > Cauchy-compact GH spacetimes are automatically absolutely maximal. Indeed, any spacelike
 > hypersurface in a given CGH spacetime is a Cauchy hypersurface. (Rem 2.3, l.576–578)
+
+False as written (a small spacelike disc; OQ-22, `docs/BARBOT-THEOREMS.md` §4); DEC-44's
+corrected form takes `Σ` compact and connected, which is Lemma K.
 
 > A fundamental observation is that in a GH spacetime, every closed spacelike hypersurface is
 > necessarely a Cauchy surface (§11, l.3537–3539)
@@ -25,18 +30,28 @@ the library's `Minkowski d`, `n = d + 1` (it enters only through the static coro
 * **The core** (`isCauchySurface_of_isLocallyCauchy_of_isOpen_strictJplus`): the exact
   hypotheses of the bare form, plus `CurvesExtend`, plus the openness of the **strict causal
   future** `{x | ∃ z ∈ Σ, z ≤ x, x ≠ z}` of `Σ` and of its strict past (`strictJplus`, for `C`
-  and `C.dual`). No global projection, no two-sidedness.
+  and `C.dual`). No global projection, no two-sidedness. **It subsumes `CompactCauchy`'s proved
+  form**: a splitting plus two-sidedness give both openness hypotheses
+  (`isOpen_strictJplus_of_isCauchySplitting`, through `CompactCauchy`'s graph step), and the
+  proved form is re-derived through the core (`isCauchySurface_of_isCauchySplitting_via_strictJplus`).
 * **The chronal form** (`isCauchySurface_of_isLocallyCauchy_of_chronal`): push-up and every
   point strongly tarentin in the future and in the past (`Z^± = M`) give both openness
-  conditions. Instances: **every static spacetime `ℝ × X` over a proper connected geodesic space**
-  (`staticCausality.isCauchySurface_of_compact_isLocallyCauchy`, hence Minkowski space, and
-  mathematically the flat `ℝ × torus` — no torus instance is built here), where the bare form therefore holds with no hypothesis on `Σ` beyond DEC-44's.
+  conditions. Instances: **every static spacetime `ℝ × X` over a proper geodesic space**
+  (`staticCausality.isCauchySurface_of_compact_isLocallyCauchy`; connectedness of `X` is derived,
+  `preconnectedSpace_of_geodesic`), hence Minkowski space and the massive-particle models `E_α`,
+  `α > 0` (`massive_isCauchySurface_of_compact_isLocallyCauchy`), and mathematically the flat
+  `ℝ × torus` — no torus instance is built here. Over any geodesic `X` the **bare statement
+  holds verbatim** for `C = staticCausality X` (`staticCausality.isCauchySurface_of_isLocallyCauchy_bare`):
+  global hyperbolicity of `ℝ × X` forces `X` proper (`properSpace_of_globallyHyperbolic`).
 * **Two-sided, no splitting** (`isCauchySurface_of_isLocallyCauchyTwoSided_of_isOpen_Jplus`): the
   proved form of `CompactCauchy` with its splitting replaced by "the causal future and past of an
-  open set are open".
+  open set are open" (implied by push-up and `Z^∓ = M`, `isOpen_Jplus_of_pushUp`).
 * **The gx shape** (`isCauchySurface_of_isLocallyCauchyTwoSided_of_pushUp`): the past side from
   push-up and `Z^+ = M` (both fields of `SingularFlatAxioms`, true at BTZ points), the future side
   from two-sidedness and "the causal future of an open set is open".
+
+The chronal, two-sided-open and gx forms are **alternatives, incomparable with `CompactCauchy`'s
+proved form** (neither hypothesis set implies the other); only the core subsumes it.
 
 The proof: (1) `Σ` is acausal — the set `A` of points of `Σ` in the strict future of `Σ` is open
 in `Σ` (hypothesis), closed in `Σ` (the closed relation of a GH spacetime minus an open
@@ -55,8 +70,8 @@ the strict sides off `Σ`), hence `M`. (3) an inextensible curve leaves `J^-(Σ)
 | `C.GloballyHyperbolic` | ✓ carried |
 | `Σ` compact, connected, `IsLocallyCauchy` | ✓ carried — no two-sidedness in the core |
 | — | ⚠ strengthened, named (kb/0012): `C.CurvesExtend` (as in `CompactCauchy`'s proved form) |
-| — | ⚠ strengthened: the strict future and past of `Σ` open — or, sufficient: `PushUp` and `Z^± = M`; or two-sidedness and causal openness of `J^±(V)`, `V` open |
-| a splitting `IsCauchySplitting` (the proved form's datum) | ⚠ weakened: **not used** |
+| — | ⚠ strengthened: the strict future and past of `Σ` open — or, sufficient: `PushUp` and `Z^± = M`; or two-sidedness and causal openness of `J^±(V)`, `V` open; or a splitting and two-sidedness |
+| a splitting `IsCauchySplitting` (the proved form's datum) | ⚠ weakened: **not used** by the core, which subsumes the proved form; the other three forms are incomparable with it |
 
 ## SCOPE (disclosed)
 
@@ -67,16 +82,34 @@ the strict sides off `Σ`), hence `M`. (3) an inextensible curve leaves `J^-(Σ)
   openness must come from the model: two-sidedness in the charts plus "`J^+(V)` open for `V`
   open" (`isCauchySurface_of_isLocallyCauchyTwoSided_of_pushUp`). No counterexample to the bare
   form was found: one must break at least one of `CurvesExtend`, `PushUp`, `Z^+ = M`,
-  `Z^- = M`, so none exists among static spacetimes over proper connected geodesic spaces (the
-  static corollary); and a fold of `Σ`
+  `Z^- = M`, so none exists among static spacetimes (the static corollaries); and a fold of `Σ`
   around a cylinder (`Σ` meeting a line twice) is excluded by step (1) — acausality from
   connectedness, given the openness hypothesis — with no projection to compare `Σ` with.
+* **Local non-static candidates examined (none is a counterexample; arguments not formalised
+  unless named).** The one-dimensional causalities — `timelikeLine`, `lightlikeLine` (push-up
+  vacuous, `Z^± = ∅`, the library's only `BTZAxioms` instance, `lightlikeLine_btzAxioms`),
+  `halfChronoLine` (`Z^-` fails at every `p ≤ -1`): a compact connected locally Cauchy
+  `Σ ⊆ ℝ` is an interval meeting the inextensible curve of a chart once, hence a point, and a
+  point is a Cauchy surface (`timelikeLine_isCauchySurface_singleton`,
+  `lightlikeLine_isCauchySurface_zero`). `spacelikeLine` violates `J^±(p) ≠ {p}`;
+  `orderLine` and `timelikeLineTop` are not local (kb/0014; the latter is not even causal). `puncturedPlane` has push-up and `Z^± = M`
+  but is not GH (a diamond around the puncture is not compact). The massive models `E_α` are
+  static (proved above). **Not tried**: gluings (`Causal/Pushout*.lean`) and any
+  `E_{≥0}`-manifold with a BTZ line and a compact Cauchy surface — none is constructed in the
+  importable library (`E_0` is not built, `Causal.Model.Massive`). A counterexample must
+  therefore live in dimension ≥ 2 and break `CurvesExtend`, push-up, `Z^+ = M` or `Z^- = M`;
+  the BTZ case (`Z^-` fails) is where gx would meet it.
 * `CurvesExtend` stays a named hypothesis (kb/0012), discharged on static spacetimes
   (`staticCausality.curvesExtend`) and under Geroch's hypotheses
   (`GloballyHyperbolic.curvesExtend`). It is not a field of `SingularFlatAxioms`, so gx owes it
   in every form here.
+* For the regular flat quotients `Γ\Ω` of Rem 2.3 and §11 the chronal form is mathematically
+  sufficient (smooth Lorentzian: push-up, `Z^± = M`, Geroch curve extension), but not yet
+  discharged in the library: no `PushUp`, `Z^±` or `CurvesExtend` instance exists for them; it is
+  owed by the Theorem B consumer.
 * Non-vacuity: the timelike line with `Σ = {0}` satisfies the hypotheses of the chronal form
-  (`timelikeLine_lemmaKBare_hypotheses`).
+  (`timelikeLine_lemmaKBare_hypotheses`) and jointly those of the two-sided and gx forms
+  (`timelikeLine_lemmaKBare_twoSided_hypotheses`); each form is applied there.
 * gx contract (a)–(f): not applicable; no length, metric or Lipschitz graph is defined here.
 * Not imported by the scaffold root `CausalScaffold.lean` (outside this package's write scope).
 
@@ -252,6 +285,19 @@ theorem isOpen_strictJplus_of_twoSided [T2Space M] (hcaus : C.IsCausal)
   refine ⟨z', hz'.1, C.le_trans hz'o' how, fun h => ?_⟩
   subst h
   exact hoS (hcaus how hz'o' ▸ hz'.1)
+
+/-- **The causal future of an open set is open** when `C` has push-up and `Z^- = M`: a point
+`v ∈ V` has a chronological past point `p ∈ V`, and `I^+(p) ⊆ J^+(V)` is a neighbourhood of every
+`x ≥ v`. So the extra hypotheses of the two-sided form follow from those of the chronal form. -/
+theorem isOpen_Jplus_of_pushUp (hpush : C.PushUp) (hZm : ∀ p : M, p ∈ C.Zminus) (V : Opens M) :
+    IsOpen (C.Jplus ⊤ V) := by
+  rw [isOpen_iff_mem_nhds]
+  rintro x ⟨v, hv, hvx⟩
+  obtain ⟨p, ⟨v', hv', hpv⟩, hpV⟩ := hZm v V (V.isOpen.mem_nhds hv)
+  rw [mem_singleton_iff] at hv'
+  rw [hv'] at hpv
+  exact mem_of_superset ((C.isOpen_lt_right ⊤ p).mem_nhds (hpush.lt_of_lt_of_le hpv hvx))
+    fun w hw => ⟨p, hpV, C.le_of_lt hw⟩
 
 /-! ### Step 1: acausality -/
 
@@ -451,6 +497,83 @@ theorem isCauchySurface_of_isLocallyCauchyTwoSided_of_pushUp [T2Space M] [Connec
       (dual_globallyHyperbolic.2 hG) (dual_causallyArcConnectedOn.2 hC) hJp hext.dual
       (dual_pushUp.2 hpush) hZp hSc.isClosed hloc.isLocallyCauchy.dual)
 
+/-! ### The core subsumes `CompactCauchy`'s proved form -/
+
+/-- **Under `CompactCauchy`'s data (a splitting and two-sidedness) the core's openness hypotheses
+hold**: the strict causal future of `Σ` is `{F > 0}` and its strict past `{F < 0}`, for the
+graph function `F = τ − h ∘ π` of `CompactCauchy` (`exists_graph`, `isAcausal_of_graph`). The
+derivation goes through `CompactCauchy`'s graph step, so it shows that the hypothesis sets nest,
+not a second proof of acausality. -/
+theorem isOpen_strictJplus_of_isCauchySplitting [T2Space M] [ConnectedSpace M] (hcaus : C.IsCausal)
+    (hC : C.CausallyArcConnected) (hext : C.CurvesExtend) {S₀ : Set M} {ψ : S₀ × ℝ ≃ₜ M}
+    (hψ : C.IsCauchySplitting S₀ ψ) {S : Set M} (hSc : IsCompact S) (hSconn : IsConnected S)
+    (hloc : C.IsLocallyCauchyTwoSided S) :
+    IsOpen (C.strictJplus S) ∧ IsOpen (C.dual.strictJplus S) := by
+  have hpt : ∀ q : M, ψ ((ψ.symm q).1, (ψ.symm q).2) = q := fun q => by
+    rw [Prod.mk.eta, ψ.apply_symm_apply]
+  obtain ⟨h, hcont, hgraph⟩ := exists_graph hcaus hC hext hψ hSc hSconn hloc
+  have hac : C.IsAcausal S :=
+    isAcausal_of_graph hcaus hC hext hψ hSc.isClosed hloc hcont hgraph
+  set F : M → ℝ := fun q => (ψ.symm q).2 - h (ψ.symm q).1 with hF
+  have hFc : Continuous F := (continuous_snd.comp ψ.symm.continuous).sub
+    (hcont.comp (continuous_fst.comp ψ.symm.continuous))
+  have hF0 : ∀ q, q ∈ S ↔ F q = 0 := fun q => by
+    have := hgraph (ψ.symm q).1 (ψ.symm q).2
+    rw [hpt] at this
+    rw [this]
+    simp only [hF, sub_eq_zero]
+  have hzS : ∀ q, ψ ((ψ.symm q).1, h (ψ.symm q).1) ∈ S := fun q => (hgraph _ _).2 rfl
+  have hFle : ∀ q, F q ≤ 0 → q ∈ C.Jminus ⊤ S := fun q hq => by
+    refine ⟨_, hzS q, ?_⟩
+    have := hψ.mono (ψ.symm q).1 (show (ψ.symm q).2 ≤ h (ψ.symm q).1 by
+      simp only [hF] at hq; linarith)
+    rwa [hpt] at this
+  have hFge : ∀ q, 0 ≤ F q → q ∈ C.Jplus ⊤ S := fun q hq => by
+    refine ⟨_, hzS q, ?_⟩
+    have := hψ.mono (ψ.symm q).1 (show h (ψ.symm q).1 ≤ (ψ.symm q).2 by
+      simp only [hF] at hq; linarith)
+    rwa [hpt] at this
+  have hP : C.strictJplus S = F ⁻¹' Ioi 0 := by
+    ext q
+    constructor
+    · rintro ⟨z, hz, hzq, hne⟩
+      by_contra hq
+      obtain ⟨w, hw, hqw⟩ := hFle q (not_lt.1 hq)
+      have hzw := hac z hz w hw (C.le_trans hzq hqw)
+      subst hzw
+      exact hne (hcaus hqw hzq)
+    · intro hq
+      have hq' : 0 < F q := hq
+      obtain ⟨z, hz, hzq⟩ := hFge q hq'.le
+      exact ⟨z, hz, hzq, fun he => hq'.ne' ((hF0 q).1 (he ▸ hz))⟩
+  have hM : C.dual.strictJplus S = F ⁻¹' Iio 0 := by
+    ext q
+    constructor
+    · rintro ⟨z, hz, hqz, hne⟩
+      by_contra hq
+      obtain ⟨w, hw, hwq⟩ := hFge q (not_lt.1 hq)
+      have hwz := hac w hw z hz (C.le_trans hwq hqz)
+      subst hwz
+      exact hne (hcaus hqz hwq)
+    · intro hq
+      have hq' : F q < 0 := hq
+      obtain ⟨z, hz, hqz⟩ := hFle q hq'.le
+      exact ⟨z, hz, hqz, fun he => hq'.ne ((hF0 q).1 (he ▸ hz))⟩
+  exact ⟨hP ▸ isOpen_Ioi.preimage hFc, hM ▸ isOpen_Iio.preimage hFc⟩
+
+/-- **`CompactCauchy`'s proved form, through the core**: its hypotheses imply the core's
+(`isOpen_strictJplus_of_isCauchySplitting`), so the core is a true generalisation of
+`isCauchySurface_of_isLocallyCauchyTwoSided`. -/
+theorem isCauchySurface_of_isCauchySplitting_via_strictJplus [T2Space M] [ConnectedSpace M]
+    (hT : C.Tarentin) (hG : C.GloballyHyperbolic) (hC : C.CausallyArcConnected)
+    (hJm : ∀ p : M, C.Jminus ⊤ {p} ≠ {p}) (hJp : ∀ p : M, C.Jplus ⊤ {p} ≠ {p})
+    (hext : C.CurvesExtend) {S₀ : Set M} {ψ : S₀ × ℝ ≃ₜ M} (hψ : C.IsCauchySplitting S₀ ψ)
+    {S : Set M} (hSc : IsCompact S) (hSconn : IsConnected S) (hloc : C.IsLocallyCauchyTwoSided S) :
+    C.IsCauchySurface S :=
+  have h := isOpen_strictJplus_of_isCauchySplitting hG.1 hC hext hψ hSc hSconn hloc
+  isCauchySurface_of_isLocallyCauchy_of_isOpen_strictJplus hT hG hC hJm hJp hext hSc hSconn
+    hloc.isLocallyCauchy h.1 h.2
+
 end Causality
 
 /-! ### Static spacetimes: the bare form holds -/
@@ -473,18 +596,77 @@ theorem Jplus_singleton_ne (p : ℝ × X) : (staticCausality X).Jplus ⊤ {p} �
   rw [h, mem_singleton_iff, Prod.ext_iff] at hmem
   simp at hmem
 
+/-- A geodesic space is preconnected: a geodesic is Lipschitz on `[0, 1]`. -/
+theorem preconnectedSpace_of_geodesic : PreconnectedSpace X := by
+  refine ⟨isPreconnected_of_forall_pair fun x _ y _ => ?_⟩
+  obtain ⟨g, hg0, hg1, hg⟩ := GeodesicSpace.exists_geodesic x y
+  have hL : LipschitzOnWith (nndist x y) g (Icc 0 1) :=
+    LipschitzOnWith.of_dist_le_mul fun s hs s' hs' => by
+      rw [hg s hs s' hs', Real.dist_eq, coe_nndist, mul_comm]
+  exact ⟨g '' Icc 0 1, subset_univ _, ⟨0, ⟨le_rfl, zero_le_one⟩, hg0⟩,
+    ⟨1, ⟨zero_le_one, le_rfl⟩, hg1⟩, isPreconnected_Icc.image g hL.continuousOn⟩
+
+/-- **Global hyperbolicity of `ℝ × X` forces `X` proper**: the closed ball `B(x, r)` is the
+spatial projection of the slice `t = r` of the diamond from `(0, x)` to `(2r, x)`. -/
+theorem properSpace_of_globallyHyperbolic (hG : (staticCausality X).GloballyHyperbolic) :
+    ProperSpace X := by
+  refine ProperSpace.of_isCompact_closedBall_of_le 0 fun x r hr => ?_
+  have hK : IsCompact ((staticCausality X).diamond ⊤ (0, x) (2 * r, x) ∩ ({r} ×ˢ univ)) :=
+    (hG.2 _ _).inter_right (isClosed_singleton.prod isClosed_univ)
+  convert hK.image continuous_snd using 1
+  ext y
+  constructor
+  · intro hy
+    rw [Metric.mem_closedBall] at hy
+    refine ⟨(r, y), ⟨Causality.mem_diamond.2 ⟨?_, ?_⟩, rfl, trivial⟩, rfl⟩
+    · rw [le_top_iff]; simp only; rw [dist_comm]; linarith
+    · rw [le_top_iff]; simp only; linarith
+  · rintro ⟨⟨t, y'⟩, ⟨hd, ht, -⟩, rfl⟩
+    rw [mem_singleton_iff] at ht
+    subst ht
+    obtain ⟨h1, -⟩ := Causality.mem_diamond.1 hd
+    rw [le_top_iff] at h1
+    simp only at h1
+    rw [Metric.mem_closedBall, dist_comm]; linarith
+
 /-- **Lemma K holds, in its bare DEC-44 form, on every static spacetime `ℝ × X` over a proper
-connected geodesic space**: a compact connected locally Cauchy set is a Cauchy surface. Minkowski
-space is an instance; the flat `ℝ × torus` (a translation spacetime) is one mathematically, but
-no torus instance is built in the library. -/
-theorem isCauchySurface_of_compact_isLocallyCauchy [ProperSpace X] [ConnectedSpace X]
+geodesic space**: a compact connected locally Cauchy set is a Cauchy surface. Connectedness of `X`
+is automatic (`preconnectedSpace_of_geodesic`, `X` non-empty as `Σ` is). Minkowski space and the
+massive-particle models `E_α`, `α > 0`, are instances; the flat `ℝ × torus` (a translation
+spacetime) is one mathematically, but no torus instance is built in the library. -/
+theorem isCauchySurface_of_compact_isLocallyCauchy [ProperSpace X]
     {S : Set (ℝ × X)} (hSc : IsCompact S) (hSconn : IsConnected S)
-    (hloc : (staticCausality X).IsLocallyCauchy S) : (staticCausality X).IsCauchySurface S :=
-  Causality.isCauchySurface_of_isLocallyCauchy_of_chronal tarentin globallyHyperbolic
+    (hloc : (staticCausality X).IsLocallyCauchy S) : (staticCausality X).IsCauchySurface S := by
+  haveI : PreconnectedSpace X := preconnectedSpace_of_geodesic
+  haveI : Nonempty X := ⟨hSconn.nonempty.some.2⟩
+  haveI : ConnectedSpace X := { toNonempty := inferInstance }
+  exact Causality.isCauchySurface_of_isLocallyCauchy_of_chronal tarentin globallyHyperbolic
     causallyArcConnected Jminus_singleton_ne Jplus_singleton_ne curvesExtend pushUp mem_Zplus
     mem_Zminus hSc hSconn hloc
 
+/-- **The bare statement `Causality.isCauchySurface_of_isLocallyCauchy`, verbatim, for
+`C = staticCausality X`** over any geodesic metric space `X`: properness is derived from global
+hyperbolicity (`properSpace_of_globallyHyperbolic`); the other hypotheses are carried only to
+match the bare signature (they hold automatically). -/
+theorem isCauchySurface_of_isLocallyCauchy_bare [T2Space (ℝ × X)] [ConnectedSpace (ℝ × X)]
+    (_hT : (staticCausality X).Tarentin) (hG : (staticCausality X).GloballyHyperbolic)
+    (_hC : (staticCausality X).CausallyArcConnected)
+    (_hJm : ∀ p : ℝ × X, (staticCausality X).Jminus ⊤ {p} ≠ {p})
+    (_hJp : ∀ p : ℝ × X, (staticCausality X).Jplus ⊤ {p} ≠ {p})
+    {S : Set (ℝ × X)} (hSc : IsCompact S) (hSconn : IsConnected S)
+    (hloc : (staticCausality X).IsLocallyCauchy S) : (staticCausality X).IsCauchySurface S := by
+  haveI := properSpace_of_globallyHyperbolic hG
+  exact isCauchySurface_of_compact_isLocallyCauchy hSc hSconn hloc
+
 end staticCausality
+
+/-- **The bare form on the massive-particle model `E_α`, `α > 0`** (`Causal.Model.Massive`, a
+singular flat model with a timelike singular line): a compact connected locally Cauchy set is a
+Cauchy surface. -/
+theorem massive_isCauchySurface_of_compact_isLocallyCauchy (α : ℝ) [Fact (0 < α)]
+    {S : Set (Massive α)} (hSc : IsCompact S) (hSconn : IsConnected S)
+    (hloc : (massive α).IsLocallyCauchy S) : (massive α).IsCauchySurface S :=
+  staticCausality.isCauchySurface_of_compact_isLocallyCauchy hSc hSconn hloc
 
 /-! ### Non-vacuity: the timelike line -/
 
@@ -508,5 +690,43 @@ theorem timelikeLine_isCauchySurface_zero_of_lemmaKBare :
     timelikeLine_lemmaKBare_hypotheses
   exact Causality.isCauchySurface_of_isLocallyCauchy_of_chronal hT hG hC hJm hJp hext hpush hZp
     hZm hSc hSconn hloc
+
+theorem timelikeLine_isOpen_Jplus (V : Opens ℝ) : IsOpen (timelikeLine.Jplus ⊤ V) :=
+  Causality.isOpen_Jplus_of_pushUp timelikeLine_pushUp timelikeLine_mem_Zminus V
+
+theorem timelikeLine_isOpen_Jminus (V : Opens ℝ) : IsOpen (timelikeLine.Jminus ⊤ V) :=
+  Causality.isOpen_Jplus_of_pushUp (C := timelikeLine.dual) (Causality.dual_pushUp.2 timelikeLine_pushUp)
+    timelikeLine_mem_Zplus V
+
+/-- The hypotheses of `isCauchySurface_of_isLocallyCauchyTwoSided_of_isOpen_Jplus` and of
+`isCauchySurface_of_isLocallyCauchyTwoSided_of_pushUp` hold jointly on the timelike line with
+`Σ = {0}`. -/
+theorem timelikeLine_lemmaKBare_twoSided_hypotheses :
+    timelikeLine.Tarentin ∧ timelikeLine.GloballyHyperbolic ∧
+      timelikeLine.CausallyArcConnected ∧ (∀ p : ℝ, timelikeLine.Jminus ⊤ {p} ≠ {p}) ∧
+      (∀ p : ℝ, timelikeLine.Jplus ⊤ {p} ≠ {p}) ∧ timelikeLine.CurvesExtend ∧
+      timelikeLine.PushUp ∧ (∀ p : ℝ, p ∈ timelikeLine.Zplus) ∧
+      (∀ V : Opens ℝ, IsOpen (timelikeLine.Jplus ⊤ V)) ∧
+      (∀ V : Opens ℝ, IsOpen (timelikeLine.Jminus ⊤ V)) ∧ IsCompact ({0} : Set ℝ) ∧
+      IsConnected ({0} : Set ℝ) ∧ timelikeLine.IsLocallyCauchyTwoSided ({0} : Set ℝ) := by
+  obtain ⟨hT, hG, hC, hJm, hJp, hext, -, hSc, hSconn, hloc⟩ := timelikeLine_lemmaK_hypotheses
+  exact ⟨hT, hG, hC, hJm, hJp, hext, timelikeLine_pushUp, timelikeLine_mem_Zplus,
+    timelikeLine_isOpen_Jplus, timelikeLine_isOpen_Jminus, hSc, hSconn, hloc⟩
+
+/-- The two-sided form of Lemma K applied on the timelike line. -/
+theorem timelikeLine_isCauchySurface_zero_of_lemmaKBare_twoSided :
+    timelikeLine.IsCauchySurface ({0} : Set ℝ) := by
+  obtain ⟨hT, hG, hC, hJm, hJp, hext, -, -, hOp, hOm, hSc, hSconn, hloc⟩ :=
+    timelikeLine_lemmaKBare_twoSided_hypotheses
+  exact Causality.isCauchySurface_of_isLocallyCauchyTwoSided_of_isOpen_Jplus hT hG hC hJm hJp
+    hext hOp hOm hSc hSconn hloc
+
+/-- The gx form of Lemma K applied on the timelike line. -/
+theorem timelikeLine_isCauchySurface_zero_of_lemmaKBare_gx :
+    timelikeLine.IsCauchySurface ({0} : Set ℝ) := by
+  obtain ⟨hT, hG, hC, hJm, hJp, hext, hpush, hZp, hOp, -, hSc, hSconn, hloc⟩ :=
+    timelikeLine_lemmaKBare_twoSided_hypotheses
+  exact Causality.isCauchySurface_of_isLocallyCauchyTwoSided_of_pushUp hT hG hC hJm hJp hext
+    hpush hZp hOp hSc hSconn hloc
 
 end Causal

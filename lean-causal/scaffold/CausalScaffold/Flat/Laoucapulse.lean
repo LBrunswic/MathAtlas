@@ -23,7 +23,8 @@ Line numbers are those of `papers/barbot/legacy/labeled/GHFspace.tex`. **No labe
   (`not_laoucapulseScaledReading_one`). **For `d = 1` (`n = 2`) in the conformal reading the printed
   equality `E = δ⁺⁻¹(U)` holds exactly**, for every isometry and every `s`
   (`laoucapulse_one`, `isExpandingAtWrt_penroseDist_one_iff`): `S⁰` is discrete, so only the fibre
-  `s ↦ a s + b` is seen. This is not a closure of the label, which covers every `n`.
+  `s ↦ a s + b` is seen. This is not a closure of the label, which covers every `n`. For `n ≥ 3`
+  the printed equality holds in the **volume** (Jacobian) reading, not formalized (SCOPE).
 * Consumers. l.1660–1661, the paper's **only** citation of Prop 4.2 (Sullivan's property (i) on
   `𝒥` along `Λ̂ × {0}`, trivial cocycle): `laoucapulse_cover`. `bprop:admlox` — `GHFspace.tex:1230`
   (Prop 4.17, owned by `Flat.Loxodromic`), unmarked: its step l.1254–1267 (the repulsive point
@@ -56,7 +57,12 @@ Line numbers are those of `papers/barbot/legacy/labeled/GHFspace.tex`. **No labe
 > negative iterates of $x$ under $\gamma$ converge towards $x_{0}$. (l.1260–1267)
 
 **Dimension (kb/0024).** Barbot's `n` is `d + 1`; `𝒮 ≅ S^{d−1}`. **Normalisation**: `Penrose`'s
-(`nullVec u = (1, u)`); `a(g, u) = penroseFactor (linearPart g) u = 1/c(L(g), u)`.
+(`nullVec u = (1, u)`); `a(g, u) = penroseFactor (linearPart g) u = 1/c(L(g), u)`. The
+identification is exact: Barbot's `N` is the euclidean norm (l.769–771), his `v ∈ 𝒮⁺` is
+`(1, u)/√2` (l.775–783; the printed `x₀ = 1/2` at l.783 is a slip for `1/√2`), and a null vector `w` has `N(w) = √2·|w₀|`, so
+`N(L(g)v) = (L(g)(1, u))₀ = lorentzScale (linearPart g) u`. His fibre coordinate `⟨v | p⟩` is
+`Penrose`'s `⟨(1, u) | p⟩ / √2`, and his sphere has radius `1/√2` against `1` here: both are
+global scalings, immaterial for expansion (scale-invariant) and absorbed by `fibreScale`.
 
 ## Hypothesis checklist
 
@@ -85,8 +91,21 @@ Line numbers are those of `papers/barbot/legacy/labeled/GHFspace.tex`. **No labe
   chordal distance agree to first order, so a rate `l < a` survives with a rate `> 1`; the `ℓ²`
   combination is not locally `1`-bi-Lipschitz to the sup one, and the zero-section estimate for it
   (same mechanism) is not written. The refutations transfer as `Penrose`'s SCOPE argues.
+* **Volume reading (not formalized; closes the printed equality for `n ≥ 3`).** In the product
+  Riemannian volume the differential of `g.(u, s) = ([L(g)]u, a(u)s + b(u))` is lower triangular:
+  a conformal sphere block of factor `a(g, u)`, the fibre entry `a(g, u)`, and the shear
+  `s·da + db` below the diagonal. Its Jacobian is `a(g, u)^d`, independent of `s`, of `lam` and of
+  the translation part; the sphere Jacobian of `[L(g)]` is `a(g, u)^{d−1}`. So for `d ≥ 2`
+  (`n ≥ 3`), "`g` is volume-expanding at `(u, s)`" ⟺ `a(g, u) > 1` ⟺ "`L(g)` is volume-expanding
+  at `u`", and the printed equality `E = δ⁺⁻¹(U)` holds exactly, for every isometry and every `s`
+  (as `Penrose`'s SCOPE notes: "the statement holds for volume expansion"). It is not the reading
+  l.1660 consumes: Sullivan's property (i) is metric expansion on `𝒮`, whose transfer to
+  `Λ̂ × {0}` is `laoucapulse_cover`. Which notion the author intends — metric, Sullivan's
+  derivative-norm, or volume — is an open question; the label stays unmarked.
 * **Sullivan's round metric** (l.1625–1627, l.1660) is "some fixed round metric on `𝒮` in the
-  natural conformal class", not necessarily the `N`-normalised one of Prop 4.2. Such a metric is
+  natural conformal class", not necessarily the `N`-normalised one of Prop 4.2. Reading "round" as
+  a Möbius image of the standard metric (automatic by Liouville for `n ≥ 4`; a reading for
+  `n = 3`, where `𝒮 = S¹` and every metric of length `2π` is round), such a metric is
   the pull-back of the `N`-normalised one by `[h]`, `h ∈ SO₀(1, d)` (a change of time axis); its
   conformal factor of `γ` at `v` is that of `h γ h⁻¹` at `[h]v`, and `h γ h⁻¹` is linear when `γ`
   is. So `laoucapulse_cover`, applied to the `h γ_i h⁻¹` and to `[h](Λ̂)`, gives the transported

@@ -12,18 +12,24 @@ lines of the **labelled** `papers/barbot/legacy/labeled/GHFspace.tex`. Package W
 `docs/BARBOT.md`), so the row is `partial`.
 
 * `bcor:abel` — `GHFspace.tex:2295` (Cor 8.4, l.2292–2305), partial:
-  - **refuted as printed** in every dimension `d ≥ 2` (Barbot's `n ≥ 3`), with no `sorry`:
+  - **refuted as printed**, with no `sorry`, in every dimension `d ≥ 3` (Barbot's `n ≥ 4`)
+    unconditionally (`U` a line or larger), and at `d = 2` (Barbot's `n = 3`) under the reading
+    of a point as a spacelike affine subspace:
     `not_bcorAbelPrinted` (the printed statement, kept as the `Prop` `BcorAbelPrinted`, kb/0022),
     `not_bcorAbelStepPrinted` (the proof's step "the action on `U` is free"), the witness
     packaged in `bcor_abel_counterexample`;
-  - **the strongest true form**, `bcor_abel`: the printed hypotheses **plus a `Γ`-invariant
+  - **a true repaired form**, `bcor_abel`: the printed hypotheses **plus a `Γ`-invariant
     timelike direction `Δ`** (the hypothesis the printed proof silently uses), conclusion
     "virtually `ℤᵐ`, `m ≤ dim U`", conditional only on the external `BieberbachI` in dimension
     `dim U` (DEC-36); the proof's first step under that hypothesis, unconditional:
     `abel_free_of_fix`, `abel_proper_of_fix` (`Γ` acts freely and properly on all of `𝐌ⁿ`);
+    its virtual form `bcor_abel_virtual` (only a finite-index `Γ₀ ≤ Γ` preserves `Δ`);
   - **the form its use at [10.M] needs**, `bcor_abel_twoNull`: `U` plus **two distinct null
     directions** preserved; `Γ ↪ Isom(ℝ × U)` discretely, virtually `ℤᵐ`, `m ≤ dim U + 1`
-    (external `BieberbachI (ℝ × ℝ^{dim U})`).
+    (external `BieberbachI (ℝ × ℝ^{dim U})`); its virtual form `bcor_abel_twoNull_virtual`;
+  - **the unified form**, `bcor_abel_unified`: a finite-index `Γ₀ ≤ Γ` preserves a timelike
+    direction **or** two distinct null directions; virtually `ℤᵐ`, `m ≤ dim U + 1`. No claim is
+    made that this is the strongest true form.
 
 > If $\Gamma$ preserves a spacelike affine subspace ${\bf U}$, then
 > $\Gamma$ contains as a finite index subgroup a free abelian group of finite rank. (l.2295–2296)
@@ -40,8 +46,9 @@ the level-4 congruence subgroup `Γ(4) ⊂ SL(2, ℤ)` acting on `(t, x₀, x₁
 `X = [[t + x₀, x₁], [x₁, t − x₀]] ↦ M X Mᵀ` (`sl2Lin`) and trivially on the other coordinates.
 With `Σ` the hyperboloid, `CCAction Γ₄ Σ` holds — (CC′), invariance, freeness (`gamma4_free`:
 a fixed point in `ℍ²` forces `|tr M| < 2`, and `tr M ≡ 2 mod 4`), proper discontinuity
-(`gamma4_proper`: integer entries bounded on a compact set) — so `Γ₄` is the holonomy of the
-Cauchy-complete GH flat spacetime `Γ₄ \ {t > ‖x‖}` (DEC-35 reading). `Γ₄` fixes **pointwise** the
+(`gamma4_proper`: integer entries bounded on a compact set) — so `Γ₄` meets §8's standing
+hypotheses in the DEC-35 reading; the spacetime `Γ₄ \ {t > ‖x‖}` itself is not constructed
+(DEC-35's bridge runs from the paper's hypotheses to `CCAction`, not back). `Γ₄` fixes **pointwise** the
 spacelike `U = {t = x₀ = x₁ = 0}` (a point for `d = 2`, a line for `d = 3`, …), and no
 finite-index subgroup of it is commutative (`gamma4_not_virtually_comm`: `uᵏ lˡ ≠ lˡ uᵏ` for the
 two unipotent generators). The failing step is "the action of Γ on π(U) has to be free and
@@ -57,7 +64,7 @@ dimensions: Barbot's `n` is `d + 1`. The counterexample lives in `Minkowski (n +
 |---|---|
 | §8's setting: `S` complete, `Γ = π₁(S)` acting on `S̃` (l.2212–2275) | ✓ carried in the DEC-35 reading `CCAction Γ S` (as `Flat/Develop`, `Flat/Loxodromic`) |
 | `Γ` preserves a spacelike affine subspace `U` (l.2295) | ✓ carried: `IsSpacelikeAffine U` (every nonzero direction vector spacelike; a point qualifies), `U` nonempty and `Γ`-invariant |
-| `Δ ⊂ U^⊥` timelike (l.2300) | ⚠ **strengthened**: `Δ = ℝv` is asked `Γ`-invariant (`∀ γ, L(γ) v ∈ ℝ v`). Necessary: without it the statement is false (`not_bcorAbelPrinted`). ⚠ weakened: `Δ ⊥ U` is not used |
+| `Δ ⊂ U^⊥` timelike (l.2300) | ⚠ **strengthened**: `Δ = ℝv` is asked `Γ`-invariant (`∀ γ, L(γ) v ∈ ℝ v`). Some strengthening is necessary (`not_bcorAbelPrinted`); `Γ`-invariance of a timelike `Δ` is one sufficient strengthening (virtually: `bcor_abel_virtual`), two invariant null directions another (`bcor_abel_twoNull`, `bcor_abel_unified`). ⚠ weakened: `Δ ⊥ U` is not used |
 | Bieberbach's Theorem (l.2305) | carried as the external `BieberbachI (ℝ^{dim U})` (DEC-36) |
 
 ## SCOPE (disclosed)
@@ -95,11 +102,11 @@ section SL2
 variable {n : ℕ}
 
 /-- The time coordinate `t = −⟨x | T⟩`. -/
-noncomputable abbrev coordT (x : Minkowski (n + 2)) : ℝ := -minkB x (timeUnit (n + 2))
+noncomputable abbrev abelCoordT (x : Minkowski (n + 2)) : ℝ := -minkB x (timeUnit (n + 2))
 /-- The first spatial coordinate `x₀ = ⟨x | S₀⟩`. -/
-noncomputable abbrev coord0 (x : Minkowski (n + 2)) : ℝ := minkB x (spaceUnit (0 : Fin (n + 2)))
+noncomputable abbrev abelCoord0 (x : Minkowski (n + 2)) : ℝ := minkB x (spaceUnit (0 : Fin (n + 2)))
 /-- The second spatial coordinate `x₁ = ⟨x | S₁⟩`. -/
-noncomputable abbrev coord1 (x : Minkowski (n + 2)) : ℝ := minkB x (spaceUnit (1 : Fin (n + 2)))
+noncomputable abbrev abelCoord1 (x : Minkowski (n + 2)) : ℝ := minkB x (spaceUnit (1 : Fin (n + 2)))
 
 /-- New time coordinate under `M = [[p, q], [r, s]]` acting on `X = [[t + x₀, x₁], [x₁, t − x₀]]`
 by `X ↦ M X Mᵀ`: half the trace. -/
@@ -138,31 +145,31 @@ private theorem minkB_S1_S0 :
 point `(t, x₀, x₁, …)` is read as the symmetric matrix `X = [[t + x₀, x₁], [x₁, t − x₀]]`
 (`det X = t² − x₀² − x₁²`), sent to `M X Mᵀ`; the other coordinates are fixed. -/
 noncomputable def sl2Lin (p q r s : ℝ) : Minkowski (n + 2) →ₗ[ℝ] Minkowski (n + 2) where
-  toFun x := x + (sl2T p q r s (coordT x) (coord0 x) (coord1 x) - coordT x) • timeUnit (n + 2) +
-    (sl2X0 p q r s (coordT x) (coord0 x) (coord1 x) - coord0 x) • spaceUnit (0 : Fin (n + 2)) +
-    (sl2X1 p q r s (coordT x) (coord0 x) (coord1 x) - coord1 x) • spaceUnit (1 : Fin (n + 2))
+  toFun x := x + (sl2T p q r s (abelCoordT x) (abelCoord0 x) (abelCoord1 x) - abelCoordT x) • timeUnit (n + 2) +
+    (sl2X0 p q r s (abelCoordT x) (abelCoord0 x) (abelCoord1 x) - abelCoord0 x) • spaceUnit (0 : Fin (n + 2)) +
+    (sl2X1 p q r s (abelCoordT x) (abelCoord0 x) (abelCoord1 x) - abelCoord1 x) • spaceUnit (1 : Fin (n + 2))
   map_add' x y := by
-    simp only [coordT, coord0, coord1, minkB_add_left, sl2T, sl2X0, sl2X1]; module
+    simp only [abelCoordT, abelCoord0, abelCoord1, minkB_add_left, sl2T, sl2X0, sl2X1]; module
   map_smul' c x := by
-    simp only [coordT, coord0, coord1, minkB_smul_left, sl2T, sl2X0, sl2X1, RingHom.id_apply]; module
+    simp only [abelCoordT, abelCoord0, abelCoord1, minkB_smul_left, sl2T, sl2X0, sl2X1, RingHom.id_apply]; module
 
 theorem sl2Lin_apply (p q r s : ℝ) (x : Minkowski (n + 2)) : sl2Lin p q r s x =
-    x + (sl2T p q r s (coordT x) (coord0 x) (coord1 x) - coordT x) • timeUnit (n + 2) +
-    (sl2X0 p q r s (coordT x) (coord0 x) (coord1 x) - coord0 x) • spaceUnit (0 : Fin (n + 2)) +
-    (sl2X1 p q r s (coordT x) (coord0 x) (coord1 x) - coord1 x) • spaceUnit (1 : Fin (n + 2)) := rfl
+    x + (sl2T p q r s (abelCoordT x) (abelCoord0 x) (abelCoord1 x) - abelCoordT x) • timeUnit (n + 2) +
+    (sl2X0 p q r s (abelCoordT x) (abelCoord0 x) (abelCoord1 x) - abelCoord0 x) • spaceUnit (0 : Fin (n + 2)) +
+    (sl2X1 p q r s (abelCoordT x) (abelCoord0 x) (abelCoord1 x) - abelCoord1 x) • spaceUnit (1 : Fin (n + 2)) := rfl
 
 theorem cT_sl2Lin (p q r s : ℝ) (x : Minkowski (n + 2)) :
-    coordT (sl2Lin p q r s x) = sl2T p q r s (coordT x) (coord0 x) (coord1 x) := by
-  simp only [sl2Lin_apply, coordT, minkB_add_left, minkB_smul_left, minkB_T_T, minkB_S_T]; ring
+    abelCoordT (sl2Lin p q r s x) = sl2T p q r s (abelCoordT x) (abelCoord0 x) (abelCoord1 x) := by
+  simp only [sl2Lin_apply, abelCoordT, minkB_add_left, minkB_smul_left, minkB_T_T, minkB_S_T]; ring
 
 theorem c0_sl2Lin (p q r s : ℝ) (x : Minkowski (n + 2)) :
-    coord0 (sl2Lin p q r s x) = sl2X0 p q r s (coordT x) (coord0 x) (coord1 x) := by
-  simp only [sl2Lin_apply, coord0, coordT, minkB_add_left, minkB_smul_left, minkB_timeUnit_spaceUnit,
+    abelCoord0 (sl2Lin p q r s x) = sl2X0 p q r s (abelCoordT x) (abelCoord0 x) (abelCoord1 x) := by
+  simp only [sl2Lin_apply, abelCoord0, abelCoordT, minkB_add_left, minkB_smul_left, minkB_timeUnit_spaceUnit,
     minkB_S_S, minkB_S1_S0]; ring
 
 theorem c1_sl2Lin (p q r s : ℝ) (x : Minkowski (n + 2)) :
-    coord1 (sl2Lin p q r s x) = sl2X1 p q r s (coordT x) (coord0 x) (coord1 x) := by
-  simp only [sl2Lin_apply, coord1, coordT, minkB_add_left, minkB_smul_left, minkB_timeUnit_spaceUnit,
+    abelCoord1 (sl2Lin p q r s x) = sl2X1 p q r s (abelCoordT x) (abelCoord0 x) (abelCoord1 x) := by
+  simp only [sl2Lin_apply, abelCoord1, abelCoordT, minkB_add_left, minkB_smul_left, minkB_timeUnit_spaceUnit,
     minkB_S_S, minkB_S0_S1]; ring
 
 /-- `M ↦ (X ↦ M X Mᵀ)` is multiplicative. -/
@@ -188,10 +195,10 @@ theorem minkQ_sl2Lin {p q r s : ℝ} (h : p * s - q * r = 1) (x : Minkowski (n +
   simp only [minkB_add_left, minkB_smul_left, minkB_smul_right, minkQ_smul,
     minkQ_timeUnit, minkQ_spaceUnit, minkB_timeUnit_spaceUnit, minkB_S0_S1, sl2T, sl2X0, sl2X1]
   linear_combination (-(p * s - q * r + 1) *
-    (minkB x (timeUnit (n + 2)) ^ 2 - coord0 x ^ 2 - coord1 x ^ 2)) * h
+    (minkB x (timeUnit (n + 2)) ^ 2 - abelCoord0 x ^ 2 - abelCoord1 x ^ 2)) * h
 
-theorem cT_eq (x : Minkowski (n + 2)) : coordT x = x.1 := by
-  simp [coordT, minkB, timeUnit]
+theorem abelCoordT_eq (x : Minkowski (n + 2)) : abelCoordT x = x.1 := by
+  simp [abelCoordT, minkB, timeUnit]
 
 /-- `sl2Lin M` with inverse `sl2Lin M⁻¹`, for `det M = 1`. -/
 noncomputable def sl2Equiv {p q r s : ℝ} (h : p * s - q * r = 1) :
@@ -210,10 +217,10 @@ theorem sl2Equiv_apply {p q r s : ℝ} (h : p * s - q * r = 1) (x : Minkowski (n
 /-- The time unit is sent into the future. -/
 theorem fst_sl2Lin_timeUnit {p q r s : ℝ} (h : p * s - q * r = 1) :
     0 < (sl2Lin (n := n) p q r s (timeUnit (n + 2))).1 := by
-  rw [← cT_eq, cT_sl2Lin]
-  have h1 : coordT (timeUnit (n + 2)) = 1 := by rw [cT_eq]; rfl
-  have h2 : coord0 (timeUnit (n + 2)) = 0 := minkB_T_S 0
-  have h3 : coord1 (timeUnit (n + 2)) = 0 := minkB_T_S 1
+  rw [← abelCoordT_eq, cT_sl2Lin]
+  have h1 : abelCoordT (timeUnit (n + 2)) = 1 := by rw [abelCoordT_eq]; rfl
+  have h2 : abelCoord0 (timeUnit (n + 2)) = 0 := minkB_T_S 0
+  have h3 : abelCoord1 (timeUnit (n + 2)) = 0 := minkB_T_S 1
   rw [h1, h2, h3, sl2T]
   nlinarith [sq_nonneg (p - s), sq_nonneg (q + r), sq_nonneg p, sq_nonneg q, sq_nonneg r,
     sq_nonneg s]
@@ -360,29 +367,29 @@ theorem gamma4_smul_zero {m : ℕ} {g : isom (m + 2)} (hg : g ∈ gamma4 m) :
 
 /-- The coordinates of a point of the hyperboloid: `t ± x₀ > 0` and `t² − x₀² − x₁² ≥ 1`. -/
 theorem coords_of_mem_hyperboloid {x : Minkowski (n + 2)} (hx : x ∈ graph (hyperboloid (n + 2))) :
-    0 < coordT x + coord0 x ∧ 0 < coordT x - coord0 x ∧ 1 ≤ coordT x ^ 2 - coord0 x ^ 2 - coord1 x ^ 2 ∧ 0 < coordT x := by
+    0 < abelCoordT x + abelCoord0 x ∧ 0 < abelCoordT x - abelCoord0 x ∧ 1 ≤ abelCoordT x ^ 2 - abelCoord0 x ^ 2 - abelCoord1 x ^ 2 ∧ 0 < abelCoordT x := by
   rw [graph_hyperboloid] at hx
-  set r := x - coordT x • timeUnit (n + 2) - coord0 x • spaceUnit (0 : Fin (n + 2)) -
-    coord1 x • spaceUnit (1 : Fin (n + 2)) with hr
+  set r := x - abelCoordT x • timeUnit (n + 2) - abelCoord0 x • spaceUnit (0 : Fin (n + 2)) -
+    abelCoord1 x • spaceUnit (1 : Fin (n + 2)) with hr
   have hr1 : r.1 = 0 := by
-    have := cT_eq x
+    have := abelCoordT_eq x
     simp [hr, timeUnit, spaceUnit, this]
   have hQr := minkQ_nonneg_of_fst_eq_zero hr1
-  have hQ : minkQ r = minkQ x + coordT x ^ 2 - coord0 x ^ 2 - coord1 x ^ 2 := by
+  have hQ : minkQ r = minkQ x + abelCoordT x ^ 2 - abelCoord0 x ^ 2 - abelCoord1 x ^ 2 := by
     rw [hr, sub_eq_add_neg, sub_eq_add_neg, sub_eq_add_neg, minkQ_add, minkQ_add, minkQ_add]
     simp only [minkB_add_left, minkB_neg_left, minkB_neg_right, minkB_smul_left,
       minkB_smul_right, minkQ_neg, minkQ_smul, minkQ_timeUnit, minkQ_spaceUnit, minkB_T_S,
-      minkB_S0_S1, coordT, coord0, coord1]
+      minkB_S0_S1, abelCoordT, abelCoord0, abelCoord1]
     ring
-  have ht : 0 < coordT x := by rw [cT_eq]; exact hx.2
-  have hδ : 1 ≤ coordT x ^ 2 - coord0 x ^ 2 - coord1 x ^ 2 := by rw [hx.1] at hQ; linarith
-  have h0 : coord0 x ^ 2 < coordT x ^ 2 := by nlinarith [sq_nonneg (coord1 x)]
-  have habs : |coord0 x| < coordT x := by
+  have ht : 0 < abelCoordT x := by rw [abelCoordT_eq]; exact hx.2
+  have hδ : 1 ≤ abelCoordT x ^ 2 - abelCoord0 x ^ 2 - abelCoord1 x ^ 2 := by rw [hx.1] at hQ; linarith
+  have h0 : abelCoord0 x ^ 2 < abelCoordT x ^ 2 := by nlinarith [sq_nonneg (abelCoord1 x)]
+  have habs : |abelCoord0 x| < abelCoordT x := by
     rw [← abs_of_pos ht]; exact sq_lt_sq.1 h0
-  refine ⟨by linarith [neg_abs_le (coord0 x)], by linarith [le_abs_self (coord0 x)], hδ, ht⟩
+  refine ⟨by linarith [neg_abs_le (abelCoord0 x)], by linarith [le_abs_self (abelCoord0 x)], hδ, ht⟩
 
 /-- The integer fact behind torsion-freeness: `(2 + 4k)² ≥ 4`. -/
-theorem four_le_sq_two_add_four_mul (k : ℤ) : (4 : ℝ) ≤ (2 + 4 * (k : ℝ)) ^ 2 := by
+private theorem four_le_sq_two_add_four_mul (k : ℤ) : (4 : ℝ) ≤ (2 + 4 * (k : ℝ)) ^ 2 := by
   have : (0 : ℤ) ≤ k * (k + 1) := by
     rcases le_or_gt 0 k with hk | hk
     · positivity
@@ -479,7 +486,7 @@ theorem sq_add_sq_le_of_hyperboloid {p q r s t x0 x1 : ℝ} (hδ : 1 ≤ t ^ 2 -
       sq_nonneg r, sq_nonneg s]
 
 /-- `|k| ≤ k²` for an integer. -/
-theorem int_abs_le_sq (k : ℤ) : |(k : ℝ)| ≤ (k : ℝ) ^ 2 := by
+private theorem int_abs_le_sq (k : ℤ) : |(k : ℝ)| ≤ (k : ℝ) ^ 2 := by
   have : |k| ≤ k ^ 2 := by
     rcases eq_or_ne k 0 with rfl | hk
     · simp
@@ -507,8 +514,8 @@ theorem gamma4_proper {K : Set (Minkowski (n + 2))} (hKS : K ⊆ graph (hyperbol
     have hyS : γ • k ∈ graph (hyperboloid (n + 2)) := hKS hyK
     obtain ⟨-, -, hδ, ht⟩ := coords_of_mem_hyperboloid hkS
     obtain ⟨hα', hγ', -, -⟩ := coords_of_mem_hyperboloid hyS
-    have htC : coordT k ≤ C := by rw [cT_eq]; exact hC ⟨k, hk, rfl⟩
-    have htC' : coordT (γ • k) ≤ C := by rw [cT_eq]; exact hC ⟨_, hyK, rfl⟩
+    have htC : abelCoordT k ≤ C := by rw [abelCoordT_eq]; exact hC ⟨k, hk, rfl⟩
+    have htC' : abelCoordT (γ • k) ≤ C := by rw [abelCoordT_eq]; exact hC ⟨_, hyK, rfl⟩
     rw [hγ] at hα' hγ' htC'
     unfold cong4Lin at hα' hγ' htC'
     rw [cT_sl2Lin] at hα' hγ' htC'
@@ -516,12 +523,12 @@ theorem gamma4_proper {K : Set (Minkowski (n + 2))} (hKS : K ⊆ graph (hyperbol
     obtain ⟨h1, h2⟩ := sq_add_sq_le_of_hyperboloid (p := 1 + 4 * (a : ℝ)) (q := 4 * (b : ℝ))
       (r := 4 * (c : ℝ)) (s := 1 + 4 * (e : ℝ)) hδ
     set T' := sl2T (1 + 4 * (a : ℝ)) (4 * (b : ℝ)) (4 * (c : ℝ)) (1 + 4 * (e : ℝ))
-      (coordT k) (coord0 k) (coord1 k)
+      (abelCoordT k) (abelCoord0 k) (abelCoord1 k)
     set X' := sl2X0 (1 + 4 * (a : ℝ)) (4 * (b : ℝ)) (4 * (c : ℝ)) (1 + 4 * (e : ℝ))
-      (coordT k) (coord0 k) (coord1 k)
+      (abelCoordT k) (abelCoord0 k) (abelCoord1 k)
     have hC0 : 0 < C := lt_of_lt_of_le ht htC
-    have hb1 : 2 * coordT k * (T' + X') ≤ 4 * C ^ 2 := by nlinarith
-    have hb2 : 2 * coordT k * (T' - X') ≤ 4 * C ^ 2 := by nlinarith
+    have hb1 : 2 * abelCoordT k * (T' + X') ≤ 4 * C ^ 2 := by nlinarith
+    have hb2 : 2 * abelCoordT k * (T' - X') ≤ 4 * C ^ 2 := by nlinarith
     have hNB : B ≤ N := Nat.le_ceil B
     have bnd : ∀ z : ℤ, (z : ℝ) ^ 2 ≤ B → z ∈ Icc (-(N : ℤ)) N := by
       intro z hz
@@ -569,13 +576,13 @@ of `uᵏ lˡ T` and `lˡ uᵏ T` differ by `(1 + 16kl)² − 1`. -/
 theorem upper_lower_pow_not_commute {k l : ℕ} (hk : 0 < k) (hl : 0 < l) :
     upperIsom (n := n) 4 ^ k * lowerIsom 4 ^ l ≠ lowerIsom 4 ^ l * upperIsom 4 ^ k := by
   intro h
-  have h1 := congrArg (fun g : isom (n + 2) => coord0 (g • timeUnit (n + 2))) h
+  have h1 := congrArg (fun g : isom (n + 2) => abelCoord0 (g • timeUnit (n + 2))) h
   simp only [mul_smul, upperIsom_pow_smul, lowerIsom_pow_smul] at h1
   rw [← LinearMap.comp_apply, sl2Lin_comp, ← LinearMap.comp_apply, sl2Lin_comp, c0_sl2Lin,
     c0_sl2Lin] at h1
-  have t1 : coordT (timeUnit (n + 2)) = 1 := by rw [cT_eq]; rfl
-  have t2 : coord0 (timeUnit (n + 2)) = 0 := minkB_T_S 0
-  have t3 : coord1 (timeUnit (n + 2)) = 0 := minkB_T_S 1
+  have t1 : abelCoordT (timeUnit (n + 2)) = 1 := by rw [abelCoordT_eq]; rfl
+  have t2 : abelCoord0 (timeUnit (n + 2)) = 0 := minkB_T_S 0
+  have t3 : abelCoord1 (timeUnit (n + 2)) = 0 := minkB_T_S 1
   rw [t1, t2, t3] at h1
   unfold sl2X0 at h1
   have hk' : (1 : ℝ) ≤ k := by exact_mod_cast hk
@@ -629,7 +636,7 @@ def IsSpacelikeAffine {d : ℕ} (U : AffineSubspace ℝ (Minkowski d)) : Prop :=
 /-- `{t = x₀ = x₁ = 0}`, a linear subspace of dimension `n` (a point for `n = 0`, a line for
 `n = 1`). -/
 noncomputable def axisSub (n : ℕ) : Submodule ℝ (Minkowski (n + 2)) where
-  carrier := {v | coordT v = 0 ∧ coord0 v = 0 ∧ coord1 v = 0}
+  carrier := {v | abelCoordT v = 0 ∧ abelCoord0 v = 0 ∧ abelCoord1 v = 0}
   add_mem' := by
     rintro v w ⟨h1, h2, h3⟩ ⟨h1', h2', h3'⟩
     refine ⟨?_, ?_, ?_⟩
@@ -641,12 +648,12 @@ noncomputable def axisSub (n : ℕ) : Submodule ℝ (Minkowski (n + 2)) where
       rw [minkB_add_left, show minkB v _ = 0 from h2, show minkB w _ = 0 from h2', add_zero]
     · show minkB (v + w) _ = 0
       rw [minkB_add_left, show minkB v _ = 0 from h3, show minkB w _ = 0 from h3', add_zero]
-  zero_mem' := by simp [coordT, coord0, coord1]
+  zero_mem' := by simp [abelCoordT, abelCoord0, abelCoord1]
   smul_mem' := by
     rintro a v ⟨h1, h2, h3⟩
     refine ⟨?_, ?_, ?_⟩
     · show -minkB (a • v) _ = 0
-      have : minkB v (timeUnit (n + 2)) = 0 := by have := h1; simp only [coordT] at this; linarith
+      have : minkB v (timeUnit (n + 2)) = 0 := by have := h1; simp only [abelCoordT] at this; linarith
       rw [minkB_smul_left, this, mul_zero, neg_zero]
     · show minkB (a • v) _ = 0
       rw [minkB_smul_left, show minkB v _ = 0 from h2, mul_zero]
@@ -656,7 +663,7 @@ noncomputable def axisSub (n : ℕ) : Submodule ℝ (Minkowski (n + 2)) where
 /-- The affine subspace `U = {t = x₀ = x₁ = 0}`. -/
 noncomputable def axisU (n : ℕ) : AffineSubspace ℝ (Minkowski (n + 2)) := (axisSub n).toAffineSubspace
 
-theorem mem_axisU {x : Minkowski (n + 2)} : x ∈ axisU n ↔ coordT x = 0 ∧ coord0 x = 0 ∧ coord1 x = 0 :=
+theorem mem_axisU {x : Minkowski (n + 2)} : x ∈ axisU n ↔ abelCoordT x = 0 ∧ abelCoord0 x = 0 ∧ abelCoord1 x = 0 :=
   Iff.rfl
 
 theorem axisU_direction : (axisU n).direction = axisSub n := Submodule.toAffineSubspace_direction _
@@ -665,7 +672,7 @@ theorem isSpacelikeAffine_axisU : IsSpacelikeAffine (axisU n) := by
   intro v hv hv0
   rw [axisU_direction] at hv
   obtain ⟨h1, -, -⟩ := hv
-  rw [cT_eq] at h1
+  rw [abelCoordT_eq] at h1
   have h2 : v.2 ≠ 0 := fun h => hv0 (Prod.ext h1 h)
   simp only [minkQ, h1]
   have := norm_pos_iff.2 h2
@@ -676,9 +683,9 @@ theorem spaceUnit_mem_axisU {i : Fin (n + 2)} (hi : 2 ≤ i.val) : spaceUnit i �
   have h0 : (0 : Fin (n + 2)) ≠ i := fun h => by rw [← h] at hi; simp at hi
   have h1 : (1 : Fin (n + 2)) ≠ i := fun h => by
     rw [← h] at hi; simp at hi
-  refine mem_axisU.2 ⟨by rw [coordT, minkB_S_T]; simp, ?_, ?_⟩
-  · rw [coord0, minkB_comm]; exact minkB_spaceUnit_spaceUnit h0
-  · rw [coord1, minkB_comm]; exact minkB_spaceUnit_spaceUnit h1
+  refine mem_axisU.2 ⟨by rw [abelCoordT, minkB_S_T]; simp, ?_, ?_⟩
+  · rw [abelCoord0, minkB_comm]; exact minkB_spaceUnit_spaceUnit h0
+  · rw [abelCoord1, minkB_comm]; exact minkB_spaceUnit_spaceUnit h1
 
 /-- **`Γ₄` fixes `U` pointwise.** -/
 theorem gamma4_fixes_axisU {g : isom (n + 2)} (hg : g ∈ gamma4 n) {x : Minkowski (n + 2)}
@@ -697,11 +704,11 @@ theorem gamma4_invariant_axisU {g : isom (n + 2)} (hg : g ∈ gamma4 n) (x : Min
 
 theorem upperIsom_ne_one : upperIsom (n := n) 4 ≠ 1 := by
   intro h
-  have h1 := congrArg (fun g : isom (n + 2) => coord0 (g • timeUnit (n + 2))) h
+  have h1 := congrArg (fun g : isom (n + 2) => abelCoord0 (g • timeUnit (n + 2))) h
   simp only [upperIsom_smul, one_smul, c0_sl2Lin] at h1
-  have t1 : coordT (timeUnit (n + 2)) = 1 := by rw [cT_eq]; rfl
-  have t2 : coord0 (timeUnit (n + 2)) = 0 := minkB_T_S 0
-  have t3 : coord1 (timeUnit (n + 2)) = 0 := minkB_T_S 1
+  have t1 : abelCoordT (timeUnit (n + 2)) = 1 := by rw [abelCoordT_eq]; rfl
+  have t2 : abelCoord0 (timeUnit (n + 2)) = 0 := minkB_T_S 0
+  have t3 : abelCoord1 (timeUnit (n + 2)) = 0 := minkB_T_S 1
   rw [t1, t2, t3] at h1
   unfold sl2X0 at h1
   norm_num at h1
@@ -733,7 +740,8 @@ end SL2
 
 /-- **Cor 8.4 as printed** (l.2295–2296), in the DEC-35 reading of §8's setting (`CCAction`):
 if `Γ` preserves a spacelike affine subspace `U`, then `Γ` is virtually `ℤᵏ`. **False** for
-`d ≥ 2` (`not_bcorAbelPrinted`); kept as a `Prop` (kb/0022). -/
+`d ≥ 3`, and for `d = 2` under the point reading of `U` (`not_bcorAbelPrinted`); kept as a
+`Prop` (kb/0022). -/
 def BcorAbelPrinted (d : ℕ) : Prop :=
   ∀ (Γ : Subgroup (isom d)) (S : Set (Minkowski d)) (U : AffineSubspace ℝ (Minkowski d)),
     CCAction Γ S → (U : Set (Minkowski d)).Nonempty → IsSpacelikeAffine U →
@@ -741,7 +749,8 @@ def BcorAbelPrinted (d : ℕ) : Prop :=
 
 /-- **The first step of the printed proof** (l.2300–2301): "the action of `Γ` on `π(U)` has to be
 free and properly discontinuous, and the same is true for the action on `U`" — here its
-freeness half on `U`. **False** for `d ≥ 2` (`not_bcorAbelStepPrinted`). -/
+freeness half on `U`. **False** for `d ≥ 3`, and for `d = 2` under the point reading
+(`not_bcorAbelStepPrinted`). -/
 def BcorAbelStepPrinted (d : ℕ) : Prop :=
   ∀ (Γ : Subgroup (isom d)) (S : Set (Minkowski d)) (U : AffineSubspace ℝ (Minkowski d)),
     CCAction Γ S → (U : Set (Minkowski d)).Nonempty → IsSpacelikeAffine U →
@@ -769,7 +778,9 @@ theorem bcor_abel_counterexample (n : ℕ) :
     upperIsom_mem, upperIsom_ne_one, fun _ hfi => gamma4_not_virtually_comm hfi,
     not_isVirtuallyFreeAbelian_gamma4⟩
 
-/-- **Cor 8.4 is false as printed**, in every dimension `d ≥ 2` (Barbot's `n ≥ 3`). -/
+/-- **Cor 8.4 is false as printed**: in every dimension `d ≥ 3` (Barbot's `n ≥ 4`)
+unconditionally, `U` being then at least a line; at `d = 2` (`n = 0` here, Barbot's `n = 3`) `U`
+is a point, and the refutation reads a point as a spacelike affine subspace. -/
 theorem not_bcorAbelPrinted (n : ℕ) : ¬BcorAbelPrinted (n + 2) := fun h =>
   not_isVirtuallyFreeAbelian_gamma4 (h _ _ (axisU n) ccAction_gamma4 ⟨0, (axisSub n).zero_mem⟩
     isSpacelikeAffine_axisU fun _ hγ x => gamma4_invariant_axisU hγ x)
@@ -780,7 +791,7 @@ theorem not_bcorAbelStepPrinted (n : ℕ) : ¬BcorAbelStepPrinted (n + 2) := fun
     (fun _ hγ x => gamma4_invariant_axisU hγ x) _ upperIsom_mem upperIsom_ne_one 0
     (axisSub n).zero_mem (gamma4_fixes_axisU upperIsom_mem (axisSub n).zero_mem)
 
-/-! ### 7. The strongest true form: `Δ` must be `Γ`-invariant -/
+/-! ### 7. Repaired forms: a `Γ`-invariant timelike `Δ`, or two invariant null directions -/
 
 section TrueForm
 
@@ -837,11 +848,11 @@ theorem abel_proper_of_fix (h : CCAction Γ S) {v : Minkowski d} (hv : IsFutureT
 /-! #### A Euclidean frame of a spacelike subspace -/
 
 /-- A type synonym of a submodule, to carry the Euclidean structure of `minkB`. -/
-def SpSub {d : ℕ} (W : Submodule ℝ (Minkowski d)) : Type := W
+def AbelSpSub {d : ℕ} (W : Submodule ℝ (Minkowski d)) : Type := W
 
-noncomputable instance (W : Submodule ℝ (Minkowski d)) : AddCommGroup (SpSub W) :=
+noncomputable instance (W : Submodule ℝ (Minkowski d)) : AddCommGroup (AbelSpSub W) :=
   inferInstanceAs (AddCommGroup W)
-noncomputable instance (W : Submodule ℝ (Minkowski d)) : Module ℝ (SpSub W) :=
+noncomputable instance (W : Submodule ℝ (Minkowski d)) : Module ℝ (AbelSpSub W) :=
   inferInstanceAs (Module ℝ W)
 
 /-- **An orthonormal frame of a spacelike subspace**: a linear `j : ℝᵏ → 𝐌ⁿ`, `k = dim W`,
@@ -854,8 +865,8 @@ theorem exists_spacelike_frame (W : Submodule ℝ (Minkowski d))
     rcases eq_or_ne (x : Minkowski d) 0 with h0 | h0
     · rw [h0, minkB_zero_left]
     · rw [← minkQ_eq_minkB]; exact (hW _ x.2 h0).le
-  let i : W ≃ₗ[ℝ] SpSub W := LinearEquiv.refl ℝ W
-  letI core : InnerProductSpace.Core ℝ (SpSub W) :=
+  let i : W ≃ₗ[ℝ] AbelSpSub W := LinearEquiv.refl ℝ W
+  letI core : InnerProductSpace.Core ℝ (AbelSpSub W) :=
     { inner := fun x y => minkB ((i.symm x : W) : Minkowski d) ((i.symm y : W) : Minkowski d)
       conj_inner_symm := fun x y => by
         simp only [starRingEnd_apply, star_trivial]; exact minkB_comm _ _
@@ -871,15 +882,15 @@ theorem exists_spacelike_frame (W : Submodule ℝ (Minkowski d))
         have := hW _ (i.symm x).2 h0
         rw [minkQ_eq_minkB] at this
         exact this.ne' hx }
-  letI : NormedAddCommGroup (SpSub W) :=
-    @InnerProductSpace.Core.toNormedAddCommGroup ℝ (SpSub W) _ _ _ core
-  letI : InnerProductSpace ℝ (SpSub W) := InnerProductSpace.ofCore core.toCore
-  haveI : FiniteDimensional ℝ (SpSub W) := inferInstanceAs (FiniteDimensional ℝ W)
-  have hrank : finrank ℝ (SpSub W) = finrank ℝ W := i.symm.finrank_eq
-  let b := (stdOrthonormalBasis ℝ (SpSub W)).reindex (finCongr hrank)
+  letI : NormedAddCommGroup (AbelSpSub W) :=
+    @InnerProductSpace.Core.toNormedAddCommGroup ℝ (AbelSpSub W) _ _ _ core
+  letI : InnerProductSpace ℝ (AbelSpSub W) := InnerProductSpace.ofCore core.toCore
+  haveI : FiniteDimensional ℝ (AbelSpSub W) := inferInstanceAs (FiniteDimensional ℝ W)
+  have hrank : finrank ℝ (AbelSpSub W) = finrank ℝ W := i.symm.finrank_eq
+  let b := (stdOrthonormalBasis ℝ (AbelSpSub W)).reindex (finCongr hrank)
   let j : EuclideanSpace ℝ (Fin (finrank ℝ W)) →ₗ[ℝ] Minkowski d :=
-    W.subtype ∘ₗ (i.symm : SpSub W →ₗ[ℝ] W) ∘ₗ
-      (b.repr.symm.toLinearEquiv : EuclideanSpace ℝ (Fin (finrank ℝ W)) →ₗ[ℝ] SpSub W)
+    W.subtype ∘ₗ (i.symm : AbelSpSub W →ₗ[ℝ] W) ∘ₗ
+      (b.repr.symm.toLinearEquiv : EuclideanSpace ℝ (Fin (finrank ℝ W)) →ₗ[ℝ] AbelSpSub W)
   refine ⟨j, fun y => ?_, fun w => ⟨fun hw => ?_, ?_⟩⟩
   · have h1 : minkQ (j y) = inner ℝ (b.repr.symm y) (b.repr.symm y) := by
       rw [minkQ_eq_minkB]; rfl
@@ -903,7 +914,7 @@ noncomputable def uFrameConj (γ : isom d) (y : EuclideanSpace ℝ (Fin k)) :
 
 variable {j}
 
-theorem injective_of_minkQ (hjQ : ∀ y, minkQ (j y) = ‖y‖ ^ 2) : Function.Injective j := by
+private theorem injective_of_minkQ (hjQ : ∀ y, minkQ (j y) = ‖y‖ ^ 2) : Function.Injective j := by
   intro y y' h
   have := hjQ (y - y')
   rw [map_sub, h, sub_self, minkQ_eq_minkB, minkB_zero_left] at this
@@ -1000,7 +1011,7 @@ theorem abel_finite_dist_le (h : CCAction Γ S) {s : Minkowski d} (hs : s ∈ S)
   have hR : 0 ≤ R := dist_nonneg.trans hd
   exact ⟨hγ, γ • s, ⟨s, ⟨mem_closedBall_self hR, hs⟩, rfl⟩, mem_closedBall.2 hd, h.smul_mem hγ hs⟩
 
-/-- **Cor 8.4, the strongest true form** (`bcor:abel` repaired; unmarked): in §8's setting
+/-- **Cor 8.4, a true repaired form** (`bcor:abel` repaired; unmarked): in §8's setting
 (`CCAction`, DEC-35), if `Γ` preserves a nonempty spacelike affine subspace `U` **and a timelike
 direction `Δ = ℝv`** — the hypothesis the printed proof uses without stating it, when it projects
 along `Δ` (Prop 8.1) and lets `Γ` act on `π(U)` — then `Γ` has a finite-index subgroup
@@ -1398,6 +1409,80 @@ theorem bcor_abel_twoNull {U : AffineSubspace ℝ (Minkowski d)}
     rw [(WithLp.linearEquiv 2 ℝ (ℝ × EuclideanSpace ℝ (Fin _))).finrank_eq, Module.finrank_prod,
       finrank_euclideanSpace_fin, Module.finrank_self, add_comm]
   rwa [hrk] at this
+
+/-! #### The virtual and unified forms -/
+
+/-- The standing hypotheses pass to subgroups (a private copy: `Flat/Nonloxodromic`'s public
+`CCAction.mono` is not imported here). -/
+private theorem abel_ccAction_mono {Γ₀ : Subgroup (isom d)} (h : CCAction Γ S) (hle : Γ₀ ≤ Γ) :
+    CCAction Γ₀ S where
+  cc := h.cc
+  inv γ hγ := h.inv γ (hle hγ)
+  free γ hγ := h.free γ (hle hγ)
+  proper K hK hKc := (h.proper K hK hKc).subset fun _ hγ => ⟨hle hγ.1, hγ.2⟩
+
+/-- Virtually `ℤᵐ` lifts through a finite-index subgroup. -/
+private theorem abel_virtual_lift {Γ₀ : Subgroup (isom d)} (hle : Γ₀ ≤ Γ)
+    (hfi : (Γ₀.subgroupOf Γ).FiniteIndex) {N : ℕ}
+    (h : ∃ Γ' : Subgroup (isom d), Γ' ≤ Γ₀ ∧ (Γ'.subgroupOf Γ₀).FiniteIndex ∧
+      ∃ m ≤ N, Nonempty (Additive Γ' ≃+ (Fin m →₀ ℤ))) :
+    ∃ Γ' : Subgroup (isom d), Γ' ≤ Γ ∧ (Γ'.subgroupOf Γ).FiniteIndex ∧
+      ∃ m ≤ N, Nonempty (Additive Γ' ≃+ (Fin m →₀ ℤ)) := by
+  obtain ⟨Γ', hle', hfi', m, hm, e⟩ := h
+  exact ⟨Γ', hle'.trans hle,
+    ⟨Subgroup.relIndex_ne_zero_trans hfi'.index_ne_zero hfi.index_ne_zero⟩, m, hm, e⟩
+
+/-- **Cor 8.4 repaired, virtual form** (unmarked): as `bcor_abel`, but only a **finite-index**
+subgroup `Γ₀ ≤ Γ` is asked to preserve the timelike direction `Δ = ℝv`. Strictly more general
+than `bcor_abel` (take `Γ₀ = Γ`). -/
+theorem bcor_abel_virtual {U : AffineSubspace ℝ (Minkowski d)}
+    (hB : BieberbachI (EuclideanSpace ℝ (Fin (finrank ℝ U.direction)))) (h : CCAction Γ S)
+    (hU : (U : Set (Minkowski d)).Nonempty) (hsp : IsSpacelikeAffine U)
+    (hinv : ∀ γ ∈ Γ, ∀ x : Minkowski d, γ • x ∈ U ↔ x ∈ U) {Γ₀ : Subgroup (isom d)}
+    (hle : Γ₀ ≤ Γ) (hfi : (Γ₀.subgroupOf Γ).FiniteIndex) {v : Minkowski d}
+    (hv : IsFutureTimelike v) (hΔ : ∀ γ ∈ Γ₀, ∃ c : ℝ, linOf γ v = c • v) :
+    ∃ Γ' : Subgroup (isom d), Γ' ≤ Γ ∧ (Γ'.subgroupOf Γ).FiniteIndex ∧
+      ∃ m ≤ finrank ℝ U.direction, Nonempty (Additive Γ' ≃+ (Fin m →₀ ℤ)) :=
+  abel_virtual_lift hle hfi (bcor_abel hB (abel_ccAction_mono h hle) hU hsp
+    (fun γ hγ => hinv γ (hle hγ)) hv hΔ)
+
+/-- **Cor 8.4 in the two-null case, virtual form** (unmarked): as `bcor_abel_twoNull`, but only
+a finite-index subgroup `Γ₀ ≤ Γ` is asked to preserve the two null directions. -/
+theorem bcor_abel_twoNull_virtual {U : AffineSubspace ℝ (Minkowski d)}
+    (hBi : BieberbachI (WithLp 2 (ℝ × EuclideanSpace ℝ (Fin (finrank ℝ U.direction)))))
+    (h : CCAction Γ S) (hU : (U : Set (Minkowski d)).Nonempty) (hsp : IsSpacelikeAffine U)
+    (hinv : ∀ γ ∈ Γ, ∀ x : Minkowski d, γ • x ∈ U ↔ x ∈ U) {Γ₀ : Subgroup (isom d)}
+    (hle : Γ₀ ≤ Γ) (hfi : (Γ₀.subgroupOf Γ).FiniteIndex) {ℓ₀ ℓ₁ : Minkowski d}
+    (hℓ₀ : IsFutureCausal ℓ₀) (hℓ₁ : IsFutureCausal ℓ₁) (hq₀ : minkQ ℓ₀ = 0)
+    (hq₁ : minkQ ℓ₁ = 0) (hB : minkB ℓ₁ ℓ₀ ≠ 0)
+    (h0 : ∀ γ ∈ Γ₀, ∃ c : ℝ, linOf γ ℓ₀ = c • ℓ₀) (h1 : ∀ γ ∈ Γ₀, ∃ c : ℝ, linOf γ ℓ₁ = c • ℓ₁) :
+    ∃ Γ' : Subgroup (isom d), Γ' ≤ Γ ∧ (Γ'.subgroupOf Γ).FiniteIndex ∧
+      ∃ m ≤ finrank ℝ U.direction + 1, Nonempty (Additive Γ' ≃+ (Fin m →₀ ℤ)) :=
+  abel_virtual_lift hle hfi (bcor_abel_twoNull hBi (abel_ccAction_mono h hle) hU hsp
+    (fun γ hγ => hinv γ (hle hγ)) hℓ₀ hℓ₁ hq₀ hq₁ hB h0 h1)
+
+/-- **Cor 8.4 repaired, unified form** (unmarked; the REPORT's open question): in §8's setting,
+if `Γ` preserves a nonempty spacelike affine subspace `U` and some finite-index `Γ₀ ≤ Γ` preserves
+**either** a timelike direction **or** two distinct null directions, then `Γ` has a finite-index
+subgroup isomorphic to `ℤᵐ`, `m ≤ dim U + 1`. Conditional on `BieberbachI` in dimensions `dim U`
+and `dim U + 1` (DEC-36). This covers both shapes Barbot's uses need ([10.M] is the null case);
+it does not cover Prop 10.4 (non-elementary `L(Γ)`, where the conclusion fails: `Γ₄`). -/
+theorem bcor_abel_unified {U : AffineSubspace ℝ (Minkowski d)}
+    (hB : BieberbachI (EuclideanSpace ℝ (Fin (finrank ℝ U.direction))))
+    (hBi : BieberbachI (WithLp 2 (ℝ × EuclideanSpace ℝ (Fin (finrank ℝ U.direction)))))
+    (h : CCAction Γ S) (hU : (U : Set (Minkowski d)).Nonempty) (hsp : IsSpacelikeAffine U)
+    (hinv : ∀ γ ∈ Γ, ∀ x : Minkowski d, γ • x ∈ U ↔ x ∈ U) {Γ₀ : Subgroup (isom d)}
+    (hle : Γ₀ ≤ Γ) (hfi : (Γ₀.subgroupOf Γ).FiniteIndex)
+    (hdir : (∃ v : Minkowski d, IsFutureTimelike v ∧ ∀ γ ∈ Γ₀, ∃ c : ℝ, linOf γ v = c • v) ∨
+      ∃ ℓ₀ ℓ₁ : Minkowski d, IsFutureCausal ℓ₀ ∧ IsFutureCausal ℓ₁ ∧ minkQ ℓ₀ = 0 ∧
+        minkQ ℓ₁ = 0 ∧ minkB ℓ₁ ℓ₀ ≠ 0 ∧ (∀ γ ∈ Γ₀, ∃ c : ℝ, linOf γ ℓ₀ = c • ℓ₀) ∧
+        ∀ γ ∈ Γ₀, ∃ c : ℝ, linOf γ ℓ₁ = c • ℓ₁) :
+    ∃ Γ' : Subgroup (isom d), Γ' ≤ Γ ∧ (Γ'.subgroupOf Γ).FiniteIndex ∧
+      ∃ m ≤ finrank ℝ U.direction + 1, Nonempty (Additive Γ' ≃+ (Fin m →₀ ℤ)) := by
+  rcases hdir with ⟨v, hv, hΔ⟩ | ⟨ℓ₀, ℓ₁, hℓ₀, hℓ₁, hq₀, hq₁, hBℓ, h0, h1⟩
+  · obtain ⟨Γ', hle', hfi', m, hm, e⟩ := bcor_abel_virtual hB h hU hsp hinv hle hfi hv hΔ
+    exact ⟨Γ', hle', hfi', m, hm.trans (Nat.le_succ _), e⟩
+  · exact bcor_abel_twoNull_virtual hBi h hU hsp hinv hle hfi hℓ₀ hℓ₁ hq₀ hq₁ hBℓ h0 h1
 
 end TrueForm
 
