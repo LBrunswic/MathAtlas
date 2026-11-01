@@ -1,0 +1,102 @@
+{
+  "package": "WP-36b-CBGCausalConvex",
+  "files": ["scaffold/CausalScaffold/CBG/CausalConvex.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "lem:C_ext_connexe",
+      "tex_lines": [1932, 1943],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.IsCauchyEmbedding.c_ext_connexe'",
+        "Causal.IsCauchyEmbedding.c_ext_connexe_of_isConnected",
+        "Causal.IsCauchyEmbedding.isPreconnected_inf",
+        "Causal.IsCauchyEmbedding.exists_inextensible_inf",
+        "Causal.Causality.exists_inextensible_inf_meeting",
+        "Causal.Causality.mem_connectedComponentIn_inf",
+        "Causal.Causality.isPreconnected_inf"
+      ],
+      "hypotheses": [
+        {"paper": "singular flat spacetimes, M≥0-morphisms", "here": "weakened", "note": "any causality; IsEMorphism / IsCauchyEmbedding (DEC-17 abstraction)"},
+        {"paper": "M connected (Sigma connected via theo:geroch_sing)", "here": "carried", "note": "[ConnectedSpace M] + splitting psi, as in SubExtension.c_ext_connexe; c_ext_connexe_of_isConnected / isPreconnected_inf need only Sigma (pre)connected"},
+        {"paper": "N singular flat (curves extend)", "here": "named", "note": "D.CurvesExtend (kb/0012); discharged by any time function (CurvesExtend.lean)"},
+        {"paper": "phi(Sigma) a Cauchy surface of A cap B; every point on an inextensible curve; N causally arc-connected", "here": "weakened", "note": "none of the three is used: SubExtension.c_ext_connexe needed hthrough, hDac and the sorry exists_mem_image_inf"}
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1940-1941: the proof's middle step 'M -> A cap B is a Cauchy embedding, so phi(Sigma) is a Cauchy surface of A cap B' is not needed: the conclusion of l.1941-1942 (every point of A cap B lies on an inextensible causal curve of A cap B meeting phi(Sigma)) holds directly, by extending the constant curve at x to an inextensible curve of N and taking its components in A and in B, which meet phi(Sigma) at the single point where the curve of N does. The middle step itself (existence half) remains unproved in the abstract setting.",
+        "In the abstract setting A cap B is moreover causally convex in N and globally hyperbolic (IsCauchyEmbedding.inf_causallyConvexIn, N causally arc-connected): of 'M -> A cap B is a Cauchy embedding' only 'every inextensible curve of A cap B meets phi(Sigma)' remains open."
+      ],
+      "questions": []
+    },
+    {
+      "label": "prop:Cauchy_pgcd",
+      "tex_lines": [1945, 1966],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.isCauchyInclusion_iSup",
+        "Causal.isCauchyInclusion_sSup",
+        "Causal.IsCauchyInclusion.of_le",
+        "Causal.IsCauchyInclusion.trans",
+        "Causal.IsCauchyInclusion.causallyConvexIn"
+      ],
+      "hypotheses": [
+        {"paper": "(design step 3) union of the elements of E is a Cauchy inclusion of i1(M0)", "here": "carried", "note": "inside an open B (= M1) into which A (= i1(M0)) is Cauchy-included, B causally arc-connected with CurvesExtendOn B, M Hausdorff; non-empty family; no common Cauchy surface assumed"}
+      ],
+      "sorries": [],
+      "findings": [
+        "Closes obstruction (2) of SubExtension.cauchy_pgcd's sorry (ETT ledger gap 2): the inclusion of i1(M0) into the union of the elements of E IS a Cauchy inclusion, and the union is causally convex in M1. Cauchy property by components (Sbierski Thm 3.4 step 2), global hyperbolicity by causal convexity (not by Geroch). This file does not assemble cauchy_pgcd itself (package Pgcd)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "lem:Cauchy_plongement_toutes",
+      "tex_lines": [1865, 1870],
+      "status": "partial",
+      "marked": false,
+      "decls": ["Causal.Causality.IsCauchySurfaceOn.of_le"],
+      "hypotheses": [
+        {"paper": "N globally hyperbolic", "here": "weakened", "note": "only the antisymmetry of <=_B and M Hausdorff; relative form: S1, S2 in U <= B Cauchy in U, S1 Cauchy in B => S2 Cauchy in B"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.relativeTo",
+    "Causal.Causality.relativeTo_le_iff",
+    "Causal.Causality.relativeTo_le_top",
+    "Causal.Causality.relativeTo_isCausal",
+    "Causal.Causality.relativeTo_mem",
+    "Causal.Causality.relativeTo_causalCurveIn",
+    "Causal.Causality.relativeTo_inextensible_top",
+    "Causal.Causality.inextensible_ordConnectedComponent_of_le",
+    "Causal.Causality.curveOn_of_rel_imp",
+    "Causal.Causality.causalCurveIn_congr_causality",
+    "Causal.Causality.extensible_congr_causality",
+    "Causal.Causality.inextensible_congr_causality",
+    "Causal.Causality.CurvesExtendOn",
+    "Causal.Causality.curvesExtendOn_top",
+    "Causal.Causality.curvesExtendOn_of_timeFunction",
+    "Causal.Causality.IsCauchySurfaceOn.eq_of_le",
+    "Causal.Causality.exists_mem_cauchy_side",
+    "Causal.Causality.causallyConvexIn_of_isCauchySurfaceOn",
+    "Causal.Causality.le_of_causallyConvexIn_of_le",
+    "Causal.Causality.GloballyHyperbolicOn.of_causallyConvexIn",
+    "Causal.IsCauchyEmbedding.isCauchySurfaceOn_of_isCauchyInclusion",
+    "Causal.IsCauchyEmbedding.image_subset_inf",
+    "Causal.IsCauchyEmbedding.inf_causallyConvexIn",
+    "Causal.timelikeLine_curvesExtendOn",
+    "Causal.timelikeLine_causalConvex_hypotheses"
+  ],
+  "kb_proposals": [
+    "An open set U seen as a spacetime without a subtype: C.relativeTo U := (C.restrict U).extend (Causal/Local.lean). Inextensible U for C is Inextensible ⊤ for C.relativeTo U (relativeTo_inextensible_top), and inextensibility in W <= U reads only the relations below W (inextensible_congr_causality); so every ⊤-only curve lemma (e.g. inextensible_ordConnectedComponent) gets its relative form in ~5 lines (inextensible_ordConnectedComponent_of_le), needing only <=_U antisymmetric.",
+    "Do not read Cauchy surfaces of C.relativeTo U on ⊤: constant curves at points outside U are inextensible there and meet nothing; transfer curve statements, not IsCauchySurface, and reprove the relative Cauchy lemma (IsCauchySurfaceOn.of_le) with the relative component lemma.",
+    "Causal convexity of a Cauchy inclusion needs causal arc-connectedness of the ambient open set (to realise <=_B by a curve) besides T2 and CurvesExtendOn; GH of the inclusion is not used."
+  ],
+  "notes": "Model-free; imports CausalScaffold.SubExtension (for isConnected_of_homeomorph; none of its sorry'd declarations is used — #print axioms on isCauchyInclusion_iSup, c_ext_connexe', inf_causallyConvexIn, IsCauchyInclusion.causallyConvexIn and the witness gives [propext, Classical.choice, Quot.sound]) and CausalScaffold.CurvesExtend (relative CurvesExtendOn from a time function). Not added to the scaffold root (kb/0025: the master does it). Built only with `taskset -c 0-11 lake env lean`; `lake build` not run per dispatch. Design-step (1) is stated relative to an ambient open B (B = ⊤ gives the design's form); step (2) is stated for a non-empty family inside one spacetime, where compatibility is automatic; a CurvesExtendOn/CausallyArcConnectedOn pair on B is what Pgcd must supply for B = M1 (for B = ⊤ they are CurvesExtend and CausallyArcConnected, definitionally). c_ext_connexe' has the hypotheses of SubExtension.c_ext_connexe minus hDac, hthrough (and the sorry beneath it), so it can replace it in Pgcd's gluing step."
+}

@@ -1,0 +1,129 @@
+{
+  "package": "WP-35c-Laoucapulse",
+  "files": [
+    "scaffold/CausalScaffold/Flat/Laoucapulse.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bprop:laoucapulse",
+      "tex_lines": [
+        854,
+        866
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.laoucapulse_corrected",
+        "Causal.Flat.laoucapulse_zeroSection",
+        "Causal.Flat.isExpandingAtWrt_zeroSection_iff",
+        "Causal.Flat.expandsAtRate_zeroSection",
+        "Causal.Flat.le_penroseFactor_of_expandsAtRate",
+        "Causal.Flat.one_lt_penroseFactor_of_isExpandingAtWrt",
+        "Causal.Flat.isExpandingAt_lorentzSphere_of_isExpandingAtWrt",
+        "Causal.Flat.isExpandingAt_lorentzSphere_iff",
+        "Causal.Flat.isExpandingAtWrt_penroseDist_iff",
+        "Causal.Flat.LaoucapulseScaledReading",
+        "Causal.Flat.not_laoucapulseScaledReading_two",
+        "Causal.Flat.not_laoucapulseScaledReading_one",
+        "Causal.Flat.laoucapulse_cover",
+        "Causal.Flat.boostIsom_isExpandingAtWrt_laoBase_zero",
+        "Causal.Flat.isExpandingAtWrt_penroseDist_one_iff",
+        "Causal.Flat.laoucapulse_one"
+      ],
+      "hypotheses": [
+        {
+          "paper": "g linear (trivial translation part)",
+          "here": "carried",
+          "note": "g • 0 = 0 for U × {0} ⊆ E and the zero-section iff; weakened (any isometry, any s) for E ⊆ δ⁺⁻¹(U)"
+        },
+        {
+          "paper": "product of the round metric on S⁺ and any euclidean metric on ℝ",
+          "here": "weakened",
+          "note": "read as the sup product of the chordal metric and lam·|·|, every lam > 0 (penroseDist); the ℓ² (Riemannian) combination and the geodesic round metric are not formalized (refutation transfers by the SCOPE argument: the shear's singular value tends to 0, contracting in every norm)"
+        },
+        {
+          "paper": "n ≥ 3 (not printed)",
+          "here": "strengthened",
+          "note": "d ≥ 2 is added for laoucapulse_zeroSection (metric reading on 𝒮) only; for d = 1 the metric reading is false (not_laoucapulseScaledReading_one) and the conformal reading is TRUE in full (laoucapulse_one)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Prop 4.2 (l.857–865) is false as printed for n = 3 in the sup-product metric reading for EVERY euclidean metric lam·|·| on ℝ, not only lam = 1: the fibre rescaling (u,s) ↦ (u, lam s) commutes with a linear isometry and conjugates the two metrics, so Penrose's counterexample at (u₀,4) moves to (u₀,4/lam) (not_laoucapulseScaledReading_two). The ℓ²/geodesic readings fail by the SCOPE transfer argument (not formalized).",
+        "The strongest true form (laoucapulse_corrected): for linear g the expanding domain E ⊆ 𝒥⁺ is open with U × {0} ⊆ E ⊆ δ⁺⁻¹(U), U = {a(g,·) > 1}; at (u,0) g expands with every rate < a(g,u) and none > a(g,u), i.e. the 'common factor' remark l.849–851 is correct exactly on the zero section s = 0, where the shear s·∂a of the s-component vanishes. The inclusion E ⊆ δ⁺⁻¹(U) holds for every isometry, any translation part and every s.",
+        "For n = 2 (d = 1) 𝒮⁺ = S⁰ is discrete, every self-map is metrically expanding, and Prop 4.2 fails even on the zero section (boost with a(g,u₊) = 1/2, not_laoucapulseScaledReading_one): 'expanding on 𝒮⁺' must be read as the conformal factor a > 1, which is the reading Sullivan's hyperbolicity (l.1625–1627) uses.",
+        "For n = 2 (d = 1) the printed statement holds EXACTLY in the conformal reading ('expanding on 𝒮⁺' = a(g,·) > 1), as the set equality E = δ⁺⁻¹(U), for every isometry (translation part allowed), every lam > 0 and every s (laoucapulse_one, isExpandingAtWrt_penroseDist_one_iff): S⁰ is discrete, so near (u,s) the sup metric sees only the fibre, mapped by s ↦ a(u)s + b(u). So 4.2 holds for n = 2 in the conformal reading and fails for n = 3 in every reading (sup product formalized). Not a closure of the label, which covers every n: it stays unmarked.",
+        "Prop 4.2 is cited exactly once, at l.1660–1661 (Sullivan's property (i) transferred to 𝒥 along Λ̂ × {0} for the trivial cocycle). That use needs only the zero-section form, which is proved (laoucapulse_cover): if the conformal expanding domains U_i of the γ_i cover Λ̂, the open expanding domains E_i on 𝒥⁺ cover Λ̂ × {0}. So the false part of 4.2 is never consumed. Sullivan's 'some fixed round metric in the natural conformal class' (l.1625–1627) is the N-normalised metric pulled back by [h], h ∈ SO₀(1,d); laoucapulse_cover applied to h γ_i h⁻¹ (linear when γ_i is) and [h](Λ̂) gives the transported statement (stated in SCOPE, not formalized).",
+        "Prop 4.17's proof (l.1254–1267) does not cite 4.2; the repulsion it uses is governed by the conformal factor a(γ,v₀) = 1/λ > 1, and the claim 'the basin of repulsion of x₀ contains some δ⁻¹(U)' holds for any isometry γ with L(γ)v₀ = λv₀, 0 < λ < 1, without loxodromy (laoucapulse_repulsive_basin); for linear γ, x₀ = (v₀,0) and γ is expanding at x₀ in the metric reading (laoucapulse_repulsive_linear)."
+      ],
+      "questions": [
+        "'Expanding' is undefined in the paper. Reading taken: on 𝒥⁺, local metric expansion ∃ l > 1, l·D(y,z) ≤ D(gy,gz) near the point; on 𝒮⁺, conformal factor a(g,v) > 1 (equal to the metric reading for n ≥ 3, the only one meaningful for n = 2). Does the author intend Sullivan's notion (derivative norm > 1)? Under it 4.2 on 𝒥⁺ fails for the same shear reason, and holds on the zero section."
+      ]
+    },
+    {
+      "label": "bprop:admlox",
+      "tex_lines": [
+        1229,
+        1270
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.laoucapulse_repulsive_basin",
+        "Causal.Flat.laoucapulse_repulsive_basin_of_isRepulsiveFixed",
+        "Causal.Flat.laoucapulse_repulsive_linear"
+      ],
+      "hypotheses": [
+        {
+          "paper": "γ loxodromic, v₀ its repulsive fixed point",
+          "here": "weakened",
+          "note": "only L(γ)(1,v₀) = λ(1,v₀), 0 < λ < 1; γ any isometry"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Contribution only (the label is owned by Flat.Loxodromic, which proves the global basin for loxodromic γ): the step l.1260–1267 holds locally from the eigenvalue alone, with U a ball around v₀ obtained from the chordal identity."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.Flat.ExpandsAtRate",
+    "Causal.Flat.IsExpandingAtWrt",
+    "Causal.Flat.isOpen_setOf_isExpandingAtWrt",
+    "Causal.Flat.penroseDist",
+    "Causal.Flat.penroseDist_one",
+    "Causal.Flat.penroseFactor",
+    "Causal.Flat.penroseFactor_pos",
+    "Causal.Flat.continuous_penroseFactor",
+    "Causal.Flat.penroseFactor_sub",
+    "Causal.Flat.abs_lorentzScale_sub_le",
+    "Causal.Flat.IsConformallyExpandingAt",
+    "Causal.Flat.isomPenrose_fst",
+    "Causal.Flat.isomPenrose_snd",
+    "Causal.Flat.isomPenrose_of_smul_zero",
+    "Causal.Flat.nhdsNE_penroseSphere_neBot",
+    "Causal.Flat.fibreScale",
+    "Causal.Flat.lorentzScale_of_eigen",
+    "Causal.Flat.linearPart_inv_eigen",
+    "Causal.Flat.Laou.image_lightHyperplane",
+    "Causal.Flat.Laou.isomPenrose_mul",
+    "Causal.Flat.Laou.isomPenrose_one",
+    "Causal.Flat.Laou.isomPenrose_inv_apply",
+    "Causal.Flat.Laou.isomPenrose_apply_inv",
+    "Causal.Flat.Laou.isomPenrose_iterate",
+    "Causal.Flat.Laou.tendsto_zero_of_le_mul_add",
+    "Causal.Flat.Laou.tendsto_of_affine_recursion",
+    "Causal.Flat.Laou.exists_basin_sphere",
+    "Causal.Flat.Laou.isExpandingAt_of_one",
+    "Causal.Flat.Laou.boostIsom1"
+  ],
+  "kb_proposals": [
+    "Once Externals is imported, `boostIsom` resolves to `Causal.Flat.boostIsom : Fin d → ℝ → isom d` and shadows Penrose's `Laoucapulse.boostIsom` (d = 2): qualify it.",
+    "A metric statement about 'expanding' maps on 𝒮 = S^{d−1} is vacuous for d = 1 (S⁰ is discrete): read expansion on the sphere as the conformal factor a > 1, and state the metric equivalence under d ≥ 2 (isExpandingAt_lorentzSphere_iff, via connectedness of the sphere).",
+    "`isomPenrose` is a group action, proved through the lightlike hyperplanes it transports (Laou.isomPenrose_mul: image of hyperplanes + lightHyperplane_injective); at graduation it belongs in Penrose."
+  ],
+  "notes": "Typechecks with `taskset -c 0-11 lake env lean` with zero errors and zero warnings; no sorry, no axiom (#print axioms of the main theorems: propext, Classical.choice, Quot.sound). Imports Penrose, Externals and Mathlib.Analysis.Normed.Module.Connected only (none of the concurrently edited modules). Public names grepped against scaffold/ and Causal/: no collision; general helpers live in namespace Causal.Flat.Laou to avoid clashing with Loxodromic (which has continuous_isomPenrose, tendsto_isomPenrose_inv_pow, IsRepulsiveFixedJ). `lake build` of the module was not run (dispatch forbids it). The label bprop:laoucapulse stays unmarked: no non-tautological reading closes the printed statement (the only one would define 'expanding on 𝒥⁺' by a > 1). Fixer pass (post-audit): added the n = 2 conformal closure (laoucapulse_one), scoped the docstring headline to the sup-product reading, stated the Sullivan round-metric conjugation in SCOPE; rebuilt with zero errors and zero warnings, #print axioms of the new theorems: propext, Classical.choice, Quot.sound. MASTER ACTION (kb/0025): the scaffold root scaffold/CausalScaffold.lean does not import CausalScaffold.Flat.Laoucapulse, so the axiom sweep cannot see it; the master must add `import CausalScaffold.Flat.Laoucapulse` (authors may not edit the root). Until then the axiom-clean claim rests on #print axioms alone."
+}

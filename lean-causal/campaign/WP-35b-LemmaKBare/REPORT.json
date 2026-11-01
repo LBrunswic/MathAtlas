@@ -1,0 +1,85 @@
+{
+ "package": "WP-35b-LemmaKBare",
+ "files": [
+  "scaffold/CausalScaffold/LemmaKBare.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "DEC-44 Lemma K, bare form (Barbot Rem 2.3 `clomax` and §11, prose; no b-label)",
+   "tex_lines": [
+    576,
+    578
+   ],
+   "tex_lines_note": "legacy/labeled/GHFspace.tex: Rem 2.3 block 571-579 (sentence 576-578), §11 3537-3540 and 3578-3580",
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_isOpen_strictJplus",
+    "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_chronal",
+    "Causal.Causality.isCauchySurface_of_isLocallyCauchyTwoSided_of_isOpen_Jplus",
+    "Causal.Causality.isCauchySurface_of_isLocallyCauchyTwoSided_of_pushUp",
+    "Causal.staticCausality.isCauchySurface_of_compact_isLocallyCauchy",
+    "Causal.Causality.isAcausal_of_isLocallyCauchy",
+    "Causal.Causality.strictJplus"
+   ],
+   "hypotheses": [
+    {
+     "paper": "C a causality, M connected, T2, tarentin, GH, causally arc-connected, J^±(p) ≠ {p}",
+     "here": "carried",
+     "note": "exactly the hypotheses of the bare form isCauchySurface_of_isLocallyCauchy (CompactCauchy.lean:799)"
+    },
+    {
+     "paper": "Σ compact, connected, IsLocallyCauchy",
+     "here": "carried",
+     "note": "no two-sidedness in the core and in the chronal form"
+    },
+    {
+     "paper": "-",
+     "here": "strengthened",
+     "note": "named (kb/0012): C.CurvesExtend, as in the proved form; discharged on static spacetimes and under Geroch's hypotheses"
+    },
+    {
+     "paper": "-",
+     "here": "strengthened",
+     "note": "core: the strict causal future {x | ∃ z ∈ Σ, z ≤ x, x ≠ z} and strict past of Σ are open. Sufficient: (chronal form) C.PushUp and every point in Z^+ and Z^-; or (two-sided form) IsLocallyCauchyTwoSided plus J^±_⊤(V) open for every open V; or (gx form) PushUp + Z^+ = M for the past side and two-sidedness + J^+_⊤(V) open for the future side"
+    },
+    {
+     "paper": "global splitting (the proved form's datum, IsCauchySplitting)",
+     "here": "weakened",
+     "note": "not used by any of the four forms"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "SETTLED under CurvesExtend + PushUp + Z^± = M, NOT as stated: the bare DEC-44 form (isCauchySurface_of_isLocallyCauchy) holds, with no splitting and no two-sidedness, as soon as curves extend, C has push-up and every point is strongly tarentin in the past and the future (isCauchySurface_of_isLocallyCauchy_of_chronal). None of these three is a hypothesis of the bare form. On every static spacetime ℝ × X over a proper connected geodesic space it holds with exactly the bare hypotheses (staticCausality.isCauchySurface_of_compact_isLocallyCauchy); Minkowski space is an instance (checked), ℝ × flat torus is one mathematically but no torus instance is built in the library. This is what Barbot's Rem 2.3 (l.576-578) and §11 (l.3537-3540, 3578-3580) need, for regular flat spacetimes.",
+    "The splitting is not what the proof needs: it is sufficient that the strict causal future and past of Σ be open (necessity is not shown). Acausality then follows from connectedness of Σ alone (the strictly related part of Σ is open by hypothesis, closed because the relation of a GH spacetime is closed and Σ is locally acausal near the diagonal, and misses a ≤-minimal point of Σ found by Zorn on the compact diamonds Σ ∩ J^-(w)); J^+(Σ) ∪ J^-(Σ) is then clopen, hence M. Under that openness hypothesis a 'fold' of Σ (meeting a line twice, winding twice round a cylinder) is excluded by the connectedness step, with no projection.",
+    "For gx (BTZ): the bare form is NOT settled. At a BTZ point Z^- fails (SingularFlatAxioms.mem_Zminus_iff) and J^+(Σ)\\Σ ≠ I^+(Σ), so only the past side comes for free (push-up and Z^+ = M are fields of SingularFlatAxioms). Sufficient for gx: CurvesExtend (not a field of SingularFlatAxioms; every form here carries it) plus openness of the strict causal future of Σ; the latter follows from two-sidedness in the charts plus 'J^+_⊤(V) open for V open' (isCauchySurface_of_isLocallyCauchyTwoSided_of_pushUp).",
+    "No counterexample to the bare form was found. By the chronal form, a counterexample must break at least one of CurvesExtend, PushUp, Z^+ = M, Z^- = M (e.g. BTZ-like points, where Z^- fails), and so cannot be a static spacetime over a proper connected geodesic space."
+   ],
+   "questions": [
+    "Is J^+_⊤(V) open for every open V in a singular flat spacetime (E_{≥0}-manifold) - i.e. is it future causally open at BTZ lines? If yes (a model fact), the bare form of Lemma K holds for gx through isCauchySurface_of_isLocallyCauchyTwoSided_of_pushUp, given two-sidedness in the charts."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Causal.Causality.CurvesExtend.dual",
+  "Causal.Causality.IsLocallyCauchy.dual",
+  "Causal.Causality.IsLocallyCauchyTwoSided.dual",
+  "Causal.Causality.exists_le_le_mem_ne_of_le",
+  "Causal.Causality.exists_lt_of_le_of_isCauchySurfaceOn",
+  "Causal.Causality.exists_lt_of_le_of_ne_of_isLocallyCauchy",
+  "Causal.Causality.isOpen_strictJplus_of_Zminus",
+  "Causal.Causality.isOpen_strictJplus_of_twoSided",
+  "Causal.staticCausality.Jminus_singleton_ne",
+  "Causal.staticCausality.Jplus_singleton_ne",
+  "Causal.timelikeLine_lemmaKBare_hypotheses",
+  "Causal.timelikeLine_isCauchySurface_zero_of_lemmaKBare"
+ ],
+ "kb_proposals": [
+  "Lemma K does not need a splitting: it needs the strict causal future/past of Σ open; acausality is then a clopen argument on Σ (Zorn on Σ ∩ J^-(w) for a minimal point), see LemmaKBare.",
+  "CurvesExtend.dual now exists (LemmaKBare); together with Inextensible.dual_reverse it lets every curve-extension argument be dualised."
+ ],
+ "notes": "The bare sorry in CompactCauchy.lean:799 is NOT discharged as stated (the bare statement lacks CurvesExtend, PushUp and Z^± = M or any openness hypothesis). Recommended docstring for the master to put on that sorry: 'proved without splitting under CurvesExtend + PushUp + Z^± = M (isCauchySurface_of_isLocallyCauchy_of_chronal), on every static spacetime with the bare hypotheses only; open when any of CurvesExtend, PushUp or Z^± = M fails, in particular at BTZ points (Z^- fails)'. Barbot's Rem 2.3/Theorem B consumers can use the chronal or static form directly. Imports CausalScaffold.CompactCauchy, CausalScaffold.Splitting (for dual_isCauchySurfaceOn), CausalScaffold.CurvesExtend; none of the forbidden modules. Typechecks with zero errors and zero warnings (re-checked after the audit fixes); #print axioms on the four main theorems: propext, Classical.choice, Quot.sound only. Not registered in CausalScaffold.lean (outside write scope). Audit fixes applied: headline/SCOPE/finding wording no longer claims 'every spacetime without BTZ points' or 'exactly'; torus marked as not formalised; checklist tokens '⚠ added' -> '⚠ strengthened' (kb/0006)."
+}

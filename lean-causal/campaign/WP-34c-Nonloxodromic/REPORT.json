@@ -4,8 +4,8 @@
   "scaffold/CausalScaffold/Flat/Nonloxodromic.lean"
  ],
  "builds": true,
- "builds_meaning": "`taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/Nonloxodromic.lean` (closer pass, 2026-11-01): zero errors; the only warnings are the two `declaration uses 'sorry'` (nonloxodromic_elliptic, nonloxodromic_parabolic). `lake build` was not run (not granted). New import: Mathlib.NumberTheory.DiophantineApproximation.Basic (for `Real.exists_int_int_abs_mul_sub_le`).",
- "sorry_count": 2,
+ "builds_meaning": "`taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/Nonloxodromic.lean` (integrator pass WP-34c, 2026-11-01): zero errors; the only warning is one `declaration uses 'sorry'` (exists_unipotent_restriction_up_to_frame, [9.U]). The eight fan-out modules CausalScaffold.Flat.Nonlox.{EllipticBieberbach,SpacelikeSpan,TranslationLTP,NullFrame,BTrivial,UnipotentRestriction,UnipotentFrame,UnipotentLTP} were rebuilt once with `lake build` (granted, those modules only; all green) and are now imported. `#print axioms` (on a /tmp copy of the file): nonloxodromic_elliptic, CCAction.frameConj_smul, range_subset_dependenceDomain_of_developsCC: [propext, Classical.choice, Quot.sound]; nonloxodromic_parabolic, nonloxodromic: + sorryAx (only through exists_unipotent_restriction_up_to_frame). Nonloxodromic's own olean was NOT rebuilt (not granted), so its importers (TitsNull, Classification, Cla/*) have not been re-checked against the new imports.",
+ "sorry_count": 1,
  "labels": [
   {
    "label": "bprop:extension",
@@ -158,7 +158,7 @@
     2604,
     2617
    ],
-   "status": "partial",
+   "status": "closed",
    "marked": false,
    "decls": [
     "Causal.Flat.nonloxodromic_elliptic",
@@ -180,7 +180,10 @@
     "Causal.Flat.CCAction.exists_isQuotientOf_top_of_fix_timelike",
     "Causal.Flat.not_null_recurrent_of_isEntireAcausalGraph",
     "Causal.Flat.not_isEntireAcausalGraph_null_span",
-    "Causal.Flat.exists_isQuotientOf_omegaS_of_fix_timelike"
+    "Causal.Flat.exists_isQuotientOf_omegaS_of_fix_timelike",
+    "Causal.Flat.Nonlox.exists_translationSubspace_of_fix_timelike",
+    "Causal.Flat.Nonlox.minkQ_pos_of_mem_span_of_invariant",
+    "Causal.Flat.Nonlox.exists_isTranslationSpacetime_isLTPOver"
    ],
    "hypotheses": [
     {
@@ -199,15 +202,11 @@
      "note": "`T2Space M` (Develop's Prop 8.12 and `ccAction_of_developsCC` need it)"
     }
    ],
-   "sorries": [
-    {
-     "decl": "Causal.Flat.nonloxodromic_elliptic",
-     "obstruction": "proved here: all of `Γ` is elliptic (`isElliptic_of_relIndex`), `Ω(S̃) = 𝐌ⁿ`, and, for EVERY `Γ'' ≤ Γ'`, the free proper action of `Γ''` on `𝐌ⁿ` and the bundled quotient `B = Γ''\\Ω(S̃)` (`exists_isQuotientOf_omegaS_of_fix_timelike`, through `CCAction.finite_of_fix_timelike`: the `v`-lines carry a compact `K ⊆ 𝐌ⁿ` into a compact `K' ⊆ Σ`, `exists_compact_lift_of_entire`) — item (1), closed; and the danger of item (4) is excluded by acausality alone whenever the null direction is recurrent (`not_null_recurrent_of_isEntireAcausalGraph`; the example of `spacelike_translations_null_span` cannot occur, `not_isEntireAcausalGraph_null_span`). Missing: (2) transporting `Γ'` to `E ≃ᵃⁱ[ℝ] E` for the euclidean form `⟨x | y⟩ − 2⟨x | v⟩⟨y | v⟩/|v|²` fixed by `L(Γ')` (`IsDiscreteEucl` then follows from `CCAction.finite_of_fix_timelike` on closed balls) and applying `BieberbachI` there, with `BieberbachMaxConclusion` (maximal `U`) and `mem_direction_of_fixed` (the fixed `v` lies in `U`'s direction, l.2613–2615, so `U` is timelike); (3) the parametrization `ι` of `U` (`exists_affineMinkEmbedding_of_isTimelike`) and `RestrictsIn` for `suspendre` — no index-2 passage is needed here, `Γ''` acting on `U` by translations, so each restriction is a translation of `𝐌^{d₁+1}`; `𝐌ⁿ` is trivially `U^⊥`-invariant; (4) `IsTranslationSpacetime` for `Γ''_U\\U`: the span `V` of the translation vectors `τ_γ` (`γ p₀ = p₀ + τ_γ` at `p₀ ∈ Σ ∩ U`, nonempty since `U` contains a timelike line) has no timelike vector (an open cone of `V` meets the lattice, against Lemma 8.6) and no null one (a null `n ∈ V` is recurrent by pigeonhole in the torus `V/Λ` — not formalized — against `not_null_recurrent_of_isEntireAcausalGraph`), so `V` is spacelike; then a Lorentz frame `φ` moving `V` into `{t = 0}` and the identification of `ι.restrictGroup Γ''` with `frameConj φ (horizGroup Λ)`, `Λ` ball-finite (discreteness from item (1))"
-    }
-   ],
+   "sorries": [],
    "findings": [
     "'quotients of M^n by a group of translations by spacelike translation vectors' (l.588-590) is not 'translations whose span is spacelike' (BARBOT-THEOREMS §1's reading, Examples' IsTranslationSpacetime): in M^4 the translations by e1 and e0 + e2 + sqrt2 e1 generate a rank-2 group all of whose nonzero vectors are spacelike while its span contains the null vector e0 + e2 (`spacelike_translations_null_span`). Its quotient carries no invariant entire acausal graph (an invariant graph f = x2 + h, h doubly periodic, cannot be strictly contracting along e2), so (CC') should exclude it, but [9.E]'s 'translation spacetime' then needs that argument.",
-    "Closer pass (2026-11-01): Barbot states only freeness of Gamma on M^n (l.2609-2610); the quotient needs properness, proved here for every subgroup whose linear parts fix a timelike v (`CCAction.finite_of_fix_timelike`: the v-lines carry a compact of M^n into a compact of Sigma, Sigma being a 1-Lipschitz entire graph). The degenerate-span danger (`spacelike_translations_null_span`) is excluded by ACAUSALITY ALONE, not by (CC')'s null saturation, once the null direction n of the span is recurrent (some s >= 1 and translation tau of a point p0 of Sigma with |s n - tau| < eps): `not_null_recurrent_of_isEntireAcausalGraph`; the example group itself preserves no entire acausal graph (`not_isEntireAcausalGraph_null_span`, via Dirichlet). Recurrence for a lattice of the span (pigeonhole in the torus) is the only unformalized link of that argument."
+    "Closer pass (2026-11-01): Barbot states only freeness of Gamma on M^n (l.2609-2610); the quotient needs properness, proved here for every subgroup whose linear parts fix a timelike v (`CCAction.finite_of_fix_timelike`: the v-lines carry a compact of M^n into a compact of Sigma, Sigma being a 1-Lipschitz entire graph). The degenerate-span danger (`spacelike_translations_null_span`) is excluded by ACAUSALITY ALONE, not by (CC')'s null saturation, once the null direction n of the span is recurrent (some s >= 1 and translation tau of a point p0 of Sigma with |s n - tau| < eps): `not_null_recurrent_of_isEntireAcausalGraph`; the example group itself preserves no entire acausal graph (`not_isEntireAcausalGraph_null_span`, via Dirichlet). Recurrence for a lattice of the span (pigeonhole in the torus) is the only unformalized link of that argument.",
+    "Integrator 2026-11-01: `nonloxodromic_elliptic` is CLOSED, no sorry, statement unchanged: Bieberbach for Gamma' in the euclidean form fixed by L(Gamma') gives a finite-index H' acting on a maximal affine U (v in its direction) by translations Lambda (Flat/Nonlox/EllipticBieberbach); span(Lambda) is spacelike because Sigma = D(S~) is an entire acausal graph meeting U and invariant by Lambda (Flat/Nonlox/SpacelikeSpan, which supplies the pigeonhole/recurrence step the earlier draft lacked); suspendre gives the LTP over the translation spacetime H'_U\\U (Flat/Nonlox/TranslationLTP). Prose label: unmarked by convention; Bieberbach is the carried external BieberbachI."
    ],
    "questions": [
     "Is a translation spacetime (l.588-590) meant with a spacelike span of translation vectors (as BARBOT-THEOREMS §1 reads it), so that the degenerate-span rank-2 groups are excluded by definition?",
@@ -245,7 +244,9 @@
     "Causal.Flat.minkToNolₗ",
     "Causal.Flat.exists_nolParam",
     "Causal.Flat.nolQ_add",
-    "Causal.Flat.nullY_nolToMink"
+    "Causal.Flat.nullY_nolToMink",
+    "Causal.Flat.Nonlox.exists_isom_linear_null_frame",
+    "Causal.Flat.CCAction.frameConj_smul"
    ],
    "hypotheses": [],
    "sorries": [],
@@ -284,20 +285,21 @@
     2767,
     2787
    ],
-   "status": "partial",
+   "status": "closed",
    "marked": false,
    "decls": [
     "Causal.Flat.b_trivial",
     "Causal.Flat.b_trivial_model",
     "Causal.Flat.b_eq_zero_model",
     "Causal.Flat.NolParam.powU",
-    "Causal.Flat.nolQ_powU_sub"
+    "Causal.Flat.nolQ_powU_sub",
+    "Causal.Flat.Nonlox.nullY_smul_eq_of_isParabolic"
    ],
    "hypotheses": [
     {
      "paper": "gamma_1 parabolic",
-     "here": "strengthened",
-     "note": "gamma_1 purely unipotent (R = id); b(gamma_1) = 0 is proved from v(gamma_1) != 0 (`b_eq_zero_model`, the p^4 coefficient -b^2|v|^2/12)"
+     "here": "carried",
+     "note": "carried in Flat/Nonlox/BTrivial's `Nonlox.nullY_smul_eq_of_isParabolic` (any parabolic gamma_1 = R U, the leading term on Fix R), the one nonloxodromic_parabolic uses; `b_trivial` here keeps the purely unipotent case"
     }
    ],
    "sorries": [],
@@ -320,12 +322,26 @@
     "Causal.Flat.nu_mul",
     "Causal.Flat.NolParam.powA",
     "Causal.Flat.NolParam.powA_act",
-    "Causal.Flat.NolParam.iterate_act"
+    "Causal.Flat.NolParam.iterate_act",
+    "Causal.Flat.exists_unipotent_restriction_up_to_frame",
+    "Causal.Flat.Nonlox.UnipotentRestrictionStatement",
+    "Causal.Flat.Nonlox.UnipotentRestrictionConclusion",
+    "Causal.Flat.Nonlox.exists_unipotent_restriction_counterexample",
+    "Causal.Flat.Nonlox.not_unipotentRestrictionStatement"
    ],
    "hypotheses": [],
-   "sorries": [],
-   "findings": [],
-   "questions": []
+   "sorries": [
+    {
+     "decl": "Causal.Flat.exists_unipotent_restriction_up_to_frame",
+     "obstruction": "see [9.A]; the reduction to A_{T,l} on an invariant timelike U ∋ v0 in SOME frame psi; truth in general not established"
+    }
+   ],
+   "findings": [
+    "l.2881-2892 ('the action of every lambda(gamma) on the span of all the U_t is unipotent … U_t does not depend on t') is false in a fixed null frame: Flat/Nonlox/UnipotentRestriction gives Gamma = {P(k theta, k)} in M^5 (irrational screw motions) with CCAction on the hyperboloid, L(Gamma) fixing v0, b ≡ 0, a parabolic element, and the U_t parallel axes t w + R e2 depending on t; the dispatched exists_unipotent_restriction is refuted (not_unipotentRestrictionStatement, given BieberbachI R^3). After the null rotation n_w the conclusion holds in the example (not formalized). The integration therefore rests on the corrected form exists_unipotent_restriction_up_to_frame (conclusion after some frame psi), whose general truth is OPEN."
+   ],
+   "questions": [
+    "Does [9.U] hold up to a frame psi in general (is the union of the U_t x {t} always an affine subspace, made vertical by a null rotation fixing v0)? If not, nonloxodromic_parabolic needs a different route."
+   ]
   },
   {
    "label": "rem unipcomplet (Rem 9.4, l.2958-2963)",
@@ -376,13 +392,20 @@
     "Causal.Flat.linOf_fix_of_relIndex",
     "Causal.Flat.perp_invariant_omegaS_of_relIndex",
     "Causal.Flat.perp_invariant_omegaS_of_developsCC",
-    "Causal.Flat.discreteTopology_of_developsCC"
+    "Causal.Flat.discreteTopology_of_developsCC",
+    "Causal.Flat.range_subset_dependenceDomain_of_developsCC",
+    "Causal.Flat.CCAction.frameConj_smul",
+    "Causal.Flat.exists_unipotent_restriction_up_to_frame",
+    "Causal.Flat.Nonlox.exists_isom_linear_null_frame",
+    "Causal.Flat.Nonlox.nullY_smul_eq_of_isParabolic",
+    "Causal.Flat.Nonlox.exists_unipotent_frame_of_symm",
+    "Causal.Flat.Nonlox.exists_unipotent_ltp_of_frame"
    ],
    "hypotheses": [
     {
      "paper": "D(M~) contained in pi_0^-1(pi_0(S~)) (l.3123-3125)",
      "here": "carried",
-     "note": "`hcaus` (Prop 8.12, Develop's `bprop_danom`) in `nonloxodromic_parabolic`; the step itself is in the sorry"
+     "note": "`hcaus`: D(M~) ⊆ D(Sigma) (`range_subset_dependenceDomain_of_developsCC`, Prop 8.12's step 3 redone with public lemmas), so every null line of direction L(phi)^-1 v0 through D(M~) meets Sigma (`exists_mem_nullLine_of_mem_dependenceDomain`); fed to Nonlox.exists_unipotent_ltp_of_frame"
     },
     {
      "paper": "up to finite index, L(Gamma) fixes v0 and Gamma contains a parabolic (l.2621-2622)",
@@ -402,13 +425,14 @@
    ],
    "sorries": [
     {
-     "decl": "Causal.Flat.nonloxodromic_parabolic",
-     "obstruction": "the coordinate results are proved (Stab(v0) as NolParams, [9.b] for purely unipotent gamma_1, 9.3, 9.5, Rem 9.2, the group A and its identification with Examples' unipAction, conclusion_model), all of Gamma fixing v0 and G6 for Omega(S~) of Gamma (`perp_invariant_omegaS_of_developsCC`), and D(M~) ⊆ Omega(S~) (Develop's bprop_danom). Missing in M^n: a frame phi taking v0 to ofNull 1 0 0 and the conjugation by it; [9.b] for R != id; [9.U]'s Bieberbach step (properness of alpha(Gamma) on P0bar x {0}, Cor 8.3's homeomorphism), independence of U_t from t, Gamma ≅ Z^k with v = T∘u linear; the y-origin change making y- = -y+; the linear form l extending nu from the lattice; RestrictsIn for suspendre; Omega := pi_U^-1(Omega_A) with Omega_A the component of Omega(A) containing S~ ∩ U: Omega ⊆ Omega(S~) (Omega(A) ⊆ U(Gamma'') = U(Gamma) by UGamma_eq_of_index, then G6), D(M~) ⊆ pi_0^-1(pi_0 S~) ⊆ Omega (l.3123-3125), and the quotients B = Gamma''\\Omega, M1 = Gamma''_U\\Omega_A"
+     "decl": "Causal.Flat.exists_unipotent_restriction_up_to_frame",
+     "obstruction": "nonloxodromic_parabolic is assembled with no sorry of its own; its only sorryAx is the [9.U] step, stated in a corrected form (the dispatched conclusion after SOME frame psi). The frame-free dispatched form is FALSE (Nonlox.not_unipotentRestrictionStatement). Missing: (a) a frame making the union of the U_t x {t} vertical, and whether it always exists; (b) Bieberbach for lambda(Gamma) on P0bar x {0} (properness of alpha(Gamma), Cor 8.3) and the maximality argument; (c) Gamma ≅ Z^k, u(Gamma) a lattice, v = T∘u linear symmetric on span L; (d) the normalisation y- = -y+ by a shift y0; (e) the linear l extending nu (nu_mul); (f) RestrictsIn/orthochronous iota; (g) every height of ]ylo,yhi[ met by Sigma ∩ U."
     }
    ],
    "findings": [
     "Rem 9.4 (l.2958-2962) has a consequence the paper does not draw: when every element of Gamma is a nonlinear unipotent isometry, Omega(S~) = M^n while D(M~) lies in a slab, and M(S) = Gamma\\M^n embeds in NO unipotent spacetime (an injective local isometry of Gamma_U\\M^n into Gamma_N\\phi(]alpha,beta[) lifts to a global isometry of M^n onto the slab, forcing ]alpha,beta[ = R, l = 0 and Gamma_N translations, against the nontrivial unipotent linear part). Example: M^4, l = (1,0), Gamma = <phi(e1+e2)> on {y > -1}. The conclusion of l.3126 is about M (D(M~) ⊆ Omega ⊆ Omega(S~), Omega ≠ Omega(S~) in general), not about M(S); BARBOT-THEOREMS §3's gloss 'conclusions about M(S) = Gamma\\Omega(S~): ... the parabolic reduction l.2904-2907 then l.3120-3127' should read 'about M' for the parabolic case. The earlier draft of `nonloxodromic_parabolic` (M(S) an LTP over a spacetime embedding in a unipotent one) was false for this reason and is restated.",
-    "Fixer 2026-11-01: `nonloxodromic`'s third branch (null v0 fixed, all elliptic, no parabolic) now rests on the TRUE `exists_timelike_fixed_of_elliptic_of_null` (discrete Gamma, external `TitsVirtuallyAbelianNull`), the discreteness being proved from the developing data; `nonloxodromic` gained the hypothesis `(hT : TitsVirtuallyAbelianNull d)`, its conclusion is unchanged."
+    "Fixer 2026-11-01: `nonloxodromic`'s third branch (null v0 fixed, all elliptic, no parabolic) now rests on the TRUE `exists_timelike_fixed_of_elliptic_of_null` (discrete Gamma, external `TitsVirtuallyAbelianNull`), the discreteness being proved from the developing data; `nonloxodromic` gained the hypothesis `(hT : TitsVirtuallyAbelianNull d)`, its conclusion is unchanged.",
+    "Integrator 2026-11-01: `nonloxodromic_parabolic` is assembled (statement unchanged; d = 0 is vacuous since a nonzero null vector needs d >= 1): frame phi (NullFrame), [9.b] for any parabolic gamma_1 (BTrivial), [9.U] up to a further frame psi (the one sorry), Prop 9.3 and 9.5 here, mem_omegaA_of_limites, the frame phi_1 diagonalising T (UnipotentFrame) and [9.A] (UnipotentLTP), all in the composite frame psi*phi."
    ],
    "questions": [
     "The dispatch's output (2) for Classification ('the parabolic branch => M(S) is an LTP over a spacetime that embeds in a unipotent spacetime') is false (finding above). This file ships instead: ∃ Gamma'' ≤ Gamma of finite index, an open Gamma''-invariant Omega with D(M~) ⊆ Omega ⊆ Omega(S~), and B = Gamma''\\Omega an LTP over an IsUnipotentSpacetime (DEC-43 R1, l.3126). Classification must consume this form (it gives R1 through D: M~ -> Omega, not through M(S)); please confirm with the orchestrator."
@@ -488,7 +512,10 @@
   "Causal.Flat.CCAction.exists_isQuotientOf_top_of_fix_timelike",
   "Causal.Flat.not_null_recurrent_of_isEntireAcausalGraph",
   "Causal.Flat.not_isEntireAcausalGraph_null_span",
-  "Causal.Flat.exists_isQuotientOf_omegaS_of_fix_timelike"
+  "Causal.Flat.exists_isQuotientOf_omegaS_of_fix_timelike",
+  "Causal.Flat.CCAction.frameConj_smul",
+  "Causal.Flat.range_subset_dependenceDomain_of_developsCC",
+  "Causal.Flat.exists_unipotent_restriction_up_to_frame"
  ],
  "kb_proposals": [
   "Barbot's null coordinates are a model `ℝ × E × ℝ` with `Q = 2xy + |z|²` (`Flat/Nonloxodromic`'s `nolQ`, `NolParam`), linked to `𝐌ⁿ` by `nolToMink := ofNull`; an element of `Stab(v₀)` is the data `(R, u, v, μ, b)` with an explicit composition law (`NolParam.mul`), and powers/quadratic leading terms are proved by `ext` + `ring` after `norm_add_sq_real`, keeping `‖u + y • v‖²` as an atom.",
@@ -499,9 +526,11 @@
   "A group of isometries acting properly on a nonempty closed invariant subset of Minkowski space is discrete in Externals' `isomTopology` (`discreteTopology_of_ccAction`): bound gamma x near gamma0 x, use properness on the compact Sigma ∩ (closedBall x 1 ∪ closedBall (gamma0 x) 1), then {gamma0} = U \\ (U \\ {gamma0}) with U open and finite (T2 from `isomPair_injective`).",
   "Commuting elliptic Lorentz maps fix a common timelike vector: induct on the dimension of an invariant subspace W containing a timelike vector; W ⊕ W^⊥ (`isCompl_orthogonal_iff_disjoint minkForm_isRefl`, W^⊥ spacelike) and the W-part of a fixed timelike vector is fixed (`exists_timelike_fixed_mem_of_invariant`).",
   "A nilpotent group of elliptic Lorentz maps fixes a common timelike vector: induct along `Subgroup.upperCentralSeries` (at this pin in namespace `Subgroup`; the `Group.` names are deprecated), with W_k the common fixed space of Z_k (Γ-invariant as Z_k is characteristic, hence normal), on which Z_{k+1} commutes because ⁅a, b⁆ ∈ Z_k (`mem_upperCentralSeries_succ_iff`, `commutatorElement_def`); the commuting step is the relative `exists_timelike_fixed_of_comm_elliptic_on`.",
-  "A group whose linear parts fix a timelike v acts properly on all of M^n as soon as it acts properly on an invariant entire acausal graph Sigma: push a compact K along v into Sigma (`exists_compact_lift_of_entire`: |s|(v_0 - |v_bar|) <= |k_0 - g(k_bar)| for k + s v in graph g), and use gamma(k + s v) = gamma k + s v (`isom_smul_add_smul`). Gives ProperlyDiscontinuousSMul/IsCancelSMul on the subtype top and `FlatQuotient.toFlatSpacetime`."
+  "A group whose linear parts fix a timelike v acts properly on all of M^n as soon as it acts properly on an invariant entire acausal graph Sigma: push a compact K along v into Sigma (`exists_compact_lift_of_entire`: |s|(v_0 - |v_bar|) <= |k_0 - g(k_bar)| for k + s v in graph g), and use gamma(k + s v) = gamma k + s v (`isom_smul_add_smul`). Gives ProperlyDiscontinuousSMul/IsCancelSMul on the subtype top and `FlatQuotient.toFlatSpacetime`.",
+  "When a fan-out lemma's dispatched statement is refuted (here [9.U]'s exists_unipotent_restriction), integrate through ONE sorry'd lemma in the corrected form whose conclusion is reusable verbatim (Nonlox.UnipotentRestrictionConclusion after a frame psi), compose frames (psi*phi) downstream, and say in the docstring that the corrected form's truth is open; never state the refuted form as a theorem.",
+  "frameConj has no public composition API in Flat/Examples: Nonloxodromic carries private nol_frameConj_mul/_inv/_mono/relIndex helpers and Cla/UnipEnvelope its own Causal.Flat.Cla.frameConj_mul'/frameConj_inv_frameConj; a public frameConj_mul, frameConj_inv_frameConj, relIndex_frameConj (Subgroup.relIndex_map_map_of_injective) in Examples would remove the duplication at graduation."
  ],
- "notes": "SECOND FIXER PASS (bprop:sanloxo branch, 2026-11-01). NO STATEMENT CHANGED IN THIS PASS: every existing declaration keeps its signature and conclusion, so Classification.lean (which already consumes the round-3a forms — `TitsVirtuallyAbelianNull`, `titsVirtuallyAbelianNull_zero`, `exists_timelike_fixed_of_elliptic_of_null hT (discreteTopology_of_developsCC hpair h hle₁) hv0 hv hfix hell`, `nonloxodromic hB hT hBieb …`) needs NO change. The statement changes in force are those of round 3a (commit 43a8725), recorded in `statement_changes`: (1) `exists_timelike_fixed_of_elliptic_of_null` OLD `{Γ} {v₀} (_hv0 : v₀ ≠ 0) (_hv : minkQ v₀ = 0) (_hfix : ∀ γ ∈ Γ, linOf γ v₀ = v₀) (_hell : ∀ γ ∈ Γ, IsElliptic (linOf γ)) : ∃ Γ' ≤ Γ, Γ'.relIndex Γ ≠ 0 ∧ ∃ v, minkQ v < 0 ∧ ∀ γ ∈ Γ', linOf γ v = v` [sorry, false for d ≥ 5] → NEW `(hT : TitsVirtuallyAbelianNull d) {Γ} (hdisc : DiscreteTopology Γ) {v₀} (hv0) (hv) (hfix) (hell) : <same conclusion>` [proved]; (2) `nonloxodromic` OLD `(hB : BenoistNoLox d) (hBieb …) (hpair) (hcaus) (h) (hnl) : <C>` → NEW `(hB : BenoistNoLox d) (hT : TitsVirtuallyAbelianNull d) (hBieb …) (hpair) (hcaus) (h) (hnl) : <C, unchanged>`. WHAT THIS PASS DID (DEC-27 options checked): (a) `λ(Γ)` discrete is not supplied by the call sites (only Γ is discrete; Barbot's commented example l.2551–2562; point (3) l.2660–2675 concerns α(Γ)), so no λ-discrete form was added; (b) no external faithful to Prop 9.1's citation (Benoist) can give the conclusion — the linear counterexample satisfies BenoistNoLox and its Zariski closure has null rotations — so none was added; the Barbot-cited Thm 5.1 (AuslanderCarriereDalbo, already in Externals) gives the branch on Γ_nd; (c) ADDED, all proved, no sorry, no axiom: `exists_timelike_fixed_of_comm_elliptic_on` (relative commuting lemma), `linFixSub` (common fixed subspace, a Submodule), `exists_timelike_fixed_of_nilpotent_elliptic` ([Group.IsNilpotent Γ], elliptic linear parts ⇒ common timelike fixed vector, every d), `exists_timelike_fixed_nonDiscretePart` (AuslanderCarriereDalbo d, DiscreteTopology Γ, elliptic ⇒ Γ_nd's linear parts fix a timelike vector), `exists_timelike_fixed_of_elliptic_of_ausl` (+ `(nonDiscretePart Γ).relIndex Γ ≠ 0` ⇒ the conclusion of `exists_timelike_fixed_of_elliptic_of_null`, with no null vector and no Tits). `nonloxodromic` keeps the Tits route (switching would add a hypothesis the §8 data do not supply). Counterexample: documented (SCOPE finding (7), extended), not formalized (any counterexample contains a free group). `nonloxodromic_elliptic`, `nonloxodromic_parabolic`: unchanged statements, still sorried, tags unchanged — each needs multi-hundred-line developments (isomTopology a group topology so that the discrete Γ' is closed and acts properly on M^n; the bundled quotient; the Bieberbach transport to E ≃ᵃⁱ E; RestrictsIn for suspendre; for the parabolic one the frame change, [9.b] for R ≠ id, [9.U] and Ω := π_U⁻¹(Ω_A)). Docstring: bprop:sanloxo bullet, the branch section comment, the checklist row and SCOPE finding (7) extended. Sorries 2. PREVIOUS NOTES (round 3a and earlier): FIXER PASS (bprop:sanloxo branch) 2026-11-01. STATEMENT CHANGES (DEC-27, this file only; see `statement_changes`): (1) `exists_timelike_fixed_of_elliptic_of_null` gains `(hT : TitsVirtuallyAbelianNull d)` (first explicit argument) and `(hdisc : DiscreteTopology Γ)` (after Γ, in Externals' scoped `isomTopology`); conclusion unchanged; now PROVED (was a sorry, false for d ≥ 5). (2) `nonloxodromic` gains `(hT : TitsVirtuallyAbelianNull d)` as its second explicit argument (after hB); conclusion unchanged. No other statement changed; `nonloxodromic_elliptic` and `nonloxodromic_parabolic` unchanged (still sorried, tags kept; the [9.E] tag now notes the proved discreteness). NEW DECLS: external `TitsVirtuallyAbelianNull d : Prop` (∀ Γ discrete, linear parts fixing a nonzero null v₀ and all elliptic ⇒ ∃ finite-index Γ' ≤ Γ with pairwise commuting linear parts; derivation from Tits' alternative + amenability + compact solvable groups in its docstring; not cited by Barbot) with witness `titsVirtuallyAbelianNull_zero`; proved: `exists_timelike_fixed_of_comm_elliptic` (commuting elliptic linear parts fix a common timelike vector, any d), `exists_timelike_fixed_mem_of_invariant`, `disjoint_minkOrth_of_timelike`, `isCompl_minkOrth_of_timelike`, `continuous_isom_smul_apply`, `discreteTopology_of_ccAction` (CCAction Γ St ⇒ DiscreteTopology Γ), `discreteTopology_of_developsCC` (hpair h, Γ' ≤ ρ.range ⇒ DiscreteTopology Γ'). FOR CLASSIFICATION (its closer runs next): `caseOutput_nonloxodromic` (Classification.lean ~l.344) calls `exists_timelike_fixed_of_elliptic_of_null hv0 hv hfix hell`, which no longer typechecks; replace by `exists_timelike_fixed_of_elliptic_of_null hT (discreteTopology_of_developsCC hpair h hle₁) hv0 hv hfix hell`, with `hT : TitsVirtuallyAbelianNull d` added to `caseOutput_nonloxodromic` and supplied from `BarbotExternals` (a new field, e.g. `tits : ∀ k ≤ d, TitsVirtuallyAbelianNull k`; `barbotExternals_zero` extends with `titsVirtuallyAbelianNull_zero`, and `BarbotExternals.mono` with the same pattern as `benoist`). Any direct call of `nonloxodromic` must insert hT after hB. The counterexample to the old lemma is documented (SCOPE finding (7), REPORT bprop:sanloxo findings), not formalized (needs freeness of a pair of unit quaternions). Sorries now 2. No name collision with any scaffold source (grep). PREVIOUS: CLOSER PASS 2026-11-01: 0 sorries closed, 3 left. (a) `exists_timelike_fixed_of_elliptic_of_null` is FALSE AS STATED for d >= 5: counterexample (2-generated, linear, from a free pair of unit quaternions acting on P0bar = R^4 = H) in the bprop:sanloxo sorry entry, in the Lean tag and in the SCOPE finding (7); the statement was not changed; the old obstruction's 'finitely generated suffices' is also refuted; true for d <= 3 and for discrete lambda(Gamma). `nonloxodromic`'s third branch and Classification.lean:314 consume it: raise with the orchestrator. (b) `nonloxodromic_elliptic` and (c) `nonloxodromic_parabolic` keep their obstruction tags unchanged: each still needs developments not in the library (properness of Gamma'' on Omega(S~) and the bundled FlatSpacetime quotient; the transport of Gamma' to E ≃ᵃⁱ E and BieberbachI/BieberbachMaxConclusion; RestrictsIn for suspendre after an index-2 passage; for (b) the exclusion of degenerate translation spans from (CC'); for (c) a frame taking v0 to ofNull 1 0 0, [9.b] for R != id, the [9.U] Bieberbach step and lattice/linearity of u, the y-origin change, the extension of nu, and Omega := pi_U^-1(Omega_A) with D(M~) ⊆ Omega). Neither was found false. No statement, signature or docstring claim changed; only the first sorry's tag and SCOPE (two additions) were edited. PREVIOUS (fixer pass): FIXER PASS 2026-11-01 (audit blocking 1, 2 and minors applied). (1) `nonloxodromic_parabolic` restated: its earlier conclusion (M(S) = Gamma''\\Omega(S~) an LTP over a spacetime embedding in a unipotent one) is refuted by Rem 9.4; it now gives ∃ Gamma'' ≤ Gamma' of finite index, Omega : Opens with range D ⊆ Omega ⊆ Omega(S~), B with IsQuotientOf B Gamma'' Omega, and IsLTPOver B M1 with IsUnipotentSpacetime M1 (DEC-43 R1, l.3126). `nonloxodromic` now outputs ∃ Gamma'' ≤ Gamma (finite index) Omega B, range D ⊆ Omega ⊆ Omega(S~) ∧ IsQuotientOf B Gamma'' Omega ∧ ((Omega = Omega(S~) ∧ LTP over a translation spacetime) ∨ LTP over a unipotent spacetime); still no sorry of its own (range D ⊆ Omega(S~) from bprop_danom in the elliptic branch). (2) Both branch theorems gained `Gamma'.relIndex rho.range != 0`; the parabolic one also `hnl` on rho.range. (3) The G6 bridge is proved (`linOf_fix_of_relIndex`, `perp_invariant_omegaS_of_developsCC`). (4) Checklist tag '⚠ strengthened' for the fixed frame. All main theorems carry `[T2Space M]` (explicit binder). The output (2) of the dispatch for Classification is false as worded and must be replaced by this file's form — raise with the orchestrator. Remaining sorries: 3 (exists_timelike_fixed_of_elliptic_of_null, nonloxodromic_elliptic, nonloxodromic_parabolic); none could be closed in this pass (Bieberbach transport, suspendre, quotient constructions and the [9.U] steps are each multi-hundred-line developments). Typechecked against the built oleans; the closer's newer Develop.lean adds `[T2Space M]` to `ccAction_of_developsCC`/`bprop_danom`, which this file supplies, so it should also typecheck after Develop is rebuilt (not verified: no lake build). Universe: B, M1 : FlatSpacetime.{0}. No public-name collision with any scaffold source (checked by grep against current sources, incl. Loxodromic.lean and the edited Develop.lean). CLOSER PASS (WP-34c, 2026-11-01): NO STATEMENT CHANGED; sorry count stays 2. [9.E] item (1) CLOSED as lemmas: free proper action of every Gamma'' <= Gamma' on M^n and the bundled quotient B = Gamma''\\Omega(S~) (`exists_isQuotientOf_omegaS_of_fix_timelike`, `CCAction.finite_of_fix_timelike`, `CCAction.free_of_fix_timelike`, the subtype instances). [9.E] item (4): the null-span exclusion reduced to recurrence (`not_null_recurrent_of_isEntireAcausalGraph`, acausality only), with the SCOPE-finding-3 example group shown to preserve no entire acausal graph (`not_isEntireAcausalGraph_null_span`). Item (3) sharpened: no index-2 passage is needed in [9.E] (Gamma'' acts on U by translations). Still open in [9.E]: (2) Bieberbach transport to E ≃ᵃⁱ[ℝ] E and the maximal U, (3) ι/RestrictsIn/suspendre assembly, (4) torus recurrence for a lattice + the frame moving the spacelike span to {t = 0} + the identification restrictGroup Gamma'' = frameConj phi (horizGroup Lambda). [9.P]–[9.A]: untouched, its seven missing items are each multi-hundred-line developments (frame transitivity on null rays in SO_0(1,d) needs spatial SO(d) rotations, which the library does not construct; [9.b] for R ≠ id; [9.U] Bieberbach/maximality; the y-normalisation; ℓ; the Ω_A construction and the quotients). No counterexample found to either sorried statement. INTEGRATOR PASS (DEC-50, 2026-11-01): docstrings only, no code; see integrator_DEC50. The external TitsVirtuallyAbelianNull is now proved in Flat/TitsNull and discharged in Flat/Classification.",
+ "notes": "INTEGRATOR PASS WP-34c (2026-11-01): nonloxodromic_elliptic CLOSED; nonloxodromic_parabolic assembled on the one sorry exists_unipotent_restriction_up_to_frame ([9.U] up to a frame; the frame-free dispatched form is refuted by Flat/Nonlox/UnipotentRestriction); sorry_count 2 -> 1; no statement changed. See integrator_WP34c. PREVIOUS NOTES: SECOND FIXER PASS (bprop:sanloxo branch, 2026-11-01). NO STATEMENT CHANGED IN THIS PASS: every existing declaration keeps its signature and conclusion, so Classification.lean (which already consumes the round-3a forms — `TitsVirtuallyAbelianNull`, `titsVirtuallyAbelianNull_zero`, `exists_timelike_fixed_of_elliptic_of_null hT (discreteTopology_of_developsCC hpair h hle₁) hv0 hv hfix hell`, `nonloxodromic hB hT hBieb …`) needs NO change. The statement changes in force are those of round 3a (commit 43a8725), recorded in `statement_changes`: (1) `exists_timelike_fixed_of_elliptic_of_null` OLD `{Γ} {v₀} (_hv0 : v₀ ≠ 0) (_hv : minkQ v₀ = 0) (_hfix : ∀ γ ∈ Γ, linOf γ v₀ = v₀) (_hell : ∀ γ ∈ Γ, IsElliptic (linOf γ)) : ∃ Γ' ≤ Γ, Γ'.relIndex Γ ≠ 0 ∧ ∃ v, minkQ v < 0 ∧ ∀ γ ∈ Γ', linOf γ v = v` [sorry, false for d ≥ 5] → NEW `(hT : TitsVirtuallyAbelianNull d) {Γ} (hdisc : DiscreteTopology Γ) {v₀} (hv0) (hv) (hfix) (hell) : <same conclusion>` [proved]; (2) `nonloxodromic` OLD `(hB : BenoistNoLox d) (hBieb …) (hpair) (hcaus) (h) (hnl) : <C>` → NEW `(hB : BenoistNoLox d) (hT : TitsVirtuallyAbelianNull d) (hBieb …) (hpair) (hcaus) (h) (hnl) : <C, unchanged>`. WHAT THIS PASS DID (DEC-27 options checked): (a) `λ(Γ)` discrete is not supplied by the call sites (only Γ is discrete; Barbot's commented example l.2551–2562; point (3) l.2660–2675 concerns α(Γ)), so no λ-discrete form was added; (b) no external faithful to Prop 9.1's citation (Benoist) can give the conclusion — the linear counterexample satisfies BenoistNoLox and its Zariski closure has null rotations — so none was added; the Barbot-cited Thm 5.1 (AuslanderCarriereDalbo, already in Externals) gives the branch on Γ_nd; (c) ADDED, all proved, no sorry, no axiom: `exists_timelike_fixed_of_comm_elliptic_on` (relative commuting lemma), `linFixSub` (common fixed subspace, a Submodule), `exists_timelike_fixed_of_nilpotent_elliptic` ([Group.IsNilpotent Γ], elliptic linear parts ⇒ common timelike fixed vector, every d), `exists_timelike_fixed_nonDiscretePart` (AuslanderCarriereDalbo d, DiscreteTopology Γ, elliptic ⇒ Γ_nd's linear parts fix a timelike vector), `exists_timelike_fixed_of_elliptic_of_ausl` (+ `(nonDiscretePart Γ).relIndex Γ ≠ 0` ⇒ the conclusion of `exists_timelike_fixed_of_elliptic_of_null`, with no null vector and no Tits). `nonloxodromic` keeps the Tits route (switching would add a hypothesis the §8 data do not supply). Counterexample: documented (SCOPE finding (7), extended), not formalized (any counterexample contains a free group). `nonloxodromic_elliptic`, `nonloxodromic_parabolic`: unchanged statements, still sorried, tags unchanged — each needs multi-hundred-line developments (isomTopology a group topology so that the discrete Γ' is closed and acts properly on M^n; the bundled quotient; the Bieberbach transport to E ≃ᵃⁱ E; RestrictsIn for suspendre; for the parabolic one the frame change, [9.b] for R ≠ id, [9.U] and Ω := π_U⁻¹(Ω_A)). Docstring: bprop:sanloxo bullet, the branch section comment, the checklist row and SCOPE finding (7) extended. Sorries 2. PREVIOUS NOTES (round 3a and earlier): FIXER PASS (bprop:sanloxo branch) 2026-11-01. STATEMENT CHANGES (DEC-27, this file only; see `statement_changes`): (1) `exists_timelike_fixed_of_elliptic_of_null` gains `(hT : TitsVirtuallyAbelianNull d)` (first explicit argument) and `(hdisc : DiscreteTopology Γ)` (after Γ, in Externals' scoped `isomTopology`); conclusion unchanged; now PROVED (was a sorry, false for d ≥ 5). (2) `nonloxodromic` gains `(hT : TitsVirtuallyAbelianNull d)` as its second explicit argument (after hB); conclusion unchanged. No other statement changed; `nonloxodromic_elliptic` and `nonloxodromic_parabolic` unchanged (still sorried, tags kept; the [9.E] tag now notes the proved discreteness). NEW DECLS: external `TitsVirtuallyAbelianNull d : Prop` (∀ Γ discrete, linear parts fixing a nonzero null v₀ and all elliptic ⇒ ∃ finite-index Γ' ≤ Γ with pairwise commuting linear parts; derivation from Tits' alternative + amenability + compact solvable groups in its docstring; not cited by Barbot) with witness `titsVirtuallyAbelianNull_zero`; proved: `exists_timelike_fixed_of_comm_elliptic` (commuting elliptic linear parts fix a common timelike vector, any d), `exists_timelike_fixed_mem_of_invariant`, `disjoint_minkOrth_of_timelike`, `isCompl_minkOrth_of_timelike`, `continuous_isom_smul_apply`, `discreteTopology_of_ccAction` (CCAction Γ St ⇒ DiscreteTopology Γ), `discreteTopology_of_developsCC` (hpair h, Γ' ≤ ρ.range ⇒ DiscreteTopology Γ'). FOR CLASSIFICATION (its closer runs next): `caseOutput_nonloxodromic` (Classification.lean ~l.344) calls `exists_timelike_fixed_of_elliptic_of_null hv0 hv hfix hell`, which no longer typechecks; replace by `exists_timelike_fixed_of_elliptic_of_null hT (discreteTopology_of_developsCC hpair h hle₁) hv0 hv hfix hell`, with `hT : TitsVirtuallyAbelianNull d` added to `caseOutput_nonloxodromic` and supplied from `BarbotExternals` (a new field, e.g. `tits : ∀ k ≤ d, TitsVirtuallyAbelianNull k`; `barbotExternals_zero` extends with `titsVirtuallyAbelianNull_zero`, and `BarbotExternals.mono` with the same pattern as `benoist`). Any direct call of `nonloxodromic` must insert hT after hB. The counterexample to the old lemma is documented (SCOPE finding (7), REPORT bprop:sanloxo findings), not formalized (needs freeness of a pair of unit quaternions). Sorries now 2. No name collision with any scaffold source (grep). PREVIOUS: CLOSER PASS 2026-11-01: 0 sorries closed, 3 left. (a) `exists_timelike_fixed_of_elliptic_of_null` is FALSE AS STATED for d >= 5: counterexample (2-generated, linear, from a free pair of unit quaternions acting on P0bar = R^4 = H) in the bprop:sanloxo sorry entry, in the Lean tag and in the SCOPE finding (7); the statement was not changed; the old obstruction's 'finitely generated suffices' is also refuted; true for d <= 3 and for discrete lambda(Gamma). `nonloxodromic`'s third branch and Classification.lean:314 consume it: raise with the orchestrator. (b) `nonloxodromic_elliptic` and (c) `nonloxodromic_parabolic` keep their obstruction tags unchanged: each still needs developments not in the library (properness of Gamma'' on Omega(S~) and the bundled FlatSpacetime quotient; the transport of Gamma' to E ≃ᵃⁱ E and BieberbachI/BieberbachMaxConclusion; RestrictsIn for suspendre after an index-2 passage; for (b) the exclusion of degenerate translation spans from (CC'); for (c) a frame taking v0 to ofNull 1 0 0, [9.b] for R != id, the [9.U] Bieberbach step and lattice/linearity of u, the y-origin change, the extension of nu, and Omega := pi_U^-1(Omega_A) with D(M~) ⊆ Omega). Neither was found false. No statement, signature or docstring claim changed; only the first sorry's tag and SCOPE (two additions) were edited. PREVIOUS (fixer pass): FIXER PASS 2026-11-01 (audit blocking 1, 2 and minors applied). (1) `nonloxodromic_parabolic` restated: its earlier conclusion (M(S) = Gamma''\\Omega(S~) an LTP over a spacetime embedding in a unipotent one) is refuted by Rem 9.4; it now gives ∃ Gamma'' ≤ Gamma' of finite index, Omega : Opens with range D ⊆ Omega ⊆ Omega(S~), B with IsQuotientOf B Gamma'' Omega, and IsLTPOver B M1 with IsUnipotentSpacetime M1 (DEC-43 R1, l.3126). `nonloxodromic` now outputs ∃ Gamma'' ≤ Gamma (finite index) Omega B, range D ⊆ Omega ⊆ Omega(S~) ∧ IsQuotientOf B Gamma'' Omega ∧ ((Omega = Omega(S~) ∧ LTP over a translation spacetime) ∨ LTP over a unipotent spacetime); still no sorry of its own (range D ⊆ Omega(S~) from bprop_danom in the elliptic branch). (2) Both branch theorems gained `Gamma'.relIndex rho.range != 0`; the parabolic one also `hnl` on rho.range. (3) The G6 bridge is proved (`linOf_fix_of_relIndex`, `perp_invariant_omegaS_of_developsCC`). (4) Checklist tag '⚠ strengthened' for the fixed frame. All main theorems carry `[T2Space M]` (explicit binder). The output (2) of the dispatch for Classification is false as worded and must be replaced by this file's form — raise with the orchestrator. Remaining sorries: 3 (exists_timelike_fixed_of_elliptic_of_null, nonloxodromic_elliptic, nonloxodromic_parabolic); none could be closed in this pass (Bieberbach transport, suspendre, quotient constructions and the [9.U] steps are each multi-hundred-line developments). Typechecked against the built oleans; the closer's newer Develop.lean adds `[T2Space M]` to `ccAction_of_developsCC`/`bprop_danom`, which this file supplies, so it should also typecheck after Develop is rebuilt (not verified: no lake build). Universe: B, M1 : FlatSpacetime.{0}. No public-name collision with any scaffold source (checked by grep against current sources, incl. Loxodromic.lean and the edited Develop.lean). CLOSER PASS (WP-34c, 2026-11-01): NO STATEMENT CHANGED; sorry count stays 2. [9.E] item (1) CLOSED as lemmas: free proper action of every Gamma'' <= Gamma' on M^n and the bundled quotient B = Gamma''\\Omega(S~) (`exists_isQuotientOf_omegaS_of_fix_timelike`, `CCAction.finite_of_fix_timelike`, `CCAction.free_of_fix_timelike`, the subtype instances). [9.E] item (4): the null-span exclusion reduced to recurrence (`not_null_recurrent_of_isEntireAcausalGraph`, acausality only), with the SCOPE-finding-3 example group shown to preserve no entire acausal graph (`not_isEntireAcausalGraph_null_span`). Item (3) sharpened: no index-2 passage is needed in [9.E] (Gamma'' acts on U by translations). Still open in [9.E]: (2) Bieberbach transport to E ≃ᵃⁱ[ℝ] E and the maximal U, (3) ι/RestrictsIn/suspendre assembly, (4) torus recurrence for a lattice + the frame moving the spacelike span to {t = 0} + the identification restrictGroup Gamma'' = frameConj phi (horizGroup Lambda). [9.P]–[9.A]: untouched, its seven missing items are each multi-hundred-line developments (frame transitivity on null rays in SO_0(1,d) needs spatial SO(d) rotations, which the library does not construct; [9.b] for R ≠ id; [9.U] Bieberbach/maximality; the y-normalisation; ℓ; the Ω_A construction and the quotients). No counterexample found to either sorried statement. INTEGRATOR PASS (DEC-50, 2026-11-01): docstrings only, no code; see integrator_DEC50. The external TitsVirtuallyAbelianNull is now proved in Flat/TitsNull and discharged in Flat/Classification.",
  "statement_changes": [
   {
    "decl": "Causal.Flat.exists_timelike_fixed_of_elliptic_of_null",
@@ -528,5 +557,47 @@
   ],
   "pointer": "TitsVirtuallyAbelianNull (defined here) is proved in CausalScaffold.Flat.TitsNull (titsVirtuallyAbelianNull : ∀ d, TitsVirtuallyAbelianNull d, DEC-50) up to one tagged sorry; since TitsNull imports Nonloxodromic, the hypothesis hT stays in this file's lemmas and is discharged in CausalScaffold.Flat.Classification (caseOutput).",
   "build": "taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/Nonloxodromic.lean: 0 errors, 2 'declaration uses sorry' warnings (nonloxodromic_elliptic, nonloxodromic_parabolic), as before. Olean not rebuilt (docstring-only edit; graduation lake build will rebuild it and TitsNull)."
+ },
+ "integrator_WP34c": {
+  "date": "2026-11-01",
+  "role": "integrator of Flat/Nonlox/* into Flat/Nonloxodromic.lean",
+  "written": [
+   "scaffold/CausalScaffold/Flat/Nonloxodromic.lean",
+   "campaign/WP-34c-Nonloxodromic/REPORT.json"
+  ],
+  "imports_added": [
+   "CausalScaffold.Flat.Nonlox.EllipticBieberbach",
+   "CausalScaffold.Flat.Nonlox.SpacelikeSpan",
+   "CausalScaffold.Flat.Nonlox.TranslationLTP",
+   "CausalScaffold.Flat.Nonlox.NullFrame",
+   "CausalScaffold.Flat.Nonlox.BTrivial",
+   "CausalScaffold.Flat.Nonlox.UnipotentRestriction",
+   "CausalScaffold.Flat.Nonlox.UnipotentFrame",
+   "CausalScaffold.Flat.Nonlox.UnipotentLTP"
+  ],
+  "statement_changes": "none (every existing declaration keeps its signature, binder names included; only docstrings and the two proofs changed)",
+  "closed": [
+   "Causal.Flat.nonloxodromic_elliptic (no sorry, axiom-clean)"
+  ],
+  "assembled_with_one_sorry": [
+   "Causal.Flat.nonloxodromic_parabolic — sorryAx only through Causal.Flat.exists_unipotent_restriction_up_to_frame"
+  ],
+  "new_decls": {
+   "public": [
+    "Causal.Flat.CCAction.frameConj_smul",
+    "Causal.Flat.range_subset_dependenceDomain_of_developsCC",
+    "Causal.Flat.exists_unipotent_restriction_up_to_frame (sorry, SORRY([9.U]))"
+   ],
+   "private": [
+    "nol_frameConj_mul",
+    "nol_frameConj_frameConj_inv",
+    "nol_frameConj_inv_frameConj",
+    "nol_frameConj_mono",
+    "nol_relIndex_frameConj"
+   ]
+  },
+  "planner_sketch_deviation": "The planner's WireP used P3 = exists_unipotent_restriction verbatim; the fan-out module UnipotentRestriction proves that statement FALSE (not_unipotentRestrictionStatement), so it could not be imported as a theorem. The wiring instead uses exists_unipotent_restriction_up_to_frame (P3's hypotheses; its conclusion Nonlox.UnipotentRestrictionConclusion for (frameConj psi G, psi • Sigma) for some psi) and runs the rest of WireP in the composite frame psi*phi: P5's hD only needs (linOf (psi*phi))^-1 (ofNull 1 0 0) null and nonzero (any null line through D(M~) meets Sigma), and hSt reads nullY on (psi*phi) • Sigma directly, so no constraint on psi is needed. The nine bookkeeping obligations of WireP are all discharged (CCAction under frameConj; the frame group fixes ofNull 1 0 0; IsParabolic.conj; acausality from (CC'); hach through nolQ_nonneg_of_isAcausal and AffineMinkEmbedding.apply_sub; hΓ in NolParam form; frameConj (psi*phi) (frameConj (psi*phi)^-1 G'') = G''; range D ⊆ D(Sigma); d = 0 vacuous).",
+  "collision_check": "grep over Causal/ and scaffold/: the three new public names are unique; the frameConj helpers are private because Cla/UnipEnvelope (which imports this file) has Causal.Flat.Cla.frameConj_inv_frameConj / frameConj_mul'. The Nonlox modules declare only Causal.Flat.Nonlox.* names (and two instances on the type synonym EllTl), so importing them adds no unqualified names to downstream files; no downstream file opens Nonlox.",
+  "for_the_master": "Run `lake build CausalScaffold.Flat.Nonloxodromic` and then its importers (CausalScaffold.Flat.TitsNull, CausalScaffold.Flat.Classification, CausalScaffold.Flat.Cla.*) — not done here (not granted). Add the eight CausalScaffold.Flat.Nonlox.* modules to the scaffold root if they are not there (kb/0025)."
  }
 }

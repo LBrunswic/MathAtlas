@@ -1,0 +1,154 @@
+{
+  "package": "WP-36d-CBGFamilyGluing",
+  "files": [
+    "scaffold/CausalScaffold/CBG/FamilyGluing.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "theo:CBG (gluing step: the 'inductive limit', ETT.tex:2335; Sbierski Thm 2.8 proof, glueing + point 1 Hausdorff + second countability; design package 8)",
+      "tex_lines": [
+        2335,
+        2335
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.FamilyGlueData",
+        "Causal.CBG.FamilyGlueData.Rel",
+        "Causal.CBG.FamilyGlueData.equivalence_rel",
+        "Causal.CBG.FamilyGlueData.Glued",
+        "Causal.CBG.FamilyGlueData.ι",
+        "Causal.CBG.FamilyGlueData.ι_eq_ι_iff",
+        "Causal.CBG.FamilyGlueData.injective_ι",
+        "Causal.CBG.FamilyGlueData.isOpenEmbedding_ι",
+        "Causal.CBG.FamilyGlueData.isOpen_iff",
+        "Causal.CBG.FamilyGlueData.isOpenMap_proj",
+        "Causal.CBG.FamilyGlueData.desc",
+        "Causal.CBG.FamilyGlueData.existsUnique_desc",
+        "Causal.CBG.FamilyGlueData.continuous_desc",
+        "Causal.CBG.FamilyGlueData.PairGluing",
+        "Causal.CBG.FamilyGlueData.pair",
+        "Causal.CBG.FamilyGlueData.isOpenEmbedding_pair",
+        "Causal.CBG.FamilyGlueData.t2Space_iff",
+        "Causal.CBG.FamilyGlueData.t2Space_iff_Cdist_eq_empty",
+        "Causal.CBG.FamilyGlueData.t2Space_iff_isClosed_graph",
+        "Causal.CBG.FamilyGlueData.secondCountableTopology",
+        "Causal.CBG.FamilyGlueData.CompatibleAlong",
+        "Causal.CBG.FamilyGlueData.causality",
+        "Causal.CBG.FamilyGlueData.IsGluedCausality",
+        "Causal.CBG.FamilyGlueData.isGluedCausality_causality",
+        "Causal.CBG.FamilyGlueData.exists_isGluedCausality_iff",
+        "Causal.CBG.FamilyGlueData.causality_absolutelyMinimal",
+        "Causal.CBG.FamilyGlueData.strongMorphism_ι",
+        "Causal.CBG.FamilyGlueData.localIsomorphism_ι",
+        "Causal.CBG.FamilyGlueData.ofOpens",
+        "Causal.CBG.FamilyGlueData.t2Space_ofOpens",
+        "Causal.CBG.FamilyGlueData.isOpenMap_ι",
+        "Causal.CBG.FamilyGlueData.continuous_ι",
+        "Causal.CBG.FamilyGlueData.injective_pair",
+        "Causal.CBG.FamilyGlueData.isOpenMap_pair",
+        "Causal.CBG.FamilyGlueData.continuous_pair",
+        "Causal.CBG.FamilyGlueData.pair_ι₁",
+        "Causal.CBG.FamilyGlueData.pair_ι₂",
+        "Causal.CBG.FamilyGlueData.desc_ι",
+        "Causal.CBG.FamilyGlueData.eq_desc",
+        "Causal.CBG.FamilyGlueData.iUnion_range_ι",
+        "Causal.CBG.FamilyGlueData.exists_ι",
+        "Causal.CBG.FamilyGlueData.proj_eq_proj_iff",
+        "Causal.CBG.FamilyGlueData.ι_φ",
+        "Causal.CBG.FamilyGlueData.IsGluedCausality.le_lt_of_absolutelyMinimal",
+        "Causal.CBG.FamilyGlueData.IsGluedCausality.unique",
+        "Causal.CBG.FamilyGlueData.eq_causality_of_isGluedCausality",
+        "Causal.CBG.FamilyGlueData.ofOpensCausality",
+        "Causal.CBG.FamilyGlueData.compatibleAlong_ofOpens",
+        "Causal.CBG.FamilyGlueData.isGluedCausality_ofOpens",
+        "Causal.CBG.FamilyGlueData.const",
+        "Causal.CBG.FamilyGlueData.compatibleAlong_const",
+        "Causal.CBG.FamilyGlueData.const_timelikeLine",
+        "Causal.CBG.FamilyGlueData.ofMkCore"
+      ],
+      "hypotheses": [
+        {
+          "paper": "a set of GHDs glued along pairwise MCGHDs U_ik with isometric embeddings psi_ik",
+          "here": "weakened",
+          "note": "any index type I (own universe), any topological spaces M i : Type u, U i j open, phi i j continuous with values in U j i; inverse continuity follows from the cocycle at k = i (phi_phi, tHomeo)"
+        },
+        {
+          "paper": "(3.15) is an equivalence relation (transitivity from maximality of the MCGHD)",
+          "here": "carried",
+          "note": "field `cocycle` in Sbierski's form; reflexivity/symmetry from U_self, phi_self; equivalent to mathlib MkCore's t_inter + cocycle (mem_U_of_mem)"
+        },
+        {
+          "paper": "M~ Hausdorff from Thm 2.7 applied to pairs",
+          "here": "carried",
+          "note": "proved as an equivalence t2Space_iff (T2 iff every pair gluing Gluing (val) (phi i j) is T2), no separation axiom on pieces; with T2 pieces iff every Cdist empty iff every graph closed"
+        },
+        {
+          "paper": "M~ second countable (Geroch's theorem, point 5)",
+          "here": "different",
+          "note": "ADDED hypotheses: `[Countable I]` and every piece second countable (secondCountableTopology). Sbierski's index set A is uncountable and he uses Geroch's theorem instead. This theorem does NOT cover design step 7 / package 10, whose index (SmallDev M0) is not countable in general; second countability of the maximal extension stays a geometry fact (design rem:CBG_manquant (i), DEC-49) - not this package."
+        },
+        {
+          "paper": "structure (metric / M>=0 charts) on M~",
+          "here": "not-attempted",
+          "note": "design package 1 Geometry.glue"
+        },
+        {
+          "paper": "causalities of pieces agree along the gluing",
+          "here": "carried",
+          "note": "CompatibleAlong = Gluing.CompatibleAlong (PushoutCausal) for every pair (i, j); shown necessary and sufficient by exists_isGluedCausality_iff; inhabited (kb/0011): compatibleAlong_ofOpens (pullbacks of one causality to open subsets glued along intersections) and compatibleAlong_const / const_timelikeLine (copies of the timelike line glued identically: absolutely minimal glued causality, every iota i a local isomorphism)"
+        },
+        {
+          "paper": "uniqueness of the glued causality (not asserted by Sbierski; design package 10 may need it)",
+          "here": "strengthened",
+          "note": "proved among absolutely minimal causalities only: IsGluedCausality.unique, eq_causality_of_isGluedCausality (the family analogue of LocalIsomorphism.unique, kb/0014); nothing stated without absolute minimality"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Sbierski's Hausdorff argument (proof of Thm 2.8, point 1) needs the map j~_ik : (M_i ⊔ M_k)/~ -> M~ to be injective, which uses that the restriction of the family relation (3.15) to M_i ⊔ M_k is the pair relation; this holds because (3.15) is already transitive (the cocycle). Formalized as injective_pair; no gap.",
+        "The SCOPE claim that mathlib's TopCat.GlueData.MkCore yields a FamilyGlueData is now formalized (ofMkCore: t_inter at (j,i,k) on t i j x plus MkCore.t_inv gives x in V i k, then MkCore.cocycle). The converse direction is not formalized.",
+        "secondCountableTopology adds [Countable I]: it does not discharge second countability for package 10's uncountable index SmallDev M0."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.absolutelyMinimalOn_pushLocal_extend",
+    "Causal.CBG.FamilyGlueData.tHomeo",
+    "Causal.CBG.FamilyGlueData.φ_φ",
+    "Causal.CBG.FamilyGlueData.mem_U_of_mem",
+    "Causal.CBG.FamilyGlueData.isOpenEmbedding_φ",
+    "Causal.CBG.FamilyGlueData.preimage_ι_image_ι",
+    "Causal.CBG.FamilyGlueData.compatible_pieces",
+    "Causal.CBG.FamilyGlueData.causality_le_ι",
+    "Causal.CBG.FamilyGlueData.causality_lt_ι",
+    "Causal.CBG.FamilyGlueData.overlap_imp",
+    "Causal.CBG.FamilyGlueData.ofOpensMap",
+    "Causal.CBG.FamilyGlueData.injective_ofOpensMap",
+    "Causal.CBG.FamilyGlueData.O",
+    "Causal.CBG.FamilyGlueData.mem_O",
+    "Causal.CBG.FamilyGlueData.pieces",
+    "Causal.CBG.FamilyGlueData.continuous_ofOpensMap",
+    "Causal.CBG.FamilyGlueData.proj",
+    "Causal.CBG.FamilyGlueData.continuous_proj",
+    "Causal.CBG.FamilyGlueData.t",
+    "Causal.CBG.FamilyGlueData.t_t",
+    "Causal.CBG.FamilyGlueData.continuous_t",
+    "Causal.CBG.FamilyGlueData.injective_φ",
+    "Causal.CBG.FamilyGlueData.mem_U_self",
+    "Causal.CBG.FamilyGlueData.isOpenEmbedding_val",
+    "Causal.CBG.FamilyGlueData.preimage_ι_subset",
+    "Causal.CBG.FamilyGlueData.preimage_ι_subset_range_φ",
+    "Causal.CBG.FamilyGlueData.preimage_val_eq",
+    "Causal.Causality.pullback_le_lt_iff_of_injective"
+  ],
+  "kb_proposals": [
+    "Family gluing: mathlib's TopCat.GlueData forces one universe and bundled morphisms; CausalScaffold.CBG.FamilyGluing is MkCore's data unbundled over Σ i, M i with Quot, and its pair gluings ARE Causal.Gluing (Subtype.val) (φ i j), so every two-space Hausdorff fact transfers via the open embedding `pair`.",
+    "In a `rintro ⟨i, x⟩ ⟨j, y⟩ ⟨h, rfl⟩` on a relation written with `a.1`, `a.2`, subst fails (the projections are not reduced): `dsimp only at h e; subst e` first.",
+    "Causality.pullback along an injective continuous map reads the relations on the image (Causality.pullback_le_lt_iff_of_injective): no local-injectivity cover is needed, membership is recovered from injectivity."
+  ],
+  "notes": "Fixer pass (audit minors 1-6 applied): docstring names corrected (isGluedCausality_causality, exists_isGluedCausality_iff); REPORT second-countability row relabelled 'different' with the added hypotheses and the package-10 non-coverage stated; CompatibleAlong witnesses added (compatibleAlong_ofOpens, compatibleAlong_const, const_timelikeLine with absolutely minimal pieces); decl lists completed; ofMkCore formalizes the MkCore claim (new import Mathlib.Topology.Gluing, mathlib only); uniqueness among absolutely minimal glued causalities added (IsGluedCausality.unique, eq_causality_of_isGluedCausality). Zero sorry, zero errors, zero warnings with `taskset -c 0-11 lake env lean`; no lake build. #print axioms on the new and principal theorems: [propext, Classical.choice, Quot.sound]. Imports Causal.PushoutCausal and Mathlib.Topology.Gluing only (no lean-gx). No ETT label marked. Name grep: no collision in Causal/ or scaffold/ for the new names. The module CausalScaffold.CBG.FamilyGluing must be added to the scaffold root by the master (kb/0025). For package 10 (Maximal): instantiate FamilyGlueData with U i j = pairwise MCGHD, phi = the MCGHD map; cocycle from maximality + rigidity; t2Space_iff reduces T2 to package 6/7's pair result; causality via CompatibleAlong + causality_absolutelyMinimal, unique by eq_causality_of_isGluedCausality; second countability NOT from secondCountableTopology (uncountable index)."
+}

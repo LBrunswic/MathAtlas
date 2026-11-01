@@ -4,8 +4,8 @@
     "scaffold/CausalScaffold/Flat/TitsNull.lean"
   ],
   "builds": true,
-  "builds_meaning": "`taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/TitsNull.lean`: zero errors; the only warning is `declaration uses 'sorry'` on `exists_commute_screenRot_of_discrete` (l.571 after the fixer pass). `lake build` not run (not granted). Import: CausalScaffold.Flat.Nonloxodromic only. `#print axioms`: `titsVirtuallyAbelianNull_of_le_two`, `exists_comm_linOf_of_local`, `eq_one_of_screenRot_eq_one`, `relIndex_closure_ne_zero` use only propext/Classical.choice/Quot.sound; `titsVirtuallyAbelianNull` adds sorryAx (through the one tagged sorry).",
-  "sorry_count": 1,
+  "builds_meaning": "`taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/TitsNull.lean`: zero errors, zero warnings (closer pass, 2026-11-01). `lake build` not run (not granted). Imports: CausalScaffold.Flat.Nonloxodromic and Mathlib.Analysis.InnerProductSpace.MeanErgodic (new; mathlib only). `#print axioms` (on a /tmp copy of the file): `titsVirtuallyAbelianNull`, `exists_commute_screenRot_of_discrete`, `titsVirtuallyAbelianNull_of_le_two` all depend only on [propext, Classical.choice, Quot.sound] — no sorryAx.",
+  "sorry_count": 0,
   "labels": [
     {
       "label": "TitsVirtuallyAbelianNull (DEC-50; the gap of bprop:sanloxo / [9.P], GHFspace.tex l.2621-2622) -- every d",
@@ -13,44 +13,43 @@
         2621,
         2629
       ],
-      "status": "stated",
+      "status": "closed",
       "marked": false,
       "decls": [
         "Causal.Flat.titsVirtuallyAbelianNull",
         "Causal.Flat.exists_comm_linOf_of_local",
-        "Causal.Flat.exists_commute_screenRot_of_discrete"
+        "Causal.Flat.exists_commute_screenRot_of_discrete",
+        "Causal.Flat.commute_screenRot_of_lt_inv64",
+        "Causal.Flat.exists_iterate_commutator_eq_one",
+        "Causal.Flat.commute_screenRot_of_iterate_eq_one",
+        "Causal.Flat.commute_screenRot_of_commute_conj",
+        "Causal.Flat.screenRot_eq_one_of_forall_pow"
       ],
       "hypotheses": [
         {
           "paper": "Gamma discrete in Isom(M^n) (isomTopology)",
           "here": "carried",
-          "note": "spent only in the sorried step exists_commute_screenRot_of_discrete"
+          "note": "spent only in step 4(b): exists_affExt_isolated inside exists_iterate_commutator_eq_one (iterated commutators tending to 1 are eventually 1)"
         },
         {
           "paper": "v0 nonzero null, L(gamma) v0 = v0",
           "here": "carried",
-          "note": "screen and multiplicativity of the rotation part"
+          "note": "the screen, multiplicativity and isometry of the rotation part, the flag decomposition R v0 ⊂ v0^perp ⊂ M^n ⊂ M^n x R"
         },
         {
           "paper": "all L(gamma) elliptic",
           "here": "carried",
-          "note": "spent only in eq_one_of_screenRot_eq_one (commutators); the deep step does not need it"
+          "note": "spent only in eq_one_of_screenRot_eq_one (step 3, commutators); the deep step 4 does not use it"
         }
       ],
-      "sorries": [
-        {
-          "decl": "Causal.Flat.exists_commute_screenRot_of_discrete",
-          "obstruction": "Zassenhaus/Auslander step: there is eps > 0 such that elements of rho(Gamma) (rotation parts on the screen, a section of P0bar) within eps of 1 commute. True by Auslander's theorem (Raghunathan Thm 8.24, number unchecked, applied to Gamma ∩ G^0 -- finite index, G^0 = K^0 x| N connected, same identity component H^0 of the rotation-part closure: (closure(Gamma N))^0 solvable for N = null rotations x translations, closed connected nilpotent normal in G = K x| N) + Cartan's closed-subgroup theorem (closure of rho(Gamma) a compact Lie group, identity component open) + compact connected solvable => torus; or via amenability + Tits' alternative. mathlib has no Lie groups, no Cartan theorem, no structure theory of compact groups, no Tits alternative at fabf563a."
-        }
-      ],
+      "sorries": [],
       "findings": [
-        "The whole proof of TitsVirtuallyAbelianNull reduces, with everything else proved, to one LOCAL statement about the closure of the rotation parts (a neighbourhood of 1 in which they commute); discreteness is spent only there, ellipticity only in the commutator step (an elliptic Lorentz map fixing v0 with trivial action on P0bar is the identity). The free quaternion pair of Nonloxodromic finding (7) violates exactly that local statement (rho(Gamma) dense in a copy of SU(2)) and no other step.",
-        "Barbot's 'natural action of L(Gamma)' on P0bar (l.2627-2629) is realised as the unital endomorphism rho(A) = pi A pi + (1 - pi) of M^n, pi the projection on the screen {v0, e0}^perp along span{v0, e0}; it is multiplicative on the stabiliser of v0 and uniformly bounded (it preserves qbar0)."
+        "The deep step (rotation parts of elements of a discrete Gamma near 1 commute) is proved ELEMENTARILY, with the uniform epsilon = 1/64 (independent of Gamma, v0, d), and without ellipticity: (a) Zassenhaus halving in a normed ring, ||X^{±1}-1|| <= 1/32, ||Y^{±1}-1|| <= m <= 3 => ||[X,Y]^{±1}-1|| <= m/2; (b) Engel property: conjugating the affine extensions (y,s) -> (L y + s tau, s) by the flag scaling D_K = sum K^i P_i (flag R v0 ⊂ v0^perp ⊂ M^n ⊂ M^n x R, all affine maps with L v0 = v0 block upper triangular with diagonal (1, rho, 1, 1)) makes g^{±1} 1/32-close and h^{±1} 3-close to 1, so iterated commutators [g,[g,...,h]] -> 1 and discreteness makes them 1; (c) Frobenius: rho(A) commuting with rho(B A B^-1), ||rho(B)-1|| < 1/2 => c = [rho A, rho B] has all powers within 2||rho B - 1|| < 1 of 1, and no small subgroups (von Neumann's mean ergodic theorem on the screen) gives c = 1; (d) backward induction along the iterated commutators. Neither Auslander's theorem, Cartan's closed-subgroup theorem, the structure of compact groups, nor Tits' alternative is needed — the earlier obstruction ('mathlib has no Lie groups') was a property of the route, not of the statement.",
+        "Consequently TitsVirtuallyAbelianNull d is a theorem for every d with no sorry and no external; Theorems A/B of Flat/Classification no longer inherit a sorry through titsVirtuallyAbelianNull (their docstrings, and Flat/Nonloxodromic's l.25-27/96-98/116, still say 'one tagged sorry' and should be updated by the master session; this package does not edit them).",
+        "The free quaternion pair of Nonloxodromic finding (7) remains consistent: there rho(Gamma) is dense in a copy of SU(2), and the Gamma is not discrete; discreteness is spent at exactly one point (step 4(b)).",
+        "Barbot's 'natural action of L(Gamma)' on P0bar (l.2627-2629) is realised as rho(A) = pi A pi + (1 - pi); it acts as (t, y) -> (t, R y) with R orthogonal (fst_screenRot_apply, norm_screenRot_apply), i.e. it is an isometry of the sup norm of Minkowski d."
       ],
-      "questions": [
-        "The citation Raghunathan, Discrete subgroups of Lie groups, Thm 8.24 (Auslander) is from memory; references/ has no copy. If the master session wants the sorry discharged as a named external (DEC-36 style) instead, the honest unit is exactly exists_commute_screenRot_of_discrete's statement.",
-        "The existing named external AuslanderCarriereDalbo d (Flat/Externals, bthm:ausl) does not discharge the sorry by itself: it gives (closure L(Gamma))^0 nilpotent, but the local statement also needs that identity component to be OPEN in the closure (Cartan's closed-subgroup theorem), which mathlib lacks; recorded in the SCOPE."
-      ]
+      "questions": []
     },
     {
       "label": "TitsVirtuallyAbelianNull d for d <= 2 (Barbot's n <= 3)",
@@ -83,42 +82,114 @@
     }
   ],
   "extra_decls": [
+    "Causal.Flat.affExt",
+    "Causal.Flat.affExt_apply",
+    "Causal.Flat.affExt_mul",
+    "Causal.Flat.affExt_one",
+    "Causal.Flat.affExt_sub_one_apply",
     "Causal.Flat.commute_of_mem_closure",
-    "Causal.Flat.relIndex_closure_ne_zero",
+    "Causal.Flat.eq_one_of_screenRot_eq_one",
+    "Causal.Flat.eq_self_of_forall_iterate_near",
+    "Causal.Flat.exists_affExt_isolated",
+    "Causal.Flat.exists_good_scaling",
+    "Causal.Flat.flagProj",
+    "Causal.Flat.flagProj_affExt_diag",
+    "Causal.Flat.flagProj_affExt_lower",
+    "Causal.Flat.flagProj_mul",
+    "Causal.Flat.flagProj_sum",
+    "Causal.Flat.fst_eq_zero_of_mem_nullScreen",
+    "Causal.Flat.fst_screenRot_apply",
+    "Causal.Flat.isCompl_nullScreen",
+    "Causal.Flat.iterate_commutator_mem",
+    "Causal.Flat.lastV",
+    "Causal.Flat.lastV_apply",
+    "Causal.Flat.lastV_mul_affExt_mul_lastV",
+    "Causal.Flat.lastV_mul_affExt_mul_liftV",
+    "Causal.Flat.lastV_mul_lastV",
+    "Causal.Flat.lastV_mul_liftV",
+    "Causal.Flat.liftV",
+    "Causal.Flat.liftV_apply",
+    "Causal.Flat.liftV_eq_zero",
+    "Causal.Flat.liftV_mul_affExt_mul_liftV",
+    "Causal.Flat.liftV_mul_lastV",
+    "Causal.Flat.liftV_mul_liftV",
+    "Causal.Flat.linOf_mem_nullStab",
+    "Causal.Flat.linOf_one'",
+    "Causal.Flat.map_nullLineProj",
+    "Causal.Flat.mem_nullStab",
+    "Causal.Flat.mem_span_of_mem_nullPlaneSpan",
+    "Causal.Flat.minkB_self_of_mem_nullScreen",
+    "Causal.Flat.minkB_timeUnit_ne_zero",
+    "Causal.Flat.minkQ_eq_norm_sq_of_mem_nullScreen",
+    "Causal.Flat.minkQ_screenRot_apply",
+    "Causal.Flat.norm_affExt_iterate_sub_one_le",
+    "Causal.Flat.norm_commutator_le_half",
+    "Causal.Flat.norm_conj_mul_sub_one_le",
+    "Causal.Flat.norm_flagProj_one_affExt_le",
+    "Causal.Flat.norm_iterate_commutator_le",
+    "Causal.Flat.norm_linToCLM_sub_one_le",
+    "Causal.Flat.norm_mul_mul_mul_sub_one_le",
+    "Causal.Flat.norm_scaleBy_conj_sub_le",
+    "Causal.Flat.norm_scale_affExt_sub_one_le",
+    "Causal.Flat.norm_screenProj_apply_screenProj",
+    "Causal.Flat.norm_screenRot_apply",
+    "Causal.Flat.norm_screenRot_inv_sub_one_le",
+    "Causal.Flat.norm_screenRot_le",
+    "Causal.Flat.norm_screenRot_le_one",
+    "Causal.Flat.norm_screenRot_sub_one_le_two",
+    "Causal.Flat.norm_trOf_le",
+    "Causal.Flat.norm_zero_snd",
+    "Causal.Flat.nullCoord",
+    "Causal.Flat.nullCoord_apply",
+    "Causal.Flat.nullCoord_map",
+    "Causal.Flat.nullCoord_nullLineProj",
+    "Causal.Flat.nullCoord_screenProj",
+    "Causal.Flat.nullCoord_timeUnit",
+    "Causal.Flat.nullLineProj",
+    "Causal.Flat.nullLineProj_apply",
+    "Causal.Flat.nullLineProj_mem",
     "Causal.Flat.nullPlaneSpan",
     "Causal.Flat.nullScreen",
-    "Causal.Flat.isCompl_nullScreen",
+    "Causal.Flat.nullStab",
+    "Causal.Flat.relIndex_closure_ne_zero",
+    "Causal.Flat.scaleBy",
+    "Causal.Flat.scaleBy_mul_scaleBy",
+    "Causal.Flat.screenBound",
     "Causal.Flat.screenProj",
+    "Causal.Flat.screenProj_apply_apply",
+    "Causal.Flat.screenProj_eq_screenProj_snd",
     "Causal.Flat.screenProj_mem",
+    "Causal.Flat.screenProj_nullLineProj",
     "Causal.Flat.screenProj_of_mem",
     "Causal.Flat.screenProj_of_mem_plane",
-    "Causal.Flat.sub_screenProj_mem",
-    "Causal.Flat.minkQ_eq_norm_sq_of_mem_nullScreen",
-    "Causal.Flat.minkB_timeUnit_ne_zero",
-    "Causal.Flat.mem_span_of_mem_nullPlaneSpan",
-    "Causal.Flat.sub_screenProj_apply_mem",
-    "Causal.Flat.screenProj_apply_apply",
-    "Causal.Flat.screenRot",
-    "Causal.Flat.screenRot_one",
-    "Causal.Flat.screenRot_mul",
-    "Causal.Flat.norm_screenProj_apply_screenProj",
-    "Causal.Flat.screenBound",
-    "Causal.Flat.norm_screenRot_le",
-    "Causal.Flat.eq_one_of_screenRot_eq_one",
-    "Causal.Flat.fst_eq_zero_of_mem_nullScreen",
-    "Causal.Flat.minkB_self_of_mem_nullScreen",
     "Causal.Flat.screenProj_screenProj",
     "Causal.Flat.screenProj_self",
     "Causal.Flat.screenProj_sub_screenProj",
+    "Causal.Flat.screenProj_timeUnit",
+    "Causal.Flat.screenRot",
+    "Causal.Flat.screenRotHom",
+    "Causal.Flat.screenRotHom_apply",
     "Causal.Flat.screenRot_apply",
+    "Causal.Flat.screenRot_apply_eq_add",
+    "Causal.Flat.screenRot_mul",
+    "Causal.Flat.screenRot_one",
+    "Causal.Flat.screenRot_sub_self",
     "Causal.Flat.self_mem_nullPlaneSpan",
-    "Causal.Flat.timeUnit_mem_nullPlaneSpan"
+    "Causal.Flat.sub_screenProj_apply_mem",
+    "Causal.Flat.sub_screenProj_mem",
+    "Causal.Flat.sum_diag_sub_one",
+    "Causal.Flat.timeUnit_mem_nullPlaneSpan",
+    "Causal.Flat.trOf_mul",
+    "Causal.Flat.trOf_one"
   ],
   "kb_proposals": [
     "A quotient like Barbot's P0bar = v0^perp / R v0 is cheapest as a SECTION: the screen {v0, e0}^perp with Submodule.projection, and the induced action as the unital endomorphism pi A pi + (1 - pi) of M^n -- multiplicative on the stabiliser, normed for free (CausalScaffold.Flat.TitsNull).",
-    "Finite index by compactness: a bounded 'almost-homomorphism into a proper normed ring' gives finite index of the subgroup generated by the eps-near-1 elements (relIndex_closure_ne_zero, pigeonhole through Metric.totallyBounded_iff and QuotientGroup.out_eq')."
+    "Finite index by compactness: a bounded 'almost-homomorphism into a proper normed ring' gives finite index of the subgroup generated by the eps-near-1 elements (relIndex_closure_ne_zero, pigeonhole through Metric.totallyBounded_iff and QuotientGroup.out_eq').",
+    "Zassenhaus/Bieberbach contraction without Lie theory: if every element is block upper triangular in a flag with isometric diagonal blocks, conjugate by the scaling D_K = sum K^i P_i (CausalScaffold.Flat.TitsNull: scaleBy, norm_scaleBy_conj_sub_le); for K large the elements are close to their diagonal, and the normed-ring halving lemma norm_commutator_le_half applies.",
+    "No small subgroups in O(n) is one call to the mean ergodic theorem: ContinuousLinearMap.tendsto_birkhoffAverage_orthogonalProjection (import Mathlib.Analysis.InnerProductSpace.MeanErgodic); see eq_self_of_forall_iterate_near.",
+    "Heartbeat pitfall: a single theorem manipulating many ‖·‖ of continuous linear maps on Minkowski d × ℝ exhausts the 200000 heartbeats in typeclass inference (reported as 'timeout at whnf' on the declaration line, not at the culprit); split it into lemmas. Also, `set x := …` followed by `positivity`/`rw` on a goal mentioning x can force whnf of the set body; prefer explicit positivity facts or `clear_value`."
   ],
-  "notes": "No existing file edited; Nonloxodromic's TitsVirtuallyAbelianNull is used verbatim (titsVirtuallyAbelianNull : forall d, TitsVirtuallyAbelianNull d). Once graduated, nonloxodromic's hypothesis hT can be discharged by titsVirtuallyAbelianNull d (a sorry-dependent term) or, for d <= 2, by titsVirtuallyAbelianNull_of_le_two. Not attempted: d = 3 sorry-free (screen SO(2) is abelian, but it needs det(rotation part) = det A = 1, a block-triangular determinant, and the 2-D rotation theory).",
+  "notes": "Closer pass (2026-11-01): the one tagged sorry exists_commute_screenRot_of_discrete is CLOSED; no existing statement changed (its body went from `by sorry` to a term). New material: §2b of TitsNull.lean (~970 lines, all new public names grepped against Causal/ and scaffold/, no collision; none collide with mathlib roots checked). The step uses no named external (DEC-50 'proved, not carried'). Downstream, Flat/Classification's caseOutput now receives a sorry-free titsVirtuallyAbelianNull d; the docstrings of Flat/Nonloxodromic and Flat/Classification still describe it as resting on one tagged sorry and should be refreshed at graduation (not edited here: other packages' files). Once rebuilt, Theorems A/B lose the sorry inherited through TitsNull (other sorries, if any, are theirs). Nonloxodromic's hypothesis hT can be discharged by titsVirtuallyAbelianNull d for every d.",
   "fixer_pass": {
     "audit_minor_applied": [
       "extra_decls: 8 public helpers added",
@@ -130,5 +201,15 @@
     ],
     "sorry_closure_attempted": "not closed: step 4 needs Lie-group structure (Cartan, compact connected solvable => torus, or Tits/Auslander) absent from mathlib at fabf563a; the AuslanderCarriereDalbo route also needs Cartan",
     "proof_code_changed": false
+  },
+  "closer_pass": {
+    "sorry_closed": "Causal.Flat.exists_commute_screenRot_of_discrete",
+    "route": "elementary Zassenhaus-Bieberbach (halving + flag scaling + discreteness => Engel; Frobenius via mean ergodic no-small-subgroups; backward induction); epsilon = 1/64",
+    "statements_changed": false,
+    "proof_code_changed": true,
+    "files_written": [
+      "scaffold/CausalScaffold/Flat/TitsNull.lean",
+      "campaign/WP-34g-TitsNull/REPORT.json"
+    ]
   }
 }

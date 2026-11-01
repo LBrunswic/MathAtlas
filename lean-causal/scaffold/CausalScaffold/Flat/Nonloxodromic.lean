@@ -4,6 +4,14 @@ import CausalScaffold.Flat.Bieberbach
 import CausalScaffold.Flat.TwistedProduct
 import CausalScaffold.Flat.Examples
 import CausalScaffold.Flat.CauchyComplete
+import CausalScaffold.Flat.Nonlox.EllipticBieberbach
+import CausalScaffold.Flat.Nonlox.SpacelikeSpan
+import CausalScaffold.Flat.Nonlox.TranslationLTP
+import CausalScaffold.Flat.Nonlox.NullFrame
+import CausalScaffold.Flat.Nonlox.BTrivial
+import CausalScaffold.Flat.Nonlox.UnipotentRestriction
+import CausalScaffold.Flat.Nonlox.UnipotentFrame
+import CausalScaffold.Flat.Nonlox.UnipotentLTP
 import Mathlib.NumberTheory.Real.Irrational
 import Mathlib.NumberTheory.DiophantineApproximation.Basic
 
@@ -32,13 +40,16 @@ nonloxodromic case" (label `nol`), lines of the **labelled** `papers/barbot/lega
 * Unmarked prose: [9.E] l.2604–2617 (`omegaS_eq_univ_of_isElliptic`, `isElliptic_of_relIndex`,
   `omegaS_eq_univ_of_relIndex`, the free proper action on `𝐌ⁿ` and the quotient
   `CCAction.finite_of_fix_timelike`, `exists_isQuotientOf_omegaS_of_fix_timelike`, the null-span
-  exclusion `not_null_recurrent_of_isEntireAcausalGraph`, `nonloxodromic_elliptic`);
+  exclusion `not_null_recurrent_of_isEntireAcausalGraph`, `nonloxodromic_elliptic` — closed,
+  no `sorry`, through `Flat/Nonlox/{EllipticBieberbach,SpacelikeSpan,TranslationLTP}`);
   [9.P] l.2619–2735 (`NolParam`, `act_mul`, `act_proj₀` = (∗∗), `act_of_isU` = (∗∗′));
   Rem 9.2 `choixcoord` l.2737–2760, corrected (`frameChange`, `choixcoord`); [9.b] l.2767–2787
   (`b_trivial_model`, `b_eq_zero_model`); [9.U] l.2865–2938 (`inner_comm_of_commute`,
   `isSymmOn_span`, `nu_mul`); Rem 9.4 `unipcomplet` l.2958–2963 (`unipcomplet_model`); [9.A]
   l.3101–3129 (`nolA_mul`, `choixcoord_nolA`, `unipAction_nolToMink`, `conclusion_model`,
-  `nonloxodromic_parabolic`); `Stab(v₀)` in coordinates (`exists_nolParam`) and [9.b] in `𝐌ⁿ`
+  `nonloxodromic_parabolic` — assembled, its one `sorry` the [9.U] step
+  `exists_unipotent_restriction_up_to_frame`, whose frame-free form is refuted in
+  `Flat/Nonlox/UnipotentRestriction`); `Stab(v₀)` in coordinates (`exists_nolParam`) and [9.b] in `𝐌ⁿ`
   (`b_trivial`); G6, closed for `Ω(S̃)` of the whole holonomy group (`perp_invariant_omegaS_of_null`,
   `UGamma_add_mem`, `Ug_add_mem_of_isParabolic`, and the finite-index bridge
   `linOf_fix_of_relIndex`, `perp_invariant_omegaS_of_relIndex`,
@@ -114,7 +125,7 @@ finite-index passage is explicit: `Γ'' ≤ Γ`, `Γ''.relIndex Γ ≠ 0`.
 | 9.3: coordinates `x v₀ + z + y vₙ` for the `v₀` of `Γ`; "reducing as above to `y₋ = −y₊`" | ⚠ strengthened: the fixed frame `nolToMink` (`v₀ = ofNull 1 0 0`) and the bounded case only in the normalised form `ylo = −yhi` (SCOPE) |
 | 9.1: no loxodromic element; Benoist | ✓ carried; Benoist as the external `BenoistNoLox` |
 | [9.P] l.2621–2622: "`Γ` contains a parabolic element" (the null-fixed, all-elliptic branch it overlooks) | ⚠ added hypothesis `DiscreteTopology Γ` (`isomTopology`) and the external `TitsVirtuallyAbelianNull` in `exists_timelike_fixed_of_elliptic_of_null`; the discreteness is proved from the §8 data (`discreteTopology_of_developsCC`), so `nonloxodromic` only gains `TitsVirtuallyAbelianNull d` — no longer an external: proved in `Flat/TitsNull` (`titsVirtuallyAbelianNull`, DEC-50, one tagged `sorry`) and discharged at Classification's `caseOutput`. Alternative (Barbot-cited externals only): `AuslanderCarriereDalbo` plus ⚠ added `Γ_nd` of finite index (`exists_timelike_fixed_of_elliptic_of_ausl`) |
-| [9.b]: `γ₁` parabolic, `b(γ₀) ≠ 0` | ⚠ strengthened: `γ₁` purely unipotent (`R = id`), with `b(γ₁) = 0` (`b_eq_zero_model` proves it from `v(γ₁) ≠ 0`) |
+| [9.b]: `γ₁` parabolic, `b(γ₀) ≠ 0` | ⚠ strengthened in `b_trivial`: `γ₁` purely unipotent (`R = id`), with `b(γ₁) = 0` (`b_eq_zero_model` proves it from `v(γ₁) ≠ 0`); ✓ carried in `Nonlox.nullY_smul_eq_of_isParabolic` (any parabolic `γ₁ = R U`), the one `nonloxodromic_parabolic` uses |
 | [9.E], [9.A]: Bieberbach | carried as the external `BieberbachI` (`Flat/Bieberbach`) |
 | [9.E], [9.P]: "up to finite index" (l.2575, l.2621) | ✓ carried: `Γ'.relIndex Γ ≠ 0` in both branches |
 | [9.P]: no loxodromic element in `Γ` (the §9 case) | ✓ carried (`hnl` on `Γ`; used by `linOf_fix_of_relIndex`) |
@@ -122,9 +133,16 @@ finite-index passage is explicit: `Γ'' ≤ Γ`, `Γ''.relIndex Γ ≠ 0`.
 
 ## SCOPE (disclosed)
 
-* **Sorries (2)**: `nonloxodromic_elliptic`,
-  `nonloxodromic_parabolic` (the `𝐌ⁿ` assemblies; their obstructions are in the tags). Everything else is proved; `nonloxodromic` is assembled (no
-  `sorry` of its own).
+* **Sorries (1)**: `exists_unipotent_restriction_up_to_frame` ([9.U], §4b; its obstruction is in
+  the tag). **Integration (WP-34c, 2026-11-01)**: `nonloxodromic_elliptic` is CLOSED (no `sorry`,
+  axioms `propext`, `Classical.choice`, `Quot.sound`) from `Flat/Nonlox/EllipticBieberbach`
+  (Bieberbach for `Γ'` in the euclidean form fixed by `L(Γ')`), `SpacelikeSpan` (the span of the
+  translation vectors is spacelike) and `TranslationLTP` (`suspendre`); `nonloxodromic_parabolic`
+  is assembled from `Flat/Nonlox/NullFrame` (the frame `φ` taking `v₀` to `ofNull 1 0 0`),
+  `BTrivial` ([9.b] for any parabolic `γ₁`), Prop 9.3/9.5 here, `UnipotentFrame` (the frame `φ₁`
+  diagonalising `T`) and `UnipotentLTP` (`Ω ⊆ Ω(S̃)`, `𝒟(M̃) ⊆ Ω`, the quotients), and depends on
+  `sorryAx` only through `exists_unipotent_restriction_up_to_frame`. `nonloxodromic` is assembled
+  (no `sorry` of its own).
 * **The parabolic output was restated (audit, 2026-11-01).** An earlier draft concluded that
   `M(S) = Γ''\Ω(S̃)` is an LTP over a spacetime embedding in a unipotent one; Rem 9.4 refutes it
   (finding 6), and the statement now follows l.3126 and DEC-43 R1: `B = Γ''\Ω` with
@@ -134,7 +152,8 @@ finite-index passage is explicit: `Γ'' ≤ Γ`, `Γ''.relIndex Γ ≠ 0`.
   `𝐌ⁿ` through `nolToMink` (`minkQ_nolToMink`, `nolToMink_sub`, `nolToMink_minkToNol`):
   `v₀ = ofNull 1 0 0`, `vₙ = ofNull 0 1 0`; every isometry whose linear part fixes this `v₀` is a
   `NolParam` (`exists_nolParam`, l.2701–2713). The frame `φ ∈ Isom(𝐌ⁿ)` taking the `v₀` of `Γ`
-  there is not formalized.
+  there is `Nonlox.exists_isom_linear_null_frame`; the §8 data transport along it
+  (`CCAction.frameConj_smul`).
 * **G1** (one-sided 9.3/9.5, BARBOT-THEOREMS §6): discharged at the level of 9.3 and 9.5 (both
   infinite-extremity cases are proved); its use in [11.i] is downstream. **G6** is closed for
   `Ω(S̃)` of the whole holonomy group in the parabolic case: a finite-index `Γ'` fixing `v₀` with
@@ -149,7 +168,8 @@ finite-index passage is explicit: `Γ'' ≤ Γ`, `Γ''.relIndex Γ ≠ 0`.
 * **[9.b]** is proved without Lemma 7.1 (false as printed for `n ≥ 4`, `Flat/AchronalDomains`)
   and without Cor 8.3: heights `y₀ ± k b(γ₀)` and the leading term of 9.3 suffice; written for a
   purely unipotent `γ₁` (`b_trivial` in `𝐌ⁿ`, with `b(γ₁) = 0` itself proved by the quartic,
-  `b_eq_zero_model`). Rotation parts `R ≠ id` (the leading term on `Fix R`) are not treated.
+  `b_eq_zero_model`). Rotation parts `R ≠ id` (the leading term on `Fix R`) are treated in
+  `Flat/Nonlox/BTrivial` (`Nonlox.nullY_smul_eq_of_isParabolic`).
 * **Findings.** (1) Rem 9.2 (l.2739–2758): `vₙ + w` (`w ∈ P̄₀`) and `vₙ + a v₀` are not null
   (`frameChange_null`); the frame change is `vₙ' = vₙ + w − (|w|²/2) v₀`, under which Barbot's
   `μ' = μ + ⟨u | w⟩` holds exactly (`choixcoord`); the first bullet is not a frame change.
@@ -208,7 +228,13 @@ finite-index passage is explicit: `Γ'' ≤ Γ`, `Γ''.relIndex Γ ≠ 0`.
   is not cheap: a torsion one cannot exist (a torsion linear group is locally finite (Schur),
   so virtually abelian in `SO(n − 2)` (Jordan), and its commutators are elliptic translations of
   `P̄₀`, i.e. trivial; then the commuting case applies), so any counterexample contains a free
-  group (Tits) and needs a formalized free pair in `SU(2)`.
+  group (Tits) and needs a formalized free pair in `SU(2)`. (8) **[9.U] in a fixed null frame is
+  false** (`Flat/Nonlox/UnipotentRestriction`, `Nonlox.not_unipotentRestrictionStatement`, given
+  Bieberbach in `ℝ³`): l.2881–2892's "`𝒰̄_t` does not depend on `t`" fails for an irrational
+  screw motion in `𝐌⁵` (the `𝒰̄_t` are parallel axes `t w + ℝ e₂`). The assembly therefore rests on
+  the corrected form `exists_unipotent_restriction_up_to_frame` (the same conclusion after SOME
+  frame `ψ`; in the counterexample the null rotation `n_w` works), whose truth in general is not
+  established — it is the one `sorry` of the file.
 * Non-vacuity: `Flat/Examples`' unipotent groups are `A_{T, 0}` for diagonal `T`
   (`unipAction_nolToMink`, `isSymmOn_diagLin`); no model inhabitant of `bprop_limites_model`'s
   hypotheses (an achronal `S_f`) is given here.
@@ -2519,6 +2545,99 @@ end EllipticProper
 
 end Spacetime
 
+/-! ## §4b Frames and the [9.U] step (integration of `Flat/Nonlox/*`)
+
+Bookkeeping for the two assemblies of §5: conjugating the §8 data by a frame `φ ∈ Isom(𝐌ⁿ)`
+(`CCAction.frameConj_smul`), and the one step of [9.U] that is not proved, in the corrected
+form that `Flat/Nonlox/UnipotentRestriction`'s counterexample leaves open
+(`exists_unipotent_restriction_up_to_frame`). -/
+
+section Frames
+
+open scoped Pointwise
+
+variable {d : ℕ}
+
+private theorem nol_frameConj_mul (a b : isom d) (H : Subgroup (isom d)) :
+    frameConj (a * b) H = frameConj a (frameConj b H) := by
+  simp only [frameConj, Subgroup.map_map, map_mul]
+  rfl
+
+private theorem nol_frameConj_frameConj_inv (φ : isom d) (H : Subgroup (isom d)) :
+    frameConj φ (frameConj φ⁻¹ H) = H := by
+  rw [← nol_frameConj_mul, mul_inv_cancel, frameConj_one]
+
+private theorem nol_frameConj_inv_frameConj (φ : isom d) (H : Subgroup (isom d)) :
+    frameConj φ⁻¹ (frameConj φ H) = H := by
+  rw [← nol_frameConj_mul, inv_mul_cancel, frameConj_one]
+
+private theorem nol_frameConj_mono {φ : isom d} {H K : Subgroup (isom d)} (h : H ≤ K) :
+    frameConj φ H ≤ frameConj φ K :=
+  Subgroup.map_mono h
+
+private theorem nol_relIndex_frameConj (φ : isom d) (H K : Subgroup (isom d)) :
+    (frameConj φ H).relIndex (frameConj φ K) = H.relIndex K :=
+  Subgroup.relIndex_map_map_of_injective H K (MulAut.conj φ).injective
+
+/-- **The standing hypotheses of §8 in a frame**: `CCAction Γ Σ` gives
+`CCAction (φΓφ⁻¹) (φΣ)` for every `φ ∈ Isom(𝐌ⁿ)` (`ccPrime_smul` for (CC′)). -/
+theorem CCAction.frameConj_smul {Γ : Subgroup (isom d)} {St : Set (Minkowski d)}
+    (h : CCAction Γ St) (φ : isom d) : CCAction (frameConj φ Γ) (φ • St) where
+  cc := ccPrime_smul φ h.cc
+  inv γ' hγ' := by
+    obtain ⟨γ, hγ, rfl⟩ := Subgroup.mem_map.1 hγ'
+    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+    rw [smul_smul, inv_mul_cancel_right, mul_smul, h.inv γ hγ]
+  free γ' hγ' h1 x hx := by
+    obtain ⟨γ, hγ, rfl⟩ := Subgroup.mem_map.1 hγ'
+    obtain ⟨y, hy, rfl⟩ := hx
+    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] at h1 ⊢
+    have hγ1 : γ ≠ 1 := fun e => h1 (by rw [e, mul_one, mul_inv_cancel])
+    intro e
+    apply h.free γ hγ hγ1 y hy
+    have := congrArg (φ⁻¹ • ·) e
+    simpa [smul_smul, mul_assoc] using this
+  proper K hK hKc := by
+    have hK' : φ⁻¹ • K ⊆ St := by
+      rintro _ ⟨k, hk, rfl⟩
+      obtain ⟨y, hy, rfl⟩ := hK hk
+      simpa [smul_smul] using hy
+    have hKc' : IsCompact (φ⁻¹ • K) := hKc.smul _
+    refine ((h.proper _ hK' hKc').image (MulAut.conj φ)).subset ?_
+    rintro γ' ⟨hγ', x, ⟨k, hk, rfl⟩, hxK⟩
+    obtain ⟨γ, hγ, rfl⟩ := Subgroup.mem_map.1 hγ'
+    refine ⟨γ, ⟨hγ, φ⁻¹ • (φ * γ * φ⁻¹) • k, ⟨φ⁻¹ • k, ⟨k, hk, rfl⟩, ?_⟩, ⟨_, hxK, rfl⟩⟩, rfl⟩
+    simp [smul_smul, mul_assoc]
+
+/-- **[9.U], up to a frame — the one unproved step of `nonloxodromic_parabolic`** (l.2865–2938,
+unmarked; truth NOT established). Hypotheses: those of the dispatched
+`exists_unipotent_restriction` (`Flat/Nonlox/UnipotentRestriction`'s
+`UnipotentRestrictionStatement`): `CCAction G Σ`, `L(G)` fixing `v₀ = ofNull 1 0 0`, `y`
+preserved (`b ≡ 0`, [9.b]), a parabolic element. Conclusion: the dispatched conclusion
+`Nonlox.UnipotentRestrictionConclusion` (Barbot's `𝒰 = ℝ v₀ ⊕ 𝒰̄₀ ⊕ ℝ vₙ` parametrised by `ι`,
+`Γ'' ≤ G` of finite index restricting to it as a group `A_{T,ℓ}` over a ball-finite `L`,
+`T` symmetric on `span L`, the interval `]ylo, yhi[` of heights met on `𝒰`) **after conjugating
+`(G, Σ)` by some frame `ψ ∈ Isom(𝐌ⁿ)`**.
+
+Why the frame: the frame-free form is FALSE — `Nonlox.not_unipotentRestrictionStatement`
+(a counterexample in `𝐌⁵`: the axes `𝒰̄_t` of the screw motions `λ_t(γ)` depend on `t`, against
+l.2881–2892's "`𝒰̄_t` does not depend on `t`"). In that example the conclusion holds after the
+null rotation `n_w` fixing `v₀` (`UnipotentRestriction`'s SCOPE, not formalized). Whether the
+corrected form holds in general is open: it is Barbot's maximality argument (l.2881–2892) in a
+frame adapted to `⋃_t 𝒰̄_t × {t}`, plus Bieberbach on `λ(Γ)` (point (3) l.2660–2663), `u(Γ)` a
+lattice with `v = T ∘ u`, the normalisation `ylo = −yhi` (l.2937–2938), the form `ℓ`
+(`nu_mul`) and the orientation of `𝒰`. -/
+theorem exists_unipotent_restriction_up_to_frame
+    (_hBieb : BieberbachI (EuclideanSpace ℝ (Fin d))) {G : Subgroup (isom (d + 1))}
+    {St : Set (Minkowski (d + 1))} (_hcc : CCAction G St)
+    (_hfix : ∀ γ ∈ G, linOf γ (ofNull 1 0 0) = ofNull 1 0 0)
+    (_hb : ∀ γ ∈ G, ∀ p : Minkowski (d + 1), nullY (γ • p) = nullY p)
+    (_hpar : ∃ γ ∈ G, IsParabolic (linOf γ)) :
+    ∃ ψ : isom (d + 1), Nonlox.UnipotentRestrictionConclusion d (frameConj ψ G) (ψ • St) := by
+  sorry -- SORRY([9.U]): the reduction of a parabolic `Γ` fixing `v₀`, with `b ≡ 0`, to a unipotent group `A_{T,ℓ}` on an invariant timelike `𝒰 ∋ v₀`, in SOME frame `ψ`. The frame-free statement is refuted (`Nonlox.not_unipotentRestrictionStatement`: the `𝒰̄_t` of l.2881–2892 depend on `t` for an irrational screw motion in `𝐌⁵`); missing: (a) a frame `ψ` (a null rotation fixing `v₀`) making `⋃_t 𝒰̄_t × {t}` vertical, and whether such a frame always exists (true in the counterexample, not addressed in general); (b) Bieberbach for `λ(Γ)` on `P̄₀ × {0}` (properness of `α(Γ)`, point (3) l.2660–2663, needs Cor 8.3's homeomorphism) and the maximality argument; (c) `Γ ≅ ℤᵏ`, `u(Γ)` a lattice, `v = T ∘ u` linear and symmetric on `span L`; (d) the normalisation `ylo = −yhi` by a shift `y₀` (l.2937–2938); (e) the linear `ℓ` extending `ν = μ + ⟨u|Tu⟩/2` (`nu_mul`); (f) `RestrictsIn` and orthochronous `ι` (orientation of `𝒰`); (g) every height of `]ylo, yhi[` met by `Σ ∩ 𝒰`
+
+end Frames
+
 /-! ## §5 The two outputs, for `Flat/Classification`
 
 `Σ = 𝒟(S̃)`, `S̃ = p⁻¹(S)`, `Γ = ρ(Deck)`, `Ω(S̃) = omegaS Γ Σ` (Develop), and Barbot's
@@ -2583,9 +2702,44 @@ theorem exists_isQuotientOf_omegaS_of_fix_timelike [T2Space M] (hpair : IsDevelo
     fun γ hγ => hfix γ (hle'' hγ)⟩
 
 
+/-- **`𝒟(M̃) ⊆ D(Σ)`** (step 3 of Prop 8.12, l.2469–2473, as inside Develop's `bprop_danom`):
+for a Hausdorff `M`, `Σ = 𝒟(S̃)` is a Cauchy surface of the open `𝒟(M̃)`, so every point of
+`𝒟(M̃)` lies in the domain of dependence of `Σ` in `𝐌ⁿ`; in particular every null line through
+it meets `Σ` (`exists_mem_nullLine_of_mem_dependenceDomain`, l.3123–3125). -/
+theorem range_subset_dependenceDomain_of_developsCC [T2Space M] (hpair : IsDevelopingPair x₀ D ρ)
+    (hcaus : (flatCausality d M).IsCausal) (h : DevelopsCC x₀ D S) :
+    range D ⊆ dependenceDomain (minkowski d) ⊤ (D '' (UniversalCover.proj M x₀ ⁻¹' S)) := by
+  letI := flatCoverChartedSpace d M x₀
+  haveI := hasGroupoid_flatCover (d := d) M x₀
+  set Sh := UniversalCover.proj M x₀ ⁻¹' S
+  have hinj : Injective D := injective_of_developsCC hpair h
+  have hiso : IsIsometricEmbedding d D :=
+    ⟨isLocalIsometry_iff_eventually.2 ⟨hpair.gx.1, hpair.gx.2⟩, hinj⟩
+  have hopen : IsOpen (range D) := hpair.gx.isOpenMap.isOpen_range
+  set W : TopologicalSpace.Opens (Minkowski d) := ⟨range D, hopen⟩
+  have hW : (W : Set (Minkowski d)) = D '' ((⊤ : TopologicalSpace.Opens (UniversalCover M x₀)) :
+      Set (UniversalCover M x₀)) := by
+    rw [TopologicalSpace.Opens.coe_top, image_univ]; rfl
+  have hC : (minkowski d).IsCauchySurfaceOn W (D '' Sh) := by
+    have := (hiso.isEMorphism.isCauchySurfaceOn_image_iff hinj.injOn le_rfl hW
+      (subset_univ Sh)).1 (isCauchySurface_liftSet x₀ hcaus h.cauchy)
+    rwa [flatCausality_self] at this
+  intro y hy
+  refine ⟨trivial, fun I c hc ⟨t, ht, hct⟩ => ?_⟩
+  have hcW : c t ∈ W := by rw [hct]; exact hy
+  obtain ⟨_, ⟨⟨r, hr, rfl⟩, hrS⟩, -⟩ := hC _ c
+    (Causality.inextensible_ordConnectedComponent minkowski_isCausal hc ht hcW)
+  exact ⟨c r, ⟨r, (ordConnectedComponent_subset hr).1, rfl⟩, hrS⟩
+
+open scoped Pointwise in
 /-- **[9.E] The elliptic case** (l.2604–2617): if the linear parts of a finite-index subgroup
 `Γ' ≤ Γ` fix a timelike vector, then, up to finite index, `M(S) = Γ''\Ω(S̃)` is a linear
-twisted product over a translation spacetime (`Ω(S̃) = 𝐌ⁿ`, `omegaS_eq_univ_of_relIndex`). -/
+twisted product over a translation spacetime (`Ω(S̃) = 𝐌ⁿ`, `omegaS_eq_univ_of_relIndex`).
+Closed (no `sorry`): Bieberbach in the euclidean form fixed by `L(Γ')`
+(`Nonlox.exists_translationSubspace_of_fix_timelike`), a spacelike span of the translation
+vectors (`Nonlox.minkQ_pos_of_mem_span_of_invariant`, with
+`not_null_recurrent_of_isEntireAcausalGraph`), and `suspendre`
+(`Nonlox.exists_isTranslationSpacetime_isLTPOver`). -/
 theorem nonloxodromic_elliptic [T2Space M]
     (_hBieb : ∀ k : ℕ, k ≤ d + 1 → BieberbachI (EuclideanSpace ℝ (Fin k)))
     (_hpair : IsDevelopingPair x₀ D ρ) (_h : DevelopsCC x₀ D S) {Γ' : Subgroup (isom d)}
@@ -2596,15 +2750,63 @@ theorem nonloxodromic_elliptic [T2Space M]
         IsQuotientOf B Γ'' (omegaSOpens ρ.range (D '' (UniversalCover.proj M x₀ ⁻¹' S))) ∧
         ∃ d₁ : ℕ, d₁ ≤ d ∧ ∃ M₁ : FlatSpacetime.{0} d₁, IsTranslationSpacetime M₁ ∧
           IsLTPOver B M₁ := by
-  sorry -- SORRY([9.E]): proved here: all of `Γ` is elliptic (`isElliptic_of_relIndex`), `Ω(S̃) = 𝐌ⁿ`, and, for EVERY `Γ'' ≤ Γ'`, the free proper action of `Γ''` on `𝐌ⁿ` and the bundled quotient `B = Γ''\Ω(S̃)` (`exists_isQuotientOf_omegaS_of_fix_timelike`, through `CCAction.finite_of_fix_timelike`: the `v`-lines carry a compact `K ⊆ 𝐌ⁿ` into a compact `K' ⊆ Σ`, `exists_compact_lift_of_entire`) — item (1), closed; and the danger of item (4) is excluded by acausality alone whenever the null direction is recurrent (`not_null_recurrent_of_isEntireAcausalGraph`; the example of `spacelike_translations_null_span` cannot occur, `not_isEntireAcausalGraph_null_span`). Missing: (2) transporting `Γ'` to `E ≃ᵃⁱ[ℝ] E` for the euclidean form `⟨x | y⟩ − 2⟨x | v⟩⟨y | v⟩/|v|²` fixed by `L(Γ')` (`IsDiscreteEucl` then follows from `CCAction.finite_of_fix_timelike` on closed balls) and applying `BieberbachI` there, with `BieberbachMaxConclusion` (maximal `U`) and `mem_direction_of_fixed` (the fixed `v` lies in `U`'s direction, l.2613–2615, so `U` is timelike); (3) the parametrization `ι` of `U` (`exists_affineMinkEmbedding_of_isTimelike`) and `RestrictsIn` for `suspendre` — no index-2 passage is needed here, `Γ''` acting on `U` by translations, so each restriction is a translation of `𝐌^{d₁+1}`; `𝐌ⁿ` is trivially `U^⊥`-invariant; (4) `IsTranslationSpacetime` for `Γ''_U\U`: the span `V` of the translation vectors `τ_γ` (`γ p₀ = p₀ + τ_γ` at `p₀ ∈ Σ ∩ U`, nonempty since `U` contains a timelike line) has no timelike vector (an open cone of `V` meets the lattice, against Lemma 8.6) and no null one (a null `n ∈ V` is recurrent by pigeonhole in the torus `V/Λ` — not formalized — against `not_null_recurrent_of_isEntireAcausalGraph`), so `V` is spacelike; then a Lorentz frame `φ` moving `V` into `{t = 0}` and the identification of `ι.restrictGroup Γ''` with `frameConj φ (horizGroup Λ)`, `Λ` ball-finite (discreteness from item (1))
+  have hcc := ccAction_of_developsCC _hpair _h
+  obtain ⟨v, hv, hfix⟩ := _hell
+  have hprop : ∀ K : Set (Minkowski d), IsCompact K →
+      {γ : isom d | γ ∈ Γ' ∧ (γ • K ∩ K).Nonempty}.Finite :=
+    fun K hK => hcc.finite_of_fix_timelike _hle hv hfix hK
+  -- (2) Bieberbach for `Γ'` in the euclidean form fixed by `L(Γ')`: a maximal `U ∋ v`
+  obtain ⟨H', hH'le, hidx', U, hUne, hvU, Λ, hΛU, htr, htr'⟩ :=
+    Nonlox.exists_translationSubspace_of_fix_timelike (_hBieb (d + 1) le_rfl) hv hfix hprop
+  -- (1) the quotient `B = H'\Ω(S̃)`, `Ω(S̃) = 𝐌ⁿ`
+  obtain ⟨htop, B, hB⟩ :=
+    exists_isQuotientOf_omegaS_of_fix_timelike _hpair _h _hle _hidx hv hfix hH'le
+  have hfix' : ∀ γ ∈ H', linOf γ v = v := fun γ hγ => hfix γ (hH'le hγ)
+  letI := invariant_top_of_subgroup H'
+  haveI := hcc.properlyDiscontinuousSMul_top_of_fix_timelike (hH'le.trans _hle) hv hfix'
+  haveI := hcc.isCancelSMul_top_of_fix_timelike (hH'le.trans _hle) hv hfix'
+  -- a point `p₀` of `Σ` on `U` (`U` contains a timelike line)
+  obtain ⟨p₀, hp₀S, hp₀U⟩ : ∃ p₀, p₀ ∈ D '' (UniversalCover.proj M x₀ ⁻¹' S) ∧ p₀ ∈ U := by
+    obtain ⟨q, hq⟩ := hUne
+    have key : ∀ w ∈ U.direction, IsFutureTimelike w →
+        ∃ p₀, p₀ ∈ D '' (UniversalCover.proj M x₀ ⁻¹' S) ∧ p₀ ∈ U := fun w hwU hw => by
+      obtain ⟨s, hs⟩ := hcc.cc.entire.meets q w hw
+      refine ⟨_, hs, ?_⟩
+      have := AffineSubspace.vadd_mem_of_mem_direction (U.direction.smul_mem s hwU) hq
+      simpa [vadd_eq_add, add_comm] using this
+    rcases isFutureTimelike_or_neg hv with hw | hw
+    · exact key v hvU hw
+    · exact key (-v) (U.direction.neg_mem hvU) hw
+  have hΛ : ∀ τ ∈ Λ, p₀ + τ ∈ D '' (UniversalCover.proj M x₀ ⁻¹' S) := by
+    intro τ hτ
+    obtain ⟨γ, hγ, hγτ⟩ := htr' τ hτ
+    rw [← hγτ p₀ hp₀U]
+    exact hcc.smul_mem (_hle (hH'le hγ)) hp₀S
+  -- (4) the span of the translation vectors is spacelike
+  have hsp := Nonlox.minkQ_pos_of_mem_span_of_invariant hcc.cc.entire hp₀S Λ hΛ
+    (fun n hn1 hn hrec =>
+      not_null_recurrent_of_isEntireAcausalGraph hcc.cc.entire hp₀S hn1 hn hrec)
+  -- (3) `suspendre`: `B` is an LTP over the translation spacetime `H'_U\U`
+  rw [htop] at hB
+  obtain ⟨d₁, hd₁, M₁, hM₁, hLTP⟩ :=
+    Nonlox.exists_isTranslationSpacetime_isLTPOver B hB ⟨v, hvU, hv⟩ hΛU htr hsp
+      (fun K hK => (hprop K hK).subset fun γ hγ => ⟨hH'le hγ.1, hγ.2⟩)
+  exact ⟨H', hH'le, hidx', B, htop ▸ hB, d₁, hd₁, M₁, hM₁, hLTP⟩
 
+open scoped Pointwise in
 /-- **[9.P]–[9.A] The parabolic case** (l.2619–3129), in the form of l.3120–3127 and DEC-43 (R1):
 if the linear parts of a finite-index `Γ' ≤ Γ` fix a nonzero null vector `v₀`, `Γ'` contains a
 parabolic element and `Γ` has no loxodromic element, then, up to finite index (`Γ'' ≤ Γ'`),
 there is an open `Γ''`-invariant `Ω` with `𝒟(M̃) ⊆ Ω ⊆ Ω(S̃)` — Barbot's component of `Ω(A)`
 containing `S̃`, thickened by `U^⊥` — such that `B = Γ''\Ω` is a linear twisted product over a
 **unipotent spacetime**. The conclusion concerns `M` (through `𝒟(M̃) ⊆ Ω`), **not** `M(S)`:
-by Rem 9.4 `Ω(S̃)` may be all of `𝐌ⁿ` while `Ω` is a slab (SCOPE, finding 6). -/
+by Rem 9.4 `Ω(S̃)` may be all of `𝐌ⁿ` while `Ω` is a slab (SCOPE, finding 6).
+Assembled: frame `φ` (`Nonlox.exists_isom_linear_null_frame`), [9.b]
+(`Nonlox.nullY_smul_eq_of_isParabolic`), [9.U] up to a further frame `ψ`
+(`exists_unipotent_restriction_up_to_frame`, the one `sorry`; SCOPE finding 8), Prop 9.3
+(`bprop_limites_model`), Prop 9.5 (`bprop_extension`), `mem_omegaA_of_limites`, the frame `φ₁`
+(`Nonlox.exists_unipotent_frame_of_symm`) and [9.A] (`Nonlox.exists_unipotent_ltp_of_frame`,
+with `𝒟(M̃) ⊆ D(Σ)`, `range_subset_dependenceDomain_of_developsCC`). `d = 0` is vacuous. -/
 theorem nonloxodromic_parabolic [T2Space M]
     (_hBieb : ∀ k : ℕ, k ≤ d + 1 → BieberbachI (EuclideanSpace ℝ (Fin k)))
     (_hpair : IsDevelopingPair x₀ D ρ) (_hcaus : (flatCausality d M).IsCausal)
@@ -2618,7 +2820,115 @@ theorem nonloxodromic_parabolic [T2Space M]
         ∃ B : FlatSpacetime.{0} d, IsQuotientOf B Γ'' Ω ∧
           ∃ d₁ : ℕ, d₁ + 1 ≤ d ∧ ∃ M₁ : FlatSpacetime.{0} (d₁ + 1), IsUnipotentSpacetime M₁ ∧
             IsLTPOver B M₁ := by
-  sorry -- SORRY([9.P]–[9.A]): proved here, in Barbot's coordinates: (∗∗) and the group laws (`NolParam`), the structure of `Stab(v₀)` (`exists_nolParam`), [9.b] for a purely unipotent parabolic `γ₁` (`b_trivial`, `b_trivial_model`, `b_eq_zero_model`), Prop 9.3 (`bprop_limites`), Prop 9.5 (`bprop_extension`), Rem 9.2 corrected (`choixcoord`), the group `A` and its identification with Examples' `unipAction` (`nolA_mul`, `unipAction_nolToMink`), the assembly `conclusion_model`, all of `Γ` fixing `v₀` (`linOf_fix_of_relIndex`) and G6 for `Ω(S̃)` of `Γ` (`perp_invariant_omegaS_of_developsCC`); `𝒟(M̃) ⊆ Ω(S̃)` is Develop's `bprop_danom`. Missing: (1) a frame `φ ∈ Isom(𝐌ⁿ)` taking `v₀` to `ofNull 1 0 0` (transitivity of `SO₀(1, d)` on null rays) and the conjugation of `Γ'`, `S̃`, `Ω(S̃)` by it; (2) [9.b] for a parabolic `γ₁ = R U` with `R ≠ id` (the leading term on `Fix R`); (3) [9.U]: Bieberbach for `λ(Γ)` on `P̄₀ × {0}` (properness of `α(Γ)`, point (3) l.2660–2663, needs Cor 8.3's homeomorphism), the maximality argument making `𝒰̄_t` independent of `t` (l.2881–2892), and `Γ ≅ ℤᵏ` with `v = T ∘ u` linear (`u(Γ)` a lattice of `E`); (4) the normalisation `ylo = −yhi` by a change of origin in `y` (l.2937–2938), which changes `u` and `T`; (5) the linear form `ℓ` extending the additive `ν = μ + ⟨u|Tu⟩/2` from the lattice (`nu_mul`); (6) `RestrictsIn` for `suspendre` (orientation of `𝒰`, an index-2 passage); (7) `Ω := π_𝒰⁻¹(Ω_A)`, `Ω_A` the component of `Ω(A) ⊆ 𝒰` containing `S̃ ∩ 𝒰` (`mem_omegaA_of_limites`, `IsUnipComponent`): `Ω ⊆ Ω(S̃)` (`Ω(A) ⊆ U(Γ'') = U(Γ)` by `UGamma_eq_of_index`, then G6), `𝒟(M̃) ⊆ π₀⁻¹(π₀ S̃) ⊆ Ω` (l.3123–3125: every null geodesic of `M̃` meets `S̃`, from the proof of Prop 8.12), and the quotients `B = Γ''\Ω`, `M₁ = Γ''_𝒰\Ω_A` (properness on `Ω ⊆ Ω(S̃)`)
+  obtain _ | d := d
+  · exfalso
+    apply _hv0
+    have h2 : v₀.2 = 0 := Subsingleton.elim _ _
+    have h1 : v₀.1 = 0 := by
+      have := _hv
+      simp only [minkQ, h2, norm_zero] at this
+      nlinarith [sq_nonneg v₀.1]
+    exact Prod.ext h1 h2
+  have hcc := ccAction_of_developsCC _hpair _h
+  have hDD := range_subset_dependenceDomain_of_developsCC _hpair _hcaus _h
+  set Sg := D '' (UniversalCover.proj M x₀ ⁻¹' S) with hSg
+  have hcc' : CCAction Γ' Sg := hcc.mono _hle
+  obtain ⟨γp, hγp, hγpar⟩ := _hpar
+  obtain ⟨φ, -, c, hc, hφv⟩ :=
+    Nonlox.exists_isom_linear_null_frame _hv0 _hv ⟨_, linOf_mem γp, hγpar⟩
+  set G := frameConj φ Γ'
+  have hccG : CCAction G (φ • Sg) := hcc'.frameConj_smul φ
+  have hconjlin : ∀ g : isom (d + 1),
+      linOf (φ * g * φ⁻¹) = linOf φ * linOf g * (linOf φ)⁻¹ := fun g => by
+    rw [linOf_mul, linOf_mul, linOf_inv]
+  have he : ofNull 1 0 0 = linOf φ (c⁻¹ • v₀) := by
+    rw [map_smul, hφv, smul_smul, inv_mul_cancel₀ hc, one_smul]
+  have hfixG : ∀ γ ∈ G, linOf γ (ofNull 1 0 0) = ofNull 1 0 0 := by
+    intro γ hγ
+    obtain ⟨g, hg, rfl⟩ := Subgroup.mem_map.1 hγ
+    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+    rw [hconjlin, he, LinearEquiv.mul_apply, LinearEquiv.mul_apply]
+    simp [map_smul, _hfix g hg]
+  have hparG : ∃ γ ∈ G, IsParabolic (linOf γ) :=
+    ⟨φ * γp * φ⁻¹, Subgroup.mem_map.2 ⟨γp, hγp, rfl⟩, by
+      rw [hconjlin]; exact hγpar.conj (linOf_mem φ)⟩
+  obtain ⟨γ₁, hγ₁, hpar₁⟩ := hparG
+  have hb := Nonlox.nullY_smul_eq_of_isParabolic hccG.cc.entire.acausal hccG.nonempty
+    (fun γ hγ p hp => hccG.smul_mem hγ hp) hfixG hγ₁ hpar₁
+  obtain ⟨ψ, hconc⟩ :=
+    exists_unipotent_restriction_up_to_frame (_hBieb d (by omega)) hccG hfixG hb ⟨γ₁, hγ₁, hpar₁⟩
+  rw [← nol_frameConj_mul, smul_smul] at hconc
+  set φ' := ψ * φ
+  have hccG' : CCAction (frameConj φ' Γ') (φ' • Sg) := hcc'.frameConj_smul φ'
+  obtain ⟨G'', hG''le, hidxG, d₁, hd₁, J, z₀, y₀, ι, hι, hιo, hres, L, T, ℓ, ylo, yhi, hL, hTpar,
+    hsym, hform, hform', hlo, hhi, hnorm, hI, hIsub⟩ := hconc
+  set St₁ : Set (ℝ × EuclideanSpace ℝ (Fin d₁) × ℝ) := nolToMink ⁻¹' (ι ⁻¹' (φ' • Sg))
+  have hach : ∀ X ∈ St₁, ∀ X' ∈ St₁, 0 ≤ nolQ (X - X') := fun X hX X' hX' => by
+    have := nolQ_nonneg_of_isAcausal hccG'.cc.entire.acausal
+      (X := minkToNol (ι (nolToMink X))) (X' := minkToNol (ι (nolToMink X')))
+      (by rw [nolToMink_minkToNol]; exact hX) (by rw [nolToMink_minkToNol]; exact hX')
+    rwa [← minkQ_nolToMink, nolToMink_sub, nolToMink_minkToNol, nolToMink_minkToNol, ι.apply_sub,
+      ι.minkQ_lin, ← nolToMink_sub, minkQ_nolToMink] at this
+  have hΓ : ∀ u ∈ L, ∃ g : NolParam (EuclideanSpace ℝ (Fin d₁)), g.IsA ∧ g.u = u ∧ g.v = T u ∧
+      ∀ X ∈ St₁, g.act X ∈ St₁ := by
+    intro u hu
+    obtain ⟨g, hg, hgf⟩ := hform' u hu
+    obtain ⟨γ, hγ, hgr⟩ := (ι.mem_restrictGroup).1 hg
+    refine ⟨⟨LinearIsometryEquiv.refl ℝ _, u, T u, ℓ u - ⟪u, T u⟫ / 2, 0⟩, ⟨rfl, rfl⟩, rfl, rfl,
+      fun X hX => ?_⟩
+    have e : nolToMink (NolParam.act ⟨LinearIsometryEquiv.refl ℝ _, u, T u,
+        ℓ u - ⟪u, T u⟫ / 2, 0⟩ X) = g • nolToMink X := by
+      obtain ⟨x, z, y⟩ := X
+      simp only [nolToMink, NolParam.act, hgf, LinearIsometryEquiv.coe_refl, id_eq, add_zero]
+      congr 1
+      abel
+    show ι (nolToMink _) ∈ φ' • Sg
+    rw [e, hgr]
+    exact hccG'.smul_mem (hG''le hγ) hX
+  obtain ⟨hfin, hineq⟩ := bprop_limites_model hach hΓ hlo hhi
+    (fun y h1 h2 => by
+      obtain ⟨p, hp, hpy⟩ := hI y h1 h2
+      exact ⟨minkToNol p, by
+        show nolToMink (minkToNol p) ∈ ι ⁻¹' (φ' • Sg); rw [nolToMink_minkToNol]; exact hp, hpy⟩)
+    hTpar
+  obtain ⟨T', hext, hsym', hineq'⟩ :=
+    bprop_extension (fun u hu u' hu' => hsym u hu u' hu') hlo hhi hnorm hfin hineq
+  have hpole : ∀ y : ℝ, ylo < y → (y : EReal) < yhi →
+      ∀ t : EuclideanSpace ℝ (Fin d₁), t ≠ 0 → t + y • T' t ≠ 0 := fun y h1 h2 =>
+    mem_omegaA_of_limites (X := ((0 : ℝ), (0 : EuclideanSpace ℝ (Fin d₁)), y)) hlo hhi hnorm hfin
+      hineq' h1 h2
+  have hTT : ∀ u ∈ L, T' u = T u := fun u hu => hext u (subset_span hu)
+  obtain ⟨φ₁, ℓ', α, β, L', ΓA, hL', hαβ, hA, hA', hH, hφ₁, hα, hβ⟩ :=
+    Nonlox.exists_unipotent_frame_of_symm (H := ι.restrictGroup G'') hL
+      (fun u u' => hsym' u trivial u' trivial) ℓ
+      (fun g hg => by
+        obtain ⟨u, hu, hgu⟩ := hform g hg
+        exact ⟨u, hu, by simpa only [hTT u hu] using hgu⟩)
+      (fun u hu => by
+        obtain ⟨g, hg, hgu⟩ := hform' u hu
+        exact ⟨g, hg, by simpa only [hTT u hu] using hgu⟩)
+      (hlo.trans hhi) hpole
+  set Γ'' := frameConj φ'⁻¹ G''
+  have hΓ''G : frameConj φ' Γ'' = G'' := nol_frameConj_frameConj_inv φ' G''
+  have hΓ''le : Γ'' ≤ Γ' := by
+    have := nol_frameConj_mono (φ := φ'⁻¹) hG''le
+    rwa [nol_frameConj_inv_frameConj] at this
+  have hΓ''idx : Γ''.relIndex Γ' ≠ 0 := by
+    rw [← nol_relIndex_frameConj φ', hΓ''G]; exact hidxG
+  have hD : ∀ p ∈ range D, ∃ s : ℝ, p + s • (linOf φ').symm (ofNull 1 0 0) ∈ Sg := fun p hp =>
+    exists_mem_nullLine_of_mem_dependenceDomain (hDD hp)
+      (fun h0 => Nonlox.ULTP.ofNull_one_ne_zero (by
+        rw [← linOf_symm_apply φ' (ofNull 1 0 0), h0, map_zero]))
+      (by rw [minkQ_linOf_symm]; exact Nonlox.ULTP.minkQ_ofNull_one)
+  have hSt : ∀ p ∈ Sg, α < ((nullY (φ' • p) - y₀ : ℝ) : EReal) ∧
+      ((nullY (φ' • p) - y₀ : ℝ) : EReal) < β := fun p hp => by
+    have := hIsub (φ' • p) (Set.smul_mem_smul_set hp)
+    exact ⟨lt_of_le_of_lt hα this.1, lt_of_lt_of_le this.2 hβ⟩
+  obtain ⟨Ω, hDΩ, hΩ, B, hB, M₁, hM₁, hLTP⟩ :=
+    Nonlox.exists_unipotent_ltp_of_frame hcc (hΓ''le.trans _hle)
+      (Subgroup.relIndex_ne_zero_trans hΓ''idx _hidx) φ' hD J z₀ y₀ ι hι hιo (hΓ''G ▸ hres) hL' hαβ
+      hA hA' (hΓ''G ▸ hH) hφ₁ hSt
+  exact ⟨Γ'', hΓ''le, hΓ''idx, Ω, hDΩ, hΩ, B, hB, d₁, by omega, M₁, hM₁, hLTP⟩
 
 /-- **The nonloxodromic case** (§9), assembled: under Benoist's theorem (Prop 9.1, external),
 `TitsVirtuallyAbelianNull` (for the branch l.2621–2622 overlooks: null `v₀` fixed, all
