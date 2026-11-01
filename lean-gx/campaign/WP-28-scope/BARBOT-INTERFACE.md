@@ -81,3 +81,21 @@ Revised per CBG-REVIEW C1–C4 (`SingularFlatAxiomsCorr` with `Iplus_of_lt`; SC 
 library is fixed the same way next. gx discharges for E₀: the corrected bundle, `secondCountable_of_cauchy` via
 `IsCausalFlow.exists_isCauchySplitting`, A3's two connectedness arguments + past-side B2 + K⁺ injectivity
 (A3-B-INVESTIGATION.md), J⁺(V) open at BTZ points (lemma K). Instance: Y = 𝕄 ⊕ E₀, G = a.e.-isomorphisms.
+
+## Flat Geroch (a106584, DEC-65)
+
+`CausalScaffold.Flat.GerochFlat.flatGerochGH : FlatGerochGH d` — every flat spacetime GH in ETT's sense (causal +
+compact diamonds) has a Cauchy surface; standard axioms only. Lightweight chain (Flat/Geroch/*; no Loxodromic,
+Classification, CBG). `Flat/Geroch/Reach.lean`: PushUp, Z∓, K∓ = I∓ for flatCausality. Regular-flat only:
+gx must extend across BTZ points for E₀ (or apply it to Reg M where that suffices).
+
+## CBG packages 4,5,6,9,11 (e4c0d3a) — two interface decisions by gx (2026-11-01)
+
+- E₀ constructor: `Geometry.ofLocalModelOfGermSlice 𝔐 hA3f hA3p hA4f hA4p` (sorry-free; A3/A4 on the model as
+  hypotheses), NOT `ofLocalModel` (4 tagged sorries). Gluing: `Causal.CBG.FamilyGlueData.chartedSpace`,
+  `Causal.CBG.gluedChartedSpace` (+ `_of_eqOn` wrappers; nonempty pieces; transition = glueTransition).
+- (1) ACCEPTED field `timeFunction` (GH ⇒ HasTimeFunction on admissible M); gx discharges on E₀ via SingularGeroch.
+- (2) gx FIXES the past-side field `localUnique_sing_adherent` with the WRAP-AROUND largeness hypothesis:
+  ∃ O ∋ y₀ open, ∃ r ∈ O, y₀ ≤_O r, reg ∩ I⁻_O(r) ⊆ U (point contact refuted by the cone example; the
+  segment-in-closure form rejected: boosts along Δ). gx proves it for E₀ by holonomy: a loop around Δ forces
+  the lift to normalise ⟨P⟩.
