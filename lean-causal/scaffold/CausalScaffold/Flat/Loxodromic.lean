@@ -22,6 +22,7 @@ import CausalScaffold.Flat.Lox.NullLevelFix
 import CausalScaffold.Flat.Lox.RegularLattice
 import CausalScaffold.Flat.Lox.FiniteIndexND
 import CausalScaffold.Flat.Lox.RestrictUnipotent
+import CausalScaffold.Flat.Lox.ClosedSubgroupNhds
 import Mathlib.GroupTheory.Schreier
 
 /-!
@@ -52,11 +53,9 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
   of `𝒮` (`Flat.Lox.NilpotentFix`, by the upper central series, through `Flat.Lox.EllipticCommonFix`
   and `Flat.Lox.CommuteOnFix`), by a route other than the paper's (Cor 8.4, on which the paper
   relies, is false as printed: finding).
-* `bprop:LU_discrete` — `GHFspace.tex:3368` (Prop 10.5), partial: l.3380–3388 (a central
-  non-elliptic element of a subgroup normalised by `L_U(Γ)` contradicts `hne`, `Flat.Lox.CentralFix`
-  and `Flat.Lox.RestrictFix`) proved; of the Lie-theoretic input l.3372–3380 the branch
-  `L_U(Γ_nd) ≠ {1}` is proved (`Flat.Lox.UnipotentCentre`: `N = L_U(Γ_nd)` has a central parabolic
-  member), the branch `L_U(Γ_nd) = {1}` (the closure argument) a `sorry`.
+* `bprop:LU_discrete` — `GHFspace.tex:3368` (Prop 10.5), partial (reading: `U` via `RestrictsIn`;
+  **no `sorry`**): l.3372–3380, both branches (`Flat.Lox.UnipotentCentre`; Cartan in local form,
+  `Flat.Lox.ClosedSubgroupNhds`), and l.3380–3388 (`Flat.Lox.CentralFix`, `RestrictFix`).
 * `bprop:admlox` — `GHFspace.tex:1230` (Prop 4.17), partial (nonempty added, external
   `LimitSetMinimal`; **no `sorry`**): invariance in `𝒥` (`isomPenrose_image_limitSetJ_subset`),
   minimality on `𝒮` (`fst_image_limitSetJ_subset`) and in `𝒥` (`limitSetJ_subset`, through the
@@ -75,8 +74,7 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
   conclusion in `𝐌ⁿ` `generic_isCHCentralExtension` proved (wave 7, `Flat.Lox.FiniteIndexND`,
   `Flat.Lox.RestrictUnipotent`); the conclusion `loxo_generic_centralExtension`, family (b), and
   `loxo_generic_torusProduct`, family (a) under `π₁` finitely generated through Selberg, are
-  proved, **no `sorry` of their own**: they rest on `bprop_LU_discrete`'s one `sorry` (the branch
-  `L_U(Γ_nd) = {1}`) and on `Flat.Develop`'s upstream `sorry`s through `ccAction_of_developsCC`).
+  proved, **no `sorry`** (`#print axioms`: `propext`, `Classical.choice`, `Quot.sound`).
 * gx exports (the contract of `docs/BARBOT.md`): `uniformization_injective`,
   `uniformization_image`, `uniformization_properlyDiscontinuous`, and `uniformization`.
 
@@ -167,10 +165,17 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
 
 ## SCOPE (disclosed)
 
-* **Sorries (2)**: `loxo_elementary_misner` ([10.M], after its first step),
-  `bprop_LU_discrete` (the Lie-theoretic input on the branch `L_U(Γ_nd) = {1}` only). Each names
-  its obstruction. `loxo_generic_centralExtension` and `loxo_generic_torusProduct` ([10.G]) are
-  proved (wave 7) and inherit `bprop_LU_discrete`'s `sorry` through `exists_generic_reduction`. `loxo_cauchyComplete` is proved
+* **Sorries (1)**: `loxo_elementary_misner` ([10.M], after its first two steps); its obstruction is
+  Bieberbach's first theorem, which its statement does not carry (finding, closer 2026-11-01: the
+  conclusion implies Bieberbach I for torsion-free orientation-preserving crystallographic groups
+  of `ℝ^{d'}`, while this library holds it only as the external `BieberbachI`).
+  `bprop_LU_discrete` is closed (closer, 2026-11-01): the branch `L_U(Γ_nd) = {1}` by
+  `discreteTopology_restrictGroup_of_nonDiscretePart_bot` and `Flat.Lox.ClosedSubgroupNhds`
+  (Cartan's closed-subgroup theorem in local form, by von Neumann's elementary argument:
+  one-parameter subgroups of `cl L(Γ)` from `exp`, the Trotter step, the inverse function theorem
+  for `(H, M) ↦ exp H exp M`), so `loxo_generic_centralExtension` and `loxo_generic_torusProduct`
+  ([10.G]) are sorry-free (`#print axioms`: `propext`, `Classical.choice`, `Quot.sound`).
+  `loxo_cauchyComplete` is proved
   (`Flat.Lox.LevelComplete`, `Flat.Lox.QuotientComplete`). `blem_sanlox`, `blem_loxregular`,
   `interior_achronalDomain_eq_quadrants`,
   `subset_UGamma_of_oneSided`, `loxo_properlyDiscontinuous`, `bcor_loxo_proper`, `bprop_U_timelike`,
@@ -178,9 +183,10 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
   lemmas and all of `bprop:admlox`
   (`isomPenrose_image_limitSetJ_subset`, `fst_image_limitSetJ_subset`, `limitSetJ_subset`) use no
   `sorry`.
-* **Upstream.** Through `ccAction_of_developsCC` and `bprop_danom`, the gx exports inherit
-  `Flat.Develop`'s two `sorry`s (`holonomy_proper`; Prop 8.12 step 1); Cor 10.3's properness adds
-  none. So do the three [10.M]/[10.G] conclusions, which since 2026-11-01 carry `[T2Space M]` and
+* **Upstream.** The gx exports and the three [10.M]/[10.G] conclusions go through
+  `ccAction_of_developsCC` and `bprop_danom`; `Flat.Develop`'s former two `sorry`s
+  (`holonomy_proper`; Prop 8.12 step 1) are closed at 20ea59b (it has no `SORRY(` left), and Cor
+  10.3's properness adds none. The three conclusions since 2026-11-01 carry `[T2Space M]` and
   read `CCAction ρ.range Σ` through `ccAction_of_developsCC`. Under a given `CCAction` (in `𝐌ⁿ`) Lemma 10.2 and Cor 10.3 (completeness included) are
   sorry-free.
 * **Lemma modules** (`Flat/Lox/`, wave 5): `LevelComplete`, `QuotientComplete` (Cor 10.3's
@@ -192,7 +198,9 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
   `RegularLattice` ([10.G]), `NullLevelFix` ([10.M]), and (wave 7) `FiniteIndexND` (`SO₀(1, d)` a
   topological group; `Γ_nd` unchanged on a finite-index subgroup containing it), `RestrictUnipotent`
   (the restricting subgroup contains `Γ_nd`; loxodromics restrict to loxodromics; the restriction
-  hom and pull-backs; the restricted proper action; `d₁ ≤ d`) ([10.G]). Their
+  hom and pull-backs; the restricted proper action; `d₁ ≤ d`) ([10.G]), and (closer)
+  `ClosedSubgroupNhds` (Prop 10.5's Lie-theoretic input, `exists_nhds_subset_connectedComponentIn_closure`).
+  Their
   declarations live in `Causal.Flat.Lox` (`completeSpace_inducedLength_cosmoLevel` in
   `Causal.Flat`).
 * **Readings.** `Λ₀` is the set of all repulsive fixed points (`IsRepulsiveFixedJ`), not one per
@@ -2283,7 +2291,7 @@ theorem loxo_elementary_misner {d' : ℕ} {M : Type*} [TopologicalSpace M]
         mem_halfPlus.1 (hF w ⟨γ, hΓ₁ hγ, hw⟩ hp)
     · exact Or.inr fun p hp => mem_omegaMinus.2 fun w ⟨γ, hγ, hw⟩ =>
         mem_halfMinus.1 (hP w ⟨γ, hΓ₁ hγ, hw⟩ hp)
-  sorry -- SORRY([10.M]): l.3241–3330 is a chain of unproved steps after the first two (done above: `Γ₁` of finite index, `L(Γ₁)` fixing `u₀`, `γ₀ᵏ ∈ Γ₁`, `Lox.exists_finiteIndex_fix_loxodromic`; and, now that the statement carries `[T2Space M]` so that `ccAction_of_developsCC` applies, `b ≡ 0`: the invariant lightlike level `s₀`, `exists_invariant_nullLevel_of_ccAction`). Left: a further finite-index subgroup also fixing `Δ₁ = u₁` (l.3286–3299, through `L(Γ₀)` finite, `Γ₀ = ker a`); this needs "we recover the purely unipotent case" (l.3277–3278: `Γ₀` preserves `S̃`, has no loxodromic and acts trivially on `Q₁`, so §9's unipotent analysis — `Flat.Nonloxodromic`, outside this file's import closure — gives `U` timelike and `Γ₀^nd` spacelike translations after `blem:suspendre`); then the linear normal form (`Lox.lorentz_normalForm_of_fix_two`), `x(γ) = y(γ) = 0` (`exists_invariant_nullLevels_of_ccAction`, once `u₀, u₁` are both fixed: the invariant spacelike `Q = π_P^{-1}(0)`), and "an appropriate use of Bieberbach's theorem" (l.3322, gap G7) for the action on `Q` — which must be run for `Γ₀ = ker a` (normalised by `Γ`), not for `Γ`: the printed "the action on `π_P^{-1}(0)` is free and properly discontinuous" (l.3320–3321) is false for `Γ = ⟨γ₀⟩`, `γ₀ = boost × irrational rotation` (finding, module docstring) — and the identification of the restricted group with a frame conjugate of `misnerGroup L` (pure translations along `Q ∩ U'`, no rotation part) on a further finite-index subgroup and a timelike `U'`. None of the §9 unipotent reduction, the Bieberbach step for `Γ₀` on `Q`, or the Misner identification is in this file's import closure
+  sorry -- SORRY([10.M]): l.3241–3330 after its first two steps (done above: `Γ₁` of finite index, `L(Γ₁)` fixing `u₀`, `γ₀ᵏ ∈ Γ₁`, `Lox.exists_finiteIndex_fix_loxodromic`; `b ≡ 0`, the invariant lightlike level `s₀`). SHARPENED (closer, 2026-11-01): the obstruction is Bieberbach's first theorem, and the statement does not carry it. (i) The conclusion IMPLIES Bieberbach I for torsion-free orientation-preserving crystallographic groups `G` of `ℝ^{d'}`: take `Γ = ⟨γ₀⟩ × G` on `Ω = {x > 0 > y} × ℝ^{d'}` (`γ₀` the boost of the null plane `E`, `G` acting on `Q = E^⊥`), `Σ = {xy = −1} × ℝ^{d'}`; `L(Γ)` fixes the null directions of `E` (so `helem`), and a finite-index `Γ'` whose restriction to a timelike `U'` is conjugate to a Misner group (boost × translations, `IsMisnerSpacetime`) with `Ω + U'^⊥ = Ω` and linear monodromy on `U'^⊥` makes `Γ' ∩ G` (finite index in `G`) translate `U'` and rotate `U'^⊥`; `G` being cocompact on `Q`, `Q`'s direction lies in `U'`'s, so `Γ' ∩ G` is a lattice of translations of `Q`. In this library Bieberbach I is the unproved external `BieberbachI` (`Flat/Bieberbach`, DEC-36), and every §9 route to the second null direction `Δ₁` (`Nonlox.exists_unipotentRestriction_upToFrame`, `nonloxodromic_parabolic`, `nonloxodromic_elliptic`) takes `hBieb : BieberbachI …` as a hypothesis, which `loxo_elementary_misner` lacks; `Flat.Nonloxodromic` is importable here (it does not import this file) but cannot be applied without it. (ii) With `hBieb` added (a statement change for the master: `∀ k ≤ d' + 1, BieberbachI (EuclideanSpace ℝ (Fin k))`, as `nonloxodromic_*` carry), the chain left is: `Γ₀ = ker a` (`a` the boost character of `L(Γ₁)` at `u₀`) fixes the null VECTOR `nullVec u₀` and every null level, so after `Nonlox.exists_isom_linear_null_frame` it meets `Nonlox.exists_unipotentRestriction_upToFrame` when it has a parabolic member, and `nonloxodromic_elliptic`'s Bieberbach step when it is all-elliptic (`exists_timelike_fixed_of_elliptic_of_null` needs `TitsVirtuallyAbelianNull`); then `L(Γ₀)` finite, its fixed set `ℋ ⊆ ℍ^{d'+1}` is `L(Γ₁)`-invariant and `L(γ)` commutes with `L(γ₀ᵏ)` on `ℋ`, hence fixes `u₁` (l.3286–3299); then `Lox.lorentz_normalForm_of_fix_two`, `x(γ) = y(γ) = 0` (`exists_invariant_nullLevels_of_ccAction`), Bieberbach for the action of `Γ₀` on `Q = π_P⁻¹(0)` — NOT for `Γ` (finding F3: l.3320–3321 is false for `Γ = ⟨γ₀⟩`, `γ₀` = boost × irrational rotation) — giving a `Γ`-invariant `W ⊆ Q` on which a finite-index subgroup translates, `U' = E ⊕ W`, and the identification of the restricted group with a frame conjugate of `misnerGroup L` (`L ⊆ ℝ × W` ball-finite, an element of nonzero boost: finding F1)
 
 end Misner
 
@@ -2451,6 +2459,177 @@ theorem bprop_U_timelike (hA : AuslanderCarriereDalbo d) (hU : MaxUnipotentSubsp
     fun v hv hv0 => hfixsp v (fun γ hγ => hv _ ⟨γ, hγ, rfl⟩) hv0
   exact hne H hH hidx ⟨u, hu⟩
 
+/-- `L(γ⁻¹) L(γ) = id`. -/
+theorem linOf_inv_apply_linOf (g : isom d) (v : Minkowski d) : linOf g⁻¹ (linOf g v) = v := by
+  calc linOf g⁻¹ (linOf g v) = linOf (g⁻¹ * g) v := rfl
+    _ = v := by rw [inv_mul_cancel]; rfl
+
+theorem linToCLM_linOf_mul (g h : isom d) :
+    linToCLM (linOf (g * h)) = linToCLM (linOf g) * linToCLM (linOf h) :=
+  ContinuousLinearMap.ext fun _ => rfl
+
+/-- **A subgroup of `SO₀(1, d)` is discrete as soon as a ball around `1` meets it only in `1`.** -/
+theorem discreteTopology_of_dist_lt {H : Subgroup (lorentz d)} {ε : ℝ} (hε : 0 < ε)
+    (h : ∀ A ∈ H, dist (linToCLM (A : Minkowski d ≃ₗ[ℝ] Minkowski d)) 1 < ε → A = 1) :
+    DiscreteTopology H := by
+  haveI := Lox.lorentz_isTopologicalGroup (d := d)
+  rw [discreteTopology_iff_isOpen_singleton_one]
+  have e : ({1} : Set H) = (fun A : H => linToCLM ((A : lorentz d) : Minkowski d ≃ₗ[ℝ] Minkowski d)) ⁻¹'
+      Metric.ball 1 ε := by
+    ext A
+    simp only [mem_singleton_iff, mem_preimage, Metric.mem_ball]
+    constructor
+    · rintro rfl
+      show dist (linToCLM (1 : Minkowski d ≃ₗ[ℝ] Minkowski d)) 1 < ε
+      rw [linToCLM_one, dist_self]; exact hε
+    · intro hA; exact Subtype.ext (h _ A.2 hA)
+  rw [e]
+  exact (continuous_lorentz_linToCLM.comp continuous_subtype_val).isOpen_preimage _ Metric.isOpen_ball
+
+/-- **Prop 10.5, the branch `L_U(Γ_nd) = {1}`** (l.3372–3376): if the restrictions to `U` of the
+elements of `Γ_nd` all have trivial linear part, `L_U(Γ)` is discrete. Not through the closure of
+`L_U(Γ)` (l.3372–3374) but directly: by Cartan's theorem in its local form
+(`Lox.exists_nhds_subset_connectedComponentIn_closure`) an element of `Γ` whose linear part is
+close to `1` lies in `Γ_nd`, hence restricts with trivial linear part; and a sequence `hₖ → 1` of
+`L_U(Γ)`, `hₖ ≠ 1`, lifts to `γₖ ∈ Γ` whose linear parts are bounded together with their inverses
+(they move the unit timelike vector of `U` boundedly, `norm_linOf_le_of_gauss`: the action on
+`U^⊥` is euclidean), so a subsequence is Cauchy and `γ_{φN}⁻¹ γ_{φn}` restricts trivially for
+`n ≥ N`: `hₖ` is eventually constant, hence `1`. No `RestrictsIn` is needed. -/
+theorem discreteTopology_restrictGroup_of_nonDiscretePart_bot {Γ : Subgroup (isom d)} {d₁ : ℕ}
+    (ι : AffineMinkEmbedding d₁ d)
+    (hnt : linearImage (ι.restrictGroup (nonDiscretePart Γ)) = ⊥) :
+    DiscreteTopology (linearImage (ι.restrictGroup Γ)) := by
+  -- Cartan (`Lox.exists_nhds_subset_connectedComponentIn_closure`): near `1`, `cl L(Γ) ⊆ G₀`
+  obtain ⟨V, hV, hVsub⟩ := Lox.exists_nhds_subset_connectedComponentIn_closure (linearImage Γ)
+  obtain ⟨δ, hδ, hδV⟩ : ∃ δ > 0, ∀ A : lorentz d,
+      dist (linToCLM (A : Minkowski d ≃ₗ[ℝ] Minkowski d)) 1 < δ → A ∈ V := by
+    rw [isEmbedding_lorentz_linToCLM.isInducing.nhds_eq_comap, Filter.mem_comap] at hV
+    obtain ⟨t, ht, htV⟩ := hV
+    have ht' : t ∈ 𝓝 (1 : Minkowski d →L[ℝ] Minkowski d) := by
+      simpa [linToCLM_one] using ht
+    obtain ⟨δ, hδ, hball⟩ := Metric.mem_nhds_iff.1 ht'
+    exact ⟨δ, hδ, fun A hA => htV (hball hA)⟩
+  -- an element of `Γ` whose linear part is `δ`-close to `1` lies in `Γ_nd`: it restricts trivially
+  have hkill : ∀ γ ∈ Γ, dist (linToCLM (linOf γ)) 1 < δ → ∀ g : isom d₁, ι.Restricts γ g →
+      linearPart g = 1 := by
+    intro γ hγ hd g hg
+    have hV' : linearPart γ ∈ V := hδV _ (by rwa [← linOf_eq_linearPart])
+    have hcl : linearPart γ ∈ closure (linearImage Γ : Set (lorentz d)) :=
+      subset_closure ⟨γ, hγ, rfl⟩
+    have hG : linearPart γ ∈ linClosureIdentityComponent Γ := hVsub ⟨hV', hcl⟩
+    have hnd : γ ∈ nonDiscretePart Γ := Subgroup.mem_inf.2 ⟨hγ, Subgroup.subset_closure hG⟩
+    have : linearPart g ∈ linearImage (ι.restrictGroup (nonDiscretePart Γ)) :=
+      ⟨g, ⟨γ, hnd, hg⟩, rfl⟩
+    rw [hnt] at this
+    exact Subgroup.mem_bot.1 this
+  -- the unit timelike vector of `U`, made future
+  set t₁ : Minkowski d₁ := (1, 0)
+  obtain ⟨n₀, σ, hσ, hn₀, hn₀q, hn₀e⟩ : ∃ (n₀ : Minkowski d) (σ : ℝ), |σ| = 1 ∧
+      IsFutureTimelike n₀ ∧ minkQ n₀ = -1 ∧ n₀ = σ • ι.lin t₁ := by
+    have hq := ι.minkQ_lin_timeVec
+    rcases isFutureTimelike_or_neg (v := ι.lin t₁) (by rw [hq]; norm_num) with h | h
+    · exact ⟨_, 1, by simp, h, hq, by rw [one_smul]⟩
+    · exact ⟨_, -1, by simp, h, by rw [minkQ_neg, hq], by rw [neg_one_smul]⟩
+  set Cι := ‖LinearMap.toContinuousLinearMap ι.lin‖
+  set R := max ‖n₀‖ (Cι * 2 * ‖t₁‖)
+  set c := 2 * R ^ 2 * (8 * R ^ 2 + 1) + 1
+  have hc1 : 1 ≤ c := by have : 0 ≤ 2 * R ^ 2 * (8 * R ^ 2 + 1) := by positivity
+                         linarith
+  have hc0 : 0 < c := by linarith
+  -- an element of `Γ` restricting to `g` with `L(g)` `1`-close to `1` has `‖L(γ)^{±1}‖ ≤ c`
+  have hbound : ∀ γ : isom d, ∀ g : isom d₁, ι.Restricts γ g → dist (linToCLM (linOf g)) 1 < 1 →
+      ‖linToCLM (linOf γ)‖ ≤ c ∧ ‖linToCLM (linOf γ⁻¹)‖ ≤ c := by
+    intro γ g hg hd
+    have hLg : ‖linToCLM (linOf g)‖ ≤ 2 := by
+      have h1 : ‖(1 : Minkowski d₁ →L[ℝ] Minkowski d₁)‖ ≤ 1 := ContinuousLinearMap.norm_id_le
+      rw [dist_eq_norm] at hd
+      linarith [norm_sub_norm_le (linToCLM (linOf g)) 1]
+    have hn : linOf γ n₀ = σ • ι.lin (linOf g t₁) := by
+      rw [hn₀e, map_smul, hg.lin]
+    have hnR : ‖linOf γ n₀‖ ≤ R := by
+      rw [hn, norm_smul, Real.norm_eq_abs, hσ, one_mul]
+      refine le_trans ?_ (le_max_right _ _)
+      calc ‖ι.lin (linOf g t₁)‖ = ‖LinearMap.toContinuousLinearMap ι.lin (linOf g t₁)‖ := rfl
+        _ ≤ Cι * ‖linOf g t₁‖ := ContinuousLinearMap.le_opNorm _ _
+        _ = Cι * ‖linToCLM (linOf g) t₁‖ := rfl
+        _ ≤ Cι * (‖linToCLM (linOf g)‖ * ‖t₁‖) := by
+          gcongr; exact ContinuousLinearMap.le_opNorm _ _
+        _ ≤ Cι * (2 * ‖t₁‖) := by gcongr
+        _ = Cι * 2 * ‖t₁‖ := by ring
+    have hn0R : ‖n₀‖ ≤ R := le_max_left _ _
+    refine ⟨ContinuousLinearMap.opNorm_le_bound _ hc0.le fun x =>
+      norm_linOf_le_of_gauss hn₀ hn₀q hn0R hnR x, ?_⟩
+    have hn' : IsFutureTimelike (linOf γ n₀) := lorentz.isFutureTimelike_apply (linOf_mem γ) hn₀
+    have hq' : minkQ (linOf γ n₀) = -1 := by rw [lorentz.minkQ_apply (linOf_mem γ), hn₀q]
+    refine ContinuousLinearMap.opNorm_le_bound _ hc0.le fun x =>
+      norm_linOf_le_of_gauss (g := γ⁻¹) hn' hq' hnR (by rw [linOf_inv_apply_linOf]; exact hn0R) x
+  -- non-discreteness gives `hₖ ∈ L_U(Γ)`, `hₖ ≠ 1`, `hₖ → 1`
+  by_contra hnd
+  have hcon : ∀ ε > 0, ∃ A ∈ linearImage (ι.restrictGroup Γ),
+      dist (linToCLM (A : Minkowski d₁ ≃ₗ[ℝ] Minkowski d₁)) 1 < ε ∧ A ≠ 1 := by
+    intro ε hε
+    by_contra hc
+    push Not at hc
+    exact hnd (discreteTopology_of_dist_lt hε hc)
+  choose h hH hhd hhne using fun k : ℕ => hcon (1 / ((k : ℝ) + 2)) (by positivity)
+  choose g hg hgh using fun k => Subgroup.mem_map.1 (hH k)
+  choose γ hγ hγg using fun k => (hg k)
+  have hψh : ∀ k, linToCLM ((h k : lorentz d₁) : Minkowski d₁ ≃ₗ[ℝ] Minkowski d₁) =
+      linToCLM (linOf (g k)) := fun k => by rw [← hgh k, linOf_eq_linearPart]
+  have hk1 : ∀ k, dist (linToCLM (linOf (g k))) 1 < 1 := fun k => by
+    rw [← hψh]
+    refine (hhd k).trans_le ?_
+    rw [div_le_one (by positivity)]; linarith [(k.cast_nonneg : (0 : ℝ) ≤ k)]
+  set a : ℕ → Minkowski d →L[ℝ] Minkowski d := fun k => linToCLM (linOf (γ k))
+  have ha : ∀ k, a k ∈ Metric.closedBall 0 c := fun k =>
+    mem_closedBall_zero_iff.2 (hbound _ _ (hγg k) (hk1 k)).1
+  haveI : ProperSpace (Minkowski d →L[ℝ] Minkowski d) :=
+    FiniteDimensional.proper ℝ (Minkowski d →L[ℝ] Minkowski d)
+  obtain ⟨T, -, φ, hφ, hT⟩ := (isCompact_closedBall (0 : Minkowski d →L[ℝ] Minkowski d) c).tendsto_subseq ha
+  obtain ⟨N, hN⟩ := Metric.cauchySeq_iff'.1 hT.cauchySeq (δ / c) (div_pos hδ hc0)
+  -- for `n ≥ N`, `γ_{φN}⁻¹ γ_{φn}` has linear part `δ`-close to `1`, so `h_{φN} = h_{φn}`
+  have hconst : ∀ n ≥ N, h (φ n) = h (φ N) := by
+    intro n hn
+    set γ' := (γ (φ N))⁻¹ * γ (φ n)
+    have hγ' : γ' ∈ Γ := Γ.mul_mem (Γ.inv_mem (hγ _)) (hγ _)
+    have hinv1 : linToCLM (linOf (γ (φ N))⁻¹) * a (φ N) = 1 :=
+      ContinuousLinearMap.ext fun v => linOf_inv_apply_linOf _ v
+    have hdist : dist (linToCLM (linOf γ')) 1 < δ := by
+      rw [dist_eq_norm, linToCLM_linOf_mul]
+      have e : linToCLM (linOf (γ (φ N))⁻¹) * linToCLM (linOf (γ (φ n))) - 1 =
+          linToCLM (linOf (γ (φ N))⁻¹) * (a (φ n) - a (φ N)) := by
+        rw [mul_sub, hinv1]
+      rw [e]
+      calc ‖linToCLM (linOf (γ (φ N))⁻¹) * (a (φ n) - a (φ N))‖
+          ≤ ‖linToCLM (linOf (γ (φ N))⁻¹)‖ * ‖a (φ n) - a (φ N)‖ := norm_mul_le _ _
+        _ ≤ c * ‖a (φ n) - a (φ N)‖ := by
+          gcongr; exact (hbound _ _ (hγg _) (hk1 _)).2
+        _ < c * (δ / c) := by
+          gcongr; rw [← dist_eq_norm]; exact hN n hn
+        _ = δ := by field_simp
+    have h1 := hkill γ' hγ' hdist _ ((hγg (φ N)).inv.mul (hγg (φ n)))
+    rw [map_mul, map_inv, inv_mul_eq_one] at h1
+    rw [← hgh, ← hgh, h1]
+  -- `h_{φn} → 1`, so the constant `h_{φN}` is `1`
+  have hlim : Tendsto (fun n => linToCLM ((h (φ n) : lorentz d₁) : Minkowski d₁ ≃ₗ[ℝ] Minkowski d₁))
+      atTop (𝓝 1) := by
+    rw [tendsto_iff_dist_tendsto_zero]
+    refine squeeze_zero (fun _ => dist_nonneg) (fun n => (hhd (φ n)).le.trans ?_)
+      (tendsto_one_div_add_atTop_nhds_zero_nat)
+    have := hφ.id_le n
+    gcongr
+    · exact_mod_cast this
+    · norm_num
+  have hlim' : Tendsto (fun n => linToCLM ((h (φ n) : lorentz d₁) : Minkowski d₁ ≃ₗ[ℝ] Minkowski d₁))
+      atTop (𝓝 (linToCLM ((h (φ N) : lorentz d₁) : Minkowski d₁ ≃ₗ[ℝ] Minkowski d₁))) :=
+    tendsto_const_nhds.congr' (eventually_atTop.2 ⟨N, fun n hn => by
+      show _ = linToCLM ((h (φ n) : lorentz d₁) : Minkowski d₁ ≃ₗ[ℝ] Minkowski d₁)
+      rw [hconst n hn]⟩)
+  have e1 := tendsto_nhds_unique hlim' hlim
+  refine hhne (φ N) (Subtype.ext ?_)
+  rw [← linToCLM_one] at e1
+  exact linToCLM_injective e1
+
 /-- `bprop:LU_discrete` (Prop 10.5, l.3367–3388): `L_U(Γ)`, the linear parts of the restrictions
 of `Γ` to the (timelike, Prop 10.4) maximal unipotent subspace `U`, is discrete. `U` is given through
 a parametrization `ι : 𝐌^{d₁+1} → 𝐌ⁿ` on which every element of `Γ` restricts to an isometry
@@ -2460,6 +2639,11 @@ theorem bprop_LU_discrete (hA : AuslanderCarriereDalbo d) (hU : MaxUnipotentSubs
     (hΓ : DiscreteTopology Γ) (h : CCAction Γ S) (hne : IsNonelementary Γ)
     {d₁ : ℕ} (ι : AffineMinkEmbedding d₁ d) (hmax : IsMaxUnipotent (nonDiscretePart Γ) ι.range)
     (hres : ι.RestrictsIn Γ) : DiscreteTopology (linearImage (ι.restrictGroup Γ)) := by
+  -- `MaxUnipotentSubspace` (`hU`) and `CCAction` (`h`, §8's standing hypothesis) are not used by
+  -- this proof (finding): `hmax` is used as given, and the branch `L_U(Γ_nd) = {1}` needs no
+  -- hypothesis on `Γ` at all (`discreteTopology_restrictGroup_of_nonDiscretePart_bot`)
+  have _ := hU
+  have _ := h
   by_contra hnd
   -- the Lie-theoretic input (l.3372–3380): a subgroup `N ≤ SO₀(U)` normalised by `L_U(Γ)` with a
   -- central parabolic or hyperbolic member. On the branch `L_U(Γ_nd) ≠ {1}` it is `N = L_U(Γ_nd)`
@@ -2471,7 +2655,7 @@ theorem bprop_LU_discrete (hA : AuslanderCarriereDalbo d) (hU : MaxUnipotentSubs
         ¬IsElliptic (z : Minkowski d₁ ≃ₗ[ℝ] Minkowski d₁) := by
     by_cases hnt : linearImage (ι.restrictGroup (nonDiscretePart Γ)) = ⊥
     · exfalso
-      sorry -- SORRY(bprop:LU_discrete): only the branch `L_U(Γ_nd) = {1}` is left (the branch `L_U(Γ_nd) ≠ {1}` is closed below by `Lox.exists_normal_central_nonElliptic_restrict`). It is contradictory by l.3372–3376: "the closure of `L_U(Γ)` in `SO₀(U)` is the restriction to `U` of the closure of `L(Γ)`" (the action on `𝐌ⁿ/U` being euclidean), whose neutral component is contained in `L_U(Γ_nd)`; so with `L_U(Γ_nd)` trivial that closure has trivial neutral component, hence is discrete (a closed subgroup of the Lie group `SO₀(1, d₁)`, Cartan), and so is `L_U(Γ)`, against `hnd`. Needs closures of restricted groups, the identification of their neutral components with `L_U(Γ_nd)`, and Cartan's closed-subgroup theorem for `SO₀(1, d₁)`: none is in the library
+      exact hnd (discreteTopology_restrictGroup_of_nonDiscretePart_bot ι hnt)
     · exact Lox.exists_normal_central_nonElliptic_restrict hA hΓ ι hmax hres hnt
   -- l.3380–3388: `L_U(Γ)` permutes the fixed points of `z` on `𝒮(U)`; the transport to `𝐌ⁿ`
   obtain ⟨H, hH, hidx, u₁, hu₁⟩ :=
