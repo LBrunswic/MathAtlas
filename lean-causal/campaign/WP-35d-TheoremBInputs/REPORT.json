@@ -1,0 +1,62 @@
+{
+  "package": "WP-35d-TheoremBInputs",
+  "files": ["scaffold/CausalScaffold/Flat/TheoremBInputs.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bthm:cauclo",
+      "tex_lines": [353, 359],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.barbot_B_of_externals",
+        "Causal.Flat.barbot_B_of_admissible",
+        "Causal.Flat.barbot_B_zero",
+        "Causal.Flat.barbot_B_hypotheses_satisfiable",
+        "Causal.Flat.absMax_of_cauchyCompact_of_mgh_of_flatGerochGH"
+      ],
+      "hypotheses": [
+        {"paper": "closed spacelike hypersurfaces in GH spacetimes are Cauchy (l.3537-3539), carried by barbot_B as hK : forall N, GH N -> FlatLemmaKData N", "here": "weakened", "note": "proved: FlatLemmaKData N <-> BarbotGH N on every flat spacetime (flatLemmaKData_iff_barbotGH), so hK <-> FlatGerochGH d (forall_flatLemmaKData_iff): every ETT-GH flat spacetime has a Cauchy surface. Under Barbot's own definition of GH (l.498-507, GH = has Cauchy hypersurfaces) this is a tautology; it is the gap between ETT's GloballyHyperbolic and Barbot's GH, theo:geroch (i)=>(iii) in the flat case. Further reduced to admissible measures (flatGerochGH_of_admissible). Not proved in any dimension."},
+        {"paper": "Selberg's lemma (DEC-44)", "here": "strengthened", "note": "unchanged for d >= 1 (Selberg in GL_{n>=2}(R), not in mathlib); discharged at d = 0 (selbergLemma_minkowski_zero)"},
+        {"paper": "Benoist / Bieberbach / ACD / Carriere-Dal'bo (BarbotExternals d)", "here": "strengthened", "note": "unchanged; discharged at d = 0 by Classification's barbotExternals_zero"}
+      ],
+      "sorries": [],
+      "findings": [
+        "Six of FlatLemmaKData's seven fields hold on EVERY flat spacetime, GH or not, and are now proved: tarentin (flatCausality_tarentin, new: chart + staticLe_of_ball + ChartIso + le_mono), causal arc-connectedness (CauchyComplete), J^+(p) != {p} and J^-(p) != {p} (new, from any causal flow: a constant forward orbit forces a constant orbit), CurvesExtend (curvesExtend_of_isCausalFlow), the chronal causal flow (Splitting's flat_hasChronalCausalFlow + SecondCountable's instance). The seventh, an acausal Cauchy surface, is exactly Barbot's GH (acausality from isAcausal_of_isCauchySurface_of_hasChronalCausalFlow). So Classification's SCOPE claim that the universal form 'rests on standard GH facts (... a complete timelike flow; tarentin and causal arc-connectedness ...)' overstates what is missing: only Geroch's existence of a Cauchy surface is.",
+        "hK cannot be narrowed below FlatGerochGH: absMax_of_cauchyCompact_of_mgh applies lemma K on every GH target N, and lemma K (isCauchySurface_of_isLocallyCauchyTwoSided) needs a splitting of N, i.e. a Cauchy surface of N.",
+        "hSel is NOT used by any proof term: barbot_B passes it only to cauclo_from_embedding, whose binder is _hSel and whose body is a tagged sorry (G9 step (4), family (b) -> (a)). It is mathematically needed by that step; formally idle only because of the sorry. Same for cauclo_from_embedding's _hK; hK is genuinely consumed by absMax_of_cauchyCompact_of_mgh.",
+        "Non-vacuity: barbot_B_hypotheses_satisfiable proves BarbotExternals 0, SelbergLemma (Minkowski 0), and for every d that the static torus Z^d\\M^n (torusSpace d) is GH, Cauchy-compact, MGH (new mgh_torusSpace, via absMax_of_isTranslationSpacetime) and carries FlatLemmaKData. The only hypothesis of barbot_B_zero not witnessed is the universal FlatGerochGH 0 (a true classical theorem). At d >= 1 the externals (Selberg in dim >= 2, Bieberbach, Benoist, ...) are cited theorems not in mathlib, so no d >= 1 joint witness."
+      ],
+      "questions": [
+        "Barbot defines GH as 'has a Cauchy hypersurface' (l.498-507); the library uses ETT's (causal + compact diamonds). Should barbot_B quantify AbsMax over Barbot-GH targets (GH N ∧ BarbotGH N)? Then hK becomes a theorem (flatLemmaKData_of_barbotGH) and Theorem B carries no lemma-K input at all; this needs a change of AbsMax/MGH in FlatSpacetime.lean, which this package may not make."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.Flat.flatCausality_tarentin",
+    "Causal.Flat.jplus_ne_singleton_of_isCausalFlow",
+    "Causal.Flat.jminus_ne_singleton_of_isCausalFlow",
+    "Causal.Flat.flatLemmaKData_of_barbotGH",
+    "Causal.Flat.flatLemmaKData_iff_barbotGH",
+    "Causal.Flat.FlatGerochGH",
+    "Causal.Flat.forall_flatLemmaKData_iff",
+    "Causal.Flat.flatLemmaKData_of_flatGerochGH",
+    "Causal.Flat.FlatAdmissibleMeasures",
+    "Causal.Flat.flatGerochGH_of_admissible",
+    "Causal.Flat.CauchyCompact.flatLemmaKData",
+    "Causal.Flat.linEquivConj",
+    "Causal.Flat.linEquivConj_injective",
+    "Causal.Flat.selbergLemma_of_injective_hom",
+    "Causal.Flat.selbergLemma_of_linearEquiv",
+    "Causal.Flat.minkowskiZeroEquiv",
+    "Causal.Flat.selbergLemma_minkowski_zero",
+    "Causal.Flat.mgh_torusSpace",
+    "Causal.Flat.flatLemmaKData_torusSpace"
+  ],
+  "kb_proposals": [
+    "Every flat spacetime is tarentin (Flat/TheoremBInputs' flatCausality_tarentin); TwistedProduct's exists_isOpen_le_and_ge workaround and FlatSpacetime's barbotGH_of_gh / Geroch hypotheses no longer need it carried.",
+    "Lemma K's data FlatLemmaKData N is equivalent to BarbotGH N (flatLemmaKData_iff_barbotGH); any 'forall GH N, FlatLemmaKData N' hypothesis is exactly Geroch's existence theorem FlatGerochGH."
+  ],
+  "notes": "Imports only the built olean of CausalScaffold.Flat.Classification (10:53, 2026-11-01); checked with taskset -c 0-11 lake env lean: zero errors, zero warnings, zero sorries in the file. #print axioms: every new declaration is [propext, Classical.choice, Quot.sound], except the barbot_B corollaries, which inherit sorryAx from barbot_B's upstream sorries. If Classification's FlatLemmaKData fields or barbot_B's signature change in the concurrent edit, re-check this file. Flat/Lox/SelbergMono's selbergLemma_of_injective (injective LINEAR map version) was not in the built closure, so the LinearEquiv transport here is self-contained (through linEquivConj); the two can be merged at graduation. The module must be added to the scaffold root (kb/0025) by the master. A proof plan for FlatGerochGH 0 (which would make barbot_B at d = 0 hypothesis-free): in dimension 0 the orbits of the chronal flow are open (time coordinate strictly increasing in charts, 1-dimensional charts), so N is a single orbit by connectedness; the orbit map is injective (a periodic chronal orbit in a causal spacetime forces a dense, hence total, stabiliser), its inverse T is a Cauchy time function (GH: an inextensible curve leaves J^-(K) of each compact K, CompactCauchy's exists_not_mem_Jminus_of_isCompact), and IsCauchyTimeFunction.isCauchySurface gives the Cauchy surface T^-1(0). Not attempted (IsTimeFunction is a StrongMorphism to the timelike line; several hundred lines)."
+}
