@@ -8,10 +8,11 @@ import CausalScaffold.Splitting
 # `CausalScaffold.Flat.CauchyComplete` — Cauchy-completeness of a flat spacetime, and the bridge to (CC′)
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §2.4 and
-§8. Labels (all UNMARKED: each rests on a tagged `sorry` or is a reading, see SCOPE):
-`bprop:project` — `GHFspace.tex` (labelled) l.2232–2261; `bcor:quoiso` — l.2277–2290;
-`[2.4]` Cauchy-complete — l.551–558 (prose, DEC-35); `[8.G]` the graph remark — l.2307–2309;
-`bcor:quo`'s last clause ("intersects every timelike geodesic") — l.2263–2271. Design:
+§8. Labels certified (no `sorry` beneath, in the DEC-35 reading, hypotheses only ⚠ weakened):
+**`bprop:project`** — `GHFspace.tex:2232` (l.2232–2261); **`bcor:quoiso`** — `GHFspace.tex:2277`
+(l.2277–2290). Cited UNMARKED: `[2.4]` Cauchy-complete — l.551–558 (prose, DEC-35, a reading);
+`[8.G]` the graph remark — l.2307–2309 (prose, proved); `bcor:quo`'s last clause ("intersects
+every timelike geodesic") — l.2263–2271 (proved; the rest of `bcor:quo` is not stated). Design:
 `docs/BARBOT-WAVE3.md` §3 "The metric notion", "Prop 8.1", "Cor 8.3", "The bridge"; defects W2,
 W3, W5, W6; the contract with gx, `docs/BARBOT.md` (a)–(f).
 
@@ -61,17 +62,29 @@ dimensions, so Barbot's `n` is `d + 1`, `ℝ^{n−1}` is `EuclideanSpace ℝ (Fi
   `continuous_toSubtype_slice`).
 * `isHomeomorph_of_isCoveringMap` (proved): a covering of a simply connected, locally
   path-connected space by a connected one is a homeomorphism.
+* **The lifting machinery** (proved, shared by 8.1 and 8.3): `exists_lift_segment_of_mapClusterPt`
+  (maximal lifts of a straight segment through a local homeomorphism of a Hausdorff space, given
+  cluster points at the ends), `isHomeomorph_of_lift_segment` (segment lifting onto a normed space
+  ⇒ homeomorphism, by the radial lift); for a linear `P : 𝐌ⁿ → E`: `edist_lift_le_of_proj` (the
+  pulled length of a lift is bounded by the segment), `SpacelikeDevelopment.tendsto_lift_of_proj`
+  (completeness gives the endpoint), `SpacelikeDevelopment.continuous_toSpace` (the pulled-length
+  topology is finer than `X`'s, by a first-exit argument), `exists_chart` / `exists_chart_of_proj`
+  (`P ∘ F` is a local homeomorphism, by the intermediate value theorem along `Δ`-lines,
+  `IsSpacelikeLipschitzIn.eventually_exists_add_smul_mem`, `Δ ≠ 0` causal).
 * `bprop_project` (8.1): `projAlong Δ ∘ F` is a homeomorphism; from `isCoveringMap_projAlong_comp`
-  (sorry, R1/W5) and the lemma above.
+  (PROVED: charts, `π` does not decrease `minkQ`, segment lifting) and the lemma above.
 * `isEntireAcausalGraph_range` ([8.G], Cor 8.2's last clause), PROVED from 8.1: `range F` is an
   entire acausal graph — achronal by injectivity of `π`, and null pairs excluded by
   `IsSpacelikeLipschitzIn.not_eventually_add_smul_mem` (no germ of null segment, `c < 1`) through
   `lipschitzWith_one_segment`; also `injective_of_complete`, `exists_graph`.
-* `bcor_quoiso` (8.3): `NullSaturated (range F)` (sorry, W6).
+* `bcor_quoiso` (8.3): `NullSaturated (range F)` (PROVED, W6): lift, through the projection
+  `nullProj e` along `(1, e)`, the segments of a level of `P₀`, where `minkQ` is the squared
+  Euclidean speed (`minkQ_eq_nullProj`).
 * **The bridge** `developsCC_of_isCauchyComplete`: for GH `M`, `S` as in `IsCauchyComplete` and any
   developing map `dev`: `S` Cauchy, `dev` injective on `Ŝ = p⁻¹(S)`, `dev '' Ŝ` an entire acausal
   graph meeting every timelike line, and `NullSaturated`. ASSEMBLED (proved) from 8.1, 8.3, B1, B2,
-  B3; `t2Space_universalCover` is proved. `exists_developsCC_of_isCauchyComplete`.
+  B3; `t2Space_universalCover` is proved; its only `sorry` is B1's splitting.
+  `exists_developsCC_of_isCauchyComplete`.
   - B2 (`dev|Ŝ` is a spacelike development) PROVED: `spacelikeDevelopment_restrict`, through
     `IsSpacelikeLipschitzIn.restrict`.
   - B3 (completeness lifts to `Ŝ`) PROVED: `completeSpace_pulledLength_restrict`. The pulled length
@@ -96,20 +109,22 @@ dimensions, so Barbot's `n` is `d + 1`, `ℝ^{n−1}` is `EuclideanSpace ℝ (Fi
 | a Cauchy hypersurface (l.551) | ✓ carried: ETT's `IsCauchySurface` |
 | "the ambiant lorentzian metric restricts as a riemanian metric" | ⚠ weakened (a reading): point-locally spacelike Lipschitz in flat charts (DEC-31/35), not smooth |
 | "complete" | ✓ carried: `CompleteSpace` of the glued length pseudo-emetric; plus the topology field (W3: without spacelikeness the length can vanish; for spacelike `S` the field holds locally, `IsSpacelikeLipschitzIn.isHomeomorph_toSubtype`, its gluing is not proved here) |
-| 8.1: `f : S → M` isometric immersion of a complete riemannian hypersurface, `S̃`, `𝒟 ∘ f̃` | ⚠ weakened: any connected T2 `X`, `F` a `SpacelikeDevelopment` (Lipschitz), `PulledLength F` complete |
+| 8.1: `f : S → M` isometric immersion of a complete riemannian hypersurface, `S̃`, `𝒟 ∘ f̃` | ⚠ weakened: any connected T2 `X` (not simply connected), `F` a `SpacelikeDevelopment` (Lipschitz), `PulledLength F` complete; the compatibility of the pulled-length topology with `X`'s is DERIVED (`SpacelikeDevelopment.continuous_toSpace`), not assumed |
 | 8.1: `Δ` a timelike direction, `Q(Δ) = 𝐌ⁿ/Δ` with its metric | ✓ carried: `minkQ Δ < 0` (both orientations); `Q(Δ)` is modelled TOPOLOGICALLY by `Δ^⊥` (`π` is the identity on `Δ^⊥`). The paper's metric is `minkQ` restricted to `Δ^⊥` (positive definite); the Lean subtype carries the sup-product metric of `ℝ × ℝᵈ`, equivalent to it but not equal — only the topology enters 8.1's homeomorphism |
-| 8.3: same set-up | ✓ carried, as for 8.1 |
+| 8.3: same set-up | ⚠ weakened, as for 8.1; `ConnectedSpace X` is in the statement but unused (the proof does not go through 8.1) |
 
 ## SCOPE (disclosed)
-* **Three tagged sorries.** `isCoveringMap_projAlong_comp` (the covering of 8.1, R1/W5: the
-  design estimated about 500 lines; the closer's breakdown in the obstruction, four steps, puts it
-  nearer 1000), `bcor_quoiso` (8.3, W6: its closedness half needs the same topology and
-  segment-lifting steps), and `exists_splitting_of_isCauchySurface` (tag `bridge-B1`: the
-  splitting `M ≅ S × ℝ`, class E; it reduces to target 4 plus `IsAcausal S` through the proved
-  `exists_splitting_of_hasChronalCausalFlow`). Each carries its obstruction. Everything else is proved: the
-  whole length structure and its link to `InducedLength`, `π` and its kernel, covering ⇒
-  homeomorphism, 8.1 ⇒ the entire acausal graph, B1 from the splitting, B2, B3, the non-vacuity
-  witnesses, the bridge's assembly.
+* **One tagged sorry.** `exists_splitting_of_isCauchySurface` (tag `bridge-B1`: the splitting
+  `M ≅ S × ℝ`, class E; it reduces to target 4 plus `IsAcausal S` through the proved
+  `exists_splitting_of_hasChronalCausalFlow`), with its obstruction. Everything else is proved:
+  the whole length structure and its link to `InducedLength`, `π` and its kernel, 8.1 (covering,
+  hence homeomorphism), 8.1 ⇒ the entire acausal graph, 8.3, B1 from the splitting, B2, B3, the
+  non-vacuity witnesses, the bridge's assembly.
+* 8.1 lifts STRAIGHT segments only (W5: the paper's "distance increasing" bound on the lift of an
+  arbitrary path needs it rectifiable), and its "local homeomorphism" step, the inverse function
+  theorem in Barbot's smooth setting, is an intermediate value argument along `Δ`-lines here.
+  8.3 projects along `Δ₀` onto `ℝᵈ` rather than onto `P₀/Δ₀`, and lifts segments inside one
+  level of `P₀`; its "completely similar" is literally the 8.1 machinery (W6).
 * B3 does not use `IsSpacelikeLipschitz S` (`hL`, kept in the statement): the transfer of lengths
   only needs `dev` and `proj` to be `(Isom, 𝐌ⁿ)`-morphisms; completeness and `htop` do the rest.
 * `IsSpacelikeLipschitz` reads the hypersurface in `chartAt x`; any other atlas chart differs by an
@@ -893,27 +908,960 @@ theorem isHomeomorph_of_isCoveringMap {X Y : Type*} [TopologicalSpace X] [Topolo
   exact (Homeomorph.mk ⟨q, s, fun x => congrFun hsq x, fun y => congrFun hs y⟩ hq.continuous
     s.continuous).isHomeomorph
 
+/-! #### The steps of 8.1, and the lifting machinery shared with 8.3 -/
+
+/-- The linear part of an isometry preserves `minkQ`. -/
+theorem minkQ_isom_linear (g : isom d) (v : Minkowski d) :
+    minkQ ((g : Minkowski d ≃ᵃ[ℝ] Minkowski d).linear v) = minkQ v := by
+  rw [show ((g : Minkowski d ≃ᵃ[ℝ] Minkowski d).linear v) =
+      (linearPart g : Minkowski d ≃ₗ[ℝ] Minkowski d) v from rfl,
+    lorentz.minkQ_apply (linearPart g).2]
+
+/-- `minkQ (w + s Δ) = minkQ w + s² minkQ Δ` when `w ⊥ Δ`. -/
+theorem minkQ_add_smul_of_minkB_eq_zero {w Δ : Minkowski d} (h : minkB w Δ = 0) (s : ℝ) :
+    minkQ (w + s • Δ) = minkQ w + s ^ 2 * minkQ Δ := by
+  unfold minkB at h
+  unfold minkQ
+  simp only [Prod.fst_add, Prod.smul_fst, Prod.snd_add, Prod.smul_snd, smul_eq_mul]
+  rw [norm_add_sq_real, inner_smul_right, norm_smul, Real.norm_eq_abs, mul_pow, sq_abs]
+  have : inner ℝ w.2 Δ.2 = w.1 * Δ.1 := by linarith
+  rw [this]; ring
+
+/-- `v = π v + κ Δ`. -/
+theorem projAlong_decomp (Δ : Minkowski d) (hΔ : minkQ Δ ≠ 0) (v : Minkowski d) :
+    v = (projAlong Δ hΔ v : Minkowski d) + ((minkQ Δ)⁻¹ * minkB v Δ) • Δ := by
+  rw [projAlong_coe]; abel
+
+theorem minkB_projAlong (Δ : Minkowski d) (hΔ : minkQ Δ ≠ 0) (v : Minkowski d) :
+    minkB (projAlong Δ hΔ v : Minkowski d) Δ = 0 := (projAlong Δ hΔ v).2
+
+/-- `minkQ v = minkQ (π v) + κ² minkQ Δ`. -/
+theorem minkQ_eq_projAlong (Δ : Minkowski d) (hΔ : minkQ Δ ≠ 0) (v : Minkowski d) :
+    minkQ v = minkQ (projAlong Δ hΔ v : Minkowski d) +
+      ((minkQ Δ)⁻¹ * minkB v Δ) ^ 2 * minkQ Δ := by
+  conv_lhs => rw [projAlong_decomp Δ hΔ v]
+  exact minkQ_add_smul_of_minkB_eq_zero (minkB_projAlong Δ hΔ v) _
+
+/-- **`π` does not decrease `minkQ`** along a timelike `Δ`. -/
+theorem minkQ_le_minkQ_projAlong {Δ : Minkowski d} (hΔ : minkQ Δ < 0) (v : Minkowski d) :
+    minkQ v ≤ minkQ (projAlong Δ hΔ.ne v : Minkowski d) := by
+  rw [minkQ_eq_projAlong Δ hΔ.ne v]
+  nlinarith [sq_nonneg ((minkQ Δ)⁻¹ * minkB v Δ)]
+
+/-- `π` fixes `Δ^⊥`. -/
+theorem projAlong_of_mem {Δ : Minkowski d} (hΔ : minkQ Δ ≠ 0) (w : orthSub Δ) :
+    projAlong Δ hΔ (w : Minkowski d) = w := by
+  ext1; rw [projAlong_coe, show minkB (w : Minkowski d) Δ = 0 from w.2]; simp
+
+theorem projAlong_smul_self {Δ : Minkowski d} (hΔ : minkQ Δ ≠ 0) (s : ℝ) :
+    projAlong Δ hΔ (s • Δ) = 0 := by
+  rw [map_smul]
+  have : projAlong Δ hΔ Δ = 0 := by
+    ext1; rw [projAlong_coe, minkB_self, inv_mul_cancel₀ hΔ, one_smul, sub_self]; rfl
+  rw [this, smul_zero]
+
+/-- **The Lipschitz constant of the inverse of `π` on a non-timelike set.** -/
+noncomputable def projLipConst (Δ : Minkowski d) : ℝ := 1 + ‖Δ‖ / Real.sqrt (-minkQ Δ)
+
+theorem projLipConst_nonneg (Δ : Minkowski d) : 0 ≤ projLipConst Δ := by
+  unfold projLipConst; positivity
+
+/-- **A non-timelike vector is controlled by its projection**: if `0 ≤ minkQ v`,
+`‖v‖ ≤ (1 + ‖Δ‖ / √(−minkQ Δ)) ‖π v‖`. -/
+theorem norm_le_of_minkQ_nonneg {Δ : Minkowski d} (hΔ : minkQ Δ < 0) {v : Minkowski d}
+    (hv : 0 ≤ minkQ v) :
+    ‖v‖ ≤ projLipConst Δ * ‖(projAlong Δ hΔ.ne v : Minkowski d)‖ := by
+  set w : Minkowski d := (projAlong Δ hΔ.ne v : Minkowski d) with hw
+  set κ := (minkQ Δ)⁻¹ * minkB v Δ
+  have hdec : v = w + κ • Δ := projAlong_decomp Δ hΔ.ne v
+  have hQ := minkQ_eq_projAlong Δ hΔ.ne v
+  have hm : 0 < -minkQ Δ := by linarith
+  have hsq : 0 < Real.sqrt (-minkQ Δ) := Real.sqrt_pos.2 hm
+  have hw2 : minkQ w ≤ ‖w‖ ^ 2 := by
+    have h1 := sqrt_minkQ_le w
+    have h2 : ‖w.2‖ ≤ ‖w‖ := norm_snd_le w
+    by_cases h0 : minkQ w ≤ 0
+    · nlinarith [norm_nonneg w]
+    · push Not at h0
+      have := Real.sq_sqrt h0.le
+      nlinarith [Real.sqrt_nonneg (minkQ w), norm_nonneg w.2]
+  -- κ² (−minkQ Δ) ≤ ‖w‖²
+  have hκ : κ ^ 2 * (-minkQ Δ) ≤ ‖w‖ ^ 2 := by nlinarith
+  have hκ' : |κ| * Real.sqrt (-minkQ Δ) ≤ ‖w‖ := by
+    rw [← Real.sqrt_sq (abs_nonneg κ), ← Real.sqrt_mul (sq_nonneg _), sq_abs]
+    calc Real.sqrt (κ ^ 2 * -minkQ Δ) ≤ Real.sqrt (‖w‖ ^ 2) := Real.sqrt_le_sqrt hκ
+      _ = ‖w‖ := Real.sqrt_sq (norm_nonneg _)
+  have hκ'' : |κ| ≤ ‖w‖ / Real.sqrt (-minkQ Δ) := by
+    rw [le_div_iff₀ hsq]; exact hκ'
+  calc ‖v‖ = ‖w + κ • Δ‖ := by rw [← hdec]
+    _ ≤ ‖w‖ + |κ| * ‖Δ‖ := by
+        refine (norm_add_le _ _).trans ?_; rw [norm_smul, Real.norm_eq_abs]
+    _ ≤ ‖w‖ + ‖w‖ / Real.sqrt (-minkQ Δ) * ‖Δ‖ := by gcongr
+    _ = projLipConst Δ * ‖w‖ := by unfold projLipConst; field_simp
+
+/-- **The local pieces of a spacelike Lipschitz hypersurface are non-timelike.** -/
+theorem IsSpacelikeLipschitzIn.exists_minkQ_sub_nonneg {V : Opens (Minkowski d)}
+    {T : Set (Minkowski d)} (hT : IsSpacelikeLipschitzIn V T) {p : Minkowski d} (hp : p ∈ T) :
+    ∃ O : Opens (Minkowski d), p ∈ O ∧
+      ∀ z₁ ∈ T ∩ (O : Set (Minkowski d)), ∀ z₂ ∈ T ∩ (O : Set (Minkowski d)),
+        0 ≤ minkQ (z₁ - z₂) := by
+  obtain ⟨g, O, U, f, c, hc, hpO, -, -, hf, hgr⟩ := hT.locGraph p hp
+  refine ⟨O, hpO, fun z₁ h₁ z₂ h₂ => ?_⟩
+  obtain ⟨hU₁, he₁⟩ := frame_mem_graphOver hgr h₁.1 h₁.2
+  obtain ⟨hU₂, he₂⟩ := frame_mem_graphOver hgr h₂.1 h₂.2
+  rw [← isom_minkQ_sub g z₂ z₁, he₁, he₂]
+  have hL := hf.dist_le_mul _ hU₁ _ hU₂
+  rw [Real.dist_eq, dist_eq_norm] at hL
+  have hc1 : (c : ℝ) ≤ 1 := by exact_mod_cast hc.le
+  unfold minkQ graphLift
+  simp only [Prod.fst_sub, Prod.snd_sub]
+  have h0 : |f (g • z₁).2 - f (g • z₂).2| ≤ ‖(g • z₁).2 - (g • z₂).2‖ :=
+    hL.trans (mul_le_of_le_one_left (norm_nonneg _) hc1)
+  have := sq_le_sq' (abs_le.1 h0).1 (abs_le.1 h0).2
+  linarith
+theorem isom_smul_add (g : isom d) (w v : Minkowski d) :
+    g • (w + v) = g • w + (g : Minkowski d ≃ᵃ[ℝ] Minkowski d).linear v := by
+  have := isom_sub (g : Minkowski d ≃ᵃ[ℝ] Minkowski d) w (w + v)
+  rw [add_sub_cancel_left] at this
+  rw [isom_smul_def, isom_smul_def, ← this]; abel
+
+/-- **Openness of the projection of a spacelike Lipschitz piece** (the intermediate value
+theorem along `Δ`-lines, `Δ ≠ 0` causal): every `Δ`-line through a point near `p` meets
+`T ∩ O'`. In the frame where `T` is a `c`-Lipschitz graph, `c < 1`, the function
+`s ↦ (z + sΔ').1 − f (z + sΔ').2` is strictly monotone, since `c ‖Δ'.2‖ < |Δ'.1|`. -/
+theorem IsSpacelikeLipschitzIn.eventually_exists_add_smul_mem {V : Opens (Minkowski d)}
+    {T : Set (Minkowski d)} (hT : IsSpacelikeLipschitzIn V T) {p : Minkowski d} (hp : p ∈ T)
+    {O' : Set (Minkowski d)} (hO' : IsOpen O') (hpO' : p ∈ O') {Δ : Minkowski d}
+    (hΔ : minkQ Δ ≤ 0) (hΔ0 : Δ ≠ 0) : ∀ᶠ w in 𝓝 p, ∃ s : ℝ, w + s • Δ ∈ T ∩ O' := by
+  obtain ⟨g, O, U, f, c, hc, hpO, -, hU, hf, hgr⟩ := hT.locGraph p hp
+  obtain ⟨hUa, ha⟩ := frame_mem_graphOver hgr hp hpO
+  set a := g • p with hadef
+  set Δ' := (g : Minkowski d ≃ᵃ[ℝ] Minkowski d).linear Δ with hΔ'
+  have hQ' : minkQ Δ' ≤ 0 := by rw [hΔ', minkQ_isom_linear]; exact hΔ
+  have hc1 : (c : ℝ) < 1 := by exact_mod_cast hc
+  have hc0 : (0 : ℝ) ≤ c := c.2
+  have hne : Δ'.1 ≠ 0 := by
+    intro h'
+    refine hΔ0 ((g : Minkowski d ≃ᵃ[ℝ] Minkowski d).linear.map_eq_zero_iff.1 ?_)
+    exact eq_zero_of_fst_eq_zero h' hQ'
+  have hle : ‖Δ'.2‖ ≤ |Δ'.1| := by
+    have h := minkQ_le_zero_iff.1 hQ'
+    rw [← sq_abs Δ'.1] at h
+    exact (pow_le_pow_iff_left₀ (norm_nonneg _) (abs_nonneg _) two_ne_zero).1 h
+  set μ := |Δ'.1| - c * ‖Δ'.2‖ with hμ
+  have hμ0 : 0 < μ := by
+    have h1 : (c : ℝ) * ‖Δ'.2‖ ≤ c * |Δ'.1| := mul_le_mul_of_nonneg_left hle hc0
+    have h2 : (c : ℝ) * |Δ'.1| < |Δ'.1| := mul_lt_of_lt_one_left (abs_pos.2 hne) hc1
+    linarith
+  set G : Set (Minkowski d) := g • ((O : Set (Minkowski d)) ∩ O') with hG
+  have hGo : IsOpen G := (O.isOpen.inter hO').smul g
+  have haG : a ∈ G := smul_mem_smul_set ⟨hpO, hpO'⟩
+  obtain ⟨r₁, hr₁, hb₁⟩ := Metric.isOpen_iff.1 hGo a haG
+  obtain ⟨r₂, hr₂, hb₂⟩ := Metric.isOpen_iff.1 hU a.2 hUa
+  set r := min r₁ r₂
+  have hr : 0 < r := lt_min hr₁ hr₂
+  set s₀ := r / (2 * (‖Δ'‖ + 1)) with hs₀
+  have hs₀0 : 0 < s₀ := by positivity
+  have hs₀r : s₀ * ‖Δ'‖ < r / 2 := by
+    rw [hs₀, div_mul_eq_mul_div, div_lt_div_iff₀ (by positivity) two_pos]
+    nlinarith [norm_nonneg Δ']
+  set δ := min (r / 2) (s₀ * μ / 4)
+  have hδ : 0 < δ := lt_min (half_pos hr) (by positivity)
+  have hcont : Tendsto (fun w : Minkowski d => g • w) (𝓝 p) (𝓝 a) :=
+    (continuous_const_smul g).tendsto p
+  filter_upwards [hcont (Metric.ball_mem_nhds a hδ)] with w hw
+  set z := g • w with hz
+  have hza : ‖z - a‖ < δ := by rw [← dist_eq_norm]; exact hw
+  -- the points of the segment stay in `G` and over `U`
+  have hseg : ∀ s ∈ Icc (-s₀) s₀, z + s • Δ' ∈ G ∧ (z + s • Δ').2 ∈ U := by
+    intro s hs
+    have habs : |s| ≤ s₀ := abs_le.2 ⟨hs.1, hs.2⟩
+    have hd : ‖z + s • Δ' - a‖ < r := by
+      calc ‖z + s • Δ' - a‖ = ‖(z - a) + s • Δ'‖ := by congr 1; abel
+        _ ≤ ‖z - a‖ + |s| * ‖Δ'‖ := by
+            refine (norm_add_le _ _).trans ?_; rw [norm_smul, Real.norm_eq_abs]
+        _ < r / 2 + r / 2 := by
+            have : |s| * ‖Δ'‖ ≤ s₀ * ‖Δ'‖ := mul_le_mul_of_nonneg_right habs (norm_nonneg _)
+            have : δ ≤ r / 2 := min_le_left _ _
+            linarith
+        _ = r := by ring
+    refine ⟨hb₁ ?_, hb₂ ?_⟩
+    · rw [Metric.mem_ball, dist_eq_norm]; exact hd.trans_le (min_le_left _ _)
+    · rw [Metric.mem_ball, dist_eq_norm]
+      refine lt_of_le_of_lt ?_ (hd.trans_le (min_le_right _ _))
+      rw [← Prod.snd_sub]; exact norm_snd_le _
+  set h : ℝ → ℝ := fun s => (z + s • Δ').1 - f (z + s • Δ').2 with hh
+  have hcon : ContinuousOn h (uIcc (-s₀) s₀) := by
+    rw [uIcc_of_le (by linarith)]
+    refine (continuous_fst.comp (continuous_const.add
+      (continuous_id.smul continuous_const))).continuousOn.sub ?_
+    refine hf.continuousOn.comp (continuous_snd.comp (continuous_const.add
+      (continuous_id.smul continuous_const))).continuousOn fun s hs => (hseg s hs).2
+  have h0 : |h 0| < s₀ * μ := by
+    have hz0 : z.2 ∈ U := by simpa using (hseg 0 ⟨by linarith, by linarith⟩).2
+    simp only [hh, zero_smul, add_zero]
+    have ha1 : a.1 = f a.2 := congrArg Prod.fst ha
+    have e1 : |z.1 - a.1| ≤ ‖z - a‖ := by
+      rw [← Prod.fst_sub, ← Real.norm_eq_abs]; exact norm_fst_le _
+    have e2 : ‖z.2 - a.2‖ ≤ ‖z - a‖ := by rw [← Prod.snd_sub]; exact norm_snd_le _
+    have e3 := hf.dist_le_mul _ hz0 _ hUa
+    rw [Real.dist_eq, dist_eq_norm] at e3
+    have : z.1 - f z.2 = (z.1 - a.1) - (f z.2 - f a.2) := by rw [ha1]; ring
+    rw [this]
+    have hδ' : δ ≤ s₀ * μ / 4 := min_le_right _ _
+    calc |(z.1 - a.1) - (f z.2 - f a.2)| ≤ |z.1 - a.1| + |f z.2 - f a.2| := abs_sub _ _
+      _ ≤ ‖z - a‖ + c * ‖z - a‖ := add_le_add e1 (e3.trans (mul_le_mul_of_nonneg_left e2 hc0))
+      _ < s₀ * μ := by
+          have : (c : ℝ) * ‖z - a‖ ≤ ‖z - a‖ := mul_le_of_le_one_left (norm_nonneg _) hc1.le
+          linarith
+  have hpm : ∀ u : ℝ, u = s₀ ∨ u = -s₀ →
+      |h u - h 0 - u * Δ'.1| ≤ c * (s₀ * ‖Δ'.2‖) := by
+    intro u hu
+    have hu' : u ∈ Icc (-s₀) s₀ := by rcases hu with rfl | rfl <;> constructor <;> linarith
+    have hU1 := (hseg u hu').2
+    have hU0 := (hseg 0 ⟨by linarith, by linarith⟩).2
+    have e3 := hf.dist_le_mul _ hU1 _ hU0
+    simp only [zero_smul, add_zero] at hU0 e3
+    rw [Real.dist_eq, dist_eq_norm] at e3
+    have : h u - h 0 - u * Δ'.1 = -(f (z + u • Δ').2 - f z.2) := by
+      simp only [hh, Prod.fst_add, Prod.smul_fst, smul_eq_mul, zero_smul, add_zero]; ring
+    rw [this, abs_neg]
+    refine e3.trans (mul_le_mul_of_nonneg_left ?_ hc0)
+    simp only [Prod.snd_add, Prod.smul_snd, add_sub_cancel_left, norm_smul, Real.norm_eq_abs]
+    rcases hu with rfl | rfl
+    · rw [abs_of_pos hs₀0]
+    · rw [abs_neg, abs_of_pos hs₀0]
+  have hP := hpm s₀ (Or.inl rfl)
+  have hM := hpm (-s₀) (Or.inr rfl)
+  have hzero : (0 : ℝ) ∈ uIcc (h (-s₀)) (h s₀) := by
+    have hcs : c * (s₀ * ‖Δ'.2‖) = s₀ * (c * ‖Δ'.2‖) := by ring
+    rw [mem_uIcc]
+    rcases lt_or_gt_of_ne hne with hneg | hpos
+    · rw [abs_of_neg hneg] at hμ
+      have hsμ : s₀ * μ = -(s₀ * Δ'.1) - s₀ * (c * ‖Δ'.2‖) := by rw [hμ]; ring
+      have hP' := abs_le.1 hP
+      have hM' := abs_le.1 hM
+      have h0' := abs_lt.1 h0
+      have e : -s₀ * Δ'.1 = -(s₀ * Δ'.1) := by ring
+      rw [e] at hM'
+      right
+      constructor <;> linarith
+    · rw [abs_of_pos hpos] at hμ
+      have hsμ : s₀ * μ = s₀ * Δ'.1 - s₀ * (c * ‖Δ'.2‖) := by rw [hμ]; ring
+      have hP' := abs_le.1 hP
+      have hM' := abs_le.1 hM
+      have h0' := abs_lt.1 h0
+      have e : -s₀ * Δ'.1 = -(s₀ * Δ'.1) := by ring
+      rw [e] at hM'
+      left
+      constructor <;> linarith
+  obtain ⟨s, hs, hs0⟩ := intermediate_value_uIcc hcon hzero
+  rw [uIcc_of_le (by linarith)] at hs
+  obtain ⟨hsG, hsU⟩ := hseg s hs
+  refine ⟨s, ?_⟩
+  have hgs : g • (w + s • Δ) = z + s • Δ' := by rw [isom_smul_add, map_smul]
+  have hgraph : z + s • Δ' ∈ g • (T ∩ (O : Set (Minkowski d))) := by
+    rw [hgr]
+    refine ⟨?_, hsU, ?_⟩
+    · rw [← hgs, smul_mem_smul_set_iff]
+      rw [← hgs, smul_mem_smul_set_iff] at hsG
+      exact hsG.1
+    · have : h s = 0 := hs0
+      simp only [hh] at this; linarith
+  rw [← hgs, smul_mem_smul_set_iff] at hgraph hsG
+  exact ⟨hgraph.1, hsG.2⟩
+
+/-- **The local charts of `π ∘ F`** (step (i) of 8.1): near each point, `π ∘ F` is an open
+embedding, on a source where `F` takes pairwise non-timelike values. -/
+theorem SpacelikeDevelopment.exists_chart {X : Type*} [TopologicalSpace X] {F : X → Minkowski d}
+    (hF : SpacelikeDevelopment F) {Δ : Minkowski d} (hΔ : minkQ Δ < 0) (x : X) :
+    ∃ e : OpenPartialHomeomorph X (orthSub Δ), x ∈ e.source ∧
+      ⇑e = projAlong Δ hΔ.ne ∘ F ∧ ∀ a ∈ e.source, ∀ b ∈ e.source, 0 ≤ minkQ (F a - F b) := by
+  haveI : Nonempty X := ⟨x⟩
+  set π := projAlong Δ hΔ.ne with hπ
+  obtain ⟨U, V, hxU, hemb, hT⟩ := hF.locally x
+  obtain ⟨O, hxO, hO⟩ := hT.exists_minkQ_sub_nonneg ⟨x, hxU, rfl⟩
+  set W : Set X := (U : Set X) ∩ F ⁻¹' O with hWdef
+  have hWo : IsOpen W := U.isOpen.inter (O.isOpen.preimage hF.continuous)
+  have hxW : x ∈ W := ⟨hxU, hxO⟩
+  have hWnn : ∀ a ∈ W, ∀ b ∈ W, 0 ≤ minkQ (F a - F b) := fun a ha b hb =>
+    hO (F a) ⟨⟨a, ha.1, rfl⟩, ha.2⟩ (F b) ⟨⟨b, hb.1, rfl⟩, hb.2⟩
+  have hFinj : InjOn F U := fun a ha b hb hab => by
+    have := hemb.injective (a₁ := ⟨a, ha⟩) (a₂ := ⟨b, hb⟩) hab
+    exact congrArg Subtype.val this
+  have hinj : InjOn (π ∘ F) W := by
+    intro a ha b hb hab
+    have h0 : π (F a - F b) = 0 := by
+      rw [map_sub]; exact sub_eq_zero.2 hab
+    have hQ := minkQ_eq_projAlong Δ hΔ.ne (F a - F b)
+    rw [← hπ, h0, ZeroMemClass.coe_zero, minkQ_zero, zero_add] at hQ
+    have hnn := hWnn a ha b hb
+    set κ := (minkQ Δ)⁻¹ * minkB (F a - F b) Δ
+    have hκ : κ = 0 := by
+      by_contra hne
+      have : 0 < κ ^ 2 := by positivity
+      nlinarith
+    have hdec := projAlong_decomp Δ hΔ.ne (F a - F b)
+    rw [← hπ, h0, ZeroMemClass.coe_zero, zero_add, show (minkQ Δ)⁻¹ * minkB (F a - F b) Δ = κ
+      from rfl, hκ, zero_smul] at hdec
+    exact hFinj ha.1 hb.1 (sub_eq_zero.1 hdec)
+  have hopen : ∀ B ⊆ W, IsOpen B → IsOpen ((π ∘ F) '' B) := by
+    intro B hBW hBo
+    rw [isOpen_iff_mem_nhds]
+    rintro _ ⟨b, hb, rfl⟩
+    have hbU : b ∈ U := (hBW hb).1
+    obtain ⟨O'', hO''o, hO''⟩ := hemb.isInducing.isOpen_iff.1
+      (hBo.preimage continuous_subtype_val)
+    have key : ∀ z, ∀ hz : z ∈ U, F z ∈ O'' ↔ z ∈ B := fun z hz => by
+      have := congrArg (fun s : Set U => (⟨z, hz⟩ : U) ∈ s) hO''
+      simpa using this
+    have hev := hT.eventually_exists_add_smul_mem ⟨b, hbU, rfl⟩ hO''o ((key b hbU).2 hb) hΔ.le
+      (fun h => by rw [h, minkQ_zero] at hΔ; exact lt_irrefl _ hΔ)
+    set ι : orthSub Δ → Minkowski d := fun y => (y : Minkowski d) + (F b - (π (F b) : Minkowski d))
+    have hιc : Continuous ι := continuous_subtype_val.add continuous_const
+    have hιb : ι (π (F b)) = F b := by simp [ι]
+    have hten : Tendsto ι (𝓝 ((π ∘ F) b)) (𝓝 (F b)) := by
+      have := hιc.tendsto (π (F b)); rwa [hιb] at this
+    filter_upwards [hten hev] with y hy
+    obtain ⟨s, ⟨z, hzU, hz⟩, hzO⟩ := hy
+    refine ⟨z, (key z hzU).1 (by rw [hz]; exact hzO), ?_⟩
+    simp only [Function.comp_apply]
+    rw [hz]
+    simp only [ι, map_add, map_sub, projAlong_of_mem, hπ, projAlong_smul_self, add_zero]
+    abel
+  have hc : ContinuousOn (π ∘ F) W := (π.continuous.comp hF.continuous).continuousOn
+  have ho : IsOpenMap (W.restrict (π ∘ F)) := by
+    intro A hA
+    rw [show W.restrict (π ∘ F) '' A = (π ∘ F) '' (Subtype.val '' A) by
+      rw [← image_comp]; rfl]
+    exact hopen _ (Subtype.coe_image_subset _ _) (hWo.isOpenMap_subtype_val A hA)
+  refine ⟨OpenPartialHomeomorph.ofContinuousOpenRestrict (hinj.toPartialEquiv (π ∘ F) W) hc ho
+    hWo, hxW, rfl, hWnn⟩
+
+/-- **Step (ii) of 8.1: the pulled-length topology is finer than the topology of `X`.** A path of
+pulled length `< √(1 − c²) ρ` from `x` cannot leave the piece of `X` over the frame cylinder of
+radius `ρ` around `F x` (`le_lorentzLength_of_frame` up to the first exit time; the piece over the
+closed cylinder is compact through the embedding `F|U`, hence closed in the Hausdorff `X`). The
+argument of `IsSpacelikeLipschitzIn.continuous_toSubtype`, run through `SpacelikeDevelopment`. -/
+theorem SpacelikeDevelopment.continuous_toSpace {X : Type*} [TopologicalSpace X] [T2Space X]
+    {F : X → Minkowski d} (hF : SpacelikeDevelopment F) :
+    Continuous ⇑(PulledLength.toSpace F) := by
+  refine continuous_iff_continuousAt.2 fun x => ?_
+  rw [ContinuousAt, Filter.tendsto_def]
+  intro N hN
+  set x' : X := PulledLength.toSpace F x with hx'
+  obtain ⟨U, V, hxU, hemb, hT⟩ := hF.locally x'
+  have hNU : ((↑) : U → X) ⁻¹' N ∈ 𝓝 (⟨x', hxU⟩ : U) :=
+    continuous_subtype_val.continuousAt.preimage_mem_nhds hN
+  rw [hemb.isInducing.nhds_eq_comap, mem_comap] at hNU
+  obtain ⟨M, hM, hMN⟩ := hNU
+  obtain ⟨W, hWM, hWo, hPW⟩ := mem_nhds_iff.1 hM
+  set P : Minkowski d := F x' with hPdef
+  have hPT : P ∈ F '' (U : Set X) := ⟨x', hxU, rfl⟩
+  obtain ⟨g, O, U', f, c, hc, hpO, hOV, hU', hf, hgr⟩ := hT.locGraph P hPT
+  obtain ⟨hx₀U, hP⟩ := frame_mem_graphOver hgr hPT hpO
+  set x₀ := (g • P).2
+  have hlift := lipschitzOnWith_graphLift hc.le hf
+  have hcont : ContinuousAt (graphLift f) x₀ :=
+    hlift.continuousOn.continuousAt (hU'.mem_nhds hx₀U)
+  have hOW : g • ((O : Set (Minkowski d)) ∩ W) ∈ 𝓝 (graphLift f x₀) := by
+    rw [← hP, smul_mem_nhds_smul_iff]
+    exact (O.isOpen.inter hWo).mem_nhds ⟨hpO, hPW⟩
+  obtain ⟨r, hr, hball⟩ := Metric.mem_nhds_iff.1 (inter_mem (hU'.mem_nhds hx₀U)
+    (hcont.preimage_mem_nhds hOW))
+  set ρ := r / 2
+  have hρ : 0 < ρ := half_pos hr
+  have hρr : Metric.closedBall x₀ ρ ⊆ Metric.ball x₀ r :=
+    Metric.closedBall_subset_ball (half_lt_self hr)
+  set k := Real.sqrt (1 - (c : ℝ) ^ 2)
+  have hk : 0 < k := Real.sqrt_pos.2 (by
+    have : (c : ℝ) < 1 := by exact_mod_cast hc
+    nlinarith [NNReal.coe_nonneg c])
+  set G : Set (Minkowski d) := {z | z ∈ O ∧ z ∈ W ∧ (g • z).2 ∈ Metric.ball x₀ r}
+  have hGo : IsOpen G := O.isOpen.inter (hWo.inter
+    (Metric.isOpen_ball.preimage (continuous_snd.comp (continuous_const_smul g))))
+  have hPG : P ∈ G := ⟨hpO, hPW, Metric.mem_ball_self hr⟩
+  -- the compact piece over the closed frame ball, in `X`
+  set Kc := (fun y => g⁻¹ • graphLift f y) '' Metric.closedBall x₀ ρ
+  have hKcc : IsCompact Kc := (isCompact_closedBall x₀ ρ).image_of_continuousOn
+    ((hlift.continuousOn.mono fun y hy => (hball (hρr hy)).1).const_smul g⁻¹)
+  have hKcT : Kc ⊆ range ((U : Set X).restrict F) := by
+    rintro _ ⟨y, hy, rfl⟩
+    have hyb := hball (hρr hy)
+    obtain ⟨z, ⟨hzO, -⟩, hzx⟩ := hyb.2
+    have hm := mem_of_frame hgr hyb.1 (by rw [← hzx]; exact smul_mem_smul_set hzO)
+    obtain ⟨u, hu, hux⟩ := hm.1
+    exact ⟨⟨u, hu⟩, hux⟩
+  have hKX : IsCompact (((↑) : U → X) '' ((U : Set X).restrict F ⁻¹' Kc)) :=
+    ((hemb.isInducing.isCompact_preimage_iff hKcT).2 hKcc).image continuous_subtype_val
+  have hKXc := hKX.isClosed
+  have memKX : ∀ z, z ∈ (U : Set X) → F z ∈ Kc →
+      z ∈ ((↑) : U → X) '' ((U : Set X).restrict F ⁻¹' Kc) := fun z hz hzK =>
+    ⟨⟨z, hz⟩, hzK, rfl⟩
+  rw [EMetric.mem_nhds_iff]
+  refine ⟨ENNReal.ofReal (k * ρ), ENNReal.ofReal_pos.2 (mul_pos hk hρ), fun q hq => ?_⟩
+  rw [Metric.mem_eball, edist_comm] at hq
+  change (⨅ γ : Path x' (PulledLength.toSpace F q),
+    pathLength (fun (_ : X) (y : X) => F y) γ) < _ at hq
+  rw [iInf_lt_iff] at hq
+  obtain ⟨γ, hγ⟩ := hq
+  have hLip : IsLocLip (fun (_ : X) (y : X) => F y) γ.extend := by
+    by_contra hn; rw [pathLength_of_not_isLocLip _ hn] at hγ; exact not_top_lt hγ
+  obtain ⟨K, hK⟩ := (isLocLip_pulled_iff F γ).1 hLip
+  rw [pathLength_of_isLocLip _ hLip, localLength_pulled] at hγ
+  set Γ : ℝ → Minkowski d := fun t => F (γ.extend t) with hΓ
+  have hΓc : Continuous Γ := hF.continuous.comp γ.continuous_extend
+  have hΓ0 : Γ 0 = P := by simp [Γ, hPdef]
+  have hγ0 : γ.extend 0 = x' := by simp
+  set Tt : Set ℝ := {t | t ∈ Icc (0 : ℝ) 1 ∧ ∀ s ∈ Icc 0 t, γ.extend s ∈ (U : Set X) ∧ Γ s ∈ G}
+  have h0T : (0 : ℝ) ∈ Tt := ⟨⟨le_rfl, zero_le_one⟩, fun s hs => by
+    rw [show s = 0 from le_antisymm hs.2 hs.1, hγ0, hΓ0]; exact ⟨hxU, hPG⟩⟩
+  have hTne : Tt.Nonempty := ⟨0, h0T⟩
+  have hTbdd : BddAbove Tt := ⟨1, fun t ht => ht.1.2⟩
+  set τ := sSup Tt
+  have hτ0 : 0 ≤ τ := le_csSup hTbdd h0T
+  have hτ1 : τ ≤ 1 := csSup_le hTne fun t ht => ht.1.2
+  have hΓT : ∀ s, γ.extend s ∈ (U : Set X) → Γ s ∈ F '' (U : Set X) := fun s hs =>
+    ⟨_, hs, rfl⟩
+  have hA : ∀ t ∈ Tt, ‖(g • Γ t).2 - x₀‖ < ρ := fun t ht => by
+    have hle := le_lorentzLength_of_frame hK ht.1.1 g hf fun s hs =>
+      frame_mem_graphOver hgr (hΓT s (ht.2 s ⟨hs.1.le, hs.2.le⟩).1)
+        (ht.2 s ⟨hs.1.le, hs.2.le⟩).2.1 |>.imp_right fun h' => by rw [h']; rfl
+    rw [hΓ0] at hle
+    have hlt := hle.trans_lt ((lorentzLength_mono le_rfl ht.1.2).trans_lt hγ)
+    rw [ENNReal.ofReal_lt_ofReal_iff (mul_pos hk hρ)] at hlt
+    exact lt_of_mul_lt_mul_left hlt hk.le
+  have hdown : ∀ t ∈ Tt, ∀ s ∈ Icc (0 : ℝ) t, s ∈ Tt := fun t ht s hs =>
+    ⟨⟨hs.1, hs.2.trans ht.1.2⟩, fun s' hs' => ht.2 s' ⟨hs'.1, hs'.2.trans hs.2⟩⟩
+  have hB : ∀ s ∈ Ico (0 : ℝ) τ, s ∈ Tt := fun s hs => by
+    obtain ⟨t, ht, hst⟩ := exists_lt_of_lt_csSup hTne hs.2
+    exact hdown t ht s ⟨hs.1, hst.le⟩
+  have hFK : ∀ s ∈ Tt, γ.extend s ∈ ((↑) : U → X) '' ((U : Set X).restrict F ⁻¹' Kc) :=
+    fun s hs => by
+      have hsU := (hs.2 s ⟨hs.1.1, le_rfl⟩).1
+      obtain ⟨-, hFs⟩ := frame_mem_graphOver hgr (hΓT s hsU) (hs.2 s ⟨hs.1.1, le_rfl⟩).2.1
+      refine memKX _ hsU ⟨(g • Γ s).2,
+        Metric.mem_closedBall.2 ((dist_eq_norm _ _).trans_le (hA s hs).le), ?_⟩
+      dsimp only; rw [← hFs, inv_smul_smul]
+  have hC : γ.extend τ ∈ (U : Set X) ∧ Γ τ ∈ G := by
+    rcases hτ0.eq_or_lt with h0 | hpos
+    · rw [← h0, hγ0, show Γ 0 = P from hΓ0]; exact ⟨hxU, hPG⟩
+    have hmemK : γ.extend τ ∈ ((↑) : U → X) '' ((U : Set X).restrict F ⁻¹' Kc) := by
+      have hcl : τ ∈ closure (Ico 0 τ) := by rw [closure_Ico hpos.ne]; exact ⟨hτ0, le_rfl⟩
+      have := mem_closure_image (f := γ.extend) γ.continuous_extend.continuousAt hcl
+      refine closure_minimal ?_ hKXc this
+      rintro _ ⟨s, hs, rfl⟩; exact hFK s (hB s hs)
+    obtain ⟨⟨u, hu⟩, huK, hux⟩ := hmemK
+    simp only at hux
+    subst hux
+    refine ⟨hu, ?_⟩
+    obtain ⟨y, hy, hyF⟩ := huK
+    obtain ⟨-, hyOW⟩ := hball (hρr hy)
+    obtain ⟨z, ⟨hzO, hzW⟩, hzy⟩ := hyOW
+    have hz : z = Γ τ := by
+      change z = F (γ.extend τ)
+      rw [show F (γ.extend τ) = (U : Set X).restrict F ⟨γ.extend τ, hu⟩ from rfl, ← hyF]
+      dsimp only; rw [← hzy, inv_smul_smul]
+    refine ⟨hz ▸ hzO, hz ▸ hzW, ?_⟩
+    rw [← hz, show g • z = graphLift f y from hzy]; exact hρr hy
+  have hτT : τ ∈ Tt := ⟨⟨hτ0, hτ1⟩, fun s hs => by
+    rcases hs.2.lt_or_eq with hlt | heq
+    · exact (hB s ⟨hs.1, hlt⟩).2 s ⟨hs.1, le_rfl⟩
+    · rw [heq]; exact hC⟩
+  have hτeq : τ = 1 := by
+    by_contra hne
+    have hlt : τ < 1 := lt_of_le_of_ne hτ1 hne
+    have hopen : IsOpen {t : ℝ | γ.extend t ∈ (U : Set X) ∧ Γ t ∈ G} :=
+      (U.isOpen.inter (hGo.preimage hF.continuous)).preimage γ.continuous_extend
+    obtain ⟨η, hη, hηG⟩ := Metric.isOpen_iff.1 hopen τ hC
+    set t' := min 1 (τ + η / 2)
+    have ht' : t' ∈ Tt := ⟨⟨hτ0.trans (le_min hτ1 (by linarith)), min_le_left _ _⟩,
+      fun s hs => by
+        rcases le_or_gt s τ with hsτ | hsτ
+        · exact hτT.2 s ⟨hs.1, hsτ⟩
+        · refine hηG (Metric.mem_ball.2 ?_)
+          rw [Real.dist_eq, abs_of_pos (by linarith)]
+          linarith [hs.2.trans (min_le_right _ _)]⟩
+    have := le_csSup hTbdd ht'
+    have : τ < t' := lt_min hlt (by linarith)
+    linarith
+  have h1 := hτeq ▸ hC
+  have hγ1 : γ.extend 1 = PulledLength.toSpace F q := by simp
+  have hU1 : PulledLength.toSpace F q ∈ (U : Set X) := hγ1 ▸ h1.1
+  have hW1 : F (PulledLength.toSpace F q) ∈ W := by
+    have := h1.2.2.1
+    rw [show Γ 1 = F (γ.extend 1) from rfl, hγ1] at this; exact this
+  exact hMN (show (⟨_, hU1⟩ : U) ∈ (U : Set X).restrict F ⁻¹' M from hWM hW1)
+
+section SegmentLifting
+
+variable {X E : Type*} [TopologicalSpace X]
+
+/-- **Uniqueness of lifts** through a local homeomorphism of a Hausdorff space, over a
+preconnected set of parameters. -/
+theorem lift_eqOn_of_isLocalHomeomorph [TopologicalSpace E] [T2Space X] {q : X → E}
+    (hq : IsLocalHomeomorph q) {s : Set ℝ} (hs : IsPreconnected s) {l₁ l₂ : ℝ → X}
+    (h₁ : ContinuousOn l₁ s) (h₂ : ContinuousOn l₂ s) (he : ∀ t ∈ s, q (l₁ t) = q (l₂ t))
+    {t₀ : ℝ} (ht₀ : t₀ ∈ s) (h0 : l₁ t₀ = l₂ t₀) : EqOn l₁ l₂ s :=
+  (T2Space.isSeparatedMap q).eqOn_of_comp_eqOn hq.isLocallyInjective hs h₁ h₂
+    (fun t ht => he t ht) ht₀ h0
+
+/-- **Gluing a lift with a chart**: a lift on `[0, T₁]` whose endpoint lies in the source of a
+chart `e` of `q` extends to `[0, T₂]` as long as the path stays in `e.target`. -/
+theorem exists_lift_glue [TopologicalSpace E] {q : X → E} {sg : ℝ → E} (hsg : Continuous sg)
+    {l : ℝ → X} {T₁ T₂ : ℝ} (h0 : 0 ≤ T₁) (h12 : T₁ ≤ T₂) (hlc : ContinuousOn l (Icc 0 T₁))
+    (hlq : ∀ t ∈ Icc 0 T₁, q (l t) = sg t) (e : OpenPartialHomeomorph X E) (he : ⇑e = q)
+    (hle : l T₁ ∈ e.source) (hsge : ∀ t ∈ Icc T₁ T₂, sg t ∈ e.target) :
+    ∃ μ : ℝ → X, ContinuousOn μ (Icc 0 T₂) ∧ μ 0 = l 0 ∧ ∀ t ∈ Icc 0 T₂, q (μ t) = sg t := by
+  classical
+  have hT : e.symm (sg T₁) = l T₁ := by
+    rw [← hlq T₁ ⟨h0, le_rfl⟩, ← he]; exact e.left_inv hle
+  refine ⟨fun t => if t ≤ T₁ then l t else e.symm (sg t), ?_, by simp [h0], ?_⟩
+  · rw [← Icc_union_Icc_eq_Icc h0 h12]
+    refine ContinuousOn.union_of_isClosed ?_ ?_ isClosed_Icc isClosed_Icc
+    · exact hlc.congr fun t ht => if_pos ht.2
+    · refine (e.continuousOn_symm.comp hsg.continuousOn fun t ht => hsge t ht).congr fun t ht => ?_
+      by_cases h : t ≤ T₁
+      · have : t = T₁ := le_antisymm h ht.1
+        simp only [Function.comp_apply, this, hT, ite_self]
+      · simp only [if_neg h, Function.comp_apply]
+  · intro t ht
+    by_cases h : t ≤ T₁
+    · simp only [if_pos h]; exact hlq t ⟨ht.1, h⟩
+    · simp only [if_neg h]
+      rw [← he]; exact e.right_inv (hsge t ⟨(not_le.1 h).le, ht.2⟩)
+
+variable [NormedAddCommGroup E] [NormedSpace ℝ E]
+
+/-- **Existence of lifts of segments** (the maximal-lift argument): if every lift of the segment
+`t ↦ q x₀ + t v` on `[0, T)` has a cluster point as `t → T⁻` (the place where completeness enters),
+the whole segment `[0, 1]` lifts from `x₀`. -/
+theorem exists_lift_segment_of_mapClusterPt [T2Space X] {q : X → E} (hq : IsLocalHomeomorph q)
+    (x₀ : X) (v : E)
+    (hcomp : ∀ T : ℝ, 0 < T → ∀ l : ℝ → X, ContinuousOn l (Ico 0 T) →
+      (∀ t ∈ Ico 0 T, q (l t) = q x₀ + t • v) → ∃ x, MapClusterPt x (𝓝[<] T) l) :
+    ∃ l : ℝ → X, ContinuousOn l (Icc 0 1) ∧ l 0 = x₀ ∧ ∀ t ∈ Icc 0 1, q (l t) = q x₀ + t • v := by
+  set sg : ℝ → E := fun t => q x₀ + t • v with hsgdef
+  have hsg : Continuous sg := continuous_const.add (continuous_id.smul continuous_const)
+  set A : Set ℝ := {T | 0 ≤ T ∧ T ≤ 1 ∧ ∃ l : ℝ → X, ContinuousOn l (Icc 0 T) ∧ l 0 = x₀ ∧
+    ∀ t ∈ Icc 0 T, q (l t) = sg t} with hAdef
+  have h0A : (0 : ℝ) ∈ A := ⟨le_rfl, zero_le_one, fun _ => x₀, continuousOn_const, rfl,
+    fun t ht => by
+      rw [show t = 0 from le_antisymm ht.2 ht.1]; simp [sg]⟩
+  have hAne : A.Nonempty := ⟨0, h0A⟩
+  have hAbdd : BddAbove A := ⟨1, fun T hT => hT.2.1⟩
+  set Ts := sSup A with hTs
+  have hTs0 : 0 ≤ Ts := le_csSup hAbdd h0A
+  have hTs1 : Ts ≤ 1 := csSup_le hAne fun T hT => hT.2.1
+  -- a chart at a point gives a radius on which `sg` stays in its target
+  have hrad : ∀ (x : X) (e : OpenPartialHomeomorph X E) (T : ℝ), x ∈ e.source → ⇑e = q →
+      q x = sg T → ∃ η > 0, ∀ t, |t - T| < η → sg t ∈ e.target := by
+    intro x e T hx he hxT
+    have hmem : sg T ∈ e.target := by rw [← hxT, ← he]; exact e.map_source hx
+    obtain ⟨η, hη, hball⟩ := Metric.isOpen_iff.1 (e.open_target.preimage hsg) T hmem
+    exact ⟨η, hη, fun t ht => hball (by rw [Metric.mem_ball, Real.dist_eq]; exact ht)⟩
+  -- `Ts > 0`
+  have hpos : 0 < Ts := by
+    obtain ⟨e, hxe, he⟩ := hq x₀
+    obtain ⟨η, hη, hηe⟩ := hrad x₀ e 0 hxe he.symm (by simp [sg])
+    obtain ⟨μ, hμc, hμ0, hμq⟩ := exists_lift_glue (q := q) hsg (l := fun _ => x₀) le_rfl
+      (le_min zero_le_one (half_pos hη).le) continuousOn_const
+      (fun t ht => by rw [show t = 0 from le_antisymm ht.2 ht.1]; simp [sg]) e he.symm hxe
+      fun t ht => hηe t (by
+        rw [sub_zero, abs_of_nonneg ht.1]
+        exact lt_of_le_of_lt (ht.2.trans (min_le_right _ _)) (half_lt_self hη))
+    have hmem : min 1 (η / 2) ∈ A :=
+      ⟨le_min zero_le_one (half_pos hη).le, min_le_left _ _, μ, hμc, hμ0, hμq⟩
+    exact lt_of_lt_of_le (lt_min one_pos (half_pos hη)) (le_csSup hAbdd hmem)
+  -- the lifts below `Ts` agree: the glued lift `Λ` on `[0, Ts)`
+  have H : ∀ t ∈ Ico 0 Ts, ∃ y : X, ∀ (T : ℝ) (l : ℝ → X), ContinuousOn l (Icc 0 T) →
+      l 0 = x₀ → (∀ s ∈ Icc 0 T, q (l s) = sg s) → t ≤ T → l t = y := by
+    intro t ht
+    obtain ⟨T', hT'A, htT'⟩ := exists_lt_of_lt_csSup hAne ht.2
+    obtain ⟨-, -, l', hl'c, hl'0, hl'q⟩ := hT'A
+    refine ⟨l' t, fun T l hlc hl0 hlq htT => ?_⟩
+    have hsub : ∀ T'', Icc (0 : ℝ) (min T T') ⊆ Icc 0 T'' → True := fun _ _ => trivial
+    exact lift_eqOn_of_isLocalHomeomorph hq isPreconnected_Icc
+      (hlc.mono (Icc_subset_Icc le_rfl (min_le_left _ _)))
+      (hl'c.mono (Icc_subset_Icc le_rfl (min_le_right _ _)))
+      (fun s hs => by
+        rw [hlq s ⟨hs.1, hs.2.trans (min_le_left _ _)⟩,
+          hl'q s ⟨hs.1, hs.2.trans (min_le_right _ _)⟩])
+      (⟨le_rfl, le_min (ht.1.trans htT) (ht.1.trans htT'.le)⟩ : (0 : ℝ) ∈ Icc 0 (min T T'))
+      (by rw [hl0, hl'0]) ⟨ht.1, le_min htT htT'.le⟩
+  haveI : Nonempty X := ⟨x₀⟩
+  choose! Λ hΛ using H
+  have hΛlift : ∀ t ∈ Ico 0 Ts, ∃ T ∈ A, t < T ∧ ∃ l : ℝ → X, ContinuousOn l (Icc 0 T) ∧
+      l 0 = x₀ ∧ (∀ s ∈ Icc 0 T, q (l s) = sg s) ∧ ∀ s ∈ Ico 0 Ts, s ≤ T → l s = Λ s := by
+    intro t ht
+    obtain ⟨T', hT'A, htT'⟩ := exists_lt_of_lt_csSup hAne ht.2
+    obtain ⟨h1, h2, l', hl'c, hl'0, hl'q⟩ := hT'A
+    exact ⟨T', ⟨h1, h2, l', hl'c, hl'0, hl'q⟩, htT', l', hl'c, hl'0, hl'q,
+      fun s hs hsT => hΛ s hs T' l' hl'c hl'0 hl'q hsT⟩
+  have hΛc : ContinuousOn Λ (Ico 0 Ts) := by
+    intro t ht
+    obtain ⟨T', -, htT', l', hl'c, -, -, hl'Λ⟩ := hΛlift t ht
+    have hnhds : Icc 0 T' ∈ 𝓝[Ico 0 Ts] t :=
+      mem_nhdsWithin.2 ⟨Iio T', isOpen_Iio, htT', fun s hs => ⟨hs.2.1, hs.1.le⟩⟩
+    refine ((hl'c t ⟨ht.1, htT'.le⟩).mono_of_mem_nhdsWithin hnhds).congr_of_eventuallyEq ?_
+      (hl'Λ t ht htT'.le).symm
+    filter_upwards [inter_mem self_mem_nhdsWithin (mem_nhdsWithin_of_mem_nhds
+      (Iio_mem_nhds htT'))] with s hs
+    exact (hl'Λ s hs.1 (le_of_lt hs.2)).symm
+  have hΛq : ∀ t ∈ Ico 0 Ts, q (Λ t) = sg t := fun t ht => by
+    obtain ⟨T', -, htT', l', -, -, hl'q, hl'Λ⟩ := hΛlift t ht
+    rw [← hl'Λ t ht htT'.le]; exact hl'q t ⟨ht.1, htT'.le⟩
+  have hΛ0 : Λ 0 = x₀ := (hΛ 0 ⟨le_rfl, hpos⟩ 0 (fun _ => x₀) continuousOn_const rfl
+    (fun s hs => by rw [show s = 0 from le_antisymm hs.2 hs.1]; simp [sg]) le_rfl).symm
+  -- completeness: a cluster point at `Ts`
+  obtain ⟨xs, hxs⟩ := hcomp Ts hpos Λ hΛc hΛq
+  have hev : ∀ᶠ t in 𝓝[<] Ts, t ∈ Ico 0 Ts := by
+    filter_upwards [Ioo_mem_nhdsLT hpos] with t ht using ⟨ht.1.le, ht.2⟩
+  have hqxs : q xs = sg Ts := by
+    by_contra hne
+    obtain ⟨N₁, N₂, hN₁, hN₂, hdisj⟩ := t2_separation_nhds hne
+    have hfreq := (mapClusterPt_iff_frequently.1 hxs) _
+      (hq.continuous.continuousAt.preimage_mem_nhds hN₁)
+    have hev2 : ∀ᶠ t in 𝓝[<] Ts, sg t ∈ N₂ :=
+      (hsg.continuousAt.tendsto.mono_left nhdsWithin_le_nhds) hN₂
+    obtain ⟨t, ht1, ht2, ht3⟩ := (hfreq.and_eventually (hev2.and hev)).exists
+    rw [mem_preimage, hΛq t ht3] at ht1
+    exact hdisj.le_bot ⟨ht1, ht2⟩
+  obtain ⟨e, hxse, he⟩ := hq xs
+  obtain ⟨η, hη, hηe⟩ := hrad xs e Ts hxse he.symm hqxs
+  have hfreq := (mapClusterPt_iff_frequently.1 hxs) _ (e.open_source.mem_nhds hxse)
+  have hev3 : ∀ᶠ t in 𝓝[<] Ts, Ts - η < t := by
+    filter_upwards [Ioo_mem_nhdsLT (show Ts - η < Ts by linarith)] with t ht using ht.1
+  obtain ⟨t₁, ht₁e, ht₁η, ht₁I⟩ := (hfreq.and_eventually (hev3.and hev)).exists
+  set T₂ := min 1 (Ts + η / 2)
+  obtain ⟨μ, hμc, hμ0, hμq⟩ := exists_lift_glue (q := q) hsg (l := Λ) (T₂ := T₂) ht₁I.1
+    (le_min (ht₁I.2.le.trans hTs1) (by linarith [ht₁I.2])) (hΛc.mono
+      (Icc_subset_Ico_right ht₁I.2)) (fun t ht => hΛq t ⟨ht.1, ht.2.trans_lt ht₁I.2⟩) e
+    he.symm ht₁e fun t ht => hηe t (by
+      rw [abs_lt]; constructor
+      · linarith [ht.1]
+      · linarith [ht.2.trans (min_le_right _ _)])
+  have hT₂A : T₂ ∈ A := ⟨le_min zero_le_one (by linarith), min_le_left _ _, μ, hμc,
+    hμ0.trans hΛ0, hμq⟩
+  have hT₂ : T₂ = 1 := by
+    have h := le_csSup hAbdd hT₂A
+    rcases min_choice 1 (Ts + η / 2) with h' | h'
+    · exact h'
+    · exfalso; rw [show T₂ = Ts + η / 2 from h'] at h; linarith
+  obtain ⟨-, -, l, hlc, hl0, hlq⟩ := hT₂ ▸ hT₂A
+  exact ⟨l, hlc, hl0, hlq⟩
+
+
+/-- **Segment lifting makes a local homeomorphism onto a normed space a homeomorphism**: the
+radial lift from a base point is a continuous section (continuity along the segment by a clopen
+argument on `[0, 1]`), and a continuous section of a local homeomorphism of a connected Hausdorff
+space through one point of each fibre is a two-sided inverse. -/
+theorem isHomeomorph_of_lift_segment [T2Space X] [ConnectedSpace X] {q : X → E}
+    (hq : IsLocalHomeomorph q)
+    (hlift : ∀ (x₀ : X) (v : E), ∃ l : ℝ → X, ContinuousOn l (Icc 0 1) ∧ l 0 = x₀ ∧
+      ∀ t ∈ Icc 0 1, q (l t) = q x₀ + t • v) : IsHomeomorph q := by
+  obtain ⟨x₀⟩ := (inferInstance : Nonempty X)
+  set y₀ := q x₀ with hy₀
+  choose L hLc hL0 hLq0 using fun y : E => hlift x₀ (y - y₀)
+  set sg : E → ℝ → E := fun y t => y₀ + t • (y - y₀) with hsg
+  have hLq : ∀ y, ∀ t ∈ Icc (0 : ℝ) 1, q (L y t) = sg y t := fun y t ht => hLq0 y t ht
+  have hsgc : Continuous fun p : E × ℝ => sg p.1 p.2 :=
+    continuous_const.add (continuous_snd.smul (continuous_fst.sub continuous_const))
+  -- the δ-lemma
+  have hδ : ∀ y : E, ∀ t ∈ Icc (0 : ℝ) 1, ∃ δ > 0, ∀ t₁ ∈ Icc (0 : ℝ) 1, |t₁ - t| < δ →
+      ContinuousAt (fun y' => L y' t₁) y →
+      ∀ t' ∈ Icc (0 : ℝ) 1, |t' - t| < δ → ContinuousAt (fun y' => L y' t') y := by
+    intro y t ht
+    obtain ⟨e, hxe, he⟩ := hq (L y t)
+    have hmem : sg y t ∈ e.target := by
+      rw [show sg y t = q (L y t) from (hLq y t ht).symm, he]; exact e.map_source hxe
+    obtain ⟨ε, hε, hεb⟩ := Metric.isOpen_iff.1 (e.open_target.preimage hsgc) (y, t) hmem
+    have hε' : ∀ y' t', dist y' y < ε → |t' - t| < ε → sg y' t' ∈ e.target := fun y' t' h1 h2 =>
+      hεb (show dist (y', t') (y, t) < ε by
+        rw [Prod.dist_eq, max_lt_iff, Real.dist_eq]; exact ⟨h1, h2⟩)
+    have hcw := hLc y t ht
+    obtain ⟨δ₂, hδ₂, hδ₂b⟩ := Metric.mem_nhdsWithin_iff.1
+      (hcw.preimage_mem_nhdsWithin (e.open_source.mem_nhds hxe))
+    refine ⟨min ε δ₂, lt_min hε hδ₂, fun t₁ ht₁ ht₁t hP t' ht' ht't => ?_⟩
+    have hLt₁ : L y t₁ ∈ e.source := hδ₂b ⟨by
+      rw [Metric.mem_ball, Real.dist_eq]; exact ht₁t.trans_le (min_le_right _ _), ht₁⟩
+    have hev : ∀ᶠ y' in 𝓝 y, L y' t' = e.symm (sg y' t') := by
+      filter_upwards [hP.preimage_mem_nhds (e.open_source.mem_nhds hLt₁),
+        Metric.ball_mem_nhds y hε] with y' hy'e hy'b
+      have hJ : uIcc t₁ t' ⊆ Icc 0 1 := uIcc_subset_Icc ht₁ ht'
+      have hJt : ∀ s ∈ uIcc t₁ t', |s - t| < min ε δ₂ := fun s hs => by
+        rw [abs_lt] at ht₁t ht't ⊢
+        rcases le_total t₁ t' with h | h
+        · rw [uIcc_of_le h] at hs; constructor <;> linarith [hs.1, hs.2]
+        · rw [uIcc_of_ge h] at hs; constructor <;> linarith [hs.1, hs.2]
+      have htg : ∀ s ∈ uIcc t₁ t', sg y' s ∈ e.target := fun s hs =>
+        hε' y' s hy'b ((hJt s hs).trans_le (min_le_left _ _))
+      have hEq := lift_eqOn_of_isLocalHomeomorph (l₂ := fun s => e.symm (sg y' s)) hq
+        isPreconnected_uIcc ((hLc y').mono hJ) (e.continuousOn_symm.comp
+          (hsgc.comp (Continuous.prodMk_right y')).continuousOn fun s hs => htg s hs)
+        (fun s hs => by
+          rw [hLq y' s (hJ hs), he, e.right_inv (htg s hs)])
+        left_mem_uIcc (by
+          show L y' t₁ = e.symm (sg y' t₁)
+          rw [← hLq y' t₁ ht₁, he]; exact (e.left_inv hy'e).symm)
+      exact hEq right_mem_uIcc
+    have hc2 : ContinuousAt (fun y' => sg y' t') y :=
+      (hsgc.comp (Continuous.prodMk_left t')).continuousAt
+    have hct : ContinuousAt (fun y' => e.symm (sg y' t')) y :=
+      ContinuousAt.comp (f := fun y' => sg y' t') (g := e.symm)
+        (e.continuousAt_symm (hε' y t' (by simpa using hε) (ht't.trans_le (min_le_left _ _)))) hc2
+    exact hct.congr (hev.mono fun y' h => h.symm)
+  -- continuity of `y ↦ L y t` for every `t`, by connectedness of `[0, 1]`
+  have hP : ∀ y : E, ∀ t ∈ Icc (0 : ℝ) 1, ContinuousAt (fun y' => L y' t) y := by
+    intro y
+    set S : Set I := {t | ContinuousAt (fun y' => L y' (t : ℝ)) y}
+    have hS0 : (0 : I) ∈ S := by
+      show ContinuousAt (fun y' => L y' 0) y
+      simp only [hL0]; exact continuousAt_const
+    have hSo : IsOpen S := by
+      refine Metric.isOpen_iff.2 fun t ht => ?_
+      obtain ⟨δ, hδ0, hδb⟩ := hδ y t t.2
+      refine ⟨δ, hδ0, fun t' ht' => ?_⟩
+      rw [Metric.mem_ball, Subtype.dist_eq, Real.dist_eq] at ht'
+      exact hδb t t.2 (by simpa using hδ0) ht t' t'.2 ht'
+    have hSc : IsClosed S := by
+      refine isClosed_of_closure_subset fun t ht => ?_
+      obtain ⟨δ, hδ0, hδb⟩ := hδ y t t.2
+      obtain ⟨t₁, ht₁S, ht₁d⟩ := Metric.mem_closure_iff.1 ht δ hδ0
+      rw [Subtype.dist_eq, Real.dist_eq, abs_sub_comm] at ht₁d
+      exact hδb t₁ t₁.2 ht₁d ht₁S t t.2 (by simpa using hδ0)
+    have := (IsClopen.eq_univ ⟨hSc, hSo⟩ ⟨0, hS0⟩)
+    intro t ht
+    have : (⟨t, ht⟩ : I) ∈ S := by rw [this]; trivial
+    exact this
+  set s : E → X := fun y => L y 1 with hsdef
+  have hs : Continuous s := continuous_iff_continuousAt.2 fun y => hP y 1 ⟨zero_le_one, le_rfl⟩
+  have hqs : ∀ y, q (s y) = y := fun y => by
+    rw [hsdef, hLq y 1 ⟨zero_le_one, le_rfl⟩]
+    show y₀ + (1 : ℝ) • (y - y₀) = y
+    rw [one_smul, add_sub_cancel]
+  have hsq0 : s y₀ = x₀ := by
+    have := lift_eqOn_of_isLocalHomeomorph hq isPreconnected_Icc (hLc y₀) continuousOn_const
+      (fun t ht => by
+        rw [hLq y₀ t ht]; show y₀ + t • (y₀ - y₀) = q x₀; rw [sub_self, smul_zero, add_zero])
+      (left_mem_Icc.2 zero_le_one)
+      (hL0 y₀)
+    exact this (right_mem_Icc.2 zero_le_one)
+  set Eq' : Set X := {x | s (q x) = x}
+  have hEc : IsClosed Eq' := isClosed_eq (hs.comp hq.continuous) continuous_id
+  have hEo : IsOpen Eq' := by
+    refine isOpen_iff_mem_nhds.2 fun x hx => ?_
+    obtain ⟨e, hxe, he⟩ := hq x
+    have h1 : ∀ᶠ x' in 𝓝 x, s (q x') ∈ e.source :=
+      (hs.comp hq.continuous).continuousAt.preimage_mem_nhds
+        (by rw [Function.comp_apply, hx]; exact e.open_source.mem_nhds hxe)
+    filter_upwards [h1, e.open_source.mem_nhds hxe] with x' h1' h2'
+    exact e.injOn h1' h2' (by rw [← he, hqs])
+  have hsq : ∀ x, s (q x) = x := fun x => by
+    have := IsClopen.eq_univ ⟨hEc, hEo⟩ ⟨x₀, hsq0⟩
+    have hx : x ∈ Eq' := by rw [this]; trivial
+    exact hx
+  exact (Homeomorph.mk ⟨q, s, hsq, hqs⟩ hq.continuous hs).isHomeomorph
+
+end SegmentLifting
+
+/-- A homeomorphism is a covering map (fibre `PUnit`). -/
+theorem isCoveringMap_of_isHomeomorph {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
+    {q : X → Y} (hq : IsHomeomorph q) : IsCoveringMap q := by
+  intro y
+  have h : IsEvenlyCovered q y PUnit.{1} := by
+    exact ⟨inferInstance, univ, mem_univ y, isOpen_univ, by simp,
+      ((Homeomorph.setCongr (preimage_univ (f := q))).trans ((Homeomorph.Set.univ X).trans
+        (hq.homeomorph q))).trans ((Homeomorph.Set.univ Y).symm.trans
+          (Homeomorph.prodPUnit (univ : Set Y)).symm), fun x => rfl⟩
+  exact h.to_isEvenlyCovered_preimage
+
+/-! #### Lifts through a linear projection: lengths and endpoints -/
+
+section ProjLift
+
+variable {X : Type*} [TopologicalSpace X] {F : X → Minkowski d} {E : Type*}
+  [NormedAddCommGroup E] [NormedSpace ℝ E]
+
+/-- Along a lift of an affine path through `P ∘ F`, the developed curve `F ∘ l` is locally
+Lipschitz, if `F` is locally controlled by `P ∘ F`. -/
+theorem locallyLipschitzOn_lift_of_proj (P : Minkowski d →L[ℝ] E)
+    (hloc : ∀ x : X, ∃ W ∈ 𝓝 x, ∃ C : ℝ, 0 ≤ C ∧ ∀ a ∈ W, ∀ b ∈ W,
+      ‖F a - F b‖ ≤ C * ‖P (F a) - P (F b)‖)
+    {a v : E} {s : Set ℝ} {l : ℝ → X} (hl : ContinuousOn l s)
+    (hlq : ∀ t ∈ s, P (F (l t)) = a + t • v) :
+    LocallyLipschitzOn s (fun t => F (l t)) := by
+  intro t ht
+  obtain ⟨W, hW, C, hC, hCW⟩ := hloc (l t)
+  refine ⟨Real.toNNReal (C * ‖v‖), s ∩ l ⁻¹' W,
+    inter_mem self_mem_nhdsWithin ((hl t ht).preimage_mem_nhdsWithin hW),
+    LipschitzOnWith.of_dist_le_mul fun t₁ h₁ t₂ h₂ => ?_⟩
+  rw [dist_eq_norm, Real.coe_toNNReal _ (mul_nonneg hC (norm_nonneg _)), Real.dist_eq]
+  refine (hCW _ h₁.2 _ h₂.2).trans ?_
+  rw [hlq t₁ h₁.1, hlq t₂ h₂.1, add_sub_add_left_eq_sub, ← sub_smul, norm_smul,
+    Real.norm_eq_abs]
+  exact le_of_eq (by ring)
+
+/-- **The length bound of a lift** (step (iii) of 8.1): if `P w = c v` forces
+`minkQ w ≤ c² M`, then between two times of a lift of `t ↦ a + t v` through `P ∘ F` the
+pulled distance is at most `(t₂ − t₁) √M`. -/
+theorem edist_lift_le_of_proj (P : Minkowski d →L[ℝ] E)
+    (hloc : ∀ x : X, ∃ W ∈ 𝓝 x, ∃ C : ℝ, 0 ≤ C ∧ ∀ a ∈ W, ∀ b ∈ W,
+      ‖F a - F b‖ ≤ C * ‖P (F a) - P (F b)‖)
+    {a v : E} {M : ℝ} (hden : ∀ (w : Minkowski d) (c : ℝ), P w = c • v → minkQ w ≤ c ^ 2 * M)
+    {s : Set ℝ} {l : ℝ → X} (hl : ContinuousOn l s)
+    (hlq : ∀ t ∈ s, P (F (l t)) = a + t • v) {t₁ t₂ : ℝ} (h12 : t₁ ≤ t₂)
+    (hs : Icc t₁ t₂ ⊆ s) :
+    edist ((PulledLength.toSpace F).symm (l t₁)) ((PulledLength.toSpace F).symm (l t₂)) ≤
+      ENNReal.ofReal ((t₂ - t₁) * Real.sqrt M) := by
+  set h : ℝ → ℝ := fun u => t₁ + (projIcc (0 : ℝ) 1 zero_le_one u : ℝ) * (t₂ - t₁) with hh
+  have hhI : ∀ u, h u ∈ Icc t₁ t₂ := fun u => by
+    have h0 := (projIcc (0 : ℝ) 1 zero_le_one u).2
+    constructor <;> simp only [hh] <;> nlinarith [h0.1, h0.2]
+  have hcI : Continuous fun u : I => t₁ + (u : ℝ) * (t₂ - t₁) := by fun_prop
+  let β : Path (l t₁) (l t₂) :=
+    { toFun := fun u => l (t₁ + (u : ℝ) * (t₂ - t₁))
+      continuous_toFun := (hl.mono hs).comp_continuous hcI fun u => by
+        constructor <;> nlinarith [u.2.1, u.2.2]
+      source' := by simp
+      target' := by simp }
+  have hβ : ∀ u, β.extend u = l (h u) := fun u => rfl
+  obtain ⟨K, hK⟩ := ((locallyLipschitzOn_lift_of_proj P hloc hl hlq).mono
+    hs).exists_lipschitzOnWith_of_compact isCompact_Icc
+  have hhL : LipschitzWith (Real.toNNReal (t₂ - t₁)) h := by
+    refine LipschitzWith.of_dist_le_mul fun u u' => ?_
+    rw [Real.dist_eq, Real.dist_eq, Real.coe_toNNReal _ (by linarith)]
+    simp only [hh]
+    rw [show t₁ + (projIcc (0 : ℝ) 1 zero_le_one u : ℝ) * (t₂ - t₁) -
+        (t₁ + (projIcc (0 : ℝ) 1 zero_le_one u' : ℝ) * (t₂ - t₁)) =
+        ((projIcc (0 : ℝ) 1 zero_le_one u : ℝ) - projIcc 0 1 zero_le_one u') * (t₂ - t₁) by ring,
+      abs_mul, abs_of_nonneg (by linarith : (0 : ℝ) ≤ t₂ - t₁), mul_comm]
+    exact mul_le_mul_of_nonneg_left (abs_projIcc_sub_projIcc _) (by linarith)
+  have hΓL : LipschitzWith (K * Real.toNNReal (t₂ - t₁)) fun u => F (β.extend u) := by
+    have := hK.comp hhL.lipschitzOnWith (s := univ) fun u _ => hhI u
+    exact lipschitzOnWith_univ.1 this
+  have hLoc : IsLocLip (fun (_ : X) (y : X) => F y) β.extend :=
+    (isLocLip_pulled_iff F β).2 ⟨_, hΓL⟩
+  refine (iInf_le _ β).trans ?_
+  change pathLength (fun (_ : X) (y : X) => F y) β ≤ _
+  rw [pathLength_of_isLocLip _ hLoc, localLength_pulled]
+  set Γ : ℝ → Minkowski d := fun u => F (β.extend u) with hΓ
+  have hpt : ∀ u ∈ Ioo (0 : ℝ) 1, ENNReal.ofReal (Real.sqrt (minkQ (deriv Γ u))) ≤
+      ENNReal.ofReal ((t₂ - t₁) * Real.sqrt M) := by
+    intro u hu
+    refine ENNReal.ofReal_le_ofReal ?_
+    by_cases hd : DifferentiableAt ℝ Γ u
+    · have h1 : HasDerivAt (fun u => P (Γ u)) (P (deriv Γ u)) u :=
+        P.hasFDerivAt.comp_hasDerivAt u hd.hasDerivAt
+      have h2 : HasDerivAt (fun u' => a + (t₁ + u' * (t₂ - t₁)) • v) ((t₂ - t₁) • v) u := by
+        have := (((hasDerivAt_id u).mul_const (t₂ - t₁)).const_add t₁).smul_const v
+        simpa using this.const_add a
+      have heq : (fun u => P (Γ u)) =ᶠ[𝓝 u] fun u' => a + (t₁ + u' * (t₂ - t₁)) • v := by
+        filter_upwards [Ioo_mem_nhds hu.1 hu.2] with u' hu'
+        have hp : (projIcc (0 : ℝ) 1 zero_le_one u' : ℝ) = u' := by
+          rw [projIcc_of_mem _ ⟨hu'.1.le, hu'.2.le⟩]
+        simp only [hΓ, hβ]
+        rw [hlq _ (hs (hhI u'))]
+        simp only [hh, hp]
+      have hD : P (deriv Γ u) = (t₂ - t₁) • v := h1.unique (h2.congr_of_eventuallyEq heq)
+      calc Real.sqrt (minkQ (deriv Γ u)) ≤ Real.sqrt ((t₂ - t₁) ^ 2 * M) :=
+            Real.sqrt_le_sqrt (hden _ _ hD)
+        _ = (t₂ - t₁) * Real.sqrt M := by
+            rw [Real.sqrt_mul (sq_nonneg _), Real.sqrt_sq (by linarith)]
+    · rw [deriv_zero_of_not_differentiableAt hd, minkQ_zero, Real.sqrt_zero]
+      exact mul_nonneg (by linarith) (Real.sqrt_nonneg _)
+  calc lorentzLength Γ 0 1
+        = ∫⁻ u in Ioo (0 : ℝ) 1, ENNReal.ofReal (Real.sqrt (minkQ (deriv Γ u))) :=
+        (setLIntegral_congr Ioo_ae_eq_Ioc).symm
+    _ ≤ ∫⁻ _u in Ioo (0 : ℝ) 1, ENNReal.ofReal ((t₂ - t₁) * Real.sqrt M) :=
+        setLIntegral_mono measurable_const hpt
+    _ = _ := by rw [setLIntegral_const, Real.volume_Ioo, sub_zero, ENNReal.ofReal_one, mul_one]
+
+/-- **Completeness gives the endpoint** (steps (ii)+(iii) of 8.1): a lift on `[0, T)` of an
+affine path through `P ∘ F` converges in `X` as `t → T⁻`, when the pulled length is complete. -/
+theorem SpacelikeDevelopment.tendsto_lift_of_proj [T2Space X] (hF : SpacelikeDevelopment F)
+    (hc : CompleteSpace (PulledLength F)) (P : Minkowski d →L[ℝ] E)
+    (hloc : ∀ x : X, ∃ W ∈ 𝓝 x, ∃ C : ℝ, 0 ≤ C ∧ ∀ a ∈ W, ∀ b ∈ W,
+      ‖F a - F b‖ ≤ C * ‖P (F a) - P (F b)‖)
+    {a v : E} {M : ℝ} (hden : ∀ (w : Minkowski d) (c : ℝ), P w = c • v → minkQ w ≤ c ^ 2 * M)
+    {T : ℝ} (hT : 0 < T) {l : ℝ → X} (hl : ContinuousOn l (Ico 0 T))
+    (hlq : ∀ t ∈ Ico 0 T, P (F (l t)) = a + t • v) :
+    ∃ x, Tendsto l (𝓝[<] T) (𝓝 x) := by
+  set Cv := Real.sqrt M
+  have hCv : 0 ≤ Cv := Real.sqrt_nonneg _
+  set f := map (fun t => (PulledLength.toSpace F).symm (l t)) (𝓝[<] T)
+  have hf : Cauchy f := by
+    rw [EMetric.cauchy_iff]
+    refine ⟨(map_neBot (hf := nhdsLT_neBot T)).ne, fun ε hε => ?_⟩
+    have hlim : Tendsto (fun η : ℝ => ENNReal.ofReal (η * Cv)) (𝓝[>] 0) (𝓝 0) := by
+      have : Tendsto (fun η : ℝ => η * Cv) (𝓝 0) (𝓝 0) := by
+        simpa using (continuous_mul_const Cv).tendsto 0
+      simpa using (ENNReal.tendsto_ofReal this).mono_left nhdsWithin_le_nhds
+    obtain ⟨η, hηε, hη⟩ := ((hlim.eventually (gt_mem_nhds hε)).and self_mem_nhdsWithin).exists
+    refine ⟨(fun t => (PulledLength.toSpace F).symm (l t)) '' Ioo (max 0 (T - η)) T,
+      image_mem_map (Ioo_mem_nhdsLT (max_lt hT (by linarith [show (0:ℝ) < η from hη]))),
+      ?_⟩
+    rintro _ ⟨t, ht, rfl⟩ _ ⟨t', ht', rfl⟩
+    have hsub : ∀ {u u' : ℝ}, u ∈ Ioo (max 0 (T - η)) T → u' ∈ Ioo (max 0 (T - η)) T →
+        Icc u u' ⊆ Ico 0 T := fun hu hu' w hw =>
+      ⟨(le_max_left _ _).trans (hu.1.le.trans hw.1), hw.2.trans_lt hu'.2⟩
+    have hdist : ∀ {u u' : ℝ}, u ∈ Ioo (max 0 (T - η)) T → u' ∈ Ioo (max 0 (T - η)) T →
+        u ≤ u' → u' - u < η := fun hu hu' _ => by
+      have := le_max_right 0 (T - η); linarith [hu.1, hu'.2]
+    rcases le_total t t' with h | h
+    · refine (edist_lift_le_of_proj P hloc hden hl hlq h (hsub ht ht')).trans_lt
+        (lt_of_le_of_lt ?_ hηε)
+      exact ENNReal.ofReal_le_ofReal (mul_le_mul_of_nonneg_right (hdist ht ht' h).le hCv)
+    · rw [edist_comm]
+      refine (edist_lift_le_of_proj P hloc hden hl hlq h (hsub ht' ht)).trans_lt
+        (lt_of_le_of_lt ?_ hηε)
+      exact ENNReal.ofReal_le_ofReal (mul_le_mul_of_nonneg_right (hdist ht' ht h).le hCv)
+  obtain ⟨x, hx⟩ := CompleteSpace.complete hf
+  refine ⟨PulledLength.toSpace F x, ?_⟩
+  have := (hF.continuous_toSpace.tendsto x).comp hx
+  simpa [Function.comp_def] using this
+
+/-- **Segment lifting through `P ∘ F`**, for a direction `v` whose `P`-preimages satisfy the
+density bound. -/
+theorem SpacelikeDevelopment.exists_lift_of_proj [T2Space X] (hF : SpacelikeDevelopment F)
+    (hc : CompleteSpace (PulledLength F)) (P : Minkowski d →L[ℝ] E)
+    (hq : IsLocalHomeomorph (P ∘ F))
+    (hloc : ∀ x : X, ∃ W ∈ 𝓝 x, ∃ C : ℝ, 0 ≤ C ∧ ∀ a ∈ W, ∀ b ∈ W,
+      ‖F a - F b‖ ≤ C * ‖P (F a) - P (F b)‖)
+    (x₀ : X) {v : E} {M : ℝ}
+    (hden : ∀ (w : Minkowski d) (c : ℝ), P w = c • v → minkQ w ≤ c ^ 2 * M) :
+    ∃ l : ℝ → X, ContinuousOn l (Icc 0 1) ∧ l 0 = x₀ ∧
+      ∀ t ∈ Icc 0 1, (P ∘ F) (l t) = (P ∘ F) x₀ + t • v := by
+  refine exists_lift_segment_of_mapClusterPt hq x₀ v fun T hT l hl hlq => ?_
+  obtain ⟨x, hx⟩ := hF.tendsto_lift_of_proj hc P hloc hden hT hl hlq
+  exact ⟨x, hx.mapClusterPt⟩
+
+end ProjLift
+
+/-- **Prop 8.1, the covering** (`GHFspace.tex` l.2243–2261): `π ∘ F` is a covering map — in fact a
+homeomorphism. (i) charts: `SpacelikeDevelopment.exists_chart`; (ii) the pulled-length topology
+is finer than `X`'s: `SpacelikeDevelopment.continuous_toSpace`; (iii) maximal lifts of straight
+segments of `Δ^⊥` (W5: rectifiable paths only) have pulled length at most the segment's
+(`edist_lift_le_of_proj`, through `minkQ_le_minkQ_projAlong`), so they converge by completeness
+(`SpacelikeDevelopment.tendsto_lift_of_proj`) and extend (`exists_lift_segment_of_mapClusterPt`);
+(iv) the radial lift is a continuous inverse (`isHomeomorph_of_lift_segment`). -/
 theorem isCoveringMap_projAlong_comp {X : Type*} [TopologicalSpace X] [ConnectedSpace X]
     [T2Space X] {F : X → Minkowski d} (hF : SpacelikeDevelopment F)
     (hc : CompleteSpace (PulledLength F)) {Δ : Minkowski d} (hΔ : minkQ Δ < 0) :
     IsCoveringMap (projAlong Δ hΔ.ne ∘ F) := by
-  sorry -- SORRY(bprop:project): R1/W5. Four steps, none in mathlib or the port;
-  -- `isHomeomorph_of_isCoveringMap` then finishes 8.1. (i) LOCAL HOMEOMORPHISM: in the frame
-  -- `g` of `IsSpacelikeLipschitzIn.locGraph` a piece of `range F` is a `c`-Lipschitz graph over
-  -- an open `U`, `c < 1`; `π` is injective on it (distinct points are spacelike separated), and
-  -- its image is open by the IVT along `Δ`-lines: `s ↦ (w + sΔ').1 − f((w + sΔ').2)` is strictly
-  -- monotone since `c ‖Δ'.2‖ < |Δ'.1|` (`Δ' = g.linear Δ` timelike) — no invariance of
-  -- domain is available. (ii) TOPOLOGY: the pulled-length topology is finer than `X`'s, else
-  -- `hc`'s limits are not limits in `X` (it is NOT a hypothesis here, unlike `IsCauchyComplete`'s
-  -- field): for subsets of `𝐌ⁿ` it is `IsSpacelikeLipschitzIn.continuous_toSubtype`
-  -- (`InducedLength.lean:1082`), to be transported through the embeddings of
-  -- `SpacelikeDevelopment.locally` by a first-exit argument. (iii) SEGMENT LIFTING (W5): `π` does
-  -- not decrease `√minkQ` of spacelike vectors, so a lift of a straight segment of `Δ^⊥` has
-  -- pulled length at most the segment's; a maximal lift on `[0, t)` is Cauchy, converges by `hc`
-  -- and (ii), and extends by (i); lifts are unique (`T2Space X`, (i), `IsSeparatedMap`).
-  -- (iv) ASSEMBLY: radial lifts from the fibre give sections over all of `Δ^⊥`; their continuity
-  -- is the Lebesgue-number argument along the compact lifted segment; disjoint open sheets then
-  -- give `isEvenlyCovered_of_sheets` (Port/UniversalCover.lean:204). Estimate ~1000 lines.
+  have hq : IsLocalHomeomorph (projAlong Δ hΔ.ne ∘ F) := fun x => by
+    obtain ⟨e, hxe, he, -⟩ := hF.exists_chart hΔ x
+    exact ⟨e, hxe, he.symm⟩
+  have hloc : ∀ x : X, ∃ W ∈ 𝓝 x, ∃ C : ℝ, 0 ≤ C ∧ ∀ a ∈ W, ∀ b ∈ W,
+      ‖F a - F b‖ ≤ C * ‖projAlong Δ hΔ.ne (F a) - projAlong Δ hΔ.ne (F b)‖ := fun x => by
+    obtain ⟨e, hxe, -, hnn⟩ := hF.exists_chart hΔ x
+    refine ⟨e.source, e.open_source.mem_nhds hxe, projLipConst Δ, projLipConst_nonneg Δ,
+      fun a ha b hb => ?_⟩
+    rw [← map_sub]; exact norm_le_of_minkQ_nonneg hΔ (hnn a ha b hb)
+  refine isCoveringMap_of_isHomeomorph (isHomeomorph_of_lift_segment hq fun x₀ v =>
+    hF.exists_lift_of_proj hc _ hq hloc x₀ (M := minkQ (v : Minkowski d)) fun w c hw => ?_)
+  calc minkQ w ≤ minkQ (projAlong Δ hΔ.ne w : Minkowski d) := minkQ_le_minkQ_projAlong hΔ w
+    _ = c ^ 2 * minkQ (v : Minkowski d) := by rw [hw, Submodule.coe_smul, minkQ_smul]
 
 theorem bprop_project {X : Type*} [TopologicalSpace X] [ConnectedSpace X] [T2Space X]
     {F : X → Minkowski d} (hF : SpacelikeDevelopment F) (hc : CompleteSpace (PulledLength F))
@@ -1100,22 +2048,242 @@ theorem isEntireAcausalGraph_range (hF : SpacelikeDevelopment F)
 
 end Consequences
 
+/-! #### Cor 8.3: lifting through the projection along a null direction -/
+
+/-- **The local pieces of a spacelike Lipschitz hypersurface are uniformly spacelike**:
+`κ ‖z₁ − z₂‖² ≤ minkQ (z₁ − z₂)` on a neighbourhood. -/
+theorem IsSpacelikeLipschitzIn.exists_uniform_spacelike {V : Opens (Minkowski d)}
+    {T : Set (Minkowski d)} (hT : IsSpacelikeLipschitzIn V T) {p : Minkowski d} (hp : p ∈ T) :
+    ∃ O : Opens (Minkowski d), p ∈ O ∧ ∃ κ > (0 : ℝ),
+      ∀ z₁ ∈ T ∩ (O : Set (Minkowski d)), ∀ z₂ ∈ T ∩ (O : Set (Minkowski d)),
+        κ * ‖z₁ - z₂‖ ^ 2 ≤ minkQ (z₁ - z₂) := by
+  obtain ⟨g, O, U, f, c, hc, hpO, -, -, hf, hgr⟩ := hT.locGraph p hp
+  obtain ⟨K, hK⟩ := isom_lipschitzWith g⁻¹
+  have hc1 : (c : ℝ) < 1 := by exact_mod_cast hc
+  have hc0 : (0 : ℝ) ≤ c := c.2
+  have hk : 0 < 1 - (c : ℝ) ^ 2 := by nlinarith
+  refine ⟨O, hpO, (1 - (c : ℝ) ^ 2) / ((K : ℝ) ^ 2 + 1), div_pos hk (by positivity),
+    fun z₁ h₁ z₂ h₂ => ?_⟩
+  obtain ⟨hU₁, he₁⟩ := frame_mem_graphOver hgr h₁.1 h₁.2
+  obtain ⟨hU₂, he₂⟩ := frame_mem_graphOver hgr h₂.1 h₂.2
+  set u := g • z₁ - g • z₂ with hu
+  have hL := hf.dist_le_mul _ hU₁ _ hU₂
+  rw [Real.dist_eq, dist_eq_norm] at hL
+  have hu1 : |u.1| ≤ c * ‖u.2‖ := by
+    have e1 : u.1 = f (g • z₁).2 - f (g • z₂).2 := by
+      rw [hu, Prod.fst_sub]; rw [he₁, he₂]; rfl
+    have e2 : u.2 = (g • z₁).2 - (g • z₂).2 := by rw [hu, Prod.snd_sub]
+    rw [e1, e2]; exact hL
+  have hu2 : ‖u‖ ≤ ‖u.2‖ := norm_prod_le_iff.2 ⟨by
+    rw [Real.norm_eq_abs]; exact hu1.trans (mul_le_of_le_one_left (norm_nonneg _) hc1.le),
+    le_rfl⟩
+  have hQ : (1 - (c : ℝ) ^ 2) * ‖u.2‖ ^ 2 ≤ minkQ u := by
+    unfold minkQ
+    have := sq_le_sq' (abs_le.1 hu1).1 (abs_le.1 hu1).2
+    nlinarith
+  have hz : ‖z₁ - z₂‖ ≤ K * ‖u‖ := by
+    have := hK.dist_le_mul (g • z₁) (g • z₂)
+    rwa [inv_smul_smul, inv_smul_smul, dist_eq_norm, dist_eq_norm] at this
+  rw [← isom_minkQ_sub g z₂ z₁]
+  change _ ≤ minkQ u
+  have hz2 : ‖z₁ - z₂‖ ^ 2 ≤ (K : ℝ) ^ 2 * ‖u‖ ^ 2 := by
+    have := pow_le_pow_left₀ (norm_nonneg _) hz 2; rwa [mul_pow] at this
+  have hu3 : ‖u‖ ^ 2 ≤ ‖u.2‖ ^ 2 := pow_le_pow_left₀ (norm_nonneg _) hu2 2
+  have s4 : 0 ≤ minkQ u := le_trans (by positivity) hQ
+  rw [div_mul_eq_mul_div, div_le_iff₀ (by positivity)]
+  calc (1 - (c : ℝ) ^ 2) * ‖z₁ - z₂‖ ^ 2 ≤ (1 - (c : ℝ) ^ 2) * ((K : ℝ) ^ 2 * ‖u.2‖ ^ 2) :=
+        mul_le_mul_of_nonneg_left (hz2.trans (mul_le_mul_of_nonneg_left hu3 (sq_nonneg _)))
+          hk.le
+    _ = (K : ℝ) ^ 2 * ((1 - (c : ℝ) ^ 2) * ‖u.2‖ ^ 2) := by ring
+    _ ≤ (K : ℝ) ^ 2 * minkQ u := mul_le_mul_of_nonneg_left hQ (sq_nonneg _)
+    _ ≤ minkQ u * ((K : ℝ) ^ 2 + 1) := by nlinarith
+
+section ChartProj
+
+variable {X : Type*} [TopologicalSpace X] {F : X → Minkowski d} {E : Type*}
+  [NormedAddCommGroup E] [NormedSpace ℝ E]
+
+/-- **The local charts of `P ∘ F`** for a linear projection `P` along a causal direction `Δ ≠ 0`
+(kernel `ℝ Δ`, with a linear section `ι`): near each point `P ∘ F` is an open embedding, on a
+source where `F` is uniformly spacelike. -/
+theorem SpacelikeDevelopment.exists_chart_of_proj (hF : SpacelikeDevelopment F)
+    (P : Minkowski d →L[ℝ] E) {Δ : Minkowski d} (hΔ : minkQ Δ ≤ 0) (hΔ0 : Δ ≠ 0)
+    (hPΔ : P Δ = 0) (hker : ∀ w, P w = 0 → ∃ s : ℝ, w = s • Δ) (ι : E →L[ℝ] Minkowski d)
+    (hι : ∀ y, P (ι y) = y) (x : X) :
+    ∃ e : OpenPartialHomeomorph X E, x ∈ e.source ∧ ⇑e = P ∘ F ∧ ∃ κ > (0 : ℝ),
+      ∀ a ∈ e.source, ∀ b ∈ e.source, κ * ‖F a - F b‖ ^ 2 ≤ minkQ (F a - F b) := by
+  haveI : Nonempty X := ⟨x⟩
+  obtain ⟨U, V, hxU, hemb, hT⟩ := hF.locally x
+  obtain ⟨O, hxO, κ, hκ, hO⟩ := hT.exists_uniform_spacelike ⟨x, hxU, rfl⟩
+  set W : Set X := (U : Set X) ∩ F ⁻¹' O with hWdef
+  have hWo : IsOpen W := U.isOpen.inter (O.isOpen.preimage hF.continuous)
+  have hxW : x ∈ W := ⟨hxU, hxO⟩
+  have hWnn : ∀ a ∈ W, ∀ b ∈ W, κ * ‖F a - F b‖ ^ 2 ≤ minkQ (F a - F b) := fun a ha b hb =>
+    hO (F a) ⟨⟨a, ha.1, rfl⟩, ha.2⟩ (F b) ⟨⟨b, hb.1, rfl⟩, hb.2⟩
+  have hFinj : InjOn F U := fun a ha b hb hab => by
+    have := hemb.injective (a₁ := ⟨a, ha⟩) (a₂ := ⟨b, hb⟩) hab
+    exact congrArg Subtype.val this
+  have hinj : InjOn (P ∘ F) W := by
+    intro a ha b hb hab
+    obtain ⟨s, hs⟩ := hker (F a - F b) (by rw [map_sub]; exact sub_eq_zero.2 hab)
+    have hnn := hWnn a ha b hb
+    rw [hs, minkQ_smul] at hnn
+    have h1 : s ^ 2 * minkQ Δ ≤ 0 := mul_nonpos_of_nonneg_of_nonpos (sq_nonneg _) hΔ
+    have h2 : ‖s • Δ‖ ^ 2 = 0 := by
+      have := mul_nonneg hκ.le (sq_nonneg ‖s • Δ‖)
+      nlinarith
+    have : s • Δ = 0 := by
+      rw [sq_eq_zero_iff, norm_eq_zero] at h2; exact h2
+    rw [this, sub_eq_zero] at hs
+    exact hFinj ha.1 hb.1 hs
+  have hopen : ∀ B ⊆ W, IsOpen B → IsOpen ((P ∘ F) '' B) := by
+    intro B hBW hBo
+    rw [isOpen_iff_mem_nhds]
+    rintro _ ⟨b, hb, rfl⟩
+    have hbU : b ∈ U := (hBW hb).1
+    obtain ⟨O'', hO''o, hO''⟩ := hemb.isInducing.isOpen_iff.1
+      (hBo.preimage continuous_subtype_val)
+    have key : ∀ z, ∀ hz : z ∈ U, F z ∈ O'' ↔ z ∈ B := fun z hz => by
+      have := congrArg (fun s : Set U => (⟨z, hz⟩ : U) ∈ s) hO''
+      simpa using this
+    have hev := hT.eventually_exists_add_smul_mem ⟨b, hbU, rfl⟩ hO''o ((key b hbU).2 hb) hΔ hΔ0
+    set j : E → Minkowski d := fun y => ι (y - P (F b)) + F b
+    have hjc : Continuous j := (ι.continuous.comp (continuous_id.sub continuous_const)).add
+      continuous_const
+    have hjb : j (P (F b)) = F b := by simp [j]
+    have hten : Tendsto j (𝓝 ((P ∘ F) b)) (𝓝 (F b)) := by
+      have := hjc.tendsto (P (F b)); rwa [hjb] at this
+    filter_upwards [hten hev] with y hy
+    obtain ⟨s, ⟨z, hzU, hz⟩, hzO⟩ := hy
+    refine ⟨z, (key z hzU).1 (by rw [hz]; exact hzO), ?_⟩
+    simp only [Function.comp_apply]
+    rw [hz]
+    simp only [j, map_add, map_smul, hPΔ, smul_zero, add_zero, hι]
+    abel
+  have hc : ContinuousOn (P ∘ F) W := (P.continuous.comp hF.continuous).continuousOn
+  have ho : IsOpenMap (W.restrict (P ∘ F)) := by
+    intro A hA
+    rw [show W.restrict (P ∘ F) '' A = (P ∘ F) '' (Subtype.val '' A) by
+      rw [← image_comp]; rfl]
+    exact hopen _ (Subtype.coe_image_subset _ _) (hWo.isOpenMap_subtype_val A hA)
+  exact ⟨OpenPartialHomeomorph.ofContinuousOpenRestrict (hinj.toPartialEquiv (P ∘ F) W) hc ho
+    hWo, hxW, rfl, κ, hκ, hWnn⟩
+
+end ChartProj
+
+/-- The projection `w ↦ w.2 − w.1 e` of `𝐌ⁿ` onto `ℝᵈ` along the null direction `(1, e)`. -/
+noncomputable def nullProj (e : EuclideanSpace ℝ (Fin d)) :
+    Minkowski d →L[ℝ] EuclideanSpace ℝ (Fin d) :=
+  ContinuousLinearMap.snd ℝ ℝ (EuclideanSpace ℝ (Fin d)) -
+    (ContinuousLinearMap.fst ℝ ℝ (EuclideanSpace ℝ (Fin d))).smulRight e
+
+theorem nullProj_apply (e : EuclideanSpace ℝ (Fin d)) (w : Minkowski d) :
+    nullProj e w = w.2 - w.1 • e := rfl
+
+/-- For a unit `e`, `minkQ w = ‖Ψ w‖² + 2 w₁ ⟨Ψ w, e⟩` with `Ψ = nullProj e`. -/
+theorem minkQ_eq_nullProj {e : EuclideanSpace ℝ (Fin d)} (he : ‖e‖ = 1) (w : Minkowski d) :
+    minkQ w = ‖nullProj e w‖ ^ 2 + 2 * w.1 * inner ℝ (nullProj e w) e := by
+  rw [nullProj_apply]
+  unfold minkQ
+  rw [norm_sub_sq_real, inner_sub_left, norm_smul, real_inner_smul_left, real_inner_smul_right,
+    real_inner_self_eq_norm_sq, he, Real.norm_eq_abs, mul_pow, sq_abs]
+  ring
+
+/-- For a unit `e`, `minkB w (1, e) = ⟨Ψ w, e⟩`. -/
+theorem minkB_nullProj {e : EuclideanSpace ℝ (Fin d)} (he : ‖e‖ = 1) (w : Minkowski d) :
+    minkB w ((1 : ℝ), e) = inner ℝ (nullProj e w) e := by
+  rw [nullProj_apply, inner_sub_left, real_inner_smul_left, real_inner_self_eq_norm_sq, he]
+  unfold minkB; ring
+
+theorem minkB_sub_left' (a b c : Minkowski d) : minkB (a - b) c = minkB a c - minkB b c := by
+  unfold minkB; simp only [Prod.fst_sub, Prod.snd_sub, inner_sub_left]; ring
+
+theorem minkB_smul_right' (a c : Minkowski d) (s : ℝ) : minkB a (s • c) = s * minkB a c := by
+  unfold minkB; simp only [Prod.smul_fst, Prod.smul_snd, smul_eq_mul, real_inner_smul_right]
+  ring
+
+/-- **Cor 8.3** (`GHFspace.tex` l.2277–2290, W6): a lightlike hyperplane `P₀` meeting `range F`
+has all its `Δ₀`-lines meeting `range F`. "Completely similar" to 8.1, made literal: normalise
+`Δ₀ = ℓ.1 (1, e)`, `‖e‖ = 1`, project along `(1, e)` onto `ℝᵈ` (`nullProj e`, a local
+homeomorphism on `F`: `exists_chart_of_proj`), and lift the segment from `Ψ (F x₀)` to `Ψ r`
+inside the level `⟨·, e⟩ = const` of `P₀`, where `minkQ` of the developed velocity is exactly
+the squared Euclidean speed (`minkQ_eq_nullProj`) — Barbot's "the projection onto `P₀/Δ₀` is an
+isometry on `S ∩ P₀`". Neither 8.1 nor `ConnectedSpace X` is used. -/
 theorem bcor_quoiso {X : Type*} [TopologicalSpace X] [ConnectedSpace X] [T2Space X]
     {F : X → Minkowski d} (hF : SpacelikeDevelopment F) (hc : CompleteSpace (PulledLength F)) :
     NullSaturated (range F) := by
-  sorry -- SORRY(bcor:quoiso): W6. Frame `P₀ = {t − x₁ = c}`, `Δ₀ = (1, e₁)`, `range F = graph f`
-  -- (`SpacelikeDevelopment.exists_graph`; `f` strictly contracting by `isEntireAcausalGraph_range`
-  -- through `isEntireAcausalGraph_iff`). Put
-  -- `Y_c = {y ⊥ e₁ | ∃ s, f (y + s e₁) − s = c}`. Open: `s ↦ f (y + s e₁) − s` is strictly
-  -- decreasing, so values `c₁ > c > c₂` on both sides persist for `y'` near `y`, and the
-  -- intermediate value theorem applies (no completeness). Closed: the only place completeness
-  -- enters (the entire-graph structure from 8.1 alone does not bound `s(y)` as `y` moves): the
-  -- lift `y ↦ y + s(y) e₁ ∈ range F ∩ P₀` of a segment
-  -- of `e₁^⊥` has `minkQ`-length equal to the segment's Euclidean length (the projection
-  -- `P₀ → P₀/Δ₀` is isometric on it), so the maximal-lift argument of 8.1 gives the limit point:
-  -- the same missing steps (ii) TOPOLOGY and (iii) SEGMENT LIFTING as
-  -- `isCoveringMap_projAlong_comp`, run in the `(n − 2)`-dimensional `range F ∩ P₀`. `e₁^⊥` is
-  -- connected, so `Y_c` is empty or all of it.
+  rintro p ℓ hℓ0 hℓ ⟨_, ⟨x₀, rfl⟩, hq⟩ r hr
+  have h1 : ℓ.1 ≠ 0 := fun h => hℓ0 (eq_zero_of_fst_eq_zero h hℓ.le)
+  set e : EuclideanSpace ℝ (Fin d) := ℓ.1⁻¹ • ℓ.2 with hedef
+  have he : ‖e‖ = 1 := by
+    rw [hedef, norm_smul, norm_inv, Real.norm_eq_abs, ← abs_fst_eq_norm_of_minkQ_eq_zero hℓ,
+      inv_mul_cancel₀ (abs_ne_zero.2 h1)]
+  set ℓ' : Minkowski d := ((1 : ℝ), e) with hℓ'
+  have hℓℓ' : ℓ' = ℓ.1⁻¹ • ℓ := by
+    rw [hℓ']; ext
+    · simp [inv_mul_cancel₀ h1]
+    · simp [hedef]
+  set Ψ := nullProj e with hΨ
+  have hΨℓ : Ψ ℓ' = 0 := by simp [hΨ, nullProj_apply, hℓ']
+  have hker : ∀ w, Ψ w = 0 → ∃ s : ℝ, w = s • ℓ' := fun w hw => by
+    refine ⟨w.1, ?_⟩
+    rw [hΨ, nullProj_apply, sub_eq_zero] at hw
+    ext
+    · simp [hℓ']
+    · simp [hℓ', hw]
+  set ι : EuclideanSpace ℝ (Fin d) →L[ℝ] Minkowski d :=
+    ContinuousLinearMap.inr ℝ ℝ (EuclideanSpace ℝ (Fin d))
+  have hι : ∀ y, Ψ (ι y) = y := fun y => by simp [hΨ, nullProj_apply, ι]
+  have hℓ'Q : minkQ ℓ' ≤ 0 := by
+    rw [hℓ', show minkQ ((1 : ℝ), e) = -1 ^ 2 + ‖e‖ ^ 2 from rfl, he]; norm_num
+  have hℓ'0 : ℓ' ≠ 0 := fun h => by
+    have := congrArg Prod.fst h; simp [hℓ'] at this
+  have hq' : IsLocalHomeomorph (Ψ ∘ F) := fun x => by
+    obtain ⟨e', hxe, he', -⟩ := hF.exists_chart_of_proj Ψ hℓ'Q hℓ'0 hΨℓ hker ι hι x
+    exact ⟨e', hxe, he'.symm⟩
+  have hloc : ∀ x : X, ∃ W ∈ 𝓝 x, ∃ C : ℝ, 0 ≤ C ∧ ∀ a ∈ W, ∀ b ∈ W,
+      ‖F a - F b‖ ≤ C * ‖Ψ (F a) - Ψ (F b)‖ := fun x => by
+    obtain ⟨e', hxe, -, κ, hκ, hnn⟩ := hF.exists_chart_of_proj Ψ hℓ'Q hℓ'0 hΨℓ hker ι hι x
+    refine ⟨e'.source, e'.open_source.mem_nhds hxe, 1 + 3 / κ, by positivity,
+      fun a ha b hb => ?_⟩
+    rw [← map_sub]
+    set w := F a - F b
+    have hQ := minkQ_eq_nullProj he w
+    have hb1 : |w.1| ≤ ‖w‖ := by rw [← Real.norm_eq_abs]; exact norm_fst_le w
+    have hb2 : |inner ℝ (Ψ w) e| ≤ ‖Ψ w‖ := by
+      have := abs_real_inner_le_norm (Ψ w) e; rwa [he, mul_one] at this
+    have hcross : 2 * w.1 * inner ℝ (Ψ w) e ≤ 2 * ‖w‖ * ‖Ψ w‖ := by
+      have := abs_mul w.1 (inner ℝ (Ψ w) e)
+      have h3 : w.1 * inner ℝ (Ψ w) e ≤ ‖w‖ * ‖Ψ w‖ :=
+        (le_abs_self _).trans (this ▸ mul_le_mul hb1 hb2 (abs_nonneg _) (norm_nonneg _))
+      linarith
+    have hmain : κ * ‖w‖ ^ 2 ≤ ‖Ψ w‖ ^ 2 + 2 * ‖w‖ * ‖Ψ w‖ := by
+      have := hnn a ha b hb; rw [hQ] at this; linarith
+    rcases le_or_gt ‖w‖ ‖Ψ w‖ with h | h
+    · have : 0 ≤ 3 / κ * ‖Ψ w‖ := by positivity
+      nlinarith
+    · have hpos : 0 < ‖w‖ := lt_of_le_of_lt (norm_nonneg _) h
+      have h3 : ‖Ψ w‖ ^ 2 ≤ ‖w‖ * ‖Ψ w‖ := by nlinarith [norm_nonneg (Ψ w)]
+      have h5 : κ * ‖w‖ * ‖w‖ ≤ 3 * ‖Ψ w‖ * ‖w‖ := by nlinarith
+      have h6 : κ * ‖w‖ ≤ 3 * ‖Ψ w‖ := le_of_mul_le_mul_right h5 hpos
+      have h4 : ‖w‖ ≤ 3 / κ * ‖Ψ w‖ := by
+        rw [div_mul_eq_mul_div, le_div_iff₀ hκ]; linarith
+      have : (1 + 3 / κ) * ‖Ψ w‖ = ‖Ψ w‖ + 3 / κ * ‖Ψ w‖ := by ring
+      linarith [norm_nonneg (Ψ w)]
+  set v := Ψ r - Ψ (F x₀) with hv
+  have hve : inner ℝ v e = 0 := by
+    rw [hv, ← map_sub, ← minkB_nullProj he, show ((1 : ℝ), e) = ℓ' from rfl, hℓℓ',
+      minkB_smul_right', show r - F x₀ = (r - p) - (F x₀ - p) by abel, minkB_sub_left', hr, hq,
+      sub_zero, mul_zero]
+  obtain ⟨l, -, -, hlq⟩ := hF.exists_lift_of_proj hc Ψ hq' hloc x₀ (v := v) (M := ‖v‖ ^ 2)
+    fun w c hw => by
+      rw [minkQ_eq_nullProj he w, hw, inner_smul_left, hve, mul_zero, mul_zero, add_zero,
+        norm_smul, mul_pow, Real.norm_eq_abs, sq_abs]
+  have h1' := hlq 1 ⟨zero_le_one, le_rfl⟩
+  simp only [Function.comp_apply, one_smul, hv, add_sub_cancel] at h1'
+  obtain ⟨s, hs⟩ := hker (F (l 1) - r) (by rw [map_sub, h1', sub_self])
+  refine ⟨s * ℓ.1⁻¹, l 1, ?_⟩
+  rw [mul_smul, ← hℓℓ', ← hs]; abel
 
 /-! ### E. The bridge -/
 
@@ -1344,13 +2512,6 @@ theorem spacelikeDevelopment_restrict {S : Set M} (hL : IsSpacelikeLipschitz d S
         rw [Set.restrict_apply, hdevK _ hw, hwr]
     rw [himg]
     exact (hT.restrict hV'V).smul isom_strongMorphism g
-
-/-- The linear part of an isometry preserves `minkQ`. -/
-theorem minkQ_isom_linear (g : isom d) (v : Minkowski d) :
-    minkQ ((g : Minkowski d ≃ᵃ[ℝ] Minkowski d).linear v) = minkQ v := by
-  rw [show ((g : Minkowski d ≃ᵃ[ℝ] Minkowski d).linear v) =
-      (linearPart g : Minkowski d ≃ₗ[ℝ] Minkowski d) v from rfl,
-    lorentz.minkQ_apply (linearPart g).2]
 
 /-- **Transfer through a local isometry of charts** (pointwise): if near `c t` the developing
 map `F` is `g • φ (q (c t)) ∘ q`, then `c` is Lipschitz in the pulled system at `t` iff `q ∘ c` is

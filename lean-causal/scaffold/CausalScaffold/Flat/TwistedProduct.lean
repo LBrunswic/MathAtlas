@@ -21,8 +21,9 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
   about twisted products by all euclidean manifolds, flat tori included) — stated
   (`gh_of_isLTPOver`); its causality half is proved (`isCausal_of_isLTPData`: a linear twisted
   product over a causal flat spacetime is causal); its compact-diamond half
-  (`isCompact_diamond_of_isLTPData`) is proved down to the cover `Ω` (descent through `π`) and
-  rests on one `sorry` there (`cover_gh_of_isLTPData`); its linear core is proved
+  (`isCompact_diamond_of_isLTPData`) is proved down to two `sorry`s, GH lifting to the cover
+  `ι⁻¹ Ω` of `M₁` (`TwistedProduct.cover_gh_of_isQuotientOf`) and closed diamonds of the product
+  `Ω = ι⁻¹ Ω × U^⊥` (`isClosed_diamond_of_retract`); its linear core is proved
   (`coproj_isFutureCausal`, `retract_le_top`, `retract_le_of_le`,
   `eq_of_le_top_of_retract_eq`). Rem 5.4 (l.1816–1828) is about Bieberbach and finite index, not
   causal: not attempted.
@@ -92,8 +93,14 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
   `γ x ≠ x`); hence `isCausal_of_isLTPData`: a linear twisted product over a causal flat
   spacetime is causal.
 * **Rem 5.3, descent of compact diamonds**: `isCompact_diamond_of_isLTPData` from the
-  cover-level `cover_gh_of_isLTPData` (the tagged `sorry`): `J_B(π x, π y)` is the image of
-  `⋃_{x ≤ γ y} J_Ω(x, γ y)`, for an arbitrary presentation `π`.
+  cover-level `cover_gh_of_isLTPData`: `J_B(π x, π y)` is the image of
+  `⋃_{x ≤ γ y} J_Ω(x, γ y)`, for an arbitrary presentation `π`. `cover_gh_of_isLTPData` is
+  proved from two tagged `sorry`s: `TwistedProduct.cover_gh_of_isQuotientOf` (GH lifts from
+  `M₁` to its cover `W = ι⁻¹ Ω`: compact diamonds, finitely many `g` with `a ≤_W g b`) and
+  `isClosed_diamond_of_retract` (the diamonds of `Ω = W × U^⊥` are closed); compactness
+  (`isCompact_diamond_of_retract`: `J_Ω(x, z) ⊆ J_{𝐌ⁿ}(x, z) ∩ q⁻¹ J_W(q x, q z)`) and
+  finiteness (restriction `γ ↦ g`, injective by freeness,
+  `TwistedProduct.smul_left_injective_of_isCoveringMap`) are proved from them.
 * **Non-vacuity** (kb/0011): `isLTPOver_refl` (`ι = id`, every quotient over itself),
   `isLTPOver_refl_minkowski`; `isLTPOver_bot_timeAxis` (a product, `Γ` trivial, over the time
   axis `timeAxis`); `isLTPOver_timeGroup` (`ℤ e₀\𝐌ⁿ` over the timelike circle, `Γ ≠ 1`).
@@ -146,22 +153,27 @@ Note (not a paper hypothesis): `Ω` is not asked to be connected; `M` is connect
   structure is proved at the level of `Ω` (`split`, `split_smul`, `mem_iff_retract_mem`) and not
   descended to a fibre-bundle map `q : B → M` (only its continuity and surjectivity, inside
   `connectedSpace_base`). `restrictGroup Γ` is the image of `Γ`; the injectivity of `γ ↦ g`
-  (true when `U ∩ Ω ≠ ∅`, by freeness) is not stated.
+  (true when `U ∩ Ω ≠ ∅`, by freeness) is not stated as a lemma; it is used, at a point of
+  `U ∩ Ω`, inside `cover_gh_of_isLTPData` (`TwistedProduct.smul_left_injective_of_isCoveringMap`).
 * **`U^⊥`-invariance of `Ω` (BARBOT-THEOREMS §6, G6)** is *carried* here as the hypothesis
   `perp_invariant`; its proof for the domains `Ω(S̃)` where Lemma 5.5 is applied is owed
   downstream, not discharged in this file.
 * **Rem 5.3** (`gh_of_isLTPOver`) is stated for *linear* twisted products only (the remark covers
-  twisted products by every euclidean manifold, flat tori included), and rests on a tagged
-  `sorry` for the compactness of diamonds only, at the level of the cover `Ω`
-  (`cover_gh_of_isLTPData`: compact diamonds of `Ω` and finiteness of `{γ | x ≤_Ω γ y}`); the
-  descent from `Ω` to `B` is proved (`isCompact_diamond_of_isLTPData`), and so is the causality
-  (`isCausal_of_isLTPData`, which needs only `M₁` causal). The cover-level statement needs the
-  converse of `retract_le_of_le`: lifting a relation of `U ∩ Ω` to one of `Ω` with a prescribed
-  `U^⊥`-displacement, bounded by the Lorentzian length of a causal chain below it (the time
-  separation of `U ∩ Ω` and its upper semicontinuity on a GH set), which the library lacks; it
-  is what both the closedness of `J_Ω(x, z)` and the compactness of the diamonds of the cover
-  `U ∩ Ω` of `M₁` rest on. Its linear core, the causality of the retraction for orthochronous
-  `ι`, is proved. Rem 5.3's Cauchy-completeness half (D, DEC-35) and Rem 5.4 are not attempted.
+  twisted products by every euclidean manifold, flat tori included), and rests on two tagged
+  `sorry`s, both for the compactness of diamonds and both below the cover-level
+  `cover_gh_of_isLTPData` (compact diamonds of `Ω`, finiteness of `{γ | x ≤_Ω γ y}`), which is
+  proved from them: (1) `TwistedProduct.cover_gh_of_isQuotientOf`, GH lifts from a quotient to
+  its cover (here from `M₁` to `W = ι⁻¹ Ω`), a general statement about `IsQuotientOf`, the
+  converse of `FlatQuotient.globallyHyperbolic_quotient`; (2) `isClosed_diamond_of_retract`, the
+  diamonds of `Ω = W × U^⊥` are closed when those of `W` are compact. Both need a limit-curve
+  theorem for ETT chains, (2) with lengths: the converse of `retract_le_of_le` (a relation of
+  `W` lifts to `Ω` with a prescribed `U^⊥`-displacement bounded by the Lorentzian length of a
+  causal chain below it) together with the attainment and upper semicontinuity of the time
+  separation of the GH `W` (Avez–Seifert), which the library lacks. The descent from `Ω` to `B`
+  is proved (`isCompact_diamond_of_isLTPData`), and so is the causality
+  (`isCausal_of_isLTPData`, which needs only `M₁` causal). Its linear core, the causality of the
+  retraction for orthochronous `ι`, is proved. Rem 5.3's Cauchy-completeness half (D, DEC-35) and
+  Rem 5.4 are not attempted.
 * Generic `minkB` algebra is `private` (`tp_…`), to avoid colliding with `Flat/AchronalDomains`;
   it duplicates `Flat/Isometries`' public `minkB` lemmas and `minkForm` (`tpBilinOn` is `minkForm`
   restricted to `W`). `Flat/Isometries` is deliberately not imported: it is being edited in
@@ -175,7 +187,9 @@ Note (not a paper hypothesis): `Ω` is not asked to be connected; `M` is connect
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Barbot campaign,
 wave 2, package WP-31d-TwistedProduct; closer pass 2026-11-01 (causality half of Rem 5.3;
-descent of the compact diamonds from `Ω`).
+descent of the compact diamonds from `Ω`); second closer pass 2026-11-01 (the cover-level
+`sorry` split: finiteness and compactness proved from GH of the cover `ι⁻¹ Ω` and closed
+diamonds of `Ω`).
 -/
 
 namespace Causal.Flat
@@ -1035,6 +1049,47 @@ theorem eq_of_le_top_of_retract_eq {p p' : Minkowski d} (h : (minkowski d).le �
   have hpos := ι.minkQ_pos_of_mem_perp hw (sub_ne_zero.2 (Ne.symm hne))
   linarith [hv.2]
 
+/-- **The diamonds of `Ω = (U ∩ Ω) × U^⊥` are closed** in `𝐌ⁿ` when those of `W = ι⁻¹ Ω` are
+compact (`Ω` invariant by `U^⊥`, `ι` orthochronous): the Lorentzian product of a GH `W` with the
+euclidean `U^⊥` is GH. Not proved: see the `sorry`. -/
+theorem isClosed_diamond_of_retract (hι : ι.Orthochronous) {Ω : Opens (Minkowski d)}
+    (hperp : ∀ w ∈ ι.perp, ∀ p ∈ Ω, p + w ∈ Ω)
+    (hW : ∀ a b : ι.preimageOpens Ω,
+      IsCompact ((flatCausality d₁ (ι.preimageOpens Ω)).diamond ⊤ a b)) (x z : Ω) :
+    IsClosed (((↑) : Ω → Minkowski d) '' (flatCausality d Ω).diamond ⊤ x z) := by
+  sorry -- SORRY(rem:5.3): the time separation of W = ι⁻¹Ω. With w(p) = p − ι(q p) ∈ U^⊥, p ≤_Ω p' holds iff some chain of causal segments in W from q p to q p' has Lorentzian length ≥ ‖w(p') − w(p)‖ (⇐: distribute the U^⊥-displacement over the segments in proportion to their lengths; ⇒: retract_le_of_le and Pythagoras, as in retract_le_top). For p_n → p in J_Ω(x, z), closedness then needs a chain from q x to q p (and from q p to q z) of length ≥ lim ‖w(p_n) − w(x)‖, i.e. the supremum τ_W of chain lengths upper semicontinuous and attained on the GH W (Avez–Seifert: a limit-curve theorem for ETT chains, with lengths). Neither τ_W nor a limit-curve theorem is in the library (InducedLength measures single Lipschitz curves; GloballyHyperbolic.isClosed_le closes ≤_W, not the length bound)
+
+/-- **The diamonds of `Ω = (U ∩ Ω) × U^⊥` are compact** when those of `W = ι⁻¹ Ω` are (`Ω`
+invariant by `U^⊥`, `ι` orthochronous). `J_Ω(x, z)` lies in the compact
+`J_{𝐌ⁿ}(x, z) ∩ q⁻¹ J_W(q x, q z)` (`retract_le_of_le`) and is closed
+(`isClosed_diamond_of_retract`, the tagged `sorry` this rests on). -/
+theorem isCompact_diamond_of_retract (hι : ι.Orthochronous) {Ω : Opens (Minkowski d)}
+    (hperp : ∀ w ∈ ι.perp, ∀ p ∈ Ω, p + w ∈ Ω)
+    (hW : ∀ a b : ι.preimageOpens Ω,
+      IsCompact ((flatCausality d₁ (ι.preimageOpens Ω)).diamond ⊤ a b)) (x z : Ω) :
+    IsCompact ((flatCausality d Ω).diamond ⊤ x z) := by
+  have hmem : ∀ p : Ω, ι.retract p ∈ ι.preimageOpens Ω := fun p =>
+    (ι.mem_iff_retract_mem hperp).1 p.2
+  let a : ι.preimageOpens Ω := ⟨ι.retract x, hmem x⟩
+  let b : ι.preimageOpens Ω := ⟨ι.retract z, hmem z⟩
+  have hK : IsCompact ((minkowski d).diamond ⊤ (x : Minkowski d) z) :=
+    minkowski_globallyHyperbolic.2 _ _
+  have hC : IsClosed (ι.retract ⁻¹'
+      (((↑) : ι.preimageOpens Ω → Minkowski d₁) '' (flatCausality d₁ _).diamond ⊤ a b)) :=
+    ((hW a b).image continuous_subtype_val).isClosed.preimage ι.continuous_retract
+  rw [Subtype.isCompact_iff]
+  refine (hK.inter_right hC).of_isClosed_subset
+    (ι.isClosed_diamond_of_retract hι hperp hW x z) ?_
+  rintro _ ⟨p, hp, rfl⟩
+  rw [Causality.mem_diamond] at hp
+  have h1 := (flat_le_top_subtype_iff Ω x p).1 hp.1
+  have h2 := (flat_le_top_subtype_iff Ω p z).1 hp.2
+  refine ⟨Causality.mem_diamond.2
+    ⟨(minkowski d).le_mono le_top h1, (minkowski d).le_mono le_top h2⟩,
+    ⟨ι.retract p, hmem p⟩, Causality.mem_diamond.2 ⟨?_, ?_⟩, rfl⟩
+  · rw [flat_le_top_subtype_iff]; exact ι.retract_le_of_le hι hperp h1
+  · rw [flat_le_top_subtype_iff]; exact ι.retract_le_of_le hι hperp h2
+
 end AffineMinkEmbedding
 
 namespace TwistedProduct
@@ -1148,7 +1203,47 @@ theorem smul_eq_of_le_of_isCausal (hcov : IsCoveringMap π) (hloc : IsLocalIsome
       exact step ⟨O, hO, hle⟩ hc
   exact key hch ((flatCausality d Ω).le_refl (show g • a ∈ (⊤ : Opens Ω) from trivial))
 
+omit [ChartedSpace (Minkowski d) M] [HasGroupoid M (gxGroupoid (isom d) (Minkowski d))] in
+/-- **The action of a presentation's group is free**: if `π : Ω → M` is a covering map whose
+fibres are the `Γ`-orbits, `γ • P = γ' • P` forces `γ = γ'`. `δ = γ⁻¹ γ'` fixes `P`, hence (`π`
+injective on a neighbourhood `V` of `P`, `π (δ z) = π z`) every point of the open
+`V ∩ δ⁻¹ V ∋ P`; an affine map fixing a nonempty open set of `𝐌ⁿ` is the identity. -/
+theorem smul_left_injective_of_isCoveringMap (hcov : IsCoveringMap π)
+    (hfib : ∀ p q : Ω, π p = π q ↔ ∃ γ ∈ Γ, γ • (p : Minkowski d) = q) {γ γ' : Γ} {P : Ω}
+    (h : γ • P = γ' • P) : γ = γ' := by
+  set δ : Γ := γ⁻¹ * γ' with hδ
+  have hP : δ • P = P := by rw [hδ, mul_smul, ← h, inv_smul_smul]
+  obtain ⟨V, hPV, hV⟩ := exists_injOn_of_isCoveringMap hcov P
+  set N : Set Ω := (V : Set Ω) ∩ (fun z => δ • z) ⁻¹' V
+  have hN : IsOpen N := V.2.inter (V.2.preimage (continuous_const_smul δ))
+  have hfix : ∀ z ∈ N, δ • z = z := fun z hz =>
+    hV hz.2 hz.1 ((hfib z (δ • z)).2 ⟨δ, δ.2, rfl⟩).symm
+  have hU : IsOpen ((↑) '' N : Set (Minkowski d)) := Ω.isOpen.isOpenMap_subtype_val N hN
+  have hne : ((↑) '' N : Set (Minkowski d)).Nonempty :=
+    ⟨P, P, ⟨hPV, show δ • P ∈ V by rw [hP]; exact hPV⟩, rfl⟩
+  have h1 : (δ : isom d) = 1 := by
+    apply Subtype.ext
+    refine AffineEquiv.ext_on (hU.affineSpan_eq_top hne) _ _ ?_
+    rintro _ ⟨z, hz, rfl⟩
+    have := congrArg Subtype.val (hfix z hz)
+    rw [coe_smul, isom_smul_def] at this
+    simpa using this
+  have : δ = 1 := Subtype.ext h1
+  rwa [hδ, inv_mul_eq_one] at this
+
 end Lift
+
+/-- **Global hyperbolicity lifts to the cover of a quotient** (the converse of
+`FlatQuotient.globallyHyperbolic_quotient`): if the flat spacetime `M` is presented as `Γ\Ω`
+(`IsQuotientOf`) and is GH, then (a) the diamonds of `Ω` are compact and (b) for all `a, b ∈ Ω`
+only finitely many `g ∈ Γ` have `a ≤_Ω g b`. Classical (a covering of a GH spacetime is GH; the
+lifts of the causal curves from `π a` to `π b` stay in a compact set of `Ω`). Not proved: see the
+`sorry`. -/
+theorem cover_gh_of_isQuotientOf {M : FlatSpacetime.{v} d} {Γ : Subgroup (isom d)}
+    {Ω : Opens (Minkowski d)} [Invariant Γ Ω] (hq : IsQuotientOf M Γ Ω) (hM : GH M) :
+    (∀ a b : Ω, IsCompact ((flatCausality d Ω).diamond ⊤ a b)) ∧
+      ∀ a b : Ω, {g : Γ | (flatCausality d Ω).le ⊤ a (g • b)}.Finite := by
+  sorry -- SORRY(rem:5.3): GH lifts along the covering π : Ω → M. Classical route: the chains from π a to π b stay in the compact J_M(π a, π b) and, M being strongly causal (GloballyHyperbolic.stronglyCausal), have uniformly bounded length for an auxiliary Riemannian metric (a limit-curve argument), so their lifts from a (exists_lift_le, sheet by sheet) stay in a compact K ⊆ Ω. Then (b): every g with a ≤_Ω g b has g b ∈ K, finitely many by the proper discontinuity of the deck action (derivable from the covering; freeness is smul_left_injective_of_isCoveringMap); (a): J_Ω(a, b) ⊆ K, and its closedness is the same limit-curve step (lifting a convergent family of chains). The length bound / limit-curve theorem for ETT chains is absent from the library; Barbot's route (t ∘ q a proper time function, l.1801–1804) needs Geroch (iii)⇒(i), a cited sorry in GerochEquiv
 
 end TwistedProduct
 
@@ -1200,14 +1295,47 @@ compact and (b) for all `x, y ∈ Ω` only finitely many `γ ∈ Γ` have `x ≤
 two hypotheses under which global hyperbolicity descends to a quotient (as in
 `FlatQuotient.globallyHyperbolic_quotient`); the descent itself is proved in
 `isCompact_diamond_of_isLTPData`. The instance `[Invariant Γ Ω]` (to let `Γ` act on `Ω`) is not
-an added hypothesis: it follows from `h.quotient` (`IsQuotientOf.invariant`). Not proved: see
-the `sorry`. -/
+an added hypothesis: it follows from `h.quotient` (`IsQuotientOf.invariant`). Proved from two
+tagged `sorry`s: GH lifts to the cover `W = ι⁻¹ Ω` of `M₁`
+(`TwistedProduct.cover_gh_of_isQuotientOf`), and the diamonds of `Ω = W × U^⊥` are closed
+(`AffineMinkEmbedding.isClosed_diamond_of_retract`); (a) is `isCompact_diamond_of_retract`;
+(b) maps `γ` to its restriction `g`, injectively
+(`TwistedProduct.smul_left_injective_of_isCoveringMap`), into the finite set of `W`. -/
 theorem cover_gh_of_isLTPData {B : FlatSpacetime.{u} d} {M₁ : FlatSpacetime.{v} d₁}
     {Γ : Subgroup (isom d)} {Ω : Opens (Minkowski d)} {ι : AffineMinkEmbedding d₁ d}
     [Invariant Γ Ω] (h : IsLTPData B M₁ Γ Ω ι) (hM : GH M₁) :
     (∀ x z : Ω, IsCompact ((flatCausality d Ω).diamond ⊤ x z)) ∧
       ∀ x y : Ω, {γ : Γ | (flatCausality d Ω).le ⊤ x (γ • y)}.Finite := by
-  sorry -- SORRY(rem:5.3): cover level. (a) J_Ω(x, z) lies in J_{𝐌ⁿ}(x, z) (compact) ∩ q⁻¹ J_{ι⁻¹Ω}(q x, q z) (retract_le_of_le), but its closedness in Ω, the compactness of J_{ι⁻¹Ω} (GH of the cover ι⁻¹Ω of M₁), and (b) the finiteness of {γ ∈ Γ | x ≤_Ω γ y} (through the retraction, the same finiteness in the cover ι⁻¹Ω of M₁) all need the converse of retract_le_of_le — a relation a ≤ a' of ι⁻¹Ω lifts to p ≤_Ω p' over it when the U^⊥-displacement is at most the Lorentzian length of a causal chain from a to a' in ι⁻¹Ω — i.e. the time separation of ι⁻¹Ω and its upper semicontinuity / attainment on a GH set (Avez–Seifert), plus the GH of a cover of a GH flat spacetime; both absent from the library. Barbot's route (t ∘ q a proper time function, l.1801–1804) needs Geroch (iii)⇒(i), a cited sorry in GerochEquiv
+  haveI : Invariant (ι.restrictGroup Γ) (ι.preimageOpens Ω) := h.quotient_base.invariant
+  obtain ⟨hW, hWfin⟩ := TwistedProduct.cover_gh_of_isQuotientOf h.quotient_base hM
+  refine ⟨ι.isCompact_diamond_of_retract h.orthochronous h.perp_invariant hW, fun x y => ?_⟩
+  -- (b): `γ ↦ g` (`γ` restricts to `g`) maps the set into the finite one of `W = ι⁻¹ Ω`
+  -- (`retract_le_of_le`, `retract_smul`), injectively (freeness at the point `ι (q x)` of `Ω`)
+  obtain ⟨π, hcov, -, -, hfib⟩ := h.quotient.quot
+  have hr : ∀ γ : Γ, ∃ g : isom d₁, ι.Restricts γ g := fun γ => h.restricts γ γ.2
+  let r : Γ → ι.restrictGroup Γ := fun γ =>
+    ⟨Classical.choose (hr γ), γ, γ.2, Classical.choose_spec (hr γ)⟩
+  have hmem : ∀ p : Ω, ι.retract p ∈ ι.preimageOpens Ω := fun p =>
+    (ι.mem_iff_retract_mem h.perp_invariant).1 p.2
+  let a : ι.preimageOpens Ω := ⟨ι.retract x, hmem x⟩
+  let b : ι.preimageOpens Ω := ⟨ι.retract y, hmem y⟩
+  refine Set.Finite.of_injOn (f := r) ?_ ?_ (hWfin a b)
+  · intro γ hγ
+    have hm : (minkowski d).le Ω x (γ • y) :=
+      (flat_le_top_subtype_iff Ω x (γ • y)).1 hγ
+    have hq := ι.retract_le_of_le h.orthochronous h.perp_invariant hm
+    show (flatCausality d₁ (ι.preimageOpens Ω)).le ⊤ a (r γ • b)
+    rw [flat_le_top_subtype_iff]
+    show (minkowski d₁).le _ (ι.retract x) (Classical.choose (hr γ) • ι.retract y)
+    rw [← (Classical.choose_spec (hr γ)).retract_smul]
+    exact hq
+  · intro γ _ γ' _ hγγ'
+    have hg : Classical.choose (hr γ) = Classical.choose (hr γ') := congrArg Subtype.val hγγ'
+    let P : Ω := ⟨ι (ι.retract x), hmem x⟩
+    refine TwistedProduct.smul_left_injective_of_isCoveringMap hcov hfib (P := P) ?_
+    apply Subtype.ext
+    show (γ : isom d) • ι (ι.retract x) = (γ' : isom d) • ι (ι.retract x)
+    rw [← Classical.choose_spec (hr γ), ← Classical.choose_spec (hr γ'), hg]
 
 /-- **Rem 5.3, causal half, compact diamonds** (l.1800–1805): the diamonds of a linear twisted
 product over a GH flat spacetime are compact. Proved from the cover-level statement
@@ -1252,7 +1380,8 @@ theorem isCompact_diamond_of_isLTPData {B : FlatSpacetime.{u} d} {M₁ : FlatSpa
 
 /-- **Rem 5.3, causal half** (l.1800–1805): a linear twisted product over a GH flat spacetime is
 GH. Causality is proved (`isCausal_of_isLTPData`); compactness of diamonds is
-`isCompact_diamond_of_isLTPData`, proved down to the cover-level `cover_gh_of_isLTPData`. -/
+`isCompact_diamond_of_isLTPData`, proved down to the cover-level `cover_gh_of_isLTPData`, itself
+proved from `TwistedProduct.cover_gh_of_isQuotientOf` and `isClosed_diamond_of_retract`. -/
 theorem gh_of_isLTPOver {B : FlatSpacetime.{u} d} {M₁ : FlatSpacetime.{v} d₁}
     (h : IsLTPOver B M₁) (hM : GH M₁) : GH B := by
   obtain ⟨Γ, Ω, ι, hd⟩ := h

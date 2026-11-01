@@ -24,7 +24,12 @@ marked**: both rest on tagged `sorry`s (here and upstream) and on named external
 * Prose: [11.i] absolute maximality (`maxi`, l.3563–3679): `amgh_of_isTranslationSpacetime`,
   `amgh_of_isMisnerSpacetime` (F1's nonzero boost is in `IsMisnerSpacetime`, G2),
   `amgh_of_isCHCentralExtension`, and G1 + G3 for the unipotent family
-  (`exists_absMax_unipotent_ltp`); [11.ii] (l.3573–3581): `surjective_of_mgh_cauchyCompact` (G8);
+  (`exists_absMax_unipotent_ltp`). **Proved, no `sorry`:** the lifting of an isometric embedding
+  to the universal covers with rigidity (`exists_lift_of_isQuotientOf`, l.3586–3599), its end for
+  `Ω₀ = 𝐌ⁿ` (`surjective_of_isQuotientOf_top`, `absMax_of_isTranslationSpacetime`, l.3616–3618:
+  translation spacetimes are absolutely maximal among **all** flat targets), GH of the models in
+  the `IsQuotientOf` form (`gh_of_isQuotientOf`, `gh_of_isTranslationSpacetime`,
+  `gh_of_isQuotientOf_misnerWedge`); [11.ii] (l.3573–3581): `surjective_of_mgh_cauchyCompact` (G8);
   Rem 2.3 `clomax` corrected (DEC-44, l.571–578): `absMax_of_cauchyCompact_of_mgh`, through lemma K
   (`Causality.isCauchySurface_of_isLocallyCauchyTwoSided`) under its named hypotheses
   (`FlatLemmaKData`); G9 (l.3542–3548): `cauclo_from_embedding`.
@@ -66,14 +71,15 @@ dimensions: Barbot's `n` is `d + 1`. The Misner and unipotent families live in
 | paper hypothesis | here |
 |---|---|
 | A: `M` Cauchy-complete GH flat | ✓ carried: `GH M` (ETT's) + `IsCauchyComplete d M` (CauchyComplete's metric notion, DEC-35; Lean ≥ paper) |
-| A, B: "any dimension" (l.388, l.411) | ⚠ strengthened: `1 ≤ d` (Barbot's `n ≥ 2`), added in `barbot_A`, `barbot_A₀` and `barbot_B` (not in BARBOT-THEOREMS §2's B signature); used to write `d = d' + 1` in the Misner branch. For `d = 0` (`𝐌¹`) the statement is not attempted |
-| A/B: external group theory (Benoist, Bieberbach, Auslander–Carrière–Dal'bo, Carrière–Dal'bo, cited) | ⚠ strengthened: named hypotheses bundled in `BarbotExternals d` (DEC-36): `BenoistNoLox k`, `BieberbachI (ℝᵏ)` (`k ≤ d + 1`), `AuslanderCarriereDalbo k`, `MaxUnipotentSubspace k` for `k ≤ d` |
+| A, B: "any dimension" (l.388, l.411) | ✓ carried: every `d`, `d = 0` (`𝐌¹`) included. The Misner branch, which needs `d = d' + 1`, is unreachable at `d = 0`: nothing is loxodromic there (`not_isHyperbolic_zero`: `IsHyperbolic` asks `minkQ e₁ = 1`, and `minkQ (t, x) = −t²` in `Minkowski 0`) |
+| A/B: external group theory (Benoist, Bieberbach, Auslander–Carrière–Dal'bo, Carrière–Dal'bo, cited) | ⚠ strengthened: named hypotheses bundled in `BarbotExternals d` (DEC-36): `BenoistNoLox k`, `BieberbachI (ℝᵏ)` (`k ≤ d + 1`), `AuslanderCarriereDalbo k`, `MaxUnipotentSubspace k` for `k ≤ d`. Non-vacuity: `barbotExternals_zero` (the bundle at `d = 0`, from the components' witnesses), so Theorem A's hypotheses are jointly satisfiable (`barbot_A_hypotheses_zero`: the bundle, GH and Cauchy-completeness of `𝐌¹`). For `d ≥ 1` the bundle is consistent on the cited literature only (Bieberbach in `ℝ^{k ≥ 2}`, Benoist, Auslander–Carrière–Dal'bo, Carrière–Dal'bo); no component is trivially true or false (each has a not-trivially-true witness in `Externals`/`Bieberbach`; `AuslanderCarriereDalbo`'s `DiscreteTopology Γ` is read in `isomTopology`, not in the discrete topology) |
 | B: `M` maximal Cauchy-compact GH | ✓ carried: `GH M`, `CauchyCompact M`, `MGH M` |
 | B: π₁ finitely generated ⇒ family (a) (DEC-44, Selberg) | ⚠ strengthened: `SelbergLemma (Minkowski d)` (named external) |
 | B: "closed spacelike hypersurfaces are Cauchy" (l.3537–3540, asserted) | ⚠ strengthened: lemma K's named data `FlatLemmaKData` on **every** GH flat target of dimension `d` (DEC-44): tarentin, causal arc-connectedness, `J^±(p) ≠ {p}`, `CurvesExtend`, a chronal causal flow, an acausal Cauchy surface. The non-vacuity witness `flatLemmaKData_minkowskiSpace` is **pointwise** (one instance, `𝐌ⁿ`); the universal form `∀ N, GH N → FlatLemmaKData N` is true by standard GH facts (Geroch / Bernal–Sánchez for the acausal Cauchy surface, a complete timelike flow), not certified here |
 | Rem 2.3: CGH ⇒ AMGH | ⚠ corrected (DEC-44): GH + Cauchy-compact + **MGH** ⇒ `AbsMax (fun _ => True)` |
 | §11.3 equality: `M` absolutely maximal, `M(S)` a GH spacetime of the class | ✓ carried, `P` parametric (DEC-45): `AbsMax P M`, `GH B`, `P B`, `IsQuotientOf B Γ Ω`, `𝒟` injective, `range 𝒟 ⊆ Ω` |
-| universes | targets of `AbsMax` are flat spacetimes of the same universe (`FlatSpacetime.{u}`); the models, `M'` and `B` are in `Type` (`FlatSpacetime.{0}`), as upstream |
+| universes | targets of `AbsMax` are flat spacetimes of the same universe (`FlatSpacetime.{u}`); the models, `M'` and `B` are in `Type` (`FlatSpacetime.{0}`), as upstream. A Type-0 cover, base and model is a stronger conclusion, not a weaker one. The one place the universe matters is `AMGH (CauchyCompleteClass d₁) M₁` at `.{0}`: `AbsMax.{0}` is Barbot's absolute maximality against Type-0 targets; every second-countable flat spacetime has an isometric copy in Type 0 (`Shrink` and transport of structure; not proved here), so for the paper's manifolds nothing is lost |
+| the four (A) / three (B) families | `IsTranslationSpacetime` and `IsMisnerSpacetime` have inhabitation witnesses (`isTranslationSpacetime_quotient`, `misner_example`); `IsCHCentralExtension`, `IsCHTorusProduct`, `IsCauchyHyperbolic` have none in the library, and `IsUnipotentSpacetime` only with trivial `Γ` (Examples' SCOPE). An empty disjunct would not make A vacuous, but would make the corresponding upstream case theorem unprovable. Family (b) (`IsCHCentralExtensionOf`, Loxodromic, Def 4.18 l.1212–1214) asks "no global fixed point", not "nonelementary": it admits elementary groups with a loxodromic element (e.g. infinite dihedral), so A's fourth disjunct is slightly broader than BARBOT-THEOREMS §1 (A's conclusion slightly weaker than R1 as drafted); faithful to Def 4.18, and the Misner disjunct covers that case up to finite index |
 
 ## SCOPE (disclosed)
 
@@ -95,29 +101,34 @@ dimensions: Barbot's `n` is `d + 1`. The Misner and unipotent families live in
   namespace rule), so its full name is `Causal.Flat.UniversalCover.exists_deck_apply_eq` and dot
   notation on the ported `Causal.UniversalCover` does not find it; it is called by full name.
 * **Assembly, proved here (no `sorry` of their own):** `barbot_A₀` (bridge → developing pair →
-  case split loxodromic / not → §9, §10 → the finite cover), `barbot_A` (A₀ + [11.i] + G1/G3),
+  case split loxodromic / not → §9, §10 → the finite cover; at `d = 0` the elementary loxodromic
+  branch is refuted by `not_isHyperbolic_zero`), `barbot_A` (A₀ + [11.i] + G1/G3),
   `barbot_B` (A₀ + G9 + Rem 2.3 corrected + [11.ii]), `caseOutput` and its three branches,
   `absMax_of_cauchyCompact_of_mgh` (Rem 2.3 corrected, from lemma K's proved form),
   `surjective_of_mgh_cauchyCompact` ([11.ii], G8), `equality_of_absMax`,
-  `range_eq_omegaS_of_absMax`, the bridge connection.
+  `range_eq_omegaS_of_absMax`, the bridge connection; and the [11.i] infrastructure
+  `exists_lift_of_isQuotientOf`, `surjective_of_isQuotientOf_top`,
+  `absMax_of_isTranslationSpacetime`, `gh_of_isQuotientOf`, `gh_of_isTranslationSpacetime`,
+  `gh_of_isQuotientOf_misnerWedge`, `globallyHyperbolic_of_isIsometricEmbedding_of_surjective`,
+  and the non-vacuity witnesses `barbotExternals_zero`, `barbot_A_hypotheses_zero`.
 * **Sorries in this file (each tagged with its obstruction):** `nonloxodromic_parabolic_convex`
   (Nonloxodromic's parabolic export omits the convexity of its `Ω`, which tameness needs: a
   finding for that file), `exists_finiteCover_tameEmbedding` (the intermediate cover
-  `ρ⁻¹(Γ'')\M̃` and π₁ of the quotients), `amgh_of_isTranslationSpacetime`,
-  `amgh_of_isMisnerSpacetime`, `amgh_of_isCHCentralExtension` ([11.i], the lifting argument; GH
-  and Cauchy-completeness of the models), `exists_absMax_unipotent_ltp` (G1 + G3),
+  `ρ⁻¹(Γ'')\M̃` and π₁ of the quotients), `amgh_of_isTranslationSpacetime` (Cauchy-completeness
+  of the model only: its GH and absolute maximality are proved), `amgh_of_isMisnerSpacetime` (GH
+  proved on the future wedge; the past wedge's GH, Cauchy-completeness, and the end of the lifting
+  argument — Theorem A₀ on the target and the limit sets), `amgh_of_isCHCentralExtension` (GH of
+  the constructed quotient, Cauchy-completeness, the end of the lifting argument), `exists_absMax_unipotent_ltp` (G1 + G3),
   `isLocallyCauchyTwoSided_image` (an embedded acausal compact Cauchy surface is locally Cauchy
   and two-sided in the target: lemma K's input), `isCauchyComplete_of_cauchyCompact` (smoothing
   of a topological Cauchy surface), `cauclo_from_embedding` (G9, the passage (b) → (a), finite
   covers of maximal CGH spacetimes).
-* **Upstream sorries** reached by `barbot_A` / `barbot_B` (`#print axioms`, REPORT.json): from
+* **Upstream sorries** reached by `barbot_A` / `barbot_B` (re-derived 2026-11-01 from
+  `#print axioms` and the transitive closure of declarations whose own body uses `sorryAx`; the
+  other agents of this run are closing some of them, so re-derive at graduation): from
   CauchyComplete `isCoveringMap_projAlong_comp`, `bcor_quoiso`, `exists_splitting_of_isCauchySurface`;
   from Nonloxodromic `nonloxodromic_elliptic`, `exists_timelike_fixed_of_elliptic_of_null`; from
-  Loxodromic `loxo_elementary_misner`, `loxo_generic_centralExtension`; and those beneath them.
-* **Build note.** At the time of writing `Flat.Loxodromic` does not compile (its section
-  Uniformization lacks `[T2Space M]`, now required by Develop's `bprop_danom`); this file was
-  typechecked against a private copy with that one binder added. The declarations used here are
-  outside that section.
+  Loxodromic `loxo_elementary_misner`, `loxo_generic_centralExtension`.
 * **Not attempted:** the corollary on closed Cauchy hypersurfaces (finitely covered by
   `Tᵏ × closed hyperbolic manifold`, l.383–386): the library has no notion of a closed hyperbolic
   manifold.
@@ -127,7 +138,12 @@ dimensions: Barbot's `n` is `d + 1`. The Misner and unipotent families live in
   from (i)" (l.3578) also needs that a finite cover of a maximal CGH spacetime is maximal, which the
   paper does not state (used in `cauclo_from_embedding`). (3) [11.i]'s proof applies Theorem A to the
   target `N` (l.3588–3590): the layering A₀ → (i) → A (G3) is what makes that non-circular; here
-  `barbot_A₀` carries the embedding and (i) is stated after it.
+  `barbot_A₀` carries the embedding and (i) is stated after it. (4) For translation spacetimes
+  [11.i]'s proof does not need Theorem A on the target (l.3586–3590, l.3616–3618): the lift of
+  `f ∘ π : 𝐌ⁿ → N` to `Ñ` composed with `𝒟_N` is a global isometry, so its inverse is a global
+  section of `𝒟_N`, whose range is clopen; translation spacetimes are absolutely maximal among
+  **all** flat targets, GH or not (`absMax_of_isTranslationSpacetime`), and every local isometry
+  out of them is onto.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Barbot campaign,
 wave 5, package WP-34e-Classification.
@@ -191,6 +207,19 @@ theorem BarbotExternals.mono {d₁ : ℕ} (h : BarbotExternals d) (h₁ : d₁ �
     BarbotExternals d₁ :=
   ⟨fun k hk => h.benoist k (hk.trans h₁), fun k hk => h.bieberbach k (by omega),
     fun k hk => h.auslander k (hk.trans h₁), fun k hk => h.unipotent k (hk.trans h₁)⟩
+
+/-- **Non-vacuity of the bundle** (kb/0012, DEC-36): in dimension `0` (`𝐌¹`) every component of
+`BarbotExternals` holds, from the components' own witnesses in `Externals` and `Bieberbach`. For
+`d ≥ 1` the bundle is consistent on the cited literature only (Bieberbach in `ℝ^{k ≥ 2}`, Benoist,
+Auslander–Carrière–Dal'bo, Carrière–Dal'bo). -/
+theorem barbotExternals_zero : BarbotExternals 0 :=
+  ⟨fun k hk => by obtain rfl : k = 0 := by omega
+                  exact benoistNoLox_zero,
+    fun k hk => bieberbachI_of_finrank_le_one (by simp; omega),
+    fun k hk => by obtain rfl : k = 0 := by omega
+                   exact auslanderCarriereDalbo_zero,
+    fun k hk => by obtain rfl : k = 0 := by omega
+                   exact maxUnipotentSubspace_zero⟩
 
 /-- **Lemma K's named data on a flat spacetime** (`CausalScaffold.CompactCauchy`, DEC-44): the
 hypotheses of its proved form `isCauchySurface_of_isLocallyCauchyTwoSided` beyond GH, with the
@@ -345,19 +374,30 @@ theorem caseOutput_misner {d' : ℕ} {M : Type*} [TopologicalSpace M]
   exact ⟨Γ', hle, hidx, _, (bprop_danom hpair hcaus h).2, convex_omegaS_of_developsCC hpair h, B,
     hB', d₁ + 1, by omega, M₁, Or.inr (Or.inl hM₁), hltp⟩
 
+/-- **Nothing is hyperbolic in `𝐌¹`**: `IsHyperbolic` asks a unit spacelike `e₁`
+(`minkQ e₁ = 1`), and in `Minkowski 0` every vector has `minkQ (t, x) = −t² ≤ 0`. -/
+theorem not_isHyperbolic_zero (A : Minkowski 0 ≃ₗ[ℝ] Minkowski 0) : ¬IsHyperbolic A := by
+  rintro ⟨e₀, e₁, ζ, -, -, h1, -⟩
+  have hx : e₁.2 = 0 := Subsingleton.elim _ _
+  simp [minkQ, hx] at h1
+  nlinarith [sq_nonneg e₁.1]
+
 /-- **The case split** (BARBOT.md's spine, step 1.4): from (CC′) and the externals, loxodromic or
 not (Isometries' classes), then elementary or not. -/
 theorem caseOutput {M : Type*} [TopologicalSpace M] [ChartedSpace (Minkowski d) M]
     [HasGroupoid M (gxGroupoid (isom d) (Minkowski d))] [T2Space M] {x₀ : M}
     {D : UniversalCover M x₀ → Minkowski d} {ρ : Deck (UniversalCover.proj M x₀) →* isom d}
-    {S : Set M} (hE : BarbotExternals d) (hd : 1 ≤ d) (hpair : IsDevelopingPair x₀ D ρ)
+    {S : Set M} (hE : BarbotExternals d) (hpair : IsDevelopingPair x₀ D ρ)
     (hcaus : (flatCausality d M).IsCausal) (h : DevelopsCC x₀ D S) : CaseOutput D ρ := by
   by_cases hlox : ∃ γ ∈ ρ.range, IsLoxodromic (linOf γ)
   · by_cases hne : IsNonelementary ρ.range
     · exact caseOutput_generic (hE.auslander d le_rfl) (hE.unipotent d le_rfl) hpair hcaus h
         hlox hne
-    · obtain ⟨d', rfl⟩ : ∃ d', d = d' + 1 := ⟨d - 1, by omega⟩
-      exact caseOutput_misner hpair hcaus h hlox hne
+    · cases d with
+      | zero => exact absurd hlox (by
+          rintro ⟨γ, -, R, H, -, -, -, hH, -⟩
+          exact not_isHyperbolic_zero H hH)
+      | succ d' => exact caseOutput_misner hpair hcaus h hlox hne
   · push Not at hlox
     exact caseOutput_nonloxodromic (hE.benoist d le_rfl) hE.bieberbach hpair hcaus h hlox
 
@@ -386,45 +426,280 @@ def EmbeddingOutput (M : FlatSpacetime.{u} d) : Prop :=
         ∃ d₁ : ℕ, d₁ ≤ d ∧ ∃ M₁ : FlatSpacetime.{0} d₁, IsModelA M₁ ∧ IsLTPOver B M₁
 
 /-- **Theorem A₀ (G3's first layer: the embedding, without absolute maximality).** Under the
-externals (`BarbotExternals d`), a Cauchy-complete GH flat spacetime `M` (`1 ≤ d`) has a finite
+externals (`BarbotExternals d`), a Cauchy-complete GH flat spacetime `M` (any `d`) has a finite
 cover `M'` which tamely embeds in an LTP `B` over a model `M₁` (translation, Misner, unipotent,
 family (b)) of dimension `≤ d`. Proof: the bridge (`exists_developsCC_of_isCauchyComplete'`), the
 case split (`caseOutput`), the finite cover (`exists_finiteCover_tameEmbedding`). -/
-theorem barbot_A₀ (hE : BarbotExternals d) (M : FlatSpacetime.{u} d) (hd : 1 ≤ d) (hGH : GH M)
+theorem barbot_A₀ (hE : BarbotExternals d) (M : FlatSpacetime.{u} d) (hGH : GH M)
     (hCC : IsCauchyComplete d M) : EmbeddingOutput M := by
   obtain ⟨x₀⟩ : Nonempty M := inferInstance
   obtain ⟨D, ρ, hpair⟩ := exists_isDevelopingPair (d := d) x₀
   obtain ⟨S, h⟩ := exists_developsCC_of_isCauchyComplete' M hGH hCC hpair
   have hinj := (bprop_danom hpair hGH.1 h).1
   obtain ⟨Γ, hle, hidx, Ω, hDΩ, hcv, B, hB, d₁, hd₁, M₁, hM₁, hltp⟩ :=
-    caseOutput hE hd hpair hGH.1 h
+    caseOutput hE hpair hGH.1 h
   obtain ⟨M', p, hp, f, hf⟩ :=
     exists_finiteCover_tameEmbedding M hpair hinj hle hidx hDΩ hcv hB
   exact ⟨M', p, hp, Γ, Ω, hcv, B, hB, ⟨f, hf⟩, d₁, hd₁, M₁, hM₁, hltp⟩
+
+/-- **Theorem A's hypotheses are jointly satisfiable** (kb/0012): at `d = 0`, `𝐌¹` carries every
+hypothesis of `barbot_A₀` / `barbot_A` (the externals bundle, GH, Cauchy-completeness). -/
+theorem barbot_A_hypotheses_zero : BarbotExternals 0 ∧ GH (FlatSpacetime.minkowskiSpace 0) ∧
+    IsCauchyComplete 0 (FlatSpacetime.minkowskiSpace 0) :=
+  ⟨barbotExternals_zero, gh_minkowskiSpace, isCauchyComplete_minkowskiSpace⟩
+
+/-! ## §4′ Local isometries: cancellation, descent, transport of GH -/
+
+section Equality
+
+variable {X M N : Type*} [TopologicalSpace X] [ChartedSpace (Minkowski d) X]
+  [TopologicalSpace M] [ChartedSpace (Minkowski d) M]
+  [TopologicalSpace N] [ChartedSpace (Minkowski d) N]
+
+/-- **Cancelling an isometric embedding on the left**: if `h ∘ f` is a local isometry and `h` an
+isometric embedding, `f` is a local isometry. -/
+theorem IsLocalIsometry.of_comp_left {f : X → M} {h : M → N} (hh : IsIsometricEmbedding d h)
+    (hhf : IsLocalIsometry d (h ∘ f)) : IsLocalIsometry d f := by
+  have hfc : Continuous f := hh.isOpenEmbedding.isEmbedding.continuous_iff.2 hhf.1
+  obtain ⟨-, hhf'⟩ := isLocalIsometry_iff_eventually.1 hhf
+  obtain ⟨-, hh'⟩ := isLocalIsometry_iff_eventually.1 hh.1
+  refine isLocalIsometry_iff_eventually.2 ⟨hfc, fun x => ?_⟩
+  obtain ⟨g₁, hg₁⟩ := hhf' x
+  obtain ⟨g₂, hg₂⟩ := hh' (f x)
+  refine ⟨g₂⁻¹ * g₁, ?_⟩
+  filter_upwards [hg₁, hfc.continuousAt.eventually hg₂] with y h1 h2
+  simp only [comp_apply] at h1
+  rw [mul_smul, ← h1, h2, inv_smul_smul]
+
+/-- **Descending a local isometry along a surjective local isometry**: if `q` is a surjective
+local isometry and `f ∘ q` a local isometry, `f` is a local isometry. -/
+theorem IsLocalIsometry.of_comp_right {q : X → M} {f : M → N} (hq : IsLocalIsometry d q)
+    (hqs : Surjective q) (hfq : IsLocalIsometry d (f ∘ q)) : IsLocalIsometry d f := by
+  have hfc : Continuous f :=
+    (hq.isOpenMap.isQuotientMap hq.continuous hqs).continuous_iff.2 hfq.1
+  obtain ⟨-, hfq'⟩ := isLocalIsometry_iff_eventually.1 hfq
+  obtain ⟨-, hq'⟩ := isLocalIsometry_iff_eventually.1 hq
+  refine isLocalIsometry_iff_eventually.2 ⟨hfc, fun x => ?_⟩
+  obtain ⟨z, rfl⟩ := hqs x
+  obtain ⟨g₁, hg₁⟩ := hfq' z
+  obtain ⟨g₂, hg₂⟩ := hq' z
+  refine ⟨g₁ * g₂⁻¹, ?_⟩
+  have hA : {w | chartAt (Minkowski d) (f (q z)) (f (q w)) =
+      (g₁ * g₂⁻¹) • chartAt (Minkowski d) (q z) (q w)} ∈ 𝓝 z := by
+    filter_upwards [hg₁, hg₂] with w h1 h2
+    simp only [comp_apply] at h1
+    rw [h1, h2, mul_smul, inv_smul_smul]
+  filter_upwards [hq.isOpenMap.image_mem_nhds hA] with y hy
+  obtain ⟨w, hw, rfl⟩ := hy
+  exact hw
+
+end Equality
+
+/-- **GH transports along a surjective isometric embedding** (an isometric homeomorphism):
+the causal relations correspond (`IsIsometricEmbedding.rel_iff` on `⊤`), so causality and the
+compactness of the diamonds `J(f p, f q) = f(J(p, q))` transport. -/
+theorem globallyHyperbolic_of_isIsometricEmbedding_of_surjective {M N : Type*} [TopologicalSpace M]
+    [ChartedSpace (Minkowski d) M] [HasGroupoid M (gxGroupoid (isom d) (Minkowski d))]
+    [TopologicalSpace N] [ChartedSpace (Minkowski d) N]
+    [HasGroupoid N (gxGroupoid (isom d) (Minkowski d))] {f : M → N}
+    (hf : IsIsometricEmbedding d f) (hs : Surjective f)
+    (hM : (flatCausality d M).GloballyHyperbolic) : (flatCausality d N).GloballyHyperbolic := by
+  have hrel : ∀ x y : M, (flatCausality d M).le ⊤ x y ↔ (flatCausality d N).le ⊤ (f x) (f y) :=
+    fun x y => (hf.rel_iff ⊤ ⊤ (by rw [Opens.coe_top, Opens.coe_top, image_univ, hs.range_eq])
+      x y).1
+  refine ⟨fun x y hxy hyx => ?_, fun p q => ?_⟩
+  · obtain ⟨x, rfl⟩ := hs x
+    obtain ⟨y, rfl⟩ := hs y
+    exact congrArg f (hM.1 ((hrel x y).2 hxy) ((hrel y x).2 hyx))
+  · obtain ⟨p, rfl⟩ := hs p
+    obtain ⟨q, rfl⟩ := hs q
+    have heq : (flatCausality d N).diamond ⊤ (f p) (f q) =
+        f '' (flatCausality d M).diamond ⊤ p q := by
+      ext z
+      obtain ⟨z, rfl⟩ := hs z
+      rw [Causality.mem_diamond]
+      constructor
+      · rintro ⟨h1, h2⟩
+        exact ⟨z, Causality.mem_diamond.2 ⟨(hrel p z).2 h1, (hrel z q).2 h2⟩, rfl⟩
+      · rintro ⟨w, hw, hwz⟩
+        obtain ⟨h1, h2⟩ := Causality.mem_diamond.1 hw
+        rw [← hwz]
+        exact ⟨(hrel p w).1 h1, (hrel w q).1 h2⟩
+    rw [heq]
+    exact (hM.2 p q).image hf.1.continuous
+
+/-- **GH of a quotient, in the `IsQuotientOf` form.** The homeomorphism `Φ : Γ\Ω ≃ₜ M₁` of
+`IsQuotientOf.exists_homeomorph` is a local isometry (it descends `π = Φ ∘ proj`,
+`IsLocalIsometry.of_comp_right`), so ETT's GH of the constructed quotient transports. -/
+theorem gh_of_isQuotientOf {M₁ : FlatSpacetime.{u} d} {Γ : Subgroup (isom d)}
+    {Ω : Opens (Minkowski d)} [FlatQuotient.Invariant Γ Ω] [ProperlyDiscontinuousSMul Γ Ω]
+    [IsCancelSMul Γ Ω] (hq : IsQuotientOf M₁ Γ Ω)
+    (hGH : (flatCausality d (FlatQuotient Γ Ω)).GloballyHyperbolic) : GH M₁ := by
+  obtain ⟨π, -, hπl, Φ, hΦ⟩ := hq.exists_homeomorph
+  have hΦπ : Φ ∘ FlatQuotient.proj _ _ = π := funext hΦ
+  have hΦl : IsLocalIsometry d Φ :=
+    IsLocalIsometry.of_comp_right (FlatQuotient.isLocalIsometry_proj _ _)
+      (FlatQuotient.proj_surjective _ _) (by rw [hΦπ]; exact hπl)
+  exact globallyHyperbolic_of_isIsometricEmbedding_of_surjective ⟨hΦl, Φ.injective⟩ Φ.surjective
+    hGH
+
+/-- **[11.i], (1) for translation spacetimes: GH in the `IsQuotientOf` form** (Examples'
+`gh_translation_frame`, through `gh_of_isQuotientOf`). -/
+theorem gh_of_isTranslationSpacetime {M₁ : FlatSpacetime.{u} d} (h : IsTranslationSpacetime M₁) :
+    GH M₁ := by
+  obtain ⟨φ, Λ, hΛ, hq⟩ := h
+  exact gh_of_isQuotientOf hq (gh_translation_frame φ Λ)
+
+/-- **[11.i], (1) for Misner spacetimes on the future wedge: GH in the `IsQuotientOf` form**
+(Examples' `gh_misner_frame`, through `gh_of_isQuotientOf`). -/
+theorem gh_of_isQuotientOf_misnerWedge {e : ℕ} {M₁ : FlatSpacetime.{u} (e + 1)}
+    {φ : isom (e + 1)} {L : AddSubgroup (ℝ × EuclideanSpace ℝ (Fin e))} [BallFinite L]
+    (hq : IsQuotientOf M₁ (frameConj φ (misnerGroup L)) (isomImage φ (misnerWedge e))) :
+    GH M₁ :=
+  gh_of_isQuotientOf hq (gh_misner_frame φ)
 
 /-! ## §5 [11.i] Absolute maximality of the models (G1, G2, G3) -/
 
 section AbsMax
 
-/-- **[11.i], translation spacetimes are AMGH** (l.3616–3618: `Ω₀ = 𝐌ⁿ`). -/
+/-- **Cancelling a local isometry on the left, for a continuous map**: if `h ∘ f` and `h` are
+local isometries and `f` is continuous, `f` is a local isometry. -/
+theorem IsLocalIsometry.of_comp_left_of_continuous {X M N : Type*} [TopologicalSpace X]
+    [ChartedSpace (Minkowski d) X] [TopologicalSpace M] [ChartedSpace (Minkowski d) M]
+    [TopologicalSpace N] [ChartedSpace (Minkowski d) N] {f : X → M} {h : M → N}
+    (hh : IsLocalIsometry d h) (hfc : Continuous f) (hhf : IsLocalIsometry d (h ∘ f)) :
+    IsLocalIsometry d f := by
+  obtain ⟨-, hhf'⟩ := isLocalIsometry_iff_eventually.1 hhf
+  obtain ⟨-, hh'⟩ := isLocalIsometry_iff_eventually.1 hh
+  refine isLocalIsometry_iff_eventually.2 ⟨hfc, fun x => ?_⟩
+  obtain ⟨g₁, hg₁⟩ := hhf' x
+  obtain ⟨g₂, hg₂⟩ := hh' (f x)
+  refine ⟨g₂⁻¹ * g₁, ?_⟩
+  filter_upwards [hg₁, hfc.continuousAt.eventually hg₂] with y h1 h2
+  simp only [comp_apply] at h1
+  rw [mul_smul, ← h1, h2, inv_smul_smul]
+
+/-- **[11.i], the lifting of an isometric embedding to the universal covers, and rigidity**
+(l.3586–3599, the first step of Barbot's argument for every family). Let `M₁ = Γ\Ω` with `Ω`
+convex and nonempty, `f : M₁ → N` a local isometry, and `(𝒟, ρ)` a developing pair of `N`. Then
+`f ∘ π : Ω → N` lifts to the universal cover `Ñ` as a local isometry `F` (`Ω` simply connected;
+mathlib's `existsUnique_continuousMap_lifts`), and `𝒟 ∘ F` is the restriction to `Ω` of one
+`g ∈ Isom(𝐌ⁿ)` (rigidity, `Port.Developing`'s `developing_unique_of_preconnected` through
+`IsGXMorphism.eq_of_eventuallyEq`). No injectivity of `f` and no hypothesis on `N` is used. -/
+theorem exists_lift_of_isQuotientOf {M₁ : Type*} [TopologicalSpace M₁]
+    [ChartedSpace (Minkowski d) M₁] {Γ : Subgroup (isom d)} {Ω : Opens (Minkowski d)}
+    (hq : IsQuotientOf M₁ Γ Ω) (hcv : Convex ℝ (Ω : Set (Minkowski d)))
+    (hne : (Ω : Set (Minkowski d)).Nonempty) (N : FlatSpacetime.{u} d) {f : M₁ → N}
+    (hf : IsLocalIsometry d f) {y₀ : N} {D : UniversalCover N y₀ → Minkowski d}
+    {ρ : Deck (UniversalCover.proj N y₀) →* isom d} (hpair : IsDevelopingPair y₀ D ρ) :
+    ∃ π : Ω → M₁, IsLocalIsometry d π ∧ Surjective π ∧
+      (∀ p q : Ω, π p = π q ↔ ∃ γ ∈ Γ, γ • (p : Minkowski d) = q) ∧
+      ∃ F : Ω → UniversalCover N y₀,
+        (letI := flatCoverChartedSpace d N y₀; IsLocalIsometry d F) ∧
+        UniversalCover.proj N y₀ ∘ F = f ∘ π ∧ ∃ g : isom d, ∀ p : Ω, D (F p) = g • (p : Minkowski d) := by
+  obtain ⟨π, -, hπl, hπs, hfib⟩ := hq.quot
+  refine ⟨π, hπl, hπs, hfib, ?_⟩
+  letI := flatCoverChartedSpace d N y₀
+  haveI := hasGroupoid_flatCover (d := d) N y₀
+  haveI := locPathConnectedSpace_of_flat d N
+  haveI : PathConnectedSpace N := pathConnectedSpace_iff_connectedSpace.2 inferInstance
+  haveI : Nonempty Ω := hne.to_subtype
+  haveI : ContractibleSpace Ω := hcv.contractibleSpace hne
+  haveI : LocPathConnectedSpace Ω := locPathConnectedSpace_of_flat d Ω
+  haveI : PreconnectedSpace Ω :=
+    Subtype.preconnectedSpace hcv.isPreconnected
+  have hcov := isCoveringMap_flatCover_proj d N y₀
+  have hpl : IsLocalIsometry d (UniversalCover.proj N y₀) := isLocalIsometry_flatCover_proj y₀
+  have hDl : IsLocalIsometry d D := isLocalIsometry_iff_eventually.2 ⟨hpair.gx.1, hpair.gx.2⟩
+  have hφl : IsLocalIsometry d (f ∘ π) := hf.comp hπl
+  obtain ⟨a₀⟩ := (inferInstance : Nonempty Ω)
+  obtain ⟨e₀, he₀⟩ := UniversalCover.proj_surjective (y₀ := y₀) (f (π a₀))
+  obtain ⟨F, ⟨-, hF⟩, -⟩ := hcov.existsUnique_continuousMap_lifts ⟨f ∘ π, hφl.continuous⟩
+    a₀ e₀ he₀
+  have hFl : IsLocalIsometry d F :=
+    IsLocalIsometry.of_comp_left_of_continuous hpl F.continuous (by rw [hF]; exact hφl)
+  have hvl : IsLocalIsometry d (Subtype.val : Ω → Minkowski d) :=
+    (isIsometricEmbedding_subtype_val Ω).1
+  obtain ⟨g, hg, -⟩ := developing_unique_of_preconnected (G := isom d) (X := Minkowski d)
+    (N := Ω) (D := Subtype.val) (D' := D ∘ F)
+    (isLocalIsometry_iff_eventually.1 hvl |> fun h' => ⟨h'.1, h'.2⟩)
+    (isLocalIsometry_iff_eventually.1 (hDl.comp hFl) |> fun h' => ⟨h'.1, h'.2⟩)
+  exact ⟨F, hFl, hF, g, hg⟩
+
+/-- **[11.i] for a quotient of all of `𝐌ⁿ`, the end of the lifting argument** (l.3616–3618:
+`Ω₀ = 𝐌ⁿ`). Every local isometry from a quotient `Γ\𝐌ⁿ` into a flat spacetime `N` is onto — no
+global hyperbolicity, completeness or injectivity is needed. Proof: by
+`exists_lift_of_isQuotientOf`, `f ∘ π` lifts to `F : 𝐌ⁿ → Ñ` with `𝒟_N ∘ F = g`; so
+`σ := F ∘ g⁻¹` is a global section of `𝒟_N`, whose range `{z | σ (𝒟_N z) = z}` is closed (`Ñ`
+Hausdorff) and open (`F` is open): it is `Ñ`, which is connected. -/
+theorem surjective_of_isQuotientOf_top {M₁ : Type*} [TopologicalSpace M₁]
+    [ChartedSpace (Minkowski d) M₁] {Γ : Subgroup (isom d)} (hq : IsQuotientOf M₁ Γ ⊤)
+    (N : FlatSpacetime.{u} d) {f : M₁ → N} (hf : IsLocalIsometry d f) : Surjective f := by
+  obtain ⟨y₀⟩ : Nonempty N := inferInstance
+  obtain ⟨D, ρ, hpair⟩ := exists_isDevelopingPair (d := d) y₀
+  obtain ⟨π, -, -, -, F, hFl, hF, g, hg⟩ := exists_lift_of_isQuotientOf hq (by simpa using
+    convex_univ) (by simp) N hf hpair
+  letI := flatCoverChartedSpace d N y₀
+  haveI : T2Space (UniversalCover N y₀) := t2Space_universalCover N y₀
+  have hDl : IsLocalIsometry d D := isLocalIsometry_iff_eventually.2 ⟨hpair.gx.1, hpair.gx.2⟩
+  set σ : Minkowski d → UniversalCover N y₀ := fun x => F ⟨g⁻¹ • x, trivial⟩
+  have hσc : Continuous σ :=
+    hFl.continuous.comp ((continuous_const_smul _).subtype_mk _)
+  have hrange : range F = {z | σ (D z) = z} := by
+    ext z
+    constructor
+    · rintro ⟨w, rfl⟩
+      change F ⟨g⁻¹ • D (F w), trivial⟩ = F w
+      congr 1
+      exact Subtype.ext (by rw [hg w, inv_smul_smul])
+    · intro hz
+      exact ⟨_, hz⟩
+  have hclopen : IsClopen (range F) :=
+    ⟨by rw [hrange]; exact isClosed_eq (hσc.comp hDl.continuous) continuous_id,
+      hFl.isOpenMap.isOpen_range⟩
+  have huniv := hclopen.eq_univ ⟨F ⟨0, trivial⟩, mem_range_self _⟩
+  haveI := locPathConnectedSpace_of_flat d N
+  haveI : PathConnectedSpace N := pathConnectedSpace_iff_connectedSpace.2 inferInstance
+  intro z
+  obtain ⟨yt, rfl⟩ := UniversalCover.proj_surjective (y₀ := y₀) z
+  obtain ⟨w, hw⟩ : yt ∈ range F := huniv ▸ mem_univ yt
+  exact ⟨π w, by rw [← hw]; exact (congrFun hF w).symm⟩
+
+/-- **[11.i], translation spacetimes are absolutely maximal among all flat targets** (l.3616–3618),
+the lifting argument (`surjective_of_isQuotientOf_top`). -/
+theorem absMax_of_isTranslationSpacetime (P : FlatSpacetime.{u} d → Prop)
+    {M₁ : FlatSpacetime.{u} d} (h : IsTranslationSpacetime M₁) : AbsMax P M₁ := by
+  obtain ⟨φ, Λ, hΛ, hq⟩ := h
+  exact fun N _ _ f hf => surjective_of_isQuotientOf_top hq N hf.1
+
+/-- **[11.i], translation spacetimes are AMGH** (l.3616–3618: `Ω₀ = 𝐌ⁿ`): GH
+(`gh_of_isTranslationSpacetime`) and absolute maximality (`absMax_of_isTranslationSpacetime`, the
+lifting argument, against all targets) are proved; Cauchy-completeness of the model is the one
+tagged `sorry`. -/
 theorem amgh_of_isTranslationSpacetime {d₁ : ℕ} (_hE : BarbotExternals d₁)
     (M₁ : FlatSpacetime.{0} d₁) (_h : IsTranslationSpacetime M₁) :
     AMGH (CauchyCompleteClass d₁) M₁ := by
-  sorry -- SORRY([11.i], translation): (1) GH of `M₁ = Γ\𝐌ⁿ` in the `IsQuotientOf` form: Examples proves it for the constructed quotient (`gh_translation_frame`); the transfer along `IsQuotientOf.exists_homeomorph` needs the homeomorphism `Φ` to be a local isometry (charts), not stated; (2) Cauchy-completeness of `M₁` (Examples SCOPE: "completeness not stated"; the slice `t = 0` descends to a flat torus-like quotient, complete); (3) absolute maximality, l.3586–3618: for `f : M₁ → N` (`N` GH Cauchy-complete), Theorem A₀ (`barbot_A₀`, in dimension `d₁`) applied to `N` gives a finite cover `N'` tamely embedding in a model `M₂ = Γ₂\Ω₂`; the lift of `M₁' → M₂` is an isometric embedding `𝐌ⁿ = Ω₀ → Ω₂`, which extends to a global isometry (rigidity: a `(G,X)`-morphism of connected open sets is the restriction of one `g ∈ Isom`, `Port.Developing.IsGXMorphism.eq_of_eventuallyEq`), so `Ω₂ = 𝐌ⁿ` and `f` is onto. The lifting of embeddings along finite covers and the identification of `Γ₀'` with a subgroup of `Γ₂` are not formalized
+  refine ⟨gh_of_isTranslationSpacetime _h, ?_, absMax_of_isTranslationSpacetime _ _h⟩
+  sorry -- SORRY([11.i], translation, Cauchy-completeness): `IsCauchyComplete d₁ M₁` asks a Cauchy surface of `M₁ = Γ\𝐌ⁿ` (`Γ = φ(horizGroup Λ)φ⁻¹`), spacelike Lipschitz in charts, whose glued induced length (`InducedLengthSpace`) is complete and induces the subspace topology. The candidate is the image of the slice `φ{t = 0}` (Examples' `isCauchySurface_translation`, for the constructed quotient; transported along `Φ` of `IsQuotientOf.exists_homeomorph`, a local isometry by `IsLocalIsometry.of_comp_right` as in `gh_of_isTranslationSpacetime`). Missing: (1) spacelike-Lipschitzness of a projected slice in the charts of a quotient (charts of `Γ\Ω` are local inverses of `proj`, `c = 0` in them); (2) the induced length of the quotient slice `Λ\ℝᵈ` as the quotient of the Euclidean length of `ℝᵈ` (the length is defined by gluing chart lengths over paths; no descent lemma along a covering of the surface); (3) its completeness (a quotient of a complete length space by a discrete group of isometries; Examples SCOPE: completeness not stated)
 
 /-- **[11.i], Misner spacetimes are AMGH** (l.3620–3626), with F1's nonzero boost (G2), which is a
 field of `IsMisnerSpacetime`. -/
 theorem amgh_of_isMisnerSpacetime {e : ℕ} (_hE : BarbotExternals (e + 1))
     (M₁ : FlatSpacetime.{0} (e + 1)) (_h : IsMisnerSpacetime M₁) :
     AMGH (CauchyCompleteClass (e + 1)) M₁ := by
-  sorry -- SORRY([11.i], Misner): (1) GH of `M₁` in the `IsQuotientOf` form (Examples' `gh_misner`, `gh_frameConj` for the constructed quotients; transfer as for translation spacetimes); (2) Cauchy-completeness (Examples SCOPE: not stated); (3) absolute maximality, l.3620–3626: after Theorem A₀ on the target and the lift to `Ω₀ ⊆ Ω₂`, `Γ₂ ⊇ Γ₀'` contains the loxodromic element of nonzero boost (G2 = F1: without it the wedge sits non-surjectively in `𝐌ⁿ`), and `Ω₂ ⊆ Ω₀` because both are the regular domains of the repulsive fixed points of the loxodromic elements (Loxodromic's `limitSetJ`, `blem_loxregular`; the monotonicity `Λ(Γ₀') ⊆ Λ(Γ₂)` ⇒ `Ω(Λ(Γ₂)) ⊆ Ω(Λ(Γ₀'))`, and `Λ(Γ₀') = Λ(Γ₀)` for a finite-index subgroup). None of the lifting steps is formalized
+  refine ⟨?_, ?_, ?_⟩
+  · obtain ⟨φ, L, hL, -, hq | hq⟩ := _h
+    · exact gh_of_isQuotientOf_misnerWedge hq
+    · sorry -- SORRY([11.i], Misner, GH of the past wedge): `gh_of_isQuotientOf` reduces it to ETT's GH of the constructed quotient `φΓφ⁻¹\φ{xy < 0, x < 0}`; Examples proves GH for the future wedge only (`gh_misner_frame`, through `misnerRegular`, a regular-domain presentation of `misnerWedge`), and has no regular-domain (past) presentation of `misnerWedgePast` to feed `gh_frameConj`. Missing: the past analogue of `misnerRegular` (time reversal of the regular domain), or a `dual` transport of `gh_frameConj`
+  · sorry -- SORRY([11.i], Misner, Cauchy-completeness): `IsCauchyComplete` of `M₁`: the level sets of the cosmological time of the wedge descend to acausal Cauchy surfaces (Examples' `isCauchySurface_misner`, constructed quotient), but their spacelike-Lipschitz property in the quotient charts and the completeness of the induced length of the quotient hyperboloid-like slice are not in the library (Examples SCOPE: completeness not stated)
+  · sorry -- SORRY([11.i], Misner, absolute maximality, l.3620–3626): the first step is proved, `exists_lift_of_isQuotientOf` (the wedge is convex): for `f : M₁ → N` (`N` GH Cauchy-complete) and a developing pair `(𝒟_N, ρ_N)`, `f ∘ π` lifts to `F : Ω₀ → Ñ` with `𝒟_N ∘ F = g|Ω₀`. Missing: (1) Theorem A₀ on the target (`barbot_A₀` in dimension `e + 1`, resting on upstream sorries) to know `𝒟_N` injective with image `Ω₂`, a regular domain of the loxodromic holonomy `Γ₂ = ρ_N(Deck)` (§10); (2) `F` equivariant for `Γ₀ → Γ₂`, `γ ↦ g γ g⁻¹` (the lift of the deck action of `M₁` along `f`; uniqueness of lifts), so `Γ₂ ⊇ gΓ₀g⁻¹` contains the loxodromic element of nonzero boost (G2 = F1); (3) `Ω₂ ⊆ gΩ₀`, because both are regular domains of the repulsive fixed points of the loxodromic elements (Loxodromic's `limitSetJ`, `blem_loxregular`; `Λ(Γ₀) ⊆ Λ(Γ₂)` ⇒ `Ω(Λ(Γ₂)) ⊆ Ω(Λ(Γ₀))`); then `𝒟_N(Ñ) = gΩ₀`, so `F` is onto and `f` is onto
 
 /-- **[11.i], family (b) is AMGH** (l.3620–3626, "twisted products of Cauchy-hyperbolic spacetimes
 by flat torii", in the central-extension form, DEC-44). -/
 theorem amgh_of_isCHCentralExtension {d₁ : ℕ} (_hE : BarbotExternals d₁)
     (M₁ : FlatSpacetime.{0} d₁) (_h : IsCHCentralExtension M₁) :
     AMGH (CauchyCompleteClass d₁) M₁ := by
-  sorry -- SORRY([11.i], family (b)): as for Misner spacetimes: GH of `Γ\Ω^±(Λ(Γ))` in the `IsQuotientOf` form (Loxodromic's `bcor_loxo_proper`, future case, itself resting on `loxo_properlyDiscontinuous`), Cauchy-completeness (`loxo_cauchyComplete`, a sorry), and the lifting argument of l.3620–3626 with `Ω₂ = Ω^±(Λ(Γ₂)) ⊆ Ω^±(Λ(Γ₀')) = Ω₀`; also the sign: a future `Ω₀` cannot sit in a past `Ω₂` (both contain a complete future, resp. past, timelike ray). Not formalized
+  sorry -- SORRY([11.i], family (b)): as for Misner spacetimes. (1) GH: `gh_of_isQuotientOf` (proved here) reduces GH of `M₁` in the `IsQuotientOf` form to ETT's GH of the constructed quotient `Γ\p⁻¹Ω^±(Λ(Γ))`, which needs Loxodromic's `bcor_loxo_proper` (future case; resting on `loxo_properlyDiscontinuous`) and the instances `ProperlyDiscontinuousSMul Γ Ω`, `IsCancelSMul Γ Ω` for the central-extension domain — not exported by Loxodromic for `IsCHCentralExtension`; (2) Cauchy-completeness (`loxo_cauchyComplete`, a sorry upstream); (3) absolute maximality, l.3620–3626: the lift and rigidity are proved (`exists_lift_of_isQuotientOf`, the domain `p⁻¹Ω^±(Λ)` being convex); missing are Theorem A₀ on the target (upstream sorries), the equivariance `Γ₀ → Γ₂` of the lift, and `Ω₂ = Ω^±(Λ(Γ₂)) ⊆ gΩ^±(Λ(Γ₀))` (monotonicity of regular domains in the limit set); also the sign: a future `Ω₀` cannot sit in a past `Ω₂` (both contain a complete future, resp. past, timelike ray)
 
 /-- **[11.i] for the unipotent family, with G3** (l.3570–3571, l.3629–3679; G1 is the unbounded
 case l.3678–3679): an LTP `B` over a unipotent spacetime `M₁`, presented as the quotient of a
@@ -436,7 +711,7 @@ theorem exists_absMax_unipotent_ltp {e : ℕ} (_hE : BarbotExternals d) (_he : e
     ∃ M₂ : FlatSpacetime.{0} (e + 1), IsUnipotentSpacetime M₂ ∧
       AMGH (CauchyCompleteClass (e + 1)) M₂ ∧
       ∃ B₂ : FlatSpacetime.{0} d, IsLTPOver B₂ M₂ ∧ ∃ g : B → B₂, IsTameEmbedding d g := by
-  sorry -- SORRY([11.i] unipotent, G1 + G3): proved upstream: Prop 9.3 (`bprop_limites`, both infinite-extremity cases) and Prop 9.5 (`bprop_extension`, bounded and one-sided: G1 at the level of 9.3/9.5). Missing: (1) G1 proper — the maximal interval `]−Y₊, Y₊[` (`Y₊` the inverse operator norm of `T₀`, l.3657–3664) and its one-sided analogues, the abelian group `A` of `T̂` and the component `Ω = π₁⁻¹(]−Y₊, Y₊[)` of `Ω(A)` (`IsUnipComponent`), so `M₁ ↪ M₂ := Γ₀\Ω` tamely (`quotInclusion`, convex domains); (2) `M₂` absolutely maximal (l.3668–3676: Theorem A₀ on the target, the lift `Ω ⊆ Ω₁`, and 9.3 for `Γ₁ ⊇ Γ₀` forcing `π₁(Ω₁) ⊆ ]−Y₊, Y₊[`), its GH (Examples' `barbotGH_unip`; ETT's GH of the quotient not done upstream) and Cauchy-completeness (`unipcomplet`, l.744–753); (3) G3 — the LTP over `M₂`: `B₂ := Γ\(Ω_{M₂} ⊕ U^⊥)` with `Γ` restricting to `Γ_U` on `U` (`IsLTPData.restricts`), `B ↪ B₂` induced by the inclusion `Ω ⊆ Ω_{M₂} ⊕ U^⊥`; this needs the LTP data of `hB` to be the convex presentation `hq` (both are existential; the statement is nevertheless true as written: `hq`'s `Ω` is convex, and IsLTPOver's domain `Ω_{M₁} ⊕ U^⊥` is convex too (a unipotent slab plus a subspace), so both are simply connected developing images of the universal cover of `B` and agree up to an element of `Isom(𝐌ⁿ)` — uniqueness of the developing pair, not derived here)
+  sorry -- SORRY([11.i] unipotent, G1 + G3): proved upstream: Prop 9.3 (`bprop_limites`, both infinite-extremity cases) and Prop 9.5 (`bprop_extension`, bounded and one-sided: G1 at the level of 9.3/9.5). Missing: (1) G1 proper — the maximal interval `]−Y₊, Y₊[` (`Y₊` the inverse operator norm of `T₀`, l.3657–3664) and its one-sided analogues, the abelian group `A` of `T̂` and the component `Ω = π₁⁻¹(]−Y₊, Y₊[)` of `Ω(A)` (`IsUnipComponent`), so `M₁ ↪ M₂ := Γ₀\Ω` tamely (`quotInclusion`, convex domains); (2) `M₂` absolutely maximal (l.3668–3676: Theorem A₀ on the target, the lift `Ω ⊆ Ω₁` — its first step, the lift to `Ñ` with rigidity, is `exists_lift_of_isQuotientOf`, proved here — and 9.3 for `Γ₁ ⊇ Γ₀` forcing `π₁(Ω₁) ⊆ ]−Y₊, Y₊[`), its GH (Examples' `barbotGH_unip`; ETT's GH of the quotient not done upstream) and Cauchy-completeness (`unipcomplet`, l.744–753); (3) G3 — the LTP over `M₂`: `B₂ := Γ\(Ω_{M₂} ⊕ U^⊥)` with `Γ` restricting to `Γ_U` on `U` (`IsLTPData.restricts`), `B ↪ B₂` induced by the inclusion `Ω ⊆ Ω_{M₂} ⊕ U^⊥`; this needs the LTP data of `hB` to be the convex presentation `hq` (both are existential; the statement is nevertheless true as written: `hq`'s `Ω` is convex, and IsLTPOver's domain `Ω_{M₁} ⊕ U^⊥` is convex too (a unipotent slab plus a subspace), so both are simply connected developing images of the universal cover of `B` and agree up to an element of `Isom(𝐌ⁿ)` — uniqueness of the developing pair, not derived here)
 
 end AbsMax
 
@@ -446,12 +721,12 @@ end AbsMax
 central-extension form (b) (DEC-44), absolute maximality for Cauchy-complete targets (DEC-45 (α)).
 Under the named externals `BarbotExternals d` — `BenoistNoLox`, `BieberbachI`,
 `AuslanderCarriereDalbo`, `MaxUnipotentSubspace` in every dimension `≤ d` (DEC-36) — every GH,
-Cauchy-complete (`IsCauchyComplete`, DEC-35) flat spacetime `M` with `1 ≤ d` has a finite cover
+Cauchy-complete (`IsCauchyComplete`, DEC-35) flat spacetime `M`, in any dimension, has a finite cover
 `M'` which tamely embeds in a linear twisted product `B` over a model `M₁` of dimension `d₁ ≤ d`,
 `M₁` AMGH in its dimension and a translation, Misner, unipotent spacetime or of family (b).
 Assembled from `barbot_A₀` (the embedding), [11.i] (`amgh_of_*`) and G1 + G3
 (`exists_absMax_unipotent_ltp`); partial (SCOPE). -/
-theorem barbot_A (hE : BarbotExternals d) (M : FlatSpacetime.{u} d) (hd : 1 ≤ d) (hGH : GH M)
+theorem barbot_A (hE : BarbotExternals d) (M : FlatSpacetime.{u} d) (hGH : GH M)
     (hCC : IsCauchyComplete d M) :
     ∃ (M' : FlatSpacetime.{0} d) (p : M' → M), IsFiniteCover d p ∧
       ∃ (d₁ : ℕ) (_ : d₁ ≤ d) (M₁ : FlatSpacetime.{0} d₁) (B : FlatSpacetime.{0} d),
@@ -460,7 +735,7 @@ theorem barbot_A (hE : BarbotExternals d) (M : FlatSpacetime.{u} d) (hd : 1 ≤ 
           IsCHCentralExtension M₁) ∧
         IsLTPOver B M₁ ∧ ∃ f : M' → B, IsTameEmbedding d f := by
   obtain ⟨M', p, hp, Γ, Ω, hcv, B, hq, ⟨f, hf⟩, d₁, hd₁, M₁, hM₁, hltp⟩ :=
-    barbot_A₀ hE M hd hGH hCC
+    barbot_A₀ hE M hGH hCC
   have hE₁ := hE.mono hd₁
   rcases hM₁ with hT | hMis | hU | hCH
   · exact ⟨M', p, hp, d₁, hd₁, M₁, B, amgh_of_isTranslationSpacetime hE₁ M₁ hT, Or.inl hT, hltp,
@@ -557,27 +832,27 @@ theorem cauclo_from_embedding (_hSel : SelbergLemma (Minkowski d))
     (_hM₁ : IsModelA M₁) (_hltp : IsLTPOver B M₁) :
     ∃ (M₁' : FlatSpacetime.{0} d) (q : M₁' → M), IsFiniteCover d q ∧ IsModelB M₁' ∧ GH M₁' ∧
       CauchyCompact M₁' ∧ MGH M₁' := by
-  sorry -- SORRY(bthm:cauclo, G9): the chain of l.3536–3548 and (ii). (1) `M'` is GH, Cauchy-compact and maximal: GH and Cauchy-compactness lift along the finite cover `p` (preimage of a compact Cauchy surface; diamonds), maximality of a finite cover of a maximal CGH spacetime is not stated by the paper (finding 2: a Cauchy extension of `M'` should descend, through the uniqueness of the maximal Cauchy development, gx's CBG, DEC-29); (2) `B` is GH (Prop 8.10/Cor 10.3 for the quotient of `Ω`; not exported by the case theorems); then [11.ii] (`surjective_of_mgh_cauchyCompact`, proved here) makes `f` onto, so `f` is a bijective local isometry `M' ≃ B` and `p ∘ f⁻¹ : B → M` a finite cover; (3) G9: in a Cauchy-compact `B`, an LTP over `M₁` is trivial (`d₁ = d`, `U = 𝐌ⁿ`: a nontrivial `U^⊥` makes every Cauchy surface non-compact, `Ω + U^⊥ = Ω`, l.3542–3543), and `M₁` is not unipotent (l.744: `Ω` a slab between null hyperplanes, no compact Cauchy surface of the quotient, l.3546–3548); (4) family (b) to (a): `π₁(M)` finitely generated (compact Cauchy surface; not in the library) and Selberg (`hSel`, `exists_finiteIndex_torsionFree_linOf`) give a further finite cover with torsion-free linear part, i.e. `IsCHTorusProduct`; (5) the composition of finite covers (finite fibres; not in mathlib at this pin)
+  sorry -- SORRY(bthm:cauclo, G9): the chain of l.3536–3548 and (ii). (1) `M'` is GH, Cauchy-compact and maximal: GH and Cauchy-compactness lift along the finite cover `p` (preimage of a compact Cauchy surface; diamonds), maximality of a finite cover of a maximal CGH spacetime is not stated by the paper (finding 2: a Cauchy extension of `M'` should descend, through the uniqueness of the maximal Cauchy development, gx's CBG, DEC-29); (2) `B` is GH (Prop 8.10/Cor 10.3 for the quotient of `Ω`; not exported by the case theorems, and the statement does not receive `GH B`: it waits on GH of `B`, which follows from `B` being an LTP over a family member once the families' GH in the `IsQuotientOf` form is available — `gh_of_isQuotientOf` here, the same infrastructure the `amgh_*` lemmas lack — and GH transfers along LTPs); then [11.ii] (`surjective_of_mgh_cauchyCompact`, proved here) makes `f` onto, so `f` is a bijective local isometry `M' ≃ B` and `p ∘ f⁻¹ : B → M` a finite cover; (3) G9: in a Cauchy-compact `B`, an LTP over `M₁` is trivial (`d₁ = d`, `U = 𝐌ⁿ`: a nontrivial `U^⊥` makes every Cauchy surface non-compact, `Ω + U^⊥ = Ω`, l.3542–3543), and `M₁` is not unipotent (l.744: `Ω` a slab between null hyperplanes, no compact Cauchy surface of the quotient, l.3546–3548); (4) family (b) to (a): `π₁(M)` finitely generated (compact Cauchy surface; not in the library) and Selberg (`hSel`, `exists_finiteIndex_torsionFree_linOf`) give a further finite cover with torsion-free linear part, i.e. `IsCHTorusProduct`; (5) the composition of finite covers (finite fibres; not in mathlib at this pin)
 
 /-- **Theorem B** (`bthm:cauclo`, l.353–359), "standard" read as Cauchy-compact Cauchy-hyperbolic
 (G4), the torus product in its literal form (a) (π₁ finitely generated, Selberg, DEC-44). Under the
 named externals `BarbotExternals d`, `SelbergLemma (Minkowski d)` and lemma K's data
 `FlatLemmaKData` on every GH flat spacetime of dimension `d` (DEC-36, DEC-44), every maximal
-Cauchy-compact GH flat spacetime `M` (`1 ≤ d`) is finitely covered by an AMGH spacetime `M₁` which
+Cauchy-compact GH flat spacetime `M` (any `d`) is finitely covered by an AMGH spacetime `M₁` which
 is a translation spacetime, a Misner spacetime, or a Cauchy-compact twisted product (a) of a
 standard spacetime by a torus. Assembled from `barbot_A₀`, `cauclo_from_embedding` (G9),
 `isCauchyComplete_of_cauchyCompact` and Rem 2.3 corrected (`absMax_of_cauchyCompact_of_mgh`);
 partial (SCOPE). -/
 theorem barbot_B (hE : BarbotExternals d) (hSel : SelbergLemma (Minkowski d))
     (hK : ∀ N : FlatSpacetime.{0} d, GH N → FlatLemmaKData N) (M : FlatSpacetime.{u} d)
-    (hd : 1 ≤ d) (hGH : GH M) (hC : CauchyCompact M) (hM : MGH M) :
+    (hGH : GH M) (hC : CauchyCompact M) (hM : MGH M) :
     ∃ (M₁ : FlatSpacetime.{0} d) (p : M₁ → M), IsFiniteCover d p ∧
       AMGH (CauchyCompleteClass d) M₁ ∧
       (IsTranslationSpacetime M₁ ∨ IsMisnerFamily d M₁ ∨
         (IsCHTorusProduct M₁ ∧ CauchyCompact M₁)) := by
   have hCC := isCauchyComplete_of_cauchyCompact M hGH hC
   obtain ⟨M', p, hp, Γ, Ω, hcv, B, hq, ⟨f, hf⟩, d₁, hd₁, M₁, hM₁, hltp⟩ :=
-    barbot_A₀ hE M hd hGH hCC
+    barbot_A₀ hE M hGH hCC
   obtain ⟨M₁', q, hq', hmod, hGH', hC', hM'⟩ :=
     cauclo_from_embedding hSel hK M hGH hC hM hp hcv hq hf hd₁ hM₁ hltp
   exact ⟨M₁', q, hq', ⟨hGH', isCauchyComplete_of_cauchyCompact M₁' hGH' hC',
@@ -585,50 +860,6 @@ theorem barbot_B (hE : BarbotExternals d) (hSel : SelbergLemma (Minkowski d))
 
 /-! ## §9 The gx export: equality (§11.3) -/
 
-section Equality
-
-variable {X M N : Type*} [TopologicalSpace X] [ChartedSpace (Minkowski d) X]
-  [TopologicalSpace M] [ChartedSpace (Minkowski d) M]
-  [TopologicalSpace N] [ChartedSpace (Minkowski d) N]
-
-/-- **Cancelling an isometric embedding on the left**: if `h ∘ f` is a local isometry and `h` an
-isometric embedding, `f` is a local isometry. -/
-theorem IsLocalIsometry.of_comp_left {f : X → M} {h : M → N} (hh : IsIsometricEmbedding d h)
-    (hhf : IsLocalIsometry d (h ∘ f)) : IsLocalIsometry d f := by
-  have hfc : Continuous f := hh.isOpenEmbedding.isEmbedding.continuous_iff.2 hhf.1
-  obtain ⟨-, hhf'⟩ := isLocalIsometry_iff_eventually.1 hhf
-  obtain ⟨-, hh'⟩ := isLocalIsometry_iff_eventually.1 hh.1
-  refine isLocalIsometry_iff_eventually.2 ⟨hfc, fun x => ?_⟩
-  obtain ⟨g₁, hg₁⟩ := hhf' x
-  obtain ⟨g₂, hg₂⟩ := hh' (f x)
-  refine ⟨g₂⁻¹ * g₁, ?_⟩
-  filter_upwards [hg₁, hfc.continuousAt.eventually hg₂] with y h1 h2
-  simp only [comp_apply] at h1
-  rw [mul_smul, ← h1, h2, inv_smul_smul]
-
-/-- **Descending a local isometry along a surjective local isometry**: if `q` is a surjective
-local isometry and `f ∘ q` a local isometry, `f` is a local isometry. -/
-theorem IsLocalIsometry.of_comp_right {q : X → M} {f : M → N} (hq : IsLocalIsometry d q)
-    (hqs : Surjective q) (hfq : IsLocalIsometry d (f ∘ q)) : IsLocalIsometry d f := by
-  have hfc : Continuous f :=
-    (hq.isOpenMap.isQuotientMap hq.continuous hqs).continuous_iff.2 hfq.1
-  obtain ⟨-, hfq'⟩ := isLocalIsometry_iff_eventually.1 hfq
-  obtain ⟨-, hq'⟩ := isLocalIsometry_iff_eventually.1 hq
-  refine isLocalIsometry_iff_eventually.2 ⟨hfc, fun x => ?_⟩
-  obtain ⟨z, rfl⟩ := hqs x
-  obtain ⟨g₁, hg₁⟩ := hfq' z
-  obtain ⟨g₂, hg₂⟩ := hq' z
-  refine ⟨g₁ * g₂⁻¹, ?_⟩
-  have hA : {w | chartAt (Minkowski d) (f (q z)) (f (q w)) =
-      (g₁ * g₂⁻¹) • chartAt (Minkowski d) (q z) (q w)} ∈ 𝓝 z := by
-    filter_upwards [hg₁, hg₂] with w h1 h2
-    simp only [comp_apply] at h1
-    rw [h1, h2, mul_smul, inv_smul_smul]
-  filter_upwards [hq.isOpenMap.image_mem_nhds hA] with y hy
-  obtain ⟨w, hw, rfl⟩ := hy
-  exact hw
-
-end Equality
 
 /-- **The deck group acts transitively on the fibres** of the universal cover. -/
 theorem UniversalCover.exists_deck_apply_eq {Y : Type*} [TopologicalSpace Y] {y₀ : Y}

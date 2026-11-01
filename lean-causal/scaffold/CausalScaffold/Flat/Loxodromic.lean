@@ -24,9 +24,10 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
 * `bprop:U_timelike` — `GHFspace.tex:3347` (Prop 10.4), partial: the lightlike case
   (`not_isNonelementary_of_lightlike`) proved, the spacelike case a `sorry` (Cor 8.4).
 * `bprop:LU_discrete` — `GHFspace.tex:3368` (Prop 10.5), stated (`bprop_LU_discrete`, `sorry`).
-* `bprop:admlox` — `GHFspace.tex:1230` (Prop 4.17), partial: invariance in `𝒥` and minimality on
-  `𝒮` (`isomPenrose_image_limitSetJ_subset`, `fst_image_limitSetJ_subset`); minimality in `𝒥`
-  (`limitSetJ_subset`) a `sorry`.
+* `bprop:admlox` — `GHFspace.tex:1230` (Prop 4.17), partial (nonempty added, external
+  `LimitSetMinimal`; **no `sorry`**): invariance in `𝒥` (`isomPenrose_image_limitSetJ_subset`),
+  minimality on `𝒮` (`fst_image_limitSetJ_subset`) and in `𝒥` (`limitSetJ_subset`, through the
+  basin of repulsion `tendsto_isomPenrose_inv_pow`).
 * `bdef:definitioncauchyhyp` — `GHFspace.tex:1277` (Def 4.18), partial (readings):
   `IsCauchyHyperbolic`, `IsFutureAdmissible`, `IsPastAdmissible`, `IsAdmissible`.
 * Prose: [10.M] l.3235–3330 (`loxo_elementary_misner`, for a finite-index `Γ'`, `sorry`); [10.G] l.3333–3456
@@ -99,12 +100,13 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
 
 ## SCOPE (disclosed)
 
-* **Sorries (9)**: `blem_sanlox` (printed form), `loxo_properlyDiscontinuous`, `loxo_cauchyComplete`,
+* **Sorries (8)**: `blem_sanlox` (printed form), `loxo_properlyDiscontinuous`, `loxo_cauchyComplete`,
   `loxo_elementary_misner` ([10.M]), `bprop_U_timelike` (spacelike case), `bprop_LU_discrete`,
-  `loxo_generic_centralExtension`, `loxo_generic_torusProduct` ([10.G]), `limitSetJ_subset`
-  (4.17 in `𝒥`). Each names its obstruction. `blem_loxregular`, `interior_achronalDomain_eq_quadrants`,
-  `subset_UGamma_of_oneSided`, the proved [10.G] lemmas and the proved admlox lemmas
-  (`isomPenrose_image_limitSetJ_subset`, `fst_image_limitSetJ_subset`) use no `sorry`.
+  `loxo_generic_centralExtension`, `loxo_generic_torusProduct` ([10.G]). Each names its
+  obstruction. `blem_loxregular`, `interior_achronalDomain_eq_quadrants`,
+  `subset_UGamma_of_oneSided`, the proved [10.G] lemmas and all of `bprop:admlox`
+  (`isomPenrose_image_limitSetJ_subset`, `fst_image_limitSetJ_subset`, `limitSetJ_subset`) use no
+  `sorry`.
 * **Upstream.** Through `ccAction_of_developsCC` and `bprop_danom`, the gx exports inherit
   `Flat.Develop`'s two `sorry`s (`holonomy_proper`; Prop 8.12 step 1); `uniformization_*` add
   Cor 10.3's properness. Under a given `CCAction` (in `𝐌ⁿ`) Lemma 10.2 is sorry-free.
@@ -144,6 +146,12 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
   is elementary; but the direction of `U` contains the `(x, y)`-plane, so `Γ_U` is non-abelian, and
   no presentation as an LTP over a Misner spacetime (an abelian group) exists. `loxo_elementary_misner`
   is stated for a finite-index `Γ'` (DEC-43's R1).
+* **Prop 4.17's proof (l.1255–1266) needs less than it uses**: the basin of repulsion of the
+  repulsive point `x₀` of `γ` is all of `𝒥` off the fibre over the attractive point `v₁` of `γ`
+  (not only some `δ⁻¹(U)`, `tendsto_isomPenrose_inv_pow`), so no closure of `δ(Λ)` is needed: if
+  `Λ ⊆ δ⁻¹(v₁)`, then `{v₁}` is closed, nonempty and `L(Γ)`-invariant and the limit-set
+  minimality puts `v₀ ≠ v₁` in it. The `s`-coordinate converges because the elliptic part grows
+  linearly against the contraction `λᵏ` (`exists_abs_minkB_pow_smul_sub_le`).
 * **Prop 10.4's folklore is false as printed** (`Flat.Externals`' `not_abelianPairAsPrinted`); its
   lightlike case does not use it.
 
@@ -1781,13 +1789,239 @@ theorem fst_image_limitSetJ_subset (hL : LimitSetMinimal d) (hΓ : DiscreteTopol
   exact h1.trans (closure_minimal ((fst_image_loxRepSet_subset Γ).trans
     (hL _ hΓ hfix F hF hne hinv)) hF)
 
+/-- `minkQ` is positive semidefinite on the orthogonal of a nonzero null vector `n`
+(`minkQ_nonneg_of_null_orth`), so there `|⟨v | z⟩| ≤ (|v|² + |z|²)/2`. -/
+theorem abs_minkB_le_of_null_orth {n v z : Minkowski d} (hn : minkQ n = 0) (hn0 : n ≠ 0)
+    (hv : minkB n v = 0) (hz : minkB n z = 0) : |minkB v z| ≤ (minkQ v + minkQ z) / 2 := by
+  have h1 := (minkQ_nonneg_of_null_orth hn hn0 (w := v + z)
+    (by rw [minkB_add_right, hv, hz, add_zero])).1
+  have h2 := (minkQ_nonneg_of_null_orth hn hn0 (w := v - z)
+    (by rw [minkB_sub_right, hv, hz, sub_zero])).1
+  rw [minkQ_eq_minkB] at h1 h2
+  rw [minkQ_eq_minkB v, minkQ_eq_minkB z]
+  simp only [minkB_add_left, minkB_add_right, minkB_sub_left, minkB_sub_right] at h1 h2
+  rw [minkB_comm z v] at h1 h2
+  rw [abs_le]; constructor <;> linarith
+
+/-- The functional equation of `w` along `γ` makes `nullVec w.1` an eigenvector of every `L(γᵏ)`. -/
+theorem linOf_pow_nullVec_of_funEq {γ : isom d} {w : PenroseSphere d × ℝ} {c : ℝ} (hc : c ≠ 0)
+    (h : ∀ p, minkB (nullVec w.1) (γ • p) - w.2 = c⁻¹ * (minkB (nullVec w.1) p - w.2)) (k : ℕ) :
+    linOf (γ ^ k) (nullVec w.1) = c ^ k • nullVec w.1 :=
+  eigen_of_funEq (pow_ne_zero k hc) fun p => by
+    rw [IsRepulsiveFixedJ.iterate h k p, inv_pow]
+
+/-- Differences along `gᵏ` are moved by the linear part `L(gᵏ)`. -/
+theorem pow_smul_sub_pow_smul (g : isom d) (k : ℕ) (a b : Minkowski d) :
+    (g ^ k) • a - (g ^ k) • b = linOf (g ^ k) (a - b) := by
+  rw [smul_eq_lin_add, smul_eq_lin_add, map_sub]; abel
+
+/-- **The elliptic part grows at most linearly**: if `e` is orthogonal to the two null
+eigenvectors `nullVec w.1`, `nullVec w'.1` of `L(γ)` (two distinct null directions), then
+`⟨e | γᵏ q⟩ − ⟨e | q⟩` is `O(k)`: each step is `⟨e | L(γᵏ) z⟩` with `z ⊥ nullVec w.1`, bounded by
+`(|e|² + |z|²)/2` (`abs_minkB_le_of_null_orth`, `L(γᵏ)` preserving `minkQ` and `(nullVec w.1)^⊥`). -/
+theorem exists_abs_minkB_pow_smul_sub_le {γ : isom d} {w w' : PenroseSphere d × ℝ} {c c' : ℝ}
+    (hc : c ≠ 0) (hc' : c' ≠ 0)
+    (h : ∀ p, minkB (nullVec w.1) (γ • p) - w.2 = c⁻¹ * (minkB (nullVec w.1) p - w.2))
+    (h' : ∀ p, minkB (nullVec w'.1) (γ • p) - w'.2 = c'⁻¹ * (minkB (nullVec w'.1) p - w'.2))
+    (hD : minkB (nullVec w.1) (nullVec w'.1) ≠ 0)
+    {e : Minkowski d} (he : minkB (nullVec w.1) e = 0) (he' : minkB (nullVec w'.1) e = 0)
+    (q : Minkowski d) :
+    ∃ B : ℝ, ∀ k : ℕ, |minkB e ((γ ^ k) • q) - minkB e q| ≤ k * B := by
+  obtain ⟨z, β, hv, hz⟩ : ∃ z : Minkowski d, ∃ β : ℝ, γ • q - q = z + β • nullVec w'.1 ∧
+      minkB (nullVec w.1) z = 0 := by
+    refine ⟨γ • q - q - (minkB (nullVec w.1) (γ • q - q) / minkB (nullVec w.1) (nullVec w'.1)) •
+      nullVec w'.1, _, by abel, ?_⟩
+    rw [minkB_sub_right, minkB_smul_right, div_mul_cancel₀ _ hD, sub_self]
+  refine ⟨(minkQ e + minkQ z) / 2, fun k => ?_⟩
+  induction k with
+  | zero => simp
+  | succ k ih =>
+    have hstep : minkB e ((γ ^ (k + 1)) • q) - minkB e ((γ ^ k) • q) =
+        minkB e (linOf (γ ^ k) z) := by
+      rw [← minkB_sub_right, pow_succ, mul_smul, pow_smul_sub_pow_smul, hv, map_add, map_smul,
+        linOf_pow_nullVec_of_funEq hc' h' k, minkB_add_right, minkB_smul_right, minkB_smul_right,
+        minkB_comm e (nullVec w'.1), he', mul_zero, mul_zero, add_zero]
+    have hLz : minkB (nullVec w.1) (linOf (γ ^ k) z) = 0 := by
+      have h1 := lorentz.minkB_apply (linOf_mem (γ ^ k)) (nullVec w.1) z
+      rw [linOf_pow_nullVec_of_funEq hc h k, minkB_smul_left, hz] at h1
+      exact (mul_eq_zero.1 h1).resolve_left (pow_ne_zero k hc)
+    have hb := abs_minkB_le_of_null_orth (minkQ_nullVec w.1) (nullVec_ne_zero w.1) he hLz
+    rw [lorentz.minkQ_apply (linOf_mem (γ ^ k))] at hb
+    rw [← hstep] at hb
+    push_cast
+    rw [abs_le] at hb ih ⊢
+    constructor <;> nlinarith [hb.1, hb.2, ih.1, ih.2]
+
+
+/-- **The basin of repulsion in `𝒥`** (l.1255–1264): for a loxodromic `γ` with repulsive point
+`w` (and `w'` that of `γ⁻¹`), the negative iterates `γ⁻ᵏ x` of every `x ∈ 𝒥` off the fibre
+`δ⁻¹(w'.1)` converge to `w`. Proof: write `nullVec x.1 = a n₀ + b n₁ + e` with `n₀, n₁` the null
+eigenvectors and `e ⊥ n₀, n₁`, `a ≠ 0` exactly when `x.1 ≠ w'.1`; along `γᵏ`, the affine function
+`⟨nullVec x.1 | ·⟩ − x.2`, rescaled by `λᵏ`, converges to `a (⟨n₀ | ·⟩ − w.2)` (the `n₁` term is
+`O((λλ')ᵏ)`, the `e` term `O(kλᵏ)` by `exists_abs_minkB_pow_smul_sub_le`); the affine functions of
+`γ⁻ᵏ x` are its positive multiples normalised by `⟨nullVec · | (1,0)⟩ = −1`, so they converge to
+`⟨n₀ | ·⟩ − w.2`, which gives both coordinates (`‖u − v₀‖² = −2⟨nullVec u | nullVec v₀⟩`). -/
+theorem tendsto_isomPenrose_inv_pow {γ : isom d} {w w' x : PenroseSphere d × ℝ}
+    (hw : IsRepulsiveFixedJ γ w) (hw' : IsRepulsiveFixedJ γ⁻¹ w') (hx : x.1 ≠ w'.1) :
+    Tendsto (fun k : ℕ => isomPenrose (γ⁻¹ ^ k) x) atTop (𝓝 w) := by
+  have hne := hw.fst_ne hw'
+  obtain ⟨-, l, hl0, hl1, -, hf⟩ := hw
+  obtain ⟨-, l', hl0', hl1', -, hfi⟩ := hw'
+  have hf' : ∀ p, minkB (nullVec w'.1) (γ • p) - w'.2 = (l'⁻¹)⁻¹ * (minkB (nullVec w'.1) p - w'.2) :=
+    fun p => by rw [inv_inv]; exact funEq_of_inv hl0'.ne' hfi p
+  set n₀ := nullVec w.1 with hn₀
+  set n₁ := nullVec w'.1 with hn₁
+  set n := nullVec x.1 with hn
+  have hsub : ∀ {u u' : PenroseSphere d}, u ≠ u' → minkB (nullVec u) (nullVec u') ≠ 0 := by
+    intro u u' huu h0
+    rw [minkB_nullVec_nullVec] at h0
+    have : ‖(u : EuclideanSpace ℝ (Fin d)) - u'‖ = 0 := by
+      have : ‖(u : EuclideanSpace ℝ (Fin d)) - u'‖ ^ 2 = 0 := by linarith
+      exact pow_eq_zero_iff two_ne_zero |>.1 this
+    exact huu (Subtype.ext (sub_eq_zero.1 (norm_eq_zero.1 this)))
+  have hD : minkB n₀ n₁ ≠ 0 := hsub hne
+  have hxa : minkB n n₁ ≠ 0 := hsub hx
+  set a := minkB n n₁ / minkB n₀ n₁ with ha
+  set b := minkB n n₀ / minkB n₀ n₁ with hb
+  have ha0 : a ≠ 0 := div_ne_zero hxa hD
+  set e := n - a • n₀ - b • n₁ with he
+  have hq₀ : minkQ n₀ = 0 := minkQ_nullVec _
+  have hq₁ : minkQ n₁ = 0 := minkQ_nullVec _
+  have he₀ : minkB n₀ e = 0 := by
+    rw [he, minkB_sub_right, minkB_sub_right, minkB_smul_right, minkB_smul_right,
+      ← minkQ_eq_minkB, hq₀, hb, minkB_comm n₀ n]
+    field_simp; ring
+  have he₁ : minkB n₁ e = 0 := by
+    rw [he, minkB_sub_right, minkB_sub_right, minkB_smul_right, minkB_smul_right,
+      ← minkQ_eq_minkB n₁, hq₁, ha, minkB_comm n₁ n, minkB_comm n₁ n₀]
+    field_simp; ring
+  -- the rescaled affine function along the orbit
+  set Φ : ℕ → Minkowski d → ℝ := fun k q => l ^ k * (minkB n ((γ ^ k) • q) - x.2) with hΦ
+  have hdec : ∀ k q, Φ k q = a * (minkB n₀ q - w.2) + l ^ k * (a * w.2 + b * w'.2 - x.2) +
+      b * (l * l') ^ k * (minkB n₁ q - w'.2) + l ^ k * minkB e ((γ ^ k) • q) := by
+    intro k q
+    have hA : minkB n₀ ((γ ^ k) • q) = w.2 + (l ^ k)⁻¹ * (minkB n₀ q - w.2) := by
+      have := IsRepulsiveFixedJ.iterate hf k q; rw [inv_pow] at this; linarith
+    have hB : minkB n₁ ((γ ^ k) • q) = w'.2 + l' ^ k * (minkB n₁ q - w'.2) := by
+      have := IsRepulsiveFixedJ.iterate hf' k q; rw [inv_inv] at this; linarith
+    have hE : minkB e ((γ ^ k) • q) = minkB n ((γ ^ k) • q) - a * minkB n₀ ((γ ^ k) • q) -
+        b * minkB n₁ ((γ ^ k) • q) := by
+      rw [he, minkB_sub_left, minkB_sub_left, minkB_smul_left, minkB_smul_left]
+    simp only [hΦ]
+    rw [hE, hA, hB, mul_pow]
+    have : l ^ k ≠ 0 := pow_ne_zero k hl0.ne'
+    field_simp; ring
+  have hpow : Tendsto (fun k : ℕ => l ^ k) atTop (𝓝 0) :=
+    tendsto_pow_atTop_nhds_zero_of_lt_one hl0.le hl1
+  have hpow' : Tendsto (fun k : ℕ => (l * l') ^ k) atTop (𝓝 0) :=
+    tendsto_pow_atTop_nhds_zero_of_lt_one (mul_nonneg hl0.le hl0'.le)
+      (mul_lt_one_of_nonneg_of_lt_one_left hl0.le hl1 hl1'.le)
+  have hlim : ∀ q, Tendsto (fun k => Φ k q) atTop (𝓝 (a * (minkB n₀ q - w.2))) := by
+    intro q
+    obtain ⟨B, hB⟩ := exists_abs_minkB_pow_smul_sub_le hl0.ne'
+      (inv_ne_zero hl0'.ne') hf hf' hD he₀ he₁ q
+    have hE : Tendsto (fun k : ℕ => l ^ k * minkB e ((γ ^ k) • q)) atTop (𝓝 0) := by
+      refine squeeze_zero_norm (a := fun k : ℕ => l ^ k * |minkB e q| + ((k : ℝ) * l ^ k) * B)
+        (fun k => ?_) ?_
+      · rw [Real.norm_eq_abs, abs_mul, abs_of_pos (pow_pos hl0 k)]
+        have := hB k
+        have h2 : |minkB e ((γ ^ k) • q)| ≤ |minkB e q| + k * B := by
+          have := abs_sub_abs_le_abs_sub (minkB e ((γ ^ k) • q)) (minkB e q); linarith
+        nlinarith [pow_pos hl0 k]
+      · have := (hpow.mul_const |minkB e q|).add
+          ((tendsto_self_mul_const_pow_of_lt_one hl0.le hl1).mul_const B)
+        simpa using this
+    have := ((((tendsto_const_nhds (x := a * (minkB n₀ q - w.2))).add
+      (hpow.mul_const (a * w.2 + b * w'.2 - x.2))).add
+      (((hpow'.const_mul b).mul_const (minkB n₁ q - w'.2)))).add hE)
+    simp only [zero_mul, mul_zero, add_zero] at this
+    refine this.congr fun k => ?_
+    rw [hdec k q]
+  -- the normalised affine functions of the iterates converge
+  set xk : ℕ → PenroseSphere d × ℝ := fun k => isomPenrose (γ⁻¹ ^ k) x with hxk
+  have hrel : ∀ k q, minkB (nullVec (xk k).1) q - (xk k).2 =
+      (lorentzScale (linearPart (γ⁻¹ ^ k)) x.1)⁻¹ * (minkB n ((γ ^ k) • q) - x.2) := by
+    intro k q
+    have hs : (γ⁻¹ ^ k) • ((γ ^ k) • q) = q := by rw [inv_pow, inv_smul_smul]
+    have := minkB_isomPenrose (γ⁻¹ ^ k) x ((γ ^ k) • q)
+    rw [hs] at this
+    exact this
+  set r : ℕ → ℝ := fun k => (lorentzScale (linearPart (γ⁻¹ ^ k)) x.1)⁻¹ / l ^ k with hr
+  have hrΦ : ∀ k q, minkB (nullVec (xk k).1) q - (xk k).2 = r k * Φ k q := by
+    intro k q
+    rw [hrel k q]
+    simp only [hr, hΦ]
+    have : l ^ k ≠ 0 := pow_ne_zero k hl0.ne'
+    field_simp
+  set et : Minkowski d := ((1 : ℝ), (0 : EuclideanSpace ℝ (Fin d))) with het
+  have hmet : ∀ u : PenroseSphere d, minkB (nullVec u) et = -1 := fun u => by
+    rw [minkB_nullVec]; simp [het]
+  have hnorm : ∀ k, r k = -1 / (Φ k et - Φ k 0) := by
+    intro k
+    have h1 := hrΦ k et
+    have h0 := hrΦ k 0
+    rw [hmet] at h1
+    rw [minkB_zero_right] at h0
+    have hprod : r k * (Φ k et - Φ k 0) = -1 := by rw [mul_sub]; linarith
+    have hD0 : Φ k et - Φ k 0 ≠ 0 := fun h => by rw [h, mul_zero] at hprod; norm_num at hprod
+    exact eq_div_of_mul_eq hD0 hprod
+  have hDlim : a * (minkB n₀ et - w.2) - a * (minkB n₀ 0 - w.2) = -a := by
+    rw [hn₀, hmet, minkB_zero_right]; ring
+  have hrlim : Tendsto r atTop (𝓝 (-1 / -a)) := by
+    have := (tendsto_const_nhds (x := (-1 : ℝ))).div ((hlim et).sub (hlim 0))
+      (by rw [hDlim]; exact neg_ne_zero.2 ha0)
+    rw [hDlim] at this
+    exact this.congr fun k => (hnorm k).symm
+  have hφlim : ∀ q, Tendsto (fun k => minkB (nullVec (xk k).1) q - (xk k).2) atTop
+      (𝓝 (minkB n₀ q - w.2)) := by
+    intro q
+    have := hrlim.mul (hlim q)
+    rw [show -1 / -a * (a * (minkB n₀ q - w.2)) = minkB n₀ q - w.2 by field_simp] at this
+    exact this.congr fun k => (hrΦ k q).symm
+  -- the two coordinates
+  have h2 : Tendsto (fun k => (xk k).2) atTop (𝓝 w.2) := by
+    have := (hφlim 0).neg
+    simp only [minkB_zero_right, zero_sub, neg_neg] at this
+    exact this
+  have h1 : Tendsto (fun k => (xk k).1) atTop (𝓝 w.1) := by
+    rw [tendsto_subtype_rng, tendsto_iff_norm_sub_tendsto_zero]
+    have hsq : Tendsto (fun k => ‖((xk k).1 : EuclideanSpace ℝ (Fin d)) - w.1‖ ^ 2) atTop
+        (𝓝 0) := by
+      have := ((hφlim n₀).sub (hφlim 0)).const_mul (-2)
+      rw [show (-2) * ((minkB n₀ n₀ - w.2) - (minkB n₀ 0 - w.2)) = 0 by
+        rw [← minkQ_eq_minkB, hq₀, minkB_zero_right]; ring] at this
+      refine this.congr fun k => ?_
+      rw [minkB_zero_right, hn₀, minkB_nullVec_nullVec]; ring
+    have := (Real.continuous_sqrt.tendsto 0).comp hsq
+    rw [Real.sqrt_zero] at this
+    exact this.congr fun k => Real.sqrt_sq (norm_nonneg _)
+  exact (Prod.tendsto_iff _ _).2 ⟨h1, h2⟩
+
+
 /-- **`bprop:admlox`, minimality in `𝒥`** (l.1232–1238): `Λ(Γ)` is contained in every nonempty
 closed `Γ`-invariant subset of `𝒥`. -/
 theorem limitSetJ_subset (hL : LimitSetMinimal d) (hΓ : DiscreteTopology (linearImage Γ))
     (hfix : ¬HasGlobalFixedPoint (linearImage Γ)) {F : Set (PenroseSphere d × ℝ)}
     (hF : IsClosed F) (hne : F.Nonempty) (hinv : ∀ η ∈ Γ, isomPenrose η '' F ⊆ F) :
     limitSetJ Γ ⊆ F := by
-  sorry -- SORRY(bprop:admlox): l.1255–1266, the basin of repulsion: for a loxodromic `γ` with repulsive point `x₀ = (v₀, s₀)`, `δ(F)` meets every neighbourhood `U` of `v₀` (by `fst_image_limitSetJ_subset`, applied to `cl δ(F)`, which needs `δ(F)` closed or its closure invariant), and the negative iterates `γ⁻ᵏ x` of a point `x ∈ F ∩ δ⁻¹(U)` converge to `x₀` in `𝒥`; the convergence of the `s`-coordinate under `isomPenrose` iterates (the affine contraction `s ↦ λ s + b` along the fibre over `v₀`, uniform near `v₀`) is not formalized
+  refine closure_minimal (fun w hw => ?_) hF
+  obtain ⟨γ, hγ, hr⟩ := hw
+  obtain ⟨w', hr'⟩ := exists_isRepulsiveFixedJ (isLoxodromic_linOf_inv hr.1)
+  obtain ⟨x, hxF, hx⟩ : ∃ x ∈ F, x.1 ≠ w'.1 := by
+    by_contra hall'
+    have hall : ∀ x ∈ F, x.1 = w'.1 := fun x hx => by_contra fun h => hall' ⟨x, hx, h⟩
+    have hsph : IsSphereInvariant (linearImage Γ) {w'.1} := by
+      rintro A hA u rfl
+      obtain ⟨η, hη, rfl⟩ := Subgroup.mem_map.1 hA
+      obtain ⟨y, hy⟩ := hne
+      have h1 : lorentzSphere (linearPart η) y.1 = w'.1 := hall _ (hinv η hη ⟨y, hy, rfl⟩)
+      rw [hall y hy] at h1
+      exact h1
+    have hw1 := hL _ hΓ hfix {w'.1} isClosed_singleton (singleton_nonempty _) hsph
+      (fst_image_loxRepSet_subset Γ ⟨w, ⟨γ, hγ, hr⟩, rfl⟩)
+    exact hr.fst_ne hr' hw1
+  exact hF.mem_of_tendsto (tendsto_isomPenrose_inv_pow hr hr' hx)
+    (Eventually.of_forall fun k => hinv _ (Γ.pow_mem (Γ.inv_mem hγ) k) ⟨x, hxF, rfl⟩)
 
 end Admlox
 
