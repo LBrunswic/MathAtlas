@@ -1,0 +1,44 @@
+{
+ "package": "WP-27b",
+ "round": 1,
+ "file": "GX/Singular/Quotient.lean",
+ "report": "campaign/WP-27b/REPORT.json",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count": 0,
+ "checks": {
+  "build": "'taskset -c 0-11 lake env lean -DwarningAsError=true GX/Singular/Quotient.lean' (7402 lines) exits 0 with no output (38.4 s wall). 'taskset -c 0-11 lake build GX' prints 'Build completed successfully (8572 jobs)' and exits 0. It ran on the worktree's current GX/Singular/Atlas.lean, which WP-27a has modified. A grep finds no sorry, admit, axiom, native_decide, implemented_by or extern in the file. A stdin-only '#print axioms' (nothing written) on quotientBase_ruled, misner_variations_ruled, quotient_finite_model_analytical, finiteQuotient_of_t2, IsProperlyDiscontinuous.of_finite, nullB_ne_zero_of_timelike, gxQuotient, gxQuotient_counterexample and quotientBase_topology gives [propext, Classical.choice, Quot.sound] for each.",
+  "edit_scope": "Diffed against campaign/WP-27b/Quotient.pre-WP-27b.bak. Inside the earlier 7216 lines only docstrings changed: the module header bullets for prop:GXquotient, ex:quotient_base, ex:consider_identifying and rem:previous_examples, four checklist rows (one of them new), SCOPE (c), (e) and (f), and gxQuotient's docstring. The rest is appended at l.7247-7400: IsProperlyDiscontinuous.of_finite, finiteQuotient_of_t2, quotient_finite_model_analytical, nullB_ne_zero_of_timelike, misner_variations_ruled and quotientBase_ruled. No existing declaration is restated or renamed.",
+  "names": "None of the six new names is declared anywhere else under GX/ or scaffold/ (grep by word). IsProperlyDiscontinuous.of_finite lives in the file's own GX.IsProperlyDiscontinuous namespace, next to the existing of_properlyDiscontinuousSMul.",
+  "prop_GXquotient": "Closes correctly under DEC-51. gxQuotient carries 'by (G,X)-morphisms' (hΓ, IsGXMorphism of each γ), freeness, and the neighbourhood half of proper discontinuity, which is a weakening. It concludes with a ChartedSpace with HasGroupoid for which orbitMk is an IsGXMorphism, and that every other such structure has the same maximal atlas (DEC-16). The counterexample stays, recorded as the finding that DEC-51 records. The docstring mark and the REPORT row ('closed', marked, hypothesis 'carried' with a note on DEC-51) agree. The statement is unchanged from the version earlier audits checked.",
+  "ex_quotient_base": "Closes under DEC-52 and DEC-47.\n(i) quotientBase_ruled is a real composition of quotientBase, quotientBase_sing_subset and cylHomeomorph. It gives the unique maximal a.e. structure with the projection an a.e. morphism, (support B)ᶜ ⊆ π{r=0} (DEC-52's sing(M) ⊆ π{r=0}), and M ≃ₜ ℂ × Z. Its hypotheses are the paper's: D a local homeomorphism on {r>0}, Γ_α acting by a.e. morphisms (stated as an assumption by the paper itself), α ≠ 0 (weaker than α > 0). The (G,X) hypotheses are weaker than DEC-39's analytical structure.\n(ii) The singular-manifold topology (T2, locally connected, second countable when Z is) is quotientBase_topology. sing(M̃) ⊆ {r=0} is subset_support_devStructure. Both are listed in the row's decls.\n(iii) misner_variations_ruled is misner_isom0_general at its second disjunct. Its hypothesis is DEC-52's word for word: ∀ w ≠ 0, nullQ w = 0 → nullB w u = 0 → nullB v w ≠ 0, where nullB is the polarization of nullQ (nullQ_add, nullB_self) and nullQ = c² − ab is Q(t,x,y) = x² + y² − t² in null coordinates. The hypothesis can be satisfied by a spacelike v: for u = (0,0,1) take v = (1,1,2), Q(v) = 3 > 0, nullB v w ≠ 0 on both null lines of u^⊥. nullB_ne_zero_of_timelike (reverse Cauchy-Schwarz) is a real proof and shows that every timelike v qualifies. The IsLocalHomeomorphOn conjunct rules out a degenerate (θ-independent) boostConj.\n(iv) DEC-47's developing maps (massive_particle_intended, btz_blackhole_past_isom0, btz_whitehole_isom0) are unchanged from the WP-26b rounds the earlier audits found clean.\n(v) Tachyons and photons (l.682) and polyhedral gluings (l.684): SCOPE (c) states precisely why they are informal. The paper gives no developing map, no G, and no choice of lift to the universal cover of RP^1; the lift decides whether the action on {r>0} is free at all, and the claim about which lifts act freely is correct (the lift fixing a lift of a fixed point has displacement below one period, so composing it with a non-zero deck translation acts freely). 'Tachyon' and 'photon' are undefined, and no polyhedra are given. This is what the dispatch asked for.",
+  "ex_consider_identifying": "Closes under DEC-54(a). quotient_finite_model_analytical covers every finite Subgroup Γ of G that acts freely on a portly U ⊆ X, with X locally connected and T2 and the action rigid and ContinuousConstSMul. That is weaker than DEC-39's analytical structure, so the statement is stronger than the ruling asks. It concludes with the unique maximal a.e. structure on Γ\\X with orbitMk an a.e. morphism from X's maximal atlas, plus Γ\\X T2 and locally connected. finiteQuotient_of_t2 proves the same for any Hausdorff, locally connected (G,X)-manifold M acted on by (G,X)-morphisms. IsProperlyDiscontinuous.of_finite (T2, finite Γ, both halves of the reading) is a real proof, so the local compactness that quotient_finite_model assumed is gone. The other parts of the row (Isom⁺(𝔼^n), every order-p Γ ≤ Stab(S), the point-wise stabilizer ≅ SO(2), the metric isomorphism with 𝔼^n_{2π/p}, and the S^n/H^n variations) are unchanged and were found clean by the WP-26b audits.",
+  "rem_previous_examples": "Stays partial and unmarked, which is correct. DEC-52's corrected 'branched over π{r=0} ⊇ sing(M)' is certified (quotientBase_sing_subset, quotientBase_ruled). The Fox-universality part is left to GX.Branched.Universality, as the dispatch says.",
+  "report_honesty": "REPORT.json lists every label in the module docstring: prop:aeGXquotient, prop:GXquotient, ex:quotient_base, ex:conical, ex:consider_identifying_point_wise_stabilizer and rem:previous_examples_instances_developing. These are the ledger's five Quotient.lean rows plus the remark, whose ledger row is in Universality.lean. Status, marks and decls match the file. Every decl named in the REPORT exists. Hypotheses and findings are reported, including the judgement call on the tachyon and photon sentences, which the notes flag for the master.",
+  "cited_results": "No cited result is assumed. The developing structure, universal cover and quotient results used are all proved in GX/ or in this file."
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "GX/Singular/Quotient.lean SCOPE (e), l.237-242",
+   "problem": "SCOPE (e) still opens with '**Not formalized**: an instance in 𝕂P^n' and then says the row closes under DEC-54(a). This is accurate, since no projective instance is built and the ruling reads the sentence as the general principle, but a reader skimming the bolded 'Not formalized' could take the row for partial.",
+   "fix": "Reword as 'The 𝕂P^n sentence is read (DEC-54(a)) as the general principle quotient_finite_model_analytical; no projective instance is built, none being asserted.'"
+  },
+  {
+   "severity": "minor",
+   "where": "GX/Singular/Quotient.lean module docstring, ex:quotient_base bullet, l.27-35",
+   "problem": "The bullet says twice that 'sing(M) = {r=0}' is refuted by GX.quotientBase_counterexample.",
+   "fix": "Drop the second mention."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/README.md l.47 (outside the dispatch)",
+   "problem": "The module row for GX.Singular.Quotient still reads 'prop:aeGXquotient' and 'five example rows partial (readings)'. It is stale: five rows are now marked and one is partial. The worker reported this and correctly did not edit the README.",
+   "fix": "The master updates the README row when it graduates the file."
+  }
+ ],
+ "questions_for_master": [
+  "ex:quotient_base is marked closed although l.682 (tachyons and photons) and l.684 (polyhedral gluings) are not formalized. The auditor agrees with SCOPE (c) that neither sentence has a determinate statement (no developing map, no G, no choice of lift, no polyhedra). If the author wants them counted as assertions, the row would demote to partial."
+ ],
+ "summary": "Clean. The file builds with warnings as errors, has 0 sorry and standard axioms, and the strict library GX builds (8572 jobs). The six additions are real proofs. DEC-51, DEC-52 (verbatim hypothesis on v; sing(M) ⊆ π{r=0}; branched over π{r=0} ⊇ sing M) and DEC-54(a) (every finite Γ ⊆ G on any locally connected Hausdorff rigid (G,X), with local compactness removed) are applied correctly, and the new hypotheses can be satisfied. The marks for prop:GXquotient, ex:quotient_base and ex:consider_identifying are justified under the rulings, rem:previous_examples correctly stays partial, the REPORT is complete and honest, and no new name clashes. Three minors are docstring wording and a stale README row."
+}

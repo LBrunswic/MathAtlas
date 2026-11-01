@@ -31,11 +31,12 @@ a.e. `(G,X)`-morphisms, their regular loci, and the pullback (`RamcovGX.tex:397`
 * **`def:singular_manifolds_morphism_maximal`** — `RamcovGX.tex:518`: `GX.regLocusOf`,
   `GX.regLocus`.
 * **`lem:regf1`** — `RamcovGX.tex:523`: `GX.IsAEMorphismOf.regLocusOf_eq`.
-* `rem:though_may_tempted_include` — `RamcovGX.tex:538` — partial (an informal remark, read,
-  SCOPE (g)): `GX.zero_notMem_regLocusOf_pow`, `GX.not_isAEMorphismOf_pow`; for maps locally
-  modelled on `z ↦ z^p`, `GX.not_injOn_of_eventually_eq_pow`,
-  `GX.notMem_regLocusOf_of_forall_not_injOn`, `GX.not_isAEMorphismOf_of_eventually_eq_pow`, and
-  between `(G,X)`-manifolds `GX.not_isAEMorphismOf_maximalAtlas_of_eventually_eq_pow`.
+* **`rem:though_may_tempted_include`** — `RamcovGX.tex:538`, read as DEC-54 (b) rules (for every
+  model `(G,X)`, a map locally modelled on `z ↦ z^p`, `p ≠ 1`, is not an a.e. morphism, SCOPE
+  (g)): `GX.not_isAEMorphismOf_maximalAtlas_of_eventually_eq_pow` (between `(G,X)`-manifolds),
+  `GX.not_isAEMorphismOf_of_eventually_eq_pow` (structures regular at `x` and `f x`);
+  `GX.zero_notMem_regLocusOf_pow`, `GX.not_isAEMorphismOf_pow` (`z ↦ z^p` itself);
+  `GX.not_injOn_of_eventually_eq_pow`, `GX.notMem_regLocusOf_of_forall_not_injOn`.
 * **`lem:aepullback`** — `RamcovGX.tex:541`, read as DEC-42 rules (an a.e. structure identified
   with its maximal atlas, l.471): `GX.aepullback`, `GX.existsUnique_aePullback`,
   `GX.IsAEMorphismOf.sameAEStructure`, `GX.SameAEStructure`; the correction is recorded by
@@ -128,7 +129,9 @@ a.e. `(G,X)`-morphisms, their regular loci, and the pullback (`RamcovGX.tex:397`
   is an a.e. morphism for no structures regular at `x` and `f x`; between `(G,X)`-manifolds
   (Riemann surfaces as `(G,X)`-manifolds, empty singular locus) it is an a.e. morphism for no
   model `(G,X)`. "There is no simple definition of Riemann surfaces as `(G,X)`-manifolds" is read
-  as this last statement; no ruling fixes the reading, and the row stays partial.
+  as this last statement. This is the reading DEC-54 (b) rules (2026-11-01: "for every model
+  `(G,X)`, a map locally modelled on `z ↦ z^p`, `p ≠ 1`, is not an a.e. morphism"); under it the
+  row is certified in full.
 * **(h)** `rem:consequence_isomorphism_singular_manifolds`'s last sentence ("an isomorphism in
   every natural ways") is not formalized.
 * **(i)** DEC-42: an a.e. `(G,X)`-structure (`def:structure_topological_space_atlas`, l.471) is
@@ -1405,10 +1408,10 @@ theorem not_injOn_of_eventually_eq_pow {M : Type u} [TopologicalSpace M] {N : Ty
   have h3 : f y = f y' := by rw [h1, h2]; exact congrArg ψ h
   rw [hinj hy.1 hy'.1 h3]
 
-/-- **`rem:though_may_tempted_include`** (`RamcovGX.tex:538`), for branched maps: a map locally
-modelled at `x` on `z ↦ z^p`, `p ≠ 1` (`not_injOn_of_eventually_eq_pow`), has `x ∉ Reg(f)`, so
-by `lem:regf1` it is an a.e. `(G,X)`-morphism for no a.e. `(G,X)`-structures regular at `x` and
-at `f x` — "the above Lemma would thus force `p = 1`". -/
+/-- **`rem:though_may_tempted_include`** (`RamcovGX.tex:538`, DEC-54 (b)), for branched maps: a
+map locally modelled at `x` on `z ↦ z^p`, `p ≠ 1` (`not_injOn_of_eventually_eq_pow`), has
+`x ∉ Reg(f)`, so by `lem:regf1` it is an a.e. `(G,X)`-morphism for no a.e. `(G,X)`-structures
+regular at `x` and at `f x` — "the above Lemma would thus force `p = 1`". -/
 theorem not_isAEMorphismOf_of_eventually_eq_pow [LocallyConnectedSpace X] [T2Space X]
     [IsRigidAction G X] {M : Type u} [TopologicalSpace M] {N : Type y} [TopologicalSpace N]
     {A : Set (OpenPartialHomeomorph M X)} {B : Set (OpenPartialHomeomorph N X)}
@@ -1471,7 +1474,7 @@ theorem isAEMorphismOf_maximalAtlas_iff [LocallyConnectedSpace X] [T2Space X] [I
           (gxGroupoid G X).chart_mem_maximalAtlas (f x), mem_chart_source X x,
           mem_chart_source X (f x), hf.exists_smul_eq x⟩⟩
 
-/-- **`rem:though_may_tempted_include`** (`RamcovGX.tex:538`), its first sentence, for
+/-- **`rem:though_may_tempted_include`** (`RamcovGX.tex:538`), read as DEC-54 (b) rules, for
 `(G,X)`-manifolds (empty singular locus, as a Riemann surface would be): whatever the model
 `(G,X)`, a map locally modelled at some point on `z ↦ z^p`, `p ≠ 1`, is not an a.e.
 `(G,X)`-morphism — equivalently (`isAEMorphismOf_maximalAtlas_iff`) not a `(G,X)`-morphism. So

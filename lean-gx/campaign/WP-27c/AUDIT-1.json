@@ -1,0 +1,38 @@
+{
+ "package": "WP-27c",
+ "round": 1,
+ "file": "GX/Branched/Universality.lean",
+ "verdict": "issues",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "summary": "Build: `taskset -c 0-11 lake env lean -DwarningAsError=true GX/Branched/Universality.lean` exits 0. No sorry/admit/axiom in the file. `taskset -c 0-11 lake build GX` reports 'Build completed successfully (8572 jobs)' with nothing rebuilt, so the olean matches the source. #print axioms, run from a scratch file in /tmp: previous_examples_instances_developing_ruled, cex_branched_covering_composition, branchingLocus_orbitMk_cyl and previous_examples_foxCompletion depend only on [propext, Classical.choice, Quot.sound]. That covers the GX.Singular.Quotient decls the certificate uses. The new names (setOf_r_eq_zero_cyl, branchingLocus_orbitMk_cyl, previous_examples_foxCompletion, previous_examples_instances_developing_ruled) occur only here in GX/ and scaffold/. rem:previous_examples_instances_developing (l.684) under DEC-52 holds up. The assembled statement proves sing(M) ⊆ π{r=0} (unique maximal a.e. atlas, from quotientBase_ruled), D a developing map on {r>0}, π{r=0} skeletal, π{r>0} semilocally simply connected, branching locus EXACTLY π{r=0} (a real proof: the apex basic set is connected and contains a and 1•a, and freeness on {r>0} gives the contradiction), IsMaximalPossiblyBranched in every universe, IsSpreadCompletion of the universal cover of π{r>0} for every base point, and a homeomorphism over M with MaxBranchedCover for every base point. The hypotheses are satisfiable: massive_particle in Quotient.lean discharges hD and hΓ. α ≠ 0 is weaker than α > 0. V any real normed space covers ℝ^{n-2}. IsRigidAction, X T2 and locally connected hold in the paper's affine setting. The certificate spans the two files as dispatched, and the REPORT lists both. cex:proposition_prop_branched_covering under DEC-53 is mostly solid. cexS_not_isSkeletal proves the printed S is not skeletal. S ∪ {apex} is proved skeletal with a semilocally simply connected complement. The family hypothesis IsDenseFamilyY₀ is satisfiable (exists_isDenseFamilyY₀), and the statement holds for every such family, which is stronger than the paper's 'choose'. qDisc is a branched covering, q(S) is dense, S ⊆ branchingLocus p, and q∘p is not a branched covering. One assertion of the cex text is missing, and its printed form is false and not reported (major, below). prop:branched_covering_composition stays partial and unmarked (DEC-48). The other four labels are unchanged from the pre-WP-27c backup (diff checked), and all seven labels of the file are in REPORT.json.",
+ "issues": [
+  {
+   "severity": "major",
+   "where": "GX.cex_branched_covering_composition (l.1852-1884); REPORT label cex:proposition_prop_branched_covering",
+   "problem": "The cex asserts (l.1186) 'q(Y∖ord_p(Y)) = q(S) is dense in Z'. Under DEC-53 (S replaced by S' = S ∪ {apex}) this sentence reads q(branchingLocus p) = q(S'). The Lean statement of the marked row proves only S ⊆ branchingLocus p. The upper bound branchingLocus p ⊆ S' is proved in exists_branched_over but dropped (`-`) from the final theorem, and the equality is stated nowhere. The printed equality is in fact false: branchingLocus p is closed (complement of the open ordY) and contains S, so it contains the apex (apex ∈ closure S, cexS_not_isSkeletal). Hence branchingLocus p = S ∪ {apex} and q(Y∖ord_p Y) = q(S) ∪ {0} ≠ q(S), since every r_n > 0. Neither REPORT.json nor the SCOPE records this, so a marked 'closed' row omits one of its assertions without a word, and a false printed claim goes unreported. The auditor checked that the equality is a three-line consequence of what is in the file: given hB : cexS ⊆ BL p and hU : BL p ⊆ insert apex cexS, `Subset.antisymm hU (insert_subset ((isOpen_ordY.isClosed_compl).closure_subset_iff.2 hB (cexS_not_isSkeletal hd hr).1) hB)` typechecks (scratch file, exit 0).",
+   "fix": "Add `branchingLocus (SpreadEnd.base : MaxBranchedCover S' y₀ → DInfty) = insert apex (cexS r θ hr)` (and optionally the q-image form `qDisc '' branchingLocus _ = insert 0 (qDisc '' cexS _ _ _)`) as a conjunct of cex_branched_covering_composition, keeping hU from exists_branched_over. Add a finding: l.1186's 'q(Y∖ord_p(Y)) = q(S)' is false as printed (it is q(S) ∪ {q(apex)}); under DEC-53 it holds with S ∪ {apex}."
+  },
+  {
+   "severity": "minor",
+   "where": "GX.cex_branched_covering_composition, `∃ y₀`",
+   "problem": "The paper's X = \\widetilde Y^{S'} is 'the' maximal covering. The theorem states the conclusion for SOME base point y₀, although every ingredient (exists_branched_over, not_isBranchedCovering_qDisc_comp) is stated for every y₀. As a counterexample ∃ is enough, and base-point independence follows from maxBranched_isMaximal plus IsMaximalPossiblyBranched.nonempty_homeomorph. Still, the packaged statement is weaker than it could be for free.",
+   "fix": "State `∀ y₀ : (S'ᶜ : Set DInfty), …` (the nonempty_compl_branchSet witness becomes unnecessary). Alternatively, note the base-point independence in SCOPE."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json, label rem:previous_examples_instances_developing, field `decls`",
+   "problem": "Six entries are not declaration names but strings of the form 'GX.Singular.Quotient: GX.quotientBase_ruled'. The `decls` list also disagrees with `decls_by_file`: it lists cylBasic_subset and cylBasic_isPreconnected, which decls_by_file omits, and it omits cylPosHomeo, contractibleSpace_cylPos, preimage_image_cylPos, cylPosDeck_bijective and fundamentalGroup_cylPos, which decls_by_file includes. All named decls exist (checked).",
+   "fix": "Make `decls` a flat list of fully qualified names equal to the union of decls_by_file, and put the file attribution only in decls_by_file."
+  },
+  {
+   "severity": "minor",
+   "where": "GX/Singular/Quotient.lean module docstring l.99-104 and SCOPE (f) l.243-252; papers/gx/ledger rem:previous_examples entry",
+   "problem": "Quotient.lean still says rem:previous_examples_instances_developing is 'partial here' and that the Fox-universality part is 'Not formalized here'. The ledger still says 'the row stays partial'. Universality.lean now marks the row closed under DEC-52. REPORT.json notes this, and the file is outside the dispatch. Until the master updates them, two strict-library docstrings disagree on the row.",
+   "fix": "Master session: update the Quotient.lean wording (mention the Universality certificate) and the README module row and ledger when graduating."
+  }
+ ],
+ "questions_for_author": [
+  "rem:previous_examples_instances_developing: the closing reading treats the tachyon/photon and polyhedral sentences (l.682-683) of 'the previous examples' as carrying no determinate statement (Quotient SCOPE (c), WP-27b's reading). No ruling names this explicitly. DEC-52 closes ex:quotient_base and the rem under the corrected forms. Is that reading of 'previous examples' accepted for the rem row, as it was for ex:quotient_base?"
+ ]
+}

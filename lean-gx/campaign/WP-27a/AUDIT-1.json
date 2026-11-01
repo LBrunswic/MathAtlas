@@ -1,0 +1,41 @@
+{
+  "package": "WP-27a",
+  "round": 1,
+  "auditor": "read-only auditor, round 1 (2026-11-01, node1)",
+  "file": "GX/Singular/Atlas.lean",
+  "verdict": "clean",
+  "builds": true,
+  "checks": {
+    "file_build": "taskset -c 0-11 lake env lean -DwarningAsError=true GX/Singular/Atlas.lean: exit 0, no output (7.3 s)",
+    "sorry_count": 0,
+    "escape_hatches": "grep: no sorry / admit / axiom / native_decide / implemented_by / unsafe in the file",
+    "strict_library_build": "taskset -c 0-11 lake build GX: 'Build completed successfully (8572 jobs)', exit 0, 0 warning/error lines",
+    "axioms": "#print axioms (via lake env lean --stdin, nothing written) of not_isAEMorphismOf_maximalAtlas_of_eventually_eq_pow, not_isAEMorphismOf_of_eventually_eq_pow, not_isAEMorphismOf_pow, zero_notMem_regLocusOf_pow, not_injOn_of_eventually_eq_pow, notMem_regLocusOf_of_forall_not_injOn, not_injOn_pow_of_mem_nhds: propext, Classical.choice, Quot.sound only",
+    "change_scope": "diff against /tmp/WP27a_Atlas.orig.lean and git diff HEAD: docstring-only (module docstring 538 bullet, SCOPE (g) last sentence, two decl docstrings); no declaration added, renamed, or changed in statement or proof",
+    "name_clashes": "no new declaration; the seven 538 decl names are defined only in GX/Singular/Atlas.lean (grep over GX/ and scaffold/)",
+    "labels_coverage": "the 19 live \\label's of RamcovGX.tex l.395-612 (lem:aepushforward is commented out) are all in the module docstring, the last at char 3768 < 4000 (kb/0006), and all 19 rows in REPORT.json; every decl listed in REPORT.json exists in the file",
+    "report_consistency": "REPORT.json valid JSON; builds true, sorry_count 0 confirmed; 538 row status closed, marked true, reading DEC-54 (b) disclosed under hypotheses and notes"
+  },
+  "rows_audited": {
+    "rem:though_may_tempted_include": "DEC-54 (b): 'for every model (G,X), a map locally modelled on z -> z^p, p != 1, is not an a.e. morphism'. Headline GX.not_isAEMorphismOf_maximalAtlas_of_eventually_eq_pow: G, X universe-polymorphic with only the standing analyticity instances (LocallyConnectedSpace X, T2Space X, IsRigidAction G X, ContinuousConstSMul; DEC-39 weakened), M, N arbitrary (G,X)-manifolds (ChartedSpace + HasGroupoid gxGroupoid, i.e. Riemann surfaces as (G,X)-manifolds, empty singular locus), f = psi o (.)^p o phi near x with phi ANY open partial homeomorphism M -> C centred at x and psi : C -> N ARBITRARY (stronger than 'locally modelled', which takes psi a chart), p != 1 (p = 0 included, also true) => not IsAEMorphismOf for the maximal atlases. That is the ruled reading, at least as strong. The general form not_isAEMorphismOf_of_eventually_eq_pow (any a.e. atlases regular at x and f x) is the strongest true form: dropping regularity at x / f x would be false, since branched coverings with branch locus in the singular set ARE a.e. morphisms (the paper's subject). The proof follows the remark's argument: z^p injective on no neighbourhood of 0 (roots of unity), hence f not locally injective at x, hence x not in Reg(f) (IsRegularOn => IsLocalHomeomorphOn, a genuine consequence of the chart condition), contradicting lem:regf1 (IsAEMorphismOf.regLocusOf_eq). Hypotheses satisfiable (e.g. X = C, M = N = C); none carries the conclusion; definitions IsRegularOn / regLocusOf / IsAEMorphismOf non-trivial (checked l.568-663). zero_notMem_regLocusOf_pow covers '0 notin Reg(z -> z^p)' for any atlases on C. Mark justified under DEC-54 (b); row closed under the ruling, per DEC-27's ruling clause.",
+    "other_18_rows": "unchanged in statement and proof (diff docstring-only, and only the 538 text); WP-26a/AUDIT-1 (clean) audited them against l.395-612 on the same declarations; re-confirmed here that the file and GX build green and every listed decl exists."
+  },
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "module docstring bullet rem:consequence_isomorphism_singular_manifolds vs SCOPE (h); REPORT.json row rem:consequence_isomorphism_singular_manifolds",
+      "problem": "Carried over from WP-26a/AUDIT-1, outside this dispatch: the row is marked and reported closed while SCOPE (h) says its last sentence ('an isomorphism in every natural ways', l.608-609) is not formalized. Disclosed in REPORT notes.",
+      "fix": "Master: either rule the informal last sentence out of the certified content (a reading) or unmark / report partial."
+    },
+    {
+      "severity": "minor",
+      "where": "papers/gx/ledger/LEDGER.md l.326 (rem:though_may_tempted_include)",
+      "problem": "The ledger row still reads 'partial', C; after this package it should read closed under DEC-54 (b). Read-only for the package; noted for the master's graduation.",
+      "fix": "Master: update the ledger row when graduating WP-27a."
+    }
+  ],
+  "questions_for_author": [
+    "l.538 'except if p = 1': the converse (0 in Reg(id) when the structures agree) is not formalized; under DEC-54 (b) only the negative assertion is certified content, which this audit accepts."
+  ],
+  "summary": "Docstring-only edit applying DEC-54 (b): rem:though_may_tempted_include is now marked and reported closed; the headline theorem proves, for every analytical model (G,X), that a map between (G,X)-manifolds locally of the form psi o z^p o phi (p != 1, psi arbitrary) is not an a.e. morphism, plus the strongest true form for a.e. structures regular at x and f x. File builds with -DwarningAsError (0 sorry, standard axioms), lake build GX green (8572 jobs), all 19 labels listed, no name clashes. Two minor carry-overs; verdict clean."
+}

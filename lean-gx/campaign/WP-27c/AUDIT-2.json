@@ -1,0 +1,47 @@
+{
+ "package": "WP-27c",
+ "round": 2,
+ "file": "GX/Branched/Universality.lean",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "strict_library_builds": true,
+ "summary": "Build: `taskset -c 0-11 lake env lean -DwarningAsError=true GX/Branched/Universality.lean` exits 0. The file has no sorry, admit or axiom. `taskset -c 0-11 lake build GX` reports 'Build completed successfully (8572 jobs)'. #print axioms, run from /tmp, gives [propext, Classical.choice, Quot.sound] for cex_branched_covering_composition, previous_examples_instances_developing_ruled, branchingLocus_orbitMk_cyl, previous_examples_foxCompletion, branched_covering_composition and maxBranched_isMaximal. Round-1 major FIXED: cex_branched_covering_composition now states, for EVERY y₀ ∉ S ∪ {apex}, branchingLocus p = insert apex S, q '' branchingLocus p = insert 0 (q '' S), and that this is ≠ q '' S. That proves the printed l.1186 equality false, and the finding is recorded in REPORT and SCOPE. The round-1 minors (∀ y₀; a flat decls list) are also fixed. Satisfiability checked by scratch instantiation. exists_isDenseFamilyY₀ feeds the cex. massive_particle (G = MinkIsom0, D = massiveDev 1 σ α) discharges hD and hΓ of previous_examples_instances_developing_ruled, so the hypotheses are not vacuous. rem:previous_examples under DEC-52 is certified in full. sing(M) ⊆ π{r=0}. D is a (G,X)-morphism on {r>0}. π{r=0} is skeletal and its complement is semilocally simply connected. The branching locus is EXACTLY π{r=0}, by a real argument: the connected apex basic set holds a and 1•a, which contradicts freeness on {r>0}. The cover is IsMaximalPossiblyBranched in every universe w, and for every base point it is an IsSpreadCompletion of the universal cover of π{r>0} (Fox) and homeomorphic over M to MaxBranchedCover. IsMaximalPossiblyBranched is non-trivial: it requires branched covering + possibly branched + domination by a branched covering of every competitor. The extra hypotheses are the paper's or are weaker. IsRigidAction is the paper's 'analytical' (l.341, README). X T2 and locally connected hold for X ⊆ ℝ^n. Any real normed V covers ℝ^{n-2}. α ≠ 0 is weaker than α > 0. The docstring marks are correct: cex and rem are marked under DEC-53/DEC-52, and prop:branched_covering_composition is unmarked and partial (DEC-48). All 7 labels of the module are in REPORT.json, and every listed decl exists in the file it is attributed to (contractibleSpace_cylPos is an instance in Quotient.lean). No declaration name of the file (128 checked) is declared elsewhere in GX/ or scaffold/. Only minor issues remain.",
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "GX.cex_branched_covering_composition (l.1863); cex:proposition_prop_branched_covering",
+   "problem": "l.1186 also asserts that q(Y∖ord_p(Y)) 'is dense in Z hence not skeletal'. The marked theorem states q '' BL = insert 0 (q '' S) and the final ¬IsBranchedCovering (q ∘ p). Density and non-skeletality of q '' BL appear only inside not_isBranchedCovering_qDisc_comp, and separately via dense_qDisc_image_cexS for q(S). Neither is a conjunct. The auditor checked that both follow in ~8 lines from the theorem plus dense_qDisc_image_cexS (scratch /tmp/wp27c_a2/Sk.lean, exit 0). This is a proof step, so minor, not a missing result.",
+   "fix": "Optionally add `Dense (qDisc '' BL) ∧ ¬ IsSkeletal (qDisc '' BL)` as conjuncts. Proof: rw [hIm]; (dense_qDisc_image_cexS hd hr).mono (subset_insert _ _); then non-skeletal because a dense closed set is univ, whose complement is empty, hence not portly."
+  },
+  {
+   "severity": "minor",
+   "where": "GX.previous_examples_instances_developing_ruled, first conjunct, and its docstring bullet 'its unique maximal a.e. structure making π an a.e. morphism'",
+   "problem": "The ∃! is over the triple (maximal ∧ π an a.e. morphism ∧ sing ⊆ π{r=0}), inherited from quotientBase_ruled. That gives uniqueness only among atlases that also satisfy the singular-locus bound. It is weaker than the uniqueness among maximal atlases making π an a.e. morphism, which GX.quotientBase proves. The docstring wording states the stronger form. Uniqueness is not an assertion of rem:previous_examples itself (it belongs to ex:quotient_base / prop:aeGXquotient), so nothing the row claims is lost.",
+   "fix": "Either state `(∃! B, IsMaximalAEAtlas G B ∧ IsAEMorphismOf … B π) ∧ ∀ B, … → (support B)ᶜ ⊆ π{r=0}` (from quotientBase + quotientBase_sing_subset), or reword the docstring bullet."
+  },
+  {
+   "severity": "minor",
+   "where": "module SCOPE, rem:previous_examples_instances_developing",
+   "problem": "'The previous examples' is read as ex:quotient_base and its listed specialisations (massive particle, BTZ, Misner, conical, and the Euclidean ex:consider_identifying via α = 2π/p). The spherical variation of ex:consider_identifying (l.635) and the 𝕂Pⁿ submodels (l.636) are not instances of the cylinder 𝔻_∞ × ℝ^{n-2} (S^n ∖ S^{n-2} is not of that shape), and the SCOPE does not say they are outside the certificate. DEC-52 scopes the row to l.660–685, so this is a disclosure gap, not a misclaim.",
+   "fix": "Add one sentence to SCOPE: the certificate covers ex:quotient_base, and the S^n / 𝕂Pⁿ variations of ex:consider_identifying are read as outside the rem (DEC-52's range l.660–685)."
+  },
+  {
+   "severity": "minor",
+   "where": "GX/Singular/Quotient.lean docstring l.99–104 and SCOPE (f); README module row; ledger row",
+   "problem": "Carried over from round 1 and already disclosed in REPORT.notes: these still call rem:previous_examples 'partial here' / Fox-universality 'not formalized here', while Universality.lean now marks it closed.",
+   "fix": "Master session at graduation: point Quotient.lean SCOPE (f), the README row and the ledger at GX.previous_examples_instances_developing_ruled."
+  }
+ ],
+ "checks": {
+  "lean_warningAsError": "exit 0",
+  "lake_build_GX": "Build completed successfully (8572 jobs)",
+  "axioms": "propext, Classical.choice, Quot.sound only",
+  "satisfiability": "cex via exists_isDenseFamilyY₀; rem via massive_particle (MinkIsom0, massiveDev 1 σ α) — /tmp/wp27c_a2/Sat.lean exit 0",
+  "name_clashes": "none (128 decl names grep-checked against GX/ and scaffold/)",
+  "report_decls": "all exist in the attributed files; decls == union of decls_by_file"
+ },
+ "questions_for_author": [
+  "rem:previous_examples_instances_developing: is 'the previous examples' accepted as ex:quotient_base and its specialisations? That excludes the tachyon/photon/polyhedral sentences (l.682–683) and the S^n / 𝕂Pⁿ variations of ex:consider_identifying (l.635–636). DEC-52's l.660–685 range suggests yes, but no ruling says so explicitly."
+ ]
+}

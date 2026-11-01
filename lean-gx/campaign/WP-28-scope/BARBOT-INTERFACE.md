@@ -40,3 +40,27 @@ well-chosen flow (`minkowski_skew_slice_not_isCauchySurface`).
   `uniformization` (combined). **Upstream tagged sorries: `#print axioms` before relying on one.**
 - `Classification.lean`: `equality_of_absMax {P}`, `range_eq_omegaS_of_absMax`.
 - `Develop.lean`: `bprop_danom` 0 sorry: 𝒟 injective, range ⊆ Ω(S̃), from DevelopsCC + IsCausal + T2.
+
+## Flat CBG (DEC-29), owned by the Barbot session in lean-causal (agreed 2026-11-01)
+
+Abstract ETT statement of the maximal Cauchy development (existence + uniqueness), Sbierski's
+dezornified order (1309.7591), with a LOCAL-MODEL interface for gx to discharge on E₀:
+(i) rigidity of local isomorphisms, (ii) a Hausdorffness criterion for the glued union of
+developments, (iii) the local causal facts the proof uses. Flat instance from IsAnalyticAction (isom d).
+New files, no ETT marks (ETT's theo:CBG / SubExtension flagged for the ETT ledger). Interface
+signatures to be sent before authoring. U1/U2 exports stay first in that session's order.
+
+## U1/U2 verified sorry-free (gx master session, 2026-11-01 ~11:10Z)
+
+`#print axioms` on `Causal.Flat.uniformization`, `uniformization_injective`, `uniformization_image`,
+`uniformization_properlyDiscontinuous` (CausalScaffold.Flat.Loxodromic) and `equality_of_absMax`,
+`range_eq_omegaS_of_absMax` (CausalScaffold.Flat.Classification): propext, Classical.choice, Quot.sound only.
+Requested: a strict split (e.g. `Causal.Flat.Uniformization`) so gx's strict Section 4 never imports a scaffold.
+
+## CBG design (DEC-59..61, e9224a5; lean-causal/docs/CBG-DESIGN.md)
+
+- DEC-59: maximal = Sbierski's universal property (every Cauchy development maps uniquely into M̄); the form B21 Lemma 2.3 uses.
+- DEC-60: CBG in the thesis framework (rigid morphisms of singular (G,X)-manifolds), not ETT §4's causal IsRigid.
+- Level A abstract Geometry (Str, causality, IsMor + sheaf laws, rigidity A1, causal facts A2, germ extension A3, slices A4, both time directions); Level B local model (model Y, StructureGroupoid, ChartedSpace + HasGroupoid, rigidity, local uniqueness = thesis / B21 prop:isom).
+- **gx's E₀ obligations:** model + SingularFlatAxioms; a.e. rigidity (lem:liouville); prop:isom at α = 0; slices through BTZ points both directions; K± calculus at BTZ points; second countability of E_{≥0}-manifolds; σ-compactness of J⁺(Σ)∩J⁻(p).
+- Geometry's exact signatures will be sent for review after its audit. gx's next DEC: DEC-62.

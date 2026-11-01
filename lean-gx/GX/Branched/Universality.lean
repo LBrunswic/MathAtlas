@@ -5,7 +5,7 @@ import GX.Singular.Quotient
 /-!
 # Composition of branched coverings and the maximal branched covering (§3.2, l.1091–1190)
 
-Packages WP-25e, WP-26c. `papers/gx`, `RamcovGX.tex:1091–1190` (and l.684), with the cited results built (DEC-23):
+Packages WP-25e, WP-26c, WP-27c (DEC-52, DEC-53). `papers/gx`, `RamcovGX.tex:1091–1190` (and l.684), with the cited results built (DEC-23):
 Fox's completion (`GX.Spread.Completion`) and the universal covering
 (`GX.Topology.UniversalCover`).
 
@@ -38,25 +38,36 @@ Fox's completion (`GX.Spread.Completion`) and the universal covering
 * **`rem:considering_maximal_covering_possibly`** — `RamcovGX.tex:1176`:
   `GX.sphere2_maxBranched_trivial` (`𝕊²`, `S` a point), from the general
   `GX.maxBranched_trivial_of_simplyConnected`; `GX.isSkeletal_sphere2_singleton`.
-* `cex:proposition_prop_branched_covering` — `RamcovGX.tex:1181` — partial, **corrected**
-  (DEC-27): `α = 1` is the ruled reading (DEC-46(e)), but the printed "`S` is skeletal and
-  `Y ∖ S` is semi-locally simply connected" (l.1184) is false and is corrected to `S ∪ {apex}`, a
-  correction no ruling covers: `GX.cexS_not_isSkeletal` (the paper's `S` is not skeletal: the
-  apex is in its closure), `GX.dense_qDisc_image_cexS` (`q(S)` dense), `GX.isBranchedCovering_qDisc`
+* **`cex:proposition_prop_branched_covering`** — `RamcovGX.tex:1181` — closed in the corrected
+  form ruled by DEC-53 (with `α = 1`, the reading ruled by DEC-46(e)): the printed "`S` is
+  skeletal and `Y ∖ S` is semi-locally simply connected" (l.1184) is false and is corrected to
+  `S ∪ {apex}` (the correction recorded as a finding): `GX.cexS_not_isSkeletal` (the paper's
+  `S` is not skeletal: the apex is in its closure), `GX.dense_qDisc_image_cexS` (`q(S)` dense),
+  `GX.isBranchedCovering_qDisc`
   (`q : 𝔻_∞ → 𝔻` a branched covering), the core `GX.not_isBranchedCovering_qDisc_comp`, and the
   **corrected counterexample** `GX.cex_branched_covering_composition` (`S' = S ∪ {apex}` is skeletal,
-  `𝔻_∞ ∖ S'` semilocally simply connected, the maximal covering possibly branched over `S'` is
-  branched at every point of `S`, and `q ∘ p` is not a branched covering), built on
+  `𝔻_∞ ∖ S'` semilocally simply connected, and for every base point the maximal covering `p`
+  possibly branched over `S'` has branching locus **exactly** `S'`, so
+  `q(Y ∖ ord_p(Y)) = q(S) ∪ {0} ≠ q(S)` — the printed equality of l.1186 is false and holds only
+  with `S ∪ {apex}`, a finding — and `q ∘ p` is not a branched covering), built on
   `GX.exists_branched_over` / `GX.logChart_mem_branchingLocus` (a covering of `𝔻_∞` branched at a
   prescribed discrete set; the loop around a branch point detected by the exponential covering,
   `GX.not_homotopic_refl_of_exp_lift`); `GX.exists_isDenseFamilyY₀` (the paper's data exist).
-* `rem:previous_examples_instances_developing` — `RamcovGX.tex:684` — the row is certified in
-  `GX.Singular.Quotient` (partial there); this module adds the Fox-universal half its SCOPE (f)
-  left out: `GX.previous_examples_maxBranched` (the cylinder `𝔻_∞ × Z → M = Γ_α\(𝔻_∞ × Z)` of
+* **`rem:previous_examples_instances_developing`** — `RamcovGX.tex:684` — closed in the corrected
+  form ruled by DEC-52 ("branched over `π{r=0} ⊇ sing(M)`"), its certificate spanning this module
+  and `GX.Singular.Quotient`: the assembled statement
+  `GX.previous_examples_instances_developing_ruled` (`M` a singular `(G,X)`-manifold with
+  `sing(M) ⊆ π{r=0}`, `D` a developing map on `{r > 0}`, the cylinder branched over exactly
+  `π{r=0}` — `GX.branchingLocus_orbitMk_cyl` — and the maximal covering of `M` possibly branched
+  over `π{r = 0}`, the Fox completion of the universal covering of `π{r > 0}` —
+  `GX.previous_examples_foxCompletion`), on `GX.Singular.Quotient`'s `GX.quotientBase_ruled`,
+  `GX.previous_examples_developing`, `GX.previous_examples_universalCover` and on
+  `GX.previous_examples_maxBranched` (the cylinder `𝔻_∞ × Z → M = Γ_α\(𝔻_∞ × Z)` of
   `ex:quotient_base`, `Z` a real normed space, is the maximal covering of `M` possibly branched
   over `π{r = 0}`, isomorphic over `M` to `\widetilde M^{π{r=0}}`), on
   `GX.isBranchedCovering_orbitMk_cyl` (a branched covering possibly branched over `π{r = 0}`),
-  `GX.compl_image_axis`, `GX.cyl_instances`, `GX.previous_examples_universalCover_of_eq`; general
+  `GX.compl_image_axis`, `GX.cyl_instances`, `GX.previous_examples_universalCover_of_eq`,
+  `GX.setOf_r_eq_zero_cyl`; general
   `GX.IsBranchedCovering.comp_homeomorph`, `GX.locPathConnectedSpace_prod_of`.
 
 > Let $X\xrightarrow{p} Y \xrightarrow{q} Z$ be two branched coverings. Then the following are
@@ -104,10 +115,12 @@ Fox's completion (`GX.Spread.Completion`) and the universal covering
 | `prop:universality`: `Y` connected, LPC, Hausdorff, `S` skeletal, `Y ∖ S` SLSC | ✓ carried; `Y` first countable carried (§3 standing, `RamcovGX.tex:810`; used for the completion's local path-connectedness and `lem:complete_path_carac`) |
 | `prop:universality`: competitors `X` | ✓ carried: T2, LPC, first countable |
 | `rem:considering…`: `𝕊²`, `S` a singleton | ✓ |
-| `cex:…`: "`S` is skeletal", "`Y ∖ S` semilocally simply connected" | ✗ the first is false (`GX.cexS_not_isSkeletal`); corrected to `S ∪ {apex}` (a finding) |
+| `cex:…`: "`S` is skeletal", "`Y ∖ S` semilocally simply connected" | ✓ ruled corrected form (DEC-53): `S ∪ {apex}`; the printed first claim is false (`GX.cexS_not_isSkeletal`, a finding); l.1186 "`q(Y∖ord_p(Y)) = q(S)`" is false, it is `q(S) ∪ {0}` (`GX.cex_branched_covering_composition`, a finding) |
 | `cex:…`: `α` unspecified | ✓ ruled reading `α = 1` (DEC-46(e)) |
 | `rem:one_could_sum_up`: completions of coverings of `O` | ✓ carried: `Y` T2, LPC, first countable; `O` portly; the target covering connected and surjective, completions T2, the target's LPC (the source covering: nothing) |
 | `rem:previous_examples…`: `cyl{n} = 𝔻_∞ × ℝ^n`, `Γ_α` | ✓ `𝔻_∞ × Z`, `Z` any real normed space, every `α ≠ 0` |
+| `rem:previous_examples…`: `D` a local homeomorphism on `{r > 0}`, `Γ_α` by a.e. morphisms | ✓ carried (`hD`, `hΓ`, as in `ex:quotient_base`); `(G,X)`: `IsRigidAction`, `X` T2 and locally connected |
+| `rem:previous_examples…`: "branched over its singular locus" | ✓ ruled corrected form (DEC-52): branched over `π{r=0} ⊇ sing(M)` — branching locus exactly `π{r=0}`, `sing(M) ⊆ π{r=0}`; the printed equality refuted (`quotientBase_counterexample`, a finding) |
 
 ## SCOPE (disclosed)
 
@@ -136,22 +149,36 @@ Fox's completion (`GX.Spread.Completion`) and the universal covering
   is proved from the characterisation `Φ F ∘ ι₁ = ι₂ ∘ F` and the density of `range ι₁`:
   `GX.completion_hom_id` (identities) and `GX.completion_hom_comp` (composites), via
   `GX.completion_hom_ext`; no `CategoryTheory.Equivalence` is built.
-* `cex:proposition_prop_branched_covering` (partial, DEC-27; `α = 1` ruled by DEC-46(e)):
+* `cex:proposition_prop_branched_covering` (closed under DEC-53; `α = 1` ruled by DEC-46(e)):
   `𝔻 = Γ₁\𝔻_∞` is
   identified with `ℂ` by `GX.discHomeomorph`, and `q` is `(r, θ) ↦ r e^{2πiθ}` (`α = 1`, the ruled
   reading, which is what `θ_n + n` needs).
   The paper's `S` accumulates at the apex, so it is not closed, not skeletal, and
   `prop:universality` does not apply to it; the corrected construction uses `S ∪ {apex}`. This is
-  a correction of the paper's construction, not a reading, so the row stays partial unless the
-  author rules that DEC-46(e)'s "the rows close" covers it. The
+  a correction of the paper's construction, not a reading; DEC-53 rules it (`S ∪ {apex}`), under
+  which the row closes, the correction recorded. The
   core implication (a branching locus with dense image makes `q ∘ p` non-branched) is proved for
   every branched covering `p`. "`Y ∖ S` is semi-locally simply connected" (for the paper's `S`) is
   also false at the apex; this is not formalized (it is not needed once `S ∪ {apex}` is used).
-* `rem:previous_examples_instances_developing` (the half added here): "the universal covering of
-  `M` branched over `π{r = 0}`" is read as the maximal covering of `M` possibly branched over
-  `π{r = 0}` (`prop:universality`), and proved for the cylinder: `IsMaximalPossiblyBranched` and
-  the isomorphism over `M` with `MaxBranchedCover`. The row stays partial in `GX.Singular.Quotient`
-  on "branched over its **singular locus**", false as written there (`quotientBase_counterexample`).
+  The printed equality "`q(Y∖ord_p(Y)) = q(S)`" (l.1186) is false as printed: the branching locus is
+  closed and contains `S`, hence the apex, so it is exactly `S ∪ {apex}` and
+  `q(Y∖ord_p(Y)) = q(S) ∪ {0} ≠ q(S)` (both proved in `cex_branched_covering_composition`); under
+  DEC-53's `S ∪ {apex}` the equality holds with `S ∪ {apex}` in place of `S`, and the argument
+  (density, hence non-skeletality of the closure) is unaffected. The statement is proved for
+  **every** base point `y₀ ∉ S ∪ {apex}` (and the complement is non-empty).
+* `rem:previous_examples_instances_developing` (closed under DEC-52): "the universal covering of
+  `M` branched over its singular locus" is, in the ruled corrected form, the covering of `M`
+  branched over `π{r = 0} ⊇ sing(M)`, read as the maximal covering of `M` possibly branched over
+  `π{r = 0}` (`prop:universality`: the Fox completion of the universal covering of `π{r > 0}`),
+  and proved for the cylinder in one statement, `previous_examples_instances_developing_ruled`:
+  `sing(M) ⊆ π{r = 0}` (from `GX.Singular.Quotient`), `D` a developing map on `{r > 0}`, branching
+  locus exactly `π{r = 0}`, `IsMaximalPossiblyBranched`, a completion (`IsSpreadCompletion`) of
+  the universal covering of `π{r > 0}`, isomorphic over `M` to `MaxBranchedCover`. "Branched over
+  its **singular locus**" as printed is false (`quotientBase_counterexample`: `α = 2π`,
+  `sing(M) = ∅`, the covering branched at the apex), a finding. "Instances of developing maps" is
+  read for `ex:quotient_base` (`𝔻_∞ × ℝ^{n-2}`, every `D`, `α`), hence for its listed
+  specialisations; the tachyon/photon and polyhedral sentences of l.682–683 carry no determinate
+  statement (`GX.Singular.Quotient`, SCOPE (c)).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -1825,19 +1852,32 @@ theorem cexT_props {r θ : ℤ → ℝ} (hd : IsDenseFamilyY₀ r θ) (hr : ∀ 
   obtain ⟨hc, hi⟩ := isClosed_isolated_of_finite_ball hfin
   exact ⟨hc, countable_range _, hi⟩
 
-/-- **`cex:proposition_prop_branched_covering`, corrected** (`RamcovGX.tex:1181`, DEC-27): with
+/-- **`cex:proposition_prop_branched_covering`, in the corrected form ruled by DEC-53**
+(`RamcovGX.tex:1181`; the printed `S` is not skeletal, `cexS_not_isSkeletal`): with
 `S` the paper's set and `S' = S ∪ {apex}` (skeletal, with `𝔻_∞ ∖ S'` semilocally simply connected),
-the maximal covering `p : \widetilde{𝔻_∞}^{S'} → 𝔻_∞` possibly branched over `S'` is branched
-at every point of `S`, `q` is a branched covering, and `q ∘ p` is **not** a branched covering. -/
+for **every** base point `y₀ ∉ S'`, the maximal covering `p : \widetilde{𝔻_∞}^{S'} → 𝔻_∞`
+possibly branched over `S'` is a branched covering whose branching locus is **exactly** `S'`
+(so `Y ∖ ord_p(Y) = S ∪ {apex}`), hence `q(Y ∖ ord_p(Y)) = q(S) ∪ {0}`, which is **not** the
+printed `q(S)` (`RamcovGX.tex:1186`: `0 ∉ q(S)`); `q` is a branched covering, and `q ∘ p` is
+**not** a branched covering. -/
 theorem cex_branched_covering_composition {r θ : ℤ → ℝ} (hd : IsDenseFamilyY₀ r θ)
     (hr : ∀ n, 0 < r n) :
     IsSkeletal (insert apex (cexS r θ hr)) ∧
       SemilocallySimplyConnected ((insert apex (cexS r θ hr))ᶜ : Set DInfty) ∧
-      ∃ y₀ : ((insert apex (cexS r θ hr))ᶜ : Set DInfty),
+      ((insert apex (cexS r θ hr))ᶜ : Set DInfty).Nonempty ∧
+      ∀ y₀ : ((insert apex (cexS r θ hr))ᶜ : Set DInfty),
         IsBranchedCovering
           (SpreadEnd.base : MaxBranchedCover (insert apex (cexS r θ hr)) y₀ → DInfty) ∧
         cexS r θ hr ⊆
           branchingLocus (SpreadEnd.base : MaxBranchedCover (insert apex (cexS r θ hr)) y₀ → DInfty) ∧
+        branchingLocus (SpreadEnd.base : MaxBranchedCover (insert apex (cexS r θ hr)) y₀ → DInfty) =
+          insert apex (cexS r θ hr) ∧
+        qDisc '' branchingLocus
+            (SpreadEnd.base : MaxBranchedCover (insert apex (cexS r θ hr)) y₀ → DInfty) =
+          insert 0 (qDisc '' cexS r θ hr) ∧
+        qDisc '' branchingLocus
+            (SpreadEnd.base : MaxBranchedCover (insert apex (cexS r θ hr)) y₀ → DInfty) ≠
+          qDisc '' cexS r θ hr ∧
         IsBranchedCovering qDisc ∧
         ¬ IsBranchedCovering
           (qDisc ∘ (SpreadEnd.base : MaxBranchedCover (insert apex (cexS r θ hr)) y₀ → DInfty)) := by
@@ -1846,22 +1886,41 @@ theorem cex_branched_covering_composition {r θ : ℤ → ℝ} (hd : IsDenseFami
     rw [branchSet, logChart_image_cexT]
   have hsk := isSkeletal_branchSet hTc hTcount
   have hsl := semilocallySimplyConnected_branchSet hTc
-  rw [hS] at hsk hsl
-  refine ⟨hsk, hsl, ?_⟩
-  obtain ⟨y₀, hy₀⟩ := nonempty_compl_branchSet hTc hTcount
-  rw [hS] at hy₀
-  refine ⟨⟨y₀, hy₀⟩, ?_⟩
-  have h := exists_branched_over hTc hTcount hTi ⟨y₀, hS ▸ hy₀⟩
+  have hne := nonempty_compl_branchSet hTc hTcount
+  rw [hS] at hsk hsl hne
+  refine ⟨hsk, hsl, hne, fun y₀ => ?_⟩
+  have h := exists_branched_over hTc hTcount hTi ⟨y₀.1, by rw [hS]; exact y₀.2⟩
   rw [logChart_image_cexT] at h
-  obtain ⟨hbc, hB, -⟩ := h
-  revert hbc hB
+  obtain ⟨hbc, hB, hU⟩ := h
+  revert hbc hB hU
   generalize hS' : branchSet (cexT r θ hr) = S' at *
   subst hS
-  intro hbc hB
-  obtain ⟨-, -, -, -, hl, -⟩ := maxBranched_basic hsk hsl ⟨y₀, hy₀⟩
+  intro hbc hB hU
+  obtain ⟨-, -, -, -, hl, -⟩ := maxBranched_basic hsk hsl y₀
   haveI := hl
-  exact ⟨hbc, hB, isBranchedCovering_qDisc.1,
+  -- the branching locus is closed and contains `S`, hence the apex (in the closure of `S`)
+  have hEq : branchingLocus (SpreadEnd.base : MaxBranchedCover (insert apex (cexS r θ hr)) y₀ →
+      DInfty) = insert apex (cexS r θ hr) := by
+    refine Subset.antisymm hU ?_
+    rw [insert_subset_iff]
+    refine ⟨?_, hB⟩
+    have hcl : IsClosed (branchingLocus (SpreadEnd.base :
+        MaxBranchedCover (insert apex (cexS r θ hr)) y₀ → DInfty)) :=
+      isOpen_ordY.isClosed_compl
+    exact hcl.closure_subset_iff.2 hB (cexS_not_isSkeletal hd hr).1
+  have h0 : (0 : ℂ) ∉ qDisc '' cexS r θ hr := by
+    rintro ⟨_, ⟨n, rfl⟩, hn⟩
+    exact (hr n).ne' ((qDisc_eq_zero_iff _).1 hn)
+  have hIm : qDisc '' branchingLocus (SpreadEnd.base :
+      MaxBranchedCover (insert apex (cexS r θ hr)) y₀ → DInfty) =
+        insert 0 (qDisc '' cexS r θ hr) := by
+    rw [hEq, image_insert_eq]
+    congr 1
+    exact (qDisc_eq_zero_iff _).2 rfl
+  refine ⟨hbc, hB, hEq, hIm, ?_, isBranchedCovering_qDisc.1,
     not_isBranchedCovering_qDisc_comp hbc (dense_qDisc_image_cexS hd hr) hB⟩
+  rw [hIm]
+  exact fun h => h0 (h ▸ mem_insert _ _)
 
 end Branch'
 
@@ -2296,6 +2355,137 @@ theorem previous_examples_maxBranched (hα : α ≠ 0) :
   haveI : LocallyConnectedSpace X' := hp'.isSpread.locallyConnectedSpace
   refine ⟨Φ' ∘ Φ.symm, hΦ'c.comp Φ.symm.continuous, fun x => ?_, hΦ'bc.comp_homeomorph Φ.symm⟩
   rw [comp_apply, hΦ'p, ← hΦ, Φ.apply_symm_apply]
+
+/-- On the cylinder, `{r = 0}` is the axis `{x.1 = apex}`. -/
+theorem setOf_r_eq_zero_cyl :
+    {x : DInfty × V | x.1.r = 0} = {x : DInfty × V | x.1 = DInfty.apex} := by
+  ext x
+  refine ⟨fun h => (x.1.pos_or_eq_apex).resolve_left fun h' => by
+    rw [mem_setOf_eq] at h; rw [h] at h'; exact lt_irrefl _ h', fun h => ?_⟩
+  rw [mem_setOf_eq] at h ⊢
+  rw [h]; rfl
+
+/-- **The branching locus of `𝔻_∞ × V → M` is exactly `π{r = 0}`** (`ex:quotient_base`,
+`rem:previous_examples_instances_developing` under DEC-52, "branched over `π{r=0}`"): no point of
+`π{r = 0}` is ordinary, since every connected neighbourhood of `(apex, z)` contains a point and
+its `Γ_α`-translate. -/
+theorem branchingLocus_orbitMk_cyl (hα : α ≠ 0) :
+    branchingLocus (orbitMk (GammaA α) : DInfty × V → Orbits (GammaA α) (DInfty × V)) =
+      orbitMk (GammaA α) '' {x : DInfty × V | x.1 = DInfty.apex} := by
+  refine Subset.antisymm (isBranchedCovering_orbitMk_cyl (V := V) hα).2 ?_
+  set q : DInfty × V → Orbits (GammaA α) (DInfty × V) := orbitMk (GammaA α) with hqdef
+  have hc : Continuous q := isQuotientMap_quotient_mk'.continuous
+  rintro _ ⟨⟨p, z⟩, hp, rfl⟩ hy
+  rw [mem_setOf_eq] at hp
+  subst hp
+  obtain ⟨U, hU, hyU, -, hev⟩ := hy
+  obtain ⟨e, he⟩ := hev (DInfty.apex, z) hyU
+  obtain ⟨ε, hε, δ, hδ, hsub⟩ := cylBasic_subset ((hU.preimage hc).mem_nhds hyU)
+  have hB : {p : DInfty | p.r < ε} ×ˢ Metric.ball z δ ⊆
+      connectedComponentIn (q ⁻¹' U) (DInfty.apex, z) :=
+    (cylBasic_isPreconnected ε δ z hε).subset_connectedComponentIn
+      ⟨by simpa using hε, Metric.mem_ball_self hδ⟩ hsub
+  set a : DInfty × V := (⟨ε / 2, 0, Or.inl (half_pos hε)⟩, z) with ha
+  set k : GammaA α := GammaA.ofInt 1
+  have haB : a ∈ {p : DInfty | p.r < ε} ×ˢ Metric.ball z δ :=
+    ⟨show ε / 2 < ε from half_lt_self hε, Metric.mem_ball_self hδ⟩
+  have hkaB : k • a ∈ {p : DInfty | p.r < ε} ×ˢ Metric.ball z δ := by
+    refine ⟨?_, Metric.mem_ball_self hδ⟩
+    show (k • a.1).r < ε
+    rw [DInfty.smul_def, DInfty.rot_r]
+    exact half_lt_self hε
+  have hq : ((e ⟨a, hB haB⟩ : Orbits (GammaA α) (DInfty × V))) = e ⟨k • a, hB hkaB⟩ := by
+    rw [he, he]; exact (orbitMk_smul k a).symm
+  have hka : k • a = a := by
+    have := e.injective (Subtype.ext hq)
+    exact (congrArg Subtype.val this).symm
+  have h1 := DInfty.free_pos (Z := V) hα a (show 0 < a.1.r from half_pos hε) k hka
+  have h2 : k.toInt = (1 : GammaA α).toInt := congrArg GammaA.toInt h1
+  simp [k] at h2
+
+/-- **The cylinder is the Fox completion of the universal covering of `π{r > 0}`**
+(`rem:previous_examples_instances_developing`, `RamcovGX.tex:684`; `prop:universality`,
+`RamcovGX.tex:1170`): for every base point `y₀ ∈ π{r > 0}`, `𝔻_∞ × V → M` is a completion
+(`IsSpreadCompletion`) of `\widetilde{π{r>0}} → M`, the universal covering of `π{r > 0}` followed
+by the inclusion. -/
+theorem previous_examples_foxCompletion (hα : α ≠ 0)
+    {S : Set (Orbits (GammaA α) (DInfty × V))}
+    (hSdef : S = orbitMk (GammaA α) '' {x : DInfty × V | x.1 = DInfty.apex}) (y₀ : (Sᶜ : Set _)) :
+    ∃ ι : UniversalCover (Sᶜ : Set (Orbits (GammaA α) (DInfty × V))) y₀ → DInfty × V,
+      IsSpreadCompletion (univCoverProj S y₀) (orbitMk (GammaA α)) ι := by
+  obtain ⟨hT2, hLPC, hFC, hCM, hLPCX, hCX⟩ := cyl_instances (V := V) hα
+  haveI := hT2; haveI := hLPC; haveI := hFC; haveI := hCM; haveI := hLPCX; haveI := hCX
+  have hSc' : Sᶜ = orbitMk (GammaA α) '' cylPos V := hSdef ▸ compl_image_axis α
+  have hc : Continuous (orbitMk (GammaA α) : DInfty × V → Orbits (GammaA α) (DInfty × V)) :=
+    isQuotientMap_quotient_mk'.continuous
+  have hO : IsPortly (Sᶜ : Set (Orbits (GammaA α) (DInfty × V))) := by
+    rw [hSc']
+    exact (DInfty.isPortly_pos V).image_of_isOpenMap hc isOpenMap_quotient_mk'_mul
+      (Quotient.mk''_surjective (s₁ := MulAction.orbitRel (GammaA α) (DInfty × V)))
+  obtain ⟨-, hU⟩ := previous_examples_universalCover_of_eq (V := V) hα hSc'
+  obtain ⟨hbc, -⟩ := isBranchedCovering_orbitMk_cyl (V := V) hα
+  obtain ⟨x₀, hx₀⟩ := Quotient.mk''_surjective
+    (s₁ := MulAction.orbitRel (GammaA α) (DInfty × V)) (y₀ : Orbits (GammaA α) (DInfty × V))
+  have hx₀q : orbitMk (GammaA α) x₀ = y₀ := hx₀
+  have hx₀' : x₀ ∈ orbitMk (GammaA α) ⁻¹' Sᶜ := by
+    show orbitMk (GammaA α) x₀ ∈ Sᶜ; rw [hx₀q]; exact y₀.2
+  obtain ⟨Φu, hΦu⟩ := hU y₀ ⟨x₀, hx₀'⟩ (Subtype.ext hx₀q)
+  have h₁ := hbc.isSpreadCompletion_preimage hO
+  refine ⟨((↑) : orbitMk (GammaA α) ⁻¹' Sᶜ → DInfty × V) ∘ Φu, h₁.isSpread,
+    fun c => by have := congrArg Subtype.val (congrFun hΦu c); exact this,
+    IsEmbedding.subtypeVal.comp Φu.isEmbedding, h₁.isComplete, ?_⟩
+  rw [range_comp, Φu.range_coe, image_univ]
+  exact h₁.isPortly
+
+/-- **`rem:previous_examples_instances_developing`, certified in the corrected form ruled by
+DEC-52** (`RamcovGX.tex:684`, with `ex:quotient_base` l.660–669 and `prop:universality`
+l.1158): for the cylinder `𝔻_∞ × V` (`V` a real normed space, `ℝ^{n-2}`) with the a.e.
+`(G,X)`-structure pulled back by a local homeomorphism `D : {r > 0} → X` and `Γ_α` (`α ≠ 0`)
+acting by a.e. `(G,X)`-morphisms,
+* `M = Γ_α\(𝔻_∞ × V)` is a singular `(G,X)`-manifold (its unique maximal a.e. structure making
+  `π` an a.e. morphism) whose singular locus lies in `π{r = 0}` (DEC-52: `sing(M) ⊆ π{r=0}`);
+* `D` is a developing map: it induces a `(G,X)`-morphism on `{r > 0}`;
+* `π{r = 0}` is skeletal, `π{r > 0}` semilocally simply connected, and `𝔻_∞ × V → M` is branched
+  over `π{r = 0}` — its branching locus is exactly `π{r = 0}` (DEC-52: "branched over
+  `π{r=0} ⊇ sing(M)`");
+* it is **the** maximal covering of `M` possibly branched over `π{r = 0}`
+  (`IsMaximalPossiblyBranched`), and for every base point it is the Fox completion of the universal
+  covering of `π{r > 0}` and is isomorphic over `M` to `\widetilde M^{π{r=0}}`. -/
+theorem previous_examples_instances_developing_ruled {G Xm : Type*} [TopologicalSpace Xm]
+    [Group G] [MulAction G Xm] [ContinuousConstSMul G Xm] [LocallyConnectedSpace Xm] [T2Space Xm]
+    [IsRigidAction G Xm] (hα : α ≠ 0) {D : DInfty × V → Xm} (hD : IsLocalHomeomorphOn D (cylPos V))
+    (hΓ : ∀ k : GammaA α, IsAEMorphismOf G (maximalAEAtlas G (devAtlas G D (cylPos V)))
+      (maximalAEAtlas G (devAtlas G D (cylPos V))) fun x => k • x) :
+    (∃! B : Set (OpenPartialHomeomorph (Orbits (GammaA α) (DInfty × V)) Xm),
+      IsMaximalAEAtlas G B ∧
+      IsAEMorphismOf G (maximalAEAtlas G (devAtlas G D (cylPos V))) B (orbitMk (GammaA α)) ∧
+      (support B)ᶜ ⊆ orbitMk (GammaA α) '' {x : DInfty × V | x.1 = DInfty.apex}) ∧
+    IsRegularOn G (maximalAEAtlas G (devAtlas G D (cylPos V)))
+      ((gxGroupoid G Xm).maximalAtlas Xm) D (cylPos V) ∧
+    IsSkeletal (orbitMk (GammaA α) '' {x : DInfty × V | x.1 = DInfty.apex}) ∧
+    SemilocallySimplyConnected
+      ((orbitMk (GammaA α) '' {x : DInfty × V | x.1 = DInfty.apex})ᶜ :
+        Set (Orbits (GammaA α) (DInfty × V))) ∧
+    branchingLocus (orbitMk (GammaA α) : DInfty × V → Orbits (GammaA α) (DInfty × V)) =
+      orbitMk (GammaA α) '' {x : DInfty × V | x.1 = DInfty.apex} ∧
+    IsMaximalPossiblyBranched.{w}
+      (orbitMk (GammaA α) : DInfty × V → Orbits (GammaA α) (DInfty × V))
+      (orbitMk (GammaA α) '' {x : DInfty × V | x.1 = DInfty.apex}) ∧
+    ∀ y₀ : ((orbitMk (GammaA α) '' {x : DInfty × V | x.1 = DInfty.apex})ᶜ :
+        Set (Orbits (GammaA α) (DInfty × V))),
+      (∃ ι : UniversalCover ((orbitMk (GammaA α) '' {x : DInfty × V | x.1 = DInfty.apex})ᶜ :
+          Set (Orbits (GammaA α) (DInfty × V))) y₀ → DInfty × V,
+        IsSpreadCompletion
+          (univCoverProj (orbitMk (GammaA α) '' {x : DInfty × V | x.1 = DInfty.apex}) y₀)
+          (orbitMk (GammaA α)) ι) ∧
+      ∃ Φ : MaxBranchedCover (orbitMk (GammaA α) '' {x : DInfty × V | x.1 = DInfty.apex}) y₀ ≃ₜ
+          DInfty × V, ∀ e, orbitMk (GammaA α) (Φ e) = e.base := by
+  obtain ⟨hq, -⟩ := quotientBase_ruled (G := G) hα hD hΓ
+  rw [setOf_r_eq_zero_cyl] at hq
+  obtain ⟨hS, hSc, hmax, hiso⟩ := previous_examples_maxBranched.{w} (V := V) hα
+  exact ⟨hq, (previous_examples_developing (G := G) hα hD).2, hS, hSc,
+    branchingLocus_orbitMk_cyl hα, hmax, fun y₀ => ⟨previous_examples_foxCompletion hα rfl y₀,
+      hiso y₀⟩⟩
 
 end CylMax
 

@@ -19,11 +19,16 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
 * **`prop:aeGXquotient`** — `RamcovGX.tex:642`: `GX.aeGXQuotient` (paper's words, DEC-42),
   `GX.existsUnique_aeGXQuotient` (maximal form), `GX.quotientSingularGXStructure`,
   `GX.isAEMorphism_orbitMk`; the proof's topology `GX.orbits_topology`.
-* `prop:GXquotient` — `RamcovGX.tex:639` — partial, **false as written** (DEC-27): needs the
-  action to be by `(G,X)`-morphisms. Corrected form `GX.gxQuotient`; counterexample
-  `GX.gxQuotient_counterexample` (`ℤ/2` on `ℝ ⊕ ℝ` by `x ↦ 2x`).
-* `ex:quotient_base` — `RamcovGX.tex:660` — partial, **"`sing(M) = {r=0}`" false as written**
-  (DEC-27), read under DEC-47 elsewhere: `GX.DInfty` (`𝔻_∞`, the paper's topology
+* **`prop:GXquotient`** — `RamcovGX.tex:639` — closed under DEC-51 (the action of `Γ` is by
+  `(G,X)`-morphisms, as in l.618): `GX.gxQuotient`; the missing hypothesis is recorded, and it is
+  necessary: without it the statement is false, `GX.gxQuotient_counterexample` (`ℤ/2` on
+  `ℝ ⊕ ℝ` by `x ↦ 2x`).
+* **`ex:quotient_base`** — `RamcovGX.tex:660` — closed in the corrected forms ruled by DEC-52
+  (`sing(M) ⊆ π{r=0}`; the variations ask `⟨v|w⟩ ≠ 0` for every non-zero null `w ⊥ u`) and the
+  developing maps of DEC-47: the corrected statement in one piece `GX.quotientBase_ruled`, the
+  variations with DEC-52's hypothesis verbatim `GX.misner_variations_ruled` (timelike `v` satisfy
+  it, `GX.nullB_ne_zero_of_timelike`); the printed "`sing(M) = {r=0}`" stays refuted
+  (`GX.quotientBase_counterexample`, a finding); `GX.DInfty` (`𝔻_∞`, the paper's topology
   `DInfty.instTopologicalSpace`), `GX.DInfty.isPortly_pos`, `GX.devAtlas`, `GX.devStructure`,
   `GX.GammaA`, `GX.quotientBase`, `GX.quotientBase_topology`, `GX.cylHomeomorph` (`M ≅ ℂ × Z`),
   `GX.quotientBase_sing_subset`; "`sing(M) = {r=0}`" refuted by
@@ -65,8 +70,11 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
   `GX.conical_locally_euclidean_prod` (locally Euclidean on `{r > 0}`), `GX.conical_metric`,
   `GX.dist_coneOf`, `GX.conical_locally_euclidean`; the printed metric (angle `√α`, the slip)
   refuted at `α = 2π`: `GX.conical_printed_metric`, `GX.conical_printed_metric_two_pi`.
-* `ex:consider_identifying_point_wise_stabilizer` — `RamcovGX.tex:629` — partial (one reading
-  open, SCOPE (e)): `GX.quotient_rotations` (free on the portly `𝔼^n ∖ S`, natural singular
+* **`ex:consider_identifying_point_wise_stabilizer`** — `RamcovGX.tex:629` — closed, the
+  "submodels of `𝕂P^n`" sentence read as ruled by DEC-54(a) (the construction for every
+  analytical `(G,X)` and every finite `Γ ⊆ G` acting freely on a portly subset):
+  `GX.quotient_finite_model_analytical` (no local compactness, through
+  `GX.IsProperlyDiscontinuous.of_finite`, `GX.finiteQuotient_of_t2`); `GX.quotient_rotations` (free on the portly `𝔼^n ∖ S`, natural singular
   structure), `GX.quotient_rotations_isomPlus` (the paper's `G = Isom⁺(𝔼^n)`, `GX.IsomPlus`),
   for **every** subgroup `Γ ⊆ Stab(S)` of order `p` `GX.quotient_rotations_ptStab` (structure)
   and `GX.ptStabMetricHomeo`, `GX.ptStab_metric` (`Γ\𝔼^n ≅ 𝔼^n_{2π/p}` as metric spaces),
@@ -86,10 +94,14 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
   `GX.quotient_rotations_hyperbolic_ptStab` (through `GX.linPtStab`, `GX.linPtStab_rot`,
   `GX.rotLinPtStab_bijective`: the point-wise stabilizer is `SO(2)`,
   `GX.linPtStab_subgroup_eq_rotSubgroup`, `GX.quotient_rotations_model_ptStab`); and the general
-  principle for any analytical `(G, X)` (`GX.quotient_finite_model`, the "submodels of `𝕂P^n`").
-* `rem:previous_examples_instances_developing` — `RamcovGX.tex:684` — partial (a reading):
-  `GX.previous_examples_developing`, `GX.previous_examples_universalCover` (the cover over the
-  regular part is the universal cover; `{r > 0}` contractible).
+  principle for any analytical `(G, X)` (`GX.quotient_finite_model_analytical`, DEC-54(a); the
+  locally compact form `GX.quotient_finite_model`).
+* `rem:previous_examples_instances_developing` — `RamcovGX.tex:684` — partial here: the
+  corrected form of DEC-52 ("branched over `π{r=0} ⊇ sing(M)`": `GX.quotientBase_sing_subset`,
+  `GX.quotientBase_ruled`), `GX.previous_examples_developing`,
+  `GX.previous_examples_universalCover` (the cover over the regular part is the universal cover;
+  `{r > 0}` contractible); its Fox-universality part belongs to `GX.Branched.Universality`
+  (SCOPE (f)).
 
 > Let $\alpha>0$ and $n\geq 2$, define $\mathbb E_\alpha^n = \RR^{n-2}\times \RR^2$ endowed with
 > cylindrical coordinates $(z,r,\theta) \in \RR^{n-2}\times \RR_+\times \RR/\ZZ$ and the Riemannian
@@ -117,7 +129,7 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
 |---|---|
 | `(G,X)` analytical (l.341, DEC-39) | ⚠ weakened: `IsRigidAction`, `LocallyConnectedSpace X`, `T2Space X`, `ContinuousConstSMul` where used |
 | `prop:GXquotient`: `Γ` acts freely, properly discontinuously | ⚠ weakened: freeness + the neighbourhood half of `IsProperlyDiscontinuous` |
-| `prop:GXquotient`: (implicit) by `(G,X)`-morphisms | ⚠ strengthened: added, necessary (`gxQuotient_counterexample`), a finding |
+| `prop:GXquotient`: (implicit) by `(G,X)`-morphisms | ✓ ruled reading (DEC-51, l.618): carried; necessary (`gxQuotient_counterexample`), a finding |
 | `prop:aeGXquotient`: properly discontinuous | ⚠ weakened: only `∀ x, ∃ U ∈ 𝓝 x, γU ∩ U ≠ ∅ → γx = x`, implied by mathlib's definition (locally compact T₂, `IsProperlyDiscontinuous.of_properlyDiscontinuousSMul`) and the classical one (T₂, `exists_nhds_of_finite`) |
 | `prop:aeGXquotient`: `U` `Γ`-invariant | ⚠ weakened: not used |
 | `prop:aeGXquotient`: `M` locally connected (singular manifold) | ✓ carried (`π(U)` portly) |
@@ -125,11 +137,12 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
 | `ex:quotient_base`: `Γ_α` acts by a.e. morphisms | ✓ carried (`hΓ`); `isAEMorphismOf_devStructure` derives it from an equivariance of `D` |
 | `ex:quotient_base`, Lorentzian: `G = Isom₀(𝔼^{1,2})` | ⚠ weakened: any rigid `G` containing the holonomy; instantiated with `Isom₀` read as affine maps preserving `Q`, `det > 0`, the future cone (`LorentzIsom0`) |
 | `ex:quotient_base`, BTZ: `u` future lightlike, `⟨v|u⟩ < 0`, `x₀` arbitrary | ✓ carried: every `x₀`, every `u` with `Q(u) = 0`, `τ(u) > 0`, every `v` with `⟨v|u⟩ < 0` (`btz_whitehole_isom0`; `P_θ` is a parabolic family in `Isom₀` fixing `x₀ + ℝu` pointwise, `parabConj`) |
-| `ex:quotient_base`, variations: `u` spacelike, `v` spacelike or timelike | ⚠ strengthened on `v` only: every `x₀`, every `u` with `Q(u) > 0` (`misner_isom0_general`); `v` timelike, or `v` not orthogonal to either null line of `u^⊥` — automatic for timelike `v`, necessary for spacelike `v` (`misnerDev_spacelike_counterexample`) |
+| `ex:quotient_base`, variations: `u` spacelike, `v` spacelike or timelike | ✓ ruled corrected form (DEC-52): every `x₀`, every `u` with `Q(u) > 0`, every `v` with `⟨v|w⟩ ≠ 0` for every non-zero null `w ⊥ u` (`misner_variations_ruled`); automatic for timelike `v` (`nullB_ne_zero_of_timelike`), necessary for spacelike `v` (`misnerDev_spacelike_counterexample`) |
+| `ex:quotient_base`: `sing(M) = {r=0}` | ✓ ruled corrected form (DEC-52): `sing(M) ⊆ π{r=0}` (`quotientBase_ruled`, `quotientBase_sing_subset`); equality refuted (`quotientBase_counterexample`, a finding) |
 | `ex:consider_identifying`: `Γ ⊂ Stab(S)` of order `p` | ✓ carried: every `Γ ≤ Stab(S)` with `Nat.card Γ = p` (`quotient_rotations_ptStab`, `ptStab_metric`); it is `μ_p` (`ptStab_subgroup_eq_rootsOfUnity`) |
 | `ex:consider_identifying`: `G = Isom⁺(𝔼^n)` | ✓ `IsomPlus E`: affine, linear part preserving `|w|² + |z|²`, `det > 0` (Mazur–Ulam reading); also any rigid `G` |
 | `ex:consider_identifying`, variations: `X = ℍ^n, 𝕊^n` | ✓ `𝕊^n ⊆ ℂ × ℝ^{n-1}`, `ℍ^n` the upper sheet in `ℂ × ℝ × ℝ^{n-2}`, `G = Isom⁺` read as the linear isometries of positive determinant preserving `X` (`LinIsomPlus`), `S = {w = 0}`, `Γ` any subgroup of order `p` of the point-wise stabilizer of `S`, which is `μ_p` (`quotient_rotations_sphere_ptStab`, `quotient_rotations_hyperbolic_ptStab`) |
-| `ex:consider_identifying`, variations: `X ⊆ 𝕂P^n`, `G ⊆ PGL` | ⚠ a reading: no `Γ`, `S` are given; the general principle `quotient_finite_model` for every analytical `(G, X)` |
+| `ex:consider_identifying`, variations: `X ⊆ 𝕂P^n`, `G ⊆ PGL` | ✓ ruled reading (DEC-54(a)): the construction for every analytical `(G, X)` (locally connected Hausdorff `X`, rigid action) and every finite `Γ ⊆ G` free on a portly subset (`quotient_finite_model_analytical`) |
 | `ex:conical`: the metric `dz² + dr² + α r² dθ²`, `θ ∈ ℝ/ℤ` | ✓ ruled reading (DEC-47): cone angle `α`, `ConicalSpace α E`; the printed form has angle `√α` (a finding, `conical_printed_metric_two_pi`) |
 | `ex:conical`: `π₁({r > 0}) = ℤ` | ✓ proved: `FundamentalGroup ≃* ℤ` (`conical_fundamentalGroup`, `fundamentalGroup_cylPos`) |
 | `ex:conical`: the holonomy `ρ : π₁ = ℤ → ℝ^n ⋊ SO(n)`, `ρ(1)` the rotation of angle `α` | ✓ proved: one homomorphism `π₁ →* Isom⁺(𝔼^n)`, the developing map equivariant, `ρ(1) = ρ_α`, trivial iff `α ∈ 2πℕ*` (`conical_holonomy`) |
@@ -165,10 +178,25 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
   spacelike `u` and every admissible `v` (`misner_isom0_general`, by `Isom₀`-transitivity on
   base points and unit spacelike vectors, `exists_isom0_nullS`, and rescaling `t`). The white hole is proved for every
   future lightlike `u` (`btz_whitehole_isom0`, by `Isom₀`-transitivity on base points and future
-  lightlike vectors, `exists_isom0_nullU`). **Not formalized** (SCOPE): tachyons and photons (the paper
-  gives no formula), the polyhedral gluings. The row stays partial on `sing(M) = {r = 0}`, false as written
-  (`quotientBase_counterexample`; true: `⊆`, `quotientBase_sing_subset`), and on the variations'
-  "`v` spacelike" (`misnerDev_spacelike_counterexample`).
+  lightlike vectors, `exists_isom0_nullU`). **The row closes under DEC-52** (with DEC-47): the
+  corrected `sing(M) ⊆ π{r = 0}` (`quotientBase_ruled`; the printed equality is false,
+  `quotientBase_counterexample`, a finding) and the variations with `⟨v|w⟩ ≠ 0` for every
+  non-zero null `w ⊥ u` (`misner_variations_ruled`; "`v` spacelike" alone is insufficient,
+  `misnerDev_spacelike_counterexample`, a finding). The dimension slip (`cyl{n} = 𝔻_∞ × ℝ^n`
+  said homeomorphic to `ℝ^n`) is absorbed by the generality in `Z`: `M ≅ ℂ × Z` for every `Z`.
+  **Informal sentences, not formalized, with the reason.** (i) l.682, tachyons and photons
+  "can be obtained as variations of the above example with a hyperbolic (resp. parabolic) action
+  of `Γ = ℤ` on the coordinate `θ`, with the identification `𝔻_∞ = ℝ_+^* × \widetilde{ℝP^1} ∪
+  {(0,0)}`": the paper gives no developing map, no element of `PSL(2,ℝ)` nor which of its lifts
+  to `\widetilde{ℝP^1}` generates `Γ` (the lifts fixing a lift of a fixed point act with fixed
+  points, the others freely, so the choice decides whether the action on `{r > 0}` is free at all),
+  and "tachyon", "photon" are not defined in the paper (they are the literature's names,
+  `Particules_1`, `barbot2012particles`); the action of `Γ` on the cylinder, hence the quotient,
+  is not determined, so the sentence asserts the existence of unspecified variations and has no
+  statement to certify. (ii) l.684, "all these examples can also be obtained via gluings of
+  polyedra": no polyhedra, gluing maps nor isomorphism are given, and gluings of polyhedra are
+  described only informally (l.624). Both sentences are remarks pointing at the literature; the
+  precise assertions of the example are certified above.
 * **(d)** `ex:conical` (closed under DEC-47's cone angle `α`): `𝔼^n_α = Γ_1\(𝔻_∞ × Z)` with `Z = ℝ^{n-2}`, developed by
   `(r,θ,z) ↦ (r e^{iαθ}, z)`, for any rigid `(G, ℂ × Z)` containing the rotation `ρ_α`; "the
   structure cannot be extended to the whole `ℝ^n`" is read as: the maximal a.e. atlas does not
@@ -210,8 +238,8 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
   the point-wise stabilizer is `SO(2)`, `rotLinPtStab_bijective`). **Not formalized**: an
   instance in `𝕂P^n`; the sentence "more generally one can take submodels `X ⊆ 𝕂P^n`,
   `G ⊆ PGL`" names no `Γ` nor `S`, and is read as the general principle
-  `quotient_finite_model` (every analytical `(G, X)`, every finite `Γ ⊆ G` free on a portly
-  set); this reading is not ruled, and the row is partial on it alone.
+  `quotient_finite_model_analytical` (every analytical `(G, X)`, every finite `Γ ⊆ G` free on a
+  portly set; no local compactness), the reading ruled by DEC-54(a), under which the row closes.
 * **(f)** `rem:previous_examples_instances_developing`: read as — the cylinder is a covering over
   the image of `{r > 0}`, branched over the image of `{r = 0}` (which contains the singular
   locus, strictly when `α = 2π`), this covering is the universal cover of the regular part
@@ -221,7 +249,9 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
   the maximal (Fox-universal) covering of `M` branched over `π{r = 0}` — `prop:universality`,
   which lives in `GX.Branched.Universality`, a module importing this one; and "branched over its
   singular locus" is false as written (the branching locus `π{r = 0}` strictly contains
-  `sing(M)` in `quotientBase_counterexample`). The row stays partial on both.
+  `sing(M)` in `quotientBase_counterexample`); DEC-52 rules the corrected form "branched over
+  `π{r = 0} ⊇ sing(M)`" (`quotientBase_sing_subset`), so the row's remaining part is the
+  Fox-universality alone, which is left to the package editing `GX.Branched.Universality`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Builds on
 `GX.Singular.Atlas`, `GX.Structure.Basic`, `GX.Topology.Portly`, `GX.Topology.UniversalCover`.
@@ -542,13 +572,13 @@ theorem hasDecks_orbitMk [ChartedSpace X M] [HasGroupoid M (gxGroupoid G X)]
     Eventually.of_forall fun y => orbitMk_smul γ y, fun e he e' he' hx hx' => ?_⟩
   exact (hΓ γ).exists_smul_eq_of_mem_maximalAtlas he he' hx hx'
 
-/-- `prop:GXquotient` (`RamcovGX.tex:639`), in its strongest true form (DEC-27): if a group
-`Γ` acts freely and properly discontinuously on a `(G,X)`-manifold `M` **by
-`(G,X)`-morphisms**, there is a `(G,X)`-structure on `Γ\M` for which the projection is a
-`(G,X)`-morphism, and any two such have the same maximal atlas. The hypothesis "by
-`(G,X)`-morphisms" is not in the paper and is necessary
-(`GX.gxQuotient_counterexample`). Only the first half of the reading
-`IsProperlyDiscontinuous` is used. -/
+/-- **`prop:GXquotient`** (`RamcovGX.tex:639`), read as ruled by DEC-51 (the action of `Γ` is by
+`(G,X)`-morphisms, the list item l.618's "acting via `(G,X)`-morphisms"): if a group `Γ` acts
+freely and properly discontinuously on a `(G,X)`-manifold `M` **by `(G,X)`-morphisms**, there is
+a `(G,X)`-structure on `Γ\M` for which the projection is a `(G,X)`-morphism, and any two such
+have the same maximal atlas. The hypothesis "by `(G,X)`-morphisms" is not written in l.639 and is
+necessary (`GX.gxQuotient_counterexample`): the finding DEC-51 records. Only the first half of
+the reading `IsProperlyDiscontinuous` is used. -/
 theorem gxQuotient [ChartedSpace X M] [HasGroupoid M (gxGroupoid G X)]
     (hΓ : ∀ γ : Γ, IsGXMorphism G X fun p : M => γ • p)
     (hfree : ∀ (γ : Γ) (x : M), γ • x = x → γ = 1)
@@ -7214,5 +7244,159 @@ theorem quotient_rotations_hyperbolic_ptStab (p : ℕ) [NeZero p]
 
 end SpaceformPtStabInstances
 
+
+/-! ## WP-27b: the rulings DEC-51, DEC-52, DEC-54(a)
+
+`prop:GXquotient` under DEC-51 is `gxQuotient` as it stands. Below: the corrected
+`ex:quotient_base` in one statement (DEC-52), the Misner / BTZ variations with DEC-52's hypothesis
+on `v`, and the "submodels of `𝕂P^n`" principle of
+`ex:consider_identifying_point_wise_stabilizer` (DEC-54(a)) for every analytical `(G, X)`, without
+the local compactness `quotient_finite_model` assumed. -/
+
+section RuledFinite
+
+variable {Γ : Type*} [Group Γ] {M : Type*} [MulAction Γ M] [TopologicalSpace M]
+
+/-- A finite group acting by homeomorphisms on a Hausdorff space acts properly discontinuously in
+the reading `IsProperlyDiscontinuous` (no local compactness needed). -/
+theorem IsProperlyDiscontinuous.of_finite [Finite Γ] [ContinuousConstSMul Γ M] [T2Space M] :
+    IsProperlyDiscontinuous Γ M := by
+  refine ⟨exists_nhds_of_finite fun x => ⟨univ, univ_mem, Set.toFinite _⟩, fun x y hxy => ?_⟩
+  choose u v hu hv huv using fun γ : Γ => t2_separation_nhds (hxy γ)
+  refine ⟨⋂ γ : Γ, (γ • ·) ⁻¹' u γ, iInter_mem.2 fun γ =>
+    (continuous_const_smul γ).continuousAt.preimage_mem_nhds (hu γ),
+    ⋂ γ : Γ, v γ, iInter_mem.2 hv, fun γ => ?_⟩
+  refine (huv γ).mono ?_ (iInter_subset _ γ)
+  rintro _ ⟨z, hz, rfl⟩
+  exact mem_iInter.1 hz γ
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X]
+
+/-- `ex:consider_identifying_point_wise_stabilizer`, *the general principle without local
+compactness*: a finite group `Γ` acting by `(G,X)`-morphisms on a Hausdorff `(G,X)`-manifold,
+freely on a portly subset, gives `Γ\M` a unique maximal a.e. `(G,X)`-structure for which the
+projection is an a.e. morphism, and `Γ\M` is Hausdorff and locally connected. (`finiteQuotient`
+assumed `M` locally compact; `IsProperlyDiscontinuous.of_finite` removes it.) -/
+theorem finiteQuotient_of_t2 [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+    [ChartedSpace X M] [HasGroupoid M (gxGroupoid G X)] [LocallyConnectedSpace M] [T2Space M]
+    [Finite Γ]
+    (hΓ : ∀ γ : Γ, IsGXMorphism G X fun p : M => γ • p) {U : Set M} (hU : IsPortly U)
+    (hfree : ∀ x ∈ U, ∀ γ : Γ, γ • x = x → γ = 1) :
+    (∃! B : Set (OpenPartialHomeomorph (Orbits Γ M) X), IsMaximalAEAtlas G B ∧
+      IsAEMorphismOf G ((gxGroupoid G X).maximalAtlas M) B (orbitMk Γ)) ∧
+    T2Space (Orbits Γ M) ∧ LocallyConnectedSpace (Orbits Γ M) := by
+  haveI : ContinuousConstSMul Γ M := ⟨fun γ => (hΓ γ).continuous⟩
+  letI := SingularGXStructure.ofHasGroupoid G X M
+  have hΓ' : ∀ γ : Γ, IsAEMorphism G X fun p : M => γ • p := fun γ =>
+    isAEMorphismOf_maximalAtlas_iff.2 (hΓ γ)
+  have hpd : IsProperlyDiscontinuous Γ M := IsProperlyDiscontinuous.of_finite
+  exact ⟨existsUnique_aeGXQuotient hΓ' hpd.exists_nhds hU hfree, hpd.t2Space,
+    locallyConnectedSpace_orbits⟩
+
+end RuledFinite
+
+/-- `ex:consider_identifying_point_wise_stabilizer`, **the "submodels of `𝕂P^n`" sentence under
+DEC-54(a)** (`RamcovGX.tex:636`–`638`): for **every** analytical `(G, X)` — here only `X` locally
+connected and Hausdorff, the action rigid (`IsRigidAction`, which with `ContinuousConstSMul` is
+what DEC-39's analyticity is used for; connectedness of `X` and faithfulness are not needed) — and
+**every** finite subgroup `Γ ⊆ G` acting freely on a portly subset `U ⊆ X`, the quotient `Γ\X`
+carries a natural singular `(G, X)`-structure: the unique maximal a.e. structure making the
+projection an a.e. morphism; and `Γ\X` is Hausdorff and locally connected. No local compactness
+is assumed (unlike `quotient_finite_model`). -/
+theorem quotient_finite_model_analytical {G X : Type*} [TopologicalSpace X] [Group G]
+    [MulAction G X] [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X]
+    [IsRigidAction G X] (Γ : Subgroup G) [Finite Γ] {U : Set X} (hU : IsPortly U)
+    (hfree : ∀ x ∈ U, ∀ γ : Γ, γ • x = x → γ = 1) :
+    (∃! B : Set (OpenPartialHomeomorph (Orbits Γ X) X), IsMaximalAEAtlas G B ∧
+      IsAEMorphismOf G ((gxGroupoid G X).maximalAtlas X) B (orbitMk Γ)) ∧
+    T2Space (Orbits Γ X) ∧ LocallyConnectedSpace (Orbits Γ X) :=
+  finiteQuotient_of_t2 (fun γ : Γ => isGXMorphism_smul (γ : G)) hU hfree
+
+/-- A timelike vector is orthogonal to no non-zero null vector (in the null coordinates of
+`𝔼^{1,2}`): the reverse Cauchy–Schwarz inequality, in the form needed by DEC-52. -/
+theorem nullB_ne_zero_of_timelike {v w : ℝ × ℝ × ℝ} (hv : nullQ v < 0) (hw : w ≠ 0)
+    (hwQ : nullQ w = 0) : nullB v w ≠ 0 := by
+  obtain ⟨a, b, c⟩ := v
+  obtain ⟨a', b', c'⟩ := w
+  simp only [nullQ, nullB] at hv hwQ ⊢
+  intro h
+  have h2 : c * c' * 2 = a * b' + a' * b := by linarith
+  by_cases hc' : c' = 0
+  · subst hc'
+    have hab : a' * b' = 0 := by linarith
+    have hs : a * b' + a' * b = 0 := by linarith
+    have ha : a ≠ 0 := by rintro rfl; nlinarith [sq_nonneg c]
+    have hb : b ≠ 0 := by rintro rfl; nlinarith [sq_nonneg c]
+    rcases mul_eq_zero.1 hab with h1 | h1
+    · subst h1
+      have : b' = 0 := by
+        rcases mul_eq_zero.1 (show a * b' = 0 by linarith) with h3 | h3
+        · exact absurd h3 ha
+        · exact h3
+      exact hw (by simp [this])
+    · subst h1
+      have : a' = 0 := by
+        rcases mul_eq_zero.1 (show a' * b = 0 by linarith) with h3 | h3
+        · exact h3
+        · exact absurd h3 hb
+      exact hw (by simp [this])
+  · have hpos : 0 < c' ^ 2 := by positivity
+    have key : (a * b' + a' * b) ^ 2 ≥ 4 * (a * b) * (a' * b') := by
+      nlinarith [sq_nonneg (a * b' - a' * b)]
+    have : 4 * c ^ 2 * c' ^ 2 ≥ 4 * (a * b) * c' ^ 2 := by
+      have e1 : (a * b' + a' * b) ^ 2 = 4 * c ^ 2 * c' ^ 2 := by rw [← h2]; ring
+      have e2 : a' * b' = c' ^ 2 := by linarith
+      rw [e2] at key; linarith
+    nlinarith
+
+
+/-- `ex:quotient_base`, **the Misner / BTZ variations in the form ruled by DEC-52**
+(`RamcovGX.tex:679`–`680`), in `G = Isom₀(𝔼^{1,2})`: for every base point `x₀`, every spacelike
+`u` (`Q(u) > 0`) and every `v` with `⟨v|w⟩ ≠ 0` for every non-zero null `w ⊥ u` (DEC-52's
+hypothesis, verbatim) there is a one-parameter group of boosts `B_θ ∈ Isom₀` fixing `x₀ + ℝu`
+pointwise such that `D(r, θ, t) = B_θ · (x₀ + r v + t u)` is a local homeomorphism on `{r > 0}`,
+has holonomy `B_α`, and `M = Γ_α\(𝔻_∞ × ℝ)` carries a unique maximal a.e.
+`(Isom₀, 𝔼^{1,2})`-structure for which the projection is an a.e. morphism. A future or past
+timelike `v` (the paper's BTZ white / black holes) satisfies the hypothesis
+(`nullB_ne_zero_of_timelike`); a spacelike `v` (the Misner particles) must be asked for it
+(`misnerDev_spacelike_counterexample`). -/
+theorem misner_variations_ruled (x₀ : ℝ × ℝ × ℝ) {u : ℝ × ℝ × ℝ} (hu : 0 < nullQ u)
+    {v : ℝ × ℝ × ℝ}
+    (hv : ∀ w : ℝ × ℝ × ℝ, w ≠ 0 → nullQ w = 0 → nullB w u = 0 → nullB v w ≠ 0)
+    {α : ℝ} (hα : α ≠ 0) :
+    ∃ h : NullIsom0, ∃ c : ℝ, c ≠ 0 ∧
+      (∀ θ t : ℝ, boostConj h θ • (x₀ + t • u) = x₀ + t • u) ∧
+      (∀ x : DInfty × ℝ,
+        misnerDevGen h c v x = boostConj h x.1.θ • (x₀ + (x.1.r • v + x.2 • u))) ∧
+      IsLocalHomeomorphOn (misnerDevGen h c v) (cylPos ℝ) ∧
+      (∀ k : GammaA α, ∀ x ∈ cylPos ℝ, misnerDevGen h c v (k • x) =
+        (boostConj h α ^ k.toInt) • misnerDevGen h c v x) ∧
+      ∃! B : Set (OpenPartialHomeomorph (Orbits (GammaA α) (DInfty × ℝ)) (ℝ × ℝ × ℝ)),
+        IsMaximalAEAtlas NullIsom0 B ∧ IsAEMorphismOf NullIsom0
+          (maximalAEAtlas NullIsom0 (devAtlas NullIsom0 (misnerDevGen h c v) (cylPos ℝ))) B
+          (orbitMk (GammaA α)) :=
+  misner_isom0_general x₀ hu (Or.inr hv) hα
+
+/-- `ex:quotient_base` (`RamcovGX.tex:665`–`669`), **in the corrected form ruled by DEC-52**: the
+cylinder `𝔻_∞ × Z` with the a.e. structure pulled back by a local homeomorphism
+`D : {r > 0} → X`, on which `Γ_α` acts by a.e. `(G,X)`-morphisms, has quotient
+`M = Γ_α\(𝔻_∞ × Z)` with a unique maximal a.e. `(G,X)`-structure for which the projection is an
+a.e. morphism; its singular locus satisfies `sing(M) ⊆ π{r = 0}`; and `M` is homeomorphic to
+`ℂ × Z` by cylindrical coordinates (`cylHomeomorph`; `ℝ^n` for `Z = ℝ^{n-2}`). -/
+theorem quotientBase_ruled {G X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+    [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+    {Z : Type*} [TopologicalSpace Z] [LocallyConnectedSpace Z] {α : ℝ} (hα : α ≠ 0)
+    {D : DInfty × Z → X} (hD : IsLocalHomeomorphOn D (cylPos Z))
+    (hΓ : ∀ k : GammaA α, IsAEMorphismOf G (maximalAEAtlas G (devAtlas G D (cylPos Z)))
+      (maximalAEAtlas G (devAtlas G D (cylPos Z))) fun x => k • x) :
+    (∃! B : Set (OpenPartialHomeomorph (Orbits (GammaA α) (DInfty × Z)) X),
+      IsMaximalAEAtlas G B ∧
+      IsAEMorphismOf G (maximalAEAtlas G (devAtlas G D (cylPos Z))) B (orbitMk (GammaA α)) ∧
+      (support B)ᶜ ⊆ orbitMk (GammaA α) '' {x : DInfty × Z | x.1.r = 0}) ∧
+    Nonempty (Orbits (GammaA α) (DInfty × Z) ≃ₜ ℂ × Z) := by
+  obtain ⟨B, ⟨hB, hπ⟩, huniq⟩ := quotientBase hα hD hΓ
+  exact ⟨⟨B, ⟨hB, hπ, quotientBase_sing_subset hα hD hB hπ⟩,
+    fun B' hB' => huniq B' ⟨hB'.1, hB'.2.1⟩⟩, ⟨cylHomeomorph hα Z⟩⟩
 
 end GX
