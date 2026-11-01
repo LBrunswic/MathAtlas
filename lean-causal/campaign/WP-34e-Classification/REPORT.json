@@ -4,8 +4,8 @@
   "scaffold/CausalScaffold/Flat/Classification.lean"
  ],
  "builds": true,
- "build_note": "Integrator pass (DEC-50, 2026-11-01): `cd lean-causal && taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/Classification.lean` exits 0 with 0 errors and exactly 8 'declaration uses sorry' warnings (l.362 nonloxodromic_parabolic_convex, 465 exists_finiteCover_tameEmbedding, 1942 amgh_of_isMisnerSpacetime, 2301 amgh_of_isCHCentralExtension, 2317 exists_absMax_unipotent_ltp, 2376 isLocallyCauchyTwoSided_image, 2427 isCauchyComplete_of_cauchyCompact, 2438 cauclo_from_embedding), all on tagged sorries (8 `sorry` terms, one per declaration), unchanged by this pass. New import: CausalScaffold.Flat.TitsNull (olean 2026-11-01 10:40; it imports Nonloxodromic, so no cycle). Compiled against the current upstream oleans; no lake build was run. Note: Nonloxodromic.lean's docstrings were edited in this pass (no code), so its olean and TitsNull's are stale w.r.t. source text only; a graduation lake build rebuilds Nonloxodromic -> TitsNull -> Classification. No axiom: barbotExternals_zero and BarbotExternals.mono = [propext, Classical.choice, Quot.sound].",
- "sorry_count": 8,
+ "build_note": "Integrator pass (plan lemmas L1-L12, 2026-11-01): `cd lean-causal && taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/Classification.lean` exits 0 with 0 errors and exactly 1 warning, 'declaration uses sorry' at cauclo_from_embedding (1 `sorry` term, tagged, in its family-(b) GH branch); ~12 s. New imports: CausalScaffold.Flat.Cla.LTPConvex, .FiniteCover, .TameNested, .RegularComplete, .UnipEnvelope, .UnipComplete, .LTPEnlarge, .LocallyCauchy, .CompactComplete, .CoverMGH, .G9, .CoverComp (all import only Nonloxodromic, TitsNull, Loxodromic, CompactCauchy, CurvesExtend, plus CoverMGH -> LocallyCauchy and UnipComplete -> RegularComplete; none imports Classification, Flat/Lox/* or Flat/Nonlox/*, so no cycle). Compiled against the current oleans (Cla oleans 2026-11-01 16:29-16:30, newer than their sources); no lake build was run. No statement of Classification.lean changed (signatures and conclusions textually identical; only proofs and docstrings). No new public declaration, so no name collision (the Cla names live in Causal.Flat.Cla and are called qualified). No axiom: barbotExternals_zero, absMax_of_cauchyCompact_of_mgh = [propext, Classical.choice, Quot.sound].",
+ "sorry_count": 1,
  "labels": [
   {
    "label": "bthm:caucomp",
@@ -56,35 +56,13 @@
      "note": "named externals (DEC-36) bundled as BarbotExternals d: BenoistNoLox k, AuslanderCarriereDalbo k, MaxUnipotentSubspace k for k ≤ d, BieberbachI (R^k) for k ≤ d+1 (all dimensions, because [11.i] applies Theorem A0 in the model's dimension). Non-vacuity: barbotExternals_zero (the bundle at d = 0, from the components' own witnesses), and barbot_A_hypotheses_zero (BarbotExternals 0 ∧ GH 𝐌¹ ∧ IsCauchyComplete 0 𝐌¹). For d ≥ 1 the bundle is consistent on the cited literature only (Bieberbach in ℝ^{k≥2}, Benoist, Auslander–Carrière–Dal'bo, Carrière–Dal'bo); no component is trivially true or false (AuslanderCarriereDalbo's DiscreteTopology Γ is read in isomTopology). TITS (not cited by Barbot) IS NO LONGER A HYPOTHESIS (integrator pass, DEC-50, 2026-11-01): the interim fifth component `tits : ∀ k ≤ d, TitsVirtuallyAbelianNull k` (added earlier the same day as an adaptation to Nonloxodromic's DEC-27 change) is REMOVED; caseOutput now passes `titsVirtuallyAbelianNull d` (CausalScaffold.Flat.TitsNull) to caseOutput_nonloxodromic, which keeps its `(hT : TitsVirtuallyAbelianNull d)` parameter. BarbotExternals is back to exactly the Barbot-cited bundle; barbotExternals_zero and BarbotExternals.mono drop the fifth component (titsVirtuallyAbelianNull_zero no longer used here). Theorem A/B's signatures and conclusions are textually unchanged; their hypothesis BarbotExternals d is now WEAKER (one component fewer) than in the interim version, i.e. the theorems are STRONGER. Cost: titsVirtuallyAbelianNull carries one tagged sorry (exists_commute_screenRot_of_discrete, Auslander + Cartan), which A/B now inherit through that one theorem (it is a sorry leaf of barbot_A and barbot_B)."
     }
    ],
-   "sorries": [
-    {
-     "decl": "Causal.Flat.nonloxodromic_parabolic_convex",
-     "obstruction": "Nonloxodromic's nonloxodromic_parabolic (itself a sorry) does not export Convex ℝ Ω and its Ω is existential; Ω = π_U⁻¹(Ω_A) is convex (slab between null hyperplanes) — the export should carry it (finding)"
-    },
-    {
-     "decl": "Causal.Flat.exists_finiteCover_tameEmbedding",
-     "obstruction": "M' := Γ\\range D (FlatQuotient), p, f := quotInclusion: missing the descent M ≃ ρ.range\\range D, the finite-fibre covering Γ\\W → ρ.range\\W, and π₁ of a quotient of a simply connected space by a free properly discontinuous action (tameness)"
-    },
-    {
-     "decl": "Causal.Flat.amgh_of_isMisnerSpacetime",
-     "obstruction": "Cauchy-completeness only (absolute maximality and GH, both wedges, PROVED). The slice {-2xy = 1} parametrised by F(η,z) = (±cosh η, sinh η, z) is flat: g_{s,w} translates (η,z), its pulled length is Euclidean, so the proof of isCauchyComplete_of_isQuotientOf_frameHoriz applies once (1) the analogue of edist_eq_iInf_pathLength_slice for F (a.e. chain rule + norm_sub_le_integral_norm_deriv), (2) the local graph form of F(ℝ^{e+1}) (slope < 1 only on bounded x₁), (3) for the past wedge, the Cauchy property of the slice in the quotient (Examples' isCauchySurface_misner is future-only) are written"
-    },
-    {
-     "decl": "Causal.Flat.amgh_of_isCHCentralExtension",
-     "obstruction": "Cauchy-completeness only (absolute maximality and GH, both sides, PROVED). Missing: completeness of the induced length of a cosmological level S_t (bcor:level_sets_complete, not attempted in Flat.Cosmological; S_t is not flat, so no isometry with ℝᵈ replaces it), its spacelike-Lipschitzness in quotient charts, the descent through S_t → Γ\\S_t (the lifting argument of the translation case), the past side by time reversal of the level sets; Loxodromic's loxo_cauchyComplete is a sorry upstream"
-    },
-    {
-     "decl": "Causal.Flat.exists_absMax_unipotent_ltp",
-     "obstruction": "G1 (maximal interval ]-Y₊,Y₊[ and one-sided analogues, the group A of T̂), AM of Γ₀\\Ω (l.3668-3676), G3 (B₂ = Γ\\(Ω_{M₂} ⊕ U^⊥) and B ↪ B₂); needs the LTP data of IsLTPOver to be the convex presentation (both existential); 2026-11-01: for absolute maximality of M₂ the lift, its equivariance (exists_deck_of_lift) and the end (surjective_of_lift_of_range_subset) are now proved; what remains there is 𝒟_N(Ñ) ⊆ gΩ via Prop 9.3 for Γ₁ ⊇ gΓ₀g⁻¹ (no loxodromic element, so the quadrant argument is unavailable)"
-    }
-   ],
+   "sorries": [],
    "upstream_sorries": [
-    "Causal.Flat.nonloxodromic_elliptic (Nonloxodromic)",
-    "Causal.Flat.exists_commute_screenRot_of_discrete (TitsNull; through titsVirtuallyAbelianNull, supplied in caseOutput, DEC-50)",
+    "Causal.Flat.exists_unipotent_restriction_up_to_frame (Nonloxodromic; through nonloxodromic_parabolic -> nonloxodromic_parabolic_convex)",
     "Causal.Flat.loxo_elementary_misner (Loxodromic)",
     "Causal.Flat.loxo_generic_centralExtension (Loxodromic)"
    ],
-   "print_axioms": "Re-derived 2026-11-01, integrator pass (scratch copy /tmp/wp34e/ClassAx.lean with Elab.async false, nothing in the repo written; against the current oleans): barbot_A: [propext, sorryAx, Classical.choice, Quot.sound]; its 9 sorry leaves (transitive closure of declarations whose own value uses sorryAx): amgh_of_isCHCentralExtension, amgh_of_isMisnerSpacetime, exists_absMax_unipotent_ltp, exists_finiteCover_tameEmbedding, nonloxodromic_parabolic_convex (this file), nonloxodromic_elliptic (Nonloxodromic), exists_commute_screenRot_of_discrete (TitsNull, NEW: through titsVirtuallyAbelianNull, replacing the removed hypothesis), loxo_elementary_misner, loxo_generic_centralExtension (Loxodromic). exists_splitting_of_isCauchySurface (CauchyComplete) is NO LONGER a leaf: CauchyComplete is now sorry-free; surjective_of_isQuotientOf_misner / _limitOpensPlus / _limitOpensMinus have 0 sorry leaves. caseOutput's leaves: nonloxodromic_parabolic_convex, nonloxodromic_elliptic, loxo_elementary_misner, loxo_generic_centralExtension, exists_commute_screenRot_of_discrete. Re-derive at graduation.",
+   "print_axioms": "Re-derived 2026-11-01, integrator pass L1-L12 (stdin copy of the file with Elab.async false and a transitive scan of constants whose type or value uses sorryAx; nothing written in the repo): barbot_A: [propext, sorryAx, Classical.choice, Quot.sound]; 3 sorry leaves, all upstream: exists_unipotent_restriction_up_to_frame (Nonloxodromic), loxo_elementary_misner, loxo_generic_centralExtension (Loxodromic). caseOutput: the same 3. No leaf in this file or in a plan lemma. nonloxodromic_elliptic (Nonloxodromic) and exists_commute_screenRot_of_discrete (TitsNull) are no longer leaves (closed upstream). Clean ([propext, Classical.choice, Quot.sound]): exists_finiteCover_tameEmbedding, amgh_of_isMisnerSpacetime, amgh_of_isCHCentralExtension, exists_absMax_unipotent_ltp. Re-derive at graduation.",
    "findings": [
     "GHFspace.tex:340-347: read as R1 (DEC-43); the absolute maximality is of the base model M₁ in its own dimension, for Cauchy-complete targets of the same universe; the fourth family is the central-extension form (b) (DEC-44).",
     "GHFspace.tex:3586-3592 ([11.i]'s proof) applies Theorem A to the target N: non-circular only through the layering A₀ (embedding, barbot_A₀) → (i) → A (G3), which is how barbot_A is assembled.",
@@ -94,9 +72,32 @@
     "Family (b)'s GH needs a loxodromic element of Γ; Def 4.18's 'discrete without global fixed point' yields one only through the classification of elementary groups, not invoked by Barbot here. Derived from Benoist (BenoistNoLox, already in BarbotExternals) by averaging a finite orbit (exists_loxodromic_of_not_hasGlobalFixedPoint): no new hypothesis.",
     "The past sides (Misner past wedge GH by direct computation; family (b) past side by time reversal τ: τΩ⁻(Λ) = Ω⁺(−Λ), and g ↦ τgτ is an automorphism of Isom(𝐌ⁿ) though τ is not in it, revConj) reuse the future-only cosmological-time lemmas of Examples.",
     "An IsQuotientOf presentation with M Hausdorff already makes the action free and properly discontinuous (IsQuotientOf.isCancelSMul / properlyDiscontinuousSMul): the instances gh_of_isQuotientOf asks need not be carried.",
-    "Translation spacetimes are Cauchy-complete through the projected slice π(φ{t=0}), whose induced length is the quotient length of ℝᵈ by Λ: q : ℝᵈ → S is 1-Lipschitz and lifts short paths to short segments (the covering restricted to π⁻¹(S) = φ{t=0}); the Misner slice is flat in (η, z) and admits the same proof once its pulled length is computed."
+    "Translation spacetimes are Cauchy-complete through the projected slice π(φ{t=0}), whose induced length is the quotient length of ℝᵈ by Λ: q : ℝᵈ → S is 1-Lipschitz and lifts short paths to short segments (the covering restricted to π⁻¹(S) = φ{t=0}); the Misner slice is flat in (η, z) and admits the same proof once its pulled length is computed.",
+    "GHFspace.tex:3654-3676 (G1): the printed envelope slab π₁⁻¹(]−Y₊,Y₊[) is neither a component of Ω(A) nor maximal in general (Cla.UnipEnvelope's finding, witness slab_not_maximal_e2 in 𝐌⁴); exists_absMax_unipotent_ltp uses the corrected envelope (maximal admissible interval) and [11.i]'s unipotent conclusion survives unchanged."
    ],
-   "questions": []
+   "questions": [],
+   "closed_by_integrator": [
+    {
+     "decl": "Causal.Flat.nonloxodromic_parabolic_convex",
+     "by": "L1 Cla.exists_isLTPData_convex_of_unipotent part (2), C = range D (preconnected, nonempty, Γ''-invariant by equivariance); no sorry of its own, inherits nonloxodromic_parabolic's upstream sorry"
+    },
+    {
+     "decl": "Causal.Flat.exists_finiteCover_tameEmbedding",
+     "by": "L2 Cla.exists_finiteCover_quotient_range + L3 Cla.exists_isTameEmbedding_of_isQuotientOf_le (Ω simply connected by Convex.contractibleSpace); #print axioms clean"
+    },
+    {
+     "decl": "Causal.Flat.amgh_of_isMisnerSpacetime",
+     "by": "Cauchy-completeness by L4 Cla.isCauchyComplete_of_isQuotientOf_regular: future wedge = Ω⁺(misnerΛ) (misnerRegular), past wedge = Ω⁻(misnerΛ) (PastRegular from mem_omegaMinus_misnerΛ, two directions from misnerRegular.two); #print axioms clean"
+    },
+    {
+     "decl": "Causal.Flat.amgh_of_isCHCentralExtension",
+     "by": "Cauchy-completeness by L4 with φ = 1 (frameConj_one, isomImage_one): future side CosmoRegular (limitSetJ Γ) via cosmoRegular_limitSetJ, past side PastRegular + two directions from exists_two_loxRepSet, the loxodromic from Benoist (_hE.benoist) as for GH; #print axioms clean"
+    },
+    {
+     "decl": "Causal.Flat.exists_absMax_unipotent_ltp",
+     "by": "L1 (convex LTP data) -> L5 Cla.exists_unipotent_envelope (M₂, corrected envelope) -> L6 Cla.gh_isCauchyComplete_of_isUnipotentSpacetime (GH, Cauchy-complete) -> AbsMax by exists_lift_of_isQuotientOf + exists_deck_of_lift + L5's envelope maximality + surjective_of_lift_of_range_subset (target: exists_isDevelopingPair, exists_developsCC_of_isCauchyComplete') -> L7 Cla.exists_isLTPData_enlarge (B₂) -> L3 (B ↪ B₂ tame); _hq, _hcv unused; #print axioms clean"
+    }
+   ]
   },
   {
    "label": "bthm:cauclo",
@@ -145,34 +146,44 @@
    ],
    "sorries": [
     {
-     "decl": "Causal.Flat.isCauchyComplete_of_cauchyCompact",
-     "obstruction": "CauchyCompact gives a topological acausal compact Cauchy surface; IsCauchyComplete asks a spacelike Lipschitz one with complete induced length and the topology field: smoothing (Bernal-Sánchez) and the gluing of IsSpacelikeLipschitzIn.isHomeomorph_toSubtype are not in the library"
-    },
-    {
-     "decl": "Causal.Flat.isLocallyCauchyTwoSided_image",
-     "obstruction": "lemma K's input: an embedded compact acausal Cauchy surface is locally Cauchy and two-sided in the target — local domains of dependence of a graph over a ball (LipschitzGraph's lemmas are for entire graphs), transport of the Cauchy property along f into a chart"
-    },
-    {
      "decl": "Causal.Flat.cauclo_from_embedding",
-     "obstruction": "G9 chain: M' GH, Cauchy-compact, maximal (finite covers of maximal CGH — not stated by the paper); B GH: NOW derivable for translation and Misner models (gh_of_* here + TwistedProduct.gh_of_isLTPOver), for family (b) only through Benoist (gh_of_isQuotientOf_limitOpensPlus/Minus), not a hypothesis of this statement, for unipotent models not in the library (excluded only by the G9 step); then [11.ii] (proved here) makes f onto; LTPs trivial and unipotent excluded in the Cauchy-compact case (l.3542-3548, l.744); (b) → (a) via π₁ finitely generated (compact Cauchy surface, not in the library) and Selberg; composition of finite covers (not in mathlib at this pin)"
+     "obstruction": "only GH of B when the base M₁ is of family (b): GH of Γ₁\\Ω^±(Λ(Γ₁)) needs a loxodromic element of Γ₁, which Def 4.18's 'no global fixed point' yields only through Benoist (BenoistNoLox d₁, exists_loxodromic_of_not_hasGlobalFixedPoint), a component of BarbotExternals that this statement does not take (barbot_B has it in hE; passing it would change the signature). Translation, Misner and unipotent bases give GH B via TwistedProduct.gh_of_isLTPOver; steps (1)-(5) (L10 surjectivity + Cauchy-compactness of B, L11 G9, L12 composition, L10 MGH of the composite) are assembled for all four bases."
     }
    ],
    "upstream_sorries": [
-    "as bthm:caucomp, through barbot_A₀ (not through the [11.i] lemmas)"
+    "the three of bthm:caucomp, through barbot_A₀",
+    "Causal.Flat.Cla.exists_isSpacelikeLipschitz_of_isCompact_cauchy (L9 CompactComplete, smoothing; through isCauchyComplete_of_cauchyCompact)",
+    "Causal.Flat.Cla.maximal_of_isFiniteCover (L10 CoverMGH, finding 2: maximality of a finite cover)",
+    "Causal.Flat.Cla.fg_and_nonelementary_of_cauchyCompact (L11 G9, G9d's geometric input: Γ finitely generated, no finite-index L(Γ') with a global fixed point)"
    ],
-   "print_axioms": "Re-derived 2026-11-01, integrator pass: barbot_B: [propext, sorryAx, Classical.choice, Quot.sound]; 9 sorry leaves: cauclo_from_embedding, isLocallyCauchyTwoSided_image, isCauchyComplete_of_cauchyCompact, exists_finiteCover_tameEmbedding, nonloxodromic_parabolic_convex (this file), nonloxodromic_elliptic (Nonloxodromic), exists_commute_screenRot_of_discrete (TitsNull, through titsVirtuallyAbelianNull, DEC-50), loxo_elementary_misner, loxo_generic_centralExtension (Loxodromic). exists_splitting_of_isCauchySurface is no longer reached.",
+   "print_axioms": "Re-derived 2026-11-01, integrator pass L1-L12: barbot_B: [propext, sorryAx, Classical.choice, Quot.sound]; 7 sorry leaves: cauclo_from_embedding (this file), Cla.exists_isSpacelikeLipschitz_of_isCompact_cauchy (L9), Cla.maximal_of_isFiniteCover (L10), Cla.fg_and_nonelementary_of_cauchyCompact (L11), exists_unipotent_restriction_up_to_frame (Nonloxodromic), loxo_elementary_misner, loxo_generic_centralExtension (Loxodromic). isLocallyCauchyTwoSided_image, absMax_of_cauchyCompact_of_mgh, surjective_of_mgh_cauchyCompact: clean. Re-derive at graduation.",
    "findings": [
     "GHFspace.tex:355-358: 'standard' read as Cauchy-compact Cauchy-hyperbolic (G4); the third family is (a), IsCHTorusProduct ∧ CauchyCompact, exactly BARBOT-THEOREMS §2: CauchyCompact of the product carries G4 (equivalent, the torus fibre being compact, to the base being standard; not proved). IsStandard is stated and unused, since the library constructs no base spacetime of an IsCHTorusProduct.",
     "GHFspace.tex:3578-3581: '(ii) follows from (i)' also needs that a finite cover of a maximal Cauchy-compact spacetime is maximal, which the paper does not state.",
-    "GHFspace.tex:3536 ('Reconsider the proof above when M is assumed Cauchy-compact') uses Cauchy-compact ⇒ Cauchy-complete, which for a topological Cauchy surface needs a smoothing step."
+    "GHFspace.tex:3536 ('Reconsider the proof above when M is assumed Cauchy-compact') uses Cauchy-compact ⇒ Cauchy-complete, which for a topological Cauchy surface needs a smoothing step.",
+    "Theorem B's proof uses Benoist (Prop 9.1) a second time, for the GH of B over a family-(b) base in G9 (l.3536-3548); the statement cauclo_from_embedding does not carry it, hence its one remaining sorry."
    ],
-   "questions": []
+   "questions": [],
+   "closed_by_integrator": [
+    {
+     "decl": "Causal.Flat.isLocallyCauchyTwoSided_image",
+     "by": "L8 Cla.isLocallyCauchyTwoSided_image_of_isIsometricEmbedding (exact); #print axioms clean"
+    },
+    {
+     "decl": "Causal.Flat.isCauchyComplete_of_cauchyCompact",
+     "by": "L9 Cla.isCauchyComplete_of_isCompact_cauchy; no sorry of its own, inherits L9's Cla.exists_isSpacelikeLipschitz_of_isCompact_cauchy (smoothing)"
+    },
+    {
+     "decl": "Causal.Flat.cauclo_from_embedding (narrowed, not closed)",
+     "by": "lemma K's proved form from FlatLemmaKData (as in absMax_of_cauchyCompact_of_mgh) -> L10 Cla.mgh_cauchyCompact_of_isFiniteCover -> GH B (3 of 4 bases) -> L11 Cla.exists_modelB_cover_of_isLTPOver_cauchyCompact -> L12 Cla.IsFiniteCover.comp; one tagged sorry left (family-(b) GH)"
+    }
+   ]
   }
  ],
  "prose_items": [
   {
    "item": "[11.i] maxi (l.3563-3679)",
-   "status": "partial (AMGH closed for translation spacetimes; absolute maximality and GH closed for Misner and family (b), both time orientations; Cauchy-completeness of Misner and family (b) and the unipotent G1+G3 remain)",
+   "status": "closed in this file (no sorry beneath any [11.i] statement): translation, Misner and family (b) AMGH (both time orientations), unipotent G1 + G3 (corrected envelope, finding); upstream sorries reached only through barbot_A₀, not through the [11.i] lemmas",
    "decls": [
     "Causal.Flat.exists_lift_of_isQuotientOf",
     "Causal.Flat.surjective_of_isQuotientOf_top",
@@ -196,18 +207,18 @@
     "Causal.Flat.gh_of_isQuotientOf_limitOpensMinus",
     "Causal.Flat.exists_loxodromic_of_not_hasGlobalFixedPoint"
    ],
-   "note": "Proved, no sorry of their own (#print axioms: propext, Classical.choice, Quot.sound): the lift of an isometric embedding to the universal covers with rigidity (exists_lift_of_isQuotientOf); NEW 2026-11-01: its equivariance (exists_deck_of_lift: for γ ∈ Γ₀ a deck δ with ρ_N(δ) = gγg⁻¹, by uniqueness of lifts and Causal.eq_of_eqOn), the end for a convex Ω₀ (surjective_of_lift_of_range_subset: 𝒟_N(Ñ) ⊆ gΩ₀ ⇒ f onto), ABSOLUTE MAXIMALITY of Misner spacetimes (surjective_of_isQuotientOf_misner, both wedges: ψg_{s,w}ψ⁻¹ ∈ ρ_N(Deck) is loxodromic (isLoxodromic_axisBoost, linOf_misnerMap), 𝒟_N(Ñ) ⊆ Ω(S̃_N) (bprop_danom via the bridge on N) ⊆ its achronal domain (Loxodromic omegaS_subset_interior_achronalDomain) ⊆ ψ{xy ≤ 0} (nullX_mul_nullY_nonpos_of_mem_achronalDomain), open ⇒ ψ{xy < 0} (nullX_mul_nullY_neg_of_isOpen), connected and meeting ψW ⇒ ⊆ ψW = gΩ₀) and of quotients of regular domains Ω^±(Λ(Γ)) (surjective_of_isQuotientOf_limitOpensPlus/Minus, family (b): one quadrant per loxodromic of Γ via omegaS_subset_quadrant conjugated by g, sign fixed by 𝒟_N(Ñ) ⊇ gΩ₀, closure of Λ₀ by openness). These rest only on CauchyComplete's exists_splitting_of_isCauchySurface (the bridge on the target). Earlier: translation spacetimes absolutely maximal among all targets, GH in the IsQuotientOf form (translation, Misner future wedge). NEW, closer pass 2: amgh_of_isTranslationSpacetime fully proved (Cauchy-completeness via isCauchyComplete_of_isQuotientOf_frameHoriz); GH of the past Misner wedge (gh_of_isQuotientOf_misnerWedgePast); GH of family (b), both sides (gh_of_isQuotientOf_limitOpensPlus/Minus). Remaining: Cauchy-completeness of Misner and family (b); G1 + G3 for the unipotent family (exists_absMax_unipotent_ltp, true as written)."
+   "note": "Proved, no sorry of their own (#print axioms: propext, Classical.choice, Quot.sound): the lift of an isometric embedding to the universal covers with rigidity (exists_lift_of_isQuotientOf); NEW 2026-11-01: its equivariance (exists_deck_of_lift: for γ ∈ Γ₀ a deck δ with ρ_N(δ) = gγg⁻¹, by uniqueness of lifts and Causal.eq_of_eqOn), the end for a convex Ω₀ (surjective_of_lift_of_range_subset: 𝒟_N(Ñ) ⊆ gΩ₀ ⇒ f onto), ABSOLUTE MAXIMALITY of Misner spacetimes (surjective_of_isQuotientOf_misner, both wedges: ψg_{s,w}ψ⁻¹ ∈ ρ_N(Deck) is loxodromic (isLoxodromic_axisBoost, linOf_misnerMap), 𝒟_N(Ñ) ⊆ Ω(S̃_N) (bprop_danom via the bridge on N) ⊆ its achronal domain (Loxodromic omegaS_subset_interior_achronalDomain) ⊆ ψ{xy ≤ 0} (nullX_mul_nullY_nonpos_of_mem_achronalDomain), open ⇒ ψ{xy < 0} (nullX_mul_nullY_neg_of_isOpen), connected and meeting ψW ⇒ ⊆ ψW = gΩ₀) and of quotients of regular domains Ω^±(Λ(Γ)) (surjective_of_isQuotientOf_limitOpensPlus/Minus, family (b): one quadrant per loxodromic of Γ via omegaS_subset_quadrant conjugated by g, sign fixed by 𝒟_N(Ñ) ⊇ gΩ₀, closure of Λ₀ by openness). These rest only on CauchyComplete's exists_splitting_of_isCauchySurface (the bridge on the target). Earlier: translation spacetimes absolutely maximal among all targets, GH in the IsQuotientOf form (translation, Misner future wedge). NEW, closer pass 2: amgh_of_isTranslationSpacetime fully proved (Cauchy-completeness via isCauchyComplete_of_isQuotientOf_frameHoriz); GH of the past Misner wedge (gh_of_isQuotientOf_misnerWedgePast); GH of family (b), both sides (gh_of_isQuotientOf_limitOpensPlus/Minus). Remaining: Cauchy-completeness of Misner and family (b); G1 + G3 for the unipotent family (exists_absMax_unipotent_ltp, true as written). INTEGRATOR PASS L1-L12 (2026-11-01): Cauchy-completeness of Misner and family (b) by L4 (RegularComplete); G1 + G3 by L1, L5, L6, L7, L3 with the lifting glue of this file; all four [11.i] declarations #print axioms clean."
   },
   {
    "item": "[11.ii] (l.3573-3581), G8",
-   "status": "closed modulo isLocallyCauchyTwoSided_image",
+   "status": "closed, no sorry (isLocallyCauchyTwoSided_image by L8); #print axioms of surjective_of_mgh_cauchyCompact clean",
    "decls": [
     "Causal.Flat.surjective_of_mgh_cauchyCompact"
    ]
   },
   {
    "item": "Rem 2.3 clomax corrected (DEC-44, l.571-578)",
-   "status": "proved from lemma K's proved form; one sorry beneath (isLocallyCauchyTwoSided_image)",
+   "status": "closed, no sorry beneath (isLocallyCauchyTwoSided_image by L8); #print axioms clean",
    "decls": [
     "Causal.Flat.absMax_of_cauchyCompact_of_mgh"
    ],
@@ -323,9 +334,12 @@
   "Loxodromic's `exists_nat_add_mul_sq_lt` is absent from the built Loxodromic olean of 2026-11-01 06:48 (added on disk afterwards): a downstream file must carry its own copy (here `exists_nat_add_mul_sq_lt'`).",
   "To move a point off a null hyperplane inside an open set, perturb along (∓1, 0): ⟨(1,u) | p + t(∓1,0)⟩ = ⟨(1,u) | p⟩ ± t, and fun_prop proves the continuity of t ↦ p + t • v.",
   "Past statements for regular domains from the future ones: the time reversal τ (t,x) ↦ (−t,x) is not in isom d, but g ↦ τgτ is (revConj, via mem_lorentz_of_future); τΩ⁻(Λ) = Ω⁺(−Λ) and ≤ of 𝐌ⁿ reverses (le_top_timeRev), and on a future-complete open set ≤_⊤ is ≤_W (le_of_le_top_of_segment_subset). The quotient presentation transports along the homeomorphism τ even though τ is not an isometry, because freeness/proper discontinuity only use the covering and its fibres (isCancelSMul_of_isCoveringMap).",
-  "Completeness of a quotient's induced length: lift short paths through IsCoveringMap.restrictPreimage + exists_path_lifts, compare lengths with pathLength_pulled_eq_of_local, then EMetric.complete_of_convergent_controlled_sequences with a Nat.rec-built lifted sequence (isCauchyComplete_of_isQuotientOf_frameHoriz)."
+  "Completeness of a quotient's induced length: lift short paths through IsCoveringMap.restrictPreimage + exists_path_lifts, compare lengths with pathLength_pulled_eq_of_local, then EMetric.complete_of_convergent_controlled_sequences with a Nat.rec-built lifted sequence (isCauchyComplete_of_isQuotientOf_frameHoriz).",
+  "Plan lemmas for a big integrator file live in Flat/Cla/* under namespace Causal.Flat.Cla, importing only the integrator's own upstream: they can never see the integrator's lemmas (private copies), and the integrator calls them qualified (Cla.foo), so no public-name collision arises; dot notation does not reach them (Cla.IsFiniteCover.comp must be called by full name).",
+  "A sorry-leaf scan (transitive closure over type and value constants, flagging those that mention sorryAx) piped through `lake env lean --stdin` re-derives the upstream sorries without writing anything; it showed that nonloxodromic_elliptic and TitsNull's exists_commute_screenRot_of_discrete had been closed upstream since the previous pass.",
+  "Lemma K in the 'compact connected locally Cauchy two-sided ⇒ Cauchy' form follows from FlatLemmaKData N by exists_cauchy + flat_exists_isCauchySplitting + Causality.isCauchySurface_of_isLocallyCauchyTwoSided (Classification's cauclo_from_embedding, hK')."
  ],
- "notes": "CLOSER PASS 2 (2026-11-01). CLOSED (3 sorry terms, 1 declaration): (a) amgh_of_isTranslationSpacetime's Cauchy-completeness — isCauchyComplete_of_isQuotientOf_frameHoriz (the projected slice π(φ{t=0}): Cauchy by Examples' descent along Φ of exists_homeomorph; spacelike Lipschitz in the charts of M₁, read near each point as an isometric image of {t=0}; induced length complete with the subspace topology, by the 1-Lipschitz parametrisation q : ℝᵈ → S and the lifting of short paths through the restricted covering) — so amgh_of_isTranslationSpacetime has no sorry; (b) GH of the past Misner wedge — gh_of_isQuotientOf_misnerWedgePast (acausality and finiteness of {γ | x ≤ γy} by direct computation in null coordinates, GH of {x<0<y} = Ω⁻(Λ)); (c) GH of family (b), both sides — exists_loxodromic_of_not_hasGlobalFixedPoint (Benoist + orbit averaging), gh_of_isQuotientOf_limitOpensPlus (Examples' gh_quotient_omegaPlus), gh_of_isQuotientOf_limitOpensMinus (time reversal: timeRev, revConj, penroseNeg). Infrastructure: a covering presentation is free and properly discontinuous (isCancelSMul_of_isCoveringMap, properlyDiscontinuousSMul_of_isCoveringMap; IsQuotientOf corollaries). NO statement changed (signatures and docstring claims; docstrings updated only where they described a sorry now closed). sorry terms 11 → 8, declarations 9 → 8. Already closed by the first closer pass and verified: the [11.i] absolute-maximality lemmas (lifting with rigidity via developing_unique_of_preconnected, equivariance, barbot_A₀ on the target through the bridge), Rem 2.3 corrected and [11.ii] via lemma K with FlatLemmaKData (absMax_of_cauchyCompact_of_mgh, surjective_of_mgh_cauchyCompact) — their only remaining dependency in this file is isLocallyCauchyTwoSided_image. NOT CLOSED, obstructions sharpened: Misner Cauchy-completeness (the slice is flat in (η,z); the pulled-length computation for F, its local graph form and the past-wedge Cauchy property are missing), family (b) Cauchy-completeness (completeness of a non-flat cosmological level, bcor:level_sets_complete), cauclo_from_embedding (GH of B now available for translation/Misner models; Benoist is not among its hypotheses for family (b)). Unchanged, out of reach: nonloxodromic_parabolic_convex (upstream parabolic case is itself a sorry and its Ω is existential), exists_finiteCover_tameEmbedding (π₁ of quotients), exists_absMax_unipotent_ltp (G1 + G3), isLocallyCauchyTwoSided_image (no GH ⇒ strong causality / small domains of dependence for a general flat spacetime), isCauchyComplete_of_cauchyCompact (smoothing). No sorried statement found false. PREVIOUS NOTES: CLOSER PASS 2026-11-01 (resumed after an interrupted session). ADAPTATION to Nonloxodromic (allowed, disclosed): kept the interrupted agent's on-disk edit, which is right: BarbotExternals gains `tits : ∀ k ≤ d, TitsVirtuallyAbelianNull k` (named external, not cited by Barbot), BarbotExternals.mono and barbotExternals_zero extended (titsVirtuallyAbelianNull_zero), caseOutput_nonloxodromic gains (hT : TitsVirtuallyAbelianNull d) and calls exists_timelike_fixed_of_elliptic_of_null hT (discreteTopology_of_developsCC hpair h hle₁) …; caseOutput passes hE.tits d le_rfl. No conclusion of Theorem A/B weakened; docstring checklist row, BarbotExternals and barbot_A docstrings now disclose the component. CLOSED this pass: the absolute-maximality components of amgh_of_isMisnerSpacetime and amgh_of_isCHCentralExtension (new lemmas listed in prose_items [11.i]); sorry terms: before, Misner 3 + family (b) 1 + 7 others = 11; now Misner 2 (past-wedge GH, Cauchy-completeness) + family (b) 2 (its single sorry split into GH and Cauchy-completeness, each tagged, the third component proved) + 7 others = 11 terms in 9 declarations. MOVED (no statement change): UniversalCover.exists_deck_apply_eq now precedes its first use (exists_deck_of_lift). NOT CLOSED, obstructions sharpened: past-wedge GH (misnerWedgePast = omegaMinus misnerΛ, the cosmological-time inputs are future-only); unipotent G1+G3 (the lift's equivariance and end are now available; the inclusion via Prop 9.3 remains). Unchanged and out of reach this pass: nonloxodromic_parabolic_convex (upstream export lacks convexity; Nonloxodromic's new form exports Ω ⊆ Ω(S̃) but still not Convex), exists_finiteCover_tameEmbedding (π₁ of quotients), isLocallyCauchyTwoSided_image (local graph form and domains of dependence on balls), isCauchyComplete_of_cauchyCompact (smoothing), cauclo_from_embedding (G9 chain), and the Cauchy-completeness of the models. No sorried statement found false. Upstream sorries reached (re-derived by a transitive scan of sorryAx users): barbot_A → CauchyComplete.exists_splitting_of_isCauchySurface, Nonloxodromic.nonloxodromic_elliptic, Loxodromic.loxo_elementary_misner, loxo_generic_centralExtension (plus this file's own); barbot_B additionally this file's isLocallyCauchyTwoSided_image, isCauchyComplete_of_cauchyCompact, cauclo_from_embedding. Earlier notes: Builds in-repo (see build_note); the earlier graduation BLOCKER (Loxodromic.lean:1232 lacking [T2Space M]) is resolved upstream: Loxodromic.lean:1232 now carries [T2Space M] and its olean exists. Finding for Nonloxodromic: nonloxodromic_parabolic should export Convex ℝ Ω (here restated as nonloxodromic_parabolic_convex, a sorry). CompactCauchy and CurvesExtend are imported (both built). Universes: the models, M' and B are FlatSpacetime.{0} as upstream; AbsMax quantifies over same-universe targets (AbsMax.{0} is Barbot's against Type-0 targets; disclosed in the checklist); barbot_B's lemma-K data is asked on FlatSpacetime.{0} d. Families (b), IsCHTorusProduct, IsCauchyHyperbolic and nontrivial unipotent spacetimes carry no inhabitation witness in the library (disclosed; owners of Examples/Loxodromic should add: a cocompact Fuchsian Γ ≤ SO₀(1,2) acting linearly on the future cone, E = 0, for (b); ⟨unipAction ℓ t₀⟩ with ℓ ≠ 0 for unipotent). No b-label is marked. INTEGRATOR PASS (DEC-50, 2026-11-01): see integrator_DEC50 — the Tits component of BarbotExternals is removed and discharged by TitsNull's titsVirtuallyAbelianNull in caseOutput; sorry count unchanged (8); A/B inherit TitsNull's one sorry.",
+ "notes": "INTEGRATOR PASS L1-L12 (2026-11-01): the twelve audited plan modules Flat/Cla/* are imported; 7 of the 8 former sorries of this file are closed and the 8th (cauclo_from_embedding) is narrowed to one branch. sorry terms 8 -> 1, declarations with sorry 8 -> 1. No statement changed, no hypothesis added, no new public declaration. No plan lemma turned out false; each was used at the statement its audit checked. The one gap left: cauclo_from_embedding needs GH B for a family-(b) base, which needs Benoist, not among its hypotheses (see labels[1].sorries). Theorem A now rests on no sorry of this file and none of the plan lemmas: only Nonloxodromic's exists_unipotent_restriction_up_to_frame and Loxodromic's loxo_elementary_misner, loxo_generic_centralExtension. Theorem B additionally rests on cauclo_from_embedding's branch and on the three plan-lemma sorries (L9 smoothing, L10 maximality of a finite cover, L11 G9d). Graduation: `lake build CausalScaffold.Flat.Classification` will build the 12 Cla modules (their oleans exist); the kb/0025 axiom sweep now sees them through Classification. Observation for the master: the FlatLemmaKData docstring and SCOPE still say Splitting.lean's target 4 is a tagged sorry, but Splitting.lean has 0 sorries and flat_hasChronalCausalFlow / Cla.tarentin_flatCausality are axiom-clean; most fields of FlatLemmaKData now hold for every flat spacetime, so hK might be dischargeable (not attempted: it would be a separate lemma, and the exists_cauchy field needs an acausal Cauchy surface of a GH spacetime). PREVIOUS NOTES: CLOSER PASS 2 (2026-11-01). CLOSED (3 sorry terms, 1 declaration): (a) amgh_of_isTranslationSpacetime's Cauchy-completeness — isCauchyComplete_of_isQuotientOf_frameHoriz (the projected slice π(φ{t=0}): Cauchy by Examples' descent along Φ of exists_homeomorph; spacelike Lipschitz in the charts of M₁, read near each point as an isometric image of {t=0}; induced length complete with the subspace topology, by the 1-Lipschitz parametrisation q : ℝᵈ → S and the lifting of short paths through the restricted covering) — so amgh_of_isTranslationSpacetime has no sorry; (b) GH of the past Misner wedge — gh_of_isQuotientOf_misnerWedgePast (acausality and finiteness of {γ | x ≤ γy} by direct computation in null coordinates, GH of {x<0<y} = Ω⁻(Λ)); (c) GH of family (b), both sides — exists_loxodromic_of_not_hasGlobalFixedPoint (Benoist + orbit averaging), gh_of_isQuotientOf_limitOpensPlus (Examples' gh_quotient_omegaPlus), gh_of_isQuotientOf_limitOpensMinus (time reversal: timeRev, revConj, penroseNeg). Infrastructure: a covering presentation is free and properly discontinuous (isCancelSMul_of_isCoveringMap, properlyDiscontinuousSMul_of_isCoveringMap; IsQuotientOf corollaries). NO statement changed (signatures and docstring claims; docstrings updated only where they described a sorry now closed). sorry terms 11 → 8, declarations 9 → 8. Already closed by the first closer pass and verified: the [11.i] absolute-maximality lemmas (lifting with rigidity via developing_unique_of_preconnected, equivariance, barbot_A₀ on the target through the bridge), Rem 2.3 corrected and [11.ii] via lemma K with FlatLemmaKData (absMax_of_cauchyCompact_of_mgh, surjective_of_mgh_cauchyCompact) — their only remaining dependency in this file is isLocallyCauchyTwoSided_image. NOT CLOSED, obstructions sharpened: Misner Cauchy-completeness (the slice is flat in (η,z); the pulled-length computation for F, its local graph form and the past-wedge Cauchy property are missing), family (b) Cauchy-completeness (completeness of a non-flat cosmological level, bcor:level_sets_complete), cauclo_from_embedding (GH of B now available for translation/Misner models; Benoist is not among its hypotheses for family (b)). Unchanged, out of reach: nonloxodromic_parabolic_convex (upstream parabolic case is itself a sorry and its Ω is existential), exists_finiteCover_tameEmbedding (π₁ of quotients), exists_absMax_unipotent_ltp (G1 + G3), isLocallyCauchyTwoSided_image (no GH ⇒ strong causality / small domains of dependence for a general flat spacetime), isCauchyComplete_of_cauchyCompact (smoothing). No sorried statement found false. PREVIOUS NOTES: CLOSER PASS 2026-11-01 (resumed after an interrupted session). ADAPTATION to Nonloxodromic (allowed, disclosed): kept the interrupted agent's on-disk edit, which is right: BarbotExternals gains `tits : ∀ k ≤ d, TitsVirtuallyAbelianNull k` (named external, not cited by Barbot), BarbotExternals.mono and barbotExternals_zero extended (titsVirtuallyAbelianNull_zero), caseOutput_nonloxodromic gains (hT : TitsVirtuallyAbelianNull d) and calls exists_timelike_fixed_of_elliptic_of_null hT (discreteTopology_of_developsCC hpair h hle₁) …; caseOutput passes hE.tits d le_rfl. No conclusion of Theorem A/B weakened; docstring checklist row, BarbotExternals and barbot_A docstrings now disclose the component. CLOSED this pass: the absolute-maximality components of amgh_of_isMisnerSpacetime and amgh_of_isCHCentralExtension (new lemmas listed in prose_items [11.i]); sorry terms: before, Misner 3 + family (b) 1 + 7 others = 11; now Misner 2 (past-wedge GH, Cauchy-completeness) + family (b) 2 (its single sorry split into GH and Cauchy-completeness, each tagged, the third component proved) + 7 others = 11 terms in 9 declarations. MOVED (no statement change): UniversalCover.exists_deck_apply_eq now precedes its first use (exists_deck_of_lift). NOT CLOSED, obstructions sharpened: past-wedge GH (misnerWedgePast = omegaMinus misnerΛ, the cosmological-time inputs are future-only); unipotent G1+G3 (the lift's equivariance and end are now available; the inclusion via Prop 9.3 remains). Unchanged and out of reach this pass: nonloxodromic_parabolic_convex (upstream export lacks convexity; Nonloxodromic's new form exports Ω ⊆ Ω(S̃) but still not Convex), exists_finiteCover_tameEmbedding (π₁ of quotients), isLocallyCauchyTwoSided_image (local graph form and domains of dependence on balls), isCauchyComplete_of_cauchyCompact (smoothing), cauclo_from_embedding (G9 chain), and the Cauchy-completeness of the models. No sorried statement found false. Upstream sorries reached (re-derived by a transitive scan of sorryAx users): barbot_A → CauchyComplete.exists_splitting_of_isCauchySurface, Nonloxodromic.nonloxodromic_elliptic, Loxodromic.loxo_elementary_misner, loxo_generic_centralExtension (plus this file's own); barbot_B additionally this file's isLocallyCauchyTwoSided_image, isCauchyComplete_of_cauchyCompact, cauclo_from_embedding. Earlier notes: Builds in-repo (see build_note); the earlier graduation BLOCKER (Loxodromic.lean:1232 lacking [T2Space M]) is resolved upstream: Loxodromic.lean:1232 now carries [T2Space M] and its olean exists. Finding for Nonloxodromic: nonloxodromic_parabolic should export Convex ℝ Ω (here restated as nonloxodromic_parabolic_convex, a sorry). CompactCauchy and CurvesExtend are imported (both built). Universes: the models, M' and B are FlatSpacetime.{0} as upstream; AbsMax quantifies over same-universe targets (AbsMax.{0} is Barbot's against Type-0 targets; disclosed in the checklist); barbot_B's lemma-K data is asked on FlatSpacetime.{0} d. Families (b), IsCHTorusProduct, IsCauchyHyperbolic and nontrivial unipotent spacetimes carry no inhabitation witness in the library (disclosed; owners of Examples/Loxodromic should add: a cocompact Fuchsian Γ ≤ SO₀(1,2) acting linearly on the future cone, E = 0, for (b); ⟨unipAction ℓ t₀⟩ with ℓ ≠ 0 for unipotent). No b-label is marked. INTEGRATOR PASS (DEC-50, 2026-11-01): see integrator_DEC50 — the Tits component of BarbotExternals is removed and discharged by TitsNull's titsVirtuallyAbelianNull in caseOutput; sorry count unchanged (8); A/B inherit TitsNull's one sorry.",
  "fixer": {
   "audit_blocking": [
    {
@@ -390,7 +404,7 @@
   "sorries_closed": 0,
   "sorries_note": "No sorry-bearing declaration closed outright (count stays 9), but the [11.i] content was substantially discharged under the unchanged statements: amgh_of_isTranslationSpacetime now proves GH and absolute maximality (only Cauchy-completeness remains); amgh_of_isMisnerSpacetime proves GH on the future wedge; the lifting to universal covers with rigidity (exists_lift_of_isQuotientOf) is proved for every convex quotient and is the first step of all remaining [11.i] sorries. Rem 2.3 corrected and [11.ii] remain proved modulo isLocallyCauchyTwoSided_image (local domains of dependence of a topological acausal Cauchy surface in a chart: not attempted to closure). Not closable here: exists_finiteCover_tameEmbedding (π₁ of quotients), nonloxodromic_parabolic_convex (upstream export), isCauchyComplete_of_cauchyCompact (smoothing), cauclo_from_embedding, exists_absMax_unipotent_ltp, and the Cauchy-completeness of every model (induced length of quotient slices)."
  },
- "sorry_terms": 8,
+ "sorry_terms": 1,
  "integrator_DEC50": {
   "date": "2026-11-01",
   "ruling": "DEC-50 (TitsVirtuallyAbelianNull is proved, not carried as a named external)",
@@ -413,5 +427,47 @@
   "inherited_sorry": "Theorems A/B (and barbot_A₀, caseOutput) now reach TitsNull's one tagged sorry exists_commute_screenRot_of_discrete through titsVirtuallyAbelianNull; for d ≤ 2 a sorry-free titsVirtuallyAbelianNull_of_le_two exists in TitsNull but is not used (the theorems are stated for every d)",
   "labels_marked": "none (both remain partial)",
   "public_name_collisions": "none: no new declaration; the file typechecks with TitsNull imported"
+ },
+ "integrator_cla": {
+  "date": "2026-11-01",
+  "modules_imported": [
+   "CausalScaffold.Flat.Cla.LTPConvex",
+   "CausalScaffold.Flat.Cla.FiniteCover",
+   "CausalScaffold.Flat.Cla.TameNested",
+   "CausalScaffold.Flat.Cla.RegularComplete",
+   "CausalScaffold.Flat.Cla.UnipEnvelope",
+   "CausalScaffold.Flat.Cla.UnipComplete",
+   "CausalScaffold.Flat.Cla.LTPEnlarge",
+   "CausalScaffold.Flat.Cla.LocallyCauchy",
+   "CausalScaffold.Flat.Cla.CompactComplete",
+   "CausalScaffold.Flat.Cla.CoverMGH",
+   "CausalScaffold.Flat.Cla.G9",
+   "CausalScaffold.Flat.Cla.CoverComp"
+  ],
+  "statement_changes": "none",
+  "sorries_closed": [
+   "nonloxodromic_parabolic_convex (L1)",
+   "exists_finiteCover_tameEmbedding (L2, L3)",
+   "amgh_of_isMisnerSpacetime (L4)",
+   "amgh_of_isCHCentralExtension (L4)",
+   "exists_absMax_unipotent_ltp (L1, L3, L5, L6, L7)",
+   "isLocallyCauchyTwoSided_image (L8)",
+   "isCauchyComplete_of_cauchyCompact (L9; inherits L9's smoothing sorry)"
+  ],
+  "sorries_left": [
+   "cauclo_from_embedding: GH of B over a family-(b) base (Benoist not among its hypotheses); L10, L11, L12 assembled"
+  ],
+  "lemmas_false": [],
+  "plan_lemma_sorries_inherited": [
+   "Cla.exists_isSpacelikeLipschitz_of_isCompact_cauchy (L9)",
+   "Cla.maximal_of_isFiniteCover (L10)",
+   "Cla.fg_and_nonelementary_of_cauchyCompact (L11)"
+  ],
+  "unused_plan_lemmas": [],
+  "public_name_collisions": "none (no new declaration)",
+  "docstrings_updated": [
+   "module docstring: header, prose bullet, checklist Tits row (TitsNull now sorry-free), SCOPE plan-lemma / remaining-sorry / upstream bullets, findings (1) amended, (10) G1 printed construction wrong, (11) Benoist used twice in B",
+   "nonloxodromic_parabolic_convex, exists_finiteCover_tameEmbedding, amgh_of_isMisnerSpacetime, amgh_of_isCHCentralExtension, exists_absMax_unipotent_ltp, isLocallyCauchyTwoSided_image, isCauchyComplete_of_cauchyCompact, cauclo_from_embedding, barbot_A"
+  ]
  }
 }

@@ -25,14 +25,14 @@ the library's reading (SCOPE), so the rows are `partial` (kb/0011, DEC-27).
   the length topology finer than the subspace one, makes an acausal quotient `Γ\Ω` Cauchy-complete.
 
 > The Gauss map $n: S_{t} \rightarrow {\mathbb H}^{n-1}$, where ${\mathbb H}^{n-1}$ is equipped
-> with its usual hyperbolic metric is $\frac{1}{t}$-Lipschitz. (l.1075–1077)
+> with its usual hyperbolic metric is $\frac{1}{t}$-Lipschitz. (l.1076–1078)
 
 > Every $S_{t}$ is complete. (l.1110)
 
 > Since $S_{t}$ is riemannian, completeness notions are all equivalent. Let $s \mapsto p(s)$ be
 > an incomplete geodesic in $S_{t}$ defined on $[0, s_{\infty}[$, parametrized by unit length.
 > According to proposition \ref{lip}, $s \mapsto n(c(s))$ must converge in ${\mathbb H}^{n-1}$ to
-> some limit point $n_{\infty}$. (l.1113–1118)
+> some limit point $n_{\infty}$. (l.1114–1120)
 
 > Future complete regular convex domains are globally hyperbolic Cauchy-complete, admitting as
 > Cauchy hypersurfaces the level sets of the cosmological time function. (l.1149–1151)

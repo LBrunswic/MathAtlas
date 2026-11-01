@@ -81,7 +81,7 @@ the library's `Minkowski d = ℝ × EuclideanSpace ℝ (Fin d)` has `d` spatial 
 | `S` acausal ("spacelike") | ✓ carried; redundant on a flat spacetime (`isAcausal_of_isCauchySurface_of_hasChronalCausalFlow`), kept as the consumer states it |
 | second countability | ⚠ weakened: not a hypothesis; the instance `FlatSpacetime.secondCountableTopology` (DEC-49) feeds the flow |
 | `M`, `N` in one universe (Classification's statement) | ⚠ weakened: `M : FlatSpacetime.{u} d`, `N : FlatSpacetime.{v} d` |
-| `S` compact / closed (l.3537 "closed") | ⚠ weakened: not needed for the local statement |
+| `S` compact / closed (l.3538 "closed") | ⚠ weakened: not needed for the local statement |
 
 ## SCOPE (disclosed)
 

@@ -33,7 +33,7 @@ a finite cover); this module is that step.
 
 ## What is proved
 
-* `Causal.Flat.IsFiniteCover.comp` — if `q : Y → Z` and `p : X → Y` are finite covers
+* `Causal.Flat.Cla.IsFiniteCover.comp` — if `q : Y → Z` and `p : X → Y` are finite covers
   (`IsFiniteCover d`: a covering map, a local isometry, finite fibres), so is `q ∘ p`. Sorry-free.
   - covering: `Causal.isCoveringMap_comp_of_finite` (`Port/UniversalCover.lean`, sorry-free,
     reached transitively through `Flat.Developing`): over an evenly covered `U ∋ z` for `q` with
