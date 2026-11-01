@@ -147,6 +147,12 @@ Classes: **T** causal / order-topological / affine in Minkowski space; **D** met
 
 ## Findings against ETT (for the author; the ETT ledger is not edited from this campaign)
 
+- **Offered to the ETT campaign (DEC-65, 2026-11-01):** `Flat/GerochFlat.lean`'s
+  `minkowski_frontier_null_measure` has exactly the statement of ETT's sorried
+  `minkowski_exists_measure` (`CausalScaffold/MinkowskiMeasure.lean`, `prop:mesure_dieckmann_Lorentz`)
+  and is sorry-free — the frontier of a past set meets each vertical line at most once (no Lipschitz
+  graph needed), so it is null by Fubini. Not applied to the ETT file from this campaign.
+
 - **ETT.tex:1792**, the "Moreover" of `theo:geroch_sing`: "ψ is a local diffeomorphism" needs `Σ`
   smooth and transverse to the field; for a topological Cauchy surface the replacement is "J^±(Σ)
   closed" — necessary and sufficient for the flow map to be a splitting

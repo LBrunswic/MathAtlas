@@ -53,7 +53,9 @@ dimensions: Barbot's `n` is `d + 1`.
 
 ## SCOPE (disclosed)
 
-* **`FlatGerochGH` is not proved here, in any dimension.** It is Geroch's theorem for flat
+* **`FlatGerochGH` is not proved here, in any dimension** — it is proved, sorry-free, in
+  `Flat/GerochFlat.lean` (`flatGerochGH`, DEC-65, which imports this file; `barbot_B_geroch` is
+  `barbot_B` without `hK`). It is Geroch's theorem for flat
   spacetimes (ETT's GH, causal + compact diamonds, gives a Cauchy surface). The library proves
   the topological Geroch theorem (`Causality.geroch_i_imp_iii`, `Causal/Geroch.lean`) from a
   pair of admissible measures, so `FlatGerochGH` follows from `FlatAdmissibleMeasures`
