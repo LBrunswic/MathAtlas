@@ -5,6 +5,7 @@ import CausalScaffold.Flat.TwistedProduct
 import CausalScaffold.Flat.Examples
 import CausalScaffold.Flat.CauchyComplete
 import Mathlib.NumberTheory.Real.Irrational
+import Mathlib.NumberTheory.DiophantineApproximation.Basic
 
 /-!
 # `CausalScaffold.Flat.Nonloxodromic` — Barbot §9, the nonloxodromic case
@@ -27,7 +28,9 @@ nonloxodromic case" (label `nol`), lines of the **labelled** `papers/barbot/lega
   externals only under `Γ_nd` of finite index (`exists_timelike_fixed_of_elliptic_of_ausl`,
   through `AuslanderCarriereDalbo` and the proved `exists_timelike_fixed_of_nilpotent_elliptic`).
 * Unmarked prose: [9.E] l.2604–2617 (`omegaS_eq_univ_of_isElliptic`, `isElliptic_of_relIndex`,
-  `omegaS_eq_univ_of_relIndex`, `nonloxodromic_elliptic`);
+  `omegaS_eq_univ_of_relIndex`, the free proper action on `𝐌ⁿ` and the quotient
+  `CCAction.finite_of_fix_timelike`, `exists_isQuotientOf_omegaS_of_fix_timelike`, the null-span
+  exclusion `not_null_recurrent_of_isEntireAcausalGraph`, `nonloxodromic_elliptic`);
   [9.P] l.2619–2735 (`NolParam`, `act_mul`, `act_proj₀` = (∗∗), `act_of_isU` = (∗∗′));
   Rem 9.2 `choixcoord` l.2737–2760, corrected (`frameChange`, `choixcoord`); [9.b] l.2767–2787
   (`b_trivial_model`, `b_eq_zero_model`); [9.U] l.2865–2938 (`inner_comm_of_commute`,
@@ -150,7 +153,12 @@ finite-index passage is explicit: `Γ'' ≤ Γ`, `Γ''.relIndex Γ ≠ 0`.
   (2) l.2621–2622: "`Γ` contains a parabolic element `γ₁`" does not follow from 9.1 when `L(Γ')`
   fixes a null `v₀` and is all-elliptic. (3) l.588–590 / [9.E]: spacelike translation vectors do
   not give a spacelike span (`spacelike_translations_null_span`); the reading
-  `IsTranslationSpacetime` needs the latter. (4) l.2659: for `γ ∈ 𝒜(v₀)` linear, `U(γ)` is
+  `IsTranslationSpacetime` needs the latter. In [9.E] acausality of `Σ` alone excludes a null
+  direction of the span once it is recurrent (`not_null_recurrent_of_isEntireAcausalGraph`;
+  the example group preserves no entire acausal graph, `not_isEntireAcausalGraph_null_span`);
+  recurrence for a lattice of the span (pigeonhole in the torus) is not formalized. Barbot
+  states only freeness on `𝐌ⁿ` (l.2609–2610); properness, needed for the quotient, is proved
+  (`CCAction.finite_of_fix_timelike`). (4) l.2659: for `γ ∈ 𝒜(v₀)` linear, `U(γ)` is
   `π₁⁻¹(ℝ ∖ {y_γ})` (l.2929), the preimage of the complement of a point, not of "a half-line".
   (5) 9.3 needs no discreteness of `u(Γ)`. (6) Rem 9.4 (l.2958–2962) has a consequence the
   paper's prose of l.2904–2907 and BARBOT-THEOREMS §3's reading ("conclusions about
@@ -2248,6 +2256,257 @@ theorem spacelike_translations_null_span :
     have := congrArg Prod.fst h0
     simp [timeUnit, spaceUnit] at this
 
+/-! ### [9.E]: the free proper action on `𝐌ⁿ`, and the null-span exclusion -/
+
+section EllipticProper
+
+open scoped Pointwise
+
+/-- **The lift along a timelike direction is compact** ([9.E], l.2609–2610, implicit): for an
+entire acausal graph `Σ = graph g` and a future timelike `v`, the points `k + s v ∈ Σ`, `k` in a
+compact `K`, lie in one compact `K' ⊆ Σ`: `g` is 1-Lipschitz, so
+`|s| (v₀ − |v̄|) ≤ |k₀ − g(k̄)|`, bounded on `K`. -/
+theorem exists_compact_lift_of_entire {St : Set (Minkowski d)} (hS : IsEntireAcausalGraph St)
+    {v : Minkowski d} (hv : IsFutureTimelike v) {K : Set (Minkowski d)} (hK : IsCompact K) :
+    ∃ K' ⊆ St, IsCompact K' ∧
+      ∀ k ∈ K, ∀ s : ℝ, k + s • v ∈ St → k + s • v ∈ K' := by
+  obtain ⟨g, hg, rfl⟩ := isEntireAcausalGraph_iff.1 hS
+  have hgc : Continuous g := hg.lipschitzWith.continuous
+  have hv' := isFutureTimelike_iff_norm_lt.1 hv
+  have hcpos : 0 < v.1 - ‖v.2‖ := by linarith
+  have hf : ContinuousOn (fun k : Minkowski d => k.1 - g k.2) K :=
+    (continuous_fst.sub (hgc.comp continuous_snd)).continuousOn
+  obtain ⟨A, hA⟩ := hK.exists_bound_of_continuousOn hf
+  set R := A / (v.1 - ‖v.2‖)
+  refine ⟨graph g ∩ (fun p : Minkowski d × ℝ => p.1 + p.2 • v) '' (K ×ˢ Icc (-R) R),
+    inter_subset_left, ((hK.prod isCompact_Icc).image (by fun_prop)).inter_left
+      (isClosed_graph hgc), fun k hk s hs => ⟨hs, ⟨(k, s), ⟨hk, abs_le.1 ?_⟩, rfl⟩⟩⟩
+  have h1 : (k + s • v).1 = g (k + s • v).2 := hs
+  simp only [Prod.fst_add, Prod.smul_fst, Prod.snd_add, Prod.smul_snd, smul_eq_mul] at h1
+  have hl : |g (k.2 + s • v.2) - g k.2| ≤ |s| * ‖v.2‖ := by
+    have := hg.lipschitzWith.dist_le_mul (k.2 + s • v.2) k.2
+    rw [Real.dist_eq, dist_eq_norm, add_sub_cancel_left, norm_smul, Real.norm_eq_abs] at this
+    simpa using this
+  have hAk := hA k hk
+  rw [Real.norm_eq_abs] at hAk
+  have e : s * v.1 = (g (k.2 + s • v.2) - g k.2) - (k.1 - g k.2) := by linarith
+  have hsv : |s| * v.1 ≤ |s| * ‖v.2‖ + A := by
+    calc |s| * v.1 = |s * v.1| := by rw [abs_mul, abs_of_pos hv.1]
+      _ ≤ _ := by rw [e]; exact (abs_sub _ _).trans (add_le_add hl hAk)
+  rw [le_div_iff₀ hcpos]
+  nlinarith
+
+/-- A timelike vector fixed by a group of linear parts gives a future timelike one (`v` or `−v`). -/
+theorem exists_futureTimelike_fixed {H : Subgroup (isom d)} {v : Minkowski d} (hv : minkQ v < 0)
+    (hfix : ∀ γ ∈ H, linOf γ v = v) :
+    ∃ w : Minkowski d, IsFutureTimelike w ∧ ∀ γ ∈ H, linOf γ w = w := by
+  have h1 : v.1 ≠ 0 := by
+    intro h0
+    rw [minkQ, h0] at hv
+    nlinarith [sq_nonneg ‖v.2‖]
+  rcases lt_or_gt_of_ne h1 with h | h
+  · refine ⟨-v, ⟨by simp; linarith, by rw [minkQ_neg]; exact hv⟩, fun γ hγ => ?_⟩
+    rw [map_neg, hfix γ hγ]
+  · exact ⟨v, ⟨h, hv⟩, hfix⟩
+
+/-- **[9.E] Properness on all of `𝐌ⁿ`** (l.2609–2610: Barbot states only freeness; the quotient
+`Γ\𝐌ⁿ` needs properness too): if `H ≤ Γ` has linear parts fixing a timelike `v`, then for every
+compact `K ⊆ 𝐌ⁿ` finitely many `γ ∈ H` meet `γ K ∩ K`. The `v`-line through `k ∈ K` meets `Σ` at
+`k + s v`, and `γ (k + s v) = γ k + s v`: so `γ K ∩ K ≠ ∅` gives `γ K' ∩ K' ≠ ∅` for the compact
+`K' ⊆ Σ` of `exists_compact_lift_of_entire`, and Develop's properness on `Σ` applies. -/
+theorem CCAction.finite_of_fix_timelike {Γ H : Subgroup (isom d)} {St : Set (Minkowski d)}
+    (h : CCAction Γ St) (hle : H ≤ Γ) {v : Minkowski d} (hv : minkQ v < 0)
+    (hfix : ∀ γ ∈ H, linOf γ v = v) {K : Set (Minkowski d)} (hK : IsCompact K) :
+    {γ : isom d | γ ∈ H ∧ (γ • K ∩ K).Nonempty}.Finite := by
+  obtain ⟨w, hw, hfw⟩ := exists_futureTimelike_fixed hv hfix
+  obtain ⟨K', hK'S, hK'c, hR⟩ := exists_compact_lift_of_entire h.cc.entire hw hK
+  refine (h.proper K' hK'S hK'c).subset ?_
+  rintro γ ⟨hγH, _, ⟨k, hk, rfl⟩, hk'⟩
+  obtain ⟨s, hs⟩ := h.cc.entire.meets k w hw
+  have hγs : γ • (k + s • w) = γ • k + s • w := by rw [isom_smul_add_smul, hfw γ hγH]
+  have h2 : γ • k + s • w ∈ St := hγs ▸ h.smul_mem (hle hγH) hs
+  exact ⟨hle hγH, γ • (k + s • w), smul_mem_smul_set (hR k hk s hs), hγs ▸ hR _ hk' s h2⟩
+
+/-- **[9.E] Freeness on all of `𝐌ⁿ`** (l.2609–2610), for `H ≤ Γ` with linear parts fixing a
+timelike `v`: a fixed `x` gives the fixed point `x + s v ∈ Σ`. -/
+theorem CCAction.free_of_fix_timelike {Γ H : Subgroup (isom d)} {St : Set (Minkowski d)}
+    (h : CCAction Γ St) (hle : H ≤ Γ) {v : Minkowski d} (hv : minkQ v < 0)
+    (hfix : ∀ γ ∈ H, linOf γ v = v) {γ : isom d} (hγ : γ ∈ H) (h1 : γ ≠ 1)
+    (x : Minkowski d) : γ • x ≠ x := by
+  intro hx
+  obtain ⟨w, hw, hfw⟩ := exists_futureTimelike_fixed hv hfix
+  obtain ⟨s, hs⟩ := h.cc.entire.meets x w hw
+  exact h.free γ (hle hγ) h1 _ hs (by rw [isom_smul_add_smul, hfw γ hγ, hx])
+
+/-- Every subgroup of `Isom(𝐌ⁿ)` preserves `⊤`. -/
+theorem invariant_top_of_subgroup (H : Subgroup (isom d)) :
+    FlatQuotient.Invariant H (⊤ : TopologicalSpace.Opens (Minkowski d)) :=
+  ⟨fun _ _ _ => trivial⟩
+
+/-- `CCAction.finite_of_fix_timelike` in mathlib's form, on the subtype `⊤`. -/
+theorem CCAction.properlyDiscontinuousSMul_top_of_fix_timelike {Γ H : Subgroup (isom d)}
+    {St : Set (Minkowski d)} (h : CCAction Γ St) (hle : H ≤ Γ) {v : Minkowski d}
+    (hv : minkQ v < 0) (hfix : ∀ γ ∈ H, linOf γ v = v) :
+    letI := invariant_top_of_subgroup H
+    ProperlyDiscontinuousSMul H (⊤ : TopologicalSpace.Opens (Minkowski d)) := by
+  letI := invariant_top_of_subgroup H
+  refine ⟨fun {K L} hK hL => ?_⟩
+  have hc : IsCompact ((Subtype.val '' K ∪ Subtype.val '' L : Set (Minkowski d))) :=
+    (hK.image continuous_subtype_val).union (hL.image continuous_subtype_val)
+  refine ((h.finite_of_fix_timelike hle hv hfix hc).preimage
+    Subtype.val_injective.injOn).subset ?_
+  rintro γ ⟨_, ⟨k, hk, rfl⟩, hl⟩
+  refine ⟨γ.2, (γ : isom d) • (k : Minkowski d),
+    smul_mem_smul_set (Or.inl ⟨k, hk, rfl⟩), Or.inr ⟨_, hl, rfl⟩⟩
+
+/-- `CCAction.free_of_fix_timelike` in mathlib's form, on the subtype `⊤`. -/
+theorem CCAction.isCancelSMul_top_of_fix_timelike {Γ H : Subgroup (isom d)}
+    {St : Set (Minkowski d)} (h : CCAction Γ St) (hle : H ≤ Γ) {v : Minkowski d}
+    (hv : minkQ v < 0) (hfix : ∀ γ ∈ H, linOf γ v = v) :
+    letI := invariant_top_of_subgroup H
+    IsCancelSMul H (⊤ : TopologicalSpace.Opens (Minkowski d)) := by
+  letI := invariant_top_of_subgroup H
+  rw [isCancelSMul_iff_eq_one_of_smul_eq]
+  intro γ x hx
+  by_contra h1
+  exact h.free_of_fix_timelike hle hv hfix γ.2 (fun e => h1 (Subtype.ext e)) x
+    (congrArg Subtype.val hx)
+
+/-- **[9.E] The quotient `H\𝐌ⁿ` exists** (`FlatQuotient.toFlatSpacetime`), for `H ≤ Γ` with
+linear parts fixing a timelike vector: item (1) of `nonloxodromic_elliptic`'s obstruction. -/
+theorem CCAction.exists_isQuotientOf_top_of_fix_timelike {Γ H : Subgroup (isom d)}
+    {St : Set (Minkowski d)} (h : CCAction Γ St) (hle : H ≤ Γ) {v : Minkowski d}
+    (hv : minkQ v < 0) (hfix : ∀ γ ∈ H, linOf γ v = v) :
+    ∃ B : FlatSpacetime.{0} d, IsQuotientOf B H ⊤ := by
+  letI := invariant_top_of_subgroup H
+  haveI := h.properlyDiscontinuousSMul_top_of_fix_timelike hle hv hfix
+  haveI := h.isCancelSMul_top_of_fix_timelike hle hv hfix
+  exact ⟨_, FlatQuotient.isQuotientOf_toFlatSpacetime H ⊤ FlatQuotient.isConnected_top⟩
+
+/-- **[9.E] / [3.T]: a recurrent null direction excludes an invariant entire acausal graph**
+(SCOPE finding 3, item (4) of `nonloxodromic_elliptic`'s obstruction). Let `Σ` be an entire
+acausal graph, `p₀ ∈ Σ`, and `n` a future null vector such that, for every `ε > 0`, some
+`s ≥ 1` and some `τ` with `p₀ + τ ∈ Σ` have `‖s n − τ‖ < ε`. This is impossible: writing
+`Σ = graph g`, `F(s) = g(x₀ + s n̄) − g(x₀) − s n₀` satisfies `F(s) ≤ F(1) < 0` for `s ≥ 1`
+(strict contraction), while `p₀ + τ ∈ Σ` and `τ ≈ s n` give `F(s) > −2ε`. The recurrence holds
+whenever the translation vectors `τ` of a group preserving `Σ` form a lattice of a subspace
+containing `n` (pigeonhole in the torus); only acausality is used, not (CC′)'s null saturation. -/
+theorem not_null_recurrent_of_isEntireAcausalGraph {St : Set (Minkowski d)}
+    (hS : IsEntireAcausalGraph St) {p₀ : Minkowski d} (hp₀ : p₀ ∈ St) {n : Minkowski d}
+    (hn1 : 0 < n.1) (hn : minkQ n = 0)
+    (hrec : ∀ ε > 0, ∃ s : ℝ, 1 ≤ s ∧ ∃ τ : Minkowski d, p₀ + τ ∈ St ∧ ‖s • n - τ‖ < ε) :
+    False := by
+  obtain ⟨g, hg, rfl⟩ := isEntireAcausalGraph_iff.1 hS
+  have hlip : ∀ a b, |g a - g b| ≤ ‖a - b‖ := fun a b => by
+    by_cases hab : a = b
+    · subst hab; simp
+    · exact (hg a b hab).le
+  have hnn : ‖n.2‖ = n.1 := by
+    have h0 : ‖n.2‖ ^ 2 = n.1 ^ 2 := by rw [minkQ] at hn; linarith
+    have := (sq_eq_sq₀ (norm_nonneg _) hn1.le).1 h0
+    exact this
+  set x₀ := p₀.2
+  have hp : p₀.1 = g x₀ := hp₀
+  set F : ℝ → ℝ := fun s => g (x₀ + s • n.2) - g x₀ - s * n.1
+  have hF1 : F 1 < 0 := by
+    have hne : x₀ + n.2 ≠ x₀ := by
+      intro h
+      have : n.2 = 0 := by simpa using h
+      rw [this, norm_zero] at hnn; linarith
+    have := hg _ _ hne
+    rw [add_sub_cancel_left, hnn] at this
+    simp only [F, one_smul, one_mul]
+    linarith [le_abs_self (g (x₀ + n.2) - g x₀)]
+  have hFle : ∀ s, 1 ≤ s → F s ≤ F 1 := fun s hs => by
+    have := hlip (x₀ + s • n.2) (x₀ + n.2)
+    rw [show x₀ + s • n.2 - (x₀ + n.2) = (s - 1) • n.2 by rw [sub_smul, one_smul]; abel,
+      norm_smul, Real.norm_eq_abs, abs_of_nonneg (show (0:ℝ) ≤ s - 1 by linarith), hnn] at this
+    simp only [F, one_smul, one_mul]
+    linarith [le_abs_self (g (x₀ + s • n.2) - g (x₀ + n.2))]
+  obtain ⟨s, hs, τ, hτ, hsτ⟩ := hrec (-F 1 / 2) (by linarith)
+  have hτ' : g x₀ + τ.1 = g (x₀ + τ.2) := by
+    have : (p₀ + τ).1 = g (p₀ + τ).2 := hτ
+    simpa [hp] using this
+  have h2 : ‖s • n.2 - τ.2‖ < -F 1 / 2 := (norm_snd_le (s • n - τ)).trans_lt hsτ
+  have h1 : |s * n.1 - τ.1| < -F 1 / 2 := by
+    have := (norm_fst_le (s • n - τ)).trans_lt hsτ
+    simpa [Real.norm_eq_abs] using this
+  have h3 := hlip (x₀ + s • n.2) (x₀ + τ.2)
+  rw [show x₀ + s • n.2 - (x₀ + τ.2) = s • n.2 - τ.2 by abel] at h3
+  have hFs := hFle s hs
+  simp only [F, one_smul, one_mul] at hFs hF1 h1 h2
+  linarith [neg_abs_le (g (x₀ + s • n.2) - g (x₀ + τ.2)), le_abs_self (s * n.1 - τ.1)]
+
+/-- **The group of `spacelike_translations_null_span` preserves no entire acausal graph**:
+`⟨e, w⟩` (`e = e₁`, `w = n + √2 e`, `n = e₀ + e₂` null) has every nonzero translation vector
+spacelike and a degenerate span, and Dirichlet's approximation `|k √2 − j| ≤ 1/(N + 1)` makes `n`
+recurrent (`k n − (k w − j e) = (j − k √2) e`), so `not_null_recurrent_of_isEntireAcausalGraph`
+applies. Hence that span cannot arise from the §8 data (`CCAction`); acausality alone excludes
+it. -/
+theorem not_isEntireAcausalGraph_null_span {St : Set (Minkowski (d + 2))}
+    (hS : IsEntireAcausalGraph St)
+    (he : ∀ p ∈ St, p + spaceUnit 0 ∈ St)
+    (hw : ∀ p ∈ St, p + ((timeUnit (d + 2) + spaceUnit 1) + √2 • spaceUnit 0) ∈ St)
+    (hneg : ∀ p ∈ St, p - spaceUnit 0 ∈ St) : False := by
+  obtain ⟨s₀, hp₀⟩ := hS.meets 0 _ (isFutureTimelike_vertical (d := d + 2))
+  set e : Minkowski (d + 2) := spaceUnit 0
+  set n : Minkowski (d + 2) := timeUnit (d + 2) + spaceUnit 1
+  set w : Minkowski (d + 2) := n + √2 • e
+  have hn : minkQ n = 0 := by
+    rw [minkQ_add, minkQ_timeUnit, minkQ_spaceUnit, minkB_timeUnit_spaceUnit]; ring
+  have hn1 : 0 < n.1 := by simp [n, timeUnit, spaceUnit]
+  -- the translates `p + k w + m e`, `k : ℕ`, `m : ℤ`, stay in `St`
+  have hmemZ : ∀ p ∈ St, ∀ m : ℤ, p + (m : ℝ) • e ∈ St := by
+    intro p hp m
+    induction m using Int.induction_on with
+    | zero => simpa using hp
+    | succ k ih =>
+      have := he _ ih
+      have e2 : p + (((k : ℤ) + 1 : ℤ) : ℝ) • e = p + ((k : ℤ) : ℝ) • e + e := by
+        push_cast; rw [add_smul, one_smul, add_assoc]
+      rw [e2]; exact this
+    | pred k ih =>
+      have := hneg _ ih
+      have e2 : p + ((-(k : ℤ) - 1 : ℤ) : ℝ) • e = p + ((-(k : ℤ) : ℤ) : ℝ) • e - e := by
+        push_cast; rw [sub_smul, one_smul, add_sub_assoc]
+      rw [e2]; exact this
+  have hmemN : ∀ p ∈ St, ∀ k : ℕ, p + (k : ℝ) • w ∈ St := by
+    intro p hp k
+    induction k with
+    | zero => simpa using hp
+    | succ k ih =>
+      have := hw _ ih
+      have e2 : p + ((k + 1 : ℕ) : ℝ) • w = p + (k : ℝ) • w + w := by
+        push_cast; rw [add_smul, one_smul, add_assoc]
+      rw [e2]; exact this
+  refine not_null_recurrent_of_isEntireAcausalGraph hS hp₀ hn1 hn fun ε hε => ?_
+  obtain ⟨N, hN⟩ := exists_nat_gt (1 / ε)
+  have hNpos : 0 < N := by
+    rcases Nat.eq_zero_or_pos N with h | h
+    · subst h; simp at hN; linarith [one_div_pos.2 hε]
+    · exact h
+  obtain ⟨j, k, hk0, -, hjk⟩ := Real.exists_int_int_abs_mul_sub_le √2 hNpos
+  obtain ⟨k', rfl⟩ : ∃ k' : ℕ, k = (k' : ℤ) := ⟨k.toNat, by omega⟩
+  have hk1 : (1 : ℝ) ≤ k' := by exact_mod_cast (show 1 ≤ k' by omega)
+  refine ⟨k', hk1, (k' : ℝ) • w + ((-j : ℤ) : ℝ) • e, ?_, ?_⟩
+  · have := hmemZ _ (hmemN _ hp₀ k') (-j)
+    simpa [add_assoc] using this
+  · have e1 : (k' : ℝ) • n - ((k' : ℝ) • w + ((-j : ℤ) : ℝ) • e) =
+        ((j : ℝ) - k' * √2) • e := by
+      simp only [w, smul_add, smul_smul]; push_cast; rw [sub_smul, neg_smul]; abel_nf
+    rw [e1, norm_smul, Real.norm_eq_abs, abs_sub_comm]
+    have he1 : ‖e‖ ≤ 1 := by
+      simp [e, spaceUnit, Prod.norm_def]
+    calc |(k' : ℝ) * √2 - j| * ‖e‖ ≤ 1 / (N + 1) * 1 := by
+          refine mul_le_mul ?_ he1 (norm_nonneg _) (by positivity)
+          exact_mod_cast hjk
+      _ < ε := by
+          rw [mul_one, div_lt_iff₀ (by positivity)]
+          rw [div_lt_iff₀ hε] at hN
+          nlinarith
+
+end EllipticProper
+
 end Spacetime
 
 /-! ## §5 The two outputs, for `Flat/Classification`
@@ -2295,6 +2554,25 @@ theorem discreteTopology_of_developsCC [T2Space M] (hpair : IsDevelopingPair x�
   DiscreteTopology.of_subset (s := (ρ.range : Set (isom d))) (t := (Γ' : Set (isom d)))
     (discreteTopology_of_ccAction (ccAction_of_developsCC hpair h)) hle
 
+/-- **[9.E], the quotient** (l.2609–2610): if the linear parts of a finite-index `Γ' ≤ Γ` fix a
+timelike vector, then `Ω(S̃) = ⊤` and, for every `Γ'' ≤ Γ'`, `Γ''\Ω(S̃)` exists as a flat
+spacetime (`CCAction.exists_isQuotientOf_top_of_fix_timelike`). -/
+theorem exists_isQuotientOf_omegaS_of_fix_timelike [T2Space M] (hpair : IsDevelopingPair x₀ D ρ)
+    (h : DevelopsCC x₀ D S) {Γ' Γ'' : Subgroup (isom d)} (hle : Γ' ≤ ρ.range)
+    (hidx : Γ'.relIndex ρ.range ≠ 0) {v : Minkowski d} (hv : minkQ v < 0)
+    (hfix : ∀ γ ∈ Γ', linOf γ v = v) (hle'' : Γ'' ≤ Γ') :
+    omegaSOpens ρ.range (D '' (UniversalCover.proj M x₀ ⁻¹' S)) = ⊤ ∧
+      ∃ B : FlatSpacetime.{0} d,
+        IsQuotientOf B Γ'' (omegaSOpens ρ.range (D '' (UniversalCover.proj M x₀ ⁻¹' S))) := by
+  have hcc := ccAction_of_developsCC hpair h
+  have htop : omegaSOpens ρ.range (D '' (UniversalCover.proj M x₀ ⁻¹' S)) = ⊤ :=
+    TopologicalSpace.Opens.ext ((omegaS_eq_univ_of_relIndex hpair h hidx fun γ hγ =>
+      isElliptic_of_fixed_timelike (linOf_mem γ).1 hv (hfix γ hγ)).1)
+  rw [htop]
+  exact ⟨rfl, hcc.exists_isQuotientOf_top_of_fix_timelike (hle''.trans hle) hv
+    fun γ hγ => hfix γ (hle'' hγ)⟩
+
+
 /-- **[9.E] The elliptic case** (l.2604–2617): if the linear parts of a finite-index subgroup
 `Γ' ≤ Γ` fix a timelike vector, then, up to finite index, `M(S) = Γ''\Ω(S̃)` is a linear
 twisted product over a translation spacetime (`Ω(S̃) = 𝐌ⁿ`, `omegaS_eq_univ_of_relIndex`). -/
@@ -2308,7 +2586,7 @@ theorem nonloxodromic_elliptic [T2Space M]
         IsQuotientOf B Γ'' (omegaSOpens ρ.range (D '' (UniversalCover.proj M x₀ ⁻¹' S))) ∧
         ∃ d₁ : ℕ, d₁ ≤ d ∧ ∃ M₁ : FlatSpacetime.{0} d₁, IsTranslationSpacetime M₁ ∧
           IsLTPOver B M₁ := by
-  sorry -- SORRY([9.E]): proved here: all of `Γ` is elliptic (`isElliptic_of_relIndex`), `Ω(S̃) = 𝐌ⁿ` and `Γ` free on `𝐌ⁿ` (`omegaS_eq_univ_of_relIndex`). Missing: (1) proper discontinuity of `Γ''` on all of `𝐌ⁿ` (Develop's `holonomy_proper` is stated on `Σ` only; `Γ` is now known discrete in `isomTopology`, `discreteTopology_of_developsCC`, and `L(Γ')` lies in the compact stabiliser of the timelike `v`, so properness on `𝐌ⁿ` follows once `isomTopology` is shown to be a group topology, making the discrete `Γ'` closed — not done) and the bundled quotient `B` (`FlatQuotient.toFlatSpacetime`); (2) transporting `Γ'` to `E ≃ᵃⁱ[ℝ] E` for the euclidean form `⟨x | y⟩ − 2⟨x | v⟩⟨y | v⟩/|v|²` fixed by `L(Γ')` and applying `BieberbachI` there, with `BieberbachMaxConclusion` (maximal `U`) and `mem_direction_of_fixed` (the fixed `v` lies in `U`'s direction, l.2613–2615, so `U` is timelike); (3) the parametrization `ι` of `U` and `RestrictsIn` (orientation of `U`, after an index-2 passage, TwistedProduct's finding) for `suspendre`, `𝐌ⁿ` being trivially `U^⊥`-invariant; (4) `IsTranslationSpacetime` for `Γ''_U\U` needs the span of the translation vectors spacelike: each is spacelike (Lemma 8.6), and a degenerate span (`spacelike_translations_null_span`) must be excluded by (CC′) — an invariant graph `t = x₂ + h`, `h` periodic along a dense line in the null direction's projection, cannot be strictly contracting (SCOPE finding 3)
+  sorry -- SORRY([9.E]): proved here: all of `Γ` is elliptic (`isElliptic_of_relIndex`), `Ω(S̃) = 𝐌ⁿ`, and, for EVERY `Γ'' ≤ Γ'`, the free proper action of `Γ''` on `𝐌ⁿ` and the bundled quotient `B = Γ''\Ω(S̃)` (`exists_isQuotientOf_omegaS_of_fix_timelike`, through `CCAction.finite_of_fix_timelike`: the `v`-lines carry a compact `K ⊆ 𝐌ⁿ` into a compact `K' ⊆ Σ`, `exists_compact_lift_of_entire`) — item (1), closed; and the danger of item (4) is excluded by acausality alone whenever the null direction is recurrent (`not_null_recurrent_of_isEntireAcausalGraph`; the example of `spacelike_translations_null_span` cannot occur, `not_isEntireAcausalGraph_null_span`). Missing: (2) transporting `Γ'` to `E ≃ᵃⁱ[ℝ] E` for the euclidean form `⟨x | y⟩ − 2⟨x | v⟩⟨y | v⟩/|v|²` fixed by `L(Γ')` (`IsDiscreteEucl` then follows from `CCAction.finite_of_fix_timelike` on closed balls) and applying `BieberbachI` there, with `BieberbachMaxConclusion` (maximal `U`) and `mem_direction_of_fixed` (the fixed `v` lies in `U`'s direction, l.2613–2615, so `U` is timelike); (3) the parametrization `ι` of `U` (`exists_affineMinkEmbedding_of_isTimelike`) and `RestrictsIn` for `suspendre` — no index-2 passage is needed here, `Γ''` acting on `U` by translations, so each restriction is a translation of `𝐌^{d₁+1}`; `𝐌ⁿ` is trivially `U^⊥`-invariant; (4) `IsTranslationSpacetime` for `Γ''_U\U`: the span `V` of the translation vectors `τ_γ` (`γ p₀ = p₀ + τ_γ` at `p₀ ∈ Σ ∩ U`, nonempty since `U` contains a timelike line) has no timelike vector (an open cone of `V` meets the lattice, against Lemma 8.6) and no null one (a null `n ∈ V` is recurrent by pigeonhole in the torus `V/Λ` — not formalized — against `not_null_recurrent_of_isEntireAcausalGraph`), so `V` is spacelike; then a Lorentz frame `φ` moving `V` into `{t = 0}` and the identification of `ι.restrictGroup Γ''` with `frameConj φ (horizGroup Λ)`, `Λ` ball-finite (discreteness from item (1))
 
 /-- **[9.P]–[9.A] The parabolic case** (l.2619–3129), in the form of l.3120–3127 and DEC-43 (R1):
 if the linear parts of a finite-index `Γ' ≤ Γ` fix a nonzero null vector `v₀`, `Γ'` contains a

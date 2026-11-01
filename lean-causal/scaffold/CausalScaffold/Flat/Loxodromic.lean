@@ -24,7 +24,9 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
   the quotient (`bcor_loxo_proper`: GH, acausal Cauchy surface) proved, **no `sorry`**;
   Cauchy-completeness (`loxo_cauchyComplete`) is a `sorry`.
 * `bprop:U_timelike` — `GHFspace.tex:3347` (Prop 10.4), partial: the lightlike case
-  (`not_isNonelementary_of_lightlike`) proved, the spacelike case a `sorry` (Cor 8.4).
+  (`not_isNonelementary_of_lightlike`) proved; in the spacelike case the fixed space of `L(Γ_nd)`
+  is proved spacelike (`IsMaxUnipotent.mem_direction_of_linFixed`), the rest a `sorry` (Cor 8.4,
+  on which the paper relies, is false as printed: finding).
 * `bprop:LU_discrete` — `GHFspace.tex:3368` (Prop 10.5), stated (`bprop_LU_discrete`, `sorry`).
 * `bprop:admlox` — `GHFspace.tex:1230` (Prop 4.17), partial (nonempty added, external
   `LimitSetMinimal`; **no `sorry`**): invariance in `𝒥` (`isomPenrose_image_limitSetJ_subset`),
@@ -85,6 +87,8 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
   norm `restNormSq`, `sq_norm_le_restNormSq`, `restNormSq_le`, `norm_linOf_le_of_gauss`), the
   Gauss map equivariant and bounded on compacts (`gaussMap_smul`, `exists_norm_gaussMap_le`), the
   point-reflection conjugate `negConj` (`negConj_smul`, `linOf_negConj`, `cosmoRegular_negS`).
+* Prop 10.4: `not_isNonelementary_of_lightlike`, `IsMaxUnipotent.mem_direction_of_linFixed` (every
+  vector fixed by `L(N)` lies in the direction of the maximal `N`-unipotent subspace).
 * Families: `IsNonelementary`, `IsFutureAdmissible`, `IsPastAdmissible`, `IsAdmissible`,
   `IsCauchyHyperbolic`, `kerTranslations`, `IsSpacelikeSubmodule`, `IsCHCentralExtensionOf`,
   `IsCHCentralExtension` (b), `IsCHTorusProduct` (a, for the same `Γ`).
@@ -177,6 +181,20 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
   and the properness of `Γ` on `Σ` concludes. The continuity of `n` is not needed.
 * **Prop 10.4's folklore is false as printed** (`Flat.Externals`' `not_abelianPairAsPrinted`); its
   lightlike case does not use it.
+* **Cor 8.4 (`bcor:abel`) is false as printed**, so Prop 10.4's spacelike case (l.3355–3356) rests
+  on a false statement:
+
+  > If $\Gamma$ preserves a spacelike affine subspace ${\bf U}$, then
+  > $\Gamma$ contains as a finite index subgroup a free abelian group of finite rank. (l.2295–2296)
+
+  In `𝐌⁴` let `Γ₀ ⊂ SO₀(1, 2)` be a cocompact Fuchsian group acting on `(t, x, y)` and
+  `Γ = Γ₀ × ⟨z ↦ z + 1⟩`: `Γ` preserves the spacelike line `{t = x = y = 0}`, acts freely, properly
+  and cocompactly on the (CC′) surface `ℍ² × ℝ`, and is `π₁(closed surface) × ℤ`, not virtually
+  abelian (`Γ₀` alone, preserving the point `0`, is the `0`-dimensional instance). The failing step
+  is "the action of `Γ` on `π(U)` has to be free and properly discontinuous" (`Δ` is not
+  `Γ`-invariant, W9). Prop 10.4 itself is not refuted (here `Γ_nd = ℤ` and `U = 𝐌⁴`); its true
+  route is through the fixed space of `L(Γ_nd)`, which lies in `U`'s direction
+  (`IsMaxUnipotent.mem_direction_of_linFixed`).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Barbot campaign,
 wave 5, package WP-34d-Loxodromic.
@@ -2215,6 +2233,62 @@ theorem not_isNonelementary_of_lightlike {U : AffineSubspace ℝ (Minkowski d)}
   refine lorentzSphere_eq_of_eigen (c := a) ?_
   rw [← linOf_eq_linearPart, hu, map_smul, ha, smul_comm]
 
+/-- **The maximal unipotent subspace contains every vector fixed by `L(N)`** (the step of
+l.3360–3362, "`v₀` … has to belong to `U`", for any fixed vector): if `L(γ) v = v` for all `γ ∈ N`,
+then `U + ℝv` is again `N`-invariant and unipotent, so it is `U` by maximality. The isom analogue of
+`Flat.Bieberbach`'s `mem_direction_of_fixed`. -/
+theorem IsMaxUnipotent.mem_direction_of_linFixed {N : Subgroup (isom d)}
+    {U : AffineSubspace ℝ (Minkowski d)} (hmax : IsMaxUnipotent N U)
+    (hUne : (U : Set (Minkowski d)).Nonempty) {v : Minkowski d}
+    (hv : ∀ γ ∈ N, linOf γ v = v) : v ∈ U.direction := by
+  obtain ⟨p, hp⟩ := hUne
+  set D := U.direction ⊔ Submodule.span ℝ {v}
+  have hdir : ∀ γ ∈ N, ∀ w ∈ U.direction, linOf γ w ∈ U.direction := by
+    intro γ hγ w hw
+    obtain ⟨p₂, hp₂, rfl⟩ := (AffineSubspace.mem_direction_iff_eq_vsub_right hp w).1 hw
+    rw [vsub_eq_sub, ← smul_sub_smul, ← vsub_eq_sub]
+    exact AffineSubspace.vsub_mem_direction ((hmax.1.1 γ hγ p₂).2 hp₂) ((hmax.1.1 γ hγ p).2 hp)
+  have hD : ∀ γ ∈ N, ∀ w ∈ D, linOf γ w ∈ D := by
+    intro γ hγ w hw
+    obtain ⟨a, ha, b, hb, rfl⟩ := Submodule.mem_sup.mp hw
+    obtain ⟨t, rfl⟩ := Submodule.mem_span_singleton.mp hb
+    rw [map_add, map_smul, hv γ hγ]
+    exact Submodule.add_mem_sup (hdir γ hγ a ha)
+      (Submodule.smul_mem _ t (Submodule.mem_span_singleton_self v))
+  have hfwd : ∀ γ ∈ N, ∀ x, x ∈ AffineSubspace.mk' p D → γ • x ∈ AffineSubspace.mk' p D := by
+    intro γ hγ x hx
+    rw [AffineSubspace.mem_mk'] at hx ⊢
+    have hγp : γ • p -ᵥ p ∈ U.direction :=
+      AffineSubspace.vsub_mem_direction ((hmax.1.1 γ hγ p).2 hp) hp
+    have : γ • x -ᵥ p = linOf γ (x -ᵥ p) + (γ • p -ᵥ p) := by
+      simp only [vsub_eq_sub]; rw [← smul_sub_smul]; abel
+    rw [this]
+    exact D.add_mem (hD γ hγ _ hx) (Submodule.mem_sup_left hγp)
+  have hinv : IsUnipotentInvariant N (AffineSubspace.mk' p D) := by
+    refine ⟨fun γ hγ x => ⟨fun hx => ?_, hfwd γ hγ x⟩, fun γ hγ => ?_⟩
+    · have := hfwd γ⁻¹ (N.inv_mem hγ) _ hx
+      rwa [inv_smul_smul] at this
+    · obtain ⟨m, hm⟩ := hmax.1.2 γ hγ
+      refine ⟨m + 1, fun w hw => ?_⟩
+      rw [AffineSubspace.direction_mk'] at hw
+      obtain ⟨a, ha, b, hb, rfl⟩ := Submodule.mem_sup.mp hw
+      obtain ⟨t, rfl⟩ := Submodule.mem_span_singleton.mp hb
+      have h1 : pOf (linOf γ) v = 0 := by rw [pOf_apply, hv γ hγ, sub_self]
+      have e1 : (pOf (linOf γ) ^ (m + 1)) a = 0 := by
+        rw [pow_succ', Module.End.mul_apply, hm a ha, map_zero]
+      have e2 : (pOf (linOf γ) ^ (m + 1)) v = 0 := by
+        rw [pow_succ, Module.End.mul_apply, h1, map_zero]
+      rw [map_add, map_smul, e1, e2, smul_zero, add_zero]
+  have hle : U ≤ AffineSubspace.mk' p D := by
+    intro x hx
+    rw [AffineSubspace.mem_mk']
+    exact Submodule.mem_sup_left (AffineSubspace.vsub_mem_direction hx hp)
+  have heq := hmax.2 _ hinv hle
+  have : v ∈ (AffineSubspace.mk' p D).direction := by
+    rw [AffineSubspace.direction_mk']
+    exact Submodule.mem_sup_right (Submodule.mem_span_singleton_self v)
+  rwa [heq] at this
+
 /-- `bprop:U_timelike` (Prop 10.4, l.3346–3362): in the nonelementary case, the maximal
 `Γ_nd`-unipotent affine subspace `U` (`bthm:ausl`, `bthm:unip`) is timelike. Its nonemptiness and
 `Γ`-invariance ("being unique", l.3343–3344) are derived from the uniqueness in `bthm:unip`
@@ -2231,7 +2305,18 @@ theorem bprop_U_timelike (hA : AuslanderCarriereDalbo d) (hU : MaxUnipotentSubsp
   by_cases hnull : ∃ v ∈ U.direction, v ≠ 0 ∧ minkQ v = 0
   · obtain ⟨v, hv, hv0, hq⟩ := hnull
     exact not_isNonelementary_of_lightlike hUne hinv hv hv0 hq hnt hne
-  sorry -- SORRY(bprop:U_timelike): the lightlike case is closed above (`not_isNonelementary_of_lightlike`). Spacelike `U` (l.3355–3362): "according to corollary `abel`, a finite index subgroup of `Γ` is abelian" — `bcor:abel` (Cor 8.4) is not formalized (`docs/BARBOT.md`: G-class, "a step is under-justified, since Δ need not be Γ-invariant", W9); and the folklore used next is false as printed (`Flat.Externals`' `not_abelianPairAsPrinted`), its true form needing the trichotomy for abelian groups
+  -- The spacelike case: every vector fixed by `L(Γ_nd)` lies in `U`'s direction
+  -- (`IsMaxUnipotent.mem_direction_of_linFixed`), so the common fixed space of `L(Γ_nd)` is
+  -- spacelike: `L(Γ_nd)` fixes no timelike and no nonzero null vector.
+  have hfixsp : ∀ v : Minkowski d, (∀ γ ∈ nonDiscretePart Γ, linOf γ v = v) → v ≠ 0 →
+      0 < minkQ v := by
+    intro v hv hv0
+    have hvU := hmax.mem_direction_of_linFixed hUne hv
+    by_contra hle
+    rcases (not_lt.1 hle).lt_or_eq with hlt | heq
+    · exact hnt ⟨v, hvU, hlt⟩
+    · exact hnull ⟨v, hvU, hv0, heq⟩
+  sorry -- SORRY(bprop:U_timelike): the lightlike case is closed above (`not_isNonelementary_of_lightlike`) and, in the spacelike case, the common fixed space of `L(Γ_nd)` is spacelike (`hfixsp`, from `IsMaxUnipotent.mem_direction_of_linFixed`). The paper's route is unavailable: Cor 8.4 (`bcor:abel`, l.2295–2296) is FALSE as printed (finding: in `𝐌⁴` a cocompact Fuchsian `Γ₀ ⊂ SO₀(1,2)` times `z ↦ z + 1` preserves the spacelike line `{t = x = y = 0}`, acts freely, properly and cocompactly on the (CC′) surface `ℍ² × ℝ`, and is not virtually abelian), and the folklore used next is false as printed (`not_abelianPairAsPrinted`). Missing instead: the trichotomy for the nilpotent group `L(Γ_nd)` normalised by `L(Γ)` (`conj_mem_nonDiscretePart`) — with a parabolic or loxodromic member it has a nonempty finite set of fixed isotropic directions (through its centre, as in the paper's own proof of Prop 10.5), which `L(Γ)` permutes, so a finite-index subgroup fixes a point of `𝒮` against `hne`; with only elliptic members it fixes a point of `ℍᵈ`, i.e. a timelike vector, against `hfixsp`. Neither the centre argument nor the fixed point of a nilpotent group of elliptic elements is in the library
 
 /-- `bprop:LU_discrete` (Prop 10.5, l.3367–3388): `L_U(Γ)`, the linear parts of the restrictions
 of `Γ` to the (timelike, Prop 10.4) maximal unipotent subspace `U`, is discrete. `U` is given through

@@ -100,7 +100,13 @@ dimensions, so Barbot's `n` is `d + 1`, `ℝ^{n−1}` is `EuclideanSpace ℝ (Fi
     `exists_splitting_of_isCauchySurface` (a variant of the homeomorphism half of Prop 8.11,
     class E). That lemma is in turn reduced, by the proved
     `exists_splitting_of_hasChronalCausalFlow`, to target 4 (`Flat.flat_hasChronalCausalFlow`,
-    `Splitting.lean`, itself a tagged sorry) and acausality of `S`.
+    `Splitting.lean`, now proved) and acausality of `S`, now proved too
+    (`isAcausal_of_isCauchySurface_of_hasChronalCausalFlow`, from
+    `flatCausality_causallyArcConnected` — chart transport of curves, `curveOn_chart_symm`,
+    `causallyArcConnectedOn_of_chartIso`, then absolute minimality — and
+    `curvesExtend_of_isCausalFlow`, through `inextensible_univ_of_not_tendsto` and
+    `not_tendsto_of_eventuallyEq_flow`). The one input left is `[SecondCountableTopology M]`,
+    which `flat_hasChronalCausalFlow` asks and `FlatSpacetime` does not carry.
 
 ## Hypothesis checklist
 | paper hypothesis | here |
@@ -114,9 +120,10 @@ dimensions, so Barbot's `n` is `d + 1`, `ℝ^{n−1}` is `EuclideanSpace ℝ (Fi
 | 8.3: same set-up | ⚠ weakened, as for 8.1; `ConnectedSpace X` is in the statement but unused (the proof does not go through 8.1) |
 
 ## SCOPE (disclosed)
-* **One tagged sorry.** `exists_splitting_of_isCauchySurface` (tag `bridge-B1`: the splitting
-  `M ≅ S × ℝ`, class E; it reduces to target 4 plus `IsAcausal S` through the proved
-  `exists_splitting_of_hasChronalCausalFlow`), with its obstruction. Everything else is proved:
+* **One tagged sorry.** In `exists_splitting_of_isCauchySurface` (tag `bridge-B1`: the splitting
+  `M ≅ S × ℝ`, class E), and it is now exactly `SecondCountableTopology M` for a flat spacetime
+  (Geroch's paracompactness, not formalized): target 4 and `IsAcausal S` are proved, and the
+  splitting follows by the proved `exists_splitting_of_hasChronalCausalFlow`. Everything else is proved:
   the whole length structure and its link to `InducedLength`, `π` and its kernel, 8.1 (covering,
   hence homeomorphism), 8.1 ⇒ the entire acausal graph, 8.3, B1 from the splitting, B2, B3, the
   non-vacuity witnesses, the bridge's assembly.
@@ -2385,6 +2392,210 @@ theorem connectedSpace_preimage_of_splitting {Y : Type*} [TopologicalSpace Y]
     ⟨a, x.2, fun {b} hb => hj a b x.2 hb⟩
   exact isConnected_iff_connectedSpace.1 hpc.isConnected
 
+/-! ### The inputs of B1: causal arc-connectedness, `CurvesExtend` from a flow, acausality
+
+`exists_splitting_of_hasChronalCausalFlow` asks a chronal causal flow and `IsAcausal S`. The flow
+is `Flat.flat_hasChronalCausalFlow` (`Splitting.lean`, proved, under `[SecondCountableTopology M]`);
+acausality is `IsCauchySurface.isAcausal` (`Causal/CauchyExtension.lean:110`), whose two named
+hypotheses are discharged here for a flat spacetime carrying a causal flow:
+`flatCausality_causallyArcConnected` (charts + absolute minimality) and
+`curvesExtend_of_isCausalFlow` (prolong a causal segment by two orbits). -/
+
+section BridgeInputs
+
+variable {X : Type*} [TopologicalSpace X]
+
+/-- A causal curve over `ℝ` with no limit at either end is inextensible. -/
+theorem inextensible_univ_of_not_tendsto {C : Causality X} {γ : ℝ → X}
+    (hc : C.CausalCurveIn ⊤ univ γ) (hbot : ∀ p, ¬ Tendsto γ atBot (𝓝 p))
+    (htop : ∀ p, ¬ Tendsto γ atTop (𝓝 p)) : C.Inextensible ⊤ univ γ := by
+  refine ⟨hc, ?_⟩
+  rintro ⟨I', c', hcurve, ⟨ψ, hψ, hψmaps, hψoc, hψeq⟩, ⟨t', ht', hgrow⟩⟩
+  have hmono : Monotone ψ := (strictMonoOn_univ.1 hψ).monotone
+  by_cases h1 : ∃ s, t' ≤ ψ s
+  · by_cases h2 : ∃ s, ψ s ≤ t'
+    · obtain ⟨s₁, hs₁⟩ := h1
+      obtain ⟨s₂, hs₂⟩ := h2
+      obtain ⟨s, -, hs⟩ := hψoc.out (mem_image_of_mem ψ (mem_univ s₂))
+        (mem_image_of_mem ψ (mem_univ s₁)) ⟨hs₂, hs₁⟩
+      exact hgrow s trivial (by rw [← hs, hψeq s trivial])
+    · simp only [not_exists, not_le] at h2
+      have hbdd : BddBelow (range ψ) := ⟨t', by rintro _ ⟨s, rfl⟩; exact (h2 s).le⟩
+      set sψ := ⨅ s, ψ s
+      have hlimψ : Tendsto ψ atBot (𝓝 sψ) := tendsto_atBot_ciInf hmono hbdd
+      have hlimψt : t' ≤ sψ := le_ciInf fun s => (h2 s).le
+      have hlimψ0 : sψ ≤ ψ 0 := ciInf_le hbdd 0
+      have hcont := (hcurve.curve t' ht' (ψ 0) (hψmaps (mem_univ 0))).continuousOn
+        C.isRelFamily_le
+      have hlimψmem : sψ ∈ Icc t' (ψ 0) := ⟨hlimψt, hlimψ0⟩
+      have hev : ∀ᶠ s in atBot, ψ s ∈ Icc t' (ψ 0) :=
+        eventually_atBot.2 ⟨0, fun s hs => ⟨(h2 s).le, hmono hs⟩⟩
+      refine hbot (c' sψ) ?_
+      have := (hcont sψ hlimψmem).tendsto.comp (tendsto_nhdsWithin_iff.2 ⟨hlimψ, hev⟩)
+      exact this.congr fun s => by simp only [Function.comp, hψeq s trivial]
+  · simp only [not_exists, not_le] at h1
+    have hbdd : BddAbove (range ψ) := ⟨t', by rintro _ ⟨s, rfl⟩; exact (h1 s).le⟩
+    set sψ := ⨆ s, ψ s
+    have hlimψ : Tendsto ψ atTop (𝓝 sψ) := tendsto_atTop_ciSup hmono hbdd
+    have hlimψt : sψ ≤ t' := ciSup_le fun s => (h1 s).le
+    have hlimψ0 : ψ 0 ≤ sψ := le_ciSup hbdd 0
+    have hcont := (hcurve.curve (ψ 0) (hψmaps (mem_univ 0)) t' ht').continuousOn
+      C.isRelFamily_le
+    have hlimψmem : sψ ∈ Icc (ψ 0) t' := ⟨hlimψ0, hlimψt⟩
+    have hev : ∀ᶠ s in atTop, ψ s ∈ Icc (ψ 0) t' :=
+      eventually_atTop.2 ⟨0, fun s hs => ⟨hmono hs, (h1 s).le⟩⟩
+    refine htop (c' sψ) ?_
+    have := (hcont sψ hlimψmem).tendsto.comp (tendsto_nhdsWithin_iff.2 ⟨hlimψ, hev⟩)
+    exact this.congr fun s => by simp only [Function.comp, hψeq s trivial]
+
+/-- A curve eventually equal to an orbit of a causal flow has no limit (a limit of an orbit is a
+fixed point, `Causality.flow_fixed_of_tendsto`, and a causal flow has none). -/
+theorem not_tendsto_of_eventuallyEq_flow [T2Space X] {C : Causality X} {φ : Flow ℝ X}
+    (hφ : C.IsCausalFlow φ) {γ : ℝ → X} {y : X} {l : Filter ℝ} [l.NeBot]
+    (hl : ∀ τ : ℝ, Tendsto (fun s => τ + s) l l) (heq : γ =ᶠ[l] fun t => φ t y) (p : X) :
+    ¬ Tendsto γ l (𝓝 p) := fun h => by
+  obtain ⟨t, ht⟩ := hφ.nonstationary p
+  exact ht (Causality.flow_fixed_of_tendsto hl (h.congr' heq) t)
+
+/-- **`CurvesExtend` from a causal flow** (`M` Hausdorff): a causal curve `c` over `[a, b]` is
+prolonged by the past orbit of `c a` and the future orbit of `c b`; the result is a causal curve
+over `ℝ` (two concatenations, `CurveOn.concat`) whose ends are orbits, hence have no limit, hence
+it is inextensible (`inextensible_univ_of_not_tendsto`). -/
+theorem curvesExtend_of_isCausalFlow [T2Space X] {C : Causality X} {φ : Flow ℝ X}
+    (hφ : C.IsCausalFlow φ) : C.CurvesExtend := by
+  intro c a b hab hc
+  set y₁ := φ (-a) (c a)
+  set y₂ := φ (-b) (c b)
+  have hy₁ : φ a y₁ = c a := by
+    rw [← Flow.map_add, add_neg_cancel, Flow.map_zero_apply]
+  have hy₂ : φ b y₂ = c b := by
+    rw [← Flow.map_add, add_neg_cancel, Flow.map_zero_apply]
+  let g : ℝ → X := fun t => if t ≤ a then φ t y₁ else c t
+  let γ : ℝ → X := fun t => if t ≤ b then g t else φ t y₂
+  have horb : ∀ y : X, ∀ s t : ℝ, C.CausalCurveOn ⊤ (fun t => φ t y) s t := fun y s t =>
+    (hφ.inextensible y).1.curve s trivial t trivial
+  have hgb : g b = φ b y₂ := by
+    rw [hy₂]
+    by_cases h : b ≤ a
+    · have hba : b = a := le_antisymm h hab
+      simp only [g, h, if_true]; rw [hba, hy₁]
+    · simp only [g, h, if_false]
+  have hcurve : ∀ A B : ℝ, A ≤ a → b ≤ B → C.CausalCurveOn ⊤ γ A B := fun A B hA hB => by
+    have h1 : C.CausalCurveOn ⊤ g A b :=
+      CurveOn.concat C.isRelFamily_le (horb y₁ A a) hc hA hab hy₁
+    exact CurveOn.concat C.isRelFamily_le h1 (horb y₂ b B) (hA.trans hab) hB hgb
+  have hγ : C.CausalCurveIn ⊤ univ γ := by
+    refine ⟨⟨0, trivial⟩, ordConnected_univ, fun s _ t _ => ?_⟩
+    rcases lt_or_ge t s with hts | hst
+    · exact CurveOn.of_lt hts
+    · exact (hcurve (min s a) (max t b) (min_le_right _ _) (le_max_right _ _)).restrict
+        (min_le_left _ _) (le_max_left _ _) le_rfl fun _ _ => trivial
+  have hbot : γ =ᶠ[atBot] fun t => φ t y₁ :=
+    eventually_atBot.2 ⟨a, fun t ht => by simp only [γ, g, ht, ht.trans hab, if_true]⟩
+  have htop : γ =ᶠ[atTop] fun t => φ t y₂ :=
+    eventually_atTop.2 ⟨b + 1, fun t ht => by
+      have : ¬ t ≤ b := by linarith
+      simp only [γ, this, if_false]⟩
+  refine ⟨univ, γ, inextensible_univ_of_not_tendsto hγ
+    (not_tendsto_of_eventuallyEq_flow hφ (fun τ => tendsto_atBot_add_const_left _ τ tendsto_id)
+      hbot)
+    (not_tendsto_of_eventuallyEq_flow hφ (fun τ => tendsto_atTop_add_const_left _ τ tendsto_id)
+      htop), ?_⟩
+  rintro _ ⟨t, ht, rfl⟩
+  refine ⟨t, trivial, ?_⟩
+  by_cases h : t ≤ a
+  · have hta : t = a := le_antisymm h ht.1
+    simp only [γ, g, ht.2, h, if_true]; rw [hta, hy₁]
+  · simp only [γ, g, ht.2, h, if_true, if_false]
+
+/-- The inverse of a chart isomorphism carries curves of the image of `U` to curves of `U`, for
+any pair of relation families that the chart matches on the open subsets of its source. -/
+theorem curveOn_chart_symm {Y : Type*} [TopologicalSpace Y] {e : OpenPartialHomeomorph X Y}
+    {rC : Opens X → X → X → Prop} {rD : Opens Y → Y → Y → Prop} (hrD : IsRelFamily rD)
+    {U : Opens X} (hU : U ≤ chartSource e)
+    (hiso : ∀ N : Opens X, N ≤ chartSource e → ∀ x ∈ N, ∀ y ∈ N,
+      (rC N x y ↔ rD (chartImage e N) (e x) (e y)))
+    {c : ℝ → Y} {a b : ℝ} (hc : CurveOn rD (chartImage e U) c a b) :
+    CurveOn rC U (fun t => e.symm (c t)) a b where
+  mem t ht := by
+    obtain ⟨z, -, hzU, -, hz⟩ := exists_of_mem_chartImage (hc.mem t ht)
+    show e.symm (c t) ∈ U
+    rw [hz]; exact hzU
+  rel t ht N hN htN := by
+    obtain ⟨z, hzs, -, hze, hz⟩ := exists_of_mem_chartImage (hc.mem t ht)
+    have hzN : z ∈ N := by rw [← hz]; exact htN
+    have hcN : c t ∈ chartImage e N := ⟨z, ⟨hzs, hzN⟩, hze⟩
+    obtain ⟨l, u, hl, hu, hrel⟩ := hc.rel t ht (chartImage e N) (chartImage_mono hN) hcN
+    refine ⟨l, u, hl, hu, fun s hs s' hs' h1 h2 h3 => ?_⟩
+    have hr := hrel s hs s' hs' h1 h2 h3
+    obtain ⟨w, -, hwN, hwe, hw⟩ := exists_of_mem_chartImage (hrD.mem_left hr)
+    obtain ⟨w', -, hwN', hwe', hw'⟩ := exists_of_mem_chartImage (hrD.mem_right hr)
+    show rC N (e.symm (c s)) (e.symm (c s'))
+    rw [hw, hw']
+    refine (hiso N (hN.trans hU) w hwN w' hwN').2 ?_
+    rw [hwe, hwe']; exact hr
+
+/-- **A chart isomorphism onto a causally arc-connected model makes every open subset of its
+source causally arc-connected**: a relation of `U` is one of the image, realised there by a curve
+(`hD`), carried back by `e.symm` (`curveOn_chart_symm`). -/
+theorem causallyArcConnectedOn_of_chartIso {Y : Type*} [TopologicalSpace Y] {C : Causality X}
+    {D : Causality Y} {e : OpenPartialHomeomorph X Y} (h : ChartIso C D e)
+    (hD : D.CausallyArcConnected) {V : Opens X} (hV : V ≤ chartSource e) :
+    C.CausallyArcConnectedOn V := by
+  intro U hU p q
+  have hUe : U ≤ chartSource e := hU.trans hV
+  refine ⟨⟨fun hpq => ?_, ?_⟩, ⟨fun hpq => ?_, ?_⟩⟩
+  · have hp := C.le_mem_left hpq
+    have hq := C.le_mem_right hpq
+    obtain ⟨c, hc, h0, h1⟩ :=
+      (hD (chartImage e U) le_top (e p) (e q)).1.1 ((h U hUe p hp q hq).1.1 hpq)
+    refine ⟨fun t => e.symm (c t), curveOn_chart_symm D.isRelFamily_le hUe
+      (fun N hN x hx y hy => (h N hN x hx y hy).1) hc, ?_, ?_⟩
+    · show e.symm (c 0) = p
+      rw [h0]; exact e.left_inv (hUe hp)
+    · show e.symm (c 1) = q
+      rw [h1]; exact e.left_inv (hUe hq)
+  · rintro ⟨c, hc, rfl, rfl⟩
+    exact hc.le_of_le le_rfl zero_le_one le_rfl
+  · have hp := C.lt_mem_left hpq
+    have hq := C.lt_mem_right hpq
+    obtain ⟨c, hc, h0, h1⟩ :=
+      (hD (chartImage e U) le_top (e p) (e q)).2.1 ((h U hUe p hp q hq).2.1 hpq)
+    refine ⟨fun t => e.symm (c t), curveOn_chart_symm D.isRelFamily_lt hUe
+      (fun N hN x hx y hy => (h N hN x hx y hy).2) hc, ?_, ?_⟩
+    · show e.symm (c 0) = p
+      rw [h0]; exact e.left_inv (hUe hp)
+    · show e.symm (c 1) = q
+      rw [h1]; exact e.left_inv (hUe hq)
+  · rintro ⟨c, hc, rfl, rfl⟩
+    exact hc.lt_of_lt le_rfl zero_lt_one le_rfl
+
+variable [ChartedSpace (Minkowski d) X] [HasGroupoid X (gxGroupoid (isom d) (Minkowski d))]
+
+variable (d X) in
+/-- **A flat spacetime is causally arc-connected**: locally through the charts
+(`causallyArcConnectedOn_of_chartIso`, `minkowski_causallyArcConnected`), then globally because
+`flatCausality` is absolutely minimal (`LocallyCausallyArcConnected.causallyArcConnected`). -/
+theorem flatCausality_causallyArcConnected : (flatCausality d X).CausallyArcConnected := by
+  refine Causality.LocallyCausallyArcConnected.causallyArcConnected (fun x N hN => ?_)
+    flatCausality_absolutelyMinimal
+  refine ⟨⟨interior N ∩ (chartAt (Minkowski d) x).source,
+      isOpen_interior.inter (chartAt (Minkowski d) x).open_source⟩,
+    ⟨mem_interior_iff_mem_nhds.2 hN, mem_chart_source _ x⟩, fun y hy => interior_subset hy.1, ?_⟩
+  exact causallyArcConnectedOn_of_chartIso (flatCausality_chartIso_chartAt x)
+    minkowski_causallyArcConnected fun y hy => hy.2
+
+/-- **A Cauchy surface of a flat spacetime with a causal flow is acausal**:
+`IsCauchySurface.isAcausal` with `flatCausality_causallyArcConnected` and
+`curvesExtend_of_isCausalFlow`. -/
+theorem isAcausal_of_isCauchySurface_of_hasChronalCausalFlow [T2Space X]
+    (hflow : (flatCausality d X).HasChronalCausalFlow) {S : Set X}
+    (hS : (flatCausality d X).IsCauchySurface S) : (flatCausality d X).IsAcausal S := by
+  obtain ⟨φ, hφ, -⟩ := hflow
+  exact hS.isAcausal (flatCausality_causallyArcConnected d X) (curvesExtend_of_isCausalFlow hφ)
+
+end BridgeInputs
+
 section Bridge
 
 variable (M : FlatSpacetime.{u} d)
@@ -2410,22 +2621,30 @@ of the homeomorphism half of Prop 8.11 (`bprop:splitting`, l.2459–2464; class 
 `docs/BARBOT-WAVE3.md` §3). Here `ψ` restricted to `S × {0}` is the inclusion, as in the flow
 construction. The slices' Cauchy property, which Prop 8.11 also states, is not asked. It reduces
 by `exists_splitting_of_hasChronalCausalFlow` to two inputs: target 4
-(`Flat.flat_hasChronalCausalFlow`) and acausality of `S`. -/
+(`Flat.flat_hasChronalCausalFlow`) and acausality of `S`. Both are discharged here
+(`isAcausal_of_isCauchySurface_of_hasChronalCausalFlow` for the second), except for the
+second countability of `M` that target 4 asks: the tagged `sorry` is that instance. -/
 theorem exists_splitting_of_isCauchySurface (hGH : GH M) {S : Set M}
     (hS : (flatCausality d M).IsCauchySurface S) :
     ∃ ψ : S × ℝ ≃ₜ M, ∀ x : S, ψ (x, 0) = x := by
-  sorry -- SORRY(bridge-B1): the splitting of a GH flat spacetime along a Cauchy surface. Proved
-  -- reduction: `exists_splitting_of_hasChronalCausalFlow` (via `Flat.flat_exists_isCauchySplitting`,
-  -- `Splitting.lean:1084`, whose `IsCauchySplitting.zero` is `ψ (x, 0) = x`; `IsCausal` is
-  -- `hGH.1`). The two missing inputs. (1) The flow: `Flat.flat_hasChronalCausalFlow`
-  -- (`Splitting.lean:1078`) is itself a tagged sorry (SORRY target-4: no global flow of a complete
-  -- timelike vector field, `lem:vecteur`), and it also asks `[SecondCountableTopology M]`, which is
-  -- not a field of `FlatSpacetime` (paracompactness of a Lorentzian manifold, Geroch, is not
-  -- formalized). (2) Acausality `(flatCausality d M).IsAcausal S`: `IsCauchySurface.isAcausal`
-  -- needs `CausallyArcConnected` and `CurvesExtend`. The library supplies `CurvesExtend` only
-  -- from a time function (`isAcausal_of_timeFunction`) or under `geroch`'s measure/tarentin
-  -- hypotheses (`isAcausal_of_globallyHyperbolic`, `CurvesExtend.lean:480`), none proved for
-  -- `flatCausality`.
+  haveI : SecondCountableTopology M := by
+    sorry -- SORRY(bridge-B1): second countability of a flat spacetime, the ONLY missing input
+    -- of the splitting. Everything else is proved: the chronal causal flow is
+    -- `Flat.flat_hasChronalCausalFlow` (`Splitting.lean:1912`, 0 sorry), acausality of `S` is
+    -- `isAcausal_of_isCauchySurface_of_hasChronalCausalFlow` (above: causal arc-connectedness from
+    -- the charts and absolute minimality, `CurvesExtend` from the flow's orbits), and the
+    -- splitting is `exists_splitting_of_hasChronalCausalFlow`. But `flat_hasChronalCausalFlow`
+    -- asks `[SecondCountableTopology M]` (it builds the timelike field by a partition of unity,
+    -- hence σ-compactness), and `FlatSpacetime` carries only `T2` + connected
+    -- (`FlatSpacetime.lean`, SCOPE "No second countability"). Classically true, GH or not: a
+    -- connected Hausdorff manifold with an affine connection (here the flat one: the transition
+    -- maps lie in `Isom(𝐌ⁿ)`, affine) is paracompact (Geroch 1968), hence second countable
+    -- (`ChartedSpace.secondCountable_of_sigmaCompact`). Neither that theorem (connection ⇒
+    -- paracompact, via a Riemannian metric on the frame bundle) nor a GH substitute is in the
+    -- library or mathlib: compact diamonds are local data, and σ-compactness needs a global
+    -- exhaustion; the long line shows charts alone do not give it.
+  exact exists_splitting_of_hasChronalCausalFlow M Flat.flat_hasChronalCausalFlow hGH hS
+    (isAcausal_of_isCauchySurface_of_hasChronalCausalFlow Flat.flat_hasChronalCausalFlow hS)
 
 /-- (B1) The lift `Ŝ = p⁻¹(S)` of a Cauchy surface to the universal cover is connected: from the
 splitting (`exists_splitting_of_isCauchySurface`) and `connectedSpace_preimage_of_splitting`. -/
