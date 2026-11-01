@@ -14,7 +14,9 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
 after Prop 8.1 / Cor 8.3 runs from (CC′)); defects W4, W7, W8, W10 of its §0 apply. **No label is
 marked**: each is `partial` (SCOPE), several being fully proved in a reading.
 
-* `bcor:quo` (Cor 8.2, l.2263–2271), partial — `bcor_quo`, `holonomy_proper` (`sorry`):
+* `bcor:quo` (Cor 8.2, l.2263–2271), partial (DEC-35 reading, `M` Hausdorff; **no `sorry`**) —
+  `bcor_quo`, `holonomy_proper`, `isOpenEmbedding_of_developsCC`,
+  `isPreconnected_liftSet_of_developsCC`:
   > The maps $f$ and ${\mathcal D} \circ \tilde{f}$ are embeddings. The natural morphism
   > $\Gamma \subset \pi_{1}(M)$ and the morphism $\rho$ are injective. Moreover,
   > ${\mathcal D} \circ \tilde{f}(\widetilde{S})$ intersects every timelike geodesic.
@@ -29,7 +31,7 @@ marked**: each is `partial` (SCOPE), several being fully proved in a reading.
   > The interior of $U(\Gamma)$ is denoted by $\Omega(\Gamma)$ […] The connected component
   > of the interior of $U(\Gamma)$ containing $\widetilde{S}$ is denoted by $\Omega(\widetilde{S})$.
 * Rem 8.8 `remplacefini` (l.2403–2408), unlabelled in the ledger — `achronalDomain_subset_zpow`,
-  `UGamma_antitone`, `Ug_zpow` (`sorry`), `UGamma_eq_of_index`:
+  `UGamma_antitone`, `Ug_zpow` (**no `sorry`**, readings of `Ug`), `UGamma_eq_of_index`:
   > For any isometry $g$, and for every nonzero integer $n$ we have $U(g^{n}) = U(g)$.
 * Rem 8.9 `nini` (l.2411–2415), unlabelled — `nini`, **no `sorry`**:
   > we will assume that the group $\Gamma$ does not contain nonspacelike elliptic and transverse
@@ -41,8 +43,8 @@ marked**: each is `partial` (SCOPE), several being fully proved in a reading.
 * `bprop:splitting` (Prop 8.11, l.2459–2464), partial: the lift half only, **no `sorry`** —
   `isCauchySurface_preimage`, `isCauchySurface_liftSet`:
   > Any nonspacelike geodesic in $\widetilde{M}$ intersect $\widetilde{S}$.
-* `bprop:danom` (Prop 8.12, l.2469–2473), partial (steps 3–6 proved; step 1 and properness
-  `sorry`) — `bprop_danom`:
+* `bprop:danom` (Prop 8.12, l.2469–2473), partial (DEC-35 reading, `M` Hausdorff and causal;
+  **no `sorry`**) — `bprop_danom`, step 1 `injective_of_developsCC`:
   > The developing map ${\mathcal D}: \widetilde{M} \rightarrow {\bf M}^{n}$ is injective, with
   > image contained in $\Omega(\widetilde{S})$.
 
@@ -60,19 +62,33 @@ dimensions: Barbot's `n` is `d + 1`.
 * `CCAction Γ Σ` — the standing hypotheses in `𝐌ⁿ`: (CC′), `Γ Σ = Σ`, free, properly
   discontinuous. Under it: `CCAction.false_of_le_smul` (the repaired interior argument),
   `dependenceDomain_subset_UGamma` (`D(Σ) ⊆ U(Γ)`), `blem_SdanU`, `nini`, torsion-freeness.
+* Powers (Rem 8.8): `linOf_zpow`; `IsElliptic.zpow_linOf`, `IsLoxodromic.zpow_linOf`,
+  `IsParabolic.zpow_linOf`, `isElliptic_linOf_zpow_iff`, `isParabolic_linOf_zpow_iff`;
+  `zpow_smul_eq_add`, `exists_smul_eq_self_of_pow` (barycentre), `fixedTrans_eq`,
+  `isNonspacelikeElliptic_zpow_iff`, `isLinearParabolic_zpow_iff`,
+  `zpow_smul_eq_self_of_smul_eq`, `exists_fixed_trans`, `IsParabolicPair.exists_fixed_null`,
+  `minkB_eq_zero_of_fixed_of_not_isElliptic`, `mem_nullHyperplanes_iff` (`J^⊥` independent of
+  the decomposition), `nullHyperplanes_zpow`, `achronalDomain_inv`, `achronalDomain_zpow`,
+  `Ug_zpow`.
 * `IsCausalPiece`, `convex_causallyConvex_connectedComponentIn` (W8: components of `int A` are
   convex and causally convex when `A` is a piece), `pos_mul_of_null`, the per-class pieces
   `isCausalPiece_compl_nullHyperplanes`, `_achronalDomain_lox`, `_spacelikeElliptic`, `_tangent`.
-* Flat coverings: `lift_causalCurveIn`, `inextensible_comp`, `isCauchySurface_preimage`;
-  `continuousOn_of_strictMonoOn`. `IsDevelopingPair`, `DevelopsCC`, `bcor_quo`,
-  `ccAction_of_developsCC`, `bprop_danom`; the witness `developsCC_minkowski`.
+* Flat coverings: `causalCurveIn_of_lift` (a continuous lift of a causal curve through a local
+  isometry is causal), `lift_causalCurveIn`, `inextensible_comp`, `isCauchySurface_preimage`;
+  `continuousOn_of_strictMonoOn`; `finite_deck_of_isCompact` (the deck group of a covering of a
+  Hausdorff space acts properly discontinuously). `IsDevelopingPair`, `DevelopsCC`, `bcor_quo`,
+  `injective_of_developsCC` (maximal lifts of vertical lines through the local homeomorphism
+  `𝒟`, private section `MaxLift`), `isOpenEmbedding_of_developsCC`, `holonomy_proper`,
+  `ccAction_of_developsCC`, `isPreconnected_liftSet_of_developsCC`, `bprop_danom`; the witness
+  `developsCC_minkowski`.
 
 ## Hypothesis checklist
 
 | paper hypothesis | here |
 |---|---|
 | `S` a complete Riemannian hypersurface, `f` an isometric immersion (l.2215–2216) | ⚠ strengthened (DEC-35 reading): `S` a Cauchy surface of `M` with `DevelopsCC` ((CC′) for `Σ = 𝒟(p⁻¹S)`, `𝒟` injective on `p⁻¹S`); `S̃ := p⁻¹(S) ⊆ M̃`, not the universal cover of `S` |
-| `Γ = π₁(S)` acting on `S̃` (free, properly discontinuous) | ⚠ strengthened in `𝐌ⁿ`: `CCAction` carries it; on `M` it is `ρ(Deck(M̃ → M))` (`bcor_quo`; properness `sorry`) |
+| `Γ = π₁(S)` acting on `S̃` (free, properly discontinuous) | ⚠ strengthened in `𝐌ⁿ`: `CCAction` carries it; on `M` it is `ρ(Deck(M̃ → M))` (`bcor_quo`; properness `holonomy_proper`) |
+| (implicit) `M` a manifold: Hausdorff | ✓ carried as `[T2Space M]` exactly where used: `injective_of_developsCC`, `isOpenEmbedding_of_developsCC`, `holonomy_proper`, `ccAction_of_developsCC`, `isPreconnected_liftSet_of_developsCC`, `bprop_danom` (false without it, SCOPE). Connectedness of `M` is not used and not asked |
 | `M` globally hyperbolic (§8 from l.2454) | ⚠ weakened to `(flatCausality d M).IsCausal` (W10) where used: `isCauchySurface_preimage`, `bprop_danom` |
 | Lemma 8.6 uses Cor 8.3 (`quoiso`) | ✓ carried as (CC′)(b) `NullSaturated` |
 | Rem 8.8, `Γ'` of finite index in `Γ` (l.2405) | ⚠ strengthened: `Γ` torsion-free (`UGamma_eq_of_index`; needed under W4, counterexample in its docstring) |
@@ -95,17 +111,36 @@ dimensions: Barbot's `n` is `d + 1`.
   `lorentz_trichotomy`; Beem–Ehrlich is not used (ETT's GH from causal convexity,
   `globallyHyperbolicOn_of_causallyConvexIn`); Prop 8.12's slices `S̃ × {t}` (l.2487–2493, W7) by
   `𝒟(M̃) ⊆ D(Σ)`, `Σ` being a Cauchy surface of `𝒟(M̃)`.
-* **Sorries (3).** `Ug_zpow` (Rem 8.8); `holonomy_proper` (`𝒟|S̃` an embedding, deck group
-  proper); `bprop_danom` step 1 (maximal lifts through the local homeomorphism `𝒟`).
-  `bprop_ghyp` uses `lorentz_trichotomy`, proved in Isometries' source; an Isometries olean built
-  before that proof still carries `sorryAx` until it is rebuilt.
-* **Cor 8.2, not proved:** "`f` and `𝒟 ∘ f̃` are embeddings" and the design's conjunct
-  `IsPreconnected S̃` (`S̃ = p⁻¹S`); both need `𝒟|S̃ : S̃ → Σ` to be a homeomorphism (fact (1) of
-  `holonomy_proper`'s `sorry`), since `Σ` is connected (`CCAction.isPreconnected`).
+* **Sorries: none.** `holonomy_proper` and `bprop_danom`'s step 1 are proved (fixer pass,
+  WP-32f), under `[T2Space M]`. `bprop_ghyp` uses `lorentz_trichotomy` (Flat/Isometries).
+* **Finding (closer pass, WP-32f; repaired by the fixer): without `[T2Space M]`, `bprop_danom`
+  is false**, because the library's flat `(Isom(𝐌ⁿ), 𝐌ⁿ)`-manifolds (`ChartedSpace` +
+  `HasGroupoid`) need not be Hausdorff, whereas Barbot's spacetimes are manifolds.
+  Counterexample, any `d`: `M` = two copies of `𝐌ⁿ` glued along the open half-space `{t < 0}`
+  (flat, simply connected, non-Hausdorff; `t ∘ fold` is a time function, so `M` is causal),
+  `S = {t = −1}` (Cauchy: along an inextensible causal curve `t` is unbounded both ways), `𝒟` the
+  fold map composed with the bijective `M̃ → M`, `ρ = 1`. `DevelopsCC` holds (`Σ = {t = −1}`,
+  `ccPrime_graph_const`) and the two origins have the same image. `[T2Space M]` is therefore
+  added to `bprop_danom`, `holonomy_proper` and `ccAction_of_developsCC` (a statement change by
+  the fixer, the master's ruling pending; `bcor_quo` and the rest of the file do not need it).
+* **Proof route of step 1** (`injective_of_developsCC`, l.2476–2485 repaired): Barbot's "maximal
+  lift of the vertical line" is built by hand — lifts over open intervals are unique on overlaps
+  (Hausdorff `M̃`, locally injective `𝒟`), their union is a lift, and it has no limit at a finite
+  end of its domain (a local inverse of `𝒟` would continue it). A strict extension of it in the
+  sense of `StrictlyExtends` would produce such a limit (the time coordinate of `𝒟` is a clock
+  along the lift), so it is inextensible and meets `S̃`; injectivity on `S̃` and uniqueness of
+  lifts conclude. No ODE, no Zorn, and neither `IsCausal` nor the holonomy is used.
+* **Cor 8.2** now proved in the reading, under `[T2Space M]`: "`𝒟 ∘ f̃` is an embedding"
+  (`isOpenEmbedding_of_developsCC`: `𝒟` is even an open embedding of `M̃`) and the design's
+  conjunct `IsPreconnected S̃` (`isPreconnected_liftSet_of_developsCC`). "`f` is an embedding" is
+  the inclusion `S ⊆ M` in the DEC-35 reading (`S` a subset, not an immersed manifold).
 * Non-vacuity: `ccAction_bot` (any (CC′) surface, trivial `Γ`; the hyperboloid in an `example`);
   `developsCC_minkowski` (`M = 𝐌ⁿ`, `𝒟 = proj`, `S = {t = 0}`, trivial holonomy). No inhabitant
   of `DevelopsCC` with nontrivial holonomy is formalized.
-* **Findings.** Lemma 8.6's transverse case needs no Lemma 7.1 (false for `d ≥ 3`,
+* **Findings.** Rem 8.8's `Ω_{gⁿ} = Ω_g` holds for every isometry, with no class analysis
+  (`achronalDomain_zpow`: causally related iterates iterate), and `J^⊥` does not depend on the
+  parabolic decomposition (`mem_nullHyperplanes_iff`), which answers the uniqueness question
+  left open by the union reading. Lemma 8.6's transverse case needs no Lemma 7.1 (false for `d ≥ 3`,
   AchronalDomains): `Σ ⊆ Ω_γ` and `Ω_γ = ∅`. Rem 8.8's `U(Γ') = U(Γ)` needs `Γ` torsion-free
   under W4 (`UGamma_eq_of_index`). Prop 8.12 needs no "free and achronal on `Ω'`" step.
 * The homeomorphism `M ≃ S × ℝ` of `bprop:splitting` is Splitting's, not used here.
@@ -1209,9 +1244,330 @@ theorem achronalDomain_subset_zpow (g : isom d) {n : ℤ} (hn : n ≠ 0) :
 theorem UGamma_antitone {Γ' : Subgroup (isom d)} (hle : Γ' ≤ Γ) : UGamma Γ ⊆ UGamma Γ' :=
   fun _ hx γ hγ h1 => hx γ (hle hγ) h1
 
-/-- **Rem 8.8, first sentence** (l.2404): `U(gⁿ) = U(g)` for `n ≠ 0`. -/
+/-! #### Powers: the classes, `J^⊥` and `Ω_g` are unchanged by a nonzero power -/
+
+theorem linOf_zpow (g : isom d) (n : ℤ) : linOf (g ^ n) = linOf g ^ n := by
+  show AffineEquiv.linearHom ((g ^ n : isom d) : Minkowski d ≃ᵃ[ℝ] Minkowski d) = _
+  rw [Subgroup.coe_zpow, map_zpow]
+  rfl
+
+private theorem linEquiv_zpow_apply_eq_self {A : Minkowski d ≃ₗ[ℝ] Minkowski d}
+    {u : Minkowski d} (h : A u = u) (n : ℤ) : (A ^ n) u = u := by
+  rcases Int.eq_nat_or_neg n with ⟨m, rfl | rfl⟩
+  · rw [zpow_natCast]; exact pow_apply_eq_self h m
+  · rw [zpow_neg, zpow_natCast]
+    conv_lhs => rw [← pow_apply_eq_self h m]
+    exact linEquiv_inv_apply_self _ _
+
+private theorem linEquiv_zpow_apply_eigen {A : Minkowski d ≃ₗ[ℝ] Minkowski d} {u : Minkowski d}
+    {c : ℝ} (hc : c ≠ 0) (h : A u = c • u) (n : ℤ) : (A ^ n) u = c ^ n • u := by
+  have hnat : ∀ m : ℕ, (A ^ m) u = c ^ m • u := by
+    intro m
+    induction m with
+    | zero => simp
+    | succ m ih => rw [pow_succ', LinearEquiv.mul_apply, ih, map_smul, h, smul_smul, pow_succ]
+  rcases Int.eq_nat_or_neg n with ⟨m, rfl | rfl⟩
+  · rw [zpow_natCast, zpow_natCast]; exact hnat m
+  · rw [zpow_neg, zpow_natCast, zpow_neg, zpow_natCast]
+    have hcm : c ^ m ≠ 0 := pow_ne_zero _ hc
+    calc ((A ^ m)⁻¹) u = ((A ^ m)⁻¹) ((c ^ m)⁻¹ • (A ^ m) u) := by
+          rw [hnat m, smul_smul, inv_mul_cancel₀ hcm, one_smul]
+      _ = (c ^ m)⁻¹ • u := by rw [map_smul, linEquiv_inv_apply_self]
+
+private theorem linEquiv_zpow_apply_jordan {A : Minkowski d ≃ₗ[ℝ] Minkowski d}
+    {v₁ v₀ : Minkowski d} (h1 : A v₁ = v₁ + v₀) (h0 : A v₀ = v₀) (n : ℤ) :
+    (A ^ n) v₁ = v₁ + (n : ℝ) • v₀ := by
+  have hinv : A⁻¹ v₁ = v₁ - v₀ := by
+    have e : A (v₁ - v₀) = v₁ := by rw [map_sub, h1, h0, add_sub_cancel_right]
+    calc A⁻¹ v₁ = A⁻¹ (A (v₁ - v₀)) := by rw [e]
+      _ = v₁ - v₀ := linEquiv_inv_apply_self _ _
+  refine Int.induction_on n (by simp) (fun i ih => ?_) (fun i ih => ?_)
+  · rw [zpow_add_one, LinearEquiv.mul_apply, h1, map_add, ih,
+      linEquiv_zpow_apply_eq_self h0, Int.cast_add, Int.cast_one, add_smul, one_smul]
+    abel
+  · rw [zpow_sub_one, LinearEquiv.mul_apply, hinv, map_sub, ih,
+      linEquiv_zpow_apply_eq_self h0, Int.cast_sub, Int.cast_one, sub_smul, one_smul]
+    abel
+
+/-- A Jordan block `A v₁ = v₁ + v₀`, `A v₀ = v₀`, `v₀ ≠ 0` puts `v₀` in `Im p ∩ ker p`. -/
+private theorem range_inf_ker_ne_bot_of_jordan {A : Minkowski d ≃ₗ[ℝ] Minkowski d}
+    {v₁ v₀ : Minkowski d} (hv0 : v₀ ≠ 0) (h1 : A v₁ = v₁ + v₀) (h0 : A v₀ = v₀) :
+    LinearMap.range (pOf A) ⊓ LinearMap.ker (pOf A) ≠ ⊥ := by
+  intro hbot
+  have hmem : v₀ ∈ LinearMap.range (pOf A) ⊓ LinearMap.ker (pOf A) :=
+    ⟨⟨v₁, by rw [pOf_apply, h1, add_sub_cancel_left]⟩,
+      by show pOf A v₀ = 0; rw [pOf_apply, h0, sub_self]⟩
+  rw [hbot, Submodule.mem_bot] at hmem
+  exact hv0 hmem
+
+theorem IsElliptic.zpow_linOf {g : isom d} (h : IsElliptic (linOf g)) (n : ℤ) :
+    IsElliptic (linOf (g ^ n)) := by
+  obtain ⟨u, hu, hAu⟩ := h.exists_fixed_timelike (linOf_mem g)
+  rw [linOf_zpow]
+  exact isElliptic_of_fixed_timelike (fun v => by rw [← linOf_zpow]; exact (linOf_mem _).1 v)
+    hu.2 (linEquiv_zpow_apply_eq_self hAu n)
+
+theorem IsLoxodromic.zpow_linOf {g : isom d} (h : IsLoxodromic (linOf g)) {n : ℤ} (hn : n ≠ 0) :
+    IsLoxodromic (linOf (g ^ n)) := by
+  obtain ⟨u, hu0, hq, l, hl, hl1, hAu⟩ := h.exists_eigen
+  refine isLoxodromic_of_null_eigen (linOf_mem (g ^ n)) hu0 hq (zpow_pos hl n) (fun h1 => hn ?_)
+    (by rw [linOf_zpow]; exact linEquiv_zpow_apply_eigen hl.ne' hAu n)
+  exact zpow_right_injective₀ hl hl1 (by simpa using h1)
+
+theorem IsParabolic.zpow_linOf {g : isom d} (h : IsParabolic (linOf g)) {n : ℤ} (hn : n ≠ 0) :
+    IsParabolic (linOf (g ^ n)) := by
+  obtain ⟨v₁, v₀, hv0, h1, h0⟩ := h.exists_jordan
+  have hJ := range_inf_ker_ne_bot_of_jordan (A := linOf (g ^ n)) (v₁ := v₁)
+    (v₀ := (n : ℝ) • v₀) (smul_ne_zero (by exact_mod_cast hn) hv0)
+    (by rw [linOf_zpow]; exact linEquiv_zpow_apply_jordan h1 h0 n)
+    (by rw [linOf_zpow, map_smul, linEquiv_zpow_apply_eq_self h0])
+  rcases lorentz_trichotomy (linOf_mem (g ^ n)) with hE | hX | hP
+  · exact absurd hE.range_inf_ker hJ
+  · exact absurd hX.range_inf_ker hJ
+  · exact hP
+
+/-- `L(gⁿ)` is elliptic iff `L(g)` is (`n ≠ 0`), by the trichotomy and its exclusivity. -/
+theorem isElliptic_linOf_zpow_iff (g : isom d) {n : ℤ} (hn : n ≠ 0) :
+    IsElliptic (linOf (g ^ n)) ↔ IsElliptic (linOf g) := by
+  refine ⟨fun h => ?_, fun h => h.zpow_linOf n⟩
+  rcases lorentz_trichotomy (linOf_mem g) with hE | hX | hP
+  · exact hE
+  · exact absurd h (hX.zpow_linOf hn).not_isElliptic
+  · exact absurd h (hP.zpow_linOf hn).not_isElliptic
+
+/-- `L(gⁿ)` is parabolic iff `L(g)` is (`n ≠ 0`). -/
+theorem isParabolic_linOf_zpow_iff (g : isom d) {n : ℤ} (hn : n ≠ 0) :
+    IsParabolic (linOf (g ^ n)) ↔ IsParabolic (linOf g) := by
+  refine ⟨fun h => ?_, fun h => h.zpow_linOf hn⟩
+  rcases lorentz_trichotomy (linOf_mem g) with hE | hX | hP
+  · exact absurd (hE.zpow_linOf n) h.not_isElliptic
+  · exact absurd (hX.zpow_linOf hn) h.not_isLoxodromic
+  · exact hP
+
+/-- Along a translation `τ = g x − x` fixed by `L(g)`, `gᵏ x = x + k τ` for every `k ∈ ℤ`. -/
+theorem zpow_smul_eq_add {g : isom d} {x : Minkowski d} (hτ : linOf g (g • x - x) = g • x - x)
+    (k : ℤ) : (g ^ k) • x = x + (k : ℝ) • (g • x - x) := by
+  set τ := g • x - x with hτdef
+  have hstep : ∀ s : ℝ, g • (x + s • τ) = x + (s + 1) • τ := fun s => by
+    rw [isom_smul_add_smul, hτ, add_smul, one_smul, hτdef]; abel
+  have hstep' : ∀ s : ℝ, g⁻¹ • (x + s • τ) = x + (s - 1) • τ := fun s => by
+    rw [inv_smul_eq_iff, hstep, sub_add_cancel]
+  refine Int.induction_on k (by simp) (fun i ih => ?_) (fun i ih => ?_)
+  · rw [add_comm (i : ℤ) 1, zpow_add, zpow_one, mul_smul, ih, hstep, Int.cast_add, Int.cast_one,
+      add_comm (1 : ℝ)]
+  · rw [show -(i : ℤ) - 1 = -1 + -(i : ℤ) by ring, zpow_add, zpow_neg_one, mul_smul, ih, hstep']
+    congr 2; push_cast; ring
+
+theorem zpow_smul_eq_self_of_smul_eq {g : isom d} {c : Minkowski d} (h : g • c = c) (k : ℤ) :
+    (g ^ k) • c = c := by
+  have hτ : linOf g (g • c - c) = g • c - c := by rw [h, sub_self, map_zero]
+  rw [zpow_smul_eq_add hτ, h, sub_self, smul_zero, add_zero]
+
+/-- **If `gᵐ` fixes a point (`m > 0`), so does `g`**: the barycentre of the orbit. -/
+theorem exists_smul_eq_self_of_pow {g : isom d} {c : Minkowski d} {m : ℕ} (hm : 0 < m)
+    (h : (g ^ m) • c = c) : ∃ b : Minkowski d, g • b = b := by
+  set w : Minkowski d := ∑ k ∈ Finset.range m, (g ^ k) • c with hwdef
+  have hsum : ∑ k ∈ Finset.range m, linOf g ((g ^ k) • c) = w - (m : ℝ) • trOf g := by
+    have : ∀ k, linOf g ((g ^ k) • c) = (g ^ (k + 1)) • c - trOf g :=
+      fun k => by rw [pow_succ', mul_smul, smul_eq_lin_add (g := g)]; abel
+    simp only [this, Finset.sum_sub_distrib, Finset.sum_const, Finset.card_range]
+    obtain ⟨m', rfl⟩ : ∃ m', m = m' + 1 := ⟨m - 1, by omega⟩
+    rw [hwdef, Finset.sum_range_succ (fun k => (g ^ (k + 1)) • c),
+      Finset.sum_range_succ' (fun k => (g ^ k) • c), h, pow_zero, one_smul,
+      Nat.cast_smul_eq_nsmul ℝ]
+  refine ⟨(m : ℝ)⁻¹ • w, ?_⟩
+  have hm' : (m : ℝ) ≠ 0 := by exact_mod_cast hm.ne'
+  rw [smul_eq_lin_add, map_smul, hwdef, map_sum, hsum, smul_sub, smul_smul, inv_mul_cancel₀ hm',
+    one_smul]
+  abel
+
+/-- An elliptic `L(g)` admits a point whose displacement `g x − x` is fixed by `L(g)` (l.1873). -/
+theorem exists_fixed_trans {g : isom d} (hE : IsElliptic (linOf g)) :
+    ∃ x : Minkowski d, linOf g (g • x - x) = g • x - x := by
+  obtain ⟨v, hv⟩ := IsElliptic.exists_transConj_fixed g.2 hE
+  have htr : g • (-v) - (-v) = trOf (isomConj v g) := by
+    rw [trOf_isomConj, pOf_apply, smul_eq_lin_add, map_neg]; abel
+  exact ⟨-v, by rw [htr]; exact hv⟩
+
+/-- **The `L(g)`-fixed displacement of an elliptic `g` is unique** (`Im p ∩ ker p = 0`). -/
+theorem fixedTrans_eq {g : isom d} (hE : IsElliptic (linOf g)) {x y : Minkowski d}
+    (hx : linOf g (g • x - x) = g • x - x) (hy : linOf g (g • y - y) = g • y - y) :
+    g • x - x = g • y - y := by
+  have e : (g • x - x) - (g • y - y) = pOf (linOf g) (x - y) := by
+    rw [pOf_apply, ← smul_sub_smul]; abel
+  have hk : pOf (linOf g) (pOf (linOf g) (x - y)) = 0 := by
+    rw [← e, pOf_apply, map_sub, hx, hy, sub_self]
+  have hmem : pOf (linOf g) (x - y) ∈
+      LinearMap.range (pOf (linOf g)) ⊓ LinearMap.ker (pOf (linOf g)) := ⟨⟨x - y, rfl⟩, hk⟩
+  rw [hE.range_inf_ker, Submodule.mem_bot] at hmem
+  rw [← sub_eq_zero, e, hmem]
+
+/-- **"Nonspacelike elliptic" is unchanged by a nonzero power**: `gⁿ x − x = n (g x − x)` along
+a fixed displacement, and the fixed displacement is unique. -/
+theorem isNonspacelikeElliptic_zpow_iff (g : isom d) {n : ℤ} (hn : n ≠ 0) :
+    IsNonspacelikeElliptic (g ^ n) ↔ IsNonspacelikeElliptic g := by
+  have hn2 : (0 : ℝ) < (n : ℝ) ^ 2 :=
+    lt_of_le_of_ne (sq_nonneg _) (pow_ne_zero 2 (by exact_mod_cast hn : (n : ℝ) ≠ 0)).symm
+  have key : ∀ x : Minkowski d, linOf g (g • x - x) = g • x - x →
+      linOf (g ^ n) ((g ^ n) • x - x) = (g ^ n) • x - x ∧
+        minkQ ((g ^ n) • x - x) = (n : ℝ) ^ 2 * minkQ (g • x - x) := fun x hx => by
+    rw [zpow_smul_eq_add hx, add_sub_cancel_left, linOf_zpow, map_smul,
+      linEquiv_zpow_apply_eq_self hx, minkQ_smul]
+    exact ⟨rfl, rfl⟩
+  constructor
+  · rintro ⟨hE', y, hy, hqy⟩
+    have hE := (isElliptic_linOf_zpow_iff g hn).1 hE'
+    obtain ⟨x, hx⟩ := exists_fixed_trans hE
+    refine ⟨hE, x, hx, ?_⟩
+    obtain ⟨hx', hq⟩ := key x hx
+    rw [fixedTrans_eq hE' hy hx', hq] at hqy
+    by_contra hc
+    linarith [mul_pos hn2 (not_le.1 hc)]
+  · rintro ⟨hE, x, hx, hq⟩
+    obtain ⟨hx', hq'⟩ := key x hx
+    exact ⟨hE.zpow_linOf n, x, hx', by rw [hq']; nlinarith⟩
+
+/-- **"Linear parabolic" is unchanged by a nonzero power** (a fixed point of `gⁿ` gives one of
+`g`, the barycentre of its orbit). -/
+theorem isLinearParabolic_zpow_iff (g : isom d) {n : ℤ} (hn : n ≠ 0) :
+    IsLinearParabolic (g ^ n) ↔ IsLinearParabolic g := by
+  constructor
+  · rintro ⟨hP, c, hc⟩
+    refine ⟨(isParabolic_linOf_zpow_iff g hn).1 hP, ?_⟩
+    rcases Int.eq_nat_or_neg n with ⟨m, rfl | rfl⟩
+    · rw [zpow_natCast] at hc
+      exact exists_smul_eq_self_of_pow (by omega) hc
+    · rw [zpow_neg, zpow_natCast, inv_smul_eq_iff] at hc
+      exact exists_smul_eq_self_of_pow (by omega) hc.symm
+  · rintro ⟨hP, c, hc⟩
+    exact ⟨hP.zpow_linOf hn, c, zpow_smul_eq_self_of_smul_eq hc n⟩
+
+/-- **A vector fixed by a non-elliptic Lorentz map is orthogonal to its fixed null vectors**:
+otherwise a combination of the two would be a fixed timelike vector. -/
+theorem minkB_eq_zero_of_fixed_of_not_isElliptic {A : Minkowski d ≃ₗ[ℝ] Minkowski d}
+    (hA : A ∈ lorentz d) (hne : ¬IsElliptic A) {v₀ w : Minkowski d} (hq : minkQ v₀ = 0)
+    (h0 : A v₀ = v₀) (hw : A w = w) : minkB w v₀ = 0 := by
+  by_contra hb
+  set s : ℝ := -(minkQ w + 1) / (2 * minkB w v₀) with hs
+  have hz : minkQ (w + s • v₀) = -1 := by
+    rw [minkQ_add, minkQ_smul, hq, minkB_smul_right, hs]
+    field_simp
+    ring
+  exact hne (isElliptic_of_fixed_timelike hA.1 (by rw [hz]; norm_num)
+    (by rw [map_add, map_smul, hw, h0]))
+
+/-- The null line `J` of a parabolic decomposition is pointwise fixed by `L(g)`. -/
+theorem IsParabolicPair.exists_fixed_null {g : isom d} {R U : Minkowski d ≃ₗ[ℝ] Minkowski d}
+    (hp : IsParabolicPair g R U) :
+    ∃ v ∈ nullPart U, v ≠ 0 ∧ minkQ v = 0 ∧ linOf g v = v := by
+  obtain ⟨hR, hU, hRe, hn, hU1, hg, hc⟩ := hp
+  obtain ⟨v₀, hv₀, hv₀0⟩ := exists_mem_nullPart_ne_zero hU.1 hn (pOf_ne_zero hU1)
+  have hUv : U v₀ = v₀ := by
+    have := pOf_eq_zero_of_mem_nullPart hU.1 hv₀
+    rwa [pOf_apply, sub_eq_zero] at this
+  refine ⟨v₀, hv₀, hv₀0, minkQ_eq_zero_of_mem_nullPart hv₀, ?_⟩
+  rw [hg, LinearEquiv.mul_apply, hUv, parabolic_R_fix_nullPart hR hU hRe hc hv₀]
+
+/-- **`J^⊥` does not depend on the decomposition**: for parabolic `L(g)` fixing the null
+`v₀ ≠ 0`, `nullHyperplanes g` is the union of the null hyperplanes `c + v₀^⊥` through the fixed
+points `c` (every `J` of a decomposition is the line of `v₀`). -/
+theorem mem_nullHyperplanes_iff {g : isom d} (hP : IsParabolic (linOf g)) {v₀ : Minkowski d}
+    (hv0 : v₀ ≠ 0) (hq : minkQ v₀ = 0) (hfix : linOf g v₀ = v₀) (x : Minkowski d) :
+    x ∈ nullHyperplanes g ↔ ∃ c, g • c = c ∧ minkB (x - c) v₀ = 0 := by
+  have hne := hP.not_isElliptic
+  have hline : ∀ R U, IsParabolicPair g R U → v₀ ∈ nullPart U ∧ nullPart U = ℝ ∙ v₀ := by
+    intro R U hp
+    obtain ⟨v, hv, hv0', hqv, hfv⟩ := hp.exists_fixed_null
+    have hB := minkB_eq_zero_of_fixed_of_not_isElliptic (linOf_mem g) hne hqv hfv hfix
+    obtain ⟨a, ha⟩ := eq_smul_of_null_orth hqv hv0' hq (by rw [minkB_comm]; exact hB)
+    have hmem : v₀ ∈ nullPart U := by rw [ha]; exact Submodule.smul_mem _ _ hv
+    exact ⟨hmem, nullPart_eq_span_of_mem hmem hv0⟩
+  constructor
+  · rintro ⟨R, U, hp, c, hc, hxc⟩
+    exact ⟨c, hc, mem_minkOrth'.1 hxc v₀ (hline R U hp).1⟩
+  · rintro ⟨c, hc, hB⟩
+    obtain ⟨R, U, hR, hU, hRe, hn, hU1, hg, hcomm⟩ := hP
+    have hp : IsParabolicPair g R U := ⟨hR, hU, hRe, hn, hU1, hg, hcomm⟩
+    refine ⟨R, U, hp, c, hc, mem_minkOrth'.2 fun y hy => ?_⟩
+    rw [(hline R U hp).2] at hy
+    obtain ⟨a, rfl⟩ := Submodule.mem_span_singleton.1 hy
+    rw [minkB_smul_right, hB, mul_zero]
+
+/-- **`J^⊥(gⁿ) = J^⊥(g)`** for linear parabolic `g`: the fixed points of `gⁿ` differ from those of
+`g` by `L(gⁿ)`-fixed vectors, orthogonal to `J` because `L(gⁿ)` is not elliptic. -/
+theorem nullHyperplanes_zpow {g : isom d} (hL : IsLinearParabolic g) {n : ℤ} (hn : n ≠ 0) :
+    nullHyperplanes (g ^ n) = nullHyperplanes g := by
+  obtain ⟨hP, c₀, hc₀⟩ := hL
+  obtain ⟨R, U, hR, hU, hRe, hnil, hU1, hg, hcomm⟩ := id hP
+  obtain ⟨v₀, -, hv0, hq, hfix⟩ :=
+    (show IsParabolicPair g R U from ⟨hR, hU, hRe, hnil, hU1, hg, hcomm⟩).exists_fixed_null
+  have hPn := hP.zpow_linOf hn
+  have hfixn : linOf (g ^ n) v₀ = v₀ := by
+    rw [linOf_zpow]; exact linEquiv_zpow_apply_eq_self hfix n
+  ext x
+  rw [mem_nullHyperplanes_iff hPn hv0 hq hfixn, mem_nullHyperplanes_iff hP hv0 hq hfix]
+  constructor
+  · rintro ⟨c, hc, hB⟩
+    refine ⟨c₀, hc₀, ?_⟩
+    have hw : linOf (g ^ n) (c - c₀) = c - c₀ := by
+      rw [← smul_sub_smul, hc, zpow_smul_eq_self_of_smul_eq hc₀]
+    have h0 := minkB_eq_zero_of_fixed_of_not_isElliptic (linOf_mem _) hPn.not_isElliptic hq
+      hfixn hw
+    rw [show x - c₀ = (x - c) + (c - c₀) by abel, minkB_add_left, hB, h0, add_zero]
+  · rintro ⟨c, hc, hB⟩
+    exact ⟨c, zpow_smul_eq_self_of_smul_eq hc n, hB⟩
+
+theorem achronalDomain_inv (g : isom d) : achronalDomain g⁻¹ = achronalDomain g := by
+  ext x
+  simp only [achronalDomain, mem_setOf_eq]
+  constructor <;> intro h q hq
+  · have := h (-q) (neg_ne_zero.2 hq)
+    rwa [inv_zpow', neg_neg] at this
+  · rw [inv_zpow']; exact h (-q) (neg_ne_zero.2 hq)
+
+/-- **`Ω_{gⁿ} = Ω_g`** for `n ≠ 0`, with no case analysis: if `x` and `g^q x` are causally
+related, `x ≤ g^r x` for `r = ±q`, hence `x ≤ (g^r)^m x = (g^m)^r x` by iteration. -/
+theorem achronalDomain_zpow (g : isom d) {n : ℤ} (hn : n ≠ 0) :
+    achronalDomain (g ^ n) = achronalDomain g := by
+  suffices H : ∀ m : ℕ, 0 < m → achronalDomain (g ^ m) ⊆ achronalDomain g by
+    refine Subset.antisymm ?_ (achronalDomain_subset_zpow g hn)
+    rcases Int.eq_nat_or_neg n with ⟨m, rfl | rfl⟩
+    · rw [zpow_natCast]; exact H m (by omega)
+    · rw [zpow_neg, achronalDomain_inv, zpow_natCast]; exact H m (by omega)
+  intro m hm x hx q hq
+  by_contra hneg
+  obtain ⟨r, hr, hle⟩ : ∃ r : ℤ, r ≠ 0 ∧ (minkowski d).le ⊤ x ((g ^ r) • x) := by
+    rcases le_top_or_of_minkQ_nonpos (not_lt.1 hneg) with h | h
+    · exact ⟨q, hq, h⟩
+    · refine ⟨-q, neg_ne_zero.2 hq, ?_⟩
+      have := (isom_le_top_iff (g ^ q)⁻¹).2 h
+      rwa [inv_smul_smul, ← zpow_neg] at this
+  have hfwd : ∀ j : ℕ, (minkowski d).le ⊤ x (((g ^ r) ^ j) • x) := by
+    intro j
+    induction j with
+    | zero => simpa using (minkowski d).le_refl (show x ∈ (⊤ : Opens (Minkowski d)) from trivial)
+    | succ j ih =>
+      refine (minkowski d).le_trans ih ?_
+      have := (isom_le_top_iff ((g ^ r) ^ j)).2 hle
+      rwa [← mul_smul, ← pow_succ] at this
+  have h1 := hx r hr
+  have h2 := (le_top_iff_minkQ.1 (hfwd m)).2
+  rw [show ((g ^ r) ^ m : isom d) = (g ^ m) ^ r by
+    rw [← zpow_natCast, ← zpow_natCast, ← zpow_mul, ← zpow_mul, mul_comm]] at h2
+  linarith
+
+/-- **Rem 8.8, first sentence** (l.2404): `U(gⁿ) = U(g)` for `n ≠ 0`. The class of `g`
+(nonspacelike elliptic, linear parabolic, or neither) is that of `gⁿ`
+(`isNonspacelikeElliptic_zpow_iff`, `isLinearParabolic_zpow_iff`), `J^⊥(gⁿ) = J^⊥(g)`
+(`nullHyperplanes_zpow`) and `Ω_{gⁿ} = Ω_g` (`achronalDomain_zpow`). -/
 theorem Ug_zpow (g : isom d) {n : ℤ} (hn : n ≠ 0) : Ug (g ^ n) = Ug g := by
-  sorry -- SORRY(remplacefini): needs each class stable under nonzero powers with the same `U` — `Ω_{gⁿ} ⊇ Ω_g` is `achronalDomain_subset_zpow`, but `Ω_{gⁿ} ⊆ Ω_g` and the stability of "nonspacelike elliptic", "linear parabolic" and of the hyperplanes `c + J^⊥` under powers need the normal forms of §6–§7 class by class (over `lorentz_trichotomy`, which is available) and the mutual exclusivity of the classes for a power, which nothing in the library states
+  unfold Ug
+  by_cases hN : IsNonspacelikeElliptic g
+  · rw [if_pos ((isNonspacelikeElliptic_zpow_iff g hn).2 hN), if_pos hN]
+  · rw [if_neg (mt (isNonspacelikeElliptic_zpow_iff g hn).1 hN), if_neg hN]
+    by_cases hL : IsLinearParabolic g
+    · rw [if_pos ((isLinearParabolic_zpow_iff g hn).2 hL), if_pos hL, nullHyperplanes_zpow hL hn]
+    · rw [if_neg (mt (isLinearParabolic_zpow_iff g hn).1 hL), if_neg hL, achronalDomain_zpow g hn]
 
 /-- **Rem 8.8, second sentence** (l.2405–2407): for a finite-index `Γ' ≤ Γ` and `Γ` torsion-free,
 `U(Γ') = U(Γ)`. Torsion-freeness is needed with the reading `γ ≠ 1` (W4): for `Γ = {1, γ}`,
@@ -1305,32 +1661,13 @@ variable {E : Type*} [TopologicalSpace E] [ChartedSpace (Minkowski d) E]
   [HasGroupoid M (gxGroupoid (isom d) (Minkowski d))]
   {p : E → M}
 
-/-- **Causal curves lift through a flat covering** `p` (a covering map and a local isometry),
-from any point above their value at a parameter `t₀`. The proof is `Flat/Quotient`'s
-`liftsCausalCurves`, with the starting point free. -/
-theorem lift_causalCurveIn (hp : IsCoveringMap p) (hloc : IsLocalIsometry d p) {I : Set ℝ}
-    {c : ℝ → M} (hc : (flatCausality d M).CausalCurveIn ⊤ I c) {t₀ : ℝ} (ht₀ : t₀ ∈ I) {e₀ : E}
-    (he₀ : p e₀ = c t₀) :
-    ∃ c' : ℝ → E, (flatCausality d E).CausalCurveIn ⊤ I c' ∧ c' t₀ = e₀ ∧
-      ∀ t ∈ I, p (c' t) = c t := by
-  have hcont : ContinuousOn c I :=
-    continuousOn_of_forall_Icc fun a ha b hb => hc.continuousOn_Icc ha hb
-  haveI : ContractibleSpace I := hc.ordConnected.convex.contractibleSpace hc.nonempty
-  haveI : LocPathConnectedSpace I := locPathConnectedSpace_of_ordConnected hc.ordConnected
-  obtain ⟨F, ⟨hF0, hFl⟩, -⟩ := hp.existsUnique_continuousMap_lifts
-    ⟨I.restrict c, hcont.restrict⟩ ⟨t₀, ht₀⟩ e₀ he₀
-  classical
-  let c' : ℝ → E := fun t => if h : t ∈ I then F ⟨t, h⟩ else e₀
-  have hc'I : ∀ t (h : t ∈ I), c' t = F ⟨t, h⟩ := fun t h => dif_pos h
-  have hlift : ∀ t ∈ I, p (c' t) = c t := fun t h => by
-    rw [hc'I t h]; exact congrFun hFl ⟨t, h⟩
-  have hc'cont : ContinuousOn c' I := by
-    rw [continuousOn_iff_continuous_restrict]
-    have : I.restrict c' = F := funext fun ⟨t, h⟩ => hc'I t h
-    rw [this]
-    exact F.continuous
-  refine ⟨c', ⟨hc.nonempty, hc.ordConnected, fun a ha b hb => ?_⟩, by rw [hc'I t₀ ht₀]; exact hF0,
-    hlift⟩
+/-- **A continuous lift of a causal curve through a local isometry is a causal curve**: if
+`p ∘ c' = c` on `I`, `c` a causal curve of `M` over `I` and `c'` continuous on `I`, then `c'` is a
+causal curve of `E` over `I` (no covering property is used). -/
+theorem causalCurveIn_of_lift (hloc : IsLocalIsometry d p) {I : Set ℝ} {c : ℝ → M}
+    (hc : (flatCausality d M).CausalCurveIn ⊤ I c) {c' : ℝ → E} (hc'cont : ContinuousOn c' I)
+    (hlift : ∀ t ∈ I, p (c' t) = c t) : (flatCausality d E).CausalCurveIn ⊤ I c' := by
+  refine ⟨hc.nonempty, hc.ordConnected, fun a ha b hb => ?_⟩
   refine ⟨fun _ _ => trivial, fun t ht N _ htN => ?_⟩
   have hIcc : Icc a b ⊆ I := hc.ordConnected.out ha hb
   obtain ⟨V, hxV, -, hV⟩ := hloc.localIsomorphism.2 (c' t)
@@ -1357,6 +1694,32 @@ theorem lift_causalCurveIn (hp : IsCoveringMap p) (hloc : IsLocalIsometry d p) {
   rw [← hlift s (hIcc hs), ← hlift s' (hIcc hs')] at hcs
   exact (flatCausality d E).le_mono inf_le_right
     (((hV V' inf_le_left U rfl (c' s) hsV (c' s') hs'V).1).2 hcs)
+
+/-- **Causal curves lift through a flat covering** `p` (a covering map and a local isometry),
+from any point above their value at a parameter `t₀`. The proof is `Flat/Quotient`'s
+`liftsCausalCurves`, with the starting point free. -/
+theorem lift_causalCurveIn (hp : IsCoveringMap p) (hloc : IsLocalIsometry d p) {I : Set ℝ}
+    {c : ℝ → M} (hc : (flatCausality d M).CausalCurveIn ⊤ I c) {t₀ : ℝ} (ht₀ : t₀ ∈ I) {e₀ : E}
+    (he₀ : p e₀ = c t₀) :
+    ∃ c' : ℝ → E, (flatCausality d E).CausalCurveIn ⊤ I c' ∧ c' t₀ = e₀ ∧
+      ∀ t ∈ I, p (c' t) = c t := by
+  have hcont : ContinuousOn c I :=
+    continuousOn_of_forall_Icc fun a ha b hb => hc.continuousOn_Icc ha hb
+  haveI : ContractibleSpace I := hc.ordConnected.convex.contractibleSpace hc.nonempty
+  haveI : LocPathConnectedSpace I := locPathConnectedSpace_of_ordConnected hc.ordConnected
+  obtain ⟨F, ⟨hF0, hFl⟩, -⟩ := hp.existsUnique_continuousMap_lifts
+    ⟨I.restrict c, hcont.restrict⟩ ⟨t₀, ht₀⟩ e₀ he₀
+  classical
+  let c' : ℝ → E := fun t => if h : t ∈ I then F ⟨t, h⟩ else e₀
+  have hc'I : ∀ t (h : t ∈ I), c' t = F ⟨t, h⟩ := fun t h => dif_pos h
+  have hlift : ∀ t ∈ I, p (c' t) = c t := fun t h => by
+    rw [hc'I t h]; exact congrFun hFl ⟨t, h⟩
+  have hc'cont : ContinuousOn c' I := by
+    rw [continuousOn_iff_continuous_restrict]
+    have : I.restrict c' = F := funext fun ⟨t, h⟩ => hc'I t h
+    rw [this]
+    exact F.continuous
+  exact ⟨c', causalCurveIn_of_lift hloc hc hc'cont hlift, by rw [hc'I t₀ ht₀]; exact hF0, hlift⟩
 
 /-- **The projection of an inextensible causal curve through a flat covering is inextensible**:
 an extension downstairs lifts (`lift_causalCurveIn`, started above the old curve), the lift agrees
@@ -1420,6 +1783,232 @@ theorem isCauchySurface_preimage (hp : IsCoveringMap p) (hloc : IsLocalIsometry 
 
 end Covering
 
+/-! ### Maximal lifts of a path through a local homeomorphism (Prop 8.12, step 1)
+
+Topology only: `D : X → Y` a local homeomorphism with `X` Hausdorff, `γ : ℝ → Y` continuous. A
+lift of `γ` over an open interval through `x₀` at `t₀` is unique on overlaps; the union of all
+of them is the maximal lift, and it cannot have a limit at a finite end of its interval. -/
+
+section MaxLift
+
+variable {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y] {D : X → Y} {γ : ℝ → Y}
+  {t₀ : ℝ} {x₀ : X}
+
+/-- A lift of `γ` through `D`, over an open interval containing `t₀`, through `x₀` at `t₀`. -/
+private def IsIntervalLift (D : X → Y) (γ : ℝ → Y) (t₀ : ℝ) (x₀ : X) (I : Set ℝ) (f : ℝ → X) :
+    Prop :=
+  IsOpen I ∧ I.OrdConnected ∧ t₀ ∈ I ∧ ContinuousOn f I ∧ f t₀ = x₀ ∧ ∀ s ∈ I, D (f s) = γ s
+
+/-- Two intervals sharing a point have an order-connected union. -/
+private theorem ordConnected_union_of_mem {A B : Set ℝ} (hA : A.OrdConnected)
+    (hB : B.OrdConnected) {a : ℝ} (haA : a ∈ A) (haB : a ∈ B) : (A ∪ B).OrdConnected := by
+  refine ⟨fun x hx y hy z hz => ?_⟩
+  rcases le_or_gt z a with hza | hza
+  · rcases hx with hx | hx
+    · exact Or.inl (hA.out hx haA ⟨hz.1, hza⟩)
+    · exact Or.inr (hB.out hx haB ⟨hz.1, hza⟩)
+  · rcases hy with hy | hy
+    · exact Or.inl (hA.out haA hy ⟨hza.le, hz.2⟩)
+    · exact Or.inr (hB.out haB hy ⟨hza.le, hz.2⟩)
+
+/-- **Uniqueness of lifts** on the common interval (`X` Hausdorff, `D` locally injective). -/
+private theorem IsIntervalLift.eqOn [T2Space X] (hD : IsLocalHomeomorph D) {I J : Set ℝ}
+    {f g : ℝ → X} (hf : IsIntervalLift D γ t₀ x₀ I f) (hg : IsIntervalLift D γ t₀ x₀ J g) :
+    EqOn f g (I ∩ J) :=
+  (T2Space.isSeparatedMap D).eqOn_of_comp_eqOn hD.isLocallyInjective
+    (hf.2.1.inter hg.2.1).isPreconnected (hf.2.2.2.1.mono inter_subset_left)
+    (hg.2.2.2.1.mono inter_subset_right)
+    (fun s hs => by simp only [comp_apply]; rw [hf.2.2.2.2.2 s hs.1, hg.2.2.2.2.2 s hs.2])
+    ⟨hf.2.2.1, hg.2.2.1⟩ (by rw [hf.2.2.2.2.1, hg.2.2.2.2.1])
+
+/-- **Extension**: a lift `f` over `I` with a limit `p` above `γ b` at a
+point `b` of the closure of `I` extends to a lift over `I ∪ ]b − ε, b + ε[` (a local inverse of
+`D` near `p`). -/
+private theorem IsIntervalLift.extend (hD : IsLocalHomeomorph D) (hγ : Continuous γ) {I : Set ℝ}
+    {f : ℝ → X} (hf : IsIntervalLift D γ t₀ x₀ I f) {b : ℝ} {p : X} (hb : b ∈ closure I)
+    (hp : D p = γ b) (htend : Tendsto f (𝓝[I] b) (𝓝 p)) :
+    ∃ ε > 0, ∃ g : ℝ → X, IsIntervalLift D γ t₀ x₀ (I ∪ Metric.ball b ε) g := by
+  obtain ⟨e, hpe, he⟩ := hD p
+  have hDe : ∀ x, D x = e x := fun x => congrFun he x
+  have hO : γ b ∈ e.target := by rw [← hp, hDe]; exact e.map_source hpe
+  obtain ⟨ε₁, hε₁, hsub1⟩ := Metric.mem_nhdsWithin_iff.1 (htend (e.open_source.mem_nhds hpe))
+  obtain ⟨ε₂, hε₂, hball2⟩ := Metric.isOpen_iff.1 (e.open_target.preimage hγ) b hO
+  set ε := min ε₁ ε₂ with hε
+  have hB2 : ∀ s ∈ Metric.ball b ε, γ s ∈ e.target := fun s hs =>
+    hball2 (Metric.ball_subset_ball (min_le_right _ _) hs)
+  have hfe : ∀ s ∈ I, s ∈ Metric.ball b ε → f s = e.symm (γ s) := by
+    intro s hs hsB
+    have hfs : f s ∈ e.source := hsub1 ⟨Metric.ball_subset_ball (min_le_left _ _) hsB, hs⟩
+    rw [← hf.2.2.2.2.2 s hs, hDe, e.left_inv hfs]
+  classical
+  let g : ℝ → X := fun s => if s ∈ I then f s else e.symm (γ s)
+  have hgI : ∀ s ∈ I, g s = f s := fun s hs => if_pos hs
+  have hgB : ∀ s ∈ Metric.ball b ε, g s = e.symm (γ s) := by
+    intro s hs
+    by_cases h : s ∈ I
+    · rw [hgI s h, hfe s h hs]
+    · exact if_neg h
+  have hεpos : 0 < ε := lt_min hε₁ hε₂
+  obtain ⟨a, haB, haI⟩ := (Metric.mem_closure_iff.1 hb) ε hεpos
+  refine ⟨ε, hεpos, g, hf.1.union Metric.isOpen_ball, ?_, Or.inl hf.2.2.1, ?_, ?_, ?_⟩
+  · refine ordConnected_union_of_mem hf.2.1 ?_ haB (Metric.mem_ball.2 (by rwa [dist_comm]))
+    rw [Real.ball_eq_Ioo]; exact ordConnected_Ioo
+  · intro s hs
+    refine ContinuousAt.continuousWithinAt ?_
+    rcases hs with hs | hs
+    · exact (hf.2.2.2.1.continuousAt (hf.1.mem_nhds hs)).congr
+        (Filter.eventuallyEq_of_mem (hf.1.mem_nhds hs) fun r hr => (hgI r hr).symm)
+    · exact ((e.continuousAt_symm (hB2 s hs)).comp hγ.continuousAt).congr
+        (Filter.eventuallyEq_of_mem (Metric.isOpen_ball.mem_nhds hs) fun r hr => (hgB r hr).symm)
+  · rw [hgI t₀ hf.2.2.1]; exact hf.2.2.2.2.1
+  · rintro s (hs | hs)
+    · rw [hgI s hs]; exact hf.2.2.2.2.2 s hs
+    · rw [hgB s hs, hDe, e.right_inv (hB2 s hs)]
+
+/-- **A lift starts**: some lift of `γ` through `x₀` at `t₀` exists. -/
+private theorem exists_isIntervalLift (hD : IsLocalHomeomorph D) (hγ : Continuous γ)
+    (h0 : D x₀ = γ t₀) : ∃ I f, IsIntervalLift D γ t₀ x₀ I f := by
+  obtain ⟨e, hx, he⟩ := hD x₀
+  have hDe : ∀ x, D x = e x := fun x => congrFun he x
+  have hO : γ t₀ ∈ e.target := by rw [← h0, hDe]; exact e.map_source hx
+  obtain ⟨ε, hε, hball⟩ := Metric.isOpen_iff.1 (e.open_target.preimage hγ) t₀ hO
+  refine ⟨Metric.ball t₀ ε, fun s => e.symm (γ s), Metric.isOpen_ball, ?_,
+    Metric.mem_ball_self hε, e.continuousOn_symm.comp hγ.continuousOn fun s hs => hball hs, ?_, ?_⟩
+  · rw [Real.ball_eq_Ioo]; exact ordConnected_Ioo
+  · simp only; rw [← h0, hDe, e.left_inv hx]
+  · intro s hs; simp only; rw [hDe, e.right_inv (hball hs)]
+
+/-- The domain of the maximal lift: the union of the domains of all lifts. -/
+private def maxLiftDom (D : X → Y) (γ : ℝ → Y) (t₀ : ℝ) (x₀ : X) : Set ℝ :=
+  ⋃₀ {I | ∃ f, IsIntervalLift D γ t₀ x₀ I f}
+
+open Classical in
+/-- The maximal lift: at `s`, the value of any lift defined at `s`. -/
+private noncomputable def maxLift (D : X → Y) (γ : ℝ → Y) (t₀ : ℝ) (x₀ : X) (s : ℝ) : X :=
+  if h : ∃ I f, IsIntervalLift D γ t₀ x₀ I f ∧ s ∈ I then h.choose_spec.choose s else x₀
+
+private theorem maxLift_eqOn [T2Space X] (hD : IsLocalHomeomorph D) {I : Set ℝ} {f : ℝ → X}
+    (hf : IsIntervalLift D γ t₀ x₀ I f) : EqOn (maxLift D γ t₀ x₀) f I := by
+  intro s hs
+  have h : ∃ I f, IsIntervalLift D γ t₀ x₀ I f ∧ s ∈ I := ⟨I, f, hf, hs⟩
+  rw [maxLift, dif_pos h]
+  exact (h.choose_spec.choose_spec.1.eqOn hD hf) ⟨h.choose_spec.choose_spec.2, hs⟩
+
+/-- **The maximal lift is a lift.** -/
+private theorem isIntervalLift_maxLift [T2Space X] (hD : IsLocalHomeomorph D) (hγ : Continuous γ)
+    (h0 : D x₀ = γ t₀) :
+    IsIntervalLift D γ t₀ x₀ (maxLiftDom D γ t₀ x₀) (maxLift D γ t₀ x₀) := by
+  obtain ⟨I₀, f₀, hf₀⟩ := exists_isIntervalLift hD hγ h0
+  have ht₀ : t₀ ∈ maxLiftDom D γ t₀ x₀ := ⟨I₀, ⟨f₀, hf₀⟩, hf₀.2.2.1⟩
+  refine ⟨isOpen_sUnion fun I ⟨f, hf⟩ => hf.1, ⟨fun x hx y hy z hz => ?_⟩, ht₀, ?_, ?_, ?_⟩
+  · obtain ⟨I, ⟨f, hf⟩, hxI⟩ := hx
+    obtain ⟨J, ⟨g, hg⟩, hyJ⟩ := hy
+    rcases le_or_gt z t₀ with h | h
+    · exact ⟨I, ⟨f, hf⟩, hf.2.1.out hxI hf.2.2.1 ⟨hz.1, h⟩⟩
+    · exact ⟨J, ⟨g, hg⟩, hg.2.1.out hg.2.2.1 hyJ ⟨h.le, hz.2⟩⟩
+  · rintro s ⟨I, ⟨f, hf⟩, hsI⟩
+    exact ((hf.2.2.2.1.continuousAt (hf.1.mem_nhds hsI)).congr
+      (Filter.eventuallyEq_of_mem (hf.1.mem_nhds hsI) fun r hr =>
+        (maxLift_eqOn hD hf hr).symm)).continuousWithinAt
+  · rw [maxLift_eqOn hD hf₀ hf₀.2.2.1]; exact hf₀.2.2.2.2.1
+  · rintro s ⟨I, ⟨f, hf⟩, hsI⟩
+    rw [maxLift_eqOn hD hf hsI]; exact hf.2.2.2.2.2 s hsI
+
+/-- **Maximality**: the maximal lift has no limit at a point of the closure of its domain outside
+it (`Y` Hausdorff for the limit to lie over `γ b`). -/
+private theorem mem_maxLiftDom_of_tendsto [T2Space X] [T2Space Y] (hD : IsLocalHomeomorph D)
+    (hγ : Continuous γ) (h0 : D x₀ = γ t₀) {b : ℝ} {p : X}
+    (hb : b ∈ closure (maxLiftDom D γ t₀ x₀))
+    (htend : Tendsto (maxLift D γ t₀ x₀) (𝓝[maxLiftDom D γ t₀ x₀] b) (𝓝 p)) :
+    b ∈ maxLiftDom D γ t₀ x₀ := by
+  have L := isIntervalLift_maxLift hD hγ h0
+  haveI := mem_closure_iff_nhdsWithin_neBot.1 hb
+  have h1 : Tendsto γ (𝓝[maxLiftDom D γ t₀ x₀] b) (𝓝 (D p)) :=
+    ((hD.continuous.tendsto p).comp htend).congr'
+      (eventuallyEq_nhdsWithin_of_eqOn fun s hs => L.2.2.2.2.2 s hs)
+  have hp : D p = γ b :=
+    tendsto_nhds_unique h1 (hγ.continuousAt.mono_left nhdsWithin_le_nhds)
+  obtain ⟨ε, hε, g, hg⟩ := L.extend hD hγ hb hp htend
+  exact ⟨_, ⟨g, hg⟩, Or.inr (Metric.mem_ball_self hε)⟩
+
+/-- **The end of a reparametrised sub-arc** (the real-analysis core of inextensibility): if
+`c' ∘ φ = c` on the open `J`, `φ` strictly increasing into the interval `I'` and bounded by a
+point `t'` of `I'`, `c'` continuous on `I'`, and `c` carries a continuous "clock" `T` with
+`T (c s) = s`, then `J` is bounded above and `c` has a limit at `sup J ∉ J`. -/
+private theorem exists_end_of_upper {Z : Type*} [TopologicalSpace Z] {J I' : Set ℝ}
+    {c c' : ℝ → Z} {φ : ℝ → ℝ} (T : Z → ℝ) (hT : Continuous T) (hTc : ∀ s ∈ J, T (c s) = s)
+    (hJo : IsOpen J) (hJ : J.Nonempty) (hφ : StrictMonoOn φ J) (hmaps : MapsTo φ J I')
+    (hI' : I'.OrdConnected) (hc' : ContinuousOn c' I') (heq : ∀ s ∈ J, c' (φ s) = c s)
+    {t' : ℝ} (ht' : t' ∈ I') (hup : ∀ s ∈ J, φ s < t') :
+    ∃ b p, b ∈ closure J ∧ b ∉ J ∧ Tendsto c (𝓝[J] b) (𝓝 p) := by
+  obtain ⟨s₀, hs₀⟩ := hJ
+  have hne : (φ '' J).Nonempty := ⟨_, s₀, hs₀, rfl⟩
+  have hbdd : BddAbove (φ '' J) := ⟨t', by rintro _ ⟨s, hs, rfl⟩; exact (hup s hs).le⟩
+  set τ := sSup (φ '' J)
+  have hle : ∀ s ∈ J, φ s ≤ τ := fun s hs => le_csSup hbdd ⟨s, hs, rfl⟩
+  have hτt' : τ ≤ t' := csSup_le hne (by rintro _ ⟨s, hs, rfl⟩; exact (hup s hs).le)
+  have hτI : τ ∈ I' := hI'.out (hmaps hs₀) ht' ⟨hle s₀ hs₀, hτt'⟩
+  have key : ∀ N ∈ 𝓝 (c' τ), ∃ s₁ ∈ J, ∀ s ∈ J, s₁ ≤ s → c s ∈ N := by
+    intro N hN
+    obtain ⟨η, hη, hηsub⟩ := Metric.mem_nhdsWithin_iff.1 (hc' τ hτI hN)
+    obtain ⟨_, ⟨s₁, hs₁, rfl⟩, h1⟩ := exists_lt_of_lt_csSup hne (show τ - η < τ by linarith)
+    refine ⟨s₁, hs₁, fun s hs hs₁s => ?_⟩
+    have h2 : φ s₁ ≤ φ s := hφ.monotoneOn hs₁ hs hs₁s
+    rw [← heq s hs]
+    refine hηsub ⟨?_, hmaps hs⟩
+    rw [Real.ball_eq_Ioo]
+    exact ⟨by linarith, by linarith [hle s hs]⟩
+  have hbddJ : BddAbove J := by
+    obtain ⟨s₁, hs₁, h⟩ := key (T ⁻¹' Iio (T (c' τ) + 1))
+      (hT.continuousAt.preimage_mem_nhds (Iio_mem_nhds (by linarith)))
+    refine ⟨max s₁ (T (c' τ) + 1), fun s hs => ?_⟩
+    rcases le_total s₁ s with h' | h'
+    · have := h s hs h'
+      rw [mem_preimage, mem_Iio, hTc s hs] at this
+      exact le_max_of_le_right this.le
+    · exact le_max_of_le_left h'
+  have hbcl : sSup J ∈ closure J := csSup_mem_closure ⟨s₀, hs₀⟩ hbddJ
+  have hbJ : sSup J ∉ J := fun hb => by
+    obtain ⟨ε, hε, hsub⟩ := Metric.isOpen_iff.1 hJo _ hb
+    have : sSup J + ε / 2 ∈ J := hsub (by rw [Real.ball_eq_Ioo]; constructor <;> linarith)
+    linarith [le_csSup hbddJ this]
+  refine ⟨sSup J, c' τ, hbcl, hbJ, tendsto_def.2 fun N hN => ?_⟩
+  obtain ⟨s₁, hs₁, h⟩ := key N hN
+  have hs₁b : s₁ < sSup J :=
+    lt_of_le_of_ne (le_csSup hbddJ hs₁) (fun h => hbJ (h ▸ hs₁))
+  exact mem_nhdsWithin.2 ⟨Ioi s₁, isOpen_Ioi, hs₁b, fun s ⟨hs1, hsJ⟩ => h s hsJ (le_of_lt hs1)⟩
+
+/-- The mirror image of `exists_end_of_upper`: `φ` bounded below by `t' ∈ I'`. -/
+private theorem exists_end_of_lower {Z : Type*} [TopologicalSpace Z] {J I' : Set ℝ}
+    {c c' : ℝ → Z} {φ : ℝ → ℝ} (T : Z → ℝ) (hT : Continuous T) (hTc : ∀ s ∈ J, T (c s) = s)
+    (hJo : IsOpen J) (hJ : J.Nonempty) (hφ : StrictMonoOn φ J) (hmaps : MapsTo φ J I')
+    (hI' : I'.OrdConnected) (hc' : ContinuousOn c' I') (heq : ∀ s ∈ J, c' (φ s) = c s)
+    {t' : ℝ} (ht' : t' ∈ I') (hlow : ∀ s ∈ J, t' < φ s) :
+    ∃ b p, b ∈ closure J ∧ b ∉ J ∧ Tendsto c (𝓝[J] b) (𝓝 p) := by
+  obtain ⟨s₀, hs₀⟩ := hJ
+  obtain ⟨b, p, hb, hbJ, ht⟩ := exists_end_of_upper (J := -J) (I' := -I')
+    (c := fun s => c (-s)) (c' := fun u => c' (-u)) (φ := fun s => -φ (-s)) (fun z => -T z)
+    hT.neg (fun s hs => by rw [hTc (-s) hs, neg_neg]) hJo.neg ⟨-s₀, by simpa using hs₀⟩
+    (fun s hs s' hs' h => neg_lt_neg (hφ hs' hs (neg_lt_neg h)))
+    (fun s hs => by simpa using hmaps hs)
+    ⟨fun x hx y hy z hz => hI'.out hy hx ⟨neg_le_neg hz.2, neg_le_neg hz.1⟩⟩
+    (hc'.comp continuous_neg.continuousOn fun u hu => hu)
+    (fun s hs => by simp only [neg_neg]; exact heq _ hs) (by simpa using ht')
+    (fun s hs => neg_lt_neg (hlow _ hs))
+  refine ⟨-b, p, ?_, by simpa using hbJ, ?_⟩
+  · rw [← Set.mem_neg, neg_closure]; exact hb
+  · have hneg : Tendsto (fun s : ℝ => -s) (𝓝[J] (-b)) (𝓝[-J] b) := by
+      refine tendsto_nhdsWithin_iff.2 ⟨?_, ?_⟩
+      · have := (continuous_neg.tendsto (-b)).mono_left (nhdsWithin_le_nhds (s := J))
+        rwa [neg_neg] at this
+      · filter_upwards [self_mem_nhdsWithin] with s hs
+        simpa using hs
+    have := ht.comp hneg
+    simpa [comp_def] using this
+
+end MaxLift
+
+
 /-! ## §8 on a flat spacetime: the developing pair and (CC′) -/
 
 /-- The universal cover of a space with an atlas over `𝐌ⁿ` is a covering map. -/
@@ -1437,6 +2026,74 @@ theorem deck_eq_one_of_apply_eq (d : ℕ) {M : Type*} [TopologicalSpace M]
     hcov.eq_of_comp_eq γ.1.continuous continuous_id γ.2 z h
   apply Subtype.ext
   exact Homeomorph.ext fun w => by simpa using congrFun this w
+
+/-- A covering space of a Hausdorff space is Hausdorff (a local copy of `Flat/CauchyComplete`'s
+`t2Space_of_isCoveringMap`, which this file does not import). -/
+private theorem t2Space_of_isCoveringMap' {E X : Type*} [TopologicalSpace E] [TopologicalSpace X]
+    [T2Space X] {p : E → X} (hp : IsCoveringMap p) : T2Space E :=
+  ⟨fun x₁ x₂ hne => by
+    by_cases h : p x₁ = p x₂
+    · exact hp.isSeparatedMap x₁ x₂ h hne
+    · obtain ⟨u, v, hu, hv, hxu, hxv, huv⟩ := t2_separation h
+      exact ⟨p ⁻¹' u, p ⁻¹' v, hu.preimage hp.continuous, hv.preimage hp.continuous, hxu, hxv,
+        huv.preimage p⟩⟩
+
+/-- **The deck group of a covering of a Hausdorff space acts properly discontinuously**: a compact
+`K` meets only finitely many of its deck translates. Each pair `(x, y)` has neighbourhoods
+`U ∋ x`, `V ∋ y` with at most one deck transformation sending a point of `U` into `V` —
+separate `p x ≠ p y` in `X`, or, if `p x = p y`, take `V` a sheet at `y` and `U` the component of
+`x` over its image: such a transformation agrees on `U` with the local section (uniqueness of
+lifts), so it sends `x` to `y` — and finitely many such boxes cover `K × K`. -/
+theorem finite_deck_of_isCompact {E X : Type*} [TopologicalSpace E] [TopologicalSpace X]
+    [T2Space X] [PreconnectedSpace E] [LocallyConnectedSpace E] {p : E → X}
+    (hp : IsCoveringMap p) {K : Set E} (hK : IsCompact K) :
+    {γ : Deck p | (γ.1 '' K ∩ K).Nonempty}.Finite := by
+  have hpγ : ∀ (γ : Deck p) (w : E), p (γ.1 w) = p w := fun γ w =>
+    congrFun ((mem_deckGroup_iff _ _).1 γ.2) w
+  have hfree : ∀ γ₁ γ₂ : Deck p, ∀ x, γ₁.1 x = γ₂.1 x → γ₁ = γ₂ := by
+    intro γ₁ γ₂ x hx
+    have : (γ₁.1 : E → E) = γ₂.1 := hp.eq_of_comp_eq γ₁.1.continuous γ₂.1.continuous
+      (((mem_deckGroup_iff _ _).1 γ₁.2).trans ((mem_deckGroup_iff _ _).1 γ₂.2).symm) x hx
+    exact Subtype.ext (Homeomorph.ext fun w => congrFun this w)
+  have hbox : ∀ x y : E, ∃ U V : Set E, IsOpen U ∧ IsOpen V ∧ x ∈ U ∧ y ∈ V ∧
+      ∀ γ₁ γ₂ : Deck p, (γ₁.1 '' U ∩ V).Nonempty → (γ₂.1 '' U ∩ V).Nonempty → γ₁ = γ₂ := by
+    intro x y
+    by_cases hxy : p x = p y
+    · obtain ⟨e, hye, he⟩ := hp.isLocalHomeomorph y
+      have hpe : ∀ w, p w = e w := fun w => congrFun he w
+      have hxt : x ∈ p ⁻¹' e.target := by
+        rw [mem_preimage, hxy, hpe]; exact e.map_source hye
+      set U := connectedComponentIn (p ⁻¹' e.target) x
+      have hUsub : U ⊆ p ⁻¹' e.target := connectedComponentIn_subset _ _
+      have hkey : ∀ γ : Deck p, (γ.1 '' U ∩ e.source).Nonempty → γ.1 x = y := by
+        rintro γ ⟨_, ⟨z, hzU, rfl⟩, hzs⟩
+        have heqOn : EqOn γ.1 (fun w => e.symm (p w)) U :=
+          hp.eqOn_of_comp_eqOn isPreconnected_connectedComponentIn γ.1.continuous.continuousOn
+            (e.continuousOn_symm.comp hp.continuous.continuousOn hUsub)
+            (fun w hw => by
+              simp only [comp_apply]
+              rw [hpγ, hpe (e.symm (p w)), e.right_inv (hUsub hw)])
+            hzU (show γ.1 z = e.symm (p z) by rw [← hpγ γ z, hpe, e.left_inv hzs])
+        rw [heqOn (mem_connectedComponentIn hxt)]
+        simp only
+        rw [hxy, hpe, e.left_inv hye]
+      exact ⟨U, e.source, (e.open_target.preimage hp.continuous).connectedComponentIn,
+        e.open_source, mem_connectedComponentIn hxt, hye,
+        fun γ₁ γ₂ h1 h2 => hfree γ₁ γ₂ x ((hkey γ₁ h1).trans (hkey γ₂ h2).symm)⟩
+    · obtain ⟨A, B, hA, hB, hxA, hyB, hAB⟩ := t2_separation hxy
+      refine ⟨p ⁻¹' A, p ⁻¹' B, hA.preimage hp.continuous, hB.preimage hp.continuous, hxA, hyB,
+        fun γ₁ _ h1 _ => ?_⟩
+      obtain ⟨_, ⟨z, hz, rfl⟩, hzB⟩ := h1
+      exact (Set.disjoint_left.1 hAB hz (by rw [← hpγ γ₁ z]; exact hzB)).elim
+  choose U V hU hV hxU hyV hone using hbox
+  obtain ⟨t, -, hcover⟩ := (hK.prod hK).elim_nhds_subcover (fun q => U q.1 q.2 ×ˢ V q.1 q.2)
+    (fun q _ => ((hU q.1 q.2).prod (hV q.1 q.2)).mem_nhds ⟨hxU _ _, hyV _ _⟩)
+  refine (t.finite_toSet.biUnion fun q _ =>
+    (show {γ : Deck p | (γ.1 '' U q.1 q.2 ∩ V q.1 q.2).Nonempty}.Subsingleton from
+      fun γ₁ h1 γ₂ h2 => hone _ _ γ₁ γ₂ h1 h2).finite).subset ?_
+  rintro γ ⟨_, ⟨k, hk, rfl⟩, hγk⟩
+  obtain ⟨q, hq, hmem⟩ := mem_iUnion₂.1 (hcover (show (k, γ.1 k) ∈ K ×ˢ K from ⟨hk, hγk⟩))
+  exact mem_iUnion₂.2 ⟨q, hq, ⟨γ.1 k, ⟨k, hmem.1, rfl⟩, hmem.2⟩⟩
 
 section Develop
 
@@ -1534,29 +2191,147 @@ theorem bcor_quo (hpair : IsDevelopingPair x₀ D ρ) (h : DevelopsCC x₀ D S) 
   · rintro _ ⟨γ, rfl⟩ h1 x hx hfix
     exact h1 (by rw [eq_one_of_holonomy_fix hpair h hx hfix, map_one])
 
-/-- **Cor 8.2, proper discontinuity on `Σ`** (Barbot's "`𝒟 ∘ f̃` is an embedding" and `π₁(S)`
-acting properly on `S̃`). -/
-theorem holonomy_proper (_hpair : IsDevelopingPair x₀ D ρ) (_h : DevelopsCC x₀ D S) :
+/-- **Prop 8.12, step 1** (`bprop:danom`, l.2476–2485), for a Hausdorff `M`: **the developing map
+is injective.** Through each `z̃ ∈ M̃` the vertical line `δ` through `𝒟 z̃` has a maximal lift
+through the local homeomorphism `𝒟` (`maxLift`; unique on overlaps since `M̃` is Hausdorff); it
+is a causal curve (`causalCurveIn_of_lift`) and is inextensible — an extension would give it a
+limit at a finite end of its interval (`exists_end_of_upper`/`_lower`, the clock being the time
+coordinate of `𝒟`), where the lift continues (`mem_maxLiftDom_of_tendsto`). It therefore meets
+`S̃` (`inextensible_comp`, `h.cauchy`), at a parameter where `δ` meets `Σ = graph g`: one
+parameter for both points of a fibre of `𝒟`, where the two lifts agree by `h.injOn`, hence
+everywhere by uniqueness of lifts. Neither `IsCausal` nor the holonomy is used. -/
+theorem injective_of_developsCC [T2Space M] (hpair : IsDevelopingPair x₀ D ρ)
+    (h : DevelopsCC x₀ D S) : Injective D := by
+  letI := flatCoverChartedSpace d M x₀
+  haveI := hasGroupoid_flatCover (d := d) M x₀
+  have hcov := isCoveringMap_flatCover_proj d M x₀
+  haveI : T2Space (UniversalCover M x₀) := t2Space_of_isCoveringMap' hcov
+  have hloc : IsLocalIsometry d D := isLocalIsometry_iff_eventually.2 ⟨hpair.gx.1, hpair.gx.2⟩
+  have hD := hloc.isLocalHomeomorph
+  set Sh := UniversalCover.proj M x₀ ⁻¹' S
+  have hv : IsFutureCausal ((1, 0) : Minkowski d) := ⟨zero_le_one, by simp [minkQ]⟩
+  have hv0 : ((1, 0) : Minkowski d) ≠ 0 := fun h0 => one_ne_zero (congrArg Prod.fst h0)
+  have hv1 : (0 : ℝ) < ((1, 0) : Minkowski d).1 := zero_lt_one
+  -- each point lies on a lift of its vertical line, and that lift meets `S̃`
+  have key : ∀ z : UniversalCover M x₀, ∃ (J : Set ℝ) (c : ℝ → UniversalCover M x₀),
+      J.OrdConnected ∧ (D z).1 ∈ J ∧ ContinuousOn c J ∧ c (D z).1 = z ∧
+      (∀ s ∈ J, D (c s) = timeLine (D z) (1, 0) s) ∧ ∃ s ∈ J, c s ∈ Sh := by
+    intro z
+    set γ : ℝ → Minkowski d := timeLine (D z) (1, 0) with hγdef
+    have hγ : Continuous γ := by
+      rw [hγdef]; unfold timeLine; fun_prop
+    have h0 : D z = γ (D z).1 := (timeLine_self hv1).symm
+    have L := isIntervalLift_maxLift hD hγ h0
+    set J := maxLiftDom D γ (D z).1 z
+    set c := maxLift D γ (D z).1 z
+    have hγc : (flatCausality d (Minkowski d)).CausalCurveIn ⊤ J γ := by
+      rw [flatCausality_self]
+      have := (inextensible_timeLine (D z) hv hv0).1
+      exact ⟨⟨_, L.2.2.1⟩, L.2.1, fun a _ b _ => this.curve a trivial b trivial⟩
+    have hcJ : (flatCausality d (UniversalCover M x₀)).CausalCurveIn ⊤ J c :=
+      causalCurveIn_of_lift hloc hγc L.2.2.2.1 L.2.2.2.2.2
+    have hT : Continuous fun w : UniversalCover M x₀ => (D w).1 :=
+      continuous_fst.comp hD.continuous
+    have hTc : ∀ s ∈ J, (fun w => (D w).1) (c s) = s := fun s hs => by
+      simp only; rw [L.2.2.2.2.2 s hs, timeLine_fst hv1]
+    have hinext : (flatCausality d (UniversalCover M x₀)).Inextensible ⊤ J c := by
+      refine ⟨hcJ, ?_⟩
+      rintro ⟨I', c', hcurve, ⟨φ, hφ, hmaps, hφoc, hφeq⟩, ⟨t', ht', hgrow⟩⟩
+      have hc' : ContinuousOn c' I' :=
+        continuousOn_of_forall_Icc fun a ha b hb => hcurve.continuousOn_Icc ha hb
+      have hne : ∀ s ∈ J, φ s ≠ t' := fun s hs he => hgrow s hs (by rw [← he, hφeq s hs])
+      have hend : ∃ b p, b ∈ closure J ∧ b ∉ J ∧ Tendsto c (𝓝[J] b) (𝓝 p) := by
+        by_cases hup : ∀ s ∈ J, φ s < t'
+        · exact exists_end_of_upper _ hT hTc L.1 ⟨_, L.2.2.1⟩ hφ hmaps hcurve.ordConnected hc'
+            hφeq ht' hup
+        · push Not at hup
+          obtain ⟨s₁, hs₁, h₁⟩ := hup
+          refine exists_end_of_lower _ hT hTc L.1 ⟨_, L.2.2.1⟩ hφ hmaps hcurve.ordConnected hc'
+            hφeq ht' fun s hs => ?_
+          by_contra hlt
+          push Not at hlt
+          obtain ⟨s₂, hs₂, he⟩ := hφoc.out ⟨s, hs, rfl⟩ ⟨s₁, hs₁, rfl⟩ ⟨hlt, h₁⟩
+          exact hne s₂ hs₂ he
+      obtain ⟨b, p, hb, hbJ, ht⟩ := hend
+      exact hbJ (mem_maxLiftDom_of_tendsto hD hγ h0 hb ht)
+    obtain ⟨_, ⟨⟨s, hs, rfl⟩, hsS⟩, -⟩ :=
+      h.cauchy J _ (inextensible_comp hcov (isLocalIsometry_flatCover_proj x₀) hinext)
+    exact ⟨J, c, L.2.1, L.2.2.1, L.2.2.2.1, L.2.2.2.2.1, L.2.2.2.2.2, s, hs, hsS⟩
+  -- a vertical line meets `Σ = graph g` at one parameter
+  obtain ⟨g, -, hgr⟩ := isEntireAcausalGraph_iff.1 h.cc.entire
+  have hline : ∀ (y : Minkowski d) (s : ℝ), timeLine y (1, 0) s ∈ D '' Sh → s = g y.2 := by
+    intro y s hs
+    rw [hgr] at hs
+    have h1 : (timeLine y (1, 0) s).1 = g (timeLine y (1, 0) s).2 := hs
+    rwa [timeLine_fst hv1, show (timeLine y (1, 0) s).2 = y.2 by simp [timeLine]] at h1
+  intro a b hab
+  obtain ⟨Ja, ca, ha1, ha2, ha3, ha4, ha5, sa, hsa, hsaS⟩ := key a
+  obtain ⟨Jb, cb, hb1, hb2, hb3, hb4, hb5, sb, hsb, hsbS⟩ := key b
+  rw [hab] at ha2 ha4 ha5
+  have hss : sa = sb :=
+    (hline _ _ ⟨ca sa, hsaS, ha5 sa hsa⟩).trans (hline _ _ ⟨cb sb, hsbS, hb5 sb hsb⟩).symm
+  subst hss
+  have hcs : ca sa = cb sa := h.injOn hsaS hsbS (by rw [ha5 sa hsa, hb5 sa hsb])
+  have hEq := (T2Space.isSeparatedMap D).eqOn_of_comp_eqOn hD.isLocallyInjective
+    (ha1.inter hb1).isPreconnected (ha3.mono inter_subset_left) (hb3.mono inter_subset_right)
+    (fun r hr => by simp only [comp_apply]; rw [ha5 r hr.1, hb5 r hr.2]) ⟨hsa, hsb⟩ hcs
+  exact ha4.symm.trans ((hEq ⟨ha2, hb2⟩).trans hb4)
+
+/-- **Cor 8.2, "`𝒟 ∘ f̃` is an embedding"** (l.2264), for a Hausdorff `M`: `𝒟` is an open
+embedding of `M̃` (`injective_of_developsCC` and the local homeomorphism `𝒟`), so in particular
+its restriction to `S̃` is an embedding onto `Σ`. -/
+theorem isOpenEmbedding_of_developsCC [T2Space M] (hpair : IsDevelopingPair x₀ D ρ)
+    (h : DevelopsCC x₀ D S) : IsOpenEmbedding D := by
+  letI := flatCoverChartedSpace d M x₀
+  exact (isLocalIsometry_iff_eventually.2 ⟨hpair.gx.1, hpair.gx.2⟩).isLocalHomeomorph
+    |>.isOpenEmbedding_of_injective (injective_of_developsCC hpair h)
+
+/-- **Cor 8.2, proper discontinuity on `Σ`** (`π₁(S)` acting properly on `S̃`), for a Hausdorff
+`M`: `𝒟` is an open embedding (`isOpenEmbedding_of_developsCC`), so `𝒟⁻¹(K)` is compact for a
+compact `K ⊆ Σ`, and it meets finitely many of its deck translates (`finite_deck_of_isCompact`);
+`ρ(γ) K ∩ K ≠ ∅` forces `γ 𝒟⁻¹(K) ∩ 𝒟⁻¹(K) ≠ ∅` by equivariance. -/
+theorem holonomy_proper [T2Space M] (hpair : IsDevelopingPair x₀ D ρ)
+    (h : DevelopsCC x₀ D S) :
     ∀ K ⊆ D '' (UniversalCover.proj M x₀ ⁻¹' S), IsCompact K →
       {γ : isom d | γ ∈ ρ.range ∧ (γ • K ∩ K).Nonempty}.Finite := by
-  sorry -- SORRY(bcor:quo): two facts are missing. (1) `𝒟|S̃ : S̃ → Σ` is a homeomorphism (Barbot's "`𝒟 ∘ f̃` is an embedding", from Prop 8.1's homeomorphism, which (CC′) does not carry): it needs `S̃` to be, in each flat chart, an edgeless achronal set hence a local graph over an open set of `ℝᵈ`, so that the injective `𝒟|S̃` is open onto `Σ`. (2) The deck group of `M̃ → M` acts properly discontinuously on `M̃` (finitely many sheets of a compact set); neither is in the library or the port
+  intro K hKS hK
+  haveI := locPathConnectedSpace_of_flat d M
+  have hK' : IsCompact (D ⁻¹' K) := (isOpenEmbedding_of_developsCC hpair h).isInducing
+    |>.isCompact_preimage' hK (hKS.trans (image_subset_range _ _))
+  refine ((finite_deck_of_isCompact (isCoveringMap_flatCover_proj d M x₀) hK').image ρ).subset ?_
+  rintro _ ⟨⟨γ, rfl⟩, _, ⟨k, hk, rfl⟩, hkK⟩
+  obtain ⟨k', -, rfl⟩ := hKS hk
+  refine ⟨γ, ⟨γ.1 k', ⟨k', hk, rfl⟩, ?_⟩, rfl⟩
+  rw [mem_preimage, hpair.equiv]
+  exact hkK
 
-/-- **The standing hypotheses hold for `(ρ(Deck), Σ)`.** -/
-theorem ccAction_of_developsCC (hpair : IsDevelopingPair x₀ D ρ) (h : DevelopsCC x₀ D S) :
+/-- **The standing hypotheses hold for `(ρ(Deck), Σ)`**, for a Hausdorff `M`. -/
+theorem ccAction_of_developsCC [T2Space M] (hpair : IsDevelopingPair x₀ D ρ)
+    (h : DevelopsCC x₀ D S) :
     CCAction ρ.range (D '' (UniversalCover.proj M x₀ ⁻¹' S)) :=
   ⟨h.cc, (bcor_quo hpair h).2.1, (bcor_quo hpair h).2.2.1, holonomy_proper hpair h⟩
 
-/-- **Prop 8.12** (`bprop:danom`, l.2469–2473), by the causal repair of
-`docs/BARBOT-WAVE3.md` §3 (no slices): `𝒟` is injective and `𝒟(M̃) ⊆ Ω(S̃)`. -/
-theorem bprop_danom (hpair : IsDevelopingPair x₀ D ρ) (hcaus : (flatCausality d M).IsCausal)
-    (h : DevelopsCC x₀ D S) :
+/-- **The design's conjunct `IsPreconnected S̃`** (`docs/BARBOT-WAVE3.md` §3; Barbot's `S̃` is the
+universal cover of the connected `S`), for a Hausdorff `M`: `𝒟` is an embedding
+(`isOpenEmbedding_of_developsCC`) and `Σ = 𝒟(S̃)` is connected (`CCAction.isPreconnected`). -/
+theorem isPreconnected_liftSet_of_developsCC [T2Space M] (hpair : IsDevelopingPair x₀ D ρ)
+    (h : DevelopsCC x₀ D S) : IsPreconnected (UniversalCover.proj M x₀ ⁻¹' S) :=
+  (isOpenEmbedding_of_developsCC hpair h).isInducing.isPreconnected_image.1
+    (ccAction_of_developsCC hpair h).isPreconnected
+
+/-- **Prop 8.12** (`bprop:danom`, l.2469–2473), for a Hausdorff `M` (Barbot's spacetimes are
+manifolds; without `T2Space M` the statement is false, module SCOPE), by the causal repair of
+`docs/BARBOT-WAVE3.md` §3 (no slices): `𝒟` is injective (`injective_of_developsCC`, step 1)
+and `𝒟(M̃) ⊆ Ω(S̃)`. -/
+theorem bprop_danom [T2Space M] (hpair : IsDevelopingPair x₀ D ρ)
+    (hcaus : (flatCausality d M).IsCausal) (h : DevelopsCC x₀ D S) :
     Injective D ∧ range D ⊆ omegaS ρ.range (D '' (UniversalCover.proj M x₀ ⁻¹' S)) := by
   letI := flatCoverChartedSpace d M x₀
   haveI := hasGroupoid_flatCover (d := d) M x₀
   set Sh := UniversalCover.proj M x₀ ⁻¹' S
   -- step 1
   have hinj : Injective D := by
-    sorry -- SORRY(bprop:danom, step 1): l.2476–2485. For `z̃ ∈ M̃`, the connected component `d(z̃)` of `𝒟⁻¹(δ)` through `z̃` (`δ` the vertical line through `𝒟 z̃`) is an inextensible causal curve of `M̃` (the maximal lift of `δ` through the local homeomorphism `𝒟`, which is not a covering map), so it meets `S̃` (`isCauchySurface_liftSet`) at one point; equal images give equal meeting points by `h.injOn`, hence equal components, on which `𝒟` is injective. The maximal-lift construction through a local homeomorphism (`docs/BARBOT-WAVE3.md` §5 R1) is not in the library
+    exact injective_of_developsCC hpair h
   -- step 2: `Σ` is a Cauchy surface of the open `𝒟(M̃)`
   have hiso : IsIsometricEmbedding d D :=
     ⟨isLocalIsometry_iff_eventually.2 ⟨hpair.gx.1, hpair.gx.2⟩, hinj⟩
@@ -1616,5 +2391,8 @@ theorem developsCC_minkowski (x₀ : Minkowski d) :
     exact ccPrime_graph_const 0
 
 example (x₀ : Minkowski d) := bcor_quo (isDevelopingPair_minkowski x₀) (developsCC_minkowski x₀)
+
+example (x₀ : Minkowski d) :=
+  holonomy_proper (isDevelopingPair_minkowski x₀) (developsCC_minkowski x₀)
 
 end Causal.Flat

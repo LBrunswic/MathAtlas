@@ -10,8 +10,10 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
 [3.M], [3.U]) or a remark (`\rquea`: Rem 2.2, Rem 2.3 `clomax`), which the ledger does not track.
 Line numbers are those of the **labelled** `papers/barbot/legacy/labeled/GHFspace.tex`. Status:
 Rem 2.2 completed (GH + Cauchy, MGH not proved); Rem 2.3 as printed refuted (DEC-44); [3.T] and
-[3.M] partial (normal frame only; completeness not stated); [3.U] partial (`S_f` Cauchy and its
-descent proved; ETT's GH of the quotient, completeness and a witness not done). Sorry-free.
+[3.M] partial (every frame `φ`; completeness not stated; the past Misner wedge not treated); [3.U]
+partial (`S_f` Cauchy and its descent to an acausal Cauchy surface proved, in every frame
+`φ`; Barbot-GH of the quotient in every frame; ETT's GH of the quotient,
+completeness and a witness not done). Sorry-free.
 
 > in \mink, let $\Omega$ be a connected component of the negative cone $\{ Q< 0 \}$.
 > Then, $S = \Omega \cap \{ Q=-1 \}$ is a Cauchy hypersurface for $\Omega$.
@@ -86,6 +88,16 @@ unipotent sections work in `Minkowski (d + 1)` (`n = d + 2 ≥ 2`, `z ∈ ℝ^{n
   (`nullX_sub_le_aux`, `future/pastExtensible_unipDomain`). A free group acting through `A` acts
   acausally (`actsAcausally_unip`), `S_f` descends to an acausal Cauchy surface of `Γ\Ω`
   (`isCauchySurface_unip`), and `Γ\Ω` is GH in Barbot's sense (`barbotGH_unip`).
+* **Frame transport** (general): conjugation by `φ ∈ isom` carries `(Γ, Ω)` to `(φΓφ⁻¹, φΩ)`
+  (`frameConjEquiv`, `frameHomeomorph`, `frameHomeomorph_smul`, `le_frameHomeomorph_iff`) and
+  preserves invariance, freeness, proper discontinuity (instances), acausality, finiteness of
+  `{γ | x ≤ γ y}`, `GloballyHyperbolicOn` and Cauchy surfaces (`actsAcausally_frameConj`,
+  `finite_le_frameConj`, `globallyHyperbolicOn_isomImage`, `isCauchySurfaceOn_isomImage`), hence
+  `gh_frameConj`, `barbotGH_frameConj`. Instances: `gh_translation_frame`,
+  `barbotGH_translation_frame`, `isTranslationSpacetime_frame`; `gh_misner_frame`,
+  `barbotGH_misner_frame`, `isMisnerSpacetime_frame`; `isCauchySurfaceOn_unipSlice_frame`
+  (`φ S_f` Cauchy in `φΩ`), `isCauchySurface_unip_frame` (its acausal Cauchy descent, through
+  `isAcausal_unipSlice`), `barbotGH_unip_frame`.
 
 ## Hypothesis checklist
 
@@ -95,15 +107,19 @@ unipotent sections work in `Minkowski (d + 1)` (`n = d + 2 ≥ 2`, `z ∈ ℝ^{n
 | Rem 2.2: "`Ω` is MGH" | not proved (GH and the Cauchy surface are) |
 | Rem 2.3 as printed | refuted (DEC-44, under DEC-27's rule): `not_cauchyCompact_absMax`; the corrected form (lemma K: GH + Cauchy-compact + **MGH** ⇒ `AbsMax`) is DEC-44's, elsewhere |
 | [3.T] translations "by spacelike vectors", discrete group | ⚠ reading: normalised to horizontal vectors `(0, v)` in a frame; discrete read as ball-finite (`BallFinite`) |
-| [3.M] `Γ` discrete in `G₀`; `Ω = {xy < 0, ±x > 0}` | ⚠ strengthened (scope): `Γ = misnerGroup L`, `L` ball-finite; theorems for the frame `φ = 1` and the sign `x > 0`; F1's nonzero boost is in `IsMisnerSpacetime`, not used by GH/Cauchy |
+| [3.M] `Γ` discrete in `G₀`; `Ω = {xy < 0, ±x > 0}` | ⚠ strengthened (scope): `Γ = misnerGroup L`, `L` ball-finite; theorems for every frame `φ` (`*_frame`) and the sign `x > 0`; F1's nonzero boost is in `IsMisnerSpacetime`, not used by GH/Cauchy |
 | [3.U] `λᵢ`, an orthogonal basis, a component, `Γ ⊆ A` discrete | ⚠ standard basis (absorbed in `φ`), `Γ` given acting by `unipAction` through ball-finite `L` |
 | [3.U] `f` "any (strictly) increasing" (l.676–677), then `f = ∫ a²` (l.707–711) | ⚠ strengthened over l.676–677, weakened under l.707–711: strictly increasing, continuous, unbounded both ways on `]α, β[` (`isCauchySurfaceOn_unipSlice`); divergence at **every** end (finite poles included) is necessary — counterexample in its docstring (DEC-27 finding) |
 
 ## SCOPE (disclosed)
 
 * **Frames.** `IsTranslationSpacetime`, `IsMisnerSpacetime`, `IsUnipotentSpacetime` quantify over a
-  frame `φ ∈ isom` (`frameConj`, `isomImage`); every theorem is for `φ = 1`. Transport along `φ`
-  (an isometry `Γ\Ω ≅ φΓφ⁻¹\φΩ`) is not written; `IsQuotientOf` fixes `M` only up to homeomorphism.
+  frame `φ ∈ isom` (`frameConj`, `isomImage`). The GH/Barbot-GH theorems (and the [3.U] acausal
+  Cauchy surface `φ S_f`) hold for every `φ`, for
+  the concrete quotient `φΓφ⁻¹\φΩ` (`*_frame`, by transporting the hypotheses, not by an isometry
+  `Γ\Ω ≅ φΓφ⁻¹\φΩ`, which is not written). `IsQuotientOf` fixes `M` only up to homeomorphism, so
+  "every `IsTranslationSpacetime M` is GH" is still not stated (the homeomorphism is not shown to
+  be an isometry).
 * **Completeness** of the slices (Cauchy-completeness, DEC-35) is not stated for any family: the
   `InducedLength` layer is not used. Hence no "Cauchy-complete" claim, and no AMGH claim.
 * **[3.M]**: the past wedge `{xy < 0, x < 0}` is only defined (its theory is the time reversal of
@@ -128,7 +144,8 @@ unipotent sections work in `Minkowski (d + 1)` (`n = d + 2 ≥ 2`, `z ∈ ℝ^{n
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Barbot campaign,
 wave 2, package WP-31c-Examples; fixer pass 2026-10-31 (audit findings applied, the [3.U] Cauchy
-`sorry` closed).
+`sorry` closed); closer pass 2026-11-01 (no tagged `sorry` was left; frame transport added); fixer pass
+2026-11-01 (audit polish: docstrings, the [3.U] Cauchy surface exported in every frame).
 -/
 
 namespace Causal.Flat
@@ -2556,6 +2573,20 @@ theorem isConnected_unipDomain {α β : EReal} (hαβ : α < β) :
     ((nullY (ofNull 0 y (0 : EuclideanSpace ℝ (Fin d))) : ℝ) : EReal) < β
   rw [nullY_ofNull]; exact ⟨hy1, hy2⟩
 
+/-- **`S_f` is acausal in `Ω`** for strictly increasing `f`: `T = x − Φ` is strictly increasing
+along `≤` and equals `f(y)` on `S_f`. (Extracted from `isCauchySurface_unip`, for the frame
+transport.) -/
+theorem isAcausal_unipSlice {ℓ : Fin d → ℝ} {α β : EReal} (hℓ : IsUnipComponent ℓ α β)
+    {f : ℝ → ℝ} (hf : StrictMonoOn f {y : ℝ | α < y ∧ (y : EReal) < β}) :
+    (flatCausality (d + 1) (unipDomain (d := d) α β)).IsAcausal
+      (Subtype.val ⁻¹' unipSlice ℓ f α β) := by
+  intro x hx y hy h
+  have hle' := (minkowski (d + 1)).le_mono le_top ((flat_le_top_subtype_iff _ _ _).1 h)
+  by_contra hne
+  have h1 := unipTime_lt hℓ hf x.2 y.2 hle' fun he => hne (Subtype.ext he)
+  rw [(mem_unipSlice_iff.1 hx).2, (mem_unipSlice_iff.1 hy).2] at h1
+  exact lt_irrefl _ h1
+
 section UnipQuotient
 
 variable {ℓ : Fin d → ℝ} {α β : EReal} (Γ : Subgroup (isom (d + 1)))
@@ -2599,13 +2630,7 @@ theorem isCauchySurface_unip (hℓ : IsUnipComponent ℓ α β)
   refine ⟨FlatQuotient.isCauchySurface_image_of_isCauchySurfaceOn Γ _
     (actsAcausally_unip Γ hℓ hΓ) (fun p hp => hp.1) hinv
     (isCauchySurfaceOn_unipSlice ℓ f hℓ hf hfc hfα hfβ), ?_⟩
-  refine FlatQuotient.isAcausal_image _ _ (fun γ p hp => hinv γ γ.2 p hp) ?_
-  intro x hx y hy h
-  have hle' := (minkowski (d + 1)).le_mono le_top ((flat_le_top_subtype_iff _ _ _).1 h)
-  by_contra hne
-  have h1 := unipTime_lt hℓ hf x.2 y.2 hle' fun he => hne (Subtype.ext he)
-  rw [(mem_unipSlice_iff.1 hx).2, (mem_unipSlice_iff.1 hy).2] at h1
-  exact lt_irrefl _ h1
+  exact FlatQuotient.isAcausal_image _ _ (fun γ p hp => hinv γ γ.2 p hp) (isAcausal_unipSlice hℓ hf)
 
 /-- **[3.U] Unipotent quotients are GH in Barbot's sense** (a Cauchy surface; l.743–744), given
 one `f` as in `isCauchySurfaceOn_unipSlice` (the paper's `f = ∫ a²`, l.707–711, is one; the
@@ -2622,5 +2647,347 @@ theorem barbotGH_unip (hℓ : IsUnipComponent ℓ α β)
 end UnipQuotient
 
 end Unipotent
+
+/-! ### Frame transport: conjugation by `φ ∈ isom` preserves everything
+
+The families `IsTranslationSpacetime`, `IsMisnerSpacetime` quantify over a frame `φ`; the theorems
+above are for `φ = 1`. Conjugation by `φ` carries `(Γ, Ω)` to `(φΓφ⁻¹, φΩ)`: `φ` is a homeomorphism
+`Ω ≃ₜ φΩ` (`frameHomeomorph`), equivariant along `Γ ≃* φΓφ⁻¹` (`frameConjEquiv`), and an
+isomorphism of the causal relations (`le_iff_le_isomImage`). Hence freeness, proper
+discontinuity, acausality, the finiteness of `{γ | x ≤ γ y}`, global hyperbolicity of `Ω` and
+invariant Cauchy surfaces all transport (`gh_frameConj`, `barbotGH_frameConj`). -/
+
+section FrameTransport
+
+open FlatQuotient
+
+variable (φ : isom d) (Γ : Subgroup (isom d)) (Ω : Opens (Minkowski d))
+
+/-- **`Γ ≃* φΓφ⁻¹`**, conjugation by `φ`. -/
+noncomputable def frameConjEquiv : Γ ≃* frameConj φ Γ :=
+  Γ.equivMapOfInjective (MulAut.conj φ).toMonoidHom (MulAut.conj φ).injective
+
+@[simp] theorem coe_frameConjEquiv (γ : Γ) :
+    ((frameConjEquiv φ Γ γ : frameConj φ Γ) : isom d) = φ * γ * φ⁻¹ := rfl
+
+/-- **The isometry `φ` as a homeomorphism `Ω ≃ₜ φΩ`.** -/
+noncomputable def frameHomeomorph : Ω ≃ₜ isomImage φ Ω :=
+  (isom.toHomeomorph φ).subtype fun _ => smul_mem_isomImage.symm
+
+@[simp] theorem coe_frameHomeomorph (p : Ω) :
+    ((frameHomeomorph φ Ω p : isomImage φ Ω) : Minkowski d) = φ • (p : Minkowski d) := rfl
+
+/-- **`φΩ` is invariant under `φΓφ⁻¹`.** -/
+instance instInvariantFrameConj [Invariant Γ Ω] : Invariant (frameConj φ Γ) (isomImage φ Ω) := by
+  refine ⟨fun γ' p hp => ?_⟩
+  obtain ⟨γ, hγ, hγ'⟩ := Subgroup.mem_map.1 γ'.2
+  rw [mem_isomImage] at hp ⊢
+  rw [← hγ']
+  have := Invariant.smul_mem ⟨γ, hγ⟩ _ hp
+  simpa [MulAut.conj_apply, mul_smul] using this
+
+/-- `φ` intertwines the two actions. -/
+theorem frameHomeomorph_smul [Invariant Γ Ω] (γ : Γ) (p : Ω) :
+    frameHomeomorph φ Ω (γ • p) = frameConjEquiv φ Γ γ • frameHomeomorph φ Ω p := by
+  apply Subtype.ext
+  simp [mul_smul]
+
+/-- `φ` is an isomorphism of the flat causal relations of `Ω` and `φΩ`. -/
+theorem le_frameHomeomorph_iff (a b : Ω) :
+    (flatCausality d (isomImage φ Ω)).le ⊤ (frameHomeomorph φ Ω a) (frameHomeomorph φ Ω b) ↔
+      (flatCausality d Ω).le ⊤ a b := by
+  rw [flat_le_top_subtype_iff, flat_le_top_subtype_iff]
+  exact (le_iff_le_isomImage φ Ω a b).symm
+
+/-- **`φΓφ⁻¹` acts freely on `φΩ`** when `Γ` acts freely on `Ω`. -/
+instance instIsCancelSMulFrameConj [Invariant Γ Ω] [IsCancelSMul Γ Ω] :
+    IsCancelSMul (frameConj φ Γ) (isomImage φ Ω) := by
+  rw [isCancelSMul_iff_eq_one_of_smul_eq]
+  intro γ' x hx
+  obtain ⟨γ, rfl⟩ := (frameConjEquiv φ Γ).surjective γ'
+  obtain ⟨y, rfl⟩ := (frameHomeomorph φ Ω).surjective x
+  rw [← frameHomeomorph_smul] at hx
+  have h1 : γ • y = y := (frameHomeomorph φ Ω).injective hx
+  rw [(isCancelSMul_iff_eq_one_of_smul_eq.1 inferInstance) γ y h1, map_one]
+
+/-- **`φΓφ⁻¹` acts properly discontinuously on `φΩ`** when `Γ` does on `Ω`. -/
+instance instProperlyDiscontinuousSMulFrameConj [Invariant Γ Ω] [ProperlyDiscontinuousSMul Γ Ω] :
+    ProperlyDiscontinuousSMul (frameConj φ Γ) (isomImage φ Ω) := by
+  refine ⟨fun {K L} hK hL => ?_⟩
+  set e := frameHomeomorph φ Ω
+  have hK' : IsCompact (e ⁻¹' K) := e.isCompact_preimage.2 hK
+  have hL' : IsCompact (e ⁻¹' L) := e.isCompact_preimage.2 hL
+  refine (((ProperlyDiscontinuousSMul.finite_disjoint_inter_image (Γ := Γ) hK' hL').image
+    (frameConjEquiv φ Γ))).subset ?_
+  rintro γ' ⟨_, ⟨k, hk, rfl⟩, hl⟩
+  obtain ⟨γ, rfl⟩ := (frameConjEquiv φ Γ).surjective γ'
+  refine ⟨γ, ⟨γ • e.symm k, ⟨e.symm k, by simpa using hk, rfl⟩, ?_⟩, rfl⟩
+  show e (γ • e.symm k) ∈ L
+  rw [frameHomeomorph_smul, e.apply_symm_apply]
+  exact hl
+
+/-- **Acausality transports.** -/
+theorem actsAcausally_frameConj [Invariant Γ Ω] (hac : ActsAcausally Γ Ω) :
+    ActsAcausally (frameConj φ Γ) (isomImage φ Ω) := by
+  intro γ' hne x hle
+  obtain ⟨γ, rfl⟩ := (frameConjEquiv φ Γ).surjective γ'
+  obtain ⟨y, rfl⟩ := (frameHomeomorph φ Ω).surjective x
+  rw [← frameHomeomorph_smul, le_frameHomeomorph_iff] at hle
+  exact hac γ (fun h => hne (by rw [h, map_one])) y hle
+
+/-- **The finiteness of `{γ | x ≤ γ y}` transports.** -/
+theorem finite_le_frameConj [Invariant Γ Ω]
+    (hfin : ∀ x y : Ω, {γ : Γ | (flatCausality d Ω).le ⊤ x (γ • y)}.Finite)
+    (x y : isomImage φ Ω) :
+    {γ : frameConj φ Γ | (flatCausality d (isomImage φ Ω)).le ⊤ x (γ • y)}.Finite := by
+  obtain ⟨x, rfl⟩ := (frameHomeomorph φ Ω).surjective x
+  obtain ⟨y, rfl⟩ := (frameHomeomorph φ Ω).surjective y
+  refine ((hfin x y).image (frameConjEquiv φ Γ)).subset ?_
+  intro γ' hγ'
+  obtain ⟨γ, rfl⟩ := (frameConjEquiv φ Γ).surjective γ'
+  refine ⟨γ, ?_, rfl⟩
+  have hγ'' : (flatCausality d (isomImage φ Ω)).le ⊤ (frameHomeomorph φ Ω x)
+      (frameConjEquiv φ Γ γ • frameHomeomorph φ Ω y) := hγ'
+  rwa [← frameHomeomorph_smul, le_frameHomeomorph_iff] at hγ''
+
+/-- `≤_{φΩ}` read through `φ⁻¹`. -/
+theorem le_isomImage_iff (p q : Minkowski d) :
+    (minkowski d).le (isomImage φ Ω) p q ↔ (minkowski d).le Ω (φ⁻¹ • p) (φ⁻¹ • q) := by
+  have := le_iff_le_isomImage φ⁻¹ (isomImage φ Ω) p q
+  rwa [isomImage_inv_isomImage] at this
+
+/-- **Global hyperbolicity of an open set of `𝐌ⁿ` transports along an isometry.** -/
+theorem globallyHyperbolicOn_isomImage (h : (minkowski d).GloballyHyperbolicOn Ω) :
+    (minkowski d).GloballyHyperbolicOn (isomImage φ Ω) := by
+  refine ⟨fun x y hxy hyx => ?_, fun p q => ?_⟩
+  · rw [le_isomImage_iff] at hxy hyx
+    exact MulAction.injective φ⁻¹ (h.1 hxy hyx)
+  · have hD : (minkowski d).diamond (isomImage φ Ω) p q =
+        (isom.toHomeomorph φ⁻¹) ⁻¹' (minkowski d).diamond Ω (φ⁻¹ • p) (φ⁻¹ • q) := by
+      ext z
+      simp only [Causality.mem_diamond, mem_preimage, le_isomImage_iff, isom.coe_toHomeomorph]
+    rw [hD]
+    exact (isom.toHomeomorph φ⁻¹).isCompact_preimage.2 (h.2 _ _)
+
+/-- **Cauchy surfaces of an open set of `𝐌ⁿ` transport along an isometry.** -/
+theorem isCauchySurfaceOn_isomImage {S : Set (Minkowski d)} (hS : S ⊆ Ω)
+    (h : (minkowski d).IsCauchySurfaceOn Ω S) :
+    (minkowski d).IsCauchySurfaceOn (isomImage φ Ω) ((fun p => φ • p) '' S) :=
+  ((isom_isEMorphism φ).isCauchySurfaceOn_image_iff (MulAction.injective φ).injOn le_top rfl
+    hS).1 h
+
+/-- A `Γ`-invariant set goes to a `φΓφ⁻¹`-invariant set. -/
+theorem image_invariant_frameConj {S : Set (Minkowski d)} (hinv : ∀ γ ∈ Γ, ∀ p ∈ S, γ • p ∈ S) :
+    ∀ γ' ∈ frameConj φ Γ, ∀ p ∈ (fun p => φ • p) '' S, γ' • p ∈ (fun p => φ • p) '' S := by
+  rintro γ' hγ' _ ⟨p, hp, rfl⟩
+  obtain ⟨γ, hγ, rfl⟩ := Subgroup.mem_map.1 hγ'
+  exact ⟨γ • p, hinv γ hγ p hp, by simp [MulAut.conj_apply, mul_smul]⟩
+
+/-- **`φΩ` is connected when `Ω` is.** -/
+theorem isConnected_isomImage (hΩ : IsConnected (Ω : Set (Minkowski d))) :
+    IsConnected (isomImage φ Ω : Set (Minkowski d)) := by
+  rw [coe_isomImage]
+  exact hΩ.image _ (continuous_const_smul φ).continuousOn
+
+/-- **ETT's GH of `Γ\Ω` transports to `φΓφ⁻¹\Ω'`**, for any `Ω' = φΩ` (stated with `Ω'` so that
+`Ω' = ⊤` needs no rewriting): the hypotheses of `gh_toFlatSpacetime` transport. -/
+theorem gh_frameConj [Invariant Γ Ω] (Ω' : Opens (Minkowski d)) (hΩ' : Ω' = isomImage φ Ω)
+    [Invariant (frameConj φ Γ) Ω'] [ProperlyDiscontinuousSMul (frameConj φ Γ) Ω']
+    [IsCancelSMul (frameConj φ Γ) Ω'] (hΩ'c : IsConnected (Ω' : Set (Minkowski d)))
+    (hac : ActsAcausally Γ Ω) (hGH : (minkowski d).GloballyHyperbolicOn Ω)
+    (hfin : ∀ x y : Ω, {γ : Γ | (flatCausality d Ω).le ⊤ x (γ • y)}.Finite) :
+    GH (toFlatSpacetime (frameConj φ Γ) Ω' hΩ'c) := by
+  subst hΩ'
+  exact gh_toFlatSpacetime _ _ hΩ'c (actsAcausally_frameConj φ Γ Ω hac)
+    (globallyHyperbolic_subtype _ (globallyHyperbolicOn_isomImage φ Ω hGH))
+    (finite_le_frameConj φ Γ Ω hfin)
+
+/-- **Barbot's GH of `Γ\Ω` transports to `φΓφ⁻¹\Ω'`**, `Ω' = φΩ`: the image `φS` of a
+`Γ`-invariant Cauchy surface `S ⊆ Ω` descends to a Cauchy surface. -/
+theorem barbotGH_frameConj [Invariant Γ Ω] (Ω' : Opens (Minkowski d)) (hΩ' : Ω' = isomImage φ Ω)
+    [Invariant (frameConj φ Γ) Ω'] [ProperlyDiscontinuousSMul (frameConj φ Γ) Ω']
+    [IsCancelSMul (frameConj φ Γ) Ω'] (hΩ'c : IsConnected (Ω' : Set (Minkowski d)))
+    (hac : ActsAcausally Γ Ω) {S : Set (Minkowski d)} (hSΩ : S ⊆ Ω)
+    (hinv : ∀ γ ∈ Γ, ∀ p ∈ S, γ • p ∈ S) (hS : (minkowski d).IsCauchySurfaceOn Ω S) :
+    BarbotGH (toFlatSpacetime (frameConj φ Γ) Ω' hΩ'c) := by
+  subst hΩ'
+  exact ⟨_, isCauchySurface_image_of_isCauchySurfaceOn _ _ (actsAcausally_frameConj φ Γ Ω hac)
+    (image_mono hSΩ) (image_invariant_frameConj φ Γ hinv) (isCauchySurfaceOn_isomImage φ Ω hSΩ hS)⟩
+
+/-- **Freeness transports to `Ω' = φΩ`** (stated with `Ω'` so that `Ω' = ⊤` needs no rewriting). -/
+theorem isCancelSMul_frameConj [Invariant Γ Ω] [IsCancelSMul Γ Ω] (Ω' : Opens (Minkowski d))
+    (hΩ' : Ω' = isomImage φ Ω) [Invariant (frameConj φ Γ) Ω'] :
+    IsCancelSMul (frameConj φ Γ) Ω' := by
+  subst hΩ'
+  exact instIsCancelSMulFrameConj φ Γ Ω
+
+/-- **Proper discontinuity transports to `Ω' = φΩ`** (stated with `Ω'` so that `Ω' = ⊤` needs
+no rewriting). -/
+theorem properlyDiscontinuousSMul_frameConj [Invariant Γ Ω] [ProperlyDiscontinuousSMul Γ Ω]
+    (Ω' : Opens (Minkowski d)) (hΩ' : Ω' = isomImage φ Ω) [Invariant (frameConj φ Γ) Ω'] :
+    ProperlyDiscontinuousSMul (frameConj φ Γ) Ω' := by
+  subst hΩ'
+  exact instProperlyDiscontinuousSMulFrameConj φ Γ Ω
+
+/-! #### [3.T] in a general frame -/
+
+variable (Λ : AddSubgroup (EuclideanSpace ℝ (Fin d)))
+
+/-- **`𝐌ⁿ` is invariant under `φ (horizGroup Λ) φ⁻¹`.** -/
+instance instInvariantFrameConjHorizTop :
+    Invariant (frameConj φ (horizGroup Λ)) (⊤ : Opens (Minkowski d)) :=
+  ⟨fun _ _ _ => trivial⟩
+
+/-- **`φ (horizGroup Λ) φ⁻¹` acts freely on `𝐌ⁿ`** (`isCancelSMul_frameConj` at `Ω = Ω' = ⊤`). -/
+instance instIsCancelSMulFrameConjHorizTop :
+    IsCancelSMul (frameConj φ (horizGroup Λ)) (⊤ : Opens (Minkowski d)) :=
+  isCancelSMul_frameConj φ _ ⊤ ⊤ (isomImage_top φ).symm
+
+/-- **`φ (horizGroup Λ) φ⁻¹` acts properly discontinuously on `𝐌ⁿ`** for ball-finite `Λ`
+(`properlyDiscontinuousSMul_frameConj` at `Ω = Ω' = ⊤`). -/
+instance instProperlyDiscontinuousSMulFrameConjHorizTop [BallFinite Λ] :
+    ProperlyDiscontinuousSMul (frameConj φ (horizGroup Λ)) (⊤ : Opens (Minkowski d)) :=
+  properlyDiscontinuousSMul_frameConj φ _ ⊤ ⊤ (isomImage_top φ).symm
+
+variable [BallFinite Λ]
+
+/-- **[3.T] in the frame `φ`: `φΓφ⁻¹\𝐌ⁿ` is a translation spacetime** (the witness of
+`isTranslationSpacetime_quotient` at an arbitrary frame). -/
+theorem isTranslationSpacetime_frame :
+    IsTranslationSpacetime (FlatQuotient.toFlatSpacetime (frameConj φ (horizGroup Λ)) ⊤
+      FlatQuotient.isConnected_top) :=
+  ⟨φ, Λ, inferInstance, FlatQuotient.isQuotientOf_toFlatSpacetime _ _ _⟩
+
+/-- **[3.T] in the frame `φ`: the translation spacetime is GH** (ETT's GH). -/
+theorem gh_translation_frame :
+    GH (FlatQuotient.toFlatSpacetime (frameConj φ (horizGroup Λ)) ⊤
+      FlatQuotient.isConnected_top) :=
+  gh_frameConj φ (horizGroup Λ) ⊤ ⊤ (isomImage_top φ).symm _ (actsAcausally_horiz Λ)
+    ((minkowski d).globallyHyperbolicOn_top.2 minkowski_globallyHyperbolic) (finite_le_horiz Λ)
+
+/-- **[3.T] in the frame `φ`: the translation spacetime is GH in Barbot's sense** (the image of
+`φ{t = 0}`). -/
+theorem barbotGH_translation_frame :
+    BarbotGH (FlatQuotient.toFlatSpacetime (frameConj φ (horizGroup Λ)) ⊤
+      FlatQuotient.isConnected_top) := by
+  refine barbotGH_frameConj φ (horizGroup Λ) ⊤ ⊤ (isomImage_top φ).symm _ (actsAcausally_horiz Λ)
+    (S := graph fun _ : EuclideanSpace ℝ (Fin d) => (0 : ℝ)) (fun _ _ => trivial) ?_
+    ((minkowski d).isCauchySurfaceOn_top.2 isCauchySurface_graph_zero)
+  intro γ hγ p hp
+  obtain ⟨v, -, rfl⟩ := mem_horizGroup.1 hγ
+  simp only [mem_graph] at hp ⊢
+  rw [fst_horizTranslation_smul]
+  exact hp
+
+/-! #### [3.M] in a general frame -/
+
+variable {L : AddSubgroup (ℝ × EuclideanSpace ℝ (Fin d))} [BallFinite L]
+
+/-- **[3.M] in the frame `φ`: `φΓφ⁻¹\φΩ` is GH** (ETT's GH). -/
+theorem gh_misner_frame (φ : isom (d + 1)) :
+    GH (FlatQuotient.toFlatSpacetime (frameConj φ (misnerGroup L)) (isomImage φ (misnerWedge d))
+      (isConnected_isomImage φ _ (isConnected_omegaPlus (misnerRegular d)))) :=
+  gh_frameConj φ (misnerGroup L) (misnerWedge d) _ rfl _
+    (actsAcausally_of_preservesOmega (h := misnerRegular d) preservesOmega_misner)
+    (misnerRegular d).regular.globallyHyperbolicOn
+    (finite_le_of_preservesOmega (h := misnerRegular d) preservesOmega_misner)
+
+/-- **[3.M] in the frame `φ`: `φΓφ⁻¹\φΩ` is GH in Barbot's sense** (the image of the `φ`-image
+of the level `T = 1` of the cosmological time of the wedge). -/
+theorem barbotGH_misner_frame (φ : isom (d + 1)) :
+    BarbotGH (FlatQuotient.toFlatSpacetime (frameConj φ (misnerGroup L))
+      (isomImage φ (misnerWedge d))
+      (isConnected_isomImage φ _ (isConnected_omegaPlus (misnerRegular d)))) := by
+  refine barbotGH_frameConj φ (misnerGroup L) (misnerWedge d) _ rfl _
+    (actsAcausally_of_preservesOmega (h := misnerRegular d) preservesOmega_misner)
+    (cosmoLevel_subset 1) (fun γ hγ p hp => ⟨?_, ?_⟩)
+    (isCauchySurfaceOn_cosmoLevel (misnerRegular d) one_pos)
+  · have h' : p ∈ omegaPlus (misnerΛ d) := hp.1
+    rw [← preservesOmega_misner γ hγ] at h'
+    exact h'
+  · rw [cosmoTime_smul (preservesOmega_misner γ hγ)]; exact hp.2
+
+/-- **[3.M] in the frame `φ`: the witness.** For `L` with an element of nonzero boost parameter,
+`φΓφ⁻¹\φΩ` is a Misner spacetime. -/
+theorem isMisnerSpacetime_frame (φ : isom (d + 1)) (hL : ∃ x ∈ L, x.1 ≠ 0) :
+    IsMisnerSpacetime (FlatQuotient.toFlatSpacetime (frameConj φ (misnerGroup L))
+      (isomImage φ (misnerWedge d))
+      (isConnected_isomImage φ _ (isConnected_omegaPlus (misnerRegular d)))) :=
+  ⟨φ, L, inferInstance, hL, Or.inl (FlatQuotient.isQuotientOf_toFlatSpacetime _ _ _)⟩
+
+/-! #### [3.U] in a general frame -/
+
+/-- **[3.U] in the frame `φ`: `φΓφ⁻¹\φΩ` is GH in Barbot's sense** (the image of `φ S_f`), under
+the hypotheses of `barbotGH_unip`. -/
+theorem barbotGH_unip_frame (φ : isom (d + 1)) {ℓ : Fin d → ℝ} {α β : EReal}
+    (Γ : Subgroup (isom (d + 1))) [Invariant Γ (unipDomain (d := d) α β)]
+    [ProperlyDiscontinuousSMul Γ (unipDomain (d := d) α β)]
+    [IsCancelSMul Γ (unipDomain (d := d) α β)] (hℓ : IsUnipComponent ℓ α β)
+    (hΓ : ∀ γ ∈ Γ, ∃ t, ∀ p : Minkowski (d + 1), γ • p = unipAction ℓ t p) (f : ℝ → ℝ)
+    (hf : StrictMonoOn f {y : ℝ | α < y ∧ (y : EReal) < β})
+    (hfc : ContinuousOn f {y : ℝ | α < y ∧ (y : EReal) < β})
+    (hfα : ∀ C : ℝ, ∃ y : ℝ, α < y ∧ (y : EReal) < β ∧ f y < C)
+    (hfβ : ∀ C : ℝ, ∃ y : ℝ, α < y ∧ (y : EReal) < β ∧ C < f y) :
+    BarbotGH (FlatQuotient.toFlatSpacetime (frameConj φ Γ) (isomImage φ (unipDomain (d := d) α β))
+      (isConnected_isomImage φ _ (isConnected_unipDomain hℓ.1))) := by
+  refine barbotGH_frameConj φ Γ (unipDomain (d := d) α β) _ rfl _ (actsAcausally_unip Γ hℓ hΓ)
+    (S := unipSlice ℓ f α β) (fun p hp => hp.1) ?_ (isCauchySurfaceOn_unipSlice ℓ f hℓ hf hfc hfα hfβ)
+  intro γ hγ p hp
+  obtain ⟨t, ht⟩ := hΓ γ hγ
+  rw [ht]; exact unipAction_mem_unipSlice ℓ f hℓ t hp
+
+/-- **[3.U] in the frame `φ`: `φ S_f` is a Cauchy surface of `φΩ`** (every inextensible causal
+curve; `isCauchySurfaceOn_unipSlice` transported along `φ`). -/
+theorem isCauchySurfaceOn_unipSlice_frame (φ : isom (d + 1)) (ℓ : Fin d → ℝ) (f : ℝ → ℝ)
+    {α β : EReal} (hℓ : IsUnipComponent ℓ α β)
+    (hf : StrictMonoOn f {y : ℝ | α < y ∧ (y : EReal) < β})
+    (hfc : ContinuousOn f {y : ℝ | α < y ∧ (y : EReal) < β})
+    (hfα : ∀ C : ℝ, ∃ y : ℝ, α < y ∧ (y : EReal) < β ∧ f y < C)
+    (hfβ : ∀ C : ℝ, ∃ y : ℝ, α < y ∧ (y : EReal) < β ∧ C < f y) :
+    (minkowski (d + 1)).IsCauchySurfaceOn (isomImage φ (unipDomain (d := d) α β))
+      ((fun p => φ • p) '' unipSlice ℓ f α β) :=
+  isCauchySurfaceOn_isomImage φ _ (fun _ hp => hp.1)
+    (isCauchySurfaceOn_unipSlice ℓ f hℓ hf hfc hfα hfβ)
+
+/-- **[3.U] in the frame `φ`: `φ S_f` descends to an acausal Cauchy surface of `φΓφ⁻¹\φΩ`**
+(`isCauchySurface_unip` transported along `φ`, same hypotheses). -/
+theorem isCauchySurface_unip_frame (φ : isom (d + 1)) {ℓ : Fin d → ℝ} {α β : EReal}
+    (Γ : Subgroup (isom (d + 1))) [Invariant Γ (unipDomain (d := d) α β)]
+    [ProperlyDiscontinuousSMul Γ (unipDomain (d := d) α β)]
+    [IsCancelSMul Γ (unipDomain (d := d) α β)] (hℓ : IsUnipComponent ℓ α β)
+    (hΓ : ∀ γ ∈ Γ, ∃ t, ∀ p : Minkowski (d + 1), γ • p = unipAction ℓ t p) (f : ℝ → ℝ)
+    (hf : StrictMonoOn f {y : ℝ | α < y ∧ (y : EReal) < β})
+    (hfc : ContinuousOn f {y : ℝ | α < y ∧ (y : EReal) < β})
+    (hfα : ∀ C : ℝ, ∃ y : ℝ, α < y ∧ (y : EReal) < β ∧ f y < C)
+    (hfβ : ∀ C : ℝ, ∃ y : ℝ, α < y ∧ (y : EReal) < β ∧ C < f y) :
+    (flatCausality (d + 1)
+        (FlatQuotient (frameConj φ Γ) (isomImage φ (unipDomain (d := d) α β)))).IsCauchySurface
+        (FlatQuotient.proj _ _ '' (Subtype.val ⁻¹' ((fun p => φ • p) '' unipSlice ℓ f α β))) ∧
+      (flatCausality (d + 1)
+        (FlatQuotient (frameConj φ Γ) (isomImage φ (unipDomain (d := d) α β)))).IsAcausal
+        (FlatQuotient.proj _ _ '' (Subtype.val ⁻¹' ((fun p => φ • p) '' unipSlice ℓ f α β))) := by
+  have hinv : ∀ γ ∈ Γ, ∀ p ∈ unipSlice ℓ f α β, γ • p ∈ unipSlice ℓ f α β := by
+    intro γ hγ p hp
+    obtain ⟨t, ht⟩ := hΓ γ hγ
+    rw [ht]; exact unipAction_mem_unipSlice ℓ f hℓ t hp
+  refine ⟨isCauchySurface_image_of_isCauchySurfaceOn _ _
+    (actsAcausally_frameConj φ Γ _ (actsAcausally_unip Γ hℓ hΓ)) (image_mono fun _ hp => hp.1)
+    (image_invariant_frameConj φ Γ hinv)
+    (isCauchySurfaceOn_unipSlice_frame φ ℓ f hℓ hf hfc hfα hfβ), ?_⟩
+  refine FlatQuotient.isAcausal_image _ _
+    (fun γ p hp => image_invariant_frameConj φ Γ hinv γ γ.2 p hp) ?_
+  intro x hx y hy h
+  obtain ⟨a, rfl⟩ := (frameHomeomorph φ (unipDomain (d := d) α β)).surjective x
+  obtain ⟨b, rfl⟩ := (frameHomeomorph φ (unipDomain (d := d) α β)).surjective y
+  rw [le_frameHomeomorph_iff] at h
+  have hmem : ∀ c : unipDomain (d := d) α β,
+      ((frameHomeomorph φ _ c : isomImage φ _) : Minkowski (d + 1)) ∈
+        (fun p => φ • p) '' unipSlice ℓ f α β → (c : Minkowski (d + 1)) ∈ unipSlice ℓ f α β := by
+    rintro c ⟨p, hp, hpc⟩
+    have hpc' : φ • p = φ • (c : Minkowski (d + 1)) := hpc
+    rwa [← MulAction.injective φ hpc']
+  rw [isAcausal_unipSlice hℓ hf a (hmem a hx) b (hmem b hy) h]
+
+end FrameTransport
 
 end Causal.Flat

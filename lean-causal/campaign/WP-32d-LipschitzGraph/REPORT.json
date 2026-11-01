@@ -4,7 +4,7 @@
     "scaffold/CausalScaffold/Flat/LipschitzGraph.lean"
   ],
   "builds": true,
-  "sorry_count": 1,
+  "sorry_count": 0,
   "labels": [
     {
       "label": "[8.G] (l.2307-2309, l.2320-2326): the contracting graph and its achronality; the null-line Cauchy criterion for entire strictly contracting graphs (design §1A-B)",
@@ -93,13 +93,14 @@
         "Causal.Flat.isOpen_dependenceDomain_hyperboloid",
         "Causal.Flat.isCauchySurfaceOn_futureCone_hyperboloid",
         "Causal.Flat.exists_mem_graph_hyperboloid_null_iff",
-        "Causal.Flat.exists_mem_graph_hyperboloid_null_iff_isFutureTimelike"
+        "Causal.Flat.exists_mem_graph_hyperboloid_null_iff_isFutureTimelike",
+        "Causal.Flat.isCauchySurfaceOn_futureCone_hyperboloid_zero"
       ],
       "hypotheses": [
         {
           "paper": "M^n, any n",
           "here": "strengthened",
-          "note": "0 < d (n >= 2) for dependenceDomain_hyperboloid and isOpen_dependenceDomain_hyperboloid, where it is needed (for d = 0 the hyperboloid is the point t = 1 and D is the whole line; Achronal's isCauchySurface_graph_hyperboloid_zero), and for isCauchySurfaceOn_futureCone_hyperboloid, where it is NOT needed (for d = 0, Omega = {t > 0} and S = {t = 1} is still Cauchy for Omega) but inherited from the proof route through D(S); the d = 0 case of that theorem is not stated"
+          "note": "0 < d (n >= 2) for dependenceDomain_hyperboloid and isOpen_dependenceDomain_hyperboloid, where it is needed (for d = 0 the hyperboloid is the point t = 1 and D is the whole line; Achronal's isCauchySurface_graph_hyperboloid_zero), and for isCauchySurfaceOn_futureCone_hyperboloid, where it is NOT needed (for d = 0, Omega = {t > 0} and S = {t = 1} is still Cauchy for Omega) but inherited from the proof route through D(S) (now sorry-free); the d = 0 case is now stated and proved separately as isCauchySurfaceOn_futureCone_hyperboloid_zero (through isCauchySurfaceOn_graph_of_saturated with W = Omega = {t > 0}; the line-meeting hypothesis from Achronal's isCauchySurface_graph_hyperboloid_zero), so Rem 2.2's first half holds for every n for the future component"
         },
         {
           "paper": "Omega 'a connected component' of {Q < 0}",
@@ -107,12 +108,7 @@
           "note": "only the future component {t > |x|}; the past one (graph of -hyperboloid, Achronal's graph_neg_hyperboloid) follows by time reflection and is not stated (disclosed in SCOPE)"
         }
       ],
-      "sorries": [
-        {
-          "decl": "Causal.Flat.isCauchySurfaceOn_futureCone_hyperboloid",
-          "obstruction": "rests on isCauchySurfaceOn_interior_dependenceDomain (below); D(hyperboloid) = future cone and its openness are closed"
-        }
-      ],
+      "sorries": [],
       "findings": [
         "The hyperboloid misses many null lines, not only those through the vertex: the null line r + s l (l != 0, Q(l) = 0) meets it iff l.1 * <r|l> < 0 (exists_mem_graph_hyperboloid_null_iff, closed); for l = (1, e), |e| = 1, iff <r.2, e> < r.1, i.e. iff the line enters the open future cone {t > |x|} = D(S) (exists_mem_graph_hyperboloid_null_iff_isFutureTimelike, closed). E.g. (-1, 0) + s(1, e) misses it without passing through 0. The null lines through the vertex are the boundary case <r|l> = 0 (exists_nullLine_not_mem_graph_hyperboloid proves one of them). Its domain of dependence in M^n is exactly the open future cone {Q < 0, t > 0} (dependenceDomain_hyperboloid, closed): Rem 2.2's Omega is D(S).",
         "The hyperboloid satisfies (CC') (ccPrime_graph_hyperboloid, closed: on a null hyperplane <r|l> is constant, so either all or none of its l-lines meet S), although it is no Cauchy surface of M^n: (CC') is Cauchy-completeness, consistent with Rem 2.2's 'Omega is MGH'."
@@ -180,7 +176,14 @@
         "Causal.Flat.dependenceDomain_eq_of_isCauchySurfaceOn",
         "Causal.Flat.dependenceDomain_graph_eq_univ",
         "Causal.Flat.graph_subset_interior_dependenceDomain",
-        "Causal.Flat.isCauchySurfaceOn_interior_dependenceDomain"
+        "Causal.Flat.isCauchySurfaceOn_graph_of_saturated",
+        "Causal.Flat.isCauchySurfaceOn_interior_dependenceDomain",
+        "Causal.Flat.meets_of_mem_dependenceDomain",
+        "Causal.Flat.mem_dependenceDomain_of_meets",
+        "Causal.Flat.mem_dependenceDomain_of_le_of_nonneg",
+        "Causal.Flat.mem_dependenceDomain_of_le_of_nonpos",
+        "Causal.Flat.mem_interior_dependenceDomain_of_le_of_nonneg",
+        "Causal.Flat.mem_interior_dependenceDomain_of_le_of_nonpos"
       ],
       "hypotheses": [
         {
@@ -189,13 +192,11 @@
           "note": "interior used throughout (design's fallback); openness proved for the hyperboloid"
         }
       ],
-      "sorries": [
-        {
-          "decl": "Causal.Flat.isCauchySurfaceOn_interior_dependenceDomain",
-          "obstruction": "existence only (uniqueness proved): a causal curve inextensible in W = int D(S), not in M^n, must meet S. With T > 0 along it, its past part lies in the compact J^-(c t0) ∩ {T >= 0} (bddBelow_fst_Jminus_inter applies since every causal line through a point of D(S) meets S), so it has a past limit P; needed: (1) J^-(y) ∩ {T >= 0} ⊆ int D(S) for y ∈ int D(S) (concatenation of inextensible curves through y, plus openness), and (2) a W-relative pastExtensible_of_tendsto / Inextensible.reparam (the library has both for ⊤ only: Causal/Inextensible.lean:859, Causal/Cauchy.lean:251)"
-        }
+      "sorries": [],
+      "findings": [
+        "D(S) of a strictly contracting entire graph is exactly the set of points every causal affine line through which meets S (meets_of_mem_dependenceDomain / mem_dependenceDomain_of_meets); D(S) and int D(S) are closed under J^- inside {T >= 0} and under J^+ inside {T <= 0}. S is a Cauchy surface of int D(S) with no sorry (isCauchySurfaceOn_interior_dependenceDomain), so Rem 2.2's first half isCauchySurfaceOn_futureCone_hyperboloid is now sorry-free too.",
+        "The Cauchy argument uses only three properties of the open set W: every causal affine line through a point of W meets S, and W is closed under J^- inside {T >= 0} and under J^+ inside {T <= 0}. It is stated for any such W (isCauchySurfaceOn_graph_of_saturated); int D(S) is one instance (isCauchySurfaceOn_interior_dependenceDomain, now a corollary), the d = 0 future cone {t > 0} another (isCauchySurfaceOn_futureCone_hyperboloid_zero)."
       ],
-      "findings": [],
       "questions": []
     }
   ],
@@ -215,5 +216,5 @@
     "Time reflection (t,x) -> (-t,x) with f -> -f turns every past-side statement about graphs into the future one by pure algebra on points (le flips, T_{-f}(refl p) = -T_f(p)); state the past lemma for functions g : R -> M^n with the explicit cone inequality rather than for causal curves, so the reflected function satisfies it without transporting inextensibility.",
     "A causal affine line of M^n is an inextensible causal curve over R once parametrised by time (timeLine p v, inextensible_timeLine); its components in an open W (inextensible_ordConnectedComponent) are the way to use IsCauchySurfaceOn W."
   ],
-  "notes": "Fixer pass (2026-10-31) after the read-only audit. Blocking items fixed: (1) the Rem 2.2 finding no longer says the hyperboloid fails the criterion 'exactly at the null lines through the vertex'; the exact set of missed null lines is now PROVED (exists_mem_graph_hyperboloid_null_iff: meets iff l.1*<r|l> < 0; exists_mem_graph_hyperboloid_null_iff_isFutureTimelike: iff the line enters the open future cone = D(S)). (2) The l.2491 finding is split into its own entry (bprop:danom, tex_lines 2489-2491) and now states that, through the criterion, l.2491 claims the developed slice is a Cauchy surface of M^n, which the hyperboloid refutes (W7); the module docstring bullet and SCOPE are reworded the same way, and the bold is removed from every partial label ([8.G], bprop:danom, Rem 2.2: none is certified). Minor items applied: tex_lines (new entry); 8.10 citation narrowed to 8.12 step 3 with the circularity stated; the 0 < d inheritance of isCauchySurfaceOn_futureCone_hyperboloid listed in the strengthened row (not removed: the d = 0 case needs the same W-relative argument as the sorry); the past component disclosed in SCOPE and the checklist; not_isCauchySurface_graph_hyperboloid_of_criterion kept with a docstring saying it restates Achronal's theorem on purpose; CCPrime witnesses added (ccPrime_graph_const, and the stronger ccPrime_graph_hyperboloid with nullSaturated_graph_hyperboloid). Not applied here (master-session item, per the audit): the scaffold root CausalScaffold.lean imports neither Flat.Achronal nor Flat.LipschitzGraph, so scripts/AxiomSweep.lean does not see this module's sorry. Still one sorry (SORRY(D-cauchy-interior)) in isCauchySurfaceOn_interior_dependenceDomain; isCauchySurfaceOn_futureCone_hyperboloid (Rem 2.2's first half) rests on it. Not closed: it needs a W-relative pastExtensible_of_tendsto / Inextensible.reparam (library: ⊤ only) and J^-(y) ∩ {T >= 0} ⊆ int D(S) for y ∈ int D(S) (a concatenation of inextensible curves), several hundred lines of new causal-curve machinery. Typecheck: taskset -c 0-11 lake env lean, zero errors, one warning ('declaration uses sorry', isCauchySurfaceOn_interior_dependenceDomain). #print axioms via stdin: all five new theorems, the criterion and dependenceDomain_hyperboloid depend only on propext, Classical.choice, Quot.sound. New public names grepped against Causal/ and scaffold/: no collision. Imports only CausalScaffold.Flat.Achronal. Generic helpers stay private."
+  "notes": "Closer pass (2026-10-31, wave 5): SORRY(D-cauchy-interior) CLOSED; the file now has zero sorries, no statement changed. Route (the obstruction's own plan): (2) the W-relative extension lemmas already exist in CausalScaffold.Flat.Cosmological (Causality.pastExtensible_of_tendsto_opens / futureExtensible_of_tendsto_opens, CausalCurveIn.arctanReparam, exists_tendsto_of_bddBelow/Above, ordConnected_insert_of_isGLB/LUB, Ioo_subset_of_isGLB/LUB) and are IMPORTED, not duplicated (new import: CausalScaffold.Flat.Cosmological; no cycle, Cosmological imports Penrose + Achronal only); (1) J^-(y) ∩ {T >= 0} ⊆ int D(S) for y ∈ int D(S) is proved without curve concatenation, by characterising D(S) through lines: p ∈ D(S) iff every causal affine line through p meets S (mem_dependenceDomain_of_meets uses the existing hub step + IVT), and the line property passes to q <= z, T(q) >= 0 because J^-(q) ∩ {T>=0} ⊆ J^-(z) ∩ {T>=0} has time bounded below (bddBelow_fst_Jminus_inter) and IVT on the line; interior: T(q) = 0 by graph_subset_interior_dependenceDomain, T(q) > 0 via the open set {p << z + (eps/2,0)} ∩ {T > 0} ⊆ D(S). Main proof: if T > 0 along a curve inextensible in W = int D(S), its arctan reparametrisation has time bounded below, converges at its past end to P <= z with T(P) >= 0, P ∈ W, so it is past-extensible in W (or prepends at a least point; J^-_W(x) ≠ {x} for any open W via a convex ball), contradiction; twin on the future side with T < 0; then IVT (or monotonicity of T if the two parameters are out of order). New public theorems (6, all with docstrings; grepped against Causal/ and scaffold/: no collision; Cosmological's public names grepped against every scaffold file not already importing it: no collision): meets_of_mem_dependenceDomain, mem_dependenceDomain_of_meets, mem_dependenceDomain_of_le_of_nonneg, mem_dependenceDomain_of_le_of_nonpos, mem_interior_dependenceDomain_of_le_of_nonneg, mem_interior_dependenceDomain_of_le_of_nonpos. Private helpers: Jminus/Jplus_ne_singleton_of_mem_opens, intDep (abbrev), pastExtensible_of_timeSub_pos, futureExtensible_of_timeSub_neg. Docstrings updated where they reported the sorry (module SCOPE, What-is-proved D, isCauchySurfaceOn_interior_dependenceDomain, isCauchySurfaceOn_futureCone_hyperboloid, Provenance); no statement or claim of a declaration changed. Typecheck: taskset -c 0-11 lake env lean, zero errors, ZERO warnings. #print axioms (stdin): isCauchySurfaceOn_interior_dependenceDomain, isCauchySurfaceOn_futureCone_hyperboloid and the new lemmas depend only on propext, Classical.choice, Quot.sound. For the master: (a) LipschitzGraph's olean was NOT rebuilt (no lake build in this task); Develop, CauchyComplete, Examples import it and need the rebuild, and now see Cosmological transitively (Examples already imported it). (b) Still not in the scaffold root CausalScaffold.lean, so scripts/AxiomSweep.lean does not see this module (unchanged audit item). (c) No label is marked: every passage remains prose (per SCOPE); Rem 2.2 is still partial only for the past component and the d = 0 case of isCauchySurfaceOn_futureCone_hyperboloid. | Fixer pass (2026-11-01, after the read-only audit: typechecks, 0 sorries, nothing blocking, 3 minor). Minor 2 (d = 0 case of Rem 2.2 unstated) APPLIED: the two private extension lemmas were generalised from W = int D(S) to any open W with the three saturation properties (new private pastExtensible_of_timeSub_pos_on / futureExtensible_of_timeSub_neg_on; the old private pastExtensible_of_timeSub_pos / futureExtensible_of_timeSub_neg keep their signatures as one-line corollaries), the body of the Cauchy proof moved to the new public theorem isCauchySurfaceOn_graph_of_saturated, and isCauchySurfaceOn_interior_dependenceDomain (statement unchanged) is now its instance; new public isCauchySurfaceOn_futureCone_hyperboloid_zero (d = 0, Omega = {t > 0}, S = {t = 1}). Both new public names grepped against Causal/ and scaffold/: no collision. Module docstring (What-is-proved D, hypothesis checklist Rem 2.2 row) updated accordingly; no existing statement or docstring claim changed beyond 'the d = 0 case is not stated'. Minor 3 (no trailing newline) APPLIED. Minor 1 (downstream rebuild) NOT applicable to this task (no lake build granted); it stands for the master: run lake build CausalScaffold.Flat.Develop CausalScaffold.Flat.CauchyComplete CausalScaffold.Flat.Examples after the merge, since the olean of LipschitzGraph is stale and the file now imports Cosmological. Typecheck: taskset -c 0-11 lake env lean, EXIT 0, zero errors, zero warnings; #print axioms (stdin) of isCauchySurfaceOn_graph_of_saturated, isCauchySurfaceOn_futureCone_hyperboloid_zero and isCauchySurfaceOn_futureCone_hyperboloid: propext, Classical.choice, Quot.sound only. Note (c) above is superseded on its last clause: Rem 2.2 stays partial only for the past component (time reflection, unstated)."
 }

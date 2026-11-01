@@ -106,7 +106,10 @@
     "Causal.Flat.translation_bot",
     "Causal.Flat.instBallFiniteBot",
     "Causal.Flat.intLattice",
-    "Causal.Flat.isTranslationSpacetime_quotient"
+    "Causal.Flat.isTranslationSpacetime_quotient",
+    "Causal.Flat.gh_translation_frame",
+    "Causal.Flat.barbotGH_translation_frame",
+    "Causal.Flat.isTranslationSpacetime_frame"
    ],
    "hypotheses": [
     {
@@ -117,11 +120,13 @@
     {
      "paper": "any frame",
      "here": "scope",
-     "note": "theorems are for the frame phi = 1; transport along phi not written"
+     "note": "every frame phi, for the concrete quotient phi Gamma phi^-1 \\ phi Omega (*_frame theorems, FrameTransport); an arbitrary M with IsTranslationSpacetime M is not covered (IsQuotientOf is up to homeomorphism)"
     }
    ],
    "sorries": [],
-   "findings": [],
+   "findings": [
+    "Frame transport (closer pass 2026-11-01; Cauchy surface export by the fixer pass 2026-11-01): the GH/Barbot-GH results hold in every frame phi for the concrete quotient phi Gamma phi^-1 \\ phi Omega (the *_frame theorems), by transporting the hypotheses through FrameTransport's generic gh_frameConj/barbotGH_frameConj; for [3.U] the Cauchy surface itself is exported in every frame (isCauchySurfaceOn_unipSlice_frame: phi S_f Cauchy in phi Omega; isCauchySurface_unip_frame: its image is an acausal Cauchy surface of the quotient). Not stated: GH of an arbitrary M with IsTranslation/Misner/UnipotentSpacetime M, because IsQuotientOf identifies M with the quotient only up to homeomorphism."
+   ],
    "questions": []
   },
   {
@@ -160,7 +165,10 @@
     "Causal.Flat.barbotGH_misner",
     "Causal.Flat.IsMisnerSpacetime",
     "Causal.Flat.misner_example",
-    "Causal.Flat.ballFinite_zmultiples"
+    "Causal.Flat.ballFinite_zmultiples",
+    "Causal.Flat.gh_misner_frame",
+    "Causal.Flat.barbotGH_misner_frame",
+    "Causal.Flat.isMisnerSpacetime_frame"
    ],
    "hypotheses": [
     {
@@ -171,7 +179,7 @@
     {
      "paper": "Omega = {xy<0, +-x>0}",
      "here": "scope",
-     "note": "theorems for x > 0 (future wedge) and frame phi = 1; the past wedge is only defined (time reversal not written)"
+     "note": "theorems for x > 0 (future wedge), in every frame phi (*_frame); the past wedge is only defined (time reversal not written)"
     },
     {
      "paper": "(F1) nonzero boost",
@@ -181,7 +189,8 @@
    ],
    "sorries": [],
    "findings": [
-    "The Misner wedge is the regular domain Omega+(Lambda) for Lambda = {(e1,0),(-e1,0)} (two null planes); its cosmological time is sqrt(t^2 - x1^2) = sqrt(-2xy), so the paper's eta-slices are Cosmological's level sets and are Cauchy for every inextensible causal curve (not only geodesics)."
+    "The Misner wedge is the regular domain Omega+(Lambda) for Lambda = {(e1,0),(-e1,0)} (two null planes); its cosmological time is sqrt(t^2 - x1^2) = sqrt(-2xy), so the paper's eta-slices are Cosmological's level sets and are Cauchy for every inextensible causal curve (not only geodesics).",
+    "Frame transport: see the [3.T] finding (shared by [3.T]/[3.M]/[3.U])."
    ],
    "questions": []
   },
@@ -221,7 +230,11 @@
     "Causal.Flat.isCauchySurfaceOn_unipSlice",
     "Causal.Flat.actsAcausally_unip",
     "Causal.Flat.isCauchySurface_unip",
-    "Causal.Flat.barbotGH_unip"
+    "Causal.Flat.barbotGH_unip",
+    "Causal.Flat.barbotGH_unip_frame",
+    "Causal.Flat.isAcausal_unipSlice",
+    "Causal.Flat.isCauchySurfaceOn_unipSlice_frame",
+    "Causal.Flat.isCauchySurface_unip_frame"
    ],
    "hypotheses": [
     {
@@ -242,7 +255,8 @@
    ],
    "sorries": [],
    "findings": [
-    "The divergence of f is needed at EVERY end of the component, finite or infinite. The paper's separation claim (l.729-738: S_f disconnects the two lightlike boundary hyperplanes) is false for bounded f even when both ends are finite poles. Counterexample: n = 4 (d = 2), lambda = (-1, 1), Omega = {-1 < y < 1}, f(y) = y, and the null line z1 = K(1-y), z2 = 0, x = 5 + K^2(1-y)/2; it meets both hyperplanes y = +-1, and along it T = x - Phi = 5 - y lies in ]4, 6[, so it never meets S_f. The paper's conclusion stands because its chosen f = int a^2 (l.707-711) diverges at every end. Separately: when an end is infinite, a causal line not in the direction Delta_0 meets only one boundary hyperplane, so the case split of l.734-737 is also incomplete there. The 'null geodesics suffice' criterion itself is valid for a closed, acausal, edgeless S (Cauchy-horizon generators), so the geodesic restriction is not the gap; the proof here uses the time function T = x - Phi(y, z) (strictly increasing along <= in Omega, A-invariant) and covers every inextensible causal curve."
+    "The divergence of f is needed at EVERY end of the component, finite or infinite. The paper's separation claim (l.729-738: S_f disconnects the two lightlike boundary hyperplanes) is false for bounded f even when both ends are finite poles. Counterexample: n = 4 (d = 2), lambda = (-1, 1), Omega = {-1 < y < 1}, f(y) = y, and the null line z1 = K(1-y), z2 = 0, x = 5 + K^2(1-y)/2; it meets both hyperplanes y = +-1, and along it T = x - Phi = 5 - y lies in ]4, 6[, so it never meets S_f. The paper's conclusion stands because its chosen f = int a^2 (l.707-711) diverges at every end. Separately: when an end is infinite, a causal line not in the direction Delta_0 meets only one boundary hyperplane, so the case split of l.734-737 is also incomplete there. The 'null geodesics suffice' criterion itself is valid for a closed, acausal, edgeless S (Cauchy-horizon generators), so the geodesic restriction is not the gap; the proof here uses the time function T = x - Phi(y, z) (strictly increasing along <= in Omega, A-invariant) and covers every inextensible causal curve.",
+    "Frame transport: see the [3.T] finding (shared by [3.T]/[3.M]/[3.U])."
    ],
    "questions": []
   }
@@ -353,7 +367,30 @@
   "Causal.Flat.unip_aux_bound",
   "Causal.Flat.continuousOn_unipTime",
   "Causal.Flat.Jplus_unipDomain_ne_singleton",
-  "Causal.Flat.Jminus_unipDomain_ne_singleton"
+  "Causal.Flat.Jminus_unipDomain_ne_singleton",
+  "Causal.Flat.frameConjEquiv",
+  "Causal.Flat.coe_frameConjEquiv",
+  "Causal.Flat.frameHomeomorph",
+  "Causal.Flat.coe_frameHomeomorph",
+  "Causal.Flat.instInvariantFrameConj",
+  "Causal.Flat.frameHomeomorph_smul",
+  "Causal.Flat.le_frameHomeomorph_iff",
+  "Causal.Flat.instIsCancelSMulFrameConj",
+  "Causal.Flat.instProperlyDiscontinuousSMulFrameConj",
+  "Causal.Flat.actsAcausally_frameConj",
+  "Causal.Flat.finite_le_frameConj",
+  "Causal.Flat.le_isomImage_iff",
+  "Causal.Flat.globallyHyperbolicOn_isomImage",
+  "Causal.Flat.isCauchySurfaceOn_isomImage",
+  "Causal.Flat.image_invariant_frameConj",
+  "Causal.Flat.isConnected_isomImage",
+  "Causal.Flat.gh_frameConj",
+  "Causal.Flat.barbotGH_frameConj",
+  "Causal.Flat.isCancelSMul_frameConj",
+  "Causal.Flat.properlyDiscontinuousSMul_frameConj",
+  "Causal.Flat.instInvariantFrameConjHorizTop",
+  "Causal.Flat.instIsCancelSMulFrameConjHorizTop",
+  "Causal.Flat.instProperlyDiscontinuousSMulFrameConjHorizTop"
  ],
  "kb_proposals": [
   "The causal order of a quotient Gamma\\Omega lifts (FlatQuotient.exists_lift_le): absolute minimality of flatCausality with the cover by sheets of proj turns q <= q' into a chain, each link lifting through the isometric embedding proj o val on a sheet; causality, acausal images and ETT's GH of quotients follow (globallyHyperbolic_quotient needs only 'finitely many gamma with x <= gamma y').",
@@ -362,5 +399,8 @@
   "Membership in lorentz without matrices: det(B_s) = det(B_{s/2})^2 >= 0, det(B_s) det(B_{-s}) = 1, and B_{-s} = R B_s R^{-1} for a reflection R gives det = 1 (det_boost).",
   "Names boost/boost_apply/boostL collide with Isometries/Penrose; Examples uses axisBoost/axisBoostL. IsUnipotent collides with Isometries.IsUnipotent; the families are named Is*Spacetime."
  ],
- "notes": "Fixer pass 2026-10-31. `taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/Examples.lean`: zero errors, zero warnings, zero sorries. #print axioms on isCauchySurfaceOn_unipSlice, isCauchySurface_unip, barbotGH_unip, barbotGH_translation, barbotGH_misner, rem22_cone, not_cauchyCompact_absMax, misner_example: only propext, Classical.choice, Quot.sound. No public-name collision with Causal/ or scaffold/ (grepped for every new name). Imports Quotient, LipschitzGraph, Cosmological (no parallel file). Audit findings applied: (blocking) the Rem 2.3 finding is reworded (the torus slice t = 1/2 IS Cauchy; the slab breaks the missing maximality; small spacelike discs break the literal sentence); (minor) [3.U] finding states the divergence at every end with the audit's counterexample, now also in the docstring of isCauchySurfaceOn_unipSlice; hypothesis tags 'weakened' replaced by 'strengthened'/'scope' where the Lean assumes more; [3.U] line citations re-checked against the labelled GHFspace.tex (action l.657-659, Omega(A) l.661-663, components l.665-670, f l.676-677, Phi l.688, f = int a^2 l.707-711, Cauchy l.728-741), the l.698 typo remark dropped (IsUnipComponent uses l.665's convention), plus other citations corrected (clomax l.571-578, Misner l.597-629/600-608/610-612/616-618/622-626, Q l.599, [3.T] l.586-593); checklist row now 'refuted (DEC-44, under DEC-27's rule)'; rename leftovers fixed (axisBoost s; 'nonzero boost parameter s'); the deliberate duplication of Isometries.stdBoost 0 recorded in SCOPE (Isometries not imported: it is edited in this wave); every public declaration is listed (labels' decls + extra_decls); barbotGH_translation and barbotGH_misner added. The [3.U] sorry is closed (isCauchySurfaceOn_unipSlice, every inextensible causal curve), and the quotient half added: actsAcausally_unip, isCauchySurface_unip (acausal Cauchy surface of Gamma\\Omega), barbotGH_unip. REQUEST (cannot edit outside my file): record in BARBOT-THEOREMS §1 that the families are named IsTranslationSpacetime/IsMisnerSpacetime/IsUnipotentSpacetime (IsUnipotent collides with Isometries.IsUnipotent), so barbot_A/barbot_B use these names. Not done (SCOPE): frame transport (all theorems at phi = 1), completeness of slices (InducedLength unused, so no Cauchy-complete/AMGH claim), the past Misner wedge's theory, ETT's GH of unipotent quotients (finite_le not written), existence of an admissible f for every component (barbotGH_unip takes f as data), unipAction in isom, 'unipotent spacetimes never have closed Cauchy hypersurfaces', a unipotent non-vacuity witness, MGH of the cone, BallFinite <-> DiscreteTopology. FlatQuotient.isCausal_of_actsAcausally and globallyHyperbolic_quotient close two items of Flat.Quotient's SCOPE; candidates to move there at graduation. No disagreement with the audit."
+ "notes": [
+  "Fixer pass 2026-10-31. `taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/Examples.lean`: zero errors, zero warnings, zero sorries. #print axioms on isCauchySurfaceOn_unipSlice, isCauchySurface_unip, barbotGH_unip, barbotGH_translation, barbotGH_misner, rem22_cone, not_cauchyCompact_absMax, misner_example: only propext, Classical.choice, Quot.sound. No public-name collision with Causal/ or scaffold/ (grepped for every new name). Imports Quotient, LipschitzGraph, Cosmological (no parallel file). Audit findings applied: (blocking) the Rem 2.3 finding is reworded (the torus slice t = 1/2 IS Cauchy; the slab breaks the missing maximality; small spacelike discs break the literal sentence); (minor) [3.U] finding states the divergence at every end with the audit's counterexample, now also in the docstring of isCauchySurfaceOn_unipSlice; hypothesis tags 'weakened' replaced by 'strengthened'/'scope' where the Lean assumes more; [3.U] line citations re-checked against the labelled GHFspace.tex (action l.657-659, Omega(A) l.661-663, components l.665-670, f l.676-677, Phi l.688, f = int a^2 l.707-711, Cauchy l.728-741), the l.698 typo remark dropped (IsUnipComponent uses l.665's convention), plus other citations corrected (clomax l.571-578, Misner l.597-629/600-608/610-612/616-618/622-626, Q l.599, [3.T] l.586-593); checklist row now 'refuted (DEC-44, under DEC-27's rule)'; rename leftovers fixed (axisBoost s; 'nonzero boost parameter s'); the deliberate duplication of Isometries.stdBoost 0 recorded in SCOPE (Isometries not imported: it is edited in this wave); every public declaration is listed (labels' decls + extra_decls); barbotGH_translation and barbotGH_misner added. The [3.U] sorry is closed (isCauchySurfaceOn_unipSlice, every inextensible causal curve), and the quotient half added: actsAcausally_unip, isCauchySurface_unip (acausal Cauchy surface of Gamma\\Omega), barbotGH_unip. REQUEST (cannot edit outside my file): record in BARBOT-THEOREMS §1 that the families are named IsTranslationSpacetime/IsMisnerSpacetime/IsUnipotentSpacetime (IsUnipotent collides with Isometries.IsUnipotent), so barbot_A/barbot_B use these names. Not done (SCOPE): frame transport (all theorems at phi = 1), completeness of slices (InducedLength unused, so no Cauchy-complete/AMGH claim), the past Misner wedge's theory, ETT's GH of unipotent quotients (finite_le not written), existence of an admissible f for every component (barbotGH_unip takes f as data), unipAction in isom, 'unipotent spacetimes never have closed Cauchy hypersurfaces', a unipotent non-vacuity witness, MGH of the cone, BallFinite <-> DiscreteTopology. FlatQuotient.isCausal_of_actsAcausally and globallyHyperbolic_quotient close two items of Flat.Quotient's SCOPE; candidates to move there at graduation. No disagreement with the audit. CLOSER PASS 2026-11-01 (WP-31c-Examples closer, node1): `grep -n 'SORRY(' ` finds no tagged sorry in the file (the only hit is a docstring mention of LipschitzGraph's SORRY(D-cauchy-interior)); the [3.U] Cauchy property isCauchySurfaceOn_unipSlice was already closed by the fixer pass (time function T = x - Phi with f unbounded at both ends, then the null-line/time-function criterion), so nothing was left to fill and no statement was changed. Re-verified: `taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/Examples.lean`: zero errors, zero warnings, zero sorries. Added (no existing declaration touched): section FrameTransport -- conjugation by phi in isom transports (Gamma, Omega) to (phi Gamma phi^-1, phi Omega): frameConjEquiv (Gamma =* frameConj phi Gamma), frameHomeomorph (Omega =~ isomImage phi Omega), equivariance and causal-order iso; instances Invariant/IsCancelSMul/ProperlyDiscontinuousSMul for (frameConj phi Gamma, isomImage phi Omega) and for (frameConj phi (horizGroup Lambda), top); actsAcausally_frameConj, finite_le_frameConj, globallyHyperbolicOn_isomImage, isCauchySurfaceOn_isomImage (via isom_isEMorphism + isCauchySurfaceOn_image_iff); generic gh_frameConj / barbotGH_frameConj (stated with Omega' and Omega' = isomImage phi Omega so that Omega' = top needs no rewriting); applied: gh_translation_frame, barbotGH_translation_frame, isTranslationSpacetime_frame, gh_misner_frame, barbotGH_misner_frame, isMisnerSpacetime_frame (given an element of nonzero boost parameter), barbotGH_unip_frame. #print axioms on the five *_frame translation/Misner theorems: propext, Classical.choice, Quot.sound only. All new public names grepped against lean-causal and lean-gx: no collision. Module docstring updated (status line, What is proved, checklist [3.M] row, SCOPE Frames bullet, Provenance). Remaining SCOPE (unchanged): no isometry Gamma\\Omega =~ phi Gamma phi^-1 \\ phi Omega (so 'IsTranslationSpacetime M -> GH M' for an arbitrary M is not stated, IsQuotientOf being up to homeomorphism), completeness, the past Misner wedge, ETT's GH of unipotent quotients, existence of f, unipAction in isom, unipotent witness. No finding that a statement is false.",
+  "Fixer pass 2026-11-01 (audit of the closer pass, 0 blocking / 4 minor). Applied: (1) one-line docstrings on the six undocumented FrameTransport declarations; (2) the status line overclaim: the [3.U] Cauchy surface is now EXPORTED in every frame (new isCauchySurfaceOn_unipSlice_frame, isCauchySurface_unip_frame, and isAcausal_unipSlice extracted from isCauchySurface_unip's proof, which now calls it; proof-only change), and the status line, Frame-transport bullet and SCOPE Frames bullet are reworded to match; (4) the frame-transport finding is kept once in [3.T], [3.M]/[3.U] point to it; also fixed two stale hypothesis notes ([3.T] 'any frame' and [3.M] 'Omega = ...' said frame phi = 1 / transport not written). NOT applied, (3) scoped instances: declined. The instances instInvariantFrameConj / instIsCancelSMulFrameConj / instProperlyDiscontinuousSMulFrameConj are true, have class premises on the very Gamma/Omega the head unifies to (no search loop), and are what lets a downstream file STATE FlatQuotient (frameConj phi Gamma) (isomImage phi Omega) or toFlatSpacetime of it at all (the new isCauchySurface_unip_frame statement relies on them); scoping them would force every importer (wave-5 Nonloxodromic/Loxodromic/Classification, gx) to open the scope or fail to elaborate. Master may rule otherwise. No statement of an existing declaration changed; no new certification mark. Compile: `taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/Examples.lean` exits 0, no output. #print axioms (run by temporarily appending to the file, then restored): isCauchySurface_unip_frame, isCauchySurfaceOn_unipSlice_frame, barbotGH_unip_frame, isMisnerSpacetime_frame, barbotGH_translation_frame, not_cauchyCompact_absMax, isCauchySurface_unip all depend only on [propext, Classical.choice, Quot.sound]. New names grepped against lean-causal and lean-gx: no collision."
+ ]
 }

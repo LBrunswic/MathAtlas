@@ -1,4 +1,5 @@
 import CausalScaffold.Flat.Achronal
+import CausalScaffold.Flat.Cosmological
 
 /-!
 # `CausalScaffold.Flat.LipschitzGraph` — 1-Lipschitz (achronal) hypersurfaces of `𝐌ⁿ`: the null-line Cauchy criterion, causal convexity, the hub lemma, (CC′) transfer, domains of dependence
@@ -81,7 +82,21 @@ the labelled file `papers/barbot/legacy/labeled/GHFspace.tex`.
   `graph_subset_interior_dependenceDomain` (`S ⊆ int D(S)` for strictly contracting `f`, by a
   cylinder argument); `dependenceDomain_eq_of_isCauchySurfaceOn`, so `D = 𝐌ⁿ` under the
   criterion (`dependenceDomain_graph_eq_univ`); **`D(hyperboloid) = {p |
-  IsFutureTimelike p}`** (`dependenceDomain_hyperboloid`, `0 < d`), hence open.
+  IsFutureTimelike p}`** (`dependenceDomain_hyperboloid`, `0 < d`), hence open. `D(S)` is the
+  set of points every causal line through which meets `S` (`meets_of_mem_dependenceDomain`,
+  `mem_dependenceDomain_of_meets`); it is closed under `J⁻` inside `{T ≥ 0}` and under `J⁺`
+  inside `{T ≤ 0}`, and so is `int D(S)` (`mem_interior_dependenceDomain_of_le_of_nonneg`,
+  `…_nonpos`). **`S` is a Cauchy surface of `int D(S)`**
+  (`isCauchySurfaceOn_interior_dependenceDomain`): along a causal curve inextensible in
+  `W = int D(S)`, `T = t − f` cannot keep one sign — if `T > 0` throughout, the curve's time is
+  bounded below by the hub step, it converges at its past end to a point `P ≤ z`, `T(P) ≥ 0`,
+  which lies in `W`, and the curve extends in `W` (`pastExtensible_of_tendsto_opens`); the
+  intermediate value theorem then gives the meeting point. The argument uses only three
+  properties of `W` (every causal line through it meets `S`, closure under `J⁻` in `{T ≥ 0}` and
+  under `J⁺` in `{T ≤ 0}`) and is stated for any such open set
+  (`isCauchySurfaceOn_graph_of_saturated`). Hence Rem 2.2's first half
+  (`isCauchySurfaceOn_futureCone_hyperboloid` for `0 < d`,
+  `isCauchySurfaceOn_futureCone_hyperboloid_zero` for `d = 0`).
 
 ## Hypothesis checklist
 
@@ -93,7 +108,7 @@ the labelled file `papers/barbot/legacy/labeled/GHFspace.tex`.
 | design C hub lemma: `lgraph f ⊆ W`, `0 ≤ T z` | ⚠ weakened: neither is needed (`T z < 0` makes the set empty) |
 | design C (CC′) transfer | ✓ carried as designed (`S, S' ⊆ W`, both Cauchy surfaces of `W`) |
 | design D `isOpen_dependenceDomain` (general) | not stated: openness is proved for the hyperboloid only; `interior` is used throughout, as the design's fallback says |
-| Rem 2.2, any `n` | ⚠ strengthened: `0 < d` (`n ≥ 2`) for `dependenceDomain_hyperboloid`, `isOpen_dependenceDomain_hyperboloid` and `isCauchySurfaceOn_futureCone_hyperboloid`. For the first two it is needed: for `d = 0` the hyperboloid is the point `t = 1` and `D` is all of the line. For the third it is not (for `d = 0`, `Ω = {t > 0}` and `S = {t = 1}` is still Cauchy for `Ω`); it is inherited from the proof route through `D(S)`, and the `d = 0` case is not stated |
+| Rem 2.2, any `n` | ⚠ strengthened: `0 < d` (`n ≥ 2`) for `dependenceDomain_hyperboloid`, `isOpen_dependenceDomain_hyperboloid` and `isCauchySurfaceOn_futureCone_hyperboloid`. For the first two it is needed: for `d = 0` the hyperboloid is the point `t = 1` and `D` is all of the line. For the third it is not (for `d = 0`, `Ω = {t > 0}` and `S = {t = 1}` is still Cauchy for `Ω`); it is inherited from the proof route through `D(S)`, and the `d = 0` case is stated separately (`isCauchySurfaceOn_futureCone_hyperboloid_zero`, through `isCauchySurfaceOn_graph_of_saturated` with `W = Ω`) |
 | Rem 2.2, "a connected component" `Ω` | ⚠ only the future component `{t > ‖x‖}`; the past one (`graph_neg_hyperboloid`) follows by time reflection and is not stated |
 
 ## SCOPE (disclosed)
@@ -104,21 +119,19 @@ the labelled file `papers/barbot/legacy/labeled/GHFspace.tex`.
 * Rem 2.2 is treated for the future component of `{Q < 0}` only; the past component, the graph
   of `−hyperboloid` (Achronal's `graph_neg_hyperboloid`), follows by time reflection and is not
   stated. That the hyperboloid is a Cauchy surface of `Ω` (`isCauchySurfaceOn_futureCone_hyperboloid`)
-  rests on the one `sorry` below.
-* `isCauchySurfaceOn_interior_dependenceDomain` — `S` is a Cauchy surface of `int D(S)` — proves
-  uniqueness and rests on **one** `sorry` for existence: a causal curve inextensible in `W =
-  int D(S)` (not in `𝐌ⁿ`) has to be shown to meet `S`. The obstruction is the `W`-relative
-  extension lemma (a past limit point inside `W` makes the curve extensible in `W`; the library
-  has `pastExtensible_of_tendsto` and `Inextensible.reparam` for `⊤` only) together with
-  `J⁻(y) ∩ {T ≥ 0} ⊆ int D(S)` for `y ∈ int D(S)`. Rem 2.2's first half,
-  `isCauchySurfaceOn_futureCone_hyperboloid`, rests on it.
+  is proved, through the general `isCauchySurfaceOn_interior_dependenceDomain`.
+* `isCauchySurfaceOn_interior_dependenceDomain` — `S` is a Cauchy surface of `int D(S)` — is
+  proved with no `sorry`. The `W`-relative extension lemmas it needs are Cosmological's
+  `pastExtensible_of_tendsto_opens` / `futureExtensible_of_tendsto_opens` (imported, not
+  duplicated); the openness of `D(S)` in general is still not stated (`interior` is used).
 * The null lines of the criterion are all affine lines `{p + s v}` with `v ≠ 0`, `minkQ v = 0`,
   either time orientation; the Cauchy surface is DEC-14's (every inextensible causal curve, over
   any interval, meets it once).
 * The norm on `Minkowski d` is the sup norm of the product (`Form.lean`); only `‖p.2‖` enters.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Barbot campaign,
-wave 3, package WP-32d-LipschitzGraph.
+wave 3, package WP-32d-LipschitzGraph; `D-cauchy-interior` closed by its closer pass (wave 5),
+importing `CausalScaffold.Flat.Cosmological` for the `W`-local extension lemmas.
 -/
 
 namespace Causal.Flat
@@ -1062,19 +1075,386 @@ theorem graph_subset_interior_dependenceDomain (hf : IsStrictContraction f) :
   rw [timeSub_neg_refl] at this
   linarith
 
-/-- **`S` is a Cauchy surface of the interior of its domain of dependence**, for a strictly
-contracting entire graph (`docs/BARBOT-WAVE3.md` §1D). Uniqueness is proved; existence is not. -/
-theorem isCauchySurfaceOn_interior_dependenceDomain (hf : IsStrictContraction f) :
-    (minkowski d).IsCauchySurfaceOn
-      ⟨interior (dependenceDomain (minkowski d) ⊤ (graph f)), isOpen_interior⟩ (graph f) := by
+/-! ### `D(S)` through lines, and its interior along a curve -/
+
+/-- A point of `D(S)` sees every causal affine line through it meet `S` (the line is an
+inextensible causal curve of `𝐌ⁿ`, `inextensible_timeLine`). -/
+theorem meets_of_mem_dependenceDomain {z : Minkowski d}
+    (hz : z ∈ dependenceDomain (minkowski d) ⊤ (graph f)) {v : Minkowski d}
+    (hv : IsFutureCausal v) (hv0 : v ≠ 0) : ∃ s : ℝ, z + s • v ∈ graph f := by
+  have hv1 := fst_pos_of_ne hv hv0
+  obtain ⟨_, ⟨τ, -, rfl⟩, hx⟩ := (mem_dependenceDomain.1 hz).2 univ (timeLine z v)
+    (inextensible_timeLine z hv hv0) ⟨z.1, trivial, timeLine_self hv1⟩
+  exact ⟨_, hx⟩
+
+/-- **Conversely**, for `f` strictly contracting, a point every causal affine line through which
+meets `S = graph f` is in `D(S)`: the hub step on both sides and the intermediate value theorem,
+as in the null-line criterion. So `D(S)` is exactly the set of such points. -/
+theorem mem_dependenceDomain_of_meets (hf : IsStrictContraction f) {z : Minkowski d}
+    (hmeet : ∀ v : Minkowski d, IsFutureCausal v → v ≠ 0 → ∃ s : ℝ, z + s • v ∈ graph f) :
+    z ∈ dependenceDomain (minkowski d) ⊤ (graph f) := by
+  refine ⟨trivial, fun I c hc hzc => exists_mem_graph_of_reparam hf.lipschitzWith hc
+    fun g hg hr => ?_⟩
+  obtain ⟨t₀, ht₀⟩ : z ∈ range g := hr ▸ hzc
+  subst ht₀
+  obtain ⟨s₁, -, h₁⟩ := exists_timeSub_nonpos hf hg hmeet
+  obtain ⟨s₂, -, h₂⟩ := exists_timeSub_nonneg hf hg hmeet
+  exact ⟨⟨s₁, h₁⟩, ⟨s₂, h₂⟩⟩
+
+/-- **`D(S)` is closed under the causal past inside `{T ≥ 0}`**: if `z ∈ D(S)`, `q ≤ z` and
+`T(q) ≥ 0`, then `q ∈ D(S)`. Every line through `q` goes below `T = 0` in its past, because
+`J⁻(z) ∩ {T ≥ 0}` has time bounded below (`bddBelow_fst_Jminus_inter`). -/
+theorem mem_dependenceDomain_of_le_of_nonneg (hf : IsStrictContraction f) {z q : Minkowski d}
+    (hz : z ∈ dependenceDomain (minkowski d) ⊤ (graph f)) (hqz : (minkowski d).le ⊤ q z)
+    (hq : 0 ≤ timeSub f q) : q ∈ dependenceDomain (minkowski d) ⊤ (graph f) := by
+  have hlip := hf.lipschitzWith
+  obtain ⟨b, hb⟩ := bddBelow_fst_Jminus_inter hf fun v hv hv0 =>
+    meets_of_mem_dependenceDomain hz hv hv0
+  refine mem_dependenceDomain_of_meets hf fun v hv hv0 => ?_
+  have hv1 := fst_pos_of_ne hv hv0
+  obtain ⟨s, hs0, hs⟩ : ∃ s : ℝ, s ≤ 0 ∧ timeSub f (q + s • v) < 0 := by
+    by_contra h
+    push Not at h
+    set s : ℝ := -((|q.1 - b| + 1) / v.1) with hsdef
+    have hs0 : s ≤ 0 := by
+      rw [hsdef, neg_nonpos]; exact div_nonneg (by positivity) hv1.le
+    have hle : (minkowski d).le ⊤ (q + s • v) q := by
+      have := le_top_add_smul q hv hs0
+      rwa [zero_smul, add_zero] at this
+    have hmem := hb ⟨q + s • v, ⟨Precausality.mem_Jminus_singleton.2
+      ((minkowski d).le_trans hle hqz), h s hs0⟩, rfl⟩
+    have ht : (q + s • v).1 = q.1 - (|q.1 - b| + 1) := by
+      simp only [Prod.fst_add, Prod.smul_fst, smul_eq_mul, hsdef]
+      field_simp
+      ring
+    rw [ht] at hmem
+    linarith [le_abs_self (q.1 - b)]
+  have hcont : ContinuousOn (fun τ : ℝ => timeSub f (q + τ • v)) (Icc s 0) :=
+    ((continuous_timeSub hlip).comp (continuous_const.add
+      (continuous_id.smul continuous_const))).continuousOn
+  obtain ⟨τ, -, hτ⟩ := intermediate_value_Icc hs0 hcont ⟨hs.le, by simpa using hq⟩
+  exact ⟨τ, mem_graph_iff_timeSub.2 hτ⟩
+
+/-- **`D(S)` is closed under the causal future inside `{T ≤ 0}`** (the twin of
+`mem_dependenceDomain_of_le_of_nonneg`, through `bddAbove_fst_Jplus_inter`). -/
+theorem mem_dependenceDomain_of_le_of_nonpos (hf : IsStrictContraction f) {z q : Minkowski d}
+    (hz : z ∈ dependenceDomain (minkowski d) ⊤ (graph f)) (hzq : (minkowski d).le ⊤ z q)
+    (hq : timeSub f q ≤ 0) : q ∈ dependenceDomain (minkowski d) ⊤ (graph f) := by
+  have hlip := hf.lipschitzWith
+  obtain ⟨b, hb⟩ := bddAbove_fst_Jplus_inter hf fun v hv hv0 =>
+    meets_of_mem_dependenceDomain hz hv hv0
+  refine mem_dependenceDomain_of_meets hf fun v hv hv0 => ?_
+  have hv1 := fst_pos_of_ne hv hv0
+  obtain ⟨s, hs0, hs⟩ : ∃ s : ℝ, 0 ≤ s ∧ 0 < timeSub f (q + s • v) := by
+    by_contra h
+    push Not at h
+    set s : ℝ := (|b - q.1| + 1) / v.1 with hsdef
+    have hs0 : 0 ≤ s := div_nonneg (by positivity) hv1.le
+    have hle : (minkowski d).le ⊤ q (q + s • v) := by
+      have := le_top_add_smul q hv hs0
+      rwa [zero_smul, add_zero] at this
+    have hmem := hb ⟨q + s • v, ⟨Precausality.mem_Jplus_singleton.2
+      ((minkowski d).le_trans hzq hle), h s hs0⟩, rfl⟩
+    have ht : (q + s • v).1 = q.1 + (|b - q.1| + 1) := by
+      simp only [Prod.fst_add, Prod.smul_fst, smul_eq_mul, hsdef]
+      field_simp
+    rw [ht] at hmem
+    linarith [le_abs_self (b - q.1)]
+  have hcont : ContinuousOn (fun τ : ℝ => timeSub f (q + τ • v)) (Icc 0 s) :=
+    ((continuous_timeSub hlip).comp (continuous_const.add
+      (continuous_id.smul continuous_const))).continuousOn
+  obtain ⟨τ, -, hτ⟩ := intermediate_value_Icc hs0 hcont ⟨by simpa using hq, hs.le⟩
+  exact ⟨τ, mem_graph_iff_timeSub.2 hτ⟩
+
+/-- **The causal past of a point of `int D(S)`, inside `{T ≥ 0}`, lies in `int D(S)`.** For
+`T(q) = 0`, `graph_subset_interior_dependenceDomain`; for `T(q) > 0`, push `z` up to
+`z' = z + (ε/2, 0) ∈ D(S)`: the open set `{p ≪ z'} ∩ {T > 0}` contains `q` and lies in `D(S)`
+(`mem_dependenceDomain_of_le_of_nonneg`). -/
+theorem mem_interior_dependenceDomain_of_le_of_nonneg (hf : IsStrictContraction f)
+    {z q : Minkowski d} (hz : z ∈ interior (dependenceDomain (minkowski d) ⊤ (graph f)))
+    (hqz : (minkowski d).le ⊤ q z) (hq : 0 ≤ timeSub f q) :
+    q ∈ interior (dependenceDomain (minkowski d) ⊤ (graph f)) := by
+  have hlip := hf.lipschitzWith
+  rcases hq.lt_or_eq with hq | hq
+  · obtain ⟨ε, hε, hball⟩ := Metric.isOpen_iff.1 isOpen_interior z hz
+    set z' : Minkowski d := z + ((ε / 2, 0) : Minkowski d) with hz'def
+    have hz' : z' ∈ dependenceDomain (minkowski d) ⊤ (graph f) := by
+      refine interior_subset (hball ?_)
+      rw [mem_ball, dist_eq_norm, hz'def, add_sub_cancel_left, Prod.norm_def]
+      simp only [norm_zero, Real.norm_eq_abs, abs_of_pos (half_pos hε)]
+      rw [max_eq_left (half_pos hε).le]
+      exact half_lt_self hε
+    have hz'1 : z'.1 = z.1 + ε / 2 := rfl
+    have hz'2 : z'.2 = z.2 := by simp [hz'def]
+    set U : Set (Minkowski d) := {p | ‖z'.2 - p.2‖ < z'.1 - p.1} ∩ {p | 0 < timeSub f p}
+      with hUdef
+    have hUo : IsOpen U :=
+      (isOpen_lt (continuous_const.sub continuous_snd).norm
+        (continuous_const.sub continuous_fst)).inter
+        (isOpen_lt continuous_const (continuous_timeSub hlip))
+    have hqU : q ∈ U := by
+      refine ⟨?_, hq⟩
+      have := minkowski_le_top_iff.1 hqz
+      show ‖z'.2 - q.2‖ < z'.1 - q.1
+      rw [hz'1, hz'2]
+      linarith [half_pos hε]
+    refine interior_maximal (fun p hp => ?_) hUo hqU
+    exact mem_dependenceDomain_of_le_of_nonneg hf hz' (minkowski_le_top_iff.2 hp.1.le) hp.2.le
+  · exact graph_subset_interior_dependenceDomain hf (mem_graph_iff_timeSub.2 hq.symm)
+
+/-- **The causal future of a point of `int D(S)`, inside `{T ≤ 0}`, lies in `int D(S)`** (the twin
+of `mem_interior_dependenceDomain_of_le_of_nonneg`, with `z' = z − (ε/2, 0)`). -/
+theorem mem_interior_dependenceDomain_of_le_of_nonpos (hf : IsStrictContraction f)
+    {z q : Minkowski d} (hz : z ∈ interior (dependenceDomain (minkowski d) ⊤ (graph f)))
+    (hzq : (minkowski d).le ⊤ z q) (hq : timeSub f q ≤ 0) :
+    q ∈ interior (dependenceDomain (minkowski d) ⊤ (graph f)) := by
+  have hlip := hf.lipschitzWith
+  rcases hq.lt_or_eq with hq | hq
+  · obtain ⟨ε, hε, hball⟩ := Metric.isOpen_iff.1 isOpen_interior z hz
+    set z' : Minkowski d := z - ((ε / 2, 0) : Minkowski d) with hz'def
+    have hz' : z' ∈ dependenceDomain (minkowski d) ⊤ (graph f) := by
+      refine interior_subset (hball ?_)
+      rw [mem_ball, dist_eq_norm, hz'def, sub_sub_cancel_left, norm_neg, Prod.norm_def]
+      simp only [norm_zero, Real.norm_eq_abs, abs_of_pos (half_pos hε)]
+      rw [max_eq_left (half_pos hε).le]
+      exact half_lt_self hε
+    have hz'1 : z'.1 = z.1 - ε / 2 := rfl
+    have hz'2 : z'.2 = z.2 := by simp [hz'def]
+    set U : Set (Minkowski d) := {p | ‖p.2 - z'.2‖ < p.1 - z'.1} ∩ {p | timeSub f p < 0}
+      with hUdef
+    have hUo : IsOpen U :=
+      (isOpen_lt (continuous_snd.sub continuous_const).norm
+        (continuous_fst.sub continuous_const)).inter
+        (isOpen_lt (continuous_timeSub hlip) continuous_const)
+    have hqU : q ∈ U := by
+      refine ⟨?_, hq⟩
+      have := minkowski_le_top_iff.1 hzq
+      show ‖q.2 - z'.2‖ < q.1 - z'.1
+      rw [hz'1, hz'2]
+      linarith [half_pos hε]
+    refine interior_maximal (fun p hp => ?_) hUo hqU
+    exact mem_dependenceDomain_of_le_of_nonpos hf hz' (minkowski_le_top_iff.2 hp.1.le) hp.2.le
+  · exact graph_subset_interior_dependenceDomain hf (mem_graph_iff_timeSub.2 hq)
+
+/-- In an open set `W` of `𝐌ⁿ`, `J⁻_W(x) ≠ {x}`: a small segment below `x` lies in a ball inside
+`W`, which is convex (`le_iff_of_convex`). -/
+private theorem Jminus_ne_singleton_of_mem_opens {W : Opens (Minkowski d)} {x : Minkowski d}
+    (hx : x ∈ W) : (minkowski d).Jminus W {x} ≠ {x} := by
+  obtain ⟨ε, hε, hball⟩ := Metric.isOpen_iff.1 W.2 x hx
+  set B : Opens (Minkowski d) := ⟨ball x ε, isOpen_ball⟩
+  set y : Minkowski d := x - ((ε / 2, 0) : Minkowski d) with hydef
+  have hy : y ∈ ball x ε := by
+    rw [mem_ball, dist_eq_norm, hydef, sub_sub_cancel_left, norm_neg, Prod.norm_def]
+    simp only [norm_zero, Real.norm_eq_abs, abs_of_pos (half_pos hε)]
+    rw [max_eq_left (half_pos hε).le]
+    exact half_lt_self hε
+  have hle : (minkowski d).le B y x :=
+    (le_iff_of_convex (V := B) (convex_ball x ε)).2 ⟨hy, mem_ball_self hε, by
+      rw [minkowski_le_top_iff]; simp [hydef, (half_pos hε).le]⟩
+  intro he
+  have hmem : y ∈ (minkowski d).Jminus W {x} :=
+    Precausality.mem_Jminus_singleton.2 ((minkowski d).le_mono hball hle)
+  rw [he, mem_singleton_iff] at hmem
+  have := congrArg Prod.fst hmem
+  simp [hydef] at this
+  linarith
+
+/-- In an open set `W` of `𝐌ⁿ`, `J⁺_W(x) ≠ {x}`. -/
+private theorem Jplus_ne_singleton_of_mem_opens {W : Opens (Minkowski d)} {x : Minkowski d}
+    (hx : x ∈ W) : (minkowski d).Jplus W {x} ≠ {x} := by
+  obtain ⟨ε, hε, hball⟩ := Metric.isOpen_iff.1 W.2 x hx
+  set B : Opens (Minkowski d) := ⟨ball x ε, isOpen_ball⟩
+  set y : Minkowski d := x + ((ε / 2, 0) : Minkowski d) with hydef
+  have hy : y ∈ ball x ε := by
+    rw [mem_ball, dist_eq_norm, hydef, add_sub_cancel_left, Prod.norm_def]
+    simp only [norm_zero, Real.norm_eq_abs, abs_of_pos (half_pos hε)]
+    rw [max_eq_left (half_pos hε).le]
+    exact half_lt_self hε
+  have hle : (minkowski d).le B x y :=
+    (le_iff_of_convex (V := B) (convex_ball x ε)).2 ⟨mem_ball_self hε, hy, by
+      rw [minkowski_le_top_iff]; simp [hydef, (half_pos hε).le]⟩
+  intro he
+  have hmem : y ∈ (minkowski d).Jplus W {x} :=
+    Precausality.mem_Jplus_singleton.2 ((minkowski d).le_mono hball hle)
+  rw [he, mem_singleton_iff] at hmem
+  have := congrArg Prod.fst hmem
+  simp [hydef] at this
+  linarith
+
+/-- `int D(S)` as an open set (the open set of `isCauchySurfaceOn_interior_dependenceDomain`). -/
+private abbrev intDep (f : EuclideanSpace ℝ (Fin d) → ℝ) : Opens (Minkowski d) :=
+  ⟨interior (dependenceDomain (minkowski d) ⊤ (graph f)), isOpen_interior⟩
+
+/-- **Past end**, for any open `W` every point of which sees every causal line meet `S` and which
+is closed under `J⁻` inside `{T ≥ 0}` (`W = int D(S)` is the case of interest). A causal curve of `W` over a bounded-below interval along which
+`T > 0` is extensible in `W` at its past end: at a least parameter, prepend; otherwise its time is
+bounded below (`bddBelow_fst_Jminus_inter` at a point of the curve, which is in `D(S)`), so it
+converges at its lower end (`exists_tendsto_of_bddBelow`) to a point `P ≤ z` with `T(P) ≥ 0`,
+which is in `W` (for `int D(S)`: `mem_interior_dependenceDomain_of_le_of_nonneg`), and
+`pastExtensible_of_tendsto_opens` applies. -/
+private theorem pastExtensible_of_timeSub_pos_on (hf : IsStrictContraction f)
+    {W : Opens (Minkowski d)}
+    (hWD : ∀ z ∈ W, ∀ v : Minkowski d, IsFutureCausal v → v ≠ 0 → ∃ s : ℝ, z + s • v ∈ graph f)
+    (hWp : ∀ z ∈ W, ∀ q, (minkowski d).le ⊤ q z → 0 ≤ timeSub f q → q ∈ W) {J : Set ℝ}
+    {γ : ℝ → Minkowski d} (hγ : (minkowski d).CausalCurveIn W J γ) (hJ : BddBelow J)
+    (hT : ∀ u ∈ J, 0 < timeSub f (γ u)) : (minkowski d).PastExtensible W J γ := by
+  have hlip := hf.lipschitzWith
+  by_cases hmin : ∃ a, IsLeast J a
+  · obtain ⟨a, ha⟩ := hmin
+    exact Causality.pastExtensible_of_isLeast minkowski_causallyArcConnected minkowski_isCausal
+      hγ ha (Jminus_ne_singleton_of_mem_opens (hγ.mem ha.1))
+  have hglb : IsGLB J (sInf J) := isGLB_csInf hγ.nonempty hJ
+  have hαJ : sInf J ∉ J := fun hα => hmin ⟨_, hα, hglb.1⟩
+  have hgt : ∀ u ∈ J, sInf J < u := fun u hu =>
+    lt_of_le_of_ne (hglb.1 hu) fun he => hαJ (he ▸ hu)
+  have hle : ∀ u ∈ J, ∀ u' ∈ J, u ≤ u' → (minkowski d).le ⊤ (γ u) (γ u') :=
+    fun u hu u' hu' huu' => (minkowski d).le_mono le_top (hγ.le_of_le hu hu' huu')
+  obtain ⟨u₀, hu₀⟩ := hγ.nonempty
+  have hz : γ u₀ ∈ W := hγ.mem hu₀
+  obtain ⟨b, hb⟩ := bddBelow_fst_Jminus_inter hf (hWD _ hz)
+  have hbdd : BddBelow ((fun u => (γ u).1) '' J) := by
+    refine ⟨min (γ u₀).1 b, ?_⟩
+    rintro _ ⟨u, hu, rfl⟩
+    rcases le_total u u₀ with huu | huu
+    · exact min_le_of_right_le (hb ⟨γ u, ⟨Precausality.mem_Jminus_singleton.2
+        (hle u hu u₀ hu₀ huu), (hT u hu).le⟩, rfl⟩)
+    · have := minkowski_le_top_iff.1 (hle u₀ hu₀ u hu huu)
+      exact min_le_of_left_le (by linarith [norm_nonneg ((γ u).2 - (γ u₀).2)])
+  obtain ⟨p, hp⟩ := exists_tendsto_of_bddBelow hle hγ.nonempty hγ.ordConnected hglb hαJ hbdd
+  have hev : ∀ᶠ u in 𝓝[>] (sInf J), u ∈ J :=
+    mem_of_superset (Ioo_mem_nhdsGT (hgt u₀ hu₀)) (Ioo_subset_of_isGLB hγ.ordConnected hglb hu₀)
+  have hpz : (minkowski d).le ⊤ p (γ u₀) := by
+    refine Precausality.mem_Jminus_singleton.1
+      ((staticCausality.isClosed_Jminus_top (γ u₀)).mem_of_tendsto hp ?_)
+    filter_upwards [Ioo_mem_nhdsGT (hgt u₀ hu₀)] with u hu
+    exact Precausality.mem_Jminus_singleton.2
+      (hle u (Ioo_subset_of_isGLB hγ.ordConnected hglb hu₀ hu) u₀ hu₀ hu.2.le)
+  have hTp : 0 ≤ timeSub f p :=
+    (isClosed_le continuous_const (continuous_timeSub hlip)).mem_of_tendsto hp
+      (hev.mono fun u hu => (hT u hu).le)
+  have hpW : p ∈ W := hWp _ hz _ hpz hTp
+  exact Causality.pastExtensible_of_tendsto_opens staticCausality.isClosed_Jminus_top
+    minkowski_stronglyCausal minkowski_causallyArcConnected minkowski_isCausal hγ hpW hgt
+    (ordConnected_insert_of_isGLB hγ.ordConnected hglb) hp (Jminus_ne_singleton_of_mem_opens hpW)
+
+/-- **Future end**, the twin of `pastExtensible_of_timeSub_pos_on`: along `T < 0`, through
+`bddAbove_fst_Jplus_inter` and the closure of `W` under `J⁺` inside `{T ≤ 0}` (for `int D(S)`:
+`mem_interior_dependenceDomain_of_le_of_nonpos`). -/
+private theorem futureExtensible_of_timeSub_neg_on (hf : IsStrictContraction f)
+    {W : Opens (Minkowski d)}
+    (hWD : ∀ z ∈ W, ∀ v : Minkowski d, IsFutureCausal v → v ≠ 0 → ∃ s : ℝ, z + s • v ∈ graph f)
+    (hWf : ∀ z ∈ W, ∀ q, (minkowski d).le ⊤ z q → timeSub f q ≤ 0 → q ∈ W) {J : Set ℝ}
+    {γ : ℝ → Minkowski d} (hγ : (minkowski d).CausalCurveIn W J γ) (hJ : BddAbove J)
+    (hT : ∀ u ∈ J, timeSub f (γ u) < 0) : (minkowski d).FutureExtensible W J γ := by
+  have hlip := hf.lipschitzWith
+  by_cases hmax : ∃ b, IsGreatest J b
+  · obtain ⟨b, hb⟩ := hmax
+    exact Causality.futureExtensible_of_isGreatest minkowski_causallyArcConnected
+      minkowski_isCausal hγ hb (Jplus_ne_singleton_of_mem_opens (hγ.mem hb.1))
+  have hlub : IsLUB J (sSup J) := isLUB_csSup hγ.nonempty hJ
+  have hβJ : sSup J ∉ J := fun hβ => hmax ⟨_, hβ, hlub.1⟩
+  have hlt : ∀ u ∈ J, u < sSup J := fun u hu =>
+    lt_of_le_of_ne (hlub.1 hu) fun he => hβJ (he ▸ hu)
+  have hle : ∀ u ∈ J, ∀ u' ∈ J, u ≤ u' → (minkowski d).le ⊤ (γ u) (γ u') :=
+    fun u hu u' hu' huu' => (minkowski d).le_mono le_top (hγ.le_of_le hu hu' huu')
+  obtain ⟨u₀, hu₀⟩ := hγ.nonempty
+  have hz : γ u₀ ∈ W := hγ.mem hu₀
+  obtain ⟨b, hb⟩ := bddAbove_fst_Jplus_inter hf (hWD _ hz)
+  have hbdd : BddAbove ((fun u => (γ u).1) '' J) := by
+    refine ⟨max (γ u₀).1 b, ?_⟩
+    rintro _ ⟨u, hu, rfl⟩
+    rcases le_total u u₀ with huu | huu
+    · have := minkowski_le_top_iff.1 (hle u hu u₀ hu₀ huu)
+      exact le_max_of_le_left (by linarith [norm_nonneg ((γ u₀).2 - (γ u).2)])
+    · exact le_max_of_le_right (hb ⟨γ u, ⟨Precausality.mem_Jplus_singleton.2
+        (hle u₀ hu₀ u hu huu), (hT u hu).le⟩, rfl⟩)
+  obtain ⟨p, hp⟩ := exists_tendsto_of_bddAbove hle hγ.nonempty hγ.ordConnected hlub hβJ hbdd
+  have hev : ∀ᶠ u in 𝓝[<] (sSup J), u ∈ J :=
+    mem_of_superset (Ioo_mem_nhdsLT (hlt u₀ hu₀)) (Ioo_subset_of_isLUB hγ.ordConnected hlub hu₀)
+  have hzp : (minkowski d).le ⊤ (γ u₀) p := by
+    refine Precausality.mem_Jplus_singleton.1
+      ((staticCausality.isClosed_Jplus_top (γ u₀)).mem_of_tendsto hp ?_)
+    filter_upwards [Ioo_mem_nhdsLT (hlt u₀ hu₀)] with u hu
+    exact Precausality.mem_Jplus_singleton.2
+      (hle u₀ hu₀ u (Ioo_subset_of_isLUB hγ.ordConnected hlub hu₀ hu) hu.1.le)
+  have hTp : timeSub f p ≤ 0 :=
+    (isClosed_le (continuous_timeSub hlip) continuous_const).mem_of_tendsto hp
+      (hev.mono fun u hu => (hT u hu).le)
+  have hpW : p ∈ W := hWf _ hz _ hzp hTp
+  exact Causality.futureExtensible_of_tendsto_opens staticCausality.isClosed_Jplus_top
+    minkowski_stronglyCausal minkowski_causallyArcConnected minkowski_isCausal hγ hpW hlt
+    (ordConnected_insert_of_isLUB hγ.ordConnected hlub) hp (Jplus_ne_singleton_of_mem_opens hpW)
+
+/-- `pastExtensible_of_timeSub_pos_on` for `W = int D(S)`. -/
+private theorem pastExtensible_of_timeSub_pos (hf : IsStrictContraction f) {J : Set ℝ}
+    {γ : ℝ → Minkowski d} (hγ : (minkowski d).CausalCurveIn (intDep f) J γ) (hJ : BddBelow J)
+    (hT : ∀ u ∈ J, 0 < timeSub f (γ u)) : (minkowski d).PastExtensible (intDep f) J γ :=
+  pastExtensible_of_timeSub_pos_on hf
+    (fun _ hz _ hv hv0 => meets_of_mem_dependenceDomain (interior_subset hz) hv hv0)
+    (fun _ hz _ hqz hq => mem_interior_dependenceDomain_of_le_of_nonneg hf hz hqz hq) hγ hJ hT
+
+/-- `futureExtensible_of_timeSub_neg_on` for `W = int D(S)`. -/
+private theorem futureExtensible_of_timeSub_neg (hf : IsStrictContraction f) {J : Set ℝ}
+    {γ : ℝ → Minkowski d} (hγ : (minkowski d).CausalCurveIn (intDep f) J γ) (hJ : BddAbove J)
+    (hT : ∀ u ∈ J, timeSub f (γ u) < 0) : (minkowski d).FutureExtensible (intDep f) J γ :=
+  futureExtensible_of_timeSub_neg_on hf
+    (fun _ hz _ hv hv0 => meets_of_mem_dependenceDomain (interior_subset hz) hv hv0)
+    (fun _ hz _ hzq hq => mem_interior_dependenceDomain_of_le_of_nonpos hf hz hzq hq) hγ hJ hT
+
+/-- **`S` is a Cauchy surface of any open `W` saturated as `int D(S)` is**, for a strictly
+contracting entire graph `S = graph f`: every causal line through a point of `W` meets `S`, and `W`
+is closed under `J⁻` inside `{T ≥ 0}` and under `J⁺` inside `{T ≤ 0}` (`T = t − f`). Uniqueness by
+acausality; existence because `T` takes a value `≤ 0` and a value `≥ 0` on every causal curve
+inextensible in `W` (`pastExtensible_of_timeSub_pos_on`, `futureExtensible_of_timeSub_neg_on`), and
+the intermediate value theorem. -/
+theorem isCauchySurfaceOn_graph_of_saturated (hf : IsStrictContraction f)
+    {W : Opens (Minkowski d)}
+    (hWD : ∀ z ∈ W, ∀ v : Minkowski d, IsFutureCausal v → v ≠ 0 → ∃ s : ℝ, z + s • v ∈ graph f)
+    (hWp : ∀ z ∈ W, ∀ q, (minkowski d).le ⊤ q z → 0 ≤ timeSub f q → q ∈ W)
+    (hWf : ∀ z ∈ W, ∀ q, (minkowski d).le ⊤ z q → timeSub f q ≤ 0 → q ∈ W) :
+    (minkowski d).IsCauchySurfaceOn W (graph f) := by
   intro I c hc
   have huniq : ∀ x y, x ∈ c '' I ∩ graph f → y ∈ c '' I ∩ graph f → x = y := fun x y hx hy =>
     unique_of_isAcausal (isAcausal_graph_iff_isStrictContraction.2 hf)
       (hc.1.mono_opens le_top) hx hy
   have hex : (c '' I ∩ graph f).Nonempty := by
-    sorry -- SORRY(D-cauchy-interior): a causal curve inextensible in `W = int D(S)` (not in `𝐌ⁿ`) with `T > 0` throughout has its past part in the compact `J⁻(c t₀) ∩ {T ≥ 0}` (`bddBelow_fst_Jminus_inter`, valid as every causal line through `c t₀ ∈ D(S)` meets `S`), so time converges and the curve has a past limit `P`; one needs (1) `P ∈ W`, i.e. `J⁻(y) ∩ {T ≥ 0} ⊆ int D(S)` for `y ∈ int D(S)` (concatenating inextensible curves through `y`, and openness), and (2) a `W`-relative `pastExtensible_of_tendsto` (the library has it for `⊤` only, `Causal/Inextensible.lean:859`, and `Inextensible.reparam` for `⊤` only, `Causal/Cauchy.lean:251`)
+    have hlip := hf.lipschitzWith
+    obtain ⟨hpi, hfi⟩ := Causality.inextensible_iff.1 hc
+    obtain ⟨hd, hsub, htan, hpast, hfut⟩ := hc.1.arctanReparam
+    have hle : ∀ {a b : ℝ}, a ∈ I → b ∈ I → a ≤ b → (minkowski d).le ⊤ (c a) (c b) :=
+      fun ha hb hab => (minkowski d).le_mono le_top (hc.1.le_of_le ha hb hab)
+    obtain ⟨s₁, hs₁, h₁⟩ : ∃ s ∈ I, timeSub f (c s) ≤ 0 := by
+      by_contra hcon
+      push Not at hcon
+      exact hpi.2 (hpast (pastExtensible_of_timeSub_pos_on hf hWD hWp hd
+        ⟨-(Real.pi / 2), fun u hu => (hsub hu).1.le⟩ fun u hu => hcon _ (htan u hu)))
+    obtain ⟨s₂, hs₂, h₂⟩ : ∃ s ∈ I, 0 ≤ timeSub f (c s) := by
+      by_contra hcon
+      push Not at hcon
+      exact hfi.2 (hfut (futureExtensible_of_timeSub_neg_on hf hWD hWf hd
+        ⟨Real.pi / 2, fun u hu => (hsub hu).2.le⟩ fun u hu => hcon _ (htan u hu)))
+    rcases le_total s₁ s₂ with h12 | h21
+    · have hIcc : Icc s₁ s₂ ⊆ I := hc.1.ordConnected.out hs₁ hs₂
+      have hcont : ContinuousOn (fun s => timeSub f (c s)) (Icc s₁ s₂) :=
+        (continuous_timeSub hlip).comp_continuousOn (hc.1.continuousOn_Icc hs₁ hs₂)
+      obtain ⟨s, hs, hs0⟩ := intermediate_value_Icc h12 hcont ⟨h₁, h₂⟩
+      exact ⟨c s, ⟨s, hIcc hs, rfl⟩, mem_graph_iff_timeSub.2 hs0⟩
+    · have := timeSub_le_of_le hlip (hle hs₂ hs₁ h21)
+      exact ⟨c s₂, ⟨s₂, hs₂, rfl⟩, mem_graph_iff_timeSub.2 (le_antisymm (this.trans h₁) h₂)⟩
   obtain ⟨x, hx⟩ := hex
   exact ⟨x, hx, fun y hy => huniq y x hy hx⟩
+
+/-- **`S` is a Cauchy surface of the interior of its domain of dependence**, for a strictly
+contracting entire graph (`docs/BARBOT-WAVE3.md` §1D): `isCauchySurfaceOn_graph_of_saturated` for
+`W = int D(S)`, whose three hypotheses are `meets_of_mem_dependenceDomain`,
+`mem_interior_dependenceDomain_of_le_of_nonneg` and `mem_interior_dependenceDomain_of_le_of_nonpos`. -/
+theorem isCauchySurfaceOn_interior_dependenceDomain (hf : IsStrictContraction f) :
+    (minkowski d).IsCauchySurfaceOn
+      ⟨interior (dependenceDomain (minkowski d) ⊤ (graph f)), isOpen_interior⟩ (graph f) :=
+  isCauchySurfaceOn_graph_of_saturated hf
+    (fun _ hz _ hv hv0 => meets_of_mem_dependenceDomain (interior_subset hz) hv hv0)
+    (fun _ hz _ hqz hq => mem_interior_dependenceDomain_of_le_of_nonneg hf hz hqz hq)
+    (fun _ hz _ hzq hq => mem_interior_dependenceDomain_of_le_of_nonpos hf hz hzq hq)
 
 /-- A unit vector `e` with `⟪x, e⟫ = ‖x‖`, for `0 < d`. -/
 private theorem exists_unit_inner_eq_norm (hd : 0 < d) (x : EuclideanSpace ℝ (Fin d)) :
@@ -1161,7 +1541,7 @@ theorem isOpen_dependenceDomain_hyperboloid (hd : 0 < d) :
   exact isOpen_setOf_isFutureTimelike
 
 /-- **Rem 2.2, first half** (l.542): the hyperboloid is a Cauchy surface of the open future cone
-`Ω`, as `int D(S) = D(S) = Ω`. Rests on `isCauchySurfaceOn_interior_dependenceDomain`. -/
+`Ω`, as `int D(S) = D(S) = Ω`, through `isCauchySurfaceOn_interior_dependenceDomain`. -/
 theorem isCauchySurfaceOn_futureCone_hyperboloid (hd : 0 < d) :
     (minkowski d).IsCauchySurfaceOn ⟨{p | IsFutureTimelike p}, isOpen_setOf_isFutureTimelike⟩
       (graph (hyperboloid d)) := by
@@ -1175,6 +1555,32 @@ theorem isCauchySurfaceOn_futureCone_hyperboloid (hd : 0 < d) :
       rfl)
   rw [hW] at h
   exact h
+
+/-- **Rem 2.2, first half, for `d = 0`** (Barbot's `n = 1`; the companion of
+`isCauchySurfaceOn_futureCone_hyperboloid`, which assumes `0 < d`): the hyperboloid, here the
+point `t = 1` of the line, is a Cauchy surface of `Ω = {t > 0}`. Not through `D(S)`, which is the
+whole line for `d = 0`, but through `isCauchySurfaceOn_graph_of_saturated` with `W = Ω`: every
+causal line meets `S` (`isCauchySurface_graph_hyperboloid_zero`), `J⁻(z) ∩ {T ≥ 0}` lies above the
+hyperboloid and so in `Ω`, and `Ω` is future-closed. -/
+theorem isCauchySurfaceOn_futureCone_hyperboloid_zero :
+    (minkowski 0).IsCauchySurfaceOn ⟨{p | IsFutureTimelike p}, isOpen_setOf_isFutureTimelike⟩
+      (graph (hyperboloid 0)) := by
+  refine isCauchySurfaceOn_graph_of_saturated (fun _ _ h => abs_hyperboloid_sub_lt h)
+    (fun _ _ _ hv hv0 => exists_mem_line_of_isCauchySurfaceOn
+      isCauchySurface_graph_hyperboloid_zero (W := ⊤) trivial hv hv0) ?_ ?_
+  · intro _ _ q _ hq
+    show IsFutureTimelike q
+    rw [isFutureTimelike_iff_norm_lt]
+    have h : ‖q.2‖ < hyperboloid 0 q.2 :=
+      (Real.lt_sqrt (norm_nonneg _)).2 (by linarith)
+    simp only [timeSub] at hq
+    linarith
+  · intro z hz q hzq _
+    show IsFutureTimelike q
+    have hz' : ‖z.2‖ < z.1 := isFutureTimelike_iff_norm_lt.1 hz
+    have h := minkowski_le_top_iff.1 hzq
+    rw [isFutureTimelike_iff_norm_lt]
+    linarith [norm_le_insert' q.2 z.2]
 
 /-- **The null lines the hyperboloid meets are those entering the open future cone**
 `Ω = {t > ‖x‖} = D(S)`: `⇒` as `S ⊆ Ω`; `⇐` as a point of the line in `Ω` is in `D(S)`

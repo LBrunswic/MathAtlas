@@ -2,6 +2,7 @@ import CausalScaffold.Flat.InducedLength
 import CausalScaffold.Flat.FlatSpacetime
 import CausalScaffold.Flat.LipschitzGraph
 import CausalScaffold.Flat.Developing
+import CausalScaffold.Splitting
 
 /-!
 # `CausalScaffold.Flat.CauchyComplete` — Cauchy-completeness of a flat spacetime, and the bridge to (CC′)
@@ -69,15 +70,29 @@ dimensions, so Barbot's `n` is `d + 1`, `ℝ^{n−1}` is `EuclideanSpace ℝ (Fi
 * `bcor_quoiso` (8.3): `NullSaturated (range F)` (sorry, W6).
 * **The bridge** `developsCC_of_isCauchyComplete`: for GH `M`, `S` as in `IsCauchyComplete` and any
   developing map `dev`: `S` Cauchy, `dev` injective on `Ŝ = p⁻¹(S)`, `dev '' Ŝ` an entire acausal
-  graph meeting every timelike line, and `NullSaturated`. ASSEMBLED (proved) from 8.1, 8.3, B2
-  (`dev|Ŝ` is a spacelike development: PROVED, `spacelikeDevelopment_restrict`, through
-  `IsSpacelikeLipschitzIn.restrict`) and two tagged lemmas B1 (`Ŝ` connected), B3 (completeness
-  lifts to `Ŝ`); `t2Space_universalCover` is proved. `exists_developsCC_of_isCauchyComplete`.
+  graph meeting every timelike line, and `NullSaturated`. ASSEMBLED (proved) from 8.1, 8.3, B1, B2,
+  B3; `t2Space_universalCover` is proved. `exists_developsCC_of_isCauchyComplete`.
+  - B2 (`dev|Ŝ` is a spacelike development) PROVED: `spacelikeDevelopment_restrict`, through
+    `IsSpacelikeLipschitzIn.restrict`.
+  - B3 (completeness lifts to `Ŝ`) PROVED: `completeSpace_pulledLength_restrict`. The pulled length
+    of a path of `Ŝ` is the glued length of its projection (`pathLength_pulled_eq_of_local`, from
+    `exists_dev_eq_smul_chart` and the pointwise `locLipAt_pulled_iff_of_eventually`), so `proj`
+    is `1`-Lipschitz; a path is longer than the distance to each of its points
+    (`LocalLengthSpace.edist_le_pathLength`), so by `htop` short paths near the limit stay in an
+    evenly covered `U`; the Cauchy tail lies on one sheet (its index is constant along short
+    paths), and the sheet's section lifts short paths to the limit.
+  - B1 (`Ŝ` connected) REDUCED: `connectedSpace_preimage_cauchy` is proved from
+    `connectedSpace_preimage_of_splitting` (proved: a slice `S × {0}` of a homeomorphism
+    `S × ℝ ≃ₜ Y` lifts to a connected set of the universal cover) and the tagged
+    `exists_splitting_of_isCauchySurface` (a variant of the homeomorphism half of Prop 8.11,
+    class E). That lemma is in turn reduced, by the proved
+    `exists_splitting_of_hasChronalCausalFlow`, to target 4 (`Flat.flat_hasChronalCausalFlow`,
+    `Splitting.lean`, itself a tagged sorry) and acausality of `S`.
 
 ## Hypothesis checklist
 | paper hypothesis | here |
 |---|---|
-| `M` GH (l.551) | ✓ carried in the bridge (`GH M`), in ETT's reading (BARBOT-THEOREMS §1, "ETT's is used"); classically implied by `hS` (Barbot's GH is the existence of a Cauchy surface), but in the library Geroch (iii)⇒(i) is itself a `sorry`, so it is carried rather than derived; consumed only by B1. `IsCauchyComplete` alone does not ask it, as `AMGH` composes them |
+| `M` GH (l.551) | ✓ carried in the bridge (`GH M`), in ETT's reading (BARBOT-THEOREMS §1, "ETT's is used"); classically implied by `hS` (Barbot's GH is the existence of a Cauchy surface), but in the library Geroch (iii)⇒(i) is itself a `sorry`, so it is carried rather than derived; consumed only by B1 (through `exists_splitting_of_isCauchySurface`). `IsCauchyComplete` alone does not ask it, as `AMGH` composes them |
 | a Cauchy hypersurface (l.551) | ✓ carried: ETT's `IsCauchySurface` |
 | "the ambiant lorentzian metric restricts as a riemanian metric" | ⚠ weakened (a reading): point-locally spacelike Lipschitz in flat charts (DEC-31/35), not smooth |
 | "complete" | ✓ carried: `CompleteSpace` of the glued length pseudo-emetric; plus the topology field (W3: without spacelikeness the length can vanish; for spacelike `S` the field holds locally, `IsSpacelikeLipschitzIn.isHomeomorph_toSubtype`, its gluing is not proved here) |
@@ -86,12 +101,17 @@ dimensions, so Barbot's `n` is `d + 1`, `ℝ^{n−1}` is `EuclideanSpace ℝ (Fi
 | 8.3: same set-up | ✓ carried, as for 8.1 |
 
 ## SCOPE (disclosed)
-* **Four tagged sorries.** `isCoveringMap_projAlong_comp` (the covering of 8.1, R1/W5: about 500
-  lines, the design's own estimate), `bcor_quoiso` (8.3, W6: its closedness half needs the same
-  segment-lifting lemma), and the bridge's B1, B3. Each carries its obstruction. Everything else
-  is proved: the whole length structure and its link to `InducedLength`, `π` and its kernel,
-  covering ⇒ homeomorphism, 8.1 ⇒ the entire acausal graph, B2, the non-vacuity witnesses, the
-  bridge's assembly.
+* **Three tagged sorries.** `isCoveringMap_projAlong_comp` (the covering of 8.1, R1/W5: the
+  design estimated about 500 lines; the closer's breakdown in the obstruction, four steps, puts it
+  nearer 1000), `bcor_quoiso` (8.3, W6: its closedness half needs the same topology and
+  segment-lifting steps), and `exists_splitting_of_isCauchySurface` (tag `bridge-B1`: the
+  splitting `M ≅ S × ℝ`, class E; it reduces to target 4 plus `IsAcausal S` through the proved
+  `exists_splitting_of_hasChronalCausalFlow`). Each carries its obstruction. Everything else is proved: the
+  whole length structure and its link to `InducedLength`, `π` and its kernel, covering ⇒
+  homeomorphism, 8.1 ⇒ the entire acausal graph, B1 from the splitting, B2, B3, the non-vacuity
+  witnesses, the bridge's assembly.
+* B3 does not use `IsSpacelikeLipschitz S` (`hL`, kept in the statement): the transfer of lengths
+  only needs `dev` and `proj` to be `(Isom, 𝐌ⁿ)`-morphisms; completeness and `htop` do the rest.
 * `IsSpacelikeLipschitz` reads the hypersurface in `chartAt x`; any other atlas chart differs by an
   element of `Isom(𝐌ⁿ)` near `x` (`IsSpacelikeLipschitzIn.smul`), not restated here.
 * The paths of `InducedLengthSpace d S` are paths of the subspace `S`; a path is charged `⊤` unless
@@ -386,6 +406,74 @@ theorem edist_def (x y : LocalLengthSpace φ) :
     edist x y = ⨅ γ : Path (toSpace x) (toSpace y), pathLength φ γ := rfl
 
 end LocalLengthSpace
+
+/-! #### Sub-paths: a path is longer than the distance to each of its points -/
+
+section SubPath
+
+/-- An eventual property near `t` holds on a closed interval about `t`. -/
+theorem exists_Icc_subset_of_eventually {P : ℝ → Prop} {t : ℝ} (h : ∀ᶠ s in 𝓝 t, P s) :
+    ∃ δ > (0 : ℝ), ∀ s ∈ Icc (t - δ) (t + δ), P s := by
+  obtain ⟨ε, hε, hP⟩ := Metric.eventually_nhds_iff.1 h
+  refine ⟨ε / 2, half_pos hε, fun s hs => hP ?_⟩
+  rw [Real.dist_eq, abs_lt]; constructor <;> linarith [hs.1, hs.2]
+
+/-- Lipschitz in charts survives a `1`-Lipschitz reparametrisation. -/
+theorem LocLipAt.comp_lipschitz {X : Type*} {φ : X → X → Minkowski d} {c : ℝ → X} {h : ℝ → ℝ}
+    (hh : LipschitzWith 1 h) {u : ℝ} (hc : LocLipAt φ c (h u)) : LocLipAt φ (c ∘ h) u := by
+  obtain ⟨ε, hε, K, hK⟩ := hc
+  refine ⟨ε, hε, K * 1, ?_⟩
+  have hmaps : MapsTo h (Icc (u - ε) (u + ε)) (Icc (h u - ε) (h u + ε)) := fun s hs => by
+    have := hh.dist_le_mul s u
+    rw [NNReal.coe_one, one_mul, Real.dist_eq, Real.dist_eq] at this
+    have h2 : |s - u| ≤ ε := abs_le.2 ⟨by linarith [hs.1], by linarith [hs.2]⟩
+    have h3 := (abs_le.1 (this.trans h2))
+    exact ⟨by linarith [h3.1], by linarith [h3.2]⟩
+  exact hK.comp hh.lipschitzOnWith hmaps
+
+/-- `pathLength` only sees the extended curve. -/
+theorem pathLength_congr_extend {X : Type*} [TopologicalSpace X] (φ : X → X → Minkowski d)
+    {x y x' y' : X} (γ : Path x y) (γ' : Path x' y') (h : ⇑γ.extend = ⇑γ'.extend) :
+    pathLength φ γ = pathLength φ γ' := by
+  unfold pathLength; rw [h]
+
+/-- **A path is at least as long as the distance to any of its points.** -/
+theorem LocalLengthSpace.edist_le_pathLength {X : Type*} [TopologicalSpace X]
+    (φ : X → X → Minkowski d) {x y : X} (γ : Path x y) (t : I) :
+    edist (LocalLengthSpace.toSpace.symm x : LocalLengthSpace φ)
+      (LocalLengthSpace.toSpace.symm (γ t)) ≤ pathLength φ γ := by
+  rcases eq_or_lt_of_le t.2.1 with h0 | ht0
+  · have : t = 0 := Subtype.ext h0.symm
+    rw [this, γ.source, edist_self]; exact bot_le
+  by_cases hL : IsLocLip φ γ.extend
+  swap; · rw [pathLength_of_not_isLocLip φ hL]; exact le_top
+  set τ : ℝ := (t : ℝ) with hτ
+  let β : Path x (γ t) :=
+    { toFun := fun s => γ.extend (τ * s)
+      continuous_toFun := γ.continuous_extend.comp (continuous_const.mul continuous_subtype_val)
+      source' := by simp
+      target' := by simp [τ] }
+  set h : ℝ → ℝ := fun u => τ * (projIcc (0 : ℝ) 1 zero_le_one u : ℝ)
+  have hβ : ⇑β.extend = γ.extend ∘ h := rfl
+  have hh : LipschitzWith 1 h := by
+    refine LipschitzWith.of_dist_le_mul fun a b => ?_
+    rw [Real.dist_eq, Real.dist_eq, NNReal.coe_one, one_mul, ← mul_sub, abs_mul,
+      abs_of_nonneg t.2.1]
+    calc τ * |(projIcc (0 : ℝ) 1 zero_le_one a : ℝ) - projIcc 0 1 zero_le_one b|
+        ≤ 1 * |a - b| := mul_le_mul t.2.2 (abs_projIcc_sub_projIcc _) (abs_nonneg _) zero_le_one
+      _ = |a - b| := one_mul _
+  have hLβ : IsLocLip φ β.extend := by
+    rw [hβ]; exact fun u => (hL (h u)).comp_lipschitz hh
+  refine (iInf_le _ β).trans ?_
+  change pathLength φ β ≤ _
+  rw [pathLength_of_isLocLip φ hLβ, pathLength_of_isLocLip φ hL]
+  rw [localLength_congr φ (c' := fun s => γ.extend (τ * s + 0)) (fun s hs => by
+    rw [hβ]; simp only [Function.comp_apply, h, add_zero, projIcc_of_mem _ ⟨hs.1.le, hs.2.le⟩]),
+    localLength_comp_affine φ _ ht0]
+  simp only [mul_zero, add_zero, mul_one]
+  exact lintegral_mono_set (Ioc_subset_Ioc_right t.2.2)
+
+end SubPath
 
 /-! ### B. The induced length of a hypersurface of a flat spacetime (the gluing) -/
 
@@ -809,15 +897,23 @@ theorem isCoveringMap_projAlong_comp {X : Type*} [TopologicalSpace X] [Connected
     [T2Space X] {F : X → Minkowski d} (hF : SpacelikeDevelopment F)
     (hc : CompleteSpace (PulledLength F)) {Δ : Minkowski d} (hΔ : minkQ Δ < 0) :
     IsCoveringMap (projAlong Δ hΔ.ne ∘ F) := by
-  sorry -- SORRY(bprop:project): R1/W5, two steps. (i) Local homeomorphism: in the frame `g`
-  -- of `IsSpacelikeLipschitzIn.locGraph` a piece of `range F` is a `c`-Lipschitz graph, `c < 1`, so
-  -- its distinct points are spacelike-separated and `π` is injective on it; openness of the image
-  -- needs an intermediate-value argument along `Δ`-lines inside the frame domain. (ii) Evenly
-  -- covered neighbourhoods from lifts of STRAIGHT SEGMENTS of `Δ^⊥` (Barbot's maximal lift of an
-  -- arbitrary path needs it rectifiable, W5): `π` does not decrease `√minkQ` of spacelike vectors,
-  -- so a lift of a segment has pulled length at most the segment's; a maximal lift on `[0, t)` is
-  -- Cauchy in `PulledLength F`, converges by `hc`, and extends; radial lifts from a point give a
-  -- sheet over each ball. No covering-from-segment-lifts lemma exists in mathlib or the port.
+  sorry -- SORRY(bprop:project): R1/W5. Four steps, none in mathlib or the port;
+  -- `isHomeomorph_of_isCoveringMap` then finishes 8.1. (i) LOCAL HOMEOMORPHISM: in the frame
+  -- `g` of `IsSpacelikeLipschitzIn.locGraph` a piece of `range F` is a `c`-Lipschitz graph over
+  -- an open `U`, `c < 1`; `π` is injective on it (distinct points are spacelike separated), and
+  -- its image is open by the IVT along `Δ`-lines: `s ↦ (w + sΔ').1 − f((w + sΔ').2)` is strictly
+  -- monotone since `c ‖Δ'.2‖ < |Δ'.1|` (`Δ' = g.linear Δ` timelike) — no invariance of
+  -- domain is available. (ii) TOPOLOGY: the pulled-length topology is finer than `X`'s, else
+  -- `hc`'s limits are not limits in `X` (it is NOT a hypothesis here, unlike `IsCauchyComplete`'s
+  -- field): for subsets of `𝐌ⁿ` it is `IsSpacelikeLipschitzIn.continuous_toSubtype`
+  -- (`InducedLength.lean:1082`), to be transported through the embeddings of
+  -- `SpacelikeDevelopment.locally` by a first-exit argument. (iii) SEGMENT LIFTING (W5): `π` does
+  -- not decrease `√minkQ` of spacelike vectors, so a lift of a straight segment of `Δ^⊥` has
+  -- pulled length at most the segment's; a maximal lift on `[0, t)` is Cauchy, converges by `hc`
+  -- and (ii), and extends by (i); lifts are unique (`T2Space X`, (i), `IsSeparatedMap`).
+  -- (iv) ASSEMBLY: radial lifts from the fibre give sections over all of `Δ^⊥`; their continuity
+  -- is the Lebesgue-number argument along the compact lifted segment; disjoint open sheets then
+  -- give `isEvenlyCovered_of_sheets` (Port/UniversalCover.lean:204). Estimate ~1000 lines.
 
 theorem bprop_project {X : Type*} [TopologicalSpace X] [ConnectedSpace X] [T2Space X]
     {F : X → Minkowski d} (hF : SpacelikeDevelopment F) (hc : CompleteSpace (PulledLength F))
@@ -1012,10 +1108,13 @@ theorem bcor_quoiso {X : Type*} [TopologicalSpace X] [ConnectedSpace X] [T2Space
   -- through `isEntireAcausalGraph_iff`). Put
   -- `Y_c = {y ⊥ e₁ | ∃ s, f (y + s e₁) − s = c}`. Open: `s ↦ f (y + s e₁) − s` is strictly
   -- decreasing, so values `c₁ > c > c₂` on both sides persist for `y'` near `y`, and the
-  -- intermediate value theorem applies. Closed: the lift `y ↦ y + s(y) e₁ ∈ range F ∩ P₀` of a
-  -- segment of `e₁^⊥` has `minkQ`-length equal to the segment's Euclidean length (the projection
-  -- `P₀ → P₀/Δ₀` is isometric on it), so 8.1's completeness argument gives the limit point: the
-  -- same missing segment-lifting lemma as `isCoveringMap_projAlong_comp` (R1). `e₁^⊥` is
+  -- intermediate value theorem applies (no completeness). Closed: the only place completeness
+  -- enters (the entire-graph structure from 8.1 alone does not bound `s(y)` as `y` moves): the
+  -- lift `y ↦ y + s(y) e₁ ∈ range F ∩ P₀` of a segment
+  -- of `e₁^⊥` has `minkQ`-length equal to the segment's Euclidean length (the projection
+  -- `P₀ → P₀/Δ₀` is isometric on it), so the maximal-lift argument of 8.1 gives the limit point:
+  -- the same missing steps (ii) TOPOLOGY and (iii) SEGMENT LIFTING as
+  -- `isCoveringMap_projAlong_comp`, run in the `(n − 2)`-dimensional `range F ∩ P₀`. `e₁^⊥` is
   -- connected, so `Y_c` is empty or all of it.
 
 /-! ### E. The bridge -/
@@ -1045,6 +1144,79 @@ theorem t2Space_of_isCoveringMap {E Y : Type*} [TopologicalSpace E] [Topological
       exact ⟨p ⁻¹' u, p ⁻¹' v, hu.preimage hp.continuous, hv.preimage hp.continuous, hxu, hxv,
         huv.preimage p⟩⟩
 
+/-- **A slice of a product splitting lifts to a connected set** (the topological half of B1): if
+`ψ : S × ℝ ≃ₜ Y` with `ψ (x, 0) = x`, then `p⁻¹(S)` is connected in the universal cover. The
+homotopy `H (y, u) = ψ (r y, (1 − u) t(y))` retracts `Y` onto `S` rel `S`; a path `α⁻¹ · β` between
+two points of `S` is homotopic rel endpoints to its retraction, a path in `S`, whose lift from
+`⟨a, [α]⟩` (`UniversalCover.liftFrom`) ends at `⟨b, [β]⟩` and stays over `S`. -/
+theorem connectedSpace_preimage_of_splitting {Y : Type*} [TopologicalSpace Y]
+    [PathConnectedSpace Y] {S : Set Y} (ψ : S × ℝ ≃ₜ Y) (hψ : ∀ x : S, ψ (x, 0) = x) (y₀ : Y) :
+    ConnectedSpace (UniversalCover.proj Y y₀ ⁻¹' S) := by
+  let r : Y → S := fun y => (ψ.symm y).1
+  have hsymm : ∀ x : S, ψ.symm x = (x, 0) := fun x => by
+    rw [← hψ x, Homeomorph.symm_apply_apply]
+  have hr : ∀ x : S, r x = x := fun x => by simp only [r, hsymm]
+  let H : Y → ℝ → Y := fun y u => ψ ((ψ.symm y).1, (1 - u) * (ψ.symm y).2)
+  have H0 : ∀ y, H y 0 = y := fun y => by simp [H]
+  have H1 : ∀ y, H y 1 = r y := fun y => by simp [H, r, hψ]
+  have HS : ∀ x : S, ∀ u, H x u = x := fun x u => by simp [H, hsymm, hψ]
+  have Hc : Continuous fun q : ℝ × Y => H q.2 q.1 := by
+    refine ψ.continuous.comp (Continuous.prodMk ?_ ?_)
+    · exact continuous_fst.comp (ψ.symm.continuous.comp continuous_snd)
+    · exact (continuous_const.sub continuous_fst).mul
+        (continuous_snd.comp (ψ.symm.continuous.comp continuous_snd))
+  -- two points of `p⁻¹(S)` are joined inside it
+  have hj : ∀ a b : UniversalCover Y y₀, a.pt ∈ S → b.pt ∈ S →
+      JoinedIn (UniversalCover.proj Y y₀ ⁻¹' S) a b := by
+    rintro ⟨ya, ca⟩ ⟨yb, cb⟩ ha hb
+    obtain ⟨α, rfl⟩ := Quotient.exists_rep ca
+    obtain ⟨β, rfl⟩ := Quotient.exists_rep cb
+    let δ : Path ya yb := α.symm.trans β
+    let δ' : Path ya yb :=
+      { toFun := fun t => (r (δ t) : Y)
+        continuous_toFun := continuous_subtype_val.comp
+          (continuous_fst.comp (ψ.symm.continuous.comp δ.continuous))
+        source' := by
+          show ((r (δ 0)) : Y) = ya
+          rw [δ.source]; exact congrArg Subtype.val (hr ⟨ya, ha⟩)
+        target' := by
+          show ((r (δ 1)) : Y) = yb
+          rw [δ.target]; exact congrArg Subtype.val (hr ⟨yb, hb⟩) }
+    have hδ : Path.Homotopic δ δ' := by
+      refine ⟨{ toFun := fun q => H (δ q.2) q.1
+                continuous_toFun := Hc.comp ((continuous_subtype_val.comp continuous_fst).prodMk
+                  (δ.continuous.comp continuous_snd))
+                map_zero_left := fun t => H0 _
+                map_one_left := fun t => H1 _
+                prop' := ?_ }⟩
+      intro u t ht
+      rcases ht with rfl | rfl
+      · show H (δ 0) u = δ 0
+        rw [δ.source]; exact HS ⟨ya, ha⟩ u
+      · show H (δ 1) u = δ 1
+        rw [δ.target]; exact HS ⟨yb, hb⟩ u
+    have hcls : (Path.Homotopic.Quotient.mk α).trans (Path.Homotopic.Quotient.mk δ') =
+        Path.Homotopic.Quotient.mk β := by
+      rw [← Path.Homotopic.Quotient.eq.2 hδ]
+      show (Path.Homotopic.Quotient.mk α).trans
+        (Path.Homotopic.Quotient.mk (α.symm.trans β)) = _
+      rw [Path.Homotopic.Quotient.mk_trans, Path.Homotopic.Quotient.mk_symm,
+        ← Path.Homotopic.Quotient.trans_assoc, Path.Homotopic.Quotient.trans_symm,
+        Path.Homotopic.Quotient.refl_trans]
+    have e : (⟨yb, (Path.Homotopic.Quotient.mk α).trans (Path.Homotopic.Quotient.mk δ')⟩ :
+        UniversalCover Y y₀) = ⟨yb, Path.Homotopic.Quotient.mk β⟩ := by rw [hcls]
+    refine ⟨(UniversalCover.liftFrom (Path.Homotopic.Quotient.mk α) δ').cast rfl e.symm,
+      fun t => ?_⟩
+    show (UniversalCover.liftFrom _ δ' t).pt ∈ S
+    rw [UniversalCover.proj_liftFrom]; exact (r (δ t)).2
+  have hne : Nonempty S := ⟨(ψ.symm (Classical.arbitrary Y)).1⟩
+  obtain ⟨x⟩ := hne
+  let a : UniversalCover Y y₀ :=
+    ⟨x, Path.Homotopic.Quotient.mk (PathConnectedSpace.somePath y₀ x)⟩
+  have hpc : IsPathConnected (UniversalCover.proj Y y₀ ⁻¹' S) :=
+    ⟨a, x.2, fun {b} hb => hj a b x.2 hb⟩
+  exact isConnected_iff_connectedSpace.1 hpc.isConnected
+
 section Bridge
 
 variable (M : FlatSpacetime.{u} d)
@@ -1054,15 +1226,48 @@ theorem t2Space_universalCover (x₀ : M) : T2Space (UniversalCover M x₀) :=
   haveI := locPathConnectedSpace_of_flat d M
   t2Space_of_isCoveringMap (UniversalCover.isCoveringMap_proj (y₀ := x₀) (semilocallySimplyConnected_of_flat d M))
 
-/-- (B1) The lift `Ŝ = p⁻¹(S)` of a Cauchy surface to the universal cover is connected. -/
+/-- The splitting along a Cauchy surface **from a chronal causal flow and acausality** (a proved
+reduction of `exists_splitting_of_isCauchySurface`): `Flat.flat_exists_isCauchySplitting`
+(`Splitting.lean`) with `IsCausal` taken from `GH` (`GloballyHyperbolic` is `IsCausal ∧ compact
+diamonds`) and `ψ (x, 0) = x` read off `IsCauchySplitting.zero`. -/
+theorem exists_splitting_of_hasChronalCausalFlow
+    (hflow : (flatCausality d M).HasChronalCausalFlow) (hGH : GH M) {S : Set M}
+    (hS : (flatCausality d M).IsCauchySurface S) (hac : (flatCausality d M).IsAcausal S) :
+    ∃ ψ : S × ℝ ≃ₜ M, ∀ x : S, ψ (x, 0) = x := by
+  obtain ⟨ψ, hψ⟩ := Flat.flat_exists_isCauchySplitting hflow hGH.1 hS hac
+  exact ⟨ψ, hψ.zero⟩
+
+/-- The splitting `M ≅ S × ℝ` along a Cauchy surface. STATED, tagged `sorry`. This is a variant
+of the homeomorphism half of Prop 8.11 (`bprop:splitting`, l.2459–2464; class E in
+`docs/BARBOT-WAVE3.md` §3). Here `ψ` restricted to `S × {0}` is the inclusion, as in the flow
+construction. The slices' Cauchy property, which Prop 8.11 also states, is not asked. It reduces
+by `exists_splitting_of_hasChronalCausalFlow` to two inputs: target 4
+(`Flat.flat_hasChronalCausalFlow`) and acausality of `S`. -/
+theorem exists_splitting_of_isCauchySurface (hGH : GH M) {S : Set M}
+    (hS : (flatCausality d M).IsCauchySurface S) :
+    ∃ ψ : S × ℝ ≃ₜ M, ∀ x : S, ψ (x, 0) = x := by
+  sorry -- SORRY(bridge-B1): the splitting of a GH flat spacetime along a Cauchy surface. Proved
+  -- reduction: `exists_splitting_of_hasChronalCausalFlow` (via `Flat.flat_exists_isCauchySplitting`,
+  -- `Splitting.lean:1084`, whose `IsCauchySplitting.zero` is `ψ (x, 0) = x`; `IsCausal` is
+  -- `hGH.1`). The two missing inputs. (1) The flow: `Flat.flat_hasChronalCausalFlow`
+  -- (`Splitting.lean:1078`) is itself a tagged sorry (SORRY target-4: no global flow of a complete
+  -- timelike vector field, `lem:vecteur`), and it also asks `[SecondCountableTopology M]`, which is
+  -- not a field of `FlatSpacetime` (paracompactness of a Lorentzian manifold, Geroch, is not
+  -- formalized). (2) Acausality `(flatCausality d M).IsAcausal S`: `IsCauchySurface.isAcausal`
+  -- needs `CausallyArcConnected` and `CurvesExtend`. The library supplies `CurvesExtend` only
+  -- from a time function (`isAcausal_of_timeFunction`) or under `geroch`'s measure/tarentin
+  -- hypotheses (`isAcausal_of_globallyHyperbolic`, `CurvesExtend.lean:480`), none proved for
+  -- `flatCausality`.
+
+/-- (B1) The lift `Ŝ = p⁻¹(S)` of a Cauchy surface to the universal cover is connected: from the
+splitting (`exists_splitting_of_isCauchySurface`) and `connectedSpace_preimage_of_splitting`. -/
 theorem connectedSpace_preimage_cauchy (hGH : GH M) {S : Set M}
     (hS : (flatCausality d M).IsCauchySurface S) (x₀ : M) :
     ConnectedSpace (UniversalCover.proj M x₀ ⁻¹' S) := by
-  sorry -- SORRY(bridge-B1): `p⁻¹(S)` is connected iff `π₁(S) → π₁(M)` is onto (lifting through
-  -- the covering `p⁻¹(S) → S`); for a Cauchy surface of a GH spacetime that is the splitting
-  -- `M ≅ S × ℝ` (Prop 8.11, class E: `GerochEquiv`'s sorry) or a deformation retraction of `M` onto
-  -- `S` along a Cauchy time function; neither is available. Barbot works on `S̃` and never needs
-  -- it for 8.1; Cor 8.2's "D ∘ f̃ is an embedding" with `Γ ⊆ π₁(M)` is where it is used.
+  haveI := locPathConnectedSpace_of_flat d M
+  haveI : PathConnectedSpace M := pathConnectedSpace_iff_connectedSpace.2 inferInstance
+  obtain ⟨ψ, hψ⟩ := exists_splitting_of_isCauchySurface M hGH hS
+  exact connectedSpace_preimage_of_splitting ψ hψ x₀
 
 /-- (B2) **A developing map restricted to `Ŝ` is a spacelike development.** Near `z ∈ Ŝ`,
 `dev = g • ψ ∘ proj` with `ψ` the chart at `proj z` (both are `IsGXMorphism`s, `g = g₁ g₂⁻¹`), and
@@ -1140,7 +1345,88 @@ theorem spacelikeDevelopment_restrict {S : Set M} (hL : IsSpacelikeLipschitz d S
     rw [himg]
     exact (hT.restrict hV'V).smul isom_strongMorphism g
 
-/-- (B3) The pulled-back length on `Ŝ` is complete. -/
+/-- The linear part of an isometry preserves `minkQ`. -/
+theorem minkQ_isom_linear (g : isom d) (v : Minkowski d) :
+    minkQ ((g : Minkowski d ≃ᵃ[ℝ] Minkowski d).linear v) = minkQ v := by
+  rw [show ((g : Minkowski d ≃ᵃ[ℝ] Minkowski d).linear v) =
+      (linearPart g : Minkowski d ≃ₗ[ℝ] Minkowski d) v from rfl,
+    lorentz.minkQ_apply (linearPart g).2]
+
+/-- **Transfer through a local isometry of charts** (pointwise): if near `c t` the developing
+map `F` is `g • φ (q (c t)) ∘ q`, then `c` is Lipschitz in the pulled system at `t` iff `q ∘ c` is
+in `φ`, with the same density. -/
+theorem locLipAt_pulled_iff_of_eventually {X Y : Type*} [TopologicalSpace X]
+    (F : X → Minkowski d) (φ : Y → Y → Minkowski d) (q : X → Y) {c : ℝ → X} {t : ℝ}
+    (hc : ContinuousAt c t) {g : isom d} (hg : ∀ᶠ x in 𝓝 (c t), F x = g • φ (q (c t)) (q x)) :
+    (LocLipAt (fun _ y => F y) c t ↔ LocLipAt φ (q ∘ c) t) ∧
+      localDensity (fun _ y => F y) c t = localDensity φ (q ∘ c) t := by
+  have hev : ∀ᶠ s in 𝓝 t, F (c s) = g • φ (q (c t)) (q (c s)) := hc.eventually hg
+  obtain ⟨δ, hδ, hP⟩ := exists_Icc_subset_of_eventually hev
+  refine ⟨⟨fun ⟨ε, hε, K, hK⟩ => ?_, fun ⟨ε, hε, K, hK⟩ => ?_⟩, ?_⟩
+  · obtain ⟨K', hK'⟩ := isom_lipschitzWith g⁻¹
+    refine ⟨min ε δ, lt_min hε hδ, K' * K, ?_⟩
+    have hsub : Icc (t - min ε δ) (t + min ε δ) ⊆ Icc (t - ε) (t + ε) :=
+      Icc_subset_Icc (by linarith [min_le_left ε δ]) (by linarith [min_le_left ε δ])
+    have h1 := hK'.comp_lipschitzOnWith (hK.mono hsub)
+    refine lipschitzOnWith_congr_of_eqOn (fun s hs => ?_) h1
+    have : s ∈ Icc (t - δ) (t + δ) :=
+      ⟨by linarith [hs.1, min_le_right ε δ], by linarith [hs.2, min_le_right ε δ]⟩
+    simp only [Function.comp_apply, hP s this, inv_smul_smul]
+  · obtain ⟨K', hK'⟩ := isom_lipschitzWith g
+    refine ⟨min ε δ, lt_min hε hδ, K' * K, ?_⟩
+    have hsub : Icc (t - min ε δ) (t + min ε δ) ⊆ Icc (t - ε) (t + ε) :=
+      Icc_subset_Icc (by linarith [min_le_left ε δ]) (by linarith [min_le_left ε δ])
+    have h1 := hK'.comp_lipschitzOnWith (hK.mono hsub)
+    refine lipschitzOnWith_congr_of_eqOn (fun s hs => ?_) h1
+    have : s ∈ Icc (t - δ) (t + δ) :=
+      ⟨by linarith [hs.1, min_le_right ε δ], by linarith [hs.2, min_le_right ε δ]⟩
+    simp only [Function.comp_apply, hP s this]
+  · have hfun : (fun s => F (c s)) =ᶠ[𝓝 t] fun s => g • φ (q (c t)) (q (c s)) := hev
+    change ENNReal.ofReal (Real.sqrt (minkQ (deriv (fun s => F (c s)) t))) =
+      ENNReal.ofReal (Real.sqrt (minkQ (deriv (fun s => φ (q (c t)) (q (c s))) t)))
+    rw [hfun.deriv_eq, deriv_isom_comp, minkQ_isom_linear]
+
+/-- **Transfer of path lengths**: if `F` is, near every point, an isometry of `𝐌ⁿ` composed with
+the chart system `φ` read through `q`, the pulled length of a path is the `φ`-length of its image. -/
+theorem pathLength_pulled_eq_of_local {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
+    (F : X → Minkowski d) (φ : Y → Y → Minkowski d) {q : X → Y} (hq : Continuous q)
+    (hloc : ∀ x, ∃ g : isom d, ∀ᶠ x' in 𝓝 x, F x' = g • φ (q x) (q x')) {a b : X}
+    (γ : Path a b) : pathLength (fun _ y => F y) γ = pathLength φ (γ.map hq) := by
+  have hext : ⇑(γ.map hq).extend = q ∘ γ.extend := rfl
+  have key : ∀ t, (LocLipAt (fun _ y => F y) γ.extend t ↔ LocLipAt φ (q ∘ γ.extend) t) ∧
+      localDensity (fun _ y => F y) γ.extend t = localDensity φ (q ∘ γ.extend) t := fun t => by
+    obtain ⟨g, hg⟩ := hloc (γ.extend t)
+    exact locLipAt_pulled_iff_of_eventually F φ q γ.continuous_extend.continuousAt hg
+  have hiff : IsLocLip (fun _ y => F y) γ.extend ↔ IsLocLip φ (γ.map hq).extend := by
+    rw [hext]; exact forall_congr' fun t => (key t).1
+  by_cases hL : IsLocLip (fun _ y => F y) γ.extend
+  · rw [pathLength_of_isLocLip _ hL, pathLength_of_isLocLip _ (hiff.1 hL), hext]
+    exact lintegral_congr fun t => (key t).2
+  · rw [pathLength_of_not_isLocLip _ hL, pathLength_of_not_isLocLip _ (mt hiff.2 hL)]
+
+/-- Near every point of the universal cover, a developing map is an isometry of `𝐌ⁿ` composed with
+the chart of `M` at the projected point (the step `hN` of B2, isolated). -/
+theorem exists_dev_eq_smul_chart (x₀ : M) :
+    letI := flatCoverChartedSpace d M x₀
+    ∀ dev : UniversalCover M x₀ → Minkowski d, IsGXMorphism (isom d) (Minkowski d) dev →
+    ∀ z : UniversalCover M x₀, ∃ g : isom d, ∀ᶠ y in 𝓝 z,
+      dev y = g • chartAt (Minkowski d) (UniversalCover.proj M x₀ z)
+        (UniversalCover.proj M x₀ y) := by
+  letI := flatCoverChartedSpace d M x₀
+  intro dev hdev z
+  have hp : IsGXMorphism (isom d) (Minkowski d) (UniversalCover.proj M x₀) :=
+    isGXMorphism_flatCover_proj M x₀
+  obtain ⟨g₁, hg₁⟩ := hdev.exists_smul_eq z
+  obtain ⟨g₂, hg₂⟩ := hp.exists_smul_eq z
+  refine ⟨g₁ * g₂⁻¹, ?_⟩
+  filter_upwards [hg₁, hg₂] with y h1 h2
+  simp only [chartAt_self_eq, OpenPartialHomeomorph.refl_apply, id_eq] at h1
+  rw [h1, h2, smul_smul, mul_assoc, inv_mul_cancel, mul_one]
+
+/-- (B3) **The pulled-back length on `Ŝ` is complete.** `proj` does not increase lengths
+(`pathLength_pulled_eq_of_local`), so a Cauchy sequence of `Ŝ` projects to one of `S`, convergent
+by `hc`; by `htop` a length ball about the limit lies in an evenly covered `U`, the tail of the
+sequence lies on one sheet, and the sheet's section lifts short paths to the limit. -/
 theorem completeSpace_pulledLength_restrict {S : Set M} (hL : IsSpacelikeLipschitz d S)
     (hc : CompleteSpace (InducedLengthSpace d S))
     (htop : Continuous fun x : InducedLengthSpace d S => (InducedLengthSpace.toSubtype x : M))
@@ -1148,12 +1434,123 @@ theorem completeSpace_pulledLength_restrict {S : Set M} (hL : IsSpacelikeLipschi
     letI := flatCoverChartedSpace d M x₀
     ∀ dev : UniversalCover M x₀ → Minkowski d, IsGXMorphism (isom d) (Minkowski d) dev →
       CompleteSpace (PulledLength ((UniversalCover.proj M x₀ ⁻¹' S).restrict dev)) := by
-  sorry -- SORRY(bridge-B3): a covering of a complete length space is complete. The pulled length
-  -- of a curve of `Ŝ` is the glued length of its projection (`localDensity_chartSys_eq` through the
-  -- GX morphisms `dev`, `proj`), so `proj` does not increase distances; a Cauchy sequence projects
-  -- to a convergent one (`hc`); a length ball about the limit lies in an evenly covered
-  -- neighbourhood (`htop` makes length balls small in the subspace topology), and the tail of the
-  -- sequence, joined by short paths, lies in one sheet, homeomorphic to its image.
+  -- `hL` is not needed: the comparison of lengths only uses that `dev` and `proj` are GX maps.
+  have _unusedL := hL
+  letI := flatCoverChartedSpace d M x₀
+  intro dev hdev
+  haveI := locPathConnectedSpace_of_flat d M
+  set p := UniversalCover.proj M x₀ with hp
+  have hcov : IsCoveringMap p :=
+    UniversalCover.isCoveringMap_proj (semilocallySimplyConnected_of_flat d M)
+  set Sh := p ⁻¹' S with hSh
+  set F := Sh.restrict dev with hF
+  let q : Sh → S := fun z => ⟨p z, z.2⟩
+  have hq : Continuous q := (hcov.continuous.comp continuous_subtype_val).subtype_mk _
+  have hloc : ∀ z : Sh, ∃ g : isom d, ∀ᶠ z' in 𝓝 z, F z' = g • chartSys d S (q z) (q z') := by
+    intro z
+    obtain ⟨g, hg⟩ := exists_dev_eq_smul_chart M x₀ dev hdev z
+    exact ⟨g, continuous_subtype_val.continuousAt.eventually hg⟩
+  have hlen : ∀ {a b : Sh} (γ : Path a b),
+      pathLength (fun _ y => F y) γ = pathLength (chartSys d S) (γ.map hq) :=
+    fun γ => pathLength_pulled_eq_of_local F (chartSys d S) hq hloc γ
+  -- `q` does not increase distances
+  let Q : PulledLength F → InducedLengthSpace d S := q
+  have hQ : ∀ a b : PulledLength F, edist (Q a) (Q b) ≤ edist a b := fun a b =>
+    le_iInf fun γ => (iInf_le _ (γ.map hq)).trans_eq (hlen γ).symm
+  have hQu : UniformContinuous Q :=
+    (LipschitzWith.of_edist_le hQ).uniformContinuous
+  refine EMetric.complete_of_cauchySeq_tendsto fun u hu => ?_
+  obtain ⟨y, hy⟩ := cauchySeq_tendsto_of_complete (hQu.comp_cauchySeq hu)
+  set ys : S := InducedLengthSpace.toSubtype y with hys
+  -- an evenly covered neighbourhood `U` of the limit, and a length ball inside it
+  obtain ⟨hdisc, U, hyU, hUo, -, H, hH⟩ := hcov (ys : M)
+  have hO : IsOpen {w : InducedLengthSpace d S | ((InducedLengthSpace.toSubtype w : S) : M) ∈ U} :=
+    hUo.preimage htop
+  obtain ⟨r, hr, hball⟩ := EMetric.isOpen_iff.1 hO y hyU
+  have hr2 : (0 : ℝ≥0∞) < r / 2 := ENNReal.half_pos hr.ne'
+  -- a short path starting near `y` stays in `U`
+  have stay : ∀ {a b : S} (β : Path a b),
+      edist y (InducedLengthSpace.toSubtype.symm a) < r / 2 →
+      pathLength (chartSys d S) β < r / 2 → ∀ t, ((β t : S) : M) ∈ U := by
+    intro a b β ha hβ t
+    have h1 : edist (InducedLengthSpace.toSubtype.symm a : InducedLengthSpace d S)
+        (InducedLengthSpace.toSubtype.symm (β t)) ≤ pathLength (chartSys d S) β :=
+      LocalLengthSpace.edist_le_pathLength (chartSys d S) β t
+    have h2 : edist (InducedLengthSpace.toSubtype.symm (β t) : InducedLengthSpace d S) y < r := by
+      rw [edist_comm]
+      calc edist y (InducedLengthSpace.toSubtype.symm (β t))
+          ≤ edist y (InducedLengthSpace.toSubtype.symm a) +
+            edist (InducedLengthSpace.toSubtype.symm a : InducedLengthSpace d S)
+              (InducedLengthSpace.toSubtype.symm (β t)) := edist_triangle _ _ _
+        _ < r / 2 + r / 2 := ENNReal.add_lt_add ha (h1.trans_lt hβ)
+        _ = r := ENNReal.add_halves r
+    exact hball h2
+  let w : ℕ → Sh := fun n => PulledLength.toSpace F (u n)
+  obtain ⟨N₁, hN₁⟩ := EMetric.cauchySeq_iff.1 hu (r / 2) hr2
+  obtain ⟨N₂, hN₂⟩ := EMetric.tendsto_atTop.1 hy (r / 2) hr2
+  set N := max N₁ N₂
+  have hnear : ∀ n ≥ N₂, edist y (InducedLengthSpace.toSubtype.symm (q (w n))) < r / 2 :=
+    fun n hn => by rw [edist_comm]; exact hN₂ n hn
+  have hwU : ∀ n ≥ N₂, p (w n : UniversalCover M x₀) ∈ U := fun n hn =>
+    hball (by rw [Metric.mem_eball, edist_comm]; exact (hnear n hn).trans_le ENNReal.half_le_self)
+  haveI := hdisc
+  -- the sheet of `w N`, and its section `sec` over `U`
+  have hNU : p (w N : UniversalCover M x₀) ∈ U := hwU N (le_max_right _ _)
+  set i := (H ⟨w N, hNU⟩).2 with hi
+  let sec : U → UniversalCover M x₀ := fun v => (H.symm (v, i) : UniversalCover M x₀)
+  have hsecc : Continuous sec := continuous_subtype_val.comp (H.symm.continuous.comp
+    (continuous_id.prodMk continuous_const))
+  have hpsec : ∀ v : U, p (sec v) = v := fun v => by
+    have := hH (H.symm (v, i)); rw [Homeomorph.apply_symm_apply] at this; exact this.symm
+  have hseccongr : ∀ {a b : M} (ha : a ∈ U) (hb : b ∈ U), a = b → sec ⟨a, ha⟩ = sec ⟨b, hb⟩ := by
+    rintro a b ha hb rfl; rfl
+  -- every `w n`, `n ≥ N`, lies on that sheet
+  have hsheet : ∀ n (hn : n ≥ N), sec ⟨p (w n : UniversalCover M x₀), hwU n (le_of_max_le_right hn)⟩ =
+      (w n : UniversalCover M x₀) := by
+    intro n hn
+    have hnU := hwU n (le_of_max_le_right hn)
+    obtain ⟨γ, hγ⟩ := iInf_lt_iff.1 (hN₁ N (le_max_left _ _) n (le_trans (le_max_left _ _) hn))
+    have hγ' : pathLength (chartSys d S) (γ.map hq) < r / 2 := (hlen γ) ▸ hγ
+    have hst := stay (γ.map hq) (hnear N (le_max_right _ _)) hγ'
+    let f : I → p ⁻¹' {(ys : M)} := fun t => (H ⟨(γ t : UniversalCover M x₀), hst t⟩).2
+    have hf : Continuous f := continuous_snd.comp (H.continuous.comp
+      ((continuous_subtype_val.comp γ.continuous).subtype_mk _))
+    have h01 : f 0 = f 1 := PreconnectedSpace.constant inferInstance hf
+    have e0 : f 0 = i := by
+      simp only [f, hi]; congr 2; exact Subtype.ext (by simp; rfl)
+    have e1 : H ⟨w n, hnU⟩ = (⟨p (w n : UniversalCover M x₀), hnU⟩, i) := by
+      refine Prod.ext (Subtype.ext (hH _)) ?_
+      rw [← e0, h01]; simp only [f]; congr 2; exact Subtype.ext (by simp; rfl)
+    have := congrArg (fun v => (H.symm v : UniversalCover M x₀)) e1
+    simp only [Homeomorph.symm_apply_apply] at this
+    exact this.symm
+  -- the limit: the point of the sheet over `y`
+  let z : Sh := ⟨sec ⟨ys, hyU⟩, by
+    show p (sec ⟨ys, hyU⟩) ∈ S
+    rw [hpsec]; exact ys.2⟩
+  refine ⟨PulledLength.toSpace F |>.symm z, EMetric.tendsto_atTop.2 fun ε hε => ?_⟩
+  have hε' : (0 : ℝ≥0∞) < min ε (r / 2) := lt_min hε hr2
+  obtain ⟨N₃, hN₃⟩ := EMetric.tendsto_atTop.1 hy _ hε'
+  refine ⟨max N N₃, fun n hn => ?_⟩
+  have hnN : n ≥ N := le_trans (le_max_left _ _) hn
+  have hn2 : n ≥ N₂ := le_trans (le_max_right _ _) hnN
+  obtain ⟨β, hβ⟩ := iInf_lt_iff.1 (hN₃ n (le_trans (le_max_right _ _) hn))
+  have hβ2 : pathLength (chartSys d S) β < r / 2 := hβ.trans_le (min_le_right _ _)
+  have hst := stay β (hnear n hn2) hβ2
+  have hlift : ∀ t, p (sec ⟨(β t : M), hst t⟩) ∈ S := fun t => by rw [hpsec]; exact (β t).2
+  let βl : Path (w n) z :=
+    { toFun := fun t => ⟨sec ⟨(β t : M), hst t⟩, hlift t⟩
+      continuous_toFun := (hsecc.comp ((continuous_subtype_val.comp β.continuous).subtype_mk
+        _)).subtype_mk _
+      source' := Subtype.ext ((hseccongr _ _ (by rw [β.source]; rfl)).trans (hsheet n hnN))
+      target' := Subtype.ext (hseccongr _ _ (by rw [β.target]; rfl)) }
+  have hext : ⇑(βl.map hq).extend = ⇑β.extend := by
+    funext t; exact Subtype.ext (hpsec _)
+  calc edist (u n) (PulledLength.toSpace F |>.symm z) ≤ pathLength (fun _ y => F y) βl :=
+        iInf_le _ βl
+    _ = pathLength (chartSys d S) β := (hlen βl).trans (pathLength_congr_extend _ _ _ hext)
+    _ < min ε (r / 2) := hβ
+    _ ≤ ε := min_le_left _ _
 
 /-- **The bridge** (DEC-35, `docs/BARBOT-WAVE3.md` §3): paper's Cauchy-completeness ⇒ (CC′). -/
 theorem developsCC_of_isCauchyComplete (hGH : GH M) {S : Set M}

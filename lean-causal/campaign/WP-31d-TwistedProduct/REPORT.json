@@ -104,24 +104,32 @@
         1800,
         1814
       ],
-      "status": "stated",
+      "status": "partial",
       "marked": false,
       "decls": [
         "Causal.Flat.gh_of_isLTPOver",
+        "Causal.Flat.isCausal_of_isLTPData",
+        "Causal.Flat.isCompact_diamond_of_isLTPData",
+        "Causal.Flat.cover_gh_of_isLTPData",
         "Causal.Flat.AffineMinkEmbedding.coproj_isFutureCausal",
-        "Causal.Flat.AffineMinkEmbedding.retract_le_top"
+        "Causal.Flat.AffineMinkEmbedding.retract_le_top",
+        "Causal.Flat.AffineMinkEmbedding.retract_le_of_le",
+        "Causal.Flat.AffineMinkEmbedding.eq_of_le_top_of_retract_eq"
       ],
       "hypotheses": [],
       "sorries": [
         {
-          "decl": "Causal.Flat.gh_of_isLTPOver",
-          "obstruction": "the causal structure of a quotient Gamma\\Omega is not available (Flat.Quotient SCOPE: lifting <= on the top open set through chains of local relations is not proved), and comparing <=_Omega with <=_{U cap Omega} along the retraction needs reparametrizing the image of a causal curve as a graph over the time of M^{d1+1}, plus a fibre bound for compactness of diamonds; Barbot's own argument (t o q a proper time function) goes through Geroch (iii)=>(i), itself a cited sorry in GerochEquiv. Only the linear core (retract is a causal map of M^n onto M^{d1+1} for orthochronous iota) is proved."
+          "decl": "Causal.Flat.cover_gh_of_isLTPData",
+          "obstruction": "cover level. (a) J_Omega(x,z) lies in J_{M^n}(x,z) (compact) cap q^{-1} J_{iota^{-1}Omega}(qx,qz) (retract_le_of_le), but its closedness in Omega, the compactness of J_{iota^{-1}Omega} (GH of the cover iota^{-1}Omega of M_1), and (b) the finiteness of {gamma in Gamma | x <=_Omega gamma y} (through the retraction, the same finiteness in the cover iota^{-1}Omega of M_1) all need the converse of retract_le_of_le: a relation a <= a' of iota^{-1}Omega lifts to p <=_Omega p' over it when the U^perp-displacement is at most the Lorentzian length of a causal chain from a to a' in iota^{-1}Omega, i.e. the time separation of iota^{-1}Omega and its upper semicontinuity / attainment on a GH set (Avez-Seifert), plus the GH of a cover of a GH flat spacetime; both absent from the library. Barbot's route (t o q a proper time function, l.1801-1804) needs Geroch (iii)=>(i), a cited sorry in GerochEquiv."
         }
       ],
       "findings": [],
       "questions": [],
       "notes": [
-        "Only the linear-twisted-product case of Rem 5.3 is stated; the remark (l.1801-1805) covers twisted products by every euclidean manifold, flat tori included. Orthochronous iota is now part of IsLTPData, so the proved linear core (retract_le_top) applies to every IsLTPOver."
+        "Only the linear-twisted-product case of Rem 5.3 is stated; the remark (l.1801-1805) covers twisted products by every euclidean manifold, flat tori included.",
+        "gh_of_isLTPOver is now split: GH = causal + compact diamonds. The causality half is PROVED in full (isCausal_of_isLTPData, sorry-free, axioms propext/choice/Quot.sound; it needs only M_1 causal, not GH): a loop b <= b' <= b lifts to x <= y <= gamma x in Omega (TwistedProduct.exists_lift_le, for an arbitrary IsQuotientOf presentation pi, not the constructed FlatQuotient); the retraction maps x <= gamma x to q x <= g(q x) in iota^{-1}Omega (retract_le_of_le); causality of M_1 forces g(q x) = q x (TwistedProduct.smul_eq_of_le_of_isCausal: a chain in sheets of pi_1 cannot leave the point); then gamma x - x is future causal in the spacelike U^perp, hence 0 (eq_of_le_top_of_retract_eq), and x <= y <= x in Omega.",
+        "isCompact_diamond_of_isLTPData is stated for FlatSpacetimes (T2, as in gh_of_isLTPOver), not general charted types, so it claims nothing beyond the original statement.",
+        "FIXER pass 2026-11-01: the remaining sorry is pushed down to the cover. isCompact_diamond_of_isLTPData (statement unchanged) is now PROVED from cover_gh_of_isLTPData by descent through an arbitrary presentation pi (J_B(pi x, pi y) = pi(U_{x <= gamma y} J_Omega(x, gamma y)), a finite union of compact sets; lifts by TwistedProduct.exists_lift_le, pushes by hloc.strongMorphism). The sorried cover_gh_of_isLTPData asserts (a) compact diamonds of Omega and (b) {gamma | x <=_Omega gamma y} finite, i.e. the two hypotheses of FlatQuotient.globallyHyperbolic_quotient; it carries [Invariant Gamma Omega], which is not an added hypothesis (it follows from h.quotient, IsQuotientOf.invariant; needed only to let Gamma act on Omega in the statement). Both conjuncts are true classically (covers of GH spacetimes are GH; W x euclidean is GH; properly discontinuous free action, stabilisers trivial by local injectivity of pi), so no falsity finding."
       ]
     },
     {
@@ -143,33 +151,40 @@
     }
   ],
   "extra_decls": [
-    "Causal.Flat.exists_affineMinkEmbedding_of_isTimelike",
-    "Causal.Flat.AffineMinkEmbedding.coproj",
-    "Causal.Flat.AffineMinkEmbedding.minkB_coproj",
-    "Causal.Flat.AffineMinkEmbedding.retract",
-    "Causal.Flat.AffineMinkEmbedding.split",
-    "Causal.Flat.AffineMinkEmbedding.injective",
     "Causal.Flat.AffineMinkEmbedding.Restricts",
-    "Causal.Flat.AffineMinkEmbedding.RestrictsIn",
     "Causal.Flat.AffineMinkEmbedding.Restricts.linear_mem_perp",
     "Causal.Flat.AffineMinkEmbedding.Restricts.retract_smul",
+    "Causal.Flat.AffineMinkEmbedding.RestrictsIn",
+    "Causal.Flat.AffineMinkEmbedding.coproj",
+    "Causal.Flat.AffineMinkEmbedding.eq_of_le_top_of_retract_eq",
+    "Causal.Flat.AffineMinkEmbedding.injective",
+    "Causal.Flat.AffineMinkEmbedding.minkB_coproj",
     "Causal.Flat.AffineMinkEmbedding.refl",
-    "Causal.Flat.AffineMinkEmbedding.timeAxis",
     "Causal.Flat.AffineMinkEmbedding.restrictsIn_bot",
     "Causal.Flat.AffineMinkEmbedding.restrictsIn_timeGroup",
-    "Causal.Flat.TwistedProduct.instInvariantBot",
-    "Causal.Flat.TwistedProduct.instIsCancelSMulBot",
-    "Causal.Flat.TwistedProduct.instProperlyDiscontinuousSMulBot",
+    "Causal.Flat.AffineMinkEmbedding.retract",
+    "Causal.Flat.AffineMinkEmbedding.retract_le_of_le",
+    "Causal.Flat.AffineMinkEmbedding.split",
+    "Causal.Flat.AffineMinkEmbedding.timeAxis",
+    "Causal.Flat.TwistedProduct.exists_injOn_of_isCoveringMap",
+    "Causal.Flat.TwistedProduct.exists_lift_le",
     "Causal.Flat.TwistedProduct.flipLin_mem_lorentz",
     "Causal.Flat.TwistedProduct.flipLin_not_mem_lorentz",
     "Causal.Flat.TwistedProduct.glide",
-    "Causal.Flat.TwistedProduct.glideGroup"
+    "Causal.Flat.TwistedProduct.glideGroup",
+    "Causal.Flat.TwistedProduct.instInvariantBot",
+    "Causal.Flat.TwistedProduct.instIsCancelSMulBot",
+    "Causal.Flat.TwistedProduct.instProperlyDiscontinuousSMulBot",
+    "Causal.Flat.TwistedProduct.smul_eq_of_le_of_isCausal",
+    "Causal.Flat.exists_affineMinkEmbedding_of_isTimelike"
   ],
   "kb_proposals": [
     "An SO0(1,d) element preserving a timelike affine subspace U restricts to U only in O+(1,d1): any (Isom,M^n)-structure statement about Gamma\\U needs an orientation hypothesis on U (RestrictsIn).",
     "Sylvester for a timelike subspace: LinearMap.BilinForm.exists_orthogonal_basis on minkB restricted to f^perp cap D (f unit timelike) gives the isometric parametrization; see exists_affineMinkEmbedding_of_isTimelike.",
     "In a proof, `set n := Module.finrank ℝ W` after obtaining a basis `b : Basis (Fin (finrank ℝ W))` shadows b and makes hypotheses about it refer to b✝; write finrank out instead.",
-    "A definition 'X is a twisted product over Y' through an isometric embedding iota must ask iota orthochronous in a time-oriented setting; otherwise it relates X to the time reverse of Y (audit of WP-31d)."
+    "A definition 'X is a twisted product over Y' through an isometric embedding iota must ask iota orthochronous in a time-oriented setting; otherwise it relates X to the time reverse of Y (audit of WP-31d).",
+    "FlatQuotient.exists_lift_le (Flat/Examples) is stated for the constructed quotient under its instances; for an abstract IsQuotientOf presentation pi use TwistedProduct.exists_lift_le (same proof: sheets of a covering map, rel_iff of pi o val).",
+    "ETT-causality of a quotient Gamma\\Omega forbids x <= gamma x with gamma x != x (TwistedProduct.smul_eq_of_le_of_isCausal): induct on the absolute-minimality chain in sheets, each point being squeezed between pi x and pi(gamma x) = pi x."
   ],
-  "notes": "Resumed from an interrupted author; the file on disk already typechecked. This session added exists_affineMinkEmbedding_of_isTimelike (the converse claimed in SCOPE but previously absent; now proved, so U = range iota loses no timelike affine subspace), factored the positivity lemma into private tp_minkQ_pos_of_orth, and fixed two stale docstring references (flipGroup -> TwistedProduct.not_restrictsIn_glideGroup). Build: `taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/TwistedProduct.lean` gives zero errors and one warning, the tagged sorry in gh_of_isLTPOver. Imports only CausalScaffold.Flat.Quotient and Mathlib.Analysis.InnerProductSpace.Dual. Generic minkB algebra is private (tp_*) to avoid collisions with Flat/AchronalDomains. No b-label is marked. FIXER pass (audit 2026-10-31): blocking fix applied — IsLTPData gains field `orthochronous : ι.Orthochronous`; `suspendre` takes `(hι : ι.Orthochronous)`; witnesses discharge it (refl_orthochronous, timeAxis_orthochronous); exists_affineMinkEmbedding_of_isTimelike now chooses f future and concludes ι.Orthochronous ∧ ι.range = U. Minor fixes applied: checklist vocabulary (only '⚠ strengthened' on the U row; Ω-connected moved to a note); Rem 5.3 linear-only narrowing recorded (SCOPE + REPORT); counterexample made parametrization-independent (not_restricts_glide_of_range, not_restrictsIn_glideGroup_of_range, proved by a determinant-of-conjugate argument); TimelikeImage docstring rephrased; G6 recorded as carried hypothesis; Rem 5.4 sentence moved to notes; redundancy of `timelike`/`preserves` noted in their docstrings. Declined (disagreement): importing Flat/Isometries to reuse minkForm — it is being edited in parallel this run, and keeping the import closure at Flat.Quotient keeps this file robust; the duplication is now disclosed in SCOPE. baseSpacetime/connectedSpace_base do not need hι (constructions independent of time orientation), so it is not added there. gh_of_isLTPOver remains sorry: the causality of Γ\\Ω is unavailable upstream. No downstream Lean file uses IsLTPOver/IsLTPData/suspendre (grep), so the new field breaks nothing. Re-typecheck: zero errors, one warning (the tagged sorry)."
+  "notes": "Resumed from an interrupted author; the file on disk already typechecked. This session added exists_affineMinkEmbedding_of_isTimelike (the converse claimed in SCOPE but previously absent; now proved, so U = range iota loses no timelike affine subspace), factored the positivity lemma into private tp_minkQ_pos_of_orth, and fixed two stale docstring references (flipGroup -> TwistedProduct.not_restrictsIn_glideGroup). Build: `taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/TwistedProduct.lean` gives zero errors and one warning, the tagged sorry in gh_of_isLTPOver. Imports only CausalScaffold.Flat.Quotient and Mathlib.Analysis.InnerProductSpace.Dual. Generic minkB algebra is private (tp_*) to avoid collisions with Flat/AchronalDomains. No b-label is marked. FIXER pass (audit 2026-10-31): blocking fix applied — IsLTPData gains field `orthochronous : ι.Orthochronous`; `suspendre` takes `(hι : ι.Orthochronous)`; witnesses discharge it (refl_orthochronous, timeAxis_orthochronous); exists_affineMinkEmbedding_of_isTimelike now chooses f future and concludes ι.Orthochronous ∧ ι.range = U. Minor fixes applied: checklist vocabulary (only '⚠ strengthened' on the U row; Ω-connected moved to a note); Rem 5.3 linear-only narrowing recorded (SCOPE + REPORT); counterexample made parametrization-independent (not_restricts_glide_of_range, not_restrictsIn_glideGroup_of_range, proved by a determinant-of-conjugate argument); TimelikeImage docstring rephrased; G6 recorded as carried hypothesis; Rem 5.4 sentence moved to notes; redundancy of `timelike`/`preserves` noted in their docstrings. Declined (disagreement): importing Flat/Isometries to reuse minkForm — it is being edited in parallel this run, and keeping the import closure at Flat.Quotient keeps this file robust; the duplication is now disclosed in SCOPE. baseSpacetime/connectedSpace_base do not need hι (constructions independent of time orientation), so it is not added there. gh_of_isLTPOver remains sorry: the causality of Γ\\Ω is unavailable upstream. No downstream Lean file uses IsLTPOver/IsLTPData/suspendre (grep), so the new field breaks nothing. Re-typecheck: zero errors, one warning (the tagged sorry). CLOSER pass (2026-11-01): the one sorry of gh_of_isLTPOver was split. Statement of gh_of_isLTPOver unchanged (docstring claim unchanged; one sentence added saying how it is proved). New: isCausal_of_isLTPData (proved, sorry-free), isCompact_diamond_of_isLTPData (the remaining tagged sorry, sharpened obstruction), AffineMinkEmbedding.retract_le_of_le, AffineMinkEmbedding.eq_of_le_top_of_retract_eq, TwistedProduct.exists_injOn_of_isCoveringMap, TwistedProduct.exists_lift_le, TwistedProduct.smul_eq_of_le_of_isCausal. Import added: CausalScaffold.Flat.Examples (proofs-only closer edits run on it this wave; its olean was imported as built; no name collision at typecheck). Module docstring (header bullet, What-is-proved, SCOPE, import note, provenance) updated accordingly. No statement found false. Build: `taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/TwistedProduct.lean` gives zero errors and one warning (the tagged sorry in isCompact_diamond_of_isLTPData). #print axioms: isCausal_of_isLTPData depends on propext, Classical.choice, Quot.sound only. FIXER pass after the CLOSER audit (2026-11-01): no blocking finding to apply. Minor fixes applied: (1) the remaining sorry was split — isCompact_diamond_of_isLTPData is now proved by descent from the new cover-level lemma cover_gh_of_isLTPData, which carries the single tagged sorry; sorry_count stays 1; (2) obstruction text reworded per audit ('lies in J_{M^n}(x, z) (compact) ∩ q⁻¹ J_{ι⁻¹Ω}(q x, q z)'), and now also names the GH-of-a-cover ingredient; (3) the module-docstring header bullet re-wrapped (and three other over-long lines: a SCOPE line, the provenance line, one code line); (4) SCOPE's import note now states that the 'closure at Flat.Quotient' policy is deliberately reversed for Flat.Examples (its concurrent edits are proofs-only). Examples staleness: Examples.lean (mtime 2026-11-01 00:07) is newer than its olean (2026-10-31 23:50); `git diff HEAD` on Examples.lean (380+/13-, frame transport) changes none of the four statements used here (flat_le_top_subtype_iff, FlatQuotient.le_top_smul, FlatQuotient.isCausal_subtype, FlatQuotient.coe_smul from Quotient; le_of_le_top_of_segment_subset from Penrose); the check below therefore ran against the 23:50 olean and must be re-run at the wave's full lake build. Declined (disclosed): renaming TwistedProduct.exists_lift_le — no collision at typecheck; note that Flat/Loxodromic and Flat/Nonloxodromic (wave 5, this run) now import TwistedProduct, so a file opening both Causal.Flat.TwistedProduct and Causal.Flat.FlatQuotient would see an ambiguous exists_lift_le; neither file references it (grep). Build: `taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/TwistedProduct.lean` gives zero errors and exactly one warning (the tagged sorry in cover_gh_of_isLTPData). #print axioms (via --stdin, no file written): isCausal_of_isLTPData depends on propext, Classical.choice, Quot.sound only; isCompact_diamond_of_isLTPData and gh_of_isLTPOver carry sorryAx only through cover_gh_of_isLTPData. No public-name collision for cover_gh_of_isLTPData (grep over Causal/ and scaffold/). No b-label marked."
 }

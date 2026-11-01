@@ -1,4 +1,5 @@
 import CausalScaffold.Flat.Quotient
+import CausalScaffold.Flat.Examples
 import Mathlib.Analysis.InnerProductSpace.Dual
 
 /-!
@@ -18,9 +19,13 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
   `docs/BARBOT-THEOREMS.md` §1: `IsLTPOver`, `IsLTPData`.
 * Rem 5.3 (prose, l.1800–1814), causal half, **linear twisted products only** (the remark is
   about twisted products by all euclidean manifolds, flat tori included) — stated
-  (`gh_of_isLTPOver`, one `sorry`); its linear core is proved (`coproj_isFutureCausal`,
-  `retract_le_top`). Rem 5.4 (l.1816–1828) is about Bieberbach and finite index, not causal: not
-  attempted.
+  (`gh_of_isLTPOver`); its causality half is proved (`isCausal_of_isLTPData`: a linear twisted
+  product over a causal flat spacetime is causal); its compact-diamond half
+  (`isCompact_diamond_of_isLTPData`) is proved down to the cover `Ω` (descent through `π`) and
+  rests on one `sorry` there (`cover_gh_of_isLTPData`); its linear core is proved
+  (`coproj_isFutureCausal`, `retract_le_top`, `retract_le_of_le`,
+  `eq_of_le_top_of_retract_eq`). Rem 5.4 (l.1816–1828) is about Bieberbach and finite index, not
+  causal: not attempted.
 
 > Let $B$ be a flat spacetime, quotient of an open subset $\Omega$ of \mink by a group of
 > isometries acting freely and properly discontinuously. Assume that $\Gamma$ preserves a timelike
@@ -78,6 +83,17 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
   orthochronous (`IsLTPData.orthochronous`: `M₁` carries the time orientation `B` induces on `U`).
 * **Rem 5.3, linear core**: `coproj_isFutureCausal`, `retract_le_top` — for orthochronous `ι`
   the retraction is a causal map `𝐌ⁿ → 𝐌^{d₁+1}` (Pythagoras with the spacelike `U^⊥`).
+* **Rem 5.3, causality of the twisted product**: `retract_le_of_le` (`p ≤_Ω p'` gives
+  `q p ≤_{ι⁻¹Ω} q p'`: chains in convex balls of `Ω`, segments mapped to segments of `ι⁻¹ Ω`);
+  `eq_of_le_top_of_retract_eq` (the fibres of `q` are acausal, `U^⊥` being spacelike); for any
+  presentation `π : Ω → M` of a quotient (`IsQuotientOf`'s data, not the constructed
+  `FlatQuotient`): `TwistedProduct.exists_lift_le` (the order of `Γ\Ω` lifts) and
+  `TwistedProduct.smul_eq_of_le_of_isCausal` (in a causal quotient no `x ≤ γ x` with
+  `γ x ≠ x`); hence `isCausal_of_isLTPData`: a linear twisted product over a causal flat
+  spacetime is causal.
+* **Rem 5.3, descent of compact diamonds**: `isCompact_diamond_of_isLTPData` from the
+  cover-level `cover_gh_of_isLTPData` (the tagged `sorry`): `J_B(π x, π y)` is the image of
+  `⋃_{x ≤ γ y} J_Ω(x, γ y)`, for an arbitrary presentation `π`.
 * **Non-vacuity** (kb/0011): `isLTPOver_refl` (`ι = id`, every quotient over itself),
   `isLTPOver_refl_minkowski`; `isLTPOver_bot_timeAxis` (a product, `Γ` trivial, over the time
   axis `timeAxis`); `isLTPOver_timeGroup` (`ℤ e₀\𝐌ⁿ` over the timelike circle, `Γ ≠ 1`).
@@ -120,7 +136,8 @@ Note (not a paper hypothesis): `Ω` is not asked to be connected; `M` is connect
   without it a time-reversing `ι` (e.g. `(t, x) ↦ (−t, x)`, `Γ = 1`, `Ω = {t > 0}`) would make
   `{t > 0}` "a linear twisted product over" `{t < 0}`, its time reverse, which is not isometric to
   it as a time-oriented flat spacetime (future-complete against past-complete). The *spatial*
-  orientation of `ι` is not asked: it is not canonical (it depends on an orientation of `U^⊥`), and `RestrictsIn` (orientation of `U` preserved by `Γ`) does not depend
+  orientation of `ι` is not asked: it is not canonical (it depends on an orientation of `U^⊥`),
+  and `RestrictsIn` (orientation of `U` preserved by `Γ`) does not depend
   on it. That `RestrictsIn` does not depend on the choice of `ι` for a given `U` is not proved in
   general (it is for the counterexample, `not_restrictsIn_glideGroup_of_range`).
 * **The quotient form.** `IsLTPOver` is BARBOT-THEOREMS §1's quotient form (adopted by DEC-43's
@@ -135,17 +152,30 @@ Note (not a paper hypothesis): `Ω` is not asked to be connected; `M` is connect
   downstream, not discharged in this file.
 * **Rem 5.3** (`gh_of_isLTPOver`) is stated for *linear* twisted products only (the remark covers
   twisted products by every euclidean manifold, flat tori included), and rests on a tagged
-  `sorry`: the causality of `Γ\Ω` is not available (`Flat.Quotient`'s SCOPE), and comparing `≤_Ω`
-  with `≤_{U∩Ω}` along the retraction needs the image of a causal curve (a graph over the time of
-  `𝐌ⁿ`) reparametrized as a graph over the time of `𝐌^{d₁+1}`. Its linear core, the causality of
-  the retraction for orthochronous `ι`, is proved. Rem 5.3's Cauchy-completeness half (D, DEC-35) and Rem 5.4 are not attempted.
+  `sorry` for the compactness of diamonds only, at the level of the cover `Ω`
+  (`cover_gh_of_isLTPData`: compact diamonds of `Ω` and finiteness of `{γ | x ≤_Ω γ y}`); the
+  descent from `Ω` to `B` is proved (`isCompact_diamond_of_isLTPData`), and so is the causality
+  (`isCausal_of_isLTPData`, which needs only `M₁` causal). The cover-level statement needs the
+  converse of `retract_le_of_le`: lifting a relation of `U ∩ Ω` to one of `Ω` with a prescribed
+  `U^⊥`-displacement, bounded by the Lorentzian length of a causal chain below it (the time
+  separation of `U ∩ Ω` and its upper semicontinuity on a GH set), which the library lacks; it
+  is what both the closedness of `J_Ω(x, z)` and the compactness of the diamonds of the cover
+  `U ∩ Ω` of `M₁` rest on. Its linear core, the causality of the retraction for orthochronous
+  `ι`, is proved. Rem 5.3's Cauchy-completeness half (D, DEC-35) and Rem 5.4 are not attempted.
 * Generic `minkB` algebra is `private` (`tp_…`), to avoid colliding with `Flat/AchronalDomains`;
   it duplicates `Flat/Isometries`' public `minkB` lemmas and `minkForm` (`tpBilinOn` is `minkForm`
   restricted to `W`). `Flat/Isometries` is deliberately not imported: it is being edited in
-  parallel, and the import closure is kept to `Flat.Quotient`.
+  parallel. The import closure is `Flat.Quotient` and `Flat.Examples` (the earlier policy of
+  keeping the closure at `Flat.Quotient` is deliberately reversed for `Flat.Examples`, whose
+  concurrent edits this wave are proofs-only, so the statements used here cannot move; for
+  `flat_le_top_subtype_iff`, `FlatQuotient.le_top_smul`, `FlatQuotient.isCausal_subtype`, and,
+  through `Flat.Penrose`, `le_of_le_top_of_segment_subset`); `TwistedProduct.exists_lift_le`
+  re-proves `FlatQuotient.exists_lift_le` for an arbitrary presentation `π` (it is stated there
+  for the constructed quotient only, under its instances).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Barbot campaign,
-wave 2, package WP-31d-TwistedProduct.
+wave 2, package WP-31d-TwistedProduct; closer pass 2026-11-01 (causality half of Rem 5.3;
+descent of the compact diamonds from `Ω`).
 -/
 
 namespace Causal.Flat
@@ -941,11 +971,292 @@ theorem suspendre {Γ : Subgroup (isom d)} {Ω : Opens (Minkowski d)} (B : FlatS
   ⟨Γ, Ω, ι, ι.timelikeImage, hι, hres.preserves, hres, hperp, hB,
     ι.isQuotientOf_baseSpacetime B hB hres hperp⟩
 
+/-! ### Rem 5.3, causal half: the causality of a linear twisted product -/
+
+namespace AffineMinkEmbedding
+
+variable (ι : AffineMinkEmbedding d₁ d)
+
+/-- **The retraction is a causal map of the open sets** `Ω → U ∩ Ω` (orthochronous `ι`, `Ω`
+invariant by `U^⊥`): `p ≤_Ω p'` in `𝐌ⁿ` gives `q p ≤_{ι⁻¹ Ω} q p'` in `𝐌^{d₁+1}`. A relation of
+`≤_Ω` is a chain of relations in convex balls of `Ω` (absolute minimality); `q` maps each to a
+causal relation (`retract_le_top`) whose segment is the image of a segment of `Ω`, hence lies in
+`ι⁻¹ Ω` (`mem_iff_retract_mem`). -/
+theorem retract_le_of_le (hι : ι.Orthochronous) {Ω : Opens (Minkowski d)}
+    (hperp : ∀ w ∈ ι.perp, ∀ p ∈ Ω, p + w ∈ Ω) {p p' : Minkowski d}
+    (h : (minkowski d).le Ω p p') :
+    (minkowski d₁).le (ι.preimageOpens Ω) (ι.retract p) (ι.retract p') := by
+  let S : Set (Opens (Minkowski d)) := {O | Convex ℝ (O : Set (Minkowski d)) ∧ O ≤ Ω}
+  have hS : ∀ x ∈ Ω, ∃ O ∈ S, x ∈ O := by
+    intro x hx
+    obtain ⟨ε, hε, hball⟩ := Metric.isOpen_iff.1 Ω.isOpen x hx
+    exact ⟨⟨Metric.ball x ε, Metric.isOpen_ball⟩, ⟨convex_ball x ε, hball⟩,
+      Metric.mem_ball_self hε⟩
+  have hch := ((minkowski_causallyArcConnected.absolutelyMinimalOn_all Ω) S hS Ω le_rfl p p').1 h
+  have step : ∀ a b, (∃ O ∈ S, (minkowski d).le (Ω ⊓ O) a b) →
+      (minkowski d₁).le (ι.preimageOpens Ω) (ι.retract a) (ι.retract b) := by
+    rintro a b ⟨O, ⟨hOc, hOΩ⟩, hab⟩
+    rw [inf_eq_right.2 hOΩ] at hab
+    obtain ⟨ha, hb, hab'⟩ := (le_iff_of_convex hOc).1 hab
+    refine le_of_le_top_of_segment_subset (ι.retract_le_top hι hab') ?_
+    intro z hz
+    rw [segment_eq_image'] at hz
+    obtain ⟨θ, hθ, rfl⟩ := hz
+    have hmem : a + θ • (b - a) ∈ O := by
+      apply hOc.segment_subset ha hb
+      rw [segment_eq_image']
+      exact ⟨θ, hθ, rfl⟩
+    have he : ι.retract a + θ • (ι.retract b - ι.retract a) = ι.retract (a + θ • (b - a)) := by
+      simp only [retract, map_sub, map_add, map_smul, smul_sub]
+      abel
+    show ι.retract a + θ • (ι.retract b - ι.retract a) ∈ ι.preimageOpens Ω
+    rw [he]
+    exact (ι.mem_iff_retract_mem hperp).1 (hOΩ hmem)
+  clear h
+  induction hch with
+  | single hab => exact step _ _ hab
+  | tail _ hbc ih => exact (minkowski d₁).le_trans ih (step _ _ hbc)
+
+/-- **The fibres of the retraction are acausal**: a causal relation `p ≤ p'` of `𝐌ⁿ` with
+`q p = q p'` is trivial, because `p' − p` then lies in the spacelike `U^⊥`. -/
+theorem eq_of_le_top_of_retract_eq {p p' : Minkowski d} (h : (minkowski d).le ⊤ p p')
+    (he : ι.retract p = ι.retract p') : p = p' := by
+  have hv := le_top_iff_minkQ.1 h
+  have h0 : ι.coproj (p' - p) = 0 := by
+    have : ι.coproj (p' - p) = ι.retract p' - ι.retract p := by
+      simp only [retract, ← map_sub]
+      congr 1
+      abel
+    rw [this, he, sub_self]
+  have hw : p' - p ∈ ι.perp := by
+    have := ι.sub_lin_coproj_mem_perp (p' - p)
+    rwa [h0, map_zero, sub_zero] at this
+  by_contra hne
+  have hpos := ι.minkQ_pos_of_mem_perp hw (sub_ne_zero.2 (Ne.symm hne))
+  linarith [hv.2]
+
+end AffineMinkEmbedding
+
+namespace TwistedProduct
+
+open FlatQuotient
+
+section Lift
+
+variable {M : Type u} [TopologicalSpace M] [ChartedSpace (Minkowski d) M]
+  [HasGroupoid M (gxGroupoid (isom d) (Minkowski d))]
+  {Γ : Subgroup (isom d)} {Ω : Opens (Minkowski d)} [Invariant Γ Ω] {π : Ω → M}
+
+omit [ChartedSpace (Minkowski d) M] [HasGroupoid M (gxGroupoid (isom d) (Minkowski d))]
+  [Invariant Γ Ω] in
+/-- A covering map is injective on an open neighbourhood of every point. -/
+theorem exists_injOn_of_isCoveringMap (hcov : IsCoveringMap π) (x : Ω) :
+    ∃ U : Opens Ω, x ∈ U ∧ InjOn π U := by
+  obtain ⟨e, hx, he⟩ := hcov.isLocalHomeomorph x
+  exact ⟨⟨e.source, e.open_source⟩, hx, he ▸ e.injOn⟩
+
+/-- **The causal order of a quotient lifts**, for any `π : Ω → M` presenting `M` as `Γ\Ω`
+(`IsQuotientOf`'s data: a surjective covering map and local isometry whose fibres are the
+`Γ`-orbits): if `π x ≤ q` on `⊤`, some lift `y` of `q` has `x ≤ y` in `Ω`. This is
+`FlatQuotient.exists_lift_le` (`Flat/Examples`) for an arbitrary presentation, without the
+instances of the constructed quotient. -/
+theorem exists_lift_le (hcov : IsCoveringMap π) (hloc : IsLocalIsometry d π)
+    (hsurj : Surjective π) (hfib : ∀ p q : Ω, π p = π q ↔ ∃ γ ∈ Γ, γ • (p : Minkowski d) = q)
+    {x : Ω} {q : M} (h : (flatCausality d M).le ⊤ (π x) q) :
+    ∃ y : Ω, π y = q ∧ (flatCausality d Ω).le ⊤ x y := by
+  let S : Set (Opens M) := {O | ∃ U : Opens Ω, InjOn π U ∧ (O : Set M) = π '' U}
+  have hS : ∀ z ∈ (⊤ : Opens M), ∃ O ∈ S, z ∈ O := by
+    intro z _
+    obtain ⟨x', rfl⟩ := hsurj z
+    obtain ⟨U, hxU, hU⟩ := exists_injOn_of_isCoveringMap hcov x'
+    exact ⟨⟨π '' U, hloc.isOpenMap _ U.2⟩, ⟨U, hU, rfl⟩, x', hxU, rfl⟩
+  have step : ∀ {O : Opens M}, O ∈ S → ∀ {a b : M}, (flatCausality d M).le O a b →
+      ∀ {x : Ω}, π x = a → ∃ y : Ω, π y = b ∧ (flatCausality d Ω).le ⊤ x y := by
+    rintro O ⟨U, hU, hOU⟩ a b hab x hx
+    have hO' : O = ⟨π '' U, hloc.isOpenMap _ U.2⟩ := Opens.ext hOU
+    subst hO'
+    obtain ⟨u, hu, rfl⟩ := (flatCausality d M).le_mem_left hab
+    obtain ⟨v, hv, rfl⟩ := (flatCausality d M).le_mem_right hab
+    have hf : IsIsometricEmbedding d (π ∘ (Subtype.val : U → Ω)) :=
+      ⟨hloc.comp (isLocalIsometry_subtype_val U), fun u v huv => Subtype.ext (hU u.2 v.2 huv)⟩
+    have h1 := ((hf.rel_iff ⊤ ⟨π '' U, hloc.isOpenMap _ U.2⟩ (by
+      simp only [Opens.coe_top, image_univ, Opens.coe_mk]
+      rw [range_comp, Subtype.range_coe]) ⟨u, hu⟩ ⟨v, hv⟩).1).2 hab
+    have h2 := (((isIsometricEmbedding_subtype_val (d := d) U).rel_iff ⊤ U
+      (by rw [Opens.coe_top, image_univ, Subtype.range_coe]) ⟨u, hu⟩ ⟨v, hv⟩).1).1 h1
+    have huv : (flatCausality d Ω).le ⊤ u v := (flatCausality d Ω).le_mono le_top h2
+    obtain ⟨γ, hγ, hγx⟩ := (hfib u x).1 hx.symm
+    have e1 : ((⟨γ, hγ⟩ : Γ) • u) = x := Subtype.ext (by rw [coe_smul]; exact hγx)
+    refine ⟨(⟨γ, hγ⟩ : Γ) • v, ((hfib v _).2 ⟨γ, hγ, rfl⟩).symm, ?_⟩
+    have := le_top_smul Γ Ω ⟨γ, hγ⟩ huv
+    rwa [e1] at this
+  have hch := ((Precausality.absolutelyMinimal_iff.1
+    (flatCausality_absolutelyMinimal (d := d) (M := M))) S hS ⊤ le_rfl (π x) q).1 h
+  clear h
+  induction hch with
+  | single hab =>
+    obtain ⟨O, hO, hle⟩ := hab
+    exact step hO ((flatCausality d M).le_mono inf_le_right hle) rfl
+  | tail _ hbc ih =>
+    obtain ⟨y, hy, hxy⟩ := ih
+    obtain ⟨O, hO, hle⟩ := hbc
+    obtain ⟨z, hz, hyz⟩ := step hO ((flatCausality d M).le_mono inf_le_right hle) hy
+    exact ⟨z, hz, (flatCausality d Ω).le_trans hxy hyz⟩
+
+/-- **A causal quotient has an acausal action**: if `M = Γ\Ω` (any presentation `π`) is causal,
+no `x` is related to a distinct point `γ x` of its orbit. A relation `x ≤ γ x` of `Ω` is a chain
+of relations in sheets of `π`; each intermediate point lies between `π x` and `π (γ x) = π x`,
+hence projects to `π x` (causality of `M`), and two points of a sheet with the same projection
+are equal. -/
+theorem smul_eq_of_le_of_isCausal (hcov : IsCoveringMap π) (hloc : IsLocalIsometry d π)
+    (hfib : ∀ p q : Ω, π p = π q ↔ ∃ γ ∈ Γ, γ • (p : Minkowski d) = q)
+    (hM : (flatCausality d M).IsCausal) {a : Ω} {g : Γ}
+    (h : (flatCausality d Ω).le ⊤ a (g • a)) : g • a = a := by
+  have hpush : ∀ {b c : Ω}, (flatCausality d Ω).le ⊤ b c → (flatCausality d M).le ⊤ (π b) (π c) :=
+    fun hbc => hloc.strongMorphism.le_of_mapsTo (U := ⊤) (V := ⊤) (fun _ _ => trivial) hbc
+  have hga : π (g • a) = π a := ((hfib a (g • a)).2 ⟨g, g.2, rfl⟩).symm
+  let S : Set (Opens Ω) := {U | InjOn π U}
+  have hS : ∀ z ∈ (⊤ : Opens Ω), ∃ O ∈ S, z ∈ O := by
+    intro z _
+    obtain ⟨U, hzU, hU⟩ := exists_injOn_of_isCoveringMap hcov z
+    exact ⟨U, hU, hzU⟩
+  have hch := ((Precausality.absolutelyMinimal_iff.1
+    (flatCausality_absolutelyMinimal (d := d) (M := Ω))) S hS ⊤ le_rfl a (g • a)).1 h
+  -- one step from `a` to a point below `g • a` does not move
+  have step : ∀ {c : Ω}, (∃ O ∈ S, (flatCausality d Ω).le (⊤ ⊓ O) a c) →
+      (flatCausality d Ω).le ⊤ c (g • a) → c = a := by
+    rintro c ⟨O, hO, hle⟩ hc
+    have hle' := (flatCausality d Ω).le_mono inf_le_right hle
+    have h1 := hpush ((flatCausality d Ω).le_mono le_top hle')
+    have h2 := hpush hc
+    rw [hga] at h2
+    exact hO ((flatCausality d Ω).le_mem_right hle') ((flatCausality d Ω).le_mem_left hle')
+      (hM h2 h1)
+  have key : ∀ {c : Ω},
+      Relation.TransGen (fun x y => ∃ O ∈ S, (flatCausality d Ω).le (⊤ ⊓ O) x y) a c →
+      (flatCausality d Ω).le ⊤ c (g • a) → c = a := by
+    intro c hac
+    induction hac with
+    | single hab => exact step hab
+    | tail _ hbc ih =>
+      intro hc
+      obtain ⟨O, hO, hle⟩ := hbc
+      have hb : (flatCausality d Ω).le ⊤ _ (g • a) := (flatCausality d Ω).le_trans
+        ((flatCausality d Ω).le_mono le_top hle) hc
+      have := ih hb
+      subst this
+      exact step ⟨O, hO, hle⟩ hc
+  exact key hch ((flatCausality d Ω).le_refl (show g • a ∈ (⊤ : Opens Ω) from trivial))
+
+end Lift
+
+end TwistedProduct
+
+/-- **Rem 5.3, causal half, causality** (l.1800–1805): a linear twisted product over a causal flat
+spacetime is causal. Through the lifts of `B = Γ\Ω` and `M₁ = Γ_U\(ι⁻¹ Ω)`: a loop
+`b ≤ b' ≤ b` lifts to `x ≤ y ≤ γ x` in `Ω`; the retraction maps `x ≤ γ x` to `q x ≤ g (q x)` in
+`ι⁻¹ Ω` (`retract_le_of_le`), which forces `g (q x) = q x` (`smul_eq_of_le_of_isCausal`, by the
+causality of `M₁`); then `γ x − x ∈ U^⊥` is future causal, hence `0`
+(`eq_of_le_top_of_retract_eq`), and `x ≤ y ≤ x` in `Ω ⊆ 𝐌ⁿ`. -/
+theorem isCausal_of_isLTPData {B : Type u} [TopologicalSpace B] [ChartedSpace (Minkowski d) B]
+    [HasGroupoid B (gxGroupoid (isom d) (Minkowski d))] {M₁ : Type v} [TopologicalSpace M₁]
+    [ChartedSpace (Minkowski d₁) M₁] [HasGroupoid M₁ (gxGroupoid (isom d₁) (Minkowski d₁))]
+    {Γ : Subgroup (isom d)} {Ω : Opens (Minkowski d)} {ι : AffineMinkEmbedding d₁ d}
+    (h : IsLTPData B M₁ Γ Ω ι) (hM : (flatCausality d₁ M₁).IsCausal) :
+    (flatCausality d B).IsCausal := by
+  haveI := h.quotient.invariant
+  haveI : Invariant (ι.restrictGroup Γ) (ι.preimageOpens Ω) := h.quotient_base.invariant
+  obtain ⟨π, hcov, hloc, hsurj, hfib⟩ := h.quotient.quot
+  obtain ⟨π₁, hcov₁, hloc₁, -, hfib₁⟩ := h.quotient_base.quot
+  intro b b' hbb' hb'b
+  obtain ⟨x, rfl⟩ := hsurj b
+  obtain ⟨y, rfl, hxy⟩ := TwistedProduct.exists_lift_le hcov hloc hsurj hfib hbb'
+  obtain ⟨x', hx', hyx'⟩ := TwistedProduct.exists_lift_le hcov hloc hsurj hfib hb'b
+  obtain ⟨γ, hγ, hγx⟩ := (hfib x x').1 hx'.symm
+  have hm : (minkowski d).le Ω x x' :=
+    (flat_le_top_subtype_iff Ω x x').1 ((flatCausality d Ω).le_trans hxy hyx')
+  obtain ⟨g, hg⟩ := h.restricts γ hγ
+  have hr := ι.retract_le_of_le h.orthochronous h.perp_invariant hm
+  have hrx' : ι.retract x' = g • ι.retract x := by rw [← hγx, hg.retract_smul]
+  let a : ι.preimageOpens Ω := ⟨ι.retract x, (ι.mem_iff_retract_mem h.perp_invariant).1 x.2⟩
+  let g' : ι.restrictGroup Γ := ⟨g, γ, hγ, hg⟩
+  have ha : (flatCausality d₁ (ι.preimageOpens Ω)).le ⊤ a (g' • a) := by
+    rw [flat_le_top_subtype_iff]
+    show (minkowski d₁).le _ (ι.retract x) (g • ι.retract x)
+    rw [← hrx']
+    exact hr
+  have hga := TwistedProduct.smul_eq_of_le_of_isCausal hcov₁ hloc₁ hfib₁ hM ha
+  have hrr : ι.retract x = ι.retract x' := by
+    rw [hrx']
+    exact (congrArg Subtype.val hga).symm
+  have hxx : x = x' :=
+    Subtype.ext (ι.eq_of_le_top_of_retract_eq ((minkowski d).le_mono le_top hm) hrr)
+  subst hxx
+  exact congrArg π (FlatQuotient.isCausal_subtype Ω hxy hyx')
+
+/-- **Rem 5.3, causal half, at the level of the cover `Ω`** (l.1800–1805): for a linear twisted
+product `B = Γ\Ω` over a GH flat spacetime `M₁ = Γ_U\(ι⁻¹ Ω)`, (a) the diamonds of `Ω` are
+compact and (b) for all `x, y ∈ Ω` only finitely many `γ ∈ Γ` have `x ≤_Ω γ y`. These are the
+two hypotheses under which global hyperbolicity descends to a quotient (as in
+`FlatQuotient.globallyHyperbolic_quotient`); the descent itself is proved in
+`isCompact_diamond_of_isLTPData`. The instance `[Invariant Γ Ω]` (to let `Γ` act on `Ω`) is not
+an added hypothesis: it follows from `h.quotient` (`IsQuotientOf.invariant`). Not proved: see
+the `sorry`. -/
+theorem cover_gh_of_isLTPData {B : FlatSpacetime.{u} d} {M₁ : FlatSpacetime.{v} d₁}
+    {Γ : Subgroup (isom d)} {Ω : Opens (Minkowski d)} {ι : AffineMinkEmbedding d₁ d}
+    [Invariant Γ Ω] (h : IsLTPData B M₁ Γ Ω ι) (hM : GH M₁) :
+    (∀ x z : Ω, IsCompact ((flatCausality d Ω).diamond ⊤ x z)) ∧
+      ∀ x y : Ω, {γ : Γ | (flatCausality d Ω).le ⊤ x (γ • y)}.Finite := by
+  sorry -- SORRY(rem:5.3): cover level. (a) J_Ω(x, z) lies in J_{𝐌ⁿ}(x, z) (compact) ∩ q⁻¹ J_{ι⁻¹Ω}(q x, q z) (retract_le_of_le), but its closedness in Ω, the compactness of J_{ι⁻¹Ω} (GH of the cover ι⁻¹Ω of M₁), and (b) the finiteness of {γ ∈ Γ | x ≤_Ω γ y} (through the retraction, the same finiteness in the cover ι⁻¹Ω of M₁) all need the converse of retract_le_of_le — a relation a ≤ a' of ι⁻¹Ω lifts to p ≤_Ω p' over it when the U^⊥-displacement is at most the Lorentzian length of a causal chain from a to a' in ι⁻¹Ω — i.e. the time separation of ι⁻¹Ω and its upper semicontinuity / attainment on a GH set (Avez–Seifert), plus the GH of a cover of a GH flat spacetime; both absent from the library. Barbot's route (t ∘ q a proper time function, l.1801–1804) needs Geroch (iii)⇒(i), a cited sorry in GerochEquiv
+
+/-- **Rem 5.3, causal half, compact diamonds** (l.1800–1805): the diamonds of a linear twisted
+product over a GH flat spacetime are compact. Proved from the cover-level statement
+`cover_gh_of_isLTPData` by descent through the presentation `π : Ω → B`:
+`J_B(π x, π y) = π(⋃_{x ≤ γ y} J_Ω(x, γ y))`, a finite union of compact sets
+(`TwistedProduct.exists_lift_le` lifts both relations). -/
+theorem isCompact_diamond_of_isLTPData {B : FlatSpacetime.{u} d} {M₁ : FlatSpacetime.{v} d₁}
+    {Γ : Subgroup (isom d)} {Ω : Opens (Minkowski d)} {ι : AffineMinkEmbedding d₁ d}
+    (h : IsLTPData B M₁ Γ Ω ι) (hM : GH M₁) (p q : B) :
+    IsCompact ((flatCausality d B).diamond ⊤ p q) := by
+  haveI := h.quotient.invariant
+  obtain ⟨hcpt, hfin⟩ := cover_gh_of_isLTPData h hM
+  obtain ⟨π, hcov, hloc, hsurj, hfib⟩ := h.quotient.quot
+  obtain ⟨x, rfl⟩ := hsurj p
+  obtain ⟨y, rfl⟩ := hsurj q
+  have hpush : ∀ {b c : Ω}, (flatCausality d Ω).le ⊤ b c → (flatCausality d B).le ⊤ (π b) (π c) :=
+    fun hbc => hloc.strongMorphism.le_of_mapsTo (U := ⊤) (V := ⊤) (fun _ _ => trivial) hbc
+  have hD : (flatCausality d B).diamond ⊤ (π x) (π y) =
+      π '' ⋃ γ ∈ {γ : Γ | (flatCausality d Ω).le ⊤ x (γ • y)},
+        (flatCausality d Ω).diamond ⊤ x (γ • y) := by
+    ext z
+    constructor
+    · intro hz
+      rw [Causality.mem_diamond] at hz
+      obtain ⟨w, rfl, hxw⟩ := TwistedProduct.exists_lift_le hcov hloc hsurj hfib hz.1
+      obtain ⟨y', hy', hwy'⟩ := TwistedProduct.exists_lift_le hcov hloc hsurj hfib hz.2
+      obtain ⟨γ, hγ, hγy⟩ := (hfib y y').1 hy'.symm
+      have e : ((⟨γ, hγ⟩ : Γ) • y) = y' :=
+        Subtype.ext (by rw [FlatQuotient.coe_smul]; exact hγy)
+      refine ⟨w, mem_iUnion₂.2 ⟨⟨γ, hγ⟩, ?_, ?_⟩, rfl⟩
+      · show (flatCausality d Ω).le ⊤ x ((⟨γ, hγ⟩ : Γ) • y)
+        rw [e]; exact (flatCausality d Ω).le_trans hxw hwy'
+      · rw [Causality.mem_diamond, e]; exact ⟨hxw, hwy'⟩
+    · rintro ⟨w, hw, rfl⟩
+      obtain ⟨γ, -, hw⟩ := mem_iUnion₂.1 hw
+      rw [Causality.mem_diamond] at hw ⊢
+      refine ⟨hpush hw.1, ?_⟩
+      have := hpush hw.2
+      rwa [show π (γ • y) = π y from ((hfib y (γ • y)).2 ⟨γ, γ.2, rfl⟩).symm] at this
+  rw [hD]
+  exact ((hfin x y).isCompact_biUnion fun γ _ => hcpt _ _).image hcov.continuous
+
 /-- **Rem 5.3, causal half** (l.1800–1805): a linear twisted product over a GH flat spacetime is
-GH. -/
+GH. Causality is proved (`isCausal_of_isLTPData`); compactness of diamonds is
+`isCompact_diamond_of_isLTPData`, proved down to the cover-level `cover_gh_of_isLTPData`. -/
 theorem gh_of_isLTPOver {B : FlatSpacetime.{u} d} {M₁ : FlatSpacetime.{v} d₁}
     (h : IsLTPOver B M₁) (hM : GH M₁) : GH B := by
-  sorry -- SORRY(rem:5.3): the causality of a quotient Γ\Ω is not available (Flat.Quotient SCOPE: it needs lifting ≤ on ⊤ through chains of local relations), and comparing ≤_Ω with ≤_{U∩Ω} along the retraction needs reparametrizing the image of a causal curve (a graph over the time of 𝐌ⁿ) as a graph over the time of 𝐌^{d₁+1}; only the linear core `retract_le_top` is proved
+  obtain ⟨Γ, Ω, ι, hd⟩ := h
+  exact ⟨isCausal_of_isLTPData hd hM.1, isCompact_diamond_of_isLTPData hd hM⟩
 
 /-! ### Non-vacuity: the trivial twisted product, products, a circle bundle -/
 

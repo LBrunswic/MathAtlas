@@ -4,7 +4,7 @@
     "scaffold/CausalScaffold/Flat/Develop.lean"
   ],
   "builds": true,
-  "sorry_count": 3,
+  "sorry_count": 0,
   "labels": [
     {
       "label": "bcor:quo",
@@ -27,7 +27,10 @@
         "Causal.Flat.proj_deck_apply",
         "Causal.Flat.injective_proj_minkowski",
         "Causal.Flat.isDevelopingPair_minkowski",
-        "Causal.Flat.developsCC_minkowski"
+        "Causal.Flat.developsCC_minkowski",
+        "Causal.Flat.isOpenEmbedding_of_developsCC",
+        "Causal.Flat.isPreconnected_liftSet_of_developsCC",
+        "Causal.Flat.finite_deck_of_isCompact"
       ],
       "hypotheses": [
         {
@@ -39,21 +42,22 @@
           "paper": "S-tilde the universal cover of S, Gamma = pi_1(S)",
           "here": "reading",
           "note": "S-tilde := p^-1(S) in the universal cover of M; Gamma := rho(Deck(M~ -> M))"
-        }
-      ],
-      "sorries": [
+        },
         {
-          "decl": "Causal.Flat.holonomy_proper",
-          "obstruction": "proper discontinuity of Gamma on Sigma needs (1) D|S~ : S~ -> Sigma a homeomorphism (Barbot's 'D o f~ is an embedding', from Prop 8.1, not carried by (CC') as designed: S~ must be shown a local graph over open sets of R^d in flat charts so that the injective D|S~ is open), and (2) the deck group of M~ -> M acting properly discontinuously on M~; neither is in the library or the port"
+          "paper": "(implicit) M a manifold, hence Hausdorff",
+          "here": "carried",
+          "note": "[T2Space M] on holonomy_proper, ccAction_of_developsCC, isOpenEmbedding_of_developsCC, isPreconnected_liftSet_of_developsCC (added by the fixer; bcor_quo itself does not need it)"
         }
       ],
+      "sorries": [],
       "findings": [
         "Proved sorry-free from DevelopsCC: rho injective, rho(Gamma) preserves Sigma and acts freely on it, Sigma meets every timelike line (CCPrime). 'f and D o f~ are embeddings' and the immersion form are not derivable from (CC') without the local-graph structure of S~ (l.2266).",
-        "Not proved, disclosed in SCOPE: the design's conjunct IsPreconnected S~ (S~ = p^-1 S). Sigma = D(S~) is preconnected (CCAction.isPreconnected), so it follows once D|S~ : S~ -> Sigma is a homeomorphism, fact (1) of holonomy_proper's sorry.",
-        "Non-vacuity (kb/0011): developsCC_minkowski inhabits DevelopsCC with M = Minkowski d, D = proj (injective: Minkowski space is simply connected), rho = 1, S = {t = 0}; bcor_quo is instantiated on it in an example. Nontrivial holonomy is still not witnessed."
+        "Non-vacuity (kb/0011): developsCC_minkowski inhabits DevelopsCC with M = Minkowski d, D = proj (injective: Minkowski space is simply connected), rho = 1, S = {t = 0}; bcor_quo is instantiated on it in an example. Nontrivial holonomy is still not witnessed.",
+        "FIXER PASS: holonomy_proper is proved sorry-free under [T2Space M]. D is an open embedding (isOpenEmbedding_of_developsCC, from injective_of_developsCC and the local homeomorphism D), so D^-1(K) is compact for compact K in Sigma; the deck group of a covering of a Hausdorff space acts properly discontinuously (finite_deck_of_isCompact: each pair of points has neighbourhoods U, V with at most one deck map sending a point of U into V — separate p x != p y in M, or for p x = p y take V a sheet at y and U the component of x over its image, where a deck map agrees with the local section by uniqueness of lifts — and finitely many boxes cover K x K); equivariance transfers finiteness to rho(Gamma).",
+        "Cor 8.2's 'D o f~ is an embedding' and the design's conjunct IsPreconnected S~ are now proved under [T2Space M] (isOpenEmbedding_of_developsCC, isPreconnected_liftSet_of_developsCC). 'f is an embedding' is the inclusion S in M in the DEC-35 reading."
       ],
       "questions": [
-        "DevelopsCC carries no topological-embedding field for D|S~; adding one (it is what Prop 8.1 provides) would discharge holonomy_proper's first half. Should the bridge (CauchyComplete) export it?"
+        "DevelopsCC still carries no embedding field; none is needed any more under [T2Space M] (the bridge in CauchyComplete need not export one)."
       ]
     },
     {
@@ -94,7 +98,7 @@
         "The last branch Ug = Omega_g covers exactly 'loxodromic, spacelike elliptic, non linear parabolic' given the trichotomy (classes_of_not, through LorentzTrichotomy)."
       ],
       "questions": [
-        "Uniqueness of the parabolic decomposition (hence of J) is not proved; the union reading is independent of it. Accept?"
+        "Uniqueness of the parabolic decomposition is still not proved, but no longer matters: mem_nullHyperplanes_iff (closer pass) shows the union reading of J^perp equals the union of c + v0^perp over fixed points c, v0 the L(g)-fixed null vector, independently of the decomposition."
       ]
     },
     {
@@ -260,26 +264,26 @@
       "status": "partial",
       "marked": false,
       "decls": [
-        "Causal.Flat.bprop_danom"
+        "Causal.Flat.bprop_danom",
+        "Causal.Flat.injective_of_developsCC",
+        "Causal.Flat.causalCurveIn_of_lift"
       ],
       "hypotheses": [
         {
           "paper": "M Cauchy-complete GH with S a complete Cauchy hypersurface",
           "here": "strengthened",
           "note": "DEC-35: DevelopsCC S, and IsCausal (W10)"
-        }
-      ],
-      "sorries": [
-        {
-          "decl": "Causal.Flat.bprop_danom",
-          "obstruction": "step 1 (injectivity of D, l.2476-2485): the component of D^-1(vertical line) through a point is an inextensible causal curve of M~ (maximal lift through the local homeomorphism D, which is not a covering) - not in the library (WAVE3 risk R1)"
         },
         {
-          "decl": "Causal.Flat.holonomy_proper",
-          "obstruction": "used through ccAction_of_developsCC for D(Sigma) subset U(Gamma)"
+          "paper": "(implicit) M a manifold, hence Hausdorff",
+          "here": "carried",
+          "note": "[T2Space M] added by the fixer (the statement is false without it: doubled half-space counterexample)"
         }
       ],
+      "sorries": [],
       "findings": [
+        "BLOCKING finding of the closer pass, REPAIRED by the fixer: bprop_danom is false without [T2Space M], for every d (M = two copies of M^n glued along {t<0}, S = {t=-1}, D the fold, rho = 1: IsDevelopingPair, IsCausal and DevelopsCC hold and D(0_A) = D(0_B)). [T2Space M] is added to bprop_danom, holonomy_proper and ccAction_of_developsCC (statement change; master's ruling pending).",
+        "FIXER PASS: step 1 is proved sorry-free (injective_of_developsCC; #print axioms: propext, Classical.choice, Quot.sound). Route: lifts of the vertical line delta through the local homeomorphism D over open intervals are unique on overlaps (M~ Hausdorff via the covering, D locally injective; mathlib IsSeparatedMap.eqOn_of_comp_eqOn); their union is a lift (private section MaxLift), which has no limit at a finite end of its domain (a local inverse of D near the limit continues it). A StrictlyExtends extension would give it such a limit: exists_end_of_upper/_lower (the time coordinate of D is a clock along the lift; the lower case by reflection). So the lift is causal (causalCurveIn_of_lift, extracted from lift_causalCurveIn) and inextensible, meets S~ (inextensible_comp + h.cauchy, no IsCausal needed), at the unique parameter where delta meets Sigma = graph g; h.injOn and uniqueness of lifts give injectivity. No Zorn, no concatenation lemma, no ODE were needed.",
         "W7 confirmed and repaired without slices: given injectivity, D is an isometric embedding, Sigma is a Cauchy surface of the open D(M~) (transported from isCauchySurface_liftSet), hence D(M~) subset D(Sigma) subset U(Gamma) (Lemma 8.6's core), and D(M~) open connected containing Sigma lies in Omega(S~). The design's step 4 (Gamma free and achronal on Omega') is not needed."
       ],
       "questions": []
@@ -296,22 +300,45 @@
         "Causal.Flat.achronalDomain_subset_zpow",
         "Causal.Flat.UGamma_antitone",
         "Causal.Flat.Ug_zpow",
-        "Causal.Flat.UGamma_eq_of_index"
+        "Causal.Flat.UGamma_eq_of_index",
+        "Causal.Flat.linOf_zpow",
+        "Causal.Flat.IsElliptic.zpow_linOf",
+        "Causal.Flat.IsLoxodromic.zpow_linOf",
+        "Causal.Flat.IsParabolic.zpow_linOf",
+        "Causal.Flat.isElliptic_linOf_zpow_iff",
+        "Causal.Flat.isParabolic_linOf_zpow_iff",
+        "Causal.Flat.zpow_smul_eq_add",
+        "Causal.Flat.zpow_smul_eq_self_of_smul_eq",
+        "Causal.Flat.exists_smul_eq_self_of_pow",
+        "Causal.Flat.exists_fixed_trans",
+        "Causal.Flat.fixedTrans_eq",
+        "Causal.Flat.isNonspacelikeElliptic_zpow_iff",
+        "Causal.Flat.isLinearParabolic_zpow_iff",
+        "Causal.Flat.minkB_eq_zero_of_fixed_of_not_isElliptic",
+        "Causal.Flat.IsParabolicPair.exists_fixed_null",
+        "Causal.Flat.mem_nullHyperplanes_iff",
+        "Causal.Flat.nullHyperplanes_zpow",
+        "Causal.Flat.achronalDomain_inv",
+        "Causal.Flat.achronalDomain_zpow"
       ],
       "hypotheses": [
         {
           "paper": "Gamma' of finite index",
           "here": "strengthened",
           "note": "Gamma torsion-free added (needed under W4)"
-        }
-      ],
-      "sorries": [
+        },
         {
-          "decl": "Causal.Flat.Ug_zpow",
-          "obstruction": "U(g^n) = U(g): Omega_{g^n} subset Omega_g and the stability of 'nonspacelike elliptic', 'linear parabolic' and of the hyperplanes c + J^perp under nonzero powers need the normal forms of sections 6-7 class by class (lorentz_trichotomy is now available) and the mutual exclusivity of the classes for a power, which nothing in the library states"
+          "paper": "U(g) as in Def 8.5",
+          "here": "reading",
+          "note": "the readings of Ug (W4, nonspacelike elliptic with fixed points, union reading of J^perp — now shown decomposition-independent)"
         }
       ],
+      "sorries": [],
       "findings": [
+        "CLOSER PASS: Ug_zpow (first sentence, U(g^n) = U(g), n != 0) is proved sorry-free (#print axioms: propext, Classical.choice, Quot.sound), in the readings of Ug (SCOPE). UGamma_eq_of_index is now sorry-free too.",
+        "Omega_{g^n} = Omega_g holds for EVERY isometry with no class analysis (achronalDomain_zpow): if x and g^q x are causally related then x <= g^r x for r = +-q, hence x <= (g^r)^m x = (g^m)^r x by iteration.",
+        "The classes are stable under nonzero powers: L(g^n) elliptic/parabolic iff L(g) is (trichotomy + exclusivity; a Jordan block of L(g) gives one of L(g)^n); nonspacelike elliptic iff (g^n x - x = n(g x - x) along the unique L(g)-fixed displacement, fixedTrans_eq); linear parabolic iff (barycentre of a g^n-orbit, exists_smul_eq_self_of_pow).",
+        "J^perp does not depend on the parabolic decomposition (mem_nullHyperplanes_iff): every J is the line of the L(g)-fixed null vector v0, since a non-elliptic Lorentz map fixing a vector w and a null v0 has <w|v0> = 0 (else a fixed timelike combination). This settles the uniqueness question bdef:U_g left open; nullHyperplanes_zpow follows because fixed points of g^n differ from those of g by L(g^n)-fixed vectors.",
         "Under W4, U(Gamma') = U(Gamma) for finite index is false with torsion: Gamma = {1, gamma}, gamma^2 = 1, Gamma' = 1 gives U(Gamma') = M^n, U(Gamma) = emptyset. Torsion-freeness holds under CCAction (CCAction.pow_ne_one)."
       ],
       "questions": []
@@ -373,13 +400,42 @@
     "Causal.Flat.smul_UGamma",
     "Causal.Flat.smul_omegaGamma",
     "Causal.Flat.linOf_symm_apply",
-    "Causal.Flat.minkQ_linOf_symm"
+    "Causal.Flat.minkQ_linOf_symm",
+    "Causal.Flat.linOf_zpow",
+    "Causal.Flat.IsElliptic.zpow_linOf",
+    "Causal.Flat.IsLoxodromic.zpow_linOf",
+    "Causal.Flat.IsParabolic.zpow_linOf",
+    "Causal.Flat.isElliptic_linOf_zpow_iff",
+    "Causal.Flat.isParabolic_linOf_zpow_iff",
+    "Causal.Flat.zpow_smul_eq_add",
+    "Causal.Flat.zpow_smul_eq_self_of_smul_eq",
+    "Causal.Flat.exists_smul_eq_self_of_pow",
+    "Causal.Flat.exists_fixed_trans",
+    "Causal.Flat.fixedTrans_eq",
+    "Causal.Flat.isNonspacelikeElliptic_zpow_iff",
+    "Causal.Flat.isLinearParabolic_zpow_iff",
+    "Causal.Flat.minkB_eq_zero_of_fixed_of_not_isElliptic",
+    "Causal.Flat.IsParabolicPair.exists_fixed_null",
+    "Causal.Flat.mem_nullHyperplanes_iff",
+    "Causal.Flat.nullHyperplanes_zpow",
+    "Causal.Flat.achronalDomain_inv",
+    "Causal.Flat.achronalDomain_zpow",
+    "Causal.Flat.causalCurveIn_of_lift",
+    "Causal.Flat.finite_deck_of_isCompact",
+    "Causal.Flat.injective_of_developsCC",
+    "Causal.Flat.isOpenEmbedding_of_developsCC",
+    "Causal.Flat.isPreconnected_liftSet_of_developsCC"
   ],
   "kb_proposals": [
     "A statement whose type mentions no `d` (e.g. about `Deck (UniversalCover.proj M x₀)`) does not pick up section variable `{d}` nor `[ChartedSpace (Minkowski d) M]`: give it explicit `(d : ℕ)` binders outside the section; `hasGroupoid_flatCover M x₀` needs `(d := d)`.",
     "Barbot §8's 'small convex neighbourhood B' arguments are best replaced by the domain of dependence: prove the inclusion on `dependenceDomain (minkowski d) ⊤ Σ`, then `graph_subset_interior_dependenceDomain` gives the interior.",
     "`linOf g` elaborates to `AffineEquiv.linearHom ↑g`: multiplicativity is `show`, `Subgroup.coe_mul`/`coe_pow`/`coe_inv`, `map_mul`, `rfl`; use `linOf_mem g` (not `g.2`) for `lorentz` membership.",
-    "Mathlib has no continuity lemma for a strictly monotone map with interval image; `Flat.Develop.continuousOn_of_strictMonoOn` gives it, which is what lifting a `StrictlyExtends` reparametrisation through a covering needs."
+    "Mathlib has no continuity lemma for a strictly monotone map with interval image; `Flat.Develop.continuousOn_of_strictMonoOn` gives it, which is what lifting a `StrictlyExtends` reparametrisation through a covering needs.",
+    "Omega_{g^n} = Omega_g needs no classification: causally related iterates iterate (achronalDomain_zpow, Flat/Develop). Class stability under powers goes through a Jordan block (parabolic) or a null eigenvector (loxodromic) of L(g), plus Isometries' exclusivity lemmas.",
+    "A flat (Isom, M^n)-manifold in this library need not be Hausdorff: ChartedSpace + HasGroupoid carry no T2. Two copies of M^n glued along {t < 0} is causal, simply connected, has a Cauchy surface, and a non-injective developing map. Any statement that needs injectivity of developing maps or uniqueness of lifts must assume [T2Space M].",
+    "Maximal lifts through a LOCAL homeomorphism (not a covering) need no Zorn: take the union of all lifts over open intervals through the base point (unique on overlaps when the source is T2, mathlib IsSeparatedMap.eqOn_of_comp_eqOn + IsLocalHomeomorph.isLocallyInjective); the union is a lift and a local inverse at a finite-end limit continues it (Flat/Develop, private section MaxLift).",
+    "Inextensibility of a curve c with a continuous clock T (T (c s) = s): a StrictlyExtends extension with reparametrisation phi gives sup phi(J) = tau in I', and c'(tau) is a limit of c at sup J (finite because T is bounded near c'(tau)); the lower end by reflection s -> -s (Flat/Develop exists_end_of_upper/_lower).",
+    "The deck group of a covering of a Hausdorff, locally connected, connected E acts properly discontinuously: Flat/Develop finite_deck_of_isCompact (boxes U x V with at most one deck map sending U into V, compactness of K x K)."
   ],
-  "notes": "FIXER PASS (2026-10-31): typechecks with `taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/Develop.lean`: zero errors; the only warnings are the 3 `declaration uses sorry` (Ug_zpow, holonomy_proper, bprop_danom step 1). Audit minors applied: (1) lorentzTrichotomy closed by `fun _ hA => lorentz_trichotomy hA` (Isometries' source has 0 sorries; WP-30d REPORT sorry_count 0); bprop_ghyp is sorry-free in this file, and its sorryAx in #print axioms is the stale Isometries olean's (16:29, before the 22:55 proof), gone on rebuild with no edit here; SCOPE, the bprop_ghyp docstring and the Ug_zpow comment updated. (2) the dropped `IsPreconnected S~` conjunct of Cor 8.2 is disclosed in SCOPE and in bcor:quo's findings. (3) witness developsCC_minkowski added (M = Minkowski d, D = proj, rho = 1, S = {t = 0}) with injective_proj_minkowski and isDevelopingPair_minkowski; reuses Achronal's isCauchySurface_graph_zero and LipschitzGraph's ccPrime_graph_const. (4) linEquiv_conj_apply, linEquiv_inv_apply_self, linEquiv_apply_inv_apply and conj_conj_inv_isom made private. (5) explicit {S} binders on exists_mem_line_of_mem_dependenceDomain / exists_mem_nullLine_of_mem_dependenceDomain. (6) REPORT decls completed; checklist uses only kb/0006's terms (DEC-35 rows are '⚠ strengthened'), adds a '⚠ strengthened: Gamma torsion-free' row for Rem 8.8, and the proof-route rows (small convex B, W8 convexity, Beem-Ehrlich, W7 slices) moved to a SCOPE 'Proof repairs' bullet because they are not hypotheses. `lake build` not run (campaign rule). #print axioms (via `lake env lean --stdin`, no temp file): blem_SdanU, nini, bcor_quo, bprop_ghyp_of_trichotomy, isCauchySurface_liftSet, developsCC_minkowski, isDevelopingPair_minkowski are sorry-free (propext, Classical.choice, Quot.sound); bprop_ghyp has sorryAx only through the stale olean; bprop_danom and UGamma_eq_of_index depend on sorries, as disclosed. Graduation dedupe: minkB_nonpos_of_future duplicates Cosmological's minkB_nonpos_of_isFutureCausal (Cosmological is not imported here, so the copy is kept); continuousOn_of_forall_Icc and locPathConnectedSpace_of_ordConnected duplicate private lemmas of Flat/Quotient; lift_causalCurveIn generalises Quotient.liftsCausalCurves. Unchanged: Ug_zpow, holonomy_proper and bprop_danom step 1 stay tagged sorries (obstructions in their comments). Nothing is marked: every label is proved in the DEC-35/W4 readings or only in part, and kb/0006 forbids the mark in those cases."
+  "notes": "FIXER PASS (2026-11-01, WP-32f-Develop fixer, after the read-only audit): typechecks with `taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/Develop.lean`: ZERO errors, ZERO warnings, 0 sorry. BLOCKING FIX APPLIED: `[T2Space M]` added (explicit instance binder, not a section variable, so no other signature moves) to `holonomy_proper`, `ccAction_of_developsCC` and `bprop_danom` — a STATEMENT CHANGE by the fixer, which the master's ruling should confirm (the audit's recommended fix). Docstrings, the hypothesis checklist (new row 'M a manifold: Hausdorff') and SCOPE are aligned; `bcor_quo` and the rest of the file are unchanged. `[ConnectedSpace M]` was NOT added: nothing uses it (kb/0007, weakest sufficient hypotheses). BOTH SORRIES CLOSED: SORRY(bcor:quo) `holonomy_proper` and SORRY(bprop:danom, step 1); #print axioms of bprop_danom, holonomy_proper, ccAction_of_developsCC, injective_of_developsCC, finite_deck_of_isCompact, isOpenEmbedding_of_developsCC, bprop_ghyp, Ug_zpow: propext, Classical.choice, Quot.sound only. New public lemmas: causalCurveIn_of_lift (extracted from lift_causalCurveIn, whose proof now calls it; statement unchanged), finite_deck_of_isCompact, injective_of_developsCC, isOpenEmbedding_of_developsCC, isPreconnected_liftSet_of_developsCC; private: section MaxLift (IsIntervalLift, maxLiftDom, maxLift and lemmas), exists_end_of_upper/_lower, ordConnected_union_of_mem, t2Space_of_isCoveringMap' (a local copy of CauchyComplete's t2Space_of_isCoveringMap, not imported — dedupe at graduation). Collision grep over Causal/ and scaffold/: none. New non-vacuity example: holonomy_proper on developsCC_minkowski. DOWNSTREAM — BLOCKING FOR THE MASTER: `Flat/Loxodromic.lean` (written in this run by another agent) calls `bprop_danom` and `ccAction_of_developsCC` in section Uniformization (l.~1210–1265: uniformization_injective, uniformization_image, uniformization_properlyDiscontinuous, uniformization), whose variables carry no `T2Space M`. Once Develop is rebuilt those four will fail to elaborate (missing instance), and `uniformization_injective` as written is FALSE by the same counterexample. Fix there: add `[T2Space M]` to that section's variables (or to the four theorems), and drop its SCOPE sentence that the gx exports inherit Develop's two sorries (there are none now). Nonloxodromic.lean only mentions holonomy_proper / Prop 8.12 step 1 being sorries in SORRY texts ([9.E] (1), [9.P] (3), (7)); those texts are now stale (holonomy_proper is proved, though on Sigma only). I did not edit either file (not mine). Minor audit items: the four missing power lemmas are added to the module docstring's Powers bullet; achronalDomain_inv/achronalDomain_zpow are left here (moving them to AchronalDomains is a graduation choice). Earlier passes (kept): CLOSER PASS — remplacefini closed (Ug_zpow, 19 lemmas); FIXER PASS 2026-10-31 — lorentzTrichotomy from Isometries; witness developsCC_minkowski; graduation dedupe: minkB_nonpos_of_future duplicates Cosmological's minkB_nonpos_of_isFutureCausal; continuousOn_of_forall_Icc and locPathConnectedSpace_of_ordConnected duplicate private lemmas of Flat/Quotient; lift_causalCurveIn generalises Quotient.liftsCausalCurves; t2Space_of_isCoveringMap' duplicates CauchyComplete's t2Space_of_isCoveringMap."
 }

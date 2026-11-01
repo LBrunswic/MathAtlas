@@ -4,7 +4,7 @@
     "scaffold/CausalScaffold/Flat/CauchyComplete.lean"
   ],
   "builds": true,
-  "sorry_count": 4,
+  "sorry_count": 3,
   "labels": [
     {
       "label": "[2.4] Cauchy-complete (prose, DEC-35)",
@@ -117,7 +117,7 @@
       "sorries": [
         {
           "decl": "Causal.Flat.isCoveringMap_projAlong_comp",
-          "obstruction": "R1/W5: (i) pi o F is a local homeomorphism (local injectivity from spacelike separation in the c<1 frame; openness of the image by an intermediate-value argument along Delta-lines); (ii) evenly covered neighbourhoods from lifts of straight segments of Delta-perp: the lift of a segment has pulled length at most the segment's, a maximal lift on [0,t) is Cauchy in PulledLength F and converges by completeness; radial lifts give sheets. No covering-from-segment-lifts lemma in mathlib or the port. The final step (covering => homeomorphism, target simply connected) is PROVED: isHomeomorph_of_isCoveringMap."
+          "obstruction": "R1/W5, sharpened by the closer into four steps, none in mathlib or the port: (i) local homeomorphism of pi o F (pi injective on a c<1 graph piece; openness of the image by the IVT along Delta-lines, s -> (w+s Delta').1 - f((w+s Delta').2) strictly monotone since c|Delta'.2| < |Delta'.1|; no invariance of domain available); (ii) TOPOLOGY: the pulled-length topology is finer than X's (NOT a hypothesis of 8.1, unlike IsCauchyComplete's htop field) — needed so that hc's limits are limits in X; for subsets of Mn it is IsSpacelikeLipschitzIn.continuous_toSubtype (InducedLength.lean:1082), to be transported through SpacelikeDevelopment.locally by a first-exit argument; (iii) segment lifting: a maximal lift of a straight segment of Delta-perp has pulled length <= the segment's, is Cauchy, converges by hc and (ii), extends by (i); uniqueness from T2 + (i) (IsSeparatedMap); (iv) assembly: radial lifts give sections over all of Delta-perp, continuous by a Lebesgue-number argument along the compact lifted segment, disjoint open sheets, isEvenlyCovered_of_sheets (Port/UniversalCover.lean:204). Estimated ~1000 lines (the design said ~500). The final step covering => homeomorphism is PROVED (isHomeomorph_of_isCoveringMap)."
         }
       ],
       "findings": [
@@ -178,7 +178,7 @@
       "sorries": [
         {
           "decl": "Causal.Flat.bcor_quoiso",
-          "obstruction": "W6: frame P0 = {t - x1 = c}, Delta0 = (1, e1), range F = graph f (SpacelikeDevelopment.exists_graph; strictly contracting by isEntireAcausalGraph_range through isEntireAcausalGraph_iff); Y_c = {y perp e1 | exists s, f(y + s e1) - s = c}. Open: s -> f(y + s e1) - s strictly decreasing, values on both sides of c persist for nearby y, IVT. Closed: the lift y -> y + s(y) e1 of a segment of e1-perp has minkQ-length equal to the segment's Euclidean length, so 8.1's completeness argument applies; this is the same missing segment-lifting lemma (R1). e1-perp connected."
+          "obstruction": "W6: frame P0 = {t - x1 = c}, Delta0 = (1, e1), range F = graph f strictly contracting; Y_c = {y perp e1 | exists s, f(y + s e1) - s = c}. Open: IVT, no completeness. Closed: the only place completeness enters (8.1's entire-graph structure alone does not bound s(y)); needs the same missing steps (ii) TOPOLOGY and (iii) SEGMENT LIFTING as isCoveringMap_projAlong_comp, run in the (n-2)-dimensional range F cap P0, where the projection P0 -> P0/Delta0 is isometric. e1-perp connected."
         }
       ],
       "findings": [
@@ -202,7 +202,13 @@
         "Causal.Flat.completeSpace_pulledLength_restrict",
         "Causal.Flat.t2Space_universalCover",
         "Causal.Flat.t2Space_of_isCoveringMap",
-        "Causal.Flat.IsSpacelikeLipschitzIn.restrict"
+        "Causal.Flat.IsSpacelikeLipschitzIn.restrict",
+        "Causal.Flat.exists_splitting_of_isCauchySurface",
+        "Causal.Flat.connectedSpace_preimage_of_splitting",
+        "Causal.Flat.exists_dev_eq_smul_chart",
+        "Causal.Flat.pathLength_pulled_eq_of_local",
+        "Causal.Flat.locLipAt_pulled_iff_of_eventually",
+        "Causal.Flat.exists_splitting_of_hasChronalCausalFlow"
       ],
       "hypotheses": [
         {
@@ -213,12 +219,8 @@
       ],
       "sorries": [
         {
-          "decl": "Causal.Flat.connectedSpace_preimage_cauchy",
-          "obstruction": "B1: p^-1(S) connected iff pi1(S) -> pi1(M) onto; for a Cauchy surface of a GH spacetime that is the splitting M = S x R (Prop 8.11, class E, GerochEquiv's sorry) or a deformation retraction along a Cauchy time function; neither available."
-        },
-        {
-          "decl": "Causal.Flat.completeSpace_pulledLength_restrict",
-          "obstruction": "B3: a covering of a complete length space is complete: pulled length on S^ = glued length of the projection (localDensity_chartSys_eq through dev, proj), a Cauchy sequence projects to a convergent one, a length ball about the limit lies in an evenly covered neighbourhood (uses the topology field), the tail lies in one sheet."
+          "decl": "Causal.Flat.exists_splitting_of_isCauchySurface",
+          "obstruction": "tag bridge-B1, the only remaining input of B1: for GH M and S a Cauchy surface, a homeomorphism psi : S x R ≃ₜ M with psi(x, 0) = x (a VARIANT of the homeomorphism half of Prop 8.11, class E: it fixes psi|S x {0} = inclusion, as the flow construction gives, and does not ask the slices to be Cauchy). PROVED REDUCTION (fixer round): exists_splitting_of_hasChronalCausalFlow, sorry-free by #print axioms, derives it from Flat.flat_exists_isCauchySplitting (Splitting.lean:1084; IsCauchySplitting.zero is psi(x,0) = x) with IsCausal = hGH.1. The two missing inputs: (1) the flow, Flat.flat_hasChronalCausalFlow (Splitting.lean:1078, itself SORRY target-4: no global flow of a complete timelike vector field, lem:vecteur), which moreover asks [SecondCountableTopology M], not a field of FlatSpacetime (Geroch's paracompactness of Lorentzian manifolds is not formalized); (2) acausality (flatCausality d M).IsAcausal S: IsCauchySurface.isAcausal needs CausallyArcConnected and CurvesExtend, which the library supplies only from a time function (isAcausal_of_timeFunction) or under geroch's measure/tarentin hypotheses (isAcausal_of_globallyHyperbolic, CurvesExtend.lean:480), none proved for flatCausality. connectedSpace_preimage_cauchy (B1) is PROVED from it through connectedSpace_preimage_of_splitting."
         }
       ],
       "findings": [
@@ -227,7 +229,7 @@
       "questions": [
         "Should DevelopsCC (Develop.lean) be stated on p^-1(S) (needs B1 = the splitting, class E) or on the universal cover of S with a lift f~ (Barbot's literal set-up, B1 not needed for 8.1/8.3)?"
       ],
-      "notes": "B2 (spacelikeDevelopment_restrict) is now PROVED: near z, dev = g • psi o proj (both IsGXMorphisms), proj a local homeomorphism e; on W ∋ z, dev|Ŝ∩W = g • (e.trans psi) restricted (an embedding), image g • (T ∩ V') with V' = (e.trans psi) '' W; IsSpacelikeLipschitzIn.restrict (new, achronality by lt_mono) and IsSpacelikeLipschitzIn.smul (isom_strongMorphism). Remaining sorries B1, B3. The bridge's hypotheses are inhabited: isCauchyComplete_minkowskiSpace with gh_minkowskiSpace. Stated against the explicit conjunction (Cauchy, InjOn dev Ŝ, IsEntireAcausalGraph, NullSaturated), NOT against Develop.lean's DevelopsCC (written in parallel, not imported): the master connects the two."
+      "notes": "B2 (spacelikeDevelopment_restrict) PROVED (audit round). B3 (completeSpace_pulledLength_restrict) PROVED by the closer: the pulled length of a path of S^ equals the glued length of its projection (pathLength_pulled_eq_of_local, through exists_dev_eq_smul_chart: near z, dev = g • chartAt(proj z) o proj, and the pointwise locLipAt_pulled_iff_of_eventually: Lipschitz-in-charts and the density transfer through an isometry of Mn), so proj is 1-Lipschitz; a path is at least as long as the distance to each of its points (LocalLengthSpace.edist_le_pathLength), so by htop short paths near the limit stay in an evenly covered U; the sheet index (second component of the trivialisation H) is constant along a short path (PreconnectedSpace.constant on I), so the Cauchy tail lies on one sheet; the sheet's section lifts a short path from u_n to the limit with the same length. B3 does NOT use hL (IsSpacelikeLipschitz S), which stays in the statement. B1 (connectedSpace_preimage_cauchy) PROVED from the tagged splitting and connectedSpace_preimage_of_splitting (proved, purely topological: H(y,u) = psi(r y, (1-u) t(y)) retracts Y onto S rel S, a path alpha^-1·beta between points of S is homotopic rel endpoints to its retraction, whose UniversalCover.liftFrom from <a,[alpha]> ends at <b,[beta]> and stays over S). The bridge's hypotheses are inhabited: isCauchyComplete_minkowskiSpace with gh_minkowskiSpace. Stated against the explicit conjunction, NOT against Develop.lean's DevelopsCC: the master connects the two."
     }
   ],
   "extra_decls": [
@@ -268,7 +270,17 @@
     "Causal.Flat.LocalLengthSpace.edist_def",
     "Causal.Flat.SpacelikeDevelopment.eq_of_projAlong_eq",
     "Causal.Flat.PulledLength.toSpace",
-    "Causal.Flat.segmentPath"
+    "Causal.Flat.segmentPath",
+    "Causal.Flat.exists_Icc_subset_of_eventually",
+    "Causal.Flat.LocLipAt.comp_lipschitz",
+    "Causal.Flat.pathLength_congr_extend",
+    "Causal.Flat.LocalLengthSpace.edist_le_pathLength",
+    "Causal.Flat.minkQ_isom_linear",
+    "Causal.Flat.locLipAt_pulled_iff_of_eventually",
+    "Causal.Flat.pathLength_pulled_eq_of_local",
+    "Causal.Flat.exists_dev_eq_smul_chart",
+    "Causal.Flat.connectedSpace_preimage_of_splitting",
+    "Causal.Flat.exists_splitting_of_hasChronalCausalFlow"
   ],
   "kb_proposals": [
     "Gluing chart-local lengths needs no subdivision: take the density at t in the chart AT c t (localDensity φ c t, φ x = chart at x); locality and Isom-invariance become one pointwise lemma (localDensity_chartSys_eq), and the pseudo-emetric laws are proved once for any 'local developing system' φ : X → X → 𝐌ⁿ (charts, or a single developing map).",
@@ -276,9 +288,13 @@
     "A Submodule of 𝐌ⁿ used as a type is SimplyConnectedSpace and LocPathConnectedSpace by inferInstance (RealTopologicalVectorSpace.contractibleSpace, LocallyConvexSpace): model a quotient 𝐌ⁿ/Δ by Δ^⊥ rather than by the quotient module.",
     "A module importing a scaffold file you are writing cannot be typechecked without lake build; test snippets in /tmp with `lake env lean /tmp/x.lean` importing only built dependencies, never as a new file under scaffold/.",
     "Local-to-global Lipschitz along a path: IsLocLip of γ.extend gives a global Lipschitz bound via LocallyLipschitzOn.exists_lipschitzOnWith_of_compact on Icc 0 1, then γ.extend = γ.extend ∘ projIcc and LipschitzWith.projIcc (isLocLip_pulled_iff).",
-    "Never `set` a term occurring in the TYPE of a bound variable before a `change`: `set` re-introduces the variable and the goal then mentions the shadowed x✝, so `change` fails; state the lemma on the base type instead."
+    "Never `set` a term occurring in the TYPE of a bound variable before a `change`: `set` re-introduces the variable and the goal then mentions the shadowed x✝, so `change` fails; state the lemma on the base type instead.",
+    "Completeness lifts along a covering without a path-lifting library: take mathlib's IsEvenlyCovered data (U, H : f⁻¹U ≃ₜ U × fibre) at the limit; the sheet index t ↦ (H (γ t)).2 is constant along any path in f⁻¹U (PreconnectedSpace.constant, fibre discrete), and t ↦ H.symm (β t, i) lifts a path of U on sheet i (completeSpace_pulledLength_restrict).",
+    "A path is at least as long as the distance to any of its points: reparametrise by s ↦ γ.extend (t·s); its extend is γ.extend ∘ (t · projIcc), 1-Lipschitz, so LocLipAt transfers (LocLipAt.comp_lipschitz) and the length is localLength over [0, t] (LocalLengthSpace.edist_le_pathLength).",
+    "A homeomorphism S × ℝ ≃ₜ Y with ψ(x,0) = x makes p⁻¹(S) connected in the ported UniversalCover: retract a path α⁻¹·β rel endpoints into S and lift it with UniversalCover.liftFrom, whose endpoint class is built in (connectedSpace_preimage_of_splitting).",
+    "In a file with `open scoped unitInterval`, `σ` is notation (unitInterval.symm): a local `let σ := …` fails with 'Invalid pattern variable'."
   ],
-  "notes": "Builds with `taskset -c 0-11 lake env lean`: zero errors, no warning other than the four `declaration uses sorry` (isCoveringMap_projAlong_comp R1/W5, bcor_quoiso W6, bridge-B1, bridge-B3). #print axioms (file piped to `lean --stdin`): spacelikeDevelopment_restrict, IsSpacelikeLipschitzIn.restrict, isCauchyComplete_minkowski(Space), completeSpace_pulledLength_slice, the reuse-link lemmas are sorry-free; developsCC_of_isCauchyComplete depends on sorryAx only through 8.1, 8.3, B1, B3. Imports CausalScaffold.Flat.{InducedLength, FlatSpacetime, LipschitzGraph, Developing}; does NOT import Develop.lean (parallel): the bridge states DevelopsCC's content as the explicit conjunction (IsCauchySurface S ∧ InjOn dev Ŝ ∧ IsEntireAcausalGraph (dev '' Ŝ) ∧ NullSaturated (dev '' Ŝ)) for EVERY developing map dev; the master connects it to DevelopsCC. Name-collision grep against Causal/ and scaffold/ (all new names included) found none. Nothing is marked; no axiom. A stray scratch file scaffold/CausalScaffold/Flat/CCTmp1.lean was created for under a minute in the first round and deleted; it was never built.",
+  "notes": "Fixer round after the closer audit (2026-11-01): sorry_count stays 3, no statement changed. New proved lemma exists_splitting_of_hasChronalCausalFlow reduces bridge-B1 to target-4 (flat_hasChronalCausalFlow) + IsAcausal S; obstruction texts name both Splitting.lean lemmas; the splitting docstring is reworded (variant of Prop 8.11's homeomorphism half, STATED, tagged sorry, no bold). Re-typechecked: zero errors, only the three tagged-sorry warnings; the LipschitzGraph olean is still older than its working-tree source, so re-check after WP-32d is rebuilt. MASTER QUESTION: completeSpace_pulledLength_restrict (B3) never uses hL (IsSpacelikeLipschitz S), kept via `have _unusedL := hL` to preserve the statement; should a future statement-change round drop hL from B3 (as '⚠ weakened' / strengthened by fewer hypotheses)? Previous notes: Closer round (2026-11-01): sorry_count 4 -> 3, no statement of an existing declaration changed. CLOSED: bridge-B3 (completeSpace_pulledLength_restrict, sorry-free by #print axioms). REDUCED: bridge-B1 — connectedSpace_preimage_cauchy is now proved from a new tagged lemma exists_splitting_of_isCauchySurface (S × ℝ ≃ₜ M with ψ(x,0) = x, the homeomorphism half of Prop 8.11, class E, already listed External in BARBOT-WAVE3 §4) and the proved topological lemma connectedSpace_preimage_of_splitting. SHARPENED, not closed: bprop:project (four steps itemised; new: the pulled-length topology vs X's topology is a needed step that is not a hypothesis of 8.1 — it is derivable, not a defect) and bcor:quoiso. No sorried statement was found false. Builds with `taskset -c 0-11 lake env lean`: zero errors, the only warnings are the three `declaration uses sorry` (isCoveringMap_projAlong_comp, bcor_quoiso, exists_splitting_of_isCauchySurface). #print axioms: completeSpace_pulledLength_restrict, connectedSpace_preimage_of_splitting, pathLength_pulled_eq_of_local, LocalLengthSpace.edist_le_pathLength are sorry-free; developsCC_of_isCauchyComplete depends on sorryAx only through 8.1, 8.3 and the splitting. Name-collision grep (Causal/, scaffold/, including the parallel Loxodromic.lean that imports this file) found none. In B3 the unused hypothesis hL is referenced once (`have _unusedL := hL`) to keep the statement unchanged without an unused-variable warning. Previous round's notes: Builds with `taskset -c 0-11 lake env lean`: zero errors, no warning other than the four `declaration uses sorry` (isCoveringMap_projAlong_comp R1/W5, bcor_quoiso W6, bridge-B1, bridge-B3). #print axioms (file piped to `lean --stdin`): spacelikeDevelopment_restrict, IsSpacelikeLipschitzIn.restrict, isCauchyComplete_minkowski(Space), completeSpace_pulledLength_slice, the reuse-link lemmas are sorry-free; developsCC_of_isCauchyComplete depends on sorryAx only through 8.1, 8.3, B1, B3. Imports CausalScaffold.Flat.{InducedLength, FlatSpacetime, LipschitzGraph, Developing}; does NOT import Develop.lean (parallel): the bridge states DevelopsCC's content as the explicit conjunction (IsCauchySurface S ∧ InjOn dev Ŝ ∧ IsEntireAcausalGraph (dev '' Ŝ) ∧ NullSaturated (dev '' Ŝ)) for EVERY developing map dev; the master connects it to DevelopsCC. Name-collision grep against Causal/ and scaffold/ (all new names included) found none. Nothing is marked; no axiom. A stray scratch file scaffold/CausalScaffold/Flat/CCTmp1.lean was created for under a minute in the first round and deleted; it was never built.",
   "fixer": {
     "round": "audit fix",
     "applied": [
@@ -293,6 +309,41 @@
       "minor 8: checklist header 'paper hypothesis'",
       "sorry closed: bridge-B2 (spacelikeDevelopment_restrict), with the new IsSpacelikeLipschitzIn.restrict"
     ],
-    "disagreements": []
+    "disagreements": [],
+    "closer": {
+      "round": "closer",
+      "closed": [
+        "bridge-B3"
+      ],
+      "reduced": [
+        "bridge-B1 -> exists_splitting_of_isCauchySurface"
+      ],
+      "sharpened": [
+        "bprop:project",
+        "bcor:quoiso"
+      ],
+      "statements_changed": []
+    },
+    "closer_audit_fix": {
+      "round": "fixer after the closer-round audit (2026-11-01)",
+      "applied": [
+        "minor 1: bridge-B1 obstruction (file and REPORT) now names Flat.flat_hasChronalCausalFlow (target-4, Splitting.lean:1078) and Flat.flat_exists_isCauchySplitting (Splitting.lean:1084); further, the reduction is PROVED as the new sorry-free lemma exists_splitting_of_hasChronalCausalFlow (import CausalScaffold.Splitting added; olean dated 2026-10-31 17:15, newer than its source). The remaining inputs are target-4 (which also asks SecondCountableTopology M, not a FlatSpacetime field) and IsAcausal S; IsCausal is hGH.1.",
+        "minor 2: docstring of exists_splitting_of_isCauchySurface reworded: no bold; 'STATED, tagged sorry'; 'a variant of the homeomorphism half of Prop 8.11 (psi restricted to S x {0} is the inclusion, as in the flow construction; the slices' Cauchy property is not asked)'.",
+        "minor 3: re-typechecked with taskset -c 0-11 lake env lean: zero errors, three 'declaration uses sorry' warnings only (l.896, 1103, 1246). CAVEAT stands: .lake LipschitzGraph.olean (2026-10-31 22:30) is still older than the working-tree LipschitzGraph.lean (2026-11-01 00:06, WP-32d closer edit); no lake build is granted to this package, so the re-check against the rebuilt olean is owed before committing WP-32g.",
+        "module header (B1 bullet) and SCOPE updated to record the reduction"
+      ],
+      "disagreements": [],
+      "not_applied": [
+        "minor 4 (hL unused in B3): no change needed; recorded as a master-level question below"
+      ],
+      "closed": [],
+      "attempted_not_closed": {
+        "bridge-B1": "reduced further (above); closing needs target-4 + SecondCountableTopology + acausality, all outside this file",
+        "bprop:project": "out of reach this round: the four-step obstruction (~1000 lines) stands",
+        "bcor:quoiso": "out of reach this round: its closed half needs the same steps (ii)/(iii) as bprop:project"
+      },
+      "statements_changed": [],
+      "downstream": "Adding `import CausalScaffold.Splitting` exposes Splitting's 79 declaration names to importers (Loxodromic.lean); a short-name grep against every scaffold file found no collision. A lake build of CauchyComplete now depends on Splitting (already built)."
+    }
   }
 }

@@ -1,0 +1,422 @@
+{
+ "package": "WP-34d-Loxodromic",
+ "files": [
+  "scaffold/CausalScaffold/Flat/Loxodromic.lean"
+ ],
+ "builds": true,
+ "sorry_count": 9,
+ "labels": [
+  {
+   "label": "blem:sanlox",
+   "tex_lines": [
+    3140,
+    3166
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Flat.UGammaLox",
+    "Causal.Flat.omegaLox",
+    "Causal.Flat.omegaGamma_subset_omegaLox",
+    "Causal.Flat.subset_UGamma_of_oneSided",
+    "Causal.Flat.subset_compl_nullHyperplanes_of_oneSided",
+    "Causal.Flat.omegaPlus_limitSetJ_subset_omegaGamma",
+    "Causal.Flat.omegaMinus_limitSetJ_subset_omegaGamma",
+    "Causal.Flat.blem_sanlox"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Gamma contains a loxodromic element",
+     "here": "carried",
+     "note": "hlox"
+    },
+    {
+     "paper": "Rem 8.9 (no nonspacelike elliptic, no transverse parabolic)",
+     "here": "carried",
+     "note": "derived from CCAction through Develop's nini"
+    },
+    {
+     "paper": "the setting of §8",
+     "here": "strengthened",
+     "note": "DEC-35 reading CCAction Gamma Sigma, as in Flat.Develop"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "Causal.Flat.blem_sanlox",
+     "obstruction": "the printed proof needs Omega_lox(Gamma) convex, which fails (two quadrants already for a cyclic group); the argument is proved for every Gamma-invariant open set on which two null directions are one-sided, covering Omega^+-(Lambda(Gamma)); for a mixed-sign component of Omega_lox a linear parabolic may permute components and no one-sided bound is available"
+    }
+   ],
+   "findings": [
+    "l.3136/l.3157: Omega_lox(Gamma) is called 'the convex domain' but is not convex: for Gamma = <gamma> it is U+(gamma) disjoint union U-(gamma) (interior_achronalDomain_eq_quadrants). The proof l.3157-3165 is valid on each Gamma-invariant convex piece, hence on Omega^+-(Lambda(Gamma)), which is all §10 uses.",
+    "l.3159-3163 ('the convex hull of the gamma0-orbit of x is a complete lightlike line'): replaced by an exact growth argument <n|gamma^k x> = <n|c> + <n|R^k y> + k<n|p(y)>; a point of P(gamma0) in ker p has a bounded orbit, so x must first be moved off ker p inside the open set (done)."
+   ],
+   "questions": [
+    "Does Omega_lox(Gamma) = Omega(Gamma) hold as printed (mixed-sign components), or should Lemma 10.1 be read on the component Omega(S~) only?"
+   ]
+  },
+  {
+   "label": "blem:loxregular",
+   "tex_lines": [
+    3169,
+    3211
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Flat.blem_loxregular",
+    "Causal.Flat.loxregular_sign",
+    "Causal.Flat.omegaS_subset_quadrant",
+    "Causal.Flat.exists_line_avoiding",
+    "Causal.Flat.omegaS_eq_interior",
+    "Causal.Flat.interior_achronalDomain_eq_quadrants",
+    "Causal.Flat.cosmoRegular_limitSetJ"
+   ],
+   "hypotheses": [
+    {
+     "paper": "the setting of §8 (S complete, Gamma = pi1(S))",
+     "here": "strengthened",
+     "note": "DEC-35 reading CCAction Gamma Sigma (no sorry under it)"
+    },
+    {
+     "paper": "'up to time reversing isometries' (l.3181-3183)",
+     "here": "weakened",
+     "note": "both cases kept: Omega(S~) = Omega^+(Lambda(Gamma)) future regular, or Omega^-(Lambda(Gamma)) past regular; isom d is SO0-affine"
+    },
+    {
+     "paper": "Lemmas 4.6, 4.8, 4.9",
+     "here": "carried",
+     "note": "through Penrose's omegaPlus_closure_eq_interior (4.9 without hypothesis)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.3191-3193 ('the reader can easily check that ... there is always a timelike line avoiding U+(gamma0) ∩ U-(gamma1)') is filled: for distinct null directions a.1 != c.1 a vertical line through the point p with <(1,a)|p> = s_a, <(1,c)|p> = s_c avoids P-(a) ∩ P+(c) (exists_line_avoiding); one of the two repulsive points of gamma0, gamma0^-1 always has a direction distinct from that of gamma1's."
+   ],
+   "questions": []
+  },
+  {
+   "label": "bcor:loxo_proper",
+   "tex_lines": [
+    3213,
+    3228
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Flat.bcor_loxo_proper",
+    "Causal.Flat.loxo_free",
+    "Causal.Flat.loxo_properlyDiscontinuous",
+    "Causal.Flat.loxo_cauchyComplete",
+    "Causal.Flat.ActsFreelyProperlyOn",
+    "Causal.Flat.isCancelSMul_of_free",
+    "Causal.Flat.properlyDiscontinuousSMul_of_finite",
+    "Causal.Flat.preservesOmega_limitSetJ"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Gamma discrete (through bprop:agissons)",
+     "here": "not used",
+     "note": "properness is a sorry"
+    },
+    {
+     "paper": "'M(S) is a Cauchy-complete globally hyperbolic spacetime' (l.3216-3218)",
+     "here": "weakened",
+     "note": "future case only: bcor_loxo_proper's quotient clause is under omegaS = Omega^+(Lambda) (the past case is its time reversal; Flat.Examples has the GH theory of Gamma\\Omega^+ only); Cauchy-completeness split off as loxo_cauchyComplete, which takes the quotient instances as hypotheses (not folded in: its instance arguments are on hc.regular.opens)"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "Causal.Flat.loxo_properlyDiscontinuous",
+     "obstruction": "bprop:agissons (4.16) beyond invariance is not formalized (Riemannian metric of S_t, properness of isometry groups); the alternative from CCAction.proper needs a continuous Gamma-equivariant retraction Omega(S~) -> Sigma along the cosmological Gauss map, whose continuity Flat.Cosmological does not state"
+    },
+    {
+     "decl": "Causal.Flat.loxo_cauchyComplete",
+     "obstruction": "completeness of the cosmological level sets (bcor:level_sets_complete) not attempted upstream"
+    }
+   ],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "bprop:U_timelike",
+   "tex_lines": [
+    3346,
+    3362
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Flat.bprop_U_timelike",
+    "Causal.Flat.not_isNonelementary_of_lightlike",
+    "Causal.Flat.exists_nullVec_eq_smul"
+   ],
+   "hypotheses": [
+    {
+     "paper": "bthm:ausl, bthm:unip (cited)",
+     "here": "carried",
+     "note": "AuslanderCarriereDalbo d, MaxUnipotentSubspace d (externals, DEC-36)"
+    },
+    {
+     "paper": "nonelementary (l.3336-3337)",
+     "here": "carried",
+     "note": "IsNonelementary"
+    },
+    {
+     "paper": "'Being unique, U is also preserved by Gamma' (l.3343-3344)",
+     "here": "carried",
+     "note": "derived, no longer assumed: U nonempty and Gamma-invariant from exists_invariant_maxUnipotent and MaxUnipotentSubspace's uniqueness (the hypotheses hUne, hinv were removed)"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "Causal.Flat.bprop_U_timelike",
+     "obstruction": "spacelike case only: needs bcor:abel (Cor 8.4, not formalized; W9) and the corrected abelian folklore (the printed one is refuted by Externals' not_abelianPairAsPrinted); the lightlike case is proved"
+    }
+   ],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "bprop:LU_discrete",
+   "tex_lines": [
+    3367,
+    3388
+   ],
+   "status": "stated",
+   "marked": false,
+   "decls": [
+    "Causal.Flat.bprop_LU_discrete"
+   ],
+   "hypotheses": [
+    {
+     "paper": "U given as an affine subspace",
+     "here": "strengthened",
+     "note": "reading: U given by an AffineMinkEmbedding with RestrictsIn (Flat.TwistedProduct's form), L_U(Gamma) = linear image of the restricted group"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "Causal.Flat.bprop_LU_discrete",
+     "obstruction": "closures of restricted groups, centres of nilpotent closed subgroups of SO0(1,d1) and the classes of their elements: none in the library"
+    }
+   ],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "bprop:admlox",
+   "tex_lines": [
+    1229,
+    1266
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Flat.isomPenrose_image_limitSetJ_subset",
+    "Causal.Flat.fst_image_limitSetJ_subset",
+    "Causal.Flat.fst_image_loxRepSet_subset",
+    "Causal.Flat.limitSetJ_subset",
+    "Causal.Flat.IsRepulsiveFixedJ.isRepulsiveFixed",
+    "Causal.Flat.continuous_isomPenrose"
+   ],
+   "hypotheses": [
+    {
+     "paper": "any closed invariant subset",
+     "here": "strengthened",
+     "note": "nonempty (as Externals' LimitSetMinimal; the empty set is closed and invariant)"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "Causal.Flat.limitSetJ_subset",
+     "obstruction": "the basin-of-repulsion step in J (convergence of the s-coordinate of isomPenrose iterates near the repulsive point) is not formalized; the S-level minimality (through LimitSetMinimal) and the J-invariance are proved"
+    }
+   ],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "bdef:definitioncauchyhyp",
+   "tex_lines": [
+    1276,
+    1281
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Flat.IsCauchyHyperbolic",
+    "Causal.Flat.IsAdmissible",
+    "Causal.Flat.limitOpensPlus",
+    "Causal.Flat.limitOpensMinus",
+    "Causal.Flat.limitSetJ",
+    "Causal.Flat.loxRepSet",
+    "Causal.Flat.IsRepulsiveFixedJ",
+    "Causal.Flat.IsFutureAdmissible",
+    "Causal.Flat.IsPastAdmissible",
+    "Causal.Flat.IsCauchyHyperbolic.exists_isAdmissible"
+   ],
+   "hypotheses": [
+    {
+     "paper": "rho : Gamma -> Isom with L o rho = id, Gamma discrete without global fixed point (l.1212-1214)",
+     "here": "carried",
+     "note": "subgroup form: L injective on Gamma, L(Gamma) discrete in Externals' lorentzTopology, ¬HasGlobalFixedPoint"
+    },
+    {
+     "paper": "Omega^±(Lambda(rho)) for rho admissible (l.1277-1281); future/past admissible (l.1216-1220)",
+     "here": "carried",
+     "note": "reading: sign tied to the admissibility side: IsCauchyHyperbolic M := exists Gamma, (IsFutureAdmissible Gamma and M = Gamma\\Omega^+(Lambda(Gamma))) or (IsPastAdmissible Gamma and M = Gamma\\Omega^-(Lambda(Gamma))); IsAdmissible = future or past"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "Def 4.18 is read with Lambda(rho) = closure of all repulsive fixed points in J of loxodromic elements (IsRepulsiveFixedJ), and Omega^+ for future admissible, Omega^- for past admissible rho (sign tied in the definition). Is that the definition?"
+   ]
+  },
+  {
+   "label": "[10.M]",
+   "tex_lines": [
+    3235,
+    3330
+   ],
+   "status": "stated",
+   "marked": false,
+   "decls": [
+    "Causal.Flat.loxo_elementary_misner",
+    "Causal.Flat.IsNonelementary"
+   ],
+   "hypotheses": [
+    {
+     "paper": "up to finite index, L(Gamma) preserves an isotropic direction Delta_0 (l.3236-3238); conclusion stated for Gamma (l.3326-3330)",
+     "here": "weakened",
+     "note": "conclusion for a finite-index Gamma' <= Gamma (DEC-43's R1, a finite cover of M(S)): exists Gamma' <= rho.range, relIndex != 0, B = Gamma'\\Omega(S~) an LTP over an IsMisnerSpacetime M1. The full-Gamma form is false (finding)"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "Causal.Flat.loxo_elementary_misner",
+     "obstruction": "chain of unproved steps l.3237-3330: b ≡ 0, Gamma0 = ker a discrete elliptic, its nondiscrete part and maximal unipotent U (Carriere-Dal'bo), the purely unipotent case of §9 (Flat.Nonloxodromic, in progress), blem:suspendre, the totally geodesic H, the normal form and 'an appropriate use of Bieberbach' (G7) (statement now for a finite-index Gamma')"
+    }
+   ],
+   "findings": [
+    "l.3326-3330: the conclusion 'M(S) = Gamma\\Omega(S~) is a linear twisted product over a Misner spacetime' is false for Gamma itself; it holds up to finite index. Counterexample in M^4 (form xy+|z|^2, coordinates (x,z1,z2,y)): gamma0(x,z,y) = (e^-1 x, z, e y), sigma(x,z1,z2,y) = (-y, z1+1, -z2, -x) (SO0-affine, spacelike elliptic, allowed by Rem 8.9), sigma gamma0 sigma^-1 = gamma0^-1; Gamma = <gamma0, sigma> acts freely and properly on Omega = {x>0,y<0} x R^2, Sigma = {xy=-1} ∩ Omega satisfies (CC'), Omega(S~) = Omega; <gamma0, sigma^2> has index 2 and fixes Delta_0, so Gamma is elementary; the direction of U contains the (x,y)-plane, so Gamma_U is non-abelian, while a Misner group (misnerGroup L) is abelian, and quotient presentations of a convex domain are conjugate. Found by the read-only audit; statement restated for a finite-index Gamma'."
+   ],
+   "questions": []
+  },
+  {
+   "label": "[10.G]",
+   "tex_lines": [
+    3333,
+    3456
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Flat.generic_omegaS_eq",
+    "Causal.Flat.kerTranslations",
+    "Causal.Flat.kerTranslations_spacelike",
+    "Causal.Flat.kerTranslations_ballFinite",
+    "Causal.Flat.linOf_mem_kerTranslations",
+    "Causal.Flat.omegaS_add_mem_span",
+    "Causal.Flat.span_kerTranslations_spacelike",
+    "Causal.Flat.IsSpacelikeSubmodule",
+    "Causal.Flat.IsCHCentralExtension",
+    "Causal.Flat.IsCHTorusProduct",
+    "Causal.Flat.loxo_generic_centralExtension",
+    "Causal.Flat.loxo_generic_torusProduct",
+    "Causal.Flat.IsCHCentralExtensionOf",
+    "Causal.Flat.IsCHTorusProduct.isCHCentralExtension"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Selberg (DEC-44) for family (a)",
+     "here": "carried",
+     "note": "SelbergLemma (Minkowski d), rho.range.FG; the Selberg step itself is done in the proof"
+    },
+    {
+     "paper": "family (b)/(a): 'discrete nonelementary' (BARBOT-THEOREMS §1)",
+     "here": "weakened",
+     "note": "reading: Def 4.18's condition (l.1212-1214) DiscreteTopology (linearImage Gamma) and no global fixed point, weaker than nonelementary (an infinite dihedral group with a loxodromic is elementary with no global fixed point). Kept faithful to Def 4.18, which is what the paper's conclusion 'Cauchy-hyperbolic' names (l.3446-3447)"
+    },
+    {
+     "paper": "family (a) = (b) with L(Gamma) torsion-free",
+     "here": "carried",
+     "note": "IsCHTorusProduct now binds one Gamma: exists Gamma, IsCHCentralExtensionOf M Gamma and L(Gamma) torsion-free; IsCHTorusProduct.isCHCentralExtension proved"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "Causal.Flat.loxo_generic_centralExtension",
+     "obstruction": "needs Props 10.4/10.5 and suspendre (reduction to U = M^n), the finite-index subgroup acting trivially on the lattice (Bieberbach's finite_latticeStab with N's lattice structure), the quotient M^n/E as a Minkowski space Minkowski d1 (no orthochronous embedding onto E^perp is built) with p(Omega(S~)) its regular domain (l.3436-3446), and the quotient M(S) (Cor 10.3's properness)"
+    },
+    {
+     "decl": "Causal.Flat.loxo_generic_torusProduct",
+     "obstruction": "rests on loxo_generic_centralExtension for the finite-index subgroup given by Selberg"
+    }
+   ],
+   "findings": [
+    "l.3409: 'the translation vectors form a lattice in some spacelike linear space E' does not follow from the translation vectors being spacelike (Z(0,0,1) + Z(1,1,√2) in M^3 is a lattice of spacelike vectors spanning a degenerate plane); it holds because Omega(S~) = Omega^+-(Lambda(Gamma)) is E-invariant (convex + lattice-invariant) and Lambda(Gamma) has two distinct null directions (span_kerTranslations_spacelike). Not justified in the paper.",
+    "G5/F2 (torsion of L(Gamma)) handled as DEC-44 rules: family (b) IsCHCentralExtension is the conclusion; family (a) = (b) with L(Gamma) torsion-free (IsCHTorusProduct), reached under pi1 finitely generated via Selberg."
+   ],
+   "questions": []
+  }
+ ],
+ "extra_decls": [
+  "Causal.Flat.IsLoxodromic.inv'",
+  "Causal.Flat.isLoxodromic_linOf_inv",
+  "Causal.Flat.ne_one_of_isLoxodromic",
+  "Causal.Flat.minkB_linOf_of_eigen",
+  "Causal.Flat.eigen_of_funEq",
+  "Causal.Flat.exists_isRepulsiveFixedJ",
+  "Causal.Flat.IsRepulsiveFixedJ.fst_ne",
+  "Causal.Flat.IsRepulsiveFixedJ.conj",
+  "Causal.Flat.isFutureCausal_or_neg_of_minkQ_nonpos",
+  "Causal.Flat.minkQ_pos_of_minkB_sign",
+  "Causal.Flat.quadrants_subset_achronalDomain",
+  "Causal.Flat.null_eigen_cases",
+  "Causal.Flat.interior_achronalDomain_eq_quadrants",
+  "Causal.Flat.Ug_eq_achronalDomain_of_isLoxodromic",
+  "Causal.Flat.achronalDomain_eq_univ_of_isSpacelikeElliptic",
+  "Causal.Flat.achronalDomain_eq_univ_of_isTangentParabolic",
+  "Causal.Flat.linearParabolic_orbit_fwd",
+  "Causal.Flat.linearParabolic_orbit_bwd",
+  "Causal.Flat.IsElliptic.bounded_orbit",
+  "Causal.Flat.subset_compl_nullHyperplanes_of_oneSided",
+  "Causal.Flat.smul_mem_omegaPlus_limitSetJ",
+  "Causal.Flat.smul_mem_omegaMinus_limitSetJ",
+  "Causal.Flat.exists_two_loxRepSet",
+  "Causal.Flat.uniformization_injective",
+  "Causal.Flat.uniformization_image",
+  "Causal.Flat.uniformization_properlyDiscontinuous",
+  "Causal.Flat.uniformization",
+  "Causal.Flat.abs_minkB_nullVec_le_sq",
+  "Causal.Flat.eq_zero_of_nat_mul_le",
+  "Causal.Flat.funEq_of_inv",
+  "Causal.Flat.isClosed_limitSetJ",
+  "Causal.Flat.isomPenrose_mem_loxRepSet",
+  "Causal.Flat.isPreconnected_omegaS",
+  "Causal.Flat.IsRepulsiveFixedJ.iterate",
+  "Causal.Flat.loxRepSet_subset_limitSetJ",
+  "Causal.Flat.minkB_nullVec_vertical",
+  "Causal.Flat.nullXY_comm",
+  "Causal.Flat.nullXY_smul_smul",
+  "Causal.Flat.omegaS_subset_interior_achronalDomain",
+  "Causal.Flat.OneSidedOn",
+  "Causal.Flat.oneSidedOn_omegaPlus",
+  "Causal.Flat.oneSidedOn_omegaMinus",
+  "Causal.Flat.smul_mem_halfPlus_iff",
+  "Causal.Flat.smul_mem_halfMinus_iff",
+  "Causal.Flat.smul_mem_interior_of",
+  "Causal.Flat.smul_mem_omegaPlus_loxRepSet",
+  "Causal.Flat.smul_mem_omegaMinus_loxRepSet"
+ ],
+ "kb_proposals": [
+  "Barbot's U+-(gamma) for a loxodromic gamma are P+-(w) ∩ P+-(w'), w, w' the repulsive points in J of gamma and gamma^-1: interior_achronalDomain_eq_quadrants (Flat.Loxodromic); prefer it to nullXY frames.",
+  "An affine function multiplied by c^-1 under gamma gives the eigenvector equation for free: eigen_of_funEq; define fixed points in J by the functional equation, not by isomPenrose (which is not shown to be an action).",
+  "split_ifs uses hypotheses in context to pre-decide branches (with ¬IsNonspacelikeElliptic g in context the first branch of Ug vanishes): unfold Ug; rw [if_neg h]; by_cases is predictable.",
+  "A theorem named Foo.isomPenrose shadows isomPenrose inside its own body (kb/0019's pitfall again): name it Foo.conj.",
+  "TwistedProduct.olean at 2026-10-31 23:50 does not re-export Examples (its source now imports Examples, the olean predates it): import CausalScaffold.Flat.Examples explicitly."
+ ],
+ "notes": "gx's three names exist with the contract's meaning and weaker hypotheses (no nonelementary, no ker L = 1; only a loxodromic element): uniformization_injective (bprop_danom.1), uniformization_image (range D ⊆ Omega^+(Lambda) with Lambda future regular, or Omega^- / past regular), uniformization_properlyDiscontinuous (Omega(S~) = Omega^+-(Lambda) and ActsFreelyProperlyOn); uniformization bundles the three on the same side. They inherit Develop's sorries (holonomy_proper, bprop_danom step 1) and properlyDiscontinuous adds loxo_properlyDiscontinuous's. Lemma 10.2 (blem_loxregular), the [7.L] quadrant description, the corrected 10.1 core and the [10.G] lemmas are sorry-free (#print axioms: propext, Classical.choice, Quot.sound). For Classification: elementary branch = loxo_elementary_misner (finite-index Gamma' <= rho.range, B = Gamma'\\Omega(S~) LTP over IsMisnerSpacetime M1, F1's nonzero boost is inside IsMisnerSpacetime; DEC-43's R1 -- the full-Gamma form is FALSE, see the [10.M] finding, so Classification must state the elementary branch up to finite index too), nonelementary = loxo_generic_centralExtension (finite-index Gamma', LTP over IsCHCentralExtension, family (b)), loxo_generic_torusProduct for (a). Build: taskset -c 0-11 lake env lean, zero errors, only 'declaration uses sorry' warnings (9). The file imports Examples explicitly because the current TwistedProduct.olean does not re-export it; a lake build of this module will rebuild TwistedProduct (its source changed since the olean). Fixer pass (audit 2026-11-01): loxo_elementary_misner restated for a finite-index Gamma' (the full-Gamma statement is false, glide counterexample in M^4); bold label marks removed from five partial labels (no label is marked); IsCHTorusProduct binds a single Gamma through the new IsCHCentralExtensionOf; IsAdmissible split into IsFutureAdmissible/IsPastAdmissible and IsCauchyHyperbolic's sign tied to the side; bprop_U_timelike's hUne/hinv derived from MaxUnipotentSubspace's uniqueness; verbatim l.3454-3456 quote; SCOPE wording on the admlox lemmas; checklist rows for Cor 10.3 (future case only), [10.M] (finite index), no-global-fixed-point vs nonelementary, the Def 4.18 sign. Disagreement: family (b) keeps Def 4.18's 'no global fixed point' rather than BARBOT-THEOREMS §1's 'nonelementary' (the paper's conclusion names Def 4.18; disclosed as a reading). Not done: the past case of Cor 10.3's quotient (needs Gamma\\Omega^- GH in Examples) and folding loxo_cauchyComplete into bcor_loxo_proper (instance-argument shape). The 9 remaining sorries are unchanged in substance (upstream/external obstructions)."
+}

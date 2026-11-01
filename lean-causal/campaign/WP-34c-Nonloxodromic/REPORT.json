@@ -1,0 +1,437 @@
+{
+ "package": "WP-34c-Nonloxodromic",
+ "files": [
+  "scaffold/CausalScaffold/Flat/Nonloxodromic.lean"
+ ],
+ "builds": true,
+ "builds_meaning": "`taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/Nonloxodromic.lean` (fixer pass, 2026-11-01): zero errors; the only warnings are the three `declaration uses 'sorry'`. `lake build` was not run (not granted).",
+ "sorry_count": 3,
+ "labels": [
+  {
+   "label": "bprop:extension",
+   "tex_lines": [
+    2992,
+    3099
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.Flat.bprop_extension",
+    "Causal.Flat.bprop_extension_bounded",
+    "Causal.Flat.bprop_extension_top",
+    "Causal.Flat.bprop_extension_bot",
+    "Causal.Flat.exists_symm_extension_of_coercive",
+    "Causal.Flat.LimitesIneq",
+    "Causal.Flat.IsSymmOn"
+   ],
+   "hypotheses": [
+    {
+     "paper": "T : E -> P0bar linear, symmetric on E",
+     "here": "carried",
+     "note": "T given as a linear map on all of V (its values off E are unused); `IsSymmOn E T`"
+    },
+    {
+     "paper": "P0bar = R^{n-2} euclidean",
+     "here": "weakened",
+     "note": "any finite-dimensional real inner product space V"
+    },
+    {
+     "paper": "the inequality of Prop 9.3 in its case (y- = -y+, y+ = +inf, y- = -inf), y- < 0 < y+",
+     "here": "carried",
+     "note": "`LimitesIneq E T ylo yhi`, `hnorm`, `hfin`, `hlo`, `hhi`"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Barbot's proof (compactness of the symmetric maps of norm <= 1 and the forms Q(lambda, v), l.3040-3099) can be replaced by one argument: if c|Tu|^2 <= <u|Tu> on E (c > 0), then T^(e + w) = T e for e in E, w orthogonal to T(E), is well defined (E cap T(E)^perp lies in ker T), defined everywhere (E + T(E)^perp = V), symmetric and satisfies the same inequality; the case y- = -y+ reduces to it through P = (1 + y+ T)/2, since |P u|^2 <= <u|P u> iff |y+ T u| <= |u|. The case y- = -inf is the case y+ = +inf for -T."
+   ],
+   "questions": []
+  },
+  {
+   "label": "bprop:limites",
+   "tex_lines": [
+    2940,
+    2989
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Flat.bprop_limites",
+    "Causal.Flat.bprop_limites_model",
+    "Causal.Flat.limites_of_leading",
+    "Causal.Flat.leading_nonneg_of_achronal",
+    "Causal.Flat.NolParam.nolQ_powA_sub",
+    "Causal.Flat.nonneg_on_span_of_addSubgroup"
+   ],
+   "hypotheses": [
+    {
+     "paper": "S~ the complete spacelike hypersurface, Gamma-invariant",
+     "here": "weakened",
+     "note": "S~ acausal in M^n (`bprop_limites`) or 0 <= Q(X - X') on it (`bprop_limites_model`)"
+    },
+    {
+     "paper": "Gamma in A(v0), parametrized by u, v = T(u)",
+     "here": "carried",
+     "note": "for each u in L an isometry preserving S~ acting as (id, u, T u, mu, 0)"
+    },
+    {
+     "paper": "I = pi_1(S~) with extremities y-, y+, y- < 0 < y+",
+     "here": "weakened",
+     "note": "pi_1(S~) contains ]y-, y+["
+    },
+    {
+     "paper": "u(Gamma) a lattice of E",
+     "here": "weakened",
+     "note": "L an additive subgroup, E = span L; discreteness not used"
+    },
+    {
+     "paper": "coordinates x v0 + z + y vn adapted to Gamma; 'reducing as above to y- = -y+'",
+     "here": "strengthened",
+     "note": "a fixed null frame (`nolToMink`, v0 = ofNull 1 0 0) and the normalised case y- = -y+ (the change of origin in y is not formalized)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "The extension 'since u(Gamma) is a lattice of E' (l.2982-2987) needs only that u(Gamma) is an additive group spanning E: a continuous quadratic form nonnegative on a subgroup is nonnegative on its real span (x = lim N^-1 sum floor(N c_i) l_i)."
+   ],
+   "questions": []
+  },
+  {
+   "label": "bprop:sanloxo",
+   "tex_lines": [
+    2572,
+    2597
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Flat.bprop_sanloxo",
+    "Causal.Flat.exists_timelike_fixed_of_elliptic_of_null"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Gamma without loxodromic element; Benoist's theorem",
+     "here": "carried",
+     "note": "Benoist as the external `BenoistNoLox d` (Flat/Externals); the rest proved through `lorentz_trichotomy`"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "Causal.Flat.exists_timelike_fixed_of_elliptic_of_null",
+     "obstruction": "the branch 'L(Gamma') fixes a null v0 and is all-elliptic' must reduce to [9.E]: a subgroup of Isom(P0bar) all of whose elements have a fixed point needs a finite-index subgroup with a global fixed point — a cocycle question (the translation part c(g) ∈ range(r(g) - 1) for each g must be a coboundary up to finite index); true for finitely generated groups (bounded orbits) or through the Zariski-closure argument of l.2596-2597; not in the library, and not raised by the paper"
+    }
+   ],
+   "findings": [
+    "l.2621-2622 ('up to finite index, L(Gamma) preserves an isotropic vector v0 and Gamma contains a parabolic element gamma_1') does not follow from Prop 9.1 as stated: 9.1 allows L(Gamma') fixing v0 and consisting of elliptic elements only, a branch §9 never treats (it should reduce to the elliptic case)."
+   ],
+   "questions": []
+  },
+  {
+   "label": "[9.E] the elliptic case (prose, l.2604-2617)",
+   "tex_lines": [
+    2604,
+    2617
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Flat.nonloxodromic_elliptic",
+    "Causal.Flat.omegaS_eq_univ_of_isElliptic",
+    "Causal.Flat.UGamma_eq_univ_of_isElliptic",
+    "Causal.Flat.achronalDomain_eq_univ_of_elliptic_not_nonspacelike",
+    "Causal.Flat.spacelike_translations_null_span",
+    "Causal.Flat.isElliptic_of_relIndex",
+    "Causal.Flat.omegaS_eq_univ_of_relIndex",
+    "Causal.Flat.not_isElliptic_linEquiv_pow",
+    "Causal.Flat.pow_factorial_mem_of_relIndex"
+   ],
+   "hypotheses": [
+    {
+     "paper": "L(Gamma) in SO(n-1) up to conjugacy, up to finite index",
+     "here": "carried",
+     "note": "Gamma' <= Gamma of finite index (`Gamma'.relIndex Gamma != 0`, added at the 2026-11-01 audit: without it Gamma' = bot makes the statement false, e.g. for a Misner spacetime) whose linear parts fix a timelike vector; all of Gamma is then elliptic (`isElliptic_of_relIndex`)"
+    },
+    {
+     "paper": "Bieberbach's theorem",
+     "here": "carried",
+     "note": "the external `BieberbachI` (Flat/Bieberbach) for every dimension <= d + 1"
+    },
+    {
+     "paper": "M a manifold",
+     "here": "carried",
+     "note": "`T2Space M` (Develop's Prop 8.12 and `ccAction_of_developsCC` need it)"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "Causal.Flat.nonloxodromic_elliptic",
+     "obstruction": "proved: all of Gamma elliptic, Omega(S~) = M^n, Gamma free on M^n (`omegaS_eq_univ_of_relIndex`). Missing: proper discontinuity of Gamma'' on all of M^n (Develop's `holonomy_proper` is on Sigma only; Prop 8.10's properness on Omega(S~) is needed) and the bundled quotient B; the transport of Gamma' to E ≃ᵃⁱ E for the euclidean form fixed by L(Gamma') and the maximal translation subspace U (BieberbachMaxConclusion, mem_direction_of_fixed); RestrictsIn after an index-2 passage; IsTranslationSpacetime for Gamma''_U\\U, which needs the span of the translation vectors spacelike — to be derived from (CC') (an invariant graph t = x2 + h with h periodic along a dense line cannot be strictly contracting)"
+    }
+   ],
+   "findings": [
+    "'quotients of M^n by a group of translations by spacelike translation vectors' (l.588-590) is not 'translations whose span is spacelike' (BARBOT-THEOREMS §1's reading, Examples' IsTranslationSpacetime): in M^4 the translations by e1 and e0 + e2 + sqrt2 e1 generate a rank-2 group all of whose nonzero vectors are spacelike while its span contains the null vector e0 + e2 (`spacelike_translations_null_span`). Its quotient carries no invariant entire acausal graph (an invariant graph f = x2 + h, h doubly periodic, cannot be strictly contracting along e2), so (CC') should exclude it, but [9.E]'s 'translation spacetime' then needs that argument."
+   ],
+   "questions": [
+    "Is a translation spacetime (l.588-590) meant with a spacelike span of translation vectors (as BARBOT-THEOREMS §1 reads it), so that the degenerate-span rank-2 groups are excluded by definition?"
+   ]
+  },
+  {
+   "label": "[9.P] the parabolic set-up and coordinates (prose, l.2619-2735)",
+   "tex_lines": [
+    2619,
+    2735
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Flat.nolQ",
+    "Causal.Flat.nolB",
+    "Causal.Flat.NolParam",
+    "Causal.Flat.NolParam.act",
+    "Causal.Flat.NolParam.mul",
+    "Causal.Flat.NolParam.act_mul",
+    "Causal.Flat.NolParam.nolQ_act_sub",
+    "Causal.Flat.NolParam.act_proj₀",
+    "Causal.Flat.NolParam.act_proj₁",
+    "Causal.Flat.NolParam.act_zero",
+    "Causal.Flat.NolParam.IsU",
+    "Causal.Flat.NolParam.IsA",
+    "Causal.Flat.NolParam.act_of_isU",
+    "Causal.Flat.nolToMink",
+    "Causal.Flat.minkToNol",
+    "Causal.Flat.minkQ_nolToMink",
+    "Causal.Flat.nolToMink_sub",
+    "Causal.Flat.nolToMink_minkToNol",
+    "Causal.Flat.nolToMinkₗ",
+    "Causal.Flat.minkToNolₗ",
+    "Causal.Flat.exists_nolParam",
+    "Causal.Flat.nolQ_add",
+    "Causal.Flat.nullY_nolToMink"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [
+    "l.2659: for a linear gamma in A(v0), U(gamma) is the preimage under pi_1 of the complement of a point (u + y v != 0, l.2929), not of 'a half-line'; the component I' is still an interval."
+   ],
+   "questions": []
+  },
+  {
+   "label": "rem choixcoord (Rem 9.2, l.2737-2760)",
+   "tex_lines": [
+    2737,
+    2760
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Flat.frameChange",
+    "Causal.Flat.frameChange_act",
+    "Causal.Flat.frameChange_null",
+    "Causal.Flat.frameChange_coords",
+    "Causal.Flat.frameChange_mul_neg",
+    "Causal.Flat.choixcoord",
+    "Causal.Flat.choixcoord_nolA"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [
+    "Rem 9.2's changes of vn are not changes of null frame: |vn + w|^2 = |w|^2 for w in P0bar and |vn + a v0|^2 = 2a (`frameChange_null`). The correct change is vn' = vn + w - (|w|^2/2) v0, i.e. the coordinates (x, z, y) -> (x + <w|z> - (y/2)|w|^2, z - y w, y), the action of (id, 0, -w, 0, 0) in A(v0); under it u' = u, v' = v and Barbot's mu' = mu + <u|w> hold exactly (`choixcoord`). The first bullet (w in Delta0) is not a frame change at all."
+   ],
+   "questions": []
+  },
+  {
+   "label": "[9.b] triviality of b (prose, l.2767-2787)",
+   "tex_lines": [
+    2767,
+    2787
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Flat.b_trivial",
+    "Causal.Flat.b_trivial_model",
+    "Causal.Flat.b_eq_zero_model",
+    "Causal.Flat.NolParam.powU",
+    "Causal.Flat.nolQ_powU_sub"
+   ],
+   "hypotheses": [
+    {
+     "paper": "gamma_1 parabolic",
+     "here": "strengthened",
+     "note": "gamma_1 purely unipotent (R = id); b(gamma_1) = 0 is proved from v(gamma_1) != 0 (`b_eq_zero_model`, the p^4 coefficient -b^2|v|^2/12)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "The argument of l.2776-2787 uses Lemma 7.1 (`blem:paranongh`), false as printed for n >= 4 (Flat/AchronalDomains), and Cor 8.3. Neither is needed: invariance under gamma_0^{±1} makes pi_1(S~) unbounded both ways, and the leading term <u + y v | u + y' v> of Prop 9.3 at heights y0 + k b(gamma_0), y0 - k b(gamma_0) is negative for large k (`b_trivial_model`), for a purely unipotent parabolic gamma_1. For gamma_1 = R U with R != id the analogue (leading term on Fix R) is not written. `b_trivial` states it in M^n (normalised frame): if L(Gamma) fixes v0 = ofNull 1 0 0, Gamma preserves a nonempty acausal S~ and contains gamma_1 with R(gamma_1) = id, v(gamma_1) != 0, then every element of Gamma preserves each null hyperplane {y = c}."
+   ],
+   "questions": []
+  },
+  {
+   "label": "[9.U] the purely unipotent case (prose, l.2865-2938)",
+   "tex_lines": [
+    2865,
+    2938
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Flat.NolParam.inner_comm_of_commute",
+    "Causal.Flat.isSymmOn_span",
+    "Causal.Flat.nu_mul",
+    "Causal.Flat.NolParam.powA",
+    "Causal.Flat.NolParam.powA_act",
+    "Causal.Flat.NolParam.iterate_act"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "rem unipcomplet (Rem 9.4, l.2958-2963)",
+   "tex_lines": [
+    2958,
+    2963
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Flat.unipcomplet_model"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [
+    "See [9.A]: Rem 9.4 implies M(S) need not embed in any unipotent spacetime; `unipcomplet_model`'s docstring records it."
+   ],
+   "questions": []
+  },
+  {
+   "label": "[9.A] the conclusion (prose, l.3101-3129)",
+   "tex_lines": [
+    3101,
+    3129
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Flat.nolA",
+    "Causal.Flat.nolA_mul",
+    "Causal.Flat.eq_nolA",
+    "Causal.Flat.mem_omegaA_of_limites",
+    "Causal.Flat.LimitesIneq.add_smul_ne_zero",
+    "Causal.Flat.conclusion_model",
+    "Causal.Flat.diagLin",
+    "Causal.Flat.isSymmOn_diagLin",
+    "Causal.Flat.unipAction_nolToMink",
+    "Causal.Flat.nonloxodromic_parabolic",
+    "Causal.Flat.nonloxodromic",
+    "Causal.Flat.UGamma_add_mem",
+    "Causal.Flat.omegaS_add_mem",
+    "Causal.Flat.perp_invariant_omegaS",
+    "Causal.Flat.Ug_add_mem_of_isParabolic",
+    "Causal.Flat.nullPart_eq_span_of_fix",
+    "Causal.Flat.achronalDomain_tangent_eq_univ",
+    "Causal.Flat.perp_invariant_omegaS_of_null",
+    "Causal.Flat.CCAction.mono",
+    "Causal.Flat.linOf_fix_of_relIndex",
+    "Causal.Flat.perp_invariant_omegaS_of_relIndex",
+    "Causal.Flat.perp_invariant_omegaS_of_developsCC"
+   ],
+   "hypotheses": [
+    {
+     "paper": "D(M~) contained in pi_0^-1(pi_0(S~)) (l.3123-3125)",
+     "here": "carried",
+     "note": "`hcaus` (Prop 8.12, Develop's `bprop_danom`) in `nonloxodromic_parabolic`; the step itself is in the sorry"
+    },
+    {
+     "paper": "up to finite index, L(Gamma) fixes v0 and Gamma contains a parabolic (l.2621-2622)",
+     "here": "carried",
+     "note": "Gamma' <= Gamma with `Gamma'.relIndex Gamma != 0` (added at the audit), `hfix` on Gamma', `hpar`"
+    },
+    {
+     "paper": "Gamma has no loxodromic element (the §9 case)",
+     "here": "carried",
+     "note": "`hnl` on all of Gamma (added at the audit); with it all of Gamma fixes v0 (`linOf_fix_of_relIndex`)"
+    },
+    {
+     "paper": "M a manifold",
+     "here": "carried",
+     "note": "`T2Space M`"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "Causal.Flat.nonloxodromic_parabolic",
+     "obstruction": "the coordinate results are proved (Stab(v0) as NolParams, [9.b] for purely unipotent gamma_1, 9.3, 9.5, Rem 9.2, the group A and its identification with Examples' unipAction, conclusion_model), all of Gamma fixing v0 and G6 for Omega(S~) of Gamma (`perp_invariant_omegaS_of_developsCC`), and D(M~) ⊆ Omega(S~) (Develop's bprop_danom). Missing in M^n: a frame phi taking v0 to ofNull 1 0 0 and the conjugation by it; [9.b] for R != id; [9.U]'s Bieberbach step (properness of alpha(Gamma) on P0bar x {0}, Cor 8.3's homeomorphism), independence of U_t from t, Gamma ≅ Z^k with v = T∘u linear; the y-origin change making y- = -y+; the linear form l extending nu from the lattice; RestrictsIn for suspendre; Omega := pi_U^-1(Omega_A) with Omega_A the component of Omega(A) containing S~ ∩ U: Omega ⊆ Omega(S~) (Omega(A) ⊆ U(Gamma'') = U(Gamma) by UGamma_eq_of_index, then G6), D(M~) ⊆ pi_0^-1(pi_0 S~) ⊆ Omega (l.3123-3125), and the quotients B = Gamma''\\Omega, M1 = Gamma''_U\\Omega_A"
+    }
+   ],
+   "findings": [
+    "Rem 9.4 (l.2958-2962) has a consequence the paper does not draw: when every element of Gamma is a nonlinear unipotent isometry, Omega(S~) = M^n while D(M~) lies in a slab, and M(S) = Gamma\\M^n embeds in NO unipotent spacetime (an injective local isometry of Gamma_U\\M^n into Gamma_N\\phi(]alpha,beta[) lifts to a global isometry of M^n onto the slab, forcing ]alpha,beta[ = R, l = 0 and Gamma_N translations, against the nontrivial unipotent linear part). Example: M^4, l = (1,0), Gamma = <phi(e1+e2)> on {y > -1}. The conclusion of l.3126 is about M (D(M~) ⊆ Omega ⊆ Omega(S~), Omega ≠ Omega(S~) in general), not about M(S); BARBOT-THEOREMS §3's gloss 'conclusions about M(S) = Gamma\\Omega(S~): ... the parabolic reduction l.2904-2907 then l.3120-3127' should read 'about M' for the parabolic case. The earlier draft of `nonloxodromic_parabolic` (M(S) an LTP over a spacetime embedding in a unipotent one) was false for this reason and is restated."
+   ],
+   "questions": [
+    "The dispatch's output (2) for Classification ('the parabolic branch => M(S) is an LTP over a spacetime that embeds in a unipotent spacetime') is false (finding above). This file ships instead: ∃ Gamma'' ≤ Gamma of finite index, an open Gamma''-invariant Omega with D(M~) ⊆ Omega ⊆ Omega(S~), and B = Gamma''\\Omega an LTP over an IsUnipotentSpacetime (DEC-43 R1, l.3126). Classification must consume this form (it gives R1 through D: M~ -> Omega, not through M(S)); please confirm with the orchestrator."
+   ]
+  },
+  {
+   "label": "G6 (BARBOT-THEOREMS §6: Lemma 5.5's invariance hypothesis for Omega(S~), parabolic case; asserted l.2904)",
+   "tex_lines": [
+    2656,
+    2659
+   ],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.Flat.perp_invariant_omegaS_of_null",
+    "Causal.Flat.UGamma_add_mem",
+    "Causal.Flat.Ug_add_mem_of_isParabolic",
+    "Causal.Flat.nullPart_eq_span_of_fix",
+    "Causal.Flat.omegaS_add_mem",
+    "Causal.Flat.perp_invariant_omegaS",
+    "Causal.Flat.linOf_fix_of_relIndex",
+    "Causal.Flat.perp_invariant_omegaS_of_relIndex",
+    "Causal.Flat.perp_invariant_omegaS_of_developsCC"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Gamma fixes the isotropic v0, no loxodromic element, U contains Delta0",
+     "here": "carried",
+     "note": "for Omega(S~) of the WHOLE holonomy group: a finite-index Gamma' fixing v0 and containing a parabolic, Gamma without loxodromic element (then all of Gamma fixes v0: `linOf_fix_of_relIndex`, normal-core-free via the uniform power (relIndex)!), CCAction from DevelopsCC, ∃ u, ι.lin u = v0. The audit noted the first version covered only a group all of whose linear parts fix v0; the bridge is now proved"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Point (2) l.2656-2659 holds in the form needed: every U(gamma), gamma in Gamma ⊆ Stab(v0), is invariant under translations by v0^perp (elliptic: M^n; linear parabolic: the complement of c + J^perp with J = R v0 for every parabolic decomposition; tangent: M^n; transverse: excluded by nini); hence Omega(S~) is invariant under U^perp for every timelike U containing Delta0."
+   ],
+   "questions": []
+  }
+ ],
+ "extra_decls": [
+  "Causal.Flat.exists_symm_extension_of_coercive",
+  "Causal.Flat.nonneg_on_span_of_addSubgroup",
+  "Causal.Flat.tendsto_floor_mul_div_nat",
+  "Causal.Flat.isSymmOn_span",
+  "Causal.Flat.leading_nonneg_of_forall_nat",
+  "Causal.Flat.nol_iterate_mem",
+  "Causal.Flat.nol_leading_eq",
+  "Causal.Flat.nolQ_nonneg_of_isAcausal",
+  "Causal.Flat.omegaS_add_mem",
+  "Causal.Flat.CCAction.mono",
+  "Causal.Flat.exists_nolParam",
+  "Causal.Flat.nullPart_eq_span_of_fix",
+  "Causal.Flat.achronalDomain_tangent_eq_univ",
+  "Causal.Flat.not_isElliptic_linEquiv_pow",
+  "Causal.Flat.pow_factorial_mem_of_relIndex",
+  "Causal.Flat.isElliptic_of_relIndex",
+  "Causal.Flat.linOf_fix_of_relIndex",
+  "Causal.Flat.perp_invariant_omegaS_of_relIndex"
+ ],
+ "kb_proposals": [
+  "Barbot's null coordinates are a model `ℝ × E × ℝ` with `Q = 2xy + |z|²` (`Flat/Nonloxodromic`'s `nolQ`, `NolParam`), linked to `𝐌ⁿ` by `nolToMink := ofNull`; an element of `Stab(v₀)` is the data `(R, u, v, μ, b)` with an explicit composition law (`NolParam.mul`), and powers/quadratic leading terms are proved by `ext` + `ring` after `norm_add_sq_real`, keeping `‖u + y • v‖²` as an atom.",
+  "To extend a partial linear map from a subspace E by zero on a complement, glue with `LinearPMap.sup` and evaluate through `LinearPMap.sup_apply`; `E ⊔ Fᗮ = ⊤` is easiest through `(E ⊔ Fᗮ)ᗮ = Eᗮ ⊓ F = ⊥` (`Submodule.inf_orthogonal`, `orthogonal_orthogonal`, `orthogonal_eq_bot_iff`).",
+  "`Σ` is a reserved token in Lean 4 (sigma types): it cannot be a variable name; nor can `y₋` (subscript minus).",
+  "A uniform power lands in a finite-index subgroup without normal cores: `Subgroup.pow_mem_of_relIndex_ne_zero_of_dvd hidx ha (fun _ hm hle => Nat.dvd_factorial hm hle)` gives a ^ (H.relIndex K)! ∈ H for every a ∈ K; conjugates are handled by `conj_pow`.",
+  "The built Develop.olean (2026-10-31 23:50) predates the closer's Develop.lean edits (it lacks `isElliptic_linOf_zpow_iff`, `IsParabolic.zpow_linOf`, and `ccAction_of_developsCC`/`bprop_danom` there take no `[T2Space M]`); a downstream file must use names absent from both and carry `[T2Space M]` as an explicit binder so that it typechecks against either olean."
+ ],
+ "notes": "FIXER PASS 2026-11-01 (audit blocking 1, 2 and minors applied). (1) `nonloxodromic_parabolic` restated: its earlier conclusion (M(S) = Gamma''\\Omega(S~) an LTP over a spacetime embedding in a unipotent one) is refuted by Rem 9.4; it now gives ∃ Gamma'' ≤ Gamma' of finite index, Omega : Opens with range D ⊆ Omega ⊆ Omega(S~), B with IsQuotientOf B Gamma'' Omega, and IsLTPOver B M1 with IsUnipotentSpacetime M1 (DEC-43 R1, l.3126). `nonloxodromic` now outputs ∃ Gamma'' ≤ Gamma (finite index) Omega B, range D ⊆ Omega ⊆ Omega(S~) ∧ IsQuotientOf B Gamma'' Omega ∧ ((Omega = Omega(S~) ∧ LTP over a translation spacetime) ∨ LTP over a unipotent spacetime); still no sorry of its own (range D ⊆ Omega(S~) from bprop_danom in the elliptic branch). (2) Both branch theorems gained `Gamma'.relIndex rho.range != 0`; the parabolic one also `hnl` on rho.range. (3) The G6 bridge is proved (`linOf_fix_of_relIndex`, `perp_invariant_omegaS_of_developsCC`). (4) Checklist tag '⚠ strengthened' for the fixed frame. All main theorems carry `[T2Space M]` (explicit binder). The output (2) of the dispatch for Classification is false as worded and must be replaced by this file's form — raise with the orchestrator. Remaining sorries: 3 (exists_timelike_fixed_of_elliptic_of_null, nonloxodromic_elliptic, nonloxodromic_parabolic); none could be closed in this pass (Bieberbach transport, suspendre, quotient constructions and the [9.U] steps are each multi-hundred-line developments). Typechecked against the built oleans; the closer's newer Develop.lean adds `[T2Space M]` to `ccAction_of_developsCC`/`bprop_danom`, which this file supplies, so it should also typecheck after Develop is rebuilt (not verified: no lake build). Universe: B, M1 : FlatSpacetime.{0}. No public-name collision with any scaffold source (checked by grep against current sources, incl. Loxodromic.lean and the edited Develop.lean)."
+}
