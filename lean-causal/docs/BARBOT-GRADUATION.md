@@ -41,6 +41,16 @@ stub, and any Flat/Lox/*, Flat/Nonlox/* lemma files still carrying sorries (re-c
    still in the scaffold; `secondCountableTopology` is a new global instance; never
    `open Causal GX`.
 
+## Step 6 — split the gx exports into a strict module (requested by gx, 2026-11-01)
+After step 4 is green: create `Causal/Flat/Uniformization.lean` holding `uniformization_injective`,
+`uniformization_image`, `uniformization_properlyDiscontinuous`, `uniformization` (from
+`Flat/Loxodromic`) and `equality_of_absMax`, `range_eq_omegaS_of_absMax` (from `Flat/Classification`)
+together with their sorry-free closure (all their dependencies inside Loxodromic/Classification —
+compute it with the closure walk of `docs/BARBOT-DEPENDENCIES.md`; `#print axioms` must stay at the
+three standard axioms). MOVE (not copy) the declarations; Loxodromic and Classification import the new
+module. Add it to `Causal.lean`. Then message gx the module name `Causal.Flat.Uniformization`
+(gx pins it in `BARBOT-INTERFACE.md`; gx's strict library may not import a scaffold module).
+
 ## Deferred cleanups
 minkB/minkQ helper triplication (Isometries public / Penrose, Cosmological private) → consolidate
 into Form later; `IsLocalIsometry` ↔ `Port.GXBasic.IsGXMorphism` bridge file; generic Causality
