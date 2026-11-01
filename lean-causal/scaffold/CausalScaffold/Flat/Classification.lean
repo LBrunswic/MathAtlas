@@ -494,11 +494,12 @@ theorem caseOutput_misner {d' : ℕ} {M : Type*} [TopologicalSpace M]
     [HasGroupoid M (gxGroupoid (isom (d' + 1)) (Minkowski (d' + 1)))] [T2Space M] {x₀ : M}
     {D : UniversalCover M x₀ → Minkowski (d' + 1)}
     {ρ : Deck (UniversalCover.proj M x₀) →* isom (d' + 1)} {S : Set M}
+    (hBieb : ∀ k ≤ d' + 1 + 1, BieberbachI (EuclideanSpace ℝ (Fin k)))
     (hpair : IsDevelopingPair x₀ D ρ) (hcaus : (flatCausality (d' + 1) M).IsCausal)
     (h : DevelopsCC x₀ D S) (hlox : ∃ γ ∈ ρ.range, IsLoxodromic (linOf γ))
     (helem : ¬IsNonelementary ρ.range) : CaseOutput D ρ := by
   obtain ⟨Γ', hle, hidx, B, hB', d₁, M₁, hd₁, hltp, hM₁⟩ :=
-    loxo_elementary_misner hpair hcaus h hlox helem
+    loxo_elementary_misner hBieb hpair hcaus h hlox helem
   exact ⟨Γ', hle, hidx, _, (bprop_danom hpair hcaus h).2, convex_omegaS_of_developsCC hpair h, B,
     hB', d₁ + 1, by omega, M₁, Or.inr (Or.inl hM₁), hltp⟩
 
@@ -527,7 +528,7 @@ theorem caseOutput {M : Type*} [TopologicalSpace M] [ChartedSpace (Minkowski d) 
       | zero => exact absurd hlox (by
           rintro ⟨γ, -, R, H, -, -, -, hH, -⟩
           exact not_isHyperbolic_zero H hH)
-      | succ d' => exact caseOutput_misner hpair hcaus h hlox hne
+      | succ d' => exact caseOutput_misner hE.bieberbach hpair hcaus h hlox hne
   · push Not at hlox
     exact caseOutput_nonloxodromic (hE.benoist d le_rfl) (titsVirtuallyAbelianNull d)
       hE.bieberbach hpair hcaus h hlox

@@ -3,6 +3,7 @@ import CausalScaffold.Flat.TitsNull
 import CausalScaffold.Flat.Loxodromic
 import CausalScaffold.CompactCauchy
 import CausalScaffold.CurvesExtend
+import CausalScaffold.Flat.Cla.G9Pair
 
 /-!
 # `CausalScaffold.Flat.Cla.G9` — a Cauchy-compact linear twisted product over a model is finitely covered by a model of Theorem B
@@ -39,9 +40,9 @@ module serves `cauclo_from_embedding`'s steps (3)–(4). Line numbers are those 
   (G9): if `B` is GH and Cauchy-compact, `f : M' → B` a surjective isometric embedding, and `B` a
   linear twisted product over a model `M₁` of Theorem A (translation, Misner, unipotent or the
   central extension (b)), then some finite cover `M₁'` of `M'` is a translation spacetime, a
-  Misner spacetime, or a torus product (a). It rests on **one** tagged `sorry`,
-  `false_of_cauchyCompact_of_fixed_pair` (the residual case of G9d's (NE), below); G9a, G9b, G9c
-  and the rest of G9d are proved.
+  Misner spacetime, or a torus product (a). **Sorry-free** (on the named external `hSel`): G9a,
+  G9b, G9c and G9d are proved, the residual pair case of G9d's (NE)
+  (`false_of_cauchyCompact_of_fixed_pair`) through `Flat/Cla/G9Pair.lean`.
 * `fg_and_nonelementary_of_cauchyCompact` — **G9d's geometric input**, assembled: **(FG) proved**
   (`fg_of_isQuotientOf_cauchyCompact`, sorry-free: the lift of the compact Cauchy surface is
   connected by lifting the deformation of the splitting, `isPreconnected_preimage_of_splitting`,
@@ -49,7 +50,9 @@ module serves `cauclo_from_embedding`'s steps (3)–(4). Line numbers are those 
   reduced**, sorry-free (`not_hasGlobalFixedPoint_of_relIndex_ne_zero`: a fixed timelike vector of
   a finite-index `L(Γ')` averages to one of `L(Γ)`; a fixed point of `𝒮` has a finite orbit, fixed
   pointwise by the normal core, of one point, of three or more — a fixed timelike `n₁ + n₂` — or of
-  an invariant pair) to the pair case, the module's one `sorry`.
+  an invariant pair) to the pair case; **the pair case proved**
+  (`false_of_cauchyCompact_of_fixed_pair`: some element of `N` is a boost, else `N` fixes the
+  timelike `n₁ + n₂`; then `Flat/Cla/G9Pair.lean`'s `false_of_cauchyCompact_of_fixed_pair_of_scale`).
 * `isCompact_image_of_isQuotientOf` — **the obstruction to Cauchy-compactness**, sorry-free: if
   `M = Γ\Ω` is causal with a compact Cauchy surface `K`, and `F` is a continuous `Γ`-invariant
   function on `𝐌ⁿ` constant along a causal direction `v`, then `F(Ω)` is compact. This is the
@@ -96,12 +99,14 @@ module serves `cauclo_from_embedding`'s steps (3)–(4). Line numbers are those 
 
 ## SCOPE (disclosed)
 
-`false_of_cauchyCompact_of_fixed_pair` carries the one `sorry`: for a GH Cauchy-compact
-`B = Γ\Ω^±(Λ(Γ))` of family (b), no finite-index `N ≤ Γ` fixes (in `L`) two distinct points of `𝒮`
-whose pair `L(Γ)` preserves — the elementary-loxodromic case of (NE) (Barbot: `L(Γ)` acts
-cocompactly on some `𝐇ᵏ`, `k ≥ 2`; equivalently `Γ` virtually `ℤ^{1+dim E}`, `dim E ≤ d − 2`,
-cannot act cocompactly on the lifted Cauchy surface). It is a special case of (NE), hence true.
-(FG) and every other case of (NE) are proved; everything downstream is proved. Copies, kept
+No `sorry`. `false_of_cauchyCompact_of_fixed_pair` — for a GH Cauchy-compact `B = Γ\Ω^±(Λ(Γ))` of
+family (b), no finite-index `N ≤ Γ` fixes (in `L`) two distinct points of `𝒮` whose pair `L(Γ)`
+preserves, the elementary-loxodromic case of (NE) — is proved in `Flat/Cla/G9Pair.lean` by a route
+that is not Barbot's (his: `L(Γ)` acts cocompactly on some `𝐇ᵏ`, `k ≥ 2`): `Λ(Γ)` lies over the
+pair, so `Ω` is invariant under `P^⊥ = n₁^⊥ ∩ n₂^⊥`; a swap `σ ∈ Γ` moves some `v ∈ P^⊥`
+(determinant), giving a spacelike `f ⊥ E`; and a function continuous on `Ω`, invariant under the
+boost `γ₀` and the translations of `Γ`, constant along `n₁` and unbounded along `f` contradicts the
+compactness of the Cauchy surface. Copies, kept
 `private`: Classification's `isCancelSMul_of_isCoveringMap` / `properlyDiscontinuousSMul_of_…`,
 FiniteCover's sheet criterion, Lox.RestrictLimitSet's `repJ_eq_of_relIndex_ne_zero` (this module
 may import none of them).
@@ -2198,9 +2203,11 @@ variable {d : ℕ}
 /-- **G9d (NE), the residual case: a finite-index subgroup fixing an `L(Γ)`-invariant pair of
 `𝒮`** (DEC-44; l.3454–3456; l.3536–3548). For a GH Cauchy-compact central extension
 `B = Γ\Ω^±(Λ(Γ))` (family (b)), no finite-index `N ≤ Γ` has linear parts fixing two distinct
-points `u₁ ≠ u₂` of `𝒮` whose pair `L(Γ)` preserves. **The one `sorry` of this module.** It is a
-special case of (NE), so it is true (Barbot: `L(Γ)` acts cocompactly on some `𝐇ᵏ`, `k ≥ 2`); every
-other case of (NE) is reduced to it (`not_hasGlobalFixedPoint_of_relIndex_ne_zero`). -/
+points `u₁ ≠ u₂` of `𝒮` whose pair `L(Γ)` preserves; every other case of (NE) is reduced to it
+(`not_hasGlobalFixedPoint_of_relIndex_ne_zero`). Proof: some element of `N` has boost parameter
+`c ≠ 1` on `n₁` — otherwise `N` fixes `n₁` and `n₂` (`pairScale_eigen`), hence the timelike
+`n₁ + n₂`, and `L(Γ)` has a global fixed point (`hasGlobalFixedPoint_of_fixed_timelike`) — and
+then `Flat/Cla/G9Pair.lean`'s `false_of_cauchyCompact_of_fixed_pair_of_scale` (module SCOPE). -/
 theorem false_of_cauchyCompact_of_fixed_pair {B : FlatSpacetime.{0} d} (_hGH : GH B)
     (_hC : CauchyCompact B) {Γ : Subgroup (isom d)} (_hB : IsCHCentralExtensionOf B Γ)
     {N : Subgroup (isom d)} (_hle : N ≤ Γ) (_hidx : N.relIndex Γ ≠ 0) {u₁ u₂ : PenroseSphere d}
@@ -2208,14 +2215,22 @@ theorem false_of_cauchyCompact_of_fixed_pair {B : FlatSpacetime.{0} d} (_hGH : G
     (_hfix : ∀ γ ∈ N, lorentzSphere (linearPart γ) u₁ = u₁ ∧ lorentzSphere (linearPart γ) u₂ = u₂)
     (_hpair : ∀ γ ∈ Γ, ∀ u ∈ ({u₁, u₂} : Set (PenroseSphere d)),
       lorentzSphere (linearPart γ) u ∈ ({u₁, u₂} : Set (PenroseSphere d))) : False := by
-  sorry -- SORRY(bthm:cauclo, G9d-NE pair): the elementary-loxodromic configuration must contradict Cauchy-compactness, and the library has no argument for it. Setting: `N` normal of finite index in `Γ` (Barbot's elementary case [10.M] with a swap: `L(Γ)` preserves `{u₁, u₂}`, some element exchanges them since `L(Γ)` has no global fixed point), `L(γ) nᵢ = λ(γ)^{±1} nᵢ` on `N` with some `λ ≠ 1` (else `n₁ + n₂` is fixed, `hasGlobalFixedPoint_of_fixed_timelike`), `L(N)` virtually cyclic (discrete in `SO₀(1,1) × O(P^⊥)`, `P = span(n₁, n₂)`), `E ⊆ P^⊥`, `E ≠ P^⊥` (the swap reverses `P^⊥`'s orientation and fixes `E`). Then `Γ` is virtually `ℤ^{1 + dim E}` with `1 + dim E ≤ d − 1 + 1 = d` and equality impossible, so it cannot act cocompactly on the lifted Cauchy surface `≅ ℝᵈ` — Barbot's route is that `K` compact makes `L(Γ)` act cocompactly on a totally geodesic `𝐇ᵏ`, `k ≥ 2`. Missing: (i) `Λ(Γ) ⊆ {u₁, u₂} × ℝ` from the repulsive points of the loxodromics of `Γ` (powers in `N`), so `Ω` is a wedge `W × A` over the codimension-2 spacelike `A`; (ii) an invariant of the action on `Ω` that is constant along a causal line and has non-compact image — the `P^⊥`-coordinate alone fails when `N` acts cocompactly on `A` (a boost composed with a translation along `A`), and the mixed coordinate `y − log(−⟨p − c, n₁⟩)/log λ` is continuous on `Ω` only and needs a common centre `c`; `isCompact_image_of_isQuotientOf` asks for `F` continuous on `𝐌ⁿ`; (iii) or a cohomological-dimension / growth argument (a free cocompact action of a virtually `ℤᵐ` group on a contractible `d`-manifold forces `m = d`), not in mathlib
+  refine false_of_cauchyCompact_of_fixed_pair_of_scale _hGH _hC _hB _hle _hidx _hne _hfix _hpair ?_
+  -- some element of `N` is a boost: otherwise `N` fixes the timelike `n₁ + n₂`
+  by_contra hc
+  push Not at hc
+  obtain ⟨E, -, -, -, -, -, hnf, -⟩ := id _hB
+  refine hnf (hasGlobalFixedPoint_of_fixed_timelike _hidx (minkQ_nullVec_add_neg _hne)
+    fun γ hγ => ?_)
+  obtain ⟨e₁, e₂⟩ := pairScale_eigen _hne (_hfix γ hγ).1 (_hfix γ hγ).2
+  rw [map_add, e₁, e₂, hc γ hγ, inv_one, one_smul, one_smul]
 
 /-- **G9d, the geometric input** (DEC-44; l.3454–3456; l.3536–3548): for a GH Cauchy-compact
 central extension `B = Γ\Ω^±(Λ(Γ))` (family (b)), `Γ` is finitely generated and no finite-index
 subgroup of `L(Γ)` has a global fixed point on `𝐇̄`. (FG) is proved
 (`fg_of_isQuotientOf_cauchyCompact`); (NE) is reduced (`not_hasGlobalFixedPoint_of_relIndex_ne_zero`)
-to the residual pair case `false_of_cauchyCompact_of_fixed_pair`, **the one `sorry` of this
-module**, which this theorem reaches. The second conjunct is not a consequence of family (b) alone
+to the residual pair case `false_of_cauchyCompact_of_fixed_pair`, proved. The second conjunct is
+not a consequence of family (b) alone
 (module SCOPE, finding). -/
 theorem fg_and_nonelementary_of_cauchyCompact {B : FlatSpacetime.{0} d} (_hGH : GH B)
     (_hC : CauchyCompact B) {Γ : Subgroup (isom d)} (_hB : IsCHCentralExtensionOf B Γ) :
@@ -2311,7 +2326,7 @@ theorem exists_family_of_isLTPData_of_perp (hSel : SelbergLemma (Minkowski d))
 /-- **G9a + G9d** (l.3536–3548; DEC-44): a GH Cauchy-compact linear twisted product `B` over a
 model `M₁` of Theorem A is itself a translation, Misner or unipotent spacetime, or is finitely
 covered by a torus product (a). The LTP is trivial by `perp_eq_zero_of_cauchyCompact`; the rest is
-`exists_family_of_isLTPData_of_perp` (whose family-(b) branch is G9d's `sorry`). -/
+`exists_family_of_isLTPData_of_perp` (whose family-(b) branch is G9d). -/
 theorem exists_family_of_isLTPOver_cauchyCompact (hSel : SelbergLemma (Minkowski d))
     {B : FlatSpacetime.{0} d} (hGH : GH B) (hC : CauchyCompact B) {d₁ : ℕ}
     {M₁ : FlatSpacetime.{0} d₁}
@@ -2341,7 +2356,7 @@ theorem exists_family_of_isLTPOver_cauchyCompact (hSel : SelbergLemma (Minkowski
 GH and Cauchy-compact, `f : M' → B` a surjective isometric embedding, and `B` a linear twisted
 product over a model `M₁` of Theorem A, then some finite cover `M₁'` of `M'` is a translation
 spacetime, a Misner spacetime, or a torus product (a). Proof: the base-level core
-(`exists_family_of_isLTPOver_cauchyCompact`: G9a proved, G9d's one `sorry`), G9b
+(`exists_family_of_isLTPOver_cauchyCompact`: G9a and G9d), G9b
 (`not_cauchyCompact_of_isUnipotentSpacetime`) to exclude the unipotent output, and G9c: `f` is an
 isometric homeomorphism, along whose inverse the families, `IsQuotientOf` and finite covers
 transport (`M₁' = M'`, `q = id` for the translation and Misner outputs). -/

@@ -144,6 +144,13 @@ Classes: **T** causal / order-topological / affine in Minkowski space; **D** met
   loxodromic and acts freely and properly on the domain, but acts on π_P⁻¹(0) by a rotation fixing 0.
   The claim holds for Γ₀ = ker a; [10.M]'s conclusion is not refuted (that example is Misner in 𝐌²).
   Found 2026-11-01, WP-34d REPORT.json.
+- **F4** — [10.M], l.3264–3269: the conjugation formula holds only if α(γ) fixes the origin of Q₀; a
+  loxodromic with a screw part fixes no point and its conjugates drift by n Rⁿ(I − R(γ'))u, so
+  "v(γ') = 0" is unjustified as written. The conclusion is true and proved another way (translation
+  lengths are conjugation-invariant, `Lox.fix_second_null`, under Bieberbach I). Also l.3287
+  ("L(Γ₀) is finite") needs the U = 𝐌ⁿ reduction made just before it (Carrière–Dal'bo).
+- **[10.M] carries `hBieb`** (2026-11-01): its statement was shown to imply Bieberbach I, so the named
+  external is added, as in `BarbotExternals.bieberbach` and the `nonloxodromic_*` statements.
 
 ## Findings against ETT (for the author; the ETT ledger is not edited from this campaign)
 
