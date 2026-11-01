@@ -1,0 +1,113 @@
+{
+  "package": "WP-27j",
+  "round": "1 (dispatch numbering); fourth audit of the package, reviewing REPORT round 4 (DEC-66, DEC-67, DEC-69); follows AUDIT-2 and AUDIT-3",
+  "file": "scaffold/GXScaffold/SingularII/Models.lean",
+  "verdict": "issues",
+  "builds": true,
+  "sorry_count_measured": 2,
+  "summary": "Builds: `taskset -c 0-11 lake env lean` exits 0 in 5.5 s. There are exactly two 'declaration uses sorry' warnings, at l.1574 GX.spread_top and l.1641 GX.exists_isLocalTamifying_charts. That matches REPORT sorry_count 2, and both are tagged SORRY(<label>). The olean (21:22) is newer than the source (21:21). #print axioms was run through stdin, so nothing was written. sorryAx reaches only GX.isVirtuallyTame_of_isXAManifold and GX.local_virt_tame. These are clean (propext, Classical.choice, Quot.sound): singularAut, isAnalyticModelFamily_iff, existsUnique_hasXAType, isXAManifold_model_of_sing_subset, forall_isTame_iff, forall_isTame_iff_printed, isAnalyticModelFamily_unit_iff_eq_singleton, isTamifyingTopology_natural_iff, IsTamifyingTopology.induced_reg_eq, IsTamifyingTopology.isLocalTamifying, exists_isTamifyingTopology_of_local, exists_isRegDevelopingOnReg, exists_lift_singularAut, isVirtuallyTame_of_isXAManifold_of_isTame, spread_top_deck and strongPullTop_self. The REPORT decls (labels plus extra_decls) and the file's 85 declarations are the same set. None of the 85 names clashes with a declaration in GX/ or another scaffold file. The module docstring marks exactly the 8 rows REPORT calls closed/marked, and no partial or stated row is bold. DEC-67 (e) is applied correctly. IsXAManifold is the printed atlas plus a type at every singular point; both fields are needed, because hasType alone does not cover regular points. Under it, rem:singular_point_manifold_has is closed: existence comes from the ruling and uniqueness from the remark's own argument (hasType_unique, checked). def:analytic_family_model_spaces is closed under the ruling, with the printed form kept as IsXAManifoldPrinted. The round-3 literal-atlas sorry is gone, and the gluing (piece (3)) now runs under the ruling with no extra hypothesis. I re-checked it: hcompat uses nhds_reg over reg M, and at a singular point it uses the centred chart that DEC-67 (e) supplies, with eq_of_mem_centre and exists_aut_eq. Statement fidelity holds for the definitions. IsAnalyticModelFamily: the two fields are equivalent to the printed clause through isAnalyticModelFamily_iff. XAChart: x ∈ sing M is derived. IsTamifyingTopology: T ≤ weak means finer, i.e. 'thinner'; (A) is coinduced = natural; (B) is read as 'a developing map extends', which is equivalent because developing maps on the connected reg are unique up to G; (C) is the deck group; (D) is IsPortly. IsLocallyGaloisian uses DEC-55's literal IsSLSCInCC. strongPullTop's ⊓ is the right order. AUDIT-3's minors on spread_top are all fixed: hrel is carried, maxBranched_isGaloisian_cc is named, status and bold marks are consistent. Two MAJOR issues stand. (1) theo:local_virt_tame, dispatched 'prove in full', still rests on piece (2) (exists_isLocalTamifying_charts). Unchanged since AUDIT-3; the remedy is the master's routing decision. (2) New: DEC-69 rules Troyanov's theorem a NAMED EXTERNAL result WITH A NON-VACUITY WITNESS (kb/0012), but the file states no named hypothesis and no witness. The cex's abstract inference, isAnalyticModelFamily_unit_iff_eq_singleton, has jointly unwitnessed hypotheses hrigid/hrot, so as it stands it could be vacuous. The rest are minors: stale REPORT entries, DEC-27 counterexamples not formalized, and ledger sorry attribution.",
+  "issues": [
+    {
+      "severity": "major",
+      "where": "GX.exists_isLocalTamifying_charts (l.1625-1677), hence GX.isVirtuallyTame_of_isXAManifold (l.1690) and GX.local_virt_tame (l.1742); REPORT theo:local_virt_tame 'stated'",
+      "problem": "The dispatch says 'theo:local_virt_tame (1974; prove in full)'. After four rounds, (ii) ⇒ (i) still rests on one tagged sorry. That sorry is piece (2) of the proof (l.2088-2140): the topologies T_{U,V,φ} and their naturality. By the agent's own account it is unbuilt covering theory, not a counterexample. Its three named inputs are lem:spread_top, the Galoisianity of sub-coverings on singular fibres, and restriction-naturality. Nothing is overclaimed: the row is 'stated' and unmarked, and (i) ⇒ (ii) is honestly recorded as degenerate. I re-checked the interface IsLocalTamifying and the sorry'd statement for falsity. Agreement over reg comes from nhds_reg, and the naturality clause is consistent there. At singular points of sing X_α ∖ S_α, the ψ is a hypothesis and htam gives its T_α-continuous lift. Deck maps preserve the fibres over U. I found no counterexample and judge it plausible, as AUDIT-3 did. This is AUDIT-3's major, unchanged. Another WP-27j round will not close it unless piece (2) is built.",
+      "fix": "Master: route as AUDIT-3 advised. Dispatch a 'local tamifying topologies' package (exists_isLocalTamifying_charts + lem:spread_top + a sub-covering Galois lemma) against the frozen interface GX.IsLocalTamifying, and record theo:local_virt_tame here as 'stated, blocked on that package'. At graduation, move the StrongPull / ChartGlue / LocalVirtTame sections to their own module (e.g. SingularII/VirtTame.lean), so that the 2 sorries are not attributed to the 8 closed rows."
+    },
+    {
+      "severity": "major",
+      "where": "cex:start_singular_manifold_homeomorphic: GX.isAnalyticModelFamily_unit_iff_eq_singleton (l.551-585), SCOPE (c) (l.104-111); REPORT row questions[0]",
+      "problem": "DEC-69 (2026-11-01) rules that the cex's Troyanov theorem (MR1005085) is 'a named external result with a non-vacuity witness, the row partial (an exception to DEC-23)'. kb/0012 is the pattern: a named hypothesis plus a proved witness that the hypothesis set is satisfiable. The file does neither. REPORT says 'The named hypothesis is not stated here', and SCOPE (c) says 'no named Troyanov hypothesis is stated'. The cex is carried only as two anonymous hypotheses, hrigid and hrot, of an abstract inference. Nothing shows they can hold together with O ∈ sing M. They are not easy to satisfy. hrigid fails at any finite-order branch point (a cone of angle 2πk has local deck rotations at O), so the obvious small witnesses are excluded, and the theorem as stated may be vacuous. The row is correctly 'partial' and unmarked, so nothing is overclaimed. But the ruling's prescribed form is missing. That is a missing assertion, not a style point.",
+      "fix": "Implement DEC-69 in the kb/0012 shape. (a) A named Prop packaging the external input, for example GX.TroyanovSuspensionFacts G X M O := O ∈ Sing G X M ∧ hrigid ∧ hrot. Optionally add a named Prop for the (SO(4),S³) existence statement over the angle condition 0 < Σ(θ_i − 2π) + 4π ≤ min(4π, θ_i). (b) isAnalyticModelFamily_unit_iff_eq_singleton restated from it. (c) A non-vacuity witness, at the level the master accepts: at minimum, a proved instance of the angle condition with s = 3 pairwise distinct θ_i (the premise of Troyanov's theorem is non-empty); preferably a singular (G,X)-manifold with a point satisfying hrigid and hrot. If even (a) is judged unstatable because spherical cone surfaces are not in the library, raise an OQ asking whether the abstract inference plus SCOPE (c) discharges DEC-69. Do not leave the ruling silently unapplied."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT def:atlas questions[0]; REPORT rem:theorem_theo_local_tame questions[0]",
+      "problem": "The def:atlas question ('Which is intended?') is answered for X_A-manifolds by DEC-67 (e), which REPORT applies everywhere else; it should be closed or re-scoped to the bare notion of atlas. Also, rem:theorem_theo_local_tame's REPORT hypothesis row says 'singular manifolds Hausdorff, second countable, locally connected → strengthened (T2, first countable, LPC)'. Under DEC-66 (a), Hausdorff, LPC and first countable are the standing hypotheses of §2.5, so they are 'carried', and second countability is 'weakened (not used)'.",
+      "fix": "Drop or re-scope the def:atlas question, citing DEC-67 (e). Relabel the hypothesis row: 'carried (DEC-66 (a))', second countable 'weakened'."
+    },
+    {
+      "severity": "minor",
+      "where": "rem:theorem_theo_local_tame (partial row, findings[0]); GX.forall_isTame_iff (l.674)",
+      "problem": "DEC-27 asks for a counterexample where a statement is false as written. The finding 'per manifold, an X_A-manifold is tame iff all models are tame, is false' is argued in prose only; no family with a non-tame model and a tame X_A-manifold is formalized. Under DEC-67 (e), the 'only if' of the global form also needs htype, and no example shows that htype is needed, i.e. a model with an untyped point of sing X_α ∖ S_α. The strongest true forms are proved, and the row is honestly partial. Carried from AUDIT-3.",
+      "fix": "None required in this package beyond keeping the row partial. Master: register the per-manifold vs global reading of l.1924 as an OQ so the row can be ruled (a ruling accepting the global reading with htype would close it under DEC-27)."
+    },
+    {
+      "severity": "minor",
+      "where": "Whole file vs the ledger's per-file sorry attribution (carried from AUDIT-2/3)",
+      "problem": "Both sorries, spread_top and exists_isLocalTamifying_charts, sit in the same module as the 8 marked definition rows, none of which depends on them (checked with #print axioms). A per-file sorry count attributes them to the closed rows. This is disclosed in REPORT notes.",
+      "fix": "Split the module at graduation, as in the first major's fix."
+    },
+    {
+      "severity": "minor",
+      "where": "GX.hasType_unique docstring (l.430)",
+      "problem": "It reads '`rem:singular_point_manifold_has` …, partial — uniqueness', although the row is now closed under DEC-67 (e) (by existsUnique_hasXAType). The wording is correct for the component, but it reads as a status.",
+      "fix": "Rephrase as 'the uniqueness half of `rem:singular_point_manifold_has`' without 'partial'."
+    }
+  ],
+  "questions_for_author": [
+    "cex:start_singular_manifold_homeomorphic (DEC-69): what non-vacuity witness discharges the named Troyanov result? Is it a satisfiable angle condition, or a singular (G,X)-manifold satisfying the rigidity and non-extendable-rotation facts? And may the named result be stated abstractly (as the two facts at O) while spherical cone surfaces and the (SO(4),S³) suspension are not in the library?",
+    "rem:theorem_theo_local_tame (l.1924): is the intended statement the global equivalence 'every X_A-manifold is tame iff every model is tame'? Under DEC-67 (e) its 'only if' needs every singular point of each model to have a type.",
+    "theo:local_virt_tame (l.1974): the hypothesis (a tamifying T_α on which Aut(X̃_α) acts) already gives (ii). Is the intended content 'every X_A-manifold is virtually tame'?",
+    "lem:spread_top (l.1991): is 'sub-covering' two branched coverings M̃^S → N → M composing to the projection? And is N → M Galoisian, which the proof of (d) uses at l.2071?"
+  ],
+  "note_on_file": "The dispatch named this verdict AUDIT-1.json, and an AUDIT-1.json from round 1 (17:39) already existed. To keep the record, it is preserved verbatim under 'superseded_audit_1'. AUDIT-2.json and AUDIT-3.json are untouched.",
+  "superseded_audit_1": {
+    "package": "WP-27j",
+    "round": 1,
+    "file": "scaffold/GXScaffold/SingularII/Models.lean",
+    "verdict": "issues",
+    "builds": true,
+    "sorry_count_measured": 1,
+    "summary": "Builds: taskset -c 0-11 lake env lean exits 0 in about 5 s. There is exactly one 'declaration uses sorry' warning, at l.879 (GX.isVirtuallyTame_of_isXAManifold), which matches REPORT sorry_count 1. #print axioms, run through stdin so nothing was written, shows sorryAx only under GX.local_virt_tame. These are all clean (propext, Classical.choice, Quot.sound): forall_isTame_iff, hasType_unique, isTamifyingTopology_natural_iff, IsTamifyingTopology.induced_reg_eq, exists_lift_singularAut, isVirtuallyTame_of_isXAManifold_of_isTame, isAnalyticModelFamily_iff, ModelChart.exists_aut_eq. No declaration name clashes with GX/ or scaffold/: all 50 were grepped. Fidelity of the six marked definitions holds. singularAut is the subgroup of homeomorphisms that are a.e. morphisms, with inverses by symm_of_homeomorph. IsAnalyticModelFamily is split into two fields, and isAnalyticModelFamily_iff proves it equivalent to the printed single clause with the cast. ModelChart / HasType / IsModelAtlas / IsXAManifold follow the paper literally: x in sing(M) is derived (ModelChart.mem_sing), and the charts' domains cover M. IsTamifyingTopology has (A)-(D) and the side conditions. T is used as a local instance only where intended: IsRegDevelopingOnReg, deckMapsMax and aeAutMapsMax are defined outside the T-context, and coinduced and IsPortly are explicit. The definition is not trivial: the discrete topology fails (A). IsLocallyGaloisian uses DEC-55's literal IsSLSCInCC on each open U with its induced structure. theo:local_virt_tame is stated faithfully and REPORT says honestly that it is 'stated'. (i)=>(ii) is proved, and the agent correctly notes the theorem is degenerate: HasAutContinuousTamifying already gives (ii). The tame-model case and three proof steps are proved without sorry. The partial rows rem:singular_point_manifold_has and rem:theorem_theo_local_tame are unmarked in the module docstring. Their findings check out against l.1921-1926: the remark's proof gives only uniqueness, and the per-manifold 'only if' is false. The finding on the proof at l.2101-2103 is plausible. It concerns overlapping chart domains near a singular point that is the centre of neither chart, possibly with two different types: analyticity does not apply there, and the generated topology is a join. It is the right question for the author. Two issues are major. First, cex:start_singular_manifold_homeomorphic was dispatched as 'cited - prove' and is neither proved nor stated: there is no declaration and no tagged sorry, against 'state first' and DEC-23 (same pattern as WP-26f's audit). Second, the theo:local_virt_tame sorry rests on an unbuilt lemma, not on a mathematical obstruction, although the dispatch said 'prove in full'. The minor issues: bold marks on partial labels in declaration docstrings; one REPORT hypotheses entry mislabelled; DEC-27 counterexamples not formalized for the two partial remarks; the ledger will attribute the file's one sorry to every marked label in the file.",
+    "issues": [
+      {
+        "severity": "major",
+        "where": "cex:start_singular_manifold_homeomorphic (l.1930-1940); REPORT row status 'not-attempted'; SCOPE (c)",
+        "problem": "The dispatch lists this row as 'cited - prove'. DEC-23 says cited results are built, not assumed. The file contains no Lean statement of it: no declaration, no tagged sorry. It has only the abstract last inference, IsAnalyticModelFamily.inter_eq_empty_of_not_extend, which is the contrapositive of the definition and says nothing about M, Sigma or {O}. The obstruction given is real: there are no spherical cone surfaces, no Troyanov MR1005085 (a PDE existence theorem) and no (SO(4),S^3) suspension structure. But the protocol wants the statement written down, with a tagged sorry on the missing ingredients, so that the obstruction lies in the file rather than only in prose. REPORT is honest about it, so nothing is overclaimed. This is the same pattern WP-26f's audit rated major.",
+        "fix": "Either state the counterexample with tagged sorries as far as the library allows, or ask the master session or the author to scope it. Possible abstractions: (a) a hypothesis-free statement parametrised by a singular (G,X)-manifold M with a point O and a structure Aut(M) = {id} on every neighbourhood of O, concluding '(M,S) analytic iff S = {O}'; (b) an author ruling, analogous to DEC-26's scoping, on whether Troyanov's theorem is built or carried as a named external. Until then, record the row as blocked on that ruling in REPORT/notes."
+      },
+      {
+        "severity": "major",
+        "where": "GX.isVirtuallyTame_of_isXAManifold (l.874-886), hence GX.local_virt_tame; REPORT theo:local_virt_tame 'stated'",
+        "problem": "The dispatch says 'prove in full'. The one sorry is justified by 'lem:spread_top (l.1989) is outside this dispatch and not built'. That is a missing lemma, not a mathematical obstruction. CAMPAIGN.md says to prove a lemma you need in your own file, and lem:spread_top is assigned to no package (no other campaign directory or scaffold file mentions it). No partial reduction was attempted either: lem:spread_top is not stated, even with a tagged sorry, and the theorem's proof is not assembled from it. So the sorry covers the whole (ii)=>(i) construction, not one cited step. Mitigation: the agent found a plausible gap in the gluing step (l.2101-2103). Under the literal def:atlas reading, it may make the statement unprovable without an author ruling. That part is a genuine obstruction and was reported correctly as a question.",
+        "fix": "First, get the author's ruling on the def:atlas reading (question 1 below). Then either (a) dispatch lem:spread_top (and def:topological_spaces_continuous_map, l.1984) as its own package and close the theorem from it, or (b) in this file, state lem:spread_top in the strong/weak two-topology form the proof consumes, with SORRY(lem:spread_top), and prove (ii)=>(i) from it. The remaining sorry would then be the cited lemma alone. If the ruling keeps the literal reading and the gap cannot be closed, apply DEC-27: give the strongest true form (for example, every singular point is a chart centre) and a counterexample, or keep the row partial."
+      },
+      {
+        "severity": "minor",
+        "where": "Declaration docstrings of GX.hasType_unique (l.377), GX.forall_isTame_iff (l.524) and GX.local_virt_tame (l.888)",
+        "problem": "These docstrings carry the full-certification mark **`label`** for rows that are partial or stated: rem:singular_point_manifold_has (uniqueness only), rem:theorem_theo_local_tame (a reading), and theo:local_virt_tame, whose declaration depends on sorryAx. The module docstring correctly leaves them unmarked. The ledger reads only the first 4000 characters, so it is unaffected, but kb/0006 makes the mark a claim of full certification. WP-27h's and WP-27i's audits flagged the same pattern.",
+        "fix": "Write these labels in plain backticks, or add 'partial'/'stated' after them."
+      },
+      {
+        "severity": "minor",
+        "where": "REPORT.json theo:local_virt_tame hypotheses[2]",
+        "problem": "'manifolds connected, T2, LPC, first countable' is reported as 'carried'. LocPathConnectedSpace is stronger than the paper's locally connected singular manifolds. The module checklist and the rem:theorem_theo_local_tame row both call this '⚠ strengthened'.",
+        "fix": "Mark it 'strengthened' (locally path-connected for locally connected; first countable is weaker than second countable)."
+      },
+      {
+        "severity": "minor",
+        "where": "rem:singular_point_manifold_has and rem:theorem_theo_local_tame (REPORT findings; SCOPE (a), (b))",
+        "problem": "Both rows are partial because a clause is false as written: existence of a type at a singular point that is not a chart centre, and the per-manifold 'only if'. DEC-27 asks for a counterexample where the statement is false, and neither row has a formal one. The existence counterexample offered (M = X_alpha with S_alpha ⊊ sing X_alpha) rests on the unformalized cex. No non-tame model is available for the second. Both are explained honestly, and the corrected strongest forms are proved: hasType_unique for every M and x; isTame_of_isModelAtlas plus forall_isTame_iff.",
+        "fix": "Say explicitly in REPORT findings that the counterexample is not formalized and why (it depends on cex:start_singular / on a non-tame model). Formalize one later, once a concrete analytic family with S_alpha ⊊ sing(X_alpha), or a non-tame model, exists in the library."
+      },
+      {
+        "severity": "minor",
+        "where": "Whole file vs tools/ledger.py lean_index (l.289-311)",
+        "problem": "The ledger counts the sorries of a whole file and adds them to every label marked in its first 4000 characters. So the six fully certified definition rows in this file will each show 1 sorry, from theo:local_virt_tame's, which is not beneath any of them.",
+        "fix": "Tell the master session. At graduation, consider moving theo:local_virt_tame and isVirtuallyTame_of_isXAManifold into a separate module (for example SingularII/VirtTame.lean) so the marked definitions sit in a sorry-free file."
+      },
+      {
+        "severity": "minor",
+        "where": "GX.HasType, GX.ModelChart, GX.IsModelAtlas",
+        "problem": "These names are generic for namespace GX, against the campaign's 'prefer specific names'. They do not clash today, but a future model-space or atlas notion elsewhere in GX could collide.",
+        "fix": "Optional: rename to XAChart / HasXAType / IsXAAtlas, matching IsXAManifold."
+      }
+    ],
+    "questions_for_author": [
+      "def:atlas (l.1911): is 'an X_A-atlas is a collection of X_A-charts covering M' meant literally (chart domains cover M), or with a chart centred at every singular point? rem:singular_point_manifold_has's existence half and the gluing step of theo:local_virt_tame's proof (l.2101-2103: the topologies T_{U,V,phi} of overlapping charts agree only near chart centres) need the second reading. The proof's first line, '(i)=>(ii) since each X_alpha is an X_A-manifold', fits the first reading, or the second only if S_alpha = sing(X_alpha).",
+      "rem:theorem_theo_local_tame (l.1924): is the remark the global equivalence 'every X_A-manifold is tame iff every model is tame' (proved as forall_isTame_iff)? The per-manifold reading is false in the 'only if' direction.",
+      "cex:start_singular_manifold_homeomorphic (l.1930): under DEC-23, is Troyanov's existence theorem for spherical cone metrics (MR1005085) to be built? It is a PDE/variational result. Or may it be carried as a named external, or the row scoped out, together with the (SO(4),S^3)-structure of the Thurston suspension?",
+      "theo:local_virt_tame: the hypothesis (a tamifying T_alpha on which Aut(X~_alpha) acts) already implies (ii), so the equivalence amounts to 'every X_A-manifold is virtually tame'. Is that the intended content?"
+    ]
+  }
+}

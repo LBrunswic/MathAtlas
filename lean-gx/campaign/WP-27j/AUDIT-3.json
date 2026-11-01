@@ -1,0 +1,53 @@
+{
+ "package": "WP-27j",
+ "round": "3 (dispatch numbering); sixth audit of the package, reviewing the post-AUDIT-2 fix (source 21:57:10, REPORT 21:58, rulings DEC-66/67/69). Replaces the 18:25 AUDIT-3.json of the earlier numbering; that file's issues are carried in AUDIT-1/AUDIT-2.",
+ "file": "scaffold/GXScaffold/SingularII/Models.lean",
+ "verdict": "issues",
+ "builds": true,
+ "sorry_count_measured": 2,
+ "summary": "Build: `taskset -c 0-11 lake env lean` exits 0 in 7.7 s. There are exactly two warnings, both 'declaration uses sorry': l.2155 GX.spread_top and l.2222 GX.exists_isLocalTamifying_charts. Both are tagged SORRY(<label>), and the count matches REPORT sorry_count 2. The olean (21:57:26) is newer than the source (21:57:10). Axioms: I ran #print axioms through stdin on all 117 declarations, so nothing was written. sorryAx reaches exactly four: spread_top, exists_isLocalTamifying_charts, isVirtuallyTame_of_isXAManifold and local_virt_tame. Every other declaration depends only on propext, Classical.choice and Quot.sound. That includes every declaration under the 8 marked rows, the whole cex chain (cex_start_singular_manifold_homeomorphic, exists_suspensionCexFacts, troyanovSuspensionTheorem_of_subsingleton, joukowski_eq_of_isAEMorphism, sing_joukowskiStructure, troyanovAngleCondition_witness), existsUnique_hasXAType, forall_isTame_iff(_printed), exists_isTamifyingTopology_of_local, isVirtuallyTame_of_isXAManifold_of_isTame and spread_top_deck. Coverage and names: the decls in REPORT (labels plus extra_decls) are the same set as the file's 117 declarations. None of the 117 is declared in GX/ or in any of the 21 other scaffold/GX files. The module docstring and the declaration docstrings bold exactly the 8 rows REPORT marks closed; no partial or stated row is bold. Changes since AUDIT-2: the diff against Models.round4-fix.lean.bak is confined to the cex section and its prose, so the rest of the file is unchanged since AUDIT-2. AUDIT-2 major 1 (the named Troyanov Prop is not tied to θ, so the conclusion can be met with sing M = {O}) is FIXED. Option (a) is done at its 'at least' level: SuspensionCexFacts gains `connected` and `exists_ne : ∃ s ∈ sing M, s ≠ O`, and the cex conclusion gains ConnectedSpace M, another singular point, and ¬ analytic for (M, sing M). That last clause is derived correctly from exists_ne plus the iff. With these fields, sing M = {O} no longer satisfies the facts, and `rot` is no longer vacuous. Option (b) is done too: the θ-independence is disclosed in the docstrings, SCOPE (c), the checklist and REPORT, it is proved formally (troyanovSuspensionTheorem_of_subsingleton), and a question to the master about DEC-69's acceptance is raised. The new witness is genuine, and I read it line by line. It is ℂ with the a.e. structure pulled back by J(z) = z + z⁻¹ on ℂ ∖ {0,±1} (devStructure), with G = ⊥ ≤ Perm ℂ. sing = {0,±1} (support_joukowskiStructure). At 0, a chart would equal the unbounded J on a punctured neighbourhood (joukowski_chart_eq), which contradicts continuity. At ±1, a chart would identify z = ±(1+t) with z⁻¹. O = 0 is rigid (joukowski_eq_of_isAEMorphism). The two morphisms agree after J on a portly set. Unboundedness of J at 0 forces f₁(y₀) = 0. J is injective on the punctured unit disc. IsAEMorphism.eq_of_eqOn then concludes, using the connectedness of U₁. `rot` at ±1 is the flip z ↦ z⁻¹ from B(±1,1/2) onto its inverse image, an a.e. isomorphism by J-invariance. Its codomain is connected because it is the image of the ball under inv. It is not the restriction of an automorphism: rigidity at 0 with U = ℂ makes every automorphism the identity, while (5/4)s ≠ ((5/4)s)⁻¹. I re-checked independently that the facts are mathematically right for this structure. With G trivial, φ ∈ {id, inv} locally on the connected regular part, and inv is impossible near 0. So the witness exercises every field and exhibits the cex's distinguishing behaviour: a rigid O next to singular points with non-extendable local isomorphisms. That also discharges AUDIT-2's minor. Statement fidelity of the 8 marked rows is unchanged from AUDIT-2 and still holds under DEC-55/66/67. One MAJOR stands, unchanged for the fourth audit running: piece (2) of theo:local_virt_tame (exists_isLocalTamifying_charts) is unbuilt inside a 'prove in full' dispatch. No register entry (DECISIONS.md through DEC-69, OQ table) routes it elsewhere, so it remains this package's debt. The remedy is the master's routing decision, which the agent has requested.",
+ "issues": [
+  {
+   "severity": "major",
+   "where": "GX.exists_isLocalTamifying_charts (l.2222-2270), hence GX.isVirtuallyTame_of_isXAManifold (l.2274) and GX.local_virt_tame (l.2323); REPORT theo:local_virt_tame 'stated'",
+   "problem": "This is AUDIT-1/AUDIT-2 major 'piece (2)', unchanged. The dispatch says 'theo:local_virt_tame (1974; prove in full)'. (ii) ⇒ (i) still rests on the one tagged sorry for piece (2) (l.2088-2140): the topologies T_{U,V,φ} and their naturality. The obstruction is described honestly: lem:spread_top, the Galoisianity of sub-coverings on singular fibres (l.2025, l.2093), and restriction-naturality, ~2-3k lines. It is unbuilt work, not a counterexample. The gluing (piece (3)), the regular developing map and the automorphism lift are proved and sorry-free. Nothing is overclaimed: the row is 'stated', unmarked, and its (i) ⇒ (ii) is recorded as degenerate. registers/DECISIONS.md (through DEC-69) and the OQ table contain no routing of piece (2) to another package, so under the dispatch the sorry is still owed here. The interface IsLocalTamifying and the sorry'd statement are unchanged since AUDIT-2. Three audits have checked them for falsity and found none.",
+   "fix": "Master: either rule the routing and record it in the registers, or re-dispatch with piece (2) in scope. Routing means a dedicated 'local tamifying topologies' package (exists_isLocalTamifying_charts + lem:spread_top + the sub-covering Galois lemma) against the frozen interface GX.IsLocalTamifying, with this row 'stated, blocked on that package'. Another WP-27j fix round without one of these will not change the row. At graduation, split StrongPull/ChartGlue/LocalVirtTame into their own module (e.g. SingularII/VirtTame.lean) so the two sorries are not attributed to the 8 closed rows."
+  },
+  {
+   "severity": "minor",
+   "where": "GX.TroyanovSuspensionTheorem (l.732), GX.SuspensionCexFacts (l.659); REPORT cex:start_singular_manifold_homeomorphic questions[0]",
+   "problem": "After the fix, the named Prop is still not tied to θ. It holds outright at a trivial group on ℂ (troyanovSuspensionTheorem_of_subsingleton), and `exists_ne` captures 'singular locus a line except at O' only as 'some other singular point'. This is now fully disclosed and proved, and the row is partial as DEC-69 prescribes. So it is no longer a defect of the file, only an open question about whether DEC-69 is discharged by this form.",
+   "fix": "No package action. Master: answer the REPORT question. Either accept this form under DEC-69 (row partial), or ask for the named result to be restated at (SO(4), 𝕊³) once spherical cone surfaces and a rigid SO(4)-action on 𝕊³ exist."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT rem:theorem_theo_local_tame findings[0], questions; GX.forall_isTame_iff (l.1257)",
+   "problem": "Carried from AUDIT-1/2/3. The per-manifold 'iff' of l.1924 is refuted in prose only. DEC-27 asks for a counterexample, and no family with a non-tame model and a tame X_A-manifold is formalized. Nothing shows that the htype hypothesis of forall_isTame_iff is needed. The strongest true forms are proved and the row is honestly partial, with the question raised.",
+   "fix": "No package action beyond keeping the row partial. Master: register the per-manifold vs global reading of l.1924 as an OQ. A ruling for the global reading with htype would close the row under DEC-27."
+  },
+  {
+   "severity": "minor",
+   "where": "Whole file vs the ledger's per-file sorry attribution (carried)",
+   "problem": "Both sorries (spread_top, exists_isLocalTamifying_charts) sit in the module with the 8 marked rows. The axiom sweep confirms that none of the marked rows depends on them. A per-file count attributes the sorries to the closed rows. This is disclosed in REPORT notes.",
+   "fix": "Split the module at graduation, as in the major's fix."
+  }
+ ],
+ "checks": {
+  "build": "taskset -c 0-11 lake env lean scaffold/GXScaffold/SingularII/Models.lean: exit 0, 2 warnings (both sorry), 7.7 s",
+  "sorryAx_reach": [
+   "GX.spread_top",
+   "GX.exists_isLocalTamifying_charts",
+   "GX.isVirtuallyTame_of_isXAManifold",
+   "GX.local_virt_tame"
+  ],
+  "decls_file_vs_report": "117 = 117, identical sets",
+  "name_clashes": "none against GX/ and the 21 other scaffold files",
+  "marks": "8 bold rows in module docstring = REPORT marked rows; no partial/stated row bold",
+  "diff_since_AUDIT-2": "confined to the cex section (SuspensionCexFacts.connected/exists_ne, strengthened cex conclusion, Joukowski witness replacing the sphere witness, θ-independence disclosure)"
+ },
+ "questions_for_master": [
+  "Route piece (2) of theo:local_virt_tame (GX.exists_isLocalTamifying_charts + lem:spread_top) to its own package, or re-dispatch with it in scope. This is the only remaining major.",
+  "DEC-69: is the θ-independent named form (facts: M connected, O singular, another singular point, rigidity at O, non-extendable local isomorphisms at the other singular points; witnessed by the Joukowski structure) accepted, with the row partial?",
+  "l.1924 (rem:theorem_theo_local_tame): rule the per-manifold vs global reading as an OQ."
+ ]
+}

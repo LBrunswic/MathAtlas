@@ -1,0 +1,287 @@
+{
+ "package": "WP-27i",
+ "files": [
+  "scaffold/GXScaffold/SingularII/Tame.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "def:singular_manifold_tame_admits",
+   "tex_lines": [
+    1826,
+    1828
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.IsTame",
+    "GX.isTame_iff",
+    "GX.isTame_of_isDevelopingMapOf",
+    "GX.IsTame.connectedSpace"
+   ],
+   "hypotheses": [
+    {
+     "paper": "admits a developing map (def:developing_map, second sentence)",
+     "here": "carried",
+     "note": "IsTame := AdmitsDevelopingMap (WP-27h); isTame_iff under X locally unloopable (standing l.1660): a developing map of \\widetilde M"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "lem:embedding_tame",
+   "tex_lines": [
+    1831,
+    1836
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.isTame_of_isAEMorphism"
+   ],
+   "hypotheses": [
+    {
+     "paper": "X locally unloopable (section standing, l.1660)",
+     "here": "carried",
+     "note": "hX"
+    },
+    {
+     "paper": "M, N connected (section standing, l.1712)",
+     "here": "carried",
+     "note": "ConnectedSpace"
+    },
+    {
+     "paper": "singular manifolds Hausdorff, second countable, locally connected",
+     "here": "carried",
+     "note": "DEC-66(a)(c): T2, locally path-connected, first countable is §3's standing setting (l.810), which covers §2.5; M locally path-connected wherever \\widetilde M is used. Second countable is weakened (not used)."
+    },
+    {
+     "paper": "singular manifolds second countable",
+     "here": "weakened",
+     "note": "not used"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.1834 (proof of lem:embedding_tame): 'The morphism M -> N lifts to a morphism \\widetilde M -> \\widetilde N' fails when f sends regular points to singular ones: for the k-fold quotient R^2 -> E^2_{2pi/k} (an a.e. morphism, regular off 0), a lift R^2 -> \\widetilde N over f would restrict to a lift of R^2\\{0} -> cone\\{apex} to its universal cover, impossible since the generator of pi_1 maps to k times a generator (sketch, not formalized). The statement is true: the Lean proof lifts from \\widehat M = \\widetilde M^{M\\U}, U portly with f regular on U, into \\widetilde{reg N}, extends the lift to the Fox completions (IsFoxCompletion.existsUnique_extend), composes with the developing map of \\widetilde N (lem:morphism_singular_manifolds_branched) and concludes by prop:branched_devmap."
+   ],
+   "questions": [],
+   "ruling": "DEC-66"
+  },
+  {
+   "label": "cor:branched_covering_tame_singular",
+   "tex_lines": [
+    1837,
+    1838
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.isTame_of_isBranchedCovering",
+    "GX.isTame_of_isBranchedCovering'"
+   ],
+   "hypotheses": [
+    {
+     "paper": "N a branched covering with its singular structure (prop:singular_manifold_branched_covering)",
+     "here": "carried",
+     "note": "p an a.e. morphism for N's structure, equivalently aeAtlas N = p^*B (primed form)"
+    },
+    {
+     "paper": "singular manifolds Hausdorff, second countable, locally connected",
+     "here": "carried",
+     "note": "DEC-66(a)(c): N, M T2, locally path-connected, first countable, the §2.5 standing setting (l.810). Second countable is weakened (not used)."
+    },
+    {
+     "paper": "singular manifolds second countable",
+     "here": "weakened",
+     "note": "not used"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "ruling": "DEC-66"
+  },
+  {
+   "label": "cor:open_subsets_tame_singular",
+   "tex_lines": [
+    1839,
+    1840
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.isTame_opens",
+    "GX.opensSingularGXStructure",
+    "GX.aeAtlas_opensSingular",
+    "GX.isAEMorphism_opensSingular_val",
+    "GX.reg_opensSingular",
+    "GX.sing_opensSingular",
+    "GX.IsTame.exists_opens_subset"
+   ],
+   "hypotheses": [
+    {
+     "paper": "open subset with its induced structure",
+     "here": "carried",
+     "note": "U : Opens M with the pullback structure along the inclusion (lem:aepullback); Reg U = U ∩ Reg M"
+    },
+    {
+     "paper": "(implicit) U connected",
+     "here": "carried",
+     "note": "the section's standing convention l.1712 ('M,N will denote connected singular (G,X)-manifolds') with DEC-66(b) (\\widetilde M^S presupposes M connected); a disconnected U is never tame (IsTame.connectedSpace: branched coverings have connected targets)"
+    },
+    {
+     "paper": "singular manifolds Hausdorff, second countable, locally connected",
+     "here": "carried",
+     "note": "DEC-66(a)(c): T2, locally path-connected, first countable is §3's standing setting (l.810), which covers §2.5; M locally path-connected wherever \\widetilde M is used. Second countable is weakened (not used)."
+    },
+    {
+     "paper": "singular manifolds second countable",
+     "here": "weakened",
+     "note": "not used"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.1839 (cor:open_subsets_tame_singular): only connected open subsets can be tame (def:developing_map asks a branched covering, whose target is connected); the row is read under the standing convention l.1712 with DEC-66(b), and closes."
+   ],
+   "questions": [],
+   "ruling": "DEC-66 (with l.1712 and DEC-66(b) for connectedness)"
+  },
+  {
+   "label": "theo:local_tame",
+   "tex_lines": [
+    1844,
+    1867
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.isTame_iff_isLocallyTame",
+    "GX.IsLocallyTame",
+    "GX.isTame_of_isLocallyTame",
+    "GX.exists_local_tame_extension",
+    "GX.exists_regDeveloping_maxBranched",
+    "GX.IsTame.exists_opens_subset"
+   ],
+   "hypotheses": [
+    {
+     "paper": "X locally unloopable (standing)",
+     "here": "carried",
+     "note": "hX"
+    },
+    {
+     "paper": "singular manifold (Hausdorff, second countable, locally connected), connected (standing)",
+     "here": "carried",
+     "note": "DEC-66(a)(c): T2, locally path-connected, first countable (§3's standing setting l.810 covers §2.5); connected by l.1712. Second countable is weakened (not used)."
+    },
+    {
+     "paper": "'locally tamely singular' (undefined)",
+     "here": "carried",
+     "note": "DEC-67(d): locally tamely singular = every point has a tame open neighbourhood (GX.IsLocallyTame, the induced structure GX.opensSingularGXStructure); the forward direction also gives the basis form (IsTame.exists_opens_subset)"
+    },
+    {
+     "paper": "singular manifolds second countable",
+     "here": "weakened",
+     "note": "not used"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "ruling": "DEC-66, DEC-67(d)"
+  },
+  {
+   "label": "rem:tamely_singular_manifold_admits",
+   "tex_lines": [
+    1869,
+    1875
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.tamely_singular_manifold_admits",
+    "GX.tamely_singular_manifold_admits_aeIso",
+    "GX.homeomorph_rangeTameTopology",
+    "GX.rangeTameTopology",
+    "GX.tameHolonomyOrbitSetoid"
+   ],
+   "hypotheses": [
+    {
+     "paper": "N any branched covering of M",
+     "here": "strengthened",
+     "note": "N -> M Galoisian (Γ(N/M) transitive on fibres); without it Γ(N/M)\\D(N) -> M is not injective"
+    },
+    {
+     "paper": "M a singular (G,X)-manifold (Hausdorff, second countable, locally connected)",
+     "here": "carried",
+     "note": "DEC-66: M locally path-connected (used through spread_connected_image to make p open) and first countable are the §2.5 standing setting; T1 assumed, weaker than T2 (weakened). Galoisian N is the only strengthening."
+    },
+    {
+     "paper": "M tamely singular; D a developing map",
+     "here": "weakened",
+     "note": "not used: D injective with D∘γ = ρ(γ)D suffices, in both readings"
+    },
+    {
+     "paper": "'isomorphic'",
+     "here": "read",
+     "note": "both readings proved: (i) a homeomorphism Γ(N/M)\\D(N) ≃ₜ M, [D x] ↦ p x, D(N) with the topology coinduced by D (homeomorph_rangeTameTopology); (ii) as singular (G,X)-manifolds (tamely_singular_manifold_admits_aeIso): with p an a.e. morphism and N locally connected, the quotient structure on Γ(N/M)\\D(N) (the unique maximal a.e. atlas making the projection N ≅ D(N) → Γ(N/M)\\D(N) an a.e. morphism, D(N) with the structure transported from N) exists, is unique, equals h^*B_M, and h and h⁻¹ are a.e. (G,X)-morphisms"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.1869 (rem:tamely_singular_manifold_admits): the identification M ≅ Γ(N/M)\\D(N) needs Γ(N/M) to act transitively on the fibres of N -> M; proved for Galoisian N."
+   ],
+   "questions": [
+    "rem:tamely_singular_manifold_admits (l.1869): must an injective developing map N -> X make Γ(N/M) transitive on the fibres of N -> M over the BRANCH locus? (Over the ordinary regular locus it should follow from D injective and equivariant: the holonomy subgroup is normal, and the decks extend by Fox's theorem — sketch, not formalized, and the Lean statement assumes N Galoisian outright.) Is N meant Galoisian (e.g. N = \\widetilde M, via prop:Galoisian_semilocal), given that §3.4 says completions of Galoisian coverings need not be Galoisian? The remark is proved for Galoisian N.",
+    "rem:tamely_singular_manifold_admits (l.1869): is 'isomorphic' meant topologically or as singular (G,X)-manifolds? Both are proved (for Galoisian N): the (G,X) form puts on Γ(N/M)\\D(N) the quotient structure through the projection from N ≅ D(N), rather than prop:aeGXquotient's (whose free/properly discontinuous hypotheses are not available for Γ(N/M) on D(N)). Accept this as the meaning of the quotient structure?"
+   ]
+  },
+  {
+   "label": "ex:take_closed_unit_disc",
+   "tex_lines": [
+    1877,
+    1885
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.not_isOpen_horodisc_insert",
+    "GX.not_mem_interior_of_subset_ball_insert"
+   ],
+   "hypotheses": [
+    {
+     "paper": "X closed unit disc, G = Isom(H^2), M genus g with finite S, complete finite-volume hyperbolic metric on M∖S",
+     "here": "read",
+     "note": "only the last sentence is certified, in a stronger form: no subset of the open disc ∪ {ξ} is a neighbourhood of ξ in the closed disc (not_mem_interior_of_subset_ball_insert), hence a horodisc ∪ {ξ} is not open (not_isOpen_horodisc_insert)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "ex:take_closed_unit_disc (l.1877): may the example stay partial, with only its last sentence (a horodisc ∪ {ξ} is not open in the closed disc, proved in the stronger 'no subset of the open disc ∪ {ξ} is a neighbourhood of ξ' form) certified, until hyperbolic-surface infrastructure (Isom(H^2), completeness ⇒ developing map onto H^2, cusps) exists?"
+   ],
+   "obstruction_not_stated": "The other assertions (M tamely singular with an injective developing map \\widetilde M -> X; neighbourhoods of a singular point of \\widetilde M homeomorphic to {r<r0} ⊆ D_∞; D(U) a horodisc) are not stated: the example GIVES the complete finite-volume metric, and what is missing is hyperbolic-surface infrastructure absent at this mathlib pin: Isom(H^2) and its action on the closed disc by homeomorphisms; completeness making the developing map of the universal cover of M∖S a homeomorphism onto H^2 (Hopf–Rinow/Cartan–Hadamard for (G,X)-structures); cusp neighbourhoods with parabolic holonomy for finite-volume ends (thick–thin); the extension of D to the parabolic fixed points of ∂H^2."
+  }
+ ],
+ "extra_decls": [
+  "GX.opensSingularGXStructure",
+  "GX.isAELocalHomeomorph_opensSingular_val",
+  "GX.aePullback_opensSingular_val_spec",
+  "GX.opensTame_locPathConnectedSpace",
+  "GX.opensTame_firstCountableTopology",
+  "GX.exists_regDeveloping_maxBranched",
+  "GX.isTame_of_isDevelopingMapOf"
+ ],
+ "kb_proposals": [
+  "An open U : Opens M of a singular (G,X)-manifold carries the instance GX.opensSingularGXStructure (pullback along the inclusion), with Reg U = val⁻¹ Reg M (GX.reg_opensSingular); FirstCountableTopology/LocPathConnectedSpace on ↥U for U : Opens need their own instances (mathlib's Subtype.firstCountableTopology is stated for ↥(s : Set α) and is not found for ↥U).",
+  "To push a developing map along an a.e. morphism f : M → N do not lift \\widetilde M → \\widetilde N (it need not exist); lift from \\widetilde M^{M∖U}, U portly with f regular, and extend by IsFoxCompletion.existsUnique_extend.",
+  "Identifiers: 'x̃' (combining tilde) is not a Lean identifier character; use xt.",
+  "To make a homeomorphism h : Q ≃ₜ M an a.e. (G,X)-isomorphism, take aePullback G (aeAtlas G X M) h (IsAELocalHomeomorph with O = h⁻¹ Reg M = h.symm '' Reg M), then IsAEMorphismOf.symm_of_homeomorph; uniqueness of a quotient structure through an open surjection from a locally connected source is IsAEMorphismOf.eq_of_isMaximalAEAtlas_right (GX.Singular.Quotient)."
+ ],
+ "notes": "0 sorry; #print axioms of the main declarations: propext, Classical.choice, Quot.sound only (campaign/WP-27i/Axioms.lean). Defines a global instance GX.opensSingularGXStructure : SingularGXStructure G X ↥U for U : Opens M (and two topological instances on ↥U); if another package of the wave defines an induced structure on open subsets, the two must be reconciled (both are the pullback along Subtype.val, so they agree propositionally by eq_aePullback, but not definitionally). The README module table needs a row for GXScaffold.SingularII.Tame. Round 2 (after AUDIT-1): the five declaration docstrings that carried the full-certification mark on partial rows (isTame_of_isAEMorphism, isTame_of_isBranchedCovering, isTame_opens, isTame_of_isLocallyTame, isTame_iff_isLocallyTame) are unmarked and say 'partial'; the (G,X)-manifold reading of rem:tamely_singular_manifold_admits is added and proved (GX.tamely_singular_manifold_admits_aeIso, 0 sorry, axioms propext/Classical.choice/Quot.sound); M locally path-connected is listed as strengthened in the rem row (checklist and REPORT); SCOPE (d) restates the example's obstruction precisely; the LPC/connected-open-subset question is asked on the four rows it would close. `lake build GXScaffold.SingularII.Tame` succeeds (8573 jobs, no upstream rebuild). Round 3 (fixer, after AUDIT-1 of 20:56Z): DEC-66 (a)(b)(c) and DEC-67(d) (both 2026-11-01) rule the only reasons four rows were partial. lem:embedding_tame, cor:branched_covering_tame_singular, cor:open_subsets_tame_singular and theo:local_tame are now closed and marked, in the module docstring and in the docstrings of isTame_of_isAEMorphism, isTame_of_isBranchedCovering('), isTame_opens and isTame_iff_isLocallyTame, citing the rulings. The LPC question and the local_tame reading question are deleted. Hypothesis checklist: LPC/T2/first countable carried (DEC-66), second countable weakened. In the rem row M LPC is carried (DEC-66); Galoisian is the only strengthening; the Galoisian question is narrowed to the branch fibres. cor:open_subsets_tame_singular closes on l.1712 + DEC-66(b) (the open subset is connected by the section's standing convention). That is the master's reading to confirm, as AUDIT-1 asked; if it is refused, revert that row to partial with the connectedness question. No Lean statement changed: the edits are docstrings only, and the file re-typechecks and rebuilds with 0 sorry. The optional ex:take_closed_unit_disc SORRY statement was not added: it needs Isom(H^2) and complete hyperbolic structures, which are absent at this pin.",
+ "round": 3
+}

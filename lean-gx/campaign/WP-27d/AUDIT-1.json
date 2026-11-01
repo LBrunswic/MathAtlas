@@ -1,0 +1,76 @@
+{
+  "package": "WP-27d",
+  "round": 1,
+  "auditor": "read-only auditor, node1, 2026-11-01",
+  "file": "scaffold/GXScaffold/Branched/Paths.lean",
+  "report": "campaign/WP-27d/REPORT.json",
+  "verdict": "clean",
+  "builds": true,
+  "sorry_count": 0,
+  "checks": {
+    "build": "taskset -c 0-11 lake env lean scaffold/GXScaffold/Branched/Paths.lean: EXIT 0, 0 errors, 0 warnings (41 s). Paths.olean (12:02:26Z) is newer than the source (12:02:14Z), so the module build is current.",
+    "sorry": "No sorry/admit/axiom in code: the only textual 'sorry' is docstring prose (l.21). #print axioms of 26 labelled declarations (AlmostTrivialCC, almostTrivialCC_iff, carthesian_* x5, AlmostHomotopicCC(.ends/.mem/.symm), almost_homotopic_carac_cc, AlmostTrivialCC.of_carac, hausdorff_first_countable_connected_cc, almost_homotopic_carac2_cc / _of_isMaximal_cc, IsSpread.hasBasis_standardNbhd, ramified_covering_path, omegaEnd_isBranchedCovering, omegaRel_equivalence, general_fiber_path, general_fiber_path_universal, fiber_above_homeomorphic, ...) = [propext, Classical.choice, Quot.sound]. No sorryAx, so the two tagged sorries in GX.Topology.Portly are not reached.",
+    "report_decls": "Every declaration REPORT.json lists (labels and extra_decls) resolves under #check.",
+    "labels": "All 12 environments in l.1189-1416 (def:almost_trivial_loop ... ex:consider_fiber_above_homeomorphic) are in REPORT.json; none missing. def:automorphisms_spread (l.1420) belongs to section 3.4.",
+    "name_clashes": "None. All 400 top-level names were grepped against GX/ and every other scaffold file (Galois, GaloisExamples, SingularII/Unloopable, Basic). The one declaration the rework removed, GX.omegaSetoid, is used nowhere else.",
+    "consumers": "GXScaffold.Branched.Galois still typechecks against the rebuilt module (lake env lean, EXIT 0). It states that it uses the homotopy form GX.AlmostTrivial (its l.81-83).",
+    "DEC-55": "GX.AlmostTrivialCC is the literal definition: gamma is in OmegaSet U x x (a subset of C(I,X), mathlib's compact-open topology), and for every V in nhds x, connectedComponentIn (OmegaSet U x x) gamma meets OmegaSet (V cap U) x x. It is faithful to l.1212. Homotopic implies same component in general (OmegaHomotopic.mem_connectedComponentIn). The converse for almost triviality (almostTrivialCC_iff) holds for U open and semilocally simply connected with X LPC; it is proved, not assumed. Every later row is stated with the CC notions (AlmostHomotopicCC, OmegaRel, carthesian_S2_almostTrivial).",
+    "DEC-56": "(c) IsStandardNbhd = the component of e in p^-1(V), V open connected around p(e), matching the ruling. (e) FreePath/FreeHomotopic: paths and homotopies in Y minus S, start fixed, end free in U. (f) IsEmbedding Phi together with range Phi = the projective limit, each pi_1 given the discrete topology (bottom). (g) IsHomTrivial: a fixed-end homotopy to refl x lying in U for s < 1 and 0 < t < 1. Since O is in S_i, the constant loop is not itself in Omega(O,O,U), so the s < 1 condition is the only sensible form, and it makes the negation in claim 4 as strong as possible.",
+    "statement_fidelity": "Checked against the paper's statements and proofs. lem:almost_homotopic_carac and lem:hausdorff_first_countable_connected add 'U semilocally simply connected', but only for (i) => (ii) and for transitivity; reflexivity, symmetry and (ii) => (i) are proved with no hypothesis. These rows are partial and unmarked, which DEC-55 allows ('the implication is proved or the row stays partial'). lem:almost_homotopic_carac2 and theo:ramified_covering_path add 'S skeletal, Y minus S slsc', the conditions under which widetilde Y^S exists (prop:universality, l.1158); the theorem's proof also uses slsc at l.1349. Both rows are partial and reported. prop:general_fiber_path takes cov (covering over S^c) and S skeletal. Both follow from 'branched over S' (S is the branching locus, whose complement is portly; GX.isCoveringMap_restrict_compl), and X LPC/T2 and Y T1/locally connected are within the standing assumptions (l.813, l.962), so the hypotheses are weaker than the paper's. No vacuous hypotheses: cartgamma is an explicit loop in Omega(O,O,R^3 minus S2) (it crosses z = 0 only at (0,4,0)), and fiber_above_homeomorphic proves skeletality and slsc rather than assuming them.",
+    "marks": "Bold module-docstring marks: def:almost_trivial_loop, def:almost_homotopic_paths, rem:implicitely_two_almost_homotopic, def:covering_branched_two_paths, prop:general_fiber_path, prop:general_fiber_path_universal, ex:consider_fiber_above_homeomorphic. These are exactly the REPORT's closed rows. The partial rows are unmarked."
+  },
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "Paths.lean module docstring, l.53 (character offset 4000); tools/ledger.py:300",
+      "problem": "The mark **`ex:consider_fiber_above_homeomorphic`** begins at character offset 4000, exactly where tools/ledger.py's lean_index cuts the docstring (head = text[:4000]). kb/0006 item 2 requires every certified label inside the first 4000 characters. The ledger would therefore not attach this closed row to this file, although REPORT.json and the docstring both certify it. The 11 other labels are inside the window.",
+      "fix": "Shorten the module docstring before the bullet list, e.g. compress the ex:consider_carthesian bullet (l.20-29) or the DEC-55 preamble (l.6-14), so that the last bold mark ends before offset 4000. Re-check with python: t[:4000] must contain all 7 marks."
+    },
+    {
+      "severity": "minor",
+      "where": "lem:almost_homotopic_carac, GX.almost_homotopic_carac_cc / GX.AlmostTrivialCC.of_carac (l.1115-1143)",
+      "problem": "Item (ii)'s 'gamma is homotopic to ... in Omega(x,x,U)' is formalized as an explicit homotopy (OmegaHomotopic). Under the literal l.1201, which DEC-55 applies to almost triviality, 'homotopic with respect to U' is 'same connected component of Omega(x,x,U)'. The choice of reading is not disclosed in SCOPE or questions. The homotopy form is the stronger (ii) and is what lem:hausdorff's proof consumes, so the (i) => (ii) direction is not weakened. But the component-form converse, (ii_c) => (i), is not stated. It is trivial: the splice lies in Omega(x,x,V cap U).",
+      "fix": "Add a SCOPE/question line recording that (ii)'s 'homotopic' is read as a homotopy. Optionally add the component-form converse, (ii_c) => (i), with no hypothesis, and state whether (i) => (ii_c) in the component reading is still open without slsc."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json, lem:almost_homotopic_carac2 (questions: [])",
+      "problem": "The row is partial only because S is skeletal and Y minus S is slsc, which are exactly the hypotheses under which the notation widetilde Y^S is defined (prop:universality). No question asks the author whether the notation carries those hypotheses; if it does, the row closes. Also, almost_homotopic_carac2_of_isMaximal_cc assumes [T2Space X] [LocPathConnectedSpace X] [FirstCountableTopology X] on the covering space, and the hypotheses list does not mention these. They are covered by the standing assumptions (l.962), so this is a reporting gap only.",
+      "fix": "Add a question: 'Does widetilde Y^S in lem:almost_homotopic_carac2 presuppose prop:universality's hypotheses (S skeletal, Y minus S slsc)? If so, the row closes.' List the X instances as carried (standing assumptions l.962)."
+    },
+    {
+      "severity": "minor",
+      "where": "declaration docstrings l.3964, l.4519, l.4886",
+      "problem": "Docstrings of single claims of the partial row ex:consider_carthesian_coordinates_usual are bold (**`ex:consider_carthesian_coordinates_usual`, first claim for `S₂`**, ...). The ledger does not read them, and the extra text means they do not match the **`label`** form. Still, the bold contradicts the row's unmarked status.",
+      "fix": "Write these as plain `label`, without the bold."
+    },
+    {
+      "severity": "minor",
+      "where": "naming: GX.AlmostTrivial / GX.AlmostHomotopic (homotopy form) vs GX.AlmostTrivialCC / GX.AlmostHomotopicCC (DEC-55 notion)",
+      "problem": "The dispatch asked that the literal form be THE definition. It is the notion used in every row, but the paper's names still denote the homotopy form, because Galois consumes them. The REPORT notes disclose this. It is a graduation hazard: a downstream file that writes 'AlmostTrivial' gets the non-ruled reading without noticing.",
+      "fix": "When the master reworks Galois, rename AlmostTrivialCC to AlmostTrivial (and the homotopy form to e.g. AlmostTrivialHom), as REPORT.notes already proposes."
+    }
+  ],
+  "row_verdicts": {
+    "def:almost_trivial_loop": "closed, marked: correct (literal compact-open form, DEC-55)",
+    "ex:consider_carthesian_coordinates_usual": "partial, unmarked: correct. All four claims are proved, 0 sorry, the three former sorries are closed. Partial only for the unruled z = 0 reading of S2 (as printed, {y = sin(1/x)} is a surface in R^3 and S2 is not closed), which is correctly put to the author. The findings about l.1243-1244 (H' should be (0,0,lambda_s t)) and l.1222 check out against the tex.",
+    "def:almost_homotopic_paths": "closed, marked: correct (loop gamma2^-1 * gamma1 is based at y, matching the paper's convention)",
+    "rem:implicitely_two_almost_homotopic": "closed, marked: correct (true by typing)",
+    "lem:almost_homotopic_carac": "partial, unmarked: correct (slsc added for (i) => (ii); see the minor issue on the reading of (ii))",
+    "lem:hausdorff_first_countable_connected": "partial, unmarked: correct (slsc for transitivity only)",
+    "lem:almost_homotopic_carac2": "partial, unmarked: correct (see the minor issue: question missing)",
+    "theo:ramified_covering_path": "partial, unmarked: correct (slsc omitted from the paper's statement but used at l.1349; reading (d), the quotient topology, is unruled and disclosed)",
+    "def:covering_branched_two_paths": "closed, marked: correct under DEC-56 (e)",
+    "prop:general_fiber_path": "closed, marked: correct under DEC-56 (e)(f); hypotheses weaker than the paper's",
+    "prop:general_fiber_path_universal": "closed, marked: correct under DEC-56 (e)(f)",
+    "ex:consider_fiber_above_homeomorphic": "closed: correct mathematically (fibre homeomorphic to N -> Z, not locally compact; skeletality and slsc proved), but its mark falls outside the ledger's 4000-character window (minor issue 1)"
+  },
+  "questions_for_author": [
+    "ex:consider_carthesian_coordinates_usual: confirm S2 = {(x, sin(1/x), 0) : x != 0} union {x = z = 0, |y| <= 1} (z = 0 on the graph). With that ruling the row closes.",
+    "lem:almost_homotopic_carac / lem:hausdorff_first_countable_connected: is U meant to be semilocally simply connected (true in every use, U = Y minus S)? Without it, (i) => (ii) and transitivity are open under the compact-open reading of DEC-55.",
+    "lem:almost_homotopic_carac (ii): is 'homotopic in Omega(x,x,U)' an explicit homotopy (as the proofs use it) or l.1201's 'same connected component'?",
+    "lem:almost_homotopic_carac2: does the notation widetilde Y^S carry prop:universality's hypotheses (S skeletal, Y minus S slsc)?",
+    "theo:ramified_covering_path reading (d): X carries the quotient of the compact-open topology of Omega (not yet ruled)."
+  ],
+  "summary": "Paths.lean typechecks with 0 errors and 0 warnings. It has 0 sorry in code, and all 26 labelled theorems depend only on propext, Classical.choice and Quot.sound. The three former tagged sorries (the S2 claims of ex:consider_carthesian_coordinates_usual) are genuinely closed. DEC-55 is applied correctly: GX.AlmostTrivialCC is the literal compact-open-component definition, and every row is stated with it. The bridge to the homotopy form (almostTrivialCC_iff, for U open slsc in an LPC X) is proved, not assumed. DEC-56 (c)(e)(f)(g) are implemented as ruled. Closed/marked versus partial/unmarked status is honest for all 12 labels. Every hypothesis added (slsc of U, or of Y minus S with S skeletal) is reported, and is either used by the paper's own proof or needed for widetilde Y^S to exist. No name clashes, and the Galois consumer still typechecks. There are five minor issues: (1) the closed row ex:consider_fiber_above_homeomorphic is invisible to the ledger, because its bold mark starts at character offset 4000 (kb/0006 item 2); (2) the reading of 'homotopic' in lem:almost_homotopic_carac (ii) is undisclosed; (3) the carac2 row has no question to the author; (4) single-claim docstrings of a partial row are bold; (5) the paper's names still denote the homotopy form. No blocker or major issue."
+}

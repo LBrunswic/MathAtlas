@@ -99,3 +99,19 @@ gx must extend across BTZ points for E₀ (or apply it to Reg M where that suffi
   ∃ O ∋ y₀ open, ∃ r ∈ O, y₀ ≤_O r, reg ∩ I⁻_O(r) ⊆ U (point contact refuted by the cone example; the
   segment-in-closure form rejected: boosts along Δ). gx proves it for E₀ by holonomy: a loop around Δ forces
   the lift to normalise ⟨P⟩.
+
+## Barbot Theorem A sorry-free (b09c061)
+
+`barbot_A`, `barbot_A₀`: standard axioms, conditional on the named externals bundle BarbotExternals (DEC-36),
+read under R1 (DEC-43). `loxo_elementary_misner` now takes `hBieb` (callers pass `hE.bieberbach`). gx's six
+exports unchanged. Theorem B: 2 sorry leaves (`Cla.exists_capEnvelope_succ`; `Cla.maximal_of_isFiniteCover`
+waits on CBG's `cbg`). gx's Section 4 uses only the six exports, not Theorem A/B directly.
+
+## All CBG packages landed (9aaea26); interface round 2 in progress
+
+Maximal: universality (DEC-59) proved; GH of M̄ before SC; `cbg_of_hasTimeFunctions` sorry-free (`cbg_proof`'s
+one sorry = the missing timeFunction field). Flat/CBG: `flat_cbg_of` sorry-free under R1 compactness + flat A3/A4.
+Finding: Sbierski's transitivity step (pdftotext l.1166–1170) needs U₁₂ ∩ ψ⁻¹(U₂₃) a CGHD, unshown; the cocycle is
+proved another way. Round 2: Geometry + LocalModel gain `timeFunction`; LocalModel gains `localUnique_sing_adherent`
+(wrap-around); `cbg` moves to CBG/Maximal.lean (same names, proved). **gx's E₀ instance:
+`Geometry.ofLocalModelOfGermSlice` + the two new LocalModel fields (exact text to come).**

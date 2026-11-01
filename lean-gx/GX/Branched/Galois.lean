@@ -1,37 +1,51 @@
-import GXScaffold.Branched.Paths
+import GX.Branched.Paths
 
 /-!
 # Galoisian branched coverings and the Galois correspondence (§3.4, l.1417–1559)
 
-Package WP-26f. `papers/gx`, `RamcovGX.tex:1417–1559`.
+Packages WP-26f, WP-27e. `papers/gx`, `RamcovGX.tex:1417–1559`. Reworked to DEC-55 and DEC-57
+(2026-11-01): "almost trivial" is the **literal** compact-open notion `GX.AlmostTrivialCC` of
+`GX.Branched.Paths`, and semi-local simple connectedness is stated with it
+(`GX.IsSLSCAtCC`, `GX.IsSLSCInCC`); quasi-Galoisian is the completion of a Galoisian covering over
+a portly `O`; `prop:Galoisian_fiber` uses a basis of open connected neighbourhoods;
+`rem:simple_cases` reads a codimension-`≥ 2` submanifold as locally flat and a simplicial complex
+as a locally finite geometric one, facets = closed faces. (The names `GX.IsSLSCAt`, `GX.IsSLSCIn`
+keep the HOMOTOPY form, which `GXScaffold.Branched.GaloisExamples` consumes; the paper's notions
+are the `…CC` declarations.)
 
 * **`def:automorphisms_spread`** — `RamcovGX.tex:1420`: `Γ(X/Y)` is `GX.deckGroup` (strict
   library); `GX.deckStab` (`Γ_x`), `GX.deckSetStab` (`Γ_U`); automorphisms in `Spread`
   `GX.deckToSpreadIso`, `GX.Spread.Iso.homeoX_mem_deckGroup`.
-* `def:branched_covering_galoisian_group` — `RamcovGX.tex:1426` (reading, SCOPE (a)):
-  `GX.IsGaloisian`, `GX.IsQuasiGaloisian` (`GX.IsDeckTransitive`), the literal completion form
-  `GX.isQuasiGaloisian_of_isSpreadCompletion`, `GX.IsQuasiGaloisian.exists_isSpreadCompletion`.
+* **`def:branched_covering_galoisian_group`** — `RamcovGX.tex:1426` (DEC-57, SCOPE (a)):
+  `GX.IsGaloisian`, `GX.IsQuasiGaloisian` (`GX.IsDeckTransitive`), equivalent to the completion
+  form: `GX.isQuasiGaloisian_of_isSpreadCompletion`, `GX.IsQuasiGaloisian.exists_isSpreadCompletion`.
 * **`rem:galois_quotient`** — `RamcovGX.tex:1431`: `GX.galois_quotient` (`GX.HomeoQuotient`).
 * **`lem:branched_covering_group_automorphisms`** — `RamcovGX.tex:1435`:
   `GX.deckRestrictEquiv`, `GX.branched_covering_group_automorphisms`.
 * **`cor:branched_covering`** — `RamcovGX.tex:1441`: `GX.deckOrdEquiv`.
-* `def:semi_locally_simple_connectedness` — `RamcovGX.tex:1451` (reading of "almost trivial",
-  SCOPE (b)): `GX.IsSLSCAt`, `GX.IsSLSCIn`.
+* **`def:semi_locally_simple_connectedness`** — `RamcovGX.tex:1451` (DEC-55, SCOPE (b)):
+  `GX.IsSLSCAtCC`, `GX.IsSLSCInCC`; the homotopy form `GX.IsSLSCAt`, `GX.IsSLSCIn` implies it
+  (`GX.IsSLSCIn.isSLSCInCC`) and agrees with it for `U` open semilocally simply connected
+  (`GX.isSLSCInCC_iff`).
 * `rem:definition_semi_locally_simply_connected` — `RamcovGX.tex:1455` (partial, the converse is
-  false; SCOPE (b)): `GX.isSLSCIn_univ_of_semilocallySimplyConnected`.
-* `rem:simple_cases` — `RamcovGX.tex:1459` (partial, SCOPE (b), (f)): `GX.isSLSCIn_compl_submodule`,
-  `GX.isSLSCIn_of_locally_linear` (locally flat), `GX.isSLSCIn_univ_of_normedSpace`,
-  `GX.isSLSCIn_compl_faces_of_locallyFinite`, `GX.isSLSCIn_compl_faces` (simplicial),
-  `GX.isSLSCAt_of_radial_contraction`, `GX.isSLSCIn_of_local`.
-* `lem:dense_orbits` — `RamcovGX.tex:1469` (through the reading SCOPE (a)): `GX.dense_orbits`.
-* `prop:Galoisian_fiber` — `RamcovGX.tex:1478` (reading of the basis, SCOPE (c)):
+  false; SCOPE (e)): `GX.isSLSCInCC_univ_of_semilocallySimplyConnected`.
+* **`rem:simple_cases`** — `RamcovGX.tex:1459` (DEC-55, DEC-57, SCOPE (f)): first item
+  `GX.isSLSCInCC_of_locally_linear` (locally flat; linear model `GX.isSLSCInCC_compl_submodule`,
+  `GX.isSLSCInCC_univ_of_normedSpace`), `GX.isSLSCInCC_compl_faces_of_locallyFinite`,
+  `GX.isSLSCInCC_compl_faces` (simplicial; `GX.isSLSCAtCC_of_radial_contraction`); second item
+  `GX.isSLSCInCC_of_local_nhds` (any neighbourhoods, `X` locally connected) and
+  `GX.isSLSCInCC_of_local` (open neighbourhoods, no hypothesis) (`GX.AlmostTrivialCC.map`,
+  `GX.isSLSCAtCC_of_subtype`). Homotopy forms: `GX.isSLSCIn_compl_submodule`,
+  `GX.isSLSCIn_of_locally_linear`, `GX.isSLSCIn_compl_faces_of_locallyFinite`, `GX.isSLSCIn_of_local`.
+* **`lem:dense_orbits`** — `RamcovGX.tex:1469` (DEC-57): `GX.dense_orbits`.
+* **`prop:Galoisian_fiber`** — `RamcovGX.tex:1478` (DEC-57, SCOPE (c)):
   `GX.galoisian_fiber` (`GX.GaloisThread`).
-* `lem:alternative_countable` — `RamcovGX.tex:1492` (through the reading SCOPE (a)):
-  `GX.alternative_countable`.
-* `prop:Galoisian_semilocal` — `RamcovGX.tex:1514` (reading SCOPE (b)): `GX.galoisian_semilocal`;
-  (ii) ⇒ (i) without second countability `GX.maxBranched_isGaloisian`.
-* `theo:Galois_cor` — `RamcovGX.tex:1550` (partial, an added hypothesis; SCOPE (b)):
-  `GX.galois_correspondence`
+* **`lem:alternative_countable`** — `RamcovGX.tex:1492` (DEC-57): `GX.alternative_countable`.
+* **`prop:Galoisian_semilocal`** — `RamcovGX.tex:1514` (DEC-55): `GX.galoisian_semilocal_cc`;
+  (ii) ⇒ (i) without second countability `GX.maxBranched_isGaloisian_cc`; homotopy form
+  `GX.galoisian_semilocal`, `GX.maxBranched_isGaloisian`.
+* `theo:Galois_cor` — `RamcovGX.tex:1550` (partial, an added hypothesis; DEC-55):
+  `GX.galois_correspondence_cc`; homotopy form `GX.galois_correspondence`
   (`GX.maxBranched_isGaloisian`, `GX.galois_cor_quotient`, `GX.galois_cor_normal`).
 
 > Let $X\xrightarrow{p} Y$ be a spread, an automorphisms of $p$ is an homeomorphism $\varphi$ of
@@ -64,51 +78,58 @@ Package WP-26f. `papers/gx`, `RamcovGX.tex:1417–1559`.
 | `theo:Galois_cor`: (absent) `Y ∖ S` semi-locally simply connected | ⚠ strengthened (finding): `\widetilde Y^S` exists only under it (`prop:universality`) |
 | `theo:Galois_cor`: second countability (used by the cited `prop:Galoisian_semilocal`) | ⚠ weakened: not needed (finding) |
 | `theo:Galois_cor`: coverings `X` | ✓ T2, LPC, first countable (§3 standing, as `prop:universality`) |
+| `def:semi_locally_simple_connectedness`: `X` Hausdorff, connected, LPC; `U` open; `x ∈ closure U` | ⚠ weakened: not used by the definition (defined for every set `U` and point `x`; `IsSLSCInCC` asks `U` dense, so every `x` is in `closure U`) |
+| `prop:Galoisian_semilocal`, `theo:Galois_cor`: (ii) / the hypothesis "`Y ∖ S` slsc in `Y`" | ✓ literal `GX.IsSLSCInCC` (DEC-55); the homotopy proofs apply through `GX.isSLSCInCC_iff` (`Y ∖ S` open, slsc, `Y` LPC) |
 | `rem:simple_cases`: codimension `≥ 2` | ⚠ weakened: not needed for the linear or simplicial model (finding) |
 | `rem:simple_cases`: simplicial `X`, `U` dense and locally connected | ⚠ weakened: local connectedness and dimension not used; `U` dense |
-| `rem:simple_cases`: simplicial `X` (any simplicial complex) | ⚠ strengthened: a LOCALLY FINITE geometric complex in a real normed space, subspace topology |
-| `rem:simple_cases`: codimension-`≥ 2` submanifold | ⚠ strengthened: LOCALLY FLAT (flat charts at points of `X ∖ U`, ordinary charts inside `U`) |
-| `rem:simple_cases`: a basis of neighbourhoods `V` | ⚠ weakened: one OPEN `V` per point (openness used to transfer along `V ↪ X`) |
+| `rem:simple_cases`: simplicial `X` | ✓ DEC-57: a LOCALLY FINITE geometric complex in a real normed space, subspace topology; facets = closed faces |
+| `rem:simple_cases`: codimension-`≥ 2` submanifold | ✓ DEC-57: LOCALLY FLAT (flat charts at points of `X ∖ U`, ordinary charts inside `U`), in any real normed model space |
+| `rem:simple_cases`: a basis of neighbourhoods `V` | ⚠ weakened: one neighbourhood `V` per point (`GX.isSLSCInCC_of_local_nhds`, `X` locally connected as the standing LPC gives; with open `V` no hypothesis, `GX.isSLSCInCC_of_local`) |
 
 ## SCOPE (disclosed)
 
-(a) `def:branched_covering_galoisian_group`: "Galoisian covering" is a deck-transitive connected
-surjective covering of a portly `O ⊆ Y` (the setting of `rem:one_could_sum_up`); `p` quasi-Galoisian
-iff `p⁻¹(O) → O` is one for some portly `O ⊆ ord(Y)` (both directions proved). `lem:dense_orbits`,
-`prop:Galoisian_fiber` and `lem:alternative_countable` take `GX.IsQuasiGaloisian` as hypothesis and
-so rest on this reading; they are proved in full under it and stay unmarked until it is ruled. (b)
-`def:semi_locally_simple_connectedness`: defined at every `x` (the paper: `x ∈ closure U`, which
-`IsSLSCIn` makes all `x` by density); "almost trivial" is `GX.AlmostTrivial`, the HOMOTOPY reading
-(WP-26e SCOPE (a), awaiting a ruling) of the paper's "connected component of `Ω(x,x,U)`"
-(l.1212); only "homotopic ⇒ same component" is proved (`GX.AlmostTrivial.almostTrivialCC`), so
-`IsSLSCIn` is at least as strong as the literal notion. Every label built on it —
-`def:semi_locally_simple_connectedness`, `rem:definition_semi_locally_simply_connected`,
-`rem:simple_cases`, `prop:Galoisian_semilocal`, `theo:Galois_cor` — is unmarked until it is
-ruled; in `prop:Galoisian_semilocal` (ii) ⇒ (i) assumes the stronger notion.
-(c) `prop:Galoisian_fiber`: the basis is of OPEN connected
-neighbourhoods (the reading of `prop:spread_fiber`), `≃` is a homeomorphism onto the projective
-limit `GX.GaloisThread` of the discrete `Γ/Γ_{Û_U}`. (d) `lem:alternative_countable`: the paper's
-branching-number dichotomy is replaced by Baire's theorem on the completely metrizable fibre
+(a) DEC-57: `def:branched_covering_galoisian_group`'s "Galoisian covering" is a deck-transitive
+connected surjective covering of a portly `O ⊆ Y` (the setting of `rem:one_could_sum_up`); `p` is
+quasi-Galoisian (`GX.IsQuasiGaloisian`: `p⁻¹(O) → O` deck-transitive for some portly
+`O ⊆ ord(Y)`) iff it is the completion of such a covering (both directions proved,
+`GX.isQuasiGaloisian_of_isSpreadCompletion`, `GX.IsQuasiGaloisian.exists_isSpreadCompletion`).
+`lem:dense_orbits`, `prop:Galoisian_fiber` and `lem:alternative_countable` take
+`GX.IsQuasiGaloisian` as hypothesis. (b) DEC-55: "almost trivial" is the literal compact-open
+notion `GX.AlmostTrivialCC`, and `def:semi_locally_simple_connectedness` is `GX.IsSLSCAtCC`,
+`GX.IsSLSCInCC` (defined at every `x`; the paper: `x ∈ closure U`, which `IsSLSCInCC` makes all
+`x` by density). The homotopy forms `GX.IsSLSCAt`, `GX.IsSLSCIn` (built on `GX.AlmostTrivial`)
+always imply them (`GX.IsSLSCIn.isSLSCInCC`) and are equivalent to them for `U` open and
+semilocally simply connected in a locally path-connected space (`GX.isSLSCInCC_iff`, from
+`GX.almostTrivialCC_iff`) — the situation `U = Y ∖ S` of `prop:Galoisian_semilocal` and
+`theo:Galois_cor`, whose homotopy arguments (the paper's own) are run on the homotopy form.
+(c) DEC-57: `prop:Galoisian_fiber`'s basis is of OPEN connected neighbourhoods (as in
+`prop:spread_fiber`), `≃` is a homeomorphism onto the projective limit `GX.GaloisThread` of the
+discrete `Γ/Γ_{Û_U}`. (d) `lem:alternative_countable`: the paper's branching-number dichotomy is
+replaced by Baire's theorem on the completely metrizable fibre
 (`GX.isCompletelyMetrizableSpace_fiber`): a countable fibre has an isolated point, and dense orbits
 of homeomorphisms make every point isolated. (e) `rem:definition_semi_locally_simply_connected`:
 only "slsc ⇒ slsc in itself" holds; the converse fails for the harmonic archipelago (every loop
-is homotopic into every neighbourhood of the base point, `π₁ ≠ 1`); the counterexample is NOT
-formalized. (f) `rem:simple_cases`: proved for complements of closed proper linear subspaces of a
-real normed space, transported to closed sets `X ∖ U` which are locally flat: every point of `X`
-has an open chart `V ≃ₜ E` which is either contained in `U` or carries `V ∖ U` onto a closed proper
-linear subspace (`GX.isSLSCIn_of_locally_linear`; points of `U` far from `X ∖ U` use the first
-alternative, via `GX.isSLSCIn_univ_of_normedSpace`, and `X ∖ U = ∅` is allowed), and the local
-criterion of the second item (one OPEN neighbourhood per point suffices). Simplicial case (`GX.isSLSCIn_compl_faces_of_locallyFinite`, finite case
-`GX.isSLSCIn_compl_faces`): `X = |K|` for a LOCALLY FINITE geometric simplicial complex `K` of a
+is homotopic into every neighbourhood of the base point, so the loops are almost trivial in the
+homotopy form and a fortiori in the literal one, but `π₁ ≠ 1`); the counterexample is NOT
+formalized. (f) `rem:simple_cases` (DEC-57): proved for complements of closed proper linear
+subspaces of a real normed space, transported to closed sets `X ∖ U` which are locally flat: every
+point of `X` has an open chart `V ≃ₜ E` which is either contained in `U` or carries `V ∖ U` onto
+a closed proper linear subspace (`GX.isSLSCInCC_of_locally_linear`; points of `U` far from `X ∖ U`
+use the first alternative, via `GX.isSLSCIn_univ_of_normedSpace`, and `X ∖ U = ∅` is allowed).
+Simplicial case (`GX.isSLSCInCC_compl_faces_of_locallyFinite`, finite case
+`GX.isSLSCInCC_compl_faces`): `X = |K|` for a LOCALLY FINITE geometric simplicial complex `K` of a
 real normed space (mathlib's `Geometry.SimplicialComplex`, closed faces locally finite in `E`,
-subspace topology),
-`X ∖ U` a union of closed faces of `K` ("facets" read as faces: facets in the usual sense,
-maximal faces, would make `U` non-dense in a pure complex), `U` dense; no dimension condition is
-needed (radial contraction in the closed star, `GX.isSLSCAt_of_radial_contraction`). NOT stated:
-complexes which are not locally finite, or carry the weak topology, and codimension-`≥ 2` topological submanifolds which are not
-locally flat (e.g. wild arcs in `ℝ³`), for which the claim is not known to us to hold.
-(g) `theo:Galois_cor`: the normality equivalence is
-proved for EVERY `H` with `H\widetilde Y^S ≃ X` over `Y`.
+subspace topology), `X ∖ U` a union of closed faces of `K` (DEC-57: facets = closed faces; maximal
+faces would make `U` non-dense in a pure complex), `U` dense; no dimension condition is needed
+(radial contraction in the closed star, `GX.isSLSCAt_of_radial_contraction`). The second item
+(`GX.isSLSCInCC_of_local_nhds`) is proved directly in the literal form: `g ↦ f ∘ g` is continuous
+for the compact-open topologies, so almost triviality pushes forward along the inclusion
+`V ↪ X` (`GX.AlmostTrivialCC.map`), and the connected open neighbourhood in `X` is a component of
+`O ∩ int V` (`X` locally connected). The first item's proofs produce homotopies and pass to the
+literal form by `GX.IsSLSCIn.isSLSCInCC`. Outside the rulings, NOT stated: complexes which are not
+locally finite, or carry the weak topology, and codimension-`≥ 2` topological submanifolds which
+are not locally flat (e.g. wild arcs in `ℝ³`). (g) `theo:Galois_cor`: the normality equivalence
+is proved for EVERY `H` with `H\widetilde Y^S ≃ X` over `Y`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -226,7 +247,7 @@ of automorphisms acts transitively on its fibres. -/
 def IsGaloisian (p : X → Y) : Prop :=
   IsBranchedCovering p ∧ IsDeckTransitive p
 
-/-- `def:branched_covering_galoisian_group`. A branched covering is *quasi-Galoisian* if it is
+/-- **`def:branched_covering_galoisian_group`** (DEC-57). A branched covering is *quasi-Galoisian* if it is
 the completion of a Galoisian covering: over some portly `O ⊆ ord(Y)` its restriction
 `p⁻¹(O) → O` (a covering of which `p` is the completion, `GX.IsBranchedCovering.restrict_isCoveringMap`)
 has a group of automorphisms acting transitively on its fibres. -/
@@ -557,7 +578,7 @@ theorem dense_fiberOrbit_of {H : Subgroup (X ≃ₜ X)} {x : X}
   have hm : φ x ∈ p ⁻¹' {p x} := deck_mem_fiber p (hH hφ) rfl
   exact ⟨⟨φ x, hm⟩, hφx, φ, hφ, rfl⟩
 
-/-- `lem:dense_orbits` (`RamcovGX.tex:1469`; reading of quasi-Galoisian, SCOPE (a)). For a
+/-- **`lem:dense_orbits`** (`RamcovGX.tex:1469`; quasi-Galoisian as ruled by DEC-57, SCOPE (a)). For a
 quasi-Galoisian branched covering, the orbit `Γ(X/Y) x̂` is dense in the fibre `p⁻¹(p x̂)`. -/
 theorem dense_orbits [T2Space X] [T2Space Y] [LocPathConnectedSpace Y]
     [FirstCountableTopology Y] (hp : IsQuasiGaloisian p) (x : X) :
@@ -762,7 +783,8 @@ def galoisThreadHomeomorph [T2Space X] [T2Space Y] [LocPathConnectedSpace Y]
     exact (continuous_of_discreteTopology (f := fun d : DiscreteSets X =>
       Function.invFun (galoisComp p x U) d)).comp (hcoord' U)
 
-/-- `prop:Galoisian_fiber` (`RamcovGX.tex:1478`). For a quasi-Galoisian branched covering,
+/-- **`prop:Galoisian_fiber`** (`RamcovGX.tex:1478`; DEC-57: quasi-Galoisian as the completion of
+a Galoisian covering over a portly `O`, an open connected basis). For a quasi-Galoisian branched covering,
 `b ∈ Y`, a basis `𝓤` of open connected neighbourhoods of `b` and `x̂ ∈ p⁻¹(b)`,
 `p⁻¹(b) ≃ₜ lim_{U ∈ 𝓤} Γ(X/Y)/Γ_{Û_U}`. -/
 theorem galoisian_fiber [T2Space X] [T2Space Y] [LocPathConnectedSpace Y]
@@ -877,7 +899,7 @@ theorem discreteTopology_fiber_of_countable [T2Space X] [T1Space Y] [LocallyConn
   rw [this]
   exact hz₀.preimage hF
 
-/-- `lem:alternative_countable` (`RamcovGX.tex:1492`; reading of quasi-Galoisian, SCOPE (a)).
+/-- **`lem:alternative_countable`** (`RamcovGX.tex:1492`; quasi-Galoisian as ruled by DEC-57).
 Let `p` be a quasi-Galoisian branched covering with `Γ(X/Y)` countable and `b ∈ Y`. Then (i) `p⁻¹(b)` is discrete, (ii) `p⁻¹(b)` is
 countable, (iii) `Γ(X/Y)` acts transitively on `p⁻¹(b)` are equivalent. -/
 theorem alternative_countable [T2Space X] [T2Space Y] [LocPathConnectedSpace Y]
@@ -905,7 +927,8 @@ theorem alternative_countable [T2Space X] [T2Space Y] [LocPathConnectedSpace Y]
 
 /-! ### `def:semi_locally_simple_connectedness` -/
 
-/-- `def:semi_locally_simple_connectedness` (`RamcovGX.tex:1451`), homotopy reading. `U` is
+/-- `def:semi_locally_simple_connectedness` (`RamcovGX.tex:1451`), HOMOTOPY form (the paper's
+notion, DEC-55, is `GX.IsSLSCAtCC`; this form implies it, `GX.IsSLSCAt.isSLSCAtCC`). `U` is
 *semi-locally simply connected at `x`* (a point of `closure U` in the paper) if some connected open neighbourhood `V`
 of `x` is such that every loop of `Ω(x,x,V ∩ U)`, seen in `Ω(x,x,U)`, is almost trivial. -/
 def IsSLSCAt (U : Set X) (x : X) : Prop :=
@@ -916,6 +939,42 @@ def IsSLSCAt (U : Set X) (x : X) : Prop :=
 if it is dense and semi-locally simply connected at every point of `X`. -/
 def IsSLSCIn (U : Set X) : Prop :=
   Dense U ∧ ∀ x, IsSLSCAt U x
+
+/-- **`def:semi_locally_simple_connectedness`** (`RamcovGX.tex:1451`) in its **literal** form
+(DEC-55): `U` is *semi-locally simply connected at `x`* if some connected open neighbourhood `V`
+of `x` is such that every loop of `Ω(x,x,V ∩ U)`, seen in `Ω(x,x,U)`, is almost trivial in the
+sense of `def:almost_trivial_loop` — its connected component in the compact-open `Ω(x,x,U)` meets
+`Ω(x,x,W ∩ U)` for every neighbourhood `W` of `x` (`GX.AlmostTrivialCC`). -/
+def IsSLSCAtCC (U : Set X) (x : X) : Prop :=
+  ∃ V : Set X, IsOpen V ∧ IsPreconnected V ∧ x ∈ V ∧
+    ∀ γ : Path x x, MemOmega (V ∩ U) γ → AlmostTrivialCC U γ
+
+/-- **`def:semi_locally_simple_connectedness`**, literal form (DEC-55): `U` is *semi-locally
+simply connected in `X`* if it is dense and semi-locally simply connected at every point of `X`. -/
+def IsSLSCInCC (U : Set X) : Prop :=
+  Dense U ∧ ∀ x, IsSLSCAtCC U x
+
+/-- The homotopy form of semi-local simple connectedness at `x` implies the literal one. -/
+theorem IsSLSCAt.isSLSCAtCC {U : Set X} {x : X} (h : IsSLSCAt U x) : IsSLSCAtCC U x := by
+  obtain ⟨V, hV, hVc, hxV, hloop⟩ := h
+  exact ⟨V, hV, hVc, hxV, fun γ hγ => (hloop γ hγ).almostTrivialCC⟩
+
+/-- The homotopy form of semi-local simple connectedness in `X` implies the literal one. -/
+theorem IsSLSCIn.isSLSCInCC {U : Set X} (h : IsSLSCIn U) : IsSLSCInCC U :=
+  ⟨h.1, fun x => (h.2 x).isSLSCAtCC⟩
+
+/-- DEC-55: the literal form implies the homotopy form for `U` open and semilocally simply
+connected in a locally path-connected `X` (`GX.AlmostTrivialCC.almostTrivial`). -/
+theorem IsSLSCAtCC.isSLSCAt [LocPathConnectedSpace X] {U : Set X} (hU : IsOpen U)
+    (hsc : SemilocallySimplyConnected U) {x : X} (h : IsSLSCAtCC U x) : IsSLSCAt U x := by
+  obtain ⟨V, hV, hVc, hxV, hloop⟩ := h
+  exact ⟨V, hV, hVc, hxV, fun γ hγ => (hloop γ hγ).almostTrivial hU hsc⟩
+
+/-- DEC-55: for `U` open and semilocally simply connected in a locally path-connected `X`, the
+literal and the homotopy forms of semi-local simple connectedness in `X` agree. -/
+theorem isSLSCInCC_iff [LocPathConnectedSpace X] {U : Set X} (hU : IsOpen U)
+    (hsc : SemilocallySimplyConnected U) : IsSLSCInCC U ↔ IsSLSCIn U :=
+  ⟨fun h => ⟨h.1, fun x => (h.2 x).isSLSCAt hU hsc⟩, IsSLSCIn.isSLSCInCC⟩
 
 /-! ### Splitting a loop at its midpoint -/
 
@@ -1140,6 +1199,14 @@ theorem isSLSCIn_univ_of_semilocallySimplyConnected [LocallyConnectedSpace X]
   obtain ⟨F⟩ := hloop γ hγU
   exact ⟨Path.refl x, fun t _ _ => ⟨mem_of_mem_nhds hW, mem_univ _⟩, F, fun _ _ _ _ => mem_univ _⟩
 
+/-- **`rem:definition_semi_locally_simply_connected`** (`RamcovGX.tex:1455`) in the literal
+reading (DEC-55), the true direction: a semi-locally simply connected space (DEC-41) is
+semi-locally simply connected in itself. The converse is false (the harmonic archipelago; see
+SCOPE (e)). -/
+theorem isSLSCInCC_univ_of_semilocallySimplyConnected [LocallyConnectedSpace X]
+    (h : SemilocallySimplyConnected X) : IsSLSCInCC (univ : Set X) :=
+  (isSLSCIn_univ_of_semilocallySimplyConnected h).isSLSCInCC
+
 /-! ### `rem:simple_cases` -/
 
 /-- Almost triviality is preserved by continuous maps. -/
@@ -1208,6 +1275,101 @@ theorem IsSLSCIn.of_homeomorph {Z : Type*} [TopologicalSpace Z] (φ : X ≃ₜ Z
       rw [show φ.symm ⁻¹' (φ ⁻¹' A) = A by ext; simp]; exact h.2 (φ x)
     have := h'.of_isOpenEmbedding φ.symm.isOpenEmbedding
     rwa [φ.symm_apply_apply] at this⟩
+
+/-- Almost triviality in the literal (compact-open) sense of DEC-55 is preserved by continuous
+maps: `g ↦ f ∘ g` is continuous for the compact-open topologies, so it carries the connected
+component of `δ` in `Ω(z,z,f⁻¹(A))` into that of `f ∘ δ` in `Ω(f z, f z, A)`. -/
+theorem AlmostTrivialCC.map {Z : Type*} [TopologicalSpace Z] {f : Z → X} (hf : Continuous f)
+    {A : Set X} {z : Z} {δ : Path z z} (h : AlmostTrivialCC (f ⁻¹' A) δ) :
+    AlmostTrivialCC A (δ.map hf) := by
+  set F : C(I, Z) → C(I, X) := (ContinuousMap.mk f hf).comp
+  have hF : Continuous F := ContinuousMap.continuous_postcomp _
+  have hmaps : ∀ {B : Set X}, MapsTo F (OmegaSet (f ⁻¹' B) z z) (OmegaSet B (f z) (f z)) := by
+    intro B g hg
+    refine ⟨?_, ?_, fun t h0 h1 => hg.2.2 t h0 h1⟩
+    · show f (g 0) = f z; rw [hg.1]
+    · show f (g 1) = f z; rw [hg.2.1]
+  have hFδ : F δ.toContinuousMap = (δ.map hf).toContinuousMap := ContinuousMap.ext fun t => rfl
+  refine ⟨hFδ ▸ hmaps h.1, fun N hN => ?_⟩
+  obtain ⟨η, hηC, hηN⟩ := h.2 (f ⁻¹' N) (hf.continuousAt.preimage_mem_nhds hN)
+  refine ⟨F η, ?_, hmaps (B := N ∩ A) hηN⟩
+  rw [← hFδ]
+  refine (isPreconnected_connectedComponentIn.image F hF.continuousOn).subset_connectedComponentIn
+    (mem_image_of_mem F (mem_connectedComponentIn h.1)) ?_ (mem_image_of_mem F hηC)
+  rintro _ ⟨g, hg, rfl⟩
+  exact hmaps (connectedComponentIn_subset _ _ hg)
+
+/-- Literal semi-local simple connectedness at `x` from a subspace `V ∋ x`: if every loop of
+`Ω_V(x,x,W ∩ U)` is almost trivial in `V` and `W' ∋ x` is an open preconnected subset of `X`
+lying in `W`, then `U` is semi-locally simply connected at `x` (literal form). -/
+theorem isSLSCAtCC_of_subtype {U V : Set X} {x : X} (hxV : x ∈ V) {W : Set V}
+    (hloop : ∀ γ : Path (⟨x, hxV⟩ : V) ⟨x, hxV⟩, MemOmega (W ∩ (((↑) : V → X) ⁻¹' U)) γ →
+      AlmostTrivialCC (((↑) : V → X) ⁻¹' U) γ)
+    {W' : Set X} (hW'o : IsOpen W') (hW'c : IsPreconnected W') (hxW' : x ∈ W')
+    (hW'W : ∀ y ∈ W', ∃ h : y ∈ V, (⟨y, h⟩ : V) ∈ W) : IsSLSCAtCC U x := by
+  refine ⟨W', hW'o, hW'c, hxW', fun γ hγ => ?_⟩
+  have hV : ∀ t, γ t ∈ V := fun t => by
+    rcases eq_or_lt_of_le t.2.1 with h0 | h0
+    · rw [show t = 0 from Subtype.ext h0.symm, γ.source]; exact hxV
+    rcases eq_or_lt_of_le t.2.2 with h1 | h1
+    · rw [show t = 1 from Subtype.ext h1, γ.target]; exact hxV
+    exact (hW'W _ (hγ t h0 h1).1).1
+  have hγ' : MemOmega (W ∩ (((↑) : V → X) ⁻¹' U)) (pathToSub γ hV) := fun t h0 h1 =>
+    ⟨(hW'W _ (hγ t h0 h1).1).2, (hγ t h0 h1).2⟩
+  have := (hloop (pathToSub γ hV) hγ').map continuous_subtype_val
+  have heq : (pathToSub γ hV).map continuous_subtype_val = γ := by ext t; rfl
+  rwa [heq] at this
+
+/-- Density of `U` from density in subspaces `V ∋ x`. -/
+theorem dense_of_local_subtype {U : Set X}
+    (h : ∀ x : X, ∃ V : Set X, x ∈ V ∧ Dense (((↑) : V → X) ⁻¹' U)) : Dense U := by
+  intro x
+  obtain ⟨V, hxV, hd⟩ := h x
+  rw [mem_closure_iff_nhds]
+  intro N hN
+  have hN' : ((↑) : V → X) ⁻¹' N ∈ 𝓝 (⟨x, hxV⟩ : V) :=
+    continuous_subtype_val.continuousAt.preimage_mem_nhds hN
+  obtain ⟨w, hwN, hwU⟩ := mem_closure_iff_nhds.1 (hd ⟨x, hxV⟩) _ hN'
+  exact ⟨w, hwN, hwU⟩
+
+/-- `rem:simple_cases`, second item, literal form (DEC-55), for open neighbourhoods: if every
+point has an open neighbourhood `V` with `V ∩ U` semi-locally simply connected in `V`, then `U` is
+semi-locally simply connected in `X` (no hypothesis on `X`). -/
+theorem isSLSCInCC_of_local {U : Set X}
+    (h : ∀ x, ∃ V : Set X, IsOpen V ∧ x ∈ V ∧ IsSLSCInCC (((↑) : V → X) ⁻¹' U)) :
+    IsSLSCInCC U := by
+  refine ⟨dense_of_local_subtype fun x => ?_, fun x => ?_⟩
+  · obtain ⟨V, -, hxV, hd, -⟩ := h x
+    exact ⟨V, hxV, hd⟩
+  · obtain ⟨V, hV, hxV, -, hs⟩ := h x
+    obtain ⟨W, hW, hWc, hxW, hloop⟩ := hs ⟨x, hxV⟩
+    refine isSLSCAtCC_of_subtype hxV hloop (hV.isOpenMap_subtype_val W hW)
+      (hWc.image _ continuous_subtype_val.continuousOn) ⟨_, hxW, rfl⟩ ?_
+    rintro _ ⟨w, hw, rfl⟩
+    exact ⟨w.2, hw⟩
+
+/-- **`rem:simple_cases`, second item** (`RamcovGX.tex:1464`), literal form (DEC-55): in a
+locally connected `X`, if every point `x` has a neighbourhood `V` (not necessarily open; one per
+point suffices, a fortiori a basis) with `V ∩ U` semi-locally simply connected in `V`, then `U` is
+semi-locally simply connected in `X`. -/
+theorem isSLSCInCC_of_local_nhds [LocallyConnectedSpace X] {U : Set X}
+    (h : ∀ x : X, ∃ V ∈ 𝓝 x, IsSLSCInCC (((↑) : V → X) ⁻¹' U)) : IsSLSCInCC U := by
+  refine ⟨dense_of_local_subtype fun x => ?_, fun x => ?_⟩
+  · obtain ⟨V, hV, hd, -⟩ := h x
+    exact ⟨V, mem_of_mem_nhds hV, hd⟩
+  · obtain ⟨V, hV, -, hs⟩ := h x
+    have hxV : x ∈ V := mem_of_mem_nhds hV
+    obtain ⟨W, hW, hWc, hxW, hloop⟩ := hs ⟨x, hxV⟩
+    obtain ⟨O, hO, hOW⟩ := isOpen_induced_iff.1 hW
+    have hxO : x ∈ O := by
+      rw [← hOW] at hxW; exact hxW
+    have hxW' : x ∈ connectedComponentIn (O ∩ interior V) x :=
+      mem_connectedComponentIn ⟨hxO, mem_interior_iff_mem_nhds.2 hV⟩
+    refine isSLSCAtCC_of_subtype hxV hloop (hO.inter isOpen_interior).connectedComponentIn
+      isPreconnected_connectedComponentIn hxW' fun y hy => ?_
+    have hy' := connectedComponentIn_subset _ _ hy
+    refine ⟨interior_subset hy'.2, ?_⟩
+    rw [← hOW]; exact hy'.1
 
 section Linear
 
@@ -1488,6 +1650,55 @@ theorem isSLSCIn_compl_faces (K : Geometry.SimplicialComplex ℝ E) (hK : K.face
   haveI : Finite K.faces := hK.to_subtype
   isSLSCIn_compl_faces_of_locallyFinite K (locallyFinite_of_finite _) F hF hd
 
+/-! #### `rem:simple_cases`, first item, in the literal reading (DEC-55) -/
+
+/-- **`rem:simple_cases`**, linear model, literal form: the complement of a closed proper linear
+subspace of a real normed space is semi-locally simply connected in it. -/
+theorem isSLSCInCC_compl_submodule (L : Submodule ℝ E) (hL : IsClosed (L : Set E))
+    (hLt : L ≠ ⊤) : IsSLSCInCC ((L : Set E)ᶜ) :=
+  (isSLSCIn_compl_submodule L hL hLt).isSLSCInCC
+
+/-- **`rem:simple_cases`**, the radial criterion, literal form. -/
+theorem isSLSCAtCC_of_radial_contraction {M A : Set E} (x : M) {r : ℝ} (hr : 0 < r)
+    (hM : ∀ v ∈ M, dist v (x : E) < r → ∀ μ : ℝ, 0 ≤ μ → μ ≤ 1 → (x : E) + μ • (v - x) ∈ M)
+    (hA : ∀ v ∈ M, dist v (x : E) < r → v ∈ A → ∀ μ : ℝ, 0 < μ → μ ≤ 1 →
+      (x : E) + μ • (v - x) ∈ A) :
+    IsSLSCAtCC (((↑) : M → E) ⁻¹' A) x :=
+  (isSLSCAt_of_radial_contraction x hr hM hA).isSLSCAtCC
+
+/-- A real normed space is semi-locally simply connected in itself, literal form. -/
+theorem isSLSCInCC_univ_of_normedSpace : IsSLSCInCC (univ : Set E) :=
+  (isSLSCIn_univ_of_normedSpace (E := E)).isSLSCInCC
+
+/-- **`rem:simple_cases`, first item** (`RamcovGX.tex:1462`), manifold case, literal form, under
+DEC-57 (a codimension-`≥ 2` submanifold is read as LOCALLY FLAT): if every point of `X` has an
+open chart `V ≃ₜ E` either contained in `U` or carrying `V ∖ U` onto a closed proper linear
+subspace of `E`, then `U` is semi-locally simply connected in `X` (no codimension condition is
+needed). -/
+theorem isSLSCInCC_of_locally_linear {U : Set X}
+    (h : ∀ x, ∃ (V : Set X) (_ : IsOpen V) (_ : x ∈ V) (φ : V ≃ₜ E),
+      V ⊆ U ∨ ∃ L : Submodule ℝ E, IsClosed (L : Set E) ∧ L ≠ ⊤ ∧
+        ∀ v : V, (v : X) ∈ U ↔ φ v ∉ L) : IsSLSCInCC U :=
+  (isSLSCIn_of_locally_linear h).isSLSCInCC
+
+/-- **`rem:simple_cases`, first item** (`RamcovGX.tex:1462`), simplicial case, literal form,
+under DEC-57 (`X = |K|` for a LOCALLY FINITE geometric simplicial complex, "facets" = closed
+faces): if `S` is a union of closed faces of `K` with dense complement `U`, then `U` is
+semi-locally simply connected in `|K|`. -/
+theorem isSLSCInCC_compl_faces_of_locallyFinite (K : Geometry.SimplicialComplex ℝ E)
+    (hK : LocallyFinite fun τ : K.faces => convexHull ℝ ((τ : Finset E) : Set E))
+    (F : Set (Finset E)) (hF : F ⊆ K.faces)
+    (hd : Dense (((↑) : K.space → E) ⁻¹' (⋃ s ∈ F, convexHull ℝ (s : Set E))ᶜ)) :
+    IsSLSCInCC (((↑) : K.space → E) ⁻¹' (⋃ s ∈ F, convexHull ℝ (s : Set E))ᶜ) :=
+  (isSLSCIn_compl_faces_of_locallyFinite K hK F hF hd).isSLSCInCC
+
+/-- `rem:simple_cases`, simplicial case, finite complex, literal form. -/
+theorem isSLSCInCC_compl_faces (K : Geometry.SimplicialComplex ℝ E) (hK : K.faces.Finite)
+    (F : Set (Finset E)) (hF : F ⊆ K.faces)
+    (hd : Dense (((↑) : K.space → E) ⁻¹' (⋃ s ∈ F, convexHull ℝ (s : Set E))ᶜ)) :
+    IsSLSCInCC (((↑) : K.space → E) ⁻¹' (⋃ s ∈ F, convexHull ℝ (s : Set E))ᶜ) :=
+  (isSLSCIn_compl_faces K hK F hF hd).isSLSCInCC
+
 end Linear
 
 end General
@@ -1647,7 +1858,8 @@ theorem discreteTopology_fiber_maxBranched [SecondCountableTopology Y] (hS : IsS
   have := alternative_countable hq (countable_deck_maxBranched hS hSc y₀) y
   exact this.1.2 (this.2.2 fun x _ x' hx' => h.2 x x' (by rw [show _ = y from hx'] ; assumption))
 
-/-- `prop:Galoisian_semilocal` (`RamcovGX.tex:1514`), homotopy reading of "almost trivial". Let `Y` be connected, locally
+/-- `prop:Galoisian_semilocal` (`RamcovGX.tex:1514`), HOMOTOPY form of "almost trivial" (the
+literal statement, DEC-55, is `GX.galoisian_semilocal_cc`). Let `Y` be connected, locally
 path-connected, second countable, Hausdorff, `S ⊆ Y` skeletal with `Y ∖ S` semi-locally simply
 connected. Then `\widetilde Y^S → Y` is Galoisian iff `Y ∖ S` is semi-locally simply connected
 in `Y`. -/
@@ -1662,6 +1874,25 @@ theorem galoisian_semilocal [SecondCountableTopology Y] (hS : IsSkeletal S)
   obtain ⟨hbc, hpb⟩ := maxBranched_isBranchedCovering hS hSc y₀
   exact isSLSCAt_of_discreteTopology_fiber hbc hS hpb
     (discreteTopology_fiber_maxBranched hS hSc y₀ h y)
+
+/-- `prop:Galoisian_semilocal`, (ii) ⇒ (i), literal form (DEC-55), without second
+countability. -/
+theorem maxBranched_isGaloisian_cc (hS : IsSkeletal S)
+    (hSc : SemilocallySimplyConnected (Sᶜ : Set Y)) (y₀ : (Sᶜ : Set Y))
+    (h : IsSLSCInCC (Sᶜ : Set Y)) : IsGaloisian (SpreadEnd.base : MaxBranchedCover S y₀ → Y) :=
+  maxBranched_isGaloisian hS hSc y₀ ((isSLSCInCC_iff (isSkeletal_iff.1 hS).isOpen hSc).1 h)
+
+/-- **`prop:Galoisian_semilocal`** (`RamcovGX.tex:1514`), literal reading of "almost trivial"
+(DEC-55). Let `Y` be connected, locally path-connected, second countable, Hausdorff, `S ⊆ Y`
+skeletal with `Y ∖ S` semi-locally simply connected. Then `\widetilde Y^S → Y` is Galoisian iff
+`Y ∖ S` is semi-locally simply connected in `Y` (`GX.IsSLSCInCC`). Under the proposition's own
+hypotheses the literal and the homotopy forms agree (`GX.isSLSCInCC_iff`), which is how the
+paper's homotopy arguments apply. -/
+theorem galoisian_semilocal_cc [SecondCountableTopology Y] (hS : IsSkeletal S)
+    (hSc : SemilocallySimplyConnected (Sᶜ : Set Y)) (y₀ : (Sᶜ : Set Y)) :
+    IsGaloisian (SpreadEnd.base : MaxBranchedCover S y₀ → Y) ↔ IsSLSCInCC (Sᶜ : Set Y) := by
+  rw [isSLSCInCC_iff (isSkeletal_iff.1 hS).isOpen hSc]
+  exact galoisian_semilocal hS hSc y₀
 
 /-! ### `theo:Galois_cor` -/
 
@@ -1823,7 +2054,8 @@ theorem galois_cor_normal (hS : IsSkeletal S) (hSc : SemilocallySimplyConnected 
     simp only [Homeomorph.apply_symm_apply] at h1 h2
     rw [← h1, hΦη η hn, h2]
 
-/-- `theo:Galois_cor` (`RamcovGX.tex:1550`), the Galois correspondence. Let `Y` be connected,
+/-- `theo:Galois_cor` (`RamcovGX.tex:1550`), the Galois correspondence, HOMOTOPY form of "almost
+trivial" (the literal statement, DEC-55, is `GX.galois_correspondence_cc`). Let `Y` be connected,
 locally path-connected, Hausdorff (first countable, §3 standing), `S ⊆ Y` skeletal, `Y ∖ S`
 semi-locally simply connected (so that `\widetilde Y^S` exists) and semi-locally simply connected
 in `Y`. Then `\widetilde Y^S` is Galoisian; every covering `X` of `Y` possibly branched over `S`
@@ -1848,6 +2080,29 @@ theorem galois_correspondence (hS : IsSkeletal S) (hSc : SemilocallySimplyConnec
   ⟨maxBranched_isGaloisian hS hSc y₀ h,
     fun _ _ _ _ _ _ hp hpS => galois_cor_quotient hS hSc y₀ h hp hpS,
     fun _ _ _ _ hp hpS _ hH hX hXp => galois_cor_normal hS hSc y₀ h hp hpS hH hX hXp⟩
+
+/-- `theo:Galois_cor` (`RamcovGX.tex:1550`) in the literal reading of "almost trivial" (DEC-55):
+the hypothesis "`Y ∖ S` semi-locally simply connected in `Y`" is `GX.IsSLSCInCC`. `Y ∖ S`
+semi-locally simply connected is ADDED (finding, DEC-27: the maximal covering exists only under
+it); under it the literal and homotopy forms agree (`GX.isSLSCInCC_iff`). -/
+theorem galois_correspondence_cc (hS : IsSkeletal S)
+    (hSc : SemilocallySimplyConnected (Sᶜ : Set Y)) (y₀ : (Sᶜ : Set Y))
+    (h : IsSLSCInCC (Sᶜ : Set Y)) :
+    IsGaloisian (SpreadEnd.base : MaxBranchedCover S y₀ → Y) ∧
+      (∀ (X : Type v) [TopologicalSpace X] [T2Space X] [LocPathConnectedSpace X]
+        [FirstCountableTopology X] (p : X → Y), IsBranchedCovering p →
+        IsPossiblyBranchedOver p S →
+        ∃ H : Subgroup (MaxBranchedCover S y₀ ≃ₜ MaxBranchedCover S y₀),
+          H ≤ deckGroup (SpreadEnd.base : MaxBranchedCover S y₀ → Y) ∧
+            ∃ hX : HomeoQuotient H ≃ₜ X, ∀ e, p (hX (homeoQuotientMk H e)) = e.base) ∧
+      (∀ (X : Type v) [TopologicalSpace X] [T2Space X] (p : X → Y), IsBranchedCovering p →
+        IsPossiblyBranchedOver p S →
+        ∀ H : Subgroup (MaxBranchedCover S y₀ ≃ₜ MaxBranchedCover S y₀),
+          H ≤ deckGroup (SpreadEnd.base : MaxBranchedCover S y₀ → Y) →
+          ∀ hX : HomeoQuotient H ≃ₜ X, (∀ e, p (hX (homeoQuotientMk H e)) = e.base) →
+            ((H.subgroupOf (deckGroup (SpreadEnd.base : MaxBranchedCover S y₀ → Y))).Normal ↔
+              IsGaloisian p)) :=
+  galois_correspondence hS hSc y₀ ((isSLSCInCC_iff (isSkeletal_iff.1 hS).isOpen hSc).1 h)
 
 end MaxCover
 

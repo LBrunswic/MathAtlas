@@ -1,0 +1,908 @@
+import GX.Branched.Universality
+import GX.Singular.Suspension
+import GX.Singular.Atlas
+
+/-!
+# Singular `(G,X)`-manifolds (II): the opening examples, locally unloopable models, branched coverings
+
+Package WP-27g. `papers/gx`, `RamcovGX.tex:1610–1705`: the opening of "Singular `(G,X)`-manifolds
+(II): tame and wild" and the subsection "Ramified coverings, group actions".
+
+* `ex:Tame` — `RamcovGX.tex:1616` — partial (the metric sentence is not
+  formalized): `GX.tame_conical` (`𝔼^{n+2}_α`, `α ≠ 2π`, `G = Isom⁺`: `sing(M) = π{r=0}`,
+  `\widetilde M^{sing M} ≅ susp(ℝ) × ℝⁿ` over `M`, the developing map continuous, an a.e.
+  morphism, equivariant, `(r cos θ, r sin θ, z)` in the paper's angle, `GX.conicalDev_posEmb_div`).
+* **`ex:WTame`** — `RamcovGX.tex:1625`: `GX.wtame_btz` (every rigid `G` containing `P_α`),
+  `GX.wtame_btz_isom0` (`G = Isom₀(𝔼^{1,2})`); `sing(M) = π{r=0}` (`GX.btz_whitehole_sing_eq`), the
+  cylinder is `\widetilde M^{sing M}`, **no developing map** in the sense of `def:developing_map`
+  (l.1727: no a.e. `(G,X)`-morphism `\widetilde M → X`, `GX.not_isAEMorphismOf_btzDev`), no
+  translate of `D` extends continuously at `r = 0` (`GX.not_continuousAt_of_eqOn_btzDev`), the
+  paper's sequence `(0, 1/n, n)` (`GX.wtameSeq`, `GX.tendsto_norm_btzDev_wtameSeq`), the paper's
+  formula `GX.btzDev_paper_coords`.
+* **`ex:eucl_sphere`** — `RamcovGX.tex:1640`: `GX.eucl_sphere` (every rigid `(G, X)`, `X ≅ 𝔼²`),
+  `GX.eucl_sphere_isomPlus` (`(Isom⁺(𝔼²), 𝔼²)`): `sing(M) = {N}`, `\widetilde M^{sing M} = M`,
+  `D` extends continuously nowhere at `N` and has no convergent sequence of values towards `N`.
+* **`def:topological_space_locally_unloopable`** — `RamcovGX.tex:1650`: `GX.IsLocallyUnloopable`;
+  every open subset is semilocally simply connected
+  (`GX.IsLocallyUnloopable.semilocallySimplyConnected_of_isOpen`), and so is every open set covered
+  by charts into `X` (`GX.IsLocallyUnloopable.semilocallySimplyConnected_of_charts`).
+* `lem:analytical_structure_locally_unloopable` — `RamcovGX.tex:1653` — partial (`M` locally
+  path-connected carried): `GX.analytical_structure_locally_unloopable`,
+  `GX.semilocallySimplyConnected_compl_of_sing_subset`.
+* `prop:singular_manifold_branched_covering` — `RamcovGX.tex:1677` — partial (the printed
+  `Γ(\widetilde M^S/M)` read `Γ(N/M)`): `GX.singular_manifold_branched_covering`,
+  `GX.singular_manifold_branched_covering_aepullback`, `GX.IsBranchedCovering.isAEMorphismOf_deck`.
+* `cor:singular_manifold_skeletal_subset` — `RamcovGX.tex:1693` — partial (`M` connected and
+  locally path-connected carried): `GX.singular_manifold_skeletal_subset`.
+
+> A topological space $X$ is locally unloopable if it is locally path-connected and if for all
+> $x\in X$ and all neighborhood $\U$ of $x$, there exists an open neighborhood $\V\subset \U$ of
+> $x$ which is semi-locally simply connected. (l.1650)
+>
+> Let $(G,X)$ be an analytical structure with $X$ locally unloopable. Then every connected singular
+> $(G,X)$-manifold $M$ admits a maximal covering possibly branched over some given skeletal subset
+> $S$ as long as $S\supset \sing(M)$. (l.1653)
+>
+> Let $M$ be a singular $(G,X)$-manifold and let $N\xrightarrow{\pi} M$ be a branched covering.
+> $N$ has a unique a.e. $(G,X)$-structure for which $\pi$ is an a.e. $(G,X)$-morphism. and
+> $\reg(\pi)\supset\reg(N)\cap \ord(\pi)$. Furthermore, the Galois group
+> $\Gamma(\widetilde M^S/M)$ acts by a.e. $(G,X)$-morphisms. (l.1677)
+>
+> Let $M$ be a singular $(G,X)$-manifold and let $S$ be a skeletal subset of $M$ containing
+> $\sing(M)$. Then $\widetilde M^S$ admits a unique a.e. $(G,X)$-structure such that the natural
+> projection $\widetilde M^S\rightarrow M$ is an a.e. $(G,X)$-morphism. Furthermore, the Galois
+> group $\Gamma(\widetilde M^S/M)$ acts by a.e. $(G,X)$-morphisms. (l.1693)
+>
+> Let $M = \mathbb S^2$ and $N\in M$ endowed with a singular $(\isom^+(\E^2),\mathbb E^2)$-structure
+> induced by a stereographic projection […] $\sing(M)=\{N\}$ and $\widetilde M^{\sing(M)} = M$. […]
+> the developing map […] cannot be extended continuously and no sequence $x_n\to N$ with
+> $x_n\in \reg(M)$ is such that $(\D(x_n))$ converges. (l.1640)
+
+## Hypothesis checklist
+
+| paper hypothesis | here |
+|---|---|
+| `(G,X)` analytical (l.341, DEC-39), `X` locally unloopable (l.1660) | ⚠ weakened: `LocallyConnectedSpace X`, `T2Space X`, `IsRigidAction`, `ContinuousConstSMul` where used; local unloopability only in the lemma and the corollary; nothing at all for `semilocallySimplyConnected_compl_of_sing_subset` but `X` locally unloopable |
+| lem.: `M` a connected singular `(G,X)`-manifold (locally connected, T2, second countable) | ✓ `ConnectedSpace`, `T2Space` carried; ⚠ weakened: first countable instead of second countable; ⚠ strengthened: `LocPathConnectedSpace M` (finding F1) |
+| lem.: `S` skeletal, `S ⊇ sing(M)` | ✓ carried |
+| prop.: `M` a singular `(G,X)`-manifold | ⚠ weakened: a maximal a.e. atlas `B` on `M`; no topological hypothesis on `M` or `N` (a spread has a locally connected source) |
+| prop.: `π` a branched covering | ✓ carried |
+| prop.: "`Γ(\widetilde M^S/M)` acts" | ⚠ read as `Γ(N/M)` (the proof's, l.1688; finding F2); `Γ(\widetilde M^S/M)` is the corollary's |
+| cor.: `M` a singular `(G,X)`-manifold, `S` skeletal `⊇ sing(M)` | ✓ carried; ⚠ strengthened: `M` connected, locally path-connected, first countable — the hypotheses of `prop:universality` under which `\widetilde M^S` is defined (finding F3) |
+| `ex:Tame`: `θ ∈ ℝ₊* ∖ {2π}`, `𝔼^{n+2}_θ` | ✓ `0 < α`, `α ≠ 2π`, `𝔼^{n+2}_α = Γ_1\(𝔻_∞ × E)`, `E` any finite-dimensional Euclidean space, `G = IsomPlus E` |
+| `ex:WTame`: the extreme BTZ white hole of `ex:quotient_base` | ✓ `btzDev x₀ v`, every `x₀`, every `v` with `⟨v|u⟩ < 0`, every `α ≠ 0`, every rigid `G ∋ P_α` (`Isom₀` in `wtame_btz_isom0`) |
+| `ex:eucl_sphere`: `(Isom⁺(𝔼²), 𝔼²)`, stereographic projection from `N` | ✓ `IsomPlus (ℝ⁰)` on `ℂ × ℝ⁰`; ⚠ weakened: every rigid `G` acting continuously on any `X ≅ 𝔼²` (`eucl_sphere`) |
+
+## SCOPE (disclosed)
+
+* **(a)** "Semi-locally simply connected" is DEC-41's (`GX.SemilocallySimplyConnected`); an open
+  neighbourhood `V` is semilocally simply connected *as a space*. "Admits a maximal covering
+  possibly branched over `S`" is `prop:universality`'s `\widetilde M^S` (`GX.MaxBranchedCover`,
+  `GX.IsMaximalPossiblyBranched`, maximality in every universe). The paper's intermediate claim
+  "`reg(M) ∖ S` is locally unloopable" is replaced by the conclusion it serves: `M ∖ S` is
+  semilocally simply connected and connected.
+* **(b)** `prop:singular_manifold_branched_covering`: "unique a.e. structure" is DEC-42's (unique
+  maximal atlas; any two a.e. atlases making `π` an a.e. morphism define the same structure,
+  `singular_manifold_branched_covering_aepullback`); the structure is `aePullback B π`.
+  `ord(π)` is the ordinary locus of `N`, `ordX π`; the equality `reg(π) = reg(N) ∩ {π local
+  homeomorphism}` of the proof is also proved. "The Galois group acts by a.e. morphisms" is: every
+  deck homeomorphism (`deckGroup π`) is an a.e. `(G,X)`-morphism of the pulled-back structure.
+* **(c)** `cor:singular_manifold_skeletal_subset`: `\widetilde M^S` is `MaxBranchedCover S y₀`
+  (based at `y₀ ∈ M ∖ S`); `Γ(\widetilde M^S/M)` is `deckGroup SpreadEnd.base`.
+* **(d)** `ex:Tame` (partial): `𝔼^{n+2}_α` is `ex:conical`'s `Γ_1\(𝔻_∞ × E)` with the cone angle
+  `α` (DEC-47); the paper's cylindrical angle `θ` is `α θ'` in the coordinate `θ'` of `𝔻_∞` on
+  which `Γ_1` acts by `θ' ↦ θ' + 1`; "`\widetilde M^{sing(M)}` can be identified with
+  `susp(ℝ) × ℝⁿ`" is a homeomorphism over `M` (`GX.Susp.homeomorphDInfty`). The developing map is
+  `conicalDev α E`, continuous on the whole cover and an a.e. `(G,X)`-morphism into `X` (the cover
+  carrying the structure of the corollary, `conicalAtlas = aePullback B π`). **Not formalized**:
+  "endowed with the singular Euclidean metric `dr² + r²dθ² + Σ dz_i²`" — `GX` has no Riemannian
+  metric (cf. `GX.Singular.Quotient`, SCOPE (d)); this is why the row is partial.
+* **(e)** `ex:WTame` (closed): "no developing map" is `def:developing_map` (l.1727) applied to
+  `\widetilde M → M` ("a developing map of `\widetilde M → M` is simply called a developing map of
+  `M`"): no a.e. `(G,X)`-morphism from the cylinder with the corollary's structure into `X`. The
+  cylinder is `\widetilde M^{sing M}`: `sing(M) = π{r=0}` exactly (the deck generator moves every
+  value of `D`, `btzDev_ofInt_one_smul_ne`), and `previous_examples_maxBranched` identifies it with
+  `MaxBranchedCover`. Coordinates: `btzDev` is in null coordinates; with `x₀ = 0`, `v = (-1,1,0)`
+  it is the printed `(τ + ½rθ², τ + ½rθ² − r, −rθ)` (`btzDev_paper_coords`, time `2τ`; the printed
+  `θ/2π` in the argument is not used). The sequence is indexed `n + 1` and taken at every height
+  `t₀` of the axis.
+* **(f)** `ex:eucl_sphere` (closed): the "singular structure induced by a stereographic projection"
+  is the maximal a.e. atlas generated by the one chart `φ : 𝕊² ∖ {N} → 𝔼²`; the developing map of
+  `reg(M)` is `φ` itself. The two impossibility statements are proved for `φ` and (filter form)
+  along every filter converging to `N` off `N`.
+
+Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Builds on
+`GX.Branched.Universality`, `GX.Singular.Atlas`, `GX.Singular.Quotient`, `GX.Singular.Suspension`.
+-/
+
+noncomputable section
+open Set Filter Topology Function
+open scoped GX
+namespace GX
+
+set_option linter.unusedSectionVars false
+
+universe u w
+
+variable {Y : Type*} [TopologicalSpace Y]
+
+theorem SemilocallySimplyConnected.exists_nhds_of_isOpenEmbedding {Z : Type*}
+    [TopologicalSpace Z] {f : Z → Y} (hf : IsOpenEmbedding f) (hZ : SemilocallySimplyConnected Z)
+    (z : Z) : ∃ U ∈ 𝓝 (f z), ∀ γ : Path (f z) (f z), (∀ t, γ t ∈ U) →
+      γ.Homotopic (Path.refl (f z)) := by
+  obtain ⟨U, hU, hUγ⟩ := hZ z
+  refine ⟨f '' U, hf.isOpenMap.image_mem_nhds hU, fun γ hγ => ?_⟩
+  set e := hf.isEmbedding.toHomeomorph
+  have hr : ∀ t, γ t ∈ range f := fun t => image_subset_range f U (hγ t)
+  have hδf : ∀ t, f (e.symm ⟨γ t, hr t⟩) = γ t := fun t => by
+    have := congrArg Subtype.val (e.apply_symm_apply ⟨γ t, hr t⟩)
+    exact this
+  let δ : Path z z :=
+    { toFun := fun t => e.symm ⟨γ t, hr t⟩
+      continuous_toFun := e.symm.continuous.comp (γ.continuous.codRestrict hr)
+      source' := hf.injective (by rw [hδf]; exact γ.source)
+      target' := hf.injective (by rw [hδf]; exact γ.target) }
+  have hδ : ∀ t, δ t ∈ U := fun t => by
+    obtain ⟨u, hu, hut⟩ := hγ t
+    have : f (δ t) = f u := (hδf t).trans hut.symm
+    rw [hf.injective this]; exact hu
+  have h := (hUγ δ hδ).map (⟨f, hf.continuous⟩ : C(Z, Y))
+  have h1 : δ.map hf.continuous = γ := by ext t; exact hδf t
+  have h2 : (Path.refl z).map hf.continuous = Path.refl (f z) := by ext t; simp
+  rw [h1, h2] at h
+  exact h
+
+
+theorem semilocallySimplyConnected_of_isOpenEmbedding {X : Type*} [TopologicalSpace X]
+    (h : ∀ y : Y, ∃ V : Set X, ∃ f : V → Y, IsOpenEmbedding f ∧ y ∈ range f ∧
+      SemilocallySimplyConnected V) : SemilocallySimplyConnected Y := by
+  intro y
+  obtain ⟨V, f, hf, ⟨z, rfl⟩, hV⟩ := h y
+  exact SemilocallySimplyConnected.exists_nhds_of_isOpenEmbedding hf hV z
+
+theorem isOpenEmbedding_inclusion_of_isOpen {A B : Set Y} (hAB : A ⊆ B) (hA : IsOpen A) :
+    IsOpenEmbedding (Set.inclusion hAB) := by
+  refine IsOpenEmbedding.of_continuous_injective_isOpenMap (continuous_inclusion hAB)
+    (inclusion_injective hAB) fun O hO => ?_
+  have h1 : IsOpen ((↑) '' O : Set Y) := hA.isOpenMap_subtype_val O hO
+  have : Set.inclusion hAB '' O = ((↑) : B → Y) ⁻¹' ((↑) '' O) := by
+    ext ⟨b, hb⟩
+    simp only [mem_image, mem_preimage, Subtype.exists, Set.inclusion, Subtype.mk.injEq,
+      exists_and_right, exists_eq_right]
+  rw [this]; exact h1.preimage continuous_subtype_val
+
+theorem isOpenEmbedding_codRestrict {Z : Type*} [TopologicalSpace Z] {f : Z → Y}
+    (hf : IsOpenEmbedding f) {s : Set Y} (hs : ∀ z, f z ∈ s) :
+    IsOpenEmbedding (s.codRestrict f hs) :=
+  IsOpenEmbedding.of_continuous_injective_isOpenMap (hf.continuous.codRestrict hs)
+    (fun _ _ h => hf.injective (congrArg Subtype.val h)) (hf.isOpenMap.codRestrict hs)
+
+/-- **`def:topological_space_locally_unloopable`** (`RamcovGX.tex:1650`): `X` is *locally
+unloopable* if it is locally path-connected and every neighbourhood `U` of every point `x`
+contains an open neighbourhood `V` of `x` which is semilocally simply connected (as a space,
+DEC-41). -/
+structure IsLocallyUnloopable (X : Type*) [TopologicalSpace X] : Prop where
+  locPathConnectedSpace : LocPathConnectedSpace X
+  exists_subset : ∀ x : X, ∀ U ∈ 𝓝 x, ∃ V : Set X, V ⊆ U ∧ IsOpen V ∧ x ∈ V ∧
+    SemilocallySimplyConnected V
+
+theorem IsLocallyUnloopable.semilocallySimplyConnected_of_isOpen {X : Type*}
+    [TopologicalSpace X] (hX : IsLocallyUnloopable X) {W : Set X} (hW : IsOpen W) :
+    SemilocallySimplyConnected W := by
+  refine semilocallySimplyConnected_of_isOpenEmbedding (X := X) fun w => ?_
+  obtain ⟨V, hVW, hVo, hwV, hV⟩ := hX.exists_subset w W (hW.mem_nhds w.2)
+  exact ⟨V, Set.inclusion hVW, isOpenEmbedding_inclusion_of_isOpen hVW hVo, ⟨⟨w, hwV⟩, rfl⟩, hV⟩
+
+theorem IsLocallyUnloopable.semilocallySimplyConnected {X : Type*} [TopologicalSpace X]
+    (hX : IsLocallyUnloopable X) : SemilocallySimplyConnected X :=
+  (hX.semilocallySimplyConnected_of_isOpen isOpen_univ).of_homeomorph (Homeomorph.Set.univ X)
+
+/-- `e.symm` on an open subset of the target is an open embedding. -/
+theorem isOpenEmbedding_symm_restrict {M X : Type*} [TopologicalSpace M]
+    [TopologicalSpace X] (e : OpenPartialHomeomorph M X) {T : Set X} (hT : IsOpen T)
+    (hTe : T ⊆ e.target) : IsOpenEmbedding (fun t : T => e.symm t) := by
+  have h := e.symm.isOpenEmbedding_restrict
+  have : (fun t : T => e.symm t) = e.symm.source.restrict e.symm ∘ Set.inclusion hTe := rfl
+  rw [this]
+  exact h.comp (isOpenEmbedding_inclusion_of_isOpen hTe hT)
+
+/-- An open subset `W` covered by charts into a locally unloopable space, with sources in `W`,
+is semilocally simply connected. -/
+theorem IsLocallyUnloopable.semilocallySimplyConnected_of_charts {X : Type*} [TopologicalSpace X]
+    (hX : IsLocallyUnloopable X) {M : Type*} [TopologicalSpace M] {W : Set M}
+    (h : ∀ y ∈ W, ∃ e : OpenPartialHomeomorph M X, y ∈ e.source ∧ e.source ⊆ W) :
+    SemilocallySimplyConnected W := by
+  refine semilocallySimplyConnected_of_isOpenEmbedding (X := X) fun y => ?_
+  obtain ⟨e, hy, hW⟩ := h y y.2
+  have hmem : ∀ t : e.target, e.symm t ∈ W := fun t => hW (e.map_target t.2)
+  refine ⟨e.target, W.codRestrict (fun t : e.target => e.symm t) hmem,
+    isOpenEmbedding_codRestrict (isOpenEmbedding_symm_restrict e e.open_target subset_rfl) hmem,
+    ⟨⟨e y, e.map_source hy⟩, Subtype.ext (e.left_inv hy)⟩,
+    hX.semilocallySimplyConnected_of_isOpen e.open_target⟩
+
+section Lemma
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+
+/-- The complement of a skeletal `S ⊇ Sing(M)` is semilocally simply connected. -/
+theorem semilocallySimplyConnected_compl_of_sing_subset (hX : IsLocallyUnloopable X)
+    {M : Type*} [TopologicalSpace M] [SingularGXStructure G X M] {S : Set M} (hS : IsClosed S)
+    (hSing : Sing G X M ⊆ S) : SemilocallySimplyConnected (Sᶜ : Set M) := by
+  refine hX.semilocallySimplyConnected_of_charts fun y hy => ?_
+  have hyR : y ∈ Reg G X M := by
+    by_contra h; exact hy (hSing h)
+  obtain ⟨e, -, hye⟩ := mem_support.1 hyR
+  exact ⟨e.restrOpen Sᶜ hS.isOpen_compl, ⟨hye, hy⟩, fun z hz => hz.2⟩
+
+/-- `lem:analytical_structure_locally_unloopable` (`RamcovGX.tex:1653`), with `M` locally
+path-connected and first countable (the hypotheses of `prop:universality`; finding F1): if `X` is
+locally unloopable, `M` a connected singular `(G,X)`-manifold and `S ⊇ Sing(M)` skeletal, then
+`M ∖ S` is semilocally simply connected and connected, and `M` admits a maximal covering possibly
+branched over `S`, `\widetilde M^S` (for every base point). No property of `G` is used. -/
+theorem analytical_structure_locally_unloopable (hX : IsLocallyUnloopable X) {M : Type u}
+    [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M] [FirstCountableTopology M]
+    [ConnectedSpace M] [SingularGXStructure G X M] {S : Set M} (hS : IsSkeletal S)
+    (hSing : Sing G X M ⊆ S) :
+    SemilocallySimplyConnected (Sᶜ : Set M) ∧ IsConnected (Sᶜ : Set M) ∧
+      (∀ y₀ : (Sᶜ : Set M),
+        IsMaximalPossiblyBranched.{w} (SpreadEnd.base : MaxBranchedCover S y₀ → M) S) ∧
+      ∃ (E : Type u) (_ : TopologicalSpace E) (p : E → M), IsMaximalPossiblyBranched.{w} p S := by
+  have hSc := semilocallySimplyConnected_compl_of_sing_subset hX hS.isClosed hSing
+  have hmax : ∀ y₀ : (Sᶜ : Set M),
+      IsMaximalPossiblyBranched.{w} (SpreadEnd.base : MaxBranchedCover S y₀ → M) S :=
+    fun y₀ => maxBranched_isMaximal hS hSc y₀
+  obtain ⟨y, hy⟩ := nonempty_compl_of_isSkeletal hS
+  exact ⟨hSc, (isSkeletal_iff.1 hS).isConnected, hmax, _, inferInstance, _, hmax ⟨y, hy⟩⟩
+
+end Lemma
+
+section BranchedPull
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  {M : Type*} [TopologicalSpace M] {N : Type*} [TopologicalSpace N]
+
+/-- A branched covering is almost everywhere a local homeomorphism into the regular locus of any
+a.e. atlas of its base: on the portly `π⁻¹(ord(π) ∩ supp B)`. -/
+theorem IsBranchedCovering.isAELocalHomeomorph {π : N → M} (hπ : IsBranchedCovering π)
+    {B : Set (OpenPartialHomeomorph M X)} (hB : IsAEAtlas G B) : IsAELocalHomeomorph B π := by
+  haveI := hπ.isSpread.locallyConnectedSpace
+  have hP : IsPortly (ordY π ∩ support B) := hπ.isPortly_ordY.inter hB.2
+  refine ⟨π ⁻¹' (ordY π ∩ support B), ordY π ∩ support B, hπ.isPortly_preimage hP, hP,
+    inter_subset_right, fun _ h => h, ?_⟩
+  exact (isCoveringMapOn_ordY hπ.isSpread.continuous).isLocalHomeomorphOn.mono
+    (preimage_mono inter_subset_left)
+
+/-- A branched covering is a local homeomorphism at every point of its ordinary locus. -/
+theorem IsBranchedCovering.ordX_subset_isLocalHomeomorphOn {π : N → M}
+    (hπ : IsBranchedCovering π) : ordX π ⊆ {x | IsLocalHomeomorphOn π {x}} := by
+  haveI := hπ.isSpread.locallyConnectedSpace
+  exact fun x hx => (isCoveringMapOn_ordY hπ.isSpread.continuous).isLocalHomeomorphOn.mono
+    (singleton_subset_iff.2 hx)
+
+/-- `prop:singular_manifold_branched_covering` (`RamcovGX.tex:1677`), first assertion in the
+words of `lem:aepullback` (DEC-42): `N` carries an a.e. `(G,X)`-structure making the branched
+covering `π` an a.e. `(G,X)`-morphism, any two define the same structure, and the maximal one is
+unique. -/
+theorem singular_manifold_branched_covering_aepullback {π : N → M} (hπ : IsBranchedCovering π)
+    {B : Set (OpenPartialHomeomorph M X)} (hB : IsAEAtlas G B) :
+    (∃ A : Set (OpenPartialHomeomorph N X), IsAEAtlas G A ∧ IsAEMorphismOf G A B π) ∧
+    (∀ A₁ A₂ : Set (OpenPartialHomeomorph N X), IsAEAtlas G A₁ → IsAEAtlas G A₂ →
+      IsAEMorphismOf G A₁ B π → IsAEMorphismOf G A₂ B π → SameAEStructure G A₁ A₂) ∧
+    ∃! A : Set (OpenPartialHomeomorph N X), IsMaximalAEAtlas G A ∧ IsAEMorphismOf G A B π :=
+  aepullback hB hπ.isSpread.continuous (hπ.isAELocalHomeomorph hB)
+
+/-- A deck transformation of a branched covering is an a.e. `(G,X)`-morphism of the pulled-back
+structure. -/
+theorem IsBranchedCovering.isAEMorphismOf_deck {π : N → M} (hπ : IsBranchedCovering π)
+    {B : Set (OpenPartialHomeomorph M X)} (hB : IsAEAtlas G B) {γ : N ≃ₜ N} (hγ : π ∘ γ = π) :
+    IsAEMorphismOf G (aePullback G B π) (aePullback G B π) γ := by
+  haveI := hπ.isSpread.locallyConnectedSpace
+  have hA := aePullback_spec_of_isAELocalHomeomorph hB hπ.isSpread.continuous
+    (hπ.isAELocalHomeomorph hB)
+  have hloc : IsAELocalHomeomorph (aePullback G B π) γ :=
+    ⟨γ ⁻¹' support (aePullback G B π), support (aePullback G B π),
+      hA.1.1.2.preimage_of_isLocalHomeomorph γ.isLocalHomeomorph, hA.1.1.2, subset_rfl,
+      fun _ h => h, γ.isLocalHomeomorph.isLocalHomeomorphOn.mono (subset_univ _)⟩
+  obtain ⟨A₁, ⟨hA₁, hγA₁⟩, -⟩ := existsUnique_aePullback hA.1.1 γ.continuous hloc
+  have hcomp : IsAEMorphismOf G A₁ B (π ∘ γ) := hA.2.comp hγA₁
+  rw [hγ] at hcomp
+  have : A₁ = aePullback G B π := eq_aePullback hA₁ hcomp
+  rwa [this] at hγA₁
+
+/-- `prop:singular_manifold_branched_covering` (`RamcovGX.tex:1677`), with the printed
+`Γ(\widetilde M^S/M)` read as `Γ(N/M)` (finding F2): for a branched covering `π : N → M` of a
+space with a maximal a.e. atlas `B`, the pullback `π^*B` is the unique maximal a.e. atlas making
+`π` an a.e. morphism; `reg(π) = reg(N) ∩ {π local homeomorphism} ⊇ reg(N) ∩ ord(π)`; and every
+deck transformation of `π` is an a.e. `(G,X)`-morphism of `π^*B`. -/
+theorem singular_manifold_branched_covering {π : N → M} (hπ : IsBranchedCovering π)
+    {B : Set (OpenPartialHomeomorph M X)} (hB : IsMaximalAEAtlas G B) :
+    IsMaximalAEAtlas G (aePullback G B π) ∧ IsAEMorphismOf G (aePullback G B π) B π ∧
+    (∀ A : Set (OpenPartialHomeomorph N X), IsMaximalAEAtlas G A → IsAEMorphismOf G A B π →
+      A = aePullback G B π) ∧
+    regLocusOf G (aePullback G B π) B π =
+      support (aePullback G B π) ∩ {x | IsLocalHomeomorphOn π {x}} ∧
+    support (aePullback G B π) ∩ ordX π ⊆ regLocusOf G (aePullback G B π) B π ∧
+    ∀ γ ∈ deckGroup π, IsAEMorphismOf G (aePullback G B π) (aePullback G B π) γ := by
+  have hA := aePullback_spec_of_isAELocalHomeomorph hB.1 hπ.isSpread.continuous
+    (hπ.isAELocalHomeomorph hB.1)
+  have hreg := hA.2.regLocusOf_eq_inter_isLocalHomeomorphOn hA.1.1 hB
+  refine ⟨hA.1, hA.2, fun A h1 h2 => eq_aePullback h1 h2, hreg, ?_,
+    fun γ hγ => hπ.isAEMorphismOf_deck hB.1 hγ⟩
+  rw [hreg]
+  exact inter_subset_inter_right _ hπ.ordX_subset_isLocalHomeomorphOn
+
+end BranchedPull
+
+section Cor
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+
+/-- `cor:singular_manifold_skeletal_subset` (`RamcovGX.tex:1693`), with `M` connected, locally
+path-connected and first countable (the hypotheses under which `\widetilde M^S` is defined,
+`prop:universality`; finding F3) and `X` locally unloopable (l.1660): `\widetilde M^S` carries a
+unique a.e. `(G,X)`-structure making the projection an a.e. morphism (DEC-42), and the Galois group
+`Γ(\widetilde M^S/M)` acts by a.e. `(G,X)`-morphisms. -/
+theorem singular_manifold_skeletal_subset (hX : IsLocallyUnloopable X) {M : Type u}
+    [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M] [FirstCountableTopology M]
+    [ConnectedSpace M] [SingularGXStructure G X M] {S : Set M} (hS : IsSkeletal S)
+    (hSing : Sing G X M ⊆ S) (y₀ : (Sᶜ : Set M)) :
+    ((∃ A : Set (OpenPartialHomeomorph (MaxBranchedCover S y₀) X), IsAEAtlas G A ∧
+        IsAEMorphismOf G A (aeAtlas G X M) SpreadEnd.base) ∧
+      (∀ A₁ A₂ : Set (OpenPartialHomeomorph (MaxBranchedCover S y₀) X), IsAEAtlas G A₁ →
+        IsAEAtlas G A₂ → IsAEMorphismOf G A₁ (aeAtlas G X M) SpreadEnd.base →
+        IsAEMorphismOf G A₂ (aeAtlas G X M) SpreadEnd.base → SameAEStructure G A₁ A₂) ∧
+      ∃! A : Set (OpenPartialHomeomorph (MaxBranchedCover S y₀) X), IsMaximalAEAtlas G A ∧
+        IsAEMorphismOf G A (aeAtlas G X M) SpreadEnd.base) ∧
+    ∀ γ ∈ deckGroup (SpreadEnd.base : MaxBranchedCover S y₀ → M),
+      IsAEMorphismOf G (aePullback G (aeAtlas G X M) SpreadEnd.base)
+        (aePullback G (aeAtlas G X M) SpreadEnd.base) γ := by
+  have hSc := semilocallySimplyConnected_compl_of_sing_subset hX hS.isClosed hSing
+  have hbc := (maxBranched_isBranchedCovering hS hSc y₀).1
+  exact ⟨singular_manifold_branched_covering_aepullback hbc
+    (isMaximalAEAtlas_aeAtlas G X M).1,
+    (singular_manifold_branched_covering hbc (isMaximalAEAtlas_aeAtlas G X M)).2.2.2.2.2⟩
+
+end Cor
+
+/-! ### `ex:eucl_sphere` -/
+
+/-- Punctured neighbourhoods at a point with a chart into a real inner product space of dimension
+`> 1` are preconnected, cofinally. -/
+theorem exists_isPreconnected_diff_singleton_of_chart {Y : Type*} [TopologicalSpace Y]
+    {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] (hE : 1 < Module.rank ℝ E)
+    (e : OpenPartialHomeomorph Y E) {v : Y} (hv : v ∈ e.source) {U : Set Y} (hU : U ∈ 𝓝 v) :
+    ∃ V ∈ 𝓝 v, V ⊆ U ∧ IsPreconnected (V \ {v}) := by
+  obtain ⟨W, hWU, hW, hvW⟩ := mem_nhds_iff.1 hU
+  have hO : IsOpen (e '' (e.source ∩ W)) := e.isOpen_image_source_inter hW
+  obtain ⟨r, hr, hrW⟩ := Metric.isOpen_iff.1 hO (e v) ⟨v, ⟨hv, hvW⟩, rfl⟩
+  have hball : Metric.ball (e v) r ⊆ e.target := fun z hz => by
+    obtain ⟨w, ⟨hw, -⟩, rfl⟩ := hrW hz
+    exact e.map_source hw
+  refine ⟨e.source ∩ e ⁻¹' Metric.ball (e v) r,
+    (e.isOpen_inter_preimage Metric.isOpen_ball).mem_nhds ⟨hv, Metric.mem_ball_self hr⟩,
+    fun z hz => ?_, ?_⟩
+  · obtain ⟨u, ⟨hu, huW⟩, hu'⟩ := hrW hz.2
+    have : u = z := e.injOn hu hz.1 hu'
+    exact hWU (this ▸ huW)
+  have hset : (e.source ∩ e ⁻¹' Metric.ball (e v) r) \ {v} =
+      e.symm '' (Metric.ball (e v) r \ {e v}) := by
+    ext z
+    constructor
+    · rintro ⟨⟨hzs, hzb⟩, hzv⟩
+      exact ⟨e z, ⟨hzb, fun h => hzv (e.injOn hzs hv h)⟩, e.left_inv hzs⟩
+    · rintro ⟨w, ⟨hwb, hwx⟩, rfl⟩
+      have hwt := hball hwb
+      refine ⟨⟨e.map_target hwt, by rw [mem_preimage, e.right_inv hwt]; exact hwb⟩, ?_⟩
+      intro h
+      apply hwx
+      rw [mem_singleton_iff] at h ⊢
+      rw [← h, e.right_inv hwt]
+  rw [hset]
+  exact (isPreconnected_ball_diff_singleton hE _ r).image _
+    (e.continuousOn_symm.mono (sdiff_subset.trans hball))
+
+section OnePoint
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  {M : Type*} [TopologicalSpace M] {N : M} {φ : OpenPartialHomeomorph M X}
+
+/-- A chart defined off one point `N` and onto the whole model has no limit along any filter
+converging to `N` off `N`: the chart's inverse would bring the limit back to a point `≠ N`. -/
+theorem not_tendsto_comp_of_source_eq_compl_singleton [T2Space M] (hs : φ.source = {N}ᶜ)
+    (ht : φ.target = univ) {ι : Type*} {F : Filter ι} [F.NeBot] {x : ι → M}
+    (hx : Tendsto x F (𝓝[≠] N)) (L : X) : ¬ Tendsto (fun i => φ (x i)) F (𝓝 L) := by
+  intro h
+  have hL : L ∈ φ.target := ht ▸ mem_univ L
+  have h2 : Tendsto (fun i => φ.symm (φ (x i))) F (𝓝 (φ.symm L)) :=
+    (φ.continuousAt_symm hL).tendsto.comp h
+  have h3 : Tendsto x F (𝓝 (φ.symm L)) := by
+    refine h2.congr' ?_
+    filter_upwards [hx self_mem_nhdsWithin] with i hi
+    exact φ.left_inv (hs ▸ hi)
+  have h4 : Tendsto x F (𝓝 N) := hx.mono_right nhdsWithin_le_nhds
+  have h5 : φ.symm L = N := tendsto_nhds_unique h3 h4
+  have h6 : φ.symm L ∈ φ.source := φ.map_target hL
+  rw [hs, h5] at h6
+  exact h6 rfl
+
+/-- The filter form: no limit along `𝓝[≠] N`. -/
+theorem not_tendsto_of_source_eq_compl_singleton [T2Space M] (hs : φ.source = {N}ᶜ)
+    (ht : φ.target = univ) (hne : (𝓝[≠] N).NeBot) (L : X) : ¬ Tendsto φ (𝓝[≠] N) (𝓝 L) :=
+  not_tendsto_comp_of_source_eq_compl_singleton hs ht (x := id) tendsto_id L
+
+variable [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+
+theorem isAEAtlas_singleton_of_source_eq (hs : φ.source = {N}ᶜ)
+    (hP : IsPortly ({N}ᶜ : Set M)) : IsAEAtlas G ({φ} : Set (OpenPartialHomeomorph M X)) := by
+  refine ⟨fun e he e' he' x _ => ⟨1, fun y _ => ?_⟩, ?_⟩
+  · rw [mem_singleton_iff] at he he'; rw [he, he', one_smul]
+  · have : support ({φ} : Set (OpenPartialHomeomorph M X)) = φ.source := by
+      ext x; simp [mem_support]
+    rw [this, hs]; exact hP
+
+
+/-- The maximal a.e. atlas generated by a chart defined off one point `N` and onto the model is
+regular exactly off `N`, when `N` has cofinally preconnected punctured neighbourhoods. -/
+theorem support_maximalAEAtlas_singleton [T2Space M] (hs : φ.source = {N}ᶜ)
+    (ht : φ.target = univ) (hP : IsPortly ({N}ᶜ : Set M))
+    (hloc : ∀ U ∈ 𝓝 N, ∃ V ∈ 𝓝 N, V ⊆ U ∧ IsPreconnected (V \ {N})) :
+    support (maximalAEAtlas G ({φ} : Set (OpenPartialHomeomorph M X))) = {N}ᶜ := by
+  have hA := isAEAtlas_singleton_of_source_eq (G := G) hs hP
+  have hB := hA.maximalAEAtlas
+  have hφB : φ ∈ maximalAEAtlas G ({φ} : Set (OpenPartialHomeomorph M X)) :=
+    hA.subset_maximalAEAtlas rfl
+  refine Subset.antisymm (fun x hx => ?_) fun x hx => mem_support.2 ⟨φ, hφB, hs ▸ hx⟩
+  rintro rfl
+  obtain ⟨e, he, hxe⟩ := mem_support.1 hx
+  obtain ⟨V, hV, hVe, hVc⟩ := hloc _ (e.open_source.mem_nhds hxe)
+  have hPs : V \ {x} ⊆ φ.source := fun y hy => hs ▸ hy.2
+  obtain ⟨g, hg⟩ := exists_smul_eq_on_of_isPreconnected (e := φ) (F := e) hVc hPs
+    fun y hy => hB.1.eventually_smul_eq hφB he (hPs hy) (hVe hy.1)
+  have hne : (𝓝[≠] x).NeBot := mem_closure_iff_nhdsWithin_neBot.1 (hP.dense x)
+  apply not_tendsto_of_source_eq_compl_singleton hs ht hne (g⁻¹ • e x)
+  have hc : Tendsto (fun y => g⁻¹ • e y) (𝓝[≠] x) (𝓝 (g⁻¹ • e x)) :=
+    tendsto_nhdsWithin_of_tendsto_nhds ((e.continuousAt hxe).const_smul g⁻¹).tendsto
+  refine hc.congr' ?_
+  filter_upwards [sdiff_mem_nhdsWithin_compl hV {x}] with y hy
+  rw [hg y hy, inv_smul_smul]
+
+end OnePoint
+
+section Sphere
+
+/-- `N ∈ (stereographic' 2 (-N)).source`: the antipodal stereographic chart is defined at `N`. -/
+theorem mem_stereographic'_neg_source (v : Sphere2) : v ∈ (stereographic' 2 (-v)).source := by
+  rw [stereographic'_source, mem_compl_singleton_iff]
+  intro h
+  have h1 : ((v : EuclideanSpace ℝ (Fin (2 + 1)))) = -((v : EuclideanSpace ℝ (Fin (2 + 1)))) :=
+    congrArg Subtype.val h
+  have h2 : ‖(v : EuclideanSpace ℝ (Fin (2 + 1)))‖ = 1 := norm_eq_of_mem_sphere v
+  have h3 : (v : EuclideanSpace ℝ (Fin (2 + 1))) = 0 := by
+    have h4 : (2 : ℝ) • (v : EuclideanSpace ℝ (Fin (2 + 1))) = 0 := by
+      rw [two_smul]; nth_rw 2 [h1]; exact add_neg_cancel _
+    exact (smul_eq_zero.1 h4).resolve_left two_ne_zero
+  rw [h3, norm_zero] at h2
+  exact zero_ne_one h2
+
+variable {X : Type*} [TopologicalSpace X]
+
+/-- The stereographic projection `𝕊² ∖ {N} → 𝔼²` from `N`, read in a model `X ≅ 𝔼²`. -/
+def sphereStereo (N : Sphere2) (h : EuclideanSpace ℝ (Fin 2) ≃ₜ X) :
+    OpenPartialHomeomorph Sphere2 X :=
+  (stereographic' 2 N).transHomeomorph h
+
+theorem sphereStereo_source (N : Sphere2) (h : EuclideanSpace ℝ (Fin 2) ≃ₜ X) :
+    (sphereStereo N h).source = {N}ᶜ := by
+  rw [sphereStereo, OpenPartialHomeomorph.transHomeomorph_source, stereographic'_source]
+
+theorem sphereStereo_target (N : Sphere2) (h : EuclideanSpace ℝ (Fin 2) ≃ₜ X) :
+    (sphereStereo N h).target = univ := by
+  rw [sphereStereo, OpenPartialHomeomorph.transHomeomorph_target, stereographic'_target,
+    preimage_univ]
+
+variable {G : Type*} [Group G] [MulAction G X] [ContinuousConstSMul G X] [LocallyConnectedSpace X]
+  [T2Space X] [IsRigidAction G X]
+
+/-- **`ex:eucl_sphere`** (`RamcovGX.tex:1640`), for every rigid `(G, X)` with `X ≅ 𝔼²`: the
+maximal a.e. atlas generated by the stereographic projection `φ` from `N` makes `𝕊²` a singular
+`(G,X)`-manifold with `sing = {N}`; `\widetilde M^{\{N\}} = M` (over `M`, branching locus empty);
+`φ` extends continuously at `N` in no way; and along no sequence `x_n → N`, `x_n ≠ N`, do the
+values `φ(x_n)` converge. -/
+theorem eucl_sphere (h : EuclideanSpace ℝ (Fin 2) ≃ₜ X) (N : Sphere2) :
+    IsMaximalAEAtlas G (maximalAEAtlas G ({sphereStereo N h} : Set _)) ∧
+    sphereStereo N h ∈ maximalAEAtlas G ({sphereStereo N h} : Set _) ∧
+    (LocallyConnectedSpace Sphere2 ∧ T2Space Sphere2 ∧ SecondCountableTopology Sphere2) ∧
+    support (maximalAEAtlas G ({sphereStereo N h} : Set _)) = {N}ᶜ ∧
+    (∀ y₀ : ({N}ᶜ : Set Sphere2), (∃ ψ : MaxBranchedCover ({N} : Set Sphere2) y₀ ≃ₜ Sphere2,
+      ∀ e, ψ e = e.base) ∧
+      branchingLocus (SpreadEnd.base : MaxBranchedCover ({N} : Set Sphere2) y₀ → Sphere2) = ∅) ∧
+    (∀ D : Sphere2 → X, EqOn D (sphereStereo N h) {N}ᶜ → ¬ ContinuousAt D N) ∧
+    ∀ x : ℕ → Sphere2, (∀ n, x n ≠ N) → Tendsto x atTop (𝓝 N) →
+      ∀ L : X, ¬ Tendsto (fun n => sphereStereo N h (x n)) atTop (𝓝 L) := by
+  have hs := sphereStereo_source N h
+  have ht := sphereStereo_target N h
+  have hP : IsPortly ({N}ᶜ : Set Sphere2) := isSkeletal_sphere2_singleton N
+  have hloc : ∀ U ∈ 𝓝 N, ∃ V ∈ 𝓝 N, V ⊆ U ∧ IsPreconnected (V \ {N}) := fun U hU =>
+    exists_isPreconnected_diff_singleton_of_chart one_lt_rank_euclideanSpace_two _
+      (mem_stereographic'_neg_source N) hU
+  have hA := isAEAtlas_singleton_of_source_eq (G := G) hs hP
+  have hne : (𝓝[≠] N).NeBot := mem_closure_iff_nhdsWithin_neBot.1 (hP.dense N)
+  refine ⟨hA.isMaximalAEAtlas_maximalAEAtlas, hA.subset_maximalAEAtlas rfl,
+    ⟨inferInstance, inferInstance, inferInstance⟩,
+    support_maximalAEAtlas_singleton hs ht hP hloc,
+    fun y₀ => maxBranched_trivial_of_simplyConnected (isSkeletal_sphere2_singleton N) y₀,
+    fun D hD hc => ?_, fun x hxN hx L => ?_⟩
+  · apply not_tendsto_of_source_eq_compl_singleton hs ht hne (D N)
+    refine (tendsto_nhdsWithin_of_tendsto_nhds hc.tendsto).congr' ?_
+    filter_upwards [self_mem_nhdsWithin] with y hy using hD hy
+  · exact not_tendsto_comp_of_source_eq_compl_singleton hs ht
+      (tendsto_nhdsWithin_iff.2 ⟨hx, Eventually.of_forall hxN⟩) L
+
+end Sphere
+
+/-- `𝔼² = ℂ × ℝ⁰`, the model of `IsomPlus` in dimension 2, as the plane. -/
+def euclidPlaneHomeo : EuclideanSpace ℝ (Fin 2) ≃ₜ ℂ × EuclideanSpace ℝ (Fin 0) :=
+  Complex.orthonormalBasisOneI.repr.toHomeomorph.symm.trans
+    (Homeomorph.prodUnique ℂ (EuclideanSpace ℝ (Fin 0))).symm
+
+/-- **`ex:eucl_sphere`** (`RamcovGX.tex:1640`) with the paper's `(Isom⁺(𝔼²), 𝔼²)`. -/
+theorem eucl_sphere_isomPlus (N : Sphere2) :
+    let φ := sphereStereo N euclidPlaneHomeo
+    let B := maximalAEAtlas (IsomPlus (EuclideanSpace ℝ (Fin 0))) ({φ} : Set _)
+    IsMaximalAEAtlas (IsomPlus (EuclideanSpace ℝ (Fin 0))) B ∧ φ ∈ B ∧
+    (LocallyConnectedSpace Sphere2 ∧ T2Space Sphere2 ∧ SecondCountableTopology Sphere2) ∧
+    support B = {N}ᶜ ∧
+    (∀ y₀ : ({N}ᶜ : Set Sphere2), (∃ ψ : MaxBranchedCover ({N} : Set Sphere2) y₀ ≃ₜ Sphere2,
+      ∀ e, ψ e = e.base) ∧
+      branchingLocus (SpreadEnd.base : MaxBranchedCover ({N} : Set Sphere2) y₀ → Sphere2) = ∅) ∧
+    (∀ D : Sphere2 → ℂ × EuclideanSpace ℝ (Fin 0), EqOn D φ {N}ᶜ → ¬ ContinuousAt D N) ∧
+    ∀ x : ℕ → Sphere2, (∀ n, x n ≠ N) → Tendsto x atTop (𝓝 N) →
+      ∀ L, ¬ Tendsto (fun n => φ (x n)) atTop (𝓝 L) :=
+  eucl_sphere euclidPlaneHomeo N
+
+/-! ### `ex:WTame` and `ex:Tame` -/
+
+/-- Two maps inducing `(G,X)`-morphisms from the same atlas into the model on a preconnected
+open `S`, one of them a local homeomorphism there, differ there by one element of `G`. -/
+theorem exists_smul_eq_on_of_isRegularOn {G X M : Type*} [TopologicalSpace X] [Group G]
+    [MulAction G X] [ContinuousConstSMul G X] [IsRigidAction G X] [LocallyConnectedSpace X]
+    [T2Space X] [TopologicalSpace M] {A : Set (OpenPartialHomeomorph M X)} {D F : M → X}
+    {S : Set M} (hS : IsPreconnected S) (hD : IsRegularOn G A ((gxGroupoid G X).maximalAtlas X) D S)
+    (hF : IsRegularOn G A ((gxGroupoid G X).maximalAtlas X) F S) :
+    ∃ g : G, ∀ y ∈ S, F y = g • D y := by
+  refine exists_smul_eq_on_of_isLocalHomeomorphOn hD.isOpen hD.isLocalHomeomorphOn hS subset_rfl
+    fun x hx => ?_
+  obtain ⟨e, he, hxe⟩ := mem_support.1 (hD.subset_support hx)
+  have hc : OpenPartialHomeomorph.refl X ∈ (gxGroupoid G X).maximalAtlas X :=
+    (gxGroupoid G X).id_mem_maximalAtlas
+  obtain ⟨a, ha⟩ := hD.exists_smul_eq x hx e he _ hc hxe (mem_univ _)
+  obtain ⟨b, hb⟩ := hF.exists_smul_eq x hx e he _ hc hxe (mem_univ _)
+  refine ⟨b * a⁻¹, ?_⟩
+  filter_upwards [ha, hb] with y h1 h2
+  simp only [OpenPartialHomeomorph.refl_apply, id] at h1 h2
+  rw [h2, h1, mul_smul, inv_smul_smul]
+
+/-- On the cylinder, a point of the axis is singular for the quotient structure as soon as the
+developing map separates each point of `{r > 0}` from its image by the deck generator. -/
+theorem apex_notMem_support_of_smul_ne {G X Z : Type*} [TopologicalSpace X] [Group G]
+    [MulAction G X] [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X]
+    [IsRigidAction G X] [TopologicalSpace Z] [LocallyConnectedSpace Z] {α : ℝ}
+    {D : DInfty × Z → X} (hD : IsLocalHomeomorphOn D (cylPos Z))
+    {B : Set (OpenPartialHomeomorph (Orbits (GammaA α) (DInfty × Z)) X)}
+    (hB : IsMaximalAEAtlas G B)
+    (hπ : IsAEMorphismOf G (maximalAEAtlas G (devAtlas G D (cylPos Z))) B (orbitMk (GammaA α)))
+    (hne : ∀ y ∈ cylPos Z, D ((GammaA.ofInt 1 : GammaA α) • y) ≠ D y) (z₀ : Z) :
+    orbitMk (GammaA α) (DInfty.apex, z₀) ∉ support B := by
+  intro hmem
+  have hP := DInfty.isPortly_pos Z
+  obtain ⟨φ, hφ, hφs⟩ := mem_support.1 hmem
+  have hO : orbitMk (GammaA α) ⁻¹' φ.source ∈ 𝓝 (DInfty.apex, z₀) :=
+    continuous_quot_mk.continuousAt.preimage_mem_nhds (φ.open_source.mem_nhds hφs)
+  obtain ⟨u, hu, v, hv, huv⟩ := mem_nhds_prod_iff.1 hO
+  obtain ⟨ε, hε, hεu⟩ := DInfty.hasBasis_nhds_apex.mem_iff.1 hu
+  obtain ⟨V, hVv, -, hzV, hVc⟩ :=
+    locallyConnectedSpace_iff_subsets_isOpen_isConnected.1 inferInstance z₀ v hv
+  set S : Set (DInfty × Z) := {p : DInfty | 0 < p.r ∧ p.r < ε} ×ˢ V
+  have hSc : IsPreconnected S := (DInfty.isPreconnected_pos_r_lt ε).prod hVc.isPreconnected
+  have hSP : S ⊆ cylPos Z := fun y hy => hy.1.1
+  have hSO : ∀ y ∈ S, orbitMk (GammaA α) y ∈ φ.source := fun y hy => huv ⟨hεu hy.1.2, hVv hy.2⟩
+  have hdev := isAEAtlas_devAtlas (G := G) hP hD
+  have hreg := hπ.regLocusOf_eq hdev.maximalAEAtlas hB.1
+  have hloc : ∀ y ∈ S, ∃ g : G, ∀ᶠ y' in 𝓝 y, φ (orbitMk (GammaA α) y') = g • D y' := by
+    intro y hy
+    have hyR : y ∈ regLocusOf G (maximalAEAtlas G (devAtlas G D (cylPos Z))) B
+        (orbitMk (GammaA α)) := by
+      rw [hreg]
+      exact ⟨subset_support_devStructure hP hD (hSP hy), mem_support.2 ⟨φ, hφ, hSO y hy⟩⟩
+    have hys : y ∈ support (devAtlas G D (cylPos Z)) := by
+      rw [support_devAtlas hP.isOpen hD]; exact hSP hy
+    obtain ⟨e, he, hye⟩ := mem_support.1 hys
+    obtain ⟨g, hg⟩ := (isRegularOn_regLocusOf (G := G) _ _ _).exists_smul_eq y hyR e
+      (hdev.subset_maximalAEAtlas he) φ hφ hye (hSO y hy)
+    obtain ⟨h, hh⟩ := he.2 y hye
+    refine ⟨g * h⁻¹, ?_⟩
+    filter_upwards [hg, hh] with y' h1 h2
+    rw [h1, h2, mul_smul, inv_smul_smul]
+  obtain ⟨g, hg⟩ := exists_smul_eq_on_of_isLocalHomeomorphOn hP.isOpen hD hSc hSP hloc
+  have hr : (0 : ℝ) < ε / 2 := half_pos hε
+  set y : DInfty × Z := (DInfty.posEmb ⟨(ε / 2, 0), hr⟩, z₀)
+  have hyS : y ∈ S := ⟨⟨hr, show ε / 2 < ε by linarith⟩, hzV⟩
+  set k : GammaA α := GammaA.ofInt 1
+  have hkr : (k • y).1.r = y.1.r := by rw [DInfty.smul_prod_def, DInfty.smul_def, DInfty.rot_r]
+  have hkz : (k • y).2 = y.2 := by rw [DInfty.smul_prod_def]
+  have hkS : k • y ∈ S := ⟨show 0 < (k • y).1.r ∧ (k • y).1.r < ε by rw [hkr]; exact hyS.1,
+    show (k • y).2 ∈ V by rw [hkz]; exact hyS.2⟩
+  have h1 : φ (orbitMk (GammaA α) (k • y)) = φ (orbitMk (GammaA α) y) := by rw [orbitMk_smul]
+  rw [hg _ hkS, hg _ hyS, smul_left_cancel_iff] at h1
+  exact hne y (hSP hyS) h1
+
+/-- The deck generator moves every value of the BTZ developing map on `{r > 0}`. -/
+theorem btzDev_ofInt_one_smul_ne (x₀ : ℝ × ℝ × ℝ) {v : ℝ × ℝ × ℝ} (hv : 0 < v.2.1) {α : ℝ}
+    (hα : α ≠ 0) {y : DInfty × ℝ} (hy : y ∈ cylPos ℝ) :
+    btzDev x₀ v ((GammaA.ofInt 1 : GammaA α) • y) ≠ btzDev x₀ v y := by
+  obtain ⟨p, z⟩ := y
+  obtain ⟨q, rfl⟩ : p ∈ range DInfty.posEmb := by rw [DInfty.range_posEmb]; exact hy
+  rw [gamma_smul_posEmb]
+  intro h
+  have h3 := congrArg (fun w : ℝ × ℝ × ℝ => w.2.2) h
+  simp only [btzDev_eq, Prod.snd_add, Prod.smul_snd, parab_apply, nullU, smul_eq_mul,
+    DInfty.posEmb_r, DInfty.posEmb_θ, GammaA.toInt_ofInt, Int.cast_one, one_mul, mul_zero,
+    add_zero] at h3
+  have hq := q.2
+  have : q.1.1 * (α * v.2.1) = 0 := by linarith
+  rcases mul_eq_zero.1 this with h0 | h0
+  · exact absurd h0 hq.ne'
+  · rcases mul_eq_zero.1 h0 with h1 | h1
+    · exact hα h1
+    · exact absurd h1 hv.ne'
+
+/-- **The singular locus of the extreme BTZ white hole is the whole axis** `π{r = 0}`. -/
+theorem btz_whitehole_sing_eq {G : Type*} [Group G] [MulAction G (ℝ × ℝ × ℝ)]
+    [ContinuousConstSMul G (ℝ × ℝ × ℝ)] [IsRigidAction G (ℝ × ℝ × ℝ)] (x₀ : ℝ × ℝ × ℝ)
+    {v : ℝ × ℝ × ℝ} (hv : 0 < v.2.1) {α : ℝ} (hα : α ≠ 0)
+    {B : Set (OpenPartialHomeomorph (Orbits (GammaA α) (DInfty × ℝ)) (ℝ × ℝ × ℝ))}
+    (hB : IsMaximalAEAtlas G B)
+    (hπ : IsAEMorphismOf G (maximalAEAtlas G (devAtlas G (btzDev x₀ v) (cylPos ℝ))) B
+      (orbitMk (GammaA α))) :
+    (support B)ᶜ = orbitMk (GammaA α) '' {x : DInfty × ℝ | x.1 = DInfty.apex} := by
+  have hD := isLocalHomeomorphOn_btzDev x₀ hv
+  refine Subset.antisymm ?_ ?_
+  · rw [← setOf_r_eq_zero_cyl]; exact quotientBase_sing_subset hα hD hB hπ
+  · rintro _ ⟨⟨p, z⟩, hx, rfl⟩
+    simp only [mem_setOf_eq] at hx
+    subst hx
+    exact apex_notMem_support_of_smul_ne hD hB hπ
+      (fun y hy => btzDev_ofInt_one_smul_ne x₀ hv hα hy) z
+
+section WTame
+
+/-- The paper's sequence `(τ_n, r_n, θ_n) = (t₀, 1/n, n)` (`RamcovGX.tex:1631`), indexed from
+`n + 1`. -/
+def wtameSeq (t₀ : ℝ) (n : ℕ) : DInfty × ℝ :=
+  (⟨1 / ((n : ℝ) + 1), (n : ℝ) + 1, Or.inl (by positivity)⟩, t₀)
+
+theorem wtameSeq_mem_cylPos (t₀ : ℝ) (n : ℕ) : wtameSeq t₀ n ∈ cylPos ℝ := by
+  show (0 : ℝ) < 1 / ((n : ℝ) + 1); positivity
+
+theorem tendsto_wtameSeq (t₀ : ℝ) :
+    Tendsto (wtameSeq t₀) atTop (𝓝 (DInfty.apex, t₀)) := by
+  refine Tendsto.prodMk_nhds ?_ tendsto_const_nhds
+  refine DInfty.hasBasis_nhds_apex.tendsto_right_iff.2 fun ε hε => ?_
+  have h : Tendsto (fun n : ℕ => 1 / ((n : ℝ) + 1)) atTop (𝓝 0) :=
+    tendsto_one_div_add_atTop_nhds_zero_nat
+  filter_upwards [(h.eventually (gt_mem_nhds hε))] with n hn
+  exact hn
+
+theorem btzDev_wtameSeq_fst (x₀ v : ℝ × ℝ × ℝ) (t₀ : ℝ) (n : ℕ) :
+    (btzDev x₀ v (wtameSeq t₀ n)).1 =
+      x₀.1 + v.1 / ((n : ℝ) + 1) + 2 * v.2.2 + ((n : ℝ) + 1) * v.2.1 + t₀ := by
+  rw [btzDev_eq]
+  simp only [wtameSeq, Prod.fst_add, Prod.smul_fst, parab_apply, nullU, smul_eq_mul, mul_one]
+  have : (n : ℝ) + 1 ≠ 0 := by positivity
+  field_simp
+  ring
+
+/-- Along the sequence, the developing map is unbounded. -/
+theorem tendsto_norm_btzDev_wtameSeq (x₀ : ℝ × ℝ × ℝ) {v : ℝ × ℝ × ℝ} (hv : 0 < v.2.1)
+    (t₀ : ℝ) : Tendsto (fun n => ‖btzDev x₀ v (wtameSeq t₀ n)‖) atTop atTop := by
+  have hlow : ∀ n : ℕ, x₀.1 - |v.1| + 2 * v.2.2 + t₀ + ((n : ℝ) + 1) * v.2.1 ≤
+      ‖btzDev x₀ v (wtameSeq t₀ n)‖ := fun n => by
+    have h1 : (btzDev x₀ v (wtameSeq t₀ n)).1 ≤ ‖btzDev x₀ v (wtameSeq t₀ n)‖ :=
+      (le_abs_self _).trans (by rw [← Real.norm_eq_abs]; exact norm_fst_le _)
+    have h2 : -|v.1| ≤ v.1 / ((n : ℝ) + 1) := by
+      have hn : (1 : ℝ) ≤ (n : ℝ) + 1 := by linarith [(Nat.cast_nonneg n : (0 : ℝ) ≤ n)]
+      rw [neg_le, ← neg_div]
+      calc -v.1 / ((n : ℝ) + 1) ≤ |-v.1| / ((n : ℝ) + 1) :=
+            div_le_div_of_nonneg_right (le_abs_self _) (by positivity)
+        _ ≤ |-v.1| := div_le_self (abs_nonneg _) hn
+        _ = |v.1| := abs_neg _
+    rw [btzDev_wtameSeq_fst] at h1
+    linarith
+  refine tendsto_atTop_mono hlow (tendsto_atTop_add_const_left _ _ ?_)
+  refine Tendsto.atTop_mul_const hv ?_
+  exact tendsto_atTop_add_const_right _ 1 tendsto_natCast_atTop_atTop
+
+variable {G : Type*} [Group G] [MulAction G (ℝ × ℝ × ℝ)] [ContinuousConstSMul G (ℝ × ℝ × ℝ)]
+
+/-- No translate of the BTZ developing map extends continuously to a point of the axis. -/
+theorem not_continuousAt_of_eqOn_btzDev (x₀ : ℝ × ℝ × ℝ) {v : ℝ × ℝ × ℝ} (hv : 0 < v.2.1)
+    (t₀ : ℝ) (g : G) {D' : DInfty × ℝ → ℝ × ℝ × ℝ}
+    (hD' : EqOn D' (fun x => g • btzDev x₀ v x) (cylPos ℝ)) :
+    ¬ ContinuousAt D' (DInfty.apex, t₀) := by
+  intro hc
+  have h1 : Tendsto (fun n => g⁻¹ • D' (wtameSeq t₀ n)) atTop (𝓝 (g⁻¹ • D' (DInfty.apex, t₀))) :=
+    ((hc.const_smul g⁻¹).tendsto).comp (tendsto_wtameSeq t₀)
+  have h2 : (fun n => g⁻¹ • D' (wtameSeq t₀ n)) = fun n => btzDev x₀ v (wtameSeq t₀ n) := by
+    funext n; rw [hD' (wtameSeq_mem_cylPos t₀ n), inv_smul_smul]
+  rw [h2] at h1
+  exact not_tendsto_atTop_of_tendsto_nhds h1.norm (tendsto_norm_btzDev_wtameSeq x₀ hv t₀)
+
+/-- The paper's developing map of `ex:WTame` (`RamcovGX.tex:1627`) in Minkowski coordinates
+`(t, x, y)`, read off `btzDev`: with `x₀ = 0`, `v = (-1, 1, 0)` in the null coordinates
+`(t + x, t − x, −y)` and the time coordinate `2τ`, it is
+`(τ, r, θ) ↦ (τ + ½ r θ², τ + ½ r θ² − r, −r θ)`. -/
+theorem btzDev_paper_coords {r : ℝ} (hr : 0 < r) (θ τ : ℝ) :
+    let w := btzDev 0 (-1, 1, 0) (DInfty.posEmb ⟨(r, θ), hr⟩, 2 * τ)
+    ((w.1 + w.2.1) / 2, (w.1 - w.2.1) / 2, -w.2.2) =
+      (τ + 1 / 2 * r * θ ^ 2, τ + 1 / 2 * r * θ ^ 2 - r, -(r * θ)) := by
+  simp only [btzDev_eq, Prod.fst_add, Prod.snd_add, Prod.smul_fst, Prod.smul_snd, parab_apply,
+    nullU, smul_eq_mul, DInfty.posEmb_r, DInfty.posEmb_θ, Prod.fst_zero, Prod.snd_zero]
+  ext <;> simp <;> ring
+
+/-- **No developing map on the cylinder**: no a.e. `(G,X)`-morphism from the cylinder `𝔻_∞ × ℝ`
+(with the structure developed by `btzDev`) to the model exists — on `{r > 0}` it would be a
+translate of `btzDev` (rigidity), which extends continuously to no point of the axis. -/
+theorem not_isAEMorphismOf_btzDev [IsRigidAction G (ℝ × ℝ × ℝ)] (x₀ : ℝ × ℝ × ℝ)
+    {v : ℝ × ℝ × ℝ} (hv : 0 < v.2.1) (D'' : DInfty × ℝ → ℝ × ℝ × ℝ) :
+    ¬ IsAEMorphismOf G (maximalAEAtlas G (devAtlas G (btzDev x₀ v) (cylPos ℝ)))
+      ((gxGroupoid G (ℝ × ℝ × ℝ)).maximalAtlas (ℝ × ℝ × ℝ)) D'' := by
+  intro h
+  have hP := DInfty.isPortly_pos ℝ
+  have hD := isLocalHomeomorphOn_btzDev x₀ hv
+  have hA := (isAEAtlas_devAtlas (G := G) hP hD).maximalAEAtlas
+  have hmax : IsMaximalAEAtlas G ((gxGroupoid G (ℝ × ℝ × ℝ)).maximalAtlas (ℝ × ℝ × ℝ)) :=
+    isMaximalAEAtlas_maximalAtlas
+  have hDreg := (previous_examples_developing (G := G) one_ne_zero hD).2
+  have hreg := h.regLocusOf_eq hA hmax.1
+  rw [support_maximalAtlas, preimage_univ, inter_univ] at hreg
+  have hFreg : IsRegularOn G (maximalAEAtlas G (devAtlas G (btzDev x₀ v) (cylPos ℝ)))
+      ((gxGroupoid G (ℝ × ℝ × ℝ)).maximalAtlas (ℝ × ℝ × ℝ)) D'' (cylPos ℝ) :=
+    (isRegularOn_regLocusOf (G := G) _ _ D'').mono (by rw [hreg]; exact hDreg.subset_support)
+      hP.isOpen
+  obtain ⟨g, hg⟩ := exists_smul_eq_on_of_isRegularOn hP.isPreconnected hDreg hFreg
+  exact not_continuousAt_of_eqOn_btzDev x₀ hv 0 g hg h.continuous.continuousAt
+
+/-- **`ex:WTame`** (`RamcovGX.tex:1625`): the extreme BTZ white hole `M = Γ_α\(𝔻_∞ × ℝ)` of
+`ex:quotient_base`, for every rigid `G` containing the holonomy `P_α`: its structure is unique,
+`sing(M) = π{r=0}` and the cylinder carries the corollary's structure; the cylinder is the
+maximal covering of `M` possibly branched over `sing(M)`, isomorphic over `M` to
+`\widetilde M^{sing M}`; `M` has **no developing map** (`def:developing_map`: no a.e.
+`(G,X)`-morphism from the cylinder to `X`); and the paper's sequence `(t₀, 1/n, n)` tends to the
+axis while `D` is unbounded along it, so no translate `g D` extends continuously at `r = 0`. -/
+theorem wtame_btz [IsRigidAction G (ℝ × ℝ × ℝ)] (x₀ : ℝ × ℝ × ℝ) {v : ℝ × ℝ × ℝ} (hv : 0 < v.2.1)
+    {α : ℝ} (hα : α ≠ 0) (ρ : G) (hρ : ∀ y, ρ • y = parabAff x₀ α y) :
+    (∃! B : Set (OpenPartialHomeomorph (Orbits (GammaA α) (DInfty × ℝ)) (ℝ × ℝ × ℝ)),
+      IsMaximalAEAtlas G B ∧ IsAEMorphismOf G
+        (maximalAEAtlas G (devAtlas G (btzDev x₀ v) (cylPos ℝ))) B (orbitMk (GammaA α))) ∧
+    (∀ B : Set (OpenPartialHomeomorph (Orbits (GammaA α) (DInfty × ℝ)) (ℝ × ℝ × ℝ)),
+      IsMaximalAEAtlas G B → IsAEMorphismOf G
+        (maximalAEAtlas G (devAtlas G (btzDev x₀ v) (cylPos ℝ))) B (orbitMk (GammaA α)) →
+      (support B)ᶜ = orbitMk (GammaA α) '' {x : DInfty × ℝ | x.1 = DInfty.apex} ∧
+      maximalAEAtlas G (devAtlas G (btzDev x₀ v) (cylPos ℝ)) =
+        aePullback G B (orbitMk (GammaA α))) ∧
+    IsMaximalPossiblyBranched.{w}
+      (orbitMk (GammaA α) : DInfty × ℝ → Orbits (GammaA α) (DInfty × ℝ))
+      (orbitMk (GammaA α) '' {x : DInfty × ℝ | x.1 = DInfty.apex}) ∧
+    (∀ y₀ : ((orbitMk (GammaA α) '' {x : DInfty × ℝ | x.1 = DInfty.apex})ᶜ :
+        Set (Orbits (GammaA α) (DInfty × ℝ))),
+      ∃ Φ : MaxBranchedCover (orbitMk (GammaA α) '' {x : DInfty × ℝ | x.1 = DInfty.apex}) y₀ ≃ₜ
+          DInfty × ℝ, ∀ e, orbitMk (GammaA α) (Φ e) = e.base) ∧
+    (∀ D'' : DInfty × ℝ → ℝ × ℝ × ℝ,
+      ¬ IsAEMorphismOf G (maximalAEAtlas G (devAtlas G (btzDev x₀ v) (cylPos ℝ)))
+        ((gxGroupoid G (ℝ × ℝ × ℝ)).maximalAtlas (ℝ × ℝ × ℝ)) D'') ∧
+    ∀ t₀ : ℝ, Tendsto (wtameSeq t₀) atTop (𝓝 (DInfty.apex, t₀)) ∧
+      (∀ n, wtameSeq t₀ n ∈ cylPos ℝ) ∧
+      Tendsto (fun n => ‖btzDev x₀ v (wtameSeq t₀ n)‖) atTop atTop ∧
+      ∀ (g : G) (D' : DInfty × ℝ → ℝ × ℝ × ℝ),
+        EqOn D' (fun x => g • btzDev x₀ v x) (cylPos ℝ) → ¬ ContinuousAt D' (DInfty.apex, t₀) := by
+  obtain ⟨-, hmax, hiso⟩ := (previous_examples_maxBranched.{w} (V := ℝ) hα).2
+  have hdevmax : IsMaximalAEAtlas G (maximalAEAtlas G (devAtlas G (btzDev x₀ v) (cylPos ℝ))) :=
+    (isAEAtlas_devAtlas (G := G) (DInfty.isPortly_pos ℝ)
+      (isLocalHomeomorphOn_btzDev x₀ hv)).isMaximalAEAtlas_maximalAEAtlas
+  exact ⟨(btz_whitehole x₀ hv hα ρ hρ).2.2, fun B hB hπ => ⟨btz_whitehole_sing_eq x₀ hv hα hB hπ,
+    eq_aePullback hdevmax hπ⟩,
+    hmax, hiso, not_isAEMorphismOf_btzDev x₀ hv,
+    fun t₀ => ⟨tendsto_wtameSeq t₀,
+    wtameSeq_mem_cylPos t₀, tendsto_norm_btzDev_wtameSeq x₀ hv t₀,
+    fun g _ hD' => not_continuousAt_of_eqOn_btzDev x₀ hv t₀ g hD'⟩⟩
+
+/-- **`ex:WTame`** with the paper's `G = Isom₀(𝔼^{1,2})` (`NullIsom0`, null coordinates). -/
+theorem wtame_btz_isom0 (x₀ : ℝ × ℝ × ℝ) {v : ℝ × ℝ × ℝ} (hv : 0 < v.2.1) {α : ℝ} (hα : α ≠ 0) :
+    (∃! B : Set (OpenPartialHomeomorph (Orbits (GammaA α) (DInfty × ℝ)) (ℝ × ℝ × ℝ)),
+      IsMaximalAEAtlas NullIsom0 B ∧ IsAEMorphismOf NullIsom0
+        (maximalAEAtlas NullIsom0 (devAtlas NullIsom0 (btzDev x₀ v) (cylPos ℝ))) B
+        (orbitMk (GammaA α))) ∧
+    IsMaximalPossiblyBranched.{w}
+      (orbitMk (GammaA α) : DInfty × ℝ → Orbits (GammaA α) (DInfty × ℝ))
+      (orbitMk (GammaA α) '' {x : DInfty × ℝ | x.1 = DInfty.apex}) ∧
+    (∀ D'' : DInfty × ℝ → ℝ × ℝ × ℝ,
+      ¬ IsAEMorphismOf NullIsom0 (maximalAEAtlas NullIsom0 (devAtlas NullIsom0 (btzDev x₀ v) (cylPos ℝ)))
+        ((gxGroupoid NullIsom0 (ℝ × ℝ × ℝ)).maximalAtlas (ℝ × ℝ × ℝ)) D'') ∧
+    ∀ t₀ : ℝ, Tendsto (wtameSeq t₀) atTop (𝓝 (DInfty.apex, t₀)) ∧
+      Tendsto (fun n => ‖btzDev x₀ v (wtameSeq t₀ n)‖) atTop atTop ∧
+      ∀ (g : NullIsom0) (D' : DInfty × ℝ → ℝ × ℝ × ℝ),
+        EqOn D' (fun x => g • btzDev x₀ v x) (cylPos ℝ) → ¬ ContinuousAt D' (DInfty.apex, t₀) := by
+  obtain ⟨h1, -, h2, -, h3, h4⟩ := wtame_btz.{w} (G := NullIsom0) x₀ hv hα ⟨parabAff x₀ α, parab_mem x₀ α⟩
+    fun _ => rfl
+  exact ⟨h1, h2, h3, fun t₀ => ⟨(h4 t₀).1, (h4 t₀).2.2.1, (h4 t₀).2.2.2⟩⟩
+
+end WTame
+
+section Tame
+
+variable (E : Type*) [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
+
+/-- The developing map of `𝔼_α`, in the paper's angle `θ` (`θ' = θ / α` in the coordinate of
+`𝔻_∞` on which `Γ_1` acts by `θ' ↦ θ' + 1`): `(r, θ, z) ↦ (r cos θ, r sin θ, z)`. -/
+theorem conicalDev_posEmb_div {α : ℝ} (hα : α ≠ 0) {r : ℝ} (hr : 0 < r) (θ : ℝ) (z : E) :
+    conicalDev α E (DInfty.posEmb ⟨(r, θ / α), hr⟩, z) =
+      (((r * Real.cos θ : ℝ) : ℂ) + ((r * Real.sin θ : ℝ) : ℂ) * Complex.I, z) := by
+  rw [conicalDev_posEmb hα]
+  have : α * (θ / α) = θ := by field_simp
+  rw [this]
+  simp only [Prod.mk.injEq, and_true]
+  rw [Complex.exp_mul_I]
+  push_cast
+  rw [← Complex.ofReal_cos, ← Complex.ofReal_sin]
+  ring
+
+/-- `ex:Tame` (`RamcovGX.tex:1616`), without the metric sentence (SCOPE (d)): for
+`M = 𝔼^{n+2}_α` (`α > 0`, `α ≠ 2π`, `G = Isom⁺`), the structure is unique, `sing(M) = π{r=0}`, the
+cylinder carries the corollary's structure, `\widetilde M^{sing M} ≅ susp(ℝ) × ℝⁿ` over `M`, and the
+developing map `D` is continuous on the whole cover, an a.e. `(G,X)`-morphism into `X`,
+equivariant under the deck group, and `(r, θ, z) ↦ (r cos θ, r sin θ, z)` in the paper's angle. -/
+theorem tame_conical {α : ℝ} (hα : 0 < α) (h2π : α ≠ 2 * Real.pi) :
+    (∃! B : Set (OpenPartialHomeomorph (Orbits (GammaA 1) (DInfty × E)) (ℂ × E)),
+      IsMaximalAEAtlas (IsomPlus E) B ∧
+        IsAEMorphismOf (IsomPlus E) (conicalAtlas (IsomPlus E) α E) B (orbitMk (GammaA 1))) ∧
+    (∀ B : Set (OpenPartialHomeomorph (Orbits (GammaA 1) (DInfty × E)) (ℂ × E)),
+      IsMaximalAEAtlas (IsomPlus E) B →
+      IsAEMorphismOf (IsomPlus E) (conicalAtlas (IsomPlus E) α E) B (orbitMk (GammaA 1)) →
+      (support B)ᶜ = orbitMk (GammaA 1) '' {x : DInfty × E | x.1 = DInfty.apex} ∧
+      conicalAtlas (IsomPlus E) α E = aePullback (IsomPlus E) B (orbitMk (GammaA 1))) ∧
+    (∀ y₀ : ((orbitMk (GammaA 1) '' {x : DInfty × E | x.1 = DInfty.apex})ᶜ :
+        Set (Orbits (GammaA 1) (DInfty × E))),
+      ∃ Φ : MaxBranchedCover (orbitMk (GammaA 1) '' {x : DInfty × E | x.1 = DInfty.apex}) y₀ ≃ₜ
+          Susp ℝ × E,
+        ∀ e, orbitMk (GammaA 1) (Susp.homeomorphDInfty (Φ e).1, (Φ e).2) = e.base) ∧
+    Continuous (conicalDev α E) ∧
+    IsAEMorphismOf (IsomPlus E) (conicalAtlas (IsomPlus E) α E)
+      ((gxGroupoid (IsomPlus E) (ℂ × E)).maximalAtlas (ℂ × E)) (conicalDev α E) ∧
+    (∀ (k : GammaA 1) (x : DInfty × E), conicalDev α E (k • x) =
+      (Complex.exp ((k.toInt * α : ℝ) * Complex.I) * (conicalDev α E x).1, (conicalDev α E x).2)) ∧
+    ∀ (r : ℝ) (hr : 0 < r) (θ : ℝ) (z : E),
+      conicalDev α E (DInfty.posEmb ⟨(r, θ / α), hr⟩, z) =
+        (((r * Real.cos θ : ℝ) : ℂ) + ((r * Real.sin θ : ℝ) : ℂ) * Complex.I, z) := by
+  obtain ⟨-, hex, hsing⟩ := conical_isomPlus E hα
+  obtain ⟨-, -, -, hiso⟩ := previous_examples_maxBranched.{0} (V := E) one_ne_zero
+  have hD := isLocalHomeomorphOn_conicalDev (Z := E) hα.ne'
+  have hreg := (previous_examples_developing (G := IsomPlus E) one_ne_zero hD).2
+  have hmax : IsMaximalAEAtlas (IsomPlus E)
+      ((gxGroupoid (IsomPlus E) (ℂ × E)).maximalAtlas (ℂ × E)) := isMaximalAEAtlas_maximalAtlas
+  have hdevmax : IsMaximalAEAtlas (IsomPlus E) (conicalAtlas (IsomPlus E) α E) :=
+    (isAEAtlas_devAtlas (G := IsomPlus E) (DInfty.isPortly_pos E) hD).isMaximalAEAtlas_maximalAEAtlas
+  refine ⟨hex, fun B hB hπ => ⟨?_, eq_aePullback hdevmax hπ⟩, fun y₀ => ?_,
+    continuous_conicalDev (Z := E) α, (isAEMorphismOf_iff hmax.1).2 ⟨continuous_conicalDev (Z := E) α,
+      cylPos E, DInfty.isPortly_pos E, hreg⟩, fun k x => conicalDev_smul hα.ne' k x,
+    fun r hr θ z => conicalDev_posEmb_div E hα.ne' hr θ z⟩
+  · rw [(hsing B hB hπ).2.2 h2π, setOf_r_eq_zero_cyl]
+  · obtain ⟨Φ, hΦ⟩ := hiso y₀
+    refine ⟨Φ.trans (Susp.homeomorphDInfty.symm.prodCongr (Homeomorph.refl E)), fun e => ?_⟩
+    rw [← hΦ e]
+    simp
+
+end Tame
+
+end GX

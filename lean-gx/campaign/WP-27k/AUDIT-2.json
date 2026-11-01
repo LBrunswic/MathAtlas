@@ -1,0 +1,68 @@
+{
+ "package": "WP-27k",
+ "round": 2,
+ "file": "scaffold/GXScaffold/SingularII/SpreadTop.lean",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "summary": "`taskset -c 0-11 lake env lean` on the file exits 0 with no messages, and the olean (23:09:36) is newer than the source (23:09:31). There is no sorry, admit, axiom, native_decide, #exit or unsafe in the file. I ran `#print axioms` on spread_top_corrected, not_spreadTopPrinted, not_spreadTopConnCE, cex_spread_top_sector, cex_spread_top_halfCut, exists_homeomorph_maxBranched_qDisc, quotient_virtually_tame(_cover), descend_mem_deckMapsOf, quotient_dev, hypothesis_model_spaces_mechanism/toy, isGaloisian_of_comp, isPortly_strongPullTop_iff_local and the remark examples, from a /tmp file since removed: only propext/Classical.choice/Quot.sound. So the library results they cite are genuinely proved. Both round-1 majors are resolved. (1) The sector counterexample is now FORMAL. cex_spread_top_sector instantiates spread_top_corrected itself on S = {0} ⊂ ℂ, with M̃^{0} ≅ 𝔻_∞ proved (exists_homeomorph_maxBranched_qDisc), q = id, R = ℂ∖0, T = sectorTop. It proves every hypothesis, hRc included. It refutes (c), (e) and StrongLocallyConnectedOrd: W = p⁻¹(sector) is p^*T-open and path-connected through the apex, while W∖p⁻¹(0) = p⁻¹{Re>0} splits into strips (not_isPreconnected_qDisc_preimage_re_pos). not_spreadTopConnCE then refutes the printed statement plus hRc, with conclusion '(c) ∨ (e)'. So the weakening of (c) to an equivalence with the local hypothesis, and of (e) to '(c) → (e)', is certified necessary. (2) The quotient finding is withdrawn. The general-N form quotient_virtually_tame_cover is proved: Pj : M̃ → N onto over M, N with the quotient of T, D injective and quotient-continuous. 'M̃ → M Galoisian' is recorded as an added hypothesis, honestly, as a narrowing with no counterexample. The descents are deck transformations (descend_mem_deckMapsOf). SpreadTopPrinted is binder-for-binder the statement of Models' GX.spread_top (l.2155–2173), so not_spreadTopPrinted refutes that tagged sorry. Fidelity under the readings holds: hSc is the library-wide M̃^S presupposition; N T2/LPC/FC is DEC-66(a); hRc is scoped to the two clauses that use it, with necessity from cex_spread_top_halfCut; (d)'s Galoisian hypothesis is reported. No hypothesis is vacuous: T = the natural topology satisfies all of them, the local hypothesis included. Every label is unmarked in the module docstring and REPORT, consistent with the partial status. All 134 declaration names were grepped against GX/ and scaffold/: no clash. Every backticked identifier in the docstrings resolves. What remains is minor: a residual bold mark, REPORT bookkeeping, two readings or added hypotheses that could carry a short counterexample note, and one easy missing corollary on Γ(N/M).",
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "SpreadTop.lean l.1289 (docstring of GX.quotient_virtually_tame_cover)",
+   "problem": "The declaration docstring still opens with **`rem:quotient_virtually_tame`**, the full-certification mark (kb/0006), on a row that the module docstring and REPORT give as partial. REPORT notes says the ** marks were removed from partial rows (round-1 minor 3), but this one survived. It lies past 4000 characters, so the ledger does not read it, but it contradicts the module contract.",
+   "fix": "Write `rem:quotient_virtually_tame` without ** (or add '(partial)')."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json labels[lem:spread_top].decls ('GX.spread_top_deck'); extra_decls ('GX.strongPullTop')",
+   "problem": "Both are WP-27j declarations in GXScaffold.SingularII.Models (l.2131 and l.2026), not in this file. Conversely about 29 helper declarations of this file are listed nowhere (e.g. halfUp, halfSide, offAxis, isOpen_halfUp_halfCutTop, isClopen_halfUp_halfCutTop, sectorSet_mem_nhds_of_ne, isPathConnected_ball_inter_sectorSide(_diff), isSkeletal_empty_complex, slsc_compl_empty_complex, isSLSCInCC_compl_empty_complex, lt_one_coe_sptop).",
+   "fix": "Mark spread_top_deck and strongPullTop as '(Models, reused)' or move them to notes. Add the helper declarations to extra_decls or to the label rows they serve."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json labels (def:topological_spaces_continuous_map absent); module docstring l.9–13",
+   "problem": "The dispatch names def:topological_spaces_continuous_map, but REPORT has no row for it; only notes explain that Models certifies it. That follows round-1's suggestion and the docstring is clear, but a dispatched label without a REPORT row can be lost when the master reconciles the package against the dispatch.",
+   "fix": "Add a row: status closed, marked false, 'certified by Models (GX.strongPullTop); API here', with the API decls."
+  },
+  {
+   "severity": "minor",
+   "where": "spread_top_corrected (d) (l.1007–1008); REPORT lem:spread_top hypotheses[5]; module checklist l.67",
+   "problem": "(d) is proved only under 'N → M Galoisian'. REPORT says the proof's γ̄ needs it, but unlike the other added hypotheses it neither gives a counterexample nor says 'not shown necessary'. The weakening is disclosed, so this is not major. A natural counterexample appears to exist (informal, mine). M = ℂ, S = {0,1}. N is the completed 3-sheeted cover of ℂ∖{0,1} with monodromy S₃, so Γ(N/M) = 1 and hTdeck is trivial. Over 0, N has a ramified point n_a and an unramified point n_b. T is natural except a sector topology at n_b, as in sectorTop; R = q⁻¹(ℂ∖{0,1}). A γ ∈ Γ(M̃/M) with γ(ê_a) = ê_b, ê_a over n_a and ê_b over n_b, exists because M̃ → M is Galoisian. γ is not p^*T-continuous at ê_a: p^*T is natural there, while the p^*T-neighbourhoods of ê_b are the apex plus half-strips.",
+   "fix": "Record in REPORT whether the hypothesis is shown necessary. Either add the sketch above as an informal finding, or write 'not shown necessary (narrowing)' as for rem:quotient_virtually_tame."
+  },
+  {
+   "severity": "minor",
+   "where": "isGreatest_strongPullTop(_of_isSpread) (l.283–298); REPORT rem:intuitively_spread_thinner_than findings/questions",
+   "problem": "The 'coarsest topology' is formalized among topologies finer than T_M, through the set {σ' | σ' ≤ tE ∧ spread}. The remark says 'the coarsest topology on M'. Without the restriction the literal claim fails even when p^*T is a spread. Take M = ℝ × {0,1} → ℝ, T = T_N and σ' = φ_*T_M, where φ swaps the two sheets on [0,∞). σ' is a spread topology (a trivial double covering) that is incomparable with T_M = p^*T. The finding mentions 'finer than T_M', but this is not stated as a reading, and no example shows that it is needed.",
+   "fix": "State in REPORT questions/findings that 'coarsest' is read among topologies finer than T_M, with the sheet-swap example (informal, or a short formal one)."
+  },
+  {
+   "severity": "minor",
+   "where": "quotient_virtually_tame_cover (l.1299–1314); REPORT rem:quotient_virtually_tame hypotheses[3]",
+   "problem": "The remark's group is Γ(N/M), while the theorem quotients by Γ_N = descendSet. REPORT discloses Γ_N ⊆ Γ(N/M) (descend_mem_deckMapsOf). It does not state the easy corollary that the fibres of N → M are also exactly the Γ(N/M)-orbits: Γ_N-orbits ⊆ Γ(N/M)-orbits ⊆ fibres, since deck maps preserve π_N. With that corollary the quotient relation is literally the paper's. Γ_N = Γ(N/M), that every deck map of N lifts, is likewise unaddressed.",
+   "fix": "Add `∀ n n', πN n = πN n' ↔ ∃ f ∈ deckMapsOf πN, f n = n'` (for the natural topology on N with Pj continuous and open). Optionally note in SCOPE that Γ_N = Γ(N/M) is not proved."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT rem:hypothesis_model_spaces_necessary hypotheses[0] ('here': 'weakened')",
+   "problem": "kb/0006 reserves 'weakened' for 'the Lean theorem assumes less'. The row describes a different, abstract statement: the model E_θ^{1,2} with the BTZ topology is not built, and the dependency on prop:BTZ_virt_tame is correctly named. 'weakened' slightly misdescribes that.",
+   "fix": "Use a note such as 'read abstractly (mechanism + toy instance); concrete instance not built (forward dependency l.2252)'."
+  }
+ ],
+ "round1_followup": {
+  "major_1_sector_counterexample": "resolved: cex_spread_top_sector, not_spreadTopConnCE, exists_homeomorph_maxBranched_qDisc (all axiom-clean)",
+  "major_2_quotient_finding": "resolved: finding withdrawn; general-N form quotient_virtually_tame_cover; Galoisian recorded as a narrowing",
+  "minor_bold_marks": "partly resolved (l.1289 remains)",
+  "minor_dangling_names": "resolved",
+  "minor_definition_label_two_files": "resolved (unmarked here, Models owns it); REPORT row now missing, see issue 3",
+  "minor_DEC66_reclassification": "resolved",
+  "minor_hRc_scope": "resolved (hRc scoped to connectedness and (e))",
+  "minor_BTZ_dependency_and_toy": "resolved (SCOPE (c), hypothesis_model_spaces_toy)"
+ },
+ "questions_for_author": [
+  "lem:spread_top (c)/(e): l.2029's 'We may assume Ô ∩ R̂ is connected' fails formally for a sector-shaped T at a logarithmic branch point (GX.cex_spread_top_sector). Should the lemma carry the local hypothesis (GX.StrongLocallyConnectedOrd, equivalent to (c)), or should T be assumed invariant under the local rotations around sing, as the BTZ topology is? theo:local_virt_tame (D) inherits this gap.",
+  "lem:spread_top (d): is 'N → M Galoisian' the intended hypothesis? In the only application, V̂ → V is Galoisian. Without it, (d) appears to fail for a non-normal sub-covering with a non-natural T at an unramified point over a branch value.",
+  "rem:quotient_virtually_tame: should 'M̃ → M Galoisian' (e.g. M locally Galoisian) be part of the remark's hypotheses, and does 'isomorphic' mean as singular (G,X)-manifolds?"
+ ]
+}

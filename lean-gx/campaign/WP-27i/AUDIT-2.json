@@ -1,0 +1,49 @@
+{
+ "package": "WP-27i",
+ "round": 2,
+ "auditor": "read-only auditor, round 2",
+ "file": "scaffold/GXScaffold/SingularII/Tame.lean",
+ "audited_source_mtime": "2026-11-01T21:04:00Z (olean 21:04:40Z; REPORT.json 21:04, self-labelled round 3)",
+ "supersedes": "AUDIT-1.json (21:02Z, verdict 'issues'). Its one major is RESOLVED: the four rows whose only open point DEC-66 (a)(c) and DEC-67 (d) rule are now closed and marked, in the module docstring (:13-26) and in the declaration docstrings (:234, :297, :308, :322, :605), and they cite the rulings. The checklist row (:61) reads carried (DEC-66) with second countable weakened, and the REPORT drops the two questions those rulings answered. Its first minor is RESOLVED too: in the rem row M LPC is carried (DEC-66) and Galoisian is the one strengthening. Its second minor is answered as permitted, by narrowing the Galoisian question to the branch fibres. Its third minor (the example's main assertions are not stated) stands, as AUDIT-1 allowed.",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "summary": "Build: `taskset -c 0-11 lake env lean` on the file exits 0 in 3.8 s with no output. `lake build --no-build GXScaffold.SingularII.Tame` reports all targets up to date (8573 jobs, olean newer than source). The source contains no sorry, admit or axiom; the grep's only hits are the word 'admits'. #print axioms gives [propext, Classical.choice, Quot.sound] for all 15 main declarations, read on stdin with no sorryAx. Those 15 are Axioms.lean's 12 plus isTame_of_isLocallyTame, exists_local_tame_extension and isTame_of_isDevelopingMapOf. Every cited result is therefore BUILT through the sibling and the strict library (DEC-23): prop:universality, Fox extension, lem:branched_covering_restriction, cor:spread_connected_image, lem:morphism_singular_manifolds_branched, prop:branched_devmap and the classical developing theorem.\n\nCoverage and names: there are seven labels in l.1826-1888 and seven REPORT rows. The file's 30 declarations equal REPORT decls ∪ extra_decls, with an empty symmetric difference. A regex scan of GX/ and scaffold/ finds no declaration-name clash; Models.lean is the only importer.\n\nFidelity, against the paper's statements and proofs under DEC-66, DEC-67(d) and the section convention l.1712:\n- def. IsTame := AdmitsDevelopingMap is WP-27h's audited notion. isTame_iff makes it equivalent to M̃ having a developing map, and isTame_of_isDevelopingMapOf gets it from any branched covering branched anywhere (prop:branched_devmap). Marked correctly.\n- lem:embedding_tame. It holds for any a.e. morphism f between connected manifolds that are T2, LPC and first countable, M and N in independent universes. The extra hypotheses are exactly DEC-66(a) (l.810) and l.1712. The finding is correct: for the k-fold quotient R² → E²_{2π/k}, M̃ = R² and no lift to Ñ exists, because the generator of π₁(R²∖0) maps to k times a generator. The replacement route goes through M̃^{M∖U} and Fox extension, and it is sound. Closed and marked correctly.\n- cor:branched_covering. N may carry any structure making p a.e.; the primed form is literally p^*B. N's T2/LPC/FC is DEC-66(a), since N is itself a §2.5 singular manifold. N's connectedness comes from IsBranchedCovering. Closed correctly.\n- theo:local_tame. IsLocallyTame (every point has a tame open neighbourhood with the induced pullback structure) is verbatim DEC-67(d). (1)⇒(2) is also given in basis form. (2)⇒(1) follows the paper: local extensions over components of p⁻¹(V) are glued by density, with X Hausdorff. Closed correctly.\n- cor:open_subsets. This closes with [ConnectedSpace U], read from the standing convention l.1712 together with DEC-66(b). The same convention supplies the connectedness of M and N in the other three closed rows. A disconnected U can never be tame (IsTame.connectedSpace), so the hypothesis carries no conclusion. It is not vacuous: by IsTame.exists_opens_subset, every point has a basis of such U. No ruling names this row, so its closure is a reading the master must confirm (minor 1).\n- rem. It is partial, and honestly so. It is proved for Galoisian N, with D merely injective and holonomy-equivariant (tameness and the a.e. property are weakened away), under both readings of 'isomorphic'. The (G,X) reading includes existence and uniqueness of the quotient structure. I re-checked that the Galoisian strengthening is genuinely needed for injectivity of Γ\\D(N) → M. I also checked that in the unbranched case it follows from D injective: ker ρ = π₁(N), which is therefore normal. The narrowed question about the branch fibres is therefore the right one.\n- ex. It is partial. Only the last sentence is proved, in a stronger form: no subset of the open disc ∪ {ξ} is a neighbourhood of ξ, for every r < 1. The obstruction to the rest is stated precisely.\nI tried to satisfy every hypothesis, and each has an inhabitant: tame M; open connected neighbourhoods; the identity as a Galoisian branched covering with an injective D. None carries its conclusion, and no definition trivialises its notion. DEC-55, DEC-56 and DEC-57 are not engaged: the remark uses IsGaloisian, not quasi-Galoisian, and reports it as a strengthening. Docstring contract (kb/0006): the five closed labels are marked within the first 4000 characters, the two partial ones are unmarked, and the checklist and SCOPE are present. Nothing remains at blocker or major severity.",
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "Tame.lean:18-22, :322-329 (isTame_opens, [ConnectedSpace U]); REPORT row cor:open_subsets_tame_singular",
+   "problem": "The row closes and is marked on the reading 'the open subset is connected', drawn from l.1712 ('M, N will denote connected singular (G,X)-manifolds') and DEC-66(b). No ruling names this row; the REPORT itself says it is 'the master's reading to confirm'. The reading is the natural one, the same convention the three other closed rows carry, and it is disclosed in the docstring. But if the master refuses it, the row must revert to partial.",
+   "fix": "Master: confirm the reading, or revert the row to partial with the connectedness question. Optional and cheap: also state the form that needs no reading, 'every connected component of an open subset of a tame M is tame'. It is isTame_opens applied to connectedComponentIn, which is open because M is locally connected."
+  },
+  {
+   "severity": "minor",
+   "where": "Tame.lean:765-845; REPORT ex:take_closed_unit_disc",
+   "problem": "This is AUDIT-1's minor, carried over. The example's main assertions are neither stated nor carried by a tagged SORRY: M tame with an injective developing map M̃ → X; neighbourhoods modelled on {r<r₀} ⊆ D_∞; D(U) a horodisc. The obstruction is disclosed precisely: there is no Isom(H²) and no complete hyperbolic (G,X)-structures at this pin. The row is partial and unmarked.",
+   "fix": "None required. Optionally, state the tameness/injectivity assertion for a given complete (PSL₂R, H²)-structure on M∖S under a SORRY(ex:take_closed_unit_disc) tag."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json 'notes'",
+   "problem": "The notes still contain the round-2 sentence saying the five declaration docstrings 'are unmarked and say partial'. The round-3 paragraph after it reverses that. The file is right; the stale sentence could mislead whoever graduates the file.",
+   "fix": "Strike the round-2 sentence, or prefix it with 'superseded by round 3'."
+  }
+ ],
+ "questions_for_author": [
+  "rem:tamely_singular_manifold_admits (l.1869): must an injective developing map make Γ(N/M) transitive on the fibres over the branch locus? Over the ordinary locus it does, because ker ρ = π₁(N) is normal. Equivalently: is N meant to be Galoisian, e.g. M̃?",
+  "rem:tamely_singular_manifold_admits (l.1869): is 'isomorphic' meant topologically, or as singular (G,X)-manifolds with the quotient structure through N ≅ D(N)? Both are proved for Galoisian N.",
+  "ex:take_closed_unit_disc (l.1877): may it stay partial, with only the last sentence certified, until hyperbolic-surface infrastructure exists?",
+  "Master, not author: does l.1712 with DEC-66(b) make the open subsets of cor:open_subsets_tame_singular connected, so that the row stays closed?"
+ ],
+ "checks": {
+  "build": "lake env lean: EXIT 0, no output, 3.8 s; lake build --no-build: all targets up to date (8573 jobs)",
+  "sorry_grep": "0 (the only hits are the word 'admits')",
+  "axioms": "15/15 main decls: propext, Classical.choice, Quot.sound; no sorryAx upstream",
+  "labels_in_range": 7,
+  "labels_in_report": 7,
+  "decls_file_vs_report": "30 = 30, symmetric difference empty",
+  "name_clashes": "none (regex over GX/**.lean and scaffold/**.lean, Tame.lean excluded)",
+  "marks": "module docstring marks def, lem:embedding_tame, both cors, theo:local_tame; rem and ex unmarked; declaration docstrings consistent (isTame_of_isLocallyTame, the half, unmarked)",
+  "rulings_applied": "DEC-66(a)(b)(c): T2/LPC/FC carried (l.810), second countable weakened; DEC-67(d): IsLocallyTame verbatim; DEC-27: the lem:embedding_tame proof defect reported as a finding; the statement is true and proved"
+ }
+}

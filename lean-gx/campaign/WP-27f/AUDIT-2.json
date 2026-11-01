@@ -1,0 +1,54 @@
+{
+ "package": "WP-27f",
+ "round": 2,
+ "auditor": "read-only auditor (round 2)",
+ "file": "scaffold/GXScaffold/Branched/GaloisExamples.lean",
+ "file_sha256": "bde033a6264aba45e4640ecbdfb93641b26f8d692a670e3dd5d84f5ea91efbce",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count": 1,
+ "checks": {
+  "build": "taskset -c 0-11 lake env lean on the file: exit 0, about 13 s wall. The only warning is 'declaration uses sorry' at l.3404 (GX.antoineNecklace_antoine), and the only sorry token in code is at l.3409. The olean (17:25:23) is newer than the source (17:25:05), consistent with the reported lake build.",
+  "axioms": "Run via --stdin, nothing written. The following depend only on [propext, Classical.choice, Quot.sound]: absGal_Y₂_fiber_corrected(_simple), absGal_Y₂_fiber_not_cantor_simple, absGal_Y₂_fiber_not_compact, absGal_not_isSLSCInCC, antoineNecklace_isCantorSubset, antoineMap_disjoint, sphere3_isSLSCInCC_compl_iff, sphere3_not_isSLSCIn_of_essential, following_situations_{finite,tame_knot,simplicial}_cc and following_situations_simplicial_false. antoineNecklace_wild_not_isSLSCInCC depends on sorryAx, as reported.",
+  "changes_since_audit_1": "Diffed against the round-1 audited file (scratch/GaloisExamples.round0.lean.bak, sha cc2b7cc…, the same sha AUDIT-1 recorded). The changes are confined to: the module docstring; the new corrected-fibre block (l.2093–2246, plus l.2550–2564); and the Antoine section (l.2829–3478). The ex:following_situations part is byte-identical to what round 1 audited and found sound.",
+  "fidelity_ex_following": "Unchanged since round 1: proved in the literal DEC-55 form with weaker ambient hypotheses. Item 2 reads 'tame knot' as locally polygonal, which is unruled and has a question posed. Item 3 is corrected, with a genuine connected counterexample. The row is honestly partial and unmarked.",
+  "fidelity_ex_consider": "AUDIT-1 major 2 is fixed. absGal_Y₂_fiber_corrected(_simple) proves, sorry-free, that the fibre over 0 of Y₂ (the Fox completion GX.SpreadEnd of Γ₂\\\\Ũ → ℂ, with Γ₂ = Subgroup.normalClosure of the g n ^ 2 as DEC-58 rules) is Infinite ∧ IsTotallyDisconnected ∧ ¬IsCompact. Total disconnectedness comes from the library cor:totdiscont through the new, sorry-free GX.isSpread_homeoQuotient_lift. The hypotheses of the general form are only windings and lying in absGalR, and they are instantiated by the explicit loops, so they are satisfiable. Perfectness is not formalized and is disclosed. The printed Γ₂ = Γ is proved (printedGamma2_eq_top). Indexing n ↦ 1/(n+1) covers n ∈ ℕ*. The stems of the lollipop loops lie in Im < 0, so they avoid S.",
+  "fidelity_ex_wild_cantor": "AUDIT-1 major 1 is fixed. Antoine's necklace is BUILT (antoineNecklace = stereographic image of ⋂ₙ antoineStage n) and proved a Cantor set sorry-free. The row's theorem antoineNecklace_wild_not_isSLSCInCC is about this set; the existential forms are corollaries. I checked the geometry by hand. A type-0 ring centred at (a,−560)/640 and the type-1 ring centred at (a+70,−560)/640 (in the plane y = const) cross the plane z = 0 at x−a ∈ [14,28] ∪ [112,126] (units 1/640). The first crossing lies in the hole of the horizontal ring (max < 42) and the second is outside it, so the cores have linking number ±1 and consecutive links are genuinely linked. The cyclic closure (i = 63 → 0) is also adjacent. The 64 centres follow the core square of L, so the chain goes around L. Stage-(n+1) links lie in the interior of their stage-n link (radial [504,616] ⊂ (480,640), |z| ≤ 56 < 80). So this is a genuine Antoine necklace, and the sorry'd statement GX.antoineNecklace_antoine is TRUE. The meridian of a sibling link L' is essential in S³ ∖ (C ∩ L') by Antoine's theorem. Every point is accessible through the nested gaps, since ∂L_x(m) ⊆ Cᶜ. Wildness is classical. Neither hypothesis of the criterion is vacuous. IsWildCantor (no homeomorphism of S³ carries C into a great circle) is the standard non-tameness. The paper's hypothesis 'wild' is proved as a conjunct, which is stronger.",
+  "sorry_assessment": "The one sorry is Antoine's theorem (a cited result, DEC-23), tagged SORRY(ex:wild_cantor_general_antoine) with a precise obstruction. The obstruction analysis is mathematically correct. The meridian of L is null-homologous in the complement of every finite stage, because each small link's core is null-homotopic in L. So linking numbers and abelian covers cannot detect it (and H̃₁(S³∖C) ≅ Ȟ¹(C) = 0). An essential-loop proof needs a non-abelian invariant for every finite stage, inductively, or van Kampen, and neither is in mathlib at this pin. I judge this a genuine obstruction after a serious attempt: the necklace, nesting, disjointness, Cantor coding, criterion reduction and S³ small-loop lemma are all built. The row is honestly 'stated' and unmarked.",
+  "docstring_contract": "All three labels lie within the first 4000 characters (offsets 276–426), unbolded in the module docstring. The bold labels in declaration docstrings (l.905, 2016, 2227, 2538, 2550) are all ex:consider_denote_absolute_galois, are qualified ('first claim', 'refuted', 'corrected') and are sorry-free. AUDIT-1 minor 3 is fixed: the sorry-dependent Antoine theorems carry no bold label.",
+  "report": "The file has 333 declarations, and labels' decls ∪ extra_decls in REPORT.json is exactly that set: none missing, none spurious. builds true and sorry_count 1 match. The statuses are partial / partial / stated, all marked false, which is correct. The hypothesis tables match the module checklist. The sorry entry repeats the in-code obstruction, and the open questions are posed.",
+  "missing_labels": "l.1560–1583 contains exactly the three labels, all reported. 'Answers positively Problem 10.7 of MR2198590' is bibliographic and disclosed; the report rightly notes it does not follow, since the fibre is not a Cantor set.",
+  "cited_results": "Antoine's theorem is the only cited result left unbuilt (stated, tagged). The Cantor property of the necklace is proved, not cited, and so is every other ingredient.",
+  "name_clashes": "None of the 333 declaration names is declared in GX/ or in any other scaffold file (regex over theorem/lemma/def/abbrev/structure/instance/class/inductive heads)."
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "GaloisExamples.lean:3404-3409 (GX.antoineNecklace_antoine)",
+   "problem": "The one sorry bundles three facts: (1) the essential meridian, the genuine non-abelian obstruction; (2) accessibility of every point of C by a path meeting C only at its start; (3) wildness. Fact (2) is elementary, an infinite concatenation of paths through the nested gaps L_x(m) ∖ ⋃ stage-(m+1) links with diameters → 0, and it is not van Kampen-type. So the residual is larger than the genuine obstruction. The row's main claim (¬SLSC) needs only (1)+(2), yet it depends on the same sorry as wildness.",
+   "fix": "Optional: split antoineNecklace_antoine into antoineNecklace_wild (tagged), antoineNecklace_accessible (provable) and antoineNecklace_meridian_essential (tagged, the precise residual). Then derive the current conjunction, so that antoineNecklace_not_isSLSCIn rests only on the meridian lemma."
+  },
+  {
+   "severity": "minor",
+   "where": "GaloisExamples.lean:2227-2246, 2550-2564 (corrected fibre); module SCOPE (d)",
+   "problem": "The DEC-27 strongest true form of 'the fibre is a Cantor set' is given as infinite ∧ totally disconnected ∧ ¬compact. Whether the fibre is perfect (no isolated points), or has isolated points, is not settled either way. This is disclosed in SCOPE (d) and the report.",
+   "fix": "None required. If pursued, decide perfectness, e.g. by showing each basic set of an end over 0 contains a second end over 0 via the translations ψᵏ."
+  },
+  {
+   "severity": "minor",
+   "where": "GaloisExamples.lean:2420 (absGalSimpleLoop), carried over from AUDIT-1 minor 4",
+   "problem": "The paper's γ_n are simple loops, but the explicit loops are lollipops (not injective). The subgroup Γ₂ is unchanged up to the unformalized Schoenflies homotopy. This is disclosed, and the question is posed.",
+   "fix": "Keep the disclosure, or supply a teardrop injective loop and feed it to absGal_Y₂_fiber_corrected."
+  },
+  {
+   "severity": "minor",
+   "where": "GaloisExamples.lean:3381 (antoineNecklace), 3470",
+   "problem": "The claim is stated for ONE explicit Antoine necklace: square rings, 64 links, ratio 7/80. A statement over every Antoine necklace would be stronger. Under DEC-58 ('is about Antoine's necklace') the explicit instance is a defensible reading and the question is posed in the report. Given that the row stays 'stated' on the Antoine sorry, this does not change the status.",
+   "fix": "Await the master's answer to the report's question; no change is needed for this round."
+  }
+ ],
+ "questions_for_master": [
+  "Accept the single explicit necklace GX.antoineNecklace as DEC-58's 'Antoine's necklace', or require a universal statement over a predicate of nested chains of linked tame solid tori?",
+  "Accept that ex:wild_cantor_general_antoine stays 'stated' on Antoine's theorem (non-abelian π₁ of chain-of-tori complements; no van Kampen at this pin), or open a dedicated package to build it (e.g. inductive non-abelian covers of finite-stage complements)?"
+ ]
+}

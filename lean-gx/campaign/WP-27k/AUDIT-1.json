@@ -1,0 +1,63 @@
+{
+  "package": "WP-27k",
+  "round": 1,
+  "file": "scaffold/GXScaffold/SingularII/SpreadTop.lean",
+  "verdict": "issues",
+  "builds": true,
+  "sorry_count_measured": 0,
+  "summary": "Builds: `taskset -c 0-11 lake env lean` exits 0 with no messages, and the olean is current (22:43, same mtime as the source). No sorry, admit, axiom or native_decide in the file. `#print axioms` (run through stdin, nothing written) gives only propext/Classical.choice/Quot.sound for spread_top_corrected, not_spreadTopPrinted, cex_spread_top_halfCut, isGaloisian_of_comp, isBranchedCovering_strongPullTop, isPortly_strongPullTop_iff_local, quotient_virtually_tame, hypothesis_model_spaces_mechanism and the three remark counterexamples. So every cited library result they use (maxBranched_basic, complete_path_carac, spread_top_deck, exists_extend_path_of_isCompleteSpread, exists_path_of_isPortly_of_isOpen) is genuinely proved. SpreadTopPrinted is exactly the type of Models' GX.spread_top: `@fun … => @GX.spread_top …` typechecks against it. not_spreadTopPrinted therefore really refutes the tagged-sorry statement in Models, and the halfCut instance satisfies every hypothesis, the extra hSc included. No declaration name clashes with GX/ or other scaffold files (all 89 short names grepped). REPORT lists all five dispatched labels, every decl it names exists, and the closed/partial and marked/unmarked statuses match the module docstring. Fidelity is sound wherever a theorem claims the paper. def:topological_spaces_continuous_map is the paper's definition, with p continuous dropped. The remark's coarsest-spread content and its two examples (the cut line; Q-generated T, not locally connected at √2) are correct. The corrected lem:spread_top's (a), (b), first part of the Claim, local path-connectedness and the Galoisian sub-covering are real proofs from the paper's hypotheses plus the reported hRc and the DEC-66(a) standing hypotheses on N. I re-derived by hand both informal counterexamples in the findings and found them correct. (1) ℂ* with T cutting a ray glued to one bank: T connected, R T-portly, p⁻¹(R) splits into strips. (2) The sector topology at the branch point of M̃^{0} → ℂ: hrel holds by radial shrinking; R = ℂ* is T-portly; the component of the branch point meets R̂ in ℤ sectors, so (c) fails, and (e) fails too because a branched covering pulls a portly set back to a portly set. Two major issues block 'clean'. First, the weakening of (c) to '↔ StrongLocallyConnectedOrd' and of (e) to '(c) → (e)' rests on a counterexample that is only described, while DEC-27/CAMPAIGN ask for a proved one. Second, rem:quotient_virtually_tame's finding 'for a non-Galoisian N (Γ(N/M) may even be trivial) it is false' is unsupported and appears wrong for the paper's D (a developing map), so restricting to N = M̃ is not the strongest true form. The rest is minor: bold marks on partial rows in declaration docstrings, stale references, the definition label certified in two files, a stale hypothesis-row classification, and no toy instance for the abstract mechanism.",
+  "issues": [
+    {
+      "severity": "major",
+      "where": "spread_top_corrected (l.967-1000) clauses (c) and (e); StrongLocallyConnectedOrd (l.827); module SCOPE (b) (l.69-75); REPORT lem:spread_top findings 3",
+      "problem": "Even under the corrected hypotheses (hRc included), (c) is weakened to an equivalence with StrongLocallyConnectedOrd, which is (c) restated locally, and (e) is made conditional on (c). The only evidence that the paper's unconditional (c)/(e) is false under these hypotheses is the sector-topology counterexample at the branch point of M̃^{0} → ℂ, described in prose and marked 'not formalized'. I checked it by hand and believe it is correct: hS, hSc and hrel hold (loops at 0 shrink radially in ℂ*); T is first countable, locally path-connected and connected; R = ℂ∖{0} is T-portly and T agrees with the usual topology on it; p⁻¹(R) is connected; the component of the branch point in p⁻¹({0} ∪ sector∩disc) meets R̂ in ℤ disjoint sectors, so p⁻¹(R) is not p^*T-portly; and (e) ⇒ (c) through IsBranchedCovering.isPortly_preimage. DEC-27 and CAMPAIGN 'gx specifics' require 'a counterexample where it is false' to be PROVED. Without it, the claim that the corrected (c)/(e) is the strongest true form is uncertified, and (c) as stated certifies almost nothing beyond a reformulation.",
+      "fix": "Formalize the sector counterexample: M = N = ℂ, S = {0}, q = id, R = {0}ᶜ, T = usual ⊓ generateFrom{{0} ∪ sector}. Prove that every hypothesis of spread_top_corrected holds and that ¬ IsPortly[p^*T] (p⁻¹ R), hence ¬ IsBranchedCovering for p^*T. Alternatively restate it as `¬ ∀ …, IsPortly …` of the corrected hypotheses. The halfCut file already has the needed tooling (nhds basis, LPC, portly proofs). If that is not achievable in this round, tag it explicitly as an open obligation in REPORT under sorries/obstructions instead of only in findings."
+    },
+    {
+      "severity": "major",
+      "where": "REPORT rem:quotient_virtually_tame findings[0] and hypotheses[0]; quotient_virtually_tame docstring (l.1102-1110, 'ADDED, finding: for a non-Galoisian N → M, M ≠ Γ(N/M)\\N'); module checklist l.59",
+      "problem": "The finding 'M ≅ Γ(N/M)\\D(N) needs N → M Galoisian … for a non-Galoisian N (Γ(N/M) may even be trivial) it is false' has no counterexample. For the paper's D, an injective DEVELOPING map, it appears wrong. Pull D back along the universal M̃ → N (prop:universality): D_N∘π is a developing map of M̃ with holonomy ρ. Injectivity of D_N gives ker ρ ⊆ Γ(M̃/N), and rigidity gives Γ(M̃/N) ⊆ ker ρ. So Γ(M̃/N) = ker ρ is normal in Γ(M̃/M). When M̃ → M is Galoisian (the file's own added hypothesis) and M̃ → N is Galoisian (sub-covering, as in isGaloisian_of_comp), Γ(M̃/M)/ker ρ descends to N and acts transitively on its fibres, so N → M is Galoisian and Γ(N/M) is not trivial unless N = M. The real missing hypothesis is therefore 'M̃ → M Galoisian' (automatic when reg M is slsc in M). The narrowing to N = M̃ is then not the strongest true form: the general N with an injective developing map reduces to it. The Lean core quotient_dev allows an arbitrary injective D that is not a developing map, and for that abstraction non-Galoisian N is indeed a problem. But the finding is addressed to the PAPER.",
+      "fix": "Either prove a counterexample (a virtually tame M, a non-Galoisian N → M branched over sing M, and an injective developing map on N), or withdraw the finding and replace it with 'needs M̃ → M Galoisian'. Ideally also prove the general-N form: from an injective developing map on N, derive that N → M is Galoisian and apply quotient_dev. At minimum record in SCOPE that the restriction to N = M̃ is a narrowing, not forced by a defect."
+    },
+    {
+      "severity": "minor",
+      "where": "declaration docstrings l.265 (rem:intuitively_spread_thinner_than), l.949 (lem:spread_top), l.1040 and l.1102 (rem:quotient_virtually_tame), l.1226 (rem:hypothesis_model_spaces_necessary)",
+      "problem": "All four of these rows are partial and unmarked in the module docstring and REPORT, but their declaration docstrings use the full-certification mark **`label`**. kb/0006 makes the mark a claim of full certification. These marks lie past the first 4000 characters, so the ledger will not read them, but they contradict the module docstring for any human reader or future tool.",
+      "fix": "Write these labels as `label` (no **) in the declaration docstrings, or add '(partial)' after them."
+    },
+    {
+      "severity": "minor",
+      "where": "spread_top_corrected docstring l.950 ('cex_spread_top_printed'); connectedSpace_strongPullTop docstring l.797 ('cex_spread_top_connected')",
+      "problem": "Both docstrings name declarations that do not exist. The actual names are cex_spread_top_halfCut / not_spreadTopPrinted, and the T-connected counterexample is not formalized at all.",
+      "fix": "Point to cex_spread_top_halfCut / not_spreadTopPrinted, and say that the connected-T counterexample (ℂ*, ray cut) is informal."
+    },
+    {
+      "severity": "minor",
+      "where": "module docstring l.9; REPORT def:topological_spaces_continuous_map (status closed, marked, decls include GX.strongPullTop)",
+      "problem": "def:topological_spaces_continuous_map is defined, marked and certified in GXScaffold.SingularII.Models (l.41, l.2022, WP-27j), and this file marks it again. Two files certifying one ledger label leaves it ambiguous which file the ledger attributes the row to. The definition is faithful (paper's p continuous dropped).",
+      "fix": "Keep the mark in Models (owner of the definition). Here, write `def:topological_spaces_continuous_map` unmarked as 'API for', or have the master record that the row is certified by Models with this file's API lemmas attached."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT lem:spread_top hypotheses[1]; module Hypothesis checklist l.54",
+      "problem": "'N Hausdorff, LPC, first countable' is classified as '⚠ strengthened'. DEC-66(a), ruled 2026-11-01, makes §3's standing assumption (Hausdorff, locally path-connected, first countable) cover §2.5 and the bases of branched coverings, so these are now carried under a ruling. The REPORT does not cite DEC-66.",
+      "fix": "Reclassify as '✓ carried (DEC-66(a))' in the checklist and REPORT."
+    },
+    {
+      "severity": "minor",
+      "where": "spread_top_corrected (l.975 hRc, applied to the whole conjunction)",
+      "problem": "hRc is a hypothesis of the whole bundled statement, but only (a)-connectedness and (e) use it. (b) (induced_strongPullTop_eq), the (c) equivalence (isPortly_strongPullTop_iff_local), first countability, LPC and (d) (spread_top_deck) hold without it, so the bundled theorem is weaker than kb/0007's weakest sufficient hypotheses. The stronger component lemmas exist and are listed in REPORT, so nothing is lost, but the headline statement understates them.",
+      "fix": "Move hRc under the connectedness and (e) conjuncts (e.g. `IsPreconnected (p ⁻¹' R) → ConnectedSpace …`), or note in the docstring which clauses use hRc."
+    },
+    {
+      "severity": "minor",
+      "where": "hypothesis_model_spaces_mechanism (l.1234); REPORT rem:hypothesis_model_spaces_necessary; SCOPE (c)",
+      "problem": "The remark's concrete counterexample (the messed-up T' on Ẽ_θ^{1,2}) cannot be built yet: it needs the BTZ tamifying topology of §4 (prop:BTZ_virt_tame, l.2252), which no file in the library defines. The massive particle itself exists (GX.massive_particle_intended, GX/Singular/Quotient.lean). SCOPE does not name this forward dependency. The abstract mechanism is not instantiated either, although a cheap instance would show its last clause is non-vacuous (kb/0011 asks for one): Y = ℝ, T = cutTopReal, V = Ioi 0 or a shifted cut, ψ a translation.",
+      "fix": "Name the dependency on prop:BTZ_virt_tame (l.2252) in SCOPE and REPORT so the row can be reopened when §4 lands. Optionally add a toy instance of the non-continuity clause."
+    }
+  ],
+  "questions_for_author": [
+    "rem:quotient_virtually_tame: is 'M̃ → M Galoisian' (equivalently reg M slsc in M, as in the paper's applications) the intended standing hypothesis? The audit's argument suggests that, given it, any N with an injective developing map is automatically Galoisian, so the remark holds for general N.",
+    "lem:spread_top (c)/(e): the Claim's 'We may assume that Ô ∩ R̂ is connected' (l.2029) fails at a log branch point under a sector-shaped tamifying topology. Should the lemma assume local connectedness of R̂ near the fibres, or is T meant to be invariant under the local rotation group around sing (as for the BTZ topology), which would exclude the sector example?"
+  ]
+}

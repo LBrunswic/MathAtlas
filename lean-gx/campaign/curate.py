@@ -22,8 +22,14 @@ PKGS = [
     ("WP-25g", "GX/Singular/Suspension.lean"),
     ("WP-26a", "GX/Singular/Atlas.lean"), ("WP-26b", "GX/Singular/Quotient.lean"),
     ("WP-26c", "GX/Branched/Universality.lean"), ("WP-26g", "GX/Topology/PortlyExamples.lean"),
-    ("WP-26e", "scaffold/GXScaffold/Branched/Paths.lean"), ("WP-26f", "scaffold/GXScaffold/Branched/Galois.lean"),
+    ("WP-26e", "GX/Branched/Paths.lean"), ("WP-26f", "GX/Branched/Galois.lean"),
     ("WP-26h", "scaffold/GXScaffold/Branched/GaloisExamples.lean"),
+    ("WP-27a", "GX/Singular/Atlas.lean"), ("WP-27b", "GX/Singular/Quotient.lean"),
+    ("WP-27c", "GX/Branched/Universality.lean"), ("WP-27d", "GX/Branched/Paths.lean"),
+    ("WP-27e", "GX/Branched/Galois.lean"), ("WP-27f", "scaffold/GXScaffold/Branched/GaloisExamples.lean"),
+    ("WP-27g", "GX/SingularII/Unloopable.lean"), ("WP-27h", "GX/SingularII/Developing.lean"),
+    ("WP-27i", "GX/SingularII/Tame.lean"), ("WP-27j", "scaffold/GXScaffold/SingularII/Models.lean"),
+    ("WP-27k", "scaffold/GXScaffold/SingularII/SpreadTop.lean"),
 ]
 FILE_OVERRIDE = {"ex:following_example_skeletal_itemize": "GX/Topology/PortlyExamples.lean"}
 RENAMES = {  # (file, old) -> new, applied at graduation to resolve name clashes
@@ -73,8 +79,15 @@ def main():
     for lab, x in rows.items():
         o = ["[[row]]", "label = " + q(lab), "decls = " + q(x["decls"])]
         if x["status"] == "closed":
-            o.append('bucket = "A"')
-            note = "%s, audited clean." % x["pkg"]
+            # extra_lean_files: the ledger reads marks only in a module docstring's first 4000
+            # characters, so a long docstring can hide a mark; name the file explicitly.
+            o.append("extra_lean_files = " + q([x["file"]]))
+            if x["file"].startswith("GX/"):
+                o.append('bucket = "A"')
+                note = "%s, audited clean." % x["pkg"]
+            else:
+                o.append('bucket = "B"')
+                note = "%s, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate." % x["pkg"]
         else:
             o += ['bucket = "C"', "extra_lean_files = " + q([x["file"]]), 'lean_proved_override = "partial"']
             why = ("tagged sorry: " + "; ".join(x["sorries"])) if x["sorries"] else \

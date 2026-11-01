@@ -1,0 +1,41 @@
+{
+  "package": "WP-27g",
+  "round": 1,
+  "file": "scaffold/GXScaffold/SingularII/Unloopable.lean",
+  "audited_source_mtime": "2026-11-01T15:53:13Z (REPORT round 2)",
+  "verdict": "clean",
+  "builds": true,
+  "sorry_count_measured": 0,
+  "summary": "This file replaces the earlier AUDIT-1.json (written 11:30, against the pre-round-2 source now kept as Unloopable.pre-round2.bak). It audits the current file. All six minor issues from that audit were checked and are addressed. Build: taskset -c 0-11 lake env lean exits 0 with no warnings (9 s). The olean (15:53:37) is newer than the source (15:53:13). The file contains no sorry, admit or axiom. #print axioms, run through stdin so nothing was written, gives [propext, Classical.choice, Quot.sound] for tame_conical, wtame_btz_isom0, eucl_sphere_isomPlus, analytical_structure_locally_unloopable, singular_manifold_branched_covering, singular_manifold_skeletal_subset_btz, isLocallyUnloopable_iff and not_admits_developing_btz. Cited results are genuinely built, not assumed: prop:universality (maxBranched_isMaximal, maxBranched_isBranchedCovering, maxBranched_trivial_of_simplyConnected), lem:aepullback (aepullback, eq_aePullback, aePullback_spec_of_isAELocalHomeomorph), lem:regf1 (regLocusOf_eq_inter_isLocalHomeomorphOn) and ex:quotient_base / ex:conical (btz_whitehole, conical_isomPlus, previous_examples_*). Ledger coverage: the seven labels of l.1610-1705 (all \\label{} in the range except sec:GXsing2) are in REPORT.json. The decl lists match the file's 54 declarations exactly, in both directions. Marks: ex:WTame, ex:eucl_sphere and def:topological_space_locally_unloopable are marked, at offsets 849, 1580 and 1868, inside the 4000-character window. The four partial rows are unmarked, and each carries SCOPE text and a question. Fidelity: (def) LPC plus, for every U in 𝓝 x, an open V ⊆ U with x ∈ V that is DEC-41-SLSC as a space. This is the paper's definition, and isLocallyUnloopable_iff shows the path-connected-V form is equivalent. A cheap inhabitant is provided (normed spaces). (lem) The proof adds LocPathConnectedSpace M, which the paper's own prop:universality (l.1158, 'Let Y be connected, locally path-connected, Hausdorff') requires, while def:singular_manifold_locally_connected (l.474) gives only local connectedness. This is a genuine, reported strengthening, and partial is the correct status. First countability is correctly marked as weakened from second countability. (prop) This is a strong form: a bare maximal a.e. atlas, with no topology on M or N. It proves uniqueness among maximal atlases (DEC-42) plus SameAEStructure, the equality reg(π) = supp ∩ {local homeo} together with ⊇ supp ∩ ordX π, and that deckGroup π acts by a.e. morphisms of π^*B. The Γ(N/M) reading follows the proof at l.1688 and is disclosed. (cor) It carries connected/LPC/FC, the setting in which M̃^S exists, with ∃! of the maximal structure and deckGroup SpreadEnd.base acting. All its hypotheses are discharged on the BTZ white hole, so they are satisfiable. (ex:Tame) Every assertion is proved: sing = π{r=0}, M̃^{sing} ≃ₜ Susp ℝ × E over M, conicalDev an a.e. morphism and Γ-equivariant, the formula (r cos θ, r sin θ, z) in the paper's angle, and the metric as a coordinate pull-back identity. The row is honestly partial pending the ruling on the metric reading. (ex:WTame) The l.1731 sense is proved with no restriction: no a.e. morphism from the cylinder, with its unique pulled-back structure, into X. This is the sense the paper's own argument addresses, and the row's closure rests on it. sing = axis is exact, maximality is proved, and the paper's sequence and coordinates are reproduced. Every hypothesis is discharged at G = NullIsom0. (ex:eucl_sphere) It is proved for IsomPlus(ℝ⁰) on ℂ × ℝ⁰, which is exactly Isom⁺(𝔼²) (affine, euclidQ-preserving, det > 0). The atlas is maximal, S² is locally connected, T2 and second countable, sing = {N}, M̃ ≃ₜ S² over M with empty branching locus, and no continuous extension and no convergent sequence exist. Vacuity: the negative statements (not_isAEMorphismOf_btzDev, not_admits_developing_btz) have satisfiable antecedents (Mh = the cylinder, q = orbitMk, A = the developed atlas). No definition trivialises its notion. DEC-55 is not engaged in this range. Names: all 54 names were grepped against GX/ and scaffold/ with no clash. The only short-name coincidence is GX.semilocallySimplyConnected_of_isOpen (Universality l.1500), which has a different full name from GX.IsLocallyUnloopable.semilocallySimplyConnected_of_isOpen. There is no blocker and no major issue. Four minor issues follow.",
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "tame_conical docstring (l.1069-1073); wtame_btz docstring (l.891-897)",
+      "problem": "Both docstrings are stale after round 2. tame_conical's says 'without the metric sentence (SCOPE (d))', but the theorem now carries the metric conjunct (conicalPolar_metric) and IsLocallyUnloopable (ℂ × E). wtame_btz's lists only the cylinder sense of 'no developing map', yet the statement also carries the l.1729 'admits' conjunct.",
+      "fix": "Reword tame_conical's docstring to 'with the metric sentence read in coordinates (SCOPE (d))'. Add the 'admits' conjunct to wtame_btz's docstring."
+    },
+    {
+      "severity": "minor",
+      "where": "ex:WTame — not_admits_developing_btz / SCOPE (e) / REPORT question",
+      "problem": "The l.1729 form ('M admits a developing map') is proved only for branched coverings M̂ that are T2, LPC and first countable. That is §3's standing hypothesis (l.810). REPORT calls this a reading with 'no ruling needed' and says it is proved 'in BOTH senses'. Yet the lem and cor rows ask the author whether that same standing hypothesis extends to this section. The row's closure is sound, because it rests on the l.1731 sense, which is proved unrestricted and is the sense the paper argues. The 'both senses' claim, though, silently takes the yes-answer to the question asked elsewhere.",
+      "fix": "In SCOPE (e) and the REPORT question, say that the l.1729 form is proved over §3's class of spaces (l.810), and tie it to the same author question as F1/F3."
+    },
+    {
+      "severity": "minor",
+      "where": "IsLocallyUnloopable (l.199-206), SCOPE (a)",
+      "problem": "The paper's semi-local simple connectedness (l.1156) is stated for connected, LPC, Hausdorff spaces. isLocallyUnloopable_iff reconciles connectedness. Hausdorffness of V is dropped without a word. This is harmless: in every use, X is T2 (analytical) or the hypothesis is only assumed (lem/cor), which makes the theorems stronger. It is just not disclosed.",
+      "fix": "Add one SCOPE sentence: V is not required to be Hausdorff, which is automatic when X is T2 and only weakens the hypothesis of the lemma and the corollary."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT F1 (lem:analytical_structure_locally_unloopable)",
+      "problem": "F1 asserts that a singular (G,X)-manifold 'need not be locally path-connected at its singular points' but gives no witness. So whether the added LPC hypothesis marks a genuine gap in the lemma, or only the §3 framing, is left to the author's question. The partial status is still correct (kb/0011).",
+      "fix": "Either soften the finding to 'local path-connectedness is not among the hypotheses of l.474 and is required by prop:universality (l.1158)', or exhibit a locally connected, non-LPC singular manifold."
+    }
+  ],
+  "questions_for_author": [
+    "Does §3's standing hypothesis (l.810: Hausdorff, locally path-connected, first countable) extend to Section 'Singular (G,X)-manifolds (II)'? If yes, lem:analytical_structure_locally_unloopable and cor:singular_manifold_skeletal_subset close as proved (F1, F3), and ex:WTame's l.1729 form is proved in that class.",
+    "prop:singular_manifold_branched_covering (l.1680): is the printed Γ(M̃^S/M) to be read as Γ(N/M), as the proof at l.1688 has it? The M̃^S form is proved as the corollary's second clause.",
+    "ex:Tame (l.1619): is 'the covering can be endowed with the singular Euclidean metric dr² + r²dθ² + Σdz_i²' read as the coordinate identity D^*⟨·,·⟩ = dr² + r²dθ² + Σdz_i² (GX.conicalPolar_metric)? Under that reading the row closes."
+  ]
+}

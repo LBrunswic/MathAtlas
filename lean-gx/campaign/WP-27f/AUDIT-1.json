@@ -1,0 +1,54 @@
+{
+ "package": "WP-27f",
+ "round": 1,
+ "auditor": "read-only auditor (round 1, re-dispatched)",
+ "file": "scaffold/GXScaffold/Branched/GaloisExamples.lean",
+ "file_sha256": "bde033a6264aba45e4640ecbdfb93641b26f8d692a670e3dd5d84f5ea91efbce",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count": 1,
+ "checks": {
+  "build": "Ran taskset -c 0-11 lake env lean on the file: EXIT 0, 11.6 s wall. There is exactly one warning, 'declaration uses sorry' at l.3404 (GX.antoineNecklace_antoine). The only sorry token in code is at l.3409, tagged SORRY(ex:wild_cantor_general_antoine). There is no native_decide, axiom, unsafe, implemented_by or admit. The olean (17:25:23) is newer than the source (17:25:05), which is consistent with the reported lake build of the module.",
+  "axioms": "Checked #print axioms via --stdin, writing nothing. The following depend only on [propext, Classical.choice, Quot.sound]: absGal_Y₂_fiber_corrected_simple, absGal_Y₂_fiber_not_cantor_simple, absGal_not_isSLSCInCC, antoineNecklace_isCantorSubset, following_situations_{finite,tame_knot,simplicial}_cc, following_situations_simplicial_false, isSpread_homeoQuotient_lift and sphere3_isSLSCInCC_compl_iff. antoineNecklace_wild_not_isSLSCInCC adds sorryAx, as reported.",
+  "fidelity_ex_following": "Items 1–3 are proved in the homotopy form and carried to the literal DEC-55 form (IsSLSCIn.isSLSCInCC). The ambient hypotheses are weaker than the paper's: n ≥ 1, any finite-dimensional E of dimension ≥ 2, and Y's Hausdorff/connected/first-countable assumptions unused. Density, which the paper's l.1451 definition requires, is proved in each item. Item 2 reads 'tame knot' as locally polygonal; this is unruled and a question is posed. Item 3 is corrected (HasFacesOfCardGe, locally finite geometric complex, subspace topology). The counterexample following_situations_simplicial_false is genuine and sorry-free: a connected dimension-3 complex with a dangling edge, whose 1-skeleton has non-dense complement. The row is partial and unmarked, which is correct.",
+  "fidelity_ex_consider": "S = GX.fibS = {0} ∪ {1/(n+1)} is the paper's S, with n ∈ ℕ* ∪ {∞}. Γ is π₁(ℂ∖S) acting on the universal cover. gamma2 is Subgroup.normalClosure of the g n ^ 2, which is DEC-58's Γ₂. The printed Γ₂ is proved equal to Γ (printedGamma2_eq_top). Y₂ = SpreadEnd (the library Fox completion) of Γ₂\\Ũ → ℂ, and y₂Fiber0 is the base-preimage of {0}. The first claim is proved in the literal reading. Fibre claim: refuted sorry-free (not compact, so not ≃ₜ cantorSet), and the DEC-27 corrected form Infinite ∧ IsTotallyDisconnected ∧ ¬IsCompact is proved. The hypotheses of the general form are only windings and lying in absGalR, and the explicit loops satisfy them (absGal_Y₂_fiber_corrected_simple), so they are not vacuous. The loops are lollipops rather than injective loops. That is disclosed, and Γ₂ is a normal closure, so the subgroup is the paper's in substance. Partial and unmarked, which is correct.",
+  "fidelity_ex_wild_cantor": "Under DEC-58 the claim is about Antoine's necklace, and the necklace is built explicitly: GX.antoineNecklace, the stereographic image of ⋂ₙ antoineStage n. Its Cantor property is proved sorry-free. I re-checked the geometry independently in units of 1/640. A stage-1 link has half-width 56, hole 42 and thickness 7, and lies radially in [504, 616] ⊂ [480, 640] with |z| ≤ 56 < 80, so it is interior to L. A type-0 ring at (a, −560) and the type-1 ring at (a+70, −560) are linked. The type-1 ring meets z = 0 at x − a ∈ [14, 28] (inside the type-0 hole, |x − a| < 42) and at [112, 126] (outside it). The type-0 ring meets the type-1 plane at x − a ∈ [42, 56] with |z| ≤ 7, inside the type-1 hole. The chain of 64 follows L's core square and closes (antoine_adj_succ, by decide). The sub-chain of each link is the similar image of the stage-1 chain, so it also goes around that link's core. So this is a genuine Antoine necklace. The sorry'd statement antoineNecklace_antoine is TRUE: wildness is classical, and the second half is a meridian of a link L ⊆ V with x ∉ L, conjugated by an access path meeting C only at x, essential in S³∖(C∩L). The derivation antoineNecklace_not_isSLSCIn ← sphere3_not_isSLSCIn_of_essential ← not_isSLSCAt_of_essential is sound (read in full). The literal/homotopy equivalence for closed C ⊆ S³ is proved. IsWildCantor (no homeomorphism of S³ carries C into a great circle) is the standard non-tameness. Status 'stated' and unmarked is correct.",
+  "sorry_assessment": "The single sorry is genuine. Every proper closed K ⊆ C has Ȟ¹(K) = 0, and each stage-(n+1) link core bounds a disc inside its stage-n link, so the meridian has linking number 0 with every sub-link already at stage 1. Any proof therefore needs a non-abelian invariant of π₁(S³ ∖ C_m ∩ L) for every finite stage m (by compactness of a null-homotopy), or van Kampen for chain-of-tori complements. Mathlib at this pin has neither. The dispatch's suggested linking-number route provably cannot work, and the comment says why. The comment states the residual obstruction precisely.",
+  "docstring_contract": "All three labels lie within the first 4000 characters, unbolded. The five bold labels in declaration docstrings (l.905, 2016, 2227, 2538, 2550) are all ex:consider_denote_absolute_galois. Each is qualified ('first claim', 'refuted', 'corrected') and each sits on a sorry-free theorem. No sorry-dependent declaration carries a bold label. The hypothesis checklist, SCOPE (a)–(e) and the provenance line are present.",
+  "report": "I extracted 333 declarations from the file, and REPORT.json lists exactly these 333 (labels' decls ∪ extra_decls): none missing, none spurious. builds true and sorry_count 1 match. Statuses are partial / partial / stated, all marked false, and match the docstring. The hypothesis tables match the checklist. The single sorry entry repeats the in-code obstruction. Findings and questions cover every reading that is not ruled.",
+  "missing_labels": "l.1560–1583 contains exactly the three labels, and all are reported. Every sub-assertion is addressed: three items; first claim, Γ₂ and fibre; and Antoine. The exception is 'answers positively Problem 10.7 of MR2198590', which is bibliographic, is disclosed, and is rightly noted not to follow, since the fibre is not a Cantor set.",
+  "cited_results": "Antoine's theorem is the only cited result left unbuilt, as a tagged sorry, so the row is 'stated'. The Cantor property, nesting, disjointness (by decide on integer data), the coding homeomorphism, the S³ small-loop lemma, cor:totdiscont for the quotient spread, and the dihedral invariant are all proved.",
+  "name_clashes": "None of the 333 names is declared in GX/ or in any of the 20 other scaffold files. I compared declaration heads with a regex. The dotted names (IsCantorSubset.isClosed, IsConicalAt.union, IsPureDim.hasFacesOfCardGe) have no namespace counterpart elsewhere."
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "GaloisExamples.lean:3404-3409 (GX.antoineNecklace_antoine)",
+   "problem": "One sorry bundles three facts: (1) the essential meridian, which is the genuine non-abelian obstruction; (2) accessibility, a path from x to the meridian meeting C only at x, which is elementary (an infinite concatenation through the nested gaps, with diameters going to 0); and (3) wildness. The row's main assertion, ¬SLSC (antoineNecklace_not_isSLSCIn), needs only (1) and (2), yet it rests on the same sorry as wildness. That makes the formal residual larger than the true obstruction. The row stays 'stated' either way, and the comment names all three parts precisely.",
+   "fix": "Optional: split the sorry into antoineNecklace_meridian_essential (tagged, the true residual), antoineNecklace_accessible (provable) and antoineNecklace_wild (tagged). Derive the current conjunction from them."
+  },
+  {
+   "severity": "minor",
+   "where": "GaloisExamples.lean:2227-2246, 2550-2564; SCOPE (d)",
+   "problem": "The DEC-27 corrected form of the fibre claim (Infinite ∧ IsTotallyDisconnected ∧ ¬IsCompact) leaves perfectness open. It is plausibly true: each component over D_k should contain infinitely many ends, by the same translation argument run at the pair 1/k, 1/(k+1). If so, it is a further true conjunct of 'Cantor set'. Not deciding it is disclosed in SCOPE (d) and in the report.",
+   "fix": "None required. If pursued, show that every basic set of an end over 0 contains a second end over 0, by adapting the dihedral invariant to adjacent pairs of points of S near 0."
+  },
+  {
+   "severity": "minor",
+   "where": "GaloisExamples.lean:2420 (absGalSimpleLoop)",
+   "problem": "The paper's γ_n are simple loops; the explicit loops are lollipops (stem, circle, stem back), which are not injective. Because Γ₂ is a normal closure of squares, the subgroup is unchanged up to an unformalized homotopy. This is disclosed in the checklist and SCOPE, and the question is posed.",
+   "fix": "Keep the disclosure, or feed a teardrop (injective) loop to absGal_Y₂_fiber_corrected. Its hypotheses are only windings and lying in absGalR."
+  },
+  {
+   "severity": "minor",
+   "where": "GaloisExamples.lean:3381 (antoineNecklace), 3470",
+   "problem": "The claim is stated for one explicit Antoine necklace: square rings, 64 links, ratio 7/80. A statement over every Antoine necklace would be stronger. This is a defensible reading of DEC-58, and the question is posed in the report.",
+   "fix": "Await the master's answer; no change is needed this round."
+  }
+ ],
+ "questions_for_master": [
+  "Accept the single explicit necklace GX.antoineNecklace as DEC-58's 'Antoine's necklace', or require a universal statement over a predicate of nested chains of linked tame solid tori?",
+  "Accept ex:wild_cantor_general_antoine staying 'stated' on Antoine's theorem (it needs non-abelian invariants of every finite-stage chain-of-tori complement, and there is no van Kampen at this pin), or open a dedicated package for it?"
+ ],
+ "notes": "This audit overwrites an earlier AUDIT-1.json, which was written against an older version of the file (sha cc2b7cc…). The file audited here is byte-identical to the one AUDIT-2.json audited (sha bde033a…). My conclusions are independent and agree with AUDIT-2: no blocker or major issue; four minor issues, all disclosed or optional."
+}
