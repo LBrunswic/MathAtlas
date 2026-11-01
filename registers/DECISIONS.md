@@ -72,6 +72,7 @@ is a new row that names it.
 | DEC-61 | 2026-11-01 | CBG authoring starts now, in parallel with the remaining Barbot closers; the geometry interface is reviewed by gx before the packages that build on it | AUTHOR | answer "Start now" |
 | DEC-62 | 2026-11-01 | gx Section 4 / the CBG interface (DEC-29): X_A-morphisms between model spaces are taken in the **local** form — locally isomorphisms onto open subsets of the models — matching gx's a.e. morphisms (DEC-25) and `def:atlas` (l.1905) | AUTHOR | answer "Local form"; question from the Barbot CBG design (`lean-causal/docs/CBG-DESIGN.md`) |
 | DEC-63 | 2026-11-01 | thesis `these.tex:3176`: the condition quantified over sing(M) holds **at every** singular point | AUTHOR | answer "For every singular point"; question from the CBG design |
+| DEC-64 | 2026-11-01 | ETT's strict `Causal/SingularFlat.lean`: the named model fact `BTZAxioms.Iplus_eq` (I⁺(p) = J⁺(p) ∖ S₀, ETT.tex l.1351 "asserted without proof — verify") is FALSE in E₀ (the radial null ray from a BTZ point: f = τ − r/2 is non-decreasing along causal, strictly increasing along timelike curves) and is replaced now by the true `Iplus_of_lt` (p < p' on the singular line ⇒ J⁺(p') ∖ S₀ ⊆ I⁺(p)); its downstream users (K_monotone, …) are re-proved or re-scoped, and the finding is recorded in the ETT ledger | AUTHOR | answer "Fix it now"; found by the gx session's review of CBG/Geometry (C1) |
 
 ## Open questions
 
