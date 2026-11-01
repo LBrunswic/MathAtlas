@@ -39,3 +39,6 @@ fails on a malformed row. Status: `PROPOSED · APPROVED · IN-PROGRESS · BLOCKE
 | WP-32 | 2 | barbot: wave 3 — the universal cover, the developing map and holonomy, Cauchy-completeness and (CC′), the §8 spine to `bprop:danom` | PROPOSED | 2026-10-31 | DEC-35, DEC-37 |
 | WP-33 | 2 | barbot: wave 4 — named external hypotheses, Bieberbach-light, the cosmological time of regular domains | PROPOSED | 2026-10-31 | DEC-36 |
 | WP-34 | 2 | barbot: wave 5 — the nonloxodromic and loxodromic cases (§9–§10), Theorems A and B, absolute maximality (§11) | PROPOSED | 2026-10-31 | OQ-21, OQ-22, OQ-23 |
+| WP-35 | 2 | barbot: closers round 5 — Abel (Cor 8.4 counterexample), bare lemma K, Laoucapulse, Theorem B inputs (`FlatLemmaKData ↔ BarbotGH`, Selberg at d = 0) | DONE | 2026-11-01 | campaign/WP-35a..d |
+| WP-36 | 2 | CBG: universal maximal Cauchy development over a rigid singular (G,X) geometry (Sbierski's order), flat instance `flat_cbg` | IN PROGRESS | 2026-11-01 | DEC-59..61, DEC-64; docs/CBG-DESIGN.md; Geometry approved by gx (a61027c) |
+| WP-37 | 2 | barbot: Geroch for flat spacetimes — admissible measures on every flat spacetime, hence `FlatGerochGH` and Theorem B without the named input | IN PROGRESS | 2026-11-01 | DEC-65 |
