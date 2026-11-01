@@ -7,7 +7,7 @@ import Mathlib.Geometry.Manifold.LocalInvariantProperties
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Arctan
 
 /-!
-# The geometry interface of the CBG campaign: Level A, Level B, developments, `cbg`
+# The geometry interface of the CBG campaign: Level A, Level B, developments
 
 Package WP-36a-CBGGeometry, design `docs/CBG-DESIGN.md` §1–§2 (the interface, **gated**: reviewed by
 the gx session before any package builds on it). No paper label is marked. Cited, unmarked:
@@ -67,15 +67,33 @@ Framework (DEC-60): Brunswic's thesis, **rigid morphisms of singular `(G,X)`-man
 | second countable (`these.tex:1357`, `rem:CBG_manquant` (i)) | ✓ carried (gx review C2): `Dev` carriers `SecondCountableTopology`; the A2/B3 fields assume it; ⚠ added obligation `secondCountable_of_cauchy` (GH + SC Cauchy surface ⇒ SC), for `M̄` (package 10) |
 | `defi:causal_E0`: $I^+(p)=J^+(p)\setminus\sing_0$ (`ETT.tex:1352–1355`) | ✗ **false in `E₀`** (gx review C1, radial null ray, see « The corrected singular flat bundle »): A2/B3 ask `SingularFlatAxiomsCorr` (`Iplus_of_lt`); bridge `SingularFlatAxioms.toCorr`; `K_monotone`, `K_densite_sing`, `K_ordre` re-proved from it — finding |
 | `CurvesExtend` | ⚠ restricted (gx review C3): on globally hyperbolic `M` only, the only use (§3.1 on developments) |
-| `M₀` globally hyperbolic (`theo:CBG`, `ETT.tex:1885`; `theo:Cauchy_ext`, `these.tex:6288`) | ⚠ strengthened: `cbg` also assumes a Cauchy surface `S` (the library's `GloballyHyperbolic`, `Causal/Properties.lean:144`, is causal + compact diamonds and gives none; without one no `Dev` exists); recoverable at the singular flat instance via `theo:geroch_sing` (`ETT.tex:1771`, DEC-18), never for an abstract `Geometry` |
+| `M₀` globally hyperbolic (`theo:CBG`, `ETT.tex:1885`; `theo:Cauchy_ext`, `these.tex:6288`) | ⚠ strengthened: `cbg` (stated and proved in `CBG/Maximal`) also assumes a Cauchy surface `S` (the library's `GloballyHyperbolic`, `Causal/Properties.lean:144`, is causal + compact diamonds and gives none; without one no `Dev` exists); recoverable at the singular flat instance via `theo:geroch_sing` (`ETT.tex:1771`, DEC-18), never for an abstract `Geometry` |
 | Sbierski Lemma 3.8 (extension at corresponding points, Def 3.5) | A3 `germExt_future`/`germExt_past`: `MapClusterPt q (𝓝[U] p) ψ` is Def 3.5 |
-| "maximal" | DEC-59: `Dev.IsUniversal` (Sbierski); `Dev.IsETTMaximal` the ETT form, equivalent given `cbg` |
+| "maximal" | DEC-59: `Dev.IsUniversal` (Sbierski); `Dev.IsETTMaximal` the ETT form, equivalent given `cbg` (`CBG/Maximal`) |
+| Sbierski Lemma 3.3 (`ψ` injective; « time function » on each GHD) | ✓ round 2 (1): `Geometry.timeFunction` (A2), `LocalModel.timeFunction` (B3): every GH admissible spacetime has a continuous function strictly increasing along `≤` (the body of `Causality.HasTimeFunction`, `CBG/Pgcd`); discharges the `hT` of `Pgcd`, `NoCorresponding`, `Ppcm` and `Geometry.HasTimeFunctions` of `Maximal` |
+| past side at a BTZ point (gx, `A3-B-INVESTIGATION.md`; the thesis never treats it) | ⚠ added, gx's form: `LocalModel.localUnique_sing_adherent` (round 2 (2)); ⚠ as transcribed its largeness clause is vacuous at `α₀ = 0` in `E₀` (SCOPE) |
 
 ## SCOPE (disclosed)
 
-* `cbg` is a target: `sorry -- SORRY(theo:CBG)`, proved in `CBG/Maximal`. Its corollaries
-  `cbg_isETTMaximal`, `isETTMaximal_iff_isUniversal` rest on it; `Dev.IsUniversal.unique`,
-  `Dev.IsUniversal.isETTMaximal`, `Dev.IsETTMaximal.isUniversal` are proved outright.
+* **`cbg` and its corollaries are not in this file.** The principal theorem `cbg` (universal
+  form), `cbg_isETTMaximal` and `isETTMaximal_iff_isUniversal` are **stated and proved in
+  `CBG/Maximal`** (which imports this file, so they cannot be proved here); their sorried
+  placeholders were deleted on 2026-11-01 (interface round 2). This file keeps the definitions
+  (`Dev`, `Dev.IsMorphism`, `Dev.IsUniversal`, `Dev.IsETTMaximal`, `Dev.self`) and the facts that
+  need no `cbg`: `Dev.IsUniversal.unique`, `Dev.IsUniversal.isETTMaximal`,
+  `Dev.IsETTMaximal.isUniversal`, proved outright. The file is sorry-free.
+* **Interface round 2 (design §6, gx 2026-11-01), applied.** (1) `Geometry.timeFunction` and its
+  Level-B counterpart `LocalModel.timeFunction`: GH admissible (T2, connected, SC) ⇒ a continuous
+  `T` strictly increasing along `≤`. Stated with the body of `Causality.HasTimeFunction` written
+  out, because that definition lives in `CBG/Pgcd`, downstream; the two are definitionally equal,
+  so `𝔊.timeFunction s hGH` is a `(𝔊.causality s).HasTimeFunction` and
+  `fun s hGH => 𝔊.timeFunction s hGH` a `𝔊.HasTimeFunctions` (`CBG/Maximal`) as they stand.
+  (2) `LocalModel.localUnique_sing_adherent`, the past-side B2 step in gx's form. **Finding
+  (from `CBG/FromModel`'s `BTZAxiomsCorr.exists_le_inter_Iminus_subset`)**: at a BTZ point
+  (`α₀ = 0`) of a model where BTZ points have empty chronological past (`E₀`), its largeness clause
+  holds for every `U` (`r := y₀`), so there the field is the point-contact form, which the cone
+  counterexample refutes in `E₀`; the wrap-around reading needs `r` regular (candidate repair: the
+  conjunct `r ∈ regY`). Transcribed as agreed, not amended: the clause is gx's.
   Level B → Level A (`Geometry.ofLocalModel`) is package 11. A3 (`germExt_*`) and A4 (`slice_*`)
   are stated in the CGHD setting of Sbierski Lemma 3.8 / Thm 3.6, in both time directions (no
   duality, gx D-12(e)). The thesis extends only under `J(Σ,p) ∖ {p} ⊂ N`
@@ -115,7 +133,7 @@ Framework (DEC-60): Brunswic's thesis, **rigid morphisms of singular `(G,X)`-man
 * **Size bound (§3.6) consistency**: every `Dev` carrier is SC and T2, hence T0 and of cardinality
   `≤ 𝔠`, so it embeds in `Set ℕ` as the design's `SmallDev` needs; the glued `M̄` re-enters `Dev`
   by `secondCountable_of_cauchy` (its Cauchy surface is the image of `M₀`'s, SC as a subspace of
-  the SC `M₀`). `cbg` and `Dev.self` now ask `[SecondCountableTopology M₀]`, necessary: `M₀`
+  the SC `M₀`). `cbg` (`CBG/Maximal`) and `Dev.self` ask `[SecondCountableTopology M₀]`, necessary: `M₀`
   embeds openly in any development.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
@@ -475,6 +493,21 @@ structure Geometry extends PreGeometry.{u} where
   curvesExtend : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
     [SecondCountableTopology M] (s : Str M), (causality s).GloballyHyperbolic →
     (causality s).CurvesExtend
+  /-- **A2, a time function on every globally hyperbolic admissible spacetime** (design §6,
+  interface round 2 (1), ACCEPTED by gx 2026-11-01): a continuous `T : M → ℝ` strictly increasing
+  along `≤`. The conclusion is, verbatim, the body of `Causality.HasTimeFunction` (`CBG/Pgcd`,
+  defined there, downstream of this file; the two are definitionally equal, so
+  `𝔊.timeFunction s hGH : (𝔊.causality s).HasTimeFunction` and
+  `fun s hGH => 𝔊.timeFunction s hGH : 𝔊.HasTimeFunctions` (`CBG/Maximal`) typecheck as they are).
+  It is weaker than `Causality.IsTimeFunction` (`Causal/Morphism.lean`) and is the hypothesis form
+  of `curvesExtend_of_timeFunction` (`CausalScaffold/CurvesExtend.lean:409`). §3.2 (Sbierski
+  Lemma 3.3, `IsCGHD.injOn`: MCGHD morphisms injective), hence §3.3, §3.5, §3.7. Discharge: flat,
+  the Geroch time of admissible measures (`Flat/GerochFlat`); `E₀`, `SingularGeroch` (its
+  `K_monotone` input: `SingularFlatAxiomsCorr.K_monotone`). Gives `LocalModel.timeFunction` at
+  Level B. -/
+  timeFunction : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
+    [SecondCountableTopology M] (s : Str M), (causality s).GloballyHyperbolic →
+    ∃ T : M → ℝ, Continuous T ∧ ∀ x y, (causality s).le ⊤ x y → x ≠ y → T x < T y
   /-- **A2**: `J⁺(Σ) ∩ J⁻(p)` compact (R1). §3.4 (Lemmas 3.9, 3.11). -/
   isCompact_Jplus_inter_Jminus : ∀ {M : Type u} [TopologicalSpace M] [T2Space M]
     [ConnectedSpace M] [SecondCountableTopology M] (s : Str M),
@@ -648,6 +681,37 @@ structure LocalModel where
     MapsTo f (U ∩ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α}) (connectedComponent y₀) →
     ∃ e ∈ G, connectedComponent y₀ ⊆ e.source ∧
       EqOn f e (U ∩ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α})
+  /-- **B2 at a singular point, past side: a regular piece adherent to `y₀`** (design §6,
+  interface round 2 (2), gx 2026-11-01, transcribed as agreed). `U` is a connected open set of
+  **regular** points (not a neighbourhood of `y₀`); the **wrap-around largeness clause**: for some
+  open `O ∋ y₀` and some `r ∈ O` with `y₀ ≤_O r`, `U ⊇ reg ∩ I⁻_O(r)`. `f` is an injective local
+  `G`-structomorphism on `U` into the component of `y₀` (the same model, as in `localUnique_sing`),
+  converging along `U` at `y₀` to a point `z₀` of the same singular locus `sing_{α₀}`
+  (`MapClusterPt z₀ (𝓝[U] y₀) f`, Sbierski Def 3.5). Conclusion: `f` is the restriction of one
+  element of `G` defined on the whole component of `y₀`. Needed by A3 in the past of `Σ` at a BTZ
+  boundary point, where the connected piece `U ∩ I⁻_W(r)` is regular and adherent to `p` but need
+  not be `reg` of a neighbourhood of `p` (gx `A3-B-INVESTIGATION.md`: (B) can fail on the past
+  side). gx's argument in `E₀`: a loop around `Δ` in `reg ∩ I⁻_O(r)` has holonomy `P`, `f` maps it
+  to a loop winding the same way, so the lift normalises `⟨P⟩`, whose normaliser is `Isom(E₀)`.
+  Rejected (design §6): point contact (the cone counterexample, `CBG/FromModel` REPORT) and "the
+  closure of `U` contains a segment of the line" (a boost along `Δ` conjugates `P` to a
+  non-integral power).
+
+  **Disclosed (finding, `CBG/FromModel`, `BTZAxiomsCorr.exists_le_inter_Iminus_subset`):** at
+  `α₀ = 0`, in a model whose BTZ points have empty chronological past (`BTZAxiomsCorr`,
+  `Iminus_eq_empty`, as in `E₀`), the clause as transcribed holds for **every** `U` (take `r := y₀`,
+  or any `r` on the line: `I⁻_O(r) = ∅`), so there this field is the point-contact form, which the
+  cone counterexample refutes in `E₀`. The wrap-around reading needs `r` **regular** (then
+  `I⁻_O(r)` contains the points of the line below `y₀` by `Iplus_of_lt`, and its regular part winds
+  around `Δ`); the candidate repair is the extra conjunct `r ∈ regY`. Not applied: the clause is
+  gx's to amend. Vacuous for the flat instance (`singY = ∅`). -/
+  localUnique_sing_adherent : ∀ U : Set Y, IsOpen U → IsConnected U →
+    U ⊆ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α} → ∀ y₀ : Y, ∀ α₀ : ℝ, 0 ≤ α₀ → y₀ ∈ singY α₀ →
+    (∃ O : Opens Y, y₀ ∈ O ∧ ∃ r ∈ O, causalityY.le O y₀ r ∧
+      {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α} ∩ causalityY.Iminus O {r} ⊆ U) →
+    ∀ z₀ ∈ singY α₀, ∀ f : Y → Y, (∀ y ∈ U, G.IsLocalStructomorphWithinAt f U y) → InjOn f U →
+    MapsTo f U (connectedComponent y₀) → MapClusterPt z₀ (𝓝[U] y₀) f →
+    ∃ e ∈ G, connectedComponent y₀ ⊆ e.source ∧ EqOn f e U
   /-- **B2 on a regular component** (Liouville for `(G,X)` analytic, `prop:GX_liouville`,
   `these.tex:1476`; **not** the thesis's `def:analytique`, which only covers neighbourhoods of
   singular points — this branch is this file's own, and its hypotheses are chosen so that it holds
@@ -698,6 +762,17 @@ structure LocalModel where
     [SecondCountableTopology M] [ChartedSpace Y M] [HasGroupoid M G],
     (chartedCausality causalityY M).GloballyHyperbolic →
     (chartedCausality causalityY M).CurvesExtend
+  /-- **B3, time functions** (design §6, interface round 2 (1), the counterpart of
+  `Geometry.timeFunction`, which `Geometry.ofLocalModel` fills from it): every globally hyperbolic
+  admissible `M` carries a continuous `T : M → ℝ` strictly increasing along `≤` (the body of
+  `Causality.HasTimeFunction`, `CBG/Pgcd`, verbatim). Flat instance: the Geroch time of admissible
+  measures (`Flat/GerochFlat`; `Flat/CBG` already proves the statement for `flatCausality`); `E₀`:
+  `SingularGeroch` (gx). Gives A2 (`timeFunction`). -/
+  timeFunction : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
+    [SecondCountableTopology M] [ChartedSpace Y M] [HasGroupoid M G],
+    (chartedCausality causalityY M).GloballyHyperbolic →
+    ∃ T : M → ℝ, Continuous T ∧
+      ∀ x y, (chartedCausality causalityY M).le ⊤ x y → x ≠ y → T x < T y
   /-- **B3**: `J⁺(Σ) ∩ J⁻(p)` compact (gx §4 (vii), R1). Gives A2. -/
   isCompact_Jplus_inter_Jminus : ∀ {M : Type u} [TopologicalSpace M] [T2Space M]
     [ConnectedSpace M] [SecondCountableTopology M] [ChartedSpace Y M] [HasGroupoid M G],
@@ -897,19 +972,6 @@ theorem Dev.IsUniversal.isETTMaximal [Nonempty M₀] {s₀ : 𝔊.Str M₀}
       (𝔊.isMor_id _ _) O le_top hO heq (show z ∈ (⊤ : Opens N.carrier) from trivial)
   exact ⟨LeftInverse.injective (congrFun hgf), RightInverse.surjective (congrFun hfg)⟩
 
-/-- **The principal theorem** (`theo:CBG`, `ETT.tex:1884`), in the universal reading (DEC-59), in
-the framework of rigid morphisms of singular `(G,X)`-manifolds (DEC-60): a globally hyperbolic
-admissible spacetime with a Cauchy surface has a universal Cauchy development. The target of the
-campaign. The Cauchy surface `S` is a ⚠ strengthening of the paper's « globally hyperbolic »
-(recoverable at the singular flat instance by `theo:geroch_sing`, DEC-18). `M₀` second
-countable (gx review C2; necessary, `M₀` embedding openly in every `Dev`). -/
-theorem cbg [T2Space M₀] [ConnectedSpace M₀] [SecondCountableTopology M₀]
-    (s₀ : 𝔊.Str M₀)
-    (hGH : (𝔊.causality s₀).GloballyHyperbolic) {S : Set M₀}
-    (hS : (𝔊.causality s₀).IsCauchySurface S) :
-    ∃ Mbar : Dev 𝔊.toPreGeometry s₀, Mbar.IsUniversal := by
-  sorry -- SORRY(theo:CBG): proved in CBG/Maximal (design §3, steps 1–7)
-
 /-- **ETT-maximal ⇒ universal, given a universal development** (DEC-59: the ETT form is a
 corollary): an ETT-maximal development receives a morphism from the universal one's universal
 property, bijective by ETT-maximality, whose inverse is a morphism (`isMor_inv`). -/
@@ -936,25 +998,6 @@ theorem Dev.IsETTMaximal.isUniversal [Nonempty M₀] {s₀ : 𝔊.Str M₀}
     have : f ∘ h' = g := hguniq _ ⟨𝔊.isMor_comp hf.1 hh'.1 (fun _ _ => trivial),
       by rw [comp_assoc, hh'.2, hf.2]⟩
     rw [← this, ← comp_assoc, hkf, id_comp]
-
-/-- **The principal theorem in the ETT/Barbot form** (`theo:CBG`; every morphism out is
-bijective), a corollary of `cbg` (DEC-59, kb/0022). -/
-theorem cbg_isETTMaximal [T2Space M₀] [ConnectedSpace M₀] [SecondCountableTopology M₀]
-    (s₀ : 𝔊.Str M₀)
-    (hGH : (𝔊.causality s₀).GloballyHyperbolic) {S : Set M₀}
-    (hS : (𝔊.causality s₀).IsCauchySurface S) :
-    ∃ Mbar : Dev 𝔊.toPreGeometry s₀, Mbar.IsETTMaximal :=
-  (cbg s₀ hGH hS).imp fun _ h => h.isETTMaximal
-
-/-- **The two readings of "maximal" agree** once `cbg` holds (DEC-59): a development is
-ETT-maximal iff it is universal. -/
-theorem isETTMaximal_iff_isUniversal [T2Space M₀] [ConnectedSpace M₀]
-    [SecondCountableTopology M₀] (s₀ : 𝔊.Str M₀) (hGH : (𝔊.causality s₀).GloballyHyperbolic)
-    {S : Set M₀}
-    (hS : (𝔊.causality s₀).IsCauchySurface S) (M : Dev 𝔊.toPreGeometry s₀) :
-    M.IsETTMaximal ↔ M.IsUniversal := by
-  obtain ⟨Mbar, hU⟩ := cbg s₀ hGH hS
-  exact ⟨fun h => h.isUniversal hU, fun h => h.isETTMaximal⟩
 
 end DevGeometry
 

@@ -55,12 +55,19 @@ Lemma 3.8, Thm 3.6.
   `FamilyGlueData.hasGroupoid_chartedSpace_of_eqOn`/`liftPropOn_ι_of_eqOn` (transitions given by
   any morphism agreeing with `φ i j` on `U i j`).
 * `Geometry.ofLocalModelOfGermSlice 𝔐 hA3f hA3p hA4f hA4p : Geometry`: **every field of Level A
-  except A3/A4 derived from Level B**, A3/A4 taken as the hypotheses `𝔐.GermExtFuture`,
+  except A3/A4 derived from Level B** — interface round 2's `timeFunction` included, from
+  `LocalModel.timeFunction` — A3/A4 taken as the hypotheses `𝔐.GermExtFuture`,
   `GermExtPast`, `SliceFuture`, `SlicePast` (the Level A field types read on `𝔐`).
 * The B2 step of A3 with the connectedness made a hypothesis:
   `LocalModel.exists_eqOn_of_connected_reg` (B2 `localUnique_reg`, any maximal-atlas charts),
   `LocalModel.exists_eqOn_of_connected_sing` (B2 `localUnique_sing`),
+  `LocalModel.exists_eqOn_of_connected_sing_adherent` (round 2's past-side B2
+  `localUnique_sing_adherent`, its largeness clause a hypothesis, passed verbatim),
+  `LocalModel.mapClusterPt_chart` (Def 3.5 read in charts),
   `LocalModel.exists_extension_of_eqOn` (one element of `G` ⇒ a morphism extending `ψ`).
+* **The shape of A3's past-side piece**: `Causality.CausallyConvexIn.Iplus_inter_Iminus_subset`
+  (`U ∩ I⁻_W(r) ⊇ I⁺_W(p) ∩ I⁻_W(r)` for `U` causally convex, `p ∈ closure U`, `r ∈ U`; model-free)
+  and its chart reading `chartedCausality_image_Iplus_inter_Iminus`.
 
 ## Hypothesis checklist
 
@@ -73,7 +80,7 @@ Lemma 3.8, Thm 3.6.
 | design §2: sheaf laws, identity, composition, congruence, `inv`, `restrict`, `corestrict`, `transport` | ✓ carried (derived from Level B, `ClosedUnderRestriction G`) |
 | design §2: `glue` | ✓ carried; the construction glues the non-empty pieces (an empty piece embeds vacuously) |
 | design §2: `sing`, `isMor_sing`, A2 fields | ✓ carried (`LocalModel.sing`, B3 `sing_mem`; the B3 fields read through `s.1`, `s.2`) |
-| design §2: A3 (`germExt_*`) from B2 + `regularChart` | ⚠ strengthened: not derived. `ofLocalModelOfGermSlice` takes `GermExtFuture`/`GermExtPast` as hypotheses; in `ofLocalModel` they are `sorry`. The B2 step is proved with the connected piece as a hypothesis |
+| design §2: A3 (`germExt_*`) from B2 + `regularChart` | ⚠ strengthened: not derived. `ofLocalModelOfGermSlice` takes `GermExtFuture`/`GermExtPast` as hypotheses; in `ofLocalModel` they are `sorry`. The B2 step is proved with the connected piece as a hypothesis (both sides; the past-side BTZ case with round 2's clause as a hypothesis). The field states A3 for carriers **not** assumed second countable, while every B3 fact is (SCOPE) |
 | design §2: A4 (`slice_*`) from B4 | ⚠ strengthened: not derived. Taken as `SliceFuture`/`SlicePast` in `ofLocalModelOfGermSlice`, `sorry` in `ofLocalModel` (Sbierski Thm 3.6's geometric half, package 6) |
 
 ## SCOPE (disclosed)
@@ -92,8 +99,9 @@ Lemma 3.8, Thm 3.6.
   `exists_extension_of_eqOn`. At a **BTZ** `p` (`I⁻(p) = ∅`), the future side needs a singular
   point of `p`'s line below `p` in `U` (thesis `lem:passe_pgcd`, `these.tex:6541`); on the past side
   the connected piece `U ∩ I⁻_W(r)` can be a regular set adherent to `p` which is not `reg` of a
-  neighbourhood, and **Level B has no field for it**: `localUnique_sing` needs `f` on all of
-  `reg(U')`, `localUnique_reg` needs a fully regular component (see REPORT, interface needs).
+  neighbourhood: `localUnique_sing` needs `f` on all of `reg(U')`, `localUnique_reg` a fully
+  regular component, and round 2's `localUnique_sing_adherent` a largeness clause this piece meets
+  only vacuously (next bullets).
 * **A4** is Sbierski's slice construction (Lemma 3.11, the maximum of `τ` on the compact
   `J⁻(q) ∩ Uᶜ ∩ J⁺(Σ)`, the GH open of B4, GH of `U ∪ N`); B4 supplies only the local `τ`, and its
   transport to `M` by `chartedCausality_chartIso` is the only Level-B part.
@@ -105,13 +113,26 @@ Lemma 3.8, Thm 3.6.
   paper's (verdict `⚠ strengthened` in the checklist). Only the preferred charts are proved
   isomorphisms; uniqueness is not redone (`Causal/GXStructure.lean` has it for `gxGroupoid`).
 * **The round-2 past-side largeness clause is vacuous as transcribed** (design §6 "Interface
-  round 2" (2), gx `10eedbb`, not yet in `Geometry.lean`): `∃ r ∈ O, y₀ ≤_O r ∧ reg ∩ I⁻_O(r) ⊆ U`
+  round 2" (2), now `LocalModel.localUnique_sing_adherent` in `Geometry.lean`):
+  `∃ r ∈ O, y₀ ≤_O r ∧ reg ∩ I⁻_O(r) ⊆ U`
   holds for every `U`, by `r := y₀` (`Causality.BTZAxiomsCorr.exists_le_inter_Iminus_subset`),
   because the chronological past of every BTZ point is empty in every open set
   (`Causality.BTZAxiomsCorr.Iminus_opens_eq_empty`, from `Iminus_eq_empty` and `lt_mono`); the same
   holds for any `r` on `y₀`'s line (`inter_Iminus_opens_subset`). With `≪` in place of `≤` the
   clause asks `U ⊇ reg(I⁻_O(r))` for an open neighbourhood `I⁻_O(r)` of `y₀`, the case
-  `localUnique_sing` already covers (by hand). See REPORT, interface needs (1).
+  `localUnique_sing` already covers (by hand). **`germExtPast` does not use the field through
+  this vacuity.** The piece A3-past produces at a BTZ `p` is `U ∩ I⁻_W(r)`, `r ∈ U` regular above
+  `p`, which contains the chronological diamond `I⁺_W(p) ∩ I⁻_W(r)` and in gx's example is that
+  diamond near `p`; with `r` regular and `y₀ ≪_O r` the clause fails for it (by hand,
+  `germExtPast`'s `SORRY`). The clause it does meet is the diamond form
+  `∃ r ∈ O, y₀ ≪_O r ∧ reg ∩ I⁺_O(y₀) ∩ I⁻_O(r) ⊆ U` (REPORT, message for gx).
+* **A3 and A4 carry no second countability, Level B's facts all do.** `germExt_*`/`slice_*` (and
+  so `GermExtFuture`, …) quantify over `T2`, connected `M`, `N`; every B3 field the derivation
+  consumes (`singularFlatAxioms`, `curvesExtend`, `timeFunction`, `isCompact_*`) asks
+  `[SecondCountableTopology M]`, and `secondCountable_of_cauchy` needs a second-countable Cauchy
+  surface, which A3/A4 do not give. So A3/A4 as stated are not derivable from Level B by
+  Sbierski's route, independently of the work; the repair is an interface change (add the
+  second countability of `M`, `N` to A3 and of `M` to A4), not this file's.
 * `Geometry`/`LocalModel` still have no inhabitant (kb/0011, kb/0012): this file proves the
   derivation, not satisfiability; the flat check is package 12.
 * `glue` field: Level A's `glue` does not require the pieces non-empty; the construction glues
@@ -469,6 +490,29 @@ theorem chartedCausality_chartIso (hGD : ∀ e ∈ G, ChartIso D D e)
   refine (D.chartTransport_chartIso (chartAt Y x)).congr fun V hV a b => ?_
   exact ⟨Precausality.generated_le_iff (hU := fun x : M => ⟨x, mem_chart_source Y x⟩) hB hV,
     Precausality.generated_lt_iff (hU := fun x : M => ⟨x, mem_chart_source Y x⟩) hB hV⟩
+
+/-- **A chronological diamond read in the preferred chart** is the chronological diamond of the
+model, in the chart image of the open set: `κ '' (I⁺_W(p) ∩ I⁻_W(r)) = I⁺_{κ W}(κ p) ∩ I⁻_{κ W}(κ r)`
+for `W` in the source of `κ = chartAt Y x`. This is how the past-side piece of A3 at a boundary
+point `p` (`Causality.CausallyConvexIn.Iplus_inter_Iminus_subset`) is read in `Y`, where the
+largeness clause of `LocalModel.localUnique_sing_adherent` is stated. -/
+theorem chartedCausality_image_Iplus_inter_Iminus (hGD : ∀ e ∈ G, ChartIso D D e)
+    (hA : ∀ W : Opens Y, D.AbsolutelyMinimalOn W) (x : M) {W : Opens M}
+    (hW : W ≤ chartSource (chartAt Y x)) {p r : M} (hp : p ∈ W) (hr : r ∈ W) :
+    chartAt Y x '' ((chartedCausality D M).Iplus W {p} ∩ (chartedCausality D M).Iminus W {r}) =
+      D.Iplus (chartImage (chartAt Y x) W) {chartAt Y x p} ∩
+        D.Iminus (chartImage (chartAt Y x) W) {chartAt Y x r} := by
+  have hc := chartedCausality_chartIso (M := M) hGD hA x
+  ext y
+  simp only [mem_image, mem_inter_iff, Precausality.mem_Iplus_singleton,
+    Precausality.mem_Iminus_singleton]
+  constructor
+  · rintro ⟨z, ⟨hpz, hzr⟩, rfl⟩
+    have hz : z ∈ W := (chartedCausality D M).lt_mem_right hpz
+    exact ⟨((hc W hW p hp z hz).2).1 hpz, ((hc W hW z hz r hr).2).1 hzr⟩
+  · rintro ⟨hpy, hyr⟩
+    obtain ⟨z, -, hz, rfl, -⟩ := exists_of_mem_chartImage (D.lt_mem_right hpy)
+    exact ⟨z, ⟨((hc W hW p hp z hz).2).2 hpy, ((hc W hW z hz r hr).2).2 hyr⟩, rfl⟩
 
 /-- The generated causality is absolutely minimal. -/
 theorem chartedCausality_absolutelyMinimal (hA : ∀ W : Opens Y, D.AbsolutelyMinimalOn W) :
@@ -1070,6 +1114,9 @@ noncomputable def ofLocalModelOfGermSlice (𝔐 : LocalModel.{u}) (hA3f : 𝔐.G
   curvesExtend {M} _ _ _ _ s hGH := by
     letI := s.1; haveI := s.2
     exact 𝔐.curvesExtend hGH
+  timeFunction {M} _ _ _ _ s hGH := by
+    letI := s.1; haveI := s.2
+    exact 𝔐.timeFunction hGH
   isCompact_Jplus_inter_Jminus {M} _ _ _ _ s hGH S hS p := by
     letI := s.1; haveI := s.2
     exact 𝔐.isCompact_Jplus_inter_Jminus hGH S hS p
@@ -1229,6 +1276,81 @@ theorem exists_eqOn_of_connected_sing {κ : OpenPartialHomeomorph M 𝔐.Y}
   have hmem : κ z ∈ U ∩ 𝔐.regY := by rw [hreg]; exact ⟨z, hz, rfl⟩
   exact heq hmem
 
+omit [ChartedSpace 𝔐.Y M] [ChartedSpace 𝔐.Y N] [HasGroupoid M 𝔐.G] [HasGroupoid N 𝔐.G] in
+/-- **Sbierski Def 3.5 read in charts**: if `q` is a cluster point of `ψ` along `A` at `p`, then
+`κ' q` is a cluster point of `κ' ∘ ψ ∘ κ.symm` along `κ '' A` at `κ p` (the cluster hypothesis
+of `localUnique_sing_adherent`, from A3's `MapClusterPt q (𝓝[U] p) ψ`). -/
+theorem mapClusterPt_chart {κ : OpenPartialHomeomorph M 𝔐.Y} {κ' : OpenPartialHomeomorph N 𝔐.Y}
+    {ψ : M → N} {A : Set M} (hA : A ⊆ κ.source) {p : M} (hp : p ∈ κ.source) {q : N}
+    (hq : q ∈ κ'.source) (h : MapClusterPt q (𝓝[A] p) ψ) :
+    MapClusterPt (κ' q) (𝓝[κ '' A] (κ p)) (κ' ∘ ψ ∘ κ.symm) := by
+  have h1 : 𝓝[κ '' A] (κ p) = map κ (𝓝[A] p) := by
+    rw [κ.map_nhdsWithin_eq hp, inter_eq_right.2 hA]
+  rw [h1, ← mapClusterPt_comp]
+  have h2 : (κ' ∘ ψ ∘ κ.symm) ∘ κ =ᶠ[𝓝[A] p] κ' ∘ ψ :=
+    eventually_nhdsWithin_of_forall fun z hz => by simp [κ.left_inv (hA hz)]
+  rw [h2.mapClusterPt_iff]
+  exact h.continuousAt_comp (κ'.continuousAt hq)
+
+omit [HasGroupoid M 𝔐.G] [HasGroupoid N 𝔐.G] in
+/-- **B2 at a singular point, past side, in charts** (`localUnique_sing_adherent`, interface
+round 2 (2), chart-independent form): an injective morphism `ψ` on a preconnected non-empty open
+`A ⊆ κ.source` of points with **regular** chart image, read in charts `κ`, `κ'` of the maximal
+atlases, with values in the component of a singular `y₀ ∈ sing_{α₀}`, clustering at `z₀ ∈ sing_{α₀}`
+along `κ '' A` at `y₀`, and with `κ '' A` satisfying the field's largeness clause **verbatim**
+(`hlarge`), is one element `e` of `G` on `A`, defined on the whole component of `y₀`.
+
+The largeness clause is passed through as a hypothesis, never produced: at `α₀ = 0` it is
+satisfiable by `r := y₀` whenever `I⁻(y₀) = ∅` (`Causality.BTZAxiomsCorr.exists_le_inter_Iminus_subset`),
+which is the finding against the clause, so `LocalModel.germExtPast` does **not** close its BTZ
+case through this lemma (see its `SORRY`). What A3-past produces is the chart image of
+`U ∩ I⁻_W(r) ⊇ I⁺_W(p) ∩ I⁻_W(r)` (`Causality.CausallyConvexIn.Iplus_inter_Iminus_subset`,
+`chartedCausality_image_Iplus_inter_Iminus`). -/
+theorem exists_eqOn_of_connected_sing_adherent {κ : OpenPartialHomeomorph M 𝔐.Y}
+    {κ' : OpenPartialHomeomorph N 𝔐.Y} (hκ : κ ∈ 𝔐.G.maximalAtlas M)
+    (hκ' : κ' ∈ 𝔐.G.maximalAtlas N) {ψ : M → N} {A : Set M} (hAo : IsOpen A)
+    (hAc : IsPreconnected A) (hAne : A.Nonempty) (hA : A ⊆ κ.source)
+    (hAreg : ∀ z ∈ A, κ z ∈ 𝔐.regY) {y₀ : 𝔐.Y} {α₀ : ℝ} (hα₀ : 0 ≤ α₀)
+    (hsing : y₀ ∈ 𝔐.singY α₀)
+    (hlarge : ∃ O : Opens 𝔐.Y, y₀ ∈ O ∧ ∃ r ∈ O, 𝔐.causalityY.le O y₀ r ∧
+      𝔐.regY ∩ 𝔐.causalityY.Iminus O {r} ⊆ κ '' A)
+    {z₀ : 𝔐.Y} (hz₀ : z₀ ∈ 𝔐.singY α₀) (hAψ : MapsTo ψ A κ'.source)
+    (hψ : LiftPropOn 𝔐.G.IsLocalStructomorphWithinAt ψ A) (hinj : InjOn ψ A)
+    (hcomp : ∀ z ∈ A, κ' (ψ z) ∈ connectedComponent y₀)
+    (hclus : MapClusterPt z₀ (𝓝[κ '' A] y₀) (κ' ∘ ψ ∘ κ.symm)) :
+    ∃ e ∈ 𝔐.G, connectedComponent y₀ ⊆ e.source ∧ ∀ z ∈ A, κ' (ψ z) = e (κ z) := by
+  have hG := isLocalStructomorphWithinAt_localInvariantProp 𝔐.G
+  set U := κ '' A
+  have hUo : IsOpen U := κ.isOpen_image_of_subset_source hAo hA
+  have hUc : IsConnected U := ⟨hAne.image _, hAc.image _ (κ.continuousOn.mono hA)⟩
+  have hUreg : U ⊆ {y | ∀ α : ℝ, 0 ≤ α → y ∉ 𝔐.singY α} := by
+    rintro _ ⟨z, hz, rfl⟩; exact hAreg z hz
+  set f : 𝔐.Y → 𝔐.Y := κ' ∘ ψ ∘ κ.symm
+  have hfA : ∀ z ∈ A, f (κ z) = κ' (ψ z) := fun z hz => by
+    simp only [f, comp_apply, κ.left_inv (hA hz)]
+  have hloc : ∀ y ∈ U, 𝔐.G.IsLocalStructomorphWithinAt f U y := by
+    rintro _ ⟨z, hz, rfl⟩
+    have hP := hG.liftPropOn_indep_chart hκ hκ' hψ
+      (y := κ z) ⟨κ.map_source (hA hz), by
+        simp only [mem_preimage, κ.left_inv (hA hz)]; exact ⟨hz, hAψ hz⟩⟩
+    intro hy
+    obtain ⟨e, he, hef, hex⟩ := hP (by simp only [mem_preimage, κ.left_inv (hA hz)]; exact hz)
+    refine ⟨e, he, fun y hy => hef ⟨?_, hy.2⟩, hex⟩
+    obtain ⟨w, hw, rfl⟩ := hy.1
+    simp only [mem_preimage, κ.left_inv (hA hw)]; exact hw
+  have hinjf : InjOn f U := by
+    rintro _ ⟨a, ha, rfl⟩ _ ⟨b, hb, rfl⟩ hab
+    rw [hfA a ha, hfA b hb] at hab
+    rw [hinj ha hb (κ'.injOn (hAψ ha) (hAψ hb) hab)]
+  have hmaps : MapsTo f U (connectedComponent y₀) := by
+    rintro _ ⟨z, hz, rfl⟩
+    rw [hfA z hz]; exact hcomp z hz
+  obtain ⟨e, he, hsrc, heq⟩ := 𝔐.localUnique_sing_adherent U hUo hUc hUreg y₀ α₀ hα₀ hsing
+    hlarge z₀ hz₀ f hloc hinjf hmaps hclus
+  refine ⟨e, he, hsrc, fun z hz => ?_⟩
+  rw [← hfA z hz]
+  exact heq ⟨z, hz, rfl⟩
+
 end LocalModel
 
 /-! ### A3 and A4 for a local model: stated, not derived -/
@@ -1238,22 +1360,26 @@ namespace LocalModel
 variable (𝔐 : LocalModel.{u})
 
 /-- **A3 future from Level B** (Sbierski Lemma 3.8; `cor:ext_continue`). Not derived here: see
-the obstruction. -/
+the obstruction. The B2 step is proved (`exists_eqOn_of_connected_reg`/`_sing`,
+`exists_extension_of_eqOn`); the causal part and the second countability are not. -/
 theorem germExtFuture : 𝔐.GermExtFuture := by
-  sorry -- SORRY(cor:ext_continue): A3 future from B2 needs (i) Sbierski Prop 3.7 (K⁻ form at BTZ points, package 5) to put ψ(U ∩ O) into the chart at q; (ii) the connectedness of U ∩ W ∩ J⁺_W(r), r ∈ U below p (causal convexity of the Cauchy inclusion, package 2, plus `causallyArcConnected`); (iii) at a BTZ point p, a singular point of p's line below p lying in U (thesis lem:passe_pgcd, `these.tex:6541–6554`), so that B2 `localUnique_sing` applies to that connected piece
+  sorry -- SORRY(cor:ext_continue): (0) the field has no `[SecondCountableTopology M]`/`[… N]`, while every B3 fact the proof needs (`singularFlatAxioms`, `curvesExtend`, `timeFunction`, `isCompact_*`) is stated for second-countable carriers only and `secondCountable_of_cauchy` needs a second-countable Cauchy surface, which is not given — so A3 as stated is not derivable from Level B by Sbierski's route at all (interface: add SC of M and N to A3, consumers `CGHDData.ext_continue`/`NoCorresponding.exists_extension` have SC of M in scope); (i) Sbierski Prop 3.7: the A3-free core exists (`CGHDData.corresponding_K`, A2 only, `lem:Sigma_separe` derived) but is stated over a `𝔊 : Geometry`, whose A3/A4 fields are what this proves, so it must be re-instantiated on `chartedCausality` (or `Geometry` split into an A1/A2 core); (ii) Lemma 3.8 itself: r ∈ U ∩ I⁻(p) with the diamond J⁺(ψ r) ∩ J⁻(q) inside the chart at q (strong causality of N), the connectedness of U ∩ I⁺_W(r′) (causal convexity, push-up, `causallyArcConnected`), agreement with the extension on O ∩ U by A1; (iii) at a BTZ p, a singular point of p's line below p in U (`lem:passe_pgcd`, `these.tex:6541`), so that `exists_eqOn_of_connected_sing` applies
 
-/-- **A3 past from Level B** (Sbierski Lemma 3.8, the `K⁺` side). Not derived here. -/
+/-- **A3 past from Level B** (Sbierski Lemma 3.8, the `K⁺` side). Not derived here. At a BTZ
+boundary point the piece is the chart image of `U ∩ I⁻_W(r) ⊇ I⁺_W(p) ∩ I⁻_W(r)`
+(`Causality.CausallyConvexIn.Iplus_inter_Iminus_subset`, `chartedCausality_image_Iplus_inter_Iminus`),
+and the round-2 clause is met by it only vacuously (see the `SORRY`). -/
 theorem germExtPast : 𝔐.GermExtPast := by
-  sorry -- SORRY(cor:ext_continue): A3 past as for the future side, and at a BTZ point p with U ∩ I⁻_W(r) a connected open set of regular points adherent to p but not equal to reg(I⁻_W(r)) (gx's past side: (B) can fail), B2 `localUnique_sing` does not apply (it asks f on reg(U') for a neighbourhood U' of a singular point) nor does `localUnique_reg` (the component is not fully regular): Level B lacks the extension from a connected regular piece adherent to a singular point
+  sorry -- SORRY(cor:ext_continue): (0)–(ii) as `germExtFuture` (no SC of M, N in the field; Prop 3.7 core over a `Geometry`; Lemma 3.8's causal part, with r ∈ U ∩ I⁺(p) ∩ J⁻(S)). (iii) At a BTZ p the connected piece is A = U ∩ I⁻_W(r), r ∈ U regular above p; proved: A ⊇ I⁺_W(p) ∩ I⁻_W(r), read in the chart as I⁺_O(y₀) ∩ I⁻_O(κ r), O = κ(W), y₀ = κ p; in gx's example (`A3-B-INVESTIGATION.md`, U = I⁺(0) ∪ {τ + r > 1/2}) A is exactly that diamond near p. `localUnique_sing_adherent`'s clause ∃ O ∋ y₀, ∃ r′ ∈ O, y₀ ≤_O r′ ∧ reg ∩ I⁻_O(r′) ⊆ κ(A) is met by this piece ONLY vacuously (r′ := y₀ or r′ on the line, I⁻_O(r′) = ∅, `BTZAxiomsCorr.exists_le_inter_Iminus_subset`); with r′ regular (the intended repair) it fails on gx's example whenever y₀ ≪_O r′ (by hand: I⁻_O(r′) is then an open neighbourhood of y₀, while J⁺(p) is closed (GH) and not a neighbourhood of p (kb/0017, J⁻(p) ⊋ {p}), so with reg dense I⁻_O(r′) holds regular points near p outside J⁺(p) ⊇ the diamond); for regular r′ ∈ J⁺(p) ∖ I⁺(p) (the radial null ray) not settled. Not closed via the vacuity. The clause this piece meets is the diamond form ∃ O ∋ y₀, ∃ r′ ∈ O, y₀ ≪_O r′ ∧ reg ∩ I⁺_O(y₀) ∩ I⁻_O(r′) ⊆ U (gx to adopt or adapt); `exists_eqOn_of_connected_sing_adherent` then transfers verbatim
 
 /-- **A4 future from Level B** (Sbierski Thm 3.6, the slice `τ_q`, Lemma 3.11). Not derived
 here. -/
 theorem sliceFuture : 𝔐.SliceFuture := by
-  sorry -- SORRY(theo:CBG): A4 future is the geometric half of Sbierski Thm 3.6 — Lemma 3.11 (a q ∈ I⁺(p) with J⁻(q) ∩ Uᶜ ∩ J⁺(Σ) inside the B4 neighbourhood W, from `isCompact_Jplus_inter_Jminus`), the maximum c of the B4 function τ on that compact set (attained only on ∂U), the GH open N of B4 with τ⁻¹(c) ∩ W Cauchy, and global hyperbolicity of U ∪ N with Σ Cauchy; B4 is transported to M by the chart at p (`chartedCausality_chartIso`), the rest is package 6
+  sorry -- SORRY(theo:CBG): (0) as A3, the field has no `[SecondCountableTopology M]` and every B3 fact used (`isCompact_Jplus_inter_Jminus`, `curvesExtend`) asks it. A4 future is the geometric half of Sbierski Thm 3.6 — Lemma 3.11 (a q ∈ I⁺(p) with J⁻(q) ∩ Uᶜ ∩ J⁺(Σ) inside the B4 neighbourhood W, from `isCompact_Jplus_inter_Jminus`), the maximum c of the B4 function τ on that compact set (attained only on ∂U), the GH open N of B4 with τ⁻¹(c) ∩ W Cauchy, and global hyperbolicity of U ∪ N with Σ Cauchy; B4 is transported to M by the chart at p (`chartedCausality_chartIso`). No library proof exists (package 6 consumes A4, `NoCorresponding.exists_extension`), and whether B4 suffices is open: B4's GH open N is any one with τ⁻¹(c) ∩ W Cauchy in N, nothing ties N to the side of τ⁻¹(c) that U ∪ N must add
 
 /-- **A4 past from Level B** (no time reversal). Not derived here. -/
 theorem slicePast : 𝔐.SlicePast := by
-  sorry -- SORRY(theo:CBG): A4 past, as A4 future with B4 `slice_past`, `isCompact_Jminus_inter_Jplus` and the time-reversed Lemma 3.11 (no duality, gx D-12(e)); package 6
+  sorry -- SORRY(theo:CBG): A4 past, as A4 future (no SC of M in the field) with B4 `slice_past`, `isCompact_Jminus_inter_Jplus` and the time-reversed Lemma 3.11 (no duality, gx D-12(e))
 
 end LocalModel
 
@@ -1301,6 +1427,25 @@ theorem BTZAxiomsCorr.exists_le_inter_Iminus_subset (h : C.BTZAxiomsCorr S₀) {
     (hy₀ : y₀ ∈ S₀) {O : Opens M} (hO : y₀ ∈ O) (R U : Set M) :
     ∃ r ∈ O, C.le O y₀ r ∧ R ∩ C.Iminus O {r} ⊆ U :=
   ⟨y₀, hO, C.le_refl hO, h.inter_Iminus_opens_subset hy₀ O R U⟩
+
+/-- **The past-side piece of A3 contains the chronological diamond above the boundary point.**
+Let `U` be causally convex in the open `B` (a Cauchy inclusion is, package 2,
+`causallyConvexIn_of_isCauchySurfaceOn`), `p ∈ closure U`, `r ∈ U`, `W ≤ B`. Then
+`I⁺_W(p) ∩ I⁻_W(r) ⊆ U`: for `p ≪_W x ≪_W r`, the open `I⁻_B(x)` contains `p`, so meets `U` at
+some `u`, and `x ∈ J_B(u, r) ⊆ U`. So the piece `U ∩ I⁻_W(r)` that Sbierski's Lemma 3.8 uses on
+the past side of `Σ` (`r ∈ U` above `p`) is `⊇ I⁺_W(p) ∩ I⁻_W(r)`; in gx's past-side example
+(`A3-B-INVESTIGATION.md`: `U = I⁺(0) ∪ {τ + r > 1/2}`, `Σ = {τ + r = 1}`, `p = 0` BTZ) it is
+exactly that diamond near `p`. No time orientation is needed, and `p` may be BTZ. -/
+theorem CausallyConvexIn.Iplus_inter_Iminus_subset {U : Set M} {B : Opens M}
+    (hU : C.CausallyConvexIn U B) {p r : M} (hp : p ∈ closure U) (hr : r ∈ U) {W : Opens M}
+    (hWB : W ≤ B) : C.Iplus W {p} ∩ C.Iminus W {r} ⊆ U := by
+  rintro x ⟨hpx, hxr⟩
+  rw [Precausality.mem_Iplus_singleton] at hpx
+  rw [Precausality.mem_Iminus_singleton] at hxr
+  obtain ⟨u, hux, huU⟩ := mem_closure_iff.1 hp {y | C.lt B y x} (C.isOpen_lt_left B x)
+    (C.lt_mono hWB hpx)
+  exact hU.2 u huU r hr
+    ⟨⟨r, mem_singleton r, C.le_of_lt (C.lt_mono hWB hxr)⟩, ⟨u, mem_singleton u, C.le_of_lt hux⟩⟩
 
 end Causality
 

@@ -35,11 +35,12 @@ model). Cited, unmarked: `theo:CBG` — `ETT.tex:1884`, its proof `ETT.tex:2335�
 
 ## What is proved
 
-* **`cbg_proof`** — `CBG/Geometry`'s `cbg`, **same statement** (to replace its `sorry`). It rests on
-  exactly ONE tagged `sorry`, the missing interface field (below); everything else is proved:
-  **`cbg_of_hasTimeFunctions`** / **`cbg_of_mcghdInjective`** are `cbg` under the queued
-  `timeFunction` field / under injective MCGHD morphisms, **sorry-free** (axioms: `propext`,
-  `Classical.choice`, `Quot.sound`).
+* **`cbg`** — the principal theorem (universal form, DEC-59): **sorry-free** (axioms: `propext`,
+  `Classical.choice`, `Quot.sound`), stated and proved here since interface round 2 (the sorried
+  `CBG/Geometry.cbg` is deleted). `cbg_of_mcghdInjective` is the construction under its parameter
+  `MCGHDInjective`, which always holds (`mcghdInjective`, Lemma 3.3 from the field
+  `Geometry.timeFunction`); `cbg_of_hasTimeFunctions` is `cbg` with a now-redundant hypothesis,
+  kept for `Flat/CBG`.
 * The construction, in Sbierski's order: index set `SmallDev 𝔊 s₀ : Type u` (package 9);
   `maxGlueData` (`FamilyGlueData`, package 8) along the pairwise MCGHDs, symmetry
   `mcghdMap_mem_symm`, identity `mcghd_self`, **cocycle `mcghd_cocycle`**; `maxSpace_t2` (T2 from
@@ -54,17 +55,17 @@ model). Cited, unmarked: `theo:CBG` — `ETT.tex:1884`, its proof `ETT.tex:2335�
   `mem_of_le_top` (each piece causally convex), `exists_mid`, `mem_or_mem`, `isCausal`,
   `isCauchySurface`, `manyPiece_of_charts`, `isCompact_diamond_mixed`, **`globallyHyperbolic`**;
   witness `timelikeLine_manyPiece`.
-* **ETT corollaries** (DEC-59, kb/0022): `cbg_proof_ett` (an ETT-maximal development exists and
-  every ETT-maximal one is isomorphic to it by a unique morphism), `cbg_proof_isETTMaximal`,
-  `isETTMaximal_iff_isUniversal_proof` (`CBG/Geometry`'s corollaries, same statements),
-  `Dev.IsUniversal.existsUnique_iso`; sorry-free conditional form `cbg_ett_of_mcghdInjective`.
+* **ETT corollaries** (DEC-59, kb/0022), all sorry-free: `cbg_ett` (an ETT-maximal development
+  exists and every ETT-maximal one is isomorphic to it by a unique morphism), `cbg_isETTMaximal`,
+  `isETTMaximal_iff_isUniversal` (the corollaries formerly stated in `CBG/Geometry`, same
+  statements, deleted there at round 2), `Dev.IsUniversal.existsUnique_iso`.
 
 ## Hypothesis checklist
 
 | paper / Sbierski | here |
 |---|---|
 | `M₀` GH singular flat (`ETT.tex:1885`) | ✓ `Geometry` (DEC-60); ⚠ strengthened as in `cbg`: a Cauchy surface `S`, `M₀` T2, connected, second countable (`CBG/Geometry` SCOPE) |
-| Lemma 3.3 (`ψ_{ik}` injective) is **proved** from the Lorentzian structure (a time function on each GHD; the embedding property is then used at l. 1157) | ⚠ **strengthened**: Lemma 3.3 is consumed through the queued `timeFunction` field, here `Geometry.HasTimeFunctions` (`cbg_proof`'s one `sorry`; sorry-free under it, `cbg_of_hasTimeFunctions`), or minimally `MCGHDInjective` (`cbg_of_mcghdInjective`) |
+| Lemma 3.3 (`ψ_{ik}` injective) is **proved** from the Lorentzian structure (a time function on each GHD; the embedding property is then used at l. 1157) | ✓ proved from the interface field `Geometry.timeFunction` (A2, interface round 2 (1): a time function on every GH admissible spacetime) — `mcghdInjective` (`mcghdMap_injOn`, `IsCGHD.injOn`); no hypothesis carried by `cbg` |
 | (3.15) transitive: `U_ik ∩ ψ⁻¹(U_kl)` is a CGHD (l. 1166–1170) | ✓ the conclusion (`mcghd_cocycle`); ⚠ route replaced (SCOPE) |
 | `M̃` Hausdorff from Thm 2.7 (l. 1172) | ✓ `maxSpace_t2` |
 | `M̃` GH with Cauchy surface `ι̃(M)` (l. 1226–1240) | ✓ `maxStr_globallyHyperbolic` (ETT's GH: causal + compact diamonds), `maxStr_isCauchySurface`; ⚠ route: chains, not timelike curves |
@@ -75,12 +76,16 @@ model). Cited, unmarked: `theo:CBG` — `ETT.tex:1884`, its proof `ETT.tex:2335�
 
 ## SCOPE (disclosed)
 
-* **Interface need (precise)**: `Geometry` lacks the accepted, queued field
-  `timeFunction : ∀ {M} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
-  [SecondCountableTopology M] (s : Str M), (causality s).GloballyHyperbolic →
-  (causality s).HasTimeFunction` — exactly `Geometry.HasTimeFunctions` here. With it,
-  `cbg_proof := cbg_of_hasTimeFunctions s₀ hGH hS 𝔊.timeFunction`. It is used only through
-  `MCGHDInjective` (Lemma 3.3 on each pair); no other field is missing.
+* **Interface round 2 (1), applied.** `Geometry` now has `timeFunction`; `cbg` is sorry-free
+  (formerly `cbg_proof`, whose one `sorry` was this field). It is used only through
+  `MCGHDInjective` (Lemma 3.3 on each pair, `mcghdInjective`); no other field is missing. The
+  construction (`maxGlueData` … `maxDev_isUniversal`) keeps `hinj : MCGHDInjective 𝔊 s₀` as a
+  proof parameter (a `Prop`, always `mcghdInjective 𝔊 s₀`). Renamed: `cbg_proof` → `cbg`,
+  `cbg_proof_ett` → `cbg_ett`, `cbg_proof_isETTMaximal` → `cbg_isETTMaximal`,
+  `isETTMaximal_iff_isUniversal_proof` → `isETTMaximal_iff_isUniversal` (no alias: no user).
+  Deleted as redundant (no user): `cbg_ett_of_mcghdInjective`, `mcghdInjective_of_devTimeFunction`,
+  `mcghdInjective_of_hasTimeFunctions`. `Geometry.HasTimeFunctions` and `cbg_of_hasTimeFunctions`
+  stay, `Flat/CBG` using both (its hypothesis is now redundant: `𝔊.timeFunction` proves it).
 * **The cocycle is not proved by Sbierski's route.** His step needs `U₁₂ ∩ ψ₁₂⁻¹(U₂₃)` to be a
   CGHD, i.e. `ι₁(Σ)` a Cauchy surface of an intersection of Cauchy inclusions — the existence half
   `CBG/CausalConvex` leaves open. Instead: agreement on `U₁₂ ∩ U₁₃` through the `ppcm` of `N₂, N₃`
@@ -89,7 +94,8 @@ model). Cited, unmarked: `theo:CBG` — `ETT.tex:1884`, its proof `ETT.tex:2335�
 * **GH of `M̃` before second countability** (design §6 risk, resolved): `ManyPiece` is the family
   form of package 7's `TwoPiece`; its diamond decomposition is package 7's
   `isCompact_diamond_mixed` proof, copied with the family facts. On `M̃` no `curvesExtend`,
-  `isCompact_*`, second countability or time function is used; A2 is used on the `M i` only.
+  `isCompact_*`, second countability or time function is used; A2 is used on the `M i` only
+  (`timeFunction` there, through `mcghdInjective`).
 * The causality of the glued structure is read through the charts `ι i` (`pieceChart_of_isMor`),
   not identified with `FamilyGlueData.causality` (as in package 7).
 * `maxStr` is a choice (`Geometry.glue`); universality makes `M̃` independent of it up to unique
@@ -774,7 +780,7 @@ theorem mcghd_cocycle {N₁ N₂ N₃ : Dev 𝔊.toPreGeometry s₀}
       exact hU₂₃.1.1 (N₂.emb_mem_range a)
     · rintro z ⟨hzc, hzW⟩
       by_contra hz
-      haveI := t2Space_gluing_mcghd h₁₃
+      haveI := t2Space_gluing_mcghd (N₁ := N₁) (N₂ := N₃)
       have hzc' := hWopen.inter_closure ⟨hzW, hzc⟩
       haveI := mem_closure_iff_nhdsWithin_neBot.1 hzc'
       have hg : ContinuousAt (mcghdMap N₂ N₃ ∘ mcghdMap N₁ N₂) z :=
@@ -813,10 +819,17 @@ variable {𝔊 : Geometry.{u}} {M₀ : Type u} [TopologicalSpace M₀] {s₀ : �
 
 variable (𝔊 s₀) in
 /-- **The MCGHD morphisms are injective**, for every pair of developments (Sbierski: « the
-corresponding isometric embedding `ψ_{α_i α_k}` »; Lemma 3.3 in the abstract setting needs a
-time function, which the interface does not provide: `mcghdInjective_of_hasTimeFunctions`). -/
+corresponding isometric embedding `ψ_{α_i α_k}` »), as a predicate: the parameter of the
+construction below. It always holds (`mcghdInjective`, Lemma 3.3 from the interface field
+`Geometry.timeFunction`). -/
 def MCGHDInjective : Prop :=
   ∀ N₁ N₂ : Dev 𝔊.toPreGeometry s₀, InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂)
+
+variable (𝔊 s₀) in
+/-- **Every MCGHD morphism is injective** (Sbierski Lemma 3.3 on each pair, `mcghdMap_injOn`,
+`CBG/Pgcd`, by the time function of `Geometry.timeFunction`, interface round 2). -/
+theorem mcghdInjective : MCGHDInjective 𝔊 s₀ :=
+  fun _ _ => mcghdMap_injOn
 
 variable (hinj : MCGHDInjective 𝔊 s₀)
 
@@ -864,7 +877,7 @@ two developments along their MCGHD, Hausdorff by Sbierski Thm 3.13 (`t2Space_glu
 package 6), and the family gluing is Hausdorff iff its pair gluings are
 (`FamilyGlueData.t2Space_iff`, package 8). -/
 theorem maxSpace_t2 : T2Space (MaxSpace hinj) :=
-  (FamilyGlueData.t2Space_iff _).2 fun i j => t2Space_gluing_mcghd (hinj i.toDev j.toDev)
+  (FamilyGlueData.t2Space_iff _).2 fun i j => t2Space_gluing_mcghd (N₁ := i.toDev) (N₂ := j.toDev)
 
 /-- `M̃` is connected: the union of the connected `ι i (M i)`, all containing the image of `M₀`. -/
 theorem maxSpace_connected (i₀ : SmallDev 𝔊.toPreGeometry s₀) :
@@ -1052,24 +1065,16 @@ section Principal
 
 variable {𝔊 : Geometry.{u}} {M₀ : Type u} [TopologicalSpace M₀]
 
-/-- **The time-function field queued in design §6 (interface round 2, ACCEPTED, not yet in
-`CBG/Geometry`)**, as a predicate on a geometry: every admissible globally hyperbolic spacetime
-(T2, connected, second countable) carries a continuous function strictly increasing along `≤`
-(`Causality.HasTimeFunction`, `CBG/Pgcd`). Flat: `Flat/GerochFlat`; `E₀`: `SingularGeroch`. -/
+/-- **The time-function field of interface round 2 (design §6), as a predicate on a geometry**:
+every admissible globally hyperbolic spacetime (T2, connected, second countable) carries a
+continuous function strictly increasing along `≤` (`Causality.HasTimeFunction`, `CBG/Pgcd`).
+Every geometry satisfies it: the field `Geometry.timeFunction` is a proof,
+`𝔊.timeFunction : 𝔊.HasTimeFunctions` (definitional unfolding). Kept because `Flat/CBG` names
+it (`flatGeometryOf_hasTimeFunctions`, and the redundant hypothesis of `cbg_of_hasTimeFunctions`). Flat: `Flat/GerochFlat`; `E₀`:
+`SingularGeroch`. -/
 def Geometry.HasTimeFunctions (𝔊 : Geometry.{u}) : Prop :=
   ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M]
     (s : 𝔊.Str M), (𝔊.causality s).GloballyHyperbolic → (𝔊.causality s).HasTimeFunction
-
-/-- A time function on every development makes every MCGHD morphism injective (Lemma 3.3,
-`IsCGHD.injOn`). -/
-theorem mcghdInjective_of_devTimeFunction [ConnectedSpace M₀] {s₀ : 𝔊.Str M₀}
-    (hT : ∀ N : Dev 𝔊.toPreGeometry s₀, (𝔊.causality N.str).HasTimeFunction) :
-    MCGHDInjective 𝔊 s₀ :=
-  fun N₁ N₂ => (isCGHD_mcghd (N₁ := N₁) (N₂ := N₂)).injOn (hT N₁)
-
-theorem mcghdInjective_of_hasTimeFunctions [ConnectedSpace M₀] {s₀ : 𝔊.Str M₀}
-    (hT : 𝔊.HasTimeFunctions) : MCGHDInjective 𝔊 s₀ :=
-  mcghdInjective_of_devTimeFunction fun N => hT N.str N.causality_globallyHyperbolic
 
 /-- **CBG, universal form, given injective MCGHD morphisms** (sorry-free): the gluing of all small
 developments along their pairwise MCGHDs is a universal development. -/
@@ -1079,25 +1084,27 @@ theorem cbg_of_mcghdInjective [T2Space M₀] [ConnectedSpace M₀] [SecondCounta
     ∃ Mbar : Dev 𝔊.toPreGeometry s₀, Mbar.IsUniversal :=
   ⟨maxDev hinj hS (SmallDev.ofDev (Dev.self 𝔊 s₀ hGH hS)), maxDev_isUniversal hinj hS _⟩
 
-/-- **CBG, universal form, under the queued time-function field** (sorry-free). -/
-theorem cbg_of_hasTimeFunctions [T2Space M₀] [ConnectedSpace M₀] [SecondCountableTopology M₀]
-    (s₀ : 𝔊.Str M₀) (hGH : (𝔊.causality s₀).GloballyHyperbolic) {S : Set M₀}
-    (hS : (𝔊.causality s₀).IsCauchySurface S) (hT : 𝔊.HasTimeFunctions) :
-    ∃ Mbar : Dev 𝔊.toPreGeometry s₀, Mbar.IsUniversal :=
-  cbg_of_mcghdInjective s₀ hGH hS (mcghdInjective_of_hasTimeFunctions hT)
-
-/-- **The principal theorem, `CBG/Geometry`'s `cbg`, same statement** (`theo:CBG`,
-`ETT.tex:1884`, universal reading DEC-59, framework DEC-60; Sbierski Thm 2.8). It rests on ONE
-tagged `sorry`: the time-function field the interface does not have yet (design §6, interface
-round 2, accepted and queued until this package lands). The master replaces it by
-`𝔊.timeFunction` (with that field's signature, `cbg_of_hasTimeFunctions` is it verbatim). -/
-theorem cbg_proof [T2Space M₀] [ConnectedSpace M₀] [SecondCountableTopology M₀]
+/-- **CBG — the principal theorem** (`theo:CBG`, `ETT.tex:1884`, universal reading DEC-59,
+framework DEC-60; Sbierski Thm 2.8): a globally hyperbolic admissible `M₀` (T2, connected, second
+countable) with a Cauchy surface has a **universal** Cauchy development — every development maps
+into it by a unique morphism of developments. Sorry-free: the gluing of all small developments
+(`cbg_of_mcghdInjective`), its MCGHD morphisms injective by Lemma 3.3 from the interface field
+`Geometry.timeFunction` (round 2; `mcghdInjective`). -/
+theorem cbg [T2Space M₀] [ConnectedSpace M₀] [SecondCountableTopology M₀]
     (s₀ : 𝔊.Str M₀)
     (hGH : (𝔊.causality s₀).GloballyHyperbolic) {S : Set M₀}
     (hS : (𝔊.causality s₀).IsCauchySurface S) :
     ∃ Mbar : Dev 𝔊.toPreGeometry s₀, Mbar.IsUniversal :=
-  cbg_of_hasTimeFunctions s₀ hGH hS
-    (sorry) -- SORRY(theo:CBG): `Geometry` has no `timeFunction` field (design §6, interface round 2: accepted, queued); Lemma 3.3 (MCGHD morphisms injective) needs a time function on each development
+  cbg_of_mcghdInjective s₀ hGH hS (mcghdInjective 𝔊 s₀)
+
+/-- **CBG under the time-function predicate** — `cbg` with a now-redundant hypothesis (every
+geometry satisfies `Geometry.HasTimeFunctions`, `𝔊.timeFunction` being a proof), kept with its
+pre-round-2 signature because `Flat/CBG`'s `flat_cbg_of` calls it. Sorry-free. -/
+theorem cbg_of_hasTimeFunctions [T2Space M₀] [ConnectedSpace M₀] [SecondCountableTopology M₀]
+    (s₀ : 𝔊.Str M₀) (hGH : (𝔊.causality s₀).GloballyHyperbolic) {S : Set M₀}
+    (hS : (𝔊.causality s₀).IsCauchySurface S) (_hT : 𝔊.HasTimeFunctions) :
+    ∃ Mbar : Dev 𝔊.toPreGeometry s₀, Mbar.IsUniversal :=
+  cbg s₀ hGH hS
 
 /-- **Uniqueness up to unique isomorphism** (Sbierski Thm 2.8, « unique up to isometry »;
 `theo:CBG`, « unique up to isomorphism »; DEC-59): between two universal developments there is
@@ -1111,46 +1118,36 @@ theorem Dev.IsUniversal.existsUnique_iso {s₀ : 𝔊.Str M₀} {M₁ M₂ : Dev
   obtain ⟨k, -, hk⟩ := h₂ M₁
   rw [hk _ hf'.1, hk _ hf]
 
-/-- **The ETT/Barbot reading** of `theo:CBG`, **given injective MCGHD morphisms** (sorry-free;
-DEC-59, kb/0022): an ETT-maximal development exists (every morphism out of it is bijective), and
-any ETT-maximal development is isomorphic to it by a unique morphism of developments. -/
-theorem cbg_ett_of_mcghdInjective [T2Space M₀] [ConnectedSpace M₀] [SecondCountableTopology M₀]
-    (s₀ : 𝔊.Str M₀) (hGH : (𝔊.causality s₀).GloballyHyperbolic) {S : Set M₀}
-    (hS : (𝔊.causality s₀).IsCauchySurface S) (hinj : MCGHDInjective 𝔊 s₀) :
-    ∃ Mbar : Dev 𝔊.toPreGeometry s₀, Mbar.IsETTMaximal ∧
-      ∀ M : Dev 𝔊.toPreGeometry s₀, M.IsETTMaximal →
-        ∃! f : Mbar.carrier → M.carrier, Mbar.IsMorphism M f ∧
-          ∃ g : M.carrier → Mbar.carrier, M.IsMorphism Mbar g ∧ g ∘ f = id ∧ f ∘ g = id := by
-  obtain ⟨Mbar, hU⟩ := cbg_of_mcghdInjective s₀ hGH hS hinj
-  exact ⟨Mbar, hU.isETTMaximal, fun M hM => hU.existsUnique_iso (hM.isUniversal hU)⟩
-
-/-- **The ETT/Barbot reading** of `theo:CBG` (`cbg_isETTMaximal` of `CBG/Geometry`, with
-uniqueness up to unique isomorphism): from `cbg_proof`. -/
-theorem cbg_proof_ett [T2Space M₀] [ConnectedSpace M₀] [SecondCountableTopology M₀]
+/-- **The ETT/Barbot reading** of `theo:CBG` (DEC-59, kb/0022; sorry-free): an ETT-maximal
+development exists (every morphism out of it is bijective), and any ETT-maximal development is
+isomorphic to it by a unique morphism of developments. From `cbg`. -/
+theorem cbg_ett [T2Space M₀] [ConnectedSpace M₀] [SecondCountableTopology M₀]
     (s₀ : 𝔊.Str M₀) (hGH : (𝔊.causality s₀).GloballyHyperbolic) {S : Set M₀}
     (hS : (𝔊.causality s₀).IsCauchySurface S) :
     ∃ Mbar : Dev 𝔊.toPreGeometry s₀, Mbar.IsETTMaximal ∧
       ∀ M : Dev 𝔊.toPreGeometry s₀, M.IsETTMaximal →
         ∃! f : Mbar.carrier → M.carrier, Mbar.IsMorphism M f ∧
           ∃ g : M.carrier → Mbar.carrier, M.IsMorphism Mbar g ∧ g ∘ f = id ∧ f ∘ g = id := by
-  obtain ⟨Mbar, hU⟩ := cbg_proof s₀ hGH hS
+  obtain ⟨Mbar, hU⟩ := cbg s₀ hGH hS
   exact ⟨Mbar, hU.isETTMaximal, fun M hM => hU.existsUnique_iso (hM.isUniversal hU)⟩
 
-/-- `cbg_isETTMaximal` of `CBG/Geometry`, same statement, from `cbg_proof`. -/
-theorem cbg_proof_isETTMaximal [T2Space M₀] [ConnectedSpace M₀] [SecondCountableTopology M₀]
+/-- **An ETT-maximal development exists** (`theo:CBG`, existence half, ETT/Barbot reading;
+sorry-free), from `cbg` (`Dev.IsUniversal.isETTMaximal`). -/
+theorem cbg_isETTMaximal [T2Space M₀] [ConnectedSpace M₀] [SecondCountableTopology M₀]
     (s₀ : 𝔊.Str M₀)
     (hGH : (𝔊.causality s₀).GloballyHyperbolic) {S : Set M₀}
     (hS : (𝔊.causality s₀).IsCauchySurface S) :
     ∃ Mbar : Dev 𝔊.toPreGeometry s₀, Mbar.IsETTMaximal :=
-  (cbg_proof s₀ hGH hS).imp fun _ h => h.isETTMaximal
+  (cbg s₀ hGH hS).imp fun _ h => h.isETTMaximal
 
-/-- `isETTMaximal_iff_isUniversal` of `CBG/Geometry`, same statement, from `cbg_proof`. -/
-theorem isETTMaximal_iff_isUniversal_proof [T2Space M₀] [ConnectedSpace M₀]
+/-- **The two readings of « maximal » agree** (DEC-59; sorry-free): a development is
+ETT-maximal iff it is universal, given that a universal one exists (`cbg`). -/
+theorem isETTMaximal_iff_isUniversal [T2Space M₀] [ConnectedSpace M₀]
     [SecondCountableTopology M₀] (s₀ : 𝔊.Str M₀) (hGH : (𝔊.causality s₀).GloballyHyperbolic)
     {S : Set M₀}
     (hS : (𝔊.causality s₀).IsCauchySurface S) (M : Dev 𝔊.toPreGeometry s₀) :
     M.IsETTMaximal ↔ M.IsUniversal := by
-  obtain ⟨Mbar, hU⟩ := cbg_proof s₀ hGH hS
+  obtain ⟨Mbar, hU⟩ := cbg s₀ hGH hS
   exact ⟨fun h => h.isUniversal hU, fun h => h.isETTMaximal⟩
 
 end Principal

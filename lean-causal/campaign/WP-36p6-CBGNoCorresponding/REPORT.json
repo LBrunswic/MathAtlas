@@ -166,8 +166,8 @@
         },
         {
           "paper": "ψ an isometric embedding",
-          "here": "carried",
-          "note": "InjOn f W (Pgcd's IsCGHD asks a morphism; injectivity = Lemma 3.3, IsCGHD.injOn, needs a time function)"
+          "here": "weakened",
+          "note": "not asked: Pgcd's IsCGHD asks a morphism; injectivity is derived inside IsCGHD.cghdData (IsCGHD.injOn, Lemma 3.3, from the Geometry field timeFunction — interface round 2). Before round 2: carried as InjOn f W"
         },
         {
           "paper": "proof: Lemma 3.9, Lemma 3.8 (V ∩ ∂U ⊆ C), τ_q, hyperboloid S, Thm 2.6, Lemma 3.1, Lemma 3.11",
@@ -177,7 +177,7 @@
         {
           "paper": "conclusion: a strictly larger extension that is a CGHD (with isometric EMBEDDING)",
           "here": "weakened",
-          "note": "IsCGHD N₁ N₂ W' f' (package 4's approved IsCGHD, no injectivity); InjOn f' W' not proved — follows from IsCGHD.injOn given a time function: the conclusion half of the same time-function need as the hypothesis InjOn f W"
+          "note": "IsCGHD N₁ N₂ W' f' (package 4's IsCGHD, no injectivity in the conclusion); InjOn f' W' follows from it by IsCGHD.injOn (no hypothesis since interface round 2)"
         }
       ],
       "sorries": [],
@@ -204,8 +204,8 @@
         },
         {
           "paper": "N ∈ ℰ (ETT.tex:1953–1954, clause (b): no injectivity)",
-          "here": "strengthened",
-          "note": "InjOn f W carried; discharged by IsCGHD.injOn from a time function (Pgcd's interface need)"
+          "here": "carried",
+          "note": "IsCGHD N₁ N₂ W f, no injectivity asked, as ETT prints (derived by IsCGHD.injOn from Geometry.timeFunction since interface round 2; before: InjOn f W carried, strengthened)"
         },
         {
           "paper": "conclusion: N not maximal among common sub-extensions (ℰ, ETT.tex:1953–1954, no injectivity)",
@@ -223,8 +223,7 @@
       "status": "partial",
       "marked": false,
       "decls": [
-        "Causal.CBG.correspondingSet_mcghd_eq_empty",
-        "Causal.CBG.correspondingSet_mcghd_eq_empty_of_timeFunction"
+        "Causal.CBG.correspondingSet_mcghd_eq_empty"
       ],
       "hypotheses": [
         {
@@ -234,8 +233,8 @@
         },
         {
           "paper": "(ψ an embedding, Sbierski Lemma 3.3)",
-          "here": "strengthened",
-          "note": "InjOn mcghdMap mcghdOpens, or (𝔊.causality N₁.str).HasTimeFunction (Pgcd's IsCGHD.injOn) — the interface need Pgcd already reported"
+          "here": "carried",
+          "note": "derived, not carried: mcghdMap injective by IsCGHD.injOn (Geometry.timeFunction, interface round 2); correspondingSet_mcghd_eq_empty takes no hypothesis"
         }
       ],
       "sorries": [],
@@ -252,7 +251,6 @@
       "marked": false,
       "decls": [
         "Causal.CBG.t2Space_gluing_mcghd",
-        "Causal.CBG.t2Space_gluing_mcghd_of_timeFunction",
         "Causal.CBG.CGHDData.t2Space_gluing_iff"
       ],
       "hypotheses": [
@@ -263,8 +261,8 @@
         },
         {
           "paper": "N ∈ ℰ (ETT.tex:1953–1954, clause (b): no injectivity)",
-          "here": "strengthened",
-          "note": "InjOn mcghdMap mcghdOpens carried; discharged by IsCGHD.injOn from a time function (t2Space_gluing_mcghd_of_timeFunction; Pgcd's interface need)"
+          "here": "carried",
+          "note": "no injectivity carried: t2Space_gluing_mcghd takes no hypothesis since interface round 2 (mcghdMap injective by IsCGHD.injOn from Geometry.timeFunction)"
         }
       ],
       "sorries": [],
@@ -399,5 +397,20 @@
       "outcome": "fixed",
       "where": "module docstring: pp. 15–20 with per-result pages"
     }
-  ]
+  ],
+  "interface_round_2": {
+    "date": "2026-11-01",
+    "host": "node1",
+    "applied": [
+      "IsCGHD.cghdData, IsCGHD.exists_lt (Thm 3.6), correspondingSet_mcghd_eq_empty (Thm 3.13), t2Space_gluing_mcghd: the hypothesis InjOn (f on W, resp. mcghdMap on mcghdOpens) is removed, derived by IsCGHD.injOn (Pgcd, from Geometry.timeFunction).",
+      "Deleted as redundant (no user): correspondingSet_mcghd_eq_empty_of_timeFunction, t2Space_gluing_mcghd_of_timeFunction.",
+      "Docstring: checklist rows Thm 3.6 embedding / Thm 3.6 conclusion / Thm 3.13 / prop:Cauchy_non_max ℰ / prop:ppcm_Cauchy ℰ and the design §3 step 4 row; SCOPE first bullet rewritten ('no hypothesis is carried')."
+    ],
+    "callers_updated": [
+      "Ppcm: ppcm_hj₂ (cghdData), t2Space_gluing_mcghd ×3",
+      "Maximal: t2Space_gluing_mcghd ×2 (mcghd_cocycle, maxSpace_t2)"
+    ],
+    "build": "lake env lean: exit 0, no output; lake build CausalScaffold.CBG.NoCorresponding: success",
+    "axioms": "t2Space_gluing_mcghd: [propext, Classical.choice, Quot.sound]"
+  }
 }

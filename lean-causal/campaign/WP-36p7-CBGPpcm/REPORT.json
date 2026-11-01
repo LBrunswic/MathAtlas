@@ -20,7 +20,6 @@
         "Causal.CBG.ppcmDev_desc",
         "Causal.CBG.ppcmDev_unique",
         "Causal.CBG.ppcmDev_desc_injective",
-        "Causal.CBG.exists_ppcm_of_timeFunction",
         "Causal.CBG.exists_common_extension"
       ],
       "hypotheses": [
@@ -31,8 +30,8 @@
         },
         {
           "paper": "the MCGHD morphism is an isometric embedding (Sbierski)",
-          "here": "strengthened",
-          "note": "InjOn mcghdMap mcghdOpens carried; discharged by a time function on N_1 (exists_ppcm_of_timeFunction, Lemma 3.3) - the interface need of packages 4/6, the queued timeFunction field"
+          "here": "carried",
+          "note": "derived: mcghdMap_injOn (Pgcd; Lemma 3.3 from Geometry.timeFunction, interface round 2); exists_ppcm / exists_common_extension take no hypothesis. The construction lemmas (ppcmStr, ppcmDev, ppcmDev_desc, ppcmDev_unique, …) keep hinj as a proof parameter, always supplied by mcghdMap_injOn"
         },
         {
           "paper": "minimality over common over-extensions with Cauchy embeddings M_i -> M",
@@ -42,7 +41,7 @@
         {
           "paper": "the induced map ppcm -> M is a Cauchy embedding (ETT.tex:2329)",
           "here": "carried",
-          "note": "conditional conclusion, not a hypothesis of the paper: ETT.tex:2329 asserts that the descended map ppcm -> M is a Cauchy embedding; here the descended morphism exists and is unique unconditionally (ppcmDev_desc), and its injectivity is proved only under an extra hypothesis, a time function on ppcmStr hinj (ppcmDev_desc_injective, Lemma 3.3); that hypothesis is discharged by the queued timeFunction field, ppcmDev being a Dev"
+          "note": "ETT.tex:2329: the descended map ppcm -> M is a Cauchy embedding; here the descended morphism exists and is unique (ppcmDev_desc) and is injective (ppcmDev_desc_injective) by the time function of the development ppcm (Dev.causality_hasTimeFunction, Geometry.timeFunction) — unconditional since interface round 2"
         },
         {
           "paper": "uniqueness up to equivalence",
@@ -203,5 +202,20 @@
       "Causal.CBG.timelikeLine_twoPiece": "Causal.Causality.timelikeLine_twoPiece",
       "Causal.CBG.timelikeLine_cauchySide": "Causal.Causality.timelikeLine_cauchySide"
     }
+  },
+  "interface_needs_status": "DISCHARGED by interface round 2 (2026-11-01): Geometry.timeFunction gives hinj (mcghdMap_injOn) and the time function of ppcmDev_desc_injective; the interface_needs block is kept as history.",
+  "interface_round_2": {
+    "date": "2026-11-01",
+    "host": "node1",
+    "applied": [
+      "exists_ppcm (principal, Thm 2.7) and exists_common_extension: hinj removed, N₁ N₂ now explicit; P = ppcmDev N₁ N₂ mcghdMap_injOn.",
+      "ppcmDev_desc_injective: the hypothesis hT (time function on ppcmStr hinj) removed, = (ppcmDev N₁ N₂ hinj).causality_hasTimeFunction.",
+      "ppcm_hj₂ and ppcm_secondCountable: hinj dropped (unused once t2Space_gluing_mcghd and IsCGHD.cghdData stopped taking it).",
+      "exists_ppcm_of_timeFunction deleted (redundant, no user).",
+      "hinj kept as a proof parameter of the construction lemmas (convex_mcghdImage, mcghd_le_iff, ppcm_injective_j₂, ppcm_ι₁_eq_ι₂_iff, exists_ppcmStr, ppcmStr, isMor_ppcm_ι₁/₂, ppcm_chart₁/₂, ppcm_twoPiece, ppcm_globallyHyperbolic, ppcm_isCauchySurface, ppcm_isCauchyEmbedding, ppcmDev, ppcmDev_isMorphism₁/₂, ppcmDev_desc, ppcmDev_desc_injective, ppcmDev_unique): a Prop (proof-irrelevant), always mcghdMap_injOn; Maximal's family construction passes it per pair. Disclosed in SCOPE.",
+      "Docstring: What-is-proved, checklist rows 'ψ an isometric embedding' (⚠ strengthened → ✓ derived) and minimality/Cauchy-embedding, SCOPE ('Interface round 2 (1), applied')."
+    ],
+    "build": "lake env lean: exit 0, no output; lake build CausalScaffold.CBG.Ppcm: success",
+    "axioms": "exists_ppcm, ppcmDev_desc_injective: [propext, Classical.choice, Quot.sound]"
   }
 }

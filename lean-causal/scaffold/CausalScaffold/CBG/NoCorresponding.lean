@@ -77,32 +77,33 @@ and the Hausdorff step of the proof of Thm 2.7 (p. 20).
 |---|---|
 | Lemma 3.9: `U` a CGHD, `C ∩ J⁺(ι(M)) ≠ ∅` | ✓ `CGHDData` (package 5's A3 setting) + `p₀ ∈ C ∩ J⁺(S)`; past twin `_past` (`J⁻`, `K⁺`; R4, no duality of the bundle) |
 | Lemma 3.9's proof: null geodesics in `∂U`, `C` open and closed along them, Lemma 3.8's embedding | ⚠ replaced: a `≤`-minimal point of the compact `∂U ∩ J⁺(Σ) ∩ J⁻(p₀)` (A2 `isCompact_*`, Zorn) and the `K⁻` cluster argument of package 5 (`exists_corresponds_of_le`; `K_monotone` of the corrected bundle). No geodesic, no time function, no openness of `C` |
-| design §3 step 4: "Lemma 3.9 via a Geroch time minimised on `∂U ∩ J(Σ, p₀)`" | ⚠ replaced: `≤`-minimal point (Zorn; `J⁻(x)` closed, causal). The Geroch time would need a `Geometry` field (the time function Pgcd asks for); minimality needs none |
+| design §3 step 4: "Lemma 3.9 via a Geroch time minimised on `∂U ∩ J(Σ, p₀)`" | ⚠ replaced: `≤`-minimal point (Zorn; `J⁻(x)` closed, causal). A time function is now an interface field (`Geometry.timeFunction`, round 2), but minimality needs none |
 | Lemma 3.11: `U` a GHD, `M ⊇ U`, `p ∈ ∂U` with (3.10), `W` an open neighbourhood | ✓ `W ∈ 𝓝 p` (any neighbourhood, ⚠ weakened); model-free: `p ∈ Z⁺`, `J^±(x)` closed, `J⁻(p) ⊆ closure K⁻(p)`, `lem:Sigma_separe`'s clause, compact `J⁺(S) ∩ J⁻(x)`, `U` causally convex (all derived from A2 at Level A); only `⊆` of (3.10) used |
 | Lemma 3.11's proof: a timelike curve `γ` from `p`, "the relation `≤` is closed" | ⚠ replaced: the directed family `q ≫ p, q ≤ q₁` (`Z⁺`) and closed `J⁺(r)`; the final contradiction by `K⁻` density + `lem:passe_pgcd` instead of "contradicts the GH of `U`" |
 | Lemma 3.11, past side | ⚠ strengthened: `p ∉ sing₀` (`exists_lt_Jplus_compl_subset_past`): at a BTZ point `I⁻(p) = ∅`, so the conclusion `q ∈ I⁻(p)` is unsatisfiable there; without `p ∉ sing₀` the lemma would say no BTZ point satisfies its hypotheses (not settled here); finding (R4) |
 | Thm 3.6: `M`, `M'` GHDs, `U` a CGHD, corresponding points exist | ✓ `IsCGHD N₁ N₂ W f`, `C ≠ ∅` (any time side: `mem_Jplus_union_Jminus_of_isCauchySurface`) |
-| Thm 3.6: `ψ` an isometric **embedding** | ⚠ carried as `InjOn f W` (Pgcd's `IsCGHD` asks a morphism only; injectivity is Lemma 3.3, `IsCGHD.injOn`, which needs a time function) |
+| Thm 3.6: `ψ` an isometric **embedding** | ✓ derived, not carried: Pgcd's `IsCGHD` asks a morphism only, and injectivity is Lemma 3.3 (`IsCGHD.injOn`, from the interface field `Geometry.timeFunction`, round 2), used inside `IsCGHD.cghdData` |
 | Thm 3.6's proof: `τ_q`, the hyperboloid `S`, Theorem 2.6 (local uniqueness), Lemma 3.1 continuity | ⚠ replaced by the interface: A4 (`slice_future` / `slice_past`, Sbierski (3.12) + Lemma 3.11) and A3 (`germExt_*`, Lemma 3.8, via `CGHDData.ext_continue`); Sbierski's "convex neighbourhood `V` with `V ∩ ∂U ⊆ C`" is not needed (one germ `φ` on `O ∋ p`, `U' ⊆ U ∪ O`) |
-| Thm 3.6: "strictly larger", "a CGHD" | ✓ `W < W'`, `IsCGHD N₁ N₂ W' f'`, `f' = f` on `W`; ⚠ injectivity of `f'` (Sbierski's "isometric embedding") **not** delivered — package 4's `IsCGHD` does not ask it; it follows from `IsCGHD.injOn` given a time function (the same interface need as the hypothesis `InjOn f W`) |
-| Thm 3.13: `U` the MCGHD | ✓ `mcghdOpens`, `mcghdMap` (package 4); ⚠ `InjOn mcghdMap mcghdOpens` carried (or a time function, `_of_timeFunction`) |
+| Thm 3.6: "strictly larger", "a CGHD" | ✓ `W < W'`, `IsCGHD N₁ N₂ W' f'`, `f' = f` on `W`; injectivity of `f'` (Sbierski's "isometric embedding") is not in the conclusion — package 4's `IsCGHD` does not ask it — but follows from it by `IsCGHD.injOn` (no hypothesis) |
+| Thm 3.13: `U` the MCGHD | ✓ `mcghdOpens`, `mcghdMap` (package 4); its injectivity derived (`IsCGHD.injOn`, `Geometry.timeFunction`), no hypothesis |
 | `prop:Cauchy_point_min`: `C ≠ ∅` | ✓ under either reading of `J_{M_1}(\Sigma_1,p')` (ETT defines `J_M(Σ,p)` only for `p ∈ J⁺(Σ)`; question reported): `J⁺(Σ₁) ∩ J⁻(p')` — `exists_diamond_subset_of_nonempty` (future case by Lemma 3.9 + `spacelike_iff`; past case vacuous under this reading: `J⁺(Σ₁) ∩ J⁻(p₀) ⊆ U` by causal convexity); time-symmetric `J⁻(Σ₁) ∩ J⁺(p')` at past points — `exists_diamond_subset_symm` / `_past` (not vacuous); `exists_spacelike` (the time-oriented (3.10), future or past — what `prop:Cauchy_non_max`'s past-side slice needs) |
 | `prop:Cauchy_non_max`: `(p,q) ∈ C` with `J(Σ₁,p) ∖ {p} ⊂ j₁(N)` | ⚠ weakened: `C ≠ ∅` suffices (`IsCGHD.exists_lt`: Lemma 3.9 supplies the point) |
-| `prop:Cauchy_non_max`: `N ∈ ℰ` (`ETT.tex:1953–1954`, no injectivity) | ⚠ strengthened: `InjOn f W` carried (discharged by `IsCGHD.injOn` from a time function — Pgcd's interface need) |
+| `prop:Cauchy_non_max`: `N ∈ ℰ` (`ETT.tex:1953–1954`, no injectivity) | ✓ carried as ETT prints it: `IsCGHD N₁ N₂ W f`, no injectivity asked (derived by `IsCGHD.injOn`) |
 | `prop:Cauchy_non_max`: conclusion "`N` not maximal" in `ℰ` | ✓ carried: the larger `(W', f')` is `IsCGHD` (package 4), which, like ETT's `ℰ`, asks no injectivity |
 | `prop:ppcm_Cauchy`, Hausdorff half; `rem:non_separe_cas` | ✓ `t2Space_gluing_mcghd` (`Gluing.t2Space_iff_Cdist_eq_empty`, `C_eq_closure`); the structure on the gluing and its minimality are package 7 |
-| `prop:ppcm_Cauchy`: `ℰ` without injectivity | ⚠ strengthened: `InjOn mcghdMap mcghdOpens` carried (or a time function, `_of_timeFunction`) |
+| `prop:ppcm_Cauchy`: `ℰ` without injectivity | ✓ no injectivity carried (`t2Space_gluing_mcghd`; derived by `mcghdMap_injOn`) |
 | `prop:C_connexe`: "`C` is closed in `∂j₁(N) × ∂j₂(N)`" | ✓ `isClosed_setOf_corresponds_frontier` (the corresponding pairs in `∂U × ∂V`, any `V`; `C ⊆ ∂U × ∂ψ(U)` by package 5's `mem_frontier_of_corresponds`) and `isClosed_setOf_corresponds` (reading: all corresponding pairs in `M × N`, the closure of the graph; model-free) |
 | second countable | model-free ⚠ weakened: first countable; Level A ✓ carried |
 
 ## SCOPE (disclosed)
 
-* **No new `Geometry` field is needed by this package.** Lemma 3.9 uses only A2 (`isCompact_*`,
-  `K_monotone`/`K_densite_sing` of the corrected bundle, `tarentin` via `kSide_*`) and A3 (through
-  package 5's `CGHDData`, whose `isCorrPair` asks `ψ` injective); Thm 3.6 adds A4. The only
-  carried hypothesis is the injectivity of `f` (resp. of `mcghdMap`), which `IsCGHD.injOn`
-  (package 4) obtains from `(𝔊.causality N₁.str).HasTimeFunction` — Pgcd's reported interface
-  need (a `timeFunction` field), repeated here, not new.
+* **No `Geometry` field beyond interface round 2 is needed by this package, and no hypothesis is
+  carried.** Lemma 3.9 uses only A2 (`isCompact_*`, `K_monotone`/`K_densite_sing` of the corrected
+  bundle, `tarentin` via `kSide_*`) and A3 (through package 5's `CGHDData`, whose `isCorrPair` asks
+  `ψ` injective); Thm 3.6 adds A4. The injectivity of `f` (resp. of `mcghdMap`), carried as a
+  hypothesis `InjOn` before interface round 2, is now derived (`IsCGHD.injOn`, Lemma 3.3, from
+  the field `Geometry.timeFunction`); the `_of_timeFunction` variants of Thm 3.13 and of the
+  Hausdorff gluing, which took a time function on `N₁` instead, are deleted as redundant (no user).
 * Thm 3.6 is proved **from A4**, which is Sbierski's slice step (`τ_q`, (3.12), Lemma 3.11, the
   Gauss lemma, Theorem 2.6) taken as an axiom of the geometry (design §2); Lemma 3.11 is proved
   here independently (model-free and Level A) so that whoever discharges A4 at the instance
@@ -729,12 +730,14 @@ section Dev
 variable {𝔊 : Geometry.{u}} {M₀ : Type u} [TopologicalSpace M₀] {s₀ : 𝔊.Str M₀}
   {N₁ N₂ : Dev 𝔊.toPreGeometry s₀}
 
-/-- **A common Cauchy development with injective morphism is in package 5's CGHD setting**, with
-`S = ι₁(Σ)` for a Cauchy surface `Σ` of `M₀`. -/
+/-- **A common Cauchy development is in package 5's CGHD setting**, with `S = ι₁(Σ)` for a Cauchy
+surface `Σ` of `M₀`; its morphism is injective by Lemma 3.3 (`IsCGHD.injOn`, from the interface's
+`Geometry.timeFunction`). -/
 theorem IsCGHD.cghdData {W : Opens N₁.carrier} {f : N₁.carrier → N₂.carrier}
-    (h : IsCGHD N₁ N₂ W f) (hinj : InjOn f W) {S : Set M₀}
+    (h : IsCGHD N₁ N₂ W f) {S : Set M₀}
     (hS : (𝔊.causality s₀).IsCauchySurface S) :
     CGHDData 𝔊 N₁.str N₂.str W f (N₁.emb '' S) := by
+  have hinj := h.injOn
   have himg : f '' (N₁.emb '' S) = N₂.emb '' S := by rw [← image_comp, h.2.2]
   have hSsub : N₁.emb '' S ⊆ (W : Set N₁.carrier) :=
     fun _ hx => h.1.1 (N₁.image_subset_range S hx)
@@ -754,15 +757,16 @@ theorem IsCGHD.cghdData {W : Opens N₁.carrier} {f : N₁.carrier → N₂.carr
         hSsub).1 hSW }
 
 /-- **Sbierski Theorem 3.6** (`prop:Cauchy_non_max`, `ETT.tex:2178`): a common Cauchy development
-`(W, f)` (`f` injective) with corresponding boundary points has a **strictly larger** common
-Cauchy development `(W', f')`, `f' = f` on `W`. In particular `W` is not the MCGHD. -/
+`(W, f)` with corresponding boundary points has a **strictly larger** common Cauchy development
+`(W', f')`, `f' = f` on `W`. In particular `W` is not the MCGHD. (`f` is injective by Lemma 3.3,
+`IsCGHD.injOn`.) -/
 theorem IsCGHD.exists_lt {W : Opens N₁.carrier} {f : N₁.carrier → N₂.carrier}
-    (h : IsCGHD N₁ N₂ W f) (hinj : InjOn f W)
+    (h : IsCGHD N₁ N₂ W f)
     (hC : (correspondingSet (W : Set N₁.carrier) f).Nonempty) :
     ∃ (W' : Opens N₁.carrier) (f' : N₁.carrier → N₂.carrier), W < W' ∧ IsCGHD N₁ N₂ W' f' ∧
       EqOn f' f W := by
   obtain ⟨S, hS, -⟩ := N₁.isCauchyEmbedding.exists_cauchy
-  obtain ⟨W', f', hlt, hmor, heq, hgh, hcy⟩ := (h.cghdData hinj hS).exists_extension hC
+  obtain ⟨W', f', hlt, hmor, heq, hgh, hcy⟩ := (h.cghdData hS).exists_extension hC
   refine ⟨W', f', hlt, ⟨⟨h.1.1.trans hlt.le, h.1.2.1, hgh, N₁.emb '' S, N₁.image_subset_range S,
     N₁.isCauchySurfaceOn_range hS, hcy⟩, hmor, ?_⟩, heq⟩
   funext x
@@ -771,40 +775,24 @@ theorem IsCGHD.exists_lt {W : Opens N₁.carrier} {f : N₁.carrier → N₂.car
   exact congrFun h.2.2 x
 
 /-- **Sbierski Theorem 3.13**: the MCGHD of two developments has **no corresponding boundary
-points** (`prop:ppcm_Cauchy`'s "Hence `C = ∅`", `ETT.tex:2323`), given the injectivity of its
-morphism (Lemma 3.3; `correspondingSet_mcghd_eq_empty_of_timeFunction`). -/
-theorem correspondingSet_mcghd_eq_empty [ConnectedSpace M₀]
-    (hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂)) :
+points** (`prop:ppcm_Cauchy`'s "Hence `C = ∅`", `ETT.tex:2323`). -/
+theorem correspondingSet_mcghd_eq_empty [ConnectedSpace M₀] :
     correspondingSet (mcghdOpens N₁ N₂ : Set N₁.carrier) (mcghdMap N₁ N₂) = ∅ := by
   by_contra hne
   obtain ⟨W', f', hlt, hW', -⟩ :=
-    (isCGHD_mcghd (N₁ := N₁) (N₂ := N₂)).exists_lt hinj (nonempty_iff_ne_empty.2 hne)
+    (isCGHD_mcghd (N₁ := N₁) (N₂ := N₂)).exists_lt (nonempty_iff_ne_empty.2 hne)
   exact lt_irrefl _ (lt_of_lt_of_le hlt (le_mcghdOpens hW'))
-
-/-- **Theorem 3.13 with a time function on `N₁`** (the hypothesis of package 4's Lemma 3.3). -/
-theorem correspondingSet_mcghd_eq_empty_of_timeFunction [ConnectedSpace M₀]
-    (hT : (𝔊.causality N₁.str).HasTimeFunction) :
-    correspondingSet (mcghdOpens N₁ N₂ : Set N₁.carrier) (mcghdMap N₁ N₂) = ∅ :=
-  correspondingSet_mcghd_eq_empty ((isCGHD_mcghd (N₁ := N₁) (N₂ := N₂)).injOn hT)
 
 /-- **The gluing of two developments along their MCGHD is Hausdorff** (Sbierski, proof of Thm 2.7:
 "Theorem 3.13 will yield that this space is Hausdorff"; `prop:ppcm_Cauchy`, `ETT.tex:2323–2324`):
 `(N₁ ⊔ N₂)/(x ∼ ψ x, x ∈ U)` is `T2`. -/
-theorem t2Space_gluing_mcghd [ConnectedSpace M₀]
-    (hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂)) :
+theorem t2Space_gluing_mcghd [ConnectedSpace M₀] :
     T2Space (Gluing (Subtype.val : mcghdOpens N₁ N₂ → N₁.carrier)
       (mcghdMap N₁ N₂ ∘ (Subtype.val : mcghdOpens N₁ N₂ → N₁.carrier))) := by
   haveI : Nonempty N₁.carrier := ⟨N₁.emb (Classical.arbitrary M₀)⟩
   obtain ⟨S, hS, -⟩ := N₁.isCauchyEmbedding.exists_cauchy
-  exact (((isCGHD_mcghd (N₁ := N₁) (N₂ := N₂)).cghdData hinj hS).t2Space_gluing_iff).2
-    (correspondingSet_mcghd_eq_empty hinj)
-
-/-- The gluing along the MCGHD is Hausdorff, with a time function on `N₁`. -/
-theorem t2Space_gluing_mcghd_of_timeFunction [ConnectedSpace M₀]
-    (hT : (𝔊.causality N₁.str).HasTimeFunction) :
-    T2Space (Gluing (Subtype.val : mcghdOpens N₁ N₂ → N₁.carrier)
-      (mcghdMap N₁ N₂ ∘ (Subtype.val : mcghdOpens N₁ N₂ → N₁.carrier))) :=
-  t2Space_gluing_mcghd ((isCGHD_mcghd (N₁ := N₁) (N₂ := N₂)).injOn hT)
+  exact (((isCGHD_mcghd (N₁ := N₁) (N₂ := N₂)).cghdData hS).t2Space_gluing_iff).2
+    correspondingSet_mcghd_eq_empty
 
 end Dev
 

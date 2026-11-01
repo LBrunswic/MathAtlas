@@ -51,9 +51,10 @@ Cited, unmarked: `prop:ppcm_Cauchy` — `ETT.tex:1994`, `defi:ppcm` — `ETT.tex
   `ppcm_isCauchySurface`, `ppcm_connectedSpace`, `ppcm_secondCountable`, **`ppcmDev`** (a
   development; T2 by `t2Space_gluing_mcghd`, package 6), `ppcmDev_isMorphism₁/₂`,
   **`ppcmDev_desc`** (minimality, unique factorisation: rigidity A1 + `Gluing.desc`),
-  `ppcmDev_desc_injective` (the factorisation is injective, given a time function on `ppcm`),
-  **`ppcmDev_unique`** (unique minimal up to equivalence), **`exists_ppcm`** (the principal
-  theorem), `exists_ppcm_of_timeFunction`, `exists_common_extension`.
+  `ppcmDev_desc_injective` (the factorisation is injective, by the time function of the
+  development `ppcm`), **`ppcmDev_unique`** (unique minimal up to equivalence), **`exists_ppcm`**
+  (the principal theorem, no hypothesis beyond the geometry and `M₀` connected),
+  `exists_common_extension`.
 * **Witnesses** (namespace `Causal.Causality`): `timelikeLine_twoPiece`, `timelikeLine_cauchySide`,
   `timelikeLine_twoPiece_globallyHyperbolic` (all hypotheses of `TwoPiece.globallyHyperbolic`
   jointly, with proper `PieceChart` images).
@@ -63,30 +64,38 @@ Cited, unmarked: `prop:ppcm_Cauchy` — `ETT.tex:1994`, `defi:ppcm` — `ETT.tex
 | paper | here |
 |---|---|
 | `M₀` GH singular flat, `M₁`, `M₂` Cauchy extensions (`ETT.tex:1995–1996`) | ✓ `N₁ N₂ : Dev 𝔊 s₀` over any `Geometry` (DEC-60); `[ConnectedSpace M₀]` carried as in packages 4, 6 (`lem:C_ext_connexe`) |
-| `ψ` an isometric **embedding** (Sbierski: « the isometric embedding of `U` into `M′` ») | ⚠ strengthened: `InjOn mcghdMap mcghdOpens` carried (Lemma 3.3 needs a time function: `exists_ppcm_of_timeFunction`, `IsCGHD.injOn`) — the interface need already reported by packages 4, 6 (the queued `timeFunction` field) |
+| `ψ` an isometric **embedding** (Sbierski: « the isometric embedding of `U` into `M′` ») | ✓ derived (`mcghdMap_injOn`: Lemma 3.3, `IsCGHD.injOn`, from the interface field `Geometry.timeFunction`, round 2); not carried by `exists_ppcm` / `exists_common_extension`. The construction lemmas (`ppcmStr`, `ppcmDev`, `ppcmDev_desc`, `ppcmDev_unique`, …) keep `hinj` as a proof parameter (see SCOPE) |
 | `ppcm` « a manifold by construction — the charts descend » (`ETT.tex:2000–2001`) | ✓ `Geometry.glue` (transitions `id`, `ψ`, `ψ⁻¹`; Sbierski's atlas, step 1) |
 | second countable (`ETT.tex:2001`; Sbierski step 2) | ✓ `ppcm_secondCountable` (open quotient of `N₁ ⊔ N₂`) |
 | Hausdorff (`ETT.tex:2323–2324`, `rem:non_separe_cas`) | ✓ `t2Space_gluing_mcghd` (package 6, Thm 3.13) |
 | « it is a singular flat spacetime » (`ETT.tex:2324`): global hyperbolicity, `ι(Σ)` Cauchy | ✓ proved (ETT's GH, causal + compact diamonds): `ppcm_globallyHyperbolic`, `ppcm_isCauchySurface`; ⚠ route replaced: Sbierski's step 4 uses timelike curves and the GH of `U`; here the exit/re-entry argument on chains (`TwoPiece.mem_of_le_top`), and compactness by `isCompact_diamond_mixed`; ETT gives no argument (finding) |
-| minimality: a morphism `ppcm → M` for every common over-extension (`ETT.tex:1983–1985`, `2326–2330`) | ✓ `ppcmDev_desc`, ⚠ weakened hypothesis: `g₁`, `g₂` any morphisms of developments (not asked injective), and the factorisation is **unique**; « yields a Cauchy embedding »: injectivity by `ppcmDev_desc_injective`, ⚠ under a time function on `ppcm` |
+| minimality: a morphism `ppcm → M` for every common over-extension (`ETT.tex:1983–1985`, `2326–2330`) | ✓ `ppcmDev_desc`, ⚠ weakened hypothesis: `g₁`, `g₂` any morphisms of developments (not asked injective), and the factorisation is **unique**; « yields a Cauchy embedding »: injectivity by `ppcmDev_desc_injective` (the time function of the development `ppcm`, `Geometry.timeFunction`) |
 | rigidity (`rem:CBG_analytique`) | ✓ `Geometry.rigid` (A1), on the connected `U` (`mcghd_connectedSpace`) |
 | uniqueness up to equivalence | ✓ `ppcmDev_unique`, ⚠ weakened: the competitor `R` need only factor pairs of **injective** morphisms `gᵢ` (ETT's Cauchy embeddings), not uniquely |
 | connected | ✓ `ppcm_connectedSpace` (no injectivity used) |
 
 ## SCOPE (disclosed)
 
-* **No new `Geometry` field is needed.** The construction uses `glue`, `isMor_*`, `isMor_inv`,
-  `absolutelyMinimalOn`, `rigid`, and on `N₁`, `N₂` (developments, so GH) A2's `singularFlatAxioms`
-  (`K_densite_sing`, `tarentin`), `curvesExtend`, `isCompact_*`. On `ppcm` itself none of
-  `curvesExtend`, `isCompact_*`, `secondCountable_of_cauchy` is used, so the package-10 risk (design
-  §6) does not arise here. The carried hypotheses are `InjOn mcghdMap mcghdOpens` (above) and, for
-  `ppcmDev_desc_injective` only, a time function on `ppcmStr hinj`. Both are discharged by the
-  `timeFunction` field queued in design §6 (interface round 2), whose needed signature is
-  `timeFunction : ∀ {M} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
-  [SecondCountableTopology M] (s : Str M), (causality s).GloballyHyperbolic →
-  (causality s).HasTimeFunction`: on `N₁` it gives `hinj` through `IsCGHD.injOn`
-  (`exists_ppcm_of_timeFunction`), and on `ppcmDev` (a `Dev`: T2, connected, second countable and
-  GH are all proved here) it gives the time function of `ppcmDev_desc_injective`.
+* **No `Geometry` field beyond interface round 2 is needed.** The construction uses `glue`,
+  `isMor_*`, `isMor_inv`, `absolutelyMinimalOn`, `rigid`, and on `N₁`, `N₂` (developments, so GH)
+  A2's `singularFlatAxioms` (`K_densite_sing`, `tarentin`), `curvesExtend`, `isCompact_*`,
+  `timeFunction`. On `ppcm` itself none of `curvesExtend`, `isCompact_*`,
+  `secondCountable_of_cauchy` is used (only `timeFunction`, in `ppcmDev_desc_injective`, once
+  `ppcm` is a `Dev`), so the package-10 risk (design §6) does not arise here.
+* **Interface round 2 (1), applied.** The two hypotheses this package carried before the field
+  existed are discharged: `InjOn mcghdMap mcghdOpens` is `mcghdMap_injOn` (`CBG/Pgcd`, Lemma 3.3
+  from `Geometry.timeFunction` on `N₁`), so `exists_ppcm` and `exists_common_extension` no longer
+  take it; and the time function on `ppcmStr hinj` of `ppcmDev_desc_injective` is
+  `(ppcmDev N₁ N₂ hinj).causality_hasTimeFunction`, so that hypothesis is removed. The redundant
+  `exists_ppcm_of_timeFunction` is deleted (no user). The construction lemmas and definitions
+  (`convex_mcghdImage`, `mcghd_le_iff`, `ppcm_injective_j₂`, `ppcm_ι₁_eq_ι₂_iff`, `exists_ppcmStr`,
+  `ppcmStr`, `isMor_ppcm_ι₁/₂`, `ppcm_chart₁/₂`, `ppcm_twoPiece`, `ppcm_globallyHyperbolic`,
+  `ppcm_isCauchySurface`, `ppcm_isCauchyEmbedding`, `ppcmDev`, `ppcmDev_isMorphism₁/₂`,
+  `ppcmDev_desc`, `ppcmDev_desc_injective`, `ppcmDev_unique`) keep `hinj` as a **proof
+  parameter**: it is a `Prop`, so `ppcmDev N₁ N₂ h` does not depend on `h` (proof irrelevance), it
+  is always supplied by `mcghdMap_injOn`, and `CBG/Maximal`'s family construction passes it per
+  pair; removing it would only move `N₁ N₂` to explicit arguments throughout. `ppcm_hj₂` and
+  `ppcm_secondCountable` no longer take it (they had stopped using it).
 * The causality of the glued structure is **not** identified with `Gluing.causality` (the planned
   lemma `CBG/Geometry`'s SCOPE and `glue` docstring assign to this package): the obligation is
   **discharged by replacement** — the two charts `ι₁`, `ι₂` (`pieceChart_of_isMor`: open embeddings
@@ -834,11 +843,11 @@ omit [ConnectedSpace M₀] in
 theorem ppcm_hj₁ : IsOpenEmbedding (Subtype.val : mcghdOpens N₁ N₂ → N₁.carrier) :=
   (mcghdOpens N₁ N₂).isOpen.isOpenEmbedding_subtypeVal
 
-theorem ppcm_hj₂ (hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂)) :
+theorem ppcm_hj₂ :
     IsOpenEmbedding (mcghdMap N₁ N₂ ∘ (Subtype.val : mcghdOpens N₁ N₂ → N₁.carrier)) := by
   haveI : Nonempty N₁.carrier := ⟨N₁.emb (Classical.arbitrary M₀)⟩
   obtain ⟨S, hS, -⟩ := N₁.isCauchyEmbedding.exists_cauchy
-  exact ((isCGHD_mcghd (N₁ := N₁) (N₂ := N₂)).cghdData hinj hS).isCorrPair.isOpenEmbedding_comp_val
+  exact ((isCGHD_mcghd (N₁ := N₁) (N₂ := N₂)).cghdData hS).isCorrPair.isOpenEmbedding_comp_val
 
 theorem ppcm_injective_j₂ (hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂)) :
     Injective (mcghdMap N₁ N₂ ∘ (Subtype.val : mcghdOpens N₁ N₂ → N₁.carrier)) :=
@@ -906,7 +915,7 @@ theorem exists_ppcmStr (hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂)
       𝔊.IsMor N₂.str t ⊤ (Gluing.ι₂ _ _) := by
   haveI : Nonempty N₁.carrier := ⟨N₁.emb (Classical.arbitrary M₀)⟩
   have hj₁ := ppcm_hj₁ (N₁ := N₁) (N₂ := N₂)
-  have hj₂ := ppcm_hj₂ hinj
+  have hj₂ := ppcm_hj₂ (N₁ := N₁) (N₂ := N₂)
   have hψ := (isCGHD_mcghd (N₁ := N₁) (N₂ := N₂)).2.1
   obtain ⟨t, ht⟩ := 𝔊.glue (ppcmPiece N₁ N₂) (ppcmPieceStr N₁ N₂) (ppcmPieceEmb N₁ N₂)
     (by
@@ -960,14 +969,14 @@ theorem isMor_ppcm_ι₂ (hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N�
 
 /-- `ι₁ : N₁ → ppcm` is a chart of the piece `ι₁(N₁)`. -/
 theorem ppcm_chart₁ (hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂)) :
-    Causality.PieceChart (𝔊.causality (ppcmStr hinj)) (Gluing.O₁ ppcm_hj₁ (ppcm_hj₂ hinj))
+    Causality.PieceChart (𝔊.causality (ppcmStr hinj)) (Gluing.O₁ ppcm_hj₁ (ppcm_hj₂))
       (𝔊.causality N₁.str) (Gluing.ι₁ _ _) :=
   pieceChart_of_isMor (isMor_ppcm_ι₁ hinj)
     (Gluing.injective_ι₁ Subtype.val_injective (ppcm_injective_j₂ hinj)) _ rfl
 
 /-- `ι₂ : N₂ → ppcm` is a chart of the piece `ι₂(N₂)`. -/
 theorem ppcm_chart₂ (hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂)) :
-    Causality.PieceChart (𝔊.causality (ppcmStr hinj)) (Gluing.O₂ ppcm_hj₁ (ppcm_hj₂ hinj))
+    Causality.PieceChart (𝔊.causality (ppcmStr hinj)) (Gluing.O₂ ppcm_hj₁ (ppcm_hj₂))
       (𝔊.causality N₂.str) (Gluing.ι₂ _ _) :=
   pieceChart_of_isMor (isMor_ppcm_ι₂ hinj)
     (Gluing.injective_ι₂ Subtype.val_injective (ppcm_injective_j₂ hinj)) _ rfl
@@ -977,14 +986,14 @@ minimal (A, `absolutelyMinimalOn`), the overlap `ι₁(U) = ι₂(ψ(U))` is cau
 piece (`convex_mcghdOpens`, `convex_mcghdImage`), and the two relations agree there
 (`mcghd_le_iff`). -/
 theorem ppcm_twoPiece (hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂)) :
-    (𝔊.causality (ppcmStr hinj)).TwoPiece (Gluing.O₁ ppcm_hj₁ (ppcm_hj₂ hinj))
-      (Gluing.O₂ ppcm_hj₁ (ppcm_hj₂ hinj)) := by
+    (𝔊.causality (ppcmStr hinj)).TwoPiece (Gluing.O₁ ppcm_hj₁ (ppcm_hj₂))
+      (Gluing.O₂ ppcm_hj₁ (ppcm_hj₂)) := by
   have c₁ := ppcm_chart₁ hinj
   have c₂ := ppcm_chart₂ hinj
-  have mem₂ : ∀ {x : N₁.carrier}, Gluing.ι₁ _ _ x ∈ Gluing.O₂ ppcm_hj₁ (ppcm_hj₂ hinj) ↔
+  have mem₂ : ∀ {x : N₁.carrier}, Gluing.ι₁ _ _ x ∈ Gluing.O₂ ppcm_hj₁ (ppcm_hj₂) ↔
       x ∈ mcghdOpens N₁ N₂ := fun {x} =>
     ⟨fun ⟨y, hy⟩ => ((ppcm_ι₁_eq_ι₂_iff hinj).1 hy.symm).1, fun hx => ⟨_, (ppcm_ι₁_eq hx).symm⟩⟩
-  have mem₁ : ∀ {y : N₂.carrier}, Gluing.ι₂ _ _ y ∈ Gluing.O₁ ppcm_hj₁ (ppcm_hj₂ hinj) ↔
+  have mem₁ : ∀ {y : N₂.carrier}, Gluing.ι₂ _ _ y ∈ Gluing.O₁ ppcm_hj₁ (ppcm_hj₂) ↔
       y ∈ mcghdImage N₁ N₂ := fun {y} =>
     ⟨fun ⟨x, hx⟩ => by
       obtain ⟨hxU, rfl⟩ := (ppcm_ι₁_eq_ι₂_iff hinj).1 hx
@@ -1043,7 +1052,7 @@ theorem ppcm_isCauchySurface (hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁
     (𝔊.causality (ppcmStr hinj)).IsCauchySurface
       (Gluing.ι₁ (Subtype.val : mcghdOpens N₁ N₂ → N₁.carrier) (mcghdMap N₁ N₂ ∘ Subtype.val) ''
         (N₁.emb '' S)) := by
-  haveI := t2Space_gluing_mcghd hinj
+  haveI := t2Space_gluing_mcghd (N₁ := N₁) (N₂ := N₂)
   have hS₁ := N₁.isCauchyEmbedding.isCauchySurface_image hS
   have hS₂ := N₂.isCauchyEmbedding.isCauchySurface_image hS
   have c₁ := ppcm_chart₁ hinj
@@ -1051,11 +1060,11 @@ theorem ppcm_isCauchySurface (hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁
   have hE₂ := 𝔊.isEMorphismOn_of_isMor (isMor_ppcm_ι₂ hinj)
   have hSA := (hE₁.isCauchySurfaceOn_image_iff
     (Gluing.injective_ι₁ Subtype.val_injective (ppcm_injective_j₂ hinj)).injOn le_rfl
-    (U := Gluing.O₁ ppcm_hj₁ (ppcm_hj₂ hinj)) (by rw [Opens.coe_top, image_univ]; rfl)
+    (U := Gluing.O₁ ppcm_hj₁ (ppcm_hj₂)) (by rw [Opens.coe_top, image_univ]; rfl)
     (subset_univ _)).1 hS₁
   have hSB := (hE₂.isCauchySurfaceOn_image_iff
     (Gluing.injective_ι₂ Subtype.val_injective (ppcm_injective_j₂ hinj)).injOn le_rfl
-    (U := Gluing.O₂ ppcm_hj₁ (ppcm_hj₂ hinj)) (by rw [Opens.coe_top, image_univ]; rfl)
+    (U := Gluing.O₂ ppcm_hj₁ (ppcm_hj₂)) (by rw [Opens.coe_top, image_univ]; rfl)
     (subset_univ _)).1 hS₂
   rw [← ppcm_image_cauchy] at hSB
   have hac := hS₁.isAcausal N₁.causality_causallyArcConnected N₁.causality_curvesExtend
@@ -1075,9 +1084,9 @@ theorem ppcm_connectedSpace : ConnectedSpace (PpcmSpace N₁ N₂) := by
 
 /-- `ppcm` is second countable (an open quotient of the second-countable `N₁ ⊔ N₂`; Sbierski,
 proof of Thm 2.7, step 2; ETT `ETT.tex:2000–2001`). -/
-theorem ppcm_secondCountable (hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂)) :
+theorem ppcm_secondCountable :
     SecondCountableTopology (PpcmSpace N₁ N₂) :=
-  isQuotientMap_quot_mk.secondCountableTopology (Gluing.isOpenMap_mk ppcm_hj₁ (ppcm_hj₂ hinj))
+  isQuotientMap_quot_mk.secondCountableTopology (Gluing.isOpenMap_mk ppcm_hj₁ ppcm_hj₂)
 
 /-- `M₀ → ppcm`, `x ↦ ι₁(ι_{N₁}(x))`, is a Cauchy embedding. -/
 theorem ppcm_isCauchyEmbedding (hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂)) :
@@ -1099,9 +1108,9 @@ Sbierski Thm 3.13 (`t2Space_gluing_mcghd`), with the glued structure, `M₀` Cau
 noncomputable def ppcmDev (hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂)) :
     Dev 𝔊.toPreGeometry s₀ where
   carrier := PpcmSpace N₁ N₂
-  t2 := t2Space_gluing_mcghd hinj
+  t2 := t2Space_gluing_mcghd
   conn := ppcm_connectedSpace
-  sc := ppcm_secondCountable hinj
+  sc := ppcm_secondCountable
   str := ppcmStr hinj
   emb := Gluing.ι₁ _ _ ∘ N₁.emb
   isCauchyEmbedding := ppcm_isCauchyEmbedding hinj
@@ -1169,14 +1178,15 @@ theorem ppcmDev_desc (hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂))
     exact Gluing.eq_desc (fun x => congrFun h₁ x) (fun y => congrFun h₂ y)
 
 /-- **The induced morphism is injective**, hence a Cauchy embedding (ETT's « yields a Cauchy
-embedding `ppcm → M` », `ETT.tex:2329`), given a time function on `ppcm` (Lemma 3.3,
-`CBG/Injective`: injective on the Cauchy surface `ι₁(ι_{N₁}(Σ))`, onto the acausal `ι_Q(Σ)`). -/
+embedding `ppcm → M` », `ETT.tex:2329`), by the time function of the development `ppcm`
+(`Dev.causality_hasTimeFunction`, from `Geometry.timeFunction`) and Lemma 3.3 (`CBG/Injective`:
+injective on the Cauchy surface `ι₁(ι_{N₁}(Σ))`, onto the acausal `ι_Q(Σ)`). -/
 theorem ppcmDev_desc_injective (hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂))
-    (hT : (𝔊.causality (ppcmStr hinj)).HasTimeFunction) (Q : Dev 𝔊.toPreGeometry s₀)
+    (Q : Dev 𝔊.toPreGeometry s₀)
     {h : (ppcmDev N₁ N₂ hinj).carrier → Q.carrier} (hh : (ppcmDev N₁ N₂ hinj).IsMorphism Q h) :
     Injective h := by
-  haveI := t2Space_gluing_mcghd hinj
-  obtain ⟨T, hTc, hTs⟩ := hT
+  haveI := t2Space_gluing_mcghd (N₁ := N₁) (N₂ := N₂)
+  obtain ⟨T, hTc, hTs⟩ := (ppcmDev N₁ N₂ hinj).causality_hasTimeFunction
   obtain ⟨S, hS, -⟩ := N₁.isCauchyEmbedding.exists_cauchy
   have hSP := ppcm_isCauchySurface hinj hS
   have himg : h '' (Gluing.ι₁ (Subtype.val : mcghdOpens N₁ N₂ → N₁.carrier)
@@ -1253,13 +1263,14 @@ theorem ppcmDev_unique (hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂)
   exact ⟨k, l, hk, hl, hlk, (hk.comp hl).eq_id, hk₁, hk₂⟩
 
 /-- **Sbierski Theorem 2.7 / `prop:ppcm_Cauchy` in the geometry — the principal theorem of this
-file.** Two developments `N₁`, `N₂` of a connected `M₀` (the MCGHD morphism injective: Lemma 3.3,
-see `exists_ppcm_of_timeFunction`) embed in a common development `P` (Hausdorff, connected, second
-countable, globally hyperbolic, `M₀` Cauchy-embedded) by injective morphisms of developments
-`f₁`, `f₂` which cover `P`, identify exactly along the MCGHD (`f₁ x = f₂ y ↔ x ∈ U ∧ ψ x = y`), and
-are universal: any pair of morphisms of developments `g₁ : N₁ → Q`, `g₂ : N₂ → Q` factors uniquely
-through them. `P = ppcmDev N₁ N₂ hinj`; uniqueness up to equivalence: `ppcmDev_unique`. -/
-theorem exists_ppcm (hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂)) :
+file.** Two developments `N₁`, `N₂` of a connected `M₀` embed in a common development `P`
+(Hausdorff, connected, second countable, globally hyperbolic, `M₀` Cauchy-embedded) by injective
+morphisms of developments `f₁`, `f₂` which cover `P`, identify exactly along the MCGHD
+(`f₁ x = f₂ y ↔ x ∈ U ∧ ψ x = y`), and are universal: any pair of morphisms of developments
+`g₁ : N₁ → Q`, `g₂ : N₂ → Q` factors uniquely through them. `P = ppcmDev N₁ N₂ mcghdMap_injOn`
+(the MCGHD morphism is injective by Lemma 3.3 from the interface's `Geometry.timeFunction`);
+uniqueness up to equivalence: `ppcmDev_unique`. -/
+theorem exists_ppcm (N₁ N₂ : Dev 𝔊.toPreGeometry s₀) :
     ∃ (P : Dev 𝔊.toPreGeometry s₀) (f₁ : N₁.carrier → P.carrier) (f₂ : N₂.carrier → P.carrier),
       N₁.IsMorphism P f₁ ∧ N₂.IsMorphism P f₂ ∧ Injective f₁ ∧ Injective f₂ ∧
       range f₁ ∪ range f₂ = univ ∧
@@ -1267,30 +1278,19 @@ theorem exists_ppcm (hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂)) :
       ∀ (Q : Dev 𝔊.toPreGeometry s₀) (g₁ : N₁.carrier → Q.carrier) (g₂ : N₂.carrier → Q.carrier),
         N₁.IsMorphism Q g₁ → N₂.IsMorphism Q g₂ →
           ∃! h : P.carrier → Q.carrier, P.IsMorphism Q h ∧ h ∘ f₁ = g₁ ∧ h ∘ f₂ = g₂ :=
+  have hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂) := mcghdMap_injOn
   ⟨ppcmDev N₁ N₂ hinj, Gluing.ι₁ _ _, Gluing.ι₂ _ _, ppcmDev_isMorphism₁ hinj,
     ppcmDev_isMorphism₂ hinj, Gluing.injective_ι₁ Subtype.val_injective (ppcm_injective_j₂ hinj),
     Gluing.injective_ι₂ Subtype.val_injective (ppcm_injective_j₂ hinj),
     Gluing.range_ι₁_union_range_ι₂, fun _ _ => ppcm_ι₁_eq_ι₂_iff hinj,
     fun Q _ _ hg₁ hg₂ => ppcmDev_desc hinj Q hg₁ hg₂⟩
 
-/-- **Sbierski Theorem 2.7 with a time function on `N₁`** (the hypothesis of Lemma 3.3,
-`IsCGHD.injOn`; Pgcd's reported interface need, the queued `timeFunction` field). -/
-theorem exists_ppcm_of_timeFunction (hT : (𝔊.causality N₁.str).HasTimeFunction) :
-    ∃ (P : Dev 𝔊.toPreGeometry s₀) (f₁ : N₁.carrier → P.carrier) (f₂ : N₂.carrier → P.carrier),
-      N₁.IsMorphism P f₁ ∧ N₂.IsMorphism P f₂ ∧ Injective f₁ ∧ Injective f₂ ∧
-      range f₁ ∪ range f₂ = univ ∧
-      (∀ x y, f₁ x = f₂ y ↔ x ∈ mcghdOpens N₁ N₂ ∧ mcghdMap N₁ N₂ x = y) ∧
-      ∀ (Q : Dev 𝔊.toPreGeometry s₀) (g₁ : N₁.carrier → Q.carrier) (g₂ : N₂.carrier → Q.carrier),
-        N₁.IsMorphism Q g₁ → N₂.IsMorphism Q g₂ →
-          ∃! h : P.carrier → Q.carrier, P.IsMorphism Q h ∧ h ∘ f₁ = g₁ ∧ h ∘ f₂ = g₂ :=
-  exists_ppcm ((isCGHD_mcghd (N₁ := N₁) (N₂ := N₂)).injOn hT)
-
 /-- **Two developments have a common extension** (Sbierski Thm 2.7 as printed: « there exists a
 GHD `M̃` that is an extension of `M` and `M′` »), the form package 10 consumes. -/
-theorem exists_common_extension (hinj : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂)) :
+theorem exists_common_extension (N₁ N₂ : Dev 𝔊.toPreGeometry s₀) :
     ∃ (P : Dev 𝔊.toPreGeometry s₀) (f₁ : N₁.carrier → P.carrier) (f₂ : N₂.carrier → P.carrier),
       N₁.IsMorphism P f₁ ∧ N₂.IsMorphism P f₂ ∧ Injective f₁ ∧ Injective f₂ := by
-  obtain ⟨P, f₁, f₂, h₁, h₂, i₁, i₂, -⟩ := exists_ppcm hinj
+  obtain ⟨P, f₁, f₂, h₁, h₂, i₁, i₂, -⟩ := exists_ppcm N₁ N₂
   exact ⟨P, f₁, f₂, h₁, h₂, i₁, i₂⟩
 
 end Principal

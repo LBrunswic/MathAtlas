@@ -40,7 +40,9 @@ Def 2.4, Cor 3.2, Lemma 3.3, **Thm 3.4**.
   geometry's morphisms) is a common Cauchy development, `ψ` is injective on `U`, `ψ(U)` is an open
   set Cauchy-including `ι₂(M₀)`, and every common Cauchy development lies in `U` with its morphism
   the restriction of `ψ`. Uniqueness: `mcghd_unique`. Rigidity is `Geometry.rigid` (A1,
-  `IsRigidFor IsMor`), not `SubExtension.IsRigid`.
+  `IsRigidFor IsMor`), not `SubExtension.IsRigid`. No hypothesis beyond the geometry and `M₀`
+  connected: Lemma 3.3's time function is the interface field `Geometry.timeFunction` (round 2),
+  through `Dev.causality_hasTimeFunction`.
 * **`prop:Cauchy_pgcd` over the geometry, in ETT's form** (`cauchy_pgcd_geometry`): a maximal
   common sub-development (`CommonSubDev`, `def:common_sub_extension` with developments and
   injective morphisms of developments) exists — the MCGHD, as a development (`mcghdDev`,
@@ -48,7 +50,9 @@ Def 2.4, Cor 3.2, Lemma 3.3, **Thm 3.4**.
   is `isCGHD_of_isMorphism`, `mcghd_factor`.
 * The ingredients: the gluing step (`IsCGHD.eqOn`: `lem:C_ext_connexe` re-routed + A1), the union
   is a Cauchy inclusion (`isCGHD_mcghd`, via `CBG/CausalConvex`'s `isCauchyInclusion_iSup`: ETT
-  gap 2 closed), injectivity (`IsCGHD.injOn`, `CBG/Injective`'s Lemma 3.3: ETT gap 1 closed), the
+  gap 2 closed), injectivity (`IsCGHD.injOn`, `CBG/Injective`'s Lemma 3.3 with the time function
+  of `Geometry.timeFunction`, `Dev.causality_hasTimeFunction`; for the MCGHD `mcghdMap_injOn`:
+  ETT gap 1 closed), the
   image is Cauchy-included (`IsCGHD.isCauchyInclusion_image`, by causal convexity, not by
   transport); and `Geometry.causality_restrict`, the planned lemma of `CBG/Geometry`'s SCOPE:
   the causality of `restrict s W` is the restriction of `causality s`.
@@ -66,7 +70,7 @@ Def 2.4, Cor 3.2, Lemma 3.3, **Thm 3.4**.
 | rigidity (`rem:CBG_analytique`, `prop:GX_liouville`) | ✓ `Geometry.rigid` (A1, into Hausdorff targets) |
 | `ℰ` (b): a `𝕄≥0`-morphism | ✓ a structure morphism `𝔊.IsMor` (DEC-60); ⚠ the thesis's (b), `these.tex:6407`, asks no morphism at all (finding) |
 | `ℰ` (b) / Sbierski Def 2.4: `φ_M` injective | ⚠ weakened: not asked (as ETT prints); derived (`IsCGHD.injOn`) |
-| `φ` injective on `∧` (ETT gap 1) | ⚠ **strengthened**: `(𝔊.causality N₁.str).HasTimeFunction` (Lemma 3.3 in the abstract setting, `CBG/Injective`); the interface has no field giving it (see SCOPE). Used only by `IsCGHD.injOn` and what needs injectivity |
+| `φ` injective on `∧` (ETT gap 1) | ✓ proved (`IsCGHD.injOn`, Lemma 3.3 in the abstract setting, `CBG/Injective`) from the interface field `Geometry.timeFunction` (A2, interface round 2 (1): a time function on every GH admissible spacetime), via `Dev.causality_hasTimeFunction`; no hypothesis carried |
 | `i₁(M₀) → ∧` a Cauchy embedding (ETT gap 2) | ✓ proved from A2 (`curvesExtend`, `causallyArcConnected`) |
 | common sub-extension: Cauchy embeddings `M → M₁, M₂` | ✓ `CommonSubDev`: a `Dev` with injective morphisms of developments (Cauchy images automatic) |
 | morphism of common sub-extensions: an `𝕄≥0`-morphism commuting with `b`, `c` (`ETT.tex:1926–1927`) | ✓ `CommonSubDev.IsMorphism` also asks `f ∘ ι_X = ι_Y`, redundant given `injective_b` (`CommonSubDev.isMorphism_iff`) |
@@ -74,14 +78,19 @@ Def 2.4, Cor 3.2, Lemma 3.3, **Thm 3.4**.
 
 ## SCOPE (disclosed)
 
-* **Interface need (precise)**: `Geometry` has no time function. `IsCGHD.injOn` (hence
-  `exists_mcghd`'s injectivity and image clauses, `mcghdSubDev`, `cauchy_pgcd_geometry`) carries
-  `hT : (𝔊.causality N₁.str).HasTimeFunction`. The field that would discharge it:
-  `timeFunction : ∀ {M} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
-  [SecondCountableTopology M] (s : Str M), (causality s).GloballyHyperbolic →
-  (causality s).HasTimeFunction` (the Geroch time of `SingularGeroch`, which `curvesExtend`'s
-  docstring already names as its discharge; `curvesExtend_of_timeFunction` would then derive
-  `curvesExtend`). The union, its maximality, `mcghd_unique` and `mcghdDev` use no time function.
+* **Interface round 2 (1), applied** (design §6): `Geometry` now has the field `timeFunction`
+  (GH admissible ⇒ a continuous `T` strictly increasing along `≤`, verbatim the body of
+  `Causality.HasTimeFunction`), so the hypothesis `hT : (𝔊.causality N₁.str).HasTimeFunction`
+  formerly carried by `IsCGHD.injOn`, `exists_mcghd`, `mcghdSubDev`,
+  `CommonSubDev.isMorphism_toMcghd`, `mcghdSubDev_isMaximal`,
+  `CommonSubDev.IsMaximal.bijective_toMcghd` and `cauchy_pgcd_geometry` is **removed**: it is
+  `Dev.causality_hasTimeFunction` (`𝔊.timeFunction N.str N.causality_globallyHyperbolic`);
+  `mcghdMap_injOn` packages it for the MCGHD (what packages 6, 7, 10 consume). No
+  hypothesis-taking variant is kept (none had a user outside this campaign's files). The union,
+  its maximality, `mcghd_unique` and `mcghdDev` never used a time function.
+  `Causality.HasTimeFunction` stays defined here (Geometry cannot name it; the field spells its
+  body out). `curvesExtend` stays a separate field (`curvesExtend_of_timeFunction` would derive
+  it; not done here).
 * `SubExtension.cauchy_pgcd` (causal `IsRigid`) is **untouched** and believed false (design §2,
   DEC-60), **not refuted here**: its rigidity is the wrong hypothesis (`timelikeLine_not_isRigid`,
   `not_exists_isUniversal_halfLineDev`, `causal_pgcd_not_unique` show what fails without it), and
@@ -114,7 +123,9 @@ universe u
 
 /-- **A continuous time function strictly increasing along `≤`** (the hypothesis of
 `CBG.injOn_of_injOn_cauchy`, Sbierski Lemma 3.3 in the abstract setting): carried as a named
-hypothesis, the `Geometry` interface having no field producing one (see SCOPE). It is weaker
+hypothesis by `CBG/Injective`; over a `Geometry` it is produced by the field `timeFunction`
+(interface round 2, `Dev.causality_hasTimeFunction`), whose conclusion is this body verbatim. It
+is weaker
 than the strict library's `Causality.IsTimeFunction` (`Causal/Morphism.lean:832`, a strong morphism
 to `timelikeLine`) and than `IsCauchyTimeFunction` (`Causal/Cauchy.lean:83`), and must not be read
 as either: it is exactly the hypothesis form of `curvesExtend_of_timeFunction`
@@ -167,6 +178,12 @@ theorem causality_globallyHyperbolic : (𝔊.causality N.str).GloballyHyperbolic
 /-- Curves extend in a development (A2, `Geometry.curvesExtend`, on GH carriers). -/
 theorem causality_curvesExtend : (𝔊.causality N.str).CurvesExtend :=
   𝔊.curvesExtend N.str N.causality_globallyHyperbolic
+
+/-- **A development has a time function** (A2, `Geometry.timeFunction`, interface round 2 (1), on
+GH carriers): a continuous `T` strictly increasing along `≤` — the input of Lemma 3.3
+(`IsCGHD.injOn`). -/
+theorem causality_hasTimeFunction : (𝔊.causality N.str).HasTimeFunction :=
+  𝔊.timeFunction N.str N.causality_globallyHyperbolic
 
 /-- A development is causally arc-connected (A2, `SingularFlatAxiomsCorr`). -/
 theorem causality_causallyArcConnected : (𝔊.causality N.str).CausallyArcConnected :=
@@ -264,11 +281,12 @@ theorem IsCGHD.eqOn [ConnectedSpace M₀] {W W' : Opens N₁.carrier}
     obtain ⟨x, rfl⟩ := hy
     exact (congrFun h.2.2 x).trans (congrFun h'.2.2 x).symm
 
-/-- **Lemma 3.3 for a common Cauchy development** (`CBG/Injective`): its morphism is injective,
-given a time function on `N₁` (the one hypothesis the interface does not provide). -/
+/-- **Lemma 3.3 for a common Cauchy development** (`CBG/Injective`): its morphism is injective —
+by the time function of `N₁` (`Dev.causality_hasTimeFunction`, from the interface field
+`Geometry.timeFunction`). -/
 theorem IsCGHD.injOn {W : Opens N₁.carrier} {f : N₁.carrier → N₂.carrier}
-    (h : IsCGHD N₁ N₂ W f) (hT : (𝔊.causality N₁.str).HasTimeFunction) : InjOn f W := by
-  obtain ⟨T, hTc, hTs⟩ := hT
+    (h : IsCGHD N₁ N₂ W f) : InjOn f W := by
+  obtain ⟨T, hTc, hTs⟩ := N₁.causality_hasTimeFunction
   obtain ⟨S, hS, -⟩ := N₁.isCauchyEmbedding.exists_cauchy
   have hSW := N₁.isCauchyEmbedding.isCauchySurfaceOn_of_isCauchyInclusion h.1 hS
   have himg : f '' (N₁.emb '' S) = N₂.emb '' S := by rw [← image_comp, h.2.2]
@@ -370,6 +388,12 @@ theorem isCGHD_mcghd [ConnectedSpace M₀] :
     have h := isCGHD_range N₁ N₂
     exact (mcghdMap_eqOn h (N₁.emb_mem_range x)).trans (congrFun h.2.2 x)
 
+/-- **The MCGHD morphism is injective** (Sbierski Thm 3.4: « isometric embedding »; Lemma 3.3,
+`IsCGHD.injOn`, by the interface's `Geometry.timeFunction`): the hypothesis `InjOn mcghdMap
+mcghdOpens` that packages 6, 7, 10 carried before interface round 2. -/
+theorem mcghdMap_injOn [ConnectedSpace M₀] : InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂) :=
+  isCGHD_mcghd.injOn
+
 /-- **Maximality**: every common Cauchy development lies in the MCGHD, and its morphism is the
 restriction of `ψ` ("`U` is an extension of `V`", Sbierski Thm 3.4, step 5). -/
 theorem IsCGHD.le_mcghd [ConnectedSpace M₀] {W : Opens N₁.carrier} {f : N₁.carrier → N₂.carrier}
@@ -378,7 +402,7 @@ theorem IsCGHD.le_mcghd [ConnectedSpace M₀] {W : Opens N₁.carrier} {f : N₁
 
 /-- **Sbierski Theorem 3.4 (existence of the MCGHD), relative to a geometry** — the principal
 theorem of this file. For two developments `N₁`, `N₂` of a connected `M₀` over a `Geometry` (A1
-rigidity, A2), with a time function on `N₁` (for Lemma 3.3 only, see SCOPE): there is an open
+rigidity, A2, the time function `Geometry.timeFunction` for Lemma 3.3): there is an open
 `U ⊆ N₁` and a map `ψ : N₁ → N₂` such that
 * `(U, ψ)` is a common Cauchy development (`ι₁(M₀) → U` a Cauchy inclusion, `ψ` a structure
   morphism on `U`, `ψ ∘ ι₁ = ι₂`);
@@ -386,14 +410,14 @@ rigidity, A2), with a time function on `N₁` (for Lemma 3.3 only, see SCOPE): t
   is an extension of `U` (Sbierski Def 2.2, 2.4);
 * every common Cauchy development `(W, f)` has `W ⊆ U` and `f = ψ` on `W`.
 `U = mcghdOpens N₁ N₂`, `ψ = mcghdMap N₁ N₂`; uniqueness: `mcghd_unique`. -/
-theorem exists_mcghd [ConnectedSpace M₀] (hT : (𝔊.causality N₁.str).HasTimeFunction) :
+theorem exists_mcghd [ConnectedSpace M₀] (N₁ N₂ : Dev 𝔊.toPreGeometry s₀) :
     ∃ (U : Opens N₁.carrier) (ψ : N₁.carrier → N₂.carrier), IsCGHD N₁ N₂ U ψ ∧ InjOn ψ U ∧
       (∃ V : Opens N₂.carrier, (V : Set N₂.carrier) = ψ '' U ∧
         IsCauchyInclusion (𝔊.causality N₂.str) N₂.isCauchyEmbedding.rangeOpens V) ∧
       ∀ (W : Opens N₁.carrier) (f : N₁.carrier → N₂.carrier), IsCGHD N₁ N₂ W f →
         W ≤ U ∧ EqOn f ψ W := by
   have h := isCGHD_mcghd (N₁ := N₁) (N₂ := N₂)
-  have hinj := h.injOn hT
+  have hinj := h.injOn
   exact ⟨_, _, h, hinj, ⟨_, rfl, h.isCauchyInclusion_image hinj⟩, fun W f hW => hW.le_mcghd⟩
 
 /-- **Uniqueness of the MCGHD** (Sbierski Thm 3.4, "unique"; `prop:Cauchy_pgcd`, "unique up to
@@ -689,22 +713,20 @@ end CommonSubDev
 variable [ConnectedSpace M₀]
 
 variable (N₁ N₂) in
-/-- **The MCGHD as a common sub-development** (given the time function for Lemma 3.3). -/
-noncomputable def mcghdSubDev (hT : (𝔊.causality N₁.str).HasTimeFunction) :
-    CommonSubDev N₁ N₂ where
+/-- **The MCGHD as a common sub-development** (injective by Lemma 3.3, `IsCGHD.injOn`). -/
+noncomputable def mcghdSubDev : CommonSubDev N₁ N₂ where
   X := mcghdDev N₁ N₂
   b := Subtype.val
   c := mcghdMap N₁ N₂ ∘ Subtype.val
   isMorphism_b := mcghdDev_isMorphism_val
   isMorphism_c := mcghdDev_isMorphism_map
   injective_b := Subtype.val_injective
-  injective_c := fun x y hxy => Subtype.ext (((isCGHD_mcghd (N₁ := N₁) (N₂ := N₂)).injOn hT) x.2
+  injective_c := fun x y hxy => Subtype.ext (((isCGHD_mcghd (N₁ := N₁) (N₂ := N₂)).injOn) x.2
     y.2 hxy)
 
 /-- **Every common sub-development maps into the MCGHD**, by `x ↦ b x` (`mcghd_factor`). -/
-theorem CommonSubDev.isMorphism_toMcghd (hT : (𝔊.causality N₁.str).HasTimeFunction)
-    (X : CommonSubDev N₁ N₂) :
-    X.IsMorphism (mcghdSubDev N₁ N₂ hT)
+theorem CommonSubDev.isMorphism_toMcghd (X : CommonSubDev N₁ N₂) :
+    X.IsMorphism (mcghdSubDev N₁ N₂)
       (fun x => ⟨X.b x, (mcghd_factor X.X X.isMorphism_b X.injective_b X.isMorphism_c).1 x⟩) := by
   have hf := mcghd_factor X.X X.isMorphism_b X.injective_b X.isMorphism_c
   refine ⟨⟨(𝔊.isMor_corestrict_iff N₁.str _ X.X.str ⊤ _).2 X.isMorphism_b.1, ?_⟩, rfl, ?_⟩
@@ -715,8 +737,7 @@ theorem CommonSubDev.isMorphism_toMcghd (hT : (𝔊.causality N₁.str).HasTimeF
 /-- **The MCGHD is a maximal common sub-development** (`prop:Cauchy_pgcd`, existence): a morphism
 `f` out of it is injective (`b ∘ f` is the inclusion) and onto (every common sub-development lies
 in `U`, `mcghd_factor`). -/
-theorem mcghdSubDev_isMaximal (hT : (𝔊.causality N₁.str).HasTimeFunction) :
-    (mcghdSubDev N₁ N₂ hT).IsMaximal := by
+theorem mcghdSubDev_isMaximal : (mcghdSubDev N₁ N₂).IsMaximal := by
   intro Y f hf
   have hb : ∀ x, Y.b (f x) = x.1 := fun x => congrFun hf.2.1 x
   refine ⟨fun x y hxy => Subtype.ext (by rw [← hb x, ← hb y, hxy]), fun y => ?_⟩
@@ -724,29 +745,29 @@ theorem mcghdSubDev_isMaximal (hT : (𝔊.causality N₁.str).HasTimeFunction) :
   exact ⟨⟨Y.b y, hy⟩, Y.injective_b (hb _)⟩
 
 /-- A maximal common sub-development is equivalent to the MCGHD, by the morphism into it. -/
-theorem CommonSubDev.IsMaximal.bijective_toMcghd (hT : (𝔊.causality N₁.str).HasTimeFunction)
-    {X : CommonSubDev N₁ N₂} (hX : X.IsMaximal) :
+theorem CommonSubDev.IsMaximal.bijective_toMcghd {X : CommonSubDev N₁ N₂} (hX : X.IsMaximal) :
     Bijective (fun x => (⟨X.b x, (mcghd_factor X.X X.isMorphism_b X.injective_b
-      X.isMorphism_c).1 x⟩ : (mcghdSubDev N₁ N₂ hT).X.carrier)) :=
-  hX _ _ (X.isMorphism_toMcghd hT)
+      X.isMorphism_c).1 x⟩ : (mcghdSubDev N₁ N₂).X.carrier)) :=
+  hX _ _ X.isMorphism_toMcghd
 
 /-- **`prop:Cauchy_pgcd` over a geometry** (`ETT.tex:1945`, "There exists a common sub-extension
 `∧` of `M₁` and `M₂` which is maximal, and it is unique up to equivalence"), in the framework of
-rigid morphisms (DEC-60): for two developments of a connected `M₀`, with a time function on `N₁`
-(Lemma 3.3), a maximal common sub-development exists — the MCGHD — and any two are equivalent. -/
-theorem cauchy_pgcd_geometry (hT : (𝔊.causality N₁.str).HasTimeFunction) :
+rigid morphisms (DEC-60): for two developments of a connected `M₀` (Lemma 3.3 by the interface's
+`Geometry.timeFunction`), a maximal common sub-development exists — the MCGHD — and any two are
+equivalent. -/
+theorem cauchy_pgcd_geometry (N₁ N₂ : Dev 𝔊.toPreGeometry s₀) :
     (∃ X : CommonSubDev N₁ N₂, X.IsMaximal) ∧
       ∀ X Y : CommonSubDev N₁ N₂, X.IsMaximal → Y.IsMaximal → X.Equivalent Y := by
-  refine ⟨⟨_, mcghdSubDev_isMaximal hT⟩, fun X Y hX hY => ?_⟩
-  set Z := mcghdSubDev N₁ N₂ hT
+  refine ⟨⟨_, mcghdSubDev_isMaximal⟩, fun X Y hX hY => ?_⟩
+  set Z := mcghdSubDev N₁ N₂
   set gX : X.X.carrier → Z.X.carrier := fun x =>
     ⟨X.b x, (mcghd_factor X.X X.isMorphism_b X.injective_b X.isMorphism_c).1 x⟩
   set gY : Y.X.carrier → Z.X.carrier := fun x =>
     ⟨Y.b x, (mcghd_factor Y.X Y.isMorphism_b Y.injective_b Y.isMorphism_c).1 x⟩
-  have hgX : X.IsMorphism Z gX := X.isMorphism_toMcghd hT
-  have hgY : Y.IsMorphism Z gY := Y.isMorphism_toMcghd hT
-  have bX : Bijective gX := hX.bijective_toMcghd hT
-  have bY : Bijective gY := hY.bijective_toMcghd hT
+  have hgX : X.IsMorphism Z gX := X.isMorphism_toMcghd
+  have hgY : Y.IsMorphism Z gY := Y.isMorphism_toMcghd
+  have bX : Bijective gX := hX.bijective_toMcghd
+  have bY : Bijective gY := hY.bijective_toMcghd
   haveI : Nonempty Y.X.carrier := ⟨Y.X.emb (Classical.arbitrary M₀)⟩
   set k := invFunOn gY ((⊤ : Opens Y.X.carrier) : Set Y.X.carrier) with hk
   have hkY : ∀ z, gY (k z) = z := fun z =>
