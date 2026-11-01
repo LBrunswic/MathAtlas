@@ -1,0 +1,73 @@
+{
+  "package": "WP-36i-CBGBound (CBG package 9, design §3 step 6)",
+  "files": [
+    "scaffold/CausalScaffold/CBG/Bound.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "rem:CBG_manquant",
+      "tex_lines": [
+        2343,
+        2356
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.basisCode_injective",
+        "Causal.CBG.exists_injective_setNat",
+        "Causal.CBG.SmallDev",
+        "Causal.CBG.SmallDev.exists_iso",
+        "Causal.CBG.Dev.isUniversal_of_small",
+        "Causal.CBG.Dev.isUniversal_iff_small"
+      ],
+      "hypotheses": [
+        {
+          "paper": "all such manifolds have the cardinality of the continuum (ETT.tex:2353-2354, these.tex:6318)",
+          "here": "weakened",
+          "note": "Lean uses only <= continuum (an injection into Set N from T0 + second countability, both carried by Dev; basisCode_injective). The paper's '=' holds for non-empty 3-dimensional E^{1,2}_{>=0}-manifolds (competitors are second countable by definition, ETT.tex:255, these.tex:1356) and fails only for the abstract Level A Geometry, whose carriers may be a point; '=' is not needed."
+        },
+        {
+          "paper": "Sbierski: carriers subsets of M x R, embedding normalised iota(x) = (x,0)",
+          "here": "weakened",
+          "note": "carriers subsets of Set N lifted by ULift; embedding not normalised"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.CBG.basisCode",
+    "Causal.CBG.SmallCarrier",
+    "Causal.CBG.setNatEquiv",
+    "Causal.CBG.setNatTop",
+    "Causal.CBG.setNatHomeomorph",
+    "Causal.CBG.globallyHyperbolic_of_inverse",
+    "Causal.CBG.isCauchySurface_image_of_bijective",
+    "Causal.CBG.isCauchyEmbedding_comp_of_inverse",
+    "Causal.CBG.Geometry.imageOpens_transport_top",
+    "Causal.CBG.Geometry.isMor_transport_symm",
+    "Causal.CBG.Geometry.isEMorphism_transport",
+    "Causal.CBG.Geometry.isEMorphism_transport_symm",
+    "Causal.CBG.Geometry.preimageOpensHomeo",
+    "Causal.CBG.Geometry.le_transport_iff",
+    "Causal.CBG.Geometry.lt_transport_iff",
+    "Causal.CBG.Dev.transport",
+    "Causal.CBG.Dev.isMorphism_transport",
+    "Causal.CBG.Dev.isMorphism_transport_symm",
+    "Causal.CBG.SmallDev.toDev",
+    "Causal.CBG.SmallDev.Carrier",
+    "Causal.CBG.SmallDev.ofDev",
+    "Causal.CBG.SmallDev.toDev_ofDev",
+    "Causal.CBG.Dev.IsUniversal.small"
+  ],
+  "kb_proposals": [
+    "A carrier ULift A that must carry its own topology should be a non-reducible def (SmallCarrier), or mathlib's ULift.topologicalSpace instance competes with the field.",
+    "Geometry.transport needs no extra field: its inverse is a morphism by isMor_inv + isMor_congr (imageOpens ⊤ = ⊤ by surjectivity), and the transported causality reads through e (Geometry.le_transport_iff / lt_transport_iff).",
+    "In type theory the CBG size issue is a universe level: Dev G s0 : Type (u+1) cannot index Geometry.glue (iota : Type u); SmallDev G s0 : Type u can (moved from findings: it is about the Lean encoding, not the paper)."
+  ],
+  "notes": "Interface: no field of Geometry.lean is missing or too weak for package 9; nothing is assumed locally. Universes: SmallDev 𝔊 s₀ : Type u (data A : Set (Set ℕ) in Type, structure 𝔊.Str in Type u, so SmallDev is in Type exactly when u = 0); the lift to Type u is in the carrier, SmallCarrier A := ULift.{u} A. Package 10 should glue over ι := SmallDev 𝔊.toPreGeometry s₀ with M := SmallDev.Carrier and s := fun N => N.toDev.str (Geometry.glue asks ι : Type u), then conclude with Dev.isUniversal_of_small; no ULift of the index or of the glued space is needed. The report directory name WP-36i-CBGBound is this session's choice (package 9); rename if the master uses another id. Add CausalScaffold.CBG.Bound to the scaffold root (kb/0025). Axioms checked: propext, Classical.choice, Quot.sound only; clean under -DwarningAsError=true. FIXER PASS (2026-11-01, after the read-only audit): findings[0] WITHDRAWN — it was false: the remark concerns non-empty 3-dimensional GH E_{>=0}-manifolds, which have exactly the cardinality of the continuum, and competitors are second countable by definition (ETT.tex:255, these.tex:1356); the '=' fails only for the abstract Geometry interface (a one-point carrier), a fact about the abstraction, not a defect of the paper. Nothing in this report is a finding against ETT or the thesis. findings[1] (Dev : Type (u+1) vs glue's iota : Type u) moved to kb_proposals, being about Lean. Bound.lean: hypothesis-checklist row 1 reworded accordingly; a SCOPE bullet now discloses the deviation from design step 6 (SmallDev : Type u, not Type, forced by G.Str : Type u; the step-7 ULift lives in the carrier) — the master should amend CBG-DESIGN.md §3.6-3.7; the tautological theorem smallDev_type is removed and replaced by three universe-checking `example`s after SmallDev.Carrier (no public decl referenced it). Directory id: the audit dispatch named WP-36e-CBGBound; this directory is WP-36i-CBGBound — left in place (renaming is the master's), confirm or rename. Rebuilt: lake env lean -DwarningAsError=true exit 0, 0 sorries."
+}

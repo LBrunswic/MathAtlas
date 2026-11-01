@@ -1,0 +1,196 @@
+{
+  "package": "WP-36p4-CBGPgcd (CBG package 4, design §3 step 3; letter 'd' is taken by FamilyGluing)",
+  "files": [
+    "scaffold/CausalScaffold/CBG/Pgcd.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "prop:Cauchy_pgcd",
+      "tex_lines": [
+        1945,
+        1967
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.cauchy_pgcd_geometry",
+        "Causal.CBG.exists_mcghd",
+        "Causal.CBG.mcghd_unique",
+        "Causal.CBG.mcghdDev",
+        "Causal.CBG.mcghdSubDev",
+        "Causal.CBG.mcghdSubDev_isMaximal",
+        "Causal.CBG.mcghd_factor",
+        "Causal.CBG.isCGHD_of_isMorphism",
+        "Causal.CBG.isCGHD_mcghd",
+        "Causal.CBG.IsCGHD.eqOn",
+        "Causal.CBG.IsCGHD.injOn",
+        "Causal.CBG.IsCGHD.isCauchyInclusion_image",
+        "Causal.CBG.CommonSubDev"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M0 GH singular flat, i1, i2 Cauchy extensions",
+          "here": "reading",
+          "note": "N1 N2 : Dev 𝔊 s₀ over an abstract Geometry (DEC-60, rigid morphisms of singular (G,X)-manifolds); ETT labels stay the ETT campaign's (unmarked)"
+        },
+        {
+          "paper": "M0 connected (ETT.tex:1502, 1849)",
+          "here": "carried",
+          "note": "[ConnectedSpace M₀], used for lem:C_ext_connexe"
+        },
+        {
+          "paper": "rigidity of M>=0-morphisms (rem:CBG_analytique, ETT.tex:1903)",
+          "here": "carried",
+          "note": "Geometry.rigid (A1, IsRigidFor IsMor, Hausdorff targets), not SubExtension.IsRigid"
+        },
+        {
+          "paper": "E (b): phi_M an M>=0-morphism",
+          "here": "carried",
+          "note": "a structure morphism 𝔊.IsMor; injectivity NOT asked (as printed), derived"
+        },
+        {
+          "paper": "phi injective on the union (ETT gap 1)",
+          "here": "strengthened",
+          "note": "HasTimeFunction on N1 (Sbierski Lemma 3.3 in the abstract setting, CBG/Injective); the Geometry interface has no field producing it. Only injectivity, the image clause of exists_mcghd and the ETT-form (CommonSubDev asks c injective) use it; the union, its maximality, mcghd_unique and mcghdDev do not"
+        },
+        {
+          "paper": "i1(M0) -> union a Cauchy embedding (ETT gap 2)",
+          "here": "carried",
+          "note": "proved from A2 (curvesExtend on GH carriers, causallyArcConnected) via CBG/CausalConvex isCauchyInclusion_iSup"
+        },
+        {
+          "paper": "common sub-extension: Cauchy embeddings M0->M, M->M1, M->M2 (def:common_sub_extension)",
+          "here": "reading",
+          "note": "CommonSubDev: a Dev with injective morphisms of developments; Cauchy images automatic"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1954 (b) does not ask phi_M injective and nothing in the proof (l.1957–1962) shows phi injective (gap 1, as WP-4): closed here by Sbierski Lemma 3.3, which in the abstract setting needs a time function (CBG/Injective SCOPE).",
+        "ETT.tex:1962 'Thus (∧, φ) ∈ ℰ' needs i1(M0) -> ∧ to be a Cauchy inclusion (gap 2): closed here by causal convexity of Cauchy inclusions and isCauchyInclusion_iSup (needs curves extending and causal arc-connectedness in M1).",
+        "ETT.tex:1964 '(b(N), c∘b⁻¹) ∈ ℰ' needs b(N) globally hyperbolic: obtained by causal convexity in M1 (b(N) shares the Cauchy surface i1(Σ) with M1), not by transporting GH along b (SubExtension's obstruction (4) avoided).",
+        "Thesis these.tex:6407, prop:Cauchy_pgcd (b): 'il existe φ_M : M → M₂ tel que φ_M ∘ i₁ = i₂' asks no morphism at all, though l.6411–6412 use that the φ_M are M≥0-morphisms (prop:GX_liouville); ETT.tex:1954 adds it.",
+        "In the causal reading (abstract IsEMorphism, DEC-17, no rigidity) the uniqueness of prop:Cauchy_pgcd FAILS on the timelike line (local, absolutely minimal): causal_pgcd_not_unique gives two inequivalent maximal common sub-extensions (ℝ, ι, id, id), (ℝ, ι, id, kinkIso) of the half-line development. SubExtension.cauchy_pgcd (causal IsRigid) is left untouched, believed false (design §2, DEC-60) but NOT refuted here: its IsRigid is false on that line. Witnesses, each with its location: timelikeLine_not_isRigid (scaffold/CausalScaffold/SubExtension.lean:174), not_exists_isUniversal_halfLineDev (scaffold/CausalScaffold/CBG/Geometry.lean:1041), causal_pgcd_not_unique (scaffold/CausalScaffold/CBG/Pgcd.lean, this file)."
+      ],
+      "questions": [
+        "May the Geometry interface gain a time-function field (GH admissible carrier ⇒ continuous T strictly increasing along ≤), which gx discharges by the Geroch time of SingularGeroch and from which curvesExtend follows (curvesExtend_of_timeFunction)? Otherwise every consumer of the MCGHD's injectivity (packages 6, 7, 10) carries it as a hypothesis."
+      ]
+    },
+    {
+      "label": "sbierski:thm:3.4",
+      "tex_lines": [],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.exists_mcghd",
+        "Causal.CBG.mcghd_unique",
+        "Causal.CBG.mcghdOpens",
+        "Causal.CBG.mcghdMap",
+        "Causal.CBG.IsCGHD"
+      ],
+      "hypotheses": [
+        {
+          "paper": "CGHD (Def 2.4) asks psi an isometric EMBEDDING",
+          "here": "weakened",
+          "note": "IsCGHD asks a structure morphism only; injectivity derived (IsCGHD.injOn), so maximality is among the larger class"
+        },
+        {
+          "paper": "Lemma 3.3 for the union's psi (step 4)",
+          "here": "strengthened",
+          "note": "HasTimeFunction on N1, as in CBG/Injective"
+        },
+        {
+          "paper": "Cor 3.2 (agreement on U1 ∩ U2)",
+          "here": "carried",
+          "note": "Geometry.rigid + lem:C_ext_connexe re-routed (CBG/CausalConvex c_ext_connexe_of_connectedSpace)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Sbierski p.14 step 2 'U is globally hyperbolic with Cauchy surface ι(M)': the existence of the meeting point is by components (as printed), its uniqueness needs the segment of the curve to lie on an inextensible curve of M (curves extend), and global hyperbolicity of U comes from causal convexity in M (CBG/CausalConvex)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "def:common_sub_extension",
+      "tex_lines": [
+        1914,
+        1930
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.CommonSubDev",
+        "Causal.CBG.CommonSubDev.IsMorphism",
+        "Causal.CBG.CommonSubDev.Equivalent",
+        "Causal.CBG.CommonSubDev.IsMaximal",
+        "Causal.CBG.CommonSubDev.isMorphism_iff"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M a singular flat spacetime with Cauchy embeddings",
+          "here": "reading",
+          "note": "a Dev over the Geometry (T2, connected, SC) with injective morphisms of developments"
+        },
+        {
+          "paper": "morphism of common sub-extensions: an M>=0-morphism commuting with the embeddings into M1, M2 (ETT.tex:1924-1925)",
+          "here": "reading",
+          "note": "CommonSubDev.IsMorphism asks a morphism of developments (also f ∘ ι_X = ι_Y); the extra conjunct is redundant given injective_b (CommonSubDev.isMorphism_iff), so IsMaximal and Equivalent are ETT's"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.CBG.Geometry.causality_restrict",
+    "Causal.Causality.globallyHyperbolic_toSubtype",
+    "Causal.imageOpens_top",
+    "Causal.Causality.HasTimeFunction",
+    "Causal.CBG.Dev.causality_globallyHyperbolic",
+    "Causal.CBG.Dev.causality_curvesExtend",
+    "Causal.CBG.Dev.causality_causallyArcConnected",
+    "Causal.CBG.Dev.isCauchySurfaceOn_range",
+    "Causal.CBG.Dev.isCauchyInclusion_range_top",
+    "Causal.CBG.Dev.image_subset_range",
+    "Causal.CBG.Dev.emb_mem_range",
+    "Causal.CBG.IsCGHD.isPgcdCandidate",
+    "Causal.CBG.isCGHD_range",
+    "Causal.CBG.baseMap",
+    "Causal.CBG.le_mcghdOpens",
+    "Causal.CBG.mcghdMap_eqOn",
+    "Causal.CBG.IsCGHD.le_mcghd",
+    "Causal.CBG.mcghd_connectedSpace",
+    "Causal.CBG.mcghdDev_isMorphism_val",
+    "Causal.CBG.mcghdDev_isMorphism_map",
+    "Causal.CBG.CommonSubDev.isMorphism_toMcghd",
+    "Causal.CBG.CommonSubDev.IsMaximal.bijective_toMcghd",
+    "Causal.CBG.isCauchyEmbedding_kinkIso",
+    "Causal.CBG.halfLineSub",
+    "Causal.CBG.halfLineSub_isMaximal",
+    "Causal.CBG.causal_pgcd_not_unique"
+  ],
+  "kb_proposals": [
+    "The image ι(M₀) of a development is GH as an open set only by causal convexity (Dev.isCauchyInclusion_range_top): IsCauchyEmbedding states GH of source and target, not of the image; likewise b(X) for a morphism of developments (isCGHD_of_isMorphism) — never try to transport GH along a local isomorphism.",
+    "Geometry.causality_restrict: the causality of 𝔊.restrict s W IS ((𝔊.causality s).restrict W).toSubtype (Causality.ext_toPrecausality + map_le + rel_of_image for injective local isomorphisms); with Causality.globallyHyperbolic_toSubtype and isCauchySurfaceOn_image_iff along Subtype.val, an open Cauchy development becomes a Dev (mcghdDev). Flat.LocalIso.rel_of_image (and lift_transGen) is model-free but lives in the Barbot campaign's Flat/FlatSpacetime.lean: Pgcd no longer imports it and carries a PRIVATE copy (rel_of_image_localIso, lift_transGen_image); master: move the lemma to a model-free module (e.g. Causal/Morphism.lean beside LocalIsomorphism) and delete both copies' duplication.",
+    "`(Subtype.val : (U : Set X) → _)` parses the parenthesis as a pi binder: write `(Subtype.val : U → X)` for an Opens U."
+  ],
+  "notes": "No sorry, no axiom (#print axioms: propext, Classical.choice, Quot.sound for exists_mcghd, mcghd_unique, cauchy_pgcd_geometry, causal_pgcd_not_unique, causality_restrict, mcghdDev, CommonSubDev.isMorphism_iff); passes `lake env lean` (no output) and stdin elaboration with -DwarningAsError=true. Imports CBG/{Geometry,CausalConvex,Injective} only — the Flat/FlatSpacetime import is dropped (fixer pass, 2026-11-01), replaced by a private copy of LocalIso.rel_of_image. Interface need (not edited): a Geometry field `timeFunction : ∀ {M} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] (s : Str M), (causality s).GloballyHyperbolic → (causality s).HasTimeFunction`; worked around by the local hypothesis hT : (𝔊.causality N₁.str).HasTimeFunction. The Geometry SCOPE's 'planned lemma of package 4 (Pgcd, restrict)' is discharged: Geometry.causality_restrict. Causal.imageOpens_top is in the root namespace Causal beside Causal.imageOpens (disclosed in SCOPE). SubExtension.cauchy_pgcd untouched. The module must be added to the scaffold root by the master (kb/0025).",
+  "fixer_pass": {
+    "date": "2026-11-01",
+    "host": "node1",
+    "applied": [
+      "CommonSubDev.isMorphism_iff: the conjunct f ∘ ι_X = ι_Y of CommonSubDev.IsMorphism is proved redundant given injective_b; checklist row and SCOPE line added (audit minor 2).",
+      "Dropped `import CausalScaffold.Flat.FlatSpacetime`: private copies rel_of_image_localIso / lift_transGen_image in the Restrict section (audit minor 3; the master's move of the lemma remains a kb_proposal).",
+      "Witness locations given one by one in labels[0].findings[4] (audit minor 4).",
+      "imageOpens_top kept in the root namespace Causal, disclosed in SCOPE (audit minor 5)."
+    ],
+    "not_applied": [
+      "Report path (audit minor 1): the report stays at campaign/WP-36p4-CBGPgcd/ (this package's id, 'd' being FamilyGluing's); the fixer may write only this package's REPORT.json, so the master reconciles the register (WP-36p4 vs a WP-36g slot).",
+      "SubExtension.cauchy_pgcd → Prop + finding (audit minor 6, kb/0022): not this package's file; master/ETT campaign, witnesses causal_pgcd_not_unique (CBG/Pgcd.lean), timelikeLine_not_isRigid (SubExtension.lean:174), not_exists_isUniversal_halfLineDev (CBG/Geometry.lean:1041)."
+    ]
+  }
+}

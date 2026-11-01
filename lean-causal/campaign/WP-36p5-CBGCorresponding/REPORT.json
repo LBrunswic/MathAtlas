@@ -1,0 +1,234 @@
+{
+  "package": "WP-36p5-CBGCorresponding",
+  "files": [
+    "scaffold/CausalScaffold/CBG/Corresponding.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "lem:corresponding_K",
+      "tex_lines": [
+        2100,
+        2142
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.IsCorrPair.corresponding_K",
+        "Causal.CBG.IsCorrPair.image_Kminus_eq",
+        "Causal.CBG.IsCorrPair.image_Kminus_subset",
+        "Causal.CBG.IsCorrPair.corresponding_K_past",
+        "Causal.CBG.CGHDData.corresponding_K",
+        "Causal.CBG.CGHDData.corresponding_K_past",
+        "Causal.CBG.timelikeLine_corresponding_hypotheses",
+        "Causal.Causality.Jplus_mem_nhds_of_isCauchySurface",
+        "Causal.Causality.Jminus_mem_nhds_of_isCauchySurface"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M0 GH, Cauchy extensions M1, M2, common sub-extension N, f = j2 o j1^-1",
+          "here": "reading",
+          "note": "Sbierski's form: U = j1(N) open in M, psi an injective structure morphism on U; CGHDData = A3's (germExt) hypotheses verbatim; model-free: IsCorrPair (bijection U -> V with continuous inverse matching <= and << of the ambient spacetimes)"
+        },
+        {
+          "paper": "(p,q) in C, images not separated in (M1 + M2)/N",
+          "here": "carried",
+          "note": "Corresponds = Sbierski Def 3.5; equal to the library's Gluing.C of x ~ psi x (corresponds_iff_mem_gluingC, via Gluing.C_eq_closure)"
+        },
+        {
+          "paper": "prop:K_calcul, prop:K_densite_sing, J^±(x) closed (prop:GH_Jferme), M causal",
+          "here": "carried",
+          "note": "model-free: named (KSide, kb/0012); Level A: derived from A2 SingularFlatAxiomsCorr (K_densite_sing, Kminus_eq_Jminus_diff, PushUp.Kminus_eq_Iminus, Iminus_eq_empty), never the false Iplus_eq; cor:K_ordre_Sigma / K_ordre / K_monotone replaced by the model-free Causality.le_of_Kminus_inter_subset (Causal/PushUp.lean:301) fed by SingularFlatAxiomsCorr.K_densite_sing"
+        },
+        {
+          "paper": "lem:Sigma_separe (through cor:K_ordre_Sigma, and silently in 'I^-(p) is empty iff I^-(q) is')",
+          "here": "carried",
+          "note": "model-free: named (KSide.separates); Level A: DERIVED from A2, no hypothesis left on CGHDData.corresponding_K/_past (Causality.Jplus_mem_nhds_of_isCauchySurface / Jminus_mem_nhds_of_isCauchySurface via Jplus_mem_nhds_of_isAcausal: S acausal by IsCauchySurface.isAcausal from curvesExtend + causallyArcConnected; J^-(S) closed since a point y of its closure has x ∈ K^-(y) (K_densite_sing), J^+(x) ∈ 𝓝 y (Jplus_mem_nhds_of_mem_Kminus) and J^-(S) ∩ J^+(x) compact (isCompact_Jminus_inter_Jplus, T2); J^+(S)∖S misses J^-(S) (acausal + causal); M = J^+(S) ∪ J^-(S). Past twin through C.dual with K^+ density and isCompact_Jplus_inter_Jminus). No splitting, no new Geometry field."
+        },
+        {
+          "paper": "lem:passe_pgcd, lem:image_diamant",
+          "here": "weakened",
+          "note": "replaced by causal convexity of U and psi(U) (package 2, IsCauchyInclusion.causallyConvexIn); Kminus_inter_Jplus_subset_of_causallyConvexIn is passe_pgcd for an open set in 6 lines"
+        },
+        {
+          "paper": "lem:cup_cap_sing, lem:cup_cap_BTZ (model computations, via lem:J_int)",
+          "here": "weakened",
+          "note": "not used: Sbierski's interpolation argument (le_of_corresponds, lt_of_corresponds) on the explicit K^- forms"
+        },
+        {
+          "paper": "M2 GH: 'increasing and bounded above, so it converges to some q''",
+          "here": "weakened",
+          "note": "replaced by a cluster point of psi along K^-(p) ∩ J^+(S) in the compact J^+(psi S) ∩ J^-(q) (A2 isCompact_Jplus_inter_Jminus); no monotone-convergence fact needed"
+        },
+        {
+          "paper": "second countable",
+          "here": "weakened",
+          "note": "model-free core: first countable; Level A: carried (Dev carriers)"
+        },
+        {
+          "paper": "past side",
+          "here": "carried",
+          "note": "corresponding_K_past: K^+ = I^+ at every point (BTZ included), J^-(S); the E0 bundle is not time-symmetric (R4), so the past side is the core applied to the dual with Sing = ∅, not the dual of the future statement"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:2115: 'In particular I^-(p) is empty if and only if I^-(q) is' does not follow from the bijection I^-(p) ∩ J^+(Σ1) -> I^-(q) ∩ J^+(Σ2) alone: it also needs I^-(q) ∩ J^+(Σ2) ≠ ∅ for regular q, which is lem:Sigma_separe (J^+(Σ2) a neighbourhood of q ∉ Σ2) plus q ∈ Z^- — an unstated use of lem:Sigma_separe (image_Kminus_subset, case p BTZ / q regular).",
+        "ETT.tex:2133-2135: 'the sequence (j2(a_n)) is increasing and bounded above by q in M2, which is globally hyperbolic, so it converges' is asserted without proof; a cluster point in the compact J^+(Σ2) ∩ J^-(q) suffices and removes the need for the increasing sequence (rem:suite_croissante) altogether.",
+        "ETT.tex:2148-2156 (editorial proof of cor:ext_continue, '[editorial] supplied 2026-08-22 -- verify'): it uses cor:model_corresponding (stated after it, l.2158; first half only, so not circular) and lem:corresponding_K, which assume p ∈ J^+(Σ1) and the accumulation point q'' ∈ J^+(Σ2) — the statement of cor:ext_continue assumes neither (a point of J^-(Σ1) needs the K^+ form); and 'it eventually lies in a compact diamond of M2 by lem:image_diamant' (l.2155-2156) is unsupported: the x_m -> p are not shown to lie below one point of j1(N). Proved here instead from A3 (Sbierski Lemma 3.8).",
+        "ETT.tex:2159 / 2164: cor:model_corresponding's first assertion is stated for every p ∈ ∂j1(N), but its proof goes through lem:corresponding_K, which needs p ∈ J^+(Σ1) and both q, q' ∈ J^+(Σ2) (Sbierski footnote 21 handles the mixed case). Proved here in full generality from A3 (CGHDData.eq_of_corresponds); the K^- route gives it on the J^+ side only (IsCorrPair.eq_of_corresponds)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "cor:ext_continue",
+      "tex_lines": [
+        2144,
+        2157
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.CGHDData.ext_continue",
+        "Causal.CBG.CGHDData.continuousWithinAt_update",
+        "Causal.CBG.CGHDData.tendsto_comp",
+        "Causal.CBG.CGHDData.continuousWithinAt_update_of_corresponds",
+        "Causal.CBG.corresponds_iff_eq_of_mem",
+        "Causal.CBG.mem_closure_of_corresponds"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(p,q) in C",
+          "here": "carried",
+          "note": "every (p,q) ∈ C: continuousWithinAt_update_of_corresponds (graph pairs p ∈ U have q = ψ p by corresponds_iff_eq_of_mem, no pair outside closure U by mem_closure_of_corresponds, rem:non_separe_cas); ext_continue / continuousWithinAt_update / tendsto_comp ask p ∈ ∂U"
+        },
+        {
+          "paper": "proof via lem:corresponding_K and cor:model_corresponding",
+          "here": "reading",
+          "note": "via A3 (Geometry.germExt_future / germExt_past, both time directions; p ∈ J^+(S) ∪ J^-(S) by mem_Jplus_union_Jminus_of_isCauchySurface from A2 curvesExtend). No lem:Sigma_separe needed. Partial because it rests on A3, an interface axiom gx discharges"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "see lem:corresponding_K, finding 3"
+      ],
+      "questions": []
+    },
+    {
+      "label": "cor:model_corresponding",
+      "tex_lines": [
+        2158,
+        2170
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.CGHDData.eq_of_corresponds",
+        "Causal.CBG.CGHDData.mem_sing_iff",
+        "Causal.CBG.IsCorrPair.eq_of_corresponds"
+      ],
+      "hypotheses": [
+        {
+          "paper": "p ∈ ∂j1(N)",
+          "here": "carried",
+          "note": "no time-side hypothesis on p, q, q' in the A3 form"
+        },
+        {
+          "paper": "cone angle a local invariant (second assertion)",
+          "here": "reading",
+          "note": "Geometry.isMor_sing applied to A3's extension phi (phi p = q)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "see lem:corresponding_K, finding 4"
+      ],
+      "questions": []
+    },
+    {
+      "label": "sbierski:prop:3.7",
+      "tex_lines": [],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.corresponds_of_tendsto",
+        "Causal.CBG.CGHDData.tendsto_comp",
+        "Causal.CBG.CGHDData.eq_of_corresponds",
+        "Causal.CBG.corresponds_iff_mapClusterPt"
+      ],
+      "hypotheses": [
+        {
+          "paper": "timelike curves γ : (-ε,0) -> U",
+          "here": "weakened",
+          "note": "any filter: (iii)=>(i) for any NeBot filter (model-free), (i)=>(ii) for every γ -> p within U (via A3). Timelike curves cannot be used at BTZ points (I^-(p) = ∅), hence the K^- form lem:corresponding_K"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "sbierski:lem:3.8(C open)",
+      "tex_lines": [],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.correspondingSet",
+        "Causal.CBG.CGHDData.exists_nhds_correspondingSet",
+        "Causal.CBG.CGHDData.isOpen_correspondingSet"
+      ],
+      "hypotheses": [
+        {
+          "paper": "C open in ∂U",
+          "here": "carried",
+          "note": "∃ W : Opens M, C = W ∩ ∂U; proof: A3's extension phi is continuous on O, so phi p' corresponds to every p' ∈ O ∩ ∂U. The second half of Lemma 3.8 (psi extends to U ∪ C) needs A1 to glue germs on overlaps: package 6"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.Jplus_mem_nhds_of_mem_Kminus",
+    "Causal.Causality.Kminus_inter_Jplus_subset_of_causallyConvexIn",
+    "Causal.Causality.lt_of_causallyConvexIn",
+    "Causal.Causality.mem_Jplus_union_Jminus_of_isCauchySurface",
+    "Causal.Causality.Jplus_mem_nhds_of_lt",
+    "Causal.Causality.exists_lt_lt_of_mem_Zminus",
+    "Causal.CBG.Corresponds",
+    "Causal.CBG.IsCorrPair",
+    "Causal.CBG.IsCorrPair.symm",
+    "Causal.CBG.IsCorrPair.dual",
+    "Causal.CBG.IsCorrPair.corresponds_symm",
+    "Causal.CBG.IsCorrPair.mem_frontier_of_corresponds",
+    "Causal.CBG.IsCorrPair.le_of_corresponds",
+    "Causal.CBG.IsCorrPair.lt_of_corresponds",
+    "Causal.CBG.IsCorrPair.isOpenEmbedding_comp_val",
+    "Causal.CBG.IsCorrPair.corresponds_iff_mem_gluingC",
+    "Causal.CBG.KSide",
+    "Causal.CBG.CGHDData",
+    "Causal.CBG.CGHDData.V",
+    "Causal.CBG.CGHDData.causallyConvexIn",
+    "Causal.CBG.CGHDData.causallyConvexIn'",
+    "Causal.CBG.CGHDData.isCorrPair",
+    "Causal.CBG.kSide_future",
+    "Causal.CBG.kSide_past",
+    "Causal.CBG.iioOne",
+    "Causal.CBG.timelikeLine_kSide",
+    "Causal.CBG.timelikeLine_isCorrPair_id",
+    "Causal.CBG.timelikeLine_causallyConvexIn_iioOne",
+    "Causal.CBG.timelikeLine_corresponds_one",
+    "Causal.Causality.Jplus_mem_nhds_of_isAcausal",
+    "Causal.CBG.CGHDData.coe_V",
+    "Causal.CBG.timelikeLine_Iminus_singleton"
+  ],
+  "kb_proposals": [
+    "x ∈ K⁻(p) gives J⁺(x) ∈ 𝓝 p (first countable, Jplus_mem_nhds_of_mem_Kminus); with causal convexity of U, lem:passe_pgcd for an open set is six lines (Kminus_inter_Jplus_subset_of_causallyConvexIn) — no image_diamant, no splitting.",
+    "A statement symmetric in (M, U, ψ) and (N, V, ψ⁻¹): bundle the pair (IsCorrPair with .symm and .dual), prove one inclusion, get the other from .symm; the E₀ time asymmetry then enters only through the instantiation of the K-calculus bundle (KSide C S sing₀ in the future, KSide C.dual S ∅ in the past).",
+    "Opens coerced to a type (↥U) is not syntactically ↥(U : Set M): `rw [Gluing.C_eq_closure U.isOpen.isOpenEmbedding_subtypeVal …]` fails; state the equation as a `have` at the Opens-typed form and rewrite with it.",
+    "lem:Sigma_separe without a splitting: S acausal + M = J^+(S) ∪ J^-(S) + K^- density + compact J^-(S) ∩ J^+(x) (T2) give J^-(S) closed, hence J^+(S) ⊇ M ∖ J^-(S) ∋ y for y ∈ J^+(S)∖S (Causality.Jplus_mem_nhds_of_isAcausal); the past twin is the same lemma for C.dual."
+  ],
+  "notes": "975 lines, 0 sorry, no axiom beyond propext/Classical.choice/Quot.sound (#print axioms on CGHDData.corresponding_K/_past, continuousWithinAt_update_of_corresponds, Jminus_mem_nhds_of_isCauchySurface, timelikeLine_corresponding_hypotheses via --stdin, nothing left in the file); `lake env lean -DwarningAsError=true` clean. Imports CBG.Geometry and CBG.CausalConvex only. Not added to scaffold/CausalScaffold.lean (master's job, kb/0025). FIX ROUND (audit 2026-11-01): (1) blocking: lem:Sigma_separe (hsepM/hsepN and J^- twins) removed from kSide_future/kSide_past and CGHDData.corresponding_K/_past — it is DERIVED from existing A2 fields (curvesExtend, causallyArcConnected, K_densite_sing, isCompact_Jminus_inter_Jplus / isCompact_Jplus_inter_Jminus, T2); the previous INTERFACE NEED for a Sigma_separe / splitting field is WITHDRAWN — no Geometry field is missing for this package. (2) witness reuses Causal.timelikeLine_Jplus_top_singleton / timelikeLine_Jminus_top_singleton (Causal/Geroch.lean:575-578); only timelikeLine_Iminus_singleton is new. (3) checklist row added: K_ordre / K_monotone replaced by le_of_Kminus_inter_subset + K_densite_sing. (4) cor:ext_continue for every (p,q) ∈ C (continuousWithinAt_update_of_corresponds). (5) SCOPE discloses the witness covers Sing = ∅ only. PACKAGE ID: the audit dispatch named campaign/WP-36h-CBGCorresponding; this report is at campaign/WP-36p5-CBGCorresponding (package field WP-36p5-CBGCorresponding) — the master should reconcile 36h vs 36p5 before graduation. For package 6 (unchanged): A3's φ is not asserted injective near p; Lemma 3.8's 'extends to an embedding of U ∪ C' will need it (or A1 + isMor_inv on a smaller O)."
+}

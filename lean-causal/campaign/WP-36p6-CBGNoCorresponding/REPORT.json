@@ -1,0 +1,357 @@
+{
+  "package": "WP-36p6-CBGNoCorresponding (CBG package 6, design §3 step 4 second half)",
+  "files": [
+    "scaffold/CausalScaffold/CBG/NoCorresponding.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "sbierski:lem:3.9",
+      "tex_lines": [],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.CGHDData.exists_spacelike_corresponding",
+        "Causal.CBG.CGHDData.exists_spacelike_corresponding_past",
+        "Causal.CBG.IsCorrPair.exists_corresponds_of_le",
+        "Causal.Causality.exists_minimal_of_isCompact",
+        "Causal.CBG.timelikeLine_corrPair_hypotheses"
+      ],
+      "hypotheses": [
+        {
+          "paper": "U a CGHD of M and M', C ∩ J^+(ι(M)) ≠ ∅",
+          "here": "carried",
+          "note": "CGHDData (package 5's A3 setting, ψ injective on U) + p₀ ∈ C ∩ J⁺(S); past twin with J⁻, K⁺ (no duality of the E₀ bundle, R4)"
+        },
+        {
+          "paper": "proof: null geodesic γ ⊂ ∂U from p, J = {t | γ(t) ∈ C} open (Lemma 3.8) and closed, ψ extended along γ",
+          "here": "weakened",
+          "note": "replaced: p is a ≤-minimal point of the compact J⁺(S) ∩ J⁻(p₀) ∩ ∂U (A2 isCompact_Jplus_inter_Jminus; Zorn, exists_minimal_of_isCompact); it corresponds to a point by a K⁻ cluster argument (exists_corresponds_of_le: K⁻(p) ⊆ K⁻(p₀) by the corrected K_monotone, ψ(K⁻(p) ∩ J⁺S) ≤ p₀' by package 5's le_of_corresponds, compact J⁺(ψS) ∩ J⁻(p₀')). No geodesic, no openness of C, no extension of ψ"
+        },
+        {
+          "paper": "design §3 step 4: minimise a Geroch time over ∂U ∩ J(Σ,p₀)",
+          "here": "weakened",
+          "note": "no time function: a causal-order-minimal point suffices (M causal, J⁻(x) closed, T2)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Design §3 step 4 / §5 row 6 ('time function' risk) is void for Lemma 3.9: minimality for the causal order on the compact ∂U ∩ J⁺(Σ) ∩ J⁻(p₀) (Zorn on closed down-sets) replaces the Geroch time, and every boundary point below a corresponding point corresponds (K⁻ cluster argument). SingularGeroch need not be restated on the corrected bundle for this package."
+      ],
+      "questions": []
+    },
+    {
+      "label": "prop:Cauchy_point_min",
+      "tex_lines": [
+        2270,
+        2317
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.CGHDData.exists_diamond_subset_of_nonempty",
+        "Causal.CBG.CGHDData.exists_spacelike",
+        "Causal.CBG.CGHDData.exists_diamond_subset",
+        "Causal.Causality.spacelike_iff",
+        "Causal.Causality.mem_closure_of_mem_Jminus"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M0 GH singular flat, Cauchy extensions M1, M2, common sub-extension N",
+          "here": "reading",
+          "note": "CGHDData over an abstract Geometry (DEC-60); ETT labels are the ETT campaign's"
+        },
+        {
+          "paper": "C ≠ ∅",
+          "here": "carried",
+          "note": "exists_diamond_subset_of_nonempty: ETT's literal statement at its own hypothesis C ≠ ∅ (future case by Lemma 3.9 + spacelike_iff; past case vacuous, p' = p₀: σ ≤ x ≤ p₀ ≤ σ' puts x in the diamond of σ, σ' ∈ S ⊆ U, so J⁺(S) ∩ J⁻(p₀) ⊆ U by causal convexity). exists_spacelike: Sbierski's time-oriented (3.10) in the future or the past of S (Sbierski's WLOG 'otherwise reverse the time orientation' made explicit, as E₀ has no time reversal). exists_diamond_subset: future side from C ∩ J⁺(S) ≠ ∅"
+        },
+        {
+          "paper": "(3.10) vs J(Σ,p) ∖ {p} ⊂ j₁(N)",
+          "here": "carried",
+          "note": "equivalent for p ∈ ∂U (spacelike_iff: K⁻ density + lem:passe_pgcd)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:2270-2274 is TRUE as stated (exists_diamond_subset_of_nonempty) but VACUOUS at past points: if p₀ ∈ C ∩ J⁻(Σ₁), then J⁺(Σ₁) ∩ J⁻(p₀) ⊆ j₁(N) by causal convexity, so p' = p₀ satisfies the conclusion with no information. It is therefore too weak to feed prop:Cauchy_non_max's past-side slice: what the proof of prop:Cauchy_non_max needs is the time-oriented form (Sbierski (3.10) in the future OR in the past of Σ₁, exists_spacelike). (Corrects this report's earlier wording, which said the statement 'should say in the future or in the past' as if it were false.)",
+        "ETT.tex:2275-2317 (editorial proof, '[editorial] translated … verify'): the procedure along broken lightlike geodesics and the finiteness argument via discreteness of Σ1 ∩ sing(M1) are not needed: a ≤-minimal point of the compact ∂j1(N) ∩ J(Σ1, p) does it (exists_spacelike_corresponding)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "sbierski:lem:3.11",
+      "tex_lines": [],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.exists_lt_Jminus_compl_subset",
+        "Causal.CBG.exists_lt_Jminus_compl_subset_of_cauchy",
+        "Causal.CBG.exists_lt_Jplus_compl_subset_past",
+        "Causal.CBG.timelikeLine_spacelike_hypotheses"
+      ],
+      "hypotheses": [
+        {
+          "paper": "U a GHD, M ⊇ U an extension, p ∈ ∂U with (3.10), W an open neighbourhood",
+          "here": "weakened",
+          "note": "W any neighbourhood; only ⊆ of (3.10); model-free hypotheses (p ∈ Z⁺, J^±(x) closed, J⁻(p) ⊆ closure K⁻(p), lem:Sigma_separe's clause, compact J⁺(S) ∩ J⁻(x), U causally convex), all derived from A2 at Level A"
+        },
+        {
+          "paper": "proof: a timelike curve γ from p, sequences, 'the relation ≤ is closed', 'contradicts the GH of U'",
+          "here": "weakened",
+          "note": "directed family q ≫ p, q ≤ q₁ (Z⁺) in a compact set; closed J⁺(r); final contradiction by K⁻ density + lem:passe_pgcd"
+        },
+        {
+          "paper": "past side (time reversal)",
+          "here": "strengthened",
+          "note": "exists_lt_Jplus_compl_subset_past asks p ∉ sing₀: at a BTZ point I⁻(p) = ∅ (Iminus_eq_empty, Geometry.lean:174), so the conclusion ∃ q ≪ p is unsatisfiable there; the past lemma without p ∉ sing₀ would assert that no BTZ boundary point satisfies its hypotheses (past (3.10), U GH) — not settled here, no local BTZ configuration exhibited either way"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Sbierski Lemma 3.11's past twin cannot conclude at BTZ points: I⁻(p) = ∅ there, so Sbierski's slice τ_q (q ∈ I^∓(p)) is unavailable on the past side at a BTZ boundary point. Whether a BTZ boundary point satisfying the past (3.10) with U GH exists is not settled here. Consequence for whoever discharges A4 (Geometry.slice_past) at the E₀ instance (packages 11/12, gx): Sbierski's construction cannot be time-reversed at BTZ points; a different slice is needed there (or an argument that a past-side (3.10) point is never BTZ)."
+      ],
+      "questions": [
+        "Does gx's discharge of A4 slice_past at BTZ points have a construction (Sbierski's τ_q needs q ≪ p, impossible at a BTZ point)? Lemma 3.11's past twin is proved here only at regular points."
+      ]
+    },
+    {
+      "label": "sbierski:lem:3.8(extension)",
+      "tex_lines": [],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.correspondingExt",
+        "Causal.CBG.corresponds_correspondingExt",
+        "Causal.CBG.correspondingExt_eq_of_mem",
+        "Causal.CBG.CGHDData.exists_isMor_eqOn_correspondingExt"
+      ],
+      "hypotheses": [
+        {
+          "paper": "ψ extends smoothly to ψ : U ∪ C → M'",
+          "here": "reading",
+          "note": "local form: ψ̂ (ψ on U, the unique corresponding point on C) is near each p ∈ C the restriction to U ∪ C of a structure morphism φ (A3); no gluing of germs (A1) needed. Injectivity of ψ̂ ('isometric embedding') not proved, unused"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "sbierski:thm:3.6",
+      "tex_lines": [],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.CGHDData.exists_extension",
+        "Causal.CBG.IsCGHD.exists_lt",
+        "Causal.CBG.IsCGHD.cghdData",
+        "Causal.CBG.isMor_piecewise"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M, M' GHDs, U a CGHD with corresponding boundary points",
+          "here": "carried",
+          "note": "IsCGHD N₁ N₂ W f (package 4), C ≠ ∅, any time side"
+        },
+        {
+          "paper": "ψ an isometric embedding",
+          "here": "carried",
+          "note": "InjOn f W (Pgcd's IsCGHD asks a morphism; injectivity = Lemma 3.3, IsCGHD.injOn, needs a time function)"
+        },
+        {
+          "paper": "proof: Lemma 3.9, Lemma 3.8 (V ∩ ∂U ⊆ C), τ_q, hyperboloid S, Thm 2.6, Lemma 3.1, Lemma 3.11",
+          "here": "reading",
+          "note": "Lemma 3.9 here; A3 (germExt via ext_continue) gives one germ φ on O ∋ p; A4 (slice_future / slice_past = Sbierski (3.12) + Lemma 3.11 + Thm 2.6 as an interface axiom) gives U < U' ⊆ U ∪ O, GH, S Cauchy; ψ' = ψ on U, φ off U (isMor_piecewise). 'V ∩ ∂U ⊆ C' not needed. Partial because A3/A4 are interface fields gx discharges"
+        },
+        {
+          "paper": "conclusion: a strictly larger extension that is a CGHD (with isometric EMBEDDING)",
+          "here": "weakened",
+          "note": "IsCGHD N₁ N₂ W' f' (package 4's approved IsCGHD, no injectivity); InjOn f' W' not proved — follows from IsCGHD.injOn given a time function: the conclusion half of the same time-function need as the hypothesis InjOn f W"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "prop:Cauchy_non_max",
+      "tex_lines": [
+        2178,
+        2238
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.IsCGHD.exists_lt",
+        "Causal.CBG.CGHDData.exists_extension"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(p,q) ∈ C with J_{M1}(Σ1,p) ∖ {p} ⊂ j1(N)",
+          "here": "weakened",
+          "note": "C ≠ ∅ suffices: Lemma 3.9 produces the point; via A3 + A4, not via the editorial proof (charts, Σ1', D1, rigidity on W1)"
+        },
+        {
+          "paper": "N ∈ ℰ (ETT.tex:1953–1954, clause (b): no injectivity)",
+          "here": "strengthened",
+          "note": "InjOn f W carried; discharged by IsCGHD.injOn from a time function (Pgcd's interface need)"
+        },
+        {
+          "paper": "conclusion: N not maximal",
+          "here": "weakened",
+          "note": "the larger (W', f') is IsCGHD (package 4, no injectivity); InjOn f' W' is not delivered — it also needs the time function (conclusion half of the same need)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "sbierski:thm:3.13",
+      "tex_lines": [],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.correspondingSet_mcghd_eq_empty",
+        "Causal.CBG.correspondingSet_mcghd_eq_empty_of_timeFunction"
+      ],
+      "hypotheses": [
+        {
+          "paper": "U the MCGHD",
+          "here": "carried",
+          "note": "mcghdOpens / mcghdMap (package 4)"
+        },
+        {
+          "paper": "(ψ an embedding, Sbierski Lemma 3.3)",
+          "here": "strengthened",
+          "note": "InjOn mcghdMap mcghdOpens, or (𝔊.causality N₁.str).HasTimeFunction (Pgcd's IsCGHD.injOn) — the interface need Pgcd already reported"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "prop:ppcm_Cauchy",
+      "tex_lines": [
+        1994,
+        1998
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.t2Space_gluing_mcghd",
+        "Causal.CBG.t2Space_gluing_mcghd_of_timeFunction",
+        "Causal.CBG.CGHDData.t2Space_gluing_iff"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Hausdorff property of ppcm (proof, ETT.tex:2319-2331; rem:non_separe_cas)",
+          "here": "carried",
+          "note": "only the Hausdorff half: T2Space (Gluing val (mcghdMap ∘ val)) via Gluing.t2Space_iff_Cdist_eq_empty, C_eq_closure and package 5's corresponds_iff_mem_gluingC; t2Space_gluing_iff is an iff (T2 ⟺ C = ∅) for any CGHD. Structure, causality, GH and minimality of ppcm are package 7"
+        },
+        {
+          "paper": "N ∈ ℰ (ETT.tex:1953–1954, clause (b): no injectivity)",
+          "here": "strengthened",
+          "note": "InjOn mcghdMap mcghdOpens carried; discharged by IsCGHD.injOn from a time function (t2Space_gluing_mcghd_of_timeFunction; Pgcd's interface need)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "prop:C_connexe",
+      "tex_lines": [
+        2240,
+        2268
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.isClosed_setOf_corresponds_frontier",
+        "Causal.CBG.isClosed_setOf_corresponds"
+      ],
+      "hypotheses": [
+        {
+          "paper": "C closed in ∂j1(N) × ∂j2(N)",
+          "here": "carried",
+          "note": "isClosed_setOf_corresponds_frontier: the corresponding pairs in ∂U × ∂V are closed (any V; for V = ψ(U), C ⊆ ∂U × ∂V by package 5's IsCorrPair.mem_frontier_of_corresponds)"
+        },
+        {
+          "paper": "(the set of all corresponding pairs)",
+          "here": "reading",
+          "note": "isClosed_setOf_corresponds: closed in M × N (= the closure of the graph of ψ|U, graph pairs included), model-free; the first half (C₁ open) is package 5's isOpen_correspondingSet"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.exists_minimal_of_isCompact",
+    "Causal.Causality.mem_closure_of_mem_Jminus",
+    "Causal.Causality.spacelike_iff",
+    "Causal.Causality.exists_lt_Jminus_compl_subset",
+    "Causal.CBG.IsCorrPair.exists_corresponds_of_le",
+    "Causal.CBG.isClosed_setOf_corresponds",
+    "Causal.CBG.isMor_piecewise",
+    "Causal.CBG.correspondingExt",
+    "Causal.CBG.corresponds_correspondingExt",
+    "Causal.CBG.correspondingExt_eq_of_mem",
+    "Causal.CBG.IsCGHD.cghdData",
+    "Causal.CBG.isClosed_setOf_corresponds_frontier",
+    "Causal.CBG.timelikeLine_corrPair_hypotheses"
+  ],
+  "kb_proposals": [
+    "A '≤-minimal point of a compact set' needs no time function: Zorn on the non-empty closed down-sets (zorn_superset_nonempty + IsCompact.nonempty_sInter_of_directed_nonempty_isCompact_isClosed), M causal with closed J⁻(x) (Causality.exists_minimal_of_isCompact); dual for maximal points.",
+    "Set notation: `A ∩ B \\ C` does not parse (`\\` is infix:70, `∩` infixl:70): write `(A ∩ B) \\ C`.",
+    "Extending a morphism by a germ: `(U : Set M).piecewise ψ φ` with `classical`, then isMor_of_locally on U ⊓ U' / O ⊓ U' (CBG.isMor_piecewise).",
+    "Gluing along an Opens: give the open embeddings with type ascription `(Subtype.val : U → M)` and use `(Gluing.t2Space_iff_Cdist_eq_empty hj₁ hj₂).trans` — `rw` fails on the ↥U vs ↥(U : Set M) mismatch (cf. package 5's kb proposal)."
+  ],
+  "notes": "803 lines, 0 sorry (the one occurrence of the word is in the docstring), no axiom beyond propext/Classical.choice/Quot.sound (#print axioms via --stdin on t2Space_gluing_mcghd, correspondingSet_mcghd_eq_empty, IsCGHD.exists_lt, CGHDData.exists_spacelike, exists_diamond_subset, exists_lt_Jminus_compl_subset (model-free), exists_lt_Jminus_compl_subset_of_cauchy, exists_lt_Jplus_compl_subset_past, exists_isMor_eqOn_correspondingExt, isClosed_setOf_corresponds, timelikeLine_spacelike_hypotheses); `lake env lean -DwarningAsError=true` clean (no warnings). Imports CBG.Pgcd and CBG.Corresponding only. Not added to scaffold/CausalScaffold.lean (master's job, kb/0025). INTERFACE: no new Geometry field needed by this package; the only carried hypothesis is the injectivity of the CGHD morphism (InjOn, or HasTimeFunction through IsCGHD.injOn) — Pgcd's already-reported `timeFunction` field would discharge it. Geometry.lean not edited. RISK for gx/package 11-12 (finding above): A4 slice_past at BTZ boundary points cannot be discharged by Sbierski's τ_q construction (I⁻(p) = ∅). For package 7 (Ppcm): T2 of the gluing along the MCGHD is t2Space_gluing_mcghd (with InjOn mcghdMap, or _of_timeFunction). FIX PASS (2026-11-01, after the read-only audit): added exists_diamond_subset_of_nonempty (ETT's literal prop:Cauchy_point_min; past case vacuous by causal convexity), isClosed_setOf_corresponds_frontier (prop:C_connexe in ∂ × ∂), timelikeLine_corrPair_hypotheses (witness for IsCorrPair.exists_corresponds_of_le, kb/0011); renamed the Level-A Lemma 3.11 CBG.exists_lt_Jminus_compl_subset → CBG.exists_lt_Jminus_compl_subset_of_cauchy (kb/0016 shadowing of Causality.exists_lt_Jminus_compl_subset; no external users); InjOn disclosed as strengthened under prop:Cauchy_non_max and prop:ppcm_Cauchy; the BTZ claim on Lemma 3.11's past twin reworded (conclusion unsatisfiable, not 'hypothesis necessary'). Rebuilt: 0 errors, 0 warnings, 0 sorry; #print axioms on the new decls: propext, Classical.choice, Quot.sound only. MASTER NOTE: package 6's campaign directory is campaign/WP-36p6-CBGNoCorresponding (the audit dispatch named WP-36i, which is the Bound package).",
+  "audit_fixes": [
+    {
+      "item": "prop:Cauchy_point_min literal form",
+      "outcome": "fixed",
+      "decl": "Causal.CBG.CGHDData.exists_diamond_subset_of_nonempty"
+    },
+    {
+      "item": "InjOn strengthened under prop:Cauchy_non_max / prop:ppcm_Cauchy",
+      "outcome": "fixed",
+      "where": "REPORT hypotheses rows + checklist rows"
+    },
+    {
+      "item": "'p ∉ sing₀ is necessary' overclaim",
+      "outcome": "fixed",
+      "where": "exists_lt_Jplus_compl_subset_past docstring, checklist, REPORT"
+    },
+    {
+      "item": "prop:C_connexe in ∂ × ∂",
+      "outcome": "fixed",
+      "decl": "Causal.CBG.isClosed_setOf_corresponds_frontier"
+    },
+    {
+      "item": "InjOn f' not delivered by Thm 3.6",
+      "outcome": "fixed (disclosure)",
+      "where": "REPORT sbierski:thm:3.6 and prop:Cauchy_non_max hypotheses; checklist row"
+    },
+    {
+      "item": "short-name collision exists_lt_Jminus_compl_subset",
+      "outcome": "fixed",
+      "decl": "Causal.CBG.exists_lt_Jminus_compl_subset_of_cauchy"
+    },
+    {
+      "item": "witness for exists_corresponds_of_le",
+      "outcome": "fixed",
+      "decl": "Causal.CBG.timelikeLine_corrPair_hypotheses"
+    },
+    {
+      "item": "dispatch path WP-36i vs WP-36p6",
+      "outcome": "no_change_needed (master's record)"
+    }
+  ]
+}
