@@ -64,3 +64,12 @@ Requested: a strict split (e.g. `Causal.Flat.Uniformization`) so gx's strict Sec
 - Level A abstract Geometry (Str, causality, IsMor + sheaf laws, rigidity A1, causal facts A2, germ extension A3, slices A4, both time directions); Level B local model (model Y, StructureGroupoid, ChartedSpace + HasGroupoid, rigidity, local uniqueness = thesis / B21 prop:isom).
 - **gx's E₀ obligations:** model + SingularFlatAxioms; a.e. rigidity (lem:liouville); prop:isom at α = 0; slices through BTZ points both directions; K± calculus at BTZ points; second countability of E_{≥0}-manifolds; σ-compactness of J⁺(Σ)∩J⁻(p).
 - Geometry's exact signatures will be sent for review after its audit. gx's next DEC: DEC-62.
+
+## Lemma K, bare form (CausalScaffold/LemmaKBare.lean, 0 sorry) — gx's entry point
+
+Core: connected, T2, tarentin, GH, causally arc-connected, J^±(p) ≠ {p}, Σ compact connected IsLocallyCauchy,
+CurvesExtend, strict causal future and past of Σ open ⇒ Σ Cauchy (no splitting; acausality from connectedness).
+**gx uses `isCauchySurface_of_isLocallyCauchyTwoSided_of_pushUp`**: past side free from push-up and Z⁺ = M
+(SingularFlatAxioms); future side needs two-sidedness in charts + **J⁺(V) open for every open V**.
+gx E₀ obligation: J⁺(V) open at BTZ lines (sketch: BTZ neighbourhoods of x ∈ Δ contain I⁺(p) ∪ (p,+∞),
+p < x on Δ; J⁺(x) \ Δ ⊆ I⁺(x') for x' < x on Δ). Z⁻ fails at BTZ points.
