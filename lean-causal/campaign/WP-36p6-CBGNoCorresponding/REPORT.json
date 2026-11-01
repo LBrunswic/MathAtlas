@@ -22,7 +22,7 @@
         {
           "paper": "U a CGHD of M and M', C ∩ J^+(ι(M)) ≠ ∅",
           "here": "carried",
-          "note": "CGHDData (package 5's A3 setting, ψ injective on U) + p₀ ∈ C ∩ J⁺(S); past twin with J⁻, K⁺ (no duality of the E₀ bundle, R4)"
+          "note": "CGHDData (package 5's A3 setting, ψ injective on U) + p₀ ∈ C ∩ J⁺(S); past twin with J⁻, K⁺ (no duality of the E₀ bundle, R4). Witness timelikeLine_corrPair_hypotheses is DEGENERATE (q = p₀ = 1, ∂U = {1} on the line): joint satisfiability only, the cluster argument at q < p₀ is not exercised; no 2-D local witness given (kb/0011: only when cheap)"
         },
         {
           "paper": "proof: null geodesic γ ⊂ ∂U from p, J = {t | γ(t) ∈ C} open (Lemma 3.8) and closed, ψ extended along γ",
@@ -54,7 +54,9 @@
         "Causal.CBG.CGHDData.exists_spacelike",
         "Causal.CBG.CGHDData.exists_diamond_subset",
         "Causal.Causality.spacelike_iff",
-        "Causal.Causality.mem_closure_of_mem_Jminus"
+        "Causal.Causality.mem_closure_of_mem_Jminus",
+        "Causal.CBG.CGHDData.exists_diamond_subset_past",
+        "Causal.CBG.CGHDData.exists_diamond_subset_symm"
       ],
       "hypotheses": [
         {
@@ -71,14 +73,21 @@
           "paper": "(3.10) vs J(Σ,p) ∖ {p} ⊂ j₁(N)",
           "here": "carried",
           "note": "equivalent for p ∈ ∂U (spacelike_iff: K⁻ density + lem:passe_pgcd)"
+        },
+        {
+          "paper": "J_{M_1}(Σ_1,p') at ETT.tex:2272 for a past point p' (ETT defines J_M(Σ,p) only for p ∈ J⁺(Σ), lem:image_diamant ETT.tex:2024–2027)",
+          "here": "reading",
+          "note": "ambiguous; both readings proved. (i) J⁺(Σ₁) ∩ J⁻(p'): exists_diamond_subset_of_nonempty (vacuous at past points). (ii) time-symmetric J⁻(Σ₁) ∩ J⁺(p') at past points: exists_diamond_subset_symm / exists_diamond_subset_past (the past (3.10) in diamond form, via the dual spacelike_iff and kSide_past; not vacuous)"
         }
       ],
       "sorries": [],
       "findings": [
-        "ETT.tex:2270-2274 is TRUE as stated (exists_diamond_subset_of_nonempty) but VACUOUS at past points: if p₀ ∈ C ∩ J⁻(Σ₁), then J⁺(Σ₁) ∩ J⁻(p₀) ⊆ j₁(N) by causal convexity, so p' = p₀ satisfies the conclusion with no information. It is therefore too weak to feed prop:Cauchy_non_max's past-side slice: what the proof of prop:Cauchy_non_max needs is the time-oriented form (Sbierski (3.10) in the future OR in the past of Σ₁, exists_spacelike). (Corrects this report's earlier wording, which said the statement 'should say in the future or in the past' as if it were false.)",
+        "CONDITIONAL on reading J_{M_1}(Σ_1,p') (ETT.tex:2272) as J⁺(Σ₁) ∩ J⁻(p') also at past points: ETT.tex:2270-2273 is then TRUE as stated (exists_diamond_subset_of_nonempty) but VACUOUS at past points: if p₀ ∈ C ∩ J⁻(Σ₁), then J⁺(Σ₁) ∩ J⁻(p₀) ⊆ j₁(N) by causal convexity, so p' = p₀ satisfies the conclusion with no information, too weak to feed prop:Cauchy_non_max's past-side slice. Under the time-symmetric reading (J⁻(Σ₁) ∩ J⁺(p') for past p') the statement is NOT vacuous: it is the past (3.10) in diamond form, proved as exists_diamond_subset_symm / exists_diamond_subset_past. What the proof of prop:Cauchy_non_max needs is the time-oriented form (exists_spacelike, equivalently exists_diamond_subset_symm).",
         "ETT.tex:2275-2317 (editorial proof, '[editorial] translated … verify'): the procedure along broken lightlike geodesics and the finiteness argument via discreteness of Σ1 ∩ sing(M1) are not needed: a ≤-minimal point of the compact ∂j1(N) ∩ J(Σ1, p) does it (exists_spacelike_corresponding)."
       ],
-      "questions": []
+      "questions": [
+        "Which reading of J_{M_1}(Σ_1,p') does ETT.tex:2272 intend at a past point p' ∈ J⁻(Σ₁)? ETT defines J_M(Σ,p) only for p ∈ J⁺(Σ) (lem:image_diamant, ETT.tex:2024–2027). (i) J⁺(Σ₁) ∩ J⁻(p'): the statement is true but vacuous there (exists_diamond_subset_of_nonempty). (ii) J⁻(Σ₁) ∩ J⁺(p') (time-symmetric): the statement is the past (3.10) (exists_diamond_subset_symm). Both are proved; the ETT campaign should fix the definition (and prop:Cauchy_non_max's use of it, ETT.tex:2178–2181) to reading (ii) if the past-side slice is meant to use it."
+      ]
     },
     {
       "label": "sbierski:lem:3.11",
@@ -199,9 +208,9 @@
           "note": "InjOn f W carried; discharged by IsCGHD.injOn from a time function (Pgcd's interface need)"
         },
         {
-          "paper": "conclusion: N not maximal",
-          "here": "weakened",
-          "note": "the larger (W', f') is IsCGHD (package 4, no injectivity); InjOn f' W' is not delivered — it also needs the time function (conclusion half of the same need)"
+          "paper": "conclusion: N not maximal among common sub-extensions (ℰ, ETT.tex:1953–1954, no injectivity)",
+          "here": "carried",
+          "note": "the larger (W', f') is IsCGHD (package 4), which like ETT's ℰ asks no injectivity: ETT's conclusion exactly. Only Sbierski Thm 3.6's 'isometric embedding' conclusion is weakened (recorded under sbierski:thm:3.6)"
         }
       ],
       "sorries": [],
@@ -304,7 +313,9 @@
     "Causal.CBG.correspondingExt_eq_of_mem",
     "Causal.CBG.IsCGHD.cghdData",
     "Causal.CBG.isClosed_setOf_corresponds_frontier",
-    "Causal.CBG.timelikeLine_corrPair_hypotheses"
+    "Causal.CBG.timelikeLine_corrPair_hypotheses",
+    "Causal.CBG.CGHDData.exists_diamond_subset_past",
+    "Causal.CBG.CGHDData.exists_diamond_subset_symm"
   ],
   "kb_proposals": [
     "A '≤-minimal point of a compact set' needs no time function: Zorn on the non-empty closed down-sets (zorn_superset_nonempty + IsCompact.nonempty_sInter_of_directed_nonempty_isCompact_isClosed), M causal with closed J⁻(x) (Causality.exists_minimal_of_isCompact); dual for maximal points.",
@@ -312,7 +323,7 @@
     "Extending a morphism by a germ: `(U : Set M).piecewise ψ φ` with `classical`, then isMor_of_locally on U ⊓ U' / O ⊓ U' (CBG.isMor_piecewise).",
     "Gluing along an Opens: give the open embeddings with type ascription `(Subtype.val : U → M)` and use `(Gluing.t2Space_iff_Cdist_eq_empty hj₁ hj₂).trans` — `rw` fails on the ↥U vs ↥(U : Set M) mismatch (cf. package 5's kb proposal)."
   ],
-  "notes": "803 lines, 0 sorry (the one occurrence of the word is in the docstring), no axiom beyond propext/Classical.choice/Quot.sound (#print axioms via --stdin on t2Space_gluing_mcghd, correspondingSet_mcghd_eq_empty, IsCGHD.exists_lt, CGHDData.exists_spacelike, exists_diamond_subset, exists_lt_Jminus_compl_subset (model-free), exists_lt_Jminus_compl_subset_of_cauchy, exists_lt_Jplus_compl_subset_past, exists_isMor_eqOn_correspondingExt, isClosed_setOf_corresponds, timelikeLine_spacelike_hypotheses); `lake env lean -DwarningAsError=true` clean (no warnings). Imports CBG.Pgcd and CBG.Corresponding only. Not added to scaffold/CausalScaffold.lean (master's job, kb/0025). INTERFACE: no new Geometry field needed by this package; the only carried hypothesis is the injectivity of the CGHD morphism (InjOn, or HasTimeFunction through IsCGHD.injOn) — Pgcd's already-reported `timeFunction` field would discharge it. Geometry.lean not edited. RISK for gx/package 11-12 (finding above): A4 slice_past at BTZ boundary points cannot be discharged by Sbierski's τ_q construction (I⁻(p) = ∅). For package 7 (Ppcm): T2 of the gluing along the MCGHD is t2Space_gluing_mcghd (with InjOn mcghdMap, or _of_timeFunction). FIX PASS (2026-11-01, after the read-only audit): added exists_diamond_subset_of_nonempty (ETT's literal prop:Cauchy_point_min; past case vacuous by causal convexity), isClosed_setOf_corresponds_frontier (prop:C_connexe in ∂ × ∂), timelikeLine_corrPair_hypotheses (witness for IsCorrPair.exists_corresponds_of_le, kb/0011); renamed the Level-A Lemma 3.11 CBG.exists_lt_Jminus_compl_subset → CBG.exists_lt_Jminus_compl_subset_of_cauchy (kb/0016 shadowing of Causality.exists_lt_Jminus_compl_subset; no external users); InjOn disclosed as strengthened under prop:Cauchy_non_max and prop:ppcm_Cauchy; the BTZ claim on Lemma 3.11's past twin reworded (conclusion unsatisfiable, not 'hypothesis necessary'). Rebuilt: 0 errors, 0 warnings, 0 sorry; #print axioms on the new decls: propext, Classical.choice, Quot.sound only. MASTER NOTE: package 6's campaign directory is campaign/WP-36p6-CBGNoCorresponding (the audit dispatch named WP-36i, which is the Bound package).",
+  "notes": "865 lines, 0 sorry (the one occurrence of the word is in the docstring), no axiom beyond propext/Classical.choice/Quot.sound (#print axioms via --stdin on t2Space_gluing_mcghd, correspondingSet_mcghd_eq_empty, IsCGHD.exists_lt, CGHDData.exists_spacelike, exists_diamond_subset, exists_lt_Jminus_compl_subset (model-free), exists_lt_Jminus_compl_subset_of_cauchy, exists_lt_Jplus_compl_subset_past, exists_isMor_eqOn_correspondingExt, isClosed_setOf_corresponds, timelikeLine_spacelike_hypotheses); `lake env lean -DwarningAsError=true` clean (no warnings). Imports CBG.Pgcd and CBG.Corresponding only. Not added to scaffold/CausalScaffold.lean (master's job, kb/0025). INTERFACE: no new Geometry field needed by this package; the only carried hypothesis is the injectivity of the CGHD morphism (InjOn, or HasTimeFunction through IsCGHD.injOn) — Pgcd's already-reported `timeFunction` field would discharge it. Geometry.lean not edited. RISK for gx/package 11-12 (finding above): A4 slice_past at BTZ boundary points cannot be discharged by Sbierski's τ_q construction (I⁻(p) = ∅). For package 7 (Ppcm): T2 of the gluing along the MCGHD is t2Space_gluing_mcghd (with InjOn mcghdMap, or _of_timeFunction). FIX PASS (2026-11-01, after the read-only audit): added exists_diamond_subset_of_nonempty (ETT's literal prop:Cauchy_point_min; past case vacuous by causal convexity), isClosed_setOf_corresponds_frontier (prop:C_connexe in ∂ × ∂), timelikeLine_corrPair_hypotheses (witness for IsCorrPair.exists_corresponds_of_le, kb/0011); renamed the Level-A Lemma 3.11 CBG.exists_lt_Jminus_compl_subset → CBG.exists_lt_Jminus_compl_subset_of_cauchy (kb/0016 shadowing of Causality.exists_lt_Jminus_compl_subset; no external users); InjOn disclosed as strengthened under prop:Cauchy_non_max and prop:ppcm_Cauchy; the BTZ claim on Lemma 3.11's past twin reworded (conclusion unsatisfiable, not 'hypothesis necessary'). Rebuilt: 0 errors, 0 warnings, 0 sorry; #print axioms on the new decls: propext, Classical.choice, Quot.sound only. MASTER NOTE: package 6's campaign directory is campaign/WP-36p6-CBGNoCorresponding (the audit dispatch named WP-36i, which is the Bound package). RE-DISPATCH (2026-11-01 ~21:15Z, after packages 4/5 were re-audited and rebuilt): the committed file (e4c0d3a) compiles unchanged against them; one docstring line range corrected (2270–2274 → 2270–2273); no statement or proof changed. INTERFACE: interface round 2's accepted `timeFunction` field (CBG-DESIGN §6) is exactly what discharges this file's one carried hypothesis (InjOn mcghdMap / InjOn f, via IsCGHD.injOn); once it lands in Geometry, `_of_timeFunction` variants become hypothesis-free corollaries; until then nothing here needs a new field. FIX PASS 2 (2026-11-01, after the second read-only audit: ok, 0 blocking, 5 minor): added exists_diamond_subset_past and exists_diamond_subset_symm (prop:Cauchy_point_min under the time-symmetric reading, from Lemma 3.9's past twin + the dual spacelike_iff); the J_{M_1}(Σ_1,p') ambiguity is now a REPORT question and a 'reading' row, the vacuity finding is conditional on the J⁺(Σ)∩J⁻(p) reading (SCOPE, checklist, docstring reworded); prop:Cauchy_non_max's conclusion row re-marked 'carried' (ℰ asks no injectivity) with a checklist row; the degenerate exists_corresponds_of_le witness is disclosed in its docstring and SCOPE; module docstring page range pp. 15–19 → pp. 15–20 with per-result pages. No statement or proof of an existing declaration changed. Checked: lake env lean -DwarningAsError=true: 0 errors, 0 warnings, 0 sorry; #print axioms (on a /tmp copy, the olean being the builders' job) on exists_diamond_subset_past / _symm / _of_nonempty: propext, Classical.choice, Quot.sound only; new names grepped over Causal/ and scaffold/: no collision.",
   "audit_fixes": [
     {
       "item": "prop:Cauchy_point_min literal form",
@@ -352,6 +363,41 @@
     {
       "item": "dispatch path WP-36i vs WP-36p6",
       "outcome": "no_change_needed (master's record)"
+    },
+    {
+      "item": "ETT line range of prop:Cauchy_point_min",
+      "outcome": "fixed",
+      "where": "module docstring quote + exists_diamond_subset / exists_diamond_subset_of_nonempty docstrings + this REPORT's finding: ETT.tex:2270–2274 → 2270–2273 (the environment is \\begin 2270 … \\end 2273; l.2274 is the '[editorial] … verify' comment), matching the env-range convention of prop:Cauchy_non_max 2178–2181"
+    },
+    {
+      "item": "re-verification against the rebuilt Pgcd/Corresponding (oleans 2026-11-01 21:10Z)",
+      "outcome": "no_change_needed",
+      "where": "the deps' working-tree diffs are ETT line-number corrections (Pgcd) and added declarations (Corresponding: corresponding_K_bijOn, corresponding_K_past_bijOn, lightlikeLine witnesses); no declaration this file uses changed. lake env lean (also -DwarningAsError=true): 0 errors, 0 warnings; #print axioms on t2Space_gluing_mcghd(_of_timeFunction), correspondingSet_mcghd_eq_empty(_of_timeFunction), IsCGHD.exists_lt, CGHDData.{exists_extension, exists_diamond_subset_of_nonempty, exists_spacelike_corresponding_past, t2Space_gluing_iff}, exists_lt_Jplus_compl_subset_past, Causality.exists_lt_Jminus_compl_subset, timelikeLine_corrPair_hypotheses: propext, Classical.choice, Quot.sound only. All other ETT/Sbierski citations re-checked (ETT 1953–1954, 1994, 2016, 2042, 2178–2181, 2240, 2241–2242, 2272, 2319–2331, 2320–2324, 2323; Sbierski pp. 15/16/17/18/20 by pdftotext page count). Public names re-grepped over Causal/ and scaffold/: only namespace-distinct homonyms (Causal.LocalCausality.exists_extension, Causal.GloballyHyperbolic.exists_diamond_subset)"
+    },
+    {
+      "item": "audit-2 minor 1: dispatch path WP-36i vs WP-36p6",
+      "outcome": "no_change_needed (master's record)"
+    },
+    {
+      "item": "audit-2 minor 2: J_{M_1}(Σ_1,p') reading as a question; vacuity finding conditional; past diamond corollary",
+      "outcome": "fixed",
+      "decl": "Causal.CBG.CGHDData.exists_diamond_subset_past, Causal.CBG.CGHDData.exists_diamond_subset_symm",
+      "where": "REPORT prop:Cauchy_point_min questions/hypotheses/findings; SCOPE; checklist; exists_diamond_subset_of_nonempty docstring"
+    },
+    {
+      "item": "audit-2 minor 3: prop:Cauchy_non_max conclusion over-disclosed as weakened",
+      "outcome": "fixed",
+      "where": "REPORT row now 'carried'; checklist row added; weakened row kept under sbierski:thm:3.6 only"
+    },
+    {
+      "item": "audit-2 minor 4: degenerate exists_corresponds_of_le witness",
+      "outcome": "fixed (disclosure)",
+      "where": "timelikeLine_corrPair_hypotheses docstring, SCOPE, REPORT sbierski:lem:3.9 hypothesis note; no 2-D witness built"
+    },
+    {
+      "item": "audit-2 minor 5: page range pp. 15–19",
+      "outcome": "fixed",
+      "where": "module docstring: pp. 15–20 with per-result pages"
     }
   ]
 }

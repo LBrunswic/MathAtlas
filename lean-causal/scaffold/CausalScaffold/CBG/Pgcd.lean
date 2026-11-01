@@ -30,7 +30,7 @@ Def 2.4, Cor 3.2, Lemma 3.3, **Thm 3.4**.
 > defined: […] $M\cap M'$ is connected by Lemma `lem:C_ext_connexe`, and $\phi_M$ and $\phi_{M'}$
 > agree on the non-empty open set $i_1(M_0)$, hence on $M\cap M'$ by the rigidity […] If
 > $(N,a,b,c)$ is a common sub-extension of $M_1$ and $M_2$, then $(b(N),c\circ b^{-1})\in
-> \mathcal E$ […] (`ETT.tex:1945–1967`)
+> \mathcal E$ […] (`ETT.tex:1945–1966`)
 
 ## What is proved (no `sorry` in this file)
 
@@ -69,7 +69,7 @@ Def 2.4, Cor 3.2, Lemma 3.3, **Thm 3.4**.
 | `φ` injective on `∧` (ETT gap 1) | ⚠ **strengthened**: `(𝔊.causality N₁.str).HasTimeFunction` (Lemma 3.3 in the abstract setting, `CBG/Injective`); the interface has no field giving it (see SCOPE). Used only by `IsCGHD.injOn` and what needs injectivity |
 | `i₁(M₀) → ∧` a Cauchy embedding (ETT gap 2) | ✓ proved from A2 (`curvesExtend`, `causallyArcConnected`) |
 | common sub-extension: Cauchy embeddings `M → M₁, M₂` | ✓ `CommonSubDev`: a `Dev` with injective morphisms of developments (Cauchy images automatic) |
-| morphism of common sub-extensions: an `𝕄≥0`-morphism commuting with `b`, `c` (`ETT.tex:1924`) | ✓ `CommonSubDev.IsMorphism` also asks `f ∘ ι_X = ι_Y`, redundant given `injective_b` (`CommonSubDev.isMorphism_iff`) |
+| morphism of common sub-extensions: an `𝕄≥0`-morphism commuting with `b`, `c` (`ETT.tex:1926–1927`) | ✓ `CommonSubDev.IsMorphism` also asks `f ∘ ι_X = ι_Y`, redundant given `injective_b` (`CommonSubDev.isMorphism_iff`) |
 | carriers T2, connected, second countable (`ETT.tex:255`, `1502`) | ✓ `Dev` carriers; `mcghdDev` is one |
 
 ## SCOPE (disclosed)
@@ -99,7 +99,7 @@ Def 2.4, Cor 3.2, Lemma 3.3, **Thm 3.4**.
   (`Causal/Morphism.lean`) of which it is a fact, rather than in `Causal.CBG`/`Causal.Causality`
   (it is about neither a CBG object nor a causality); no collision.
 * `CommonSubDev.IsMorphism` asks a morphism of developments (`Dev.IsMorphism`, i.e. also
-  `f ∘ ι_X = ι_Y`) where `ETT.tex:1924` asks an `𝕄≥0`-morphism commuting with the embeddings into
+  `f ∘ ι_X = ι_Y`) where `ETT.tex:1926–1927` asks an `𝕄≥0`-morphism commuting with the embeddings into
   `M₁`, `M₂`: the extra conjunct is redundant given `injective_b`
   (`CommonSubDev.isMorphism_iff`), so `IsMaximal`, `Equivalent` are ETT's.
 
@@ -114,7 +114,11 @@ universe u
 
 /-- **A continuous time function strictly increasing along `≤`** (the hypothesis of
 `CBG.injOn_of_injOn_cauchy`, Sbierski Lemma 3.3 in the abstract setting): carried as a named
-hypothesis, the `Geometry` interface having no field producing one (see SCOPE). -/
+hypothesis, the `Geometry` interface having no field producing one (see SCOPE). It is weaker
+than the strict library's `Causality.IsTimeFunction` (`Causal/Morphism.lean:832`, a strong morphism
+to `timelikeLine`) and than `IsCauchyTimeFunction` (`Causal/Cauchy.lean:83`), and must not be read
+as either: it is exactly the hypothesis form of `curvesExtend_of_timeFunction`
+(`CausalScaffold/CurvesExtend.lean:409`). -/
 def Causality.HasTimeFunction {M : Type*} [TopologicalSpace M] (C : Causality M) : Prop :=
   ∃ T : M → ℝ, Continuous T ∧ ∀ x y, C.le ⊤ x y → x ≠ y → T x < T y
 
@@ -201,7 +205,7 @@ end Dev
 variable (N₁ N₂ : Dev 𝔊.toPreGeometry s₀)
 
 /-- **A common Cauchy development of `N₁` and `N₂`, realised in `N₁`** (Sbierski Def 2.4, the CGHD;
-ETT's set `ℰ`, `ETT.tex:1952–1956`, with the geometry's morphisms): an open `W ⊆ N₁` into which
+ETT's set `ℰ`, `ETT.tex:1951–1955`, with the geometry's morphisms): an open `W ⊆ N₁` into which
 the inclusion of `ι₁(M₀)` is a Cauchy inclusion, with a structure morphism `f` on `W` such that
 `f ∘ ι₁ = ι₂`. Injectivity of `f` is **not** asked (as in ETT's (b)): it follows from Lemma 3.3
 (`IsCGHD.injOn`), so maximality among these is maximality among Sbierski's embeddings too. -/
@@ -241,7 +245,7 @@ theorem isCGHD_range [Nonempty M₀] :
 
 variable {N₁ N₂}
 
-/-- **The gluing step** (Sbierski Cor 3.2; `ETT.tex:1958–1962`): two common Cauchy developments
+/-- **The gluing step** (Sbierski Cor 3.2; `ETT.tex:1956–1960`): two common Cauchy developments
 agree on the intersection of their open sets — it is connected (`lem:C_ext_connexe`, re-routed:
 `IsCauchyEmbedding.c_ext_connexe_of_connectedSpace`, `M₀` connected) and the two morphisms agree
 on the non-empty open `ι₁(M₀)`, so they agree on it by rigidity of the geometry (A1). -/
@@ -317,7 +321,7 @@ theorem IsCGHD.isCauchyInclusion_image {W : Opens N₁.carrier} {f : N₁.carrie
 
 variable (N₁ N₂)
 
-/-- **The MCGHD's open set** `⋃_{(W, f) CGHD} W` (Sbierski Thm 3.4; `M₁ ∧ M₂` of `ETT.tex:1957`). -/
+/-- **The MCGHD's open set** `⋃_{(W, f) CGHD} W` (Sbierski Thm 3.4; `M₁ ∧ M₂` of `ETT.tex:1956`). -/
 def mcghdOpens : Opens N₁.carrier :=
   ⨆ p : {p : Opens N₁.carrier × (N₁.carrier → N₂.carrier) // IsCGHD N₁ N₂ p.1 p.2}, p.1.1
 
@@ -404,7 +408,7 @@ theorem mcghd_unique [ConnectedSpace M₀] {U : Opens N₁.carrier} {ψ : N₁.c
 
 /-! ### Common sub-developments: the ETT form of the maximality -/
 
-/-- **A common sub-development gives a common Cauchy development** (`ETT.tex:1964–1966`: "If
+/-- **A common sub-development gives a common Cauchy development** (`ETT.tex:1963–1964`: "If
 `(N, a, b, c)` is a common sub-extension of `M₁` and `M₂`, then `(b(N), c ∘ b⁻¹) ∈ ℰ`"): for a
 development `X` with morphisms of developments `b : X → N₁` (injective) and `c : X → N₂`, the
 open set `b(X)` with `c ∘ b⁻¹` is a common Cauchy development. `b(X)` is globally hyperbolic by
@@ -445,7 +449,7 @@ theorem isCGHD_of_isMorphism (X : Dev 𝔊.toPreGeometry s₀) {b : X.carrier �
       from trivial)]
     exact congrFun hc.2 a
 
-/-- **The ETT maximality of the MCGHD** (`ETT.tex:1964–1967`): every common sub-development
+/-- **The ETT maximality of the MCGHD** (`ETT.tex:1963–1965`): every common sub-development
 `(X, b, c)` (`b` injective) factors through the MCGHD: `b(X) ⊆ U` and `ψ ∘ b = c`. -/
 theorem mcghd_factor [ConnectedSpace M₀] (X : Dev 𝔊.toPreGeometry s₀)
     {b : X.carrier → N₁.carrier} {c : X.carrier → N₂.carrier} (hb : X.IsMorphism N₁ b)
@@ -635,7 +639,7 @@ variable {𝔊 : Geometry.{u}} {M₀ : Type u} [TopologicalSpace M₀] {s₀ : �
 variable (N₁ N₂ : Dev 𝔊.toPreGeometry s₀) in
 /-- **A common sub-development** (`def:common_sub_extension`, `ETT.tex:1914`, over a geometry): a
 development `X` of `M₀` with morphisms of developments `b : X → N₁`, `c : X → N₂`, both
-injective — Cauchy embeddings (`ETT.tex:1918`; their Cauchy surfaces are automatic, the images
+injective — Cauchy embeddings (`ETT.tex:1917–1918`; their Cauchy surfaces are automatic, the images
 of `ι_X(Σ)`). -/
 structure CommonSubDev where
   /-- The development. -/
@@ -653,13 +657,13 @@ variable {N₁ N₂ : Dev 𝔊.toPreGeometry s₀}
 
 namespace CommonSubDev
 
-/-- A morphism of common sub-developments (`ETT.tex:1924`): a morphism of developments commuting
+/-- A morphism of common sub-developments (`ETT.tex:1926–1927`): a morphism of developments commuting
 with the embeddings into `N₁` and `N₂`. -/
 def IsMorphism (X Y : CommonSubDev N₁ N₂) (f : X.X.carrier → Y.X.carrier) : Prop :=
   X.X.IsMorphism Y.X f ∧ Y.b ∘ f = X.b ∧ Y.c ∘ f = X.c
 
 /-- **The conjunct `f ∘ ι_X = ι_Y` is redundant**: a morphism of common sub-developments is
-exactly ETT's (`ETT.tex:1924`), a structure morphism commuting with the embeddings into `N₁` and
+exactly ETT's (`ETT.tex:1926–1927`), a structure morphism commuting with the embeddings into `N₁` and
 `N₂` — compatibility with the embeddings of `M₀` follows, `Y.b` being injective and
 `b ∘ ι = ι₁` on both sides. -/
 theorem isMorphism_iff (X Y : CommonSubDev N₁ N₂) (f : X.X.carrier → Y.X.carrier) :
@@ -672,11 +676,11 @@ theorem isMorphism_iff (X Y : CommonSubDev N₁ N₂) (f : X.X.carrier → Y.X.c
   simp only [comp_apply] at h1 h2 h3
   rw [comp_apply, h1, h2, h3]
 
-/-- Equivalent common sub-developments: a bijective morphism (`ETT.tex:1925`). -/
+/-- Equivalent common sub-developments: a bijective morphism (`ETT.tex:1927–1928`). -/
 def Equivalent (X Y : CommonSubDev N₁ N₂) : Prop :=
   ∃ f, X.IsMorphism Y f ∧ Bijective f
 
-/-- A maximal common sub-development: every morphism out of it is bijective (`ETT.tex:1926`). -/
+/-- A maximal common sub-development: every morphism out of it is bijective (`ETT.tex:1928–1929`). -/
 def IsMaximal (X : CommonSubDev N₁ N₂) : Prop :=
   ∀ (Y : CommonSubDev N₁ N₂) (f : X.X.carrier → Y.X.carrier), X.IsMorphism Y f → Bijective f
 

@@ -1,0 +1,116 @@
+{
+  "package": "WP-36p12-CBGFlat",
+  "files": [
+    "scaffold/CausalScaffold/Flat/CBG.lean"
+  ],
+  "builds": true,
+  "sorry_count": 2,
+  "labels": [
+    {
+      "label": "theo:CBG",
+      "tex_lines": [
+        1884,
+        1886
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.flat_cbg",
+        "Causal.CBG.flat_cbg_gh",
+        "Causal.CBG.flat_cbg_of",
+        "Causal.CBG.flat_cbg_gh_of",
+        "Causal.CBG.flat_cbg_minkowski",
+        "Causal.CBG.flatModelOf",
+        "Causal.CBG.flatModel",
+        "Causal.CBG.flatGeometryOf",
+        "Causal.CBG.flatGeometry",
+        "Causal.CBG.flat_cbg_ett_of",
+        "Causal.CBG.flat_cbg_ett"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M0 globally hyperbolic singular flat spacetime (ETT.tex:1885)",
+          "here": "strengthened",
+          "note": "regular flat only (singY = ∅); the singular E₀ instance is gx's. M0 T2, connected, ChartedSpace (Minkowski d) + HasGroupoid (gxGroupoid (isom d)); GH = ETT's (causal + compact diamonds); the Cauchy surface is derived (flatGerochGH) in flat_cbg_gh; second countability derived (DEC-49)"
+        },
+        {
+          "paper": "maximal",
+          "here": "carried",
+          "note": "DEC-59: Dev.IsUniversal; ETT/Barbot reading Dev.IsETTMaximal in flat_cbg_ett_of (sorry-free) / flat_cbg_ett"
+        },
+        {
+          "paper": "unique up to isomorphism (ETT.tex:1886)",
+          "here": "carried",
+          "note": "Dev.IsUniversal.unique (CBG/Geometry) / Dev.IsUniversal.existsUnique_iso (CBG/Maximal), sorry-free, no rigidity; stated for the flat instance in flat_cbg_ett_of (sorry-free) and flat_cbg_ett"
+        },
+        {
+          "paper": "(implicit) J+(Σ) ∩ J-(p) compact, R1",
+          "here": "strengthened",
+          "note": "flat_cbg_of takes FlatCompactJplusJminus/FlatCompactJminusJplus as hypotheses; flat_cbg rests on the two tagged sorries"
+        },
+        {
+          "paper": "(implicit) Sbierski Lemma 3.8 / proof of Thm 3.6 (A3/A4)",
+          "here": "strengthened",
+          "note": "flat_cbg_of takes GermExtFuture/Past, SliceFuture/Past of the flat model as hypotheses; flat_cbg uses CBG/FromModel's four tagged sorries (LocalModel.germExtFuture etc.)"
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "Causal.CBG.flat_isCompact_Jplus_inter_Jminus",
+          "obstruction": "R1: J⁺(Σ) ∩ J⁻(p) compact in a GH flat spacetime with Cauchy surface Σ needs (i) J⁻(p) ∩ Σ compact, (ii) a finite cover of it by I⁺(q_i), (iii) every x ∈ J⁺(Σ) ∩ J⁻(p) above a point of J⁻(p) ∩ Σ (past-inextensible curve through p, x; CurvesExtend + acausality of Σ), (iv) J⁺(Σ) ∩ J⁻(p) closed; then it is a closed subset of the finite union of the compact diamonds J(q_i,p). (i) and (iv) are not in the library (no limit-curve theorem; CompactCauchy has only exists_not_mem_Jminus_of_isCompact)"
+        },
+        {
+          "decl": "Causal.CBG.flat_isCompact_Jminus_inter_Jplus",
+          "obstruction": "R1, past form, same obstruction with the time orientation reversed"
+        }
+      ],
+      "findings": [
+        "A4 (finding for packages 6/11): the τ_q property Sbierski uses — 'τ_q(r) is only greater than zero for r ∈ J⁻(q)' (1309.7591 p.19, pdftotext l.983), keeping S ⊆ Ū ∩ J⁺(ι(M)) — is used in the proof of Thm 3.6, not in Lemma 3.11 (p.18, which only produces q ∈ I⁺(p) with J⁻(q) ∩ Uᶜ ∩ J⁺(Σ) ⊆ W). The Level-B field B4 as approved is satisfied by the flat time ∓t on a small diamond (minkowski_slice_future/past, sorry-free) and lacks that localisation. Counterexample to using B4's N whole, 1+1 Minkowski: U = {t < −|x|/2}, Σ = {t = −1 − |x|/2}, p = 0, q = (δ,0); on K = J⁻(q) ∩ Uᶜ ∩ J⁺(Σ) the time τ = −t is maximal at t = −δ, attained at x = ±2δ on ∂U, but {t = −δ} ∩ W enters int(Uᶜ) for 2δ < |x| < ε − δ. So FromModel's A4 derivation must take U ∪ (N ∩ I⁻(q)), or B4 needs a localisation clause (gx). Not a defect of package 12: B4 as approved is proved correctly.",
+        "B3 curvesExtend holds on every flat spacetime (T2, SC) without global hyperbolicity, via the chronal causal flow (flat_curvesExtend); gx review C3's GH restriction is not needed in the flat case.",
+        "B2 localUnique_reg for the flat model uses neither injectivity nor the MapsTo hypothesis (flat_localUnique_reg): on a connected open set a local isometry is one isometry.",
+        "A3 for the flat model is not derived here (design §4 calls it trivial): a flat-specific proof of GermExtFuture/Past would use flat_localUnique_reg plus connectedness of the piece U ∩ O near p ∈ ∂U, and that φ p = q for the cluster value q; the connectedness is the owed step. With it flat_cbg would rest on R1 + A4 only (the past-side BTZ obstruction of FromModel is vacuous for sing = ∅)."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.CBG.exists_smul_eqOn_of_eventually",
+    "Causal.CBG.eventually_smul_of_mem_gxGroupoid",
+    "Causal.CBG.isomChart_mem_gxGroupoid",
+    "Causal.CBG.flat_rigid",
+    "Causal.CBG.flat_localUnique_reg",
+    "Causal.CBG.minkowski_absolutelyMinimalOn",
+    "Causal.CBG.minkowski_chartIso_of_mem",
+    "Causal.CBG.chartedCausality_eq_flatCausality",
+    "Causal.CBG.chartedSing_empty",
+    "Causal.CBG.flat_nhdsNE_neBot",
+    "Causal.CBG.flat_singularFlatAxiomsCorr",
+    "Causal.CBG.flat_curvesExtend",
+    "Causal.CBG.flat_hasTimeFunction",
+    "Causal.CBG.FlatCompactJplusJminus",
+    "Causal.CBG.FlatCompactJminusJplus",
+    "Causal.CBG.isCauchySurfaceOn_congr",
+    "Causal.CBG.mdiamond",
+    "Causal.CBG.mdiamond_causallyConvexIn",
+    "Causal.CBG.mdiamond_globallyHyperbolicOn",
+    "Causal.CBG.isCauchySurfaceOn_mdiamond",
+    "Causal.CBG.minkowski_fst_lt_of_le",
+    "Causal.CBG.minkowski_slice_future",
+    "Causal.CBG.minkowski_slice_past",
+    "Causal.CBG.flatStr",
+    "Causal.CBG.causality_flatStr",
+    "Causal.CBG.flatGeometryOf_hasTimeFunctions",
+    "Causal.CBG.isOpen_mdiamond",
+    "Causal.CBG.mem_mdiamond",
+    "Causal.CBG.mem_mdiamond_self",
+    "Causal.CBG.mdiamond_subset_ball",
+    "Causal.CBG.mem_mdiamond_slice",
+    "Causal.CBG.mdiamond_slice_le",
+    "Causal.CBG.minkowski_slice_aux"
+  ],
+  "kb_proposals": [
+    "Level-B structures are Σ' (ChartedSpace, HasGroupoid): a lemma stated with section instances [ChartedSpace Y M] [HasGroupoid M G] does not fire on LocalModel.causality s (the HasGroupoid instance depends on s.1); first `letI := s.1; haveI : HasGroupoid M G := s.2` and `show chartedCausality … M`, then rewrite.",
+    "An IsCauchySurfaceOn W S only sees S ∩ W (isCauchySurfaceOn_congr in Flat/CBG); with isCauchySurfaceOn_graph_of_saturated (Flat/LipschitzGraph) for a constant graph, the slice t = c is Cauchy in the Minkowski diamond centred at time c — the cheap local Cauchy slice."
+  ],
+  "notes": "Axioms (#print axioms, checked then removed): flat_cbg_of, flat_cbg_gh_of, flat_cbg_ett_of (re-checked 2026-11-01), flatModelOf, minkowski_slice_future, flat_hasTimeFunction depend only on [propext, Classical.choice, Quot.sound]; flat_cbg/flat_cbg_gh/flat_cbg_ett/flat_cbg_minkowski add sorryAx through the two R1 sorries here and CBG/FromModel's four A3/A4 sorries. flat_cbg goes through CBG/Maximal's sorry-free cbg_of_hasTimeFunctions, with the queued timeFunction field discharged by flatGeometryOf_hasTimeFunctions, so Maximal's cbg_proof sorry is not used. Interface needs: (1) none blocking — every LocalModel field is inhabited for the flat model except the two R1 compactness fields; (2) when the round-2 timeFunction field lands on Geometry/LocalModel, its flat discharge is flat_hasTimeFunction (through chartedCausality_eq_flatCausality); (3) LocalModel.IsMor is not identified with Flat.IsLocalIsometry here. The module is not imported by the scaffold root (kb/0025): the master must add it for the axiom sweep. Imports: CBG.FromModel, CBG.Maximal, Flat.GerochFlat, Flat.SecondCountable, Flat.LipschitzGraph, Flat.Developing, Flat.CauchyComplete — all already built; no lake build was run.",
+  "fix_round": "Fixer pass 2026-11-01 on the read-only audit: checklist row 1 now 'strengthened: regular flat only'; uniqueness row added (Dev.IsUniversal.unique / existsUnique_iso) and stated as flat_cbg_ett_of (sorry-free) / flat_cbg_ett; τ_q attribution corrected (proof of Thm 3.6, not Lemma 3.11) with the 1+1 B4 caution in SCOPE; DEC-60 citation replaced by docs/CBG-DESIGN.md:5–6; seven missing extra_decls added. Report path: kept at campaign/WP-36p12-CBGFlat (sibling naming p4/p5/p6/p7/p10); the dispatch's WP-36l-CBGFlat is for the master to reconcile. R1 sorries not closed (obstruction refined); A3 flat proof not attempted."
+}

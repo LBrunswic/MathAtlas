@@ -8,7 +8,8 @@ import CausalScaffold.CBG.FamilyGluing
 Package 11 of the CBG campaign (design `docs/CBG-DESIGN.md` §2 "`Geometry.ofLocalModel :
 Level B → Level A`", §5 row 11). No paper label is marked. Cited, unmarked: `theo:CBG` —
 `ETT.tex:1884`; `cor:ext_continue` — `ETT.tex:2144`; `cor:model_corresponding` — `ETT.tex:2158`;
-`theo:causalite_engendre` — `ETT.tex:514`; `prop:GX_espace_temps_topo` — `ETT.tex:589`; thesis
+`theo:causalite_engendre` — `ETT.tex:514`; `prop:GX_espace_temps_topo` — `ETT.tex:589`;
+`prop:GX_sing_espace_temps_topo` — `ETT.tex:616` (the singular form, `Y = 𝕄 ⊕ Σ 𝔼_α`); thesis
 `prop:GX_liouville` (`these.tex:1476`), `def:singular_GX` (`these.tex:3040`); Sbierski 1309.7591,
 Lemma 3.8, Thm 3.6.
 
@@ -65,7 +66,7 @@ Lemma 3.8, Thm 3.6.
 
 | paper hypothesis | here |
 |---|---|
-| `prop:GX_espace_temps_topo` (`ETT.tex:589–593`): `(G,X)` analytic, `X` a causally arc-connected Baire spacetime, `G` acting by morphisms | ⚠ replaced (reading): every `e ∈ G` is a `ChartIso D D e` and `D` is absolutely minimal on every open set (B3 `chartIso_mem`, `absolutelyMinimalOn_Y`). This is a different hypothesis, not a subset of the paper's: analyticity, arc-connectedness and Baire are what the paper's route uses to reach these two facts, and here the facts are asked directly. Only the preferred charts are proved isomorphisms (`chartedCausality_chartIso`); uniqueness is not redone |
+| `prop:GX_espace_temps_topo` (`ETT.tex:589–595`) and its singular form `prop:GX_sing_espace_temps_topo` (`ETT.tex:616–624`): `(G,X)` (resp. `(G,X,X_A)`) analytic, `X` (and each `X_α`) a causally arc-connected (Baire) spacetime, `G` acting by morphisms | ⚠ strengthened (the paper's hypotheses are replaced by two of its consequences, asked directly; see SCOPE): every `e ∈ G` is a `ChartIso D D e` and `D` is absolutely minimal on every open set (B3 `chartIso_mem`, `absolutelyMinimalOn_Y`). This is a different hypothesis, not a subset of the paper's: analyticity, arc-connectedness and Baire are what the paper's route uses to reach these two facts, and here the facts are asked directly. Only the preferred charts are proved isomorphisms (`chartedCausality_chartIso`); uniqueness is not redone |
 | `ETT.tex:1852–1854`: a map reading as an element of `Isom` in the charts is a local homeomorphism and a morphism | ✓ carried (`isEMorphismOn_of_liftPropOn`: local isomorphism by three `ChartIso`s, strong-morphism half by absolute minimality) |
 | `cor:model_corresponding` (`ETT.tex:2158–2160`), type of a corresponding point | ⚠ weakened (reading): only the morphism half, i.e. a Level-B morphism preserves `sing_α` (`mem_chartedSing_iff_of_liftPropOn`, from B3 `sing_mem`). The statement about corresponding boundary points is package 5's (`CGHDData.mem_sing_iff`) |
 | `prop:GX_liouville` (`these.tex:1476–1480`): `M₁` connected, `f₁ = f₂` on a non-empty open set | ⚠ strengthened: model rigidity B1 (in place of analyticity), `LocallyConnectedSpace Y`, target `T2` (Level A asks it) |
@@ -96,6 +97,21 @@ Lemma 3.8, Thm 3.6.
 * **A4** is Sbierski's slice construction (Lemma 3.11, the maximum of `τ` on the compact
   `J⁻(q) ∩ Uᶜ ∩ J⁺(Σ)`, the GH open of B4, GH of `U ∪ N`); B4 supplies only the local `τ`, and its
   transport to `M` by `chartedCausality_chartIso` is the only Level-B part.
+* **`prop:GX_espace_temps_topo` / `prop:GX_sing_espace_temps_topo` are read, not proved.** The
+  paper's hypotheses (analyticity, causal arc-connectedness, Baire, `G` acting by morphisms; for the
+  singular form, (b) on each `X_α`) are not assumed; their two consequences used by the proof —
+  every `e ∈ G` is a `ChartIso D D e`, `D` absolutely minimal on every open set — are B3 fields
+  (`chartIso_mem`, `absolutelyMinimalOn_Y`). This is a different hypothesis, not a subset of the
+  paper's (verdict `⚠ strengthened` in the checklist). Only the preferred charts are proved
+  isomorphisms; uniqueness is not redone (`Causal/GXStructure.lean` has it for `gxGroupoid`).
+* **The round-2 past-side largeness clause is vacuous as transcribed** (design §6 "Interface
+  round 2" (2), gx `10eedbb`, not yet in `Geometry.lean`): `∃ r ∈ O, y₀ ≤_O r ∧ reg ∩ I⁻_O(r) ⊆ U`
+  holds for every `U`, by `r := y₀` (`Causality.BTZAxiomsCorr.exists_le_inter_Iminus_subset`),
+  because the chronological past of every BTZ point is empty in every open set
+  (`Causality.BTZAxiomsCorr.Iminus_opens_eq_empty`, from `Iminus_eq_empty` and `lt_mono`); the same
+  holds for any `r` on `y₀`'s line (`inter_Iminus_opens_subset`). With `≪` in place of `≤` the
+  clause asks `U ⊇ reg(I⁻_O(r))` for an open neighbourhood `I⁻_O(r)` of `y₀`, the case
+  `localUnique_sing` already covers (by hand). See REPORT, interface needs (1).
 * `Geometry`/`LocalModel` still have no inhabitant (kb/0011, kb/0012): this file proves the
   derivation, not satisfiability; the flat check is package 12.
 * `glue` field: Level A's `glue` does not require the pieces non-empty; the construction glues
@@ -516,7 +532,7 @@ theorem RepOn.rel_iff (hGD : ∀ e ∈ G, ChartIso D D e)
   exact ⟨h1.1.trans (h2.1.trans h3.1.symm), h1.2.trans (h2.2.trans h3.2.symm)⟩
 
 /-- **A structure morphism is an abstract `𝕄≥0`-morphism** (Level A `isEMorphismOn_of_isMor`;
-`ETT.tex:1849–1852`): continuity and openness from the forward local form, the local isomorphism
+`ETT.tex:1852–1854`): continuity and openness from the forward local form, the local isomorphism
 from `RepOn.rel_iff`, and the strong-morphism half by absolute minimality (every relation of an
 open `V ⊆ W` is a chain of relations in forward-local-form sets). -/
 theorem isEMorphismOn_of_liftPropOn [ClosedUnderRestriction G] (hGD : ∀ e ∈ G, ChartIso D D e)
@@ -1255,5 +1271,37 @@ noncomputable def ofLocalModel (𝔐 : LocalModel.{u}) : Geometry.{u} :=
 end Geometry
 
 end CBG
+
+/-! ### The round-2 past-side largeness clause is vacuous at a BTZ point (model-free) -/
+
+namespace Causality
+
+variable {M : Type*} [TopologicalSpace M] {C : Causality M} {S₀ : Set M}
+
+/-- **The chronological past of a BTZ point is empty in every open set**: `I⁻_O(r) = ∅` for
+`r ∈ S₀`, from `BTZAxiomsCorr.Iminus_eq_empty` (`I⁻(r) = ∅`, `ETT.tex:1349`) and the monotonicity
+of `≪` in the open set. -/
+theorem BTZAxiomsCorr.Iminus_opens_eq_empty (h : C.BTZAxiomsCorr S₀) {r : M} (hr : r ∈ S₀)
+    (O : Opens M) : C.Iminus O {r} = ∅ :=
+  Set.eq_empty_of_subset_empty
+    ((C.Iminus_mono_opens le_top).trans (h.Iminus_eq_empty r hr).subset)
+
+/-- For `r` on the BTZ locus, `R ∩ I⁻_O(r) ⊆ U` holds for every `R` and `U`: a largeness clause
+of the shape `reg ∩ I⁻_O(r) ⊆ U` with `r ∈ S₀` constrains nothing. -/
+theorem BTZAxiomsCorr.inter_Iminus_opens_subset (h : C.BTZAxiomsCorr S₀) {r : M} (hr : r ∈ S₀)
+    (O : Opens M) (R U : Set M) : R ∩ C.Iminus O {r} ⊆ U := by
+  rw [h.Iminus_opens_eq_empty hr O, inter_empty]
+  exact empty_subset U
+
+/-- **The round-2 past-side clause, as transcribed, holds for every `U`** (design §6 "Interface
+round 2" (2): `∃ r ∈ O, y₀ ≤_O r ∧ reg ∩ I⁻_O(r) ⊆ U`): take `r := y₀`. So a field
+`localUnique_sing_adherent` guarded by it is the point-contact form, which the cone
+counterexample (REPORT, interface needs (1)) refutes in `E₀`. -/
+theorem BTZAxiomsCorr.exists_le_inter_Iminus_subset (h : C.BTZAxiomsCorr S₀) {y₀ : M}
+    (hy₀ : y₀ ∈ S₀) {O : Opens M} (hO : y₀ ∈ O) (R U : Set M) :
+    ∃ r ∈ O, C.le O y₀ r ∧ R ∩ C.Iminus O {r} ⊆ U :=
+  ⟨y₀, hO, C.le_refl hO, h.inter_Iminus_opens_subset hy₀ O R U⟩
+
+end Causality
 
 end Causal

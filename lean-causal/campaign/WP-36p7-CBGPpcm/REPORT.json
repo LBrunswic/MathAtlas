@@ -1,0 +1,207 @@
+{
+  "package": "WP-36p7-CBGPpcm",
+  "files": [
+    "scaffold/CausalScaffold/CBG/Ppcm.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "prop:ppcm_Cauchy",
+      "tex_lines": [
+        1994,
+        1998
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.exists_ppcm",
+        "Causal.CBG.ppcmDev",
+        "Causal.CBG.ppcmDev_desc",
+        "Causal.CBG.ppcmDev_unique",
+        "Causal.CBG.ppcmDev_desc_injective",
+        "Causal.CBG.exists_ppcm_of_timeFunction",
+        "Causal.CBG.exists_common_extension"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M_0 GH singular flat, M_1, M_2 Cauchy extensions",
+          "here": "carried",
+          "note": "Dev over an abstract Geometry (DEC-60, Level A); [ConnectedSpace M_0] carried as in packages 4 and 6"
+        },
+        {
+          "paper": "the MCGHD morphism is an isometric embedding (Sbierski)",
+          "here": "strengthened",
+          "note": "InjOn mcghdMap mcghdOpens carried; discharged by a time function on N_1 (exists_ppcm_of_timeFunction, Lemma 3.3) - the interface need of packages 4/6, the queued timeFunction field"
+        },
+        {
+          "paper": "minimality over common over-extensions with Cauchy embeddings M_i -> M",
+          "here": "weakened",
+          "note": "any morphisms of developments g_1, g_2; the factorisation is moreover unique (rigidity A1)"
+        },
+        {
+          "paper": "the induced map ppcm -> M is a Cauchy embedding (ETT.tex:2329)",
+          "here": "carried",
+          "note": "conditional conclusion, not a hypothesis of the paper: ETT.tex:2329 asserts that the descended map ppcm -> M is a Cauchy embedding; here the descended morphism exists and is unique unconditionally (ppcmDev_desc), and its injectivity is proved only under an extra hypothesis, a time function on ppcmStr hinj (ppcmDev_desc_injective, Lemma 3.3); that hypothesis is discharged by the queued timeFunction field, ppcmDev being a Dev"
+        },
+        {
+          "paper": "uniqueness up to equivalence",
+          "here": "weakened",
+          "note": "ppcmDev_unique: the competitor need only factor pairs of injective morphisms, not uniquely"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:2000-2002 says everything reduces to the Hausdorff property and l.2324 concludes 'it is a singular flat spacetime', but a Cauchy extension must be globally hyperbolic with i(Sigma) Cauchy, which does not follow from Hausdorffness and is not argued; it needs the causal convexity of pgcd in M_1 and of its image in M_2 (the exit/re-entry argument) and a diamond decomposition through Sigma. Proved here: ppcm_globallyHyperbolic, ppcm_isCauchySurface (design gap 'ppcm GH', l.2319-2325).",
+        "ETT.tex:2328-2329: 'a coprod b descends ... and yields a Cauchy embedding ppcm -> M' - the descent is proved (rigidity), but injectivity of the descended map is not argued (a(x) = b(y) must force x ~ y); here it follows from Lemma 3.3 given a time function on ppcm (ppcmDev_desc_injective).",
+        "The morphism ppcm -> M of the minimality is unique (rigidity), which ETT does not state; uniqueness up to equivalence then follows with no further argument (ppcmDev_unique)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "defi:ppcm",
+      "tex_lines": [
+        1987,
+        1992
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.PpcmSpace",
+        "Causal.CBG.ppcm_ι₁_eq_ι₂_iff"
+      ],
+      "hypotheses": [
+        {
+          "paper": "N = pgcd",
+          "here": "carried",
+          "note": "glued along mcghdOpens / mcghdMap (package 4); the identification is exactly x ~ psi(x), x in U (ppcm_ι₁_eq_ι₂_iff)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "def:common_over_extension",
+      "tex_lines": [
+        1970,
+        1986
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.ppcmDev_desc",
+        "Causal.CBG.ppcmDev_unique"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Cauchy embeddings M_1 -> M, M_2 -> M making the diagram commute",
+          "here": "weakened",
+          "note": "no structure is defined; a common over-extension is a development Q with morphisms of developments g_1, g_2 (commutation with M_0 is part of Dev.IsMorphism); injectivity asked only in ppcmDev_unique's minimality hypothesis"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.exists_mem_cauchy_between",
+    "Causal.Causality.isClosed_Jminus_of_dense",
+    "Causal.Causality.Jplus_inter_Jminus_eq",
+    "Causal.Causality.CauchySide",
+    "Causal.Causality.TwoPiece",
+    "Causal.Causality.twoPieceRel",
+    "Causal.Causality.TwoPiece.symm",
+    "Causal.Causality.TwoPiece.rel_trans",
+    "Causal.Causality.TwoPiece.le_top_iff",
+    "Causal.Causality.TwoPiece.le_of_le_top",
+    "Causal.Causality.TwoPiece.mem_of_le_top",
+    "Causal.Causality.TwoPiece.exists_mid",
+    "Causal.Causality.TwoPiece.diamond_top_eq",
+    "Causal.Causality.TwoPiece.isCausal",
+    "Causal.Causality.TwoPiece.isCauchySurface",
+    "Causal.Causality.PieceChart",
+    "Causal.Causality.PieceChart.diamond_eq",
+    "Causal.Causality.PieceChart.antisymm",
+    "Causal.Causality.PieceChart.isCompact_diamond",
+    "Causal.Causality.TwoPiece.isCompact_diamond_mixed",
+    "Causal.Causality.TwoPiece.globallyHyperbolic",
+    "Causal.CBG.Dev.cauchySide",
+    "Causal.CBG.pieceChart_of_isMor",
+    "Causal.CBG.mcghdImage",
+    "Causal.CBG.convex_mcghdOpens",
+    "Causal.CBG.convex_mcghdImage",
+    "Causal.CBG.mcghd_le_iff",
+    "Causal.CBG.exists_ppcmStr",
+    "Causal.CBG.ppcm_twoPiece",
+    "Causal.CBG.ppcm_globallyHyperbolic",
+    "Causal.CBG.ppcm_isCauchySurface",
+    "Causal.CBG.ppcm_connectedSpace",
+    "Causal.CBG.ppcm_secondCountable",
+    "Causal.CBG.ppcm_isCauchyEmbedding",
+    "Causal.CBG.Dev.IsMorphism.eq_id",
+    "Causal.Causality.PieceChart.mem",
+    "Causal.Causality.PieceChart.exists_eq",
+    "Causal.CBG.coe_mcghdImage",
+    "Causal.CBG.ppcm_hj₁",
+    "Causal.CBG.ppcm_hj₂",
+    "Causal.CBG.ppcm_injective_j₂",
+    "Causal.CBG.ppcm_ι₁_eq",
+    "Causal.CBG.ppcm_ι₁_emb",
+    "Causal.CBG.ppcmPiece",
+    "Causal.CBG.ppcmPieceTop",
+    "Causal.CBG.ppcmPieceStr",
+    "Causal.CBG.ppcmPieceEmb",
+    "Causal.CBG.ppcmStr",
+    "Causal.CBG.isMor_ppcm_ι₁",
+    "Causal.CBG.isMor_ppcm_ι₂",
+    "Causal.CBG.ppcm_chart₁",
+    "Causal.CBG.ppcm_chart₂",
+    "Causal.CBG.ppcm_image_cauchy",
+    "Causal.CBG.ppcmDev_isMorphism₁",
+    "Causal.CBG.ppcmDev_isMorphism₂",
+    "Causal.Causality.timelikeLine_twoPiece",
+    "Causal.Causality.timelikeLine_cauchySide",
+    "Causal.Causality.timelikeLine_twoPiece_globallyHyperbolic"
+  ],
+  "kb_proposals": [
+    "Global hyperbolicity of a gluing is model-free: Causality.TwoPiece (absolutely minimal on top, overlap causally convex in each piece, relations agreeing on it) gives causal convexity of each piece in the whole (mem_of_le_top), causality, and a common Cauchy surface; PieceChart + CauchySide give the compact diamonds, including the mixed past-piece/future-piece case (CBG/Ppcm). Package 10's family gluing needs the family form of the same chain argument.",
+    "Do not identify a glued structure's causality with Gluing.causality: an injective structure morphism on top is a PieceChart of its image (pieceChart_of_isMor, from the morphism and absolute minimality), which is all a causal argument reads.",
+    "Flat.LocalIso.rel_of_image now has three copies (Flat/FlatSpacetime, private in CBG/Pgcd and CBG/Ppcm): move it to a model-free module and delete the private copies.",
+    "J^-(S) closed for an acausal two-sided S (from K^- density and compact J^-(S) cap J^+(x)) is exported as Causality.isClosed_Jminus_of_dense; Corresponding's Jplus_mem_nhds_of_isAcausal proves it internally."
+  ],
+  "notes": "Sorry-free, axiom-clean (propext, Classical.choice, Quot.sound), compiles with -DwarningAsError=true. Carried hypotheses: InjOn mcghdMap mcghdOpens (every theorem; or a time function on N_1, exists_ppcm_of_timeFunction), [ConnectedSpace M_0] (as packages 4/6), and a time function on ppcmStr hinj for ppcmDev_desc_injective only; the queued timeFunction field discharges both time-function needs (signature in interface_needs). No other new Geometry field is needed. On ppcm itself no curvesExtend / isCompact_* / secondCountable_of_cauchy is used (GH proved directly), so the package-10 risk of design section 6 does not arise for two developments; package 10 can consume exists_common_extension, or reuse TwoPiece/PieceChart for its family gluing after a family generalisation. The identification of the glued causality with Gluing.causality (Geometry's planned lemma for package 7) is discharged by replacement (pieceChart_of_isMor), see interface_needs. Witnesses (namespace Causal.Causality since the fix round): timelikeLine_twoPiece, timelikeLine_cauchySide, and the joint witness timelikeLine_twoPiece_globallyHyperbolic (PieceCharts a -> 1 - exp(-a)/2 and b -> exp(b)/2 with proper images, Cauchy sides {0} with common image {1/2}). The module is not yet imported by scaffold/CausalScaffold.lean (kb/0025: the master adds it). No ETT label marked.",
+  "interface_needs": [
+    {
+      "field": "timeFunction (queued, design §6 interface round 2)",
+      "signature": "timeFunction : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] (s : Str M), (causality s).GloballyHyperbolic → (causality s).HasTimeFunction",
+      "discharges": [
+        "InjOn (mcghdMap N₁ N₂) (mcghdOpens N₁ N₂), carried by every theorem of the module: apply the field to N₁ (a Dev) and IsCGHD.injOn (exists_ppcm_of_timeFunction)",
+        "hT : (𝔊.causality (ppcmStr hinj)).HasTimeFunction in ppcmDev_desc_injective: apply the field to ppcmDev N₁ N₂ hinj, which is a Dev (T2 by t2Space_gluing_mcghd, connected ppcm_connectedSpace, SC ppcm_secondCountable, GH ppcm_globallyHyperbolic, all proved here)"
+      ],
+      "workaround": "both carried as hypotheses; no new field beyond the queued one is needed"
+    },
+    {
+      "field": "Geometry.lean text, not a field: SCOPE l.97-100 and the glue docstring l.442-443",
+      "issue": "they promise a 'planned lemma, package 7' identifying the glued causality with Gluing.causality; package 7 does not prove it and does not need it",
+      "request": "master records the obligation as DISCHARGED BY REPLACEMENT (pieceChart_of_isMor gives each glue embedding as a PieceChart: open embedding onto its piece matching the relations, from isMor + absolutelyMinimalOn; Causality.TwoPiece is the model-free form) or moves it to package 10, and updates Geometry.lean l.97-100 and l.442 accordingly. Ppcm.lean needs no change either way."
+    }
+  ],
+  "fix_round": {
+    "date": "2026-11-01",
+    "audit_findings_applied": [
+      "report path: the package key is WP-36p7-CBGPpcm (sibling naming p4/p5/p6); no WP-36j-CBGPpcm exists — the orchestrator/ledger should point at WP-36p7-CBGPpcm",
+      "Gluing.causality planned lemma: recorded as discharged by replacement in the module SCOPE and in interface_needs (Geometry.lean is not edited: master's)",
+      "ppcmStr docstring: ppcm_desc -> ppcmDev_desc / ppcmDev_unique",
+      "isClosed_Jminus_of_dense, Jplus_inter_Jminus_eq docstrings now state only the hypotheses taken",
+      "extra_decls completed (every public declaration)",
+      "timeFunction field signature stated, with what it discharges; the Cauchy-embedding row reworded as a conditional conclusion",
+      "witnesses moved to Causal.Causality; joint witness timelikeLine_twoPiece_globallyHyperbolic added"
+    ],
+    "renamed": {
+      "Causal.CBG.timelikeLine_twoPiece": "Causal.Causality.timelikeLine_twoPiece",
+      "Causal.CBG.timelikeLine_cauchySide": "Causal.Causality.timelikeLine_cauchySide"
+    }
+  }
+}

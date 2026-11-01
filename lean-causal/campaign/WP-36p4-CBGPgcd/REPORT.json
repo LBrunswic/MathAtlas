@@ -10,7 +10,7 @@
       "label": "prop:Cauchy_pgcd",
       "tex_lines": [
         1945,
-        1967
+        1966
       ],
       "status": "partial",
       "marked": false,
@@ -68,9 +68,9 @@
       ],
       "sorries": [],
       "findings": [
-        "ETT.tex:1954 (b) does not ask phi_M injective and nothing in the proof (l.1957–1962) shows phi injective (gap 1, as WP-4): closed here by Sbierski Lemma 3.3, which in the abstract setting needs a time function (CBG/Injective SCOPE).",
-        "ETT.tex:1962 'Thus (∧, φ) ∈ ℰ' needs i1(M0) -> ∧ to be a Cauchy inclusion (gap 2): closed here by causal convexity of Cauchy inclusions and isCauchyInclusion_iSup (needs curves extending and causal arc-connectedness in M1).",
-        "ETT.tex:1964 '(b(N), c∘b⁻¹) ∈ ℰ' needs b(N) globally hyperbolic: obtained by causal convexity in M1 (b(N) shares the Cauchy surface i1(Σ) with M1), not by transporting GH along b (SubExtension's obstruction (4) avoided).",
+        "ETT.tex:1954 (b) does not ask phi_M injective and nothing in the proof (l.1956–1960) shows phi injective (gap 1, as WP-4): closed here by Sbierski Lemma 3.3, which in the abstract setting needs a time function (CBG/Injective SCOPE).",
+        "ETT.tex:1960 'Thus (∧, φ) ∈ ℰ' needs i1(M0) -> ∧ to be a Cauchy inclusion (gap 2): closed here by causal convexity of Cauchy inclusions and isCauchyInclusion_iSup (needs curves extending and causal arc-connectedness in M1).",
+        "ETT.tex:1963–1964 '(b(N), c∘b⁻¹) ∈ ℰ' needs b(N) globally hyperbolic: obtained by causal convexity in M1 (b(N) shares the Cauchy surface i1(Σ) with M1), not by transporting GH along b (SubExtension's obstruction (4) avoided).",
         "Thesis these.tex:6407, prop:Cauchy_pgcd (b): 'il existe φ_M : M → M₂ tel que φ_M ∘ i₁ = i₂' asks no morphism at all, though l.6411–6412 use that the φ_M are M≥0-morphisms (prop:GX_liouville); ETT.tex:1954 adds it.",
         "In the causal reading (abstract IsEMorphism, DEC-17, no rigidity) the uniqueness of prop:Cauchy_pgcd FAILS on the timelike line (local, absolutely minimal): causal_pgcd_not_unique gives two inequivalent maximal common sub-extensions (ℝ, ι, id, id), (ℝ, ι, id, kinkIso) of the half-line development. SubExtension.cauchy_pgcd (causal IsRigid) is left untouched, believed false (design §2, DEC-60) but NOT refuted here: its IsRigid is false on that line. Witnesses, each with its location: timelikeLine_not_isRigid (scaffold/CausalScaffold/SubExtension.lean:174), not_exists_isUniversal_halfLineDev (scaffold/CausalScaffold/CBG/Geometry.lean:1041), causal_pgcd_not_unique (scaffold/CausalScaffold/CBG/Pgcd.lean, this file)."
       ],
@@ -135,7 +135,7 @@
           "note": "a Dev over the Geometry (T2, connected, SC) with injective morphisms of developments"
         },
         {
-          "paper": "morphism of common sub-extensions: an M>=0-morphism commuting with the embeddings into M1, M2 (ETT.tex:1924-1925)",
+          "paper": "morphism of common sub-extensions: an M>=0-morphism commuting with the embeddings into M1, M2 (ETT.tex:1926–1928)",
           "here": "reading",
           "note": "CommonSubDev.IsMorphism asks a morphism of developments (also f ∘ ι_X = ι_Y); the extra conjunct is redundant given injective_b (CommonSubDev.isMorphism_iff), so IsMaximal and Equivalent are ETT's"
         }
@@ -191,6 +191,20 @@
     "not_applied": [
       "Report path (audit minor 1): the report stays at campaign/WP-36p4-CBGPgcd/ (this package's id, 'd' being FamilyGluing's); the fixer may write only this package's REPORT.json, so the master reconciles the register (WP-36p4 vs a WP-36g slot).",
       "SubExtension.cauchy_pgcd → Prop + finding (audit minor 6, kb/0022): not this package's file; master/ETT campaign, witnesses causal_pgcd_not_unique (CBG/Pgcd.lean), timelikeLine_not_isRigid (SubExtension.lean:174), not_exists_isUniversal_halfLineDev (CBG/Geometry.lean:1041)."
-    ]
+    ],
+    "round2": {
+      "date": "2026-11-01",
+      "host": "node1",
+      "applied": [
+        "ETT line citations re-pinned against papers/ett/legacy/labeled/ETT.tex (audit-2 minor 2): set E l.1951–1955, 'Put ∧' l.1956, well-definedness l.1956–1960, 'Thus (∧,φ) ∈ E' l.1960, maximality l.1963–1965, morphism of common sub-extensions l.1926–1927, equivalent l.1927–1928, maximal l.1928–1929, Cauchy embeddings l.1917–1918, proof end l.1966 (tex_lines [1945, 1966]); in Pgcd.lean and in this report.",
+        "Causality.HasTimeFunction docstring now says it is weaker than Causality.IsTimeFunction (Causal/Morphism.lean:832) and IsCauchyTimeFunction (Causal/Cauchy.lean:83) and is exactly the hypothesis form of curvesExtend_of_timeFunction (CurvesExtend.lean:409) (audit-2 minor 3)."
+      ],
+      "not_applied": [
+        "Report path WP-36p4 vs dispatched WP-36g (audit-2 minor 1): master reconciles the register; unchanged reason.",
+        "Scaffold root import of CausalScaffold.CBG.Pgcd for make check's axiom sweep (audit-2 minor 4): master's file; re-checked here by #print axioms on a /tmp copy: cauchy_pgcd_geometry, exists_mcghd -> [propext, Classical.choice, Quot.sound].",
+        "imageOpens_top in root namespace Causal and the private rel_of_image copy (audit-2 minor 5): auditor asks no author change; master's move stays a kb_proposal."
+      ],
+      "build": "taskset -c 0-11 lake env lean scaffold/CausalScaffold/CBG/Pgcd.lean: exit 0, no errors, no warnings; sorry_count 0"
+    }
   }
 }

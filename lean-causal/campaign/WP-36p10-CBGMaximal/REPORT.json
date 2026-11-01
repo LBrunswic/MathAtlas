@@ -1,0 +1,146 @@
+{
+  "package": "WP-36p10-CBGMaximal",
+  "files": [
+    "scaffold/CausalScaffold/CBG/Maximal.lean"
+  ],
+  "builds": true,
+  "sorry_count": 1,
+  "labels": [
+    {
+      "label": "theo:CBG",
+      "tex_lines": [
+        1884,
+        1887
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.cbg_proof",
+        "Causal.CBG.cbg_of_hasTimeFunctions",
+        "Causal.CBG.cbg_of_mcghdInjective",
+        "Causal.CBG.maxDev",
+        "Causal.CBG.maxDev_isUniversal",
+        "Causal.CBG.cbg_proof_ett",
+        "Causal.CBG.cbg_ett_of_mcghdInjective",
+        "Causal.CBG.cbg_proof_isETTMaximal",
+        "Causal.CBG.isETTMaximal_iff_isUniversal_proof",
+        "Causal.CBG.Dev.IsUniversal.existsUnique_iso"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M_0 globally hyperbolic singular flat spacetime",
+          "here": "strengthened",
+          "note": "as in CBG/Geometry's cbg: abstract Geometry (DEC-60), a Cauchy surface S, M_0 T2, connected, second countable; cbg_proof has cbg's statement verbatim"
+        },
+        {
+          "paper": "Sbierski Lemma 3.3 (the MCGHD morphisms psi_ik are injective) is PROVED there from the Lorentzian structure (a time function on each GHD); l.1157 then uses the embedding property",
+          "here": "strengthened",
+          "note": "Lemma 3.3 is consumed here through the queued Geometry field timeFunction, stated locally as Geometry.HasTimeFunctions (every T2, connected, second-countable, globally hyperbolic admissible spacetime has a continuous time function strictly increasing along ≤); it is used only through MCGHDInjective. cbg_proof's one sorry is exactly that field; cbg_of_hasTimeFunctions (field as hypothesis) and cbg_of_mcghdInjective (minimal: injective MCGHD morphisms) are sorry-free"
+        },
+        {
+          "paper": "inductive limit of the directed family (ETT.tex:2336-2340)",
+          "here": "carried",
+          "note": "realised as Sbierski's gluing of all SmallDev along pairwise MCGHDs; the universal property is DEC-59's IsUniversal, with unique morphisms"
+        },
+        {
+          "paper": "unique up to isomorphism",
+          "here": "carried",
+          "note": "Dev.IsUniversal.existsUnique_iso: the isomorphism is moreover unique; ETT form cbg_proof_ett"
+        },
+        {
+          "paper": "second countability of the limit (rem:CBG_manquant (i))",
+          "here": "carried",
+          "note": "Geometry.secondCountable_of_cauchy (gx C2), applied after GH and the Cauchy surface are proved"
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "Causal.CBG.cbg_proof",
+          "obstruction": "Geometry has no timeFunction field (design section 6, interface round 2, accepted and queued until packages 7/10/12 land); Lemma 3.3 (injectivity of the MCGHD morphisms, IsCGHD.injOn) needs a time function on every development. Replace the sorry by 𝔊.timeFunction once the field exists: cbg_of_hasTimeFunctions takes exactly that signature"
+        }
+      ],
+      "findings": [
+        "Sbierski's transitivity of (3.15) (pdftotext l.1166-1170) asserts that U_ik ∩ psi_ik^{-1}(U_kl) with psi_kl∘psi_ik is a CGHD; that needs iota(Sigma) to be a Cauchy surface of an intersection of two Cauchy inclusions, the existence half CBG/CausalConvex leaves open. Proved instead (mcghd_cocycle): agreement on U_ij ∩ U_ik via the ppcm of N_j, N_k (rigidity), and U_ij ∩ psi^{-1}(U_jk) ⊆ U_ik by an open-closed argument on this connected set (lem:C_ext_connexe) whose closed half is the Hausdorffness of the ppcm of N_i, N_k (Thm 3.13).",
+        "ETT's proof of theo:CBG (ETT.tex:2336-2340) asserts the inductive limit is maximal and M_0 -> limit is a Cauchy embedding without argument; global hyperbolicity of the limit (with i(Sigma) Cauchy) is a genuine step: proved here (maxStr_globallyHyperbolic, maxStr_isCauchySurface) by a family exit/re-entry argument on chains (Causality.ManyPiece), BEFORE second countability and without curvesExtend / isCompact_* on the limit (the design section 6 package-10 risk, resolved).",
+        "Sbierski step 4 reduces a cover of a curve segment to two pieces using timelike curves; in ETT's GH (causal + compact diamonds) the needed fact is that every diamond J(p,q), p ∈ O_i, q ∈ O_j, lies in O_i ∪ O_j (ManyPiece.mem_or_mem), which follows from the side of a point w.r.t. Sigma being piece-independent."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.ManyPiece",
+    "Causal.Causality.ManyFut",
+    "Causal.Causality.ManyPast",
+    "Causal.Causality.ManyPiece.fut_in",
+    "Causal.Causality.ManyPiece.past_in",
+    "Causal.Causality.ManyPiece.fut_or_past",
+    "Causal.Causality.ManyPiece.fut_of_mem",
+    "Causal.Causality.ManyPiece.past_of_mem",
+    "Causal.Causality.ManyPiece.chain",
+    "Causal.Causality.ManyPiece.le_of_chain",
+    "Causal.Causality.ManyPiece.le_of_fut",
+    "Causal.Causality.ManyPiece.le_of_past",
+    "Causal.Causality.ManyPiece.exists_cross",
+    "Causal.Causality.ManyPiece.le_of_le_top",
+    "Causal.Causality.ManyPiece.exists_mid",
+    "Causal.Causality.ManyPiece.mem_of_le_top",
+    "Causal.Causality.ManyPiece.mem_or_mem",
+    "Causal.Causality.ManyPiece.diamond_top_eq",
+    "Causal.Causality.ManyPiece.isCausal",
+    "Causal.Causality.ManyPiece.isCauchySurface",
+    "Causal.Causality.ManyPiece.isCompact_diamond_mixed",
+    "Causal.Causality.ManyPiece.globallyHyperbolic",
+    "Causal.Causality.manyPiece_of_charts",
+    "Causal.Causality.lineCover",
+    "Causal.Causality.ordConnected_lineCover",
+    "Causal.Causality.half_mem_lineCover",
+    "Causal.Causality.timelikeLine_le_lineCover",
+    "Causal.Causality.timelikeLine_manyPiece",
+    "Causal.CBG.mcghd_self",
+    "Causal.CBG.mcghdMap_mem_symm",
+    "Causal.CBG.isPreconnected_mcghd_inter",
+    "Causal.CBG.mcghd_cocycle",
+    "Causal.CBG.MCGHDInjective",
+    "Causal.CBG.maxGlueData",
+    "Causal.CBG.MaxSpace",
+    "Causal.CBG.maxι_mem_O_iff",
+    "Causal.CBG.maxι_eq",
+    "Causal.CBG.maxι_emb",
+    "Causal.CBG.maxSpace_t2",
+    "Causal.CBG.maxSpace_connected",
+    "Causal.CBG.exists_maxStr",
+    "Causal.CBG.maxStr",
+    "Causal.CBG.isMor_maxι",
+    "Causal.CBG.maxChart",
+    "Causal.CBG.maxCauchy",
+    "Causal.CBG.maxCauchy_eq",
+    "Causal.CBG.maxManyPiece",
+    "Causal.CBG.maxStr_globallyHyperbolic",
+    "Causal.CBG.maxStr_isCauchySurface",
+    "Causal.CBG.isMor_maxEmb",
+    "Causal.CBG.maxSpace_secondCountable",
+    "Causal.CBG.maxDev_isMorphism",
+    "Causal.CBG.Geometry.HasTimeFunctions",
+    "Causal.CBG.mcghdInjective_of_devTimeFunction",
+    "Causal.CBG.mcghdInjective_of_hasTimeFunctions"
+  ],
+  "kb_proposals": [
+    "An intersection of two Cauchy inclusions is not known to be one (CausalConvex's open existence half); avoid it: get cocycle-type inclusions from connectedness (lem:C_ext_connexe) plus Hausdorffness of the relevant pair gluing (limits of ι₁ a = ι₂ (g a) agree in a T2 gluing).",
+    "Global hyperbolicity of a gluing of a family without curve extension on the glued space: Causality.ManyPiece (CBG/Maximal) — the side of a point w.r.t. the common Cauchy set is piece-independent, so chains can be pushed into one piece from either end; diamonds then live in two pieces and package 7's mixed decomposition applies."
+  ],
+  "notes": "COMPLETE public-declaration list: labels[0].decls (10) + extra_decls (55) = every public decl of Maximal.lean (no private decls); all checked for collisions across Causal/ and scaffold/ (incl. the non-imported FromModel): none. Interface need (precise): Geometry field timeFunction : ∀ {M} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] (s : Str M), (causality s).GloballyHyperbolic → (causality s).HasTimeFunction (= Geometry.HasTimeFunctions here; design §6 interface round 2, accepted and queued). Not derivable from the current fields: the library's time-function existence (Causality.geroch_i_imp_ii / injective_of_globallyHyperbolic) needs admissible measures, which Geometry does not provide. With it: cbg_proof s₀ hGH hS := cbg_of_hasTimeFunctions s₀ hGH hS 𝔊.timeFunction. Master actions at graduation: Maximal imports Geometry, so Geometry cannot import Maximal — either move cbg and its corollaries cbg_isETTMaximal / isETTMaximal_iff_isUniversal into this file or a later one, or keep cbg_proof as the principal decl; add CausalScaffold.CBG.Maximal (and its CBG siblings) to scaffold/CausalScaffold.lean (kb/0025), then lake build CausalScaffold.CBG.Maximal. #print axioms, re-run by the fixer from a copy at /tmp/p10fix/MaxAx.lean (outside the repo; the original worker's in-tree temporary copy is not repeated): cbg_of_mcghdInjective, cbg_of_hasTimeFunctions, maxDev_isUniversal, cbg_ett_of_mcghdInjective, Dev.IsUniversal.existsUnique_iso, mcghd_cocycle, maxStr_isCauchySurface, ManyPiece.globallyHyperbolic, timelikeLine_manyPiece depend on [propext, Classical.choice, Quot.sound]; cbg_proof and cbg_proof_ett additionally on sorryAx. Typechecked with taskset -c 0-11 lake env lean only (no lake build): zero errors, one warning (the tagged sorry, l.1094/1100). Report location: this report is campaign/WP-36p10-CBGMaximal/REPORT.json (p4–p7 naming); the dispatch template's campaign/WP-36k-CBGMaximal is wrong (WP-36k is FromModel's directory) and was deliberately not used.",
+  "extra_decls_complete": true,
+  "fixer": {
+    "date": "2026-11-01",
+    "applied": [
+      "hypothesis-checklist row (Maximal.lean module docstring) and labels[0].hypotheses[1] reworded: Lemma 3.3 is proved in Sbierski; here strengthened by the queued timeFunction field (HasTimeFunctions) or minimally MCGHDInjective",
+      "bold moved off the label in the docstrings of cbg_ett_of_mcghdInjective and cbg_proof_ett ('**The ETT/Barbot reading** of `theo:CBG`'); no **`label` pattern remains in the file",
+      "extra_decls completed (every public decl now listed)",
+      "axioms re-checked from /tmp, not in-tree"
+    ],
+    "not_applied": [
+      "root import in scaffold/CausalScaffold.lean: master's action at graduation (writing outside the allowed files)"
+    ],
+    "sorry_attempt": "cbg_proof's sorry not closable: it is exactly the missing Geometry.timeFunction field; time-function existence in the library (geroch_i_imp_ii) needs admissible measures that Geometry does not carry"
+  }
+}

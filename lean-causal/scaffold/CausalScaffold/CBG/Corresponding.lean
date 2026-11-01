@@ -13,13 +13,18 @@ model). Cited, unmarked: `lem:corresponding_K` — `ETT.tex:2100`, `cor:ext_cont
 `ETT.tex:1634`; Sbierski 1309.7591 Def 3.5, Prop 3.7, Lemma 3.8 (pp. 15–16). No `sorry`.
 
 > Let $p\in \partial j_1(N)\cap J^+(\Sigma_1)$ and $q\in \partial j_2(N)\cap J^+(\Sigma_2)$. The
-> following are equivalent: (i) $(p,q)\in C$; (ii) $f$ induces a bijection
-> $K^-(p)\cap J^+(\Sigma_1)\xrightarrow{f} K^-(q)\cap J^+(\Sigma_2)$. (`ETT.tex:2100–2111`)
+> following are equivalent:
+> \begin{enumerate}[label=(\roman*)]
+> \item $(p,q)\in C$;
+> \item $f$ induces a bijection
+> $$K^-(p)\cap J^+(\Sigma_1)\xrightarrow{\quad f\quad} K^-(q)\cap J^+(\Sigma_2).$$
+> \end{enumerate}
+> (`ETT.tex:2101–2107`)
 
-> Let $(p,q)\in C$. Then $f$ extends continuously to $p$ by setting $f(p)=q$. (`ETT.tex:2144–2146`)
+> Let $(p,q)\in C$. Then $f$ extends continuously to $p$ by setting $f(p)=q$. (`ETT.tex:2144`)
 
 > A point $p\in \partial j_1(N)$ has at most one corresponding point $q$. Moreover, if $(p,q)\in C$
-> and $p\in \sing_\alpha(M_1)$, then $q\in \sing_\alpha(M_2)$. (`ETT.tex:2158–2161`)
+> and $p\in \sing_\alpha(M_1)$, then $q\in \sing_\alpha(M_2)$. (`ETT.tex:2159–2160`)
 
 > Proposition 3.7. […] i) The points $p\in\partial U$ and $p'\in\partial\psi(U)$ are corresponding
 > boundary points. ii) If $\gamma:(-\varepsilon,0)\to U$ is a timelike curve with
@@ -34,37 +39,39 @@ model). Cited, unmarked: `lem:corresponding_K` — `ETT.tex:2100`, `cor:ext_cont
   `dual`), `KSide` (the `K⁻`-calculus of `prop:K_calcul`/`prop:K_densite_sing`/`prop:GH_Jferme`
   over a set `Sing` of BTZ points, `lem:Sigma_separe`'s neighbourhood clause, compact
   `J⁺(S) ∩ J⁻(x)`). `IsCorrPair.corresponding_K`: **(i) ⟺ (ii) of `lem:corresponding_K`** in full;
-  `image_Kminus_eq` (i ⇒ ii), `eq_of_corresponds` (uniqueness on the `J⁺` side),
-  `corresponding_K_past` (`K⁺`, `J⁻`), `corresponds_iff_mem_gluingC` (Def 3.5 = ETT's `C`),
-  `corresponds_of_tendsto` (Prop 3.7 iii ⇒ i), `corresponds_iff_eq_of_mem` (the graph part of
-  `C`), `Causality.Jplus_mem_nhds_of_isCauchySurface`/`Jminus_mem_nhds_of_isCauchySurface`
+  `corresponding_K_bijOn` (ii) in the paper's literal form (`K⁻(p) ∩ J⁺(S) ⊆ U` and `ψ` a
+  `BijOn`); `image_Kminus_eq` (i ⇒ ii), `eq_of_corresponds` (uniqueness on the `J⁺` side),
+  `corresponding_K_past`/`_past_bijOn` (`K⁺`, `J⁻`), `corresponds_iff_mem_gluingC` (Def 3.5 =
+  ETT's `C`), `corresponds_of_tendsto` (Prop 3.7 iii ⇒ i), `corresponds_iff_eq_of_mem` (the graph
+  part of `C`), `Causality.Jplus_mem_nhds_of_isCauchySurface`/`Jminus_mem_nhds_of_isCauchySurface`
   (`lem:Sigma_separe`'s neighbourhood clause from compact diamonds and `K^∓` density, no
-  splitting). Witness: `timelikeLine_corresponding_hypotheses`.
-* **Level A** (`CGHDData`, A3's CGHD setting): `CGHDData.corresponding_K`/`_past` (the core, every
-  hypothesis derived from A2 and causal convexity, `lem:Sigma_separe` included), `ext_continue`
-  (`cor:ext_continue` via A3, both time directions), `continuousWithinAt_update` (`p ∈ ∂U`),
-  `continuousWithinAt_update_of_corresponds` (every `(p, q) ∈ C`), `tendsto_comp`
-  (Prop 3.7 i ⇒ ii), `eq_of_corresponds`, `mem_sing_iff` (`cor:model_corresponding`),
-  `isOpen_correspondingSet` (**`C` is open in `∂U`**).
+  splitting). Witnesses: `timelikeLine_corresponding_hypotheses` (`Sing = ∅`) and
+  `lightlikeLine_corresponding_hypotheses` (`Sing = univ`, `p = q` BTZ).
+* **Level A** (`CGHDData`, A3's CGHD setting): `CGHDData.corresponding_K`/`_past` and
+  `_bijOn`/`_past_bijOn` (the core, every hypothesis derived from A2 and causal convexity,
+  `lem:Sigma_separe` included), `ext_continue` (`cor:ext_continue` via A3, both time directions),
+  `continuousWithinAt_update` (`p ∈ ∂U`), `continuousWithinAt_update_of_corresponds` (every
+  `(p, q) ∈ C`), `tendsto_comp` (Prop 3.7 i ⇒ ii), `eq_of_corresponds`, `mem_sing_iff`
+  (`cor:model_corresponding`), `isOpen_correspondingSet` (**`C` is open in `∂U`**).
 
 ## Hypothesis checklist (`lem:corresponding_K`, `cor:ext_continue`, Sbierski Prop 3.7 / Lemma 3.8)
 
-| paper | here |
-|---|---|
-| `M₀` GH, Cauchy extensions `M₁`, `M₂`, common sub-extension `N`, `f = j₂ ∘ j₁⁻¹` | ⚠ reading: Sbierski's form — `U = j₁(N)` open in `M`, `ψ` injective structure morphism on `U` (`CGHDData`, A3's hypotheses verbatim); model-free: `IsCorrPair` |
-| `(p,q) ∈ C`, "not separated" (`ETT.tex:2011–2014`) | ✓ `Corresponds` (Sbierski Def 3.5) `= Gluing.C` of `x ~ ψ x` (`corresponds_iff_mem_gluingC`); `∂j₁(N)`, `∂j₂(N)` asked as in the statement (OQ-14: no `Cdist` needed) |
-| `p ∈ ∂j₁(N) ∩ J⁺(Σ₁)`, `q ∈ ∂j₂(N) ∩ J⁺(Σ₂)` | ✓ carried |
-| (ii) "`f` induces a bijection" | ✓ `ψ '' (K⁻(p) ∩ J⁺(S)) = K⁻(q) ∩ J⁺(ψ S)`, `ψ` injective on `U` |
-| `prop:K_calcul`, `prop:K_densite_sing`, `J^±(x)` closed, causal | model-free ⚠ named (`KSide`, kb/0012); Level A ✓ derived from A2 (`SingularFlatAxiomsCorr`, never `Iplus_eq`; `kSide_future`/`kSide_past`) |
-| `lem:Sigma_separe` (used through `cor:K_ordre_Sigma`, and silently in "`I⁻(p)` empty iff `I⁻(q)` is") | model-free ⚠ named (`KSide.separates`); Level A ✓ **derived from A2** (`Jplus_mem_nhds_of_isCauchySurface`/`Jminus_…`: `S` acausal by `curvesExtend` + `causallyArcConnected`, `J⁻(S)` closed by `K_densite_sing` + `isCompact_Jminus_inter_Jplus` + T2; past twin with `K⁺` and `isCompact_Jplus_inter_Jminus`) — no splitting, no new field |
-| `cor:K_ordre_Sigma` / `cor:K_ordre`, `K_monotone` (`SingularFlatAxiomsCorr`) | ⚠ replaced: the model-free `Causality.le_of_Kminus_inter_subset` (`Causal/PushUp.lean:301`) fed by `SingularFlatAxiomsCorr.K_densite_sing` (the corrected bundle; never `Iplus_eq`) |
-| `M₂` GH: "increasing and bounded above, so it converges" | ⚠ replaced: a cluster point in the compact `J⁺(Σ₂) ∩ J⁻(q)` (A2 `isCompact_Jplus_inter_Jminus`) |
-| `lem:passe_pgcd`, `lem:image_diamant` | ⚠ replaced: causal convexity of `U` and `ψ(U)` (package 2, `IsCauchyInclusion.causallyConvexIn`), `Kminus_inter_Jplus_subset_of_causallyConvexIn` |
-| `lem:cup_cap_sing`, `lem:cup_cap_BTZ` (model computations) | ⚠ weakened: not used (Sbierski's interpolation argument, `le_of_corresponds`/`lt_of_corresponds`) |
-| second countable | model-free ⚠ weakened: first countable; Level A ✓ carried (`Dev`) |
-| `cor:ext_continue` for every `(p,q) ∈ C` | ✓ `continuousWithinAt_update_of_corresponds`: graph pairs (`p ∈ j₁(N)`, `q = ψ p`) by `corresponds_iff_eq_of_mem`, no pair outside `closure U` (`mem_closure_of_corresponds`), boundary pairs below |
-| `cor:ext_continue`, `cor:model_corresponding` | ⚠ via A3 (`germExt_future`/`germExt_past`), not via the editorial proof (see SCOPE); no `lem:Sigma_separe` needed |
-| past side (`K⁺`, `J⁻(Σ)`) | ✓ `corresponding_K_past`: `K⁺ = I⁺` at every point (BTZ included) — the bundle is not time-symmetric (R4), the core is applied to `.dual` with `Sing = ∅` |
+| paper | here | note |
+|---|---|---|
+| `M₀` GH, Cauchy extensions `M₁`, `M₂`, common sub-extension `N`, `f = j₂ ∘ j₁⁻¹` | ✓ carried | in Sbierski's form (a reading of the same setting): `U = j₁(N)` open in `M`, `ψ` injective structure morphism on `U` (`CGHDData`, A3's hypotheses verbatim); model-free: `IsCorrPair` |
+| `(p,q) ∈ C`, "not separated" (`ETT.tex:2011–2014`) | ✓ carried | `Corresponds` (Sbierski Def 3.5) `= Gluing.C` of `x ~ ψ x` (`corresponds_iff_mem_gluingC`); no `Cdist` needed (OQ-14) |
+| `p ∈ ∂j₁(N) ∩ J⁺(Σ₁)`, `q ∈ ∂j₂(N) ∩ J⁺(Σ₂)` | ✓ carried | |
+| (ii) "`f` induces a bijection" | ✓ carried | `corresponding_K_bijOn`: `K⁻(p) ∩ J⁺(S) ⊆ U` and `BijOn ψ (K⁻(p) ∩ J⁺S) (K⁻(q) ∩ J⁺(ψ S))`; equivalently the image equality of `corresponding_K` |
+| `prop:K_calcul`, `prop:K_densite_sing`, `J^±(x)` closed, causal | ✓ carried | Level A: derived from A2 (`SingularFlatAxiomsCorr`, never `Iplus_eq`; `kSide_future`/`kSide_past`); model-free core: the model facts as the named hypotheses `KSide` (kb/0012) |
+| `lem:Sigma_separe` (through `cor:K_ordre_Sigma`, and silently in "`I⁻(p)` empty iff `I⁻(q)` is") | ✓ carried | Level A: **derived from A2** (`Jplus_mem_nhds_of_isCauchySurface`/`Jminus_…`: `S` acausal by `curvesExtend` + `causallyArcConnected`, `J⁻(S)` closed by `K_densite_sing` + `isCompact_Jminus_inter_Jplus` + T2; past twin with `K⁺` and `isCompact_Jplus_inter_Jminus`), no splitting, no new field; model-free core: named field `KSide.separates` |
+| `cor:K_ordre_Sigma` / `cor:K_ordre`, `K_monotone` (`SingularFlatAxiomsCorr`) | ⚠ weakened | not assumed: replaced by the model-free `Causality.le_of_Kminus_inter_subset` (`Causal/PushUp.lean:301`) fed by `SingularFlatAxiomsCorr.K_densite_sing` (the corrected bundle; never `Iplus_eq`) |
+| `M₂` GH: "increasing and bounded above, so it converges" | ⚠ weakened | not assumed: a cluster point in the compact `J⁺(Σ₂) ∩ J⁻(q)` (A2 `isCompact_Jplus_inter_Jminus`) |
+| `lem:passe_pgcd`, `lem:image_diamant` | ⚠ weakened | not assumed: replaced by causal convexity of `U` and `ψ(U)` (package 2, `IsCauchyInclusion.causallyConvexIn`), `Kminus_inter_Jplus_subset_of_causallyConvexIn` (the library form for a Cauchy embedding is `IsCauchyEmbedding.passe_pgcd`, `Causal/CauchyDiamond.lean:314`) |
+| `lem:cup_cap_sing`, `lem:cup_cap_BTZ` (model computations) | ⚠ weakened | not used: Sbierski's interpolation argument (`le_of_corresponds`/`lt_of_corresponds`) |
+| second countable | ⚠ weakened | model-free core: first countable; Level A: carried (`Dev`) |
+| `cor:ext_continue` for every `(p,q) ∈ C` | ✓ carried | `continuousWithinAt_update_of_corresponds`: graph pairs (`p ∈ j₁(N)`, `q = ψ p`) by `corresponds_iff_eq_of_mem`, no pair outside `closure U` (`mem_closure_of_corresponds`), boundary pairs below |
+| `cor:ext_continue`, `cor:model_corresponding`: the paper's proof via `lem:corresponding_K` | ✓ carried | the statements are proved via A3 (`germExt_future`/`germExt_past`), not via the editorial proof (see SCOPE); no `lem:Sigma_separe` needed |
+| past side (`K⁺`, `J⁻(Σ)`) | ✓ carried | `corresponding_K_past`: `K⁺ = I⁺` at every point (BTZ included) — the bundle is not time-symmetric (R4), the core is applied to `.dual` with `Sing = ∅` |
 
 ## SCOPE (disclosed)
 
@@ -82,6 +89,13 @@ model). Cited, unmarked: `lem:corresponding_K` — `ETT.tex:2100`, `cor:ext_cont
   an axiom of the geometry, design §2). That is the design's route (A3, then `Geometry.isMor_sing`)
   and is not circular here, A3 being a field; it is not the paper's route. Sbierski's own proof of
   Prop 3.7 (ii) (timelike curves, strong causality) is not formalized.
+  **Downstream warning (package 11 / gx):** Sbierski proves Lemma 3.8 (= A3) from Prop 3.7 (ii),
+  so the A3-derived declarations (`CGHDData.ext_continue`, `continuousWithinAt_update`,
+  `continuousWithinAt_update_of_corresponds`, `tendsto_comp`, `eq_of_corresponds`,
+  `mem_sing_iff`, `exists_nhds_correspondingSet`, `isOpen_correspondingSet`) **may not be used to
+  discharge A3**; the A3-free inputs are the `IsCorrPair` core (`corresponding_K`,
+  `corresponding_K_bijOn`, `image_Kminus_eq`, `IsCorrPair.eq_of_corresponds`, the `_past` forms)
+  and `CGHDData.corresponding_K`/`_past`/`_bijOn`/`_past_bijOn`, which use A2 only.
 * The editorial proof of `cor:ext_continue` (`ETT.tex:2148–2156`, "[editorial] … verify") is not
   followed. It uses `cor:model_corresponding` (stated after it, `ETT.tex:2158`; its first half
   only, so not circular) and through it `lem:corresponding_K`, which assume `p ∈ J⁺(Σ₁)` and the
@@ -96,9 +110,11 @@ model). Cited, unmarked: `lem:corresponding_K` — `ETT.tex:2100`, `cor:ext_cont
   `corresponds_of_tendsto`), a strengthening of both (ii) and (iii).
 * `continuousWithinAt_update`/`_of_corresponds` carry `[DecidableEq M]` (for `Function.update`),
   harmless.
-* The joint-satisfiability witness (the timelike line) covers the regular case only (`Sing = ∅`):
-  the BTZ fields `KSide.Kminus_sing`/`Iminus_sing` are not exercised by it. At Level A they are
-  derived from A2 (`kSide_future`), so no BTZ instance is needed for soundness of the statements.
+* Joint satisfiability is witnessed twice: the timelike line (`Sing = ∅`, the regular fields) and
+  the lightlike line (`Sing = univ`, `KSide.Kminus_sing`/`Iminus_sing` with every other field,
+  `p = q = 1` both BTZ). The mixed case (`p` BTZ, `q` regular) is shown impossible in
+  `image_Kminus_subset`, so it has no witness to have. At Level A the fields are derived from A2
+  (`kSide_future`).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -127,7 +143,9 @@ theorem Jplus_mem_nhds_of_mem_Kminus [FirstCountableTopology M] (hx : x ∈ C.Km
   rw [Precausality.mem_Jminus_singleton] at hxu
   exact hu N₀ (by rw [Precausality.mem_Jplus_singleton]; exact hxu)
 
-/-- `lem:passe_pgcd` for an open set. -/
+/-- `lem:passe_pgcd` (`ETT.tex:2042`) for a causally convex open set `U` (kb/0001: an open set, not
+a Cauchy embedding; the library form is `IsCauchyEmbedding.passe_pgcd`,
+`Causal/CauchyDiamond.lean:314`, which needs `image_diamant`'s hypotheses instead of convexity). -/
 theorem Kminus_inter_Jplus_subset_of_causallyConvexIn [FirstCountableTopology M] {U : Opens M}
     (hU : C.CausallyConvexIn (U : Set M) ⊤) {S : Set M} (hSU : S ⊆ U)
     (hp : p ∈ closure (U : Set M)) : C.Kminus ⊤ {p} ∩ C.Jplus ⊤ S ⊆ U := by
@@ -520,8 +538,34 @@ theorem corresponding_K [FirstCountableTopology M] [FirstCountableTopology N] [T
       ⟨hq'K.1, hnV hq'⟩ e'.symm.subset)
   rw [e]; exact hc'
 
-/-- `ψ`, read on the subtype `U`, is an open embedding (the bridge to `Gluing`, kb/0013: the
-subtype appears in this lemma only). -/
+/-- **`lem:corresponding_K` (`ETT.tex:2100`) with (ii) in the paper's literal form**: "`f`
+induces a bijection `K⁻(p) ∩ J⁺(Σ₁) → K⁻(q) ∩ J⁺(Σ₂)`" — the domain lies in `U`, where `f = ψ` is
+defined (`lem:passe_pgcd`, `Kminus_inter_Jplus_subset_of_causallyConvexIn`), and `ψ` is a
+bijection between the two sets (`InjOn` from the inverse `g`). Equivalent to
+`IsCorrPair.corresponding_K`'s image equality. -/
+theorem corresponding_K_bijOn [FirstCountableTopology M] [FirstCountableTopology N] [T2Space M]
+    (h : IsCorrPair C D U V ψ g) {S SingM : Set M} {SingN : Set N} (hM : KSide C S SingM)
+    (hN : KSide D (ψ '' S) SingN) (hcvM : C.CausallyConvexIn (U : Set M) ⊤)
+    (hcvN : D.CausallyConvexIn (V : Set N) ⊤) (hSU : S ⊆ U) {p : M} {q : N}
+    (hp : p ∈ frontier (U : Set M)) (hq : q ∈ frontier (V : Set N))
+    (hpS : p ∈ C.Jplus ⊤ S) (hqS : q ∈ D.Jplus ⊤ (ψ '' S)) :
+    Corresponds (U : Set M) ψ p q ↔
+      C.Kminus ⊤ {p} ∩ C.Jplus ⊤ S ⊆ U ∧
+        BijOn ψ (C.Kminus ⊤ {p} ∩ C.Jplus ⊤ S) (D.Kminus ⊤ {q} ∩ D.Jplus ⊤ (ψ '' S)) := by
+  have hpass := Causality.Kminus_inter_Jplus_subset_of_causallyConvexIn hcvM hSU
+    (frontier_subset_closure hp)
+  rw [h.corresponding_K hM hN hcvM hcvN hSU hp hq hpS hqS]
+  constructor
+  · intro heq
+    refine ⟨hpass, ?_⟩
+    rw [← heq]
+    exact (h.leftInvOn.injOn.mono hpass).bijOn_image
+  · rintro ⟨-, hb⟩
+    exact hb.image_eq
+
+/-- `ψ`, read on the subtype `U`, is an open embedding (the bridge to `Gluing`, kb/0001: the
+subtype appears in this lemma and in `corresponds_iff_mem_gluingC` only, never in a statement
+about the spacetimes). -/
 theorem isOpenEmbedding_comp_val (h : IsCorrPair C D U V ψ g) :
     IsOpenEmbedding (ψ ∘ (Subtype.val : U → M)) := by
   refine IsOpenEmbedding.of_continuous_injective_isOpenMap
@@ -589,6 +633,20 @@ theorem IsCorrPair.corresponding_K_past [FirstCountableTopology M] [FirstCountab
     Corresponds (U : Set M) ψ p q ↔
       ψ '' (C.Kplus ⊤ {p} ∩ C.Jminus ⊤ S) = D.Kplus ⊤ {q} ∩ D.Jminus ⊤ (ψ '' S) :=
   h.dual.corresponding_K hM hN (Causality.dual_causallyConvexIn.2 hcvM)
+    (Causality.dual_causallyConvexIn.2 hcvN) hSU hp hq hpS hqS
+
+/-- `lem:corresponding_K`, past side, with (ii) in the paper's literal form (`K⁺(p) ∩ J⁻(S) ⊆ U`
+and `ψ` a bijection onto `K⁺(q) ∩ J⁻(ψ S)`). -/
+theorem IsCorrPair.corresponding_K_past_bijOn [FirstCountableTopology M]
+    [FirstCountableTopology N] [T2Space M] (h : IsCorrPair C D U V ψ g) {S : Set M}
+    (hM : KSide C.dual S ∅) (hN : KSide D.dual (ψ '' S) ∅)
+    (hcvM : C.CausallyConvexIn (U : Set M) ⊤) (hcvN : D.CausallyConvexIn (V : Set N) ⊤)
+    (hSU : S ⊆ U) {p : M} {q : N} (hp : p ∈ frontier (U : Set M))
+    (hq : q ∈ frontier (V : Set N)) (hpS : p ∈ C.Jminus ⊤ S) (hqS : q ∈ D.Jminus ⊤ (ψ '' S)) :
+    Corresponds (U : Set M) ψ p q ↔
+      C.Kplus ⊤ {p} ∩ C.Jminus ⊤ S ⊆ U ∧
+        BijOn ψ (C.Kplus ⊤ {p} ∩ C.Jminus ⊤ S) (D.Kplus ⊤ {q} ∩ D.Jminus ⊤ (ψ '' S)) :=
+  h.dual.corresponding_K_bijOn hM hN (Causality.dual_causallyConvexIn.2 hcvM)
     (Causality.dual_causallyConvexIn.2 hcvN) hSU hp hq hpS hqS
 
 end Core
@@ -764,6 +822,35 @@ theorem corresponding_K_past [SecondCountableTopology N] (h : CGHDData 𝔊 s t 
         (𝔊.causality t).Kplus ⊤ {q} ∩ (𝔊.causality t).Jminus ⊤ (ψ '' S) := by
   haveI : Nonempty M := ⟨p⟩
   exact h.isCorrPair.corresponding_K_past (kSide_past s h.gh h.cauchy)
+    (kSide_past t h.gh' h.cauchy') h.causallyConvexIn h.causallyConvexIn' h.subset hp hq
+    hpS hqS
+
+/-- `lem:corresponding_K` (`ETT.tex:2100`), future side, in the CGHD setting, with (ii) in the
+paper's literal form: `K⁻(p) ∩ J⁺(S) ⊆ U` and "`f` induces a bijection"
+`K⁻(p) ∩ J⁺(S) → K⁻(q) ∩ J⁺(ψ S)`. -/
+theorem corresponding_K_bijOn [SecondCountableTopology N] (h : CGHDData 𝔊 s t U ψ S) {p : M}
+    {q : N} (hp : p ∈ frontier (U : Set M)) (hq : q ∈ frontier (ψ '' U))
+    (hpS : p ∈ (𝔊.causality s).Jplus ⊤ S) (hqS : q ∈ (𝔊.causality t).Jplus ⊤ (ψ '' S)) :
+    Corresponds (U : Set M) ψ p q ↔
+      (𝔊.causality s).Kminus ⊤ {p} ∩ (𝔊.causality s).Jplus ⊤ S ⊆ U ∧
+        BijOn ψ ((𝔊.causality s).Kminus ⊤ {p} ∩ (𝔊.causality s).Jplus ⊤ S)
+          ((𝔊.causality t).Kminus ⊤ {q} ∩ (𝔊.causality t).Jplus ⊤ (ψ '' S)) := by
+  haveI : Nonempty M := ⟨p⟩
+  exact h.isCorrPair.corresponding_K_bijOn (kSide_future s h.gh h.cauchy)
+    (kSide_future t h.gh' h.cauchy') h.causallyConvexIn h.causallyConvexIn' h.subset hp hq
+    hpS hqS
+
+/-- `lem:corresponding_K`, past side (`K⁺`, `J⁻`), in the CGHD setting, with (ii) in the paper's
+literal form. -/
+theorem corresponding_K_past_bijOn [SecondCountableTopology N] (h : CGHDData 𝔊 s t U ψ S)
+    {p : M} {q : N} (hp : p ∈ frontier (U : Set M)) (hq : q ∈ frontier (ψ '' U))
+    (hpS : p ∈ (𝔊.causality s).Jminus ⊤ S) (hqS : q ∈ (𝔊.causality t).Jminus ⊤ (ψ '' S)) :
+    Corresponds (U : Set M) ψ p q ↔
+      (𝔊.causality s).Kplus ⊤ {p} ∩ (𝔊.causality s).Jminus ⊤ S ⊆ U ∧
+        BijOn ψ ((𝔊.causality s).Kplus ⊤ {p} ∩ (𝔊.causality s).Jminus ⊤ S)
+          ((𝔊.causality t).Kplus ⊤ {q} ∩ (𝔊.causality t).Jminus ⊤ (ψ '' S)) := by
+  haveI : Nonempty M := ⟨p⟩
+  exact h.isCorrPair.corresponding_K_past_bijOn (kSide_past s h.gh h.cauchy)
     (kSide_past t h.gh' h.cauchy') h.causallyConvexIn h.causallyConvexIn' h.subset hp hq
     hpS hqS
 
@@ -966,6 +1053,84 @@ theorem timelikeLine_corresponding_hypotheses :
     hsub, hfr, h1, h1', timelikeLine_corresponds_one, ?_⟩
   exact (timelikeLine_isCorrPair_id.corresponding_K timelikeLine_kSide hK'
     timelikeLine_causallyConvexIn_iioOne timelikeLine_causallyConvexIn_iioOne hsub hfr hfr h1
+    h1').1 timelikeLine_corresponds_one
+
+/-! The BTZ branch: the lightlike line, every point singular (`Sing = univ`, `I⁻(x) = ∅`,
+`K⁻(x) = J⁻(x) ∖ {x}`, `lightlikeLine_K`), so `KSide.Kminus_sing`/`Iminus_sing` are exercised
+together with every other field, at `p = q` both BTZ. -/
+
+theorem lightlikeLine_Jplus_singleton (x : ℝ) : lightlikeLine.Jplus ⊤ {x} = Ici x := by
+  ext y; simp
+
+theorem lightlikeLine_Jminus_singleton (x : ℝ) : lightlikeLine.Jminus ⊤ {x} = Iic x := by
+  ext y; simp
+
+theorem lightlikeLine_Iminus_singleton (x : ℝ) : lightlikeLine.Iminus ⊤ {x} = ∅ := by
+  ext y; simp
+
+/-- The future `K`-calculus of the lightlike line, with `S = {0}` and every point BTZ. -/
+theorem lightlikeLine_kSide : KSide lightlikeLine {0} univ where
+  pushUp := lightlikeLine_pushUp
+  causal := lightlikeLine_isCausal
+  isClosed_Jplus x := by rw [lightlikeLine_Jplus_singleton]; exact isClosed_Ici
+  isClosed_Jminus x := by rw [lightlikeLine_Jminus_singleton]; exact isClosed_Iic
+  Kminus_reg x hx := absurd (mem_univ x) hx
+  mem_Zminus x hx := absurd (mem_univ x) hx
+  Kminus_sing x _ :=
+    Causality.Kminus_eq_Jminus_diff lightlikeLine_isCausal (lightlikeLine_singularPastAt x).1
+  Iminus_sing x _ := lightlikeLine_Iminus_singleton x
+  dense x := by
+    rw [(lightlikeLine_K x).1, lightlikeLine_Jminus_singleton, closure_Iio]
+  separates y hy := by
+    rw [lightlikeLine_Jplus_singleton] at hy ⊢
+    exact Ici_mem_nhds (lt_of_le_of_ne hy.1 (Ne.symm hy.2))
+  isCompact x := by
+    rw [lightlikeLine_Jplus_singleton, lightlikeLine_Jminus_singleton, Ici_inter_Iic]
+    exact isCompact_Icc
+
+theorem lightlikeLine_isCorrPair_id :
+    IsCorrPair lightlikeLine lightlikeLine iioOne iioOne id id where
+  mapsTo := mapsTo_id _
+  mapsTo_inv := mapsTo_id _
+  leftInvOn := leftInvOn_id _
+  rightInvOn := leftInvOn_id _
+  continuousOn := continuousOn_id
+  continuousOn_inv := continuousOn_id
+  le_iff _ _ _ _ := Iff.rfl
+  lt_iff _ _ _ _ := Iff.rfl
+
+theorem lightlikeLine_causallyConvexIn_iioOne :
+    lightlikeLine.CausallyConvexIn (iioOne : Set ℝ) ⊤ := by
+  refine ⟨fun _ _ => trivial, fun a _ b hb z hz => ?_⟩
+  rw [Causality.mem_diamond, lightlikeLine_le_top, lightlikeLine_le_top] at hz
+  exact lt_of_le_of_lt hz.2 hb
+
+/-- **The hypotheses of `IsCorrPair.corresponding_K` are jointly satisfiable with a nonempty
+singular set** (kb/0011): the lightlike line, `U = V = ]-∞, 1[`, `ψ = g = id`, `S = {0}`,
+`Sing = univ`, `p = q = 1` both BTZ (`I⁻(1) = ∅`); both sides of the equivalence hold. -/
+theorem lightlikeLine_corresponding_hypotheses :
+    IsCorrPair lightlikeLine lightlikeLine iioOne iioOne id id ∧
+      KSide lightlikeLine {0} univ ∧ KSide lightlikeLine (id '' {0}) univ ∧
+      lightlikeLine.CausallyConvexIn (iioOne : Set ℝ) ⊤ ∧ ({0} : Set ℝ) ⊆ iioOne ∧
+      (1 : ℝ) ∈ frontier (iioOne : Set ℝ) ∧ (1 : ℝ) ∈ lightlikeLine.Jplus ⊤ {0} ∧
+      (1 : ℝ) ∈ lightlikeLine.Jplus ⊤ (id '' {0}) ∧ lightlikeLine.Iminus ⊤ {(1 : ℝ)} = ∅ ∧
+      Corresponds (iioOne : Set ℝ) id (1 : ℝ) 1 ∧
+      id '' (lightlikeLine.Kminus ⊤ {(1 : ℝ)} ∩ lightlikeLine.Jplus ⊤ {0}) =
+        lightlikeLine.Kminus ⊤ {(1 : ℝ)} ∩ lightlikeLine.Jplus ⊤ (id '' {0}) := by
+  have hK' : KSide lightlikeLine (id '' {(0 : ℝ)}) univ := by
+    rw [image_id]; exact lightlikeLine_kSide
+  have hfr : (1 : ℝ) ∈ frontier (iioOne : Set ℝ) := by
+    show (1 : ℝ) ∈ frontier (Iio (1 : ℝ)); rw [frontier_Iio]; rfl
+  have hsub : ({0} : Set ℝ) ⊆ iioOne := by
+    rintro _ rfl; show (0 : ℝ) < 1; norm_num
+  have h1 : (1 : ℝ) ∈ lightlikeLine.Jplus ⊤ {0} := by
+    rw [lightlikeLine_Jplus_singleton]; norm_num
+  have h1' : (1 : ℝ) ∈ lightlikeLine.Jplus ⊤ (id '' {0}) := by rw [image_id]; exact h1
+  refine ⟨lightlikeLine_isCorrPair_id, lightlikeLine_kSide, hK',
+    lightlikeLine_causallyConvexIn_iioOne, hsub, hfr, h1, h1', lightlikeLine_Iminus_singleton 1,
+    timelikeLine_corresponds_one, ?_⟩
+  exact (lightlikeLine_isCorrPair_id.corresponding_K lightlikeLine_kSide hK'
+    lightlikeLine_causallyConvexIn_iioOne lightlikeLine_causallyConvexIn_iioOne hsub hfr hfr h1
     h1').1 timelikeLine_corresponds_one
 
 end Witness

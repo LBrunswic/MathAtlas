@@ -10,7 +10,8 @@ discharges the model). Cited, unmarked: `prop:Cauchy_point_min` — `ETT.tex:227
 `prop:Cauchy_non_max` — `ETT.tex:2178`, `prop:C_connexe` — `ETT.tex:2240`, `prop:ppcm_Cauchy` —
 `ETT.tex:1994`, `rem:non_separe_cas` — `ETT.tex:2016`, `lem:passe_pgcd` — `ETT.tex:2042`; Sbierski
 1309.7591, Lemma 3.8 (second half), **Lemma 3.9**, **Lemma 3.11**, **Thm 3.6**, **Thm 3.13**
-(pp. 15–19), and the Hausdorff step of the proof of Thm 2.7 (p. 20).
+(pp. 15–20: Thm 3.6 p. 15, Lemma 3.8 p. 16, Lemma 3.9 p. 17, Lemma 3.11 p. 18, Thm 3.13 p. 20),
+and the Hausdorff step of the proof of Thm 2.7 (p. 20).
 
 > Lemma 3.9. Let $U$ be a CGHD of $M$ and $M'$ with isometric embedding $\psi$. Assume that
 > $C\cap J^+(\iota(M))$ is non-empty. Then there exists a point $p\in C$ with the property
@@ -30,7 +31,7 @@ discharges the model). Cited, unmarked: `prop:Cauchy_point_min` — `ETT.tex:227
 > and $M'$. Then $U$ does not have corresponding boundary points in $M$ and $M'$. (Sbierski, p. 20)
 
 > If $C\neq \emptyset$, then there exists $(p',q')\in C$ with
-> $J_{M_1}(\Sigma_1,p')\setminus\{p'\}\subset j_1(N)$. (`prop:Cauchy_point_min`, `ETT.tex:2270–2274`)
+> $J_{M_1}(\Sigma_1,p')\setminus\{p'\}\subset j_1(N)$. (`prop:Cauchy_point_min`, `ETT.tex:2270–2273`)
 
 > If there exists $(p,q)\in C$ with $J_{M_1}(\Sigma_1,p)\setminus\{p\}\subset j_1(N)$, then $N$ is
 > not maximal among the common sub-extensions of $M_1$ and $M_2$. (`prop:Cauchy_non_max`,
@@ -56,7 +57,9 @@ discharges the model). Cited, unmarked: `prop:Cauchy_point_min` — `ETT.tex:227
 * **Level A** (`CGHDData`): `exists_spacelike_corresponding` / `_past` (**Lemma 3.9**, both time
   directions), `exists_spacelike` (`prop:Cauchy_point_min`, unmarked; Sbierski's WLOG made explicit),
   `exists_diamond_subset` (`prop:Cauchy_point_min` in ETT's words, from `C ∩ J⁺(S) ≠ ∅`),
-  `exists_diamond_subset_of_nonempty` (**ETT's literal `prop:Cauchy_point_min`**, from `C ≠ ∅`),
+  `exists_diamond_subset_of_nonempty` (**ETT's literal `prop:Cauchy_point_min`**, from `C ≠ ∅`,
+  reading `J(Σ₁,p') = J⁺(Σ₁) ∩ J⁻(p')`), `exists_diamond_subset_past` / `exists_diamond_subset_symm`
+  (the same under the time-symmetric reading `J⁻(Σ₁) ∩ J⁺(p')` at past points),
   `exists_lt_Jminus_compl_subset_of_cauchy` / `exists_lt_Jplus_compl_subset_past` (**Lemma 3.11**
   on admissible spacetimes),
   `correspondingExt` + `exists_isMor_eqOn_correspondingExt` (**Lemma 3.8, second half**: `ψ`
@@ -83,9 +86,10 @@ discharges the model). Cited, unmarked: `prop:Cauchy_point_min` — `ETT.tex:227
 | Thm 3.6's proof: `τ_q`, the hyperboloid `S`, Theorem 2.6 (local uniqueness), Lemma 3.1 continuity | ⚠ replaced by the interface: A4 (`slice_future` / `slice_past`, Sbierski (3.12) + Lemma 3.11) and A3 (`germExt_*`, Lemma 3.8, via `CGHDData.ext_continue`); Sbierski's "convex neighbourhood `V` with `V ∩ ∂U ⊆ C`" is not needed (one germ `φ` on `O ∋ p`, `U' ⊆ U ∪ O`) |
 | Thm 3.6: "strictly larger", "a CGHD" | ✓ `W < W'`, `IsCGHD N₁ N₂ W' f'`, `f' = f` on `W`; ⚠ injectivity of `f'` (Sbierski's "isometric embedding") **not** delivered — package 4's `IsCGHD` does not ask it; it follows from `IsCGHD.injOn` given a time function (the same interface need as the hypothesis `InjOn f W`) |
 | Thm 3.13: `U` the MCGHD | ✓ `mcghdOpens`, `mcghdMap` (package 4); ⚠ `InjOn mcghdMap mcghdOpens` carried (or a time function, `_of_timeFunction`) |
-| `prop:Cauchy_point_min`: `C ≠ ∅` | ✓ `exists_diamond_subset_of_nonempty` (**ETT's literal statement**: future case by Lemma 3.9 + `spacelike_iff`; past case vacuous: `J⁺(Σ₁) ∩ J⁻(p₀) ⊆ U` by causal convexity); `exists_spacelike` (the time-oriented (3.10), future or past — what `prop:Cauchy_non_max`'s past-side slice needs) |
+| `prop:Cauchy_point_min`: `C ≠ ∅` | ✓ under either reading of `J_{M_1}(\Sigma_1,p')` (ETT defines `J_M(Σ,p)` only for `p ∈ J⁺(Σ)`; question reported): `J⁺(Σ₁) ∩ J⁻(p')` — `exists_diamond_subset_of_nonempty` (future case by Lemma 3.9 + `spacelike_iff`; past case vacuous under this reading: `J⁺(Σ₁) ∩ J⁻(p₀) ⊆ U` by causal convexity); time-symmetric `J⁻(Σ₁) ∩ J⁺(p')` at past points — `exists_diamond_subset_symm` / `_past` (not vacuous); `exists_spacelike` (the time-oriented (3.10), future or past — what `prop:Cauchy_non_max`'s past-side slice needs) |
 | `prop:Cauchy_non_max`: `(p,q) ∈ C` with `J(Σ₁,p) ∖ {p} ⊂ j₁(N)` | ⚠ weakened: `C ≠ ∅` suffices (`IsCGHD.exists_lt`: Lemma 3.9 supplies the point) |
 | `prop:Cauchy_non_max`: `N ∈ ℰ` (`ETT.tex:1953–1954`, no injectivity) | ⚠ strengthened: `InjOn f W` carried (discharged by `IsCGHD.injOn` from a time function — Pgcd's interface need) |
+| `prop:Cauchy_non_max`: conclusion "`N` not maximal" in `ℰ` | ✓ carried: the larger `(W', f')` is `IsCGHD` (package 4), which, like ETT's `ℰ`, asks no injectivity |
 | `prop:ppcm_Cauchy`, Hausdorff half; `rem:non_separe_cas` | ✓ `t2Space_gluing_mcghd` (`Gluing.t2Space_iff_Cdist_eq_empty`, `C_eq_closure`); the structure on the gluing and its minimality are package 7 |
 | `prop:ppcm_Cauchy`: `ℰ` without injectivity | ⚠ strengthened: `InjOn mcghdMap mcghdOpens` carried (or a time function, `_of_timeFunction`) |
 | `prop:C_connexe`: "`C` is closed in `∂j₁(N) × ∂j₂(N)`" | ✓ `isClosed_setOf_corresponds_frontier` (the corresponding pairs in `∂U × ∂V`, any `V`; `C ⊆ ∂U × ∂ψ(U)` by package 5's `mem_frontier_of_corresponds`) and `isClosed_setOf_corresponds` (reading: all corresponding pairs in `M × N`, the closure of the graph; model-free) |
@@ -103,12 +107,16 @@ discharges the model). Cited, unmarked: `prop:Cauchy_point_min` — `ETT.tex:227
   Gauss lemma, Theorem 2.6) taken as an axiom of the geometry (design §2); Lemma 3.11 is proved
   here independently (model-free and Level A) so that whoever discharges A4 at the instance
   (packages 11, 12) has it. It is not used by `exists_extension`, A4 consuming it internally.
-* Lemma 3.9's conclusion is Sbierski's (3.10); ETT's form (`prop:Cauchy_point_min`, the
-  `J_{M_1}(\Sigma_1,p')` of `ETT.tex:2272` read as `J⁺(Σ₁) ∩ J⁻(p')`, `lem:image_diamant`) is
-  `exists_diamond_subset_of_nonempty`. ETT's statement is **true but vacuous for past points**:
-  if `p₀ ∈ C ∩ J⁻(Σ₁)` then `J⁺(Σ₁) ∩ J⁻(p₀) ⊆ U` by causal convexity, so `p' = p₀` satisfies it
-  with no information. It is therefore too weak to feed `prop:Cauchy_non_max`'s past-side slice;
-  the time-oriented (3.10) (`exists_spacelike`) is what `exists_extension` uses.
+* Lemma 3.9's conclusion is Sbierski's (3.10). ETT's form (`prop:Cauchy_point_min`) depends on
+  how `J_{M_1}(\Sigma_1,p')` (`ETT.tex:2272`) is read at a past point: ETT defines `J_M(Σ, p)` only
+  for `p ∈ J⁺(Σ)` (`lem:image_diamant`, `ETT.tex:2024–2027`), so this is an **ambiguity, reported
+  as a question** (kb/0011), and both readings are proved. Reading `J⁺(Σ₁) ∩ J⁻(p')`:
+  `exists_diamond_subset_of_nonempty`, and **under this reading** the statement is true but
+  vacuous at past points (`p₀ ∈ C ∩ J⁻(Σ₁)` gives `J⁺(Σ₁) ∩ J⁻(p₀) ⊆ U` by causal convexity,
+  so `p' = p₀` works), hence too weak to feed `prop:Cauchy_non_max`'s past-side slice. Reading
+  `J⁻(Σ₁) ∩ J⁺(p')` at past points (time-symmetric): `exists_diamond_subset_symm` /
+  `exists_diamond_subset_past`, not vacuous — this is the past (3.10) in diamond form. The
+  time-oriented (3.10) (`exists_spacelike`) is what `exists_extension` uses.
 * Lemma 3.8's extension (`correspondingExt`) is local: at every `p ∈ C` some morphism `φ` on an
   open `O ∋ p` agrees with `ψ̂` on `O ∩ (U ∪ C)`. That `ψ̂` is injective ("isometric embedding",
   Sbierski) is not proved; nothing here uses it.
@@ -116,7 +124,10 @@ discharges the model). Cited, unmarked: `prop:Cauchy_point_min` — `ETT.tex:227
   (`Gluing.causality`) and global hyperbolicity are package 7 (`Ppcm`).
 * The witnesses cover the model-free Lemma 3.11 (`timelikeLine_spacelike_hypotheses`) and the
   core of Lemma 3.9 (`timelikeLine_corrPair_hypotheses`) on the timelike line (`U = ]-∞,1[`,
-  `S = {0}`, `p = p₀ = 1`, `ψ = id`), regular case only.
+  `S = {0}`, `p = p₀ = 1`, `ψ = id`), regular case only. The second is **degenerate**
+  (`q = p₀`, since `∂U = {1}` on the line): it shows joint satisfiability of the hypotheses but
+  never exercises a boundary point `q ≠ p₀`; a 2-D local witness with `q < p₀` both on `∂U` is
+  not given (kb/0011 asks a witness only when cheap).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -512,7 +523,7 @@ theorem exists_spacelike (h : CGHDData 𝔊 s t U ψ S)
   · obtain ⟨p, hp, e⟩ := h.exists_spacelike_corresponding_past hp₀ hp₀S
     exact ⟨p, hp, Or.inr e⟩
 
-/-- `prop:Cauchy_point_min` **in ETT's words** (unmarked; future side, `ETT.tex:2270–2274`): if
+/-- `prop:Cauchy_point_min` **in ETT's words** (unmarked; future side, `ETT.tex:2270–2273`): if
 `C ∩ J⁺(S) ≠ ∅`, some `p ∈ C` has `J(S, p) ∖ {p} = J⁺(S) ∩ J⁻(p) ∖ {p} ⊆ U`
 (Lemma 3.9 and `Causality.spacelike_iff`). -/
 theorem exists_diamond_subset (h : CGHDData 𝔊 s t U ψ S) {p₀ : M}
@@ -524,12 +535,15 @@ theorem exists_diamond_subset (h : CGHDData 𝔊 s t U ψ S) {p₀ : M}
   refine ⟨p, hp, (Causality.spacelike_iff h.causallyConvexIn h.subset (kM.dense p)
     kM.separates hp.1).1 e.subset⟩
 
-/-- **`prop:Cauchy_point_min` at ETT's own hypothesis** (unmarked, `ETT.tex:2270–2274`): if
-`C ≠ ∅`, some `p ∈ C` has `J(Σ₁, p) ∖ {p} = J⁺(S) ∩ J⁻(p) ∖ {p} ⊆ U`. Future case: Lemma 3.9
-(`exists_diamond_subset`). Past case (`p₀ ∈ C ∩ J⁻(S)`): **vacuous** — `σ ≤ x ≤ p₀ ≤ σ'` puts
-`x` in the diamond of `σ, σ' ∈ S ⊆ U`, so `x ∈ U` by causal convexity, and `p = p₀` works. Hence
-ETT's statement is true but carries no information at past points; `prop:Cauchy_non_max`'s
-past-side slice needs the time-oriented (3.10) of `exists_spacelike`. -/
+/-- **`prop:Cauchy_point_min` at ETT's own hypothesis, under the reading
+`J_{M_1}(\Sigma_1,p') = J⁺(Σ₁) ∩ J⁻(p')`** (unmarked, `ETT.tex:2270–2273`; ETT defines
+`J_M(Σ, p)` only for `p ∈ J⁺(Σ)`, `lem:image_diamant`, so the reading at past points is a
+question, see `exists_diamond_subset_symm` for the other one): if `C ≠ ∅`, some `p ∈ C` has
+`J⁺(S) ∩ J⁻(p) ∖ {p} ⊆ U`. Future case: Lemma 3.9 (`exists_diamond_subset`). Past case
+(`p₀ ∈ C ∩ J⁻(S)`): **vacuous under this reading** — `σ ≤ x ≤ p₀ ≤ σ'` puts `x` in the diamond
+of `σ, σ' ∈ S ⊆ U`, so `x ∈ U` by causal convexity, and `p = p₀` works. Under this reading the
+statement carries no information at past points; `prop:Cauchy_non_max`'s past-side slice needs
+the time-oriented (3.10) of `exists_spacelike` (equivalently `exists_diamond_subset_symm`). -/
 theorem exists_diamond_subset_of_nonempty (h : CGHDData 𝔊 s t U ψ S)
     (hC : (correspondingSet (U : Set M) ψ).Nonempty) :
     ∃ p ∈ correspondingSet (U : Set M) ψ,
@@ -544,6 +558,51 @@ theorem exists_diamond_subset_of_nonempty (h : CGHDData 𝔊 s t U ψ S)
     have hxp' : (𝔊.causality s).le ⊤ x p₀ := by simpa using hxp
     exact h.causallyConvexIn.2 σ (h.subset hσ) σ' (h.subset hσ')
       ⟨by simpa using (𝔊.causality s).le_trans hxp' hp₀σ', by simpa using hσx⟩
+
+/-- `prop:Cauchy_point_min` **in diamond form, past side** (unmarked; the time-symmetric
+reading of `J_{M_1}(\Sigma_1,p')` at `ETT.tex:2272` as `J⁻(Σ₁) ∩ J⁺(p')` for a past point): if
+`C ∩ J⁻(S) ≠ ∅`, some `p ∈ C` has `J⁻(S) ∩ J⁺(p) ∖ {p} ⊆ U`. Lemma 3.9's past twin
+(`exists_spacelike_corresponding_past`) and `Causality.spacelike_iff` for the dual causality
+(`kSide_past`). -/
+theorem exists_diamond_subset_past (h : CGHDData 𝔊 s t U ψ S) {p₀ : M}
+    (hp₀ : p₀ ∈ correspondingSet (U : Set M) ψ) (hp₀S : p₀ ∈ (𝔊.causality s).Jminus ⊤ S) :
+    ∃ p ∈ correspondingSet (U : Set M) ψ,
+      ((𝔊.causality s).Jminus ⊤ S ∩ (𝔊.causality s).Jplus ⊤ {p}) \ {p} ⊆ U := by
+  obtain ⟨p, hp, e⟩ := h.exists_spacelike_corresponding_past hp₀ hp₀S
+  have kM := kSide_past s h.gh h.cauchy
+  exact ⟨p, hp, (Causality.spacelike_iff (C := (𝔊.causality s).dual)
+    (Causality.dual_causallyConvexIn.2 h.causallyConvexIn) h.subset (kM.dense p)
+    kM.separates hp.1).1 e.subset⟩
+
+/-- **`prop:Cauchy_point_min` under the time-symmetric reading** (unmarked, `ETT.tex:2270–2273`):
+if `C ≠ ∅`, some `p ∈ C` lies in `J⁺(S)` with `J⁺(S) ∩ J⁻(p) ∖ {p} ⊆ U`, or in `J⁻(S)` with
+`J⁻(S) ∩ J⁺(p) ∖ {p} ⊆ U`. Under this reading ETT's statement is **not** vacuous at past points
+(compare `exists_diamond_subset_of_nonempty`, the `J⁺(Σ₁) ∩ J⁻(p')` reading). -/
+theorem exists_diamond_subset_symm (h : CGHDData 𝔊 s t U ψ S)
+    (hC : (correspondingSet (U : Set M) ψ).Nonempty) :
+    ∃ p ∈ correspondingSet (U : Set M) ψ,
+      (p ∈ (𝔊.causality s).Jplus ⊤ S ∧
+        ((𝔊.causality s).Jplus ⊤ S ∩ (𝔊.causality s).Jminus ⊤ {p}) \ {p} ⊆ U) ∨
+      (p ∈ (𝔊.causality s).Jminus ⊤ S ∧
+        ((𝔊.causality s).Jminus ⊤ S ∩ (𝔊.causality s).Jplus ⊤ {p}) \ {p} ⊆ U) := by
+  obtain ⟨p₀, hp₀⟩ := hC
+  rcases Causality.mem_Jplus_union_Jminus_of_isCauchySurface (𝔊.curvesExtend s h.gh)
+    h.cauchy p₀ with hp₀S | hp₀S
+  · obtain ⟨p, hp, e⟩ := h.exists_spacelike_corresponding hp₀ hp₀S
+    have hpS : p ∈ (𝔊.causality s).Jplus ⊤ S := by
+      have : p ∈ ({p} : Set M) := rfl
+      rw [← e] at this; exact this.2
+    have kM := kSide_future s h.gh h.cauchy
+    exact ⟨p, hp, Or.inl ⟨hpS, (Causality.spacelike_iff h.causallyConvexIn h.subset (kM.dense p)
+      kM.separates hp.1).1 e.subset⟩⟩
+  · obtain ⟨p, hp, e⟩ := h.exists_spacelike_corresponding_past hp₀ hp₀S
+    have hpS : p ∈ (𝔊.causality s).Jminus ⊤ S := by
+      have : p ∈ ({p} : Set M) := rfl
+      rw [← e] at this; exact this.2
+    have kM := kSide_past s h.gh h.cauchy
+    exact ⟨p, hp, Or.inr ⟨hpS, (Causality.spacelike_iff (C := (𝔊.causality s).dual)
+      (Causality.dual_causallyConvexIn.2 h.causallyConvexIn) h.subset (kM.dense p)
+      kM.separates hp.1).1 e.subset⟩⟩
 
 /-- **Sbierski Theorem 3.6, local form** (`prop:Cauchy_non_max`, `ETT.tex:2178`): if `U` has a
 corresponding boundary point, then `U` enlarges to an open `U' > U` carrying a structure morphism
@@ -776,7 +835,10 @@ theorem timelikeLine_spacelike_hypotheses :
 
 /-- **The hypotheses of `IsCorrPair.exists_corresponds_of_le` are jointly satisfiable, with a
 genuine corresponding pair** (kb/0011): the timelike line, `U = V = ]-∞, 1[`, `ψ = g = id`,
-`S = {0}`, `q = p₀ = p₀' = 1`. -/
+`S = {0}`, `q = p₀ = p₀' = 1`. **Degenerate witness**: `q = p₀` (on the line `∂U = {1}`, so no
+boundary point `q ≠ p₀` exists), hence `K⁻(q) ⊆ K⁻(p₀)` is `subset_rfl` and the lemma's
+conclusion is its hypothesis `Corresponds … 1 1`; it witnesses consistency only, not the cluster
+argument at a point strictly below `p₀`. -/
 theorem timelikeLine_corrPair_hypotheses :
     IsCorrPair timelikeLine timelikeLine iioOne iioOne id id ∧
       timelikeLine.CausallyConvexIn (iioOne : Set ℝ) ⊤ ∧ ({0} : Set ℝ) ⊆ iioOne ∧
