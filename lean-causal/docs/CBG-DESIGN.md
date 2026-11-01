@@ -126,3 +126,14 @@ points; R4 no duality; R5 the ruling on "maximal".
   `isCompact_*` (which now require GH + SC); §3 step 7 must say how (e.g. GH of each glued piece and
   the causal-convexity argument of step 5, then `secondCountable_of_cauchy`). Also §2's A2 sketch
   ("SingularFlatAxioms; … sigmaCompact") now reads `SingularFlatAxiomsCorr` (C1).
+- **Interface round 2 (gx, 2026-11-01), queued until packages 7/10/12 land (they compile against
+  Geometry):** (1) ACCEPTED: field `timeFunction` on Geometry (admissible M: T2, connected, SC; GH ⇒
+  `HasTimeFunction`) and its LocalModel counterpart — discharged flat by `Flat/GerochFlat`
+  (admissible measures → Geroch time), E₀ by SingularGeroch; replaces the disclosed `InjOn` /
+  time-function hypothesis of Pgcd, NoCorresponding, Ppcm, Maximal. (2) Past-side B2 at a BTZ point:
+  `localUnique_sing_adherent` with the **full wrap-around** largeness clause — U contains
+  reg ∩ I⁻_O(r) for some r above y₀ on its line (`causalityY.le O y₀ r`); point contact (cone
+  counterexample, WP-36k) and "closure contains a segment of the line" (a boost along Δ conjugates P
+  to a non-integral power) are both rejected. gx's E₀ argument: a loop around Δ in reg ∩ I⁻_O(r)
+  has holonomy P, f maps it to a loop winding the same way, so the lift normalises ⟨P⟩, and the
+  normaliser is Isom(E₀). If FromModel's past-side pieces have another shape, gx adapts the clause.
