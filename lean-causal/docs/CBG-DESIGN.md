@@ -121,3 +121,8 @@ points; R4 no duality; R5 the ruling on "maximal".
   E₀: the two connectedness arguments, the past-side B2 step outside U, K⁺ injectivity.
 - **Findings against the thesis** (author's): the stray "(B)" label (l.6693); the missing `∖{p}` at
   l.6658; the past side is never treated, which E₀'s time asymmetry requires.
+- **Risk for package 10 (Maximal), from the Geometry re-audit:** after C2/C3, M̄'s global
+  hyperbolicity must be proved before its second countability and without `curvesExtend` /
+  `isCompact_*` (which now require GH + SC); §3 step 7 must say how (e.g. GH of each glued piece and
+  the causal-convexity argument of step 5, then `secondCountable_of_cauchy`). Also §2's A2 sketch
+  ("SingularFlatAxioms; … sigmaCompact") now reads `SingularFlatAxiomsCorr` (C1).

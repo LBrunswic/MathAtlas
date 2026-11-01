@@ -56,15 +56,17 @@ Framework (DEC-60): Brunswic's thesis, **rigid morphisms of singular `(G,X)`-man
 | thesis / Sbierski | here |
 |---|---|
 | `X_A`-morphism (`these.tex:3173–3186`) | Level A: `IsMor`, abstract, sheaf laws; Level B: `LocalModel.IsMor` = `LiftPropOn G.IsLocalStructomorphWithinAt` (local form, every `x ∈ M`) |
-| « pour tout $x\in\sing(M)$ » (`these.tex:3176`) | ⚠ reading: every `x ∈ M` (regular points: `Y = X`, `these.tex:3043`; the equivalence `these.tex:3398–3407`) — finding |
-| one `g ∈ G_Y` on every connected `W` (`these.tex:3177–3182`) | ⚠ reading: local form; equivalent on injective maps by B1 + B2 (`localUnique_sing`, `localUnique_reg`) |
+| « pour tout $x\in\sing(M)$ » (`these.tex:3176`) | ✓ **gx DEC-63** (2026-11-01): the condition holds **at every** singular point; here it is asked at every `x ∈ M`, the regular points adding nothing (`Y = X` there, `these.tex:3043`; the equivalence `these.tex:3398–3407`) |
+| one `g ∈ G_Y` on every connected `W` (`these.tex:3177–3182`) | ✓ **gx DEC-62** (2026-11-01): `X_A`-morphisms are taken in the **local** form (locally isomorphisms onto open subsets of the models), matching gx's a.e. morphisms (DEC-25) and `def:atlas` (l.1905); the one-`g` form follows on injective maps by B1 + B2 (`localUnique_sing`, `localUnique_reg`) |
 | `X_A`-atlas, transitions a.e. `(G,X)` (`these.tex:3040–3053`) | ⚠ reading: `HasGroupoid M G` (transitions in `G`); equivalent for an analytic family (`these.tex:3398–3407`) |
 | analyticity of `(G,X)`, `prop:GX_liouville` (rigidity) | ✓ `Geometry.rigid` (A1), target `T2` (branching line), `LocalModel.rigid` (B1) + `locallyConnected` |
 | analytic model `def:analytique` (`these.tex:3335–3340`), `prop:isom` (injective) | ✓ `LocalModel.localUnique_sing` (B2 at a singular point: `f : reg(U) → reg(Y)` into the **same** model, the component of `y₀`; one element of `G` on that component, « automorphisme de $Y$ »), injectivity carried |
 | famille analytique (b), `def:incompatibles` (`these.tex:3328–3332`, `3346–3353`) | ⚠ reading: carried as the `MapsTo` hypotheses of B2 (same model / fully regular target); derived at the instance (package 11) |
 | Liouville on the regular part (`prop:GX_liouville`) | ⚠ added: `LocalModel.localUnique_reg` (B2 on a fully regular component, values in a fully regular component) + `regularChart` — not a thesis definition; true for gx's `𝕄 ⊕ Σ_α 𝔼_α` and for `Minkowski d` |
 | manifolds Hausdorff, connected (`these.tex:1357`, `5729`) | ✓ `Dev` carriers `T2Space`, `ConnectedSpace` |
-| second countable (`these.tex:1357`, `rem:CBG_manquant` (i)) | ⚠ a geometry obligation: `SingularFlatAxioms.secondCountable` in A2 |
+| second countable (`these.tex:1357`, `rem:CBG_manquant` (i)) | ✓ carried (gx review C2): `Dev` carriers `SecondCountableTopology`; the A2/B3 fields assume it; ⚠ added obligation `secondCountable_of_cauchy` (GH + SC Cauchy surface ⇒ SC), for `M̄` (package 10) |
+| `defi:causal_E0`: $I^+(p)=J^+(p)\setminus\sing_0$ (`ETT.tex:1352–1355`) | ✗ **false in `E₀`** (gx review C1, radial null ray, see « The corrected singular flat bundle »): A2/B3 ask `SingularFlatAxiomsCorr` (`Iplus_of_lt`); bridge `SingularFlatAxioms.toCorr`; `K_monotone`, `K_densite_sing`, `K_ordre` re-proved from it — finding |
+| `CurvesExtend` | ⚠ restricted (gx review C3): on globally hyperbolic `M` only, the only use (§3.1 on developments) |
 | `M₀` globally hyperbolic (`theo:CBG`, `ETT.tex:1885`; `theo:Cauchy_ext`, `these.tex:6288`) | ⚠ strengthened: `cbg` also assumes a Cauchy surface `S` (the library's `GloballyHyperbolic`, `Causal/Properties.lean:144`, is causal + compact diamonds and gives none; without one no `Dev` exists); recoverable at the singular flat instance via `theo:geroch_sing` (`ETT.tex:1771`, DEC-18), never for an abstract `Geometry` |
 | Sbierski Lemma 3.8 (extension at corresponding points, Def 3.5) | A3 `germExt_future`/`germExt_past`: `MapClusterPt q (𝓝[U] p) ψ` is Def 3.5 |
 | "maximal" | DEC-59: `Dev.IsUniversal` (Sbierski); `Dev.IsETTMaximal` the ETT form, equivalent given `cbg` |
@@ -97,17 +99,262 @@ Framework (DEC-60): Brunswic's thesis, **rigid morphisms of singular `(G,X)`-man
   embeddings, then `isEMorphismOn_of_isMor`, `absolutelyMinimalOn` and `LocalIsomorphism.unique` —
   is a **planned lemma** of package 4 (`Pgcd`, restrict) and package 7 (`Ppcm`, glue).
 * `Dev` carriers are types (open subsets as subtypes, `restrict`): a development is an object.
+* **gx review (`lean-gx/campaign/WP-28-scope/CBG-REVIEW.md`), changes applied.** C1: A2/B3 ask
+  the corrected `SingularFlatAxiomsCorr` (the library's `Iplus_eq` is false in `E₀`; strict
+  `Causal/SingularFlat.lean` is not edited here — graduating the correction there is the master
+  session's); C2: second countability a hypothesis (`Dev.sc`, binders on A2/B3) plus the field
+  `secondCountable_of_cauchy`; C3: `curvesExtend` on GH `M`; C4: `localUnique_sing` kept strong.
+  **Design §3 against C1**: the false implication reaches §3 only through the K± calculus —
+  step 4 (Prop 3.7 = `lem:corresponding_K`, via `K_ordre`/`K_monotone`; Lemma 3.9 via the Geroch
+  time, whose admissible measures `SingularGeroch.mesure_admissible` take `K_monotone`) and,
+  through the Geroch time, C3's `curvesExtend_of_timeFunction` (step 1). `Iplus_of_lt` suffices
+  for all three: `SingularFlatAxiomsCorr.K_monotone`, `.K_densite_sing`, `.K_ordre` are proved
+  here. What remains to redo is the plumbing: `SingularGeroch` states `mesure_admissible` on the
+  library bundle, so its corrected form (same proof, `K_monotone` from here) is owed by whoever
+  graduates C1. Steps 2, 3, 5, 6, 7 do not use `Iplus_eq`.
+* **Size bound (§3.6) consistency**: every `Dev` carrier is SC and T2, hence T0 and of cardinality
+  `≤ 𝔠`, so it embeds in `Set ℕ` as the design's `SmallDev` needs; the glued `M̄` re-enters `Dev`
+  by `secondCountable_of_cauchy` (its Cauchy surface is the image of `M₀`'s, SC as a subspace of
+  the SC `M₀`). `cbg` and `Dev.self` now ask `[SecondCountableTopology M₀]`, necessary: `M₀`
+  embeds openly in any development.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
 
 namespace Causal
 
-namespace CBG
-
 open Set Topology Filter Function TopologicalSpace
 
 universe u
+
+/-! ### The corrected singular flat bundle (gx review C1)
+
+`Causality.BTZAxioms.Iplus_eq` (`Causal/SingularFlat.lean:146`), `I⁺(p) = J⁺(p) ∖ sing₀` at a BTZ
+point, is **false in `E₀`** (gx CBG review, `lean-gx/campaign/WP-28-scope/CBG-REVIEW.md`, verdict
+(a); a finding for the ETT ledger against `defi:causal_E0`, `ETT.tex:1352–1355`, the sentence the
+paper flags "asserted without proof — verify", and against the thesis). Counterexample (by hand,
+not formalized: no `E₀` exists in Lean): for the metric `−2dτdr + dr² + r²dθ²`, a future causal
+vector has `r′ ≥ 0` and `2τ′r′ ≥ r′² + r²θ′²`, so `f = τ − r/2` is non-decreasing along causal and
+strictly increasing along timelike curves; the radial null ray `t ↦ (t/2, t, θ₀)` from `p = (0,0)`
+reaches `x = (s/2, s, θ₀)`, `s > 0`, so `x ∈ J⁺(p) ∖ sing₀`, while `f x = f p` gives `x ∉ I⁺(p)`
+(locally `I⁺(p) = {r > 0, τ − τ_p > r/2}`). The true statement is `Iplus_of_lt`:
+`J⁺(p′) ∖ sing₀ ⊆ I⁺(p)` for `p < p′` on the line. The library theorem
+`SingularFlatAxioms.lt_of_le_of_not_mem` ("`x` BTZ, `y` regular, `x ≤ y` ⇒ `x ≪ y`") is false at
+`x = p`, `y = (s/2, s, θ₀)` for the same reason. So `E₀` itself — the satisfiability witness the
+gx gate asks for — is **not** a model of the library bundle, and could not instantiate the Level A/B
+fields asking for it. Whether some other `E₀`-manifold with a BTZ point satisfies the old bundle is
+NOT claimed (the non-causal quotient `E₀/⟨τ ↦ τ + T⟩` appears to: there `I⁺(p)` is every regular
+point). Ruling DEC-64: the strict library is to be corrected the same way. When it is, restate
+`SingularGeroch.mesure_admissible` and `geroch_sing_split` (whose `SingularFlatSpacetime` hypothesis
+extends the old bundle) on the corrected one.
+
+The bundles below are the library's with exactly one field changed (`Iplus_eq` ↦ `Iplus_of_lt`).
+The other fields were audited against the same counterexample and none is refuted by it:
+`singularPastAt` (`p ∈ Int J⁺(u)` for `u < p` on the line holds, `f p > f u`), `Iminus_eq_empty`,
+`past_local`, `line`, `pushUp` (`x ≤ y ≪ z ⇒ x ≪ z`: `f z > f y ≥ f x`, `r z > 0`), `tarentin`,
+`mem_Zplus`, `mem_Zminus_iff`, the topological fields; `massive_line` is vacuous for `E₀`. The
+false implication is a library *theorem* (`lt_of_le_of_not_mem`), not a field; its three uses —
+`K_monotone` (hence `SingularGeroch.mesure_admissible`, the Geroch time), `K_densite_sing` (past
+half) and `K_ordre` — are re-proved below from `Iplus_of_lt` (`SingularFlatAxiomsCorr.K_monotone`,
+`.K_densite_sing`, `.K_ordre`): each uses the implication only at an `x` strictly below a BTZ
+point `q ≤ y` (`K_monotone`: `x ∈ K⁻(q) = J⁻(q) ∖ {q}`), or at a limit of such (`K_densite_sing`,
+by `singularPastAt` (i)), which is exactly what `Iplus_of_lt` gives. Bridge:
+`SingularFlatAxioms.toCorr` (nothing is lost where the old bundle holds). -/
+
+namespace Causality
+
+variable {M : Type u} [TopologicalSpace M]
+
+/-- **The causal facts of a BTZ point, corrected** (gx review C1): `Causality.BTZAxioms` with
+`Iplus_eq` replaced by `Iplus_of_lt`. -/
+structure BTZAxiomsCorr (C : Causality M) (S₀ : Set M) : Prop where
+  /-- As `BTZAxioms.singularPastAt` (`ETT.tex:1349`). -/
+  singularPastAt : ∀ p ∈ S₀, C.SingularPastAt p
+  /-- As `BTZAxioms.Iminus_eq_empty` (`ETT.tex:1349`). -/
+  Iminus_eq_empty : ∀ p ∈ S₀, C.Iminus ⊤ {p} = ∅
+  /-- **Corrected** `ETT.tex:1352–1355`: for `p < p′` on the BTZ line, the regular part of the
+  future of `p′` is in the chronological future of `p`. Replaces the false
+  `I⁺(p) = J⁺(p) ∖ sing₀` (the radial null ray of `E₀`). -/
+  Iplus_of_lt : ∀ p ∈ S₀, ∀ p' ∈ S₀, C.le ⊤ p p' → p ≠ p' → C.Jplus ⊤ {p'} \ S₀ ⊆ C.Iplus ⊤ {p}
+  /-- As `BTZAxioms.past_local`. -/
+  past_local : ∀ p ∈ S₀, ∃ U : Opens M, p ∈ U ∧ ∀ q, C.le U q p → q ∈ S₀
+  /-- As `BTZAxioms.line` (`lem:past_BTZ` (a), `α = 0`). -/
+  line : ∀ p ∈ S₀, ∃ γ : ℝ → M, γ 0 = p ∧ (C.IsCausal → IsClosedEmbedding γ) ∧
+    C.Inextensible ⊤ univ γ ∧ range γ = connectedComponentIn S₀ p
+
+/-- **The singular flat bundle, corrected** (gx review C1): `Causality.SingularFlatAxioms` with
+`BTZAxioms` replaced by `BTZAxiomsCorr`; every other field verbatim. -/
+structure SingularFlatAxiomsCorr (C : Causality M) (sing : ℝ → Set M) : Prop
+    extends BTZAxiomsCorr C (sing 0) where
+  pushUp : C.PushUp
+  absolutelyMinimal : C.AbsolutelyMinimal
+  causallyArcConnected : C.CausallyArcConnected
+  tarentin : C.Tarentin
+  mem_Zplus : ∀ p, p ∈ C.Zplus
+  mem_Zminus_iff : ∀ p, p ∈ C.Zminus ↔ p ∉ sing 0
+  t2 : T2Space M
+  secondCountable : SecondCountableTopology M
+  metrizable : MetrizableSpace M
+  locallyCompact : LocallyCompactSpace M
+  noIsolated : ∀ p : M, (𝓝[≠] p).NeBot
+  isClosed_sing : ∀ α : ℝ, 0 ≤ α → IsClosed (sing α)
+  interior_sing : ∀ α : ℝ, 0 ≤ α → interior (sing α) = ∅
+  massive_line : ∀ α : ℝ, 0 < α → ∀ p ∈ sing α, ∃ γ : ℝ → M, γ 0 = p ∧
+    (C.IsCausal → IsClosedEmbedding γ) ∧
+    C.Inextensible ⊤ univ γ ∧ (∀ a b, C.ChronalCurveOn ⊤ γ a b) ∧
+    range γ = connectedComponentIn (sing α) p
+
+variable {C : Causality M} {p q x y : M}
+
+/-- **Bridge**: the library's `BTZAxioms` implies the corrected bundle. -/
+theorem BTZAxioms.toCorr {S₀ : Set M} (h : C.BTZAxioms S₀) : C.BTZAxiomsCorr S₀ where
+  singularPastAt := h.singularPastAt
+  Iminus_eq_empty := h.Iminus_eq_empty
+  Iplus_of_lt p hp p' _ hpp' _ y hy := by
+    rw [h.Iplus_eq p hp]
+    have hp'y : C.le ⊤ p' y := by simpa using hy.1
+    exact ⟨by simpa using C.le_trans hpp' hp'y, hy.2⟩
+  past_local := h.past_local
+  line := h.line
+
+/-- **Bridge**: the library's `SingularFlatAxioms` implies the corrected bundle (nothing is lost
+where the old one holds; `E₀` itself is not such a model). -/
+theorem SingularFlatAxioms.toCorr {sing : ℝ → Set M} (h : C.SingularFlatAxioms sing) :
+    C.SingularFlatAxiomsCorr sing where
+  toBTZAxiomsCorr := h.toBTZAxioms.toCorr
+  pushUp := h.pushUp
+  absolutelyMinimal := h.absolutelyMinimal
+  causallyArcConnected := h.causallyArcConnected
+  tarentin := h.tarentin
+  mem_Zplus := h.mem_Zplus
+  mem_Zminus_iff := h.mem_Zminus_iff
+  t2 := h.t2
+  secondCountable := h.secondCountable
+  metrizable := h.metrizable
+  locallyCompact := h.locallyCompact
+  noIsolated := h.noIsolated
+  isClosed_sing := h.isClosed_sing
+  interior_sing := h.interior_sing
+  massive_line := h.massive_line
+
+/-- Satisfiability (kb/0012), regular branch only: the timelike line with no singular point. -/
+theorem timelikeLine_singularFlatAxiomsCorr :
+    timelikeLine.SingularFlatAxiomsCorr (fun _ => ∅) :=
+  timelikeLine_singularFlatAxioms.toCorr
+
+/-- The lightlike line, every point BTZ, satisfies `BTZAxiomsCorr`. -/
+theorem lightlikeLine_btzAxiomsCorr : lightlikeLine.BTZAxiomsCorr (univ : Set ℝ) :=
+  lightlikeLine_btzAxioms.toCorr
+
+namespace SingularFlatAxiomsCorr
+
+variable {sing : ℝ → Set M}
+
+/-- `J⁻(p) ⊂ sing₀` for a BTZ point `p` (as `SingularFlatAxioms.mem_sing_zero_of_le`). -/
+theorem mem_sing_zero_of_le (h : C.SingularFlatAxiomsCorr sing) (hp : p ∈ sing 0)
+    (hqp : C.le ⊤ q p) : q ∈ sing 0 := by
+  obtain ⟨c, hc, rfl, rfl⟩ := (h.causallyArcConnected ⊤ le_rfl q p).1.1 hqp
+  exact mem_of_causalCurveOn (h.isClosed_sing 0 le_rfl) h.past_local hc le_rfl zero_le_one
+    le_rfl hp
+
+/-- **The corrected implication** (replacing the false `lt_of_le_of_not_mem`): `x < x′` on the
+BTZ line and `x′ ≤ y` regular give `x ≪ y`. -/
+theorem lt_of_lt_of_le_of_not_mem (h : C.SingularFlatAxiomsCorr sing) {x' : M}
+    (hx : x ∈ sing 0) (hx' : x' ∈ sing 0) (hxx' : C.le ⊤ x x') (hne : x ≠ x')
+    (hy : y ∉ sing 0) (hx'y : C.le ⊤ x' y) : C.lt ⊤ x y := by
+  have := h.Iplus_of_lt x hx x' hx' hxx' hne ⟨by simpa using hx'y, hy⟩
+  simpa using this
+
+/-- **`prop:K_monotone` from the corrected bundle** (the library proof with `Iplus_of_lt` in
+place of `lt_of_le_of_not_mem`, which it used only at `x ∈ J⁻(q) ∖ {q}`). -/
+theorem K_monotone (h : C.SingularFlatAxiomsCorr sing) (hc : C.IsCausal) (hqp : C.le ⊤ q p) :
+    C.Kminus ⊤ {q} ⊆ C.Kminus ⊤ {p} ∧ C.Kplus ⊤ {p} ⊆ C.Kplus ⊤ {q} := by
+  haveI := h.secondCountable
+  have hZm : ∀ p ∉ sing 0, p ∈ C.Zminus := fun p hp => (h.mem_Zminus_iff p).2 hp
+  have hP := h.pushUp
+  constructor
+  · by_cases hpS : p ∈ sing 0
+    · have hqS := h.mem_sing_zero_of_le hpS hqp
+      rw [Kminus_eq_Jminus_diff hc (h.singularPastAt q hqS),
+        Kminus_eq_Jminus_diff hc (h.singularPastAt p hpS)]
+      rintro x ⟨hxq, hxne⟩
+      have hxq' : C.le ⊤ x q := by simpa using hxq
+      refine ⟨by simpa using C.le_trans hxq' hqp, fun hxp => hxne ?_⟩
+      rw [mem_singleton_iff] at hxp ⊢
+      subst hxp
+      exact hc hxq' hqp
+    · rw [hP.Kminus_eq_Iminus (hZm p hpS)]
+      by_cases hqS : q ∈ sing 0
+      · rw [Kminus_eq_Jminus_diff hc (h.singularPastAt q hqS)]
+        rintro x ⟨hxq, hxne⟩
+        have hxq' : C.le ⊤ x q := by simpa using hxq
+        have hxS := h.mem_sing_zero_of_le hqS hxq'
+        have hne : x ≠ q := fun hxq'' => hxne (by simpa using hxq'')
+        simpa using h.lt_of_lt_of_le_of_not_mem hxS hqS hxq' hne hpS hqp
+      · rw [hP.Kminus_eq_Iminus (hZm q hqS)]
+        intro x hx
+        have hxq : C.lt ⊤ x q := by simpa using hx
+        simpa using hP.lt_of_lt_of_le hxq hqp
+  · rw [hP.Kplus_eq_Iplus (h.mem_Zplus p), hP.Kplus_eq_Iplus (h.mem_Zplus q)]
+    intro x hx
+    have hpx : C.lt ⊤ p x := by simpa using hx
+    simpa using hP.lt_of_le_of_lt hqp hpx
+
+/-- **`prop:K_densite_sing` from the corrected bundle**: a BTZ `y ≤ x`, `x` regular, is a limit
+of the points `u_n < y` of its line (`singularPastAt` (i)), each `≪ x` by `Iplus_of_lt`. -/
+theorem K_densite_sing (h : C.SingularFlatAxiomsCorr sing) (x : M) :
+    C.Jplus ⊤ {x} ⊆ closure (C.Kplus ⊤ {x}) ∧ C.Jminus ⊤ {x} ⊆ closure (C.Kminus ⊤ {x}) := by
+  haveI := h.secondCountable
+  constructor
+  · rw [h.pushUp.Kplus_eq_Iplus (h.mem_Zplus x)]
+    intro y hy
+    have hxy : C.le ⊤ x y := by simpa using hy
+    rw [mem_closure_iff_nhds]
+    intro N hN
+    obtain ⟨w, hw, hwN⟩ := h.mem_Zplus y N hN
+    have hyw : C.lt ⊤ y w := by simpa using hw
+    exact ⟨w, hwN, by simpa using h.pushUp.lt_of_le_of_lt hxy hyw⟩
+  · by_cases hx : x ∈ sing 0
+    · have hS := h.singularPastAt x hx
+      intro y hy
+      by_cases hyx : y = x
+      · subst hyx
+        exact closure_mono hS.Jminus_diff_subset_Kminus hS.mem_closure
+      · exact subset_closure (hS.Jminus_diff_subset_Kminus ⟨hy, hyx⟩)
+    · rw [h.pushUp.Kminus_eq_Iminus ((h.mem_Zminus_iff x).2 hx)]
+      intro y hy
+      have hyx : C.le ⊤ y x := by simpa using hy
+      by_cases hyS : y ∈ sing 0
+      · obtain ⟨u, hu, hup⟩ := (h.singularPastAt y hyS).1
+        refine mem_closure_of_tendsto hu (Eventually.of_forall fun n => ?_)
+        have huS := h.mem_sing_zero_of_le hyS (hup n).1
+        simpa using h.lt_of_lt_of_le_of_not_mem huS hyS (hup n).1 (hup n).2 hx hyx
+      · rw [mem_closure_iff_nhds]
+        intro N hN
+        obtain ⟨w, hw, hwN⟩ := (h.mem_Zminus_iff y).2 hyS N hN
+        have hwy : C.lt ⊤ w y := by simpa using hw
+        exact ⟨w, hwN, by simpa using h.pushUp.lt_of_lt_of_le hwy hyx⟩
+
+/-- **`cor:K_ordre` from the corrected bundle** (the library proof, verbatim, on the corrected
+`K_monotone` and `K_densite_sing`). -/
+theorem K_ordre (h : C.SingularFlatAxiomsCorr sing) (hG : C.GloballyHyperbolic) :
+    (∀ x y, C.le ⊤ x y ↔ C.Kminus ⊤ {x} ⊆ C.Kminus ⊤ {y}) ∧
+    (∀ x y, C.le ⊤ x y ↔ C.Kplus ⊤ {y} ⊆ C.Kplus ⊤ {x}) ∧
+    Function.Injective (fun x => C.Kminus ⊤ {x}) ∧
+    Function.Injective (fun x => C.Kplus ⊤ {x}) := by
+  haveI := h.t2
+  have hemb := K_order_embedding (hG.isClosed_Jplus_singleton h.tarentin)
+    (hG.isClosed_Jminus_singleton h.tarentin) (fun x => (h.K_densite_sing x).1)
+    (fun x => (h.K_densite_sing x).2)
+  exact ⟨hemb.2.2.2.1 fun _ _ hqp => (h.K_monotone hG.1 hqp).1,
+    hemb.2.2.2.2 fun _ _ hqp => (h.K_monotone hG.1 hqp).2, (hemb.2.2.1 hG.1).1,
+    (hemb.2.2.1 hG.1).2⟩
+
+end SingularFlatAxiomsCorr
+
+end Causality
+
+namespace CBG
 
 /-! ### Rigidity relative to a morphism predicate -/
 
@@ -212,23 +459,42 @@ structure Geometry extends PreGeometry.{u} where
   isMor_sing : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] {s : Str M}
     {t : Str N} {W : Opens M} {f : M → N}, IsMor s t W f → ∀ {x : M}, x ∈ W → ∀ {α : ℝ},
     0 ≤ α → (x ∈ sing s α ↔ f x ∈ sing t α)
-  /-- **A2**: the causal facts of `𝔼≥0`-manifolds, second countability included (`rem:CBG_manquant`
-  (i), R2). §3.1–§3.6. -/
+  /-- **A2**: the causal facts of `𝔼≥0`-manifolds, in the **corrected** bundle
+  `SingularFlatAxiomsCorr` (gx review C1: the library's `BTZAxioms.Iplus_eq` is false in `E₀`;
+  `SingularFlatAxioms.toCorr` is the bridge). Second countability is a **hypothesis** (gx review
+  C2: it is part of the definition of a singular manifold, gx
+  `def:singular_manifold_locally_connected`, `these.tex:1357`, not a theorem; R2), so the
+  bundle's `secondCountable` field is free. §3.1–§3.6. -/
   singularFlatAxioms : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
-    (s : Str M), (causality s).SingularFlatAxioms (sing s)
-  /-- **A2**: `CurvesExtend`. §3.1 (re-routing around `exists_mem_image_inf`). -/
+    [SecondCountableTopology M] (s : Str M), (causality s).SingularFlatAxiomsCorr (sing s)
+  /-- **A2**: `CurvesExtend`, on **globally hyperbolic** `M` only (gx review C3: the proof consumes
+  it on developments, which are GH, and there `curvesExtend_of_timeFunction`,
+  `CausalScaffold/CurvesExtend.lean:409`, discharges it from a continuous time function strictly
+  increasing along `≤`, e.g. the Geroch time of `SingularGeroch`, whose `K_monotone` input survives
+  C1 by `SingularFlatAxiomsCorr.K_monotone`). §3.1 (re-routing around `exists_mem_image_inf`). -/
   curvesExtend : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
-    (s : Str M), (causality s).CurvesExtend
+    [SecondCountableTopology M] (s : Str M), (causality s).GloballyHyperbolic →
+    (causality s).CurvesExtend
   /-- **A2**: `J⁺(Σ) ∩ J⁻(p)` compact (R1). §3.4 (Lemmas 3.9, 3.11). -/
   isCompact_Jplus_inter_Jminus : ∀ {M : Type u} [TopologicalSpace M] [T2Space M]
-    [ConnectedSpace M] (s : Str M), (causality s).GloballyHyperbolic → ∀ S : Set M,
+    [ConnectedSpace M] [SecondCountableTopology M] (s : Str M),
+    (causality s).GloballyHyperbolic → ∀ S : Set M,
     (causality s).IsCauchySurface S → ∀ p : M,
       IsCompact ((causality s).Jplus ⊤ S ∩ (causality s).Jminus ⊤ {p})
   /-- **A2**, time-reversed form (no duality). §3.4. -/
   isCompact_Jminus_inter_Jplus : ∀ {M : Type u} [TopologicalSpace M] [T2Space M]
-    [ConnectedSpace M] (s : Str M), (causality s).GloballyHyperbolic → ∀ S : Set M,
+    [ConnectedSpace M] [SecondCountableTopology M] (s : Str M),
+    (causality s).GloballyHyperbolic → ∀ S : Set M,
     (causality s).IsCauchySurface S → ∀ p : M,
       IsCompact ((causality s).Jminus ⊤ S ∩ (causality s).Jplus ⊤ {p})
+  /-- **A2, second countability from a Cauchy surface** (gx review C2): a globally hyperbolic
+  admissible spacetime with a second-countable Cauchy surface is second countable (gx discharges
+  it by the splitting `M ≅ S × ℝ`, `IsCausalFlow.exists_isCauchySplitting` / `geroch_sing_split`).
+  §3.7 (package 10: the glued `M̄` is a `Dev`, its Cauchy surface the image of `M₀`'s); §3.6 (the
+  size bound then applies to every development, carriers being SC and T2). -/
+  secondCountable_of_cauchy : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
+    (s : Str M), (causality s).GloballyHyperbolic → ∀ S : Set M, (causality s).IsCauchySurface S →
+    SecondCountableTopology S → SecondCountableTopology M
   /-- **A3, germ extension at a corresponding boundary point in the future of `Σ`** (Sbierski
   Lemma 3.8; `cor:ext_continue`; the `K⁻` side at BTZ points). `U ⊆ M` is a common Cauchy
   sub-development with injective morphism `ψ`, `q` corresponds to `p ∈ ∂U`. §3.4. -/
@@ -320,7 +586,8 @@ The model space `Y` (for gx: `𝕄 ⊕ Σ_α 𝔼_α`; flat: `Minkowski d`), the
 `X_A`-morphisms between open subsets of `Y` — near a singular point the restrictions of the model
 automorphisms `G_α = Aut(X_α)` (`these.tex:3053`), on the regular part the `(G,X)`-morphisms (the
 atlas transitions of `these.tex:3048–3050`) — the causality and singular loci of `Y`; the admissible
-spacetimes are `ChartedSpace Y M`, `HasGroupoid M G`, Hausdorff, connected (`Dev`). Morphisms are
+spacetimes are `ChartedSpace Y M`, `HasGroupoid M G`, Hausdorff, connected, second
+countable (`Dev`; gx review C2). Morphisms are
 `LiftPropOn G.IsLocalStructomorphWithinAt` (`LocalModel.IsMor`), the thesis's `X_A`-morphisms
 (`these.tex:3173`). -/
 structure LocalModel where
@@ -360,7 +627,19 @@ structure LocalModel where
   definition says; a map from `reg(U)` into a *different* model is excluded there by
   `def:incompatibles` / famille analytique (b) (`these.tex:3328–3332`, `3346–3353`), here by the
   hypothesis (package 11 derives it at a BTZ boundary point from `sing_mem` and the chart at `q`).
-  Gives A3 at singular points. -/
+  Gives A3 at singular points.
+
+  **Kept in this strong form** (gx review C4). For `E₀` it is B21 `prop:isom_strong` at
+  `α = β = 0` (arXiv 2108.12631, `papers/gx/sources/2108.12631/src/BTZ_1.tex:468–475`: « let
+  $\phi:\reg(\U)\rightarrow \E^{1,2}_\beta$ be a $\mass{}$-morphism. If $\phi$ is a injective
+  then $\alpha=\beta$ and $\phi$ is the restriction of an element of $\isom(\E^{1,2}_\alpha)$ »),
+  i.e. the thesis's `prop:isom` with the injectivity it calls necessary. The weaker form (`f`
+  defined on all of `U`, B21 `prop:isom`, `BTZ_1.tex:378`) does **not** suffice, by gx's past-side
+  example: `U = M ∖ (line below a)` is a CGHD, every `p < a` on the line is a corresponding point,
+  and `U ∩ O = reg(O)` contains no singular point; Sbierski's **Lemma 3.9** (1309.7591) walks
+  along such points with Lemma 3.8 (A3), which needs the extension from `reg(U)` alone. gx's
+  route avoids invariance of domain (absent from mathlib): lift to `E₀,∞`, `g ∘ D = D ∘ φ̃`, `g`
+  stabilises `Δ` and normalises `⟨P⟩`, the explicit list, injectivity forcing `ℓ = 1`. -/
   localUnique_sing : ∀ U : Set Y, IsOpen U → IsConnected U → ∀ y₀ ∈ U, ∀ α₀ : ℝ, 0 ≤ α₀ →
     y₀ ∈ singY α₀ → ∀ f : Y → Y,
     (∀ y ∈ U ∩ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α},
@@ -401,28 +680,48 @@ structure LocalModel where
   /-- **B3**: elements of `G` preserve the type of a point (`prop:GX_sing_dec`). Gives
   `Geometry.isMor_sing`, and makes `chartedSing` chart-independent. -/
   sing_mem : ∀ e ∈ G, ∀ y ∈ e.source, ∀ α : ℝ, 0 ≤ α → (y ∈ singY α ↔ e y ∈ singY α)
-  /-- **B3, the global causal facts of `𝔼≥0`-manifolds** (gx §4 (i), (vi): `SingularFlatAxioms`,
-  second countability; not local, so not derivable from `Y`). Gives A2. -/
+  /-- **B3, the global causal facts of `𝔼≥0`-manifolds** (gx §4 (i): the **corrected** bundle
+  `SingularFlatAxiomsCorr`, gx review C1 — the library's `Iplus_eq` is false in `E₀`, radial null
+  ray; not local, so not derivable from `Y`). Second countability is a hypothesis (C2; gx §4 (vi)
+  is now `secondCountable_of_cauchy`). Gives A2. -/
   singularFlatAxioms : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
-    [ChartedSpace Y M] [HasGroupoid M G],
-    (chartedCausality causalityY M).SingularFlatAxioms (chartedSing singY M)
-  /-- **B3**: `CurvesExtend` (gx §4, the Minkowski facts). Gives A2. -/
+    [SecondCountableTopology M] [ChartedSpace Y M] [HasGroupoid M G],
+    (chartedCausality causalityY M).SingularFlatAxiomsCorr (chartedSing singY M)
+  /-- **B3**: `CurvesExtend` on **globally hyperbolic** `M` (gx review C3). For gx:
+  `curvesExtend_of_timeFunction` (`CurvesExtend.lean:409`) with the Geroch time of
+  `SingularGeroch` (its `K_monotone` input: `SingularFlatAxiomsCorr.K_monotone`), or
+  `GloballyHyperbolic.curvesExtend` (`CurvesExtend.lean:447`) from admissible measures. Flat
+  instance, existing proofs: `curvesExtend_of_isCausalFlow` (`Flat/CauchyComplete.lean:2467`,
+  from a causal flow, so for every GH flat `M` with one, DEC-49), and on opens
+  `curvesExtendOn_of_timeFunction` (`CBG/CausalConvex.lean:273`). Gives A2. -/
   curvesExtend : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
-    [ChartedSpace Y M] [HasGroupoid M G], (chartedCausality causalityY M).CurvesExtend
+    [SecondCountableTopology M] [ChartedSpace Y M] [HasGroupoid M G],
+    (chartedCausality causalityY M).GloballyHyperbolic →
+    (chartedCausality causalityY M).CurvesExtend
   /-- **B3**: `J⁺(Σ) ∩ J⁻(p)` compact (gx §4 (vii), R1). Gives A2. -/
   isCompact_Jplus_inter_Jminus : ∀ {M : Type u} [TopologicalSpace M] [T2Space M]
-    [ConnectedSpace M] [ChartedSpace Y M] [HasGroupoid M G],
+    [ConnectedSpace M] [SecondCountableTopology M] [ChartedSpace Y M] [HasGroupoid M G],
     (chartedCausality causalityY M).GloballyHyperbolic → ∀ S : Set M,
     (chartedCausality causalityY M).IsCauchySurface S → ∀ p : M,
       IsCompact ((chartedCausality causalityY M).Jplus ⊤ S ∩
         (chartedCausality causalityY M).Jminus ⊤ {p})
   /-- **B3**, time-reversed (no duality). -/
   isCompact_Jminus_inter_Jplus : ∀ {M : Type u} [TopologicalSpace M] [T2Space M]
-    [ConnectedSpace M] [ChartedSpace Y M] [HasGroupoid M G],
+    [ConnectedSpace M] [SecondCountableTopology M] [ChartedSpace Y M] [HasGroupoid M G],
     (chartedCausality causalityY M).GloballyHyperbolic → ∀ S : Set M,
     (chartedCausality causalityY M).IsCauchySurface S → ∀ p : M,
       IsCompact ((chartedCausality causalityY M).Jminus ⊤ S ∩
         (chartedCausality causalityY M).Jplus ⊤ {p})
+  /-- **B3, second countability from a Cauchy surface** (gx review C2; gx §4 (vi)): a globally
+  hyperbolic admissible `M` with a second-countable Cauchy surface is second countable. gx
+  discharges it by the splitting `M ≅ S × ℝ` (`IsCausalFlow.exists_isCauchySplitting`,
+  `Splitting.lean:298`, or `geroch_sing_split`, `SingularGeroch.lean:277`; flat instance:
+  `flat_exists_isCauchySplitting`, `Splitting.lean:1934`). Gives A2 (`secondCountable_of_cauchy`),
+  used by package 10 for `M̄`. -/
+  secondCountable_of_cauchy : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
+    [ChartedSpace Y M] [HasGroupoid M G], (chartedCausality causalityY M).GloballyHyperbolic →
+    ∀ S : Set M, (chartedCausality causalityY M).IsCauchySurface S →
+    SecondCountableTopology S → SecondCountableTopology M
   /-- **B4, slices on `Y`, future side** (Sbierski (3.12): `τ_q`, decreasing to the future, with
   spacelike level sets): every point has arbitrarily small open `W` with a continuous `τ`
   strictly decreasing along the relations of `W`, each level set of which is a Cauchy surface of
@@ -495,6 +794,11 @@ structure Dev where
   [top : TopologicalSpace carrier]
   [t2 : T2Space carrier]
   [conn : ConnectedSpace carrier]
+  /-- Second countable (gx review C2): a singular manifold is « séparé à base dénombrable »
+  (`these.tex:1357`, gx `def:singular_manifold_locally_connected`), so `IsETTMaximal` quantifies
+  over exactly gx's Cauchy-maximality competitors (B21 Lemma 2.3). Also the size bound (§3.6:
+  SC + T0 ↪ `Set ℕ`) applies to every development. -/
+  [sc : SecondCountableTopology carrier]
   /-- The structure. -/
   str : 𝔊.Str carrier
   /-- The embedding of `M₀`. -/
@@ -502,7 +806,7 @@ structure Dev where
   isCauchyEmbedding : IsCauchyEmbedding (𝔊.causality s₀) (𝔊.causality str) emb
   isMor : 𝔊.IsMor s₀ str ⊤ emb
 
-attribute [instance] Dev.top Dev.t2 Dev.conn
+attribute [instance] Dev.top Dev.t2 Dev.conn Dev.sc
 
 variable {𝔊 s₀}
 
@@ -526,7 +830,8 @@ section DevGeometry
 variable (𝔊 : Geometry.{u}) {M₀ : Type u} [TopologicalSpace M₀]
 
 /-- `M₀` itself, as a development of itself. -/
-def Dev.self [T2Space M₀] [ConnectedSpace M₀] (s₀ : 𝔊.Str M₀)
+def Dev.self [T2Space M₀] [ConnectedSpace M₀] [SecondCountableTopology M₀]
+    (s₀ : 𝔊.Str M₀)
     (hGH : (𝔊.causality s₀).GloballyHyperbolic) {S : Set M₀}
     (hS : (𝔊.causality s₀).IsCauchySurface S) : Dev 𝔊.toPreGeometry s₀ where
   carrier := M₀
@@ -596,8 +901,10 @@ theorem Dev.IsUniversal.isETTMaximal [Nonempty M₀] {s₀ : 𝔊.Str M₀}
 the framework of rigid morphisms of singular `(G,X)`-manifolds (DEC-60): a globally hyperbolic
 admissible spacetime with a Cauchy surface has a universal Cauchy development. The target of the
 campaign. The Cauchy surface `S` is a ⚠ strengthening of the paper's « globally hyperbolic »
-(recoverable at the singular flat instance by `theo:geroch_sing`, DEC-18). -/
-theorem cbg [T2Space M₀] [ConnectedSpace M₀] (s₀ : 𝔊.Str M₀)
+(recoverable at the singular flat instance by `theo:geroch_sing`, DEC-18). `M₀` second
+countable (gx review C2; necessary, `M₀` embedding openly in every `Dev`). -/
+theorem cbg [T2Space M₀] [ConnectedSpace M₀] [SecondCountableTopology M₀]
+    (s₀ : 𝔊.Str M₀)
     (hGH : (𝔊.causality s₀).GloballyHyperbolic) {S : Set M₀}
     (hS : (𝔊.causality s₀).IsCauchySurface S) :
     ∃ Mbar : Dev 𝔊.toPreGeometry s₀, Mbar.IsUniversal := by
@@ -632,7 +939,8 @@ theorem Dev.IsETTMaximal.isUniversal [Nonempty M₀] {s₀ : 𝔊.Str M₀}
 
 /-- **The principal theorem in the ETT/Barbot form** (`theo:CBG`; every morphism out is
 bijective), a corollary of `cbg` (DEC-59, kb/0022). -/
-theorem cbg_isETTMaximal [T2Space M₀] [ConnectedSpace M₀] (s₀ : 𝔊.Str M₀)
+theorem cbg_isETTMaximal [T2Space M₀] [ConnectedSpace M₀] [SecondCountableTopology M₀]
+    (s₀ : 𝔊.Str M₀)
     (hGH : (𝔊.causality s₀).GloballyHyperbolic) {S : Set M₀}
     (hS : (𝔊.causality s₀).IsCauchySurface S) :
     ∃ Mbar : Dev 𝔊.toPreGeometry s₀, Mbar.IsETTMaximal :=
@@ -641,7 +949,8 @@ theorem cbg_isETTMaximal [T2Space M₀] [ConnectedSpace M₀] (s₀ : 𝔊.Str M
 /-- **The two readings of "maximal" agree** once `cbg` holds (DEC-59): a development is
 ETT-maximal iff it is universal. -/
 theorem isETTMaximal_iff_isUniversal [T2Space M₀] [ConnectedSpace M₀]
-    (s₀ : 𝔊.Str M₀) (hGH : (𝔊.causality s₀).GloballyHyperbolic) {S : Set M₀}
+    [SecondCountableTopology M₀] (s₀ : 𝔊.Str M₀) (hGH : (𝔊.causality s₀).GloballyHyperbolic)
+    {S : Set M₀}
     (hS : (𝔊.causality s₀).IsCauchySurface S) (M : Dev 𝔊.toPreGeometry s₀) :
     M.IsETTMaximal ↔ M.IsUniversal := by
   obtain ⟨Mbar, hU⟩ := cbg s₀ hGH hS
