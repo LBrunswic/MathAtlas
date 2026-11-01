@@ -11,10 +11,11 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
 "The loxodromic case" (`loxocase`), `GHFspace.tex` l.3133–3456 of the labelled file
 `papers/barbot/legacy/labeled/GHFspace.tex`. **No label is marked**; each is partial (SCOPE).
 
-* `blem:sanlox` — `GHFspace.tex:3141` (Lemma 10.1), partial: the inclusion `Ω(Γ) ⊆ Ω_lox(Γ)`
-  (`omegaGamma_subset_omegaLox`) and the corrected core (`subset_UGamma_of_oneSided`,
-  `omegaPlus_limitSetJ_subset_omegaGamma`, `…Minus…`) proved; the printed `blem_sanlox` is a
-  `sorry` (its proof needs `Ω_lox(Γ)` convex, which fails).
+* `blem:sanlox` — `GHFspace.tex:3141` (Lemma 10.1), partial (reading: §8's standing hypotheses
+  `CCAction`; **no `sorry`**): `blem_sanlox` as printed, by a proof other than the paper's (whose
+  convexity of `Ω_lox(Γ)` fails): the sign of `U_lox(Γ)` is uniform over the loxodromic elements
+  (`not_mem_quadrantPlus_quadrantMinus`), so `Ω_lox(Γ) ⊆ Ω^±(Λ(Γ)) ⊆ Ω(Γ)`
+  (`subset_UGamma_of_oneSided`, `omegaPlus_limitSetJ_subset_omegaGamma`).
 * `blem:loxregular` — `GHFspace.tex:3170` (Lemma 10.2), partial (reading: §8's standing hypotheses
   `CCAction`; **no `sorry`**): `blem_loxregular`, `loxregular_sign`, `omegaS_eq_interior`; the
   "reader can easily check" (l.3191–3193) is `exists_line_avoiding`.
@@ -73,6 +74,10 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
 * Classes: `Ug_eq_achronalDomain_of_isLoxodromic`, `achronalDomain_eq_univ_of_isSpacelikeElliptic`,
   `…_of_isTangentParabolic`, the linear parabolic orbit `linearParabolic_orbit_fwd`/`_bwd`,
   `subset_compl_nullHyperplanes_of_oneSided`.
+* Lemma 10.1's uniform sign: the transverse part `nullV` of a null frame (`nullV_map`,
+  `minkQ_nullV_pow_smul_sub_le`: it grows at most linearly along an orbit), `IsRepulsiveFixedJ.pair`,
+  `exists_lt_minkB_pow_smul`, `exists_minkQ_neg_of_sign`, `not_minkQ_neg_of_mem_UGammaLox`,
+  `not_mem_quadrantPlus_quadrantMinus`, `blem_sanlox`.
 * The regular domains: `smul_mem_omegaPlus_limitSetJ` (and `Minus`), `preservesOmega_limitSetJ`,
   `exists_two_loxRepSet`, `cosmoRegular_limitSetJ`, `limitOpensPlus`/`Minus`.
 * Cor 10.3: `ActsFreelyProperlyOn`, `isCancelSMul_of_free`, `properlyDiscontinuousSMul_of_finite`,
@@ -105,10 +110,10 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
 
 ## SCOPE (disclosed)
 
-* **Sorries (7)**: `blem_sanlox` (printed form), `loxo_cauchyComplete`,
+* **Sorries (6)**: `loxo_cauchyComplete`,
   `loxo_elementary_misner` ([10.M]), `bprop_U_timelike` (spacelike case), `bprop_LU_discrete`,
   `loxo_generic_centralExtension`, `loxo_generic_torusProduct` ([10.G]). Each names its
-  obstruction. `blem_loxregular`, `interior_achronalDomain_eq_quadrants`,
+  obstruction. `blem_sanlox`, `blem_loxregular`, `interior_achronalDomain_eq_quadrants`,
   `subset_UGamma_of_oneSided`, `loxo_properlyDiscontinuous`, `bcor_loxo_proper`, the proved [10.G]
   lemmas and all of `bprop:admlox`
   (`isomPenrose_image_limitSetJ_subset`, `fst_image_limitSetJ_subset`, `limitSetJ_subset`) use no
@@ -134,8 +139,14 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
 
 * **`blem:sanlox`'s proof (l.3157–3165) treats `Ω_lox(Γ)` as convex; it is not** — for `Γ = ⟨γ⟩` it
   is the disjoint union `U⁺(γ) ⊔ U⁻(γ)`. The argument is correct for each `Γ`-invariant convex
-  piece on which two null directions are one-sided, which covers `Ω^±(Λ(Γ))` and hence every use
-  in §10; whether the printed equality holds on mixed-sign components is open.
+  piece on which two null directions are one-sided, which covers `Ω^±(Λ(Γ))`. **The printed
+  equality is nevertheless true** (proved here): no point of `U_lox(Γ)` lies in a future quadrant
+  `U⁺(γ)` and a past quadrant `U⁻(γ')`, because for the repulsive point `w` of `γ^{±1}` off the
+  attractive direction of `γ'` some `γ'ᵐx` crosses the hyperplane of `w`, and then
+  `γ^{±n}γ'ᵐx − x` is timelike for `n` large; an element of `Γ` with a timelike displacement is
+  loxodromic under Rem 8.9 (a linear parabolic displaces into `J^⊥`, a spacelike elliptic or
+  tangent parabolic has `Ω_g = 𝐌ⁿ`). So `Ω_lox(Γ) ⊆ Ω⁺(Λ(Γ)) ∪ Ω⁻(Λ(Γ))`: there are no mixed-sign
+  components, and the linear parabolics never need to be examined on them.
 * **The "convex hull of the orbit is a complete lightlike line" (l.3159–3163)** is replaced by an
   exact growth argument: along the orbit `⟨n|γᵏx⟩ = ⟨n|c⟩ + ⟨n|Rᵏy⟩ + k⟨n|p(y)⟩`, and `x` must first be
   moved off `ker p` inside the open set (a point of `P(γ₀) ∩ ker p` has a bounded orbit).
@@ -987,12 +998,420 @@ theorem omegaMinus_limitSetJ_subset_omegaGamma (h : CCAction Γ S) {γ₀ : isom
     ⟨mem_halfMinus.2 (mem_omegaMinus.1 hp w (subset_closure hw)),
       mem_halfMinus.2 (mem_omegaMinus.1 hp w' (subset_closure hw'))⟩)
 
+/-! ### The sign of `U_lox(Γ)` is uniform: the replacement for l.3157's convexity -/
+
+
+theorem minkQ_sub_eq (v w : Minkowski d) : minkQ (v - w) = minkQ v - 2 * minkB v w + minkQ w := by
+  rw [sub_eq_add_neg, minkQ_add, minkQ_neg, minkB_neg_right]; ring
+
+theorem nullV_add (u u' z z' : Minkowski d) :
+    nullV u u' (z + z') = nullV u u' z + nullV u u' z' := by
+  simp only [nullV, minkB_add_left, add_div, add_smul]; abel
+
+theorem nullV_sub (u u' z z' : Minkowski d) :
+    nullV u u' (z - z') = nullV u u' z - nullV u u' z' := by
+  simp only [nullV, minkB_sub_left, sub_div, sub_smul]; abel
+
+theorem nullV_zero (u u' : Minkowski d) : nullV u u' 0 = 0 := by simp [nullV]
+
+/-- The transverse part of a null frame commutes with a Lorentz map that scales the frame by
+`l`, `l⁻¹`. -/
+theorem nullV_map {A : Minkowski d ≃ₗ[ℝ] Minkowski d} (hA : A ∈ lorentz d) {u u' : Minkowski d}
+    {l : ℝ} (hl : l ≠ 0) (hAu : A u = l • u) (hAu' : A u' = l⁻¹ • u') (z : Minkowski d) :
+    nullV u u' (A z) = A (nullV u u' z) := by
+  have h1 : minkB (A z) u' = l * minkB z u' := by
+    have := lorentz.minkB_apply hA z (l • u')
+    rwa [map_smul, hAu', smul_smul, mul_inv_cancel₀ hl, one_smul, minkB_smul_right] at this
+  have h2 : minkB (A z) u = l⁻¹ * minkB z u := by
+    have := lorentz.minkB_apply hA z (l⁻¹ • u)
+    rwa [map_smul, hAu, smul_smul, inv_mul_cancel₀ hl, one_smul, minkB_smul_right] at this
+  have h3 : minkB (A u) (A u') = minkB u u' := lorentz.minkB_apply hA u u'
+  simp only [nullV, map_sub, map_smul, hAu, hAu', h1, h2, smul_smul]
+  congr 2 <;> ring_nf
+
+theorem nullV_map_pow {A : Minkowski d ≃ₗ[ℝ] Minkowski d} (hA : A ∈ lorentz d) {u u' : Minkowski d}
+    {l : ℝ} (hl : l ≠ 0) (hAu : A u = l • u) (hAu' : A u' = l⁻¹ • u') (n : ℕ) (z : Minkowski d) :
+    nullV u u' ((A ^ n) z) = (A ^ n) (nullV u u' z) := by
+  induction n generalizing z with
+  | zero => simp
+  | succ n ih => rw [pow_succ, LinearEquiv.mul_apply, LinearEquiv.mul_apply, ih, nullV_map hA hl hAu hAu']
+
+/-- `⟨z | v⟩ = ⟨v(z) | v(q)⟩` for the transverse part `v(q)` of a null frame. -/
+theorem minkB_nullV_eq {u u' : Minkowski d} (hu : minkQ u = 0) (hu' : minkQ u' = 0)
+    (hB : minkB u u' ≠ 0) (z q : Minkowski d) :
+    minkB z (nullV u u' q) = minkB (nullV u u' z) (nullV u u' q) := by
+  conv_lhs => rw [eq_nullV_add (u := u) (u' := u') z]
+  rw [minkB_add_left, minkB_add_left, minkB_smul_left, minkB_smul_left,
+    minkB_comm u (nullV u u' q), minkB_comm u' (nullV u u' q), minkB_nullV_left hu hB,
+    minkB_nullV_right hu' hB]
+  ring
+
+/-- On the orthogonal of a null frame, `|⟨v | w⟩| ≤ (|v|² + |w|²)/2`. -/
+theorem abs_minkB_le_of_orth_frame {u u' : Minkowski d} (hu : minkQ u = 0) (hu' : minkQ u' = 0)
+    (hB : minkB u u' ≠ 0) {v w : Minkowski d} (h1 : minkB v u = 0) (h2 : minkB v u' = 0)
+    (h3 : minkB w u = 0) (h4 : minkB w u' = 0) : |minkB v w| ≤ (minkQ v + minkQ w) / 2 := by
+  have hs := (minkQ_nonneg_of_orth_frame hu hu' hB (y := v - w)
+    (by rw [minkB_sub_left, h1, h3, sub_zero]) (by rw [minkB_sub_left, h2, h4, sub_zero])).1
+  have ha := (minkQ_nonneg_of_orth_frame hu hu' hB (y := v + w)
+    (by rw [minkB_add_left, h1, h3, add_zero]) (by rw [minkB_add_left, h2, h4, add_zero])).1
+  rw [minkQ_sub_eq] at hs
+  rw [minkQ_add] at ha
+  rw [abs_le]; constructor <;> linarith
+
+/-- **The transverse part of the orbit grows at most linearly**: for an isometry whose linear part
+scales the null frame `(u, u')` by `l`, `l⁻¹`, `|v(gⁿp − p)|² ≤ n² |v(gp − p)|²`. -/
+theorem minkQ_nullV_pow_smul_sub_le {g : isom d} {u u' : Minkowski d} (hu : minkQ u = 0)
+    (hu' : minkQ u' = 0) (hB : minkB u u' ≠ 0) {l : ℝ} (hl : l ≠ 0)
+    (hAu : linOf g u = l • u) (hAu' : linOf g u' = l⁻¹ • u') (p : Minkowski d) (n : ℕ) :
+    minkQ (nullV u u' ((g ^ n) • p - p)) ≤ (n : ℝ) ^ 2 * minkQ (nullV u u' (g • p - p)) := by
+  set q := minkQ (nullV u u' (g • p - p))
+  have hstep : ∀ n : ℕ, nullV u u' ((g ^ (n + 1)) • p - p) =
+      nullV u u' ((g ^ n) • p - p) + nullV u u' ((linOf g ^ n) (g • p - p)) := by
+    intro n
+    rw [← nullV_add, pow_succ, mul_smul, ← linOf_pow, ← smul_sub_smul]
+    congr 1; abel
+  have he : ∀ n : ℕ, minkQ (nullV u u' ((linOf g ^ n) (g • p - p))) = q := fun n => by
+    rw [nullV_map_pow (linOf_mem g) hl hAu hAu', minkQ_pow_apply (lorentz.minkQ_apply (linOf_mem g))]
+  have key : ∀ n : ℕ, minkQ (nullV u u' ((g ^ n) • p - p)) ≤ (n : ℝ) ^ 2 * q ∧
+      ∀ w : Minkowski d, minkB w u = 0 → minkB w u' = 0 → minkQ w = q →
+        minkB (nullV u u' ((g ^ n) • p - p)) w ≤ n * q := by
+    intro n
+    induction n with
+    | zero => refine ⟨by simp [nullV_zero], fun w _ _ _ => by simp [nullV_zero]⟩
+    | succ n ih =>
+      obtain ⟨ih1, ih2⟩ := ih
+      set D := nullV u u' ((g ^ n) • p - p)
+      set e := nullV u u' ((linOf g ^ n) (g • p - p))
+      have hD1 : minkB D u = 0 := minkB_nullV_left hu hB _
+      have hD2 : minkB D u' = 0 := minkB_nullV_right hu' hB _
+      have he1 : minkB e u = 0 := minkB_nullV_left hu hB _
+      have he2 : minkB e u' = 0 := minkB_nullV_right hu' hB _
+      rw [hstep n]
+      refine ⟨?_, fun w hw1 hw2 hwq => ?_⟩
+      · rw [minkQ_add, he n]
+        have := ih2 e he1 he2 (he n)
+        push_cast; nlinarith
+      · rw [minkB_add_left]
+        have h1 := ih2 w hw1 hw2 hwq
+        have h2 := (abs_le.1 (abs_minkB_le_of_orth_frame hu hu' hB he1 he2 hw1 hw2)).2
+        rw [he n, hwq] at h2
+        push_cast; linarith
+  exact (key n).1
+
+/-- An exponential beats a quadratic. -/
+theorem exists_nat_add_mul_sq_lt {A B C r : ℝ} (hC : 0 < C) (hr : 1 < r) :
+    ∃ n : ℕ, A + B * (n : ℝ) ^ 2 < C * r ^ n := by
+  have h1 := tendsto_pow_const_div_const_pow_of_one_lt 2 hr
+  have h2 := tendsto_pow_atTop_atTop_of_one_lt hr
+  have e1 := h1.eventually (gt_mem_nhds (show (0 : ℝ) < C / (2 * (|B| + 1)) by positivity))
+  have e2 := h2.eventually (eventually_gt_atTop (2 * (|A| + 1) / C))
+  obtain ⟨n, hn1, hn2⟩ := (e1.and e2).exists
+  refine ⟨n, ?_⟩
+  have hrn : 0 < r ^ n := pow_pos (by linarith) n
+  rw [div_lt_iff₀ hrn, div_mul_eq_mul_div, lt_div_iff₀ (by positivity)] at hn1
+  rw [div_lt_iff₀ hC] at hn2
+  have hB1 : B * (n : ℝ) ^ 2 ≤ |B| * (n : ℝ) ^ 2 :=
+    mul_le_mul_of_nonneg_right (le_abs_self B) (by positivity)
+  nlinarith [le_abs_self A, abs_nonneg B, sq_nonneg (n : ℝ)]
+
+
+/-- **The two repulsive points of `γ` and `γ⁻¹`, packaged**: one eigenvalue `0 < l < 1` for both
+(`L(γ)(1,u) = l(1,u)`, `L(γ)(1,u') = l⁻¹(1,u')`, since `L(γ)` preserves `⟨(1,u) | (1,u')⟩ ≠ 0`),
+the two functional equations along the iterates, and `⟨(1,u) | (1,u')⟩ < 0`. -/
+theorem IsRepulsiveFixedJ.pair {γ : isom d} {w w' : PenroseSphere d × ℝ}
+    (hw : IsRepulsiveFixedJ γ w) (hw' : IsRepulsiveFixedJ γ⁻¹ w') :
+    ∃ l : ℝ, 0 < l ∧ l < 1 ∧ linOf γ (nullVec w.1) = l • nullVec w.1 ∧
+      linOf γ (nullVec w'.1) = l⁻¹ • nullVec w'.1 ∧
+      (∀ (n : ℕ) (p : Minkowski d), minkB (nullVec w.1) ((γ ^ n) • p) - w.2 =
+        (l⁻¹) ^ n * (minkB (nullVec w.1) p - w.2)) ∧
+      (∀ (n : ℕ) (p : Minkowski d), minkB (nullVec w'.1) ((γ ^ n) • p) - w'.2 =
+        l ^ n * (minkB (nullVec w'.1) p - w'.2)) ∧
+      minkB (nullVec w.1) (nullVec w'.1) < 0 := by
+  have hfst := hw.fst_ne hw'
+  obtain ⟨-, l, hl0, hl1, hAn, hf⟩ := hw
+  obtain ⟨-, l', hl0', hl1', -, hf'⟩ := hw'
+  have hg' := funEq_of_inv hl0'.ne' hf'
+  have hAn' : linOf γ (nullVec w'.1) = l'⁻¹ • nullVec w'.1 :=
+    eigen_of_funEq (inv_ne_zero hl0'.ne') (by simpa using hg')
+  have hκ : minkB (nullVec w.1) (nullVec w'.1) < 0 := by
+    rw [minkB_nullVec_nullVec]
+    have : 0 < ‖((w.1 : PenroseSphere d) : EuclideanSpace ℝ (Fin d)) - w'.1‖ := by
+      rw [norm_pos_iff, sub_ne_zero]; exact fun h => hfst (Subtype.ext h)
+    have := pow_pos this 2
+    linarith
+  have hll : l' = l := by
+    have h := lorentz.minkB_apply (linOf_mem γ) (nullVec w.1) (nullVec w'.1)
+    rw [hAn, hAn', minkB_smul_left, minkB_smul_right] at h
+    have h2 : (l * l'⁻¹ - 1) * minkB (nullVec w.1) (nullVec w'.1) = 0 := by linear_combination h
+    have h3 := sub_eq_zero.1 ((mul_eq_zero.1 h2).resolve_right hκ.ne)
+    field_simp at h3; linarith
+  subst hll
+  refine ⟨l', hl0', hl1', hAn, hAn', fun n p => IsRepulsiveFixedJ.iterate hf n p, fun n p => ?_, hκ⟩
+  have := IsRepulsiveFixedJ.iterate (l := l'⁻¹) (by simpa using hg') n p
+  rwa [inv_inv] at this
+
+/-- **A causal displacement along `γⁿ`** (the engine of `blem_sanlox`): if `y` lies strictly on the
+expanding side of the repulsive hyperplane of `γ` (`⟨(1,u) | y⟩ > s`) and `x` strictly on the past
+side of that of `γ⁻¹`, then `γⁿ y − x` is timelike for `n` large: in the null frame of `γ`,
+`|γⁿy − x|² = 2 f(γⁿ y − x) g(γⁿ y − x)/⟨(1,u)|(1,u')⟩ + |v|²` with `f ~ λ⁻ⁿ f(y)`, `g → −g(x)`, and
+the transverse part `v` growing at most linearly (`minkQ_nullV_pow_smul_sub_le`). -/
+theorem exists_minkQ_neg_of_sign {γ : isom d} {w w' : PenroseSphere d × ℝ}
+    (hw : IsRepulsiveFixedJ γ w) (hw' : IsRepulsiveFixedJ γ⁻¹ w') {x y : Minkowski d}
+    (hy : 0 < minkB (nullVec w.1) y - w.2) (hx : minkB (nullVec w'.1) x - w'.2 < 0) :
+    ∃ n : ℕ, minkQ ((γ ^ n) • y - x) < 0 := by
+  obtain ⟨l, hl0, hl1, hAn, hAn', hf, hg, hκ⟩ := hw.pair hw'
+  have hr : minkQ (nullVec w.1) = 0 := minkQ_nullVec w.1
+  have ha : minkQ (nullVec w'.1) = 0 := minkQ_nullVec w'.1
+  obtain ⟨r, rfl⟩ : ∃ r, r = nullVec w.1 := ⟨_, rfl⟩
+  obtain ⟨a, rfl⟩ : ∃ a, a = nullVec w'.1 := ⟨_, rfl⟩
+  obtain ⟨κ, hκd⟩ : ∃ κ, κ = minkB (nullVec w.1) (nullVec w'.1) := ⟨_, rfl⟩
+  obtain ⟨F, hF⟩ : ∃ F, F = minkB (nullVec w.1) y - w.2 := ⟨_, rfl⟩
+  obtain ⟨G, hG⟩ : ∃ G, G = minkB (nullVec w'.1) y - w'.2 := ⟨_, rfl⟩
+  obtain ⟨f₀, hf₀⟩ : ∃ f₀, f₀ = minkB (nullVec w.1) x - w.2 := ⟨_, rfl⟩
+  obtain ⟨g₀, hg₀⟩ : ∃ g₀, g₀ = minkB (nullVec w'.1) x - w'.2 := ⟨_, rfl⟩
+  obtain ⟨Q₁, hQ₁⟩ : ∃ Q₁, Q₁ = minkQ (nullV (nullVec w.1) (nullVec w'.1) (y - x)) := ⟨_, rfl⟩
+  obtain ⟨q, hqd⟩ : ∃ q, q = minkQ (nullV (nullVec w.1) (nullVec w'.1) (γ • x - x)) := ⟨_, rfl⟩
+  rw [← hF] at hy
+  rw [← hg₀] at hx
+  rw [← hκd] at hκ
+  have hκ0 : minkB (nullVec w.1) (nullVec w'.1) ≠ 0 := hκd ▸ hκ.ne
+  have hq0 : 0 ≤ q := hqd ▸ (minkQ_nonneg_of_orth_frame hr ha hκ0 (minkB_nullV_left hr hκ0 _)
+    (minkB_nullV_right ha hκ0 _)).1
+  have hc : 0 < 2 * F * g₀ / κ := by
+    have : F * g₀ < 0 := mul_neg_of_pos_of_neg hy hx
+    rw [mul_assoc]
+    exact div_pos_of_neg_of_neg (by linarith) hκ
+  have hl1' : 1 < l⁻¹ := one_lt_inv_iff₀.2 ⟨hl0, hl1⟩
+  obtain ⟨n, hn⟩ := exists_nat_add_mul_sq_lt (A := 2 * (F * G + f₀ * g₀) / κ + |2 * G * f₀ / κ| +
+    2 * Q₁) (B := 2 * q) hc hl1'
+  refine ⟨n, ?_⟩
+  obtain ⟨t, ht⟩ : ∃ t, t = (l⁻¹) ^ n := ⟨_, rfl⟩
+  obtain ⟨s, hs⟩ : ∃ s, s = l ^ n := ⟨_, rfl⟩
+  rw [← ht] at hn
+  have hts : t * s = 1 := by rw [ht, hs, ← mul_pow, inv_mul_cancel₀ hl0.ne', one_pow]
+  have hs0 : 0 < s := hs ▸ pow_pos hl0 n
+  have hzr : minkB ((γ ^ n) • y - x) (nullVec w.1) = t * F - f₀ := by
+    rw [minkB_comm, minkB_sub_right]; have := hf n y; rw [← ht] at this; subst hF hf₀; linarith
+  have hza : minkB ((γ ^ n) • y - x) (nullVec w'.1) = s * G - g₀ := by
+    rw [minkB_comm, minkB_sub_right]; have := hg n y; rw [← hs] at this; subst hG hg₀; linarith
+  -- the transverse part
+  have hv : nullV (nullVec w.1) (nullVec w'.1) ((γ ^ n) • y - x) =
+      (linOf γ ^ n) (nullV (nullVec w.1) (nullVec w'.1) (y - x)) +
+        nullV (nullVec w.1) (nullVec w'.1) ((γ ^ n) • x - x) := by
+    rw [← nullV_map_pow (linOf_mem γ) hl0.ne' hAn hAn', ← nullV_add, ← linOf_pow,
+      ← smul_sub_smul]
+    congr 1; abel
+  have hv1 := minkQ_nullV_pow_smul_sub_le hr ha hκ0 hl0.ne' hAn hAn' x n
+  rw [← hqd] at hv1
+  have hW : minkQ (nullV (nullVec w.1) (nullVec w'.1) ((γ ^ n) • y - x)) ≤
+      2 * Q₁ + 2 * ((n : ℝ) ^ 2 * q) := by
+    rw [hv]
+    have he : minkQ ((linOf γ ^ n) (nullV (nullVec w.1) (nullVec w'.1) (y - x))) = Q₁ := by
+      rw [hQ₁]; exact minkQ_pow_apply (lorentz.minkQ_apply (linOf_mem γ)) n _
+    have he1 : minkB ((linOf γ ^ n) (nullV (nullVec w.1) (nullVec w'.1) (y - x))) (nullVec w.1)
+        = 0 := by
+      rw [← nullV_map_pow (linOf_mem γ) hl0.ne' hAn hAn']; exact minkB_nullV_left hr hκ0 _
+    have he2 : minkB ((linOf γ ^ n) (nullV (nullVec w.1) (nullVec w'.1) (y - x))) (nullVec w'.1)
+        = 0 := by
+      rw [← nullV_map_pow (linOf_mem γ) hl0.ne' hAn hAn']; exact minkB_nullV_right ha hκ0 _
+    have hb := (abs_le.1 (abs_minkB_le_of_orth_frame hr ha hκ0 he1 he2
+      (minkB_nullV_left hr hκ0 ((γ ^ n) • x - x)) (minkB_nullV_right ha hκ0 _))).2
+    rw [minkQ_add]
+    linarith
+  rw [minkQ_eq_nullXY_add hr ha hκ0 ((γ ^ n) • y - x), nullXY, hzr, hza, ← hκd]
+  have h1 : 2 * (t * F - f₀) * (s * G - g₀) =
+      2 * (F * G + f₀ * g₀) - s * (2 * G * f₀) - (2 * F * g₀) * t := by
+    linear_combination (2 * F * G) * hts
+  have hprod : 2 * (t * F - f₀) * (s * G - g₀) / κ =
+      2 * (F * G + f₀ * g₀) / κ - s * (2 * G * f₀ / κ) - (2 * F * g₀ / κ) * t := by
+    rw [h1]; ring
+  have hsb : -|2 * G * f₀ / κ| ≤ s * (2 * G * f₀ / κ) := by
+    have hs1 : s ≤ 1 := hs ▸ pow_le_one₀ hl0.le hl1.le
+    have := neg_abs_le (2 * G * f₀ / κ)
+    have h2 := mul_le_mul_of_nonneg_left this hs0.le
+    nlinarith [abs_nonneg (2 * G * f₀ / κ)]
+  rw [hprod]
+  nlinarith
+
+/-- **The orbit of `γ` crosses every null hyperplane of another direction** (the second engine
+of `blem_sanlox`): if `x` lies strictly on the expanding side of the repulsive hyperplane of `γ`
+(`⟨(1,v) | x⟩ > s`), then along `γᵐ x` every null function `⟨(1,u) | ·⟩` with `u` not the
+attractive direction `v'` of `γ` tends to `+∞`: `γᵐ x − x ≈ λ⁻ᵐ f(x) (1,v')/⟨(1,v)|(1,v')⟩`, and
+`⟨(1,u) | (1,v')⟩ < 0`. -/
+theorem exists_lt_minkB_pow_smul {γ : isom d} {v v' : PenroseSphere d × ℝ}
+    (hv : IsRepulsiveFixedJ γ v) (hv' : IsRepulsiveFixedJ γ⁻¹ v') {x : Minkowski d}
+    (hx : 0 < minkB (nullVec v.1) x - v.2) {u : PenroseSphere d} (hu : u ≠ v'.1) (M : ℝ) :
+    ∃ m : ℕ, M < minkB (nullVec u) ((γ ^ m) • x) := by
+  obtain ⟨l, hl0, hl1, hAn, hAn', hf, hg, hκ⟩ := hv.pair hv'
+  have hr : minkQ (nullVec v.1) = 0 := minkQ_nullVec v.1
+  have ha : minkQ (nullVec v'.1) = 0 := minkQ_nullVec v'.1
+  have hκ0 := hκ.ne
+  have hua : minkB (nullVec u) (nullVec v'.1) < 0 := by
+    rw [minkB_nullVec_nullVec]
+    have : 0 < ‖((u : PenroseSphere d) : EuclideanSpace ℝ (Fin d)) - v'.1‖ := by
+      rw [norm_pos_iff, sub_ne_zero]; exact fun h => hu (Subtype.ext h)
+    have := pow_pos this 2
+    linarith
+  obtain ⟨κ, hκd⟩ : ∃ κ, κ = minkB (nullVec v.1) (nullVec v'.1) := ⟨_, rfl⟩
+  obtain ⟨F, hF⟩ : ∃ F, F = minkB (nullVec v.1) x - v.2 := ⟨_, rfl⟩
+  obtain ⟨G, hG⟩ : ∃ G, G = minkB (nullVec v'.1) x - v'.2 := ⟨_, rfl⟩
+  obtain ⟨Q₀, hQ₀⟩ : ∃ Q₀, Q₀ = minkQ (nullV (nullVec v.1) (nullVec v'.1) (nullVec u)) :=
+    ⟨_, rfl⟩
+  obtain ⟨q, hqd⟩ : ∃ q, q = minkQ (nullV (nullVec v.1) (nullVec v'.1) (γ • x - x)) := ⟨_, rfl⟩
+  obtain ⟨C, hC⟩ : ∃ C, C = F * minkB (nullVec u) (nullVec v'.1) / κ := ⟨_, rfl⟩
+  obtain ⟨X, hX⟩ : ∃ X, X = G * minkB (nullVec u) (nullVec v.1) / κ := ⟨_, rfl⟩
+  rw [← hF] at hx
+  rw [← hκd] at hκ
+  have hC0 : 0 < C := by
+    rw [hC, mul_div_assoc]; exact mul_pos hx (div_pos_of_neg_of_neg hua hκ)
+  have hl1' : 1 < l⁻¹ := one_lt_inv_iff₀.2 ⟨hl0, hl1⟩
+  obtain ⟨m, hm⟩ := exists_nat_add_mul_sq_lt
+    (A := M - minkB (nullVec u) x + |X| + C + Q₀ / 2) (B := q / 2) hC0 hl1'
+  refine ⟨m, ?_⟩
+  obtain ⟨t, ht⟩ : ∃ t, t = (l⁻¹) ^ m := ⟨_, rfl⟩
+  obtain ⟨s, hs⟩ : ∃ s, s = l ^ m := ⟨_, rfl⟩
+  rw [← ht] at hm
+  have hs0 : 0 < s := hs ▸ pow_pos hl0 m
+  have hs1 : s ≤ 1 := hs ▸ pow_le_one₀ hl0.le hl1.le
+  have hzr : minkB ((γ ^ m) • x - x) (nullVec v.1) = (t - 1) * F := by
+    rw [minkB_comm, minkB_sub_right]; have := hf m x; rw [← ht] at this; subst hF; linarith
+  have hza : minkB ((γ ^ m) • x - x) (nullVec v'.1) = (s - 1) * G := by
+    rw [minkB_comm, minkB_sub_right]; have := hg m x; rw [← hs] at this; subst hG; linarith
+  -- `⟨(1,u) | q⟩` in the frame of `γ`
+  have hdec := congrArg (minkB (nullVec u))
+    (eq_nullV_add (u := nullVec v.1) (u' := nullVec v'.1) ((γ ^ m) • x - x))
+  rw [minkB_add_right, minkB_add_right, minkB_smul_right, minkB_smul_right, hzr, hza, ← hκd,
+    minkB_nullV_eq hr ha hκ0] at hdec
+  have hv1 := minkQ_nullV_pow_smul_sub_le hr ha hκ0 hl0.ne' hAn hAn' x m
+  rw [← hqd] at hv1
+  have hb := (abs_le.1 (abs_minkB_le_of_orth_frame hr ha hκ0
+    (minkB_nullV_left hr hκ0 (nullVec u)) (minkB_nullV_right ha hκ0 _)
+    (minkB_nullV_left hr hκ0 ((γ ^ m) • x - x)) (minkB_nullV_right ha hκ0 _))).1
+  rw [← hQ₀] at hb
+  have e1 : (s - 1) * G / κ * minkB (nullVec u) (nullVec v.1) = (s - 1) * X := by
+    rw [hX]; ring
+  have e2 : (t - 1) * F / κ * minkB (nullVec u) (nullVec v'.1) = C * t - C := by
+    rw [hC]; ring
+  rw [e1, e2] at hdec
+  have hX1 : -|X| ≤ (s - 1) * X := by
+    rcases le_total 0 X with h0 | h0
+    · rw [abs_of_nonneg h0]; nlinarith
+    · rw [abs_of_nonpos h0]; nlinarith
+  have hsub : minkB (nullVec u) ((γ ^ m) • x) =
+      minkB (nullVec u) x + minkB (nullVec u) ((γ ^ m) • x - x) := by
+    rw [minkB_sub_right]; ring
+  rw [hsub, hdec]
+  linarith
+
+/-- **A timelike displacement forces a loxodromic element** (Rem 8.9 and the class analysis of
+§8): under the standing hypotheses, an element `g ∈ Γ` with `g x − x` timelike is loxodromic — it
+is not nonspacelike elliptic nor transverse parabolic (`nini`), a spacelike elliptic or tangent
+parabolic one has `Ω_g = 𝐌ⁿ`, and a linear parabolic one has `g x − x = p(x − c) ∈ J^⊥`,
+never timelike — so `x ∉ U_lox(Γ)`. -/
+theorem not_minkQ_neg_of_mem_UGammaLox (h : CCAction Γ S) {x : Minkowski d}
+    (hx : x ∈ UGammaLox Γ) {g : isom d} (hg : g ∈ Γ) : ¬minkQ (g • x - x) < 0 := by
+  intro hneg
+  have h1 : g ≠ 1 := by rintro rfl; simp at hneg
+  obtain ⟨hN, hT, -⟩ := nini h hg h1
+  by_cases hL : IsLinearParabolic g
+  · obtain ⟨⟨R, U, hR, hU, hRe, hn, hU1, hgRU, hc⟩, c, hcf⟩ := hL
+    have he : g • x - x = pOf (R * U) (x - c) := by
+      have := smul_sub_smul g x c
+      rw [hcf, hgRU] at this
+      rw [pOf_apply, ← this]; abel
+    have hmem := parabolic_range_le_minkOrth_nullPart hR hU hRe hn hU1 hc ⟨x - c, rfl⟩
+    have := (minkQ_nonneg_of_mem_minkOrth_nullPart hU.1 hn (pOf_ne_zero hU1) hmem).1
+    rw [← he] at this
+    linarith
+  · have hA : x ∈ achronalDomain g := by
+      rcases classes_of_not lorentzTrichotomy hN hL with hX | hX | hX | hX
+      · have := hx g hg hX; rwa [Ug_eq_achronalDomain_of_isLoxodromic hX] at this
+      · rw [achronalDomain_eq_univ_of_isSpacelikeElliptic hX]; trivial
+      · rw [achronalDomain_eq_univ_of_isTangentParabolic hX]; trivial
+      · exact (hT hX).elim
+    have := mem_achronalDomain_iff.1 hA 1 one_pos
+    rw [pow_one] at this
+    linarith
+
+/-- **No point of `U_lox(Γ)` is in a future quadrant of one loxodromic element and a past quadrant
+of another** (the missing step of `blem:sanlox`, replacing the convexity of l.3157): if
+`x ∈ U⁺(γ) ∩ U⁻(γ')`, then, choosing the repulsive point `w` of `γ^{±1}` off the attractive
+direction of `γ'`, some `γ'ᵐ x` lies beyond the hyperplane of `w` (`exists_lt_minkB_pow_smul`),
+then `γ^{±n} γ'ᵐ x − x` is timelike for `n` large (`exists_minkQ_neg_of_sign`), and an element of
+`Γ` with a timelike displacement at `x` is loxodromic with `x ∉ Ω_g`
+(`not_minkQ_neg_of_mem_UGammaLox`). -/
+theorem not_mem_quadrantPlus_quadrantMinus (h : CCAction Γ S) {x : Minkowski d}
+    (hx : x ∈ UGammaLox Γ) {γ γ' : isom d} (hγ : γ ∈ Γ) (hγ' : γ' ∈ Γ)
+    {w w' v v' : PenroseSphere d × ℝ} (hw : IsRepulsiveFixedJ γ w)
+    (hw' : IsRepulsiveFixedJ γ⁻¹ w') (hv : IsRepulsiveFixedJ γ' v)
+    (hv' : IsRepulsiveFixedJ γ'⁻¹ v') (hp : x ∈ halfPlus w.1 w.2 ∩ halfPlus w'.1 w'.2)
+    (hm : x ∈ halfMinus v.1 v.2 ∩ halfMinus v'.1 v'.2) : False := by
+  suffices key : ∀ g : isom d, g ∈ Γ → ∀ {a b : PenroseSphere d × ℝ}, IsRepulsiveFixedJ g a →
+      IsRepulsiveFixedJ g⁻¹ b → x ∈ halfPlus b.1 b.2 → a.1 ≠ v'.1 → False by
+    by_cases hne : w.1 = v'.1
+    · have : w'.1 ≠ v'.1 := fun h' => hw.fst_ne hw' (hne.trans h'.symm)
+      exact key γ⁻¹ (Γ.inv_mem hγ) hw' (by rwa [inv_inv]) hp.1 this
+    · exact key γ hγ hw hw' hp.2 hne
+  intro g hg a b ha hb hxb hne
+  have hxv := mem_halfMinus.1 hm.1
+  obtain ⟨m, hm'⟩ := exists_lt_minkB_pow_smul hv hv' (x := x) (by linarith) hne a.2
+  have hxb' := mem_halfPlus.1 hxb
+  obtain ⟨n, hn⟩ := exists_minkQ_neg_of_sign ha hb (x := x) (y := (γ' ^ m) • x) (by linarith)
+    (by linarith)
+  refine not_minkQ_neg_of_mem_UGammaLox h hx (Γ.mul_mem (Γ.pow_mem hg n) (Γ.pow_mem hγ' m)) ?_
+  rwa [mul_smul]
+
 /-- **`blem:sanlox` as printed** (l.3143–3144): `Ω_lox(Γ) = Ω(Γ)` when `Γ` contains a loxodromic
-element (under the standing hypotheses of §8). -/
+element (under the standing hypotheses of §8, read as `CCAction`). Not the paper's proof, which
+needs `Ω_lox(Γ)` convex: a point `x ∈ Ω_lox(Γ)` lies in a quadrant of every loxodromic element
+(`interior_achronalDomain_eq_quadrants`), with the same sign for all of them
+(`not_mem_quadrantPlus_quadrantMinus`); on the open set of points sharing the sign of `x` for one
+`γ₀`, every repulsive hyperplane of `Λ₀(Γ)` is one-sided, so `x ∈ Int Ω^±(Λ₀) = Ω^±(Λ(Γ))`
+(`omegaPlus_closure_eq_interior`), which lies in `Ω(Γ)` (`omegaPlus_limitSetJ_subset_omegaGamma`). -/
 theorem blem_sanlox (h : CCAction Γ S) (hlox : ∃ γ ∈ Γ, IsLoxodromic (linOf γ)) :
     omegaLox Γ = omegaGamma Γ := by
   refine Subset.antisymm ?_ (omegaGamma_subset_omegaLox Γ)
-  sorry -- SORRY(blem:sanlox): the printed proof (l.3157–3165) needs `Ω_lox(Γ)` convex ("the convex domain Ω_lox(Γ)", l.3136, l.3157), and it is not: for `Γ = ⟨γ⟩` it is the union of the two disjoint quadrants `U^±(γ)` (`interior_achronalDomain_eq_quadrants`). The argument runs on any Γ-invariant open set on which two null directions are one-sided (`subset_UGamma_of_oneSided`), which covers the future and past components `Ω^±(Λ(Γ))` (`omegaPlus_limitSetJ_subset_omegaGamma`, `omegaMinus_…`), all §10 uses; for a component of `Ω_lox(Γ)` of mixed sign (in `U⁺(γ) ∩ U⁻(γ')`), a linear parabolic `γ₁ ∈ Γ` may permute the components, the γ₁-orbit of a point of `P(γ₁)` need not stay in one convex piece, and no one-sided bound is available. Precisely: on `Ω_lox ⊆ U⁺(γ₀) ⊔ U⁻(γ₀)` the two null functions `f = ⟨(1,u)|·⟩ − s`, `g = ⟨(1,u')|·⟩ − s'` of the repulsive points of `γ₀^{±1}` have the same sign, and along the γ₁-orbit of `c + y`, `y ∈ J^⊥`, they are `A + O(1) + kC`, `A' + O(1) + kC'`; the same-sign constraint forces only `C C' ≥ 0`, which is satisfied by an orbit passing from `U⁻(γ₀)` (k → −∞) to `U⁺(γ₀)` (k → +∞), so the growth argument does not exclude `x ∈ P(γ₁) ∩ Ω_lox`: whether `Ω_lox(Γ) ⊆ U(γ₁)` there is open (no counterexample built: it needs a `CCAction` group with a loxodromic and a linear parabolic element)
+  intro x hx
+  obtain ⟨γ₀, hγ₀, hlox₀⟩ := hlox
+  obtain ⟨w₀, -, w₀', -, hr₀, hr₀', -⟩ := exists_two_loxRepSet hγ₀ hlox₀
+  have hUL : omegaLox Γ ⊆ UGammaLox Γ := interior_subset
+  have hquad : ∀ γ ∈ Γ, ∀ {w w' : PenroseSphere d × ℝ}, IsRepulsiveFixedJ γ w →
+      IsRepulsiveFixedJ γ⁻¹ w' → ∀ p ∈ omegaLox Γ,
+        p ∈ (halfPlus w.1 w.2 ∩ halfPlus w'.1 w'.2) ∪ (halfMinus w.1 w.2 ∩ halfMinus w'.1 w'.2) := by
+    intro γ hγ w w' hw hw' p hp
+    rw [← interior_achronalDomain_eq_quadrants hw hw']
+    refine interior_mono (fun q hq => ?_) hp
+    have := hq γ hγ hw.1
+    rwa [Ug_eq_achronalDomain_of_isLoxodromic hw.1] at this
+  rcases hquad γ₀ hγ₀ hr₀ hr₀' x hx with hxp | hxm
+  · have hV : omegaLox Γ ∩ (halfPlus w₀.1 w₀.2 ∩ halfPlus w₀'.1 w₀'.2) ⊆
+        omegaPlus (loxRepSet Γ) := by
+      rintro p ⟨hp, hp0⟩
+      refine mem_omegaPlus.2 fun w ⟨γ, hγ, hw⟩ => ?_
+      obtain ⟨w', hw'⟩ := exists_isRepulsiveFixedJ (isLoxodromic_linOf_inv hw.1)
+      rcases hquad γ hγ hw hw' p hp with hq | hq
+      · exact mem_halfPlus.1 hq.1
+      · exact (not_mem_quadrantPlus_quadrantMinus h (hUL hp) hγ₀ hγ hr₀ hr₀' hw hw' hp0 hq).elim
+    have hVo : IsOpen (omegaLox Γ ∩ (halfPlus w₀.1 w₀.2 ∩ halfPlus w₀'.1 w₀'.2)) :=
+      isOpen_interior.inter ((isOpen_halfPlus _ _).inter (isOpen_halfPlus _ _))
+    have : x ∈ omegaPlus (limitSetJ Γ) := by
+      rw [limitSetJ, omegaPlus_closure_eq_interior]
+      exact interior_maximal hV hVo ⟨hx, hxp⟩
+    exact omegaPlus_limitSetJ_subset_omegaGamma h hγ₀ hlox₀ this
+  · have hV : omegaLox Γ ∩ (halfMinus w₀.1 w₀.2 ∩ halfMinus w₀'.1 w₀'.2) ⊆
+        omegaMinus (loxRepSet Γ) := by
+      rintro p ⟨hp, hp0⟩
+      refine mem_omegaMinus.2 fun w ⟨γ, hγ, hw⟩ => ?_
+      obtain ⟨w', hw'⟩ := exists_isRepulsiveFixedJ (isLoxodromic_linOf_inv hw.1)
+      rcases hquad γ hγ hw hw' p hp with hq | hq
+      · exact (not_mem_quadrantPlus_quadrantMinus h (hUL hp) hγ hγ₀ hw hw' hr₀ hr₀' hq hp0).elim
+      · exact mem_halfMinus.1 hq.1
+    have hVo : IsOpen (omegaLox Γ ∩ (halfMinus w₀.1 w₀.2 ∩ halfMinus w₀'.1 w₀'.2)) :=
+      isOpen_interior.inter ((isOpen_halfMinus _ _).inter (isOpen_halfMinus _ _))
+    have : x ∈ omegaMinus (limitSetJ Γ) := by
+      rw [limitSetJ, omegaMinus_closure_eq_interior]
+      exact interior_maximal hV hVo ⟨hx, hxm⟩
+    exact omegaMinus_limitSetJ_subset_omegaGamma h hγ₀ hlox₀ this
 
 end Sanlox
 
@@ -2045,7 +2464,7 @@ theorem loxo_generic_torusProduct (hpair : IsDevelopingPair x₀ D ρ)
         IsQuotientOf B Γ' (omegaSOpens ρ.range (D '' (UniversalCover.proj M x₀ ⁻¹' S))) ∧
         ∃ (d₁ : ℕ) (M₁ : FlatSpacetime.{0} d₁), d₁ ≤ d ∧ IsLTPOver B M₁ ∧ IsCHTorusProduct M₁ := by
   obtain ⟨Γ₁, hle₁, hidx₁, htf₁⟩ := exists_finiteIndex_torsionFree_linOf hS hfg
-  sorry -- SORRY([10.G]): Selberg's step is done (`Γ₁`, from `exists_finiteIndex_torsionFree_linOf`); what remains is `loxo_generic_centralExtension` run for the finite-index `Γ' ⊓ Γ₁` (its own sorry), whose linear part is then torsion-free, which is `IsCHTorusProduct` by definition
+  sorry -- SORRY([10.G]): Selberg's step is done (`Γ₁`, from `exists_finiteIndex_torsionFree_linOf`); what remains is `loxo_generic_centralExtension`'s construction run for the finite-index `Γ' ⊓ Γ₁` (its own sorry), whose linear part is then torsion-free, which is `IsCHTorusProduct` by definition; its statement cannot be applied as a black box, since the `M₁` it returns is family (b) for an unnamed group with no tie to `Γ' ⊓ Γ₁` (the base group of `M₁` is `L(Γ')` acting on `𝐌ⁿ/E`, which the statement does not expose)
 
 end GenericConclusion
 

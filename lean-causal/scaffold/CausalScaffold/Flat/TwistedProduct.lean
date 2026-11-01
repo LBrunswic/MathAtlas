@@ -18,14 +18,12 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
 * §5.S (prose, l.1751–1797) — the notion **linear twisted product** in the quotient form of
   `docs/BARBOT-THEOREMS.md` §1: `IsLTPOver`, `IsLTPData`.
 * Rem 5.3 (prose, l.1800–1814), causal half, **linear twisted products only** (the remark is
-  about twisted products by all euclidean manifolds, flat tori included) — stated
-  (`gh_of_isLTPOver`); its causality half is proved (`isCausal_of_isLTPData`: a linear twisted
-  product over a causal flat spacetime is causal); its compact-diamond half
-  (`isCompact_diamond_of_isLTPData`) is proved down to two `sorry`s, GH lifting to the cover
-  `ι⁻¹ Ω` of `M₁` (`TwistedProduct.cover_gh_of_isQuotientOf`) and closed diamonds of the product
-  `Ω = ι⁻¹ Ω × U^⊥` (`isClosed_diamond_of_retract`); its linear core is proved
-  (`coproj_isFutureCausal`, `retract_le_top`, `retract_le_of_le`,
-  `eq_of_le_top_of_retract_eq`). Rem 5.4 (l.1816–1828) is about Bieberbach and finite index, not
+  about twisted products by all euclidean manifolds, flat tori included) — **proved, no
+  `sorry`** (`gh_of_isLTPOver`: a linear twisted product over a GH flat spacetime is GH), unmarked
+  because narrowed to the linear case: causality (`isCausal_of_isLTPData`) and compact diamonds
+  (`isCompact_diamond_of_isLTPData`, through GH lifting to the cover `ι⁻¹ Ω` of `M₁`,
+  `TwistedProduct.cover_gh_of_isQuotientOf`, and closed diamonds of `Ω = ι⁻¹ Ω × U^⊥`,
+  `isClosed_diamond_of_retract`). Rem 5.4 (l.1816–1828) is about Bieberbach and finite index, not
   causal: not attempted.
 
 > Let $B$ be a flat spacetime, quotient of an open subset $\Omega$ of \mink by a group of
@@ -95,12 +93,25 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
 * **Rem 5.3, descent of compact diamonds**: `isCompact_diamond_of_isLTPData` from the
   cover-level `cover_gh_of_isLTPData`: `J_B(π x, π y)` is the image of
   `⋃_{x ≤ γ y} J_Ω(x, γ y)`, for an arbitrary presentation `π`. `cover_gh_of_isLTPData` is
-  proved from two tagged `sorry`s: `TwistedProduct.cover_gh_of_isQuotientOf` (GH lifts from
-  `M₁` to its cover `W = ι⁻¹ Ω`: compact diamonds, finitely many `g` with `a ≤_W g b`) and
+  proved from `TwistedProduct.cover_gh_of_isQuotientOf` (GH lifts from `M₁` to its cover
+  `W = ι⁻¹ Ω`: compact diamonds, finitely many `g` with `a ≤_W g b`) and
   `isClosed_diamond_of_retract` (the diamonds of `Ω = W × U^⊥` are closed); compactness
   (`isCompact_diamond_of_retract`: `J_Ω(x, z) ⊆ J_{𝐌ⁿ}(x, z) ∩ q⁻¹ J_W(q x, q z)`) and
   finiteness (restriction `γ ↦ g`, injective by freeness,
   `TwistedProduct.smul_left_injective_of_isCoveringMap`) are proved from them.
+* **Rem 5.3, straight causal segments** (no limit-curve theorem, no time separation): an open
+  `W ⊆ 𝐌ⁿ` with compact diamonds is convex along its causal relations
+  (`TwistedProduct.le_top_and_segment_subset_of_le`: `p ≤_W q` ⟹ `[p, q] ⊆ W`; two causal
+  segments span the third side, `segment_subset_trans_of_isCompact_diamond`), so
+  `J_Ω(x, z) = {p : x ≤ p ≤ z in 𝐌ⁿ, q p ∈ J_W(q x, q z)}` is closed
+  (`isClosed_diamond_of_retract`). For a GH quotient `M = π(Ω)` the same convexity holds in `Ω`
+  (`segment_subset_trans_of_isQuotientOf`), the compact diamond replaced by `π⁻¹ J_M`: a causal
+  segment of `Ω` whose image stays in a compact set of `M` cannot leave `Ω`
+  (`segment_subset_of_subset_closure`: a causally monotone path imprisoned in a compact set of
+  `M` converges in `Ω`, `exists_tendsto_of_monotone`, by uniqueness of lifts; `J^±` of `M` are
+  closed, `isClosed_le_of_isCompact_diamond`), nor run to infinity (`not_forall_ray`); hence
+  `cover_gh_of_isQuotientOf` (diamonds of `Ω` closed and bounded; the `g b` with `a ≤_Ω g b` lie
+  in a compact set of `Ω` and in one fibre of `π`, so finitely many).
 * **Non-vacuity** (kb/0011): `isLTPOver_refl` (`ι = id`, every quotient over itself),
   `isLTPOver_refl_minkowski`; `isLTPOver_bot_timeAxis` (a product, `Γ` trivial, over the time
   axis `timeAxis`); `isLTPOver_timeGroup` (`ℤ e₀\𝐌ⁿ` over the timelike circle, `Γ ≠ 1`).
@@ -158,21 +169,18 @@ Note (not a paper hypothesis): `Ω` is not asked to be connected; `M` is connect
 * **`U^⊥`-invariance of `Ω` (BARBOT-THEOREMS §6, G6)** is *carried* here as the hypothesis
   `perp_invariant`; its proof for the domains `Ω(S̃)` where Lemma 5.5 is applied is owed
   downstream, not discharged in this file.
-* **Rem 5.3** (`gh_of_isLTPOver`) is stated for *linear* twisted products only (the remark covers
-  twisted products by every euclidean manifold, flat tori included), and rests on two tagged
-  `sorry`s, both for the compactness of diamonds and both below the cover-level
-  `cover_gh_of_isLTPData` (compact diamonds of `Ω`, finiteness of `{γ | x ≤_Ω γ y}`), which is
-  proved from them: (1) `TwistedProduct.cover_gh_of_isQuotientOf`, GH lifts from a quotient to
-  its cover (here from `M₁` to `W = ι⁻¹ Ω`), a general statement about `IsQuotientOf`, the
-  converse of `FlatQuotient.globallyHyperbolic_quotient`; (2) `isClosed_diamond_of_retract`, the
-  diamonds of `Ω = W × U^⊥` are closed when those of `W` are compact. Both need a limit-curve
-  theorem for ETT chains, (2) with lengths: the converse of `retract_le_of_le` (a relation of
-  `W` lifts to `Ω` with a prescribed `U^⊥`-displacement bounded by the Lorentzian length of a
-  causal chain below it) together with the attainment and upper semicontinuity of the time
-  separation of the GH `W` (Avez–Seifert), which the library lacks. The descent from `Ω` to `B`
-  is proved (`isCompact_diamond_of_isLTPData`), and so is the causality
-  (`isCausal_of_isLTPData`, which needs only `M₁` causal). Its linear core, the causality of the
-  retraction for orthochronous `ι`, is proved. Rem 5.3's Cauchy-completeness half (D, DEC-35) and
+* **Rem 5.3** (`gh_of_isLTPOver`, proved, no `sorry`) is stated for *linear* twisted products
+  only (the remark covers twisted products by every euclidean manifold, flat tori included), so
+  it is not marked. It is not proved by Barbot's route (`t ∘ q` a proper time function,
+  l.1801–1804, which would need Geroch (iii)⇒(i), a cited `sorry` in `GerochEquiv`), but at the
+  level of the cover: `cover_gh_of_isLTPData` (compact diamonds of `Ω`, finiteness of
+  `{γ | x ≤_Ω γ y}`), the hypotheses of the descent `isCompact_diamond_of_isLTPData`, from the
+  general `TwistedProduct.cover_gh_of_isQuotientOf` (GH lifts from any `IsQuotientOf`
+  presentation to its cover; the converse of `FlatQuotient.globallyHyperbolic_quotient`) and
+  `isClosed_diamond_of_retract`. Neither uses a limit-curve theorem nor the time separation: in
+  a flat setting the causal relations of a GH open set are straight segments, which is what
+  replaces them. `exists_isOpen_le_and_ge` stands in for the tarentin property of a flat
+  quotient, which the library does not prove. Rem 5.3's Cauchy-completeness half (D, DEC-35) and
   Rem 5.4 are not attempted.
 * Generic `minkB` algebra is `private` (`tp_…`), to avoid colliding with `Flat/AchronalDomains`;
   it duplicates `Flat/Isometries`' public `minkB` lemmas and `minkForm` (`tpBilinOn` is `minkForm`
@@ -189,7 +197,8 @@ Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Barb
 wave 2, package WP-31d-TwistedProduct; closer pass 2026-11-01 (causality half of Rem 5.3;
 descent of the compact diamonds from `Ω`); second closer pass 2026-11-01 (the cover-level
 `sorry` split: finiteness and compactness proved from GH of the cover `ι⁻¹ Ω` and closed
-diamonds of `Ω`).
+diamonds of `Ω`); third closer pass 2026-11-01 (both remaining `sorry`s closed by straight
+causal segments: the file is `sorry`-free).
 -/
 
 namespace Causal.Flat
@@ -987,6 +996,129 @@ theorem suspendre {Γ : Subgroup (isom d)} {Ω : Opens (Minkowski d)} (B : FlatS
 
 /-! ### Rem 5.3, causal half: the causality of a linear twisted product -/
 
+/-! #### Causal segments of an open set of `𝐌ⁿ` with compact diamonds -/
+
+namespace TwistedProduct
+
+/-- **Two causal segments of an open `W ⊆ 𝐌ⁿ` with compact diamonds span the third side**: if
+`a ≤ c ≤ b` in `𝐌ⁿ` and `[a, c]`, `[c, b] ⊆ W`, then `[a, b] ⊆ W`. Sweep `[a, c]` to `[a, b]`
+through the segments `[a, c_s]`, `c_s = c + s (b − c)`: the set of `s` with `[a, c_s] ⊆ W` is
+open (`W` open, `[0, 1]` compact) and closed in `[0, 1]`, because each such segment lies in the
+compact diamond `J_W(a, b)` (`a ≤_W y ≤_W c_s ≤_W b` along straight segments of `W`). -/
+theorem segment_subset_trans_of_isCompact_diamond {W : Opens (Minkowski d)}
+    (hW : ∀ a b : W, IsCompact ((flatCausality d W).diamond ⊤ a b))
+    {a c b : Minkowski d} (hac : (minkowski d).le ⊤ a c) (hcb : (minkowski d).le ⊤ c b)
+    (hsac : segment ℝ a c ⊆ W) (hscb : segment ℝ c b ⊆ W) : segment ℝ a b ⊆ W := by
+  have haW : a ∈ W := hsac (left_mem_segment ℝ a c)
+  have hbW : b ∈ W := hscb (right_mem_segment ℝ c b)
+  set K : Set (Minkowski d) := ((↑) : W → Minkowski d) ''
+    (flatCausality d W).diamond ⊤ ⟨a, haW⟩ ⟨b, hbW⟩ with hKdef
+  have hKc : IsClosed K := ((hW _ _).image continuous_subtype_val).isClosed
+  have hKW : K ⊆ W := by rintro _ ⟨y, -, rfl⟩; exact y.2
+  have hmemK : ∀ y (hy : y ∈ W), (minkowski d).le W a y → (minkowski d).le W y b → y ∈ K := by
+    intro y hy h1 h2
+    refine ⟨⟨y, hy⟩, Causality.mem_diamond.2 ⟨?_, ?_⟩, rfl⟩
+    · rw [flat_le_top_subtype_iff]; exact h1
+    · rw [flat_le_top_subtype_iff]; exact h2
+  set g : ℝ → ℝ := fun s => max 0 (min s 1) with hgdef
+  have hg : Continuous g := continuous_const.max (continuous_id.min continuous_const)
+  have hg01 : ∀ s, g s ∈ Icc (0 : ℝ) 1 := fun s =>
+    ⟨le_max_left _ _, max_le zero_le_one (min_le_right _ _)⟩
+  set cs : ℝ → Minkowski d := fun s => c + g s • (b - c) with hcsdef
+  set F : ℝ × ℝ → Minkowski d := fun z => a + z.2 • (cs z.1 - a) with hFdef
+  have hF : Continuous F :=
+    continuous_const.add (continuous_snd.smul
+      ((continuous_const.add ((hg.comp continuous_fst).smul continuous_const)).sub
+        continuous_const))
+  set u : Set ℝ := {s | ∀ θ ∈ Icc (0 : ℝ) 1, F (s, θ) ∈ W} with hudef
+  have hcs : ∀ s, cs s ∈ segment ℝ c b := fun s => by
+    rw [segment_eq_image']; exact ⟨g s, hg01 s, rfl⟩
+  have hseg : ∀ s, segment ℝ a (cs s) = (fun θ => F (s, θ)) '' Icc 0 1 := fun s => by
+    rw [segment_eq_image']
+  have hacs : ∀ s, (minkowski d).le ⊤ a (cs s) := fun s =>
+    (minkowski d).le_trans hac (le_top_of_mem_segment hcb (hcs s)).1
+  -- `u` is open
+  have huo : IsOpen u := by
+    rw [isOpen_iff_mem_nhds]
+    intro s₀ hs₀
+    have : ∀ θ ∈ Icc (0 : ℝ) 1, ∀ᶠ z : ℝ × ℝ in 𝓝 (s₀, θ), F z ∈ W := fun θ hθ =>
+      hF.continuousAt.preimage_mem_nhds (W.isOpen.mem_nhds (hs₀ θ hθ))
+    exact isCompact_Icc.eventually_forall_of_forall_eventually this
+  -- the segments of `u` lie in the compact diamond `J_W(a, b)`
+  have hmaps : ∀ θ ∈ Icc (0 : ℝ) 1, MapsTo (fun s => F (s, θ)) u K := by
+    intro θ hθ s hs
+    have hsW : segment ℝ a (cs s) ⊆ W := by
+      rw [hseg]; rintro _ ⟨θ', hθ', rfl⟩; exact hs θ' hθ'
+    have hy : F (s, θ) ∈ segment ℝ a (cs s) := by rw [hseg]; exact ⟨θ, hθ, rfl⟩
+    obtain ⟨h1, h2⟩ := le_top_of_mem_segment (hacs s) hy
+    have hcsb := (le_top_of_mem_segment hcb (hcs s)).2
+    refine hmemK _ (hsW hy) (le_of_le_top_of_segment_subset h1 fun z hz =>
+      hsW ((convex_segment _ _).segment_subset (left_mem_segment _ _ _) hy hz)) ?_
+    exact (minkowski d).le_trans (le_of_le_top_of_segment_subset h2 fun z hz =>
+        hsW ((convex_segment _ _).segment_subset hy (right_mem_segment _ _ _) hz))
+      (le_of_le_top_of_segment_subset hcsb fun z hz =>
+        hscb ((convex_segment _ _).segment_subset (hcs s) (right_mem_segment _ _ _) hz))
+  -- `u` is closed in `[0, 1]`
+  have hcl : closure u ∩ Icc 0 1 ⊆ u := by
+    intro s hs θ hθ
+    have := map_mem_closure (hF.comp (Continuous.prodMk_left θ)) hs.1 (hmaps θ hθ)
+    rw [hKc.closure_eq] at this
+    exact hKW this
+  have h0 : (Icc (0 : ℝ) 1 ∩ u).Nonempty := by
+    refine ⟨0, ⟨le_rfl, zero_le_one⟩, fun θ hθ => hsac ?_⟩
+    rw [segment_eq_image']
+    exact ⟨θ, hθ, by simp [hFdef, hcsdef, hgdef]⟩
+  have hsub := isPreconnected_Icc.subset_of_closure_inter_subset huo h0 hcl
+  rw [segment_eq_image']
+  rintro _ ⟨θ, hθ, rfl⟩
+  have := hsub ⟨zero_le_one, le_rfl⟩ θ hθ
+  simpa [hFdef, hcsdef, hgdef] using this
+
+/-- **Causal relations are straight segments once two consecutive segments span a third**: on an
+open `W ⊆ 𝐌ⁿ` in which `[a, c]`, `[c, b] ⊆ W` with `a ≤ c ≤ b` force `[a, b] ⊆ W`, a relation
+`p ≤_W q` gives `p ≤ q` in `𝐌ⁿ` and `[p, q] ⊆ W`. A relation of `≤_W` is a chain of causal
+segments in convex balls of `W` (absolute minimality), merged one at a time by the hypothesis. -/
+theorem le_top_and_segment_subset_of_le_of_trans {W : Opens (Minkowski d)}
+    (htrans : ∀ {a c b : Minkowski d}, (minkowski d).le ⊤ a c → (minkowski d).le ⊤ c b →
+      segment ℝ a c ⊆ W → segment ℝ c b ⊆ W → segment ℝ a b ⊆ W) {p q : Minkowski d}
+    (h : (minkowski d).le W p q) : (minkowski d).le ⊤ p q ∧ segment ℝ p q ⊆ W := by
+  let S : Set (Opens (Minkowski d)) := {O | Convex ℝ (O : Set (Minkowski d)) ∧ O ≤ W}
+  have hS : ∀ x ∈ W, ∃ O ∈ S, x ∈ O := by
+    intro x hx
+    obtain ⟨ε, hε, hball⟩ := Metric.isOpen_iff.1 W.isOpen x hx
+    exact ⟨⟨Metric.ball x ε, Metric.isOpen_ball⟩, ⟨convex_ball x ε, hball⟩,
+      Metric.mem_ball_self hε⟩
+  have hch := ((minkowski_causallyArcConnected.absolutelyMinimalOn_all W) S hS W le_rfl p q).1 h
+  have step : ∀ a b, (∃ O ∈ S, (minkowski d).le (W ⊓ O) a b) →
+      (minkowski d).le ⊤ a b ∧ segment ℝ a b ⊆ W := by
+    rintro a b ⟨O, ⟨hOc, hOW⟩, hab⟩
+    rw [inf_eq_right.2 hOW] at hab
+    obtain ⟨ha, hb, hab'⟩ := (le_iff_of_convex hOc).1 hab
+    exact ⟨hab', fun y hy => hOW (hOc.segment_subset ha hb hy)⟩
+  clear h
+  induction hch with
+  | single hab => exact step _ _ hab
+  | tail _ hbc ih =>
+    obtain ⟨h1, h2⟩ := step _ _ hbc
+    exact ⟨(minkowski d).le_trans ih.1 h1, htrans ih.1 h1 ih.2 h2⟩
+
+/-- **An open `W ⊆ 𝐌ⁿ` with compact diamonds is convex along its causal relations**: `p ≤_W q`
+gives `p ≤ q` in `𝐌ⁿ` and `[p, q] ⊆ W` (`le_top_and_segment_subset_of_le_of_trans` with
+`segment_subset_trans_of_isCompact_diamond`). (The flat shadow of Avez–Seifert: in a GH open
+subset of `𝐌ⁿ` causally related points are joined by a straight causal segment.) -/
+theorem le_top_and_segment_subset_of_le {W : Opens (Minkowski d)}
+    (hW : ∀ a b : W, IsCompact ((flatCausality d W).diamond ⊤ a b)) {p q : Minkowski d}
+    (h : (minkowski d).le W p q) : (minkowski d).le ⊤ p q ∧ segment ℝ p q ⊆ W :=
+  le_top_and_segment_subset_of_le_of_trans
+    (fun hac hcb hsac hscb => segment_subset_trans_of_isCompact_diamond hW hac hcb hsac hscb) h
+
+/-- The closed future causal cone of `𝐌ⁿ`. -/
+theorem isClosed_isFutureCausal : IsClosed {v : Minkowski d | IsFutureCausal v} :=
+  (isClosed_le continuous_const continuous_fst).inter
+    (isClosed_le continuous_minkQ continuous_const)
+
+end TwistedProduct
+
 namespace AffineMinkEmbedding
 
 variable (ι : AffineMinkEmbedding d₁ d)
@@ -1051,18 +1183,72 @@ theorem eq_of_le_top_of_retract_eq {p p' : Minkowski d} (h : (minkowski d).le �
 
 /-- **The diamonds of `Ω = (U ∩ Ω) × U^⊥` are closed** in `𝐌ⁿ` when those of `W = ι⁻¹ Ω` are
 compact (`Ω` invariant by `U^⊥`, `ι` orthochronous): the Lorentzian product of a GH `W` with the
-euclidean `U^⊥` is GH. Not proved: see the `sorry`. -/
+euclidean `U^⊥` is GH. A limit `p` of `J_Ω(x, z)` lies in the closed
+`J_{𝐌ⁿ}(x, z) ∩ q⁻¹ J_W(q x, q z)`, so `q x ≤_W q p ≤_W q z`; `W` having compact diamonds, these
+relations are straight segments of `W` (`TwistedProduct.le_top_and_segment_subset_of_le`), whose
+`U^⊥`-translates `[x, p]`, `[p, z]` lie in `Ω` (`mem_iff_retract_mem`) and are causal in
+`𝐌ⁿ`. -/
 theorem isClosed_diamond_of_retract (hι : ι.Orthochronous) {Ω : Opens (Minkowski d)}
     (hperp : ∀ w ∈ ι.perp, ∀ p ∈ Ω, p + w ∈ Ω)
     (hW : ∀ a b : ι.preimageOpens Ω,
       IsCompact ((flatCausality d₁ (ι.preimageOpens Ω)).diamond ⊤ a b)) (x z : Ω) :
     IsClosed (((↑) : Ω → Minkowski d) '' (flatCausality d Ω).diamond ⊤ x z) := by
-  sorry -- SORRY(rem:5.3): the time separation of W = ι⁻¹Ω. With w(p) = p − ι(q p) ∈ U^⊥, p ≤_Ω p' holds iff some chain of causal segments in W from q p to q p' has Lorentzian length ≥ ‖w(p') − w(p)‖ (⇐: distribute the U^⊥-displacement over the segments in proportion to their lengths; ⇒: retract_le_of_le and Pythagoras, as in retract_le_top). For p_n → p in J_Ω(x, z), closedness then needs a chain from q x to q p (and from q p to q z) of length ≥ lim ‖w(p_n) − w(x)‖, i.e. the supremum τ_W of chain lengths upper semicontinuous and attained on the GH W (Avez–Seifert: a limit-curve theorem for ETT chains, with lengths). Neither τ_W nor a limit-curve theorem is in the library (InducedLength measures single Lipschitz curves; GloballyHyperbolic.isClosed_le closes ≤_W, not the length bound)
+  have hmem : ∀ p : Ω, ι.retract p ∈ ι.preimageOpens Ω := fun p =>
+    (ι.mem_iff_retract_mem hperp).1 p.2
+  let a : ι.preimageOpens Ω := ⟨ι.retract x, hmem x⟩
+  let b : ι.preimageOpens Ω := ⟨ι.retract z, hmem z⟩
+  have hK : IsClosed ((minkowski d).diamond ⊤ (x : Minkowski d) z) :=
+    (minkowski_globallyHyperbolic.2 _ _).isClosed
+  have hC : IsClosed (ι.retract ⁻¹'
+      (((↑) : ι.preimageOpens Ω → Minkowski d₁) '' (flatCausality d₁ _).diamond ⊤ a b)) :=
+    ((hW a b).image continuous_subtype_val).isClosed.preimage ι.continuous_retract
+  -- the diamond lies in the closed `J_{𝐌ⁿ}(x, z) ∩ q⁻¹ J_W(q x, q z)`
+  have hsub : ((↑) : Ω → Minkowski d) '' (flatCausality d Ω).diamond ⊤ x z ⊆
+      (minkowski d).diamond ⊤ (x : Minkowski d) z ∩ ι.retract ⁻¹'
+        (((↑) : ι.preimageOpens Ω → Minkowski d₁) '' (flatCausality d₁ _).diamond ⊤ a b) := by
+    rintro _ ⟨p, hp, rfl⟩
+    rw [Causality.mem_diamond] at hp
+    have h1 := (flat_le_top_subtype_iff Ω x p).1 hp.1
+    have h2 := (flat_le_top_subtype_iff Ω p z).1 hp.2
+    refine ⟨Causality.mem_diamond.2
+      ⟨(minkowski d).le_mono le_top h1, (minkowski d).le_mono le_top h2⟩,
+      ⟨ι.retract p, hmem p⟩, Causality.mem_diamond.2 ⟨?_, ?_⟩, rfl⟩
+    · rw [flat_le_top_subtype_iff]; exact ι.retract_le_of_le hι hperp h1
+    · rw [flat_le_top_subtype_iff]; exact ι.retract_le_of_le hι hperp h2
+  -- a segment whose retraction lies in `W` lies in `Ω`
+  have hseg : ∀ {u v : Minkowski d},
+      segment ℝ (ι.retract u) (ι.retract v) ⊆ ι.preimageOpens Ω → segment ℝ u v ⊆ Ω := by
+    intro u v h y hy
+    rw [segment_eq_image'] at hy
+    obtain ⟨θ, hθ, rfl⟩ := hy
+    have he : ι.retract (u + θ • (v - u)) =
+        ι.retract u + θ • (ι.retract v - ι.retract u) := by
+      simp only [retract, map_sub, map_add, map_smul, smul_sub]
+      abel
+    refine (ι.mem_iff_retract_mem hperp).2 ?_
+    rw [he]
+    apply h
+    rw [segment_eq_image']
+    exact ⟨θ, hθ, rfl⟩
+  refine isClosed_of_closure_subset fun p hp => ?_
+  obtain ⟨hpK, r, hr, hrp⟩ := closure_minimal hsub (hK.inter hC) hp
+  rw [Causality.mem_diamond] at hpK hr
+  have hpΩ : p ∈ Ω := (ι.mem_iff_retract_mem hperp).2 (hrp ▸ r.2)
+  have h1 := (flat_le_top_subtype_iff _ a r).1 hr.1
+  have h2 := (flat_le_top_subtype_iff _ r b).1 hr.2
+  rw [hrp] at h1 h2
+  have s1 := (TwistedProduct.le_top_and_segment_subset_of_le hW h1).2
+  have s2 := (TwistedProduct.le_top_and_segment_subset_of_le hW h2).2
+  refine ⟨⟨p, hpΩ⟩, Causality.mem_diamond.2 ⟨?_, ?_⟩, rfl⟩
+  · rw [flat_le_top_subtype_iff]
+    exact le_of_le_top_of_segment_subset hpK.1 (hseg (u := x) s1)
+  · rw [flat_le_top_subtype_iff]
+    exact le_of_le_top_of_segment_subset hpK.2 (hseg (v := z) s2)
 
 /-- **The diamonds of `Ω = (U ∩ Ω) × U^⊥` are compact** when those of `W = ι⁻¹ Ω` are (`Ω`
 invariant by `U^⊥`, `ι` orthochronous). `J_Ω(x, z)` lies in the compact
 `J_{𝐌ⁿ}(x, z) ∩ q⁻¹ J_W(q x, q z)` (`retract_le_of_le`) and is closed
-(`isClosed_diamond_of_retract`, the tagged `sorry` this rests on). -/
+(`isClosed_diamond_of_retract`). -/
 theorem isCompact_diamond_of_retract (hι : ι.Orthochronous) {Ω : Opens (Minkowski d)}
     (hperp : ∀ w ∈ ι.perp, ∀ p ∈ Ω, p + w ∈ Ω)
     (hW : ∀ a b : ι.preimageOpens Ω,
@@ -1233,17 +1419,612 @@ theorem smul_left_injective_of_isCoveringMap (hcov : IsCoveringMap π)
 
 end Lift
 
+section CoverGH
+
+variable {M : Type u} [TopologicalSpace M] [T2Space M] [ChartedSpace (Minkowski d) M]
+  [HasGroupoid M (gxGroupoid (isom d) (Minkowski d))]
+  {Γ : Subgroup (isom d)} {Ω : Opens (Minkowski d)} [Invariant Γ Ω] {π : Ω → M}
+
+omit [T2Space M] [Invariant Γ Ω] in
+/-- A local isometry `π : Ω → M` maps the causal relation of `Ω` into that of `M`. -/
+theorem le_top_map_of_isLocalIsometry (hloc : IsLocalIsometry d π) {b c : Ω}
+    (h : (flatCausality d Ω).le ⊤ b c) :
+    (flatCausality d M).le ⊤ (π b) (π c) :=
+  hloc.strongMorphism.le_of_mapsTo (U := ⊤) (V := ⊤) (fun _ _ => trivial) h
+
+omit [T2Space M] [Invariant Γ Ω] in
+/-- **Every point of a quotient `M = π(Ω)` lies in an open set squeezed between two points**:
+`b' ≤_M y ≤_M b` for every `y` in it. Lift `q` to `x ∈ Ω`, take a ball `B(x, r) ⊆ Ω`, put
+`b = π(x + (r/2) e₀)`, `b' = π(x − (r/2) e₀)` and use the image of `B(x, r/4)`: its points are
+joined to `x ± (r/2) e₀` by causal segments inside `B(x, r)` (the substitute, here, for the tarentin
+property, which the library does not prove for flat spacetimes). -/
+theorem exists_isOpen_le_and_ge (hloc : IsLocalIsometry d π) (hsurj : Surjective π) (q : M) :
+    ∃ b b' : M, ∃ O : Set M, IsOpen O ∧ q ∈ O ∧
+      ∀ y ∈ O, (flatCausality d M).le ⊤ y b ∧ (flatCausality d M).le ⊤ b' y := by
+  obtain ⟨x, rfl⟩ := hsurj q
+  obtain ⟨r, hr, hball⟩ := Metric.isOpen_iff.1 Ω.isOpen (x : Minkowski d) x.2
+  set e₀ : Minkowski d := ((r / 2 : ℝ), (0 : EuclideanSpace ℝ (Fin d))) with he₀def
+  have he₀ : ‖e₀‖ = r / 2 := by
+    rw [he₀def, Prod.norm_def]
+    simp [abs_of_pos hr, (half_pos hr).le]
+  have hbm : (x : Minkowski d) + e₀ ∈ Metric.ball (x : Minkowski d) r := by
+    rw [Metric.mem_ball, dist_eq_norm, add_sub_cancel_left, he₀]; linarith
+  have hbm' : (x : Minkowski d) - e₀ ∈ Metric.ball (x : Minkowski d) r := by
+    rw [Metric.mem_ball, dist_eq_norm, sub_sub_cancel_left, norm_neg, he₀]; linarith
+  let B : Ω := ⟨x + e₀, hball hbm⟩
+  let B' : Ω := ⟨x - e₀, hball hbm'⟩
+  let V : Set Ω := (↑) ⁻¹' Metric.ball (x : Minkowski d) (r / 4)
+  have hV : IsOpen V := Metric.isOpen_ball.preimage continuous_subtype_val
+  refine ⟨π B, π B', π '' V, hloc.isOpenMap _ hV,
+    ⟨x, Metric.mem_ball_self (by linarith), rfl⟩, ?_⟩
+  rintro _ ⟨y, hy, rfl⟩
+  have hy' : dist (y : Minkowski d) x < r / 4 := hy
+  rw [dist_eq_norm, Prod.norm_def, max_lt_iff, Real.norm_eq_abs, abs_lt] at hy'
+  obtain ⟨⟨h1, h2⟩, h3⟩ := hy'
+  have h3' : ‖(x : Minkowski d).2 - (y : Minkowski d).2‖ < r / 4 := by
+    rw [norm_sub_rev]; simpa using h3
+  have hfst : ((y : Minkowski d) - x).1 = (y : Minkowski d).1 - (x : Minkowski d).1 := rfl
+  rw [hfst] at h1 h2
+  have hyb : (y : Minkowski d) ∈ Metric.ball (x : Minkowski d) r :=
+    Metric.ball_subset_ball (by linarith) hy
+  refine ⟨le_top_map_of_isLocalIsometry hloc ?_, le_top_map_of_isLocalIsometry hloc ?_⟩
+  · rw [flat_le_top_subtype_iff]
+    refine le_of_le_top_of_segment_subset ?_ fun z hz =>
+      hball ((convex_ball _ _).segment_subset hyb hbm hz)
+    rw [minkowski_le_top_iff]
+    show ‖((x : Minkowski d) + e₀).2 - (y : Minkowski d).2‖ ≤
+      ((x : Minkowski d) + e₀).1 - (y : Minkowski d).1
+    simp only [he₀def, Prod.fst_add, Prod.snd_add, add_zero]
+    linarith
+  · rw [flat_le_top_subtype_iff]
+    refine le_of_le_top_of_segment_subset ?_ fun z hz =>
+      hball ((convex_ball _ _).segment_subset hbm' hyb hz)
+    rw [minkowski_le_top_iff]
+    show ‖(y : Minkowski d).2 - ((x : Minkowski d) - e₀).2‖ ≤
+      (y : Minkowski d).1 - ((x : Minkowski d) - e₀).1
+    simp only [he₀def, Prod.fst_sub, Prod.snd_sub, sub_zero]
+    rw [norm_sub_rev]
+    linarith
+
+omit [Invariant Γ Ω] in
+/-- **On a quotient `M = π(Ω)` with compact diamonds, `J^±(p)` is closed**
+(`prop:GH_Jferme`'s first step, with `exists_isOpen_le_and_ge` in place of the tarentin property):
+a limit point `q` of `J^+(p)` lies in an open set below some `b`, hence in the closure of the
+compact, so closed, diamond `J(p, b)`. -/
+theorem isClosed_le_of_isCompact_diamond (hloc : IsLocalIsometry d π) (hsurj : Surjective π)
+    (hD : ∀ p q : M, IsCompact ((flatCausality d M).diamond ⊤ p q)) (p : M) :
+    IsClosed {q | (flatCausality d M).le ⊤ p q} ∧ IsClosed {q | (flatCausality d M).le ⊤ q p} := by
+  constructor
+  · refine isClosed_of_closure_subset fun q hq => ?_
+    obtain ⟨b, _b', O, hO, hqO, hOb⟩ := exists_isOpen_le_and_ge hloc hsurj q
+    have hc : q ∈ closure ((flatCausality d M).diamond ⊤ p b) := by
+      rw [mem_closure_iff_nhds] at hq ⊢
+      intro N hN
+      obtain ⟨y, ⟨hyN, hyO⟩, hpy⟩ := hq (N ∩ O) (inter_mem hN (hO.mem_nhds hqO))
+      exact ⟨y, hyN, Causality.mem_diamond.2 ⟨hpy, (hOb y hyO).1⟩⟩
+    rw [(hD p b).isClosed.closure_eq] at hc
+    exact (Causality.mem_diamond.1 hc).1
+  · refine isClosed_of_closure_subset fun q hq => ?_
+    obtain ⟨_b', b, O, hO, hqO, hOb⟩ := exists_isOpen_le_and_ge hloc hsurj q
+    have hc : q ∈ closure ((flatCausality d M).diamond ⊤ b p) := by
+      rw [mem_closure_iff_nhds] at hq ⊢
+      intro N hN
+      obtain ⟨y, ⟨hyN, hyO⟩, hpy⟩ := hq (N ∩ O) (inter_mem hN (hO.mem_nhds hqO))
+      exact ⟨y, hyN, Causality.mem_diamond.2 ⟨(hOb y hyO).2, hpy⟩⟩
+    rw [(hD b p).isClosed.closure_eq] at hc
+    exact (Causality.mem_diamond.1 hc).2
+
+/-- **A causally monotone path of `Ω` imprisoned in a compact set of `M = Γ\Ω` converges in
+`Ω`.** `σ` continuous on `I ∈ l`, `π ∘ σ` in the compact `K` and eventually increasing along `l`
+(a filter with a basis of preconnected sets, e.g. `𝓝[<] T` or `atTop`). `π ∘ σ` converges in
+`M`: its cluster points `m` in `K` all satisfy `π σ t ≤ m` (`J^+(π σ t)` closed,
+`isClosed_le_of_isCompact_diamond`), so two of them are related both ways and coincide (`M`
+causal). A tail of `π ∘ σ` then lies in a chart `e` of `π` at a lift `y₀` of the limit; the
+chart lift `e⁻¹ ∘ π ∘ σ`, moved by the deck transformation that matches it to `σ` at one time, is
+a second lift of `π ∘ σ` on a preconnected set of times, so it equals `σ` (uniqueness of lifts,
+`IsSeparatedMap.eqOn_of_comp_eqOn`), and it converges to `g • y₀`. -/
+theorem exists_tendsto_of_monotone (hcov : IsCoveringMap π) (hloc : IsLocalIsometry d π)
+    (hsurj : Surjective π) (hfib : ∀ p q : Ω, π p = π q ↔ ∃ γ ∈ Γ, γ • (p : Minkowski d) = q)
+    (hM : (flatCausality d M).IsCausal)
+    (hD : ∀ p q : M, IsCompact ((flatCausality d M).diamond ⊤ p q))
+    {l : Filter ℝ} [l.NeBot] (hl : ∀ V ∈ l, ∃ J ∈ l, J ⊆ V ∧ IsPreconnected J)
+    {I : Set ℝ} (hI : I ∈ l) {σ : ℝ → Ω} (hσ : ContinuousOn σ I) {K : Set M}
+    (hK : IsCompact K) (hσK : ∀ t ∈ I, π (σ t) ∈ K)
+    (hmono : ∀ t ∈ I, ∀ᶠ s in l, (flatCausality d M).le ⊤ (π (σ t)) (π (σ s))) :
+    ∃ y : Ω, Tendsto σ l (𝓝 y) := by
+  set f : ℝ → M := fun t => π (σ t) with hfdef
+  have hfK : ∀ᶠ t in l, f t ∈ K := Filter.mem_of_superset hI hσK
+  have hclus : ∀ m, MapClusterPt m l f → ∀ {S : Set M}, IsClosed S → (∀ᶠ t in l, f t ∈ S) →
+      m ∈ S := by
+    intro m hm S hS hev
+    by_contra hmS
+    have := (mapClusterPt_iff_frequently.1 hm) _ (hS.isOpen_compl.mem_nhds hmS)
+    obtain ⟨t, h1, h2⟩ := (this.and_eventually hev).exists
+    exact h1 h2
+  have hbelow : ∀ m, MapClusterPt m l f → ∀ t ∈ I, (flatCausality d M).le ⊤ (f t) m :=
+    fun m hm t ht => hclus m hm (isClosed_le_of_isCompact_diamond hloc hsurj hD (f t)).1
+      (hmono t ht)
+  obtain ⟨m, hmK, hm⟩ := hK.exists_mapClusterPt (f := l) (u := f)
+    (by rw [le_principal_iff]; exact hfK)
+  have huniq : ∀ m' ∈ K, MapClusterPt m' l f → m' = m := by
+    intro m' _ hm'
+    exact hM (hclus m' hm' (isClosed_le_of_isCompact_diamond hloc hsurj hD m).2
+        (mem_of_superset hI fun t ht => hbelow m hm t ht))
+      (hclus m hm (isClosed_le_of_isCompact_diamond hloc hsurj hD m').2
+        (mem_of_superset hI fun t ht => hbelow m' hm' t ht))
+  have hf : Tendsto f l (𝓝 m) := hK.tendsto_nhds_of_unique_mapClusterPt hfK huniq
+  obtain ⟨y₀, rfl⟩ := hsurj m
+  obtain ⟨e, hy₀e, he⟩ := hcov.isLocalHomeomorph y₀
+  have hmt : π y₀ ∈ e.target := by rw [he]; exact e.map_source hy₀e
+  obtain ⟨J, hJl, hJV, hJc⟩ := hl _ (inter_mem hI (hf (e.open_target.mem_nhds hmt)))
+  obtain ⟨t₀, ht₀⟩ := Filter.nonempty_of_mem hJl
+  have hJI : J ⊆ I := fun t ht => (hJV ht).1
+  have hJt : ∀ t ∈ J, f t ∈ e.target := fun t ht => (hJV ht).2
+  set lift : ℝ → Ω := fun t => e.symm (f t) with hliftdef
+  have hfc : ContinuousOn f J := hcov.continuous.comp_continuousOn (hσ.mono hJI)
+  have hlc : ContinuousOn lift J := e.continuousOn_symm.comp hfc (fun t ht => hJt t ht)
+  have hlq : ∀ t ∈ J, π (lift t) = f t := fun t ht => by
+    show π (e.symm (f t)) = f t
+    rw [he]; exact e.right_inv (hJt t ht)
+  obtain ⟨γ, hγ, hγt⟩ := (hfib (lift t₀) (σ t₀)).1 (hlq t₀ ht₀)
+  set g : Γ := ⟨γ, hγ⟩ with hgdef
+  have hg0 : g • lift t₀ = σ t₀ := Subtype.ext (by rw [coe_smul]; exact hγt)
+  have hμc : ContinuousOn (fun t => g • lift t) J :=
+    (continuous_const_smul g).comp_continuousOn hlc
+  have hμq : ∀ t ∈ J, π (g • lift t) = π (lift t) := fun t _ =>
+    ((hfib (lift t) (g • lift t)).2 ⟨γ, hγ, by rw [coe_smul]⟩).symm
+  have hEq : EqOn σ (fun t => g • lift t) J :=
+    (T2Space.isSeparatedMap π).eqOn_of_comp_eqOn hcov.isLocalHomeomorph.isLocallyInjective hJc
+      (hσ.mono hJI) hμc (fun t ht => by
+        simp only [Function.comp_apply]; rw [hμq t ht, hlq t ht]) ht₀ hg0.symm
+  have hkey : e.symm (π y₀) = y₀ := by rw [he]; exact e.left_inv hy₀e
+  have h1 : Tendsto lift l (𝓝 y₀) := by
+    have := (e.continuousAt_symm hmt).tendsto.comp hf
+    rw [hkey] at this
+    exact this
+  have hlim : Tendsto (fun t => g • lift t) l (𝓝 (g • y₀)) :=
+    ((continuous_const_smul g).tendsto y₀).comp h1
+  exact ⟨g • y₀, hlim.congr' (mem_of_superset hJl fun t ht => (hEq ht).symm)⟩
+
+omit [T2Space M] [ChartedSpace (Minkowski d) M] [HasGroupoid M (gxGroupoid (isom d) (Minkowski d))]
+  [Invariant Γ Ω] in
+/-- A point of `Ω` in the closure (in `𝐌ⁿ`) of `π⁻¹ K`, `K` closed, lies in `π⁻¹ K`. -/
+theorem mem_of_mem_closure_image (hπ : Continuous π) {K : Set M} (hK : IsClosed K) {x : Ω}
+    (hx : (x : Minkowski d) ∈ closure (((↑) : Ω → Minkowski d) '' (π ⁻¹' K))) : π x ∈ K := by
+  by_contra hxK
+  have hU : IsOpen (((↑) : Ω → Minkowski d) '' (π ⁻¹' Kᶜ)) :=
+    Ω.isOpen.isOpenMap_subtype_val _ (hK.isOpen_compl.preimage hπ)
+  obtain ⟨_, ⟨y, hy, rfl⟩, ⟨y', hy', hyy'⟩⟩ := mem_closure_iff.1 hx _ hU ⟨x, hxK, rfl⟩
+  have : y' = y := Subtype.ext hyy'
+  subst this
+  exact hy hy'
+
+/-- **A causal segment from a point of `Ω` lying in the closure of `π⁻¹ K` (`K` compact) lies in
+`Ω`**, when `M = π(Ω)` is causal with compact diamonds. Let `[p, P τ*]` be the maximal subsegment
+in `Ω` (`τ*` the supremum): along it `t ↦ P t` is causally increasing in `Ω` with image in `K`
+(`mem_of_mem_closure_image`), so it converges in `Ω` (`exists_tendsto_of_monotone`, along
+`𝓝[<] τ*`), and its limit `P τ*` is a point of `Ω`; `Ω` being open, `τ* < 1` is impossible. -/
+theorem segment_subset_of_subset_closure (hcov : IsCoveringMap π) (hloc : IsLocalIsometry d π)
+    (hsurj : Surjective π) (hfib : ∀ p q : Ω, π p = π q ↔ ∃ γ ∈ Γ, γ • (p : Minkowski d) = q)
+    (hM : (flatCausality d M).IsCausal)
+    (hD : ∀ p q : M, IsCompact ((flatCausality d M).diamond ⊤ p q))
+    {K : Set M} (hK : IsCompact K) {p q : Minkowski d} (hp : p ∈ Ω)
+    (hpq : (minkowski d).le ⊤ p q)
+    (hs : segment ℝ p q ⊆ closure (((↑) : Ω → Minkowski d) '' (π ⁻¹' K))) :
+    segment ℝ p q ⊆ Ω := by
+  classical
+  set P : ℝ → Minkowski d := fun t => p + t • (q - p) with hPdef
+  have hPc : Continuous P := continuous_const.add (continuous_id.smul continuous_const)
+  have hPs : ∀ t ∈ Icc (0 : ℝ) 1, P t ∈ segment ℝ p q := fun t ht => by
+    rw [segment_eq_image']; exact ⟨t, ht, rfl⟩
+  have hv : IsFutureCausal (q - p) := le_top_iff_minkQ.1 hpq
+  have hP0 : P 0 = p := by simp [hPdef]
+  set A : Set ℝ := {τ | τ ∈ Icc (0 : ℝ) 1 ∧ ∀ t ∈ Icc 0 τ, P t ∈ Ω} with hAdef
+  have h0A : (0 : ℝ) ∈ A := ⟨⟨le_rfl, zero_le_one⟩, fun t ht => by
+    rw [show t = 0 from le_antisymm ht.2 ht.1, hP0]; exact hp⟩
+  have hAbdd : BddAbove A := ⟨1, fun τ hτ => hτ.1.2⟩
+  set τs := sSup A with hτs
+  have hτs0 : 0 ≤ τs := le_csSup hAbdd h0A
+  have hτs1 : τs ≤ 1 := csSup_le ⟨0, h0A⟩ fun τ hτ => hτ.1.2
+  have hlt : ∀ t, 0 ≤ t → t < τs → P t ∈ Ω := by
+    intro t ht0 htτ
+    obtain ⟨τ, hτA, htτ'⟩ := exists_lt_of_lt_csSup ⟨0, h0A⟩ htτ
+    exact hτA.2 t ⟨ht0, htτ'.le⟩
+  set σ : ℝ → Ω := fun t => if h : P t ∈ Ω then ⟨P t, h⟩ else ⟨p, hp⟩ with hσdef
+  have hσP : ∀ t, P t ∈ Ω → ((σ t : Ω) : Minkowski d) = P t := fun t h => by
+    simp [hσdef, h]
+  have hσc : ∀ t, P t ∈ Ω → ContinuousAt σ t := by
+    intro t ht
+    rw [Topology.IsInducing.subtypeVal.continuousAt_iff]
+    refine hPc.continuousAt.congr ?_
+    filter_upwards [hPc.continuousAt.preimage_mem_nhds (Ω.isOpen.mem_nhds ht)] with s hs
+    exact (hσP s hs).symm
+  have hσK : ∀ t ∈ Icc (0 : ℝ) 1, P t ∈ Ω → π (σ t) ∈ K := fun t ht h =>
+    mem_of_mem_closure_image hcov.continuous hK.isClosed (by rw [hσP t h]; exact hs (hPs t ht))
+  have hσle : ∀ t s, 0 ≤ t → t ≤ s → s < τs →
+      (flatCausality d M).le ⊤ (π (σ t)) (π (σ s)) := by
+    intro t s ht hts hs'
+    apply le_top_map_of_isLocalIsometry hloc
+    rw [flat_le_top_subtype_iff, hσP t (hlt t ht (hts.trans_lt hs')),
+      hσP s (hlt s (ht.trans hts) hs')]
+    have e1 : P s - P t = (s - t) • (q - p) := by simp only [hPdef, sub_smul]; abel
+    refine le_of_le_top_of_segment_subset ?_ ?_
+    · rw [le_top_iff_minkQ, e1]; exact isFutureCausal_smul (sub_nonneg.2 hts) hv
+    · rw [segment_eq_image']
+      rintro _ ⟨θ, hθ, rfl⟩
+      have e2 : P t + θ • (P s - P t) = P (t + θ * (s - t)) := by
+        rw [e1, smul_smul]; simp only [hPdef, add_smul]; abel
+      show P t + θ • (P s - P t) ∈ Ω
+      rw [e2]
+      have h1 : 0 ≤ θ * (s - t) := mul_nonneg hθ.1 (sub_nonneg.2 hts)
+      have h2 : θ * (s - t) ≤ s - t := by nlinarith [hθ.2]
+      exact hlt _ (by linarith) (by linarith)
+  -- the end of the maximal subsegment lies in `Ω`
+  have hτΩ : P τs ∈ Ω := by
+    rcases hτs0.eq_or_lt with h | hpos
+    · rw [← h, hP0]; exact hp
+    · have hI : Ico 0 τs ∈ 𝓝[<] τs :=
+        mem_of_superset (Ioo_mem_nhdsLT hpos) Ioo_subset_Ico_self
+      obtain ⟨y, hy⟩ := exists_tendsto_of_monotone hcov hloc hsurj hfib hM hD (l := 𝓝[<] τs)
+        (fun V hV => by
+          obtain ⟨l', hl', hsub⟩ := mem_nhdsLT_iff_exists_Ioo_subset.1 hV
+          exact ⟨Ioo l' τs, Ioo_mem_nhdsLT hl', hsub, isPreconnected_Ioo⟩)
+        hI (fun t ht => (hσc t (hlt t ht.1 ht.2)).continuousWithinAt) hK
+        (fun t ht => hσK t ⟨ht.1, ht.2.le.trans hτs1⟩ (hlt t ht.1 ht.2))
+        (fun t ht => by
+          filter_upwards [Ioo_mem_nhdsLT ht.2] with s hs
+          exact hσle t s ht.1 hs.1.le hs.2)
+      have h1 : Tendsto (fun t => ((σ t : Ω) : Minkowski d)) (𝓝[<] τs) (𝓝 (y : Minkowski d)) :=
+        (continuous_subtype_val.tendsto y).comp hy
+      have h2 : Tendsto (fun t => ((σ t : Ω) : Minkowski d)) (𝓝[<] τs) (𝓝 (P τs)) := by
+        refine (hPc.continuousAt.tendsto.mono_left nhdsWithin_le_nhds).congr' ?_
+        filter_upwards [Ioo_mem_nhdsLT hpos] with t ht
+        exact (hσP t (hlt t ht.1.le ht.2)).symm
+      rw [tendsto_nhds_unique h2 h1]; exact y.2
+  have hτA : τs ∈ A := ⟨⟨hτs0, hτs1⟩, fun t ht => by
+    rcases ht.2.lt_or_eq with h | h
+    · exact hlt t ht.1 h
+    · rw [h]; exact hτΩ⟩
+  have hτ1 : τs = 1 := by
+    by_contra hne
+    have hlt1 : τs < 1 := lt_of_le_of_ne hτs1 hne
+    obtain ⟨ε, hε, hball⟩ := Metric.isOpen_iff.1 (Ω.isOpen.preimage hPc) τs hτΩ
+    have hmem : min 1 (τs + ε / 2) ∈ A := by
+      refine ⟨⟨le_min zero_le_one (by linarith), min_le_left _ _⟩, fun t ht => ?_⟩
+      rcases le_or_gt t τs with h | h
+      · exact hτA.2 t ⟨ht.1, h⟩
+      · refine hball ?_
+        rw [Metric.mem_ball, Real.dist_eq, abs_of_pos (by linarith)]
+        linarith [ht.2.trans (min_le_right _ _)]
+    have := le_csSup hAbdd hmem
+    have : τs < min 1 (τs + ε / 2) := lt_min hlt1 (by linarith)
+    linarith
+  rw [segment_eq_image']
+  rintro _ ⟨t, ht, rfl⟩
+  exact hτA.2 t (by rw [hτ1]; exact ht)
+
+/-- **No future causal ray of `Ω` is imprisoned in a compact set of `M = π(Ω)`** (`M` causal with
+compact diamonds): along `atTop` the ray would converge in `Ω` (`exists_tendsto_of_monotone`),
+while its norm tends to infinity. -/
+theorem not_forall_ray (hcov : IsCoveringMap π) (hloc : IsLocalIsometry d π)
+    (hsurj : Surjective π) (hfib : ∀ p q : Ω, π p = π q ↔ ∃ γ ∈ Γ, γ • (p : Minkowski d) = q)
+    (hM : (flatCausality d M).IsCausal)
+    (hD : ∀ p q : M, IsCompact ((flatCausality d M).diamond ⊤ p q))
+    {K : Set M} (hK : IsCompact K) {p v : Minkowski d} (hp : p ∈ Ω) (hv : IsFutureCausal v)
+    (hv0 : v ≠ 0) (hray : ∀ t : ℝ, 0 ≤ t → p + t • v ∈ Ω)
+    (hrayK : ∀ t (ht : 0 ≤ t), π ⟨p + t • v, hray t ht⟩ ∈ K) : False := by
+  classical
+  set P : ℝ → Minkowski d := fun t => p + t • v with hPdef
+  have hPc : Continuous P := continuous_const.add (continuous_id.smul continuous_const)
+  set σ : ℝ → Ω := fun t => if h : P t ∈ Ω then ⟨P t, h⟩ else ⟨p, hp⟩ with hσdef
+  have hσP : ∀ t, P t ∈ Ω → ((σ t : Ω) : Minkowski d) = P t := fun t h => by
+    simp [hσdef, h]
+  have hσc : ∀ t, P t ∈ Ω → ContinuousAt σ t := by
+    intro t ht
+    rw [Topology.IsInducing.subtypeVal.continuousAt_iff]
+    refine hPc.continuousAt.congr ?_
+    filter_upwards [hPc.continuousAt.preimage_mem_nhds (Ω.isOpen.mem_nhds ht)] with s hs
+    exact (hσP s hs).symm
+  have hσK : ∀ t ∈ Ici (0 : ℝ), π (σ t) ∈ K := fun t ht => by
+    have : σ t = ⟨p + t • v, hray t ht⟩ := Subtype.ext (hσP t (hray t ht))
+    rw [this]; exact hrayK t ht
+  have hσle : ∀ t s, 0 ≤ t → t ≤ s → (flatCausality d M).le ⊤ (π (σ t)) (π (σ s)) := by
+    intro t s ht hts
+    apply le_top_map_of_isLocalIsometry hloc
+    rw [flat_le_top_subtype_iff, hσP t (hray t ht), hσP s (hray s (ht.trans hts))]
+    have e1 : P s - P t = (s - t) • v := by simp only [hPdef, sub_smul]; abel
+    refine le_of_le_top_of_segment_subset ?_ ?_
+    · rw [le_top_iff_minkQ, e1]; exact isFutureCausal_smul (sub_nonneg.2 hts) hv
+    · rw [segment_eq_image']
+      rintro _ ⟨θ, hθ, rfl⟩
+      have e2 : P t + θ • (P s - P t) = P (t + θ * (s - t)) := by
+        rw [e1, smul_smul]; simp only [hPdef, add_smul]; abel
+      show P t + θ • (P s - P t) ∈ Ω
+      rw [e2]
+      exact hray _ (by nlinarith [hθ.1])
+  obtain ⟨y, hy⟩ := exists_tendsto_of_monotone hcov hloc hsurj hfib hM hD (l := atTop)
+    (fun V hV => by
+      obtain ⟨N, hN⟩ := mem_atTop_sets.1 hV
+      exact ⟨Ici N, Ici_mem_atTop N, fun t ht => hN t ht, isPreconnected_Ici⟩)
+    (Ici_mem_atTop 0) (fun t ht => (hσc t (hray t ht)).continuousWithinAt) hK hσK
+    (fun t ht => by
+      filter_upwards [Ici_mem_atTop t] with s hs
+      exact hσle t s ht hs)
+  have h1 : Tendsto (fun t => ‖((σ t : Ω) : Minkowski d)‖) atTop (𝓝 ‖(y : Minkowski d)‖) :=
+    ((continuous_subtype_val.tendsto y).comp hy).norm
+  have hvpos : 0 < ‖v‖ := norm_pos_iff.2 hv0
+  have h2 : Tendsto (fun t => ‖((σ t : Ω) : Minkowski d)‖) atTop atTop := by
+    refine tendsto_atTop_mono' atTop ?_
+      (tendsto_atTop_add_const_right _ (-‖p‖) (tendsto_id.atTop_mul_const hvpos))
+    filter_upwards [Ici_mem_atTop 0] with t ht
+    rw [hσP t (hray t ht)]
+    have : ‖t • v‖ ≤ ‖P t‖ + ‖p‖ := by
+      have := norm_sub_le (P t) p
+      simpa [hPdef] using this
+    rw [norm_smul, Real.norm_eq_abs, abs_of_nonneg ht] at this
+    simp only [id]
+    linarith
+  exact not_tendsto_nhds_of_tendsto_atTop h2 _ h1
+
+/-- **Two causal segments of `Ω` span the third side when `M = Γ\Ω` is causal with compact
+diamonds**: the argument of `segment_subset_trans_of_isCompact_diamond`, the compact diamond of
+`Ω` replaced by `π⁻¹ J_M(π a, π b)`, whose closure in `𝐌ⁿ` is controlled by
+`segment_subset_of_subset_closure`. -/
+theorem segment_subset_trans_of_isQuotientOf (hcov : IsCoveringMap π)
+    (hloc : IsLocalIsometry d π) (hsurj : Surjective π)
+    (hfib : ∀ p q : Ω, π p = π q ↔ ∃ γ ∈ Γ, γ • (p : Minkowski d) = q)
+    (hM : (flatCausality d M).IsCausal)
+    (hD : ∀ p q : M, IsCompact ((flatCausality d M).diamond ⊤ p q))
+    {a c b : Minkowski d} (hac : (minkowski d).le ⊤ a c) (hcb : (minkowski d).le ⊤ c b)
+    (hsac : segment ℝ a c ⊆ Ω) (hscb : segment ℝ c b ⊆ Ω) : segment ℝ a b ⊆ Ω := by
+  have haW : a ∈ Ω := hsac (left_mem_segment ℝ a c)
+  have hbW : b ∈ Ω := hscb (right_mem_segment ℝ c b)
+  set K : Set M := (flatCausality d M).diamond ⊤ (π ⟨a, haW⟩) (π ⟨b, hbW⟩) with hKdef
+  set E : Set (Minkowski d) := ((↑) : Ω → Minkowski d) '' (π ⁻¹' K) with hEdef
+  have hmemE : ∀ y (hy : y ∈ Ω), (minkowski d).le Ω a y → (minkowski d).le Ω y b → y ∈ E := by
+    intro y hy h1 h2
+    refine ⟨⟨y, hy⟩, Causality.mem_diamond.2 ⟨le_top_map_of_isLocalIsometry hloc ?_,
+      le_top_map_of_isLocalIsometry hloc ?_⟩, rfl⟩
+    · rw [flat_le_top_subtype_iff]; exact h1
+    · rw [flat_le_top_subtype_iff]; exact h2
+  set g : ℝ → ℝ := fun s => max 0 (min s 1) with hgdef
+  have hg : Continuous g := continuous_const.max (continuous_id.min continuous_const)
+  have hg01 : ∀ s, g s ∈ Icc (0 : ℝ) 1 := fun s =>
+    ⟨le_max_left _ _, max_le zero_le_one (min_le_right _ _)⟩
+  set cs : ℝ → Minkowski d := fun s => c + g s • (b - c) with hcsdef
+  set F : ℝ × ℝ → Minkowski d := fun z => a + z.2 • (cs z.1 - a) with hFdef
+  have hF : Continuous F :=
+    continuous_const.add (continuous_snd.smul
+      ((continuous_const.add ((hg.comp continuous_fst).smul continuous_const)).sub
+        continuous_const))
+  set u : Set ℝ := {s | ∀ θ ∈ Icc (0 : ℝ) 1, F (s, θ) ∈ Ω} with hudef
+  have hcs : ∀ s, cs s ∈ segment ℝ c b := fun s => by
+    rw [segment_eq_image']; exact ⟨g s, hg01 s, rfl⟩
+  have hseg : ∀ s, segment ℝ a (cs s) = (fun θ => F (s, θ)) '' Icc 0 1 := fun s => by
+    rw [segment_eq_image']
+  have hacs : ∀ s, (minkowski d).le ⊤ a (cs s) := fun s =>
+    (minkowski d).le_trans hac (le_top_of_mem_segment hcb (hcs s)).1
+  have huo : IsOpen u := by
+    rw [isOpen_iff_mem_nhds]
+    intro s₀ hs₀
+    have : ∀ θ ∈ Icc (0 : ℝ) 1, ∀ᶠ z : ℝ × ℝ in 𝓝 (s₀, θ), F z ∈ Ω := fun θ hθ =>
+      hF.continuousAt.preimage_mem_nhds (Ω.isOpen.mem_nhds (hs₀ θ hθ))
+    exact isCompact_Icc.eventually_forall_of_forall_eventually this
+  have hmaps : ∀ θ ∈ Icc (0 : ℝ) 1, MapsTo (fun s => F (s, θ)) u E := by
+    intro θ hθ s hs
+    have hsW : segment ℝ a (cs s) ⊆ Ω := by
+      rw [hseg]; rintro _ ⟨θ', hθ', rfl⟩; exact hs θ' hθ'
+    have hy : F (s, θ) ∈ segment ℝ a (cs s) := by rw [hseg]; exact ⟨θ, hθ, rfl⟩
+    obtain ⟨h1, h2⟩ := le_top_of_mem_segment (hacs s) hy
+    have hcsb := (le_top_of_mem_segment hcb (hcs s)).2
+    refine hmemE _ (hsW hy) (le_of_le_top_of_segment_subset h1 fun z hz =>
+      hsW ((convex_segment _ _).segment_subset (left_mem_segment _ _ _) hy hz)) ?_
+    exact (minkowski d).le_trans (le_of_le_top_of_segment_subset h2 fun z hz =>
+        hsW ((convex_segment _ _).segment_subset hy (right_mem_segment _ _ _) hz))
+      (le_of_le_top_of_segment_subset hcsb fun z hz =>
+        hscb ((convex_segment _ _).segment_subset (hcs s) (right_mem_segment _ _ _) hz))
+  have hcl : closure u ∩ Icc 0 1 ⊆ u := by
+    intro s hs
+    have hsub : segment ℝ a (cs s) ⊆ closure E := by
+      rw [hseg]; rintro _ ⟨θ, hθ, rfl⟩
+      exact map_mem_closure (f := fun s => F (s, θ)) (hF.comp (Continuous.prodMk_left θ)) hs.1
+        (hmaps θ hθ)
+    have := segment_subset_of_subset_closure hcov hloc hsurj hfib hM hD (hD _ _) haW (hacs s) hsub
+    intro θ hθ
+    exact this (by rw [hseg]; exact ⟨θ, hθ, rfl⟩)
+  have h0 : (Icc (0 : ℝ) 1 ∩ u).Nonempty := by
+    refine ⟨0, ⟨le_rfl, zero_le_one⟩, fun θ hθ => hsac ?_⟩
+    rw [segment_eq_image']
+    exact ⟨θ, hθ, by simp [hFdef, hcsdef, hgdef]⟩
+  have hsub := isPreconnected_Icc.subset_of_closure_inter_subset huo h0 hcl
+  rw [segment_eq_image']
+  rintro _ ⟨θ, hθ, rfl⟩
+  have := hsub ⟨zero_le_one, le_rfl⟩ θ hθ
+  simpa [hFdef, hcsdef, hgdef] using this
+
+end CoverGH
+
 /-- **Global hyperbolicity lifts to the cover of a quotient** (the converse of
 `FlatQuotient.globallyHyperbolic_quotient`): if the flat spacetime `M` is presented as `Γ\Ω`
 (`IsQuotientOf`) and is GH, then (a) the diamonds of `Ω` are compact and (b) for all `a, b ∈ Ω`
 only finitely many `g ∈ Γ` have `a ≤_Ω g b`. Classical (a covering of a GH spacetime is GH; the
-lifts of the causal curves from `π a` to `π b` stay in a compact set of `Ω`). Not proved: see the
-`sorry`. -/
+lifts of the causal curves from `π a` to `π b` stay in a compact set of `Ω`). Proved by straight
+segments: `≤_Ω` is convex (`segment_subset_trans_of_isQuotientOf`); (a) a limit `y` of
+`J_Ω(a, b)` is joined to `a` and `b` by segments in the closure of `π⁻¹ J_M(π a, π b)`, hence in
+`Ω` (`segment_subset_of_subset_closure`); (b) the points `y` with `[a, y]` in that closure form
+a closed set, bounded (`not_forall_ray`, on a limit direction), hence a compact subset of `Ω`, and
+the `g • b` with `a ≤_Ω g • b` are points of it in one fibre of the covering `π`, finitely many,
+`g ↦ g • b` being injective (`smul_left_injective_of_isCoveringMap`). -/
 theorem cover_gh_of_isQuotientOf {M : FlatSpacetime.{v} d} {Γ : Subgroup (isom d)}
     {Ω : Opens (Minkowski d)} [Invariant Γ Ω] (hq : IsQuotientOf M Γ Ω) (hM : GH M) :
     (∀ a b : Ω, IsCompact ((flatCausality d Ω).diamond ⊤ a b)) ∧
       ∀ a b : Ω, {g : Γ | (flatCausality d Ω).le ⊤ a (g • b)}.Finite := by
-  sorry -- SORRY(rem:5.3): GH lifts along the covering π : Ω → M. Classical route: the chains from π a to π b stay in the compact J_M(π a, π b) and, M being strongly causal (GloballyHyperbolic.stronglyCausal), have uniformly bounded length for an auxiliary Riemannian metric (a limit-curve argument), so their lifts from a (exists_lift_le, sheet by sheet) stay in a compact K ⊆ Ω. Then (b): every g with a ≤_Ω g b has g b ∈ K, finitely many by the proper discontinuity of the deck action (derivable from the covering; freeness is smul_left_injective_of_isCoveringMap); (a): J_Ω(a, b) ⊆ K, and its closedness is the same limit-curve step (lifting a convergent family of chains). The length bound / limit-curve theorem for ETT chains is absent from the library; Barbot's route (t ∘ q a proper time function, l.1801–1804) needs Geroch (iii)⇒(i), a cited sorry in GerochEquiv
+  obtain ⟨π, hcov, hloc, hsurj, hfib⟩ := hq.quot
+  have hC := hM.1
+  have hD := hM.2
+  have hconv : ∀ {p q : Minkowski d}, (minkowski d).le Ω p q →
+      (minkowski d).le ⊤ p q ∧ segment ℝ p q ⊆ Ω := fun h =>
+    le_top_and_segment_subset_of_le_of_trans (fun hac hcb hsac hscb =>
+      segment_subset_trans_of_isQuotientOf hcov hloc hsurj hfib hC hD hac hcb hsac hscb) h
+  have hsegle : ∀ {u w y : Minkowski d}, (minkowski d).le ⊤ u w → segment ℝ u w ⊆ Ω →
+      y ∈ segment ℝ u w → (minkowski d).le Ω u y ∧ (minkowski d).le Ω y w :=
+    fun huw hs hy =>
+      ⟨le_of_le_top_of_segment_subset (le_top_of_mem_segment huw hy).1 fun z hz =>
+          hs ((convex_segment _ _).segment_subset (left_mem_segment _ _ _) hy hz),
+        le_of_le_top_of_segment_subset (le_top_of_mem_segment huw hy).2 fun z hz =>
+          hs ((convex_segment _ _).segment_subset hy (right_mem_segment _ _ _) hz)⟩
+  refine ⟨fun a b => ?_, fun a b => ?_⟩
+  · -- (a) compact diamonds
+    set K := (flatCausality d M).diamond ⊤ (π a) (π b) with hKdef
+    set E := ((↑) : Ω → Minkowski d) '' (π ⁻¹' K) with hEdef
+    set J := ((↑) : Ω → Minkowski d) '' (flatCausality d Ω).diamond ⊤ a b with hJdef
+    have hKm : IsCompact ((minkowski d).diamond ⊤ (a : Minkowski d) b) :=
+      minkowski_globallyHyperbolic.2 _ _
+    have hJsub : J ⊆ (minkowski d).diamond ⊤ (a : Minkowski d) b := by
+      rintro _ ⟨z, hz, rfl⟩
+      rw [Causality.mem_diamond] at hz
+      exact Causality.mem_diamond.2
+        ⟨(minkowski d).le_mono le_top ((flat_le_top_subtype_iff Ω a z).1 hz.1),
+          (minkowski d).le_mono le_top ((flat_le_top_subtype_iff Ω z b).1 hz.2)⟩
+    have hJseg : ∀ z ∈ J, segment ℝ (a : Minkowski d) z ⊆ E ∧ segment ℝ z b ⊆ E := by
+      rintro _ ⟨z, hz, rfl⟩
+      rw [Causality.mem_diamond] at hz
+      obtain ⟨h1t, h1s⟩ := hconv ((flat_le_top_subtype_iff Ω a z).1 hz.1)
+      obtain ⟨h2t, h2s⟩ := hconv ((flat_le_top_subtype_iff Ω z b).1 hz.2)
+      refine ⟨fun y hy => ?_, fun y hy => ?_⟩
+      · obtain ⟨hay, hyz⟩ := hsegle h1t h1s hy
+        refine ⟨⟨y, h1s hy⟩, Causality.mem_diamond.2 ⟨le_top_map_of_isLocalIsometry hloc ?_,
+          le_top_map_of_isLocalIsometry hloc ?_⟩, rfl⟩
+        · rw [flat_le_top_subtype_iff]; exact hay
+        · exact (flatCausality d Ω).le_trans ((flat_le_top_subtype_iff _ _ _).2 hyz) hz.2
+      · obtain ⟨hzy, hyb⟩ := hsegle h2t h2s hy
+        refine ⟨⟨y, h2s hy⟩, Causality.mem_diamond.2 ⟨le_top_map_of_isLocalIsometry hloc ?_,
+          le_top_map_of_isLocalIsometry hloc ?_⟩, rfl⟩
+        · exact (flatCausality d Ω).le_trans hz.1 ((flat_le_top_subtype_iff _ _ _).2 hzy)
+        · rw [flat_le_top_subtype_iff]; exact hyb
+    have hJc : IsClosed J := by
+      refine isClosed_of_closure_subset fun y hy => ?_
+      have hyK := closure_minimal hJsub hKm.isClosed hy
+      rw [Causality.mem_diamond] at hyK
+      have hs1 : segment ℝ (a : Minkowski d) y ⊆ closure E := by
+        rw [segment_eq_image']
+        rintro _ ⟨θ, hθ, rfl⟩
+        exact map_mem_closure (f := fun z => (a : Minkowski d) + θ • (z - a)) (by fun_prop) hy
+          (fun z hz => (hJseg z hz).1 (by rw [segment_eq_image']; exact ⟨θ, hθ, rfl⟩))
+      have hsa := segment_subset_of_subset_closure hcov hloc hsurj hfib hC hD (hD _ _) a.2
+        hyK.1 hs1
+      have hyΩ : y ∈ Ω := hsa (right_mem_segment _ _ _)
+      have hs2 : segment ℝ y (b : Minkowski d) ⊆ closure E := by
+        rw [segment_eq_image']
+        rintro _ ⟨θ, hθ, rfl⟩
+        exact map_mem_closure (f := fun z => z + θ • ((b : Minkowski d) - z)) (by fun_prop) hy
+          (fun z hz => (hJseg z hz).2 (by rw [segment_eq_image']; exact ⟨θ, hθ, rfl⟩))
+      have hsb := segment_subset_of_subset_closure hcov hloc hsurj hfib hC hD (hD _ _) hyΩ
+        hyK.2 hs2
+      refine ⟨⟨y, hyΩ⟩, Causality.mem_diamond.2 ⟨?_, ?_⟩, rfl⟩
+      · rw [flat_le_top_subtype_iff]; exact le_of_le_top_of_segment_subset hyK.1 hsa
+      · rw [flat_le_top_subtype_iff]; exact le_of_le_top_of_segment_subset hyK.2 hsb
+    rw [Subtype.isCompact_iff]
+    exact hKm.of_isClosed_subset hJc hJsub
+  · -- (b) finiteness
+    set K := (flatCausality d M).diamond ⊤ (π a) (π b) with hKdef
+    set E := ((↑) : Ω → Minkowski d) '' (π ⁻¹' K) with hEdef
+    set S : Set (Minkowski d) := {y | (minkowski d).le ⊤ (a : Minkowski d) y ∧
+      segment ℝ (a : Minkowski d) y ⊆ closure E} with hSdef
+    have hSΩ : ∀ y ∈ S, segment ℝ (a : Minkowski d) y ⊆ Ω := fun y hy =>
+      segment_subset_of_subset_closure hcov hloc hsurj hfib hC hD (hD _ _) a.2 hy.1 hy.2
+    have hSc : IsClosed S := by
+      have hS : S = {y | IsFutureCausal (y - (a : Minkowski d))} ∩
+          ⋂ θ ∈ Icc (0 : ℝ) 1, (fun y => (a : Minkowski d) + θ • (y - a)) ⁻¹' closure E := by
+        ext y
+        simp only [hSdef, mem_setOf_eq, mem_inter_iff, mem_iInter, mem_preimage,
+          le_top_iff_minkQ, segment_eq_image', image_subset_iff]
+        rfl
+      rw [hS]
+      exact (isClosed_isFutureCausal.preimage (continuous_id.sub continuous_const)).inter
+        (isClosed_biInter fun θ _ => isClosed_closure.preimage (by fun_prop))
+    have hbdd : ∃ R, ∀ y ∈ S, ‖y - (a : Minkowski d)‖ ≤ R := by
+      by_contra hcon
+      push Not at hcon
+      choose y hyS hyR using fun n : ℕ => hcon n
+      have hpos : ∀ n, 0 < ‖y n - (a : Minkowski d)‖ := fun n =>
+        lt_of_le_of_lt (Nat.cast_nonneg n) (hyR n)
+      set w : ℕ → Minkowski d := fun n => ‖y n - (a : Minkowski d)‖⁻¹ • (y n - a) with hwdef
+      have hw : ∀ n, w n ∈ Metric.sphere (0 : Minkowski d) 1 := fun n => by
+        rw [mem_sphere_zero_iff_norm, hwdef, norm_smul, norm_inv, norm_norm,
+          inv_mul_cancel₀ (hpos n).ne']
+      obtain ⟨v, hv1, φ, hφ, hlim⟩ := (isCompact_sphere (0 : Minkowski d) 1).tendsto_subseq hw
+      have hv0 : v ≠ 0 := by
+        rintro rfl; rw [mem_sphere_zero_iff_norm, norm_zero] at hv1; exact zero_ne_one hv1
+      have hvc : IsFutureCausal v := isClosed_isFutureCausal.mem_of_tendsto hlim
+        (Eventually.of_forall fun n => isFutureCausal_smul (inv_nonneg.2 (norm_nonneg _))
+          (le_top_iff_minkQ.1 (hyS (φ n)).1))
+      have hray : ∀ t : ℝ, 0 ≤ t → (a : Minkowski d) + t • v ∈ closure E := by
+        intro t ht
+        have hlim' : Tendsto (fun n => (a : Minkowski d) + t • w (φ n)) atTop
+            (𝓝 ((a : Minkowski d) + t • v)) :=
+          tendsto_const_nhds.add (hlim.const_smul t)
+        refine isClosed_closure.mem_of_tendsto hlim' ?_
+        obtain ⟨N, hN⟩ := exists_nat_gt t
+        filter_upwards [hφ.tendsto_atTop.eventually_ge_atTop N] with n hn
+        have hyn := hyR (φ n)
+        have hle : t ≤ ‖y (φ n) - (a : Minkowski d)‖ := by
+          have : (N : ℝ) ≤ φ n := by exact_mod_cast hn
+          linarith
+        refine (hyS (φ n)).2 ?_
+        rw [segment_eq_image']
+        refine ⟨t * ‖y (φ n) - (a : Minkowski d)‖⁻¹, ⟨by positivity, ?_⟩, ?_⟩
+        · rw [← div_eq_mul_inv]; exact div_le_one_of_le₀ hle (norm_nonneg _)
+        · simp only [hwdef, smul_smul]
+      have hrayΩ : ∀ t : ℝ, 0 ≤ t → (a : Minkowski d) + t • v ∈ Ω := fun t ht => by
+        have hs : segment ℝ (a : Minkowski d) (a + t • v) ⊆ closure E := by
+          rw [segment_eq_image']
+          rintro _ ⟨θ, hθ, rfl⟩
+          have : (a : Minkowski d) + θ • ((a + t • v) - a) = a + (θ * t) • v := by
+            rw [add_sub_cancel_left, smul_smul]
+          show (a : Minkowski d) + θ • ((a + t • v) - a) ∈ closure E
+          rw [this]; exact hray _ (mul_nonneg hθ.1 ht)
+        have hle : (minkowski d).le ⊤ (a : Minkowski d) (a + t • v) := by
+          rw [le_top_iff_minkQ, add_sub_cancel_left]; exact isFutureCausal_smul ht hvc
+        exact segment_subset_of_subset_closure hcov hloc hsurj hfib hC hD (hD _ _) a.2 hle hs
+          (right_mem_segment _ _ _)
+      exact not_forall_ray hcov hloc hsurj hfib hC hD (hD (π a) (π b)) a.2 hvc hv0 hrayΩ
+        (fun t ht => mem_of_mem_closure_image hcov.continuous (hD _ _).isClosed (hray t ht))
+    obtain ⟨R, hR⟩ := hbdd
+    set S' := S ∩ Metric.closedBall (a : Minkowski d) R with hS'def
+    have hS'c : IsCompact S' := (isCompact_closedBall _ _).inter_left hSc
+    have hS'Ω : S' ⊆ Ω := fun y hy => hSΩ y hy.1 (right_mem_segment _ _ _)
+    set K' : Set Ω := (↑) ⁻¹' S' with hK'def
+    have hK'c : IsCompact K' := by
+      rw [Subtype.isCompact_iff]
+      have : ((↑) : Ω → Minkowski d) '' K' = S' := by
+        ext y
+        exact ⟨by rintro ⟨z, hz, rfl⟩; exact hz, fun hy => ⟨⟨y, hS'Ω hy⟩, hy, rfl⟩⟩
+      rw [this]; exact hS'c
+    choose U hxU hU using exists_injOn_of_isCoveringMap hcov
+    obtain ⟨T, -, hcovT⟩ := hK'c.elim_nhds_subcover (fun x => (U x : Set Ω))
+      (fun x _ => (U x).2.mem_nhds (hxU x))
+    have hfin : (K' ∩ {x | π x = π b}).Finite := by
+      refine Set.Finite.subset (Set.Finite.biUnion T.finite_toSet fun x _ =>
+        (?_ : ((U x : Set Ω) ∩ {x | π x = π b}).Finite)) ?_
+      · exact Set.Subsingleton.finite fun y hy z hz => hU x hy.1 hz.1 (hy.2.trans hz.2.symm)
+      · rintro y ⟨hyK, hyb⟩
+        obtain ⟨x, hxT, hyx⟩ := mem_iUnion₂.1 (hcovT hyK)
+        exact mem_iUnion₂.2 ⟨x, hxT, hyx, hyb⟩
+    have hinj : InjOn (fun g : Γ => g • b) {g : Γ | (flatCausality d Ω).le ⊤ a (g • b)} :=
+      fun g _ g' _ h => smul_left_injective_of_isCoveringMap hcov hfib h
+    refine Set.Finite.of_finite_image (hfin.subset ?_) hinj
+    rintro _ ⟨g, hg, rfl⟩
+    have hπ : π (g • b) = π b := ((hfib b (g • b)).2 ⟨g, g.2, by rw [coe_smul]⟩).symm
+    obtain ⟨ht, hs⟩ := hconv ((flat_le_top_subtype_iff Ω a (g • b)).1 hg)
+    have hgS : ((g • b : Ω) : Minkowski d) ∈ S := by
+      refine ⟨ht, fun y hy => subset_closure ?_⟩
+      obtain ⟨hay, hyg⟩ := hsegle ht hs hy
+      refine ⟨⟨y, hs hy⟩, Causality.mem_diamond.2
+        ⟨le_top_map_of_isLocalIsometry hloc ((flat_le_top_subtype_iff _ _ _).2 hay), ?_⟩, rfl⟩
+      rw [← hπ]
+      exact le_top_map_of_isLocalIsometry hloc ((flat_le_top_subtype_iff _ _ _).2 hyg)
+    exact ⟨⟨hgS, Metric.mem_closedBall.2 (by rw [dist_eq_norm]; exact hR _ hgS)⟩, hπ⟩
 
 end TwistedProduct
 
@@ -1295,8 +2076,8 @@ compact and (b) for all `x, y ∈ Ω` only finitely many `γ ∈ Γ` have `x ≤
 two hypotheses under which global hyperbolicity descends to a quotient (as in
 `FlatQuotient.globallyHyperbolic_quotient`); the descent itself is proved in
 `isCompact_diamond_of_isLTPData`. The instance `[Invariant Γ Ω]` (to let `Γ` act on `Ω`) is not
-an added hypothesis: it follows from `h.quotient` (`IsQuotientOf.invariant`). Proved from two
-tagged `sorry`s: GH lifts to the cover `W = ι⁻¹ Ω` of `M₁`
+an added hypothesis: it follows from `h.quotient` (`IsQuotientOf.invariant`). Proved from: GH
+lifts to the cover `W = ι⁻¹ Ω` of `M₁`
 (`TwistedProduct.cover_gh_of_isQuotientOf`), and the diamonds of `Ω = W × U^⊥` are closed
 (`AffineMinkEmbedding.isClosed_diamond_of_retract`); (a) is `isCompact_diamond_of_retract`;
 (b) maps `γ` to its restriction `g`, injectively

@@ -4,8 +4,8 @@
     "scaffold/CausalScaffold/Splitting.lean"
   ],
   "builds": true,
-  "build_command": "taskset -c 0-11 lake env lean scaffold/CausalScaffold/Splitting.lean (0 errors; 1 warning: 'declaration uses sorry' on the tagged Flat.flat_hasChronalCausalFlow)",
-  "sorry_count": 1,
+  "build_command": "taskset -c 0-11 lake env lean scaffold/CausalScaffold/Splitting.lean (0 errors, 0 warnings; #print axioms Causal.Flat.flat_hasChronalCausalFlow = [propext, Classical.choice, Quot.sound])",
+  "sorry_count": 0,
   "labels": [
     {
       "label": "bprop:splitting",
@@ -40,7 +40,7 @@
         {
           "paper": "(implicit) the flow of a causal vector field",
           "here": "strengthened (named, kb/0012)",
-          "note": "IsCausalFlow C phi (mathlib Flow R M; orbits inextensible causal curves over R; no stationary point); for a flat spacetime HasChronalCausalFlow is stated with a tagged sorry"
+          "note": "IsCausalFlow C phi (mathlib Flow R M; orbits inextensible causal curves over R; no stationary point); for a flat spacetime HasChronalCausalFlow is PROVED (Flat.flat_hasChronalCausalFlow) from one pure-ODE lemma, exists_complete_rescaling_continuous (proved, no sorry)"
         },
         {
           "paper": "(implicit) psi a homeomorphism",
@@ -48,15 +48,11 @@
           "note": "J^+(S), J^-(S) closed - necessary and sufficient (isClosed_iff_exists_isCauchySplitting); derived for a chronal flow; flow-free pointwise criteria isClosed_Jplus_of_forall_exists(_lt) / isClosed_Jminus_of_forall_exists(_lt)"
         }
       ],
-      "sorries": [
-        {
-          "decl": "Causal.Flat.flat_hasChronalCausalFlow",
-          "obstruction": "mathlib at fabf563a has no global flow of a complete vector field on a manifold with joint continuity of (t, x) -> phi t x: only local flows on a ball of a Banach space (Mathlib/Analysis/ODE/PicardLindelof.lean, IsPicardLindelof) and manifold integral curves (IntegralCurve/ExistUnique, UniformTime: existence and uniqueness, no continuous dependence on the initial point), and no completeness-by-rescaling; also unformalized: gxGroupoid (isom d) <= contDiffGroupoid, gluing e0 by a smooth partition of unity into a future timelike field, inextensibility (DEC-13) of a maximal integral curve"
-        }
-      ],
+      "sorries": [],
       "findings": [
         "GHFspace.tex:2461-2462: 'every S x {*} are Cauchy hypersurfaces' is a property of a well-chosen flow, not of the splitting by an arbitrary causal flow: on M^n, n >= 2, the chronal causal flow phi_t(s,x) = (s + t(1+|x|), x) splits along {t=0} and the slice psi(S x {1}) = {(1+|x|, x)} is not a Cauchy surface (a null line meets it twice) - minkowski_skew_slice_not_isCauchySurface. The slices are Cauchy when each phi_t preserves inextensible curves (isCauchySurface_flow_image), e.g. for the Minkowski time translation.",
-        "Barbot's last sentence (nonspacelike geodesics of M~ meet S~) is not treated."
+        "Barbot's last sentence (nonspacelike geodesics of M~ meet S~) is not treated.",
+        "Target 4 closed (2026-11-01): Flat.flat_hasChronalCausalFlow is proved with no sorry, statement unchanged; its ODE input Causal.exists_complete_rescaling_continuous (completeness by rescaling + continuous dependence of global integral curves on a manifold) is proved in namespace Causal.ODEFlow. Theorem A's bridge in CauchyComplete no longer rests on any sorry of this file. bprop:splitting stays unmarked for the reasons above (chosen-flow slices, the geodesic sentence, the IsAcausal strengthening), not for the flow."
       ],
       "questions": []
     },
@@ -92,7 +88,7 @@
     "1": "Causal.Causality.IsCausalFlow (structure: inextensible : forall x, C.Inextensible top univ (fun t => phi t x); nonstationary : forall x, exists t, phi t x != x), Causal.Causality.IsChronalFlow (forall x a b, C.ChronalCurveOn top (fun t => phi t x) a b), Causal.Causality.HasChronalCausalFlow",
     "2": "Causal.Causality.IsCausalFlow.exists_isCauchySplitting (hcaus : C.IsCausal) (hphi : C.IsCausalFlow phi) (hS : C.IsCauchySurface S) (hac : C.IsAcausal S) (hJp : IsClosed (C.Jplus top S)) (hJm : IsClosed (C.Jminus top S)) : exists psi : S x R ~=t M, (forall (x : S) (t : R), psi (x, t) = phi t x) /\\ C.IsCauchySplitting S psi; chronal version without hJp/hJm: IsCausalFlow.exists_isCauchySplitting_of_isChronalFlow (hcaus) (hphi) (hch : C.IsChronalFlow phi) (hS) (hac); closedness criteria: IsCausalFlow.isClosed_Jplus_of_nhds / isClosed_Jminus_of_nhds (flow; fail at BTZ points), and flow-free Causal.Causality.isClosed_Jplus_of_forall_exists (h : forall p notin C.Jplus top S, exists r notin C.Jplus top S, C.Jminus top {r} in nhds p) : IsClosed (C.Jplus top S), isClosed_Jplus_of_forall_exists_lt (h : forall p notin C.Jplus top S, exists r notin C.Jplus top S, C.lt top p r), and the Jminus duals",
     "3": "Causal.Causality.Jplus_diff_eq_Iplus (hP : C.PushUp) {U : Opens M} (hacU : forall z in S cap U, forall w in S cap U, C.le U z w -> z = w) (hchron : forall z in S cap U, not C.lt U z z) (hSU : C.IsCauchySurfaceOn U (S cap U)) (hthread : forall p in C.Jplus U (S cap U) \\ S, C.HasChronalThreadIn U p) : C.Jplus U (S cap U) \\ S = C.Iplus U (S cap U); Jminus_diff_eq_Iminus dual; pieces: Iplus_subset_Jplus_diff (hacU) (hchron), mem_Iplus_of_hasChronalThreadIn (hP) (hacU) (hchron) (hSU) (hp) (hth); openness: isOpen_Jplus_diff_and_Jminus_diff (threads at every p in U \\ S), and POINTWISE isOpen_Jplus_diff_of_forall / isOpen_Jminus_diff_of_forall (h : forall p in C.Jplus U (S cap U) \\ S, C.HasChronalThreadIn U p \\/ C.Jplus U (S cap U) \\ S in nhds p); two-sidedness (unfolded body of CompactCauchy.IsLocallyCauchyTwoSided S): isLocallyCauchyTwoSided_of_threads (hP) (hloc : forall x in S, exists U : Opens M, x in U /\\ C.CausallyConvexIn U top /\\ C.IsCauchySurfaceOn U (S cap U) /\\ hacU /\\ hchron /\\ forall p in U \\ S, C.HasChronalThreadIn U p) and isLocallyCauchyTwoSided_of_pointwise (hP) (hloc with the last conjunct replaced by: (forall p in C.Jplus U (S cap U) \\ S, thread \\/ C.Jplus U (S cap U) \\ S in nhds p) /\\ (forall p in C.Jminus U (S cap U) \\ S, thread \\/ C.Jminus U (S cap U) \\ S in nhds p)). Threads are supplied by a chronal flow (IsCausalFlow.hasChronalThreadIn [T2Space]); hchron derivable by not_lt_self_of_Jminus_ne. In a chart containing BTZ points off S no thread exists there (lightlikeLine_Jplus_diff_ne_Iplus), so the neighbourhood alternative of the pointwise variant at those points is gx's model obligation.",
-    "4": "Causal.Flat.flat_hasChronalCausalFlow - stated, tagged sorry; consumers use the named hypothesis HasChronalCausalFlow (Flat.flat_exists_isCauchySplitting does not depend on the sorry)",
+    "4": "Causal.Flat.flat_hasChronalCausalFlow [T2Space M] [SecondCountableTopology M] : (flatCausality d M).HasChronalCausalFlow - PROVED, together with its pure-ODE input Causal.exists_complete_rescaling_continuous (no sorry) (E fin-dim, N T2 sigma-compact, IsManifold I(R,E) infinity N, v : C_s^infinity section) : exists f : C^infinity(N, R), (forall x, 0 < f x) /\\ exists Phi : R -> N -> N, (forall x, Phi 0 x = x) /\\ (forall x, IsMIntegralCurve (Phi . x) (f . v)) /\\ Continuous (uncurry Phi). Closed pieces: Causal.exists_flow_of_isMIntegralCurve (group law from uniqueness), Causal.exists_flow_isMIntegralCurve_smul, Causal.Causality.inextensible_of_flow (any causality, T2: orbits of a fixed-point-free flow which are causal curves over R are inextensible), Causal.Causality.flow_fixed_of_tendsto, Causal.Flat.FlowField.{isManifold_of_flat, gxGroupoid_le_contDiffGroupoid, tangentCoordChange_isFutureTimelike, exists_contMDiff_futureTimelike_section, hasDerivAt_chartAt_of_hasMFDerivAt, hasFutureTimelikeChartVelocity_of_isMIntegralCurve, HasFutureTimelikeChartVelocity, chord_lt_of_hasDerivAt, chronalCurveOn_of_chartVelocity, exists_ne_of_chartVelocity}; consumers may still use the named hypothesis HasChronalCausalFlow (Flat.flat_exists_isCauchySplitting does not depend on flat_hasChronalCausalFlow)",
     "5": "Causal.minkowskiTimeFlow, minkowski_isCausalFlow, minkowski_isChronalFlow, minkowski_hasChronalCausalFlow, minkowski_exists_isCauchySplitting (any acausal Cauchy surface), minkowski_splitting_cauchy_slices (bprop:splitting in full on M^n), Flat.flatCausality_self_hasChronalCausalFlow, timelikeLine_hasChronalThreadIn, timelikeLine_target3, minkowskiTimeFlow_inextensible + minkowski_isCauchySurface_flow_image (hinv of isCauchySurface_flow_image), timelikeLine_hloc + timelikeLine_twoSided_of_threads (hloc of isLocallyCauchyTwoSided_of_threads), lightlikeLine_twoSided_of_pointwise (pointwise variant where threads fail)"
   },
   "extra_decls": [
@@ -152,16 +148,55 @@
     "Causal.lightlikeLine_isCauchySurface_zero",
     "Causal.lightlikeLine_Jplus_diff_zero",
     "Causal.lightlikeLine_Jminus_diff_zero",
-    "Causal.lightlikeLine_twoSided_of_pointwise"
+    "Causal.lightlikeLine_twoSided_of_pointwise",
+    "Causal.Causality.flow_fixed_of_tendsto",
+    "Causal.Causality.inextensible_of_flow",
+    "Causal.exists_complete_rescaling_continuous",
+    "Causal.exists_flow_of_isMIntegralCurve",
+    "Causal.exists_flow_isMIntegralCurve_smul",
+    "Causal.Flat.FlowField.norm_snd_lt_fst_of_isFutureTimelike",
+    "Causal.Flat.FlowField.chord_lt_of_hasDerivAt'",
+    "Causal.Flat.FlowField.chord_lt_of_hasDerivAt",
+    "Causal.Flat.FlowField.HasFutureTimelikeChartVelocity",
+    "Causal.Flat.FlowField.chronalCurveOn_of_chartVelocity",
+    "Causal.Flat.FlowField.hasDerivAt_chartAt_of_hasMFDerivAt",
+    "Causal.Flat.FlowField.affineEquiv_eq_linear_add",
+    "Causal.Flat.FlowField.affineEquiv_contDiff",
+    "Causal.Flat.FlowField.gxGroupoid_le_contDiffGroupoid",
+    "Causal.Flat.FlowField.isManifold_of_flat",
+    "Causal.Flat.FlowField.isFutureTimelike_iff",
+    "Causal.Flat.FlowField.convex_isFutureTimelike",
+    "Causal.Flat.FlowField.isFutureTimelike_e0",
+    "Causal.Flat.FlowField.affineEquiv_hasFDerivAt",
+    "Causal.Flat.FlowField.exists_isom_chartAt_of_mem",
+    "Causal.Flat.FlowField.tangentCoordChange_isFutureTimelike",
+    "Causal.Flat.FlowField.exists_contMDiff_futureTimelike_section",
+    "Causal.Flat.FlowField.hasFutureTimelikeChartVelocity_of_isMIntegralCurve",
+    "Causal.Flat.FlowField.isFutureTimelike_smul",
+    "Causal.Flat.FlowField.exists_ne_of_chartVelocity",
+    "Causal.ODEFlow.chartField",
+    "Causal.ODEFlow.chartField_smul",
+    "Causal.ODEFlow.contDiffOn_chartField",
+    "Causal.ODEFlow.hasMFDerivAt_symm_comp",
+    "Causal.ODEFlow.exists_localFlow_mem_closedBall",
+    "Causal.ODEFlow.extChartAt_self_facts",
+    "Causal.ODEFlow.exists_chart_cover",
+    "Causal.ODEFlow.exists_localFlow_of_chartBound",
+    "Causal.ODEFlow.exists_global_flow_of_local",
+    "Causal.ODEFlow.exists_rescaling_chartBound"
   ],
   "kb_proposals": [
     "A causal flow splits M along an acausal Cauchy surface S iff J^+-(S) are closed; the inverse is p -> (phi tau(p) p, -tau(p)) with tau the hitting time, continuous because {tau > a} = (phi a)^-1 (J^+(S))^c. Chronal orbits make J^+-(S) closed for free (I^-(phi eps p) is an open neighbourhood of p).",
     "J^+_U(S cap U) \\ S = I^+_U(S cap U) needs a chronal thread through each point; it fails at any point with empty chronological past (BTZ points): on the lightlike line every other hypothesis of Jplus_diff_eq_Iplus holds, {0} Cauchy included (lightlikeLine_Jplus_diff_ne_Iplus), yet the sides are open (lightlikeLine_twoSided_of_pointwise).",
     "mathlib Flow R M works directly with the library's curves: (fun t => phi t x) is the orbit; Flow.map_add / map_zero_apply; Flow.continuous for joint continuity; the reverse flow gives C.dual.",
     "CausalScaffold.CompactCauchy has no .olean at this commit; a file that must stay buildable with lake env lean cannot import it - state the unfolded body instead.",
-    "Two causalities with the same le have the same causal curves, extensions and inextensible curves, but not definitionally at the type level (CausalCurveIn/StrictlyExtends are structures parameterised by C): transfer field by field (lightlikeLine_isCauchySurface_zero)."
+    "Two causalities with the same le have the same causal curves, extensions and inextensible curves, but not definitionally at the type level (CausalCurveIn/StrictlyExtends are structures parameterised by C): transfer field by field (lightlikeLine_isCauchySurface_zero).",
+    "Inextensibility of flow orbits needs no time function: if an orbit of a continuous flow (T2) converged at an end it would converge to a fixed point; so orbits of a fixed-point-free flow that are causal curves over R are inextensible (Causality.inextensible_of_flow, the extension's sup/inf of the reparametrisation is the limit point).",
+    "A (G,X)-manifold over Minkowski with G = isom d is a mathlib smooth manifold (gxGroupoid <= contDiffGroupoid, groupoid_of_pregroupoid_le); tangent coordinates: tangentCoordChange I x y z is the linear part of the local isometry (HasFDerivAt.unique against hasFDerivWithinAt_tangentCoordChange); a convex fibrewise condition invariant under those linear parts glues by exists_contMDiffSection_forall_mem_convex_of_local with local section y -> tangentCoordChange I x0 y y e0 (constant e0 in the trivialization at x0).",
+    "Chronality from velocity without C1: a curve with a future timelike derivative at every point of [s,s'] has a future timelike chord, by the functional l v = v.1 - <u, v.2> (u the chord's spatial direction) and strictMonoOn_of_deriv_pos; no continuity of the derivative needed.",
+    "Global flow of a vector field on a manifold at this pin (fabf563a), no maximal curves needed: (1) locally finite cover by chart balls with a uniform inner margin = refinement_of_locallyCompact_sigmaCompact_of_nhds_basis_set (basis chart⁻¹ ball ∩ source, closedBall ⊆ target) + exists_subset_iUnion_closed_subset + IsCompact.exists_cthickening_subset_open; (2) f = positive smooth function with f ≤ δ_j/(2(M_j+1)) on ball j via exists_contMDiffMap_forall_mem_convex_of_local_const (constraint {s | 0 < s ∧ ∀ j, y ∈ O j → s ≤ β j}, local constant from local finiteness); (3) IsPicardLindelof.of_time_independent on [-1,1] with a = δ, r = L = δ/2 in every chart; mathlib's local-flow theorem drops the confinement α(x,t) ∈ closedBall x₀ a, so re-prove it from ODE.FunSpace (compProj_mem_closedBall); (4) transport back = the second half of mathlib's exists_isMIntegralCurveAt_of_contMDiffAt (needs set_option backward.isDefEq.respectTransparency false); (5) exists_isMIntegralCurve_of_isMIntegralCurveOn (uniform time 1), continuity near |t| < 1 by isMIntegralCurveOn_Ioo_eqOn_of_contMDiff_boundaryless, all t by Φ t = Φ (t/2) ∘ Φ (t/2) and induction on |t| < 2^m."
   ],
-  "notes": "Imports Causal.CauchyDiamond, CausalScaffold.Flat.IsomCausal, Mathlib.Dynamics.Flow; not CompactCauchy (no olean), so isLocallyCauchyTwoSided_of_threads / _of_pointwise conclude the unfolded body of IsLocallyCauchyTwoSided (closes it by exact once both are imported). No axiom. One tagged sorry (target 4), on which nothing depends. Public names grepped across Causal/ and scaffold/: no collision; image_neg_reverse made private. Not registered in CausalScaffold.lean (outside write scope). For gx (E0, time translation along a BTZ line, an IsCausalFlow that is not chronal): (a) the splitting needs IsClosed (J^+-(S)) supplied by the model as a WHOLE-MODEL obligation; isClosed_Jplus_of_nhds cannot discharge it (at a BTZ point below S, J^-(phi eps p) is a half-line, not a neighbourhood); the flow-free isClosed_Jplus_of_forall_exists(_lt) only needs, at each p outside J^+(S), some r outside J^+(S) with J^-(r) in nhds p (e.g. a regular r >> p). (b) Two-sidedness in a chart with BTZ points off S: use isLocallyCauchyTwoSided_of_pointwise; at regular points a chronal thread, at BTZ points the model supplies J^+-_U(S cap U) \\ S in nhds p.",
+  "notes": "Imports Causal.CauchyDiamond, CausalScaffold.Flat.IsomCausal, Mathlib.Dynamics.Flow; not CompactCauchy (no olean), so isLocallyCauchyTwoSided_of_threads / _of_pointwise conclude the unfolded body of IsLocallyCauchyTwoSided (closes it by exact once both are imported). No axiom. No sorry: target 4 (Flat.flat_hasChronalCausalFlow) and its pure-ODE input exists_complete_rescaling_continuous are proved; nothing else in the file depends on them. New imports: Mathlib.Geometry.Manifold.PartitionOfUnity, Mathlib.Geometry.Manifold.IntegralCurve.{ExistUnique,Transform,UniformTime}, Mathlib.Analysis.ODE.ExistUnique, Mathlib.Topology.ShrinkingLemma, Mathlib.Topology.MetricSpace.Thickening. Public names grepped across Causal/ and scaffold/: no collision; image_neg_reverse made private. Not registered in CausalScaffold.lean (outside write scope). For gx (E0, time translation along a BTZ line, an IsCausalFlow that is not chronal): (a) the splitting needs IsClosed (J^+-(S)) supplied by the model as a WHOLE-MODEL obligation; isClosed_Jplus_of_nhds cannot discharge it (at a BTZ point below S, J^-(phi eps p) is a half-line, not a neighbourhood); the flow-free isClosed_Jplus_of_forall_exists(_lt) only needs, at each p outside J^+(S), some r outside J^+(S) with J^-(r) in nhds p (e.g. a regular r >> p). (b) Two-sidedness in a chart with BTZ points off S: use isLocallyCauchyTwoSided_of_pointwise; at regular points a chronal thread, at BTZ points the model supplies J^+-_U(S cap U) \\ S in nhds p.",
   "fixer_changes": [
     "lightlikeLine_Jplus_diff_ne_Iplus now proves every hypothesis of Jplus_diff_eq_Iplus but the threads (hacU, hchron, {0} Cauchy via new lightlikeLine_isCauchySurface_zero)",
     "hypothesis checklist relabelled to kb/0006 verdicts (carried / weakened / strengthened (named, kb/0012))",
@@ -171,5 +206,9 @@
     "non-vacuity of hinv (minkowskiTimeFlow_inextensible, minkowski_isCauchySurface_flow_image) and hloc (timelikeLine_hloc, timelikeLine_twoSided_of_threads); pointwise variant witnessed where threads fail (lightlikeLine_twoSided_of_pointwise)",
     "SORRY(target-4) text reworded (mathlib has local Banach-space flows, IsPicardLindelof; missing: global jointly continuous manifold flow)",
     "image_neg_reverse made private"
+  ],
+  "closer_changes": [
+    "WP-32e closer (2026-11-01): target 4 closed modulo one pure-ODE lemma; statement of flat_hasChronalCausalFlow unchanged; new lemmas in Causality (inextensible_of_flow), Causal (ODE section) and Causal.Flat.FlowField.",
+    "WP-32e closer, resume (2026-11-01): the last sorry closed — Causal.exists_complete_rescaling_continuous proved (namespace Causal.ODEFlow: chart field and its C¹-ness, transport of chart solutions, Picard–Lindelöf local flow with confinement, locally finite chart cover with inner margin, the rescaling f, local flow from a chart bound, gluing to a global jointly continuous flow by uniqueness and doubling). The interrupted agent's work (smooth structure, timelike field, chronality, inextensibility, group law) kept as is. Statements of flat_hasChronalCausalFlow and exists_complete_rescaling_continuous unchanged; sorry_count 1 → 0; section ODE's N now in an explicit universe uN."
   ]
 }

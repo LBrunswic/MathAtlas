@@ -23,7 +23,9 @@ nonloxodromic case" (label `nol`), lines of the **labelled** `papers/barbot/lega
   `exists_timelike_fixed_of_elliptic_of_null` (statement changed 2026-11-01: `Γ` discrete,
   through the external `TitsVirtuallyAbelianNull` defined here and the proved
   `exists_timelike_fixed_of_comm_elliptic`; the discreteness from the §8 data is
-  `discreteTopology_of_ccAction` / `discreteTopology_of_developsCC`).
+  `discreteTopology_of_ccAction` / `discreteTopology_of_developsCC`); from Barbot-cited
+  externals only under `Γ_nd` of finite index (`exists_timelike_fixed_of_elliptic_of_ausl`,
+  through `AuslanderCarriereDalbo` and the proved `exists_timelike_fixed_of_nilpotent_elliptic`).
 * Unmarked prose: [9.E] l.2604–2617 (`omegaS_eq_univ_of_isElliptic`, `isElliptic_of_relIndex`,
   `omegaS_eq_univ_of_relIndex`, `nonloxodromic_elliptic`);
   [9.P] l.2619–2735 (`NolParam`, `act_mul`, `act_proj₀` = (∗∗), `act_of_isU` = (∗∗′));
@@ -105,7 +107,7 @@ finite-index passage is explicit: `Γ'' ≤ Γ`, `Γ''.relIndex Γ ≠ 0`.
 | 9.3: "`u(Γ)` is a lattice of `E`" | ⚠ weakened: `L` an additive subgroup, `E = span L` (`nonneg_on_span_of_addSubgroup`) |
 | 9.3: coordinates `x v₀ + z + y vₙ` for the `v₀` of `Γ`; "reducing as above to `y₋ = −y₊`" | ⚠ strengthened: the fixed frame `nolToMink` (`v₀ = ofNull 1 0 0`) and the bounded case only in the normalised form `ylo = −yhi` (SCOPE) |
 | 9.1: no loxodromic element; Benoist | ✓ carried; Benoist as the external `BenoistNoLox` |
-| [9.P] l.2621–2622: "`Γ` contains a parabolic element" (the null-fixed, all-elliptic branch it overlooks) | ⚠ added hypothesis `DiscreteTopology Γ` (`isomTopology`) and the external `TitsVirtuallyAbelianNull` in `exists_timelike_fixed_of_elliptic_of_null`; the discreteness is proved from the §8 data (`discreteTopology_of_developsCC`), so `nonloxodromic` only gains the external |
+| [9.P] l.2621–2622: "`Γ` contains a parabolic element" (the null-fixed, all-elliptic branch it overlooks) | ⚠ added hypothesis `DiscreteTopology Γ` (`isomTopology`) and the external `TitsVirtuallyAbelianNull` in `exists_timelike_fixed_of_elliptic_of_null`; the discreteness is proved from the §8 data (`discreteTopology_of_developsCC`), so `nonloxodromic` only gains the external. Alternative (Barbot-cited externals only): `AuslanderCarriereDalbo` plus ⚠ added `Γ_nd` of finite index (`exists_timelike_fixed_of_elliptic_of_ausl`) |
 | [9.b]: `γ₁` parabolic, `b(γ₀) ≠ 0` | ⚠ strengthened: `γ₁` purely unipotent (`R = id`), with `b(γ₁) = 0` (`b_eq_zero_model` proves it from `v(γ₁) ≠ 0`) |
 | [9.E], [9.A]: Bieberbach | carried as the external `BieberbachI` (`Flat/Bieberbach`) |
 | [9.E], [9.P]: "up to finite index" (l.2575, l.2621) | ✓ carried: `Γ'.relIndex Γ ≠ 0` in both branches |
@@ -179,7 +181,22 @@ finite-index passage is explicit: `Γ'' ≤ Γ`, `Γ''.relIndex Γ ≠ 0`.
   (`discreteTopology_of_ccAction`: a group acting properly on a nonempty closed invariant `Σ`
   is discrete), so the third branch of `nonloxodromic` closes with its conclusion unchanged
   and `nonloxodromic` gains the hypothesis `TitsVirtuallyAbelianNull d`. The counterexample
-  itself is not formalized (it needs the freeness of a pair of unit quaternions).
+  itself is not formalized (it needs the freeness of a pair of unit quaternions). **Second
+  fixer pass (2026-11-01), no statement changed:** (a) `λ(Γ)` discrete is not supplied by the
+  call sites (only `Γ` is discrete; l.2551–2562, Barbot's own commented example, has discrete
+  `Γ` and non-discrete linear part; point (3) l.2660–2675 gives `α(Γ)` discrete); (b) no
+  external faithful to Prop 9.1's citation can give the conclusion, since the linear
+  counterexample satisfies `BenoistNoLox` (it fixes `v₀`) and its Zariski closure contains null
+  rotations (the closure of `λ(Γ)` contains `z ↦ b z` and `z ↦ b z + e`, hence the translation
+  `z ↦ z + e`), so Barbot's "`G₀` admits only elliptic elements" (l.2596) is false for it; the
+  Barbot-cited external that does reach the branch is Thm 5.1 (`AuslanderCarriereDalbo`, which
+  uses `Γ`'s discreteness), and it does so on `Γ_nd` only: `exists_timelike_fixed_nonDiscretePart`
+  (through the proved `exists_timelike_fixed_of_nilpotent_elliptic`), and the branch when
+  `Γ_nd` has finite index, `exists_timelike_fixed_of_elliptic_of_ausl`. Why the counterexample
+  is not cheap: a torsion one cannot exist (a torsion linear group is locally finite (Schur),
+  so virtually abelian in `SO(n − 2)` (Jordan), and its commutators are elliptic translations of
+  `P̄₀`, i.e. trivial; then the commuting case applies), so any counterexample contains a free
+  group (Tits) and needs a formalized free pair in `SU(2)`.
 * Non-vacuity: `Flat/Examples`' unipotent groups are `A_{T, 0}` for diagonal `T`
   (`unipAction_nolToMink`, `isSymmOn_diagLin`); no model inhabitant of `bprop_limites_model`'s
   hypotheses (an achronal `S_f`) is given here.
@@ -1503,7 +1520,15 @@ pair of unit quaternions acting on `P̄₀ = ℝ⁴`, finding (7)). Its stronges
 * `TitsVirtuallyAbelianNull` (external, DEC-36): for `Γ` **discrete** in `Isom(𝐌ⁿ)`, the
   null-fixing all-elliptic case has a finite-index subgroup with commuting linear parts;
 * `exists_timelike_fixed_of_elliptic_of_null` (proved from the two, with `DiscreteTopology Γ`);
-* `discreteTopology_of_ccAction` (proved): the §8 data supply that discreteness. -/
+* `discreteTopology_of_ccAction` (proved): the §8 data supply that discreteness;
+* the Barbot-cited route (fixer, 2026-11-01): `exists_timelike_fixed_of_nilpotent_elliptic`
+  (proved, every `d`: a nilpotent group of elliptic linear parts fixes a common timelike
+  vector), hence through `AuslanderCarriereDalbo` (Thm 5.1) the linear parts of `Γ_nd` fix one
+  (`exists_timelike_fixed_nonDiscretePart`), and the branch closes when `Γ_nd` has finite index
+  (`exists_timelike_fixed_of_elliptic_of_ausl`). `λ(Γ)` discrete is **not** available at the
+  call site: only `Γ` is discrete (Barbot's own commented example l.2551–2562 is a discrete
+  group with non-discrete linear part), and point (3), l.2660–2675, makes `α(Γ)` discrete, not
+  `λ(Γ)`. -/
 
 /-- `W ∩ W^⊥ = 0` for a subspace `W` containing a timelike vector. -/
 theorem disjoint_minkOrth_of_timelike {W : Submodule ℝ (Minkowski d)} {t : Minkowski d}
@@ -1658,6 +1683,161 @@ theorem exists_timelike_fixed_of_elliptic_of_null (hT : TitsVirtuallyAbelianNull
       ∃ v : Minkowski d, minkQ v < 0 ∧ ∀ γ ∈ Γ', linOf γ v = v := by
   obtain ⟨Γ', hle, hidx, hcomm⟩ := hT Γ hdisc v₀ hv0 hv hfix hell
   exact ⟨Γ', hle, hidx, exists_timelike_fixed_of_comm_elliptic hcomm fun γ hγ => hell γ (hle hγ)⟩
+
+/-- **Elliptic linear parts commuting on an invariant subspace `W₀` fix a common timelike vector of
+`W₀`**, when `W₀` contains a timelike vector (the relative form of
+`exists_timelike_fixed_of_comm_elliptic`, with the same induction on the dimension; the
+commutation is only asked on `W₀`). -/
+theorem exists_timelike_fixed_of_comm_elliptic_on {W₀ : Submodule ℝ (Minkowski d)}
+    {s : Set (isom d)} (hinv : ∀ γ ∈ s, ∀ w ∈ W₀, linOf γ w ∈ W₀)
+    (hinv' : ∀ γ ∈ s, ∀ w ∈ W₀, (linOf γ).symm w ∈ W₀)
+    (hcomm : ∀ g ∈ s, ∀ h ∈ s, ∀ w ∈ W₀, linOf g (linOf h w) = linOf h (linOf g w))
+    (hell : ∀ γ ∈ s, IsElliptic (linOf γ)) (ht : ∃ t ∈ W₀, minkQ t < 0) :
+    ∃ v ∈ W₀, minkQ v < 0 ∧ ∀ γ ∈ s, linOf γ v = v := by
+  suffices H : ∀ n : ℕ, ∀ W : Submodule ℝ (Minkowski d), W ≤ W₀ → Module.finrank ℝ W ≤ n →
+      (∀ γ ∈ s, ∀ w ∈ W, linOf γ w ∈ W) → (∀ γ ∈ s, ∀ w ∈ W, (linOf γ).symm w ∈ W) →
+      (∃ t ∈ W, minkQ t < 0) → ∃ v ∈ W, minkQ v < 0 ∧ ∀ γ ∈ s, linOf γ v = v from
+    H _ W₀ le_rfl le_rfl hinv hinv' ht
+  intro n
+  induction n with
+  | zero =>
+    rintro W - hW - - ⟨t, ht, htq⟩
+    have hW0 : W = ⊥ := Submodule.finrank_eq_zero.1 (Nat.le_zero.1 hW)
+    rw [hW0, Submodule.mem_bot] at ht
+    rw [ht, minkQ_zero] at htq
+    exact absurd htq (lt_irrefl 0)
+  | succ n ih =>
+    rintro W hW₀ hW hinvW hinvW' ⟨t, ht, htq⟩
+    by_cases hall : ∀ γ ∈ s, ∀ w ∈ W, linOf γ w = w
+    · exact ⟨t, ht, htq, fun γ hγ => hall γ hγ t ht⟩
+    push Not at hall
+    obtain ⟨γ, hγ, w₀, hw₀, hne⟩ := hall
+    set W' : Submodule ℝ (Minkowski d) := W ⊓ LinearMap.ker (pOf (linOf γ)) with hW'
+    have hmem : ∀ x, x ∈ W' ↔ x ∈ W ∧ linOf γ x = x := fun x => by
+      rw [hW', Submodule.mem_inf, LinearMap.mem_ker, pOf_apply, sub_eq_zero]
+    obtain ⟨a, ha, haq, hfa⟩ := exists_timelike_fixed_mem_of_invariant ht htq (linOf_mem γ)
+      (hinvW γ hγ) (hinvW' γ hγ) (hell γ hγ)
+    have hlt : W' < W := by
+      refine lt_of_le_of_ne inf_le_left fun heq => hne ?_
+      have : w₀ ∈ W' := heq ▸ hw₀
+      exact ((hmem w₀).1 this).2
+    have hrank : Module.finrank ℝ W' ≤ n := by
+      have := Submodule.finrank_lt_finrank_of_lt hlt
+      omega
+    have hinv₁ : ∀ g ∈ s, ∀ w ∈ W', linOf g w ∈ W' := by
+      intro g hg w hw
+      rw [hmem] at hw ⊢
+      refine ⟨hinvW g hg w hw.1, ?_⟩
+      rw [hcomm γ hγ g hg w (hW₀ hw.1), hw.2]
+    have hinv₂ : ∀ g ∈ s, ∀ w ∈ W', (linOf g).symm w ∈ W' := by
+      intro g hg w hw
+      rw [hmem] at hw ⊢
+      refine ⟨hinvW' g hg w hw.1, ?_⟩
+      have e := hcomm γ hγ g hg _ (hW₀ (hinvW' g hg w hw.1))
+      rw [LinearEquiv.apply_symm_apply, hw.2] at e
+      have e' := congrArg (linOf g).symm e
+      rw [LinearEquiv.symm_apply_apply] at e'
+      exact e'.symm
+    obtain ⟨v, hv, hvq, hvfix⟩ := ih W' ((inf_le_left).trans hW₀) hrank hinv₁ hinv₂
+      ⟨a, (hmem a).2 ⟨ha, hfa⟩, haq⟩
+    exact ⟨v, ((hmem v).1 hv).1, hvq, hvfix⟩
+
+/-- The common fixed subspace `{w | ∀ γ ∈ s, L(γ) w = w}` of the linear parts of a set of
+isometries. -/
+def linFixSub (s : Set (isom d)) : Submodule ℝ (Minkowski d) where
+  carrier := {w | ∀ γ ∈ s, linOf γ w = w}
+  add_mem' {a b} ha hb γ hγ := by rw [map_add, ha γ hγ, hb γ hγ]
+  zero_mem' γ _ := map_zero _
+  smul_mem' c w hw γ hγ := by rw [map_smul, hw γ hγ]
+
+/-- **A nilpotent group of isometries with elliptic linear parts fixes a common timelike vector**
+(every `d`; no discreteness, no finite generation). Induction along the upper central series
+`Z₀ = 1 ≤ Z₁ ≤ ⋯ ≤ Z_c = Γ`: the common fixed space `W_k` of `L(Z_k)` is `Γ`-invariant (`Z_k` is
+normal) and contains a timelike vector; on it the linear parts of `Z_{k+1}` commute (their
+commutators lie in `Z_k`, which acts trivially on `W_k`), so
+`exists_timelike_fixed_of_comm_elliptic_on` gives a timelike vector of `W_{k+1}`. -/
+theorem exists_timelike_fixed_of_nilpotent_elliptic {Γ : Subgroup (isom d)}
+    [hN : Group.IsNilpotent Γ] (hell : ∀ γ ∈ Γ, IsElliptic (linOf γ)) :
+    ∃ v : Minkowski d, minkQ v < 0 ∧ ∀ γ ∈ Γ, linOf γ v = v := by
+  set Z : ℕ → Set (isom d) := fun k => Subtype.val '' (Subgroup.upperCentralSeries Γ k : Set Γ)
+    with hZ
+  have hinvF : ∀ k, ∀ γ ∈ Γ, ∀ w ∈ linFixSub (Z k), linOf γ w ∈ linFixSub (Z k) := by
+    rintro k γ hγ w hw _ ⟨z, hz, rfl⟩
+    have hz' : (⟨γ, hγ⟩ : Γ)⁻¹ * z * ((⟨γ, hγ⟩ : Γ)⁻¹)⁻¹ ∈ Subgroup.upperCentralSeries Γ k :=
+      (inferInstance : (Subgroup.upperCentralSeries Γ k).Normal).conj_mem z hz _
+    rw [inv_inv] at hz'
+    have h1 := hw _ ⟨_, hz', rfl⟩
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv, linOf_mul, linOf_inv,
+      LinearEquiv.mul_apply] at h1
+    have h2 := congrArg (linOf γ) h1
+    rw [show (linOf γ)⁻¹ = (linOf γ).symm from rfl, LinearEquiv.apply_symm_apply] at h2
+    exact h2
+  have hinvF' : ∀ k, ∀ γ ∈ Γ, ∀ w ∈ linFixSub (Z k), (linOf γ).symm w ∈ linFixSub (Z k) :=
+    fun k γ hγ w hw => by
+      have := hinvF k γ⁻¹ (Γ.inv_mem hγ) w hw
+      rw [linOf_inv] at this
+      exact this
+  have hstep : ∀ k, ∃ t ∈ linFixSub (Z k), minkQ t < 0 := by
+    intro k
+    induction k with
+    | zero =>
+      refine ⟨timeUnit d, ?_, by rw [minkQ_timeUnit]; norm_num⟩
+      rintro _ ⟨z, hz, rfl⟩
+      rw [Subgroup.upperCentralSeries_zero] at hz
+      rw [(Subgroup.mem_bot).1 hz, OneMemClass.coe_one, linOf_eq_linearPart, map_one]
+      rfl
+    | succ k ih =>
+      obtain ⟨v, hv, hvq, hfix⟩ := exists_timelike_fixed_of_comm_elliptic_on (W₀ := linFixSub (Z k))
+        (s := Z (k + 1))
+        (fun γ ⟨z, _, hzγ⟩ => hzγ ▸ hinvF k z z.2)
+        (fun γ ⟨z, _, hzγ⟩ => hzγ ▸ hinvF' k z z.2)
+        (by
+          rintro _ ⟨a, ha, rfl⟩ _ ⟨b, hb, rfl⟩ w hw
+          have hc := (Subgroup.mem_upperCentralSeries_succ_iff.1 ha) b
+          rw [commutatorElement_def] at hc
+          have hab : (a : isom d) * b = ((a * b * a⁻¹ * b⁻¹ : Γ) : isom d) * (b * a) := by
+            simp [mul_assoc]
+          have e1 := congrArg (fun g => linOf g w) hab
+          simp only [linOf_mul, LinearEquiv.mul_apply] at e1
+          rw [e1]
+          have hm : linOf (b : isom d) (linOf (a : isom d) w) ∈ linFixSub (Z k) :=
+            hinvF k b b.2 _ (hinvF k a a.2 w hw)
+          exact hm _ ⟨_, hc, rfl⟩)
+        (fun γ ⟨z, _, hzγ⟩ => hzγ ▸ hell z z.2) ih
+      exact ⟨v, fun γ hγ => hfix γ hγ, hvq⟩
+  obtain ⟨n, hn⟩ := hN.nilpotent'
+  obtain ⟨v, hv, hvq⟩ := hstep n
+  refine ⟨v, hvq, fun γ hγ => hv γ ⟨⟨γ, hγ⟩, ?_, rfl⟩⟩
+  rw [hn]; exact Subgroup.mem_top _
+
+/-- **Through Auslander–Carrière–Dal'bo** (`bthm:ausl`, Thm 5.1, cited by Barbot; the external
+`AuslanderCarriereDalbo`, `Flat/Externals`): for `Γ` discrete with elliptic linear parts, the
+linear parts of the non-discrete part `Γ_nd = L⁻¹(G₀ ∩ L(Γ))` (l.1702–1703) fix a common
+timelike vector — `Γ_nd` is nilpotent (Thm 5.1) and `exists_timelike_fixed_of_nilpotent_elliptic`.
+No null vector is needed. -/
+theorem exists_timelike_fixed_nonDiscretePart (hA : AuslanderCarriereDalbo d)
+    {Γ : Subgroup (isom d)} (hdisc : DiscreteTopology Γ)
+    (hell : ∀ γ ∈ Γ, IsElliptic (linOf γ)) :
+    ∃ v : Minkowski d, minkQ v < 0 ∧ ∀ γ ∈ nonDiscretePart Γ, linOf γ v = v := by
+  haveI := (hA Γ hdisc).2
+  exact exists_timelike_fixed_of_nilpotent_elliptic fun γ hγ => hell γ (nonDiscretePart_le Γ hγ)
+
+/-- **The branch l.2621–2622 overlooks, from externals Barbot cites** (option (b) of the
+2026-11-01 fixer dispatch; DEC-27): `Γ` discrete with elliptic linear parts **and `Γ_nd` of
+finite index in `Γ`** — i.e. `L(Γ)` meets finitely many components of its closure — has a
+finite-index subgroup (`Γ_nd` itself) whose linear parts fix a timelike vector. The added
+hypothesis is exactly the gap: Benoist (Prop 9.1's citation) cannot fill it (the linear
+counterexample of SCOPE finding (7) satisfies `BenoistNoLox`'s conclusion, and its Zariski
+closure contains null rotations, so Barbot's step "a connected group of elliptic elements is
+compact", l.2596–2597, does not fire), and Thm 5.1 controls `Γ_nd` only. Without it, the branch
+goes through `exists_timelike_fixed_of_elliptic_of_null` and the non-Barbot
+`TitsVirtuallyAbelianNull`. -/
+theorem exists_timelike_fixed_of_elliptic_of_ausl (hA : AuslanderCarriereDalbo d)
+    {Γ : Subgroup (isom d)} (hdisc : DiscreteTopology Γ)
+    (hell : ∀ γ ∈ Γ, IsElliptic (linOf γ)) (hfin : (nonDiscretePart Γ).relIndex Γ ≠ 0) :
+    ∃ Γ' : Subgroup (isom d), Γ' ≤ Γ ∧ Γ'.relIndex Γ ≠ 0 ∧
+      ∃ v : Minkowski d, minkQ v < 0 ∧ ∀ γ ∈ Γ', linOf γ v = v :=
+  ⟨nonDiscretePart Γ, nonDiscretePart_le Γ, hfin, exists_timelike_fixed_nonDiscretePart hA hdisc hell⟩
 
 /-- `γ ↦ γ • x` is continuous on `Isom(𝐌ⁿ)` (`isomTopology`). -/
 theorem continuous_isom_smul_apply (x : Minkowski d) :

@@ -1,13 +1,21 @@
 import Causal.CauchyDiamond
 import CausalScaffold.Flat.IsomCausal
 import Mathlib.Dynamics.Flow
+import Mathlib.Geometry.Manifold.PartitionOfUnity
+import Mathlib.Geometry.Manifold.IntegralCurve.ExistUnique
+import Mathlib.Geometry.Manifold.IntegralCurve.Transform
+import Mathlib.Geometry.Manifold.IntegralCurve.UniformTime
+import Mathlib.Analysis.ODE.ExistUnique
+import Mathlib.Topology.ShrinkingLemma
+import Mathlib.Topology.MetricSpace.Thickening
 
 /-!
 # The splitting `M ≅ S × ℝ` along a Cauchy surface, from a causal flow
 
 `bprop:splitting` — `GHFspace.tex:2459` (labelled; original l.2426), **not marked**: Barbot cites
-it (Beem–Ehrlich) and it needs a flow the library does not build on a flat spacetime
-(target 4, `Flat.flat_hasChronalCausalFlow`, a tagged `sorry`). It is proved in full on Minkowski
+it (Beem–Ehrlich); the flow it needs exists on every flat spacetime (target 4,
+`Flat.flat_hasChronalCausalFlow`, proved, no `sorry` in this file), but the Cauchy slices and the
+last sentence are not proved in general (SCOPE). It is proved in full on Minkowski
 space (`minkowski_splitting_cauchy_slices`). The "Moreover" of `theo:geroch_sing` —
 `ETT.tex:1778` — is the abstract theorem of this file, unmarked (it is ETT's label, and its proof is
 replaced, see SCOPE). Barbot's `𝐌ⁿ` is `Minkowski d` with `n = d + 1`.
@@ -36,6 +44,12 @@ flow (`exists_isCauchySplitting_of_isChronalFlow`); pointwise criteria `isClosed
 `isLocallyCauchyTwoSided_of_threads`: in an open `U`, under push-up, with chronal threads;
 pointwise variants `isOpen_Jplus_diff_of_forall`, `isOpen_Jminus_diff_of_forall`,
 `isLocallyCauchyTwoSided_of_pointwise` (a thread or a neighbourhood inside the side, point by point).
+**Target 4.** `Flat.flat_hasChronalCausalFlow`: a flat spacetime (`T2`, second countable) has a
+chronal causal flow — the flow of a smooth future timelike field (glued from the charts' `e₀` by
+a smooth partition of unity), rescaled to be complete. Its ODE input, the pure-ODE lemma
+`exists_complete_rescaling_continuous` (completeness by rescaling and continuous dependence on a
+manifold), is proved (namespace `ODEFlow`); causal inputs: `Causality.inextensible_of_flow` (orbits of a fixed-point-free
+flow, causal over `ℝ`, are inextensible), `Flat.FlowField.chronalCurveOn_of_chartVelocity`.
 
 ## Hypothesis checklist
 
@@ -74,6 +88,12 @@ pointwise variants `isOpen_Jplus_diff_of_forall`, `isOpen_Jminus_diff_of_forall`
   what the model supplies at BTZ points (on the lightlike line the sides are open).
 * `CausalScaffold.CompactCauchy` is not built at this commit and is not imported:
   `isLocallyCauchyTwoSided_of_threads` concludes the unfolded body of `IsLocallyCauchyTwoSided`.
+* **Target 4's ODE input is proved here, not in mathlib**: `exists_complete_rescaling_continuous`
+  (for a smooth field on a σ-compact Hausdorff manifold, a positive smooth `f` with `f • v`
+  complete and its global integral curves continuous in `(t, x)`); mathlib at this pin has neither
+  completeness by rescaling nor continuous dependence on a manifold. Route: a locally finite chart
+  cover with a uniform inner margin, `f` small on each ball, Picard–Lindelöf on `[-1, 1]` in charts
+  (mathlib's local flow, re-proved with its confinement to the ball), uniqueness, doubling.
 * Barbot's last sentence (geodesics of `M̃` meet `S̃`) is not treated.
 * Non-vacuity: Minkowski time translation (`minkowski_hasChronalCausalFlow`, flat:
   `Flat.flatCausality_self_hasChronalCausalFlow`); `hinv` of `isCauchySurface_flow_image` for it
@@ -1059,6 +1079,814 @@ theorem lightlikeLine_twoSided_of_pointwise :
 
 end Lines
 
+/-! ### Target 4: the orbits of a fixed-point-free flow are inextensible -/
+
+section FlowInextensible
+
+namespace Causality
+
+variable {C : Causality M} {φ : Flow ℝ M}
+
+/-- **A limit of an orbit is a fixed point**: along a filter invariant under the translations
+(`atTop`, `atBot`), in a Hausdorff space. -/
+theorem flow_fixed_of_tendsto [T2Space M] {x p : M} {l : Filter ℝ} [l.NeBot]
+    (hl : ∀ τ : ℝ, Tendsto (fun s => τ + s) l l)
+    (h : Tendsto (fun s => φ s x) l (𝓝 p)) (τ : ℝ) : φ τ p = p := by
+  have h1 : Tendsto (fun s => φ τ (φ s x)) l (𝓝 (φ τ p)) :=
+    ((φ.continuous continuous_const continuous_id).tendsto p).comp h
+  have h2 : Tendsto (fun s => φ τ (φ s x)) l (𝓝 p) := by
+    have := h.comp (hl τ)
+    refine this.congr fun s => ?_
+    simp only [Function.comp, Flow.map_add]
+  exact tendsto_nhds_unique h1 h2
+
+/-- **The orbits of a fixed-point-free flow are inextensible** as soon as they are causal curves
+over `ℝ` (`M` Hausdorff). An extension `(I', c')` with a new value `c' t'` has `t'` beyond one end
+of the reparametrised image `ψ(ℝ)`, say above it; then `ψ s ↑ σ := sup ψ ≤ t'`, `σ ∈ I'`, and
+`c'` continuous on `[ψ 0, t']` gives `φ s x = c'(ψ s) → c' σ`, a limit of the orbit, hence a fixed
+point (`flow_fixed_of_tendsto`), which `hns` excludes. No causality axiom is used. -/
+theorem inextensible_of_flow [T2Space M] (hc : ∀ x, C.CausalCurveIn ⊤ univ (fun t => φ t x))
+    (hns : ∀ x, ∃ t, φ t x ≠ x) (x : M) : C.Inextensible ⊤ univ (fun t => φ t x) := by
+  refine ⟨hc x, ?_⟩
+  rintro ⟨I', c', hcurve, ⟨ψ, hψ, hψmaps, hψoc, hψeq⟩, ⟨t', ht', hgrow⟩⟩
+  have hmono : Monotone ψ := (strictMonoOn_univ.1 hψ).monotone
+  have hfix : ∀ p : M, (∀ τ : ℝ, φ τ p = p) → False := fun p hp => by
+    obtain ⟨t, ht⟩ := hns p; exact ht (hp t)
+  by_cases h1 : ∃ s, t' ≤ ψ s
+  · by_cases h2 : ∃ s, ψ s ≤ t'
+    · obtain ⟨s₁, hs₁⟩ := h1
+      obtain ⟨s₂, hs₂⟩ := h2
+      obtain ⟨s, -, hs⟩ := hψoc.out (mem_image_of_mem ψ (mem_univ s₂))
+        (mem_image_of_mem ψ (mem_univ s₁)) ⟨hs₂, hs₁⟩
+      exact hgrow s trivial (by rw [← hs, hψeq s trivial])
+    · -- the past end: `ψ` is bounded below by `t'`
+      simp only [not_exists, not_le] at h2
+      have hbdd : BddBelow (range ψ) := ⟨t', by rintro _ ⟨s, rfl⟩; exact (h2 s).le⟩
+      set σ := ⨅ s, ψ s
+      have hσ : Tendsto ψ atBot (𝓝 σ) := tendsto_atBot_ciInf hmono hbdd
+      have hσt : t' ≤ σ := le_ciInf fun s => (h2 s).le
+      have hσ0 : σ ≤ ψ 0 := ciInf_le hbdd 0
+      have hcont := (hcurve.curve t' ht' (ψ 0) (hψmaps (mem_univ 0))).continuousOn
+        C.isRelFamily_le
+      have hσmem : σ ∈ Icc t' (ψ 0) := ⟨hσt, hσ0⟩
+      have hev : ∀ᶠ s in atBot, ψ s ∈ Icc t' (ψ 0) :=
+        eventually_atBot.2 ⟨0, fun s hs => ⟨(h2 s).le, hmono hs⟩⟩
+      have hlim : Tendsto (fun s => φ s x) atBot (𝓝 (c' σ)) := by
+        have := (hcont σ hσmem).tendsto.comp (tendsto_nhdsWithin_iff.2 ⟨hσ, hev⟩)
+        exact this.congr fun s => by simp only [Function.comp, hψeq s trivial]
+      exact hfix _ (flow_fixed_of_tendsto (fun τ => tendsto_atBot_add_const_left _ τ tendsto_id)
+        hlim)
+  · -- the future end
+    simp only [not_exists, not_le] at h1
+    have hbdd : BddAbove (range ψ) := ⟨t', by rintro _ ⟨s, rfl⟩; exact (h1 s).le⟩
+    set σ := ⨆ s, ψ s
+    have hσ : Tendsto ψ atTop (𝓝 σ) := tendsto_atTop_ciSup hmono hbdd
+    have hσt : σ ≤ t' := ciSup_le fun s => (h1 s).le
+    have hσ0 : ψ 0 ≤ σ := le_ciSup hbdd 0
+    have hcont := (hcurve.curve (ψ 0) (hψmaps (mem_univ 0)) t' ht').continuousOn
+      C.isRelFamily_le
+    have hσmem : σ ∈ Icc (ψ 0) t' := ⟨hσ0, hσt⟩
+    have hev : ∀ᶠ s in atTop, ψ s ∈ Icc (ψ 0) t' :=
+      eventually_atTop.2 ⟨0, fun s hs => ⟨hmono hs, (h1 s).le⟩⟩
+    have hlim : Tendsto (fun s => φ s x) atTop (𝓝 (c' σ)) := by
+      have := (hcont σ hσmem).tendsto.comp (tendsto_nhdsWithin_iff.2 ⟨hσ, hev⟩)
+      exact this.congr fun s => by simp only [Function.comp, hψeq s trivial]
+    exact hfix _ (flow_fixed_of_tendsto (fun τ => tendsto_atTop_add_const_left _ τ tendsto_id)
+      hlim)
+
+end Causality
+
+end FlowInextensible
+
+universe uN
+
+section ODE
+
+open Manifold Bundle Metric
+open scoped ContDiff NNReal
+
+/-! ### The ODE input: completeness by rescaling and continuous dependence
+
+Pure ODE on a manifold, no causality. Mathlib at this pin has local existence and uniqueness of
+integral curves on a manifold, the uniform-time globalisation, and Picard–Lindelöf in a Banach space
+with a local flow continuous in the initial point; it has neither completeness by rescaling nor
+continuous dependence on a manifold. Both are proved here: a locally finite cover by chart balls
+with a uniform inner margin (`ODEFlow.exists_chart_cover`), a positive smooth `f` making the
+coordinate field of `f • v` small on each ball (`ODEFlow.exists_rescaling_chartBound`), hence
+Picard–Lindelöf on `[-1, 1]` about every point with the chart flow transported back
+(`ODEFlow.exists_localFlow_of_chartBound`), then global curves and joint continuity by uniqueness
+and doubling (`ODEFlow.exists_global_flow_of_local`). -/
+
+
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  {N : Type uN} [TopologicalSpace N] [ChartedSpace E N] [IsManifold 𝓘(ℝ, E) ∞ N]
+
+namespace ODEFlow
+
+/-- The coordinate expression of a vector field `w` in the chart at `c`. -/
+noncomputable def chartField (w : (x : N) → TangentSpace 𝓘(ℝ, E) x) (c : N) (z : E) : E :=
+  tangentCoordChange 𝓘(ℝ, E) ((extChartAt 𝓘(ℝ, E) c).symm z) c ((extChartAt 𝓘(ℝ, E) c).symm z)
+    (w ((extChartAt 𝓘(ℝ, E) c).symm z))
+
+omit [FiniteDimensional ℝ E] in
+theorem chartField_smul (g : N → ℝ) (w : (x : N) → TangentSpace 𝓘(ℝ, E) x) (c : N) (z : E) :
+    chartField (fun y => g y • w y) c z =
+      g ((extChartAt 𝓘(ℝ, E) c).symm z) • chartField w c z := by
+  simp only [chartField]
+  exact ContinuousLinearMap.map_smul _ _ _
+
+omit [FiniteDimensional ℝ E] in
+theorem contDiffOn_chartField {w : (x : N) → TangentSpace 𝓘(ℝ, E) x}
+    (hw : ContMDiff 𝓘(ℝ, E) 𝓘(ℝ, E).tangent 1 (fun x => (⟨x, w x⟩ : TangentBundle 𝓘(ℝ, E) N)))
+    (c : N) : ContDiffOn ℝ 1 (chartField w c) (extChartAt 𝓘(ℝ, E) c).target := by
+  have h1 : ContMDiffOn 𝓘(ℝ, E) 𝓘(ℝ, E) 1
+      (fun y => (trivializationAt E (TangentSpace 𝓘(ℝ, E)) c ⟨y, w y⟩).2)
+      (chartAt E c).source := by
+    intro y hy
+    exact ((trivializationAt E (TangentSpace 𝓘(ℝ, E)) c).contMDiffWithinAt_section _
+      (by simpa using hy)).1 (hw y).contMDiffWithinAt
+  have h2 := h1.comp (contMDiffOn_extChartAt_symm (n := 1) c) (fun z hz => by
+    simpa using (extChartAt 𝓘(ℝ, E) c).map_target hz)
+  rw [contMDiffOn_iff_contDiffOn] at h2
+  refine h2.congr fun z hz => ?_
+  rfl
+
+set_option backward.isDefEq.respectTransparency false in
+omit [FiniteDimensional ℝ E] in
+/-- **Transport of a chart solution**: a curve solving the ODE of `chartField w c` inside the chart
+target is, read back on the manifold, tangent to `w`. -/
+theorem hasMFDerivAt_symm_comp {w : (x : N) → TangentSpace 𝓘(ℝ, E) x} {c : N} {α : ℝ → E}
+    {t : ℝ} (hα : HasDerivAt α (chartField w c (α t)) t)
+    (ht : α t ∈ (extChartAt 𝓘(ℝ, E) c).target) :
+    HasMFDerivAt 𝓘(ℝ, ℝ) 𝓘(ℝ, E) ((extChartAt 𝓘(ℝ, E) c).symm ∘ α) t
+      ((1 : ℝ →L[ℝ] ℝ).smulRight (w ((extChartAt 𝓘(ℝ, E) c).symm (α t)))) := by
+  let xₜ : N := (extChartAt 𝓘(ℝ, E) c).symm (α t)
+  have hft1 : xₜ ∈ (extChartAt 𝓘(ℝ, E) c).source := (extChartAt 𝓘(ℝ, E) c).map_target ht
+  have hft2 := mem_extChartAt_source (I := 𝓘(ℝ, E)) xₜ
+  refine ⟨(continuousAt_extChartAt_symm'' ht).comp hα.continuousAt,
+    HasDerivWithinAt.hasFDerivWithinAt ?_⟩
+  simp only [mfld_simps, hasDerivWithinAt_univ]
+  change HasDerivAt ((extChartAt 𝓘(ℝ, E) xₜ ∘ (extChartAt 𝓘(ℝ, E) c).symm) ∘ α) (w xₜ) t
+  rw [← tangentCoordChange_self (I := 𝓘(ℝ, E)) (x := xₜ) (z := xₜ) (v := w xₜ) hft2,
+    ← tangentCoordChange_comp (x := c) ⟨⟨hft2, hft1⟩, hft2⟩]
+  apply HasFDerivAt.comp_hasDerivAt _ _ hα
+  apply HasFDerivWithinAt.hasFDerivAt (s := range 𝓘(ℝ, E)) _ <|
+    mem_nhds_iff.mpr ⟨(extChartAt 𝓘(ℝ, E) c).target,
+      extChartAt_target_subset_range .., isOpen_extChartAt_target c, ht⟩
+  rw [← (extChartAt 𝓘(ℝ, E) c).right_inv ht]
+  exact hasFDerivWithinAt_tangentCoordChange ⟨hft1, hft2⟩
+
+open Classical in
+/-- **Picard–Lindelöf, local flow with confinement**: mathlib's continuous local flow, together with
+the fact that its curves stay in the ball `closedBall x₀ a` (`FunSpace.compProj_mem_closedBall`). -/
+theorem exists_localFlow_mem_closedBall {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F]
+    [CompleteSpace F] {f : ℝ → F → F} {tmin tmax : ℝ} {t₀ : Icc tmin tmax} {x₀ : F}
+    {a r L K : ℝ≥0} (hf : IsPicardLindelof f t₀ x₀ a r L K) :
+    ∃ α : F × ℝ → F, (∀ x ∈ closedBall x₀ r, α ⟨x, t₀⟩ = x ∧
+      ∀ t ∈ Icc tmin tmax, HasDerivWithinAt (α ⟨x, ·⟩) (f t (α ⟨x, t⟩)) (Icc tmin tmax) t ∧
+        α ⟨x, t⟩ ∈ closedBall x₀ a) ∧
+      ContinuousOn α (closedBall x₀ r ×ˢ Icc tmin tmax) := by
+  have (x) (hx : x ∈ closedBall x₀ r) := ODE.FunSpace.exists_isFixedPt_next hf hx
+  choose α hα using this
+  set α' := fun (x : F) ↦ if hx : x ∈ closedBall x₀ r then
+    α x hx |>.compProj else 0 with hα'
+  have hder : ∀ x ∈ closedBall x₀ r, α' x t₀ = x ∧
+      ∀ t ∈ Icc tmin tmax, HasDerivWithinAt (α' x) (f t (α' x t)) (Icc tmin tmax) t := by
+    intro x hx
+    refine ⟨?_, fun t ht => ?_⟩
+    · rw [hα']
+      beta_reduce
+      rw [dif_pos hx, ODE.FunSpace.compProj_val, ← hα, ODE.FunSpace.next_apply₀]
+    · rw [hα']
+      beta_reduce
+      rw [dif_pos hx, ODE.FunSpace.compProj_apply]
+      apply ODE.hasDerivWithinAt_picard_Icc t₀.2 hf.continuousOn_uncurry
+        (α x hx |>.continuous_compProj.continuousOn)
+        (fun _ ht' ↦ α x hx |>.compProj_mem_closedBall hf.mul_max_le)
+        x ht |>.congr_of_mem _ ht
+      intro t' ht'
+      nth_rw 1 [← hα]
+      rw [ODE.FunSpace.compProj_of_mem ht', ODE.FunSpace.next_apply]
+  obtain ⟨L', h⟩ := ODE.FunSpace.exists_forall_closedBall_funSpace_dist_le_mul hf
+  have hlip : ∀ t ∈ Icc tmin tmax, LipschitzOnWith L' (α' · t) (closedBall x₀ r) := by
+    refine fun t ht ↦ LipschitzOnWith.of_dist_le_mul fun x hx y hy ↦ ?_
+    simp_rw [hα']
+    rw [dif_pos hx, dif_pos hy, ODE.FunSpace.compProj_apply, ODE.FunSpace.compProj_apply,
+      ← ODE.FunSpace.toContinuousMap_apply_eq_apply, ← ODE.FunSpace.toContinuousMap_apply_eq_apply]
+    have : Nonempty (Icc tmin tmax) := ⟨t₀⟩
+    apply ContinuousMap.dist_le_iff_of_nonempty.mp
+    exact h x y hx hy (α x hx) (α y hy) (hα x hx) (hα y hy)
+  refine ⟨uncurry α', fun x hx => ⟨(hder x hx).1, fun t ht => ⟨(hder x hx).2 t ht, ?_⟩⟩, ?_⟩
+  · simp only [uncurry_apply_pair, hα', dif_pos hx]
+    exact (α x hx).compProj_mem_closedBall hf.mul_max_le
+  · apply continuousOn_prod_of_continuousOn_lipschitzOnWith _ L' _ hlip
+    exact fun x hx ↦ HasDerivWithinAt.continuousOn (hder x hx).2
+
+
+omit [IsManifold 𝓘(ℝ, E) ∞ N] [FiniteDimensional ℝ E] in
+theorem extChartAt_self_facts (x : N) :
+    (⇑(extChartAt 𝓘(ℝ, E) x) = chartAt E x) ∧
+      (⇑(extChartAt 𝓘(ℝ, E) x).symm = (chartAt E x).symm) ∧
+      (extChartAt 𝓘(ℝ, E) x).source = (chartAt E x).source ∧
+      (extChartAt 𝓘(ℝ, E) x).target = (chartAt E x).target := by
+  refine ⟨?_, ?_, ?_, ?_⟩ <;> simp
+
+omit [IsManifold 𝓘(ℝ, E) ∞ N] in
+/-- **A locally finite cover by chart balls, with a uniform inner margin.** Countably-indexed
+chart balls `B j = φⱼ⁻¹(ball (φⱼ cⱼ) Rⱼ)` (closed ball inside the chart target), locally finite,
+and every point `x` has some `j` with `closedBall (φⱼ x) δⱼ ⊆ ball (φⱼ cⱼ) Rⱼ`. -/
+theorem exists_chart_cover [T2Space N] [SigmaCompactSpace N] :
+    ∃ (ι : Type uN) (c : ι → N) (R δ : ι → ℝ),
+      (∀ j, 0 < δ j ∧
+        closedBall (extChartAt 𝓘(ℝ, E) (c j) (c j)) (R j) ⊆ (extChartAt 𝓘(ℝ, E) (c j)).target) ∧
+      LocallyFinite (fun j => extChartAt 𝓘(ℝ, E) (c j) ⁻¹'
+        ball (extChartAt 𝓘(ℝ, E) (c j) (c j)) (R j) ∩ (extChartAt 𝓘(ℝ, E) (c j)).source) ∧
+      ∀ x, ∃ j, x ∈ (extChartAt 𝓘(ℝ, E) (c j)).source ∧
+        closedBall (extChartAt 𝓘(ℝ, E) (c j) x) (δ j) ⊆
+          ball (extChartAt 𝓘(ℝ, E) (c j) (c j)) (R j) := by
+  haveI : LocallyCompactSpace N := ChartedSpace.locallyCompactSpace E N
+  simp only [extChartAt_self_facts]
+  have hB : ∀ x ∈ (univ : Set N), (𝓝 x).HasBasis
+      (fun R : ℝ => 0 < R ∧ closedBall (chartAt E x x) R ⊆ (chartAt E x).target)
+      (fun R => chartAt E x ⁻¹' ball (chartAt E x x) R ∩ (chartAt E x).source) := by
+    intro x _
+    rw [(chartAt E x).nhds_eq_comap_inf_principal (mem_chart_source E x)]
+    refine ((nhds_basis_ball.comap (chartAt E x)).inf_principal _).restrict fun R hR => ?_
+    obtain ⟨ρ, hρ, hρs⟩ := Metric.isOpen_iff.1 (chartAt E x).open_target _
+      ((chartAt E x).map_source (mem_chart_source E x))
+    refine ⟨min R (ρ / 2), lt_min hR (half_pos hρ),
+      (closedBall_subset_ball (lt_of_le_of_lt (min_le_right _ _) (half_lt_self hρ))).trans hρs,
+      inter_subset_inter_left _ (preimage_mono (ball_subset_ball (min_le_left _ _)))⟩
+  obtain ⟨ι, c, R, hR, hcov, hlf⟩ :=
+    refinement_of_locallyCompact_sigmaCompact_of_nhds_basis_set isClosed_univ hB
+  set B : ι → Set N := fun j =>
+    chartAt E (c j) ⁻¹' ball (chartAt E (c j) (c j)) (R j) ∩ (chartAt E (c j)).source with hBdef
+  have hBo : ∀ j, IsOpen (B j) := fun j => by
+    show IsOpen (_ ∩ _)
+    rw [inter_comm]; exact (chartAt E (c j)).isOpen_inter_preimage isOpen_ball
+  obtain ⟨D, hDcov, hDc, hDB⟩ := exists_subset_iUnion_closed_subset isClosed_univ hBo
+    (fun x _ => hlf.point_finite x) hcov
+  have hδ : ∀ j, ∃ δ, 0 < δ ∧ ∀ x ∈ D j,
+      closedBall (chartAt E (c j) x) δ ⊆ ball (chartAt E (c j) (c j)) (R j) := by
+    intro j
+    set e := chartAt E (c j)
+    have hK : IsCompact (e.symm '' closedBall (e (c j)) (R j)) :=
+      (isCompact_closedBall _ _).image_of_continuousOn (e.continuousOn_symm.mono (hR j).2.2)
+    have hBK : B j ⊆ e.symm '' closedBall (e (c j)) (R j) := fun y hy =>
+      ⟨e y, ball_subset_closedBall hy.1, e.left_inv hy.2⟩
+    have hDK : IsCompact (D j) := hK.of_isClosed_subset (hDc j) ((hDB j).trans hBK)
+    have hDs : D j ⊆ e.source := (hDB j).trans inter_subset_right
+    have hImg : IsCompact (e '' D j) := hDK.image_of_continuousOn (e.continuousOn.mono hDs)
+    obtain ⟨δ, hδ, hsub⟩ := hImg.exists_cthickening_subset_open isOpen_ball
+      (image_subset_iff.2 fun y hy => ((hDB j) hy).1)
+    exact ⟨δ, hδ, fun x hx => (closedBall_subset_cthickening (mem_image_of_mem e hx) δ).trans hsub⟩
+  choose δ hδpos hδsub using hδ
+  refine ⟨ι, c, R, δ, fun j => ⟨hδpos j, (hR j).2.2⟩, hlf, fun x => ?_⟩
+  obtain ⟨j, hj⟩ := mem_iUnion.1 (hDcov (mem_univ x))
+  exact ⟨j, ((hDB j) hj).2, hδsub j x hj⟩
+
+/-- **A local flow from a chart bound.** If, in the chart at `c`, the coordinate field of `w` is
+bounded by `δ / 2` on `closedBall (φ x₀) δ ⊆ target`, then the integral curves of `w` from the
+points near `x₀` exist on `(-1, 1)` and form a map continuous at every `(s, x₀)`, `|s| < 1`
+(Picard–Lindelöf with `a = δ`, `r = L = δ / 2`, time interval `[-1, 1]`). -/
+theorem exists_localFlow_of_chartBound {w : (x : N) → TangentSpace 𝓘(ℝ, E) x}
+    (hw : ContMDiff 𝓘(ℝ, E) 𝓘(ℝ, E).tangent 1 (fun x => (⟨x, w x⟩ : TangentBundle 𝓘(ℝ, E) N)))
+    {c x₀ : N} {δ : ℝ} (hδ : 0 < δ) (hx₀ : x₀ ∈ (extChartAt 𝓘(ℝ, E) c).source)
+    (hsub : closedBall (extChartAt 𝓘(ℝ, E) c x₀) δ ⊆ (extChartAt 𝓘(ℝ, E) c).target)
+    (hb : ∀ z ∈ closedBall (extChartAt 𝓘(ℝ, E) c x₀) δ, ‖chartField w c z‖ ≤ δ / 2) :
+    ∃ U ∈ 𝓝 x₀, ∃ Ψ : ℝ × N → N,
+      (∀ x ∈ U, Ψ (0, x) = x ∧ IsMIntegralCurveOn (fun t => Ψ (t, x)) w (Ioo (-1) 1)) ∧
+      ∀ s ∈ Ioo (-1 : ℝ) 1, ContinuousAt Ψ (s, x₀) := by
+  set φ := extChartAt 𝓘(ℝ, E) c with hφ
+  set z₀ := φ x₀ with hz₀
+  obtain ⟨K, hK⟩ := ((contDiffOn_chartField hw c).mono hsub).exists_lipschitzOnWith one_ne_zero
+    (convex_closedBall _ _) (isCompact_closedBall _ _)
+  have hPL : IsPicardLindelof (fun _ => chartField w c) (tmin := -1) (tmax := 1)
+      ⟨0, by norm_num⟩ z₀ ⟨δ, hδ.le⟩ ⟨δ / 2, by positivity⟩ ⟨δ / 2, by positivity⟩ K := by
+    apply IsPicardLindelof.of_time_independent
+    · intro z hz; exact hb z hz
+    · exact hK
+    · change (δ / 2 : ℝ) * max ((1 : ℝ) - 0) (0 - -1) ≤ δ - δ / 2
+      norm_num; linarith
+  obtain ⟨α, hα, hαc⟩ := exists_localFlow_mem_closedBall hPL
+  change (∀ x ∈ closedBall z₀ (δ / 2), α (x, 0) = x ∧ ∀ t ∈ Icc (-1 : ℝ) 1,
+      HasDerivWithinAt (fun t => α (x, t)) (chartField w c (α (x, t))) (Icc (-1) 1) t ∧
+        α (x, t) ∈ closedBall z₀ δ) at hα
+  change ContinuousOn α (closedBall z₀ (δ / 2) ×ˢ Icc (-1) 1) at hαc
+  refine ⟨φ ⁻¹' ball z₀ (δ / 2) ∩ φ.source,
+    inter_mem ((continuousAt_extChartAt' hx₀).preimage_mem_nhds (ball_mem_nhds _ (half_pos hδ)))
+      (extChartAt_source_mem_nhds' hx₀),
+    fun p => φ.symm (α (φ p.2, p.1)), fun x hx => ⟨?_, fun t ht => ?_⟩, fun s hs => ?_⟩
+  · have := (hα (φ x) (ball_subset_closedBall hx.1)).1
+    simp only at this ⊢
+    rw [this, φ.left_inv hx.2]
+  · have h := (hα (φ x) (ball_subset_closedBall hx.1)).2 t (Ioo_subset_Icc_self ht)
+    have hd : HasDerivAt (fun t => α (φ x, t)) (chartField w c (α (φ x, t))) t :=
+      h.1.hasDerivAt (Icc_mem_nhds ht.1 ht.2)
+    exact (hasMFDerivAt_symm_comp hd (hsub h.2)).hasMFDerivWithinAt
+  · have h1 : ContinuousAt (fun p : ℝ × N => (φ p.2, p.1)) (s, x₀) :=
+      ((continuousAt_extChartAt' hx₀).comp continuousAt_snd).prodMk continuousAt_fst
+    have h2 : ContinuousAt α (z₀, s) := hαc.continuousAt
+      (prod_mem_nhds (closedBall_mem_nhds z₀ (half_pos hδ)) (Icc_mem_nhds hs.1 hs.2))
+    have hmem := ((hα z₀ (mem_closedBall_self (half_pos hδ).le)).2 s (Ioo_subset_Icc_self hs)).2
+    have h3 : ContinuousAt φ.symm (α (z₀, s)) := continuousAt_extChartAt_symm'' (hsub hmem)
+    exact h3.comp (f := fun p : ℝ × N => α (φ p.2, p.1)) (h2.comp (f := fun p : ℝ × N => (φ p.2, p.1)) h1)
+
+omit [FiniteDimensional ℝ E] in
+/-- **Local flows of uniform time glue to a global continuous flow.** If every point has local
+integral curves on `(-1, 1)` from a neighbourhood, continuous at `(s, x₀)` for `|s| < 1`, then the
+global integral curves exist (uniform time, `exists_isMIntegralCurve_of_isMIntegralCurveOn`) and
+`(t, x) ↦ Φ t x` is continuous: near `|s| < 1` by uniqueness, then everywhere from
+`Φ t = Φ (t / 2) ∘ Φ (t / 2)` by doubling. -/
+theorem exists_global_flow_of_local [CompleteSpace E] [T2Space N]
+    {w : (x : N) → TangentSpace 𝓘(ℝ, E) x}
+    (hw : ContMDiff 𝓘(ℝ, E) 𝓘(ℝ, E).tangent 1 (fun x => (⟨x, w x⟩ : TangentBundle 𝓘(ℝ, E) N)))
+    (hloc : ∀ x₀ : N, ∃ U ∈ 𝓝 x₀, ∃ Ψ : ℝ × N → N,
+      (∀ x ∈ U, Ψ (0, x) = x ∧ IsMIntegralCurveOn (fun t => Ψ (t, x)) w (Ioo (-1) 1)) ∧
+      ∀ s ∈ Ioo (-1 : ℝ) 1, ContinuousAt Ψ (s, x₀)) :
+    ∃ Φ : ℝ → N → N, (∀ x, Φ 0 x = x) ∧ (∀ x, IsMIntegralCurve (fun t => Φ t x) w) ∧
+      Continuous (Function.uncurry Φ) := by
+  have hex : ∀ x : N, ∃ γ : ℝ → N, γ 0 = x ∧ IsMIntegralCurve γ w :=
+    exists_isMIntegralCurve_of_isMIntegralCurveOn hw one_pos fun x => by
+      obtain ⟨U, hU, Ψ, hΨ, -⟩ := hloc x
+      exact ⟨_, (hΨ x (mem_of_mem_nhds hU)).1, (hΨ x (mem_of_mem_nhds hU)).2⟩
+  choose γ hγ0 hγ using hex
+  refine ⟨fun t x => γ x t, hγ0, hγ, ?_⟩
+  have hadd : ∀ a b x, γ x (a + b) = γ (γ x b) a := fun a b x => by
+    have h1 : IsMIntegralCurve (fun t => γ x (t + b)) w := (hγ x).comp_add b
+    have h := isMIntegralCurve_Ioo_eq_of_contMDiff_boundaryless (t₀ := 0) hw h1 (hγ (γ x b))
+      (by simp only [zero_add, hγ0])
+    exact congrFun h a
+  have h0 : ∀ p : ℝ × N, p.1 ∈ Ioo (-1 : ℝ) 1 →
+      ContinuousAt (Function.uncurry fun t x => γ x t) p := by
+    rintro ⟨s, x₀⟩ hs
+    obtain ⟨U, hU, Ψ, hΨ, hΨc⟩ := hloc x₀
+    refine (hΨc s hs).congr_of_eventuallyEq ?_
+    filter_upwards [prod_mem_nhds (Ioo_mem_nhds hs.1 hs.2) hU] with p hp
+    exact isMIntegralCurveOn_Ioo_eqOn_of_contMDiff_boundaryless (t₀ := 0) (by norm_num) hw
+      ((hγ p.2).isMIntegralCurveOn _) (hΨ p.2 hp.2).2 (by rw [hγ0, (hΨ p.2 hp.2).1]) hp.1
+  have hP : ∀ m : ℕ, ∀ p : ℝ × N, |p.1| < 2 ^ m →
+      ContinuousAt (Function.uncurry fun t x => γ x t) p := by
+    intro m
+    induction m with
+    | zero =>
+      intro p hp
+      simp only [pow_zero] at hp
+      exact h0 p (abs_lt.1 hp)
+    | succ m ih =>
+      intro p hp
+      have hhalf : |p.1 / 2| < 2 ^ m := by
+        rw [abs_div, abs_two, div_lt_iff₀ two_pos, ← pow_succ]; exact hp
+      have heq : (Function.uncurry fun t x => γ x t) =
+          fun q : ℝ × N => γ (γ q.2 (q.1 / 2)) (q.1 / 2) := by
+        funext q
+        show γ q.2 q.1 = _
+        rw [← hadd]; congr 1; ring
+      rw [heq]
+      have hin : ContinuousAt (fun q : ℝ × N => (q.1 / 2, γ q.2 (q.1 / 2))) p := by
+        refine (continuous_fst.div_const 2).continuousAt.prodMk ?_
+        have hc := ih (p.1 / 2, p.2) hhalf
+        exact hc.comp (f := fun q : ℝ × N => (q.1 / 2, q.2))
+          ((continuous_fst.div_const 2).prodMk continuous_snd).continuousAt
+      exact (ih _ hhalf).comp hin
+  refine continuous_iff_continuousAt.2 fun p => ?_
+  obtain ⟨m, hm⟩ := pow_unbounded_of_one_lt |p.1| one_lt_two
+  exact hP m p hm
+
+/-- **The rescaling.** On a σ-compact Hausdorff manifold, a smooth field `v` has a positive smooth
+multiple `f • v` whose coordinate field is, at every point `x₀`, bounded by `δ / 2` on a closed
+chart ball of radius `δ` about `x₀` (some chart, some `δ`): on the `j`-th ball of a locally finite
+chart cover `f ≤ δⱼ / (2 (Mⱼ + 1))`, `Mⱼ` the bound of the coordinate field of `v` there, glued by
+`exists_contMDiffMap_forall_mem_convex_of_local_const`. -/
+theorem exists_rescaling_chartBound [T2Space N] [SigmaCompactSpace N]
+    (v : Cₛ^∞⟮𝓘(ℝ, E); E, TangentSpace 𝓘(ℝ, E)⟯) :
+    ∃ f : C^∞⟮𝓘(ℝ, E), N; 𝓘(ℝ, ℝ), ℝ⟯, (∀ x, 0 < f x) ∧ ∀ x₀ : N, ∃ c : N, ∃ δ : ℝ, 0 < δ ∧
+      x₀ ∈ (extChartAt 𝓘(ℝ, E) c).source ∧
+      closedBall (extChartAt 𝓘(ℝ, E) c x₀) δ ⊆ (extChartAt 𝓘(ℝ, E) c).target ∧
+      ∀ z ∈ closedBall (extChartAt 𝓘(ℝ, E) c x₀) δ,
+        ‖chartField (fun y => f y • v y) c z‖ ≤ δ / 2 := by
+  obtain ⟨ι, c, R, δ, hRδ, hlf, hcov⟩ := exists_chart_cover (E := E) (N := N)
+  have hv1 : ContMDiff 𝓘(ℝ, E) 𝓘(ℝ, E).tangent 1
+      (fun x => (⟨x, v x⟩ : TangentBundle 𝓘(ℝ, E) N)) :=
+    v.contMDiff.of_le (by norm_cast)
+  have hM : ∀ j, ∃ M, ∀ z ∈ closedBall (extChartAt 𝓘(ℝ, E) (c j) (c j)) (R j),
+      ‖chartField v (c j) z‖ ≤ M := fun j =>
+    (isCompact_closedBall _ _).exists_bound_of_continuousOn
+      ((contDiffOn_chartField hv1 (c j)).continuousOn.mono (hRδ j).2)
+  choose M hM using hM
+  set β : ι → ℝ := fun j => δ j / (2 * (max (M j) 0 + 1)) with hβdef
+  have hβ : ∀ j, 0 < β j := fun j => by
+    have := (hRδ j).1
+    have : 0 ≤ max (M j) 0 := le_max_right _ _
+    positivity
+  set O : ι → Set N := fun j => extChartAt 𝓘(ℝ, E) (c j) ⁻¹'
+    ball (extChartAt 𝓘(ℝ, E) (c j) (c j)) (R j) ∩ (extChartAt 𝓘(ℝ, E) (c j)).source with hOdef
+  set t : N → Set ℝ := fun y => {s | 0 < s ∧ ∀ j, y ∈ O j → s ≤ β j} with htdef
+  have ht : ∀ y, Convex ℝ (t y) := fun y a ha b hb p q hp hq hpq =>
+    ⟨(convex_Ioi (0 : ℝ)) ha.1 hb.1 hp hq hpq,
+      fun j hj => (convex_Iic (β j)) (ha.2 j hj) (hb.2 j hj) hp hq hpq⟩
+  have hloc : ∀ x : N, ∃ s : ℝ, ∀ᶠ y in 𝓝 x, s ∈ t y := by
+    intro x
+    obtain ⟨U, hU, hfin⟩ := hlf x
+    refine ⟨1 / (1 + ∑ j ∈ hfin.toFinset, 1 / β j), mem_of_superset hU fun y hy => ?_⟩
+    have hpos : 0 < 1 + ∑ j ∈ hfin.toFinset, 1 / β j := by
+      have : 0 ≤ ∑ j ∈ hfin.toFinset, 1 / β j :=
+        Finset.sum_nonneg fun i _ => (one_div_pos.2 (hβ i)).le
+      linarith
+    refine ⟨one_div_pos.2 hpos, fun j hj => ?_⟩
+    have hjS : j ∈ hfin.toFinset := hfin.mem_toFinset.2 ⟨y, hj, hy⟩
+    rw [one_div_le hpos (hβ j)]
+    have := Finset.single_le_sum (f := fun j => 1 / β j)
+      (fun i _ => (one_div_pos.2 (hβ i)).le) hjS
+    linarith
+  obtain ⟨f, hf⟩ := exists_contMDiffMap_forall_mem_convex_of_local_const 𝓘(ℝ, E) (n := ⊤) ht hloc
+  refine ⟨f, fun x => (hf x).1, fun x₀ => ?_⟩
+  obtain ⟨j, hj, hball⟩ := hcov x₀
+  refine ⟨c j, δ j, (hRδ j).1, hj, hball.trans (ball_subset_closedBall.trans (hRδ j).2),
+    fun z hz => ?_⟩
+  have hzb := hball hz
+  have hzt : z ∈ (extChartAt 𝓘(ℝ, E) (c j)).target := (hRδ j).2 (ball_subset_closedBall hzb)
+  have hyO : (extChartAt 𝓘(ℝ, E) (c j)).symm z ∈ O j :=
+    ⟨by rw [mem_preimage, (extChartAt 𝓘(ℝ, E) (c j)).right_inv hzt]; exact hzb,
+      (extChartAt 𝓘(ℝ, E) (c j)).map_target hzt⟩
+  rw [chartField_smul, norm_smul, Real.norm_of_nonneg (hf _).1.le]
+  have h1 := (hf _).2 j hyO
+  have h2 := hM j z (ball_subset_closedBall hzb)
+  calc f ((extChartAt 𝓘(ℝ, E) (c j)).symm z) * ‖chartField v (c j) z‖
+      ≤ β j * (max (M j) 0 + 1) :=
+        mul_le_mul h1 (by linarith [le_max_left (M j) 0]) (norm_nonneg _) (hβ j).le
+    _ = δ j / 2 := by
+        have : 0 < max (M j) 0 + 1 := by have := le_max_right (M j) 0; linarith
+        rw [hβdef]; field_simp
+
+end ODEFlow
+
+/-- **The ODE input — a pure-ODE statement on a manifold, with no causality in it.** On a
+σ-compact Hausdorff smooth manifold modelled on a finite-dimensional space, every smooth vector
+field `v` becomes complete after multiplication by a positive smooth function `f`, and the global
+integral curves `Φ · x` of `f • v` depend continuously on `(t, x)`. Classical (the fundamental
+theorem on flows, with completeness by rescaling); proved from the chart-ball rescaling
+(`ODEFlow.exists_rescaling_chartBound`), Picard–Lindelöf in charts
+(`ODEFlow.exists_localFlow_of_chartBound`) and the gluing (`ODEFlow.exists_global_flow_of_local`).
+The group law of the flow is not part of it (`exists_flow_of_isMIntegralCurve`). -/
+theorem exists_complete_rescaling_continuous [T2Space N] [SigmaCompactSpace N]
+    (v : Cₛ^∞⟮𝓘(ℝ, E); E, TangentSpace 𝓘(ℝ, E)⟯) :
+    ∃ f : C^∞⟮𝓘(ℝ, E), N; 𝓘(ℝ, ℝ), ℝ⟯, (∀ x, 0 < f x) ∧
+      ∃ Φ : ℝ → N → N, (∀ x, Φ 0 x = x) ∧
+        (∀ x, IsMIntegralCurve (fun t => Φ t x) (fun y => f y • v y)) ∧
+        Continuous (Function.uncurry Φ) := by
+  obtain ⟨f, hf, hb⟩ := ODEFlow.exists_rescaling_chartBound v
+  have hw : ContMDiff 𝓘(ℝ, E) 𝓘(ℝ, E).tangent 1
+      (fun x => (⟨x, f x • v x⟩ : TangentBundle 𝓘(ℝ, E) N)) :=
+    (f.contMDiff.smul_section v.contMDiff).of_le (by norm_cast)
+  refine ⟨f, hf, ODEFlow.exists_global_flow_of_local hw fun x₀ => ?_⟩
+  obtain ⟨c, δ, hδ, hx₀, hsub, hbd⟩ := hb x₀
+  exact ODEFlow.exists_localFlow_of_chartBound hw hδ hx₀ hsub hbd
+
+omit [FiniteDimensional ℝ E] in
+/-- **Global integral curves depending continuously on the initial point form a flow**: the group
+law is the uniqueness of integral curves of a `C¹` field (`isMIntegralCurve_eq_of_contMDiff`,
+boundaryless). -/
+theorem exists_flow_of_isMIntegralCurve [T2Space N] {w : (x : N) → TangentSpace 𝓘(ℝ, E) x}
+    (hw : ContMDiff 𝓘(ℝ, E) 𝓘(ℝ, E).tangent 1 (fun x => (⟨x, w x⟩ : TangentBundle 𝓘(ℝ, E) N)))
+    {Φ : ℝ → N → N} (h0 : ∀ x, Φ 0 x = x) (hΦ : ∀ x, IsMIntegralCurve (fun t => Φ t x) w)
+    (hc : Continuous (Function.uncurry Φ)) : ∃ φ : Flow ℝ N, ∀ t x, φ t x = Φ t x := by
+  refine ⟨{ toFun := Φ, cont' := hc, map_add' := fun t₁ t₂ x => ?_, map_zero' := h0 },
+    fun _ _ => rfl⟩
+  have h1 : IsMIntegralCurve (fun t => Φ (t + t₂) x) w := IsMIntegralCurve.comp_add (hΦ x) t₂
+  have h := isMIntegralCurve_Ioo_eq_of_contMDiff_boundaryless (t₀ := 0) hw h1 (hΦ (Φ t₂ x))
+    (by simp only [zero_add, h0])
+  exact congrFun h t₁
+
+/-- **The ODE input as a flow**: a smooth vector field, rescaled by a positive smooth function,
+has a global flow. -/
+theorem exists_flow_isMIntegralCurve_smul [T2Space N] [SigmaCompactSpace N]
+    (v : Cₛ^∞⟮𝓘(ℝ, E); E, TangentSpace 𝓘(ℝ, E)⟯) :
+    ∃ (f : N → ℝ) (φ : Flow ℝ N), (∀ x, 0 < f x) ∧
+      ∀ x, IsMIntegralCurve (fun t => φ t x) (fun y => f y • v y) := by
+  obtain ⟨f, hf, Φ, h0, hΦ, hc⟩ := exists_complete_rescaling_continuous v
+  have hw : ContMDiff 𝓘(ℝ, E) 𝓘(ℝ, E).tangent 1
+      (fun x => (⟨x, f x • v x⟩ : TangentBundle 𝓘(ℝ, E) N)) :=
+    (f.contMDiff.smul_section v.contMDiff).of_le (by norm_cast)
+  obtain ⟨φ, hφ⟩ := exists_flow_of_isMIntegralCurve hw h0 hΦ hc
+  refine ⟨f, φ, hf, fun x => ?_⟩
+  simp only [hφ]
+  exact hΦ x
+
+
+end ODE
+
+/-! ### Target 4: a smooth future timelike field on a flat spacetime, and its orbits -/
+
+section FlowFieldSection
+
+open Manifold Bundle
+open scoped ContDiff
+
+namespace Flat
+
+namespace FlowField
+
+variable {d : ℕ}
+
+/-- A future timelike vector has spatial norm below its time component. -/
+theorem norm_snd_lt_fst_of_isFutureTimelike {w : Minkowski d} (hw : IsFutureTimelike w) :
+    ‖w.2‖ < w.1 := by
+  have h := minkQ_lt_zero_iff.1 hw.2
+  exact (pow_lt_pow_iff_left₀ (norm_nonneg _) hw.1.le two_ne_zero).1 h
+
+/-- **The chord of a curve with future timelike velocity is future timelike.** If `γ` has, at
+every point of `[s, s']`, `s < s'`, a future timelike derivative, then `γ s'` lies in the open
+future cone of `γ s`. The functional `ℓ v = v.1 - ⟪u, v.2⟫`, `u` the direction of the spatial
+displacement, is positive on future timelike vectors, so `ℓ ∘ γ` is strictly increasing. -/
+theorem chord_lt_of_hasDerivAt' {γ : ℝ → Minkowski d} {w : ℝ → Minkowski d} {s s' : ℝ}
+    (hss' : s < s') (hγ : ∀ σ ∈ Icc s s', HasDerivAt γ (w σ) σ)
+    (hw : ∀ σ ∈ Icc s s', IsFutureTimelike (w σ)) :
+    ‖(γ s').2 - (γ s).2‖ < (γ s').1 - (γ s).1 := by
+  set Δ := (γ s').2 - (γ s).2
+  set u : EuclideanSpace ℝ (Fin d) := (‖Δ‖)⁻¹ • Δ
+  have hu : ‖u‖ ≤ 1 := by
+    rcases eq_or_ne ‖Δ‖ 0 with h | h
+    · simp [u, h]
+    · rw [norm_smul, norm_inv, norm_norm, inv_mul_cancel₀ h]
+  set ℓ : Minkowski d →L[ℝ] ℝ := ContinuousLinearMap.fst ℝ ℝ (EuclideanSpace ℝ (Fin d)) -
+    (innerSL ℝ u).comp (ContinuousLinearMap.snd ℝ ℝ (EuclideanSpace ℝ (Fin d)))
+  have hℓ : ∀ v : Minkowski d, ℓ v = v.1 - inner ℝ u v.2 := fun v => rfl
+  have hpos : ∀ σ ∈ Icc s s', 0 < ℓ (w σ) := fun σ hσ => by
+    rw [hℓ]
+    have h1 := norm_snd_lt_fst_of_isFutureTimelike (hw σ hσ)
+    have h2 : inner ℝ u (w σ).2 ≤ ‖(w σ).2‖ :=
+      (real_inner_le_norm _ _).trans (by nlinarith [norm_nonneg (w σ).2, norm_nonneg u])
+    linarith
+  have hmono : StrictMonoOn (fun σ => ℓ (γ σ)) (Icc s s') := by
+    apply strictMonoOn_of_deriv_pos (convex_Icc s s')
+    · exact fun σ hσ => (ℓ.hasFDerivAt.comp_hasDerivAt σ (hγ σ hσ)).continuousAt.continuousWithinAt
+    · intro σ hσ
+      rw [interior_Icc] at hσ
+      have hσ' : σ ∈ Icc s s' := Ioo_subset_Icc_self hσ
+      rw [show deriv (fun σ => ℓ (γ σ)) σ = ℓ (w σ) from
+        (ℓ.hasFDerivAt.comp_hasDerivAt σ (hγ σ hσ')).deriv]
+      exact hpos σ hσ'
+  have hlt := hmono (left_mem_Icc.2 hss'.le) (right_mem_Icc.2 hss'.le) hss'
+  simp only at hlt
+  have hlin : ℓ (γ s') - ℓ (γ s) = ((γ s').1 - (γ s).1) - ‖Δ‖ := by
+    rw [← map_sub, hℓ]
+    congr 1
+    show inner ℝ u Δ = ‖Δ‖
+    rcases eq_or_ne ‖Δ‖ 0 with h | h
+    · rw [norm_eq_zero.1 h]; simp
+    · rw [real_inner_smul_left, real_inner_self_eq_norm_sq]; field_simp
+  linarith
+
+/-- `chord_lt_of_hasDerivAt'` with the velocity given pointwise. -/
+theorem chord_lt_of_hasDerivAt {γ : ℝ → Minkowski d} {s s' : ℝ} (hss' : s < s')
+    (hγ : ∀ σ ∈ Icc s s', ∃ w, IsFutureTimelike w ∧ HasDerivAt γ w σ) :
+    ‖(γ s').2 - (γ s).2‖ < (γ s').1 - (γ s).1 := by
+  choose! w hw hγ' using hγ
+  exact chord_lt_of_hasDerivAt' hss' hγ' hw
+
+
+variable [ChartedSpace (Minkowski d) M]
+  [HasGroupoid M (gxGroupoid (isom d) (Minkowski d))]
+
+variable (d) in
+/-- **Future timelike velocity in every chart**: wherever `c` is in the source of the chart at
+`p`, the curve read in that chart has a future timelike derivative. -/
+def HasFutureTimelikeChartVelocity (c : ℝ → M) : Prop :=
+  ∀ (p : M) (s : ℝ), c s ∈ (chartAt (Minkowski d) p).source →
+    ∃ w, IsFutureTimelike w ∧ HasDerivAt (fun σ => chartAt (Minkowski d) p (c σ)) w s
+
+/-- **A continuous curve with future timelike velocity in every chart is a chronal curve** of the
+flat causality, over every segment. Near `c t`, in the chart at `c t`: a ball around `e (c t)`
+inside the chart image of `N`, convex, on which `≪` is the open cone (`lt_iff_of_convex`), and
+the chord lemma; the chart is an isomorphism (`flatCausality_chartIso_chartAt`). -/
+theorem chronalCurveOn_of_chartVelocity {c : ℝ → M} (hc : Continuous c)
+    (hv : HasFutureTimelikeChartVelocity d c) (a b : ℝ) :
+    (flatCausality d M).ChronalCurveOn ⊤ c a b := by
+  refine ⟨fun _ _ => trivial, fun t _ N _ htN => ?_⟩
+  set e := chartAt (Minkowski d) (c t)
+  set U : Opens M := N ⊓ chartSource e
+  have hU : U ≤ chartSource e := inf_le_right
+  have hte : c t ∈ e.source := mem_chart_source _ _
+  have htU : c t ∈ U := ⟨htN, hte⟩
+  obtain ⟨ρ, hρ, hball⟩ := Metric.isOpen_iff.1 (chartImage e U).isOpen _
+    (mem_chartImage_of_mem hte htU)
+  have hO : IsOpen (c ⁻¹' ((e.source ∩ e ⁻¹' Metric.ball (e (c t)) ρ) ∩ U)) :=
+    ((e.isOpen_inter_preimage Metric.isOpen_ball).inter U.isOpen).preimage hc
+  have htO : t ∈ c ⁻¹' ((e.source ∩ e ⁻¹' Metric.ball (e (c t)) ρ) ∩ U) :=
+    ⟨⟨hte, Metric.mem_ball_self hρ⟩, htU⟩
+  obtain ⟨l, u, ⟨hl, hu⟩, hsub⟩ := mem_nhds_iff_exists_Ioo_subset.1 (hO.mem_nhds htO)
+  refine ⟨l, u, hl, hu, fun s _ s' _ h1 h2 h3 => ?_⟩
+  have hIcc : ∀ σ ∈ Icc s s', c σ ∈ (e.source ∩ e ⁻¹' Metric.ball (e (c t)) ρ) ∩ U :=
+    fun σ hσ => hsub ⟨h1.trans_le hσ.1, hσ.2.trans_lt h3⟩
+  have hs := hIcc s (left_mem_Icc.2 h2.le)
+  have hs' := hIcc s' (right_mem_Icc.2 h2.le)
+  have hchord := chord_lt_of_hasDerivAt (γ := fun σ => e (c σ)) h2
+    fun σ hσ => hv (c t) σ (hIcc σ hσ).1.1
+  set V : Opens (Minkowski d) := ⟨Metric.ball (e (c t)) ρ, Metric.isOpen_ball⟩
+  have hlt : (minkowski d).lt V (e (c s)) (e (c s')) :=
+    (lt_iff_of_convex (V := V) (convex_ball _ _)).2 ⟨hs.1.2, hs'.1.2, minkowski_lt_top_iff.2 hchord⟩
+  have hlt' : (minkowski d).lt (chartImage e U) (e (c s)) (e (c s')) :=
+    (minkowski d).lt_mono (show V ≤ chartImage e U from hball) hlt
+  have := ((flatCausality_chartIso_chartAt (c t) U hU (c s) hs.2 (c s') hs'.2).2).2 hlt'
+  exact (flatCausality d M).lt_mono inf_le_left this
+
+
+
+omit [HasGroupoid M (gxGroupoid (isom d) (Minkowski d))] in
+/-- **An integral curve read in the chart at its point**: `HasMFDerivAt` from `ℝ` to a manifold
+modelled on `𝓘(ℝ, Minkowski d)` is the derivative of the curve read in the chart at `γ s`. -/
+theorem hasDerivAt_chartAt_of_hasMFDerivAt {γ : ℝ → M} {s : ℝ} {v : Minkowski d}
+    (h : HasMFDerivAt 𝓘(ℝ, ℝ) 𝓘(ℝ, Minkowski d) γ s ((1 : ℝ →L[ℝ] ℝ).smulRight v)) :
+    HasDerivAt (fun σ => chartAt (Minkowski d) (γ s) (γ σ)) v s := by
+  have h2 := h.2
+  simp only [writtenInExtChartAt, extChartAt_model_space_eq_id, PartialEquiv.refl_coe,
+    PartialEquiv.refl_symm, modelWithCornersSelf_coe, range_id, hasFDerivWithinAt_univ,
+    extChartAt_coe, CompTriple.comp_eq, id_eq] at h2
+  rw [hasDerivAt_iff_hasFDerivAt]
+  exact h2
+
+
+
+/-- An affine automorphism of `Minkowski d` is its linear part plus a translation. -/
+theorem affineEquiv_eq_linear_add (g : Minkowski d ≃ᵃ[ℝ] Minkowski d) :
+    (fun y => g y) = fun y =>
+      (LinearMap.toContinuousLinearMap (g.linear : Minkowski d →ₗ[ℝ] Minkowski d)) y + g 0 := by
+  funext y
+  have := congrFun g.toAffineMap.decomp y
+  simpa using this
+
+/-- An affine automorphism of `Minkowski d` is smooth. -/
+theorem affineEquiv_contDiff (g : Minkowski d ≃ᵃ[ℝ] Minkowski d) {n : WithTop ℕ∞} :
+    ContDiff ℝ n (fun y => g y) := by
+  rw [affineEquiv_eq_linear_add]
+  exact (ContinuousLinearMap.contDiff _).add contDiff_const
+
+/-- **`gxGroupoid (isom d)` consists of smooth maps**: its elements are, near every point, an
+affine isometry. -/
+theorem gxGroupoid_le_contDiffGroupoid :
+    gxGroupoid (isom d) (Minkowski d) ≤ contDiffGroupoid ∞ 𝓘(ℝ, Minkowski d) := by
+  apply groupoid_of_pregroupoid_le
+  intro f s hf
+  simp only [contDiffPregroupoid, modelWithCornersSelf_coe, modelWithCornersSelf_coe_symm,
+    range_id, preimage_id_eq, inter_univ, CompTriple.comp_eq]
+  intro x hx
+  obtain ⟨g, hg⟩ := hf x hx
+  exact ((affineEquiv_contDiff (g : Minkowski d ≃ᵃ[ℝ] Minkowski d)).contDiffAt.congr_of_eventuallyEq
+    hg).contDiffWithinAt
+
+/-- **A flat spacetime is a smooth manifold** over `𝓘(ℝ, Minkowski d)` (not an instance: the
+charted space is fixed by the `(G,X)`-structure, and the smooth structure is derived). -/
+theorem isManifold_of_flat : IsManifold 𝓘(ℝ, Minkowski d) ∞ M where
+  toHasGroupoid := hasGroupoid_of_le ‹_› gxGroupoid_le_contDiffGroupoid
+
+
+/-- The open future timelike cone is `‖x‖ < t`. -/
+theorem isFutureTimelike_iff {v : Minkowski d} : IsFutureTimelike v ↔ ‖v.2‖ < v.1 := by
+  refine ⟨fun hw => (pow_lt_pow_iff_left₀ (norm_nonneg _) hw.1.le two_ne_zero).1
+    (minkQ_lt_zero_iff.1 hw.2), fun h => ⟨(norm_nonneg _).trans_lt h, minkQ_lt_zero_iff.2 ?_⟩⟩
+  exact pow_lt_pow_left₀ h (norm_nonneg _) two_ne_zero
+
+/-- The open future timelike cone is convex. -/
+theorem convex_isFutureTimelike : Convex ℝ {v : Minkowski d | IsFutureTimelike v} := by
+  intro v hv w hw a b ha hb hab
+  simp only [mem_setOf_eq, isFutureTimelike_iff] at hv hw ⊢
+  simp only [Prod.fst_add, Prod.snd_add, Prod.smul_fst, Prod.smul_snd, smul_eq_mul]
+  calc ‖a • v.2 + b • w.2‖ ≤ a * ‖v.2‖ + b * ‖w.2‖ := by
+        refine (norm_add_le _ _).trans ?_
+        rw [norm_smul, norm_smul, Real.norm_of_nonneg ha, Real.norm_of_nonneg hb]
+    _ < a * v.1 + b * w.1 := by
+        rcases ha.eq_or_lt with h | h
+        · subst h; simp only [zero_add] at hab; subst hab; simp; linarith
+        · nlinarith
+
+/-- `e₀ = (1, 0)` is future timelike. -/
+theorem isFutureTimelike_e0 : IsFutureTimelike ((1, 0) : Minkowski d) :=
+  isFutureTimelike_iff.2 (by simp)
+
+
+/-- The derivative of an affine automorphism is its linear part. -/
+theorem affineEquiv_hasFDerivAt (g : Minkowski d ≃ᵃ[ℝ] Minkowski d) (x : Minkowski d) :
+    HasFDerivAt (fun y => g y)
+      (LinearMap.toContinuousLinearMap (g.linear : Minkowski d →ₗ[ℝ] Minkowski d)) x := by
+  have h : (fun y => g y) = fun y =>
+      (LinearMap.toContinuousLinearMap (g.linear : Minkowski d →ₗ[ℝ] Minkowski d)) y + g 0 := by
+    funext y
+    have := congrFun g.toAffineMap.decomp y
+    simpa using this
+  rw [h]
+  exact (ContinuousLinearMap.hasFDerivAt _).add_const _
+
+/-- Near a point of the overlap of two charts of a flat spacetime, the transition is an isometry. -/
+theorem exists_isom_chartAt_of_mem {q p z₀ : M} (hq : z₀ ∈ (chartAt (Minkowski d) q).source)
+    (hp : z₀ ∈ (chartAt (Minkowski d) p).source) :
+    ∃ g : isom d, ∀ᶠ z in 𝓝 z₀, chartAt (Minkowski d) p z = g • chartAt (Minkowski d) q z := by
+  have hc := HasGroupoid.compatible (G := gxGroupoid (isom d) (Minkowski d))
+    (chart_mem_atlas (Minkowski d) q) (chart_mem_atlas (Minkowski d) p)
+  obtain ⟨g, O, hqO, -, hO⟩ := exists_smul_eq_of_mem_gxGroupoid hc hq hp
+  exact ⟨g, Filter.mem_of_superset (O.isOpen.mem_nhds hqO) fun z hz => hO z hz⟩
+
+variable [IsManifold 𝓘(ℝ, Minkowski d) ∞ M]
+
+/-- **The tangent coordinate change of a flat manifold is the linear part of an isometry**, so it
+maps future timelike vectors to future timelike vectors. -/
+theorem tangentCoordChange_isFutureTimelike {x y z : M}
+    (hx : z ∈ (chartAt (Minkowski d) x).source) (hy : z ∈ (chartAt (Minkowski d) y).source)
+    {v : Minkowski d} (hv : IsFutureTimelike v) :
+    IsFutureTimelike (tangentCoordChange 𝓘(ℝ, Minkowski d) x y z v) := by
+  obtain ⟨g, hg⟩ := exists_isom_chartAt_of_mem hx hy
+  have h1 := hasFDerivWithinAt_tangentCoordChange (I := 𝓘(ℝ, Minkowski d)) (x := x) (y := y)
+    (z := z) ⟨by rwa [extChartAt_source], by rwa [extChartAt_source]⟩
+  simp only [modelWithCornersSelf_coe, range_id, hasFDerivWithinAt_univ, extChartAt_coe,
+    extChartAt_coe_symm, modelWithCornersSelf_coe_symm, CompTriple.comp_eq] at h1
+  have hev : (chartAt (Minkowski d) y ∘ (chartAt (Minkowski d) x).symm) =ᶠ[𝓝 (chartAt (Minkowski d) x z)]
+      fun w => (g : Minkowski d ≃ᵃ[ℝ] Minkowski d) w := by
+    have hcont := (chartAt (Minkowski d) x).continuousAt_symm ((chartAt (Minkowski d) x).map_source hx)
+    rw [ContinuousAt, (chartAt (Minkowski d) x).left_inv hx] at hcont
+    filter_upwards [hcont.eventually hg, (chartAt (Minkowski d) x).open_target.mem_nhds
+      ((chartAt (Minkowski d) x).map_source hx)] with w hw hwt
+    simp only [Function.comp] at hw ⊢
+    rw [hw, (chartAt (Minkowski d) x).right_inv hwt]
+    rfl
+  have h2 := (affineEquiv_hasFDerivAt (g : Minkowski d ≃ᵃ[ℝ] Minkowski d)
+    (chartAt (Minkowski d) x z)).congr_of_eventuallyEq hev
+  rw [h1.unique h2]
+  exact lorentz.isFutureTimelike_apply g.2 hv
+
+
+/-- **A smooth future timelike vector field.** Near `x₀`, the field equal to `e₀` in the chart at
+`x₀` (`y ↦ tangentCoordChange x₀ y y e₀`) is smooth and future timelike; the future timelike cone
+is convex, and a smooth partition of unity glues the local fields
+(`exists_contMDiffSection_forall_mem_convex_of_local`). -/
+theorem exists_contMDiff_futureTimelike_section [T2Space M] [SigmaCompactSpace M] :
+    ∃ v : Cₛ^∞⟮𝓘(ℝ, Minkowski d); Minkowski d, TangentSpace 𝓘(ℝ, Minkowski d)⟯,
+      ∀ x : M, IsFutureTimelike (v x : Minkowski d) := by
+  refine exists_contMDiffSection_forall_mem_convex_of_local 𝓘(ℝ, Minkowski d) (n := ⊤)
+    (F_fiber := Minkowski d)
+    (TangentSpace 𝓘(ℝ, Minkowski d) : M → Type _) (fun _ => {v : Minkowski d | IsFutureTimelike v})
+    (fun _ => convex_isFutureTimelike) fun x₀ => ?_
+  refine ⟨(chartAt (Minkowski d) x₀).source,
+    (chartAt (Minkowski d) x₀).open_source.mem_nhds (mem_chart_source _ x₀),
+    fun y => tangentCoordChange 𝓘(ℝ, Minkowski d) x₀ y y ((1, 0) : Minkowski d), ?_,
+    fun y hy => tangentCoordChange_isFutureTimelike hy (mem_chart_source _ y) isFutureTimelike_e0⟩
+  intro y₀ hy₀
+  rw [(trivializationAt (Minkowski d) (TangentSpace 𝓘(ℝ, Minkowski d)) x₀).contMDiffWithinAt_section
+    _ (by simpa using hy₀)]
+  have key : ∀ y ∈ (chartAt (Minkowski d) x₀).source,
+      (trivializationAt (Minkowski d) (TangentSpace 𝓘(ℝ, Minkowski d)) x₀
+        ⟨y, tangentCoordChange 𝓘(ℝ, Minkowski d) x₀ y y ((1, 0) : Minkowski d)⟩).2 =
+        ((1, 0) : Minkowski d) := fun y hy => by
+    rw [TangentBundle.trivializationAt_apply]
+    show tangentCoordChange 𝓘(ℝ, Minkowski d) y x₀ y
+      (tangentCoordChange 𝓘(ℝ, Minkowski d) x₀ y y ((1, 0) : Minkowski d)) = _
+    have hy' : y ∈ (extChartAt 𝓘(ℝ, Minkowski d) x₀).source := by rwa [extChartAt_source]
+    have hyy : y ∈ (extChartAt 𝓘(ℝ, Minkowski d) y).source := mem_extChartAt_source y
+    rw [tangentCoordChange_comp ⟨⟨hy', hyy⟩, hy'⟩, tangentCoordChange_self hy']
+  exact (contMDiffWithinAt_const (c := ((1, 0) : Minkowski d))).congr key (key y₀ hy₀)
+
+omit [IsManifold 𝓘(ℝ, Minkowski d) ∞ M] in
+/-- **An integral curve of a future timelike field has future timelike velocity in every chart.** -/
+theorem hasFutureTimelikeChartVelocity_of_isMIntegralCurve
+    {w : (x : M) → TangentSpace 𝓘(ℝ, Minkowski d) x} (hw : ∀ x, IsFutureTimelike (w x : Minkowski d))
+    {γ : ℝ → M} (hγ : IsMIntegralCurve γ w) : HasFutureTimelikeChartVelocity d γ := by
+  intro p s hs
+  obtain ⟨g, hg⟩ := exists_isom_chartAt_of_mem (mem_chart_source _ (γ s)) hs
+  have h1 := hasDerivAt_chartAt_of_hasMFDerivAt (hγ s)
+  have h2 := (affineEquiv_hasFDerivAt (g : Minkowski d ≃ᵃ[ℝ] Minkowski d) _).comp_hasDerivAt s h1
+  refine ⟨_, lorentz.isFutureTimelike_apply g.2 (hw (γ s)), ?_⟩
+  refine h2.congr_of_eventuallyEq ?_
+  have hcont : ContinuousAt γ s := (hγ s).1
+  filter_upwards [hcont.eventually hg] with σ hσ
+  exact hσ
+
+
+/-- A positive multiple of a future timelike vector is future timelike. -/
+theorem isFutureTimelike_smul {c : ℝ} (hc : 0 < c) {v : Minkowski d} (hv : IsFutureTimelike v) :
+    IsFutureTimelike (c • v) := by
+  rw [isFutureTimelike_iff] at hv ⊢
+  simp only [Prod.smul_fst, Prod.smul_snd, smul_eq_mul, norm_smul, Real.norm_of_nonneg hc.le]
+  exact mul_lt_mul_of_pos_left hv hc
+
+omit [IsManifold 𝓘(ℝ, Minkowski d) ∞ M] [HasGroupoid M (gxGroupoid (isom d) (Minkowski d))] in
+/-- A curve with future timelike chart velocity is nowhere locally constant; in particular it
+leaves its initial point. -/
+theorem exists_ne_of_chartVelocity {c : ℝ → M} (hv : HasFutureTimelikeChartVelocity d c) :
+    ∃ t, c t ≠ c 0 := by
+  by_contra h
+  simp only [not_exists, not_not] at h
+  obtain ⟨w, hw, hd⟩ := hv (c 0) 0 (mem_chart_source _ _)
+  have hconst : (fun σ => chartAt (Minkowski d) (c 0) (c σ)) =
+      fun _ => chartAt (Minkowski d) (c 0) (c 0) := funext fun σ => by rw [h σ]
+  rw [hconst] at hd
+  have := hd.unique (hasDerivAt_const 0 _)
+  exact absurd (congrArg Prod.fst this) (by simpa using hw.1.ne')
+
+end FlowField
+
+end Flat
+
+end FlowFieldSection
+
 /-! ### Target 4: flat spacetimes -/
 
 namespace Flat
@@ -1068,16 +1896,38 @@ section FlatFlow
 variable {d : ℕ} {M : Type u} [TopologicalSpace M] [ChartedSpace (Minkowski d) M]
   [HasGroupoid M (gxGroupoid (isom d) (Minkowski d))]
 
-/-- **Target 4 — every flat spacetime carries a chronal causal flow. STATED, tagged `sorry`;
-nothing in this file depends on it.** The intended proof: `gxGroupoid (isom d)` is contained in
-`contDiffGroupoid ⊤ 𝓘(ℝ, Minkowski d)` (affine maps), so `M` is smooth; `e₀` pulled back by the
-charts is future timelike, the future timelike cone is convex and preserved by `lorentz d`, so a
-smooth partition of unity glues the local fields into a future timelike field `X`; rescale `X` by
-a proper positive function to make it complete; its flow is a `Flow ℝ M`, chronal in charts, and
-a maximal integral curve with no limit point is inextensible. -/
+open scoped Manifold ContDiff in
+/-- **Target 4 — every flat spacetime carries a chronal causal flow.** Proved (no `sorry`), with
+the pure-ODE lemma `exists_complete_rescaling_continuous` (no causality in it) as ODE input:
+`gxGroupoid (isom d) ≤ contDiffGroupoid ∞` (affine maps), so `M` is smooth
+(`isManifold_of_flat`); σ-compact from second countability and local compactness; the fields
+equal to `e₀` in a chart are future timelike in every chart (the linear parts of `isom d` preserve
+the cone, `tangentCoordChange_isFutureTimelike`) and the cone is convex, so a smooth partition of
+unity glues them into a smooth future timelike field `v`
+(`exists_contMDiff_futureTimelike_section`); `f • v`, `f > 0`, has a flow
+(`exists_flow_isMIntegralCurve_smul`); its orbits have future timelike velocity in every chart,
+hence are chronal curves (`chronalCurveOn_of_chartVelocity`, by the chord lemma
+`chord_lt_of_hasDerivAt`); they are not constant, and the orbits of a fixed-point-free flow are
+inextensible (`Causality.inextensible_of_flow`). Nothing in this file depends on it. -/
 theorem flat_hasChronalCausalFlow [T2Space M] [SecondCountableTopology M] :
-    (flatCausality d M).HasChronalCausalFlow :=
-  sorry -- SORRY(target-4): mathlib at fabf563a has no global flow of a complete vector field on a manifold with joint continuity of (t, x) ↦ φ t x — only local flows on a ball of a Banach space (Mathlib/Analysis/ODE/PicardLindelof.lean, IsPicardLindelof) and manifold integral curves (Mathlib/Geometry/Manifold/IntegralCurve/{ExistUnique,UniformTime}: existence and uniqueness, no continuous dependence on the initial point) — and no completeness-by-rescaling; also unformalized here: gxGroupoid (isom d) ⊆ contDiffGroupoid, the gluing of e₀ by a smooth partition of unity into a future timelike field, and the inextensibility of a maximal integral curve in the library's sense (DEC-13), which needs the absence of limit points at the ends (a limit of φ t x as t → ∞ would be a zero of the field).
+    (flatCausality d M).HasChronalCausalFlow := by
+  haveI : IsManifold 𝓘(ℝ, Minkowski d) ∞ M := FlowField.isManifold_of_flat (d := d)
+  haveI : LocallyCompactSpace M := ChartedSpace.locallyCompactSpace (Minkowski d) M
+  obtain ⟨v, hv⟩ := FlowField.exists_contMDiff_futureTimelike_section (d := d) (M := M)
+  obtain ⟨f, φ, hf, hφ⟩ := exists_flow_isMIntegralCurve_smul v
+  have hvel : ∀ x, FlowField.HasFutureTimelikeChartVelocity d (fun t => φ t x) := fun x =>
+    FlowField.hasFutureTimelikeChartVelocity_of_isMIntegralCurve
+      (fun y => FlowField.isFutureTimelike_smul (hf y) (hv y)) (hφ x)
+  have hcont : ∀ x, Continuous (fun t => φ t x) := fun x =>
+    φ.continuous continuous_id continuous_const
+  have hch : (flatCausality d M).IsChronalFlow φ := fun x a b =>
+    FlowField.chronalCurveOn_of_chartVelocity (hcont x) (hvel x) a b
+  have hcurve : ∀ x, (flatCausality d M).CausalCurveIn ⊤ univ (fun t => φ t x) := fun x =>
+    ⟨⟨0, trivial⟩, ordConnected_univ, fun a _ b _ => (hch x a b).causalCurveOn⟩
+  have hns : ∀ x, ∃ t, φ t x ≠ x := fun x => by
+    obtain ⟨t, ht⟩ := FlowField.exists_ne_of_chartVelocity (hvel x)
+    exact ⟨t, by simpa [Flow.map_zero_apply] using ht⟩
+  exact ⟨φ, ⟨Causality.inextensible_of_flow hcurve hns, hns⟩, hch⟩
 
 /-- **A flat spacetime with a chronal causal flow splits along every acausal Cauchy surface**
 (target 2 through the named hypothesis; does not use `flat_hasChronalCausalFlow`). -/
