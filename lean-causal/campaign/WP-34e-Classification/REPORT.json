@@ -670,5 +670,41 @@
    "Smoothing in a flat spacetime: glue finitely many chart pieces through an intrinsic causal set (the upper part K \\ I⁻(K)), never by clamping chart-local functions; the local analysis is Flat/Cla/SmoothCone's cone-increasing zero-set criterion."
   ],
   "notes": "SmoothCone imports only CausalScaffold.Flat.CauchyComplete and is imported by CompactComplete. The scaffold root scaffold/CausalScaffold.lean (5 imports) does not import CompactComplete, Classification or SmoothCone, so by kb/0025 none of them is seen by scripts/AxiomSweep.lean: the axiom check above was run by hand (#print axioms on each new theorem). Pre-existing for the Flat tree; the root is not this closer's file."
+ },
+ "closer_L9_smoothing_r3": {
+  "date": "2026-11-01",
+  "host": "node1",
+  "decl": "Causal.Flat.Cla.exists_capEnvelope_succ",
+  "status": "closed: no sorry; CompactComplete.lean is now sorry-free (0 errors, 0 warnings)",
+  "files_written": [
+   "scaffold/CausalScaffold/Flat/Cla/CompactComplete.lean (proof of exists_capEnvelope_succ, one import, docstrings)",
+   "scaffold/CausalScaffold/Flat/Cla/SmoothCone.lean (SCOPE docstring only)",
+   "scaffold/CausalScaffold/Flat/Cla/SmoothGlue.lean (new, 617 lines)",
+   "scaffold/CausalScaffold/Flat/Cla/SmoothCap.lean (new, 448 lines)"
+  ],
+  "build": "taskset -c 0-11 lake build CausalScaffold.Flat.Cla.SmoothCap: built SmoothCone, SmoothGlue, SmoothCap only (dependencies checked up to date with --no-build first). lake env lean on SmoothCone, SmoothGlue, SmoothCap, CompactComplete: 0 errors, 0 warnings each. #print axioms (by hand, kb/0025: the scaffold root imports none of these) of exists_capEnvelope_succ, exists_isSpacelikeLipschitz_of_isCompact_cauchy, isCauchyComplete_of_isCompact_cauchy, exists_capEnvelope_of_isCompact_cauchy, exists_capData_at, isLocallyConeZeroSetAt_of_capData, push_of_capData: propext, Classical.choice, Quot.sound. CompactComplete's olean is STALE (new import SmoothCap): a builder must rebuild CausalScaffold.Flat.Cla.CompactComplete and then Classification (and regenerate the dependency report: this leaf is gone).",
+  "statement_changes": "none: every existing statement textually unchanged; exists_capEnvelope_succ's body is now `exists_capEnvelope_of_isCompact_cauchy _hGH tarentin_flatCausality _hS _hSc _hac`; docstrings re-say that the module is sorry-free.",
+  "construction": "K = finitely many compact PAST-hyperboloid caps (centre q to the chart future). At y ∈ S, in chartAt y, inside a sup-norm ball B of the chart image of a causally convex V (strong causality), S is the graph of a strict contraction G over the spatial ball of radius δ = β/4 (J^±(S) closed and covering through the Cauchy splitting; LocallyCauchy step 3 with f = id). Gap η = min over the sphere ‖x − y₀‖ = ρ = δ/2 of G x − t₀ + ρ > 0. With a = min(η/4, δ/4), the cap is {‖x − y₀‖ ≤ ρ, sqTimeSep q · = a², · ≤ q.1}, q = (t₀ + 2a, y₀). Its rim lies strictly below S (height ≤ t₀ + 2a − ρ < t₀ − ρ + η ≤ G x), so in I⁻(S); the S-points over the spatial ball of radius a/2 lie strictly below the cap, so in I⁻(cap). A finite subcover of the compact S gives K; each rim is in I⁻(S) ⊆ I⁻(I⁻(K)) ⊆ I⁻(K).",
+  "closed": [
+   "SmoothGlue.isLocallyConeZeroSetAt_of_capData (the gluing): finitely many CapData (a compact cap in a chart of the maximal atlas, on a past hyperboloid, with relative interior A and chart-read relations on U), J⁻(Cₖ) closed, rims buried in I⁻(K), push condition ⇒ at each x ∈ K ∖ I⁻(K) the chartAt-x picture is {min over caps through x of (rₖ − sqTimeSep q′ₖ ·) = 0}, q′ₖ = gₖ⁻¹ • qₖ (transition isometry, exists_smul_eq_of_mem_gxGroupoid). Caps not through x are invisible near x (x ∉ J⁻(Cₖ), closed); a cap through x has x relatively interior (burial); p ∈ I⁻(Cₖ) ⟺ sqTimeSep qₖ (eₖ p) > rₖ near x (strict reverse triangle one way, exists_vertical_hyperboloid the other).",
+   "SmoothGlue.push_of_capData: x ≤ c ∈ K, x ≠ c ⇒ x ∈ I⁻(K) (push-up at a buried rim point; at a relatively interior c, a point of a causal curve from x close to c and ≠ c — sInf of the closed hitting set — is strictly on the past side of the hyperboloid, hence below a cap point). This discharges the previous obstruction (a) 'burial forces x ≤ c ∈ K ⇒ x = c'.",
+   "SmoothCap.exists_capData_at and exists_capEnvelope_of_isCompact_cauchy (any d): the caps and the assembly; S nonempty from the splitting S × ℝ ≃ₜ M. Discharges the previous obstructions (a) burial — through S, with no comparison of two charts and no Lebesgue number — (b) locality — through the causally convex V of each chart (le_of_causallyConvexIn, and the new chronal analogue lt_of_causallyConvexIn_of_arc) and closedness of J⁻(Cₖ) — and (c) compactness (closed and bounded in the chart, image under e.symm).",
+   "Minkowski algebra (SmoothGlue): sqTimeSep_lt_of_le_of_ne (strict reverse triangle inequality including null pairs), isConeIncreasingOn_const_sub_sqTimeSep, exists_isConeIncreasingOn_inf'_const_sub, sqTimeSep_smul (isometry invariance), exists_vertical_hyperboloid, lt_symm_of_mem_ball / le_symm_of_mem_ball (cone of a chart ball read in M)."
+  ],
+  "sorries": [],
+  "plan_correction": "The previous plan (future-hyperboloid caps, centres to the chart past of S, burial of a cap's rim by NEIGHBOURING caps with ε + 2ε′ < η) does not work for the upper part K ∖ I⁻(K): the upper part is the upper envelope, and a future cap's rim (height ≈ its centre height + δ) lies above the neighbouring caps wherever S descends with slope near 1. The gap inequality ε + 2ε′ < η is the right one for PAST caps (centre to the future, downward-opening), which is what is built; burial through S (rim ⊂ I⁻(S), S ⊂ I⁻(K)) replaces burial by neighbours and removes every inter-chart comparison and the uniform net.",
+  "findings": [
+   "Smoothing of a compact acausal Cauchy surface S in a GH flat spacetime: past-hyperboloid caps whose rims lie strictly below S by the local acausality gap, and which lie strictly above S near their centre point; K = finitely many of them over a cover of S; then K ∖ I⁻(K) is a nonempty compact spacelike Lipschitz hypersurface. Only per-point constants are needed (no uniform gap, no net, no Lebesgue number). This supplies, for topological Cauchy surfaces, the smooth closed Cauchy hypersurface the paper takes for granted at l.560–565 and l.3536–3538."
+  ],
+  "questions": [],
+  "public_name_collisions": "none: sqTimeSep_eq_neg_minkQ, sqTimeSep_lt_of_le_of_ne, isConeIncreasingOn_const_sub_sqTimeSep, exists_isConeIncreasingOn_inf'_const_sub, sqTimeSep_smul, exists_vertical_hyperboloid, lt_symm_of_mem_ball, le_symm_of_mem_ball, CapData, finset_inf'_eq_zero_iff, isLocallyConeZeroSetAt_of_capData, CapData.exists_ball_mem_Iminus, push_of_capData, lt_of_causallyConvexIn_of_arc, exists_capData_at, exists_capEnvelope_of_isCompact_cauchy: 0 hits across scaffold/, Causal/ and lean-gx/ before naming",
+  "statements_false": "none found",
+  "sorry_count_CompactComplete": "1 → 0",
+  "imports": "SmoothGlue imports SmoothCone and Flat/Geroch/Reach (flatCausality_pushUp; no name overlap with CompactComplete's private copies); SmoothCap imports SmoothGlue; CompactComplete now imports SmoothCap. The tarentin property enters as a hypothesis of SmoothCap (CompactComplete supplies its private tarentin_flatCausality).",
+  "kb_proposals": [
+   "Burying cap rims through a reference surface: to glue finitely many chart-local spacelike caps into the upper part K ∖ I⁻(K), put each rim strictly below the given Cauchy surface S (rim ⊂ I⁻(S)) and each cap strictly above S near its centre (S ⊂ I⁻(K)); then rim ⊂ I⁻(K) with no comparison between two charts (Flat/Cla/SmoothCap).",
+   "For the UPPER part K ∖ I⁻(K) use PAST hyperboloids (centre to the future): the upper part is the upper envelope; future caps have high rims."
+  ],
+  "notes": "Theorem B's smoothing leaf is closed; of the two sorry leaves named at b09c061 only Cla.maximal_of_isFiniteCover remains (not touched here). The scaffold root does not import CompactComplete, SmoothGlue or SmoothCap (kb/0025), so the axiom sweep does not see them; axioms were checked by hand."
  }
 }

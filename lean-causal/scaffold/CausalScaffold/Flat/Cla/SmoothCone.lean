@@ -60,7 +60,11 @@ condition itself), and cone-increasing functions are stable under finite `max` a
 ## SCOPE (disclosed)
 * Nothing here constructs the envelope on a flat spacetime: the global half of the smoothing step
   (a nonempty compact `K` — finitely many hyperboloid caps — whose upper part `K ∖ I⁻(K)` has
-  such chart pictures) stays a tagged `sorry` in `CompactComplete.lean` (`exists_capEnvelope_succ`).
+  such chart pictures) is `Flat/Cla/SmoothGlue.lean` (the gluing) and `Flat/Cla/SmoothCap.lean`
+  (the caps), which close `CompactComplete.lean`'s `exists_capEnvelope_succ`. They use PAST
+  hyperboloids (centres to the future) and their own `min` lemma; the two hyperboloid lemmas
+  here with centres in the past (`isLocallyConeZeroSetAt_of_sup'_sqTimeSep`, `_of_inf'_`) are not
+  used downstream.
 * The frame in `locGraph` is always `1`: the chart's own frame. A hyperboloid read in another chart
   is a hyperboloid (isometries preserve `minkQ`), so no frame change is needed downstream.
 * Namespace `Causal.Flat.Cla`.
