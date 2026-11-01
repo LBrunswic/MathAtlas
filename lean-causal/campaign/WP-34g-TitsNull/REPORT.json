@@ -1,0 +1,134 @@
+{
+  "package": "WP-34g-TitsNull",
+  "files": [
+    "scaffold/CausalScaffold/Flat/TitsNull.lean"
+  ],
+  "builds": true,
+  "builds_meaning": "`taskset -c 0-11 lake env lean scaffold/CausalScaffold/Flat/TitsNull.lean`: zero errors; the only warning is `declaration uses 'sorry'` on `exists_commute_screenRot_of_discrete` (l.571 after the fixer pass). `lake build` not run (not granted). Import: CausalScaffold.Flat.Nonloxodromic only. `#print axioms`: `titsVirtuallyAbelianNull_of_le_two`, `exists_comm_linOf_of_local`, `eq_one_of_screenRot_eq_one`, `relIndex_closure_ne_zero` use only propext/Classical.choice/Quot.sound; `titsVirtuallyAbelianNull` adds sorryAx (through the one tagged sorry).",
+  "sorry_count": 1,
+  "labels": [
+    {
+      "label": "TitsVirtuallyAbelianNull (DEC-50; the gap of bprop:sanloxo / [9.P], GHFspace.tex l.2621-2622) -- every d",
+      "tex_lines": [
+        2621,
+        2629
+      ],
+      "status": "stated",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.titsVirtuallyAbelianNull",
+        "Causal.Flat.exists_comm_linOf_of_local",
+        "Causal.Flat.exists_commute_screenRot_of_discrete"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Gamma discrete in Isom(M^n) (isomTopology)",
+          "here": "carried",
+          "note": "spent only in the sorried step exists_commute_screenRot_of_discrete"
+        },
+        {
+          "paper": "v0 nonzero null, L(gamma) v0 = v0",
+          "here": "carried",
+          "note": "screen and multiplicativity of the rotation part"
+        },
+        {
+          "paper": "all L(gamma) elliptic",
+          "here": "carried",
+          "note": "spent only in eq_one_of_screenRot_eq_one (commutators); the deep step does not need it"
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "Causal.Flat.exists_commute_screenRot_of_discrete",
+          "obstruction": "Zassenhaus/Auslander step: there is eps > 0 such that elements of rho(Gamma) (rotation parts on the screen, a section of P0bar) within eps of 1 commute. True by Auslander's theorem (Raghunathan Thm 8.24, number unchecked, applied to Gamma ∩ G^0 -- finite index, G^0 = K^0 x| N connected, same identity component H^0 of the rotation-part closure: (closure(Gamma N))^0 solvable for N = null rotations x translations, closed connected nilpotent normal in G = K x| N) + Cartan's closed-subgroup theorem (closure of rho(Gamma) a compact Lie group, identity component open) + compact connected solvable => torus; or via amenability + Tits' alternative. mathlib has no Lie groups, no Cartan theorem, no structure theory of compact groups, no Tits alternative at fabf563a."
+        }
+      ],
+      "findings": [
+        "The whole proof of TitsVirtuallyAbelianNull reduces, with everything else proved, to one LOCAL statement about the closure of the rotation parts (a neighbourhood of 1 in which they commute); discreteness is spent only there, ellipticity only in the commutator step (an elliptic Lorentz map fixing v0 with trivial action on P0bar is the identity). The free quaternion pair of Nonloxodromic finding (7) violates exactly that local statement (rho(Gamma) dense in a copy of SU(2)) and no other step.",
+        "Barbot's 'natural action of L(Gamma)' on P0bar (l.2627-2629) is realised as the unital endomorphism rho(A) = pi A pi + (1 - pi) of M^n, pi the projection on the screen {v0, e0}^perp along span{v0, e0}; it is multiplicative on the stabiliser of v0 and uniformly bounded (it preserves qbar0)."
+      ],
+      "questions": [
+        "The citation Raghunathan, Discrete subgroups of Lie groups, Thm 8.24 (Auslander) is from memory; references/ has no copy. If the master session wants the sorry discharged as a named external (DEC-36 style) instead, the honest unit is exactly exists_commute_screenRot_of_discrete's statement.",
+        "The existing named external AuslanderCarriereDalbo d (Flat/Externals, bthm:ausl) does not discharge the sorry by itself: it gives (closure L(Gamma))^0 nilpotent, but the local statement also needs that identity component to be OPEN in the closure (Cartan's closed-subgroup theorem), which mathlib lacks; recorded in the SCOPE."
+      ]
+    },
+    {
+      "label": "TitsVirtuallyAbelianNull d for d <= 2 (Barbot's n <= 3)",
+      "tex_lines": [
+        2621,
+        2622
+      ],
+      "status": "closed",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.titsVirtuallyAbelianNull_of_le_two",
+        "Causal.Flat.commute_screenRot_of_le_two",
+        "Causal.Flat.finrank_nullPlaneSpan"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Gamma discrete",
+          "here": "weakened",
+          "note": "not used: the screen has dimension d - 1 <= 1, every rotation part is a scalar there"
+        },
+        {
+          "paper": "d <= 2",
+          "here": "strengthened",
+          "note": "a dimension restriction; this is a sorry-free special case, not the general statement"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.Flat.commute_of_mem_closure",
+    "Causal.Flat.relIndex_closure_ne_zero",
+    "Causal.Flat.nullPlaneSpan",
+    "Causal.Flat.nullScreen",
+    "Causal.Flat.isCompl_nullScreen",
+    "Causal.Flat.screenProj",
+    "Causal.Flat.screenProj_mem",
+    "Causal.Flat.screenProj_of_mem",
+    "Causal.Flat.screenProj_of_mem_plane",
+    "Causal.Flat.sub_screenProj_mem",
+    "Causal.Flat.minkQ_eq_norm_sq_of_mem_nullScreen",
+    "Causal.Flat.minkB_timeUnit_ne_zero",
+    "Causal.Flat.mem_span_of_mem_nullPlaneSpan",
+    "Causal.Flat.sub_screenProj_apply_mem",
+    "Causal.Flat.screenProj_apply_apply",
+    "Causal.Flat.screenRot",
+    "Causal.Flat.screenRot_one",
+    "Causal.Flat.screenRot_mul",
+    "Causal.Flat.norm_screenProj_apply_screenProj",
+    "Causal.Flat.screenBound",
+    "Causal.Flat.norm_screenRot_le",
+    "Causal.Flat.eq_one_of_screenRot_eq_one",
+    "Causal.Flat.fst_eq_zero_of_mem_nullScreen",
+    "Causal.Flat.minkB_self_of_mem_nullScreen",
+    "Causal.Flat.screenProj_screenProj",
+    "Causal.Flat.screenProj_self",
+    "Causal.Flat.screenProj_sub_screenProj",
+    "Causal.Flat.screenRot_apply",
+    "Causal.Flat.self_mem_nullPlaneSpan",
+    "Causal.Flat.timeUnit_mem_nullPlaneSpan"
+  ],
+  "kb_proposals": [
+    "A quotient like Barbot's P0bar = v0^perp / R v0 is cheapest as a SECTION: the screen {v0, e0}^perp with Submodule.projection, and the induced action as the unital endomorphism pi A pi + (1 - pi) of M^n -- multiplicative on the stabiliser, normed for free (CausalScaffold.Flat.TitsNull).",
+    "Finite index by compactness: a bounded 'almost-homomorphism into a proper normed ring' gives finite index of the subgroup generated by the eps-near-1 elements (relIndex_closure_ne_zero, pigeonhole through Metric.totallyBounded_iff and QuotientGroup.out_eq')."
+  ],
+  "notes": "No existing file edited; Nonloxodromic's TitsVirtuallyAbelianNull is used verbatim (titsVirtuallyAbelianNull : forall d, TitsVirtuallyAbelianNull d). Once graduated, nonloxodromic's hypothesis hT can be discharged by titsVirtuallyAbelianNull d (a sorry-dependent term) or, for d <= 2, by titsVirtuallyAbelianNull_of_le_two. Not attempted: d = 3 sorry-free (screen SO(2) is abelian, but it needs det(rotation part) = det A = 1, a block-triangular determinant, and the 2-D rotation theory).",
+  "fixer_pass": {
+    "audit_minor_applied": [
+      "extra_decls: 8 public helpers added",
+      "docstring step 4 + SORRY tag: Auslander applied to Gamma ∩ G^0 (connectedness), citation marked unchecked",
+      "hypothesis checklist: column retitled 'paper hypothesis' with a note that Barbot states no hypotheses for this step"
+    ],
+    "audit_minor_not_applied": [
+      "imports: kept CausalScaffold.Flat.Nonloxodromic only (Isometries, Externals, Bieberbach transitive); auditor: no fix needed"
+    ],
+    "sorry_closure_attempted": "not closed: step 4 needs Lie-group structure (Cartan, compact connected solvable => torus, or Tits/Auslander) absent from mathlib at fabf563a; the AuslanderCarriereDalbo route also needs Cartan",
+    "proof_code_changed": false
+  }
+}

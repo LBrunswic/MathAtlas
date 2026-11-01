@@ -22,7 +22,9 @@ nonloxodromic case" (label `nol`), lines of the **labelled** `papers/barbot/lega
   `BenoistNoLox` (DEC-36, `Flat/Externals`), refined by the trichotomy (partial: external); its
   third branch (null `v₀` fixed, all elliptic, which l.2621–2622 overlooks) in true form
   `exists_timelike_fixed_of_elliptic_of_null` (statement changed 2026-11-01: `Γ` discrete,
-  through the external `TitsVirtuallyAbelianNull` defined here and the proved
+  through the hypothesis `TitsVirtuallyAbelianNull` defined here — proved downstream in
+  `Flat/TitsNull` (`titsVirtuallyAbelianNull`, DEC-50, one tagged `sorry`; TitsNull imports this
+  file, so the hypothesis stays here and is discharged in `Flat/Classification`) — and the proved
   `exists_timelike_fixed_of_comm_elliptic`; the discreteness from the §8 data is
   `discreteTopology_of_ccAction` / `discreteTopology_of_developsCC`); from Barbot-cited
   externals only under `Γ_nd` of finite index (`exists_timelike_fixed_of_elliptic_of_ausl`,
@@ -91,8 +93,9 @@ the conclusions, which concern `Ω(S̃)` of all of `Γ`, are false (`Γ' = ⊥`)
   common form `∃ Γ'' Ω B, 𝒟(M̃) ⊆ Ω ⊆ Ω(S̃) ∧ IsQuotientOf B Γ'' Ω ∧ (…)`, with `Ω = Ω(S̃)` in
   the elliptic disjunct. Its third branch (null `v₀` fixed, all elliptic, no parabolic) goes to
   the elliptic output through `exists_timelike_fixed_of_elliptic_of_null`, which needs the
-  external `TitsVirtuallyAbelianNull d` (a hypothesis of `nonloxodromic` since 2026-11-01) and
-  the discreteness of `Γ` (proved, `discreteTopology_of_developsCC`).
+  hypothesis `TitsVirtuallyAbelianNull d` (of `nonloxodromic` since 2026-11-01; discharged
+  downstream by `Flat/TitsNull`'s `titsVirtuallyAbelianNull d`, DEC-50, at Classification's
+  `caseOutput`) and the discreteness of `Γ` (proved, `discreteTopology_of_developsCC`).
 
 The §8 input is Develop's `IsDevelopingPair`, `DevelopsCC` (and `IsCausal` where Prop 8.12 is
 used), with `M` Hausdorff (`T2Space M`: Develop's Prop 8.12 is false without it), never the
@@ -110,7 +113,7 @@ finite-index passage is explicit: `Γ'' ≤ Γ`, `Γ''.relIndex Γ ≠ 0`.
 | 9.3: "`u(Γ)` is a lattice of `E`" | ⚠ weakened: `L` an additive subgroup, `E = span L` (`nonneg_on_span_of_addSubgroup`) |
 | 9.3: coordinates `x v₀ + z + y vₙ` for the `v₀` of `Γ`; "reducing as above to `y₋ = −y₊`" | ⚠ strengthened: the fixed frame `nolToMink` (`v₀ = ofNull 1 0 0`) and the bounded case only in the normalised form `ylo = −yhi` (SCOPE) |
 | 9.1: no loxodromic element; Benoist | ✓ carried; Benoist as the external `BenoistNoLox` |
-| [9.P] l.2621–2622: "`Γ` contains a parabolic element" (the null-fixed, all-elliptic branch it overlooks) | ⚠ added hypothesis `DiscreteTopology Γ` (`isomTopology`) and the external `TitsVirtuallyAbelianNull` in `exists_timelike_fixed_of_elliptic_of_null`; the discreteness is proved from the §8 data (`discreteTopology_of_developsCC`), so `nonloxodromic` only gains the external. Alternative (Barbot-cited externals only): `AuslanderCarriereDalbo` plus ⚠ added `Γ_nd` of finite index (`exists_timelike_fixed_of_elliptic_of_ausl`) |
+| [9.P] l.2621–2622: "`Γ` contains a parabolic element" (the null-fixed, all-elliptic branch it overlooks) | ⚠ added hypothesis `DiscreteTopology Γ` (`isomTopology`) and the external `TitsVirtuallyAbelianNull` in `exists_timelike_fixed_of_elliptic_of_null`; the discreteness is proved from the §8 data (`discreteTopology_of_developsCC`), so `nonloxodromic` only gains `TitsVirtuallyAbelianNull d` — no longer an external: proved in `Flat/TitsNull` (`titsVirtuallyAbelianNull`, DEC-50, one tagged `sorry`) and discharged at Classification's `caseOutput`. Alternative (Barbot-cited externals only): `AuslanderCarriereDalbo` plus ⚠ added `Γ_nd` of finite index (`exists_timelike_fixed_of_elliptic_of_ausl`) |
 | [9.b]: `γ₁` parabolic, `b(γ₀) ≠ 0` | ⚠ strengthened: `γ₁` purely unipotent (`R = id`), with `b(γ₁) = 0` (`b_eq_zero_model` proves it from `v(γ₁) ≠ 0`) |
 | [9.E], [9.A]: Bieberbach | carried as the external `BieberbachI` (`Flat/Bieberbach`) |
 | [9.E], [9.P]: "up to finite index" (l.2575, l.2621) | ✓ carried: `Γ'.relIndex Γ ≠ 0` in both branches |
@@ -188,7 +191,8 @@ finite-index passage is explicit: `Γ'' ≤ Γ`, `Γ''.relIndex Γ ≠ 0`.
   timelike vector, proved in every `d`). The §8 data supply the discreteness
   (`discreteTopology_of_ccAction`: a group acting properly on a nonempty closed invariant `Σ`
   is discrete), so the third branch of `nonloxodromic` closes with its conclusion unchanged
-  and `nonloxodromic` gains the hypothesis `TitsVirtuallyAbelianNull d`. The counterexample
+  and `nonloxodromic` gains the hypothesis `TitsVirtuallyAbelianNull d` (since proved in
+  `Flat/TitsNull`, DEC-50, up to one tagged `sorry`; discharged downstream). The counterexample
   itself is not formalized (it needs the freeness of a pair of unit quaternions). **Second
   fixer pass (2026-11-01), no statement changed:** (a) `λ(Γ)` discrete is not supplied by the
   call sites (only `Γ` is discrete; l.2551–2562, Barbot's own commented example, has discrete
@@ -1525,8 +1529,10 @@ pair of unit quaternions acting on `P̄₀ = ℝ⁴`, finding (7)). Its stronges
 
 * `exists_timelike_fixed_of_comm_elliptic` (proved, every `d`): elliptic linear parts that
   pairwise commute fix a common timelike vector;
-* `TitsVirtuallyAbelianNull` (external, DEC-36): for `Γ` **discrete** in `Isom(𝐌ⁿ)`, the
-  null-fixing all-elliptic case has a finite-index subgroup with commuting linear parts;
+* `TitsVirtuallyAbelianNull` (a hypothesis here; proved in `Flat/TitsNull`,
+  `titsVirtuallyAbelianNull`, DEC-50, up to one tagged `sorry`): for `Γ` **discrete** in
+  `Isom(𝐌ⁿ)`, the null-fixing all-elliptic case has a finite-index subgroup with commuting
+  linear parts;
 * `exists_timelike_fixed_of_elliptic_of_null` (proved from the two, with `DiscreteTopology Γ`);
 * `discreteTopology_of_ccAction` (proved): the §8 data supply that discreteness;
 * the Barbot-cited route (fixer, 2026-11-01): `exists_timelike_fixed_of_nilpotent_elliptic`
@@ -1650,8 +1656,12 @@ theorem exists_timelike_fixed_of_comm_elliptic {Γ : Subgroup (isom d)}
     exact ⟨v, ((hmem v).1 hv).1, hvq, hvfix⟩
 
 variable (d) in
-/-- **The null-fixing, all-elliptic case is virtually abelian** (external, DEC-36; not cited by
-Barbot — it fills the gap of l.2621–2622). For `Γ` **discrete** in `Isom(𝐌ⁿ)` (`isomTopology`,
+/-- **The null-fixing, all-elliptic case is virtually abelian** (not cited by Barbot — it fills
+the gap of l.2621–2622). Stated here as a hypothesis-shaped `Prop`; **proved** (DEC-50) in
+`CausalScaffold.Flat.TitsNull` as `titsVirtuallyAbelianNull d`, up to one tagged `sorry`
+(`exists_commute_screenRot_of_discrete`, the Auslander/Cartan local step), and sorry-free for
+`d ≤ 2` (`titsVirtuallyAbelianNull_of_le_two`); TitsNull imports this file, so the lemmas here
+keep `hT` and the discharge happens in `Flat/Classification`. For `Γ` **discrete** in `Isom(𝐌ⁿ)` (`isomTopology`,
 as `AuslanderCarriereDalbo`) whose linear parts fix a nonzero null `v₀` and are all elliptic, a
 finite-index subgroup has pairwise commuting linear parts. Sources and derivation: (i) the
 isometries whose linear part fixes `v₀` form an amenable Lie group
@@ -1679,8 +1689,8 @@ theorem titsVirtuallyAbelianNull_zero : TitsVirtuallyAbelianNull 0 :=
 
 /-- **The branch Barbot does not treat, in its true form** (l.2621–2622; DEC-27 statement change,
 2026-11-01): linear parts fixing a null `v₀` and all elliptic, `Γ` **discrete** — then a
-finite-index subgroup fixes a timelike vector. Through the external `TitsVirtuallyAbelianNull`
-and the proved `exists_timelike_fixed_of_comm_elliptic`. Without `DiscreteTopology Γ` the
+finite-index subgroup fixes a timelike vector. Through `TitsVirtuallyAbelianNull` (proved in
+`Flat/TitsNull`, DEC-50) and the proved `exists_timelike_fixed_of_comm_elliptic`. Without `DiscreteTopology Γ` the
 statement is false for `d ≥ 5` (SCOPE, finding (7)); it is supplied by the §8 data
 (`discreteTopology_of_ccAction`). -/
 theorem exists_timelike_fixed_of_elliptic_of_null (hT : TitsVirtuallyAbelianNull d)
@@ -2611,8 +2621,9 @@ theorem nonloxodromic_parabolic [T2Space M]
   sorry -- SORRY([9.P]–[9.A]): proved here, in Barbot's coordinates: (∗∗) and the group laws (`NolParam`), the structure of `Stab(v₀)` (`exists_nolParam`), [9.b] for a purely unipotent parabolic `γ₁` (`b_trivial`, `b_trivial_model`, `b_eq_zero_model`), Prop 9.3 (`bprop_limites`), Prop 9.5 (`bprop_extension`), Rem 9.2 corrected (`choixcoord`), the group `A` and its identification with Examples' `unipAction` (`nolA_mul`, `unipAction_nolToMink`), the assembly `conclusion_model`, all of `Γ` fixing `v₀` (`linOf_fix_of_relIndex`) and G6 for `Ω(S̃)` of `Γ` (`perp_invariant_omegaS_of_developsCC`); `𝒟(M̃) ⊆ Ω(S̃)` is Develop's `bprop_danom`. Missing: (1) a frame `φ ∈ Isom(𝐌ⁿ)` taking `v₀` to `ofNull 1 0 0` (transitivity of `SO₀(1, d)` on null rays) and the conjugation of `Γ'`, `S̃`, `Ω(S̃)` by it; (2) [9.b] for a parabolic `γ₁ = R U` with `R ≠ id` (the leading term on `Fix R`); (3) [9.U]: Bieberbach for `λ(Γ)` on `P̄₀ × {0}` (properness of `α(Γ)`, point (3) l.2660–2663, needs Cor 8.3's homeomorphism), the maximality argument making `𝒰̄_t` independent of `t` (l.2881–2892), and `Γ ≅ ℤᵏ` with `v = T ∘ u` linear (`u(Γ)` a lattice of `E`); (4) the normalisation `ylo = −yhi` by a change of origin in `y` (l.2937–2938), which changes `u` and `T`; (5) the linear form `ℓ` extending the additive `ν = μ + ⟨u|Tu⟩/2` from the lattice (`nu_mul`); (6) `RestrictsIn` for `suspendre` (orientation of `𝒰`, an index-2 passage); (7) `Ω := π_𝒰⁻¹(Ω_A)`, `Ω_A` the component of `Ω(A) ⊆ 𝒰` containing `S̃ ∩ 𝒰` (`mem_omegaA_of_limites`, `IsUnipComponent`): `Ω ⊆ Ω(S̃)` (`Ω(A) ⊆ U(Γ'') = U(Γ)` by `UGamma_eq_of_index`, then G6), `𝒟(M̃) ⊆ π₀⁻¹(π₀ S̃) ⊆ Ω` (l.3123–3125: every null geodesic of `M̃` meets `S̃`, from the proof of Prop 8.12), and the quotients `B = Γ''\Ω`, `M₁ = Γ''_𝒰\Ω_A` (properness on `Ω ⊆ Ω(S̃)`)
 
 /-- **The nonloxodromic case** (§9), assembled: under Benoist's theorem (Prop 9.1, external),
-`TitsVirtuallyAbelianNull` (external, for the branch l.2621–2622 overlooks: null `v₀` fixed,
-all elliptic; with the holonomy's discreteness `discreteTopology_of_developsCC`) and
+`TitsVirtuallyAbelianNull` (for the branch l.2621–2622 overlooks: null `v₀` fixed, all
+elliptic; with the holonomy's discreteness `discreteTopology_of_developsCC`; proved in
+`Flat/TitsNull` as `titsVirtuallyAbelianNull d`, DEC-50, and supplied downstream) and
 Bieberbach's (external), if `Γ` has no loxodromic element, a finite-index `Γ'' ≤ Γ` and an
 open `Γ''`-invariant `Ω` with `𝒟(M̃) ⊆ Ω ⊆ Ω(S̃)` make `B = Γ''\Ω` either (elliptic case,
 `Ω = Ω(S̃)`, so `B` is `M(S)` up to finite index) a linear twisted product over a translation

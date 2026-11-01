@@ -3,6 +3,7 @@ import CausalScaffold.Flat.FlatSpacetime
 import CausalScaffold.Flat.LipschitzGraph
 import CausalScaffold.Flat.Developing
 import CausalScaffold.Splitting
+import CausalScaffold.Flat.SecondCountable
 
 /-!
 # `CausalScaffold.Flat.CauchyComplete` — Cauchy-completeness of a flat spacetime, and the bridge to (CC′)
@@ -83,7 +84,7 @@ dimensions, so Barbot's `n` is `d + 1`, `ℝ^{n−1}` is `EuclideanSpace ℝ (Fi
 * **The bridge** `developsCC_of_isCauchyComplete`: for GH `M`, `S` as in `IsCauchyComplete` and any
   developing map `dev`: `S` Cauchy, `dev` injective on `Ŝ = p⁻¹(S)`, `dev '' Ŝ` an entire acausal
   graph meeting every timelike line, and `NullSaturated`. ASSEMBLED (proved) from 8.1, 8.3, B1, B2,
-  B3; `t2Space_universalCover` is proved; its only `sorry` is B1's splitting.
+  B3; `t2Space_universalCover` is proved; no `sorry` is left beneath it.
   `exists_developsCC_of_isCauchyComplete`.
   - B2 (`dev|Ŝ` is a spacelike development) PROVED: `spacelikeDevelopment_restrict`, through
     `IsSpacelikeLipschitzIn.restrict`.
@@ -94,19 +95,20 @@ dimensions, so Barbot's `n` is `d + 1`, `ℝ^{n−1}` is `EuclideanSpace ℝ (Fi
     (`LocalLengthSpace.edist_le_pathLength`), so by `htop` short paths near the limit stay in an
     evenly covered `U`; the Cauchy tail lies on one sheet (its index is constant along short
     paths), and the sheet's section lifts short paths to the limit.
-  - B1 (`Ŝ` connected) REDUCED: `connectedSpace_preimage_cauchy` is proved from
+  - B1 (`Ŝ` connected) PROVED: `connectedSpace_preimage_cauchy` is proved from
     `connectedSpace_preimage_of_splitting` (proved: a slice `S × {0}` of a homeomorphism
-    `S × ℝ ≃ₜ Y` lifts to a connected set of the universal cover) and the tagged
-    `exists_splitting_of_isCauchySurface` (a variant of the homeomorphism half of Prop 8.11,
-    class E). That lemma is in turn reduced, by the proved
+    `S × ℝ ≃ₜ Y` lifts to a connected set of the universal cover) and
+    `exists_splitting_of_isCauchySurface` (proved; a variant of the homeomorphism half of
+    Prop 8.11, class E). That lemma follows, by the proved
     `exists_splitting_of_hasChronalCausalFlow`, to target 4 (`Flat.flat_hasChronalCausalFlow`,
     `Splitting.lean`, now proved) and acausality of `S`, now proved too
     (`isAcausal_of_isCauchySurface_of_hasChronalCausalFlow`, from
     `flatCausality_causallyArcConnected` — chart transport of curves, `curveOn_chart_symm`,
     `causallyArcConnectedOn_of_chartIso`, then absolute minimality — and
     `curvesExtend_of_isCausalFlow`, through `inextensible_univ_of_not_tendsto` and
-    `not_tendsto_of_eventuallyEq_flow`). The one input left is `[SecondCountableTopology M]`,
-    which `flat_hasChronalCausalFlow` asks and `FlatSpacetime` does not carry.
+    `not_tendsto_of_eventuallyEq_flow`). The `[SecondCountableTopology M]` that
+    `flat_hasChronalCausalFlow` asks, and `FlatSpacetime` does not carry, is
+    `flat_secondCountableTopology` (`SecondCountable.lean`: Geroch's theorem, flat case, DEC-49).
 
 ## Hypothesis checklist
 | paper hypothesis | here |
@@ -120,13 +122,14 @@ dimensions, so Barbot's `n` is `d + 1`, `ℝ^{n−1}` is `EuclideanSpace ℝ (Fi
 | 8.3: same set-up | ⚠ weakened, as for 8.1; `ConnectedSpace X` is in the statement but unused (the proof does not go through 8.1) |
 
 ## SCOPE (disclosed)
-* **One tagged sorry.** In `exists_splitting_of_isCauchySurface` (tag `bridge-B1`: the splitting
-  `M ≅ S × ℝ`, class E), and it is now exactly `SecondCountableTopology M` for a flat spacetime
-  (Geroch's paracompactness, not formalized): target 4 and `IsAcausal S` are proved, and the
-  splitting follows by the proved `exists_splitting_of_hasChronalCausalFlow`. Everything else is proved:
-  the whole length structure and its link to `InducedLength`, `π` and its kernel, 8.1 (covering,
-  hence homeomorphism), 8.1 ⇒ the entire acausal graph, 8.3, B1 from the splitting, B2, B3, the
-  non-vacuity witnesses, the bridge's assembly.
+* **No sorry.** The last one (tag `bridge-B1`, in `exists_splitting_of_isCauchySurface`: the
+  splitting `M ≅ S × ℝ`, class E) was exactly `SecondCountableTopology M` for a flat spacetime; it
+  is discharged by `flat_secondCountableTopology` (`SecondCountable.lean`, DEC-49: a connected
+  Hausdorff `(Isom(𝐌ⁿ), 𝐌ⁿ)`-manifold is second countable), with target 4 and `IsAcausal S`
+  proved and the splitting following by the proved `exists_splitting_of_hasChronalCausalFlow`.
+  Everything is proved: the whole length structure and its link to `InducedLength`, `π` and its
+  kernel, 8.1 (covering, hence homeomorphism), 8.1 ⇒ the entire acausal graph, 8.3, B1 (from the
+  splitting), B2, B3, the non-vacuity witnesses, the bridge's assembly.
 * 8.1 lifts STRAIGHT segments only (W5: the paper's "distance increasing" bound on the lift of an
   arbitrary path needs it rectifiable), and its "local homeomorphism" step, the inverse function
   theorem in Barbot's smooth setting, is an intermediate value argument along `Δ`-lines here.
@@ -2616,33 +2619,19 @@ theorem exists_splitting_of_hasChronalCausalFlow
   obtain ⟨ψ, hψ⟩ := Flat.flat_exists_isCauchySplitting hflow hGH.1 hS hac
   exact ⟨ψ, hψ.zero⟩
 
-/-- The splitting `M ≅ S × ℝ` along a Cauchy surface. STATED, tagged `sorry`. This is a variant
+/-- The splitting `M ≅ S × ℝ` along a Cauchy surface (PROVED). This is a variant
 of the homeomorphism half of Prop 8.11 (`bprop:splitting`, l.2459–2464; class E in
 `docs/BARBOT-WAVE3.md` §3). Here `ψ` restricted to `S × {0}` is the inclusion, as in the flow
 construction. The slices' Cauchy property, which Prop 8.11 also states, is not asked. It reduces
 by `exists_splitting_of_hasChronalCausalFlow` to two inputs: target 4
 (`Flat.flat_hasChronalCausalFlow`) and acausality of `S`. Both are discharged here
-(`isAcausal_of_isCauchySurface_of_hasChronalCausalFlow` for the second), except for the
-second countability of `M` that target 4 asks: the tagged `sorry` is that instance. -/
+(`isAcausal_of_isCauchySurface_of_hasChronalCausalFlow` for the second); the second countability
+of `M` that target 4 asks is `flat_secondCountableTopology` (`SecondCountable.lean`, DEC-49). -/
 theorem exists_splitting_of_isCauchySurface (hGH : GH M) {S : Set M}
     (hS : (flatCausality d M).IsCauchySurface S) :
     ∃ ψ : S × ℝ ≃ₜ M, ∀ x : S, ψ (x, 0) = x := by
-  haveI : SecondCountableTopology M := by
-    sorry -- SORRY(bridge-B1): second countability of a flat spacetime, the ONLY missing input
-    -- of the splitting. Everything else is proved: the chronal causal flow is
-    -- `Flat.flat_hasChronalCausalFlow` (`Splitting.lean:1912`, 0 sorry), acausality of `S` is
-    -- `isAcausal_of_isCauchySurface_of_hasChronalCausalFlow` (above: causal arc-connectedness from
-    -- the charts and absolute minimality, `CurvesExtend` from the flow's orbits), and the
-    -- splitting is `exists_splitting_of_hasChronalCausalFlow`. But `flat_hasChronalCausalFlow`
-    -- asks `[SecondCountableTopology M]` (it builds the timelike field by a partition of unity,
-    -- hence σ-compactness), and `FlatSpacetime` carries only `T2` + connected
-    -- (`FlatSpacetime.lean`, SCOPE "No second countability"). Classically true, GH or not: a
-    -- connected Hausdorff manifold with an affine connection (here the flat one: the transition
-    -- maps lie in `Isom(𝐌ⁿ)`, affine) is paracompact (Geroch 1968), hence second countable
-    -- (`ChartedSpace.secondCountable_of_sigmaCompact`). Neither that theorem (connection ⇒
-    -- paracompact, via a Riemannian metric on the frame bundle) nor a GH substitute is in the
-    -- library or mathlib: compact diamonds are local data, and σ-compactness needs a global
-    -- exhaustion; the long line shows charts alone do not give it.
+  -- second countability: Geroch's theorem, flat case (DEC-49, `SecondCountable.lean`)
+  haveI : SecondCountableTopology M := flat_secondCountableTopology (d := d) M
   exact exists_splitting_of_hasChronalCausalFlow M Flat.flat_hasChronalCausalFlow hGH hS
     (isAcausal_of_isCauchySurface_of_hasChronalCausalFlow Flat.flat_hasChronalCausalFlow hS)
 

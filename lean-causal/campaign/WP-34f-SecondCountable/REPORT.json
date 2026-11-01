@@ -1,0 +1,76 @@
+{
+  "package": "WP-34f-SecondCountable",
+  "files": [
+    "scaffold/CausalScaffold/Flat/SecondCountable.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "[2.1]/[2.3] flat spacetimes are manifolds: second countability (DEC-49), prose, no ledger label",
+      "tex_lines": [
+        423,
+        424,
+        485,
+        490
+      ],
+      "status": "closed",
+      "marked": false,
+      "decls": [
+        "Causal.Flat.flat_secondCountableTopology",
+        "Causal.Flat.FlatSpacetime.secondCountableTopology",
+        "Causal.secondCountableTopology_of_gx",
+        "Causal.secondCountableTopology_of_affine",
+        "Causal.secondCountableTopology_of_isLocalHomeomorph"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M a manifold (second countable)",
+          "here": "proved",
+          "note": "DEC-49: proved, not assumed"
+        },
+        {
+          "paper": "M Hausdorff",
+          "here": "carried",
+          "note": "T2Space M; needed (line with uncountably many origins)"
+        },
+        {
+          "paper": "M connected",
+          "here": "carried",
+          "note": "ConnectedSpace M; needed"
+        },
+        {
+          "paper": "(Isom(M^n), M^n)-structure",
+          "here": "weakened",
+          "note": "any (G,E)-structure, E a separable real normed space, G acting analytically by homeomorphisms; affine faithful actions as a corollary"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.IsBallSection",
+    "Causal.IsBallSection.mono",
+    "Causal.IsBallSection.continuousAt",
+    "Causal.IsBallSection.recenter",
+    "Causal.exists_isBallSection",
+    "Causal.IsBallSection.eqOn",
+    "Causal.IsBallSection.isOpen_image",
+    "Causal.ballStep",
+    "Causal.countable_ballStep",
+    "Causal.ballReach",
+    "Causal.countable_ballReach",
+    "Causal.ballStep_subset",
+    "Causal.closure_ballReach_eq_univ",
+    "Causal.isRigidAction_of_affine",
+    "Causal.Flat.flat_secondCountableTopology_minkowski",
+    "Causal.Flat.flat_secondCountableTopology_spaceGroup"
+  ],
+  "kb_proposals": [
+    "Second countability of a (G,X)-manifold over a separable normed E: apply Causal.secondCountableTopology_of_isLocalHomeomorph to the developing map on UniversalCover M x0, then IsQuotientMap.secondCountableTopology along proj; no path-lifting or broken-line argument is needed (ball sections at a countable dense set of centres have clopen closure).",
+    "IsSeparatedMap.eqOn_of_comp_eqOn (Mathlib/Topology/SeparatedMap.lean) is the uniqueness of local sections of a local homeomorphism with Hausdorff source over a preconnected set."
+  ],
+  "notes": "0 sorry, 0 axiom beyond propext/Classical.choice/Quot.sound (checked with #print axioms), 0 warnings under `lake env lean`. Discharges CauchyComplete's bridge-B1 sorry: replace it by `Flat.flat_secondCountableTopology (d := d) M` (or the instance `FlatSpacetime.secondCountableTopology`); CauchyComplete can import CausalScaffold.Flat.SecondCountable without a cycle (its imports are Flat.Developing, Flat.Quotient, Flat.FlatSpacetime only). The covering-T2 helper is private (t2Space_of_isCoveringMap') to avoid ambiguity with Causal.Flat.t2Space_of_isCoveringMap in CauchyComplete. The instance Causal.Flat.FlatSpacetime.secondCountableTopology is global for importers. Route differs from the dispatch's broken lines (SCOPE (b)); generality: any analytic (G,E), E separable real normed (not necessarily finite-dimensional). Not yet `lake build`-ed as a module (dispatch restricts to lake env lean). Fixer pass (2026-11-01): dropped the duplicate Causal.secondCountableTopology_of_isLocalHomeomorph from extra_decls (it is a label decl); checklist row 1 restated as a conclusion proved rather than a '✓' hypothesis marker (kb/0006 defines only carried/weakened/strengthened); global instance left as is (no conflicting instance in scaffold/, no cycle)."
+}

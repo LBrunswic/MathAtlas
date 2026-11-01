@@ -1,4 +1,5 @@
 import CausalScaffold.Flat.Nonloxodromic
+import CausalScaffold.Flat.TitsNull
 import CausalScaffold.Flat.Loxodromic
 import CausalScaffold.CompactCauchy
 import CausalScaffold.CurvesExtend
@@ -82,7 +83,7 @@ dimensions: Barbot's `n` is `d + 1`. The Misner and unipotent families live in
 |---|---|
 | A: `M` Cauchy-complete GH flat | ✓ carried: `GH M` (ETT's) + `IsCauchyComplete d M` (CauchyComplete's metric notion, DEC-35; Lean ≥ paper) |
 | A, B: "any dimension" (l.388, l.411) | ✓ carried: every `d`, `d = 0` (`𝐌¹`) included. The Misner branch, which needs `d = d' + 1`, is unreachable at `d = 0`: nothing is loxodromic there (`not_isHyperbolic_zero`: `IsHyperbolic` asks `minkQ e₁ = 1`, and `minkQ (t, x) = −t²` in `Minkowski 0`) |
-| A/B: external group theory (Benoist, Bieberbach, Auslander–Carrière–Dal'bo, Carrière–Dal'bo, cited; Tits, not cited) | ⚠ strengthened: named hypotheses bundled in `BarbotExternals d` (DEC-36): `BenoistNoLox k`, `BieberbachI (ℝᵏ)` (`k ≤ d + 1`), `AuslanderCarriereDalbo k`, `MaxUnipotentSubspace k` for `k ≤ d`, and — **added 2026-11-01, disclosed adaptation** to Nonloxodromic's round-3a statement change of `nonloxodromic`/`exists_timelike_fixed_of_elliptic_of_null` (DEC-27; the printed §9 lemma is false for `d ≥ 5`) — `TitsVirtuallyAbelianNull k` for `k ≤ d` (Tits' alternative + amenability for the branch l.2621–2622 overlooks, null `v₀` fixed and all elliptic; **not cited by Barbot**, witness at `d = 0` `titsVirtuallyAbelianNull_zero`). Theorem A/B's conclusions are unchanged; their hypothesis `BarbotExternals d` is strictly stronger than before by this one component. Non-vacuity: `barbotExternals_zero` (the bundle at `d = 0`, from the components' witnesses), so Theorem A's hypotheses are jointly satisfiable (`barbot_A_hypotheses_zero`: the bundle, GH and Cauchy-completeness of `𝐌¹`). For `d ≥ 1` the bundle is consistent on the cited literature only (Bieberbach in `ℝ^{k ≥ 2}`, Benoist, Auslander–Carrière–Dal'bo, Carrière–Dal'bo); no component is trivially true or false (each has a not-trivially-true witness in `Externals`/`Bieberbach`; `AuslanderCarriereDalbo`'s `DiscreteTopology Γ` is read in `isomTopology`, not in the discrete topology) |
+| A/B: external group theory (Benoist, Bieberbach, Auslander–Carrière–Dal'bo, Carrière–Dal'bo, cited; Tits, not cited) | ⚠ strengthened: named hypotheses bundled in `BarbotExternals d` (DEC-36): `BenoistNoLox k`, `BieberbachI (ℝᵏ)` (`k ≤ d + 1`), `AuslanderCarriereDalbo k`, `MaxUnipotentSubspace k` for `k ≤ d`. **Tits (not cited by Barbot) is no longer a hypothesis** (DEC-50, 2026-11-01): the branch l.2621–2622 overlooks (null `v₀` fixed, all elliptic; Nonloxodromic's DEC-27 statement change of `exists_timelike_fixed_of_elliptic_of_null`, the printed §9 lemma being false for `d ≥ 5`) consumes `TitsVirtuallyAbelianNull d`, which is now **supplied** by `Flat/TitsNull`'s `titsVirtuallyAbelianNull d` at the one use site (`caseOutput`) — proved there up to one tagged `sorry` (`exists_commute_screenRot_of_discrete`, the Auslander/Cartan local step), which Theorems A/B inherit through that one theorem. The `tits` field added to `BarbotExternals` earlier on 2026-11-01 is removed, so A/B carry one hypothesis fewer than in that interim version and exactly the Barbot-cited bundle; their conclusions are unchanged. Non-vacuity: `barbotExternals_zero` (the bundle at `d = 0`, from the components' witnesses), so Theorem A's hypotheses are jointly satisfiable (`barbot_A_hypotheses_zero`: the bundle, GH and Cauchy-completeness of `𝐌¹`). For `d ≥ 1` the bundle is consistent on the cited literature only (Bieberbach in `ℝ^{k ≥ 2}`, Benoist, Auslander–Carrière–Dal'bo, Carrière–Dal'bo); no component is trivially true or false (each has a not-trivially-true witness in `Externals`/`Bieberbach`; `AuslanderCarriereDalbo`'s `DiscreteTopology Γ` is read in `isomTopology`, not in the discrete topology) |
 | B: `M` maximal Cauchy-compact GH | ✓ carried: `GH M`, `CauchyCompact M`, `MGH M` |
 | B: π₁ finitely generated ⇒ family (a) (DEC-44, Selberg) | ⚠ strengthened: `SelbergLemma (Minkowski d)` (named external) |
 | B: "closed spacelike hypersurfaces are Cauchy" (l.3537–3540, asserted) | ⚠ strengthened: lemma K's named data `FlatLemmaKData` on **every** GH flat target of dimension `d` (DEC-44): tarentin, causal arc-connectedness, `J^±(p) ≠ {p}`, `CurvesExtend`, a chronal causal flow, an acausal Cauchy surface. The non-vacuity witness `flatLemmaKData_minkowskiSpace` is **pointwise** (one instance, `𝐌ⁿ`); the universal form `∀ N, GH N → FlatLemmaKData N` is true by standard GH facts (Geroch / Bernal–Sánchez for the acausal Cauchy surface, a complete timelike flow), not certified here |
@@ -146,16 +147,18 @@ dimensions: Barbot's `n` is `d + 1`. The Misner and unipotent families live in
   and two-sided in the target: lemma K's input), `isCauchyComplete_of_cauchyCompact` (smoothing
   of a topological Cauchy surface), `cauclo_from_embedding` (G9, the passage (b) → (a), finite
   covers of maximal CGH spacetimes).
-* **Upstream sorries** reached by `barbot_A` / `barbot_B` (re-derived 2026-11-01 from
-  `#print axioms` and the transitive closure of declarations whose own body uses `sorryAx`; the
-  other agents of this run are closing some of them, so re-derive at graduation): from
-  CauchyComplete `exists_splitting_of_isCauchySurface` (re-derived 2026-11-01, second pass:
-  `isCoveringMap_projAlong_comp` and `bcor_quoiso` are no longer reached); from Nonloxodromic
-  `nonloxodromic_elliptic` (`exists_timelike_fixed_of_elliptic_of_null` is now proved, under the
-  external `TitsVirtuallyAbelianNull`); from Loxodromic `loxo_elementary_misner`,
-  `loxo_generic_centralExtension`. The absolute-maximality lemmas
-  `surjective_of_isQuotientOf_misner` / `_limitOpensPlus` / `_limitOpensMinus` reach
-  `exists_splitting_of_isCauchySurface` only (through the bridge on the target).
+* **Upstream sorries** reached by `barbot_A` / `barbot_B` (re-derived 2026-11-01, integrator
+  pass, from `#print axioms` and the transitive closure of declarations whose own body uses
+  `sorryAx`, against the current oleans; re-derive at graduation): from Nonloxodromic
+  `nonloxodromic_elliptic` (`exists_timelike_fixed_of_elliptic_of_null` is proved from
+  `TitsVirtuallyAbelianNull d`, which is supplied in `caseOutput` by TitsNull's
+  `titsVirtuallyAbelianNull d`, DEC-50); from TitsNull `exists_commute_screenRot_of_discrete`
+  (the one sorry of `titsVirtuallyAbelianNull`: Auslander + Cartan, no Lie groups in mathlib),
+  which A/B inherit through that one theorem; from Loxodromic `loxo_elementary_misner`,
+  `loxo_generic_centralExtension`. CauchyComplete's `exists_splitting_of_isCauchySurface` is no
+  longer reached (CauchyComplete is now sorry-free), so the absolute-maximality lemmas
+  `surjective_of_isQuotientOf_misner` / `_limitOpensPlus` / `_limitOpensMinus` reach no upstream
+  sorry through the bridge on the target.
 * **Not attempted:** the corollary on closed Cauchy hypersurfaces (finitely covered by
   `Tᵏ × closed hyperbolic manifold`, l.383–386): the library has no notion of a closed hyperbolic
   manifold.
@@ -243,24 +246,20 @@ variable (d) in
 /-- **The external group theory of §5, §9, §10** (DEC-36), as named hypotheses in every dimension
 `≤ d` (Theorem A's proof of absolute maximality applies Theorem A in the model's dimension):
 Benoist's elementarity (Prop 9.1), Bieberbach I (§5), Auslander–Carrière–Dal'bo (5.1),
-Carrière–Dal'bo's maximal unipotent subspace (5.2) and — not cited by Barbot, added 2026-11-01 —
-Tits' alternative in the form `TitsVirtuallyAbelianNull` (Nonloxodromic, DEC-27). -/
+Carrière–Dal'bo's maximal unipotent subspace (5.2). Tits' alternative in the form
+`TitsVirtuallyAbelianNull` (not cited by Barbot; Nonloxodromic, DEC-27) is **not** a component:
+it is supplied by `Flat/TitsNull`'s `titsVirtuallyAbelianNull` (DEC-50; one tagged `sorry` there)
+where it is consumed, `caseOutput`. -/
 structure BarbotExternals : Prop where
   benoist : ∀ k ≤ d, BenoistNoLox k
   bieberbach : ∀ k ≤ d + 1, BieberbachI (EuclideanSpace ℝ (Fin k))
   auslander : ∀ k ≤ d, AuslanderCarriereDalbo k
   unipotent : ∀ k ≤ d, MaxUnipotentSubspace k
-  /-- **Added 2026-11-01** (adaptation to Nonloxodromic's DEC-27 statement change): the external
-  `TitsVirtuallyAbelianNull` (Tits' alternative + amenability; not cited by Barbot), which the
-  branch l.2621–2622 overlooks (null `v₀` fixed, all elliptic) consumes through the now-proved
-  `exists_timelike_fixed_of_elliptic_of_null`. -/
-  tits : ∀ k ≤ d, TitsVirtuallyAbelianNull k
 
 theorem BarbotExternals.mono {d₁ : ℕ} (h : BarbotExternals d) (h₁ : d₁ ≤ d) :
     BarbotExternals d₁ :=
   ⟨fun k hk => h.benoist k (hk.trans h₁), fun k hk => h.bieberbach k (by omega),
-    fun k hk => h.auslander k (hk.trans h₁), fun k hk => h.unipotent k (hk.trans h₁),
-    fun k hk => h.tits k (hk.trans h₁)⟩
+    fun k hk => h.auslander k (hk.trans h₁), fun k hk => h.unipotent k (hk.trans h₁)⟩
 
 /-- **Non-vacuity of the bundle** (kb/0012, DEC-36): in dimension `0` (`𝐌¹`) every component of
 `BarbotExternals` holds, from the components' own witnesses in `Externals` and `Bieberbach`. For
@@ -273,9 +272,7 @@ theorem barbotExternals_zero : BarbotExternals 0 :=
     fun k hk => by obtain rfl : k = 0 := by omega
                    exact auslanderCarriereDalbo_zero,
     fun k hk => by obtain rfl : k = 0 := by omega
-                   exact maxUnipotentSubspace_zero,
-    fun k hk => by obtain rfl : k = 0 := by omega
-                   exact titsVirtuallyAbelianNull_zero⟩
+                   exact maxUnipotentSubspace_zero⟩
 
 /-- **Lemma K's named data on a flat spacetime** (`CausalScaffold.CompactCauchy`, DEC-44): the
 hypotheses of its proved form `isCauchySurface_of_isLocallyCauchyTwoSided` beyond GH, with the
@@ -440,7 +437,9 @@ theorem not_isHyperbolic_zero (A : Minkowski 0 ≃ₗ[ℝ] Minkowski 0) : ¬IsHy
   nlinarith [sq_nonneg e₁.1]
 
 /-- **The case split** (BARBOT.md's spine, step 1.4): from (CC′) and the externals, loxodromic or
-not (Isometries' classes), then elementary or not. -/
+not (Isometries' classes), then elementary or not. The nonloxodromic branch's
+`TitsVirtuallyAbelianNull d` is discharged here by TitsNull's `titsVirtuallyAbelianNull d`
+(DEC-50), not taken from `BarbotExternals`. -/
 theorem caseOutput {M : Type*} [TopologicalSpace M] [ChartedSpace (Minkowski d) M]
     [HasGroupoid M (gxGroupoid (isom d) (Minkowski d))] [T2Space M] {x₀ : M}
     {D : UniversalCover M x₀ → Minkowski d} {ρ : Deck (UniversalCover.proj M x₀) →* isom d}
@@ -456,8 +455,8 @@ theorem caseOutput {M : Type*} [TopologicalSpace M] [ChartedSpace (Minkowski d) 
           exact not_isHyperbolic_zero H hH)
       | succ d' => exact caseOutput_misner hpair hcaus h hlox hne
   · push Not at hlox
-    exact caseOutput_nonloxodromic (hE.benoist d le_rfl) (hE.tits d le_rfl) hE.bieberbach hpair
-      hcaus h hlox
+    exact caseOutput_nonloxodromic (hE.benoist d le_rfl) (titsVirtuallyAbelianNull d)
+      hE.bieberbach hpair hcaus h hlox
 
 /-! ## §3 The finite cover and the tame embedding -/
 
@@ -2331,8 +2330,9 @@ end AbsMax
 /-- **Theorem A** (`bthm:caucomp`, l.338–347), in reading R1 (DEC-43), the fourth family in the
 central-extension form (b) (DEC-44), absolute maximality for Cauchy-complete targets (DEC-45 (α)).
 Under the named externals `BarbotExternals d` — `BenoistNoLox`, `BieberbachI`,
-`AuslanderCarriereDalbo`, `MaxUnipotentSubspace`, `TitsVirtuallyAbelianNull` (the last not cited
-by Barbot, added 2026-11-01) in every dimension `≤ d` (DEC-36) — every GH,
+`AuslanderCarriereDalbo`, `MaxUnipotentSubspace` in every dimension `≤ d` (DEC-36; Tits'
+`TitsVirtuallyAbelianNull`, not cited by Barbot, is not a hypothesis: TitsNull proves it, DEC-50,
+up to one tagged `sorry` inherited here) — every GH,
 Cauchy-complete (`IsCauchyComplete`, DEC-35) flat spacetime `M`, in any dimension, has a finite cover
 `M'` which tamely embeds in a linear twisted product `B` over a model `M₁` of dimension `d₁ ≤ d`,
 `M₁` AMGH in its dimension and a translation, Misner, unipotent spacetime or of family (b).
