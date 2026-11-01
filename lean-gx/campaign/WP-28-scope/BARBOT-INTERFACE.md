@@ -73,3 +73,11 @@ CurvesExtend, strict causal future and past of Σ open ⇒ Σ Cauchy (no splitti
 (SingularFlatAxioms); future side needs two-sidedness in charts + **J⁺(V) open for every open V**.
 gx E₀ obligation: J⁺(V) open at BTZ lines (sketch: BTZ neighbourhoods of x ∈ Δ contain I⁺(p) ∪ (p,+∞),
 p < x on Δ; J⁺(x) \ Δ ⊆ I⁺(x') for x' < x on Δ). Z⁻ fails at BTZ points.
+
+## CBG Geometry approved (gx, 2026-11-01)
+
+Revised per CBG-REVIEW C1–C4 (`SingularFlatAxiomsCorr` with `Iplus_of_lt`; SC on admissible M and `Dev`;
+`secondCountable_of_cauchy`; `curvesExtend` on GH M; `localUnique_sing` strong). DEC-64 (author): ETT's strict
+library is fixed the same way next. gx discharges for E₀: the corrected bundle, `secondCountable_of_cauchy` via
+`IsCausalFlow.exists_isCauchySplitting`, A3's two connectedness arguments + past-side B2 + K⁺ injectivity
+(A3-B-INVESTIGATION.md), J⁺(V) open at BTZ points (lemma K). Instance: Y = 𝕄 ⊕ E₀, G = a.e.-isomorphisms.
