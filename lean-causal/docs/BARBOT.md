@@ -148,6 +148,14 @@ Classes: **T** causal / order-topological / affine in Minkowski space; **D** met
   (`CausalScaffold.Splitting`, `isClosed_iff_exists_isCauchySplitting`). `lem:Sigma_separe` derives
   that closedness *from* the splitting, so it cannot build it.
 - On the lightlike line (ETT's BTZ-line model) `J⁺(S)∖S ≠ I⁺(S)` (`lightlikeLine_Jplus_diff_ne_Iplus`).
+- **`BTZAxioms.Iplus_eq` (`Causal/SingularFlat.lean:146`, I⁺(p) = J⁺(p) ∖ S₀) is FALSE in E₀** (gx review
+  of CBG/Geometry, 2026-11-01, `lean-gx/campaign/WP-28-scope/CBG-REVIEW.md` C1): in −2dτdr + dr² + r²dθ²,
+  f = τ − r/2 is non-decreasing along causal and strictly increasing along timelike curves, so the radial
+  null ray (s/2, s, θ₀) from p = (0,0) lies in J⁺(p) ∖ S₀ but not in I⁺(p). This refutes ETT.tex l.1351's
+  "asserted without proof — verify". Proposed replacement: `Iplus_of_lt : ∀ p p' ∈ S₀, p ≤ p' → p ≠ p' →
+  J⁺(p') ∖ S₀ ⊆ I⁺(p)`; downstream users to audit (`K_monotone`'s "x ∈ S, y ∉ S, x ≤ y → x ≪ y" fails
+  at the same point). Theorems in ETT's strict library resting on the named `BTZAxioms` are not unsound,
+  but vacuous for E₀. **The ETT strict file is not edited from this campaign** — the author rules.
 
 ## The spine
 
