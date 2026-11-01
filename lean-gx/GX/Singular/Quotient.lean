@@ -22,32 +22,54 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
 * `prop:GXquotient` — `RamcovGX.tex:639` — partial, **false as written** (DEC-27): needs the
   action to be by `(G,X)`-morphisms. Corrected form `GX.gxQuotient`; counterexample
   `GX.gxQuotient_counterexample` (`ℤ/2` on `ℝ ⊕ ℝ` by `x ↦ 2x`).
-* `ex:quotient_base` — `RamcovGX.tex:660` — partial: `GX.DInfty` (`𝔻_∞`, the paper's topology
+* `ex:quotient_base` — `RamcovGX.tex:660` — partial, **"`sing(M) = {r=0}`" false as written**
+  (DEC-27), read under DEC-47 elsewhere: `GX.DInfty` (`𝔻_∞`, the paper's topology
   `DInfty.instTopologicalSpace`), `GX.DInfty.isPortly_pos`, `GX.devAtlas`, `GX.devStructure`,
   `GX.GammaA`, `GX.quotientBase`, `GX.quotientBase_topology`, `GX.cylHomeomorph` (`M ≅ ℂ × Z`),
   `GX.quotientBase_sing_subset`; "`sing(M) = {r=0}`" refuted by
   `GX.quotientBase_counterexample`; the disc `GX.Disc`, `GX.discQuot`, `GX.discHomeomorph`,
   `GX.isCoveringMapOn_discQuot` (for `cex:proposition_prop_branched_covering`). Lorentzian
-  instances: the massive particle `GX.massive_particle`, `GX.massive_particle_isom0` (holonomy
-  `GX.massiveDev_smul`: angle `1`, not `α` — a finding), the extreme BTZ white hole
-  `GX.btz_whitehole`, `GX.btz_isom0`, for every `x₀`, future lightlike `u` and `⟨v|u⟩ < 0`
-  `GX.btz_whitehole_isom0` (through the `Isom₀`-transitivity `GX.exists_isom0_nullU`), the extreme
-  BTZ black hole `GX.btz_blackhole`, and its
-  isomorphism to the white hole `GX.btz_blackhole_iso_whitehole`, `GX.btz_blackhole_isom0` (a
-  finding), the Misner / BTZ variations with boosts `GX.misner_btz`, `GX.misner_isom0` ("`v`
-  spacelike" insufficient: `GX.misnerDev_spacelike_counterexample`), in `G = Isom₀(𝔼^{1,2})`
-  (`GX.LorentzIsom0`); the descent lemma `GX.isAEMorphismOf_quotientBase`.
-* `ex:conical` — `RamcovGX.tex:347` — partial: `GX.conical` (holonomy `ρ_α`, the structure,
-  "extends to the whole space iff `α = 2π`"), `GX.conicalDev_smul`, `GX.conical_isomPlus` (the
-  paper's `G = Isom⁺(𝔼^n)`, every `α > 0`, every `n`), witness `GX.conical_circle`; the metric
-  (with the corrected cone angle): the cone `GX.Cone` ported from `lean-causal`, `𝔼^n_α =
-  GX.ConicalSpace α E = C_α × ℝ^{n-2}` (`ℓ²`), the homeomorphism `GX.conicalMetricHomeo` (the cone
-  metric induces the quotient topology), `GX.conical_locally_euclidean_prod`,
-  `GX.conical_metric`, `GX.dist_coneOf`, `GX.conical_locally_euclidean`; the printed metric
-  (angle `√α`) refuted at `α = 2π`: `GX.conical_printed_metric`, `GX.conical_printed_metric_two_pi`.
-* `ex:consider_identifying_point_wise_stabilizer` — `RamcovGX.tex:629` — partial:
-  `GX.quotient_rotations` (free on the portly `𝔼^n ∖ S`, natural singular structure),
-  `GX.quotient_rotations_isomPlus` (the paper's `G = Isom⁺(𝔼^n)`, `GX.IsomPlus`),
+  instances, in `G = Isom₀(𝔼^{1,2})` (`GX.LorentzIsom0`): the massive particle with the intended
+  developing map `(z + σθ/α, r cos θ, r sin θ)` (DEC-47) `GX.massive_particle_intended` (holonomy
+  the screw motion of angle `α`), every angular speed `GX.massive_particle`,
+  `GX.massive_particle_isom0` (the printed `c = 1/α` gives angle `1`: `GX.massiveDev_smul`, a
+  slip); the extreme BTZ white hole `GX.btz_whitehole`, `GX.btz_isom0`, for every `x₀`, future
+  lightlike `u` and `⟨v|u⟩ < 0` `GX.btz_whitehole_isom0` (through the `Isom₀`-transitivity
+  `GX.exists_isom0_nullU`), developing into the future side of the null plane
+  `GX.btzDevGen_future_side`; the extreme BTZ black hole with a past lightlike `u` (DEC-47) for
+  every `x₀`, past lightlike `u` and `⟨v|u⟩ < 0` `GX.btz_blackhole_past_isom0` (developing into the
+  past side; `GX.nullB_neg_of_future`); the printed `D'(r,θ,t) = D(r,θ,−t)`
+  `GX.btz_blackhole`, isomorphic to the white hole `GX.btz_blackhole_iso_whitehole`,
+  `GX.btz_blackhole_isom0` (the slip); the Misner / BTZ variations with boosts `GX.misner_btz`,
+  `GX.misner_isom0`, for every `x₀`, every spacelike `u` and every timelike (or suitably
+  non-degenerate spacelike) `v` `GX.misner_isom0_general` (through the `Isom₀`-transitivity
+  `GX.exists_isom0_nullS`, `GX.misner_general`) ("`v` spacelike" insufficient:
+  `GX.misnerDev_spacelike_counterexample`); the
+  descent lemma `GX.isAEMorphismOf_quotientBase`.
+* **`ex:conical`** — `RamcovGX.tex:347`, read with the cone angle `α` (DEC-47): `GX.conical`
+  (holonomy `ρ_α`, the structure, "extends to the whole space iff `α = 2π`", the whole axis
+  singular otherwise), `GX.conicalDev_smul` (`ρ(1)` the rotation of angle `α`),
+  `GX.conical_holonomy_eq_one_iff` (trivial iff `α ∈ 2πℕ*`); the holonomy as one homomorphism
+  `ρ : π₁({r > 0}, y₀) → ℝ^n ⋊ SO(n) = Isom⁺(𝔼^n)` with the developing map `ρ`-equivariant,
+  `ρ = ρ_α^χ` for `χ : π₁ ≃ ℤ`, `ρ(1) = ρ_α` and `ρ(1) = 1` in `G` iff `α ∈ 2πℕ*`:
+  `GX.conical_holonomy` (`GX.conicalRot`, `GX.conicalRot_eq_one_iff`, `GX.conical_zpow_smul`);
+  `GX.conical_isomPlus` (the paper's
+  `G = ℝ^n ⋊ SO(n) = Isom⁺(𝔼^n)`, every `α > 0`, every `n`), witness `GX.conical_circle`;
+  `π₁({r > 0}) = ℤ`: `GX.conical_fundamentalGroup` (`FundamentalGroup ≃* ℤ` at every base point),
+  through the deck group — `GX.cylPosDeck_bijective` (`Γ_1` is the whole deck group of the
+  universal covering `{r > 0} → π{r > 0}`, `GX.previous_examples_universalCover`) and
+  `GX.fundamentalGroup_cylPos` (the isomorphism conjugates each loop's deck transformation to the
+  corresponding element of `Γ_1`, read by the developing map as `ρ`); the metric: the cone `GX.Cone` ported from
+  `lean-causal`, `𝔼^n_α = GX.ConicalSpace α E = C_α × ℝ^{n-2}` (`ℓ²`), the homeomorphism
+  `GX.conicalMetricHomeo` (cylindrical coordinates; the cone metric induces the quotient topology),
+  `GX.conical_locally_euclidean_prod` (locally Euclidean on `{r > 0}`), `GX.conical_metric`,
+  `GX.dist_coneOf`, `GX.conical_locally_euclidean`; the printed metric (angle `√α`, the slip)
+  refuted at `α = 2π`: `GX.conical_printed_metric`, `GX.conical_printed_metric_two_pi`.
+* `ex:consider_identifying_point_wise_stabilizer` — `RamcovGX.tex:629` — partial (one reading
+  open, SCOPE (e)): `GX.quotient_rotations` (free on the portly `𝔼^n ∖ S`, natural singular
+  structure), `GX.quotient_rotations_isomPlus` (the paper's `G = Isom⁺(𝔼^n)`, `GX.IsomPlus`),
+  for **every** subgroup `Γ ⊆ Stab(S)` of order `p` `GX.quotient_rotations_ptStab` (structure)
+  and `GX.ptStabMetricHomeo`, `GX.ptStab_metric` (`Γ\𝔼^n ≅ 𝔼^n_{2π/p}` as metric spaces),
   `GX.rotStab_bijective`/`GX.ptStabEquiv` (the point-wise stabilizer of `S` is `SO(2)`),
   `GX.ptStab_subgroup_eq_rootsOfUnity` (every subgroup of order `p` of it is `μ_p`),
   `GX.conical_quotient_rotations`, `GX.conical_quotient_rotations_isomPlus`
@@ -55,11 +77,30 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
   `GX.dist_coneProdOfPlane`, `GX.rotationsMetricHomeo`, `GX.rotations_metric` (`μ_p\𝔼^n ≅
   𝔼^n_{2π/p}` as metric spaces, the quotient distance inducing the quotient topology),
   `GX.conicalMetricHomeo_eq_rotations`, `GX.conical_quotient_rotations_isometry` (the singular
-  isomorphism is the isometry); `GX.isPortly_ne_zero`, `GX.finiteQuotient`.
+  isomorphism is the isometry); `GX.isPortly_ne_zero`, `GX.finiteQuotient`; the variations: the
+  spaceforms `X = M = 𝕊^n` (`GX.quotient_rotations_sphere`, `G = SO(n+1)`) and `X = M = ℍ^n`
+  (`GX.quotient_rotations_hyperbolic`, `G = SO⁺(n,1)`), through `GX.quotient_rotations_model`
+  (model spaces cut out of a cone, `GX.IsRadialNormalization`, `GX.LinIsomPlus`), and with the
+  paper's `Γ` — every subgroup of order `p` of the point-wise stabilizer of `S` in `Isom⁺(X)`,
+  which is the rotation group `μ_p` — `GX.quotient_rotations_sphere_ptStab`,
+  `GX.quotient_rotations_hyperbolic_ptStab` (through `GX.linPtStab`, `GX.linPtStab_rot`,
+  `GX.rotLinPtStab_bijective`: the point-wise stabilizer is `SO(2)`,
+  `GX.linPtStab_subgroup_eq_rotSubgroup`, `GX.quotient_rotations_model_ptStab`); and the general
+  principle for any analytical `(G, X)` (`GX.quotient_finite_model`, the "submodels of `𝕂P^n`").
 * `rem:previous_examples_instances_developing` — `RamcovGX.tex:684` — partial (a reading):
   `GX.previous_examples_developing`, `GX.previous_examples_universalCover` (the cover over the
   regular part is the universal cover; `{r > 0}` contractible).
 
+> Let $\alpha>0$ and $n\geq 2$, define $\mathbb E_\alpha^n = \RR^{n-2}\times \RR^2$ endowed with
+> cylindrical coordinates $(z,r,\theta) \in \RR^{n-2}\times \RR_+\times \RR/\ZZ$ and the Riemannian
+> metric $\mathbf{g} = \d z^2+\d r^2 + \alpha r^2\d \theta^2$. This Riemannian metric is well defined
+> and locally Euclidean on the complement of the domain $\{r=0\}$. One can thus endow the domain
+> $\{r>0\}$ with a $(\mathbb E^n,\RR^n \rtimes \SO(n))$-structure. However, this geometrical
+> structure cannot be extended to the whole $\RR^n$ except for $\alpha=2\pi$. An obstruction is
+> given by the holonomy $\rho:\pi_1(\{r>0\})=\ZZ \rightarrow \RR^n\rtimes \SO(n)$, indeed
+> $\rho(1)$ is the rotation of angle $\alpha$ which is non trivial when
+> $\alpha\notin 2\pi\N^*$. (l.347–351)
+>
 > Let $M$ be a $(G,X)$-manifold and let $\Gamma$ be a discrete group acting freely properly
 > discontinuously on $M$. Then there exists a unique $(G,X)$-structure on $\Gamma\backslash M$
 > such that the natural projection $M\rightarrow \Gamma\backslash M$ is a $(G,X)$-morphism. (l.639)
@@ -84,9 +125,16 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
 | `ex:quotient_base`: `Γ_α` acts by a.e. morphisms | ✓ carried (`hΓ`); `isAEMorphismOf_devStructure` derives it from an equivariance of `D` |
 | `ex:quotient_base`, Lorentzian: `G = Isom₀(𝔼^{1,2})` | ⚠ weakened: any rigid `G` containing the holonomy; instantiated with `Isom₀` read as affine maps preserving `Q`, `det > 0`, the future cone (`LorentzIsom0`) |
 | `ex:quotient_base`, BTZ: `u` future lightlike, `⟨v|u⟩ < 0`, `x₀` arbitrary | ✓ carried: every `x₀`, every `u` with `Q(u) = 0`, `τ(u) > 0`, every `v` with `⟨v|u⟩ < 0` (`btz_whitehole_isom0`; `P_θ` is a parabolic family in `Isom₀` fixing `x₀ + ℝu` pointwise, `parabConj`) |
-| `ex:quotient_base`, variations: `u` spacelike, `v` spacelike or timelike | ⚠ strengthened: `u = (0,0,1)`, `v_a v_b ≠ 0` — automatic for timelike `v` (`timelike_ab_ne_zero`), necessary for spacelike `v` (`misnerDev_spacelike_counterexample`) |
-| `ex:consider_identifying`: `Γ ⊂ Stab(S)` of order `p` | ✓ `Γ = μ_p` (`ptStab_subgroup_eq_rootsOfUnity`) |
+| `ex:quotient_base`, variations: `u` spacelike, `v` spacelike or timelike | ⚠ strengthened on `v` only: every `x₀`, every `u` with `Q(u) > 0` (`misner_isom0_general`); `v` timelike, or `v` not orthogonal to either null line of `u^⊥` — automatic for timelike `v`, necessary for spacelike `v` (`misnerDev_spacelike_counterexample`) |
+| `ex:consider_identifying`: `Γ ⊂ Stab(S)` of order `p` | ✓ carried: every `Γ ≤ Stab(S)` with `Nat.card Γ = p` (`quotient_rotations_ptStab`, `ptStab_metric`); it is `μ_p` (`ptStab_subgroup_eq_rootsOfUnity`) |
 | `ex:consider_identifying`: `G = Isom⁺(𝔼^n)` | ✓ `IsomPlus E`: affine, linear part preserving `|w|² + |z|²`, `det > 0` (Mazur–Ulam reading); also any rigid `G` |
+| `ex:consider_identifying`, variations: `X = ℍ^n, 𝕊^n` | ✓ `𝕊^n ⊆ ℂ × ℝ^{n-1}`, `ℍ^n` the upper sheet in `ℂ × ℝ × ℝ^{n-2}`, `G = Isom⁺` read as the linear isometries of positive determinant preserving `X` (`LinIsomPlus`), `S = {w = 0}`, `Γ` any subgroup of order `p` of the point-wise stabilizer of `S`, which is `μ_p` (`quotient_rotations_sphere_ptStab`, `quotient_rotations_hyperbolic_ptStab`) |
+| `ex:consider_identifying`, variations: `X ⊆ 𝕂P^n`, `G ⊆ PGL` | ⚠ a reading: no `Γ`, `S` are given; the general principle `quotient_finite_model` for every analytical `(G, X)` |
+| `ex:conical`: the metric `dz² + dr² + α r² dθ²`, `θ ∈ ℝ/ℤ` | ✓ ruled reading (DEC-47): cone angle `α`, `ConicalSpace α E`; the printed form has angle `√α` (a finding, `conical_printed_metric_two_pi`) |
+| `ex:conical`: `π₁({r > 0}) = ℤ` | ✓ proved: `FundamentalGroup ≃* ℤ` (`conical_fundamentalGroup`, `fundamentalGroup_cylPos`) |
+| `ex:conical`: the holonomy `ρ : π₁ = ℤ → ℝ^n ⋊ SO(n)`, `ρ(1)` the rotation of angle `α` | ✓ proved: one homomorphism `π₁ →* Isom⁺(𝔼^n)`, the developing map equivariant, `ρ(1) = ρ_α`, trivial iff `α ∈ 2πℕ*` (`conical_holonomy`) |
+| `ex:quotient_base`, massive particle: `D = (z + σθ/α, r cos(θ/α), r sin(θ/α))` | ✓ ruled reading (DEC-47): `D = (z + σθ/α, r cos θ, r sin θ)` (`massive_particle_intended`); the printed map has angle `1` (a finding) |
+| `ex:quotient_base`, BTZ black hole: `D'(r,θ,t) = D(r,θ,−t)` | ✓ ruled reading (DEC-47): `D` with a past lightlike `u` (`btz_blackhole_past_isom0`); the printed `D'` gives the white hole again (a finding) |
 
 ## SCOPE (disclosed)
 
@@ -99,47 +147,81 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
 * **(c)** `ex:quotient_base`: `cyl{n} = 𝔻_∞ × Z` for any locally connected `Z` (the paper's
   `ℝ^n`); `D` is a local homeomorphism on `{r > 0}`; `M ≅ ℂ × Z`. The paper's `ℝ^n` is a
   dimension slip (`ℝ^{n+2}`, or `cyl` built on `ℝ^{n-2}`). `Γ_α` is `GammaA α ≅ ℤ`. Lorentzian
-  instances: the massive particle (Minkowski `ℝ × ℂ`, `D` with angular speed `c`: the paper's
-  `c = 1/α`, the corrected `c = 1`) and the extreme BTZ white hole (null coordinates) are
+  instances: the massive particle (Minkowski `ℝ × ℂ`, `D` with angular speed `c`; DEC-47 reads
+  the intended `c = 1`, `D = (z + σθ/α, r cos θ, r sin θ)`, `massive_particle_intended`; the
+  printed `c = 1/α` is the slip) and the extreme BTZ white hole (null coordinates) are
   formalized: local homeomorphism, holonomy, the quotient structure, `G = Isom₀`. "`M` is the
-  massive particle of mass `m`" is read as: the holonomy is a screw motion of angle `cα` and
-  pitch `σ` (the mass `1 − angle/2π` is the literature's convention, not re-derived). The extreme BTZ black hole
-  `D'(r,θ,t) = D(r,θ,−t)` is formalized, with its isomorphism to the white hole (`D' = D ∘ T`,
-  `T` an equivariant homeomorphism: a finding), and the Misner / BTZ variations with the boosts
-  fixing `x₀ + ℝu`, `u = (0,0,1)` spacelike (`misner_btz`). The white hole is proved for every
+  massive particle of mass `m` and spin `σ`" is read as: the holonomy is a screw motion of angle
+  `α` and pitch `σ` (the mass `1 − angle/2π` is the literature's convention, not re-derived). The
+  extreme BTZ black hole is read (DEC-47) as the same construction with `u` **past** lightlike:
+  `btz_blackhole_past_isom0`, every `x₀`, past lightlike `u`, `⟨v|u⟩ < 0`; "white" / "black" are
+  the literature's names, read through the side of the null plane `x₀ + u^⊥` (containing the
+  singular line) into which `{r > 0}` develops: the future side for the white hole
+  (`btzDevGen_future_side`), the past side for the black hole (`nullB_neg_of_future` fixes the
+  sign). The printed `D'(r,θ,t) = D(r,θ,−t)` is kept (`btz_blackhole`), with its isomorphism to
+  the white hole (`D' = D ∘ T`, `T` an equivariant homeomorphism: the slip, a finding), and the
+  Misner / BTZ variations with the boosts
+  fixing `x₀ + ℝu`: in coordinates `u = (0,0,1)` (`misner_btz`), and for every `x₀`, every
+  spacelike `u` and every admissible `v` (`misner_isom0_general`, by `Isom₀`-transitivity on
+  base points and unit spacelike vectors, `exists_isom0_nullS`, and rescaling `t`). The white hole is proved for every
   future lightlike `u` (`btz_whitehole_isom0`, by `Isom₀`-transitivity on base points and future
-  lightlike vectors, `exists_isom0_nullU`). **Not formalized** (SCOPE): the conjugation by `Isom₀`
-  of an arbitrary spacelike `u` to the coordinate one for the variations (the coordinate reading
-  is taken there), tachyons and photons (the paper gives no formula), the
-  polyhedral gluings.
-* **(d)** `ex:conical`: `𝔼^n_α = Γ_1\(𝔻_∞ × Z)` with `Z = ℝ^{n-2}`, developed by
+  lightlike vectors, `exists_isom0_nullU`). **Not formalized** (SCOPE): tachyons and photons (the paper
+  gives no formula), the polyhedral gluings. The row stays partial on `sing(M) = {r = 0}`, false as written
+  (`quotientBase_counterexample`; true: `⊆`, `quotientBase_sing_subset`), and on the variations'
+  "`v` spacelike" (`misnerDev_spacelike_counterexample`).
+* **(d)** `ex:conical` (closed under DEC-47's cone angle `α`): `𝔼^n_α = Γ_1\(𝔻_∞ × Z)` with `Z = ℝ^{n-2}`, developed by
   `(r,θ,z) ↦ (r e^{iαθ}, z)`, for any rigid `(G, ℂ × Z)` containing the rotation `ρ_α`; "the
   structure cannot be extended to the whole `ℝ^n`" is read as: the maximal a.e. atlas does not
-  cover the axis. The holonomy `ρ(1)` is read as the equivariance of the developing map along the
-  deck generator. The metric is the flat cone `C_α` of angle `α` (the corrected angle; the
+  cover the axis. The holonomy `ρ(1)` is the equivariance of the developing map along the deck
+  generator, and `π₁({r > 0}) = ℤ` is proved, not read: `FundamentalGroup (π{r > 0}) y₀ ≃* ℤ`
+  at every base point (`conical_fundamentalGroup`), by the isomorphism `fundamentalGroup_cylPos`
+  which identifies each loop class with the element of `Γ_1` acting as its deck transformation on
+  the universal covering `{r > 0} → π{r > 0}` (`previous_examples_universalCover`; `Γ_1` is the
+  whole deck group, `cylPosDeck_bijective`); "non-trivial when `α ∉ 2πℕ*`" is
+  `conical_holonomy_eq_one_iff`. The metric is the flat cone `C_α` of angle `α` (DEC-47; the
   paper's `α r² dθ²` on `ℝ/ℤ` has angle `√α`), built by its distance formula (`ConeMetric`,
   ported), and `𝔼^n_α = ConicalSpace α E = C_α × E` with the `ℓ²` product metric; the cone metric
   induces the quotient topology of `Γ_1\(𝔻_∞ × E)` (`conicalMetricHomeo`), and it is the
   Euclidean metric along the developing map near `{r > 0}` (`conical_locally_euclidean_prod`).
-  The Riemannian length metric is not formalized (the library has no Riemannian metric): "the
+  The Riemannian length metric is not formalized (`GX` has no Riemannian metric, and mathlib's
+  `IsRiemannianManifold` is not used: the metric is represented by its distance formula,
+  `lean-causal` kb/0021): "the
   printed metric has cone angle `√α`" is the reading of the length of the circle `r = r₀`, and
   `conical_printed_metric` is the statement about `C_{√α}`.
 * **(e)** `ex:consider_identifying_point_wise_stabilizer`: `𝔼^n = ℂ × E`, `E` a
-  finite-dimensional Euclidean space; `Isom⁺(𝔼^n)` read as `IsomPlus E`; `Γ` is `μ_p`, which is
-  every subgroup of order `p` of `Stab(S)` (`ptStab_subgroup_eq_rootsOfUnity`). The metric
+  finite-dimensional Euclidean space; `Isom⁺(𝔼^n)` read as `IsomPlus E`; `Γ` is any subgroup of order `p`
+  of `Stab(S)`, acting as a subgroup of `Isom⁺(𝔼^n)` (`quotient_rotations_ptStab`,
+  `ptStabMetricHomeo`, `ptStab_metric`); it is `μ_p` (`ptStab_subgroup_eq_rootsOfUnity`), so the
+  `μ_p` statements below (`rotMulAction`) are the same ones. The metric
   isomorphism is proved for every `n` with the quotient distance `min_γ |γx − y|` of the
   Euclidean (`ℓ²`) metric; "the metric on `reg` extends continuously" is read as: the quotient
   distance is the metric of `𝔼^n_{2π/p}` carried by a homeomorphism (`rotationsMetricHomeo`), so
   a metric on the whole quotient inducing its topology; and the homeomorphism is the singular
   isomorphism `conicalRootsHomeo` (`conicalMetricHomeo_eq_rotations`). `𝔼^n_{2π/p}` is the cone
-  with the corrected angle (with the printed metric of `ex:conical` the angle would be
-  `√(2π/p)` and the claim false). The variations (`ℍ^n`, `𝕊^n`, `𝕂P^n`) are not formalized.
+  with the angle of DEC-47 (with the printed metric of `ex:conical` the angle would be
+  `√(2π/p)` and the claim false). The variations: `X = M = 𝕊^n` and `X = M = ℍ^n` are built
+  (`quotient_rotations_sphere`, `quotient_rotations_hyperbolic`), each a model space cut out of
+  an open cone of `ℂ × F` by a radial normalization (`IsRadialNormalization`; portliness of
+  `X ∖ S` and local connectedness by `IsPortly.image_of_isOpenMap`), `G = Isom⁺(X)` read as the
+  linear isometries of positive determinant preserving `X` (`LinIsomPlus`, rigid), `S = {w = 0}`
+  (`𝕊^{n-2}`, resp. `ℍ^{n-2}`), `Γ ≅ μ_p` its rotations (`rotSubgroup`); `Γ` may also be taken as
+  any subgroup of order `p` of the point-wise stabilizer of `S` in `Isom⁺(X)`, which is shown to
+  be `rotSubgroup` (`quotient_rotations_sphere_ptStab`, `quotient_rotations_hyperbolic_ptStab`:
+  the point-wise stabilizer is `SO(2)`, `rotLinPtStab_bijective`). **Not formalized**: an
+  instance in `𝕂P^n`; the sentence "more generally one can take submodels `X ⊆ 𝕂P^n`,
+  `G ⊆ PGL`" names no `Γ` nor `S`, and is read as the general principle
+  `quotient_finite_model` (every analytical `(G, X)`, every finite `Γ ⊆ G` free on a portly
+  set); this reading is not ruled, and the row is partial on it alone.
 * **(f)** `rem:previous_examples_instances_developing`: read as — the cylinder is a covering over
   the image of `{r > 0}`, branched over the image of `{r = 0}` (which contains the singular
   locus, strictly when `α = 2π`), this covering is the universal cover of the regular part
   (`previous_examples_universalCover`, `Z` a real normed space), and `D` induces a
   `(G,X)`-morphism on `{r > 0}`; `ex:consider_identifying` is the case `α = 2π/p` of `ex:conical`
-  (`conical_quotient_rotations`). Fox-universality (§3) is not formalized here.
+  (`conical_quotient_rotations`). **Not formalized here**: that the cylinder `𝔻_∞ × Z → M` is
+  the maximal (Fox-universal) covering of `M` branched over `π{r = 0}` — `prop:universality`,
+  which lives in `GX.Branched.Universality`, a module importing this one; and "branched over its
+  singular locus" is false as written (the branching locus `π{r = 0}` strictly contains
+  `sing(M)` in `quotientBase_counterexample`). The row stays partial on both.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Builds on
 `GX.Singular.Atlas`, `GX.Structure.Basic`, `GX.Topology.Portly`, `GX.Topology.UniversalCover`.
@@ -2707,7 +2789,7 @@ variable {G : Type*} [Group G] [MulAction G (ℝ × ℂ)]
 projection is an a.e. morphism. The holonomy is a rotation of angle `cα` composed with a time
 translation `σ`: a massive particle of angle `cα`, i.e. of mass `1 − cα/2π` and spin `σ`. For the
 paper's `D` (`c = 1/α`) that angle is `1`, not `α`: the stated mass `1 − α/2π` needs `c = 1`, i.e.
-`r cos θ, r sin θ` (a finding). -/
+`r cos θ, r sin θ` (a finding; DEC-47 reads the intended map, `massive_particle_intended`). -/
 theorem massive_particle [ContinuousConstSMul G (ℝ × ℂ)] [IsRigidAction G (ℝ × ℂ)] {c : ℝ}
     (hc : c ≠ 0) (σ : ℝ) {α : ℝ} (hα : α ≠ 0) (ρ : G)
     (hρ : ∀ v : ℝ × ℂ, ρ • v = screw σ (Circle.exp (c * α)) v) :
@@ -4088,7 +4170,7 @@ theorem conical_locally_euclidean {α : ℝ} (hα : 0 < α) {p : DInfty} (hp : 0
   calc α * |q.θ - q'.θ| ≤ α * (2 * δ) := mul_le_mul_of_nonneg_left h1.le hα.le
     _ = min π (α / 2) := by simp only [δ]; field_simp
 
-/-- Part of `ex:conical` (partial): **the metric content** (`RamcovGX.tex:347`–`351`), with the cone angle `α` of the
+/-- Part of `ex:conical`: **the metric content** (`RamcovGX.tex:347`–`351`), with the cone angle `α` of the
 corrected metric (`ConeMetric`: `C_α` has directions `ℝ/αℤ`): `C_α` is a proper metric space,
 locally Euclidean off the apex along the developing map (`conical_locally_euclidean`); and the
 apex is a Euclidean point iff `α = 2π` — `C_{2π}` is isometric to the plane, and for `α ≠ 2π` no
@@ -4497,7 +4579,9 @@ theorem btzDevBlack_smul (x₀ v : ℝ × ℝ × ℝ) {α : ℝ} (k : GammaA α)
 
 variable {G : Type*} [Group G] [MulAction G (ℝ × ℝ × ℝ)]
 
-/-- Part of `ex:quotient_base` (partial): **the extreme BTZ black hole** (`RamcovGX.tex:678`), in the null
+/-- Part of `ex:quotient_base` (partial): **the extreme BTZ black hole as printed** (`RamcovGX.tex:678`,
+`D'(r, θ, t) = D(r, θ, −t)`; a slip — DEC-47 reads a past lightlike `u`,
+`btz_blackhole_past_isom0`), in the null
 coordinates of `btz_whitehole`, for any rigid `G` containing `P_α`: `D'` is a local homeomorphism
 on `{r > 0}`, its holonomy is `P_α`, `Γ_α` acts by a.e. morphisms, and `M'` carries a unique
 maximal a.e. structure for which the projection is an a.e. morphism. -/
@@ -5279,7 +5363,7 @@ section ConicalIsomPlus
 
 open scoped Real
 
-/-- Part of `ex:conical` (partial): **in `G = Isom⁺(𝔼^n)`** (`RamcovGX.tex:347`–`351`), for every cone angle `α > 0` and
+/-- Part of `ex:conical`: **in `G = Isom⁺(𝔼^n)`** (`RamcovGX.tex:347`–`351`), for every cone angle `α > 0` and
 every `n` (`E = ℝ^{n-2}`): the rotation `ρ_α` is in `Isom⁺(𝔼^n)` (`rotAff_mem`), so every
 conclusion of `conical` holds for the paper's group. -/
 theorem conical_isomPlus (E : Type*) [NormedAddCommGroup E] [InnerProductSpace ℝ E]
@@ -5580,5 +5664,1555 @@ theorem btz_whitehole_isom0 (x₀ : ℝ × ℝ × ℝ) {u : ℝ × ℝ × ℝ} (
     exact btz_whitehole_general h hv' hα
 
 end BTZGeneral
+
+/-! ## DEC-47 (WP-26b): the conical examples read as intended -/
+
+/-! ### `ex:conical`: the holonomy is trivial exactly for `α ∈ 2πℕ*` -/
+
+section ConicalHolonomy
+
+open scoped Real
+
+/-- `ex:conical` (`RamcovGX.tex:350`–`351`): the holonomy `ρ(1)`, the rotation of angle `α > 0`
+(`conicalDev_smul`), is trivial iff `α ∈ 2πℕ*`; in particular it is non-trivial when
+`α ∉ 2πℕ*`. -/
+theorem conical_holonomy_eq_one_iff {α : ℝ} (hα : 0 < α) :
+    Complex.exp (α * Complex.I) = 1 ↔ ∃ m : ℕ, 0 < m ∧ α = m * (2 * π) := by
+  constructor
+  · intro h
+    obtain ⟨n, hn⟩ := Complex.exp_eq_one_iff.1 h
+    have hn' : α = n * (2 * π) := by
+      have := congrArg Complex.im hn
+      simpa using this
+    have hnpos : 0 < n := by
+      by_contra hle
+      have : (n : ℝ) ≤ 0 := by exact_mod_cast (not_lt.1 hle)
+      nlinarith [Real.pi_pos]
+    refine ⟨n.toNat, by omega, ?_⟩
+    rw [hn']
+    congr 1
+    exact_mod_cast (Int.toNat_of_nonneg hnpos.le).symm
+  · rintro ⟨m, -, rfl⟩
+    rw [Complex.exp_eq_one_iff]
+    exact ⟨m, by push_cast; ring⟩
+
+end ConicalHolonomy
+
+/-! ### `ex:quotient_base`: the massive particle with the intended developing map (DEC-47) -/
+
+section MassiveIntended
+
+/-- **The massive particle, intended reading** (`RamcovGX.tex:673`, DEC-47): the developing map
+`D(r, θ, z) = (z + σθ/α, r cos θ, r sin θ)` (`massiveDev 1 σ α`) is a local homeomorphism on
+`{r > 0}`; the deck generator `θ ↦ θ + α` of `Γ_α` is read by `D` as the screw motion
+`(t, w) ↦ (t + σ, e^{iα} w)` — rotation of angle `α`, time translation `σ` — which lies in
+`Isom₀(𝔼^{1,2})`; and `M = Γ_α\(𝔻_∞ × ℝ)` carries a unique maximal a.e.
+`(Isom₀, 𝔼^{1,2})`-structure for which the projection is an a.e. morphism. -/
+theorem massive_particle_intended (σ : ℝ) {α : ℝ} (hα : α ≠ 0) :
+    (∀ (r θ z : ℝ) (hr : 0 < r), massiveDev 1 σ α (DInfty.posEmb ⟨(r, θ), hr⟩, z) =
+      (z + σ * θ / α, ((r * Real.cos θ : ℝ) : ℂ) + ((r * Real.sin θ : ℝ) : ℂ) * Complex.I)) ∧
+    IsLocalHomeomorphOn (massiveDev 1 σ α) (cylPos ℝ) ∧
+    (∀ k : GammaA α, ∀ x ∈ cylPos ℝ,
+      massiveDev 1 σ α (k • x) = screw σ (Circle.exp α) ^ k.toInt • massiveDev 1 σ α x) ∧
+    screw σ (Circle.exp α) ∈ MinkIsom0 ∧
+    ∃! B : Set (OpenPartialHomeomorph (Orbits (GammaA α) (DInfty × ℝ)) (ℝ × ℂ)),
+      IsMaximalAEAtlas MinkIsom0 B ∧ IsAEMorphismOf MinkIsom0
+        (maximalAEAtlas MinkIsom0 (devAtlas MinkIsom0 (massiveDev 1 σ α) (cylPos ℝ))) B
+        (orbitMk (GammaA α)) := by
+  refine ⟨fun r θ z hr => ?_, isLocalHomeomorphOn_massiveDev one_ne_zero σ α,
+    fun k x hx => ?_, screw_mem _ _, massive_particle_isom0 one_ne_zero σ hα⟩
+  · rw [massiveDev_posEmb one_ne_zero]
+    refine Prod.ext rfl ?_
+    simp only [one_mul]
+    rw [Complex.exp_add, ← Complex.ofReal_exp, Real.exp_log hr, Complex.exp_mul_I]
+    push_cast; ring
+  · have := massiveDev_smul one_ne_zero σ hα k hx
+    rwa [one_mul] at this
+
+end MassiveIntended
+
+/-! ### `ex:quotient_base`: the extreme BTZ black hole with a past lightlike `u` (DEC-47) -/
+
+section BTZPast
+
+/-- `nullB` is linear in its first argument. -/
+theorem nullB_add_smul_left (a b : ℝ) (y y' w : ℝ × ℝ × ℝ) :
+    nullB (a • y + b • y') w = a * nullB y w + b * nullB y' w := by
+  simp only [nullB, Prod.fst_add, Prod.snd_add, Prod.smul_fst, Prod.smul_snd, smul_eq_mul]; ring
+
+theorem nullB_neg_right (y w : ℝ × ℝ × ℝ) : nullB y (-w) = -nullB y w := by
+  simp only [nullB, Prod.fst_neg, Prod.snd_neg]; ring
+
+theorem nullB_self (y : ℝ × ℝ × ℝ) : nullB y y = nullQ y := by
+  simp only [nullB, nullQ]; ring
+
+/-- **The future side of a null plane** (the sign convention of the half-spaces below): a future
+timelike `y` and a future lightlike `w` have `⟨y | w⟩ < 0`. -/
+theorem nullB_neg_of_future {y w : ℝ × ℝ × ℝ} (hy : nullQ y < 0) (hyτ : 0 < nullτ y)
+    (hw : nullQ w = 0) (hwτ : 0 < nullτ w) : nullB y w < 0 := by
+  obtain ⟨a, b, x⟩ := y
+  obtain ⟨a', b', x'⟩ := w
+  simp only [nullQ, nullτ_apply, nullB] at hy hyτ hw hwτ ⊢
+  have ha : 0 < a := by nlinarith [sq_nonneg x, sq_nonneg (a - b)]
+  have hb : 0 < b := by nlinarith [sq_nonneg x, sq_nonneg (a - b)]
+  have ha' : 0 ≤ a' := by nlinarith [sq_nonneg x', sq_nonneg (a' - b')]
+  have hb' : 0 ≤ b' := by nlinarith [sq_nonneg x', sq_nonneg (a' - b')]
+  have hs : 0 < a * b' + a' * b := by
+    rcases lt_or_eq_of_le ha' with h1 | h1
+    · nlinarith
+    · subst h1; nlinarith
+  by_contra hc
+  have h2 : a * b' + a' * b ≤ 2 * x * x' := by linarith
+  rcases lt_or_eq_of_le (mul_nonneg ha' hb') with h3 | h3
+  · nlinarith [sq_nonneg (a * b' - a' * b), mul_pos h3 (show 0 < a * b - x ^ 2 by linarith)]
+  · have : x' = 0 := by nlinarith [sq_nonneg x']
+    subst this; linarith
+
+/-- The reflection `y ↦ 2x₀ − y` through `x₀`. -/
+noncomputable def pointRefl (x₀ : ℝ × ℝ × ℝ) : (ℝ × ℝ × ℝ) ≃ₜ (ℝ × ℝ × ℝ) :=
+  (Homeomorph.neg _).trans (Homeomorph.addLeft (x₀ + x₀))
+
+theorem btzDev_eq_pointRefl (x₀ v : ℝ × ℝ × ℝ) (x : DInfty × ℝ) :
+    btzDev x₀ v x = pointRefl x₀ (btzDev x₀ (-v) (timeFlip x)) := by
+  rw [btzDev_eq, btzDev_eq]
+  show _ = (x₀ + x₀) + -(x₀ + ((timeFlip x).1.r • parab (timeFlip x).1.θ (-v) +
+    (timeFlip x).2 • nullU))
+  simp only [timeFlip_apply, map_neg, neg_smul, smul_neg]
+  abel
+
+/-- The white hole's developing map is a local homeomorphism on `{r > 0}` also when `b(v) < 0`. -/
+theorem isLocalHomeomorphOn_btzDev_of_neg (x₀ : ℝ × ℝ × ℝ) {v : ℝ × ℝ × ℝ} (hv : v.2.1 < 0) :
+    IsLocalHomeomorphOn (btzDev x₀ v) (cylPos ℝ) := by
+  have hv' : 0 < (-v).2.1 := by simpa using hv
+  have h := (isLocalHomeomorphOn_btzDev x₀ hv').comp timeFlip.isLocalHomeomorph.isLocalHomeomorphOn
+    timeFlip_cylPos
+  have heq : btzDev x₀ v = pointRefl x₀ ∘ (btzDev x₀ (-v) ∘ timeFlip) :=
+    funext (btzDev_eq_pointRefl x₀ v)
+  rw [heq]
+  exact (pointRefl x₀).isLocalHomeomorph.isLocalHomeomorphOn.comp h (mapsTo_univ _ _)
+
+/-- The holonomy of `btzDevGen`, for every `v`. -/
+theorem btzDevGen_smul (h : NullIsom0) (v : ℝ × ℝ × ℝ) {α : ℝ} (k : GammaA α) {x : DInfty × ℝ}
+    (hx : x ∈ cylPos ℝ) :
+    btzDevGen h v (k • x) = (parabConj h α ^ k.toInt) • btzDevGen h v x := by
+  rw [btzDevGen_eq, btzDevGen_eq, btzDev_smul 0 _ k hx]
+  have hpow : ∀ n : ℤ, parabConj h α ^ n = h * (⟨parabAff 0 α, parab_mem 0 α⟩ : NullIsom0) ^ n *
+      h⁻¹ := fun n => by
+    rw [parabConj, ← MulAut.conj_apply, ← MulAut.conj_apply, map_zpow]
+  rw [hpow, mul_smul, mul_smul, inv_smul_smul]
+  rfl
+
+/-- A developing map on `{r > 0}` whose holonomy along `Γ_α` is `ρ ∈ G` gives the quotient
+structure (the common tail of the examples). -/
+theorem quotientBase_of_holonomy {G X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+    [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+    {Z : Type*} [TopologicalSpace Z] [LocallyConnectedSpace Z] {α : ℝ} (hα : α ≠ 0)
+    {D : DInfty × Z → X} (hD : IsLocalHomeomorphOn D (cylPos Z)) (ρ : G)
+    (hρ : ∀ k : GammaA α, ∀ x ∈ cylPos Z, D (k • x) = (ρ ^ k.toInt) • D x) :
+    (∀ k : GammaA α, IsAEMorphismOf G (maximalAEAtlas G (devAtlas G D (cylPos Z)))
+      (maximalAEAtlas G (devAtlas G D (cylPos Z))) fun x => k • x) ∧
+    ∃! B : Set (OpenPartialHomeomorph (Orbits (GammaA α) (DInfty × Z)) X),
+      IsMaximalAEAtlas G B ∧
+      IsAEMorphismOf G (maximalAEAtlas G (devAtlas G D (cylPos Z))) B (orbitMk (GammaA α)) := by
+  have hP := DInfty.isPortly_pos Z
+  have hΓ : ∀ k : GammaA α, IsAEMorphismOf G (maximalAEAtlas G (devAtlas G D (cylPos Z)))
+      (maximalAEAtlas G (devAtlas G D (cylPos Z))) fun x => k • x := fun k =>
+    isAEMorphismOf_devStructure hP hD (DInfty.continuous_smul_prod k)
+      (fun x hx => by
+        show 0 < (k • x.1).r
+        rw [DInfty.smul_def, DInfty.rot_r]; exact hx)
+      fun x hx => ⟨ρ ^ k.toInt, by
+        filter_upwards [hP.isOpen.mem_nhds hx] with y hy
+        rw [hρ k y hy]⟩
+  exact ⟨hΓ, quotientBase hα hD hΓ⟩
+
+/-- The developing map of the BTZ white hole moves `x₀ = h(0)` off the null plane
+`x₀ + u^⊥` (`u = h(1,0,0)`) linearly in `r`: `⟨D(r, θ, t) − x₀ | u⟩ = r ⟨v | u⟩`. -/
+theorem nullB_btzDevGen_sub (h : NullIsom0) (v : ℝ × ℝ × ℝ) (x : DInfty × ℝ) :
+    nullB (btzDevGen h v x - (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) 0)
+      ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear nullU) =
+      x.1.r * nullB v ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear nullU) := by
+  set x₀ := (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) 0
+  set u := (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear nullU
+  have hu : nullQ u = 0 := by
+    rw [← nullB_self]
+    have := nullB_map h nullU nullU
+    rw [this, nullB_self]; simp [nullQ, nullU]
+  set P : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ) := (parabConj h x.1.θ).1
+  have hfix : ∀ t : ℝ, P (x₀ + t • u) = x₀ + t • u := parabConj_fix h x.1.θ
+  have hlin : ∀ w, P (x₀ + w) - x₀ = P.linear w := fun w => by
+    have h1 := hfix 0
+    rw [zero_smul, add_zero] at h1
+    rw [affineEquiv_apply_eq_add_linear P (x₀ + w), map_add, ← add_assoc,
+      ← affineEquiv_apply_eq_add_linear P x₀, h1, add_sub_cancel_left]
+  have hPu : P.linear u = u := by
+    have h1 := hfix 1
+    rw [one_smul] at h1
+    have := hlin u
+    rw [h1, add_sub_cancel_left] at this
+    exact this.symm
+  show nullB (P (x₀ + (x.1.r • v + x.2 • u)) - x₀) u = _
+  rw [hlin]
+  have hm := nullB_map (parabConj h x.1.θ) (x.1.r • v + x.2 • u) u
+  change nullB (P.linear _) (P.linear u) = _ at hm
+  rw [hPu] at hm
+  rw [hm, nullB_add_smul_left, nullB_self, hu, mul_zero, add_zero]
+
+/-- **The white hole develops into the future side** (`RamcovGX.tex:674`–`678`): for the
+developing map of `btz_whitehole_isom0` (`x₀ = h(0)`, `u = h(1,0,0)` future lightlike,
+`⟨v | u⟩ < 0`), `{r > 0}` develops into the open half-space `⟨y − x₀ | u⟩ < 0` on the **future**
+side of the null plane `x₀ + u^⊥` containing the singular line (`nullB_neg_of_future`). -/
+theorem btzDevGen_future_side (h : NullIsom0) {v : ℝ × ℝ × ℝ}
+    (hv : nullB v ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear nullU) < 0) {x : DInfty × ℝ}
+    (hx : x ∈ cylPos ℝ) :
+    nullB (btzDevGen h v x - (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) 0)
+      ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear nullU) < 0 := by
+  rw [nullB_btzDevGen_sub]
+  have hr : 0 < x.1.r := hx
+  nlinarith
+
+/-- **The developing map of the extreme BTZ black hole** (`RamcovGX.tex:674`–`678`, DEC-47):
+`D(r, θ, t) = P_θ · (x₀ + r v + t u)` with `u` **past** lightlike; written for
+`(x₀, −u) = (h(0), h(1,0,0))`, i.e. `btzDevGen h v (r, θ, −t)`. -/
+noncomputable def btzDevPast (h : NullIsom0) (v : ℝ × ℝ × ℝ) (x : DInfty × ℝ) : ℝ × ℝ × ℝ :=
+  btzDevGen h v (timeFlip x)
+
+/-- `ex:quotient_base` — **the extreme BTZ black hole** (`RamcovGX.tex:674`–`678`, read with a
+past lightlike `u`, DEC-47): for every base point `x₀`, every past lightlike `u` (`Q(u) = 0`,
+`τ(u) < 0`) and every `v` with `⟨v | u⟩ < 0`, there is a one-parameter parabolic family
+`P_θ ∈ Isom₀` fixing `x₀ + ℝu` pointwise such that `D(r, θ, t) = P_θ · (x₀ + r v + t u)` is a
+local homeomorphism on `{r > 0}`, has holonomy `P_α`, develops `{r > 0}` into the open half-space
+`⟨y − x₀ | −u⟩ > 0` on the **past** side of the null plane `x₀ + u^⊥` containing the singular line
+(`nullB_neg_of_future`: `−u` is future), and `M = Γ_α\(𝔻_∞ × ℝ)` carries a unique maximal a.e.
+`(Isom₀, 𝔼^{1,2})`-structure for which the projection is an a.e. morphism. -/
+theorem btz_blackhole_past_isom0 (x₀ : ℝ × ℝ × ℝ) {u : ℝ × ℝ × ℝ} (hu : nullQ u = 0)
+    (hτ : nullτ u < 0) {v : ℝ × ℝ × ℝ} (hv : nullB v u < 0) {α : ℝ} (hα : α ≠ 0) :
+    ∃ h : NullIsom0,
+      (∀ θ t : ℝ, parabConj h θ • (x₀ + t • u) = x₀ + t • u) ∧
+      (∀ x : DInfty × ℝ, btzDevPast h v x = parabConj h x.1.θ • (x₀ + (x.1.r • v + x.2 • u))) ∧
+      IsLocalHomeomorphOn (btzDevPast h v) (cylPos ℝ) ∧
+      (∀ k : GammaA α, ∀ x ∈ cylPos ℝ, btzDevPast h v (k • x) = (parabConj h α ^ k.toInt) •
+        btzDevPast h v x) ∧
+      (∀ x ∈ cylPos ℝ, 0 < nullB (btzDevPast h v x - x₀) (-u)) ∧
+      ∃! B : Set (OpenPartialHomeomorph (Orbits (GammaA α) (DInfty × ℝ)) (ℝ × ℝ × ℝ)),
+        IsMaximalAEAtlas NullIsom0 B ∧ IsAEMorphismOf NullIsom0
+          (maximalAEAtlas NullIsom0 (devAtlas NullIsom0 (btzDevPast h v) (cylPos ℝ))) B
+          (orbitMk (GammaA α)) := by
+  have hu' : nullQ (-u) = 0 := by rw [nullQ_neg]; exact hu
+  have hτ' : 0 < nullτ (-u) := by rw [map_neg]; linarith
+  obtain ⟨h, h0, hhu⟩ := exists_isom0_nullU x₀ hu' hτ'
+  set H : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ) := h.1
+  set v' := H.linear.symm v
+  have hv' : v'.2.1 < 0 := by
+    have := nullB_map h v' nullU
+    rw [show H.linear v' = v from H.linear.apply_symm_apply v, nullB_nullU] at this
+    change nullB v (H.linear nullU) = _ at this
+    rw [hhu, nullB_neg_right] at this
+    linarith
+  have hfun : btzDevPast h v = fun x => h • btzDev 0 v' (timeFlip x) :=
+    funext fun x => btzDevGen_eq h v (timeFlip x)
+  have hformula : ∀ x : DInfty × ℝ,
+      btzDevPast h v x = parabConj h x.1.θ • (x₀ + (x.1.r • v + x.2 • u)) := fun x => by
+    rw [btzDevPast, btzDevGen, h0, hhu]
+    simp only [timeFlip_apply, neg_smul, smul_neg, neg_neg]
+  have hD : IsLocalHomeomorphOn (btzDevPast h v) (cylPos ℝ) := by
+    rw [hfun]
+    exact (Homeomorph.smul h).isLocalHomeomorph.isLocalHomeomorphOn.comp
+      ((isLocalHomeomorphOn_btzDev_of_neg 0 hv').comp timeFlip.isLocalHomeomorph.isLocalHomeomorphOn
+        timeFlip_cylPos) (mapsTo_univ _ _)
+  have hρ : ∀ k : GammaA α, ∀ x ∈ cylPos ℝ, btzDevPast h v (k • x) =
+      (parabConj h α ^ k.toInt) • btzDevPast h v x := fun k x hx => by
+    rw [btzDevPast, btzDevPast, timeFlip_smul, btzDevGen_smul h v k (timeFlip_cylPos hx)]
+  have hfix : ∀ θ t : ℝ, parabConj h θ • (x₀ + t • u) = x₀ + t • u := fun θ t => by
+    have := parabConj_fix h θ (-t)
+    rwa [h0, hhu, smul_neg, neg_smul, neg_neg] at this
+  refine ⟨h, hfix, hformula, hD, hρ, fun x hx => ?_, ?_⟩
+  · have := nullB_btzDevGen_sub h v (timeFlip x)
+    rw [h0, hhu] at this
+    rw [btzDevPast, this, nullB_neg_right]
+    have hr : 0 < x.1.r := hx
+    show 0 < x.1.r * -nullB v u
+    nlinarith
+  · exact (quotientBase_of_holonomy hα hD (parabConj h α) hρ).2
+
+end BTZPast
+
+/-! ### `ex:consider_identifying_point_wise_stabilizer`, the variations: the general principle -/
+
+section FiniteModel
+
+/-- `ex:consider_identifying_point_wise_stabilizer`, **the variations in general**
+(`RamcovGX.tex:636`–`638`): for any rigid `(G, X)` with `X` locally compact, Hausdorff and locally
+connected (e.g. a submodel of `𝕂P^n`), a finite subgroup `Γ ⊆ G` acting freely on a portly
+`U ⊆ X` gives `Γ\X` a natural singular `(G, X)`-structure: the unique maximal a.e. structure
+making the projection an a.e. morphism (`finiteQuotient` with `M = X`). -/
+theorem quotient_finite_model {G X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+    [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [LocallyCompactSpace X]
+    [IsRigidAction G X] (Γ : Subgroup G) [Finite Γ] {U : Set X} (hU : IsPortly U)
+    (hfree : ∀ x ∈ U, ∀ γ : Γ, γ • x = x → γ = 1) :
+    ∃! B : Set (OpenPartialHomeomorph (Orbits Γ X) X), IsMaximalAEAtlas G B ∧
+      IsAEMorphismOf G ((gxGroupoid G X).maximalAtlas X) B (orbitMk Γ) :=
+  (finiteQuotient (fun γ : Γ => isGXMorphism_smul (γ : G)) hU hfree).1
+
+end FiniteModel
+
+
+/-! ### `ex:consider_identifying_point_wise_stabilizer`, the variations: model spaces cut out of a
+cone (`𝕊^n`, `ℍ^n`) -/
+
+section Spaceforms
+
+variable {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F]
+
+/-- **A model space cut out of an open cone by a radial normalization**: `X ⊆ C ⊆ ℂ × F`, `C`
+open, and `ν : C → X` continuous, the identity on `X` along every ray, every point of `C` a
+positive multiple of its normalization (the unit sphere in `{v ≠ 0}`, the upper sheet of the
+hyperboloid in the future cone). -/
+structure IsRadialNormalization (C X : Set (ℂ × F)) (ν : ℂ × F → ℂ × F) : Prop where
+  isOpen : IsOpen C
+  continuousOn : ContinuousOn ν C
+  mapsTo : ∀ c ∈ C, ν c ∈ X
+  subset : X ⊆ C
+  smul_eq : ∀ x ∈ X, ∀ t : ℝ, 0 < t → t • x ∈ C → ν (t • x) = x
+  eq_smul : ∀ c ∈ C, ∃ t : ℝ, 0 < t ∧ c = t • ν c
+
+namespace IsRadialNormalization
+
+variable {C X : Set (ℂ × F)} {ν : ℂ × F → ℂ × F}
+
+/-- The normalization `C → X`. -/
+def toFun (h : IsRadialNormalization C X ν) (c : C) : X := ⟨ν c, h.mapsTo c c.2⟩
+
+theorem isOpenQuotientMap (h : IsRadialNormalization C X ν) : IsOpenQuotientMap h.toFun := by
+  refine ⟨fun x => ⟨⟨x, h.subset x.2⟩, Subtype.ext ?_⟩, ?_, fun O hO => ?_⟩
+  · show ν x.1 = x.1
+    have := h.smul_eq x.1 x.2 1 one_pos (by rw [one_smul]; exact h.subset x.2)
+    rwa [one_smul] at this
+  · exact (h.continuousOn.restrict).subtype_mk _
+  · set O' : Set (ℂ × F) := (↑) '' O
+    have hO' : IsOpen O' := h.isOpen.isOpenMap_subtype_val _ hO
+    have hS : IsOpen {y : ℂ × F | ∃ t : ℝ, 0 < t ∧ t • y ∈ O'} := by
+      have : {y : ℂ × F | ∃ t : ℝ, 0 < t ∧ t • y ∈ O'} =
+          ⋃ t ∈ Ioi (0 : ℝ), (fun y : ℂ × F => t • y) ⁻¹' O' := by
+        ext y; simp
+      rw [this]
+      exact isOpen_biUnion fun t _ => hO'.preimage (continuous_const_smul t)
+    convert hS.preimage continuous_subtype_val using 1
+    ext x
+    constructor
+    · rintro ⟨c, hc, rfl⟩
+      obtain ⟨t, ht, hct⟩ := h.eq_smul c c.2
+      exact ⟨t, ht, ⟨c, hc, hct⟩⟩
+    · rintro ⟨t, ht, c, hc, hct⟩
+      refine ⟨c, hc, Subtype.ext ?_⟩
+      show ν c = x.1
+      rw [hct]
+      exact h.smul_eq x.1 x.2 t ht (hct ▸ c.2)
+
+theorem apply_self (h : IsRadialNormalization C X ν) {x : ℂ × F} (hx : x ∈ X) : ν x = x := by
+  have := h.smul_eq x hx 1 one_pos (by rw [one_smul]; exact h.subset hx)
+  rwa [one_smul] at this
+
+/-- The model space is locally connected. -/
+theorem locallyConnectedSpace [LocallyConnectedSpace (ℂ × F)] (h : IsRadialNormalization C X ν) :
+    LocallyConnectedSpace X :=
+  haveI := h.isOpen.locallyConnectedSpace
+  locallyConnectedSpace_of_isOpenQuotientMap h.isOpenQuotientMap
+
+/-- **The complement of `S = {w = 0}` is portly in the model space**: it is the image, under the
+open normalization, of the portly `{w ≠ 0} ∩ C` (the condition `w ≠ 0` is radial). -/
+theorem isPortly [LocallyConnectedSpace F] (h : IsRadialNormalization C X ν) :
+    IsPortly {x : X | x.1.1 ≠ 0} := by
+  haveI := h.isOpen.locallyConnectedSpace
+  have hP : IsPortly (((↑) : C → ℂ × F) ⁻¹' {v : ℂ × F | v.1 ≠ 0}) :=
+    (isPortly_ne_zero (Z := F)).preimage_of_isLocalHomeomorph
+      h.isOpen.isOpenEmbedding_subtypeVal.isLocalHomeomorph
+  have himg := hP.image_of_isOpenMap h.isOpenQuotientMap.continuous
+    h.isOpenQuotientMap.isOpenMap h.isOpenQuotientMap.surjective
+  convert himg using 1
+  ext x
+  constructor
+  · intro hx
+    refine ⟨⟨x.1, h.subset x.2⟩, hx, Subtype.ext ?_⟩
+    show ν x.1 = x.1
+    have := h.smul_eq x.1 x.2 1 one_pos (by rw [one_smul]; exact h.subset x.2)
+    rwa [one_smul] at this
+  · rintro ⟨c, hc, rfl⟩
+    obtain ⟨t, ht, hct⟩ := h.eq_smul c c.2
+    intro h0
+    apply hc
+    show c.1.1 = 0
+    rw [hct]
+    show (t • ν c).1 = 0
+    rw [Prod.smul_fst]
+    exact (smul_eq_zero.2 (Or.inr h0))
+
+end IsRadialNormalization
+
+/-- **The orientation-preserving linear isometries** of a form `q` on `ℂ × F` preserving the model
+space `X` (for the unit sphere `SO(n+1) = Isom⁺(𝕊^n)`, for the upper sheet of the hyperboloid
+`SO⁺(n,1) = Isom⁺(ℍ^n)`; an isometry of a spaceform is the restriction of a linear isometry, the
+reading taken, as for `IsomPlus`). -/
+def LinIsomPlus (q : ℂ × F → ℝ) (X : Set (ℂ × F)) : Subgroup ((ℂ × F) ≃ₗ[ℝ] (ℂ × F)) where
+  carrier := {L | (∀ v, q (L v) = q v) ∧ 0 < ((LinearEquiv.det L : ℝˣ) : ℝ) ∧
+    ∀ v, L v ∈ X ↔ v ∈ X}
+  mul_mem' {L L'} hL hL' := by
+    refine ⟨fun v => ?_, ?_, fun v => ?_⟩
+    · show q (L (L' v)) = q v
+      rw [hL.1, hL'.1]
+    · rw [map_mul, Units.val_mul]; exact mul_pos hL.2.1 hL'.2.1
+    · show L (L' v) ∈ X ↔ v ∈ X
+      rw [hL.2.2, hL'.2.2]
+  one_mem' := ⟨fun v => rfl, by rw [map_one, Units.val_one]; exact one_pos, fun v => Iff.rfl⟩
+  inv_mem' {L} hL := by
+    refine ⟨fun v => ?_, ?_, fun v => ?_⟩
+    · show q (L.symm v) = q v
+      conv_rhs => rw [← L.apply_symm_apply v]
+      rw [hL.1]
+    · rw [map_inv, Units.val_inv_eq_inv_val]; exact inv_pos.2 hL.2.1
+    · show L.symm v ∈ X ↔ v ∈ X
+      conv_rhs => rw [← L.apply_symm_apply v]
+      rw [hL.2.2]
+
+variable {q : ℂ × F → ℝ} {X : Set (ℂ × F)}
+
+noncomputable instance : MulAction (LinIsomPlus q X) X where
+  smul L x := ⟨(L : (ℂ × F) ≃ₗ[ℝ] (ℂ × F)) x, (L.2.2.2 x).2 x.2⟩
+  one_smul _ := rfl
+  mul_smul _ _ _ := rfl
+
+theorem LinIsomPlus.smul_coe (L : LinIsomPlus q X) (x : X) :
+    ((L • x : X) : ℂ × F) = (L : (ℂ × F) ≃ₗ[ℝ] (ℂ × F)) x := rfl
+
+instance [FiniteDimensional ℝ F] : ContinuousConstSMul (LinIsomPlus q X) X :=
+  ⟨fun L => (((L : (ℂ × F) ≃ₗ[ℝ] (ℂ × F)) : (ℂ × F) →ₗ[ℝ] (ℂ × F)).continuous_of_finiteDimensional.comp
+    continuous_subtype_val).subtype_mk _⟩
+
+/-- **`Isom⁺` of a model space cut out of a cone is rigid**: two linear maps agreeing on an open
+subset of `X` agree on the open cone over it, hence everywhere. -/
+theorem IsRadialNormalization.isRigidAction {C : Set (ℂ × F)} {ν : ℂ × F → ℂ × F}
+    (h : IsRadialNormalization C X ν) : IsRigidAction (LinIsomPlus q X) X :=
+  ⟨fun {g g'} {U} hU hne heq p => by
+    set O' : Set (ℂ × F) := (↑) '' (h.toFun ⁻¹' U)
+    have hO' : IsOpen O' :=
+      h.isOpen.isOpenMap_subtype_val _ (hU.preimage h.isOpenQuotientMap.continuous)
+    have hne' : O'.Nonempty := by
+      obtain ⟨x, hx⟩ := hne
+      refine ⟨x.1, ⟨x.1, h.subset x.2⟩, ?_, rfl⟩
+      show h.toFun _ ∈ U
+      convert hx using 1
+      exact Subtype.ext (h.apply_self x.2)
+    have hEq : EqOn (g : (ℂ × F) ≃ₗ[ℝ] (ℂ × F)) (g' : (ℂ × F) ≃ₗ[ℝ] (ℂ × F)) O' := by
+      rintro _ ⟨c, hc, rfl⟩
+      obtain ⟨t, ht, hct⟩ := h.eq_smul c c.2
+      have h1 : (g : (ℂ × F) ≃ₗ[ℝ] (ℂ × F)) (ν c) = (g' : (ℂ × F) ≃ₗ[ℝ] (ℂ × F)) (ν c) :=
+        congrArg Subtype.val (heq hc)
+      rw [hct, map_smul, map_smul, h1]
+    have := AffineMap.ext_on (hO'.affineSpan_eq_top hne')
+      (f := ((g : (ℂ × F) ≃ₗ[ℝ] (ℂ × F)) : (ℂ × F) →ₗ[ℝ] (ℂ × F)).toAffineMap)
+      (g := ((g' : (ℂ × F) ≃ₗ[ℝ] (ℂ × F)) : (ℂ × F) →ₗ[ℝ] (ℂ × F)).toAffineMap) hEq
+    exact Subtype.ext (congrArg (fun f : (ℂ × F) →ᵃ[ℝ] (ℂ × F) => f p.1) this)⟩
+
+variable [FiniteDimensional ℝ F]
+
+/-- The rotation `(w, z) ↦ (a w, z)` about `S = {w = 0}`, `a ∈ SO(2)`, as an element of
+`Isom⁺` of a rotation-invariant model space. -/
+noncomputable def rotLinIsom (hq : ∀ (a : Circle) (v : ℂ × F), q ((a : ℂ) * v.1, v.2) = q v)
+    (hX : ∀ (a : Circle) (v : ℂ × F), ((a : ℂ) * v.1, v.2) ∈ X ↔ v ∈ X) (a : Circle) :
+    LinIsomPlus q X :=
+  ⟨LinearEquiv.prodCongr (rotation a).toLinearEquiv (LinearEquiv.refl ℝ F), fun v => hq a v, by
+    rw [LinearEquiv.coe_det]
+    have : ((LinearEquiv.prodCongr (rotation a).toLinearEquiv (LinearEquiv.refl ℝ F)) :
+        (ℂ × F) →ₗ[ℝ] (ℂ × F)) = LinearMap.prodMap ((rotation a).toLinearEquiv : ℂ →ₗ[ℝ] ℂ)
+          (LinearMap.id) := rfl
+    rw [this, LinearMap.det_prodMap, det_rotation, LinearMap.det_id, one_mul]
+    exact one_pos, fun v => hX a v⟩
+
+theorem rotLinIsom_apply (hq : ∀ (a : Circle) (v : ℂ × F), q ((a : ℂ) * v.1, v.2) = q v)
+    (hX : ∀ (a : Circle) (v : ℂ × F), ((a : ℂ) * v.1, v.2) ∈ X ↔ v ∈ X) (a : Circle)
+    (v : ℂ × F) : ((rotLinIsom hq hX a : LinIsomPlus q X) : (ℂ × F) ≃ₗ[ℝ] (ℂ × F)) v =
+      ((a : ℂ) * v.1, v.2) := rfl
+
+/-- **The finite group `Γ ≅ μ_p` of rotations of order `p` about `S = {w = 0}`**, a subgroup of
+`Isom⁺(X)` (the image of `μ_p ⊆ SO(2)`). -/
+noncomputable def rotSubgroup (hq : ∀ (a : Circle) (v : ℂ × F), q ((a : ℂ) * v.1, v.2) = q v)
+    (hX : ∀ (a : Circle) (v : ℂ × F), ((a : ℂ) * v.1, v.2) ∈ X ↔ v ∈ X) (p : ℕ) [NeZero p] :
+    Subgroup (LinIsomPlus q X) :=
+  MonoidHom.range
+    { toFun := fun γ : rootsOfUnity p ℂ => rotLinIsom hq hX (rootsOfUnity.toCircle γ)
+      map_one' := by
+        apply Subtype.ext; apply LinearEquiv.ext; intro v
+        show ((((1 : rootsOfUnity p ℂ) : ℂˣ) : ℂ) * v.1, v.2) = v
+        simp
+      map_mul' := fun a b => by
+        apply Subtype.ext; apply LinearEquiv.ext; intro v
+        show ((((a * b : rootsOfUnity p ℂ) : ℂˣ) : ℂ) * v.1, v.2) =
+          ((((a : ℂˣ) : ℂ)) * ((((b : ℂˣ) : ℂ)) * v.1), v.2)
+        simp [mul_assoc] }
+
+/-- `ex:consider_identifying_point_wise_stabilizer`, **the variations** (`RamcovGX.tex:636`–`637`),
+for a model space `X` cut out of a cone of `ℂ × F` by a radial normalization (`𝕊^n`: `sphereModel`;
+`ℍ^n`: `hyperbolicModel`), closed, with a form `q` and `X` invariant under the rotations about
+`S = {w = 0}`, `G = Isom⁺(X)` (`LinIsomPlus q X`): the group `Γ ≅ μ_p` of rotations of order `p`
+about `S` (`rotSubgroup`, `Γ ⊆ G`) acts freely on `X ∖ S`, which is portly, and `Γ\X` has a
+natural singular `(G, X)`-structure: the unique maximal a.e. structure making the projection an
+a.e. morphism. -/
+theorem quotient_rotations_model {C : Set (ℂ × F)} {ν : ℂ × F → ℂ × F}
+    (h : IsRadialNormalization C X ν) (hXc : IsClosed X)
+    (hq : ∀ (a : Circle) (v : ℂ × F), q ((a : ℂ) * v.1, v.2) = q v)
+    (hX : ∀ (a : Circle) (v : ℂ × F), ((a : ℂ) * v.1, v.2) ∈ X ↔ v ∈ X) (p : ℕ) [NeZero p] :
+    (∀ x ∈ {x : X | x.1.1 ≠ 0}, ∀ γ : rotSubgroup hq hX p, γ • x = x → γ = 1) ∧
+    IsPortly {x : X | x.1.1 ≠ 0} ∧
+    ∃! B : Set (OpenPartialHomeomorph (Orbits (rotSubgroup hq hX p) X) X),
+      IsMaximalAEAtlas (LinIsomPlus q X) B ∧
+      IsAEMorphismOf (LinIsomPlus q X) ((gxGroupoid (LinIsomPlus q X) X).maximalAtlas X) B
+        (orbitMk (rotSubgroup hq hX p)) := by
+  haveI := h.locallyConnectedSpace
+  haveI := h.isRigidAction (q := q)
+  haveI : LocallyCompactSpace X := hXc.locallyCompactSpace
+  haveI : Finite (rotSubgroup hq hX p) := by
+    unfold rotSubgroup
+    exact Set.finite_range _ |>.to_subtype
+  have hfree : ∀ x ∈ {x : X | x.1.1 ≠ 0}, ∀ γ : rotSubgroup hq hX p, γ • x = x → γ = 1 := by
+    rintro x hx ⟨γ, ζ, rfl⟩ hγ
+    have h1 : (((ζ : ℂˣ) : ℂ)) * x.1.1 = x.1.1 := congrArg (fun y : X => y.1.1) hγ
+    have hζ : ((ζ : ℂˣ) : ℂ) = 1 := mul_right_cancel₀ hx (by rw [one_mul]; exact h1)
+    have : ζ = 1 := Subtype.ext (Units.ext hζ)
+    subst this
+    exact Subtype.ext (map_one _)
+  have hΓ : ∀ γ : rotSubgroup hq hX p, IsGXMorphism (LinIsomPlus q X) X fun x : X => γ • x :=
+    fun γ => isGXMorphism_smul (γ : LinIsomPlus q X)
+  exact ⟨hfree, h.isPortly, (finiteQuotient hΓ h.isPortly hfree).1⟩
+
+omit [FiniteDimensional ℝ F] in
+/-- **The level set `{q = σ}` (`σ = ±1`) of a continuous form, homogeneous of degree `2`, inside
+an open positive cone `P`** is cut out of the cone `{σq > 0} ∩ P` by the radial normalization
+`v ↦ (σ q(v))^{-1/2} v`. -/
+theorem isRadialNormalization_level {q : ℂ × F → ℝ} (hqc : Continuous q)
+    (hqs : ∀ (t : ℝ) (v : ℂ × F), q (t • v) = t ^ 2 * q v) {σ : ℝ} (hσ : σ * σ = 1)
+    {P : Set (ℂ × F)} (hP : IsOpen P) (hPs : ∀ t : ℝ, 0 < t → ∀ v ∈ P, t • v ∈ P) :
+    IsRadialNormalization {v | 0 < σ * q v ∧ v ∈ P} {v | q v = σ ∧ v ∈ P}
+      (fun v => (√(σ * q v))⁻¹ • v) := by
+  refine ⟨(isOpen_lt continuous_const (continuous_const.mul hqc)).inter hP,
+    ContinuousOn.smul ((Real.continuous_sqrt.comp (continuous_const.mul hqc)).continuousOn.inv₀
+      fun c hc => (Real.sqrt_pos.2 hc.1).ne') continuousOn_id, fun c hc => ?_,
+    fun x hx => ?_, fun x hx t ht _ => ?_, fun c hc => ?_⟩
+  · have hs := Real.sqrt_pos.2 hc.1
+    refine ⟨?_, hPs _ (inv_pos.2 hs) c hc.2⟩
+    show q ((√(σ * q c))⁻¹ • c) = σ
+    rw [hqs, inv_pow, Real.sq_sqrt hc.1.le]
+    have hσ0 : σ ≠ 0 := by rintro rfl; simp at hσ
+    have hqc0 : q c ≠ 0 := by
+      intro h0; have := hc.1; rw [h0, mul_zero] at this; exact lt_irrefl _ this
+    field_simp
+    linarith
+  · refine ⟨?_, hx.2⟩
+    show 0 < σ * q x
+    rw [hx.1, hσ]; exact one_pos
+  · show (√(σ * q (t • x)))⁻¹ • t • x = x
+    rw [hqs, hx.1, mul_left_comm, hσ, mul_one, Real.sqrt_sq ht.le, inv_smul_smul₀ ht.ne']
+  · exact ⟨√(σ * q c), Real.sqrt_pos.2 hc.1,
+      (smul_inv_smul₀ (Real.sqrt_pos.2 hc.1).ne' c).symm⟩
+
+end Spaceforms
+
+/-! ### The sphere `𝕊^n` and hyperbolic space `ℍ^n` -/
+
+section SphereHyperbolic
+
+variable (E : Type*) [NormedAddCommGroup E] [NormedSpace ℝ E]
+
+theorem euclidQ_smul (t : ℝ) (v : ℂ × E) : euclidQ E (t • v) = t ^ 2 * euclidQ E v := by
+  simp only [euclidQ, Prod.smul_fst, Prod.smul_snd, norm_smul, Real.norm_eq_abs, mul_pow, sq_abs]
+  ring
+
+omit [NormedSpace ℝ E] in
+theorem continuous_euclidQ : Continuous (euclidQ E) := by unfold euclidQ; fun_prop
+
+omit [NormedSpace ℝ E] in
+theorem euclidQ_rot (a : Circle) (v : ℂ × E) : euclidQ E ((a : ℂ) * v.1, v.2) = euclidQ E v := by
+  simp [euclidQ]
+
+/-- **The round sphere `𝕊^n`** `= {|w|² + |z|² = 1} ⊆ ℂ × E` (`E = ℝ^{n-1}`). -/
+def sphereModel : Set (ℂ × E) := {v | euclidQ E v = 1}
+
+omit [NormedSpace ℝ E] in
+theorem sphereModel_rot (a : Circle) (v : ℂ × E) :
+    ((a : ℂ) * v.1, v.2) ∈ sphereModel E ↔ v ∈ sphereModel E := by
+  simp [sphereModel, euclidQ_rot]
+
+theorem isRadialNormalization_sphereModel :
+    IsRadialNormalization {v : ℂ × E | 0 < 1 * euclidQ E v ∧ v ∈ (univ : Set (ℂ × E))}
+      (sphereModel E) (fun v => (√(1 * euclidQ E v))⁻¹ • v) := by
+  have h := isRadialNormalization_level (continuous_euclidQ E) (euclidQ_smul E) (σ := 1)
+    (by norm_num) isOpen_univ fun _ _ _ _ => mem_univ _
+  have he : {v : ℂ × E | euclidQ E v = 1 ∧ v ∈ (univ : Set (ℂ × E))} = sphereModel E := by
+    ext v; simp [sphereModel]
+  rwa [he] at h
+
+omit [NormedSpace ℝ E] in
+theorem isClosed_sphereModel : IsClosed (sphereModel E) := by
+  have : sphereModel E = euclidQ E ⁻¹' {1} := by ext v; simp [sphereModel]
+  rw [this]; exact isClosed_singleton.preimage (continuous_euclidQ E)
+
+/-- The Lorentzian form `|w|² + |z|² − s²` on `ℂ × (ℝ × E)` (`E = ℝ^{n-2}`). -/
+noncomputable def lorentzQ (v : ℂ × ℝ × E) : ℝ := ‖v.1‖ ^ 2 + ‖v.2.2‖ ^ 2 - v.2.1 ^ 2
+
+theorem lorentzQ_smul (t : ℝ) (v : ℂ × ℝ × E) : lorentzQ E (t • v) = t ^ 2 * lorentzQ E v := by
+  simp only [lorentzQ, Prod.smul_fst, Prod.smul_snd, norm_smul, Real.norm_eq_abs, mul_pow, sq_abs,
+    smul_eq_mul]
+  ring
+
+omit [NormedSpace ℝ E] in
+theorem continuous_lorentzQ : Continuous (lorentzQ E) := by unfold lorentzQ; fun_prop
+
+omit [NormedSpace ℝ E] in
+theorem lorentzQ_rot (a : Circle) (v : ℂ × ℝ × E) :
+    lorentzQ E ((a : ℂ) * v.1, v.2) = lorentzQ E v := by
+  simp [lorentzQ]
+
+/-- **Hyperbolic space `ℍ^n`**, the upper sheet `{|w|² + |z|² − s² = −1, s > 0}` of the
+hyperboloid in `ℂ × (ℝ × E)` (`E = ℝ^{n-2}`). -/
+def hyperbolicModel : Set (ℂ × ℝ × E) :=
+  {v | lorentzQ E v = -1 ∧ v ∈ {v : ℂ × ℝ × E | 0 < v.2.1}}
+
+omit [NormedSpace ℝ E] in
+theorem hyperbolicModel_rot (a : Circle) (v : ℂ × ℝ × E) :
+    ((a : ℂ) * v.1, v.2) ∈ hyperbolicModel E ↔ v ∈ hyperbolicModel E := by
+  simp [hyperbolicModel, lorentzQ_rot]
+
+theorem isRadialNormalization_hyperbolicModel :
+    IsRadialNormalization {v : ℂ × ℝ × E | 0 < -1 * lorentzQ E v ∧ v ∈ {v | 0 < v.2.1}}
+      (hyperbolicModel E) (fun v => (√(-1 * lorentzQ E v))⁻¹ • v) :=
+  isRadialNormalization_level (continuous_lorentzQ E) (lorentzQ_smul E) (by norm_num)
+    (isOpen_lt continuous_const (continuous_fst.comp continuous_snd)) fun t ht v hv => by
+      show 0 < t * v.2.1
+      exact mul_pos ht hv
+
+omit [NormedSpace ℝ E] in
+theorem isClosed_hyperbolicModel : IsClosed (hyperbolicModel E) := by
+  have : hyperbolicModel E = lorentzQ E ⁻¹' {-1} ∩ {v | 0 ≤ v.2.1} := by
+    ext v
+    simp only [hyperbolicModel, mem_setOf_eq, mem_inter_iff, mem_preimage, mem_singleton_iff]
+    refine ⟨fun h => ⟨h.1, h.2.le⟩, fun h => ⟨h.1, lt_of_le_of_ne h.2 fun h0 => ?_⟩⟩
+    have := h.1
+    simp only [lorentzQ, ← h0] at this
+    nlinarith [sq_nonneg ‖v.1‖, sq_nonneg ‖v.2.2‖]
+  rw [this]
+  exact (isClosed_singleton.preimage (continuous_lorentzQ E)).inter
+    (isClosed_le continuous_const (continuous_fst.comp continuous_snd))
+
+variable [FiniteDimensional ℝ E]
+
+/-- `ex:consider_identifying_point_wise_stabilizer`, **the variation `X = M = 𝕊^n`**
+(`RamcovGX.tex:636`), `G = Isom⁺(𝕊^n) = SO(n+1)` (`LinIsomPlus`): the rotations `Γ ≅ μ_p` of
+order `p` about the great subsphere `S = {w = 0}` act freely on the portly `𝕊^n ∖ S`, and `Γ\𝕊^n`
+has a natural singular `(Isom⁺(𝕊^n), 𝕊^n)`-structure. -/
+theorem quotient_rotations_sphere (p : ℕ) [NeZero p] :
+    (∀ x ∈ {x : sphereModel E | x.1.1 ≠ 0},
+      ∀ γ : rotSubgroup (euclidQ_rot E) (sphereModel_rot E) p, γ • x = x → γ = 1) ∧
+    IsPortly {x : sphereModel E | x.1.1 ≠ 0} ∧
+    ∃! B : Set (OpenPartialHomeomorph
+        (Orbits (rotSubgroup (euclidQ_rot E) (sphereModel_rot E) p) (sphereModel E))
+        (sphereModel E)),
+      IsMaximalAEAtlas (LinIsomPlus (euclidQ E) (sphereModel E)) B ∧
+      IsAEMorphismOf (LinIsomPlus (euclidQ E) (sphereModel E))
+        ((gxGroupoid (LinIsomPlus (euclidQ E) (sphereModel E)) (sphereModel E)).maximalAtlas
+          (sphereModel E)) B
+        (orbitMk (rotSubgroup (euclidQ_rot E) (sphereModel_rot E) p)) :=
+  quotient_rotations_model (isRadialNormalization_sphereModel E) (isClosed_sphereModel E)
+    (euclidQ_rot E) (sphereModel_rot E) p
+
+/-- `ex:consider_identifying_point_wise_stabilizer`, **the variation `X = M = ℍ^n`**
+(`RamcovGX.tex:636`), `G = Isom⁺(ℍ^n) = SO⁺(n,1)` (`LinIsomPlus`: preserving the form, the
+orientation and the upper sheet): the rotations `Γ ≅ μ_p` of order `p` about the totally geodesic
+`S = {w = 0} ≅ ℍ^{n-2}` act freely on the portly `ℍ^n ∖ S`, and `Γ\ℍ^n` has a natural singular
+`(Isom⁺(ℍ^n), ℍ^n)`-structure. -/
+theorem quotient_rotations_hyperbolic (p : ℕ) [NeZero p] :
+    (∀ x ∈ {x : hyperbolicModel E | x.1.1 ≠ 0},
+      ∀ γ : rotSubgroup (lorentzQ_rot E) (hyperbolicModel_rot E) p, γ • x = x → γ = 1) ∧
+    IsPortly {x : hyperbolicModel E | x.1.1 ≠ 0} ∧
+    ∃! B : Set (OpenPartialHomeomorph
+        (Orbits (rotSubgroup (lorentzQ_rot E) (hyperbolicModel_rot E) p) (hyperbolicModel E))
+        (hyperbolicModel E)),
+      IsMaximalAEAtlas (LinIsomPlus (lorentzQ E) (hyperbolicModel E)) B ∧
+      IsAEMorphismOf (LinIsomPlus (lorentzQ E) (hyperbolicModel E))
+        ((gxGroupoid (LinIsomPlus (lorentzQ E) (hyperbolicModel E)) (hyperbolicModel E)).maximalAtlas
+          (hyperbolicModel E)) B
+        (orbitMk (rotSubgroup (lorentzQ_rot E) (hyperbolicModel_rot E) p)) :=
+  quotient_rotations_model (isRadialNormalization_hyperbolicModel E) (isClosed_hyperbolicModel E)
+    (lorentzQ_rot E) (hyperbolicModel_rot E) p
+
+end SphereHyperbolic
+
+
+/-! ## WP-26b round 1: `π₁({r > 0}) = ℤ`, and the paper's `Γ ⊆ Stab(S)` -/
+
+/-! ### `ex:conical`: `π₁({r > 0}) = ℤ` through the deck group -/
+
+section FundamentalGroupCyl
+
+/-- Deck groups of two maps identified over the base by a homeomorphism `Φ` (`p₂ ∘ Φ = p₁`) are
+isomorphic, by conjugation `φ ↦ Φ ∘ φ ∘ Φ⁻¹`. -/
+def deckCongrOfComp {E₁ E₂ B : Type*} [TopologicalSpace E₁] [TopologicalSpace E₂]
+    {p₁ : E₁ → B} {p₂ : E₂ → B} (Φ : E₁ ≃ₜ E₂) (hΦ : p₂ ∘ Φ = p₁) : Deck p₁ ≃* Deck p₂ where
+  toFun φ := ⟨(Φ.symm.trans φ.1).trans Φ, by
+    funext x
+    have h1 := congrFun hΦ (φ.1 (Φ.symm x))
+    have h2 := congrFun φ.2 (Φ.symm x)
+    have h3 := congrFun hΦ (Φ.symm x)
+    simp only [Function.comp_apply, Homeomorph.apply_symm_apply] at h1 h2 h3 ⊢
+    rw [Homeomorph.trans_apply, Homeomorph.trans_apply, h1, h2, h3]⟩
+  invFun ψ := ⟨(Φ.trans ψ.1).trans Φ.symm, by
+    funext x
+    have h1 := congrFun hΦ (Φ.symm (ψ.1 (Φ x)))
+    have h2 := congrFun ψ.2 (Φ x)
+    have h3 := congrFun hΦ x
+    simp only [Function.comp_apply, Homeomorph.apply_symm_apply] at h1 h2 h3 ⊢
+    rw [Homeomorph.trans_apply, Homeomorph.trans_apply, ← h1, h2, h3]⟩
+  left_inv φ := Subtype.ext (Homeomorph.ext fun x => by simp)
+  right_inv ψ := Subtype.ext (Homeomorph.ext fun x => by simp)
+  map_mul' φ ψ := Subtype.ext (Homeomorph.ext fun x => by simp [Homeomorph.mul_apply])
+
+theorem deckCongrOfComp_apply {E₁ E₂ B : Type*} [TopologicalSpace E₁] [TopologicalSpace E₂]
+    {p₁ : E₁ → B} {p₂ : E₂ → B} (Φ : E₁ ≃ₜ E₂) (hΦ : p₂ ∘ Φ = p₁) (φ : Deck p₁) (x : E₁) :
+    (deckCongrOfComp Φ hΦ φ).1 (Φ x) = Φ (φ.1 x) := by
+  show Φ (φ.1 (Φ.symm (Φ x))) = _
+  rw [Homeomorph.symm_apply_apply]
+
+/-- The positive part `π⁻¹(π{r > 0})` of the cylinder (as a subtype of `𝔻_∞ × Z`), the total
+space of the covering over the regular part. -/
+abbrev CylPosE (α : ℝ) (Z : Type*) : Set (DInfty × Z) :=
+  orbitMk (GammaA α) ⁻¹' (orbitMk (GammaA α) '' cylPos Z)
+
+theorem smul_mem_cylPosE {α : ℝ} {Z : Type*} (k : GammaA α) {x : DInfty × Z}
+    (hx : x ∈ CylPosE α Z) : k • x ∈ CylPosE α Z := by
+  show orbitMk (GammaA α) (k • x) ∈ orbitMk (GammaA α) '' cylPos Z
+  rw [orbitMk_smul]; exact hx
+
+/-- `k ∈ Γ_α` acting on the positive part, as a homeomorphism. -/
+noncomputable def cylPosSmulHomeo {α : ℝ} {Z : Type*} [TopologicalSpace Z] (k : GammaA α) :
+    CylPosE α Z ≃ₜ CylPosE α Z where
+  toFun x := ⟨k • x.1, smul_mem_cylPosE k x.2⟩
+  invFun x := ⟨k⁻¹ • x.1, smul_mem_cylPosE k⁻¹ x.2⟩
+  left_inv x := Subtype.ext (inv_smul_smul k x.1)
+  right_inv x := Subtype.ext (smul_inv_smul k x.1)
+  continuous_toFun :=
+    ((DInfty.continuous_smul_prod k).comp continuous_subtype_val).subtype_mk _
+  continuous_invFun :=
+    ((DInfty.continuous_smul_prod k⁻¹).comp continuous_subtype_val).subtype_mk _
+
+theorem cylPosSmulHomeo_apply {α : ℝ} {Z : Type*} [TopologicalSpace Z] (k : GammaA α)
+    (x : CylPosE α Z) : (cylPosSmulHomeo k x).1 = k • x.1 := rfl
+
+/-- The action of `Γ_α` on the positive part `π⁻¹(π{r > 0})` of the cylinder, by deck
+transformations of the projection to `π{r > 0}`. -/
+noncomputable def cylPosDeck (α : ℝ) (Z : Type*) [TopologicalSpace Z] :
+    GammaA α →* Deck ((orbitMk (GammaA α) '' cylPos Z).restrictPreimage
+      (orbitMk (GammaA α) : DInfty × Z → Orbits (GammaA α) (DInfty × Z))) where
+  toFun k := ⟨cylPosSmulHomeo k, funext fun x => Subtype.ext (orbitMk_smul k x.1)⟩
+  map_one' := Subtype.ext (Homeomorph.ext fun x => Subtype.ext (one_smul (GammaA α) x.1))
+  map_mul' a b := Subtype.ext (Homeomorph.ext fun x => Subtype.ext (mul_smul a b x.1))
+
+theorem cylPosDeck_apply {α : ℝ} {Z : Type*} [TopologicalSpace Z] (k : GammaA α)
+    (x : CylPosE α Z) : ((cylPosDeck α Z k).1 x).1 = k • x.1 := rfl
+
+variable {Z : Type*} [NormedAddCommGroup Z] [NormedSpace ℝ Z] {α : ℝ}
+
+/-- **`Γ_α` is the whole deck group** of the covering `π⁻¹(π{r > 0}) → π{r > 0}`: the action
+`cylPosDeck` is injective (`Γ_α` acts freely on `{r > 0}`) and surjective (a deck
+transformation agrees with some `k ∈ Γ_α` at one point, hence everywhere, the total space being
+connected — it is contractible). -/
+theorem cylPosDeck_bijective (hα : α ≠ 0) : Function.Bijective (cylPosDeck α Z) := by
+  have hcov : IsCoveringMap ((orbitMk (GammaA α) '' cylPos Z).restrictPreimage
+      (orbitMk (GammaA α) : DInfty × Z → Orbits (GammaA α) (DInfty × Z))) :=
+    (previous_examples_universalCover (Z := Z) hα).2.1
+  set x₀ : DInfty × Z := (DInfty.posEmb ⟨(1, 0), one_pos⟩, 0) with hx₀def
+  have hx₀ : x₀ ∈ cylPos Z := by
+    show 0 < (DInfty.posEmb _).r
+    rw [DInfty.posEmb_r]; exact one_pos
+  set e₀ : CylPosE α Z := ⟨x₀, subset_preimage_image _ _ hx₀⟩ with he₀def
+  have hE : CylPosE α Z ≃ₜ ℂ × Z :=
+    (Homeomorph.setCongr (preimage_image_cylPos α)).trans (cylPosHomeo Z)
+  haveI : ContractibleSpace (CylPosE α Z) := hE.contractibleSpace
+  refine ⟨(injective_iff_map_eq_one _).2 fun k hk => ?_, fun ψ => ?_⟩
+  · have h := congrArg (fun φ : Deck ((orbitMk (GammaA α) '' cylPos Z).restrictPreimage
+      (orbitMk (GammaA α) : DInfty × Z → Orbits (GammaA α) (DInfty × Z))) => (φ.1 e₀).1) hk
+    exact DInfty.free_pos hα x₀ hx₀ k h
+  · have hψ := congrFun ((mem_deckGroup_iff _ _).1 ψ.2) e₀
+    have h1 : orbitMk (GammaA α) e₀.1 = orbitMk (GammaA α) (ψ.1 e₀).1 :=
+      (congrArg Subtype.val hψ).symm
+    obtain ⟨k, hk⟩ := exists_smul_eq_of_orbitMk_eq h1
+    refine ⟨k, Subtype.ext (Homeomorph.ext fun x => congrFun (hcov.eq_of_comp_eq
+      (cylPosDeck α Z k).1.continuous ψ.1.continuous ?_ e₀ (Subtype.ext hk)) x)⟩
+    exact ((mem_deckGroup_iff _ _).1 (cylPosDeck α Z k).2).trans
+      ((mem_deckGroup_iff _ _).1 ψ.2).symm
+
+/-- **`π₁(π{r > 0}) = ℤ`** (`ex:conical`, `RamcovGX.tex:350`; `ex:quotient_base`): for every base
+point `y₀` of the regular part `Y = π{r > 0}` of `Γ_α\(𝔻_∞ × Z)` (`Z` a real normed space, the
+paper's `ℝ^{n-2}`), the fundamental group `π₁(Y, y₀)` is isomorphic to `Γ_α = ℤ`, by an
+isomorphism `χ` which is the deck-group identification: there is a homeomorphism `Φ` of the
+universal cover of `Y` onto the positive part `π⁻¹(Y)` of the cylinder, over `Y`, conjugating the
+action of each loop class `g` (`UniversalCover.deckHom`) to the action of `χ g ∈ Γ_α`. Through
+`conicalDev_smul`, the holonomy `ρ : π₁ = ℤ → G` of `ex:conical` sends the generator to `ρ_α`. -/
+theorem fundamentalGroup_cylPos (hα : α ≠ 0) (y₀ : orbitMk (GammaA α) '' cylPos Z) :
+    ∃ χ : FundamentalGroup (orbitMk (GammaA α) '' cylPos Z) y₀ ≃* GammaA α,
+    ∃ Φ : UniversalCover (orbitMk (GammaA α) '' cylPos Z) y₀ ≃ₜ CylPosE α Z,
+      (orbitMk (GammaA α) '' cylPos Z).restrictPreimage (orbitMk (GammaA α)) ∘ Φ =
+        UniversalCover.proj _ y₀ ∧
+      ∀ g c, Φ ((UniversalCover.deckHom g).1 c) = (cylPosDeck α Z (χ g)).1 (Φ c) := by
+  obtain ⟨-, -, hY, hΦex⟩ := previous_examples_universalCover (Z := Z) hα
+  haveI : LocPathConnectedSpace (Orbits (GammaA α) (DInfty × Z)) :=
+    (cylHomeomorph hα Z).isOpenEmbedding.locPathConnectedSpace
+  have hYo : IsOpen (orbitMk (GammaA α) '' cylPos Z) :=
+    isOpenMap_quotient_mk'_mul _ (DInfty.isOpen_pos.preimage continuous_fst)
+  haveI : LocPathConnectedSpace (orbitMk (GammaA α) '' cylPos Z) := hYo.locPathConnectedSpace
+  obtain ⟨x, hx, hxy⟩ := y₀.2
+  set e₀ : CylPosE α Z := ⟨x, subset_preimage_image _ _ hx⟩
+  obtain ⟨Φ, -, hΦ⟩ := hΦex y₀ e₀ (Subtype.ext hxy)
+  let D := deckCongrOfComp Φ hΦ
+  let B := MulEquiv.ofBijective (cylPosDeck α Z) (cylPosDeck_bijective (Z := Z) hα)
+  refine ⟨(UniversalCover.deckEquiv hY).symm.trans (D.trans B.symm), Φ, hΦ, fun g c => ?_⟩
+  have hB : cylPosDeck α Z ((UniversalCover.deckEquiv hY).symm.trans (D.trans B.symm) g) =
+      D (UniversalCover.deckHom g) := by
+    show B (B.symm (D ((UniversalCover.deckEquiv hY).symm g))) = _
+    rw [MulEquiv.apply_symm_apply]
+    rfl
+  rw [hB]
+  exact (deckCongrOfComp_apply Φ hΦ _ c).symm
+
+/-- **`π₁({r > 0}) = ℤ`**, the paper's words (`ex:conical`, `RamcovGX.tex:350`): the regular part
+`π{r > 0}` of `𝔼_α = Γ_1\(𝔻_∞ × ℝ^{n-2})` (and of every `Γ_α\(𝔻_∞ × Z)`, `α ≠ 0`) has
+fundamental group `ℤ` at every base point. -/
+theorem fundamentalGroup_cylPos_int (hα : α ≠ 0) (y₀ : orbitMk (GammaA α) '' cylPos Z) :
+    Nonempty (FundamentalGroup (orbitMk (GammaA α) '' cylPos Z) y₀ ≃* Multiplicative ℤ) := by
+  obtain ⟨χ, -⟩ := fundamentalGroup_cylPos (Z := Z) hα y₀
+  exact ⟨χ⟩
+
+/-- `ex:conical` (`RamcovGX.tex:350`): **`π₁({r > 0}) = ℤ`** for `𝔼^n_α = Γ_1\(𝔻_∞ × ℝ^{n-2})`,
+whatever the cone angle (the developing map plays no role); the isomorphism is the deck-group one
+of `fundamentalGroup_cylPos`, under which the generator acts by `θ ↦ θ + 1`, read by the
+developing map as the rotation `ρ(1)` of angle `α` (`conicalDev_smul`). -/
+theorem conical_fundamentalGroup (y₀ : orbitMk (GammaA 1) '' cylPos Z) :
+    Nonempty (FundamentalGroup (orbitMk (GammaA 1) '' cylPos Z) y₀ ≃* Multiplicative ℤ) :=
+  fundamentalGroup_cylPos_int one_ne_zero y₀
+
+end FundamentalGroupCyl
+
+
+
+/-! ### `ex:consider_identifying_point_wise_stabilizer` for an arbitrary subgroup of order `p` of
+`Stab(S)` -/
+
+section PtStabSubgroup
+
+open scoped Real
+
+attribute [local instance] rotMulAction
+
+variable (E : Type*) [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
+
+/-- `ex:consider_identifying_point_wise_stabilizer` (`RamcovGX.tex:631`–`633`), **the paper's
+`Γ`**: every subgroup `Γ ⊆ Stab(S)` of order `p` of the point-wise stabilizer of the axis
+`S = {0} × E` in `Isom⁺(𝔼^n)`, acting on `𝔼^n = ℂ × E` as a subgroup of `Isom⁺(𝔼^n)`, acts freely
+on the portly `𝔼^n ∖ S`, and `Γ\𝔼^n` carries a unique maximal a.e. `Isom⁺(𝔼^n)`-structure for
+which the projection is an a.e. morphism. -/
+theorem quotient_rotations_ptStab (p : ℕ) [NeZero p] (H : Subgroup (ptStab E))
+    (hH : Nat.card H = p) :
+    (∀ x ∈ {x : ℂ × E | x.1 ≠ 0}, ∀ γ : H, γ • x = x → γ = 1) ∧
+    IsPortly {x : ℂ × E | x.1 ≠ 0} ∧
+    ∃! B : Set (OpenPartialHomeomorph (Orbits H (ℂ × E)) (ℂ × E)),
+      IsMaximalAEAtlas (IsomPlus E) B ∧
+      IsAEMorphismOf (IsomPlus E) ((gxGroupoid (IsomPlus E) (ℂ × E)).maximalAtlas (ℂ × E)) B
+        (orbitMk H) := by
+  haveI : Finite H := Nat.finite_of_card_ne_zero (hH ▸ NeZero.ne p)
+  exact quotient_rotations (G := IsomPlus E) (Z := E) (Γ := H)
+    (fun γ => (ptStabUnits E γ : ℂ)) (fun γ w z => ptStab_smul_eq E γ (w, z))
+    (fun γ h => Subtype.ext (ptStabUnits_injective E (Units.ext (by rw [OneMemClass.coe_one, map_one]; exact h))))
+    (fun γ => ⟨(γ : ptStab E), fun _ => rfl⟩)
+
+/-- The rotation angle of an element of `Γ ⊆ Stab(S)` of order `p`, as a `p`-th root of unity. -/
+noncomputable def ptStabRoot {p : ℕ} [NeZero p] {H : Subgroup (ptStab E)} (hH : Nat.card H = p)
+    (γ : H) : rootsOfUnity p ℂ :=
+  ⟨ptStabUnits E γ, by
+    have h := (ptStab_subgroup_eq_rootsOfUnity E p H hH).le γ.2
+    exact h⟩
+
+theorem ptStabRoot_smul {p : ℕ} [NeZero p] {H : Subgroup (ptStab E)} (hH : Nat.card H = p)
+    (γ : H) (x : ℂ × E) : ptStabRoot E hH γ • x = γ • x :=
+  (ptStab_smul_eq E γ x).symm
+
+theorem ptStabRoot_bijective {p : ℕ} [NeZero p] {H : Subgroup (ptStab E)} (hH : Nat.card H = p) :
+    Function.Bijective (ptStabRoot E hH) := by
+  refine ⟨fun a b h => Subtype.ext (ptStabUnits_injective E (congrArg Subtype.val h)), fun ζ => ?_⟩
+  set f : ptStab E := ptStabEquiv E (rootsOfUnity.toCircle ζ)
+  have hf : ptStabUnits E f = (ζ : ℂˣ) := by
+    apply Units.ext
+    show ((Circle.toUnits ((ptStabEquiv E).symm (ptStabEquiv E (rootsOfUnity.toCircle ζ)))
+      : ℂˣ) : ℂ) = _
+    rw [MulEquiv.symm_apply_apply]
+    rfl
+  have hfH : f ∈ H := by
+    rw [ptStab_subgroup_eq_rootsOfUnity E p H hH]
+    show ptStabUnits E f ∈ rootsOfUnity p ℂ
+    rw [hf]; exact ζ.2
+  exact ⟨⟨f, hfH⟩, Subtype.ext hf⟩
+
+theorem ptStab_orbit_iff {p : ℕ} [NeZero p] {H : Subgroup (ptStab E)} (hH : Nat.card H = p)
+    (x y : ℂ × E) : (∃ ζ : rootsOfUnity p ℂ, ζ • x = y) ↔ ∃ γ : H, γ • x = y := by
+  constructor
+  · rintro ⟨ζ, rfl⟩
+    obtain ⟨γ, rfl⟩ := (ptStabRoot_bijective E hH).2 ζ
+    exact ⟨γ, (ptStabRoot_smul E hH γ x).symm⟩
+  · rintro ⟨γ, rfl⟩
+    exact ⟨ptStabRoot E hH γ, ptStabRoot_smul E hH γ x⟩
+
+/-- **`Γ\𝔼^n ≅ 𝔼^n_{2π/p}`** for every subgroup `Γ ⊆ Stab(S)` of order `p`: the descent of
+`coneProdOfPlane`, a homeomorphism from the quotient topology onto the metric topology. -/
+noncomputable def ptStabMetricHomeo {p : ℕ} [NeZero p] {H : Subgroup (ptStab E)}
+    (hH : Nat.card H = p) : Orbits H (ℂ × E) ≃ₜ ConicalSpace (2 * π / p) E :=
+  homeomorphOfOrbits (coneProdOfPlane p E) continuous_coneProdOfPlane isOpenMap_coneProdOfPlane
+    coneProdOfPlane_surjective fun x y => (coneProdOfPlane_eq_iff x y).trans
+      (ptStab_orbit_iff E hH x y)
+
+/-- `ex:consider_identifying_point_wise_stabilizer` (`RamcovGX.tex:634`–`635`), **the metric
+headline for the paper's `Γ`**: for every subgroup `Γ ⊆ Stab(S)` of order `p`, the homeomorphism
+`ptStabMetricHomeo : Γ\𝔼^n ≃ₜ 𝔼^n_{2π/p}` carries the metric of `𝔼^n_{2π/p}` to the quotient
+distance `min_{γ ∈ Γ} |γx − y|`: a metric on the whole quotient inducing its topology, for which
+`Γ\𝔼^n` is isometric to `𝔼^n_{2π/p}` (as `rotations_metric` for `μ_p`). -/
+theorem ptStab_metric {p : ℕ} [NeZero p] {H : Subgroup (ptStab E)} (hH : Nat.card H = p)
+    (x y : ℂ × E) :
+    dist (ptStabMetricHomeo E hH (orbitMk H x)) (ptStabMetricHomeo E hH (orbitMk H y)) =
+      ⨅ γ : H, dist (WithLp.toLp 2 (γ • x)) (WithLp.toLp 2 y) := by
+  rw [show ptStabMetricHomeo E hH (orbitMk H x) = coneProdOfPlane p E x from rfl,
+    show ptStabMetricHomeo E hH (orbitMk H y) = coneProdOfPlane p E y from rfl,
+    dist_coneProdOfPlane, ← (ptStabRoot_bijective E hH).2.iInf_comp]
+  simp only [ptStabRoot_smul]
+
+end PtStabSubgroup
+
+/-! ### `ex:quotient_base`: the variations for an arbitrary spacelike `u` -/
+
+section MisnerGeneral
+
+theorem nullQ_smul (c : ℝ) (y : ℝ × ℝ × ℝ) : nullQ (c • y) = c ^ 2 * nullQ y := by
+  simp only [nullQ, Prod.smul_fst, Prod.smul_snd, smul_eq_mul]; ring
+
+theorem nullB_smul_right (c : ℝ) (y y' : ℝ × ℝ × ℝ) : nullB y (c • y') = c * nullB y y' := by
+  simp only [nullB, Prod.smul_fst, Prod.smul_snd, smul_eq_mul]; ring
+
+/-- **`Isom₀` is transitive on (base point, unit spacelike vector)** (`RamcovGX.tex:679`): for
+every `x₀` and every `u` with `Q(u) = 1` there is `h ∈ Isom₀` with `h(0) = x₀` and linear part
+mapping `(0, 0, 1)` to `u`. -/
+theorem exists_isom0_nullS (x₀ : ℝ × ℝ × ℝ) {u : ℝ × ℝ × ℝ} (hu : nullQ u = 1) :
+    ∃ h : NullIsom0, (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) 0 = x₀ ∧
+      (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear nullS = u := by
+  obtain ⟨a, b, x⟩ := u
+  simp only [nullQ] at hu
+  obtain ⟨g, hg, hgu⟩ : ∃ g : (ℝ × ℝ × ℝ) ≃ₗ[ℝ] (ℝ × ℝ × ℝ), g.toAffineEquiv ∈ NullIsom0 ∧
+      g nullS = (a, b, x) := by
+    by_cases ha : a = 0
+    · subst ha
+      have hx : x = 1 ∨ x = -1 := by
+        have : (x - 1) * (x + 1) = 0 := by nlinarith
+        rcases mul_eq_zero.1 this with h | h
+        · left; linarith
+        · right; linarith
+      rcases hx with rfl | rfl
+      · refine ⟨parab' (b / 2), parab'_mem _, ?_⟩
+        simp only [parab'_apply, nullS]
+        ext <;> simp; ring
+      · refine ⟨(((parab 1).trans (parab' (-1))).trans (parab 1)).trans (parab' (-b / 2)), ?_, ?_⟩
+        · have := NullIsom0.mul_mem (parab'_mem (-b / 2)) (NullIsom0.mul_mem (parab_lin_mem 1)
+            (NullIsom0.mul_mem (parab'_mem (-1)) (parab_lin_mem 1)))
+          convert this using 1; exact AffineEquiv.ext fun _ => rfl
+        · simp only [LinearEquiv.trans_apply, parab'_apply, parab_apply, nullS]
+          ext <;> simp <;> ring
+    · refine ⟨(parab (a / 2)).trans (parab' ((x - 1) / a)), ?_, ?_⟩
+      · have := NullIsom0.mul_mem (parab'_mem ((x - 1) / a)) (parab_lin_mem (a / 2))
+        convert this using 1; exact AffineEquiv.ext fun _ => rfl
+      · simp only [LinearEquiv.trans_apply, parab'_apply, parab_apply, nullS]
+        ext <;> simp
+        all_goals field_simp
+        all_goals linarith
+  refine ⟨⟨_, NullIsom0.mul_mem (translation_mem x₀) hg⟩, ?_, ?_⟩
+  · show x₀ +ᵥ g 0 = x₀
+    simp
+  · rw [← hgu]; rfl
+
+
+/-- `h · (boosts fixing ℝ(0,0,1) through 0) · h⁻¹`: the boosts fixing `h(0) + ℝ h(0,0,1)`
+pointwise. -/
+noncomputable def boostConj (h : NullIsom0) (θ : ℝ) : NullIsom0 :=
+  h * ⟨boostAff 0 θ, boost_mem 0 θ⟩ * h⁻¹
+
+theorem boostConj_fix (h : NullIsom0) (θ t : ℝ) :
+    boostConj h θ • ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) 0 +
+      t • (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear nullS) =
+      (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) 0 +
+        t • (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear nullS := by
+  set H : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ) := h.1
+  have hH : h • (t • nullS) = H 0 + t • H.linear nullS := by
+    show H (t • nullS) = _
+    rw [affineEquiv_apply_eq_add_linear H, map_smul]
+  rw [← hH, boostConj, mul_smul, mul_smul, inv_smul_smul]
+  show H (boostAff 0 θ (t • nullS)) = H (t • nullS)
+  rw [boostAff_apply, sub_zero, zero_add, map_smul, boost_nullS]
+
+/-- Rescaling the `ℝ`-factor of the cylinder, `(p, t) ↦ (p, c t)`. -/
+noncomputable def cylScale {c : ℝ} (hc : c ≠ 0) : DInfty × ℝ ≃ₜ DInfty × ℝ :=
+  (Homeomorph.refl DInfty).prodCongr (Homeomorph.mulLeft₀ c hc)
+
+theorem cylScale_apply {c : ℝ} (hc : c ≠ 0) (x : DInfty × ℝ) : cylScale hc x = (x.1, c * x.2) :=
+  rfl
+
+/-- **The developing map of the variations for an arbitrary spacelike `u = c · h(0,0,1)`,
+`x₀ = h(0)`**: `D(r, θ, t) = B_θ · (x₀ + r v + t u)` with `(B_θ)` the boosts fixing `x₀ + ℝu`
+pointwise (`boostConj`). -/
+noncomputable def misnerDevGen (h : NullIsom0) (c : ℝ) (v : ℝ × ℝ × ℝ) (x : DInfty × ℝ) :
+    ℝ × ℝ × ℝ :=
+  boostConj h x.1.θ • ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) 0 +
+    (x.1.r • v + x.2 • (c • (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear nullS)))
+
+theorem misnerDevGen_eq (h : NullIsom0) (c : ℝ) (v : ℝ × ℝ × ℝ) (x : DInfty × ℝ) :
+    misnerDevGen h c v x =
+      h • misnerDev 0 ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear.symm v) (x.1, c * x.2) := by
+  set H : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ) := h.1
+  set v' := H.linear.symm v
+  have hH : h • (x.1.r • v' + (c * x.2) • nullS) =
+      H 0 + (x.1.r • v + x.2 • (c • H.linear nullS)) := by
+    show H (x.1.r • v' + (c * x.2) • nullS) = _
+    rw [affineEquiv_apply_eq_add_linear H, map_add, map_smul, map_smul,
+      LinearEquiv.apply_symm_apply, smul_smul, mul_comm]
+  rw [misnerDevGen, ← hH, boostConj, mul_smul, mul_smul, inv_smul_smul]
+  show H (boostAff 0 x.1.θ _) = H (misnerDev 0 v' (x.1, c * x.2))
+  rw [misnerDev]; simp
+
+/-- `ex:quotient_base`, **the variations for `u = c · h(0,0,1)`, `x₀ = h(0)`, any `c ≠ 0`**
+(`RamcovGX.tex:679`), in `G = Isom₀(𝔼^{1,2})`: if `v' = h⁻¹v` has `v'_a v'_b ≠ 0`, the developing
+map `misnerDevGen` is a local homeomorphism on `{r > 0}`, has holonomy the boost `B_α` fixing
+`x₀ + ℝu` (`boostConj h α`), and `M` carries a unique maximal a.e. structure for which the
+projection is an a.e. morphism. -/
+theorem misner_general (h : NullIsom0) {c : ℝ} (hc : c ≠ 0) {v : ℝ × ℝ × ℝ}
+    (ha : ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear.symm v).1 ≠ 0)
+    (hb : ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear.symm v).2.1 ≠ 0) {α : ℝ} (hα : α ≠ 0) :
+    IsLocalHomeomorphOn (misnerDevGen h c v) (cylPos ℝ) ∧
+    (∀ k : GammaA α, ∀ x ∈ cylPos ℝ, misnerDevGen h c v (k • x) = (boostConj h α ^ k.toInt) •
+      misnerDevGen h c v x) ∧
+    ∃! B : Set (OpenPartialHomeomorph (Orbits (GammaA α) (DInfty × ℝ)) (ℝ × ℝ × ℝ)),
+      IsMaximalAEAtlas NullIsom0 B ∧ IsAEMorphismOf NullIsom0
+        (maximalAEAtlas NullIsom0 (devAtlas NullIsom0 (misnerDevGen h c v) (cylPos ℝ))) B
+        (orbitMk (GammaA α)) := by
+  set v' := (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear.symm v
+  have hfun : misnerDevGen h c v = fun x => h • misnerDev 0 v' (cylScale hc x) :=
+    funext (misnerDevGen_eq h c v)
+  have hP := DInfty.isPortly_pos ℝ
+  have hD : IsLocalHomeomorphOn (misnerDevGen h c v) (cylPos ℝ) := by
+    rw [hfun]
+    exact (Homeomorph.smul h).isLocalHomeomorph.isLocalHomeomorphOn.comp
+      ((isLocalHomeomorphOn_misnerDev 0 ha hb).comp
+        (cylScale hc).isLocalHomeomorph.isLocalHomeomorphOn fun x hx => hx) (mapsTo_univ _ _)
+  have hpow : ∀ n : ℤ, boostConj h α ^ n =
+      h * (⟨boostAff 0 α, boost_mem 0 α⟩ : NullIsom0) ^ n * h⁻¹ := fun n => by
+    rw [boostConj, ← MulAut.conj_apply, ← MulAut.conj_apply, map_zpow]
+  have heq : ∀ k : GammaA α, ∀ x ∈ cylPos ℝ, misnerDevGen h c v (k • x) =
+      (boostConj h α ^ k.toInt) • misnerDevGen h c v x := by
+    intro k x hx
+    rw [hfun]
+    simp only
+    have hsc : cylScale hc (k • x) = k • cylScale hc x := rfl
+    rw [hsc, misnerDev_smul 0 v' k (show cylScale hc x ∈ cylPos ℝ from hx), hpow, mul_smul,
+      mul_smul, inv_smul_smul]
+    rfl
+  have hΓ : ∀ k : GammaA α, IsAEMorphismOf NullIsom0
+      (maximalAEAtlas NullIsom0 (devAtlas NullIsom0 (misnerDevGen h c v) (cylPos ℝ)))
+      (maximalAEAtlas NullIsom0 (devAtlas NullIsom0 (misnerDevGen h c v) (cylPos ℝ)))
+      fun x => k • x := fun k =>
+    isAEMorphismOf_devStructure hP hD (DInfty.continuous_smul_prod k)
+      (fun x hx => by
+        show 0 < (k • x.1).r
+        rw [DInfty.smul_def, DInfty.rot_r]; exact hx)
+      fun x hx => ⟨boostConj h α ^ k.toInt, by
+        filter_upwards [hP.isOpen.mem_nhds hx] with y hy
+        exact heq k y hy⟩
+  exact ⟨hD, heq, quotientBase hα hD hΓ⟩
+
+/-- `ex:quotient_base` — **the variations in the paper's parameters** (`RamcovGX.tex:679`–`680`),
+in `G = Isom₀(𝔼^{1,2})`: for every base point `x₀`, every spacelike `u` (`Q(u) > 0`) and every
+`v` which is timelike (the BTZ white/black holes) or, more generally, not orthogonal to either
+null line of `u^⊥` (the Misner particles; "`v` spacelike" alone does not suffice,
+`misnerDev_spacelike_counterexample`), there is a one-parameter group of boosts `B_θ ∈ Isom₀`
+fixing `x₀ + ℝu` pointwise (`boostConj h`) such that `D(r, θ, t) = B_θ · (x₀ + r v + t u)` is a
+local homeomorphism on `{r > 0}`, has holonomy `B_α`, and `M = Γ_α\(𝔻_∞ × ℝ)` carries a unique
+maximal a.e. `(Isom₀, 𝔼^{1,2})`-structure for which the projection is an a.e. morphism. -/
+theorem misner_isom0_general (x₀ : ℝ × ℝ × ℝ) {u : ℝ × ℝ × ℝ} (hu : 0 < nullQ u)
+    {v : ℝ × ℝ × ℝ}
+    (hv : nullQ v < 0 ∨ ∀ w : ℝ × ℝ × ℝ, w ≠ 0 → nullQ w = 0 → nullB w u = 0 → nullB v w ≠ 0)
+    {α : ℝ} (hα : α ≠ 0) :
+    ∃ h : NullIsom0, ∃ c : ℝ, c ≠ 0 ∧
+      (∀ θ t : ℝ, boostConj h θ • (x₀ + t • u) = x₀ + t • u) ∧
+      (∀ x : DInfty × ℝ,
+        misnerDevGen h c v x = boostConj h x.1.θ • (x₀ + (x.1.r • v + x.2 • u))) ∧
+      IsLocalHomeomorphOn (misnerDevGen h c v) (cylPos ℝ) ∧
+      (∀ k : GammaA α, ∀ x ∈ cylPos ℝ, misnerDevGen h c v (k • x) =
+        (boostConj h α ^ k.toInt) • misnerDevGen h c v x) ∧
+      ∃! B : Set (OpenPartialHomeomorph (Orbits (GammaA α) (DInfty × ℝ)) (ℝ × ℝ × ℝ)),
+        IsMaximalAEAtlas NullIsom0 B ∧ IsAEMorphismOf NullIsom0
+          (maximalAEAtlas NullIsom0 (devAtlas NullIsom0 (misnerDevGen h c v) (cylPos ℝ))) B
+          (orbitMk (GammaA α)) := by
+  set c := √(nullQ u) with hcdef
+  have hc0 : 0 < c := Real.sqrt_pos.2 hu
+  have hc : c ≠ 0 := hc0.ne'
+  have hu₁ : nullQ (c⁻¹ • u) = 1 := by
+    rw [nullQ_smul, inv_pow, hcdef, Real.sq_sqrt hu.le, inv_mul_cancel₀ hu.ne']
+  obtain ⟨h, h0, hhu⟩ := exists_isom0_nullS x₀ hu₁
+  set H : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ) := h.1
+  have hcu : c • H.linear nullS = u := by
+    show c • (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear nullS = u
+    rw [hhu, smul_smul, mul_inv_cancel₀ hc, one_smul]
+  set v' := H.linear.symm v
+  have hv'v : H.linear v' = v := H.linear.apply_symm_apply v
+  have hQ : ∀ y, nullQ (H.linear y) = nullQ y := h.2.1
+  have hab : v'.1 ≠ 0 ∧ v'.2.1 ≠ 0 := by
+    rcases hv with hv | hv
+    · exact timelike_ab_ne_zero (by rw [← hQ, hv'v]; exact hv)
+    · have key : ∀ w : ℝ × ℝ × ℝ, w ≠ 0 → nullQ w = 0 → nullB w nullS = 0 →
+          nullB v' w ≠ 0 := by
+        intro w hw hwQ hwS
+        have h1 := hv (H.linear w) (fun h' => hw (H.linear.injective (h'.trans (map_zero _).symm)))
+          (by rw [hQ]; exact hwQ)
+          (by rw [← hcu, nullB_smul_right, nullB_map, hwS, mul_zero])
+        rwa [← hv'v, nullB_map] at h1
+      refine ⟨fun h1 => key (0, 1, 0) (by simp) (by simp [nullQ]) (by simp [nullB, nullS])
+        (by simp [nullB, h1]), fun h1 => key nullU (by simp [nullU]) (by simp [nullQ, nullU])
+        (by simp [nullB, nullU, nullS]) (by rw [nullB_nullU, h1]; simp)⟩
+  obtain ⟨hD, hhol, hex⟩ := misner_general h hc hab.1 hab.2 hα
+  refine ⟨h, c, hc, fun θ t => ?_, fun x => ?_, hD, hhol, hex⟩
+  · have := boostConj_fix h θ (t * c)
+    rwa [mul_smul, hcu, h0] at this
+  · rw [misnerDevGen, h0]
+    show _ • (x₀ + (x.1.r • v + x.2 • (c • H.linear nullS))) = _
+    rw [hcu]
+
+end MisnerGeneral
+
+
+/-! ## WP-26b round 3: the holonomy of `ex:conical` as one homomorphism out of `π₁`, and the
+spaceform variations of `ex:consider_identifying_point_wise_stabilizer` for every subgroup of
+order `p` of the point-wise stabilizer -/
+
+section ConicalHolonomyPi1
+
+open scoped Real
+
+/-- The powers of a rotation `ρ` of angle `α` about `{0} × Z` are the rotations of angle `nα`. -/
+theorem conical_zpow_smul {G Z : Type*} [Group G] [MulAction G (ℂ × Z)] {α : ℝ} (ρ : G)
+    (hρ : ∀ (w : ℂ) (z : Z), ρ • (w, z) = (Complex.exp (α * Complex.I) * w, z)) (n : ℤ)
+    (w : ℂ) (z : Z) : (ρ ^ n) • (w, z) = (Complex.exp ((n * α : ℝ) * Complex.I) * w, z) := by
+  induction n using Int.induction_on generalizing w z with
+  | zero => simp
+  | succ n ih =>
+    rw [zpow_add_one, mul_smul, hρ, ih]
+    simp only [Prod.mk.injEq, and_true]
+    rw [← mul_assoc, ← Complex.exp_add]
+    congr 2; push_cast; ring
+  | pred n ih =>
+    rw [zpow_sub_one, mul_smul]
+    have hinv : ρ⁻¹ • (w, z) = (Complex.exp (-(α * Complex.I)) * w, z) := by
+      rw [inv_smul_eq_iff, hρ, ← mul_assoc, ← Complex.exp_add, add_neg_cancel, Complex.exp_zero,
+        one_mul]
+    rw [hinv, ih]
+    simp only [Prod.mk.injEq, and_true]
+    rw [← mul_assoc, ← Complex.exp_add]
+    congr 2; push_cast; ring
+
+variable (E : Type*) [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
+
+/-- The rotation `ρ_α` of angle `α` about `S = {0} × E`, as an element of `Isom⁺(𝔼^n)`. -/
+noncomputable def conicalRot (α : ℝ) : IsomPlus E := ⟨rotAff E (Circle.exp α), rotAff_mem E _⟩
+
+theorem conicalRot_smul (α : ℝ) (w : ℂ) (z : E) :
+    conicalRot E α • (w, z) = (Complex.exp (α * Complex.I) * w, z) := by
+  show ((Circle.exp α : ℂ) * w, z) = _
+  rw [Circle.coe_exp]
+
+/-- `ρ_α = 1` in `Isom⁺(𝔼^n)` iff `α ∈ 2πℕ*` (`α > 0`). -/
+theorem conicalRot_eq_one_iff {α : ℝ} (hα : 0 < α) :
+    conicalRot E α = 1 ↔ ∃ m : ℕ, 0 < m ∧ α = m * (2 * π) := by
+  rw [← conical_holonomy_eq_one_iff hα]
+  constructor
+  · intro h
+    have := congrArg (fun f : IsomPlus E => (f • ((1 : ℂ), (0 : E))).1) h
+    simpa [conicalRot_smul] using this
+  · intro h
+    refine Subtype.ext (AffineEquiv.ext fun v => ?_)
+    have := conicalRot_smul E α v.1 v.2
+    rw [h, one_mul] at this
+    exact this
+
+variable {E}
+
+/-- **The holonomy of `ex:conical`** (`RamcovGX.tex:350`–`351`), as one homomorphism out of the
+fundamental group: for every cone angle `α > 0`, every `n` (`E = ℝ^{n-2}`) and every base point
+`y₀` of `{r > 0} ⊆ 𝔼^n_α = Γ_1\(𝔻_∞ × E)`, there are an isomorphism `χ : π₁({r > 0}, y₀) ≃ ℤ`, an
+identification `Φ` of the universal cover of `{r > 0}` with the positive part of the cylinder over
+`{r > 0}`, and a homomorphism `ρ : π₁({r > 0}, y₀) → ℝ^n ⋊ SO(n) = Isom⁺(𝔼^n)` such that the
+developing map `D = conicalDev α E ∘ Φ` is `ρ`-equivariant, `ρ = ρ_α^χ`, `ρ(1) = ρ_α` is the
+rotation of angle `α`, and `ρ(1)` is trivial iff `α ∈ 2πℕ*` (non-trivial when `α ∉ 2πℕ*`). -/
+theorem conical_holonomy {α : ℝ} (hα : 0 < α) (y₀ : orbitMk (GammaA 1) '' cylPos E) :
+    ∃ χ : FundamentalGroup (orbitMk (GammaA 1) '' cylPos E) y₀ ≃* Multiplicative ℤ,
+    ∃ Φ : UniversalCover (orbitMk (GammaA 1) '' cylPos E) y₀ ≃ₜ CylPosE 1 E,
+    ∃ ρ : FundamentalGroup (orbitMk (GammaA 1) '' cylPos E) y₀ →* IsomPlus E,
+      (orbitMk (GammaA 1) '' cylPos E).restrictPreimage (orbitMk (GammaA 1)) ∘ Φ =
+        UniversalCover.proj _ y₀ ∧
+      (∀ g c, conicalDev α E (Φ ((UniversalCover.deckHom g).1 c)).1 =
+        ρ g • conicalDev α E (Φ c).1) ∧
+      (∀ g, ρ g = conicalRot E α ^ Multiplicative.toAdd (χ g)) ∧
+      (∀ (w : ℂ) (z : E), ρ (χ.symm (Multiplicative.ofAdd 1)) • (w, z) =
+        (Complex.exp (α * Complex.I) * w, z)) ∧
+      (ρ (χ.symm (Multiplicative.ofAdd 1)) = 1 ↔ ∃ m : ℕ, 0 < m ∧ α = m * (2 * π)) := by
+  obtain ⟨χ, Φ, hΦ, hdeck⟩ := fundamentalGroup_cylPos (Z := E) one_ne_zero y₀
+  let χ' : FundamentalGroup (orbitMk (GammaA 1) '' cylPos E) y₀ ≃* Multiplicative ℤ := χ
+  let ρ := (zpowersHom (IsomPlus E) (conicalRot E α)).comp χ'.toMonoidHom
+  have hρ : ∀ g, ρ g = conicalRot E α ^ Multiplicative.toAdd (χ' g) := fun g => rfl
+  have h1 : ρ (χ'.symm (Multiplicative.ofAdd 1)) = conicalRot E α := by
+    rw [hρ, MulEquiv.apply_symm_apply, toAdd_ofAdd, zpow_one]
+  refine ⟨χ', Φ, ρ, hΦ, fun g c => ?_, hρ, fun w z => by rw [h1, conicalRot_smul],
+    by rw [h1]; exact conicalRot_eq_one_iff E hα⟩
+  rw [hdeck g c, cylPosDeck_apply, conicalDev_smul hα.ne', hρ]
+  rw [conical_zpow_smul (conicalRot E α) (conicalRot_smul E α)]
+  rfl
+
+end ConicalHolonomyPi1
+
+/-! ### The variations of `ex:consider_identifying_point_wise_stabilizer` for an arbitrary
+subgroup of order `p` of the point-wise stabilizer of `S` -/
+
+section SpaceformPtStab
+
+open scoped Real
+
+variable {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F] {q : ℂ × F → ℝ} {X : Set (ℂ × F)}
+
+variable (q X) in
+/-- **The point-wise stabilizer of `S = X ∩ {w = 0}` in `Isom⁺(X)`** (`LinIsomPlus q X`). -/
+def linPtStab : Subgroup (LinIsomPlus q X) where
+  carrier := {L | ∀ f : F, ((0 : ℂ), f) ∈ X →
+    (L : (ℂ × F) ≃ₗ[ℝ] (ℂ × F)) ((0 : ℂ), f) = ((0 : ℂ), f)}
+  mul_mem' {L L'} hL hL' f hf := by
+    show (L : (ℂ × F) ≃ₗ[ℝ] (ℂ × F)) ((L' : (ℂ × F) ≃ₗ[ℝ] (ℂ × F)) (0, f)) = _
+    rw [hL' f hf, hL f hf]
+  one_mem' _ _ := rfl
+  inv_mem' {L} hL f hf := by
+    show (L : (ℂ × F) ≃ₗ[ℝ] (ℂ × F)).symm (0, f) = (0, f)
+    conv_lhs => rw [← hL f hf]
+    exact LinearEquiv.symm_apply_apply _ _
+
+variable [FiniteDimensional ℝ F]
+
+/-- **The point-wise stabilizer of `S` consists of rotations about `S`** (the analogue of
+`rotStab_bijective` for the variations): if the form splits as `q(w, f) = |w|² + q'(f)` with `q'`
+non-degenerate (no non-zero `b` with `q'(b + f) = q'(b) + q'(f)` for all `f`) and `S` spans
+`{0} × F`, every element of the point-wise stabilizer of `S` in `Isom⁺(X)` is a rotation
+`(w, f) ↦ (a w, f)`, `a ∈ SO(2)`. -/
+theorem linPtStab_rot {q' : F → ℝ} (hq : ∀ v, q v = ‖v.1‖ ^ 2 + q' v.2) (hq0 : q' 0 = 0)
+    (hnd : ∀ b : F, (∀ f, q' (b + f) = q' b + q' f) → b = 0)
+    (hspan : Submodule.span ℝ {f : F | ((0 : ℂ), f) ∈ X} = ⊤) (L : linPtStab q X) :
+    ∃ a : Circle, ∀ v,
+      ((L : LinIsomPlus q X) : (ℂ × F) ≃ₗ[ℝ] (ℂ × F)) v = ((a : ℂ) * v.1, v.2) := by
+  obtain ⟨⟨M, hQ, hdet, -⟩, hfix⟩ := L
+  have hfix' : ∀ f : F, ((0 : ℂ), f) ∈ X → M ((0 : ℂ), f) = ((0 : ℂ), f) := hfix
+  have hL0 : ∀ f : F, M ((0 : ℂ), f) = ((0 : ℂ), f) := by
+    have h := LinearMap.ext_on hspan (f := (M : (ℂ × F) →ₗ[ℝ] (ℂ × F)).comp (LinearMap.inr ℝ ℂ F))
+      (g := LinearMap.inr ℝ ℂ F) fun f hf => hfix' f hf
+    exact fun f => LinearMap.congr_fun h f
+  have hsplit : ∀ (w : ℂ) (f : F), M (w, f) = M (w, 0) + ((0 : ℂ), f) := fun w f => by
+    rw [← hL0 f, ← map_add]; simp
+  have hperp : ∀ w : ℂ, (M (w, 0)).2 = 0 := fun w => by
+    have hf : ∀ f, ‖(M (w, 0)).1‖ ^ 2 + q' ((M (w, 0)).2 + f) = ‖w‖ ^ 2 + q' f := fun f => by
+      have h := hQ (w, f)
+      rw [hsplit, hq, hq] at h
+      simpa using h
+    have h0 := hf 0
+    rw [add_zero, hq0, add_zero] at h0
+    exact hnd _ fun f => by linarith [hf f]
+  set ℓ : ℂ →ₗ[ℝ] ℂ := (LinearMap.fst ℝ ℂ F).comp ((M : (ℂ × F) →ₗ[ℝ] (ℂ × F)).comp
+    (LinearMap.inl ℝ ℂ F))
+  have hℓ : ∀ w, ℓ w = (M (w, 0)).1 := fun _ => rfl
+  have hLform : ∀ v : ℂ × F, M v = (ℓ v.1, v.2) := fun v => by
+    rw [hsplit]
+    refine Prod.ext ?_ ?_
+    · simp [hℓ]
+    · simp [hperp]
+  have hnorm : ∀ w, ‖ℓ w‖ = ‖w‖ := fun w => by
+    have h := hQ (w, 0)
+    rw [hLform, hq, hq] at h
+    have h' : ‖ℓ w‖ ^ 2 = ‖w‖ ^ 2 := by simpa using h
+    exact (pow_left_inj₀ (norm_nonneg _) (norm_nonneg _) two_ne_zero).1 h'
+  let ℓe : ℂ ≃ₗᵢ[ℝ] ℂ := (⟨ℓ, hnorm⟩ : ℂ →ₗᵢ[ℝ] ℂ).toLinearIsometryEquiv rfl
+  have hℓe : ∀ w, ℓe w = ℓ w := fun _ => rfl
+  have hLprod : (M : (ℂ × F) →ₗ[ℝ] (ℂ × F)) = LinearMap.prodMap ℓ LinearMap.id := by
+    ext v <;> simp [hLform]
+  obtain ⟨a, ha | ha⟩ := linear_isometry_complex ℓe
+  · refine ⟨a, fun v => ?_⟩
+    show M v = _
+    rw [hLform, ← hℓe, ha]; rfl
+  · exfalso
+    have hdet' : (0 : ℝ) < LinearMap.det (M : (ℂ × F) →ₗ[ℝ] (ℂ × F)) := by
+      rw [← LinearEquiv.coe_det]; exact hdet
+    have hℓlin : ℓ = ((rotation a).toLinearEquiv : ℂ →ₗ[ℝ] ℂ).comp
+        (Complex.conjLIE.toLinearEquiv : ℂ →ₗ[ℝ] ℂ) := by
+      ext w; simp [← hℓe, ha]
+    rw [hLprod, LinearMap.det_prodMap, hℓlin, LinearMap.det_comp, det_rotation, Complex.det_conjLIE,
+      LinearMap.det_id] at hdet'
+    norm_num at hdet'
+
+variable {q' : F → ℝ}
+
+/-- **The variations, for every finite subgroup of the point-wise stabilizer of `S`**
+(`RamcovGX.tex:631`, `636`): for a model space `X` cut out of a cone by a radial normalization,
+closed, with a split non-degenerate form `q(w, f) = |w|² + q'(f)` and `S = X ∩ {w = 0}` spanning
+`{0} × F`, every finite subgroup `Γ` of the point-wise stabilizer of `S` in `Isom⁺(X)` acts
+freely on the portly `X ∖ S`, and `Γ\X` has a natural singular `(Isom⁺(X), X)`-structure. -/
+theorem quotient_rotations_model_ptStab {C : Set (ℂ × F)} {ν : ℂ × F → ℂ × F}
+    (h : IsRadialNormalization C X ν) (hXc : IsClosed X) (hq : ∀ v, q v = ‖v.1‖ ^ 2 + q' v.2)
+    (hq0 : q' 0 = 0) (hnd : ∀ b : F, (∀ f, q' (b + f) = q' b + q' f) → b = 0)
+    (hspan : Submodule.span ℝ {f : F | ((0 : ℂ), f) ∈ X} = ⊤) (H : Subgroup (linPtStab q X))
+    [Finite H] :
+    (∀ x ∈ {x : X | x.1.1 ≠ 0}, ∀ γ : H, γ • x = x → γ = 1) ∧
+    IsPortly {x : X | x.1.1 ≠ 0} ∧
+    ∃! B : Set (OpenPartialHomeomorph (Orbits H X) X),
+      IsMaximalAEAtlas (LinIsomPlus q X) B ∧
+      IsAEMorphismOf (LinIsomPlus q X) ((gxGroupoid (LinIsomPlus q X) X).maximalAtlas X) B
+        (orbitMk H) := by
+  haveI := h.locallyConnectedSpace
+  haveI := h.isRigidAction (q := q)
+  haveI : LocallyCompactSpace X := hXc.locallyCompactSpace
+  have hfree : ∀ x ∈ {x : X | x.1.1 ≠ 0}, ∀ γ : H, γ • x = x → γ = 1 := by
+    intro x hx γ hγ
+    obtain ⟨a, ha⟩ := linPtStab_rot hq hq0 hnd hspan (γ : linPtStab q X)
+    have h1 : (a : ℂ) * x.1.1 = x.1.1 := by
+      have h2 : (γ • x : X).1 = x.1 := congrArg Subtype.val hγ
+      have h3 : (γ • x : X).1 = ((γ : linPtStab q X) : LinIsomPlus q X) • x.1 := rfl
+      rw [h3] at h2
+      have h4 := congrArg Prod.fst ((ha x.1).symm.trans h2)
+      exact h4
+    have ha1 : (a : ℂ) = 1 := mul_right_cancel₀ hx (by rw [one_mul]; exact h1)
+    refine Subtype.ext (Subtype.ext (Subtype.ext (LinearEquiv.ext fun v => ?_)))
+    rw [ha, ha1, one_mul]
+    rfl
+  have hΓ : ∀ γ : H, IsGXMorphism (LinIsomPlus q X) X fun x : X => γ • x :=
+    fun γ => isGXMorphism_smul ((γ : linPtStab q X) : LinIsomPlus q X)
+  exact ⟨hfree, h.isPortly, (finiteQuotient hΓ h.isPortly hfree).1⟩
+
+variable {hqr : ∀ (a : Circle) (v : ℂ × F), q ((a : ℂ) * v.1, v.2) = q v}
+  {hXr : ∀ (a : Circle) (v : ℂ × F), ((a : ℂ) * v.1, v.2) ∈ X ↔ v ∈ X}
+
+variable (hqr hXr) in
+/-- The rotations about `S`, as elements of its point-wise stabilizer in `Isom⁺(X)`. -/
+noncomputable def rotLinPtStab : Circle →* linPtStab q X where
+  toFun a := ⟨rotLinIsom hqr hXr a, fun f _ => by
+    show (((a : ℂ) * 0, f) : ℂ × F) = (0, f)
+    rw [mul_zero]⟩
+  map_one' := by
+    apply Subtype.ext; apply Subtype.ext; apply LinearEquiv.ext; intro v
+    show (((1 : Circle) : ℂ) * v.1, v.2) = v
+    simp
+  map_mul' a b := by
+    apply Subtype.ext; apply Subtype.ext; apply LinearEquiv.ext; intro v
+    show (((a * b : Circle) : ℂ) * v.1, v.2) = ((a : ℂ) * ((b : ℂ) * v.1), v.2)
+    simp [mul_assoc]
+
+/-- **The point-wise stabilizer of `S` in `Isom⁺(X)` is `SO(2)`** (`RamcovGX.tex:630`, for the
+variations): the rotations about `S` are exactly its point-wise stabilizer. -/
+theorem rotLinPtStab_bijective (hq : ∀ v, q v = ‖v.1‖ ^ 2 + q' v.2) (hq0 : q' 0 = 0)
+    (hnd : ∀ b : F, (∀ f, q' (b + f) = q' b + q' f) → b = 0)
+    (hspan : Submodule.span ℝ {f : F | ((0 : ℂ), f) ∈ X} = ⊤) :
+    Function.Bijective (rotLinPtStab hqr hXr) := by
+  refine ⟨fun a b hab => ?_, fun L => ?_⟩
+  · have := congrArg (fun g : linPtStab q X =>
+      ((g : LinIsomPlus q X) : (ℂ × F) ≃ₗ[ℝ] (ℂ × F)) ((1 : ℂ), (0 : F))) hab
+    have h1 : ((a : ℂ) * 1, (0 : F)) = ((b : ℂ) * 1, (0 : F)) := this
+    simp only [mul_one, Prod.mk.injEq, and_true] at h1
+    exact Subtype.ext h1
+  · obtain ⟨a, ha⟩ := linPtStab_rot hq hq0 hnd hspan L
+    exact ⟨a, Subtype.ext (Subtype.ext (LinearEquiv.ext fun v => (ha v).symm))⟩
+
+/-- **Every subgroup of order `p` of the point-wise stabilizer of `S` in `Isom⁺(X)` is the group
+`Γ ≅ μ_p` of rotations of order `p` about `S`** (`rotSubgroup`, the group of
+`quotient_rotations_model`): the analogue for the variations of
+`ptStab_subgroup_eq_rootsOfUnity`. -/
+theorem linPtStab_subgroup_eq_rotSubgroup (hq : ∀ v, q v = ‖v.1‖ ^ 2 + q' v.2) (hq0 : q' 0 = 0)
+    (hnd : ∀ b : F, (∀ f, q' (b + f) = q' b + q' f) → b = 0)
+    (hspan : Submodule.span ℝ {f : F | ((0 : ℂ), f) ∈ X} = ⊤) (p : ℕ) [NeZero p]
+    (H : Subgroup (linPtStab q X)) (hH : Nat.card H = p) :
+    H.map (linPtStab q X).subtype = rotSubgroup hqr hXr p := by
+  set ψ := MulEquiv.ofBijective (rotLinPtStab hqr hXr) (rotLinPtStab_bijective hq hq0 hnd hspan)
+  set u : linPtStab q X →* ℂˣ := Circle.toUnits.comp ψ.symm.toMonoidHom
+  have hu : Function.Injective u := fun a b hab =>
+    ψ.symm.injective (Subtype.ext (congrArg Units.val hab))
+  have huψ : ∀ a : Circle, ((u (ψ a) : ℂˣ) : ℂ) = a := fun a => by
+    show ((Circle.toUnits (ψ.symm (ψ a)) : ℂˣ) : ℂ) = a
+    rw [MulEquiv.symm_apply_apply]; rfl
+  -- `H` is the preimage of `μ_p`
+  set K := (rootsOfUnity p ℂ).comap u
+  have hle : H ≤ K := by
+    intro h hh
+    show u h ∈ rootsOfUnity p ℂ
+    rw [mem_rootsOfUnity]
+    have h1 : (⟨h, hh⟩ : H) ^ p = 1 := hH ▸ pow_card_eq_one'
+    have h2 : h ^ p = 1 := by simpa using congrArg Subtype.val h1
+    rw [← map_pow, h2, map_one]
+  let ι : K → rootsOfUnity p ℂ := fun k => ⟨u k, k.2⟩
+  have hι : Function.Injective ι := fun a b h => Subtype.ext (hu (congrArg Subtype.val h))
+  haveI : Finite K := Finite.of_injective ι hι
+  have hHK : H = K := by
+    refine Subgroup.eq_of_le_of_card_ge hle ?_
+    rw [hH]
+    calc Nat.card K ≤ Nat.card (rootsOfUnity p ℂ) := Nat.card_le_card_of_injective ι hι
+      _ = p := by rw [Nat.card_eq_fintype_card, Complex.card_rootsOfUnity]
+  rw [hHK]
+  ext L
+  constructor
+  · rintro ⟨γ, hγ, rfl⟩
+    refine ⟨⟨u γ, hγ⟩, ?_⟩
+    obtain ⟨a, rfl⟩ := ψ.surjective γ
+    have ha : rootsOfUnity.toCircle (⟨u (ψ a), hγ⟩ : rootsOfUnity p ℂ) = a :=
+      Subtype.ext (huψ a)
+    show rotLinIsom hqr hXr (rootsOfUnity.toCircle _) = _
+    rw [ha]
+    rfl
+  · rintro ⟨ζ, rfl⟩
+    refine ⟨ψ (rootsOfUnity.toCircle ζ), ?_, rfl⟩
+    show u (ψ (rootsOfUnity.toCircle ζ)) ∈ rootsOfUnity p ℂ
+    have : u (ψ (rootsOfUnity.toCircle ζ)) = (ζ : ℂˣ) := Units.ext (huψ _)
+    rw [this]; exact ζ.2
+
+end SpaceformPtStab
+
+section SpaceformPtStabInstances
+
+open scoped Real
+
+variable (E : Type*) [NormedAddCommGroup E] [NormedSpace ℝ E]
+
+omit [NormedSpace ℝ E] in
+theorem euclidQ_split (v : ℂ × E) : euclidQ E v = ‖v.1‖ ^ 2 + ‖v.2‖ ^ 2 := rfl
+
+/-- `‖·‖²` is non-degenerate in the sense of `linPtStab_rot`. -/
+theorem norm_sq_nondeg (b : E) (hb : ∀ f : E, ‖b + f‖ ^ 2 = ‖b‖ ^ 2 + ‖f‖ ^ 2) : b = 0 := by
+  have h := hb b
+  rw [← two_smul ℝ b, norm_smul, Real.norm_two] at h
+  have : ‖b‖ ^ 2 = 0 := by nlinarith
+  exact norm_eq_zero.1 (pow_eq_zero_iff two_ne_zero |>.1 this)
+
+/-- The great subsphere `S = 𝕊^n ∩ {w = 0}` spans `{0} × E`. -/
+theorem span_sphereModel_axis :
+    Submodule.span ℝ {f : E | ((0 : ℂ), f) ∈ sphereModel E} = ⊤ := by
+  refine Submodule.eq_top_iff'.2 fun f => ?_
+  by_cases hf : f = 0
+  · rw [hf]; exact Submodule.zero_mem _
+  have hn : ‖f‖ ≠ 0 := norm_ne_zero_iff.2 hf
+  rw [← smul_inv_smul₀ hn f]
+  refine Submodule.smul_mem _ _ (Submodule.subset_span ?_)
+  show euclidQ E (0, ‖f‖⁻¹ • f) = 1
+  rw [euclidQ_split, norm_smul, norm_inv, norm_norm, inv_mul_cancel₀ hn]
+  simp
+
+/-- `‖z‖² − s²` is non-degenerate in the sense of `linPtStab_rot`. -/
+theorem lorentz_nondeg (b : ℝ × E)
+    (hb : ∀ f : ℝ × E,
+      ‖(b + f).2‖ ^ 2 - (b + f).1 ^ 2 = (‖b.2‖ ^ 2 - b.1 ^ 2) + (‖f.2‖ ^ 2 - f.1 ^ 2)) :
+    b = 0 := by
+  obtain ⟨s, z⟩ := b
+  have h1 := hb (1, 0)
+  simp only [Prod.mk_add_mk, add_zero, norm_zero] at h1
+  have hs : s = 0 := by nlinarith
+  subst hs
+  have h2 := hb (0, z)
+  simp only [Prod.mk_add_mk, add_zero] at h2
+  rw [← two_smul ℝ z, norm_smul, Real.norm_two] at h2
+  have : ‖z‖ ^ 2 = 0 := by nlinarith
+  rw [norm_eq_zero.1 (pow_eq_zero_iff two_ne_zero |>.1 this)]
+  rfl
+
+/-- `S = ℍ^n ∩ {w = 0} ≅ ℍ^{n-2}` spans `{0} × ℝ × E`. -/
+theorem span_hyperbolicModel_axis :
+    Submodule.span ℝ {f : ℝ × E | ((0 : ℂ), f) ∈ hyperbolicModel E} = ⊤ := by
+  have hmem : ∀ z : E, ((√(1 + ‖z‖ ^ 2), z) : ℝ × E) ∈
+      {f : ℝ × E | ((0 : ℂ), f) ∈ hyperbolicModel E} := fun z => by
+    have hpos : (0 : ℝ) ≤ 1 + ‖z‖ ^ 2 := by positivity
+    refine ⟨?_, Real.sqrt_pos.2 (by positivity)⟩
+    simp only [lorentzQ, norm_zero]
+    rw [Real.sq_sqrt hpos]
+    ring
+  refine Submodule.eq_top_iff'.2 fun ⟨s, z⟩ => ?_
+  have he : ((1 : ℝ), (0 : E)) ∈ Submodule.span ℝ {f : ℝ × E | ((0 : ℂ), f) ∈ hyperbolicModel E} :=
+    Submodule.subset_span (by simpa using hmem 0)
+  have hsum : ((s, z) : ℝ × E) =
+      (√(1 + ‖z‖ ^ 2), z) + (s - √(1 + ‖z‖ ^ 2)) • ((1 : ℝ), (0 : E)) := by
+    ext <;> simp
+  rw [hsum]
+  exact Submodule.add_mem _ (Submodule.subset_span (hmem z)) (Submodule.smul_mem _ _ he)
+
+omit [NormedSpace ℝ E] in
+theorem lorentzQ_split (v : ℂ × ℝ × E) : lorentzQ E v = ‖v.1‖ ^ 2 + (‖v.2.2‖ ^ 2 - v.2.1 ^ 2) := by
+  unfold lorentzQ; ring
+
+variable [FiniteDimensional ℝ E]
+
+/-- `ex:consider_identifying_point_wise_stabilizer`, **the variation `X = M = 𝕊^n` with the
+paper's `Γ`** (`RamcovGX.tex:631`, `636`): every subgroup `Γ` of order `p` of the point-wise
+stabilizer of the great subsphere `S = {w = 0}` in `Isom⁺(𝕊^n)` is the rotation group `μ_p` of
+`quotient_rotations_sphere`, acts freely on the portly `𝕊^n ∖ S`, and `Γ\𝕊^n` has a natural
+singular `(Isom⁺(𝕊^n), 𝕊^n)`-structure. -/
+theorem quotient_rotations_sphere_ptStab (p : ℕ) [NeZero p]
+    (H : Subgroup (linPtStab (euclidQ E) (sphereModel E))) (hH : Nat.card H = p) :
+    H.map (linPtStab (euclidQ E) (sphereModel E)).subtype =
+      rotSubgroup (euclidQ_rot E) (sphereModel_rot E) p ∧
+    (∀ x ∈ {x : sphereModel E | x.1.1 ≠ 0}, ∀ γ : H, γ • x = x → γ = 1) ∧
+    IsPortly {x : sphereModel E | x.1.1 ≠ 0} ∧
+    ∃! B : Set (OpenPartialHomeomorph (Orbits H (sphereModel E)) (sphereModel E)),
+      IsMaximalAEAtlas (LinIsomPlus (euclidQ E) (sphereModel E)) B ∧
+      IsAEMorphismOf (LinIsomPlus (euclidQ E) (sphereModel E))
+        ((gxGroupoid (LinIsomPlus (euclidQ E) (sphereModel E)) (sphereModel E)).maximalAtlas
+          (sphereModel E)) B (orbitMk H) := by
+  haveI : Finite H := Nat.finite_of_card_ne_zero (hH ▸ NeZero.ne p)
+  have hq0 : ‖(0 : E)‖ ^ 2 = 0 := by simp
+  exact ⟨linPtStab_subgroup_eq_rotSubgroup (q' := fun f : E => ‖f‖ ^ 2) (euclidQ_split E) hq0
+      (norm_sq_nondeg E)
+      (span_sphereModel_axis E) p H hH,
+    quotient_rotations_model_ptStab (isRadialNormalization_sphereModel E) (isClosed_sphereModel E)
+      (q' := fun f : E => ‖f‖ ^ 2) (euclidQ_split E) hq0 (norm_sq_nondeg E)
+      (span_sphereModel_axis E) H⟩
+
+/-- `ex:consider_identifying_point_wise_stabilizer`, **the variation `X = M = ℍ^n` with the
+paper's `Γ`** (`RamcovGX.tex:631`, `636`): every subgroup `Γ` of order `p` of the point-wise
+stabilizer of the totally geodesic `S = {w = 0} ≅ ℍ^{n-2}` in `Isom⁺(ℍ^n)` is the rotation group
+`μ_p` of `quotient_rotations_hyperbolic`, acts freely on the portly `ℍ^n ∖ S`, and `Γ\ℍ^n` has a
+natural singular `(Isom⁺(ℍ^n), ℍ^n)`-structure. -/
+theorem quotient_rotations_hyperbolic_ptStab (p : ℕ) [NeZero p]
+    (H : Subgroup (linPtStab (lorentzQ E) (hyperbolicModel E))) (hH : Nat.card H = p) :
+    H.map (linPtStab (lorentzQ E) (hyperbolicModel E)).subtype =
+      rotSubgroup (lorentzQ_rot E) (hyperbolicModel_rot E) p ∧
+    (∀ x ∈ {x : hyperbolicModel E | x.1.1 ≠ 0}, ∀ γ : H, γ • x = x → γ = 1) ∧
+    IsPortly {x : hyperbolicModel E | x.1.1 ≠ 0} ∧
+    ∃! B : Set (OpenPartialHomeomorph (Orbits H (hyperbolicModel E)) (hyperbolicModel E)),
+      IsMaximalAEAtlas (LinIsomPlus (lorentzQ E) (hyperbolicModel E)) B ∧
+      IsAEMorphismOf (LinIsomPlus (lorentzQ E) (hyperbolicModel E))
+        ((gxGroupoid (LinIsomPlus (lorentzQ E) (hyperbolicModel E))
+          (hyperbolicModel E)).maximalAtlas (hyperbolicModel E)) B (orbitMk H) := by
+  haveI : Finite H := Nat.finite_of_card_ne_zero (hH ▸ NeZero.ne p)
+  have hq0 : ‖(0 : ℝ × E).2‖ ^ 2 - (0 : ℝ × E).1 ^ 2 = 0 := by simp
+  exact ⟨linPtStab_subgroup_eq_rotSubgroup (q' := fun f : ℝ × E => ‖f.2‖ ^ 2 - f.1 ^ 2)
+      (lorentzQ_split E) hq0 (lorentz_nondeg E)
+      (span_hyperbolicModel_axis E) p H hH,
+    quotient_rotations_model_ptStab (isRadialNormalization_hyperbolicModel E)
+      (isClosed_hyperbolicModel E) (q' := fun f : ℝ × E => ‖f.2‖ ^ 2 - f.1 ^ 2) (lorentzQ_split E)
+      hq0 (lorentz_nondeg E)
+      (span_hyperbolicModel_axis E) H⟩
+
+end SpaceformPtStabInstances
+
 
 end GX

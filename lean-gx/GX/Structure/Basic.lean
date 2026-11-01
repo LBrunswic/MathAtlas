@@ -39,7 +39,9 @@ pullback of a `(G,X)`-structure along a local homeomorphism, unique).
   `GX.IsAnalyticAction.of_eq_of_eqOn` — the introduction's formulation implies §2's.
 * `GX.gxPregroupoid`, `GX.gxGroupoid` (ported from `lean-causal/Causal/GXStructure.lean`,
   section `GX`), `GX.exists_smul_eq_of_mem_gxGroupoid` (ported),
-  `GX.symm_trans_mem_gxGroupoid_iff` (membership is "locally a translation, near every point").
+  `GX.symm_trans_mem_gxGroupoid_iff` (membership is "locally a translation, near every point");
+  the instance `GX.closedUnderRestriction_gxGroupoid` (any `G`, `X`: the pregroupoid property is
+  local).
 * `GX.IsGXAtlas` — the paper's `(G,X)`-atlas, per connected component of the overlaps;
   `GX.IsGXAtlas.unique` (the `φ` is unique); `GX.hasGroupoid_iff_isGXAtlas` — equivalence with
   the DEC-16 convention `[ChartedSpace X M] [HasGroupoid M (gxGroupoid G X)]`;
@@ -53,6 +55,13 @@ pullback of a `(G,X)`-structure along a local homeomorphism, unique).
   `GX.IsGXMorphism.isOpenMap`, `GX.IsGXMorphism.eq_of_eqOn` (analyticity of morphisms),
   `GX.isGXMorphism_iff_model` (morphisms into `X`: the shape of a developing map),
   `GX.isGXMorphism_smul`.
+* Open subsets (dispatch WP-26d): `GX.hasGroupoid_opens` — an open subset `W : Opens M` of a
+  `(G,X)`-manifold is one, for mathlib's `Opens.instChartedSpace`/`Opens.instHasGroupoid`;
+  `GX.chartAt_opens_apply`; `GX.isGXMorphism_subtype_val` (the inclusion is a `(G,X)`-morphism),
+  `GX.isGXMorphism_opens_inclusion`; restriction of morphisms `GX.IsGXMorphism.comp_subtype_val`,
+  `GX.IsGXMorphism.restrict_opens` (source and target), `GX.IsGXMorphism.codRestrict_opens`,
+  `GX.isGXMorphism_subtype_val_comp_iff`; locality on the source
+  `GX.isGXMorphism_of_forall_opens`, `GX.isGXMorphism_iff_forall_opens`.
 * `GX.pullbackChartedSpace` — the pullback along a local homeomorphism;
   `GX.hasGroupoid_pullback`, `GX.isGXMorphism_pullback`,
   `GX.IsGXMorphism.maximalAtlas_eq` (uniqueness), `GX.existsUnique_pullback`, and the covering-map
@@ -246,6 +255,20 @@ theorem symm_trans_mem_gxGroupoid_iff {e e' : OpenPartialHomeomorph M X} :
     e.symm.trans e' ∈ gxGroupoid G X ↔
       ∀ x ∈ e.source ∩ e'.source, ∃ g : G, ∀ᶠ z in 𝓝 x, e' z = g • e z :=
   ⟨fun h _ hx => eventually_smul_eq_of_mem_gxGroupoid h hx.1 hx.2, symm_trans_mem_gxGroupoid⟩
+
+/-- **`gxGroupoid G X` is closed under restriction** — the pregroupoid property "near every point,
+the action of an element of `G`" is local, so it survives restricting the source to an open set.
+This is what makes an open subset of a `(G,X)`-manifold a `(G,X)`-manifold, through mathlib's
+`TopologicalSpace.Opens.instHasGroupoid` (`GX.hasGroupoid_opens`). The proof follows the Barbot
+campaign's copy (`lean-causal/scaffold/CausalScaffold/Flat/FlatSpacetime.lean`), not imported. -/
+instance closedUnderRestriction_gxGroupoid : ClosedUnderRestriction (gxGroupoid G X) := by
+  refine ⟨fun {e} he s _ => ?_⟩
+  rw [gxGroupoid, mem_groupoid_of_pregroupoid] at he ⊢
+  refine ⟨fun x hx => ?_, fun x hx => ?_⟩
+  · obtain ⟨g, hg⟩ := he.1 x (by rw [OpenPartialHomeomorph.restr_source] at hx; exact hx.1)
+    exact ⟨g, by simpa using hg⟩
+  · obtain ⟨g, hg⟩ := he.2 x (by rw [OpenPartialHomeomorph.restr_target] at hx; exact hx.1)
+    exact ⟨g, by simpa using hg⟩
 
 end Groupoid
 
@@ -638,6 +661,102 @@ theorem IsGXMorphism.eq_of_eqOn [IsRigidAction G X] [PreconnectedSpace M] [T2Spa
   exact interior_subset (s := {x | f₁ x = f₂ x}) this
 
 end Morphism
+
+/-! ### Open subsets of a `(G,X)`-manifold -/
+
+section Opens
+
+open TopologicalSpace
+
+variable {G : Type w} {X : Type v} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] {M : Type u} [TopologicalSpace M] {N : Type y} [TopologicalSpace N]
+  [ChartedSpace X M] [ChartedSpace X N]
+
+/-- **An open subset of a `(G,X)`-manifold is a `(G,X)`-manifold**, for the charted space
+`TopologicalSpace.Opens.instChartedSpace` (the charts of `M`, restricted): the instance is
+mathlib's `TopologicalSpace.Opens.instHasGroupoid`, fed by `GX.closedUnderRestriction_gxGroupoid`. -/
+theorem hasGroupoid_opens [HasGroupoid M (gxGroupoid G X)] (W : Opens M) :
+    HasGroupoid W (gxGroupoid G X) :=
+  inferInstance
+
+omit [ContinuousConstSMul G X] in
+/-- The preferred chart of an open subset at `x`, applied: that of `M` at `x`. -/
+theorem chartAt_opens_apply (W : Opens M) (x y : W) :
+    chartAt X x y = chartAt X (x : M) (y : M) :=
+  rfl
+
+omit [ContinuousConstSMul G X] in
+/-- **The inclusion of an open subset is a `(G,X)`-morphism**: the charts of `W` are those of `M`,
+restricted. -/
+theorem isGXMorphism_subtype_val (W : Opens M) : IsGXMorphism G X (Subtype.val : W → M) :=
+  ⟨continuous_subtype_val, fun _ => ⟨1, Eventually.of_forall fun _ => (one_smul G _).symm⟩⟩
+
+omit [ContinuousConstSMul G X] in
+/-- The inclusion of an open subset into a larger one is a `(G,X)`-morphism. -/
+theorem isGXMorphism_opens_inclusion {W W' : Opens M} (h : W ≤ W') :
+    IsGXMorphism G X (Opens.inclusion h) :=
+  ⟨continuous_inclusion h, fun _ => ⟨1, Eventually.of_forall fun _ => (one_smul G _).symm⟩⟩
+
+omit [ContinuousConstSMul G X] in
+/-- **Restriction of a `(G,X)`-morphism to an open subset of the source**: `f ∘ (↑)`. -/
+theorem IsGXMorphism.comp_subtype_val {f : M → N} (hf : IsGXMorphism G X f) (W : Opens M) :
+    IsGXMorphism G X (f ∘ (Subtype.val : W → M)) :=
+  hf.comp (isGXMorphism_subtype_val W)
+
+omit [ContinuousConstSMul G X] in
+/-- **Restriction of a `(G,X)`-morphism to open subsets of the source and of the target**: if
+`f` maps `W` into `V`, the induced map `W → V` is a `(G,X)`-morphism. -/
+theorem IsGXMorphism.restrict_opens {f : M → N} (hf : IsGXMorphism G X f) {W : Opens M}
+    {V : Opens N} (hWV : ∀ x ∈ W, f x ∈ V) :
+    IsGXMorphism G X (fun x : W => (⟨f x, hWV x x.2⟩ : V)) := by
+  refine ⟨(hf.continuous.comp continuous_subtype_val).subtype_mk _, fun x => ?_⟩
+  obtain ⟨g, hg⟩ := hf.exists_smul_eq (x : M)
+  exact ⟨g, continuous_subtype_val.continuousAt.eventually hg⟩
+
+omit [ContinuousConstSMul G X] in
+/-- A `(G,X)`-morphism with values in an open subset `V` of the target is a `(G,X)`-morphism
+into `V`. -/
+theorem IsGXMorphism.codRestrict_opens {f : M → N} (hf : IsGXMorphism G X f) {V : Opens N}
+    (hfV : ∀ x, f x ∈ V) : IsGXMorphism G X (fun x => (⟨f x, hfV x⟩ : V)) := by
+  refine ⟨hf.continuous.subtype_mk _, fun x => ?_⟩
+  obtain ⟨g, hg⟩ := hf.exists_smul_eq x
+  exact ⟨g, hg⟩
+
+omit [ContinuousConstSMul G X] in
+/-- Conversely, a map into an open subset `V` is a `(G,X)`-morphism iff it is one into the
+target. -/
+theorem isGXMorphism_subtype_val_comp_iff {V : Opens N} {f : M → V} :
+    IsGXMorphism G X ((Subtype.val : V → N) ∘ f) ↔ IsGXMorphism G X f := by
+  refine ⟨fun hf => ?_, fun hf => (isGXMorphism_subtype_val V).comp hf⟩
+  refine ⟨?_, fun x => ?_⟩
+  · exact (V.isOpen.isOpenEmbedding_subtypeVal.isEmbedding.continuous_iff).2 hf.continuous
+  · obtain ⟨g, hg⟩ := hf.exists_smul_eq x
+    exact ⟨g, hg⟩
+
+omit [ContinuousConstSMul G X] in
+/-- **Being a `(G,X)`-morphism is local on the source**: a map whose restriction to an open
+neighbourhood of every point is a `(G,X)`-morphism is a `(G,X)`-morphism. -/
+theorem isGXMorphism_of_forall_opens {f : M → N}
+    (h : ∀ x : M, ∃ W : Opens M, x ∈ W ∧ IsGXMorphism G X (f ∘ (Subtype.val : W → M))) :
+    IsGXMorphism G X f := by
+  choose W hxW hW using h
+  refine ⟨continuous_iff_continuousAt.2 fun x => ?_, fun x => ?_⟩
+  · exact ((W x).isOpen.isOpenEmbedding_subtypeVal.continuousAt_iff (g := f)
+      (x := ⟨x, hxW x⟩)).1 (hW x).continuous.continuousAt
+  · obtain ⟨g, hg⟩ := (hW x).exists_smul_eq ⟨x, hxW x⟩
+    refine ⟨g, ?_⟩
+    have hmap := (W x).isOpen.isOpenEmbedding_subtypeVal.map_nhds_eq ⟨x, hxW x⟩
+    rw [← hmap]
+    exact Filter.eventually_map.2 hg
+
+omit [ContinuousConstSMul G X] in
+/-- A map is a `(G,X)`-morphism iff its restrictions to the open subsets are. -/
+theorem isGXMorphism_iff_forall_opens {f : M → N} :
+    IsGXMorphism G X f ↔ ∀ W : Opens M, IsGXMorphism G X (f ∘ (Subtype.val : W → M)) :=
+  ⟨fun hf W => hf.comp_subtype_val W, fun h => isGXMorphism_of_forall_opens fun _ =>
+    ⟨⊤, trivial, h ⊤⟩⟩
+
+end Opens
 
 /-! ### Pullback of a `(G,X)`-structure along a local homeomorphism -/
 

@@ -1,0 +1,51 @@
+{
+  "package": "WP-26a",
+  "round": 1,
+  "auditor": "read-only auditor, round 1 (re-audit 2026-11-01, against GX/Singular/Atlas.lean mtime 00:37:16 and REPORT.json mtime 04:48:35)",
+  "file": "GX/Singular/Atlas.lean",
+  "verdict": "clean",
+  "builds": true,
+  "checks": {
+    "file_build": "taskset -c 0-11 lake env lean -DwarningAsError=true GX/Singular/Atlas.lean: exit 0, no output",
+    "sorry_count": 0,
+    "escape_hatches": "no sorry / admit / axiom / native_decide / implemented_by / set_option in the file",
+    "strict_library_build": "taskset -c 0-11 lake build GX: 'Build completed successfully (8571 jobs)', exit 0, 0 warning/error lines (tree carries other packages' edits to Structure/Basic, Singular/Quotient, Branched/Universality)",
+    "axioms": "#print axioms (scratch file in /tmp, outside the repo) of isAEAtlas_iUnion, not_isAEAtlas_iUnion_empty, isAEMorphismOf_tfae, isAEMorphism_tfae, aePullback_comp, aePullback_comp_of_exists, aePullback_comp_spec_of_exists, not_isAEMorphismOf_of_eventually_eq_pow, not_isAEMorphismOf_maximalAtlas_of_eventually_eq_pow, IsAEMorphism.aeAtlas_eq_of_homeomorph, maximal_atlas, aepullback: propext, Classical.choice, Quot.sound only",
+    "name_clashes": "none: all 129 theorem/def/abbrev/structure/class names of the file grepped (anchored declaration patterns) against GX/ and scaffold/ excluding this file: 0 hits; the 5 new names (aePullback_comp_spec_of_exists, notMem_regLocusOf_of_forall_not_injOn, not_injOn_of_eventually_eq_pow, not_isAEMorphismOf_of_eventually_eq_pow, not_isAEMorphismOf_maximalAtlas_of_eventually_eq_pow) occur nowhere else (GX/Spread/Basic.lean has the distinct notMem_ordY_of_forall_not_injOn)",
+    "labels_coverage": "the 19 live \\label's of RamcovGX.tex l.395-612 are all in the module docstring (last at char 3661 < 4000, kb/0006) and all 19 in REPORT.json; lem:aepushforward (l.565) is commented out in the tex and correctly absent",
+    "report_consistency": "REPORT.json is valid JSON; builds true and sorry_count 0 confirmed; every decl in the 19 rows and in extra_decls exists in the file"
+  },
+  "rows_audited": {
+    "lem:GX_atlas_union": "isAEAtlas_iUnion: [Nonempty K], each B k an a.e. atlas, any two with a common thinner a.e. atlas (IsThinner matches l.406: supp inclusion, and for p in supp A and every chart of B at p a chart of A at p with smaller source equal to g∘that chart) => the union is an a.e. atlas (IsGXAtlas per connected component of overlaps, support portly). Proof follows the paper's (rigidity on the preconnected W∩supp A, then density/Hausdorff extension). Under DEC-46 (a) this is the paper's statement; N locally connected dropped (weakening); X locally connected/T2 and rigid action are the standing analyticity hypotheses (DEC-39, in the checklist). Necessity of the reading certified by not_isAEAtlas_iUnion_empty. Mark justified, row closed per DEC-46 ('the rows close under these readings').",
+    "prop:GX_sing_morph_local": "isAEMorphismOf_tfae / isAEMorphism_tfae: TFAE of (i) IsAEMorphismOf, (ii) for all x an open W containing x with IsAEMorphismOn W, (iii) a portly U with IsAEMorphismOn U; IsAEMorphismOn W = some U ⊆ W portly in W (subtype) with IsRegularOn U (f induces a (G,X)-morphism on U into supp B, the target portly set wlog supp B by isAEMorphismOf_iff) — exactly DEC-46 (b). Hypotheses: f continuous (the paper's), M locally connected (singular manifolds are; isAEMorphism_tfae needs nothing beyond the singular structures), A any atlas, B an a.e. atlas (weaker than maximal). IsRegularOn demands U open in M, which for open W coincides with open in W, so not stronger than the reading. Not vacuous. Mark justified.",
+    "cor:locally_connected_hausdorff_topological": "aePullback_comp_of_exists: g^*B and f^*(g^*B) defined (maximal a.e. atlases making g, resp. f into g^*B, a.e. morphisms) => f^*g^*B = (g∘f)^*B; aePullback_comp_spec_of_exists shows (g∘f)^*B is then genuinely defined (maximal, making g∘f an a.e. morphism), so the equation is not between the default ∅. 'Defined' as existence is implied by lem:aepullback's hypotheses (existsUnique_aePullback), so the Lean hypothesis is no stronger than the paper's notion of defined; aePullback_comp also gives the form under those hypotheses. B arbitrary (covers a.e. structures under DEC-42), only L locally connected. Matches DEC-46 (c). Mark justified.",
+    "rem:though_may_tempted_include": "partial, unmarked in the module docstring, reading disclosed in SCOPE (g) and recorded as a question; the four added decls are genuine and proved (not locally injective => not in Reg(f); f = ψ∘(·)^p∘φ near x with φ x = 0, p ≠ 1 => injective on no neighbourhood; hence no a.e. structures regular at x, f x make f an a.e. morphism; for (G,X)-manifolds, for no model (G,X)). Keeping the row partial for the informal 'no simple definition' is honest; nothing more of it is formalizable without a ruling.",
+    "other_15_rows": "unchanged in statement and proof since HEAD (git diff touches only docstrings and the five additions); spot-checked def:morphism (IsAEMorphismOf), lem:singular_manifolds_morphism_set, lem:regf1, lem:aepullback (DEC-42 forms) against l.480-557: faithful."
+  },
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "GX/Singular/Atlas.lean module docstring (rem:consequence_isomorphism_singular_manifolds bullet vs SCOPE (h)); REPORT.json row rem:consequence_isomorphism_singular_manifolds",
+      "problem": "Pre-existing, outside the dispatch: the row is marked and reported closed while SCOPE (h) says its last sentence ('an isomorphism in every natural ways', l.608-609) is not formalized — on its face a mark the kb/0006 contract does not allow. Disclosed in REPORT notes; the ledger already carries it 'yes' grade A; the sentence is informal and arguably covered by SingGXCat.isoOfHomeomorph, IsAEMorphism.symm_of_homeomorph, IsAEMorphism.aeAtlas_eq_of_homeomorph and IsAEMorphism.preimage_reg_sing.",
+      "fix": "Master: either reword SCOPE (h) to read the last sentence as the conjunction of those proved facts (keeping the mark), or unmark the row and set it partial."
+    },
+    {
+      "severity": "minor",
+      "where": "GX/Singular/Atlas.lean decl docstrings of not_isAEMorphismOf_of_eventually_eq_pow (l.1408) and not_isAEMorphismOf_maximalAtlas_of_eventually_eq_pow (l.1474)",
+      "problem": "They open with the bold mark **`rem:though_may_tempted_include`** although the row is partial and unmarked in the module docstring. Follows the pre-existing practice of zero_notMem_regLocusOf_pow (l.1361) and the docstrings are qualified ('for branched maps', 'its first sentence'), so the ledger (which reads the module docstring) is unaffected; style only.",
+      "fix": "Optionally drop the bold in declaration docstrings of partial rows."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/README.md l.43 (module table, GX.Singular.Atlas); papers/gx/ledger/LEDGER.md rows l.210/217/224",
+      "problem": "README still lists lem:GX_atlas_union among the partial rows and the ledger shows lem:GX_atlas_union, prop:GX_sing_morph_local, cor:locally_connected_hausdorff_topological 'partial'; after DEC-46 they are certified. Outside the package's write-set.",
+      "fix": "Master updates the README row and the ledger at graduation."
+    }
+  ],
+  "observations": [
+    "GX/Singular/Atlas.lean is unchanged since the first AUDIT-1 (mtime 00:37:16); REPORT.json was re-written at 04:48 (re-dispatch) with notes only — this verdict was re-derived independently, not copied.",
+    "Hypothesis checklist rows for the three DEC-46 rows read '✓ the reading DEC-46 (x) rules'; SCOPE (d), (e′), (j) cite DEC-46 and say the rows are certified in full; consistent with REPORT status closed / marked true."
+  ],
+  "questions_for_author": [],
+  "summary": "Clean. The file typechecks with warningAsError and 0 sorry, lake build GX succeeds (8571 jobs, no warnings), axioms standard, no name clashes, all 19 live labels in the docstring (within 4000 chars) and in REPORT.json with existing decls. lem:GX_atlas_union, prop:GX_sing_morph_local and cor:locally_connected_hausdorff_topological are stated at least as strongly as the paper under DEC-46 (a)(b)(c), with no hidden, vacuous or circular hypotheses, and their marks are justified; aePullback_comp_spec_of_exists closes the existence gap reading (c) left. rem:though_may_tempted_include stays honestly partial with four genuine added results. Three minor record-keeping items for the master (pre-existing SCOPE (h) vs mark on rem:consequence_isomorphism_singular_manifolds; bold marks in decl docstrings of a partial row; stale README/ledger rows)."
+}

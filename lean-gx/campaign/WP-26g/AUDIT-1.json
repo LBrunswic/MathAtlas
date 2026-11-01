@@ -1,0 +1,39 @@
+{
+  "package": "WP-26g",
+  "round": 1,
+  "file": "scaffold/GXScaffold/Topology/PortlyExamples.lean",
+  "verdict": "clean",
+  "builds": true,
+  "sorry_count_measured": 0,
+  "summary": "Re-audited independently on node1 (2026-11-01). `taskset -c 0-11 lake env lean` on the file exits 0 with no output (no error, no 'declaration uses sorry', no warning); the only textual 'sorry' is the docstring's 'No `sorry`.' (l.15). No admit / native_decide / axiom / opaque / extern / set_option in the file. `lake build --no-build GXScaffold.Topology.PortlyExamples`: all targets up-to-date. `#print axioms` (via --stdin, nothing written) is exactly [propext, Classical.choice, Quot.sound] for isPreconnected_compl_of_isTotallyDisconnected, isSkeletal_skeletonSpace_codim_two, isSkeletal_skeletonSpace, isSkeletal_of_isTotallyDisconnected, bowtie_counterexample, not_isLocallyStronglyConnected_bowtie, isSkeletal_of_tameKnot, isSkeletal_of_finite_surface, eq_empty_of_isSkeletal_real. `git diff HEAD` on the file deletes only the two sorry blocks and docstring prose: the statements of both target theorems and the definitions IsPureOfDim, skeletonSpace, IsLocallyStronglyConnected (and IsSkeletal/IsPortly in GX.Topology.Portly, untouched) are unchanged, so nothing was weakened to make the proofs go through. Item 4's Euclidean core uses a sound route without dimension theory (Janiszewski for disjoint closed sets through the exp-lifting on a simply connected, normal, locally path-connected space; Zorn on minimal closed separating sets; clopen separation of K from loc_compact_t2_tot_disc_iff_tot_sep; points do not separate by mathlib's isConnected_compl_singleton_of_one_lt_rank) — every hypothesis is discharged, none carries the conclusion. Item 3's codim-two proof builds its own local theory (openSimplex, carrier lemma via AffineIndependent.eq_of_sum_eq_sum_subtype, neighbourhoods B(x,r) ∩ G, pieces between a convex set and its closure chained by LSC). Fidelity vs RamcovGX.tex:367-374: the row is honestly `partial` and unmarked (item 3 false as written — bow-tie counterexample genuine, per DEC-27; item 2 under the disclosed locally-flat reading of 'tame', which for knots in 3-manifolds is the standard equivalent notion). LSC is satisfiable (one simplex), not vacuous (the bow-tie fails it, proved), and necessary for k = n-2 (it is exactly connectedness of a small open star minus the (n-2)-skeleton). Item 4's IsClosed hypothesis is automatic for a Cantor set in a Hausdorff manifold, and dim >= 2 is justified by eq_empty_of_isSkeletal_real ('wildly' presupposes n >= 3). The file has a single label and REPORT covers it; no declaration of the file clashes with a declaration in GX/ or in the other scaffold files (Basic.lean, Branched/Paths.lean), checked by grep over all 58 theorem/def names. Only minor issues remain.",
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "isSkeletal_skeletonSpace_codim_two (l.988-991), isSkeletal_skeletonSpace (l.1110-1112)",
+      "problem": "[FiniteDimensional ℝ E] is unused: a copy of the file with that binder removed from exactly these two signatures typechecks with no output (lake env lean --stdin, nothing written). An extra hypothesis the paper does not state and the proof does not use, not listed in REPORT (kb/0007). Harmless in substance (a finite complex spans a finite-dimensional affine subspace); the signatures predate the package and the dispatch fixed them.",
+      "fix": "At graduation drop [FiniteDimensional ℝ E] from both theorems (strictly strengthens them, no proof change), or record it in REPORT hypotheses."
+    },
+    {
+      "severity": "minor",
+      "where": "isSkeletal_skeletonSpace (k < n-2); module docstring SCOPE item 3",
+      "problem": "For k < n-2 the added LSC hypothesis is sufficient but not necessary (two 3-simplices sharing exactly an edge: the 0-skeleton is skeletal, the complex is not LSC at the edge's vertices), so DEC-27's 'strongest true form' is reached only at k = n-2; the item is still false as written for k < n-2 (two tetrahedra sharing a vertex). Also SCOPE item 3 does not state the modelling choices REPORT records: K finite, realised as a mathlib Geometry.SimplicialComplex in a real normed space with the subspace topology on K.space.",
+      "fix": "One sentence in SCOPE item 3 and in REPORT: 'K finite, subspace topology; for k < n-2 LSC is a sufficient condition (sharp: connectedness of small stars minus the k-skeleton)'."
+    },
+    {
+      "severity": "minor",
+      "where": "module docstring (kb/0006 item 4)",
+      "problem": "No '## Hypothesis checklist' table; the additions (item 3: LSC, finite K; item 4: dim >= 2) and the generalisation (item 4: closed totally disconnected instead of Cantor; item 1: closed countable) appear only in SCOPE prose. Pre-existing.",
+      "fix": "Add the checklist at graduation (item 3 ⚠ strengthened: LSC, finite; item 4 ⚠ strengthened: dim >= 2, generalised: closed totally disconnected)."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[0].decls; README.md l.49; lines 102, 989, 1111",
+      "problem": "decls omits declarations the docstring cites for the row (GX.isSkeletal_of_countable, GX.isSkeletal_of_locallyFlat, GX.eq_empty_of_isSkeletal_real, GX.not_isLocallyStronglyConnected_bowtie). README's module row still says 'two tagged sorrys' (master session's file). Three lines exceed 100 characters (pre-existing, disclosed in REPORT notes).",
+      "fix": "Add the four names to decls; master updates the README row at graduation; rewrap the three lines."
+    }
+  ],
+  "questions_for_author": [
+    "Item 3 (l.372): accept 'locally strongly connected in codimension >= 2' as the corrected hypothesis for all k <= n-2, or prefer the sharp k-dependent condition (small stars minus the k-skeleton connected) for k < n-2?",
+    "Item 3: is the simplicial complex X meant finite (or locally finite)? The formalization assumes finite."
+  ]
+}

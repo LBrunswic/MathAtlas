@@ -1,0 +1,25 @@
+{
+  "package": "WP-26d",
+  "files": ["GX/Structure/Basic.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [],
+  "extra_decls": [
+    "GX.closedUnderRestriction_gxGroupoid",
+    "GX.hasGroupoid_opens",
+    "GX.chartAt_opens_apply",
+    "GX.isGXMorphism_subtype_val",
+    "GX.isGXMorphism_opens_inclusion",
+    "GX.IsGXMorphism.comp_subtype_val",
+    "GX.IsGXMorphism.restrict_opens",
+    "GX.IsGXMorphism.codRestrict_opens",
+    "GX.isGXMorphism_subtype_val_comp_iff",
+    "GX.isGXMorphism_of_forall_opens",
+    "GX.isGXMorphism_iff_forall_opens"
+  ],
+  "kb_proposals": [
+    "An open subset W : Opens M of a (G,X)-manifold is a (G,X)-manifold with no extra work: GX.closedUnderRestriction_gxGroupoid (instance, in GX.Structure.Basic) feeds mathlib's TopologicalSpace.Opens.instHasGroupoid; the chart of W at x is (chartAt X x.1).subtypeRestr, so chartAt X x y = chartAt X x.1 y.1 by rfl (GX.chartAt_opens_apply).",
+    "For maps between open subsets, write the induced map as fun x : W => (⟨f x, h x x.2⟩ : V), not MapsTo.restrict / Set.codRestrict: those land in the subtype of (V : Set N), on which ChartedSpace X fails to synthesize."
+  ],
+  "notes": "Strict-file edit dispatched by the master session. Additions only, no existing declaration renamed or changed: (1) instance GX.closedUnderRestriction_gxGroupoid in section Groupoid (needs only what gxGroupoid needs: Group G, MulAction G X, ContinuousConstSMul G X), proof after lean-causal's FlatSpacetime.lean copy, not imported; (2) a new section Opens after section Morphism: hasGroupoid_opens is stated as a theorem (= inferInstance), not a second instance, since mathlib's Opens.instHasGroupoid already fires; the inclusion Subtype.val : W → M and Opens.inclusion are (G,X)-morphisms; restriction of morphisms to an open source, to open source+target, corestriction to an open target, its converse, and locality of the morphism property on the source. Module docstring Contents updated. Checks: lake env lean -DwarningAsError=true GX/Structure/Basic.lean clean; lake build GX succeeds (8571 jobs), no warnings, every downstream strict module rebuilt unchanged. Original kept at /tmp/WP26d_Basic.orig.lean. Note for graduation: lean-causal/scaffold/CausalScaffold/Flat/FlatSpacetime.lean declares an instance of the same name for its Causal copy of gxGroupoid; the two projects are not imported together, so no clash today."
+}

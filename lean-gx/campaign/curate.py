@@ -20,8 +20,12 @@ PKGS = [
     ("WP-25c", "GX/Spread/Completion.lean"), ("WP-25d", "GX/Branched/Basic.lean"),
     ("WP-25e", "GX/Branched/Universality.lean"), ("WP-25f", "GX/Singular/Quotient.lean"),
     ("WP-25g", "GX/Singular/Suspension.lean"),
+    ("WP-26a", "GX/Singular/Atlas.lean"), ("WP-26b", "GX/Singular/Quotient.lean"),
+    ("WP-26c", "GX/Branched/Universality.lean"), ("WP-26g", "GX/Topology/PortlyExamples.lean"),
+    ("WP-26e", "scaffold/GXScaffold/Branched/Paths.lean"), ("WP-26f", "scaffold/GXScaffold/Branched/Galois.lean"),
+    ("WP-26h", "scaffold/GXScaffold/Branched/GaloisExamples.lean"),
 ]
-FILE_OVERRIDE = {"ex:following_example_skeletal_itemize": "scaffold/GXScaffold/Topology/PortlyExamples.lean"}
+FILE_OVERRIDE = {"ex:following_example_skeletal_itemize": "GX/Topology/PortlyExamples.lean"}
 RENAMES = {  # (file, old) -> new, applied at graduation to resolve name clashes
     ("GX/Spread/Completion.lean", "GX.isPreconnected_ball_diff_countable"): "GX.isPreconnected_ball_diff_countable_complex",
     ("GX/Branched/Universality.lean", "GX.isSkeletal_of_countable"): "GX.isSkeletal_of_countable_complex",

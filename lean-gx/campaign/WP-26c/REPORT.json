@@ -1,0 +1,303 @@
+{
+ "package": "WP-26c",
+ "files": [
+  "GX/Branched/Universality.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "prop:branched_covering_composition",
+   "tex_lines": [
+    1091,
+    1140
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.branched_covering_composition",
+    "GX.preimage_ordY_comp_subset",
+    "GX.image_branchingLocus_subset",
+    "GX.isSkeletal_closure_image_branchingLocus",
+    "GX.isBranchedCovering_comp_of_finite",
+    "GX.isBranchedCovering_comp_of_semilocallySimplyConnected",
+    "GX.isBranchedCovering_comp_of_isSkeletal",
+    "GX.isBranchedCovering_comp_of_isCoveringMap",
+    "GX.compGoodSet",
+    "GX.not_isSkeletal_of_isBranchedCovering_comp",
+    "GX.IsSpread.comp"
+   ],
+   "hypotheses": [
+    {
+     "paper": "standing: X, Y, Z Hausdorff, LPC, first countable",
+     "here": "weakened",
+     "note": "(i)=>(ii): Y T2 LPC FC, Z T1 LPC FC, nothing on X; (ii)=>(i): X, Y, Z T2 LPC, Z FC"
+    },
+    {
+     "paper": "(implicit at l.1137) a composite of coverings is a covering",
+     "here": "strengthened",
+     "note": "added: q has finite fibres, OR Z1 = ord_q(Z) minus cl(q(Y minus ord_p(Y))) semilocally simply connected"
+    },
+    {
+     "paper": "(ii) q(Y minus ord_p(Y)) skeletal",
+     "here": "corrected",
+     "note": "the equivalence holds with the closure of q(Y minus ord_p(Y)) skeletal; the printed (ii) still implies (i)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "(i) => (ii) is FALSE as printed (l.1093, l.1129): the proof shows q(Y minus ord_p(Y)) is contained in Z minus ord_{q o p}(Z) (formalized in full, GX.preimage_ordY_comp_subset) and then concludes 'the latter is skeletal, thus so is the former', but a subset of a skeletal set is skeletal only if it is closed, and q(Y minus ord_p(Y)) need not be closed since q is not a closed map. Counterexample formalized: GX.not_isSkeletal_of_isBranchedCovering_comp (p the maximal covering of D_inf branched over {apex} and b_n = (1+e_n, n+e_n), e_n = 1/(|n|+2); q : D_inf -> D; q o p IS a branched covering, but q(branching locus) = {(1+e)exp(2 pi i e)} (plus possibly 0) accumulates at 1 and misses it, so it is not closed). The true statement: (i) <=> the CLOSURE of q(Y minus ord_p(Y)) is skeletal.",
+    "(ii) => (i), l.1137: '(q o p)|X1 -> Z1 is a composition of covering hence a covering' uses that a composite of coverings is a covering, which is false in general (GX.Topology.UniversalCover SCOPE 2). The proof is completed under either standard hypothesis: q of finite fibres (GX.isBranchedCovering_comp_of_finite) or Z1 semilocally simply connected (GX.isBranchedCovering_comp_of_semilocallySimplyConnected); GX.isBranchedCovering_comp_of_isCoveringMap isolates the step. Whether the statement fails without such a hypothesis is not formalized.",
+    "l.1116: 'An argumentation alike the one of Lemma lem:spread_partial_covering yields a contradiction' is replaced by a direct clopen argument (GX.subset_of_injOn_image_subset: two images p(U_i), p(U_j) meeting are equal, Y Hausdorff, q open and injective on each, U connected)."
+   ],
+   "questions": [
+    "Should the author change (ii) to 'the closure of q(Y minus ord_p(Y)) is skeletal' (equivalently 'q(Y minus ord_p(Y)) is contained in a skeletal set') and add 'q has finite fibres or Z semilocally simply connected in the strong sense' to the statement?"
+   ],
+   "note": "unchanged by WP-26c; stays partial by DEC-48"
+  },
+  {
+   "label": "rem:completion_covering",
+   "tex_lines": [
+    1147,
+    1152
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.completion_covering",
+    "GX.completion_covering_unique",
+    "GX.IsBranchedCovering.isSpreadCompletion_preimage",
+    "GX.IsSpread.comp_val"
+   ],
+   "hypotheses": [
+    {
+     "paper": "standing: Hausdorff, LPC, first countable",
+     "here": "weakened",
+     "note": "X T0 and Y T2, locally connected for the isomorphism with the space of ends; none for 'X is a completion of p^{-1}(U) -> Y'"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "'Isomorphic to the completion' read as: X is a completion (paper's sense) of p^{-1}(U) -> Y, the space of ends is one, and X is isomorphic to it (indeed to any T0 completion) by a unique homeomorphism over Y and under p^{-1}(U)."
+   ]
+  },
+  {
+   "label": "prop:universality",
+   "tex_lines": [
+    1158,
+    1175
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.MaxBranchedCover",
+    "GX.univCoverProj",
+    "GX.maxBranched_basic",
+    "GX.maxBranched_isBranchedCovering",
+    "GX.maxBranched_universal",
+    "GX.maxBranched_isMaximal",
+    "GX.IsMaximalPossiblyBranched",
+    "GX.IsMaximalPossiblyBranched.nonempty_homeomorph",
+    "GX.maxBranched_unique",
+    "GX.nonempty_compl_of_isSkeletal"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Y connected, locally path-connected, Hausdorff; S skeletal; Y minus S semilocally simply connected",
+     "here": "carried",
+     "note": "DEC-41 reading of SLSC"
+    },
+    {
+     "paper": "Y first countable (section 3 standing assumption, l.810)",
+     "here": "carried",
+     "note": "used for local path-connectedness of the Fox completion and lem:complete_path_carac"
+    },
+    {
+     "paper": "competitors X (standing)",
+     "here": "carried",
+     "note": "T2, LPC, first countable"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "'Maximal among such branched coverings' read as GX.IsMaximalPossiblyBranched: dominates, by a branched covering over Y, every covering possibly branched over S (T2, LPC, first countable total space, in a fixed universe); uniqueness is proved for maximality tested in Y's universe, and in the stronger form GX.maxBranched_unique (any covering possibly branched over S with a continuous map over Y to the maximal one is isomorphic to it). The universal cover is based at a chosen y0 in Y minus S (exists: GX.nonempty_compl_of_isSkeletal)."
+   ]
+  },
+  {
+   "label": "rem:one_could_sum_up",
+   "tex_lines": [
+    1164,
+    1166
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.isBranchedCovering_of_isSpreadCompletion",
+    "GX.isSpreadCompletion_ends_of_isCoveringMap",
+    "GX.IsBranchedCovering.restrict_isCoveringMap",
+    "GX.isBranchedCovering_of_comm",
+    "GX.isSpread_coe_comp_of_isCoveringMap",
+    "GX.completion_hom_equiv",
+    "GX.completion_hom_ext",
+    "GX.completion_hom_id",
+    "GX.completion_hom_comp"
+   ],
+   "hypotheses": [
+    {
+     "paper": "standing",
+     "here": "carried",
+     "note": "Y T2 LPC FC; O portly; total spaces T2 LPC"
+    },
+    {
+     "paper": "category equivalence",
+     "here": "read (DEC-46(d))",
+     "note": "object correspondence both ways and the morphism bijection GX.completion_hom_equiv (characterised by extension); functoriality proved: GX.completion_hom_id (identities), GX.completion_hom_comp (composites), via GX.completion_hom_ext (morphisms agreeing on range iota are equal); no CategoryTheory.Equivalence object"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "rem:considering_maximal_covering_possibly",
+   "tex_lines": [
+    1176,
+    1178
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.sphere2_maxBranched_trivial",
+    "GX.maxBranched_trivial_of_simplyConnected",
+    "GX.isSkeletal_sphere2_singleton",
+    "GX.isPortly_compl_singleton_of_chart",
+    "GX.Sphere2",
+    "GX.sphere2ComplHomeomorph",
+    "GX.ordY_id_eq_univ"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "S^2 is the unit sphere of EuclideanSpace R (Fin 3); 'trivial' read as: the projection of the maximal covering is a homeomorphism; 'the branching locus is empty' proved, hence different from S."
+   ]
+  },
+  {
+   "label": "cex:proposition_prop_branched_covering",
+   "tex_lines": [
+    1181,
+    1188
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.cex_branched_covering_composition",
+    "GX.cexS_not_isSkeletal",
+    "GX.cexS",
+    "GX.IsDenseFamilyY₀",
+    "GX.exists_isDenseFamilyY₀",
+    "GX.dense_qDisc_image_cexS",
+    "GX.qDisc",
+    "GX.isBranchedCovering_qDisc",
+    "GX.not_isBranchedCovering_qDisc_comp",
+    "GX.exists_branched_over",
+    "GX.logChart_mem_branchingLocus",
+    "GX.branchSet",
+    "GX.isSkeletal_branchSet",
+    "GX.semilocallySimplyConnected_branchSet",
+    "GX.not_homotopic_refl_of_exp_lift",
+    "GX.DInfty.logChart"
+   ],
+   "hypotheses": [
+    {
+     "paper": "S skeletal, Y minus S semilocally simply connected",
+     "here": "corrected",
+     "note": "false for the paper's S; S replaced by S union {apex}, which is skeletal with SLSC complement"
+    },
+    {
+     "paper": "alpha unspecified",
+     "here": "read (DEC-46(e))",
+     "note": "alpha = 1, q(r,theta) = r exp(2 pi i theta)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.1184 'We see that S is skeletal' is FALSE: since (r_n, theta_n) is dense in Y0 = {theta in ]0,1[}, r_n takes arbitrarily small values, so the apex of D_inf is in the closure of S = (r_n, theta_n + n) but not in S; S is not closed, hence not skeletal (GX.cexS_not_isSkeletal), and prop:universality does not apply to it. 'Y minus S is semi-locally simply connected' also fails at the apex (every neighbourhood {r < eps} contains points of S around which a small loop is not null-homotopic) - not formalized. Correction: use S' = S union {apex}; then S' is skeletal, D_inf minus S' is semilocally simply connected, the maximal covering p possibly branched over S' is branched at every point of S (GX.logChart_mem_branchingLocus), q(S) is dense in D (GX.dense_qDisc_image_cexS), and q o p is not a branched covering (GX.cex_branched_covering_composition, via the corrected (i) => (ii)).",
+    "The disc D = Gamma_alpha \\ D_inf is identified with C (GX.discHomeomorph); the 'theta_n + n' of the construction requires alpha = 1, which is taken (q(r, theta) = r exp(2 pi i theta)); q is proved a branched covering (GX.isBranchedCovering_qDisc), branched over {0} only."
+   ],
+   "questions": [
+    "DEC-46(e) rules the reading alpha = 1 and says 'the rows close under these readings', but the printed l.1184 'S is skeletal and Y minus S is semi-locally simply connected' is false (GX.cexS_not_isSkeletal) and the formalization corrects S to S union {apex}; that is a DEC-27 correction, not a reading, so the row is reverted to partial and unmarked (round-1 audit, major). Does the author rule that DEC-46(e) covers the S -> S union {apex} correction (an amended DEC-46(e) or a new DEC)? If so the row can be marked and closed with no change to the Lean."
+   ],
+   "note": "round 1 fix: reverted from closed/marked to partial/unmarked; Lean unchanged"
+  },
+  {
+   "label": "rem:previous_examples_instances_developing",
+   "tex_lines": [
+    684,
+    686
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.previous_examples_maxBranched",
+    "GX.isBranchedCovering_orbitMk_cyl",
+    "GX.compl_image_axis",
+    "GX.cyl_instances",
+    "GX.previous_examples_universalCover_of_eq",
+    "GX.cylBasic_preimage",
+    "GX.cylBasic_isPreconnected",
+    "GX.cylBasic_mem",
+    "GX.cylBasic_isCNbhd",
+    "GX.cylBasic_subset"
+   ],
+   "hypotheses": [
+    {
+     "paper": "cyl{n} = D_inf x R^n, Gamma_alpha",
+     "here": "weakened",
+     "note": "D_inf x Z, Z any real normed space, every alpha != 0"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Unchanged: 'branched over its singular locus' is false as written (the branching locus pi{r=0} strictly contains sing(M) in GX.quotientBase_counterexample, GX.Singular.Quotient); the row stays partial on it."
+   ],
+   "questions": [],
+   "note": "The row is certified in GX.Singular.Quotient (previous_examples_developing, previous_examples_universalCover). WP-26c adds here, in GX.Branched.Universality (which imports Quotient), the Fox-universal half Quotient's SCOPE (f) left out: GX.previous_examples_maxBranched — pi{r=0} skeletal, its complement SLSC, the cylinder D_inf x Z -> M = Gamma_alpha\\(D_inf x Z) a branched covering possibly branched over pi{r=0}, IsMaximalPossiblyBranched (every universe), and isomorphic over M to MaxBranchedCover (pi{r=0}) y0 for every base point. The ledger row should list these decls beside Quotient's; Quotient's docstring SCOPE (f) 'Not formalized here: ... maximal (Fox-universal) covering' is now discharged in this module (Quotient.lean not edited)."
+  }
+ ],
+ "extra_decls": [
+  "GX.IsSpread.comp",
+  "GX.IsSpread.of_comp",
+  "GX.isSpread_of_isCoveringMap",
+  "GX.t2Space_of_isCoveringMap",
+  "GX.subset_of_injOn_image_subset",
+  "GX.exists_cc_subset_of_isEvenlyCovered",
+  "GX.SemilocallySimplyConnected.of_homeomorph",
+  "GX.semilocallySimplyConnected_of_isOpen",
+  "GX.isPreconnected_ball_diff_singleton",
+  "GX.isPortly_compl_singleton_of_chart",
+  "GX.isSkeletal_of_countable_complex",
+  "GX.isClosed_isolated_of_finite_ball",
+  "GX.DInfty.radialPath",
+  "GX.DInfty.isPathConnected_r_lt",
+  "GX.DInfty.instLocPathConnectedSpace",
+  "GX.DInfty.instFirstCountableTopology",
+  "GX.DInfty.instPathConnectedSpace",
+  "GX.DInfty.isPortly_pos'",
+  "GX.isCoveringMapOn_qDisc",
+  "GX.isPortly_compl_zero_complex",
+  "GX.not_homotopic_refl_of_exp_lift",
+  "GX.IsBranchedCovering.comp_homeomorph",
+  "GX.locPathConnectedSpace_prod_of",
+  "GX.completion_hom_ext"
+ ],
+ "kb_proposals": [
+  "mathlib at fabf563a has no LocPathConnectedSpace instance for products; GX.locPathConnectedSpace_prod_of (theorem, not instance) proves it via Path.prod.",
+  "A branched covering precomposed with a homeomorphism is a branched covering: GX.IsBranchedCovering.comp_homeomorph (completeness via SpreadEnd.map / map_apply and Homeomorph.image_connectedComponentIn).",
+  "To show a map is the maximal covering possibly branched over S, prove it is a branched covering, take its completion of the preimage of S^c (IsBranchedCovering.isSpreadCompletion_preimage), extend the inverse of a universal-cover homeomorphism by IsFoxCompletion.existsUnique_extend, then maxBranched_unique (pattern of GX.previous_examples_maxBranched).",
+  "open scoped Real makes the identifier π unusable as a local name; a local notation inside a section with variables is hygienic and silently pulls in the section variable."
+ ],
+ "notes": "Strict file edited under WP-26c (explicit exception). Backup of the pre-edit file: campaign/WP-26c/Universality.pre-WP-26c.bak. `taskset -c 0-11 lake env lean -DwarningAsError=true GX/Branched/Universality.lean` clean (no warnings); `taskset -c 0-11 lake build GX.Branched.Universality` and `taskset -c 0-11 lake build GX` green (only Universality and the root GX rebuilt); 0 sorry; #print axioms of completion_hom_equiv, previous_examples_maxBranched, IsBranchedCovering.comp_homeomorph, isBranchedCovering_orbitMk_cyl, cex_branched_covering_composition: propext, Classical.choice, Quot.sound. No existing declaration renamed or changed; all additions. New names grepped against GX/ and scaffold/: no clash. README.md's module row for GX.Branched.Universality (certifies prop:universality, rem:completion_covering, rem:considering_maximal_covering_possibly) should add rem:one_could_sum_up and cex:proposition_prop_branched_covering — not edited (outside the dispatch). Quotient.lean SCOPE (f) still says the Fox-universal half is not formalized; it now is, in this module. Round 1 (fixer): applied the audit's major fix by option (a): cex:proposition_prop_branched_covering reverted to partial and unmarked (docstring bullet, SCOPE bullet; the checklist row already carried the cross), with alpha = 1 kept as the DEC-46(e) reading and the S -> S union {apex} correction as a DEC-27 finding; the 'slip (DEC-27)' wording removed. Minor fix: functoriality of completion_hom_equiv now proved (GX.completion_hom_ext, GX.completion_hom_id, GX.completion_hom_comp, axioms propext/Classical.choice/Quot.sound); docstring reworded to cite them. Third minor (Quotient.lean SCOPE (f), README row) is outside this dispatch and left to the master: README's row should add rem:one_could_sum_up (marked) and list cex:proposition_prop_branched_covering as partial; the ledger row rem:previous_examples_instances_developing should list GX.previous_examples_maxBranched and its helpers. Rebuilt: lake env lean -DwarningAsError=true clean, lake build GX green (8571 jobs), 0 sorry; new names grepped against GX/ and scaffold/: no clash. Round 2 (re-dispatch, 2026-11-01): Lean file unchanged (already in the audited round-2 state). Fixed AUDIT-2 minor 1: extra_decls entry GX.isSkeletal_of_countable renamed to the existing GX.isSkeletal_of_countable_complex; every decl in this report resolved by #check (lake env lean --stdin). The dispatch again asks to mark cex:proposition_prop_branched_covering; not done, for the reason both audits give: DEC-46(e) rules alpha = 1, but l.1184's 'S is skeletal' is false (GX.cexS_not_isSkeletal) and S -> S union {apex} is a DEC-27 correction, which DEC-27 keeps partial; no DEC after DEC-48 rules otherwise. If the master obtains that ruling, the mark is a docstring-only change. Re-verified: lake env lean -DwarningAsError=true clean; lake build GX.Branched.Universality and lake build GX green."
+}

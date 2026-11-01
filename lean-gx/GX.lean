@@ -1,5 +1,6 @@
 import GX.Basic
 import GX.Topology.Portly
+import GX.Topology.PortlyExamples
 import GX.Topology.UniversalCover
 import GX.Structure.Basic
 import GX.Structure.Developing

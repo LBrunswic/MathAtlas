@@ -29,3 +29,14 @@ well-chosen flow (`minkowski_skew_slice_not_isCauchySurface`).
 | Γ\Ω flat spacetime for Γ ≤ isom d free, properly discontinuous on open Ω; projection covering + local isometry; Γ-invariant Cauchy surfaces descend | `CausalScaffold.Flat.Quotient` (0 sorry) | gx's M ≅ ρ(Γ)\D(M̃) |
 | 1-Lipschitz hypersurfaces: null-line criterion, causal convexity of Cauchy developments, domains of dependence | `CausalScaffold.Flat.LipschitzGraph` (1 tagged sorry) | |
 | uniformization U1 | Barbot's §8 spine `Develop` (`bprop_danom` + Γ-action lemmas), in progress | |
+
+## Barbot wave 5 (f415991)
+
+- **Signature change:** `[T2Space M]` is an instance argument of Develop's `bprop_danom` / `holonomy_proper` /
+  `ccAction_of_developsCC` and of Loxodromic's Uniformization section (without it `bprop_danom` is false:
+  two copies of Mⁿ glued along {t<0}). gx's manifolds are Hausdorff.
+- `Loxodromic.lean`: `uniformization_injective` (no case hypothesis); `uniformization_image` (a loxodromic in
+  Γ ⇒ 𝒟(M̃) ⊆ Ω⁺(Λ(Γ)) with Λ future regular, or Ω⁻ with Λ past regular); `uniformization_properlyDiscontinuous`;
+  `uniformization` (combined). **Upstream tagged sorries: `#print axioms` before relying on one.**
+- `Classification.lean`: `equality_of_absMax {P}`, `range_eq_omegaS_of_absMax`.
+- `Develop.lean`: `bprop_danom` 0 sorry: 𝒟 injective, range ⊆ Ω(S̃), from DevelopsCC + IsCausal + T2.

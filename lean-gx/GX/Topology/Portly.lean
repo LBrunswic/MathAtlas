@@ -7,7 +7,7 @@ The point-set layer of `papers/gx` (Section 2.1 and the two lemmata opening Sect
 
 * **`def:portly_skeletal_subset`** — `RamcovGX.tex:364` (with "locally connected in `X`",
   `RamcovGX.tex:362`): `GX.IsLocallyConnectedIn`, `GX.IsPortly`, `GX.IsSkeletal`.
-* `ex:following_example_skeletal_itemize` — `RamcovGX.tex:367`: in `GXScaffold.Topology.PortlyExamples`
+* `ex:following_example_skeletal_itemize` — `RamcovGX.tex:367`: in `GX.Topology.PortlyExamples`
   (partial; two tagged `sorry`s).
 * **`lem:path_covering`** — `RamcovGX.tex:967`: `GX.path_covering` (relative form
   `GX.exists_path_of_isPortly_of_isOpen`), built on an infinite concatenation of paths
@@ -64,7 +64,7 @@ The point-set layer of `papers/gx` (Section 2.1 and the two lemmata opening Sect
   an open dense `U` this is equivalent to the `IsConnected` reading
   (`GX.isLocallyConnectedIn_iff_isConnected`), so `IsPortly` is the paper's notion.
 * "Portly in `V`" for `V ⊆ X` is portliness of the preimage in the subspace `V`.
-* The examples of skeletal sets, with their readings, are in `GXScaffold.Topology.PortlyExamples`.
+* The examples of skeletal sets, with their readings, are in `GX.Topology.PortlyExamples`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/

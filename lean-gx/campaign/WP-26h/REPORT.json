@@ -1,0 +1,268 @@
+{
+ "package": "WP-26h",
+ "files": [
+  "scaffold/GXScaffold/Branched/GaloisExamples.lean"
+ ],
+ "builds": true,
+ "sorry_count": 3,
+ "labels": [
+  {
+   "label": "ex:following_situations_semi_locally_simply",
+   "tex_lines": [
+    1560,
+    1568
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.following_situations_finite",
+    "GX.following_situations_finite_euclidean",
+    "GX.IsLocallyPolygonal",
+    "GX.following_situations_tame",
+    "GX.isLocallyPolygonal_homeomorph_image",
+    "GX.following_situations_tame_knot",
+    "GX.IsPureDim",
+    "GX.skeletonFaces",
+    "GX.following_situations_simplicial",
+    "GX.following_situations_simplicial_false",
+    "GX.cexK",
+    "GX.IsConicalAt",
+    "GX.isConicalAt_segment",
+    "GX.isSLSCIn_subtype_compl_of_isConicalAt",
+    "GX.isSLSCIn_compl_of_local_models",
+    "GX.polygonalSet",
+    "GX.dense_compl_polygonalSet",
+    "GX.dense_compl_skeleton",
+    "GX.HasFacesOfCardGe",
+    "GX.IsPureDim.hasFacesOfCardGe",
+    "GX.following_situations_simplicial_pure",
+    "GX.cexK_isConnected",
+    "GX.cexK_space",
+    "GX.cexV",
+    "GX.cexV_apply",
+    "GX.cexV_injective",
+    "GX.cexTet",
+    "GX.cexTet_card",
+    "GX.cexTet_mem",
+    "GX.cexEdge",
+    "GX.cexEdge_card",
+    "GX.cexEdge_mem",
+    "GX.cexFaces",
+    "GX.cexK_faces",
+    "GX.convexHull_cexTet_subset",
+    "GX.isConicalAt_empty",
+    "GX.isConicalAt_polygonalSet"
+   ],
+   "hypotheses": [
+    {
+     "paper": "§3 standing: Y Hausdorff, connected, LPC, first countable",
+     "here": "weakened",
+     "note": "not used"
+    },
+    {
+     "paper": "item 1: n >= 2",
+     "here": "weakened",
+     "note": "E any nontrivial real normed space (n >= 1); n >= 1 is needed for density only"
+    },
+    {
+     "paper": "item 1: Y an n-manifold",
+     "here": "carried",
+     "note": "[ChartedSpace E Y]; no Hausdorff hypothesis needed"
+    },
+    {
+     "paper": "item 2: Y a 3-manifold",
+     "here": "weakened",
+     "note": "local models in any finite-dimensional E of dimension >= 2"
+    },
+    {
+     "paper": "item 2: S a tame knot",
+     "here": "read",
+     "note": "locally polygonal up to local homeomorphism (GX.IsLocallyPolygonal); includes the classical tame knots of R^3 (images of polygonal sets by homeomorphisms of R^3, proved); being a circle not used"
+    },
+    {
+     "paper": "item 3: Y a simplicial complex of dimension n",
+     "here": "corrected",
+     "note": "'of dimension n' replaced by 'every face lies in a face with >= n vertices' (GX.HasFacesOfCardGe; implied by purity GX.IsPureDim, GX.following_situations_simplicial_pure; exactly what the barycentre/density argument uses); false as written (connected counterexample). STRENGTHENED, separately: K a LOCALLY FINITE geometric complex in a real normed space with the subspace topology (inherited from rem:simple_cases, WP-26f). Reason: mathlib has no weak (CW) topology on a geometric simplicial complex, and for a locally finite complex the subspace topology coincides with the weak topology, so the restriction is on the class of complexes (locally finite), not on the topology. The upper bound on dimension is not used."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.1564 (item 3) is false as written: a CONNECTED complex of dimension n can have a maximal face of dimension <= n-2; then Y minus the (n-2)-skeleton is not dense, so not semi-locally simply connected in Y (density is required by the definition l.1451). Counterexample GX.following_situations_simplicial_false: a tetrahedron {e0,e1,e2,e3} with the dangling edge {e3,e4} in R^5, n = 3, |K| connected (GX.cexK_isConnected), so inside the standing hypothesis 'X connected' of l.1451; the free edge is a maximal 1-face inside the 1-skeleton. True (GX.following_situations_simplicial) when every face lies in a face with >= n vertices (dimension >= n-1), in particular for pure complexes.",
+    "l.1562 (item 1): n >= 2 is not needed for the notion of l.1451: n >= 1 suffices (finite sets are conical; density needs E nontrivial)",
+    "l.1563 (item 2): neither dimension 3 nor being a knot is used: any locally polygonal closed set (locally a finite union of segments up to homeomorphism) in a manifold of dimension >= 2 works, by radial contraction"
+   ],
+   "questions": [
+    "Reading of 'tame knot' (l.1563): locally polygonal up to local homeomorphism (GX.IsLocallyPolygonal), i.e. locally tame; its equivalence with tameness/local flatness in 3-manifolds (Bing–Moise) is not formalized. Accept?",
+    "Reading of 'simplicial complex of dimension n' (l.1564): the literal statement is refuted (connected counterexample); accept as the correction 'every face lies in a face of dimension >= n-1' (pure complexes in particular)?",
+    "Item 3 is proved for LOCALLY FINITE geometric complexes with the subspace topology (= weak topology for locally finite complexes; mathlib has no weak topology). Is the paper's 'simplicial complex' meant locally finite (as for the manifolds of items 1-2), or should non-locally-finite complexes with the weak topology be covered?",
+    "All three items are proved for GX.IsSLSCIn, the homotopy reading of 'almost trivial' (WP-26e SCOPE (a), WP-26f SCOPE (b)); positive results hold a fortiori in the literal compact-open reading."
+   ]
+  },
+  {
+   "label": "ex:consider_denote_absolute_galois",
+   "tex_lines": [
+    1570,
+    1575
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.absGal_not_isSLSCIn",
+    "GX.absGal_not_isSLSCAt",
+    "GX.not_isSLSCAt_of_essential",
+    "GX.absGalLoop",
+    "GX.absGalLoop_not_mem",
+    "GX.absGalLoop_not_homotopicIn",
+    "GX.printedGamma2",
+    "GX.printedGamma2_eq_top",
+    "GX.AbsGamma",
+    "GX.gamma2",
+    "GX.gamma2Homeo",
+    "GX.AbsGalOrdY₂",
+    "GX.ordY₂Proj",
+    "GX.AbsGalY₂",
+    "GX.y₂Fiber0",
+    "GX.windAt",
+    "GX.absGal_Y₂_fiber_not_compact",
+    "GX.absGal_Y₂_fiber_not_cantor",
+    "GX.subFib",
+    "GX.fibPt_mem",
+    "GX.absGalPt_mem",
+    "GX.mem_fibS_im",
+    "GX.norm_absGalLoop_le",
+    "GX.absGalLoop_apply"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Y = R^2",
+     "here": "carried",
+     "note": "as C; S = GX.fibS (WP-26e)"
+    },
+    {
+     "paper": "gamma_n a simple loop around (1/n,0)",
+     "here": "read",
+     "note": "any loops of C minus S at y0 winding once around 1/(n+1) and 0 times around the other points of S (incl. 0); the loops are not constructed"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "GX.absGal_Y₂_fiber_not_compact",
+     "obstruction": "the fibre over 0 maps continuously onto the components of the preimage in Y2 of a disc D2 around 0 missing 1, i.e. onto Gamma/(Gamma2·H2), H2 the image of pi_1(D2 minus S); its infinitude needs pi_1(C minus S) free on the small loops and the loop around S, and a non-abelian quotient Gamma -> D_infinity (gamma_1 -> s, gamma_n -> t) killing Gamma2 and sending H2 into <t>; neither the free-group computation nor the components of Y2 over a disc are available"
+    }
+   ],
+   "findings": [
+    "l.1571, first claim, proved: C minus S is not semi-locally simply connected at 0 (loop t -> p - p e^{2iπt}, p = 1/(2k+3), winds once around p, while small loops at 0 are trivial in C minus {p})",
+    "l.1572: the printed Gamma2 = <Gamma [gamma_n]^2 Gamma> is all of Gamma (x = (x gamma_n^{-2}) gamma_n^2 1; GX.printedGamma2_eq_top), so Y2 would be Y; read as the normal closure <<[gamma_n]^2>>",
+    "l.1573: with Gamma2 the normal closure of the squares, the fibre above (0,0) of Y2 is NOT a Cantor set: it surjects continuously onto the infinite discrete set Gamma/(Gamma2·H2) (Gamma/Gamma2 contains the infinite dihedral quotient Z/2*Z/2 in which the image of H2 is finite), hence is not compact (stated GX.absGal_Y₂_fiber_not_compact, tagged sorry; GX.absGal_Y₂_fiber_not_cantor follows). A Cantor fibre is obtained with Gamma2' = kernel of the mod-2 winding numbers around the 1/n (an abelian quotient), for which Gamma/(Gamma2'·H_k) = (Z/2)^{k-1} is finite and the fibre is lim (Z/2)^{k-1}; not formalized",
+    "l.1573: 'answers positively Problem 10.7 of MR2198590' is bibliographic and not formalized"
+   ],
+   "questions": [
+    "Reading of Gamma2 (l.1572): normal closure of the [gamma_n]^2 (the printed double cosets give Gamma). Accept?",
+    "The first claim is proved under the homotopy reading of 'almost trivial' (GX.IsSLSCIn); under the literal compact-open reading it would need the local constancy of the winding number on Omega(0,0,C minus S), not proved."
+   ]
+  },
+  {
+   "label": "ex:wild_cantor_general_antoine",
+   "tex_lines": [
+    1578,
+    1579
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.exists_wild_cantor_not_isSLSCIn",
+    "GX.antoine_necklace_essential",
+    "GX.sphere3_not_isSLSCIn_of_essential",
+    "GX.sphere3_exists_nhds_loops_trivial",
+    "GX.wild_cantor_not_isSLSCIn",
+    "GX.wild_cantor_claim_false",
+    "GX.kirkor_wild_cantor_exists",
+    "GX.wild_cantor_claim_false_of_exists",
+    "GX.dense_compl_of_isCantorSubset",
+    "GX.sphere3Perp",
+    "GX.inner_sphere3Perp_self",
+    "GX.inner_sphere3Perp_sphere3Perp",
+    "GX.sphere3_isSLSCIn_compl_of_simplyConnected",
+    "GX.isSLSCIn_compl_of_simplyConnected",
+    "GX.IsLocallyNonseparating",
+    "GX.homotopicIn_of_simplyConnected",
+    "GX.preconnectedSpace_sphere3",
+    "GX.IsWildCantor",
+    "GX.IsCantorSubset",
+    "GX.Sphere3",
+    "GX.greatCircle3",
+    "GX.not_isSLSCIn_of_essential",
+    "GX.not_isSLSCAt_of_essential"
+   ],
+   "hypotheses": [
+    {
+     "paper": "S a wild Cantor set in S^3",
+     "here": "corrected",
+     "note": "false for arbitrary wild Cantor sets (finding; GX.wild_cantor_claim_false). Corrected to the cited class: Antoine's necklace, GX.exists_wild_cantor_not_isSLSCIn : ∃ C, IsWildCantor C ∧ ¬ IsSLSCIn Cᶜ, proved from the essential-loop criterion (GX.wild_cantor_not_isSLSCIn, any C, no Cantor/wildness hypothesis; GX.sphere3_not_isSLSCIn_of_essential, small-loop condition automatic in S³ for a closed piece, GX.sphere3_exists_nhds_loops_trivial, proved) and Antoine's theorem GX.antoine_necklace_essential (tagged sorry)."
+    },
+    {
+     "paper": "(cited, general_antoine) Antoine's theorem",
+     "here": "stated",
+     "note": "GX.antoine_necklace_essential: there is a wild Cantor set C ⊆ S³ such that at every x ∈ C, in every neighbourhood V of x, there are a closed K ⊆ C with x ∉ K (a sub-necklace C ∩ L, L a link not containing x) and a loop at x off C in V essential in S³ ∖ K. Tagged sorry: necklace construction, homeomorphism with cantorSet, Antoine's π₁ computation, accessibility, wildness."
+    },
+    {
+     "paper": "(refutation) existence of wild Cantor sets with simply connected complement",
+     "here": "stated",
+     "note": "GX.kirkor_wild_cantor_exists (Kirkor 1958; Skora 1986; Garity–Repovš–Željko 2006), tagged sorry, includes the local non-separation of a 0-dimensional compactum (dimension theory). The density of the complement is now PROVED for every Cantor set of S³ (GX.dense_compl_of_isCantorSubset) and removed from the hypotheses of GX.wild_cantor_claim_false_of_exists; the unconditional refutation GX.wild_cantor_claim_false follows."
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "GX.antoine_necklace_essential",
+     "obstruction": "Antoine's theorem (cited general_antoine) is not built: (1) the construction in S³ of nested chains of linked solid tori with diameters → 0 and a homeomorphism of their intersection with cantorSet; (2) the π₁ computation that a meridian of a link L is essential in S³ ∖ (C ∩ L) (no meridian disc of L misses C ∩ L; needs van Kampen and the linking of the chain — mathlib has neither π₁ of link complements nor van Kampen); (3) accessibility of each x ∈ C by an arc meeting C only at x; (4) wildness (a Cantor set in a great circle up to homeomorphism has simply connected complement). Used by GX.exists_wild_cantor_not_isSLSCIn."
+    },
+    {
+     "decl": "GX.kirkor_wild_cantor_exists",
+     "obstruction": "existence of a wild Cantor set in S³ with simply connected complement (Kirkor 1958, Skora 1986: explicit construction plus a limit van Kampen argument for π₁ = 1, wildness via Bing's 1-ULC criterion) and the local non-separation of a closed 0-dimensional set in a 3-manifold (dimension theory / Alexander duality); none in mathlib. Used by GX.wild_cantor_claim_false."
+    }
+   ],
+   "findings": [
+    "l.1578 is FALSE for an arbitrary wild Cantor set: wild Cantor sets in S^3 with simply connected complement exist (Kirkor, Fund. Math. 1958; Skora, Topology Appl. 24 (1986) 181-188; Garity-Repovs-Zeljko, Proc. AMS 134 (2006)), and for any C with dense, simply connected, locally non-separating complement, S^3 minus C IS semi-locally simply connected in S^3 (GX.isSLSCIn_compl_of_simplyConnected, proved: cut short end arcs off a loop of Omega(x,x,C^c), join their ends inside a small neighbourhood off C, conclude by simple connectivity). Density of the complement of any Cantor set of S³ is proved (GX.dense_compl_of_isCantorSubset). The refutation GX.wild_cantor_claim_false is unconditional modulo the cited existence GX.kirkor_wild_cantor_exists (tagged sorry). Holds in both the homotopy and the literal compact-open reading of 'almost trivial'.",
+    "Corrected statement, for the cited class: Antoine's necklace is a wild Cantor set whose complement is not semi-locally simply connected in S³ (GX.exists_wild_cantor_not_isSLSCIn). It is REDUCED to Antoine's theorem, stated precisely as GX.antoine_necklace_essential (tagged sorry), not proved: the reduction (the essential-loop criterion GX.wild_cantor_not_isSLSCIn and its S³ form GX.sphere3_not_isSLSCIn_of_essential, with the small-loop triviality proved by radial contraction of a spherical cap) is proved. Note the loop to use at x ∈ C is a meridian of a SIBLING link (not containing x), essential in the complement of that sibling's sub-necklace; a meridian of a link containing x does not work, since removing any piece around x makes the enclosing meridians inessential."
+   ],
+   "questions": [
+    "l.1578: is 'a wild Cantor [general_antoine]' meant to be Antoine's / Blankinship's necklaces (the cited class)? For arbitrary wild Cantor sets the claim is false (wild Cantor sets with simply connected complement). Proposed correction: 'If S is an Antoine (or Blankinship) necklace in S^3'."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "GX.IsConicalAt",
+  "GX.IsConicalAt.union",
+  "GX.isConicalAt_biUnion",
+  "GX.isConicalAt_segment",
+  "GX.isConicalAt_of_finite",
+  "GX.isSLSCIn_subtype_compl_of_isConicalAt",
+  "GX.isSLSCIn_compl_of_local_models",
+  "GX.dense_compl_segment",
+  "GX.dense_compl_polygonalSet",
+  "GX.barycentre_not_mem_convexHull",
+  "GX.dense_compl_skeleton",
+  "GX.not_isSLSCAt_of_essential",
+  "GX.not_isSLSCIn_of_essential",
+  "GX.printedGamma2_eq_top",
+  "GX.homotopicIn_refl_of_ball",
+  "GX.subPt",
+  "GX.IsLocallyNonseparating",
+  "GX.homotopicIn_of_simplyConnected",
+  "GX.isSLSCIn_compl_of_simplyConnected",
+  "GX.HasFacesOfCardGe",
+  "GX.IsPureDim.hasFacesOfCardGe",
+  "GX.sphere3_exists_nhds_loops_trivial",
+  "GX.dense_compl_of_isCantorSubset",
+  "GX.sphere3_not_isSLSCIn_of_essential"
+ ],
+ "kb_proposals": [
+  "Positive slsc results: a closed set conical at each point (GX.IsConicalAt: finite sets, segments, polygonal sets) has slsc complement by isSLSCAt_of_radial_contraction; transport to manifolds/local models by GX.isSLSCIn_compl_of_local_models (charts give V ≃ₜ open O ⊆ E, no ball ≃ E needed).",
+  "Negative slsc results: GX.not_isSLSCAt_of_essential (essential loop in the complement of K ⊆ S, small loops trivial) plus cWinding/cWinding_homotopic of Paths.lean through homotopicIn_iff and a map ℂ∖{p} → CStar.",
+  "Under `open unitInterval`, σ is the notation for unitInterval.symm: never name a variable σ.",
+  "Concrete geometric simplicial complexes: use Fin n → ℝ (sup norm), Pi.basisFun's linear independence and Geometry.SimplicialComplex.ofAffineIndependent with IsLowerSet.isRelLowerSet_sep.",
+  "SLSC from simple connectivity: a dense, simply connected, locally non-separating complement is semi-locally simply connected (GX.isSLSCIn_compl_of_simplyConnected), via exists_head_mem/exists_tail_mem + splice_omegaHomotopic of Paths.lean. So any non-SLSC claim about a complement must exhibit a LOCAL essential loop (not_isSLSCIn_of_essential), not merely non-trivial global pi_1 or a failure of 1-ULC.",
+  "Cited deep geometric topology (Antoine's necklace, Kirkor's wild Cantor set) is stated as an existence theorem with a tagged sorry naming the missing pieces, and the paper's claim is DERIVED from it by a proved reduction; never carry the cited content as a hypothesis of the main theorem. In S³ = sphere in EuclideanSpace ℝ (Fin 4), small caps {y | c < ⟪y,x⟫} contract radially via w ↦ normalize(w + max 0 (1/2 - ⟪w,x⟫) • x) (globally continuous), GX.sphere3_exists_nhds_loops_trivial."
+ ],
+ "notes": "Round 2 (fixer). Imports GXScaffold.Branched.Galois only (read-only). taskset -c 0-11 lake build GXScaffold.Branched.GaloisExamples succeeds (Paths, Galois replayed, nothing in GX rebuilt). Three tagged sorries: GX.absGal_Y₂_fiber_not_compact (unchanged, genuine; GX.absGal_Y₂_fiber_not_cantor depends on it), GX.kirkor_wild_cantor_exists and GX.antoine_necklace_essential (new, both cited results of ex:wild_cantor_general_antoine). #print axioms: dense_compl_of_isCantorSubset, sphere3_exists_nhds_loops_trivial, sphere3_not_isSLSCIn_of_essential, wild_cantor_claim_false_of_exists, following_situations_*, absGal_not_isSLSCIn are sorry-free; sorryAx under wild_cantor_claim_false and exists_wild_cantor_not_isSLSCIn only through the two cited statements. Audit-2 fixes: MAJOR — the cited class is now stated (GX.exists_wild_cantor_not_isSLSCIn : ∃ C, IsWildCantor C ∧ ¬ IsSLSCIn Cᶜ) and derived from Antoine's theorem stated precisely with a tagged sorry (GX.antoine_necklace_essential), the small-loop half of the criterion being proved in S³; finding reworded ('reduced to Antoine's theorem, not proved'). MINOR — the Kirkor/Skora existence is its own tagged-sorry theorem, the refutation GX.wild_cantor_claim_false is unconditional modulo it, and Dense Cᶜ is proved for every Cantor set (GX.dense_compl_of_isCantorSubset) and dropped from the hypotheses of GX.wild_cantor_claim_false_of_exists (signature changed: now IsWildCantor ∧ SimplyConnectedSpace ∧ IsLocallyNonseparating; nothing else references it). MINOR — docstrings of GX.wild_cantor_not_isSLSCIn and the module reworded (any C with an essential small loop at some x ∈ C; no Cantor/wildness hypothesis). MINOR — all 90 top-level declarations are now listed (cex*, subFib, fibPt_mem, absGalPt_mem, mem_fibS_im, norm_absGalLoop_le, absGalLoop_apply, isConicalAt_empty, isConicalAt_polygonalSet, convexHull_cexTet_subset under their rows). No label marked: all three rest on corrections/readings, and the homotopy reading of 'almost trivial' is still unruled."
+}

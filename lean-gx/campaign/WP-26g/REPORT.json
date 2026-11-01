@@ -1,0 +1,51 @@
+{
+  "package": "WP-26g",
+  "files": ["scaffold/GXScaffold/Topology/PortlyExamples.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "ex:following_example_skeletal_itemize",
+      "tex_lines": [367, 374],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.isSkeletal_of_finite_surface",
+        "GX.isSkeletal_of_tameKnot",
+        "GX.bowtie_counterexample",
+        "GX.isSkeletal_skeletonSpace",
+        "GX.isSkeletal_skeletonSpace_codim_two",
+        "GX.isSkeletal_of_isTotallyDisconnected",
+        "GX.isPreconnected_compl_of_isTotallyDisconnected"
+      ],
+      "hypotheses": [
+        {"paper": "item 3: pure n-dimensional simplicial complex, k <= n-2", "here": "added", "note": "finite complex, locally strongly connected in codimension >= 2 (GX.IsLocallyStronglyConnected); without it the item is false (GX.bowtie_counterexample)"},
+        {"paper": "item 4: n-manifold", "here": "strengthened", "note": "n >= 2 (finrank >= 2); in dimension 1 the item fails (GX.eq_empty_of_isSkeletal_real); 'wildly' presupposes n >= 3 anyway"},
+        {"paper": "item 4: a Cantor set", "here": "weakened", "note": "any closed totally disconnected subset"}
+      ],
+      "sorries": [],
+      "findings": [
+        "Item 3 (l.372) is false as written: the bow-tie (two triangles sharing a vertex) is a pure 2-complex whose 0-skeleton is not skeletal (GX.bowtie_counterexample, pre-existing). With local strong connectivity in codimension >= 2 added, the corrected statement is now proved in full (no sorry)."
+      ],
+      "questions": [
+        "Item 2 read as a closed locally flat subset (pre-existing reading, unchanged by this package)."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.int_valued_eq_of_isPreconnected",
+    "GX.mem_connectedComponentIn_compl_union_of_disjoint",
+    "GX.isPreconnected_compl_of_separated",
+    "GX.openSimplex",
+    "GX.openSimplex_subset_convexHull",
+    "GX.convex_openSimplex",
+    "GX.subset_of_mem_openSimplex",
+    "GX.mem_closure_openSimplex"
+  ],
+  "kb_proposals": [
+    "Non-separation by closed totally disconnected sets needs no dimension theory: Janiszewski's lemma for disjoint closed sets follows from lifting C(Y, ℂ∖{0}) through exp on a simply connected Y (Complex.isCoveringMapOn_exp.existsUnique_continuousMap_lifts), and a Zorn argument on minimal separating closed sets reduces to points (GX.isPreconnected_compl_of_separated).",
+    "A closed subset of a finite-dimensional space is locally compact, so totally disconnected = totally separated there (loc_compact_t2_tot_disc_iff_tot_sep): clopen splits of non-compact closed sets are available.",
+    "Local theory of geometric simplicial complexes without carriers: GX.openSimplex (positive barycentric weights) + AffineIndependent.eq_of_sum_eq_sum_subtype gives 'a point of the open simplex of a face lies only in faces containing it'; open stars are replaced by B(x,r) ∩ {y | every face through y passes through x}, open because K is finite."
+  ],
+  "notes": "Both tagged sorries of GXScaffold.Topology.PortlyExamples are closed; the statements of GX.isPreconnected_compl_of_isTotallyDisconnected and GX.isSkeletal_skeletonSpace_codim_two are byte-identical to the dispatch's. The file now has 0 sorry; axioms of the four headline theorems are [propext, Classical.choice, Quot.sound]. The row stays partial only because item 3 is false as written (DEC-27) and item 2 rests on the locally-flat reading; all four items are now certified in their stated (corrected/read) forms, so the file could graduate to GX/ (strict) after a warningAsError pass. Three lines over 100 chars (l.102, 989, 1111) predate this package. lake build GXScaffold.Topology.PortlyExamples succeeded, rebuilding only that module."
+}

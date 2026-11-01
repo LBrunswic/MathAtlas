@@ -1,0 +1,61 @@
+{
+  "package": "WP-26f",
+  "round": 2,
+  "auditor": "read-only auditor, round 2",
+  "file": "scaffold/GXScaffold/Branched/Galois.lean",
+  "verdict": "issues",
+  "builds": true,
+  "sorry_count": 0,
+  "checks": {
+    "build": "Ran taskset -c 0-11 lake env lean scaffold/GXScaffold/Branched/Galois.lean: EXIT 0, no messages, 4.6 s wall. To confirm the check is real, a copy in /tmp with an injected error deep in the file (l.1801) was rejected. taskset -c 0-11 lake build GXScaffold.Branched.Galois: 'Build completed successfully'; the only warnings are Paths.lean's own sorries; GX/mathlib were not rebuilt. The file has 0 occurrences of sorry, admit or axiom. #print axioms reports [propext, Classical.choice, Quot.sound] for each of: galois_correspondence, galoisian_semilocal, alternative_countable, galoisian_fiber, dense_orbits, galois_quotient, deckOrdEquiv, branched_covering_group_automorphisms, isSLSCIn_compl_faces, isSLSCIn_of_locally_linear, isSLSCIn_univ_of_semilocallySimplyConnected, isQuasiGaloisian_of_isSpreadCompletion, IsQuasiGaloisian.exists_isSpreadCompletion, Spread.Iso.homeoX_mem_deckGroup, isSLSCIn_of_local. None of the three sorried declarations in Paths is reached.",
+    "name_clashes": "None. A script extracted all 104 top-level declarations and compared each against every declaration in GX/ and in the other scaffold/ files, by full name and by last component. The only last-component match is AlmostTrivial.map against `map`, and those are namespaced defs (Susp.map in GX/Singular/Suspension.lean:393, the Completion `map` in GX/Spread/Completion.lean:1115), so they do not clash.",
+    "marks": "The module docstring marks exactly def:automorphisms_spread, rem:galois_quotient, lem:branched_covering_group_automorphisms and cor:branched_covering, and the REPORT agrees. No declaration docstring bolds an unmarked label. All four statements were re-checked against l.1420-1443 and none depends on an unruled reading.",
+    "round1_followup": "Blocker (marks on the homotopy reading of 'almost trivial'): FIXED. def:slsc and prop:Galoisian_semilocal are unmarked and partial, and all five dependent rows carry the reading as a 'strengthened' hypothesis with the WP-26e question. Major 1 (quasi-Galoisian reading): FIXED. lem:dense_orbits, prop:Galoisian_fiber and lem:alternative_countable are unmarked and partial, each with the dependency recorded. Major 2 (simplicial case missing): ADDRESSED. GX.isSLSCIn_compl_faces proves the finite-complex case (see the minors for its scope). Minor (counterexample not formalized): both rows now record it. Minor (universe): FIXED, X : Type v. Minor (openness of V): recorded in the REPORT.",
+    "report_completeness": "All 13 labels of l.1417-1559 are present, sorry_count 0 matches the file, and every row's status is consistent with its marks.",
+    "reuse": "Γ(X/Y) is GX.deckGroup/Deck. The maximal cover, universality, Fox completion functoriality and π₁ countability come from the strict library; AlmostTrivial/MemOmega/OmegaHomotopic come from GXScaffold.Branched.Paths. Nothing is redefined."
+  },
+  "issues": [
+    {
+      "severity": "major",
+      "where": "GX.isSLSCIn_of_locally_linear (Galois.lean:1276-1284); REPORT row rem:simple_cases (decl list, 'X ∖ U a codimension ≥ 2 submanifold' hypothesis, local-flatness question)",
+      "problem": "The hypothesis demands, at EVERY x ∈ X (points of U included), an open V ∋ x, a homeomorphism φ : V ≃ₜ E and a closed proper subspace L with V ∩ U = φ⁻¹(Lᶜ). Since 0 ∈ L and φ is onto, φ.symm 0 ∉ U, so every such V must meet X ∖ U. Local flatness gives no such chart at a point of U far from X ∖ U; building one there needs a nontrivial homeomorphism construction (thickening a path to a flat chart of S). For S = X ∖ U = ∅ the hypothesis cannot be satisfied at all. The theorem is therefore strictly weaker than its docstring ('e.g. a locally flat submanifold of codimension ≥ 2') and than the REPORT's stated reading ('read as LOCALLY FLAT (in charts a closed proper linear subspace)'). Neither discloses the off-S chart requirement. This is an avoidable, unreported weakening of the first item of rem:simple_cases.",
+      "fix": "Change the hypothesis to a disjunction at each x: either the flat chart as now, or an open V ∋ x with V ⊆ U and V ≃ₜ E. Equivalently, require flat charts only at x ∉ U and use local Euclideanity elsewhere. Discharge the second case with isSLSCAt_of_radial_contraction (M = A = univ) or with isSLSCIn_univ_of_semilocallySimplyConnected on E, transported by IsSLSCIn.of_homeomorph and isSLSCIn_of_local. Better still, state it for a ChartedSpace E X whose X ∖ U is flat in the charts at its own points. Then update the docstring and the REPORT note."
+    },
+    {
+      "severity": "minor",
+      "where": "GX.isSLSCIn_compl_faces (Galois.lean:1407); REPORT row rem:simple_cases, hypothesis 'X a simplicial complex …'",
+      "problem": "The simplicial case is proved only for FINITE complexes (hK : K.faces.Finite). Finiteness is used only to make B, the union of the faces not containing x, closed. The same radial-contraction proof works for a LOCALLY FINITE complex, which covers triangulated noncompact manifolds. Only the non-locally-finite / weak-topology case is a real gap. The restriction is disclosed (SCOPE (f), REPORT question), and the row is partial.",
+      "fix": "Optionally generalise to locally finite K: near x only finitely many faces meet a ball, so B ∩ ball is closed in the ball. Otherwise keep the disclosure."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT row rem:simple_cases, hypothesis entry 'X a simplicial complex, X∖U a union of facets, U dense and locally connected'",
+      "problem": "The entry is tagged 'here: weakened', but it mixes a real weakening (local connectedness and dimension not used; 'facets' read as arbitrary faces) with a STRENGTHENING (finite complex, subspace topology of a normed space). A reader of the 'here' field alone would miss the restriction.",
+      "fix": "Split it into two entries: 'U locally connected / dimension: weakened (not used)' and 'X a simplicial complex: strengthened (finite geometric complex, subspace topology)'."
+    },
+    {
+      "severity": "minor",
+      "where": "rem:definition_semi_locally_simply_connected and theo:Galois_cor findings (harmonic archipelago)",
+      "problem": "Carried over from round 1, now disclosed. DEC-27's counterexamples (the converse of rem:definition_slsc; 'slsc in Y' not implying 'Y ∖ S slsc') rest on the unformalized harmonic archipelago. Both rows now say 'Counterexample not formalized (DEC-27)'.",
+      "fix": "None required in this package. The master session can schedule the formalization or ask for a waiver."
+    }
+  ],
+  "verified_ok": [
+    "def:automorphisms_spread (marked): deckStab/deckSetStab are genuine subgroups of Deck p (pointwise and set-wise stabilizers). deckToSpreadIso and Spread.Iso.homeoX_mem_deckGroup give both directions of 'a spread automorphism is an automorphism in Spread' (over id_Y). No hypotheses are added.",
+    "rem:galois_quotient (marked): galois_quotient gives HomeoQuotient (deckGroup p) ≃ₜ Y with h ∘ mk = p, under Y T1, LPC, first countable, all weaker than the §3 standing hypotheses (l.810).",
+    "lem:branched_covering_group_automorphisms (marked): deckRestrictEquiv is a MulEquiv Deck p ≃* Deck(p⁻¹U → U) for every portly U. branched_covering_group_automorphisms gives both halves of the proof's equality (preservation, unique extension). The hypotheses X, Y T2 and Y locally connected are weaker than §3.",
+    "cor:branched_covering (marked): ordX = p⁻¹(ordY) in the strict library (GX/Spread/Basic.lean:422), as in def:continuous_map_ordinary_locus (l.839), so deckOrdEquiv is the paper's Γ(X/Y) = Γ(ord X/ord Y).",
+    "def:branched_covering_galoisian_group (partial, reading): IsGaloisian is literal. Under the portly-O reading, IsQuasiGaloisian ⇔ 'completion of a connected surjective deck-transitive covering of a portly O' is proved in both directions.",
+    "lem:dense_orbits, prop:Galoisian_fiber, lem:alternative_countable (partial, readings): proved in full under the readings. The alternative_countable TFAE needs no finiteness or surjectivity hypothesis (Baire on the completely metrizable fibre; the empty-fibre case is handled). The l.1488 finding (disconnected U) is correct.",
+    "def:semi_locally_simple_connectedness, rem:definition_slsc (partial): IsSLSCAt/IsSLSCIn match l.1451-1454 under the homotopy reading. Paths' AlmostTrivial ⇒ AlmostTrivialCC (Paths.lean:613), so the strengthened direction is as reported.",
+    "rem:simple_cases (partial): isSLSCIn_compl_submodule (all closed proper subspaces, codimension 1 included), isSLSCIn_of_local (one open V per point), isSLSCIn_compl_faces (finite complex, union of closed faces, U dense) and the radial criterion are all sorry-free. The codimension finding is correct. Leaving wild codimension-2 submanifolds unstated, with a question to the author, is a legitimate choice, since the claim's truth there is unknown.",
+    "prop:Galoisian_semilocal (partial, reading): both directions are proved. Second countability is used only for (i) ⇒ (ii), via Γ ↪ fibre over y₀ ≅ π₁(Y∖S) countable. The findings at l.1524 and l.1536 are accurate.",
+    "theo:Galois_cor (partial): all three assertions are proved, universe-polymorphic in X. The added 'Y ∖ S slsc' is the hypothesis of prop:universality (l.1158-1160), without which Ỹ^S does not exist, and it is reported. Second countability is not needed. Normality is proved for every H with H\\Ỹ^S ≃ X over Y."
+  ],
+  "questions_for_author": [
+    "Is 'almost trivial' (def:almost_trivial_loop, l.1212) to be read through homotopies with respect to U (l.1201), as WP-26e SCOPE (a) does? Ruling it closes def:semi_locally_simple_connectedness and prop:Galoisian_semilocal.",
+    "Is the 'Galoisian covering' in def:branched_covering_galoisian_group (l.1428) a connected deck-transitive covering of a portly O ⊆ Y? Ruling it closes that row together with lem:dense_orbits and lem:alternative_countable, and prop:Galoisian_fiber modulo its open-basis reading.",
+    "rem:simple_cases (l.1462): is 'codimension at least 2 submanifold' meant as locally flat, and is 'union of facets' meant as a union of closed faces of a (locally) finite complex?"
+  ],
+  "summary": "Round 2. The file builds cleanly (lake env lean and lake build of the module), has 0 sorry, uses only standard axioms and clashes with no name. All 13 labels are reported, and the marks (def:automorphisms_spread, rem:galois_quotient, lem:branched_covering_group_automorphisms, cor:branched_covering) are justified. Round 1's blocker and both majors are fixed: the reading-dependent rows are unmarked and partial with their readings recorded, and the finite simplicial case of rem:simple_cases is proved. One new major: GX.isSLSCIn_of_locally_linear requires at every point, including points of U, a chart V ≃ₜ E carrying X∖U to a linear subspace. Every such V must meet X∖U, so the lemma is unusable at points away from X∖U and vacuous for X∖U = ∅. It is therefore strictly weaker than the 'locally flat submanifold' reading it claims, and the fix is easy (allow a Euclidean chart inside U). Minors: the simplicial case could cover locally finite complexes; one REPORT hypothesis tag mixes a weakening with a strengthening; the harmonic-archipelago counterexamples are unformalized but disclosed."
+}

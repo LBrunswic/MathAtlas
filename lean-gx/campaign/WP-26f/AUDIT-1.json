@@ -1,0 +1,68 @@
+{
+  "package": "WP-26f",
+  "round": 1,
+  "auditor": "read-only auditor, round 1",
+  "file": "scaffold/GXScaffold/Branched/Galois.lean",
+  "verdict": "issues",
+  "builds": true,
+  "sorry_count": 0,
+  "checks": {
+    "build": "taskset -c 0-11 lake env lean scaffold/GXScaffold/Branched/Galois.lean: EXIT 0, no warnings. 0 occurrences of sorry/admit/axiom in the file. Galois.olean (06:23:17) is newer than the source (06:23:04). #print axioms (via lake env lean --stdin) on galois_correspondence, galoisian_semilocal, alternative_countable, galoisian_fiber, dense_orbits, galois_quotient, deckOrdEquiv, branched_covering_group_automorphisms, isSLSCIn_of_locally_linear, isSLSCIn_univ_of_semilocallySimplyConnected, isQuasiGaloisian_of_isSpreadCompletion, IsQuasiGaloisian.exists_isSpreadCompletion, Spread.Iso.homeoX_mem_deckGroup: [propext, Classical.choice, Quot.sound] only. None of Paths' three sorried declarations is reached.",
+    "name_clashes": "None. All 101 top-level declarations grepped against GX/ and scaffold/ (other files).",
+    "report_completeness": "All 13 labels of l.1417-1559 are present in REPORT.json. The unlabelled claim at l.1445-1448 (Ỹ^S not Galoisian for S = {1/n} ∪ {0}) has no label and is not required.",
+    "reuse": "Γ(X/Y) is GX.deckGroup / GX.Deck from the strict library. The maximal cover, its universality and the Fox completion functoriality come from GX.Branched.Universality and GX.Spread.Completion. The lifting lemmas come from GXScaffold.Branched.Paths. Nothing is redefined."
+  },
+  "issues": [
+    {
+      "severity": "blocker",
+      "where": "module docstring (marks) and REPORT rows def:semi_locally_simple_connectedness, prop:Galoisian_semilocal",
+      "problem": "Both labels are marked ** and reported status closed with no reading recorded. But IsSLSCAt is built on GX.AlmostTrivial, which is Paths' homotopy reading (WP-26e SCOPE (a)) of the paper's 'connected component of Ω(x,x,U) in the compact-open topology' (def:almost_trivial_loop, l.1212). Paths proves only homotopic ⇒ same component (OmegaHomotopic.mem_connectedComponentIn). It leaves def:almost_trivial_loop and every dependent row UNMARKED because 'those readings await a ruling'. DECISIONS.md has no ruling on it. kb/0006 says a label proved in a reading the paper does not settle is written without the mark. The reading also changes strength. The homotopy-based IsSLSCIn is stronger than the literal one. So galoisian_semilocal's (ii) ⇒ (i) (maxBranched_isGaloisian) assumes more than the paper's (ii), and the iff is not 'at least as strong' as the paper's. The same applies to theo:Galois_cor's hypothesis, to rem:simple_cases and to rem:definition_semi_locally_simply_connected, although those rows are already partial. The file's own SCOPE (b) discloses the reading, but the marks and the REPORT rows contradict it.",
+      "fix": "Unmark def:semi_locally_simple_connectedness and prop:Galoisian_semilocal and set both rows to partial. Add to each of the five dependent rows (def:slsc, rem:definition_slsc, rem:simple_cases, prop:Galoisian_semilocal, theo:Galois_cor) a hypotheses/questions entry naming the reading: 'almost trivial = homotopic w.r.t. U into every Ω(x,x,V∩U), Paths SCOPE (a)'. Route it to the author together with WP-26e's question. If the reading is ruled, the marks can be restored. Alternatively, prove the literal CC form (GX.AlmostTrivialCC) where possible: (i) ⇒ (ii) of prop:Galoisian_semilocal gives the stronger homotopy form, which implies CC."
+    },
+    {
+      "severity": "major",
+      "where": "REPORT rows lem:dense_orbits, lem:alternative_countable (marked closed); def:branched_covering_galoisian_group (partial, question)",
+      "problem": "The REPORT keeps def:branched_covering_galoisian_group partial because the reading of 'quasi-Galoisian' (the Galoisian covering is a connected surjective deck-transitive covering of a PORTLY O ⊆ Y) awaits acceptance. Yet lem:dense_orbits and lem:alternative_countable, whose only hypothesis on p is IsQuasiGaloisian p, are marked closed. They do not record that they inherit the same open reading. isQuasiGaloisian_of_isSpreadCompletion proves literal ⇒ Lean only for coverings of a portly O. If the author reads 'Galoisian covering' more widely, the Lean hypothesis is stronger and the consumer lemmas weaker. The marks are therefore contingent on the question the REPORT itself asks. The risk is low: the reading matches DEC-46(d)'s 'completion of connected coverings of a portly O'. But the REPORT is internally inconsistent.",
+      "fix": "Do one of two things. (a) Note in each consumer row that it rests on the def row's reading, and either unmark the consumers until the reading is ruled or argue in the REPORT that DEC-46(d) already rules it. In the second case, close and mark def:branched_covering_galoisian_group too. (b) Prove that every completion of a deck-transitive covering of an arbitrary dense subspace O is IsQuasiGaloisian. Then the consumers are unconditionally at least as strong as the paper."
+    },
+    {
+      "severity": "major",
+      "where": "rem:simple_cases (l.1462-1463), GX.isSLSCIn_of_locally_linear / REPORT row",
+      "problem": "The dispatch asks to 'prove what you can … state the rest precisely'. The simplicial-complex case ('X a simplicial complex and X∖U a union of facets, U dense and locally connected') is neither proved nor stated in Lean: no declaration, no tagged sorry. It appears only as a sentence in SCOPE (f) and in a REPORT question. Codimension ≥ 2 submanifolds that are not locally flat are likewise not stated. This is a missing part of a multi-part statement.",
+      "fix": "State the simplicial case precisely, with the reading of 'union of facets' (e.g. a union of closed faces of codimension ≥ 1 of a locally finite geometric simplicial complex in ℝⁿ, Mathlib's Geometry.SimplicialComplex). Prove it, or leave a tagged sorry naming the obstruction. Put the reading to the author. Optionally state the non-locally-flat topological submanifold case with a tagged sorry, or record it as a finding."
+    },
+    {
+      "severity": "minor",
+      "where": "rem:definition_semi_locally_simply_connected and theo:Galois_cor findings (harmonic archipelago)",
+      "problem": "DEC-27 asks for a counterexample where a statement is false. Both findings rest on the harmonic archipelago, which is not formalized: one shows the converse of the remark is false, the other shows that 'slsc in Y' does not give Y∖S slsc. The omission is reported. Formalizing π₁ of the harmonic archipelago is genuinely hard, so this is recorded as a gap, not a defect. The theo:Galois_cor added hypothesis is in any case forced by the library, since MaxBranchedCover needs hSc to exist.",
+      "fix": "Keep the findings. Add to the REPORT an explicit 'counterexample not formalized (DEC-27)' entry under sorries/notes for both rows, so the master session can schedule it or ask for a waiver."
+    },
+    {
+      "severity": "minor",
+      "where": "GX.galois_correspondence (bundled statement)",
+      "problem": "The bundled theorem quantifies coverings X : Type u, the universe of Y. The standalone galois_cor_quotient / galois_cor_normal are universe-polymorphic (Type*). The headline declaration is therefore slightly narrower than its parts.",
+      "fix": "Quantify over X : Type* (e.g. a universe variable v), or name galois_cor_quotient / galois_cor_normal as the certificates in the REPORT decls."
+    },
+    {
+      "severity": "minor",
+      "where": "rem:simple_cases second item, GX.isSLSCIn_of_local",
+      "problem": "The paper's 'basis of neighbourhoods V with V ∩ U slsc in V' is formalized with an OPEN V per point. If the basis is read as one of not-necessarily-open neighbourhoods, the Lean hypothesis is stronger. This is harmless under the usual 'topological basis' reading, but the REPORT records it as 'weakened' without naming the openness.",
+      "fix": "Mention the openness of V in the REPORT hypothesis note for rem:simple_cases."
+    }
+  ],
+  "verified_ok": [
+    "def:automorphisms_spread: deckStab / deckSetStab are genuine subgroups of GX.Deck. deckToSpreadIso and Spread.Iso.homeoX_mem_deckGroup give both directions of 'an automorphism in Spread over id_Y'. Mark justified.",
+    "rem:galois_quotient: the homeomorphism Γ\\X ≃ₜ Y is induced by p (h ∘ mk = p), under Y T1, LPC, first countable (standing). Mark justified.",
+    "lem:branched_covering_group_automorphisms / cor:branched_covering: restriction is a MulEquiv Deck p ≃* Deck(p⁻¹U → U) for every portly U, with uniqueness of the extension through Fox completion functoriality. Mark justified.",
+    "lem:alternative_countable: the TFAE is proved with no finiteness or surjectivity hypothesis (Baire on the completely metrizable fibre). Γ countable is carried, as in the paper. It holds modulo the quasi-Galoisian reading above.",
+    "prop:Galoisian_fiber: correctly partial (open-basis reading, DEC-48 keeps prop:spread_fiber partial). The finding at l.1488 (transitivity on components only for connected U) is correct.",
+    "prop:Galoisian_semilocal: both directions are genuinely proved, second countability is used only for (i) ⇒ (ii), and the findings at l.1524 and l.1536 are accurate. Only the reading/mark issue above remains.",
+    "theo:Galois_cor: all three assertions are proved. Hypotheses match the §3 standing hypotheses (l.813) and prop:universality. The added 'Y∖S slsc' is reported as a finding and the row is correctly partial. The normality equivalence is proved for every H with H\\Ỹ^S ≃ X over Y, which is stronger than the paper. Second countability is not needed, which is correct.",
+    "rem:simple_cases: the linear model (closed proper subspace of a real normed space) is proved by radial contraction. The finding that codimension ≥ 2 is not needed for this notion is correct."
+  ],
+  "questions_for_author": [
+    "Is 'almost trivial' (def:almost_trivial_loop, l.1212) to be read through homotopies with respect to U (the paper's 'or, equivalently', l.1201), as WP-26e SCOPE (a) does? If ruled, def:semi_locally_simple_connectedness and prop:Galoisian_semilocal close.",
+    "Does DEC-46(d) already settle that the 'Galoisian covering' of def:branched_covering_galoisian_group is a covering of a portly O ⊆ Y? If so, that row and its consumers close."
+  ],
+  "summary": "Builds cleanly with 0 sorry and standard axioms. No name clashes. REPORT lists all 13 labels. The mathematics is sound, and theo:Galois_cor in particular is a complete, honest argument with its added hypothesis reported. The blocker: def:semi_locally_simple_connectedness and prop:Galoisian_semilocal are marked and reported closed although they rest on Paths' unruled homotopy reading of 'almost trivial', which WP-26e itself leaves unmarked pending a ruling (kb/0006). Majors: (1) lem:dense_orbits and lem:alternative_countable are marked while inheriting the quasi-Galoisian reading that the REPORT itself puts to the author; (2) the simplicial-complex case of rem:simple_cases is neither proved nor stated."
+}

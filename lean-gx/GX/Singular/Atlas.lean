@@ -9,8 +9,9 @@ a.e. `(G,X)`-morphisms, their regular loci, and the pullback (`RamcovGX.tex:397`
 
 * **`def:almost_everywhere_atlas_topological`** — `RamcovGX.tex:402`: `GX.IsAEAtlas`,
   `GX.isAEAtlas_iff_exists_isPortly`; completion, thinness, `GX.AELe` (l.406).
-* `lem:GX_atlas_union` — `RamcovGX.tex:412` — partial: `GX.isAEAtlas_iUnion` needs the family
-  nonempty (`GX.not_isAEAtlas_iUnion_empty`).
+* **`lem:GX_atlas_union`** — `RamcovGX.tex:412`, read as DEC-46 (a) rules (the family
+  nonempty): `GX.isAEAtlas_iUnion`; the reading is necessary, recorded by
+  `GX.not_isAEAtlas_iUnion_empty` (the empty family fails).
 * **`cor:maximal_atlas`** — `RamcovGX.tex:458`: `GX.maximal_atlas`, `GX.maximalAEAtlas`.
 * **`def:structure_topological_space_atlas`** — `RamcovGX.tex:471`: `GX.IsAEStructure`.
 * **`def:singular_manifold_locally_connected`** — `RamcovGX.tex:474`: `GX.SingularGXStructure`,
@@ -23,22 +24,27 @@ a.e. `(G,X)`-morphisms, their regular loci, and the pullback (`RamcovGX.tex:397`
   connected, the open set nonempty): `GX.IsAEMorphismOf.eq_of_eqOn`, `GX.IsAEMorphism.eq_of_eqOn`;
   the correction is recorded by `GX.analytic_counterexample_disconnected` and
   `GX.analytic_counterexample_empty` (the statement as written is false without either reading).
-* `prop:GX_sing_morph_local` — `RamcovGX.tex:497` — partial (a reading of "locally" and of
-  restriction, SCOPE (d)): `GX.isAEMorphismOf_tfae`, `GX.isAEMorphism_tfae`.
+* **`prop:GX_sing_morph_local`** — `RamcovGX.tex:497`, read as DEC-46 (b) rules (restriction
+  and "locally", SCOPE (d)): `GX.isAEMorphism_tfae`, `GX.isAEMorphismOf_tfae`,
+  `GX.IsAEMorphismOn`.
 * **`lem:singular_manifolds_morphism_set`** — `RamcovGX.tex:507`: `GX.isGreatest_regLocusOf`.
 * **`def:singular_manifolds_morphism_maximal`** — `RamcovGX.tex:518`: `GX.regLocusOf`,
   `GX.regLocus`.
 * **`lem:regf1`** — `RamcovGX.tex:523`: `GX.IsAEMorphismOf.regLocusOf_eq`.
-* `rem:though_may_tempted_include` — `RamcovGX.tex:538` — partial (an informal remark, read):
-  `GX.zero_notMem_regLocusOf_pow`, `GX.not_isAEMorphismOf_pow`.
+* `rem:though_may_tempted_include` — `RamcovGX.tex:538` — partial (an informal remark, read,
+  SCOPE (g)): `GX.zero_notMem_regLocusOf_pow`, `GX.not_isAEMorphismOf_pow`; for maps locally
+  modelled on `z ↦ z^p`, `GX.not_injOn_of_eventually_eq_pow`,
+  `GX.notMem_regLocusOf_of_forall_not_injOn`, `GX.not_isAEMorphismOf_of_eventually_eq_pow`, and
+  between `(G,X)`-manifolds `GX.not_isAEMorphismOf_maximalAtlas_of_eventually_eq_pow`.
 * **`lem:aepullback`** — `RamcovGX.tex:541`, read as DEC-42 rules (an a.e. structure identified
   with its maximal atlas, l.471): `GX.aepullback`, `GX.existsUnique_aePullback`,
   `GX.IsAEMorphismOf.sameAEStructure`, `GX.SameAEStructure`; the correction is recorded by
   `GX.aePullback_counterexample_nonmaximal` (no uniqueness among arbitrary a.e. atlases).
 * **`def:notations_lemma_lem_aepullback`** — `RamcovGX.tex:554`: `GX.aePullback`.
-* `cor:locally_connected_hausdorff_topological` — `RamcovGX.tex:558` — partial (the implicit
-  hypotheses under which the pullbacks exist, added, SCOPE (e′)): `GX.aePullback_comp_of_exists`
-  (only "the left side is defined"), `GX.aePullback_comp` (a.e. local homeomorphisms).
+* **`cor:locally_connected_hausdorff_topological`** — `RamcovGX.tex:558`, read as DEC-46 (c)
+  rules (`g^*A` and `f^*g^*A` defined, SCOPE (e′)): `GX.aePullback_comp_of_exists`,
+  `GX.aePullback_comp_spec_of_exists` (`(g∘f)^*A` then defined); under the hypotheses of
+  `lem:aepullback`, `GX.aePullback_comp`.
 * **`lem:GX_sing_homeo_reg`** — `RamcovGX.tex:592`:
   `GX.IsAEMorphismOf.regLocusOf_eq_inter_isLocalHomeomorphOn`.
 * **`cor:morphisms_also_local_homemorphism`** — `RamcovGX.tex:603`:
@@ -73,14 +79,16 @@ a.e. `(G,X)`-morphisms, their regular loci, and the pullback (`RamcovGX.tex:397`
 |---|---|
 | `(G,X)` analytical (l.341, DEC-39): `X` connected, locally connected, Hausdorff; action faithful, rigid, by homeomorphisms | ⚠ weakened: `LocallyConnectedSpace X`, `T2Space X`, `IsRigidAction`, `ContinuousConstSMul` where used; connectedness of `X` and faithfulness never used; no covering theory here, so no local path-connectedness (DEC-39) |
 | `lem:GX_atlas_union`: `N` locally connected | ⚠ weakened: not used |
-| `lem:GX_atlas_union`: the family (implicitly) nonempty | ⚠ strengthened: `[Nonempty K]`, a finding |
+| `lem:GX_atlas_union`: the family (implicitly) nonempty | ✓ the reading DEC-46 (a) rules: `[Nonempty K]`; without it the statement is false (`not_isAEAtlas_iUnion_empty`), a recorded finding |
 | `cor:maximal_atlas`, `lem:aepullback`: `M` locally connected Hausdorff | ⚠ weakened: not used |
 | singular manifolds locally connected | ✓ carried where used (composition, `prop:GX_sing_morph_local`, `SingGXCat`) |
 | singular manifolds Hausdorff, second countable | ⚠ weakened: not used (bundled in `SingGXCat`); `N` Hausdorff carried for analyticity |
 | `rem:morphisms_analytical_two_equal`: `M` connected, open set nonempty | ✓ the reading DEC-42 rules (`PreconnectedSpace M`, `W.Nonempty`); the statement as written is false, a recorded finding |
 | `lem:aepullback`: `N` a singular manifold (maximal `B`) | ⚠ weakened: `B` an a.e. atlas suffices |
 | `lem:aepullback`: "unique a.e. structure" | ✓ the reading DEC-42 rules: unique up to `SameAEStructure` (same maximal atlas), the maximal representative unique; uniqueness among arbitrary a.e. atlases is false, a recorded finding |
-| `cor:locally_connected_hausdorff_topological`: `f`, `g` a.e. local homeomorphisms | ⚠ strengthened: implicit in the paper (the pullbacks must exist), added |
+| `cor:locally_connected_hausdorff_topological`: `g^*A`, `f^*g^*A` defined (implicit) | ✓ the reading DEC-46 (c) rules: carried as their existence (`aePullback_comp_of_exists`); the stronger "`f`, `g` a.e. local homeomorphisms" also given (`aePullback_comp`) |
+| `cor:locally_connected_hausdorff_topological`: `L`, `M`, `N` locally connected Hausdorff, `A` an a.e. structure | ⚠ weakened: only `L` locally connected; `B` any atlas in `aePullback_comp_of_exists` |
+| `prop:GX_sing_morph_local`: restriction and "locally" | ✓ the reading DEC-46 (b) rules, SCOPE (d) |
 | `lem:singular_manifolds_morphism_set`: `f` an a.e. morphism | ⚠ weakened: any map |
 
 ## SCOPE (disclosed)
@@ -99,6 +107,7 @@ a.e. `(G,X)`-morphisms, their regular loci, and the pullback (`RamcovGX.tex:397`
 * **(d)** `prop:GX_sing_morph_local`: "`f|W` is an a.e. morphism" (`IsAEMorphismOn`) reads `W`
   with the induced a.e. structure: some `U ⊆ W` portly in `W` (Portly's subtype convention) on
   which `f` induces a `(G,X)`-morphism; "locally" means around every point, on an open `W`.
+  This is the reading DEC-46 (b) rules (2026-11-01); under it the row is certified in full.
 * **(e)** `lem:aepullback`: "`f` is a.e. a local homeomorphism" is `IsAELocalHomeomorph`, read
   from the proof's first line (portly `O ⊆ M`, `P ⊆ Reg N`, `f(O) ⊆ P`, `f` a local homeomorphism
   on `O`); uniqueness is among maximal a.e. atlases (it fails otherwise), equivalently up to
@@ -107,23 +116,29 @@ a.e. `(G,X)`-morphisms, their regular loci, and the pullback (`RamcovGX.tex:397`
   are defined (`def:notations_lemma_lem_aepullback`, "with the notations of Lemma
   `lem:aepullback`") only when the lemma's hypotheses hold; the corollary states none. It is
   proved under the weakest such hypothesis, that `g^*A` and `f^*g^*A` exist
-  (`aePullback_comp_of_exists`), which then gives the existence of `(g∘f)^*A`; no ruling yet says
-  whether this reading closes the row.
+  (`aePullback_comp_of_exists`), which then gives the existence of `(g∘f)^*A`
+  (`aePullback_comp_spec_of_exists`). This is the reading DEC-46 (c) rules (2026-11-01: "assumes
+  `g^*A`, `f^*g^*A` defined"); under it the row is certified in full.
 * **(f)** "`f` is a local homeomorphism around `x`" is `IsLocalHomeomorphOn f {x}`;
   "preserves the regular and singular loci" is `f⁻¹(Reg N) = Reg M`, `f⁻¹(Sing N) = Sing M`.
 * **(g)** `rem:though_may_tempted_include` is read as: `0 ∉ Reg(z ↦ z^p)` for `p ≠ 1`, whatever
   the a.e. atlases on `ℂ`; hence `z ↦ z^p` is an a.e. morphism for no structures regular at `0`
-  and `0^p`. The sentence about Riemann surfaces is not formalized.
+  and `0^p`. More generally a map locally modelled at `x` on `z ↦ z^p` (`f = ψ ∘ (·)^p ∘ φ` near
+  `x`, `φ` a chart to `ℂ` centred at `x`) is not locally injective at `x`, so `x ∉ Reg(f)` and it
+  is an a.e. morphism for no structures regular at `x` and `f x`; between `(G,X)`-manifolds
+  (Riemann surfaces as `(G,X)`-manifolds, empty singular locus) it is an a.e. morphism for no
+  model `(G,X)`. "There is no simple definition of Riemann surfaces as `(G,X)`-manifolds" is read
+  as this last statement; no ruling fixes the reading, and the row stays partial.
 * **(h)** `rem:consequence_isomorphism_singular_manifolds`'s last sentence ("an isomorphism in
   every natural ways") is not formalized.
 * **(i)** DEC-42: an a.e. `(G,X)`-structure (`def:structure_topological_space_atlas`, l.471) is
   identified with its maximal atlas — `SameAEStructure G A₁ A₂` iff `maximalAEAtlas G A₁ =
   maximalAEAtlas G A₂`, the maximal atlases being the canonical representatives
   (`IsMaximalAEAtlas.sameAEStructure_iff`, `IsAEAtlas.sameAEStructure_maximalAEAtlas`).
-* **(j)** `lem:GX_atlas_union` stays partial: for an EMPTY family the union is the empty atlas,
-  not an a.e. atlas on a nonempty space (`not_isAEAtlas_iUnion_empty`), and no ruling (DEC-42
-  included) reads the family as nonempty; `[Nonempty K]` is carried. Its one use,
-  `cor:maximal_atlas`, has a nonempty family.
+* **(j)** `lem:GX_atlas_union` is for a nonempty family, the reading DEC-46 (a) rules
+  (2026-11-01); `[Nonempty K]` is carried and under it the row is certified in full. The reading
+  is necessary: for an EMPTY family the union is the empty atlas, not an a.e. atlas on a nonempty
+  space (`not_isAEAtlas_iUnion_empty`). Its one use, `cor:maximal_atlas`, has a nonempty family.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Builds on
 `GX.Structure.Basic` (WP-24c) and `GX.Topology.Portly`.
@@ -362,11 +377,12 @@ theorem exists_smul_eq_on_of_isPreconnected [IsRigidAction G X] {e : OpenPartial
 
 /-! ### `lem:GX_atlas_union` -/
 
-/-- **`lem:GX_atlas_union`** (`RamcovGX.tex:412`), with the family nonempty: a nonempty family of
-a.e. `(G,X)`-atlases, any two of which have a common thinner a.e. `(G,X)`-atlas, has an a.e.
-`(G,X)`-atlas as union. The paper's `N` locally connected is not used (the charts make the
-supports locally connected through `X`); `X` locally connected and Hausdorff and the action rigid
-are used. For an empty family the statement fails (`not_isAEAtlas_iUnion_empty`). -/
+/-- **`lem:GX_atlas_union`** (`RamcovGX.tex:412`), with the family nonempty, the reading DEC-46 (a)
+rules: a nonempty family of a.e. `(G,X)`-atlases, any two of which have a common thinner a.e.
+`(G,X)`-atlas, has an a.e. `(G,X)`-atlas as union. The paper's `N` locally connected is not used
+(the charts make the supports locally connected through `X`); `X` locally connected and Hausdorff
+and the action rigid are used. For an empty family the statement fails
+(`not_isAEAtlas_iUnion_empty`). -/
 theorem isAEAtlas_iUnion [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
     {K : Type z} [Nonempty K] {B : K → Set (OpenPartialHomeomorph M X)}
     (hB : ∀ k, IsAEAtlas G (B k))
@@ -406,8 +422,8 @@ theorem isAEAtlas_iUnion [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G 
     exact (hB k₀).2.mono (support_mono (subset_iUnion B k₀)) (isOpen_support _)
 
 omit [ContinuousConstSMul G X] in
-/-- `lem:GX_atlas_union` needs a nonempty family: the empty union is the empty atlas, whose
-support `∅` is not portly in a nonempty space. -/
+/-- `lem:GX_atlas_union` needs a nonempty family (the reading DEC-46 (a) rules): the empty union
+is the empty atlas, whose support `∅` is not portly in a nonempty space. -/
 theorem not_isAEAtlas_iUnion_empty [Nonempty M] (B : Empty → Set (OpenPartialHomeomorph M X)) :
     ¬ IsAEAtlas G (⋃ k, B k) := by
   rintro ⟨-, h⟩
@@ -863,7 +879,8 @@ def IsAEMorphismOn (A : Set (OpenPartialHomeomorph M X)) (B : Set (OpenPartialHo
   ∃ U ⊆ W, IsPortly (((↑) : W → M) ⁻¹' U) ∧ IsRegularOn G A B f U
 
 omit [ContinuousConstSMul G X] in
-/-- **`prop:GX_sing_morph_local`** (`RamcovGX.tex:497`): for a continuous map between spaces
+/-- **`prop:GX_sing_morph_local`** (`RamcovGX.tex:497`), read as DEC-46 (b) rules (SCOPE (d)):
+for a continuous map between spaces
 with a.e. `(G,X)`-atlases, the source locally connected, the following are equivalent:
 (i) `f` is an a.e. `(G,X)`-morphism; (ii) `f` is locally an a.e. `(G,X)`-morphism; (iii) the
 restriction of `f` to some portly set is an a.e. `(G,X)`-morphism. -/
@@ -1117,7 +1134,8 @@ theorem aePullback_comp [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X
   have hL := aePullback_spec_of_isAELocalHomeomorph hM.1.1 hf hfl
   exact eq_aePullback hL.1 (hM.2.comp hL.2)
 
-/-- `cor:locally_connected_hausdorff_topological`, whenever its left side is defined: if `g^* B`
+/-- **`cor:locally_connected_hausdorff_topological`** (`RamcovGX.tex:558`), read as DEC-46 (c)
+rules, whenever its left side is defined: if `g^* B`
 and `f^* g^* B` exist (some maximal a.e. atlases make `g` and `f` a.e. morphisms), then
 `(g ∘ f)^* B` exists and equals `f^* g^* B`. No local-homeomorphism hypothesis, `L` locally
 connected. -/
@@ -1130,6 +1148,20 @@ theorem aePullback_comp_of_exists [LocallyConnectedSpace X] [T2Space X] [IsRigid
   have hM := aePullback_spec hg
   have hL := aePullback_spec hf
   eq_aePullback hL.1 (hM.2.comp hL.2)
+
+/-- **`cor:locally_connected_hausdorff_topological`** (`RamcovGX.tex:558`), read as DEC-46 (c)
+rules (`g^* B` and `f^* g^* B` defined), the existence half: then `(g ∘ f)^* B` is defined too —
+it is a maximal a.e. `(G,X)`-atlas making `g ∘ f` an a.e. `(G,X)`-morphism into `B`, not the
+default `∅` — and it is `f^* g^* B` (`aePullback_comp_of_exists`). -/
+theorem aePullback_comp_spec_of_exists [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+    [LocallyConnectedSpace L] {B : Set (OpenPartialHomeomorph N X)} {g : M → N}
+    (hg : ∃ A : Set (OpenPartialHomeomorph M X), IsMaximalAEAtlas G A ∧ IsAEMorphismOf G A B g)
+    {f : L → M} (hf : ∃ A : Set (OpenPartialHomeomorph L X),
+      IsMaximalAEAtlas G A ∧ IsAEMorphismOf G A (aePullback G B g) f) :
+    IsMaximalAEAtlas G (aePullback G B (g ∘ f)) ∧
+      IsAEMorphismOf G (aePullback G B (g ∘ f)) B (g ∘ f) := by
+  rw [← aePullback_comp_of_exists hg hf]
+  exact ⟨(aePullback_spec hf).1, (aePullback_spec hg).2.comp (aePullback_spec hf).2⟩
 
 /-- With an a.e. structure identified with its maximal atlas (DEC-42): every a.e. atlas making
 `f` an a.e. morphism into `B` has the pullback `f^* B` as maximal atlas. -/
@@ -1344,6 +1376,49 @@ theorem not_isAEMorphismOf_pow [LocallyConnectedSpace X] [T2Space X] [IsRigidAct
     ¬ IsAEMorphismOf G A B (fun z : ℂ => z ^ p) := fun hf =>
   zero_notMem_regLocusOf_pow A B hp (by rw [hf.regLocusOf_eq hA hB]; exact ⟨h0A, h0B⟩)
 
+/-- The mechanism of `rem:though_may_tempted_include`, for any map: a point near which `f` is
+injective on no neighbourhood is not in `Reg(f)`, whatever the a.e. `(G,X)`-atlases (a
+`(G,X)`-morphism is a local homeomorphism). -/
+theorem notMem_regLocusOf_of_forall_not_injOn {M : Type u} [TopologicalSpace M] {N : Type y}
+    [TopologicalSpace N] (A : Set (OpenPartialHomeomorph M X))
+    (B : Set (OpenPartialHomeomorph N X)) {f : M → N} {x : M}
+    (hx : ∀ t ∈ 𝓝 x, ¬ InjOn f t) : x ∉ regLocusOf G A B f := by
+  intro hR
+  obtain ⟨e, hxe, hfe⟩ := (isRegularOn_regLocusOf (G := G) A B f).isLocalHomeomorphOn x hR
+  exact hx _ (e.open_source.mem_nhds hxe) (hfe ▸ e.injOn)
+
+/-- A map locally modelled at `x` on `z ↦ z^p`, `p ≠ 1` — `f = ψ ∘ (·)^p ∘ φ` near `x`, for a
+chart `φ : M → ℂ` centred at `x` and any `ψ : ℂ → N` — is injective on no neighbourhood of `x`. -/
+theorem not_injOn_of_eventually_eq_pow {M : Type u} [TopologicalSpace M] {N : Type y}
+    {f : M → N} {x : M} (φ : OpenPartialHomeomorph M ℂ) (hx : x ∈ φ.source) (hφx : φ x = 0)
+    (ψ : ℂ → N) {p : ℕ} (hp : p ≠ 1) (hloc : ∀ᶠ y in 𝓝 x, f y = ψ (φ y ^ p)) :
+    ∀ t ∈ 𝓝 x, ¬ InjOn f t := by
+  intro t ht hinj
+  set s := t ∩ ({y | f y = ψ (φ y ^ p)} ∩ φ.source)
+  have hs : s ∈ 𝓝 x := inter_mem ht (inter_mem hloc (φ.open_source.mem_nhds hx))
+  have himg : φ '' s ∈ 𝓝 (0 : ℂ) := by
+    rw [← hφx]; exact φ.image_mem_nhds hx hs
+  refine not_injOn_pow_of_mem_nhds hp himg ?_
+  rintro _ ⟨y, hy, rfl⟩ _ ⟨y', hy', rfl⟩ h
+  have h1 : f y = ψ (φ y ^ p) := hy.2.1
+  have h2 : f y' = ψ (φ y' ^ p) := hy'.2.1
+  have h3 : f y = f y' := by rw [h1, h2]; exact congrArg ψ h
+  rw [hinj hy.1 hy'.1 h3]
+
+/-- **`rem:though_may_tempted_include`** (`RamcovGX.tex:538`), for branched maps: a map locally
+modelled at `x` on `z ↦ z^p`, `p ≠ 1` (`not_injOn_of_eventually_eq_pow`), has `x ∉ Reg(f)`, so
+by `lem:regf1` it is an a.e. `(G,X)`-morphism for no a.e. `(G,X)`-structures regular at `x` and
+at `f x` — "the above Lemma would thus force `p = 1`". -/
+theorem not_isAEMorphismOf_of_eventually_eq_pow [LocallyConnectedSpace X] [T2Space X]
+    [IsRigidAction G X] {M : Type u} [TopologicalSpace M] {N : Type y} [TopologicalSpace N]
+    {A : Set (OpenPartialHomeomorph M X)} {B : Set (OpenPartialHomeomorph N X)}
+    (hA : IsAEAtlas G A) (hB : IsAEAtlas G B) {f : M → N} {x : M} (hxA : x ∈ support A)
+    (hfxB : f x ∈ support B) (φ : OpenPartialHomeomorph M ℂ) (hx : x ∈ φ.source)
+    (hφx : φ x = 0) (ψ : ℂ → N) {p : ℕ} (hp : p ≠ 1) (hloc : ∀ᶠ y in 𝓝 x, f y = ψ (φ y ^ p)) :
+    ¬ IsAEMorphismOf G A B f := fun hf =>
+  notMem_regLocusOf_of_forall_not_injOn A B (not_injOn_of_eventually_eq_pow φ hx hφx ψ hp hloc)
+    (by rw [hf.regLocusOf_eq hA hB]; exact ⟨hxA, hfxB⟩)
+
 end Branched
 
 /-! ### Regular `(G,X)`-manifolds are singular `(G,X)`-manifolds -/
@@ -1395,6 +1470,20 @@ theorem isAEMorphismOf_maximalAtlas_iff [LocallyConnectedSpace X] [T2Space X] [I
         fun x _ => ⟨_, (gxGroupoid G X).chart_mem_maximalAtlas x, _,
           (gxGroupoid G X).chart_mem_maximalAtlas (f x), mem_chart_source X x,
           mem_chart_source X (f x), hf.exists_smul_eq x⟩⟩
+
+/-- **`rem:though_may_tempted_include`** (`RamcovGX.tex:538`), its first sentence, for
+`(G,X)`-manifolds (empty singular locus, as a Riemann surface would be): whatever the model
+`(G,X)`, a map locally modelled at some point on `z ↦ z^p`, `p ≠ 1`, is not an a.e.
+`(G,X)`-morphism — equivalently (`isAEMorphismOf_maximalAtlas_iff`) not a `(G,X)`-morphism. So
+no `(G,X)`-structure on Riemann surfaces makes a branched map an a.e. morphism. -/
+theorem not_isAEMorphismOf_maximalAtlas_of_eventually_eq_pow [LocallyConnectedSpace X]
+    [T2Space X] [IsRigidAction G X] {f : M → N} {x : M} (φ : OpenPartialHomeomorph M ℂ)
+    (hx : x ∈ φ.source) (hφx : φ x = 0) (ψ : ℂ → N) {p : ℕ} (hp : p ≠ 1)
+    (hloc : ∀ᶠ y in 𝓝 x, f y = ψ (φ y ^ p)) :
+    ¬ IsAEMorphismOf G ((gxGroupoid G X).maximalAtlas M) ((gxGroupoid G X).maximalAtlas N) f :=
+  not_isAEMorphismOf_of_eventually_eq_pow (isMaximalAEAtlas_maximalAtlas (G := G)).1
+    (isMaximalAEAtlas_maximalAtlas (G := G)).1 (by rw [support_maximalAtlas]; exact mem_univ x)
+    (by rw [support_maximalAtlas]; exact mem_univ (f x)) φ hx hφx ψ hp hloc
 
 end Regular
 
@@ -1495,8 +1584,8 @@ theorem IsAEMorphism.eq_of_eqOn [IsRigidAction G X] [PreconnectedSpace M] [T2Spa
   IsAEMorphismOf.eq_of_eqOn hf₁ hf₂ hW hne heq
 
 omit [ContinuousConstSMul G X] in
-/-- `prop:GX_sing_morph_local` (`RamcovGX.tex:497`), for singular manifolds, under the readings of
-SCOPE (d). -/
+/-- **`prop:GX_sing_morph_local`** (`RamcovGX.tex:497`), for singular manifolds, under the
+readings DEC-46 (b) rules (SCOPE (d)). -/
 theorem isAEMorphism_tfae [LocallyConnectedSpace M] {f : M → N} (hf : Continuous f) :
     List.TFAE [IsAEMorphism G X f,
       ∀ x : M, ∃ W : Set M, IsOpen W ∧ x ∈ W ∧

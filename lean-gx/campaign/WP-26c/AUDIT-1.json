@@ -1,0 +1,61 @@
+{
+  "package": "WP-26c",
+  "round": 1,
+  "auditor": "read-only auditor, round 1 (re-dispatch of 2026-11-01)",
+  "file": "GX/Branched/Universality.lean",
+  "supersedes": "This file replaces an earlier AUDIT-1.json (2026-11-01 01:48, verdict 'issues'). That audit had one major finding: cex marked closed in spite of the S -> S union {apex} correction. Its fix was applied in round 1 and confirmed by AUDIT-2.json (verdict 'clean'). Its two minors were functoriality of completion_hom_equiv, now proved, and the stale Quotient SCOPE (f) and README row, which are carried below.",
+  "verdict": "clean",
+  "builds": true,
+  "checks": {
+    "build_file": "taskset -c 0-11 lake env lean -DwarningAsError=true GX/Branched/Universality.lean: EXIT 0, no output (node1, 6.1 s wall). File is 2302 lines, mtime 2026-11-01 01:49, unchanged since AUDIT-2.",
+    "build_strict_library": "taskset -c 0-11 lake build GX: 'Build completed successfully (8571 jobs)', EXIT 0",
+    "sorry_count": "0 real sorries. The two textual hits, l.131 and l.829, are the word 'possibly' in prose. No admit, axiom, native_decide or implemented_by",
+    "axioms": "#print axioms (lake env lean --stdin) on previous_examples_maxBranched, completion_hom_equiv/_id/_comp, cex_branched_covering_composition, cexS_not_isSkeletal, isBranchedCovering_of_isSpreadCompletion, IsBranchedCovering.restrict_isCoveringMap, isSpreadCompletion_ends_of_isCoveringMap and isBranchedCovering_of_comm: each reports [propext, Classical.choice, Quot.sound]",
+    "report_decls": "Every decl that REPORT.json lists, across labels[].decls and extra_decls, was checked with #check @<name>: all resolve, and none is an unknown identifier",
+    "name_clashes": "Each top-level declaration of the file was grepped by its last component as a theorem/lemma/def/abbrev/instance/structure across GX/ and scaffold/, outside this file. The only hits are the short name 'comp' in other namespaces: IsGXMorphism.comp, IsLocDistPres.comp, IsAEMorphismOf.comp and IsAEMorphism.comp. None is GX.IsSpread.comp, so there is no clash. IsMaximalPossiblyBranched is only used in scaffold/GXScaffold/Branched/Paths.lean, not redefined there",
+    "rulings": "DECISIONS.md was read to its end (DEC-48 is the last). No ruling after DEC-48 covers the cex correction S -> S union {apex}",
+    "marks_vs_status": "The docstring bolds rem:completion_covering, prop:universality, rem:one_could_sum_up and rem:considering_maximal_covering_possibly, and these are exactly the four rows REPORT marks closed. prop:branched_covering_composition, cex:proposition_prop_branched_covering and rem:previous_examples_instances_developing are in backticks, partial in REPORT, partial in SCOPE, and partial in the checklist (the cex row has a cross)",
+    "labels_complete": "Paper l.1085-1192 has six labels: prop:branched_covering_composition, rem:completion_covering, prop:universality, rem:one_could_sum_up, rem:considering_maximal_covering_possibly and cex:proposition_prop_branched_covering. All six are in the docstring and in REPORT, as is l.684 rem:previous_examples_instances_developing"
+  },
+  "rows": [
+    {
+      "label": "rem:one_could_sum_up",
+      "assessment": "Closed and marked, correct under DEC-46(d). Objects, one direction: isBranchedCovering_of_isSpreadCompletion takes any T2, LPC completion of a connected, surjective covering of a portly O and gives a branched covering possibly branched over the complement of O, with p'^{-1}(O) = range iota. Existence: isSpreadCompletion_ends_of_isCoveringMap gives the space of ends, which is T2 by the SpreadEnd.t2Space instance and LPC by SpreadEnd.locPathConnectedSpace, the covering source being LPC by locPathConnectedSpace_of_isLocalHomeomorph. Objects, other direction: IsBranchedCovering.restrict_isCoveringMap gives a covering of O that is surjective and connected, of which X is the completion. Morphisms: completion_hom_equiv is a bijection from the continuous maps over O to the continuous maps over Y, characterised by extension, and it assumes nothing on the source covering. Functoriality is proved by completion_hom_ext, completion_hom_id and completion_hom_comp, and isBranchedCovering_of_comm shows that a morphism is itself a branched covering. The hypotheses are the standing ones plus DEC-46(d)'s 'connected'. None is vacuous: all are satisfied by the universal cover of Y minus S."
+    },
+    {
+      "label": "cex:proposition_prop_branched_covering",
+      "assessment": "Correctly left partial and unmarked, against the dispatch's instruction to mark it. I re-checked the paper: l.661 defines D_inf = R_+^* x R union {(0,0)}, with basic neighbourhoods {r < r0} of the apex, and a dense family in Y0 has r_n arbitrarily small. So the printed 'S is skeletal' (l.1184) is false, and cexS_not_isSkeletal proves it for every dense family: the apex is in the closure and not in S, so S is not closed and not skeletal. DEC-46(e) rules only alpha = 1. S -> S union {apex} is a DEC-27 correction, which keeps the row partial. cex_branched_covering_composition is the strongest true form: S' skeletal, its complement SLSC, the maximal covering branched at every point of S, q a branched covering, and q o p not a branched covering. Its hypotheses are satisfiable (exists_isDenseFamilyY₀), and the core not_isBranchedCovering_qDisc_comp holds for every p. The question in REPORT discloses the dispatch conflict."
+    },
+    {
+      "label": "rem:previous_examples_instances_developing",
+      "assessment": "The cheap Fox-universality addition was made and is sound. previous_examples_maxBranched proves that pi{r=0} is skeletal and that its complement is SLSC. It proves that D_inf x V -> Gamma_alpha\\(D_inf x V) is IsMaximalPossiblyBranched over pi{r=0} in every universe w; that definition is a real universal property, not a trivialisation. It also proves that the cylinder is homeomorphic over M to MaxBranchedCover for every base point. This is stronger than the paper's cyl{n}: V is any real normed space and alpha is any nonzero real. The row stays partial on 'branched over its singular locus', which is false as written (quotientBase_counterexample in GX.Singular.Quotient). That is reported."
+    },
+    {
+      "label": "prop:branched_covering_composition",
+      "assessment": "Unchanged and partial by DEC-48. Docstring, SCOPE and REPORT match the ruling, and the false printed (i) => (ii) is refuted by not_isSkeletal_of_isBranchedCovering_comp."
+    },
+    {
+      "label": "rem:completion_covering, prop:universality, rem:considering_maximal_covering_possibly",
+      "assessment": "Statements unchanged by WP-26c, which was additive, as confirmed in AUDIT-1 and AUDIT-2 against the .bak. All three remain closed and marked."
+    }
+  ],
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "GX/Singular/Quotient.lean SCOPE (f) (l.215-221); README.md l.46 (module row for GX.Branched.Universality)",
+      "problem": "Carried over from the earlier rounds. Both files are stale: Quotient's SCOPE (f) still calls the maximal (Fox-universal) covering not formalized, and the README row does not list rem:one_could_sum_up among the certified labels. Both are outside this dispatch, and REPORT notes discloses them.",
+      "fix": "Master, at graduation: point Quotient's SCOPE (f) to GX.previous_examples_maxBranched, add rem:one_could_sum_up to the README row (cex stays partial), and list the WP-26c decls in the ledger row for l.684."
+    },
+    {
+      "severity": "minor",
+      "where": "rem:one_could_sum_up, object direction",
+      "problem": "No single theorem says that the completion of a connected covering of O, taken as the space of ends, is a T2 LPC branched covering. The fact has to be assembled from isSpreadCompletion_ends_of_isCoveringMap, the SpreadEnd.t2Space instance, SpreadEnd.locPathConnectedSpace (with locPathConnectedSpace_of_isLocalHomeomorph) and isBranchedCovering_of_isSpreadCompletion. Every piece is proved, so this is about presentation, not a gap.",
+      "fix": "Optional: add a one-line corollary for SpreadEnd.base of the covering."
+    }
+  ],
+  "report_json": "Valid JSON, and it covers every label of the file plus l.684. builds and sorry_count are confirmed. Statuses and marks match the docstring. Every listed decl resolves. Hypotheses and findings are accurate. The cex question honestly records why the dispatch's 'mark it' was not followed.",
+  "questions_for_master": [
+    "The dispatch asks for cex:proposition_prop_branched_covering to be marked, but DEC-46(e) rules only alpha = 1. The printed S (l.1184) is not skeletal (GX.cexS_not_isSkeletal), so the row can close only on an explicit author ruling that accepts S -> S union {apex}, for example an amended DEC-46(e). With that ruling the mark is a docstring-only change."
+  ],
+  "process_note": "Writes made: this file, plus one throwaway #check script at /tmp/wp26c_checks.lean, which was deleted after it ran. Nothing in the repository was edited."
+}

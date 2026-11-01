@@ -1,0 +1,40 @@
+{
+ "package": "WP-26h",
+ "round": 2,
+ "file": "scaffold/GXScaffold/Branched/GaloisExamples.lean",
+ "verdict": "issues",
+ "builds": true,
+ "sorry_count_measured": 1,
+ "summary": "Build: taskset -c 0-11 lake env lean exits 0 in 5.7 s, with exactly one 'declaration uses sorry' warning, at l.865 (GX.absGal_Y₂_fiber_not_compact). That matches REPORT sorry_count 1. The olean (07:28:21) is newer than the source (07:27:40). #print axioms was run through lake env lean --stdin, so no file was written. It is clean (propext, Classical.choice, Quot.sound) for all of following_situations_finite/_finite_euclidean/_tame/_tame_knot/_simplicial/_simplicial_pure/_simplicial_false, absGal_not_isSLSCAt/_IsSLSCIn, printedGamma2_eq_top, isSLSCIn_compl_of_simplyConnected, sphere3_isSLSCIn_compl_of_simplyConnected, wild_cantor_claim_false_of_exists, wild_cantor_not_isSLSCIn and not_isSLSCIn_of_essential. sorryAx appears only under absGal_Y₂_fiber_not_compact and absGal_Y₂_fiber_not_cantor, as reported. Name clashes: none of the 80 top-level names occurs as a declaration in GX/ or in another scaffold file. Labels: all three labels of l.1560-1583 are present. None is bold-marked, which is correct: every row is a correction or reading, and the homotopy reading of 'almost trivial' is still unruled (no DEC covers it). Round-1 fixes. (1) BLOCKER resolved: the false statement for arbitrary wild Cantor sets is gone. In its place are the proved positive half (dense + simply connected + locally non-separating complement ⇒ IsSLSCIn), a conditional refutation, and an essential-loop form of the corrected claim. (2) MAJOR resolved: the counterexample is now connected (tetrahedron plus dangling edge in R^5, n = 3; cexK_isConnected is proved). It also satisfies dim = 3 exactly, is finite, and has non-dense complement of the 1-skeleton. (3) The minors are resolved: HasFacesOfCardGe is the exact density condition, the ℝ⁵ docstring is consistent, and local finiteness is justified in SCOPE (c) and raised as a question. The absGal fibre sorry is a genuine obstruction. The D_inf argument re-checks for arbitrary γ_n with the stated winding numbers: the parity of φ factors through the winding numbers, so each φ(γ_n) is a reflection and Γ₂ is killed. The image of H₂ is a conjugate of <t>, which is finite. Fibre points exist over 0 (ends are built by choosing along a cofinal disc sequence). The sorry needs the free basis of π₁(ℂ∖S) and the components of the Fox completion, so it is not avoidable cheaply. Remaining issue: ex:wild_cantor_general_antoine never states anything about the cited class, Antoine's or Blankinship's necklace. The Antoine π₁ content was moved into a hypothesis instead of being stated with a tagged sorry. That is MAJOR.",
+ "issues": [
+  {
+   "severity": "major",
+   "where": "GX.wild_cantor_not_isSLSCIn (l.998-1005); REPORT row ex:wild_cantor_general_antoine ('sorries': [])",
+   "problem": "The corrected claim has no Lean statement about any Cantor set of the cited class. GX.wild_cantor_not_isSLSCIn takes an arbitrary C : Set Sphere3, uses neither IsCantorSubset nor IsWildCantor, and assumes h. Its hypothesis h is exactly the hypothesis of GX.not_isSLSCIn_of_essential, with U ⊆ Kᶜ replaced by K ⊆ C, and the proof is a two-line repackaging. All the mathematics of l.1578 for the intended class is therefore carried by the hypothesis h, and REPORT's 'proved' in the finding overstates it. That mathematics is Antoine's theorem: small meridian loops are essential in the complement of the sub-necklace. The paper cites it (ledger: 'cited — general_antoine'). Under DEC-23 a cited result is built, not assumed. kb/0011 says 'where the paper cites ... state with a tagged sorry'. The dispatch says 'if out of reach state it precisely with a tagged sorry naming the obstruction'. Round 1's fix also asked to 'Keep a tagged sorry only on the genuine Antoine pi_1 obstruction'. None of these was done. The row reports sorries: [], so the master session sees no outstanding obstruction for a row whose cited content is not formalized. No inhabitant of h is exhibited either (kb/0011, last bullet).",
+   "fix": "Add a precisely stated theorem about the cited class, resting on a tagged sorry. Minimal form: theorem exists_wild_cantor_not_isSLSCIn : ∃ C : Set Sphere3, IsWildCantor C ∧ ¬ IsSLSCIn Cᶜ, proved from wild_cantor_not_isSLSCIn plus `sorry -- SORRY(ex:wild_cantor_general_antoine): Antoine's necklace (Blankinship's generalization) exists, is wild, and its meridians at a point satisfy h (Antoine's π₁ computation of complements of linked solid-torus chains)`. Better form: construct the necklace and state that it satisfies h, with the sorry on the π₁ part. Add the sorry to REPORT's sorries for this row, raise sorry_count to 2, and reword the finding: the corrected claim is reduced to Antoine's theorem, not proved."
+  },
+  {
+   "severity": "minor",
+   "where": "GX.wild_cantor_claim_false_of_exists (l.985-990)",
+   "problem": "The refutation of the literal l.1578 (DEC-27 'counterexample where false') is conditional. Its whole input is a hypothesis: the existence of a wild Cantor set whose complement is dense, simply connected and locally non-separating. Some conjuncts are cheap for any Cantor set of S³: the complement is dense because a Cantor set is totally disconnected and so contains no open subset of S³. The finding is correct (Kirkor 1958, Skora 1986, Garity-Repovš-Željko 2006) and the hypothesis is disclosed, but the counterexample itself is not exhibited, and no visible sorry marks the gap.",
+   "fix": "Either state the existence as its own theorem with `sorry -- SORRY(ex:wild_cantor_general_antoine): Kirkor/Skora wild Cantor set with simply connected complement; local non-separation of 0-dimensional compacta (dimension theory)` and derive an unconditional `¬ ∀ C, IsWildCantor C → ¬ IsSLSCIn Cᶜ`, or prove the cheap conjunct (Dense Cᶜ from IsCantorSubset C) so the hypothesis shrinks to the genuinely deep part. Report it in either case."
+  },
+  {
+   "severity": "minor",
+   "where": "docstring of GX.wild_cantor_not_isSLSCIn (l.992-997) and module docstring l.31-33",
+   "problem": "The docstrings say 'a Cantor set of S³ which is wild in the sense of Antoine', but the statement has no Cantor or wildness hypothesis. The theorem is more general, which is fine, but the docstring implies a hypothesis that is not there.",
+   "fix": "Reword the docstrings: 'any C ⊆ S³ with an essential small loop at some x ∈ C (the property Antoine's theorem gives for the necklaces)'."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json decls / extra_decls",
+   "problem": "Twenty top-level declarations of the file appear in no REPORT list: absGalLoop_apply, absGalPt_mem, cexEdge, cexEdge_card, cexEdge_mem, cexFaces, cexK_faces, cexTet, cexTet_card, cexTet_mem, cexV, cexV_apply, cexV_injective, convexHull_cexTet_subset, fibPt_mem, isConicalAt_empty, isConicalAt_polygonalSet, mem_fibS_im, norm_absGalLoop_le, subFib. Every listed declaration exists.",
+   "fix": "List them under the row they serve, or under extra_decls."
+  }
+ ],
+ "questions_for_author": [
+  "l.1578: is the 'wild Cantor [general_antoine]' meant to be Antoine's or Blankinship's necklace (the cited class)? For arbitrary wild Cantor sets the claim is false: Kirkor and Skora built wild Cantor sets with simply connected complement, and for those S³∖C is semi-locally simply connected in S³ (GX.isSLSCIn_compl_of_simplyConnected).",
+  "l.1572: is Γ₂ meant to be the normal closure of the [γ_n]²? The printed double cosets give all of Γ (GX.printedGamma2_eq_top). If so, the fibre over (0,0) is not compact, so not a Cantor set. Was an abelian quotient (the kernel of the mod-2 winding numbers) intended, for which the fibre is lim (Z/2)^k?",
+  "Still pending from WP-26e/26f: the homotopy reading of 'almost trivial' (GX.AlmostTrivial against the compact-open GX.AlmostTrivialCC). No row of this file can be marked until it is ruled, and absGal_not_isSLSCIn is proved only under it."
+ ]
+}

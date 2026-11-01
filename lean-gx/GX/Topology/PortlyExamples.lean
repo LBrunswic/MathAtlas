@@ -9,10 +9,10 @@ import GX.Topology.Portly
   (`GX.isSkeletal_of_finite_surface`, via the countable generalisation
   `GX.isSkeletal_of_countable`); item 2 closed in the locally-flat reading
   (`GX.isSkeletal_of_tameKnot`, via `GX.isSkeletal_of_locallyFlat`); item 3 **false as written**
-  (`GX.bowtie_counterexample`), corrected form `GX.isSkeletal_skeletonSpace` resting on a tagged
-  `sorry` (`GX.isSkeletal_skeletonSpace_codim_two`); item 4 `GX.isSkeletal_of_isTotallyDisconnected`
-  resting on a tagged `sorry` (`GX.isPreconnected_compl_of_isTotallyDisconnected`, dimension
-  theory).
+  (`GX.bowtie_counterexample`), corrected form `GX.isSkeletal_skeletonSpace` proved (local strong
+  connectivity added; codimension-two case `GX.isSkeletal_skeletonSpace_codim_two`); item 4
+  closed for manifolds of dimension `≥ 2` (`GX.isSkeletal_of_isTotallyDisconnected`, Euclidean
+  core `GX.isPreconnected_compl_of_isTotallyDisconnected`). No `sorry`.
 
 > The following example of $S$ are skeletal in $X$. $S$ finite and $X$ a surface; $S$ a tame
 > knot in a $3$-manifold $X$; $S$ the $k$-skeleton of a pure $n$-dimensional simplicial complex
@@ -27,12 +27,19 @@ import GX.Topology.Portly
 * Item 3 is **false as written** (`GX.bowtie_counterexample`: two triangles sharing a
   vertex). Corrected form: add local strong connectivity in codimension `≥ 2`
   (`GX.IsLocallyStronglyConnected`, which the bow-tie fails:
-  `GX.not_isLocallyStronglyConnected_bowtie`). The codimension-two case is a tagged `sorry`
-  (local structure theory of geometric simplicial complexes); `k < n - 2` is derived from it.
+  `GX.not_isLocallyStronglyConnected_bowtie`). The codimension-two case is proved through open
+  simplices (`GX.openSimplex`): a point of `K.space` has small neighbourhoods `B(x,r) ∩ G` (`G`
+  the points lying only in faces through `x`) whose part off the skeleton is the union, over the
+  `n`-faces `T ∋ x`, of sets squeezed between the convex `B(x,r) ∩ int T` and its closure,
+  chained through open `(n-1)`-faces by local strong connectivity. `k < n - 2` is derived from it.
 * Item 4: proved for any closed totally disconnected set in a finite-dimensional
-  manifold of dimension `≥ 2`, modulo the Euclidean core
-  `GX.isPreconnected_compl_of_isTotallyDisconnected` (tagged `sorry`: dimension theory). In
-  dimension `1` the item fails (`GX.eq_empty_of_isSkeletal_real`), as "wildly" presupposes.
+  manifold of dimension `≥ 2`; the Euclidean core
+  `GX.isPreconnected_compl_of_isTotallyDisconnected` is proved without dimension theory, by
+  Janiszewski's lemma for disjoint closed sets
+  (`GX.mem_connectedComponentIn_compl_union_of_disjoint`, from the lifting of maps to `ℂ ∖ {0}`
+  through `exp` on a simply connected space) and a Zorn argument on minimal separating closed
+  subsets (`GX.isPreconnected_compl_of_separated`). In dimension `1` the item fails
+  (`GX.eq_empty_of_isSkeletal_real`), as "wildly" presupposes.
 
 Split from `GXScaffold.Topology.Portly` at graduation (2026-10-31); the rest graduated to
 `GX.Topology.Portly`. Provenance: mathlib `fabf563a` (tag `v4.31.0`).
@@ -227,21 +234,284 @@ theorem eq_empty_of_isSkeletal_real {S : Set ℝ} (hS : IsSkeletal S) : S = ∅ 
     ⟨⟨by linarith [hb.1], hb.2⟩, hbS⟩
   exact (hsub ⟨ha.2.le, hb.1.le⟩).2 hc
 
+/-! ### The fourth item: closed totally disconnected sets do not separate
+
+The route avoids dimension theory. (i) `mem_connectedComponentIn_compl_union_of_disjoint`: in a
+normal, simply connected, locally path-connected space, if neither of two disjoint closed sets
+separates `p` from `q`, their union does not (Janiszewski's lemma for disjoint sets; the input is
+`H¹ = 0`, i.e. the lifting of maps to `ℂ ∖ {0}` through `exp`, mathlib's
+`IsCoveringMapOn.existsUnique_continuousMap_lifts`). (ii) `isPreconnected_compl_of_separated`: by
+Zorn, a closed separating subset of a set whose points are separated by closed partitions has a
+minimal closed separating subset; (i) forces it to be a point, which does not separate when
+complements of points are preconnected. (iii) A closed totally disconnected subset of a
+finite-dimensional space is locally compact, hence totally separated
+(`loc_compact_t2_tot_disc_iff_tot_sep`). -/
+
+/-- An integer-valued function continuous on a preconnected set is constant on it. -/
+theorem int_valued_eq_of_isPreconnected {Y : Type*} [TopologicalSpace Y] {S : Set Y}
+    (hS : IsPreconnected S) {g : Y → ℝ} (hg : ContinuousOn g S)
+    (hint : ∀ y ∈ S, ∃ n : ℤ, g y = n) {a b : Y} (ha : a ∈ S) (hb : b ∈ S) : g a = g b := by
+  have key : ∀ a ∈ S, ∀ b ∈ S, ∀ na nb : ℤ, g a = na → g b = nb → ¬ na < nb := by
+    intro a ha b hb na nb hna hnb h
+    have h1 : (na : ℝ) + 1 ≤ nb := by exact_mod_cast h
+    obtain ⟨y, hy, hgy⟩ := hS.intermediate_value ha hb hg
+      (show (na : ℝ) + 1 / 2 ∈ Icc (g a) (g b) by constructor <;> linarith)
+    obtain ⟨n, hn⟩ := hint y hy
+    rw [hn] at hgy
+    have h2 : ((2 * n : ℤ) : ℝ) = ((2 * na + 1 : ℤ) : ℝ) := by push_cast; linarith
+    have h3 := Int.cast_injective h2
+    omega
+  obtain ⟨na, hna⟩ := hint a ha
+  obtain ⟨nb, hnb⟩ := hint b hb
+  rcases lt_trichotomy na nb with h | h | h
+  · exact absurd h (key a ha b hb na nb hna hnb)
+  · rw [hna, hnb, h]
+  · exact absurd h (key b hb a ha nb na hnb hna)
+
+open Complex Real in
+/-- Janiszewski's lemma for disjoint closed sets: in a normal, simply connected, locally
+path-connected space, if neither of the disjoint closed sets `F₁`, `F₂` separates `p` from `q`, then
+neither does `F₁ ∪ F₂`. -/
+theorem mem_connectedComponentIn_compl_union_of_disjoint {Y : Type*} [TopologicalSpace Y]
+    [NormalSpace Y] [SimplyConnectedSpace Y] [LocPathConnectedSpace Y] {F₁ F₂ : Set Y}
+    (h₁ : IsClosed F₁) (h₂ : IsClosed F₂) (hd : Disjoint F₁ F₂) {p q : Y}
+    (hq₁ : q ∈ connectedComponentIn F₁ᶜ p) (hq₂ : q ∈ connectedComponentIn F₂ᶜ p) :
+    q ∈ connectedComponentIn (F₁ ∪ F₂)ᶜ p := by
+  by_contra hq
+  have hp₁ : p ∈ F₁ᶜ := by
+    by_contra h; rw [connectedComponentIn_eq_empty h] at hq₁; exact hq₁
+  have hp₂ : p ∈ F₂ᶜ := by
+    by_contra h; rw [connectedComponentIn_eq_empty h] at hq₂; exact hq₂
+  -- an Urysohn function, `1` near `F₁` and `0` near `F₂`
+  obtain ⟨V₁, hV₁o, hFV₁, hV₁c⟩ :=
+    normal_exists_closure_subset h₁ h₂.isOpen_compl hd.subset_compl_right
+  obtain ⟨V₂, hV₂o, hFV₂, hV₂c⟩ := normal_exists_closure_subset h₂
+    (isClosed_closure (s := V₁)).isOpen_compl (subset_compl_comm.1 hV₁c)
+  obtain ⟨φ, hφ0, hφ1, -⟩ := exists_continuous_zero_one_of_isClosed (isClosed_closure (s := V₂))
+    (isClosed_closure (s := V₁)) (Set.disjoint_left.2 fun x hx hx' => hV₂c hx hx')
+  have hφV₁ : ∀ z ∈ V₁, φ z = 1 := fun z hz => hφ1 (subset_closure hz)
+  have hφV₂ : ∀ z ∈ V₂, φ z = 0 := fun z hz => hφ0 (subset_closure hz)
+  -- the indicator of the component of `p`
+  set U := (F₁ ∪ F₂)ᶜ with hUdef
+  have hU : IsOpen U := (h₁.union h₂).isOpen_compl
+  have hpU : p ∈ U := by simp only [U, compl_union]; exact ⟨hp₁, hp₂⟩
+  set Q := connectedComponentIn U p
+  have hQo : IsOpen Q := hU.connectedComponentIn
+  set f : Y → ℝ := Q.indicator (fun _ => 1) with hfdef
+  have hf01 : ∀ y, f y = 0 ∨ f y = 1 := by
+    intro y; by_cases hy : y ∈ Q
+    · right; simp [f, indicator_of_mem hy]
+    · left; simp [f, indicator_of_notMem hy]
+  have hfloc : ∀ y ∈ U, f =ᶠ[𝓝 y] fun _ => f y := by
+    intro y hyU
+    by_cases hy : y ∈ Q
+    · filter_upwards [hQo.mem_nhds hy] with z hz
+      simp [f, indicator_of_mem hz, indicator_of_mem hy]
+    · filter_upwards [hU.connectedComponentIn.mem_nhds (mem_connectedComponentIn hyU)] with z hz
+      have hzQ : z ∉ Q := by
+        intro hzQ
+        apply hy
+        have e1 : Q = connectedComponentIn U z := connectedComponentIn_eq hzQ
+        have e2 : connectedComponentIn U y = connectedComponentIn U z := connectedComponentIn_eq hz
+        rw [e1, ← e2]; exact mem_connectedComponentIn hyU
+      simp [f, indicator_of_notMem hzQ, indicator_of_notMem hy]
+  have hexp1 : ∀ y, exp (2 * π * I * ((f y : ℝ) : ℂ)) = 1 := by
+    intro y; rcases hf01 y with h | h <;> simp [h]
+  set Φ : Y → ℂ := fun y => exp (2 * π * I * ((f y * φ y : ℝ) : ℂ)) with hΦdef
+  have hΦ : Continuous Φ := by
+    refine continuous_iff_continuousAt.2 fun y => ?_
+    by_cases hy₁ : y ∈ F₁
+    · refine continuousAt_const.congr (?_ : (fun _ => (1 : ℂ)) =ᶠ[𝓝 y] Φ)
+      filter_upwards [hV₁o.mem_nhds (hFV₁ hy₁)] with z hz
+      simp only [Φ, hφV₁ z hz, mul_one]; exact (hexp1 z).symm
+    by_cases hy₂ : y ∈ F₂
+    · refine continuousAt_const.congr (?_ : (fun _ => (1 : ℂ)) =ᶠ[𝓝 y] Φ)
+      filter_upwards [hV₂o.mem_nhds (hFV₂ hy₂)] with z hz
+      simp [Φ, hφV₂ z hz]
+    have hyU : y ∈ U := by simp only [U, compl_union]; exact ⟨hy₁, hy₂⟩
+    have hc : Continuous fun z => exp (2 * π * I * ((f y * φ z : ℝ) : ℂ)) := by fun_prop
+    refine hc.continuousAt.congr ?_
+    filter_upwards [hfloc y hyU] with z hz
+    simp only [Φ, hz]
+  obtain ⟨G, ⟨-, hG⟩, -⟩ := Complex.isCoveringMapOn_exp.existsUnique_continuousMap_lifts
+    ⟨Φ, hΦ⟩ (a₀ := p) (e₀ := 2 * π * I * ((f p * φ p : ℝ) : ℂ)) rfl
+    (fun a => by simp [Φ, Complex.exp_ne_zero])
+  have hGy : ∀ y, ∃ n : ℤ, 2 * π * I * ((f y * φ y : ℝ) : ℂ) = G y + n * (2 * π * I) := fun y =>
+    Complex.exp_eq_exp_iff_exists_int.1 (congrFun hG y).symm
+  have h2pi : (2 * π * I : ℂ) ≠ 0 := two_pi_I_ne_zero
+  set k : Y → ℂ := fun y => (2 * π * I * ((f y * φ y : ℝ) : ℂ) - G y) / (2 * π * I)
+  set m : Y → ℂ := fun y => (2 * π * I * ((f y * (φ y - 1) : ℝ) : ℂ) - G y) / (2 * π * I)
+  have hkint : ∀ y, ∃ n : ℤ, k y = n := by
+    intro y; obtain ⟨n, hn⟩ := hGy y
+    refine ⟨n, ?_⟩
+    simp only [k, hn]; field_simp; ring
+  have hkm : ∀ y, k y - m y = ((f y : ℝ) : ℂ) := by
+    intro y; simp only [k, m]; push_cast; field_simp; ring
+  have hmint : ∀ y, ∃ n : ℤ, m y = n := by
+    intro y; obtain ⟨n, hn⟩ := hkint y
+    rcases hf01 y with h | h
+    · refine ⟨n, ?_⟩; have := hkm y; rw [h, hn] at this; push_cast at this
+      linear_combination -this
+    · refine ⟨n - 1, ?_⟩; have := hkm y; rw [h, hn] at this; push_cast at this ⊢
+      linear_combination -this
+  have hkc : ContinuousOn k F₁ᶜ := by
+    intro y hy₁
+    refine ContinuousAt.continuousWithinAt ?_
+    by_cases hy₂ : y ∈ F₂
+    · have hc : Continuous fun z => (- G z) / (2 * π * I) := by fun_prop
+      refine hc.continuousAt.congr ?_
+      filter_upwards [hV₂o.mem_nhds (hFV₂ hy₂)] with z hz
+      simp [k, hφV₂ z hz]
+    have hyU : y ∈ U := by simp only [U, compl_union]; exact ⟨hy₁, hy₂⟩
+    have hc : Continuous fun z => (2 * π * I * ((f y * φ z : ℝ) : ℂ) - G z) / (2 * π * I) := by
+      fun_prop
+    refine hc.continuousAt.congr ?_
+    filter_upwards [hfloc y hyU] with z hz
+    simp only [k, hz]
+  have hmc : ContinuousOn m F₂ᶜ := by
+    intro y hy₂
+    refine ContinuousAt.continuousWithinAt ?_
+    by_cases hy₁ : y ∈ F₁
+    · have hc : Continuous fun z => (- G z) / (2 * π * I) := by fun_prop
+      refine hc.continuousAt.congr ?_
+      filter_upwards [hV₁o.mem_nhds (hFV₁ hy₁)] with z hz
+      simp [m, hφV₁ z hz]
+    have hyU : y ∈ U := by simp only [U, compl_union]; exact ⟨hy₁, hy₂⟩
+    have hc : Continuous fun z =>
+        (2 * π * I * ((f y * (φ z - 1) : ℝ) : ℂ) - G z) / (2 * π * I) := by
+      fun_prop
+    refine hc.continuousAt.congr ?_
+    filter_upwards [hfloc y hyU] with z hz
+    simp only [m, hz]
+  -- integer-valued continuous functions are constant on preconnected sets
+  have const : ∀ (S : Set Y) (g : Y → ℂ), IsPreconnected S → ContinuousOn g S →
+      (∀ y, ∃ n : ℤ, g y = n) → ∀ a ∈ S, ∀ b ∈ S, g a = g b := by
+    intro S g hS hg hint a ha b hb
+    have hre := int_valued_eq_of_isPreconnected hS (g := fun y => (g y).re)
+      (Complex.continuous_re.comp_continuousOn hg)
+      (fun y _ => by obtain ⟨n, hn⟩ := hint y; exact ⟨n, by simp [hn]⟩) ha hb
+    obtain ⟨na, hna⟩ := hint a
+    obtain ⟨nb, hnb⟩ := hint b
+    simp only [hna, hnb, Complex.intCast_re] at hre
+    rw [hna, hnb, Int.cast_injective hre]
+  have hk := const _ k isPreconnected_connectedComponentIn
+    (hkc.mono (connectedComponentIn_subset _ _)) hkint p (mem_connectedComponentIn hp₁) q hq₁
+  have hm := const _ m isPreconnected_connectedComponentIn
+    (hmc.mono (connectedComponentIn_subset _ _)) hmint p (mem_connectedComponentIn hp₂) q hq₂
+  have hfpq : ((f p : ℝ) : ℂ) = ((f q : ℝ) : ℂ) := by rw [← hkm, ← hkm, hk, hm]
+  have hfp : f p = 1 := by
+    have hpQ : p ∈ Q := mem_connectedComponentIn hpU
+    simp [f, hpQ]
+  have hfq : f q = 0 := by simp [f, indicator_of_notMem hq]
+  rw [hfp, hfq] at hfpq
+  norm_num at hfpq
+
+/-- In a normal, simply connected, locally path-connected space in which no point separates, a
+closed set `C` whose points are separated by partitions of `C` into two closed sets has
+preconnected complement. -/
+theorem isPreconnected_compl_of_separated {Y : Type*} [TopologicalSpace Y] [NormalSpace Y]
+    [SimplyConnectedSpace Y] [LocPathConnectedSpace Y]
+    (hpt : ∀ a : Y, IsPreconnected ({a}ᶜ : Set Y)) {C : Set Y} (hC : IsClosed C)
+    (hsep : ∀ a ∈ C, ∀ b ∈ C, a ≠ b → ∃ U V : Set Y, IsClosed U ∧ IsClosed V ∧ C ⊆ U ∪ V ∧
+      Disjoint U V ∧ a ∈ U ∧ b ∈ V) :
+    IsPreconnected Cᶜ := by
+  suffices key : ∀ p ∈ Cᶜ, ∀ q ∈ Cᶜ, q ∈ connectedComponentIn Cᶜ p by
+    rcases Cᶜ.eq_empty_or_nonempty with h | ⟨p, hp⟩
+    · rw [h]; exact isPreconnected_empty
+    · have : connectedComponentIn Cᶜ p = Cᶜ :=
+        subset_antisymm (connectedComponentIn_subset _ _) fun q hq => key p hp q hq
+      rw [← this]; exact isPreconnected_connectedComponentIn
+  intro p hp q hq
+  by_contra hpq
+  set S := {F : Set Y | IsClosed F ∧ F ⊆ C ∧ q ∉ connectedComponentIn Fᶜ p} with hSdef
+  have hchainS : ∀ c ⊆ S, IsChain (· ⊆ ·) c → c.Nonempty → ∃ lb ∈ S, ∀ s ∈ c, lb ⊆ s := by
+    intro c hcS hchain hcne
+    have hcl : IsClosed (⋂₀ c) := isClosed_sInter fun s hs => (hcS hs).1
+    refine ⟨⋂₀ c, ⟨hcl, ?_, ?_⟩, fun s hs => sInter_subset_of_mem hs⟩
+    · obtain ⟨s, hs⟩ := hcne
+      exact (sInter_subset_of_mem hs).trans (hcS hs).2.1
+    · intro hqc
+      have hp' : p ∈ (⋂₀ c)ᶜ := by
+        by_contra h; rw [connectedComponentIn_eq_empty h] at hqc; exact hqc
+      have hpc : IsPathConnected (connectedComponentIn (⋂₀ c)ᶜ p) :=
+        (hcl.isOpen_compl.connectedComponentIn.isConnected_iff_isPathConnected).1
+          (isConnected_connectedComponentIn_iff.2 hp')
+      obtain ⟨γ, hγ⟩ := hpc.joinedIn p (mem_connectedComponentIn hp') q hqc
+      have hγc : range γ ⊆ (⋂₀ c)ᶜ :=
+        range_subset_iff.2 fun t => connectedComponentIn_subset _ _ (hγ t)
+      haveI : Nonempty c := hcne.to_subtype
+      obtain ⟨⟨s, hs⟩, hse⟩ := (isCompact_range γ.continuous).elim_directed_family_closed
+        (fun s : c => (s : Set Y)) (fun s => (hcS s.2).1)
+        (by
+          rw [← sInter_eq_iInter]
+          exact (subset_compl_iff_disjoint_right.1 hγc).inter_eq)
+        (by
+          rintro ⟨s, hs⟩ ⟨t, ht⟩
+          rcases hchain.total hs ht with h | h
+          · exact ⟨⟨s, hs⟩, subset_rfl, h⟩
+          · exact ⟨⟨t, ht⟩, h, subset_rfl⟩)
+      have hγs : range γ ⊆ sᶜ := fun y hy hys => (eq_empty_iff_forall_notMem.1 hse) y ⟨hy, hys⟩
+      exact (hcS hs).2.2 (IsPreconnected.subset_connectedComponentIn
+        (isConnected_range γ.continuous).isPreconnected ⟨0, γ.source⟩ hγs ⟨1, γ.target⟩)
+  obtain ⟨m, -, hm⟩ := zorn_superset_nonempty S hchainS C ⟨hC, subset_rfl, hpq⟩
+  obtain ⟨hmc, hmC, hmq⟩ := hm.prop
+  rcases m.subsingleton_or_nontrivial with hsub | ⟨a, ha, b, hb, hab⟩
+  · rcases hsub.eq_empty_or_singleton with h | ⟨a, rfl⟩
+    · subst h
+      rw [compl_empty] at hmq
+      exact hmq (isPreconnected_univ.subset_connectedComponentIn (mem_univ p) subset_rfl
+        (mem_univ q))
+    · have hpa : p ∈ ({a}ᶜ : Set Y) := fun h => hp (hmC h)
+      have hqa : q ∈ ({a}ᶜ : Set Y) := fun h => hq (hmC h)
+      exact hmq ((hpt a).subset_connectedComponentIn hpa subset_rfl hqa)
+  · obtain ⟨U, V, hU, hV, hCUV, hUV, haU, hbV⟩ := hsep a (hmC ha) b (hmC hb) hab
+    have h1 : q ∈ connectedComponentIn (m ∩ U)ᶜ p := by
+      by_contra h
+      have := hm.eq_of_subset ⟨hmc.inter hU, inter_subset_left.trans hmC, h⟩ inter_subset_left
+      have hb' : b ∈ m ∩ U := by rw [this]; exact hb
+      exact disjoint_left.1 hUV hb'.2 hbV
+    have h2 : q ∈ connectedComponentIn (m ∩ V)ᶜ p := by
+      by_contra h
+      have := hm.eq_of_subset ⟨hmc.inter hV, inter_subset_left.trans hmC, h⟩ inter_subset_left
+      have ha' : a ∈ m ∩ V := by rw [this]; exact ha
+      exact disjoint_left.1 hUV haU ha'.2
+    have h12 := mem_connectedComponentIn_compl_union_of_disjoint (hmc.inter hU) (hmc.inter hV)
+      (hUV.mono inter_subset_right inter_subset_right) h1 h2
+    have hm_eq : m ∩ U ∪ m ∩ V = m := by
+      rw [← inter_union_distrib_left, inter_eq_left.2 (hmC.trans hCUV)]
+    rw [hm_eq] at h12
+    exact hmq h12
+
 /-- The Euclidean core of the fourth item: in a finite-dimensional real normed space of
-dimension `≥ 2`, the complement of a closed totally disconnected set is preconnected. -/
+dimension `≥ 2`, the complement of a closed totally disconnected set is preconnected. The set is
+locally compact, hence totally separated, and points do not separate; then
+`isPreconnected_compl_of_separated` applies (a normed space is contractible). -/
 theorem isPreconnected_compl_of_isTotallyDisconnected {E : Type*} [NormedAddCommGroup E]
     [NormedSpace ℝ E] [FiniteDimensional ℝ E] (hE : 2 ≤ Module.finrank ℝ E) {K : Set E}
     (hK : IsClosed K) (hKt : IsTotallyDisconnected K) : IsPreconnected Kᶜ := by
-  sorry -- SORRY(ex:following_example_skeletal_itemize): dimension theory. A closed totally
-  -- disconnected subset of `ℝⁿ` is zero-dimensional (locally compact), and a subset of dimension
-  -- `≤ n - 2` does not separate `ℝⁿ` (Hurewicz–Wallman, *Dimension Theory*, Thm IV 4; or
-  -- Alexander duality / Borsuk's separation theorem). Neither covering dimension nor
-  -- separation theorems are in mathlib at this pin, and mathlib's countable-complement trick
-  -- (`Set.Countable.isPathConnected_compl_of_one_lt_rank`) does not reach uncountable `K`.
+  have hrank : 1 < Module.rank ℝ E := by
+    have : (1 : Cardinal) < (Module.finrank ℝ E : Cardinal) := by exact_mod_cast hE
+    rwa [Module.finrank_eq_rank] at this
+  refine isPreconnected_compl_of_separated
+    (fun a => (isConnected_compl_singleton_of_one_lt_rank hrank a).isPreconnected) hK ?_
+  intro a ha b hb hab
+  haveI : LocallyCompactSpace K := hK.locallyCompactSpace
+  haveI : TotallyDisconnectedSpace K := totallyDisconnectedSpace_subtype_iff.2 hKt
+  haveI : TotallySeparatedSpace K := loc_compact_t2_tot_disc_iff_tot_sep.1 inferInstance
+  obtain ⟨W, hW, haW, hbW⟩ := exists_isClopen_of_totally_separated
+    (show (⟨a, ha⟩ : K) ≠ ⟨b, hb⟩ from fun h => hab (congrArg Subtype.val h))
+  refine ⟨(↑) '' W, (↑) '' Wᶜ, hK.isClosedEmbedding_subtypeVal.isClosedMap _ hW.isClosed,
+    hK.isClosedEmbedding_subtypeVal.isClosedMap _ hW.compl.isClosed, ?_,
+    (disjoint_image_iff Subtype.val_injective).2 disjoint_compl_right, ⟨_, haW, rfl⟩,
+    ⟨_, hbW, rfl⟩⟩
+  intro x hx
+  by_cases hxW : (⟨x, hx⟩ : K) ∈ W
+  · exact Or.inl ⟨_, hxW, rfl⟩
+  · exact Or.inr ⟨_, hxW, rfl⟩
 
 /-- `ex:following_example_skeletal_itemize`, fourth item (tame or wild): a closed totally
 disconnected subset — e.g. a Cantor set, however (wildly) embedded — of a manifold of dimension
-`≥ 2` is skeletal. Modulo the Euclidean core `isPreconnected_compl_of_isTotallyDisconnected`. -/
+`≥ 2` is skeletal, by the Euclidean core `isPreconnected_compl_of_isTotallyDisconnected`. -/
 theorem isSkeletal_of_isTotallyDisconnected {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     [FiniteDimensional ℝ E] (hE : 2 ≤ Module.finrank ℝ E) [ChartedSpace E X] {S : Set X}
     (hSc : IsClosed S) (hSt : IsTotallyDisconnected S) : IsSkeletal S := by
@@ -640,6 +910,64 @@ theorem isClosed_skeletonSpace {E : Type*} [NormedAddCommGroup E] [NormedSpace �
   exact (hfin.subset (sep_subset _ _)).isClosed_biUnion fun s _ =>
     (Set.Finite.isCompact_convexHull ℝ s.finite_toSet).isClosed
 
+/-- The open simplex spanned by a finite set: its barycentric combinations with all weights
+positive. -/
+def openSimplex {E : Type*} [AddCommGroup E] [Module ℝ E] (s : Finset E) : Set E :=
+  {x | ∃ w : E → ℝ, (∀ y ∈ s, 0 < w y) ∧ ∑ y ∈ s, w y = 1 ∧ ∑ y ∈ s, w y • y = x}
+
+theorem openSimplex_subset_convexHull {E : Type*} [AddCommGroup E] [Module ℝ E] (s : Finset E) :
+    openSimplex s ⊆ convexHull ℝ (s : Set E) := by
+  rintro x ⟨w, hw0, hw1, hwx⟩
+  exact Finset.mem_convexHull'.2 ⟨w, fun y hy => (hw0 y hy).le, hw1, hwx⟩
+
+theorem convex_openSimplex {E : Type*} [AddCommGroup E] [Module ℝ E] (s : Finset E) :
+    Convex ℝ (openSimplex s) := by
+  rintro x ⟨w, hw0, hw1, rfl⟩ y ⟨u, hu0, hu1, rfl⟩ a b ha hb hab
+  refine ⟨fun v => a * w v + b * u v, fun v hv => ?_, ?_, ?_⟩
+  · rcases ha.lt_or_eq with ha | rfl
+    · exact add_pos_of_pos_of_nonneg (mul_pos ha (hw0 v hv)) (mul_nonneg hb (hu0 v hv).le)
+    · rw [zero_add] at hab; subst hab; simpa using hu0 v hv
+  · rw [Finset.sum_add_distrib, ← Finset.mul_sum, ← Finset.mul_sum, hw1, hu1]; linarith
+  · simp only [add_smul, mul_smul, Finset.sum_add_distrib, ← Finset.smul_sum]
+
+/-- A point of the open simplex of an affinely independent `T` lies in the convex hull of no
+proper subset of `T`. -/
+theorem subset_of_mem_openSimplex {E : Type*} [AddCommGroup E] [Module ℝ E] {T t : Finset E}
+    (hT : AffineIndependent ℝ ((↑) : T → E)) (ht : t ⊆ T) {y : E} (hy : y ∈ openSimplex T)
+    (hyt : y ∈ convexHull ℝ (t : Set E)) : T ⊆ t := by
+  classical
+  obtain ⟨w, hw0, hw1, hwy⟩ := hy
+  obtain ⟨u, -, hu1, huy⟩ := Finset.mem_convexHull'.1 hyt
+  set u' : E → ℝ := fun v => if v ∈ t then u v else 0
+  have hs1 : ∑ v ∈ T, w v = ∑ v ∈ T, u' v := by
+    rw [hw1, Finset.sum_ite_mem, Finset.inter_eq_right.2 ht, hu1]
+  have hs2 : ∑ v ∈ T, w v • v = ∑ v ∈ T, u' v • v := by
+    simp only [u', ite_smul, zero_smul]
+    rw [Finset.sum_ite_mem, Finset.inter_eq_right.2 ht, hwy, huy]
+  have heq := hT.eq_of_sum_eq_sum_subtype hs1 hs2
+  intro v hv
+  by_contra hvt
+  have := heq v hv
+  simp only [u', hvt, if_false] at this
+  exact (hw0 v hv).ne' this
+
+theorem mem_closure_openSimplex {E : Type*} [AddCommGroup E] [Module ℝ E] [TopologicalSpace E]
+    [IsTopologicalAddGroup E] [ContinuousSMul ℝ E] {s : Finset E} (hs : s.Nonempty) {x : E}
+    (hx : x ∈ convexHull ℝ (s : Set E)) : x ∈ closure (openSimplex s) := by
+  obtain ⟨u, hu0, hu1, hux⟩ := Finset.mem_convexHull'.1 hx
+  have hc : (s.card : ℝ) ≠ 0 := by exact_mod_cast hs.card_pos.ne'
+  set b : E := ∑ v ∈ s, (s.card : ℝ)⁻¹ • v
+  have hseg : openSegment ℝ b x ⊆ openSimplex s := by
+    rintro z ⟨a, c, ha, hc', hac, rfl⟩
+    refine ⟨fun v => a * (s.card : ℝ)⁻¹ + c * u v, fun v hv =>
+      add_pos_of_pos_of_nonneg (mul_pos ha (inv_pos.2 (by exact_mod_cast hs.card_pos)))
+        (mul_nonneg hc'.le (hu0 v hv)), ?_, ?_⟩
+    · rw [Finset.sum_add_distrib, ← Finset.mul_sum, ← Finset.mul_sum, hu1, Finset.sum_const,
+        nsmul_eq_mul]
+      field_simp; linarith
+    · simp only [b, add_smul, mul_smul, Finset.sum_add_distrib, ← Finset.smul_sum, hux]
+  exact closure_mono hseg (segment_subset_closure_openSegment (right_mem_segment ℝ b x))
+
 /-- *Local strong connectivity* in codimension `≥ 2`: for every face `σ` of dimension `≤ n - 2`,
 any two `n`-faces containing `σ` are joined by a chain of `n`-faces containing `σ`, consecutive
 ones sharing an `(n-1)`-face. This is the hypothesis the third item of
@@ -653,18 +981,128 @@ def IsLocallyStronglyConnected {E : Type*} [AddCommGroup E] [Module ℝ E] [Deci
 
 /-- Corrected third item of `ex:following_example_skeletal_itemize`, codimension-two case: in a
 finite pure `n`-dimensional simplicial complex which is locally strongly connected in codimension
-`≥ 2`, the `(n-2)`-skeleton is skeletal. -/
+`≥ 2`, the `(n-2)`-skeleton is skeletal. By `isSkeletal_of_local`: the neighbourhood
+`B(x,r) ∩ G` of `x`, `G` the points lying only in faces through `x`, meets the complement of the
+skeleton in the union over the `n`-faces `T ∋ x` of pieces lying between `B(x,r) ∩ openSimplex T`
+and its closure, consecutive pieces meeting in an open `(n-1)`-face near `x`. -/
 theorem isSkeletal_skeletonSpace_codim_two {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     [FiniteDimensional ℝ E] [DecidableEq E] (K : SimplicialComplex ℝ E) (hfin : K.faces.Finite) {n : ℕ}
     (hpure : IsPureOfDim K n) (hlsc : IsLocallyStronglyConnected K n) (hn : 2 ≤ n) :
     IsSkeletal (((↑) : K.space → E) ⁻¹' skeletonSpace K (n - 2)) := by
-  sorry -- SORRY(ex:following_example_skeletal_itemize): needs the local structure theory of
-  -- geometric simplicial complexes, absent from mathlib: the carrier (open simplex) of a point,
-  -- the open star of a face as a neighbourhood basis in `K.space`, the star of a point as the
-  -- cone on its link, connectedness of an open simplex together with its open codimension-one
-  -- faces, and the general-position step that a path in the star avoiding the `(n-2)`-skeleton
-  -- crosses facets only through open `(n-1)`-faces. With these, local strong connectivity is
-  -- exactly connectedness of `star(x) \ skeleton` and `isSkeletal_of_local` concludes.
+  set S' := skeletonSpace K (n - 2) with hS'
+  -- a point of the open simplex of a face lies only in the faces containing that face
+  have hcarrier : ∀ ρ ∈ K.faces, ∀ y ∈ openSimplex ρ, ∀ τ ∈ K.faces,
+      y ∈ convexHull ℝ (τ : Set E) → ρ ⊆ τ := by
+    intro ρ hρ y hy τ hτ hyτ
+    have h := K.inter_subset_convexHull hρ hτ ⟨openSimplex_subset_convexHull ρ hy, hyτ⟩
+    rw [← Finset.coe_inter] at h
+    exact (subset_of_mem_openSimplex (K.indep hρ) Finset.inter_subset_left hy h).trans
+      Finset.inter_subset_right
+  -- the open simplex of a face of dimension `≥ n - 1` misses the `(n-2)`-skeleton
+  have hnotS : ∀ ρ ∈ K.faces, n ≤ ρ.card → ∀ y ∈ openSimplex ρ, y ∉ S' := by
+    intro ρ hρ hcard y hy hyS
+    simp only [S', skeletonSpace, mem_iUnion, exists_prop] at hyS
+    obtain ⟨s, hs, hsc, hys⟩ := hyS
+    have := Finset.card_le_card (hcarrier ρ hρ y hy s hs hys)
+    omega
+  refine isSkeletal_of_local ((isClosed_skeletonSpace K hfin _).preimage continuous_subtype_val)
+    fun x O hO => ?_
+  obtain ⟨r, hr, hrO⟩ := Metric.mem_nhds_iff.1 hO
+  -- `G`: the points lying only in faces through `x` (an open set: `K` is finite)
+  set G : Set E := {y | ∀ τ ∈ K.faces, y ∈ convexHull ℝ (τ : Set E) →
+    (x : E) ∈ convexHull ℝ (τ : Set E)} with hGdef
+  have hGo : IsOpen G := by
+    have : G = (⋃ τ ∈ {τ | τ ∈ K.faces ∧ (x : E) ∉ convexHull ℝ (τ : Set E)},
+        convexHull ℝ (τ : Set E))ᶜ := by
+      ext y
+      simp only [G, mem_setOf_eq, mem_compl_iff, mem_iUnion, exists_prop, not_exists, not_and]
+      constructor
+      · intro h τ hτ hy; exact hτ.2 (h τ hτ.1 hy)
+      · intro h τ hτ hy; by_contra hx; exact h τ ⟨hτ, hx⟩ hy
+    rw [this]
+    exact ((hfin.subset fun τ hτ => hτ.1).isClosed_biUnion fun τ _ =>
+      (Set.Finite.isCompact_convexHull ℝ τ.finite_toSet).isClosed).isOpen_compl
+  have hxG : (x : E) ∈ G := fun _ _ h => h
+  -- the pieces: the `n`-faces through `x`, cut down to the ball, to `G` and off the skeleton
+  set A : Finset E → Set E := fun T =>
+    convexHull ℝ (T : Set E) ∩ (Metric.ball (x : E) r ∩ G ∩ S'ᶜ) with hAdef
+  set Fn : Set (Finset E) :=
+    {T | T ∈ K.faces ∧ T.card = n + 1 ∧ (x : E) ∈ convexHull ℝ (T : Set E)} with hFndef
+  -- an open simplex of dimension `≥ n - 1` through `x` meets every piece containing it
+  have hstep : ∀ ρ ∈ K.faces, n ≤ ρ.card → (x : E) ∈ convexHull ℝ (ρ : Set E) →
+      ∃ y, ∀ T : Finset E, ρ ⊆ T → y ∈ A T := by
+    intro ρ hρ hcard hxρ
+    obtain ⟨y, hy, hxy⟩ := Metric.mem_closure_iff.1
+      (mem_closure_openSimplex (K.nonempty_of_mem_faces hρ) hxρ) r hr
+    refine ⟨y, fun T hρT => ⟨convexHull_mono (Finset.coe_subset.2 hρT)
+      (openSimplex_subset_convexHull ρ hy), ⟨⟨?_, ?_⟩, hnotS ρ hρ hcard y hy⟩⟩⟩
+    · rw [Metric.mem_ball, dist_comm]; exact hxy
+    · intro τ hτ hyτ
+      exact convexHull_mono (Finset.coe_subset.2 (hcarrier ρ hρ y hy τ hτ hyτ)) hxρ
+  -- each piece is preconnected: it lies between a convex set and its closure
+  have hA : ∀ T ∈ Fn, IsPreconnected (A T) := by
+    rintro T ⟨hT, hTc, hxT⟩
+    have hPA : Metric.ball (x : E) r ∩ openSimplex T ⊆ A T := by
+      rintro y ⟨hyb, hy⟩
+      refine ⟨openSimplex_subset_convexHull T hy, ⟨⟨hyb, ?_⟩, hnotS T hT (by omega) y hy⟩⟩
+      intro τ hτ hyτ
+      exact convexHull_mono (Finset.coe_subset.2 (hcarrier T hT y hy τ hτ hyτ)) hxT
+    have hAP : A T ⊆ closure (Metric.ball (x : E) r ∩ openSimplex T) := by
+      rintro y ⟨hyT, ⟨⟨hyb, -⟩, -⟩⟩
+      exact Metric.isOpen_ball.inter_closure
+        ⟨hyb, mem_closure_openSimplex (K.nonempty_of_mem_faces hT) hyT⟩
+    exact ((convex_ball _ _).inter (convex_openSimplex T)).isPreconnected.subset_closure hPA hAP
+  -- the pieces are chained: local strong connectivity
+  have hchain : ∀ T ∈ Fn, ∀ T' ∈ Fn, Relation.ReflTransGen
+      (fun i j => (A i ∩ A j).Nonempty ∧ i ∈ Fn) T T' := by
+    rintro T ⟨hT, hTc, hxT⟩ T' ⟨hT', hTc', hxT'⟩
+    have hxσ : (x : E) ∈ convexHull ℝ ((T ∩ T' : Finset E) : Set E) := by
+      rw [Finset.coe_inter]; exact K.inter_subset_convexHull hT hT' ⟨hxT, hxT'⟩
+    have hσne : (T ∩ T').Nonempty := by
+      rw [← Finset.coe_nonempty]; exact convexHull_nonempty_iff.1 ⟨_, hxσ⟩
+    have hσ : T ∩ T' ∈ K.faces := K.down_closed hT Finset.inter_subset_left hσne
+    by_cases hc : n ≤ (T ∩ T').card
+    · obtain ⟨y, hy⟩ := hstep _ hσ hc hxσ
+      exact Relation.ReflTransGen.single
+        ⟨⟨y, hy T Finset.inter_subset_left, hy T' Finset.inter_subset_right⟩, ⟨hT, hTc, hxT⟩⟩
+    · have h := hlsc _ hσ (by omega) T hT T' hT' Finset.inter_subset_left
+        Finset.inter_subset_right hTc hTc'
+      refine h.mono ?_
+      rintro τ₁ τ₂ ⟨h₁, -, hc₁, -, hστ, hcard⟩
+      have hxρ : (x : E) ∈ convexHull ℝ ((τ₁ ∩ τ₂ : Finset E) : Set E) :=
+        convexHull_mono (Finset.coe_subset.2 hστ) hxσ
+      have hρne : (τ₁ ∩ τ₂).Nonempty := Finset.card_pos.1 (by omega)
+      obtain ⟨y, hy⟩ := hstep _ (K.down_closed h₁ Finset.inter_subset_left hρne) hcard.ge hxρ
+      exact ⟨⟨y, hy τ₁ Finset.inter_subset_left, hy τ₂ Finset.inter_subset_right⟩,
+        ⟨h₁, hc₁, convexHull_mono (Finset.coe_subset.2 (hστ.trans Finset.inter_subset_left))
+          hxσ⟩⟩
+  -- the neighbourhood `N` of `x`, and `N` off the skeleton as the union of the pieces
+  have himg : ((↑) : K.space → E) '' ((↑) ⁻¹' (Metric.ball (x : E) r ∩ G) ∩
+      ((↑) ⁻¹' S')ᶜ) = ⋃ T ∈ Fn, A T := by
+    rw [← preimage_compl, ← preimage_inter, Subtype.image_preimage_coe]
+    ext y
+    simp only [mem_iUnion, exists_prop]
+    constructor
+    · rintro ⟨hy, ⟨hyb, hyG⟩, hyS⟩
+      obtain ⟨τ, hτ, hyτ⟩ := Geometry.SimplicialComplex.mem_space_iff.1 hy
+      obtain ⟨T, hT, hτT, hTc⟩ := hpure.2 τ hτ
+      have hyT := convexHull_mono (Finset.coe_subset.2 hτT) hyτ
+      exact ⟨T, ⟨hT, hTc, hyG T hT hyT⟩, hyT, ⟨hyb, hyG⟩, hyS⟩
+    · rintro ⟨T, ⟨hT, -, -⟩, hyT, hyr⟩
+      exact ⟨K.convexHull_subset_space hT hyT, hyr⟩
+  refine ⟨(↑) ⁻¹' (Metric.ball (x : E) r ∩ G),
+    (Metric.isOpen_ball.inter hGo).preimage continuous_subtype_val,
+    ⟨Metric.mem_ball_self hr, hxG⟩, fun y hy => hrO ?_, ?_, ?_⟩
+  · rw [Metric.mem_ball, Subtype.dist_eq]; exact hy.1
+  · refine (image_nonempty (f := ((↑) : K.space → E))).1 ?_
+    rw [himg]
+    obtain ⟨τ, hτ, hxτ⟩ := Geometry.SimplicialComplex.mem_space_iff.1 x.2
+    obtain ⟨T, hT, hτT, hTc⟩ := hpure.2 τ hτ
+    have hxT := convexHull_mono (Finset.coe_subset.2 hτT) hxτ
+    obtain ⟨y, hy⟩ := hstep T hT (by omega) hxT
+    exact ⟨y, mem_biUnion ⟨hT, hTc, hxT⟩ (hy T subset_rfl)⟩
+  · rw [← Topology.IsInducing.subtypeVal.isPreconnected_image, himg]
+    exact IsPreconnected.biUnion_of_reflTransGen hA hchain
 
 /-- Corrected third item of `ex:following_example_skeletal_itemize`: for `k ≤ n - 2`, the
 `k`-skeleton of a finite pure `n`-dimensional, locally strongly connected simplicial complex is

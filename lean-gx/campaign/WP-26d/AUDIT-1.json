@@ -1,0 +1,30 @@
+{
+  "package": "WP-26d",
+  "round": 1,
+  "file": "GX/Structure/Basic.lean",
+  "verdict": "clean",
+  "builds": true,
+  "sorry_count_measured": 0,
+  "summary": "On node1: `taskset -c 0-11 lake env lean -DwarningAsError=true GX/Structure/Basic.lean` exits 0 with no output, and `taskset -c 0-11 lake build GX` completes (8571 jobs, already up to date; the olean has the same mtime as the source). The file contains no sorry, admit, axiom or native_decide. `#print axioms` (scratch file in /tmp, nothing written in the repo) shows only [propext, Classical.choice, Quot.sound] for closedUnderRestriction_gxGroupoid, hasGroupoid_opens, chartAt_opens_apply, isGXMorphism_opens_inclusion, IsGXMorphism.restrict_opens, IsGXMorphism.codRestrict_opens, isGXMorphism_subtype_val_comp_iff and isGXMorphism_iff_forall_opens. `git diff` against HEAD shows additions only: two Contents bullets in the module docstring, the instance at the end of section Groupoid, and a new section Opens. No existing declaration is renamed or changed. All four dispatch items are met. (1) ClosedUnderRestriction (gxGroupoid G X) is an instance under exactly the hypotheses gxGroupoid needs (Group G, MulAction G X, ContinuousConstSMul G X), so it holds for any G and X. (2) The HasGroupoid on W : Opens M is mathlib's TopologicalSpace.Opens.instHasGroupoid, and it fires: hasGroupoid_opens is proved by inferInstance. (3) The inclusion Subtype.val : W -> M is a (G,X)-morphism, and so is Opens.inclusion. Neither needs HasGroupoid on M, so this is stronger than asked. (4) Restriction of morphisms is covered: to an open source (comp_subtype_val), to open source and target (restrict_opens, under the necessary MapsTo hypothesis), corestriction to an open target and its converse, plus locality on the source. Fidelity: the file carries no ledger label and REPORT gives labels: [], which is correct. Nothing has a vacuous or circular hypothesis, and the existing IsGXMorphism definition is not trivialised. The hypothesis hWV in restrict_opens is what makes the induced map exist, so it is not an added assumption. Docstring contract (kb/0006): the file has no **`label`** mark and none was added. The bold text in the new declaration docstrings is description, not a label mark. The SCOPE and hypothesis checklist are unaffected. REPORT.json is valid JSON and true on every count it states (builds, sorry_count 0, labels [], every extra_decl exists in the file). Name clashes: none of the 11 new names, and no other ClosedUnderRestriction instance, occurs anywhere else under GX/ or scaffold/. The only same-name declaration is lean-causal's own closedUnderRestriction_gxGroupoid for its Causal copy. REPORT discloses it, and today it is harmless because the two packages are never imported together. Only minor issues.",
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "GX.closedUnderRestriction_gxGroupoid (Basic.lean, end of section Groupoid) vs lean-causal/scaffold/CausalScaffold/Flat/FlatSpacetime.lean",
+      "problem": "lean-causal declares an instance under the same name for its Causal copy of gxGroupoid. If the two libraries are ever imported together (kb/0024 two papers one library), the names collide. REPORT already notes this.",
+      "fix": "None needed now. Whoever unifies the two gxGroupoid copies should keep only one instance."
+    },
+    {
+      "severity": "minor",
+      "where": "GX.isGXMorphism_iff_forall_opens",
+      "problem": "Its right-hand side quantifies over every W : Opens M, so the converse direction is trivial (take W = ⊤). The informative locality statement is isGXMorphism_of_forall_opens, whose hypothesis is ∀ x, ∃ W ∋ x, and it has no iff form.",
+      "fix": "Optional: also state the iff with the pointwise form `IsGXMorphism G X f ↔ ∀ x, ∃ W : Opens M, x ∈ W ∧ IsGXMorphism G X (f ∘ Subtype.val)`."
+    },
+    {
+      "severity": "minor",
+      "where": "process: write scope",
+      "problem": "The package edits a strict-library file. docs/CAMPAIGN.md 'What you may write' does not allow that for a wave agent, but REPORT.notes records it as dispatched by the master session. Downstream strict modules rebuild cleanly (lake build GX green). The scaffold was not rebuilt, because the protocol forbids `lake build GXScaffold`.",
+      "fix": "At graduation, the master session should build the scaffold modules that import GX.Structure.Basic, to confirm the new instance does not change instance resolution there."
+    }
+  ],
+  "questions_for_author": []
+}

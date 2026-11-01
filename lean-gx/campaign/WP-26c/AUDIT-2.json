@@ -1,0 +1,58 @@
+{
+  "package": "WP-26c",
+  "round": 2,
+  "auditor": "read-only auditor, round 2",
+  "file": "GX/Branched/Universality.lean",
+  "verdict": "clean",
+  "builds": true,
+  "checks": {
+    "build_file": "taskset -c 0-11 lake env lean -DwarningAsError=true GX/Branched/Universality.lean: EXIT 0, no output (node1, 4.9 s wall)",
+    "build_strict_library": "taskset -c 0-11 lake build GX: 'Build completed successfully (8571 jobs)', EXIT 0",
+    "sorry_count": "0 real sorries (the two textual hits, l.131 and l.829, are the word 'possibly' in prose); no admit, axiom, native_decide or implemented_by",
+    "axioms": "#print axioms (lake env lean --stdin, nothing written): previous_examples_maxBranched, completion_hom_equiv, completion_hom_comp, cex_branched_covering_composition, isBranchedCovering_of_isSpreadCompletion, IsBranchedCovering.restrict_isCoveringMap all report [propext, Classical.choice, Quot.sound]",
+    "diff_vs_backup": "compared with campaign/WP-26c/Universality.pre-WP-26c.bak: 12 lines removed, all from the module docstring. No pre-existing declaration was removed, renamed or restated. Additions since round 1: completion_hom_ext, completion_hom_id, completion_hom_comp, plus the reworded cex bullet, checklist row and SCOPE bullet",
+    "name_clashes": "all 16 added names were grepped as theorem/lemma/def/abbrev/instance under GX/ and scaffold/, outside this file: no hits. Mathlib at the pin has no LocPathConnectedSpace product instance, so locPathConnectedSpace_prod_of duplicates nothing",
+    "report_decls": "every decl that REPORT.json lists was resolved. All are in the file, or exist as auto-named instances (DInfty.instPathConnectedSpace, instLocPathConnectedSpace and instFirstCountableTopology, confirmed by #check), except GX.isSkeletal_of_countable (see minor issue 1)",
+    "marks_vs_status": "the docstring bolds exactly rem:completion_covering, prop:universality, rem:one_could_sum_up and rem:considering_maximal_covering_possibly, which are the four rows REPORT marks closed. prop:branched_covering_composition, cex:proposition_prop_branched_covering and rem:previous_examples_instances_developing are in backticks without bold and are partial in REPORT, the SCOPE and the checklist (cross row for cex). LEDGER.md agrees"
+  },
+  "rows": [
+    {
+      "label": "rem:one_could_sum_up",
+      "assessment": "Closed and marked correctly under DEC-46(d). Objects: isBranchedCovering_of_isSpreadCompletion takes any T2, LPC completion of a connected surjective covering of a portly O and gives a branched covering possibly branched over the complement of O, with p'^{-1}(O) = range iota. isSpreadCompletion_ends_of_isCoveringMap shows that a completion exists. IsBranchedCovering.restrict_isCoveringMap goes the other way: a connected surjective covering of O, of which X is the completion. The two directions together make the round trip. Morphisms: completion_hom_equiv is a bijection characterised by extension; the source covering pi_1 is assumed nothing, which is stronger than the paper. Round 1's minor is fixed: completion_hom_ext, completion_hom_id and completion_hom_comp now state and prove functoriality. Their statements hold for any bijection characterised by extension, so they apply to the Phi that completion_hom_equiv produces. isBranchedCovering_of_comm shows that a morphism is itself a branched covering. No vacuous hypothesis."
+    },
+    {
+      "label": "cex:proposition_prop_branched_covering",
+      "assessment": "Round 1's major is resolved by option (a). The row is partial and unmarked in the docstring, the checklist, the SCOPE and REPORT. alpha = 1 is kept as the DEC-46(e) reading, and the S -> S union {apex} correction is recorded as a DEC-27 finding with a question to the author. The dispatch said to mark this row, but marking it would certify a construction whose printed claim, l.1184 'S is skeletal', is refuted in Lean (cexS_not_isSkeletal). I checked the paper: D_inf contains the apex (0,0), and its topology has basic neighbourhoods {r < r0}. A dense family in Y0 has r_n arbitrarily small, so the apex is in the closure of S and not in S. DEC-27 makes such a row partial, so the conservative choice is the correct one. Nothing is overclaimed, and the author is asked the open question explicitly. The corrected cex_branched_covering_composition is strong: S' skeletal, its complement SLSC, the maximal covering branched at every point of S, q a branched covering, and q o p not a branched covering. Its hypotheses are satisfiable (exists_isDenseFamilyY₀)."
+    },
+    {
+      "label": "rem:previous_examples_instances_developing",
+      "assessment": "The cheap Fox-universality addition was made and is sound. previous_examples_maxBranched proves that pi{r=0} is skeletal, that its complement is SLSC, that D_inf x V -> Gamma_alpha\\(D_inf x V) satisfies IsMaximalPossiblyBranched over pi{r=0} in every universe w (the definition is a real universal property: branched covering, branching locus in S, and dominating every T2 LPC FC competitor by a branched covering), and that it is homeomorphic over M to MaxBranchedCover for every base point. This is stronger than the paper: V is any real normed space and alpha is any nonzero real. The row stays partial because 'branched over its singular locus' is false as written (quotientBase_counterexample in GX.Singular.Quotient). That is correct, and it is reported."
+    },
+    {
+      "label": "prop:branched_covering_composition",
+      "assessment": "Unchanged. Partial under DEC-48. Its docstring, SCOPE and REPORT match the ruling."
+    },
+    {
+      "label": "rem:completion_covering, prop:universality, rem:considering_maximal_covering_possibly",
+      "assessment": "Statements are byte-identical to the backup. All three remain closed and marked."
+    }
+  ],
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "REPORT.json extra_decls",
+      "problem": "'GX.isSkeletal_of_countable' does not exist (#check reports an unknown identifier). The declaration in the file is GX.isSkeletal_of_countable_complex (l.1875).",
+      "fix": "Rename the entry to GX.isSkeletal_of_countable_complex."
+    },
+    {
+      "severity": "minor",
+      "where": "GX/Singular/Quotient.lean SCOPE (f) (l.200); README.md l.46 (module row for GX.Branched.Universality)",
+      "problem": "Carried over from round 1. Both are outside this dispatch and are disclosed in REPORT notes. Quotient's SCOPE (f) still says the Fox-universal half is not formalized. The README row does not list rem:one_could_sum_up among the certified labels.",
+      "fix": "Master, at graduation: point Quotient's SCOPE (f) to GX.previous_examples_maxBranched, add rem:one_could_sum_up to the README row, and list the WP-26c decls in the ledger row for rem:previous_examples_instances_developing."
+    }
+  ],
+  "report_json": "Valid, and it covers every label of the file plus l.684. builds and sorry_count are confirmed. Statuses and marks match the docstring. Hypotheses and findings are accurate. The cex row's question honestly discloses why the dispatch's 'mark it' was not followed. The only inaccuracy is the misnamed extra_decl (minor issue 1).",
+  "questions_for_master": [
+    "DEC-46(e) says 'the rows close under these readings', but alpha = 1 alone does not repair l.1184 (the printed S is not closed, hence not skeletal). The row stays partial unless the author rules explicitly, in an amended DEC-46(e) or a new DEC, that the S -> S union {apex} correction is accepted as a reading. If that ruling is given, marking the row needs no Lean change."
+  ]
+}
