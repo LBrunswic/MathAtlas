@@ -3,6 +3,15 @@ import CausalScaffold.Flat.Externals
 import CausalScaffold.Flat.Examples
 import CausalScaffold.Flat.TwistedProduct
 import CausalScaffold.Flat.CauchyComplete
+import CausalScaffold.Flat.Lox.LevelComplete
+import CausalScaffold.Flat.Lox.QuotientComplete
+import CausalScaffold.Flat.Lox.CentralFix
+import CausalScaffold.Flat.Lox.RestrictFix
+import CausalScaffold.Flat.Lox.LatticeTrivial
+import CausalScaffold.Flat.Lox.RestrictOrient
+import CausalScaffold.Flat.Lox.TwoNullNormalForm
+import CausalScaffold.Flat.Lox.FixLoxodromic
+import CausalScaffold.Flat.Lox.SelbergMono
 
 /-!
 # `CausalScaffold.Flat.Loxodromic` — Barbot §10, the loxodromic case
@@ -21,13 +30,17 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
   "reader can easily check" (l.3191–3193) is `exists_line_avoiding`.
 * `bcor:loxo_proper` — `GHFspace.tex:3214` (Cor 10.3), partial: freeness, proper discontinuity
   (`loxo_properlyDiscontinuous`, by an equivariant Gauss map, `finite_of_gaussEquivariant`) and
-  the quotient (`bcor_loxo_proper`: GH, acausal Cauchy surface) proved, **no `sorry`**;
-  Cauchy-completeness (`loxo_cauchyComplete`) is a `sorry`.
+  the quotient (`bcor_loxo_proper`: GH, acausal Cauchy surface) and Cauchy-completeness
+  (`loxo_cauchyComplete`, through `Flat.Lox.LevelComplete` and `Flat.Lox.QuotientComplete`)
+  proved, **no `sorry`**.
 * `bprop:U_timelike` — `GHFspace.tex:3347` (Prop 10.4), partial: the lightlike case
   (`not_isNonelementary_of_lightlike`) proved; in the spacelike case the fixed space of `L(Γ_nd)`
-  is proved spacelike (`IsMaxUnipotent.mem_direction_of_linFixed`), the rest a `sorry` (Cor 8.4,
+  is proved spacelike (`IsMaxUnipotent.mem_direction_of_linFixed`) and the branch with a central
+  non-elliptic member of `L(Γ_nd)` is closed (`Flat.Lox.CentralFix`); the rest a `sorry` (Cor 8.4,
   on which the paper relies, is false as printed: finding).
-* `bprop:LU_discrete` — `GHFspace.tex:3368` (Prop 10.5), stated (`bprop_LU_discrete`, `sorry`).
+* `bprop:LU_discrete` — `GHFspace.tex:3368` (Prop 10.5), partial: l.3380–3388 (a central
+  non-elliptic element of a subgroup normalised by `L_U(Γ)` contradicts `hne`, `Flat.Lox.CentralFix`
+  and `Flat.Lox.RestrictFix`) proved; the Lie-theoretic input l.3372–3380 a `sorry`.
 * `bprop:admlox` — `GHFspace.tex:1230` (Prop 4.17), partial (nonempty added, external
   `LimitSetMinimal`; **no `sorry`**): invariance in `𝒥` (`isomPenrose_image_limitSetJ_subset`),
   minimality on `𝒮` (`fst_image_limitSetJ_subset`) and in `𝒥` (`limitSetJ_subset`, through the
@@ -89,6 +102,8 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
   point-reflection conjugate `negConj` (`negConj_smul`, `linOf_negConj`, `cosmoRegular_negS`).
 * Prop 10.4: `not_isNonelementary_of_lightlike`, `IsMaxUnipotent.mem_direction_of_linFixed` (every
   vector fixed by `L(N)` lies in the direction of the maximal `N`-unipotent subspace).
+* [10.G]: `exists_finiteIndex_linOf_eq_on_span_kerTranslations` (a finite-index `Γ'` with
+  `L(γ)|_E = id`).
 * Families: `IsNonelementary`, `IsFutureAdmissible`, `IsPastAdmissible`, `IsAdmissible`,
   `IsCauchyHyperbolic`, `kerTranslations`, `IsSpacelikeSubmodule`, `IsCHCentralExtensionOf`,
   `IsCHCentralExtension` (b), `IsCHTorusProduct` (a, for the same `Γ`).
@@ -103,7 +118,7 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
 | 10.2: "up to time reversing isometries" (l.3181–3183) | ⚠ reading: both cases kept (`isom d` is `SO₀`-affine); `Ω⁺` or `Ω⁻` |
 | 10.2: 4.6, 4.8, 4.9 | ✓ through `omegaPlus_closure_eq_interior` (4.9 with no hypothesis) |
 | 10.3: `bprop:agissons` (Γ discrete) | ⚠ replaced: 4.16 is not used; properness on `Ω(S̃)` is derived from `CCAction.proper` (Γ proper on `Σ`) through the `L(Γ)`-equivariant Gauss map into `ℍᵈ` (`finite_of_gaussEquivariant`) |
-| 10.3: "`M(S)` is a Cauchy-complete GH spacetime" | ⚠ future case only (`bcor_loxo_proper` under `Ω(S̃) = Ω⁺(Λ)`; the past case is its time reversal, not formalized); Cauchy-completeness split off as `loxo_cauchyComplete`, which takes the quotient instances as hypotheses |
+| 10.3: "`M(S)` is a Cauchy-complete GH spacetime" | ⚠ future case only (`bcor_loxo_proper` under `Ω(S̃) = Ω⁺(Λ)`; the past case is its time reversal, not formalized); Cauchy-completeness split off as `loxo_cauchyComplete`, which takes the quotient instances as hypotheses and uses only `CosmoRegular Λ` (⚠ weakened: `h`, `hlox`, `hΛ` unused) |
 | gx uniformization: nonelementary, `ker L = 1` | ⚠ weakened: neither is used; only a loxodromic element |
 | 10.4: `bthm:ausl`, `bthm:unip`, discreteness, nonelementary | ✓ carried (`AuslanderCarriereDalbo`, `MaxUnipotentSubspace`, `DiscreteTopology Γ`) |
 | 10.4: `U` nonempty and `Γ`-invariant ("being unique", l.3343–3344) | ✓ derived (`exists_invariant_maxUnipotent` and the uniqueness of `MaxUnipotentSubspace`) |
@@ -114,17 +129,26 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
 
 ## SCOPE (disclosed)
 
-* **Sorries (6)**: `loxo_cauchyComplete`,
-  `loxo_elementary_misner` ([10.M]), `bprop_U_timelike` (spacelike case), `bprop_LU_discrete`,
-  `loxo_generic_centralExtension`, `loxo_generic_torusProduct` ([10.G]). Each names its
-  obstruction. `blem_sanlox`, `blem_loxregular`, `interior_achronalDomain_eq_quadrants`,
+* **Sorries (5)**: `loxo_elementary_misner` ([10.M], after its first step),
+  `bprop_U_timelike` (spacelike case, every central member of `L(Γ_nd)` elliptic),
+  `bprop_LU_discrete` (the Lie-theoretic input only), `loxo_generic_centralExtension`,
+  `loxo_generic_torusProduct` ([10.G]). Each names its obstruction. `loxo_cauchyComplete` is proved
+  (`Flat.Lox.LevelComplete`, `Flat.Lox.QuotientComplete`). `blem_sanlox`, `blem_loxregular`,
+  `interior_achronalDomain_eq_quadrants`,
   `subset_UGamma_of_oneSided`, `loxo_properlyDiscontinuous`, `bcor_loxo_proper`, the proved [10.G]
   lemmas and all of `bprop:admlox`
   (`isomPenrose_image_limitSetJ_subset`, `fst_image_limitSetJ_subset`, `limitSetJ_subset`) use no
   `sorry`.
 * **Upstream.** Through `ccAction_of_developsCC` and `bprop_danom`, the gx exports inherit
   `Flat.Develop`'s two `sorry`s (`holonomy_proper`; Prop 8.12 step 1); Cor 10.3's properness adds
-  none. Under a given `CCAction` (in `𝐌ⁿ`) Lemma 10.2 and Cor 10.3 (but completeness) are sorry-free.
+  none. Under a given `CCAction` (in `𝐌ⁿ`) Lemma 10.2 and Cor 10.3 (completeness included) are
+  sorry-free.
+* **Lemma modules** (`Flat/Lox/`, wave 5): `LevelComplete`, `QuotientComplete` (Cor 10.3's
+  completeness), `CentralFix`, `RestrictFix` (Props 10.4/10.5), `LatticeTrivial`
+  (`exists_finiteIndex_linOf_eq_on_span_kerTranslations`), `RestrictOrient`, `TwoNullNormalForm`,
+  `FixLoxodromic` ([10.M]'s first step), `SelbergMono` (Selberg in dimension `d₁ ≤ d`). Their
+  declarations live in `Causal.Flat.Lox` (`completeSpace_inducedLength_cosmoLevel` in
+  `Causal.Flat`).
 * **Readings.** `Λ₀` is the set of all repulsive fixed points (`IsRepulsiveFixedJ`), not one per
   element; `U^±(γ)` are the two quadrants of `interior_achronalDomain_eq_quadrants`, whatever
   repulsive points are chosen; "nonelementary" is `IsNonelementary` (no finite-index subgroup of
@@ -1972,7 +1996,11 @@ theorem loxo_cauchyComplete (h : CCAction Γ S) (hlox : ∃ γ ∈ Γ, IsLoxodro
     [FlatQuotient.Invariant Γ hc.regular.opens] [ProperlyDiscontinuousSMul Γ hc.regular.opens]
     [IsCancelSMul Γ hc.regular.opens] :
     IsCauchyComplete d (FlatQuotient Γ hc.regular.opens) := by
-  sorry -- SORRY(bcor:loxo_proper): the free proper action is proved (`loxo_properlyDiscontinuous`) and the Cauchy surface is the image of a level set `S_t` (`isCauchySurface_quotient_cosmoLevel`); missing are the three remaining fields of `IsCauchyComplete` for that image: `IsSpacelikeLipschitz` in the quotient charts (`isSpacelikeLipschitz_cosmoLevel` holds in `𝐌ⁿ`, its transport through `FlatQuotient`'s charts is not written), and `CompleteSpace`/continuity of `InducedLengthSpace` of `Γ\S_t` — the completeness of `S_t` for its induced length (`bcor:level_sets_complete`, l.1109–1110, not attempted in `Flat.Cosmological`) and its descent through the covering `S_t → Γ\S_t` (the induced length of the quotient is the infimum over lifts; a Cauchy sequence downstairs lifts to one upstairs only with a uniform injectivity radius on compacts, from the properness above); `h`, `hlox`, `hΛ` are the paper's setting
+  -- `h`, `hlox`, `hΛ` are the paper's setting; the proof needs only `CosmoRegular Λ` and the
+  -- free, properly discontinuous `Γ`-action on `Ω⁺(Λ)` (⚠ weakened, `Flat.Lox.QuotientComplete`)
+  have _setting : CCAction Γ S ∧ (∃ γ ∈ Γ, IsLoxodromic (linOf γ)) ∧ omegaS Γ S = omegaPlus Λ :=
+    ⟨h, hlox, hΛ⟩  -- unused (⚠ weakened)
+  exact Lox.isCauchyComplete_flatQuotient_cosmo hc (completeSpace_inducedLength_cosmoLevel hc one_pos)
 
 end LoxoProper
 
@@ -2174,7 +2202,15 @@ theorem loxo_elementary_misner {d' : ℕ} {M : Type*} [TopologicalSpace M]
         IsQuotientOf B Γ' (omegaSOpens ρ.range (D '' (UniversalCover.proj M x₀ ⁻¹' S))) ∧
         ∃ (d₁ : ℕ) (M₁ : FlatSpacetime.{0} (d₁ + 1)), d₁ ≤ d' ∧ IsLTPOver B M₁ ∧
           IsMisnerSpacetime M₁ := by
-  sorry -- SORRY([10.M]): l.3237–3330 is a chain of unproved steps: the finite-index reduction to `L(Γ)` fixing `Δ₀` and the second fixed direction `Δ₁` of `γ₀`; the induced action on `Q₀` and `b ≡ 0` (l.3250–3257); `Γ₀ = ker a` discrete and elliptic (the conjugation formula l.3264–3269); its nondiscrete part `Γ₀^nd`, the maximal unipotent `U` (Carrière–Dal'bo, `bthm:unip`) and "we recover the purely unipotent case" (§9, `Flat.Nonloxodromic`, in progress in this run); `blem:suspendre` (`Flat.TwistedProduct`, under its `RestrictsIn` hypothesis); `L(Γ₀)` finite and the totally geodesic `𝓗` of its fixed points (l.3286–3299); the normal form `γ(x,z,y) = (e^{-a}x, Rz + u, e^{a}y)` and finally "an appropriate use of Bieberbach's theorem" (l.3327, gap G7). Steps 1–2 rest on `blem_loxregular`'s quadrant description (proved here); the rest needs the §9 machinery and Bieberbach-light
+  -- l.3237–3240, the first step (`Flat.Lox.FixLoxodromic`): a finite-index `Γ₁ ≤ Γ` containing a
+  -- power of the loxodromic `γ₀`, with `L(Γ₁)` fixing the direction `Δ₀ = u₀`, one of the two
+  -- distinct fixed points `u₀ ≠ u₁` of `L(γ₀)` on `𝒮`.
+  obtain ⟨γ₀, hγ₀, hlox₀⟩ := hlox
+  simp only [IsNonelementary, not_forall, not_not] at helem
+  obtain ⟨H, hH, hHi, hu⟩ := helem
+  obtain ⟨Γ₁, hΓ₁, hΓ₁i, k, hk, hγ₀k, u₀, u₁, hu₀₁, hf₀, hf₁, hfix₀⟩ :=
+    Lox.exists_finiteIndex_fix_loxodromic hγ₀ hlox₀ ⟨H, hH, hHi, hu⟩
+  sorry -- SORRY([10.M]): l.3241–3330 is a chain of unproved steps after the first (done above: `Γ₁`, `L(Γ₁)` fixing `u₀`, `γ₀ᵏ ∈ Γ₁`, `Lox.exists_finiteIndex_fix_loxodromic`): a further finite-index subgroup also fixing `Δ₁ = u₁` (l.3286–3299, through `L(Γ₀)` finite); then the linear normal form `L(γ)(1,u₀) = e^{-a}(1,u₀)`, `L(γ)(1,u₁) = e^{a}(1,u₁)`, `P = (1,u₀)^⊥ ∩ (1,u₁)^⊥` preserved, loxodromic iff `a ≠ 0` is `Lox.lorentz_normalForm_of_fix_two`; the induced action on `Q₀` and `b ≡ 0` (l.3250–3257); `Γ₀ = ker a` discrete and elliptic (the conjugation formula l.3264–3269); its nondiscrete part `Γ₀^nd`, the maximal unipotent `U` (Carrière–Dal'bo, `bthm:unip`) and "we recover the purely unipotent case" (§9, `Flat.Nonloxodromic`); `blem:suspendre` (`Flat.TwistedProduct`, under its `RestrictsIn` hypothesis, which `Lox.exists_restrictsIn_relIndex_le_two` supplies on an index-`≤ 2` subgroup once `Γ'` preserves `U`); `L(Γ₀)` finite and the totally geodesic `𝓗` of its fixed points; the affine half of the normal form `γ(x,z,y) = (e^{-a}x, Rz + u, e^{a}y)` (`x(γ) = y(γ) = 0`) and finally "an appropriate use of Bieberbach's theorem" (l.3327, gap G7). The statement carries no `[T2Space M]`, so `ccAction_of_developsCC` (hence `blem_loxregular`) is not available here
 
 end Misner
 
@@ -2316,7 +2352,21 @@ theorem bprop_U_timelike (hA : AuslanderCarriereDalbo d) (hU : MaxUnipotentSubsp
     rcases (not_lt.1 hle).lt_or_eq with hlt | heq
     · exact hnt ⟨v, hvU, hlt⟩
     · exact hnull ⟨v, hvU, hv0, heq⟩
-  sorry -- SORRY(bprop:U_timelike): the lightlike case is closed above (`not_isNonelementary_of_lightlike`) and, in the spacelike case, the common fixed space of `L(Γ_nd)` is spacelike (`hfixsp`, from `IsMaxUnipotent.mem_direction_of_linFixed`). The paper's route is unavailable: Cor 8.4 (`bcor:abel`, l.2295–2296) is FALSE as printed (finding: in `𝐌⁴` a cocompact Fuchsian `Γ₀ ⊂ SO₀(1,2)` times `z ↦ z + 1` preserves the spacelike line `{t = x = y = 0}`, acts freely, properly and cocompactly on the (CC′) surface `ℍ² × ℝ`, and is not virtually abelian), and the folklore used next is false as printed (`not_abelianPairAsPrinted`). Missing instead: the trichotomy for the nilpotent group `L(Γ_nd)` normalised by `L(Γ)` (`conj_mem_nonDiscretePart`) — with a parabolic or loxodromic member it has a nonempty finite set of fixed isotropic directions (through its centre, as in the paper's own proof of Prop 10.5), which `L(Γ)` permutes, so a finite-index subgroup fixes a point of `𝒮` against `hne`; with only elliptic members it fixes a point of `ℍᵈ`, i.e. a timelike vector, against `hfixsp`. Neither the centre argument nor the fixed point of a nilpotent group of elliptic elements is in the library
+  -- The branch with a central non-elliptic member of `L(Γ_nd)` (`Flat.Lox.CentralFix`, with
+  -- `G = L(Γ)`, `N = L(Γ_nd)`, normalised by `conj_mem_nonDiscretePart`): a subgroup of index `≤ 2`
+  -- of `L(Γ)` fixes a point of `𝒮`, against `hne`.
+  by_cases hcen : ∃ z ∈ linearImage (nonDiscretePart Γ),
+      (∀ B ∈ linearImage (nonDiscretePart Γ), B * z = z * B) ∧
+        ¬IsElliptic (z : Minkowski d ≃ₗ[ℝ] Minkowski d)
+  · obtain ⟨z, hz, hzc, hzne⟩ := hcen
+    have hnorm : ∀ A ∈ linearImage Γ, ∀ B ∈ linearImage (nonDiscretePart Γ),
+        A * B * A⁻¹ ∈ linearImage (nonDiscretePart Γ) := by
+      rintro _ ⟨γ, hγ, rfl⟩ _ ⟨η, hη, rfl⟩
+      exact ⟨γ * η * γ⁻¹, conj_mem_nonDiscretePart hγ hη, by simp only [map_mul, map_inv]⟩
+    obtain ⟨H, hH, hidx, u, hu⟩ :=
+      Lox.exists_finiteIndex_fix_of_central_nonElliptic hnorm hz hzc hzne
+    exact absurd ⟨u, hu⟩ (hne H hH hidx)
+  sorry -- SORRY(bprop:U_timelike): the lightlike case is closed above (`not_isNonelementary_of_lightlike`), and so is the branch where `L(Γ_nd)` has a central non-elliptic member (`Lox.exists_finiteIndex_fix_of_central_nonElliptic`: `L(Γ)` permutes its one or two fixed points of `𝒮`); in the spacelike case the common fixed space of `L(Γ_nd)` is spacelike (`hfixsp`, from `IsMaxUnipotent.mem_direction_of_linFixed`). The paper's route is unavailable: Cor 8.4 (`bcor:abel`, l.2295–2296) is FALSE as printed (finding: in `𝐌⁴` a cocompact Fuchsian `Γ₀ ⊂ SO₀(1,2)` times `z ↦ z + 1` preserves the spacelike line `{t = x = y = 0}`, acts freely, properly and cocompactly on the (CC′) surface `ℍ² × ℝ`, and is not virtually abelian), and the folklore used next is false as printed (`not_abelianPairAsPrinted`). Missing, with every central member of `L(Γ_nd)` elliptic (`hcen`): the nilpotent structure of `L(Γ_nd)` (Auslander–Carrière–Dal'bo's connected nilpotent closure) — if `L(Γ_nd)` has a non-elliptic member then so does its centre (the last nontrivial term of the lower central series of a nilpotent group of `SO₀(1,d)` with a parabolic or loxodromic member), which `hcen` excludes; and if all members are elliptic, a nilpotent group of elliptic elements fixes a point of `ℍᵈ`, i.e. a timelike vector, against `hfixsp`. Neither is in the library
 
 /-- `bprop:LU_discrete` (Prop 10.5, l.3367–3388): `L_U(Γ)`, the linear parts of the restrictions
 of `Γ` to the (timelike, Prop 10.4) maximal unipotent subspace `U`, is discrete. `U` is given through
@@ -2327,7 +2377,19 @@ theorem bprop_LU_discrete (hA : AuslanderCarriereDalbo d) (hU : MaxUnipotentSubs
     (hΓ : DiscreteTopology Γ) (h : CCAction Γ S) (hne : IsNonelementary Γ)
     {d₁ : ℕ} (ι : AffineMinkEmbedding d₁ d) (hmax : IsMaxUnipotent (nonDiscretePart Γ) ι.range)
     (hres : ι.RestrictsIn Γ) : DiscreteTopology (linearImage (ι.restrictGroup Γ)) := by
-  sorry -- SORRY(bprop:LU_discrete): l.3372–3388: "the closure of `L_U(Γ)` in `SO₀(U)` is the restriction to `U` of the closure of `L(Γ)`" (the action on `𝐌ⁿ/U` being euclidean), then the identity component of that closure lies in `L_U(Γ_nd)` (Auslander–Carrière–Dal'bo), is nilpotent without elliptic part, and a central parabolic or hyperbolic element of it gives an `L(Γ)`-invariant isotropic direction or pair of directions. Needs closures of restricted groups, centres of nilpotent closed subgroups of `SO₀(1, d₁)` and their elements' classes: none is in the library
+  by_contra hnd
+  -- the Lie-theoretic input (l.3372–3380): a subgroup `N ≤ SO₀(U)` normalised by `L_U(Γ)` (the
+  -- identity component of the closure of `L_U(Γ)`) with a central parabolic or hyperbolic member
+  obtain ⟨N, hnorm, z, hz, hzc, hzne⟩ : ∃ N : Subgroup (lorentz d₁),
+      (∀ A ∈ linearImage (ι.restrictGroup Γ), ∀ B ∈ N, A * B * A⁻¹ ∈ N) ∧
+      ∃ z ∈ N, (∀ B ∈ N, B * z = z * B) ∧
+        ¬IsElliptic (z : Minkowski d₁ ≃ₗ[ℝ] Minkowski d₁) := by
+    sorry -- SORRY(bprop:LU_discrete): l.3372–3380: from `hnd` (`L_U(Γ)` not discrete), "the closure of `L_U(Γ)` in `SO₀(U)` is the restriction to `U` of the closure of `L(Γ)`" (the action on `𝐌ⁿ/U` being euclidean), then the identity component `N` of that closure (normal in the closure, hence normalised by `L_U(Γ)`) is nontrivial, lies in `L_U(Γ_nd)` (Auslander–Carrière–Dal'bo), is nilpotent without elliptic part (`hmax`), so its centre contains a parabolic or hyperbolic element. Needs closures of restricted groups, centres of nilpotent closed subgroups of `SO₀(1, d₁)` and their elements' classes: none is in the library. The rest of the proof (l.3380–3388) is closed below (`Lox.exists_finiteIndex_fix_of_central_nonElliptic`, `Lox.exists_finiteIndex_fix_of_restrictGroup`)
+  -- l.3380–3388: `L_U(Γ)` permutes the fixed points of `z` on `𝒮(U)`; the transport to `𝐌ⁿ`
+  obtain ⟨H, hH, hidx, u₁, hu₁⟩ :=
+    Lox.exists_finiteIndex_fix_of_central_nonElliptic hnorm hz hzc hzne
+  obtain ⟨H', hH', hidx', u, hu⟩ := Lox.exists_finiteIndex_fix_of_restrictGroup ι hres hH hidx hu₁
+  exact hne H' hH' hidx' ⟨u, hu⟩
 
 end UTimelike
 
@@ -2510,6 +2572,17 @@ theorem linOf_mem_kerTranslations {γ : isom d} (hγ : γ ∈ Γ) {v : Minkowski
   · show (γ * t * γ⁻¹) • (0 : Minkowski d) = _
     rw [hη, zero_add]
 
+/-- **[10.G], l.3410–3417: a finite-index `Γ' ≤ Γ` acts trivially on `E = span 𝒩`** — "the
+finite-index subgroup on which `L(Γ)|_E` is trivial": `L(Γ)` permutes the finitely many lattice
+vectors of `𝒩` below a bound fixing a basis of `E` (`Lox.exists_finiteIndex_linOf_eq_on_span`, with
+`span_kerTranslations_spacelike`, `kerTranslations_ballFinite`, `linOf_mem_kerTranslations`). -/
+theorem exists_finiteIndex_linOf_eq_on_span_kerTranslations (h : CCAction Γ S)
+    (hlox : ∃ γ ∈ Γ, IsLoxodromic (linOf γ)) :
+    ∃ Γ' : Subgroup (isom d), Γ' ≤ Γ ∧ Γ'.relIndex Γ ≠ 0 ∧
+      ∀ γ ∈ Γ', ∀ v ∈ Submodule.span ℝ (kerTranslations Γ), linOf γ v = v :=
+  Lox.exists_finiteIndex_linOf_eq_on_span (span_kerTranslations_spacelike h hlox)
+    (kerTranslations_ballFinite h) fun _ hγ _ hv => linOf_mem_kerTranslations hγ hv
+
 end Generic
 
 section GenericConclusion
@@ -2532,7 +2605,7 @@ theorem loxo_generic_centralExtension (hpair : IsDevelopingPair x₀ D ρ)
         IsQuotientOf B Γ' (omegaSOpens ρ.range (D '' (UniversalCover.proj M x₀ ⁻¹' S))) ∧
         ∃ (d₁ : ℕ) (M₁ : FlatSpacetime.{0} d₁), d₁ ≤ d ∧ IsLTPOver B M₁ ∧
           IsCHCentralExtension M₁ := by
-  sorry -- SORRY([10.G]): proved here are the pieces that hold in `𝐌ⁿ`: `Ω(S̃) = Ω^±(Λ(Γ))` (`generic_omegaS_eq`), `𝒩` spacelike, discrete and `L(Γ)`-stable (`kerTranslations_spacelike`, `_ballFinite`, `linOf_mem_kerTranslations`), `E = span 𝒩` spacelike (`span_kerTranslations_spacelike`, a step the paper does not justify) and `Ω(S̃) + E = Ω(S̃)` (`omegaS_add_mem_span`). Missing: Prop 10.4/10.5 (`bprop_U_timelike`, `bprop_LU_discrete`, sorries) and `blem:suspendre` to reduce to `U = 𝐌ⁿ` (l.3391–3396, gap G6 for `Ω(S̃)`); the finite-index subgroup on which `L(Γ)|_E` is trivial (a finite group of isometries of the lattice `𝒩`, Bieberbach's `finite_latticeStab`, with the lattice structure of `𝒩` in `E` built from ball-finiteness); the quotient `𝐌ⁿ/E` as a Minkowski space `Minkowski d₁` (an orthochronous `AffineMinkEmbedding` onto `E^⊥`, not built) carrying the discrete group `L(Γ)` with `p(Ω(S̃))` its regular domain (l.3436–3446, "it should be clear to the reader"); the quotient `M(S) = Γ'\Ω(S̃)` itself is available (a finite-index `Γ'` inherits Cor 10.3's free and properly discontinuous action, `loxo_properlyDiscontinuous`, now proved), but the LTP structure over `M₁` needs the reduction above
+  sorry -- SORRY([10.G]): proved here are the pieces that hold in `𝐌ⁿ`: `Ω(S̃) = Ω^±(Λ(Γ))` (`generic_omegaS_eq`), `𝒩` spacelike, discrete and `L(Γ)`-stable (`kerTranslations_spacelike`, `_ballFinite`, `linOf_mem_kerTranslations`), `E = span 𝒩` spacelike (`span_kerTranslations_spacelike`, a step the paper does not justify) and `Ω(S̃) + E = Ω(S̃)` (`omegaS_add_mem_span`). Missing: Prop 10.4/10.5 (`bprop_U_timelike`, `bprop_LU_discrete`, sorries) and `blem:suspendre` to reduce to `U = 𝐌ⁿ` (l.3391–3396, gap G6 for `Ω(S̃)`); the finite-index subgroup on which `L(Γ)|_E` is trivial is now proved under `CCAction` (`exists_finiteIndex_linOf_eq_on_span_kerTranslations`, from `Lox.exists_finiteIndex_linOf_eq_on_span`), and the `RestrictsIn` hypothesis of `blem:suspendre` on an index-`≤ 2` subgroup preserving `U` (`Lox.exists_restrictsIn_relIndex_le_two`), but this statement carries no `[T2Space M]`, so `ccAction_of_developsCC` does not apply to `ρ.range` here; the quotient `𝐌ⁿ/E` as a Minkowski space `Minkowski d₁` (an orthochronous `AffineMinkEmbedding` onto `E^⊥`, not built) carrying the discrete group `L(Γ)` with `p(Ω(S̃))` its regular domain (l.3436–3446, "it should be clear to the reader"); the quotient `M(S) = Γ'\Ω(S̃)` itself is available (a finite-index `Γ'` inherits Cor 10.3's free and properly discontinuous action, `loxo_properlyDiscontinuous`, now proved), but the LTP structure over `M₁` needs the reduction above
 
 /-- **[10.G], family (a) under "`π₁` finitely generated"** (DEC-44, finding F2/gap G5): through
 Selberg's lemma (a named external, `Flat.Externals`), a further finite-index subgroup has
@@ -2549,7 +2622,11 @@ theorem loxo_generic_torusProduct (hpair : IsDevelopingPair x₀ D ρ)
         IsQuotientOf B Γ' (omegaSOpens ρ.range (D '' (UniversalCover.proj M x₀ ⁻¹' S))) ∧
         ∃ (d₁ : ℕ) (M₁ : FlatSpacetime.{0} d₁), d₁ ≤ d ∧ IsLTPOver B M₁ ∧ IsCHTorusProduct M₁ := by
   obtain ⟨Γ₁, hle₁, hidx₁, htf₁⟩ := exists_finiteIndex_torsionFree_linOf hS hfg
-  sorry -- SORRY([10.G]): Selberg's step is done (`Γ₁`, from `exists_finiteIndex_torsionFree_linOf`); what remains is `loxo_generic_centralExtension`'s construction run for the finite-index `Γ' ⊓ Γ₁` (its own sorry), whose linear part is then torsion-free, which is `IsCHTorusProduct` by definition; its statement cannot be applied as a black box, since the `M₁` it returns is family (b) for an unnamed group with no tie to `Γ' ⊓ Γ₁` (the base group of `M₁` is `L(Γ')` acting on `𝐌ⁿ/E`, which the statement does not expose)
+  -- Selberg for the base `M₁` of dimension `d₁ ≤ d` (`Flat.Lox.SelbergMono`): torsion-freeness of
+  -- `L(Γ)` does not pass to `L_U(Γ)`, so the external is moved down instead
+  have hS₁ : ∀ d₁ ≤ d, SelbergLemma (Minkowski d₁) := fun _ hd₁ =>
+    Lox.selbergLemma_minkowski_of_le hd₁ hS
+  sorry -- SORRY([10.G]): Selberg's step is done (`Γ₁`, from `exists_finiteIndex_torsionFree_linOf`, and `hS₁` in every dimension `d₁ ≤ d`, `Lox.selbergLemma_minkowski_of_le`, for the base group, a subgroup of `isom d₁`); what remains is `loxo_generic_centralExtension`'s construction run for the finite-index `Γ' ⊓ Γ₁` (its own sorry), whose linear part is then torsion-free, which is `IsCHTorusProduct` by definition; its statement cannot be applied as a black box, since the `M₁` it returns is family (b) for an unnamed group with no tie to `Γ' ⊓ Γ₁` (the base group of `M₁` is `L(Γ')` acting on `𝐌ⁿ/E`, which the statement does not expose)
 
 end GenericConclusion
 
