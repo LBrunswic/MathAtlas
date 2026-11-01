@@ -18,9 +18,10 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
 * `blem:loxregular` — `GHFspace.tex:3170` (Lemma 10.2), partial (reading: §8's standing hypotheses
   `CCAction`; **no `sorry`**): `blem_loxregular`, `loxregular_sign`, `omegaS_eq_interior`; the
   "reader can easily check" (l.3191–3193) is `exists_line_avoiding`.
-* `bcor:loxo_proper` — `GHFspace.tex:3214` (Cor 10.3), partial: freeness and the quotient
-  (`bcor_loxo_proper`: GH, acausal Cauchy surface) proved; proper discontinuity
-  (`loxo_properlyDiscontinuous`) and Cauchy-completeness (`loxo_cauchyComplete`) are `sorry`.
+* `bcor:loxo_proper` — `GHFspace.tex:3214` (Cor 10.3), partial: freeness, proper discontinuity
+  (`loxo_properlyDiscontinuous`, by an equivariant Gauss map, `finite_of_gaussEquivariant`) and
+  the quotient (`bcor_loxo_proper`: GH, acausal Cauchy surface) proved, **no `sorry`**;
+  Cauchy-completeness (`loxo_cauchyComplete`) is a `sorry`.
 * `bprop:U_timelike` — `GHFspace.tex:3347` (Prop 10.4), partial: the lightlike case
   (`not_isNonelementary_of_lightlike`) proved, the spacelike case a `sorry` (Cor 8.4).
 * `bprop:LU_discrete` — `GHFspace.tex:3368` (Prop 10.5), stated (`bprop_LU_discrete`, `sorry`).
@@ -75,7 +76,11 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
 * The regular domains: `smul_mem_omegaPlus_limitSetJ` (and `Minus`), `preservesOmega_limitSetJ`,
   `exists_two_loxRepSet`, `cosmoRegular_limitSetJ`, `limitOpensPlus`/`Minus`.
 * Cor 10.3: `ActsFreelyProperlyOn`, `isCancelSMul_of_free`, `properlyDiscontinuousSMul_of_finite`,
-  `loxo_free`. Families: `IsNonelementary`, `IsFutureAdmissible`, `IsPastAdmissible`, `IsAdmissible`,
+  `loxo_free`, `loxo_properlyDiscontinuous`; its engine `finite_of_gaussEquivariant` (the rest-frame
+  norm `restNormSq`, `sq_norm_le_restNormSq`, `restNormSq_le`, `norm_linOf_le_of_gauss`), the
+  Gauss map equivariant and bounded on compacts (`gaussMap_smul`, `exists_norm_gaussMap_le`), the
+  point-reflection conjugate `negConj` (`negConj_smul`, `linOf_negConj`, `cosmoRegular_negS`).
+* Families: `IsNonelementary`, `IsFutureAdmissible`, `IsPastAdmissible`, `IsAdmissible`,
   `IsCauchyHyperbolic`, `kerTranslations`, `IsSpacelikeSubmodule`, `IsCHCentralExtensionOf`,
   `IsCHCentralExtension` (b), `IsCHTorusProduct` (a, for the same `Γ`).
 
@@ -88,7 +93,7 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
 | Rem 8.9: no nonspacelike elliptic, no transverse parabolic (used in 10.1) | ✓ derived from `CCAction` (`nini`) |
 | 10.2: "up to time reversing isometries" (l.3181–3183) | ⚠ reading: both cases kept (`isom d` is `SO₀`-affine); `Ω⁺` or `Ω⁻` |
 | 10.2: 4.6, 4.8, 4.9 | ✓ through `omegaPlus_closure_eq_interior` (4.9 with no hypothesis) |
-| 10.3: `bprop:agissons` (Γ discrete) | not available: properness is a `sorry`; the quotient statement takes it from there |
+| 10.3: `bprop:agissons` (Γ discrete) | ⚠ replaced: 4.16 is not used; properness on `Ω(S̃)` is derived from `CCAction.proper` (Γ proper on `Σ`) through the `L(Γ)`-equivariant Gauss map into `ℍᵈ` (`finite_of_gaussEquivariant`) |
 | 10.3: "`M(S)` is a Cauchy-complete GH spacetime" | ⚠ future case only (`bcor_loxo_proper` under `Ω(S̃) = Ω⁺(Λ)`; the past case is its time reversal, not formalized); Cauchy-completeness split off as `loxo_cauchyComplete`, which takes the quotient instances as hypotheses |
 | gx uniformization: nonelementary, `ker L = 1` | ⚠ weakened: neither is used; only a loxodromic element |
 | 10.4: `bthm:ausl`, `bthm:unip`, discreteness, nonelementary | ✓ carried (`AuslanderCarriereDalbo`, `MaxUnipotentSubspace`, `DiscreteTopology Γ`) |
@@ -100,16 +105,17 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
 
 ## SCOPE (disclosed)
 
-* **Sorries (8)**: `blem_sanlox` (printed form), `loxo_properlyDiscontinuous`, `loxo_cauchyComplete`,
+* **Sorries (7)**: `blem_sanlox` (printed form), `loxo_cauchyComplete`,
   `loxo_elementary_misner` ([10.M]), `bprop_U_timelike` (spacelike case), `bprop_LU_discrete`,
   `loxo_generic_centralExtension`, `loxo_generic_torusProduct` ([10.G]). Each names its
   obstruction. `blem_loxregular`, `interior_achronalDomain_eq_quadrants`,
-  `subset_UGamma_of_oneSided`, the proved [10.G] lemmas and all of `bprop:admlox`
+  `subset_UGamma_of_oneSided`, `loxo_properlyDiscontinuous`, `bcor_loxo_proper`, the proved [10.G]
+  lemmas and all of `bprop:admlox`
   (`isomPenrose_image_limitSetJ_subset`, `fst_image_limitSetJ_subset`, `limitSetJ_subset`) use no
   `sorry`.
 * **Upstream.** Through `ccAction_of_developsCC` and `bprop_danom`, the gx exports inherit
-  `Flat.Develop`'s two `sorry`s (`holonomy_proper`; Prop 8.12 step 1); `uniformization_*` add
-  Cor 10.3's properness. Under a given `CCAction` (in `𝐌ⁿ`) Lemma 10.2 is sorry-free.
+  `Flat.Develop`'s two `sorry`s (`holonomy_proper`; Prop 8.12 step 1); Cor 10.3's properness adds
+  none. Under a given `CCAction` (in `𝐌ⁿ`) Lemma 10.2 and Cor 10.3 (but completeness) are sorry-free.
 * **Readings.** `Λ₀` is the set of all repulsive fixed points (`IsRepulsiveFixedJ`), not one per
   element; `U^±(γ)` are the two quadrants of `interior_achronalDomain_eq_quadrants`, whatever
   repulsive points are chosen; "nonelementary" is `IsNonelementary` (no finite-index subgroup of
@@ -152,6 +158,12 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
   `Λ ⊆ δ⁻¹(v₁)`, then `{v₁}` is closed, nonempty and `L(Γ)`-invariant and the limit-set
   minimality puts `v₀ ≠ v₁` in it. The `s`-coordinate converges because the elliptic part grows
   linearly against the contraction `λᵏ` (`exists_abs_minkB_pow_smul_sub_le`).
+* **Cor 10.3's proper discontinuity (l.3222–3224) needs neither `bprop:agissons` nor the
+  Riemannian geometry of the level sets.** The Gauss map `n` of the cosmological time satisfies
+  `n(γp) = L(γ)n(p)` and is bounded on compact sets (`T ≥ ε`, `r(K)` in a compact
+  `cl Ω ∩ J⁻(q)`); if `γK ∩ K ≠ ∅` then `L(γ)` maps a bounded point of `ℍᵈ` to a bounded point,
+  so it is bounded (`SO₀(1, d)` acts properly on `ℍᵈ`), so `γ s₀` is bounded for a fixed `s₀ ∈ Σ`,
+  and the properness of `Γ` on `Σ` concludes. The continuity of `n` is not needed.
 * **Prop 10.4's folklore is false as printed** (`Flat.Externals`' `not_abelianPairAsPrinted`); its
   lightlike case does not use it.
 
@@ -980,7 +992,7 @@ element (under the standing hypotheses of §8). -/
 theorem blem_sanlox (h : CCAction Γ S) (hlox : ∃ γ ∈ Γ, IsLoxodromic (linOf γ)) :
     omegaLox Γ = omegaGamma Γ := by
   refine Subset.antisymm ?_ (omegaGamma_subset_omegaLox Γ)
-  sorry -- SORRY(blem:sanlox): the printed proof (l.3157–3165) needs `Ω_lox(Γ)` convex ("the convex domain Ω_lox(Γ)", l.3136, l.3157), and it is not: for `Γ = ⟨γ⟩` it is the union of the two disjoint quadrants `U^±(γ)` (`interior_achronalDomain_eq_quadrants`). The argument runs on any Γ-invariant open set on which two null directions are one-sided (`subset_UGamma_of_oneSided`), which covers the future and past components `Ω^±(Λ(Γ))` (`omegaPlus_limitSetJ_subset_omegaGamma`, `omegaMinus_…`), all §10 uses; for a component of `Ω_lox(Γ)` of mixed sign (in `U⁺(γ) ∩ U⁻(γ')`), a linear parabolic `γ₁ ∈ Γ` may permute the components, the γ₁-orbit of a point of `P(γ₁)` need not stay in one convex piece, and no one-sided bound is available: whether `Ω_lox(Γ) ⊆ U(γ₁)` there is open
+  sorry -- SORRY(blem:sanlox): the printed proof (l.3157–3165) needs `Ω_lox(Γ)` convex ("the convex domain Ω_lox(Γ)", l.3136, l.3157), and it is not: for `Γ = ⟨γ⟩` it is the union of the two disjoint quadrants `U^±(γ)` (`interior_achronalDomain_eq_quadrants`). The argument runs on any Γ-invariant open set on which two null directions are one-sided (`subset_UGamma_of_oneSided`), which covers the future and past components `Ω^±(Λ(Γ))` (`omegaPlus_limitSetJ_subset_omegaGamma`, `omegaMinus_…`), all §10 uses; for a component of `Ω_lox(Γ)` of mixed sign (in `U⁺(γ) ∩ U⁻(γ')`), a linear parabolic `γ₁ ∈ Γ` may permute the components, the γ₁-orbit of a point of `P(γ₁)` need not stay in one convex piece, and no one-sided bound is available. Precisely: on `Ω_lox ⊆ U⁺(γ₀) ⊔ U⁻(γ₀)` the two null functions `f = ⟨(1,u)|·⟩ − s`, `g = ⟨(1,u')|·⟩ − s'` of the repulsive points of `γ₀^{±1}` have the same sign, and along the γ₁-orbit of `c + y`, `y ∈ J^⊥`, they are `A + O(1) + kC`, `A' + O(1) + kC'`; the same-sign constraint forces only `C C' ≥ 0`, which is satisfied by an orbit passing from `U⁻(γ₀)` (k → −∞) to `U⁺(γ₀)` (k → +∞), so the growth argument does not exclude `x ∈ P(γ₁) ∩ Ω_lox`: whether `Ω_lox(Γ) ⊆ U(γ₁)` there is open (no counterexample built: it needs a `CCAction` group with a loxodromic and a linear parabolic element)
 
 end Sanlox
 
@@ -1135,6 +1147,260 @@ theorem cosmoRegular_limitSetJ {γ₀ : isom d} (hγ₀ : γ₀ ∈ Γ) (hlox₀
 end Loxregular
 
 
+/-! ## 6a. Proper discontinuity from an equivariant Gauss map (for Cor 10.3)
+
+The mechanism of Barbot's `bprop:agissons` (4.16, l.1176–1180) without the Riemannian metric of the
+level sets: the Gauss map `n` of the cosmological time is `L(Γ)`-equivariant into the unit future
+hyperboloid `ℍᵈ` and bounded on compact sets, and `SO₀(1, d)` acts properly on `ℍᵈ` — in the
+concrete form of the rest-frame norm `restNormSq n x = 2⟨x|n⟩² + |x|²`, which `L` carries from `n`
+to `L n` and which is comparable to `‖x‖²` with constants depending on `‖n‖`. Properness on the
+Cauchy surface `Σ` then bounds `γ s₀` and gives finiteness. The past case goes through the point
+reflection `p ↦ −p` (`negConj`, `omegaMinus_eq_neg`). -/
+
+section GaussProper
+
+/-- The square of the Euclidean norm of `x` in the rest frame of a unit timelike `n`:
+`2⟨x|n⟩² + |x|²`. -/
+noncomputable def restNormSq (n x : Minkowski d) : ℝ := 2 * minkB x n ^ 2 + minkQ x
+
+theorem restNormSq_linOf (g : isom d) (n x : Minkowski d) :
+    restNormSq (linOf g n) (linOf g x) = restNormSq n x := by
+  rw [restNormSq, restNormSq, minkB_linOf, lorentz.minkQ_apply (linOf_mem g)]
+
+theorem restNormSq_le {n : Minkowski d} {R : ℝ} (hn : ‖n‖ ≤ R) (x : Minkowski d) :
+    restNormSq n x ≤ (8 * R ^ 2 + 1) * ‖x‖ ^ 2 := by
+  have h1 : |x.1| ≤ ‖x‖ := by simpa using norm_fst_le x
+  have h2 : ‖x.2‖ ≤ ‖x‖ := norm_snd_le x
+  have h3 : |n.1| ≤ R := by have := norm_fst_le n; simp at this; linarith
+  have h4 : ‖n.2‖ ≤ R := (norm_snd_le n).trans hn
+  have hi : |inner ℝ x.2 n.2| ≤ ‖x.2‖ * ‖n.2‖ := abs_real_inner_le_norm _ _
+  have hB : |minkB x n| ≤ 2 * ‖x‖ * R := by
+    rw [minkB]
+    have e1 : |x.1| * |n.1| ≤ ‖x‖ * R :=
+      mul_le_mul h1 h3 (abs_nonneg _) (norm_nonneg _)
+    have e2 : ‖x.2‖ * ‖n.2‖ ≤ ‖x‖ * R :=
+      mul_le_mul h2 h4 (norm_nonneg _) (norm_nonneg _)
+    calc |-(x.1 * n.1) + inner ℝ x.2 n.2| ≤ |x.1| * |n.1| + ‖x.2‖ * ‖n.2‖ := by
+          refine (abs_add_le _ _).trans (add_le_add ?_ hi); rw [abs_neg, abs_mul]
+      _ ≤ 2 * ‖x‖ * R := by linarith
+  have hQ : minkQ x ≤ ‖x‖ ^ 2 := by
+    rw [minkQ]; nlinarith [norm_nonneg x.2, sq_nonneg x.1]
+  have hB2 : minkB x n ^ 2 ≤ (2 * ‖x‖ * R) ^ 2 := by
+    rw [← sq_abs]; exact pow_le_pow_left₀ (abs_nonneg _) hB 2
+  rw [restNormSq]; nlinarith
+
+theorem sq_norm_le_restNormSq {n : Minkowski d} (hn : IsFutureTimelike n) (hq : minkQ n = -1)
+    (x : Minkowski d) : ‖x‖ ^ 2 ≤ 2 * n.1 ^ 2 * restNormSq n x := by
+  set a := minkB x n
+  set y := x + a • n with hy
+  have hnn : minkB n n = -1 := by rw [← minkQ_eq_minkB]; exact hq
+  have hyn : minkB y n = 0 := by
+    rw [hy, minkB_add_left, minkB_smul_left, hnn]; ring
+  have hQy : minkQ y = minkQ x + a ^ 2 := by
+    rw [hy, minkQ_add, minkQ_smul, minkB_smul_right, hq]; ring
+  have hN : restNormSq n x = a ^ 2 + minkQ y := by rw [restNormSq, hQy]; ring
+  have hn1 : 0 < n.1 := hn.1
+  have hn2 : ‖n.2‖ ^ 2 = n.1 ^ 2 - 1 := by
+    have := hq; rw [minkQ] at this; linarith
+  have hn2le : ‖n.2‖ ≤ n.1 := by
+    nlinarith [norm_nonneg n.2]
+  have hyi : y.1 * n.1 = inner ℝ y.2 n.2 := by
+    have := hyn; rw [minkB] at this; linarith
+  have hyi' : (y.1 * n.1) ^ 2 ≤ ‖y.2‖ ^ 2 * ‖n.2‖ ^ 2 := by
+    rw [hyi, ← mul_pow, ← sq_abs]
+    exact pow_le_pow_left₀ (abs_nonneg _) (abs_real_inner_le_norm _ _) 2
+  have hQy' : minkQ y = -y.1 ^ 2 + ‖y.2‖ ^ 2 := rfl
+  have hy2 : ‖y.2‖ ^ 2 ≤ n.1 ^ 2 * minkQ y := by
+    rw [hQy', hn2] at *; nlinarith
+  have hy1 : y.1 ^ 2 ≤ ‖y.2‖ ^ 2 := by
+    rw [hn2] at hyi'
+    have h0 : 0 < n.1 ^ 2 := by positivity
+    nlinarith [sq_nonneg (‖y.2‖), sq_nonneg y.1]
+  have hx : x = y - a • n := by rw [hy]; abel
+  have hx1 : x.1 = y.1 - a * n.1 := by rw [hx]; simp
+  have hx2 : ‖x.2‖ ≤ ‖y.2‖ + |a| * n.1 := by
+    rw [hx, Prod.snd_sub, Prod.smul_snd]
+    refine (norm_sub_le _ _).trans ?_
+    rw [norm_smul, Real.norm_eq_abs]
+    exact add_le_add le_rfl (mul_le_mul_of_nonneg_left hn2le (abs_nonneg _))
+  have hNa : restNormSq n x = a ^ 2 + minkQ y := hN
+  have hA : |x.1| ^ 2 ≤ 2 * n.1 ^ 2 * restNormSq n x := by
+    rw [sq_abs, hx1, hN]
+    nlinarith [sq_nonneg (y.1 + a * n.1)]
+  have hB : ‖x.2‖ ^ 2 ≤ 2 * n.1 ^ 2 * restNormSq n x := by
+    have := pow_le_pow_left₀ (norm_nonneg _) hx2 2
+    rw [hN]
+    nlinarith [sq_nonneg (‖y.2‖ - |a| * n.1), sq_abs a]
+  rw [Prod.norm_def, Real.norm_eq_abs]
+  rcases le_total |x.1| ‖x.2‖ with h | h
+  · rw [max_eq_right h]; exact hB
+  · rw [max_eq_left h]; exact hA
+
+
+/-- `‖L(γ) x‖ ≤ c ‖x‖` when `L(γ)` maps a unit future timelike `n` of norm `≤ R` to one. -/
+theorem norm_linOf_le_of_gauss {g : isom d} {n : Minkowski d} {R : ℝ}
+    (hn : IsFutureTimelike n) (hq : minkQ n = -1) (hR : ‖n‖ ≤ R) (hR' : ‖linOf g n‖ ≤ R)
+    (x : Minkowski d) :
+    ‖linOf g x‖ ≤ (2 * R ^ 2 * (8 * R ^ 2 + 1) + 1) * ‖x‖ := by
+  have hn' : IsFutureTimelike (linOf g n) := lorentz.isFutureTimelike_apply (linOf_mem g) hn
+  have hq' : minkQ (linOf g n) = -1 := by rw [lorentz.minkQ_apply (linOf_mem g), hq]
+  have h1 := sq_norm_le_restNormSq hn' hq' (linOf g x)
+  rw [restNormSq_linOf] at h1
+  have h2 := restNormSq_le hR x
+  have h3 : (linOf g n).1 ^ 2 ≤ R ^ 2 := by
+    have : |(linOf g n).1| ≤ R := by have := norm_fst_le (linOf g n); simp at this; linarith
+    rw [← sq_abs]; exact pow_le_pow_left₀ (abs_nonneg _) this 2
+  have hN : 0 ≤ restNormSq n x := by
+    have := sq_norm_le_restNormSq hn hq x
+    have h0 : 0 < n.1 ^ 2 := by have := hn.1; positivity
+    nlinarith [sq_nonneg ‖x‖]
+  set c := 2 * R ^ 2 * (8 * R ^ 2 + 1)
+  have hc : 0 ≤ c := by positivity
+  have h4 : ‖linOf g x‖ ^ 2 ≤ c * ‖x‖ ^ 2 := by
+    calc ‖linOf g x‖ ^ 2 ≤ 2 * (linOf g n).1 ^ 2 * restNormSq n x := h1
+      _ ≤ 2 * R ^ 2 * restNormSq n x := by gcongr
+      _ ≤ 2 * R ^ 2 * ((8 * R ^ 2 + 1) * ‖x‖ ^ 2) := by gcongr
+      _ = c * ‖x‖ ^ 2 := by ring
+  have hx0 : 0 ≤ (c + 1) * ‖x‖ := by positivity
+  refine not_lt.1 fun hlt => ?_
+  nlinarith [norm_nonneg x, norm_nonneg (linOf g x), sq_nonneg ‖x‖]
+
+/-- **Proper discontinuity from an equivariant Gauss map** (the mechanism of Barbot's
+`bprop:agissons`, l.1176–1180, without the Riemannian metric of `S_t`): if `Γ` acts properly on a
+nonempty closed invariant `S`, and a set `Ω` carries a map `ν` to the unit future
+hyperboloid, `L(Γ)`-equivariant and bounded on compact subsets, then `Γ` acts properly on `Ω`.
+For `γK ∩ K ≠ ∅`, `L(γ)` maps a bounded point `ν(k)` of `ℍᵈ` to a bounded point, so `L(γ)` is bounded
+(`norm_linOf_le_of_gauss`, the rest-frame norm `restNormSq`), hence `γ s₀` is bounded for a fixed
+`s₀ ∈ S`. -/
+theorem finite_of_gaussEquivariant {Γ : Subgroup (isom d)} {S Ω : Set (Minkowski d)}
+    (hSc : IsClosed S) (hSne : S.Nonempty) (hinv : ∀ γ ∈ Γ, ∀ x ∈ S, γ • x ∈ S)
+    (hprop : ∀ K ⊆ S, IsCompact K → {γ : isom d | γ ∈ Γ ∧ (γ • K ∩ K).Nonempty}.Finite)
+    (ν : Minkowski d → Minkowski d)
+    (hν : ∀ p ∈ Ω, IsFutureTimelike (ν p) ∧ minkQ (ν p) = -1)
+    (heq : ∀ γ ∈ Γ, ∀ p ∈ Ω, ν (γ • p) = linOf γ (ν p))
+    (hbd : ∀ K ⊆ Ω, IsCompact K → ∃ R, ∀ p ∈ K, ‖ν p‖ ≤ R) :
+    ∀ K ⊆ Ω, IsCompact K → {γ : isom d | γ ∈ Γ ∧ (γ • K ∩ K).Nonempty}.Finite := by
+  intro K hKΩ hK
+  obtain ⟨R, hR⟩ := hbd K hKΩ hK
+  obtain ⟨B, hB⟩ := isBounded_iff_forall_norm_le.1 hK.isBounded
+  obtain ⟨s₀, hs₀⟩ := hSne
+  set c := 2 * R ^ 2 * (8 * R ^ 2 + 1) + 1
+  set ρ := ‖s₀‖ + |B| + c * (‖s₀‖ + |B|)
+  have hc : 0 ≤ c := by positivity
+  have hC : IsCompact (S ∩ Metric.closedBall 0 ρ) := (isCompact_closedBall 0 ρ).inter_left hSc
+  refine (hprop _ inter_subset_left hC).subset ?_
+  rintro γ ⟨hγ, y, hyK, hy⟩
+  obtain ⟨k, hk, rfl⟩ := Set.mem_smul_set.1 hyK
+  refine ⟨hγ, γ • s₀, Set.smul_mem_smul_set ⟨hs₀, ?_⟩, hinv γ hγ s₀ hs₀, ?_⟩
+  · rw [Metric.mem_closedBall, dist_zero_right]
+    have := abs_nonneg B
+    have : 0 ≤ c * (‖s₀‖ + |B|) := by positivity
+    linarith
+  · rw [Metric.mem_closedBall, dist_zero_right]
+    have hkΩ := hKΩ hk
+    have hL := norm_linOf_le_of_gauss (g := γ) (hν k hkΩ).1 (hν k hkΩ).2 (hR k hk)
+      (by rw [← heq γ hγ k hkΩ]; exact hR _ hy) (s₀ - k)
+    have hdec : γ • s₀ = γ • k + linOf γ (s₀ - k) := by
+      rw [isom_smul_def, isom_smul_def, ← isom_sub]; abel
+    have hk' : ‖k‖ ≤ |B| := (hB k hk).trans (le_abs_self B)
+    have hγk : ‖γ • k‖ ≤ |B| := (hB _ hy).trans (le_abs_self B)
+    have hsk : ‖s₀ - k‖ ≤ ‖s₀‖ + |B| := (norm_sub_le _ _).trans (by linarith)
+    rw [hdec]
+    calc ‖γ • k + linOf γ (s₀ - k)‖ ≤ ‖γ • k‖ + ‖linOf γ (s₀ - k)‖ := norm_add_le _ _
+      _ ≤ |B| + c * (‖s₀‖ + |B|) := add_le_add hγk (hL.trans (mul_le_mul_of_nonneg_left hsk hc))
+      _ ≤ ρ := by linarith [norm_nonneg s₀]
+
+variable {Λ : Set (PenroseSphere d × ℝ)}
+
+/-- **The Gauss map is equivariant**: `n(gp) = L(g) n(p)` for `g` preserving `Ω⁺(Λ)`
+(`cosmoTime_smul`, `cosmoRetract_smul`). -/
+theorem gaussMap_smul (h : CosmoRegular Λ) {g : isom d}
+    (hg : (fun p => g • p) ⁻¹' omegaPlus Λ = omegaPlus Λ) {p : Minkowski d}
+    (hp : p ∈ omegaPlus Λ) : gaussMap Λ (g • p) = linOf g (gaussMap Λ p) := by
+  rw [gaussMap, gaussMap, cosmoTime_smul hg, cosmoRetract_smul h hg hp, map_smul,
+    isom_smul_def, isom_smul_def, isom_sub]
+
+/-- **The Gauss map is bounded on compact subsets of `Ω⁺(Λ)`** (no continuity of `r` needed):
+`T ≥ ε > 0` on `K`, and `r(K)` lies in the compact `cl Ω ∩ J⁻(q)` for a `q` above `K`. -/
+theorem exists_norm_gaussMap_le (h : CosmoRegular Λ) {K : Set (Minkowski d)}
+    (hKΩ : K ⊆ omegaPlus Λ) (hK : IsCompact K) : ∃ R, ∀ p ∈ K, ‖gaussMap Λ p‖ ≤ R := by
+  rcases K.eq_empty_or_nonempty with rfl | hne
+  · exact ⟨0, fun _ hp => hp.elim⟩
+  obtain ⟨p₀, hp₀, hmin⟩ := hK.exists_isMinOn hne ((continuousOn_cosmoTime h).mono hKΩ)
+  set ε := cosmoTime Λ p₀
+  have hε : 0 < ε := cosmoTime_pos h (hKΩ hp₀)
+  obtain ⟨B, hB⟩ := isBounded_iff_forall_norm_le.1 hK.isBounded
+  set q : Minkowski d := (2 * |B|, 0)
+  have hpq : ∀ p ∈ K, (minkowski d).le ⊤ p q := by
+    intro p hp
+    rw [minkowski_le_top_iff]
+    have h1 : |p.1| ≤ |B| := by
+      have := norm_fst_le p; simp at this; linarith [hB p hp, le_abs_self B]
+    have h2 : ‖p.2‖ ≤ |B| := (norm_snd_le p).trans ((hB p hp).trans (le_abs_self B))
+    simp only [q, zero_sub, norm_neg]
+    linarith [le_abs_self p.1]
+  obtain ⟨B', hB'⟩ := isBounded_iff_forall_norm_le.1 (isCompact_cosmoPast h q).isBounded
+  refine ⟨ε⁻¹ * (|B| + B'), fun p hp => ?_⟩
+  have hpΩ := hKΩ hp
+  obtain ⟨hfr, hle, -⟩ := cosmoRetract_spec h hpΩ
+  have hr : ‖cosmoRetract Λ p‖ ≤ B' :=
+    hB' _ ⟨frontier_subset_closure hfr, (minkowski d).le_trans hle (hpq p hp)⟩
+  have hT : ε ≤ cosmoTime Λ p := hmin hp
+  rw [gaussMap, norm_smul, Real.norm_eq_abs, abs_inv, abs_of_pos (cosmoTime_pos h hpΩ)]
+  have hnum : ‖p - cosmoRetract Λ p‖ ≤ |B| + B' :=
+    (norm_sub_le _ _).trans (add_le_add ((hB p hp).trans (le_abs_self B)) hr)
+  calc (cosmoTime Λ p)⁻¹ * ‖p - cosmoRetract Λ p‖ ≤ ε⁻¹ * ‖p - cosmoRetract Λ p‖ := by
+        gcongr
+    _ ≤ ε⁻¹ * (|B| + B') := by gcongr
+
+
+/-- The affine map `p ↦ −g(−p)`. -/
+noncomputable def negConjAff (g : isom d) : Minkowski d ≃ᵃ[ℝ] Minkowski d :=
+  (AffineEquiv.pointReflection ℝ (0 : Minkowski d)).trans
+    ((g : Minkowski d ≃ᵃ[ℝ] Minkowski d).trans (AffineEquiv.pointReflection ℝ (0 : Minkowski d)))
+
+theorem negConjAff_apply (g : isom d) (p : Minkowski d) :
+    negConjAff g p = -((g : Minkowski d ≃ᵃ[ℝ] Minkowski d) (-p)) := by
+  simp [negConjAff, Equiv.pointReflection_apply]
+
+theorem negConjAff_linear (g : isom d) :
+    (negConjAff g).linear = (g : Minkowski d ≃ᵃ[ℝ] Minkowski d).linear := by
+  ext v : 1
+  have e := isom_sub (negConjAff g) 0 v
+  rw [sub_zero] at e
+  rw [← e, negConjAff_apply, negConjAff_apply, neg_zero]
+  have e2 := isom_sub (g : Minkowski d ≃ᵃ[ℝ] Minkowski d) (-v) 0
+  rw [zero_sub, neg_neg] at e2
+  rw [← e2]; abel
+
+/-- **The point-reflection conjugate** `g̃ = σ g σ`, `σ(p) = −p`: same linear part, opposite
+translation. It turns the past statements into future ones (`omegaMinus_eq_neg`). -/
+noncomputable def negConj (g : isom d) : isom d :=
+  ⟨negConjAff g, by rw [mem_isom_iff, negConjAff_linear]; exact g.2⟩
+
+theorem negConj_smul (g : isom d) (p : Minkowski d) : negConj g • p = -(g • -p) :=
+  negConjAff_apply g p
+
+theorem linOf_negConj (g : isom d) : linOf (negConj g) = linOf g := negConjAff_linear g
+
+theorem mem_omegaMinus_iff_neg {p : Minkowski d} :
+    p ∈ omegaMinus Λ ↔ -p ∈ omegaPlus (negS d ⁻¹' Λ) := by
+  rw [omegaMinus_eq_neg]; rfl
+
+/-- `Ω⁻(Λ)` past regular with two null directions makes `Ω⁺(−Λ)` Bonsante-regular. -/
+theorem cosmoRegular_negS (hP : PastRegular Λ) (htwo : ∃ w₁ ∈ Λ, ∃ w₂ ∈ Λ, w₁.1 ≠ w₂.1) :
+    CosmoRegular (negS d ⁻¹' Λ) := by
+  have hpre : omegaPlus (negS d ⁻¹' Λ) = (fun p : Minkowski d => -p) ⁻¹' omegaMinus Λ := by
+    ext p; rw [mem_preimage, mem_omegaMinus_iff_neg, neg_neg]
+  obtain ⟨w₁, hw₁, w₂, hw₂, hne⟩ := htwo
+  refine ⟨⟨?_, ?_⟩, (w₁.1, -w₁.2), by simpa using hw₁, (w₂.1, -w₂.2), by simpa using hw₂, hne⟩
+  · obtain ⟨p, hp⟩ := hP.1
+    exact ⟨-p, mem_omegaMinus_iff_neg.1 hp⟩
+  · rw [hpre]; exact hP.2.preimage continuous_neg
+
+
+end GaussProper
+
 /-! ## 6. `bcor:loxo_proper` (Corollary 10.3): `M(S) = Γ\Ω(S̃)` -/
 
 section LoxoProper
@@ -1182,10 +1448,51 @@ theorem properlyDiscontinuousSMul_of_finite {Ω : Opens (Minkowski d)} [FlatQuot
 theorem loxo_free (h : CCAction Γ S) : ∀ γ ∈ Γ, γ ≠ 1 → ∀ x ∈ omegaS Γ S, γ • x ≠ x :=
   fun γ hγ h1 x hx => ((bprop_ghyp h).2.2.2.2 γ hγ h1 x hx).1
 
-/-- **Cor 10.3, proper discontinuity** (l.3222–3224, through `bprop:agissons`). -/
+/-- **Cor 10.3, proper discontinuity** (l.3222–3224, "through `bprop:agissons`"): proved, by the
+equivariant Gauss map in place of 4.16's Riemannian level sets (`finite_of_gaussEquivariant`):
+`n` of `Ω⁺(Λ(Γ))` in the future case of `blem_loxregular`, `p ↦ n(−p)` of `Ω⁺(−Λ(Γ))` in the past
+case, and the properness of `Γ` on `Σ` (`CCAction.proper`). -/
 theorem loxo_properlyDiscontinuous (h : CCAction Γ S) (hlox : ∃ γ ∈ Γ, IsLoxodromic (linOf γ)) :
     ∀ K ⊆ omegaS Γ S, IsCompact K → {γ : isom d | γ ∈ Γ ∧ (γ • K ∩ K).Nonempty}.Finite := by
-  sorry -- SORRY(bcor:loxo_proper): Barbot cites `bprop:agissons` (4.16: a discrete group preserving a regular domain acts properly, since it acts isometrically on the complete Riemannian level sets `S_t`), which `Flat.Cosmological` does not attempt beyond invariance (`agissons_invariant`) — it needs the Riemannian metric of `S_t` and the properness of isometry groups of a proper metric space. The cheaper route from the standing hypotheses (`CCAction.proper`, `Γ` proper on `Σ`) needs a continuous `Γ`-equivariant retraction `Ω(S̃) → Σ`: along the Gauss map `n` of the cosmological time each normal line `p + ℝ n(p)` is a timelike line, so it meets `Σ` exactly once, inside `Ω(S̃)` (`blem_loxregular`); the continuity of `n` (of `cosmoRetract`) is not stated in `Flat.Cosmological`
+  have hSc : IsClosed S := by
+    obtain ⟨g, hg, hS⟩ := isEntireAcausalGraph_iff.1 h.cc.entire
+    rw [hS]; exact isClosed_graph hg.lipschitzWith.continuous
+  have hfin := fun (Ω : Set (Minkowski d)) => finite_of_gaussEquivariant (Ω := Ω) hSc h.nonempty
+    (fun γ hγ x hx => h.smul_mem hγ hx) h.proper
+  obtain ⟨γ₀, hγ₀, hlox₀⟩ := hlox
+  rcases blem_loxregular h ⟨γ₀, hγ₀, hlox₀⟩ with ⟨hF, he⟩ | ⟨hP, he⟩
+  · rw [he]
+    have hc := cosmoRegular_limitSetJ hγ₀ hlox₀ hF
+    exact hfin _ (gaussMap (limitSetJ Γ))
+      (fun p hp => ⟨isFutureTimelike_gaussMap hc hp, minkQ_gaussMap hc hp⟩)
+      (fun γ hγ p hp => gaussMap_smul hc (preservesOmega_limitSetJ Γ γ hγ) hp)
+      (fun K hK hKc => exists_norm_gaussMap_le hc hK hKc)
+  · rw [he]
+    obtain ⟨w₁, hw₁, w₂, hw₂, -, -, hne⟩ := exists_two_loxRepSet hγ₀ hlox₀
+    have hc := cosmoRegular_negS hP ⟨w₁, subset_closure hw₁, w₂, subset_closure hw₂, hne⟩
+    set Λ' := negS d ⁻¹' limitSetJ Γ
+    have hmem : ∀ γ ∈ Γ, ∀ x, γ • x ∈ omegaMinus (limitSetJ Γ) ↔ x ∈ omegaMinus (limitSetJ Γ) :=
+      fun γ hγ x => ⟨fun hx => by
+        have := smul_mem_omegaMinus_limitSetJ (Γ.inv_mem hγ) hx
+        rwa [inv_smul_smul] at this, fun hx => smul_mem_omegaMinus_limitSetJ hγ hx⟩
+    have hpres : ∀ γ ∈ Γ, (fun p => negConj γ • p) ⁻¹' omegaPlus Λ' = omegaPlus Λ' := by
+      intro γ hγ
+      ext q
+      rw [mem_preimage, negConj_smul, ← neg_neg q, ← mem_omegaMinus_iff_neg, neg_neg,
+        ← mem_omegaMinus_iff_neg]
+      exact hmem γ hγ _
+    have hnΩ : ∀ p ∈ omegaMinus (limitSetJ Γ), -p ∈ omegaPlus Λ' :=
+      fun p hp => mem_omegaMinus_iff_neg.1 hp
+    refine hfin _ (fun p => gaussMap Λ' (-p))
+      (fun p hp => ⟨isFutureTimelike_gaussMap hc (hnΩ p hp), minkQ_gaussMap hc (hnΩ p hp)⟩)
+      (fun γ hγ p hp => ?_) (fun K hK hKc => ?_)
+    · have : -(γ • p) = negConj γ • (-p) := by rw [negConj_smul, neg_neg]
+      show gaussMap Λ' (-(γ • p)) = _
+      rw [this, gaussMap_smul hc (hpres γ hγ) (hnΩ p hp), linOf_negConj]
+    · obtain ⟨R, hR⟩ := exists_norm_gaussMap_le hc (K := (fun p => -p) '' K)
+        (by rintro _ ⟨p, hp, rfl⟩; exact hnΩ p (hK hp)) (hKc.image continuous_neg)
+      exact ⟨R, fun p hp => hR _ ⟨p, hp, rfl⟩⟩
+
 
 /-- `bcor:loxo_proper` (Cor 10.3, l.3213–3228): `Γ` acts freely and properly discontinuously
 on `Ω(S̃)`, and — in the future case of `blem_loxregular`, the past one being its time reversal
@@ -1228,7 +1535,7 @@ theorem loxo_cauchyComplete (h : CCAction Γ S) (hlox : ∃ γ ∈ Γ, IsLoxodro
     [FlatQuotient.Invariant Γ hc.regular.opens] [ProperlyDiscontinuousSMul Γ hc.regular.opens]
     [IsCancelSMul Γ hc.regular.opens] :
     IsCauchyComplete d (FlatQuotient Γ hc.regular.opens) := by
-  sorry -- SORRY(bcor:loxo_proper): the completeness of the level sets `S_t` of the cosmological time for their induced length (`bcor:level_sets_complete`, l.1109–1110) and its descent to `Γ\S_t` are not attempted upstream (`Flat.Cosmological` SCOPE: `bcor:level_sets_complete` not attempted, completeness of 4.14 and 4.16 not stated); `h`, `hlox`, `hΛ` are the paper's setting
+  sorry -- SORRY(bcor:loxo_proper): the free proper action is proved (`loxo_properlyDiscontinuous`) and the Cauchy surface is the image of a level set `S_t` (`isCauchySurface_quotient_cosmoLevel`); missing are the three remaining fields of `IsCauchyComplete` for that image: `IsSpacelikeLipschitz` in the quotient charts (`isSpacelikeLipschitz_cosmoLevel` holds in `𝐌ⁿ`, its transport through `FlatQuotient`'s charts is not written), and `CompleteSpace`/continuity of `InducedLengthSpace` of `Γ\S_t` — the completeness of `S_t` for its induced length (`bcor:level_sets_complete`, l.1109–1110, not attempted in `Flat.Cosmological`) and its descent through the covering `S_t → Γ\S_t` (the induced length of the quotient is the infimum over lifts; a Cauchy sequence downstairs lifts to one upstairs only with a uniform injectivity radius on compacts, from the properness above); `h`, `hlox`, `hΛ` are the paper's setting
 
 end LoxoProper
 
@@ -1721,7 +2028,7 @@ theorem loxo_generic_centralExtension (hpair : IsDevelopingPair x₀ D ρ)
         IsQuotientOf B Γ' (omegaSOpens ρ.range (D '' (UniversalCover.proj M x₀ ⁻¹' S))) ∧
         ∃ (d₁ : ℕ) (M₁ : FlatSpacetime.{0} d₁), d₁ ≤ d ∧ IsLTPOver B M₁ ∧
           IsCHCentralExtension M₁ := by
-  sorry -- SORRY([10.G]): proved here are the pieces that hold in `𝐌ⁿ`: `Ω(S̃) = Ω^±(Λ(Γ))` (`generic_omegaS_eq`), `𝒩` spacelike, discrete and `L(Γ)`-stable (`kerTranslations_spacelike`, `_ballFinite`, `linOf_mem_kerTranslations`), `E = span 𝒩` spacelike (`span_kerTranslations_spacelike`, a step the paper does not justify) and `Ω(S̃) + E = Ω(S̃)` (`omegaS_add_mem_span`). Missing: Prop 10.4/10.5 (`bprop_U_timelike`, `bprop_LU_discrete`, sorries) and `blem:suspendre` to reduce to `U = 𝐌ⁿ` (l.3391–3396, gap G6 for `Ω(S̃)`); the finite-index subgroup on which `L(Γ)|_E` is trivial (a finite group of isometries of the lattice `𝒩`, Bieberbach's `finite_latticeStab`, with the lattice structure of `𝒩` in `E` built from ball-finiteness); the quotient `𝐌ⁿ/E` as a Minkowski space `Minkowski d₁` (an orthochronous `AffineMinkEmbedding` onto `E^⊥`, not built) carrying the discrete group `L(Γ)` with `p(Ω(S̃))` its regular domain (l.3436–3446, "it should be clear to the reader"); and the quotient `M(S) = Γ'\Ω(S̃)` itself, which needs Cor 10.3's proper discontinuity (`loxo_properlyDiscontinuous`, sorry)
+  sorry -- SORRY([10.G]): proved here are the pieces that hold in `𝐌ⁿ`: `Ω(S̃) = Ω^±(Λ(Γ))` (`generic_omegaS_eq`), `𝒩` spacelike, discrete and `L(Γ)`-stable (`kerTranslations_spacelike`, `_ballFinite`, `linOf_mem_kerTranslations`), `E = span 𝒩` spacelike (`span_kerTranslations_spacelike`, a step the paper does not justify) and `Ω(S̃) + E = Ω(S̃)` (`omegaS_add_mem_span`). Missing: Prop 10.4/10.5 (`bprop_U_timelike`, `bprop_LU_discrete`, sorries) and `blem:suspendre` to reduce to `U = 𝐌ⁿ` (l.3391–3396, gap G6 for `Ω(S̃)`); the finite-index subgroup on which `L(Γ)|_E` is trivial (a finite group of isometries of the lattice `𝒩`, Bieberbach's `finite_latticeStab`, with the lattice structure of `𝒩` in `E` built from ball-finiteness); the quotient `𝐌ⁿ/E` as a Minkowski space `Minkowski d₁` (an orthochronous `AffineMinkEmbedding` onto `E^⊥`, not built) carrying the discrete group `L(Γ)` with `p(Ω(S̃))` its regular domain (l.3436–3446, "it should be clear to the reader"); the quotient `M(S) = Γ'\Ω(S̃)` itself is available (a finite-index `Γ'` inherits Cor 10.3's free and properly discontinuous action, `loxo_properlyDiscontinuous`, now proved), but the LTP structure over `M₁` needs the reduction above
 
 /-- **[10.G], family (a) under "`π₁` finitely generated"** (DEC-44, finding F2/gap G5): through
 Selberg's lemma (a named external, `Flat.Externals`), a further finite-index subgroup has

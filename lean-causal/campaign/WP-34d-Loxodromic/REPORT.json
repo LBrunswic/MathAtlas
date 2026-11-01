@@ -4,7 +4,7 @@
   "scaffold/CausalScaffold/Flat/Loxodromic.lean"
  ],
  "builds": true,
- "sorry_count": 8,
+ "sorry_count": 7,
  "labels": [
   {
    "label": "blem:sanlox",
@@ -44,7 +44,7 @@
    "sorries": [
     {
      "decl": "Causal.Flat.blem_sanlox",
-     "obstruction": "the printed proof needs Omega_lox(Gamma) convex, which fails (two quadrants already for a cyclic group); the argument is proved for every Gamma-invariant open set on which two null directions are one-sided, covering Omega^+-(Lambda(Gamma)); for a mixed-sign component of Omega_lox a linear parabolic may permute components and no one-sided bound is available"
+     "obstruction": "the printed proof needs Omega_lox(Gamma) convex, which fails (two quadrants already for a cyclic group); the argument is proved for every Gamma-invariant open set on which two null directions are one-sided, covering Omega^+-(Lambda(Gamma)); for a mixed-sign component of Omega_lox a linear parabolic may permute components and no one-sided bound is available; sharpened: on Omega_lox ⊆ U+(gamma0) ⊔ U-(gamma0) the null functions f, g of the two repulsive points of gamma0^{±1} share their sign, and along the gamma1-orbit of c+y (y in J^⊥) they are A+O(1)+kC, A'+O(1)+kC'; the sign constraint only forces C C' >= 0, satisfied by an orbit crossing from U-(gamma0) to U+(gamma0), so the growth argument does not exclude x in P(gamma1) ∩ Omega_lox; no counterexample built (needs a CCAction group with a loxodromic and a linear parabolic)"
     }
    ],
    "findings": [
@@ -111,13 +111,17 @@
     "Causal.Flat.ActsFreelyProperlyOn",
     "Causal.Flat.isCancelSMul_of_free",
     "Causal.Flat.properlyDiscontinuousSMul_of_finite",
-    "Causal.Flat.preservesOmega_limitSetJ"
+    "Causal.Flat.preservesOmega_limitSetJ",
+    "Causal.Flat.finite_of_gaussEquivariant",
+    "Causal.Flat.gaussMap_smul",
+    "Causal.Flat.exists_norm_gaussMap_le",
+    "Causal.Flat.negConj"
    ],
    "hypotheses": [
     {
      "paper": "Gamma discrete (through bprop:agissons)",
-     "here": "not used",
-     "note": "properness is a sorry"
+     "here": "weakened",
+     "note": "4.16 not used: properness derived from CCAction.proper through the equivariant Gauss map (finite_of_gaussEquivariant)"
     },
     {
      "paper": "'M(S) is a Cauchy-complete globally hyperbolic spacetime' (l.3216-3218)",
@@ -127,15 +131,13 @@
    ],
    "sorries": [
     {
-     "decl": "Causal.Flat.loxo_properlyDiscontinuous",
-     "obstruction": "bprop:agissons (4.16) beyond invariance is not formalized (Riemannian metric of S_t, properness of isometry groups); the alternative from CCAction.proper needs a continuous Gamma-equivariant retraction Omega(S~) -> Sigma along the cosmological Gauss map, whose continuity Flat.Cosmological does not state"
-    },
-    {
      "decl": "Causal.Flat.loxo_cauchyComplete",
-     "obstruction": "completeness of the cosmological level sets (bcor:level_sets_complete) not attempted upstream"
+     "obstruction": "free proper action proved and the Cauchy surface is the image of a level set S_t (isCauchySurface_quotient_cosmoLevel); missing are IsCauchyComplete's other fields for Gamma\\S_t: IsSpacelikeLipschitz in the quotient charts (isSpacelikeLipschitz_cosmoLevel holds in M^n, its transport through FlatQuotient's charts is not written), and CompleteSpace / continuity of InducedLengthSpace of Gamma\\S_t, i.e. bcor:level_sets_complete (l.1109-1110, not attempted upstream) and its descent through the covering S_t -> Gamma\\S_t"
     }
    ],
-   "findings": [],
+   "findings": [
+    "l.3222-3224: Cor 10.3's proper discontinuity needs neither bprop:agissons nor the Riemannian geometry of S_t. The Gauss map n of the cosmological time is L(Gamma)-equivariant (n(gamma p) = L(gamma) n(p)) and bounded on compact sets (T >= eps on K, r(K) in the compact cl Omega ∩ J^-(q)); if gamma K ∩ K ≠ ∅ then L(gamma) maps a bounded point of H^d to a bounded point, hence is bounded (rest-frame norm 2<x|n>^2+|x|^2), so gamma s0 is bounded for a fixed s0 in Sigma, and properness of Gamma on Sigma gives finiteness. Continuity of n is not needed."
+   ],
    "questions": []
   },
   {
@@ -352,7 +354,7 @@
    "sorries": [
     {
      "decl": "Causal.Flat.loxo_generic_centralExtension",
-     "obstruction": "needs Props 10.4/10.5 and suspendre (reduction to U = M^n), the finite-index subgroup acting trivially on the lattice (Bieberbach's finite_latticeStab with N's lattice structure), the quotient M^n/E as a Minkowski space Minkowski d1 (no orthochronous embedding onto E^perp is built) with p(Omega(S~)) its regular domain (l.3436-3446), and the quotient M(S) (Cor 10.3's properness)"
+     "obstruction": "needs Props 10.4/10.5 and suspendre (reduction to U = M^n), the finite-index subgroup acting trivially on the lattice (Bieberbach's finite_latticeStab with N's lattice structure), the quotient M^n/E as a Minkowski space Minkowski d1 (no orthochronous embedding onto E^perp is built) with p(Omega(S~)) its regular domain (l.3436-3446), and the quotient M(S) (Cor 10.3's properness); Cor 10.3's proper discontinuity is now proved (loxo_properlyDiscontinuous), so the quotient by a finite-index Gamma' exists; the LTP structure over M1 is what is missing"
     },
     {
      "decl": "Causal.Flat.loxo_generic_torusProduct",
@@ -416,7 +418,24 @@
   "Causal.Flat.smul_mem_omegaMinus_loxRepSet",
   "Causal.Flat.abs_minkB_le_of_null_orth",
   "Causal.Flat.linOf_pow_nullVec_of_funEq",
-  "Causal.Flat.pow_smul_sub_pow_smul"
+  "Causal.Flat.pow_smul_sub_pow_smul",
+  "Causal.Flat.restNormSq",
+  "Causal.Flat.restNormSq_linOf",
+  "Causal.Flat.restNormSq_le",
+  "Causal.Flat.sq_norm_le_restNormSq",
+  "Causal.Flat.norm_linOf_le_of_gauss",
+  "Causal.Flat.finite_of_gaussEquivariant",
+  "Causal.Flat.gaussMap_smul",
+  "Causal.Flat.exists_norm_gaussMap_le",
+  "Causal.Flat.negConjAff",
+  "Causal.Flat.negConjAff_apply",
+  "Causal.Flat.negConjAff_linear",
+  "Causal.Flat.negConj",
+  "Causal.Flat.negConj_smul",
+  "Causal.Flat.linOf_negConj",
+  "Causal.Flat.mem_omegaMinus_iff_neg",
+  "Causal.Flat.cosmoRegular_negS",
+  "Causal.Flat.loxo_properlyDiscontinuous"
  ],
  "kb_proposals": [
   "Barbot's U+-(gamma) for a loxodromic gamma are P+-(w) ∩ P+-(w'), w, w' the repulsive points in J of gamma and gamma^-1: interior_achronalDomain_eq_quadrants (Flat.Loxodromic); prefer it to nullXY frames.",
@@ -425,7 +444,9 @@
   "A theorem named Foo.isomPenrose shadows isomPenrose inside its own body (kb/0019's pitfall again): name it Foo.conj.",
   "TwistedProduct.olean at 2026-10-31 23:50 does not re-export Examples (its source now imports Examples, the olean predates it): import CausalScaffold.Flat.Examples explicitly.",
   "Convergence in J = S x R is best read off the affine functions <nullVec u|.> - s: normalise by <nullVec u|(1,0)> = -1, get s from the value at 0 and |u - v0|^2 = -2<nullVec u|nullVec v0> (minkB_nullVec_nullVec); no coordinates of EuclideanSpace needed.",
-  "minkQ is PSD on the orthogonal of one nonzero null vector (minkQ_nonneg_of_null_orth), so |<v|z>| <= (|v|^2+|z|^2)/2 there, from Q(v+z), Q(v-z) >= 0: bounds orbits of elliptic parts with no norm equivalence."
+  "minkQ is PSD on the orthogonal of one nonzero null vector (minkQ_nonneg_of_null_orth), so |<v|z>| <= (|v|^2+|z|^2)/2 there, from Q(v+z), Q(v-z) >= 0: bounds orbits of elliptic parts with no norm equivalence.",
+  "Proper discontinuity on a regular domain Omega^+(Lambda) follows from properness on any invariant closed set plus the L-equivariant Gauss map bounded on compacts (finite_of_gaussEquivariant): SO0(1,d) proper on H^d is the rest-frame norm restNormSq n x = 2<x|n>^2+|x|^2, compared to ‖x‖^2 by sq_norm_le_restNormSq/restNormSq_le; no continuity of the cosmological retraction is needed.",
+  "Past forms through the point reflection p ↦ -p keep the linear part: negConj g (p ↦ -g(-p)) is in isom d with linOf (negConj g) = linOf g, and omegaMinus Λ = -omegaPlus (negS⁻¹ Λ) (mem_omegaMinus_iff_neg, cosmoRegular_negS) — the cosmological time of Ω⁻ needs no separate theory."
  ],
- "notes": "Closer pass (WP-34d closer, 2026-11-01): limitSetJ_subset (bprop:admlox in J) CLOSED, no sorry (#print axioms: propext, Classical.choice, Quot.sound), statement unchanged; new lemmas abs_minkB_le_of_null_orth, linOf_pow_nullVec_of_funEq, pow_smul_sub_pow_smul, exists_abs_minkB_pow_smul_sub_le, tendsto_isomPenrose_inv_pow. bprop:admlox now has no sorry but stays unmarked (nonempty added; external LimitSetMinimal). The other 8 sorries are left with their obstructions: blem_sanlox (printed form; open whether true on mixed-sign components), loxo_properlyDiscontinuous (needs agissons or Sigma Cauchy in Omega(S~), i.e. Omega(S~) ⊆ D(Sigma), which is the content of Cor 10.3 itself; with it properness on Sigma transfers through the compact sets J^-(z_i) ∩ {T>=0} ∩ Sigma of Develop's isCompact_Jminus_inter_graph), loxo_cauchyComplete (level-set completeness upstream), loxo_elementary_misner, bprop_U_timelike spacelike case (Cor 8.4), bprop_LU_discrete, loxo_generic_centralExtension, loxo_generic_torusProduct (cannot be derived from centralExtension's statement, which picks its own Gamma'). Build: taskset -c 0-11 lake env lean, zero errors, 8 'declaration uses sorry' warnings, no other warning. No sorried statement found false. Previous notes: gx's three names exist with the contract's meaning and weaker hypotheses (no nonelementary, no ker L = 1; only a loxodromic element): uniformization_injective (bprop_danom.1), uniformization_image (range D ⊆ Omega^+(Lambda) with Lambda future regular, or Omega^- / past regular), uniformization_properlyDiscontinuous (Omega(S~) = Omega^+-(Lambda) and ActsFreelyProperlyOn); uniformization bundles the three on the same side. They inherit Develop's sorries (holonomy_proper, bprop_danom step 1) and properlyDiscontinuous adds loxo_properlyDiscontinuous's. Lemma 10.2 (blem_loxregular), the [7.L] quadrant description, the corrected 10.1 core and the [10.G] lemmas are sorry-free (#print axioms: propext, Classical.choice, Quot.sound). For Classification: elementary branch = loxo_elementary_misner (finite-index Gamma' <= rho.range, B = Gamma'\\Omega(S~) LTP over IsMisnerSpacetime M1, F1's nonzero boost is inside IsMisnerSpacetime; DEC-43's R1 -- the full-Gamma form is FALSE, see the [10.M] finding, so Classification must state the elementary branch up to finite index too), nonelementary = loxo_generic_centralExtension (finite-index Gamma', LTP over IsCHCentralExtension, family (b)), loxo_generic_torusProduct for (a). Build: taskset -c 0-11 lake env lean, zero errors, only 'declaration uses sorry' warnings (9). The file imports Examples explicitly because the current TwistedProduct.olean does not re-export it; a lake build of this module will rebuild TwistedProduct (its source changed since the olean). Fixer pass (audit 2026-11-01): loxo_elementary_misner restated for a finite-index Gamma' (the full-Gamma statement is false, glide counterexample in M^4); bold label marks removed from five partial labels (no label is marked); IsCHTorusProduct binds a single Gamma through the new IsCHCentralExtensionOf; IsAdmissible split into IsFutureAdmissible/IsPastAdmissible and IsCauchyHyperbolic's sign tied to the side; bprop_U_timelike's hUne/hinv derived from MaxUnipotentSubspace's uniqueness; verbatim l.3454-3456 quote; SCOPE wording on the admlox lemmas; checklist rows for Cor 10.3 (future case only), [10.M] (finite index), no-global-fixed-point vs nonelementary, the Def 4.18 sign. Disagreement: family (b) keeps Def 4.18's 'no global fixed point' rather than BARBOT-THEOREMS §1's 'nonelementary' (the paper's conclusion names Def 4.18; disclosed as a reading). Not done: the past case of Cor 10.3's quotient (needs Gamma\\Omega^- GH in Examples) and folding loxo_cauchyComplete into bcor_loxo_proper (instance-argument shape). The 9 remaining sorries are unchanged in substance (upstream/external obstructions)."
+ "notes": "Closer pass 2 (WP-34d closer, 2026-11-01): loxo_properlyDiscontinuous CLOSED, statement unchanged, no sorry (#print axioms: propext, Classical.choice, Quot.sound), so bcor_loxo_proper and uniformization_properlyDiscontinuous are now sorry-free as well. Method: an L(Gamma)-equivariant Gauss map into H^d, bounded on compacts, plus CCAction.proper (finite_of_gaussEquivariant); future case by Flat.Cosmological's gaussMap of Omega^+(Lambda(Gamma)), past case by gaussMap of Omega^+(-Lambda(Gamma)) at -p through the point-reflection conjugate negConj. 16 new declarations (section GaussProper, '6a'), all sorry-free. bcor:loxo_proper stays partial: loxo_cauchyComplete (completeness of Gamma\\S_t) and the past-case quotient. Obstructions sharpened: blem_sanlox (growth-sign analysis: only C C' >= 0 is forced), loxo_cauchyComplete (exact missing fields of IsCauchyComplete), loxo_generic_centralExtension (properness no longer missing). Remaining 7 sorries: blem_sanlox, loxo_cauchyComplete, loxo_elementary_misner, bprop_U_timelike (spacelike case), bprop_LU_discrete, loxo_generic_centralExtension, loxo_generic_torusProduct. No sorried statement found false. Build: taskset -c 0-11 lake env lean, zero errors, 7 'declaration uses sorry' warnings, no other warning. New names checked against Classification (the only importer): no clash. Earlier notes: Closer pass (WP-34d closer, 2026-11-01): limitSetJ_subset (bprop:admlox in J) CLOSED, no sorry (#print axioms: propext, Classical.choice, Quot.sound), statement unchanged; new lemmas abs_minkB_le_of_null_orth, linOf_pow_nullVec_of_funEq, pow_smul_sub_pow_smul, exists_abs_minkB_pow_smul_sub_le, tendsto_isomPenrose_inv_pow. bprop:admlox now has no sorry but stays unmarked (nonempty added; external LimitSetMinimal). The other 8 sorries are left with their obstructions: blem_sanlox (printed form; open whether true on mixed-sign components), loxo_properlyDiscontinuous (needs agissons or Sigma Cauchy in Omega(S~), i.e. Omega(S~) ⊆ D(Sigma), which is the content of Cor 10.3 itself; with it properness on Sigma transfers through the compact sets J^-(z_i) ∩ {T>=0} ∩ Sigma of Develop's isCompact_Jminus_inter_graph), loxo_cauchyComplete (level-set completeness upstream), loxo_elementary_misner, bprop_U_timelike spacelike case (Cor 8.4), bprop_LU_discrete, loxo_generic_centralExtension, loxo_generic_torusProduct (cannot be derived from centralExtension's statement, which picks its own Gamma'). Build: taskset -c 0-11 lake env lean, zero errors, 8 'declaration uses sorry' warnings, no other warning. No sorried statement found false. Previous notes: gx's three names exist with the contract's meaning and weaker hypotheses (no nonelementary, no ker L = 1; only a loxodromic element): uniformization_injective (bprop_danom.1), uniformization_image (range D ⊆ Omega^+(Lambda) with Lambda future regular, or Omega^- / past regular), uniformization_properlyDiscontinuous (Omega(S~) = Omega^+-(Lambda) and ActsFreelyProperlyOn); uniformization bundles the three on the same side. They inherit Develop's sorries (holonomy_proper, bprop_danom step 1) and properlyDiscontinuous adds loxo_properlyDiscontinuous's. Lemma 10.2 (blem_loxregular), the [7.L] quadrant description, the corrected 10.1 core and the [10.G] lemmas are sorry-free (#print axioms: propext, Classical.choice, Quot.sound). For Classification: elementary branch = loxo_elementary_misner (finite-index Gamma' <= rho.range, B = Gamma'\\Omega(S~) LTP over IsMisnerSpacetime M1, F1's nonzero boost is inside IsMisnerSpacetime; DEC-43's R1 -- the full-Gamma form is FALSE, see the [10.M] finding, so Classification must state the elementary branch up to finite index too), nonelementary = loxo_generic_centralExtension (finite-index Gamma', LTP over IsCHCentralExtension, family (b)), loxo_generic_torusProduct for (a). Build: taskset -c 0-11 lake env lean, zero errors, only 'declaration uses sorry' warnings (9). The file imports Examples explicitly because the current TwistedProduct.olean does not re-export it; a lake build of this module will rebuild TwistedProduct (its source changed since the olean). Fixer pass (audit 2026-11-01): loxo_elementary_misner restated for a finite-index Gamma' (the full-Gamma statement is false, glide counterexample in M^4); bold label marks removed from five partial labels (no label is marked); IsCHTorusProduct binds a single Gamma through the new IsCHCentralExtensionOf; IsAdmissible split into IsFutureAdmissible/IsPastAdmissible and IsCauchyHyperbolic's sign tied to the side; bprop_U_timelike's hUne/hinv derived from MaxUnipotentSubspace's uniqueness; verbatim l.3454-3456 quote; SCOPE wording on the admlox lemmas; checklist rows for Cor 10.3 (future case only), [10.M] (finite index), no-global-fixed-point vs nonelementary, the Def 4.18 sign. Disagreement: family (b) keeps Def 4.18's 'no global fixed point' rather than BARBOT-THEOREMS §1's 'nonelementary' (the paper's conclusion names Def 4.18; disclosed as a reading). Not done: the past case of Cor 10.3's quotient (needs Gamma\\Omega^- GH in Examples) and folding loxo_cauchyComplete into bcor_loxo_proper (instance-argument shape). The 9 remaining sorries are unchanged in substance (upstream/external obstructions)."
 }
