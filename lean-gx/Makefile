@@ -17,5 +17,6 @@ scaffold:
 
 # `sorry` read off the sources, then every declaration's axioms read off the environment.
 audit:
+	python3 scripts/causal_import_gate.py
 	python3 scripts/sorry_count.py
 	lake env lean scripts/AxiomSweep.lean

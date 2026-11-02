@@ -4,8 +4,10 @@ defaultTargets = ["GX"]
 # The library of the paper `gx`: L. Brunswic, "On branched coverings of singular (G,X)-manifolds"
 # (arXiv 2010.10610; Geom. Dedicata 2024), with the classical developing theorem. A package of its
 # own at the hub's pin, beside `lean-causal/`, because `lean/` is the read-only GFNBoundsLean
-# submodule (OQ-1). It does NOT depend on `lean-causal`: the (G,X)-groupoid of
-# `Causal/GXStructure.lean` is ported, with its origin cited. Graduation into `lean/` is
+# submodule (OQ-1). Waves 1-4 do not use `lean-causal` (the (G,X)-groupoid of
+# `Causal/GXStructure.lean` is ported, with its origin cited); Section 4's modules (BTZ/, Lorentz/)
+# import specific strict `Causal.*` modules (DEC-33), through the git-pinned requirement below.
+# Graduation into `lean/` is
 # `git mv lean-gx/GX lean/GX` and `git mv lean-gx/scaffold/GXScaffold lean/scaffold/GXScaffold`.
 #
 # Mathlib at the hub's pin (hub.toml): tag v4.31.0, frozen by lake-manifest.json to fabf563a7c95.
@@ -13,6 +15,17 @@ defaultTargets = ["GX"]
 name = "mathlib"
 git = "https://github.com/leanprover-community/mathlib4.git"
 rev = "v4.31.0"
+
+# The ETT library (lean-causal), PINNED by commit of the hub repository and cloned into
+# .lake/packages/Causal, so gx's builds never touch lean-causal/.lake (which another campaign
+# builds concurrently). Bump deliberately: edit `rev`, then `lake update Causal` only.
+# Only Section 4 modules may import it (DEC-33): never `import Causal` (the root) and never
+# `CausalScaffold.*`.
+[[require]]
+name = "Causal"
+git = "/home/maxbrain/Dropbox/LeanArticles"
+rev = "731ed99c88074ab6878f3bc018d4a1c72f6842b9"
+subDir = "lean-causal"
 
 # The STRICT library. `sorry` is a compile error here: warningAsError.
 [[lean_lib]]
