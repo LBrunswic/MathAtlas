@@ -112,6 +112,8 @@ is a new row that names it.
 | DEC-101 | 2026-11-02 | Barbot `bcor:abel` (Cor 8.4, false as printed): the UNIFIED repair `bcor_abel_unified` (an invariant timelike direction or two invariant null directions; BieberbachI external) is the formalization of record and is MARKED; the Γ(4) refutation kept as a finding | AUTHOR | answer "Unified form" |
 | DEC-102 | 2026-11-02 | Barbot `bprop:laoucapulse` (Prop 4.2): 'expanding' means VOLUME-expanding (Jacobian > 1); the printed equality is to be formalized under it, then marked; the metric-reading refutation stays a finding | AUTHOR | answer "Volume reading; formalize, mark" |
 | DEC-103 | 2026-11-02 | Barbot `bprop:limites` (arbitrary endpoints, fixed null frame) and `bprop:lip` (length form, 'the usual hyperbolic metric' read as the hyperboloid's induced length) MARKED; `bprop:agissons`: 'semicomplete' (geodesic future/past completeness, l.450) is to be defined and proved, then marked | AUTHOR | answers "Mark both", "Define and prove it" |
+| DEC-104 | 2026-11-02 | Barbot `bprop:laoucapulse` (Prop 4.2) is MARKED in a two-case form: for n ≥ 3 the volume reading (DEC-102; Jacobian a(g,u)^d), for n = 2 the conformal reading (proved); the volume reading's failure at n = 2 is kept as a finding | AUTHOR | answer "Mark, n = 2 conformal" |
+| DEC-105 | 2026-11-02 | Barbot `bcor:quo` (Cor 8.2) is stated from the paper's Cauchy-completeness through the proved DEC-35 bridge (Prop 8.1 / Cor 8.3), which supplies the injectivity of 𝒟 on S̃; M connected is implicit in 'spacetime'; f is read as the inclusion of S ⊆ M; then MARKED | AUTHOR | answer "State from completeness, then mark" |
 
 ## Open questions
 
