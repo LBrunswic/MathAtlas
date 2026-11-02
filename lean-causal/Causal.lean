@@ -62,6 +62,9 @@ import Causal.LemmaKBare
 import Causal.LemmaKReduction
 import Causal.LemmaKSC
 import Causal.LemmaKObstruction
+import Causal.LevinUtility
+import Causal.LemmaKLocal
+import Causal.LemmaKSCLocal
 import Causal.Flat.Develop
 import Causal.Flat.Examples
 import Causal.Flat.Laoucapulse
@@ -162,7 +165,9 @@ paper labels it certifies in its docstring, in the form the ledger reads
 Since 2026-11-02 it also holds the Barbot campaign (*Globally hyperbolic flat space-times*,
 `docs/BARBOT.md`): `Causal.Flat.*`, `Causal.Port.*`, `Causal.CompactCauchy`, `Causal.CurvesExtend`,
 `Causal.Splitting`, `Causal.LemmaKBare`, `Causal.LemmaKReduction`, whose labels are b-prefixed and read by
-`papers/barbot/ledger/` (kb/0024); and, graduated the same day, the CBG work
+`papers/barbot/ledger/` (kb/0024), with the label-free Lemma K work of DEC-92
+(`Causal.LemmaKSC`, `Causal.LemmaKObstruction`, `Causal.LevinUtility`, `Causal.LemmaKLocal`,
+`Causal.LemmaKSCLocal`); and, graduated the same day, the CBG work
 (`Causal.CBG.*`, `Causal.Flat.CBG`, `Causal.Flat.CBGGerm`, `Causal.Flat.CBGSlice`,
 `docs/CBG-DESIGN.md`).
 -/

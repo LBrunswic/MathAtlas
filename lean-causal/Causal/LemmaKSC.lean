@@ -77,10 +77,12 @@ give, and states the residue exactly, in local form.
   `prop:mesure_admissible`, `ETT.tex:1054`, `1726`) and, using second countability, glued from
   local ones (`prop:mesure_dieckmann_topo`, `ETT.tex:1094`) — never produced from the bare
   hypotheses of Lemma K.
-  Levin's theorem is not in mathlib and is not proved here; `CurvesExtend` from second
-  countability alone stays open (the countability lemma kills the long ray, but the Zorn step
-  still needs a parametrisation of a union of a chain of curve images; with countable
-  cofinality it is a countable concatenation, not built here).
+  *Superseded in round 3:* Levin's theorem is now proved (`Causal.LevinUtility`,
+  `curvesExtend_of_secondCountable`: a continuous time function, hence `CurvesExtend`, in every
+  second countable tarentin globally hyperbolic Hausdorff spacetime), and the characterisations
+  below hold with `hext` discharged (`isCauchySurface_iff_local_of_secondCountable`,
+  `isCauchySurface_iff_isOpen_strictJplus_of_secondCountable`; sharp form in
+  `Causal.LemmaKSCLocal`). As predicted, that does not close Lemma K.
 * **Why (1') and (2') are hard, in one sentence each.** (1') is lower semicontinuity of
   "`J^-(w) ∩ Σ ≠ {w}`" along `Σ`; it holds where a point just below `w` is in the *chronological*
   past of `w` (push-up and `Z^-`), and fails to follow from `≤` alone where `J^-(w)` has empty

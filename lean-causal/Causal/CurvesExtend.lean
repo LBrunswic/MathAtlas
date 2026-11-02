@@ -91,9 +91,11 @@ whose inverse `T(K) → K` (`invFunOn T K`) is a causal curve: a curve with its 
   causality. A curve over a real interval has a σ-compact image, bounded in `L` because `ω₁` has
   uncountable cofinality, so it is extensible (append above its supremum, adjoining the supremum
   first if it is not attained): `L` has **no** inextensible curve, and `CurvesExtend` fails at a
-  constant curve. `L` is not second countable; whether `CurvesExtend` holds in every second
-  countable (or every strongly causal) spacetime is open here. Nothing is lost for Barbot's or
-  gx's spacetimes: they are globally hyperbolic and `geroch_i_imp_ii` gives the time function.
+  constant curve. `L` is not second countable; whether `CurvesExtend` holds in every strongly
+  causal spacetime is open here; in every second countable tarentin globally hyperbolic Hausdorff
+  spacetime it holds (`curvesExtend_of_secondCountable`, Levin's theorem, `Causal.LevinUtility`).
+  Nothing is lost for Barbot's or gx's spacetimes: they are globally hyperbolic and
+  `geroch_i_imp_ii` gives the time function.
 * **Lemma K with `hext` discharged is not stated here**: `Causal.CompactCauchy` has no
   `.olean` at the time of writing (`object file … does not exist`), and this package may not
   build it. The corollary is one term:

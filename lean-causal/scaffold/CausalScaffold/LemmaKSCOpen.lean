@@ -1,4 +1,4 @@
-import Causal.LemmaKSC
+import Causal.LemmaKSCLocal
 
 /-!
 # Lemma K, the bare DEC-44 form with second countability — OPEN
@@ -24,13 +24,22 @@ faithful to the paper rather than a weakening of it:
 ## SCOPE (disclosed)
 
 * **Not proved**: one `sorry -- SORRY(DEC-44)`. Nothing may depend on it, and no declaration does.
-* What is proved is in the strict module `Causal.LemmaKSC`: second countability makes `M` locally
-  compact, σ-compact and metrizable and kills the long ray (well-ordered causal chains are
-  countable), but it does not touch the residue: where curves extend, this statement is
-  equivalent to the two local conditions (1')+(2') of `Causality.isCauchySurface_iff_local`,
-  equivalently to the openness of the strict causal future and past
-  (`Causality.isCauchySurface_iff_isOpen_strictJplus`). Second countability could only supply
-  `CurvesExtend` (through a time function, Levin's theorem — not in mathlib, not proved here).
+* **The gap, narrowed (round 3, `Causal.LemmaKSCLocal`).** In exactly this setting:
+  - `CurvesExtend` is PROVED (`Causality.curvesExtend_of_secondCountable`, `Causal.LevinUtility`:
+    Levin's theorem gives a continuous time function);
+  - two-sidedness of the charts is PROVED (`Causality.isLocallyCauchyTwoSided_of_secondCountable`,
+    from `Causal.LemmaKLocal`);
+  - this statement is EQUIVALENT to the openness of `J^+(O^+)` and `J^-(O^-)`, `O^±` the open
+    chart sides of `Σ`
+    (`Causality.isCauchySurface_iff_isOpen_Jplus_chartFutureSide_of_secondCountable`), and holds
+    under causal openness (`J^±(V)` open for `V` open,
+    `Causality.isCauchySurface_of_isLocallyCauchy_of_isOpen_Jplus_of_secondCountable`).
+  So the whole residue is causal openness of `≤` at two specific open sets; second countability
+  has done what it visibly can (it supplied `CurvesExtend`), and no counterexample is known
+  (`Causal.LemmaKObstruction`: it may be taken lightlike, without branching).
+* Earlier rounds: `Causal.LemmaKSC` (SC ⇒ locally compact, σ-compact, metrizable; countable
+  well-ordered causal chains; the characterisations `isCauchySurface_iff_local` and
+  `isCauchySurface_iff_isOpen_strictJplus`), `Causal.LemmaKReduction`, `Causal.LemmaKBare`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -57,7 +66,7 @@ theorem isCauchySurface_of_isLocallyCauchy_of_secondCountable [T2Space M]
     (hJm : ∀ p : M, C.Jminus ⊤ {p} ≠ {p}) (hJp : ∀ p : M, C.Jplus ⊤ {p} ≠ {p})
     {S : Set M} (hSc : IsCompact S) (hSconn : IsConnected S) (hloc : C.IsLocallyCauchy S) :
     C.IsCauchySurface S :=
-  sorry -- SORRY(DEC-44): open with second countability. SC gives local compactness, σ-compactness, metrizability and countable well-ordered causal chains (Causal.LemmaKSC), hence plausibly CurvesExtend through a Levin time function (not formalized); but where curves extend the statement is equivalent (isCauchySurface_iff_local) to (1') lower semicontinuity along Σ of "Σ meets J^-(w) outside w" and (2') J^+(Σ) ∪ J^-(Σ) being a neighbourhood of its points off Σ — both properties of ≤ alone, which fail to follow from ≤ where J^-(w) has empty interior near w (BTZ lines, Z^- fails), and on which SC has no visible bearing.
+  sorry -- SORRY(DEC-44): open with second countability. CurvesExtend and two-sidedness are proved here (Causal.LevinUtility, Causal.LemmaKLocal); the statement is equivalent (Causal.LemmaKSCLocal: isCauchySurface_iff_isOpen_Jplus_chartFutureSide_of_secondCountable) to the openness of J^+(O^+) and J^-(O^-), O^± the open chart sides of Σ — causal openness of ≤ at two open sets, which neither tarentin, global hyperbolicity, causal arc-connectedness nor second countability is known to imply.
 
 end Causality
 

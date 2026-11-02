@@ -194,6 +194,16 @@ Barbot ledger closure **15/39 → 20/39**.
   no second countability (ETT's spacetimes are second countable, `ETT.tex:255`). **No finding
   against ETT.** How to proceed is the author's call: keep it open, add second countability and try
   that route, or close it as left in the scaffold.
+  **Rounds 2–3 (the second countable form, `CausalScaffold.LemmaKSCOpen`): NOT settled, narrowed.**
+  `Causal.LemmaKSC` (SC ⇒ locally compact, σ-compact, metrizable; well-ordered causal chains
+  countable; under `CurvesExtend`, Cauchy ⇔ (1′)+(2′) ⇔ `strictJ±(Σ)` open); `Causal.LevinUtility`
+  (Levin's theorem on mathlib's Urysohn machinery, no measure: a continuous time function, hence
+  `CurvesExtend`, in every second countable tarentin GH Hausdorff spacetime); `Causal.LemmaKLocal`
+  (where curves extend, a closed locally Cauchy `Σ` is automatically two-sided, and Cauchy ⇔
+  `J⁺(O⁺)`, `J⁻(O⁻)` open, `O±` the open chart sides); combined in `Causal.LemmaKSCLocal`: in the
+  exact SC setting the target is EQUIVALENT to the causal openness of `≤` at those two open sets
+  (`isCauchySurface_iff_isOpen_Jplus_chartFutureSide_of_secondCountable`), and holds under causal
+  openness. No counterexample; **no finding against ETT.**
 
 ## Findings against ETT (for the author; the ETT ledger is not edited from this campaign)
 
