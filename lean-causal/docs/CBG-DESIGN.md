@@ -185,3 +185,10 @@ points; R4 no duality; R5 the ruling on "maximal".
   and `I⁺(p)` regular near `p`; a slice off the cone), and `Geometry.ofLocalModelNoBTZ 𝔐
   (singY 0 = ∅)`. The flat model supplies every new field (`Flat/CBGSlice`'s
   `minkowski_coneSlice`; the rest trivial, `singY = ∅`); `flat_cbg`, `cbg` stay axiom-clean.
+- **Round 4 confirmations (gx, 2026-11-02):** `dense_regY` ACCEPTED (each stratum closed with empty
+  interior, countably many strata; in 𝕄 ⊕ E₀ the BTZ line). `coneSlicePast` at a BTZ point y: K =
+  J⁺_O(y) ∩ {τ + r = c}, c slightly above τ(y) — the cap of the future cone (τ + r non-decreasing along
+  future causal curves, strictly off the line; a thin V ⊇ K contains a perturbed local level set of
+  τ + r, Cauchy in its domain of dependence N ∋ y). gx's BARBOT-INTERFACE note had the direction
+  reversed and is corrected. gx's E₀ obligations: GermExtFutureBTZ, GermExtPastBTZ, SliceFutureBTZ of
+  `Geometry.ofLocalModelOfBTZ`.
