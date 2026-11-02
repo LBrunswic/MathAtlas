@@ -96,6 +96,10 @@ model). Cited, unmarked: `lem:corresponding_K` — `ETT.tex:2100`, `cor:ext_cont
   discharge A3**; the A3-free inputs are the `IsCorrPair` core (`corresponding_K`,
   `corresponding_K_bijOn`, `image_Kminus_eq`, `IsCorrPair.eq_of_corresponds`, the `_past` forms)
   and `CGHDData.corresponding_K`/`_past`/`_bijOn`/`_past_bijOn`, which use A2 only.
+* **Interface round 3 (2026-11-02):** A3 (`germExt_*`) now asks `[SecondCountableTopology N]`
+  as well as `M`'s, so `ext_continue` and every A3-derived declaration above ask it (a section
+  `variable`); `corresponding_K*` asked it already. Package 11's generic A3 at regular points
+  (`CBG/FromModel`, `germ_future_reg`) uses none of the A3-derived declarations.
 * The editorial proof of `cor:ext_continue` (`ETT.tex:2148–2156`, "[editorial] … verify") is not
   followed. It uses `cor:model_corresponding` (stated after it, `ETT.tex:2158`; its first half
   only, so not circular) and through it `lem:corresponding_K`, which assume `p ∈ J⁺(Σ₁)` and the
@@ -854,6 +858,11 @@ theorem corresponding_K_past_bijOn [SecondCountableTopology N] (h : CGHDData �
     (kSide_past t h.gh' h.cauchy') h.causallyConvexIn h.causallyConvexIn' h.subset hp hq
     hpS hqS
 
+/- Interface round 3 (design §6, 2026-11-02): A3 (`germExt_*`) asks the second countability of
+both carriers, so `ext_continue` and everything derived from it ask `[SecondCountableTopology N]`
+(`M`'s is in scope above). -/
+variable [SecondCountableTopology N]
+
 /-- `cor:ext_continue` (`ETT.tex:2144`) **via A3**: at a corresponding boundary point, `ψ`
 extends to a structure morphism `φ` near `p` with `φ p = q`, and `ψ(x) → q` as `x → p` in `U`.
 Both time directions: `p ∈ J⁺(S)` (`germExt_future`) or `p ∈ J⁻(S)` (`germExt_past`), one of
@@ -943,6 +952,8 @@ def correspondingSet {M N : Type*} [TopologicalSpace M] [TopologicalSpace N] (U 
   {p | p ∈ frontier U ∧ ∃ q, Corresponds U ψ p q}
 
 namespace CGHDData
+
+variable [SecondCountableTopology N]
 
 /-- Every point of `C` has a neighbourhood `O` with `O ∩ ∂U ⊆ C`: the extension `φ` of A3 is
 continuous at every point of `O`, so `φ p'` corresponds to `p' ∈ O ∩ ∂U`. -/

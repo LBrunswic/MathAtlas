@@ -1,6 +1,7 @@
 import CausalScaffold.CBG.Geometry
 import CausalScaffold.GXSingular
 import CausalScaffold.CBG.FamilyGluing
+import CausalScaffold.CBG.Corresponding
 
 /-!
 # Level B ⇒ Level A: the geometry of a local model (`Geometry.ofLocalModel`)
@@ -61,13 +62,38 @@ Lemma 3.8, Thm 3.6.
 * The B2 step of A3 with the connectedness made a hypothesis:
   `LocalModel.exists_eqOn_of_connected_reg` (B2 `localUnique_reg`, any maximal-atlas charts),
   `LocalModel.exists_eqOn_of_connected_sing` (B2 `localUnique_sing`),
-  `LocalModel.exists_eqOn_of_connected_sing_adherent` (round 2's past-side B2
-  `localUnique_sing_adherent`, its largeness clause a hypothesis, passed verbatim),
+  `LocalModel.exists_eqOn_of_connected_sing_adherent` (the past-side B2
+  `localUnique_sing_adherent`, its largeness clause — round 3's diamond form — a hypothesis,
+  passed verbatim),
   `LocalModel.mapClusterPt_chart` (Def 3.5 read in charts),
   `LocalModel.exists_extension_of_eqOn` (one element of `G` ⇒ a morphism extending `ψ`).
 * **The shape of A3's past-side piece**: `Causality.CausallyConvexIn.Iplus_inter_Iminus_subset`
   (`U ∩ I⁻_W(r) ⊇ I⁺_W(p) ∩ I⁻_W(r)` for `U` causally convex, `p ∈ closure U`, `r ∈ U`; model-free)
   and its chart reading `chartedCausality_image_Iplus_inter_Iminus`.
+* **Interface round 3 (2026-11-02): A3 at regular points, generic `Y`.** `germ_future_reg`,
+  `germ_past_reg`: the conclusion of `GermExtFuture`/`GermExtPast` at a boundary point `p` whose
+  corresponding `q` is such that both are **regular**, for any local model with `[T2Space Y]`
+  (the one assumption Level B lacks). Core `germ_ext_reg` (any causalities `C'`, `D'`, so the past
+  side is the future one for `C.dual`): a connected open piece `A ⊆ U ∩ I⁻(p)` with
+  `I⁺(a) ∩ I⁻(p) ⊆ A`, inside the charts at `p`, `q` (`germ_exists_piece`: Sbierski Prop 3.7 via
+  `IsCorrPair.exists_lt_forall_mem`, strong causality, causal curves from `a`, causal convexity),
+  `ψ → q` along it (`germ_tendsto_of_corresponds`), B2 `localUnique_reg` through regular charts
+  (`exists_regularChart_mem_maximalAtlas`), the extension `κ'⁻¹ ∘ e ∘ κ`, and B1 rigidity on the
+  component of `O₀ ∩ U` through a point of `A`, which contains `O ∩ U` for an open `O ∋ p`
+  (`germ_exists_open_subset_connectedComponentIn`). No chart geometry (segments, balls) is used.
+  The model-free half of Prop 3.7 (`IsCorrPair.lt_of_lt_of_corresponds`, `exists_lt_forall_mem`,
+  `mem_Jplus_of_corresponds`, …) is here, moved from `Flat/CBGGerm`; `isCorrPair_of_cghd` is
+  `Flat/CBGGerm`'s `germ_isCorrPair` for any local model.
+* **Interface round 3: A4 from a cone-slice B4, generic `Y`.** `slice_future_of_cone` (off the BTZ
+  locus) and `slice_past_of_cone` (everywhere), from the hypotheses `LocalModel.ConeSliceFuture`,
+  `ConeSlicePast` (proposed B4 fields, for gx): the construction of `Flat/CBGSlice` read through
+  the chart at `p` (`chart_isEMorphismOn`, `slice_assemble`, `IsEMorphismOn.isCauchySurfaceOn_image_iff`);
+  the model-free assembly (`extend_of_cauchy_nbhd`, `isCauchySurfaceOn_sup_of_slice`, the cone
+  lemmas) is here, moved from `Flat/CBGSlice`, plus `mem_of_le_of_mem_interior_Jplus_of_mem_Zminus`.
+* **Interface round 3: the past-side piece meets the diamond clause** (`diamond_clause_of_piece`):
+  `U` causally convex, `p ∈ closure U`, `r ∈ U` regular, `p ≪_W r` in a chart domain `W` ⇒
+  `∃ O ∋ κ p, ∃ r' ∈ O, r' ∈ reg ∧ κ p ≪_O r' ∧ reg ∩ I⁺_O(κ p) ∩ I⁻_O(r') ⊆ κ(U ∩ I⁻_W(r) ∩ κ⁻¹ reg)`,
+  the largeness clause of `localUnique_sing_adherent` as amended in round 3.
 
 ## Hypothesis checklist
 
@@ -80,14 +106,18 @@ Lemma 3.8, Thm 3.6.
 | design §2: sheaf laws, identity, composition, congruence, `inv`, `restrict`, `corestrict`, `transport` | ✓ carried (derived from Level B, `ClosedUnderRestriction G`) |
 | design §2: `glue` | ✓ carried; the construction glues the non-empty pieces (an empty piece embeds vacuously) |
 | design §2: `sing`, `isMor_sing`, A2 fields | ✓ carried (`LocalModel.sing`, B3 `sing_mem`; the B3 fields read through `s.1`, `s.2`) |
-| design §2: A3 (`germExt_*`) from B2 + `regularChart` | ⚠ strengthened: not derived. `ofLocalModelOfGermSlice` takes `GermExtFuture`/`GermExtPast` as hypotheses; in `ofLocalModel` they are `sorry`. The B2 step is proved with the connected piece as a hypothesis (both sides; the past-side BTZ case with round 2's clause as a hypothesis). The field states A3 for carriers **not** assumed second countable, while every B3 fact is (SCOPE) |
-| design §2: A4 (`slice_*`) from B4 | ⚠ strengthened: not derived. Taken as `SliceFuture`/`SlicePast` in `ofLocalModelOfGermSlice`, `sorry` in `ofLocalModel` (Sbierski Thm 3.6's geometric half, package 6) |
+| design §2: A3 (`germExt_*`) from B2 + `regularChart` | ⚠ partial: derived at boundary points with `p`, `q` regular (`germ_future_reg`, `germ_past_reg`), under `[T2Space Y]`, which Level B lacks; `germExtFuture`/`germExtPast` rest on two tagged `sorry`s each (that instance; the singular cases). `ofLocalModelOfGermSlice` still takes them as hypotheses. Second countability of `M`, `N` is in the field since round 3 |
+| design §2: A4 (`slice_*`) from B4 | ⚠ partial: derived from a **cone-slice** form of B4 (`slice_future_of_cone` off the BTZ locus, `slice_past_of_cone` everywhere), which Level B lacks (`ConeSliceFuture`, `ConeSlicePast`); `sliceFuture` rests on two tagged `sorry`s (that field; BTZ points), `slicePast` on one |
 
 ## SCOPE (disclosed)
 
-* `Geometry.ofLocalModel 𝔐 := ofLocalModelOfGermSlice 𝔐 …` rests on the four tagged `sorry`s
-  A3/A4; a downstream instance proving them for its model (package 12, gx) should use
-  `ofLocalModelOfGermSlice`, which is sorry-free.
+* `Geometry.ofLocalModel 𝔐 := ofLocalModelOfGermSlice 𝔐 …` rests on the four declarations
+  `germExtFuture`, `germExtPast`, `sliceFuture`, `slicePast`, now **seven tagged `sorry`s**, each a
+  named Level-B gap (interface round 3): `[T2Space Y]` (A3, twice), the singular cases of A3
+  (twice: type agreement and same component of `p`, `q`; an open set of agreement inside `reg`;
+  BTZ future via `lem:passe_pgcd`; BTZ past via the diamond clause), the cone-slice B4 (A4, twice)
+  and A4 future at BTZ points. A downstream instance proving A3/A4 for its model (package 12, gx)
+  should use `ofLocalModelOfGermSlice`, which is sorry-free.
 * **A3 and connectedness (the design risk).** B2 is stated for a map on a *connected* open set
   (`localUnique_reg`) or on `reg(U')`, `U'` a connected open set through a singular point
   (`localUnique_sing`). For a CGHD `U` and a chart neighbourhood `W` of `p ∈ ∂U`, `U ∩ W` need not
@@ -101,10 +131,18 @@ Lemma 3.8, Thm 3.6.
   the connected piece `U ∩ I⁻_W(r)` can be a regular set adherent to `p` which is not `reg` of a
   neighbourhood: `localUnique_sing` needs `f` on all of `reg(U')`, `localUnique_reg` a fully
   regular component, and round 2's `localUnique_sing_adherent` a largeness clause this piece meets
-  only vacuously (next bullets).
+  only vacuously (next bullets). **Resolved at regular points (round 3)**: the connected piece is
+  `connectedComponentIn (I⁺(x₁) ∩ I⁻(p)) a`, which contains the open diamond `I⁺(a) ∩ I⁻(p)`
+  (causal curves from `a`, push-up) and lies in `U` and in both charts (strong causality at `p`,
+  Prop 3.7 at `q`); agreement on all of `O ∩ U` is B1 rigidity on one component of `O₀ ∩ U`
+  (causal convexity of `U` and of a strongly causal neighbourhood): `germ_ext_reg`.
 * **A4** is Sbierski's slice construction (Lemma 3.11, the maximum of `τ` on the compact
   `J⁻(q) ∩ Uᶜ ∩ J⁺(Σ)`, the GH open of B4, GH of `U ∪ N`); B4 supplies only the local `τ`, and its
-  transport to `M` by `chartedCausality_chartIso` is the only Level-B part.
+  transport to `M` by `chartedCausality_chartIso` is the only Level-B part. **Round 3**: the
+  construction actually used is `Flat/CBGSlice`'s (a slice inside `U`, on the punctured cone of
+  `p`), which needs no R1 and no Lemma 3.11; generically it needs the cone-slice B4
+  (`ConeSliceFuture`/`ConeSlicePast`), and with it A4 is proved (`slice_future_of_cone`,
+  `slice_past_of_cone`); the current B4 is not used.
 * **`prop:GX_espace_temps_topo` / `prop:GX_sing_espace_temps_topo` are read, not proved.** The
   paper's hypotheses (analyticity, causal arc-connectedness, Baire, `G` acting by morphisms; for the
   singular form, (b) on each `X_α`) are not assumed; their two consequences used by the proof —
@@ -112,8 +150,9 @@ Lemma 3.8, Thm 3.6.
   (`chartIso_mem`, `absolutelyMinimalOn_Y`). This is a different hypothesis, not a subset of the
   paper's (verdict `⚠ strengthened` in the checklist). Only the preferred charts are proved
   isomorphisms; uniqueness is not redone (`Causal/GXStructure.lean` has it for `gxGroupoid`).
-* **The round-2 past-side largeness clause is vacuous as transcribed** (design §6 "Interface
-  round 2" (2), now `LocalModel.localUnique_sing_adherent` in `Geometry.lean`):
+* **(History; superseded by interface round 3.) The round-2 past-side largeness clause was
+  vacuous as transcribed** (design §6 "Interface round 2" (2); `localUnique_sing_adherent` now
+  carries round 3's diamond clause):
   `∃ r ∈ O, y₀ ≤_O r ∧ reg ∩ I⁻_O(r) ⊆ U`
   holds for every `U`, by `r := y₀` (`Causality.BTZAxiomsCorr.exists_le_inter_Iminus_subset`),
   because the chronological past of every BTZ point is empty in every open set
@@ -126,7 +165,10 @@ Lemma 3.8, Thm 3.6.
   diamond near `p`; with `r` regular and `y₀ ≪_O r` the clause fails for it (by hand,
   `germExtPast`'s `SORRY`). The clause it does meet is the diamond form
   `∃ r ∈ O, y₀ ≪_O r ∧ reg ∩ I⁺_O(y₀) ∩ I⁻_O(r) ⊆ U` (REPORT, message for gx).
-* **A3 and A4 carry no second countability, Level B's facts all do.** `germExt_*`/`slice_*` (and
+  **Round 3 adopted it** (with the regular tip `r ∈ reg`); `diamond_clause_of_piece` proves the
+  piece meets it. The Lemmas of the vacuity below stay as the record of the finding.
+* **(Resolved by interface round 3: the fields now carry it.) A3 and A4 carried no second
+  countability, Level B's facts all do.** `germExt_*`/`slice_*` (and
   so `GermExtFuture`, …) quantify over `T2`, connected `M`, `N`; every B3 field the derivation
   consumes (`singularFlatAxioms`, `curvesExtend`, `timeFunction`, `isCompact_*`) asks
   `[SecondCountableTopology M]`, and `secondCountable_of_cauchy` needs a second-countable Cauchy
@@ -982,7 +1024,8 @@ variable (𝔐)
 /-- **A3 future, for a local model** (the statement of `Geometry.germExt_future`). -/
 def GermExtFuture : Prop :=
   ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] [T2Space M]
-    [ConnectedSpace M] [T2Space N] [ConnectedSpace N] (s : 𝔐.Str M) (t : 𝔐.Str N) (U : Opens M)
+    [ConnectedSpace M] [SecondCountableTopology M] [T2Space N] [ConnectedSpace N]
+    [SecondCountableTopology N] (s : 𝔐.Str M) (t : 𝔐.Str N) (U : Opens M)
     (ψ : M → N) (S : Set M) (h : IsMor s t U ψ), InjOn ψ U →
     (causality s).GloballyHyperbolic → (causality t).GloballyHyperbolic →
     (causality s).GloballyHyperbolicOn U →
@@ -997,7 +1040,8 @@ def GermExtFuture : Prop :=
 /-- **A3 past, for a local model** (the statement of `Geometry.germExt_past`). -/
 def GermExtPast : Prop :=
   ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] [T2Space M]
-    [ConnectedSpace M] [T2Space N] [ConnectedSpace N] (s : 𝔐.Str M) (t : 𝔐.Str N) (U : Opens M)
+    [ConnectedSpace M] [SecondCountableTopology M] [T2Space N] [ConnectedSpace N]
+    [SecondCountableTopology N] (s : 𝔐.Str M) (t : 𝔐.Str N) (U : Opens M)
     (ψ : M → N) (S : Set M) (h : IsMor s t U ψ), InjOn ψ U →
     (causality s).GloballyHyperbolic → (causality t).GloballyHyperbolic →
     (causality s).GloballyHyperbolicOn U →
@@ -1011,8 +1055,9 @@ def GermExtPast : Prop :=
 
 /-- **A4 future, for a local model** (the statement of `Geometry.slice_future`). -/
 def SliceFuture : Prop :=
-  ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] (s : 𝔐.Str M)
-    (U : Opens M) (S : Set M), (causality s).GloballyHyperbolic →
+  ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
+    [SecondCountableTopology M] (s : 𝔐.Str M) (U : Opens M) (S : Set M),
+    (causality s).GloballyHyperbolic →
     (causality s).GloballyHyperbolicOn U → S ⊆ U → (causality s).IsCauchySurface S →
     (causality s).IsCauchySurfaceOn U S → ∀ p : M, p ∈ frontier (U : Set M) →
     p ∈ (causality s).Jplus ⊤ S →
@@ -1022,8 +1067,9 @@ def SliceFuture : Prop :=
 
 /-- **A4 past, for a local model** (the statement of `Geometry.slice_past`). -/
 def SlicePast : Prop :=
-  ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] (s : 𝔐.Str M)
-    (U : Opens M) (S : Set M), (causality s).GloballyHyperbolic →
+  ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
+    [SecondCountableTopology M] (s : 𝔐.Str M) (U : Opens M) (S : Set M),
+    (causality s).GloballyHyperbolic →
     (causality s).GloballyHyperbolicOn U → S ⊆ U → (causality s).IsCauchySurface S →
     (causality s).IsCauchySurfaceOn U S → ∀ p : M, p ∈ frontier (U : Set M) →
     p ∈ (causality s).Jminus ⊤ S →
@@ -1300,20 +1346,21 @@ atlases, with values in the component of a singular `y₀ ∈ sing_{α₀}`, clu
 along `κ '' A` at `y₀`, and with `κ '' A` satisfying the field's largeness clause **verbatim**
 (`hlarge`), is one element `e` of `G` on `A`, defined on the whole component of `y₀`.
 
-The largeness clause is passed through as a hypothesis, never produced: at `α₀ = 0` it is
-satisfiable by `r := y₀` whenever `I⁻(y₀) = ∅` (`Causality.BTZAxiomsCorr.exists_le_inter_Iminus_subset`),
-which is the finding against the clause, so `LocalModel.germExtPast` does **not** close its BTZ
-case through this lemma (see its `SORRY`). What A3-past produces is the chart image of
-`U ∩ I⁻_W(r) ⊇ I⁺_W(p) ∩ I⁻_W(r)` (`Causality.CausallyConvexIn.Iplus_inter_Iminus_subset`,
-`chartedCausality_image_Iplus_inter_Iminus`). -/
+The largeness clause is passed through as a hypothesis: since interface round 3 it is the
+**diamond form with a regular tip** (`r ∈ reg`, `y₀ ≪_O r`, `reg ∩ I⁺_O(y₀) ∩ I⁻_O(r) ⊆ κ(A)`),
+no longer the vacuous round-2 form (`Causality.BTZAxiomsCorr.exists_le_inter_Iminus_subset`).
+What A3-past produces meets it: `diamond_clause_of_piece` (from
+`Causality.CausallyConvexIn.Iplus_inter_Iminus_subset`, `chartedCausality_image_Iplus_inter_Iminus`).
+`LocalModel.germExtPast`'s BTZ case still does not close through this lemma, for the model facts
+listed in its `SORRY`. -/
 theorem exists_eqOn_of_connected_sing_adherent {κ : OpenPartialHomeomorph M 𝔐.Y}
     {κ' : OpenPartialHomeomorph N 𝔐.Y} (hκ : κ ∈ 𝔐.G.maximalAtlas M)
     (hκ' : κ' ∈ 𝔐.G.maximalAtlas N) {ψ : M → N} {A : Set M} (hAo : IsOpen A)
     (hAc : IsPreconnected A) (hAne : A.Nonempty) (hA : A ⊆ κ.source)
     (hAreg : ∀ z ∈ A, κ z ∈ 𝔐.regY) {y₀ : 𝔐.Y} {α₀ : ℝ} (hα₀ : 0 ≤ α₀)
     (hsing : y₀ ∈ 𝔐.singY α₀)
-    (hlarge : ∃ O : Opens 𝔐.Y, y₀ ∈ O ∧ ∃ r ∈ O, 𝔐.causalityY.le O y₀ r ∧
-      𝔐.regY ∩ 𝔐.causalityY.Iminus O {r} ⊆ κ '' A)
+    (hlarge : ∃ O : Opens 𝔐.Y, y₀ ∈ O ∧ ∃ r ∈ O, r ∈ 𝔐.regY ∧ 𝔐.causalityY.lt O y₀ r ∧
+      𝔐.regY ∩ 𝔐.causalityY.Iplus O {y₀} ∩ 𝔐.causalityY.Iminus O {r} ⊆ κ '' A)
     {z₀ : 𝔐.Y} (hz₀ : z₀ ∈ 𝔐.singY α₀) (hAψ : MapsTo ψ A κ'.source)
     (hψ : LiftPropOn 𝔐.G.IsLocalStructomorphWithinAt ψ A) (hinj : InjOn ψ A)
     (hcomp : ∀ z ∈ A, κ' (ψ z) ∈ connectedComponent y₀)
@@ -1353,33 +1400,998 @@ theorem exists_eqOn_of_connected_sing_adherent {κ : OpenPartialHomeomorph M �
 
 end LocalModel
 
+/-! ### A3 at regular points from Level B (interface round 3) -/
+
+section ModelFree
+
+variable {M N : Type*} [TopologicalSpace M] [TopologicalSpace N]
+  {C : Causality M} {D : Causality N} {U : Opens M} {V : Opens N} {ψ : M → N} {g : N → M}
+
+/-- **Step A of Sbierski Prop 3.7** (« `ψ(q) ≪ ψ(s) ≤ p′` »): for corresponding `p`, `q` and
+`x ∈ U` with `x ≪ p`, `ψ x ≪ q`. -/
+theorem IsCorrPair.lt_of_lt_of_corresponds (h : IsCorrPair C D U V ψ g)
+    (hcv : C.CausallyConvexIn (U : Set M) ⊤) {p : M} {q : N} (hZ : p ∈ C.Zminus)
+    (hPD : D.PushUp) (hclD : ∀ y, IsClosed (D.Jplus ⊤ {y}))
+    (hc : Corresponds (U : Set M) ψ p q) {x : M} (hx : x ∈ U) (hxp : C.lt ⊤ x p) :
+    D.lt ⊤ (ψ x) q := by
+  obtain ⟨s, hxs, hsp⟩ := Causality.exists_lt_lt_of_mem_Zminus hZ hxp
+  obtain ⟨u, hus, huU⟩ := mem_closure_iff_nhds.1 (mem_closure_of_corresponds hc) _
+    (Causality.isOpen_Iplus.mem_nhds (show p ∈ C.Iplus ⊤ {s} by simpa using hsp))
+  have hsU : s ∈ U := hcv.2 x hx u huU
+    (Causality.mem_diamond.2 ⟨C.le_of_lt hxs, C.le_of_lt (by simpa using hus)⟩)
+  exact h.lt_of_corresponds hPD (hclD _) hx hsU hxs (Causality.Jplus_mem_nhds_of_lt hsp) hc
+
+/-- A point of `J⁺(T)` (`T ⊆ V`) chronologically below a point `q` corresponding to `p` lies in
+`V` (causal convexity of `V`; `q ∈ closure V`). -/
+theorem IsCorrPair.mem_of_lt_of_corresponds (h : IsCorrPair C D U V ψ g)
+    (hcv : D.CausallyConvexIn (V : Set N) ⊤) {T : Set N} (hTV : T ⊆ V) {p : M} {q : N}
+    (hc : Corresponds (U : Set M) ψ p q) {y : N} (hy : y ∈ D.Jplus ⊤ T) (hyq : D.lt ⊤ y q) :
+    y ∈ V := by
+  obtain ⟨τ, hτ, hτy⟩ := hy
+  obtain ⟨x, hxU, -, hψx⟩ := hc univ univ_mem _
+    (Causality.isOpen_Iplus.mem_nhds (show q ∈ D.Iplus ⊤ {y} by simpa using hyq))
+  exact hcv.2 τ (hTV hτ) (ψ x) (h.mapsTo hxU)
+    (Causality.mem_diamond.2 ⟨hτy, D.le_of_lt (by simpa using hψx)⟩)
+
+/-- **Sbierski Prop 3.7, (i) ⇒ (ii), in the form Lemma 3.8 uses** (the strong causality of
+`N` at `q`, « we can find a `q′ ∈ V′ ∩ I⁻(p′)` such that `I⁺(q′) ∩ I⁻(p′) ⊆ V′` »): for every
+neighbourhood `V'` of `q` there is `x₀ ∈ U ∩ I⁻(p)` with `ψ(I⁺(x₀) ∩ I⁻(p) ∩ U) ⊆ V'`. Model-free;
+`T ⊆ V` with `J⁺(T)` a neighbourhood of `q` is `lem:Sigma_separe` at `q` (`T = ψ S`). -/
+theorem IsCorrPair.exists_lt_forall_mem (h : IsCorrPair C D U V ψ g)
+    (hcvU : C.CausallyConvexIn (U : Set M) ⊤) (hcvV : D.CausallyConvexIn (V : Set N) ⊤)
+    [T2Space N] (hGD : D.GloballyHyperbolic) (hTD : D.Tarentin) {p : M} {q : N}
+    (hZp : p ∈ C.Zminus) (hZq : q ∈ D.Zminus) (hPC : C.PushUp) (hPD : D.PushUp)
+    (hclC : ∀ x, IsClosed (C.Jplus ⊤ {x})) (hclD : ∀ y, IsClosed (D.Jplus ⊤ {y}))
+    {T : Set N} (hTV : T ⊆ V) (hsep : D.Jplus ⊤ T ∈ 𝓝 q)
+    (hc : Corresponds (U : Set M) ψ p q) {V' : Set N} (hV' : V' ∈ 𝓝 q) :
+    ∃ x₀ ∈ U, C.lt ⊤ x₀ p ∧ ∀ y ∈ U, C.lt ⊤ x₀ y → C.lt ⊤ y p → ψ y ∈ V' := by
+  obtain ⟨W, hW, hWsub, hWcv⟩ := hGD.stronglyCausal hTD q _ (inter_mem hV' hsep)
+  obtain ⟨s', hs'I, hs'W⟩ := hZq W hW
+  have hs'q : D.lt ⊤ s' q := by simpa using hs'I
+  obtain ⟨s'', hs's'', hs''q⟩ := Causality.exists_lt_lt_of_mem_Zminus hZq hs'q
+  have hs'J : s' ∈ D.Jplus ⊤ T := (hWsub hs'W).2
+  have hs''J : s'' ∈ D.Jplus ⊤ T := by
+    obtain ⟨τ, hτ, hτs⟩ := hs'J
+    exact ⟨τ, hτ, D.le_trans hτs (D.le_of_lt hs's'')⟩
+  have hs'V := h.mem_of_lt_of_corresponds hcvV hTV hc hs'J hs'q
+  have hs''V := h.mem_of_lt_of_corresponds hcvV hTV hc hs''J hs''q
+  have hx₀p : C.lt ⊤ (g s') p := h.symm.lt_of_corresponds hPC (hclC _) hs'V hs''V hs's''
+    (Causality.Jplus_mem_nhds_of_lt hs''q) (h.corresponds_symm hc)
+  have hx₀U : g s' ∈ U := h.mapsTo_inv hs'V
+  refine ⟨g s', hx₀U, hx₀p, fun y hyU hx₀y hyp => ?_⟩
+  have h1 : D.lt ⊤ s' (ψ y) := by
+    have := (h.lt_iff _ hx₀U _ hyU).1 hx₀y
+    rwa [h.rightInvOn hs'V] at this
+  have h2 := h.lt_of_lt_of_corresponds hcvU hZp hPD hclD hc hyU hyp
+  exact (hWsub (hWcv.2 s' hs'W q (mem_of_mem_nhds hW)
+    (Causality.mem_diamond.2 ⟨D.le_of_lt h1, D.le_of_lt h2⟩))).1
+
+/-- A point of `J⁺(S)` (`S ⊆ U`) chronologically below a point `p` of `closure U` lies in `U`
+(causal convexity of `U`). -/
+theorem mem_of_mem_Jplus_of_lt (hcv : C.CausallyConvexIn (U : Set M) ⊤) {S : Set M}
+    (hSU : S ⊆ U) {p : M} (hp : p ∈ closure (U : Set M)) {x : M} (hx : x ∈ C.Jplus ⊤ S)
+    (hxp : C.lt ⊤ x p) : x ∈ U := by
+  obtain ⟨σ, hσ, hσx⟩ := hx
+  obtain ⟨u, hux, huU⟩ := mem_closure_iff_nhds.1 hp _
+    (Causality.isOpen_Iplus.mem_nhds (show p ∈ C.Iplus ⊤ {x} by simpa using hxp))
+  exact hcv.2 σ (hSU hσ) u huU
+    (Causality.mem_diamond.2 ⟨hσx, C.le_of_lt (by simpa using hux)⟩)
+
+/-- **Footnote 21 of Sbierski** (« one cannot have one lying to the future and the other to the
+past »): if `p ∈ ∂U` lies in the future of `S` (`J⁺(S)` a neighbourhood of `p`, `S ⊆ U` acausal)
+and `q ∉ V` corresponds to `p`, then `q` is not in `J⁻(ψ S) ∖ J⁺(ψ S)`. -/
+theorem IsCorrPair.mem_Jplus_of_corresponds (h : IsCorrPair C D U V ψ g)
+    (hcv : C.CausallyConvexIn (U : Set M) ⊤) {p : M} {q : N} (hZ : p ∈ C.Zminus)
+    (hPD : D.PushUp) (hclD : ∀ y, IsClosed (D.Jplus ⊤ {y}))
+    (hc : Corresponds (U : Set M) ψ p q) (hqV : q ∉ V) (hcausM : C.IsCausal)
+    (hcausN : D.IsCausal) {S : Set M} (hac : C.IsAcausal S) (hSU : S ⊆ U)
+    (hsep : C.Jplus ⊤ S ∈ 𝓝 p) (hcov : q ∈ D.Jplus ⊤ (ψ '' S) ∪ D.Jminus ⊤ (ψ '' S)) :
+    q ∈ D.Jplus ⊤ (ψ '' S) := by
+  rcases hcov with h1 | ⟨_, ⟨σ₀, hσ₀, rfl⟩, hqσ⟩
+  · exact h1
+  exfalso
+  obtain ⟨x, hxI, hxJ⟩ := hZ _ hsep
+  have hxp : C.lt ⊤ x p := by simpa using hxI
+  have hxU := mem_of_mem_Jplus_of_lt hcv hSU (mem_closure_of_corresponds hc) hxJ hxp
+  have hxq := h.lt_of_lt_of_corresponds hcv hZ hPD hclD hc hxU hxp
+  have hxσ₀ : C.le ⊤ x σ₀ :=
+    (h.le_iff x hxU σ₀ (hSU hσ₀)).2 (D.le_trans (D.le_of_lt hxq) hqσ)
+  obtain ⟨σ, hσ, hσx⟩ := hxJ
+  have e : σ = σ₀ := hac σ hσ σ₀ hσ₀ (C.le_trans hσx hxσ₀)
+  subst e
+  have hx : x = σ := hcausM hxσ₀ hσx
+  subst hx
+  exact hqV (hcausN hqσ (D.le_of_lt hxq) ▸ h.mapsTo hxU)
+
+end ModelFree
+
+section GermPiece
+
+variable {M N : Type*} [TopologicalSpace M] [TopologicalSpace N]
+  {C : Causality M} {D : Causality N} {U : Opens M} {V : Opens N} {ψ : M → N} {g : N → M}
+
+theorem germ_isPreconnected_between (harc : C.CausallyArcConnected) {x y : M}
+    (hxy : C.le ⊤ x y) :
+    ∃ P : Set M, IsPreconnected P ∧ x ∈ P ∧ y ∈ P ∧ ∀ z ∈ P, C.le ⊤ x z ∧ C.le ⊤ z y := by
+  obtain ⟨c, hc, hc0, hc1⟩ := ((harc ⊤ le_rfl x y).1).1 hxy
+  refine ⟨c '' Icc 0 1, isPreconnected_Icc.image c (CurveOn.continuousOn C.isRelFamily_le hc),
+    ⟨0, ⟨le_rfl, zero_le_one⟩, hc0⟩, ⟨1, ⟨zero_le_one, le_rfl⟩, hc1⟩, ?_⟩
+  rintro _ ⟨t, ht, rfl⟩
+  refine ⟨?_, ?_⟩
+  · have := Causality.CausalCurveOn.le_of_le hc le_rfl ht.1 ht.2
+    rwa [hc0] at this
+  · have := Causality.CausalCurveOn.le_of_le hc ht.1 ht.2 le_rfl
+    rwa [hc1] at this
+
+theorem germ_mem_of_le_of_lt (hcvU : C.CausallyConvexIn (U : Set M) ⊤) {a x p : M}
+    (haU : a ∈ U) (hax : C.le ⊤ a x) (hxp : C.lt ⊤ x p) (hp : p ∈ closure (U : Set M)) :
+    x ∈ U := by
+  obtain ⟨u, hu, huU⟩ := mem_closure_iff.1 hp _ (C.isOpen_Iplus (U := ⊤) (A := {x}))
+    (Precausality.mem_Iplus_singleton.2 hxp)
+  exact hcvU.2 a haU u huU
+    (Causality.mem_diamond.2 ⟨hax, C.le_of_lt (Precausality.mem_Iplus_singleton.1 hu)⟩)
+
+theorem germ_exists_open_subset_connectedComponentIn (hSC : C.StronglyCausal)
+    (harc : C.CausallyArcConnected) (hcvU : C.CausallyConvexIn (U : Set M) ⊤) {p a : M}
+    (hZp : p ∈ C.Zminus) (hpcl : p ∈ closure (U : Set M)) (haU : a ∈ U) (hap : C.lt ⊤ a p)
+    {O' : Set M} (hO' : IsOpen O') (hpO' : p ∈ O') :
+    ∃ x₃, x₃ ∈ O' ∧ C.lt ⊤ a x₃ ∧ C.lt ⊤ x₃ p ∧ ∃ O : Set M, IsOpen O ∧ p ∈ O ∧
+      ∀ y ∈ O ∩ (U : Set M), y ∈ connectedComponentIn (O' ∩ (U : Set M)) x₃ := by
+  obtain ⟨K, hK, hKO', hKcv⟩ := hSC p O' (hO'.mem_nhds hpO')
+  obtain ⟨x₃, hx₃p, hx₃K, hx₃a⟩ := hZp _ (inter_mem (interior_mem_nhds.2 hK)
+    (C.isOpen_Iplus.mem_nhds (show p ∈ C.Iplus ⊤ {a} by simpa using hap)))
+  have hx₃p' : C.lt ⊤ x₃ p := by simpa using hx₃p
+  have hax₃ : C.lt ⊤ a x₃ := by simpa using hx₃a
+  have hx₃U : x₃ ∈ U := germ_mem_of_le_of_lt hcvU haU (C.le_of_lt hax₃) hx₃p' hpcl
+  refine ⟨x₃, hKO' (interior_subset hx₃K), hax₃, hx₃p', interior K ∩ C.Iplus ⊤ {x₃},
+    isOpen_interior.inter C.isOpen_Iplus,
+    ⟨mem_interior_iff_mem_nhds.2 hK, by simpa using hx₃p'⟩, ?_⟩
+  rintro y ⟨⟨hyK, hyI⟩, hyU⟩
+  have hx₃y : C.le ⊤ x₃ y := C.le_of_lt (by simpa using hyI)
+  obtain ⟨P, hP, hx₃P, hyP, hPb⟩ := germ_isPreconnected_between harc hx₃y
+  refine hP.subset_connectedComponentIn (F := O' ∩ (U : Set M)) hx₃P (fun z hz => ⟨?_, ?_⟩) hyP
+  · exact hKO' (hKcv.2 x₃ (interior_subset hx₃K) y (interior_subset hyK)
+      (Causality.mem_diamond.2 (hPb z hz)))
+  · exact hcvU.2 x₃ hx₃U y hyU (Causality.mem_diamond.2 (hPb z hz))
+
+theorem germ_exists_piece [LocallyConnectedSpace M] (hcorr : IsCorrPair C D U V ψ g)
+    (hcvU : C.CausallyConvexIn (U : Set M) ⊤) (hcvV : D.CausallyConvexIn (V : Set N) ⊤)
+    [T2Space N] (hGD : D.GloballyHyperbolic) (hTD : D.Tarentin) (hSC : C.StronglyCausal)
+    (harc : C.CausallyArcConnected) {p : M} {q : N}
+    (hZp : p ∈ C.Zminus) (hZq : q ∈ D.Zminus) (hPC : C.PushUp) (hPD : D.PushUp)
+    (hclC : ∀ x, IsClosed (C.Jplus ⊤ {x})) (hclD : ∀ y, IsClosed (D.Jplus ⊤ {y}))
+    {T : Set N} (hTV : T ⊆ V) (hsep : D.Jplus ⊤ T ∈ 𝓝 q)
+    (hc : Corresponds (U : Set M) ψ p q) {Q : Set M} (hQ : Q ∈ 𝓝 p) {Q' : Set N}
+    (hQ' : Q' ∈ 𝓝 q) :
+    ∃ a ∈ U, C.lt ⊤ a p ∧ ∃ A : Set M, IsOpen A ∧ IsPreconnected A ∧
+      C.Iplus ⊤ {a} ∩ C.Iminus ⊤ {p} ⊆ A ∧
+      A ⊆ (U : Set M) ∩ Q ∩ ψ ⁻¹' Q' ∩ C.Iminus ⊤ {p} := by
+  have hpcl : p ∈ closure (U : Set M) := mem_closure_of_corresponds hc
+  obtain ⟨x₀, hx₀U, hx₀p, hx₀⟩ := hcorr.exists_lt_forall_mem hcvU hcvV hGD hTD hZp hZq hPC hPD
+    hclC hclD hTV hsep hc hQ'
+  obtain ⟨K, hK, hKQ, hKcv⟩ := hSC p Q hQ
+  obtain ⟨x₁, hx₁p, hx₁K, hx₁0⟩ := hZp _ (inter_mem (interior_mem_nhds.2 hK)
+    (C.isOpen_Iplus.mem_nhds (show p ∈ C.Iplus ⊤ {x₀} by simpa using hx₀p)))
+  have hx₁p' : C.lt ⊤ x₁ p := by simpa using hx₁p
+  have hx₀x₁ : C.lt ⊤ x₀ x₁ := by simpa using hx₁0
+  have hx₁U : x₁ ∈ U := germ_mem_of_le_of_lt hcvU hx₀U (C.le_of_lt hx₀x₁) hx₁p' hpcl
+  obtain ⟨a, hx₁a, hap⟩ := Causality.exists_lt_lt_of_mem_Zminus hZp hx₁p'
+  have haU : a ∈ U := germ_mem_of_le_of_lt hcvU hx₁U (C.le_of_lt hx₁a) hap hpcl
+  set Ξ : Set M := C.Iplus ⊤ {x₁} ∩ C.Iminus ⊤ {p} with hΞ
+  have hΞo : IsOpen Ξ := C.isOpen_Iplus.inter C.isOpen_Iminus
+  have hΞsub : Ξ ⊆ (U : Set M) ∩ Q ∩ ψ ⁻¹' Q' ∩ C.Iminus ⊤ {p} := by
+    rintro y ⟨hy1, hy2⟩
+    have hx₁y : C.lt ⊤ x₁ y := by simpa using hy1
+    have hyp : C.lt ⊤ y p := by simpa using hy2
+    have hyU : y ∈ U := germ_mem_of_le_of_lt hcvU hx₁U (C.le_of_lt hx₁y) hyp hpcl
+    refine ⟨⟨⟨hyU, hKQ (hKcv.2 x₁ (interior_subset hx₁K) p (mem_of_mem_nhds hK)
+      (Causality.mem_diamond.2 ⟨C.le_of_lt hx₁y, C.le_of_lt hyp⟩))⟩, ?_⟩, hy2⟩
+    exact hx₀ y hyU (hPC.lt_of_lt_of_le hx₀x₁ (C.le_of_lt hx₁y)) hyp
+  have haΞ : a ∈ Ξ := ⟨by simpa using hx₁a, by simpa using hap⟩
+  refine ⟨a, haU, hap, connectedComponentIn Ξ a, hΞo.connectedComponentIn,
+    isPreconnected_connectedComponentIn, ?_, (connectedComponentIn_subset _ _).trans hΞsub⟩
+  rintro y ⟨hy1, hy2⟩
+  have hay : C.le ⊤ a y := C.le_of_lt (by simpa using hy1)
+  have hyp : C.lt ⊤ y p := by simpa using hy2
+  obtain ⟨P, hP, haP, hyP, hPb⟩ := germ_isPreconnected_between harc hay
+  refine hP.subset_connectedComponentIn (F := Ξ) haP (fun z hz => ⟨?_, ?_⟩) hyP
+  · simpa using hPC.lt_of_lt_of_le hx₁a (hPb z hz).1
+  · simpa using hPC.lt_of_le_of_lt (hPb z hz).2 hyp
+
+theorem germ_tendsto_of_corresponds (hcorr : IsCorrPair C D U V ψ g)
+    (hcvU : C.CausallyConvexIn (U : Set M) ⊤) (hcvV : D.CausallyConvexIn (V : Set N) ⊤)
+    [T2Space N] (hGD : D.GloballyHyperbolic) (hTD : D.Tarentin) {p : M} {q : N}
+    (hZp : p ∈ C.Zminus) (hZq : q ∈ D.Zminus) (hPC : C.PushUp) (hPD : D.PushUp)
+    (hclC : ∀ x, IsClosed (C.Jplus ⊤ {x})) (hclD : ∀ y, IsClosed (D.Jplus ⊤ {y}))
+    {T : Set N} (hTV : T ⊆ V) (hsep : D.Jplus ⊤ T ∈ 𝓝 q)
+    (hc : Corresponds (U : Set M) ψ p q) :
+    Tendsto ψ (𝓝[(U : Set M) ∩ C.Iminus ⊤ {p}] p) (𝓝 q) := by
+  intro V' hV'
+  obtain ⟨x₀, -, hx₀p, hx₀⟩ := hcorr.exists_lt_forall_mem hcvU hcvV hGD hTD hZp hZq hPC hPD
+    hclC hclD hTV hsep hc hV'
+  rw [Filter.mem_map]
+  filter_upwards [inter_mem_nhdsWithin ((U : Set M) ∩ C.Iminus ⊤ {p})
+    (C.isOpen_Iplus.mem_nhds (show p ∈ C.Iplus ⊤ {x₀} by simpa using hx₀p))] with y hy
+  exact hx₀ y hy.1.1 (by simpa using hy.2) (by simpa using hy.1.2)
+
+end GermPiece
+
+section ModelStep
+
+
+theorem trans_mem_maximalAtlas_of_mem {H : Type*} [TopologicalSpace H] {G : StructureGroupoid H}
+    {X : Type*} [TopologicalSpace X] [ChartedSpace H X] {c : OpenPartialHomeomorph X H}
+    (hc : c ∈ G.maximalAtlas X) {e : OpenPartialHomeomorph H H} (he : e ∈ G) :
+    c.trans e ∈ G.maximalAtlas X := by
+  intro e' he'
+  obtain ⟨h1, h2⟩ := hc e' he'
+  refine ⟨?_, ?_⟩
+  · rw [OpenPartialHomeomorph.trans_symm_eq_symm_trans_symm, OpenPartialHomeomorph.trans_assoc]
+    exact G.trans (G.symm he) h1
+  · rw [← OpenPartialHomeomorph.trans_assoc]
+    exact G.trans h2 he
+
+theorem mem_connectedComponent_of_mem_closure {X Z : Type*} [TopologicalSpace X]
+    [TopologicalSpace Z] {f : X → Z} {A : Set X} {x : X} (hA : IsPreconnected A)
+    (hf : ContinuousOn f A) (hfx : ContinuousWithinAt f A x) (hx : x ∈ closure A) :
+    ∀ z ∈ A, f z ∈ connectedComponent (f x) := fun _ hz =>
+  (hA.image f hf).closure.subset_connectedComponent (hfx.mem_closure_image hx)
+    (subset_closure (mem_image_of_mem f hz))
+
+variable {𝔐 : LocalModel.{u}} {M N : Type u} [TopologicalSpace M] [TopologicalSpace N]
+  [ChartedSpace 𝔐.Y M] [ChartedSpace 𝔐.Y N] [HasGroupoid M 𝔐.G] [HasGroupoid N 𝔐.G]
+
+theorem exists_regularChart_mem_maximalAtlas (x : M) (hx : chartAt 𝔐.Y x x ∈ 𝔐.regY) :
+    ∃ κ ∈ 𝔐.G.maximalAtlas M, x ∈ κ.source ∧ ∀ w ∈ connectedComponent (κ x), w ∈ 𝔐.regY := by
+  obtain ⟨e, he, hxe, hreg⟩ := 𝔐.regularChart _ hx
+  exact ⟨(chartAt 𝔐.Y x).trans e,
+    trans_mem_maximalAtlas_of_mem (𝔐.G.chart_mem_maximalAtlas x) he,
+    ⟨mem_chart_source _ x, hxe⟩, fun w hw => hreg w hw⟩
+
+theorem germ_ext_reg [T2Space 𝔐.Y] [T2Space N]
+    {C' : Causality M} {D' : Causality N} (U : Opens M) {V : Opens N} {ψ : M → N} {g : N → M}
+    (hψ : LiftPropOn 𝔐.G.IsLocalStructomorphWithinAt ψ U) (hinj : InjOn ψ U)
+    (hcorr : IsCorrPair C' D' U V ψ g) (hcvU : C'.CausallyConvexIn (U : Set M) ⊤)
+    (hcvV : D'.CausallyConvexIn (V : Set N) ⊤) (hGN : D'.GloballyHyperbolic) (hTN : D'.Tarentin)
+    (hSC : C'.StronglyCausal) (harc : C'.CausallyArcConnected) {p : M} {q : N}
+    (hZp : p ∈ C'.Zminus) (hZq : q ∈ D'.Zminus) (hPM : C'.PushUp) (hPN : D'.PushUp)
+    (hclM : ∀ x, IsClosed (C'.Jplus ⊤ {x})) (hclN : ∀ y, IsClosed (D'.Jplus ⊤ {y}))
+    {T : Set N} (hTV : T ⊆ V) (hsepN : D'.Jplus ⊤ T ∈ 𝓝 q) (hc : Corresponds (U : Set M) ψ p q)
+    (hpreg : chartAt 𝔐.Y p p ∈ 𝔐.regY) (hqreg : chartAt 𝔐.Y q q ∈ 𝔐.regY) :
+    ∃ (O : Opens M) (φ : M → N), p ∈ O ∧ LiftPropOn 𝔐.G.IsLocalStructomorphWithinAt φ O ∧
+      φ p = q ∧ EqOn φ ψ (O ⊓ U : Opens M) := by
+  haveI : LocallyConnectedSpace M := ChartedSpace.locallyConnectedSpace 𝔐.Y M
+  obtain ⟨κ, hκ, hpκ, hκreg⟩ := exists_regularChart_mem_maximalAtlas (𝔐 := 𝔐) p hpreg
+  obtain ⟨κ', hκ', hqκ', hκ'reg⟩ := exists_regularChart_mem_maximalAtlas (𝔐 := 𝔐) q hqreg
+  obtain ⟨a, haU, hap, A, hAo, hAc, hdiam, hAsub⟩ := germ_exists_piece hcorr hcvU hcvV hGN hTN hSC
+    harc hZp hZq hPM hPN hclM hclN hTV hsepN hc (κ.open_source.mem_nhds hpκ)
+    (κ'.open_source.mem_nhds hqκ')
+  have hAU : A ⊆ U := fun z hz => (hAsub hz).1.1.1
+  have hAκ : A ⊆ κ.source := fun z hz => (hAsub hz).1.1.2
+  have hAψ : MapsTo ψ A κ'.source := fun z hz => (hAsub hz).1.2
+  have hpcl : p ∈ closure A := by
+    rw [mem_closure_iff_nhds]
+    intro t ht
+    obtain ⟨y, hyp, hyt, hya⟩ := hZp _ (inter_mem ht
+      (C'.isOpen_Iplus.mem_nhds (show p ∈ C'.Iplus ⊤ {a} by simpa using hap)))
+    exact ⟨y, hyt, hdiam ⟨hya, hyp⟩⟩
+  have hAne : A.Nonempty := by
+    obtain ⟨y, -, hy⟩ := mem_closure_iff_nhds.1 hpcl univ univ_mem
+    exact ⟨y, hy⟩
+  haveI hNe : (𝓝[A] p).NeBot := mem_closure_iff_nhdsWithin_neBot.1 hpcl
+  have hT : Tendsto ψ (𝓝[A] p) (𝓝 q) :=
+    (germ_tendsto_of_corresponds hcorr hcvU hcvV hGN hTN hZp hZq hPM hPN hclM hclN hTV hsepN
+      hc).mono_left (nhdsWithin_mono _ fun z hz => ⟨hAU hz, (hAsub hz).2⟩)
+  have hψA : LiftPropOn 𝔐.G.IsLocalStructomorphWithinAt ψ A :=
+    liftPropOn_mono_of_le U.isOpen hAo hψ hAU
+  have hψc : ContinuousOn ψ A := fun y hy => (hψA y hy).continuousWithinAt
+  have hcompκ : ∀ z ∈ A, κ z ∈ connectedComponent (κ p) :=
+    mem_connectedComponent_of_mem_closure hAc (κ.continuousOn.mono hAκ)
+      (κ.continuousAt hpκ).continuousWithinAt hpcl
+  have hqcl : q ∈ closure (ψ '' A) :=
+    mem_closure_of_tendsto hT (eventually_mem_nhdsWithin.mono fun z hz => mem_image_of_mem ψ hz)
+  have hcompκ' : ∀ z ∈ A, κ' (ψ z) ∈ connectedComponent (κ' q) := fun z hz =>
+    mem_connectedComponent_of_mem_closure (hAc.image ψ hψc)
+      (κ'.continuousOn.mono (image_subset_iff.2 hAψ)) (κ'.continuousAt hqκ').continuousWithinAt
+      hqcl _ (mem_image_of_mem ψ hz)
+  have hreg : ∀ z ∈ A, ∀ w ∈ connectedComponent (κ z), w ∈ 𝔐.regY := fun z hz w hw =>
+    hκreg w (by rw [connectedComponent_eq (hcompκ z hz)]; exact hw)
+  have hreg' : ∀ z ∈ A, ∀ w ∈ connectedComponent (κ' (ψ z)), w ∈ 𝔐.regY := fun z hz w hw =>
+    hκ'reg w (by rw [connectedComponent_eq (hcompκ' z hz)]; exact hw)
+  obtain ⟨e, he, hsrc, heq⟩ := LocalModel.exists_eqOn_of_connected_reg hκ hκ' hAo hAc hAne hAκ
+    hAψ hψA (hinj.mono hAU) hreg hreg'
+  obtain ⟨z₀, hz₀⟩ := hAne
+  have hκpe : κ p ∈ e.source := hsrc z₀ hz₀
+    (by rw [← connectedComponent_eq (hcompκ z₀ hz₀)]; exact mem_connectedComponent)
+  have hep : e (κ p) = κ' q := by
+    have h1 : Tendsto (fun z => e (κ z)) (𝓝[A] p) (𝓝 (e (κ p))) :=
+      ((e.continuousAt hκpe).comp (κ.continuousAt hpκ)).tendsto.mono_left nhdsWithin_le_nhds
+    have h2 : Tendsto (fun z => e (κ z)) (𝓝[A] p) (𝓝 (κ' q)) :=
+      ((κ'.continuousAt hqκ').tendsto.comp hT).congr'
+        (eventually_nhdsWithin_of_forall fun z hz => heq z hz)
+    exact tendsto_nhds_unique h1 h2
+  obtain ⟨O₀, hO₀o, hO₀, hφ, hφeq⟩ := LocalModel.exists_extension_of_eqOn hκ hκ' he hAψ heq
+  have hpO₀ : p ∈ O₀ := by
+    rw [hO₀]
+    refine ⟨hpκ, hκpe, ?_⟩
+    show e (κ p) ∈ κ'.target
+    rw [hep]; exact κ'.map_source hqκ'
+  have hφp : (κ'.symm ∘ e ∘ κ) p = q := by
+    simp only [comp_apply, hep, κ'.left_inv hqκ']
+  obtain ⟨x₃, hx₃O₀, hax₃, hx₃p, O, hOo, hpO, hO⟩ := germ_exists_open_subset_connectedComponentIn
+    hSC harc hcvU hZp (mem_closure_of_corresponds hc) haU hap hO₀o hpO₀
+  have hx₃A : x₃ ∈ A := hdiam ⟨by simpa using hax₃, by simpa using hx₃p⟩
+  set Ω := connectedComponentIn (O₀ ∩ (U : Set M)) x₃ with hΩdef
+  have hΩo : IsOpen Ω := (hO₀o.inter U.isOpen).connectedComponentIn
+  have hΩsub : Ω ⊆ O₀ ∩ U := connectedComponentIn_subset _ _
+  have hx₃Ω : x₃ ∈ Ω := mem_connectedComponentIn ⟨hx₃O₀, hAU hx₃A⟩
+  have hEq : EqOn (κ'.symm ∘ e ∘ κ) ψ Ω := eqOn_of_liftPropOn 𝔐.rigid hΩo
+    isPreconnected_connectedComponentIn
+    (liftPropOn_mono_of_le hO₀o hΩo hφ fun z hz => (hΩsub hz).1)
+    (liftPropOn_mono_of_le U.isOpen hΩo hψ fun z hz => (hΩsub hz).2)
+    (hΩo.inter hAo) inter_subset_left ⟨x₃, hx₃Ω, hx₃A⟩
+    (fun z hz => hφeq ⟨(hΩsub hz.1).1, hz.2⟩)
+  refine ⟨⟨O ∩ O₀, hOo.inter hO₀o⟩, κ'.symm ∘ e ∘ κ, ⟨hpO, hpO₀⟩,
+    liftPropOn_mono_of_le hO₀o (hOo.inter hO₀o) hφ inter_subset_right, hφp, ?_⟩
+  rintro y ⟨⟨hyO, -⟩, hyU⟩
+  exact hEq (hO y ⟨hyO, hyU⟩)
+
+end ModelStep
+
+section Assembly
+
+
+variable {𝔐 : LocalModel.{u}} {M N : Type u} [TopologicalSpace M] [TopologicalSpace N]
+  [ChartedSpace 𝔐.Y M] [ChartedSpace 𝔐.Y N] [HasGroupoid M 𝔐.G] [HasGroupoid N 𝔐.G]
+
+theorem isCorrPair_of_cghd [T2Space M] [T2Space N] [Nonempty M]
+    (hCM : (chartedCausality 𝔐.causalityY M).CausallyArcConnected)
+    (hCN : (chartedCausality 𝔐.causalityY N).CausallyArcConnected)
+    (hextM : (chartedCausality 𝔐.causalityY M).CurvesExtend)
+    (hextN : (chartedCausality 𝔐.causalityY N).CurvesExtend)
+    (U : Opens M) {ψ : M → N} {S : Set M} (hψ : LiftPropOn 𝔐.G.IsLocalStructomorphWithinAt ψ U)
+    (hinj : InjOn ψ U) (hGM : (chartedCausality 𝔐.causalityY M).GloballyHyperbolic)
+    (hGN : (chartedCausality 𝔐.causalityY N).GloballyHyperbolic)
+    (hGU : (chartedCausality 𝔐.causalityY M).GloballyHyperbolicOn U)
+    (hGV : (chartedCausality 𝔐.causalityY N).GloballyHyperbolicOn
+      ((isEMorphismOn_of_liftPropOn 𝔐.chartIso_mem 𝔐.absolutelyMinimalOn_Y hψ).imageOpens U
+        le_rfl))
+    (hSU : S ⊆ U) (hS : (chartedCausality 𝔐.causalityY M).IsCauchySurface S)
+    (hSU' : (chartedCausality 𝔐.causalityY M).IsCauchySurfaceOn U S)
+    (hψS : (chartedCausality 𝔐.causalityY N).IsCauchySurface (ψ '' S))
+    (hψSV : (chartedCausality 𝔐.causalityY N).IsCauchySurfaceOn
+      ((isEMorphismOn_of_liftPropOn 𝔐.chartIso_mem 𝔐.absolutelyMinimalOn_Y hψ).imageOpens U
+        le_rfl) (ψ '' S)) :
+    (chartedCausality 𝔐.causalityY M).CausallyConvexIn (U : Set M) ⊤ ∧
+      (chartedCausality 𝔐.causalityY N).CausallyConvexIn
+        ((isEMorphismOn_of_liftPropOn 𝔐.chartIso_mem 𝔐.absolutelyMinimalOn_Y hψ).imageOpens U
+          le_rfl : Set N) ⊤ ∧
+      IsCorrPair (chartedCausality 𝔐.causalityY M) (chartedCausality 𝔐.causalityY N) U
+        ((isEMorphismOn_of_liftPropOn 𝔐.chartIso_mem 𝔐.absolutelyMinimalOn_Y hψ).imageOpens U
+          le_rfl) ψ (invFunOn ψ U) := by
+  set C := chartedCausality 𝔐.causalityY M
+  set D := chartedCausality 𝔐.causalityY N
+  have hE := isEMorphismOn_of_liftPropOn 𝔐.chartIso_mem 𝔐.absolutelyMinimalOn_Y hψ
+  set V := hE.imageOpens U le_rfl with hVdef
+  have hE' : IsEMorphismOn D C V (invFunOn ψ U) :=
+    isEMorphismOn_of_liftPropOn 𝔐.chartIso_mem 𝔐.absolutelyMinimalOn_Y (W := V)
+      (liftPropOn_invFunOn U.isOpen hψ hinj)
+  have hcvU : C.CausallyConvexIn (U : Set M) ⊤ :=
+    IsCauchyInclusion.causallyConvexIn ⟨le_top, hGU, hGM, S, hSU, hSU', hS⟩ hCM
+      (Causality.curvesExtendOn_top.2 hextM)
+  have hcvV : D.CausallyConvexIn (V : Set N) ⊤ :=
+    IsCauchyInclusion.causallyConvexIn ⟨le_top, hGV, hGN, ψ '' S, image_mono hSU, hψSV, hψS⟩ hCN
+      (Causality.curvesExtendOn_top.2 hextN)
+  have hl := hinj.leftInvOn_invFunOn
+  have hmaps : MapsTo ψ U V := fun z hz => ⟨z, hz, rfl⟩
+  refine ⟨hcvU, hcvV,
+    { mapsTo := hmaps
+      mapsTo_inv := fun y hy => invFunOn_mem hy
+      leftInvOn := hl
+      rightInvOn := fun y hy => invFunOn_eq hy
+      continuousOn := hE.continuousOn
+      continuousOn_inv := hE'.continuousOn
+      le_iff := fun x hx y hy => ⟨fun hxy => ?_, fun hxy => ?_⟩
+      lt_iff := fun x hx y hy => ⟨fun hxy => ?_, fun hxy => ?_⟩ }⟩
+  · exact D.le_mono le_top (hE.map_le U V le_rfl hmaps
+      (Causality.le_of_causallyConvexIn_of_le hCM hcvU subset_rfl le_top hx hy hxy))
+  · have hV' := Causality.le_of_causallyConvexIn_of_le hCN hcvV subset_rfl le_top (hmaps hx)
+      (hmaps hy) hxy
+    have := hE'.map_le V ⊤ le_rfl (fun _ _ => trivial) hV'
+    rwa [hl hx, hl hy] at this
+  · exact D.lt_mono le_top (hE.map_lt U V le_rfl hmaps
+      (Causality.lt_of_causallyConvexIn hCM hcvU hx hy hxy))
+  · have hV' := Causality.lt_of_causallyConvexIn hCN hcvV (hmaps hx) (hmaps hy) hxy
+    have := hE'.map_lt V ⊤ le_rfl (fun _ _ => trivial) hV'
+    rwa [hl hx, hl hy] at this
+
+variable [T2Space M] [ConnectedSpace M] [SecondCountableTopology M]
+  [T2Space N] [ConnectedSpace N] [SecondCountableTopology N]
+
+theorem germ_future_reg [T2Space 𝔐.Y] (U : Opens M) (ψ : M → N) (S : Set M)
+    (hψ : LiftPropOn 𝔐.G.IsLocalStructomorphWithinAt ψ U)
+    (hinj : InjOn ψ U) (hGM : (chartedCausality 𝔐.causalityY M).GloballyHyperbolic)
+    (hGN : (chartedCausality 𝔐.causalityY N).GloballyHyperbolic)
+    (hGU : (chartedCausality 𝔐.causalityY M).GloballyHyperbolicOn U)
+    (hGV : (chartedCausality 𝔐.causalityY N).GloballyHyperbolicOn
+      ((isEMorphismOn_of_liftPropOn 𝔐.chartIso_mem 𝔐.absolutelyMinimalOn_Y hψ).imageOpens U
+        le_rfl))
+    (hSU : S ⊆ U) (hS : (chartedCausality 𝔐.causalityY M).IsCauchySurface S)
+    (hSU' : (chartedCausality 𝔐.causalityY M).IsCauchySurfaceOn U S)
+    (hψS : (chartedCausality 𝔐.causalityY N).IsCauchySurface (ψ '' S))
+    (hψSV : (chartedCausality 𝔐.causalityY N).IsCauchySurfaceOn
+      ((isEMorphismOn_of_liftPropOn 𝔐.chartIso_mem 𝔐.absolutelyMinimalOn_Y hψ).imageOpens U
+        le_rfl) (ψ '' S))
+    (p : M) (q : N) (hp : p ∈ frontier (U : Set M))
+    (hpS : p ∈ (chartedCausality 𝔐.causalityY M).Jplus ⊤ S)
+    (hcl : MapClusterPt q (𝓝[(U : Set M)] p) ψ)
+    (hpreg : chartAt 𝔐.Y p p ∈ 𝔐.regY) (hqreg : chartAt 𝔐.Y q q ∈ 𝔐.regY) :
+    ∃ (O : Opens M) (φ : M → N), p ∈ O ∧ LiftPropOn 𝔐.G.IsLocalStructomorphWithinAt φ O ∧
+      φ p = q ∧ EqOn φ ψ (O ⊓ U : Opens M) := by
+  set C := chartedCausality 𝔐.causalityY M
+  set D := chartedCausality 𝔐.causalityY N
+  have hAxM : C.SingularFlatAxiomsCorr (chartedSing 𝔐.singY M) := 𝔐.singularFlatAxioms
+  have hAxN : D.SingularFlatAxiomsCorr (chartedSing 𝔐.singY N) := 𝔐.singularFlatAxioms
+  have hextM : C.CurvesExtend := 𝔐.curvesExtend hGM
+  have hextN : D.CurvesExtend := 𝔐.curvesExtend hGN
+  haveI : Nonempty M := ⟨p⟩
+  obtain ⟨hcvU, hcvV, hcorr⟩ := isCorrPair_of_cghd hAxM.causallyArcConnected
+    hAxN.causallyArcConnected hextM hextN U hψ hinj hGM hGN hGU hGV hSU hS hSU' hψS hψSV
+  set V := (isEMorphismOn_of_liftPropOn 𝔐.chartIso_mem 𝔐.absolutelyMinimalOn_Y hψ).imageOpens U
+    le_rfl with hVdef
+  have hc : Corresponds (U : Set M) ψ p q := corresponds_iff_mapClusterPt.2 hcl
+  have hZp : p ∈ C.Zminus := (hAxM.mem_Zminus_iff p).2 (hpreg 0 le_rfl)
+  have hZq : q ∈ D.Zminus := (hAxN.mem_Zminus_iff q).2 (hqreg 0 le_rfl)
+  have hclM := hGM.isClosed_Jplus_singleton hAxM.tarentin
+  have hclN := hGN.isClosed_Jplus_singleton hAxN.tarentin
+  have hpU : p ∉ (U : Set M) := by rw [U.isOpen.frontier_eq] at hp; exact hp.2
+  have hsepM : C.Jplus ⊤ S ∈ 𝓝 p :=
+    Causality.Jplus_mem_nhds_of_isCauchySurface hGM.1 hAxM.causallyArcConnected hextM hS
+      (fun x => (hAxM.K_densite_sing x).2) (𝔐.isCompact_Jminus_inter_Jplus hGM S hS)
+      ⟨hpS, fun h => hpU (hSU h)⟩
+  have hqfr := hcorr.mem_frontier_of_corresponds hp hc
+  have hqV : q ∉ (V : Set N) := by rw [V.isOpen.frontier_eq] at hqfr; exact hqfr.2
+  have hqS := hcorr.mem_Jplus_of_corresponds hcvU hZp hAxN.pushUp hclN hc hqV hGM.1 hGN.1
+    (hS.isAcausal hAxM.causallyArcConnected hextM) hSU hsepM
+    (Causality.mem_Jplus_union_Jminus_of_isCauchySurface hextN hψS q)
+  have hsepN : D.Jplus ⊤ (ψ '' S) ∈ 𝓝 q :=
+    Causality.Jplus_mem_nhds_of_isCauchySurface hGN.1 hAxN.causallyArcConnected hextN hψS
+      (fun x => (hAxN.K_densite_sing x).2) (𝔐.isCompact_Jminus_inter_Jplus hGN _ hψS)
+      ⟨hqS, fun h => hqV ((hcorr.mapsTo.mono_left hSU).image_subset h)⟩
+  exact germ_ext_reg U hψ hinj hcorr hcvU hcvV hGN hAxN.tarentin
+    (hGM.stronglyCausal hAxM.tarentin) hAxM.causallyArcConnected hZp hZq hAxM.pushUp
+    hAxN.pushUp hclM hclN ((hcorr.mapsTo.mono_left hSU).image_subset) hsepN hc hpreg hqreg
+
+theorem germ_past_reg [T2Space 𝔐.Y] (U : Opens M) (ψ : M → N) (S : Set M)
+    (hψ : LiftPropOn 𝔐.G.IsLocalStructomorphWithinAt ψ U)
+    (hinj : InjOn ψ U) (hGM : (chartedCausality 𝔐.causalityY M).GloballyHyperbolic)
+    (hGN : (chartedCausality 𝔐.causalityY N).GloballyHyperbolic)
+    (hGU : (chartedCausality 𝔐.causalityY M).GloballyHyperbolicOn U)
+    (hGV : (chartedCausality 𝔐.causalityY N).GloballyHyperbolicOn
+      ((isEMorphismOn_of_liftPropOn 𝔐.chartIso_mem 𝔐.absolutelyMinimalOn_Y hψ).imageOpens U
+        le_rfl))
+    (hSU : S ⊆ U) (hS : (chartedCausality 𝔐.causalityY M).IsCauchySurface S)
+    (hSU' : (chartedCausality 𝔐.causalityY M).IsCauchySurfaceOn U S)
+    (hψS : (chartedCausality 𝔐.causalityY N).IsCauchySurface (ψ '' S))
+    (hψSV : (chartedCausality 𝔐.causalityY N).IsCauchySurfaceOn
+      ((isEMorphismOn_of_liftPropOn 𝔐.chartIso_mem 𝔐.absolutelyMinimalOn_Y hψ).imageOpens U
+        le_rfl) (ψ '' S))
+    (p : M) (q : N) (hp : p ∈ frontier (U : Set M))
+    (hpS : p ∈ (chartedCausality 𝔐.causalityY M).Jminus ⊤ S)
+    (hcl : MapClusterPt q (𝓝[(U : Set M)] p) ψ)
+    (hpreg : chartAt 𝔐.Y p p ∈ 𝔐.regY) (hqreg : chartAt 𝔐.Y q q ∈ 𝔐.regY) :
+    ∃ (O : Opens M) (φ : M → N), p ∈ O ∧ LiftPropOn 𝔐.G.IsLocalStructomorphWithinAt φ O ∧
+      φ p = q ∧ EqOn φ ψ (O ⊓ U : Opens M) := by
+  set C := chartedCausality 𝔐.causalityY M
+  set D := chartedCausality 𝔐.causalityY N
+  have hAxM : C.SingularFlatAxiomsCorr (chartedSing 𝔐.singY M) := 𝔐.singularFlatAxioms
+  have hAxN : D.SingularFlatAxiomsCorr (chartedSing 𝔐.singY N) := 𝔐.singularFlatAxioms
+  have hextM : C.CurvesExtend := 𝔐.curvesExtend hGM
+  have hextN : D.CurvesExtend := 𝔐.curvesExtend hGN
+  haveI : Nonempty M := ⟨p⟩
+  obtain ⟨hcvU, hcvV, hcorr⟩ := isCorrPair_of_cghd hAxM.causallyArcConnected
+    hAxN.causallyArcConnected hextM hextN U hψ hinj hGM hGN hGU hGV hSU hS hSU' hψS hψSV
+  set V := (isEMorphismOn_of_liftPropOn 𝔐.chartIso_mem 𝔐.absolutelyMinimalOn_Y hψ).imageOpens U
+    le_rfl with hVdef
+  have hc : Corresponds (U : Set M) ψ p q := corresponds_iff_mapClusterPt.2 hcl
+  have hcorr' := hcorr.dual
+  have hcvU' : C.dual.CausallyConvexIn (U : Set M) ⊤ := Causality.dual_causallyConvexIn.2 hcvU
+  have hcvV' : D.dual.CausallyConvexIn (V : Set N) ⊤ := Causality.dual_causallyConvexIn.2 hcvV
+  have hZM : ∀ x, x ∈ C.dual.Zminus := fun x => hAxM.mem_Zplus x
+  have hZN : ∀ y, y ∈ D.dual.Zminus := fun y => hAxN.mem_Zplus y
+  have hPM : C.dual.PushUp := Causality.dual_pushUp.2 hAxM.pushUp
+  have hPN : D.dual.PushUp := Causality.dual_pushUp.2 hAxN.pushUp
+  have hclM : ∀ x, IsClosed (C.dual.Jplus ⊤ {x}) := hGM.isClosed_Jminus_singleton hAxM.tarentin
+  have hclN : ∀ y, IsClosed (D.dual.Jplus ⊤ {y}) := hGN.isClosed_Jminus_singleton hAxN.tarentin
+  have hpU : p ∉ (U : Set M) := by rw [U.isOpen.frontier_eq] at hp; exact hp.2
+  have hsepM : C.dual.Jplus ⊤ S ∈ 𝓝 p :=
+    Causality.Jminus_mem_nhds_of_isCauchySurface hGM.1 hAxM.causallyArcConnected hextM hS
+      (fun x => (hAxM.K_densite_sing x).1) (𝔐.isCompact_Jplus_inter_Jminus hGM S hS)
+      ⟨hpS, fun h => hpU (hSU h)⟩
+  have hqfr := hcorr.mem_frontier_of_corresponds hp hc
+  have hqV : q ∉ (V : Set N) := by rw [V.isOpen.frontier_eq] at hqfr; exact hqfr.2
+  have hqS : q ∈ D.dual.Jplus ⊤ (ψ '' S) := hcorr'.mem_Jplus_of_corresponds hcvU' (hZM p) hPN
+    hclN hc hqV (Causality.dual_isCausal.2 hGM.1) (Causality.dual_isCausal.2 hGN.1)
+    (Causality.dual_isAcausal.2 (hS.isAcausal hAxM.causallyArcConnected hextM)) hSU hsepM
+    (Causality.mem_Jplus_union_Jminus_of_isCauchySurface hextN hψS q).symm
+  have hsepN : D.dual.Jplus ⊤ (ψ '' S) ∈ 𝓝 q :=
+    Causality.Jminus_mem_nhds_of_isCauchySurface hGN.1 hAxN.causallyArcConnected hextN hψS
+      (fun x => (hAxN.K_densite_sing x).1) (𝔐.isCompact_Jplus_inter_Jminus hGN _ hψS)
+      ⟨hqS, fun h => hqV ((hcorr.mapsTo.mono_left hSU).image_subset h)⟩
+  exact germ_ext_reg U hψ hinj hcorr' hcvU' hcvV'
+    (Causality.dual_globallyHyperbolic.2 hGN) (Causality.dual_tarentin.2 hAxN.tarentin)
+    (Causality.dual_stronglyCausal.2 (hGM.stronglyCausal hAxM.tarentin))
+    (Causality.dual_causallyArcConnectedOn.2 hAxM.causallyArcConnected) (hZM p) (hZN q) hPM hPN
+    hclM hclN ((hcorr.mapsTo.mono_left hSU).image_subset) hsepN hc hpreg hqreg
+
+end Assembly
+
+/-! ### A4: a union with a sliced open set, and the assembly (model-free; from `Flat/CBGSlice`) -/
+
+section SliceGeneral
+
+variable {M : Type*} [TopologicalSpace M] {C : Causality M}
+
+/-- **A union keeps the Cauchy surface.** If `S` is a Cauchy surface of `A`, acausal in `M` (`M`
+causal, Hausdorff), and `N` is an open set with a Cauchy surface `Γ ⊆ A`, then `S` is a Cauchy
+surface of `A ⊔ N`: an inextensible curve of `A ⊔ N` through `N` meets `Γ` by its component in
+`N`, hence enters `A`, and its component in `A` meets `S`; uniqueness by acausality (Sbierski,
+proof of Thm 3.6, last paragraph). -/
+theorem isCauchySurfaceOn_sup_of_slice [T2Space M] (hcaus : C.IsCausal) {S Γ : Set M}
+    (hac : C.IsAcausal S) {A N : Opens M} (hA : C.IsCauchySurfaceOn A S)
+    (hN : C.IsCauchySurfaceOn N Γ) (hΓ : Γ ⊆ A) : C.IsCauchySurfaceOn (A ⊔ N) S := by
+  have hanti : ∀ ⦃x y : M⦄, C.le (A ⊔ N) x y → C.le (A ⊔ N) y x → x = y :=
+    fun x y h h' => hcaus (C.le_mono le_top h) (C.le_mono le_top h')
+  intro I c hc
+  have hmeetA : ∀ t ∈ I, c t ∈ A → (c '' I ∩ S).Nonempty := by
+    intro t ht htA
+    obtain ⟨_, ⟨⟨τ, hτ, rfl⟩, hτS⟩, -⟩ := hA _ c
+      (Causality.inextensible_ordConnectedComponent_of_le hanti le_sup_left hc ht htA)
+    exact ⟨c τ, ⟨τ, (ordConnectedComponent_subset hτ).1, rfl⟩, hτS⟩
+  obtain ⟨t₀, ht₀⟩ := hc.1.nonempty
+  have hex : (c '' I ∩ S).Nonempty := by
+    rcases Opens.mem_sup.1 (hc.1.mem ht₀) with h | h
+    · exact hmeetA t₀ ht₀ h
+    · obtain ⟨_, ⟨⟨τ, hτ, rfl⟩, hτΓ⟩, -⟩ := hN _ c
+        (Causality.inextensible_ordConnectedComponent_of_le hanti le_sup_right hc ht₀ h)
+      exact hmeetA τ (ordConnectedComponent_subset hτ).1 (hΓ hτΓ)
+  obtain ⟨x, hx⟩ := hex
+  refine ⟨x, hx, ?_⟩
+  rintro y ⟨⟨s, hs, rfl⟩, hyS⟩
+  obtain ⟨⟨s', hs', rfl⟩, hxS⟩ := hx
+  rcases le_total s s' with h | h
+  · exact hac _ hyS _ hxS (C.le_mono le_top (hc.1.le_of_le hs hs' h))
+  · exact (hac _ hxS _ hyS (C.le_mono le_top (hc.1.le_of_le hs' hs h))).symm
+
+/-- **The assembly of A4 from a sliced neighbourhood.** In a causal (GH) Hausdorff spacetime,
+causally arc-connected with curves extending, with Cauchy surface `S ⊆ U` of `U`: an open `N ∋ p`,
+`p ∉ U`, `N ⊆ O`, with a Cauchy surface `Γ ⊆ U`, gives `U' = U ⊔ N`, strictly larger than `U`,
+inside `U ∪ O`, globally hyperbolic, with `S` as a Cauchy surface. -/
+theorem extend_of_cauchy_nbhd [T2Space M] (hGH : C.GloballyHyperbolic)
+    (harc : C.CausallyArcConnected) (hext : C.CurvesExtend) {U : Opens M} {S : Set M}
+    (hSU : S ⊆ U) (hS : C.IsCauchySurface S) (hSU' : C.IsCauchySurfaceOn U S)
+    {N : Opens M} {Γ : Set M} (hN : C.IsCauchySurfaceOn N Γ) (hΓ : Γ ⊆ U) {p : M} (hpN : p ∈ N)
+    (hpU : p ∉ U) {O : Set M} (hNO : (N : Set M) ⊆ O) :
+    ∃ U' : Opens M, U < U' ∧ (U' : Set M) ⊆ U ∪ O ∧ C.GloballyHyperbolicOn U' ∧
+      C.IsCauchySurfaceOn U' S := by
+  have hac : C.IsAcausal S := hS.isAcausal harc hext
+  have hSUN : C.IsCauchySurfaceOn (U ⊔ N) S := isCauchySurfaceOn_sup_of_slice hGH.1 hac hSU' hN hΓ
+  have hconv : C.CausallyConvexIn ((U ⊔ N : Opens M) : Set M) ⊤ :=
+    Causality.causallyConvexIn_of_isCauchySurfaceOn hGH.1 harc hext le_top
+      (fun x hx => (le_sup_left : U ≤ U ⊔ N) (hSU hx)) hSUN hS
+  refine ⟨U ⊔ N, lt_of_le_of_ne le_sup_left fun h => hpU ?_, fun x hx => ?_,
+    Causality.GloballyHyperbolicOn.of_causallyConvexIn harc hGH hconv, hSUN⟩
+  · have : p ∈ U ⊔ N := Opens.mem_sup.2 (Or.inr hpN)
+    rwa [← h] at this
+  · rcases Opens.mem_sup.1 hx with h | h
+    · exact Or.inl h
+    · exact Or.inr (hNO h)
+
+variable {U : Opens M} {S : Set M} {p : M}
+
+/-- **`I⁻(p) ∩ J⁺(S) ⊆ U`** for `p ∈ closure U`, `U` causally convex, `S ⊆ U`: `I⁺(z)` is an open
+neighbourhood of `p`, so it meets `U` at some `u`, and `z` lies in the diamond `J(σ, u)`. -/
+theorem mem_of_lt_of_mem_closure (hconv : C.CausallyConvexIn (U : Set M) ⊤) (hSU : S ⊆ U)
+    (hpU : p ∈ closure (U : Set M)) {z : M} (hz : z ∈ C.Jplus ⊤ S) (hzp : C.lt ⊤ z p) : z ∈ U := by
+  obtain ⟨σ, hσS, hσz⟩ := hz
+  obtain ⟨u, hu, huU⟩ := mem_closure_iff.1 hpU _ (C.isOpen_Iplus (U := ⊤) (A := {z}))
+    (Precausality.mem_Iplus_singleton.2 hzp)
+  exact hconv.2 σ (hSU hσS) u huU
+    (Causality.mem_diamond.2 ⟨hσz, C.le_of_lt (Precausality.mem_Iplus_singleton.1 hu)⟩)
+
+/-- **Past form**: `I⁺(p) ∩ J⁻(S) ⊆ U`. -/
+theorem mem_of_gt_of_mem_closure (hconv : C.CausallyConvexIn (U : Set M) ⊤) (hSU : S ⊆ U)
+    (hpU : p ∈ closure (U : Set M)) {z : M} (hz : z ∈ C.Jminus ⊤ S) (hpz : C.lt ⊤ p z) :
+    z ∈ U := by
+  obtain ⟨σ, hσS, hzσ⟩ := hz
+  obtain ⟨u, hu, huU⟩ := mem_closure_iff.1 hpU _ (C.isOpen_Iminus (U := ⊤) (A := {z}))
+    (Precausality.mem_Iminus_singleton.2 hpz)
+  exact hconv.2 u huU σ (hSU hσS)
+    (Causality.mem_diamond.2 ⟨C.le_of_lt (Precausality.mem_Iminus_singleton.1 hu), hzσ⟩)
+
+/-- **The corner condition puts the punctured causal past cone into `U`** (near `p`, inside the
+interior of `J⁺(S)`): a point `z ≤ p`, `z ≠ p`, not in `U` is not on `∂U` (corner condition), so it
+is outside `closure U`; a point `z' ≪ z` close to it (`Z⁻`) is still outside `closure U` and in
+`J⁺(S)`, and `z' ≪ p` (push-up), so `z' ∈ U` (`mem_of_lt_of_mem_closure`): a contradiction. -/
+theorem mem_of_le_of_mem_interior_Jplus (hconv : C.CausallyConvexIn (U : Set M) ⊤) (hSU : S ⊆ U)
+    (hpU : p ∈ closure (U : Set M)) (hpush : C.PushUp) (hZ : ∀ z : M, z ∈ C.Zminus)
+    (hcorner : C.Jminus ⊤ {p} ∩ frontier (U : Set M) ∩ C.Jplus ⊤ S = {p}) {z : M}
+    (hz : z ∈ interior (C.Jplus ⊤ S)) (hzp : C.le ⊤ z p) (hne : z ≠ p) : z ∈ U := by
+  by_contra hzU
+  by_cases hzc : z ∈ closure (U : Set M)
+  · have hzf : z ∈ frontier (U : Set M) := ⟨hzc, by rwa [U.isOpen.interior_eq]⟩
+    have : z ∈ C.Jminus ⊤ {p} ∩ frontier (U : Set M) ∩ C.Jplus ⊤ S :=
+      ⟨⟨Precausality.mem_Jminus_singleton.2 hzp, hzf⟩, interior_subset hz⟩
+    rw [hcorner] at this
+    exact hne this
+  · have hQ : (closure (U : Set M))ᶜ ∩ interior (C.Jplus ⊤ S) ∈ 𝓝 z :=
+      (isClosed_closure.isOpen_compl.inter isOpen_interior).mem_nhds ⟨hzc, hz⟩
+    obtain ⟨z', hz'I, hz'c, hz'J⟩ := hZ z _ hQ
+    have hz'z : C.lt ⊤ z' z := Precausality.mem_Iminus_singleton.1 hz'I
+    have hz'p : C.lt ⊤ z' p := by
+      have h1 : p ∈ C.Jplus ⊤ (C.Iplus ⊤ {z'}) :=
+        ⟨z, Precausality.mem_Iplus_singleton.2 hz'z, hzp⟩
+      exact Precausality.mem_Iplus_singleton.1 ((hpush ⊤ z').1.1 h1)
+    exact hz'c (subset_closure
+      (mem_of_lt_of_mem_closure hconv hSU hpU (interior_subset hz'J) hz'p))
+
+/-- **Past form**: the punctured causal future cone of `p` near `p`, inside the interior of
+`J⁻(S)`, lies in `U` under `J⁺(p) ∩ ∂U ∩ J⁻(S) = {p}` (`Z⁺`, push-up). -/
+theorem mem_of_ge_of_mem_interior_Jminus (hconv : C.CausallyConvexIn (U : Set M) ⊤) (hSU : S ⊆ U)
+    (hpU : p ∈ closure (U : Set M)) (hpush : C.PushUp) (hZ : ∀ z : M, z ∈ C.Zplus)
+    (hcorner : C.Jplus ⊤ {p} ∩ frontier (U : Set M) ∩ C.Jminus ⊤ S = {p}) {z : M}
+    (hz : z ∈ interior (C.Jminus ⊤ S)) (hpz : C.le ⊤ p z) (hne : z ≠ p) : z ∈ U := by
+  by_contra hzU
+  by_cases hzc : z ∈ closure (U : Set M)
+  · have hzf : z ∈ frontier (U : Set M) := ⟨hzc, by rwa [U.isOpen.interior_eq]⟩
+    have : z ∈ C.Jplus ⊤ {p} ∩ frontier (U : Set M) ∩ C.Jminus ⊤ S :=
+      ⟨⟨Precausality.mem_Jplus_singleton.2 hpz, hzf⟩, interior_subset hz⟩
+    rw [hcorner] at this
+    exact hne this
+  · have hQ : (closure (U : Set M))ᶜ ∩ interior (C.Jminus ⊤ S) ∈ 𝓝 z :=
+      (isClosed_closure.isOpen_compl.inter isOpen_interior).mem_nhds ⟨hzc, hz⟩
+    obtain ⟨z', hz'I, hz'c, hz'J⟩ := hZ z _ hQ
+    have hzz' : C.lt ⊤ z z' := Precausality.mem_Iplus_singleton.1 hz'I
+    have hpz' : C.lt ⊤ p z' := by
+      have h1 : p ∈ C.Jminus ⊤ (C.Iminus ⊤ {z'}) :=
+        ⟨z, Precausality.mem_Iminus_singleton.2 hzz', hpz⟩
+      exact Precausality.mem_Iminus_singleton.1 ((hpush ⊤ z').1.2 h1)
+    exact hz'c (subset_closure
+      (mem_of_gt_of_mem_closure hconv hSU hpU (interior_subset hz'J) hpz'))
+
+/-- **The cone lemma with `Z⁻` asked at the point only** (`mem_of_le_of_mem_interior_Jplus`
+asks `∀ z, z ∈ Z⁻`, which fails on a BTZ line; the generic A4 needs it at the points of the
+slice only). -/
+theorem mem_of_le_of_mem_interior_Jplus_of_mem_Zminus (hconv : C.CausallyConvexIn (U : Set M) ⊤)
+    (hSU : S ⊆ U) (hpU : p ∈ closure (U : Set M)) (hpush : C.PushUp)
+    (hcorner : C.Jminus ⊤ {p} ∩ frontier (U : Set M) ∩ C.Jplus ⊤ S = {p}) {z : M}
+    (hZz : z ∈ C.Zminus) (hz : z ∈ interior (C.Jplus ⊤ S)) (hzp : C.le ⊤ z p) (hne : z ≠ p) :
+    z ∈ U := by
+  by_contra hzU
+  by_cases hzc : z ∈ closure (U : Set M)
+  · have hzf : z ∈ frontier (U : Set M) := ⟨hzc, by rwa [U.isOpen.interior_eq]⟩
+    have : z ∈ C.Jminus ⊤ {p} ∩ frontier (U : Set M) ∩ C.Jplus ⊤ S :=
+      ⟨⟨Precausality.mem_Jminus_singleton.2 hzp, hzf⟩, interior_subset hz⟩
+    rw [hcorner] at this
+    exact hne this
+  · have hQ : (closure (U : Set M))ᶜ ∩ interior (C.Jplus ⊤ S) ∈ 𝓝 z :=
+      (isClosed_closure.isOpen_compl.inter isOpen_interior).mem_nhds ⟨hzc, hz⟩
+    obtain ⟨z', hz'I, hz'c, hz'J⟩ := hZz _ hQ
+    have hz'z : C.lt ⊤ z' z := Precausality.mem_Iminus_singleton.1 hz'I
+    have hz'p : C.lt ⊤ z' p := by
+      have h1 : p ∈ C.Jplus ⊤ (C.Iplus ⊤ {z'}) :=
+        ⟨z, Precausality.mem_Iplus_singleton.2 hz'z, hzp⟩
+      exact Precausality.mem_Iplus_singleton.1 ((hpush ⊤ z').1.1 h1)
+    exact hz'c (subset_closure
+      (mem_of_lt_of_mem_closure hconv hSU hpU (interior_subset hz'J) hz'p))
+
+end SliceGeneral
+
+/-! ### A4 from a cone-slice form of B4 (interface round 3) -/
+
+namespace LocalModel
+
+variable (𝔐 : LocalModel.{u})
+
+/-- **Proposed B4, future side, in cone-slice form** (interface message for gx, round 3). At
+every point `y` off the BTZ locus and in every open `O ∋ y`, a set `K ⊆ O` of points of the
+punctured causal past `J⁻_O(y) ∖ {y}`, off the BTZ locus, such that **every open `G ⊇ K` contains
+a Cauchy surface `Γ` of some open `N ∋ y`, `N ⊆ O`** (`Γ ⊆ N`). Flat (`Flat/CBGSlice`,
+`flat_exists_cauchy_nbhd`): `K` the closed slice ball `{t = t(y) − δ, ‖x − x(y)‖ ≤ δ}` (on the past
+cone of `y`), `N` the diamond over a slightly larger slice ball, which an open `G ⊇ K` contains
+by compactness. The current B4 (`slice_future`: a time function `τ` whose level sets are Cauchy
+surfaces of GH opens `N ⊆ W`) does not give it: nothing places a level set inside the punctured
+past cone of `y`, where the corner condition puts `U`. Gives A4 future at every boundary point
+off the BTZ locus (`slice_future_of_cone`). -/
+def ConeSliceFuture : Prop :=
+  ∀ y : 𝔐.Y, y ∉ 𝔐.singY 0 → ∀ O : Opens 𝔐.Y, y ∈ O → ∃ K : Set 𝔐.Y, K ⊆ O ∧
+    (∀ z ∈ K, z ∉ 𝔐.singY 0 ∧ z ≠ y ∧ 𝔐.causalityY.le O z y) ∧
+    ∀ G : Set 𝔐.Y, IsOpen G → K ⊆ G → ∃ (N : Opens 𝔐.Y) (Γ : Set 𝔐.Y), y ∈ N ∧ N ≤ O ∧
+      Γ ⊆ N ∧ Γ ⊆ G ∧ 𝔐.causalityY.IsCauchySurfaceOn N Γ
+
+/-- **Proposed B4, past side, in cone-slice form**: as `ConeSliceFuture` with `K` in the
+punctured causal future `J⁺_O(y) ∖ {y}`, at every point (every point is in `Z⁺`, `mem_Zplus`, so
+no restriction to the regular part). Gives A4 past everywhere (`slice_past_of_cone`). -/
+def ConeSlicePast : Prop :=
+  ∀ y : 𝔐.Y, ∀ O : Opens 𝔐.Y, y ∈ O → ∃ K : Set 𝔐.Y, K ⊆ O ∧
+    (∀ z ∈ K, z ≠ y ∧ 𝔐.causalityY.le O y z) ∧
+    ∀ G : Set 𝔐.Y, IsOpen G → K ⊆ G → ∃ (N : Opens 𝔐.Y) (Γ : Set 𝔐.Y), y ∈ N ∧ N ≤ O ∧
+      Γ ⊆ N ∧ Γ ⊆ G ∧ 𝔐.causalityY.IsCauchySurfaceOn N Γ
+
+variable {𝔐} {M : Type u} [TopologicalSpace M] [ChartedSpace 𝔐.Y M] [HasGroupoid M 𝔐.G]
+
+/-- A preferred chart is an abstract morphism on its source (`Flat/CBGSlice`'s
+`flatChart_isEMorphismOn`, for any local model). -/
+theorem chart_isEMorphismOn (x : M) :
+    IsEMorphismOn (chartedCausality 𝔐.causalityY M) 𝔐.causalityY (chartSource (chartAt 𝔐.Y x))
+      (chartAt 𝔐.Y x) := by
+  set e := chartAt 𝔐.Y x
+  have hiso : ChartIso (chartedCausality 𝔐.causalityY M) 𝔐.causalityY e :=
+    chartedCausality_chartIso 𝔐.chartIso_mem 𝔐.absolutelyMinimalOn_Y x
+  have himg : ∀ V : Opens M, V ≤ chartSource e → ((chartImage e V : Opens _) : Set _) = e '' V :=
+    fun V hV => coe_chartImage_of_le hV
+  have hsub : ∀ (V : Opens M) (U : Opens 𝔐.Y), V ≤ chartSource e → MapsTo e V U →
+      chartImage e V ≤ U := fun V U hV hmaps p hp => by
+    rw [← SetLike.mem_coe, himg V hV] at hp
+    obtain ⟨z, hz, rfl⟩ := hp
+    exact hmaps hz
+  exact
+  { continuousOn := e.continuousOn
+    isOpen_image := fun V hV => by rw [← himg V hV]; exact (chartImage e V).isOpen
+    map_le := fun V U hV hmaps y z hyz =>
+      𝔐.causalityY.le_mono (hsub V U hV hmaps)
+        (((hiso V hV y ((chartedCausality 𝔐.causalityY M).le_mem_left hyz) z
+          ((chartedCausality 𝔐.causalityY M).le_mem_right hyz)).1).1 hyz)
+    map_lt := fun V U hV hmaps y z hyz =>
+      𝔐.causalityY.lt_mono (hsub V U hV hmaps)
+        (((hiso V hV y ((chartedCausality 𝔐.causalityY M).lt_mem_left hyz) z
+          ((chartedCausality 𝔐.causalityY M).lt_mem_right hyz)).2).1 hyz)
+    locally := fun z hz => ⟨chartSource e, le_rfl, hz, e.injOn, fun V' hV' U hU y hy w hw => by
+      have hU' : chartImage e V' = U := SetLike.coe_injective (by rw [himg V' hV', hU])
+      rw [← hU']; exact hiso V' hV' y hy w hw⟩ }
+
+/-- `sing_α` read in any chart of the atlas equals `sing_α` read in the preferred chart at the
+point (B3 `sing_mem` on the transition). -/
+theorem chartAt_mem_singY_iff {x w : M} (hw : w ∈ (chartAt 𝔐.Y x).source) {α : ℝ} (hα : 0 ≤ α) :
+    chartAt 𝔐.Y x w ∈ 𝔐.singY α ↔ chartAt 𝔐.Y w w ∈ 𝔐.singY α := by
+  have he : (chartAt 𝔐.Y x).symm.trans (chartAt 𝔐.Y w) ∈ 𝔐.G :=
+    𝔐.G.compatible (chart_mem_atlas _ x) (chart_mem_atlas _ w)
+  have hmem : chartAt 𝔐.Y x w ∈ ((chartAt 𝔐.Y x).symm.trans (chartAt 𝔐.Y w)).source := by
+    simp only [OpenPartialHomeomorph.trans_source, mem_inter_iff, mem_preimage,
+      OpenPartialHomeomorph.symm_source]
+    exact ⟨(chartAt _ x).map_source hw, by rw [(chartAt _ x).left_inv hw]; exact mem_chart_source _ w⟩
+  have h := 𝔐.sing_mem _ he _ hmem α hα
+  have h2 : ((chartAt 𝔐.Y x).symm.trans (chartAt 𝔐.Y w)) (chartAt 𝔐.Y x w) = chartAt 𝔐.Y w w := by
+    simp [(chartAt 𝔐.Y x).left_inv hw]
+  rwa [h2] at h
+
+
+/-- **The assembly of A4 through a chart** (generic `Flat/CBGSlice` §3 end): an open `N ∋ κ p` of
+`Y` inside `κ(W₀)` with a Cauchy surface `Γ ⊆ N` inside `κ(W₀ ∩ U)` gives, read back in `M`, an
+open `N_M ∋ p` with Cauchy surface `Γ_M ⊆ U` (`IsEMorphismOn.isCauchySurfaceOn_image_iff` along
+`chart_isEMorphismOn`), and `extend_of_cauchy_nbhd` concludes. -/
+theorem slice_assemble [T2Space M] {x p : M} {U O W₀ : Opens M} {S : Set M}
+    (hGH : (chartedCausality 𝔐.causalityY M).GloballyHyperbolic)
+    (harc : (chartedCausality 𝔐.causalityY M).CausallyArcConnected)
+    (hext : (chartedCausality 𝔐.causalityY M).CurvesExtend) (hSU : S ⊆ U)
+    (hS : (chartedCausality 𝔐.causalityY M).IsCauchySurface S)
+    (hSU' : (chartedCausality 𝔐.causalityY M).IsCauchySurfaceOn U S) (hpU : p ∉ U)
+    (hpκ : p ∈ (chartAt 𝔐.Y x).source) (hW₀κ : W₀ ≤ chartSource (chartAt 𝔐.Y x))
+    {N : Opens 𝔐.Y} {Γ : Set 𝔐.Y} (hNO : N ≤ chartImage (chartAt 𝔐.Y x) W₀)
+    (hyN : chartAt 𝔐.Y x p ∈ N) (hΓN : Γ ⊆ N)
+    (hΓG : Γ ⊆ chartAt 𝔐.Y x '' ((W₀ : Set M) ∩ U))
+    (hNΓ : 𝔐.causalityY.IsCauchySurfaceOn N Γ) (hW₀O : (W₀ : Set M) ⊆ O) :
+    ∃ U' : Opens M, U < U' ∧ (U' : Set M) ⊆ U ∪ O ∧
+      (chartedCausality 𝔐.causalityY M).GloballyHyperbolicOn U' ∧
+      (chartedCausality 𝔐.causalityY M).IsCauchySurfaceOn U' S := by
+  set κ := chartAt 𝔐.Y x with hκ
+  set C := chartedCausality 𝔐.causalityY M
+  let NM : Opens M := ⟨κ.source ∩ κ ⁻¹' N, κ.isOpen_inter_preimage N.isOpen⟩
+  set ΓM : Set M := κ.source ∩ κ ⁻¹' Γ with hΓMdef
+  have hNM : (N : Set 𝔐.Y) = κ '' NM := by
+    ext y
+    constructor
+    · intro hy
+      obtain ⟨w, hws, -, rfl, -⟩ := exists_of_mem_chartImage (hNO hy)
+      exact ⟨w, ⟨hws, hy⟩, rfl⟩
+    · rintro ⟨w, hw, rfl⟩
+      exact hw.2
+  have hΓM : κ '' ΓM = Γ := by
+    ext y
+    constructor
+    · rintro ⟨w, hw, rfl⟩
+      exact hw.2
+    · intro hy
+      obtain ⟨w, hws, -, rfl, -⟩ := exists_of_mem_chartImage (hNO (hΓN hy))
+      exact ⟨w, ⟨hws, hy⟩, rfl⟩
+  have hΓMN : ΓM ⊆ NM := fun w hw => ⟨hw.1, hΓN hw.2⟩
+  have hNMcy : C.IsCauchySurfaceOn NM ΓM := by
+    refine ((chart_isEMorphismOn x).isCauchySurfaceOn_image_iff κ.injOn
+      (show NM ≤ chartSource κ from fun _ hw => hw.1) hNM hΓMN).2 ?_
+    rw [hΓM]
+    exact hNΓ
+  have hΓMU : ΓM ⊆ U := by
+    intro w hw
+    obtain ⟨w', hw', hw'e⟩ := hΓG hw.2
+    rw [← κ.injOn (hW₀κ hw'.1) hw.1 hw'e]
+    exact hw'.2
+  have hpNM : p ∈ NM := ⟨hpκ, hyN⟩
+  have hNMO : (NM : Set M) ⊆ O := by
+    intro w hw
+    obtain ⟨w', hw's, hw'W, hw'e, -⟩ := exists_of_mem_chartImage (hNO hw.2)
+    rw [← κ.injOn hw's hw.1 hw'e]
+    exact hW₀O hw'W
+  exact extend_of_cauchy_nbhd hGH harc hext hSU hS hSU' hNMcy hΓMU hpNM hpU hNMO
+
+variable [T2Space M] [ConnectedSpace M] [SecondCountableTopology M]
+
+/-- **A4 future from the cone-slice B4, off the BTZ locus** (Sbierski Thm 3.6, geometric half; the
+construction of `Flat/CBGSlice`, generic): the corner condition puts the punctured past cone of `p`
+near `p` into `U` (`mem_of_le_of_mem_interior_Jplus_of_mem_Zminus`), so the cone-slice `K` read in
+the chart at `p` lies in the chart image of `U`, an open set, which therefore contains a Cauchy
+surface `Γ` of an open `N ∋ p`; then `extend_of_cauchy_nbhd`. Uses neither R1 for `U` nor the
+global hyperbolicity of `U`. -/
+theorem slice_future_of_cone (hB : 𝔐.ConeSliceFuture) (U : Opens M) (S : Set M)
+    (hGH : (chartedCausality 𝔐.causalityY M).GloballyHyperbolic) (hSU : S ⊆ U)
+    (hS : (chartedCausality 𝔐.causalityY M).IsCauchySurface S)
+    (hSU' : (chartedCausality 𝔐.causalityY M).IsCauchySurfaceOn U S)
+    (p : M) (hp : p ∈ frontier (U : Set M))
+    (hpS : p ∈ (chartedCausality 𝔐.causalityY M).Jplus ⊤ S)
+    (hcorner : (chartedCausality 𝔐.causalityY M).Jminus ⊤ {p} ∩ frontier (U : Set M) ∩
+      (chartedCausality 𝔐.causalityY M).Jplus ⊤ S = {p})
+    (O : Opens M) (hpO : p ∈ O) (hp0 : chartAt 𝔐.Y p p ∉ 𝔐.singY 0) :
+    ∃ U' : Opens M, U < U' ∧ (U' : Set M) ⊆ U ∪ O ∧
+      (chartedCausality 𝔐.causalityY M).GloballyHyperbolicOn U' ∧
+      (chartedCausality 𝔐.causalityY M).IsCauchySurfaceOn U' S := by
+  set C := chartedCausality 𝔐.causalityY M
+  have hAx : C.SingularFlatAxiomsCorr (chartedSing 𝔐.singY M) := 𝔐.singularFlatAxioms
+  have harc := hAx.causallyArcConnected
+  have hext : C.CurvesExtend := 𝔐.curvesExtend hGH
+  have hconv : C.CausallyConvexIn (U : Set M) ⊤ :=
+    Causality.causallyConvexIn_of_isCauchySurfaceOn hGH.1 harc hext le_top hSU hSU' hS
+  have hpU : p ∉ U := fun h => hp.2 (by rwa [U.isOpen.interior_eq])
+  have hpcl : p ∈ closure (U : Set M) := hp.1
+  have hJ : C.Jplus ⊤ S ∈ 𝓝 p :=
+    Causality.Jplus_mem_nhds_of_isCauchySurface hGH.1 harc hext hS
+      (fun x => (hAx.K_densite_sing x).2) (𝔐.isCompact_Jminus_inter_Jplus hGH S hS)
+      ⟨hpS, fun h => hpU (hSU h)⟩
+  set κ := chartAt 𝔐.Y p with hκ
+  have hpκ : p ∈ κ.source := mem_chart_source _ p
+  let W₀ : Opens M := ⟨interior (C.Jplus ⊤ S) ∩ O ∩ κ.source,
+    (isOpen_interior.inter O.isOpen).inter κ.open_source⟩
+  have hpW₀ : p ∈ W₀ := ⟨⟨mem_interior_iff_mem_nhds.2 hJ, hpO⟩, hpκ⟩
+  have hW₀κ : W₀ ≤ chartSource κ := fun z hz => hz.2
+  have hiso := chartedCausality_chartIso (M := M) 𝔐.chartIso_mem 𝔐.absolutelyMinimalOn_Y p
+  obtain ⟨K, hKO, hKrel, hGam⟩ := hB (κ p) hp0 (chartImage κ W₀) (mem_chartImage_of_mem hpκ hpW₀)
+  have hKU : K ⊆ κ '' ((W₀ : Set M) ∩ U) := by
+    intro z hz
+    obtain ⟨hz0, hzne, hzle⟩ := hKrel z hz
+    obtain ⟨w, hws, hwW, rfl, -⟩ := exists_of_mem_chartImage (hKO hz)
+    refine ⟨w, ⟨hwW, ?_⟩, rfl⟩
+    have hwp : C.le W₀ w p := ((hiso W₀ hW₀κ w hwW p hpW₀).1).2 hzle
+    have hwZ : w ∈ C.Zminus :=
+      (hAx.mem_Zminus_iff w).2 fun h => hz0 ((chartAt_mem_singY_iff hws le_rfl).2 h)
+    exact mem_of_le_of_mem_interior_Jplus_of_mem_Zminus hconv hSU hpcl hAx.pushUp
+      hcorner hwZ hwW.1.1 (C.le_mono le_top hwp) fun h => hzne (by rw [h])
+  have hGo : IsOpen (κ '' ((W₀ : Set M) ∩ U)) :=
+    κ.isOpen_image_of_subset_source (W₀.isOpen.inter U.isOpen) fun z hz => hz.1.2
+  obtain ⟨N, Γ, hyN, hNO, hΓN, hΓG, hNΓ⟩ := hGam _ hGo hKU
+  exact slice_assemble hGH harc hext hSU hS hSU' hpU hpκ hW₀κ hNO hyN hΓN hΓG hNΓ
+    fun w hw => hw.1.2
+
+/-- **A4 past from the cone-slice B4, at every boundary point** (no time reversal of the model;
+the slice is taken above `p`, inside the punctured future cone, which the corner condition puts
+into `U` near `p`: `mem_of_ge_of_mem_interior_Jminus`, every point being in `Z⁺`). -/
+theorem slice_past_of_cone (hB : 𝔐.ConeSlicePast) (U : Opens M) (S : Set M)
+    (hGH : (chartedCausality 𝔐.causalityY M).GloballyHyperbolic) (hSU : S ⊆ U)
+    (hS : (chartedCausality 𝔐.causalityY M).IsCauchySurface S)
+    (hSU' : (chartedCausality 𝔐.causalityY M).IsCauchySurfaceOn U S)
+    (p : M) (hp : p ∈ frontier (U : Set M))
+    (hpS : p ∈ (chartedCausality 𝔐.causalityY M).Jminus ⊤ S)
+    (hcorner : (chartedCausality 𝔐.causalityY M).Jplus ⊤ {p} ∩ frontier (U : Set M) ∩
+      (chartedCausality 𝔐.causalityY M).Jminus ⊤ S = {p})
+    (O : Opens M) (hpO : p ∈ O) :
+    ∃ U' : Opens M, U < U' ∧ (U' : Set M) ⊆ U ∪ O ∧
+      (chartedCausality 𝔐.causalityY M).GloballyHyperbolicOn U' ∧
+      (chartedCausality 𝔐.causalityY M).IsCauchySurfaceOn U' S := by
+  set C := chartedCausality 𝔐.causalityY M
+  have hAx : C.SingularFlatAxiomsCorr (chartedSing 𝔐.singY M) := 𝔐.singularFlatAxioms
+  have harc := hAx.causallyArcConnected
+  have hext : C.CurvesExtend := 𝔐.curvesExtend hGH
+  have hconv : C.CausallyConvexIn (U : Set M) ⊤ :=
+    Causality.causallyConvexIn_of_isCauchySurfaceOn hGH.1 harc hext le_top hSU hSU' hS
+  have hpU : p ∉ U := fun h => hp.2 (by rwa [U.isOpen.interior_eq])
+  have hpcl : p ∈ closure (U : Set M) := hp.1
+  have hJ : C.Jminus ⊤ S ∈ 𝓝 p :=
+    Causality.Jminus_mem_nhds_of_isCauchySurface hGH.1 harc hext hS
+      (fun x => (hAx.K_densite_sing x).1) (𝔐.isCompact_Jplus_inter_Jminus hGH S hS)
+      ⟨hpS, fun h => hpU (hSU h)⟩
+  set κ := chartAt 𝔐.Y p with hκ
+  have hpκ : p ∈ κ.source := mem_chart_source _ p
+  let W₀ : Opens M := ⟨interior (C.Jminus ⊤ S) ∩ O ∩ κ.source,
+    (isOpen_interior.inter O.isOpen).inter κ.open_source⟩
+  have hpW₀ : p ∈ W₀ := ⟨⟨mem_interior_iff_mem_nhds.2 hJ, hpO⟩, hpκ⟩
+  have hW₀κ : W₀ ≤ chartSource κ := fun z hz => hz.2
+  have hiso := chartedCausality_chartIso (M := M) 𝔐.chartIso_mem 𝔐.absolutelyMinimalOn_Y p
+  obtain ⟨K, hKO, hKrel, hGam⟩ := hB (κ p) (chartImage κ W₀) (mem_chartImage_of_mem hpκ hpW₀)
+  have hKU : K ⊆ κ '' ((W₀ : Set M) ∩ U) := by
+    intro z hz
+    obtain ⟨hzne, hzle⟩ := hKrel z hz
+    obtain ⟨w, hws, hwW, rfl, -⟩ := exists_of_mem_chartImage (hKO hz)
+    refine ⟨w, ⟨hwW, ?_⟩, rfl⟩
+    have hpw : C.le W₀ p w := ((hiso W₀ hW₀κ p hpW₀ w hwW).1).2 hzle
+    exact mem_of_ge_of_mem_interior_Jminus hconv hSU hpcl hAx.pushUp hAx.mem_Zplus hcorner
+      hwW.1.1 (C.le_mono le_top hpw) fun h => hzne (by rw [h])
+  have hGo : IsOpen (κ '' ((W₀ : Set M) ∩ U)) :=
+    κ.isOpen_image_of_subset_source (W₀.isOpen.inter U.isOpen) fun z hz => hz.1.2
+  obtain ⟨N, Γ, hyN, hNO, hΓN, hΓG, hNΓ⟩ := hGam _ hGo hKU
+  exact slice_assemble hGH harc hext hSU hS hSU' hpU hpκ hW₀κ hNO hyN hΓN hΓG hNΓ
+    fun w hw => hw.1.2
+
+end LocalModel
+
 /-! ### A3 and A4 for a local model: stated, not derived -/
 
 namespace LocalModel
 
 variable (𝔐 : LocalModel.{u})
 
-/-- **A3 future from Level B** (Sbierski Lemma 3.8; `cor:ext_continue`). Not derived here: see
-the obstruction. The B2 step is proved (`exists_eqOn_of_connected_reg`/`_sing`,
-`exists_extension_of_eqOn`); the causal part and the second countability are not. -/
+/-- **A3 future from Level B** (Sbierski Lemma 3.8; `cor:ext_continue`). **Reduced (interface
+round 3, 2026-11-02) to two residuals**: at a boundary point `p` with `p` and its corresponding `q`
+both **regular** the statement is `germ_future_reg` (proved, generic `Y`), modulo the Hausdorffness
+of the model `Y`, which Level B does not carry (first `SORRY`); the singular cases are the second
+`SORRY`. Second countability of `M`, `N` (obstruction (0) before round 3) is now in the field. -/
 theorem germExtFuture : 𝔐.GermExtFuture := by
-  sorry -- SORRY(cor:ext_continue): (0) the field has no `[SecondCountableTopology M]`/`[… N]`, while every B3 fact the proof needs (`singularFlatAxioms`, `curvesExtend`, `timeFunction`, `isCompact_*`) is stated for second-countable carriers only and `secondCountable_of_cauchy` needs a second-countable Cauchy surface, which is not given — so A3 as stated is not derivable from Level B by Sbierski's route at all (interface: add SC of M and N to A3, consumers `CGHDData.ext_continue`/`NoCorresponding.exists_extension` have SC of M in scope); (i) Sbierski Prop 3.7: the A3-free core exists (`CGHDData.corresponding_K`, A2 only, `lem:Sigma_separe` derived) but is stated over a `𝔊 : Geometry`, whose A3/A4 fields are what this proves, so it must be re-instantiated on `chartedCausality` (or `Geometry` split into an A1/A2 core); (ii) Lemma 3.8 itself: r ∈ U ∩ I⁻(p) with the diamond J⁺(ψ r) ∩ J⁻(q) inside the chart at q (strong causality of N), the connectedness of U ∩ I⁺_W(r′) (causal convexity, push-up, `causallyArcConnected`), agreement with the extension on O ∩ U by A1; (iii) at a BTZ p, a singular point of p's line below p in U (`lem:passe_pgcd`, `these.tex:6541`), so that `exists_eqOn_of_connected_sing` applies
+  intro M N _ _ _ _ _ _ _ _ s t U ψ S h hinj hGM hGN hGU hGV hSU hS hSU' hψS hψSV p q hp hpS hcl
+  obtain ⟨cs, hgs⟩ := s
+  obtain ⟨ct, hgt⟩ := t
+  by_cases hreg : chartAt 𝔐.Y p p ∈ 𝔐.regY ∧ chartAt 𝔐.Y q q ∈ 𝔐.regY
+  · haveI : T2Space 𝔐.Y :=
+      sorry -- SORRY(cor:ext_continue): Level B has no `[T2Space Y]` field. It is used once, in `germ_ext_reg`: the element `e ∈ G` that B2 gives on the connected piece `A` and the chart `κ'` at `q` both carry `ψ`'s germ to a limit at `κ p`, so `e (κ p) = κ' q` is uniqueness of limits in `Y` (`tendsto_nhds_unique`); without it `e (κ p)` need not lie in `κ'.target` and `κ'⁻¹ ∘ e ∘ κ` is not defined at `p`. Field to add (gx): `[t2Y : T2Space Y]` (Minkowski space and gx's `𝕄 ⊕ Σ_α 𝔼_α` are metric)
+    exact germ_future_reg U ψ S h hinj hGM hGN hGU hGV hSU hS hSU' hψS hψSV p q hp hpS hcl
+      hreg.1 hreg.2
+  · sorry -- SORRY(cor:ext_continue): the singular cases (`p` or `q` in some `sing α`), not reached by `germ_future_reg`. (a) Type agreement: `cor:model_corresponding` (`p ∈ sing α ⟺ q ∈ sing α`) is proved downstream from A3 (`CGHDData.mem_sing_iff`), so here it must come from Level B, which has no field excluding an injective morphism from a regular piece adherent to a singular point into a fully regular component, nor one putting the charts at `p` and at `q` into the SAME component of `Y` when they have the same type (the `MapsTo … connectedComponent y₀` hypotheses of `localUnique_sing`/`_adherent`; in gx's `𝕄 ⊕ Σ_α 𝔼_α` each type is one component). (b) Massive `p` (`α > 0`): the piece `A ⊆ U ∩ I⁻(p)` of `germ_exists_piece` contains points of `p`'s timelike line; B2 `localUnique_sing` on `reg(B)`, `B ⊆ A` a connected open set through one, then the rigidity step of `germ_ext_reg` needs `B ∩ κ⁻¹ reg(Y)` to contain a non-empty OPEN set (`reg(Y)` open, or the loci `sing α` locally finite): not a Level B field (`isClosed_sing`, `interior_sing` are per `α`). (c) BTZ `p` (`α = 0`): `I⁻(p) = ∅`, so `p ∉ Z⁻` and the piece is empty; the route is thesis `lem:passe_pgcd` (`these.tex:6541`): a point of `p`'s line below `p` lies in `U`, then (b)
 
-/-- **A3 past from Level B** (Sbierski Lemma 3.8, the `K⁺` side). Not derived here. At a BTZ
-boundary point the piece is the chart image of `U ∩ I⁻_W(r) ⊇ I⁺_W(p) ∩ I⁻_W(r)`
-(`Causality.CausallyConvexIn.Iplus_inter_Iminus_subset`, `chartedCausality_image_Iplus_inter_Iminus`),
-and the round-2 clause is met by it only vacuously (see the `SORRY`). -/
+/-- **A3 past from Level B** (Sbierski Lemma 3.8, the `K⁺` side). **Reduced (interface round 3)**:
+regular `p`, `q` is `germ_past_reg` (proved, generic `Y`), modulo `T2Space Y` (first `SORRY`); the
+singular cases are the second. At a BTZ boundary point the dual piece of `germ_exists_piece`
+(`A ⊆ U ∩ I⁺(p)`, `I⁺(p) ∩ I⁻(a) ⊆ A`, `a ∈ U`) is the shape the round-3 diamond clause asks, and
+the clause holds for it in the preferred chart (`diamond_clause_of_piece`, proved). -/
 theorem germExtPast : 𝔐.GermExtPast := by
-  sorry -- SORRY(cor:ext_continue): (0)–(ii) as `germExtFuture` (no SC of M, N in the field; Prop 3.7 core over a `Geometry`; Lemma 3.8's causal part, with r ∈ U ∩ I⁺(p) ∩ J⁻(S)). (iii) At a BTZ p the connected piece is A = U ∩ I⁻_W(r), r ∈ U regular above p; proved: A ⊇ I⁺_W(p) ∩ I⁻_W(r), read in the chart as I⁺_O(y₀) ∩ I⁻_O(κ r), O = κ(W), y₀ = κ p; in gx's example (`A3-B-INVESTIGATION.md`, U = I⁺(0) ∪ {τ + r > 1/2}) A is exactly that diamond near p. `localUnique_sing_adherent`'s clause ∃ O ∋ y₀, ∃ r′ ∈ O, y₀ ≤_O r′ ∧ reg ∩ I⁻_O(r′) ⊆ κ(A) is met by this piece ONLY vacuously (r′ := y₀ or r′ on the line, I⁻_O(r′) = ∅, `BTZAxiomsCorr.exists_le_inter_Iminus_subset`); with r′ regular (the intended repair) it fails on gx's example whenever y₀ ≪_O r′ (by hand: I⁻_O(r′) is then an open neighbourhood of y₀, while J⁺(p) is closed (GH) and not a neighbourhood of p (kb/0017, J⁻(p) ⊋ {p}), so with reg dense I⁻_O(r′) holds regular points near p outside J⁺(p) ⊇ the diamond); for regular r′ ∈ J⁺(p) ∖ I⁺(p) (the radial null ray) not settled. Not closed via the vacuity. The clause this piece meets is the diamond form ∃ O ∋ y₀, ∃ r′ ∈ O, y₀ ≪_O r′ ∧ reg ∩ I⁺_O(y₀) ∩ I⁻_O(r′) ⊆ U (gx to adopt or adapt); `exists_eqOn_of_connected_sing_adherent` then transfers verbatim
+  intro M N _ _ _ _ _ _ _ _ s t U ψ S h hinj hGM hGN hGU hGV hSU hS hSU' hψS hψSV p q hp hpS hcl
+  obtain ⟨cs, hgs⟩ := s
+  obtain ⟨ct, hgt⟩ := t
+  by_cases hreg : chartAt 𝔐.Y p p ∈ 𝔐.regY ∧ chartAt 𝔐.Y q q ∈ 𝔐.regY
+  · haveI : T2Space 𝔐.Y :=
+      sorry -- SORRY(cor:ext_continue): Level B has no `[T2Space Y]` field (as `germExtFuture`: uniqueness of the limit `e (κ p) = κ' q` in `Y`, `germ_ext_reg`). Field to add (gx): `[t2Y : T2Space Y]`
+    exact germ_past_reg U ψ S h hinj hGM hGN hGU hGV hSU hS hSU' hψS hψSV p q hp hpS hcl
+      hreg.1 hreg.2
+  · sorry -- SORRY(cor:ext_continue): the singular cases, past side. (a), (b) as `germExtFuture` (type agreement and same component from Level B; an open set of agreement inside `reg`). (c′) BTZ `p`: here `p ∈ Z⁺` (`mem_Zplus`), so `germ_exists_piece` for `C.dual` gives a connected open `A ⊆ U ∩ I⁺(p) ∩ κ.source ∩ ψ⁻¹ κ'.source` with `I⁺(p) ∩ I⁻(a) ⊆ A`, `a ∈ U ∩ I⁺(p)`, and `ψ → q` along `A`; in the preferred chart at `p` this meets the round-3 diamond clause `∃ O ∋ y₀, ∃ r ∈ O, r ∈ reg ∧ y₀ ≪_O r ∧ reg ∩ I⁺_O(y₀) ∩ I⁻_O(r) ⊆ κ(A)` (`diamond_clause_of_piece`, PROVED, with `r = κ a`). `localUnique_sing_adherent` (via `exists_eqOn_of_connected_sing_adherent`) then applies, and the extension/rigidity half of `germ_ext_reg` transfers, given: `T2Space Y`; `a` chosen regular (density of `reg` in `I⁺(p)`, a model fact); `A ⊆ reg` (the field asks a regular piece: `I⁺(p)` regular near a BTZ point, true in `E₀`, a model fact); and (a) for `q` (BTZ, chart at `q` in the component of `κ p`, `κ' q ∈ sing 0` the cluster point `z₀`)
 
-/-- **A4 future from Level B** (Sbierski Thm 3.6, the slice `τ_q`, Lemma 3.11). Not derived
-here. -/
+/-- **A4 future from Level B** (Sbierski Thm 3.6, geometric half). **Reduced (interface round 3,
+2026-11-02)**: off the BTZ locus it is `slice_future_of_cone` (proved, generic `Y`), from the
+cone-slice form `ConeSliceFuture` of B4, which Level B does not carry (first `SORRY`); at a BTZ
+boundary point no cone slice exists (second `SORRY`). Second countability of `M` (obstruction (0)
+before round 3) is now in the field. -/
 theorem sliceFuture : 𝔐.SliceFuture := by
-  sorry -- SORRY(theo:CBG): (0) as A3, the field has no `[SecondCountableTopology M]` and every B3 fact used (`isCompact_Jplus_inter_Jminus`, `curvesExtend`) asks it. A4 future is the geometric half of Sbierski Thm 3.6 — Lemma 3.11 (a q ∈ I⁺(p) with J⁻(q) ∩ Uᶜ ∩ J⁺(Σ) inside the B4 neighbourhood W, from `isCompact_Jplus_inter_Jminus`), the maximum c of the B4 function τ on that compact set (attained only on ∂U), the GH open N of B4 with τ⁻¹(c) ∩ W Cauchy, and global hyperbolicity of U ∪ N with Σ Cauchy; B4 is transported to M by the chart at p (`chartedCausality_chartIso`). No library proof exists (package 6 consumes A4, `NoCorresponding.exists_extension`), and whether B4 suffices is open: B4's GH open N is any one with τ⁻¹(c) ∩ W Cauchy in N, nothing ties N to the side of τ⁻¹(c) that U ∪ N must add
+  intro M _ _ _ _ s U S hGH _hGHU hSU hS hSU' p hp hpS hc O hpO
+  obtain ⟨cs, hgs⟩ := s
+  have hB : 𝔐.ConeSliceFuture :=
+    sorry -- SORRY(theo:CBG): Level B's B4 (`slice_future`: a time function `τ` on small `W` whose level sets are Cauchy surfaces of GH opens `N ⊆ W`) does not place any Cauchy surface inside the punctured past cone of the point, where the corner condition `J⁻(p) ∩ ∂U ∩ J⁺(Σ) = {p}` puts `U`; nothing ties `N` to the side of `τ⁻¹(c)` that `U ∪ N` must add (the earlier `SORRY`'s caution, which `Flat/CBGSlice` resolved for Minkowski by a slice inside `U`). Field to add or substitute (gx), proved sufficient here (`slice_future_of_cone`): `ConeSliceFuture` — at every `y ∉ sing₀`, in every open `O ∋ y`, a set `K ⊆ O ∖ sing₀` of points `z ≠ y` with `z ≤_O y` such that every open `G ⊇ K` contains a Cauchy surface `Γ ⊆ N` of an open `N ∋ y`, `N ⊆ O` (flat: `K` the closed slice ball on the past cone, `flat_exists_cauchy_nbhd`)
+  by_cases hp0 : chartAt 𝔐.Y p p ∈ 𝔐.singY 0
+  · sorry -- SORRY(theo:CBG): A4 future at a BTZ boundary point `p`. Near `p` the punctured causal past `J⁻(p) ∖ {p}` is a segment of `p`'s line (`past_local`), so no cone slice exists (`ConeSliceFuture` excludes `y ∈ sing₀`), and the cone lemma's `Z⁻` step fails on the line (`I⁻ = ∅` there). Needs another construction: Sbierski's `τ_q`, `q ∈ I⁺(p)`, with Lemma 3.11 (the maximum of `τ_q` on the compact `J⁻(q) ∩ Uᶜ ∩ J⁺(Σ)`, `isCompact_Jplus_inter_Jminus`), or an `E₀`-specific slice (gx), together with what the corner condition gives on the line below `p` (`in U` or outside `closure U`)
+  · exact slice_future_of_cone hB U S hGH hSU hS hSU' p hp hpS hc O hpO hp0
 
-/-- **A4 past from Level B** (no time reversal). Not derived here. -/
+/-- **A4 past from Level B** (no time reversal, gx D-12(e)). **Reduced (interface round 3)**: it
+is `slice_past_of_cone` (proved, generic `Y`, at every boundary point, BTZ included: every point
+is in `Z⁺`), from the cone-slice form `ConeSlicePast` of B4, which Level B does not carry (the
+`SORRY`). -/
 theorem slicePast : 𝔐.SlicePast := by
-  sorry -- SORRY(theo:CBG): A4 past, as A4 future (no SC of M in the field) with B4 `slice_past`, `isCompact_Jminus_inter_Jplus` and the time-reversed Lemma 3.11 (no duality, gx D-12(e))
+  intro M _ _ _ _ s U S hGH _hGHU hSU hS hSU' p hp hpS hc O hpO
+  obtain ⟨cs, hgs⟩ := s
+  have hB : 𝔐.ConeSlicePast :=
+    sorry -- SORRY(theo:CBG): Level B's B4 `slice_past` gives no Cauchy surface inside the punctured causal future cone of the point (as `sliceFuture`). Field to add or substitute (gx), proved sufficient here (`slice_past_of_cone`): `ConeSlicePast` — at every `y`, in every open `O ∋ y`, a set `K ⊆ O` of points `z ≠ y` with `y ≤_O z` such that every open `G ⊇ K` contains a Cauchy surface `Γ ⊆ N` of an open `N ∋ y`, `N ⊆ O`; at a BTZ `y` of `E₀` the future cone is large (`Iplus_of_lt`), so this is the side gx's slices must supply there
+  exact slice_past_of_cone hB U S hGH hSU hS hSU' p hp hpS hc O hpO
 
 end LocalModel
 
@@ -1422,7 +2434,8 @@ theorem BTZAxiomsCorr.inter_Iminus_opens_subset (h : C.BTZAxiomsCorr S₀) {r : 
 /-- **The round-2 past-side clause, as transcribed, holds for every `U`** (design §6 "Interface
 round 2" (2): `∃ r ∈ O, y₀ ≤_O r ∧ reg ∩ I⁻_O(r) ⊆ U`): take `r := y₀`. So a field
 `localUnique_sing_adherent` guarded by it is the point-contact form, which the cone
-counterexample (REPORT, interface needs (1)) refutes in `E₀`. -/
+counterexample (REPORT, interface needs (1)) refutes in `E₀`. Kept as the record of the
+finding that led to interface round 3's diamond clause (with `r ∈ reg`, which excludes `r := y₀`). -/
 theorem BTZAxiomsCorr.exists_le_inter_Iminus_subset (h : C.BTZAxiomsCorr S₀) {y₀ : M}
     (hy₀ : y₀ ∈ S₀) {O : Opens M} (hO : y₀ ∈ O) (R U : Set M) :
     ∃ r ∈ O, C.le O y₀ r ∧ R ∩ C.Iminus O {r} ⊆ U :=
@@ -1448,5 +2461,48 @@ theorem CausallyConvexIn.Iplus_inter_Iminus_subset {U : Set M} {B : Opens M}
     ⟨⟨r, mem_singleton r, C.le_of_lt (C.lt_mono hWB hxr)⟩, ⟨u, mem_singleton u, C.le_of_lt hux⟩⟩
 
 end Causality
+
+
+namespace CBG
+
+/-! ### Interface round 3: the past-side piece meets the diamond clause -/
+
+section DiamondClause
+
+variable {Y : Type u} [TopologicalSpace Y] {G : StructureGroupoid Y} {D : Causality Y}
+  {M : Type u} [TopologicalSpace M] [ChartedSpace Y M] [HasGroupoid M G]
+
+/-- **The round-3 diamond clause holds for A3-past's piece** (design §6, interface round 3, check
+asked by gx). Let `U` be causally convex in the open `B`, `p ∈ closure U`, `r ∈ U`, `p ≪_W r` in an
+open `W ≤ B` inside the source of the preferred chart `κ = chartAt Y x`, and `κ r ∈ R` (for the
+field, `R = reg(Y)`). Then, with `O = κ(W)`, `y₀ = κ p`, `r' = κ r`:
+`∃ O ∋ y₀, ∃ r' ∈ O, r' ∈ R ∧ y₀ ≪_O r' ∧ R ∩ I⁺_O(y₀) ∩ I⁻_O(r') ⊆ κ(U ∩ I⁻_W(r) ∩ κ⁻¹ R)` —
+the largeness clause of `LocalModel.localUnique_sing_adherent` for the regular part of the piece
+`U ∩ I⁻_W(r)`. From `Causality.CausallyConvexIn.Iplus_inter_Iminus_subset` and the chart reading
+`chartedCausality_image_Iplus_inter_Iminus`. Unlike round 2's clause, this one is not vacuous: the
+regular tip `r'` excludes `r' := y₀`. -/
+theorem diamond_clause_of_piece (hGD : ∀ e ∈ G, ChartIso D D e)
+    (hA : ∀ W : Opens Y, D.AbsolutelyMinimalOn W) (x : M) {W : Opens M}
+    (hW : W ≤ chartSource (chartAt Y x)) {U : Set M} {B : Opens M}
+    (hU : (chartedCausality D M).CausallyConvexIn U B) (hWB : W ≤ B) {p r : M}
+    (hp : p ∈ closure U) (hpW : p ∈ W) (hrU : r ∈ U) (hrW : r ∈ W)
+    (hpr : (chartedCausality D M).lt W p r) (R : Set Y) (hrR : chartAt Y x r ∈ R) :
+    ∃ O : Opens Y, chartAt Y x p ∈ O ∧ ∃ r' ∈ O, r' ∈ R ∧ D.lt O (chartAt Y x p) r' ∧
+      R ∩ D.Iplus O {chartAt Y x p} ∩ D.Iminus O {r'} ⊆
+        chartAt Y x '' (U ∩ (chartedCausality D M).Iminus W {r} ∩ chartAt Y x ⁻¹' R) := by
+  have hc := chartedCausality_chartIso (M := M) hGD hA x
+  refine ⟨chartImage (chartAt Y x) W, mem_chartImage_of_mem (hW hpW) hpW, chartAt Y x r,
+    mem_chartImage_of_mem (hW hrW) hrW, hrR, ((hc W hW p hpW r hrW).2).1 hpr, ?_⟩
+  rintro y ⟨⟨hyR, hy1⟩, hy2⟩
+  have hy : y ∈ chartAt Y x '' ((chartedCausality D M).Iplus W {p} ∩
+      (chartedCausality D M).Iminus W {r}) := by
+    rw [chartedCausality_image_Iplus_inter_Iminus hGD hA x hW hpW hrW]; exact ⟨hy1, hy2⟩
+  obtain ⟨z, hz, rfl⟩ := hy
+  exact ⟨z, ⟨⟨Causality.CausallyConvexIn.Iplus_inter_Iminus_subset hU hp hrU hWB hz, hz.2⟩, hyR⟩,
+    rfl⟩
+
+end DiamondClause
+
+end CBG
 
 end Causal

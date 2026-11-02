@@ -758,7 +758,7 @@ field type `SliceFuture` read on `flatModelOf d hJ₁ hJ₂`, from `Flat/CBGSlic
 `flat_slice_future` through the bridge `chartedCausality_eq_flatCausality`. Uses neither R1 nor
 global hyperbolicity of `U`. Replaces the tagged `LocalModel.sliceFuture` for the flat instance. -/
 theorem flatModelOf_sliceFuture : (flatModelOf d hJ₁ hJ₂).SliceFuture := by
-  intro M _ _ _ s U S hGH hGHU hSU hS hSU' p hp hpS hc O hpO
+  intro M _ _ _ _ s U S hGH hGHU hSU hS hSU' p hp hpS hc O hpO
   letI : ChartedSpace (Minkowski d) M := s.1
   haveI : HasGroupoid M (gxGroupoid (isom d) (Minkowski d)) := s.2
   have h : LocalModel.causality s = flatCausality d M := chartedCausality_eq_flatCausality
@@ -768,7 +768,7 @@ theorem flatModelOf_sliceFuture : (flatModelOf d hJ₁ hJ₂).SliceFuture := by
 /-- **A4, past side, for the flat model**: `flat_slice_past` (`Flat/CBGSlice`). Replaces the tagged
 `LocalModel.slicePast` for the flat instance. -/
 theorem flatModelOf_slicePast : (flatModelOf d hJ₁ hJ₂).SlicePast := by
-  intro M _ _ _ s U S hGH hGHU hSU hS hSU' p hp hpS hc O hpO
+  intro M _ _ _ _ s U S hGH hGHU hSU hS hSU' p hp hpS hc O hpO
   letI : ChartedSpace (Minkowski d) M := s.1
   haveI : HasGroupoid M (gxGroupoid (isom d) (Minkowski d)) := s.2
   have h : LocalModel.causality s = flatCausality d M := chartedCausality_eq_flatCausality

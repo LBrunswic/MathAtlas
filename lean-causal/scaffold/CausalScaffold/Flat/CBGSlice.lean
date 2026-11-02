@@ -1,4 +1,5 @@
 import CausalScaffold.CBG.CausalConvex
+import CausalScaffold.CBG.FromModel
 import CausalScaffold.Flat.Geroch.Reach
 import CausalScaffold.Flat.CauchyComplete
 import CausalScaffold.Flat.SecondCountable
@@ -54,10 +55,12 @@ The library's Minkowski space `Minkowski d` has `d` spatial dimensions (Barbot's
   automatically, because every curve of `N` crosses `Γ` and `Γ ⊆ U`. The piece of `N` below `Γ` is
   harmless (curves there meet `Γ` too). The 1+1 example of `Flat/CBG`'s SCOPE (`U = {t < −|x|/2}`,
   `p = 0`) is handled: the slice `t = −δ` is in `U` for `|x| < 2δ`, so any `ρ ∈ (δ, 2δ)` works.
-* General (any causality): `isCauchySurfaceOn_sup_of_slice` (a union `A ⊔ N` keeps the Cauchy
-  surface `S` of `A` when `N` has a Cauchy surface inside `A`), `extend_of_cauchy_nbhd` (the
-  assembly of A4 from such an `N ∋ p`), `mem_of_lt_of_mem_closure` / `mem_of_le_of_mem_interior_Jplus`
-  and their past forms (the corner condition's consequence).
+* General (any causality; **moved to `CBG/FromModel` on 2026-11-02**, interface round 3, where
+  the generic A4 from a cone-slice B4, `slice_future_of_cone`/`slice_past_of_cone`, uses it —
+  names unchanged, used here through the import): `isCauchySurfaceOn_sup_of_slice` (a union
+  `A ⊔ N` keeps the Cauchy surface `S` of `A` when `N` has a Cauchy surface inside `A`),
+  `extend_of_cauchy_nbhd` (the assembly of A4 from such an `N ∋ p`), `mem_of_lt_of_mem_closure` /
+  `mem_of_le_of_mem_interior_Jplus` and their past forms (the corner condition's consequence).
 * Minkowski: the diamonds `sliceDiamond` with their equatorial slices as Cauchy surfaces
   (`isCauchySurfaceOn_sliceDiamond`, a copy of `Flat/CBG`'s `isCauchySurfaceOn_mdiamond`, which
   this module may not import); the chart morphism `flatChart_isEMorphismOn` (a copy of
@@ -81,7 +84,7 @@ The library's Minkowski space `Minkowski d` has `d` spatial dimensions (Barbot's
   structure, not literally as `(flatModelOf d hJ₁ hJ₂).SliceFuture`: `Flat/CBG` (where `flatModelOf`
   lives) imports this module. The integrator's wrapper (checked, axioms `propext`,
   `Classical.choice`, `Quot.sound`, for every `hJ₁ hJ₂`) is:
-  `intro M _ _ _ s U S hGH hGHU hSU hS hSU' p hp hpS hc O hpO;`
+  `intro M _ _ _ _ s U S hGH hGHU hSU hS hSU' p hp hpS hc O hpO;`
   `letI : ChartedSpace (Minkowski d) M := s.1;`
   `haveI : HasGroupoid M (gxGroupoid (isom d) (Minkowski d)) := s.2;`
   `have h : LocalModel.causality s = flatCausality d M := chartedCausality_eq_flatCausality;`
@@ -107,140 +110,12 @@ universe u
 
 variable {d : ℕ}
 
-/-! ### §1 General: a union with a sliced open set, and the assembly of A4 -/
+/-! ### §1 General (moved)
 
-section General
-
-variable {M : Type*} [TopologicalSpace M] {C : Causality M}
-
-/-- **A union keeps the Cauchy surface.** If `S` is a Cauchy surface of `A`, acausal in `M` (`M`
-causal, Hausdorff), and `N` is an open set with a Cauchy surface `Γ ⊆ A`, then `S` is a Cauchy
-surface of `A ⊔ N`: an inextensible curve of `A ⊔ N` through `N` meets `Γ` by its component in
-`N`, hence enters `A`, and its component in `A` meets `S`; uniqueness by acausality (Sbierski,
-proof of Thm 3.6, last paragraph). -/
-theorem isCauchySurfaceOn_sup_of_slice [T2Space M] (hcaus : C.IsCausal) {S Γ : Set M}
-    (hac : C.IsAcausal S) {A N : Opens M} (hA : C.IsCauchySurfaceOn A S)
-    (hN : C.IsCauchySurfaceOn N Γ) (hΓ : Γ ⊆ A) : C.IsCauchySurfaceOn (A ⊔ N) S := by
-  have hanti : ∀ ⦃x y : M⦄, C.le (A ⊔ N) x y → C.le (A ⊔ N) y x → x = y :=
-    fun x y h h' => hcaus (C.le_mono le_top h) (C.le_mono le_top h')
-  intro I c hc
-  have hmeetA : ∀ t ∈ I, c t ∈ A → (c '' I ∩ S).Nonempty := by
-    intro t ht htA
-    obtain ⟨_, ⟨⟨τ, hτ, rfl⟩, hτS⟩, -⟩ := hA _ c
-      (Causality.inextensible_ordConnectedComponent_of_le hanti le_sup_left hc ht htA)
-    exact ⟨c τ, ⟨τ, (ordConnectedComponent_subset hτ).1, rfl⟩, hτS⟩
-  obtain ⟨t₀, ht₀⟩ := hc.1.nonempty
-  have hex : (c '' I ∩ S).Nonempty := by
-    rcases Opens.mem_sup.1 (hc.1.mem ht₀) with h | h
-    · exact hmeetA t₀ ht₀ h
-    · obtain ⟨_, ⟨⟨τ, hτ, rfl⟩, hτΓ⟩, -⟩ := hN _ c
-        (Causality.inextensible_ordConnectedComponent_of_le hanti le_sup_right hc ht₀ h)
-      exact hmeetA τ (ordConnectedComponent_subset hτ).1 (hΓ hτΓ)
-  obtain ⟨x, hx⟩ := hex
-  refine ⟨x, hx, ?_⟩
-  rintro y ⟨⟨s, hs, rfl⟩, hyS⟩
-  obtain ⟨⟨s', hs', rfl⟩, hxS⟩ := hx
-  rcases le_total s s' with h | h
-  · exact hac _ hyS _ hxS (C.le_mono le_top (hc.1.le_of_le hs hs' h))
-  · exact (hac _ hxS _ hyS (C.le_mono le_top (hc.1.le_of_le hs' hs h))).symm
-
-/-- **The assembly of A4 from a sliced neighbourhood.** In a causal (GH) Hausdorff spacetime,
-causally arc-connected with curves extending, with Cauchy surface `S ⊆ U` of `U`: an open `N ∋ p`,
-`p ∉ U`, `N ⊆ O`, with a Cauchy surface `Γ ⊆ U`, gives `U' = U ⊔ N`, strictly larger than `U`,
-inside `U ∪ O`, globally hyperbolic, with `S` as a Cauchy surface. -/
-theorem extend_of_cauchy_nbhd [T2Space M] (hGH : C.GloballyHyperbolic)
-    (harc : C.CausallyArcConnected) (hext : C.CurvesExtend) {U : Opens M} {S : Set M}
-    (hSU : S ⊆ U) (hS : C.IsCauchySurface S) (hSU' : C.IsCauchySurfaceOn U S)
-    {N : Opens M} {Γ : Set M} (hN : C.IsCauchySurfaceOn N Γ) (hΓ : Γ ⊆ U) {p : M} (hpN : p ∈ N)
-    (hpU : p ∉ U) {O : Set M} (hNO : (N : Set M) ⊆ O) :
-    ∃ U' : Opens M, U < U' ∧ (U' : Set M) ⊆ U ∪ O ∧ C.GloballyHyperbolicOn U' ∧
-      C.IsCauchySurfaceOn U' S := by
-  have hac : C.IsAcausal S := hS.isAcausal harc hext
-  have hSUN : C.IsCauchySurfaceOn (U ⊔ N) S := isCauchySurfaceOn_sup_of_slice hGH.1 hac hSU' hN hΓ
-  have hconv : C.CausallyConvexIn ((U ⊔ N : Opens M) : Set M) ⊤ :=
-    Causality.causallyConvexIn_of_isCauchySurfaceOn hGH.1 harc hext le_top
-      (fun x hx => (le_sup_left : U ≤ U ⊔ N) (hSU hx)) hSUN hS
-  refine ⟨U ⊔ N, lt_of_le_of_ne le_sup_left fun h => hpU ?_, fun x hx => ?_,
-    Causality.GloballyHyperbolicOn.of_causallyConvexIn harc hGH hconv, hSUN⟩
-  · have : p ∈ U ⊔ N := Opens.mem_sup.2 (Or.inr hpN)
-    rwa [← h] at this
-  · rcases Opens.mem_sup.1 hx with h | h
-    · exact Or.inl h
-    · exact Or.inr (hNO h)
-
-variable {U : Opens M} {S : Set M} {p : M}
-
-/-- **`I⁻(p) ∩ J⁺(S) ⊆ U`** for `p ∈ closure U`, `U` causally convex, `S ⊆ U`: `I⁺(z)` is an open
-neighbourhood of `p`, so it meets `U` at some `u`, and `z` lies in the diamond `J(σ, u)`. -/
-theorem mem_of_lt_of_mem_closure (hconv : C.CausallyConvexIn (U : Set M) ⊤) (hSU : S ⊆ U)
-    (hpU : p ∈ closure (U : Set M)) {z : M} (hz : z ∈ C.Jplus ⊤ S) (hzp : C.lt ⊤ z p) : z ∈ U := by
-  obtain ⟨σ, hσS, hσz⟩ := hz
-  obtain ⟨u, hu, huU⟩ := mem_closure_iff.1 hpU _ (C.isOpen_Iplus (U := ⊤) (A := {z}))
-    (Precausality.mem_Iplus_singleton.2 hzp)
-  exact hconv.2 σ (hSU hσS) u huU
-    (Causality.mem_diamond.2 ⟨hσz, C.le_of_lt (Precausality.mem_Iplus_singleton.1 hu)⟩)
-
-/-- **Past form**: `I⁺(p) ∩ J⁻(S) ⊆ U`. -/
-theorem mem_of_gt_of_mem_closure (hconv : C.CausallyConvexIn (U : Set M) ⊤) (hSU : S ⊆ U)
-    (hpU : p ∈ closure (U : Set M)) {z : M} (hz : z ∈ C.Jminus ⊤ S) (hpz : C.lt ⊤ p z) :
-    z ∈ U := by
-  obtain ⟨σ, hσS, hzσ⟩ := hz
-  obtain ⟨u, hu, huU⟩ := mem_closure_iff.1 hpU _ (C.isOpen_Iminus (U := ⊤) (A := {z}))
-    (Precausality.mem_Iminus_singleton.2 hpz)
-  exact hconv.2 u huU σ (hSU hσS)
-    (Causality.mem_diamond.2 ⟨C.le_of_lt (Precausality.mem_Iminus_singleton.1 hu), hzσ⟩)
-
-/-- **The corner condition puts the punctured causal past cone into `U`** (near `p`, inside the
-interior of `J⁺(S)`): a point `z ≤ p`, `z ≠ p`, not in `U` is not on `∂U` (corner condition), so it
-is outside `closure U`; a point `z' ≪ z` close to it (`Z⁻`) is still outside `closure U` and in
-`J⁺(S)`, and `z' ≪ p` (push-up), so `z' ∈ U` (`mem_of_lt_of_mem_closure`): a contradiction. -/
-theorem mem_of_le_of_mem_interior_Jplus (hconv : C.CausallyConvexIn (U : Set M) ⊤) (hSU : S ⊆ U)
-    (hpU : p ∈ closure (U : Set M)) (hpush : C.PushUp) (hZ : ∀ z : M, z ∈ C.Zminus)
-    (hcorner : C.Jminus ⊤ {p} ∩ frontier (U : Set M) ∩ C.Jplus ⊤ S = {p}) {z : M}
-    (hz : z ∈ interior (C.Jplus ⊤ S)) (hzp : C.le ⊤ z p) (hne : z ≠ p) : z ∈ U := by
-  by_contra hzU
-  by_cases hzc : z ∈ closure (U : Set M)
-  · have hzf : z ∈ frontier (U : Set M) := ⟨hzc, by rwa [U.isOpen.interior_eq]⟩
-    have : z ∈ C.Jminus ⊤ {p} ∩ frontier (U : Set M) ∩ C.Jplus ⊤ S :=
-      ⟨⟨Precausality.mem_Jminus_singleton.2 hzp, hzf⟩, interior_subset hz⟩
-    rw [hcorner] at this
-    exact hne this
-  · have hQ : (closure (U : Set M))ᶜ ∩ interior (C.Jplus ⊤ S) ∈ 𝓝 z :=
-      (isClosed_closure.isOpen_compl.inter isOpen_interior).mem_nhds ⟨hzc, hz⟩
-    obtain ⟨z', hz'I, hz'c, hz'J⟩ := hZ z _ hQ
-    have hz'z : C.lt ⊤ z' z := Precausality.mem_Iminus_singleton.1 hz'I
-    have hz'p : C.lt ⊤ z' p := by
-      have h1 : p ∈ C.Jplus ⊤ (C.Iplus ⊤ {z'}) :=
-        ⟨z, Precausality.mem_Iplus_singleton.2 hz'z, hzp⟩
-      exact Precausality.mem_Iplus_singleton.1 ((hpush ⊤ z').1.1 h1)
-    exact hz'c (subset_closure
-      (mem_of_lt_of_mem_closure hconv hSU hpU (interior_subset hz'J) hz'p))
-
-/-- **Past form**: the punctured causal future cone of `p` near `p`, inside the interior of
-`J⁻(S)`, lies in `U` under `J⁺(p) ∩ ∂U ∩ J⁻(S) = {p}` (`Z⁺`, push-up). -/
-theorem mem_of_ge_of_mem_interior_Jminus (hconv : C.CausallyConvexIn (U : Set M) ⊤) (hSU : S ⊆ U)
-    (hpU : p ∈ closure (U : Set M)) (hpush : C.PushUp) (hZ : ∀ z : M, z ∈ C.Zplus)
-    (hcorner : C.Jplus ⊤ {p} ∩ frontier (U : Set M) ∩ C.Jminus ⊤ S = {p}) {z : M}
-    (hz : z ∈ interior (C.Jminus ⊤ S)) (hpz : C.le ⊤ p z) (hne : z ≠ p) : z ∈ U := by
-  by_contra hzU
-  by_cases hzc : z ∈ closure (U : Set M)
-  · have hzf : z ∈ frontier (U : Set M) := ⟨hzc, by rwa [U.isOpen.interior_eq]⟩
-    have : z ∈ C.Jplus ⊤ {p} ∩ frontier (U : Set M) ∩ C.Jminus ⊤ S :=
-      ⟨⟨Precausality.mem_Jplus_singleton.2 hpz, hzf⟩, interior_subset hz⟩
-    rw [hcorner] at this
-    exact hne this
-  · have hQ : (closure (U : Set M))ᶜ ∩ interior (C.Jminus ⊤ S) ∈ 𝓝 z :=
-      (isClosed_closure.isOpen_compl.inter isOpen_interior).mem_nhds ⟨hzc, hz⟩
-    obtain ⟨z', hz'I, hz'c, hz'J⟩ := hZ z _ hQ
-    have hzz' : C.lt ⊤ z z' := Precausality.mem_Iplus_singleton.1 hz'I
-    have hpz' : C.lt ⊤ p z' := by
-      have h1 : p ∈ C.Jminus ⊤ (C.Iminus ⊤ {z'}) :=
-        ⟨z, Precausality.mem_Iminus_singleton.2 hzz', hpz⟩
-      exact Precausality.mem_Iminus_singleton.1 ((hpush ⊤ z').1.2 h1)
-    exact hz'c (subset_closure
-      (mem_of_gt_of_mem_closure hconv hSU hpU (interior_subset hz'J) hpz'))
-
-end General
+`isCauchySurfaceOn_sup_of_slice`, `extend_of_cauchy_nbhd`, `mem_of_lt_of_mem_closure`,
+`mem_of_gt_of_mem_closure`, `mem_of_le_of_mem_interior_Jplus`, `mem_of_ge_of_mem_interior_Jminus`
+moved to `CBG/FromModel` on 2026-11-02 (interface round 3), where the generic A4 uses them; names
+unchanged. -/
 
 /-! ### §2 Minkowski: diamonds sliced at their equator -/
 

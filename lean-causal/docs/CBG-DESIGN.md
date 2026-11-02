@@ -137,3 +137,19 @@ points; R4 no duality; R5 the ruling on "maximal".
   to a non-integral power) are both rejected. gx's E₀ argument: a loop around Δ in reg ∩ I⁻_O(r)
   has holonomy P, f maps it to a loop winding the same way, so the lift normalises ⟨P⟩, and the
   normaliser is Isom(E₀). If FromModel's past-side pieces have another shape, gx adapts the clause.
+- **Interface round 3 (gx, 2026-11-02): APPLIED.** (A) `localUnique_sing_adherent`'s largeness clause
+  is the **diamond form with a regular tip**, `∃ O ∋ y₀, ∃ r ∈ O, r ∈ reg ∧ y₀ ≪_O r ∧
+  reg ∩ I⁺_O(y₀) ∩ I⁻_O(r) ⊆ U` (round 2's form was vacuous by `r := y₀`); A3-past's piece meets it
+  (`FromModel.diamond_clause_of_piece`, proved). (B) second countability of `M`, `N` in A3
+  (`germExt_*`) and of `M` in A4 (`slice_*`); `CGHDData.ext_continue` and its A3-derived successors
+  now ask SC of `N`. All CBG modules and `Flat.CBG` rebuild; `flat_cbg`, `cbg` axiom-clean. Then
+  (C), FromModel's four generic sorries: **A3 at regular `p`, `q` is proved for any `Y`**
+  (`germ_future_reg`, `germ_past_reg`; no chart geometry: piece `connectedComponentIn (I⁺(x₁) ∩
+  I⁻(p)) a`, B2 via regular charts, B1 rigidity on a component of `O₀ ∩ U`) modulo `[T2Space Y]`;
+  **A4 is proved from a cone-slice form of B4** (`slice_future_of_cone` off `sing₀`,
+  `slice_past_of_cone` everywhere; fields proposed as `ConeSliceFuture`/`ConeSlicePast`). Seven
+  tagged sorries remain in four declarations, each a named Level-B gap for gx: `T2Space Y`; the
+  cone-slice B4; type agreement and same component at corresponding singular points; an open set
+  of agreement inside `reg`; BTZ future (`lem:passe_pgcd`, a non-cone A4 slice); BTZ past (a
+  regular tip, `I⁺(p)` regular). The model-free Prop 3.7 core (from `Flat/CBGGerm`) and A4 assembly
+  (from `Flat/CBGSlice`) moved into `FromModel`, names unchanged.

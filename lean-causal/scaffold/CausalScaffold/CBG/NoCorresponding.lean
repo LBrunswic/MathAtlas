@@ -414,7 +414,6 @@ variable [T2Space M] [ConnectedSpace M] [SecondCountableTopology M]
 
 namespace CGHDData
 
-omit [SecondCountableTopology N] in
 /-- **Sbierski Lemma 3.8, second half** ("`ψ` extends smoothly to `ψ : U ∪ C → M′`"), local
 form: `ψ̂ = correspondingExt` is `ψ` on `U`, and near every `p ∈ C` it is the restriction to
 `U ∪ C` of a structure morphism `φ` (A3's germ: `φ` is continuous, so `φ p'` corresponds to every

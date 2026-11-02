@@ -64,14 +64,14 @@ Framework (DEC-60): Brunswic's thesis, **rigid morphisms of singular `(G,X)`-man
 | famille analytique (b), `def:incompatibles` (`these.tex:3328–3332`, `3346–3353`) | ⚠ reading: carried as the `MapsTo` hypotheses of B2 (same model / fully regular target); derived at the instance (package 11) |
 | Liouville on the regular part (`prop:GX_liouville`) | ⚠ added: `LocalModel.localUnique_reg` (B2 on a fully regular component, values in a fully regular component) + `regularChart` — not a thesis definition; true for gx's `𝕄 ⊕ Σ_α 𝔼_α` and for `Minkowski d` |
 | manifolds Hausdorff, connected (`these.tex:1357`, `5729`) | ✓ `Dev` carriers `T2Space`, `ConnectedSpace` |
-| second countable (`these.tex:1357`, `rem:CBG_manquant` (i)) | ✓ carried (gx review C2): `Dev` carriers `SecondCountableTopology`; the A2/B3 fields assume it; ⚠ added obligation `secondCountable_of_cauchy` (GH + SC Cauchy surface ⇒ SC), for `M̄` (package 10) |
+| second countable (`these.tex:1357`, `rem:CBG_manquant` (i)) | ✓ carried (gx review C2): `Dev` carriers `SecondCountableTopology`; the A2/B3 fields assume it, and since interface round 3 so do A3 (`germExt_*`: `M` and `N`) and A4 (`slice_*`: `M`); ⚠ added obligation `secondCountable_of_cauchy` (GH + SC Cauchy surface ⇒ SC), for `M̄` (package 10) |
 | `defi:causal_E0`: $I^+(p)=J^+(p)\setminus\sing_0$ (`ETT.tex:1352–1355`) | ✗ **false in `E₀`** (gx review C1, radial null ray, see « The corrected singular flat bundle »): A2/B3 ask `SingularFlatAxiomsCorr` (`Iplus_of_lt`); bridge `SingularFlatAxioms.toCorr`; `K_monotone`, `K_densite_sing`, `K_ordre` re-proved from it — finding |
 | `CurvesExtend` | ⚠ restricted (gx review C3): on globally hyperbolic `M` only, the only use (§3.1 on developments) |
 | `M₀` globally hyperbolic (`theo:CBG`, `ETT.tex:1885`; `theo:Cauchy_ext`, `these.tex:6288`) | ⚠ strengthened: `cbg` (stated and proved in `CBG/Maximal`) also assumes a Cauchy surface `S` (the library's `GloballyHyperbolic`, `Causal/Properties.lean:144`, is causal + compact diamonds and gives none; without one no `Dev` exists); recoverable at the singular flat instance via `theo:geroch_sing` (`ETT.tex:1771`, DEC-18), never for an abstract `Geometry` |
 | Sbierski Lemma 3.8 (extension at corresponding points, Def 3.5) | A3 `germExt_future`/`germExt_past`: `MapClusterPt q (𝓝[U] p) ψ` is Def 3.5 |
 | "maximal" | DEC-59: `Dev.IsUniversal` (Sbierski); `Dev.IsETTMaximal` the ETT form, equivalent given `cbg` (`CBG/Maximal`) |
 | Sbierski Lemma 3.3 (`ψ` injective; « time function » on each GHD) | ✓ round 2 (1): `Geometry.timeFunction` (A2), `LocalModel.timeFunction` (B3): every GH admissible spacetime has a continuous function strictly increasing along `≤` (the body of `Causality.HasTimeFunction`, `CBG/Pgcd`); discharges the `hT` of `Pgcd`, `NoCorresponding`, `Ppcm` and `Geometry.HasTimeFunctions` of `Maximal` |
-| past side at a BTZ point (gx, `A3-B-INVESTIGATION.md`; the thesis never treats it) | ⚠ added, gx's form: `LocalModel.localUnique_sing_adherent` (round 2 (2)); ⚠ as transcribed its largeness clause is vacuous at `α₀ = 0` in `E₀` (SCOPE) |
+| past side at a BTZ point (gx, `A3-B-INVESTIGATION.md`; the thesis never treats it) | ⚠ added, gx's form: `LocalModel.localUnique_sing_adherent`, largeness clause in the **diamond form with a regular tip** (interface round 3, 2026-11-02; round 2's clause was vacuous at `α₀ = 0`, SCOPE) |
 
 ## SCOPE (disclosed)
 
@@ -89,11 +89,21 @@ Framework (DEC-60): Brunswic's thesis, **rigid morphisms of singular `(G,X)`-man
   so `𝔊.timeFunction s hGH` is a `(𝔊.causality s).HasTimeFunction` and
   `fun s hGH => 𝔊.timeFunction s hGH` a `𝔊.HasTimeFunctions` (`CBG/Maximal`) as they stand.
   (2) `LocalModel.localUnique_sing_adherent`, the past-side B2 step in gx's form. **Finding
+  (round 2; resolved by round 3, next bullet)
   (from `CBG/FromModel`'s `BTZAxiomsCorr.exists_le_inter_Iminus_subset`)**: at a BTZ point
   (`α₀ = 0`) of a model where BTZ points have empty chronological past (`E₀`), its largeness clause
   holds for every `U` (`r := y₀`), so there the field is the point-contact form, which the cone
   counterexample refutes in `E₀`; the wrap-around reading needs `r` regular (candidate repair: the
-  conjunct `r ∈ regY`). Transcribed as agreed, not amended: the clause is gx's.
+  conjunct `r ∈ regY`). Transcribed as agreed then; amended by gx in round 3.
+  **Interface round 3 (design §6, agreed with gx 2026-11-02), applied.** (A) the largeness clause
+  of `localUnique_sing_adherent` is now the **diamond form with a regular tip**,
+  `∃ O ∋ y₀, ∃ r ∈ O, r ∈ reg ∧ y₀ ≪_O r ∧ reg ∩ I⁺_O(y₀) ∩ I⁻_O(r) ⊆ U` (the vacuity above is
+  gone: `r ∈ reg` excludes `r := y₀` and the line); the piece A3-past produces meets it
+  (`CBG/FromModel`, `diamond_clause_of_piece`). (B) `[SecondCountableTopology M]`
+  `[SecondCountableTopology N]` on `germExt_future`/`germExt_past`, `[SecondCountableTopology M]`
+  on `slice_future`/`slice_past` (and on `CBG/FromModel`'s `GermExtFuture`, … copies), so that A3/A4
+  are derivable from the B3 facts, which all assume it; consumers had it in scope
+  (`CGHDData.ext_continue` now asks it of `N`).
   Level B → Level A (`Geometry.ofLocalModel`) is package 11. A3 (`germExt_*`) and A4 (`slice_*`)
   are stated in the CGHD setting of Sbierski Lemma 3.8 / Thm 3.6, in both time directions (no
   duality, gx D-12(e)). The thesis extends only under `J(Σ,p) ∖ {p} ⊂ N`
@@ -530,9 +540,11 @@ structure Geometry extends PreGeometry.{u} where
     SecondCountableTopology S → SecondCountableTopology M
   /-- **A3, germ extension at a corresponding boundary point in the future of `Σ`** (Sbierski
   Lemma 3.8; `cor:ext_continue`; the `K⁻` side at BTZ points). `U ⊆ M` is a common Cauchy
-  sub-development with injective morphism `ψ`, `q` corresponds to `p ∈ ∂U`. §3.4. -/
+  sub-development with injective morphism `ψ`, `q` corresponds to `p ∈ ∂U`. `M`, `N` second
+  countable (interface round 3: every B3 fact the derivation uses assumes it). §3.4. -/
   germExt_future : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] [T2Space M]
-    [ConnectedSpace M] [T2Space N] [ConnectedSpace N] (s : Str M) (t : Str N) (U : Opens M)
+    [ConnectedSpace M] [SecondCountableTopology M] [T2Space N] [ConnectedSpace N]
+    [SecondCountableTopology N] (s : Str M) (t : Str N) (U : Opens M)
     (ψ : M → N) (S : Set M) (h : IsMor s t U ψ), InjOn ψ U →
     (causality s).GloballyHyperbolic → (causality t).GloballyHyperbolic →
     (causality s).GloballyHyperbolicOn U →
@@ -545,7 +557,8 @@ structure Geometry extends PreGeometry.{u} where
       ∃ (O : Opens M) (φ : M → N), p ∈ O ∧ IsMor s t O φ ∧ φ p = q ∧ EqOn φ ψ (O ⊓ U : Opens M)
   /-- **A3** in the past of `Σ` (the `K⁺` side; no time reversal). §3.4. -/
   germExt_past : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] [T2Space M]
-    [ConnectedSpace M] [T2Space N] [ConnectedSpace N] (s : Str M) (t : Str N) (U : Opens M)
+    [ConnectedSpace M] [SecondCountableTopology M] [T2Space N] [ConnectedSpace N]
+    [SecondCountableTopology N] (s : Str M) (t : Str N) (U : Opens M)
     (ψ : M → N) (S : Set M) (h : IsMor s t U ψ), InjOn ψ U →
     (causality s).GloballyHyperbolic → (causality t).GloballyHyperbolic →
     (causality s).GloballyHyperbolicOn U →
@@ -558,9 +571,10 @@ structure Geometry extends PreGeometry.{u} where
       ∃ (O : Opens M) (φ : M → N), p ∈ O ∧ IsMor s t O φ ∧ φ p = q ∧ EqOn φ ψ (O ⊓ U : Opens M)
   /-- **A4, a slice through a future boundary point** (Sbierski Thm 3.6: `τ_q`, Lemma 3.11):
   if `J⁻(p) ∩ ∂U ∩ J⁺(Σ) = {p}` (Lemma 3.9), `U` enlarges inside any neighbourhood of `p` with
-  `Σ` still Cauchy. §3.4 (Thm 3.6). -/
-  slice_future : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] (s : Str M)
-    (U : Opens M) (S : Set M), (causality s).GloballyHyperbolic →
+  `Σ` still Cauchy. `M` second countable (interface round 3). §3.4 (Thm 3.6). -/
+  slice_future : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
+    [SecondCountableTopology M] (s : Str M) (U : Opens M) (S : Set M),
+    (causality s).GloballyHyperbolic →
     (causality s).GloballyHyperbolicOn U → S ⊆ U → (causality s).IsCauchySurface S →
     (causality s).IsCauchySurfaceOn U S → ∀ p : M, p ∈ frontier (U : Set M) →
     p ∈ (causality s).Jplus ⊤ S →
@@ -568,8 +582,9 @@ structure Geometry extends PreGeometry.{u} where
     ∀ O : Opens M, p ∈ O → ∃ U' : Opens M, U < U' ∧ (U' : Set M) ⊆ U ∪ O ∧
       (causality s).GloballyHyperbolicOn U' ∧ (causality s).IsCauchySurfaceOn U' S
   /-- **A4** through a past boundary point (no time reversal). §3.4. -/
-  slice_past : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] (s : Str M)
-    (U : Opens M) (S : Set M), (causality s).GloballyHyperbolic →
+  slice_past : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
+    [SecondCountableTopology M] (s : Str M) (U : Opens M) (S : Set M),
+    (causality s).GloballyHyperbolic →
     (causality s).GloballyHyperbolicOn U → S ⊆ U → (causality s).IsCauchySurface S →
     (causality s).IsCauchySurfaceOn U S → ∀ p : M, p ∈ frontier (U : Set M) →
     p ∈ (causality s).Jminus ⊤ S →
@@ -682,33 +697,40 @@ structure LocalModel where
     ∃ e ∈ G, connectedComponent y₀ ⊆ e.source ∧
       EqOn f e (U ∩ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α})
   /-- **B2 at a singular point, past side: a regular piece adherent to `y₀`** (design §6,
-  interface round 2 (2), gx 2026-11-01, transcribed as agreed). `U` is a connected open set of
-  **regular** points (not a neighbourhood of `y₀`); the **wrap-around largeness clause**: for some
-  open `O ∋ y₀` and some `r ∈ O` with `y₀ ≤_O r`, `U ⊇ reg ∩ I⁻_O(r)`. `f` is an injective local
-  `G`-structomorphism on `U` into the component of `y₀` (the same model, as in `localUnique_sing`),
-  converging along `U` at `y₀` to a point `z₀` of the same singular locus `sing_{α₀}`
-  (`MapClusterPt z₀ (𝓝[U] y₀) f`, Sbierski Def 3.5). Conclusion: `f` is the restriction of one
-  element of `G` defined on the whole component of `y₀`. Needed by A3 in the past of `Σ` at a BTZ
-  boundary point, where the connected piece `U ∩ I⁻_W(r)` is regular and adherent to `p` but need
-  not be `reg` of a neighbourhood of `p` (gx `A3-B-INVESTIGATION.md`: (B) can fail on the past
-  side). gx's argument in `E₀`: a loop around `Δ` in `reg ∩ I⁻_O(r)` has holonomy `P`, `f` maps it
-  to a loop winding the same way, so the lift normalises `⟨P⟩`, whose normaliser is `Isom(E₀)`.
-  Rejected (design §6): point contact (the cone counterexample, `CBG/FromModel` REPORT) and "the
-  closure of `U` contains a segment of the line" (a boost along `Δ` conjugates `P` to a
-  non-integral power).
+  interface round 2 (2), gx 2026-11-01; **largeness clause amended in interface round 3**, gx
+  2026-11-02, the **diamond form with a regular tip**). `U` is a connected open set of **regular**
+  points (not a neighbourhood of `y₀`); the largeness clause: for some open `O ∋ y₀` and some
+  **regular** `r ∈ O` with `y₀ ≪_O r`, `U ⊇ reg ∩ I⁺_O(y₀) ∩ I⁻_O(r)` (the regular part of the
+  chronological diamond of `y₀` and `r` in `O`). `f` is an injective local `G`-structomorphism on
+  `U` into the component of `y₀` (the same model, as in `localUnique_sing`), converging along `U`
+  at `y₀` to a point `z₀` of the same singular locus `sing_{α₀}` (`MapClusterPt z₀ (𝓝[U] y₀) f`,
+  Sbierski Def 3.5). Conclusion: `f` is the restriction of one element of `G` defined on the whole
+  component of `y₀`. Needed by A3 in the past of `Σ` at a BTZ boundary point, where the connected
+  piece `U ∩ I⁻_W(r)` is regular and adherent to `p` but need not be `reg` of a neighbourhood of
+  `p` (gx `A3-B-INVESTIGATION.md`: (B) can fail on the past side); that piece contains the diamond
+  `I⁺_W(p) ∩ I⁻_W(r)` (`Causality.CausallyConvexIn.Iplus_inter_Iminus_subset`, `CBG/FromModel`),
+  which is exactly this clause read in a chart.
 
-  **Disclosed (finding, `CBG/FromModel`, `BTZAxiomsCorr.exists_le_inter_Iminus_subset`):** at
-  `α₀ = 0`, in a model whose BTZ points have empty chronological past (`BTZAxiomsCorr`,
-  `Iminus_eq_empty`, as in `E₀`), the clause as transcribed holds for **every** `U` (take `r := y₀`,
-  or any `r` on the line: `I⁻_O(r) = ∅`), so there this field is the point-contact form, which the
-  cone counterexample refutes in `E₀`. The wrap-around reading needs `r` **regular** (then
-  `I⁻_O(r)` contains the points of the line below `y₀` by `Iplus_of_lt`, and its regular part winds
-  around `Δ`); the candidate repair is the extra conjunct `r ∈ regY`. Not applied: the clause is
-  gx's to amend. Vacuous for the flat instance (`singY = ∅`). -/
+  **gx's justification in `E₀`** (2026-11-02, by hand): `r ∈ I⁺_O(y₀)`, an open set, so there is
+  a point `q` of `y₀`'s line with `y₀ < q ≪ r`; `I⁻_O(r) ∋ q` contains a basic piece near `q`
+  holding every regular point of small radius, for every angle `θ`, and so does `I⁺_O(y₀)` (by
+  `Iplus_of_lt`, `q` lying strictly above `y₀` on the line); so the regular part of the diamond
+  contains a full `θ`-loop around `Δ`, whose holonomy is the parabolic `P`; `f` maps it to a loop
+  winding the same way, so the lift of `f` normalises `⟨P⟩`, and the normaliser is `Isom(E₀)`.
+
+  **The round-2 clause it replaces was vacuous** (finding, `CBG/FromModel`,
+  `Causality.BTZAxiomsCorr.exists_le_inter_Iminus_subset`): `∃ r ∈ O, y₀ ≤_O r ∧
+  reg ∩ I⁻_O(r) ⊆ U` holds for every `U` at a BTZ point (`r := y₀`: BTZ points have empty
+  chronological past, `Iminus_eq_empty`), so it was the point-contact form, which the cone
+  counterexample refutes in `E₀`. Here `r ∈ regY` excludes `r := y₀` and every `r` on the line,
+  and `y₀ ≪_O r` makes the diamond non-empty. Rejected (design §6): point contact and "the
+  closure of `U` contains a segment of the line" (a boost along `Δ` conjugates `P` to a
+  non-integral power). Vacuous for the flat instance (`singY = ∅`). -/
   localUnique_sing_adherent : ∀ U : Set Y, IsOpen U → IsConnected U →
     U ⊆ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α} → ∀ y₀ : Y, ∀ α₀ : ℝ, 0 ≤ α₀ → y₀ ∈ singY α₀ →
-    (∃ O : Opens Y, y₀ ∈ O ∧ ∃ r ∈ O, causalityY.le O y₀ r ∧
-      {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α} ∩ causalityY.Iminus O {r} ⊆ U) →
+    (∃ O : Opens Y, y₀ ∈ O ∧ ∃ r ∈ O, r ∈ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α} ∧
+      causalityY.lt O y₀ r ∧
+      {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α} ∩ causalityY.Iplus O {y₀} ∩ causalityY.Iminus O {r} ⊆ U) →
     ∀ z₀ ∈ singY α₀, ∀ f : Y → Y, (∀ y ∈ U, G.IsLocalStructomorphWithinAt f U y) → InjOn f U →
     MapsTo f U (connectedComponent y₀) → MapClusterPt z₀ (𝓝[U] y₀) f →
     ∃ e ∈ G, connectedComponent y₀ ⊆ e.source ∧ EqOn f e U

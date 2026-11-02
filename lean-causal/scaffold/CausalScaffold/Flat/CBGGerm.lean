@@ -33,9 +33,11 @@ model). Cited, unmarked: `cor:ext_continue` — `ETT.tex:2144`; Sbierski 1309.75
   `rigid`, B2 `localUnique_reg`, B3 `chartIso_mem`, `absolutelyMinimalOn_Y`, `singularFlatAxioms`,
   `curvesExtend`, and one compactness field (`isCompact_Jminus_inter_Jplus` future side,
   `isCompact_Jplus_inter_Jminus` past side, for `lem:Sigma_separe` at `p` and `q`); second
-  countability of `M`, `N` (absent from the A3 field, obstruction (0) of `FromModel`'s `SORRY`) is
-  `flat_secondCountableTopology` (DEC-49).
-* **Sbierski Prop 3.7 (i) ⇒ (ii), model-free** (`IsCorrPair`, any causalities):
+  countability of `M`, `N` is a binder of the A3 field since interface round 3 (it was
+  `flat_secondCountableTopology`, DEC-49, before).
+* **Sbierski Prop 3.7 (i) ⇒ (ii), model-free** (`IsCorrPair`, any causalities; **moved to
+  `CBG/FromModel` on 2026-11-02**, interface round 3, where the generic A3 at regular points,
+  `germ_future_reg`/`germ_past_reg`, uses it — names unchanged, used here through the import):
   `IsCorrPair.lt_of_lt_of_corresponds` (`x ∈ U`, `x ≪ p` ⇒ `ψ x ≪ q`),
   `IsCorrPair.exists_lt_forall_mem` (for every neighbourhood `V'` of `q` an `x₀ ∈ U ∩ I⁻(p)` with
   `ψ(I⁺(x₀) ∩ I⁻(p) ∩ U) ⊆ V'`, from strong causality of `N` = GH + tarentin), the q-side
@@ -95,108 +97,11 @@ open Set Topology Filter Function TopologicalSpace ChartedSpace StructureGroupoi
 
 namespace CBG
 
-section ModelFree
+/- The model-free half of Sbierski Prop 3.7 used here (`IsCorrPair.lt_of_lt_of_corresponds`,
+`mem_of_lt_of_corresponds`, `exists_lt_forall_mem`, `mem_of_mem_Jplus_of_lt`,
+`mem_Jplus_of_corresponds`) moved to `CBG/FromModel` on 2026-11-02 (interface round 3), where the
+generic A3 at regular points uses it; the names are unchanged. -/
 
-variable {M N : Type*} [TopologicalSpace M] [TopologicalSpace N]
-  {C : Causality M} {D : Causality N} {U : Opens M} {V : Opens N} {ψ : M → N} {g : N → M}
-
-/-- **Step A of Sbierski Prop 3.7** (« `ψ(q) ≪ ψ(s) ≤ p′` »): for corresponding `p`, `q` and
-`x ∈ U` with `x ≪ p`, `ψ x ≪ q`. -/
-theorem IsCorrPair.lt_of_lt_of_corresponds (h : IsCorrPair C D U V ψ g)
-    (hcv : C.CausallyConvexIn (U : Set M) ⊤) {p : M} {q : N} (hZ : p ∈ C.Zminus)
-    (hPD : D.PushUp) (hclD : ∀ y, IsClosed (D.Jplus ⊤ {y}))
-    (hc : Corresponds (U : Set M) ψ p q) {x : M} (hx : x ∈ U) (hxp : C.lt ⊤ x p) :
-    D.lt ⊤ (ψ x) q := by
-  obtain ⟨s, hxs, hsp⟩ := Causality.exists_lt_lt_of_mem_Zminus hZ hxp
-  obtain ⟨u, hus, huU⟩ := mem_closure_iff_nhds.1 (mem_closure_of_corresponds hc) _
-    (Causality.isOpen_Iplus.mem_nhds (show p ∈ C.Iplus ⊤ {s} by simpa using hsp))
-  have hsU : s ∈ U := hcv.2 x hx u huU
-    (Causality.mem_diamond.2 ⟨C.le_of_lt hxs, C.le_of_lt (by simpa using hus)⟩)
-  exact h.lt_of_corresponds hPD (hclD _) hx hsU hxs (Causality.Jplus_mem_nhds_of_lt hsp) hc
-
-/-- A point of `J⁺(T)` (`T ⊆ V`) chronologically below a point `q` corresponding to `p` lies in
-`V` (causal convexity of `V`; `q ∈ closure V`). -/
-theorem IsCorrPair.mem_of_lt_of_corresponds (h : IsCorrPair C D U V ψ g)
-    (hcv : D.CausallyConvexIn (V : Set N) ⊤) {T : Set N} (hTV : T ⊆ V) {p : M} {q : N}
-    (hc : Corresponds (U : Set M) ψ p q) {y : N} (hy : y ∈ D.Jplus ⊤ T) (hyq : D.lt ⊤ y q) :
-    y ∈ V := by
-  obtain ⟨τ, hτ, hτy⟩ := hy
-  obtain ⟨x, hxU, -, hψx⟩ := hc univ univ_mem _
-    (Causality.isOpen_Iplus.mem_nhds (show q ∈ D.Iplus ⊤ {y} by simpa using hyq))
-  exact hcv.2 τ (hTV hτ) (ψ x) (h.mapsTo hxU)
-    (Causality.mem_diamond.2 ⟨hτy, D.le_of_lt (by simpa using hψx)⟩)
-
-/-- **Sbierski Prop 3.7, (i) ⇒ (ii), in the form Lemma 3.8 uses** (the strong causality of
-`N` at `q`, « we can find a `q′ ∈ V′ ∩ I⁻(p′)` such that `I⁺(q′) ∩ I⁻(p′) ⊆ V′` »): for every
-neighbourhood `V'` of `q` there is `x₀ ∈ U ∩ I⁻(p)` with `ψ(I⁺(x₀) ∩ I⁻(p) ∩ U) ⊆ V'`. Model-free;
-`T ⊆ V` with `J⁺(T)` a neighbourhood of `q` is `lem:Sigma_separe` at `q` (`T = ψ S`). -/
-theorem IsCorrPair.exists_lt_forall_mem (h : IsCorrPair C D U V ψ g)
-    (hcvU : C.CausallyConvexIn (U : Set M) ⊤) (hcvV : D.CausallyConvexIn (V : Set N) ⊤)
-    [T2Space N] (hGD : D.GloballyHyperbolic) (hTD : D.Tarentin) {p : M} {q : N}
-    (hZp : p ∈ C.Zminus) (hZq : q ∈ D.Zminus) (hPC : C.PushUp) (hPD : D.PushUp)
-    (hclC : ∀ x, IsClosed (C.Jplus ⊤ {x})) (hclD : ∀ y, IsClosed (D.Jplus ⊤ {y}))
-    {T : Set N} (hTV : T ⊆ V) (hsep : D.Jplus ⊤ T ∈ 𝓝 q)
-    (hc : Corresponds (U : Set M) ψ p q) {V' : Set N} (hV' : V' ∈ 𝓝 q) :
-    ∃ x₀ ∈ U, C.lt ⊤ x₀ p ∧ ∀ y ∈ U, C.lt ⊤ x₀ y → C.lt ⊤ y p → ψ y ∈ V' := by
-  obtain ⟨W, hW, hWsub, hWcv⟩ := hGD.stronglyCausal hTD q _ (inter_mem hV' hsep)
-  obtain ⟨s', hs'I, hs'W⟩ := hZq W hW
-  have hs'q : D.lt ⊤ s' q := by simpa using hs'I
-  obtain ⟨s'', hs's'', hs''q⟩ := Causality.exists_lt_lt_of_mem_Zminus hZq hs'q
-  have hs'J : s' ∈ D.Jplus ⊤ T := (hWsub hs'W).2
-  have hs''J : s'' ∈ D.Jplus ⊤ T := by
-    obtain ⟨τ, hτ, hτs⟩ := hs'J
-    exact ⟨τ, hτ, D.le_trans hτs (D.le_of_lt hs's'')⟩
-  have hs'V := h.mem_of_lt_of_corresponds hcvV hTV hc hs'J hs'q
-  have hs''V := h.mem_of_lt_of_corresponds hcvV hTV hc hs''J hs''q
-  have hx₀p : C.lt ⊤ (g s') p := h.symm.lt_of_corresponds hPC (hclC _) hs'V hs''V hs's''
-    (Causality.Jplus_mem_nhds_of_lt hs''q) (h.corresponds_symm hc)
-  have hx₀U : g s' ∈ U := h.mapsTo_inv hs'V
-  refine ⟨g s', hx₀U, hx₀p, fun y hyU hx₀y hyp => ?_⟩
-  have h1 : D.lt ⊤ s' (ψ y) := by
-    have := (h.lt_iff _ hx₀U _ hyU).1 hx₀y
-    rwa [h.rightInvOn hs'V] at this
-  have h2 := h.lt_of_lt_of_corresponds hcvU hZp hPD hclD hc hyU hyp
-  exact (hWsub (hWcv.2 s' hs'W q (mem_of_mem_nhds hW)
-    (Causality.mem_diamond.2 ⟨D.le_of_lt h1, D.le_of_lt h2⟩))).1
-
-/-- A point of `J⁺(S)` (`S ⊆ U`) chronologically below a point `p` of `closure U` lies in `U`
-(causal convexity of `U`). -/
-theorem mem_of_mem_Jplus_of_lt (hcv : C.CausallyConvexIn (U : Set M) ⊤) {S : Set M}
-    (hSU : S ⊆ U) {p : M} (hp : p ∈ closure (U : Set M)) {x : M} (hx : x ∈ C.Jplus ⊤ S)
-    (hxp : C.lt ⊤ x p) : x ∈ U := by
-  obtain ⟨σ, hσ, hσx⟩ := hx
-  obtain ⟨u, hux, huU⟩ := mem_closure_iff_nhds.1 hp _
-    (Causality.isOpen_Iplus.mem_nhds (show p ∈ C.Iplus ⊤ {x} by simpa using hxp))
-  exact hcv.2 σ (hSU hσ) u huU
-    (Causality.mem_diamond.2 ⟨hσx, C.le_of_lt (by simpa using hux)⟩)
-
-/-- **Footnote 21 of Sbierski** (« one cannot have one lying to the future and the other to the
-past »): if `p ∈ ∂U` lies in the future of `S` (`J⁺(S)` a neighbourhood of `p`, `S ⊆ U` acausal)
-and `q ∉ V` corresponds to `p`, then `q` is not in `J⁻(ψ S) ∖ J⁺(ψ S)`. -/
-theorem IsCorrPair.mem_Jplus_of_corresponds (h : IsCorrPair C D U V ψ g)
-    (hcv : C.CausallyConvexIn (U : Set M) ⊤) {p : M} {q : N} (hZ : p ∈ C.Zminus)
-    (hPD : D.PushUp) (hclD : ∀ y, IsClosed (D.Jplus ⊤ {y}))
-    (hc : Corresponds (U : Set M) ψ p q) (hqV : q ∉ V) (hcausM : C.IsCausal)
-    (hcausN : D.IsCausal) {S : Set M} (hac : C.IsAcausal S) (hSU : S ⊆ U)
-    (hsep : C.Jplus ⊤ S ∈ 𝓝 p) (hcov : q ∈ D.Jplus ⊤ (ψ '' S) ∪ D.Jminus ⊤ (ψ '' S)) :
-    q ∈ D.Jplus ⊤ (ψ '' S) := by
-  rcases hcov with h1 | ⟨_, ⟨σ₀, hσ₀, rfl⟩, hqσ⟩
-  · exact h1
-  exfalso
-  obtain ⟨x, hxI, hxJ⟩ := hZ _ hsep
-  have hxp : C.lt ⊤ x p := by simpa using hxI
-  have hxU := mem_of_mem_Jplus_of_lt hcv hSU (mem_closure_of_corresponds hc) hxJ hxp
-  have hxq := h.lt_of_lt_of_corresponds hcv hZ hPD hclD hc hxU hxp
-  have hxσ₀ : C.le ⊤ x σ₀ :=
-    (h.le_iff x hxU σ₀ (hSU hσ₀)).2 (D.le_trans (D.le_of_lt hxq) hqσ)
-  obtain ⟨σ, hσ, hσx⟩ := hxJ
-  have e : σ = σ₀ := hac σ hσ σ₀ hσ₀ (C.le_trans hσx hxσ₀)
-  subst e
-  have hx : x = σ := hcausM hxσ₀ hσx
-  subst hx
-  exact hqV (hcausN hqσ (D.le_of_lt hxq) ▸ h.mapsTo hxU)
-
-end ModelFree
 
 /-! ### The chart step: one element of the groupoid on a star-shaped piece -/
 
@@ -896,8 +801,8 @@ whose data are those of the flat one — `Y = Minkowski d`, its topology, `G` th
 `causalityY = minkowski d`, `singY = ∅` (the five `HEq`s, each `HEq.rfl` for `flatModelOf`) —
 satisfies `LocalModel.GermExtFuture`. Only `𝔐`'s own fields are used (B1 `rigid`, B2
 `localUnique_reg`, B3 `chartIso_mem`, `absolutelyMinimalOn_Y`, `singularFlatAxioms`,
-`curvesExtend`, `isCompact_Jminus_inter_Jplus`), with second countability from
-`flat_secondCountableTopology`. Integrator: `flat_germExtFuture (flatModelOf d hJ₁ hJ₂) rfl
+`curvesExtend`, `isCompact_Jminus_inter_Jplus`); second countability of `M`, `N` is a binder of
+the field since interface round 3 (it was `flat_secondCountableTopology` before). Integrator: `flat_germExtFuture (flatModelOf d hJ₁ hJ₂) rfl
 HEq.rfl HEq.rfl HEq.rfl HEq.rfl : (flatModelOf d hJ₁ hJ₂).GermExtFuture`. -/
 theorem flat_germExtFuture {d : ℕ} (𝔐 : LocalModel.{0}) (hY : 𝔐.Y = Minkowski d)
     (htop : HEq 𝔐.topY (inferInstance : TopologicalSpace (Minkowski d)))
@@ -914,11 +819,9 @@ theorem flat_germExtFuture {d : ℕ} (𝔐 : LocalModel.{0}) (hY : 𝔐.Y = Mink
   cases hG
   cases hC
   cases hsing
-  intro M N _ _ _ _ _ _ s t U ψ S h hinj hGM hGN hGU hGV hSU hS hSU' hψS hψSV p q hp hpS hcl
+  intro M N _ _ _ _ _ _ _ _ s t U ψ S h hinj hGM hGN hGU hGV hSU hS hSU' hψS hψSV p q hp hpS hcl
   obtain ⟨cs, hgs⟩ := s
   obtain ⟨ct, hgt⟩ := t
-  haveI := flat_secondCountableTopology (d := d) M
-  haveI := flat_secondCountableTopology (d := d) N
   exact flat_germ_future rigid (germ_hreg_of_localUnique_reg lur) cim amY sfa sfa (ce hGM)
     (ce hGN) (ic2 hGM) (ic2 hGN) U ψ S h hinj hGM hGN hGU hGV hSU hS hSU' hψS hψSV p q hp hpS hcl
 
@@ -940,11 +843,9 @@ theorem flat_germExtPast {d : ℕ} (𝔐 : LocalModel.{0}) (hY : 𝔐.Y = Minkow
   cases hG
   cases hC
   cases hsing
-  intro M N _ _ _ _ _ _ s t U ψ S h hinj hGM hGN hGU hGV hSU hS hSU' hψS hψSV p q hp hpS hcl
+  intro M N _ _ _ _ _ _ _ _ s t U ψ S h hinj hGM hGN hGU hGV hSU hS hSU' hψS hψSV p q hp hpS hcl
   obtain ⟨cs, hgs⟩ := s
   obtain ⟨ct, hgt⟩ := t
-  haveI := flat_secondCountableTopology (d := d) M
-  haveI := flat_secondCountableTopology (d := d) N
   exact flat_germ_past rigid (germ_hreg_of_localUnique_reg lur) cim amY sfa sfa (ce hGM)
     (ce hGN) (ic1 hGM) (ic1 hGN) U ψ S h hinj hGM hGN hGU hGV hSU hS hSU' hψS hψSV p q hp hpS hcl
 
