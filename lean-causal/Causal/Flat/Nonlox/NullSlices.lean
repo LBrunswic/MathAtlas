@@ -1,14 +1,14 @@
-import CausalScaffold.Flat.Develop
-import CausalScaffold.Flat.Externals
-import CausalScaffold.Flat.Bieberbach
-import CausalScaffold.Flat.TwistedProduct
-import CausalScaffold.Flat.Examples
-import CausalScaffold.Flat.CauchyComplete
-import CausalScaffold.Flat.Nonlox.BTrivial
-import CausalScaffold.Flat.Nonlox.UnipotentFrame
+import Causal.Flat.Develop
+import Causal.Flat.Externals
+import Causal.Flat.Bieberbach
+import Causal.Flat.TwistedProduct
+import Causal.Flat.Examples
+import Causal.Flat.CauchyComplete
+import Causal.Flat.Nonlox.BTrivial
+import Causal.Flat.Nonlox.UnipotentFrame
 
 /-!
-# `CausalScaffold.Flat.Nonlox.NullSlices` — a (CC′) surface over the null slices `{y = t}`, and the slab of its heights
+# `Causal.Flat.Nonlox.NullSlices` — a (CC′) surface over the null slices `{y = t}`, and the slab of its heights
 
 T. Barbot, *Globally hyperbolic flat space-times*, §9, the parabolic case, points (1) and (3)
 (`GHFspace.tex` l.2651–2663 of `papers/barbot/legacy/labeled/`) and the normalisation

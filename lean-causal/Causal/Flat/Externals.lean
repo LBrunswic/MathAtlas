@@ -1,12 +1,12 @@
-import CausalScaffold.Flat.AchronalDomains
-import CausalScaffold.Flat.Penrose
+import Causal.Flat.AchronalDomains
+import Causal.Flat.Penrose
 import Mathlib.GroupTheory.Nilpotent
 import Mathlib.GroupTheory.Torsion
 import Mathlib.Algebra.Order.Ring.Units
 import Mathlib.RingTheory.RootsOfUnity.Complex
 
 /-!
-# `CausalScaffold.Flat.Externals` — the external results of Barbot §5, §9, §10, §11, as named `Prop`s
+# `Causal.Flat.Externals` — the external results of Barbot §5, §9, §10, §11, as named `Prop`s
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257). Package
 WP-33c (DEC-36, DEC-44). **No ledger label is certified here** (no `**` mark): each external

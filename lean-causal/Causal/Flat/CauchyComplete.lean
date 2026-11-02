@@ -1,12 +1,12 @@
-import CausalScaffold.Flat.InducedLength
-import CausalScaffold.Flat.FlatSpacetime
-import CausalScaffold.Flat.LipschitzGraph
-import CausalScaffold.Flat.Developing
-import CausalScaffold.Splitting
-import CausalScaffold.Flat.SecondCountable
+import Causal.Flat.InducedLength
+import Causal.Flat.FlatSpacetime
+import Causal.Flat.LipschitzGraph
+import Causal.Flat.Developing
+import Causal.Splitting
+import Causal.Flat.SecondCountable
 
 /-!
-# `CausalScaffold.Flat.CauchyComplete` — Cauchy-completeness of a flat spacetime, and the bridge to (CC′)
+# `Causal.Flat.CauchyComplete` — Cauchy-completeness of a flat spacetime, and the bridge to (CC′)
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §2.4 and
 §8. Labels certified (no `sorry` beneath, in the DEC-35 reading, hypotheses only ⚠ weakened):

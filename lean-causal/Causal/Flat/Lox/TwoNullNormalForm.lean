@@ -1,4 +1,4 @@
-import CausalScaffold.Flat.Externals
+import Causal.Flat.Externals
 
 /-!
 # A Lorentz transformation fixing two points of `𝒮` is a boost on their null plane

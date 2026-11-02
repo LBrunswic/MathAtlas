@@ -1,6 +1,6 @@
-import CausalScaffold.Flat.Lox.RestrictOrient
-import CausalScaffold.Flat.Develop
-import CausalScaffold.Flat.Externals
+import Causal.Flat.Lox.RestrictOrient
+import Causal.Flat.Develop
+import Causal.Flat.Externals
 import Mathlib.LinearAlgebra.Eigenspace.Zero
 
 /-!

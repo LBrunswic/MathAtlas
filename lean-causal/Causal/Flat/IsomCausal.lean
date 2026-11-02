@@ -1,9 +1,9 @@
-import CausalScaffold.Flat.Form
+import Causal.Flat.Form
 import Causal.GXStructure
 import Causal.CauchyExtension
 
 /-!
-# `CausalScaffold.Flat.IsomCausal` — isometries of `𝐌ⁿ` are causal automorphisms, and every flat spacetime carries its causality
+# `Causal.Flat.IsomCausal` — isometries of `𝐌ⁿ` are causal automorphisms, and every flat spacetime carries its causality
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §2.2–2.3,
 `GHFspace.tex` l.471–492. No ledger label is certified: both subsections are prose, without an

@@ -42,8 +42,9 @@ deduce achronality (O'Neill, Lemma 14.45) and count intersections. Here it is re
    `theo:geroch`), so `F ∘ c` changes sign.
 
 The bare DEC-44 form (`isCauchySurface_of_isLocallyCauchy`: locally Cauchy only, no splitting,
-no two-sidedness) is **stated with a tagged `sorry`**, so that gx has a target declaration; it is
-open in ETT generality and possibly false (see SCOPE). Nothing may depend on it.
+no two-sidedness) is **not in this module**: it is stated with a tagged `sorry` in the scaffold
+module `CausalScaffold.CompactCauchy`, which imports this one, so that gx has a target declaration;
+it is open in ETT generality and possibly false (see SCOPE). Nothing may depend on it.
 
 ## Hypothesis checklist
 
@@ -73,7 +74,8 @@ open in ETT generality and possibly false (see SCOPE). Nothing may depend on it.
   controlled — a point of `U` near `Σ` may be related to `Σ` only through points of `Σ` outside
   `U`, which global acausality (the conclusion) would exclude. Neither is a gap of the paper,
   which works with smooth spacelike hypersurfaces; both are what "spacelike" means here.
-* **The bare DEC-44 form is stated, not proved** (`isCauchySurface_of_isLocallyCauchy`,
+* **The bare DEC-44 form is stated in the scaffold, not proved**
+  (`isCauchySurface_of_isLocallyCauchy` in `CausalScaffold.CompactCauchy`,
   `sorry -- SORRY(DEC-44)`), with the ETT regularity hypotheses of the proved form (`T2Space`,
   `Tarentin`, `CausallyArcConnected`, `J^±(p) ≠ {p}`: fields of `SingularFlatAxioms` or true at
   BTZ points, so gx loses nothing) and without the two named data. Its obstruction is the two
@@ -86,9 +88,6 @@ open in ETT generality and possibly false (see SCOPE). Nothing may depend on it.
 * **gx contract (a)–(f)** (`docs/BARBOT.md`, "The contract with gx"): not applicable. This module
   defines no length, metric or Lipschitz graph; it touches only the Cauchy-surface API
   (`IsCauchySurfaceOn`, `IsCauchySplitting`, `CurvesExtend`) that gx imports.
-* Not yet imported by the scaffold root `CausalScaffold.lean` (outside this package's write
-  scope): registration, and with it `scripts/AxiomSweep.lean`'s view of this file, is left to the
-  master session.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -787,21 +786,6 @@ theorem isCauchySurface_of_isLocallyCauchyTwoSided [T2Space M] [ConnectedSpace M
   rcases le_total t (φ s) with hle | hle
   · exact hac _ htS _ hcS (hc.1.le_of_le ht hφs hle)
   · exact (hac _ hcS _ htS (hc.1.le_of_le hφs ht hle)).symm
-
-/-- **Lemma K, the bare DEC-44 form — OPEN, tagged `sorry`; nothing may depend on it.** On a
-connected Hausdorff tarentin globally hyperbolic causally arc-connected spacetime with
-`J^±(p) ≠ {p}`, a compact connected locally Cauchy set is a Cauchy surface. This is the target gx
-points at; it is proved above (`isCauchySurface_of_isLocallyCauchyTwoSided`) only under two more
-data, a global splitting with causally monotone lines and two-sidedness in the charts. The
-regularity hypotheses kept here are those of the proved form, all dischargeable by gx
-(`SingularFlatAxioms.tarentin`, `.causallyArcConnected`, `.t2`; `J^-(p) ≠ {p}` at a BTZ point by
-its past half-line); it is not known whether the statement holds in ETT generality. -/
-theorem isCauchySurface_of_isLocallyCauchy [T2Space M] [ConnectedSpace M]
-    (hT : C.Tarentin) (hG : C.GloballyHyperbolic) (hC : C.CausallyArcConnected)
-    (hJm : ∀ p : M, C.Jminus ⊤ {p} ≠ {p}) (hJp : ∀ p : M, C.Jplus ⊤ {p} ≠ {p})
-    {S : Set M} (hSc : IsCompact S) (hSconn : IsConnected S) (hloc : C.IsLocallyCauchy S) :
-    C.IsCauchySurface S :=
-  sorry -- SORRY(DEC-44): open in ETT generality, possibly false. (1) No global projection: without a splitting (or a covering map) of M there is nothing to compare Σ with, which is Brunswic's covering step (prop:cauchy_abs_max, BTZ_1.tex:1048-1074, uses N ≃ Σ_N × ℝ). (2) No two-sidedness: in a chart U a point of U near Σ may be related to Σ ∩ U only through points of Σ outside U, so the time window of the box step (exists_box_of_twoSided) is uncontrolled, and excluding it needs global acausality of Σ, which is the conclusion. Proved under both data as isCauchySurface_of_isLocallyCauchyTwoSided.
 
 end Causality
 

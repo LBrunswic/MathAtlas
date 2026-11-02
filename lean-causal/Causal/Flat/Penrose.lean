@@ -1,8 +1,8 @@
-import CausalScaffold.Flat.Form
+import Causal.Flat.Form
 import Causal.CauchyExtension
 
 /-!
-# `CausalScaffold.Flat.Penrose` — the Penrose boundary `𝒥^±` and the regular convex domains
+# `Causal.Flat.Penrose` — the Penrose boundary `𝒥^±` and the regular convex domains
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §4.1–4.2
 (`GHFspace.tex` l.762–1040). Labels certified (line in `papers/barbot/legacy/labeled/GHFspace.tex`):
@@ -159,7 +159,7 @@ theorem nullVec_ne_zero (u : PenroseSphere d) : nullVec u ≠ 0 := fun h => by
 
 The six `private` lemmas below (`minkB_add_right`, `minkB_sub_right`, `minkB_neg_right`,
 `minkB_smul_right`, `minkB_smul_left`, `minkQ_add`) are stated also, publicly and in other argument
-orders, by the wave-1 sibling `CausalScaffold.Flat.Isometries`; they are private here so that both
+orders, by the wave-1 sibling `Causal.Flat.Isometries`; they are private here so that both
 modules can be imported together (a public copy would make any common importer fail with
 "environment already contains"). `Isometries` is not imported because it is not built in this
 wave; at graduation one copy moves into `Form` and the other is dropped. -/

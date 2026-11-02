@@ -1,12 +1,12 @@
-import CausalScaffold.Flat.Develop
-import CausalScaffold.Flat.Externals
-import CausalScaffold.Flat.Bieberbach
-import CausalScaffold.Flat.TwistedProduct
-import CausalScaffold.Flat.Examples
-import CausalScaffold.Flat.CauchyComplete
+import Causal.Flat.Develop
+import Causal.Flat.Externals
+import Causal.Flat.Bieberbach
+import Causal.Flat.TwistedProduct
+import Causal.Flat.Examples
+import Causal.Flat.CauchyComplete
 
 /-!
-# `CausalScaffold.Flat.Nonlox.BTrivial` — [9.b] for a parabolic `γ₁ = R U`, `R ≠ id`
+# `Causal.Flat.Nonlox.BTrivial` — [9.b] for a parabolic `γ₁ = R U`, `R ≠ id`
 
 T. Barbot, *Globally hyperbolic flat space-times*, §9, "Triviality of `b`"
 (`papers/barbot/legacy/labeled/GHFspace.tex:2765–2787`): if the linear parts of `Γ` fix the null
@@ -29,6 +29,8 @@ Proof, in Barbot's coordinates `(x, z, y) ↦ ofNull x y z` (re-derived locally 
   (`nolQ_iterate_le`): the quartic of `b_eq_zero_model` (now with `v_f`) forces `b(γ₁) = 0`
   (`b_eq_zero_of_fix`), and the heights `y₀ ± k b(γ₀)` argument of `b_trivial_model` then forces
   `b(γ₀) = 0` for every `γ₀ ∈ Γ` (`false_of_b_ne_zero`). Neither Lemma 7.1 nor Cor 8.3 is used.
+
+Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
 
 namespace Causal.Flat.Nonlox

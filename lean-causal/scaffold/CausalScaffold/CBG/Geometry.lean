@@ -1,5 +1,5 @@
 import CausalScaffold.SubExtension
-import CausalScaffold.CompactCauchy
+import Causal.CompactCauchy
 import Causal.PushoutCausal
 import Causal.SingularFlat
 import Causal.GXStructure
@@ -497,7 +497,7 @@ structure Geometry extends PreGeometry.{u} where
     [SecondCountableTopology M] (s : Str M), (causality s).SingularFlatAxiomsCorr (sing s)
   /-- **A2**: `CurvesExtend`, on **globally hyperbolic** `M` only (gx review C3: the proof consumes
   it on developments, which are GH, and there `curvesExtend_of_timeFunction`,
-  `CausalScaffold/CurvesExtend.lean:409`, discharges it from a continuous time function strictly
+  `Causal/CurvesExtend.lean:409`, discharges it from a continuous time function strictly
   increasing along `≤`, e.g. the Geroch time of `SingularGeroch`, whose `K_monotone` input survives
   C1 by `SingularFlatAxiomsCorr.K_monotone`). §3.1 (re-routing around `exists_mem_image_inf`). -/
   curvesExtend : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
@@ -510,7 +510,7 @@ structure Geometry extends PreGeometry.{u} where
   `𝔊.timeFunction s hGH : (𝔊.causality s).HasTimeFunction` and
   `fun s hGH => 𝔊.timeFunction s hGH : 𝔊.HasTimeFunctions` (`CBG/Maximal`) typecheck as they are).
   It is weaker than `Causality.IsTimeFunction` (`Causal/Morphism.lean`) and is the hypothesis form
-  of `curvesExtend_of_timeFunction` (`CausalScaffold/CurvesExtend.lean:409`). §3.2 (Sbierski
+  of `curvesExtend_of_timeFunction` (`Causal/CurvesExtend.lean:409`). §3.2 (Sbierski
   Lemma 3.3, `IsCGHD.injOn`: MCGHD morphisms injective), hence §3.3, §3.5, §3.7. Discharge: flat,
   the Geroch time of admissible measures (`Flat/GerochFlat`); `E₀`, `SingularGeroch` (its
   `K_monotone` input: `SingularFlatAxiomsCorr.K_monotone`). Gives `LocalModel.timeFunction` at

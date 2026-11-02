@@ -1,11 +1,11 @@
-import CausalScaffold.Flat.Nonloxodromic
-import CausalScaffold.Flat.TitsNull
-import CausalScaffold.Flat.Loxodromic
-import CausalScaffold.CompactCauchy
-import CausalScaffold.CurvesExtend
+import Causal.Flat.Nonloxodromic
+import Causal.Flat.TitsNull
+import Causal.Flat.Loxodromic
+import Causal.CompactCauchy
+import Causal.CurvesExtend
 
 /-!
-# `CausalScaffold.Flat.Cla.TameNested` — `Γ\W` tamely embeds in `Γ\Ω` for nested simply connected `W ⊆ Ω`
+# `Causal.Flat.Cla.TameNested` — `Γ\W` tamely embeds in `Γ\Ω` for nested simply connected `W ⊆ Ω`
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), Theorem A
 (`bthm:caucomp`, l.338–347, reading R1, DEC-43) and the absolute-maximality step [11.i]. No label

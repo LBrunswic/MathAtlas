@@ -1,9 +1,9 @@
-import CausalScaffold.Flat.Quotient
-import CausalScaffold.Flat.LipschitzGraph
-import CausalScaffold.Flat.Cosmological
+import Causal.Flat.Quotient
+import Causal.Flat.LipschitzGraph
+import Causal.Flat.Cosmological
 
 /-!
-# `CausalScaffold.Flat.Examples` — the elementary models: translation, Misner and unipotent spacetimes; Rem 2.2 completed; Rem 2.3 refuted by the slab
+# `Causal.Flat.Examples` — the elementary models: translation, Misner and unipotent spacetimes; Rem 2.2 completed; Rem 2.3 refuted by the slab
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §2.4 and
 §3. **No b-label is certified**: every item here is prose without a ledger environment ([3.T],

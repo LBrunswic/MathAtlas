@@ -1,6 +1,6 @@
-import CausalScaffold.Flat.Externals
-import CausalScaffold.Flat.Lox.EllipticCommonFix
-import CausalScaffold.Flat.Lox.CommuteOnFix
+import Causal.Flat.Externals
+import Causal.Flat.Lox.EllipticCommonFix
+import Causal.Flat.Lox.CommuteOnFix
 
 /-!
 # A nilpotent group normalised by `G` with no nonzero non-spacelike fixed vector gives a fixed point of `𝒮` for a finite-index subgroup of `G`

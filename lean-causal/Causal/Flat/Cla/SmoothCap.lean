@@ -1,7 +1,7 @@
-import CausalScaffold.Flat.Cla.SmoothGlue
+import Causal.Flat.Cla.SmoothGlue
 
 /-!
-# `CausalScaffold.Flat.Cla.SmoothCap` — the cap envelope: a compact acausal Cauchy surface of a GH flat spacetime is smoothed by finitely many buried past-hyperboloid caps
+# `Causal.Flat.Cla.SmoothCap` — the cap envelope: a compact acausal Cauchy surface of a GH flat spacetime is smoothed by finitely many buried past-hyperboloid caps
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §2.4 and
 §11. **No label is marked**: this file proves `exists_capEnvelope_of_isCompact_cauchy`, which

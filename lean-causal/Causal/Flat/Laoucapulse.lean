@@ -1,9 +1,9 @@
-import CausalScaffold.Flat.Penrose
-import CausalScaffold.Flat.Externals
+import Causal.Flat.Penrose
+import Causal.Flat.Externals
 import Mathlib.Analysis.Normed.Module.Connected
 
 /-!
-# `CausalScaffold.Flat.Laoucapulse` — Barbot's Prop 4.2 in its strongest true reading
+# `Causal.Flat.Laoucapulse` — Barbot's Prop 4.2 in its strongest true reading
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §4.1.
 Line numbers are those of `papers/barbot/legacy/labeled/GHFspace.tex`. **No label is marked.**

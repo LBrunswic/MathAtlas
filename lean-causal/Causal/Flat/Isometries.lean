@@ -1,4 +1,4 @@
-import CausalScaffold.Flat.Form
+import Causal.Flat.Form
 import Mathlib.LinearAlgebra.BilinearForm.Orthogonal
 import Mathlib.LinearAlgebra.AffineSpace.AffineSubspace.Basic
 import Mathlib.Tactic.Module
@@ -9,7 +9,7 @@ import Mathlib.Analysis.Calculus.Deriv.Pow
 import Mathlib.Analysis.Calculus.Deriv.Mul
 
 /-!
-# `CausalScaffold.Flat.Isometries` — Barbot §6, the classification of isometries of `𝐌ⁿ`
+# `Causal.Flat.Isometries` — Barbot §6, the classification of isometries of `𝐌ⁿ`
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §6
 "Classification of isometries" (`GHFspace.tex` l.1848–2017 of the labelled file; l.1824–1993 of

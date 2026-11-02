@@ -1,23 +1,23 @@
-import CausalScaffold.Flat.Develop
-import CausalScaffold.Flat.Externals
-import CausalScaffold.Flat.Bieberbach
-import CausalScaffold.Flat.TwistedProduct
-import CausalScaffold.Flat.Examples
-import CausalScaffold.Flat.CauchyComplete
-import CausalScaffold.Flat.Nonlox.EllipticBieberbach
-import CausalScaffold.Flat.Nonlox.SpacelikeSpan
-import CausalScaffold.Flat.Nonlox.TranslationLTP
-import CausalScaffold.Flat.Nonlox.NullFrame
-import CausalScaffold.Flat.Nonlox.BTrivial
-import CausalScaffold.Flat.Nonlox.UnipotentRestriction
-import CausalScaffold.Flat.Nonlox.UnipotentFrame
-import CausalScaffold.Flat.Nonlox.UnipotentLTP
-import CausalScaffold.Flat.Nonlox.UnipotentUpToFrame
+import Causal.Flat.Develop
+import Causal.Flat.Externals
+import Causal.Flat.Bieberbach
+import Causal.Flat.TwistedProduct
+import Causal.Flat.Examples
+import Causal.Flat.CauchyComplete
+import Causal.Flat.Nonlox.EllipticBieberbach
+import Causal.Flat.Nonlox.SpacelikeSpan
+import Causal.Flat.Nonlox.TranslationLTP
+import Causal.Flat.Nonlox.NullFrame
+import Causal.Flat.Nonlox.BTrivial
+import Causal.Flat.Nonlox.UnipotentRestriction
+import Causal.Flat.Nonlox.UnipotentFrame
+import Causal.Flat.Nonlox.UnipotentLTP
+import Causal.Flat.Nonlox.UnipotentUpToFrame
 import Mathlib.NumberTheory.Real.Irrational
 import Mathlib.NumberTheory.DiophantineApproximation.Basic
 
 /-!
-# `CausalScaffold.Flat.Nonloxodromic` — Barbot §9, the nonloxodromic case
+# `Causal.Flat.Nonloxodromic` — Barbot §9, the nonloxodromic case
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §9 "The
 nonloxodromic case" (label `nol`), lines of the **labelled** `papers/barbot/legacy/labeled/GHFspace.tex`.
@@ -1691,7 +1691,7 @@ theorem exists_timelike_fixed_of_comm_elliptic {Γ : Subgroup (isom d)}
 variable (d) in
 /-- **The null-fixing, all-elliptic case is virtually abelian** (not cited by Barbot — it fills
 the gap of l.2621–2622). Stated here as a hypothesis-shaped `Prop`; **proved** (DEC-50) in
-`CausalScaffold.Flat.TitsNull` as `titsVirtuallyAbelianNull d`, up to one tagged `sorry`
+`Causal.Flat.TitsNull` as `titsVirtuallyAbelianNull d`, up to one tagged `sorry`
 (`exists_commute_screenRot_of_discrete`, the Auslander/Cartan local step), and sorry-free for
 `d ≤ 2` (`titsVirtuallyAbelianNull_of_le_two`); TitsNull imports this file, so the lemmas here
 keep `hT` and the discharge happens in `Flat/Classification`. For `Γ` **discrete** in `Isom(𝐌ⁿ)` (`isomTopology`,

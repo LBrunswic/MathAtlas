@@ -129,7 +129,7 @@ is weaker
 than the strict library's `Causality.IsTimeFunction` (`Causal/Morphism.lean:832`, a strong morphism
 to `timelikeLine`) and than `IsCauchyTimeFunction` (`Causal/Cauchy.lean:83`), and must not be read
 as either: it is exactly the hypothesis form of `curvesExtend_of_timeFunction`
-(`CausalScaffold/CurvesExtend.lean:409`). -/
+(`Causal/CurvesExtend.lean:409`). -/
 def Causality.HasTimeFunction {M : Type*} [TopologicalSpace M] (C : Causality M) : Prop :=
   ∃ T : M → ℝ, Continuous T ∧ ∀ x y, C.le ⊤ x y → x ≠ y → T x < T y
 

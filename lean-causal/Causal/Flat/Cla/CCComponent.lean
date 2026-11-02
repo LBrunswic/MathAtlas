@@ -1,7 +1,7 @@
-import CausalScaffold.Flat.CauchyComplete
+import Causal.Flat.CauchyComplete
 
 /-!
-# `CausalScaffold.Flat.Cla.CCComponent` — connectedness is free for spacelike Lipschitz hypersurfaces
+# `Causal.Flat.Cla.CCComponent` — connectedness is free for spacelike Lipschitz hypersurfaces
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §2.4.
 **No label is marked**: these are infrastructure lemmas for the smoothing step of

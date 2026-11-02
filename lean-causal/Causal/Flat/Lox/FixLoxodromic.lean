@@ -1,7 +1,7 @@
-import CausalScaffold.Flat.Externals
+import Causal.Flat.Externals
 
 /-!
-# `CausalScaffold.Flat.Lox.FixLoxodromic` — [10.M], first step: a finite-index `Γ'` whose linear part fixes `Δ₀`, a fixed direction of a loxodromic `γ₀`, with `Δ₁` the other one
+# `Causal.Flat.Lox.FixLoxodromic` — [10.M], first step: a finite-index `Γ'` whose linear part fixes `Δ₀`, a fixed direction of a loxodromic `γ₀`, with `Δ₁` the other one
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §10,
 subsection "The elementary case" (`misnerr`). No ledger label is certified here (no `**` mark):

@@ -1,5 +1,5 @@
-import CausalScaffold.Flat.Examples
-import CausalScaffold.Flat.CauchyComplete
+import Causal.Flat.Examples
+import Causal.Flat.CauchyComplete
 
 /-!
 # Cauchy-completeness descends from an invariant level set to `Γ\Ω`

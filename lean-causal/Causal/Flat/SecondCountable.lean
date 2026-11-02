@@ -1,11 +1,11 @@
-import CausalScaffold.Flat.Developing
-import CausalScaffold.Flat.Quotient
-import CausalScaffold.Flat.FlatSpacetime
+import Causal.Flat.Developing
+import Causal.Flat.Quotient
+import Causal.Flat.FlatSpacetime
 import Mathlib.Topology.Bases
 import Mathlib.Topology.SeparatedMap
 
 /-!
-# `CausalScaffold.Flat.SecondCountable` — a flat spacetime is second countable (Geroch, flat case)
+# `Causal.Flat.SecondCountable` — a flat spacetime is second countable (Geroch, flat case)
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §2.1 and
 §2.3: a spacetime is a *manifold* (hence second countable), and a flat spacetime is an
@@ -81,8 +81,7 @@ discharges the hypothesis "M second countable" that `FlatSpacetime` does not car
   developing theorem (`Causal.developing_theorem`, ported from gx) is stated so.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. The universal cover
-and the developing theorem are `CausalScaffold.Port.UniversalCover` / `CausalScaffold.Port.
-Developing` (ported from gx, WP-32a). Written by WP-34f-SecondCountable.
+and the developing theorem are `Causal.Port.UniversalCover` / `Causal.Port.Developing` (ported from gx, WP-32a). Written by WP-34f-SecondCountable.
 -/
 
 namespace Causal

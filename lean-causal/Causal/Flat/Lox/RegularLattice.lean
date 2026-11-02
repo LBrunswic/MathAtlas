@@ -1,7 +1,7 @@
-import CausalScaffold.Flat.Externals
+import Causal.Flat.Externals
 
 /-!
-# `CausalScaffold.Flat.Lox.RegularLattice` — `𝒩` is a lattice in a spacelike `E`, and `Ω + E = Ω`, for a group acting properly on a one-sided convex domain
+# `Causal.Flat.Lox.RegularLattice` — `𝒩` is a lattice in a spacelike `E`, and `Ω + E = Ω`, for a group acting properly on a one-sided convex domain
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §10,
 item **[10.G]** of `docs/BARBOT.md` (`GHFspace.tex` l.3406–3417 and l.3432–3435, labelled copy).

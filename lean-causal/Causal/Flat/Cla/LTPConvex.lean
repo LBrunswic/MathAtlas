@@ -1,11 +1,11 @@
-import CausalScaffold.Flat.Nonloxodromic
-import CausalScaffold.Flat.TitsNull
-import CausalScaffold.Flat.Loxodromic
-import CausalScaffold.CompactCauchy
-import CausalScaffold.CurvesExtend
+import Causal.Flat.Nonloxodromic
+import Causal.Flat.TitsNull
+import Causal.Flat.Loxodromic
+import Causal.CompactCauchy
+import Causal.CurvesExtend
 
 /-!
-# `CausalScaffold.Flat.Cla.LTPConvex` — a linear twisted product over a unipotent spacetime has a convex presentation, and every connected-carrying presentation of it is convex
+# `Causal.Flat.Cla.LTPConvex` — a linear twisted product over a unipotent spacetime has a convex presentation, and every connected-carrying presentation of it is convex
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257),
 `papers/barbot/legacy/labeled/GHFspace.tex`. A plan lemma of Classification (L1): it serves

@@ -1,11 +1,11 @@
-import CausalScaffold.Flat.Develop
-import CausalScaffold.Flat.Externals
-import CausalScaffold.Flat.Bieberbach
-import CausalScaffold.Flat.TwistedProduct
-import CausalScaffold.Flat.Examples
+import Causal.Flat.Develop
+import Causal.Flat.Externals
+import Causal.Flat.Bieberbach
+import Causal.Flat.TwistedProduct
+import Causal.Flat.Examples
 
 /-!
-# `CausalScaffold.Flat.Nonlox.UnipotentLTP` — the parabolic case in a null frame: `Ω ⊆ Ω(S̃)`, the quotient `B = Γ''\Ω`, and `B` a linear twisted product over a unipotent spacetime
+# `Causal.Flat.Nonlox.UnipotentLTP` — the parabolic case in a null frame: `Ω ⊆ Ω(S̃)`, the quotient `B = Γ''\Ω`, and `B` a linear twisted product over a unipotent spacetime
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §9
 [9.U]–[9.A] (`GHFspace.tex` l.2904–2907, l.2927–2932, l.3120–3127), Lemma 5.5 (`blem:suspendre`)

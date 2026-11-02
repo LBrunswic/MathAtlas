@@ -1,16 +1,16 @@
-import CausalScaffold.Flat.Develop
-import CausalScaffold.Flat.Externals
-import CausalScaffold.Flat.Bieberbach
-import CausalScaffold.Flat.TwistedProduct
-import CausalScaffold.Flat.Examples
-import CausalScaffold.Flat.CauchyComplete
-import CausalScaffold.Flat.Nonlox.BTrivial
-import CausalScaffold.Flat.Nonlox.UnipotentFrame
-import CausalScaffold.Flat.Nonlox.UnipotentRestriction
-import CausalScaffold.Flat.Nonlox.NullSlices
+import Causal.Flat.Develop
+import Causal.Flat.Externals
+import Causal.Flat.Bieberbach
+import Causal.Flat.TwistedProduct
+import Causal.Flat.Examples
+import Causal.Flat.CauchyComplete
+import Causal.Flat.Nonlox.BTrivial
+import Causal.Flat.Nonlox.UnipotentFrame
+import Causal.Flat.Nonlox.UnipotentRestriction
+import Causal.Flat.Nonlox.NullSlices
 
 /-!
-# `CausalScaffold.Flat.Nonlox.UnipotentUpToFrame` — [9.U] holds up to a null frame change: proved
+# `Causal.Flat.Nonlox.UnipotentUpToFrame` — [9.U] holds up to a null frame change: proved
 
 T. Barbot, *Globally hyperbolic flat space-times*, §9, the purely unipotent case `[9.U]`
 (`GHFspace.tex` l.2873–2938 of `papers/barbot/legacy/labeled/`), served for
@@ -67,6 +67,7 @@ The heights `]ylo, yhi[` come from `Flat/Nonlox/NullSlices`.
   `𝒰̄₀` is replaced by `W`, the common fixed space of the rotations of `K`; no maximality is used.
 * `d₁ = dim W` may exceed `dim span L` (the directions of `W` with no translation are kept).
 * Bieberbach's theorem remains the external `BieberbachI` (unchanged from the dispatched form).
+* `set_option maxHeartbeats 1600000` on `exists_unipotentRestriction_upToFrame` (one long assembly).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Barbot campaign,
 WP-34c-Nonloxodromic (2026-11-01), closing the one `sorry` of `Flat/Nonloxodromic`.

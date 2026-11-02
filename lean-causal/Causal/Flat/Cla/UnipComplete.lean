@@ -1,12 +1,12 @@
-import CausalScaffold.Flat.Nonloxodromic
-import CausalScaffold.Flat.TitsNull
-import CausalScaffold.Flat.Loxodromic
-import CausalScaffold.CompactCauchy
-import CausalScaffold.CurvesExtend
-import CausalScaffold.Flat.Cla.RegularComplete
+import Causal.Flat.Nonloxodromic
+import Causal.Flat.TitsNull
+import Causal.Flat.Loxodromic
+import Causal.CompactCauchy
+import Causal.CurvesExtend
+import Causal.Flat.Cla.RegularComplete
 
 /-!
-# `CausalScaffold.Flat.Cla.UnipComplete` — unipotent spacetimes are GH and Cauchy-complete
+# `Causal.Flat.Cla.UnipComplete` — unipotent spacetimes are GH and Cauchy-complete
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257); line
 numbers are those of the labelled `papers/barbot/legacy/labeled/GHFspace.tex`. **No label is

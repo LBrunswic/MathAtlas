@@ -1,8 +1,8 @@
-import CausalScaffold.Flat.Loxodromic
-import CausalScaffold.Flat.Cla.G9PairLin
+import Causal.Flat.Loxodromic
+import Causal.Flat.Cla.G9PairLin
 
 /-!
-# `CausalScaffold.Flat.Cla.G9Pair` — a Cauchy-compact central extension has no finite-index subgroup fixing an invariant pair of `𝒮`
+# `Causal.Flat.Cla.G9Pair` — a Cauchy-compact central extension has no finite-index subgroup fixing an invariant pair of `𝒮`
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), proof of
 Theorem B (`bthm:cauclo`, l.353–359; proof l.3536–3548), the residual pair case of gap G9d (NE)

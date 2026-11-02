@@ -1,7 +1,7 @@
 import CausalScaffold.CBG.FromModel
 import CausalScaffold.CBG.Corresponding
-import CausalScaffold.Flat.Penrose
-import CausalScaffold.Flat.SecondCountable
+import Causal.Flat.Penrose
+import Causal.Flat.SecondCountable
 
 /-!
 # A3 for the flat local model: germ extension at a corresponding boundary point, both time directions

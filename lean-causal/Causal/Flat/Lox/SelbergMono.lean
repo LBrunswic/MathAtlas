@@ -1,4 +1,4 @@
-import CausalScaffold.Flat.Externals
+import Causal.Flat.Externals
 
 /-!
 # Selberg's lemma descends along an injective linear map, hence from `𝐌ⁿ` to `𝐌ⁿ¹` for `n₁ ≤ n`

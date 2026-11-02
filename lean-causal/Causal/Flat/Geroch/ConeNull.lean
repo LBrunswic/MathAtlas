@@ -4,12 +4,12 @@ import Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar
 import Mathlib.MeasureTheory.Constructions.BorelSpace.Basic
 
 /-!
-# `CausalScaffold.Flat.Geroch.ConeNull` — the frontier of a locally past-closed set is Lebesgue-null
+# `Causal.Flat.Geroch.ConeNull` — the frontier of a locally past-closed set is Lebesgue-null
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257);
 infrastructure for `FlatAdmissibleMeasures` (`Flat/TheoremBInputs.lean`, ruling DEC-65). **No label
 is marked**: this file is a fact of measure theory on `𝐌ⁿ = ℝ × ℝᵈ` (`Minkowski d`), used by the
-integrator `CausalScaffold.Flat.GerochFlat` to prove property 4. of `defi:mesure_dieckmann`
+integrator `Causal.Flat.GerochFlat` to prove property 4. of `defi:mesure_dieckmann`
 (ETT.tex:1032) on every GH flat spacetime.
 
 > 4. for every $A \subset M$, $\mu(J^-(A)\setminus K^-(A))=0$ (resp. $\mu(J^+(A)\setminus K^+(A))=0$).

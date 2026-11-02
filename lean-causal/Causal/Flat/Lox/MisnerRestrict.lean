@@ -1,9 +1,9 @@
-import CausalScaffold.Flat.Examples
-import CausalScaffold.Flat.TwistedProduct
-import CausalScaffold.Flat.Nonlox.UnipotentUpToFrame
+import Causal.Flat.Examples
+import Causal.Flat.TwistedProduct
+import Causal.Flat.Nonlox.UnipotentUpToFrame
 
 /-!
-# `CausalScaffold.Flat.Lox.MisnerRestrict` — [10.M]: the restriction to `U` is a Misner group
+# `Causal.Flat.Lox.MisnerRestrict` — [10.M]: the restriction to `U` is a Misner group
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §10,
 subsection "The elementary case", `papers/barbot/legacy/labeled/GHFspace.tex` l.3327–3330, and

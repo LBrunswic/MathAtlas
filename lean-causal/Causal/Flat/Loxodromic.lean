@@ -1,38 +1,38 @@
-import CausalScaffold.Flat.Develop
-import CausalScaffold.Flat.Externals
-import CausalScaffold.Flat.Bieberbach
-import CausalScaffold.Flat.Examples
-import CausalScaffold.Flat.TwistedProduct
-import CausalScaffold.Flat.CauchyComplete
-import CausalScaffold.Flat.Lox.LevelComplete
-import CausalScaffold.Flat.Lox.QuotientComplete
-import CausalScaffold.Flat.Lox.CentralFix
-import CausalScaffold.Flat.Lox.RestrictFix
-import CausalScaffold.Flat.Lox.LatticeTrivial
-import CausalScaffold.Flat.Lox.RestrictOrient
-import CausalScaffold.Flat.Lox.TwoNullNormalForm
-import CausalScaffold.Flat.Lox.FixLoxodromic
-import CausalScaffold.Flat.Lox.SelbergMono
-import CausalScaffold.Flat.Lox.EllipticCommonFix
-import CausalScaffold.Flat.Lox.CommuteOnFix
-import CausalScaffold.Flat.Lox.NilpotentFix
-import CausalScaffold.Flat.Lox.UnipotentCentre
-import CausalScaffold.Flat.Lox.PerpInvariant
-import CausalScaffold.Flat.Lox.RestrictLimitSet
-import CausalScaffold.Flat.Lox.NullLevelFix
-import CausalScaffold.Flat.Lox.RegularLattice
-import CausalScaffold.Flat.Lox.FiniteIndexND
-import CausalScaffold.Flat.Lox.RestrictUnipotent
-import CausalScaffold.Flat.Lox.ClosedSubgroupNhds
-import CausalScaffold.Flat.Lox.SecondNullFix
-import CausalScaffold.Flat.Lox.MisnerFrame
-import CausalScaffold.Flat.Lox.MisnerLimitSet
-import CausalScaffold.Flat.Lox.MisnerBieberbach
-import CausalScaffold.Flat.Lox.MisnerRestrict
+import Causal.Flat.Develop
+import Causal.Flat.Externals
+import Causal.Flat.Bieberbach
+import Causal.Flat.Examples
+import Causal.Flat.TwistedProduct
+import Causal.Flat.CauchyComplete
+import Causal.Flat.Lox.LevelComplete
+import Causal.Flat.Lox.QuotientComplete
+import Causal.Flat.Lox.CentralFix
+import Causal.Flat.Lox.RestrictFix
+import Causal.Flat.Lox.LatticeTrivial
+import Causal.Flat.Lox.RestrictOrient
+import Causal.Flat.Lox.TwoNullNormalForm
+import Causal.Flat.Lox.FixLoxodromic
+import Causal.Flat.Lox.SelbergMono
+import Causal.Flat.Lox.EllipticCommonFix
+import Causal.Flat.Lox.CommuteOnFix
+import Causal.Flat.Lox.NilpotentFix
+import Causal.Flat.Lox.UnipotentCentre
+import Causal.Flat.Lox.PerpInvariant
+import Causal.Flat.Lox.RestrictLimitSet
+import Causal.Flat.Lox.NullLevelFix
+import Causal.Flat.Lox.RegularLattice
+import Causal.Flat.Lox.FiniteIndexND
+import Causal.Flat.Lox.RestrictUnipotent
+import Causal.Flat.Lox.ClosedSubgroupNhds
+import Causal.Flat.Lox.SecondNullFix
+import Causal.Flat.Lox.MisnerFrame
+import Causal.Flat.Lox.MisnerLimitSet
+import Causal.Flat.Lox.MisnerBieberbach
+import Causal.Flat.Lox.MisnerRestrict
 import Mathlib.GroupTheory.Schreier
 
 /-!
-# `CausalScaffold.Flat.Loxodromic` — Barbot §10, the loxodromic case
+# `Causal.Flat.Loxodromic` — Barbot §10, the loxodromic case
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §10
 "The loxodromic case" (`loxocase`), `GHFspace.tex` l.3133–3456 of the labelled file

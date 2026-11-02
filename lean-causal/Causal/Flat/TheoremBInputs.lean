@@ -1,7 +1,7 @@
-import CausalScaffold.Flat.Classification
+import Causal.Flat.Classification
 
 /-!
-# `CausalScaffold.Flat.TheoremBInputs` — the inputs of Theorem B: lemma K's data and Selberg
+# `Causal.Flat.TheoremBInputs` — the inputs of Theorem B: lemma K's data and Selberg
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257). This file
 audits the two universal hypotheses of `barbot_B` (`Flat/Classification.lean`) other than the

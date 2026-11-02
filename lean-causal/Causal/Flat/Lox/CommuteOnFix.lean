@@ -1,4 +1,4 @@
-import CausalScaffold.Flat.Externals
+import Causal.Flat.Externals
 
 /-!
 # A non-elliptic element commuting with `N` on a timelike subspace gives a fixed isotropic direction of a finite-index subgroup

@@ -4,7 +4,7 @@ import Mathlib.LinearAlgebra.AffineSpace.AffineEquiv
 import Mathlib.LinearAlgebra.Determinant
 
 /-!
-# `CausalScaffold.Flat.Form` — the Minkowski form, the Lorentz group and `Isom(𝐌ⁿ)`
+# `Causal.Flat.Form` — the Minkowski form, the Lorentz group and `Isom(𝐌ⁿ)`
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §2.2
 "Minkowski space" (`GHFspace.tex` l.453–480):
@@ -30,7 +30,7 @@ of `Flat` is written in.
 * `isom d` — **`Isom(𝐌ⁿ)`**: affine automorphisms with linear part in `lorentz d`; `linearPart`
   is Barbot's `L`.
 * `isom_le_top_iff`, `isom_lt_top_iff` — an isometry preserves `≤` and `≪` of `minkowski d`
-  on all of `M` (`U = ⊤`); the statement for every open `U` is `CausalScaffold.Flat.IsomCausal`.
+  on all of `M` (`U = ⊤`); the statement for every open `U` is `Causal.Flat.IsomCausal`.
 * The action of `isom d` on `Minkowski d`, by homeomorphisms (`ContinuousConstSMul`).
 * `le_iff_of_convex`, `lt_iff_of_convex` — on a **convex** open set `V`, `≤_V` and `≪_V` are the
   cones restricted to `V` (the affine segment, `staticCurve_segment_of_convex`).

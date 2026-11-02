@@ -3,7 +3,7 @@
 A design note, written 2026-10-31 by a read-only design agent (WP-32). Line numbers refer to
 `papers/barbot/legacy/labeled/GHFspace.tex` as it stands; they run about 25 lines later than
 `docs/BARBOT.md`'s §7–§8 numbers. Since this was written, DEC-37's cover is no longer data: it is
-ported from gx (`CausalScaffold.Port.*`, `Flat/Developing.lean`), so §2's `UniversalCoverData` is
+ported from gx (`Causal.Port.*`, `Flat/Developing.lean`), so §2's `UniversalCoverData` is
 superseded wherever the ported `Causal.UniversalCover` serves.
 
 Current locations in the labelled file:

@@ -1,23 +1,23 @@
-import CausalScaffold.Flat.Nonloxodromic
-import CausalScaffold.Flat.TitsNull
-import CausalScaffold.Flat.Loxodromic
-import CausalScaffold.CompactCauchy
-import CausalScaffold.CurvesExtend
-import CausalScaffold.Flat.Cla.LTPConvex
-import CausalScaffold.Flat.Cla.FiniteCover
-import CausalScaffold.Flat.Cla.TameNested
-import CausalScaffold.Flat.Cla.RegularComplete
-import CausalScaffold.Flat.Cla.UnipEnvelope
-import CausalScaffold.Flat.Cla.UnipComplete
-import CausalScaffold.Flat.Cla.LTPEnlarge
-import CausalScaffold.Flat.Cla.LocallyCauchy
-import CausalScaffold.Flat.Cla.CompactComplete
-import CausalScaffold.Flat.Cla.CoverMGH
-import CausalScaffold.Flat.Cla.G9
-import CausalScaffold.Flat.Cla.CoverComp
+import Causal.Flat.Nonloxodromic
+import Causal.Flat.TitsNull
+import Causal.Flat.Loxodromic
+import Causal.CompactCauchy
+import Causal.CurvesExtend
+import Causal.Flat.Cla.LTPConvex
+import Causal.Flat.Cla.FiniteCover
+import Causal.Flat.Cla.TameNested
+import Causal.Flat.Cla.RegularComplete
+import Causal.Flat.Cla.UnipEnvelope
+import Causal.Flat.Cla.UnipComplete
+import Causal.Flat.Cla.LTPEnlarge
+import Causal.Flat.Cla.LocallyCauchy
+import Causal.Flat.Cla.CompactComplete
+import Causal.Flat.Cla.CoverMGH
+import Causal.Flat.Cla.G9
+import Causal.Flat.Cla.CoverComp
 
 /-!
-# `CausalScaffold.Flat.Classification` — Barbot §11: Theorems A and B, absolute maximality
+# `Causal.Flat.Classification` — Barbot §11: Theorems A and B, absolute maximality
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §11
 "Summary of the proof" (`sumup`, `GHFspace.tex` l.3477–3679) and the two theorems it assembles.
@@ -357,7 +357,7 @@ theorem barbotExternals_zero : BarbotExternals 0 :=
     fun k hk => by obtain rfl : k = 0 := by omega
                    exact maxUnipotentSubspace_zero⟩
 
-/-- **Lemma K's named data on a flat spacetime** (`CausalScaffold.CompactCauchy`, DEC-44): the
+/-- **Lemma K's named data on a flat spacetime** (`Causal.CompactCauchy`, DEC-44): the
 hypotheses of its proved form `isCauchySurface_of_isLocallyCauchyTwoSided` beyond GH, with the
 splitting supplied by a chronal causal flow. The `flow` field is redundant since
 `Splitting.lean`'s target 4 (`Flat.flat_hasChronalCausalFlow`) is proved for every Hausdorff

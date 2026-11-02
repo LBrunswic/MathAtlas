@@ -1,11 +1,11 @@
-import CausalScaffold.Flat.Externals
-import CausalScaffold.Flat.Examples
-import CausalScaffold.Flat.Lox.TwoNullNormalForm
-import CausalScaffold.Flat.Nonlox.NullFrame
-import CausalScaffold.Flat.Nonlox.UnipotentFrame
+import Causal.Flat.Externals
+import Causal.Flat.Examples
+import Causal.Flat.Lox.TwoNullNormalForm
+import Causal.Flat.Nonlox.NullFrame
+import Causal.Flat.Nonlox.UnipotentFrame
 
 /-!
-# `CausalScaffold.Flat.Lox.MisnerFrame` — [10.M]: the two-null-vector frame and the normal form
+# `Causal.Flat.Lox.MisnerFrame` — [10.M]: the two-null-vector frame and the normal form
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §10,
 subsection "The elementary case", `papers/barbot/legacy/labeled/GHFspace.tex` l.3303–3323.

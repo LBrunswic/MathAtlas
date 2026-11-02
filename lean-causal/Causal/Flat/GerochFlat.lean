@@ -1,11 +1,11 @@
-import CausalScaffold.Flat.TheoremBInputs
-import CausalScaffold.Flat.Geroch.ConeNull
-import CausalScaffold.Flat.Geroch.Reach
-import CausalScaffold.Flat.Geroch.ChartNull
-import CausalScaffold.Flat.Geroch.ChartMeasure
+import Causal.Flat.TheoremBInputs
+import Causal.Flat.Geroch.ConeNull
+import Causal.Flat.Geroch.Reach
+import Causal.Flat.Geroch.ChartNull
+import Causal.Flat.Geroch.ChartMeasure
 
 /-!
-# `CausalScaffold.Flat.GerochFlat` — every GH flat spacetime carries admissible measures, hence a Cauchy surface, hence Theorem B without lemma K's input
+# `Causal.Flat.GerochFlat` — every GH flat spacetime carries admissible measures, hence a Cauchy surface, hence Theorem B without lemma K's input
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257); ruling
 DEC-65 (`registers/DECISIONS.md`). **No label is marked**: this discharges the named input

@@ -1,4 +1,4 @@
-import CausalScaffold.Flat.Externals
+import Causal.Flat.Externals
 
 /-!
 # A central non-elliptic element gives a fixed isotropic direction of a finite-index subgroup

@@ -6,7 +6,7 @@ import Mathlib.GroupTheory.Index
 import Mathlib.Topology.Algebra.ConstMulAction
 
 /-!
-# `CausalScaffold.Flat.Bieberbach` — the elementary part of Bieberbach's theory
+# `Causal.Flat.Bieberbach` — the elementary part of Bieberbach's theory
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §5.1
 "Non discrete linear parts and Auslander's Theorem" (`GHFspace.tex` l.1688–1749, label `bieb`),

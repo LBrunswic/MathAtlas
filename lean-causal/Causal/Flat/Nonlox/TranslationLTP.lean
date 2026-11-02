@@ -1,12 +1,12 @@
-import CausalScaffold.Flat.Develop
-import CausalScaffold.Flat.Externals
-import CausalScaffold.Flat.Bieberbach
-import CausalScaffold.Flat.TwistedProduct
-import CausalScaffold.Flat.Examples
-import CausalScaffold.Flat.CauchyComplete
+import Causal.Flat.Develop
+import Causal.Flat.Externals
+import Causal.Flat.Bieberbach
+import Causal.Flat.TwistedProduct
+import Causal.Flat.Examples
+import Causal.Flat.CauchyComplete
 
 /-!
-# `CausalScaffold.Flat.Nonlox.TranslationLTP` — a group of translations on `U` with spacelike span gives a linear twisted product over a translation spacetime
+# `Causal.Flat.Nonlox.TranslationLTP` — a group of translations on `U` with spacelike span gives a linear twisted product over a translation spacetime
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §9.E
 (`GHFspace.tex` l.2611–2617), Lemma 5.5 (`blem:suspendre`, l.1833–1845) and [3.T] (l.586–593).

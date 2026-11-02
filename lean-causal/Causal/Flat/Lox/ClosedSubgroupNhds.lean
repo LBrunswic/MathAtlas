@@ -1,4 +1,4 @@
-import CausalScaffold.Flat.Lox.FiniteIndexND
+import Causal.Flat.Lox.FiniteIndexND
 import Mathlib.Analysis.SpecialFunctions.Exponential
 import Mathlib.Analysis.Calculus.InverseFunctionTheorem.FDeriv
 import Mathlib.Analysis.Normed.Module.FiniteDimension

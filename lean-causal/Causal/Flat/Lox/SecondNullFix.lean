@@ -1,8 +1,8 @@
-import CausalScaffold.Flat.Nonloxodromic
+import Causal.Flat.Nonloxodromic
 import Mathlib.GroupTheory.FiniteAbelian.Basic
 
 /-!
-# `CausalScaffold.Flat.Lox.SecondNullFix` — [10.M]: the second null direction `Δ₁` is fixed
+# `Causal.Flat.Lox.SecondNullFix` — [10.M]: the second null direction `Δ₁` is fixed
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §10,
 subsection "The elementary case" (`misnerr`), `papers/barbot/legacy/labeled/GHFspace.tex`
@@ -63,6 +63,7 @@ rotation `R(γ)`), `γⁿγ'γ⁻ⁿ` has translation part `n Rⁿ (I − R(γ')
 * The conclusion is stronger than the paper's "up to finite index": all of `L(Γ₁)` fixes `u₁`.
 * Not covered here: the identification of a finite-index quotient with an LTP over a Misner
   spacetime (l.3302–3330), the remainder of `loxo_elementary_misner`.
+* `set_option maxHeartbeats 1600000` on the private `snf_pow_fix` (Step 2, one long assembly).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. The sphere-action
 lemmas repeat `Flat.Lox.CommuteOnFix`'s private `cof_*` ones (not exported).

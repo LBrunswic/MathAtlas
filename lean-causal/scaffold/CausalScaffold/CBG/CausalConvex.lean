@@ -1,6 +1,6 @@
 import CausalScaffold.SubExtension
-import CausalScaffold.CurvesExtend
-import CausalScaffold.CompactCauchy
+import Causal.CurvesExtend
+import Causal.CompactCauchy
 import Mathlib.Order.Interval.Set.IsoIoo
 
 /-!

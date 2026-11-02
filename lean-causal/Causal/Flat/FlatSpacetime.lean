@@ -1,10 +1,10 @@
-import CausalScaffold.Flat.IsomCausal
-import CausalScaffold.Flat.Achronal
+import Causal.Flat.IsomCausal
+import Causal.Flat.Achronal
 import Mathlib.AlgebraicTopology.FundamentalGroupoid.FundamentalGroup
 import Mathlib.Topology.Covering.Basic
 
 /-!
-# `CausalScaffold.Flat.FlatSpacetime` — flat spacetimes, isometric embeddings, GH, MGH, AMGH
+# `Causal.Flat.FlatSpacetime` — flat spacetimes, isometric embeddings, GH, MGH, AMGH
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §2.3–2.5.
 No b-label is certified: §2 is prose (its one environment, Rem 2.3 `clomax`, is OQ-22's corrected
@@ -96,7 +96,7 @@ earlier here).
   `timelikeLine_admissible_past_and_future`), which is not a flat spacetime. The conclusion for
   `𝐌ⁿ` is proved directly (`barbotGH_minkowskiSpace`), so nothing here is used vacuously.
 * `IsLocalIsometry` reads `chartAt` at `x` and `f x`. Its independence of the charts over the
-  maximal atlases is **proved, sorry-free, in `CausalScaffold.Port.GXBasic`**
+  maximal atlases is **proved, sorry-free, in `Causal.Port.GXBasic`**
   (`IsGXMorphism.exists_smul_eq_of_mem_maximalAtlas`, with `isGXMorphism_id`,
   `IsGXMorphism.comp`, `IsGXMorphism.isLocalHomeomorph`), and `IsLocalIsometry d f` is
   definitionally `IsGXMorphism (isom d) (Minkowski d) f` (`isGXMorphism_iff'`; the right side of

@@ -1,13 +1,13 @@
-import CausalScaffold.Flat.Nonloxodromic
-import CausalScaffold.Flat.TitsNull
-import CausalScaffold.Flat.Loxodromic
-import CausalScaffold.CompactCauchy
-import CausalScaffold.CurvesExtend
-import CausalScaffold.Flat.Cla.LocallyCauchy
-import CausalScaffold.Flat.Cla.CoverMax
+import Causal.Flat.Nonloxodromic
+import Causal.Flat.TitsNull
+import Causal.Flat.Loxodromic
+import Causal.CompactCauchy
+import Causal.CurvesExtend
+import Causal.Flat.Cla.LocallyCauchy
+import Causal.Flat.Cla.CoverMax
 
 /-!
-# `CausalScaffold.Flat.Cla.CoverMGH` — a finite cover of a maximal Cauchy-compact GH flat spacetime is GH, Cauchy-compact, maximal, and absolutely maximal
+# `Causal.Flat.Cla.CoverMGH` — a finite cover of a maximal Cauchy-compact GH flat spacetime is GH, Cauchy-compact, maximal, and absolutely maximal
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), proof of
 Theorem B (`bthm:cauclo`, l.3535–3548 of `papers/barbot/legacy/labeled/GHFspace.tex`) and §11.3
@@ -55,7 +55,7 @@ dimensions: Barbot's `n` is `d + 1`.
 | `M` GH, Cauchy-compact, maximal (l.3536, l.3573) | ✓ carried: `GH M`, `CauchyCompact M`, `MGH M` |
 | `M'` a finite covering of `M` (l.3573 "finite quotient"; l.355 "up to finite coverings") | ✓ carried: `IsFiniteCover d p` (covering map, local isometry, finite fibres) |
 | "closed spacelike hypersurfaces in GH spacetimes are Cauchy" (l.3537–3538, l.3579–3580) | ⚠ strengthened (DEC-44): lemma K in conclusion form `hK`, over `FlatSpacetime.{0}` — compact, connected and locally Cauchy two-sided ⇒ Cauchy; Classification derives it from `FlatLemmaKData` exactly as in `absMax_of_cauchyCompact_of_mgh` |
-| the embedded copy of the Cauchy surface is a spacelike hypersurface | L8 (`CausalScaffold.Flat.Cla.LocallyCauchy`): the image of a compact acausal Cauchy surface under an isometric embedding is locally Cauchy two-sided |
+| the embedded copy of the Cauchy surface is a spacelike hypersurface | L8 (`Causal.Flat.Cla.LocallyCauchy`): the image of a compact acausal Cauchy surface under an isometric embedding is locally Cauchy two-sided |
 | GH of the cover (used silently, l.3573) | ✓ proved (`gh_of_isFiniteCover`), not assumed |
 | maximality of `M'` (not in the paper: finding 2) | ✓ proved (`maximal_of_isFiniteCover`, through CoverMax; SCOPE) |
 | universes | `M` in any universe; `M'`, the targets of `MGH M'` and `B` in `Type` (as `hK` and `cauclo_from_embedding`); `isCompact_diamond_of_isFiniteCover` in any two universes |

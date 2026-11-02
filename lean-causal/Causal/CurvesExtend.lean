@@ -9,7 +9,7 @@ No label is marked. This module discharges the model fact `Causality.CurvesExten
 (`Causal/CauchyExtension.lean:82`: every future causal curve over a segment lies on an
 inextensible causal curve over some interval), which the library carries as a named hypothesis
 (kb/0012) of `IsCauchySurface.isAcausal` (`Causal/CauchyExtension.lean:110`), of lemma K
-(`CausalScaffold.CompactCauchy`), of `CauchyDiamond` and of `SubExtension`. It is model-free (ETT
+(`Causal.CompactCauchy`), of `CauchyDiamond` and of `SubExtension`. It is model-free (ETT
 generality, namespace `Causal.Causality`); Barbot's sentence it formalizes is the prose item
 [2.GH] of §2, `GHFspace.tex:498–507` (line numbers of `papers/barbot/legacy/orig/`, as
 `docs/BARBOT.md` prescribes; the labelled copy runs 2 lines later here), unmarked, because the
@@ -94,7 +94,7 @@ whose inverse `T(K) → K` (`invFunOn T K`) is a causal curve: a curve with its 
   constant curve. `L` is not second countable; whether `CurvesExtend` holds in every second
   countable (or every strongly causal) spacetime is open here. Nothing is lost for Barbot's or
   gx's spacetimes: they are globally hyperbolic and `geroch_i_imp_ii` gives the time function.
-* **Lemma K with `hext` discharged is not stated here**: `CausalScaffold.CompactCauchy` has no
+* **Lemma K with `hext` discharged is not stated here**: `Causal.CompactCauchy` has no
   `.olean` at the time of writing (`object file … does not exist`), and this package may not
   build it. The corollary is one term:
   `isCauchySurface_of_isLocallyCauchyTwoSided hT hG hC hJm hJp (curvesExtend_of_timeFunction hTc hTs) hψ hSc hSconn hloc`,

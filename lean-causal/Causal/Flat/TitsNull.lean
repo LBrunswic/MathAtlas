@@ -1,8 +1,8 @@
-import CausalScaffold.Flat.Nonloxodromic
+import Causal.Flat.Nonloxodromic
 import Mathlib.Analysis.InnerProductSpace.MeanErgodic
 
 /-!
-# `CausalScaffold.Flat.TitsNull` — a discrete null-fixing all-elliptic group is virtually abelian in its linear parts
+# `Causal.Flat.TitsNull` — a discrete null-fixing all-elliptic group is virtually abelian in its linear parts
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §9.2–9.3,
 the gap of Prop 9.1 at l.2621–2622 of the **labelled** `papers/barbot/legacy/labeled/GHFspace.tex`

@@ -1,8 +1,8 @@
-import CausalScaffold.Flat.Cla.SmoothCone
-import CausalScaffold.Flat.Geroch.Reach
+import Causal.Flat.Cla.SmoothCone
+import Causal.Flat.Geroch.Reach
 
 /-!
-# `CausalScaffold.Flat.Cla.SmoothGlue` — the upper part of finitely many buried past-hyperboloid caps is locally a cone-increasing zero set
+# `Causal.Flat.Cla.SmoothGlue` — the upper part of finitely many buried past-hyperboloid caps is locally a cone-increasing zero set
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §2.4 and
 §11. **No label is marked**: this is the GLOBAL half of the smoothing step of

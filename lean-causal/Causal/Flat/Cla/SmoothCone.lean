@@ -1,7 +1,7 @@
-import CausalScaffold.Flat.CauchyComplete
+import Causal.Flat.CauchyComplete
 
 /-!
-# `CausalScaffold.Flat.Cla.SmoothCone` — zero sets of cone-increasing functions are spacelike Lipschitz
+# `Causal.Flat.Cla.SmoothCone` — zero sets of cone-increasing functions are spacelike Lipschitz
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §2.4 and
 §11. **No label is marked**: these are the LOCAL, analytic half of the smoothing step of

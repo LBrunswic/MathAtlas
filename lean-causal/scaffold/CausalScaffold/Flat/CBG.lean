@@ -1,11 +1,11 @@
 import CausalScaffold.CBG.FromModel
 import CausalScaffold.CBG.Maximal
-import CausalScaffold.Flat.GerochFlat
-import CausalScaffold.Flat.SecondCountable
-import CausalScaffold.Flat.LipschitzGraph
-import CausalScaffold.Flat.Developing
-import CausalScaffold.Flat.CauchyComplete
-import CausalScaffold.Flat.CBGCompact
+import Causal.Flat.GerochFlat
+import Causal.Flat.SecondCountable
+import Causal.Flat.LipschitzGraph
+import Causal.Flat.Developing
+import Causal.Flat.CauchyComplete
+import Causal.Flat.CBGCompact
 import CausalScaffold.Flat.CBGGerm
 import CausalScaffold.Flat.CBGSlice
 

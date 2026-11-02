@@ -1,7 +1,7 @@
-import CausalScaffold.Flat.Externals
+import Causal.Flat.Externals
 
 /-!
-# `CausalScaffold.Flat.Lox.NullLevelFix` — [10.M]: a group fixing a null direction `Δ₀` and one-sided on its repulsive fixed points preserves one lightlike level `{⟨(1,u₀) | ·⟩ = s₀}`
+# `Causal.Flat.Lox.NullLevelFix` — [10.M]: a group fixing a null direction `Δ₀` and one-sided on its repulsive fixed points preserves one lightlike level `{⟨(1,u₀) | ·⟩ = s₀}`
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §10,
 subsection "The elementary case" (`misnerr`). No ledger label is certified here (no `**` mark):

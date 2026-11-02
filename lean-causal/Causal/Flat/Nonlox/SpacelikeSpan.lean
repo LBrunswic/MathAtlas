@@ -1,12 +1,12 @@
-import CausalScaffold.Flat.Develop
-import CausalScaffold.Flat.Externals
-import CausalScaffold.Flat.Bieberbach
-import CausalScaffold.Flat.TwistedProduct
-import CausalScaffold.Flat.Examples
-import CausalScaffold.Flat.CauchyComplete
+import Causal.Flat.Develop
+import Causal.Flat.Externals
+import Causal.Flat.Bieberbach
+import Causal.Flat.TwistedProduct
+import Causal.Flat.Examples
+import Causal.Flat.CauchyComplete
 
 /-!
-# `CausalScaffold.Flat.Nonlox.SpacelikeSpan` — the translation span is spacelike
+# `Causal.Flat.Nonlox.SpacelikeSpan` — the translation span is spacelike
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §9.E
 (`GHFspace.tex` l.2615–2617):

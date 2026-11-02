@@ -1,4 +1,4 @@
-import CausalScaffold.Flat.Externals
+import Causal.Flat.Externals
 
 /-!
 # Commuting elliptic elements fix a common timelike vector of an invariant timelike subspace

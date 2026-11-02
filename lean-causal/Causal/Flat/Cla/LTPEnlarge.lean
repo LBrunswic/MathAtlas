@@ -1,11 +1,11 @@
-import CausalScaffold.Flat.Nonloxodromic
-import CausalScaffold.Flat.TitsNull
-import CausalScaffold.Flat.Loxodromic
-import CausalScaffold.CompactCauchy
-import CausalScaffold.CurvesExtend
+import Causal.Flat.Nonloxodromic
+import Causal.Flat.TitsNull
+import Causal.Flat.Loxodromic
+import Causal.CompactCauchy
+import Causal.CurvesExtend
 
 /-!
-# `CausalScaffold.Flat.Cla.LTPEnlarge` — enlarging the base of a linear twisted product (G3)
+# `Causal.Flat.Cla.LTPEnlarge` — enlarging the base of a linear twisted product (G3)
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §5.S
 "Twisted product by euclidean manifolds" (`GHFspace.tex` l.1751–1797 of the labelled file

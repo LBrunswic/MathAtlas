@@ -1,12 +1,12 @@
-import CausalScaffold.Flat.Develop
-import CausalScaffold.Flat.Externals
-import CausalScaffold.Flat.Bieberbach
-import CausalScaffold.Flat.TwistedProduct
-import CausalScaffold.Flat.Examples
-import CausalScaffold.Flat.CauchyComplete
+import Causal.Flat.Develop
+import Causal.Flat.Externals
+import Causal.Flat.Bieberbach
+import Causal.Flat.TwistedProduct
+import Causal.Flat.Examples
+import Causal.Flat.CauchyComplete
 
 /-!
-# `CausalScaffold.Flat.Nonlox.UnipotentFrame` — Barbot's `A` is a unipotent group of `Flat/Examples`
+# `Causal.Flat.Nonlox.UnipotentFrame` — Barbot's `A` is a unipotent group of `Flat/Examples`
 
 T. Barbot, *Globally hyperbolic flat space-times*, §9, the end of the parabolic case
 (`GHFspace.tex` l.3100–3122: "Since `T̂` is symmetric, there is an orthonormal basis `e₁, …, e_{n−2}`

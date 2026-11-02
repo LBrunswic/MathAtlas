@@ -1,11 +1,11 @@
-import CausalScaffold.Flat.Form
-import CausalScaffold.Port.Developing
+import Causal.Flat.Form
+import Causal.Port.Developing
 import Mathlib.Analysis.Normed.Affine.AddTorsorBases
 import Mathlib.Analysis.Convex.Contractible
 import Mathlib.AlgebraicTopology.FundamentalGroupoid.SimplyConnected
 
 /-!
-# `CausalScaffold.Flat.Developing` — the developing map and the holonomy of a flat spacetime
+# `Causal.Flat.Developing` — the developing map and the holonomy of a flat spacetime
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §2.3
 "Flat spacetimes as geometric manifolds" (`GHFspace.tex` l.482–492), and the set-up of §8
@@ -25,7 +25,7 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
 
 §2.3 is prose: **no ledger label**, so nothing is marked. This module makes the two "facts on
 geometric structures" available for every flat spacetime, as consequences of the classical
-developing theorem ported from gx (`CausalScaffold.Port.Developing`).
+developing theorem ported from gx (`Causal.Port.Developing`).
 
 **Dimension (kb/0024).** Barbot's `𝐌ⁿ` has total dimension `n`; the library's `Minkowski d =
 ℝ × EuclideanSpace ℝ (Fin d)` has `d` spatial dimensions, so Barbot's `n` is `d + 1`.
@@ -76,12 +76,12 @@ developing theorem ported from gx (`CausalScaffold.Port.Developing`).
 * **(d)** `Causal.semilocallySimplyConnected_of_chartedSpace` holds over any real normed model
   space and is not about flat spacetimes; it lives here (namespace `Causal`, not `Causal.Flat`)
   only because the port files are not this package's to edit. Its natural home at graduation is
-  beside `SemilocallySimplyConnected` in `CausalScaffold.Port.UniversalCover`.
+  beside `SemilocallySimplyConnected` in `Causal.Port.UniversalCover`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. The developing theorem
-is `Causal.developing_theorem` of `CausalScaffold.Port.Developing`, ported from
+is `Causal.developing_theorem` of `Causal.Port.Developing`, ported from
 `lean-gx/GX/Structure/Developing.lean` at `e5a1d46` (WP-24) by WP-32a; the universal cover is
-`CausalScaffold.Port.UniversalCover`, ported from `lean-gx/GX/Topology/UniversalCover.lean`.
+`Causal.Port.UniversalCover`, ported from `lean-gx/GX/Topology/UniversalCover.lean`.
 Written by WP-32b-Developing.
 -/
 

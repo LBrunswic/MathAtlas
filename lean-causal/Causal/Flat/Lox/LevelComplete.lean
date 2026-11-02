@@ -1,5 +1,5 @@
-import CausalScaffold.Flat.Cosmological
-import CausalScaffold.Flat.CauchyComplete
+import Causal.Flat.Cosmological
+import Causal.Flat.CauchyComplete
 
 /-!
 # The level sets of the cosmological time are complete for their induced length

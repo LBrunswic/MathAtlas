@@ -1,9 +1,9 @@
-import CausalScaffold.Flat.Penrose
-import CausalScaffold.Flat.Achronal
+import Causal.Flat.Penrose
+import Causal.Flat.Achronal
 import Mathlib.Analysis.Convex.Continuous
 
 /-!
-# `CausalScaffold.Flat.Cosmological` — the cosmological time of a future regular convex domain
+# `Causal.Flat.Cosmological` — the cosmological time of a future regular convex domain
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §4.2
 after `bcor:futetpast` (`papers/barbot/legacy/labeled/GHFspace.tex`; line numbers below are those
@@ -124,7 +124,7 @@ give exactly one point on `S_t` (`isCauchySurfaceOn_cosmoLevel_of`).
   against `√|p − p'|²`), at `ε = t` (Barbot's `ε < t`, then `ε → t`); the passage to the induced
   length and the hyperbolic metric (infimum of chord sums, l.1087–1091) is not proved.
 * `bcor:level_sets_complete` is not attempted, and Cauchy-completeness of 4.14 and the
-  isometric action on `(S_t, induced length)` of 4.16 are not stated: `CausalScaffold.Flat.InducedLength`
+  isometric action on `(S_t, induced length)` of 4.16 are not stated: `Causal.Flat.InducedLength`
   is not built at this point (no `.olean`), so it is not imported; `isSpacelikeLipschitz_cosmoLevel`
   writes `IsSpacelikeLipschitzIn`'s fields out, to be restated through it at graduation.
 * **4.16** beyond invariance (proper discontinuity, freeness, the quotient `Γ\Ω`) is not

@@ -1,10 +1,10 @@
-import CausalScaffold.Flat.Isometries
+import Causal.Flat.Isometries
 import Mathlib.Analysis.SpecificLimits.Normed
 import Mathlib.RingTheory.Noetherian.Defs
 import Mathlib.Topology.Algebra.Module.FiniteDimension
 
 /-!
-# `CausalScaffold.Flat.AchronalDomains` — Barbot §7, the achronal domains of isometries
+# `Causal.Flat.AchronalDomains` — Barbot §7, the achronal domains of isometries
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §7
 (`GHFspace.tex` l.2019–2210 of the labelled file). The one ledger label, `blem:paranongh`

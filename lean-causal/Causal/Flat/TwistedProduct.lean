@@ -1,9 +1,9 @@
-import CausalScaffold.Flat.Quotient
-import CausalScaffold.Flat.Examples
+import Causal.Flat.Quotient
+import Causal.Flat.Examples
 import Mathlib.Analysis.InnerProductSpace.Dual
 
 /-!
-# `CausalScaffold.Flat.TwistedProduct` — linear twisted products (Barbot §5.S, Lemma 5.5)
+# `Causal.Flat.TwistedProduct` — linear twisted products (Barbot §5.S, Lemma 5.5)
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §5.S
 "Twisted product by euclidean manifolds" (`produi`) and Lemma 5.5. Line numbers are those of the

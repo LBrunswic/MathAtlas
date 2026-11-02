@@ -1,11 +1,11 @@
-import CausalScaffold.Flat.SecondCountable
+import Causal.Flat.SecondCountable
 import Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace
 import Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar
 import Mathlib.MeasureTheory.Measure.Regular
 import Mathlib.Topology.Metrizable.Urysohn
 
 /-!
-# `CausalScaffold.Flat.Geroch.ChartMeasure` — a finite regular measure on a flat spacetime, positive on open sets, null where every chart sees Lebesgue-null
+# `Causal.Flat.Geroch.ChartMeasure` — a finite regular measure on a flat spacetime, positive on open sets, null where every chart sees Lebesgue-null
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257);
 infrastructure for `FlatAdmissibleMeasures` (`Flat/TheoremBInputs.lean`, ruling DEC-65). **No label

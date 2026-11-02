@@ -1,4 +1,4 @@
-import CausalScaffold.Flat.TwistedProduct
+import Causal.Flat.TwistedProduct
 
 /-!
 # A group preserving a timelike `U` restricts to `U` on a subgroup of index `≤ 2`

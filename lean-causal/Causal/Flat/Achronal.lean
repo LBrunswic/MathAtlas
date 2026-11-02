@@ -1,9 +1,9 @@
-import CausalScaffold.Flat.Form
+import Causal.Flat.Form
 import Causal.CauchyExtension
 import Causal.Geroch
 
 /-!
-# `CausalScaffold.Flat.Achronal` — achronal sets, entire spacelike graphs, and Cauchy graphs of `𝐌ⁿ`
+# `Causal.Flat.Achronal` — achronal sets, entire spacelike graphs, and Cauchy graphs of `𝐌ⁿ`
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257). No
 b-label is certified: every statement used here is prose. The causal core of three passages:

@@ -1,6 +1,6 @@
-import CausalScaffold.CompactCauchy
-import CausalScaffold.Splitting
-import CausalScaffold.CurvesExtend
+import Causal.CompactCauchy
+import Causal.Splitting
+import Causal.CurvesExtend
 import Causal.Model.Massive
 
 /-!
@@ -78,7 +78,7 @@ the strict sides off `Σ`), hence `M`. (3) an inextensible curve leaves `J^-(Σ)
 * **The bare form is settled where `CurvesExtend`, `PushUp` and `Z^± = M` all hold**, and open
   when any of them fails (none is a hypothesis of the bare form). For gx the case at hand is the
   BTZ point: `Z^-` fails there (`SingularFlatAxioms.mem_Zminus_iff`), `J^+(Σ) ∖ Σ ≠ I^+(Σ)` on a lightlike
-  line (`lightlikeLine_Jplus_diff_ne_Iplus`, `CausalScaffold.Splitting`), and the future-side
+  line (`lightlikeLine_Jplus_diff_ne_Iplus`, `Causal.Splitting`), and the future-side
   openness must come from the model: two-sidedness in the charts plus "`J^+(V)` open for `V`
   open" (`isCauchySurface_of_isLocallyCauchyTwoSided_of_pushUp`). No counterexample to the bare
   form was found: one must break at least one of `CurvesExtend`, `PushUp`, `Z^+ = M`,
@@ -111,7 +111,6 @@ the strict sides off `Σ`), hence `M`. (3) an inextensible curve leaves `J^-(Σ)
   (`timelikeLine_lemmaKBare_hypotheses`) and jointly those of the two-sided and gx forms
   (`timelikeLine_lemmaKBare_twoSided_hypotheses`); each form is applied there.
 * gx contract (a)–(f): not applicable; no length, metric or Lipschitz graph is defined here.
-* Not imported by the scaffold root `CausalScaffold.lean` (outside this package's write scope).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/

@@ -1,9 +1,9 @@
 import CausalScaffold.CBG.CausalConvex
 import CausalScaffold.CBG.FromModel
-import CausalScaffold.Flat.Geroch.Reach
-import CausalScaffold.Flat.CauchyComplete
-import CausalScaffold.Flat.SecondCountable
-import CausalScaffold.Flat.LipschitzGraph
+import Causal.Flat.Geroch.Reach
+import Causal.Flat.CauchyComplete
+import Causal.Flat.SecondCountable
+import Causal.Flat.LipschitzGraph
 
 /-!
 # A4 for the flat local model: slices through a boundary point, both time directions

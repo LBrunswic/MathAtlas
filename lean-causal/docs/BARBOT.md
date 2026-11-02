@@ -11,6 +11,7 @@ work packages WP-29 … WP-34. Read `docs/CAMPAIGN.md` (the protocol) and `kb/IN
 | the PDF | `papers/gx/sources/math_0402257/math_0402257.pdf` |
 | the ledger | `papers/barbot/ledger/LEDGER.md` — 44 statements, 5 terminal |
 | the Lean | `Causal/Flat/*` (strict, namespace `Causal.Flat`), `scaffold/CausalScaffold/Flat/*` (scaffold) |
+| graduation | **2026-11-02** (`docs/BARBOT-GRADUATION.md`): 93 modules moved `CausalScaffold.X` → `Causal.X` (`Flat.*` incl. `Lox/`, `Nonlox/`, `Cla/`, `Geroch/`; `Port.*`; `CompactCauchy`'s proved part, `CurvesExtend`, `Splitting`, `LemmaKBare`) — module renames only, no declaration renamed. Still scaffold: `CBG.*`, `Flat.CBG`, `Flat.CBGGerm`, `Flat.CBGSlice`, and `CausalScaffold.CompactCauchy` (the bare lemma K, a `sorry`) |
 
 **Who consumes it.** gx's Section 4 (WP-28) uses Barbot's classification (DEC-26, DEC-30) and may
 import `Causal` (DEC-33); this campaign proves it, gx imports it (DEC-34). Keep statements in the
@@ -163,7 +164,7 @@ Classes: **T** causal / order-topological / affine in Minkowski space; **D** met
 - **ETT.tex:1792**, the "Moreover" of `theo:geroch_sing`: "ψ is a local diffeomorphism" needs `Σ`
   smooth and transverse to the field; for a topological Cauchy surface the replacement is "J^±(Σ)
   closed" — necessary and sufficient for the flow map to be a splitting
-  (`CausalScaffold.Splitting`, `isClosed_iff_exists_isCauchySplitting`). `lem:Sigma_separe` derives
+  (`Causal.Splitting`, `isClosed_iff_exists_isCauchySplitting`). `lem:Sigma_separe` derives
   that closedness *from* the splitting, so it cannot build it.
 - On the lightlike line (ETT's BTZ-line model) `J⁺(S)∖S ≠ I⁺(S)` (`lightlikeLine_Jplus_diff_ne_Iplus`).
 - **`BTZAxioms.Iplus_eq` (`Causal/SingularFlat.lean:146`, I⁺(p) = J⁺(p) ∖ S₀) is FALSE in E₀** (gx review

@@ -1,5 +1,5 @@
-import CausalScaffold.Port.GXBasic
-import CausalScaffold.Port.UniversalCover
+import Causal.Port.GXBasic
+import Causal.Port.UniversalCover
 import Mathlib.Analysis.LocallyConvex.WithSeminorms
 
 /-!
@@ -7,16 +7,16 @@ import Mathlib.Analysis.LocallyConvex.WithSeminorms
 
 **Ported from `lean-gx/GX/Structure/Developing.lean` at commit `e5a1d46` (gx wave 1, WP-24),
 mechanically: namespace `GX` → `Causal`; `gxGroupoid` deduplicated against
-`Causal.GXStructure`** (through `CausalScaffold.Port.GXBasic`, which uses the strict library's
+`Causal.GXStructure`** (through `Causal.Port.GXBasic`, which uses the strict library's
 `Causal.gxGroupoid`). Package WP-32a. `lean-causal` never imports `lean-gx` (gx imports
 `Causal`, DEC-33; `docs/BARBOT.md`, "The contract with gx"), so the module is copied for
 Barbot's wave 3 (WP-32). Every change that is not the rename `GX.x` → `Causal.x`
 (`_root_.GX.x` → `_root_.Causal.x`): the imports `GX.Structure.Basic` /
-`GX.Topology.UniversalCover` became `CausalScaffold.Port.GXBasic` /
-`CausalScaffold.Port.UniversalCover`; in this docstring, this paragraph and the provenance line.
+`GX.Topology.UniversalCover` became `Causal.Port.GXBasic` /
+`Causal.Port.UniversalCover`; in this docstring, this paragraph and the provenance line.
 No proof and no statement changed. The `RamcovGX.tex` line numbers below are those of the gx
 paper (`papers/gx/`); "WP-24b" is gx's universal-cover package, here
-`CausalScaffold.Port.UniversalCover`.
+`Causal.Port.UniversalCover`.
 
 Package WP-24f (DEC-23: a cited result, built). **No ledger label**, so no label is marked: the
 statement is the introduction's `RamcovGX.tex:293` and the commented line `RamcovGX.tex:344`,

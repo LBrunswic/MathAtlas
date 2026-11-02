@@ -1,11 +1,11 @@
-import CausalScaffold.Flat.Nonloxodromic
-import CausalScaffold.Flat.TitsNull
-import CausalScaffold.Flat.Loxodromic
-import CausalScaffold.CompactCauchy
-import CausalScaffold.CurvesExtend
+import Causal.Flat.Nonloxodromic
+import Causal.Flat.TitsNull
+import Causal.Flat.Loxodromic
+import Causal.CompactCauchy
+import Causal.CurvesExtend
 
 /-!
-# `CausalScaffold.Flat.Cla.FiniteCover` — the finite cover `Γ\𝒟(M̃) → M` of Theorem A's proof
+# `Causal.Flat.Cla.FiniteCover` — the finite cover `Γ\𝒟(M̃) → M` of Theorem A's proof
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §11
 "Proof of Theorem A" (`GHFspace.tex` l.3484–3492 of the labelled file

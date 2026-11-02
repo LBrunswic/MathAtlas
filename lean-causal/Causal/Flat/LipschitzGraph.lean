@@ -1,14 +1,14 @@
-import CausalScaffold.Flat.Achronal
-import CausalScaffold.Flat.Cosmological
+import Causal.Flat.Achronal
+import Causal.Flat.Cosmological
 
 /-!
-# `CausalScaffold.Flat.LipschitzGraph` — 1-Lipschitz (achronal) hypersurfaces of `𝐌ⁿ`: the null-line Cauchy criterion, causal convexity, the hub lemma, (CC′) transfer, domains of dependence
+# `Causal.Flat.LipschitzGraph` — 1-Lipschitz (achronal) hypersurfaces of `𝐌ⁿ`: the null-line Cauchy criterion, causal convexity, the hub lemma, (CC′) transfer, domains of dependence
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257). No
 b-label is certified: the passages are prose, and the module is the "general theory of 1-Lipschitz
 surfaces embedded in Minkowski" the author asked for, of which Rem 2.2's hyperboloid is the
 standard example. Design: `docs/BARBOT-WAVE3.md` §1 A–D (not §1E, the induced length). It extends
-`CausalScaffold.Flat.Achronal` (`graph`, the achronal/acausal iffs, the `κ < 1` criterion
+`Causal.Flat.Achronal` (`graph`, the achronal/acausal iffs, the `κ < 1` criterion
 `isCauchySurface_graph`, the hyperboloid), which it does not duplicate. Line numbers are those of
 the labelled file `papers/barbot/legacy/labeled/GHFspace.tex`.
 
@@ -131,7 +131,7 @@ the labelled file `papers/barbot/legacy/labeled/GHFspace.tex`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Barbot campaign,
 wave 3, package WP-32d-LipschitzGraph; `D-cauchy-interior` closed by its closer pass (wave 5),
-importing `CausalScaffold.Flat.Cosmological` for the `W`-local extension lemmas.
+importing `Causal.Flat.Cosmological` for the `W`-local extension lemmas.
 -/
 
 namespace Causal.Flat

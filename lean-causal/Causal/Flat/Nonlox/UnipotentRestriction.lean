@@ -1,12 +1,12 @@
-import CausalScaffold.Flat.Develop
-import CausalScaffold.Flat.Externals
-import CausalScaffold.Flat.Bieberbach
-import CausalScaffold.Flat.TwistedProduct
-import CausalScaffold.Flat.Examples
-import CausalScaffold.Flat.CauchyComplete
+import Causal.Flat.Develop
+import Causal.Flat.Externals
+import Causal.Flat.Bieberbach
+import Causal.Flat.TwistedProduct
+import Causal.Flat.Examples
+import Causal.Flat.CauchyComplete
 
 /-!
-# `CausalScaffold.Flat.Nonlox.UnipotentRestriction` — the dispatched [9.U] reduction is false: a counterexample in `𝐌⁵`
+# `Causal.Flat.Nonlox.UnipotentRestriction` — the dispatched [9.U] reduction is false: a counterexample in `𝐌⁵`
 
 T. Barbot, *Globally hyperbolic flat space-times*, §9, the purely unipotent case `[9.U]`
 (`GHFspace.tex` l.2865–2938 of `papers/barbot/legacy/labeled/`), served for

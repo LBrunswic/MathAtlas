@@ -1,11 +1,11 @@
-import CausalScaffold.Flat.Nonloxodromic
-import CausalScaffold.Flat.TitsNull
-import CausalScaffold.Flat.Loxodromic
-import CausalScaffold.CompactCauchy
-import CausalScaffold.CurvesExtend
+import Causal.Flat.Nonloxodromic
+import Causal.Flat.TitsNull
+import Causal.Flat.Loxodromic
+import Causal.CompactCauchy
+import Causal.CurvesExtend
 
 /-!
-# `CausalScaffold.Flat.Cla.UnipEnvelope` — the maximal unipotent envelope of [11.i] (G1)
+# `Causal.Flat.Cla.UnipEnvelope` — the maximal unipotent envelope of [11.i] (G1)
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §11.3
 [11.i] for the unipotent family (`maxi`, l.3629–3679 of the **labelled**

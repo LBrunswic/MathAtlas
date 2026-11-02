@@ -1,11 +1,11 @@
-import CausalScaffold.Flat.Nonloxodromic
-import CausalScaffold.Flat.TitsNull
-import CausalScaffold.Flat.Loxodromic
-import CausalScaffold.CompactCauchy
-import CausalScaffold.CurvesExtend
+import Causal.Flat.Nonloxodromic
+import Causal.Flat.TitsNull
+import Causal.Flat.Loxodromic
+import Causal.CompactCauchy
+import Causal.CurvesExtend
 
 /-!
-# `CausalScaffold.Flat.Cla.LocallyCauchy` — the image of an acausal Cauchy surface under an isometric embedding of GH flat spacetimes is locally Cauchy and two-sided
+# `Causal.Flat.Cla.LocallyCauchy` — the image of an acausal Cauchy surface under an isometric embedding of GH flat spacetimes is locally Cauchy and two-sided
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257). **No
 b-label is marked**: `clomax` (Rem 2.3) is a remark, formalized corrected (DEC-44) in
@@ -29,7 +29,7 @@ the library's `Minkowski d = ℝ × EuclideanSpace ℝ (Fin d)` has `d` spatial 
   > hence, every GH spacetime containing an embedded copy of
   > $M$ is necessarely Cauchy-compact.
 
-  "Spacelike hypersurface" is read, as DEC-44's lemma K does (`CausalScaffold.CompactCauchy`),
+  "Spacelike hypersurface" is read, as DEC-44's lemma K does (`Causal.CompactCauchy`),
   as **locally Cauchy and two-sided** (`IsLocallyCauchyTwoSided`); the theorem here is that the
   embedded copy `f(S)` of an acausal Cauchy surface `S` of `M` is such a hypersurface of `N`.
 
@@ -85,7 +85,7 @@ the library's `Minkowski d = ℝ × EuclideanSpace ℝ (Fin d)` has `d` spatial 
 
 ## SCOPE (disclosed)
 
-* **What is not claimed.** Lemma K itself (local ⇒ global Cauchy) is `CausalScaffold.CompactCauchy`;
+* **What is not claimed.** Lemma K itself (local ⇒ global Cauchy) is `Causal.CompactCauchy`;
   `clomax`'s corrected form is assembled in `Flat/Classification.lean`. This module certifies no
   label; it discharges `isLocallyCauchyTwoSided_image` (`Classification.lean:2380`), which it
   closes by `exact` (checked: the same statement, `M N : FlatSpacetime.{u} d`, typechecks as
@@ -102,8 +102,6 @@ the library's `Minkowski d = ℝ × EuclideanSpace ℝ (Fin d)` has `d` spatial 
   the local set bounds the time).
 * **gx contract (a)–(f)** (`docs/BARBOT.md`): not applicable — no length, metric or
   Lipschitz-slope uniformity is defined here; strict contraction is pointwise.
-* Not imported by the scaffold root `CausalScaffold.lean` (kb/0025): registration, and with it the
-  axiom sweep's view of this file, is the master session's.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Barbot campaign,
 prover pass for `Classification.lean`'s `isLocallyCauchyTwoSided_image`.

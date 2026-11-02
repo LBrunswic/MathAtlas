@@ -1,11 +1,11 @@
-import CausalScaffold.Flat.FlatSpacetime
+import Causal.Flat.FlatSpacetime
 import Mathlib.Geometry.Manifold.Instances.Quotient
 import Mathlib.Topology.Homotopy.Lifting
 import Mathlib.Analysis.Convex.Contractible
 import Mathlib.AlgebraicTopology.FundamentalGroupoid.SimplyConnected
 
 /-!
-# `CausalScaffold.Flat.Quotient` — quotients `Γ\Ω` of open subsets of Minkowski space
+# `Causal.Flat.Quotient` — quotients `Γ\Ω` of open subsets of Minkowski space
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), the form
 of every model of §3–§4 and of every target of §11. No b-label is certified: the quotient

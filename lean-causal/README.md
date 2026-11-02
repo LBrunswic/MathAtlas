@@ -20,7 +20,7 @@ submodule, so the library is grown here in the layout it will have there: gradua
 | library | where | rule |
 |---|---|---|
 | `Causal` | `Causal/` | strict: `warningAsError`, so a `sorry`, an unused variable or a deprecation fails the build |
-| `CausalScaffold` | `scaffold/CausalScaffold/` | `sorry` permitted and tagged; never imported by `Causal`. A module is here either because a proof is missing or because it rests on a **reading of the paper awaiting the author's ruling** — each module says which. The layer of the curves graduated on 2026-09-27 (DEC-6); the scaffold holds the campaign's files (`docs/CAMPAIGN.md`) until they graduate; today the modules resting on a `sorry` (`GerochEquiv`, `MinkowskiMeasure`, `SubExtension`), on one (`SingularGeroch`), or on an unruled reading (`GXSingular`, OQ-19) |
+| `CausalScaffold` | `scaffold/CausalScaffold/` | `sorry` permitted and tagged; never imported by `Causal`. A module is here either because a proof is missing or because it rests on a **reading of the paper awaiting the author's ruling** — each module says which. The layer of the curves graduated on 2026-09-27 (DEC-6); the scaffold holds the campaign's files (`docs/CAMPAIGN.md`) until they graduate; today the modules resting on a `sorry` (`GerochEquiv`, `MinkowskiMeasure`, `SubExtension`), on one (`SingularGeroch`), or on an unruled reading (`GXSingular`, OQ-19), and the Barbot campaign's CBG work and bare Lemma K (`CBG.*`, `Flat.CBG*`, `CompactCauchy`); the rest of the Barbot campaign graduated on 2026-11-02 |
 
 ## Modules
 
@@ -62,11 +62,27 @@ submodule, so the library is grown here in the layout it will have there: gradua
 | `Causal.CauchyExtension`, `Causal.CauchyDiamond` | — | Cauchy embeddings and extensions, abstractly (DEC-17); `lem:image_diamant`, `lem:passe_pgcd`, `lem:Sigma_separe` |
 | `Causal.ChainsCurves` | `def:causally_connected` | causal connectedness by inextensible curves (DEC-20) |
 | `Causal.ChainsOrder` | `def:causally_complete`, `rem:causal_completeness_slightly_weaker` | causal completeness by maximal chains of `(M, ≤)` (DEC-21, DEC-22) |
+| `Causal.CompactCauchy` | — | Lemma K's proved form `isCauchySurface_of_isLocallyCauchyTwoSided` (DEC-44, a splitting and two-sidedness named); the bare form is `CausalScaffold.CompactCauchy`. Barbot campaign (`docs/BARBOT.md`), graduated 2026-11-02 |
+| `Causal.CurvesExtend` | — | every causal curve lies on an inextensible one, when there is a time function |
+| `Causal.Splitting` | — | the splitting `M ≅ S × ℝ` along a Cauchy surface from a causal flow; `set_option backward.isDefEq.respectTransparency false` on one lemma (SCOPE) |
+| `Causal.LemmaKBare` | — | Lemma K without a splitting, where curves extend, `C` has push-up and `Z^± = M` |
+| `Causal.Port.GXBasic`, `Causal.Port.UniversalCover`, `Causal.Port.Developing` | — | `(G,X)`-structures, the universal cover and the developing theorem, ported from gx (WP-32a) |
+| `Causal.Flat.Form`, `Causal.Flat.Isometries`, `Causal.Flat.IsomCausal`, `Causal.Flat.Achronal`, `Causal.Flat.AchronalDomains` | — | Minkowski space `𝐌ⁿ = Minkowski d` (`n = d + 1`), `Isom(𝐌ⁿ)`, Barbot §6–7 |
+| `Causal.Flat.Penrose` | `bcor:closeregular`, `bdef:regular_domain`, `blem:closecool`, `blem:fermons`, `blem:fermonsbis` | the Penrose boundary and the regular convex domains |
+| `Causal.Flat.FlatSpacetime`, `Causal.Flat.Quotient`, `Causal.Flat.Examples`, `Causal.Flat.TwistedProduct`, `Causal.Flat.Developing`, `Causal.Flat.Develop`, `Causal.Flat.InducedLength`, `Causal.Flat.LipschitzGraph` | — | flat spacetimes, quotients, the elementary models, linear twisted products, the developing map, Barbot §8 from (CC′), the induced length |
+| `Causal.Flat.CauchyComplete` | `bprop:project`, `bcor:quoiso` | Cauchy-completeness and the bridge to (CC′) |
+| `Causal.Flat.Bieberbach`, `Causal.Flat.Externals`, `Causal.Flat.Cosmological`, `Causal.Flat.SecondCountable`, `Causal.Flat.Abel`, `Causal.Flat.Laoucapulse` | — | Bieberbach's elementary part, Barbot's external results as named `Prop`s, the cosmological time, second countability, `bcor:abel` (false as printed, repaired), Prop 4.2 in its strongest true reading |
+| `Causal.Flat.Nonloxodromic` and `Causal.Flat.Nonlox.*` (10) | `bprop:extension` | Barbot §9, the nonloxodromic case; `maxHeartbeats` on one theorem each in `UnipotentLTP`, `UnipotentUpToFrame` (SCOPE) |
+| `Causal.Flat.Loxodromic`, `Causal.Flat.TitsNull` and `Causal.Flat.Lox.*` (21) | — | Barbot §10, the loxodromic case; `maxHeartbeats` in `Loxodromic`, `Lox.SecondNullFix` (SCOPE) |
+| `Causal.Flat.Classification` and `Causal.Flat.Cla.*` (15) | `bthm:caucomp`, `bthm:cauclo` | Barbot §11, Theorems A and B, under the named externals; `maxHeartbeats` in `Cla.G9Pair` (SCOPE) |
+| `Causal.Flat.TheoremBInputs`, `Causal.Flat.GerochFlat`, `Causal.Flat.Geroch.*` (4), `Causal.Flat.CBGCompact` | — | Theorem B's inputs (lemma K's data, Selberg), admissible measures on every GH flat spacetime, compactness of `J^∓(p) ∩ Σ` |
 | `CausalScaffold.GerochEquiv` | — | `theo:geroch`, the equivalence; one `sorry`, the cited (iii)⇒(i) |
 | `CausalScaffold.GXSingular` | — (OQ-19) | `prop:GX_sing_espace_temps_topo` for abstracted model spaces |
 | `CausalScaffold.SingularGeroch` | — | `theo:geroch_sing` (DEC-18), `prop:mesure_admissible`; rests on `GerochEquiv` |
 | `CausalScaffold.MinkowskiMeasure` | — | `prop:mesure_dieckmann_Lorentz` on Minkowski space; one `sorry` (null boundaries of past sets) |
 | `CausalScaffold.SubExtension` | — | common sub- and over-extensions, `lem:C_ext_connexe`, `prop:Cauchy_pgcd`; two `sorry`s |
+| `CausalScaffold.CompactCauchy` | — | the bare DEC-44 form of Lemma K, `isCauchySurface_of_isLocallyCauchy`; one `sorry`, nothing depends on it (Barbot) |
+| `CausalScaffold.CBG.*` (11), `CausalScaffold.Flat.CBG`, `.Flat.CBGGerm`, `.Flat.CBGSlice` | — | the Barbot campaign's CBG work (`docs/CBG-DESIGN.md`); tagged `sorry`s in `CBG.FromModel` |
 
 What each label's status is, which declarations carry it and what formalizing found in the paper
 is in `papers/ett/ledger/LEDGER.md`, generated from the sources and from

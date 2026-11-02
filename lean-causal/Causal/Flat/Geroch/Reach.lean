@@ -1,10 +1,10 @@
-import CausalScaffold.Flat.CauchyComplete
+import Causal.Flat.CauchyComplete
 import Causal.PushUp
 import Causal.LinesReachable
 import Causal.GlobalHyperbolicity
 
 /-!
-# `CausalScaffold.Flat.Geroch.Reach` — `K^± = I^±` on every flat spacetime, and the two sets an admissible measure must see
+# `Causal.Flat.Geroch.Reach` — `K^± = I^±` on every flat spacetime, and the two sets an admissible measure must see
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257);
 infrastructure for `FlatAdmissibleMeasures` (`Flat/TheoremBInputs.lean`, ruling DEC-65). **No label

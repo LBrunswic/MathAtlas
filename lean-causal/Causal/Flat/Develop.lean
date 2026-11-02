@@ -1,13 +1,13 @@
-import CausalScaffold.Flat.Developing
-import CausalScaffold.Flat.LipschitzGraph
-import CausalScaffold.Flat.AchronalDomains
-import CausalScaffold.Flat.Penrose
-import CausalScaffold.Flat.FlatSpacetime
+import Causal.Flat.Developing
+import Causal.Flat.LipschitzGraph
+import Causal.Flat.AchronalDomains
+import Causal.Flat.Penrose
+import Causal.Flat.FlatSpacetime
 import Mathlib.Topology.Homotopy.Lifting
 import Mathlib.Analysis.Convex.Contractible
 
 /-!
-# `CausalScaffold.Flat.Develop` — Barbot §8 from (CC′): `U(g)`, `Ω(Γ)`, `Ω(S̃)`, Lemma 8.6, Prop 8.10, Cauchy surfaces lift, Prop 8.12
+# `Causal.Flat.Develop` — Barbot §8 from (CC′): `U(g)`, `Ω(Γ)`, `Ω(S̃)`, Lemma 8.6, Prop 8.10, Cauchy surfaces lift, Prop 8.12
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §8,
 `GHFspace.tex` l.2212–2526 (labelled file). Design: `docs/BARBOT-WAVE3.md` §3 (DEC-35: everything

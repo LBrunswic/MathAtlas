@@ -1,10 +1,10 @@
-import CausalScaffold.Flat.Develop
-import CausalScaffold.Flat.Bieberbach
-import CausalScaffold.Flat.Examples
+import Causal.Flat.Develop
+import Causal.Flat.Bieberbach
+import Causal.Flat.Examples
 import Mathlib.Analysis.Normed.Affine.MazurUlam
 
 /-!
-# `CausalScaffold.Flat.Abel` — Barbot's Corollary 8.4 (`bcor:abel`): false as printed, and repaired
+# `Causal.Flat.Abel` — Barbot's Corollary 8.4 (`bcor:abel`): false as printed, and repaired
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §8,
 lines of the **labelled** `papers/barbot/legacy/labeled/GHFspace.tex`. Package WP-35a-Abel.

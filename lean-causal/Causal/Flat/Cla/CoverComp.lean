@@ -1,11 +1,11 @@
-import CausalScaffold.Flat.Nonloxodromic
-import CausalScaffold.Flat.TitsNull
-import CausalScaffold.Flat.Loxodromic
-import CausalScaffold.CompactCauchy
-import CausalScaffold.CurvesExtend
+import Causal.Flat.Nonloxodromic
+import Causal.Flat.TitsNull
+import Causal.Flat.Loxodromic
+import Causal.CompactCauchy
+import Causal.CurvesExtend
 
 /-!
-# `CausalScaffold.Flat.Cla.CoverComp` — a finite cover of a finite cover is a finite cover
+# `Causal.Flat.Cla.CoverComp` — a finite cover of a finite cover is a finite cover
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), Theorem B
 (`bthm:cauclo`, l.353–359) and its proof (l.3536–3548, l.3573–3581). No label is certified here:

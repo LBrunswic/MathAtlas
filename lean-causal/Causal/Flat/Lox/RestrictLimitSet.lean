@@ -1,5 +1,5 @@
-import CausalScaffold.Flat.TwistedProduct
-import CausalScaffold.Flat.Externals
+import Causal.Flat.TwistedProduct
+import Causal.Flat.Externals
 
 /-!
 # The regular domain of `Γ` restricts to that of `Γ_{|U}`, and `Λ₀` is a finite-index invariant

@@ -1,5 +1,5 @@
-import CausalScaffold.CurvesExtend
-import CausalScaffold.Splitting
+import Causal.CurvesExtend
+import Causal.Splitting
 
 /-!
 # A morphism injective on a Cauchy surface is injective (CBG, design §3 step 2)

@@ -1,7 +1,7 @@
-import CausalScaffold.Flat.Lox.TwoNullNormalForm
+import Causal.Flat.Lox.TwoNullNormalForm
 
 /-!
-# `CausalScaffold.Flat.Cla.G9PairLin` — linear algebra of a fixed pair of `𝒮`: the eigenvalue homomorphism, the swap's determinant, and the discreteness of the boost parameter
+# `Causal.Flat.Cla.G9PairLin` — linear algebra of a fixed pair of `𝒮`: the eigenvalue homomorphism, the swap's determinant, and the discreteness of the boost parameter
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), proof of
 Theorem B (`bthm:cauclo`, l.353–359; proof l.3536–3548) in its elementary-loxodromic case, the

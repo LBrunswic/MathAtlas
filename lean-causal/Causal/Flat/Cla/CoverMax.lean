@@ -1,9 +1,9 @@
-import CausalScaffold.Flat.Nonloxodromic
-import CausalScaffold.Flat.Loxodromic
-import CausalScaffold.Flat.Cla.CompactComplete
+import Causal.Flat.Nonloxodromic
+import Causal.Flat.Loxodromic
+import Causal.Flat.Cla.CompactComplete
 
 /-!
-# `CausalScaffold.Flat.Cla.CoverMax` — the developing map of a maximal GH flat spacetime fills `int D(Σ)`, and finite covers of maximal Cauchy-compact GH flat spacetimes are maximal
+# `Causal.Flat.Cla.CoverMax` — the developing map of a maximal GH flat spacetime fills `int D(Σ)`, and finite covers of maximal Cauchy-compact GH flat spacetimes are maximal
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257). Line
 numbers are those of the labelled `papers/barbot/legacy/labeled/GHFspace.tex`. **No label is

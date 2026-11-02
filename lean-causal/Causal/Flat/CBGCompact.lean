@@ -1,6 +1,6 @@
-import CausalScaffold.Flat.GerochFlat
-import CausalScaffold.Flat.CauchyComplete
-import CausalScaffold.CurvesExtend
+import Causal.Flat.GerochFlat
+import Causal.Flat.CauchyComplete
+import Causal.CurvesExtend
 
 /-!
 # `J⁻(p) ∩ Σ` and `J⁺(p) ∩ Σ` are compact for a Cauchy surface `Σ`, without limit curves

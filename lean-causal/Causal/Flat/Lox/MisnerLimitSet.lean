@@ -1,8 +1,8 @@
-import CausalScaffold.Flat.Externals
-import CausalScaffold.Flat.Lox.TwoNullNormalForm
+import Causal.Flat.Externals
+import Causal.Flat.Lox.TwoNullNormalForm
 
 /-!
-# `CausalScaffold.Flat.Lox.MisnerLimitSet` — [10.M]: the limit set is the two invariant null levels
+# `Causal.Flat.Lox.MisnerLimitSet` — [10.M]: the limit set is the two invariant null levels
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §10,
 subsection "The elementary case", `papers/barbot/legacy/labeled/GHFspace.tex` l.3307–3315.

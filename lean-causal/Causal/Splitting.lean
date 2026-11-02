@@ -1,5 +1,5 @@
 import Causal.CauchyDiamond
-import CausalScaffold.Flat.IsomCausal
+import Causal.Flat.IsomCausal
 import Mathlib.Dynamics.Flow
 import Mathlib.Geometry.Manifold.PartitionOfUnity
 import Mathlib.Geometry.Manifold.IntegralCurve.ExistUnique
@@ -86,7 +86,7 @@ flow, causal over `ℝ`, are inextensible), `Flat.FlowField.chronalCurveOn_of_ch
   obligation**: `isOpen_Jplus_diff_of_forall` / `isLocallyCauchyTwoSided_of_pointwise` take, at
   each point of a side, a chronal thread **or** a neighbourhood inside the side, the latter being
   what the model supplies at BTZ points (on the lightlike line the sides are open).
-* `CausalScaffold.CompactCauchy` is not built at this commit and is not imported:
+* `Causal.CompactCauchy` is not imported:
   `isLocallyCauchyTwoSided_of_threads` concludes the unfolded body of `IsLocallyCauchyTwoSided`.
 * **Target 4's ODE input is proved here, not in mathlib**: `exists_complete_rescaling_continuous`
   (for a smooth field on a σ-compact Hausdorff manifold, a positive smooth `f` with `f • v`
@@ -100,6 +100,8 @@ flow, causal over `ℝ`, are inextensible), `Flat.FlowField.chronalCurveOn_of_ch
   (`minkowskiTimeFlow_inextensible`, `minkowski_isCauchySurface_flow_image`); the timelike line for
   target 3 (`timelikeLine_target3`, and `hloc` of `isLocallyCauchyTwoSided_of_threads`:
   `timelikeLine_hloc`).
+* `set_option backward.isDefEq.respectTransparency false in` on `hasMFDerivAt_symm_comp` (the
+  chart-transport lemma): the strict library's first `set_option`, disclosed at graduation.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -644,8 +646,8 @@ theorem isLocallyCauchyTwoSided_of_pointwise (hP : C.PushUp)
     isOpen_Jminus_diff_of_forall hP hacU hchron hSU hm⟩
 
 /-- **Target 3, the two-sidedness of `CompactCauchy.IsLocallyCauchyTwoSided`**, from chart-wise
-threads. The conclusion is the body of `IsLocallyCauchyTwoSided S` (`CausalScaffold/CompactCauchy`,
-not imported: it is not built at this commit), so `this` closes `C.IsLocallyCauchyTwoSided S` by
+threads. The conclusion is the body of `IsLocallyCauchyTwoSided S` (`Causal.CompactCauchy`,
+not imported here), so `this` closes `C.IsLocallyCauchyTwoSided S` by
 `exact`. -/
 theorem isLocallyCauchyTwoSided_of_threads (hP : C.PushUp)
     (hloc : ∀ x ∈ S, ∃ U : Opens M, x ∈ U ∧ C.CausallyConvexIn (U : Set M) ⊤ ∧

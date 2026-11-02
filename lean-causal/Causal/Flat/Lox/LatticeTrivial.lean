@@ -1,7 +1,7 @@
-import CausalScaffold.Flat.Externals
+import Causal.Flat.Externals
 
 /-!
-# `CausalScaffold.Flat.Lox.LatticeTrivial` — a finite-index subgroup acting trivially on `E = span 𝒩`
+# `Causal.Flat.Lox.LatticeTrivial` — a finite-index subgroup acting trivially on `E = span 𝒩`
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §10,
 item **[10.G]** of `docs/BARBOT.md` (`GHFspace.tex` l.3406–3418). **No ledger label is certified

@@ -1,9 +1,9 @@
-import CausalScaffold.Flat.Externals
-import CausalScaffold.Flat.Examples
-import CausalScaffold.Flat.Bieberbach
+import Causal.Flat.Externals
+import Causal.Flat.Examples
+import Causal.Flat.Bieberbach
 
 /-!
-# `CausalScaffold.Flat.Lox.MisnerBieberbach` — [10.M]: Bieberbach through the euclidean model
+# `Causal.Flat.Lox.MisnerBieberbach` — [10.M]: Bieberbach through the euclidean model
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §10,
 subsection "The elementary case", `papers/barbot/legacy/labeled/GHFspace.tex` l.3323–3330.

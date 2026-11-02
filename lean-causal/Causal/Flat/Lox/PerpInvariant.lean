@@ -1,5 +1,5 @@
-import CausalScaffold.Flat.TwistedProduct
-import CausalScaffold.Flat.Externals
+import Causal.Flat.TwistedProduct
+import Causal.Flat.Externals
 
 /-!
 # `Ω^±(Λ)` is invariant under the translations by `U^⊥` when `Γ` preserves `U`

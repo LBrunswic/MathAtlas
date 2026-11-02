@@ -1,12 +1,12 @@
-import CausalScaffold.Flat.Nonloxodromic
-import CausalScaffold.Flat.TitsNull
-import CausalScaffold.Flat.Loxodromic
-import CausalScaffold.CompactCauchy
-import CausalScaffold.CurvesExtend
-import CausalScaffold.Flat.Cla.G9Pair
+import Causal.Flat.Nonloxodromic
+import Causal.Flat.TitsNull
+import Causal.Flat.Loxodromic
+import Causal.CompactCauchy
+import Causal.CurvesExtend
+import Causal.Flat.Cla.G9Pair
 
 /-!
-# `CausalScaffold.Flat.Cla.G9` — a Cauchy-compact linear twisted product over a model is finitely covered by a model of Theorem B
+# `Causal.Flat.Cla.G9` — a Cauchy-compact linear twisted product over a model is finitely covered by a model of Theorem B
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), proof of
 Theorem B (`bthm:cauclo`, l.353–359; proof l.3536–3548), gap **G9** of `docs/BARBOT-THEOREMS.md`

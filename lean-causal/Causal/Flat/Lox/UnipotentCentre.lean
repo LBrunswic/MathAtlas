@@ -1,5 +1,5 @@
-import CausalScaffold.Flat.TwistedProduct
-import CausalScaffold.Flat.Externals
+import Causal.Flat.TwistedProduct
+import Causal.Flat.Externals
 
 /-!
 # A nontrivial nilpotent unipotent group of `SO₀(1, d)` has a central non-elliptic element

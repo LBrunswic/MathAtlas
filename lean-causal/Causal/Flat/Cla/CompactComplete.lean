@@ -1,14 +1,14 @@
-import CausalScaffold.Flat.Nonloxodromic
-import CausalScaffold.Flat.TitsNull
-import CausalScaffold.Flat.Loxodromic
-import CausalScaffold.CompactCauchy
-import CausalScaffold.CurvesExtend
-import CausalScaffold.Flat.Cla.CCComponent
-import CausalScaffold.Flat.Cla.SmoothCone
-import CausalScaffold.Flat.Cla.SmoothCap
+import Causal.Flat.Nonloxodromic
+import Causal.Flat.TitsNull
+import Causal.Flat.Loxodromic
+import Causal.CompactCauchy
+import Causal.CurvesExtend
+import Causal.Flat.Cla.CCComponent
+import Causal.Flat.Cla.SmoothCone
+import Causal.Flat.Cla.SmoothCap
 
 /-!
-# `CausalScaffold.Flat.Cla.CompactComplete` — a Cauchy-compact GH flat spacetime is Cauchy-complete
+# `Causal.Flat.Cla.CompactComplete` — a Cauchy-compact GH flat spacetime is Cauchy-complete
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §2.4 and
 §11. **No label is marked**: the module is sorry-free, but it proves an INPUT of Theorem B, in DEC-35's reading of Cauchy-completeness (SCOPE).
@@ -1061,7 +1061,7 @@ private theorem mem_isomImage_inv_iff {g : isom d} {W : Opens (Minkowski d)} {q 
   rw [mem_isomImage, inv_inv]
 
 /-- **A spacelike Lipschitz hypersurface of a GH flat spacetime is locally Cauchy and two-sided**
-(the "spacelike hypersurface" input of lemma K, `CausalScaffold.CompactCauchy`). At `x ∈ H`, in
+(the "spacelike hypersurface" input of lemma K, `Causal.CompactCauchy`). At `x ∈ H`, in
 the chart at `x` and the frame `g` of `IsSpacelikeLipschitzIn`, `H` is the graph of a `c`-Lipschitz
 `f`, `c < 1`, hence of a strict contraction on a small ball; it extends to an entire strict
 contraction `F` (`exists_isStrictContraction_extension`), and the chart preimage of the local

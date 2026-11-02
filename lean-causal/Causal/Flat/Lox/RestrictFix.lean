@@ -1,5 +1,5 @@
-import CausalScaffold.Flat.TwistedProduct
-import CausalScaffold.Flat.Externals
+import Causal.Flat.TwistedProduct
+import Causal.Flat.Externals
 
 /-!
 # A fixed isotropic direction of a finite-index subgroup of `L_U(Γ)` transports to `L(Γ)`

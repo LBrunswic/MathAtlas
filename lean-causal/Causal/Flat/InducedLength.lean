@@ -1,4 +1,4 @@
-import CausalScaffold.Flat.Form
+import Causal.Flat.Form
 import Causal.GXStructure
 import Mathlib.Analysis.Calculus.Rademacher
 import Mathlib.Analysis.Calculus.Deriv.CompMul
@@ -8,7 +8,7 @@ import Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun
 import Mathlib.Topology.Connected.PathConnected
 
 /-!
-# `CausalScaffold.Flat.InducedLength` — the induced length of achronal Lipschitz hypersurfaces
+# `Causal.Flat.InducedLength` — the induced length of achronal Lipschitz hypersurfaces
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257).
 Labels (unmarked: both are prose and both are `partial`, see SCOPE):
@@ -64,7 +64,7 @@ dimensions, so Barbot's `n` is `d + 1`, and his `ℝ^{n−1}` is `EuclideanSpace
 ## SCOPE (disclosed)
 * `IsLipschitzHypersurfaceIn.smul` / `IsSpacelikeLipschitzIn.smul` carry
   `hG : ∀ g, StrongMorphism (minkowski d) (minkowski d) (g • ·)`, which is
-  `CausalScaffold.Flat.IsomCausal.isom_strongMorphism` (not importable in this wave); it is used for
+  `Causal.Flat.IsomCausal.isom_strongMorphism` (not importable in this wave); it is used for
   the achronality field only. Every other statement is unconditional. When `IsomCausal` is
   imported at graduation `hG` is dropped, so these two signatures (imported by gx) change.
 * **DEC-31 at the metric level is not proved.** (d) is curve-level: for a piecewise-smooth
@@ -72,11 +72,11 @@ dimensions, so Barbot's `n` is `d + 1`, and his `ℝ^{n−1}` is `EuclideanSpace
   `C¹` paths is NOT proved; only `≤` follows, stated as
   `InducedLength.edist_le_iInf_piecewiseC1`. The `≥` direction needs approximating a Lipschitz
   path of `Σ` by piecewise-`C¹` paths of `Σ` with lengths converging, i.e. smoothness of `Σ`.
-* `CausalScaffold.Flat.Achronal` (`graph f`, `isAchronal_graph_iff`) was outside this wave's
+* `Causal.Flat.Achronal` (`graph f`, `isAchronal_graph_iff`) was outside this wave's
   dispatched imports, so `graphOver univ f` (= `graph f`), `nullGraph e` (= `graph (inner e ·)`)
   and `not_lt_top_of_graphOver` (one direction of `isAchronal_graph_iff`) re-derive it. At
   graduation: import `Achronal` (no cycle), restate via `graph f`, derive the achronality.
-* Imports beyond the dispatched `CausalScaffold.Flat.Form`: the strict `Causal.GXStructure`
+* Imports beyond the dispatched `Causal.Flat.Form`: the strict `Causal.GXStructure`
   (`smulOpens`, `StrongMorphism`, `smul_rel_iff`) and mathlib modules only; no other scaffold file.
 * The chord-sum limit (mesh → 0) is not stated; nothing downstream reads it. The length is never a
   sup/inf of chord sums.

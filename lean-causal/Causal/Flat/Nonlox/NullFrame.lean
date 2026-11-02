@@ -1,12 +1,12 @@
-import CausalScaffold.Flat.Develop
-import CausalScaffold.Flat.Externals
-import CausalScaffold.Flat.Bieberbach
-import CausalScaffold.Flat.TwistedProduct
-import CausalScaffold.Flat.Examples
-import CausalScaffold.Flat.CauchyComplete
+import Causal.Flat.Develop
+import Causal.Flat.Externals
+import Causal.Flat.Bieberbach
+import Causal.Flat.TwistedProduct
+import Causal.Flat.Examples
+import Causal.Flat.CauchyComplete
 
 /-!
-# `CausalScaffold.Flat.Nonlox.NullFrame` — a linear frame taking `v₀` to the null axis
+# `Causal.Flat.Nonlox.NullFrame` — a linear frame taking `v₀` to the null axis
 
 T. Barbot, *Globally hyperbolic flat space-times*, §9 "The parabolic case" (`GHFspace.tex`
 l.2621–2622: "`L(Γ)` preserves a isotropic vector `v₀`"; l.2678–2690: "Select a lightlike vector
@@ -28,6 +28,8 @@ rotation `Q ∈ SO(d + 1)` with `Q x = t e₀`; `(s, y) ↦ (s, Q y)` lies in `S
 * The constant `c` is not normalised to `±1` (an `axisBoost` would do it; nothing needs it).
 * The hypothesis `hpar` is used only to get `d ≥ 1`: in `𝐌²` (`d = 0`) the two null lines are
   each `SO₀(1, 1)`-invariant, so the statement would be false for `v₀ = (1, −1)` without it.
+
+Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
 
 namespace Causal.Flat.Nonlox

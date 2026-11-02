@@ -1,16 +1,16 @@
-import CausalScaffold.Flat.FlatSpacetime
+import Causal.Flat.FlatSpacetime
 import Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace
 import Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar
 import Mathlib.MeasureTheory.Constructions.BorelSpace.Basic
 
 /-!
-# `CausalScaffold.Flat.Geroch.ChartNull` — in every chart of a flat spacetime, the frontier of `I^±(A)` is Lebesgue-null
+# `Causal.Flat.Geroch.ChartNull` — in every chart of a flat spacetime, the frontier of `I^±(A)` is Lebesgue-null
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257);
 infrastructure for `FlatAdmissibleMeasures` (`Flat/TheoremBInputs.lean`, ruling DEC-65). **No label
 is marked.** Property 4. of `defi:mesure_dieckmann` (ETT.tex:1032) on a flat spacetime `N` reduces
-(`CausalScaffold.Flat.Geroch.Reach`) to the nullity of `frontier I^±(A)`; this file proves that
-nullity **chart by chart**, from the Minkowski fact of `CausalScaffold.Flat.Geroch.ConeNull`, which
+(`Causal.Flat.Geroch.Reach`) to the nullity of `frontier I^±(A)`; this file proves that
+nullity **chart by chart**, from the Minkowski fact of `Causal.Flat.Geroch.ConeNull`, which
 is carried here as a hypothesis `hcone` (stated verbatim as `ConeNull`'s theorem, so the
 integrator passes `volume_frontier_inter_null_of_pastCone` / `…_futureCone`; this keeps the two
 files independent).
