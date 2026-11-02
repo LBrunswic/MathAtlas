@@ -1,10 +1,13 @@
 {
   "package": "WP-36p12-CBGFlat",
   "files": [
-    "scaffold/CausalScaffold/Flat/CBG.lean"
+    "scaffold/CausalScaffold/Flat/CBG.lean",
+    "scaffold/CausalScaffold/Flat/CBGCompact.lean",
+    "scaffold/CausalScaffold/Flat/CBGGerm.lean",
+    "scaffold/CausalScaffold/Flat/CBGSlice.lean"
   ],
   "builds": true,
-  "sorry_count": 2,
+  "sorry_count": 0,
   "labels": [
     {
       "label": "theo:CBG",
@@ -27,7 +30,17 @@
         "Causal.CBG.flat_cbg_ett_of",
         "Causal.CBG.flat_cbg_ett",
         "Causal.CBG.flat_cbg_flatSpacetime",
-        "Causal.CBG.flat_cbg_ett_flatSpacetime"
+        "Causal.CBG.flat_cbg_ett_flatSpacetime",
+        "Causal.CBG.flatModelOf_germExtFuture",
+        "Causal.CBG.flatModelOf_germExtPast",
+        "Causal.CBG.flatModelOf_sliceFuture",
+        "Causal.CBG.flatModelOf_slicePast",
+        "Causal.Flat.flat_isCompact_Jminus_inter_cauchy",
+        "Causal.Flat.flat_isCompact_Jplus_inter_cauchy",
+        "Causal.CBG.flat_germExtFuture",
+        "Causal.CBG.flat_germExtPast",
+        "Causal.CBG.flat_slice_future",
+        "Causal.CBG.flat_slice_past"
       ],
       "hypotheses": [
         {
@@ -47,31 +60,24 @@
         },
         {
           "paper": "(implicit) J+(Σ) ∩ J-(p) compact, R1",
-          "here": "strengthened",
-          "note": "reduced: flatModelOf still takes FlatCompactJplusJminus/FlatCompactJminusJplus, but these are now PROVED (flat_isCompact_Jplus_inter_Jminus / _Jminus_inter_Jplus, via isCompact_Jplus_inter_Jminus_of_isCompact + flat_isClosed_Jplus_Jminus_of_isCauchySurface) from J⁻(p) ∩ Σ / J⁺(p) ∩ Σ compact, the two remaining tagged sorries"
+          "here": "carried",
+          "note": "PROVED: FlatCompactJplusJminus/FlatCompactJminusJplus (flat_isCompact_Jplus_inter_Jminus / _Jminus_inter_Jplus) from J⁻(p) ∩ Σ / J⁺(p) ∩ Σ compact, which are now Flat/CBGCompact's flat_isCompact_Jminus_inter_cauchy / flat_isCompact_Jplus_inter_cauchy (sorry-free, no limit curve; only closed ≤, a time function and J⁻ of opens open are used, not compact diamonds). flatModelOf still takes hJ₁, hJ₂ as parameters (statement unchanged); flatModel discharges them."
         },
         {
           "paper": "(implicit) Sbierski Lemma 3.8 / proof of Thm 3.6 (A3/A4)",
-          "here": "strengthened",
-          "note": "flat_cbg_of takes GermExtFuture/Past, SliceFuture/Past of the flat model as hypotheses; flat_cbg uses CBG/FromModel's four tagged sorries (LocalModel.germExtFuture etc.)"
+          "here": "carried",
+          "note": "PROVED for the flat model: flatModelOf_germExtFuture/Past (Flat/CBGGerm's flat_germExtFuture/Past, Sbierski Lemma 3.8 regular case) and flatModelOf_sliceFuture/Past (Flat/CBGSlice's flat_slice_future/past, Thm 3.6 geometric half), for every hJ₁ hJ₂. flat_cbg_of still takes them as hypotheses (statement unchanged); flat_cbg/flat_cbg_gh/flat_cbg_ett and bundled forms discharge them, and flatGeometry d is now flatGeometryOf at these proofs (defeq to Geometry.ofLocalModel (flatModel d) by proof irrelevance), so CBG/FromModel's four generic A3/A4 sorries are not reached."
         }
       ],
-      "sorries": [
-        {
-          "decl": "Causal.CBG.flat_isCompact_Jminus_inter_of_isCauchySurface",
-          "obstruction": "R1's last input: J⁻(p) ∩ Σ compact in a GH flat spacetime with Cauchy surface Σ (the finite cover by compact diamonds and the closedness of J±(Σ) are proved). Along a future causal curve c with J⁻(c t) ∩ Σ compact for t < t₀, I⁻(c t₀) = ⋃ I⁻(c t) and everything a last-exit/compact-diamond argument reaches are controlled (by hand), but the past null cone J⁻(c t₀) ∖ I⁻(c t₀) down to Σ is not: bounding it is a limit-curve theorem (or, flat, past null geodesics and their continuous hitting points on Σ over the sphere of null directions) — not in the library"
-        },
-        {
-          "decl": "Causal.CBG.flat_isCompact_Jplus_inter_of_isCauchySurface",
-          "obstruction": "R1's last input, past form (J⁺(p) ∩ Σ compact), same obstruction time-reversed"
-        }
-      ],
+      "sorries": [],
       "findings": [
-        "A4 (finding for packages 6/11): the τ_q property Sbierski uses — 'τ_q(r) is only greater than zero for r ∈ J⁻(q)' (1309.7591 p.19, pdftotext l.983), keeping S ⊆ Ū ∩ J⁺(ι(M)) — is used in the proof of Thm 3.6, not in Lemma 3.11 (p.18, which only produces q ∈ I⁺(p) with J⁻(q) ∩ Uᶜ ∩ J⁺(Σ) ⊆ W). The Level-B field B4 as approved is satisfied by the flat time ∓t on a small diamond (minkowski_slice_future/past, sorry-free) and lacks that localisation. Counterexample to using B4's N whole, 1+1 Minkowski: U = {t < −|x|/2}, Σ = {t = −1 − |x|/2}, p = 0, q = (δ,0); on K = J⁻(q) ∩ Uᶜ ∩ J⁺(Σ) the time τ = −t is maximal at t = −δ, attained at x = ±2δ on ∂U, but {t = −δ} ∩ W enters int(Uᶜ) for 2δ < |x| < ε − δ. So FromModel's A4 derivation must take U ∪ (N ∩ I⁻(q)), or B4 needs a localisation clause (gx). Not a defect of package 12: B4 as approved is proved correctly.",
-        "B3 curvesExtend holds on every flat spacetime (T2, SC) without global hyperbolicity, via the chronal causal flow (flat_curvesExtend); gx review C3's GH restriction is not needed in the flat case.",
-        "B2 localUnique_reg for the flat model uses neither injectivity nor the MapsTo hypothesis (flat_localUnique_reg): on a connected open set a local isometry is one isometry.",
-        "A3 for the flat model (GermExtFuture/Past), by hand, not proved: the connectedness the previous audit named as owed is not the obstruction — near a future boundary point p ∉ Σ of a GH U ⊇ Σ (Cauchy in both), U ∩ J⁺(Σ) is a past set of J⁺(Σ) (causal convexity) and I⁻(p) ∩ J⁺(Σ) ⊆ U, so in a chart cylinder B ⊆ J⁺(Σ) at p, U ∩ B is connected (vertical drop into the convex I⁻(p) ∩ B) and ψ is one isometry on it in charts. The owed step is Sbierski Lemma 3.8's causal localisation (FromModel's (ii)): ψ(U ∩ B) inside a chart at the cluster value q; without it the chart isometries near x_n → p with ψ x_n → q may diverge in the non-compact Lorentz group. A4 (SliceFuture/Past) not attempted beyond the existing B4 caution.",
-        "R1 reduction (proved, any causality): tarentin + GH + T2 + J⁺(Σ) closed + J⁻(p) ∩ Σ compact ⇒ J⁺(Σ) ∩ J⁻(p) compact (isCompact_Jplus_inter_Jminus_of_isCompact; a point of J⁺(Σ) ∩ J⁻(p) lies above a point of J⁻(p) ∩ Σ by definition of J⁺(Σ), no flow needed). So R1 is exactly the compactness of J^∓(p) ∩ Σ."
+        "R1 (Flat/CBGCompact, sorry-free): J⁻(p) ∩ Σ compact WITHOUT a limit-curve theorem. B = points x such that for every neighbourhood V, J⁻(V) ∩ Σ lies in no compact set; B is closed and a future set (J⁻ of an open set is open, flat push-up along the chronal flow); frontier step (exists_pastNoncompactAt_frontier): for y ∈ B and compact N ∋ y in its interior, some point of ∂N ∩ J⁻(y) ∩ J⁺(Σ) is in B, so B ∩ Σ = ∅ (Σ acausal); Zorn on CurvesExtend time graphs inside B gives an inextensible causal curve inside B, which must meet Σ: contradiction. Compactness of diamonds is never used; the former SORRY text (limit curves needed) is withdrawn. General model-free form: Causality.isCompact_Jminus_inter_of_isCauchySurface (+ past form via C.dual).",
+        "A3 for the flat model (Flat/CBGGerm, sorry-free): the causal localisation of Lemma 3.8 is germ_core (ψ → q along the chart segment κ p − s·ε e₀ ⊆ U); the connected piece is U ∩ κ⁻¹(B(κp,ρ₁) ∩ I^ε(c)) (Sbierski's W ⊆ I⁺(γ(−ε))), not U ∩ B for a chart cylinder; one groupoid element there by B1 rigidity on a star-shaped set. Uses the model's compactness field only to make J^±(Σ) a neighbourhood of p, q (lem:Sigma_separe) — removable via flat_isClosed_Jplus_Jminus_of_isCauchySurface, which CBGGerm cannot import.",
+        "A4 for the flat model (Flat/CBGSlice, sorry-free): no slice through p and no hyperboloid. The corner condition puts the punctured past cone of p near p inside U (causal convexity of U); a closed slice ball {t = t(p) − δ, ‖x − x(p)‖ ≤ δ} lies in U, so does an open one of radius ρ > δ; the diamond N over it contains p, its equatorial slice Γ ⊆ U is Cauchy in N, and U' = U ⊔ N is GH with S Cauchy. Uses neither R1 nor GH of U. This also answers the earlier 1+1 B4 caution (B4's piece N is not used). Open for CBG/NoCorresponding (not this package): A4's type does not require U' ∖ U to be reached by A3's extension.",
+        "B4 caution (earlier finding, kept for packages 6/11): the Level-B field B4 as approved is satisfied by the flat time ∓t on a small diamond and lacks Sbierski's τ_q localisation; 1+1 counterexample U = {t < −|x|/2}, Σ = {t = −1 − |x|/2}, p = 0, q = (δ,0). Irrelevant to the flat instance now that A4 is proved directly.",
+        "B3 curvesExtend holds on every flat spacetime (T2, SC) without global hyperbolicity, via the chronal causal flow (flat_curvesExtend).",
+        "B2 localUnique_reg for the flat model uses neither injectivity nor the MapsTo hypothesis (flat_localUnique_reg).",
+        "R1 reduction (proved, any causality): tarentin + GH + T2 + J⁺(Σ) closed + J⁻(p) ∩ Σ compact ⇒ J⁺(Σ) ∩ J⁻(p) compact (isCompact_Jplus_inter_Jminus_of_isCompact)."
       ]
     }
   ],
@@ -113,13 +119,17 @@
     "Causal.CBG.isCompact_Jminus_inter_Jplus_of_isCompact",
     "Causal.CBG.flat_isClosed_Jplus_Jminus_of_isCauchySurface",
     "Causal.CBG.flat_isCompact_Jminus_inter_of_isCauchySurface",
-    "Causal.CBG.flat_isCompact_Jplus_inter_of_isCauchySurface"
+    "Causal.CBG.flat_isCompact_Jplus_inter_of_isCauchySurface",
+    "Causal.CBG.flatModelOf_germExtFuture",
+    "Causal.CBG.flatModelOf_germExtPast",
+    "Causal.CBG.flatModelOf_sliceFuture",
+    "Causal.CBG.flatModelOf_slicePast"
   ],
   "kb_proposals": [
     "Level-B structures are Σ' (ChartedSpace, HasGroupoid): a lemma stated with section instances [ChartedSpace Y M] [HasGroupoid M G] does not fire on LocalModel.causality s (the HasGroupoid instance depends on s.1); first `letI := s.1; haveI : HasGroupoid M G := s.2` and `show chartedCausality … M`, then rewrite.",
     "An IsCauchySurfaceOn W S only sees S ∩ W (isCauchySurfaceOn_congr in Flat/CBG); with isCauchySurfaceOn_graph_of_saturated (Flat/LipschitzGraph) for a constant graph, the slice t = c is Cauchy in the Minkowski diamond centred at time c — the cheap local Cauchy slice."
   ],
-  "notes": "2026-11-01 round 2: compiles against the new interface; `taskset -c 0-11 lake build CausalScaffold.Flat.CBG` succeeds (only this module built; warnings = the two tagged sorries). #print axioms flat_cbg = [propext, sorryAx, Classical.choice, Quot.sound]; flat_cbg_of / flat_cbg_ett_of / flatModelOf = [propext, Classical.choice, Quot.sound]. flat_cbg is NOT sorry-free: it rests on R1's last input (2 tagged sorries here) and FromModel's 4 A3/A4 sorries (for the flat model A3/A4's missing second countability is harmless — flat_secondCountableTopology — but the causal localisation of Lemma 3.8 and the geometric half of Thm 3.6 are owed). The module is not imported by the scaffold root (kb/0025): the master must add it for the axiom sweep. Previous notes: Axioms (#print axioms, checked then removed): flat_cbg_of, flat_cbg_gh_of, flat_cbg_ett_of (re-checked 2026-11-01), flatModelOf, minkowski_slice_future, flat_hasTimeFunction depend only on [propext, Classical.choice, Quot.sound]; flat_cbg/flat_cbg_gh/flat_cbg_ett/flat_cbg_minkowski add sorryAx through the two R1 sorries here and CBG/FromModel's four A3/A4 sorries. flat_cbg goes through CBG/Maximal's sorry-free cbg_of_hasTimeFunctions, with the queued timeFunction field discharged by flatGeometryOf_hasTimeFunctions, so Maximal's cbg_proof sorry is not used. Interface needs: (1) none blocking — every LocalModel field is inhabited for the flat model except the two R1 compactness fields; (2) when the round-2 timeFunction field lands on Geometry/LocalModel, its flat discharge is flat_hasTimeFunction (through chartedCausality_eq_flatCausality); (3) LocalModel.IsMor is not identified with Flat.IsLocalIsometry here. The module is not imported by the scaffold root (kb/0025): the master must add it for the axiom sweep. Imports: CBG.FromModel, CBG.Maximal, Flat.GerochFlat, Flat.SecondCountable, Flat.LipschitzGraph, Flat.Developing, Flat.CauchyComplete — all already built; no lake build was run.",
+  "notes": "2026-11-02 integration: flat_cbg, flat_cbg_gh, flat_cbg_ett, flat_cbg_flatSpacetime, flat_cbg_ett_flatSpacetime, flat_cbg_minkowski, flatModel, flatGeometry and the two R1 lemmas are sorry-free: #print axioms = [propext, Classical.choice, Quot.sound]. theo:CBG stays partial and UNMARKED: regular flat only (singY = ∅); the singular E₀ instance is gx's, and FromModel's generic A3/A4 sorries remain for it. kb/0025: Flat.CBG, Flat.CBGCompact, Flat.CBGGerm, Flat.CBGSlice are not imported by scaffold/CausalScaffold.lean — the master must register them (CBG transitively covers the other three) for the axiom sweep. Earlier rounds' notes are superseded by integration_round and axioms below.",
   "fix_round": "Fixer pass 2026-11-01 on the read-only audit: checklist row 1 now 'strengthened: regular flat only'; uniqueness row added (Dev.IsUniversal.unique / existsUnique_iso) and stated as flat_cbg_ett_of (sorry-free) / flat_cbg_ett; τ_q attribution corrected (proof of Thm 3.6, not Lemma 3.11) with the 1+1 B4 caution in SCOPE; DEC-60 citation replaced by docs/CBG-DESIGN.md:5–6; seven missing extra_decls added. Report path: kept at campaign/WP-36p12-CBGFlat (sibling naming p4/p5/p6/p7/p10); the dispatch's WP-36l-CBGFlat is for the master to reconcile. R1 sorries not closed (obstruction refined); A3 flat proof not attempted.",
   "interface_round_2": {
     "applied": "2026-11-01",
@@ -131,19 +141,46 @@
   "axioms": {
     "Causal.CBG.flat_cbg": [
       "propext",
-      "sorryAx",
       "Classical.choice",
       "Quot.sound"
     ],
     "sorry-free": [
+      "flat_cbg",
+      "flat_cbg_gh",
+      "flat_cbg_ett",
+      "flat_cbg_flatSpacetime",
+      "flat_cbg_ett_flatSpacetime",
+      "flat_cbg_minkowski",
       "flat_cbg_of",
       "flat_cbg_ett_of",
       "flatModelOf",
+      "flatModel",
+      "flatGeometry",
+      "flatModelOf_germExtFuture",
+      "flatModelOf_germExtPast",
+      "flatModelOf_sliceFuture",
+      "flatModelOf_slicePast",
+      "flat_isCompact_Jminus_inter_of_isCauchySurface",
+      "flat_isCompact_Jplus_inter_of_isCauchySurface",
       "flatGeometryOf_hasTimeFunctions",
       "isCompact_Jplus_inter_Jminus_of_isCompact",
       "isCompact_Jminus_inter_Jplus_of_isCompact",
       "flat_isClosed_Jplus_Jminus_of_isCauchySurface"
     ],
-    "flat_cbg_sorry_sources": "this file: flat_isCompact_Jminus_inter_of_isCauchySurface, flat_isCompact_Jplus_inter_of_isCauchySurface; CBG/FromModel: LocalModel.germExtFuture, germExtPast, sliceFuture, slicePast"
+    "flat_cbg_sorry_sources": "none"
+  },
+  "integration_round": {
+    "applied": "2026-11-02",
+    "imports_added": [
+      "CausalScaffold.Flat.CBGCompact",
+      "CausalScaffold.Flat.CBGGerm",
+      "CausalScaffold.Flat.CBGSlice"
+    ],
+    "R1": "flat_isCompact_Jminus_inter_of_isCauchySurface := flat_isCompact_Jminus_inter_cauchy hGH hS p; past form := flat_isCompact_Jplus_inter_cauchy hGH hS p",
+    "A3_A4": "new §7b wrappers flatModelOf_germExtFuture/Past (flat_germExtFuture/Past … rfl HEq.rfl ×4), flatModelOf_sliceFuture/Past (flat_slice_future/past through chartedCausality_eq_flatCausality)",
+    "flatGeometry": "definition body changed from Geometry.ofLocalModel (flatModel d) to flatGeometryOf d flat_isCompact_Jplus_inter_Jminus flat_isCompact_Jminus_inter_Jplus flatModelOf_germExtFuture flatModelOf_germExtPast flatModelOf_sliceFuture flatModelOf_slicePast; type Geometry.{0} unchanged; still defeq (rfl, checked in a scratch file) to Geometry.ofLocalModel (flatModel d)",
+    "statements_changed": "none; proof bodies of flat_cbg, flat_cbg_gh, flat_cbg_ett and the two R1 lemmas, the body of flatGeometry, and docstrings changed",
+    "untouched": "CBG/* (FromModel's four generic sorries remain, for other models), Flat/Cla/Cover*, scaffold root",
+    "build": "taskset -c 0-11 lake build CausalScaffold.Flat.CBG: Build completed successfully (3646 jobs), no warning from Flat/CBG.lean"
   }
 }

@@ -5,6 +5,9 @@ import CausalScaffold.Flat.SecondCountable
 import CausalScaffold.Flat.LipschitzGraph
 import CausalScaffold.Flat.Developing
 import CausalScaffold.Flat.CauchyComplete
+import CausalScaffold.Flat.CBGCompact
+import CausalScaffold.Flat.CBGGerm
+import CausalScaffold.Flat.CBGSlice
 
 /-!
 # The flat instance of the CBG campaign: the local model `Minkowski d`, and `flat_cbg`
@@ -61,13 +64,22 @@ rows stay partial until the singular instance discharges the model »). Cited, u
 * **The bridge** `chartedCausality_eq_flatCausality`: the causality the Level-B atlas generates is
   `flatCausality d M` (the two make the same preferred charts isomorphisms, both are absolutely
   minimal on every open set).
-* **R1 reduced to `J^∓(p) ∩ Σ` compact** (`flat_isCompact_Jplus_inter_Jminus`,
-  `flat_isCompact_Jminus_inter_Jplus`, sorry-free above two tagged inputs): for any tarentin GH
-  Hausdorff causality with `J⁺(Σ)` closed, `J⁻(p) ∩ Σ` compact ⇒ `J⁺(Σ) ∩ J⁻(p)` compact
-  (`isCompact_Jplus_inter_Jminus_of_isCompact`, finitely many compact diamonds; past form by
-  `C.dual`); `J^±(Σ)` closed in a GH flat spacetime (`flat_isClosed_Jplus_Jminus_of_isCauchySurface`,
-  the chronal-flow splitting). What is left is `flat_isCompact_Jminus_inter_of_isCauchySurface` and
-  its past form `flat_isCompact_Jplus_inter_of_isCauchySurface` (tagged `sorry`, SCOPE).
+* **R1, proved** (`flat_isCompact_Jplus_inter_Jminus`, `flat_isCompact_Jminus_inter_Jplus`,
+  sorry-free): for any tarentin GH Hausdorff causality with `J⁺(Σ)` closed, `J⁻(p) ∩ Σ` compact ⇒
+  `J⁺(Σ) ∩ J⁻(p)` compact (`isCompact_Jplus_inter_Jminus_of_isCompact`, finitely many compact
+  diamonds; past form by `C.dual`); `J^±(Σ)` closed in a GH flat spacetime
+  (`flat_isClosed_Jplus_Jminus_of_isCauchySurface`, the chronal-flow splitting); and the last input,
+  `flat_isCompact_Jminus_inter_of_isCauchySurface` and its past form
+  `flat_isCompact_Jplus_inter_of_isCauchySurface`, are `Flat/CBGCompact`'s
+  `flat_isCompact_Jminus_inter_cauchy` / `flat_isCompact_Jplus_inter_cauchy` — **no limit curve**:
+  the closed future set of "past-noncompact" points, a frontier step, Zorn on the time graphs of
+  `CurvesExtend`, and Σ Cauchy (`Flat/CBGCompact`'s docstring).
+* **A3 and A4 for the flat model, proved** (§7b, sorry-free): `flatModelOf_germExtFuture`,
+  `flatModelOf_germExtPast` (Sbierski Lemma 3.8, regular case; `Flat/CBGGerm`'s
+  `flat_germExtFuture`/`flat_germExtPast`, which use only the model's fields — B1, B2, B3 and one
+  compactness field per side) and `flatModelOf_sliceFuture`, `flatModelOf_slicePast` (Sbierski
+  Thm 3.6, geometric half; `Flat/CBGSlice`'s `flat_slice_future`/`flat_slice_past` through
+  `chartedCausality_eq_flatCausality`; they use neither R1 nor `U` GH), for every `hJ₁`, `hJ₂`.
 * **`flat_cbg_of`** (sorry-free): for a GH flat spacetime with a Cauchy surface, a universal
   Cauchy development exists in the geometry `Geometry.ofLocalModelOfGermSlice (flatModelOf d hJ₁
   hJ₂) hA3f hA3p hA4f hA4p`, i.e. **under the two compactness hypotheses and A3/A4 for the flat
@@ -75,12 +87,13 @@ rows stay partial until the singular instance discharges the model »). Cited, u
   (`flatGeometryOf_hasTimeFunctions` is that field). `flat_cbg_gh_of` drops the Cauchy surface (it is
   `flatGerochGH`).
 * **`flat_cbg`**, `flat_cbg_gh`, `flat_cbg_flatSpacetime` (bundled `N : FlatSpacetime.{0} d`,
-  `Flat.GH N`): the same in `flatGeometry d := Geometry.ofLocalModel (flatModel d)`, with **no
-  hypothesis beyond the paper's** (regular flat case), resting on the two tagged `sorry`s here (R1's
-  last input) and on `CBG/FromModel`'s four tagged A3/A4 `sorry`s (`LocalModel.germExtFuture`,
-  `germExtPast`, `sliceFuture`, `slicePast`). Witness: `flat_cbg_minkowski` (`M₀ = Minkowski d`).
+  `Flat.GH N`), **sorry-free**: the same in `flatGeometry d` — `flatGeometryOf` at the proved R1
+  and the proved A3/A4 of §7b, definitionally `Geometry.ofLocalModel (flatModel d)` but **not**
+  through `CBG/FromModel`'s four tagged A3/A4 `sorry`s — with **no hypothesis beyond the paper's**
+  (regular flat case). `#print axioms flat_cbg`: `[propext, Classical.choice, Quot.sound]`.
+  Witness: `flat_cbg_minkowski` (`M₀ = Minkowski d`).
 * **The ETT/Barbot reading** `flat_cbg_ett_of` (sorry-free, same hypotheses as `flat_cbg_gh_of`)
-  and `flat_cbg_ett`, `flat_cbg_ett_flatSpacetime`: an ETT-maximal development exists and is unique up to unique isomorphism —
+  and `flat_cbg_ett`, `flat_cbg_ett_flatSpacetime` (sorry-free): an ETT-maximal development exists and is unique up to unique isomorphism —
   the « unique up to isomorphism » half of `theo:CBG`, from `Dev.IsUniversal.existsUnique_iso`.
 * General: `exists_smul_eqOn_of_eventually` (rigid actions), `eventually_smul_of_mem_gxGroupoid`,
   `isomChart_mem_gxGroupoid`, `isCauchySurfaceOn_congr`, the Minkowski diamonds `mdiamond`
@@ -94,34 +107,41 @@ rows stay partial until the singular instance discharges the model »). Cited, u
 | "maximal" | DEC-59: `Dev.IsUniversal`; ETT/Barbot reading `Dev.IsETTMaximal` in `flat_cbg_ett_of`/`flat_cbg_ett` |
 | "unique up to isomorphism" (`ETT.tex:1886`) | ✓ `Dev.IsUniversal.unique` (`CBG/Geometry`) / `Dev.IsUniversal.existsUnique_iso` (`CBG/Maximal`), sorry-free, no rigidity; stated for the flat instance in `flat_cbg_ett_of` (sorry-free) and `flat_cbg_ett` |
 | design §4 `IsMor = IsLocalIsometry` | ⚠ reading: `LocalModel.IsMor` (`LiftPropOn G.IsLocalStructomorphWithinAt`), the interface's; its identification with `IsLocalIsometry` is not proved here |
-| design §4 A4 "hyperboloid level sets of `τ_q`" | ⚠ replaced: B4 only asks a local time with Cauchy level sets; the flat time `∓t` on a diamond satisfies it. The `τ_q` property Sbierski uses — « `τ_q(r)` is only greater than zero for `r ∈ J⁻(q)` » (Sbierski p. 19, pdftotext l. 983), keeping `S ⊆ Ū ∩ J⁺(ι(M))` (overline lost by pdftotext) — is used in the **proof of Thm 3.6** (not in Lemma 3.11, which only produces `q`); it is A4's (`CBG/FromModel`'s `sliceFuture`), not B4's, and the flat-time inhabitant of B4 lacks it (SCOPE: the 1+1 example) |
-| design §4 A3 "trivial (one `g` on a connected `V`)" | ⚠ not derived here: A3 is `CBG/FromModel`'s `germExtFuture`/`germExtPast` (tagged `sorry` there, for every model); this file proves its B2 input (`flat_localUnique_reg`) and carries A3 as a hypothesis in `flat_cbg_of` |
-| design §4 A2 `isCompact_*` ("flat GH") | ⚠ reduced: `FlatCompactJplusJminus`/`FlatCompactJminusJplus` (hypotheses of `flatModelOf`) are proved from `J⁻(p) ∩ Σ` / `J⁺(p) ∩ Σ` compact, which are tagged `sorry`s (`flat_isCompact_Jminus_inter_of_isCauchySurface`, past form) |
+| design §4 A4 "hyperboloid level sets of `τ_q`" | ⚠ replaced: B4 only asks a local time with Cauchy level sets; the flat time `∓t` on a diamond satisfies it. The `τ_q` property Sbierski uses — « `τ_q(r)` is only greater than zero for `r ∈ J⁻(q)` » (Sbierski p. 19, pdftotext l. 983), keeping `S ⊆ Ū ∩ J⁺(ι(M))` (overline lost by pdftotext) — is used in the **proof of Thm 3.6** (not in Lemma 3.11, which only produces `q`); it is A4's (`CBG/FromModel`'s `sliceFuture`), not B4's, and the flat-time inhabitant of B4 lacks it (SCOPE: the 1+1 example). A4 itself is proved for the flat model **without** `τ_q` (`flatModelOf_sliceFuture`/`…Past`, `Flat/CBGSlice`: a diamond over a slice ball strictly inside `U`) |
+| design §4 A3 "trivial (one `g` on a connected `V`)" | ✓ derived for the flat model (`flatModelOf_germExtFuture`/`…Past`, from `Flat/CBGGerm`), not trivial: Sbierski Lemma 3.8's causal localisation along a chart segment, then one groupoid element on `U ∩ κ⁻¹(ball ∩ I^ε(c))` (star-shaped, B1). `CBG/FromModel`'s generic `germExtFuture`/`germExtPast` stay tagged for other models; `flat_cbg_of` still takes A3 as a hypothesis, `flat_cbg` discharges it |
+| design §4 A2 `isCompact_*` ("flat GH") | ✓ proved: `FlatCompactJplusJminus`/`FlatCompactJminusJplus` (`flat_isCompact_Jplus_inter_Jminus`, past form) from `J⁻(p) ∩ Σ` / `J⁺(p) ∩ Σ` compact (`Flat/CBGCompact`); only closedness of `≤`, a time function and `J⁻` of opens open are used, not compact diamonds |
 
 ## SCOPE (disclosed)
 
-* **What `flat_cbg` rests on.** Two tagged `sorry`s in this file —
-  `flat_isCompact_Jminus_inter_of_isCauchySurface` (`J⁻(p) ∩ Σ` compact in a GH flat spacetime with
-  Cauchy surface `Σ`) and its past form — and the four of `CBG/FromModel` (A3/A4 from Level B, for
-  every local model). The conditional forms `flat_cbg_of`, `flat_cbg_gh_of`, `flat_cbg_ett_of` are
-  sorry-free. The interface fields of round 2 rest on nothing (`flat_hasTimeFunction`; `singY = ∅`).
-* **Why `J⁻(p) ∩ Σ` compact is left** (R1). The finite-diamond cover and the closedness of
-  `J^±(Σ)` are proved; what is not is the compactness itself. Along a future causal curve `c`,
-  compactness of `J⁻(c t) ∩ Σ` for `t < t₀` controls `I⁻(c t₀) = ⋃_{t<t₀} I⁻(c t)` and everything a
-  last-exit argument through a compact neighbourhood of `c t₀` reaches, but not the past null cone
-  `J⁻(c t₀) ∖ I⁻(c t₀)` down to `Σ`: bounding it is a limit-curve theorem (or, flat, the past null
-  geodesics of `c t₀` and their continuous hitting points on `Σ` over the sphere of null
-  directions), which the library does not have.
-* **A3 for the flat model, the owed step** (finding, not proved). The connectedness the earlier
-  audit named is not the obstruction: near a future boundary point `p ∉ Σ` of a GH `U ⊇ Σ` (Cauchy
-  in both), `U ∩ J⁺(Σ)` is a past set of `J⁺(Σ)` (causal convexity of `U`) and `I⁻(p) ∩ J⁺(Σ) ⊆ U`
-  (`p ∈ closure U`, `I⁺(y)` open), so in a chart cylinder `B` at `p` with `B ⊆ J⁺(Σ)`, `U ∩ B` is
-  connected (each point drops vertically into the convex `I⁻(p) ∩ B`) and `ψ` is one isometry on it
-  in charts. What is owed is the **causal localisation** of Sbierski's Lemma 3.8 (`CBG/FromModel`'s
-  (ii)): `ψ(U ∩ B)` inside a chart at the cluster value `q`. Without it the isometries read near
-  points `x_n → p` with `ψ x_n → q` may diverge in the non-compact Lorentz group, so no extension at
-  `p` follows from flatness alone.
-* **B4 carries no localisation to `J⁻(q)`** (finding, for packages 6/11). In 1+1 Minkowski take
+* **What `flat_cbg` rests on: nothing.** `flat_cbg`, `flat_cbg_gh`, `flat_cbg_ett`, the bundled
+  forms and `flat_cbg_minkowski` are sorry-free (`[propext, Classical.choice, Quot.sound]`): R1 is
+  `Flat/CBGCompact`, A3 `Flat/CBGGerm`, A4 `Flat/CBGSlice`, and `flatGeometry d` is built with
+  `flatGeometryOf` rather than `Geometry.ofLocalModel`, so `CBG/FromModel`'s four tagged A3/A4
+  `sorry`s (`LocalModel.germExtFuture`, `germExtPast`, `sliceFuture`, `slicePast`, stated for every
+  local model) are no longer reached by the flat instance. They remain open for other models (the
+  singular `E₀` instance, gx's). The conditional forms `flat_cbg_of`, `flat_cbg_gh_of`,
+  `flat_cbg_ett_of` keep A3/A4 and `hJ₁`, `hJ₂` as hypotheses, unchanged.
+* **Former R1 obstruction, withdrawn.** The earlier SORRY text claimed `J⁻(p) ∩ Σ` compact needs a
+  limit-curve theorem (the past null cone of `p` down to `Σ`). `Flat/CBGCompact` avoids it: the set
+  of points `x` such that `J⁻(V) ∩ Σ` is relatively non-compact for every neighbourhood `V` is a
+  closed future set disjoint from `Σ` (frontier step), and a Zorn-maximal time graph inside it is
+  an inextensible causal curve missing `Σ`. Compactness of diamonds is never used.
+* **A3 for the flat model** (formerly "the owed step"): the causal localisation of Sbierski's
+  Lemma 3.8 is `Flat/CBGGerm`'s `germ_core` (`ψ` converges to `q` along the chart segment
+  `κ p − s·ε e₀ ⊆ U`); the connected piece is `U ∩ κ⁻¹(B(κp, ρ₁) ∩ I^ε(c))` (Sbierski's
+  `W ⊆ I⁺(γ(−ε))`), not `U ∩ B` for a chart cylinder `B`. It reads the model's compactness field
+  only to make `J^±(Σ)` a neighbourhood of `p` and `q` (`lem:Sigma_separe`); that use could be
+  replaced by the splitting `flat_isClosed_Jplus_Jminus_of_isCauchySurface`, which `Flat/CBGGerm`
+  cannot import.
+* **A4 for the flat model** (`Flat/CBGSlice`): no slice through `p` and no hyperboloid — the corner
+  condition puts the punctured past cone of `p` near `p` inside `U`, a closed slice ball below `p`
+  (then a slightly larger open one) lies in `U`, and `U' = U ⊔ N` for the diamond `N` over it,
+  whose equatorial slice is a Cauchy surface of `N` inside `U`. `A4`'s type does not ask that
+  `U' ∖ U` be reached by A3's extension; whether `CBG/NoCorresponding` needs that is that
+  package's to check (it typechecks against the interface as stated).
+* **B4 carries no localisation to `J⁻(q)`** (finding, for packages 6/11; **answered for the flat
+  instance** by `Flat/CBGSlice`, which does not use B4's piece `N` — its slice ball lies strictly
+  inside `U`). In 1+1 Minkowski take
   `U = {t < −|x|/2}`, `Σ = {t = −1 − |x|/2}`, `p = 0`, `q = (δ, 0)`. On
   `K = J⁻(q) ∩ Uᶜ ∩ J⁺(Σ)` the flat time `τ = −t` of B4 is maximal at `t = −δ`, attained at
   `x = ±2δ` on `∂U`; but the level set `{t = −δ} ∩ W` of a diamond `W ⊇ K` of radius `ε` enters
@@ -458,24 +478,25 @@ def FlatCompactJminusJplus : Prop :=
     (flatCausality d M).GloballyHyperbolic → ∀ S : Set M, (flatCausality d M).IsCauchySurface S →
       ∀ p : M, IsCompact ((flatCausality d M).Jminus ⊤ S ∩ (flatCausality d M).Jplus ⊤ {p})
 
-/-- **The remaining input of R1, future form**: in a GH flat spacetime with Cauchy surface `Σ`,
-`J⁻(p) ∩ Σ` is compact. -/
+/-- **The last input of R1, future form**: in a GH flat spacetime with Cauchy surface `Σ`,
+`J⁻(p) ∩ Σ` is compact — `Flat/CBGCompact`'s `flat_isCompact_Jminus_inter_cauchy` (no limit curve). -/
 theorem flat_isCompact_Jminus_inter_of_isCauchySurface {M : Type} [TopologicalSpace M] [T2Space M]
     [ConnectedSpace M] [SecondCountableTopology M] [ChartedSpace (Minkowski d) M]
     [HasGroupoid M (gxGroupoid (isom d) (Minkowski d))]
     (hGH : (flatCausality d M).GloballyHyperbolic) {S : Set M}
     (hS : (flatCausality d M).IsCauchySurface S) (p : M) :
-    IsCompact ((flatCausality d M).Jminus ⊤ {p} ∩ S) := by
-  sorry -- SORRY(theo:CBG): R1's last input — `J⁻(p) ∩ Σ` compact (the rest of R1 is proved: `isCompact_Jplus_inter_Jminus_of_isCompact`, `flat_isClosed_Jplus_Jminus_of_isCauchySurface`). Every elementary route stops at the same step: for a future causal curve `c` with `J⁻(c t) ∩ Σ` compact for `t < t₀`, compactness at `P = c t₀`. `I⁻(P) = ⋃_{t<t₀} I⁻(c t)` is controlled, and so, by hand, is everything a last-exit/compact-diamond argument reaches (if the last exits `z_n ∈ ∂N ∩ J⁻(P)` from a compact neighbourhood `N` of `P` accumulate at `z ≪ P`, or at `z` with `J⁻(z) ∩ Σ` compact, the escaping points are trapped), but the points of the null cone `J⁻(P) ∖ I⁻(P)` reaching `Σ` are not: bounding them is the compactness of the past null cone of `P` down to `Σ`, i.e. a limit-curve theorem (or, flat, past null geodesics from `P` and their hitting points on `Σ`, continuous over the compact sphere of null directions) — neither is in the library
+    IsCompact ((flatCausality d M).Jminus ⊤ {p} ∩ S) :=
+  flat_isCompact_Jminus_inter_cauchy hGH hS p
 
-/-- **The remaining input of R1, past form** (no duality): `J⁺(p) ∩ Σ` compact. -/
+/-- **The last input of R1, past form** (no duality): `J⁺(p) ∩ Σ` compact —
+`Flat/CBGCompact`'s `flat_isCompact_Jplus_inter_cauchy`. -/
 theorem flat_isCompact_Jplus_inter_of_isCauchySurface {M : Type} [TopologicalSpace M] [T2Space M]
     [ConnectedSpace M] [SecondCountableTopology M] [ChartedSpace (Minkowski d) M]
     [HasGroupoid M (gxGroupoid (isom d) (Minkowski d))]
     (hGH : (flatCausality d M).GloballyHyperbolic) {S : Set M}
     (hS : (flatCausality d M).IsCauchySurface S) (p : M) :
-    IsCompact ((flatCausality d M).Jplus ⊤ {p} ∩ S) := by
-  sorry -- SORRY(theo:CBG): R1's last input, past form — `J⁺(p) ∩ Σ` compact; the obstruction of `flat_isCompact_Jminus_inter_of_isCauchySurface` with the time orientation reversed (the future null cone of `p` up to `Σ`)
+    IsCompact ((flatCausality d M).Jplus ⊤ {p} ∩ S) :=
+  flat_isCompact_Jplus_inter_cauchy hGH hS p
 
 /-- **R1, future form, for flat spacetimes**, from `flat_isCompact_Jminus_inter_of_isCauchySurface`. -/
 theorem flat_isCompact_Jplus_inter_Jminus : FlatCompactJplusJminus d := by
@@ -708,10 +729,53 @@ noncomputable def flatModelOf (hJ₁ : FlatCompactJplusJminus d) (hJ₂ : FlatCo
     exact flat_hasTimeFunction hGH
 
 variable (d) in
-/-- **The flat local model**, its two compactness fields resting on the tagged
-`flat_isCompact_Jplus_inter_Jminus`, `flat_isCompact_Jminus_inter_Jplus`. -/
+/-- **The flat local model**, its two compactness fields discharged by
+`flat_isCompact_Jplus_inter_Jminus`, `flat_isCompact_Jminus_inter_Jplus` (sorry-free since R1's last
+input is `Flat/CBGCompact`'s `flat_isCompact_Jminus_inter_cauchy` / `…Jplus…`). -/
 noncomputable def flatModel : LocalModel.{0} :=
   flatModelOf d flat_isCompact_Jplus_inter_Jminus flat_isCompact_Jminus_inter_Jplus
+
+/-! ### §7b A3 and A4 for the flat local model (`Flat/CBGGerm`, `Flat/CBGSlice`) -/
+
+section GermSlice
+
+variable {hJ₁ : FlatCompactJplusJminus d} {hJ₂ : FlatCompactJminusJplus d}
+
+/-- **A3, future side, for the flat model** (Sbierski Lemma 3.8, regular case): `CBG/FromModel`'s
+field type `GermExtFuture` read on `flatModelOf d hJ₁ hJ₂`, from `Flat/CBGGerm`'s
+`flat_germExtFuture` (stated for any local model with the flat data; here each `HEq` is `HEq.rfl`).
+Replaces the tagged `LocalModel.germExtFuture` for the flat instance. -/
+theorem flatModelOf_germExtFuture : (flatModelOf d hJ₁ hJ₂).GermExtFuture :=
+  flat_germExtFuture (flatModelOf d hJ₁ hJ₂) rfl HEq.rfl HEq.rfl HEq.rfl HEq.rfl
+
+/-- **A3, past side, for the flat model**: `flat_germExtPast` (`Flat/CBGGerm`). Replaces the tagged
+`LocalModel.germExtPast` for the flat instance. -/
+theorem flatModelOf_germExtPast : (flatModelOf d hJ₁ hJ₂).GermExtPast :=
+  flat_germExtPast (flatModelOf d hJ₁ hJ₂) rfl HEq.rfl HEq.rfl HEq.rfl HEq.rfl
+
+/-- **A4, future side, for the flat model** (Sbierski Thm 3.6, geometric half): `CBG/FromModel`'s
+field type `SliceFuture` read on `flatModelOf d hJ₁ hJ₂`, from `Flat/CBGSlice`'s
+`flat_slice_future` through the bridge `chartedCausality_eq_flatCausality`. Uses neither R1 nor
+global hyperbolicity of `U`. Replaces the tagged `LocalModel.sliceFuture` for the flat instance. -/
+theorem flatModelOf_sliceFuture : (flatModelOf d hJ₁ hJ₂).SliceFuture := by
+  intro M _ _ _ s U S hGH hGHU hSU hS hSU' p hp hpS hc O hpO
+  letI : ChartedSpace (Minkowski d) M := s.1
+  haveI : HasGroupoid M (gxGroupoid (isom d) (Minkowski d)) := s.2
+  have h : LocalModel.causality s = flatCausality d M := chartedCausality_eq_flatCausality
+  rw [h] at hGH hGHU hS hSU' hpS hc ⊢
+  exact flat_slice_future U S hGH hGHU hSU hS hSU' p hp hpS hc O hpO
+
+/-- **A4, past side, for the flat model**: `flat_slice_past` (`Flat/CBGSlice`). Replaces the tagged
+`LocalModel.slicePast` for the flat instance. -/
+theorem flatModelOf_slicePast : (flatModelOf d hJ₁ hJ₂).SlicePast := by
+  intro M _ _ _ s U S hGH hGHU hSU hS hSU' p hp hpS hc O hpO
+  letI : ChartedSpace (Minkowski d) M := s.1
+  haveI : HasGroupoid M (gxGroupoid (isom d) (Minkowski d)) := s.2
+  have h : LocalModel.causality s = flatCausality d M := chartedCausality_eq_flatCausality
+  rw [h] at hGH hGHU hS hSU' hpS hc ⊢
+  exact flat_slice_past U S hGH hGHU hSU hS hSU' p hp hpS hc O hpO
+
+end GermSlice
 
 /-! ### §8 The flat geometry and `flat_cbg` -/
 
@@ -741,9 +805,15 @@ noncomputable def flatGeometryOf (hJ₁ : FlatCompactJplusJminus d) (hJ₂ : Fla
   Geometry.ofLocalModelOfGermSlice (flatModelOf d hJ₁ hJ₂) hA3f hA3p hA4f hA4p
 
 variable (d) in
-/-- **The flat geometry** `Geometry.ofLocalModel (flatModel d)`: rests on the two compactness
-`sorry`s here and on `CBG/FromModel`'s four A3/A4 `sorry`s. -/
-noncomputable def flatGeometry : Geometry.{0} := Geometry.ofLocalModel (flatModel d)
+/-- **The flat geometry** (sorry-free): `Geometry.ofLocalModelOfGermSlice (flatModel d)` with the
+proved A3/A4 of the flat model (`flatModelOf_germExtFuture`, `…Past`, `flatModelOf_sliceFuture`,
+`…Past`). It is definitionally `Geometry.ofLocalModel (flatModel d)` (A3/A4 are `Prop`s, proof
+irrelevance), but does not go through `CBG/FromModel`'s four tagged A3/A4 `sorry`s. -/
+noncomputable def flatGeometry : Geometry.{0} :=
+  flatGeometryOf d flat_isCompact_Jplus_inter_Jminus flat_isCompact_Jminus_inter_Jplus
+    flatModelOf_germExtFuture flatModelOf_germExtPast flatModelOf_sliceFuture
+    flatModelOf_slicePast
+
 
 /-- **The time-function predicate** (`Geometry.HasTimeFunctions`) holds in every flat geometry: it
 is the geometry's own field `timeFunction` (interface round 2), discharged in the flat model by the
@@ -788,7 +858,8 @@ theorem flat_cbg_gh_of (hA3f : (flatModelOf d hJ₁ hJ₂).GermExtFuture)
 
 /-- **CBG for flat spacetimes** (`theo:CBG`, universal reading DEC-59, `Y = Minkowski d`): every
 globally hyperbolic flat spacetime with a Cauchy surface has a universal Cauchy development in
-`flatGeometry d`. Rests on R1 here (two tagged `sorry`s) and A3/A4 in `CBG/FromModel` (four). -/
+`flatGeometry d`. Sorry-free: R1 (`Flat/CBGCompact`) and A3/A4 (§7b, `Flat/CBGGerm`,
+`Flat/CBGSlice`) are proved for the flat model. -/
 theorem flat_cbg {M₀ : Type} [TopologicalSpace M₀] [T2Space M₀] [ConnectedSpace M₀]
     [ChartedSpace (Minkowski d) M₀] [HasGroupoid M₀ (gxGroupoid (isom d) (Minkowski d))]
     (hGH : (flatCausality d M₀).GloballyHyperbolic) {S : Set M₀}
@@ -796,8 +867,8 @@ theorem flat_cbg {M₀ : Type} [TopologicalSpace M₀] [T2Space M₀] [Connected
     ∃ Mbar : Dev (flatGeometry d).toPreGeometry
       (flatStr flat_isCompact_Jplus_inter_Jminus flat_isCompact_Jminus_inter_Jplus M₀),
       Mbar.IsUniversal :=
-  flat_cbg_of (flatModel d).germExtFuture (flatModel d).germExtPast (flatModel d).sliceFuture
-    (flatModel d).slicePast hGH hS
+  flat_cbg_of flatModelOf_germExtFuture flatModelOf_germExtPast flatModelOf_sliceFuture
+    flatModelOf_slicePast hGH hS
 
 /-- **CBG for flat spacetimes from global hyperbolicity alone** (the Cauchy surface is
 Geroch's, `flatGerochGH`). -/
@@ -807,8 +878,8 @@ theorem flat_cbg_gh {M₀ : Type} [TopologicalSpace M₀] [T2Space M₀] [Connec
     ∃ Mbar : Dev (flatGeometry d).toPreGeometry
       (flatStr flat_isCompact_Jplus_inter_Jminus flat_isCompact_Jminus_inter_Jplus M₀),
       Mbar.IsUniversal :=
-  flat_cbg_gh_of (flatModel d).germExtFuture (flatModel d).germExtPast (flatModel d).sliceFuture
-    (flatModel d).slicePast hGH
+  flat_cbg_gh_of flatModelOf_germExtFuture flatModelOf_germExtPast flatModelOf_sliceFuture
+    flatModelOf_slicePast hGH
 
 /-- **CBG for flat spacetimes, ETT/Barbot reading, conditional form** (sorry-free; `theo:CBG` as
 printed, « admits a maximal Cauchy extension, and that extension is unique up to isomorphism »,
@@ -833,7 +904,7 @@ theorem flat_cbg_ett_of (hA3f : (flatModelOf d hJ₁ hJ₂).GermExtFuture)
 
 /-- **CBG for flat spacetimes, ETT/Barbot reading** (`theo:CBG` as printed, regular flat case):
 existence of an ETT-maximal development, unique up to unique isomorphism, in `flatGeometry d`.
-Rests on the same `sorry`s as `flat_cbg`. -/
+Sorry-free, as `flat_cbg`. -/
 theorem flat_cbg_ett {M₀ : Type} [TopologicalSpace M₀] [T2Space M₀] [ConnectedSpace M₀]
     [ChartedSpace (Minkowski d) M₀] [HasGroupoid M₀ (gxGroupoid (isom d) (Minkowski d))]
     (hGH : (flatCausality d M₀).GloballyHyperbolic) :
@@ -845,8 +916,8 @@ theorem flat_cbg_ett {M₀ : Type} [TopologicalSpace M₀] [T2Space M₀] [Conne
         M.IsETTMaximal →
         ∃! f : Mbar.carrier → M.carrier, Mbar.IsMorphism M f ∧
           ∃ g : M.carrier → Mbar.carrier, M.IsMorphism Mbar g ∧ g ∘ f = id ∧ f ∘ g = id :=
-  flat_cbg_ett_of (flatModel d).germExtFuture (flatModel d).germExtPast (flatModel d).sliceFuture
-    (flatModel d).slicePast hGH
+  flat_cbg_ett_of flatModelOf_germExtFuture flatModelOf_germExtPast flatModelOf_sliceFuture
+    flatModelOf_slicePast hGH
 
 /-- **Non-vacuity** (kb/0011): `flat_cbg_gh` applies to `Minkowski d` itself
 (`gh_minkowskiSpace`). -/
