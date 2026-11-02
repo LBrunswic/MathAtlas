@@ -91,7 +91,8 @@ dimensions, so Barbot's `n` is `d + 1`. "Causally related" is the ETT causality
 * Tangent case: the lemma holds for every `x₀ ∉ c + J^⊥` and fails at `x₀ = c`; whether it fails
   on all of `c + J^⊥` is not proved. A loxodromic witness with `τ = 0` and non-open `Ω_g` (an
   irrational rotation, `d ≥ 3`) is not formalized; the open one is `boostIsom_isOpen`.
-* The classes are those of `Flat/Isometries`, whose trichotomy is a `sorry` there; no statement
+* The classes are those of `Flat/Isometries`, whose trichotomy (`lorentz_trichotomy`) was a
+  `sorry` there when this file was written and is proved since (no `sorry`); no statement
   here uses it (axioms: `propext`, `Classical.choice`, `Quot.sound`).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. WP-30e (wave 1b of the

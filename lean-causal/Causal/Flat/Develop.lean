@@ -11,8 +11,9 @@ import Mathlib.Analysis.Convex.Contractible
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §8,
 `GHFspace.tex` l.2212–2526 (labelled file). Design: `docs/BARBOT-WAVE3.md` §3 (DEC-35: everything
-after Prop 8.1 / Cor 8.3 runs from (CC′)); defects W4, W7, W8, W10 of its §0 apply. **No label is
-marked**: each is `partial` (SCOPE), several being fully proved in a reading.
+after Prop 8.1 / Cor 8.3 runs from (CC′)); defects W4, W7, W8, W10 of its §0 apply. One label is
+certified, **in a reading, disclosed** (DEC-83, the author's ruling; checklist below):
+`blem:SdanU`. The others are `partial` (SCOPE), several being fully proved in a reading.
 
 * `bcor:quo` (Cor 8.2, l.2263–2271), partial (DEC-35 reading, `M` Hausdorff; **no `sorry`**) —
   `bcor_quo`, `holonomy_proper`, `isOpenEmbedding_of_developsCC`,
@@ -24,7 +25,8 @@ marked**: each is `partial` (SCOPE), several being fully proved in a reading.
   > - $U(g) = \Omega_{g}$ if $g$ is loxodromic, or spacelike elliptic, or non linear parabolic.
   > - $U(g) = \emptyset$ if $g$ is nonspacelike elliptic, - $U(g) = {\bf M}^{n} \setminus J^{\perp}$
   > if $g$ is linear parabolic, where $J$ is the lightlike affine line of fixed points of $g$,
-* `blem:SdanU` (Lemma 8.6, l.2353–2358), partial (W4 reading; **no `sorry`**) — `blem_SdanU`:
+* **`blem:SdanU`** — `GHFspace.tex:2353` (Lemma 8.6, l.2353–2358), marked (DEC-83; the (CC′)
+  reading, DEC-35, and W4; **no `sorry`**) — `blem_SdanU`:
   > The complete spacelike hypersurface $\widetilde{S}$ is contained in the interior of
   > $U(\Gamma) = \bigcap_{\gamma \in \Gamma} U(\gamma)$.
 * `bdef:omega_gamma` (Def 8.7, l.2394–2400), partial (W4) — `omegaGamma`, `omegaS`, `omegaS_eq`:
@@ -86,6 +88,7 @@ dimensions: Barbot's `n` is `d + 1`.
 
 | paper hypothesis | here |
 |---|---|
+| `blem:SdanU` (**marked**, DEC-83) | ⚠ reading: the (CC′) reading (DEC-35): `S̃` read as the `CCAction Γ Σ` data in `𝐌ⁿ`, Cor 8.3 carried as (CC′)(b); W4: `U(Γ) = ⋂_{γ ≠ 1} U(γ)` (as printed `U(Γ) = ∅`), with the readings of `Ug` (SCOPE); no external; the paper's interior argument replaced (finding) |
 | `S` a complete Riemannian hypersurface, `f` an isometric immersion (l.2215–2216) | ⚠ strengthened (DEC-35 reading): `S` a Cauchy surface of `M` with `DevelopsCC` ((CC′) for `Σ = 𝒟(p⁻¹S)`, `𝒟` injective on `p⁻¹S`); `S̃ := p⁻¹(S) ⊆ M̃`, not the universal cover of `S` |
 | `Γ = π₁(S)` acting on `S̃` (free, properly discontinuous) | ⚠ strengthened in `𝐌ⁿ`: `CCAction` carries it; on `M` it is `ρ(Deck(M̃ → M))` (`bcor_quo`; properness `holonomy_proper`) |
 | (implicit) `M` a manifold: Hausdorff | ✓ carried as `[T2Space M]` exactly where used: `injective_of_developsCC`, `isOpenEmbedding_of_developsCC`, `holonomy_proper`, `ccAction_of_developsCC`, `isPreconnected_liftSet_of_developsCC`, `bprop_danom` (false without it, SCOPE). Connectedness of `M` is not used and not asked |

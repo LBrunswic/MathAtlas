@@ -49,7 +49,8 @@ unipotent sections work in `Minkowski (d + 1)` (`n = d + 2 ≥ 2`, `z ∈ ℝ^{n
   `S = Ω ∩ {Q = −1}` is a Cauchy surface of `Ω` (both readings), `Ω = D(S)` exactly
   (`LipschitzGraph.dependenceDomain_hyperboloid`), and `S` is not Cauchy in `𝐌ⁿ`; through
   `Cosmological` (`S` = the level `T = 1` of the cosmological time of `Ω⁺(𝒮 × {0})`,
-  `cosmoLevel_cone_one`), so `LipschitzGraph`'s `SORRY(D-cauchy-interior)` is bypassed.
+  `cosmoLevel_cone_one`), bypassing what was `LipschitzGraph`'s `SORRY(D-cauchy-interior)` (since
+  closed there: `isCauchySurfaceOn_interior_dependenceDomain`, no `sorry`).
 * **The causal order of `Γ\Ω` lifts** (`exists_lift_le`, through absolute minimality: a chain of
   relations in sheets lifts step by step), hence **`Γ\Ω` is causal under an acausal action**
   (`isCausal_of_actsAcausally`, an item of `Flat.Quotient`'s SCOPE), images of invariant acausal

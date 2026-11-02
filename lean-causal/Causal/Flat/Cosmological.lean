@@ -123,10 +123,14 @@ give exactly one point on `S_t` (`isCauchySurfaceOn_cosmoLevel_of`).
 * `bprop:lip` is proved in chordal form (`√|n − n'|²`, the Minkowski-form chord of `ℍᵈ`,
   against `√|p − p'|²`), at `ε = t` (Barbot's `ε < t`, then `ε → t`); the passage to the induced
   length and the hyperbolic metric (infimum of chord sums, l.1087–1091) is not proved.
-* `bcor:level_sets_complete` is not attempted, and Cauchy-completeness of 4.14 and the
-  isometric action on `(S_t, induced length)` of 4.16 are not stated: `Causal.Flat.InducedLength`
-  is not built at this point (no `.olean`), so it is not imported; `isSpacelikeLipschitz_cosmoLevel`
-  writes `IsSpacelikeLipschitzIn`'s fields out, to be restated through it at graduation.
+* `bcor:level_sets_complete` and the Cauchy-completeness of 4.14 are not proved in this file,
+  which does not import `Causal.Flat.InducedLength` (it was not built when this file was
+  written); they are proved downstream, with no `sorry`, in the induced-length reading
+  (`InducedLength`, DEC-35): `completeSpace_inducedLength_cosmoLevel` (`Flat/Lox/LevelComplete`),
+  `Cla.cosmoLevel_completeSpace_inducedLength` and `Cla.isCauchyComplete_of_isQuotientOf_regular`
+  (`Flat/Cla/RegularComplete`). The isometric action on `(S_t, induced length)` of 4.16 is not
+  stated here. `isSpacelikeLipschitz_cosmoLevel` writes `IsSpacelikeLipschitzIn`'s fields out;
+  `Lox.isSpacelikeLipschitzIn_opens_cosmoLevel` (`Flat/Lox/LevelComplete`) restates it through it.
 * **4.16** beyond invariance (proper discontinuity, freeness, the quotient `Γ\Ω`) is not
   attempted; the quotient is another package's.
 

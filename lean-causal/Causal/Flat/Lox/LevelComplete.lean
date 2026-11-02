@@ -19,7 +19,8 @@ Lipschitz-path Lorentzian length `InducedLengthSpace`, DEC-31/35): `bcor:level_s
 
 ## What it is for
 `completeSpace_inducedLength_cosmoLevel` (namespace `Causal.Flat`) is the upstairs half of
-`Loxodromic.loxo_cauchyComplete` (`SORRY(bcor:loxo_proper)`): with it,
+`loxo_cauchyComplete` (`Flat/Loxodromic.lean`, `bcor:loxo_proper`), whose former
+`SORRY(bcor:loxo_proper)` it closes, with no `sorry`: with it,
 `Lox.isCauchyComplete_flatQuotient_cosmo hc (completeSpace_inducedLength_cosmoLevel hc one_pos)`
 (`Lox/QuotientComplete.lean`). The same triple is item (1) of `Classification`'s [11.i] family (b)
 and of its Misner case (`misnerRegular` is a `CosmoRegular`).

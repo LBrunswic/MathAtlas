@@ -11,7 +11,7 @@ properties of Section 3.3 derived from it
 `lem:past_BTZ` — `ETT.tex:1515`. `cor:K_injectif` — `ETT.tex:1575`.
 `prop:K_densite_sing` — `ETT.tex:1634`. `cor:K_ordre` — `ETT.tex:1692`.
 `lem:cup_cap_BTZ` — `ETT.tex:1825`, stated for globally hyperbolic `M` as the author ruled
-(DEC-19), certificate `cupCapBTZAsPrinted_of_globallyHyperbolic` (`CausalScaffold.SingularGeroch`)
+(DEC-19), certificate `cupCapBTZAsPrinted_of_globallyHyperbolic` (`Causal.SingularGeroch`)
 on `SingularFlatAxioms.cup_cap_BTZ`. None is marked: each is a statement about
 `E^{1,2}_{≥0}`-manifolds, which the library does not define (the model spaces `E_α` are not built
 and the paper does not construct `E_0`, `ETT.tex:1328–1356`). The causal facts the paper draws
@@ -109,7 +109,7 @@ l.1344–1356), `line`
   spacetime, granted that `E_0` is strongly causal. Its one use (l.2122) is globally hyperbolic,
   where it holds (`cup_cap_BTZ`). This finding is why the author ruled (DEC-19) that the lemma is
   stated for globally hyperbolic `M`: its certificate is `cupCapBTZAsPrinted_of_globallyHyperbolic`
-  (`CausalScaffold.SingularGeroch`). The printed form (strong causality only) is not asserted: it
+  (`Causal.SingularGeroch`). The printed form (strong causality only) is not asserted: it
   stays the `Prop` `CupCapBTZAsPrinted` there, with this finding.
 * **Finding on `defi:causal_E0` (by hand).** l.1329–1331 give `E_0` the metric
   `−dτ² + dρ² + ρ²dθ²` and call `{ρ = 0}` a lightlike line; with that metric `∂_τ` has norm `−1`

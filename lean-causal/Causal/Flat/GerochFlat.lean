@@ -8,9 +8,10 @@ import Causal.Flat.Geroch.ChartMeasure
 # `Causal.Flat.GerochFlat` — every GH flat spacetime carries admissible measures, hence a Cauchy surface, hence Theorem B without lemma K's input
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257); ruling
-DEC-65 (`registers/DECISIONS.md`). **No label is marked**: this discharges the named input
-`FlatGerochGH` of `Flat/TheoremBInputs.lean`, and Theorem B (`bthm:cauclo`, `GHFspace.tex:353`)
-still rests on `barbot_B`'s own upstream `sorry`s and on `BarbotExternals`, `SelbergLemma`.
+DEC-65 (`registers/DECISIONS.md`). **No label is marked here**: this discharges the named input
+`FlatGerochGH` of `Flat/TheoremBInputs.lean`. Theorem B (`bthm:cauclo`, `GHFspace.tex:353`) is
+marked on `barbot_B` in `Flat/Classification.lean` (DEC-72): no `sorry` lies beneath it, and it
+rests on the named externals `BarbotExternals`, `SelbergLemma`.
 
 * `exists_admissible_measure`: on every GH flat spacetime with its Borel σ-algebra, **one**
   measure `μ` admissible both in the future and in the past for `flatCausality`
@@ -57,9 +58,12 @@ meets each vertical line in at most one point, Fubini).
 
 ## SCOPE (disclosed)
 
-* **No `sorry` in this file or in the four `Geroch.*` modules.** `barbot_B_geroch` still inherits
-  `barbot_B`'s upstream `sorry`s (Classification / Cla / Loxodromic: `cauclo_from_embedding` and
-  what it uses). `flatAdmissibleMeasures`, `flatGerochGH`, `exists_admissible_measure` and the
+* **No `sorry` in this file or in the four `Geroch.*` modules, and none beneath them.**
+  `barbot_B_geroch` and `barbot_B_zero_geroch` inherit none from `barbot_B`: the upstream
+  `sorry`s they once inherited (Classification / Cla / Loxodromic: `cauclo_from_embedding` and
+  what it uses) are closed, and `#print axioms` of `barbot_B`, `barbot_B_geroch`,
+  `barbot_B_zero_geroch` gives `[propext, Classical.choice, Quot.sound]` (re-derived
+  2026-11-02). `flatAdmissibleMeasures`, `flatGerochGH`, `exists_admissible_measure` and the
   two Minkowski theorems are **sorry-free**: `#print axioms` gives `[propext, Classical.choice,
   Quot.sound]` (so `flatGerochGH_of_admissible`, `geroch_i_imp_iii` included, carries no `sorry`).
 * One measure serves both directions; `defi:mesure_dieckmann` asks one per direction.
@@ -131,8 +135,10 @@ theorem flatGerochGH : FlatGerochGH.{u} d :=
   flatGerochGH_of_admissible flatAdmissibleMeasures
 
 /-- **Theorem B** (`bthm:cauclo`, l.353–359) with lemma K's data discharged
-(`forall_flatLemmaKData_iff`, `flatGerochGH`). Unmarked: rests on `barbot_B`'s upstream `sorry`s,
-`BarbotExternals d` and `SelbergLemma (Minkowski d)`. -/
+(`forall_flatLemmaKData_iff`, `flatGerochGH`). Unmarked here (`bthm:cauclo` is marked on
+`barbot_B`, `Flat/Classification.lean`, DEC-72). No `sorry` beneath it (`#print axioms`: `propext`,
+`Classical.choice`, `Quot.sound`); it rests on the named externals `BarbotExternals d` and
+`SelbergLemma (Minkowski d)`. -/
 theorem barbot_B_geroch (hE : BarbotExternals d) (hSel : SelbergLemma (Minkowski d))
     (M : FlatSpacetime.{u} d) (hGH : GH M) (hC : CauchyCompact M) (hM : MGH M) :
     ∃ (M₁ : FlatSpacetime.{0} d) (p : M₁ → M), IsFiniteCover d p ∧
@@ -142,8 +148,8 @@ theorem barbot_B_geroch (hE : BarbotExternals d) (hSel : SelbergLemma (Minkowski
   barbot_B hE hSel (forall_flatLemmaKData_iff.2 flatGerochGH) M hGH hC hM
 
 /-- **Theorem B in `𝐌¹`** (`d = 0`) with every named input discharged (`barbotExternals_zero`,
-`selbergLemma_minkowski_zero`, `flatGerochGH`). Unmarked: rests on `barbot_B`'s upstream
-`sorry`s. -/
+`selbergLemma_minkowski_zero`, `flatGerochGH`). No `sorry` beneath it and no named input left
+(`#print axioms`: `propext`, `Classical.choice`, `Quot.sound`). -/
 theorem barbot_B_zero_geroch (M : FlatSpacetime.{u} 0) (hGH : GH M) (hC : CauchyCompact M)
     (hM : MGH M) :
     ∃ (M₁ : FlatSpacetime.{0} 0) (p : M₁ → M), IsFiniteCover 0 p ∧

@@ -499,8 +499,10 @@ theorem caseOutput_nonloxodromic [T2Space M] (hB : BenoistNoLox d)
     exact ⟨Γ₃, hle₃.trans (hle₂.trans hle₁), Subgroup.relIndex_ne_zero_trans hidx₃ hidx₂₁, _, hD,
       hcv, B, hB', d₁, hd₁, M₁, Or.inl hM₁, hltp⟩
 
-/-- **The nonelementary loxodromic case in the common form** ([10.G], family (b)). Inherits
-Loxodromic's `bprop_LU_discrete` `sorry` through `loxo_generic_centralExtension`. -/
+/-- **The nonelementary loxodromic case in the common form** ([10.G], family (b)). No `sorry`
+beneath it: Loxodromic's `bprop_LU_discrete`, which it uses through
+`loxo_generic_centralExtension`, is sorry-free (`#print axioms`: `propext`, `Classical.choice`,
+`Quot.sound`). -/
 theorem caseOutput_generic [T2Space M] (hA : AuslanderCarriereDalbo d)
     (hU : MaxUnipotentSubspace d) (hpair : IsDevelopingPair x₀ D ρ)
     (hcaus : (flatCausality d M).IsCausal) (h : DevelopsCC x₀ D S)

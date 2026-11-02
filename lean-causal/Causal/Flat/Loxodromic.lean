@@ -36,31 +36,33 @@ import Mathlib.GroupTheory.Schreier
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §10
 "The loxodromic case" (`loxocase`), `GHFspace.tex` l.3133–3456 of the labelled file
-`papers/barbot/legacy/labeled/GHFspace.tex`. **No label is marked**; each is partial (SCOPE).
+`papers/barbot/legacy/labeled/GHFspace.tex`. Four labels are certified, **under readings and named
+external hypotheses, disclosed** (DEC-83, the author's ruling, as DEC-72; checklist below); the
+others are partial (SCOPE).
 
-* `blem:sanlox` — `GHFspace.tex:3141` (Lemma 10.1), partial (reading: §8's standing hypotheses
-  `CCAction`; **no `sorry`**): `blem_sanlox` as printed, by a proof other than the paper's (whose
+* **`blem:sanlox`** — `GHFspace.tex:3141` (Lemma 10.1), marked (DEC-83; reading: §8's standing
+  hypotheses `CCAction`; **no `sorry`**): `blem_sanlox` as printed, by a proof other than the paper's (whose
   convexity of `Ω_lox(Γ)` fails): the sign of `U_lox(Γ)` is uniform over the loxodromic elements
   (`not_mem_quadrantPlus_quadrantMinus`), so `Ω_lox(Γ) ⊆ Ω^±(Λ(Γ)) ⊆ Ω(Γ)`
   (`subset_UGamma_of_oneSided`, `omegaPlus_limitSetJ_subset_omegaGamma`).
-* `blem:loxregular` — `GHFspace.tex:3170` (Lemma 10.2), partial (reading: §8's standing hypotheses
-  `CCAction`; **no `sorry`**): `blem_loxregular`, `loxregular_sign`, `omegaS_eq_interior`; the
+* **`blem:loxregular`** — `GHFspace.tex:3170` (Lemma 10.2), marked (DEC-83; reading: §8's standing
+  hypotheses `CCAction`, both time orientations; **no `sorry`**): `blem_loxregular`, `loxregular_sign`, `omegaS_eq_interior`; the
   "reader can easily check" (l.3191–3193) is `exists_line_avoiding`.
 * `bcor:loxo_proper` — `GHFspace.tex:3214` (Cor 10.3), partial: freeness, proper discontinuity
   (`loxo_properlyDiscontinuous`, by an equivariant Gauss map, `finite_of_gaussEquivariant`) and
   the quotient (`bcor_loxo_proper`: GH, acausal Cauchy surface) and Cauchy-completeness
   (`loxo_cauchyComplete`, through `Flat.Lox.LevelComplete` and `Flat.Lox.QuotientComplete`)
   proved, **no `sorry`**.
-* `bprop:U_timelike` — `GHFspace.tex:3347` (Prop 10.4), partial (reading: §8's standing
-  hypotheses, `CCAction` carried but unused; **no `sorry`**): the lightlike case
+* **`bprop:U_timelike`** — `GHFspace.tex:3347` (Prop 10.4), marked (DEC-83; externals
+  `AuslanderCarriereDalbo`, `MaxUnipotentSubspace`; `CCAction` carried, unused; **no `sorry`**): the lightlike case
   (`not_isNonelementary_of_lightlike`); in the spacelike case the fixed space of `L(Γ_nd)` is
   spacelike (`IsMaxUnipotent.mem_direction_of_linFixed`), and a nilpotent group normalised by
   `L(Γ)` with spacelike common fixed space gives a finite-index subgroup of `L(Γ)` fixing a point
   of `𝒮` (`Flat.Lox.NilpotentFix`, by the upper central series, through `Flat.Lox.EllipticCommonFix`
   and `Flat.Lox.CommuteOnFix`), by a route other than the paper's (Cor 8.4, on which the paper
   relies, is false as printed: finding).
-* `bprop:LU_discrete` — `GHFspace.tex:3368` (Prop 10.5), partial (reading: `U` via `RestrictsIn`;
-  **no `sorry`**): l.3372–3380, both branches (`Flat.Lox.UnipotentCentre`; Cartan in local form,
+* **`bprop:LU_discrete`** — `GHFspace.tex:3368` (Prop 10.5), marked (DEC-83; external
+  `AuslanderCarriereDalbo`; reading: `U` via `RestrictsIn`; **no `sorry`**): l.3372–3380, both branches (`Flat.Lox.UnipotentCentre`; Cartan in local form,
   `Flat.Lox.ClosedSubgroupNhds`), and l.3380–3388 (`Flat.Lox.CentralFix`, `RestrictFix`).
 * `bprop:admlox` — `GHFspace.tex:1230` (Prop 4.17), partial (nonempty added, external
   `LimitSetMinimal`; **no `sorry`**): invariance in `𝒥` (`isomPenrose_image_limitSetJ_subset`),
@@ -157,6 +159,10 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
 
 | paper hypothesis | here |
 |---|---|
+| `blem:sanlox` (**marked**, DEC-83) | ⚠ reading (DEC-35): §8's standing hypotheses as `CCAction Γ Σ`, Rem 8.9 derived from it (`nini`); no external; proved by a route other than the paper's (finding: `Ω_lox(Γ)` is not convex) |
+| `blem:loxregular` (**marked**, DEC-83) | ⚠ reading (DEC-35): `CCAction Γ Σ`; both time orientations kept (`Ω⁺` future regular or `Ω⁻` past regular); Lemma 4.9 without its hypothesis; no external |
+| `bprop:U_timelike` (**marked**, DEC-83) | ⚠ strengthened: the named externals `AuslanderCarriereDalbo d` (`bthm:ausl`) and `MaxUnipotentSubspace d` (`bthm:unip`), cited by the paper, not proved by design (DEC-36); `CCAction` carried and unused (⚠ weakened); Cor 8.4 replaced (finding) |
+| `bprop:LU_discrete` (**marked**, DEC-83) | ⚠ strengthened: the named external `AuslanderCarriereDalbo d` (`bthm:ausl`, DEC-36), used by the proof; `MaxUnipotentSubspace d` and `CCAction` carried and unused (⚠ weakened); ⚠ reading: `U` an `AffineMinkEmbedding` with `RestrictsIn` (`Flat.TwistedProduct`'s form) |
 | §8's setting: `S` complete, `Γ = π₁(S)` acting on `S̃` | ⚠ strengthened (DEC-35 reading, as `Flat.Develop`): `CCAction Γ Σ` in `𝐌ⁿ`; on `M` through `DevelopsCC`, `ccAction_of_developsCC` |
 | `Γ` contains a loxodromic element (l.3135) | ✓ carried (`hlox`) |
 | Rem 8.9: no nonspacelike elliptic, no transverse parabolic (used in 10.1) | ✓ derived from `CCAction` (`nini`) |

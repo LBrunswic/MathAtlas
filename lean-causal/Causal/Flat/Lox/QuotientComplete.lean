@@ -24,9 +24,11 @@ level set `S₁`, `bcor:level_sets_complete`, as a hypothesis); `bcor:loxo_prope
 
 ## What it is for
 It serves `Loxodromic.loxo_cauchyComplete` (Cor 10.3's Cauchy-completeness): with the completeness
-of the level set `S₁ ⊆ Ω⁺(Λ)` (L1, `completeSpace_inducedLength_cosmoLevel`), the `sorry` there is
+of the level set `S₁ ⊆ Ω⁺(Λ)` (L1, `completeSpace_inducedLength_cosmoLevel`), the former `sorry`
+there is closed by
 `exact Lox.isCauchyComplete_flatQuotient_cosmo hc (completeSpace_inducedLength_cosmoLevel hc one_pos)`
-(both theorems live in `Causal.Flat.Lox`).
+(`isCauchyComplete_flatQuotient_cosmo` lives in `Causal.Flat.Lox`,
+`completeSpace_inducedLength_cosmoLevel` in `Causal.Flat`); no `sorry` is left there.
 The general form `isCauchyComplete_flatQuotient_of_invariant` also gives the descent half of
 `Classification`'s Cauchy-completeness items.
 

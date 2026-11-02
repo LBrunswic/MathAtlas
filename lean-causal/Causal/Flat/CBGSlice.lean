@@ -54,7 +54,7 @@ The library's Minkowski space `Minkowski d` has `d` spatial dimensions (Barbot's
   `y`, and for every open `V ⊇ K` a diamond `N ∋ y`, `N ⊆ O`, whose equatorial slice `Γ ⊆ V` is a
   Cauchy surface of it. `Flat/CBG`'s `flatModelOf` fills the two fields with it.
 * **What resolves the previous agent's caution** (`Flat/CBG` SCOPE, "B4 carries no localisation
-  to `J⁻(q)`"; `CBG/FromModel`'s `sliceFuture` SORRY: "nothing ties N to the side of τ⁻¹(c) that
+  to `J⁻(q)`"; `CBG/FromModel`'s former `sliceFuture` SORRY, gone since interface round 4: "nothing ties N to the side of τ⁻¹(c) that
   U ∪ N must add"): the slice `Γ` is taken **inside `U`**, strictly below `p`, rather than through
   `p` at the maximum of a time function; `N`'s added part is then on the correct side of `Γ`
   automatically, because every curve of `N` crosses `Γ` and `Γ ⊆ U`. The piece of `N` below `Γ` is

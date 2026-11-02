@@ -131,6 +131,7 @@ import Causal.Flat.GerochFlat
 import Causal.Flat.CBGCompact
 import Causal.SubExtension
 import Causal.GXSingular
+import Causal.SingularGeroch
 import Causal.CBG.CausalConvex
 import Causal.CBG.Geometry
 import Causal.CBG.Injective
