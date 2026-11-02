@@ -65,7 +65,7 @@ Framework (DEC-60): Brunswic's thesis, **rigid morphisms of singular `(G,X)`-man
 | Liouville on the regular part (`prop:GX_liouville`) | ⚠ added: `LocalModel.localUnique_reg` (B2 on a fully regular component, values in a fully regular component) + `regularChart` — not a thesis definition; true for gx's `𝕄 ⊕ Σ_α 𝔼_α` and for `Minkowski d` |
 | manifolds Hausdorff, connected (`these.tex:1357`, `5729`) | ✓ `Dev` carriers `T2Space`, `ConnectedSpace` |
 | second countable (`these.tex:1357`, `rem:CBG_manquant` (i)) | ✓ carried (gx review C2): `Dev` carriers `SecondCountableTopology`; the A2/B3 fields assume it, and since interface round 3 so do A3 (`germExt_*`: `M` and `N`) and A4 (`slice_*`: `M`); ⚠ added obligation `secondCountable_of_cauchy` (GH + SC Cauchy surface ⇒ SC), for `M̄` (package 10) |
-| `defi:causal_E0`: $I^+(p)=J^+(p)\setminus\sing_0$ (`ETT.tex:1352–1355`) | ✗ **false in `E₀`** (gx review C1, radial null ray, see « The corrected singular flat bundle »): A2/B3 ask `SingularFlatAxiomsCorr` (`Iplus_of_lt`); bridge `SingularFlatAxioms.toCorr`; `K_monotone`, `K_densite_sing`, `K_ordre` re-proved from it — finding |
+| `defi:causal_E0`: $I^+(p)=J^+(p)\setminus\sing_0$ (`ETT.tex:1352–1355`) | ✗ **false in `E₀`** (gx review C1, radial null ray): corrected in the strict library (DEC-64), `BTZAxioms.Iplus_of_lt`; A2/B3 ask the library's `SingularFlatAxioms`; `K_monotone`, `K_densite_sing`, `K_ordre` proved there from it — finding |
 | `CurvesExtend` | ⚠ restricted (gx review C3): on globally hyperbolic `M` only, the only use (§3.1 on developments) |
 | `M₀` globally hyperbolic (`theo:CBG`, `ETT.tex:1885`; `theo:Cauchy_ext`, `these.tex:6288`) | ⚠ strengthened: `cbg` (stated and proved in `CBG/Maximal`) also assumes a Cauchy surface `S` (the library's `GloballyHyperbolic`, `Causal/Properties.lean:144`, is causal + compact diamonds and gives none; without one no `Dev` exists); recoverable at the singular flat instance via `theo:geroch_sing` (`ETT.tex:1771`, DEC-18), never for an abstract `Geometry` |
 | Sbierski Lemma 3.8 (extension at corresponding points, Def 3.5) | A3 `germExt_future`/`germExt_past`: `MapClusterPt q (𝓝[U] p) ψ` is Def 3.5 |
@@ -73,7 +73,7 @@ Framework (DEC-60): Brunswic's thesis, **rigid morphisms of singular `(G,X)`-man
 | Sbierski Lemma 3.3 (`ψ` injective; « time function » on each GHD) | ✓ round 2 (1): `Geometry.timeFunction` (A2), `LocalModel.timeFunction` (B3): every GH admissible spacetime has a continuous function strictly increasing along `≤` (the body of `Causality.HasTimeFunction`, `CBG/Pgcd`); discharges the `hT` of `Pgcd`, `NoCorresponding`, `Ppcm` and `Geometry.HasTimeFunctions` of `Maximal` |
 | `cor:model_corresponding` (`ETT.tex:2158`), type of corresponding points | ⚠ added, read on `Y` (round 4 (3), gx-agreed): `LocalModel.typeAgreement`, at non-BTZ `y₀`, for pieces containing a chronological diamond with tip `y₀` |
 | B4 slices (Sbierski (3.12), Lemma 3.11) | ⚠ replaced (round 4 (2), gx-agreed): cone-slice forms `coneSliceFuture` (off `sing₀`), `coneSlicePast` (everywhere); the level-set B4 is deleted |
-| model Hausdorff; singular loci closed | ✓ round 4 (1), (4): `[t2Y : T2Space Y]`, `isOpen_regY`; ⚠ added, not agreed: `dense_regY` |
+| model Hausdorff; singular loci closed | ✓ round 4 (1), (4): `[t2Y : T2Space Y]`, `isOpen_regY`; `dense_regY` (added by the round-4 author, accepted by gx 2026-11-02) |
 | past side at a BTZ point (gx, `A3-B-INVESTIGATION.md`; the thesis never treats it) | ⚠ added, gx's form: `LocalModel.localUnique_sing_adherent`, largeness clause in the **diamond form with a regular tip** (interface round 3, 2026-11-02; round 2's clause was vacuous at `α₀ = 0`, SCOPE) |
 
 ## SCOPE (disclosed)
@@ -93,7 +93,7 @@ Framework (DEC-60): Brunswic's thesis, **rigid morphisms of singular `(G,X)`-man
   `fun s hGH => 𝔊.timeFunction s hGH` a `𝔊.HasTimeFunctions` (`CBG/Maximal`) as they stand.
   (2) `LocalModel.localUnique_sing_adherent`, the past-side B2 step in gx's form. **Finding
   (round 2; resolved by round 3, next bullet)
-  (from `CBG/FromModel`'s `BTZAxiomsCorr.exists_le_inter_Iminus_subset`)**: at a BTZ point
+  (from `CBG/FromModel`'s `BTZAxioms.exists_le_inter_Iminus_subset`)**: at a BTZ point
   (`α₀ = 0`) of a model where BTZ points have empty chronological past (`E₀`), its largeness clause
   holds for every `U` (`r := y₀`), so there the field is the point-contact form, which the cone
   counterexample refutes in `E₀`; the wrap-around reading needs `r` regular (candidate repair: the
@@ -120,7 +120,7 @@ Framework (DEC-60): Brunswic's thesis, **rigid morphisms of singular `(G,X)`-man
   `typeAgreement`, on `Y`: for a connected open `U` containing a chronological diamond with tip
   `y₀ ∉ sing₀`, an injective local `G`-structomorphism on `U` clustering at `z₀` at `y₀` has
   `y₀ ∈ sing_α ↔ z₀ ∈ sing_α` (`α ≥ 0`) and, `y₀` singular, `z₀` in the component of `y₀`. (4)
-  `isOpen_regY`. **Plus one field not in the agreed list, for gx's confirmation: `dense_regY`**
+  `isOpen_regY`. **Plus `dense_regY`, added by the round-4 author and accepted by gx (2026-11-02)**
   (the massive case of A3 needs regular points accumulating in the piece; see its docstring for
   why no agreed field gives it). With them `CBG/FromModel` derives A3 and A4 at every non-BTZ
   boundary point and is sorry-free; the BTZ-point cases are the explicit hypotheses of
@@ -145,18 +145,17 @@ Framework (DEC-60): Brunswic's thesis, **rigid morphisms of singular `(G,X)`-man
   is a **planned lemma** of package 4 (`Pgcd`, restrict) and package 7 (`Ppcm`, glue).
 * `Dev` carriers are types (open subsets as subtypes, `restrict`): a development is an object.
 * **gx review (`lean-gx/campaign/WP-28-scope/CBG-REVIEW.md`), changes applied.** C1: A2/B3 ask
-  the corrected `SingularFlatAxiomsCorr` (the library's `Iplus_eq` is false in `E₀`; strict
-  `Causal/SingularFlat.lean` is not edited here — graduating the correction there is the master
-  session's); C2: second countability a hypothesis (`Dev.sc`, binders on A2/B3) plus the field
+  the corrected bundle (the former `Iplus_eq` is false in `E₀`), since DEC-64 the strict library's
+  own `SingularFlatAxioms` (field `Iplus_of_lt`; the file's former copy `SingularFlatAxiomsCorr`
+  is deleted); C2: second countability a hypothesis (`Dev.sc`, binders on A2/B3) plus the field
   `secondCountable_of_cauchy`; C3: `curvesExtend` on GH `M`; C4: `localUnique_sing` kept strong.
   **Design §3 against C1**: the false implication reaches §3 only through the K± calculus —
   step 4 (Prop 3.7 = `lem:corresponding_K`, via `K_ordre`/`K_monotone`; Lemma 3.9 via the Geroch
   time, whose admissible measures `SingularGeroch.mesure_admissible` take `K_monotone`) and,
   through the Geroch time, C3's `curvesExtend_of_timeFunction` (step 1). `Iplus_of_lt` suffices
-  for all three: `SingularFlatAxiomsCorr.K_monotone`, `.K_densite_sing`, `.K_ordre` are proved
-  here. What remains to redo is the plumbing: `SingularGeroch` states `mesure_admissible` on the
-  library bundle, so its corrected form (same proof, `K_monotone` from here) is owed by whoever
-  graduates C1. Steps 2, 3, 5, 6, 7 do not use `Iplus_eq`.
+  for all three: `SingularFlatAxioms.K_monotone`, `.K_densite_sing`, `.K_ordre` are proved in
+  the strict library from it (DEC-64), and `SingularGeroch.mesure_admissible` takes the corrected
+  `K_monotone` as it stands. Steps 2, 3, 5, 6, 7 never used `Iplus_eq`.
 * **Size bound (§3.6) consistency**: every `Dev` carrier is SC and T2, hence T0 and of cardinality
   `≤ 𝔠`, so it embeds in `Set ℕ` as the design's `SmallDev` needs; the glued `M̄` re-enters `Dev`
   by `secondCountable_of_cauchy` (its Cauchy surface is the image of `M₀`'s, SC as a subspace of
@@ -172,232 +171,16 @@ open Set Topology Filter Function TopologicalSpace
 
 universe u
 
-/-! ### The corrected singular flat bundle (gx review C1)
+/-! ### The singular flat bundle (gx review C1, DEC-64)
 
-`Causality.BTZAxioms.Iplus_eq` (`Causal/SingularFlat.lean:146`), `I⁺(p) = J⁺(p) ∖ sing₀` at a BTZ
-point, is **false in `E₀`** (gx CBG review, `lean-gx/campaign/WP-28-scope/CBG-REVIEW.md`, verdict
-(a); a finding for the ETT ledger against `defi:causal_E0`, `ETT.tex:1352–1355`, the sentence the
-paper flags "asserted without proof — verify", and against the thesis). Counterexample (by hand,
-not formalized: no `E₀` exists in Lean): for the metric `−2dτdr + dr² + r²dθ²`, a future causal
-vector has `r′ ≥ 0` and `2τ′r′ ≥ r′² + r²θ′²`, so `f = τ − r/2` is non-decreasing along causal and
-strictly increasing along timelike curves; the radial null ray `t ↦ (t/2, t, θ₀)` from `p = (0,0)`
-reaches `x = (s/2, s, θ₀)`, `s > 0`, so `x ∈ J⁺(p) ∖ sing₀`, while `f x = f p` gives `x ∉ I⁺(p)`
-(locally `I⁺(p) = {r > 0, τ − τ_p > r/2}`). The true statement is `Iplus_of_lt`:
-`J⁺(p′) ∖ sing₀ ⊆ I⁺(p)` for `p < p′` on the line. The library theorem
-`SingularFlatAxioms.lt_of_le_of_not_mem` ("`x` BTZ, `y` regular, `x ≤ y` ⇒ `x ≪ y`") is false at
-`x = p`, `y = (s/2, s, θ₀)` for the same reason. So `E₀` itself — the satisfiability witness the
-gx gate asks for — is **not** a model of the library bundle, and could not instantiate the Level A/B
-fields asking for it. Whether some other `E₀`-manifold with a BTZ point satisfies the old bundle is
-NOT claimed (the non-causal quotient `E₀/⟨τ ↦ τ + T⟩` appears to: there `I⁺(p)` is every regular
-point). Ruling DEC-64: the strict library is to be corrected the same way. When it is, restate
-`SingularGeroch.mesure_admissible` and `geroch_sing_split` (whose `SingularFlatSpacetime` hypothesis
-extends the old bundle) on the corrected one.
-
-The bundles below are the library's with exactly one field changed (`Iplus_eq` ↦ `Iplus_of_lt`).
-The other fields were audited against the same counterexample and none is refuted by it:
-`singularPastAt` (`p ∈ Int J⁺(u)` for `u < p` on the line holds, `f p > f u`), `Iminus_eq_empty`,
-`past_local`, `line`, `pushUp` (`x ≤ y ≪ z ⇒ x ≪ z`: `f z > f y ≥ f x`, `r z > 0`), `tarentin`,
-`mem_Zplus`, `mem_Zminus_iff`, the topological fields; `massive_line` is vacuous for `E₀`. The
-false implication is a library *theorem* (`lt_of_le_of_not_mem`), not a field; its three uses —
-`K_monotone` (hence `SingularGeroch.mesure_admissible`, the Geroch time), `K_densite_sing` (past
-half) and `K_ordre` — are re-proved below from `Iplus_of_lt` (`SingularFlatAxiomsCorr.K_monotone`,
-`.K_densite_sing`, `.K_ordre`): each uses the implication only at an `x` strictly below a BTZ
-point `q ≤ y` (`K_monotone`: `x ∈ K⁻(q) = J⁻(q) ∖ {q}`), or at a limit of such (`K_densite_sing`,
-by `singularPastAt` (i)), which is exactly what `Iplus_of_lt` gives. Bridge:
-`SingularFlatAxioms.toCorr` (nothing is lost where the old bundle holds). -/
-
-namespace Causality
-
-variable {M : Type u} [TopologicalSpace M]
-
-/-- **The causal facts of a BTZ point, corrected** (gx review C1): `Causality.BTZAxioms` with
-`Iplus_eq` replaced by `Iplus_of_lt`. -/
-structure BTZAxiomsCorr (C : Causality M) (S₀ : Set M) : Prop where
-  /-- As `BTZAxioms.singularPastAt` (`ETT.tex:1349`). -/
-  singularPastAt : ∀ p ∈ S₀, C.SingularPastAt p
-  /-- As `BTZAxioms.Iminus_eq_empty` (`ETT.tex:1349`). -/
-  Iminus_eq_empty : ∀ p ∈ S₀, C.Iminus ⊤ {p} = ∅
-  /-- **Corrected** `ETT.tex:1352–1355`: for `p < p′` on the BTZ line, the regular part of the
-  future of `p′` is in the chronological future of `p`. Replaces the false
-  `I⁺(p) = J⁺(p) ∖ sing₀` (the radial null ray of `E₀`). -/
-  Iplus_of_lt : ∀ p ∈ S₀, ∀ p' ∈ S₀, C.le ⊤ p p' → p ≠ p' → C.Jplus ⊤ {p'} \ S₀ ⊆ C.Iplus ⊤ {p}
-  /-- As `BTZAxioms.past_local`. -/
-  past_local : ∀ p ∈ S₀, ∃ U : Opens M, p ∈ U ∧ ∀ q, C.le U q p → q ∈ S₀
-  /-- As `BTZAxioms.line` (`lem:past_BTZ` (a), `α = 0`). -/
-  line : ∀ p ∈ S₀, ∃ γ : ℝ → M, γ 0 = p ∧ (C.IsCausal → IsClosedEmbedding γ) ∧
-    C.Inextensible ⊤ univ γ ∧ range γ = connectedComponentIn S₀ p
-
-/-- **The singular flat bundle, corrected** (gx review C1): `Causality.SingularFlatAxioms` with
-`BTZAxioms` replaced by `BTZAxiomsCorr`; every other field verbatim. -/
-structure SingularFlatAxiomsCorr (C : Causality M) (sing : ℝ → Set M) : Prop
-    extends BTZAxiomsCorr C (sing 0) where
-  pushUp : C.PushUp
-  absolutelyMinimal : C.AbsolutelyMinimal
-  causallyArcConnected : C.CausallyArcConnected
-  tarentin : C.Tarentin
-  mem_Zplus : ∀ p, p ∈ C.Zplus
-  mem_Zminus_iff : ∀ p, p ∈ C.Zminus ↔ p ∉ sing 0
-  t2 : T2Space M
-  secondCountable : SecondCountableTopology M
-  metrizable : MetrizableSpace M
-  locallyCompact : LocallyCompactSpace M
-  noIsolated : ∀ p : M, (𝓝[≠] p).NeBot
-  isClosed_sing : ∀ α : ℝ, 0 ≤ α → IsClosed (sing α)
-  interior_sing : ∀ α : ℝ, 0 ≤ α → interior (sing α) = ∅
-  massive_line : ∀ α : ℝ, 0 < α → ∀ p ∈ sing α, ∃ γ : ℝ → M, γ 0 = p ∧
-    (C.IsCausal → IsClosedEmbedding γ) ∧
-    C.Inextensible ⊤ univ γ ∧ (∀ a b, C.ChronalCurveOn ⊤ γ a b) ∧
-    range γ = connectedComponentIn (sing α) p
-
-variable {C : Causality M} {p q x y : M}
-
-/-- **Bridge**: the library's `BTZAxioms` implies the corrected bundle. -/
-theorem BTZAxioms.toCorr {S₀ : Set M} (h : C.BTZAxioms S₀) : C.BTZAxiomsCorr S₀ where
-  singularPastAt := h.singularPastAt
-  Iminus_eq_empty := h.Iminus_eq_empty
-  Iplus_of_lt p hp p' _ hpp' _ y hy := by
-    rw [h.Iplus_eq p hp]
-    have hp'y : C.le ⊤ p' y := by simpa using hy.1
-    exact ⟨by simpa using C.le_trans hpp' hp'y, hy.2⟩
-  past_local := h.past_local
-  line := h.line
-
-/-- **Bridge**: the library's `SingularFlatAxioms` implies the corrected bundle (nothing is lost
-where the old one holds; `E₀` itself is not such a model). -/
-theorem SingularFlatAxioms.toCorr {sing : ℝ → Set M} (h : C.SingularFlatAxioms sing) :
-    C.SingularFlatAxiomsCorr sing where
-  toBTZAxiomsCorr := h.toBTZAxioms.toCorr
-  pushUp := h.pushUp
-  absolutelyMinimal := h.absolutelyMinimal
-  causallyArcConnected := h.causallyArcConnected
-  tarentin := h.tarentin
-  mem_Zplus := h.mem_Zplus
-  mem_Zminus_iff := h.mem_Zminus_iff
-  t2 := h.t2
-  secondCountable := h.secondCountable
-  metrizable := h.metrizable
-  locallyCompact := h.locallyCompact
-  noIsolated := h.noIsolated
-  isClosed_sing := h.isClosed_sing
-  interior_sing := h.interior_sing
-  massive_line := h.massive_line
-
-/-- Satisfiability (kb/0012), regular branch only: the timelike line with no singular point. -/
-theorem timelikeLine_singularFlatAxiomsCorr :
-    timelikeLine.SingularFlatAxiomsCorr (fun _ => ∅) :=
-  timelikeLine_singularFlatAxioms.toCorr
-
-/-- The lightlike line, every point BTZ, satisfies `BTZAxiomsCorr`. -/
-theorem lightlikeLine_btzAxiomsCorr : lightlikeLine.BTZAxiomsCorr (univ : Set ℝ) :=
-  lightlikeLine_btzAxioms.toCorr
-
-namespace SingularFlatAxiomsCorr
-
-variable {sing : ℝ → Set M}
-
-/-- `J⁻(p) ⊂ sing₀` for a BTZ point `p` (as `SingularFlatAxioms.mem_sing_zero_of_le`). -/
-theorem mem_sing_zero_of_le (h : C.SingularFlatAxiomsCorr sing) (hp : p ∈ sing 0)
-    (hqp : C.le ⊤ q p) : q ∈ sing 0 := by
-  obtain ⟨c, hc, rfl, rfl⟩ := (h.causallyArcConnected ⊤ le_rfl q p).1.1 hqp
-  exact mem_of_causalCurveOn (h.isClosed_sing 0 le_rfl) h.past_local hc le_rfl zero_le_one
-    le_rfl hp
-
-/-- **The corrected implication** (replacing the false `lt_of_le_of_not_mem`): `x < x′` on the
-BTZ line and `x′ ≤ y` regular give `x ≪ y`. -/
-theorem lt_of_lt_of_le_of_not_mem (h : C.SingularFlatAxiomsCorr sing) {x' : M}
-    (hx : x ∈ sing 0) (hx' : x' ∈ sing 0) (hxx' : C.le ⊤ x x') (hne : x ≠ x')
-    (hy : y ∉ sing 0) (hx'y : C.le ⊤ x' y) : C.lt ⊤ x y := by
-  have := h.Iplus_of_lt x hx x' hx' hxx' hne ⟨by simpa using hx'y, hy⟩
-  simpa using this
-
-/-- **`prop:K_monotone` from the corrected bundle** (the library proof with `Iplus_of_lt` in
-place of `lt_of_le_of_not_mem`, which it used only at `x ∈ J⁻(q) ∖ {q}`). -/
-theorem K_monotone (h : C.SingularFlatAxiomsCorr sing) (hc : C.IsCausal) (hqp : C.le ⊤ q p) :
-    C.Kminus ⊤ {q} ⊆ C.Kminus ⊤ {p} ∧ C.Kplus ⊤ {p} ⊆ C.Kplus ⊤ {q} := by
-  haveI := h.secondCountable
-  have hZm : ∀ p ∉ sing 0, p ∈ C.Zminus := fun p hp => (h.mem_Zminus_iff p).2 hp
-  have hP := h.pushUp
-  constructor
-  · by_cases hpS : p ∈ sing 0
-    · have hqS := h.mem_sing_zero_of_le hpS hqp
-      rw [Kminus_eq_Jminus_diff hc (h.singularPastAt q hqS),
-        Kminus_eq_Jminus_diff hc (h.singularPastAt p hpS)]
-      rintro x ⟨hxq, hxne⟩
-      have hxq' : C.le ⊤ x q := by simpa using hxq
-      refine ⟨by simpa using C.le_trans hxq' hqp, fun hxp => hxne ?_⟩
-      rw [mem_singleton_iff] at hxp ⊢
-      subst hxp
-      exact hc hxq' hqp
-    · rw [hP.Kminus_eq_Iminus (hZm p hpS)]
-      by_cases hqS : q ∈ sing 0
-      · rw [Kminus_eq_Jminus_diff hc (h.singularPastAt q hqS)]
-        rintro x ⟨hxq, hxne⟩
-        have hxq' : C.le ⊤ x q := by simpa using hxq
-        have hxS := h.mem_sing_zero_of_le hqS hxq'
-        have hne : x ≠ q := fun hxq'' => hxne (by simpa using hxq'')
-        simpa using h.lt_of_lt_of_le_of_not_mem hxS hqS hxq' hne hpS hqp
-      · rw [hP.Kminus_eq_Iminus (hZm q hqS)]
-        intro x hx
-        have hxq : C.lt ⊤ x q := by simpa using hx
-        simpa using hP.lt_of_lt_of_le hxq hqp
-  · rw [hP.Kplus_eq_Iplus (h.mem_Zplus p), hP.Kplus_eq_Iplus (h.mem_Zplus q)]
-    intro x hx
-    have hpx : C.lt ⊤ p x := by simpa using hx
-    simpa using hP.lt_of_le_of_lt hqp hpx
-
-/-- **`prop:K_densite_sing` from the corrected bundle**: a BTZ `y ≤ x`, `x` regular, is a limit
-of the points `u_n < y` of its line (`singularPastAt` (i)), each `≪ x` by `Iplus_of_lt`. -/
-theorem K_densite_sing (h : C.SingularFlatAxiomsCorr sing) (x : M) :
-    C.Jplus ⊤ {x} ⊆ closure (C.Kplus ⊤ {x}) ∧ C.Jminus ⊤ {x} ⊆ closure (C.Kminus ⊤ {x}) := by
-  haveI := h.secondCountable
-  constructor
-  · rw [h.pushUp.Kplus_eq_Iplus (h.mem_Zplus x)]
-    intro y hy
-    have hxy : C.le ⊤ x y := by simpa using hy
-    rw [mem_closure_iff_nhds]
-    intro N hN
-    obtain ⟨w, hw, hwN⟩ := h.mem_Zplus y N hN
-    have hyw : C.lt ⊤ y w := by simpa using hw
-    exact ⟨w, hwN, by simpa using h.pushUp.lt_of_le_of_lt hxy hyw⟩
-  · by_cases hx : x ∈ sing 0
-    · have hS := h.singularPastAt x hx
-      intro y hy
-      by_cases hyx : y = x
-      · subst hyx
-        exact closure_mono hS.Jminus_diff_subset_Kminus hS.mem_closure
-      · exact subset_closure (hS.Jminus_diff_subset_Kminus ⟨hy, hyx⟩)
-    · rw [h.pushUp.Kminus_eq_Iminus ((h.mem_Zminus_iff x).2 hx)]
-      intro y hy
-      have hyx : C.le ⊤ y x := by simpa using hy
-      by_cases hyS : y ∈ sing 0
-      · obtain ⟨u, hu, hup⟩ := (h.singularPastAt y hyS).1
-        refine mem_closure_of_tendsto hu (Eventually.of_forall fun n => ?_)
-        have huS := h.mem_sing_zero_of_le hyS (hup n).1
-        simpa using h.lt_of_lt_of_le_of_not_mem huS hyS (hup n).1 (hup n).2 hx hyx
-      · rw [mem_closure_iff_nhds]
-        intro N hN
-        obtain ⟨w, hw, hwN⟩ := (h.mem_Zminus_iff y).2 hyS N hN
-        have hwy : C.lt ⊤ w y := by simpa using hw
-        exact ⟨w, hwN, by simpa using h.pushUp.lt_of_lt_of_le hwy hyx⟩
-
-/-- **`cor:K_ordre` from the corrected bundle** (the library proof, verbatim, on the corrected
-`K_monotone` and `K_densite_sing`). -/
-theorem K_ordre (h : C.SingularFlatAxiomsCorr sing) (hG : C.GloballyHyperbolic) :
-    (∀ x y, C.le ⊤ x y ↔ C.Kminus ⊤ {x} ⊆ C.Kminus ⊤ {y}) ∧
-    (∀ x y, C.le ⊤ x y ↔ C.Kplus ⊤ {y} ⊆ C.Kplus ⊤ {x}) ∧
-    Function.Injective (fun x => C.Kminus ⊤ {x}) ∧
-    Function.Injective (fun x => C.Kplus ⊤ {x}) := by
-  haveI := h.t2
-  have hemb := K_order_embedding (hG.isClosed_Jplus_singleton h.tarentin)
-    (hG.isClosed_Jminus_singleton h.tarentin) (fun x => (h.K_densite_sing x).1)
-    (fun x => (h.K_densite_sing x).2)
-  exact ⟨hemb.2.2.2.1 fun _ _ hqp => (h.K_monotone hG.1 hqp).1,
-    hemb.2.2.2.2 fun _ _ hqp => (h.K_monotone hG.1 hqp).2, (hemb.2.2.1 hG.1).1,
-    (hemb.2.2.1 hG.1).2⟩
-
-end SingularFlatAxiomsCorr
-
-end Causality
+The corrected bundle this file used to carry (`BTZAxiomsCorr`, `SingularFlatAxiomsCorr`, the
+library's with `Iplus_eq` replaced by `Iplus_of_lt`) **graduated into the strict library** under
+DEC-64 (2026-11-02): `Causality.BTZAxioms` (`Causal/SingularFlat.lean`) now has the field
+`Iplus_of_lt` (`p < p′` on the BTZ line ⇒ `J⁺(p′) ∖ sing₀ ⊆ I⁺(p)`) in place of the false
+`Iplus_eq` (`I⁺(p) = J⁺(p) ∖ sing₀`, refuted in `E₀` by the radial null ray, see the library's
+SCOPE), and `SingularFlatAxioms.K_monotone`, `.K_densite_sing`, `.K_ordre` are proved there from it
+with their statements unchanged. A2/B3 ask the library bundle `SingularFlatAxioms` directly; the
+corrected structures, their bridges `toCorr` and their duplicated `K` lemmas are deleted. -/
 
 namespace CBG
 
@@ -505,18 +288,18 @@ structure Geometry extends PreGeometry.{u} where
     {t : Str N} {W : Opens M} {f : M → N}, IsMor s t W f → ∀ {x : M}, x ∈ W → ∀ {α : ℝ},
     0 ≤ α → (x ∈ sing s α ↔ f x ∈ sing t α)
   /-- **A2**: the causal facts of `𝔼≥0`-manifolds, in the **corrected** bundle
-  `SingularFlatAxiomsCorr` (gx review C1: the library's `BTZAxioms.Iplus_eq` is false in `E₀`;
-  `SingularFlatAxioms.toCorr` is the bridge). Second countability is a **hypothesis** (gx review
+  `SingularFlatAxioms` (gx review C1, DEC-64: the former field `BTZAxioms.Iplus_eq` is false in
+  `E₀` and is replaced by `Iplus_of_lt` in the strict library). Second countability is a **hypothesis** (gx review
   C2: it is part of the definition of a singular manifold, gx
   `def:singular_manifold_locally_connected`, `these.tex:1357`, not a theorem; R2), so the
   bundle's `secondCountable` field is free. §3.1–§3.6. -/
   singularFlatAxioms : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
-    [SecondCountableTopology M] (s : Str M), (causality s).SingularFlatAxiomsCorr (sing s)
+    [SecondCountableTopology M] (s : Str M), (causality s).SingularFlatAxioms (sing s)
   /-- **A2**: `CurvesExtend`, on **globally hyperbolic** `M` only (gx review C3: the proof consumes
   it on developments, which are GH, and there `curvesExtend_of_timeFunction`,
   `Causal/CurvesExtend.lean:409`, discharges it from a continuous time function strictly
   increasing along `≤`, e.g. the Geroch time of `SingularGeroch`, whose `K_monotone` input survives
-  C1 by `SingularFlatAxiomsCorr.K_monotone`). §3.1 (re-routing around `exists_mem_image_inf`). -/
+  C1 by `SingularFlatAxioms.K_monotone`, DEC-64). §3.1 (re-routing around `exists_mem_image_inf`). -/
   curvesExtend : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
     [SecondCountableTopology M] (s : Str M), (causality s).GloballyHyperbolic →
     (causality s).CurvesExtend
@@ -530,7 +313,7 @@ structure Geometry extends PreGeometry.{u} where
   of `curvesExtend_of_timeFunction` (`Causal/CurvesExtend.lean:409`). §3.2 (Sbierski
   Lemma 3.3, `IsCGHD.injOn`: MCGHD morphisms injective), hence §3.3, §3.5, §3.7. Discharge: flat,
   the Geroch time of admissible measures (`Flat/GerochFlat`); `E₀`, `SingularGeroch` (its
-  `K_monotone` input: `SingularFlatAxiomsCorr.K_monotone`). Gives `LocalModel.timeFunction` at
+  `K_monotone` input: `SingularFlatAxioms.K_monotone`, DEC-64). Gives `LocalModel.timeFunction` at
   Level B. -/
   timeFunction : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
     [SecondCountableTopology M] (s : Str M), (causality s).GloballyHyperbolic →
@@ -742,7 +525,7 @@ structure LocalModel where
   winding the same way, so the lift of `f` normalises `⟨P⟩`, and the normaliser is `Isom(E₀)`.
 
   **The round-2 clause it replaces was vacuous** (finding, `CBG/FromModel`,
-  `Causality.BTZAxiomsCorr.exists_le_inter_Iminus_subset`): `∃ r ∈ O, y₀ ≤_O r ∧
+  `Causality.BTZAxioms.exists_le_inter_Iminus_subset`): `∃ r ∈ O, y₀ ≤_O r ∧
   reg ∩ I⁻_O(r) ⊆ U` holds for every `U` at a BTZ point (`r := y₀`: BTZ points have empty
   chronological past, `Iminus_eq_empty`), so it was the point-contact form, which the cone
   counterexample refutes in `E₀`. Here `r ∈ regY` excludes `r := y₀` and every `r` on the line,
@@ -790,15 +573,15 @@ structure LocalModel where
   `Geometry.isMor_sing`, and makes `chartedSing` chart-independent. -/
   sing_mem : ∀ e ∈ G, ∀ y ∈ e.source, ∀ α : ℝ, 0 ≤ α → (y ∈ singY α ↔ e y ∈ singY α)
   /-- **B3, the global causal facts of `𝔼≥0`-manifolds** (gx §4 (i): the **corrected** bundle
-  `SingularFlatAxiomsCorr`, gx review C1 — the library's `Iplus_eq` is false in `E₀`, radial null
+  `SingularFlatAxioms`, gx review C1, DEC-64 — the former `Iplus_eq` is false in `E₀`, radial null
   ray; not local, so not derivable from `Y`). Second countability is a hypothesis (C2; gx §4 (vi)
   is now `secondCountable_of_cauchy`). Gives A2. -/
   singularFlatAxioms : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
     [SecondCountableTopology M] [ChartedSpace Y M] [HasGroupoid M G],
-    (chartedCausality causalityY M).SingularFlatAxiomsCorr (chartedSing singY M)
+    (chartedCausality causalityY M).SingularFlatAxioms (chartedSing singY M)
   /-- **B3**: `CurvesExtend` on **globally hyperbolic** `M` (gx review C3). For gx:
   `curvesExtend_of_timeFunction` (`CurvesExtend.lean:409`) with the Geroch time of
-  `SingularGeroch` (its `K_monotone` input: `SingularFlatAxiomsCorr.K_monotone`), or
+  `SingularGeroch` (its `K_monotone` input: `SingularFlatAxioms.K_monotone`, DEC-64), or
   `GloballyHyperbolic.curvesExtend` (`CurvesExtend.lean:447`) from admissible measures. Flat
   instance, existing proofs: `curvesExtend_of_isCausalFlow` (`Flat/CauchyComplete.lean:2467`,
   from a causal flow, so for every GH flat `M` with one, DEC-49), and on opens
@@ -849,8 +632,8 @@ structure LocalModel where
   on it, where B2 at a singular point (`localUnique_sing`) is applied; the agreement is then
   extended to `A` by `dense_regY` and `T2Space Y`. -/
   isOpen_regY : IsOpen {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α}
-  /-- **Round 4, added by the round-4 author — NOT in gx's agreed list, for gx's confirmation:
-  the regular part of the model is dense.** Needed by A3 at a massive boundary point (`α > 0`,
+  /-- **Round 4, added by the round-4 author, accepted by gx (2026-11-02; every stratum closed with
+  empty interior, countably many strata): the regular part of the model is dense.** Needed by A3 at a massive boundary point (`α > 0`,
   `CBG/FromModel`'s `germ_ext_nonBTZ`): B2 at a singular point (`localUnique_sing`) gives one
   `e ∈ G` agreeing with `ψ` (read in charts) on the **regular** part of the connected piece `A`
   only; to get `e (κ p) = κ' q` and agreement on `A` the regular part must accumulate at every

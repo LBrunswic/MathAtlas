@@ -185,7 +185,7 @@ GH carriers): a continuous `T` strictly increasing along `≤` — the input of 
 theorem causality_hasTimeFunction : (𝔊.causality N.str).HasTimeFunction :=
   𝔊.timeFunction N.str N.causality_globallyHyperbolic
 
-/-- A development is causally arc-connected (A2, `SingularFlatAxiomsCorr`). -/
+/-- A development is causally arc-connected (A2, `SingularFlatAxioms`). -/
 theorem causality_causallyArcConnected : (𝔊.causality N.str).CausallyArcConnected :=
   (𝔊.singularFlatAxioms N.str).causallyArcConnected
 

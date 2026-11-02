@@ -45,7 +45,7 @@ rows stay partial until the singular instance discharges the model »). Cited, u
     of `G` is `isomChart g` (source `univ`); `regularChart`: `refl`.
   - B3 `absolutelyMinimalOn_Y`, `chartIso_mem` (through `flatCausality_self`, the groupoid
     inside the maximal atlas of the model), `sing_mem` (vacuous).
-  - B3 `singularFlatAxioms` (`flat_singularFlatAxiomsCorr`): the corrected bundle with
+  - B3 `singularFlatAxioms` (`flat_singularFlatAxioms`): the corrected bundle with
     `sing = ∅` — the BTZ fields and `massive_line` are vacuous, `isClosed_sing`/`interior_sing`
     are those of `∅`, `mem_Zminus_iff` becomes `Z⁻ = M`; push-up, `Z^±`, tarentin, causal
     arc-connectedness from `Flat/Geroch/Reach`, `Flat/TheoremBInputs`, `Flat/CauchyComplete`;
@@ -362,10 +362,10 @@ theorem flat_nhdsNE_neBot (d : ℕ) {M : Type*} [TopologicalSpace M] [ChartedSpa
   have : (map e (𝓝[≠] x)).NeBot := by rw [hmap]; infer_instance
   exact (Filter.map_neBot_iff _).1 this
 
-/-- **B3, the corrected singular flat bundle with `sing = ∅`** (`Causality.SingularFlatAxiomsCorr`):
-every BTZ field and `massive_line` is vacuous; the rest is the flat library. -/
-theorem flat_singularFlatAxiomsCorr [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] :
-    (flatCausality d M).SingularFlatAxiomsCorr (chartedSing (fun _ => (∅ : Set (Minkowski d))) M) := by
+/-- **B3, the corrected singular flat bundle with `sing = ∅`** (`Causality.SingularFlatAxioms`,
+whose BTZ field is `Iplus_of_lt` since DEC-64): every BTZ field and `massive_line` is vacuous; the rest is the flat library. -/
+theorem flat_singularFlatAxioms [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] :
+    (flatCausality d M).SingularFlatAxioms (chartedSing (fun _ => (∅ : Set (Minkowski d))) M) := by
   haveI : LocallyCompactSpace M := ChartedSpace.locallyCompactSpace (Minkowski d) M
   let N : FlatSpacetime.{0} d := FlatSpacetime.of M
   refine
@@ -709,7 +709,7 @@ noncomputable def flatModelOf (hJ₁ : FlatCompactJplusJminus d) (hJ₂ : FlatCo
   singularFlatAxioms := by
     intro M _ _ _ _ _ _
     rw [chartedCausality_eq_flatCausality]
-    exact flat_singularFlatAxiomsCorr
+    exact flat_singularFlatAxioms
   curvesExtend := by
     intro M _ _ _ _ _ _ _
     rw [chartedCausality_eq_flatCausality]

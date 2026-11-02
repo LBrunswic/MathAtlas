@@ -48,6 +48,7 @@ it stands for; every theorem here is proved from them.
 | `prop:K_densite_sing`: strongly causal | ⚠ weakened: not used (`K_densite_sing`) |
 | `cor:K_ordre`: globally hyperbolic | ✓ carried |
 | `lem:cup_cap_BTZ`: globally hyperbolic (DEC-19; printed "strongly causal") | ✓ carried (`SingularFlatAxioms.cup_cap_BTZ`); ⚠ weakened: `J^+(z)` closed for every `z` suffices (`cup_cap_BTZ_of_isClosed`); `⊇` holds with no hypothesis on `M` |
+| `defi:causal_E0`: $I^+(p)=J^+(p)\setminus\sing_0$ (l.1352–1355) | ✗ **false in `E₀`** (DEC-64; the radial null ray, SCOPE): ⚠ re-scoped, DEC-64 — the field is `Iplus_of_lt` (`p < p′` on the line ⇒ `J^+(p′) ∖ sing_0 ⊂ I^+(p)`), true in `E₀`; `K_monotone`, `K_densite_sing`, `K_ordre` re-proved from it, statements unchanged |
 
 The fields: `pushUp` (`cor:pushup_sing`, l.1419), `absolutelyMinimal` (`cor:massA_causalite`,
 l.1396), `causallyArcConnected` (`cor:massA_cac`, l.1408), `tarentin` (`rem:sing_tarentin`,
@@ -55,7 +56,8 @@ l.1364), `mem_Zplus`, `mem_Zminus_iff` (`rem:btz_pas_tarentin`, l.1358), `t2`,
 `secondCountable`, `metrizable`, `locallyCompact`, `noIsolated`, `isClosed_sing`,
 `interior_sing` (`prop:GX_sing_dec`, l.1435: a 3-manifold, `sing_α` a closed 1-submanifold),
 `massive_line` (`lem:past_BTZ` (a), α > 0); at the points of `sing 0` (`BTZAxioms`):
-`singularPastAt`, `Iminus_eq_empty`, `Iplus_eq`, `past_local` (`defi:causal_E0`, l.1344–1356), `line`
+`singularPastAt`, `Iminus_eq_empty`, `Iplus_of_lt` (corrected, DEC-64), `past_local` (`defi:causal_E0`,
+l.1344–1356), `line`
 (`lem:past_BTZ` (a), α = 0).
 
 ## SCOPE (disclosed)
@@ -76,19 +78,29 @@ l.1364), `mem_Zplus`, `mem_Zminus_iff` (`rem:btz_pas_tarentin`, l.1358), `t2`,
   modulo a translation along its singular line: the component is a circle); the conditional
   form no longer excludes it by the embedding. In a causal `M` the closed embedding remains
   stronger than the paper's "inextensible causal curve".
-* **`Iplus_eq` stands on an assertion the paper does not prove.** The field
-  `I^+(p) = J^+(p) ∖ sing_0` is the sentence of `defi:causal_E0` flagged at l.1351 as "quoted
-  from \cite{thesis}, where it is asserted without proof -- verify". It is used by
-  `lt_of_le_of_not_mem`, hence by `K_monotone`, `K_densite_sing` (past half), `K_ordre` and,
-  in `CausalScaffold.SingularGeroch`, `mesure_admissible` and everything built on it.
-* **`prop:K_densite_sing` needs neither strong causality nor `lem:densite_modele`, given the
-  field `Iplus_eq` in its global form.** Every point being strongly tarentin in the future,
-  push-up gives the future at once; in the past a regular `y` is strongly tarentin in the past,
-  and a BTZ `y < x` with `x` regular has `y ≪ x` by `I^+(y) = J^+(y) ∖ sing_0`. The paper states
-  that identity in the model only (l.1352); deriving the global form in `M` is the chart and
-  causal arc-connectedness argument of l.1663–1669, which the field absorbs. So the shortcut
-  removes strong causality and `lem:densite_modele`, and removes causal arc-connectedness only
-  because `Iplus_eq` is assumed globally.
+* **⚠ re-scoped, DEC-64: the field `Iplus_eq` is replaced by `Iplus_of_lt`.** The former field
+  `I^+(p) = J^+(p) ∖ sing_0` (at every BTZ point `p`) is the sentence of `defi:causal_E0`
+  (l.1352–1355) flagged at l.1351 as "quoted from \cite{thesis}, where it is asserted without
+  proof -- verify". **Answered: it is false** (gx review of `CBG/Geometry`, C1; by hand, not
+  formalized: the library has no `E_0`). For `E_0` with the metric `−2dτdr + dr² + r²dθ²` a future
+  causal vector has `r′ ≥ 0` and `2τ′r′ ≥ r′² + r²θ′²`, so `f = τ − r/2` is non-decreasing along
+  causal and strictly increasing along timelike curves; the radial null ray `t ↦ (t/2, t, θ₀)` from
+  `p = (0, 0)` reaches `x = (s/2, s, θ₀)`, `s > 0`, so `x ∈ J^+(p) ∖ sing_0` while `f x = f p` gives
+  `x ∉ I^+(p)`. The field is now `Iplus_of_lt`: for `p ≤ p′`, `p ≠ p′`, both on `sing_0`,
+  `J^+(p′) ∖ sing_0 ⊂ I^+(p)`, **true in `E_0`** (`y ∈ J^+(p′)` regular has `r y > 0` and
+  `f y ≥ f p′ > f p`). Every other field was audited against the same ray and none is refuted by
+  it (`CBG/Geometry`'s former corrected bundle, which this one now is). The theorem
+  `lt_of_le_of_not_mem` (`x` BTZ, `y` regular, `x ≤ y` ⇒ `x ≪ y`) is false at the same pair and is
+  **deleted**; its replacement is `lt_of_lt_of_le_of_not_mem` (`x < x′` on the line, `x′ ≤ y`
+  regular ⇒ `x ≪ y`). `K_monotone`, `K_densite_sing` and `K_ordre` keep their statements: each used
+  the false implication only at an `x` strictly below a BTZ point `q ≤ y`, or at a limit of such.
+* **`prop:K_densite_sing` needs neither strong causality nor `lem:densite_modele`.** Every point
+  being strongly tarentin in the future, push-up gives the future at once; in the past a regular
+  `y` is strongly tarentin in the past, and a BTZ `y ≤ x` with `x` regular is the limit of the
+  points `u_n < y` of its line (`singularPastAt` (i)), each in `sing_0` (`mem_sing_zero_of_le`,
+  which uses causal arc-connectedness) and `≪ x` by `Iplus_of_lt`. The field is the model fact in
+  global form; deriving it in `M` from the model (l.1352) is the chart and causal arc-connectedness
+  argument of l.1663–1669, which the field absorbs.
 * **`lem:cup_cap_BTZ`'s `⊂` needs `z ≤ p` from `z ≤ p_n`, i.e. `J^+(z)` closed at `p`.** Finding
   (by hand, not formalized: the library has no `E_0`): in `E_0 ∖ {w}`, `w` a point of the BTZ line
   below `p` and `z` a point of that line below `w`, `z ≪ p_n` for regular `p_n → p` with
@@ -109,7 +121,7 @@ l.1364), `mem_Zplus`, `mem_Zminus_iff` (`rem:btz_pas_tarentin`, l.1358), `t2`,
   theorem whose hypotheses can hold with `sing 0 = ∅` is instantiated there — in its regular
   branch only. **The full structure with `sing 0 ≠ ∅` has no witness in the library**, so the
   BTZ branches (`K_calcul` (b)–(c) at a BTZ point, `Jminus_eq_image`, `isClosed_Jminus`,
-  `lt_of_le_of_not_mem`, `SingularFlatAxioms.cup_cap_BTZ`, and the BTZ cases inside
+  `lt_of_lt_of_le_of_not_mem`, `SingularFlatAxioms.cup_cap_BTZ`, and the BTZ cases inside
   `K_injectif`, `K_densite_sing`, `K_monotone`) are never instantiated with a BTZ point. The
   lightlike line with `sing_0 = ℝ` satisfies `BTZAxioms` alone (`lightlikeLine_btzAxioms`) and
   the hypotheses of `cup_cap_BTZ_of_isClosed` (`lightlikeLine_cup_cap_BTZ`). Neither of these two
@@ -141,9 +153,12 @@ structure BTZAxioms (C : Causality M) (S₀ : Set M) : Prop where
   singularPastAt : ∀ p ∈ S₀, C.SingularPastAt p
   /-- `I^-(p) = ∅` (`ETT.tex:1349`). -/
   Iminus_eq_empty : ∀ p ∈ S₀, C.Iminus ⊤ {p} = ∅
-  /-- `I^+(p) = J^+(p) ∖ sing_0` (`ETT.tex:1352–1355`, "asserted without proof" in the paper's
-  source). -/
-  Iplus_eq : ∀ p ∈ S₀, C.Iplus ⊤ {p} = C.Jplus ⊤ {p} \ S₀
+  /-- **⚠ re-scoped, DEC-64** (`ETT.tex:1352–1355`): for `p < p′` on the BTZ line, the regular
+  part of the future of `p′` is in the chronological future of `p`. It replaces the former field
+  `Iplus_eq`, `I^+(p) = J^+(p) ∖ sing_0`, which the source flags at l.1351 as "asserted without
+  proof -- verify" and which is **false in `E_0`** (the radial null ray, SCOPE); this one is true
+  there. -/
+  Iplus_of_lt : ∀ p ∈ S₀, ∀ p' ∈ S₀, C.le ⊤ p p' → p ≠ p' → C.Jplus ⊤ {p'} \ S₀ ⊆ C.Iplus ⊤ {p}
   /-- In a chart at a BTZ point, `J^-_U(p) ⊂ sing_0(U)` (`ETT.tex:1349` read in a chart, as the
   proof of `lem:past_BTZ` (b) uses it, `ETT.tex:1534–1536`). -/
   past_local : ∀ p ∈ S₀, ∃ U : Opens M, p ∈ U ∧ ∀ q, C.le U q p → q ∈ S₀
@@ -333,12 +348,13 @@ theorem mem_sing_zero_of_le (h : C.SingularFlatAxioms sing) (hp : p ∈ sing 0)
     (hqp : C.le ⊤ q p) : q ∈ sing 0 :=
   connectedComponentIn_subset _ _ (h.Jminus_subset_component hp hqp)
 
-/-- `x ≤ y`, `x` BTZ and `y` regular give `x ≪ y` (`I^+(x) = J^+(x) ∖ sing_0`). -/
-theorem lt_of_le_of_not_mem (h : C.SingularFlatAxioms sing) (hx : x ∈ sing 0)
-    (hy : y ∉ sing 0) (hxy : C.le ⊤ x y) : C.lt ⊤ x y := by
-  have : y ∈ C.Iplus ⊤ {x} := by
-    rw [h.Iplus_eq x hx]
-    exact ⟨by simpa using hxy, hy⟩
+/-- **⚠ re-scoped, DEC-64**: `x < x′` on the BTZ line and `x′ ≤ y` regular give `x ≪ y`
+(`Iplus_of_lt`). It replaces the deleted `lt_of_le_of_not_mem` (`x` BTZ, `y` regular, `x ≤ y` ⇒
+`x ≪ y`), false in `E_0` at the radial null ray (SCOPE). -/
+theorem lt_of_lt_of_le_of_not_mem (h : C.SingularFlatAxioms sing) {x' : M}
+    (hx : x ∈ sing 0) (hx' : x' ∈ sing 0) (hxx' : C.le ⊤ x x') (hne : x ≠ x')
+    (hy : y ∉ sing 0) (hx'y : C.le ⊤ x' y) : C.lt ⊤ x y := by
+  have := h.Iplus_of_lt x hx x' hx' hxx' hne ⟨by simpa using hx'y, hy⟩
   simpa using this
 
 /-- In a causal `E_{≥0}`-manifold, the past of a BTZ point `p` is the half-line below `p` of its
@@ -384,13 +400,14 @@ theorem K_calcul (h : C.SingularFlatAxioms sing) :
     h.singularPastAt
 
 /-- `prop:K_monotone` under the structure (`Causal.PushUp`), the two inclusions on `J^-` being
-`mem_sing_zero_of_le` and `lt_of_le_of_not_mem`. -/
+`mem_sing_zero_of_le` and `lt_of_lt_of_le_of_not_mem` (DEC-64: the false `lt_of_le_of_not_mem` is
+no longer used; the statement is unchanged). -/
 theorem K_monotone (h : C.SingularFlatAxioms sing) (hc : C.IsCausal) (hqp : C.le ⊤ q p) :
     C.Kminus ⊤ {q} ⊆ C.Kminus ⊤ {p} ∧ C.Kplus ⊤ {p} ⊆ C.Kplus ⊤ {q} := by
   haveI := h.secondCountable
   exact Causality.K_monotone hc h.pushUp h.mem_Zplus (fun p hp => (h.mem_Zminus_iff p).2 hp)
     h.singularPastAt (fun _ hp _ hqp => h.mem_sing_zero_of_le hp hqp)
-    (fun _ hx _ hy hxy => h.lt_of_le_of_not_mem hx hy hxy) hqp
+    (fun _ hx _ hx' _ hy hxx' hne hx'y => h.lt_of_lt_of_le_of_not_mem hx hx' hxx' hne hy hx'y) hqp
 
 /-! ### `cor:K_injectif` -/
 
@@ -450,7 +467,8 @@ theorem K_injectif (h : C.SingularFlatAxioms sing) (hSC : C.StronglyCausal) :
 /-! ### `prop:K_densite_sing` -/
 
 /-- `prop:K_densite_sing`: on an `E_{≥0}`-manifold, `J^±(x) ⊂ closure K^±(x)` for every `x`.
-Strong causality is not used. -/
+Strong causality is not used. A BTZ `y ≤ x`, `x` regular, is a limit of the points `u_n < y` of
+its line (`singularPastAt` (i)), each `≪ x` by `Iplus_of_lt` (DEC-64; statement unchanged). -/
 theorem K_densite_sing (h : C.SingularFlatAxioms sing) (x : M) :
     C.Jplus ⊤ {x} ⊆ closure (C.Kplus ⊤ {x}) ∧ C.Jminus ⊤ {x} ⊆ closure (C.Kminus ⊤ {x}) := by
   haveI := h.secondCountable
@@ -474,7 +492,10 @@ theorem K_densite_sing (h : C.SingularFlatAxioms sing) (x : M) :
       intro y hy
       have hyx : C.le ⊤ y x := by simpa using hy
       by_cases hyS : y ∈ sing 0
-      · exact subset_closure (by simpa using h.lt_of_le_of_not_mem hyS hx hyx)
+      · obtain ⟨u, hu, hup⟩ := (h.singularPastAt y hyS).1
+        refine mem_closure_of_tendsto hu (Eventually.of_forall fun n => ?_)
+        have huS := h.mem_sing_zero_of_le hyS (hup n).1
+        simpa using h.lt_of_lt_of_le_of_not_mem huS hyS (hup n).1 (hup n).2 hx hyx
       · rw [mem_closure_iff_nhds]
         intro N hN
         obtain ⟨w, hw, hwN⟩ := (h.mem_Zminus_iff y).2 hyS N hN
@@ -570,7 +591,7 @@ open Causality
 theorem timelikeLine_singularFlatAxioms : timelikeLine.SingularFlatAxioms (fun _ => ∅) where
   singularPastAt _ hp := hp.elim
   Iminus_eq_empty _ hp := hp.elim
-  Iplus_eq _ hp := hp.elim
+  Iplus_of_lt _ hp := hp.elim
   past_local _ hp := hp.elim
   line _ hp := hp.elim
   pushUp := timelikeLine_pushUp
@@ -599,7 +620,7 @@ with empty chronological pasts and futures. -/
 theorem lightlikeLine_btzAxioms : lightlikeLine.BTZAxioms (univ : Set ℝ) where
   singularPastAt p _ := (lightlikeLine_singularPastAt p).1
   Iminus_eq_empty _ _ := by ext; simp
-  Iplus_eq _ _ := by ext; simp
+  Iplus_of_lt _ _ _ _ _ _ _ hy := absurd trivial hy.2
   past_local _ _ := ⟨⊤, trivial, fun _ _ => trivial⟩
   line p _ := by
     refine ⟨fun t => p + t, by simp, fun _ => (Homeomorph.addLeft p).isClosedEmbedding, ⟨⟨⟨0, trivial⟩,

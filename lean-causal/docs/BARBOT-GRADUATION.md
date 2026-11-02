@@ -23,7 +23,7 @@ Stay in the scaffold: Flat.{Nonloxodromic, Loxodromic, TitsNull, Classification}
 stub, and any Flat/Lox/*, Flat/Nonlox/* lemma files still carrying sorries (re-census first).
 
 ## Pending before graduation
-- DEC-64: fix `BTZAxioms.Iplus_eq` → `Iplus_of_lt` in strict `Causal/SingularFlat.lean` and re-prove/re-scope its users (K_monotone, …); then make CBG/Geometry use the library bundle instead of its corrected copy. Run when no agent is building against `Causal.*` (it rebuilds every importer).
+- DONE 2026-11-02 (DEC-64 applied; CBG uses the library bundle). Was: DEC-64: fix `BTZAxioms.Iplus_eq` → `Iplus_of_lt` in strict `Causal/SingularFlat.lean` and re-prove/re-scope its users (K_monotone, …); then make CBG/Geometry use the library bundle instead of its corrected copy. Run when no agent is building against `Causal.*` (it rebuilds every importer).
 - Add `[T2Space M]` to `loxo_elementary_misner`, `loxo_generic_centralExtension`, `loxo_generic_torusProduct` (Loxodromic): without it `ccAction_of_developsCC` cannot be used (callers already carry T2; same correction as Develop's). Then rebuild Loxodromic and its importers.
 
 ## Steps (bash, not zsh; nothing else running Lake)

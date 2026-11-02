@@ -175,6 +175,11 @@ Classes: **T** causal / order-topological / affine in Minkowski space; **D** met
   J⁺(p') ∖ S₀ ⊆ I⁺(p)`; downstream users to audit (`K_monotone`'s "x ∈ S, y ∉ S, x ≤ y → x ≪ y" fails
   at the same point). Theorems in ETT's strict library resting on the named `BTZAxioms` are not unsound,
   but vacuous for E₀. **The ETT strict file is not edited from this campaign** — the author rules.
+  **Ruled DEC-64 ("fix it now") and applied 2026-11-02:** the field is now `Iplus_of_lt`;
+  `lt_of_le_of_not_mem` is deleted (replaced by `lt_of_lt_of_le_of_not_mem`); `K_monotone`,
+  `K_densite_sing`, `K_ordre` re-proved, statements unchanged; `Causality.K_monotone`'s BTZ
+  hypothesis weakened to the true form; CBG's `SingularFlatAxiomsCorr` deleted (CBG asks the
+  library bundle); recorded in the ETT ledger row `defi:causal_E0`.
 
 ## The spine
 

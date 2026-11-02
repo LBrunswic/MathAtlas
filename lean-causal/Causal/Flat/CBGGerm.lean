@@ -610,9 +610,9 @@ theorem flat_germ_future [T2Space M] [T2Space N]
       ∃ e ∈ 𝔾, (∀ y ∈ W, connectedComponent y ⊆ e.source) ∧ EqOn f e W)
     (hGD : ∀ e ∈ 𝔾, ChartIso (minkowski d) (minkowski d) e)
     (hAm : ∀ W : Opens (Minkowski d), (minkowski d).AbsolutelyMinimalOn W)
-    (hAxM : (chartedCausality (minkowski d) M).SingularFlatAxiomsCorr
+    (hAxM : (chartedCausality (minkowski d) M).SingularFlatAxioms
       (chartedSing (fun _ => (∅ : Set (Minkowski d))) M))
-    (hAxN : (chartedCausality (minkowski d) N).SingularFlatAxiomsCorr
+    (hAxN : (chartedCausality (minkowski d) N).SingularFlatAxioms
       (chartedSing (fun _ => (∅ : Set (Minkowski d))) N))
     (hextM : (chartedCausality (minkowski d) M).CurvesExtend)
     (hextN : (chartedCausality (minkowski d) N).CurvesExtend)
@@ -692,9 +692,9 @@ theorem flat_germ_past [T2Space M] [T2Space N]
       ∃ e ∈ 𝔾, (∀ y ∈ W, connectedComponent y ⊆ e.source) ∧ EqOn f e W)
     (hGD : ∀ e ∈ 𝔾, ChartIso (minkowski d) (minkowski d) e)
     (hAm : ∀ W : Opens (Minkowski d), (minkowski d).AbsolutelyMinimalOn W)
-    (hAxM : (chartedCausality (minkowski d) M).SingularFlatAxiomsCorr
+    (hAxM : (chartedCausality (minkowski d) M).SingularFlatAxioms
       (chartedSing (fun _ => (∅ : Set (Minkowski d))) M))
-    (hAxN : (chartedCausality (minkowski d) N).SingularFlatAxiomsCorr
+    (hAxN : (chartedCausality (minkowski d) N).SingularFlatAxioms
       (chartedSing (fun _ => (∅ : Set (Minkowski d))) N))
     (hextM : (chartedCausality (minkowski d) M).CurvesExtend)
     (hextN : (chartedCausality (minkowski d) N).CurvesExtend)

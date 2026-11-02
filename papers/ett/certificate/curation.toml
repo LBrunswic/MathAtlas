@@ -580,8 +580,8 @@ decls = ["Causal.Causality.K_monotone", "Causal.timelikeLine_K_monotone_hypothes
 bucket = "D"
 size = "M"
 blocked_on = "the BTZ model E_0"
-notes = "No `sorry`. Under the hypotheses of prop:K_calcul plus S closed under J^- and x BTZ, x ≤ y ∉ S ⇒ x ≪ y. Witness: the timelike line. WP-3, audited."
-paper_findings = ["ETT.tex:1630: case 'q ∈ sing_0, p ∉ sing_0' rests on I^+(x) = J^+(x) \\ sing_0 for x BTZ (defi:causal_E0, l.1352-1356, marked in the source '[editorial] asserted without proof -- verify'); push-up is not needed in that case once that is granted.", "The future half uses K^+ = I^+ at every point, i.e. prop:K_calcul (a)(b), hence inherits the causal-plainness gap reported there; it holds under push-up."]
+notes = "No `sorry`. Under the hypotheses of prop:K_calcul plus S closed under J^- and, for x < x' in S and x' ≤ y ∉ S, x ≪ y. Witness: the timelike line. WP-3, audited. DEC-64 (2026-11-02): the last hypothesis was 'x ∈ S, x ≤ y ∉ S ⇒ x ≪ y', false in E_0 (defi:causal_E0, the radial null ray), so the theorem was vacuous there; it is weakened to the form above (BTZAxioms.Iplus_of_lt), the only case the proof uses; the conclusion is unchanged."
+paper_findings = ["ETT.tex:1630: case 'q ∈ sing_0, p ∉ sing_0' rests on I^+(x) = J^+(x) \\ sing_0 for x BTZ (defi:causal_E0, l.1352-1356, marked in the source '[editorial] asserted without proof -- verify'); push-up is not needed in that case once that is granted. DEC-64: that identity is false in E_0 (see defi:causal_E0); the case needs it only for x ∈ J^-(q) \\ {q}, x strictly below the BTZ point q ≤ p, where the true form p < p' ⇒ J^+(p') \\ sing_0 ⊂ I^+(p) gives x ≪ p; the proposition stands.", "The future half uses K^+ = I^+ at every point, i.e. prop:K_calcul (a)(b), hence inherits the causal-plainness gap reported there; it holds under push-up."]
 
 [[row]]
 label = "rem:K_borelien"
@@ -728,6 +728,11 @@ paper_findings = ["'Branched (G,X)-morphism' is not defined in the paper and the
 label = "defi:causal_E0"
 kind = "sentence"
 one_line = "the metric printed at l.1330 makes the singular line timelike, not lightlike; the flat extreme-BTZ metric has the form −2dτdρ+ρ²dθ²"
+
+[[findings_triage]]
+label = "defi:causal_E0"
+kind = "sentence"
+one_line = "I^+(p) = J^+(p) \\ sing_0 (l.1352-1355, flagged at l.1351 'asserted without proof -- verify') is FALSE in E_0: the radial null ray from a BTZ point is in J^+(p) \\ sing_0 but not in I^+(p); true form: p < p' on the line ⇒ J^+(p') \\ sing_0 ⊂ I^+(p) (DEC-64)"
 
 [[findings_triage]]
 label = "defi:causal_Ealpha"
@@ -898,9 +903,9 @@ lean_proved_override = "partial"
 decls = ["Causal.Causality.SingularFlatAxioms.K_densite_sing", "Causal.Causality.SingularFlatAxioms.K_densite_sing_of_stronglyCausal", "Causal.Causality.SingularPastAt.mem_closure", "Causal.Causality.SingularPastAt.Jminus_diff_subset_Kminus", "Causal.timelikeLine_K_densite_sing"]
 bucket = "D"
 size = "S"
-blocked_on = "the model facts; Iplus_eq is the assertion flagged at l.1351"
-notes = "Proved under SingularFlatAxioms, without strong causality. (WP-11, audited)"
-paper_findings = ["The proof l.1640-1690 can be replaced by three lines, given I^+(p) = J^+(p) \\ sing_0 at BTZ points in its global form (the field Iplus_eq): every point is strongly tarentin in the future, so push-up gives J^+(x) in closure I^+(x) = closure K^+(x); in the past a regular y <= x is strongly tarentin in the past (push-up again), a BTZ y <= x with x regular has y << x by I^+(y) = J^+(y) \\ sing_0, and at a BTZ x the half-line accumulates at x. Strong causality and lem:densite_modele (l.1464) are not needed. Causal arc-connectedness is unneeded only because Iplus_eq is assumed globally: the paper states it in the model (l.1352), and deriving the global form in M is the chart plus causal arc-connectedness argument of l.1663-1669."]
+blocked_on = "the model facts; the BTZ field is Iplus_of_lt (DEC-64), the corrected form of the assertion flagged at l.1351"
+notes = "Proved under SingularFlatAxioms, without strong causality. (WP-11, audited) DEC-64: re-proved from the corrected field Iplus_of_lt, statement unchanged."
+paper_findings = ["The proof l.1640-1690 can be replaced by three lines, given I^+(p) = J^+(p) \\ sing_0 at BTZ points in its global form (the field Iplus_eq): every point is strongly tarentin in the future, so push-up gives J^+(x) in closure I^+(x) = closure K^+(x); in the past a regular y <= x is strongly tarentin in the past (push-up again), a BTZ y <= x with x regular has y << x by I^+(y) = J^+(y) \\ sing_0, and at a BTZ x the half-line accumulates at x. Strong causality and lem:densite_modele (l.1464) are not needed. Causal arc-connectedness is unneeded only because Iplus_eq is assumed globally: the paper states it in the model (l.1352), and deriving the global form in M is the chart plus causal arc-connectedness argument of l.1663-1669.", "DEC-64: the identity I^+(p) = J^+(p) \\ sing_0 used in the shortcut above is false in E_0 (defi:causal_E0); the shortcut survives with the true form (Iplus_of_lt): a BTZ y <= x with x regular is the limit of the points u_n < y of its BTZ line (lem:past_BTZ / SingularPastAt), each u_n << x, so y lies in the closure of I^-(x). Causal arc-connectedness is now used (u_n ∈ sing_0, via lem:past_BTZ (b)); strong causality and lem:densite_modele are still not needed."]
 
 [[row]]
 label = "cor:K_ordre"
@@ -910,7 +915,7 @@ decls = ["Causal.Causality.SingularFlatAxioms.K_ordre", "Causal.Causality.Singul
 bucket = "D"
 size = "S"
 blocked_on = "the model facts (SingularFlatAxioms)"
-notes = "Proved under SingularFlatAxioms for globally hyperbolic M. (WP-11, audited)"
+notes = "Proved under SingularFlatAxioms for globally hyperbolic M. (WP-11, audited) DEC-64: K_monotone and K_densite_sing re-proved from the corrected field Iplus_of_lt; statements unchanged."
 
 [[row]]
 label = "lem:cup_cap_BTZ"
@@ -963,8 +968,8 @@ decls = ["Causal.Causality.BTZAxioms"]
 bucket = "D"
 size = "L"
 blocked_on = "E_0 is not constructed by the paper"
-notes = "Not formalized; its causal facts are fields of BTZAxioms (SingularFlat). (WP-11, audited)"
-paper_findings = ["l.1329-1331 (the sentence before the definition; the audit cited l.1327) give E_0 the metric −dτ² + dρ² + ρ²dθ² and call its singular locus {ρ = 0} a lightlike line. With that metric ∂_τ has norm −1 on {ρ = 0}, so the line is timelike, contradicting 'lightlike' (and defi:causal_E0's I^-(p) = ∅). Most likely a transcription error: the flat extreme-BTZ metric has the form −2 dτ dρ + ρ² dθ², for which {ρ = 0} is lightlike. (Auditor's side observation, by hand; nothing in WP-11 depends on the metric.)", "The sentence I^+(p) = J^+(p) \\ sing_0 (l.1352-1355) is flagged in the source at l.1351 as quoted from the thesis where it is asserted without proof; WP-11's field Iplus_eq assumes it, globally, and lt_of_le_of_not_mem, K_monotone, K_densite_sing, K_ordre and mesure_admissible rest on it."]
+notes = "Not formalized; its causal facts are fields of BTZAxioms (SingularFlat). (WP-11, audited) DEC-64 (2026-11-02): the field Iplus_eq (I^+(p) = J^+(p) \\ sing_0, the sentence of l.1352-1355) is false in E_0 and was replaced in the strict library by Iplus_of_lt (p ≤ p', p ≠ p', both BTZ ⇒ J^+(p') \\ sing_0 ⊂ I^+(p)), true in E_0; lt_of_le_of_not_mem (false at the same pair) is deleted for lt_of_lt_of_le_of_not_mem; K_monotone, K_densite_sing and K_ordre are re-proved; mesure_admissible is unchanged (it takes the re-proved K_monotone) from the corrected field with their statements unchanged; Causality.K_monotone (PushUp) takes the corresponding weaker BTZ hypothesis. CBG/Geometry's copy SingularFlatAxiomsCorr is deleted, CBG asks the library bundle."
+paper_findings = ["l.1329-1331 (the sentence before the definition; the audit cited l.1327) give E_0 the metric −dτ² + dρ² + ρ²dθ² and call its singular locus {ρ = 0} a lightlike line. With that metric ∂_τ has norm −1 on {ρ = 0}, so the line is timelike, contradicting 'lightlike' (and defi:causal_E0's I^-(p) = ∅). Most likely a transcription error: the flat extreme-BTZ metric has the form −2 dτ dρ + ρ² dθ², for which {ρ = 0} is lightlike. (Auditor's side observation, by hand; nothing in WP-11 depends on the metric.)", "The sentence I^+(p) = J^+(p) \\ sing_0 (l.1352-1355) is flagged in the source at l.1351 as quoted from the thesis where it is asserted without proof; WP-11's field Iplus_eq assumes it, globally, and lt_of_le_of_not_mem, K_monotone, K_densite_sing, K_ordre and mesure_admissible rest on it.", "DEC-64 (2026-11-02), the l.1351 'verify' answered: the sentence I^+(p) = J^+(p) \\ sing_0 is FALSE in E_0 (gx review of the CBG geometry interface, C1; by hand, not formalized: the library has no E_0). For the metric −2dτdr + dr² + r²dθ² a future causal vector has r' ≥ 0 and 2τ'r' ≥ r'² + r²θ'², so f = τ − r/2 is non-decreasing along causal and strictly increasing along timelike curves; the radial null ray t ↦ (t/2, t, θ₀) from p = (0,0) reaches x = (s/2, s, θ₀), s > 0, so x ∈ J^+(p) \\ sing_0 while f(x) = f(p) gives x ∉ I^+(p) (locally I^+(p) = {r > 0, τ − τ(p) > r/2}). 'Every non-BTZ point of the causal future of p lies in its chronological future' fails along the null ray. The true statement, now the field Iplus_of_lt of BTZAxioms: for p < p' on the BTZ line, J^+(p') \\ sing_0 ⊂ I^+(p) (a regular y ≥ p' has r(y) > 0 and f(y) ≥ f(p') > f(p)). Every use the paper makes of the sentence (prop:K_monotone l.1630, prop:K_densite_sing) needs only that form, at a point strictly below a BTZ point; the statements of those propositions are unaffected. The thesis states the sentence the same way."]
 
 [[row]]
 label = "def:cauchy_embedding_cauchy_extension"

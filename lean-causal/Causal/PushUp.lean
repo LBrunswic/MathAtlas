@@ -43,7 +43,7 @@ the model spaces being explicit hypotheses, listed below with the model fact eac
 | — globally hyperbolic | ✓ carried (`cup_cap_sing`); only `J^∓(x)` closed is used (`…_iUnion_iInter`) |
 | `prop:K_calcul`: `E_{≥0}`-manifold | ⚠ strengthened: `PushUp` (`cor:pushup_sing`); `FirstCountableTopology` (a manifold); a set `S` for `sing_0(M)`; `Z^+(M) = M` and `p ∉ S → p ∈ Z^-(M)` (`rem:btz_pas_tarentin`); `SingularPastAt p` for `p ∈ S` (`defi:causal_E0`, `lem:past_BTZ`) |
 | — (c) `M` causal | ✓ carried |
-| `prop:K_monotone`: causal `E_{≥0}`-manifold | ✓ causal carried; ⚠ strengthened: the hypotheses of `prop:K_calcul`, plus `S` closed under `J^-` (`lem:past_BTZ`) and `x ∈ S, y ∉ S, x ≤ y → x ≪ y` (`defi:causal_E0`, `I^+(x) = J^+(x) ∖ sing_0`) |
+| `prop:K_monotone`: causal `E_{≥0}`-manifold | ✓ causal carried; ⚠ strengthened: the hypotheses of `prop:K_calcul`, plus `S` closed under `J^-` (`lem:past_BTZ`) and `x, x′ ∈ S, x ≤ x′, x ≠ x′, y ∉ S, x′ ≤ y → x ≪ y` (`defi:causal_E0` as corrected by DEC-64, `BTZAxioms.Iplus_of_lt`; ⚠ re-scoped, DEC-64: was `x ∈ S, y ∉ S, x ≤ y → x ≪ y`, false in `E₀`) |
 | `cor:K_ordre_Sigma`: globally hyperbolic singular flat spacetime | ✓ globally hyperbolic carried; ⚠ strengthened: `Tarentin` (`rem:sing_tarentin`), `T2Space`, `J^-(x) ⊂ closure K^-(x)` (`prop:K_densite_sing`) |
 | — `Σ` a Cauchy surface | ⚠ strengthened: replaced by its one consequence used, `J^+(Σ)` a neighbourhood of each point of `J^+(Σ) ∖ Σ` (`lem:Sigma_separe`) |
 | — `y ∈ J^+(Σ) ∖ Σ` | ⚠ weakened: not used for the implication (`le_of_Kminus_inter_subset`) |
@@ -61,6 +61,12 @@ the model spaces being explicit hypotheses, listed below with the model fact eac
   for `E_{≥0}`-manifolds anywhere in the paper; under push-up `lem:passe_coherent` is immediate
   (`PushUp.Jminus_Iminus_eq`, no `Z^-` needed) and the proof of `prop:tarentin_fort_K` goes
   through (`PushUp.Kminus_eq_Iminus`).
+* **⚠ re-scoped, DEC-64: the BTZ hypothesis of `K_monotone` is weakened.** It was
+  `x ∈ S, y ∉ S, x ≤ y → x ≪ y`, the consequence of `I^+(x) = J^+(x) ∖ sing_0`, which is false in
+  `E₀` (the radial null ray from a BTZ point, `Causal.SingularFlat`, SCOPE), so the theorem was
+  vacuous there. It is now asked only for `x` strictly below a point `x′ ∈ S` with `x′ ≤ y`
+  (`BTZAxioms.Iplus_of_lt`, true in `E₀`), the only case the proof uses (`x ∈ J^-(q) ∖ {q}`);
+  the conclusion is unchanged, so the theorem is stronger.
 * **Satisfiability.** The timelike line with `S = ]-∞, 0]` satisfies every hypothesis of
   `K_calcul` and `K_monotone` (`timelikeLine_K_monotone_hypotheses`); the lightlike line, a model
   of a BTZ line with empty chronological pasts, satisfies `SingularPastAt` at every point in the
@@ -262,11 +268,14 @@ theorem K_calcul [FirstCountableTopology M] (hP : C.PushUp) {S : Set M}
 
 /-! ### `prop:K_monotone` -/
 
-/-- `prop:K_monotone`: `q ≤ p` implies `K^-(q) ⊂ K^-(p)` and `K^+(p) ⊂ K^+(q)`. -/
+/-- `prop:K_monotone`: `q ≤ p` implies `K^-(q) ⊂ K^-(p)` and `K^+(p) ⊂ K^+(q)`. ⚠ re-scoped,
+DEC-64: the BTZ hypothesis `hfut` is asked only below a point of `S` (`BTZAxioms.Iplus_of_lt`),
+the former `x ∈ S, y ∉ S, x ≤ y → x ≪ y` being false in `E₀` (SCOPE). -/
 theorem K_monotone [FirstCountableTopology M] (hc : C.IsCausal) (hP : C.PushUp) {S : Set M}
     (hZp : ∀ p, p ∈ C.Zplus) (hZm : ∀ p ∉ S, p ∈ C.Zminus) (hS : ∀ p ∈ S, C.SingularPastAt p)
     (hdown : ∀ p ∈ S, ∀ q, C.le ⊤ q p → q ∈ S)
-    (hfut : ∀ x ∈ S, ∀ y ∉ S, C.le ⊤ x y → C.lt ⊤ x y) (hqp : C.le ⊤ q p) :
+    (hfut : ∀ x ∈ S, ∀ x' ∈ S, ∀ y ∉ S, C.le ⊤ x x' → x ≠ x' → C.le ⊤ x' y → C.lt ⊤ x y)
+    (hqp : C.le ⊤ q p) :
     C.Kminus ⊤ {q} ⊆ C.Kminus ⊤ {p} ∧ C.Kplus ⊤ {p} ⊆ C.Kplus ⊤ {q} := by
   constructor
   · by_cases hpS : p ∈ S
@@ -281,10 +290,11 @@ theorem K_monotone [FirstCountableTopology M] (hc : C.IsCausal) (hP : C.PushUp) 
     · rw [hP.Kminus_eq_Iminus (hZm p hpS)]
       by_cases hqS : q ∈ S
       · rw [Kminus_eq_Jminus_diff hc (hS q hqS)]
-        rintro x ⟨hxq, -⟩
+        rintro x ⟨hxq, hxne⟩
         have hxq' : C.le ⊤ x q := by simpa using hxq
         have hxS := hdown q hqS x hxq'
-        simpa using hfut x hxS p hpS (C.le_trans hxq' hqp)
+        have hne : x ≠ q := fun h => hxne (by simpa using h)
+        simpa using hfut x hxS q hqS p hpS hxq' hne hqp
       · rw [hP.Kminus_eq_Iminus (hZm q hqS)]
         intro x hx
         have hxq : C.lt ⊤ x q := by simpa using hx
@@ -449,13 +459,14 @@ theorem timelikeLine_K_monotone_hypotheses :
     (∀ p ∉ Iic (0 : ℝ), p ∈ timelikeLine.Zminus) ∧
     (∀ p ∈ Iic (0 : ℝ), timelikeLine.SingularPastAt p) ∧
     (∀ p ∈ Iic (0 : ℝ), ∀ q, timelikeLine.le ⊤ q p → q ∈ Iic (0 : ℝ)) ∧
-    (∀ x ∈ Iic (0 : ℝ), ∀ y ∉ Iic (0 : ℝ), timelikeLine.le ⊤ x y → timelikeLine.lt ⊤ x y) := by
+    (∀ x ∈ Iic (0 : ℝ), ∀ x' ∈ Iic (0 : ℝ), ∀ y ∉ Iic (0 : ℝ), timelikeLine.le ⊤ x x' → x ≠ x' →
+      timelikeLine.le ⊤ x' y → timelikeLine.lt ⊤ x y) := by
   refine ⟨timelikeLine_isCausal, timelikeLine_pushUp, timelikeLine_mem_Zplus,
     fun p _ => timelikeLine_mem_Zminus p,
     fun p _ => singularPastAt_of_le_iff (fun _ _ => timelikeLine_le_top) p, ?_, ?_⟩
   · intro p hp q hqp
     exact (timelikeLine_le_top.1 hqp).trans hp
-  · intro x hx y hy hxy
+  · intro x hx _ _ y hy _ _ _
     simp only [mem_Iic, not_le] at hx hy
     exact ⟨by linarith, by simp⟩
 

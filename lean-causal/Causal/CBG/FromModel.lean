@@ -178,9 +178,9 @@ Lemma 3.8, Thm 3.6.
   vacuous as transcribed** (design §6 "Interface round 2" (2); `localUnique_sing_adherent` now
   carries round 3's diamond clause):
   `∃ r ∈ O, y₀ ≤_O r ∧ reg ∩ I⁻_O(r) ⊆ U`
-  holds for every `U`, by `r := y₀` (`Causality.BTZAxiomsCorr.exists_le_inter_Iminus_subset`),
+  holds for every `U`, by `r := y₀` (`Causality.BTZAxioms.exists_le_inter_Iminus_subset`),
   because the chronological past of every BTZ point is empty in every open set
-  (`Causality.BTZAxiomsCorr.Iminus_opens_eq_empty`, from `Iminus_eq_empty` and `lt_mono`); the same
+  (`Causality.BTZAxioms.Iminus_opens_eq_empty`, from `Iminus_eq_empty` and `lt_mono`); the same
   holds for any `r` on `y₀`'s line (`inter_Iminus_opens_subset`). With `≪` in place of `≤` the
   clause asks `U ⊇ reg(I⁻_O(r))` for an open neighbourhood `I⁻_O(r)` of `y₀`, the case
   `localUnique_sing` already covers (by hand). **A3-past (round 3's `germExtPast`) did not use the field through
@@ -1373,7 +1373,7 @@ along `κ '' A` at `y₀`, and with `κ '' A` satisfying the field's largeness c
 
 The largeness clause is passed through as a hypothesis: since interface round 3 it is the
 **diamond form with a regular tip** (`r ∈ reg`, `y₀ ≪_O r`, `reg ∩ I⁺_O(y₀) ∩ I⁻_O(r) ⊆ κ(A)`),
-no longer the vacuous round-2 form (`Causality.BTZAxiomsCorr.exists_le_inter_Iminus_subset`).
+no longer the vacuous round-2 form (`Causality.BTZAxioms.exists_le_inter_Iminus_subset`).
 What A3-past produces meets it: `diamond_clause_of_piece` (from
 `Causality.CausallyConvexIn.Iplus_inter_Iminus_subset`, `chartedCausality_image_Iplus_inter_Iminus`).
 A3 past at a BTZ point does not close through this lemma alone, for the model facts listed in
@@ -1689,9 +1689,9 @@ theorem germ_exists_piece_lt [LocallyConnectedSpace M] (hcorr : IsCorrPair C D U
 
 /-- **A massive line accumulates at each of its points from below and from above** (round 4):
 for `p ∈ sing_α`, `α > 0`, every neighbourhood of `p` contains points of `sing_α` chronologically
-below and above `p` (`SingularFlatAxiomsCorr.massive_line`: an inextensible chronal curve through
+below and above `p` (`SingularFlatAxioms.massive_line`: an inextensible chronal curve through
 `p`, continuous at the parameter of `p`). -/
-theorem exists_massive_near (h : C.SingularFlatAxiomsCorr sing) {α : ℝ} (hα : 0 < α) {p : M}
+theorem exists_massive_near (h : C.SingularFlatAxioms sing) {α : ℝ} (hα : 0 < α) {p : M}
     (hp : p ∈ sing α) {W : Set M} (hW : W ∈ 𝓝 p) :
     (∃ b ∈ W, b ∈ sing α ∧ C.lt ⊤ b p) ∧ (∃ b ∈ W, b ∈ sing α ∧ C.lt ⊤ p b) := by
   obtain ⟨γ, hγ0, -, -, hch, hrange⟩ := h.massive_line α hα p hp
@@ -2124,8 +2124,8 @@ theorem germ_future_reg (U : Opens M) (ψ : M → N) (S : Set M)
       φ p = q ∧ EqOn φ ψ (O ⊓ U : Opens M) := by
   set C := chartedCausality 𝔐.causalityY M
   set D := chartedCausality 𝔐.causalityY N
-  have hAxM : C.SingularFlatAxiomsCorr (chartedSing 𝔐.singY M) := 𝔐.singularFlatAxioms
-  have hAxN : D.SingularFlatAxiomsCorr (chartedSing 𝔐.singY N) := 𝔐.singularFlatAxioms
+  have hAxM : C.SingularFlatAxioms (chartedSing 𝔐.singY M) := 𝔐.singularFlatAxioms
+  have hAxN : D.SingularFlatAxioms (chartedSing 𝔐.singY N) := 𝔐.singularFlatAxioms
   have hextM : C.CurvesExtend := 𝔐.curvesExtend hGM
   have hextN : D.CurvesExtend := 𝔐.curvesExtend hGN
   haveI : Nonempty M := ⟨p⟩
@@ -2178,8 +2178,8 @@ theorem germ_past_reg (U : Opens M) (ψ : M → N) (S : Set M)
       φ p = q ∧ EqOn φ ψ (O ⊓ U : Opens M) := by
   set C := chartedCausality 𝔐.causalityY M
   set D := chartedCausality 𝔐.causalityY N
-  have hAxM : C.SingularFlatAxiomsCorr (chartedSing 𝔐.singY M) := 𝔐.singularFlatAxioms
-  have hAxN : D.SingularFlatAxiomsCorr (chartedSing 𝔐.singY N) := 𝔐.singularFlatAxioms
+  have hAxM : C.SingularFlatAxioms (chartedSing 𝔐.singY M) := 𝔐.singularFlatAxioms
+  have hAxN : D.SingularFlatAxioms (chartedSing 𝔐.singY N) := 𝔐.singularFlatAxioms
   have hextM : C.CurvesExtend := 𝔐.curvesExtend hGM
   have hextN : D.CurvesExtend := 𝔐.curvesExtend hGN
   haveI : Nonempty M := ⟨p⟩
@@ -2516,7 +2516,7 @@ theorem slice_future_of_cone (U : Opens M) (S : Set M)
       (chartedCausality 𝔐.causalityY M).GloballyHyperbolicOn U' ∧
       (chartedCausality 𝔐.causalityY M).IsCauchySurfaceOn U' S := by
   set C := chartedCausality 𝔐.causalityY M
-  have hAx : C.SingularFlatAxiomsCorr (chartedSing 𝔐.singY M) := 𝔐.singularFlatAxioms
+  have hAx : C.SingularFlatAxioms (chartedSing 𝔐.singY M) := 𝔐.singularFlatAxioms
   have harc := hAx.causallyArcConnected
   have hext : C.CurvesExtend := 𝔐.curvesExtend hGH
   have hconv : C.CausallyConvexIn (U : Set M) ⊤ :=
@@ -2567,7 +2567,7 @@ theorem slice_past_of_cone (U : Opens M) (S : Set M)
       (chartedCausality 𝔐.causalityY M).GloballyHyperbolicOn U' ∧
       (chartedCausality 𝔐.causalityY M).IsCauchySurfaceOn U' S := by
   set C := chartedCausality 𝔐.causalityY M
-  have hAx : C.SingularFlatAxiomsCorr (chartedSing 𝔐.singY M) := 𝔐.singularFlatAxioms
+  have hAx : C.SingularFlatAxioms (chartedSing 𝔐.singY M) := 𝔐.singularFlatAxioms
   have harc := hAx.causallyArcConnected
   have hext : C.CurvesExtend := 𝔐.curvesExtend hGH
   have hconv : C.CausallyConvexIn (U : Set M) ⊤ :=
@@ -2641,8 +2641,8 @@ theorem germ_future_nonBTZ (U : Opens M) (ψ : M → N) (S : Set M)
       φ p = q ∧ EqOn φ ψ (O ⊓ U : Opens M) := by
   set C := chartedCausality 𝔐.causalityY M
   set D := chartedCausality 𝔐.causalityY N
-  have hAxM : C.SingularFlatAxiomsCorr (chartedSing 𝔐.singY M) := 𝔐.singularFlatAxioms
-  have hAxN : D.SingularFlatAxiomsCorr (chartedSing 𝔐.singY N) := 𝔐.singularFlatAxioms
+  have hAxM : C.SingularFlatAxioms (chartedSing 𝔐.singY M) := 𝔐.singularFlatAxioms
+  have hAxN : D.SingularFlatAxioms (chartedSing 𝔐.singY N) := 𝔐.singularFlatAxioms
   have hextM : C.CurvesExtend := 𝔐.curvesExtend hGM
   have hextN : D.CurvesExtend := 𝔐.curvesExtend hGN
   haveI : Nonempty M := ⟨p⟩
@@ -2728,8 +2728,8 @@ theorem germ_past_nonBTZ (U : Opens M) (ψ : M → N) (S : Set M)
       φ p = q ∧ EqOn φ ψ (O ⊓ U : Opens M) := by
   set C := chartedCausality 𝔐.causalityY M
   set D := chartedCausality 𝔐.causalityY N
-  have hAxM : C.SingularFlatAxiomsCorr (chartedSing 𝔐.singY M) := 𝔐.singularFlatAxioms
-  have hAxN : D.SingularFlatAxiomsCorr (chartedSing 𝔐.singY N) := 𝔐.singularFlatAxioms
+  have hAxM : C.SingularFlatAxioms (chartedSing 𝔐.singY M) := 𝔐.singularFlatAxioms
+  have hAxN : D.SingularFlatAxioms (chartedSing 𝔐.singY N) := 𝔐.singularFlatAxioms
   have hextM : C.CurvesExtend := 𝔐.curvesExtend hGM
   have hextN : D.CurvesExtend := 𝔐.curvesExtend hGN
   haveI : Nonempty M := ⟨p⟩
@@ -2959,16 +2959,16 @@ namespace Causality
 variable {M : Type*} [TopologicalSpace M] {C : Causality M} {S₀ : Set M}
 
 /-- **The chronological past of a BTZ point is empty in every open set**: `I⁻_O(r) = ∅` for
-`r ∈ S₀`, from `BTZAxiomsCorr.Iminus_eq_empty` (`I⁻(r) = ∅`, `ETT.tex:1349`) and the monotonicity
+`r ∈ S₀`, from `BTZAxioms.Iminus_eq_empty` (`I⁻(r) = ∅`, `ETT.tex:1349`) and the monotonicity
 of `≪` in the open set. -/
-theorem BTZAxiomsCorr.Iminus_opens_eq_empty (h : C.BTZAxiomsCorr S₀) {r : M} (hr : r ∈ S₀)
+theorem BTZAxioms.Iminus_opens_eq_empty (h : C.BTZAxioms S₀) {r : M} (hr : r ∈ S₀)
     (O : Opens M) : C.Iminus O {r} = ∅ :=
   Set.eq_empty_of_subset_empty
     ((C.Iminus_mono_opens le_top).trans (h.Iminus_eq_empty r hr).subset)
 
 /-- For `r` on the BTZ locus, `R ∩ I⁻_O(r) ⊆ U` holds for every `R` and `U`: a largeness clause
 of the shape `reg ∩ I⁻_O(r) ⊆ U` with `r ∈ S₀` constrains nothing. -/
-theorem BTZAxiomsCorr.inter_Iminus_opens_subset (h : C.BTZAxiomsCorr S₀) {r : M} (hr : r ∈ S₀)
+theorem BTZAxioms.inter_Iminus_opens_subset (h : C.BTZAxioms S₀) {r : M} (hr : r ∈ S₀)
     (O : Opens M) (R U : Set M) : R ∩ C.Iminus O {r} ⊆ U := by
   rw [h.Iminus_opens_eq_empty hr O, inter_empty]
   exact empty_subset U
@@ -2978,7 +2978,7 @@ round 2" (2): `∃ r ∈ O, y₀ ≤_O r ∧ reg ∩ I⁻_O(r) ⊆ U`): take `r 
 `localUnique_sing_adherent` guarded by it is the point-contact form, which the cone
 counterexample (REPORT, interface needs (1)) refutes in `E₀`. Kept as the record of the
 finding that led to interface round 3's diamond clause (with `r ∈ reg`, which excludes `r := y₀`). -/
-theorem BTZAxiomsCorr.exists_le_inter_Iminus_subset (h : C.BTZAxiomsCorr S₀) {y₀ : M}
+theorem BTZAxioms.exists_le_inter_Iminus_subset (h : C.BTZAxioms S₀) {y₀ : M}
     (hy₀ : y₀ ∈ S₀) {O : Opens M} (hO : y₀ ∈ O) (R U : Set M) :
     ∃ r ∈ O, C.le O y₀ r ∧ R ∩ C.Iminus O {r} ⊆ U :=
   ⟨y₀, hO, C.le_refl hO, h.inter_Iminus_opens_subset hy₀ O R U⟩

@@ -126,7 +126,7 @@ points; R4 no duality; R5 the ruling on "maximal".
   hyperbolicity must be proved before its second countability and without `curvesExtend` /
   `isCompact_*` (which now require GH + SC); §3 step 7 must say how (e.g. GH of each glued piece and
   the causal-convexity argument of step 5, then `secondCountable_of_cauchy`). Also §2's A2 sketch
-  ("SingularFlatAxioms; … sigmaCompact") now reads `SingularFlatAxiomsCorr` (C1).
+  ("SingularFlatAxioms; … sigmaCompact") now reads `SingularFlatAxiomsCorr` (C1) — since DEC-64 (2026-11-02) the library's `SingularFlatAxioms` itself.
 - **Interface round 2 (gx, 2026-11-01), queued until packages 7/10/12 land (they compile against
   Geometry):** (1) ACCEPTED: field `timeFunction` on Geometry (admissible M: T2, connected, SC; GH ⇒
   `HasTimeFunction`) and its LocalModel counterpart — discharged flat by `Flat/GerochFlat`

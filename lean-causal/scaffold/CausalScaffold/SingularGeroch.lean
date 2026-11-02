@@ -93,9 +93,12 @@ the splitting clause is proved from the flow of `lem:vecteur`, carried as the na
   `Causal.SingularFlat`, SCOPE), is not asserted: it stays the `Prop`
   `CupCapBTZAsPrinted C sing`, with that finding.
 * **The BTZ facts are fields** (`Causal.SingularFlat`, SCOPE): the full structure with
-  `sing 0 ≠ ∅` has no witness in the library, and its field `Iplus_eq` is the assertion flagged at
-  l.1351 as asserted without proof; `mesure_admissible` and every theorem here using it rest on it
-  through `K_monotone`.
+  `sing 0 ≠ ∅` has no witness in the library. Its former field `Iplus_eq`
+  (`I^+(p) = J^+(p) ∖ sing_0`, flagged at l.1351 as asserted without proof) is **false in `E₀`**
+  (the radial null ray) and was replaced by `Iplus_of_lt` (DEC-64, true in `E₀`); `K_monotone`,
+  through which `mesure_admissible` and every theorem here using it pass, is re-proved from the
+  corrected field with its statement unchanged. `SingularFlatSpacetime` extends the corrected
+  bundle, so no statement here changed.
 * **Satisfiability.** The timelike line (no singular point, the standard Gaussian measure in the
   chart `ℝ`, the flow `(x, t) ↦ x + t`) satisfies `SingularFlatSpacetime`, `ModelMeasures`,
   strong causality and `VecteurFlow` (`timelikeLine_singularFlatSpacetime`,

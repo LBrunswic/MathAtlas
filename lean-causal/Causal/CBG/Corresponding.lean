@@ -62,9 +62,9 @@ model). Cited, unmarked: `lem:corresponding_K` — `ETT.tex:2100`, `cor:ext_cont
 | `(p,q) ∈ C`, "not separated" (`ETT.tex:2011–2014`) | ✓ carried | `Corresponds` (Sbierski Def 3.5) `= Gluing.C` of `x ~ ψ x` (`corresponds_iff_mem_gluingC`); no `Cdist` needed (OQ-14) |
 | `p ∈ ∂j₁(N) ∩ J⁺(Σ₁)`, `q ∈ ∂j₂(N) ∩ J⁺(Σ₂)` | ✓ carried | |
 | (ii) "`f` induces a bijection" | ✓ carried | `corresponding_K_bijOn`: `K⁻(p) ∩ J⁺(S) ⊆ U` and `BijOn ψ (K⁻(p) ∩ J⁺S) (K⁻(q) ∩ J⁺(ψ S))`; equivalently the image equality of `corresponding_K` |
-| `prop:K_calcul`, `prop:K_densite_sing`, `J^±(x)` closed, causal | ✓ carried | Level A: derived from A2 (`SingularFlatAxiomsCorr`, never `Iplus_eq`; `kSide_future`/`kSide_past`); model-free core: the model facts as the named hypotheses `KSide` (kb/0012) |
+| `prop:K_calcul`, `prop:K_densite_sing`, `J^±(x)` closed, causal | ✓ carried | Level A: derived from A2 (`SingularFlatAxioms`, whose BTZ field is the corrected `Iplus_of_lt`, DEC-64; `kSide_future`/`kSide_past`); model-free core: the model facts as the named hypotheses `KSide` (kb/0012) |
 | `lem:Sigma_separe` (through `cor:K_ordre_Sigma`, and silently in "`I⁻(p)` empty iff `I⁻(q)` is") | ✓ carried | Level A: **derived from A2** (`Jplus_mem_nhds_of_isCauchySurface`/`Jminus_…`: `S` acausal by `curvesExtend` + `causallyArcConnected`, `J⁻(S)` closed by `K_densite_sing` + `isCompact_Jminus_inter_Jplus` + T2; past twin with `K⁺` and `isCompact_Jplus_inter_Jminus`), no splitting, no new field; model-free core: named field `KSide.separates` |
-| `cor:K_ordre_Sigma` / `cor:K_ordre`, `K_monotone` (`SingularFlatAxiomsCorr`) | ⚠ weakened | not assumed: replaced by the model-free `Causality.le_of_Kminus_inter_subset` (`Causal/PushUp.lean:301`) fed by `SingularFlatAxiomsCorr.K_densite_sing` (the corrected bundle; never `Iplus_eq`) |
+| `cor:K_ordre_Sigma` / `cor:K_ordre`, `K_monotone` (`SingularFlatAxioms`) | ⚠ weakened | not assumed: replaced by the model-free `Causality.le_of_Kminus_inter_subset` (`Causal/PushUp.lean:301`) fed by `SingularFlatAxioms.K_densite_sing` (the corrected bundle; never `Iplus_eq`) |
 | `M₂` GH: "increasing and bounded above, so it converges" | ⚠ weakened | not assumed: a cluster point in the compact `J⁺(Σ₂) ∩ J⁻(q)` (A2 `isCompact_Jplus_inter_Jminus`) |
 | `lem:passe_pgcd`, `lem:image_diamant` | ⚠ weakened | not assumed: replaced by causal convexity of `U` and `ψ(U)` (package 2, `IsCauchyInclusion.causallyConvexIn`), `Kminus_inter_Jplus_subset_of_causallyConvexIn` (the library form for a Cauchy embedding is `IsCauchyEmbedding.passe_pgcd`, `Causal/CauchyDiamond.lean:314`) |
 | `lem:cup_cap_sing`, `lem:cup_cap_BTZ` (model computations) | ⚠ weakened | not used: Sbierski's interpolation argument (`le_of_corresponds`/`lt_of_corresponds`) |
@@ -775,7 +775,7 @@ theorem kSide_future (s : 𝔊.Str M) (hG : (𝔊.causality s).GloballyHyperboli
       isCompact := 𝔊.isCompact_Jplus_inter_Jminus s hG S hS }
 
 /-- **The past `K`-calculus** (no time reversal of the bundle: at every point, BTZ included,
-`K⁺ = I⁺` and `p ∈ Z⁺`, `SingularFlatAxiomsCorr.mem_Zplus`), read as the future `K`-calculus of
+`K⁺ = I⁺` and `p ∈ Z⁺`, `SingularFlatAxioms.mem_Zplus`), read as the future `K`-calculus of
 the time-reversed causality with no singular point. `lem:Sigma_separe` for `J⁻` is derived
 from A2 (`Jminus_mem_nhds_of_isCauchySurface`, `isCompact_Jplus_inter_Jminus`, `K⁺` density). -/
 theorem kSide_past (s : 𝔊.Str M) (hG : (𝔊.causality s).GloballyHyperbolic) {S : Set M}
