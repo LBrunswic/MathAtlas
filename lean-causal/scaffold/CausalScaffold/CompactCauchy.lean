@@ -27,6 +27,19 @@ the one that module carried until the graduation of 2026-11-02, unchanged.
   Nothing may depend on it, and no declaration does.
 * `Causal.LemmaKBare` settles it wherever curves extend, `C` has push-up and `Z^± = M`, without
   importing this module.
+* **DEC-92 (2026-11-02), attempted, not settled.** `Causal.LemmaKReduction` narrows it: with no
+  curve extension, a compact non-empty acausal `Σ` with `J^+(Σ) ∪ J^-(Σ)` open is Cauchy
+  (`isCauchySurface_of_isAcausal_of_isOpen`); under `CurvesExtend`, Cauchy ⇔ acausal and
+  `J^+(Σ) ∪ J^-(Σ) = M` (`isCauchySurface_iff_of_curvesExtend`). Proving that a compact
+  connected locally Cauchy `Σ` is acausal, with `J^+(Σ) ∪ J^-(Σ)` open, proves the bare form;
+  under `CurvesExtend` the two are equivalent (without it, refuting either does not refute
+  Lemma K). The long ray, `CurvesExtend`'s conjectured counterexample, is not a counterexample
+  to Lemma K: the long ray has no inextensible curve, so every set is
+  Cauchy there (`isCauchySurfaceOn_of_forall_not_inextensible`); a counterexample must mix a
+  region without inextensible curves with inextensible curves that never enter its charts
+  (`exists_mem_of_inextensible_of_mem_chart`) and have no point above them
+  (`exists_not_le_of_inextensible`). None was found. This statement carries no second
+  countability (ETT's spacetimes are second countable, `ETT.tex:255`).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/

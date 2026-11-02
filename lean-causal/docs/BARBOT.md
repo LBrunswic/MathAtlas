@@ -1,7 +1,7 @@
 # The Barbot campaign — *Globally hyperbolic flat space-times* on the ETT library
 
 T. Barbot, *Globally hyperbolic flat space-times*, J. Geom. Phys. 53 (2005) 123–165, arXiv
-math/0402257 (`barbot_globally_2004`). Rulings: DEC-34 … DEC-38; open questions OQ-21 … OQ-23;
+math/0402257 (`barbot_globally_2004`). Rulings: DEC-34 … DEC-38, DEC-72, DEC-83, DEC-88 … DEC-92; open questions OQ-21 … OQ-23;
 work packages WP-29 … WP-34. Read `docs/CAMPAIGN.md` (the protocol) and `kb/INDEX.md` first —
 **kb/0024** in particular — then this file.
 
@@ -152,6 +152,48 @@ Classes: **T** causal / order-topological / affine in Minkowski space; **D** met
   ("L(Γ₀) is finite") needs the U = 𝐌ⁿ reduction made just before it (Carrière–Dal'bo).
 - **[10.M] carries `hBieb`** (2026-11-01): its statement was shown to imply Bieberbach I, so the named
   external is added, as in `BarbotExternals.bieberbach` and the `nonloxodromic_*` statements.
+
+## Rulings of 2026-11-02 (DEC-88 … DEC-92) — outcomes
+
+Applied and integrated 2026-11-02; `make check` green (strict: 0 `sorry` in 150 files, axiom
+sweep 10602 declarations in 151 modules, all within `propext`/`Classical.choice`/`Quot.sound`).
+Barbot ledger closure **15/39 → 20/39**.
+
+- **DEC-88 — `bcor:level_sets_complete` (Cor 4.13), `bprop:regular_cauchy_complete` (Prop 4.14):
+  MARKED.** `CosmoRegular Λ` is the paper's intended **regular domain** (✓ carried), not a
+  strengthening. **[4.CT] reworded: a wording issue, not an error.** Def 4.4's literal "at least 2
+  elements" also admits the domains delimited by one or two parallel degenerate hyperplanes — the
+  paper's own unipotent family (introduction, labelled l.222–226) — where the cosmological time is
+  infinite; `not_cosmoBoundedAsPrinted` (`Λ = {(u,0),(u,1)}`) stays as the witness that the literal
+  reading is too weak. The regularity is **automatic**, as the ruling asked, proved as a lemma:
+  `exists_two_directions_of_invariant` / `cosmoRegular_of_invariant` (`Flat/Cosmological`: a nonempty
+  `Λ` invariant under a group whose linear part fixes no point of the Penrose sphere has two distinct
+  null directions) and `Cla.cosmoRegular_of_invariant_nonelementary`,
+  `Cla.cosmoRegular_of_invariant_not_hasGlobalFixedPoint` (`Flat/Cla/RegularComplete`). Disclosed
+  limits: it assumes `Λ` invariant (not `Ω`, `PreservesOmega`), and has no non-vacuity witness.
+- **DEC-89 — `bcor:loxo_proper` (Cor 10.3): past case proved, then MARKED.** New strict module
+  `Flat/Lox/PastProper` (`Lox.bcor_loxo_proper_past`, by the point reflection `p ↦ −p` onto
+  `Ω⁺(−Λ)`; `Lox.bcor_loxo_proper_both`, the printed statement with no case split). Marked in both
+  `Loxodromic` (where its checklist row lives) and `PastProper` (where the printed statement is
+  proved). Reading: `CCAction` (DEC-83), Cauchy-complete as DEC-35.
+- **DEC-90 — `bprop:danom` (Prop 8.12): MARKED**, `[T2Space M]` ✓ carried as implicit in "manifold";
+  the non-Hausdorff fold counterexample stays as a finding.
+- **DEC-91 — `bprop:ghyp` (Prop 8.10): MARKED**; W4 is the intended reading (`U(Γ)` over `γ ≠ 1`,
+  `Ω_g` over `q ≠ 0`, the interior of `U(g)`); W8 (the convexity argument of labelled l.2430–2431)
+  is a finding on the proof, the statement unchanged. `bdef:omega_gamma` (Def 8.7) is no longer
+  blocked on W4 but is not marked: it waits only on a mark.
+- **DEC-92 — the bare lemma K: attempted, NOT settled.** No proof, no counterexample;
+  `CausalScaffold.CompactCauchy.isCauchySurface_of_isLocallyCauchy` keeps its tagged `sorry`, and no
+  row depends on it. New strict module `Causal.LemmaKReduction` narrows it: a compact non-empty
+  acausal `Σ` with `J⁺(Σ) ∪ J⁻(Σ)` open is Cauchy with no `CurvesExtend`
+  (`isCauchySurface_of_isAcausal_of_isOpen`), and under `CurvesExtend` Cauchy ⇔ acausal and
+  `J⁺(Σ) ∪ J⁻(Σ) = M`. So proving "a compact connected locally Cauchy `Σ` is acausal with
+  `J⁺(Σ) ∪ J⁻(Σ)` open" proves lemma K; without `CurvesExtend`, refuting either does not refute it.
+  The long ray (`CurvesExtend`'s conjectured counterexample, which stands) is not a counterexample to
+  lemma K: it has no inextensible curve, so lemma K holds there vacuously. The bare statement carries
+  no second countability (ETT's spacetimes are second countable, `ETT.tex:255`). **No finding
+  against ETT.** How to proceed is the author's call: keep it open, add second countability and try
+  that route, or close it as left in the scaffold.
 
 ## Findings against ETT (for the author; the ETT ledger is not edited from this campaign)
 

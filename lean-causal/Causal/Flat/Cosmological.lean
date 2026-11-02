@@ -7,11 +7,19 @@ import Mathlib.Analysis.Convex.Continuous
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §4.2
 after `bcor:futetpast` (`papers/barbot/legacy/labeled/GHFspace.tex`; line numbers below are those
-of the labelled copy). **No label is marked.** Partial, unmarked (see SCOPE): [4.CT] (prose,
-l.1043–1070); `bprop:lip` — `GHFspace.tex:1074` (chordal form); `bprop:regular_cauchy_complete`
-— `GHFspace.tex:1148` (GH, and the level sets are Cauchy surfaces, with no `sorry`; completeness
-not stated); `bprop:agissons` — `GHFspace.tex:1174` (the `Ω`-level invariance only). Not
-attempted: `bcor:level_sets_complete` — `GHFspace.tex:1109` (see SCOPE).
+of the labelled copy). One label is marked (DEC-88, the author's ruling):
+
+* **`bprop:regular_cauchy_complete`** — `GHFspace.tex:1148` (Prop 4.14), `Ω⁺(Λ)` for
+  `CosmoRegular Λ`, read as the paper's intended **regular domain** (Bonsante; checklist):
+  `regular_cauchy` here (globally hyperbolic, every level set `S_t` a closed acausal Cauchy
+  surface), its Cauchy-completeness in `Cla.RegularComplete`
+  (`Cla.isCauchyComplete_of_isQuotientOf_regular`, from `completeSpace_inducedLength_cosmoLevel`
+  of `Lox.LevelComplete`), "complete" in the induced-length reading (DEC-35); no `sorry`.
+
+Partial, unmarked (see SCOPE): [4.CT] (prose, l.1043–1070); `bprop:lip` — `GHFspace.tex:1074`
+(chordal form); `bprop:agissons` — `GHFspace.tex:1174` (the `Ω`-level invariance only).
+`bcor:level_sets_complete` — `GHFspace.tex:1109` is not proved here; it is marked where it is
+proved (`Lox.LevelComplete`, `Cla.RegularComplete`).
 
 > For any point $p$ in $\Omega^{+}(\Lambda)$, consider every future oriented timelike curve
 > starting from a point in $\partial\Omega^{+}(\Lambda)$ and ending at $p$. The proper times of all
@@ -45,6 +53,13 @@ dimensions, so Barbot's `n` is `d + 1`, and his `ℍⁿ⁻¹` is the unit future
 
 ## What is proved (`Ω = Ω⁺(Λ)`, `CosmoRegular Λ`: future regular with two null directions)
 
+* **Regularity is automatic for a nonelementary group** (DEC-88): a nonempty `Λ` invariant under
+  a group `Γ ≤ Isom(𝐌ⁿ)` whose linear part fixes no point of `𝒮` has two elements with distinct
+  null directions (`exists_two_directions_of_invariant`), so a future regular such `Λ` is
+  `CosmoRegular` (`cosmoRegular_of_invariant`); with Barbot's predicates,
+  `Cla.cosmoRegular_of_invariant_not_hasGlobalFixedPoint` and
+  `Cla.cosmoRegular_of_invariant_nonelementary` (`Flat/Cla/RegularComplete`).
+
 * `cosmoTime Λ p = sSup {√(−|p − q|²) | q ∈ ∂Ω, q ≤ p}`; the sup is a **maximum**
   (`isGreatest_cosmoTimes`, `bddAbove_cosmoTimes`), equal to the sup over `cl Ω ∩ J⁻(p)`
   (`cosmoTime_eq_sSup_cosmoPast`), attained at a **unique** `r(p) = cosmoRetract Λ p ∈ ∂Ω`
@@ -73,8 +88,10 @@ dimensions, so Barbot's `n` is `d + 1`, and his `ℍⁿ⁻¹` is the unit future
   (`cosmoTime_smul`, `smul_cosmoLevel`, `cosmoRetract_smul`, `agissons_invariant`).
 * The future cone (`d ≥ 1`): `CosmoRegular`, `T(p) = √(−|p|²)`, `r(p) = 0`, `n(p) = p/T(p)`
   (`cosmoRegular_cone`, `cosmoTime_cone`, `gaussMap_cone`).
-* **Finding** (DEC-27): the printed boundedness is false for a closed `Λ` with two elements and
-  one null direction (`not_cosmoBoundedAsPrinted`, `Λ = {(u, 0), (u, 1)}`).
+* **The literal reading is too weak** (DEC-88; a wording issue, not an error): read literally,
+  "at least 2 elements" admits a closed `Λ` of parallel degenerate hyperplanes, whose `Ω⁺(Λ)` is
+  a domain of the paper's own unipotent family, where the cosmological time is infinite; the
+  printed boundedness then fails (`not_cosmoBoundedAsPrinted`, `Λ = {(u, 0), (u, 1)}`).
 * **The `W`-local extension lemmas** (model-free, namespace `Causal.Causality`): a curve of an
   open `W` converging at an open end to `p ∈ W` is extensible at that end in `W`
   (`pastExtensible_of_tendsto_opens`, `futureExtensible_of_tendsto_opens`; the library states
@@ -101,7 +118,7 @@ give exactly one point on `S_t` (`isCauchySurfaceOn_cosmoLevel_of`).
 | paper hypothesis | here |
 |---|---|
 | `Λ` future regular (Def 4.5, l.913–919) | ✓ carried (`FutureRegular`) |
-| `Λ` has at least two elements (Def 4.4, l.900–901; "not reduced to one point", l.1001–1004) | ⚠ strengthened: two elements with **distinct null directions** (`CosmoRegular.two`). The paper's condition is too weak: `not_cosmoBoundedAsPrinted` refutes the boundedness for `Λ = {(u, 0), (u, 1)}`, two elements sharing a direction. Bonsante's Def 4.1 asks two non-parallel null support planes, which is what `CosmoRegular.two` asks; so Barbot's "completely equivalent" (l.921–922) fails |
+| `Λ` has at least two elements (Def 4.4, l.900–901; "not reduced to one point", l.1001–1004) | ✓ carried: regular domain, the intended reading (DEC-88) — `CosmoRegular.two`, two elements with **distinct null directions**, i.e. Bonsante's two non-parallel null support planes (Def 4.1), to which Barbot calls his definition "completely equivalent" (l.921–922). Read literally, "at least 2 elements" also admits the domains bounded by parallel degenerate hyperplanes — the paper's own unipotent family, "delimited by one or two parallel degenerate hyperplanes" (introduction, l.222–226) — where the cosmological time is infinite; `not_cosmoBoundedAsPrinted` (`Λ = {(u, 0), (u, 1)}`, two elements sharing a direction) is the witness that the literal reading is too weak. Not a paper error: a wording issue. Automatic when `Λ` is invariant under a group whose linear part fixes no point of `𝒮`, in particular a nonelementary one (`cosmoRegular_of_invariant`; `Cla.cosmoRegular_of_invariant_nonelementary`) |
 | `Λ` closed (standing convention, l.1001–1004) | ⚠ weakened: not used |
 | "timelike curves from `∂Ω`" | ⚠ read on straight segments (see SCOPE) |
 | `n ≥ 2` | any `d`; two directions force `d ≥ 1` |
@@ -128,7 +145,12 @@ give exactly one point on `S_t` (`isCauchySurfaceOn_cosmoLevel_of`).
   written); they are proved downstream, with no `sorry`, in the induced-length reading
   (`InducedLength`, DEC-35): `completeSpace_inducedLength_cosmoLevel` (`Flat/Lox/LevelComplete`),
   `Cla.cosmoLevel_completeSpace_inducedLength` and `Cla.isCauchyComplete_of_isQuotientOf_regular`
-  (`Flat/Cla/RegularComplete`). The isometric action on `(S_t, induced length)` of 4.16 is not
+  (`Flat/Cla/RegularComplete`). The mark of `bprop:regular_cauchy_complete` (DEC-88) is carried
+  by `regular_cauchy` here together with those, under `CosmoRegular Λ` (the regular-domain
+  reading).
+* The regular-domain lemma takes `Λ`-invariance (`isomPenrose γ w ∈ Λ`), not `Ω`-invariance
+  (`PreservesOmega`); no nonelementary group is exhibited as a witness (none is formalized in
+  the library cheaply). The isometric action on `(S_t, induced length)` of 4.16 is not
   stated here. `isSpacelikeLipschitz_cosmoLevel` writes `IsSpacelikeLipschitzIn`'s fields out;
   `Lox.isSpacelikeLipschitzIn_opens_cosmoLevel` (`Flat/Lox/LevelComplete`) restates it through it.
 * **4.16** beyond invariance (proper discontinuity, freeness, the quotient `Γ\Ω`) is not
@@ -409,10 +431,13 @@ theorem minkQ_sub_pos_of_ne {a b : Minkowski d} (ha : IsFutureTimelike a)
 
 /-! ### The domain: future regular with two null directions -/
 
-/-- **A future regular `Λ` with two distinct null directions** — the hypothesis under which the
-cosmological time is finite (Bonsante's regular domains have at least two non-parallel null
-support planes; Barbot's "at least 2 elements" (Def 4.4, l.900–901) is weaker, since two elements
-may share a direction, see `not_cosmoBoundedAsPrinted`). -/
+/-- **A future regular `Λ` with two distinct null directions** — Barbot's regular domain in its
+intended reading (DEC-88): Bonsante's regular domains have at least two non-parallel null support
+planes, under which the cosmological time is finite. Barbot's "at least 2 elements" (Def 4.4,
+l.900–901), read literally, also admits parallel degenerate hyperplanes (the unipotent domains of
+the introduction, l.222–226), where it is infinite: see `not_cosmoBoundedAsPrinted`. The
+condition is automatic for an invariant `Λ` under a nonelementary group
+(`cosmoRegular_of_invariant`). -/
 structure CosmoRegular (Λ : Set (PenroseSphere d × ℝ)) : Prop where
   regular : FutureRegular Λ
   two : ∃ w₁ ∈ Λ, ∃ w₂ ∈ Λ, w₁.1 ≠ w₂.1
@@ -434,6 +459,31 @@ noncomputable def cosmoTime (Λ : Set (PenroseSphere d × ℝ)) (p : Minkowski d
   sSup (cosmoTimes Λ p)
 
 variable {Λ : Set (PenroseSphere d × ℝ)}
+
+/-! ### Regularity is automatic for a nonelementary group (DEC-88) -/
+
+/-- **Two null directions, automatically** (DEC-88): a nonempty `Λ ⊆ 𝒥 ≅ 𝒮 × ℝ` invariant
+under a group `Γ` of isometries whose linear part has no common fixed point on `𝒮` contains two
+elements with distinct null directions. If all the elements of `Λ` shared the direction `u` of
+one of them, `Γ` would map that element into `Λ`, hence `[L(γ)] u = u` for every `γ ∈ Γ`. -/
+theorem exists_two_directions_of_invariant {Γ : Subgroup (isom d)} (hne : Λ.Nonempty)
+    (hΛ : ∀ γ ∈ Γ, ∀ w ∈ Λ, isomPenrose γ w ∈ Λ)
+    (hfix : ¬∃ u : PenroseSphere d, ∀ γ ∈ Γ, lorentzSphere (linearPart γ) u = u) :
+    ∃ w₁ ∈ Λ, ∃ w₂ ∈ Λ, w₁.1 ≠ w₂.1 := by
+  obtain ⟨w, hw⟩ := hne
+  by_contra hcon
+  push Not at hcon
+  exact hfix ⟨w.1, fun γ hγ => hcon _ (hΛ γ hγ w hw) w hw⟩
+
+/-- **A future regular invariant `Λ` is a regular domain** (DEC-88): under a group whose linear
+part fixes no point of `𝒮` (e.g. nonelementary, `Cla.cosmoRegular_of_invariant_nonelementary`),
+`FutureRegular Λ` gives `CosmoRegular Λ`. Nonemptiness is needed: `Λ = ∅` is future regular
+(`Ω⁺(∅) = 𝐌ⁿ`). -/
+theorem cosmoRegular_of_invariant {Γ : Subgroup (isom d)} (hreg : FutureRegular Λ)
+    (hne : Λ.Nonempty) (hΛ : ∀ γ ∈ Γ, ∀ w ∈ Λ, isomPenrose γ w ∈ Λ)
+    (hfix : ¬∃ u : PenroseSphere d, ∀ γ ∈ Γ, lorentzSphere (linearPart γ) u = u) :
+    CosmoRegular Λ :=
+  ⟨hreg, exists_two_directions_of_invariant hne hΛ hfix⟩
 
 theorem segTime_nonneg (q p : Minkowski d) : 0 ≤ segTime q p := Real.sqrt_nonneg _
 
@@ -1866,11 +1916,13 @@ theorem agissons_invariant (Γ : Subgroup (isom d))
       ∀ γ ∈ Γ, ∀ t, (fun p => γ • p) '' cosmoLevel Λ t = cosmoLevel Λ t :=
   ⟨fun γ hγ p => cosmoTime_smul (hΓ γ hγ) p, fun γ hγ t => smul_cosmoLevel (hΓ γ hγ) t⟩
 
-/-! ### `bprop:regular_cauchy_complete`, as far as it goes -/
+/-! ### `bprop:regular_cauchy_complete`: global hyperbolicity and the Cauchy level sets -/
 
-/-- `bprop:regular_cauchy_complete`, **partial**: a regular domain (two directions) is globally
-hyperbolic, and each level set `S_t` (`t > 0`) is a closed acausal Cauchy surface of `Ω`.
-Cauchy-completeness is not stated (SCOPE). -/
+/-- `bprop:regular_cauchy_complete` (marked, DEC-88; the regular-domain reading of
+`CosmoRegular`), **its global-hyperbolicity and Cauchy-surface half**: a regular domain is
+globally hyperbolic, and each level set `S_t` (`t > 0`) is a closed acausal Cauchy surface of
+`Ω`. Cauchy-completeness is `Cla.isCauchyComplete_of_isQuotientOf_regular`
+(`Flat/Cla/RegularComplete`, SCOPE). -/
 theorem regular_cauchy (h : CosmoRegular Λ) :
     (minkowski d).GloballyHyperbolicOn h.regular.opens ∧ ∀ t > 0,
       (minkowski d).IsCauchySurfaceOn h.regular.opens (cosmoLevel Λ t) ∧
@@ -1977,25 +2029,27 @@ theorem gaussMap_cone (hd : 0 < d) {p : Minkowski d} (hp : IsFutureTimelike p) :
 theorem bonsante_exhaustion_cone (hd : 0 < d) : Bonsante_exhaustion (cosmoRegular_cone hd) :=
   bonsante_exhaustion _
 
-/-! ### Finding: the printed boundedness fails for two points with one null direction -/
+/-! ### The literal reading of "at least 2 elements" is too weak (DEC-88) -/
 
-/-- [4.CT] **as printed** (l.1048–1051), kept as a `Prop` (kb/0022, DEC-27), with the paper's own
-hypotheses on `Λ`: closed and with at least two elements ("If `Λ` contains at least `2`
-elements, then `Ω^±(Λ)`, if nonempty, is regular", Def 4.4, l.900–901; "closed sets `Λ` in `𝒥`
-not reduced to one point", l.1001–1004), and future regular (Def 4.5, l.913–919): the proper
-times from the boundary to a point of `Ω` are uniformly bounded. -/
+/-- [4.CT] **in the literal reading** (l.1048–1051), kept as a `Prop` (kb/0022, DEC-27, DEC-88),
+with the hypotheses on `Λ` read literally: closed and with at least two elements ("If `Λ`
+contains at least `2` elements, then `Ω^±(Λ)`, if nonempty, is regular", Def 4.4, l.900–901;
+"closed sets `Λ` in `𝒥` not reduced to one point", l.1001–1004), and future regular (Def 4.5,
+l.913–919): the proper times from the boundary to a point of `Ω` are uniformly bounded. -/
 def CosmoBoundedAsPrinted (d : ℕ) : Prop :=
   ∀ Λ : Set (PenroseSphere d × ℝ), IsClosed Λ → Λ.Nontrivial → FutureRegular Λ →
     ∀ p ∈ omegaPlus Λ, BddAbove (cosmoTimes Λ p)
 
-/-- **Finding: the printed claim is false** for `d ≥ 1` (Barbot's `n ≥ 2`), under the paper's
-own hypotheses: `Λ = {(u, 0), (u, 1)}` is closed, has two elements, and is future regular, with
-`Ω⁺(Λ) = P⁺(u, 0)` the open half-space (the second plane is parallel and redundant); from the
-boundary null plane the proper times to `(1, 0)` are unbounded (`√(2a − 1)` along
-`q_a = (1 − a, (1 − a)u)`). Two elements may share their null direction: the paper's "at least
-2 elements / not reduced to one point" does not give Bonsante's two non-parallel null support
-planes (Bonsante Def 4.1), which `CosmoRegular.two` asks; under it the bound holds
-(`bddAbove_cosmoTimes`). -/
+/-- **The literal reading is too weak** (DEC-88; a wording issue, not a paper error), for
+`d ≥ 1` (Barbot's `n ≥ 2`): `Λ = {(u, 0), (u, 1)}`, two parallel degenerate hyperplanes, is
+closed, has two elements, and is future regular, with `Ω⁺(Λ) = P⁺(u, 0)` the open half-space
+bounded by a degenerate hyperplane (the second plane is redundant) — a domain of the paper's own
+unipotent family ("delimited by one or two parallel degenerate hyperplanes", introduction,
+l.222–226) — and from the boundary the proper times to `(1, 0)` are unbounded (`√(2a − 1)` along
+`q_a = (1 − a, (1 − a)u)`): the cosmological time is infinite. The intended reading is a regular
+domain (Bonsante Def 4.1: two non-parallel null support planes), which `CosmoRegular.two` asks
+and under which the bound holds (`bddAbove_cosmoTimes`); it is automatic for a nonelementary
+group (`cosmoRegular_of_invariant`). -/
 theorem not_cosmoBoundedAsPrinted (hd : 0 < d) : ¬ CosmoBoundedAsPrinted d := by
   intro hP
   set u := sphereBase hd

@@ -4,11 +4,19 @@ import Causal.Flat.CauchyComplete
 /-!
 # The level sets of the cosmological time are complete for their induced length
 
-T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §4.2.
-Cited UNMARKED (proved in the library's reading of "the induced riemannian metric": the
-Lipschitz-path Lorentzian length `InducedLengthSpace`, DEC-31/35): `bcor:level_sets_complete` —
-`GHFspace.tex:1110` (l.1109–1142); serves `bprop:regular_cauchy_complete` — `GHFspace.tex:1148`
-(l.1148–1151, its "Cauchy-complete").
+T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §4.2
+(line numbers of the labelled `papers/barbot/legacy/labeled/GHFspace.tex`). One label is marked
+(DEC-88, the author's ruling):
+
+* **`bcor:level_sets_complete`** — `GHFspace.tex:1109` (Cor 4.13, l.1109–1142):
+  `completeSpace_inducedLength_cosmoLevel` (and `Lox.completeSpace_inducedLength_top_cosmoLevel`),
+  every level set `S_t` (`t > 0`) of the cosmological time of `Ω⁺(Λ)` is complete for its induced
+  length, no `sorry`; under `CosmoRegular Λ`, read as the paper's intended regular domain
+  (DEC-88), "complete" in the reading of "the induced riemannian metric" as the Lipschitz-path
+  Lorentzian length `InducedLengthSpace` (DEC-31/35).
+
+Serves, unmarked here, `bprop:regular_cauchy_complete` — `GHFspace.tex:1148` (l.1148–1151, its
+"Cauchy-complete"; marked in `Flat/Cosmological` and `Flat/Cla/RegularComplete`).
 
 > Every $S_{t}$ is complete. (l.1110)
 
@@ -40,7 +48,7 @@ and of its Misner case (`misnerRegular` is a `CosmoRegular`).
 ## Hypothesis checklist
 | paper hypothesis | here |
 |---|---|
-| `Ω⁺(Λ)` future complete regular (l.1148) | ✓ carried: `CosmoRegular Λ` (two null directions, `Flat.Cosmological`) |
+| `Ω⁺(Λ)` future complete regular (l.1148) | ✓ carried: regular domain, the intended reading (DEC-88) — `CosmoRegular Λ` (two null directions, Bonsante's regular domain, `Flat.Cosmological`); the literal "at least 2 elements" (Def 4.4) also admits the half-spaces bounded by a degenerate hyperplane (the unipotent family, l.222–226), where the cosmological time is infinite (`not_cosmoBoundedAsPrinted`); automatic for a nonelementary group (`cosmoRegular_of_invariant`) |
 | `t > 0` | ✓ carried |
 | "the induced riemannian metric" on `S_t` | ⚠ read: `InducedLengthSpace` (Lipschitz paths, `∫ √|γ'|²`) |
 

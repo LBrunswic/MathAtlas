@@ -48,11 +48,10 @@ others are partial (SCOPE).
 * **`blem:loxregular`** — `GHFspace.tex:3170` (Lemma 10.2), marked (DEC-83; reading: §8's standing
   hypotheses `CCAction`, both time orientations; **no `sorry`**): `blem_loxregular`, `loxregular_sign`, `omegaS_eq_interior`; the
   "reader can easily check" (l.3191–3193) is `exists_line_avoiding`.
-* `bcor:loxo_proper` — `GHFspace.tex:3214` (Cor 10.3), partial: freeness, proper discontinuity
-  (`loxo_properlyDiscontinuous`, by an equivariant Gauss map, `finite_of_gaussEquivariant`) and
-  the quotient (`bcor_loxo_proper`: GH, acausal Cauchy surface) and Cauchy-completeness
-  (`loxo_cauchyComplete`, through `Flat.Lox.LevelComplete` and `Flat.Lox.QuotientComplete`)
-  proved, **no `sorry`**.
+* **`bcor:loxo_proper`** — `GHFspace.tex:3214` (Cor 10.3), marked (DEC-89; reading: `CCAction`,
+  DEC-35's completeness; both time orientations; **no `sorry`**): `loxo_free`,
+  `loxo_properlyDiscontinuous` (equivariant Gauss map), `bcor_loxo_proper`, `loxo_cauchyComplete`
+  (future); `Lox.bcor_loxo_proper_past`, `Lox.bcor_loxo_proper_both` (`Flat/Lox/PastProper`).
 * **`bprop:U_timelike`** — `GHFspace.tex:3347` (Prop 10.4), marked (DEC-83; externals
   `AuslanderCarriereDalbo`, `MaxUnipotentSubspace`; `CCAction` carried, unused; **no `sorry`**): the lightlike case
   (`not_isNonelementary_of_lightlike`); in the spacelike case the fixed space of `L(Γ_nd)` is
@@ -169,7 +168,7 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
 | 10.2: "up to time reversing isometries" (l.3181–3183) | ⚠ reading: both cases kept (`isom d` is `SO₀`-affine); `Ω⁺` or `Ω⁻` |
 | 10.2: 4.6, 4.8, 4.9 | ✓ through `omegaPlus_closure_eq_interior` (4.9 with no hypothesis) |
 | 10.3: `bprop:agissons` (Γ discrete) | ⚠ replaced: 4.16 is not used; properness on `Ω(S̃)` is derived from `CCAction.proper` (Γ proper on `Σ`) through the `L(Γ)`-equivariant Gauss map into `ℍᵈ` (`finite_of_gaussEquivariant`) |
-| 10.3: "`M(S)` is a Cauchy-complete GH spacetime" | ⚠ future case only (`bcor_loxo_proper` under `Ω(S̃) = Ω⁺(Λ)`; the past case is its time reversal, not formalized); Cauchy-completeness split off as `loxo_cauchyComplete`, which takes the quotient instances as hypotheses and uses only `CosmoRegular Λ` (⚠ weakened: `h`, `hlox`, `hΛ` unused) |
+| 10.3: "`M(S)` is a Cauchy-complete GH spacetime" | ✓ both time orientations: `bcor_loxo_proper` under `Ω(S̃) = Ω⁺(Λ)`, `Lox.bcor_loxo_proper_past` under `Ω(S̃) = Ω⁻(Λ)` (the point reflection `p ↦ −p`, DEC-89), `Lox.bcor_loxo_proper_both` (no case split, Cauchy-completeness included, `Flat/Lox/PastProper`); in this file Cauchy-completeness split off as `loxo_cauchyComplete`, which takes the quotient instances as hypotheses and uses only `CosmoRegular Λ` (⚠ weakened: `h`, `hlox`, `hΛ` unused) |
 | gx uniformization: nonelementary, `ker L = 1` | ⚠ weakened: neither is used; only a loxodromic element |
 | 10.4: `bthm:ausl`, `bthm:unip`, discreteness, nonelementary | ✓ carried (`AuslanderCarriereDalbo`, `MaxUnipotentSubspace`, `DiscreteTopology Γ`) |
 | 10.4: Cor 8.4 (a finite-index subgroup abelian, l.3354–3356) | ⚠ replaced: `L(Γ_nd)` nilpotent (`bthm:ausl`) and `Lox.exists_finiteIndex_fix_of_nilpotent_normal`; Cor 8.4 is false as printed (finding); `CCAction` (`h`) is carried but unused (⚠ weakened) |
@@ -246,8 +245,10 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
   bundle description not written. The Misner and generic conclusions are both stated in DEC-43's
   R1 form: the quotient by a finite-index `Γ' ≤ Γ` is an LTP over the model (for [10.M] the
   statement for `Γ` itself is false: finding below).
-* **Cor 10.3's quotient** is stated in the future case only (the past one is its time reversal);
-  `Flat.Examples` has the GH theory of `Γ\Ω⁺(Λ)` only.
+* **Cor 10.3's quotient** is stated here in the future case only; the past case and the printed
+  statement are in `Flat/Lox/PastProper` (`Lox.bcor_loxo_proper_past`, `Lox.bcor_loxo_proper_both`),
+  which imports `Flat.Classification` (for the time reversal `revConj`) and so cannot be imported
+  by this file. `Flat.Examples` has the GH theory of `Γ\Ω⁺(Λ)` only.
 
 ## Findings (DEC-27)
 
@@ -2067,7 +2068,7 @@ theorem loxo_properlyDiscontinuous (h : CCAction Γ S) (hlox : ∃ γ ∈ Γ, Is
 
 /-- `bcor:loxo_proper` (Cor 10.3, l.3213–3228): `Γ` acts freely and properly discontinuously
 on `Ω(S̃)`, and — in the future case of `blem_loxregular`, the past one being its time reversal
-(l.3181–3183, not formalized) — the quotient `M(S) = Γ\Ω(S̃)` is a flat spacetime, globally
+(l.3181–3183; `Lox.bcor_loxo_proper_past`, `Flat/Lox/PastProper`) — the quotient `M(S) = Γ\Ω(S̃)` is a flat spacetime, globally
 hyperbolic in ETT's sense, with an acausal Cauchy surface: the image of a level set of the
 cosmological time (`Flat.Examples`' `gh_quotient_omegaPlus`, `isCauchySurface_quotient_cosmoLevel`).
 Cauchy-completeness is `loxo_cauchyComplete`. -/

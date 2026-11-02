@@ -8,21 +8,26 @@ import Causal.CurvesExtend
 # `Causal.Flat.Cla.RegularComplete` — quotients of regular domains are Cauchy-complete
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257); line
-numbers are those of the labelled `papers/barbot/legacy/labeled/GHFspace.tex`. **No label is
-marked**: every statement below is proved with no `sorry`, but each is the paper's statement in
-the library's reading (SCOPE), so the rows are `partial` (kb/0011, DEC-27).
+numbers are those of the labelled `papers/barbot/legacy/labeled/GHFspace.tex`. Two labels are
+marked (DEC-88, the author's ruling), with no `sorry`, under `CosmoRegular Λ` read as the paper's
+intended **regular domain** (Bonsante; checklist) and "complete" in the induced-length reading
+(DEC-35):
 
-* `bcor:level_sets_complete` — `GHFspace.tex:1109` (Cor 4.13): `cosmoLevel_completeSpace_inducedLength`,
+* **`bcor:level_sets_complete`** — `GHFspace.tex:1109` (Cor 4.13): `cosmoLevel_completeSpace_inducedLength`,
   every level `S_t` (`t > 0`) of the cosmological time of `Ω⁺(Λ)` is complete for its induced
   length (`InducedLength`, DEC-35), for `CosmoRegular Λ`.
-* `bprop:regular_cauchy_complete` — `GHFspace.tex:1148` (Prop 4.14), Cauchy-completeness, both
+* **`bprop:regular_cauchy_complete`** — `GHFspace.tex:1148` (Prop 4.14), Cauchy-completeness, both
   time orientations and descended to every quotient: `isCauchyComplete_of_isQuotientOf_regular`
   (the statement dispatched for Classification's `amgh_of_isMisnerSpacetime` and
   `amgh_of_isCHCentralExtension`, [11.i] l.3568–3571): a spacetime `M₁ = φΓφ⁻¹\φΩ`, `Ω` the future
   regular domain `Ω⁺(Λ)` or the past one `Ω⁻(Λ)` (two null directions), is `IsCauchyComplete`.
+  The globally hyperbolic and Cauchy-level-set half is `regular_cauchy` (`Flat/Cosmological`).
 * (A), exported for reuse: `isCauchyComplete_of_isQuotientOf_of_invariant` — the descent: a
   `Γ`-invariant Cauchy surface of `Ω`, spacelike Lipschitz, complete for its induced length, with
   the length topology finer than the subspace one, makes an acausal quotient `Γ\Ω` Cauchy-complete.
+* Regularity is automatic (DEC-88): `cosmoRegular_of_invariant_nonelementary`,
+  `cosmoRegular_of_invariant_not_hasGlobalFixedPoint` — a nonempty future regular `Λ` invariant
+  under a nonelementary `Γ` (or one with no global fixed point) is `CosmoRegular`.
 
 > The Gauss map $n: S_{t} \rightarrow {\mathbb H}^{n-1}$, where ${\mathbb H}^{n-1}$ is equipped
 > with its usual hyperbolic metric is $\frac{1}{t}$-Lipschitz. (l.1076–1078)
@@ -73,7 +78,7 @@ induced lengths (`minkQ_neg`), and `γ ↦ σγσ` preserves `Ω⁺(−Λ)`.
 
 | paper hypothesis | here |
 |---|---|
-| `Ω` future complete regular convex (Def 4.5) | ✓ carried, as `CosmoRegular Λ` (two null directions: the paper's "at least two elements" is too weak, Cosmological's `not_cosmoBoundedAsPrinted`) — ⚠ strengthened in the paper's letter, the strongest true form |
+| `Ω` future complete regular convex (Def 4.5) | ✓ carried: regular domain, the intended reading (DEC-88) — `CosmoRegular Λ`, two null directions (Bonsante's two non-parallel null support planes). Read literally, Def 4.4's "at least 2 elements" also admits the domains bounded by parallel degenerate hyperplanes, the paper's own unipotent family (introduction, l.222–226), where the cosmological time is infinite: Cosmological's `not_cosmoBoundedAsPrinted` is the witness that the literal reading is too weak. Not a paper error: a wording issue. Automatic for a nonelementary group (`cosmoRegular_of_invariant_nonelementary`) |
 | past regular domains (Barbot: "up to time reversal", l.618) | ✓ carried: `PastRegular Λ` with two null directions |
 | `S_t` "riemannian" (l.1113), geodesics | ⚠ weakened: not used; the length is that of Lipschitz curves (`InducedLength`) |
 | `Γ` discrete, torsion-free | ⚠ weakened: only `IsQuotientOf` (a covering presentation) is used |
@@ -1548,5 +1553,45 @@ theorem isCauchyComplete_of_isQuotientOf_regular {M₁ : FlatSpacetime.{u} d}
       have h1 := cosmoTime_lt_of_le h' hy' hle' hne'
       rw [cosmoTime_smul (hpre γ hγ)] at h1
       exact lt_irrefl _ h1
+
+/-! ### Regularity is automatic for a nonelementary group (DEC-88) -/
+
+/-- No global fixed point of `L(Γ)` on `𝐇̄ⁿ⁻¹` (l.1212–1214) gives, in particular, no common
+fixed point on `𝒮`. -/
+theorem not_exists_sphereFix_of_not_hasGlobalFixedPoint {Γ : Subgroup (isom d)}
+    (h : ¬HasGlobalFixedPoint (linearImage Γ)) :
+    ¬∃ u : PenroseSphere d, ∀ γ ∈ Γ, lorentzSphere (linearPart γ) u = u := by
+  rintro ⟨u, hu⟩
+  refine h (Or.inr ⟨u, fun A hA => ?_⟩)
+  obtain ⟨γ, hγ, rfl⟩ := Subgroup.mem_map.1 hA
+  exact hu γ hγ
+
+/-- A nonelementary `Γ` (`IsNonelementary`, l.3237–3239) has no common fixed point on `𝒮`: take
+the finite-index subgroup `L(Γ)` itself. -/
+theorem not_exists_sphereFix_of_isNonelementary {Γ : Subgroup (isom d)}
+    (h : IsNonelementary Γ) :
+    ¬∃ u : PenroseSphere d, ∀ γ ∈ Γ, lorentzSphere (linearPart γ) u = u := by
+  rintro ⟨u, hu⟩
+  refine h (linearImage Γ) le_rfl (by simp) ⟨u, fun A hA => ?_⟩
+  obtain ⟨γ, hγ, rfl⟩ := Subgroup.mem_map.1 hA
+  exact hu γ hγ
+
+/-- **Regularity is automatic without a global fixed point** (DEC-88): a nonempty future regular
+`Λ`, invariant under `Γ` whose linear part has no global fixed point on `𝐇̄ⁿ⁻¹` (Barbot's
+standing hypothesis, l.1212–1214), is a regular domain (`CosmoRegular`). -/
+theorem cosmoRegular_of_invariant_not_hasGlobalFixedPoint {Γ : Subgroup (isom d)}
+    {Λ : Set (PenroseSphere d × ℝ)} (hreg : FutureRegular Λ) (hne : Λ.Nonempty)
+    (hΛ : ∀ γ ∈ Γ, ∀ w ∈ Λ, isomPenrose γ w ∈ Λ) (h : ¬HasGlobalFixedPoint (linearImage Γ)) :
+    CosmoRegular Λ :=
+  cosmoRegular_of_invariant hreg hne hΛ (not_exists_sphereFix_of_not_hasGlobalFixedPoint h)
+
+/-- **Regularity is automatic for a nonelementary group** (DEC-88): a nonempty future regular
+`Λ` invariant under a nonelementary `Γ` is a regular domain (`CosmoRegular`): two of its null
+support planes are non-parallel. -/
+theorem cosmoRegular_of_invariant_nonelementary {Γ : Subgroup (isom d)}
+    {Λ : Set (PenroseSphere d × ℝ)} (hreg : FutureRegular Λ) (hne : Λ.Nonempty)
+    (hΛ : ∀ γ ∈ Γ, ∀ w ∈ Λ, isomPenrose γ w ∈ Λ) (h : IsNonelementary Γ) :
+    CosmoRegular Λ :=
+  cosmoRegular_of_invariant hreg hne hΛ (not_exists_sphereFix_of_isNonelementary h)
 
 end Causal.Flat.Cla

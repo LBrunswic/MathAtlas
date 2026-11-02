@@ -11,9 +11,9 @@ import Mathlib.Analysis.Convex.Contractible
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §8,
 `GHFspace.tex` l.2212–2526 (labelled file). Design: `docs/BARBOT-WAVE3.md` §3 (DEC-35: everything
-after Prop 8.1 / Cor 8.3 runs from (CC′)); defects W4, W7, W8, W10 of its §0 apply. One label is
-certified, **in a reading, disclosed** (DEC-83, the author's ruling; checklist below):
-`blem:SdanU`. The others are `partial` (SCOPE), several being fully proved in a reading.
+after Prop 8.1 / Cor 8.3 runs from (CC′)); defects W4, W7, W8, W10 of its §0 apply. Three labels
+are certified, **in a reading, disclosed** (the author's rulings DEC-83, DEC-90, DEC-91; checklist
+below): `blem:SdanU`, `bprop:ghyp`, `bprop:danom`. The others are `partial` (SCOPE).
 
 * `bcor:quo` (Cor 8.2, l.2263–2271), partial (DEC-35 reading, `M` Hausdorff; **no `sorry`**) —
   `bcor_quo`, `holonomy_proper`, `isOpenEmbedding_of_developsCC`,
@@ -38,15 +38,17 @@ certified, **in a reading, disclosed** (DEC-83, the author's ruling; checklist b
 * Rem 8.9 `nini` (l.2411–2415), unlabelled — `nini`, **no `sorry`**:
   > we will assume that the group $\Gamma$ does not contain nonspacelike elliptic and transverse
   > parabolic elements, since we have shown that in this case […]
-* `bprop:ghyp` (Prop 8.10, l.2420–2426), partial (DEC-35/W4 readings; **no `sorry`**) —
-  `bprop_ghyp` (W8 discharged here), `bprop_ghyp_of_trichotomy`:
+* **`bprop:ghyp`** — `GHFspace.tex:2421` (Prop 8.10, l.2420–2426), marked (DEC-91; the (CC′)
+  reading, DEC-35, and W4 the intended reading; W8 a finding on the proof; **no `sorry`**) —
+  `bprop_ghyp`, `bprop_ghyp_of_trichotomy`:
   > $\Omega(\widetilde{S})$ is a convex open set. It is globally hyperbolic. The action of
   > $\Gamma$ on it is free and achronal.
 * `bprop:splitting` (Prop 8.11, l.2459–2464), partial: the lift half only, **no `sorry`** —
   `isCauchySurface_preimage`, `isCauchySurface_liftSet`:
   > Any nonspacelike geodesic in $\widetilde{M}$ intersect $\widetilde{S}$.
-* `bprop:danom` (Prop 8.12, l.2469–2473), partial (DEC-35 reading, `M` Hausdorff and causal;
-  **no `sorry`**) — `bprop_danom`, step 1 `injective_of_developsCC`:
+* **`bprop:danom`** — `GHFspace.tex:2470` (Prop 8.12, l.2469–2473), marked (DEC-90; the DEC-35
+  reading, `M` Hausdorff as implicit in "manifold", causal; **no `sorry`**) — `bprop_danom`,
+  step 1 `injective_of_developsCC`:
   > The developing map ${\mathcal D}: \widetilde{M} \rightarrow {\bf M}^{n}$ is injective, with
   > image contained in $\Omega(\widetilde{S})$.
 
@@ -89,9 +91,11 @@ dimensions: Barbot's `n` is `d + 1`.
 | paper hypothesis | here |
 |---|---|
 | `blem:SdanU` (**marked**, DEC-83) | ⚠ reading: the (CC′) reading (DEC-35): `S̃` read as the `CCAction Γ Σ` data in `𝐌ⁿ`, Cor 8.3 carried as (CC′)(b); W4: `U(Γ) = ⋂_{γ ≠ 1} U(γ)` (as printed `U(Γ) = ∅`), with the readings of `Ug` (SCOPE); no external; the paper's interior argument replaced (finding) |
+| `bprop:ghyp` (**marked**, DEC-91) | ⚠ reading: the (CC′) reading (DEC-35), as for `blem:SdanU`; ✓ W4 the intended reading (DEC-91): `U(Γ) = ⋂_{γ ≠ 1} U(γ)`, `Ω_g` over `q ≠ 0`, and the interior of `U(g)` (not open in [7.L]); the statement is unchanged. W8 is a finding on the **proof** (SCOPE): the convexity argument of l.2430–2431 ("the convexity of connected components of every `U(γ)`") fails for `U(γ) = Ω_γ` loxodromic with `τ ≠ 0` (`{xy ≤ 0}`, connected, not convex), and convexity of components does not pass to the interior of an infinite intersection; replaced by `IsCausalPiece`, proved class by class over `lorentz_trichotomy` |
+| `bprop:danom` (**marked**, DEC-90) | ⚠ reading: the (CC′) reading (DEC-35); ✓ carried: T2, implicit in manifold (DEC-90, the '(implicit) `M` a manifold: Hausdorff' row below); GH weakened to `IsCausal` (W10); the non-Hausdorff fold counterexample stays as a finding (SCOPE) |
 | `S` a complete Riemannian hypersurface, `f` an isometric immersion (l.2215–2216) | ⚠ strengthened (DEC-35 reading): `S` a Cauchy surface of `M` with `DevelopsCC` ((CC′) for `Σ = 𝒟(p⁻¹S)`, `𝒟` injective on `p⁻¹S`); `S̃ := p⁻¹(S) ⊆ M̃`, not the universal cover of `S` |
 | `Γ = π₁(S)` acting on `S̃` (free, properly discontinuous) | ⚠ strengthened in `𝐌ⁿ`: `CCAction` carries it; on `M` it is `ρ(Deck(M̃ → M))` (`bcor_quo`; properness `holonomy_proper`) |
-| (implicit) `M` a manifold: Hausdorff | ✓ carried as `[T2Space M]` exactly where used: `injective_of_developsCC`, `isOpenEmbedding_of_developsCC`, `holonomy_proper`, `ccAction_of_developsCC`, `isPreconnected_liftSet_of_developsCC`, `bprop_danom` (false without it, SCOPE). Connectedness of `M` is not used and not asked |
+| (implicit) `M` a manifold: Hausdorff | ✓ carried: T2, implicit in manifold (DEC-90) — as `[T2Space M]` exactly where used: `injective_of_developsCC`, `isOpenEmbedding_of_developsCC`, `holonomy_proper`, `ccAction_of_developsCC`, `isPreconnected_liftSet_of_developsCC`, `bprop_danom` (false without it, SCOPE). Connectedness of `M` is not used and not asked |
 | `M` globally hyperbolic (§8 from l.2454) | ⚠ weakened to `(flatCausality d M).IsCausal` (W10) where used: `isCauchySurface_preimage`, `bprop_danom` |
 | Lemma 8.6 uses Cor 8.3 (`quoiso`) | ✓ carried as (CC′)(b) `NullSaturated` |
 | Rem 8.8, `Γ'` of finite index in `Γ` (l.2405) | ⚠ strengthened: `Γ` torsion-free (`UGamma_eq_of_index`; needed under W4, counterexample in its docstring) |
@@ -124,8 +128,10 @@ dimensions: Barbot's `n` is `d + 1`.
   `S = {t = −1}` (Cauchy: along an inextensible causal curve `t` is unbounded both ways), `𝒟` the
   fold map composed with the bijective `M̃ → M`, `ρ = 1`. `DevelopsCC` holds (`Σ = {t = −1}`,
   `ccPrime_graph_const`) and the two origins have the same image. `[T2Space M]` is therefore
-  added to `bprop_danom`, `holonomy_proper` and `ccAction_of_developsCC` (a statement change by
-  the fixer, the master's ruling pending; `bcor_quo` and the rest of the file do not need it).
+  added to `bprop_danom`, `holonomy_proper` and `ccAction_of_developsCC` (`bcor_quo` and the rest
+  of the file do not need it). **Ruled DEC-90:** Hausdorffness is implicit in Barbot's
+  "manifold", so `[T2Space M]` is carried, not a strengthening, and `bprop:danom` is marked; the
+  counterexample stays as a finding about the library's notion of flat manifold.
 * **Proof route of step 1** (`injective_of_developsCC`, l.2476–2485 repaired): Barbot's "maximal
   lift of the vertical line" is built by hand — lifts over open intervals are unique on overlaps
   (Hausdorff `M̃`, locally injective `𝒟`), their union is a lift, and it has no limit at a finite
@@ -140,6 +146,12 @@ dimensions: Barbot's `n` is `d + 1`.
 * Non-vacuity: `ccAction_bot` (any (CC′) surface, trivial `Γ`; the hyperboloid in an `example`);
   `developsCC_minkowski` (`M = 𝐌ⁿ`, `𝒟 = proj`, `S = {t = 0}`, trivial holonomy). No inhabitant
   of `DevelopsCC` with nontrivial holonomy is formalized.
+* **Finding on the proof of `bprop:ghyp`** (W8, DEC-91; the statement is unchanged and
+  marked): l.2430–2431 derive the convexity of `Ω(S̃)` from "the convexity of connected
+  components of every `U(γ)`", which is false for `U(γ) = Ω_γ` loxodromic with `τ ≠ 0`
+  (`Ω_γ = {xy ≤ 0}`, connected, not convex), and convexity of the components of each `U(γ)` does
+  not pass to the interior of an infinite intersection; the argument is replaced by the piece
+  property `IsCausalPiece`, stable under intersection (Proof repairs above).
 * **Findings.** Rem 8.8's `Ω_{gⁿ} = Ω_g` holds for every isometry, with no class analysis
   (`achronalDomain_zpow`: causally related iterates iterate), and `J^⊥` does not depend on the
   parabolic decomposition (`mem_nullHyperplanes_iff`), which answers the uniqueness question
