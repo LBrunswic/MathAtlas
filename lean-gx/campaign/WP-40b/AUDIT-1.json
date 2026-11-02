@@ -1,0 +1,60 @@
+{
+  "package": "WP-40b",
+  "round": 1,
+  "file": "GX/Hyperbolic/Plane.lean",
+  "verdict": "clean",
+  "builds": true,
+  "checks": {
+    "lake_env_lean_warningAsError": "clean, no output (node1, taskset -c 0-11)",
+    "sorry_count": 0,
+    "lake_build_GX": "Build completed successfully (8578 jobs), EXIT=0; GX.lean imports every strict module including GX.Hyperbolic.Plane, so there are no name clashes inside GX",
+    "axioms": "propext, Classical.choice, Quot.sound for all 20 main declarations checked (REPORT's Axioms.lean plus IsHypQuotient.metricSpace, exists_path_variation_le, CuspChart.exists_nhds_dist_E, IsDevLocalIsometry.liftsTo_of_forall_lt)",
+    "name_clashes": "none. The new names were grepped against GX/ and scaffold/. The only short-name matches (lift_unique, LiftsTo.mono, isOpen_iff, t2Space, extend) sit in other namespaces, and the GX build confirms it",
+    "diff": "+1508/-16. All 16 deletions are module-docstring lines (status, checklist, SCOPE (b)). The WP-35i declarations are unchanged",
+    "mathlib_volume_on_UHP": "checked: mathlib's `volume` on ℍ is the comap of Lebesgue measure with density 1/Im^2 (UpperHalfPlane/Measure.lean:45), so it is the invariant hyperbolic area. volume_cuspStrip = 1/c is the correct statement, not a Lebesgue artefact"
+  },
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "module docstring, Hypothesis checklist, row 'M ∖ S a hyperbolic metric'",
+      "problem": "The row reads '✓ read metrically'. GX.IsHyperbolicMetric is a reading: a metric that gives the topology, is a length metric and agrees locally with d_ℍ in the given charts. The (G,ℍ)-atlas is data, not derived from the metric, and the Riemannian tensor is absent. The WP-35i audit raised the same point; it is now fixed for 'complete', which really is carried, but not for this row.",
+      "fix": "Write '⚠ read (DEC-81, SCOPE (b))' instead of '✓'."
+    },
+    {
+      "severity": "minor",
+      "where": "declaration docstrings at Plane.lean:2663 (take_closed_unit_disc) and 4181 (take_closed_unit_disc_metric)",
+      "problem": "Both declaration docstrings open with the bold label mark **`ex:take_closed_unit_disc`**, while the row is partial. The module docstring is correctly unmarked, so the ledger is not misled. Under kb/0006 the mark is a claim of full certification, so it is better kept off partial results everywhere.",
+      "fix": "Write `ex:take_closed_unit_disc` without ** in the two declaration docstrings, e.g. '`ex:take_closed_unit_disc` (partial, metric reading)'."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json tex_lines [1877,1888]; module docstring 'RamcovGX.tex:1877–1886'",
+      "problem": "The example is \\begin{ex} at l.1877 to \\end{ex} at l.1883. The report and the docstring give two different end lines, and neither is l.1883.",
+      "fix": "Use 1877–1883 in both."
+    },
+    {
+      "severity": "minor",
+      "where": "dispatch items 'area measure' / 'finite volume for the surfaces of the example'; GX.CuspChart.cusp_finite_area, GX.volume_cuspStrip",
+      "problem": "No area measure on M ∖ S is built, so the paper's hypothesis 'finite volume' cannot even be stated. 'Cusps have finite area' is proved by transport: E is injective on the strip, maps it onto W_c ∖ {s}, and is a local isometry, and the strip has hyperbolic area 1/c in ℍ. It is not a measure statement on the surface. Neither direction of 'cusps ⇔ finite volume' is built, and the surface statement needs M compact, which the file drops. All of this is disclosed in SCOPE (b), the REPORT hypotheses and notes, and the row stays partial. It is not an avoidable gap for closing the row: the step the paper needs, finite volume ⇒ cusps, is the thick–thin / classification-of-ends argument. Hence minor, not major. The REPORT phrase 'each cusp is proved to have finite area' slightly outruns what is proved.",
+      "fix": "Optional. In the REPORT, write 'each cusp is the injective locally-isometric image of a strip of hyperbolic area 1/c (no surface measure is built)'. If a later wave builds the area measure on Γ\\ℍ (pushforward of volume restricted to a fundamental domain), add the cheap direction: M compact plus cusps implies finite area."
+    },
+    {
+      "severity": "minor",
+      "where": "GX.IsHyperbolicMetric.completeSpace_iff",
+      "problem": "The equivalence takes `hY : SemilocallySimplyConnected Y` and an existing hyperbolic metric `hm`. For a ChartedSpace over the disc, SLSC follows from the charts. The existence of a hyperbolic metric on a NON-complete (G,ℍ)-surface (the induced length metric of the charts) is not built: it is built only for complete surfaces, as the quotient metric. The example does not need it, since its hypothesis starts from the metric. The dispatch's 'pulled-back length structure via charts' is met only in the complete case.",
+      "fix": "Optional. Derive hY from the charted structure, and/or build the chart-induced length metric for an arbitrary (G,ℍ)-surface. Otherwise state the restriction in SCOPE (b)."
+    },
+    {
+      "severity": "minor",
+      "where": "SCOPE (c)",
+      "problem": "IsCuspedHyperbolicMetric still has no inhabitant, carried over from WP-35i's audit. In particular no case with S ≠ ∅ shows that complete + CuspChart + IsHyperbolicCusp is jointly satisfiable in Lean. Mathematically the thrice-punctured sphere inhabits it, so the hypothesis is not vacuous. It is disclosed.",
+      "fix": "Optional: the S = ∅, M = ℍ instance. It exercises IsHyperbolicMetric, completeness and exists_unique_metric cheaply."
+    }
+  ],
+  "fidelity_summary": "take_closed_unit_disc_metric proves every assertion of l.1877–1883: sing(M) = S; tamely singular; a developing map of the branched cover exists and every one is injective; the singular points of M̃ are exactly the points over S, mapped to ∂ℍ; arbitrarily small open neighbourhoods U are homeomorphic to {r<r0} ⊆ 𝔻_∞ with x ↦ apex; D(U) = horoSet(D x, τ), and D(U) is not open in X. It adds the finite-area statement for the cusps. The hypothesis is DEC-81's metric reading with 'finite volume' replaced by 'a hyperbolic cusp at each s ∈ S'. That replacement is disclosed in the module docstring, the checklist, SCOPE (b), the REPORT hypotheses and a question to the author, and the row is correctly partial and unmarked. The other hypothesis changes are weakenings: M need not be compact, the genus is unused, 2g−2+s>0 is unused, second countability is unused. M's T2 / locally path-connected / first-countable / connected instances hold for a surface. The metric notion is not trivialised: it must give the topology, be a length metric and agree locally with d_ℍ in the charts. It is unique (IsHyperbolicMetric.unique) and exists for complete surfaces (the quotient metric). Metric completeness ⇔ Thurston–Goldman completeness is genuinely proved: ⇐ by the quotient metric plus uniqueness, ⇒ by a Hopf–Rinow lifting argument through mathlib's IsLocalHomeomorph.continuous_lift. That direction carries no SLSC hypothesis, because IsCompleteHyperbolic quantifies over it. DEC-55's compact-open definition is not relevant to this file.",
+  "report_honesty": "The REPORT is honest and complete. The file certifies one label, ex:take_closed_unit_disc. The other labels the file mentions (ex:quotient_base, def:topological_space_locally_unloopable) are references or reused API, and the WP-35i rows already record them. Status 'partial' with marked=false is correct, and the decls listed exist. The notes correctly say that the strict file GX/Hyperbolic/Plane.lean was edited, as the dispatch directs, and that no strict module downstream imports it.",
+  "questions_for_author": [
+    "DEC-81 / l.1879: may 'finite volume' be read, for this example, as 'a hyperbolic cusp at each point of S' (the shape of the ends of a finite-volume complete hyperbolic surface)? If yes, the row can close under the ruling with GX.take_closed_unit_disc_metric. If no, the thick–thin step (finite volume ⇒ cusps) and an area measure on M ∖ S stay owed.",
+    "Under the metric reading, is the (Isom ℍ, ℍ)-atlas on M ∖ S acceptable as given data compatible with the metric, as the WP-40b dispatch frames it? The alternative is to derive the atlas from a metric locally isometric to ℍ, which needs rigidity: local isometries of ℍ extend to global ones."
+  ]
+}

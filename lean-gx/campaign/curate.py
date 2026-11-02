@@ -35,6 +35,9 @@ PKGS = [
     ("WP-35e", "GX/SingularII/Tame.lean"), ("WP-35f", "scaffold/GXScaffold/SingularII/Models.lean"),
     ("WP-35g", "scaffold/GXScaffold/SingularII/SpreadTop.lean"),
     ("WP-35h", "scaffold/GXScaffold/Branched/GaloisExamples.lean"), ("WP-35i", "GX/Hyperbolic/Plane.lean"),
+    ("WP-40a", "GX/Branched/Paths.lean"), ("WP-40b", "GX/Hyperbolic/Plane.lean"),
+    ("WP-40c", "scaffold/GXScaffold/SingularII/Models.lean"), ("WP-40d", "scaffold/GXScaffold/SingularII/SpreadTop.lean"),
+    ("WP-40e", "scaffold/GXScaffold/Branched/GaloisExamples.lean"),
 ]
 FILE_OVERRIDE = {"ex:following_example_skeletal_itemize": "GX/Topology/PortlyExamples.lean"}
 RENAMES = {  # (file, old) -> new, applied at graduation to resolve name clashes

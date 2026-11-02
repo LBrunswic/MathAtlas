@@ -3,8 +3,9 @@ import GX.Branched.Universality
 /-!
 # Paths and the maximal branched covering possibly branched over `S` (§3.3)
 
-Packages WP-26e, WP-27d, WP-35a; `RamcovGX.tex:1189–1416`; rulings DEC-55, DEC-56, DEC-68 (a)(b),
-DEC-70. "Almost trivial" is the literal compact-open form (`…CC` names); see SCOPE (a).
+Packages WP-26e, WP-27d, WP-35a, WP-40a; `RamcovGX.tex:1189–1416`; rulings DEC-55, DEC-56,
+DEC-68 (a)(b), DEC-70, DEC-79 (a)(b). "Almost trivial" is the literal compact-open form (`…CC`
+names); see SCOPE (a).
 
 * **`def:almost_trivial_loop`** — `RamcovGX.tex:1210`: `GX.AlmostTrivialCC`, `GX.OmegaSet`,
   `GX.MemOmega`; homotopy form `GX.AlmostTrivial`, `GX.almostTrivialCC_iff`.
@@ -18,9 +19,9 @@ DEC-70. "Almost trivial" is the literal compact-open form (`…CC` names); see S
   `GX.AlmostTrivialCC.of_carac_component`, `GX.AlmostTrivialCC.of_carac`.
 * **`lem:hausdorff_first_countable_connected`** — `RamcovGX.tex:1290` (`U` slsc, DEC-68 (b)):
   `GX.hausdorff_first_countable_connected_cc`, `GX.AlmostHomotopicCC.trans`.
-* `lem:almost_homotopic_carac2` — `RamcovGX.tex:1306`, NOT marked (strengthened, SCOPE (i)):
-  `GX.almost_homotopic_carac2_cc`, `GX.almost_homotopic_carac2_of_isMaximal_cc`.
-* **`theo:ramified_covering_path`** — `RamcovGX.tex:1322` (`Y ∖ S` slsc, DEC-70):
+* **`lem:almost_homotopic_carac2`** — `RamcovGX.tex:1306` (`\widetilde Y^S` of `prop:universality`,
+  DEC-79 (a)): `GX.almost_homotopic_carac2_cc`, `GX.almost_homotopic_carac2_of_isMaximal_cc`.
+* **`theo:ramified_covering_path`** — `RamcovGX.tex:1322` (`Y ∖ S` slsc, DEC-70; (d) DEC-79 (b)):
   `GX.ramified_covering_path`, `GX.omegaEnd_isBranchedCovering`, `GX.OmegaQuot`, `GX.OmegaRel`.
 * **`def:covering_branched_two_paths`** — `RamcovGX.tex:1385`: `GX.PHomotopic`, `GX.FreePath`.
 * **`prop:general_fiber_path`** — `RamcovGX.tex:1390`: `GX.general_fiber_path`, `GX.PiOneP`.
@@ -50,7 +51,7 @@ DEC-70. "Almost trivial" is the literal compact-open form (`…CC` names); see S
 | `lem:almost_homotopic_carac`, `lem:hausdorff…`: `X` Hausdorff, first countable, connected, LPC; `U` open | ✓ `X` LPC, `U` open carried; Hausdorff, first countable, connected not used |
 | `lem:almost_homotopic_carac`, `lem:hausdorff…`: `U` semilocally simply connected (DEC-68 (b)) | ✓ carried, used only by (i) ⇒ (ii) and by transitivity |
 | `lem:hausdorff…`: `(x,y) ∈ U × closure U` | ✓ `x ∈ U` carried; `y ∈ closure U` not used |
-| `lem:almost_homotopic_carac2`: `\widetilde Y^S` maximal possibly branched over `S` | ⚠ strengthened (finding): `\widetilde Y^S` is the covering of `prop:universality`, so `S` skeletal, `Y ∖ S` slsc, `Y` connected are added (`GX.almost_homotopic_carac2_of_isMaximal_cc`: any maximal covering, still with `Y ∖ S` slsc); no ruling covers it (DEC-70 names other rows); SCOPE (i) |
+| `lem:almost_homotopic_carac2`: `\widetilde Y^S` maximal possibly branched over `S` | ✓ read (DEC-79 (a)): `\widetilde Y^S` is the covering of `prop:universality`, so `S` skeletal and `Y ∖ S` slsc (`Y` connected, DEC-66 (b)); `GX.almost_homotopic_carac2_of_isMaximal_cc` for any maximal covering under the same hypotheses; SCOPE (i) |
 | `lem:almost_homotopic_carac2`: `Y`, `X` T2, LPC, first countable | ✓ carried (§3 standing assumption, l.815, DEC-66 (a)) |
 | `theo:ramified_covering_path`: `Y` first countable, connected, LPC, Hausdorff; `S` skeletal | ✓ carried |
 | `theo:ramified_covering_path`: `Y ∖ S` semilocally simply connected (DEC-70) | ✓ carried (omitted in print, l.1322; used at l.1349) |
@@ -64,11 +65,11 @@ DEC-70. "Almost trivial" is the literal compact-open form (`…CC` names); see S
 the paper use homotopies; the literal form is related to them by `GX.almostTrivialCC_iff` (for `U`
 open, semilocally simply connected, `X` LPC) and by `GX.AlmostTrivial.almostTrivialCC` (always).
 (b) `*` is "any parameterization": `GX.splice` keeps `γ` on `[0,t₀] ∪ [t₁,1]`. (c) DEC-56:
-"standard neighbourhood" (l.1311) is `GX.IsStandardNbhd`. (d) `X` of `theo:ramified_covering_path`
-carries the quotient of the compact-open topology of `Ω`, the quotient being by
-`GX.OmegaRel` (an equivalence relation, `GX.omegaRel_equivalence`). (e) DEC-56: the paths of
-`def:covering_branched_two_paths` and of `π₁(a,U)` lie in `Y ∖ S`; "up to homotopy" is homotopy in
-`Y ∖ S` with start fixed and free end in `U` (`GX.FreeHomotopic`). (f) DEC-56: `≃` of the fibre
+"standard neighbourhood" (l.1311) is `GX.IsStandardNbhd`. (d) DEC-79 (b) (covered by DEC-70):
+`X` of `theo:ramified_covering_path` carries the quotient of the compact-open topology of `Ω`,
+the quotient being by `GX.OmegaRel` (an equivalence relation, `GX.omegaRel_equivalence`).
+(e) DEC-56: the paths of `def:covering_branched_two_paths` and of `π₁(a,U)` lie in `Y ∖ S`; "up to
+homotopy" is homotopy in `Y ∖ S` with start fixed and free end in `U` (`GX.FreeHomotopic`). (f) DEC-56: `≃` of the fibre
 propositions is an embedding onto the limit, the `π₁` discrete. (g) DEC-56: "homotopically
 trivial" (l.1219) is `GX.IsHomTrivial`. (g') DEC-68 (a): `S₂` is the topologist's sine curve
 with its limit segment in the plane `{z = 0}` (as printed, l.1216, `{y = sin(1/x)}` is a surface
@@ -76,14 +77,13 @@ of `ℝ³` and `S₂` is not closed). (h) DEC-68 (b): `U` is semilocally simply 
 `lem:almost_homotopic_carac` and `lem:hausdorff_first_countable_connected`; "homotopic in
 `Ω(x,x,U)`" of item (ii) is read literally (same compact-open component,
 `GX.almost_homotopic_carac_cc_component`), the homotopy form being proved as well. (i) DEC-70:
-`theo:ramified_covering_path` carries "`Y ∖ S` semilocally simply connected". `\widetilde Y^S` of
-`lem:almost_homotopic_carac2` (l.1307, "a maximal covering possibly branched above some `S`") is
-read as the covering of `prop:universality`, which adds `S` skeletal, `Y ∖ S` semilocally simply
-connected and `Y` connected; the form for an arbitrary maximal covering
-(`GX.almost_homotopic_carac2_of_isMaximal_cc`) still needs `Y ∖ S` slsc, used by the proof at
-l.1316 (`p⁻¹(Y ∖ S)` simply connected). No ruling names this row (DEC-70 names
-`theo:ramified_covering_path` and `theo:Galois_cor`; DEC-66 (b) only `M` connected), so the row is
-unmarked and partial pending the author. (j) The homotopy-form names `GX.AlmostTrivial`,
+`theo:ramified_covering_path` carries "`Y ∖ S` semilocally simply connected"; DEC-79 (b): DEC-70
+covers its reading (d). DEC-79 (a): `\widetilde Y^S` of `lem:almost_homotopic_carac2` (l.1307, "a
+maximal covering possibly branched above some `S`") is the covering of `prop:universality`, so `S`
+skeletal and `Y ∖ S` slsc (`Y` connected by DEC-66 (b)); the proof at l.1316 uses that
+`p⁻¹(Y ∖ S)` is simply connected. Certified in full under that reading, marked
+(`GX.almost_homotopic_carac2_cc`; any maximal covering under the same hypotheses:
+`GX.almost_homotopic_carac2_of_isMaximal_cc`). (j) The homotopy-form names `GX.AlmostTrivial`,
 `GX.AlmostHomotopic` are kept because `GX.Branched.Galois` consumes them. Further declarations of
 the rows: `GX.AlmostTrivial.almostTrivialCC`, `GX.AlmostTrivialCC.almostTrivial`,
 `GX.eventually_almostTrivialAt_iff`, `GX.eventually_homotopic_family`, `GX.cartS₁`, `GX.cartS₂`,
@@ -2013,10 +2013,11 @@ theorem almost_homotopic_carac2_of_isMaximal (hS : IsSkeletal S)
   exact ⟨fun h => by show Φ.symm (Γ₁ 1) = Φ.symm (Γ₂ 1); rw [h],
     fun h => Φ.symm.injective h⟩
 
-/-- `lem:almost_homotopic_carac2` (`RamcovGX.tex:1306`) in the literal reading (DEC-55), strengthened
-(module SCOPE (i), not covered by a ruling). Let `\widetilde Y^S → Y` be the maximal covering
-possibly branched over `S` of `prop:universality` (`S` skeletal, `Y ∖ S` semilocally simply
-connected — the hypotheses of `prop:universality`), `x ∈ Y ∖ S`, `γ₁, γ₂ ∈ Ω(x,y,Y ∖ S)` and `Γ₁, Γ₂` their lifts from the same point.
+/-- **`lem:almost_homotopic_carac2`** (`RamcovGX.tex:1306`) in the literal reading (DEC-55), with
+`\widetilde Y^S` read as the covering of `prop:universality` (DEC-79 (a), module SCOPE (i)).
+Let `\widetilde Y^S → Y` be the maximal covering possibly branched over `S` of `prop:universality`
+(`S` skeletal, `Y ∖ S` semilocally simply connected — the hypotheses of `prop:universality`),
+`x ∈ Y ∖ S`, `γ₁, γ₂ ∈ Ω(x,y,Y ∖ S)` and `Γ₁, Γ₂` their lifts from the same point.
 Then `Γ₁(1) = Γ₂(1)` iff `γ₁` and `γ₂` are almost homotopic (compact-open components). -/
 theorem almost_homotopic_carac2_cc (hS : IsSkeletal S)
     (hSc : SemilocallySimplyConnected (Sᶜ : Set Y)) (y₀ : (Sᶜ : Set Y)) {x y : Y} (hx : x ∈ Sᶜ)
@@ -2457,7 +2458,8 @@ theorem isOpenMap_omegaLift_one :
 
 include hS hSc in
 /-- **`theo:ramified_covering_path`** (`RamcovGX.tex:1322`), with the semilocal simple
-connectivity of `Y ∖ S` (DEC-70; the proof uses it, and without it `\widetilde Y^S` is not defined). The
+connectivity of `Y ∖ S` (DEC-70; the proof uses it, and without it `\widetilde Y^S` is not defined;
+reading (d) of SCOPE, the quotient topology, is covered by DEC-70, DEC-79 (b)). The
 almost homotopy classes `X` of `Ω = ⋃_x Ω(y₀,x,Y ∖ S)` with the quotient of the compact-open
 topology are homeomorphic over `Y` to `\widetilde Y^S`: `\overline φ = p ∘ Ψ`. -/
 theorem ramified_covering_path :

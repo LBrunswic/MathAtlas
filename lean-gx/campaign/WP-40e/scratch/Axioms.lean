@@ -1,0 +1,9 @@
+import GXScaffold.Branched.GaloisExamples
+#print axioms GX.tameCantorSLSC
+#print axioms GX.antoineMeridianEssential_self
+#print axioms GX.antoineMeridianEssentialStrict_of_top
+#print axioms GX.antoineNecklace_wild_not_isSLSCInCC_of_top
+#print axioms GX.isWildCantor_antoineNecklace_of_res
+#print axioms GX.following_situations_semi_locally_simply
+#print axioms GX.absolute_galois_corrected
+#print axioms GX.antoineNecklace_wild_not_isSLSCInCC

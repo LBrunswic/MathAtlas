@@ -1,0 +1,36 @@
+{
+  "package": "WP-40a",
+  "round": 1,
+  "auditor": "read-only auditor, node1, 2026-11-02",
+  "file": "GX/Branched/Paths.lean",
+  "report": "campaign/WP-40a/REPORT.json",
+  "verdict": "clean",
+  "builds": true,
+  "sorry_count": 0,
+  "checks": {
+    "build": "taskset -c 0-11 lake env lean -DwarningAsError=true GX/Branched/Paths.lean: EXIT 0, no output (12.0 s wall, 64.6 s user). taskset -c 0-11 lake build GX: 'Build completed successfully (8578 jobs)', EXIT 0, no warning or error line.",
+    "sorry_axioms": "The file contains no sorry, admit, axiom, native_decide, implemented_by or extern. I re-ran campaign/WP-35a/Axioms.lean against the rebuilt olean. All ten main theorems depend only on [propext, Classical.choice, Quot.sound]: almost_homotopic_carac_cc_component, AlmostTrivialCC.of_carac_component, hausdorff_first_countable_connected_cc, almost_homotopic_carac2_cc, almost_homotopic_carac2_of_isMaximal_cc, ramified_covering_path, omegaEnd_isBranchedCovering, carthesian_piOne_S₂, carthesian_S₂_almostTrivial and carthesian_S₂_not_trivial.",
+    "diff": "git diff HEAD on the file (26+/24-) touches docstrings only. It changes the module preamble, the module-list bullets for lem:almost_homotopic_carac2 and theo:ramified_covering_path, the checklist row, SCOPE (d) and (i), and the declaration docstrings of GX.almost_homotopic_carac2_cc and GX.ramified_covering_path. No declaration, statement, proof or name changed, so the Lean content is the content the WP-35a round-2 audit found clean. The report says the same.",
+    "DEC-79_a": "Applied correctly. The paper (l.1306-1321) states lem:almost_homotopic_carac2 for 'a maximal covering possibly branched above some S'. Its proof at l.1316 uses that p⁻¹(Y∖S) is simply connected. GX.almost_homotopic_carac2_cc carries exactly what DEC-79 (a) puts in, IsSkeletal S and SemilocallySimplyConnected Sᶜ, on MaxBranchedCover S y₀ (prop:universality's covering). It also carries the §3 standing T2/LPC/first-countable assumptions on Y, and Y connected, which DEC-66 (b) presupposes for Ỹ^S. y₀ is a construction parameter, not a restriction. The quantifiers match. x ∈ Y∖S. y ∈ Y is free. The paths γ₁, γ₂ satisfy MemOmega Sᶜ, i.e. the interior lies in Y∖S. Lifts start at the same point over x (h0 together with hΓᵢ), and they exist and are unique by maxBranched_existsUnique_lift. The almost homotopy is the literal compact-open AlmostHomotopicCC (DEC-55; AlmostTrivialCC is connectedComponentIn in OmegaSet ⊆ C(I,X)). No added hypothesis remains outside the ruling, so marking the row and closing it is correct. The hypotheses can be satisfied: ex:consider_fiber_above_homeomorphic proves S skeletal and ℂ∖S slsc for a concrete S.",
+    "DEC-79_b": "Recorded in SCOPE (d) ('DEC-79 (b) (covered by DEC-70)'), in SCOPE (i), in the module-list bullet and in the ramified_covering_path docstring. ramified_covering_path carries T2, LPC, first countable, connected, S skeletal and Sᶜ slsc, and gives OmegaQuot ≃ₜ MaxBranchedCover over Y. The row is CLOSED under DEC-70 together with DEC-79 (b), which is correct.",
+    "WP-35a_minor": "Fixed. The checklist row and SCOPE (i) now both say 'S skeletal and Y ∖ S slsc' and 'under the same hypotheses' for GX.almost_homotopic_carac2_of_isMaximal_cc. That theorem takes hS and hSc, so the wording matches.",
+    "marks": "The module docstring has 12 bold marks, one per row of the file. In the file text they start at offsets 326, 495, 770, 852, 949, 1180, 1351, 1545, 1739, 1834, 1927 and 2062, all inside tools/ledger.py's text[:4000] window. The SCOPE block runs from offset 4750 to 'Provenance:' at 7660, inside the text[:8000] window of lean_scope_blocks. Every GX.* name the module docstring cites exists in the file; GX.Branched.Galois is a module name.",
+    "report": "REPORT.json is valid JSON. It lists all 12 environments of RamcovGX.tex l.1189-1416; the other labels in that range are sec:maximal_branched_path and the §3.4 labels from l.1417. Its 12 closed/marked rows match the docstring. All 140 declarations it names are defined in the file. sorry_count 0 is correct. Against WP-35a's report, the only changes are the carac2 row (partial → closed, marked, hypothesis 'carried' under DEC-79 (a), question removed), the reading (d) question (now DEC-79 (b)) and the notes. That is honest.",
+    "names": "No declaration was added or renamed, so a name clash is impossible."
+  },
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "Paths.lean module docstring, SCOPE, l.72",
+      "problem": "Re-wrapping SCOPE (d)/(e) left one prose line 120 characters long: '(e) DEC-56: … (`GX.FreeHomotopic`). (f) DEC-56: `≃` of the fibre'. The other prose lines are wrapped at 100. Style only. The ledger windows are unaffected.",
+      "fix": "Re-wrap that line at 100 characters (move '(f) DEC-56: `≃` of the fibre' to the next line). Docstring only."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/README.md module table row for GX.Branched.Paths; papers/gx/ledger/LEDGER.md l.541",
+      "problem": "The README row says '§3.3 (11 of 12 rows closed)'; it is now 12 of 12. The ledger still records lem:almost_homotopic_carac2 as 'partial'. Both are outside WP-40a's write set, and REPORT.json flags the README row to the master.",
+      "fix": "For the master: update the README row to 12 of 12. At curation, move the ledger row for lem:almost_homotopic_carac2 to closed under DEC-79 (a)."
+    }
+  ],
+  "summary": "Clean. WP-40a changes docstrings only, so the Lean is exactly what the WP-35a round-2 audit found clean. The file builds with warnings as errors, GX builds (8578 jobs), there are 0 sorry, and the axioms are the standard three. DEC-79 (a) admits exactly the hypotheses lem:almost_homotopic_carac2's certificate needs (S skeletal, Y∖S slsc, on prop:universality's covering), in the literal compact-open reading of DEC-55, so the new ** mark and the CLOSED status are justified. DEC-79 (b) is recorded in SCOPE (d) and (i). The WP-35a minor is fixed. All 12 marks sit inside the 4000-character window, and REPORT.json is complete and honest. Two minors: one docstring line is 120 characters, and the README row and ledger row (master-owned) are stale."
+}

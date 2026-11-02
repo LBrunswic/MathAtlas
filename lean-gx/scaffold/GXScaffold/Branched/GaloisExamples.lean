@@ -4,13 +4,14 @@ import Mathlib.Geometry.Manifold.Instances.Sphere
 /-!
 # The examples closing §3.4 (l.1560–1583)
 
-Packages WP-26h, WP-27f, WP-35h. `papers/gx`, `RamcovGX.tex:1560–1583`. Reworked to DEC-55
+Packages WP-26h, WP-27f, WP-35h, WP-40e. `papers/gx`, `RamcovGX.tex:1560–1583`. Reworked to DEC-55
 (literal compact-open reading of "almost trivial"), DEC-58 (`ex:wild_cantor_general_antoine` is
 about Antoine's necklace), DEC-68 ((c) a tame knot is a locally polygonal set; (d) item 3 of
 `ex:following_situations_semi_locally_simply` corrected, locally finite complexes; (e) the `γₙ` are
 lollipop loops; (f) Antoine's necklace is one explicit necklace) and DEC-69
 (`ex:consider_denote_absolute_galois` corrected to `Γ₂'` = the kernel of the mod-2 windings, whose
-fibre is a Cantor set; DEC-58's normal-closure reading is refuted and kept as the record).
+fibre is a Cantor set; DEC-58's normal-closure reading is refuted and kept as the record) and
+DEC-82 (the necklace's wildness is certified too).
 
 * **`ex:following_situations_semi_locally_simply`** — `RamcovGX.tex:1560` (CLOSED under DEC-68
   (c)(d), SCOPE (a)–(c)): the assembly `GX.following_situations_semi_locally_simply` (literal
@@ -27,13 +28,14 @@ fibre is a Cantor set; DEC-58's normal-closure reading is refuted and kept as th
   set (`GX.absGal_Y₂_fiber_cantor_corrected`). The record (DEC-69): the printed `Γ₂` is `Γ`
   (`GX.printedGamma2_eq_top`); for the normal closure the fibre is not compact
   (`GX.absGal_Y₂_fiber_not_cantor_simple`, `GX.absGal_Y₂_fiber_corrected_simple`).
-* `ex:wild_cantor_general_antoine` — `RamcovGX.tex:1578` (stated, SCOPE (e)), for the ONE explicit
-  necklace `GX.antoineNecklace` (DEC-58, DEC-68 (f)), built and proved a Cantor set
-  (`GX.antoineNecklace_isCantorSubset`). The claim `GX.antoineNecklace_not_isSLSCInCC` is derived
-  sorry-free (`GX.antoineNecklace_not_isSLSCInCC_of`) from ONE residual,
-  `GX.AntoineMeridianEssential` (a meridian of a link of generation `n` is essential in the
-  complement of the generation-`m` links inside it), the file's one `sorry`
-  `GX.antoineMeridianEssential`. Wildness is separated (`GX.isWildCantor_antoineNecklace_of`).
+* `ex:wild_cantor_general_antoine` — `RamcovGX.tex:1578` (stated, SCOPE (e)), for the ONE
+  explicit necklace `GX.antoineNecklace` (DEC-58, DEC-68 (f)), built and proved a Cantor set
+  (`GX.antoineNecklace_isCantorSubset`) and WILD (DEC-82: `GX.isWildCantor_antoineNecklace_of_res`,
+  the tame side `GX.tameCantorSLSC` proved). The claim `GX.antoineNecklace_wild_not_isSLSCInCC`
+  is derived sorry-free (`GX.antoineNecklace_wild_not_isSLSCInCC_of_top`) from ONE residual,
+  Antoine's lemma for the top link `GX.AntoineMeridianEssentialTop` (the meridian of `L` is
+  essential in `S³ ∖ C_k`, `k ≥ 1`), the file's one `sorry` `GX.antoineMeridianEssentialTop`;
+  its equal-generation case is proved (`GX.antoineMeridianEssential_self`).
 
 > In the following situations, $Y\setminus S$ is semi-locally simply connected in $Y$
 > (1) $Y$ is a $n$-manifold with $n\geq 2$ and $S$ is a finite subset; (2) $Y$ is a 3-manifold and
@@ -65,7 +67,7 @@ fibre is a Cantor set; DEC-58's normal-closure reading is refuted and kept as th
 | ex. 1570: "the fibre is a Cantor set" | ✓ for `Γ₂'` (`GX.absGal_Y₂_fiber_cantor_corrected`); the record: ✗ for the normal closure, not compact, infinite and totally disconnected (`GX.absGal_Y₂_fiber_not_cantor_simple`, `GX.absGal_Y₂_fiber_corrected_simple`) |
 | ex. 1570: `γₙ` a simple loop around `(1/n,0)` | ✓ ruled (DEC-68 (e)): the lollipop loops `GX.absGalSimpleLoop` (used only by the recorded counterexample; `Γ₂'` is defined by windings); the general refutation takes any loops with the windings of simple loops, those around `1/(n+1)`, `n ≥ 2`, drawn in `GX.absGalR` (SCOPE (d)) |
 | ex. 1570: "answers positively Problem 10.7 of MR2198590" | — bibliographic remark, not a mathematical assertion; not formalized |
-| ex. 1578: `S` a wild Cantor set in `S³` | ✓ ruled (DEC-58, DEC-68 (f)): one explicit Antoine necklace, built (`GX.antoineNecklace`) and proved a Cantor set; the claim is proved for THIS necklace from the one residual `GX.AntoineMeridianEssential` (the file's one tagged `sorry`); its wildness is not used by the claim and is derived separately under the named tame-Cantor fact `GX.TameCantorSLSC` (SCOPE (e)) |
+| ex. 1578: `S` a wild Cantor set in `S³` | ✓ ruled (DEC-58, DEC-68 (f), DEC-82): one explicit Antoine necklace, built (`GX.antoineNecklace`), proved a Cantor set and proved WILD from the residual (`GX.isWildCantor_antoineNecklace_of_res`; the tame side, `GX.tameCantorSLSC`, sorry-free); the claim is proved for THIS necklace from the one residual `GX.AntoineMeridianEssentialTop` (the file's one tagged `sorry`, SCOPE (e)) |
 | "almost trivial" | ✓ literal compact-open reading (DEC-55) for both negative claims (`IsSLSCInCC`); positive results a fortiori |
 
 ## SCOPE (disclosed)
@@ -163,16 +165,26 @@ self-similarity `g₀(vert z) = vert(7z/80)` and the transfer `GX.antoine_mem_st
 based loop `g₀ᵏ(GX.antoineLoop0)` (up, across above the first stage, the meridian of `g₁(L)`,
 back), off the necklace in `V`; conjugation `GX.antoine_homotopicIn_conj`; and the compactness
 reduction `GX.antoine_homotopicIn_stage` (a null-homotopy has compact image, which misses some
-finite stage, the stages being finite unions of links, `GX.antoineStage_isCompact`). The
-residual is Antoine's lemma proper and is NOT formalized: `GX.antoineMeridianEssential`'s tagged
-`sorry` (no abelian invariant detects it for `m > n`; it needs a van Kampen computation for a
-chain of linked solid tori). Wildness is NOT part of the claim (the row's conclusion does not use
-it): a Cantor set of `S³` is tame if a homeomorphism of `S³` carries it into a great circle, wild
-otherwise (`GX.IsWildCantor`); `GX.isWildCantor_antoineNecklace_of` derives the wildness of the
-necklace from the residual, the homeomorphism invariance `GX.IsSLSCIn.map_homeomorph` and the
-NAMED tame-Cantor fact `GX.TameCantorSLSC` (complements of Cantor subsets of a great circle are
-semi-locally simply connected), a hypothesis there; `GX.antoineNecklace_wild_not_isSLSCInCC`,
-`GX.exists_wild_cantor_not_isSLSCIn(CC)` carry it. Side
+finite stage, the stages being finite unions of links, `GX.antoineStage_isCompact`). Every
+generation reduces to the top link by self-similarity (`GX.antoineMeridianEssentialStrict_of_top`:
+the inverse similarity `GX.antoineCompInv`, conjugated by the stereographic chart, extends
+continuously over the pole, `GX.continuous_antoinePhi`), and the equal-generation case is proved
+(`GX.antoineMeridianEssential_self`: `(ρ - 7/8) + i z`, cut off far away, is a map
+`S³ ∖ L → ℂ ∖ 0` under which the meridian winds once, `GX.antoineTheta`). The residual is
+Antoine's lemma proper and is NOT formalized: `GX.antoineMeridianEssentialTop`'s tagged `sorry`
+(for `k ≥ 1` the meridian of `L` is null-homologous in `S³ ∖ C_k`, so no abelian invariant
+detects it; it needs a van Kampen computation for a closed chain of linked solid tori or a
+self-similar non-abelian covering). Wildness (DEC-82): a Cantor set of `S³` is tame if a
+homeomorphism of `S³` carries it into a great circle, wild otherwise (`GX.IsWildCantor`). The
+complement of a Cantor subset `C` of a great circle `Γ` IS semi-locally simply connected
+(`GX.tameCantorSLSC`, proved): near a point of `Γ` two points off `C` are joined through a
+midpoint pushed off `Γ` transversally (`GX.gc_join`), and a loop at a point of `Γ ∖ C` is
+null-homotopic off `C` by general position (`GX.gc_loop_null`: a fine polygon whose vertices are
+pushed off the plane of `Γ` successively transversally, `GX.gcSeq`, meets that plane only at its
+base point, and the cone on the base point misses `C`). As this property is carried by
+homeomorphisms (`GX.IsSLSCIn.map_homeomorph`) and fails for the necklace, the necklace is wild
+(`GX.isWildCantor_antoineNecklace_of_res`); with the claim, `GX.antoineNecklace_wild_not_isSLSCInCC`
+and `GX.exists_wild_cantor_not_isSLSCIn(CC)`. Side
 remark, outside the ruled reading: for arbitrary wild Cantor sets the claim fails as soon as one
 of them has dense, simply connected, locally non-separating complement
 (`GX.wild_cantor_claim_false_of_exists`; the density is proved for every Cantor set,
@@ -4004,15 +4016,651 @@ theorem IsSLSCIn.map_homeomorph (h : X ≃ₜ Y) {U : Set X} (hU : IsSLSCIn U) :
 
 end HomeoInvariance
 
-/-- **The residual of Antoine's theorem, the file's one `sorry`** (cited `general_antoine`, not
-built): `GX.AntoineMeridianEssential`, the meridian of a generation-`n` link `L` is not
-null-homotopic in `S³ ∖ (C_m ∩ L)` for `m ≥ n`. Everything else of the row is derived from it,
-sorry-free: compactness reduction (`GX.antoine_homotopicIn_stage`), link selection
-(`GX.antoineComp_diam`, `GX.antoineP0_not_mem_word_link`), accessibility
-(`GX.antoineVert_not_mem_necklace`) and the based loop (`GX.antoineLoop0`,
-`GX.antoine_homotopicIn_conj`), assembled in `GX.antoine_essential_loops`. -/
-theorem antoineMeridianEssential : AntoineMeridianEssential := by
-  sorry -- SORRY(ex:wild_cantor_general_antoine): Antoine's lemma for the built necklace, exactly GX.AntoineMeridianEssential: for n ≤ m the meridian of a generation-n link L (GX.antoineMeridian under antoineComp v n, in S³) is not null-homotopic in S³ ∖ (C_m ∩ L), C_m ∩ L the union of the 64^(m-n) linked square solid tori of generation m inside L. No abelian invariant detects it for m > n (H₁(S³ ∖ (C_m ∩ L)) is free on the meridians of the sublinks, each sublink is null-homologous in L, so the meridian of L is 0 there, a product of commutators), so it needs Antoine's van Kampen computation for a linked chain of solid tori (π₁ of the complement of a chain, or the non-abelian iterated-covering tower); mathlib has no van Kampen theorem, no π₁ of a solid-torus complement and no PL solid-torus theory.
+/-! ### Antoine's lemma at equal generations (the abelian case, proved)
+
+`GX.antoinePsi = (ρ - 7/8) + i z` near the core square of `L` (cut off to the constant `9/8` far
+away) vanishes only on the core, and on the meridian it is exactly `(3/14) e^{2πit}`
+(`GX.antoinePsi_meridian`); composed with the inverse similarity `GX.antoineCompInv` and the
+stereographic chart `GX.antoineStereoInv`, it is a continuous map `S³ ∖ L_{v,n} → ℂ ∖ 0`
+(`GX.antoineTheta`) under which the meridian of `L_{v,n}` has winding number `1`. -/
+
+/-- The inverse of the similarity `GX.antoineMap i`. -/
+def antoineMapInv (i : Fin 64) (q : ℝ × ℝ × ℝ) : ℝ × ℝ × ℝ :=
+  antoinePerm (antoineT i) ((q.1 - (antoineZ i).1 / 640) * (80 / 7),
+    (q.2.1 - (antoineZ i).2 / 640) * (80 / 7), q.2.2 * (80 / 7))
+
+theorem antoineMapInv_map (i : Fin 64) (p : ℝ × ℝ × ℝ) : antoineMapInv i (antoineMap i p) = p := by
+  rcases antoineT_cases i with h | h | h <;>
+    simp only [antoineMapInv, antoineMap, h, antoinePerm] <;>
+    ext <;> ring
+
+theorem antoineMap_mapInv (i : Fin 64) (q : ℝ × ℝ × ℝ) : antoineMap i (antoineMapInv i q) = q := by
+  rcases antoineT_cases i with h | h | h <;>
+    simp only [antoineMapInv, antoineMap, h, antoinePerm] <;>
+    ext <;> ring
+
+theorem continuous_antoineMapInv (i : Fin 64) : Continuous (antoineMapInv i) := by
+  show Continuous fun q => antoineMapInv i q
+  rcases antoineT_cases i with h | h | h <;>
+    simp only [antoineMapInv, h, antoinePerm] <;> fun_prop
+
+/-- The inverse of `GX.antoineComp w n`. -/
+def antoineCompInv (w : ℕ → Fin 64) : ℕ → ℝ × ℝ × ℝ → ℝ × ℝ × ℝ
+  | 0 => id
+  | n + 1 => antoineMapInv (w n) ∘ antoineCompInv w n
+
+theorem antoineCompInv_comp (w : ℕ → Fin 64) (n : ℕ) (p : ℝ × ℝ × ℝ) :
+    antoineCompInv w n (antoineComp w n p) = p := by
+  induction n generalizing p with
+  | zero => rfl
+  | succ n ih =>
+    show antoineMapInv (w n) (antoineCompInv w n (antoineComp w n (antoineMap (w n) p))) = p
+    rw [ih, antoineMapInv_map]
+
+theorem antoineComp_compInv (w : ℕ → Fin 64) (n : ℕ) (q : ℝ × ℝ × ℝ) :
+    antoineComp w n (antoineCompInv w n q) = q := by
+  induction n generalizing q with
+  | zero => rfl
+  | succ n ih =>
+    show antoineComp w n (antoineMap (w n) (antoineMapInv (w n) (antoineCompInv w n q))) = q
+    rw [antoineMap_mapInv, ih]
+
+theorem continuous_antoineCompInv (w : ℕ → Fin 64) (n : ℕ) : Continuous (antoineCompInv w n) := by
+  induction n with
+  | zero => exact continuous_id
+  | succ n ih => exact (continuous_antoineMapInv _).comp ih
+
+/-- `ρ² + z²`, `ρ = max(|x|, |y|)`. -/
+def antoineSq (p : ℝ × ℝ × ℝ) : ℝ := (max |p.1| |p.2.1|) ^ 2 + p.2.2 ^ 2
+
+theorem continuous_antoineSq : Continuous antoineSq := by unfold antoineSq; fun_prop
+
+theorem antoineMap_sq_lt (i : Fin 64) {p : ℝ × ℝ × ℝ} (hp : antoineSq p < 4) :
+    antoineSq (antoineMap i p) < 4 := by
+  have hm : max |p.1| |p.2.1| < 2 := by
+    unfold antoineSq at hp
+    nlinarith [abs_nonneg p.1, le_max_left |p.1| |p.2.1|, sq_nonneg p.2.2]
+  have hz : |p.2.2| < 2 := by
+    unfold antoineSq at hp
+    have : p.2.2 ^ 2 < 4 := by nlinarith [sq_nonneg (max |p.1| |p.2.1|)]
+    rw [← sq_abs] at this; nlinarith [abs_nonneg p.2.2]
+  have hx : |p.1| < 2 := (le_max_left _ _).trans_lt hm
+  have hy : |p.2.1| < 2 := (le_max_right _ _).trans_lt hm
+  have hc : |((antoineZ i).1 : ℝ)| ≤ 560 ∧ |((antoineZ i).2 : ℝ)| ≤ 560 := by
+    rcases antoine_centre_mem i with ⟨c1, c2⟩ | ⟨c1, c2⟩
+    · exact ⟨by exact_mod_cast c1.le, by exact_mod_cast c2⟩
+    · exact ⟨by exact_mod_cast c2, by exact_mod_cast c1.le⟩
+  rw [abs_lt] at hx hy hz
+  obtain ⟨hc1, hc2⟩ := hc
+  rw [abs_le] at hc1 hc2
+  have key : ∀ a b c : ℝ, |a| < 11 / 10 → |b| < 11 / 10 → |c| < 11 / 10 →
+      (max |a| |b|) ^ 2 + c ^ 2 < 4 := by
+    intro a b c ha hb hc
+    have h1 : max |a| |b| < 11 / 10 := max_lt ha hb
+    have h0 : 0 ≤ max |a| |b| := (abs_nonneg a).trans (le_max_left _ _)
+    have h2 : c ^ 2 < (11 / 10) ^ 2 := by rw [← sq_abs]; nlinarith [abs_nonneg c]
+    nlinarith
+  unfold antoineSq
+  rcases antoineT_cases i with h | h | h <;>
+    simp only [antoineMap, h, antoinePerm] <;>
+    refine key _ _ _ ?_ ?_ ?_ <;> rw [abs_lt] <;> constructor <;> linarith
+
+theorem antoineComp_sq_lt (w : ℕ → Fin 64) (n : ℕ) {p : ℝ × ℝ × ℝ} (hp : antoineSq p < 4) :
+    antoineSq (antoineComp w n p) < 4 := by
+  induction n generalizing p with
+  | zero => exact hp
+  | succ n ih => exact ih (antoineMap_sq_lt _ hp)
+
+theorem antoineCompInv_sq_ge (w : ℕ → Fin 64) (n : ℕ) {q : ℝ × ℝ × ℝ} (hq : 4 ≤ antoineSq q) :
+    4 ≤ antoineSq (antoineCompInv w n q) := by
+  by_contra h
+  push Not at h
+  have := antoineComp_sq_lt w n h
+  rw [antoineComp_compInv] at this
+  linarith
+
+/-- An invariant of `ℝ³ ∖ L` with values in `ℂ ∖ 0`: `(ρ - 7/8) + i z` near the core square,
+cut off to the constant `9/8` where `ρ² + z² ≥ 4`. -/
+def antoinePsi (p : ℝ × ℝ × ℝ) : ℂ :=
+  ((min 2 (max |p.1| |p.2.1| + max 0 (antoineSq p - 2)) - 7 / 8 : ℝ) : ℂ) +
+    ((p.2.2 * max 0 (min 1 (3 - antoineSq p)) : ℝ) : ℂ) * Complex.I
+
+theorem continuous_antoinePsi : Continuous antoinePsi := by
+  unfold antoinePsi
+  have := continuous_antoineSq
+  fun_prop
+
+theorem antoinePsi_eq_of_sq_ge {p : ℝ × ℝ × ℝ} (hp : 4 ≤ antoineSq p) : antoinePsi p = 9 / 8 := by
+  have h1 : min 2 (max |p.1| |p.2.1| + max 0 (antoineSq p - 2)) = 2 := by
+    refine min_eq_left ?_
+    rw [max_eq_right (show (0 : ℝ) ≤ antoineSq p - 2 by linarith)]
+    linarith [(abs_nonneg p.1).trans (le_max_left |p.1| |p.2.1|)]
+  have h2 : max 0 (min 1 (3 - antoineSq p)) = 0 :=
+    max_eq_left ((min_le_right _ _).trans (by linarith))
+  simp only [antoinePsi, h1, h2, mul_zero, Complex.ofReal_zero, zero_mul, add_zero]
+  push_cast; norm_num
+
+theorem antoinePsi_mem_of_eq_zero {p : ℝ × ℝ × ℝ} (h : antoinePsi p = 0) : p ∈ antoineLink := by
+  have hre := congrArg Complex.re h
+  have him := congrArg Complex.im h
+  simp only [antoinePsi, Complex.add_re, Complex.ofReal_re, Complex.mul_re, Complex.I_re,
+    Complex.ofReal_im, Complex.I_im, mul_zero, mul_one, sub_zero, Complex.zero_re,
+    Complex.add_im, Complex.mul_im, zero_add, Complex.zero_im, add_zero] at hre him
+  set ρ := max |p.1| |p.2.1| with hρ
+  have hρ0 : 0 ≤ ρ := (abs_nonneg _).trans (le_max_left _ _)
+  have hS : antoineSq p = ρ ^ 2 + p.2.2 ^ 2 := rfl
+  have hm : min 2 (ρ + max 0 (antoineSq p - 2)) = 7 / 8 := by linarith
+  have hlt : ρ + max 0 (antoineSq p - 2) = 7 / 8 := by
+    rcases min_choice 2 (ρ + max 0 (antoineSq p - 2)) with e | e <;> rw [e] at hm
+    · norm_num at hm
+    · exact hm
+  have hmx := le_max_right 0 (antoineSq p - 2)
+  have hmx0 := le_max_left 0 (antoineSq p - 2)
+  -- the imaginary part: `z = 0` or `S ≥ 3`
+  have hz : p.2.2 = 0 := by
+    rcases mul_eq_zero.1 him with h' | h'
+    · exact h'
+    · exfalso
+      have h3 : 3 ≤ antoineSq p := by
+        by_contra hc
+        push Not at hc
+        have : 0 < min 1 (3 - antoineSq p) := lt_min one_pos (by linarith)
+        have := le_max_right 0 (min 1 (3 - antoineSq p))
+        linarith
+      linarith
+  have hSρ : antoineSq p = ρ ^ 2 := by rw [hS, hz]; ring
+  have hρ1 : ρ ≤ 1 := by
+    by_contra hc
+    push Not at hc
+    have : 2 < antoineSq p := by rw [hSρ]; nlinarith
+    linarith
+  have hS2 : antoineSq p ≤ 2 := by rw [hSρ]; nlinarith
+  rw [max_eq_left (by linarith)] at hlt
+  refine ⟨by rw [hz]; norm_num, ?_, ?_⟩
+  · show ρ ≤ 1; linarith
+  · show 3 / 4 ≤ ρ; linarith
+
+/-- On the meridian, `GX.antoinePsi` is exactly the circle `(3/14) e^{2πit}`. -/
+theorem antoinePsi_meridian (t : I) :
+    antoinePsi (antoineMeridian t) = (3 / 14 : ℂ) * Complex.exp (2 * Real.pi * Complex.I * t) := by
+  rw [antoineMeridian_apply]
+  set c := Real.cos (2 * Real.pi * t)
+  set s := Real.sin (2 * Real.pi * t)
+  have hcs : s ^ 2 + c ^ 2 = 1 := Real.sin_sq_add_cos_sq _
+  have hc1 : -1 ≤ c := Real.neg_one_le_cos _
+  have hc2 : c ≤ 1 := Real.cos_le_one _
+  have hpos : 0 ≤ 7 / 8 + 3 / 14 * c := by linarith
+  have hρ : max |(0 : ℝ)| |7 / 8 + 3 / 14 * c| = 7 / 8 + 3 / 14 * c := by
+    rw [abs_zero, abs_of_nonneg hpos, max_eq_right hpos]
+  have hS : antoineSq (0, 7 / 8 + 3 / 14 * c, 3 / 14 * s) =
+      (7 / 8 + 3 / 14 * c) ^ 2 + (3 / 14 * s) ^ 2 := by
+    simp only [antoineSq, hρ]
+  have hS2 : antoineSq (0, 7 / 8 + 3 / 14 * c, 3 / 14 * s) ≤ 2 := by rw [hS]; nlinarith
+  have e1 : min 2 (max |(0 : ℝ)| |7 / 8 + 3 / 14 * c| +
+      max 0 (antoineSq (0, 7 / 8 + 3 / 14 * c, 3 / 14 * s) - 2)) = 7 / 8 + 3 / 14 * c := by
+    rw [hρ, max_eq_left (by linarith), add_zero, min_eq_right (by linarith)]
+  have e2 : max 0 (min 1 (3 - antoineSq (0, 7 / 8 + 3 / 14 * c, 3 / 14 * s))) = 1 := by
+    rw [min_eq_left (by linarith), max_eq_right zero_le_one]
+  simp only [antoinePsi, e1, e2, mul_one]
+  have : (2 * Real.pi * Complex.I * (t : ℝ)) = ((2 * Real.pi * (t : ℝ) : ℝ) : ℂ) * Complex.I := by
+    push_cast; ring
+  rw [this, Complex.exp_mul_I]
+  apply Complex.ext <;>
+    simp [c, s] <;> ring
+
+theorem sphere3_sum_sq (y : Sphere3) :
+    (y : EuclideanSpace ℝ (Fin 4)) 0 ^ 2 + (y : EuclideanSpace ℝ (Fin 4)) 1 ^ 2 +
+      (y : EuclideanSpace ℝ (Fin 4)) 2 ^ 2 + (y : EuclideanSpace ℝ (Fin 4)) 3 ^ 2 = 1 := by
+  have h := real_inner_self_eq_norm_sq (y : EuclideanSpace ℝ (Fin 4))
+  rw [mem_sphere_zero_iff_norm.1 y.2] at h
+  simp only [PiLp.inner_apply, Fin.sum_univ_four, RCLike.inner_apply, conj_trivial] at h
+  nlinarith
+
+/-- Stereographic projection `S³ ∖ {N} → ℝ³`, the inverse of `GX.antoineStereo`. -/
+def antoineStereoInv (y : Sphere3) : ℝ × ℝ × ℝ :=
+  ((y : EuclideanSpace ℝ (Fin 4)) 0 / (1 - (y : EuclideanSpace ℝ (Fin 4)) 3),
+    (y : EuclideanSpace ℝ (Fin 4)) 1 / (1 - (y : EuclideanSpace ℝ (Fin 4)) 3),
+    (y : EuclideanSpace ℝ (Fin 4)) 2 / (1 - (y : EuclideanSpace ℝ (Fin 4)) 3))
+
+theorem antoineStereo_apply (p : ℝ × ℝ × ℝ) :
+    (antoineStereo p : EuclideanSpace ℝ (Fin 4)) =
+      !₂[2 * p.1 / (p.1 ^ 2 + p.2.1 ^ 2 + p.2.2 ^ 2 + 1),
+        2 * p.2.1 / (p.1 ^ 2 + p.2.1 ^ 2 + p.2.2 ^ 2 + 1),
+        2 * p.2.2 / (p.1 ^ 2 + p.2.1 ^ 2 + p.2.2 ^ 2 + 1),
+        (p.1 ^ 2 + p.2.1 ^ 2 + p.2.2 ^ 2 - 1) / (p.1 ^ 2 + p.2.1 ^ 2 + p.2.2 ^ 2 + 1)] := rfl
+
+theorem antoineStereo_three_lt (p : ℝ × ℝ × ℝ) :
+    (antoineStereo p : EuclideanSpace ℝ (Fin 4)) 3 < 1 := by
+  rw [antoineStereo_apply]
+  have hN : 0 < p.1 ^ 2 + p.2.1 ^ 2 + p.2.2 ^ 2 + 1 := by positivity
+  change (p.1 ^ 2 + p.2.1 ^ 2 + p.2.2 ^ 2 - 1) / (p.1 ^ 2 + p.2.1 ^ 2 + p.2.2 ^ 2 + 1) < 1
+  rw [div_lt_one hN]; linarith
+
+theorem antoineStereoInv_stereo (p : ℝ × ℝ × ℝ) : antoineStereoInv (antoineStereo p) = p := by
+  have hN : 0 < p.1 ^ 2 + p.2.1 ^ 2 + p.2.2 ^ 2 + 1 := by positivity
+  simp only [antoineStereoInv, antoineStereo_apply, PiLp.toLp_apply, Matrix.cons_val_three,
+    Matrix.cons_val_two, Matrix.cons_val_one, Matrix.cons_val_zero, Matrix.tail_cons,
+    Matrix.head_cons]
+  have hd : 1 - (p.1 ^ 2 + p.2.1 ^ 2 + p.2.2 ^ 2 - 1) / (p.1 ^ 2 + p.2.1 ^ 2 + p.2.2 ^ 2 + 1) =
+      2 / (p.1 ^ 2 + p.2.1 ^ 2 + p.2.2 ^ 2 + 1) := by field_simp; ring
+  rw [hd]
+  ext <;> simp only <;> field_simp
+
+theorem antoineStereo_stereoInv {y : Sphere3} (hy : (y : EuclideanSpace ℝ (Fin 4)) 3 < 1) :
+    antoineStereo (antoineStereoInv y) = y := by
+  have hs := sphere3_sum_sq y
+  obtain ⟨w, hw⟩ := y
+  simp only at hy hs ⊢
+  have hd : 0 < 1 - w 3 := by linarith
+  have hd' : 1 - w 3 ≠ 0 := hd.ne'
+  have hN : (w 0 / (1 - w 3)) ^ 2 + (w 1 / (1 - w 3)) ^ 2 + (w 2 / (1 - w 3)) ^ 2 + 1 =
+      2 / (1 - w 3) := by
+    field_simp
+    nlinarith
+  have hN' : (w 0 / (1 - w 3)) ^ 2 + (w 1 / (1 - w 3)) ^ 2 + (w 2 / (1 - w 3)) ^ 2 - 1 =
+      2 * w 3 / (1 - w 3) := by
+    field_simp
+    nlinarith
+  apply Subtype.ext
+  rw [antoineStereo_apply]
+  simp only [antoineStereoInv]
+  rw [hN, hN']
+  have e0 : 2 * (w 0 / (1 - w 3)) / (2 / (1 - w 3)) = w 0 := by field_simp
+  have e1 : 2 * (w 1 / (1 - w 3)) / (2 / (1 - w 3)) = w 1 := by field_simp
+  have e2 : 2 * (w 2 / (1 - w 3)) / (2 / (1 - w 3)) = w 2 := by field_simp
+  have e3 : 2 * w 3 / (1 - w 3) / (2 / (1 - w 3)) = w 3 := by field_simp
+  rw [e0, e1, e2, e3]
+  ext i
+  fin_cases i <;> rfl
+
+theorem antoineStereoInv_sq_ge {y : Sphere3} (hy : 19 / 20 < (y : EuclideanSpace ℝ (Fin 4)) 3)
+    (hy1 : (y : EuclideanSpace ℝ (Fin 4)) 3 < 1) : 4 ≤ antoineSq (antoineStereoInv y) := by
+  have hs := sphere3_sum_sq y
+  set y0 := (y : EuclideanSpace ℝ (Fin 4)) 0
+  set y1 := (y : EuclideanSpace ℝ (Fin 4)) 1
+  set y2 := (y : EuclideanSpace ℝ (Fin 4)) 2
+  set y3 := (y : EuclideanSpace ℝ (Fin 4)) 3
+  have hd : 0 < 1 - y3 := by linarith
+  simp only [antoineSq, antoineStereoInv]
+  set a := y0 / (1 - y3)
+  set b := y1 / (1 - y3)
+  set c := y2 / (1 - y3)
+  have hsum : a ^ 2 + b ^ 2 + c ^ 2 = (1 + y3) / (1 - y3) := by
+    simp only [a, b, c]; field_simp; nlinarith
+  have hbig : 39 ≤ (1 + y3) / (1 - y3) := by rw [le_div_iff₀ hd]; linarith
+  have ha : a ^ 2 ≤ (max |a| |b|) ^ 2 := by
+    rw [← sq_abs a]; exact pow_le_pow_left₀ (abs_nonneg a) (le_max_left _ _) 2
+  have hb : b ^ 2 ≤ (max |a| |b|) ^ 2 := by
+    rw [← sq_abs b]; exact pow_le_pow_left₀ (abs_nonneg b) (le_max_right _ _) 2
+  nlinarith [sq_nonneg c]
+
+/-- The invariant of `S³ ∖ L_{v,n}`, `L_{v,n}` the link of generation `n` with word `v`:
+`GX.antoinePsi ∘ (g_v)⁻¹` in the stereographic chart, the constant `9/8` near the pole. -/
+def antoineTheta (v : ℕ → Fin 64) (n : ℕ) (y : Sphere3) : ℂ :=
+  if (y : EuclideanSpace ℝ (Fin 4)) 3 < 1 then antoinePsi (antoineCompInv v n (antoineStereoInv y))
+  else 9 / 8
+
+theorem antoineTheta_stereo (v : ℕ → Fin 64) (n : ℕ) (p : ℝ × ℝ × ℝ) :
+    antoineTheta v n (antoineStereo (antoineComp v n p)) = antoinePsi p := by
+  rw [antoineTheta, if_pos (antoineStereo_three_lt _), antoineStereoInv_stereo,
+    antoineCompInv_comp]
+
+theorem continuousAt_antoineStereoInv {y : Sphere3} (hy : (y : EuclideanSpace ℝ (Fin 4)) 3 < 1) :
+    ContinuousAt antoineStereoInv y := by
+  have hc : ∀ i : Fin 4, Continuous fun z : Sphere3 => (z : EuclideanSpace ℝ (Fin 4)) i :=
+    fun i => (PiLp.continuous_apply 2 _ i).comp continuous_subtype_val
+  have hd : (1 - (y : EuclideanSpace ℝ (Fin 4)) 3) ≠ 0 := by linarith
+  have hden : ContinuousAt (fun z : Sphere3 => 1 - (z : EuclideanSpace ℝ (Fin 4)) 3) y :=
+    (continuous_const.sub (hc 3)).continuousAt
+  exact ((hc 0).continuousAt.div hden hd).prodMk
+    (((hc 1).continuousAt.div hden hd).prodMk ((hc 2).continuousAt.div hden hd))
+
+theorem continuous_antoineTheta (v : ℕ → Fin 64) (n : ℕ) : Continuous (antoineTheta v n) := by
+  have hc3 : Continuous fun z : Sphere3 => (z : EuclideanSpace ℝ (Fin 4)) 3 :=
+    (PiLp.continuous_apply 2 _ 3).comp continuous_subtype_val
+  refine continuous_iff_continuousAt.2 fun y => ?_
+  by_cases hy : (y : EuclideanSpace ℝ (Fin 4)) 3 < 1
+  · have hG : ContinuousAt (fun z => antoinePsi (antoineCompInv v n (antoineStereoInv z))) y :=
+      (continuous_antoinePsi.comp (continuous_antoineCompInv v n)).continuousAt.comp
+        (continuousAt_antoineStereoInv hy)
+    refine hG.congr (Filter.eventually_of_mem ((isOpen_lt hc3 continuous_const).mem_nhds hy)
+      fun z hz => ?_)
+    simp only [antoineTheta, if_pos (show (z : EuclideanSpace ℝ (Fin 4)) 3 < 1 from hz)]
+  · push Not at hy
+    refine (continuousAt_const (y := (9 / 8 : ℂ))).congr (Filter.eventually_of_mem
+      ((isOpen_lt continuous_const hc3).mem_nhds (show (19 / 20 : ℝ) < _ by linarith))
+      fun z hz => ?_)
+    simp only [antoineTheta]
+    split_ifs with h
+    · exact (antoinePsi_eq_of_sq_ge (antoineCompInv_sq_ge v n
+        (antoineStereoInv_sq_ge hz h))).symm
+    · rfl
+
+theorem antoineTheta_ne_zero (v : ℕ → Fin 64) (n : ℕ) {y : Sphere3}
+    (hy : y ∉ antoineStereo '' (antoineComp v n '' antoineLink)) : antoineTheta v n y ≠ 0 := by
+  intro h
+  unfold antoineTheta at h
+  split_ifs at h with h3
+  · apply hy
+    refine ⟨antoineStereoInv y, ⟨antoineCompInv v n (antoineStereoInv y),
+      antoinePsi_mem_of_eq_zero h, antoineComp_compInv _ _ _⟩, antoineStereo_stereoInv h3⟩
+  · norm_num at h
+
+/-- **Antoine's lemma at equal generations** (the abelian case of the residual, proved): the
+meridian of a link `L_{v,n}` of generation `n` is not null-homotopic in `S³ ∖ L_{v,n}` — the
+invariant `GX.antoineTheta` carries it to the circle `(3/14) e^{2πit}` of `ℂ ∖ 0`, of winding
+number `1`. -/
+theorem antoineMeridianEssential_self (v : ℕ → Fin 64) (n : ℕ) :
+    ¬ HomotopicIn (antoineStereo '' (antoineStage n ∩ antoineComp v n '' antoineLink))ᶜ
+      ((antoineMeridian.map (continuous_antoineComp v n)).map continuous_antoineStereo)
+      (Path.refl _) := by
+  set K := antoineStereo '' (antoineStage n ∩ antoineComp v n '' antoineLink) with hKdef
+  set μ' := (antoineMeridian.map (continuous_antoineComp v n)).map continuous_antoineStereo
+  rw [homotopicIn_iff]
+  rintro ⟨h1, h2, hom⟩
+  have hK : ∀ y : (Kᶜ : Set Sphere3), antoineTheta v n y ≠ 0 := fun y => by
+    refine antoineTheta_ne_zero v n fun hy => y.2 ?_
+    obtain ⟨q, hq, e⟩ := hy
+    exact ⟨q, ⟨mem_iUnion.2 ⟨v, hq⟩, hq⟩, e⟩
+  let Θ' : C((Kᶜ : Set Sphere3), CStar) :=
+    ⟨fun y => ⟨antoineTheta v n y, hK y⟩,
+      ((continuous_antoineTheta v n).comp continuous_subtype_val).subtype_mk _⟩
+  have hw := cWinding_homotopic (Path.Homotopic.map hom Θ')
+  have e1 : cWinding ((pathToSub μ' h1).map Θ'.continuous) = 1 := by
+    refine cWinding_eq _ (Γ := ⟨fun t => Complex.log (3 / 14) +
+      2 * Real.pi * Complex.I * (t : ℝ), by fun_prop⟩) (fun t => ?_) ?_
+    · show Complex.exp (Complex.log (3 / 14) + _) =
+        antoineTheta v n (antoineStereo (antoineComp v n (antoineMeridian t)))
+      rw [Complex.exp_add, Complex.exp_log (by norm_num), antoineTheta_stereo,
+        antoinePsi_meridian]
+    · simp only [ContinuousMap.coe_mk, Set.Icc.coe_one, Set.Icc.coe_zero, Complex.ofReal_one,
+        Complex.ofReal_zero, mul_one, mul_zero, add_zero, Int.cast_one, one_mul]
+  have e2 : cWinding ((pathToSub (Path.refl (antoineStereo (antoineComp v n antoineMerPt)))
+      h2).map Θ'.continuous) = 0 := by
+    refine cWinding_eq _ (Γ := ContinuousMap.const I
+      (Complex.log (antoineTheta v n (antoineStereo (antoineComp v n antoineMerPt)))))
+      (fun t => ?_) (by simp)
+    show Complex.exp (Complex.log _) = antoineTheta v n _
+    exact Complex.exp_log (hK ⟨_, h2 0⟩)
+  rw [e1, e2] at hw
+  exact one_ne_zero hw
+
+/-- **The residual of Antoine's theorem**, its non-abelian part: for `n < m` the meridian of a
+link of generation `n` is not null-homotopic in the complement of the links of generation `m`
+inside it. (The case `n = m` is `GX.antoineMeridianEssential_self`, proved.) -/
+def AntoineMeridianEssentialStrict : Prop :=
+  ∀ (v : ℕ → Fin 64) (n m : ℕ), n < m →
+    ¬ HomotopicIn (antoineStereo '' (antoineStage m ∩ antoineComp v n '' antoineLink))ᶜ
+      ((antoineMeridian.map (continuous_antoineComp v n)).map continuous_antoineStereo)
+      (Path.refl _)
+
+/-- The residual `GX.AntoineMeridianEssential` from its strict part (the equal-generation case
+being `GX.antoineMeridianEssential_self`). -/
+theorem antoineMeridianEssential_of_strict (h : AntoineMeridianEssentialStrict) :
+    AntoineMeridianEssential := by
+  intro v n m hnm
+  rcases eq_or_lt_of_le hnm with rfl | hlt
+  · exact antoineMeridianEssential_self v n
+  · exact h v n m hlt
+
+/-! ### Reduction of the strict residual to the top link (self-similarity) -/
+
+/-- The word `v₀ ⋯ v_{n-1} w₀ w₁ ⋯`. -/
+def antoineCat (v : ℕ → Fin 64) (n : ℕ) (w : ℕ → Fin 64) : ℕ → Fin 64 :=
+  fun j => if j < n then v j else w (j - n)
+
+theorem antoineComp_cat (v : ℕ → Fin 64) (n : ℕ) (w : ℕ → Fin 64) (k : ℕ) :
+    antoineComp (antoineCat v n w) (n + k) = antoineComp v n ∘ antoineComp w k := by
+  induction k with
+  | zero =>
+    rw [Nat.add_zero, antoineComp_congr (w' := v) fun j hj => by simp [antoineCat, hj]]
+    rfl
+  | succ k ih =>
+    show antoineComp (antoineCat v n w) (n + k) ∘ antoineMap (antoineCat v n w (n + k)) = _
+    rw [ih]
+    simp only [antoineCat, show ¬ (n + k < n) by omega, if_false, Nat.add_sub_cancel_left]
+    rfl
+
+/-- The links of generation `k` inside `L`, carried by `g_v`, are links of generation `n + k`
+inside `L_{v,n}`. -/
+theorem antoineComp_image_stage_subset (v : ℕ → Fin 64) (n k : ℕ) :
+    antoineComp v n '' antoineStage k ⊆ antoineStage (n + k) ∩ antoineComp v n '' antoineLink := by
+  rintro _ ⟨q, hq, rfl⟩
+  obtain ⟨w, hw⟩ := mem_iUnion.1 hq
+  obtain ⟨p, hp, rfl⟩ := hw
+  have e : antoineComp v n (antoineComp w k p) = antoineComp (antoineCat v n w) (n + k) p := by
+    rw [antoineComp_cat]; rfl
+  refine ⟨mem_iUnion.2 ⟨antoineCat v n w, e ▸ ⟨p, hp, rfl⟩⟩, ?_⟩
+  have h1 := antoineComp_antitone (antoineCat v n w) (Nat.le_add_right n k) ⟨p, hp, e.symm⟩
+  rwa [antoineComp_congr (w' := v) fun j hj => by simp [antoineCat, hj]] at h1
+
+theorem antoineCompInv_dist_ge (w : ℕ → Fin 64) (n : ℕ) (p : ℝ × ℝ × ℝ) :
+    dist p 0 - 2 ≤ dist (antoineCompInv w n p) 0 := by
+  have h0 : antoineSq (antoineComp w n 0) < 4 := antoineComp_sq_lt w n (by simp [antoineSq])
+  have hf0 : dist (antoineComp w n 0) 0 < 2 := by
+    set a := antoineComp w n 0
+    have hm : max |a.1| |a.2.1| < 2 := by
+      unfold antoineSq at h0
+      nlinarith [abs_nonneg a.1, le_max_left |a.1| |a.2.1|, sq_nonneg a.2.2]
+    have hz : |a.2.2| < 2 := by
+      unfold antoineSq at h0
+      have : a.2.2 ^ 2 < 4 := by nlinarith [sq_nonneg (max |a.1| |a.2.1|)]
+      rw [← sq_abs] at this; nlinarith [abs_nonneg a.2.2]
+    rw [Prod.dist_eq, Prod.dist_eq, Real.dist_eq, Real.dist_eq, Real.dist_eq]
+    simp only [Prod.fst_zero, Prod.snd_zero, sub_zero]
+    exact max_lt ((le_max_left _ _).trans_lt hm) (max_lt ((le_max_right _ _).trans_lt hm) hz)
+  have h1 : dist p (antoineComp w n 0) ≤ dist (antoineCompInv w n p) 0 := by
+    have := antoineComp_dist_le w n (antoineCompInv w n p) 0
+    rw [antoineComp_compInv] at this
+    have hr : (7 / 80 : ℝ) ^ n ≤ 1 := pow_le_one₀ (by norm_num) (by norm_num)
+    nlinarith [dist_nonneg (x := antoineCompInv w n p) (y := 0)]
+  linarith [dist_triangle p (antoineComp w n 0) 0]
+
+theorem antoine_dist_zero_sq_le (q : ℝ × ℝ × ℝ) :
+    dist q 0 ^ 2 ≤ q.1 ^ 2 + q.2.1 ^ 2 + q.2.2 ^ 2 := by
+  rw [Prod.dist_eq, Prod.dist_eq, Real.dist_eq, Real.dist_eq, Real.dist_eq]
+  simp only [Prod.fst_zero, Prod.snd_zero, sub_zero]
+  rcases max_choice |q.1| (max |q.2.1| |q.2.2|) with h | h <;> rw [h]
+  · rw [sq_abs]; nlinarith [sq_nonneg q.2.1, sq_nonneg q.2.2]
+  · rcases max_choice |q.2.1| |q.2.2| with h' | h' <;> rw [h', sq_abs] <;>
+      nlinarith [sq_nonneg q.1, sq_nonneg q.2.1, sq_nonneg q.2.2]
+
+theorem antoineStereoInv_dist_sq {y : Sphere3} (hy : (y : EuclideanSpace ℝ (Fin 4)) 3 < 1) :
+    (1 + (y : EuclideanSpace ℝ (Fin 4)) 3) / (3 * (1 - (y : EuclideanSpace ℝ (Fin 4)) 3)) ≤
+      dist (antoineStereoInv y) 0 ^ 2 := by
+  have hs := sphere3_sum_sq y
+  obtain ⟨w, hw⟩ := y
+  simp only at hy hs ⊢
+  have hd : 0 < 1 - w 3 := by linarith
+  simp only [antoineStereoInv, Prod.dist_eq, Real.dist_eq, Prod.fst_zero, Prod.snd_zero, sub_zero]
+  set a := w 0 / (1 - w 3)
+  set b := w 1 / (1 - w 3)
+  set c := w 2 / (1 - w 3)
+  have hsum : a ^ 2 + b ^ 2 + c ^ 2 = (1 + w 3) / (1 - w 3) := by
+    simp only [a, b, c]; field_simp; nlinarith
+  set M := max |a| (max |b| |c|)
+  have ha : a ^ 2 ≤ M ^ 2 := by
+    rw [← sq_abs a]; exact pow_le_pow_left₀ (abs_nonneg a) (le_max_left _ _) 2
+  have hb : b ^ 2 ≤ M ^ 2 := by
+    rw [← sq_abs b]
+    exact pow_le_pow_left₀ (abs_nonneg b) ((le_max_left _ _).trans (le_max_right _ _)) 2
+  have hc : c ^ 2 ≤ M ^ 2 := by
+    rw [← sq_abs c]
+    exact pow_le_pow_left₀ (abs_nonneg c) ((le_max_right _ _).trans (le_max_right _ _)) 2
+  rw [div_le_iff₀ (by positivity)]
+  have : (1 + w 3) / (1 - w 3) * (1 - w 3) = 1 + w 3 := div_mul_cancel₀ _ hd.ne'
+  nlinarith
+
+theorem sphere3_eq_north {y : Sphere3} (hy : 1 ≤ (y : EuclideanSpace ℝ (Fin 4)) 3) :
+    (y : EuclideanSpace ℝ (Fin 4)) 0 = 0 ∧ (y : EuclideanSpace ℝ (Fin 4)) 1 = 0 ∧
+      (y : EuclideanSpace ℝ (Fin 4)) 2 = 0 ∧ (y : EuclideanSpace ℝ (Fin 4)) 3 = 1 := by
+  have hs := sphere3_sum_sq y
+  have h3 : (y : EuclideanSpace ℝ (Fin 4)) 3 = 1 := by
+    nlinarith [sq_nonneg ((y : EuclideanSpace ℝ (Fin 4)) 0),
+      sq_nonneg ((y : EuclideanSpace ℝ (Fin 4)) 1), sq_nonneg ((y : EuclideanSpace ℝ (Fin 4)) 2)]
+  rw [h3] at hs
+  refine ⟨?_, ?_, ?_, h3⟩ <;>
+    nlinarith [sq_nonneg ((y : EuclideanSpace ℝ (Fin 4)) 0),
+      sq_nonneg ((y : EuclideanSpace ℝ (Fin 4)) 1), sq_nonneg ((y : EuclideanSpace ℝ (Fin 4)) 2)]
+
+theorem sphere3_dist_north_sq {a y : Sphere3} (hy : 1 ≤ (y : EuclideanSpace ℝ (Fin 4)) 3) :
+    dist a y ^ 2 = 2 - 2 * (a : EuclideanSpace ℝ (Fin 4)) 3 := by
+  obtain ⟨h0, h1, h2, h3⟩ := sphere3_eq_north hy
+  rw [Subtype.dist_eq, dist_eq_norm, norm_sub_sq_real, mem_sphere_zero_iff_norm.1 a.2,
+    mem_sphere_zero_iff_norm.1 y.2]
+  simp only [PiLp.inner_apply, Fin.sum_univ_four, RCLike.inner_apply, conj_trivial, h0, h1, h2, h3]
+  ring
+
+/-- The similarity `(g_v)⁻¹`, conjugated by the stereographic chart, fixing the pole. -/
+def antoinePhi (v : ℕ → Fin 64) (n : ℕ) (y : Sphere3) : Sphere3 :=
+  if (y : EuclideanSpace ℝ (Fin 4)) 3 < 1 then antoineStereo (antoineCompInv v n (antoineStereoInv y))
+  else y
+
+theorem antoineStereo_three (q : ℝ × ℝ × ℝ) :
+    (antoineStereo q : EuclideanSpace ℝ (Fin 4)) 3 =
+      (q.1 ^ 2 + q.2.1 ^ 2 + q.2.2 ^ 2 - 1) / (q.1 ^ 2 + q.2.1 ^ 2 + q.2.2 ^ 2 + 1) := by
+  rw [antoineStereo_apply]; rfl
+
+theorem continuous_antoinePhi (v : ℕ → Fin 64) (n : ℕ) : Continuous (antoinePhi v n) := by
+  have hc3 : Continuous fun z : Sphere3 => (z : EuclideanSpace ℝ (Fin 4)) 3 :=
+    (PiLp.continuous_apply 2 _ 3).comp continuous_subtype_val
+  refine continuous_iff_continuousAt.2 fun y => ?_
+  by_cases hy : (y : EuclideanSpace ℝ (Fin 4)) 3 < 1
+  · have hG : ContinuousAt
+        (fun z => antoineStereo (antoineCompInv v n (antoineStereoInv z))) y :=
+      (continuous_antoineStereo.comp (continuous_antoineCompInv v n)).continuousAt.comp
+        (continuousAt_antoineStereoInv hy)
+    refine hG.congr (Filter.eventually_of_mem ((isOpen_lt hc3 continuous_const).mem_nhds hy)
+      fun z hz => ?_)
+    simp only [antoinePhi, if_pos (show (z : EuclideanSpace ℝ (Fin 4)) 3 < 1 from hz)]
+  · push Not at hy
+    rw [Metric.continuousAt_iff]
+    intro ε hε
+    set Λ : ℝ := 4 / ε ^ 2 with hΛ
+    have hΛ0 : 0 < Λ := by positivity
+    set R : ℝ := Λ + 3 with hR
+    set η : ℝ := min (1 / (3 * R ^ 2)) (1 / 2) with hη
+    have hη0 : 0 < η := by positivity
+    refine ⟨min ε (Real.sqrt (2 * η)), lt_min hε (Real.sqrt_pos.2 (by positivity)), fun z hz => ?_⟩
+    have hPy : antoinePhi v n y = y := by simp [antoinePhi, not_lt.2 hy]
+    rw [hPy]
+    by_cases hz3 : (z : EuclideanSpace ℝ (Fin 4)) 3 < 1
+    · simp only [antoinePhi, if_pos hz3]
+      have hd := sphere3_dist_north_sq (a := z) hy
+      have hzy : dist z y < Real.sqrt (2 * η) := lt_of_lt_of_le hz (min_le_right _ _)
+      have hzy2 : dist z y ^ 2 < 2 * η := by
+        have := pow_lt_pow_left₀ hzy dist_nonneg (two_ne_zero)
+        rwa [Real.sq_sqrt (by positivity)] at this
+      have h1z : 1 - (z : EuclideanSpace ℝ (Fin 4)) 3 < η := by linarith
+      have hz0 : 1 / 2 < (z : EuclideanSpace ℝ (Fin 4)) 3 := by
+        linarith [min_le_right (1 / (3 * R ^ 2)) (1 / 2)]
+      -- the chart point is far out
+      set p := antoineStereoInv z
+      set q := antoineCompInv v n p
+      have hp2 := antoineStereoInv_dist_sq hz3
+      have hpR : R ^ 2 ≤ dist p 0 ^ 2 := by
+        refine le_trans ?_ hp2
+        have hpos : 0 < 1 - (z : EuclideanSpace ℝ (Fin 4)) 3 := by linarith
+        rw [le_div_iff₀ (by positivity)]
+        have : 1 - (z : EuclideanSpace ℝ (Fin 4)) 3 < 1 / (3 * R ^ 2) :=
+          lt_of_lt_of_le h1z (min_le_left _ _)
+        rw [lt_div_iff₀ (by positivity)] at this
+        nlinarith
+      have hpR' : R ≤ dist p 0 := by
+        have hR0 : 0 ≤ R := by positivity
+        nlinarith [dist_nonneg (x := p) (y := 0)]
+      have hq := antoineCompInv_dist_ge v n p
+      have hqd : Λ + 1 ≤ dist q 0 := by linarith
+      have hq2 := antoine_dist_zero_sq_le q
+      set N := q.1 ^ 2 + q.2.1 ^ 2 + q.2.2 ^ 2 with hN
+      have hNΛ : Λ < N := by nlinarith
+      have hN0 : (0 : ℝ) ≤ N := by positivity
+      have hN1 : N + 1 ≠ 0 := by positivity
+      have hd' : dist (antoineStereo q) y ^ 2 = 4 / (N + 1) := by
+        rw [sphere3_dist_north_sq hy, antoineStereo_three, ← hN]
+        rw [eq_div_iff hN1]; field_simp; ring
+      have hlt : dist (antoineStereo q) y ^ 2 < ε ^ 2 := by
+        rw [hd', div_lt_iff₀ (by positivity)]
+        rw [hΛ, div_lt_iff₀ (by positivity)] at hNΛ
+        nlinarith
+      exact lt_of_pow_lt_pow_left₀ 2 hε.le hlt
+    · simp only [antoinePhi, if_neg hz3]
+      exact lt_of_lt_of_le hz (min_le_left _ _)
+
+theorem antoinePhi_stereo (v : ℕ → Fin 64) (n : ℕ) (p : ℝ × ℝ × ℝ) :
+    antoinePhi v n (antoineStereo (antoineComp v n p)) = antoineStereo p := by
+  rw [antoinePhi, if_pos (antoineStereo_three_lt _), antoineStereoInv_stereo, antoineCompInv_comp]
+
+theorem antoinePhi_mapsTo (v : ℕ → Fin 64) (n k : ℕ) {y : Sphere3}
+    (hy : y ∉ antoineStereo '' (antoineStage (n + k) ∩ antoineComp v n '' antoineLink)) :
+    antoinePhi v n y ∉ antoineStereo '' antoineStage k := by
+  rintro ⟨q, hq, e⟩
+  unfold antoinePhi at e
+  split_ifs at e with h3
+  · apply hy
+    have hq' : antoineCompInv v n (antoineStereoInv y) = q := (antoineStereo_injective e).symm
+    refine ⟨antoineStereoInv y, antoineComp_image_stage_subset v n k ⟨q, hq, ?_⟩,
+      antoineStereo_stereoInv h3⟩
+    rw [← hq', antoineComp_compInv]
+  · exact h3 (e ▸ antoineStereo_three_lt q)
+
+/-- A null-homotopy pushed forward by a continuous map carrying `U` into `U'`. -/
+theorem antoine_homotopicIn_map {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
+    {U : Set X} {U' : Set Y} {x : X} {γ : Path x x} {f : X → Y} (hf : Continuous f)
+    (hfU : ∀ y ∈ U, f y ∈ U') (h : HomotopicIn U γ (Path.refl x)) :
+    HomotopicIn U' (γ.map hf) (Path.refl (f x)) := by
+  obtain ⟨F, hF⟩ := h
+  exact ⟨(F.map ⟨f, hf⟩).cast rfl (by ext; simp), fun z => hfU _ (hF z)⟩
+
+/-- **Antoine's lemma for the top link**, the canonical form of the residual: for `k ≥ 1` the
+meridian of `L` is not null-homotopic in `S³ ∖ C_k`, `C_k` the `64^k` links of generation
+`k`. -/
+def AntoineMeridianEssentialTop : Prop :=
+  ∀ k : ℕ, 1 ≤ k →
+    ¬ HomotopicIn (antoineStereo '' antoineStage k)ᶜ (antoineMeridian.map continuous_antoineStereo)
+      (Path.refl _)
+
+/-- The strict residual from the top-link form, by self-similarity (`GX.antoinePhi`). -/
+theorem antoineMeridianEssentialStrict_of_top (h : AntoineMeridianEssentialTop) :
+    AntoineMeridianEssentialStrict := by
+  intro v n m hnm hhom
+  obtain ⟨k, rfl⟩ : ∃ k, m = n + k := ⟨m - n, by omega⟩
+  refine h k (by omega) ?_
+  have h1 := antoine_homotopicIn_map (U' := (antoineStereo '' antoineStage k)ᶜ)
+    (continuous_antoinePhi v n)
+    (fun y hy => antoinePhi_mapsTo v n k hy) hhom
+  refine antoine_homotopicIn_refl_congr ?_ (fun t => ?_) h1
+  · exact antoinePhi_stereo v n _
+  · show antoinePhi v n (antoineStereo (antoineComp v n (antoineMeridian t))) =
+      antoineStereo (antoineMeridian t)
+    exact antoinePhi_stereo v n _
+
+/-- **The file's one `sorry`: Antoine's lemma proper**, in its canonical form
+`GX.AntoineMeridianEssentialTop`: for `k ≥ 1` the meridian of the link `L` is not null-homotopic
+in `S³ ∖ C_k`. Everything else of the row is derived from it, sorry-free: the reduction of every
+generation to the top link (`GX.antoineMeridianEssentialStrict_of_top`, self-similarity), the
+equal-generation case (`GX.antoineMeridianEssential_self`), the compactness reduction
+(`GX.antoine_homotopicIn_stage`), link selection (`GX.antoineComp_diam`,
+`GX.antoineP0_not_mem_word_link`), accessibility (`GX.antoineVert_not_mem_necklace`) and the
+based loop (`GX.antoineLoop0`, `GX.antoine_homotopicIn_conj`), assembled in
+`GX.antoine_essential_loops`; and the wildness (`GX.tameCantorSLSC`). -/
+theorem antoineMeridianEssentialTop : AntoineMeridianEssentialTop := by
+  sorry -- SORRY(ex:wild_cantor_general_antoine): Antoine's lemma proper, exactly GX.AntoineMeridianEssentialTop: for k ≥ 1 the meridian GX.antoineMeridian of the link L (a circle of radius 3/14 around the core square) is not null-homotopic in S³ ∖ C_k, C_k = GX.antoineStage k the 64^k linked square solid tori of generation k. Every other generation reduces to this one (GX.antoineMeridianEssentialStrict_of_top) and k = 0 is proved (GX.antoineMeridianEssential_self, winding number of GX.antoineTheta). For k ≥ 1 no abelian invariant can detect it: the meridian disc of L meets exactly one link of the first-generation chain, twice with opposite signs, so in S³ ∖ C_1 the meridian of L is a meridian of that link times a conjugate of its inverse, null-homologous; every map to ℂ ∖ 0 (every abelian covering) kills it, and inductively the same holds at each generation. A proof needs a non-abelian invariant built for every k: Antoine's van Kampen computation for a closed chain of linked solid tori (π₁-injectivity of the boundary tori), or an explicit self-similar non-abelian covering of S³ ∖ C_k (a G-cocycle on an open cover of the solid torus minus its 64-link chain, with boundary data closed under the substitution). mathlib has no van Kampen theorem, no π₁ of a link complement and no covering built from a cocycle, and the 3-dimensional cocycle for the 64-link chain is the obstruction.
+
+/-- The strict residual; rests on `GX.antoineMeridianEssentialTop` only. -/
+theorem antoineMeridianEssentialStrict : AntoineMeridianEssentialStrict :=
+  antoineMeridianEssentialStrict_of_top antoineMeridianEssentialTop
+
+/-- The residual `GX.AntoineMeridianEssential` from Antoine's lemma for the top link
+(sorry-free). -/
+theorem antoineMeridianEssential_of_top (h : AntoineMeridianEssentialTop) :
+    AntoineMeridianEssential :=
+  antoineMeridianEssential_of_strict (antoineMeridianEssentialStrict_of_top h)
+
+/-- The residual `GX.AntoineMeridianEssential`; rests on `GX.antoineMeridianEssentialStrict`
+only. -/
+theorem antoineMeridianEssential : AntoineMeridianEssential :=
+  antoineMeridianEssential_of_strict antoineMeridianEssentialStrict
 
 /-- `ex:wild_cantor_general_antoine` (`RamcovGX.tex:1578`), homotopy form, FROM THE RESIDUAL ALONE:
 the complement of `GX.antoineNecklace` is not semi-locally simply connected in `S³`
@@ -4022,20 +4670,923 @@ theorem antoineNecklace_not_isSLSCIn_of (hres : AntoineMeridianEssential) :
   sphere3_not_isSLSCIn_of_essential _ (antoine_essential_loops hres)
 
 /-- `ex:wild_cantor_general_antoine`, homotopy form; rests on the residual
-`GX.antoineMeridianEssential` only. -/
+`GX.antoineMeridianEssentialTop` only. -/
 theorem antoineNecklace_not_isSLSCIn : ¬ IsSLSCIn antoineNecklaceᶜ :=
   antoineNecklace_not_isSLSCIn_of antoineMeridianEssential
 
-/-- The tame-Cantor fact (NAMED, not formalized, not used by the row): the complement of a Cantor
-subset of a great circle of `S³` is semi-locally simply connected in `S³` (it is simply connected
-and locally non-separating, `GX.isSLSCIn_compl_of_simplyConnected`; the simple connectivity is a
-general-position argument). -/
+/-- The tame-Cantor fact: the complement of a Cantor subset of a great circle of `S³` is
+semi-locally simply connected in `S³`. PROVED below (`GX.tameCantorSLSC`, a general-position
+argument: `GX.gc_loop_null`). -/
 def TameCantorSLSC : Prop :=
   ∀ C : Set Sphere3, C ⊆ greatCircle3 → IsCantorSubset C → IsSLSCIn Cᶜ
 
-/-- Wildness of the necklace, separated from the row's claim: it follows from the
+/-! ### Tame Cantor sets: general position off a great circle (DEC-82)
+
+In the cap `{⟨·, x⟩ > c}` around a point `x` of the great circle `Γ = {w₂ = w₃ = 0}`, the radial
+projection `GX.gcF x` carries segments of `ℝ⁴` to arcs of `S³`, and `GX.gcF x w ∈ Γ` iff
+`w₂ = w₃ = 0` (`GX.gcF_mem_iff`): a segment meets the plane of `Γ` only where the planar
+projections `(w₂, w₃)` of its ends are dependent (`GX.gc_seg_avoid`). Hence a loop at a point of
+`Γ ∖ K` (`K ⊆ Γ` closed) is null-homotopic off `K`: a fine polygon whose vertices are pushed
+successively transversally (`GX.gcSeq`) meets the plane of `Γ` only at its base point, and the
+cone on the base point misses `K` (`GX.gc_loop_null`). -/
+
+/-- A Cantor subset of `S³` is closed. -/
+theorem IsCantorSubset.isClosed {C : Set Sphere3} (hC : IsCantorSubset C) : IsClosed C := by
+  obtain ⟨e⟩ := hC
+  haveI : CompactSpace cantorSet := isCompact_iff_compactSpace.1 isCompact_cantorSet
+  haveI := e.symm.compactSpace
+  exact (isCompact_iff_compactSpace.2 this).isClosed
+
+/-- The vector `(0, 0, d₁, d₂)` of `ℝ⁴`. -/
+def gcEmb (d : ℝ × ℝ) : EuclideanSpace ℝ (Fin 4) := !₂[0, 0, d.1, d.2]
+
+@[simp] theorem gcEmb_two (d : ℝ × ℝ) : gcEmb d 2 = d.1 := by simp [gcEmb]
+@[simp] theorem gcEmb_three (d : ℝ × ℝ) : gcEmb d 3 = d.2 := by simp [gcEmb]
+
+theorem norm_gcEmb_le (d : ℝ × ℝ) : ‖gcEmb d‖ ≤ |d.1| + |d.2| := by
+  rw [EuclideanSpace.norm_eq, Real.sqrt_le_iff]
+  refine ⟨by positivity, ?_⟩
+  simp [gcEmb, Fin.sum_univ_four]
+  nlinarith [abs_nonneg d.1, abs_nonneg d.2, sq_abs d.1, sq_abs d.2, abs_mul_abs_self d.1]
+
+theorem inner_gcEmb_of_mem {x : Sphere3} (hx : x ∈ greatCircle3) (d : ℝ × ℝ) :
+    inner ℝ (gcEmb d) (x : EuclideanSpace ℝ (Fin 4)) = 0 := by
+  obtain ⟨h2, h3⟩ := hx
+  simp [gcEmb, PiLp.inner_apply, Fin.sum_univ_four, h2, h3]
+
+theorem sphere3_inner_self (x : Sphere3) :
+    inner ℝ (x : EuclideanSpace ℝ (Fin 4)) (x : EuclideanSpace ℝ (Fin 4)) = 1 := by
+  rw [real_inner_self_eq_norm_sq, mem_sphere_zero_iff_norm.1 x.2]; norm_num
+
+/-- The cap `{y ∈ S³ : c < ⟨y, x⟩}`. -/
+def gcCap (x : Sphere3) (c : ℝ) : Set Sphere3 :=
+  {y | c < inner ℝ (y : EuclideanSpace ℝ (Fin 4)) (x : EuclideanSpace ℝ (Fin 4))}
+
+/-- Pushing `w` into the half-space `⟨·, x⟩ ≥ 1/2`. -/
+def gcLift (x : Sphere3) (w : EuclideanSpace ℝ (Fin 4)) : EuclideanSpace ℝ (Fin 4) :=
+  w + (max 0 (1 / 2 - inner ℝ w (x : EuclideanSpace ℝ (Fin 4)))) • (x : EuclideanSpace ℝ (Fin 4))
+
+theorem gcLift_inner (x : Sphere3) (w : EuclideanSpace ℝ (Fin 4)) :
+    1 / 2 ≤ inner ℝ (gcLift x w) (x : EuclideanSpace ℝ (Fin 4)) := by
+  simp only [gcLift, inner_add_left, real_inner_smul_left, sphere3_inner_self, mul_one]
+  linarith [le_max_right 0 (1 / 2 - inner ℝ w (x : EuclideanSpace ℝ (Fin 4)))]
+
+theorem gcLift_ne_zero (x : Sphere3) (w : EuclideanSpace ℝ (Fin 4)) : gcLift x w ≠ 0 := by
+  intro h; have := gcLift_inner x w; rw [h, inner_zero_left] at this; norm_num at this
+
+theorem continuous_gcLift (x : Sphere3) : Continuous (gcLift x) :=
+  continuous_id.add
+    ((continuous_const.max (continuous_const.sub (continuous_id.inner continuous_const))).smul
+      continuous_const)
+
+theorem gcLift_of_le {x : Sphere3} {w : EuclideanSpace ℝ (Fin 4)}
+    (h : 1 / 2 ≤ inner ℝ w (x : EuclideanSpace ℝ (Fin 4))) : gcLift x w = w := by
+  simp only [gcLift, max_eq_left (by linarith : 1 / 2 - inner ℝ w (x : EuclideanSpace ℝ (Fin 4)) ≤ 0),
+    zero_smul, add_zero]
+
+theorem norm_gcLift_smul (x : Sphere3) (w : EuclideanSpace ℝ (Fin 4)) :
+    ‖‖gcLift x w‖⁻¹ • gcLift x w‖ = 1 := by
+  rw [norm_smul, norm_inv, norm_norm, inv_mul_cancel₀ (norm_ne_zero_iff.2 (gcLift_ne_zero x w))]
+
+/-- The radial projection onto `S³`, centred at `x` (continuous on all of `ℝ⁴`). -/
+def gcF (x : Sphere3) (w : EuclideanSpace ℝ (Fin 4)) : Sphere3 :=
+  ⟨‖gcLift x w‖⁻¹ • gcLift x w, mem_sphere_zero_iff_norm.2 (norm_gcLift_smul x w)⟩
+
+theorem continuous_gcF (x : Sphere3) : Continuous (gcF x) :=
+  Continuous.subtype_mk (((continuous_norm.comp (continuous_gcLift x)).inv₀
+    fun w => norm_ne_zero_iff.2 (gcLift_ne_zero x w)).smul (continuous_gcLift x)) _
+
+theorem gcF_coe_of_le {x : Sphere3} {w : EuclideanSpace ℝ (Fin 4)}
+    (h : 1 / 2 ≤ inner ℝ w (x : EuclideanSpace ℝ (Fin 4))) :
+    (gcF x w : EuclideanSpace ℝ (Fin 4)) = ‖w‖⁻¹ • w := by
+  change ‖gcLift x w‖⁻¹ • gcLift x w = _
+  rw [gcLift_of_le h]
+
+theorem gcF_sphere {x y : Sphere3}
+    (h : 1 / 2 ≤ inner ℝ (y : EuclideanSpace ℝ (Fin 4)) (x : EuclideanSpace ℝ (Fin 4))) :
+    gcF x y = y := by
+  apply Subtype.ext
+  rw [gcF_coe_of_le h, mem_sphere_zero_iff_norm.1 y.2, inv_one, one_smul]
+
+theorem gcF_self (x : Sphere3) : gcF x x = x :=
+  gcF_sphere (by rw [sphere3_inner_self]; norm_num)
+
+theorem gc_ne_zero_of_half_le {x : Sphere3} {w : EuclideanSpace ℝ (Fin 4)}
+    (h : 1 / 2 ≤ inner ℝ w (x : EuclideanSpace ℝ (Fin 4))) : w ≠ 0 := by
+  rintro rfl; rw [inner_zero_left] at h; norm_num at h
+
+/-- `gcF x w` lies on the great circle iff the last two coordinates of `w` vanish. -/
+theorem gcF_mem_iff {x : Sphere3} {w : EuclideanSpace ℝ (Fin 4)}
+    (h : 1 / 2 ≤ inner ℝ w (x : EuclideanSpace ℝ (Fin 4))) :
+    gcF x w ∈ greatCircle3 ↔ w 2 = 0 ∧ w 3 = 0 := by
+  have hn : ‖w‖⁻¹ ≠ 0 := inv_ne_zero (norm_ne_zero_iff.2 (gc_ne_zero_of_half_le h))
+  change (gcF x w : EuclideanSpace ℝ (Fin 4)) 2 = 0 ∧ (gcF x w : EuclideanSpace ℝ (Fin 4)) 3 = 0 ↔ _
+  rw [gcF_coe_of_le h]
+  simp [PiLp.smul_apply, hn]
+
+theorem gcF_dist_le {x y : Sphere3} {w : EuclideanSpace ℝ (Fin 4)}
+    (h : 1 / 2 ≤ inner ℝ w (x : EuclideanSpace ℝ (Fin 4))) :
+    dist (gcF x w) y ≤ 2 * ‖w - (y : EuclideanSpace ℝ (Fin 4))‖ := by
+  have hw : w ≠ 0 := gc_ne_zero_of_half_le h
+  have hpos : 0 < ‖w‖ := norm_pos_iff.2 hw
+  have hy : ‖(y : EuclideanSpace ℝ (Fin 4))‖ = 1 := mem_sphere_zero_iff_norm.1 y.2
+  rw [Subtype.dist_eq, dist_eq_norm, gcF_coe_of_le h]
+  have e : ‖w‖⁻¹ • w - (y : EuclideanSpace ℝ (Fin 4)) =
+      (‖w‖⁻¹ - 1) • w + (w - (y : EuclideanSpace ℝ (Fin 4))) := by
+    rw [sub_smul, one_smul]; abel
+  rw [e]
+  refine (norm_add_le _ _).trans ?_
+  rw [norm_smul, Real.norm_eq_abs]
+  have h1 : |‖w‖⁻¹ - 1| * ‖w‖ = |1 - ‖w‖| := by
+    rw [← abs_of_pos hpos, ← abs_mul, abs_of_pos hpos, sub_mul, inv_mul_cancel₀ hpos.ne', one_mul]
+  rw [h1]
+  have h2 : |1 - ‖w‖| ≤ ‖w - (y : EuclideanSpace ℝ (Fin 4))‖ := by
+    have := abs_norm_sub_norm_le w (y : EuclideanSpace ℝ (Fin 4))
+    rw [hy] at this; rwa [abs_sub_comm]
+  linarith
+
+theorem isOpen_gcCap (x : Sphere3) (c : ℝ) : IsOpen (gcCap x c) :=
+  isOpen_lt continuous_const (continuous_subtype_val.inner continuous_const)
+
+theorem mem_gcCap_self {x : Sphere3} {c : ℝ} (hc : c < 1) : x ∈ gcCap x c := by
+  show c < _; rw [sphere3_inner_self]; exact hc
+
+theorem gcCap_mono {x : Sphere3} {c c' : ℝ} (h : c ≤ c') : gcCap x c' ⊆ gcCap x c :=
+  fun _ hy => lt_of_le_of_lt h hy
+
+/-- The caps around `x` form a basis of neighbourhoods. -/
+theorem exists_gcCap_subset {x : Sphere3} {W : Set Sphere3} (hW : W ∈ 𝓝 x) (c₀ : ℝ) (hc₀ : c₀ < 1) :
+    ∃ c, c₀ ≤ c ∧ c < 1 ∧ gcCap x c ⊆ W := by
+  obtain ⟨ε, hε, hball⟩ := Metric.mem_nhds_iff.1 hW
+  refine ⟨max c₀ (1 - ε ^ 2 / 4), le_max_left _ _, max_lt hc₀ (by nlinarith), fun y hy => ?_⟩
+  apply hball
+  have hy' : 1 - ε ^ 2 / 4 < inner ℝ (y : EuclideanSpace ℝ (Fin 4)) (x : EuclideanSpace ℝ (Fin 4)) :=
+    lt_of_le_of_lt (le_max_right _ _) hy
+  rw [Metric.mem_ball, Subtype.dist_eq, dist_eq_norm]
+  have hsq : ‖(y : EuclideanSpace ℝ (Fin 4)) - x‖ ^ 2 < ε ^ 2 := by
+    rw [norm_sub_sq_real, mem_sphere_zero_iff_norm.1 y.2, mem_sphere_zero_iff_norm.1 x.2]
+    nlinarith
+  exact lt_of_pow_lt_pow_left₀ 2 hε.le hsq
+
+/-- The convex body over a cap. -/
+def gcBody (x : Sphere3) (c : ℝ) : Set (EuclideanSpace ℝ (Fin 4)) :=
+  {w | ‖w‖ ≤ 1 ∧ c < inner ℝ w (x : EuclideanSpace ℝ (Fin 4))}
+
+theorem convex_gcBody (x : Sphere3) (c : ℝ) : Convex ℝ (gcBody x c) := by
+  have h1 : Convex ℝ {w : EuclideanSpace ℝ (Fin 4) | ‖w‖ ≤ 1} := by
+    simpa [Metric.closedBall, dist_zero_right] using
+      convex_closedBall (0 : EuclideanSpace ℝ (Fin 4)) 1
+  have h2 : Convex ℝ {w : EuclideanSpace ℝ (Fin 4) | c < inner ℝ w (x : EuclideanSpace ℝ (Fin 4))} :=
+    convex_halfSpace_gt
+      ⟨fun a b => inner_add_left a b _, fun r a => real_inner_smul_left a _ r⟩ c
+  exact h1.inter h2
+
+theorem coe_mem_gcBody {x y : Sphere3} {c : ℝ} (hy : y ∈ gcCap x c) :
+    (y : EuclideanSpace ℝ (Fin 4)) ∈ gcBody x c :=
+  ⟨(mem_sphere_zero_iff_norm.1 y.2).le, hy⟩
+
+theorem gcF_mem_gcCap {x : Sphere3} {c : ℝ} (hc : 1 / 2 ≤ c) {w : EuclideanSpace ℝ (Fin 4)}
+    (hw : w ∈ gcBody x c) : gcF x w ∈ gcCap x c := by
+  have h12 : 1 / 2 ≤ inner ℝ w (x : EuclideanSpace ℝ (Fin 4)) := hc.trans hw.2.le
+  have hpos : 0 < ‖w‖ := norm_pos_iff.2 (gc_ne_zero_of_half_le h12)
+  show c < inner ℝ (gcF x w : EuclideanSpace ℝ (Fin 4)) _
+  rw [gcF_coe_of_le h12, real_inner_smul_left]
+  have : inner ℝ w (x : EuclideanSpace ℝ (Fin 4)) ≤
+      ‖w‖⁻¹ * inner ℝ w (x : EuclideanSpace ℝ (Fin 4)) := by
+    have h1 : 1 ≤ ‖w‖⁻¹ := (one_le_inv₀ hpos).2 hw.1
+    nlinarith
+  linarith [hw.2]
+
+theorem gcCap_eq_image {x : Sphere3} {c : ℝ} (hc : 1 / 2 ≤ c) :
+    gcCap x c = gcF x '' gcBody x c := by
+  ext y
+  refine ⟨fun hy => ⟨_, coe_mem_gcBody hy, gcF_sphere (hc.trans hy.le)⟩, ?_⟩
+  rintro ⟨w, hw, rfl⟩
+  exact gcF_mem_gcCap hc hw
+
+theorem isPreconnected_gcCap (x : Sphere3) {c : ℝ} (hc : 1 / 2 ≤ c) :
+    IsPreconnected (gcCap x c) := by
+  rw [gcCap_eq_image hc]
+  exact (convex_gcBody x c).isPreconnected.image _ (continuous_gcF x).continuousOn
+
+/-- Two paths of a cap (`c ≥ 1/2`) with the same ends are homotopic in the cap. -/
+theorem gcCap_homotopicIn {x : Sphere3} {c : ℝ} (hc : 1 / 2 ≤ c) {a b : Sphere3}
+    (ρ₁ ω : Path a b) (hρ₁ : ∀ t, ρ₁ t ∈ gcCap x c) (hω : ∀ t, ω t ∈ gcCap x c) :
+    HomotopicIn (gcCap x c) ρ₁ ω := by
+  have ha0 : a ∈ gcCap x c := by simpa using hρ₁ 0
+  have hb1 : b ∈ gcCap x c := by simpa using hρ₁ 1
+  have ha : gcF x a = a := gcF_sphere (hc.trans ha0.le)
+  have hb : gcF x b = b := gcF_sphere (hc.trans hb1.le)
+  have key := homotopicIn_map_of_convex (U := gcCap x c) (ρ₁.map continuous_subtype_val)
+    (ω.map continuous_subtype_val) (convex_gcBody x c) (fun t => coe_mem_gcBody (hρ₁ t))
+    (fun t => coe_mem_gcBody (hω t)) (continuous_gcF x) fun e he => gcF_mem_gcCap hc he
+  refine (key.cast ha.symm hb.symm).of_eq ?_ ?_
+  · refine Path.ext (funext fun t => ?_)
+    simp only [Path.cast_coe, Path.map_coe, Function.comp_apply]
+    exact gcF_sphere (hc.trans (hρ₁ t).le)
+  · refine Path.ext (funext fun t => ?_)
+    simp only [Path.cast_coe, Path.map_coe, Function.comp_apply]
+    exact gcF_sphere (hc.trans (hω t).le)
+
+/-- `det(u, w)` in `ℝ²`. -/
+def gcDet (u w : ℝ × ℝ) : ℝ := u.1 * w.2 - u.2 * w.1
+
+/-- Three directions: any two nonzero vectors of `ℝ²` are both transverse to one of them. -/
+theorem gc_exists_dir (u v : ℝ × ℝ) {s : ℝ} (hs : 0 < s) :
+    ∃ d : ℝ × ℝ, d ≠ 0 ∧ |d.1| ≤ s ∧ |d.2| ≤ s ∧ (u ≠ 0 → gcDet u d ≠ 0) ∧
+      (v ≠ 0 → gcDet v d ≠ 0) := by
+  have hs' : s ≠ 0 := hs.ne'
+  have habs : |s| = s := abs_of_pos hs
+  by_cases h1 : (u = 0 ∨ u.2 ≠ 0) ∧ (v = 0 ∨ v.2 ≠ 0)
+  · refine ⟨(s, 0), fun h => hs' (congrArg Prod.fst h), by simp [habs], by simp [hs.le], ?_, ?_⟩
+    · intro hu; rcases h1.1 with h | h
+      · exact absurd h hu
+      · simp [gcDet, h, hs']
+    · intro hv; rcases h1.2 with h | h
+      · exact absurd h hv
+      · simp [gcDet, h, hs']
+  by_cases h2 : (u = 0 ∨ u.1 ≠ 0) ∧ (v = 0 ∨ v.1 ≠ 0)
+  · refine ⟨(0, s), fun h => hs' (congrArg Prod.snd h), by simp [hs.le], by simp [habs], ?_, ?_⟩
+    · intro hu; rcases h2.1 with h | h
+      · exact absurd h hu
+      · simp [gcDet, h, hs']
+    · intro hv; rcases h2.2 with h | h
+      · exact absurd h hv
+      · simp [gcDet, h, hs']
+  refine ⟨(s, s), fun h => hs' (congrArg Prod.fst h), by simp [habs], by simp [habs], ?_, ?_⟩
+  · intro hu
+    simp only [gcDet]
+    intro he
+    have he' : u.1 = u.2 := by
+      have : (u.1 - u.2) * s = 0 := by linarith
+      rcases mul_eq_zero.1 this with h | h
+      · linarith
+      · exact absurd h hs'
+    apply hu
+    push Not at h1 h2
+    by_cases hu1 : u.1 = 0
+    · exact Prod.ext hu1 (he' ▸ hu1)
+    · have hv : v ≠ 0 ∧ v.1 = 0 := h2 (Or.inr hu1)
+      have hu2 : u.2 ≠ 0 := he' ▸ hu1
+      have hv2 : v ≠ 0 ∧ v.2 = 0 := h1 (Or.inr hu2)
+      exact absurd (Prod.ext hv.2 hv2.2) hv.1
+  · intro hv
+    simp only [gcDet]
+    intro he
+    have he' : v.1 = v.2 := by
+      have : (v.1 - v.2) * s = 0 := by linarith
+      rcases mul_eq_zero.1 this with h | h
+      · linarith
+      · exact absurd h hs'
+    apply hv
+    push Not at h1 h2
+    by_cases hv1 : v.1 = 0
+    · exact Prod.ext hv1 (he' ▸ hv1)
+    · have hv2 : v.2 ≠ 0 := he' ▸ hv1
+      have hu : ¬ (u = 0 ∨ u.2 ≠ 0) := fun h => hv2 (h1 h).2
+      push Not at hu
+      have hu1 : u.1 ≠ 0 := fun h => hu.1 (Prod.ext h hu.2)
+      exact absurd (h2 (Or.inr hu1)).2 hv1
+
+/-- The core transversality computation: `(1-r) a + r d = 0` with `d ≠ 0` transverse to `a`
+(when `a ≠ 0`) forces `r = 0` and `a = 0`. -/
+theorem gc_seg_avoid {a d : ℝ × ℝ} (hd : d ≠ 0) (had : a ≠ 0 → gcDet a d ≠ 0) {r : ℝ}
+    (h1 : (1 - r) * a.1 + r * d.1 = 0) (h2 : (1 - r) * a.2 + r * d.2 = 0) : r = 0 ∧ a = 0 := by
+  by_cases ha : a = 0
+  · subst ha
+    simp at h1 h2
+    refine ⟨?_, rfl⟩
+    by_contra hr
+    exact hd (Prod.ext (by simpa [hr] using h1) (by simpa [hr] using h2))
+  · have hdet := had ha
+    have : r * gcDet a d = 0 := by
+      simp only [gcDet]; linear_combination a.1 * h2 - a.2 * h1
+    rcases mul_eq_zero.1 this with hr | hr
+    · subst hr
+      exact absurd (Prod.ext (by simpa using h1) (by simpa using h2)) ha
+    · exact absurd hr hdet
+
+/-- A segment of the body over a cap whose only possible points over the great circle are its
+ends maps, by the radial projection, into the cap and off any `C ⊆ greatCircle3` missing the
+images of its ends. -/
+theorem gc_segment_mem {x : Sphere3} {c : ℝ} (hc : 1 / 2 ≤ c) {C : Set Sphere3}
+    (hC : C ⊆ greatCircle3) {u w : EuclideanSpace ℝ (Fin 4)} (hu : u ∈ gcBody x c)
+    (hw : w ∈ gcBody x c) (huC : gcF x u ∉ C) (hwC : gcF x w ∉ C)
+    (H : ∀ r : I, (AffineMap.lineMap u w (r : ℝ) : EuclideanSpace ℝ (Fin 4)) 2 = 0 →
+      (AffineMap.lineMap u w (r : ℝ) : EuclideanSpace ℝ (Fin 4)) 3 = 0 →
+      AffineMap.lineMap u w (r : ℝ) = u ∨ AffineMap.lineMap u w (r : ℝ) = w) (t : I) :
+    gcF x (Path.segment u w t) ∈ gcCap x c ∧ gcF x (Path.segment u w t) ∉ C := by
+  have hmem : Path.segment u w t ∈ gcBody x c :=
+    (convex_gcBody x c).lineMap_mem hu hw t.2
+  refine ⟨gcF_mem_gcCap hc hmem, fun hC' => ?_⟩
+  have h12 : 1 / 2 ≤ inner ℝ (Path.segment u w t) (x : EuclideanSpace ℝ (Fin 4)) :=
+    hc.trans hmem.2.le
+  obtain ⟨e2, e3⟩ := (gcF_mem_iff h12).1 (hC hC')
+  rcases H t e2 e3 with h | h
+  · exact huC (by rw [← h]; exact hC')
+  · exact hwC (by rw [← h]; exact hC')
+
+theorem gc_lineMap_apply (u w : EuclideanSpace ℝ (Fin 4)) (r : ℝ) (i : Fin 4) :
+    (AffineMap.lineMap u w r : EuclideanSpace ℝ (Fin 4)) i = (1 - r) * u i + r * w i := by
+  simp only [AffineMap.lineMap_apply_module, PiLp.add_apply, PiLp.smul_apply, smul_eq_mul]
+
+/-- **Local joining off `C`.** In a cap around a point of the great circle, any two points off a
+subset `C` of the great circle are joined by a path of the cap off `C`: through a midpoint pushed
+off the great circle in a direction transverse to both. -/
+theorem gc_join {x : Sphere3} (hx : x ∈ greatCircle3) {c : ℝ} (hc : 1 / 2 ≤ c) (hc1 : c < 1)
+    {C : Set Sphere3} (hC : C ⊆ greatCircle3) {a b : Sphere3} (ha : a ∈ gcCap x c)
+    (hb : b ∈ gcCap x c) (haC : a ∉ C) (hbC : b ∉ C) :
+    ∃ ω : Path a b, ∀ t, ω t ∈ gcCap x c ∧ ω t ∉ C := by
+  set η : ℝ := (1 - c) / 2 with hη
+  have hη0 : 0 < η := by rw [hη]; linarith
+  have hη1 : η ≤ 1 / 4 := by rw [hη]; linarith
+  obtain ⟨d, hd0, hd1, hd2, hda, hdb⟩ := gc_exists_dir ((a : EuclideanSpace ℝ (Fin 4)) 2,
+    (a : EuclideanSpace ℝ (Fin 4)) 3) ((b : EuclideanSpace ℝ (Fin 4)) 2,
+    (b : EuclideanSpace ℝ (Fin 4)) 3) (show 0 < η / 2 by linarith)
+  set m : EuclideanSpace ℝ (Fin 4) := (1 - η) • (x : EuclideanSpace ℝ (Fin 4)) + gcEmb d with hm
+  have hx2 : (x : EuclideanSpace ℝ (Fin 4)) 2 = 0 := hx.1
+  have hx3 : (x : EuclideanSpace ℝ (Fin 4)) 3 = 0 := hx.2
+  have hm2 : m 2 = d.1 := by simp [hm, hx2]
+  have hm3 : m 3 = d.2 := by simp [hm, hx3]
+  have hmx : inner ℝ m (x : EuclideanSpace ℝ (Fin 4)) = 1 - η := by
+    rw [hm, inner_add_left, real_inner_smul_left, sphere3_inner_self, inner_gcEmb_of_mem hx]; ring
+  have hmB : m ∈ gcBody x c := by
+    refine ⟨?_, by rw [hmx, hη]; linarith⟩
+    have he : ‖gcEmb d‖ ≤ η := (norm_gcEmb_le d).trans (by linarith)
+    have hsq : ‖m‖ ^ 2 ≤ 1 := by
+      rw [hm, norm_add_sq_real, norm_smul, real_inner_smul_left,
+        real_inner_comm, inner_gcEmb_of_mem hx, mem_sphere_zero_iff_norm.1 x.2,
+        Real.norm_eq_abs, abs_of_pos (by linarith : 0 < 1 - η)]
+      have : ‖gcEmb d‖ ^ 2 ≤ η ^ 2 := pow_le_pow_left₀ (norm_nonneg _) he 2
+      nlinarith
+    nlinarith [norm_nonneg m]
+  have hmC : gcF x m ∉ C := fun h => by
+    obtain ⟨e2, e3⟩ := (gcF_mem_iff (hc.trans hmB.2.le)).1 (hC h)
+    exact hd0 (Prod.ext (hm2 ▸ e2) (hm3 ▸ e3))
+  have hFa : gcF x a = a := gcF_sphere (hc.trans ha.le)
+  have hFb : gcF x b = b := gcF_sphere (hc.trans hb.le)
+  have haC' : gcF x a ∉ C := hFa.symm ▸ haC
+  have hbC' : gcF x b ∉ C := hFb.symm ▸ hbC
+  have h1 := gc_segment_mem hc hC (coe_mem_gcBody ha) hmB haC' hmC (fun r e2 e3 => by
+    rw [gc_lineMap_apply, hm2] at e2
+    rw [gc_lineMap_apply, hm3] at e3
+    obtain ⟨hr, -⟩ := gc_seg_avoid hd0 hda e2 e3
+    left; rw [hr]; simp)
+  have h2 := gc_segment_mem hc hC hmB (coe_mem_gcBody hb) hmC hbC' (fun r e2 e3 => by
+    rw [gc_lineMap_apply, hm2] at e2
+    rw [gc_lineMap_apply, hm3] at e3
+    obtain ⟨hr, -⟩ := gc_seg_avoid (r := 1 - r) hd0 hdb (by linarith) (by linarith)
+    right; rw [show (r : ℝ) = 1 by linarith]; simp)
+  refine ⟨(((Path.segment (a : EuclideanSpace ℝ (Fin 4)) m).map (continuous_gcF x)).cast
+    hFa.symm rfl).trans (((Path.segment m (b : EuclideanSpace ℝ (Fin 4))).map
+    (continuous_gcF x)).cast rfl hFb.symm), fun t => ?_⟩
+  rw [Path.trans_apply]
+  split_ifs
+  · exact h1 _
+  · exact h2 _
+
+/-- The straight-line homotopy, pushed by `F`, with a pointwise membership condition. -/
+theorem gc_homotopicIn_map_line {X : Type*} [TopologicalSpace X] {U : Set X}
+    {a b : EuclideanSpace ℝ (Fin 4)} (α β : Path a b) {F : EuclideanSpace ℝ (Fin 4) → X}
+    (hF : Continuous F) (h : ∀ s t : I, F (AffineMap.lineMap (α t) (β t) (s : ℝ)) ∈ U) :
+    HomotopicIn U (α.map hF) (β.map hF) :=
+  ⟨(lineHomotopy α β).map ⟨F, hF⟩, fun w => h w.1 w.2⟩
+
+/-- The hat function `max 0 (1 - |u|)`. -/
+def gcHat (u : ℝ) : ℝ := max 0 (1 - |u|)
+
+theorem continuous_gcHat : Continuous gcHat := by unfold gcHat; fun_prop
+
+/-- On `[i, i+1]` the hat functions interpolate linearly between `v i` and `v (i+1)`. -/
+theorem gc_sum_hat {E : Type*} [AddCommGroup E] [Module ℝ E] (v : ℕ → E) {N i : ℕ} (hi : i < N)
+    {r : ℝ} (hr0 : 0 ≤ r) (hr1 : r ≤ 1) :
+    ∑ j ∈ Finset.range (N + 1), gcHat (i + r - j) • v j = (1 - r) • v i + r • v (i + 1) := by
+  rw [Finset.sum_eq_add_of_mem i (i + 1) (by simp; omega) (by simp; omega) (by omega)]
+  · congr 1
+    · simp [gcHat, abs_of_nonneg hr0, max_eq_right (by linarith : 0 ≤ 1 - r)]
+    · push_cast
+      rw [show (i : ℝ) + r - (i + 1) = r - 1 by ring, gcHat, abs_of_nonpos (by linarith),
+        max_eq_right (by linarith)]
+      congr 1; ring
+  · intro j _ hj
+    have h1 : 1 ≤ |(i : ℝ) + r - j| := by
+      rcases lt_or_gt_of_ne hj.1 with h | h
+      · have : (j : ℝ) + 1 ≤ i := by exact_mod_cast h
+        rw [abs_of_nonneg (by linarith)]; linarith
+      · have : (i : ℝ) + 2 ≤ j := by
+          have : i + 2 ≤ j := by omega
+          exact_mod_cast this
+        rw [abs_of_nonpos (by linarith)]; linarith
+    simp [gcHat, max_eq_left (by linarith : 1 - |(i : ℝ) + r - j| ≤ 0)]
+
+/-- Every `t ∈ [0,1]` is `(i + r)/N` with `i < N`, `0 ≤ r ≤ 1`. -/
+theorem gc_exists_piece {N : ℕ} (hN : 1 ≤ N) (t : I) :
+    ∃ i : ℕ, i < N ∧ ∃ r : ℝ, 0 ≤ r ∧ r ≤ 1 ∧ (N : ℝ) * t = i + r := by
+  have h0 : 0 ≤ (N : ℝ) * t := mul_nonneg (Nat.cast_nonneg _) t.2.1
+  have hle : (N : ℝ) * t ≤ N := by
+    have := t.2.2; nlinarith [(Nat.cast_nonneg N : (0 : ℝ) ≤ N)]
+  set q := ⌊(N : ℝ) * t⌋₊ with hq
+  have hq1 : (q : ℝ) ≤ N * t := Nat.floor_le h0
+  have hq2 : (N : ℝ) * t < q + 1 := Nat.lt_floor_add_one _
+  by_cases hqN : q < N
+  · exact ⟨q, hqN, N * t - q, by linarith, by linarith, by ring⟩
+  · refine ⟨N - 1, by omega, 1, zero_le_one, le_rfl, ?_⟩
+    have : (N : ℝ) ≤ q := by exact_mod_cast (not_lt.1 hqN)
+    rw [Nat.cast_sub hN]; push_cast; linarith
+
+/-- The perturbation step: `κ • u⊥` with `κ` one of two small values, transverse to `u`. -/
+def gcPick (u c : ℝ × ℝ) (s : ℝ) : ℝ × ℝ :=
+  if gcDet u (c + (s / (|u.1| + |u.2| + 1)) • (-u.2, u.1)) ≠ 0 then
+    (s / (|u.1| + |u.2| + 1)) • (-u.2, u.1) else (s / (|u.1| + |u.2| + 1) / 2) • (-u.2, u.1)
+
+theorem gcPick_bound (u c : ℝ × ℝ) {s : ℝ} (hs : 0 ≤ s) :
+    |(gcPick u c s).1| ≤ s ∧ |(gcPick u c s).2| ≤ s := by
+  have hA : 0 < |u.1| + |u.2| + 1 := by positivity
+  set τ := s / (|u.1| + |u.2| + 1) with hτ
+  have hτ0 : 0 ≤ τ := div_nonneg hs hA.le
+  have hτA : τ * (|u.1| + |u.2| + 1) = s := div_mul_cancel₀ s hA.ne'
+  have key : ∀ κ, 0 ≤ κ → κ ≤ τ → |(κ • (-u.2, u.1)).1| ≤ s ∧ |(κ • (-u.2, u.1)).2| ≤ s := by
+    intro κ hκ hκτ
+    simp only [Prod.smul_mk, smul_eq_mul, abs_mul, abs_neg, abs_of_nonneg hκ]
+    constructor <;> nlinarith [abs_nonneg u.1, abs_nonneg u.2]
+  unfold gcPick
+  split_ifs
+  · exact key τ hτ0 le_rfl
+  · exact key (τ / 2) (by positivity) (by linarith)
+
+theorem gcDet_add_smul_perp (u c : ℝ × ℝ) (κ : ℝ) :
+    gcDet u (c + κ • (-u.2, u.1)) = gcDet u c + κ * (u.1 ^ 2 + u.2 ^ 2) := by
+  simp only [gcDet, Prod.fst_add, Prod.snd_add, Prod.smul_mk, smul_eq_mul]; ring
+
+theorem gcPick_det {u : ℝ × ℝ} (hu : u ≠ 0) (c : ℝ × ℝ) {s : ℝ} (hs : 0 < s) :
+    gcDet u (c + gcPick u c s) ≠ 0 := by
+  have hQ : 0 < u.1 ^ 2 + u.2 ^ 2 := by
+    by_contra h
+    push Not at h
+    have h1 : u.1 = 0 := by nlinarith [sq_nonneg u.1, sq_nonneg u.2]
+    have h2 : u.2 = 0 := by nlinarith [sq_nonneg u.1, sq_nonneg u.2]
+    exact hu (Prod.ext h1 h2)
+  have hA : 0 < |u.1| + |u.2| + 1 := by positivity
+  have hτ : 0 < s / (|u.1| + |u.2| + 1) := div_pos hs hA
+  unfold gcPick
+  split_ifs with h
+  · exact h
+  · push Not at h
+    rw [gcDet_add_smul_perp] at h ⊢
+    intro h'
+    nlinarith
+
+/-- The projections of the perturbed vertices, chosen successively transverse. -/
+def gcSeq (c : ℕ → ℝ × ℝ) (s : ℝ) : ℕ → ℝ × ℝ
+  | 0 => (1, 0)
+  | j + 1 => c (j + 1) + gcPick (gcSeq c s j) (c (j + 1)) s
+
+theorem gcDet_zero_right (u : ℝ × ℝ) : gcDet u 0 = 0 := by simp [gcDet]
+
+theorem gcSeq_spec (c : ℕ → ℝ × ℝ) {s : ℝ} (hs : 0 < s) (j : ℕ) :
+    gcSeq c s j ≠ 0 ∧ gcDet (gcSeq c s j) (gcSeq c s (j + 1)) ≠ 0 := by
+  induction j with
+  | zero =>
+    have h0 : gcSeq c s 0 ≠ 0 := fun h => by simpa [gcSeq] using congrArg Prod.fst h
+    exact ⟨h0, gcPick_det h0 _ hs⟩
+  | succ j ih =>
+    have h0 : gcSeq c s (j + 1) ≠ 0 := fun h => ih.2 (by rw [h, gcDet_zero_right])
+    exact ⟨h0, gcPick_det h0 _ hs⟩
+
+/-- **General position, the key lemma of tameness.** If `K` is a closed subset of the great
+circle and `x` a point of the great circle off `K`, every loop at `x` in the cap `⟨·, x⟩ > 3/4`
+off `K` is null-homotopic in `S³ ∖ K`: approximate it by a polygon whose vertices are pushed off
+the great circle successively transversally (`GX.gcSeq`), so that the polygon meets the plane of
+the great circle only at `x`; then cone the polygon off to `x`. -/
+theorem gc_loop_null {K : Set Sphere3} (hK : IsClosed K) (hKΓ : K ⊆ greatCircle3) {x : Sphere3}
+    (hx : x ∈ greatCircle3) (hxK : x ∉ K) (α : Path x x) (hα : ∀ t, α t ∈ gcCap x (3 / 4))
+    (hαK : ∀ t, α t ∉ K) : HomotopicIn Kᶜ α (Path.refl x) := by
+  -- a uniform distance from `K`
+  obtain ⟨d, hd, hdK⟩ : ∃ d > 0, ∀ t k, k ∈ K → d ≤ dist (α t) k := by
+    rcases K.eq_empty_or_nonempty with rfl | hne
+    · exact ⟨1, one_pos, fun _ _ h => h.elim⟩
+    · have hcont : Continuous fun t => Metric.infDist (α t) K :=
+        (Metric.continuous_infDist_pt K).comp α.continuous
+      obtain ⟨t₀, -, ht₀⟩ := isCompact_univ.exists_isMinOn univ_nonempty hcont.continuousOn
+      exact ⟨Metric.infDist (α t₀) K, (hK.notMem_iff_infDist_pos hne).1 (hαK t₀),
+        fun t k hk => (ht₀ (mem_univ t)).trans (Metric.infDist_le_dist_of_mem hk)⟩
+  set ε : ℝ := min d 1 / 8 with hεdef
+  have hε : 0 < ε := by positivity
+  have hεd : 4 * ε < d := by
+    have := min_le_left d 1; rw [hεdef]; linarith
+  have hε1 : ε ≤ 1 / 8 := by
+    have := min_le_right d 1; rw [hεdef]; linarith
+  obtain ⟨δ, hδ, hδα⟩ := Metric.uniformContinuous_iff.1
+    (CompactSpace.uniformContinuous_of_continuous α.continuous) ε hε
+  obtain ⟨M, hM⟩ := exists_nat_gt (1 / δ)
+  set N : ℕ := M + 2 with hNdef
+  have hN2 : 2 ≤ N := by omega
+  have hNpos : (0 : ℝ) < N := by positivity
+  have hNδ : 1 / (N : ℝ) < δ := by
+    rw [div_lt_iff₀ hNpos]
+    have : (M : ℝ) + 2 = N := by rw [hNdef]; push_cast; ring
+    rw [div_lt_iff₀ hδ] at hM
+    nlinarith
+  -- vertices
+  set tN : ℕ → I := fun j => Set.projIcc 0 1 zero_le_one ((j : ℝ) / N) with htN
+  have htN_le : ∀ j, j ≤ N → ((tN j : I) : ℝ) = j / N := fun j hj => by
+    simp only [htN, Set.coe_projIcc]
+    have h1 : (j : ℝ) / N ≤ 1 := by
+      rw [div_le_one hNpos]; exact_mod_cast hj
+    rw [min_eq_right h1, max_eq_right (by positivity)]
+  have htN_ge : ∀ j, N ≤ j → tN j = 1 := fun j hj => by
+    apply Subtype.ext
+    simp only [htN, Set.coe_projIcc]
+    have h1 : 1 ≤ (j : ℝ) / N := by
+      rw [le_div_iff₀ hNpos, one_mul]; exact_mod_cast hj
+    rw [min_eq_left h1, max_eq_right zero_le_one]; rfl
+  have htN0 : tN 0 = 0 := Subtype.ext (by rw [htN_le 0 (by omega)]; simp)
+  set cc : ℕ → ℝ × ℝ := fun j =>
+    ((α (tN j) : EuclideanSpace ℝ (Fin 4)) 2, (α (tN j) : EuclideanSpace ℝ (Fin 4)) 3) with hcc
+  have hs : 0 < ε / 4 := by positivity
+  set u : ℕ → ℝ × ℝ := gcSeq cc (ε / 4) with hu
+  have hu_spec := gcSeq_spec cc hs
+  have hu_succ : ∀ k, u (k + 1) - cc (k + 1) = gcPick (u k) (cc (k + 1)) (ε / 4) := fun k => by
+    simp [hu, gcSeq]
+  set v : ℕ → EuclideanSpace ℝ (Fin 4) := fun j => if j = 0 ∨ N ≤ j then (x : EuclideanSpace ℝ (Fin 4))
+    else (α (tN j) : EuclideanSpace ℝ (Fin 4)) + gcEmb (u j - cc j) with hv
+  have hx2 : (x : EuclideanSpace ℝ (Fin 4)) 2 = 0 := hx.1
+  have hx3 : (x : EuclideanSpace ℝ (Fin 4)) 3 = 0 := hx.2
+  -- vertices are close to the loop
+  have hv_close : ∀ j, ‖v j - (α (tN j) : EuclideanSpace ℝ (Fin 4))‖ ≤ ε / 2 := fun j => by
+    by_cases hj : j = 0 ∨ N ≤ j
+    · have : α (tN j) = x := by
+        rcases hj with rfl | hj
+        · rw [htN0, α.source]
+        · rw [htN_ge j hj, α.target]
+      simp only [hv, if_pos hj, this, sub_self, norm_zero]; positivity
+    · simp only [hv, if_neg hj, add_sub_cancel_left]
+      obtain ⟨k, rfl⟩ : ∃ k, j = k + 1 := ⟨j - 1, by omega⟩
+      rw [hu_succ]
+      obtain ⟨b1, b2⟩ := gcPick_bound (u k) (cc (k + 1)) hs.le
+      exact (norm_gcEmb_le _).trans (by linarith)
+  -- projections of the vertices
+  have hv_proj_end : ∀ j, (j = 0 ∨ N ≤ j) → v j 2 = 0 ∧ v j 3 = 0 := fun j hj => by
+    simp only [hv, if_pos hj]; exact ⟨hx2, hx3⟩
+  have hv_proj_mid : ∀ j, ¬ (j = 0 ∨ N ≤ j) → (v j 2, v j 3) = u j := fun j hj => by
+    simp only [hv, if_neg hj, PiLp.add_apply, gcEmb_two, gcEmb_three, hcc, Prod.fst_sub,
+      Prod.snd_sub]
+    ext <;> simp
+  -- the polygon
+  let P : Path (x : EuclideanSpace ℝ (Fin 4)) (x : EuclideanSpace ℝ (Fin 4)) :=
+    { toFun := fun t => ∑ j ∈ Finset.range (N + 1), gcHat (N * (t : ℝ) - j) • v j
+      continuous_toFun := by
+        refine continuous_finsetSum _ fun j _ => ?_
+        exact (continuous_gcHat.comp ((continuous_const.mul continuous_subtype_val).sub
+          continuous_const)).smul continuous_const
+      source' := by
+        have := gc_sum_hat v (N := N) (i := 0) (by omega) le_rfl zero_le_one
+        simp only [Nat.cast_zero, zero_add] at this
+        simp only [Icc.coe_zero, mul_zero]
+        rw [this]; simp [hv]
+      target' := by
+        have := gc_sum_hat v (N := N) (i := N - 1) (by omega) zero_le_one le_rfl
+        rw [Nat.cast_sub (by omega : 1 ≤ N), Nat.sub_add_cancel (by omega : 1 ≤ N)] at this
+        simp only [Icc.coe_one, mul_one]
+        push_cast at this
+        rw [show (N : ℝ) = N - 1 + 1 by ring]
+        rw [this]; simp [hv] }
+  have hP : ∀ t : I, ∀ i : ℕ, i < N → ∀ r : ℝ, 0 ≤ r → r ≤ 1 → (N : ℝ) * t = i + r →
+      P t = (1 - r) • v i + r • v (i + 1) := by
+    intro t i hi r hr0 hr1 he
+    show ∑ j ∈ Finset.range (N + 1), gcHat (N * (t : ℝ) - j) • v j = _
+    rw [he]; exact gc_sum_hat v hi hr0 hr1
+  -- the polygon is close to the loop
+  have hPclose : ∀ t : I, ‖P t - (α t : EuclideanSpace ℝ (Fin 4))‖ ≤ 2 * ε := by
+    intro t
+    obtain ⟨i, hi, r, hr0, hr1, he⟩ := gc_exists_piece (by omega : 1 ≤ N) t
+    have hvt : ∀ j, (j = i ∨ j = i + 1) →
+        ‖v j - (α t : EuclideanSpace ℝ (Fin 4))‖ ≤ 2 * ε := by
+      intro j hj
+      have hjN : j ≤ N := by omega
+      have hdt : dist (tN j) t < δ := by
+        rw [Subtype.dist_eq, htN_le j hjN, Real.dist_eq]
+        have ht : (t : ℝ) = (i + r) / N := by field_simp; linarith
+        rw [ht, ← sub_div, abs_div, abs_of_pos hNpos, div_lt_iff₀ hNpos]
+        rw [div_lt_iff₀ hNpos] at hNδ
+        rcases hj with rfl | rfl
+        · rw [abs_of_nonpos (by linarith)]; nlinarith
+        · push_cast; rw [abs_of_nonneg (by linarith)]; nlinarith
+      have h1 := hδα hdt
+      rw [Subtype.dist_eq, dist_eq_norm] at h1
+      calc ‖v j - (α t : EuclideanSpace ℝ (Fin 4))‖
+          = ‖(v j - (α (tN j) : EuclideanSpace ℝ (Fin 4))) +
+              ((α (tN j) : EuclideanSpace ℝ (Fin 4)) - α t)‖ := by congr 1; abel
+        _ ≤ ε / 2 + ε := (norm_add_le _ _).trans (add_le_add (hv_close j) h1.le)
+        _ ≤ 2 * ε := by linarith
+    rw [hP t i hi r hr0 hr1 he]
+    have e : (1 - r) • v i + r • v (i + 1) - (α t : EuclideanSpace ℝ (Fin 4)) =
+        (1 - r) • (v i - α t) + r • (v (i + 1) - α t) := by
+      rw [smul_sub, smul_sub, sub_add_sub_comm, ← add_smul]; simp
+    rw [e]
+    refine (norm_add_le _ _).trans ?_
+    rw [norm_smul, norm_smul, Real.norm_eq_abs, Real.norm_eq_abs, abs_of_nonneg (by linarith),
+      abs_of_nonneg hr0]
+    nlinarith [hvt i (Or.inl rfl), hvt (i + 1) (Or.inr rfl)]
+  -- the polygon meets the plane of the great circle only at `x`
+  have hPplane : ∀ t : I, P t 2 = 0 → P t 3 = 0 → P t = x := by
+    intro t h2 h3
+    obtain ⟨i, hi, r, hr0, hr1, he⟩ := gc_exists_piece (by omega : 1 ≤ N) t
+    rw [hP t i hi r hr0 hr1 he] at h2 h3 ⊢
+    simp only [PiLp.add_apply, PiLp.smul_apply, smul_eq_mul] at h2 h3
+    by_cases hi0 : i = 0
+    · subst hi0
+      have hm : ¬ (1 = 0 ∨ N ≤ 1) := by omega
+      have hp := hv_proj_mid 1 hm
+      obtain ⟨e2, e3⟩ := hv_proj_end 0 (Or.inl rfl)
+      rw [e2] at h2; rw [e3] at h3
+      have e2' : v 1 2 = (u 1).1 := congrArg Prod.fst hp
+      have e3' : v 1 3 = (u 1).2 := congrArg Prod.snd hp
+      rw [e2'] at h2; rw [e3'] at h3
+      obtain ⟨hr, -⟩ := gc_seg_avoid (a := 0) (hu_spec 1).1 (fun h => absurd rfl h)
+        (by simpa using h2) (by simpa using h3)
+      rw [hr]; simp [hv]
+    by_cases hiN : i + 1 = N
+    · have hm : ¬ (i = 0 ∨ N ≤ i) := by omega
+      have hp := hv_proj_mid i hm
+      obtain ⟨e2, e3⟩ := hv_proj_end (i + 1) (Or.inr hiN.ge)
+      rw [e2] at h2; rw [e3] at h3
+      have e2' : v i 2 = (u i).1 := congrArg Prod.fst hp
+      have e3' : v i 3 = (u i).2 := congrArg Prod.snd hp
+      rw [e2'] at h2; rw [e3'] at h3
+      obtain ⟨hr, -⟩ := gc_seg_avoid (a := 0) (r := 1 - r) (hu_spec i).1 (fun h => absurd rfl h)
+        (by simp only [Prod.fst_zero, mul_zero, zero_add]; linarith)
+        (by simp only [Prod.snd_zero, mul_zero, zero_add]; linarith)
+      rw [show r = 1 by linarith]; simp [hv, hiN]
+    · have hm : ¬ (i = 0 ∨ N ≤ i) := by omega
+      have hm' : ¬ (i + 1 = 0 ∨ N ≤ i + 1) := by omega
+      have hp := hv_proj_mid i hm
+      have hp' := hv_proj_mid (i + 1) hm'
+      rw [show v i 2 = (u i).1 from congrArg Prod.fst hp,
+        show v (i + 1) 2 = (u (i + 1)).1 from congrArg Prod.fst hp'] at h2
+      rw [show v i 3 = (u i).2 from congrArg Prod.snd hp,
+        show v (i + 1) 3 = (u (i + 1)).2 from congrArg Prod.snd hp'] at h3
+      obtain ⟨-, h0⟩ := gc_seg_avoid (hu_spec (i + 1)).1 (fun _ => (hu_spec i).2) h2 h3
+      exact absurd h0 (hu_spec i).1
+  -- inner products
+  have hαx : ∀ t, 3 / 4 < inner ℝ (α t : EuclideanSpace ℝ (Fin 4)) (x : EuclideanSpace ℝ (Fin 4)) :=
+    fun t => hα t
+  have hinner_le : ∀ w : EuclideanSpace ℝ (Fin 4),
+      |inner ℝ w (x : EuclideanSpace ℝ (Fin 4))| ≤ ‖w‖ := fun w => by
+    have := abs_real_inner_le_norm w (x : EuclideanSpace ℝ (Fin 4))
+    rwa [mem_sphere_zero_iff_norm.1 x.2, mul_one] at this
+  have hPx : ∀ t : I, 1 / 2 ≤ inner ℝ (P t) (x : EuclideanSpace ℝ (Fin 4)) := fun t => by
+    have e : inner ℝ (P t) (x : EuclideanSpace ℝ (Fin 4)) =
+        inner ℝ (α t : EuclideanSpace ℝ (Fin 4)) x +
+          inner ℝ (P t - (α t : EuclideanSpace ℝ (Fin 4))) x := by
+      rw [inner_sub_left]; ring
+    have h1 := hinner_le (P t - (α t : EuclideanSpace ℝ (Fin 4)))
+    rw [abs_le] at h1
+    linarith [hαx t, hPclose t]
+  have hFx : gcF x x = x := gcF_self x
+  -- first homotopy: the loop to the polygon
+  have H1 : HomotopicIn Kᶜ ((α.map continuous_subtype_val).map (continuous_gcF x))
+      (P.map (continuous_gcF x)) := by
+    refine gc_homotopicIn_map_line _ _ (continuous_gcF x) fun s t hK' => ?_
+    set z := AffineMap.lineMap ((α.map continuous_subtype_val) t) (P t) (s : ℝ) with hz
+    have hz' : z = (α t : EuclideanSpace ℝ (Fin 4)) +
+        (s : ℝ) • (P t - (α t : EuclideanSpace ℝ (Fin 4))) := by
+      rw [hz, AffineMap.lineMap_apply_module]
+      simp only [Path.map_coe, Function.comp_apply]
+      rw [smul_sub, sub_smul, one_smul]; abel
+    have hzx : 1 / 2 ≤ inner ℝ z (x : EuclideanSpace ℝ (Fin 4)) := by
+      rw [hz', inner_add_left, real_inner_smul_left]
+      have h1 := hinner_le (P t - (α t : EuclideanSpace ℝ (Fin 4)))
+      rw [abs_le] at h1
+      have hs0 := s.2.1; have hs1 := s.2.2
+      nlinarith [hαx t, hPclose t]
+    have hzα : ‖z - (α t : EuclideanSpace ℝ (Fin 4))‖ ≤ 2 * ε := by
+      rw [hz', add_sub_cancel_left, norm_smul, Real.norm_eq_abs, abs_of_nonneg s.2.1]
+      nlinarith [hPclose t, s.2.2, norm_nonneg (P t - (α t : EuclideanSpace ℝ (Fin 4)))]
+    have := hdK t _ hK'
+    have h2 := gcF_dist_le (y := α t) hzx
+    rw [dist_comm] at this
+    linarith
+  -- second homotopy: the polygon to the constant loop (the cone on `x`)
+  have H2 : HomotopicIn Kᶜ (P.map (continuous_gcF x))
+      ((Path.refl (x : EuclideanSpace ℝ (Fin 4))).map (continuous_gcF x)) := by
+    refine gc_homotopicIn_map_line _ _ (continuous_gcF x) fun s t hK' => ?_
+    set z := AffineMap.lineMap (P t) ((Path.refl (x : EuclideanSpace ℝ (Fin 4))) t) (s : ℝ)
+      with hz
+    have hz2 : ∀ i : Fin 4, z i = (1 - s) * P t i + s * (x : EuclideanSpace ℝ (Fin 4)) i :=
+      fun i => by rw [hz, gc_lineMap_apply]; rfl
+    have hzx : 1 / 2 ≤ inner ℝ z (x : EuclideanSpace ℝ (Fin 4)) := by
+      rw [hz, AffineMap.lineMap_apply_module, inner_add_left, real_inner_smul_left,
+        real_inner_smul_left, Path.refl_apply, sphere3_inner_self]
+      have := hPx t; have hs0 := s.2.1; have hs1 := s.2.2
+      nlinarith
+    obtain ⟨e2, e3⟩ := (gcF_mem_iff hzx).1 (hKΓ hK')
+    rw [hz2, hx2] at e2; rw [hz2, hx3] at e3
+    simp only [mul_zero, add_zero] at e2 e3
+    have hzx' : z = x := by
+      by_cases hs1 : (s : ℝ) = 1
+      · rw [hz, hs1, AffineMap.lineMap_apply_one]; rfl
+      · have hs' : (1 - (s : ℝ)) ≠ 0 := sub_ne_zero.2 (Ne.symm hs1)
+        have h2 : P t 2 = 0 := (mul_eq_zero.1 e2).resolve_left hs'
+        have h3 : P t 3 = 0 := (mul_eq_zero.1 e3).resolve_left hs'
+        rw [hz, hPplane t h2 h3, Path.refl_apply, AffineMap.lineMap_same_apply]
+    rw [hzx', hFx] at hK'
+    exact hxK hK'
+  have H := H1.trans H2
+  refine (H.cast hFx.symm hFx.symm).of_eq ?_ ?_
+  · refine Path.ext (funext fun t => ?_)
+    simp only [Path.cast_coe, Path.map_coe, Function.comp_apply]
+    exact gcF_sphere (by linarith [hαx t])
+  · refine Path.ext (funext fun t => ?_)
+    simp only [Path.cast_coe, Path.map_coe, Function.comp_apply, Path.refl_apply]
+    exact hFx
+
+/-- A Cantor subset of the great circle misses points of the great circle arbitrarily close to
+any point of it. -/
+theorem gc_exists_off {C : Set Sphere3} (hC : IsCantorSubset C) {x : Sphere3}
+    (hx : x ∈ greatCircle3) {c : ℝ} (hc : c < 1) :
+    ∃ p ∈ greatCircle3, p ∈ gcCap x c ∧ p ∉ C := by
+  by_cases hxC : x ∉ C
+  · exact ⟨x, hx, mem_gcCap_self hc, hxC⟩
+  push Not at hxC
+  obtain ⟨e⟩ := hC
+  haveI : TotallyDisconnectedSpace C :=
+    (e.trans cantorSetHomeomorphNatToBool).symm.totallyDisconnectedSpace
+  have htd : IsTotallyDisconnected C := totallyDisconnectedSpace_subtype_iff.1 this
+  set x₀ : EuclideanSpace ℝ (Fin 4) := (x : EuclideanSpace ℝ (Fin 4)) with hx₀def
+  have hx₀x₀ : inner ℝ x₀ x₀ = 1 := sphere3_inner_self x
+  set u := sphere3Perp x₀
+  have hxu : inner ℝ x₀ u = 0 := inner_sphere3Perp_self x₀
+  have huu : inner ℝ u u = 1 := by rw [inner_sphere3Perp_sphere3Perp, hx₀x₀]
+  have hx2' : x₀ 2 = 0 := hx.1
+  have hx3' : x₀ 3 = 0 := hx.2
+  have hu2 : u 2 = 0 := by simp [u, sphere3Perp, hx3']
+  have hu3 : u 3 = 0 := by simp [u, sphere3Perp, hx2']
+  set f : ℝ → EuclideanSpace ℝ (Fin 4) := fun θ => Real.cos θ • x₀ + Real.sin θ • u with hfdef
+  have hfu : ∀ θ, inner ℝ (f θ) u = Real.sin θ := fun θ => by
+    simp only [hfdef, inner_add_left, real_inner_smul_left, hxu, huu]; ring
+  have hfx : ∀ θ, inner ℝ (f θ) x₀ = Real.cos θ := fun θ => by
+    simp only [hfdef, inner_add_left, real_inner_smul_left, hx₀x₀, real_inner_comm x₀ u, hxu]
+    ring
+  have hff : ∀ θ, inner ℝ (f θ) (f θ) = 1 := fun θ => by
+    simp only [hfdef, inner_add_left, inner_add_right, real_inner_smul_left,
+      real_inner_smul_right, hxu, huu, hx₀x₀, real_inner_comm x₀ u]
+    nlinarith [Real.sin_sq_add_cos_sq θ]
+  have hfn : ∀ θ, ‖f θ‖ = 1 := fun θ => by
+    have h := hff θ
+    rw [real_inner_self_eq_norm_sq] at h
+    have h0 := norm_nonneg (f θ)
+    nlinarith
+  let g : ℝ → Sphere3 := fun θ => ⟨f θ, mem_sphere_zero_iff_norm.2 (hfn θ)⟩
+  have hg : Continuous g := Continuous.subtype_mk
+    ((Real.continuous_cos.smul continuous_const).add (Real.continuous_sin.smul continuous_const)) _
+  have hg0 : g 0 = x := Subtype.ext (by
+    change Real.cos 0 • x₀ + Real.sin 0 • u = x₀
+    simp)
+  have hgΓ : ∀ θ, g θ ∈ greatCircle3 := fun θ => by
+    refine ⟨?_, ?_⟩ <;> simp [g, hfdef, hu2, hu3, hx.1, hx.2, x₀]
+  obtain ⟨r, hr, hrsub⟩ := Metric.mem_nhds_iff.1
+    (hg.continuousAt.preimage_mem_nhds (hg0 ▸ (isOpen_gcCap x c).mem_nhds (mem_gcCap_self hc) :
+      gcCap x c ∈ 𝓝 (g 0)))
+  set s : ℝ := min (r / 2) 1 with hsdef
+  have hs0 : 0 < s := lt_min (by linarith) one_pos
+  have hsr : s < r := lt_of_le_of_lt (min_le_left _ _) (by linarith)
+  have hcap : ∀ θ ∈ Icc 0 s, g θ ∈ gcCap x c := fun θ hθ => hrsub (by
+    rw [Metric.mem_ball, Real.dist_eq, sub_zero, abs_lt]
+    constructor <;> linarith [hθ.1, hθ.2])
+  by_contra hne
+  push Not at hne
+  have hsub : g '' Icc 0 s ⊆ C := by
+    rintro _ ⟨θ, hθ, rfl⟩
+    exact hne _ (hgΓ θ) (hcap θ hθ)
+  have hss := htd _ hsub (isPreconnected_Icc.image _ hg.continuousOn)
+  have heq : g s = g 0 := hss ⟨s, ⟨hs0.le, le_rfl⟩, rfl⟩ ⟨0, ⟨le_rfl, hs0.le⟩, rfl⟩
+  have h1 : inner ℝ (f s) u = inner ℝ (f 0) u := by
+    have := congrArg (fun y : Sphere3 => inner ℝ (y : EuclideanSpace ℝ (Fin 4)) u) heq
+    exact this
+  rw [hfu, hfu, Real.sin_zero] at h1
+  have : 0 < Real.sin s := Real.sin_pos_of_pos_of_lt_pi hs0
+    (lt_of_le_of_lt (min_le_right _ _) (by linarith [Real.pi_gt_three]))
+  linarith
+
+/-- A small cap around `x` lies in the cap `⟨·, p⟩ > 3/4` around any of its points `p`. -/
+theorem gcCap_subset_of_mem {x p : Sphere3} (hp : p ∈ gcCap x (999 / 1000)) :
+    gcCap x (999 / 1000) ⊆ gcCap p (3 / 4) := by
+  intro y hy
+  have hsq : ‖(p : EuclideanSpace ℝ (Fin 4)) - x‖ ^ 2 < (1 / 10) ^ 2 := by
+    rw [norm_sub_sq_real, mem_sphere_zero_iff_norm.1 p.2, mem_sphere_zero_iff_norm.1 x.2]
+    have : (999 / 1000 : ℝ) < inner ℝ (p : EuclideanSpace ℝ (Fin 4)) (x : EuclideanSpace ℝ (Fin 4)) := hp
+    nlinarith
+  have hn : ‖(p : EuclideanSpace ℝ (Fin 4)) - x‖ < 1 / 10 :=
+    lt_of_pow_lt_pow_left₀ 2 (by norm_num) hsq
+  have h1 := abs_real_inner_le_norm (y : EuclideanSpace ℝ (Fin 4)) ((p : EuclideanSpace ℝ (Fin 4)) - x)
+  rw [mem_sphere_zero_iff_norm.1 y.2, one_mul, abs_le] at h1
+  change (3 / 4 : ℝ) < inner ℝ (y : EuclideanSpace ℝ (Fin 4)) (p : EuclideanSpace ℝ (Fin 4))
+  have e : inner ℝ (y : EuclideanSpace ℝ (Fin 4)) (p : EuclideanSpace ℝ (Fin 4)) =
+      inner ℝ (y : EuclideanSpace ℝ (Fin 4)) (x : EuclideanSpace ℝ (Fin 4)) +
+        inner ℝ (y : EuclideanSpace ℝ (Fin 4)) ((p : EuclideanSpace ℝ (Fin 4)) - x) := by
+    rw [inner_sub_right]; ring
+  have hy' : (999 / 1000 : ℝ) < inner ℝ (y : EuclideanSpace ℝ (Fin 4)) (x : EuclideanSpace ℝ (Fin 4)) := hy
+  linarith
+
+theorem gc_homotopicIn_of_trans_symm {X : Type*} [TopologicalSpace X] {U : Set X} {a b : X}
+    {ρ₁ ρ₂ : Path a b} (h₁ : ∀ t, ρ₁ t ∈ U) (h₂ : ∀ t, ρ₂ t ∈ U)
+    (h : HomotopicIn U (ρ₁.trans ρ₂.symm) (Path.refl a)) : HomotopicIn U ρ₁ ρ₂ := by
+  have ha : a ∈ U := ρ₁.source ▸ h₁ 0
+  have hRa : ∀ t, (Path.refl a) t ∈ U := fun _ => ha
+  rw [homotopicIn_iff_mk (path_trans_mem h₁ (path_symm_mem h₂)) hRa,
+    pathToSub_trans _ _ h₁ (path_symm_mem h₂), pathToSub_symm _ h₂,
+    Path.Homotopic.Quotient.mk_trans, Path.Homotopic.Quotient.mk_symm] at h
+  have e1 : pathToSub (Path.refl a) hRa = Path.refl (⟨a, ha⟩ : U) := by ext; rfl
+  rw [e1, Path.Homotopic.Quotient.mk_refl] at h
+  rw [homotopicIn_iff_mk h₁ h₂]
+  have h2 := congrArg (fun q => Path.Homotopic.Quotient.trans q
+    (Path.Homotopic.Quotient.mk (pathToSub ρ₂ h₂))) h
+  simp only [Path.Homotopic.Quotient.trans_assoc, Path.Homotopic.Quotient.symm_trans,
+    Path.Homotopic.Quotient.trans_refl, Path.Homotopic.Quotient.refl_trans] at h2
+  exact h2
+
+/-- **Paths in a small cap around a point of the great circle, off a Cantor subset `C` of it, are
+homotopic in `S³ ∖ C`** (conjugate to a loop at a point of the great circle off `C`, then
+`GX.gc_loop_null`). -/
+theorem gc_paths_homotopicIn {C : Set Sphere3} (hC : IsCantorSubset C) (hCΓ : C ⊆ greatCircle3)
+    {x : Sphere3} (hx : x ∈ greatCircle3) {a b : Sphere3} (ρ₁ ρ₂ : Path a b)
+    (h₁ : ∀ t, ρ₁ t ∈ gcCap x (999 / 1000) ∧ ρ₁ t ∉ C)
+    (h₂ : ∀ t, ρ₂ t ∈ gcCap x (999 / 1000) ∧ ρ₂ t ∉ C) : HomotopicIn Cᶜ ρ₁ ρ₂ := by
+  obtain ⟨p, hpΓ, hpV, hpC⟩ := gc_exists_off hC hx (show (999 / 1000 : ℝ) < 1 by norm_num)
+  have ha : a ∈ gcCap x (999 / 1000) ∧ a ∉ C := by simpa using h₁ 0
+  obtain ⟨δ, hδ⟩ := gc_join hx (by norm_num) (by norm_num) hCΓ hpV ha.1 hpC ha.2
+  set S : Set Sphere3 := gcCap x (999 / 1000) ∩ Cᶜ
+  have hδS : ∀ t, δ t ∈ S := fun t => hδ t
+  have h₁S : ∀ t, ρ₁ t ∈ S := fun t => h₁ t
+  have h₂S : ∀ t, ρ₂ t ∈ S := fun t => h₂ t
+  have hM : ∀ t, (ρ₁.trans ρ₂.symm) t ∈ S := path_trans_mem h₁S (path_symm_mem h₂S)
+  have hL : ∀ t, ((δ.trans (ρ₁.trans ρ₂.symm)).trans δ.symm) t ∈ S :=
+    path_trans_mem (path_trans_mem hδS hM) (path_symm_mem hδS)
+  have hnull := gc_loop_null (IsCantorSubset.isClosed hC) hCΓ hpΓ hpC
+    ((δ.trans (ρ₁.trans ρ₂.symm)).trans δ.symm) (fun t => gcCap_subset_of_mem hpV (hL t).1)
+    (fun t => (hL t).2)
+  have hδC : ∀ t, δ t ∈ Cᶜ := fun t => (hδ t).2
+  have hMC : ∀ t, (ρ₁.trans ρ₂.symm) t ∈ Cᶜ := fun t => (hM t).2
+  exact gc_homotopicIn_of_trans_symm (fun t => (h₁ t).2) (fun t => (h₂ t).2)
+    (antoine_homotopicIn_conj hδC hMC hnull)
+
+/-- **Tame Cantor sets.** The complement of a Cantor subset of a great circle of `S³` is
+semi-locally simply connected in `S³`. -/
+theorem tameCantorSLSC : TameCantorSLSC := by
+  intro C hCΓ hC
+  have hCc : IsClosed C := IsCantorSubset.isClosed hC
+  refine ⟨dense_compl_of_isCantorSubset hC, fun x => ?_⟩
+  by_cases hxC : x ∈ C
+  · have hx : x ∈ greatCircle3 := hCΓ hxC
+    refine ⟨gcCap x (999 / 1000), isOpen_gcCap x _, isPreconnected_gcCap x (by norm_num),
+      mem_gcCap_self (by norm_num), fun γ hγ => ?_⟩
+    have hγU : MemOmega Cᶜ γ := fun t h0 h1 => (hγ t h0 h1).2
+    refine ⟨hγU, fun W hW => ?_⟩
+    obtain ⟨c, hc0, hc1, hcW⟩ := exists_gcCap_subset hW (999 / 1000) (by norm_num)
+    have hW' : gcCap x c ∈ 𝓝 x := (isOpen_gcCap x c).mem_nhds (mem_gcCap_self hc1)
+    obtain ⟨t₀, h00, h0c, hhead⟩ := exists_head_mem γ hW' (c := 1 / 2) (by norm_num)
+    obtain ⟨t₁, h1c, h11, htail⟩ := exists_tail_mem γ hW' (c := 1 / 2) (by norm_num)
+    have h01 : (t₀ : ℝ) < t₁ := by linarith
+    have ha : γ t₀ ∈ gcCap x c := hhead t₀ le_rfl
+    have hb : γ t₁ ∈ gcCap x c := htail t₁ le_rfl
+    have haC : γ t₀ ∉ C := hγU t₀ h00 (by linarith)
+    have hbC : γ t₁ ∉ C := hγU t₁ (by linarith) h11
+    obtain ⟨ω, hω⟩ := gc_join hx (by linarith) hc1 hCΓ ha hb haC hbC
+    have hsub : ∀ t, subpath γ t₀ t₁ t ∈ gcCap x (999 / 1000) ∧ subpath γ t₀ t₁ t ∉ C :=
+      fun t => by
+        obtain ⟨s, hs1, hs2, hs⟩ := subpath_mem γ t₀ t₁ t
+        rw [min_eq_left h01.le] at hs1
+        rw [max_eq_right h01.le] at hs2
+        rw [hs]
+        exact hγ s (by linarith) (by linarith)
+    have hωV : ∀ t, ω t ∈ gcCap x (999 / 1000) ∧ ω t ∉ C :=
+      fun t => ⟨gcCap_mono hc0 (hω t).1, (hω t).2⟩
+    refine ⟨splice γ t₀ t₁ h01 ω, fun t ht0 ht1 => ?_, splice_omegaHomotopic hγU h01 h11
+      (gc_paths_homotopicIn hC hCΓ hx _ _ hsub hωV)⟩
+    rcases splice_mem γ h01 ω t with ⟨hle, he⟩ | ⟨hge, he⟩ | ⟨s, hs⟩
+    · rw [he]; exact ⟨hcW (hhead t hle), hγU t ht0 ht1⟩
+    · rw [he]; exact ⟨hcW (htail t hge), hγU t ht0 ht1⟩
+    · rw [← hs]; exact ⟨hcW (hω s).1, (hω s).2⟩
+  · obtain ⟨c, hc0, hc1, hcW⟩ := exists_gcCap_subset (hCc.isOpen_compl.mem_nhds hxC) (1 / 2)
+      (by norm_num)
+    refine ⟨gcCap x c, isOpen_gcCap x _, isPreconnected_gcCap x hc0, mem_gcCap_self hc1,
+      fun γ hγ => ?_⟩
+    have hγV : ∀ t, γ t ∈ gcCap x c := fun t => by
+      rcases eq_or_lt_of_le t.2.1 with h0 | h0
+      · rw [show t = 0 from Subtype.ext h0.symm, γ.source]; exact mem_gcCap_self hc1
+      rcases eq_or_lt_of_le t.2.2 with h1 | h1
+      · rw [show t = 1 from Subtype.ext h1, γ.target]; exact mem_gcCap_self hc1
+      exact (hγ t h0 h1).1
+    refine ⟨fun t h0 h1 => (hγ t h0 h1).2, fun W hW => ⟨Path.refl x,
+      fun _ _ _ => ⟨mem_of_mem_nhds hW, hxC⟩, ?_⟩⟩
+    exact ((gcCap_homotopicIn hc0 γ (Path.refl x) hγV fun _ => mem_gcCap_self hc1).mono
+      hcW).omegaHomotopic
+
+/-- Wildness of the necklace from a tame-Cantor fact: it follows from the
 non-semi-local-simple-connectedness of its complement, the homeomorphism invariance
-`GX.IsSLSCIn.map_homeomorph`, and the tame-Cantor fact `GX.TameCantorSLSC` (a hypothesis here). -/
+`GX.IsSLSCIn.map_homeomorph`, and `GX.TameCantorSLSC` (an argument here; it is proved,
+`GX.tameCantorSLSC`, and discharged in `GX.isWildCantor_antoineNecklace_of_res`). -/
 theorem isWildCantor_antoineNecklace_of (hres : AntoineMeridianEssential)
     (htame : TameCantorSLSC) : IsWildCantor antoineNecklace := by
   refine ⟨antoineNecklace_isCantorSubset, fun ⟨h, hsub⟩ => antoineNecklace_not_isSLSCIn_of hres ?_⟩
@@ -4045,11 +5596,72 @@ theorem isWildCantor_antoineNecklace_of (hres : AntoineMeridianEssential)
   have := (htame _ hsub hC).map_homeomorph h.symm
   rwa [← image_compl_eq h.bijective, ← image_comp, h.symm_comp_self, image_id] at this
 
-/-- The existential corollary: under the tame-Cantor fact, some wild Cantor set of `S³`
-(Antoine's necklace) has a complement that is not semi-locally simply connected. -/
-theorem exists_wild_cantor_not_isSLSCIn (htame : TameCantorSLSC) :
+/-- **Antoine's necklace is WILD** (DEC-82), FROM THE RESIDUAL ALONE (sorry-free): no
+homeomorphism of `S³` carries it into a great circle, because the complement of a Cantor subset
+of a great circle is semi-locally simply connected (`GX.tameCantorSLSC`, proved) while the
+necklace's is not (`GX.antoineNecklace_not_isSLSCIn_of`). -/
+theorem isWildCantor_antoineNecklace_of_res (hres : AntoineMeridianEssential) :
+    IsWildCantor antoineNecklace :=
+  isWildCantor_antoineNecklace_of hres tameCantorSLSC
+
+/-- Antoine's necklace is wild; rests on the residual `GX.antoineMeridianEssentialTop` only. -/
+theorem isWildCantor_antoineNecklace : IsWildCantor antoineNecklace :=
+  isWildCantor_antoineNecklace_of_res antoineMeridianEssential
+
+/-- The point `(cos t, sin t, 0, 0)` of the great circle `GX.greatCircle3`. -/
+def standardCirclePt (t : ℝ) : Sphere3 :=
+  ⟨!₂[Real.cos t, Real.sin t, 0, 0], by
+    rw [mem_sphere_zero_iff_norm, EuclideanSpace.norm_eq, Real.sqrt_eq_one, Fin.sum_univ_four]
+    simp [Real.cos_sq_add_sin_sq]⟩
+
+theorem continuous_standardCirclePt : Continuous standardCirclePt := by
+  refine Continuous.subtype_mk ((PiLp.continuous_toLp 2 _).comp (continuous_pi fun i => ?_)) _
+  fin_cases i <;> simp <;> fun_prop
+
+/-- **The standard (tame) Cantor set of `S³`**: the middle-third Cantor set of `[0, 1]`, wrapped
+on the great circle by `t ↦ (cos t, sin t, 0, 0)`. -/
+def standardCantor3 : Set Sphere3 := standardCirclePt '' cantorSet
+
+theorem standardCantor3_subset : standardCantor3 ⊆ greatCircle3 := by
+  rintro _ ⟨t, -, rfl⟩
+  exact ⟨by simp [standardCirclePt], by simp [standardCirclePt]⟩
+
+theorem standardCirclePt_injOn : InjOn standardCirclePt cantorSet := by
+  intro a ha b hb h
+  have h0 := congrArg (fun y : Sphere3 => (y : EuclideanSpace ℝ (Fin 4)) 0) h
+  simp only [standardCirclePt] at h0
+  simp at h0
+  have hI : ∀ x ∈ cantorSet, x ∈ Icc 0 Real.pi := fun x hx =>
+    ⟨(cantorSet_subset_unitInterval hx).1,
+      (cantorSet_subset_unitInterval hx).2.trans (by linarith [Real.pi_gt_three])⟩
+  exact Real.injOn_cos (hI a ha) (hI b hb) h0
+
+theorem standardCantor3_isCantorSubset : IsCantorSubset standardCantor3 := by
+  haveI : CompactSpace cantorSet := isCompact_iff_compactSpace.1 isCompact_cantorSet
+  exact ⟨(Continuous.homeoOfEquivCompactToT2
+    (f := Equiv.Set.imageOfInjOn standardCirclePt cantorSet standardCirclePt_injOn)
+    ((continuous_standardCirclePt.comp continuous_subtype_val).subtype_mk _)).symm⟩
+
+/-- **Antoine's necklace is not tame in the classical sense** (from the residual alone,
+sorry-free): no homeomorphism of `S³` carries it onto the standard Cantor set. (Classically tame
+means ambiently homeomorphic to `GX.standardCantor3`; `GX.IsWildCantor` is the stronger
+"carried INTO no great circle".) -/
+theorem antoineNecklace_not_tame_of (hres : AntoineMeridianEssential) :
+    ¬ ∃ h : Sphere3 ≃ₜ Sphere3, h '' antoineNecklace = standardCantor3 := by
+  rintro ⟨h, e⟩
+  exact (isWildCantor_antoineNecklace_of_res hres).2 ⟨h, e ▸ standardCantor3_subset⟩
+
+/-- Antoine's necklace is not tame; rests on the residual `GX.antoineMeridianEssentialTop`
+only. -/
+theorem antoineNecklace_not_tame :
+    ¬ ∃ h : Sphere3 ≃ₜ Sphere3, h '' antoineNecklace = standardCantor3 :=
+  antoineNecklace_not_tame_of antoineMeridianEssential
+
+/-- The existential corollary: some wild Cantor set of `S³` (Antoine's necklace) has a
+complement that is not semi-locally simply connected. -/
+theorem exists_wild_cantor_not_isSLSCIn :
     ∃ C : Set Sphere3, IsWildCantor C ∧ ¬ IsSLSCIn Cᶜ :=
-  ⟨_, isWildCantor_antoineNecklace_of antoineMeridianEssential htame, antoineNecklace_not_isSLSCIn⟩
+  ⟨_, isWildCantor_antoineNecklace, antoineNecklace_not_isSLSCIn⟩
 
 /-- `S³ = sphere(0,1) ⊆ ℝ⁴` has dimension `3 + 1` as an ambient space. -/
 theorem sphere3_finrank_fact : Fact (Module.finrank ℝ (EuclideanSpace ℝ (Fin 4)) = 3 + 1) :=
@@ -4074,13 +5686,6 @@ theorem sphere3_semilocallySimplyConnected_compl {C : Set Sphere3} (hC : IsClose
   have e2 : pathToSub (Path.refl (y : Sphere3)) h2 = Path.refl y := by ext; rfl
   rwa [e1, e2] at hom
 
-/-- A Cantor subset of `S³` is closed. -/
-theorem IsCantorSubset.isClosed {C : Set Sphere3} (hC : IsCantorSubset C) : IsClosed C := by
-  obtain ⟨e⟩ := hC
-  haveI : CompactSpace cantorSet := isCompact_iff_compactSpace.1 isCompact_cantorSet
-  haveI := e.symm.compactSpace
-  exact (isCompact_iff_compactSpace.2 this).isClosed
-
 /-- For a closed `C ⊆ S³`, the literal (DEC-55) and homotopy forms of semi-local simple
 connectedness of `S³ ∖ C` in `S³` agree. -/
 theorem sphere3_isSLSCInCC_compl_iff {C : Set Sphere3} (hC : IsClosed C) :
@@ -4096,21 +5701,33 @@ theorem antoineNecklace_not_isSLSCInCC_of (hres : AntoineMeridianEssential) :
   ((sphere3_isSLSCInCC_compl_iff antoineNecklace_isCantorSubset.isClosed).1 hcc)
 
 /-- `ex:wild_cantor_general_antoine`, literal reading; rests on the residual
-`GX.antoineMeridianEssential` only. -/
+`GX.antoineMeridianEssentialTop` only. -/
 theorem antoineNecklace_not_isSLSCInCC : ¬ IsSLSCInCC antoineNecklaceᶜ :=
   antoineNecklace_not_isSLSCInCC_of antoineMeridianEssential
 
-/-- With the wildness (under the tame-Cantor fact `GX.TameCantorSLSC`): Antoine's necklace is a
-wild Cantor set of `S³` whose complement is not semi-locally simply connected (literal
-reading). -/
-theorem antoineNecklace_wild_not_isSLSCInCC (htame : TameCantorSLSC) :
+/-- **`ex:wild_cantor_general_antoine`** with the wildness, FROM THE RESIDUAL ALONE
+(sorry-free): Antoine's necklace is a wild Cantor set of `S³` whose complement is not
+semi-locally simply connected (literal reading). -/
+theorem antoineNecklace_wild_not_isSLSCInCC_of (hres : AntoineMeridianEssential) :
     IsWildCantor antoineNecklace ∧ ¬ IsSLSCInCC antoineNecklaceᶜ :=
-  ⟨isWildCantor_antoineNecklace_of antoineMeridianEssential htame, antoineNecklace_not_isSLSCInCC⟩
+  ⟨isWildCantor_antoineNecklace_of_res hres, antoineNecklace_not_isSLSCInCC_of hres⟩
+
+/-- **`ex:wild_cantor_general_antoine`** with the wildness, from Antoine's lemma for the top link
+`GX.AntoineMeridianEssentialTop` alone (sorry-free). -/
+theorem antoineNecklace_wild_not_isSLSCInCC_of_top (h : AntoineMeridianEssentialTop) :
+    IsWildCantor antoineNecklace ∧ ¬ IsSLSCInCC antoineNecklaceᶜ :=
+  antoineNecklace_wild_not_isSLSCInCC_of (antoineMeridianEssential_of_top h)
+
+/-- Antoine's necklace is a wild Cantor set of `S³` whose complement is not semi-locally simply
+connected (literal reading); rests on the residual `GX.antoineMeridianEssentialTop` only. -/
+theorem antoineNecklace_wild_not_isSLSCInCC :
+    IsWildCantor antoineNecklace ∧ ¬ IsSLSCInCC antoineNecklaceᶜ :=
+  antoineNecklace_wild_not_isSLSCInCC_of antoineMeridianEssential
 
 /-- The existential corollary of `GX.antoineNecklace_wild_not_isSLSCInCC` (literal reading). -/
-theorem exists_wild_cantor_not_isSLSCInCC (htame : TameCantorSLSC) :
+theorem exists_wild_cantor_not_isSLSCInCC :
     ∃ C : Set Sphere3, IsWildCantor C ∧ ¬ IsSLSCInCC Cᶜ :=
-  ⟨_, antoineNecklace_wild_not_isSLSCInCC htame⟩
+  ⟨_, antoineNecklace_wild_not_isSLSCInCC⟩
 
 end WildCantor
 

@@ -1,0 +1,54 @@
+{
+ "package": "WP-40e",
+ "round": 1,
+ "auditor": "read-only auditor",
+ "file": "scaffold/GXScaffold/Branched/GaloisExamples.lean",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count": 1,
+ "build_check": "taskset -c 0-11 lake env lean on the file: exit 0, 51 s wall, a single warning 'declaration uses sorry' at l.4647 (GX.antoineMeridianEssentialTop). The olean (10:25:58) is newer than the source (10:25:06), and the file is byte-identical to campaign/WP-40e/scratch/GaloisExamples.final.lean.",
+ "axioms": "#print axioms via lake env lean --stdin: GX.tameCantorSLSC, GX.antoineMeridianEssential_self, GX.antoineMeridianEssentialStrict_of_top, GX.isWildCantor_antoineNecklace_of_res, GX.antoineNecklace_wild_not_isSLSCInCC_of_top, GX.antoineNecklace_not_tame_of, GX.antoineNecklace_isCantorSubset, GX.following_situations_semi_locally_simply and GX.absolute_galois_corrected use only [propext, Classical.choice, Quot.sound]. GX.isWildCantor_antoineNecklace (unconditional) uses sorryAx.",
+ "labels": [
+  {
+   "label": "ex:following_situations_semi_locally_simply",
+   "report_status": "closed",
+   "audit": "agree (unchanged from WP-35h; sorry-free, marked under DEC-68 (c)(d))"
+  },
+  {
+   "label": "ex:consider_denote_absolute_galois",
+   "report_status": "closed",
+   "audit": "agree (unchanged; sorry-free, marked under DEC-69)"
+  },
+  {
+   "label": "ex:wild_cantor_general_antoine",
+   "report_status": "stated",
+   "audit": "agree: stated, unmarked. The conclusion and the wildness both rest on the one tagged sorry, GX.antoineMeridianEssentialTop. Everything around it is sorry-free: the tame side, the reduction to the top link and the k = 0 case."
+  }
+ ],
+ "checks": {
+  "statement_fidelity": "Under DEC-58/DEC-68 (f), S is one explicit necklace. The conclusion uses the literal DEC-55 form (IsSLSCInCC; the two readings coincide for closed C, GX.sphere3_isSLSCInCC_compl_iff). GX.IsWildCantor (Cantor, and no homeomorphism of S^3 carries it INTO a great circle) is at least as strong as classical wildness, and the classical form is derived (GX.antoineNecklace_not_tame_of against GX.standardCantor3). The definition is satisfiable and not trivial: GX.standardCantor3 is a Cantor set inside greatCircle3, so it is NOT IsWildCantor. GX.TameCantorSLSC is a positive theorem, proved, not a hypothesis. There are no hidden hypotheses on the unconditional consumers.",
+  "residual_truth": "I checked by hand that GX.AntoineMeridianEssentialTop is TRUE (not vacuous or false), using the coordinates of antoineZ, antoineT and antoinePerm. Each link is scaled by 7/80: outer half-size 56/640, hole half-size 42/640, thickness 7/640. Centres are 70/640 apart. A type-0 link's arm at x in [c+42, c+56] passes through the hole x in (c+28, c+112) of its type-1 neighbour, and the neighbour's arm at x in [c+14, c+28] passes through its hole. So consecutive links are Hopf-linked, and the corners close the 64-chain around the core square. The meridian (radius 3/14 = 137/640 around (0, 7/8, 0), in the plane x = 0) misses L. Its disc cuts only the type-0 link centred at (0, 560/640), in two arm sections, which matches the sorry's homological remark. This is a standard Antoine chain, so the statement is Antoine's lemma (boundary-torus pi_1-injectivity plus van Kampen), and it holds for all k >= 1.",
+  "sorry_genuine": "Genuine obstruction. mathlib at this pin has no topological Seifert-van Kampen (only CategoryTheory/Limits/VanKampen, which is unrelated) and no pi_1 of a link complement. The sorry text correctly explains why no abelian invariant can work for k >= 1: the meridian of L has linking number 0 with every link of the chain. The package narrowed the residual to its canonical form, and the dispatch allows ONE named sorry. It is not avoidable at package scale.",
+  "docstring_contract": "The module docstring's label bullet for ex:wild_cantor_general_antoine is unmarked (correct). The two closed labels are marked and sorry-free.",
+  "report_completeness": "All three labels of l.1560-1583 are present (l.1580+ is commented out). Every listed decl exists in the file, and all key Antoine/wildness decls are listed. sorry_count 1 and builds true are both correct. No declaration was removed relative to scratch/round0. The notes say 118 new declarations; my regex count is 120 (trivial).",
+  "name_clashes": "None. All 637 declaration names in the file were compared against every other .lean file under GX/ and scaffold/: 0 collisions."
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "REPORT.json notes ('DEC-82 applied. WILDNESS CERTIFIED: ...'); module docstring l.32-33 ('proved a Cantor set ... and WILD (DEC-82: ...)')",
+   "problem": "The headline wording says wildness is certified/proved. The necklace's wildness is NOT certified unconditionally: GX.isWildCantor_antoineNecklace depends on sorryAx, and only the _of_res form is sorry-free. The same sentences do qualify this ('from the residual alone', the _of_res name), and the row is correctly 'stated' and unmarked. Still, a curator reading the headline could record DEC-82's 'certify wildness too' as discharged.",
+   "fix": "Reword to 'wildness REDUCED to the residual GX.AntoineMeridianEssentialTop (tame side GX.tameCantorSLSC proved); not certified until the residual is'. In the ledger, keep DEC-82's wildness ask open alongside Antoine's lemma."
+  },
+  {
+   "severity": "minor",
+   "where": "declaration docstrings l.5696, l.5708, l.5715",
+   "problem": "These docstrings carry the full-certification mark **`ex:wild_cantor_general_antoine`** on theorems that take the residual as a hypothesis (hres / h). kb/0006 reserves the bold mark for full certification. The ledger reads only the module docstring, so this is cosmetic, but a grep-based check would misread it.",
+   "fix": "Unbold the label in these three decl docstrings (write `ex:wild_cantor_general_antoine`, conditional)."
+  }
+ ],
+ "questions_for_author": [
+  "Antoine's lemma (GX.AntoineMeridianEssentialTop) is true but needs a topological van Kampen theorem (or an explicit non-abelian covering of the chain complement), which mathlib does not have. Should it stay a tagged sorry with the row 'stated'? Or should it become a NAMED EXTERNAL Prop with a non-vacuity witness, the row 'partial', as DEC-69 did for Troyanov's theorem?"
+ ],
+ "summary": "The file builds, with exactly one tagged sorry: Antoine's lemma for the top link, GX.AntoineMeridianEssentialTop. Its statement is true; I checked the linking geometry by hand. The obstruction is genuine. Everything else in the row is sorry-free per #print axioms: the tame side GX.tameCantorSLSC, the reduction of every generation to the top link, the k = 0 case, and the conditional wildness and non-slsc conclusions. The row is honestly 'stated' and unmarked, and the two closed labels are unchanged and sorry-free. There are no name clashes and no declarations were removed. Two minor wording issues: the report's headline 'WILDNESS CERTIFIED' overstates what is proved (wildness rests on the residual), and three conditional decl docstrings carry the bold label mark. The dispatch's main goal, closing Antoine's theorem, was not met. The dispatch's own fallback allows exactly this outcome."
+}

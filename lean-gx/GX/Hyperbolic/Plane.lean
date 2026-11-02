@@ -1,16 +1,34 @@
 import GX.SingularII.Tame
 import Mathlib.Analysis.Complex.UpperHalfPlane.Metric
 import Mathlib.Analysis.SpecialFunctions.Arcosh
+import Mathlib.Analysis.Complex.UpperHalfPlane.Measure
+import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
+import Mathlib.MeasureTheory.Measure.Lebesgue.Complex
 
 /-!
 # The hyperbolic plane, cusped hyperbolic surfaces, and `ex:take_closed_unit_disc`
 
-Package WP-35i (DEC-71: "build ℍ²"). `papers/gx`, `RamcovGX.tex:1877–1886`, on WP-27i's
-`GX.SingularII.Tame` (whose `GX.not_isOpen_horodisc_insert` is reused for the last sentence).
+Package WP-35i (DEC-71: "build ℍ²"), extended by WP-40b (DEC-81: the **metric reading**).
+`papers/gx`, `RamcovGX.tex:1877–1886`, on WP-27i's `GX.SingularII.Tame` (whose
+`GX.not_isOpen_horodisc_insert` is reused for the last sentence).
 
 * `ex:take_closed_unit_disc` — `RamcovGX.tex:1877` — partial: every assertion of the example is
-  proved, for `M ∖ S` read as a complete hyperbolic surface with a cusp at each point of `S`
-  (SCOPE (b); the finite-volume ⇒ cusps step is not built): `GX.take_closed_unit_disc`.
+  proved for `M ∖ S` carrying a **complete hyperbolic metric** with a cusp at each point of `S`
+  (`GX.take_closed_unit_disc_metric`, hypothesis `GX.IsCuspedHyperbolicMetric`; the
+  `(G, X)` form `GX.take_closed_unit_disc`, hypothesis `GX.IsCuspedHyperbolic`); the two readings
+  agree (`GX.IsCuspedHyperbolicMetric.isCuspedHyperbolic`,
+  `GX.IsCuspedHyperbolic.exists_unique_metric`). Missing for `closed` (SCOPE (b)): the
+  thick–thin step "finite volume ⇒ a cusp at each puncture" (the cusps are assumed; that they
+  have finite area is proved, `GX.CuspChart.cusp_finite_area`), and the Riemannian tensor.
+  The metric content (DEC-81): the hyperbolic metric `GX.IsHyperbolicMetric` (a length metric
+  giving the topology, locally the metric of `ℍ` in the charts), **unique**
+  (`GX.IsHyperbolicMetric.unique`); for complete `(G, X)`-surfaces it exists and is complete
+  (`GX.IsCompleteHyperbolic.exists_isHyperbolicMetric`, the quotient metric
+  `GX.IsHypQuotient.metricSpace`); **metric completeness ⇔ Thurston–Goldman completeness**
+  (`GX.IsHyperbolicMetric.completeSpace_iff`; Hopf–Rinow,
+  `GX.IsHyperbolicMetric.isCompleteHyperbolic`, `GX.IsDevLocalIsometry.exists_homeomorph`);
+  `ℍ` is a geodesic space (`GX.exists_hypGeodesic`, `GX.hypGeod`); the area `dx dy / y²` of a
+  cusp strip is `1/c` (`GX.volume_cuspStrip`).
   `X = ClosedDisc`, the open disc `ℍ = PoincareDisc` with the Poincaré distance `GX.hypDist`
   (mathlib's `UpperHalfPlane` distance through the Cayley transform), `G = Isom(ℍ) = GX.HypIsom`
   (all isometries, `GX.HypIsom.exists_mobF`), acting on `X` by homeomorphisms
@@ -46,9 +64,9 @@ Package WP-35i (DEC-71: "build ℍ²"). `papers/gx`, `RamcovGX.tex:1877–1886`,
 | `G` the isometry group of the Poincaré disc | ✓ carried: `HypIsom`, all `hypDist`-isometries; each is a Möbius map `mobF` (proved) |
 | `M` a genus `g` surface | ⚠ weakened: `M` Hausdorff, locally path-connected, first countable, connected (what is used); the genus is not used |
 | `S` finite, `2g-2+s>0` | ✓ `S` finite carried; ⚠ weakened: `2g-2+s>0` not used (it is the existence condition) |
-| `M ∖ S` a hyperbolic metric | ✓ read (SCOPE (b)): a `(G, ℍ)`-structure (`ChartedSpace PoincareDisc`, `HasGroupoid`) |
-| complete | ✓ read (SCOPE (b)): the developing maps are covering maps (`IsCompleteHyperbolic`) |
-| finite volume | ⚠ read (SCOPE (b)): a cusp at every point of `S` (`CuspChart`, `IsHyperbolicCusp`); finite volume ⇒ cusps not built |
+| `M ∖ S` a hyperbolic metric | ✓ read metrically (DEC-81, SCOPE (b)): a `(G, ℍ)`-structure with a metric `m`, `IsHyperbolicMetric` (length metric, topology, locally `d_ℍ` in the charts); unique; the Riemannian tensor is not formalized |
+| complete | ✓ carried (DEC-81): `m` complete as a metric space (`IsCuspedHyperbolicMetric.complete`), equivalent to Thurston–Goldman completeness (`IsHyperbolicMetric.completeSpace_iff`) |
+| finite volume | ⚠ read (SCOPE (b)): a cusp at every point of `S` (`CuspChart`, `IsHyperbolicCusp`), whose area is proved finite (`CuspChart.cusp_finite_area`); finite volume ⇒ cusps (thick–thin) not built |
 | singular manifolds second countable | ⚠ weakened: not used |
 
 ## SCOPE (disclosed)
@@ -62,15 +80,25 @@ Package WP-35i (DEC-71: "build ℍ²"). `papers/gx`, `RamcovGX.tex:1877–1886`,
   homeomorphic to `{r < r₀}`" is read: such neighbourhoods exist in every neighbourhood of `x`
   (`x` ↦ apex); "`D(U)` is a horodisc centred at `D(x)`" is read: `D(U)` is a horodisc together
   with its centre `D(x) ∈ ∂ℍ` (`x ∈ U`).
-* **(b)** "A finite volume complete hyperbolic metric" on `M ∖ S` is read through its standard
-  `(G,X)` content: a `(G, ℍ)`-structure (constant curvature `-1` metrics are locally isometric to
-  `ℍ`, not formalized: no Riemannian surfaces at this pin), complete in Thurston's and Goldman's
-  sense (developing maps are covering maps; its equivalence with metric completeness —
-  Hopf–Rinow for `(G,X)`-structures — is not formalized), with a cusp at each `s ∈ S`: a
-  neighbourhood `V ≅ ball(0, e^{-2πc})`, `s ↦ 0`, on which `w ↦ φ⁻¹(e^{2πiw})`, `Im w > c`, is a
-  `(G, ℍ)`-morphism (the thick–thin decomposition of a finite-volume end, not formalized). From
-  this the file builds: the developing map onto `ℍ`, the lifts of the cusps to horodiscs, the
-  Fox ends over `S`, the extension of the developing map to the parabolic fixed points.
+* **(b)** "A finite volume complete hyperbolic metric" on `M ∖ S` is read **metrically**
+  (DEC-81): a `(G, ℍ)`-structure carrying a metric `m` which gives its topology, is a length
+  metric (paths of length — variation — arbitrarily close to the distance) and is locally the
+  Poincaré metric read in the charts (`GX.IsHyperbolicMetric`; this is what the distance of a
+  Riemannian metric of curvature `-1` is; the tensor itself is not formalized, no Riemannian
+  surfaces at this pin). Such a metric is unique (`GX.IsHyperbolicMetric.unique`: lengths are
+  local, `GX.eVariationOn_eq_of_locally`). "Complete" is metric completeness of `m`; it is
+  proved equivalent to Thurston's and Goldman's completeness (developing maps are covering
+  maps): ⇐ by the quotient metric of `ℍ` (`GX.IsHypQuotient`), ⇒ by Hopf–Rinow (geodesic arcs
+  lift through the developing map, `GX.IsDevLocalIsometry.exists_lift_hypGeod`, by completeness;
+  the lifts depend continuously on the end, mathlib's `IsLocalHomeomorph.continuous_lift`).
+  "Finite volume" is read as a cusp at each `s ∈ S`: a neighbourhood `V ≅ ball(0, e^{-2πc})`,
+  `s ↦ 0`, on which `w ↦ φ⁻¹(e^{2πiw})`, `Im w > c`, is a `(G, ℍ)`-morphism; the cusp is proved
+  to have finite area — `W_c ∖ {s}` is the injective, locally isometric image of the strip
+  `{c < Im w, 0 ≤ Re w < 1}`, of area `1/c` for the invariant area `dx dy / y²`
+  (`GX.CuspChart.cusp_finite_area`). Not built: the thick–thin decomposition (finite volume ⇒
+  each end is a cusp), and the area measure of the whole surface. From this the file builds:
+  the developing map onto `ℍ`, the lifts of the cusps to horodiscs, the Fox ends over `S`, the
+  extension of the developing map to the parabolic fixed points.
 * **(c)** No inhabitant with a cusp is constructed (e.g. `Γ(2)\ℍ`, the thrice-punctured sphere);
   the hypotheses are those of the standard description of cusped hyperbolic surfaces.
 
@@ -2726,5 +2754,1469 @@ theorem take_closed_unit_disc (H : IsCuspedHyperbolic M S) :
       exact not_isOpen_horoSet hDx (mul_pos hτ (g.lam_pos hn.le))
 
 end Main
+
+/-! ### DEC-81: the metric geometry of `ℍ` -/
+
+theorem continuous_toUHP : Continuous toUHP := by
+  refine Continuous.upperHalfPlaneMk ?_ _
+  refine Continuous.div (continuous_const.mul (continuous_const.add continuous_subtype_val))
+    (continuous_const.sub continuous_subtype_val) fun z => ?_
+  exact one_sub_ne_zero_of_normSq_lt z.normSq_lt
+
+/-- The Cayley transform `ℍ → 𝔻`. -/
+def ofUHP (w : ℍ) : PoincareDisc := cayP w w.im_pos
+
+theorem continuous_ofUHP : Continuous ofUHP := by
+  refine Continuous.subtype_mk ?_ _
+  exact continuous_cay_on.comp_continuous UpperHalfPlane.continuous_coe fun w => w.im_pos
+
+theorem ofUHP_toUHP (z : PoincareDisc) : ofUHP (toUHP z) = z :=
+  Subtype.ext (cay_cayInv (one_sub_ne_zero_of_normSq_lt z.normSq_lt))
+
+theorem toUHP_ofUHP (w : ℍ) : toUHP (ofUHP w) = w :=
+  UpperHalfPlane.ext (cayInv_cay w.im_pos)
+
+/-- **The Cayley transform as a homeomorphism** `𝔻 ≃ₜ ℍ`. -/
+def toUHPHomeomorph : PoincareDisc ≃ₜ ℍ where
+  toFun := toUHP
+  invFun := ofUHP
+  left_inv := ofUHP_toUHP
+  right_inv := toUHP_ofUHP
+  continuous_toFun := continuous_toUHP
+  continuous_invFun := continuous_ofUHP
+
+theorem toUHP_injective : Injective toUHP := fun a b h => by
+  rw [← ofUHP_toUHP a, h, ofUHP_toUHP]
+
+theorem hypDist_self (z : PoincareDisc) : hypDist z z = 0 := dist_self _
+
+theorem hypDist_comm (z w : PoincareDisc) : hypDist z w = hypDist w z := dist_comm _ _
+
+theorem hypDist_triangle (z w v : PoincareDisc) : hypDist z v ≤ hypDist z w + hypDist w v :=
+  dist_triangle _ _ _
+
+theorem hypDist_nonneg (z w : PoincareDisc) : 0 ≤ hypDist z w := dist_nonneg
+
+theorem eq_of_hypDist_eq_zero {z w : PoincareDisc} (h : hypDist z w = 0) : z = w :=
+  toUHP_injective (dist_eq_zero.1 h)
+
+/-- The isometries of `ℍ` preserve the Poincaré distance. -/
+theorem HypIsom.hypDist_smul (g : HypIsom) (z w : PoincareDisc) :
+    hypDist (g • z) (g • w) = hypDist z w := g.2 z w
+
+/-- The topology of `𝔻` is the topology of the Poincaré distance. -/
+theorem isOpen_iff_hypDist {U : Set PoincareDisc} :
+    IsOpen U ↔ ∀ z ∈ U, ∃ ε > 0, ∀ w, hypDist z w < ε → w ∈ U := by
+  rw [← toUHPHomeomorph.symm.isOpen_preimage, Metric.isOpen_iff]
+  constructor
+  · intro h z hz
+    obtain ⟨ε, hε, hb⟩ := h (toUHP z) (by simpa [toUHPHomeomorph] using (ofUHP_toUHP z).symm ▸ hz)
+    refine ⟨ε, hε, fun w hw => ?_⟩
+    have := hb (show toUHP w ∈ Metric.ball (toUHP z) ε by rw [Metric.mem_ball, dist_comm]; exact hw)
+    simpa [toUHPHomeomorph, ofUHP_toUHP] using this
+  · intro h w hw
+    obtain ⟨ε, hε, hb⟩ := h (ofUHP w) hw
+    refine ⟨ε, hε, fun v hv => ?_⟩
+    have := hb (ofUHP v) (by
+      rw [hypDist, toUHP_ofUHP, toUHP_ofUHP, dist_comm]; exact hv)
+    exact this
+
+
+/-! #### Geodesic segments -/
+
+/-- The hyperbolic coordinate of the diameter `(-1, 1)`: `L(x) = log((1 + x)/(1 - x))`, so that
+`d(x, y) = |L x - L y|` (`GX.hypDist_ofReal`). -/
+def diamCoord (x : ℝ) : ℝ := Real.log ((1 + x) / (1 - x))
+
+theorem normSq_ofReal_lt {x : ℝ} (hx : |x| < 1) : normSq (x : ℂ) < 1 := by
+  rw [normSq_ofReal]
+  have := abs_lt.1 hx
+  nlinarith
+
+/-- A point of the diameter. -/
+def diamPt (x : ℝ) (hx : |x| < 1) : PoincareDisc := ⟨x, normSq_lt_one_iff.1 (normSq_ofReal_lt hx)⟩
+
+theorem toUHP_diamPt (x : ℝ) (hx : |x| < 1) :
+    toUHP (diamPt x hx) = UpperHalfPlane.mk ⟨0, Real.exp (diamCoord x)⟩ (Real.exp_pos _) := by
+  have h1 := abs_lt.1 hx
+  have hpos : 0 < (1 + x) / (1 - x) := div_pos (by linarith) (by linarith)
+  apply UpperHalfPlane.ext
+  show cayInv (x : ℂ) = ⟨0, Real.exp (diamCoord x)⟩
+  rw [diamCoord, Real.exp_log hpos]
+  have hx1 : (1 : ℂ) - x ≠ 0 := by
+    rw [← ofReal_one, ← ofReal_sub]; exact ofReal_ne_zero.2 (by linarith)
+  rw [cayInv]
+  apply Complex.ext
+  · simp only [div_re, mul_re, mul_im, I_re, I_im, add_re, add_im, one_re, one_im, ofReal_re,
+      ofReal_im, sub_re, sub_im]
+    ring
+  · simp only [div_im, mul_re, mul_im, I_re, I_im, add_re, add_im, one_re, one_im, ofReal_re,
+      ofReal_im, sub_re, sub_im, normSq_apply]
+    have : (1 - x) ≠ 0 := by linarith
+    field_simp
+    ring
+
+theorem hypDist_diamPt (x y : ℝ) (hx : |x| < 1) (hy : |y| < 1) :
+    hypDist (diamPt x hx) (diamPt y hy) = dist (diamCoord x) (diamCoord y) := by
+  rw [hypDist, toUHP_diamPt, toUHP_diamPt]
+  exact (UpperHalfPlane.isometry_vertical_line 0).dist_eq _ _
+
+theorem diamCoord_mono {x y : ℝ} (hx : |x| < 1) (hy : |y| < 1) (hxy : x ≤ y) :
+    diamCoord x ≤ diamCoord y := by
+  have h1 := abs_lt.1 hx
+  have h2 := abs_lt.1 hy
+  apply Real.log_le_log (div_pos (by linarith) (by linarith))
+  rw [div_le_div_iff₀ (by linarith) (by linarith)]
+  nlinarith
+
+theorem diamCoord_zero : diamCoord 0 = 0 := by simp [diamCoord]
+
+/-- Two functions with the same pairwise distances on `s` have the same variation on `s`. -/
+theorem eVariationOn_congr_edist_on {α E F : Type*} [LinearOrder α] [PseudoEMetricSpace E]
+    [PseudoEMetricSpace F] {f : α → E} {g : α → F} (s : Set α)
+    (h : ∀ a ∈ s, ∀ b ∈ s, edist (f a) (f b) = edist (g a) (g b)) :
+    eVariationOn f s = eVariationOn g s := by
+  unfold eVariationOn
+  congr 1
+  ext p
+  exact Finset.sum_congr rfl fun i _ => h _ (p.2.2.2 _) _ (p.2.2.2 _)
+
+/-- Two functions with the same pairwise distances have the same variation. -/
+theorem eVariationOn_congr_edist {α E F : Type*} [LinearOrder α] [PseudoEMetricSpace E]
+    [PseudoEMetricSpace F] {f : α → E} {g : α → F} (s : Set α)
+    (h : ∀ a b, edist (f a) (f b) = edist (g a) (g b)) : eVariationOn f s = eVariationOn g s :=
+  eVariationOn_congr_edist_on s fun a _ b _ => h a b
+
+/-- **Length is local**: two paths whose pairwise distances agree near every time have the same
+length (a Lebesgue number of the cover of `[0, 1]`, and the additivity of the variation). -/
+theorem eVariationOn_eq_of_locally {E F : Type*} [PseudoEMetricSpace E] [PseudoEMetricSpace F]
+    {f : unitInterval → E} {g : unitInterval → F}
+    (h : ∀ t, ∃ N ∈ 𝓝 t, ∀ a ∈ N, ∀ b ∈ N, edist (f a) (f b) = edist (g a) (g b)) :
+    eVariationOn f univ = eVariationOn g univ := by
+  choose N hN hfg using h
+  have hO : ∀ t, ∃ O, IsOpen O ∧ t ∈ O ∧ O ⊆ N t := fun t => by
+    obtain ⟨O, hO1, hO2, hO3⟩ := mem_nhds_iff.1 (hN t)
+    exact ⟨O, hO2, hO3, hO1⟩
+  choose O hOo htO hON using hO
+  obtain ⟨δ, hδ, hball⟩ := lebesgue_number_lemma_of_metric isCompact_univ hOo
+    (fun t _ => mem_iUnion.2 ⟨t, htO t⟩)
+  obtain ⟨n, hn⟩ := exists_nat_one_div_lt hδ
+  set P : ℕ → unitInterval := fun k => projIcc 0 1 zero_le_one ((k : ℝ) / (n + 1)) with hPdef
+  have hP : Monotone P := fun i j hij => monotone_projIcc _
+    (div_le_div_of_nonneg_right (Nat.cast_le.2 hij) (by positivity))
+  have hP0 : P 0 = 0 := by
+    simp only [hPdef, Nat.cast_zero, zero_div]
+    exact projIcc_left _
+  have hPn : P (n + 1) = 1 := by
+    simp only [hPdef, Nat.cast_add, Nat.cast_one]
+    rw [div_self (by positivity)]
+    exact projIcc_right _
+  have hpiece : ∀ k, eVariationOn f (Icc (P k) (P (k + 1))) =
+      eVariationOn g (Icc (P k) (P (k + 1))) := by
+    intro k
+    obtain ⟨t, ht⟩ := hball (P k) (mem_univ _)
+    have hmem : ∀ a ∈ Icc (P k) (P (k + 1)), a ∈ N t := by
+      intro a ha
+      refine hON t (ht ?_)
+      rw [Metric.mem_ball, Subtype.dist_eq, Real.dist_eq,
+        abs_of_nonneg (sub_nonneg.2 (show (P k : ℝ) ≤ a from ha.1))]
+      have hl := (LipschitzWith.projIcc (zero_le_one' ℝ)).dist_le_mul ((k + 1 : ℕ) / (n + 1) : ℝ)
+        ((k : ℝ) / (n + 1))
+      rw [NNReal.coe_one, one_mul, Subtype.dist_eq, Real.dist_eq, Real.dist_eq,
+        abs_of_nonneg (sub_nonneg.2 (show (P k : ℝ) ≤ P (k + 1) from hP (Nat.le_succ k)))] at hl
+      have hq : ((k + 1 : ℕ) : ℝ) / (n + 1) - (k : ℝ) / (n + 1) = 1 / ((n : ℝ) + 1) := by
+        push_cast; ring
+      rw [hq, abs_of_pos (by positivity)] at hl
+      have ha2 : (a : ℝ) ≤ P (k + 1) := ha.2
+      show (a : ℝ) - P k < δ
+      linarith
+    exact eVariationOn_congr_edist_on _ fun a ha b hb => hfg t a (hmem a ha) b (hmem b hb)
+  have huniv : (univ : Set unitInterval) = Icc (P 0) (P (n + 1)) := by
+    rw [hP0, hPn]
+    refine (eq_univ_of_forall fun x => ?_).symm
+    exact mem_Icc.2 ⟨(show (0 : unitInterval) ≤ x from x.2.1), (show x ≤ 1 from x.2.2)⟩
+  rw [huniv, ← eVariationOn.sum' f hP, ← eVariationOn.sum' g hP]
+  exact Finset.sum_congr rfl fun k _ => hpiece k
+
+/-- A function whose pairwise distances are dominated by those of `g` has smaller variation. -/
+theorem eVariationOn_mono_edist {α E F : Type*} [LinearOrder α] [PseudoEMetricSpace E]
+    [PseudoEMetricSpace F] {f : α → E} {g : α → F} (s : Set α)
+    (h : ∀ a b, edist (f a) (f b) ≤ edist (g a) (g b)) : eVariationOn f s ≤ eVariationOn g s := by
+  unfold eVariationOn
+  exact iSup_mono fun p => Finset.sum_le_sum fun i _ => h _ _
+
+theorem hypRatio_smul_eq (a b : ℝ) (w : ℂ) :
+    hypRatio (a * w) (b * w) = hypRatio (a * ‖w‖) (b * ‖w‖) := by
+  have hw : normSq ((‖w‖ : ℝ) : ℂ) = normSq w := by
+    rw [normSq_ofReal, normSq_eq_norm_sq]; ring
+  have e1 : (a : ℂ) * w - b * w = ((a - b : ℝ) : ℂ) * w := by push_cast; ring
+  have e2 : (a : ℂ) * (‖w‖ : ℝ) - b * (‖w‖ : ℝ) = ((a - b : ℝ) : ℂ) * (‖w‖ : ℝ) := by
+    push_cast; ring
+  unfold hypRatio
+  rw [e1, e2]
+  simp only [normSq_mul, normSq_ofReal, hw]
+
+/-- **Geodesic segments of `ℍ`**: any two points of the Poincaré disc are joined by a path whose
+length (the variation of its image in `ℍ`) is their distance — `ℍ` is a geodesic space. -/
+theorem exists_hypGeodesic (z w : PoincareDisc) :
+    ∃ γ : Path z w, eVariationOn (fun t => toUHP (γ t)) univ = ENNReal.ofReal (hypDist z w) := by
+  have hu1 : normSq (1 : ℂ) = 1 := map_one _
+  have hz := z.normSq_lt
+  have hz' : normSq (-(z : ℂ)) < 1 := by rwa [normSq_neg]
+  set w' : ℂ := mobF 1 (-(z : ℂ)) false w with hw'
+  have hw'1 : normSq w' < 1 := normSq_mobF_lt false hu1 hz' w.normSq_lt
+  have hn : ‖w'‖ < 1 := by
+    have := normSq_lt_one_iff.1 hw'1; simpa using this
+  have hseg : ∀ t : unitInterval, normSq ((t : ℝ) * w') < 1 := by
+    intro t
+    rw [normSq_mul, normSq_ofReal]
+    have h0 := t.2.1
+    have h1 := t.2.2
+    have : (t : ℝ) * t ≤ 1 := by nlinarith
+    nlinarith [normSq_nonneg w']
+  have hΦ : ∀ t : unitInterval, normSq (mobF 1 z false ((t : ℝ) * w')) < 1 :=
+    fun t => normSq_mobF_lt false hu1 hz (hseg t)
+  let γf : unitInterval → PoincareDisc := fun t =>
+    ⟨mobF 1 z false ((t : ℝ) * w'), normSq_lt_one_iff.1 (hΦ t)⟩
+  have hcont : Continuous γf := by
+    refine Continuous.subtype_mk ?_ _
+    have hc : ∀ t : unitInterval, mobDen 1 z false ((t : ℝ) * w') ≠ 0 := fun t =>
+      mobDen_ne_zero false hu1 hz (hseg t).le
+    unfold mobF
+    refine Continuous.div ?_ ?_ hc
+    · exact (continuous_const.mul ((continuous_sigmaB _).comp
+        ((continuous_ofReal.comp continuous_subtype_val).mul continuous_const))).add
+        continuous_const
+    · exact continuous_const.add (continuous_const.mul ((continuous_sigmaB _).comp
+        ((continuous_ofReal.comp continuous_subtype_val).mul continuous_const)))
+  have h0 : γf 0 = z := by
+    apply Subtype.ext
+    show mobF 1 z false (((0 : unitInterval) : ℝ) * w') = z
+    simp [mobF, sigmaB]
+  have h1 : γf 1 = w := by
+    apply Subtype.ext
+    show mobF 1 z false (((1 : unitInterval) : ℝ) * w') = w
+    simp only [Set.Icc.coe_one, ofReal_one, one_mul, hw']
+    exact mobF_one_mobF_neg (a := (z : ℂ)) hz w.normSq_lt.le
+  let γ : Path z w := ⟨⟨γf, hcont⟩, h0, h1⟩
+  refine ⟨γ, ?_⟩
+  -- the distances along `γ` are those of the diameter
+  have hr : |‖w'‖| < 1 := by rw [abs_of_nonneg (norm_nonneg _)]; exact hn
+  have hseg' : ∀ t : unitInterval, |(t : ℝ) * ‖w'‖| < 1 := by
+    intro t
+    rw [abs_mul, abs_of_nonneg t.2.1, abs_of_nonneg (norm_nonneg _)]
+    calc (t : ℝ) * ‖w'‖ ≤ 1 * ‖w'‖ := mul_le_mul_of_nonneg_right t.2.2 (norm_nonneg _)
+      _ < 1 := by rw [one_mul]; exact hn
+  let f : unitInterval → ℝ := fun t => diamCoord ((t : ℝ) * ‖w'‖)
+  have hdist : ∀ s t : unitInterval, hypDist (γ s) (γ t) = dist (f s) (f t) := by
+    intro s t
+    have e1 : hypDist (γ s) (γ t) = hypDist (diamPt _ (hseg' s)) (diamPt _ (hseg' t)) := by
+      rw [hypDist_eq_iff]
+      show hypRatio (mobF 1 z false ((s : ℝ) * w')) (mobF 1 z false ((t : ℝ) * w')) =
+        hypRatio (((s : ℝ) * ‖w'‖ : ℝ) : ℂ) (((t : ℝ) * ‖w'‖ : ℝ) : ℂ)
+      rw [hypRatio_mobF false hu1 hz (hseg s) (hseg t), hypRatio_smul_eq]
+      push_cast; rfl
+    rw [e1, hypDist_diamPt]
+  have hev : eVariationOn (fun t => toUHP (γ t)) univ = eVariationOn f univ := by
+    refine eVariationOn_congr_edist _ fun a b => ?_
+    rw [edist_dist, edist_dist]
+    exact congrArg ENNReal.ofReal (hdist a b)
+  have hmono : MonotoneOn f univ := fun a _ b _ hab =>
+    diamCoord_mono (hseg' a) (hseg' b) (mul_le_mul_of_nonneg_right hab (norm_nonneg _))
+  have hf01 : f 0 ≤ f 1 := hmono (mem_univ _) (mem_univ _) zero_le_one
+  have hzw : hypDist z w = f 1 - f 0 := by
+    have := hdist 0 1
+    rw [show γ 0 = z from h0, show γ 1 = w from h1] at this
+    rw [this, Real.dist_eq, abs_of_nonpos (by linarith)]
+    ring
+  rw [hev, hzw]
+  apply le_antisymm
+  · have := hmono.eVariationOn_le (mem_univ (0 : unitInterval)) (mem_univ 1)
+    rwa [show (univ : Set unitInterval) ∩ Icc 0 1 = univ from
+      eq_univ_of_forall fun x => ⟨mem_univ x, x.2.1, x.2.2⟩] at this
+  · have := eVariationOn.edist_le f (mem_univ (0 : unitInterval)) (mem_univ 1)
+    rw [edist_dist, Real.dist_eq, abs_sub_comm, abs_of_nonneg (by linarith)] at this
+    exact this
+
+
+theorem isOpen_hypBall (z : PoincareDisc) (r : ℝ) : IsOpen {w | hypDist z w < r} :=
+  isOpen_lt (continuous_const.dist continuous_toUHP) continuous_const
+
+/-! ### DEC-81: the hyperbolic metric of a quotient of `ℍ` -/
+
+section HypQuot
+
+variable {E Y : Type*} [TopologicalSpace E] [TopologicalSpace Y]
+
+/-- **A quotient of `ℍ`**: `p : E → Y` continuous, open, onto, with closed fibres, and
+`Θ : E ≃ₜ 𝔻` a homeomorphism for which any two points of a fibre are exchanged by a
+transformation over `Y` read in `Θ` as an isometry of `ℍ` — the situation of the universal cover
+of a complete hyperbolic surface (`GX.IsCompleteHyperbolic.isHypQuotient`). -/
+structure IsHypQuotient (p : E → Y) (Θ : E ≃ₜ PoincareDisc) : Prop where
+  continuous : Continuous p
+  isOpenMap : IsOpenMap p
+  surjective : Surjective p
+  isClosed_fibre : ∀ y, IsClosed (p ⁻¹' {y})
+  deck : ∀ e e', p e = p e' → ∃ φ : E → E, ∃ g : HypIsom,
+    (∀ x, p (φ x) = p x) ∧ φ e = e' ∧ ∀ x, Θ (φ x) = g • Θ x
+
+variable {p : E → Y} {Θ : E ≃ₜ PoincareDisc}
+
+/-- **The quotient distance** `d(a, b) = inf {d_ℍ(Θ e, Θ e') : p e = a, p e' = b}`. -/
+def quotDist (p : E → Y) (Θ : E ≃ₜ PoincareDisc) (a b : Y) : ℝ :=
+  ⨅ e : {e : E // p e = a}, ⨅ e' : {e' : E // p e' = b}, hypDist (Θ e) (Θ e')
+
+namespace IsHypQuotient
+
+variable (H : IsHypQuotient p Θ)
+include H
+
+theorem nonempty_fibre (y : Y) : Nonempty {e : E // p e = y} :=
+  let ⟨e, he⟩ := H.surjective y; ⟨⟨e, he⟩⟩
+
+theorem bddBelow_fibre (z : PoincareDisc) (b : Y) :
+    BddBelow (range fun e' : {e' : E // p e' = b} => hypDist z (Θ e')) :=
+  ⟨0, by rintro _ ⟨e', rfl⟩; exact hypDist_nonneg _ _⟩
+
+theorem iInf_le_iInf {e₁ e₂ : E} (h : p e₁ = p e₂) (b : Y) :
+    ⨅ e' : {e' : E // p e' = b}, hypDist (Θ e₁) (Θ e') ≤
+      ⨅ e' : {e' : E // p e' = b}, hypDist (Θ e₂) (Θ e') := by
+  haveI := H.nonempty_fibre b
+  obtain ⟨φ, g, hφp, hφe, hφΘ⟩ := H.deck e₂ e₁ h.symm
+  refine le_ciInf fun e' => ?_
+  refine (ciInf_le (H.bddBelow_fibre _ b) ⟨φ e', by rw [hφp]; exact e'.2⟩).trans_eq ?_
+  show hypDist (Θ e₁) (Θ (φ e')) = hypDist (Θ e₂) (Θ e')
+  rw [← hφe, hφΘ, hφΘ, HypIsom.hypDist_smul]
+
+/-- The quotient distance computed from one lift of `a`. -/
+theorem quotDist_eq {e : E} {a : Y} (he : p e = a) (b : Y) :
+    quotDist p Θ a b = ⨅ e' : {e' : E // p e' = b}, hypDist (Θ e) (Θ e') := by
+  haveI := H.nonempty_fibre a
+  haveI := H.nonempty_fibre b
+  apply le_antisymm
+  · refine ciInf_le ⟨0, ?_⟩ (⟨e, he⟩ : {e : E // p e = a})
+    rintro _ ⟨e₁, rfl⟩
+    exact le_ciInf fun e' => hypDist_nonneg _ _
+  · exact le_ciInf fun e₁ => H.iInf_le_iInf (he.trans e₁.2.symm) b
+
+theorem quotDist_le {e e' : E} {a b : Y} (he : p e = a) (he' : p e' = b) :
+    quotDist p Θ a b ≤ hypDist (Θ e) (Θ e') := by
+  rw [H.quotDist_eq he]
+  exact ciInf_le (H.bddBelow_fibre _ b) ⟨e', he'⟩
+
+theorem exists_lt {e : E} {a : Y} (he : p e = a) (b : Y) {ε : ℝ} (hε : 0 < ε) :
+    ∃ e', p e' = b ∧ hypDist (Θ e) (Θ e') < quotDist p Θ a b + ε := by
+  haveI := H.nonempty_fibre b
+  rw [H.quotDist_eq he] at *
+  obtain ⟨e', he'⟩ := exists_lt_of_ciInf_lt (lt_add_of_pos_right
+    (⨅ e' : {e' : E // p e' = b}, hypDist (Θ e) (Θ e')) hε)
+  exact ⟨e', e'.2, he'⟩
+
+theorem quotDist_nonneg (a b : Y) : 0 ≤ quotDist p Θ a b := by
+  obtain ⟨e, he⟩ := H.surjective a
+  haveI := H.nonempty_fibre b
+  rw [H.quotDist_eq he]
+  exact le_ciInf fun e' => hypDist_nonneg _ _
+
+theorem quotDist_self (a : Y) : quotDist p Θ a a = 0 := by
+  obtain ⟨e, he⟩ := H.surjective a
+  exact le_antisymm ((H.quotDist_le he he).trans_eq (hypDist_self _)) (H.quotDist_nonneg a a)
+
+theorem quotDist_comm (a b : Y) : quotDist p Θ a b = quotDist p Θ b a := by
+  have key : ∀ a b, quotDist p Θ b a ≤ quotDist p Θ a b := by
+    intro a b
+    obtain ⟨e, he⟩ := H.surjective a
+    refine le_of_forall_pos_lt_add fun ε hε => ?_
+    obtain ⟨e', he', hlt⟩ := H.exists_lt he b hε
+    exact lt_of_le_of_lt ((H.quotDist_le he' he).trans_eq (hypDist_comm _ _)) hlt
+  exact le_antisymm (key b a) (key a b)
+
+theorem quotDist_triangle (a b c : Y) :
+    quotDist p Θ a c ≤ quotDist p Θ a b + quotDist p Θ b c := by
+  obtain ⟨e, he⟩ := H.surjective a
+  refine le_of_forall_pos_lt_add fun ε hε => ?_
+  obtain ⟨e', he', h1⟩ := H.exists_lt he b (half_pos hε)
+  obtain ⟨e'', he'', h2⟩ := H.exists_lt he' c (half_pos hε)
+  calc quotDist p Θ a c ≤ hypDist (Θ e) (Θ e'') := H.quotDist_le he he''
+    _ ≤ hypDist (Θ e) (Θ e') + hypDist (Θ e') (Θ e'') := hypDist_triangle _ _ _
+    _ < quotDist p Θ a b + quotDist p Θ b c + ε := by linarith
+
+theorem eq_of_quotDist_eq_zero {a b : Y} (h : quotDist p Θ a b = 0) : a = b := by
+  obtain ⟨e, he⟩ := H.surjective a
+  have hcl : IsClosed (Θ '' (p ⁻¹' {b})) := Θ.isClosedMap _ (H.isClosed_fibre b)
+  by_contra hab
+  have hnot : Θ e ∉ Θ '' (p ⁻¹' {b}) := by
+    rintro ⟨e', he', hΘ⟩
+    exact hab (he.symm.trans (by rw [Θ.injective hΘ.symm]; exact he'))
+  obtain ⟨ε, hε, hball⟩ := isOpen_iff_hypDist.1 hcl.isOpen_compl _ hnot
+  obtain ⟨e', he', hlt⟩ := H.exists_lt he b hε
+  rw [h, zero_add] at hlt
+  exact hball _ hlt ⟨e', he', rfl⟩
+
+/-- The quotient distance gives the topology of `Y`. -/
+theorem isOpen_iff (s : Set Y) :
+    IsOpen s ↔ ∀ a ∈ s, ∃ ε > 0, ∀ b, quotDist p Θ a b < ε → b ∈ s := by
+  constructor
+  · intro hs a ha
+    obtain ⟨e, he⟩ := H.surjective a
+    have hO : IsOpen {z : PoincareDisc | p (Θ.symm z) ∈ s} :=
+      hs.preimage (H.continuous.comp Θ.symm.continuous)
+    obtain ⟨ε, hε, hb⟩ := isOpen_iff_hypDist.1 hO (Θ e) (by simpa [he] using ha)
+    refine ⟨ε, hε, fun b hb' => ?_⟩
+    obtain ⟨e', he', hlt⟩ := H.exists_lt he b (sub_pos.2 hb')
+    have := hb (Θ e') (by linarith)
+    simpa [he'] using this
+  · intro h
+    refine isOpen_iff_mem_nhds.2 fun a ha => ?_
+    obtain ⟨ε, hε, hb⟩ := h a ha
+    obtain ⟨e, he⟩ := H.surjective a
+    have hopen : IsOpen (p '' (Θ ⁻¹' {z | hypDist (Θ e) z < ε})) :=
+      H.isOpenMap _ ((isOpen_hypBall _ _).preimage Θ.continuous)
+    refine Filter.mem_of_superset (hopen.mem_nhds ⟨e, by simpa [hypDist_self] using hε, he⟩) ?_
+    rintro _ ⟨e', he', rfl⟩
+    exact hb _ (lt_of_le_of_lt (H.quotDist_le he rfl) he')
+
+/-- **The hyperbolic metric of the quotient** — a metric space structure on `Y` whose topology is
+(definitionally) the topology of `Y`. -/
+@[implicit_reducible]
+def metricSpace : MetricSpace Y :=
+  MetricSpace.ofDistTopology (quotDist p Θ) H.quotDist_self H.quotDist_comm H.quotDist_triangle
+    H.isOpen_iff fun _ _ => H.eq_of_quotDist_eq_zero
+
+theorem dist_eq (a b : Y) : @dist Y H.metricSpace.toDist a b = quotDist p Θ a b := rfl
+
+/-- **The hyperbolic metric of the quotient is complete.** -/
+theorem completeSpace : @CompleteSpace Y H.metricSpace.toUniformSpace := by
+  letI := H.metricSpace
+  refine Metric.complete_of_convergent_controlled_sequences (fun n => (1 / 2 : ℝ) ^ n)
+    (fun n => by positivity) fun u hu => ?_
+  have key : ∀ (n : ℕ) (e : E), p e = u n →
+      ∃ e', p e' = u (n + 1) ∧ hypDist (Θ e) (Θ e') < (1 / 2 : ℝ) ^ n := by
+    intro n e he
+    have h1 : quotDist p Θ (u n) (u (n + 1)) < (1 / 2 : ℝ) ^ n := hu n n (n + 1) le_rfl
+      (Nat.le_succ n)
+    obtain ⟨e', he', hlt⟩ := H.exists_lt he (u (n + 1)) (sub_pos.2 h1)
+    exact ⟨e', he', by linarith⟩
+  choose! f hf using key
+  obtain ⟨e₀, he₀⟩ := H.surjective (u 0)
+  let ee : ℕ → E := fun n => Nat.rec e₀ (fun n e => f n e) n
+  have hee : ∀ n, p (ee n) = u n := by
+    intro n
+    induction n with
+    | zero => exact he₀
+    | succ n ih => exact (hf n (ee n) ih).1
+  have hstep : ∀ n, dist (toUHP (Θ (ee n))) (toUHP (Θ (ee (n + 1)))) ≤ 2 / 2 / 2 ^ n := by
+    intro n
+    have := (hf n (ee n) (hee n)).2
+    rw [show (2 : ℝ) / 2 / 2 ^ n = (1 / 2) ^ n by rw [div_self two_ne_zero, one_div_pow]]
+    exact this.le
+  obtain ⟨w, hw⟩ := cauchySeq_tendsto_of_complete (cauchySeq_of_le_geometric_two hstep)
+  refine ⟨p (Θ.symm (ofUHP w)), ?_⟩
+  rw [tendsto_iff_dist_tendsto_zero]
+  have hw' : Tendsto (fun n => dist (toUHP (Θ (ee n))) w) atTop (𝓝 0) :=
+    (tendsto_iff_dist_tendsto_zero).1 hw
+  refine squeeze_zero (fun n => dist_nonneg) (fun n => ?_) hw'
+  show quotDist p Θ (u n) (p (Θ.symm (ofUHP w))) ≤ _
+  refine (H.quotDist_le (hee n) rfl).trans_eq ?_
+  rw [Homeomorph.apply_symm_apply, hypDist, toUHP_ofUHP]
+
+/-- **The hyperbolic metric of the quotient is a length metric**: any two points are joined by
+paths of length (variation) as close to their distance as wished, and no path is shorter. -/
+theorem exists_path_variation_le (a b : Y) {ε : ℝ} (hε : 0 < ε) :
+    ∃ γ : Path a b, @eVariationOn unitInterval _ Y H.metricSpace.toPseudoEMetricSpace γ univ ≤
+      ENNReal.ofReal (quotDist p Θ a b + ε) := by
+  letI := H.metricSpace
+  obtain ⟨e, he⟩ := H.surjective a
+  obtain ⟨e', he', hlt⟩ := H.exists_lt he b hε
+  obtain ⟨γ₀, hγ₀⟩ := exists_hypGeodesic (Θ e) (Θ e')
+  let γ : Path a b := ⟨⟨fun t => p (Θ.symm (γ₀ t)),
+    H.continuous.comp (Θ.symm.continuous.comp γ₀.continuous)⟩,
+    by simp [he], by simp [he']⟩
+  refine ⟨γ, ?_⟩
+  calc eVariationOn (fun t => γ t) univ ≤ eVariationOn (fun t => toUHP (γ₀ t)) univ := by
+        refine eVariationOn_mono_edist _ fun s t => ?_
+        rw [edist_dist, edist_dist]
+        refine ENNReal.ofReal_le_ofReal ?_
+        show quotDist p Θ (p (Θ.symm (γ₀ s))) (p (Θ.symm (γ₀ t))) ≤ hypDist (γ₀ s) (γ₀ t)
+        refine (H.quotDist_le rfl rfl).trans_eq ?_
+        simp
+    _ = ENNReal.ofReal (hypDist (Θ e) (Θ e')) := hγ₀
+    _ ≤ ENNReal.ofReal (quotDist p Θ a b + ε) := ENNReal.ofReal_le_ofReal hlt.le
+
+theorem le_eVariationOn {a b : Y} (γ : Path a b) :
+    ENNReal.ofReal (quotDist p Θ a b) ≤
+      @eVariationOn unitInterval _ Y H.metricSpace.toPseudoEMetricSpace γ univ := by
+  letI := H.metricSpace
+  have := eVariationOn.edist_le (fun t => γ t) (mem_univ (0 : unitInterval)) (mem_univ 1)
+  rw [edist_dist, γ.source, γ.target] at this
+  exact this
+
+/-- **The hyperbolic metric of the quotient is locally the metric of `ℍ` read in the charts**,
+when `p` is a local homeomorphism and `Θ` is, near every point, an isometry of `ℍ` composed with
+the chart of `Y` at its image. -/
+theorem exists_nhds_quotDist_eq [ChartedSpace PoincareDisc Y] (hloc : IsLocalHomeomorph p)
+    (hchart : ∀ e, ∃ g : HypIsom, ∀ᶠ e' in 𝓝 e, Θ e' = g • chartAt PoincareDisc (p e) (p e'))
+    (y : Y) : ∃ V ∈ 𝓝 y, ∀ a ∈ V, ∀ b ∈ V,
+      quotDist p Θ a b = hypDist (chartAt PoincareDisc y a) (chartAt PoincareDisc y b) := by
+  obtain ⟨e, rfl⟩ := H.surjective y
+  obtain ⟨g, hg⟩ := hchart e
+  obtain ⟨h, heh, hph⟩ := hloc e
+  obtain ⟨U₀, hU₀, hU₀o, heU₀⟩ := eventually_nhds_iff.1 hg
+  set U : Set E := h.source ∩ U₀ with hUdef
+  have hUo : IsOpen U := h.open_source.inter hU₀o
+  obtain ⟨ε, hε, hball⟩ := isOpen_iff_hypDist.1 (Θ.isOpenMap U hUo) (Θ e) ⟨e, ⟨heh, heU₀⟩, rfl⟩
+  set r := ε / 3 with hr
+  have hrpos : 0 < r := by positivity
+  have hpe : p e = h e := by rw [hph]
+  have hhe : h.symm (p e) = e := by rw [hpe]; exact h.left_inv heh
+  have htgt : p e ∈ h.target := by rw [hpe]; exact h.map_source heh
+  set V : Set Y := h.target ∩ h.symm ⁻¹' (U ∩ {x | hypDist (Θ e) (Θ x) < r}) with hVdef
+  have hV : V ∈ 𝓝 (p e) := by
+    refine Filter.inter_mem (h.open_target.mem_nhds htgt) ?_
+    refine (h.continuousAt_symm htgt).preimage_mem_nhds ?_
+    rw [hhe]
+    refine (hUo.inter ((isOpen_hypBall _ _).preimage Θ.continuous)).mem_nhds ⟨⟨heh, heU₀⟩, ?_⟩
+    show hypDist (Θ e) (Θ e) < r
+    rw [hypDist_self]; exact hrpos
+  have hsec : ∀ a ∈ V, p (h.symm a) = a := fun a ha => by rw [hph]; exact h.right_inv ha.1
+  have hΘ : ∀ a ∈ V, Θ (h.symm a) = g • chartAt PoincareDisc (p e) a := fun a ha => by
+    have := hU₀ _ ha.2.1.2
+    rwa [hsec a ha] at this
+  refine ⟨V, hV, fun a ha b hb => ?_⟩
+  apply le_antisymm
+  · refine (H.quotDist_le (hsec a ha) (hsec b hb)).trans_eq ?_
+    rw [hΘ a ha, hΘ b hb, HypIsom.hypDist_smul]
+  · haveI := H.nonempty_fibre b
+    rw [H.quotDist_eq (hsec a ha)]
+    refine le_ciInf fun e'' => ?_
+    rw [← HypIsom.hypDist_smul g, ← hΘ a ha, ← hΘ b hb]
+    by_contra hlt'
+    have hlt := not_le.1 hlt'
+    have h1 : hypDist (Θ e) (Θ (h.symm a)) < r := ha.2.2
+    have h2 : hypDist (Θ e) (Θ (h.symm b)) < r := hb.2.2
+    have h3 := hypDist_triangle (Θ (h.symm a)) (Θ e) (Θ (h.symm b))
+    have h4 := hypDist_triangle (Θ e) (Θ (h.symm a)) (Θ e'')
+    rw [hypDist_comm (Θ (h.symm a)) (Θ e)] at h3
+    obtain ⟨x, hxU, hx⟩ := hball (Θ e'') (by linarith)
+    have hxe : x = e'' := Θ.injective hx
+    rw [hxe] at hxU
+    have : (e'' : E) = h.symm b := h.injOn hxU.1 hb.2.1.1 (by rw [← hph, e''.2, hsec b hb])
+    rw [this] at hlt
+    exact lt_irrefl _ hlt
+
+end IsHypQuotient
+
+end HypQuot
+
+
+/-! ### DEC-81: hyperbolic metrics on a `(G, ℍ)`-surface -/
+
+section HypMetric
+
+variable (Y : Type*) [TopologicalSpace Y] [ChartedSpace PoincareDisc Y]
+
+/-- **A hyperbolic metric** on a `(G, ℍ)`-manifold `Y` (`G = Isom(ℍ)`), the metric reading of
+"`M ∖ S` endowed with a hyperbolic metric" (DEC-81): a metric on `Y` giving its topology which is
+a **length metric** (any two points are joined by paths whose length — the variation along the
+path — is as close to their distance as wished) and **locally the metric of `ℍ`** read in the
+charts. This is what the distance of a Riemannian metric of constant curvature `-1` is (its
+small balls are isometric to balls of `ℍ`); the Riemannian tensor itself is not formalized (no
+Riemannian surfaces at this pin). -/
+structure IsHyperbolicMetric (m : MetricSpace Y) : Prop where
+  topology_eq : m.toUniformSpace.toTopologicalSpace = ‹TopologicalSpace Y›
+  length : ∀ (a b : Y) (ε : ℝ), 0 < ε → ∃ γ : Path a b,
+    @eVariationOn unitInterval _ Y m.toPseudoEMetricSpace γ univ ≤
+      ENNReal.ofReal (@dist Y m.toDist a b + ε)
+  local_isometry : ∀ y : Y, ∃ V ∈ 𝓝 y, ∀ a ∈ V, ∀ b ∈ V,
+    @dist Y m.toDist a b = hypDist (chartAt PoincareDisc y a) (chartAt PoincareDisc y b)
+
+variable {Y}
+
+/-- In a metric space no path is shorter than the distance of its ends. -/
+theorem dist_le_eVariationOn {Z : Type*} [PseudoMetricSpace Z] {a b : Z} (γ : C(unitInterval, Z))
+    (h0 : γ 0 = a) (h1 : γ 1 = b) : ENNReal.ofReal (dist a b) ≤ eVariationOn γ univ := by
+  have := eVariationOn.edist_le (fun t => γ t) (mem_univ (0 : unitInterval)) (mem_univ 1)
+  rwa [edist_dist, h0, h1] at this
+
+/-- **The hyperbolic metric is unique**: a `(G, ℍ)`-structure carries at most one hyperbolic
+metric (two of them agree near every point, so give every path the same length). -/
+theorem IsHyperbolicMetric.unique {m m' : MetricSpace Y} (h : IsHyperbolicMetric Y m)
+    (h' : IsHyperbolicMetric Y m') : m = m' := by
+  have hloc : ∀ y : Y, ∃ W ∈ 𝓝 y, ∀ a ∈ W, ∀ b ∈ W,
+      @dist Y m.toDist a b = @dist Y m'.toDist a b := by
+    intro y
+    obtain ⟨V, hV, hVd⟩ := h.local_isometry y
+    obtain ⟨V', hV', hVd'⟩ := h'.local_isometry y
+    exact ⟨V ∩ V', Filter.inter_mem hV hV', fun a ha b hb => by
+      rw [hVd a ha.1 b hb.1, hVd' a ha.2 b hb.2]⟩
+  have key : ∀ {m m' : MetricSpace Y}, IsHyperbolicMetric Y m → IsHyperbolicMetric Y m' →
+      (∀ y : Y, ∃ W ∈ 𝓝 y, ∀ a ∈ W, ∀ b ∈ W, @dist Y m.toDist a b = @dist Y m'.toDist a b) →
+      ∀ a b : Y, @dist Y m.toDist a b ≤ @dist Y m'.toDist a b := by
+    intro m m' h h' hloc a b
+    refine le_of_forall_pos_le_add fun ε hε => ?_
+    obtain ⟨γ, hγ⟩ := h'.length a b ε hε
+    have hvar : @eVariationOn unitInterval _ Y m.toPseudoEMetricSpace γ univ =
+        @eVariationOn unitInterval _ Y m'.toPseudoEMetricSpace γ univ := by
+      refine @eVariationOn_eq_of_locally Y Y m.toPseudoEMetricSpace m'.toPseudoEMetricSpace
+        γ γ fun t => ?_
+      obtain ⟨W, hW, hWd⟩ := hloc (γ t)
+      refine ⟨γ ⁻¹' W, γ.continuous.continuousAt.preimage_mem_nhds hW, fun s hs s' hs' => ?_⟩
+      rw [@edist_dist Y m.toPseudoMetricSpace, @edist_dist Y m'.toPseudoMetricSpace]
+      exact congrArg ENNReal.ofReal (hWd _ hs _ hs')
+    have hle := @dist_le_eVariationOn Y m.toPseudoMetricSpace a b
+      (@ContinuousMap.mk unitInterval Y _ m.toUniformSpace.toTopologicalSpace γ
+        (by rw [h.topology_eq]; exact γ.continuous)) γ.source γ.target
+    have := (hle.trans_eq hvar).trans hγ
+    rwa [ENNReal.ofReal_le_ofReal_iff (by positivity)] at this
+  apply MetricSpace.ext
+  ext a b
+  exact le_antisymm (key h h' hloc a b) (key h' h (fun y => let ⟨W, hW, hWd⟩ := hloc y
+    ⟨W, hW, fun a ha b hb => (hWd a ha b hb).symm⟩) a b)
+
+theorem IsCompleteHyperbolic.isHypQuotient [LocPathConnectedSpace Y] [ConnectedSpace Y]
+    [T1Space Y] [HasGroupoid Y (gxGroupoid HypIsom PoincareDisc)] (hc : IsCompleteHyperbolic Y)
+    (hY : SemilocallySimplyConnected Y) (y₀ : Y) :
+    ∃ Θ : UniversalCover Y y₀ ≃ₜ PoincareDisc, IsHypQuotient (UniversalCover.proj Y y₀) Θ ∧
+      ∀ e, ∃ g : HypIsom, ∀ᶠ e' in 𝓝 e,
+        Θ e' = g • chartAt PoincareDisc (UniversalCover.proj Y y₀ e) (UniversalCover.proj Y y₀ e') := by
+  obtain ⟨dev, hol, hdev, -, hhol⟩ := developing_theorem (G := HypIsom) (X := PoincareDisc) hY y₀
+  obtain ⟨Θ, hΘ⟩ := IsCompleteHyperbolic.exists_homeomorph hc hY y₀ dev hdev
+  haveI : PathConnectedSpace Y := pathConnectedSpace_iff_connectedSpace.2 ‹_›
+  refine ⟨Θ, ⟨UniversalCover.continuous_proj, UniversalCover.isOpenMap_proj,
+    UniversalCover.proj_surjective, fun y => isClosed_singleton.preimage
+      UniversalCover.continuous_proj, ?_⟩, fun e => ?_⟩
+  · rintro ⟨y, a⟩ ⟨y', b⟩ h
+    change y = y' at h
+    subst h
+    let γ : Deck (UniversalCover.proj Y y₀) := ⟨UniversalCover.leftMulHomeomorph (b.trans a.symm), rfl⟩
+    refine ⟨γ.1, hol γ, fun x => congrFun γ.2 x, ?_, fun x => by rw [hΘ]; exact hhol γ x⟩
+    show (⟨y, (b.trans a.symm).trans a⟩ : UniversalCover Y y₀) = ⟨y, b⟩
+    rw [Path.Homotopic.Quotient.trans_assoc, Path.Homotopic.Quotient.symm_trans,
+      Path.Homotopic.Quotient.trans_refl]
+  · letI := coverChartedSpace PoincareDisc hY y₀
+    obtain ⟨g, hg⟩ := (isGXMorphism_iff_model.1 hdev).2 e
+    refine ⟨g, hg.mono fun e' he' => ?_⟩
+    rw [hΘ, he', pullback_chartAt_apply]
+
+/-- **A complete hyperbolic surface carries a complete hyperbolic metric** (DEC-81, metric
+reading of `ex:take_closed_unit_disc`): the quotient metric of `ℍ` through the developing map,
+a complete length metric locally isometric to `ℍ` in the charts. -/
+theorem IsCompleteHyperbolic.exists_isHyperbolicMetric [LocPathConnectedSpace Y]
+    [ConnectedSpace Y] [T1Space Y] [HasGroupoid Y (gxGroupoid HypIsom PoincareDisc)]
+    (hc : IsCompleteHyperbolic Y) (hY : SemilocallySimplyConnected Y) :
+    ∃ m : MetricSpace Y, IsHyperbolicMetric Y m ∧ @CompleteSpace Y m.toUniformSpace := by
+  obtain ⟨y₀⟩ : Nonempty Y := ‹ConnectedSpace Y›.toNonempty
+  obtain ⟨Θ, H, hch⟩ := hc.isHypQuotient hY y₀
+  refine ⟨H.metricSpace, ⟨rfl, fun a b ε hε => H.exists_path_variation_le a b hε, ?_⟩,
+    H.completeSpace⟩
+  exact H.exists_nhds_quotDist_eq
+    (UniversalCover.isCoveringMap_proj (y₀ := y₀) hY).isLocalHomeomorph hch
+
+end HypMetric
+
+/-! ### DEC-81: cusps have finite area -/
+
+section CuspArea
+
+open MeasureTheory
+open scoped ENNReal
+
+
+/-- The fundamental strip `{c < Im w, 0 ≤ Re w < 1}` of the horoball `{Im w > c}` modulo the
+translation `w ↦ w + 1`. -/
+def cuspStrip (c : ℝ) : Set ℍ := {w | c < w.im ∧ 0 ≤ w.re ∧ w.re < 1}
+
+theorem lintegral_Ioi_inv_sq {c : ℝ} (hc : 0 < c) :
+    ∫⁻ y in Ioi c, (((1 / ‖y‖₊) ^ 2 : NNReal) : ℝ≥0∞) = ENNReal.ofReal (1 / c) := by
+  have h1 : ∀ y ∈ Ioi c, (((1 / ‖y‖₊) ^ 2 : NNReal) : ℝ≥0∞) = ENNReal.ofReal (y ^ (-2 : ℝ)) := by
+    intro y hy
+    have hy0 : 0 < y := hc.trans hy
+    rw [← ENNReal.ofReal_coe_nnreal]
+    congr 1
+    push_cast
+    rw [Real.norm_eq_abs, abs_of_pos hy0, Real.rpow_neg hy0.le, one_div, inv_pow]
+    norm_cast
+  rw [setLIntegral_congr_fun measurableSet_Ioi h1,
+    ← ofReal_integral_eq_lintegral_ofReal (integrableOn_Ioi_rpow_of_lt (by norm_num) hc)
+      (ae_restrict_of_forall_mem measurableSet_Ioi fun y hy =>
+        Real.rpow_nonneg (hc.trans hy).le _),
+    integral_Ioi_rpow_of_lt (by norm_num) hc]
+  congr 1
+  norm_num
+  rw [Real.rpow_neg_one, inv_eq_one_div]
+
+/-- **The cusp has finite area**: for the invariant area `dx dy / y²` of `ℍ` (mathlib's
+`volume` on `UpperHalfPlane`), the fundamental strip of a horoball `{Im w > c}` under
+`w ↦ w + 1` has area `1/c`. -/
+theorem volume_cuspStrip {c : ℝ} (hc : 0 < c) :
+    volume (cuspStrip c) = ENNReal.ofReal (1 / c) := by
+  rw [UpperHalfPlane.volume_eq_lintegral]
+  have himg : ((↑) : ℍ → ℂ) '' cuspStrip c =
+      Complex.measurableEquivRealProd ⁻¹' (Ico 0 1 ×ˢ Ioi c) := by
+    ext z
+    simp only [mem_image, cuspStrip, mem_setOf_eq, mem_preimage,
+      Complex.measurableEquivRealProd_apply, mem_prod, mem_Ico, mem_Ioi]
+    constructor
+    · rintro ⟨w, ⟨h1, h2, h3⟩, rfl⟩
+      exact ⟨⟨h2, h3⟩, h1⟩
+    · rintro ⟨⟨h2, h3⟩, h1⟩
+      exact ⟨⟨z, hc.trans h1⟩, ⟨h1, h2, h3⟩, rfl⟩
+  rw [himg]
+  have := Complex.volume_preserving_equiv_real_prod.setLIntegral_comp_preimage_emb
+    Complex.measurableEquivRealProd.measurableEmbedding
+    (fun p : ℝ × ℝ => (((1 / ‖p.2‖₊) ^ 2 : NNReal) : ℝ≥0∞)) (Ico 0 1 ×ˢ Ioi c)
+  simp only [Complex.measurableEquivRealProd_apply] at this
+  rw [this, Measure.volume_eq_prod, setLIntegral_prod _ (by fun_prop)]
+  simp only [lintegral_Ioi_inv_sq hc, lintegral_const, Measure.restrict_apply MeasurableSet.univ,
+    univ_inter, Real.volume_Ico, sub_zero, ENNReal.ofReal_one, mul_one]
+
+section CuspMetric
+
+variable {M : Type*} [TopologicalSpace M] {S : Set M} {s : M}
+
+namespace CuspChart
+
+variable (C : CuspChart S s)
+
+/-- The cusp map identifies the fundamental strip with the punctured cusp neighbourhood:
+`E` is injective on `{0 ≤ Re w < 1}` and maps it onto `W_c ∖ {s}`. -/
+theorem injOn_E_strip : InjOn C.E {w | 0 ≤ (w : ℂ).re ∧ (w : ℂ).re < 1} := by
+  intro w hw w' hw' h
+  obtain ⟨n, hn⟩ := C.exists_int_of_E_eq h
+  have hre : (w' : ℂ).re = (w : ℂ).re + n := by rw [hn]; simp
+  have hn0 : n = 0 := by
+    have h1 : (n : ℝ) < 1 := by linarith [hw.1, hw'.2]
+    have h2 : (-1 : ℝ) < n := by linarith [hw.2, hw'.1]
+    have h1' : n < 1 := by exact_mod_cast h1
+    have h2' : -1 < n := by exact_mod_cast h2
+    omega
+  apply Subtype.ext
+  rw [hn, hn0]; simp
+
+theorem image_E_strip :
+    Subtype.val '' (C.E '' {w | 0 ≤ (w : ℂ).re ∧ (w : ℂ).re < 1}) = C.W C.c \ {s} := by
+  ext x
+  constructor
+  · rintro ⟨_, ⟨w, -, rfl⟩, rfl⟩
+    exact ⟨(C.E_mem_W_iff C.c w).2 w.2, C.EV_ne w⟩
+  · rintro ⟨hxW, hxs⟩
+    obtain ⟨w, -, hw⟩ := C.exists_E_eq le_rfl hxW hxs
+    set n : ℤ := -⌊(w : ℂ).re⌋
+    refine ⟨C.E ⟨w + n, by simpa using w.2⟩, ⟨⟨w + n, by simpa using w.2⟩, ?_, rfl⟩, ?_⟩
+    · show 0 ≤ ((w : ℂ) + n).re ∧ ((w : ℂ) + n).re < 1
+      simp only [add_re, n, Int.cast_neg, neg_re, intCast_re]
+      have := Int.floor_le (w : ℂ).re
+      have := Int.lt_floor_add_one (w : ℂ).re
+      constructor <;> linarith
+    · rw [C.E_add_int]; exact hw
+
+/-- The cusp map read in `ℍ`: the point `w` of the horoball. -/
+theorem toUHP_cayH (w : Horoball C.c) :
+    toUHP (C.cayH w) = UpperHalfPlane.mk w (C.c_pos.trans w.2) :=
+  UpperHalfPlane.ext (cayInv_cay (C.c_pos.trans w.2))
+
+variable [ChartedSpace PoincareDisc (Sᶜ : Set M)]
+
+/-- **The cusp map is a local isometry** from the horoball `{Im w > c}` of `ℍ` to `M ∖ S` with
+any hyperbolic metric (a hyperbolic cusp is a `(G, ℍ)`-morphism). -/
+theorem exists_nhds_dist_E {m : MetricSpace (Sᶜ : Set M)} (hm : IsHyperbolicMetric (Sᶜ : Set M) m)
+    (hC : C.IsHyperbolicCusp) (w : Horoball C.c) :
+    ∃ N ∈ 𝓝 w, ∀ w₁ ∈ N, ∀ w₂ ∈ N, @dist _ m.toDist (C.E w₁) (C.E w₂) =
+      dist (UpperHalfPlane.mk w₁ (C.c_pos.trans w₁.2)) (UpperHalfPlane.mk w₂ (C.c_pos.trans w₂.2)) := by
+  obtain ⟨g, hg⟩ := hC w
+  obtain ⟨V, hV, hVd⟩ := hm.local_isometry (C.E w)
+  refine ⟨C.E ⁻¹' V ∩ {w' | chartAt PoincareDisc (C.E w) (C.E w') = g • C.cayH w'},
+    Filter.inter_mem (C.continuous_E.continuousAt.preimage_mem_nhds hV) hg,
+    fun w₁ h₁ w₂ h₂ => ?_⟩
+  rw [hVd _ h₁.1 _ h₂.1, h₁.2, h₂.2, HypIsom.hypDist_smul, hypDist, toUHP_cayH, toUHP_cayH]
+
+end CuspChart
+
+/-- **Cusps have finite area** (`ex:take_closed_unit_disc`, DEC-81): at a hyperbolic cusp
+`C` of `M ∖ S`, the punctured cusp neighbourhood `W_c ∖ {s}` is the injective image, under the
+cusp map — a local isometry for the hyperbolic metric — of the fundamental strip
+`{c < Im w, 0 ≤ Re w < 1}` of `ℍ`, whose hyperbolic area is `1/c < ∞`. -/
+theorem CuspChart.cusp_finite_area [ChartedSpace PoincareDisc (Sᶜ : Set M)] (C : CuspChart S s)
+    (hC : C.IsHyperbolicCusp) {m : MetricSpace (Sᶜ : Set M)}
+    (hm : IsHyperbolicMetric (Sᶜ : Set M) m) :
+    InjOn C.E {w | 0 ≤ (w : ℂ).re ∧ (w : ℂ).re < 1} ∧
+    Subtype.val '' (C.E '' {w | 0 ≤ (w : ℂ).re ∧ (w : ℂ).re < 1}) = C.W C.c \ {s} ∧
+    (∀ w, ∃ N ∈ 𝓝 w, ∀ w₁ ∈ N, ∀ w₂ ∈ N, @dist _ m.toDist (C.E w₁) (C.E w₂) =
+      dist (UpperHalfPlane.mk w₁ (C.c_pos.trans w₁.2)) (UpperHalfPlane.mk w₂ (C.c_pos.trans w₂.2))) ∧
+    volume (cuspStrip C.c) = ENNReal.ofReal (1 / C.c) :=
+  ⟨C.injOn_E_strip, C.image_E_strip, C.exists_nhds_dist_E hm hC, volume_cuspStrip C.c_pos⟩
+
+end CuspMetric
+
+end CuspArea
+
+/-! ### DEC-81: the geodesic segments of `ℍ`, as a family -/
+
+theorem normSq_unitInterval_mul_lt (t : unitInterval) {w : ℂ} (hw : normSq w < 1) :
+    normSq ((t : ℝ) * w) < 1 := by
+  rw [normSq_mul, normSq_ofReal]
+  have h0 := t.2.1
+  have h1 := t.2.2
+  have : (t : ℝ) * t ≤ 1 := by nlinarith
+  nlinarith [normSq_nonneg w]
+
+/-- The point `mobF 1 (-z) false w` (`w` moved by the isometry sending `z` to `0`). -/
+theorem normSq_mobF_neg_lt (z w : PoincareDisc) : normSq (mobF 1 (-(z : ℂ)) false w) < 1 :=
+  normSq_mobF_lt false (map_one _) (by rw [normSq_neg]; exact z.normSq_lt) w.normSq_lt
+
+/-- **The geodesic segment from `z` to `w`** in the Poincaré disc: the diameter through `0`,
+moved by the isometry `mobF 1 z` sending `0` to `z`. -/
+def hypGeod (z w : PoincareDisc) (t : unitInterval) : PoincareDisc :=
+  ⟨mobF 1 z false ((t : ℝ) * mobF 1 (-(z : ℂ)) false w), normSq_lt_one_iff.1
+    (normSq_mobF_lt false (map_one _) z.normSq_lt
+      (normSq_unitInterval_mul_lt t (normSq_mobF_neg_lt z w)))⟩
+
+theorem hypGeod_zero (z w : PoincareDisc) : hypGeod z w 0 = z := by
+  apply Subtype.ext
+  show mobF 1 z false (((0 : unitInterval) : ℝ) * _) = z
+  simp [mobF, sigmaB]
+
+theorem hypGeod_one (z w : PoincareDisc) : hypGeod z w 1 = w := by
+  apply Subtype.ext
+  show mobF 1 z false (((1 : unitInterval) : ℝ) * _) = w
+  simp only [Set.Icc.coe_one, ofReal_one, one_mul]
+  exact mobF_one_mobF_neg (a := (z : ℂ)) z.normSq_lt w.normSq_lt.le
+
+theorem hypGeod_self (z : PoincareDisc) (t : unitInterval) : hypGeod z z t = z := by
+  apply Subtype.ext
+  show mobF 1 z false ((t : ℝ) * mobF 1 (-(z : ℂ)) false z) = z
+  rw [mobF_one_neg_self, mul_zero]
+  simp [mobF, sigmaB]
+
+theorem continuous_mobF_disc (u a : ℂ) (b : Bool) (hu : normSq u = 1) (ha : normSq a < 1)
+    {X : Type*} [TopologicalSpace X] {f : X → ℂ} (hf : Continuous f) (hf1 : ∀ x, normSq (f x) ≤ 1) :
+    Continuous fun x => mobF u a b (f x) := by
+  unfold mobF
+  refine Continuous.div ?_ ?_ fun x => mobDen_ne_zero b hu ha (hf1 x)
+  · exact (continuous_const.mul ((continuous_sigmaB _).comp hf)).add continuous_const
+  · exact continuous_const.add (continuous_const.mul ((continuous_sigmaB _).comp hf))
+
+/-- The geodesic segments from `z` form a homotopy `I × 𝔻 → 𝔻`. -/
+theorem continuous_hypGeod (z : PoincareDisc) :
+    Continuous fun p : unitInterval × PoincareDisc => hypGeod z p.2 p.1 := by
+  refine Continuous.subtype_mk ?_ _
+  have hz' : normSq (-(z : ℂ)) < 1 := by rw [normSq_neg]; exact z.normSq_lt
+  have h1 : Continuous fun p : unitInterval × PoincareDisc => mobF 1 (-(z : ℂ)) false p.2 :=
+    continuous_mobF_disc 1 _ false (map_one _) hz' (continuous_subtype_val.comp continuous_snd)
+      fun p => p.2.normSq_lt.le
+  exact continuous_mobF_disc 1 z false (map_one _) z.normSq_lt
+    ((continuous_ofReal.comp (continuous_subtype_val.comp continuous_fst)).mul h1)
+    fun p => (normSq_unitInterval_mul_lt p.1 (normSq_mobF_neg_lt z p.2)).le
+
+theorem continuous_hypGeod' (z w : PoincareDisc) : Continuous (hypGeod z w) := by
+  refine Continuous.subtype_mk ?_ _
+  exact continuous_mobF_disc 1 z false (map_one _) z.normSq_lt
+    ((continuous_ofReal.comp continuous_subtype_val).mul continuous_const)
+    fun t => (normSq_unitInterval_mul_lt t (normSq_mobF_neg_lt z w)).le
+
+/-- The distances along a geodesic segment are those of a monotone real coordinate. -/
+theorem exists_monotone_hypGeod (z w : PoincareDisc) :
+    ∃ f : unitInterval → ℝ, Monotone f ∧
+      ∀ s t, hypDist (hypGeod z w s) (hypGeod z w t) = dist (f s) (f t) := by
+  have hu1 : normSq (1 : ℂ) = 1 := map_one _
+  set w' : ℂ := mobF 1 (-(z : ℂ)) false w with hw'
+  have hw'1 : normSq w' < 1 := normSq_mobF_neg_lt z w
+  have hn : ‖w'‖ < 1 := by have := normSq_lt_one_iff.1 hw'1; simpa using this
+  have hseg' : ∀ t : unitInterval, |(t : ℝ) * ‖w'‖| < 1 := by
+    intro t
+    rw [abs_mul, abs_of_nonneg t.2.1, abs_of_nonneg (norm_nonneg _)]
+    calc (t : ℝ) * ‖w'‖ ≤ 1 * ‖w'‖ := mul_le_mul_of_nonneg_right t.2.2 (norm_nonneg _)
+      _ < 1 := by rw [one_mul]; exact hn
+  refine ⟨fun t => diamCoord ((t : ℝ) * ‖w'‖), fun a b hab =>
+    diamCoord_mono (hseg' a) (hseg' b) (mul_le_mul_of_nonneg_right hab (norm_nonneg _)),
+    fun s t => ?_⟩
+  have e1 : hypDist (hypGeod z w s) (hypGeod z w t) =
+      hypDist (diamPt _ (hseg' s)) (diamPt _ (hseg' t)) := by
+    rw [hypDist_eq_iff]
+    show hypRatio (mobF 1 z false ((s : ℝ) * w')) (mobF 1 z false ((t : ℝ) * w')) =
+      hypRatio (((s : ℝ) * ‖w'‖ : ℝ) : ℂ) (((t : ℝ) * ‖w'‖ : ℝ) : ℂ)
+    rw [hypRatio_mobF false hu1 z.normSq_lt (normSq_unitInterval_mul_lt s hw'1)
+      (normSq_unitInterval_mul_lt t hw'1), hypRatio_smul_eq]
+    push_cast; rfl
+  rw [e1, hypDist_diamPt]
+
+/-- **The length of a geodesic arc is the distance of its ends.** -/
+theorem eVariationOn_hypGeod_le (z w : PoincareDisc) {a b : unitInterval} (hab : a ≤ b) :
+    eVariationOn (fun t => toUHP (hypGeod z w t)) (Icc a b) ≤
+      ENNReal.ofReal (hypDist (hypGeod z w a) (hypGeod z w b)) := by
+  obtain ⟨f, hf, hd⟩ := exists_monotone_hypGeod z w
+  have hev : eVariationOn (fun t => toUHP (hypGeod z w t)) (Icc a b) = eVariationOn f (Icc a b) :=
+    eVariationOn_congr_edist _ fun s t => by
+      rw [edist_dist, edist_dist]; exact congrArg ENNReal.ofReal (hd s t)
+  rw [hev, hd, Real.dist_eq, abs_sub_comm, abs_of_nonneg (sub_nonneg.2 (hf hab))]
+  have := (hf.monotoneOn univ).eVariationOn_le (mem_univ a) (mem_univ b)
+  rwa [univ_inter] at this
+
+
+/-! ### DEC-81: metric completeness implies Thurston–Goldman completeness (Hopf–Rinow) -/
+
+/-! #### Metric helpers -/
+
+theorem exists_ball_subset_of_topology_eq {Z : Type*} [t : TopologicalSpace Z] (m : MetricSpace Z)
+    (h : m.toUniformSpace.toTopologicalSpace = t) {V : Set Z} (hV : IsOpen V) {y : Z}
+    (hy : y ∈ V) : ∃ ρ > 0, ∀ x, @dist Z m.toDist y x < ρ → x ∈ V := by
+  subst h
+  obtain ⟨ρ, hρ, hb⟩ := @Metric.isOpen_iff Z m.toPseudoMetricSpace V |>.1 hV y hy
+  exact ⟨ρ, hρ, fun x hx => hb (by rw [@Metric.mem_ball Z m.toPseudoMetricSpace,
+    @dist_comm Z m.toPseudoMetricSpace]; exact hx)⟩
+
+theorem tendsto_of_dist_of_topology_eq {Z : Type*} [t : TopologicalSpace Z] (m : MetricSpace Z)
+    (h : m.toUniformSpace.toTopologicalSpace = t) {u : ℕ → Z} {y : Z}
+    (hu : Tendsto (fun n => @dist Z m.toDist (u n) y) atTop (𝓝 0)) : Tendsto u atTop (𝓝 y) := by
+  subst h
+  exact (@tendsto_iff_dist_tendsto_zero Z ℕ m.toPseudoMetricSpace _ _ _).2 hu
+
+theorem exists_dist_tendsto_zero {Z : Type*} (m : MetricSpace Z)
+    (hcomp : @CompleteSpace Z m.toUniformSpace) {u : ℕ → Z} {δ : ℕ → ℝ}
+    (hu : ∀ n n', n ≤ n' → @dist Z m.toDist (u n) (u n') ≤ δ n) (hδ : Tendsto δ atTop (𝓝 0)) :
+    ∃ y, Tendsto (fun n => @dist Z m.toDist (u n) y) atTop (𝓝 0) := by
+  letI := m
+  obtain ⟨y, hy⟩ := cauchySeq_tendsto_of_complete (cauchySeq_of_le_tendsto_0' δ hu hδ)
+  exact ⟨y, tendsto_iff_dist_tendsto_zero.1 hy⟩
+
+
+section HopfRinow
+
+variable {E Y : Type*} [TopologicalSpace E] [TopologicalSpace Y]
+
+/-- The situation of the universal cover `q : E → Y` of a `(G, ℍ)`-surface with a hyperbolic
+metric `m` and a developing map `dev : E → 𝔻`: `q` is a covering map, `dev` a local homeomorphism,
+and `dev` is near every point an isometry for the metric of `Y` read through `q`. -/
+structure IsDevLocalIsometry (m : MetricSpace Y) (q : E → Y) (dev : E → PoincareDisc) : Prop where
+  topology_eq : m.toUniformSpace.toTopologicalSpace = ‹TopologicalSpace Y›
+  covering : IsCoveringMap q
+  local_homeo : IsLocalHomeomorph dev
+  local_isometry : ∀ e, ∃ U ∈ 𝓝 e, ∀ e₁ ∈ U, ∀ e₂ ∈ U,
+    @dist Y m.toDist (q e₁) (q e₂) = hypDist (dev e₁) (dev e₂)
+
+variable {m : MetricSpace Y} {q : E → Y} {dev : E → PoincareDisc}
+
+/-- The unit interval point of a real number. -/
+abbrev projI (x : ℝ) : unitInterval := projIcc 0 1 zero_le_one x
+
+theorem coe_toI {x : ℝ} (h0 : 0 ≤ x) (h1 : x ≤ 1) : ((projI x : unitInterval) : ℝ) = x := by
+  rw [coe_projIcc, min_eq_right h1, max_eq_right h0]
+
+theorem continuous_toI : Continuous projI := continuous_projIcc
+
+namespace IsDevLocalIsometry
+
+variable (H : IsDevLocalIsometry m q dev)
+include H
+
+/-- **Along a lift of a geodesic arc, the projection is `1`-Lipschitz**: the metric of `Y`
+between two points of the projected path is at most the hyperbolic distance of their
+developments (the length of the projected arc is that of the geodesic). -/
+theorem dist_le_of_lift {z w : PoincareDisc} {Λ : C(unitInterval, E)} {T : ℝ}
+    (hΛ : ∀ t : unitInterval, (t : ℝ) ≤ T → dev (Λ t) = hypGeod z w t) {a b : unitInterval}
+    (hab : a ≤ b) (hbT : (b : ℝ) ≤ T) :
+    @dist Y m.toDist (q (Λ a)) (q (Λ b)) ≤ hypDist (hypGeod z w a) (hypGeod z w b) := by
+  letI := m
+  set φ : unitInterval → unitInterval := fun u => projI (a + u * (b - a)) with hφdef
+  have hab' : (a : ℝ) ≤ b := hab
+  have hφv : ∀ u : unitInterval, ((φ u : unitInterval) : ℝ) = a + u * (b - a) := fun u => by
+    have h1 : (0 : ℝ) ≤ a + u * (b - a) := by
+      have := a.2.1; have := u.2.1; nlinarith
+    have h2 : (a : ℝ) + u * (b - a) ≤ 1 := by
+      have := b.2.2; have := u.2.2; nlinarith
+    exact coe_toI h1 h2
+  have hφc : Continuous φ := continuous_toI.comp (continuous_const.add
+    (continuous_subtype_val.mul continuous_const))
+  have hφm : Monotone φ := fun u v huv => by
+    show (φ u : ℝ) ≤ φ v
+    rw [hφv, hφv]
+    have : (u : ℝ) ≤ v := huv
+    nlinarith
+  have hφab : ∀ u, a ≤ φ u ∧ φ u ≤ b := fun u => by
+    constructor
+    · show (a : ℝ) ≤ φ u
+      rw [hφv]; have := u.2.1; nlinarith
+    · show (φ u : ℝ) ≤ b
+      rw [hφv]; have := u.2.2; nlinarith
+  have hφ0 : φ 0 = a := Subtype.ext (by rw [hφv]; simp)
+  have hφ1 : φ 1 = b := Subtype.ext (by rw [hφv]; simp)
+  set F : unitInterval → Y := fun u => q (Λ (φ u))
+  set G : unitInterval → ℍ := fun u => toUHP (hypGeod z w (φ u))
+  have hloc : ∀ u, ∃ N ∈ 𝓝 u, ∀ u₁ ∈ N, ∀ u₂ ∈ N, edist (F u₁) (F u₂) = edist (G u₁) (G u₂) := by
+    intro u
+    obtain ⟨U, hU, hUd⟩ := H.local_isometry (Λ (φ u))
+    refine ⟨(fun v => Λ (φ v)) ⁻¹' U,
+      (Λ.continuous.comp hφc).continuousAt.preimage_mem_nhds hU, fun u₁ h₁ u₂ h₂ => ?_⟩
+    rw [edist_dist, edist_dist]
+    congr 1
+    have e1 := hUd _ h₁ _ h₂
+    simp only [F, G]
+    rw [e1, hΛ _ ((show ((φ u₁ : unitInterval) : ℝ) ≤ b from (hφab u₁).2).trans hbT),
+      hΛ _ ((show ((φ u₂ : unitInterval) : ℝ) ≤ b from (hφab u₂).2).trans hbT)]
+    rfl
+  have hvar := eVariationOn_eq_of_locally hloc
+  have h1 : edist (F 0) (F 1) ≤ eVariationOn F univ := eVariationOn.edist_le F (mem_univ _) (mem_univ _)
+  have h2 : eVariationOn G univ ≤ eVariationOn (fun t => toUHP (hypGeod z w t)) (Icc a b) :=
+    eVariationOn.comp_le_of_monotoneOn _ φ (hφm.monotoneOn _) fun u _ => hφab u
+  have h3 := eVariationOn_hypGeod_le z w hab
+  have := (h1.trans (hvar.trans_le h2)).trans h3
+  simp only [F, hφ0, hφ1] at this
+  rw [edist_dist] at this
+  exact (ENNReal.ofReal_le_ofReal_iff (hypDist_nonneg _ _)).1 this
+
+/-- Lifts of a geodesic arc from the same point agree where both are lifts. -/
+theorem lift_unique [T2Space E] {c : unitInterval → PoincareDisc} {Λ Λ' : C(unitInterval, E)}
+    {T T' : ℝ} (h0 : Λ 0 = Λ' 0) (hΛ : ∀ t : unitInterval, (t : ℝ) ≤ T → dev (Λ t) = c t)
+    (hΛ' : ∀ t : unitInterval, (t : ℝ) ≤ T' → dev (Λ' t) = c t) {t : unitInterval}
+    (ht : (t : ℝ) ≤ min T T') : Λ t = Λ' t := by
+  set r := min T T'
+  have hr : 0 ≤ r := (t.2.1).trans ht
+  set s : Set unitInterval := {t | (t : ℝ) ≤ r}
+  have hs : s = projI '' Icc 0 r := by
+    ext x
+    constructor
+    · intro hx
+      exact ⟨x, ⟨x.2.1, hx⟩, Subtype.ext (coe_toI x.2.1 x.2.2)⟩
+    · rintro ⟨y, ⟨hy0, hyr⟩, rfl⟩
+      show ((projI y : unitInterval) : ℝ) ≤ r
+      rw [coe_projIcc]
+      exact (max_le hr (min_le_right _ _ |>.trans hyr))
+  have hsc : IsPreconnected s := hs ▸ isPreconnected_Icc.image _ continuous_toI.continuousOn
+  refine (T2Space.isSeparatedMap dev).eqOn_of_comp_eqOn H.local_homeo.isLocallyInjective hsc
+    Λ.continuous.continuousOn Λ'.continuous.continuousOn (fun x hx => ?_)
+    (show (0 : unitInterval) ∈ s from show ((0 : unitInterval) : ℝ) ≤ r from hr) h0 ht
+  show dev (Λ x) = dev (Λ' x)
+  rw [hΛ x (hx.trans (min_le_left _ _)), hΛ' x (hx.trans (min_le_right _ _))]
+
+
+
+end IsDevLocalIsometry
+
+/-- `Λ` lifts the path `c` through `dev` from `e₀` up to time `T`. -/
+def LiftsTo (dev : E → PoincareDisc) (e₀ : E) (c : unitInterval → PoincareDisc) (T : ℝ) : Prop :=
+  ∃ Λ : C(unitInterval, E), Λ 0 = e₀ ∧ ∀ t : unitInterval, (t : ℝ) ≤ T → dev (Λ t) = c t
+
+theorem LiftsTo.mono {e₀ : E} {c : unitInterval → PoincareDisc} {T T' : ℝ}
+    (h : LiftsTo dev e₀ c T) (hT : T' ≤ T) : LiftsTo dev e₀ c T' :=
+  let ⟨Λ, h0, hΛ⟩ := h; ⟨Λ, h0, fun t ht => hΛ t (ht.trans hT)⟩
+
+theorem projI_clamp_bounds {a b : ℝ} (ha : 0 ≤ a) (hab : a ≤ b) (hb : b ≤ 1) (t : unitInterval) :
+    ((projI (max a (min t b)) : unitInterval) : ℝ) = max a (min t b) ∧ a ≤ max a (min t b) ∧
+      max a (min t b) ≤ b :=
+  ⟨coe_toI (ha.trans (le_max_left _ _)) ((max_le hab (min_le_right _ _)).trans hb),
+    le_max_left _ _, max_le hab (min_le_right _ _)⟩
+
+theorem projI_clamp_eq {a b : ℝ} (ha : 0 ≤ a) (hab : a ≤ b) (hb : b ≤ 1) {t : unitInterval}
+    (h1 : a ≤ t) (h2 : (t : ℝ) ≤ b) : projI (max a (min t b)) = t := by
+  apply Subtype.ext
+  rw [(projI_clamp_bounds ha hab hb t).1, min_eq_left h2, max_eq_right h1]
+
+/-- Gluing a lift up to time `a` with a lift through a chart of `dev` after `a`. -/
+theorem liftsTo_glue {e₀ : E} {c : unitInterval → PoincareDisc} (hc : Continuous c)
+    {Λ : C(unitInterval, E)} (hΛ0 : Λ 0 = e₀) {a b : ℝ} (ha : 0 ≤ a) (hab : a ≤ b) (hb : b ≤ 1)
+    (hΛ : ∀ t : unitInterval, (t : ℝ) ≤ a → dev (Λ t) = c t)
+    (h : OpenPartialHomeomorph E PoincareDisc) (hdh : dev = h)
+    (hsrc : Λ (projI a) ∈ h.source)
+    (htgt : ∀ t : unitInterval, c (projI (max a (min t b))) ∈ h.target) :
+    LiftsTo dev e₀ c b := by
+  set clamp : unitInterval → unitInterval := fun t => projI (max a (min t b))
+  have hclc : Continuous clamp :=
+    continuous_toI.comp (continuous_const.max (continuous_subtype_val.min continuous_const))
+  have hta : ((projI a : unitInterval) : ℝ) = a := coe_toI ha (hab.trans hb)
+  have hagree : ∀ t : unitInterval, (t : ℝ) = a → Λ t = h.symm (c (clamp t)) := by
+    intro t ht
+    have htt : t = projI a := Subtype.ext (ht.trans hta.symm)
+    have hcl : clamp t = t := projI_clamp_eq ha hab hb ht.ge (ht.le.trans hab)
+    rw [hcl, htt, ← hΛ _ hta.le, hdh, h.left_inv hsrc]
+  let Λ' : C(unitInterval, E) := ⟨fun t => if (t : ℝ) ≤ a then Λ t else h.symm (c (clamp t)),
+    Continuous.if_le Λ.continuous (h.continuousOn_symm.comp_continuous (hc.comp hclc) htgt)
+      continuous_subtype_val continuous_const hagree⟩
+  refine ⟨Λ', ?_, fun t ht => ?_⟩
+  · show (if ((0 : unitInterval) : ℝ) ≤ a then Λ 0 else _) = e₀
+    rw [if_pos (by simpa using ha), hΛ0]
+  · show dev (if (t : ℝ) ≤ a then Λ t else h.symm (c (clamp t))) = c t
+    split_ifs with hta'
+    · exact hΛ t hta'
+    · have hcl : clamp t = t := projI_clamp_eq ha hab hb (not_le.1 hta').le ht
+      have : c (clamp t) ∈ h.target := htgt t
+      rw [hcl] at this ⊢
+      rw [hdh]
+      exact h.right_inv this
+
+/-- **The extension step**: a lift up to a time `T < 1` extends past `T`. -/
+theorem LiftsTo.extend (hdev : IsLocalHomeomorph dev) {e₀ : E} {c : unitInterval → PoincareDisc}
+    (hc : Continuous c) {T : ℝ} (h : LiftsTo dev e₀ c T) (hT0 : 0 ≤ T) (hT1 : T < 1) :
+    ∃ T' > T, LiftsTo dev e₀ c T' := by
+  obtain ⟨Λ, hΛ0, hΛ⟩ := h
+  have htT : ((projI T : unitInterval) : ℝ) = T := coe_toI hT0 hT1.le
+  obtain ⟨h, heh, hdh⟩ := hdev (Λ (projI T))
+  have hcT : c (projI T) ∈ h.target := by
+    rw [← hΛ _ htT.le, hdh]; exact h.map_source heh
+  obtain ⟨η, hη, hball⟩ := Metric.isOpen_iff.1 (h.open_target.preimage hc) (projI T) hcT
+  set b := min (T + η / 2) 1
+  have hTb : T < b := lt_min (by linarith) hT1
+  refine ⟨b, hTb, liftsTo_glue hc hΛ0 hT0 hTb.le (min_le_right _ _) hΛ h hdh heh fun t => ?_⟩
+  apply hball
+  obtain ⟨e1, e2, e3⟩ := projI_clamp_bounds hT0 hTb.le (min_le_right _ _) t
+  rw [Metric.mem_ball, Subtype.dist_eq, e1, htT, Real.dist_eq, abs_lt]
+  have : b ≤ T + η / 2 := min_le_left _ _
+  constructor <;> linarith
+
+
+
+namespace IsDevLocalIsometry
+
+variable (H : IsDevLocalIsometry m q dev)
+include H
+
+/-- **The limit step** (where completeness is used): a geodesic arc which lifts up to every time
+before `s` lifts up to `s`. The projections of the lifts are Cauchy (they are `1`-Lipschitz
+along the arc), converge in the complete `Y`, and the tail of the lifts lies in one sheet of `q`
+over the limit, hence converges in `E`; a chart of `dev` at the limit continues the lift. -/
+theorem liftsTo_of_forall_lt [T2Space E] (hcomp : @CompleteSpace Y m.toUniformSpace) {e₀ : E}
+    {w : PoincareDisc} {s : ℝ} (hs0 : 0 < s) (hs1 : s ≤ 1)
+    (hP : ∀ T, 0 ≤ T → T < s → LiftsTo dev e₀ (hypGeod (dev e₀) w) T) :
+    LiftsTo dev e₀ (hypGeod (dev e₀) w) s := by
+  set c := hypGeod (dev e₀) w with hcdef
+  have hc : Continuous c := continuous_hypGeod' _ _
+  obtain ⟨f, hfm, hfd⟩ := exists_monotone_hypGeod (dev e₀) w
+  set Tn : ℕ → ℝ := fun n => s - s / (n + 2) with hTndef
+  have hTn0 : ∀ n, 0 ≤ Tn n := fun n => by
+    have : s / (n + 2) ≤ s := div_le_self hs0.le (by linarith [(n.cast_nonneg : (0 : ℝ) ≤ n)])
+    simp only [hTndef]; linarith
+  have hTns : ∀ n, Tn n < s := fun n => by
+    have : 0 < s / (n + 2) := div_pos hs0 (by positivity)
+    simp only [hTndef]; linarith
+  have hTnm : Monotone Tn := fun n n' hnn' => by
+    simp only [hTndef]
+    have : s / ((n' : ℝ) + 2) ≤ s / (n + 2) :=
+      div_le_div_of_nonneg_left hs0.le (by positivity) (by exact_mod_cast (by omega : n + 2 ≤ n' + 2))
+    linarith
+  have hTnlim : Tendsto Tn atTop (𝓝 s) := by
+    have h1 : Tendsto (fun n : ℕ => s / ((n : ℝ) + 2)) atTop (𝓝 0) := by
+      have := tendsto_one_div_add_atTop_nhds_zero_nat.const_mul s
+      rw [mul_zero] at this
+      refine (this.comp (tendsto_add_atTop_nat 1)).congr fun n => ?_
+      simp only [comp_apply, Nat.cast_add, Nat.cast_one]
+      field_simp
+      ring
+    have := tendsto_const_nhds (x := s).sub h1
+    rw [sub_zero] at this
+    exact this
+  choose Λ hΛ0 hΛ using fun n => hP (Tn n) (hTn0 n) (hTns n)
+  set tn : ℕ → unitInterval := fun n => projI (Tn n) with htndef
+  have htn : ∀ n, ((tn n : unitInterval) : ℝ) = Tn n := fun n => coe_toI (hTn0 n) ((hTns n).le.trans hs1)
+  set ts : unitInterval := projI s
+  have hts : (ts : ℝ) = s := coe_toI hs0.le hs1
+  have htnlim : Tendsto tn atTop (𝓝 ts) := (continuous_toI.tendsto s).comp hTnlim
+  have hcons : ∀ n n', n ≤ n' → ∀ t : unitInterval, (t : ℝ) ≤ Tn n → Λ n t = Λ n' t :=
+    fun n n' hnn' t ht => H.lift_unique ((hΛ0 n).trans (hΛ0 n').symm) (hΛ n) (hΛ n')
+      (le_min ht (ht.trans (hTnm hnn')))
+  -- the hyperbolic distance from `c (tn n)` to the end `c ts`
+  set δ : ℕ → ℝ := fun n => hypDist (c (tn n)) (c ts) with hδdef
+  have hδ : Tendsto δ atTop (𝓝 0) := by
+    have h1 : Tendsto (fun n => toUHP (c (tn n))) atTop (𝓝 (toUHP (c ts))) :=
+      ((continuous_toUHP.comp hc).tendsto ts).comp htnlim
+    exact (tendsto_iff_dist_tendsto_zero.1 h1)
+  have htn_le : ∀ n, tn n ≤ ts := fun n => show (tn n : ℝ) ≤ ts by rw [htn, hts]; exact (hTns n).le
+  have hδt : ∀ n (t : unitInterval), tn n ≤ t → t ≤ ts → hypDist (c (tn n)) (c t) ≤ δ n := by
+    intro n t h1 h2
+    simp only [hδdef]
+    rw [hfd, hfd, Real.dist_eq, Real.dist_eq, abs_sub_comm, abs_of_nonneg (sub_nonneg.2 (hfm h1)),
+      abs_sub_comm, abs_of_nonneg (sub_nonneg.2 (hfm (h1.trans h2)))]
+    linarith [hfm h2]
+  -- the projections
+  set y : ℕ → Y := fun n => q (Λ n (tn n)) with hydef
+  have hyd : ∀ n n', n ≤ n' → @dist Y m.toDist (y n) (y n') ≤ δ n := by
+    intro n n' hnn'
+    have e1 : Λ n (tn n) = Λ n' (tn n) := hcons n n' hnn' _ (htn n).le
+    simp only [hydef]
+    rw [e1]
+    refine (H.dist_le_of_lift (hΛ n') (show (tn n : ℝ) ≤ tn n' by rw [htn, htn]; exact hTnm hnn')
+      (htn n').le).trans ?_
+    exact hδt n (tn n') (show (tn n : ℝ) ≤ tn n' by rw [htn, htn]; exact hTnm hnn') (htn_le n')
+  obtain ⟨y', hy'⟩ := exists_dist_tendsto_zero m hcomp hyd hδ
+  have hyo : Tendsto y atTop (𝓝 y') := tendsto_of_dist_of_topology_eq m H.topology_eq hy'
+  -- the sheets of `q` over `y'`
+  obtain ⟨V, hVo, hy'V, S, hSo, hSinj, -, hSsurj, hSd, hScov⟩ := IsEvenlyCovered.exists_sheets (H.covering y')
+  obtain ⟨ρ, hρ, hρV⟩ := exists_ball_subset_of_topology_eq m H.topology_eq hVo hy'V
+  obtain ⟨N, hN⟩ := eventually_atTop.1 ((hy'.eventually (gt_mem_nhds (half_pos hρ))).and
+    (hδ.eventually (gt_mem_nhds (half_pos hρ))))
+  have htail : ∀ n, N ≤ n → ∀ t : unitInterval, tn N ≤ t → (t : ℝ) ≤ Tn n → q (Λ n t) ∈ V := by
+    intro n hn t h1 h2
+    apply hρV
+    have e1 : q (Λ n (tn N)) = y N := by
+      simp only [hydef]; rw [hcons N n hn _ (htn N).le]
+    have hd1 : @dist Y m.toDist (y N) (q (Λ n t)) ≤ δ N := by
+      rw [← e1]
+      refine (H.dist_le_of_lift (hΛ n) h1 h2).trans (hδt N t h1 ?_)
+      show (t : ℝ) ≤ ts; rw [hts]; exact h2.trans (hTns n).le
+    have hd2 := (hN N le_rfl).1
+    have := @dist_triangle Y m.toPseudoMetricSpace y' (y N) (q (Λ n t))
+    rw [@dist_comm Y m.toPseudoMetricSpace y' (y N)] at this
+    have := (hN N le_rfl).2
+    linarith
+  have hmemV : Λ N (tn N) ∈ q ⁻¹' V := htail N le_rfl (tn N) le_rfl (htn N).le
+  obtain ⟨j, hj⟩ := mem_iUnion.1 (hScov hmemV)
+  have hsheet : ∀ n, N ≤ n → Λ n (tn n) ∈ S j := by
+    intro n hn
+    set seg := (fun t => Λ n t) '' (projI '' Icc (Tn N) (Tn n))
+    have hseg : IsPreconnected seg :=
+      (isPreconnected_Icc.image _ continuous_toI.continuousOn).image _ (Λ n).continuous.continuousOn
+    have hsub : seg ⊆ ⋃ j, S j := by
+      rintro _ ⟨t, ⟨x, ⟨hx1, hx2⟩, rfl⟩, rfl⟩
+      have hx : ((projI x : unitInterval) : ℝ) = x :=
+        coe_toI ((hTn0 N).trans hx1) (hx2.trans ((hTns n).le.trans hs1))
+      refine hScov (htail n hn _ (show (tn N : ℝ) ≤ projI x by rw [hx, htn]; exact hx1) ?_)
+      rw [hx]; exact hx2
+    have hne : (seg ∩ S j).Nonempty := ⟨Λ n (tn N), ⟨tn N, ⟨Tn N, ⟨le_rfl, hTnm hn⟩, rfl⟩, rfl⟩,
+      by rw [← hcons N n hn _ (htn N).le]; exact hj⟩
+    exact GX.IsPreconnected.subset_of_pairwise_disjoint hSo hSd hseg hsub hne
+      ⟨tn n, ⟨Tn n, ⟨hTnm hn, le_rfl⟩, rfl⟩, rfl⟩
+  -- the limit point `e'` of the lifts, in the sheet `S j`
+  obtain ⟨e', he'S, he'y⟩ := hSsurj j hy'V
+  obtain ⟨k, hke', hqk⟩ := H.covering.isLocalHomeomorph e'
+  have hk_y' : y' ∈ k.target := by rw [← he'y, hqk]; exact k.map_source hke'
+  have hksymm : k.symm y' = e' := by rw [← he'y, hqk]; exact k.left_inv hke'
+  have hcont : Tendsto (fun n => k.symm (y n)) atTop (𝓝 e') :=
+    hksymm ▸ ((k.continuousAt_symm hk_y').tendsto.comp hyo)
+  have hev2 : ∀ᶠ n in atTop, y n ∈ k.target ∧ k.symm (y n) ∈ S j ∧ N ≤ n :=
+    ((hyo.eventually (k.open_target.mem_nhds hk_y')).and
+      ((hcont.eventually ((hSo j).mem_nhds he'S)).and (eventually_ge_atTop N)))
+  have hΛeq : ∀ᶠ n in atTop, Λ n (tn n) = k.symm (y n) := hev2.mono fun n ⟨h1, h2, h3⟩ =>
+    hSinj j (hsheet n h3) h2 (by rw [hqk, k.right_inv h1]; exact (congrFun hqk _).symm)
+  have hΛlim : Tendsto (fun n => Λ n (tn n)) atTop (𝓝 e') :=
+    hcont.congr' (hΛeq.mono fun n h => h.symm)
+  have hdev_e' : dev e' = c ts := by
+    refine tendsto_nhds_unique ((H.local_homeo.continuous.tendsto e').comp hΛlim) ?_
+    refine (((hc.tendsto ts).comp htnlim)).congr fun n => ?_
+    exact (hΛ n (tn n) (htn n).le).symm
+  -- a chart of `dev` at `e'` continues the lift
+  obtain ⟨h, heh, hdh⟩ := H.local_homeo e'
+  have hcs : c ts ∈ h.target := by rw [← hdev_e', hdh]; exact h.map_source heh
+  obtain ⟨η, hη, hball⟩ := Metric.isOpen_iff.1 (h.open_target.preimage hc) ts hcs
+  obtain ⟨n₁, hn₁s, hn₁d⟩ := ((hΛlim.eventually (h.open_source.mem_nhds heh)).and
+    (htnlim.eventually (Metric.ball_mem_nhds ts hη))).exists
+  refine liftsTo_glue hc (hΛ0 n₁) (hTn0 n₁) (hTns n₁).le hs1 (hΛ n₁) h hdh hn₁s fun t => ?_
+  apply hball
+  obtain ⟨e1, e2, e3⟩ := projI_clamp_bounds (hTn0 n₁) (hTns n₁).le hs1 t
+  have hd : dist (tn n₁) ts < η := hn₁d
+  rw [Subtype.dist_eq, htn, hts, Real.dist_eq, abs_sub_comm, abs_of_pos (by linarith [hTns n₁])] at hd
+  rw [Metric.mem_ball, Subtype.dist_eq, e1, hts, Real.dist_eq, abs_sub_comm,
+    abs_of_nonneg (by linarith)]
+  linarith
+
+
+/-- **Geodesic lifting**: in a complete hyperbolic surface, every geodesic arc of `ℍ` from the
+development of a point lifts through the developing map. -/
+theorem exists_lift_hypGeod [T2Space E] (hcomp : @CompleteSpace Y m.toUniformSpace) (e₀ : E)
+    (w : PoincareDisc) :
+    ∃ Λ : C(unitInterval, E), Λ 0 = e₀ ∧ ∀ t, dev (Λ t) = hypGeod (dev e₀) w t := by
+  set c := hypGeod (dev e₀) w
+  have hc : Continuous c := continuous_hypGeod' _ _
+  have h0 : LiftsTo dev e₀ c 0 := ⟨ContinuousMap.const _ e₀, rfl, fun t ht => by
+    have : t = 0 := Subtype.ext (le_antisymm ht t.2.1)
+    rw [this]
+    exact (hypGeod_zero _ _).symm⟩
+  set A : Set ℝ := {T | 0 ≤ T ∧ T ≤ 1 ∧ LiftsTo dev e₀ c T}
+  have hA0 : (0 : ℝ) ∈ A := ⟨le_rfl, zero_le_one, h0⟩
+  have hbdd : BddAbove A := ⟨1, fun T hT => hT.2.1⟩
+  set s := sSup A
+  have hs0 : 0 ≤ s := le_csSup hbdd hA0
+  have hs1 : s ≤ 1 := csSup_le ⟨0, hA0⟩ fun T hT => hT.2.1
+  have hPs : LiftsTo dev e₀ c s := by
+    rcases hs0.lt_or_eq with hs | hs
+    · refine H.liftsTo_of_forall_lt hcomp hs hs1 fun T _ hTs => ?_
+      obtain ⟨T', hT'A, hTT'⟩ := exists_lt_of_lt_csSup ⟨0, hA0⟩ hTs
+      exact hT'A.2.2.mono hTT'.le
+    · rw [← hs]; exact h0
+  have hs_eq : s = 1 := by
+    by_contra hne
+    obtain ⟨T', hT', hP'⟩ := hPs.extend H.local_homeo hc hs0 (lt_of_le_of_ne hs1 hne)
+    have hmem : min T' 1 ∈ A := ⟨hs0.trans (le_min hT'.le hs1), min_le_right _ _,
+      hP'.mono (min_le_left _ _)⟩
+    have := le_csSup hbdd hmem
+    have : s < min T' 1 := lt_min hT' (lt_of_le_of_ne hs1 hne)
+    linarith
+  rw [hs_eq] at hPs
+  obtain ⟨Λ, hΛ0, hΛ⟩ := hPs
+  exact ⟨Λ, hΛ0, fun t => hΛ t t.2.2⟩
+
+/-- **Hopf–Rinow for hyperbolic surfaces**: the developing map of a connected cover of a complete
+hyperbolic surface (in the situation `GX.IsDevLocalIsometry`) is a homeomorphism onto `ℍ`. The
+geodesic arcs from the development of a base point lift (`exists_lift_hypGeod`); the lifts
+depend continuously on the end (mathlib's `IsLocalHomeomorph.continuous_lift`), giving a
+continuous section, which is onto by connectedness. -/
+theorem exists_homeomorph [T2Space E] [PreconnectedSpace E] [Nonempty E]
+    (hcomp : @CompleteSpace Y m.toUniformSpace) : ∃ Θ : E ≃ₜ PoincareDisc, ⇑Θ = dev := by
+  obtain ⟨e₀⟩ := ‹Nonempty E›
+  set z₀ := dev e₀
+  choose Λ hΛ0 hΛ using fun w => H.exists_lift_hypGeod hcomp e₀ w
+  have sep := T2Space.isSeparatedMap dev
+  have inj := H.local_homeo.isLocallyInjective
+  set g : unitInterval × PoincareDisc → E := fun p => Λ p.2 p.1 with hgdef
+  let F : C(unitInterval × PoincareDisc, PoincareDisc) :=
+    ⟨fun p => hypGeod z₀ p.2 p.1, continuous_hypGeod z₀⟩
+  have hg : Continuous g := H.local_homeo.continuous_lift sep F (funext fun p => hΛ p.2 p.1)
+    (by simp only [hgdef, hΛ0]; exact continuous_const) fun w => (Λ w).continuous
+  set σ : PoincareDisc → E := fun w => g (1, w) with hσdef
+  have hσc : Continuous σ := hg.comp (continuous_const.prodMk continuous_id)
+  have hσ : ∀ w, dev (σ w) = w := fun w => (hΛ w 1).trans (hypGeod_one _ _)
+  have hσ0 : σ z₀ = e₀ := by
+    have : (Λ z₀ : unitInterval → E) = fun _ => e₀ :=
+      sep.eq_of_comp_eq inj (Λ z₀).continuous continuous_const
+        (funext fun t => by simp only [comp_apply]; rw [hΛ, hypGeod_self]) 0 (hΛ0 z₀)
+    exact congrFun this 1
+  have hσdev : ∀ e, σ (dev e) = e := fun e => congrFun (sep.eq_of_comp_eq inj
+    (hσc.comp H.local_homeo.continuous) continuous_id
+    (funext fun e => by simp only [comp_apply, hσ, id]) e₀ (by simp only [comp_apply, id]; exact hσ0))
+    e
+  exact ⟨⟨⟨dev, σ, hσdev, hσ⟩, H.local_homeo.continuous, hσc⟩, rfl⟩
+
+end IsDevLocalIsometry
+
+end HopfRinow
+
+
+section HopfRinowSurface
+
+variable {Y : Type*} [TopologicalSpace Y] [ChartedSpace PoincareDisc Y]
+  [HasGroupoid Y (gxGroupoid HypIsom PoincareDisc)]
+
+theorem IsHyperbolicMetric.t2Space {m : MetricSpace Y} (hm : IsHyperbolicMetric Y m) :
+    T2Space Y := by
+  have h : @T2Space Y m.toUniformSpace.toTopologicalSpace := inferInstance
+  rwa [hm.topology_eq] at h
+
+/-- **Hopf–Rinow for hyperbolic surfaces** (DEC-81): a hyperbolic surface whose hyperbolic metric
+is complete is complete in Thurston's and Goldman's sense — every developing map of its universal
+cover is a covering map (indeed a homeomorphism onto `ℍ`). -/
+theorem IsHyperbolicMetric.isCompleteHyperbolic {m : MetricSpace Y} (hm : IsHyperbolicMetric Y m)
+    (hcomp : @CompleteSpace Y m.toUniformSpace) : IsCompleteHyperbolic Y := by
+  intro _ hY y₀ dev hdev
+  letI := coverChartedSpace PoincareDisc hY y₀
+  haveI := hm.t2Space
+  have hcov := UniversalCover.isCoveringMap_proj (y₀ := y₀) hY
+  haveI : T2Space (UniversalCover Y y₀) := t2Space_of_isCoveringMap hcov
+  have hLI : ∀ e, ∃ U ∈ 𝓝 e, ∀ e₁ ∈ U, ∀ e₂ ∈ U, @dist Y m.toDist (UniversalCover.proj Y y₀ e₁)
+      (UniversalCover.proj Y y₀ e₂) = hypDist (dev e₁) (dev e₂) := by
+    intro e
+    obtain ⟨g, hg⟩ := (isGXMorphism_iff_model.1 hdev).2 e
+    obtain ⟨V, hV, hVd⟩ := hm.local_isometry (UniversalCover.proj Y y₀ e)
+    refine ⟨UniversalCover.proj Y y₀ ⁻¹' V ∩ {e' | dev e' = g • chartAt PoincareDisc e e'},
+      Filter.inter_mem (UniversalCover.continuous_proj.continuousAt.preimage_mem_nhds hV) hg,
+      fun e₁ h₁ e₂ h₂ => ?_⟩
+    rw [hVd _ h₁.1 _ h₂.1, h₁.2, h₂.2, HypIsom.hypDist_smul, pullback_chartAt_apply,
+      pullback_chartAt_apply]
+  have H : IsDevLocalIsometry m (UniversalCover.proj Y y₀) dev :=
+    ⟨hm.topology_eq, hcov, hdev.isLocalHomeomorph, hLI⟩
+  obtain ⟨Θ, hΘ⟩ := H.exists_homeomorph hcomp
+  rw [← hΘ]
+  exact isCoveringMap_of_homeomorph Θ
+
+/-- **Metric completeness is Thurston–Goldman completeness** (DEC-81): for a hyperbolic metric
+on a connected, locally path-connected, semilocally simply connected `(Isom ℍ, ℍ)`-surface, the
+metric is complete iff every developing map of the universal cover is a covering map. -/
+theorem IsHyperbolicMetric.completeSpace_iff [LocPathConnectedSpace Y] [ConnectedSpace Y]
+    {m : MetricSpace Y} (hm : IsHyperbolicMetric Y m) (hY : SemilocallySimplyConnected Y) :
+    @CompleteSpace Y m.toUniformSpace ↔ IsCompleteHyperbolic Y := by
+  refine ⟨hm.isCompleteHyperbolic, fun hc => ?_⟩
+  haveI := hm.t2Space
+  obtain ⟨m', hm', hc'⟩ := hc.exists_isHyperbolicMetric hY
+  rwa [hm.unique hm']
+
+end HopfRinowSurface
+
+/-! ### DEC-81: `ex:take_closed_unit_disc` under the metric reading -/
+
+section MetricExample
+
+variable {M : Type*} [TopologicalSpace M] {S : Set M} [ChartedSpace PoincareDisc (Sᶜ : Set M)]
+
+variable (M S) in
+/-- **The data of `ex:take_closed_unit_disc` under the metric reading** (DEC-81): `S ⊆ M` finite
+and `M ∖ S` a `(G, ℍ)`-surface (`G = Isom ℍ`) carrying a **complete hyperbolic metric** `m`
+(`GX.IsHyperbolicMetric`: a length metric giving the topology, locally the metric of `ℍ` in the
+charts; complete as a metric space), with a hyperbolic cusp at every point of `S` (the
+finite-volume ends; the thick–thin step finite volume ⇒ cusps is not built). -/
+structure IsCuspedHyperbolicMetric (m : MetricSpace (Sᶜ : Set M)) : Prop where
+  finite : S.Finite
+  hasGroupoid : HasGroupoid (Sᶜ : Set M) (gxGroupoid HypIsom PoincareDisc)
+  metric : IsHyperbolicMetric (Sᶜ : Set M) m
+  complete : @CompleteSpace (Sᶜ : Set M) m.toUniformSpace
+  cusp : ∀ s ∈ S, ∃ C : CuspChart S s, C.IsHyperbolicCusp
+
+/-- Metric completeness gives the `(G, X)` reading: by Hopf–Rinow
+(`GX.IsHyperbolicMetric.isCompleteHyperbolic`), the surface is complete in Thurston's and
+Goldman's sense. -/
+theorem IsCuspedHyperbolicMetric.isCuspedHyperbolic {m : MetricSpace (Sᶜ : Set M)}
+    (H : IsCuspedHyperbolicMetric M S m) : IsCuspedHyperbolic M S :=
+  { finite := H.finite
+    hasGroupoid := H.hasGroupoid
+    complete := by
+      haveI := H.hasGroupoid
+      exact @IsHyperbolicMetric.isCompleteHyperbolic _ _ _ _ _ H.metric H.complete
+    cusp := H.cusp }
+
+/-- Conversely, the `(G, X)` reading carries **a unique hyperbolic metric, and it is complete**:
+the two readings of the hypothesis of `ex:take_closed_unit_disc` agree. -/
+theorem IsCuspedHyperbolic.exists_unique_metric [T2Space M] [LocPathConnectedSpace M]
+    [ConnectedSpace M] (H : IsCuspedHyperbolic M S) :
+    ∃ m : MetricSpace (Sᶜ : Set M), IsCuspedHyperbolicMetric M S m ∧
+      ∀ m' : MetricSpace (Sᶜ : Set M), IsHyperbolicMetric (Sᶜ : Set M) m' → m' = m := by
+  letI := H.singularStructure
+  haveI := H.hasGroupoid
+  have hSing := H.sing_eq
+  have hY : SemilocallySimplyConnected (Sᶜ : Set M) :=
+    semilocallySimplyConnected_compl_of_sing_subset isLocallyUnloopable_closedDisc H.isClosed
+      hSing.le
+  haveI : LocPathConnectedSpace (Sᶜ : Set M) := H.isClosed.isOpen_compl.locPathConnectedSpace
+  haveI : ConnectedSpace (Sᶜ : Set M) := isConnected_iff_connectedSpace.1 H.isPortly_compl.isConnected
+  obtain ⟨m, hm, hc⟩ := IsCompleteHyperbolic.exists_isHyperbolicMetric H.complete hY
+  exact ⟨m, ⟨H.finite, H.hasGroupoid, hm, hc, H.cusp⟩, fun m' hm' => hm'.unique hm⟩
+
+variable [T2Space M] [LocPathConnectedSpace M] [FirstCountableTopology M] [ConnectedSpace M]
+
+variable (M S) in
+/-- **`ex:take_closed_unit_disc` under the metric reading** (`RamcovGX.tex:1877`, DEC-81, DEC-71).
+`M ∖ S` with a complete hyperbolic metric and a cusp at every point of the finite `S`
+(`GX.IsCuspedHyperbolicMetric`). Then every assertion of the example holds: `M` is a singular
+`(G, X)`-manifold with `sing(M) = S`, tamely singular, every developing map
+`\widetilde M → X` is injective, every singular point of `\widetilde M` has arbitrarily small
+neighbourhoods homeomorphic to `{r < r₀} ⊆ 𝔻_∞` mapped onto a horodisc with its centre, not
+open in `X` (`GX.take_closed_unit_disc`, through Hopf–Rinow); and **the cusps have finite
+area**: at each `s ∈ S` the punctured cusp neighbourhood is the injective image, under a local
+isometry, of a strip of hyperbolic area `1/c`. -/
+theorem take_closed_unit_disc_metric {m : MetricSpace (Sᶜ : Set M)}
+    (H : IsCuspedHyperbolicMetric M S m) :
+    (letI := H.isCuspedHyperbolic.singularStructure
+    Sing HypIsom ClosedDisc M = S ∧ IsTame HypIsom ClosedDisc M ∧
+    ∀ y₀ : ((Sing HypIsom ClosedDisc M)ᶜ : Set M),
+      (∃ D : MaxBranchedCover (Sing HypIsom ClosedDisc M) y₀ → ClosedDisc,
+        IsDevelopingMapOf HypIsom (aeAtlas HypIsom ClosedDisc M) SpreadEnd.base D) ∧
+      (∀ x : MaxBranchedCover (Sing HypIsom ClosedDisc M) y₀,
+        x ∉ support (aePullback HypIsom (aeAtlas HypIsom ClosedDisc M) SpreadEnd.base) ↔
+          x.base ∈ Sing HypIsom ClosedDisc M) ∧
+      ∀ D : MaxBranchedCover (Sing HypIsom ClosedDisc M) y₀ → ClosedDisc,
+        IsDevelopingMapOf HypIsom (aeAtlas HypIsom ClosedDisc M) SpreadEnd.base D →
+        Injective D ∧ ∀ x : MaxBranchedCover (Sing HypIsom ClosedDisc M) y₀,
+          x ∉ support (aePullback HypIsom (aeAtlas HypIsom ClosedDisc M) SpreadEnd.base) →
+          ‖(D x : ℂ)‖ = 1 ∧
+          ∀ N ∈ 𝓝 x, ∃ U : Set (MaxBranchedCover (Sing HypIsom ClosedDisc M) y₀), IsOpen U ∧
+            ∃ hxU : x ∈ U, U ⊆ N ∧
+            (∃ r₀ > 0, ∃ h : U ≃ₜ {p : DInfty | p.r < r₀}, (h ⟨x, hxU⟩ : DInfty) = DInfty.apex) ∧
+            ∃ τ > 0, D '' U = horoSet (D x) τ ∧ ¬ IsOpen (D '' U)) ∧
+    ∀ s ∈ S, ∃ C : CuspChart S s, C.IsHyperbolicCusp ∧
+      InjOn C.E {w | 0 ≤ (w : ℂ).re ∧ (w : ℂ).re < 1} ∧
+      Subtype.val '' (C.E '' {w | 0 ≤ (w : ℂ).re ∧ (w : ℂ).re < 1}) = C.W C.c \ {s} ∧
+      (∀ w, ∃ N ∈ 𝓝 w, ∀ w₁ ∈ N, ∀ w₂ ∈ N, @dist _ m.toDist (C.E w₁) (C.E w₂) =
+        dist (UpperHalfPlane.mk w₁ (C.c_pos.trans w₁.2))
+          (UpperHalfPlane.mk w₂ (C.c_pos.trans w₂.2))) ∧
+      MeasureTheory.volume (cuspStrip C.c) = ENNReal.ofReal (1 / C.c) :=
+  ⟨take_closed_unit_disc M S H.isCuspedHyperbolic, fun s hs =>
+    let ⟨C, hC⟩ := H.cusp s hs
+    ⟨C, hC, C.cusp_finite_area hC H.metric⟩⟩
+
+end MetricExample
 
 end GX
