@@ -8,10 +8,10 @@ import Mathlib.Analysis.Normed.Affine.MazurUlam
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §8,
 lines of the **labelled** `papers/barbot/legacy/labeled/GHFspace.tex`. Package WP-35a-Abel.
-**No label is marked**: the printed statement is false (DEC-27's rule, adopted in
-`docs/BARBOT.md`), so the row is `partial`.
 
-* `bcor:abel` — `GHFspace.tex:2295` (Cor 8.4, l.2292–2305), partial:
+* **`bcor:abel`** — `GHFspace.tex:2293` (Cor 8.4, l.2292–2305), marked in its **unified repaired
+  form** (DEC-101: `bcor_abel_unified` is the formalization of record; external `BieberbachI`;
+  **no `sorry`**); the printed statement is false and its refutation is kept as a finding:
   - **refuted as printed**, with no `sorry`, in every dimension `d ≥ 3` (Barbot's `n ≥ 4`)
     unconditionally (`U` a line or larger), and at `d = 2` (Barbot's `n = 3`) under the reading
     of a point as a spacelike affine subspace:
@@ -27,9 +27,9 @@ lines of the **labelled** `papers/barbot/legacy/labeled/GHFspace.tex`. Package W
   - **the form its use at [10.M] needs**, `bcor_abel_twoNull`: `U` plus **two distinct null
     directions** preserved; `Γ ↪ Isom(ℝ × U)` discretely, virtually `ℤᵐ`, `m ≤ dim U + 1`
     (external `BieberbachI (ℝ × ℝ^{dim U})`); its virtual form `bcor_abel_twoNull_virtual`;
-  - **the unified form**, `bcor_abel_unified`: a finite-index `Γ₀ ≤ Γ` preserves a timelike
-    direction **or** two distinct null directions; virtually `ℤᵐ`, `m ≤ dim U + 1`. No claim is
-    made that this is the strongest true form.
+  - **the unified form**, `bcor_abel_unified` (**the formalization of record**, DEC-101): a
+    finite-index `Γ₀ ≤ Γ` preserves a timelike direction **or** two distinct null directions;
+    virtually `ℤᵐ`, `m ≤ dim U + 1`. No claim is made that this is the strongest true form.
 
 > If $\Gamma$ preserves a spacelike affine subspace ${\bf U}$, then
 > $\Gamma$ contains as a finite index subgroup a free abelian group of finite rank. (l.2295–2296)
@@ -58,7 +58,7 @@ no nontrivial element of `Γ₄` preserves a timelike direction (`gamma4_not_fix
 **Dimension (kb/0024).** Barbot's `𝐌ⁿ` has total dimension `n`; `Minkowski d` has `d` spatial
 dimensions: Barbot's `n` is `d + 1`. The counterexample lives in `Minkowski (n + 2)`.
 
-## Hypothesis checklist (`bcor_abel`)
+## Hypothesis checklist (`bcor_abel`; the marked `bcor_abel_unified` in the last rows)
 
 | paper hypothesis | here |
 |---|---|
@@ -66,9 +66,16 @@ dimensions: Barbot's `n` is `d + 1`. The counterexample lives in `Minkowski (n +
 | `Γ` preserves a spacelike affine subspace `U` (l.2295) | ✓ carried: `IsSpacelikeAffine U` (every nonzero direction vector spacelike; a point qualifies), `U` nonempty and `Γ`-invariant |
 | `Δ ⊂ U^⊥` timelike (l.2300) | ⚠ **strengthened**: `Δ = ℝv` is asked `Γ`-invariant (`∀ γ, L(γ) v ∈ ℝ v`). Some strengthening is necessary (`not_bcorAbelPrinted`); `Γ`-invariance of a timelike `Δ` is one sufficient strengthening (virtually: `bcor_abel_virtual`), two invariant null directions another (`bcor_abel_twoNull`, `bcor_abel_unified`). ⚠ weakened: `Δ ⊥ U` is not used |
 | Bieberbach's Theorem (l.2305) | carried as the external `BieberbachI (ℝ^{dim U})` (DEC-36) |
+| `bcor:abel` (**marked**, DEC-101): the printed statement | ⚠ statement change by ruling: the printed form is **false** (`not_bcorAbelPrinted`, witness `bcor_abel_counterexample`, `Γ(4) < SL(2, ℤ)`; a **finding**); the formalization of record is `bcor_abel_unified` |
+| `bcor_abel_unified`: `Δ ⊂ U^⊥` timelike (l.2300) | ⚠ strengthened (the repair, DEC-101): some finite-index `Γ₀ ≤ Γ` preserves a timelike direction **or** two distinct null directions (`hdir`) |
+| `bcor_abel_unified`: Bieberbach's Theorem | carried as the named externals `BieberbachI (ℝ^{dim U})` and `BieberbachI (ℝ × ℝ^{dim U})` (DEC-36; proved in dimension `≤ 1`) |
+| `bcor_abel_unified`: "free abelian group of finite rank" | ✓ carried, with the bound `m ≤ dim U + 1` |
+| `bcor_abel_unified`: §8's setting, `U` spacelike, nonempty, `Γ`-invariant | ✓ carried, as for `bcor_abel` (`CCAction Γ S`, the DEC-35 reading) |
 
 ## SCOPE (disclosed)
 
+* **Ruled DEC-101 (2026-11-02):** the unified repair `bcor_abel_unified` is the formalization of
+  record and `bcor:abel` is marked; the `Γ(4)` refutation of the printed form stays as a finding.
 * **No `sorry`.** `bcor_abel` rests on `BieberbachI`, a named `Prop` (not an axiom), which is
   proved in dimension `≤ 1` (`bieberbachI_of_finrank_le_one`, `Flat/Bieberbach`).
 * The counterexample is stated in the DEC-35 reading `CCAction` (the standing hypotheses of §8 in
@@ -1461,7 +1468,7 @@ theorem bcor_abel_twoNull_virtual {U : AffineSubspace ℝ (Minkowski d)}
   abel_virtual_lift hle hfi (bcor_abel_twoNull hBi (abel_ccAction_mono h hle) hU hsp
     (fun γ hγ => hinv γ (hle hγ)) hℓ₀ hℓ₁ hq₀ hq₁ hB h0 h1)
 
-/-- **Cor 8.4 repaired, unified form** (unmarked; the REPORT's open question): in §8's setting,
+/-- **Cor 8.4 repaired, unified form** (`bcor:abel`, the formalization of record, DEC-101): in §8's setting,
 if `Γ` preserves a nonempty spacelike affine subspace `U` and some finite-index `Γ₀ ≤ Γ` preserves
 **either** a timelike direction **or** two distinct null directions, then `Γ` has a finite-index
 subgroup isomorphic to `ℤᵐ`, `m ≤ dim U + 1`. Conditional on `BieberbachI` in dimensions `dim U`

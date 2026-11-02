@@ -26,9 +26,12 @@ nonloxodromic case" (label `nol`), lines of the **labelled** `papers/barbot/lega
   `bprop_extension_bounded`, `bprop_extension_top`, `bprop_extension_bot`): closed, no `sorry`.
 * `bprop:limites` — `GHFspace.tex:2940` (Prop 9.3) — `bprop_limites` (in `𝐌ⁿ`),
   `bprop_limites_model`, `limites_of_leading`: proved, no `sorry`, in Barbot's coordinates for a
-  fixed null frame and with the normalisation `y₋ = −y₊` as a case (partial, SCOPE).
-* `bprop:sanloxo` — `GHFspace.tex:2572` (Prop 9.1) — `bprop_sanloxo`: proved from the external
-  `BenoistNoLox` (DEC-36, `Flat/Externals`), refined by the trichotomy (partial: external); its
+  fixed null frame and with the normalisation `y₋ = −y₊` as a case; the label is **marked in
+  `Flat/LimitesGeneral`** (DEC-103), which proves arbitrary endpoints from these.
+* **`bprop:sanloxo`** — `GHFspace.tex:2573` (Prop 9.1), marked (DEC-97; Benoist the named external
+  `BenoistNoLox`, DEC-36; 'stabilizes an isotropic vector' read as *fixes a nonzero null vector*;
+  `Γ` discrete disclosed for the all-elliptic branch; **no `sorry`**) — `bprop_sanloxo`: proved from
+  the external `BenoistNoLox` (`Flat/Externals`), refined by the trichotomy; its
   third branch (null `v₀` fixed, all elliptic, which l.2621–2622 overlooks) in true form
   `exists_timelike_fixed_of_elliptic_of_null` (statement changed 2026-11-01: `Γ` discrete,
   through the hypothesis `TitsVirtuallyAbelianNull` defined here — proved downstream in
@@ -126,6 +129,7 @@ finite-index passage is explicit: `Γ'' ≤ Γ`, `Γ''.relIndex Γ ≠ 0`.
 | 9.3: "`u(Γ)` is a lattice of `E`" | ⚠ weakened: `L` an additive subgroup, `E = span L` (`nonneg_on_span_of_addSubgroup`) |
 | 9.3: coordinates `x v₀ + z + y vₙ` for the `v₀` of `Γ`; "reducing as above to `y₋ = −y₊`" | ⚠ strengthened: the fixed frame `nolToMink` (`v₀ = ofNull 1 0 0`) and the bounded case only in the normalised form `ylo = −yhi` (SCOPE) |
 | 9.1: no loxodromic element; Benoist | ✓ carried; Benoist as the external `BenoistNoLox` |
+| `bprop:sanloxo` (**marked**, DEC-97) | ⚠ strengthened: Benoist's theorem and the Zariski-closure argument (l.2580–2597) enter as the named external `BenoistNoLox` (DEC-36), not proved by design (mathlib has no Zariski closure). ⚠ reading: the conclusion 'stabilizes an isotropic vector' is *fixes a nonzero null vector* (`FixesTimelikeOrNull`; equivalent for groups without loxodromic elements, since an element of `SO₀` scaling a null vector by `λ ≠ 1` is loxodromic). ⚠ added on the all-elliptic branch the paper overlooks (l.2621–2622): **`Γ` discrete** (`DiscreteTopology Γ`), a standing hypothesis of the holonomy setting, supplied by `discreteTopology_of_ccAction` / `discreteTopology_of_developsCC`; without it that branch is false for `n ≥ 6` (a free unit-quaternion pair, documented in SCOPE, not formalized); with it the branch reduces to a timelike fixed vector (`exists_timelike_fixed_of_elliptic_of_null`, through `titsVirtuallyAbelianNull`, `Flat/TitsNull`, proved) |
 | [9.P] l.2621–2622: "`Γ` contains a parabolic element" (the null-fixed, all-elliptic branch it overlooks) | ⚠ added hypothesis `DiscreteTopology Γ` (`isomTopology`) and the external `TitsVirtuallyAbelianNull` in `exists_timelike_fixed_of_elliptic_of_null`; the discreteness is proved from the §8 data (`discreteTopology_of_developsCC`), so `nonloxodromic` only gains `TitsVirtuallyAbelianNull d` — no longer an external: proved in `Flat/TitsNull` (`titsVirtuallyAbelianNull`, DEC-50, no `sorry`) and discharged at Classification's `caseOutput`. Alternative (Barbot-cited externals only): `AuslanderCarriereDalbo` plus ⚠ added `Γ_nd` of finite index (`exists_timelike_fixed_of_elliptic_of_ausl`) |
 | [9.b]: `γ₁` parabolic, `b(γ₀) ≠ 0` | ⚠ strengthened in `b_trivial`: `γ₁` purely unipotent (`R = id`), with `b(γ₁) = 0` (`b_eq_zero_model` proves it from `v(γ₁) ≠ 0`); ✓ carried in `Nonlox.nullY_smul_eq_of_isParabolic` (any parabolic `γ₁ = R U`), the one `nonloxodromic_parabolic` uses |
 | [9.E], [9.A]: Bieberbach | carried as the external `BieberbachI` (`Flat/Bieberbach`) |
@@ -135,6 +139,12 @@ finite-index passage is explicit: `Γ'' ≤ Γ`, `Γ''.relIndex Γ ≠ 0`.
 
 ## SCOPE (disclosed)
 
+* **Ruled DEC-97 (2026-11-02):** `bprop:sanloxo` is marked, `Γ` discrete disclosed (a standing
+  hypothesis of the holonomy setting; the untreated all-elliptic branch is false without it for
+  `n ≥ 6`), the conclusion read as 'fixes a nonzero null vector', Benoist a named external
+  (`BenoistNoLox`). Findings kept: the gap at l.2621–2622 (Prop 9.1's proof yields a parabolic
+  element of the Zariski closure, not of `Γ`, and leaves the all-elliptic branch untreated) and
+  the numbered findings below.
 * **Sorries (0).** `exists_unipotent_restriction_up_to_frame` ([9.U], §4b) is PROVED
   (WP-34c, 2026-11-01) by `Nonlox.exists_unipotentRestriction_upToFrame`
   (`Flat/Nonlox/UnipotentUpToFrame`, with `Flat/Nonlox/NullSlices`), from `BieberbachI ℝᵈ` only.

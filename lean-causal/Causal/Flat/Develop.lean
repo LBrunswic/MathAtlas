@@ -11,9 +11,10 @@ import Mathlib.Analysis.Convex.Contractible
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §8,
 `GHFspace.tex` l.2212–2526 (labelled file). Design: `docs/BARBOT-WAVE3.md` §3 (DEC-35: everything
-after Prop 8.1 / Cor 8.3 runs from (CC′)); defects W4, W7, W8, W10 of its §0 apply. Three labels
-are certified, **in a reading, disclosed** (the author's rulings DEC-83, DEC-90, DEC-91; checklist
-below): `blem:SdanU`, `bprop:ghyp`, `bprop:danom`. The others are `partial` (SCOPE).
+after Prop 8.1 / Cor 8.3 runs from (CC′)); defects W4, W7, W8, W10 of its §0 apply. Five labels
+are certified, **in a reading, disclosed** (the author's rulings DEC-83, DEC-90, DEC-91, DEC-94;
+checklist below): `bdef:U_g`, `blem:SdanU`, `bdef:omega_gamma`, `bprop:ghyp`, `bprop:danom`. The
+others are `partial` (SCOPE).
 
 * `bcor:quo` (Cor 8.2, l.2263–2271), partial (DEC-35 reading, `M` Hausdorff; **no `sorry`**) —
   `bcor_quo`, `holonomy_proper`, `isOpenEmbedding_of_developsCC`,
@@ -21,7 +22,10 @@ below): `blem:SdanU`, `bprop:ghyp`, `bprop:danom`. The others are `partial` (SCO
   > The maps $f$ and ${\mathcal D} \circ \tilde{f}$ are embeddings. The natural morphism
   > $\Gamma \subset \pi_{1}(M)$ and the morphism $\rho$ are injective. Moreover,
   > ${\mathcal D} \circ \tilde{f}(\widetilde{S})$ intersects every timelike geodesic.
-* `bdef:U_g` (Def 8.5, l.2332–2349), partial (readings) — `Ug`:
+* **`bdef:U_g`** — `GHFspace.tex:2333` (Def 8.5, l.2332–2349), marked (DEC-94; W4 (DEC-91), and
+  `J` of a linear parabolic read as the null direction through a fixed point; **no `sorry`**) —
+  `Ug`, the classes `IsNonspacelikeElliptic`, `IsSpacelikeElliptic`, `IsLinearParabolic`,
+  `nullHyperplanes`, `classes_of_not`:
   > - $U(g) = \Omega_{g}$ if $g$ is loxodromic, or spacelike elliptic, or non linear parabolic.
   > - $U(g) = \emptyset$ if $g$ is nonspacelike elliptic, - $U(g) = {\bf M}^{n} \setminus J^{\perp}$
   > if $g$ is linear parabolic, where $J$ is the lightlike affine line of fixed points of $g$,
@@ -29,7 +33,8 @@ below): `blem:SdanU`, `bprop:ghyp`, `bprop:danom`. The others are `partial` (SCO
   reading, DEC-35, and W4; **no `sorry`**) — `blem_SdanU`:
   > The complete spacelike hypersurface $\widetilde{S}$ is contained in the interior of
   > $U(\Gamma) = \bigcap_{\gamma \in \Gamma} U(\gamma)$.
-* `bdef:omega_gamma` (Def 8.7, l.2394–2400), partial (W4) — `omegaGamma`, `omegaS`, `omegaS_eq`:
+* **`bdef:omega_gamma`** — `GHFspace.tex:2395` (Def 8.7, l.2394–2400), marked (DEC-94; W4,
+  DEC-91; **no `sorry`**) — `UGamma`, `omegaGamma`, `omegaS`, `omegaS_eq`, `isOpen_omegaS`:
   > The interior of $U(\Gamma)$ is denoted by $\Omega(\Gamma)$ […] The connected component
   > of the interior of $U(\Gamma)$ containing $\widetilde{S}$ is denoted by $\Omega(\widetilde{S})$.
 * Rem 8.8 `remplacefini` (l.2403–2408), unlabelled in the ledger — `achronalDomain_subset_zpow`,
@@ -90,6 +95,8 @@ dimensions: Barbot's `n` is `d + 1`.
 
 | paper hypothesis | here |
 |---|---|
+| `bdef:U_g` (**marked**, DEC-94) | ⚠ reading: W4 (DEC-91) — `U(id) = ∅`, so `U(Γ)` ranges over `γ ≠ 1` and `Ω_g` over `q ≠ 0`; the last branch `Ω_g` covers "loxodromic, spacelike elliptic, non linear parabolic" exactly, given `lorentz_trichotomy` (`classes_of_not`). "`J` the lightlike affine line of fixed points" (l.2343) read as **the null direction through a fixed point**: for a linear parabolic `g` with `R = id` the fixed set `c + ker(L(g) − id)` has dimension `n − 2`, not 1, so `J^⊥` is `nullHyperplanes g`, the union of `c + v₀^⊥` over the fixed points `c` (independent of the decomposition, `mem_nullHyperplanes_iff`); the definition is otherwise as printed |
+| `bdef:omega_gamma` (**marked**, DEC-94) | ⚠ reading: W4 (DEC-91), `U(Γ) = ⋂_{γ ≠ 1} U(γ)`; `Ω(S̃)` the union of the components of `Ω(Γ)` meeting `Σ` (`omegaS`), one component under `CCAction` (`omegaS_eq`), open (`isOpen_omegaS`). Rem 8.8's `U(Γ') = U(Γ)` (finite index) fails with torsion under W4 — a **finding** (SCOPE), not a condition of the definition; `CCAction` gives torsion-freeness |
 | `blem:SdanU` (**marked**, DEC-83) | ⚠ reading: the (CC′) reading (DEC-35): `S̃` read as the `CCAction Γ Σ` data in `𝐌ⁿ`, Cor 8.3 carried as (CC′)(b); W4: `U(Γ) = ⋂_{γ ≠ 1} U(γ)` (as printed `U(Γ) = ∅`), with the readings of `Ug` (SCOPE); no external; the paper's interior argument replaced (finding) |
 | `bprop:ghyp` (**marked**, DEC-91) | ⚠ reading: the (CC′) reading (DEC-35), as for `blem:SdanU`; ✓ W4 the intended reading (DEC-91): `U(Γ) = ⋂_{γ ≠ 1} U(γ)`, `Ω_g` over `q ≠ 0`, and the interior of `U(g)` (not open in [7.L]); the statement is unchanged. W8 is a finding on the **proof** (SCOPE): the convexity argument of l.2430–2431 ("the convexity of connected components of every `U(γ)`") fails for `U(γ) = Ω_γ` loxodromic with `τ ≠ 0` (`{xy ≤ 0}`, connected, not convex), and convexity of components does not pass to the interior of an infinite intersection; replaced by `IsCausalPiece`, proved class by class over `lorentz_trichotomy` |
 | `bprop:danom` (**marked**, DEC-90) | ⚠ reading: the (CC′) reading (DEC-35); ✓ carried: T2, implicit in manifold (DEC-90, the '(implicit) `M` a manifold: Hausdorff' row below); GH weakened to `IsCausal` (W10); the non-Hausdorff fold counterexample stays as a finding (SCOPE) |
@@ -111,6 +118,8 @@ dimensions: Barbot's `n` is `d + 1`.
   decomposition is not proved unique); the last branch of `Ug` is `Ω_g`, which covers
   "loxodromic, spacelike elliptic, non linear parabolic" exactly when `lorentz_trichotomy` holds.
   `Ω(S̃)` is the union of the components of `Ω(Γ)` meeting `Σ` (one component, `omegaS_eq`).
+  **Ruled DEC-94:** `bdef:U_g` and `bdef:omega_gamma` are marked under W4 (DEC-91) and the reading
+  of `J` as the null direction through a fixed point (`nullHyperplanes`).
 * **Proof repairs.** Lemma 8.6's "small convex `B`" (l.2383–2389) is replaced by `int D(Σ)`
   (`graph_subset_interior_dependenceDomain`) and `D(Σ) ⊆ U(Γ)`; Prop 8.10's "convexity of the
   components of every `U(γ)`" (W8) by the piece property `IsCausalPiece`, proved class by class
@@ -156,8 +165,10 @@ dimensions: Barbot's `n` is `d + 1`.
   (`achronalDomain_zpow`: causally related iterates iterate), and `J^⊥` does not depend on the
   parabolic decomposition (`mem_nullHyperplanes_iff`), which answers the uniqueness question
   left open by the union reading. Lemma 8.6's transverse case needs no Lemma 7.1 (false for `d ≥ 3`,
-  AchronalDomains): `Σ ⊆ Ω_γ` and `Ω_γ = ∅`. Rem 8.8's `U(Γ') = U(Γ)` needs `Γ` torsion-free
-  under W4 (`UGamma_eq_of_index`). Prop 8.12 needs no "free and achronal on `Ω'`" step.
+  AchronalDomains): `Σ ⊆ Ω_γ` and `Ω_γ = ∅`. **Finding (DEC-94):** Rem 8.8's `U(Γ') = U(Γ)` for
+  a finite-index `Γ'` fails with torsion under W4 (`Γ = {1, γ}`, `γ² = 1 ≠ γ`, so `γ` is
+  nonspacelike elliptic and `U(Γ) = ∅`, while `Γ' = 1` has `U(Γ') = 𝐌ⁿ`); it holds for torsion-free `Γ`
+  (`UGamma_eq_of_index`), which `CCAction` gives. Its first sentence `U(gⁿ) = U(g)` is `Ug_zpow`. Prop 8.12 needs no "free and achronal on `Ω'`" step.
 * The homeomorphism `M ≃ S × ℝ` of `bprop:splitting` is Splitting's, not used here.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Barbot campaign,

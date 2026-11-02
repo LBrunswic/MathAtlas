@@ -5,9 +5,12 @@ import Causal.Flat.Lox.LevelComplete
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §4.2
 (`papers/barbot/legacy/labeled/GHFspace.tex`; line numbers are those of the labelled copy).
-One label, unmarked (marks are the author's; see SCOPE for the readings it rests on):
+One label, marked by the author's ruling (DEC-103; see the checklist and SCOPE for the readings
+it rests on):
 
-* `bprop:lip` — `GHFspace.tex:1074` (Prop 4.12), **length form**: `lipschitzWith_gaussInduced`
+* **`bprop:lip`** — `GHFspace.tex:1074` (Prop 4.12), marked (DEC-103: length form, 'the usual
+  hyperbolic metric' read as the hyperboloid's induced length; **no `sorry`**) — **length form**:
+  `lipschitzWith_gaussInduced`
   (`S_t ∩ V` with `InducedLength`, `ℍᵈ` with the induced length of the hyperboloid),
   `lipschitzWith_gaussSpace` (the glued `InducedLengthSpace` of DEC-35), `edist_gaussInduced_le`.
   The chordal form is `minkQ_gaussMap_sub_le` (`Flat/Cosmological`); this file is the passage
@@ -51,12 +54,16 @@ dimensions, so Barbot's `n` is `d + 1` and his `ℍⁿ⁻¹` is `ℍᵈ = graph 
 |---|---|
 | `Ω` a future complete regular convex domain, `S_t` a level set of `T`, `t > 0` | ✓ carried: `CosmoRegular Λ` (the regular-domain reading, DEC-88), `t > 0` |
 | "the induced riemannian metric" of `S_t` (l.1085) | ✓ carried, in DEC-35's reading (the reading of `bcor:level_sets_complete`): the Lipschitz-path induced length, `InducedLength (cosmoLevel Λ t) V` for every open `V`, and `InducedLengthSpace` |
-| "its usual hyperbolic metric" on `ℍⁿ⁻¹` (l.1077) | ✓ carried, in the same reading: the induced length of the hyperboloid `ℍᵈ ⊆ 𝐌ⁿ`, `InducedLength (graph (hyperboloid d)) ⊤` (see SCOPE) |
+| "its usual hyperbolic metric" on `ℍⁿ⁻¹` (l.1077) | ⚠ reading, ruled DEC-103: the induced length of the hyperboloid `ℍᵈ ⊆ 𝐌ⁿ`, `InducedLength (graph (hyperboloid d)) ⊤` (see SCOPE); its agreement with `arccosh(−⟨u | v⟩)` is not proved |
+| `bprop:lip` (**marked**, DEC-103) | the printed `1/t`-Lipschitz statement in **length form** (`lipschitzWith_gaussInduced`, `lipschitzWith_gaussSpace`), under the three readings of this table (DEC-35 induced length on `S_t`, DEC-88 `CosmoRegular`, DEC-103 hyperboloid length); the chordal form (`minkQ_gaussMap_sub_le`, `Flat/Cosmological`) is its input |
 | `0 < ε < t`, then `ε → t` (l.1082, l.1104) | ✓ carried: the chordal inequality is taken at `ε = t` directly (`minkQ_gaussMap_sub_le`) |
 | `T` is `C¹` (l.1084) | ⚠ weakened: not used |
 
 ## SCOPE (disclosed)
 
+* **Ruled DEC-103 (2026-11-02):** `bprop:lip` is marked in length form, 'the usual hyperbolic
+  metric' read as the hyperboloid's induced length. Finding kept: the proof (l.1073–1105) drops
+  `|π(p) − π(p')|² ≥ 0`, the achronality of the boundary of `Ω`, silently.
 * **The route differs from the paper's at the passage l.1084–1091.** The paper writes the
   distance of `S_t` as an infimum of chord sums and applies the chordal inequality chord by
   chord. Here the chordal inequality is applied to the chords `γ(u) − γ(s)` of a Lipschitz

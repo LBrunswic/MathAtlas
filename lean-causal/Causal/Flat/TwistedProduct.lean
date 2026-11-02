@@ -9,7 +9,9 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
 "Twisted product by euclidean manifolds" (`produi`) and Lemma 5.5. Line numbers are those of the
 **labelled** `papers/barbot/legacy/labeled/GHFspace.tex` (`docs/BARBOT.md` uses the original's).
 
-* `blem:suspendre` — `GHFspace.tex:1833–1845` — **partial** (not marked): proved
+* **`blem:suspendre`** — `GHFspace.tex:1834` (Lemma 5.5, l.1833–1845), marked (DEC-99: the
+  orientation hypothesis `RestrictsIn`, read at the level of `Ω` in the twisted-product form of
+  DEC-43; **no `sorry`**) — proved
   (`suspendre`) under one added hypothesis, `RestrictsIn` (every element of `Γ` restricts to `U`
   as an element of `Isom(𝐌^{d₁+1})`, i.e. preserves the orientation of `U`), without which the
   statement is false as written (`TwistedProduct.not_restrictsIn_glideGroup`, and for every
@@ -130,6 +132,7 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
 |---|---|
 | `B` a flat spacetime (l.1836) | ✓ carried: `B : FlatSpacetime d` |
 | quotient of an open `Ω` by isometries acting freely and properly discontinuously (l.1837–1838) | ✓ carried: `IsQuotientOf B Γ Ω`, `[Invariant Γ Ω]`, `[IsCancelSMul Γ Ω]`, `[ProperlyDiscontinuousSMul Γ Ω]` |
+| `blem:suspendre` (**marked**, DEC-99) | ⚠ strengthened by ruling: the orientation hypothesis `RestrictsIn ι Γ` (next row), carried; the glide/Möbius counterexample (`not_restrictsIn_glideGroup_of_range`) is a **finding**. ⚠ reading: "`B` is the linear twisted product of `M` by `U^⊥`" in DEC-43's quotient form `IsLTPOver` (the base `Γ_U\(U ∩ Ω)`), the suspension proved at the level of `Ω` (`split`, `split_smul`, `mem_iff_retract_mem`: `Ω = (U ∩ Ω) × U^⊥`, `Γ` diagonal), not descended to a bundle map `B → M` |
 | `Γ` preserves a timelike affine subspace `U` (l.1839) | ⚠ strengthened: `RestrictsIn ι Γ` (restriction in `SO₀`-affine isometries, i.e. `Γ` preserves the orientation of `U`); implies the preservation (`RestrictsIn.preserves`); necessary (`not_restrictsIn_glideGroup_of_range`, every parametrization). `U` is read as `range ι`, `ι : AffineMinkEmbedding d₁ d` orthochronous (`hι`); this loses no timelike affine subspace (`timelikeImage`, `exists_affineMinkEmbedding_of_isTimelike`) |
 | `Ω` invariant by translations by `U^⊥` (l.1840–1841) | ✓ carried: `∀ w ∈ ι.perp, ∀ p ∈ Ω, p + w ∈ Ω` (`perpInvariant_iff`: the form `Ω + w = Ω`) |
 
@@ -138,6 +141,9 @@ Note (not a paper hypothesis): `Ω` is not asked to be connected; `M` is connect
 
 ## SCOPE (disclosed)
 
+* **Ruled DEC-99 (2026-11-02):** `blem:suspendre` is marked with the orientation hypothesis
+  `RestrictsIn`, read at the level of `Ω` in the twisted-product form of DEC-43; the glide/Möbius
+  counterexample stays as a finding (next bullet).
 * **The orientation of `U`** (finding). Barbot's isometries are `SO₀`-affine (l.469–480), and a
   flat spacetime is an `(Isom(𝐌ⁿ), 𝐌ⁿ)`-manifold; `γ ∈ SO₀(1, d)` preserving `U` restricts to `U`
   in `O⁺(1, d₁)` only, with determinant `±1` (the same sign as on `U^⊥`). So the "flat spacetime

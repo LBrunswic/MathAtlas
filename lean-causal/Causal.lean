@@ -157,6 +157,10 @@ import Causal.LemmaK
 import Causal.Flat.LimitesGeneral
 import Causal.Flat.AgissonsGeneral
 import Causal.Flat.LipLength
+import Causal.Flat.LaoucapulseVolume
+import Causal.Flat.QuoFull
+import Causal.Flat.Semicomplete
+import Causal.Flat.SplittingFull
 
 /-!
 # Causal — topological spacetimes
@@ -172,7 +176,9 @@ Since 2026-11-02 it also holds the Barbot campaign (*Globally hyperbolic flat sp
 `papers/barbot/ledger/` (kb/0024), with the label-free Lemma K work of DEC-92
 (`Causal.LemmaKSC`, `Causal.LemmaKObstruction`, `Causal.LevinUtility`, `Causal.LemmaKLocal`,
 `Causal.LemmaKSCLocal`) and Lemma K's statement of record in ETT's setting (DEC-93,
-`Causal.LemmaK`: causally open, second countable); and, graduated the same day, the CBG work
+`Causal.LemmaK`: causally open, second countable); the 2026-11-02 proof-gap round's
+`Causal.Flat.LaoucapulseVolume` (DEC-102), `Causal.Flat.QuoFull`, `Causal.Flat.Semicomplete`
+(DEC-103) and `Causal.Flat.SplittingFull` (DEC-100); and, graduated the same day, the CBG work
 (`Causal.CBG.*`, `Causal.Flat.CBG`, `Causal.Flat.CBGGerm`, `Causal.Flat.CBGSlice`,
 `docs/CBG-DESIGN.md`).
 -/

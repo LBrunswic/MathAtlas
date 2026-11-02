@@ -3,7 +3,10 @@ import Causal.Flat.Nonloxodromic
 /-!
 # `Causal.Flat.LimitesGeneral` — Prop 9.3 without the normalisation `y₋ = −y₊`
 
-* `bprop:limites` — `GHFspace.tex:2941` (Prop 9.3) — the bounded case without the normalisation
+* **`bprop:limites`** — `GHFspace.tex:2941` (Prop 9.3, l.2940–2989), marked (DEC-103: arbitrary
+  endpoints, the fixed null frame `nolToMink` disclosed; **no `sorry`**) —
+  `bprop_limites_of_isAchronal` (the three cases and "at least one extremity is finite") with
+  `bprop_limites_general` (the bounded case for any `y₋ < y₊`). In detail: the bounded case without the normalisation
   `y₋ = −y₊`: `bprop_limites_bounded_model` (the reduction by the change of origin, in Barbot's
   coordinates), `bprop_limites_general_model` (its inequality read back in the original
   coordinates), `bprop_limites_general` (in `𝐌ⁿ`, `S̃` achronal), `bprop_limites_general_of_ccPrime`
@@ -45,10 +48,14 @@ holds (`y₊ = a = (y₊ − y₋)/2` there); read back, it is `|a T u| ≤ |u +
 | 9.3: `Γ ⊆ 𝒜(v₀)`, `v = T u`, `Γ`-invariant | ✓ carried (as in `bprop_limites`) |
 | 9.3: "`u(Γ)` is a lattice of `E`" | ⚠ weakened: `L` an additive subgroup, `E = span L` |
 | 9.3: one element parabolic | ✓ carried (`hpar`) |
-| 9.3: coordinates for the `v₀` of `Γ` | ⚠ strengthened (as in `bprop_limites`): the fixed frame `nolToMink` |
+| 9.3: coordinates for the `v₀` of `Γ` | ⚠ strengthened (as in `bprop_limites`): the fixed frame `nolToMink` — **disclosed by ruling** (DEC-103), the same reading as the marked `bprop:extension`; Rem 9.2's frame changes are not used (its changes of `vₙ` are not frame changes: finding, `Flat/Nonloxodromic`) |
+| `bprop:limites` (**marked**, DEC-103) | the printed statement: three cases and "at least one extremity is finite" (`bprop_limites_of_isAchronal`, `S̃` achronal, `y₋ < 0 < y₊` in `EReal` as the paper assumes, l.2934); the bounded case "reducing as above to `y₋ = −y₊`" for **arbitrary** real `y₋ < y₊` (`bprop_limites_general`); readings and weakenings as in the rows above |
 
 ## SCOPE (disclosed)
 
+* **Ruled DEC-103 (2026-11-02):** `bprop:limites` is marked, for arbitrary endpoints, with the
+  fixed null frame `nolToMink` disclosed; the findings below and Rem 9.2's (the changes of `vₙ`
+  are not changes of null frame) are kept.
 * **The reading of `S̃`.** The proof uses only achronality of `S̃` (the leading coefficient of
   `|γᵖX − X'|²` is `≥ 0`), not acausality, and the paper's "positive" is "nonnegative".
   Achronality follows from the standing hypotheses in DEC-35's reading: (CC′)(a) makes `Σ = S̃`

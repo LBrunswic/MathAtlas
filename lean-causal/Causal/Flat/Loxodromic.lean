@@ -36,9 +36,14 @@ import Mathlib.GroupTheory.Schreier
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §10
 "The loxodromic case" (`loxocase`), `GHFspace.tex` l.3133–3456 of the labelled file
-`papers/barbot/legacy/labeled/GHFspace.tex`. Four labels are certified, **under readings and named
-external hypotheses, disclosed** (DEC-83, the author's ruling, as DEC-72; checklist below); the
-others are partial (SCOPE).
+`papers/barbot/legacy/labeled/GHFspace.tex`. Seven labels are certified, **under readings and named
+external hypotheses, disclosed** (DEC-83, DEC-89, DEC-96, the author's rulings, as DEC-72; checklist
+below); the others are partial (SCOPE).
+
+* **`bprop:admlox`** — `GHFspace.tex:1230` (Prop 4.17), marked (DEC-96; 'nonempty' added, the
+  evident intent; external `LimitSetMinimal`; **no `sorry`**): `bprop_admlox`.
+* **`bdef:definitioncauchyhyp`** — `GHFspace.tex:1277` (Def 4.18), marked (DEC-96; readings):
+  `IsCauchyHyperbolic`, `IsAdmissible`, `limitSetJ`.
 
 * **`blem:sanlox`** — `GHFspace.tex:3141` (Lemma 10.1), marked (DEC-83; reading: §8's standing
   hypotheses `CCAction`; **no `sorry`**): `blem_sanlox` as printed, by a proof other than the paper's (whose
@@ -63,12 +68,11 @@ others are partial (SCOPE).
 * **`bprop:LU_discrete`** — `GHFspace.tex:3368` (Prop 10.5), marked (DEC-83; external
   `AuslanderCarriereDalbo`; reading: `U` via `RestrictsIn`; **no `sorry`**): l.3372–3380, both branches (`Flat.Lox.UnipotentCentre`; Cartan in local form,
   `Flat.Lox.ClosedSubgroupNhds`), and l.3380–3388 (`Flat.Lox.CentralFix`, `RestrictFix`).
-* `bprop:admlox` — `GHFspace.tex:1230` (Prop 4.17), partial (nonempty added, external
-  `LimitSetMinimal`; **no `sorry`**): invariance in `𝒥` (`isomPenrose_image_limitSetJ_subset`),
+* `bprop:admlox` (marked above, DEC-96) — `bprop_admlox`, from invariance in `𝒥` (`isomPenrose_image_limitSetJ_subset`),
   minimality on `𝒮` (`fst_image_limitSetJ_subset`) and in `𝒥` (`limitSetJ_subset`, through the
   basin of repulsion `tendsto_isomPenrose_inv_pow`).
-* `bdef:definitioncauchyhyp` — `GHFspace.tex:1277` (Def 4.18), partial (readings):
-  `IsCauchyHyperbolic`, `IsFutureAdmissible`, `IsPastAdmissible`, `IsAdmissible`.
+* `bdef:definitioncauchyhyp` (marked above, DEC-96) — `IsCauchyHyperbolic`,
+  `IsFutureAdmissible`, `IsPastAdmissible`, `IsAdmissible`, `IsCauchyHyperbolic.exists_isAdmissible`.
 * Prose: [10.M] l.3235–3330 (`loxo_elementary_misner`, for a finite-index `Γ'`, under the cited
   Bieberbach I, **no `sorry`** (`#print axioms`: `propext`, `Classical.choice`, `Quot.sound`); its
   steps `b ≡ 0` and `x(γ) = y(γ) = 0` under `CCAction`, `exists_invariant_nullLevel_of_ccAction`,
@@ -158,6 +162,8 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
 
 | paper hypothesis | here |
 |---|---|
+| `bprop:admlox` (**marked**, DEC-96): "contained in any closed `ρ(Γ)`-invariant subset" | ⚠ reading: **nonempty** added (the evident intent, DEC-96: the empty set is closed and invariant — the same for the limit-set fact quoted at l.1248–1251); ⚠ strengthened: the cited dynamics of discrete subgroups on the sphere (l.1246–1254) is the named external `LimitSetMinimal` (DEC-36), not proved by design, used only on a singleton; ⚠ weakened: of admissibility only `L(Γ)` discrete without global fixed point is used (`limitSetJ_subset`); the step l.1254–1267 is proved from the eigenvalue alone (`laoucapulse_repulsive_basin`) |
+| `bdef:definitioncauchyhyp` (**marked**, DEC-96) | ⚠ reading (DEC-96): `Λ(ρ)` as in Prop 4.17 (`limitSetJ`, the closure of the repulsive fixed points in `𝒥` of the loxodromic elements); `Ω⁺` for a future admissible and `Ω⁻` for a past admissible `ρ` (`limitOpensPlus`, `limitOpensMinus`); 'admissible' in subgroup form (`Γ ≤ Isom(𝐌ⁿ)`, `L` injective on `Γ`, `L(Γ)` discrete without global fixed point, preserving a regular domain: `IsFutureAdmissible`, `IsPastAdmissible`) |
 | `blem:sanlox` (**marked**, DEC-83) | ⚠ reading (DEC-35): §8's standing hypotheses as `CCAction Γ Σ`, Rem 8.9 derived from it (`nini`); no external; proved by a route other than the paper's (finding: `Ω_lox(Γ)` is not convex) |
 | `blem:loxregular` (**marked**, DEC-83) | ⚠ reading (DEC-35): `CCAction Γ Σ`; both time orientations kept (`Ω⁺` future regular or `Ω⁻` past regular); Lemma 4.9 without its hypothesis; no external |
 | `bprop:U_timelike` (**marked**, DEC-83) | ⚠ strengthened: the named externals `AuslanderCarriereDalbo d` (`bthm:ausl`) and `MaxUnipotentSubspace d` (`bthm:unip`), cited by the paper, not proved by design (DEC-36); `CCAction` carried and unused (⚠ weakened); Cor 8.4 replaced (finding) |
@@ -209,8 +215,13 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
   `subset_UGamma_of_oneSided`, `loxo_properlyDiscontinuous`, `bcor_loxo_proper`, `bprop_U_timelike`,
   the proved [10.G]
   lemmas and all of `bprop:admlox`
-  (`isomPenrose_image_limitSetJ_subset`, `fst_image_limitSetJ_subset`, `limitSetJ_subset`) use no
-  `sorry`.
+  (`bprop_admlox`, `isomPenrose_image_limitSetJ_subset`, `fst_image_limitSetJ_subset`,
+  `limitSetJ_subset`) use no `sorry`. **Ruled DEC-96:** `bprop:admlox` is marked with 'nonempty'
+  (the evident intent) and `LimitSetMinimal` a named external; `bdef:definitioncauchyhyp` under
+  the readings of the checklist. Findings kept: Prop 4.17 as printed is false for the empty set;
+  the basin of repulsion of `x₀` is all of `𝒥` off the fibre over the attractive point, so the
+  closure of `δ(Λ)` is not needed, and the convergence of the `s`-coordinate (l.1255–1266) is not
+  argued in the paper.
 * **Upstream.** The gx exports and the three [10.M]/[10.G] conclusions go through
   `ccAction_of_developsCC` and `bprop_danom`; `Flat.Develop`'s former two `sorry`s
   (`holonomy_proper`; Prop 8.12 step 1) are closed at 20ea59b (it has no `SORRY(` left), and Cor
@@ -3737,6 +3748,22 @@ theorem limitSetJ_subset (hL : LimitSetMinimal d) (hΓ : DiscreteTopology (linea
     exact hr.fst_ne hr' hw1
   exact hF.mem_of_tendsto (tendsto_isomPenrose_inv_pow hr hr' hx)
     (Eventually.of_forall fun k => hinv _ (Γ.pow_mem (Γ.inv_mem hγ) k) ⟨x, hxF, rfl⟩)
+
+/-- **`bprop:admlox`** (Prop 4.17, l.1230–1238), the formalization of record (DEC-96): for an
+admissible `Γ` (subgroup form, `IsAdmissible`), `Λ(Γ)` is `Γ`-invariant in `𝒥` and contained in
+every **nonempty** closed `Γ`-invariant subset of `𝒥` ('nonempty' the evident intent: the empty
+set is closed and invariant), the cited limit-set dynamics (l.1246–1254) entering as the named
+external `LimitSetMinimal` (DEC-36). -/
+theorem bprop_admlox (hL : LimitSetMinimal d) (hΓ : IsAdmissible Γ) :
+    (∀ η ∈ Γ, isomPenrose η '' limitSetJ Γ ⊆ limitSetJ Γ) ∧
+      ∀ F : Set (PenroseSphere d × ℝ), IsClosed F → F.Nonempty →
+        (∀ η ∈ Γ, isomPenrose η '' F ⊆ F) → limitSetJ Γ ⊆ F := by
+  obtain ⟨hD, hfix⟩ : DiscreteTopology (linearImage Γ) ∧ ¬HasGlobalFixedPoint (linearImage Γ) := by
+    rcases hΓ with h | h
+    · exact ⟨h.2.1, h.2.2.1⟩
+    · exact ⟨h.2.1, h.2.2.1⟩
+  exact ⟨fun η hη => isomPenrose_image_limitSetJ_subset hη,
+    fun F hF hne hinv => limitSetJ_subset hL hD hfix hF hne hinv⟩
 
 end Admlox
 

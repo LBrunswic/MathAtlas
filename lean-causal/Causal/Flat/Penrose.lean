@@ -12,11 +12,15 @@ T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0
 * **`bcor:closeregular`** — `GHFspace.tex:951` (`FutureRegular.closure_futureRegular`)
 * **`blem:closecool`** — `GHFspace.tex:963` (`isOpen_omegaPlus_of_isClosed`)
 * **`blem:fermonsbis`** — `GHFspace.tex:987` (`omegaPlus_closure_eq_interior`, no hypothesis)
+* **`bdef:omega_lambda`** — `GHFspace.tex:893` (`omegaPlus`, `omegaMinus`,
+  `omegaLambda_regular_of_isClosed`; DEC-95: the closing sentence under the closed-`Λ`
+  convention of l.1001–1004)
+* **`bprop:regular_iff_bounded`** — `GHFspace.tex:1008` (`regular_iff_bounded_corrected`;
+  DEC-95: the corrected sign, the printed one a typo)
+* **`bcor:futetpast`** — `GHFspace.tex:1036` (`futureRegular_and_pastRegular_iff_isCompact`;
+  DEC-95: `Λ` closed by the convention of l.1001–1004)
 
-Partial, unmarked (see SCOPE): `bdef:omega_lambda` (`GHFspace.tex:893`; its closing sentence is
-false for non-closed `Λ`), `bprop:regular_iff_bounded` (`GHFspace.tex:1008`; **sign error**, the
-corrected form is proved), `bcor:futetpast` (`GHFspace.tex:1036`; proved for closed `Λ`, false
-otherwise), `bprop:laoucapulse` (`GHFspace.tex:855`; the chordal identity and one direction on
+Partial, unmarked (see SCOPE): `bprop:laoucapulse` (`GHFspace.tex:855`; the chordal identity and one direction on
 `𝒮` proved, the metric reading on `𝒥⁺` refuted for `d = 2`).
 Prose items: [4.J] `𝒥 ≅ 𝒮 × ℝ` and the action of `Isom(𝐌ⁿ)` (l.773–849); the observations
 after Def 4.4 (l.905–911). Not in the paper: regular domains are globally hyperbolic in ETT's sense.
@@ -71,14 +75,20 @@ should read `x₀ = 1/√2`, and the induced metric is the round metric of the s
 |---|---|
 | `Λ` nonempty (l.882) | ⚠ weakened: not used, except for `Ω⁺ ∩ Ω⁻ = ∅` (✓ carried) |
 | 4.9: `cl Λ` future regular | ⚠ weakened: not used (`omegaPlus_closure_eq_interior`) |
+| `bdef:omega_lambda` (**marked**, DEC-95): the closing sentence l.901–902 | ✓ carried under the closed-`Λ` convention of l.1001–1004 (`omegaLambda_regular_of_isClosed`); ⚠ weakened: "at least 2 elements" not used. The non-closed counterexample `Λ = {u₀} × ]0, ∞[` (`not_futureRegular_ray`) is a **finding**, not a condition |
 | 4.10: `Λ` closed | ✓ carried; ⚠ weakened for "nonempty ⇔ bounded" (`omegaPlus_nonempty_iff`) |
+| `bprop:regular_iff_bounded` (**marked**, DEC-95): "`s` less than `C`" (future) | ⚠ reading: the **corrected sign** is the formalization of record (`regular_iff_bounded_corrected`: future regular ⇔ `s` bounded **below**, past ⇔ bounded **above**), the printed sign a typo (DEC-95); the printed form is the refuted `Prop` `RegularIffBoundedAsPrinted` (`not_regularIffBoundedAsPrinted`), a **finding** |
 | 4.11: `Λ` closed (standing convention, l.1001–1009) | ✓ carried as a hypothesis; ⚠ weakened for compact ⇒ regular |
+| `bcor:futetpast` (**marked**, DEC-95) | ✓ carried: `Λ` closed, covered by the convention of l.1001–1004 (DEC-95) (`futureRegular_and_pastRegular_iff_isCompact`); the non-closed counterexample (`futureRegular_pastRegular_not_isCompact`) is a **finding** |
 | 4.8: compactness of `𝒮` | ✓ used (a compact slab of `𝒮 × ℝ`) |
 | 4.10: compactness of `𝒮` | ⚠ weakened: Cauchy–Schwarz suffices |
 | global hyperbolicity (not in the paper) | causally convex open `W`; convexity of `Ω` not used |
 
 ## SCOPE (disclosed)
 
+* **Ruled DEC-95** (2026-11-02): `bdef:omega_lambda`, `bprop:regular_iff_bounded` and
+  `bcor:futetpast` are marked — the first and third under the closed-`Λ` convention of
+  l.1001–1004, the second in its corrected sign; the three counterexamples below stay as findings.
 * **`bprop:regular_iff_bounded` has a sign error** (l.1011–1013 against the proof l.1017–1031):
   with `P⁺ = {⟨v|p⟩ < s}` (l.887–890) a closed `Λ` is future regular iff `s` is bounded **below**
   (`futureRegular_iff_exists_lt`), past regular iff bounded **above** (`pastRegular_iff_exists_gt`).
@@ -86,14 +96,15 @@ should read `x₀ = 1/√2`, and the induced metric is the round metric of the s
   (`not_regularIffBoundedAsPrinted`, `Λ = 𝒮 × [0, ∞)`). For `d = 0`, `𝒮 = ∅`.
 * **`bdef:omega_lambda`, l.901–902**, under Def 4.5: false for `Λ = {u₀} × ]0, ∞[`, whose
   `Ω⁺ = {⟨v|p⟩ ≤ 0}` is nonempty and not open (`not_futureRegular_ray`); true for every closed
-  `Λ`, with one element or more. The definitions and the observations l.907–911 are proved
+  `Λ`, with one element or more (`omegaLambda_regular_of_isClosed`, the closed-`Λ` reading of
+  DEC-95; the counterexample is a finding). The definitions and the observations l.907–911 are proved
   (`convex_omegaPlus`, `Jplus_omegaPlus_subset`, `add_smul_mem_omegaPlus`,
   `disjoint_omegaPlus_omegaMinus`, and the `Ω⁻` forms). "Geodesically complete in the future" is
   read as `J⁺(Ω⁺) ⊆ Ω⁺`, and in its ray form.
-* `bcor:futetpast` (partial) is proved for closed `Λ` (`futureRegular_and_pastRegular_iff_isCompact`);
-  `Λ = {u₀} × ([0,1] ∖ {1/2})` is future and past regular and not compact
-  (`futureRegular_pastRegular_not_isCompact`). Unmarked, because the closedness is a reading of
-  l.1001–1009, not printed in the corollary.
+* `bcor:futetpast` is proved for closed `Λ` (`futureRegular_and_pastRegular_iff_isCompact`);
+  **finding:** `Λ = {u₀} × ([0,1] ∖ {1/2})` is future and past regular and not compact
+  (`futureRegular_pastRegular_not_isCompact`), so the corollary needs the closedness the
+  convention of l.1001–1004 supplies (DEC-95), not printed in it.
 * `bprop:laoucapulse` (partial): "expanding" is undefined in the paper. Proved: the action of `SO₀(1,d)`
   on `𝒮` multiplies chordal distances by `(a(u)a(u'))^{1/2}`, `a = 1/c` the common factor of
   l.849–851 (`norm_lorentzSphere_sub_sq`), and `[L(g)]` is metrically expanding where `a > 1`
@@ -759,6 +770,14 @@ theorem PastRegular.closure_pastRegular (h : PastRegular Λ) :
     rw [omegaMinus_closure_eq_interior, h.2.interior_eq]
   exact ⟨⟨he ▸ h.1, he ▸ h.2⟩, he⟩
 
+/-- **`bdef:omega_lambda`, the closing sentence** (Def 4.4, l.901–902) under the closed-`Λ`
+convention of l.1001–1004 (DEC-95): for a closed `Λ`, `Ω^±(Λ)`, if nonempty, is regular — with
+any number of elements (the printed "at least `2`" is not used). False for non-closed `Λ`
+(`not_futureRegular_ray`). -/
+theorem omegaLambda_regular_of_isClosed (hΛ : IsClosed Λ) :
+    ((omegaPlus Λ).Nonempty → FutureRegular Λ) ∧ ((omegaMinus Λ).Nonempty → PastRegular Λ) :=
+  ⟨fun h => ⟨h, isOpen_omegaPlus_of_isClosed hΛ⟩, fun h => ⟨h, isOpen_omegaMinus_of_isClosed hΛ⟩⟩
+
 /-! ### `bprop:regular_iff_bounded`, `bcor:futetpast` -/
 
 /-- The point `(−C, 0)` has `⟨(1,u) | ·⟩ = C` for every `u`: the lightlike hyperplanes
@@ -803,6 +822,15 @@ theorem pastRegular_iff_exists_gt (hΛ : IsClosed Λ) :
     PastRegular Λ ↔ ∃ C : ℝ, ∀ w ∈ Λ, w.2 < C :=
   ⟨fun h => omegaMinus_nonempty_iff.1 h.1,
     fun h => ⟨omegaMinus_nonempty_iff.2 h, isOpen_omegaMinus_of_isClosed hΛ⟩⟩
+
+/-- **`bprop:regular_iff_bounded`, corrected** (Prop 4.10, l.1007–1033; DEC-95: the sign is a
+typo, and this is the formalization of record): a closed `Λ` is future regular iff its second
+components are bounded **below**, past regular iff bounded **above** — the proof's own
+conclusion (l.1017–1031). -/
+theorem regular_iff_bounded_corrected (hΛ : IsClosed Λ) :
+    (FutureRegular Λ ↔ ∃ C : ℝ, ∀ w ∈ Λ, C < w.2) ∧
+      (PastRegular Λ ↔ ∃ C : ℝ, ∀ w ∈ Λ, w.2 < C) :=
+  ⟨futureRegular_iff_exists_lt hΛ, pastRegular_iff_exists_gt hΛ⟩
 
 /-- `bprop:regular_iff_bounded` **as printed** (l.1009–1013), kept as a `Prop` (kb/0022, DEC-27):
 for every nonempty closed `Λ`, future regular iff `s < C`, past regular iff `s > C`. -/

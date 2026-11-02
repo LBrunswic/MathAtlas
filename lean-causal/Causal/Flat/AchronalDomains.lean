@@ -7,11 +7,15 @@ import Mathlib.Topology.Algebra.Module.FiniteDimension
 # `Causal.Flat.AchronalDomains` — Barbot §7, the achronal domains of isometries
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §7
-(`GHFspace.tex` l.2019–2210 of the labelled file). The one ledger label, `blem:paranongh`
-(Lemma 7.1, l.2173–2180), is **false as printed** for `n ≥ 4` (with `R = id` parabolic) and for
-`n ≥ 6` (with `R ≠ id` required), and is therefore NOT marked: its strongest true form, the
-counterexamples and the exact range of dimensions are proved (SCOPE). The prose items are cited
-unmarked: [7.0] the definition (l.2022–2028), [7.E] (l.2029–2053), [7.L] (l.2055–2082), [7.P]
+(`GHFspace.tex` l.2019–2210 of the labelled file). The one ledger label:
+
+* **`blem:paranongh`** — `GHFspace.tex:2174` (Lemma 7.1, l.2173–2180), marked in its
+  **class-by-class corrected form** (DEC-98; **no `sorry`**) — `paranongh_corrected`. The printed
+  statement is **false** for `n ≥ 4` (with `R = id` parabolic) and for `n ≥ 6` (with `R ≠ id`
+  required); the counterexamples and the exact range of dimensions are proved and kept as
+  findings (SCOPE).
+
+The prose items are cited unmarked: [7.0] the definition (l.2022–2028), [7.E] (l.2029–2053), [7.L] (l.2055–2082), [7.P]
 (l.2084–2163).
 
 > For any isometry `g`, we define its achronal domain `Ω_g` by:
@@ -70,12 +74,15 @@ dimensions, so Barbot's `n` is `d + 1`. "Causally related" is the ETT causality
 | [7.P] `R ∘ p = p`, `τ` fixed by `R`, `τ ⊥ v₁` (l.2091–2093) | ⚠ weakened: `R τ = τ` only |
 | parabolic: `R` non-trivial (l.1974) | ⚠ weakened (reading of `Flat/Isometries`): `R = id` admitted, as §9's purely unipotent case (l.2865) needs; the strict reading is `IsParabolicNontrivR` |
 | parabolic: `U ≠ id` | ⚠ strengthened (reading of `Flat/Isometries`) |
-| `blem:paranongh`: `g` parabolic, any `x₀` | ⚠ strengthened (finding, DEC-27): false for `d ≥ 3` (`R = id`), for `d ≥ 5` (`R ≠ id`); true for `d ≤ 2`; tangent case: `x₀ ∉ c + J^⊥` |
+| `blem:paranongh` (**marked**, DEC-98): `g` parabolic, any `x₀` | ⚠ statement change, the corrected form of record (DEC-98): `paranongh_corrected` — transverse and linear parabolic `g`: every `x₀`; tangent parabolic `g`: every `x₀ ∉ c + J^⊥`, and it fails at `x₀ = c`. The printed form (`Paranongh`, `ParanonghPts`) is false for `d ≥ 3` (`R = id`, `not_paranongh`), for `d ≥ 5` (`R ≠ id`, `not_paranonghStrict`), true exactly for `d ≤ 2` (`paranongh_iff`): **findings** |
+| `blem:paranongh`: "parabolic" | ⚠ reading: a decomposition `L(g) = R U` (`R` elliptic, `U ≠ id` unipotent, commuting), `R = id` admitted (as §9's purely unipotent case l.2865 needs); the class (linear / tangent / transverse) is relative to it (`linear_or_tangent_or_transverse`), and `J^⊥` does not depend on it (`mem_nullHyperplanes_iff`, `Flat/Develop`) |
 | "infinitely many `g`-iterates" (l.2177) | ⚠ strengthened (reading, question): both counts proved; positive results give distinct points |
 | "in the future or in the past of `x₀`" | ✓ carried: `CausallyRelated` (causal, either direction) |
 
 ## SCOPE (disclosed)
-* No `sorry`. `blem:paranongh` is not marked: refuted for `d ≥ 3` (`not_paranongh`,
+* **Ruled DEC-98 (2026-11-02):** the class-by-class corrected form `paranongh_corrected` is the
+  formalization of record and `blem:paranongh` is marked; the counterexamples stay as findings.
+* No `sorry`. **Finding:** `blem:paranongh` as printed is refuted for `d ≥ 3` (`not_paranongh`,
   `not_paranonghPts`; counterexample `nullRotShift`, `R = id`, which `IsParabolic` admits) and,
   with "parabolic" read as in §6.2 (`R ≠ id`, l.1974), for `d ≥ 5` (`not_paranonghStrict`,
   `halfTurnShift`). In the strict reading `d = 3, 4` is NOT decided here: a tangent `g` needs
@@ -1815,6 +1822,30 @@ theorem paranongh_tangent (ht : IsTangentCase U (g : Minkowski d ≃ᵃ[ℝ] Min
     have e := visibility_isomConj (g := g) v (-v) (v + x)
     rw [add_neg_cancel, neg_add_cancel_left] at e
     rw [← e]; exact hfin
+
+/-- **`blem:paranongh`, the class-by-class corrected form** (Lemma 7.1, l.2173–2180; DEC-98: the
+formalization of record): for a parabolic `g` with decomposition `L(g) = R U`, there is a point
+`c` such that for every `x₀` — unless `g` is tangent parabolic and `x₀ ∈ c + J^⊥` — some `x` has
+infinitely many (distinct) `g`-iterates causally related to `x₀`; and in the tangent case the
+exception is real, the conclusion failing at `x₀ = c`. Transverse and linear parabolic: every `x₀`
+(`paranongh_transverse`, `paranongh_linear`); tangent: `x₀` off `c + J^⊥`
+(`paranongh_tangent`). -/
+theorem paranongh_corrected :
+    ∃ c : Minkowski d,
+      (∀ x₀ : Minkowski d,
+        (IsTangentCase U (g : Minkowski d ≃ᵃ[ℝ] Minkowski d) → x₀ - c ∉ minkOrth (nullPart U)) →
+          ∃ x, IsAperiodic g x ∧ Set.Infinite {q : ℤ | CausallyRelated x₀ ((g ^ q) • x)}) ∧
+      (IsTangentCase U (g : Minkowski d ≃ᵃ[ℝ] Minkowski d) →
+        ∀ x, Set.Finite {q : ℤ | CausallyRelated c ((g ^ q) • x)}) := by
+  rcases linear_or_tangent_or_transverse U (g : Minkowski d ≃ᵃ[ℝ] Minkowski d) with
+    hL | hT | hT
+  · exact ⟨0, fun x₀ _ => paranongh_linear hR hU hRe hn hU1 hc hg hL x₀,
+      fun ht => absurd hL ht.2⟩
+  · obtain ⟨c, h1, h2⟩ := paranongh_tangent hR hU hRe hn hU1 hc hg hT
+    exact ⟨c, fun x₀ hx₀ => h1 x₀ (hx₀ hT), fun _ => h2⟩
+  · refine ⟨0, fun x₀ _ => ?_, fun ht => absurd ht.1 hT⟩
+    obtain ⟨hap, hinf⟩ := paranongh_transverse hR hU hRe hn hU1 hc hg hT x₀
+    exact ⟨x₀, hap, hinf⟩
 
 end paranongh
 
