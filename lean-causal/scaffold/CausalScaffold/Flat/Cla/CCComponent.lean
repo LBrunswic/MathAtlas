@@ -6,7 +6,7 @@ import CausalScaffold.Flat.CauchyComplete
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §2.4.
 **No label is marked**: these are infrastructure lemmas for the smoothing step of
 `Flat/Cla/CompactComplete.lean` (`exists_isSpacelikeLipschitz_of_isCompact_cauchy`, serving
-`bthm:cauclo`, `GHFspace.tex:353`, unmarked). Cited UNMARKED: `[2.4]` Cauchy-complete — l.551–553
+`bthm:cauclo`, `GHFspace.tex:353`, marked in `Flat/Classification.lean`, not here). Cited UNMARKED: `[2.4]` Cauchy-complete — l.551–553
 (prose, DEC-35, a reading). Line numbers are those of the labelled
 `papers/barbot/legacy/labeled/GHFspace.tex`.
 
@@ -36,8 +36,11 @@ dimensions, so Barbot's `n` is `d + 1`.
 | (none: infrastructure for l.551–553) | the lemmas hold for any `M` charted over `𝐌ⁿ`; `T2Space M` only for compactness of the component |
 
 ## SCOPE (disclosed)
-* Nothing here constructs a spacelike Lipschitz hypersurface for `d ≥ 1`: the smoothing proper
-  stays a tagged `sorry` in `CompactComplete.lean` (`exists_nonempty_isSpacelikeLipschitz_succ`).
+* Nothing here constructs a spacelike Lipschitz hypersurface for `d ≥ 1`: the smoothing proper is
+  `CompactComplete.lean`'s `exists_nonempty_isSpacelikeLipschitz_succ`, now sorry-free (the cap
+  envelope of `Flat/Cla/SmoothCap.lean`, `Flat/Cla/SmoothGlue.lean`), so the smoothing step and
+  Theorem B (`bthm:cauclo`, marked in `Flat/Classification.lean`, DEC-72) inherit no `sorry` from
+  here.
 * Namespace `Causal.Flat.Cla`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Written for the

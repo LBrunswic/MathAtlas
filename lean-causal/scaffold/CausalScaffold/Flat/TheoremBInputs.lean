@@ -6,8 +6,10 @@ import CausalScaffold.Flat.Classification
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257). This file
 audits the two universal hypotheses of `barbot_B` (`Flat/Classification.lean`) other than the
 cited group-theory bundle `BarbotExternals`: lemma K's data `hK : ∀ N, GH N → FlatLemmaKData N`
-and Selberg's lemma `hSel : SelbergLemma (Minkowski d)`. **No label is marked**: Theorem B stays
-partial (its own upstream `sorry`s, and the one named input below).
+and Selberg's lemma `hSel : SelbergLemma (Minkowski d)`. **No label is marked here**: Theorem B
+(`bthm:cauclo`) is marked in `Flat/Classification.lean` (DEC-72), sorry-free under the named
+externals `BarbotExternals d` and `SelbergLemma (Minkowski d)`, with `hK` discharged in
+`Flat/GerochFlat.lean` (`barbot_B_geroch`, DEC-65); this file holds the reductions.
 
 * `bthm:cauclo` — `GHFspace.tex:353` (Theorem B), corollaries only, unmarked:
   `barbot_B_of_externals` (`hK` replaced by Geroch's existence theorem for flat spacetimes,
@@ -61,20 +63,21 @@ dimensions: Barbot's `n` is `d + 1`.
   pair of admissible measures, so `FlatGerochGH` follows from `FlatAdmissibleMeasures`
   (`flatGerochGH_of_admissible`), and every other hypothesis of `geroch_i_imp_iii` is proved here
   for every flat spacetime (tarentin, arc-connectedness, `J^±(p) ≠ {p}`, first countability).
-  Admissible measures are not constructed for a general flat spacetime (even for `𝐌ⁿ` the
-  library's `minkowski_exists_measure`, `CausalScaffold/MinkowskiMeasure.lean`, is a tagged
-  `sorry`: nullity of achronal boundaries). So `barbot_B_of_externals` carries `FlatGerochGH d`,
-  a classical theorem, in place of `hK`. It is a universal statement: its non-vacuity is its
-  truth (Geroch 1970; Bernal–Sánchez), not a witness; its instances on the models are proved
-  (`flatLemmaKData_torusSpace`, Classification's `flatLemmaKData_minkowskiSpace`).
+  Admissible measures are not constructed in this file; GerochFlat constructs them on every GH
+  flat spacetime (`flatAdmissibleMeasures`, sorry-free; ETT's own `minkowski_exists_measure`,
+  `CausalScaffold/MinkowskiMeasure.lean`, is still a tagged `sorry` in that file; GerochFlat's
+  `minkowski_frontier_null_measure` proves its statement, offered to the ETT campaign, DEC-65).
+  So `barbot_B_of_externals` here carries `FlatGerochGH d` in place of `hK`, and GerochFlat
+  discharges it; its instances on the models are also proved here (`flatLemmaKData_torusSpace`,
+  Classification's `flatLemmaKData_minkowskiSpace`).
 * **`hK` cannot be narrowed.** `absMax_of_cauchyCompact_of_mgh` uses lemma K on every GH target
   `N` of an isometric embedding, and lemma K needs a splitting of `N`, hence a Cauchy surface of
   `N` (`exists_cauchy`): exactly `BarbotGH N`. Nothing weaker than `FlatGerochGH` discharges it.
-* **Is `hSel` used?** Not by any proof term: `barbot_B` passes it only to
-  `cauclo_from_embedding`, whose binder is `_hSel` and whose body is a tagged `sorry` (G9, step
-  (4): family (b) → (a) needs π₁ finitely generated and Selberg). It is mathematically needed by
-  that step and only formally idle; deleting it would hide a real dependency. Likewise
-  `cauclo_from_embedding` binds `_hK` unused; `hK` is consumed by
+* **Is `hSel` used?** Yes: `barbot_B` passes it to `cauclo_from_embedding` (binder `_hSel`, a
+  leftover name), which passes it to G9's `Cla.exists_modelB_cover_of_isLTPOver_cauchyCompact`
+  (step (4): family (b) → (a) needs π₁ finitely generated and Selberg); that chain is sorry-free.
+  Likewise `cauclo_from_embedding`'s `_hK` is consumed (lemma K's form for L10,
+  `Cla.mgh_cauchyCompact_of_isFiniteCover`), and `hK` also by
   `absMax_of_cauchyCompact_of_mgh`.
 * **No `d ≥ 1` witness of all of Theorem B's hypotheses**: `SelbergLemma (Minkowski d)` for
   `d ≥ 1` and `BarbotExternals d` for `d ≥ 1` are cited theorems not in mathlib.
@@ -329,8 +332,8 @@ theorem absMax_of_cauchyCompact_of_mgh_of_flatGerochGH (hGer : FlatGerochGH.{u} 
   absMax_of_cauchyCompact_of_mgh (flatLemmaKData_of_flatGerochGH hGer) M hGH hC hM
 
 /-- **Theorem B** (`bthm:cauclo`, l.353–359) with lemma K's data replaced by what it is
-equivalent to, Geroch's existence theorem for flat spacetimes (`FlatGerochGH`). Unmarked: rests on
-`barbot_B`'s upstream `sorry`s and on the named inputs. -/
+equivalent to, Geroch's existence theorem for flat spacetimes (`FlatGerochGH`). Sorry-free; rests
+on the named inputs only (the label is marked on `barbot_B`, Classification, DEC-72). -/
 theorem barbot_B_of_externals (hE : BarbotExternals d) (hSel : SelbergLemma (Minkowski d))
     (hGer : FlatGerochGH.{0} d) (M : FlatSpacetime.{u} d) (hGH : GH M) (hC : CauchyCompact M)
     (hM : MGH M) :

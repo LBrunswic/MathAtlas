@@ -50,6 +50,16 @@
       {
         "label": "bthm:caucomp",
         "kind": "sentence",
+        "one_line": "F3: [10.M] l.3320-3321 'the action on pi_P^-1(0) is free and properly discontinuous' is false for Gamma (true for ker a); the conclusion stands"
+      },
+      {
+        "label": "bthm:caucomp",
+        "kind": "sentence",
+        "one_line": "F4: [10.M] l.3264-3269's conjugation formula needs alpha(gamma) to fix the origin of Q_0 (a screw part breaks it); the conclusion is proved another way"
+      },
+      {
+        "label": "bthm:caucomp",
+        "kind": "sentence",
         "one_line": "[3.U]: the Cauchy argument for S_f checks geodesics only, and the separation claim fails for bounded f"
       },
       {
@@ -161,7 +171,7 @@
   },
   "lean": {
     "root": "/home/maxbrain/Dropbox/LeanArticles/lean-causal",
-    "git_commit": "4a577c5"
+    "git_commit": "7ae7d4d"
   },
   "statements": [
     {
@@ -187,7 +197,14 @@
       "statement_sha256": "55642918d6760c05a31535fdbee22c38595542a118faeba9e29cc91997a9336c",
       "statement_sha256_current": "55642918d6760c05a31535fdbee22c38595542a118faeba9e29cc91997a9336c",
       "lean_files": [
-        "scaffold/CausalScaffold/Flat/Classification.lean"
+        "scaffold/CausalScaffold/Flat/Classification.lean",
+        "scaffold/CausalScaffold/Flat/Loxodromic.lean",
+        "scaffold/CausalScaffold/Flat/Nonloxodromic.lean",
+        "scaffold/CausalScaffold/Flat/TitsNull.lean",
+        "scaffold/CausalScaffold/Flat/Externals.lean",
+        "scaffold/CausalScaffold/Flat/Bieberbach.lean",
+        "scaffold/CausalScaffold/Flat/Lox/SecondNullFix.lean",
+        "scaffold/CausalScaffold/Flat/Lox/MisnerBieberbach.lean"
       ],
       "decls": [
         "Causal.Flat.barbot_A",
@@ -227,16 +244,26 @@
         "Causal.Flat.gh_of_isQuotientOf_misnerWedgePast",
         "Causal.Flat.gh_of_isQuotientOf_limitOpensPlus",
         "Causal.Flat.gh_of_isQuotientOf_limitOpensMinus",
-        "Causal.Flat.exists_loxodromic_of_not_hasGlobalFixedPoint"
+        "Causal.Flat.exists_loxodromic_of_not_hasGlobalFixedPoint",
+        "Causal.Flat.loxo_elementary_misner",
+        "Causal.Flat.loxo_generic_centralExtension",
+        "Causal.Flat.nonloxodromic_parabolic",
+        "Causal.Flat.nonloxodromic_elliptic",
+        "Causal.Flat.titsVirtuallyAbelianNull",
+        "Causal.Flat.Lox.fix_second_null",
+        "Causal.Flat.Lox.misner_bieberbach",
+        "Causal.Flat.BenoistNoLox",
+        "Causal.Flat.BieberbachI",
+        "Causal.Flat.AuslanderCarriereDalbo",
+        "Causal.Flat.MaxUnipotentSubspace"
       ],
       "lean_stated": "scaffold",
       "lean_proved": "none",
-      "bucket": "C",
-      "scope_notes": "Flat/Classification.lean (WP-34e), 5 sorries beneath: nonloxodromic_parabolic_convex (Nonloxodromic's Omega is existential and not exported convex), exists_finiteCover_tameEmbedding (the descent M = rho.range\\range D and pi_1 of the quotient), amgh_of_isMisnerSpacetime and amgh_of_isCHCentralExtension (Cauchy-completeness only: absolute maximality and GH are proved, both time orientations), exists_absMax_unipotent_ltp (G1, G3). Read as R1 (DEC-43), every dimension d, d = 0 included. ⚠ strengthened: the cited theorems (Benoist, Auslander-Carriere-Dal'bo, Carriere-Dal'bo, Bieberbach) are bundled as the named external BarbotExternals d (DEC-36). The fourth family is the central-extension form (b) (DEC-44). [11.i] (l.3563-3679) is partial: AMGH closed for translation spacetimes; AM and GH closed for Misner and family (b). Section 2's prose is carried by Flat/{IsomCausal,FlatSpacetime,Developing,SecondCountable}.lean (closed) and Flat/{InducedLength,CauchyComplete}.lean (the Cauchy-complete reading, DEC-35, partial); Section 3's models by Flat/Examples.lean (partial).",
+      "bucket": "A",
+      "scope_notes": "MARKED (DEC-72, 2026-11-02): Flat/Classification.lean (WP-34e) carries **`bthm:caucomp`**. barbot_A and barbot_A₀ are sorry-free (#print axioms: propext, Classical.choice, Quot.sound, re-derived 2026-11-02) and no sorry lies beneath them. Read as R1 (DEC-43), every dimension d, d = 0 included; the fourth family is the central-extension form (b) (DEC-44). ⚠ strengthened, disclosed: the group theory the paper cites enters as the named external BarbotExternals d (DEC-36): Benoist (BenoistNoLox), Bieberbach I (BieberbachI, k <= d + 1), Auslander-Carriere-Dal'bo (AuslanderCarriereDalbo), Carriere-Dal'bo (MaxUnipotentSubspace); non-vacuity barbotExternals_zero and barbot_A_hypotheses_zero at d = 0, consistent on the cited literature only for d >= 1. [10.M] (loxo_elementary_misner) carries hBieb (its statement implies Bieberbach I), supplied by BarbotExternals.bieberbach in caseOutput: nothing beyond the bundle. Tits is proved, not assumed (titsVirtuallyAbelianNull, DEC-50). Files involved: Classification; Loxodromic and Lox/* ([10.M]: SecondNullFix, MisnerFrame, MisnerLimitSet, MisnerBieberbach, MisnerRestrict; [10.G] and bprop:LU_discrete: ClosedSubgroupNhds and the fix/restriction lemmas); Nonloxodromic and Nonlox/* ([9.U], [9.E], [9.A]); TitsNull; Cla/* L1-L7 (LTPConvex, FiniteCover, TameNested, RegularComplete, UnipEnvelope, UnipComplete, LTPEnlarge: the finite cover, the tame embedding, [11.i]). [11.i] is closed: AMGH of translation and Misner spacetimes and of family (b), G1/G3 for the unipotent family through the corrected envelope. Section 2's prose is carried by Flat/{IsomCausal,FlatSpacetime,Developing,SecondCountable}.lean and Flat/{InducedLength,CauchyComplete}.lean (the Cauchy-complete reading, DEC-35); Section 3's models by Flat/Examples.lean. Scaffold: lean_proved reads none until graduation, and the scaffold root imports no Flat module, so the axiom sweep has not covered it (kb/0025); the axioms above are #print axioms by hand.",
       "nl_status_override": "proved",
       "nl_reason": "proved in \\S11 (Summary of the proof), from GHFspace.tex:3441",
-      "notes": "Flat/Classification.lean (WP-34e), 5 sorries beneath: nonloxodromic_parabolic_convex (Nonloxodromic's Omega is existential and not exported convex), exists_finiteCover_tameEmbedding (the descent M = rho.range\\range D and pi_1 of the quotient), amgh_of_isMisnerSpacetime and amgh_of_isCHCentralExtension (Cauchy-completeness only: absolute maximality and GH are proved, both time orientations), exists_absMax_unipotent_ltp (G1, G3). Read as R1 (DEC-43), every dimension d, d = 0 included. ⚠ strengthened: the cited theorems (Benoist, Auslander-Carriere-Dal'bo, Carriere-Dal'bo, Bieberbach) are bundled as the named external BarbotExternals d (DEC-36). The fourth family is the central-extension form (b) (DEC-44). [11.i] (l.3563-3679) is partial: AMGH closed for translation spacetimes; AM and GH closed for Misner and family (b). Section 2's prose is carried by Flat/{IsomCausal,FlatSpacetime,Developing,SecondCountable}.lean (closed) and Flat/{InducedLength,CauchyComplete}.lean (the Cauchy-complete reading, DEC-35, partial); Section 3's models by Flat/Examples.lean (partial).",
-      "blocked_on": "the five sorries of Flat/Classification.lean: family (b)'s and Misner's Cauchy-completeness (bcor:level_sets_complete for family (b)), the tame finite-cover embedding, the convex export of Section 9's parabolic case, and G1/G3 (the unipotent case of [11.i])",
+      "notes": "MARKED (DEC-72, 2026-11-02): Flat/Classification.lean (WP-34e) carries **`bthm:caucomp`**. barbot_A and barbot_A₀ are sorry-free (#print axioms: propext, Classical.choice, Quot.sound, re-derived 2026-11-02) and no sorry lies beneath them. Read as R1 (DEC-43), every dimension d, d = 0 included; the fourth family is the central-extension form (b) (DEC-44). ⚠ strengthened, disclosed: the group theory the paper cites enters as the named external BarbotExternals d (DEC-36): Benoist (BenoistNoLox), Bieberbach I (BieberbachI, k <= d + 1), Auslander-Carriere-Dal'bo (AuslanderCarriereDalbo), Carriere-Dal'bo (MaxUnipotentSubspace); non-vacuity barbotExternals_zero and barbot_A_hypotheses_zero at d = 0, consistent on the cited literature only for d >= 1. [10.M] (loxo_elementary_misner) carries hBieb (its statement implies Bieberbach I), supplied by BarbotExternals.bieberbach in caseOutput: nothing beyond the bundle. Tits is proved, not assumed (titsVirtuallyAbelianNull, DEC-50). Files involved: Classification; Loxodromic and Lox/* ([10.M]: SecondNullFix, MisnerFrame, MisnerLimitSet, MisnerBieberbach, MisnerRestrict; [10.G] and bprop:LU_discrete: ClosedSubgroupNhds and the fix/restriction lemmas); Nonloxodromic and Nonlox/* ([9.U], [9.E], [9.A]); TitsNull; Cla/* L1-L7 (LTPConvex, FiniteCover, TameNested, RegularComplete, UnipEnvelope, UnipComplete, LTPEnlarge: the finite cover, the tame embedding, [11.i]). [11.i] is closed: AMGH of translation and Misner spacetimes and of family (b), G1/G3 for the unipotent family through the corrected envelope. Section 2's prose is carried by Flat/{IsomCausal,FlatSpacetime,Developing,SecondCountable}.lean and Flat/{InducedLength,CauchyComplete}.lean (the Cauchy-complete reading, DEC-35); Section 3's models by Flat/Examples.lean. Scaffold: lean_proved reads none until graduation, and the scaffold root imports no Flat module, so the axiom sweep has not covered it (kb/0025); the axioms above are #print axioms by hand.",
       "paper_findings": [
         "F1, [11.i] l.3620: 'Misner spacetimes are absolutely maximal' is false when Gamma has no loxodromic element (Gamma trivial: the wedge {t > |x_1|} sits non-surjectively in M^n); the proof assumes one. The Misner family carries 'some gamma has nonzero boost parameter', and with it absolute maximality is proved for both wedges (surjective_of_isQuotientOf_misner).",
         "F2, [10.G] l.3333-3456: the torsion of L(Gamma) is never treated. The literal 'Cauchy-hyperbolic x torus' family is replaced by the central-extension family (b); the torus product (a) is reached only under pi_1 finitely generated, through Selberg's lemma (DEC-44).",
@@ -247,10 +274,19 @@
         "Def 4.18 (l.1212-1214), the fourth family, asks 'no global fixed point', not 'nonelementary': it admits elementary groups with a loxodromic element (infinite dihedral). Its GH needs a loxodromic element, which Def 4.18 yields only through Benoist, not invoked there.",
         "[3.U] geodesics only, l.729-741: the Cauchy argument for the unipotent slice S_f checks nonspacelike geodesics only; the separation claim (S_f disconnects the two lightlike boundary hyperplanes) is false for bounded f even with two finite poles (n = 4, f(y) = y). The conclusion stands because the chosen f = int a^2 (l.707-711) diverges at every end; when an end is infinite the case split l.734-737 is also incomplete.",
         "Rem 2.2, l.544: 'S is not a Cauchy hypersurface in M^n' holds for n >= 2 only (for n = 1, S is a point and is Cauchy in the line); harmless, the paper works in n >= 2.",
-        "[2.3] l.485-490 never states that isometries preserve the causal relations of open subsets; in the ETT framework it is a theorem (le_iff_le_isomImage). Typographic: l.490 Isom(M^n) with a plain M."
+        "[2.3] l.485-490 never states that isometries preserve the causal relations of open subsets; in the ETT framework it is a theorem (le_iff_le_isomImage). Typographic: l.490 Isom(M^n) with a plain M.",
+        "F3, [10.M] l.3320-3321: 'the action on pi_P^-1(0) is free and properly discontinuous' is false for Gamma: in M^4, Gamma = <gamma_0> with gamma_0(x,z,y) = (e^-1 x, R_theta z, e y), theta/pi irrational, is elementary loxodromic and acts freely and properly on the domain, but acts on pi_P^-1(0) by a rotation fixing 0. The claim holds for Gamma_0 = ker a, and [10.M]'s conclusion is not refuted (that example is Misner in M^2): Bieberbach is run on Gamma_1's euclidean model (Lox.misner_bieberbach).",
+        "F4, [10.M] l.3264-3269: the conjugation formula for alpha(gamma gamma' gamma^-1) holds only if alpha(gamma) fixes the origin of Q_0; a loxodromic with a screw part fixes no point and its conjugates drift by n R^n (I - R(gamma')) u, so 'v(gamma') = 0' is unjustified as written. The conclusion is true and proved another way (translation lengths are conjugation-invariant, Lox.fix_second_null, under Bieberbach I). Also l.3287 ('L(Gamma_0) is finite') needs the U = M^n reduction made just before it (Carriere-Dal'bo)."
       ],
       "extra_lean_files": [
-        "scaffold/CausalScaffold/Flat/Classification.lean"
+        "scaffold/CausalScaffold/Flat/Classification.lean",
+        "scaffold/CausalScaffold/Flat/Loxodromic.lean",
+        "scaffold/CausalScaffold/Flat/Nonloxodromic.lean",
+        "scaffold/CausalScaffold/Flat/TitsNull.lean",
+        "scaffold/CausalScaffold/Flat/Externals.lean",
+        "scaffold/CausalScaffold/Flat/Bieberbach.lean",
+        "scaffold/CausalScaffold/Flat/Lox/SecondNullFix.lean",
+        "scaffold/CausalScaffold/Flat/Lox/MisnerBieberbach.lean"
       ],
       "in_lean_scope": true,
       "stale": false
@@ -278,14 +314,23 @@
       "statement_sha256": "9b3b9e9b221c0d3c139cf06aa6b6f1dd248e9fb1d375c1fddf9f6620865cb1e2",
       "statement_sha256_current": "9b3b9e9b221c0d3c139cf06aa6b6f1dd248e9fb1d375c1fddf9f6620865cb1e2",
       "lean_files": [
+        "scaffold/CausalScaffold/Flat/Classification.lean",
         "scaffold/CausalScaffold/CompactCauchy.lean",
-        "scaffold/CausalScaffold/Flat/Classification.lean"
+        "scaffold/CausalScaffold/Flat/TheoremBInputs.lean",
+        "scaffold/CausalScaffold/Flat/GerochFlat.lean",
+        "scaffold/CausalScaffold/Flat/Externals.lean",
+        "scaffold/CausalScaffold/Flat/Cla/CoverMax.lean",
+        "scaffold/CausalScaffold/Flat/Cla/CoverMGH.lean",
+        "scaffold/CausalScaffold/Flat/Cla/CompactComplete.lean",
+        "scaffold/CausalScaffold/Flat/Cla/SmoothCap.lean",
+        "scaffold/CausalScaffold/Flat/Cla/SmoothGlue.lean",
+        "scaffold/CausalScaffold/Flat/Cla/SmoothCone.lean",
+        "scaffold/CausalScaffold/Flat/Cla/G9.lean"
       ],
       "decls": [
         "Causal.Causality.isCauchySurface_of_isLocallyCauchyTwoSided",
         "Causal.Causality.IsLocallyCauchy",
         "Causal.Causality.IsLocallyCauchyTwoSided",
-        "Causal.Causality.isCauchySurface_of_isLocallyCauchy",
         "Causal.Flat.barbot_B",
         "Causal.Flat.IsModelB",
         "Causal.Flat.IsStandard",
@@ -293,27 +338,54 @@
         "Causal.Flat.isCauchyComplete_of_cauchyCompact",
         "Causal.Flat.absMax_of_cauchyCompact_of_mgh",
         "Causal.Flat.surjective_of_mgh_cauchyCompact",
-        "Causal.Flat.FlatLemmaKData"
+        "Causal.Flat.FlatLemmaKData",
+        "Causal.Flat.barbot_B_geroch",
+        "Causal.Flat.barbot_B_zero_geroch",
+        "Causal.Flat.flatGerochGH",
+        "Causal.Flat.forall_flatLemmaKData_iff",
+        "Causal.Flat.barbot_B_hypotheses_satisfiable",
+        "Causal.Flat.SelbergLemma",
+        "Causal.Flat.Cla.cover_maximal_of_isFiniteCover",
+        "Causal.Flat.Cla.cover_range_eq_of_mgh",
+        "Causal.Flat.Cla.maximal_of_isFiniteCover",
+        "Causal.Flat.Cla.mgh_cauchyCompact_of_isFiniteCover",
+        "Causal.Flat.Cla.isCauchyComplete_of_isCompact_cauchy",
+        "Causal.Flat.Cla.exists_isSpacelikeLipschitz_of_isCompact_cauchy",
+        "Causal.Flat.Cla.exists_capEnvelope_of_isCompact_cauchy",
+        "Causal.Flat.Cla.isLocallyConeZeroSetAt_of_capData",
+        "Causal.Flat.Cla.isSpacelikeLipschitz_of_locally_coneIncreasing",
+        "Causal.Flat.Cla.exists_modelB_cover_of_isLTPOver_cauchyCompact",
+        "Causal.Flat.Cla.false_of_cauchyCompact_of_fixed_pair"
       ],
       "lean_stated": "scaffold",
       "lean_proved": "none",
-      "bucket": "C",
-      "scope_notes": "Flat/Classification.lean (WP-34e) and CompactCauchy.lean (lemma K, WP-34a), 3 sorries beneath in Classification plus lemma K's bare form. ⚠ strengthened: lemma K's proved form under named data (hK : FlatLemmaKData: tarentin, causal arc-connectedness, CurvesExtend, a chronal causal flow, an acausal Cauchy surface), SelbergLemma (DEC-44) and BarbotExternals. Lemma K's bare DEC-44 form isCauchySurface_of_isLocallyCauchy is a sorry and possibly false in ETT generality; the proved form needs a global splitting and two-sidedness, which 'spacelike hypersurface' gives in the smooth setting. CurvesExtend is proved from a time function (CurvesExtend.lean, WP-34b), not in full ETT generality (the long ray is a conjectured counterexample). 'Standard' is read as Cauchy-compact Cauchy-hyperbolic (G4).",
+      "bucket": "A",
+      "scope_notes": "MARKED (DEC-72, 2026-11-02): Flat/Classification.lean (WP-34e) carries **`bthm:cauclo`**. barbot_B, and barbot_B_geroch (Flat/GerochFlat.lean, DEC-65: barbot_B with lemma K's data hK discharged by flatGerochGH through forall_flatLemmaKData_iff), are sorry-free (#print axioms: propext, Classical.choice, Quot.sound, re-derived 2026-11-02); no sorry lies beneath. 'Standard' is read as Cauchy-compact Cauchy-hyperbolic (G4); the torus family is the literal form (a). ⚠ strengthened, disclosed: the named externals BarbotExternals d (Benoist, Bieberbach I, Auslander-Carriere-Dal'bo, Carriere-Dal'bo, as in bthm:caucomp) and SelbergLemma (Minkowski d) (DEC-44, consumed by G9's step family (b) -> (a)); barbot_B itself also carries hK : forall N, GH N -> FlatLemmaKData N (lemma K's data on every GH target, DEC-44), which barbot_B_geroch discharges. Non-vacuity: barbot_B_hypotheses_satisfiable, barbot_B_zero_geroch (every input discharged at d = 0). Rem 2.3 is formalized corrected (DEC-44): absMax_of_cauchyCompact_of_mgh, through lemma K's proved form isCauchySurface_of_isLocallyCauchyTwoSided (CompactCauchy.lean, WP-34a); its bare form isCauchySurface_of_isLocallyCauchy is a sorry, possibly false in ETT generality, and is NOT used. Files involved: Classification; CompactCauchy; Cla/* L8-L12 (LocallyCauchy; CompactComplete with the smoothing step SmoothCap, SmoothGlue, SmoothCone, CCComponent; CoverMGH with CoverMax, finding 2 proved without CBG; G9 with G9Pair, G9PairLin; CoverComp) and L1-L4, L6; TheoremBInputs and GerochFlat with Geroch/* (hK); and through barbot_A₀ everything bthm:caucomp lists (Loxodromic, Nonloxodromic, Lox/*, Nonlox/*, TitsNull). CurvesExtend is proved from a time function (CurvesExtend.lean, WP-34b). Scaffold: lean_proved reads none until graduation, and the scaffold root imports no Flat module, so the axiom sweep has not covered it (kb/0025).",
       "nl_status_override": "proved",
       "nl_reason": "proved in \\S11 (Summary of the proof), from GHFspace.tex:3492",
-      "notes": "Flat/Classification.lean (WP-34e) and CompactCauchy.lean (lemma K, WP-34a), 3 sorries beneath in Classification plus lemma K's bare form. ⚠ strengthened: lemma K's proved form under named data (hK : FlatLemmaKData: tarentin, causal arc-connectedness, CurvesExtend, a chronal causal flow, an acausal Cauchy surface), SelbergLemma (DEC-44) and BarbotExternals. Lemma K's bare DEC-44 form isCauchySurface_of_isLocallyCauchy is a sorry and possibly false in ETT generality; the proved form needs a global splitting and two-sidedness, which 'spacelike hypersurface' gives in the smooth setting. CurvesExtend is proved from a time function (CurvesExtend.lean, WP-34b), not in full ETT generality (the long ray is a conjectured counterexample). 'Standard' is read as Cauchy-compact Cauchy-hyperbolic (G4).",
-      "blocked_on": "the three sorries of Flat/Classification.lean: Cauchy-compact => Cauchy-complete (smoothing of a topological Cauchy surface), lemma K's input in the target (isLocallyCauchyTwoSided_image), and the G9 chain of cauclo_from_embedding",
+      "notes": "MARKED (DEC-72, 2026-11-02): Flat/Classification.lean (WP-34e) carries **`bthm:cauclo`**. barbot_B, and barbot_B_geroch (Flat/GerochFlat.lean, DEC-65: barbot_B with lemma K's data hK discharged by flatGerochGH through forall_flatLemmaKData_iff), are sorry-free (#print axioms: propext, Classical.choice, Quot.sound, re-derived 2026-11-02); no sorry lies beneath. 'Standard' is read as Cauchy-compact Cauchy-hyperbolic (G4); the torus family is the literal form (a). ⚠ strengthened, disclosed: the named externals BarbotExternals d (Benoist, Bieberbach I, Auslander-Carriere-Dal'bo, Carriere-Dal'bo, as in bthm:caucomp) and SelbergLemma (Minkowski d) (DEC-44, consumed by G9's step family (b) -> (a)); barbot_B itself also carries hK : forall N, GH N -> FlatLemmaKData N (lemma K's data on every GH target, DEC-44), which barbot_B_geroch discharges. Non-vacuity: barbot_B_hypotheses_satisfiable, barbot_B_zero_geroch (every input discharged at d = 0). Rem 2.3 is formalized corrected (DEC-44): absMax_of_cauchyCompact_of_mgh, through lemma K's proved form isCauchySurface_of_isLocallyCauchyTwoSided (CompactCauchy.lean, WP-34a); its bare form isCauchySurface_of_isLocallyCauchy is a sorry, possibly false in ETT generality, and is NOT used. Files involved: Classification; CompactCauchy; Cla/* L8-L12 (LocallyCauchy; CompactComplete with the smoothing step SmoothCap, SmoothGlue, SmoothCone, CCComponent; CoverMGH with CoverMax, finding 2 proved without CBG; G9 with G9Pair, G9PairLin; CoverComp) and L1-L4, L6; TheoremBInputs and GerochFlat with Geroch/* (hK); and through barbot_A₀ everything bthm:caucomp lists (Loxodromic, Nonloxodromic, Lox/*, Nonlox/*, TitsNull). CurvesExtend is proved from a time function (CurvesExtend.lean, WP-34b). Scaffold: lean_proved reads none until graduation, and the scaffold root imports no Flat module, so the axiom sweep has not covered it (kb/0025).",
       "paper_findings": [
         "Rem 2.3 (l.571-579) is false as written: the slab Z^d\\{0 < t < 1} is GH and Cauchy-compact and embeds isometrically, not onto, in the torus Z^d\\M^n (DEC-44; proved in every d in Flat/Examples). The literal remark fails because M is not assumed maximal; the corrected form adds MGH (lemma K).",
         "Rem 2.3, l.577-578: 'any spacelike hypersurface in a CGH spacetime is a Cauchy hypersurface' is false for a small spacelike disc, and needs 'closed' and 'connected' (two disjoint Cauchy slices form a compact, locally Cauchy set met twice by every inextensible curve); for closed connected hypersurfaces it is lemma K.",
-        "l.3537-3540: 'closed spacelike hypersurfaces of a GH spacetime are Cauchy' is asserted without proof (lemma K, carried under named data).",
-        "l.3578-3581: '(ii) follows from (i)' also needs that a finite cover of a maximal Cauchy-compact spacetime is maximal, which the paper does not state.",
-        "l.3536 ('reconsider the proof above when M is assumed Cauchy-compact') uses Cauchy-compact => Cauchy-complete, which for a topological Cauchy surface needs a smoothing step.",
-        "G4, l.355-358: the identification of the third family with 'standard' spacetimes is asserted in a parenthesis; read as Cauchy-compact Cauchy-hyperbolic."
+        "l.3537-3540: 'closed spacelike hypersurfaces of a GH spacetime are Cauchy' is asserted without proof (lemma K: proved under its named data FlatLemmaKData, which GerochFlat discharges on every GH flat spacetime).",
+        "l.3578-3581: '(ii) follows from (i)' also needs that a finite cover of a maximal Cauchy-compact spacetime is maximal, which the paper does not state. It is true, and proved without the uniqueness of maximal Cauchy developments (Cla.cover_maximal_of_isFiniteCover, Flat/Cla/CoverMax): Rem defdep's first claim for M, then the lift of a Cauchy embedding of the cover to the universal covers.",
+        "l.3536 ('reconsider the proof above when M is assumed Cauchy-compact') uses Cauchy-compact => Cauchy-complete, which for a topological Cauchy surface needs a smoothing step the paper takes for granted (l.560-565, l.3536-3538). It is proved: finitely many past-hyperboloid caps whose rims lie strictly below S and which lie strictly above S near their centres; the upper part K minus I^-(K) of their union is a nonempty compact spacelike Lipschitz hypersurface (Cla.exists_capEnvelope_of_isCompact_cauchy, SmoothCap; gluing SmoothGlue), a component of which is Cauchy by lemma K. Only per-point constants are needed.",
+        "G4, l.355-358: the identification of the third family with 'standard' spacetimes is asserted in a parenthesis; read as Cauchy-compact Cauchy-hyperbolic.",
+        "Rem defdep, l.2517-2521: 'when M is maximal globally hyperbolic, the image of D is the Cauchy domain of S' is proved in the DEC-35 reading, range D = int D(Sigma), for every maximal GH flat spacetime with (CC') (Cla.cover_range_eq_of_mgh; Cauchy-compactness not needed). Its second claim, Omega(S~) = int D(Sigma) (Rem dependance, l.3552-3555), is not proved: only int D(Sigma) = range D within Omega(S~)."
       ],
       "extra_lean_files": [
         "scaffold/CausalScaffold/CompactCauchy.lean",
-        "scaffold/CausalScaffold/Flat/Classification.lean"
+        "scaffold/CausalScaffold/Flat/Classification.lean",
+        "scaffold/CausalScaffold/Flat/TheoremBInputs.lean",
+        "scaffold/CausalScaffold/Flat/GerochFlat.lean",
+        "scaffold/CausalScaffold/Flat/Externals.lean",
+        "scaffold/CausalScaffold/Flat/Cla/CoverMax.lean",
+        "scaffold/CausalScaffold/Flat/Cla/CoverMGH.lean",
+        "scaffold/CausalScaffold/Flat/Cla/CompactComplete.lean",
+        "scaffold/CausalScaffold/Flat/Cla/SmoothCap.lean",
+        "scaffold/CausalScaffold/Flat/Cla/SmoothGlue.lean",
+        "scaffold/CausalScaffold/Flat/Cla/SmoothCone.lean",
+        "scaffold/CausalScaffold/Flat/Cla/G9.lean"
       ],
       "in_lean_scope": true,
       "stale": false
