@@ -136,7 +136,7 @@ gx accepted as Level B fields (round 4): (1) `[T2Space Y]`; (2) B4 in cone-slice
 `ConeSlicePast` (everywhere), REPLACING the level-set B4; (3) type agreement ONLY at corresponding pairs (same stratum,
 same component); (4) `isOpen_regY`. gx's E₀ instance additionally owes (in hA3f/hA3p/hA4f/hA4p): lem:passe_pgcd
 (A3 future), an E₀ future slice off the cone (τ_q, Lemma 3.11), a regular a ∈ U ∩ I⁺(p) and I⁺(p) regular near p (A3 past);
-past cone-slices at BTZ points via τ + r level sets, K = a line segment below y.
+past cone-slices at BTZ points: K = J⁺_O(y) ∩ {τ + r = c}, c slightly above τ(y) (the cap of the future cone; CORRECTED 2026-11-02 — a segment of the line, below or above y, does not inhabit `coneSlicePast`).
 
 ## Graduation (pending): CausalScaffold.X → Causal.X, 95 modules, no declaration renamed
 
@@ -153,3 +153,15 @@ CBG.*, Flat.CBG, Flat.CBGGerm, Flat.CBGSlice, and the stub `CausalScaffold.Compa
 stay in the scaffold until round 4 + DEC-73 (SubExtension split, GXSingular graduated). Note: commit 82ee40f does not
 build (renames without content); base nothing on it. TODO (gx, after wave 4b): update the docstring mention at
 GX/Structure/Basic.lean:263 to the Causal.* path.
+
+## CBG GRADUATED (259242f) — gx's E₀ obligations, final form (round 4)
+
+Imports for gx's strict Section 4: `Causal.CBG.{Geometry, FromModel, Maximal, …}`, `Causal.Flat.CBG`; `Causal.SubExtension`
+(sorry-free part, DEC-73), `Causal.GXSingular`. `cbg`, `flat_cbg`: standard axioms.
+LocalModel fields gx discharges for Y = 𝕄 ⊕ E₀: `[t2Y : T2Space Y]`; `isOpen_regY`; `dense_regY` (accepted);
+`typeAgreement` (BTZ y₀ excluded; U may contain singular points); `coneSliceFuture` (off BTZ); `coneSlicePast`
+(everywhere; at BTZ: K = the τ+r cap of J⁺_O(y)); `timeFunction`; `localUnique_sing_adherent` (diamond, regular tip);
+plus the round-1/2 fields (rigid, localUnique_sing strong, localUnique_reg, regularChart, chartIso_mem, sing_mem,
+singularFlatAxioms (Corr), curvesExtend on GH, isCompact_*, secondCountable_of_cauchy).
+Constructor: `Geometry.ofLocalModelOfBTZ 𝔐 (hA3f : 𝔐.GermExtFutureBTZ) (hA3p : 𝔐.GermExtPastBTZ) (hA4f : 𝔐.SliceFutureBTZ)`
+(A4 past has no BTZ residual). `ofLocalModelNoBTZ 𝔐 (h0 : singY 0 = ∅)` for BTZ-free models.
