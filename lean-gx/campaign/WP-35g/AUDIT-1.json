@@ -1,0 +1,72 @@
+{
+  "package": "WP-35g",
+  "round": 1,
+  "file": "scaffold/GXScaffold/SingularII/SpreadTop.lean",
+  "verdict": "clean",
+  "builds": true,
+  "sorry_count_measured": 0,
+  "summary": "I ran `taskset -c 0-11 lake env lean` on the file twice. It exits 0 with no messages (about 4 s wall, about 300% CPU). The olean (09:11:40) is newer than the source (09:11:35). The only occurrences of 'sorry' are two docstring mentions of Models' former tagged sorry. The sweep campaign/WP-35g/Axioms.lean covers all 147 declarations of the file, the same set I extracted myself. Re-run against the fresh olean, it gives propext/Classical.choice/Quot.sound everywhere, propext/Quot.sound for isOpen_of_le_sptop, and no sorryAx. So the cited library results (GX.spread_top_deck, maxBranched_isGaloisian_cc, complete_path_carac, exists_homeomorph_maxBranched_qDisc, …) are genuinely proved. Name clashes: the 147 names compared against the 3,221 declared in GX/ and the other scaffold files (C locale) intersect in nothing. The dispatch's main item is DONE. The proof of lem:spread_top (paper l.2010–2061, not l.2068–2136 as the dispatch says, which REPORT correctly notes) is built end to end as GX.spread_top_of_local: all five clauses (a) FC + connected + LPC, (b), (c), (d), (e), under three added hypotheses, each reported. (1) N → M Galoisian, used only by (d) through the proof's γ̄ (l.2015), the dispatch's reading. (2) p⁻¹(R) connected, the proof's 'R̂ weakly connected' (l.2047). (3) StrongLocallyConnectedOrd, the Claim's 'we may assume Ô ∩ R̂ connected' (l.2029), proved EQUIVALENT to (c) (isPortly_strongPullTop_iff_local). This is not a hidden hypothesis carrying the conclusion. It is disclosed as equivalent to (c), and it is necessary in the presence of every other hypothesis. not_spreadTopGalConnCE (sector topology at the branch point of 𝔻_∞ → ℂ, q = id Galoisian, hRc proved) refutes '(c) ∨ (e)'. not_spreadTopGalLocalCE (half-cut plane, q = id, local hypothesis PROVED by strongLocallyConnectedOrd_halfCut via M̃^∅ ≅ ℂ) refutes connectedness. I also checked the converse directions: (e) ⇒ (c), and (a)+(b)+(c) ⇒ hRc. So spread_top_corrected together with spread_top_of_local is a characterization, the strongest true form DEC-27 asks for. SpreadTopPrinted, SpreadTopGalLocalCE and SpreadTopGalConnCE each carry exactly the hypotheses claimed, binder for binder: the printed statement, then everything but hRc, then everything but hH. None is vacuous. T = the natural topology satisfies every hypothesis of spread_top_of_local, and the two counterexamples instantiate all the others concretely. Fidelity: hSc is the library-wide presupposition of M̃^S (cf. DEC-70). N T2/LPC/FC is DEC-66(a). (b) is the induced-topology equality, (d) quantifies over deckGroup of M̃^S → M, (e) is IsBranchedCovering for (p^*T, T). def:topological_spaces_continuous_map is certified verbatim (GX.strongPullTop_eq_generateFrom_union, rfl after generateFrom_union), with p's continuity unused, and is legitimately marked. The three remarks stay partial, unmarked, each with a stated reason: rem:intuitively_spread_thinner_than is a reading of 'intuitively' with the literal claim refuted; rem:hypothesis_model_spaces_necessary needs the §4 BTZ tamifying topology, not in lean-gx; rem:quotient_virtually_tame adds 'M̃ → M Galoisian', now discharged from reg M slsc in M by the new GX.quotient_virtually_tame_cover_of_slsc, proved as spaces not as (G,X)-manifolds. All five ledger labels of l.1984–2162 have a REPORT row and appear within the first 4000 characters of the module docstring. Only def:topological_spaces_continuous_map is marked. No blocker or major. The minors below are bookkeeping and wording, several carried over from WP-27k AUDIT-2.",
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[lem:spread_top].decls ('GX.spread_top_deck'); labels[def:topological_spaces_continuous_map].decls and extra_decls ('GX.strongPullTop')",
+      "problem": "Carried over from WP-27k AUDIT-2 and still unfixed. Two listed declarations live in GXScaffold.SingularII.Models, not this file. Conversely, 29 declarations of this file are listed nowhere: Path.strongOf_sptop_apply, Path.weakOfLe_sptop_apply, continuous_halfCutTop_of_mapsTo, convex_halfSide, dense_offAxis_halfCutTop, halfSide, halfSide_mem_nhds, halfUp, hasBasis_nhds_halfCutTop, isClopen_halfUp_halfCutTop, isOpen_halfCutTop_of_isOpen, isOpen_halfUp_compl, isOpen_halfUp_halfCutTop, isOpen_offAxis, isOpen_re_pos, isOpen_sectorSet_sectorTop, isOpen_sectorTop_of_isOpen, isPathConnected_ball_inter_sectorSide(_diff), isPathConnected_halfCutTop, isSLSCInCC_compl_empty_complex, isSkeletal_empty_complex, lt_one_coe_sptop, mem_halfSide_self, mem_sectorSide_self, nhds_halfCutTop_offAxis, offAxis, sectorSet_mem_nhds_of_ne, slsc_compl_empty_complex.",
+      "fix": "Tag the two Models declarations as such (or move them to a 'uses' field), and add the 29 helpers to extra_decls or to the counterexample rows they serve."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[lem:spread_top].hypotheses[0] ('here': 'carried'); module checklist row 1 ('⚠ strengthened: … hSc')",
+      "problem": "REPORT tags the row for 'M∖S slsc in M' as 'carried', and its note adds hSc (M∖S semilocally simply connected as a space), which the paper does not state. The module docstring calls the same hypothesis '⚠ strengthened'. The two records disagree. hSc is the library-wide presupposition of M̃^S, the hypothesis DEC-70 ruled for theo:ramified_covering_path/theo:Galois_cor, but no ruling names lem:spread_top.",
+      "fix": "Split hSc into its own hypothesis row, 'strengthened' (or 'carried under DEC-70's presupposition of M̃^S' if the master extends it), so that REPORT and docstring agree."
+    },
+    {
+      "severity": "minor",
+      "where": "module Hypothesis checklist, '(d): (none) | ⚠ added: N → M Galoisian (… DEC-71's Galoisian reading)'; docstring of GX.spread_top_of_local ('DEC-71's Galoisian reading of a sub-covering')",
+      "problem": "DEC-71 rules l.1869 (rem:tamely_singular_manifold_admits) and ex:take_closed_unit_disc, not lem:spread_top. Calling the Galoisian hypothesis of (d) 'DEC-71's reading' suggests a ruling covers it. It is the dispatch's reading, by analogy. REPORT itself says 'DEC-71-style' and leaves the row partial with a question, so the overclaim is in the docstring only.",
+      "fix": "Write 'the dispatch's reading, by analogy with DEC-71' in both places."
+    },
+    {
+      "severity": "minor",
+      "where": "spread_top_of_local / spread_top_corrected (d); REPORT lem:spread_top findings[6]; SCOPE (e)",
+      "problem": "The necessity of 'N → M Galoisian' for (d) is argued informally only: a non-normal 3-sheeted intermediate cover with trivial Γ(N/M), and T cut at one point of a fibre. I checked the sketch and it is sound: a deck transformation of M̃ sending a natural point over n₁ to a cut point over n₀ is not p^*T-continuous. Unlike the other two added hypotheses, it has no formal counterexample. It is disclosed, the dispatch prescribed the reading, and the paper's only application (V̂ → V) is Galoisian, so this is not a major.",
+      "fix": "Optional: formalize the cex (needs an explicit non-normal finite cover, heavy), or keep it as a recorded informal finding and ask the author."
+    },
+    {
+      "severity": "minor",
+      "where": "SpreadTop.lean l.2492, docstring of GX.not_spreadTopConnCE ('**`lem:spread_top` (c), (e) are false even with `p⁻¹(R)` connected**')",
+      "problem": "A declaration docstring opens a bold span with the backticked label of a partial row. It lies past the first 4000 characters and is not the exact ``**`label`**`` pattern, so the ledger will not read it. A looser regex, or a human reader, would take it for a certification mark. This is the residual-bold issue WP-27k AUDIT-2 raised, in a new place.",
+      "fix": "Remove the bold, or move the label out of the bold span."
+    },
+    {
+      "severity": "minor",
+      "where": "module docstring l.11 and declaration docstring l.1048 (**`def:topological_spaces_continuous_map`**); Models.lean l.56/l.2069",
+      "problem": "The label is now marked in both Models and SpreadTop. WP-27k AUDIT-2 recorded it as resolved by un-marking it here; WP-35g re-marks it at the dispatch's request. REPORT raises the curation question honestly. Two files certify one ledger row.",
+      "fix": "The master decides the attribution (one row, both files, or Models only) before graduation."
+    },
+    {
+      "severity": "minor",
+      "where": "quotient_virtually_tame_cover(_of_slsc); REPORT rem:quotient_virtually_tame hypotheses[3] ('here': 'weakened')",
+      "problem": "Two points carried over from WP-27k AUDIT-2. (1) The quotient is by Γ_N = descendSet; the easy corollary that the fibres of N → M are exactly the Γ(N/M)-orbits (Γ_N-orbits ⊆ Γ(N/M)-orbits ⊆ fibres) is still not stated, although it would make the relation literally the paper's. (2) 'weakened' is used for a weaker CONCLUSION (an isomorphism of spaces instead of singular (G,X)-manifolds). kb/0006 reserves 'weakened' for 'assumes less'. The row is partial and disclosed either way.",
+      "fix": "Add the one-line orbit corollary over deckMapsOf N M πN. Retag hypotheses[3] as a scope note (conclusion narrowed)."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT notes ('a scratch copy (scaffold/GXScaffold/SingularII/WP35gTmp.lean) was created by mistake … and deleted')",
+      "problem": "The package briefly wrote a file outside its allowed set (CAMPAIGN: only the listed files and the report directory). It is disclosed, and I verified it is gone, from scaffold/ and from .lake/build (no Tmp olean). It was never built, so the unlocked Lake glob was not exposed.",
+      "fix": "None needed beyond the disclosure; record it as a process note."
+    }
+  ],
+  "dispatch_followup": {
+    "build_lem_spread_top_proof": "done: GX.spread_top_of_local / GX.spread_top_of_isPortly prove all five clauses; ingredients exists_lift_path_of_subset_ordY, exists_path_in_component_sptop (Claim), isGaloisian_of_comp, complete_path_carac",
+    "subcovering_reading": "done: p, q branched coverings with q∘p = base; N → M Galoisian only where (d) uses it, reported",
+    "rem:intuitively_spread_thinner_than": "partial, unchanged from WP-27k (reading of 'intuitively'; literal claim refuted by not_isSpread_strongPullTop_ratTop)",
+    "rem:hypothesis_model_spaces_necessary": "partial, blocked: BTZ tamifying topology (§4 prop:BTZ_virt_tame) is not in lean-gx, and lean-gx does not depend on lean-causal",
+    "rem:quotient_virtually_tame": "partial; new GX.quotient_virtually_tame_cover_of_slsc discharges the added Galoisian hypothesis from reg M slsc in M",
+    "def:topological_spaces_continuous_map": "closed and marked (verbatim generateFrom form)"
+  },
+  "questions_for_author": [
+    "lem:spread_top: accept GX.spread_top_of_local as the corrected form? It adds N → M Galoisian, p⁻¹(R) connected, and the local hypothesis StrongLocallyConnectedOrd. The last two are formally necessary in the presence of all the others, and the third is equivalent to (c). Or should T instead be assumed invariant under the local rotations around sing, as the BTZ topology is, which would give the local hypothesis intrinsically on (N, T)?",
+    "lem:spread_top (d): is 'N → M Galoisian' part of 'sub-covering'? The only application, V̂ → V in theo:local_virt_tame, is Galoisian, and without it (d) appears to fail (informal non-normal 3-sheeted example).",
+    "def:topological_spaces_continuous_map: attribute the ledger row to Models (which defines GX.strongPullTop) or to SpreadTop (which proves the verbatim generateFrom form)?"
+  ]
+}

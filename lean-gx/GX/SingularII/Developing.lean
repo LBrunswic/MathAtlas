@@ -5,36 +5,44 @@ import GX.Structure.Developing
 /-!
 # Singular `(G,X)`-manifolds (II): developing maps, holonomy, the singular developing theorem
 
-Package WP-27h. `papers/gx`, `RamcovGX.tex:1706–1825`, §2.5.1 "Developing maps" (`M`, `N`
-connected singular `(G,X)`-manifolds, l.1712; `(G,X)` analytical with `X` locally unloopable,
-l.1660), on the classical developing theorem `GX.Structure.Developing` (DEC-23).
+Package WP-27h; the author's rulings DEC-66 (c) and DEC-67 (b)(c) applied by WP-35d. `papers/gx`,
+`RamcovGX.tex:1706–1825`, §2.5.1 "Developing maps" (`M`, `N` connected singular
+`(G,X)`-manifolds, l.1712; `(G,X)` analytical with `X` locally unloopable, l.1660; Hausdorff,
+locally path-connected, first countable, §3's standing assumption l.810, which covers §2.5 by
+DEC-66 (a)), on the classical developing theorem `GX.Structure.Developing` (DEC-23).
 
 * **`def:developing_map`** — `RamcovGX.tex:1726`: `GX.IsDevelopingMapOf` (an a.e. morphism
   `N → X`, `N` with `p^*B`; `GX.isDevelopingMapOf_iff` for any maximal atlas making `p` a
   morphism), `GX.AdmitsDevelopingMap`; the third sentence justified by `GX.admitsDevelopingMap_iff`.
 * **`lem:MtoXG`** — `RamcovGX.tex:1748`: `GX.aeMorphism_model_unique`.
-* `lem:holonomy` — `RamcovGX.tex:1753` — partial (the printed "acting on `N`" read as acting on
-  `M`, the domain of `f`): `GX.existsUnique_holonomy`, `GX.existsUnique_holonomy_hom`,
+* **`lem:holonomy`** — `RamcovGX.tex:1753` — under DEC-67 (b) (`Γ` acts on `M`, the domain of
+  `f`, for the printed "acting on `N`"): `GX.existsUnique_holonomy`; also
+  `GX.existsUnique_holonomy_hom` (an action through `Γ →* Homeo(M)`) and
   `GX.existsUnique_holonomyOf` (for `Γ(N/M)`).
 * **`def:quasi_galoisian_branched_covering_singular`** — `RamcovGX.tex:1761`: `GX.holonomyOf`,
   `GX.IsHolonomyOf`, `GX.holonomyOf_spec`, `GX.isHolonomyOf_iff`, `GX.isHolonomyOf_one_iff`.
 * **`rem:developing_map_quasi_galoisian_covering`** — `RamcovGX.tex:1764`:
   `GX.IsHolonomyOf.mem_fixedPoints`, `GX.IsHolonomyOf.smul_eq_of_mem_deckStab`.
-* `rem:singular_manifold_holonomy_indeed` — `RamcovGX.tex:1768` — partial (a reading of "is
-  indeed"; `M` locally path-connected carried): `GX.singular_manifold_holonomy_indeed`, on
-  `GX.regChartedSpace` (`reg(M)` as a `(G,X)`-manifold, `GX.hasGroupoid_regChartedSpace`).
+* **`rem:singular_manifold_holonomy_indeed`** — `RamcovGX.tex:1768` — under DEC-67 (c) (the
+  restriction of `D` to the universal cover of `reg(M)` is a classical developing map of `reg(M)`,
+  its holonomy the restriction of `ρ`) and DEC-66 (c) (`M` locally path-connected):
+  `GX.singular_manifold_holonomy_indeed_of_isLocallyUnloopable` (the section's standing `X` locally
+  unloopable), `GX.singular_manifold_holonomy_indeed` (only `reg(M)` semilocally simply
+  connected), on `GX.regChartedSpace` (`reg(M)` as a `(G,X)`-manifold,
+  `GX.hasGroupoid_regChartedSpace`).
 * **`lem:quasi_galoisian_branched_covering_singular`** — `RamcovGX.tex:1771`:
   `GX.developing_pair_unique`.
-* `lem:descend_developing_map` — `RamcovGX.tex:1780` — partial (`N` locally path-connected
-  carried): `GX.descend_developing_map`, `GX.eq_of_isHolonomyOf_one`.
+* **`lem:descend_developing_map`** — `RamcovGX.tex:1780` — under DEC-66 (a)(c) (the base `N`
+  locally path-connected, a base of a branched covering in §3's class): `GX.descend_developing_map`,
+  `GX.eq_of_isHolonomyOf_one`.
 * **`lem:morphism_singular_manifolds_branched`** — `RamcovGX.tex:1799`:
   `GX.morphism_singular_manifolds_branched`.
-* `prop:branched_devmap` — `RamcovGX.tex:1807` — partial (`M` locally path-connected carried):
-  **`GX.singular_developing_theorem`** (the section's standing hypothesis, `X` locally
-  unloopable), `GX.singular_developing_theorem_of_slsc` (only the semilocal simple connectedness
-  the proof uses), `GX.exists_developing_maxBranched_of_branchedCovering` ((ii) ⇒ (i)), on
-  `GX.exists_developing_of_simplyConnected` (the classical developing theorem read in a singular
-  manifold).
+* **`prop:branched_devmap`** — `RamcovGX.tex:1807` — under DEC-66 (c) (`M` locally
+  path-connected): **`GX.singular_developing_theorem`** (the section's standing hypothesis, `X`
+  locally unloopable), `GX.singular_developing_theorem_of_slsc` (only the semilocal simple
+  connectedness the proof uses), `GX.exists_developing_maxBranched_of_branchedCovering`
+  ((ii) ⇒ (i)), on `GX.exists_developing_of_simplyConnected` (the classical developing theorem read
+  in a singular manifold).
 
 > A developing map $\D$ of $N\rightarrow M$ is any a.e. $(G,X)$-morphism $N \rightarrow X$.
 > We say that $M$ admits a developing map if there exists a branched covering
@@ -46,7 +54,8 @@ l.1660), on the classical developing theorem `GX.Structure.Developing` (DEC-23).
 >
 > Let $M$ be a singular $(G,X)$-manifold and $\Gamma$ be a group acting on $N$ by a.e.
 > $(G,X)$-morphisms. For any a.e. $(G,X)$-morphism $M\xrightarrow{f} X$ there exists a unique
-> morphism $\rho:\Gamma\rightarrow G$ such that $f$ is $\rho$-equivariant. (l.1753)
+> morphism $\rho:\Gamma\rightarrow G$ such that $f$ is $\rho$-equivariant. (l.1753; read with
+> $\Gamma$ acting on $M$, DEC-67 (b))
 >
 > A developing map $\D$ of a quasi-Galoisian covering $M\rightarrow N$ sends points to some fix
 > point of their stabilizer : $\D(x) \in \fix(\rho(\Gamma_x))$. (l.1764)
@@ -65,13 +74,14 @@ l.1660), on the classical developing theorem `GX.Structure.Developing` (DEC-23).
 | paper hypothesis | here |
 |---|---|
 | `(G,X)` analytical (l.341, DEC-39) | ✓ carried: `IsRigidAction`, `FaithfulSMul` (faithful only where uniqueness in `G` is asserted), `ContinuousConstSMul`, `X` T2 and locally connected; `X` connected never used |
-| `X` locally unloopable (standing, l.1660) | ✓ carried in `singular_developing_theorem`; ⚠ weakened elsewhere: not used (`…_of_slsc` asks only for the semilocal simple connectedness it uses) |
+| `X` locally unloopable (standing, l.1660) | ✓ carried in `singular_developing_theorem`, `singular_manifold_holonomy_indeed_of_isLocallyUnloopable`; ⚠ weakened elsewhere: not used (`…_of_slsc`, `singular_manifold_holonomy_indeed` ask only for the semilocal simple connectedness they use) |
 | `M`, `N` connected (standing, l.1712) | ✓ carried where used (`lem:MtoXG`, `lem:holonomy`; the source of a branched covering is connected) |
 | singular manifolds Hausdorff, second countable, locally connected | ⚠ weakened: T2, first countable, locally connected where used |
-| `prop:branched_devmap`, `rem:…holonomy_indeed`: `\widetilde M` defined (`prop:universality`) | ⚠ strengthened: `M` locally path-connected (finding, as WP-27g's F1/F3) |
-| `lem:descend_developing_map`: `lem:dense_orbits` applies | ⚠ strengthened: `N` locally path-connected (finding, as F1) |
+| §3's standing assumption (l.810: T2, locally path-connected, first countable) covers §2.5 and the bases of branched coverings (DEC-66 (a)) | ✓ carried where used |
+| `prop:branched_devmap`, `rem:…holonomy_indeed`: `M` locally path-connected wherever `\widetilde M` is used (DEC-66 (c)) | ✓ carried (`prop:universality`) |
+| `lem:descend_developing_map`: the base `N` locally path-connected (DEC-66 (a)(c), for `lem:dense_orbits`) | ✓ carried |
 | "quasi-Galoisian" (l.1761, 1764, 1771) | ⚠ weakened: not used — every branched covering |
-| `lem:holonomy`: `Γ` acting on `N` | ⚠ read: acting on `M`, the domain of `f` (finding) |
+| `lem:holonomy`: `Γ` acting on `N` | ✓ read as acting on `M`, the domain of `f` (DEC-67 (b)) |
 | `lem:morphism_singular_manifolds_branched`: singular manifolds | ⚠ weakened: a.e. atlases `B_M`, `B_N`, `M` locally connected |
 
 ## SCOPE (disclosed)
@@ -94,7 +104,7 @@ l.1660), on the classical developing theorem `GX.Structure.Developing` (DEC-23).
   simply connected `\widetilde{reg M} ⊆ \widetilde M`, `Ψ : \widehat M → \widetilde M` by
   universality) agree up to `g` on the connected `\widehat M ∖ \widehat S`; `Ψ` being open, `D ∘ Φ`
   is constant on its fibres and descends along it.
-* **(d)** `rem:singular_manifold_holonomy_indeed` is read as: for a developing map `D` of
+* **(d)** `rem:singular_manifold_holonomy_indeed` is read (DEC-67 (c)) as: for a developing map `D` of
   `\widetilde M` with holonomy `ρ`, `D ∘ ι` (`ι : \widetilde{reg M} → \widetilde M`) is a
   developing map of the `(G,X)`-manifold `reg(M)` in the sense of `GX.developing_theorem`, and its
   classical holonomy is `γ ↦ ρ(γ̃)`, `γ̃` the extension of `γ` to `\widetilde M`.
@@ -273,7 +283,7 @@ theorem existsUnique_holonomy_hom [ConnectedSpace M] [LocallyConnectedSpace M] {
       rw [← hρ' γ x]; exact hρ γ x
 
 /-- **`lem:holonomy`** (`RamcovGX.tex:1753`, with the printed "acting on `N`" read as acting on
-`M`, the domain of `f`; `M` connected, the section's standing hypothesis): if a group `Γ` acts on
+`M`, the domain of `f`, DEC-67 (b); `M` connected, the section's standing hypothesis): if a group `Γ` acts on
 a singular `(G,X)`-manifold by a.e. `(G,X)`-morphisms, every a.e. `(G,X)`-morphism `f : M → X` is
 `ρ`-equivariant for a unique homomorphism `ρ : Γ → G`. The proof is the regular one
 (`GX.developing_theorem`): `f ∘ γ` is another developing map, so `f ∘ γ = ρ(γ) f` for a unique
@@ -388,7 +398,8 @@ theorem eq_of_isHolonomyOf_one [T2Space M] [T2Space N] [LocPathConnectedSpace N]
   exact hmem.symm
 
 /-- **`lem:descend_developing_map`** (`RamcovGX.tex:1780`): for a quasi-Galoisian branched
-covering `p : M → N` of a singular `(G,X)`-manifold `N` (`M` with the structure `p^*B`), there is a
+covering `p : M → N` of a singular `(G,X)`-manifold `N` (locally path-connected, a base of a
+branched covering, DEC-66 (a)(c)) (`M` with the structure `p^*B`), there is a
 developing map of `p` with trivial holonomy iff there is an a.e. `(G,X)`-morphism `N → X`; then the
 first factors through the second, `D = D̄ ∘ p`. -/
 theorem descend_developing_map [T2Space M] [T2Space N] [LocPathConnectedSpace N]
@@ -749,7 +760,7 @@ variable (G X) in
 /-- **`prop:branched_devmap`** (`RamcovGX.tex:1807`), **the singular developing theorem**, under
 the standing assumption of the section (l.1660: `(G,X)` analytical, `X` locally unloopable): for
 a connected singular `(G,X)`-manifold `M` (Hausdorff, first countable; locally path-connected
-carried, as `prop:universality` needs to define `\widetilde M`), the following are equivalent:
+carried, as `prop:universality` needs to define `\widetilde M`, DEC-66 (c)), the following are equivalent:
 (i) there exists an a.e. `(G,X)`-morphism `\widetilde M → X`; (ii) there exists a branched
 covering `N → M` which admits a developing map. Local unloopability gives the semilocal simple
 connectedness of every `M ∖ S`, `S ⊇ sing(M)` skeletal
@@ -955,6 +966,34 @@ theorem singular_manifold_holonomy_indeed
     show D (SpreadEnd.ofPoint _ (γ.1 z)) = ρ ⟨Φ, hΦ⟩ • D (SpreadEnd.ofPoint _ z)
     rw [← hΦc z]
     exact hρ ⟨Φ, hΦ⟩ _
+
+/-- **`rem:singular_manifold_holonomy_indeed`** (`RamcovGX.tex:1768`) under the section's standing
+assumption (l.1660, `X` locally unloopable) instead of the semilocal simple connectedness of
+`reg(M)`: that assumption makes `\widetilde M` (and `\widetilde{reg M}`) always defined
+(`lem:analytical_structure_locally_unloopable`), and the remark holds as in
+`GX.singular_manifold_holonomy_indeed` (DEC-66 (c), DEC-67 (c)). -/
+theorem singular_manifold_holonomy_indeed_of_isLocallyUnloopable (hX : IsLocallyUnloopable X)
+    (y₀ : ((Sing G X M)ᶜ : Set M)) {D : MaxBranchedCover (Sing G X M) y₀ → X}
+    (hD : IsDevelopingMapOf G (aeAtlas G X M) SpreadEnd.base D)
+    {ρ : Deck (SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) →* G}
+    (hρ : IsHolonomyOf SpreadEnd.base D ρ) :
+    letI := regChartedSpace G X M
+    letI : LocPathConnectedSpace ((Sing G X M)ᶜ : Set M) :=
+      (isClosed_sing G X M).isOpen_compl.locPathConnectedSpace
+    letI := coverChartedSpace X
+      (semilocallySimplyConnected_compl_of_sing_subset hX (isClosed_sing G X M) subset_rfl) y₀
+    IsGXMorphism G X (D ∘ SpreadEnd.ofPoint (univCoverProj (Sing G X M) y₀)) ∧
+      ∃ hol : Deck (UniversalCover.proj ((Sing G X M)ᶜ : Set M) y₀) →* G,
+        (∀ (γ : Deck (UniversalCover.proj ((Sing G X M)ᶜ : Set M) y₀)) z,
+          (D ∘ SpreadEnd.ofPoint _) ((γ : UniversalCover _ y₀ ≃ₜ UniversalCover _ y₀) z) =
+            hol γ • (D ∘ SpreadEnd.ofPoint _) z) ∧
+        ∀ γ : Deck (UniversalCover.proj ((Sing G X M)ᶜ : Set M) y₀),
+          ∃ γ' : Deck (SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M),
+          (∀ z, (γ' : MaxBranchedCover _ y₀ ≃ₜ MaxBranchedCover _ y₀) (SpreadEnd.ofPoint _ z) =
+            SpreadEnd.ofPoint _ ((γ : UniversalCover _ y₀ ≃ₜ UniversalCover _ y₀) z)) ∧
+          hol γ = ρ γ' :=
+  singular_manifold_holonomy_indeed
+    (semilocallySimplyConnected_compl_of_sing_subset hX (isClosed_sing G X M) subset_rfl) y₀ hD hρ
 
 end RegHolonomy
 

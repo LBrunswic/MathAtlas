@@ -4,61 +4,36 @@ import Mathlib.Geometry.Manifold.Instances.Sphere
 /-!
 # The examples closing §3.4 (l.1560–1583)
 
-Packages WP-26h, WP-27f. `papers/gx`, `RamcovGX.tex:1560–1583`. Reworked to DEC-55 (literal
-compact-open reading of "almost trivial"), DEC-58 (`ex:wild_cantor_general_antoine` is about
-Antoine's necklace; in `ex:consider_denote_absolute_galois`, `Γ₂` is the normal closure of the
-`[γₙ]²`).
+Packages WP-26h, WP-27f, WP-35h. `papers/gx`, `RamcovGX.tex:1560–1583`. Reworked to DEC-55
+(literal compact-open reading of "almost trivial"), DEC-58 (`ex:wild_cantor_general_antoine` is
+about Antoine's necklace), DEC-68 ((c) a tame knot is a locally polygonal set; (d) item 3 of
+`ex:following_situations_semi_locally_simply` corrected, locally finite complexes; (e) the `γₙ` are
+lollipop loops; (f) Antoine's necklace is one explicit necklace) and DEC-69
+(`ex:consider_denote_absolute_galois` corrected to `Γ₂'` = the kernel of the mod-2 windings, whose
+fibre is a Cantor set; DEC-58's normal-closure reading is refuted and kept as the record).
 
-* `ex:following_situations_semi_locally_simply` — `RamcovGX.tex:1560` (partial, SCOPE (a)–(c)):
-  item 1 `GX.following_situations_finite` (an `E`-manifold, `E` any nontrivial real normed space,
-  `S` finite; `GX.following_situations_finite_euclidean` for `n ≥ 1`); item 2
-  `GX.following_situations_tame` (`S` locally polygonal, `GX.IsLocallyPolygonal`, in dimension
-  `≥ 2`), the classical tame knots of `ℝ³` `GX.following_situations_tame_knot`; item 3
-  `GX.following_situations_simplicial` (a locally finite complex every face of which lies in a
-  face with `≥ n` vertices, `GX.HasFacesOfCardGe`; pure complexes
-  `GX.following_situations_simplicial_pure`), its connected counterexample as written
-  `GX.following_situations_simplicial_false` (a tetrahedron with a dangling edge). Tools:
-  `GX.IsConicalAt`, `GX.isConicalAt_segment`, `GX.isSLSCIn_subtype_compl_of_isConicalAt`,
-  `GX.isSLSCIn_compl_of_local_models`. All positive, so they hold in the literal reading
-  (`GX.IsSLSCIn.isSLSCInCC`).
-* `ex:consider_denote_absolute_galois` — `RamcovGX.tex:1570` (partial: the fibre claim is FALSE,
-  SCOPE (d)): first claim, `ℂ ∖ S` is NOT semi-locally simply connected in `ℂ`, in the literal
-  reading `GX.absGal_not_isSLSCInCC` (and the homotopy one `GX.absGal_not_isSLSCIn`, at `0`
-  `GX.absGal_not_isSLSCAt`, criterion `GX.not_isSLSCAt_of_essential`); the printed
-  `Γ₂ = ⟨Γ[γₙ]²Γ⟩` is all of `Γ`, `GX.printedGamma2_eq_top`; for the ruled `Γ₂` (DEC-58, the
-  normal closure `GX.gamma2`) the fibre of `Y₂` over `0` is NOT compact, hence not a Cantor set,
-  for the paper's simple loops; the strongest true form proved (DEC-27) is that it is infinite and
-  totally disconnected but not compact, `GX.absGal_Y₂_fiber_corrected_simple` (general form
-  `GX.absGal_Y₂_fiber_corrected`; total disconnectedness for any `Γ₂`,
-  `GX.absGal_Y₂_fiber_totallyDisconnected`, through the spread `GX.absGal_isSpread_ordY₂Proj` and
-  the quotient lemma `GX.isSpread_homeoQuotient_lift`) — refuted unconditionally
-  `GX.absGal_Y₂_fiber_not_cantor_simple` (explicit
-  loops `GX.absGalSimpleLoop`, windings `GX.absGal_windAt_simpleLoop`), and for any loops with
-  the simple-loop windings drawn in `GX.absGalR` (`GX.absGal_Y₂_fiber_not_compact_of_simple`,
-  `GX.absGal_Y₂_fiber_not_cantor`; the general form `GX.absGal_Y₂_fiber_not_compact`). The proof
-  is a dihedral invariant of `\widetilde{ℂ∖S}`: continuous logarithms `GX.absGalℓ` of
-  `F = (z-1)/(z-1/2)` and `GX.absGalΛ` of `G ∘ √F`, `G(s) = (s-1)/(s+1)`, on which deck
-  transformations act by `(±1, ±Λ + c)` (`GX.absGal_deck_action`); `Γ₂` acts trivially
-  (`GX.absGal_gamma2_le`), the loop `GX.absGalωPath` around `{1, 1/2}` translates
-  (`GX.absGal_exists_translation`), so the integer `GX.absGalΘ` separates infinitely many
-  components of the preimage of `D₅` (`GX.absGalΘbar_eq_of_mem`), each reached by an end over
-  `0` (`GX.absGalEnd`).
-* `ex:wild_cantor_general_antoine` — `RamcovGX.tex:1578` (stated, SCOPE (e)), read by DEC-58 as
-  a claim about Antoine's necklace, which is BUILT: `GX.antoineNecklace ⊆ S³` (the inverse
-  stereographic image of `GX.antoineNecklaceR3 = ⋂ₙ GX.antoineStage n`, a chain of `64`
-  interlocking square solid rings `GX.antoineLink` repeated by the similarities `GX.antoineMap`),
-  proved a Cantor set (`GX.antoineNecklace_isCantorSubset`). The claim for it,
-  `GX.antoineNecklace_wild_not_isSLSCInCC` (literal reading; the two readings agree for closed
-  `C ⊆ S³`, `GX.sphere3_isSLSCInCC_compl_iff`) and `GX.antoineNecklace_not_isSLSCIn`, is proved
-  from the essential-loop criterion (`GX.wild_cantor_not_isSLSCIn`,
-  `GX.sphere3_not_isSLSCIn_of_essential`, the small-loop condition automatic in `S³`,
-  `GX.sphere3_exists_nhds_loops_trivial`) and Antoine's theorem for this necklace,
-  `GX.antoineNecklace_antoine` (cited: wildness and the essential loops, tagged `sorry`, the only
-  `sorry` of the file). Side
-  remark (not the ruled reading): for arbitrary wild Cantor sets the claim would fail as soon as
-  one has simply connected, locally non-separating complement,
-  `GX.wild_cantor_claim_false_of_exists`, `GX.isSLSCIn_compl_of_simplyConnected`,
-  `GX.dense_compl_of_isCantorSubset`.
+* **`ex:following_situations_semi_locally_simply`** — `RamcovGX.tex:1560` (CLOSED under DEC-68
+  (c)(d), SCOPE (a)–(c)): the assembly `GX.following_situations_semi_locally_simply` (literal
+  reading). Item 1 `GX.following_situations_finite` (`n ≥ 1` suffices,
+  `GX.following_situations_finite_euclidean`); item 2 `GX.following_situations_tame` (`S` locally
+  polygonal, `GX.IsLocallyPolygonal`; classical tame knots `GX.following_situations_tame_knot`);
+  item 3, corrected, `GX.following_situations_simplicial` (`GX.HasFacesOfCardGe`), the
+  counterexample as written `GX.following_situations_simplicial_false`.
+* **`ex:consider_denote_absolute_galois`** — `RamcovGX.tex:1570` (CLOSED under DEC-69, SCOPE (d)):
+  the assembly `GX.absolute_galois_corrected`: `ℂ ∖ S` is not semi-locally simply connected in
+  `ℂ` (`GX.absGal_not_isSLSCInCC`); for `Γ₂' = GX.cantGamma`, the kernel of the mod-2 windings
+  (`GX.mem_cantGamma_iff`), `Γ₂' \ ord(\widetilde Y^S) → ℂ` is a spread
+  (`GX.cant_isSpread_cantProj`) and the fibre above `0` of its completion `GX.CantY₂` is a Cantor
+  set (`GX.absGal_Y₂_fiber_cantor_corrected`). The record (DEC-69): the printed `Γ₂` is `Γ`
+  (`GX.printedGamma2_eq_top`); for the normal closure the fibre is not compact
+  (`GX.absGal_Y₂_fiber_not_cantor_simple`, `GX.absGal_Y₂_fiber_corrected_simple`).
+* `ex:wild_cantor_general_antoine` — `RamcovGX.tex:1578` (stated, SCOPE (e)), for the ONE explicit
+  necklace `GX.antoineNecklace` (DEC-58, DEC-68 (f)), built and proved a Cantor set
+  (`GX.antoineNecklace_isCantorSubset`). The claim `GX.antoineNecklace_not_isSLSCInCC` is derived
+  sorry-free (`GX.antoineNecklace_not_isSLSCInCC_of`) from ONE residual,
+  `GX.AntoineMeridianEssential` (a meridian of a link of generation `n` is essential in the
+  complement of the generation-`m` links inside it), the file's one `sorry`
+  `GX.antoineMeridianEssential`. Wildness is separated (`GX.isWildCantor_antoineNecklace_of`).
 
 > In the following situations, $Y\setminus S$ is semi-locally simply connected in $Y$
 > (1) $Y$ is a $n$-manifold with $n\geq 2$ and $S$ is a finite subset; (2) $Y$ is a 3-manifold and
@@ -80,29 +55,30 @@ Antoine's necklace; in `ex:consider_denote_absolute_galois`, `Γ₂` is the norm
 | paper hypothesis | here |
 |---|---|
 | §3 standing: `Y` Hausdorff, connected, LPC, first countable | ⚠ weakened: not used |
-| item 1: `n ≥ 2` | ⚠ weakened: `E` nontrivial (`n ≥ 1`), finding |
+| item 1: `n ≥ 2` | ✓ carried in the assembly; weakened to `n ≥ 1` in `GX.following_situations_finite_euclidean` (`E` nontrivial), finding |
 | item 1: `Y` an `n`-manifold | ✓ `[ChartedSpace E Y]`, any real normed `E` |
 | item 2: `Y` a 3-manifold | ⚠ weakened: local models in any finite-dimensional `E`, `dim ≥ 2` |
-| item 2: `S` a tame knot | ⚠ read: locally polygonal up to local homeomorphism (SCOPE (b)) |
-| item 3: `Y` a simplicial complex of dimension `n` | ⚠ corrected: every face in a face with `≥ n` vertices (finding: false otherwise, connected counterexample); ⚠ strengthened: LOCALLY FINITE geometric complex, subspace topology (= weak topology there; mathlib has no weak topology); the bound on dimension not used |
+| item 2: `S` a tame knot | ✓ ruled (DEC-68 (c)): locally polygonal up to local homeomorphism (SCOPE (b)) |
+| item 3: `Y` a simplicial complex of dimension `n` | ✓ corrected and ruled (DEC-68 (d)): every face in a face with `≥ n` vertices (false otherwise, connected counterexample); LOCALLY FINITE geometric complex, subspace topology (= weak topology there; mathlib has no weak topology); the bound on dimension not used |
 | ex. 1570: `Y = ℝ²` | ✓ `ℂ` |
-| ex. 1570: `Γ₂ = ⟨Γ[γₙ]²Γ⟩` | ⚠ read (DEC-58): the normal closure of the `[γₙ]²` (the printed one is `Γ`) |
-| ex. 1570: "the fibre is a Cantor set" | ✗ false (DEC-27): not compact; ⚠ corrected: infinite, totally disconnected, not compact (`GX.absGal_Y₂_fiber_corrected_simple`); perfectness not formalized |
-| ex. 1570: `γₙ` a simple loop around `(1/n,0)` | ⚠ read: `GX.absGalSimpleLoop` (stem, circle, stem back: homotopic to a based simple loop, not formalized); the general theorem takes any loops with the windings of simple loops, those around `1/(n+1)`, `n ≥ 2`, drawn in `GX.absGalR` (SCOPE (d)) |
-| ex. 1578: `S` a wild Cantor set in `S³` | ⚠ read (DEC-58): Antoine's necklace, built explicitly (`GX.antoineNecklace`) and proved a Cantor set; the claim is stated for THIS necklace (not for every wild Cantor set, nor merely for some); its wildness and essential loops are the cited Antoine theorem, a tagged `sorry` (SCOPE (e)) |
+| ex. 1570: `Γ₂ = ⟨Γ[γₙ]²Γ⟩` | ✓ corrected and ruled (DEC-69): `Γ₂'` = the kernel of the mod-2 windings around the `1/n` (`GX.cantGamma`, `GX.mem_cantGamma_iff`); the printed one is `Γ`; the normal closure (DEC-58) is refuted, kept as the record |
+| ex. 1570: "the fibre is a Cantor set" | ✓ for `Γ₂'` (`GX.absGal_Y₂_fiber_cantor_corrected`); the record: ✗ for the normal closure, not compact, infinite and totally disconnected (`GX.absGal_Y₂_fiber_not_cantor_simple`, `GX.absGal_Y₂_fiber_corrected_simple`) |
+| ex. 1570: `γₙ` a simple loop around `(1/n,0)` | ✓ ruled (DEC-68 (e)): the lollipop loops `GX.absGalSimpleLoop` (used only by the recorded counterexample; `Γ₂'` is defined by windings); the general refutation takes any loops with the windings of simple loops, those around `1/(n+1)`, `n ≥ 2`, drawn in `GX.absGalR` (SCOPE (d)) |
+| ex. 1570: "answers positively Problem 10.7 of MR2198590" | — bibliographic remark, not a mathematical assertion; not formalized |
+| ex. 1578: `S` a wild Cantor set in `S³` | ✓ ruled (DEC-58, DEC-68 (f)): one explicit Antoine necklace, built (`GX.antoineNecklace`) and proved a Cantor set; the claim is proved for THIS necklace from the one residual `GX.AntoineMeridianEssential` (the file's one tagged `sorry`); its wildness is not used by the claim and is derived separately under the named tame-Cantor fact `GX.TameCantorSLSC` (SCOPE (e)) |
 | "almost trivial" | ✓ literal compact-open reading (DEC-55) for both negative claims (`IsSLSCInCC`); positive results a fortiori |
 
 ## SCOPE (disclosed)
 
 (a) Item 1: the codimension condition `n ≥ 2` is not needed for the notion `GX.IsSLSCIn` (as for
 `rem:simple_cases`, WP-26f); `n ≥ 1` is needed for density. (b) Item 2: "tame knot" is read as
-LOCALLY POLYGONAL: every point has an open neighbourhood `V` and a homeomorphism of `V` onto an
+LOCALLY POLYGONAL (ruled, DEC-68 (c)): every point has an open neighbourhood `V` and a homeomorphism of `V` onto an
 open subset of `E` carrying `V ∩ S` onto a finite union of segments (`GX.IsLocallyPolygonal`); this
 covers the classical tame knots of `ℝ³` (images of polygonal knots by homeomorphisms of `ℝ³`,
 `GX.isLocallyPolygonal_homeomorph_image`), and in a 3-manifold it is local tameness (equivalent to
 tameness and to local flatness by Bing–Moise, which is NOT formalized). Being a knot (a circle) is
 not used. (c) Item 3: `X = |K|` for a locally finite geometric complex of a real normed space,
-`S` the union of the closed faces of dimension `≤ n − 2`; the hypothesis "of dimension `n`" is replaced by
+`S` the union of the closed faces of dimension `≤ n − 2`; (ruled, DEC-68 (d)) the hypothesis "of dimension `n`" is replaced by
 "every face lies in a face with `≥ n` vertices" (`GX.HasFacesOfCardGe`, implied by purity,
 `GX.IsPureDim`; it is exactly what the density of `Y ∖ S` needs): a complex of dimension `n` with
 a maximal face of dimension `≤ n - 2` makes `Y ∖ S` non-dense
@@ -139,10 +115,27 @@ fibre by the basic sets over `D₅` give the non-compactness. The strongest true
 fibre is infinite (the ends `GX.absGalEnd k` are pairwise distinct, `GX.absGalEnd_injective`) and
 totally disconnected (`cor:totdiscont`, `GX.isTotallyDisconnected_fiber`, once
 `Γ₂ \ \widetilde{ℂ∖S} → ℂ` is known to be a spread, `GX.isSpread_homeoQuotient_lift`), but not
-compact; whether it is perfect (no isolated point) is not formalized. A Cantor fibre would be obtained for
-the kernel of the mod-2 winding numbers around the `1/n` (an abelian quotient); not formalized.
-"Answers positively Problem 10.7 of MR2198590" is bibliographic and not formalized. (e)
-Example 1578, read by DEC-58: `S` is Antoine's necklace, and it is built. In `ℝ³` (sup
+compact; whether it is perfect (no isolated point) is not formalized. That is the RECORD (DEC-69).
+The CORRECTED example (DEC-69) takes `Γ₂' = GX.cantGamma`, the kernel of the mod-2 winding numbers
+around the points `aₙ = 1/(n+1)` (`GX.mem_cantGamma_iff`), and is proved: the fibre above `0` of
+`Y₂' = GX.CantY₂` is homeomorphic to `{0,1}^ℕ` (`GX.cantFiberHomeo`), hence a Cantor set
+(`GX.cant_fiber_isCantor`). Mechanism: continuous square roots `sₙ` of `p - aₙ` on
+`\widetilde{ℂ∖S}` (`GX.cantSq`), on which a deck transformation acts by `εₙ = (-1)^{w(aₙ)}`
+(`GX.cantEps_fromPath`); over `D_k` the sign `σₙ = sₙ / i√(aₙ - z)`, `n < k`, is locally constant
+(`GX.cantSigma_eventually`); the components of the preimage of `D_k` in `Γ₂' \ \widetilde{ℂ∖S}` are
+exactly the sign classes `GX.cantZ k τ` (`GX.cantZ_comp`, `GX.cantZ_nonempty`). The hard half,
+`GX.cant_mem_comp_of_sigma`, lifts a path of `D_k ∖ S` (`GX.cant_reach`) and corrects the endpoint
+by a deck transformation preserving the component and realising the remaining sign pattern
+(`GX.cantReal_of_eps`): that pattern is eventually constant (`GX.cant_eps_eventually`, a loop
+stays away from `0`, so it winds equally around the small `aₙ`, `GX.cant_wind_eq_of_small`), and
+every such pattern is a product of the patterns of the small circles around the `aₙ`, `n ≥ k`
+(`GX.cantReal_flip`) and of the circle of radius `R_k` around `0` (`GX.cantReal_big`,
+`GX.cant_cWinding_circ_in`, `GX.cant_cWinding_circ_out`), all inside `D_k`. The ends over `0` are
+then the threads `D_k ↦ GX.cantZ k τ` (`GX.cantEnd`), bijectively (`GX.cantEnd_injective`,
+`GX.cantEnd_surj`) and continuously (`GX.continuous_cantEnd`), and `{0,1}^ℕ` is compact. The
+statement holds for every base point `y₀`. "Answers positively Problem 10.7 of MR2198590" is a
+bibliographic remark and is not formalized. (e)
+Example 1578, read by DEC-58 and DEC-68 (f): `S` is one explicit Antoine necklace, and it is built. In `ℝ³` (sup
 distance) the link `L = {3/4 ≤ max(|x|,|y|) ≤ 1, |z| ≤ 1/8}` is a square solid torus; the `64`
 similarities `GX.antoineMap i` of ratio `7/80` place copies of `L` along its core square
 `max(|x|,|y|) = 7/8`, `7/64` apart, alternately in the plane `z = 0` and in the vertical plane
@@ -156,19 +149,30 @@ are nested and disjoint, the coding map `GX.antoineCode` is a homeomorphism
 set (`GX.antoineNecklaceR3_isCantorSubset`, `64 = 2⁶`), carried into `S³` by the inverse
 stereographic projection `GX.antoineStereo` (`GX.antoineNecklace_isCantorSubset`). That the
 consecutive links are LINKED (rather than merely non-separated by boxes) is read off the
-coordinates and used only inside the citation. The statement is made for this necklace; the
-existential forms `GX.exists_wild_cantor_not_isSLSCIn(CC)` are corollaries. A Cantor set of `S³` is tame if a
-homeomorphism of `S³` carries it into a great circle, wild otherwise (`GX.IsWildCantor`). The
-claim `GX.antoineNecklace_wild_not_isSLSCInCC` (literal reading; for closed `C ⊆ S³` the two
-readings agree, `GX.sphere3_isSLSCInCC_compl_iff`, `S³` being locally path-connected and the
-complement semilocally simply connected, `GX.sphere3_semilocallySimplyConnected_compl`) is
-proved from the criterion `GX.wild_cantor_not_isSLSCIn` (some point of `C` has, in each
-neighbourhood, a loop off `C` essential in the complement of a closed piece of `C` away from it)
-and Antoine's theorem for the built necklace, stated as `GX.antoineNecklace_antoine` — it is wild,
-and at every point `x` of it, inside every neighbourhood, a meridian of a link not containing `x`
-is essential in the complement of the sub-necklace in that link. Antoine's theorem is NOT
-formalized: it is that declaration's tagged `sorry` (residual obstruction in its comment and in
-the report; no abelian invariant can detect the meridian, by Alexander duality). Side
+coordinates and used only inside the residual. The claim `GX.antoineNecklace_not_isSLSCInCC`
+(literal reading; for closed `C ⊆ S³` the two readings agree, `GX.sphere3_isSLSCInCC_compl_iff`)
+is proved from the criterion `GX.sphere3_not_isSLSCIn_of_essential` at the point
+`x₀ = GX.antoineStereo GX.antoineP0`, `p₀ = (-70/73, -70/73, 0)` the fixed point of `g₀`, by
+`GX.antoine_essential_loops`, from ONE residual: `GX.AntoineMeridianEssential`, for `n ≤ m` the
+meridian `GX.antoineMeridian` of a link `L` of generation `n` (a circle of radius `3/14` around
+the core, `GX.antoineMeridian_not_mem`) is not null-homotopic in `S³ ∖ (C_m ∩ L)`. Built around
+it, sorry-free: link selection (in a neighbourhood `V` of `x₀`, `L = g₀ᵏ(g₁(L))` for `k` large,
+`GX.antoineComp_diam`, `x₀ ∉ L`, `GX.antoineP0_not_mem_word_link`); accessibility (the vertical
+segment above `p₀` meets the necklace only at `p₀`, `GX.antoineVert_not_mem_necklace`, by the
+self-similarity `g₀(vert z) = vert(7z/80)` and the transfer `GX.antoine_mem_stage_of_comp`); the
+based loop `g₀ᵏ(GX.antoineLoop0)` (up, across above the first stage, the meridian of `g₁(L)`,
+back), off the necklace in `V`; conjugation `GX.antoine_homotopicIn_conj`; and the compactness
+reduction `GX.antoine_homotopicIn_stage` (a null-homotopy has compact image, which misses some
+finite stage, the stages being finite unions of links, `GX.antoineStage_isCompact`). The
+residual is Antoine's lemma proper and is NOT formalized: `GX.antoineMeridianEssential`'s tagged
+`sorry` (no abelian invariant detects it for `m > n`; it needs a van Kampen computation for a
+chain of linked solid tori). Wildness is NOT part of the claim (the row's conclusion does not use
+it): a Cantor set of `S³` is tame if a homeomorphism of `S³` carries it into a great circle, wild
+otherwise (`GX.IsWildCantor`); `GX.isWildCantor_antoineNecklace_of` derives the wildness of the
+necklace from the residual, the homeomorphism invariance `GX.IsSLSCIn.map_homeomorph` and the
+NAMED tame-Cantor fact `GX.TameCantorSLSC` (complements of Cantor subsets of a great circle are
+semi-locally simply connected), a hypothesis there; `GX.antoineNecklace_wild_not_isSLSCInCC`,
+`GX.exists_wild_cantor_not_isSLSCIn(CC)` carry it. Side
 remark, outside the ruled reading: for arbitrary wild Cantor sets the claim fails as soon as one
 of them has dense, simply connected, locally non-separating complement
 (`GX.wild_cantor_claim_false_of_exists`; the density is proved for every Cantor set,
@@ -718,6 +722,30 @@ theorem following_situations_simplicial_cc (K : Geometry.SimplicialComplex ℝ E
   (following_situations_simplicial K hK hfaces).isSLSCInCC
 
 end ItemsCC
+
+/-- **`ex:following_situations_semi_locally_simply`** (`RamcovGX.tex:1560`), certified under
+DEC-68 (c) (a tame knot is a locally polygonal set) and (d) (item 3 corrected: a locally finite
+complex every face of which lies in a face with `≥ n` vertices), in the literal reading of
+"almost trivial" (DEC-55): (1) `Y` an `n`-manifold, `n ≥ 2`, `S` finite; (2) `Y` a 3-manifold,
+`S` a tame knot; (3) `Y` a simplicial complex of dimension `n` (corrected), `S` its
+`(n-2)`-skeleton — in each case `Y ∖ S` is semi-locally simply connected in `Y`. -/
+theorem following_situations_semi_locally_simply.{u} :
+    (∀ n : ℕ, 2 ≤ n → ∀ (Y : Type u) [TopologicalSpace Y]
+      [ChartedSpace (EuclideanSpace ℝ (Fin n)) Y] (S : Set Y), S.Finite → IsSLSCInCC Sᶜ) ∧
+    (∀ (Y : Type u) [TopologicalSpace Y] [ChartedSpace (EuclideanSpace ℝ (Fin 3)) Y] (S : Set Y),
+      IsLocallyPolygonal (EuclideanSpace ℝ (Fin 3)) S → IsSLSCInCC Sᶜ) ∧
+    (∀ (E : Type u) [NormedAddCommGroup E] [NormedSpace ℝ E] (K : Geometry.SimplicialComplex ℝ E),
+      LocallyFinite (fun τ : K.faces => convexHull ℝ ((τ : Finset E) : Set E)) → ∀ n : ℕ,
+      HasFacesOfCardGe K n →
+      IsSLSCInCC (((↑) : K.space → E) ⁻¹' (⋃ s ∈ skeletonFaces K n, convexHull ℝ (s : Set E))ᶜ)) :=
+  by
+  refine ⟨?_, ?_, ?_⟩
+  · intro n hn Y _ _ S hS
+    exact (following_situations_finite_euclidean (n := n) (by omega) hS).isSLSCInCC
+  · intro Y _ _ S hS
+    exact following_situations_tame_cc (by rw [finrank_euclideanSpace_fin]; norm_num) hS
+  · intro E _ _ K hK n hf
+    exact following_situations_simplicial_cc K hK hf
 
 /-! ### A criterion for failure of semi-local simple connectedness -/
 
@@ -2826,7 +2854,7 @@ theorem wild_cantor_claim_false_of_exists
 point `x` has, in each of its neighbourhoods, a loop at `x` off `C` (interior points) which is
 essential in the complement of a piece `K ⊆ C` with `x ∉ K`, small loops at `x` being trivial
 there, then `Cᶜ` is NOT semi-locally simply connected. No Cantor or wildness hypothesis is used;
-this is the property Antoine's theorem gives for the necklace (`GX.antoineNecklace_antoine`). -/
+this is the property `GX.antoine_essential_loops` gives for the necklace. -/
 theorem wild_cantor_not_isSLSCIn {C : Set Sphere3} (x : Sphere3)
     (h : ∀ V ∈ 𝓝 x, ∃ (K : Set Sphere3) (γ : Path x x), x ∉ K ∧ K ⊆ C ∧ MemOmega (V ∩ Cᶜ) γ ∧
       ¬ HomotopicIn Kᶜ γ (Path.refl x) ∧
@@ -3393,38 +3421,635 @@ theorem antoineNecklace_isCantorSubset : IsCantorSubset antoineNecklace := by
 theorem antoineNecklace_nonempty : antoineNecklace.Nonempty :=
   ⟨_, _, range_antoineCode ▸ mem_range_self (fun _ => 0), rfl⟩
 
-/-- **Antoine's theorem** (cited `general_antoine`, not built) for the necklace built above,
-`GX.antoineNecklace`, in the form the corrected `RamcovGX.tex:1578` uses: it is WILD (no
-homeomorphism of `S³` carries it into a great circle), and at every point `x` of it, inside any
-neighbourhood `V` of `x`, there are a closed piece `K ⊆ C` missing `x` (`K = C ∩ L`, `L` a link of
-the construction inside `V` not containing `x`) and a loop at `x` off `C` (a path from `x` to a
-meridian of `L` meeting `C` only at `x`, the meridian, the path back) which is essential in
-`S³ ∖ K`. Its Cantor property is NOT part of this citation: it is proved,
-`GX.antoineNecklace_isCantorSubset`. -/
-theorem antoineNecklace_antoine :
-    (¬ ∃ h : Sphere3 ≃ₜ Sphere3, h '' antoineNecklace ⊆ greatCircle3) ∧
-      ∀ x ∈ antoineNecklace, ∀ V ∈ 𝓝 x, ∃ K : Set Sphere3, K ⊆ antoineNecklace ∧ IsClosed K ∧
-        x ∉ K ∧ ∃ γ : Path x x, MemOmega (V ∩ antoineNecklaceᶜ) γ ∧
-          ¬ HomotopicIn Kᶜ γ (Path.refl x) := by
-  sorry -- SORRY(ex:wild_cantor_general_antoine): Antoine's theorem for the explicit necklace GX.antoineNecklace (built here; its Cantor property, nesting and the pairwise disjointness of the 64 links of each generation are PROVED). Missing: (1) the essential loop: a meridian of a link L of generation n is not null-homotopic in S³ ∖ (C ∩ L). This cannot go through any ABELIAN invariant (winding or linking numbers, maps to S¹, abelian coverings): H¹ of the complement of a closed subset of a Cantor set vanishes (Alexander duality), so every such invariant of the meridian is 0; by compactness of a null-homotopy it suffices to detect the meridian in the complement of each finite stage C_m ∩ L, m ≥ n (a union of 64^(m-n) solid tori), which needs, for every m, a non-abelian covering or representation of π₁(S³ ∖ (C_m ∩ L)) — an (m-n)-fold iterated lift through explicit coverings (the depth-2 instance of which is the dihedral invariant built for ex:consider_denote_absolute_galois) or Antoine's van Kampen computation of the chain-of-links group — and mathlib has neither van Kampen nor the fundamental group of a solid-torus complement; (2) accessibility: a path from each x ∈ C to the meridian meeting C only at x (an infinite concatenation through the gaps of the nested chains, with the diameter control); (3) wildness: a Cantor set carried into a great circle has a semi-locally simply connected complement (the complement of a closed subset of a tame arc), which with (1)-(2) excludes it — this needs the simple connectivity of S³ minus a compact subset of a circle, again a van Kampen-type argument.
+/-! ### Antoine's theorem: the reduction to the residual `GX.AntoineMeridianEssential` -/
 
-/-- `ex:wild_cantor_general_antoine`, the wildness half: Antoine's necklace is a wild Cantor set
-(Cantor: proved; wild: the cited `GX.antoineNecklace_antoine`). -/
-theorem isWildCantor_antoineNecklace : IsWildCantor antoineNecklace :=
-  ⟨antoineNecklace_isCantorSubset, antoineNecklace_antoine.1⟩
+/-- Half-extent along `z` of a link of type `t`, in units of `1/640`. -/
+def antoineEz : Fin 3 → ℤ
+  | 0 => 7
+  | 1 => 56
+  | 2 => 56
 
-/-- `ex:wild_cantor_general_antoine` (`RamcovGX.tex:1578`), in the reading of DEC-58 (`S` is
-Antoine's necklace), homotopy form: the complement of `GX.antoineNecklace` is NOT semi-locally
-simply connected in `S³`. Proved from the essential-loop criterion
-(`GX.sphere3_not_isSLSCIn_of_essential`); rests on the cited `GX.antoineNecklace_antoine`. -/
-theorem antoineNecklace_not_isSLSCIn : ¬ IsSLSCIn antoineNecklaceᶜ := by
-  obtain ⟨x, hx⟩ := antoineNecklace_nonempty
-  exact sphere3_not_isSLSCIn_of_essential x (antoineNecklace_antoine.2 x hx)
+theorem antoineMap_bounds_z (i : Fin 64) {p : ℝ × ℝ × ℝ} (hp : p ∈ antoineLink) :
+    |(antoineMap i p).2.2| ≤ antoineEz (antoineT i) / 640 := by
+  obtain ⟨hz, hm, -⟩ := hp
+  have hx : |p.1| ≤ 1 := (le_max_left _ _).trans hm
+  have hy : |p.2.1| ≤ 1 := (le_max_right _ _).trans hm
+  rcases antoineT_cases i with h | h | h <;>
+    simp only [antoineMap, h, antoinePerm, antoineEz, abs_mul,
+      abs_of_pos (show (0 : ℝ) < 7 / 80 by norm_num)] <;> push_cast <;> linarith
 
-/-- The existential corollary: some wild Cantor set of `S³` (Antoine's necklace) has a complement
-that is not semi-locally simply connected. Rests on the cited `GX.antoineNecklace_antoine`. -/
-theorem exists_wild_cantor_not_isSLSCIn : ∃ C : Set Sphere3, IsWildCantor C ∧ ¬ IsSLSCIn Cᶜ :=
-  ⟨_, isWildCantor_antoineNecklace, antoineNecklace_not_isSLSCIn⟩
+theorem antoineComp_succ' (w : ℕ → Fin 64) (n : ℕ) :
+    antoineComp w (n + 1) = antoineMap (w 0) ∘ antoineComp (fun k => w (k + 1)) n := by
+  induction n with
+  | zero => rfl
+  | succ n ih =>
+    show antoineComp w (n + 1) ∘ antoineMap (w (n + 1)) = _
+    rw [ih]; rfl
+
+theorem antoineComp_mem_link (w : ℕ → Fin 64) (n : ℕ) {p : ℝ × ℝ × ℝ} (hp : p ∈ antoineLink) :
+    antoineComp w n p ∈ antoineLink := by
+  have := antoineComp_antitone w (Nat.zero_le n) ⟨p, hp, rfl⟩
+  simpa [antoineComp] using this
+
+theorem antoine_mem_stage_of_map {i : Fin 64} {q : ℝ × ℝ × ℝ} (hq : q ∈ antoineLink) {j : ℕ}
+    (h : antoineMap i q ∈ antoineStage (j + 1)) : q ∈ antoineStage j := by
+  obtain ⟨w, hw⟩ := mem_iUnion.1 h
+  obtain ⟨r, hr, hrq⟩ := hw
+  rw [antoineComp_succ'] at hrq
+  have hr' := antoineComp_mem_link (fun k => w (k + 1)) j hr
+  by_cases hi : w 0 = i
+  · subst hi
+    exact mem_iUnion.2 ⟨_, r, hr, antoineMap_injective _ hrq⟩
+  · exact absurd (Set.disjoint_left.1 (antoineMap_disjoint hi) ⟨_, hr', hrq⟩ ⟨q, hq, rfl⟩) id
+
+theorem antoine_mem_stage_of_comp (u : ℕ → Fin 64) (k : ℕ) {q : ℝ × ℝ × ℝ}
+    (hq : q ∈ antoineLink) {j : ℕ} (h : antoineComp u k q ∈ antoineStage (j + k)) :
+    q ∈ antoineStage j := by
+  induction k generalizing q j with
+  | zero => simpa [antoineComp] using h
+  | succ k ih =>
+    have h' : antoineComp u k (antoineMap (u k) q) ∈ antoineStage ((j + 1) + k) := by
+      rw [show j + 1 + k = j + (k + 1) by omega]; exact h
+    exact antoine_mem_stage_of_map hq (ih (antoineMap_mem _ hq) h')
+
+theorem antoine_mem_necklace_of_comp (u : ℕ → Fin 64) (k : ℕ) {q : ℝ × ℝ × ℝ}
+    (hq : q ∈ antoineLink) (h : antoineComp u k q ∈ antoineNecklaceR3) : q ∈ antoineNecklaceR3 :=
+  mem_iInter.2 fun j => antoine_mem_stage_of_comp u k hq (mem_iInter.1 h (j + k))
+
+theorem antoineNecklaceR3_subset_stage (n : ℕ) : antoineNecklaceR3 ⊆ antoineStage n :=
+  iInter_subset _ n
+
+theorem antoine_mem_stage_one {p : ℝ × ℝ × ℝ} (h : p ∈ antoineStage 1) :
+    ∃ i : Fin 64, ∃ q ∈ antoineLink, antoineMap i q = p := by
+  obtain ⟨w, q, hq, e⟩ := mem_iUnion.1 h
+  exact ⟨w 0, q, hq, e⟩
+
+theorem antoineZ_zero : antoineZ 0 = (-560, -560) := by decide
+theorem antoineT_zero : antoineT 0 = 0 := by decide
+theorem antoineZ_one : antoineZ 1 = (-490, -560) := by decide
+theorem antoineT_one : antoineT 1 = 1 := by decide
+
+/-- The fixed point of `g₀`, a point of the necklace. -/
+def antoineP0 : ℝ × ℝ × ℝ := (-(70 / 73), -(70 / 73), 0)
+
+theorem antoineMap_zero_p0 : antoineMap 0 antoineP0 = antoineP0 := by
+  simp only [antoineMap, antoineZ_zero, antoineT_zero, antoinePerm, antoineP0]
+  ext <;> push_cast <;> ring
+
+theorem antoineP0_mem : antoineP0 ∈ antoineLink := by
+  refine ⟨?_, ?_, ?_⟩ <;> simp [antoineP0] <;> norm_num
+
+theorem antoineComp_zero_p0 (k : ℕ) : antoineComp (fun _ => 0) k antoineP0 = antoineP0 := by
+  induction k with
+  | zero => rfl
+  | succ k ih =>
+    show antoineComp _ k (antoineMap 0 antoineP0) = _
+    rw [antoineMap_zero_p0, ih]
+
+theorem antoineP0_mem_comp (k : ℕ) : antoineP0 ∈ antoineComp (fun _ => 0) k '' antoineLink :=
+  ⟨_, antoineP0_mem, antoineComp_zero_p0 k⟩
+
+theorem antoineP0_mem_necklace : antoineP0 ∈ antoineNecklaceR3 :=
+  mem_iInter.2 fun k => mem_iUnion.2 ⟨_, antoineP0_mem_comp k⟩
+
+
+theorem antoine_sep_p0 : ∀ i : Fin 64, i ≠ 0 →
+    73 * antoineEx (antoineT i) < |-44800 - 73 * (antoineZ i).1| ∨
+      73 * antoineEy (antoineT i) < |-44800 - 73 * (antoineZ i).2| := by decide
+
+theorem antoine_sep_mer : ∀ i : Fin 64, i ≠ 1 →
+    antoineEx (antoineT i) < |-490 - (antoineZ i).1| ∨
+      antoineEy (antoineT i) + 12 < |-560 - (antoineZ i).2| := by decide
+
+theorem antoineEz_le (t : Fin 3) : antoineEz t ≤ 56 := by fin_cases t <;> decide
+
+/-- Points of the link above the plane `z = 56/640` are off the first stage. -/
+theorem antoine_not_mem_stage_one_of_z {p : ℝ × ℝ × ℝ} (hp : 56 / 640 < |p.2.2|) :
+    p ∉ antoineStage 1 := by
+  intro h
+  obtain ⟨i, q, hq, rfl⟩ := antoine_mem_stage_one h
+  have := (antoineMap_bounds i hq).2.2
+  linarith
+
+/-- The vertical segment above `p₀`. -/
+def antoineVert (z : ℝ) : ℝ × ℝ × ℝ := (-(70 / 73), -(70 / 73), z)
+
+theorem antoineVert_zero : antoineVert 0 = antoineP0 := rfl
+
+theorem antoineVert_mem {z : ℝ} (h0 : 0 ≤ z) (h1 : z ≤ 1 / 8) : antoineVert z ∈ antoineLink := by
+  refine ⟨?_, ?_, ?_⟩ <;> simp only [antoineVert, abs_neg]
+  · rw [abs_of_nonneg h0]; exact h1
+  · rw [max_self, abs_of_pos (by norm_num : (0:ℝ) < 70 / 73)]; norm_num
+  · rw [max_self, abs_of_pos (by norm_num : (0:ℝ) < 70 / 73)]; norm_num
+
+theorem antoineVert_not_mem_stage_one {z : ℝ} (hz : 7 / 640 < z) : antoineVert z ∉ antoineStage 1 := by
+  intro h
+  obtain ⟨i, q, hq, hiq⟩ := antoine_mem_stage_one h
+  have hb := antoineMap_bounds i hq
+  rw [hiq] at hb
+  by_cases hi : i = 0
+  · subst hi
+    have := antoineMap_bounds_z 0 hq
+    rw [hiq, antoineT_zero] at this
+    simp only [antoineVert, antoineEz] at this
+    rw [abs_of_pos (by linarith)] at this
+    push_cast at this; linarith
+  · simp only [antoineVert] at hb
+    rcases antoine_sep_p0 i hi with h | h
+    · have e : (-(70 / 73 : ℝ)) - ((antoineZ i).1 : ℝ) / 640 =
+          ((-44800 - 73 * (antoineZ i).1 : ℤ) : ℝ) / 46720 := by push_cast; ring
+      have h' := (Int.cast_lt (R := ℝ)).2 h
+      have hb1 := hb.1
+      rw [e, abs_div, abs_of_pos (by norm_num : (0:ℝ) < 46720), div_le_div_iff₀ (by norm_num)
+        (by norm_num)] at hb1
+      push_cast at h' hb1
+      linarith
+    · have e : (-(70 / 73 : ℝ)) - ((antoineZ i).2 : ℝ) / 640 =
+          ((-44800 - 73 * (antoineZ i).2 : ℤ) : ℝ) / 46720 := by push_cast; ring
+      have h' := (Int.cast_lt (R := ℝ)).2 h
+      have hb1 := hb.2.1
+      rw [e, abs_div, abs_of_pos (by norm_num : (0:ℝ) < 46720), div_le_div_iff₀ (by norm_num)
+        (by norm_num)] at hb1
+      push_cast at h' hb1
+      linarith
+
+theorem antoineMap_zero_vert (z : ℝ) : antoineMap 0 (antoineVert z) = antoineVert (7 / 80 * z) := by
+  simp only [antoineMap, antoineZ_zero, antoineT_zero, antoinePerm, antoineVert]
+  ext <;> push_cast <;> ring
+
+theorem antoineStage_antitone {n m : ℕ} (h : n ≤ m) : antoineStage m ⊆ antoineStage n := by
+  induction m, h using Nat.le_induction with
+  | base => exact subset_rfl
+  | succ m _ ih => exact (antoineStage_succ_subset m).trans ih
+
+theorem antoineVert_not_mem_stage (k : ℕ) : ∀ z : ℝ, (7 / 80) ^ (k + 1) / 8 < z → z ≤ 1 / 8 →
+    antoineVert z ∉ antoineStage (k + 1) := by
+  induction k with
+  | zero =>
+    intro z hz _
+    exact antoineVert_not_mem_stage_one (by norm_num at hz; linarith)
+  | succ k ih =>
+    intro z hz hz1
+    by_cases hbig : 7 / 640 < z
+    · exact fun h => antoineVert_not_mem_stage_one hbig (antoineStage_antitone (by omega) h)
+    · replace hbig := not_lt.1 hbig
+      have hz' : (7 / 80) ^ (k + 1) / 8 < 80 / 7 * z := by
+        rw [pow_succ] at hz; nlinarith
+      have hz'1 : 80 / 7 * z ≤ 1 / 8 := by nlinarith
+      have hpos : 0 ≤ 80 / 7 * z := le_trans (by positivity) hz'.le
+      intro h
+      have e : antoineVert z = antoineMap 0 (antoineVert (80 / 7 * z)) := by
+        rw [antoineMap_zero_vert]; congr 1; ring
+      rw [e] at h
+      exact ih _ hz' hz'1 (antoine_mem_stage_of_map (antoineVert_mem hpos hz'1) h)
+
+theorem antoineVert_not_mem_necklace {z : ℝ} (h0 : 0 < z) (h1 : z ≤ 1 / 8) :
+    antoineVert z ∉ antoineNecklaceR3 := by
+  obtain ⟨k, hk⟩ := exists_pow_lt_of_lt_one (show 0 < 8 * z by positivity)
+    (show (7 / 80 : ℝ) < 1 by norm_num)
+  refine fun h => antoineVert_not_mem_stage k z ?_ h1 (antoineNecklaceR3_subset_stage _ h)
+  have : (7 / 80 : ℝ) ^ (k + 1) ≤ (7 / 80) ^ k :=
+    pow_le_pow_of_le_one (by norm_num) (by norm_num) (Nat.le_succ k)
+  linarith
+
+/-- The base point of the meridian of the link `L`. -/
+def antoineMerPt : ℝ × ℝ × ℝ := (0, 7 / 8 + 3 / 14, 0)
+
+/-- The meridian of the link `L`: the circle of radius `3/14` around the point `(0, 7/8, 0)` of
+the core square, in the plane `x = 0` (it links the core of `L` once). -/
+def antoineMeridian : Path antoineMerPt antoineMerPt where
+  toFun t := (0, 7 / 8 + 3 / 14 * Real.cos (2 * Real.pi * t), 3 / 14 * Real.sin (2 * Real.pi * t))
+  continuous_toFun := by fun_prop
+  source' := by simp [antoineMerPt]
+  target' := by simp [antoineMerPt]
+
+theorem antoineMeridian_apply (t : unitInterval) : antoineMeridian t =
+    (0, 7 / 8 + 3 / 14 * Real.cos (2 * Real.pi * t), 3 / 14 * Real.sin (2 * Real.pi * t)) := rfl
+
+/-- The meridian misses the link. -/
+theorem antoineMeridian_not_mem (t : unitInterval) : antoineMeridian t ∉ antoineLink := by
+  rintro ⟨hz, hm, hm'⟩
+  rw [antoineMeridian_apply] at hz hm hm'
+  simp only [abs_zero] at hm hm'
+  set c := Real.cos (2 * Real.pi * t)
+  set s := Real.sin (2 * Real.pi * t)
+  have hcs : s ^ 2 + c ^ 2 = 1 := Real.sin_sq_add_cos_sq _
+  have hc1 : -1 ≤ c := Real.neg_one_le_cos _
+  have hpos : 0 ≤ 7 / 8 + 3 / 14 * c := by linarith
+  rw [max_eq_right (abs_nonneg _), abs_of_nonneg hpos] at hm hm'
+  rw [abs_le] at hz
+  nlinarith
+
+/-- The meridian of the first link `g₁(L)`, inside `L`. -/
+def antoineMer1 : Path (antoineMap 1 antoineMerPt) (antoineMap 1 antoineMerPt) :=
+  antoineMeridian.map (continuous_antoineMap 1)
+
+theorem antoineMer1_apply (t : unitInterval) : antoineMer1 t =
+    (-(490 / 640), -(560 / 640) + 7 / 80 * (3 / 14 * Real.sin (2 * Real.pi * t)),
+      7 / 80 * (7 / 8 + 3 / 14 * Real.cos (2 * Real.pi * t))) := by
+  show antoineMap 1 (antoineMeridian t) = _
+  simp only [antoineMeridian_apply, antoineMap, antoineZ_one, antoineT_one, antoinePerm]
+  ext <;> push_cast <;> ring
+
+theorem antoineMer1_mem (t : unitInterval) : antoineMer1 t ∈ antoineLink := by
+  rw [antoineMer1_apply]
+  have hs1 := Real.sin_le_one (2 * Real.pi * t)
+  have hs2 := Real.neg_one_le_sin (2 * Real.pi * t)
+  have hc1 := Real.cos_le_one (2 * Real.pi * t)
+  have hc2 := Real.neg_one_le_cos (2 * Real.pi * t)
+  refine ⟨?_, ?_, ?_⟩ <;> dsimp only
+  · rw [abs_le]; constructor <;> nlinarith
+  · rw [max_le_iff, abs_le, abs_le]; refine ⟨⟨?_, ?_⟩, ?_, ?_⟩ <;> nlinarith
+  · exact le_max_of_le_right (by rw [abs_of_neg (by nlinarith)]; nlinarith)
+
+theorem antoineMer1_not_mem_stage_one (t : unitInterval) : antoineMer1 t ∉ antoineStage 1 := by
+  intro h
+  obtain ⟨i, q, hq, hiq⟩ := antoine_mem_stage_one h
+  by_cases hi : i = 1
+  · subst hi
+    exact antoineMeridian_not_mem t (antoineMap_injective 1 hiq ▸ hq)
+  · have hb := antoineMap_bounds i hq
+    rw [hiq, antoineMer1_apply] at hb
+    have hs1 := Real.sin_le_one (2 * Real.pi * t)
+    have hs2 := Real.neg_one_le_sin (2 * Real.pi * t)
+    obtain ⟨hb1, hb2, -⟩ := hb
+    dsimp only at hb1 hb2
+    rcases antoine_sep_mer i hi with h | h
+    · have h' := (Int.cast_lt (R := ℝ)).2 h
+      push_cast at h'
+      have e : -(490 / 640 : ℝ) - ((antoineZ i).1 : ℝ) / 640 = (-490 - ((antoineZ i).1 : ℝ)) / 640 := by ring
+      rw [e, abs_div, abs_of_pos (by norm_num : (0:ℝ) < 640), div_le_div_iff_of_pos_right (by norm_num)] at hb1
+      linarith
+    · have h' := (Int.cast_lt (R := ℝ)).2 h
+      push_cast at h'
+      have e : -(560 / 640 : ℝ) + 7 / 80 * (3 / 14 * Real.sin (2 * Real.pi * t)) -
+          ((antoineZ i).2 : ℝ) / 640 = ((-560 - ((antoineZ i).2 : ℝ)) + 12 * Real.sin (2 * Real.pi * t)) / 640 := by ring
+      rw [e, abs_div, abs_of_pos (by norm_num : (0:ℝ) < 640), div_le_div_iff_of_pos_right (by norm_num)] at hb2
+      have := abs_sub_abs_le_abs_sub (-560 - ((antoineZ i).2 : ℝ)) (-(12 * Real.sin (2 * Real.pi * t)))
+      rw [sub_neg_eq_add, abs_neg, abs_mul, abs_of_pos (by norm_num : (0:ℝ) < 12)] at this
+      have hsa : |Real.sin (2 * Real.pi * t)| ≤ 1 := Real.abs_sin_le_one _
+      linarith
+
+/-- A straight segment of `ℝ³`. -/
+def antoineSeg (a b : ℝ × ℝ × ℝ) : Path a b where
+  toFun t := a + (t : ℝ) • (b - a)
+  continuous_toFun := by fun_prop
+  source' := by simp
+  target' := by simp
+
+theorem antoineSeg_apply (a b : ℝ × ℝ × ℝ) (t : unitInterval) : antoineSeg a b t =
+    (a.1 + t * (b.1 - a.1), a.2.1 + t * (b.2.1 - a.2.1), a.2.2 + t * (b.2.2 - a.2.2)) := by
+  simp only [antoineSeg, Path.coe_mk_mk]
+  ext <;> simp
+
+/-- The vertical segment from `p₀` up to the top face of `L`. -/
+def antoineUp : Path antoineP0 (antoineVert (1 / 8)) where
+  toFun t := antoineVert ((t : ℝ) / 8)
+  continuous_toFun := by unfold antoineVert; fun_prop
+  source' := by simp [antoineVert, antoineP0]
+  target' := by simp [antoineVert]
+
+theorem antoineUp_apply (t : unitInterval) : antoineUp t = antoineVert ((t : ℝ) / 8) := rfl
+
+/-- The segment from the top of `antoineUp` to the base point of the meridian of `g₁(L)`, at
+heights `> 56/640`, above the first stage. -/
+def antoineAcross : Path (antoineVert (1 / 8)) (antoineMap 1 antoineMerPt) :=
+  antoineSeg _ _
+
+theorem antoineMap_one_merPt :
+    antoineMap 1 antoineMerPt = (-(49 / 64), -(7 / 8), 61 / 640) := by
+  simp only [antoineMap, antoineZ_one, antoineT_one, antoinePerm, antoineMerPt]
+  ext <;> push_cast <;> ring
+
+theorem antoineAcross_apply (t : unitInterval) : antoineAcross t =
+    (-(70 / 73) + (t : ℝ) * (-(49 / 64) + 70 / 73), -(70 / 73) + (t : ℝ) * (-(7 / 8) + 70 / 73),
+      1 / 8 + (t : ℝ) * (61 / 640 - 1 / 8)) := by
+  rw [antoineAcross, antoineSeg_apply, antoineMap_one_merPt]
+  simp only [antoineVert]
+  ext <;> ring
+
+theorem antoineAcross_mem (t : unitInterval) :
+    antoineAcross t ∈ antoineLink ∧ antoineAcross t ∉ antoineStage 1 := by
+  rw [antoineAcross_apply]
+  have h0 := t.2.1
+  have h1 := t.2.2
+  refine ⟨⟨?_, ?_, ?_⟩, antoine_not_mem_stage_one_of_z ?_⟩ <;> dsimp only
+  · rw [abs_le]; constructor <;> nlinarith
+  · rw [max_le_iff, abs_le, abs_le]; refine ⟨⟨?_, ?_⟩, ?_, ?_⟩ <;> nlinarith
+  · exact le_max_of_le_right (by rw [abs_of_neg (by nlinarith)]; nlinarith)
+  · rw [abs_of_pos (by nlinarith)]; nlinarith
+
+/-- From `p₀` to the base point of the meridian of `g₁(L)`. -/
+def antoineTail : Path antoineP0 (antoineMap 1 antoineMerPt) := antoineUp.trans antoineAcross
+
+/-- The based loop at `p₀`: up, across, the meridian of `g₁(L)`, back. -/
+def antoineLoop0 : Path antoineP0 antoineP0 := (antoineTail.trans antoineMer1).trans antoineTail.symm
+
+theorem antoine_memOmega_trans {X : Type*} [TopologicalSpace X] {U : Set X} {x y z : X}
+    {p : Path x y} {q : Path y z} (hp : MemOmega U p) (hq : MemOmega U q) (hy : y ∈ U) :
+    MemOmega U (p.trans q) := by
+  intro t h0 h1
+  rw [Path.trans_apply]
+  split_ifs with h
+  · rcases eq_or_lt_of_le h with h' | h'
+    · convert hy using 1
+      convert p.target using 2
+      ext; simp [h']
+    · exact hp _ (show (0:ℝ) < 2 * (t:ℝ) by linarith) (show 2 * (t:ℝ) < 1 by linarith)
+  · push Not at h
+    exact hq _ (show (0:ℝ) < 2 * (t:ℝ) - 1 by linarith) (show 2 * (t:ℝ) - 1 < 1 by linarith)
+
+theorem antoine_memOmega_symm {X : Type*} [TopologicalSpace X] {U : Set X} {x y : X}
+    {p : Path x y} (hp : MemOmega U p) : MemOmega U p.symm := fun t h0 h1 => by
+  rw [Path.symm_apply]
+  exact hp _ (by rw [unitInterval.coe_symm_eq]; linarith) (by rw [unitInterval.coe_symm_eq]; linarith)
+
+theorem antoine_memOmega_of_forall {X : Type*} [TopologicalSpace X] {U : Set X} {x y : X}
+    {p : Path x y} (hp : ∀ t, p t ∈ U) : MemOmega U p := fun t _ _ => hp t
+
+/-- Points of `L` off the necklace, and `p₀`. -/
+def antoineGood : Set (ℝ × ℝ × ℝ) := {q | q ∈ antoineLink ∧ q ∉ antoineNecklaceR3}
+
+theorem antoineTail_mem (t : unitInterval) :
+    antoineTail t ∈ antoineLink ∧ (antoineTail t = antoineP0 ∨ antoineTail t ∉ antoineNecklaceR3) := by
+  have hU : ∀ s, antoineUp s ∈ antoineLink ∧ (antoineUp s = antoineP0 ∨
+      antoineUp s ∉ antoineNecklaceR3) := fun s => by
+    rw [antoineUp_apply]
+    have h0 := s.2.1
+    have h1 := s.2.2
+    refine ⟨antoineVert_mem (by positivity) (by linarith), ?_⟩
+    rcases eq_or_lt_of_le h0 with h | h
+    · left; rw [← h]; simp [antoineVert, antoineP0]
+    · right; exact antoineVert_not_mem_necklace (by positivity) (by linarith)
+  have hA : ∀ s, antoineAcross s ∈ antoineLink ∧ (antoineAcross s = antoineP0 ∨
+      antoineAcross s ∉ antoineNecklaceR3) := fun s =>
+    ⟨(antoineAcross_mem s).1, Or.inr fun h => (antoineAcross_mem s).2
+      (antoineNecklaceR3_subset_stage 1 h)⟩
+  exact path_trans_mem (W := {q | q ∈ antoineLink ∧ (q = antoineP0 ∨ q ∉ antoineNecklaceR3)})
+    hU hA t
+
+theorem antoineTail_memOmega : MemOmega antoineGood antoineTail := by
+  refine antoine_memOmega_trans (fun s h0 _ => ?_) (antoine_memOmega_of_forall fun s =>
+    ⟨(antoineAcross_mem s).1, fun h => (antoineAcross_mem s).2
+      (antoineNecklaceR3_subset_stage 1 h)⟩) ⟨antoineVert_mem (by norm_num) le_rfl,
+        antoineVert_not_mem_necklace (by norm_num) le_rfl⟩
+  rw [antoineUp_apply]
+  exact ⟨antoineVert_mem (by positivity) (by linarith [s.2.2]),
+    antoineVert_not_mem_necklace (by positivity) (by linarith [s.2.2])⟩
+
+theorem antoineMer1_good (t : unitInterval) : antoineMer1 t ∈ antoineGood :=
+  ⟨antoineMer1_mem t, fun h => antoineMer1_not_mem_stage_one t (antoineNecklaceR3_subset_stage 1 h)⟩
+
+theorem antoineLoop0_memOmega : MemOmega antoineGood antoineLoop0 :=
+  antoine_memOmega_trans (antoine_memOmega_trans antoineTail_memOmega
+    (antoine_memOmega_of_forall antoineMer1_good) (by simpa using antoineMer1_good 0))
+    (antoine_memOmega_symm antoineTail_memOmega) (by simpa using antoineMer1_good 0)
+
+open Path.Homotopic.Quotient in
+/-- A conjugate `T M T⁻¹` of a loop `M` null-homotopic in `U` makes `M` null-homotopic in `U`. -/
+theorem antoine_homotopicIn_conj {X : Type*} [TopologicalSpace X] {U : Set X} {x y : X}
+    {T : Path x y} {M : Path y y} (hT : ∀ t, T t ∈ U) (hM : ∀ t, M t ∈ U)
+    (h : HomotopicIn U ((T.trans M).trans T.symm) (Path.refl x)) :
+    HomotopicIn U M (Path.refl y) := by
+  have hx : x ∈ U := T.source ▸ hT 0
+  have hy : y ∈ U := T.target ▸ hT 1
+  have hRx : ∀ t, (Path.refl x) t ∈ U := fun _ => hx
+  have hRy : ∀ t, (Path.refl y) t ∈ U := fun _ => hy
+  rw [homotopicIn_iff_mk (path_trans_mem (path_trans_mem hT hM) (path_symm_mem hT)) hRx,
+    pathToSub_trans _ _ (path_trans_mem hT hM) (path_symm_mem hT), pathToSub_trans _ _ hT hM,
+    pathToSub_symm _ hT, mk_trans, mk_trans, mk_symm] at h
+  rw [homotopicIn_iff_mk hM hRy]
+  have e1 : pathToSub (Path.refl x) hRx = Path.refl (⟨x, hx⟩ : U) := by ext; rfl
+  have e2 : pathToSub (Path.refl y) hRy = Path.refl (⟨y, hy⟩ : U) := by ext; rfl
+  rw [e1, mk_refl] at h
+  rw [e2, mk_refl]
+  have h2 := congrArg (fun q => trans (symm (mk (pathToSub T hT))) (trans q (mk (pathToSub T hT)))) h
+  simp only [trans_assoc, symm_trans, trans_refl, refl_trans] at h2
+  rw [← trans_assoc, symm_trans, refl_trans] at h2
+  exact h2
+
+/-- Transport of null-homotopy along a pointwise equality of loops. -/
+theorem antoine_homotopicIn_refl_congr {X : Type*} [TopologicalSpace X] {U : Set X} {x y : X}
+    {P : Path x x} {Q : Path y y} (hxy : x = y) (hPQ : ∀ t, P t = Q t)
+    (h : HomotopicIn U P (Path.refl x)) : HomotopicIn U Q (Path.refl y) := by
+  subst hxy
+  obtain rfl : P = Q := Path.ext (funext hPQ)
+  exact h
+
+/-- The stage `n` is a FINITE union of links, hence compact. -/
+theorem antoineStage_isCompact (n : ℕ) : IsCompact (antoineStage n) := by
+  have e : antoineStage n = ⋃ u : Fin n → Fin 64,
+      antoineComp (fun j => if h : j < n then u ⟨j, h⟩ else 0) n '' antoineLink := by
+    apply Subset.antisymm
+    · refine iUnion_subset fun w => ?_
+      refine subset_iUnion_of_subset (fun j => w j) ?_
+      rw [antoineComp_congr (w' := fun j => if h : j < n then w j else 0) fun k hk => by
+        simp [hk]]
+    · exact iUnion_subset fun u => subset_iUnion_of_subset _ subset_rfl
+  rw [e]
+  exact isCompact_iUnion fun u => antoineLink_isCompact.image (continuous_antoineComp _ n)
+
+/-- **The compactness reduction.** A null-homotopy in the complement of `C ∩ L` (`L` closed) has
+compact image, which misses `C_m ∩ L` for some (every large) finite stage `m`. -/
+theorem antoine_homotopicIn_stage {L : Set (ℝ × ℝ × ℝ)} (hL : IsClosed L) {x : Sphere3}
+    {γ : Path x x} (h : HomotopicIn (antoineStereo '' (antoineNecklaceR3 ∩ L))ᶜ γ (Path.refl x))
+    (n : ℕ) : ∃ m, n ≤ m ∧
+      HomotopicIn (antoineStereo '' (antoineStage m ∩ L))ᶜ γ (Path.refl x) := by
+  obtain ⟨F, hF⟩ := h
+  set A := range F
+  have hA : IsCompact A := isCompact_range F.continuous
+  set t : ℕ → Set Sphere3 := fun i => A ∩ antoineStereo '' (antoineStage (i + n) ∩ L)
+  have hK : ∀ i, IsClosed (antoineStereo '' (antoineStage (i + n) ∩ L)) := fun i =>
+    (((antoineStage_isCompact _).inter_right hL).image continuous_antoineStereo).isClosed
+  have hcl : ∀ i, IsClosed (t i) := fun i => hA.isClosed.inter (hK i)
+  have hdec : ∀ i, t (i + 1) ⊆ t i := fun i => inter_subset_inter_right _ (image_mono
+    (inter_subset_inter_left _ (by
+      rw [show i + 1 + n = i + n + 1 by omega]; exact antoineStage_succ_subset _)))
+  by_cases hne : ∀ i, (t i).Nonempty
+  · exfalso
+    obtain ⟨y, hy⟩ := IsCompact.nonempty_iInter_of_sequence_nonempty_isCompact_isClosed t hdec
+      hne (hA.inter_right (hK 0)) hcl
+    have hy' : ∀ i, y ∈ t i := mem_iInter.1 hy
+    obtain ⟨z, hz⟩ := (hy' 0).1
+    obtain ⟨p, hp, hpy⟩ := (hy' 0).2
+    have hpC : p ∈ antoineNecklaceR3 := mem_iInter.2 fun j => by
+      obtain ⟨q, hq, hqy⟩ := (hy' j).2
+      have : q = p := antoineStereo_injective (hqy.trans hpy.symm)
+      exact antoineStage_antitone (Nat.le_add_right j n) (this ▸ hq.1)
+    exact hF z (hz ▸ hpy ▸ ⟨p, ⟨hpC, hp.2⟩, rfl⟩)
+  · push Not at hne
+    obtain ⟨i, hi⟩ := hne
+    refine ⟨i + n, Nat.le_add_left n i, F, fun z hz => ?_⟩
+    exact (Set.eq_empty_iff_forall_notMem.1 hi) (F z) ⟨mem_range_self z, hz⟩
+
+/-- **The residual of Antoine's theorem**, exactly: for `n ≤ m`, the meridian of a link `L` of
+generation `n` (the image of `GX.antoineMeridian` under `g_{v₀} ∘ ⋯ ∘ g_{v_{n-1}}`, carried into
+`S³`) is not null-homotopic in the complement in `S³` of the links of generation `m` inside `L`. -/
+def AntoineMeridianEssential : Prop :=
+  ∀ (v : ℕ → Fin 64) (n m : ℕ), n ≤ m →
+    ¬ HomotopicIn (antoineStereo '' (antoineStage m ∩ antoineComp v n '' antoineLink))ᶜ
+      ((antoineMeridian.map (continuous_antoineComp v n)).map continuous_antoineStereo)
+      (Path.refl _)
+
+/-- The word `0ᵏ 1 0 0 ⋯`: its generation-`(k+1)` link is `g₀ᵏ(g₁(L))`. -/
+def antoineWord (k : ℕ) : ℕ → Fin 64 := fun j => if j = k then 1 else 0
+
+theorem antoineComp_word (k : ℕ) :
+    antoineComp (antoineWord k) (k + 1) = antoineComp (fun _ => 0) k ∘ antoineMap 1 := by
+  show antoineComp (antoineWord k) k ∘ antoineMap (antoineWord k k) = _
+  rw [antoineComp_congr (w' := fun _ => 0) fun j hj => by simp [antoineWord, hj.ne]]
+  simp [antoineWord]
+
+theorem antoineP0_not_mem_word_link (k : ℕ) :
+    antoineP0 ∉ antoineComp (antoineWord k) (k + 1) '' antoineLink := by
+  rintro ⟨q, hq, e⟩
+  rw [antoineComp_word] at e
+  have := antoineComp_injective _ k (e.trans (antoineComp_zero_p0 k).symm)
+  exact Set.disjoint_left.1 (antoineMap_disjoint (show (1 : Fin 64) ≠ 0 by decide)) ⟨q, hq, rfl⟩
+    ⟨antoineP0, antoineP0_mem, antoineMap_zero_p0.trans this.symm⟩
+
+/-- **Antoine's essential loops, from the residual alone.** At the point `x₀ = antoineStereo p₀`
+of the necklace (`p₀` the fixed point of `g₀`), in every neighbourhood `V`: the closed piece
+`K = C ∩ L`, `L = g₀ᵏ(g₁(L))` (link selection by `GX.antoineComp_diam`), misses `x₀`, and the
+loop `g₀ᵏ(up · across · meridian · across⁻¹ · up⁻¹)` (accessibility: the vertical segment above
+`p₀` meets the necklace only at `p₀`, `GX.antoineVert_not_mem_necklace`) lies in `V` off the
+necklace and is essential in `S³ ∖ K` (by conjugation, the compactness reduction
+`GX.antoine_homotopicIn_stage` and the residual `GX.AntoineMeridianEssential`). -/
+theorem antoine_essential_loops (hres : AntoineMeridianEssential) :
+    ∀ V ∈ 𝓝 (antoineStereo antoineP0), ∃ K : Set Sphere3, K ⊆ antoineNecklace ∧ IsClosed K ∧
+      antoineStereo antoineP0 ∉ K ∧ ∃ γ : Path (antoineStereo antoineP0) (antoineStereo antoineP0),
+        MemOmega (V ∩ antoineNecklaceᶜ) γ ∧ ¬ HomotopicIn Kᶜ γ (Path.refl _) := by
+  intro V hV
+  obtain ⟨ε, hε, hball⟩ :=
+    Metric.mem_nhds_iff.1 (continuous_antoineStereo.continuousAt.preimage_mem_nhds hV)
+  obtain ⟨k, hk⟩ := exists_pow_lt_of_lt_one (show 0 < ε / 2 by positivity)
+    (show (7 / 80 : ℝ) < 1 by norm_num)
+  set f := antoineComp (fun _ => (0 : Fin 64)) k with hfdef
+  set L := antoineComp (antoineWord k) (k + 1) '' antoineLink with hLdef
+  have hfV : ∀ q ∈ antoineLink, antoineStereo (f q) ∈ V := fun q hq => hball (by
+    rw [Metric.mem_ball]
+    have := antoineComp_diam ⟨q, hq, rfl⟩ (antoineP0_mem_comp k)
+    linarith)
+  have hLc : IsClosed L := (antoineLink_isCompact.image (continuous_antoineComp _ _)).isClosed
+  set K := antoineStereo '' (antoineNecklaceR3 ∩ L) with hKdef
+  have hKmem : ∀ q ∈ antoineLink, (q = antoineP0 ∨ q ∉ antoineNecklaceR3) →
+      antoineStereo (f q) ∉ K := by
+    rintro q hq hq' ⟨p, ⟨hpC, hpL⟩, e⟩
+    have hp : p = f q := antoineStereo_injective e
+    rcases hq' with rfl | hq'
+    · have e' : p = antoineP0 := hp.trans (antoineComp_zero_p0 k)
+      exact antoineP0_not_mem_word_link k (e' ▸ hpL)
+    · exact hq' (antoine_mem_necklace_of_comp _ k hq (hp ▸ hpC))
+  refine ⟨K, image_mono inter_subset_left,
+    ((isCompact_antoineNecklaceR3.inter_right hLc).image continuous_antoineStereo).isClosed,
+    fun h => hKmem _ antoineP0_mem (Or.inl rfl) (by
+      have e : f antoineP0 = antoineP0 := antoineComp_zero_p0 k
+      rwa [e]), ?_⟩
+  have hF : Continuous (antoineStereo ∘ f) :=
+    continuous_antoineStereo.comp (continuous_antoineComp _ k)
+  have hFp0 : (antoineStereo ∘ f) antoineP0 = antoineStereo antoineP0 := by
+    simp [f, antoineComp_zero_p0]
+  refine ⟨(antoineLoop0.map hF).cast hFp0.symm hFp0.symm, fun t h0 h1 => ?_, fun hhom => ?_⟩
+  · have hg := antoineLoop0_memOmega t h0 h1
+    refine ⟨hfV _ hg.1, ?_⟩
+    rintro ⟨p, hp, e⟩
+    have : p = f (antoineLoop0 t) := antoineStereo_injective e
+    exact hg.2 (antoine_mem_necklace_of_comp _ k hg.1 (this ▸ hp))
+  have h1 : HomotopicIn Kᶜ (antoineLoop0.map hF) (Path.refl _) :=
+    antoine_homotopicIn_refl_congr hFp0.symm (fun _ => rfl) hhom
+  rw [antoineLoop0, Path.map_trans, Path.map_trans, ← Path.map_symm] at h1
+  have h2 := antoine_homotopicIn_conj (fun t => hKmem _ (antoineTail_mem t).1 (antoineTail_mem t).2)
+    (fun t => hKmem _ (antoineMer1_good t).1 (Or.inr (antoineMer1_good t).2)) h1
+  obtain ⟨m, hm, h3⟩ := antoine_homotopicIn_stage hLc h2 (k + 1)
+  refine hres (antoineWord k) (k + 1) m hm (antoine_homotopicIn_refl_congr ?_ (fun t => ?_) h3)
+  · simp [antoineComp_word, f]
+  · simp only [Path.map_coe, Function.comp_apply, antoineComp_word, antoineMer1]
+    rfl
+
+section HomeoInvariance
+
+variable {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
+
+theorem antoine_almostTrivial_congr {U : Set X} {x y : X} {P : Path x x} {Q : Path y y}
+    (hxy : x = y) (hPQ : ∀ t, P t = Q t) (h : AlmostTrivial U P) : AlmostTrivial U Q := by
+  subst hxy
+  obtain rfl : P = Q := Path.ext (funext hPQ)
+  exact h
+
+/-- Almost triviality is carried by a homeomorphism. -/
+theorem AlmostTrivial.map_homeomorph (h : X ≃ₜ Y) {U : Set X} {x : X} {γ : Path x x}
+    (hγ : AlmostTrivial U γ) : AlmostTrivial (h '' U) (γ.map h.continuous) := by
+  obtain ⟨hm, hW⟩ := hγ
+  refine ⟨fun t h0 h1 => ⟨_, hm t h0 h1, rfl⟩, fun W hW' => ?_⟩
+  obtain ⟨γ', hγ', F, hF⟩ := hW _ (h.continuous.continuousAt.preimage_mem_nhds hW')
+  refine ⟨γ'.map h.continuous, fun t h0 h1 => ⟨(hγ' t h0 h1).1, _, (hγ' t h0 h1).2, rfl⟩,
+    F.map ⟨h, h.continuous⟩, fun s t h0 h1 => ⟨_, hF s t h0 h1, rfl⟩⟩
+
+/-- Semi-local simple connectedness (homotopy form) is carried by a homeomorphism. -/
+theorem IsSLSCIn.map_homeomorph (h : X ≃ₜ Y) {U : Set X} (hU : IsSLSCIn U) :
+    IsSLSCIn (h '' U) := by
+  refine ⟨h.surjective.denseRange.dense_image h.continuous hU.1, fun y => ?_⟩
+  obtain ⟨V, hV, hVc, hxV, hloop⟩ := hU.2 (h.symm y)
+  refine ⟨h '' V, h.isOpenMap V hV, hVc.image _ h.continuous.continuousOn,
+    ⟨_, hxV, h.apply_symm_apply y⟩, fun γ hγ => ?_⟩
+  have hδ : MemOmega (V ∩ U) (γ.map h.symm.continuous) := fun t h0 h1 => by
+    obtain ⟨⟨a, ha, ea⟩, ⟨b, hb, eb⟩⟩ := hγ t h0 h1
+    refine ⟨?_, ?_⟩
+    · show h.symm (γ t) ∈ V
+      rw [← ea, h.symm_apply_apply]; exact ha
+    · show h.symm (γ t) ∈ U
+      rw [← eb, h.symm_apply_apply]; exact hb
+  exact antoine_almostTrivial_congr (h.apply_symm_apply y)
+    (fun t => h.apply_symm_apply (γ t)) ((hloop _ hδ).map_homeomorph h)
+
+end HomeoInvariance
+
+/-- **The residual of Antoine's theorem, the file's one `sorry`** (cited `general_antoine`, not
+built): `GX.AntoineMeridianEssential`, the meridian of a generation-`n` link `L` is not
+null-homotopic in `S³ ∖ (C_m ∩ L)` for `m ≥ n`. Everything else of the row is derived from it,
+sorry-free: compactness reduction (`GX.antoine_homotopicIn_stage`), link selection
+(`GX.antoineComp_diam`, `GX.antoineP0_not_mem_word_link`), accessibility
+(`GX.antoineVert_not_mem_necklace`) and the based loop (`GX.antoineLoop0`,
+`GX.antoine_homotopicIn_conj`), assembled in `GX.antoine_essential_loops`. -/
+theorem antoineMeridianEssential : AntoineMeridianEssential := by
+  sorry -- SORRY(ex:wild_cantor_general_antoine): Antoine's lemma for the built necklace, exactly GX.AntoineMeridianEssential: for n ≤ m the meridian of a generation-n link L (GX.antoineMeridian under antoineComp v n, in S³) is not null-homotopic in S³ ∖ (C_m ∩ L), C_m ∩ L the union of the 64^(m-n) linked square solid tori of generation m inside L. No abelian invariant detects it for m > n (H₁(S³ ∖ (C_m ∩ L)) is free on the meridians of the sublinks, each sublink is null-homologous in L, so the meridian of L is 0 there, a product of commutators), so it needs Antoine's van Kampen computation for a linked chain of solid tori (π₁ of the complement of a chain, or the non-abelian iterated-covering tower); mathlib has no van Kampen theorem, no π₁ of a solid-torus complement and no PL solid-torus theory.
+
+/-- `ex:wild_cantor_general_antoine` (`RamcovGX.tex:1578`), homotopy form, FROM THE RESIDUAL ALONE:
+the complement of `GX.antoineNecklace` is not semi-locally simply connected in `S³`
+(sorry-free). -/
+theorem antoineNecklace_not_isSLSCIn_of (hres : AntoineMeridianEssential) :
+    ¬ IsSLSCIn antoineNecklaceᶜ :=
+  sphere3_not_isSLSCIn_of_essential _ (antoine_essential_loops hres)
+
+/-- `ex:wild_cantor_general_antoine`, homotopy form; rests on the residual
+`GX.antoineMeridianEssential` only. -/
+theorem antoineNecklace_not_isSLSCIn : ¬ IsSLSCIn antoineNecklaceᶜ :=
+  antoineNecklace_not_isSLSCIn_of antoineMeridianEssential
+
+/-- The tame-Cantor fact (NAMED, not formalized, not used by the row): the complement of a Cantor
+subset of a great circle of `S³` is semi-locally simply connected in `S³` (it is simply connected
+and locally non-separating, `GX.isSLSCIn_compl_of_simplyConnected`; the simple connectivity is a
+general-position argument). -/
+def TameCantorSLSC : Prop :=
+  ∀ C : Set Sphere3, C ⊆ greatCircle3 → IsCantorSubset C → IsSLSCIn Cᶜ
+
+/-- Wildness of the necklace, separated from the row's claim: it follows from the
+non-semi-local-simple-connectedness of its complement, the homeomorphism invariance
+`GX.IsSLSCIn.map_homeomorph`, and the tame-Cantor fact `GX.TameCantorSLSC` (a hypothesis here). -/
+theorem isWildCantor_antoineNecklace_of (hres : AntoineMeridianEssential)
+    (htame : TameCantorSLSC) : IsWildCantor antoineNecklace := by
+  refine ⟨antoineNecklace_isCantorSubset, fun ⟨h, hsub⟩ => antoineNecklace_not_isSLSCIn_of hres ?_⟩
+  have hC : IsCantorSubset (h '' antoineNecklace) := by
+    obtain ⟨e⟩ := antoineNecklace_isCantorSubset
+    exact ⟨(h.image antoineNecklace).symm.trans e⟩
+  have := (htame _ hsub hC).map_homeomorph h.symm
+  rwa [← image_compl_eq h.bijective, ← image_comp, h.symm_comp_self, image_id] at this
+
+/-- The existential corollary: under the tame-Cantor fact, some wild Cantor set of `S³`
+(Antoine's necklace) has a complement that is not semi-locally simply connected. -/
+theorem exists_wild_cantor_not_isSLSCIn (htame : TameCantorSLSC) :
+    ∃ C : Set Sphere3, IsWildCantor C ∧ ¬ IsSLSCIn Cᶜ :=
+  ⟨_, isWildCantor_antoineNecklace_of antoineMeridianEssential htame, antoineNecklace_not_isSLSCIn⟩
 
 /-- `S³ = sphere(0,1) ⊆ ℝ⁴` has dimension `3 + 1` as an ambient space. -/
 theorem sphere3_finrank_fact : Fact (Module.finrank ℝ (EuclideanSpace ℝ (Fin 4)) = 3 + 1) :=
@@ -3463,20 +4088,1030 @@ theorem sphere3_isSLSCInCC_compl_iff {C : Set Sphere3} (hC : IsClosed C) :
   haveI := sphere3_locPathConnected
   isSLSCInCC_iff hC.isOpen_compl (sphere3_semilocallySimplyConnected_compl hC)
 
-/-- `ex:wild_cantor_general_antoine` (`RamcovGX.tex:1578`, DEC-58: `S` is Antoine's necklace),
-literal reading (DEC-55) — stated, rests on the cited Antoine theorem
-`GX.antoineNecklace_antoine` (tagged `sorry`): Antoine's necklace `GX.antoineNecklace` is a wild
-Cantor set of `S³` whose complement is not semi-locally simply connected in `S³`. -/
-theorem antoineNecklace_wild_not_isSLSCInCC :
+/-- **`ex:wild_cantor_general_antoine`** (`RamcovGX.tex:1578`, DEC-58 and DEC-68 (f): `S` is
+the explicit Antoine necklace), literal reading (DEC-55), FROM THE RESIDUAL ALONE (sorry-free):
+the complement of `GX.antoineNecklace` is not semi-locally simply connected in `S³`. -/
+theorem antoineNecklace_not_isSLSCInCC_of (hres : AntoineMeridianEssential) :
+    ¬ IsSLSCInCC antoineNecklaceᶜ := fun hcc => antoineNecklace_not_isSLSCIn_of hres
+  ((sphere3_isSLSCInCC_compl_iff antoineNecklace_isCantorSubset.isClosed).1 hcc)
+
+/-- `ex:wild_cantor_general_antoine`, literal reading; rests on the residual
+`GX.antoineMeridianEssential` only. -/
+theorem antoineNecklace_not_isSLSCInCC : ¬ IsSLSCInCC antoineNecklaceᶜ :=
+  antoineNecklace_not_isSLSCInCC_of antoineMeridianEssential
+
+/-- With the wildness (under the tame-Cantor fact `GX.TameCantorSLSC`): Antoine's necklace is a
+wild Cantor set of `S³` whose complement is not semi-locally simply connected (literal
+reading). -/
+theorem antoineNecklace_wild_not_isSLSCInCC (htame : TameCantorSLSC) :
     IsWildCantor antoineNecklace ∧ ¬ IsSLSCInCC antoineNecklaceᶜ :=
-  ⟨isWildCantor_antoineNecklace, fun hcc => antoineNecklace_not_isSLSCIn
-    ((sphere3_isSLSCInCC_compl_iff antoineNecklace_isCantorSubset.isClosed).1 hcc)⟩
+  ⟨isWildCantor_antoineNecklace_of antoineMeridianEssential htame, antoineNecklace_not_isSLSCInCC⟩
 
 /-- The existential corollary of `GX.antoineNecklace_wild_not_isSLSCInCC` (literal reading). -/
-theorem exists_wild_cantor_not_isSLSCInCC :
+theorem exists_wild_cantor_not_isSLSCInCC (htame : TameCantorSLSC) :
     ∃ C : Set Sphere3, IsWildCantor C ∧ ¬ IsSLSCInCC Cᶜ :=
-  ⟨_, antoineNecklace_wild_not_isSLSCInCC⟩
+  ⟨_, antoineNecklace_wild_not_isSLSCInCC htame⟩
 
 end WildCantor
+
+/-! ### `ex:consider_denote_absolute_galois`, corrected (DEC-69): the Cantor fibre
+
+With `aₙ = 1/(n+1)` and `sₙ` a continuous square root of `p - aₙ` on `\widetilde{ℂ∖S}`, deck
+transformations act on `sₙ` by signs `εₙ = (-1)^{winding around aₙ}`; `Γ₂'` is their common kernel.
+Over `D_k` the sign `σₙ = sₙ / i√(aₙ - z)`, `n < k`, is locally constant, and two points of
+`Γ₂' \ \widetilde{ℂ∖S}` over `D_k` lie in the same component iff they have the same `σₙ`, `n < k`
+(`GX.cantZ_comp`; the hard half realises every eventually constant sign pattern by small circles
+around the `aₙ`, `n ≥ k`, and the circle of radius `R_k` around `0`, all inside `D_k`). So the ends
+over `0` are the sign sequences, `GX.cantFiberHomeo : {0,1}^ℕ ≃ₜ fibre`. -/
+
+section CantorFibre
+
+attribute [local instance] absGal_locPath
+attribute [local instance] absGal_simplyConnected
+
+variable (y₀ : (fibSᶜ : Set ℂ))
+
+/-- The point `aₙ = 1/(n+1)` of `S`. -/
+def cantPt (n : ℕ) : ℂ := ((1 / ((n : ℝ) + 1) : ℝ) : ℂ)
+
+theorem cantPt_mem (n : ℕ) : cantPt n ∈ fibS := fibPt_mem n
+
+/-- `p - aₙ`, into `ℂ ∖ {0}`. -/
+def cantSubC (n : ℕ) : C(AbsU y₀, CStar) :=
+  (subFib _ (cantPt_mem n)).comp ⟨UniversalCover.proj _ y₀, UniversalCover.continuous_proj⟩
+
+theorem cant_exists_ℓ (n : ℕ) :
+    ∃ ℓ : C(AbsU y₀, ℂ), ∀ c, Complex.exp (ℓ c) = absP y₀ c - cantPt n := by
+  obtain ⟨ℓ, ⟨-, hℓ⟩, -⟩ := isCoveringMap_cExp.existsUnique_continuousMap_lifts (cantSubC y₀ n)
+    (UniversalCover.base y₀) (Complex.log (cantSubC y₀ n (UniversalCover.base y₀)))
+    (Subtype.ext (Complex.exp_log (cantSubC y₀ n _).2))
+  exact ⟨ℓ, fun c => congrArg Subtype.val (congrFun hℓ c)⟩
+
+/-- A continuous logarithm of `p - aₙ` on `\widetilde{ℂ∖S}`. -/
+def cantℓ (n : ℕ) : C(AbsU y₀, ℂ) := (cant_exists_ℓ y₀ n).choose
+
+theorem cantℓ_spec (n : ℕ) (c : AbsU y₀) : Complex.exp (cantℓ y₀ n c) = absP y₀ c - cantPt n :=
+  (cant_exists_ℓ y₀ n).choose_spec c
+
+/-- The continuous square root `sₙ = exp(ℓₙ/2)` of `p - aₙ`. -/
+def cantSq (n : ℕ) (c : AbsU y₀) : ℂ := Complex.exp (cantℓ y₀ n c / 2)
+
+theorem continuous_cantSq (n : ℕ) : Continuous (cantSq y₀ n) := by
+  unfold cantSq; fun_prop
+
+theorem cantSq_sq (n : ℕ) (c : AbsU y₀) : cantSq y₀ n c ^ 2 = absP y₀ c - cantPt n := by
+  rw [cantSq, sq, ← Complex.exp_add, add_halves, cantℓ_spec]
+
+theorem cantSq_ne_zero (n : ℕ) (c : AbsU y₀) : cantSq y₀ n c ≠ 0 := Complex.exp_ne_zero _
+
+section Deck
+
+variable {y₀} (φ : AbsU y₀ ≃ₜ AbsU y₀) (hφ : ∀ c, absP y₀ (φ c) = absP y₀ c)
+
+/-- The sign `±1` by which a deck transformation acts on `sₙ`. -/
+def cantSign (n : ℕ) : ℂ :=
+  Complex.exp ((cantℓ y₀ n (φ (UniversalCover.base y₀)) - cantℓ y₀ n (UniversalCover.base y₀)) / 2)
+
+include hφ in
+theorem cantSq_deck (n : ℕ) (c : AbsU y₀) : cantSq y₀ n (φ c) = cantSign φ n * cantSq y₀ n c := by
+  have := absGal_expLift_eq (cantℓ y₀ n).continuous ((cantℓ y₀ n).continuous.comp φ.continuous)
+    (fun a => by simp only [comp_apply, cantℓ_spec, hφ]) (UniversalCover.base y₀) c
+  simp only [comp_apply] at this
+  rw [cantSq, this, add_div, Complex.exp_add, cantSign, cantSq, mul_comm]
+
+end Deck
+
+/-- `εₙ(g)`: the sign by which the deck transformation of `g ∈ π₁(ℂ ∖ S)` acts on `sₙ`. -/
+def cantEps (n : ℕ) (g : AbsGamma y₀) : ℂ := cantSign (UniversalCover.deckHom g).1 n
+
+theorem cantSq_deckHom (n : ℕ) (g : AbsGamma y₀) (c : AbsU y₀) :
+    cantSq y₀ n ((UniversalCover.deckHom g).1 c) = cantEps y₀ n g * cantSq y₀ n c :=
+  cantSq_deck _ (absP_deckHom y₀ g) n c
+
+theorem cantEps_mul (n : ℕ) (a b : AbsGamma y₀) :
+    cantEps y₀ n (a * b) = cantEps y₀ n a * cantEps y₀ n b := by
+  have h := cantSq_deckHom y₀ n (a * b) (UniversalCover.base y₀)
+  rw [map_mul] at h
+  have h2 : cantSq y₀ n ((UniversalCover.deckHom a).1 ((UniversalCover.deckHom b).1
+      (UniversalCover.base y₀))) = cantEps y₀ n a * (cantEps y₀ n b *
+        cantSq y₀ n (UniversalCover.base y₀)) := by
+    rw [cantSq_deckHom, cantSq_deckHom]
+  have h3 : cantSq y₀ n (((UniversalCover.deckHom a) * (UniversalCover.deckHom b)).1
+      (UniversalCover.base y₀)) = cantSq y₀ n ((UniversalCover.deckHom a).1
+        ((UniversalCover.deckHom b).1 (UniversalCover.base y₀))) := rfl
+  rw [h3, h2] at h
+  have hne := cantSq_ne_zero y₀ n (UniversalCover.base y₀)
+  have : (cantEps y₀ n (a * b) - cantEps y₀ n a * cantEps y₀ n b) *
+      cantSq y₀ n (UniversalCover.base y₀) = 0 := by linear_combination -h
+  exact sub_eq_zero.1 ((mul_eq_zero.1 this).resolve_right hne)
+
+theorem cantEps_one (n : ℕ) : cantEps y₀ n 1 = 1 := by
+  have h := cantSq_deckHom y₀ n 1 (UniversalCover.base y₀)
+  rw [map_one] at h
+  change cantSq y₀ n (UniversalCover.base y₀) = _ at h
+  have hne := cantSq_ne_zero y₀ n (UniversalCover.base y₀)
+  have : (cantEps y₀ n 1 - 1) * cantSq y₀ n (UniversalCover.base y₀) = 0 := by
+    linear_combination -h
+  exact sub_eq_zero.1 ((mul_eq_zero.1 this).resolve_right hne)
+
+theorem cantEps_sq (n : ℕ) (g : AbsGamma y₀) : cantEps y₀ n g ^ 2 = 1 := by
+  have h := cantSq_deckHom y₀ n g (UniversalCover.base y₀)
+  have h2 := congrArg (· ^ 2) h
+  simp only [mul_pow, cantSq_sq, absP_deckHom] at h2
+  have hne : absP y₀ (UniversalCover.base y₀) - cantPt n ≠ 0 :=
+    sub_ne_zero.2 fun e => absP_not_mem y₀ _ (e ▸ cantPt_mem n)
+  have : (cantEps y₀ n g ^ 2 - 1) * (absP y₀ (UniversalCover.base y₀) - cantPt n) = 0 := by
+    linear_combination -h2
+  exact sub_eq_zero.1 ((mul_eq_zero.1 this).resolve_right hne)
+
+theorem cantEps_eq (n : ℕ) (g : AbsGamma y₀) : cantEps y₀ n g = 1 ∨ cantEps y₀ n g = -1 := by
+  have := cantEps_sq y₀ n g
+  rw [sq] at this
+  exact mul_self_eq_one_iff.1 this
+
+theorem cantEps_inv (n : ℕ) (g : AbsGamma y₀) : cantEps y₀ n g⁻¹ = cantEps y₀ n g := by
+  have h := cantEps_mul y₀ n g g⁻¹
+  rw [mul_inv_cancel, cantEps_one] at h
+  rcases cantEps_eq y₀ n g with e | e <;> rw [e] at h ⊢
+  · simpa using h.symm
+  · have : cantEps y₀ n g⁻¹ = -1 := by linear_combination h
+    exact this
+
+/-- **`Γ₂'`, the corrected subgroup of `ex:consider_denote_absolute_galois` (DEC-69)**: the kernel
+of the mod-2 windings around the points `1/n` (`GX.mem_cantGamma_iff`), i.e. the deck
+transformations fixing every square root `sₙ`. -/
+def cantGamma : Subgroup (AbsGamma y₀) where
+  carrier := {g | ∀ n, cantEps y₀ n g = 1}
+  one_mem' := fun n => cantEps_one y₀ n
+  mul_mem' := by
+    intro a b ha hb n
+    show cantEps y₀ n (a * b) = 1
+    rw [cantEps_mul, ha n, hb n, one_mul]
+  inv_mem' := by
+    intro a ha n
+    show cantEps y₀ n a⁻¹ = 1
+    rw [cantEps_inv]; exact ha n
+
+theorem mem_cantGamma {g : AbsGamma y₀} : g ∈ cantGamma y₀ ↔ ∀ n, cantEps y₀ n g = 1 := Iff.rfl
+
+/-- Along the canonical lift `L` of a loop `δ` of `ℂ ∖ S`, `sₙ` changes by `(-1)^w`, `w` the
+winding number of `δ` around `aₙ`. -/
+theorem cantSq_liftFrom_loop {b : (fibSᶜ : Set ℂ)} (c : Path.Homotopic.Quotient y₀ b)
+    (δ : Path b b) (n : ℕ) :
+    cantSq y₀ n (UniversalCover.liftFrom c δ 1) =
+      (-1 : ℂ) ^ cWinding (δ.map (subFib _ (cantPt_mem n)).continuous) *
+        cantSq y₀ n (UniversalCover.liftFrom c δ 0) := by
+  set L := UniversalCover.liftFrom c δ
+  have hL : ∀ t, Complex.exp ((cantℓ y₀ n).comp ⟨L, L.continuous⟩ t) =
+      (δ.map (subFib _ (cantPt_mem n)).continuous) t := fun t => by
+    show Complex.exp (cantℓ y₀ n (L t)) = ((δ t : ℂ) - cantPt n)
+    rw [cantℓ_spec]; rfl
+  have e := cWinding_spec _ hL
+  simp only [ContinuousMap.coe_comp, ContinuousMap.coe_mk, comp_apply] at e
+  rw [cantSq, cantSq, e, add_div, Complex.exp_add, mul_comm]
+  congr 1
+  rw [show (cWinding (δ.map (subFib _ (cantPt_mem n)).continuous) : ℂ) * (2 * Real.pi * Complex.I) / 2
+      = (cWinding (δ.map (subFib _ (cantPt_mem n)).continuous) : ℂ) * (Real.pi * Complex.I) by ring,
+    Complex.exp_int_mul, Complex.exp_pi_mul_I]
+
+theorem cant_neg_one_zpow_neg (w : ℤ) : (-1 : ℂ) ^ (-w) = (-1 : ℂ) ^ w := by
+  rw [zpow_neg]
+  rcases Int.even_or_odd w with h | h
+  · rw [h.neg_one_zpow, inv_one]
+  · rw [h.neg_one_zpow]; norm_num
+
+/-- `εₙ([γ]) = (-1)^{w(γ, aₙ)}`. -/
+theorem cantEps_fromPath (n : ℕ) (γ : Path y₀ y₀) :
+    cantEps y₀ n (FundamentalGroup.fromPath (Path.Homotopic.Quotient.mk γ)) =
+      (-1 : ℂ) ^ windAt y₀ _ (cantPt_mem n) γ := by
+  have h := cantSq_deckHom y₀ n (FundamentalGroup.fromPath (Path.Homotopic.Quotient.mk γ))
+    (UniversalCover.base y₀)
+  rw [absGal_deckHom_base, cantSq_liftFrom_loop, absGal_cWinding_symm] at h
+  have h0 : UniversalCover.liftFrom (Path.Homotopic.Quotient.refl y₀) γ.symm 0 =
+      UniversalCover.base y₀ := (UniversalCover.liftFrom _ γ.symm).source
+  rw [h0, cant_neg_one_zpow_neg] at h
+  have hne := cantSq_ne_zero y₀ n (UniversalCover.base y₀)
+  have : ((-1 : ℂ) ^ windAt y₀ _ (cantPt_mem n) γ -
+      cantEps y₀ n (FundamentalGroup.fromPath (Path.Homotopic.Quotient.mk γ))) *
+      cantSq y₀ n (UniversalCover.base y₀) = 0 := by
+    unfold windAt; linear_combination h
+  exact (sub_eq_zero.1 ((mul_eq_zero.1 this).resolve_right hne)).symm
+
+theorem cant_neg_one_zpow_eq_one_iff (w : ℤ) : (-1 : ℂ) ^ w = 1 ↔ Even w := by
+  rcases Int.even_or_odd w with h | h
+  · simp [h.neg_one_zpow, h]
+  · rw [h.neg_one_zpow]
+    simp only [Int.not_even_iff_odd.2 h, iff_false]
+    norm_num
+
+/-- **`Γ₂'` is the kernel of the mod-2 windings**: a loop class lies in `Γ₂'` iff the loop winds
+an even number of times around every point `1/n` of `S`. -/
+theorem mem_cantGamma_iff (γ : Path y₀ y₀) :
+    FundamentalGroup.fromPath (Path.Homotopic.Quotient.mk γ) ∈ cantGamma y₀ ↔
+      ∀ n, Even (windAt y₀ _ (cantPt_mem n) γ) := by
+  simp only [mem_cantGamma, cantEps_fromPath, cant_neg_one_zpow_eq_one_iff]
+
+
+/-! #### The signs near `0` -/
+
+/-- A branch `rₙ(z) = i·√(aₙ - z)` of the square root of `z - aₙ`, continuous on `Re z < aₙ`. -/
+def cantRoot (n : ℕ) (z : ℂ) : ℂ := Complex.I * Complex.exp (Complex.log (cantPt n - z) / 2)
+
+theorem cantPt_re (n : ℕ) : (cantPt n).re = 1 / ((n : ℝ) + 1) := by rw [cantPt, Complex.ofReal_re]
+
+theorem cantRoot_sq {n : ℕ} {z : ℂ} (hz : cantPt n - z ≠ 0) : cantRoot n z ^ 2 = z - cantPt n := by
+  rw [cantRoot, mul_pow, Complex.I_sq, sq (Complex.exp _), ← Complex.exp_add, add_halves,
+    Complex.exp_log hz]
+  ring
+
+theorem cant_slit {n : ℕ} {z : ℂ} (hz : z.re < 1 / ((n : ℝ) + 1)) :
+    cantPt n - z ∈ Complex.slitPlane :=
+  Complex.mem_slitPlane_iff.2 (Or.inl (by rw [Complex.sub_re, cantPt_re]; linarith))
+
+theorem continuousAt_cantRoot {n : ℕ} {z : ℂ} (hz : z.re < 1 / ((n : ℝ) + 1)) :
+    ContinuousAt (cantRoot n) z := by
+  unfold cantRoot
+  exact continuousAt_const.mul
+    (((continuousAt_const.sub continuousAt_id).clog (cant_slit hz)).div_const 2).cexp
+
+/-- The sign `σₙ = sₙ / rₙ(p)`, equal to `±1` over `Re z < aₙ`. -/
+def cantSigma (n : ℕ) (c : AbsU y₀) : ℂ := cantSq y₀ n c / cantRoot n (absP y₀ c)
+
+theorem cantSigma_eq {n : ℕ} {c : AbsU y₀} (hc : (absP y₀ c).re < 1 / ((n : ℝ) + 1)) :
+    cantSigma y₀ n c = 1 ∨ cantSigma y₀ n c = -1 := by
+  have hne : cantPt n - absP y₀ c ≠ 0 := Complex.slitPlane_ne_zero (cant_slit hc)
+  have hne' : absP y₀ c - cantPt n ≠ 0 := fun h => hne (by linear_combination -h)
+  have hr : cantRoot n (absP y₀ c) ≠ 0 := fun h => by
+    have := cantRoot_sq hne; rw [h] at this; exact hne' (by rw [← this]; ring)
+  have : cantSigma y₀ n c ^ 2 = 1 := by
+    rw [cantSigma, div_pow, cantSq_sq, cantRoot_sq hne, div_self hne']
+  rw [sq] at this
+  exact mul_self_eq_one_iff.1 this
+
+theorem cantSigma_deckHom (n : ℕ) (g : AbsGamma y₀) (c : AbsU y₀) :
+    cantSigma y₀ n ((UniversalCover.deckHom g).1 c) = cantEps y₀ n g * cantSigma y₀ n c := by
+  rw [cantSigma, cantSigma, cantSq_deckHom, absP_deckHom, mul_div_assoc]
+
+theorem cantSigma_eventually {n : ℕ} {c₀ : AbsU y₀} (hc : (absP y₀ c₀).re < 1 / ((n : ℝ) + 1)) :
+    ∀ᶠ c in 𝓝 c₀, cantSigma y₀ n c = cantSigma y₀ n c₀ := by
+  have hne : cantPt n - absP y₀ c₀ ≠ 0 := Complex.slitPlane_ne_zero (cant_slit hc)
+  have hne' : absP y₀ c₀ - cantPt n ≠ 0 := fun h => hne (by linear_combination -h)
+  have hr : cantRoot n (absP y₀ c₀) ≠ 0 := fun h => by
+    have := cantRoot_sq hne; rw [h] at this; exact hne' (by rw [← this]; ring)
+  have hcont : ContinuousAt (cantSigma y₀ n) c₀ :=
+    (continuous_cantSq y₀ n).continuousAt.div
+      ((continuousAt_cantRoot hc).comp (continuous_absP y₀).continuousAt) hr
+  have hV : ∀ᶠ c in 𝓝 c₀, (absP y₀ c).re < 1 / ((n : ℝ) + 1) :=
+    ((Complex.continuous_re.comp (continuous_absP y₀)).tendsto c₀).eventually (eventually_lt_nhds hc)
+  filter_upwards [hV, hcont.eventually (Metric.ball_mem_nhds _ one_pos)] with c hc' hd
+  rcases cantSigma_eq y₀ hc with h0 | h0 <;> rcases cantSigma_eq y₀ hc' with h1 | h1 <;>
+    simp only [h0, h1] at hd ⊢ <;> norm_num [Complex.dist_eq] at hd
+
+/-- The bit `σₙ = 1`. -/
+def cantBit (n : ℕ) (c : AbsU y₀) : Bool := decide (cantSigma y₀ n c = 1)
+
+theorem cant_re_lt_of_mem_fibD {n k : ℕ} (hnk : n < k) {z : ℂ} (hz : z ∈ fibD k) :
+    z.re < 1 / ((n : ℝ) + 1) := by
+  rw [fibD, Metric.mem_ball, dist_zero_right] at hz
+  have h1 : z.re ≤ ‖z‖ := Complex.re_le_norm z
+  have h2 : 1 / ((k : ℝ) + 1 / 2) ≤ 1 / ((n : ℝ) + 1) := by
+    have : (n : ℝ) + 1 ≤ k := by exact_mod_cast hnk
+    exact one_div_le_one_div_of_le (by positivity) (by linarith)
+  linarith
+
+theorem cant_isOpen_level {n k : ℕ} (hnk : n < k) (b : Bool) :
+    IsOpen {c : AbsU y₀ | absP y₀ c ∈ fibD k ∧ cantBit y₀ n c = b} := by
+  rw [isOpen_iff_mem_nhds]
+  rintro c₀ ⟨hc₀, hb⟩
+  filter_upwards [cantSigma_eventually y₀ (cant_re_lt_of_mem_fibD hnk hc₀),
+    (continuous_absP y₀).continuousAt.preimage_mem_nhds (Metric.isOpen_ball.mem_nhds hc₀)]
+    with c hc hD
+  exact ⟨hD, by rw [← hb, cantBit, cantBit, hc]⟩
+
+/-- A `Bool`-valued function with open level sets over an open set is constant on its
+preconnected subsets. -/
+theorem cant_const_of_isOpen_level {Z : Type*} [TopologicalSpace Z] {A : Set Z} {f : Z → Bool}
+    (h : ∀ b, IsOpen {x | x ∈ A ∧ f x = b}) {s : Set Z} (hs : IsPreconnected s) (hsA : s ⊆ A)
+    {x y : Z} (hx : x ∈ s) (hy : y ∈ s) : f y = f x := by
+  have := GX.IsPreconnected.subset_of_pairwise_disjoint (T := fun b => {x | x ∈ A ∧ f x = b}) h
+    (fun i j hij => by
+      rw [Function.onFun, Set.disjoint_left]
+      rintro z ⟨-, hi⟩ ⟨-, hj⟩
+      exact hij (hi.symm.trans hj)) hs (fun z hz => mem_iUnion.2 ⟨f z, hsA hz, rfl⟩)
+    (j := f x) ⟨x, hx, hsA hx, rfl⟩
+  exact (this hy).2
+
+theorem cantBit_const {n k : ℕ} (hnk : n < k) {s : Set (AbsU y₀)} (hs : IsPreconnected s)
+    (hsk : s ⊆ absP y₀ ⁻¹' fibD k) {x y : AbsU y₀} (hx : x ∈ s) (hy : y ∈ s) :
+    cantBit y₀ n y = cantBit y₀ n x :=
+  cant_const_of_isOpen_level (A := absP y₀ ⁻¹' fibD k) (fun b => cant_isOpen_level y₀ hnk b) hs hsk
+    hx hy
+
+theorem cantSigma_eq_of_bit {n : ℕ} {c c' : AbsU y₀} (hc : (absP y₀ c).re < 1 / ((n : ℝ) + 1))
+    (hc' : (absP y₀ c').re < 1 / ((n : ℝ) + 1)) (h : cantBit y₀ n c' = cantBit y₀ n c) :
+    cantSigma y₀ n c' = cantSigma y₀ n c := by
+  unfold cantBit at h
+  rcases cantSigma_eq y₀ hc with h0 | h0 <;> rcases cantSigma_eq y₀ hc' with h1 | h1 <;>
+    simp only [h0, h1] at h ⊢ <;> norm_num at h
+
+theorem cantSigma_const {n k : ℕ} (hnk : n < k) {s : Set (AbsU y₀)} (hs : IsPreconnected s)
+    (hsk : s ⊆ absP y₀ ⁻¹' fibD k) {x y : AbsU y₀} (hx : x ∈ s) (hy : y ∈ s) :
+    cantSigma y₀ n y = cantSigma y₀ n x :=
+  cantSigma_eq_of_bit y₀ (cant_re_lt_of_mem_fibD hnk (hsk hx)) (cant_re_lt_of_mem_fibD hnk (hsk hy))
+    (cantBit_const y₀ hnk hs hsk hx hy)
+
+/-! #### Deck transformations, components, lifts -/
+
+theorem cant_exists_deck {c c' : AbsU y₀} (h : c.pt = c'.pt) :
+    ∃ g : AbsGamma y₀, (UniversalCover.deckHom g).1 c = c' := by
+  obtain ⟨b, γ⟩ := c
+  obtain ⟨b', γ'⟩ := c'
+  simp only at h
+  subst h
+  refine ⟨(FundamentalGroup.fromPath (γ'.trans γ.symm))⁻¹, ?_⟩
+  rw [UniversalCover.deckHom_apply, inv_inv]
+  show (⟨b, (γ'.trans γ.symm).trans γ⟩ : AbsU y₀) = ⟨b, γ'⟩
+  rw [Path.Homotopic.Quotient.trans_assoc, Path.Homotopic.Quotient.symm_trans,
+    Path.Homotopic.Quotient.trans_refl]
+
+theorem cant_deck_image_comp (g : AbsGamma y₀) {U : Set ℂ} {c : AbsU y₀} (hc : absP y₀ c ∈ U) :
+    (UniversalCover.deckHom g).1 '' connectedComponentIn (absP y₀ ⁻¹' U) c =
+      connectedComponentIn (absP y₀ ⁻¹' U) ((UniversalCover.deckHom g).1 c) := by
+  rw [Homeomorph.image_connectedComponentIn _ (show c ∈ absP y₀ ⁻¹' U from hc)]
+  congr 1
+  ext x
+  constructor
+  · rintro ⟨y, hy, rfl⟩
+    show absP y₀ ((UniversalCover.deckHom g).1 y) ∈ U
+    rw [absP_deckHom]; exact hy
+  · intro hx
+    refine ⟨(UniversalCover.deckHom g).1.symm x, ?_, (UniversalCover.deckHom g).1.apply_symm_apply x⟩
+    have := absP_deckHom y₀ g ((UniversalCover.deckHom g).1.symm x)
+    rw [Homeomorph.apply_symm_apply] at this
+    show absP y₀ _ ∈ U
+    rw [← this]; exact hx
+
+/-- `cpt k c`: the component of `c` in the preimage of `D_k`. -/
+abbrev cantComp (k : ℕ) (c : AbsU y₀) : Set (AbsU y₀) :=
+  connectedComponentIn (absP y₀ ⁻¹' fibD k) c
+
+theorem cant_mem_comp_of_deck {k : ℕ} {c : AbsU y₀} (hc : absP y₀ c ∈ fibD k) {a : AbsGamma y₀}
+    (ha : (UniversalCover.deckHom a).1 c ∈ cantComp y₀ k c) {x : AbsU y₀} (hx : x ∈ cantComp y₀ k c) :
+    (UniversalCover.deckHom a).1 x ∈ cantComp y₀ k c := by
+  have h1 : (UniversalCover.deckHom a).1 x ∈ (UniversalCover.deckHom a).1 '' cantComp y₀ k c :=
+    mem_image_of_mem _ hx
+  rw [cant_deck_image_comp y₀ a hc, ← connectedComponentIn_eq ha] at h1
+  exact h1
+
+theorem cant_stab_mul {k : ℕ} {c : AbsU y₀} (hc : absP y₀ c ∈ fibD k) {a b : AbsGamma y₀}
+    (ha : (UniversalCover.deckHom a).1 c ∈ cantComp y₀ k c)
+    (hb : (UniversalCover.deckHom b).1 c ∈ cantComp y₀ k c) :
+    (UniversalCover.deckHom (a * b)).1 c ∈ cantComp y₀ k c := by
+  rw [map_mul]
+  exact cant_mem_comp_of_deck y₀ hc ha hb
+
+/-- Every point of `D_k ∖ S` is reached from `c` inside its component. -/
+theorem cant_reach {k : ℕ} (c : AbsU y₀) (hc : absP y₀ c ∈ fibD k) (b : (fibSᶜ : Set ℂ))
+    (hb : (b : ℂ) ∈ fibD k) : ∃ c₀ ∈ cantComp y₀ k c, c₀.pt = b := by
+  have hj := (isPathConnected_fibD_diff k).joinedIn (absP y₀ c) ⟨hc, absP_not_mem y₀ c⟩ b ⟨hb, b.2⟩
+  let δ : Path c.pt b :=
+    { toFun := fun t => ⟨hj.somePath t, (hj.somePath_mem t).2⟩
+      continuous_toFun := hj.somePath.continuous.subtype_mk _
+      source' := Subtype.ext hj.somePath.source
+      target' := Subtype.ext hj.somePath.target }
+  let L := UniversalCover.liftFrom c.cls δ
+  refine ⟨L 1, ?_, (UniversalCover.proj_liftFrom _ _ 1).trans δ.target⟩
+  have hsub : range L ⊆ absP y₀ ⁻¹' fibD k := by
+    rintro _ ⟨t, rfl⟩; exact (hj.somePath_mem t).1
+  exact (isPreconnected_range L.continuous).subset_connectedComponentIn ⟨0, L.source⟩ hsub ⟨1, rfl⟩
+
+/-- A loop in `D_k ∖ S` gives a deck transformation preserving the component of `c` and acting on
+the `sₘ` by the parities of its windings. -/
+theorem cant_loop_realize {k : ℕ} (c : AbsU y₀) (hc : absP y₀ c ∈ fibD k) {b : (fibSᶜ : Set ℂ)}
+    (δ : Path b b) (hδ : ∀ t, ((δ t : (fibSᶜ : Set ℂ)) : ℂ) ∈ fibD k) :
+    ∃ h : AbsGamma y₀, (∀ m, cantEps y₀ m h =
+      (-1 : ℂ) ^ cWinding (δ.map (subFib _ (cantPt_mem m)).continuous)) ∧
+      (UniversalCover.deckHom h).1 c ∈ cantComp y₀ k c := by
+  obtain ⟨c₀, hc₀, hpt⟩ := cant_reach y₀ c hc b (by simpa using hδ 0)
+  obtain ⟨b', cls⟩ := c₀
+  simp only at hpt
+  subst hpt
+  set L := UniversalCover.liftFrom cls δ
+  have hsub : range L ⊆ absP y₀ ⁻¹' fibD k := by
+    rintro _ ⟨t, rfl⟩; exact hδ t
+  have hrange : range L ⊆ cantComp y₀ k ⟨b', cls⟩ :=
+    (isPreconnected_range L.continuous).subset_connectedComponentIn ⟨0, L.source⟩ hsub
+  have hcc : cantComp y₀ k c = cantComp y₀ k ⟨b', cls⟩ := connectedComponentIn_eq hc₀
+  obtain ⟨h, hh⟩ := cant_exists_deck y₀ (c := ⟨b', cls⟩) (c' := L 1)
+    ((UniversalCover.proj_liftFrom _ _ 1).trans δ.target).symm
+  refine ⟨h, fun m => ?_, ?_⟩
+  · have e1 := cantSq_deckHom y₀ m h ⟨b', cls⟩
+    rw [hh, cantSq_liftFrom_loop] at e1
+    have e0 : L 0 = ⟨b', cls⟩ := L.source
+    rw [e0] at e1
+    have hne := cantSq_ne_zero y₀ m ⟨b', cls⟩
+    have : ((-1 : ℂ) ^ cWinding (δ.map (subFib _ (cantPt_mem m)).continuous) - cantEps y₀ m h) *
+        cantSq y₀ m ⟨b', cls⟩ = 0 := by linear_combination e1
+    exact (sub_eq_zero.1 ((mul_eq_zero.1 this).resolve_right hne)).symm
+  · have hc0 : absP y₀ ⟨b', cls⟩ ∈ fibD k := hsub ⟨0, L.source⟩
+    have h1 : (UniversalCover.deckHom h).1 ⟨b', cls⟩ ∈ cantComp y₀ k ⟨b', cls⟩ := by
+      rw [hh]; exact hrange ⟨1, rfl⟩
+    rw [hcc]
+    exact cant_mem_comp_of_deck y₀ hc0 h1 (hcc ▸ mem_connectedComponentIn hc)
+
+/-! #### Realising sign patterns by loops in `D_k` -/
+
+/-- The sign patterns realised by deck transformations preserving the component of `c` over
+`D_k`. -/
+def CantReal (k : ℕ) (c : AbsU y₀) (τ : ℕ → ℂ) : Prop :=
+  ∃ h : AbsGamma y₀, (∀ m, cantEps y₀ m h = τ m) ∧ (UniversalCover.deckHom h).1 c ∈ cantComp y₀ k c
+
+theorem cantReal_one {k : ℕ} {c : AbsU y₀} (hc : absP y₀ c ∈ fibD k) : CantReal y₀ k c fun _ => 1 :=
+  ⟨1, fun m => cantEps_one y₀ m, by rw [map_one]; exact mem_connectedComponentIn hc⟩
+
+theorem cantReal_mul {k : ℕ} {c : AbsU y₀} (hc : absP y₀ c ∈ fibD k) {τ τ' : ℕ → ℂ}
+    (h : CantReal y₀ k c τ) (h' : CantReal y₀ k c τ') : CantReal y₀ k c fun m => τ m * τ' m := by
+  obtain ⟨a, ha, hac⟩ := h
+  obtain ⟨b, hb, hbc⟩ := h'
+  exact ⟨a * b, fun m => by rw [cantEps_mul, ha, hb], cant_stab_mul y₀ hc hac hbc⟩
+
+theorem cantReal_congr {k : ℕ} {c : AbsU y₀} {τ τ' : ℕ → ℂ} (he : ∀ m, τ m = τ' m)
+    (h : CantReal y₀ k c τ) : CantReal y₀ k c τ' := by
+  obtain ⟨a, ha, hac⟩ := h
+  exact ⟨a, fun m => (ha m).trans (he m), hac⟩
+
+theorem cantPt_eq_absGalP_iff (m n : ℕ) : cantPt m = (absGalP n : ℂ) ↔ m = n := by
+  rw [cantPt, Complex.ofReal_inj, absGalP]
+  constructor
+  · intro h
+    have : (m : ℝ) + 1 = (n : ℝ) + 1 := by
+      have h' := h
+      field_simp at h'
+      linarith
+    exact_mod_cast (by linarith : (m : ℝ) = n)
+  · rintro rfl; rfl
+
+theorem cant_absGalCirc_mem {k n : ℕ} (hkn : k ≤ n) (t : I) : absGalCirc n t ∈ fibD k := by
+  rw [fibD, Metric.mem_ball, dist_zero_right]
+  have h1 : ‖absGalCirc n t‖ ≤ ‖absGalCirc n t - absGalP n‖ + ‖((absGalP n : ℝ) : ℂ)‖ := by
+    calc ‖absGalCirc n t‖ = ‖(absGalCirc n t - absGalP n) + ((absGalP n : ℝ) : ℂ)‖ := by ring_nf
+      _ ≤ _ := norm_add_le _ _
+  rw [norm_absGalCirc_sub, Complex.norm_real, Real.norm_of_nonneg (by unfold absGalP; positivity)]
+    at h1
+  have h2 : absGalρ n + absGalP n < 1 / ((n : ℝ) + 1 / 2) := by
+    unfold absGalρ absGalP
+    rw [div_add_div _ _ (by positivity) (by positivity), div_lt_div_iff₀ (by positivity)
+      (by positivity)]
+    nlinarith
+  have h3 : 1 / ((n : ℝ) + 1 / 2) ≤ 1 / ((k : ℝ) + 1 / 2) :=
+    one_div_le_one_div_of_le (by positivity) (by have : (k : ℝ) ≤ n := (by exact_mod_cast hkn); linarith)
+  linarith
+
+/-- The flip of the single sign `n ≥ k` is realised (the small circle around `aₙ`). -/
+theorem cantReal_flip {k : ℕ} {c : AbsU y₀} (hc : absP y₀ c ∈ fibD k) {n : ℕ} (hkn : k ≤ n) :
+    CantReal y₀ k c fun m => if m = n then -1 else 1 := by
+  obtain ⟨h, hh, hc'⟩ := cant_loop_realize y₀ c hc (absGalCircPath n)
+    fun t => cant_absGalCirc_mem hkn t
+  refine ⟨h, fun m => ?_, hc'⟩
+  beta_reduce
+  rw [hh, absGal_cWinding_circ]
+  by_cases hm : m = n
+  · rw [if_pos ((cantPt_eq_absGalP_iff m n).2 hm), if_pos hm]; norm_num
+  · rw [if_neg (fun e => hm ((cantPt_eq_absGalP_iff m n).1 e)), if_neg hm]; norm_num
+
+/-- The circle `t ↦ -R e^{2iπt}` around `0`. -/
+def cantCirc (R : ℝ) (t : I) : ℂ := -(R : ℂ) * Complex.exp (2 * Real.pi * Complex.I * (t : ℝ))
+
+theorem cant_norm_exp (t : ℝ) : ‖Complex.exp (2 * Real.pi * Complex.I * t)‖ = 1 := by
+  rw [show (2 * Real.pi * Complex.I * t : ℂ) = ((2 * Real.pi * t : ℝ) : ℂ) * Complex.I by
+    push_cast; ring, Complex.norm_exp_ofReal_mul_I]
+
+theorem cant_norm_exp_neg (t : ℝ) : ‖Complex.exp (-(2 * Real.pi * Complex.I * t))‖ = 1 := by
+  rw [show (-(2 * Real.pi * Complex.I * t) : ℂ) = ((-(2 * Real.pi * t) : ℝ) : ℂ) * Complex.I by
+    push_cast; ring, Complex.norm_exp_ofReal_mul_I]
+
+theorem norm_cantCirc {R : ℝ} (hR : 0 ≤ R) (t : I) : ‖cantCirc R t‖ = R := by
+  rw [cantCirc, norm_mul, norm_neg, Complex.norm_real, Real.norm_of_nonneg hR, cant_norm_exp, mul_one]
+
+theorem cantCirc_zero (R : ℝ) : cantCirc R 0 = -(R : ℂ) := by simp [cantCirc]
+
+theorem cantCirc_one (R : ℝ) : cantCirc R 1 = -(R : ℂ) := by
+  simp only [cantCirc, Set.Icc.coe_one, Complex.ofReal_one, mul_one, Complex.exp_two_pi_mul_I]
+
+theorem cantCirc_not_mem {R : ℝ} (hR : 0 ≤ R) (hS : ∀ s ∈ fibS, ‖s‖ ≠ R) (t : I) :
+    cantCirc R t ∉ fibS := fun h => hS _ h (norm_cantCirc hR t)
+
+theorem cant_negR_not_mem {R : ℝ} (hR : 0 ≤ R) (hS : ∀ s ∈ fibS, ‖s‖ ≠ R) : -(R : ℂ) ∉ fibS :=
+  cantCirc_zero R ▸ cantCirc_not_mem hR hS 0
+
+/-- The circle as a loop of `ℂ ∖ S`. -/
+def cantCircPath {R : ℝ} (hR : 0 ≤ R) (hS : ∀ s ∈ fibS, ‖s‖ ≠ R) :
+    Path (⟨-(R : ℂ), cant_negR_not_mem hR hS⟩ : (fibSᶜ : Set ℂ)) ⟨-(R : ℂ), cant_negR_not_mem hR hS⟩ where
+  toFun t := ⟨cantCirc R t, cantCirc_not_mem hR hS t⟩
+  continuous_toFun := by refine Continuous.subtype_mk ?_ _; unfold cantCirc; fun_prop
+  source' := Subtype.ext (cantCirc_zero R)
+  target' := Subtype.ext (cantCirc_one R)
+
+theorem cant_slit_of_norm {w : ℂ} (hw : ‖w‖ < 1) : 1 + w ∈ Complex.slitPlane := by
+  refine Complex.mem_slitPlane_iff.2 (Or.inl ?_)
+  have := Complex.abs_re_le_norm w
+  rw [Complex.add_re, Complex.one_re]
+  linarith [abs_lt.1 (this.trans_lt hw)]
+
+/-- The circle of radius `R` winds once around the points of `S` inside it. -/
+theorem cant_cWinding_circ_in {R : ℝ} (hR : 0 < R) (hS : ∀ s ∈ fibS, ‖s‖ ≠ R) {q : ℂ}
+    (hq : q ∈ fibS) (hqR : ‖q‖ < R) :
+    cWinding ((cantCircPath hR.le hS).map (subFib q hq).continuous) = 1 := by
+  set w : I → ℂ := fun t => q / (R : ℂ) * Complex.exp (-(2 * Real.pi * Complex.I * (t : ℝ)))
+  have hR0 : (R : ℂ) ≠ 0 := Complex.ofReal_ne_zero.2 hR.ne'
+  have hw : ∀ t, ‖w t‖ < 1 := fun t => by
+    simp only [w, norm_mul, norm_div, Complex.norm_real, Real.norm_of_nonneg hR.le,
+      cant_norm_exp_neg, mul_one]
+    rwa [div_lt_one hR]
+  have hwc : Continuous w := by simp only [w]; fun_prop
+  refine cWinding_eq _ (Γ := ⟨fun t => Complex.log (-(R : ℂ)) + 2 * Real.pi * Complex.I * (t : ℝ) +
+      Complex.log (1 + w t), (continuous_const.add (by fun_prop)).add
+        (continuous_iff_continuousAt.2 fun t =>
+          (continuous_const.add hwc).continuousAt.clog (cant_slit_of_norm (hw t)))⟩) (fun t => ?_) ?_
+  · show Complex.exp (Complex.log (-(R : ℂ)) + 2 * Real.pi * Complex.I * (t : ℝ) +
+      Complex.log (1 + w t)) = cantCirc R t - q
+    rw [Complex.exp_add, Complex.exp_add, Complex.exp_log (neg_ne_zero.2 hR0),
+      Complex.exp_log (Complex.slitPlane_ne_zero (cant_slit_of_norm (hw t)))]
+    simp only [w, cantCirc, Complex.exp_neg]
+    have hE := Complex.exp_ne_zero (2 * Real.pi * Complex.I * (t : ℝ))
+    field_simp
+    ring
+  · simp only [ContinuousMap.coe_mk, w, Set.Icc.coe_one, Set.Icc.coe_zero, Complex.ofReal_one,
+      Complex.ofReal_zero, mul_one, mul_zero, neg_zero, Complex.exp_zero, Int.cast_one, one_mul]
+    rw [Complex.exp_neg, Complex.exp_two_pi_mul_I, inv_one, mul_one]
+    ring
+
+/-- The circle of radius `R` does not wind around the points of `S` outside it. -/
+theorem cant_cWinding_circ_out {R : ℝ} (hR : 0 < R) (hS : ∀ s ∈ fibS, ‖s‖ ≠ R) {q : ℂ}
+    (hq : q ∈ fibS) (hqR : R < ‖q‖) :
+    cWinding ((cantCircPath hR.le hS).map (subFib q hq).continuous) = 0 := by
+  have hq0 : q ≠ 0 := fun h => by rw [h, norm_zero] at hqR; linarith
+  set w : I → ℂ := fun t => (R : ℂ) / q * Complex.exp (2 * Real.pi * Complex.I * (t : ℝ))
+  have hw : ∀ t, ‖w t‖ < 1 := fun t => by
+    simp only [w, norm_mul, norm_div, Complex.norm_real, Real.norm_of_nonneg hR.le,
+      cant_norm_exp, mul_one]
+    rwa [div_lt_one (by linarith)]
+  have hwc : Continuous w := by simp only [w]; fun_prop
+  refine cWinding_eq _ (Γ := ⟨fun t => Complex.log (-q) + Complex.log (1 + w t),
+      continuous_const.add (continuous_iff_continuousAt.2 fun t =>
+          (continuous_const.add hwc).continuousAt.clog (cant_slit_of_norm (hw t)))⟩) (fun t => ?_) ?_
+  · show Complex.exp (Complex.log (-q) + Complex.log (1 + w t)) = cantCirc R t - q
+    rw [Complex.exp_add, Complex.exp_log (neg_ne_zero.2 hq0),
+      Complex.exp_log (Complex.slitPlane_ne_zero (cant_slit_of_norm (hw t)))]
+    simp only [w, cantCirc]
+    field_simp
+    ring
+  · simp only [ContinuousMap.coe_mk, w, Set.Icc.coe_one, Set.Icc.coe_zero, Complex.ofReal_one,
+      Complex.ofReal_zero, mul_one, mul_zero, Complex.exp_zero, Int.cast_zero, zero_mul, add_zero,
+      Complex.exp_two_pi_mul_I]
+
+/-- The radius `R_k` between `a_k` and the radius of `D_k`. -/
+def cantR (k : ℕ) : ℝ := (1 / ((k : ℝ) + 1) + 1 / ((k : ℝ) + 1 / 2)) / 2
+
+theorem cantR_pos (k : ℕ) : 0 < cantR k := by unfold cantR; positivity
+
+theorem cantR_gt (k : ℕ) : 1 / ((k : ℝ) + 1) < cantR k := by
+  have : 1 / ((k : ℝ) + 1) < 1 / ((k : ℝ) + 1 / 2) :=
+    one_div_lt_one_div_of_lt (by positivity) (by linarith)
+  unfold cantR; linarith
+
+theorem cantR_lt (k : ℕ) : cantR k < 1 / ((k : ℝ) + 1 / 2) := by
+  have : 1 / ((k : ℝ) + 1) < 1 / ((k : ℝ) + 1 / 2) :=
+    one_div_lt_one_div_of_lt (by positivity) (by linarith)
+  unfold cantR; linarith
+
+theorem norm_cantPt (m : ℕ) : ‖cantPt m‖ = 1 / ((m : ℝ) + 1) := by
+  rw [cantPt, Complex.norm_real, Real.norm_of_nonneg (by positivity)]
+
+theorem cant_norm_lt_cantR {k m : ℕ} (h : k ≤ m) : ‖cantPt m‖ < cantR k := by
+  rw [norm_cantPt]
+  have : 1 / ((m : ℝ) + 1) ≤ 1 / ((k : ℝ) + 1) :=
+    one_div_le_one_div_of_le (by positivity) (by have : (k : ℝ) ≤ m := (by exact_mod_cast h); linarith)
+  linarith [cantR_gt k]
+
+theorem cant_cantR_lt_norm {k m : ℕ} (h : m < k) : cantR k < ‖cantPt m‖ := by
+  rw [norm_cantPt]
+  have : 1 / ((k : ℝ) + 1 / 2) < 1 / ((m : ℝ) + 1) :=
+    one_div_lt_one_div_of_lt (by positivity) (by have : (m : ℝ) + 1 ≤ k := (by exact_mod_cast h); linarith)
+  linarith [cantR_lt k]
+
+theorem cantR_ne (k : ℕ) : ∀ s ∈ fibS, ‖s‖ ≠ cantR k := by
+  rintro s (rfl | ⟨m, rfl⟩)
+  · rw [norm_zero]; exact (cantR_pos k).ne
+  · show ‖cantPt m‖ ≠ cantR k
+    rcases lt_or_ge m k with h | h
+    · exact (cant_cantR_lt_norm h).ne'
+    · exact (cant_norm_lt_cantR h).ne
+
+/-- The flip of all the signs `m ≥ k` is realised (the circle of radius `R_k` around `0`). -/
+theorem cantReal_big {k : ℕ} {c : AbsU y₀} (hc : absP y₀ c ∈ fibD k) :
+    CantReal y₀ k c fun m => if k ≤ m then -1 else 1 := by
+  obtain ⟨h, hh, hc'⟩ := cant_loop_realize y₀ c hc (cantCircPath (cantR_pos k).le (cantR_ne k))
+    fun t => by
+      show cantCirc (cantR k) t ∈ fibD k
+      rw [fibD, Metric.mem_ball, dist_zero_right, norm_cantCirc (cantR_pos k).le]
+      exact cantR_lt k
+  refine ⟨h, fun m => ?_, hc'⟩
+  beta_reduce
+  rw [hh]
+  by_cases hm : k ≤ m
+  · rw [cant_cWinding_circ_in (cantR_pos k) (cantR_ne k) _ (cant_norm_lt_cantR hm), if_pos hm]
+    norm_num
+  · rw [cant_cWinding_circ_out (cantR_pos k) (cantR_ne k) _ (cant_cantR_lt_norm (not_le.1 hm)),
+      if_neg hm]
+    norm_num
+
+/-- Every `±1` pattern supported in `[k, N)` is realised. -/
+theorem cantReal_finite {k : ℕ} {c : AbsU y₀} (hc : absP y₀ c ∈ fibD k) :
+    ∀ (N : ℕ) (τ : ℕ → ℂ), (∀ m, τ m = 1 ∨ τ m = -1) → (∀ m, m < k ∨ N ≤ m → τ m = 1) →
+      CantReal y₀ k c τ := by
+  intro N
+  induction N with
+  | zero =>
+    intro τ _ hτ
+    exact cantReal_congr y₀ (fun m => (hτ m (Or.inr (Nat.zero_le m))).symm) (cantReal_one y₀ hc)
+  | succ N ih =>
+    intro τ hpm hτ
+    have h' := ih (fun m => if m = N then 1 else τ m)
+      (fun m => by split_ifs <;> simp_all) (fun m hm => by
+        split_ifs with h
+        · rfl
+        · refine hτ m ?_
+          rcases hm with hm | hm
+          · exact Or.inl hm
+          · exact Or.inr (by omega))
+    rcases hpm N with hN | hN
+    · exact cantReal_congr y₀ (fun m => by split_ifs with h <;> simp_all) h'
+    · have hkN : k ≤ N := by
+        by_contra hlt
+        have := hτ N (Or.inl (not_le.1 hlt))
+        rw [hN] at this; norm_num at this
+      refine cantReal_congr y₀ (fun m => ?_) (cantReal_mul y₀ hc h' (cantReal_flip y₀ hc hkN))
+      by_cases h : m = N
+      · subst h; simp [hN]
+      · simp [h]
+
+/-! #### The signs of a loop class are eventually constant -/
+
+theorem cant_wind_eq_of_small (γ : Path y₀ y₀) {δ : ℝ}
+    (hmin : ∀ t, δ ≤ ‖((γ t : (fibSᶜ : Set ℂ)) : ℂ)‖) {n m : ℕ} (hn : ‖cantPt n‖ < δ / 3)
+    (hm : ‖cantPt m‖ < δ / 3) :
+    windAt y₀ _ (cantPt_mem n) γ = windAt y₀ _ (cantPt_mem m) γ := by
+  unfold windAt
+  obtain ⟨Γ, hΓ⟩ := exists_expLift (γ.map (subFib _ (cantPt_mem m)).continuous).toContinuousMap
+  have e := cWinding_spec _ hΓ
+  have hden : ∀ t, ((γ t : (fibSᶜ : Set ℂ)) : ℂ) - cantPt m ≠ 0 := fun t h =>
+    (γ t).2 (by rw [sub_eq_zero] at h; rw [h]; exact cantPt_mem m)
+  set w : I → ℂ := fun t => (cantPt m - cantPt n) / (((γ t : (fibSᶜ : Set ℂ)) : ℂ) - cantPt m)
+  have hw : ∀ t, ‖w t‖ < 1 := fun t => by
+    have h1 : ‖cantPt m - cantPt n‖ ≤ ‖cantPt m‖ + ‖cantPt n‖ := norm_sub_le _ _
+    have h2 : ‖((γ t : (fibSᶜ : Set ℂ)) : ℂ)‖ - ‖cantPt m‖ ≤
+        ‖((γ t : (fibSᶜ : Set ℂ)) : ℂ) - cantPt m‖ := norm_sub_norm_le _ _
+    have h3 := hmin t
+    have hpos : 0 < ‖((γ t : (fibSᶜ : Set ℂ)) : ℂ) - cantPt m‖ := norm_pos_iff.2 (hden t)
+    simp only [w, norm_div]
+    rw [div_lt_one hpos]
+    linarith [norm_nonneg (cantPt n), norm_nonneg (cantPt m)]
+  have hwc : Continuous w := by
+    simp only [w]
+    exact continuous_const.div ((continuous_subtype_val.comp γ.continuous).sub continuous_const) hden
+  have hL : Continuous fun t => Complex.log (1 + w t) :=
+    continuous_iff_continuousAt.2 fun t =>
+      (continuous_const.add hwc).continuousAt.clog (cant_slit_of_norm (hw t))
+  refine cWinding_eq _ (Γ := Γ + ⟨fun t => Complex.log (1 + w t), hL⟩) (fun t => ?_) ?_
+  · show Complex.exp (Γ t + Complex.log (1 + w t)) = ((γ t : (fibSᶜ : Set ℂ)) : ℂ) - cantPt n
+    rw [Complex.exp_add, Complex.exp_log (Complex.slitPlane_ne_zero (cant_slit_of_norm (hw t))), hΓ t]
+    show (((γ t : (fibSᶜ : Set ℂ)) : ℂ) - cantPt m) * (1 + w t) = _
+    simp only [w]
+    field_simp [hden t]
+    ring
+  · have hw10 : w 1 = w 0 := by simp only [w, γ.source, γ.target]
+    simp only [ContinuousMap.add_apply, ContinuousMap.coe_mk]
+    rw [hw10, e]
+    ring
+
+theorem cant_wind_eventually (γ : Path y₀ y₀) :
+    ∃ N, ∀ n ≥ N, windAt y₀ _ (cantPt_mem n) γ = windAt y₀ _ (cantPt_mem N) γ := by
+  obtain ⟨t₀, -, ht₀⟩ := isCompact_univ.exists_isMinOn univ_nonempty
+    (f := fun t : I => ‖((γ t : (fibSᶜ : Set ℂ)) : ℂ)‖)
+    (continuous_norm.comp (continuous_subtype_val.comp γ.continuous)).continuousOn
+  set δ := ‖((γ t₀ : (fibSᶜ : Set ℂ)) : ℂ)‖
+  have hδ : 0 < δ := norm_pos_iff.2 fun h => (γ t₀).2 (h ▸ Set.mem_insert 0 _)
+  have hmin : ∀ t, δ ≤ ‖((γ t : (fibSᶜ : Set ℂ)) : ℂ)‖ := fun t => ht₀ (mem_univ t)
+  obtain ⟨N, hN⟩ := exists_nat_one_div_lt (show 0 < δ / 3 by positivity)
+  have hsmall : ∀ n ≥ N, ‖cantPt n‖ < δ / 3 := fun n hn => by
+    rw [norm_cantPt]
+    have : 1 / ((n : ℝ) + 1) ≤ 1 / ((N : ℝ) + 1) :=
+      one_div_le_one_div_of_le (by positivity) (by have : (N : ℝ) ≤ n := (by exact_mod_cast hn); linarith)
+    linarith
+  exact ⟨N, fun n hn => cant_wind_eq_of_small y₀ γ hmin (hsmall n hn) (hsmall N le_rfl)⟩
+
+theorem cant_eps_eventually (g : AbsGamma y₀) :
+    ∃ N, ∀ n ≥ N, cantEps y₀ n g = cantEps y₀ N g := by
+  suffices h : ∀ q : Path.Homotopic.Quotient y₀ y₀, ∃ N, ∀ n ≥ N,
+      cantEps y₀ n (FundamentalGroup.fromPath q) = cantEps y₀ N (FundamentalGroup.fromPath q) from
+    h (FundamentalGroup.toPath g)
+  intro q
+  induction q using Path.Homotopic.Quotient.ind with
+  | mk γ =>
+    obtain ⟨N, hN⟩ := cant_wind_eventually y₀ γ
+    exact ⟨N, fun n hn => by rw [cantEps_fromPath, cantEps_fromPath, hN n hn]⟩
+
+/-- Every deck transformation trivial on the signs `m < k` has its pattern realised inside the
+component of `c` over `D_k`. -/
+theorem cantReal_of_eps {k : ℕ} {c : AbsU y₀} (hc : absP y₀ c ∈ fibD k) (g : AbsGamma y₀)
+    (hg : ∀ m < k, cantEps y₀ m g = 1) : CantReal y₀ k c fun m => cantEps y₀ m g := by
+  obtain ⟨N₀, hN₀⟩ := cant_eps_eventually y₀ g
+  set N := max N₀ k
+  have hN : ∀ n ≥ N, cantEps y₀ n g = cantEps y₀ N g := fun n hn =>
+    (hN₀ n (le_trans (le_max_left _ _) hn)).trans (hN₀ N (le_max_left _ _)).symm
+  rcases cantEps_eq y₀ N g with hE | hE
+  · exact cantReal_finite y₀ hc N _ (fun m => cantEps_eq y₀ m g) fun m hm =>
+      hm.elim (hg m) fun h => (hN m h).trans hE
+  · have h' := cantReal_finite y₀ hc N (fun m => cantEps y₀ m g * if k ≤ m then -1 else 1)
+      (fun m => by
+        rcases cantEps_eq y₀ m g with e | e <;> rw [e] <;> split_ifs <;> norm_num)
+      (fun m hm => by
+        rcases hm with hm | hm
+        · rw [hg m hm, if_neg (not_le.2 hm)]; ring
+        · rw [hN m hm, hE, if_pos (le_trans (le_max_right _ _) hm)]; ring)
+    refine cantReal_congr y₀ (fun m => ?_) (cantReal_mul y₀ hc h' (cantReal_big y₀ hc))
+    split_ifs <;> ring
+
+/-! #### `Γ₂' \ \widetilde{ℂ∖S}`, its completion `Y₂'`, and the components over `D_k` -/
+
+/-- `Γ₂'` as a group of homeomorphisms of `\widetilde{ℂ∖S}`. -/
+def cantHomeo : Subgroup (AbsU y₀ ≃ₜ AbsU y₀) :=
+  ((cantGamma y₀).map UniversalCover.deckHom).map
+    (deckGroup (UniversalCover.proj (fibSᶜ : Set ℂ) y₀)).subtype
+
+/-- `Γ₂' \ ord(\widetilde Y^S)`. -/
+abbrev CantOrd : Type := HomeoQuotient (cantHomeo y₀)
+
+/-- The spread `Γ₂' \ ord(\widetilde Y^S) → Y`. -/
+def cantProj : CantOrd y₀ → ℂ :=
+  Quotient.lift (univCoverProj fibS y₀) fun a b ⟨φ, hφ, h⟩ => by
+    obtain ⟨ψ, -, rfl⟩ := Subgroup.mem_map.1 hφ
+    rw [← h]
+    exact (congrArg Subtype.val (congrFun ψ.2 a)).symm
+
+/-- **`Y₂'`**, the completion of the spread `Γ₂' \ ord(\widetilde Y^S) → Y` (DEC-69). -/
+abbrev CantY₂ : Type := SpreadEnd (cantProj y₀)
+
+/-- The fibre of `Y₂'` above `0`. -/
+def cantFiber0 : Set (CantY₂ y₀) := SpreadEnd.base ⁻¹' {0}
+
+theorem cantProj_mk (c : AbsU y₀) : cantProj y₀ (homeoQuotientMk _ c) = absP y₀ c := rfl
+
+theorem cantSigma_inv {φ : AbsU y₀ ≃ₜ AbsU y₀} (hφ : φ ∈ cantHomeo y₀) (n : ℕ) (c : AbsU y₀) :
+    cantSigma y₀ n (φ c) = cantSigma y₀ n c := by
+  obtain ⟨d, hd, rfl⟩ := Subgroup.mem_map.1 hφ
+  obtain ⟨g, hg, rfl⟩ := Subgroup.mem_map.1 hd
+  show cantSigma y₀ n ((UniversalCover.deckHom g).1 c) = _
+  rw [cantSigma_deckHom, hg n, one_mul]
+
+/-- The bit `σₙ = 1` on `Γ₂' \ \widetilde{ℂ∖S}`. -/
+def cantBitQ (n : ℕ) : CantOrd y₀ → Bool :=
+  Quotient.lift (cantBit y₀ n) fun a b ⟨φ, hφ, h⟩ => by
+    rw [← h]; unfold cantBit; rw [cantSigma_inv y₀ hφ]
+
+theorem cant_isOpen_levelQ {n k : ℕ} (hnk : n < k) (b : Bool) :
+    IsOpen {x : CantOrd y₀ | cantProj y₀ x ∈ fibD k ∧ cantBitQ y₀ n x = b} := by
+  rw [← isQuotientMap_quotient_mk'.isOpen_preimage]
+  exact cant_isOpen_level y₀ hnk b
+
+theorem cantBitQ_const {n k : ℕ} (hnk : n < k) {x x' : CantOrd y₀} (hx : cantProj y₀ x ∈ fibD k)
+    (hx' : x' ∈ connectedComponentIn (cantProj y₀ ⁻¹' fibD k) x) :
+    cantBitQ y₀ n x' = cantBitQ y₀ n x :=
+  cant_const_of_isOpen_level (A := cantProj y₀ ⁻¹' fibD k) (fun b => cant_isOpen_levelQ y₀ hnk b)
+    isPreconnected_connectedComponentIn (connectedComponentIn_subset _ _)
+    (mem_connectedComponentIn hx) hx'
+
+/-- **Points of `Γ₂' \ \widetilde{ℂ∖S}` over `D_k` with the same signs `σₙ`, `n < k`, lie in the
+same component of the preimage of `D_k`.** -/
+theorem cant_mem_comp_of_sigma {k : ℕ} {c c' : AbsU y₀} (hc : absP y₀ c ∈ fibD k)
+    (hc' : absP y₀ c' ∈ fibD k) (hs : ∀ n < k, cantSigma y₀ n c' = cantSigma y₀ n c) :
+    homeoQuotientMk _ c' ∈ connectedComponentIn (cantProj y₀ ⁻¹' fibD k) (homeoQuotientMk _ c) := by
+  obtain ⟨c'', hc'', hpt⟩ := cant_reach y₀ c hc c'.pt hc'
+  obtain ⟨g, hg⟩ := cant_exists_deck y₀ hpt
+  have hc''k : absP y₀ c'' ∈ fibD k := connectedComponentIn_subset (absP y₀ ⁻¹' fibD k) c hc''
+  have hgk : ∀ m < k, cantEps y₀ m g = 1 := by
+    intro m hm
+    have e1 := cantSigma_deckHom y₀ m g c''
+    rw [hg] at e1
+    have e2 : cantSigma y₀ m c'' = cantSigma y₀ m c :=
+      cantSigma_const y₀ hm isPreconnected_connectedComponentIn (connectedComponentIn_subset _ _)
+        (mem_connectedComponentIn hc) hc''
+    rw [hs m hm, e2] at e1
+    have hne : cantSigma y₀ m c ≠ 0 := by
+      rcases cantSigma_eq y₀ (cant_re_lt_of_mem_fibD hm hc) with e | e <;> rw [e] <;> norm_num
+    have : (cantEps y₀ m g - 1) * cantSigma y₀ m c = 0 := by linear_combination -e1
+    exact sub_eq_zero.1 ((mul_eq_zero.1 this).resolve_right hne)
+  obtain ⟨h, hh, hhc⟩ := cantReal_of_eps y₀ hc''k g hgk
+  have hu : g * h⁻¹ ∈ cantGamma y₀ := fun m => by
+    show cantEps y₀ m (g * h⁻¹) = 1
+    rw [cantEps_mul, cantEps_inv, hh m]
+    beta_reduce
+    rw [← sq, cantEps_sq]
+  have heq : homeoQuotientMk (cantHomeo y₀) ((UniversalCover.deckHom h).1 c'') =
+      homeoQuotientMk _ c' := Quotient.sound
+    ⟨(UniversalCover.deckHom (g * h⁻¹)).1,
+      Subgroup.mem_map_of_mem _ (Subgroup.mem_map_of_mem _ hu), by
+        rw [← hg]
+        show ((UniversalCover.deckHom (g * h⁻¹)) * (UniversalCover.deckHom h)).1 c'' = _
+        rw [← map_mul, inv_mul_cancel_right]⟩
+  rw [← heq]
+  have hcomp : cantComp y₀ k c'' = cantComp y₀ k c := (connectedComponentIn_eq hc'').symm
+  have hmem : (UniversalCover.deckHom h).1 c'' ∈ cantComp y₀ k c := hcomp ▸ hhc
+  exact (isPreconnected_connectedComponentIn.image _ continuous_quotient_mk'.continuousOn)
+    |>.subset_connectedComponentIn ⟨c, mem_connectedComponentIn hc, rfl⟩
+      (image_subset_iff.2 fun x hx => by
+        exact (connectedComponentIn_subset (absP y₀ ⁻¹' fibD k) c hx : absP y₀ x ∈ fibD k))
+      ⟨_, hmem, rfl⟩
+
+/-- The set of points over `D_k` with signs `τ₀, …, τ_{k-1}`. -/
+def cantZ (k : ℕ) (τ : ℕ → Bool) : Set (CantOrd y₀) :=
+  {x | cantProj y₀ x ∈ fibD k ∧ ∀ n < k, cantBitQ y₀ n x = τ n}
+
+/-- **The components of the preimage of `D_k` are exactly the sets `cantZ k τ`.** -/
+theorem cantZ_comp {k : ℕ} {τ : ℕ → Bool} {x : CantOrd y₀} (hx : x ∈ cantZ y₀ k τ) :
+    connectedComponentIn (cantProj y₀ ⁻¹' fibD k) x = cantZ y₀ k τ := by
+  ext y
+  constructor
+  · intro hy
+    exact ⟨connectedComponentIn_subset (cantProj y₀ ⁻¹' fibD k) x hy, fun n hn =>
+      (cantBitQ_const y₀ hn hx.1 hy).trans (hx.2 n hn)⟩
+  · intro hy
+    induction x using Quotient.inductionOn with
+    | h c =>
+      induction y using Quotient.inductionOn with
+      | h c' =>
+        refine cant_mem_comp_of_sigma y₀ hx.1 hy.1 fun n hn => ?_
+        exact cantSigma_eq_of_bit y₀ (cant_re_lt_of_mem_fibD hn hx.1)
+          (cant_re_lt_of_mem_fibD hn hy.1) ((hy.2 n hn).trans (hx.2 n hn).symm)
+
+theorem cantZ_nonempty (k : ℕ) (τ : ℕ → Bool) : (cantZ y₀ k τ).Nonempty := by
+  set c₀ := absGalW y₀ k
+  have hc₀ : absP y₀ c₀ ∈ fibD k := by rw [absP_absGalW]; exact (fibQ_mem k).1
+  have hc₀0 : absP y₀ c₀ ∈ fibD 0 := fibD_subset_iff.2 (Nat.zero_le k) hc₀
+  set ρ : ℕ → ℂ := fun m => if m < k ∧ cantBit y₀ m c₀ ≠ τ m then -1 else 1
+  obtain ⟨h, hh, -⟩ := cantReal_finite y₀ hc₀0 k ρ
+    (fun m => by simp only [ρ]; split_ifs <;> simp)
+    (fun m hm => by
+      simp only [ρ]
+      rw [if_neg]
+      rintro ⟨h1, -⟩
+      omega)
+  refine ⟨homeoQuotientMk _ ((UniversalCover.deckHom h).1 c₀), hc₀, fun n hn => ?_⟩
+  show cantBit y₀ n ((UniversalCover.deckHom h).1 c₀) = τ n
+  have hreg := cant_re_lt_of_mem_fibD hn hc₀
+  by_cases hb : cantBit y₀ n c₀ = τ n
+  · have hρ : ρ n = 1 := if_neg (fun h' => h'.2 hb)
+    unfold cantBit
+    simp only [cantSigma_deckHom, hh n, hρ, one_mul]
+    exact hb
+  · have hρ : ρ n = -1 := if_pos ⟨hn, hb⟩
+    unfold cantBit at hb ⊢
+    simp only [cantSigma_deckHom, hh n, hρ]
+    rcases cantSigma_eq y₀ hreg with e | e <;> simp only [e] at hb ⊢ <;> revert hb <;>
+      cases τ n <;> norm_num
+
+/-- The thread `D_k ↦ cantZ k τ`. -/
+def cantThread (τ : ℕ → Bool) : FiberThread (cantProj y₀) (range fibD) where
+  toFun U := cantZ y₀ (absGalIdx U) τ
+  isCompOf U := by
+    have hU := absGalIdx_spec U
+    obtain ⟨x, hx⟩ := cantZ_nonempty y₀ (absGalIdx U) τ
+    refine ⟨x, hU ▸ hx.1, ?_⟩
+    rw [← cantZ_comp y₀ hx, hU]
+  mono U V hUV := by
+    have hU := absGalIdx_spec U
+    have hV := absGalIdx_spec V
+    rw [← hU, ← hV, fibD_subset_iff] at hUV
+    exact fun x hx => ⟨fibD_subset_iff.2 hUV hx.1, fun n hn => hx.2 n (lt_of_lt_of_le hn hUV)⟩
+
+/-- The end of `Y₂'` over `0` with signs `τ`. -/
+def cantEnd (τ : ℕ → Bool) : CantY₂ y₀ := (cantThread y₀ τ).toEnd absGal_h𝓤 fibD_basis
+
+theorem cantEnd_base (τ : ℕ → Bool) : (cantEnd y₀ τ).base = 0 := rfl
+
+theorem cantEnd_apply (τ : ℕ → Bool) (k : ℕ) : cantEnd y₀ τ (fibD k) = cantZ y₀ k τ := by
+  have := FiberThread.toEnd_apply absGal_h𝓤 fibD_basis (cantThread y₀ τ) ⟨fibD k, k, rfl⟩
+  rw [cantEnd, this]
+  show cantZ y₀ (absGalIdx ⟨fibD k, k, rfl⟩) τ = _
+  rw [fibD_injective (absGalIdx_spec ⟨fibD k, k, rfl⟩)]
+
+theorem cantEnd_injective : Injective (cantEnd y₀) := by
+  intro τ τ' h
+  funext n
+  obtain ⟨x, hx⟩ := cantZ_nonempty y₀ (n + 1) τ
+  have hx' : x ∈ cantZ y₀ (n + 1) τ' := by rw [← cantEnd_apply, ← h, cantEnd_apply]; exact hx
+  exact (hx.2 n (Nat.lt_succ_self n)).symm.trans (hx'.2 n (Nat.lt_succ_self n))
+
+theorem cantEnd_surj (e : CantY₂ y₀) (he : e.base = 0) : ∃ τ, cantEnd y₀ τ = e := by
+  have hD : ∀ k, IsCNbhd e.base (fibD k) := fun k => he ▸ isCNbhd_fibD k
+  choose y hy using fun n => e.nonempty (hD (n + 1))
+  refine ⟨fun n => cantBitQ y₀ n (y n), ?_⟩
+  have hk : ∀ k, e (fibD k) = cantZ y₀ k (fun n => cantBitQ y₀ n (y n)) := by
+    intro k
+    obtain ⟨x, hx⟩ := e.nonempty (hD k)
+    have hxZ : x ∈ cantZ y₀ k (fun n => cantBitQ y₀ n (y n)) := by
+      refine ⟨e.subset_preimage (hD k) hx, fun n hn => ?_⟩
+      have hsub : e (fibD k) ⊆ e (fibD (n + 1)) :=
+        e.mono _ _ (hD k) (hD (n + 1)) (fibD_subset_iff.2 hn)
+      have hc := (e.isCompOf _ (hD (n + 1))).eq_of_mem (hy n)
+      have hx' : x ∈ connectedComponentIn (cantProj y₀ ⁻¹' fibD (n + 1)) (y n) := hc ▸ hsub hx
+      exact cantBitQ_const y₀ (Nat.lt_succ_self n) (e.subset_preimage (hD (n + 1)) (hy n)) hx'
+    rw [(e.isCompOf _ (hD k)).eq_of_mem hx, cantZ_comp y₀ hxZ]
+  refine SpreadEnd.ext_of_isCNbhd ((cantEnd_base y₀ _).trans he.symm) fun U hU => ?_
+  have hU0 : IsCNbhd (0 : ℂ) U := hU
+  obtain ⟨_, ⟨k, rfl⟩, hkU⟩ := fibD_basis U (hU0.1.mem_nhds hU0.2.2)
+  obtain ⟨x, hx⟩ := cantZ_nonempty y₀ k (fun n => cantBitQ y₀ n (y n))
+  have h1 : x ∈ cantEnd y₀ _ U :=
+    (cantEnd y₀ _).mono _ _ (isCNbhd_fibD k) hU hkU (by rw [cantEnd_apply]; exact hx)
+  have h2 : x ∈ e U := e.mono _ _ (hD k) (he ▸ hU0) hkU (by rw [hk]; exact hx)
+  exact ((cantEnd y₀ _).isCompOf U hU).eq_of_meets (e.isCompOf U (he ▸ hU0)) ⟨x, h1, h2⟩
+
+theorem continuous_cantEnd : Continuous (cantEnd y₀) := by
+  refine continuous_iff_continuousAt.2 fun τ =>
+    ((SpreadEnd.hasBasis_nhds (cantEnd y₀ τ)).tendsto_right_iff).2 fun W hW => ?_
+  have hW' : IsCNbhd (0 : ℂ) W := hW
+  obtain ⟨_, ⟨k, rfl⟩, hkW⟩ := fibD_basis W (hW'.1.mem_nhds hW'.2.2)
+  have hev : ∀ᶠ τ' in 𝓝 τ, ∀ n ∈ Finset.range k, τ' n = τ n :=
+    (Filter.eventually_all_finset _).2 fun n _ =>
+      ((continuous_apply n).tendsto τ) ((isOpen_discrete {τ n}).mem_nhds rfl)
+  filter_upwards [hev] with τ' hτ'
+  refine ⟨fibD k, isCNbhd_fibD k, hkW, ?_⟩
+  have hZ : cantZ y₀ k τ' = cantZ y₀ k τ := by
+    ext x
+    simp only [cantZ, mem_setOf_eq]
+    constructor
+    · rintro ⟨h1, h2⟩; exact ⟨h1, fun n hn => (h2 n hn).trans (hτ' n (Finset.mem_range.2 hn))⟩
+    · rintro ⟨h1, h2⟩; exact ⟨h1, fun n hn => (h2 n hn).trans (hτ' n (Finset.mem_range.2 hn)).symm⟩
+  rw [cantEnd_apply, hZ, ← cantEnd_apply]
+  exact (cantEnd y₀ τ).mono _ _ (isCNbhd_fibD k) hW' hkW
+
+/-- The fibre of `Y₂'` above `0` is homeomorphic to `{0,1}^ℕ`. -/
+def cantFiberHomeo : (ℕ → Bool) ≃ₜ cantFiber0 y₀ :=
+  Continuous.homeoOfEquivCompactToT2
+    (f := Equiv.ofBijective (fun τ => ⟨cantEnd y₀ τ, cantEnd_base y₀ τ⟩)
+      ⟨fun _ _ h => cantEnd_injective y₀ (congrArg Subtype.val h), fun e =>
+        ⟨(cantEnd_surj y₀ e.1 e.2).choose, Subtype.ext (cantEnd_surj y₀ e.1 e.2).choose_spec⟩⟩)
+    ((continuous_cantEnd y₀).subtype_mk _)
+
+/-- **`ex:consider_denote_absolute_galois`, the fibre claim, CORRECTED (DEC-69)**: with
+`Γ₂' = ker(π₁(ℂ∖S) → (ℤ/2)^ℕ)` the kernel of the mod-2 windings around the points `1/n`
+(`GX.mem_cantGamma_iff`), the fibre above `0` of the completion `Y₂'` of the spread
+`Γ₂' \ ord(\widetilde Y^S) → Y` IS a Cantor set. -/
+theorem cant_fiber_isCantor : IsCantorSubset (cantFiber0 y₀) :=
+  ⟨(cantFiberHomeo y₀).symm.trans cantorSetHomeomorphNatToBool.symm⟩
+
+instance cantGamma_normal : (cantGamma y₀).Normal :=
+  ⟨fun g hg h m => by
+    show cantEps y₀ m (h * g * h⁻¹) = 1
+    rw [cantEps_mul, cantEps_mul, cantEps_inv, hg m, mul_one, ← sq, cantEps_sq]⟩
+
+/-- The refuted reading of DEC-58 sits inside the corrected one: the normal closure `Γ₂` of the
+squares `[γₙ]²` is contained in `Γ₂'` (for any `γₙ`). -/
+theorem gamma2_le_cantGamma (g : ℕ → AbsGamma y₀) : gamma2 y₀ g ≤ cantGamma y₀ :=
+  Subgroup.normalClosure_le_normal (by
+    rintro _ ⟨n, rfl⟩ m
+    show cantEps y₀ m (g n ^ 2) = 1
+    rw [pow_two, cantEps_mul, ← sq, cantEps_sq])
+
+/-- **`ex:consider_denote_absolute_galois`, the fibre claim, corrected (DEC-69)**: `Γ₂'` is the
+kernel of the mod-2 windings around the points `1/n` of `S`, and the fibre above `(0,0)` of the
+completion `Y₂'` of the spread `Γ₂' \ ord(\widetilde Y^S) → Y` is a Cantor set. -/
+theorem absGal_Y₂_fiber_cantor_corrected :
+    (∀ γ : Path y₀ y₀, FundamentalGroup.fromPath (Path.Homotopic.Quotient.mk γ) ∈ cantGamma y₀ ↔
+      ∀ n, Even (windAt y₀ _ (cantPt_mem n) γ)) ∧ IsCantorSubset (cantFiber0 y₀) :=
+  ⟨mem_cantGamma_iff y₀, cant_fiber_isCantor y₀⟩
+
+/-- `Γ₂' \ ord(\widetilde Y^S) → Y` is a spread (as for `GX.absGal_isSpread_ordY₂Proj`), so `Y₂'`
+is the completion of a SPREAD, as the paper says. -/
+theorem cant_isSpread_cantProj : IsSpread (cantProj y₀) :=
+  isSpread_homeoQuotient_lift (absGal_isSpread_univCoverProj y₀) fun φ hφ x => by
+    obtain ⟨ψ, -, rfl⟩ := Subgroup.mem_map.1 hφ
+    exact congrArg Subtype.val (congrFun ψ.2 x)
+
+end CantorFibre
+
+/-- **`ex:consider_denote_absolute_galois`** (`RamcovGX.tex:1570`), certified under DEC-69 (the
+corrected `Γ₂'`) in the literal reading of "almost trivial" (DEC-55): `ℝ² ∖ S` is NOT
+semi-locally simply connected in `ℝ²`; and for every base point, with `Γ₂'` the kernel of the
+mod-2 windings around the points `1/n`, `Γ₂' \ ord(\widetilde Y^S) → Y` is a spread and the
+fibre above `(0,0)` of its completion `Y₂'` is a Cantor set. -/
+theorem absolute_galois_corrected :
+    ¬ IsSLSCInCC (fibSᶜ : Set ℂ) ∧ ∀ y₀ : (fibSᶜ : Set ℂ),
+      (∀ γ : Path y₀ y₀, FundamentalGroup.fromPath (Path.Homotopic.Quotient.mk γ) ∈ cantGamma y₀ ↔
+        ∀ n, Even (windAt y₀ _ (cantPt_mem n) γ)) ∧ IsSpread (cantProj y₀) ∧
+        IsCantorSubset (cantFiber0 y₀) :=
+  ⟨absGal_not_isSLSCInCC, fun y₀ => ⟨(absGal_Y₂_fiber_cantor_corrected y₀).1,
+    cant_isSpread_cantProj y₀, (absGal_Y₂_fiber_cantor_corrected y₀).2⟩⟩
 
 end GX

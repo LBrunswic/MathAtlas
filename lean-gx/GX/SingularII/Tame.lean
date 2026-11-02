@@ -3,9 +3,10 @@ import GX.SingularII.Developing
 /-!
 # Singular `(G,X)`-manifolds (II): tame singularities
 
-Package WP-27i. `papers/gx`, `RamcovGX.tex:1826–1888`, §2.5.2 "Tame singularities" (`M`, `N`
-connected singular `(G,X)`-manifolds, l.1712; `(G,X)` analytical with `X` locally unloopable,
-l.1660), on WP-27h's `GX.SingularII.Developing`.
+Package WP-27i; rulings DEC-66, DEC-67(d) and DEC-71 applied by WP-35e. `papers/gx`,
+`RamcovGX.tex:1826–1888`, §2.5.2 "Tame singularities" (`M`, `N` connected singular
+`(G,X)`-manifolds, l.1712; `(G,X)` analytical with `X` locally unloopable, l.1660), on WP-27h's
+`GX.SingularII.Developing`.
 
 * **`def:singular_manifold_tame_admits`** — `RamcovGX.tex:1826`: `GX.IsTame` (=
   `GX.AdmitsDevelopingMap`); `GX.isTame_iff` (a developing map of `\widetilde M`),
@@ -24,10 +25,12 @@ l.1660), on WP-27h's `GX.SingularII.Developing`.
   tamely singular" = every point has a tame open neighbourhood, SCOPE (b)):
   `GX.isTame_iff_isLocallyTame`, `GX.IsLocallyTame`, `GX.isTame_of_isLocallyTame`,
   `GX.exists_local_tame_extension`.
-* `rem:tamely_singular_manifold_admits` — `RamcovGX.tex:1869` — partial (Galoisian `N`; both
-  readings of "isomorphic", SCOPE (c)): as spaces `GX.tamely_singular_manifold_admits`,
-  `GX.homeomorph_rangeTameTopology`; as singular `(G,X)`-manifolds (the quotient structure)
-  `GX.tamely_singular_manifold_admits_aeIso`.
+* **`rem:tamely_singular_manifold_admits`** — `RamcovGX.tex:1869` — closed under DEC-71 (`N`
+  read Galoisian, e.g. `N = \widetilde M`; and DEC-66 for `M`), under both readings of
+  "isomorphic" (SCOPE (c)): as spaces `GX.tamely_singular_manifold_admits`,
+  `GX.homeomorph_rangeTameTopology`; as singular `(G,X)`-manifolds, with the quotient structure
+  characterised as in `prop:aeGXquotient` (the unique maximal a.e. atlas making the projection an
+  a.e. morphism), `GX.tamely_singular_manifold_admits_aeIso`.
 * `ex:take_closed_unit_disc` — `RamcovGX.tex:1877` — partial (its last sentence only, SCOPE (d)):
   `GX.not_isOpen_horodisc_insert`, `GX.not_mem_interior_of_subset_ball_insert`.
 
@@ -60,7 +63,7 @@ l.1660), on WP-27h's `GX.SingularII.Developing`.
 | `M`, `N` connected (standing, l.1712) | ✓ carried; open subsets connected (`[ConnectedSpace U]`); tame spaces are connected (`IsTame.connectedSpace`) |
 | singular manifolds Hausdorff, second countable, locally connected | ✓ carried (DEC-66(a)(c)): T2, locally path-connected, first countable — §3's standing setting (l.810) covers §2.5, `M` locally path-connected wherever `\widetilde M` is used; ⚠ weakened: second countable not used |
 | `cor:branched_covering_tame_singular`: `N` with the structure of `prop:singular_manifold_branched_covering` | ✓ carried: `p` an a.e. morphism (equivalently `aeAtlas N = p^*B`) |
-| `rem:tamely_singular_manifold_admits`: `N` any branched covering, `M` tame | ⚠ strengthened: `N → M` Galoisian (SCOPE (c), finding); ✓ carried (DEC-66): `M` locally path-connected (through `spread_connected_image`, `p` open), first countable; ⚠ weakened: `M` T1 (not T2); ⚠ weakened: `M` tame, `D` an a.e. morphism, not used; `N` locally connected and `p` an a.e. morphism for the `(G,X)` half |
+| `rem:tamely_singular_manifold_admits`: `N` any branched covering, `M` tame | ✓ carried (DEC-71): `N → M` Galoisian, the ruled reading (SCOPE (c), finding); ✓ carried (DEC-66): `M` locally path-connected (through `spread_connected_image`, `p` open), first countable; ⚠ weakened: `M` T1 (not T2); ⚠ weakened: `M` tame, `D` an a.e. morphism, not used; ✓ carried, `(G,X)` half only: `N` locally connected (a singular `(G,X)`-manifold) and `p` an a.e. morphism (`N` with the structure of `prop:singular_manifold_branched_covering`) |
 
 ## SCOPE (disclosed)
 
@@ -77,7 +80,8 @@ l.1660), on WP-27h's `GX.SingularII.Developing`.
   the paper: local extensions of the developing map of `\widetilde{reg M}` to the components of
   `p⁻¹(V)` (`GX.exists_local_tame_extension`), glued by density.
 * **(c)** `rem:tamely_singular_manifold_admits` is proved for a Galoisian `N → M` (`Γ(N/M)`
-  transitive on the fibres, `GX.IsGaloisian`), under both readings of "isomorphic" (question):
+  transitive on the fibres, `GX.IsGaloisian`) — the reading DEC-71 rules ("`N` Galoisian, e.g.
+  `N = \widetilde M`"), so the row is closed and marked — under both readings of "isomorphic":
   as spaces, a homeomorphism `Γ(N/M)\D(N) ≃ₜ M`, `[D x] ↦ p x`, `D(N)` with the coinduced
   topology; as singular `(G,X)`-manifolds, `D(N)` with the structure transported from `N` along
   `D` (for which, `D` being a developing map, the inclusion `D(N) ⊆ X` is an a.e. morphism) and
@@ -86,10 +90,11 @@ l.1660), on WP-27h's `GX.SingularII.Developing`.
   `(G,X)`-isomorphism (`GX.tamely_singular_manifold_admits_aeIso`). `prop:aeGXquotient`
   (`GX.existsUnique_aeGXQuotient`) is not invoked: its freeness and proper-discontinuity
   hypotheses are not available for `Γ(N/M)` on `D(N)`, and the quotient structure is obtained
-  through `M` instead. Without transitivity on the fibres `Γ(N/M)\D(N) → M` is not injective.
-  Over the ordinary regular locus transitivity should follow from `D` injective and equivariant
-  (normality of the holonomy subgroup, then Fox extension of the decks; sketch, not formalized);
-  whether an injective developing map forces it over the branch fibres is left open (question).
+  through `M` instead; its characterisation (unique maximal a.e. atlas making the projection an
+  a.e. morphism) is the one `prop:aeGXquotient` gives its quotient. Without transitivity on the
+  fibres `Γ(N/M)\D(N) → M` is not injective, which is why the remark needs the Galoisian
+  reading (finding); whether an injective developing map forces transitivity for an arbitrary
+  branched covering is not part of the ruled statement and is not formalized.
 * **(d)** `ex:take_closed_unit_disc`: only the last sentence is certified — a horodisc together
   with its point at infinity is not open in the closed disc, in the stronger form that no subset
   of the open disc `∪ {ξ}` is a neighbourhood of `ξ`. The example's other assertions — `M` tamely
@@ -644,11 +649,12 @@ def tameHolonomyOrbitSetoid (p : N → M) (D : N → X) (ρ : Deck p →* G) : S
     fun ⟨γ, h⟩ => ⟨γ⁻¹, by rw [h, map_inv, inv_smul_smul]⟩,
     fun ⟨γ, h⟩ ⟨δ, h'⟩ => ⟨δ * γ, by rw [h', h, map_mul, mul_smul]⟩⟩
 
-/-- `rem:tamely_singular_manifold_admits` (`RamcovGX.tex:1869`), for a **Galoisian** branched
-covering `p : N → M` (SCOPE (c)): if `D : N → X` is injective with holonomy `ρ`
-(`D ∘ γ = ρ(γ) D`), then `M` is homeomorphic to `Γ(N/M)\D(N)`, `Γ(N/M)` acting on `X` through
-`ρ` and `D(N)` carrying the topology making `D` a homeomorphism, by `[D x] ↦ p x`. Neither
-tameness of `M` nor that `D` be an a.e. morphism is used. -/
+/-- **`rem:tamely_singular_manifold_admits`** (`RamcovGX.tex:1869`; closed under DEC-71, `N`
+read Galoisian, and DEC-66), for a **Galoisian** branched covering `p : N → M` (SCOPE (c)): if
+`D : N → X` is injective with holonomy `ρ` (`D ∘ γ = ρ(γ) D`), then `M` is homeomorphic to
+`Γ(N/M)\D(N)`, `Γ(N/M)` acting on `X` through `ρ` and `D(N)` carrying the topology making `D`
+a homeomorphism, by `[D x] ↦ p x`. Neither tameness of `M` nor that `D` be an a.e. morphism is
+used. -/
 theorem tamely_singular_manifold_admits [T1Space M] [LocPathConnectedSpace M]
     [FirstCountableTopology M] {p : N → M} (hp : IsGaloisian p) {D : N → X} (hD : Injective D)
     {ρ : Deck p →* G} (hρ : IsHolonomyOf p D ρ) :
@@ -707,9 +713,9 @@ theorem tamely_singular_manifold_admits [T1Space M] [LocPathConnectedSpace M]
     exact hpo _ (hO.preimage hπc)
   exact ⟨(Equiv.ofBijective f ⟨hinj, hsurj⟩).toHomeomorphOfContinuousOpen hfc hfo, hfmk⟩
 
-/-- `rem:tamely_singular_manifold_admits` (`RamcovGX.tex:1869`), **as singular
-`(G,X)`-manifolds** (SCOPE (c), the second reading of "isomorphic"), for a Galoisian `p : N → M`
-which is an a.e. `(G,X)`-morphism (`N` with the structure of
+/-- **`rem:tamely_singular_manifold_admits`** (`RamcovGX.tex:1869`; closed under DEC-71 and
+DEC-66), **as singular `(G,X)`-manifolds** (SCOPE (c), the second reading of "isomorphic"), for
+a Galoisian `p : N → M` which is an a.e. `(G,X)`-morphism (`N` with the structure of
 `prop:singular_manifold_branched_covering`). `D(N)` carries the structure transported from `N`
 along the homeomorphism `D` (for a developing map `D`, the one for which the inclusion
 `D(N) ⊆ X` is an a.e. morphism), and `Γ(N/M)\D(N)` the **quotient structure**: the unique

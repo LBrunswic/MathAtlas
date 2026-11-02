@@ -9,7 +9,7 @@
   },
   "lean": {
     "root": "/home/maxbrain/Dropbox/LeanArticles/lean-gx",
-    "git_commit": "9aaea26"
+    "git_commit": "ec5b122"
   },
   "statements": [
     {
@@ -3342,8 +3342,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27d, audited clean.",
-      "notes": "WP-27d, audited clean.",
+      "scope_notes": "WP-35a, audited clean.",
+      "notes": "WP-35a, audited clean.",
       "paper_findings": [
         "l.1201 calls 'same connected component of the compact-open Omega(x,y,U)' and 'homotopic with respect to U' equivalent. Homotopic => same component holds in general (GX.OmegaHomotopic.mem_connectedComponentIn); for almost triviality the converse is proved when U is open and semilocally simply connected and X locally path-connected (GX.almostTrivialCC_iff: for each open V the set of loops homotopic w.r.t. U to a loop of Omega(x,x,V cap U) is clopen in Omega(x,x,U), being decided by the middle of the loop, whose compact-open perturbations are homotopies in U up to short end connections, by homotopy lifting in the universal cover of U). Without semilocal simple connectivity of U the 'equivalently' is not established (the clopen argument needs it: without it a compact-open perturbation of the middle of a loop need not be homotopic to it; no counterexample to the 'equivalently' is proved)."
       ],
@@ -3427,11 +3427,10 @@
         "GX.continuousOn_sgnDist"
       ],
       "lean_stated": "strict",
-      "lean_proved": "partial",
-      "bucket": "C",
-      "scope_notes": "WP-27d, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: All four claims are proved, with no sorry, for S2 = (planar topologist's sine curve with its limit segment) x {0}, i.e. with z = 0 on the graph (GX.cartS₂). As printed (l.1216), {y = sin(1/x)} is a surface of R^3 (z free) and S2 is then not even closed; no ruling accepts the z = 0 reading yet, so the row is left partial and unmarked: does the author confirm S2 = {(x, sin(1/x), 0) : x != 0} union {x = z = 0, |y| <= 1}? If so the row is closed in full. | Reading (g) (DEC-56): homotopically trivial = homotopic with fixed ends to the constant loop through loops of Omega(O,O,U), the constant loop reached only at the end (GX.IsHomTrivial).",
-      "notes": "WP-27d, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: All four claims are proved, with no sorry, for S2 = (planar topologist's sine curve with its limit segment) x {0}, i.e. with z = 0 on the graph (GX.cartS₂). As printed (l.1216), {y = sin(1/x)} is a surface of R^3 (z free) and S2 is then not even closed; no ruling accepts the z = 0 reading yet, so the row is left partial and unmarked: does the author confirm S2 = {(x, sin(1/x), 0) : x != 0} union {x = z = 0, |y| <= 1}? If so the row is closed in full. | Reading (g) (DEC-56): homotopically trivial = homotopic with fixed ends to the constant loop through loops of Omega(O,O,U), the constant loop reached only at the end (GX.IsHomTrivial).",
-      "lean_proved_override": "partial",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "WP-35a, audited clean. Readings/questions: Reading (g) (DEC-56): homotopically trivial = homotopic with fixed ends to the constant loop through loops of Omega(O,O,U) (GX.IsHomTrivial). Reading (a) of DEC-68 for S2.",
+      "notes": "WP-35a, audited clean. Readings/questions: Reading (g) (DEC-56): homotopically trivial = homotopic with fixed ends to the constant loop through loops of Omega(O,O,U) (GX.IsHomTrivial). Reading (a) of DEC-68 for S2.",
       "paper_findings": [
         "l.1216: S2 is printed as {y = sin(1/x)} union a segment, which in R^3 is a surface (z free); read with z = 0 on the graph (the planar topologist's sine curve), as the proof's 'plane {z=0}' and claim 1 require",
         "l.1243-1244: H'(s,t) = (0, lambda_s t, 0) lies on the segment of S2; with gamma(t) = (0,0,t) near the ends it should read (0, 0, lambda_s t) and (0, 0, -lambda_s t)",
@@ -3439,7 +3438,8 @@
         "l.1229-1257 (fourth claim): the mod 2 intersection numbers can be replaced by windings around 0 of psi + i z, psi a signed distance to the planar curve P: globally psi > 0 above P; locally psi* > 0 only on the finitely many pockets of A+ met at an intermediate time (they are cut off at x = 1/(pi/2 + 2 pi k) and x = -1/(3 pi/2 + 2 pi k), where sin(1/x) = 1). The winding of psi + i z along the reparametrised homotopy stays -pi, that of psi* + i z is +pi near the end of the homotopy, and the two agree at the intermediate time. Formalized as GX.not_isHomTrivial_cartγ for the loop t -> (0, 4 sin^2(pi t), sin(pi t) cos(pi t)) (it leaves O upwards over the limit segment, crosses z = 0 once at (0,4,0) in A+, and returns from below); the paper's normalisation through c (l.1236-1241) is replaced by an explicit frame reparametrisation (GX.cartM).",
         "l.1222: the paper's loop 'gamma(t) = (0,0,t) for t < 1/4' is not needed; any loop leaving O over the limit segment and crossing the plane only in A+ works",
         "l.1218, l.1224 ('left to the reader', first claim for S2): proof supplied by an explicit homotopy equivalence R^3 minus S2 ~ R^3 minus S1 (GX.cartHE): (x,y,z) -> (x, y + 2s psi/(|psi|+|z|), z) pushes the plane points above/below P off the strip R x [-1,1] x {0}, and the radial expansion (x,w) -> (x, (1 + s/|w|) w) of w = (y,z) maps R^3 minus S1 into the complement of that strip; the transfer to pi_1 is Mathlib's equivalence of fundamental groupoids",
-        "l.1225-1228 (third claim): the paper's step 'Y minus closed B(S2,eps) is homeomorphic to Y minus S1' is not used; instead the middle of the loop is homotopic in Y minus S2 to a path of B minus S2 because pi_1(Y minus S2) = Z is generated by a small circle around an arc of S2 inside B (in the plane x = 1/(2 pi k)), and B minus S2 is path-connected (GX.cart_middle_homotopic)"
+        "l.1225-1228 (third claim): the paper's step 'Y minus closed B(S2,eps) is homeomorphic to Y minus S1' is not used; instead the middle of the loop is homotopic in Y minus S2 to a path of B minus S2 because pi_1(Y minus S2) = Z is generated by a small circle around an arc of S2 inside B (in the plane x = 1/(2 pi k)), and B minus S2 is path-connected (GX.cart_middle_homotopic)",
+        "l.1216 (ruled, DEC-68 (a)): as printed {y = sin(1/x)} is a surface of R^3 and S2 is not closed; certified for S2 = sine curve x {0}"
       ],
       "extra_lean_files": [
         "GX/Branched/Paths.lean"
@@ -3480,8 +3480,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27d, audited clean.",
-      "notes": "WP-27d, audited clean.",
+      "scope_notes": "WP-35a, audited clean.",
+      "notes": "WP-35a, audited clean.",
       "extra_lean_files": [
         "GX/Branched/Paths.lean"
       ],
@@ -3520,8 +3520,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27d, audited clean.",
-      "notes": "WP-27d, audited clean.",
+      "scope_notes": "WP-35a, audited clean.",
+      "notes": "WP-35a, audited clean.",
       "extra_lean_files": [
         "GX/Branched/Paths.lean"
       ],
@@ -3557,20 +3557,21 @@
         "GX/Branched/Paths.lean"
       ],
       "decls": [
+        "GX.almost_homotopic_carac_cc_component",
         "GX.almost_homotopic_carac_cc",
         "GX.almost_homotopic_carac",
         "GX.splice",
         "GX.splice_omegaHomotopic"
       ],
       "lean_stated": "strict",
-      "lean_proved": "partial",
-      "bucket": "C",
-      "scope_notes": "WP-27d, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Is U meant to be semilocally simply connected (as it is in theo:ramified_covering_path and lem:almost_homotopic_carac2), or should (i) => (ii) hold for every open U of a Hausdorff, first countable, connected, locally path-connected X? Reading (b): '*' as any parameterization is made concrete by GX.splice.",
-      "notes": "WP-27d, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Is U meant to be semilocally simply connected (as it is in theo:ramified_covering_path and lem:almost_homotopic_carac2), or should (i) => (ii) hold for every open U of a Hausdorff, first countable, connected, locally path-connected X? Reading (b): '*' as any parameterization is made concrete by GX.splice.",
-      "lean_proved_override": "partial",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "WP-35a, audited clean. Readings/questions: Reading (b): '*' as any parameterization is made concrete by GX.splice.",
+      "notes": "WP-35a, audited clean. Readings/questions: Reading (b): '*' as any parameterization is made concrete by GX.splice.",
       "paper_findings": [
         "l.1277: item (ii) prints gamma_{|[0,t_0]} * omega * gamma_{|[t_1,t_0]}; the last factor is gamma_{|[t_1,1]}",
-        "l.1278-1279: the proof of (i) => (ii) starts from 'a homotopy H from gamma to some path gamma_0 in Omega(x,x,V)', i.e. it uses the homotopy form of l.1201; under DEC-55 the component of gamma need not contain such a homotopy. The step is proved here when U is semilocally simply connected (GX.almostTrivialCC_iff), which covers every use of the lemma in the paper (U = Y minus S with Y minus S slsc); in general it is open."
+        "l.1278-1279 (ruled, DEC-68 (b)): the proof of (i) => (ii) uses the homotopy form of l.1201, which the literal component form (DEC-55) implies when U is semilocally simply connected (GX.almostTrivialCC_iff); certified with U slsc.",
+        "Item (ii)'s 'homotopic in Omega(x,x,U)' is certified in both readings: literal (same compact-open component, GX.almost_homotopic_carac_cc_component) and homotopy form (stronger, GX.almost_homotopic_carac_cc)."
       ],
       "extra_lean_files": [
         "GX/Branched/Paths.lean"
@@ -3619,14 +3620,13 @@
         "GX.almostHomotopic_iff_germEquiv"
       ],
       "lean_stated": "strict",
-      "lean_proved": "partial",
-      "bucket": "C",
-      "scope_notes": "WP-27d, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Same question as lem:almost_homotopic_carac: is U semilocally simply connected?",
-      "notes": "WP-27d, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Same question as lem:almost_homotopic_carac: is U semilocally simply connected?",
-      "lean_proved_override": "partial",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "WP-35a, audited clean.",
+      "notes": "WP-35a, audited clean.",
       "paper_findings": [
         "l.1298-1303: the proof's indices drift (gamma_2^{-1}*gamma_1 for gamma_2^{-1}*gamma_3, gamma_{2|[0,t_1]} for gamma_{2|[0,t_2]}, omega_3 for omega_2, t_0 for t_1); the argument is sound once corrected, for the homotopy form",
-        "Under DEC-55 the proof rests on lem:almost_homotopic_carac (i) => (ii), established here for U semilocally simply connected (see that row)."
+        "Under DEC-55 the proof rests on lem:almost_homotopic_carac (i) => (ii), certified with U slsc (DEC-68 (b))."
       ],
       "extra_lean_files": [
         "GX/Branched/Paths.lean"
@@ -3678,11 +3678,13 @@
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "C",
-      "scope_notes": "WP-27d, audited clean. Partial: paper statement corrected (DEC-27)",
-      "notes": "WP-27d, audited clean. Partial: paper statement corrected (DEC-27)",
+      "scope_notes": "WP-35a, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: For the author: does DEC-70's hypothesis 'Y minus S semilocally simply connected' (with S skeletal, as in prop:universality) extend to lem:almost_homotopic_carac2 (l.1306), i.e. may widetilde Y^S at l.1307 be read as prop:universality's covering? The proof at l.1316 uses that p^{-1}(Y minus S) is simply connected. If yes the row closes with no change to the Lean (GX.almost_homotopic_carac2_cc, GX.almost_homotopic_carac2_of_isMaximal_cc); until then it is partial.",
+      "notes": "WP-35a, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: For the author: does DEC-70's hypothesis 'Y minus S semilocally simply connected' (with S skeletal, as in prop:universality) extend to lem:almost_homotopic_carac2 (l.1306), i.e. may widetilde Y^S at l.1307 be read as prop:universality's covering? The proof at l.1316 uses that p^{-1}(Y minus S) is simply connected. If yes the row closes with no change to the Lean (GX.almost_homotopic_carac2_cc, GX.almost_homotopic_carac2_of_isMaximal_cc); until then it is partial.",
       "lean_proved_override": "partial",
       "paper_findings": [
-        "l.1313, l.1318: 'standard neighborhood' is used but never defined in the paper (reading (c), DEC-56: GX.IsStandardNbhd)"
+        "l.1313, l.1318: 'standard neighborhood' is used but never defined in the paper (reading (c), DEC-56: GX.IsStandardNbhd)",
+        "The second half of the proof (l.1316) uses that p^{-1}(Y minus S) is simply connected, a property of the widetilde Y^S built in prop:universality from the universal cover of Y minus S; for an arbitrary covering that is merely maximal the lemma needs Y minus S slsc (heuristically: for the harmonic archipelago Y, S empty, the identity is maximal while the converse direction fails; not formalized). Certified for the covering of prop:universality, the paper's widetilde Y^S.",
+        "WP-35a round 1 (audit): reverted to partial and unmarked — the Lean is unchanged, the strengthening (S skeletal, Y minus S slsc) is not covered by a ruling; checklist row set to '⚠ strengthened (finding)'."
       ],
       "extra_lean_files": [
         "GX/Branched/Paths.lean"
@@ -3736,13 +3738,12 @@
         "GX.omegaLift_one_eq_iff"
       ],
       "lean_stated": "strict",
-      "lean_proved": "partial",
-      "bucket": "C",
-      "scope_notes": "WP-27d, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Reading (d): X carries the quotient of the compact-open topology of Omega, by the literal almost homotopy (GX.OmegaRel, an equivalence relation by GX.omegaRel_equivalence).",
-      "notes": "WP-27d, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Reading (d): X carries the quotient of the compact-open topology of Omega, by the literal almost homotopy (GX.OmegaRel, an equivalence relation by GX.omegaRel_equivalence).",
-      "lean_proved_override": "partial",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "WP-35a, audited clean. Readings/questions: Reading (d): X carries the quotient of the compact-open topology of Omega by the literal almost homotopy (GX.OmegaRel, an equivalence relation by GX.omegaRel_equivalence). No ruling names (d) explicitly (DEC-56 accepted (c)(e)(f)(g)); it is the only reading consistent with the proof, and DEC-70 rules the row closes. The master may record that DEC-70 covers (d), or put (d) to the author with the lem:almost_homotopic_carac2 question.",
+      "notes": "WP-35a, audited clean. Readings/questions: Reading (d): X carries the quotient of the compact-open topology of Omega by the literal almost homotopy (GX.OmegaRel, an equivalence relation by GX.omegaRel_equivalence). No ruling names (d) explicitly (DEC-56 accepted (c)(e)(f)(g)); it is the only reading consistent with the proof, and DEC-70 rules the row closes. The master may record that DEC-70 covers (d), or put (d) to the author with the lem:almost_homotopic_carac2 question.",
       "paper_findings": [
-        "l.1322: the statement omits 'Y minus S semilocally simply connected', which its proof uses at l.1349 and without which the maximal covering widetilde Y^S (built from the universal cover of Y minus S) is not available"
+        "l.1322 (ruled, DEC-70): the statement omits 'Y minus S semilocally simply connected', which its proof uses at l.1349 and without which widetilde Y^S is not available; the omission is recorded, the row closes"
       ],
       "extra_lean_files": [
         "GX/Branched/Paths.lean"
@@ -3783,8 +3784,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27d, audited clean. Readings/questions: Reading (e), accepted by DEC-56.",
-      "notes": "WP-27d, audited clean. Readings/questions: Reading (e), accepted by DEC-56.",
+      "scope_notes": "WP-35a, audited clean. Readings/questions: Reading (e), accepted by DEC-56.",
+      "notes": "WP-35a, audited clean. Readings/questions: Reading (e), accepted by DEC-56.",
       "extra_lean_files": [
         "GX/Branched/Paths.lean"
       ],
@@ -3826,8 +3827,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27d, audited clean. Readings/questions: Readings (e), (f), accepted by DEC-56.",
-      "notes": "WP-27d, audited clean. Readings/questions: Readings (e), (f), accepted by DEC-56.",
+      "scope_notes": "WP-35a, audited clean. Readings/questions: Readings (e), (f), accepted by DEC-56.",
+      "notes": "WP-35a, audited clean. Readings/questions: Readings (e), (f), accepted by DEC-56.",
       "paper_findings": [
         "'left to the reader' (l.1383): proof supplied"
       ],
@@ -3873,8 +3874,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27d, audited clean. Readings/questions: Readings (e), (f), accepted by DEC-56.",
-      "notes": "WP-27d, audited clean. Readings/questions: Readings (e), (f), accepted by DEC-56.",
+      "scope_notes": "WP-35a, audited clean. Readings/questions: Readings (e), (f), accepted by DEC-56.",
+      "notes": "WP-35a, audited clean. Readings/questions: Readings (e), (f), accepted by DEC-56.",
       "paper_findings": [
         "'left to the reader' (l.1383): proof supplied"
       ],
@@ -3933,8 +3934,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27d, audited clean.",
-      "notes": "WP-27d, audited clean.",
+      "scope_notes": "WP-35a, audited clean.",
+      "notes": "WP-35a, audited clean.",
       "paper_findings": [
         "l.1414: 'the natural map pi_1(a,D_{n+1}) -> pi_1(a,D_n) has an infinite fiber above every point' is asserted without proof; it is supplied",
         "l.1415: 'the result follows' also needs the sets pi_1(a,D_n) countable and pi_1(a,D_1) countable nonempty; the limit is pi_1(a,D_1) x N^N, homeomorphic to Z^N",
@@ -3979,8 +3980,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27e, audited clean.",
-      "notes": "WP-27e, audited clean.",
+      "scope_notes": "WP-35b, audited clean.",
+      "notes": "WP-35b, audited clean.",
       "extra_lean_files": [
         "GX/Branched/Galois.lean"
       ],
@@ -4022,8 +4023,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27e, audited clean.",
-      "notes": "WP-27e, audited clean.",
+      "scope_notes": "WP-35b, audited clean.",
+      "notes": "WP-35b, audited clean.",
       "extra_lean_files": [
         "GX/Branched/Galois.lean"
       ],
@@ -4065,8 +4066,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27e, audited clean.",
-      "notes": "WP-27e, audited clean.",
+      "scope_notes": "WP-35b, audited clean.",
+      "notes": "WP-35b, audited clean.",
       "extra_lean_files": [
         "GX/Branched/Galois.lean"
       ],
@@ -4110,8 +4111,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27e, audited clean.",
-      "notes": "WP-27e, audited clean.",
+      "scope_notes": "WP-35b, audited clean.",
+      "notes": "WP-35b, audited clean.",
       "extra_lean_files": [
         "GX/Branched/Galois.lean"
       ],
@@ -4149,8 +4150,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27e, audited clean.",
-      "notes": "WP-27e, audited clean.",
+      "scope_notes": "WP-35b, audited clean.",
+      "notes": "WP-35b, audited clean.",
       "extra_lean_files": [
         "GX/Branched/Galois.lean"
       ],
@@ -4192,8 +4193,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27e, audited clean.",
-      "notes": "WP-27e, audited clean.",
+      "scope_notes": "WP-35b, audited clean.",
+      "notes": "WP-35b, audited clean.",
       "extra_lean_files": [
         "GX/Branched/Galois.lean"
       ],
@@ -4227,17 +4228,33 @@
       ],
       "decls": [
         "GX.isSLSCInCC_univ_of_semilocallySimplyConnected",
-        "GX.isSLSCIn_univ_of_semilocallySimplyConnected"
+        "GX.isSLSCIn_univ_of_semilocallySimplyConnected",
+        "GX.harmonicArchipelago_counterexample",
+        "GX.not_semilocallySimplyConnected_of_isSLSCInCC_univ",
+        "GX.HarmonicArchipelago",
+        "GX.harmonicArchipelago_isSLSCInCC",
+        "GX.harmonicArchipelago_isSLSCIn",
+        "GX.harmonicArchipelago_isSLSCAt_base",
+        "GX.harmonicArchipelago_isSLSCAt_pt",
+        "GX.harmonicArchipelago_not_semilocallySimplyConnected",
+        "GX.archLoop_not_homotopic",
+        "GX.archLoop",
+        "GX.archPush",
+        "GX.archF",
+        "GX.continuousOn_archF",
+        "GX.isOpenEmbedding_archPt",
+        "GX.arch_compact_bound"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "C",
-      "scope_notes": "WP-27e, audited clean. Partial: paper statement corrected (DEC-27)",
-      "notes": "WP-27e, audited clean. Partial: paper statement corrected (DEC-27)",
+      "scope_notes": "WP-35b, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Is the non-compact archipelago acceptable as the recorded counterexample, or is a compact (Peano continuum) one wanted? The remark's standing hypotheses do not ask for compactness.",
+      "notes": "WP-35b, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Is the non-compact archipelago acceptable as the recorded counterexample, or is a compact (Peano continuum) one wanted? The remark's standing hypotheses do not ask for compactness.",
       "lean_proved_override": "partial",
       "paper_findings": [
-        "RamcovGX.tex:1455-1457: 'X is semi-locally simply connected iff it is semi-locally simply connected in itself' holds only in the direction slsc ⇒ slsc in itself (GX.isSLSCInCC_univ_of_semilocallySimplyConnected, literal DEC-55 form). The converse is false: the harmonic archipelago (a Peano continuum in ℝ³, locally contractible off its base point) has every loop at the base point homotopic to loops in arbitrarily small neighbourhoods, so its loops are almost trivial in the homotopy form and a fortiori in the literal compact-open form (GX.AlmostTrivial.almostTrivialCC): it is slsc in itself in the sense of def:semi_locally_simple_connectedness, but π₁ ≠ 1 and it is not semi-locally simply connected.",
-        "Counterexample not formalized (DEC-27): the harmonic archipelago (and the non-triviality of its π₁) is not built in Lean; the master session may schedule it or ask the author for a waiver. No ruling accepts the corrected one-directional form, so the row stays partial."
+        "RamcovGX.tex:1455-1457: 'X is semi-locally simply connected iff it is semi-locally simply connected in itself' holds only in the direction slsc ⇒ slsc in itself (GX.isSLSCInCC_univ_of_semilocallySimplyConnected, literal DEC-55 form; the corrected statement). The converse is false, now FORMALIZED (DEC-27): GX.not_semilocallySimplyConnected_of_isSLSCInCC_univ refutes the printed 'iff' over all Hausdorff, connected, locally path-connected X, with witness GX.harmonicArchipelago_counterexample.",
+        "The harmonic archipelago is built as the graph over the open half-plane Re z > 0 (coordinate w = 1/z; the Hawaiian-earring circles Re w = k/2 pass through the base point 0) of h(w) = sin²(2π Re w)/(1 + (Im w)²), plus the base point. Slsc in itself: every loop at the base point is homotopic rel ends into any neighbourhood (GX.archPush pushes the hills Re w < n onto the circle Re w = n; a compact loop climbs no far hill, GX.arch_compact_bound); off the base point the space is a surface (radial contraction through the chart GX.isOpenEmbedding_archPt). Not slsc: the loops Re w = N/2 (GX.archLoop, inside the 2/N-ball) are not null-homotopic (GX.archLoop_not_homotopic): a null-homotopy has compact image, misses the summit (1/c, 1), c = M/2 + 1/4, of a far hill, and off that summit GX.archF : 𝔸 → ℂ ∖ {0} is continuous and carries the loop to a loop of winding number 1 (GX.cWinding of GX.Branched.Paths).",
+        "The space formalized is NOT compact (the summits accumulate at the missing point (0,1)), so it is not a 'Peano continuum' as WP-27e's report and the WP-35b dispatch call it; compactness is not needed for the counterexample, and the remark's hypotheses (Hausdorff, connected, locally path-connected) are all proved. No compact variant is formalized. The row stays partial as a corrected statement (no ruling accepts the one-directional form)."
       ],
       "extra_lean_files": [
         "GX/Branched/Galois.lean"
@@ -4295,8 +4312,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27e, audited clean.",
-      "notes": "WP-27e, audited clean.",
+      "scope_notes": "WP-35b, audited clean.",
+      "notes": "WP-35b, audited clean.",
       "paper_findings": [
         "RamcovGX.tex:1462: the codimension ≥ 2 condition is not needed for semi-local simple connectedness in X: for any closed proper linear subspace L of ℝⁿ (codimension 1 included) ℝⁿ ∖ L is slsc in ℝⁿ by radial contraction (GX.isSLSCInCC_compl_submodule); the codimension condition only matters for U being connected / X∖U skeletal.",
         "RamcovGX.tex:1465: 'then U is locally simply connected at every point of X' is read as 'semi-locally simply connected at every point of X' (the notion just defined).",
@@ -4347,8 +4364,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27e, audited clean.",
-      "notes": "WP-27e, audited clean.",
+      "scope_notes": "WP-35b, audited clean.",
+      "notes": "WP-35b, audited clean.",
       "extra_lean_files": [
         "GX/Branched/Galois.lean"
       ],
@@ -4398,8 +4415,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27e, audited clean.",
-      "notes": "WP-27e, audited clean.",
+      "scope_notes": "WP-35b, audited clean.",
+      "notes": "WP-35b, audited clean.",
       "paper_findings": [
         "RamcovGX.tex:1488: 'Γ(X/Y) acts transitively on the connected components of p⁻¹(U) for every open U' is false for disconnected U (components over different components of U); true, and what the proof needs, for connected open U (GX.IsQuasiGaloisian.exists_image_eq)."
       ],
@@ -4450,8 +4467,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27e, audited clean.",
-      "notes": "WP-27e, audited clean.",
+      "scope_notes": "WP-35b, audited clean.",
+      "notes": "WP-35b, audited clean.",
       "extra_lean_files": [
         "GX/Branched/Galois.lean"
       ],
@@ -4507,8 +4524,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27e, audited clean.",
-      "notes": "WP-27e, audited clean.",
+      "scope_notes": "WP-35b, audited clean.",
+      "notes": "WP-35b, audited clean.",
       "paper_findings": [
         "RamcovGX.tex:1524: the proof of (ii) ⇒ (i) writes Ω(y, ord(Y)) where (ii) is about Y ∖ S; the argument goes through with paths whose interior lies in p⁻¹(Y∖S) (GX.discreteTopology_fiber_of_isSLSCAt).",
         "RamcovGX.tex:1536: the proof of (i) ⇒ (ii) lifts a loop γ ∈ Ω(y,U) from the possibly singular point y, where lifts are neither guaranteed nor unique; the formal proof lifts the two halves of γ from its midpoint γ(1/2) ∈ Y∖S and applies lem:almost_homotopic_carac2 (GX.isSLSCAt_of_discreteTopology_fiber)."
@@ -4554,18 +4571,17 @@
         "GX.discreteTopology_fiber_maxBranched_of_isSLSCIn",
         "GX.eq_of_comp_eq_of_mem_portly",
         "GX.deck_eq_of_apply_eq",
-        "GX.isSLSCInCC_iff"
+        "GX.isSLSCInCC_iff",
+        "GX.harmonicArchipelago_compl_empty"
       ],
       "lean_stated": "strict",
-      "lean_proved": "partial",
-      "bucket": "C",
-      "scope_notes": "WP-27e, audited clean. Partial: paper statement corrected (DEC-27)",
-      "notes": "WP-27e, audited clean. Partial: paper statement corrected (DEC-27)",
-      "lean_proved_override": "partial",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "WP-35b, audited clean.",
+      "notes": "WP-35b, audited clean.",
       "paper_findings": [
-        "RamcovGX.tex:1551-1553: the statement omits 'Y ∖ S semi-locally simply connected', the hypothesis of prop:universality under which the maximal covering Ỹ^S exists; 'Y ∖ S semi-locally simply connected in Y' does not imply it, in the literal DEC-55 form a fortiori (S = ∅, Y the harmonic archipelago). Formalized with it added (DEC-27).",
-        "RamcovGX.tex:1548: 'a direct consequence of Propositions prop:Galoisian_semilocal and prop:universality' silently drops second countability, which prop:Galoisian_semilocal assumes. The theorem holds without it: (ii) ⇒ (i) of prop:Galoisian_semilocal does not use countability (discrete fibres + dense orbits give transitivity, GX.maxBranched_isGaloisian). The second and third assertions need an argument the paper does not give: H is the automorphism group of the universal map Φ : Ỹ^S → X, which acts transitively on the Φ-fibres because they are discrete (subsets of the discrete fibres of Ỹ^S) and its orbits are dense (Φ is quasi-Galoisian through the ordinary part); normality ⇔ X Galoisian uses the uniqueness of maps over Y agreeing at one ordinary point (GX.eq_of_comp_eq_of_mem_portly). The normality equivalence is proved for every H with H\\\\Ỹ^S ≃ X over Y.",
-        "Counterexample not formalized (DEC-27): the harmonic archipelago is not built in Lean; the master session may schedule it or ask the author for a waiver. No ruling accepts the added hypothesis, so the row stays partial."
+        "RamcovGX.tex:1551-1553: the statement omits 'Y ∖ S semi-locally simply connected', the hypothesis of prop:universality under which the maximal covering Ỹ^S exists. Carried under DEC-70 (the row closes); the omission stays recorded. 'Y ∖ S semi-locally simply connected in Y' does not imply it, now formally: GX.harmonicArchipelago_compl_empty (Y = GX.HarmonicArchipelago: connected, LPC, T2, first countable; S = ∅ skeletal; Y ∖ S slsc in Y in both forms; Y ∖ S not semi-locally simply connected).",
+        "RamcovGX.tex:1548: 'a direct consequence of Propositions prop:Galoisian_semilocal and prop:universality' silently drops second countability, which prop:Galoisian_semilocal assumes. The theorem holds without it: (ii) ⇒ (i) of prop:Galoisian_semilocal does not use countability (discrete fibres + dense orbits give transitivity, GX.maxBranched_isGaloisian). The second and third assertions need an argument the paper does not give: H is the automorphism group of the universal map Φ : Ỹ^S → X, which acts transitively on the Φ-fibres because they are discrete (subsets of the discrete fibres of Ỹ^S) and its orbits are dense (Φ is quasi-Galoisian through the ordinary part); normality ⇔ X Galoisian uses the uniqueness of maps over Y agreeing at one ordinary point (GX.eq_of_comp_eq_of_mem_portly). The normality equivalence is proved for every H with H\\\\Ỹ^S ≃ X over Y."
       ],
       "extra_lean_files": [
         "GX/Branched/Galois.lean"
@@ -4599,6 +4615,7 @@
         "scaffold/GXScaffold/Branched/GaloisExamples.lean"
       ],
       "decls": [
+        "GX.following_situations_semi_locally_simply",
         "GX.IsConicalAt",
         "GX.isConicalAt_empty",
         "GX.IsConicalAt.union",
@@ -4646,14 +4663,13 @@
         "GX.following_situations_simplicial_cc"
       ],
       "lean_stated": "scaffold",
-      "lean_proved": "partial",
-      "bucket": "C",
-      "scope_notes": "WP-27f, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Reading of 'tame knot' (l.1563) as locally polygonal up to local homeomorphism (GX.IsLocallyPolygonal) — accept? (unchanged from WP-26h; no ruling yet) | Accept the correction of item 3 (every face in a face with >= n vertices) and the restriction to locally finite complexes (as DEC-57 did for rem:simple_cases)?",
-      "notes": "WP-27f, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Reading of 'tame knot' (l.1563) as locally polygonal up to local homeomorphism (GX.IsLocallyPolygonal) — accept? (unchanged from WP-26h; no ruling yet) | Accept the correction of item 3 (every face in a face with >= n vertices) and the restriction to locally finite complexes (as DEC-57 did for rem:simple_cases)?",
-      "lean_proved_override": "partial",
+      "lean_proved": "none",
+      "bucket": "B",
+      "scope_notes": "WP-35h, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
+      "notes": "WP-35h, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
       "paper_findings": [
-        "l.1564 (item 3) is false as written: a connected complex of dimension n can have a maximal face of dimension <= n-2, then Y minus the (n-2)-skeleton is not dense (GX.following_situations_simplicial_false). True when every face lies in a face with >= n vertices (pure complexes in particular).",
-        "l.1562 (item 1): n >= 2 is not needed; n >= 1 suffices.",
+        "l.1564 (item 3) is false as written (a connected complex of dimension n with a maximal face of dimension <= n-2: GX.following_situations_simplicial_false); the corrected form accepted by DEC-68 (d) is proved.",
+        "l.1562 (item 1): n >= 2 is not needed; n >= 1 suffices (GX.following_situations_finite_euclidean).",
         "l.1563 (item 2): neither dimension 3 nor being a knot is used: any locally polygonal closed set in a manifold of dimension >= 2 works."
       ],
       "extra_lean_files": [
@@ -4690,6 +4706,115 @@
         "scaffold/GXScaffold/Branched/GaloisExamples.lean"
       ],
       "decls": [
+        "GX.absolute_galois_corrected",
+        "GX.absGal_Y₂_fiber_cantor_corrected",
+        "GX.cant_fiber_isCantor",
+        "GX.cantFiberHomeo",
+        "GX.cant_isSpread_cantProj",
+        "GX.cantGamma",
+        "GX.mem_cantGamma_iff",
+        "GX.gamma2_le_cantGamma",
+        "GX.CantY₂",
+        "GX.cantFiber0",
+        "GX.cantPt",
+        "GX.cantPt_mem",
+        "GX.cantSubC",
+        "GX.cant_exists_ℓ",
+        "GX.cantℓ",
+        "GX.cantℓ_spec",
+        "GX.cantSq",
+        "GX.continuous_cantSq",
+        "GX.cantSq_sq",
+        "GX.cantSq_ne_zero",
+        "GX.cantSign",
+        "GX.cantSq_deck",
+        "GX.cantEps",
+        "GX.cantSq_deckHom",
+        "GX.cantEps_mul",
+        "GX.cantEps_one",
+        "GX.cantEps_sq",
+        "GX.cantEps_eq",
+        "GX.cantEps_inv",
+        "GX.mem_cantGamma",
+        "GX.cantSq_liftFrom_loop",
+        "GX.cant_neg_one_zpow_neg",
+        "GX.cantEps_fromPath",
+        "GX.cant_neg_one_zpow_eq_one_iff",
+        "GX.cantRoot",
+        "GX.cantPt_re",
+        "GX.cantRoot_sq",
+        "GX.cant_slit",
+        "GX.continuousAt_cantRoot",
+        "GX.cantSigma",
+        "GX.cantSigma_eq",
+        "GX.cantSigma_deckHom",
+        "GX.cantSigma_eventually",
+        "GX.cantBit",
+        "GX.cant_re_lt_of_mem_fibD",
+        "GX.cant_isOpen_level",
+        "GX.cant_const_of_isOpen_level",
+        "GX.cantBit_const",
+        "GX.cantSigma_eq_of_bit",
+        "GX.cantSigma_const",
+        "GX.cant_exists_deck",
+        "GX.cant_deck_image_comp",
+        "GX.cantComp",
+        "GX.cant_mem_comp_of_deck",
+        "GX.cant_stab_mul",
+        "GX.cant_reach",
+        "GX.cant_loop_realize",
+        "GX.CantReal",
+        "GX.cantReal_one",
+        "GX.cantReal_mul",
+        "GX.cantReal_congr",
+        "GX.cantPt_eq_absGalP_iff",
+        "GX.cant_absGalCirc_mem",
+        "GX.cantReal_flip",
+        "GX.cantCirc",
+        "GX.cant_norm_exp",
+        "GX.cant_norm_exp_neg",
+        "GX.norm_cantCirc",
+        "GX.cantCirc_zero",
+        "GX.cantCirc_one",
+        "GX.cantCirc_not_mem",
+        "GX.cant_negR_not_mem",
+        "GX.cantCircPath",
+        "GX.cant_slit_of_norm",
+        "GX.cant_cWinding_circ_in",
+        "GX.cant_cWinding_circ_out",
+        "GX.cantR",
+        "GX.cantR_pos",
+        "GX.cantR_gt",
+        "GX.cantR_lt",
+        "GX.norm_cantPt",
+        "GX.cant_norm_lt_cantR",
+        "GX.cant_cantR_lt_norm",
+        "GX.cantR_ne",
+        "GX.cantReal_big",
+        "GX.cantReal_finite",
+        "GX.cant_wind_eq_of_small",
+        "GX.cant_wind_eventually",
+        "GX.cant_eps_eventually",
+        "GX.cantReal_of_eps",
+        "GX.cantHomeo",
+        "GX.CantOrd",
+        "GX.cantProj",
+        "GX.cantProj_mk",
+        "GX.cantSigma_inv",
+        "GX.cantBitQ",
+        "GX.cant_isOpen_levelQ",
+        "GX.cantBitQ_const",
+        "GX.cant_mem_comp_of_sigma",
+        "GX.cantZ",
+        "GX.cantZ_comp",
+        "GX.cantZ_nonempty",
+        "GX.cantThread",
+        "GX.cantEnd",
+        "GX.cantEnd_base",
+        "GX.cantEnd_apply",
+        "GX.cantEnd_injective",
+        "GX.cantEnd_surj",
+        "GX.continuous_cantEnd",
         "GX.not_isSLSCAt_of_essential",
         "GX.absGalLoop",
         "GX.absGalLoop_apply",
@@ -4889,18 +5014,15 @@
         "GX.absGal_Y₂_fiber_corrected_simple"
       ],
       "lean_stated": "scaffold",
-      "lean_proved": "partial",
-      "bucket": "C",
-      "scope_notes": "WP-27f, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: The paper's gamma_n are formalized as the lollipop loops GX.absGalSimpleLoop (homotopic to based simple loops); accept, or should a homotopy with an embedded simple loop be formalized? | Is a corrected example intended (e.g. Gamma_2' = kernel of the mod-2 windings, giving a Cantor fibre), or should the example be withdrawn? The current statement is refuted.",
-      "notes": "WP-27f, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: The paper's gamma_n are formalized as the lollipop loops GX.absGalSimpleLoop (homotopic to based simple loops); accept, or should a homotopy with an embedded simple loop be formalized? | Is a corrected example intended (e.g. Gamma_2' = kernel of the mod-2 windings, giving a Cantor fibre), or should the example be withdrawn? The current statement is refuted.",
-      "lean_proved_override": "partial",
+      "lean_proved": "none",
+      "bucket": "B",
+      "scope_notes": "WP-35h, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate. Readings/questions: Is the bibliographic sentence 'answers positively Problem 10.7 of MR2198590' (l.1573) outside the row's certification, as taken here (row closed under DEC-69)? If the master reads it as an assertion, downgrade to partial.",
+      "notes": "WP-35h, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate. Readings/questions: Is the bibliographic sentence 'answers positively Problem 10.7 of MR2198590' (l.1573) outside the row's certification, as taken here (row closed under DEC-69)? If the master reads it as an assertion, downgrade to partial.",
       "paper_findings": [
         "l.1571, first claim, proved in the literal reading (DEC-55): C minus S is not semi-locally simply connected in C (GX.absGal_not_isSLSCInCC).",
-        "l.1572: the printed Gamma_2 = <Gamma [gamma_n]^2 Gamma> is all of Gamma (GX.printedGamma2_eq_top); DEC-58 reads the normal closure.",
-        "l.1573 is FALSE (DEC-27), now PROVED, unconditionally: with Gamma_2 the normal closure of the squares of the simple loops, the fibre above (0,0) of Y_2 is NOT compact, hence not a Cantor set (GX.absGal_Y₂_fiber_not_cantor_simple; sorry-free, axioms propext/choice/Quot.sound). Proof: a dihedral invariant of the universal cover of C minus S — continuous logarithms l of F = (z-1)/(z-1/2) and Lambda of G(exp(l/2)), G(s) = (s-1)/(s+1); deck transformations act by (sq, Lambda) -> (±sq, ±Lambda + c); the squares of the loops around 1 and 1/2 and the loops in absGalR act trivially, so Gamma_2 does; a loop around {1, 1/2} translates Lambda by ±2πi; the integer Theta = (Lambda - (sq/sqrt F) log G(sqrt F))/(2πi) is locally constant over the disc D_5 (radius 2/11) and separates infinitely many components of its preimage in Gamma_2 \\ universal cover, each reached by an end over 0, which gives an open cover of the fibre with no finite subcover. (The WP-26h sketch used a different quotient; this one needs only the two points 1, 1/2.)",
-        "l.1573, corrected (DEC-27): what survives of 'Cantor set' is proved — the fibre above 0 of Y_2 is infinite and totally disconnected, but not compact (GX.absGal_Y₂_fiber_corrected_simple, sorry-free). Whether it is perfect is not formalized.",
-        "l.1573: a Cantor fibre would be obtained with Gamma_2' = kernel of the mod-2 winding numbers around the 1/n (an abelian quotient); not formalized.",
-        "l.1573: 'answers positively Problem 10.7 of MR2198590' is bibliographic and not formalized; since the fibre is not a Cantor set, the claimed answer to Montesinos's problem does not follow from this example as written."
+        "l.1572-1573 as printed is refuted (record, DEC-69): the printed Gamma_2 is Gamma; for the normal closure of the squares of the (lollipop) simple loops the fibre over 0 is not compact (GX.absGal_Y₂_fiber_not_cantor_simple).",
+        "l.1572-1573 corrected (DEC-69), PROVED sorry-free: for Gamma_2' = kernel of the mod-2 windings around the 1/n the fibre above (0,0) of Y_2' is a Cantor set (GX.absGal_Y₂_fiber_cantor_corrected). Proof: square roots s_n of p - 1/(n+1) on the universal cover; deck signs eps_n = (-1)^winding; over D_k the components of the preimage are exactly the 2^k sign classes of sigma_0..sigma_{k-1} (GX.cantZ_comp), the hard half realising every eventually constant sign pattern (eventual constancy: a loop stays away from 0, GX.cant_eps_eventually) by small circles around the 1/(n+1), n >= k, and the circle of radius R_k around 0, inside D_k; ends over 0 = sign sequences, a continuous bijection from the compact {0,1}^N onto the Hausdorff fibre.",
+        "l.1573: 'This answers positively Problem 10.7 of MR2198590' is bibliographic and not formalized; with the corrected Gamma_2' the example does exhibit a Cantor fibre over a point of the branching locus."
       ],
       "extra_lean_files": [
         "scaffold/GXScaffold/Branched/GaloisExamples.lean"
@@ -4954,83 +5076,153 @@
         "GX.wild_cantor_claim_false_of_exists",
         "GX.wild_cantor_not_isSLSCIn",
         "GX.sphere3_not_isSLSCIn_of_essential",
+        "GX.antoineZ",
+        "GX.antoineT",
+        "GX.antoineEx",
+        "GX.antoineEy",
+        "GX.AntoineSep",
+        "GX.AntoineAdj",
+        "GX.antoine_sep_or_adj",
+        "GX.antoine_centre_mem",
+        "GX.antoine_adj_succ",
+        "GX.antoineLink",
+        "GX.antoinePerm",
+        "GX.antoineMap",
+        "GX.antoineT_cases",
+        "GX.antoineMap_bounds",
+        "GX.antoineMap_mem",
+        "GX.antoine_link_aux",
+        "GX.antoineMap_disjoint",
+        "GX.antoine_abs_fst_le",
+        "GX.antoine_abs_snd_fst_le",
+        "GX.antoine_abs_snd_snd_le",
+        "GX.antoine_dist_le",
+        "GX.antoineMap_dist_le",
+        "GX.continuous_antoineMap",
+        "GX.antoineMap_injective",
+        "GX.antoineComp",
+        "GX.antoineComp_dist_le",
+        "GX.continuous_antoineComp",
+        "GX.antoineComp_injective",
+        "GX.antoineComp_congr",
+        "GX.antoineComp_succ_subset",
+        "GX.antoineComp_antitone",
+        "GX.antoineLink_dist_le",
+        "GX.antoineComp_diam",
+        "GX.antoineComp_prefix",
+        "GX.antoineStage",
+        "GX.antoineNecklaceR3",
+        "GX.antoineStage_succ_subset",
+        "GX.antoineStage_zero",
+        "GX.antoineLink_isCompact",
+        "GX.antoine_base_mem",
+        "GX.antoine_cauchy",
+        "GX.antoineCode",
+        "GX.antoineCode_mem",
+        "GX.antoine_eq_of_mem",
+        "GX.antoineCode_injective",
+        "GX.range_antoineCode",
+        "GX.continuous_antoineCode",
+        "GX.antoineCodeHomeomorph",
+        "GX.antoineFin64Homeomorph",
+        "GX.antoineNecklaceR3_isCantorSubset",
+        "GX.isCompact_antoineNecklaceR3",
+        "GX.antoineStereo",
+        "GX.continuous_antoineStereo",
+        "GX.antoineStereo_injective",
+        "GX.antoineNecklace",
+        "GX.antoineNecklace_isCantorSubset",
+        "GX.antoineNecklace_nonempty",
+        "GX.antoineEz",
+        "GX.antoineMap_bounds_z",
+        "GX.antoineComp_mem_link",
+        "GX.antoine_mem_stage_of_map",
+        "GX.antoine_mem_stage_of_comp",
+        "GX.antoine_mem_necklace_of_comp",
+        "GX.antoineNecklaceR3_subset_stage",
+        "GX.antoine_mem_stage_one",
+        "GX.antoineZ_zero",
+        "GX.antoineT_zero",
+        "GX.antoineZ_one",
+        "GX.antoineT_one",
+        "GX.antoineP0",
+        "GX.antoineMap_zero_p0",
+        "GX.antoineP0_mem",
+        "GX.antoineComp_zero_p0",
+        "GX.antoineP0_mem_comp",
+        "GX.antoineP0_mem_necklace",
+        "GX.antoine_sep_p0",
+        "GX.antoine_sep_mer",
+        "GX.antoineEz_le",
+        "GX.antoine_not_mem_stage_one_of_z",
+        "GX.antoineVert",
+        "GX.antoineVert_zero",
+        "GX.antoineVert_mem",
+        "GX.antoineVert_not_mem_stage_one",
+        "GX.antoineMap_zero_vert",
+        "GX.antoineStage_antitone",
+        "GX.antoineVert_not_mem_stage",
+        "GX.antoineVert_not_mem_necklace",
+        "GX.antoineMerPt",
+        "GX.antoineMeridian",
+        "GX.antoineMeridian_apply",
+        "GX.antoineMeridian_not_mem",
+        "GX.antoineMer1",
+        "GX.antoineMer1_apply",
+        "GX.antoineMer1_mem",
+        "GX.antoineMer1_not_mem_stage_one",
+        "GX.antoineSeg",
+        "GX.antoineSeg_apply",
+        "GX.antoineUp",
+        "GX.antoineUp_apply",
+        "GX.antoineAcross",
+        "GX.antoineMap_one_merPt",
+        "GX.antoineAcross_apply",
+        "GX.antoineAcross_mem",
+        "GX.antoineTail",
+        "GX.antoineLoop0",
+        "GX.antoine_memOmega_trans",
+        "GX.antoine_memOmega_symm",
+        "GX.antoine_memOmega_of_forall",
+        "GX.antoineGood",
+        "GX.antoineTail_mem",
+        "GX.antoineTail_memOmega",
+        "GX.antoineMer1_good",
+        "GX.antoineLoop0_memOmega",
+        "GX.antoine_homotopicIn_conj",
+        "GX.antoine_homotopicIn_refl_congr",
+        "GX.antoineStage_isCompact",
+        "GX.antoine_homotopicIn_stage",
+        "GX.AntoineMeridianEssential",
+        "GX.antoineWord",
+        "GX.antoineComp_word",
+        "GX.antoineP0_not_mem_word_link",
+        "GX.antoine_essential_loops",
+        "GX.antoine_almostTrivial_congr",
+        "GX.antoineMeridianEssential",
+        "GX.antoineNecklace_not_isSLSCIn_of",
+        "GX.antoineNecklace_not_isSLSCIn",
+        "GX.TameCantorSLSC",
+        "GX.isWildCantor_antoineNecklace_of",
         "GX.exists_wild_cantor_not_isSLSCIn",
         "GX.sphere3_finrank_fact",
         "GX.sphere3_locPathConnected",
         "GX.sphere3_semilocallySimplyConnected_compl",
         "GX.sphere3_isSLSCInCC_compl_iff",
-        "GX.exists_wild_cantor_not_isSLSCInCC",
-        "GX.AntoineAdj",
-        "GX.AntoineSep",
-        "GX.antoineCode",
-        "GX.antoineCodeHomeomorph",
-        "GX.antoineCode_injective",
-        "GX.antoineCode_mem",
-        "GX.antoineComp",
-        "GX.antoineComp_antitone",
-        "GX.antoineComp_congr",
-        "GX.antoineComp_diam",
-        "GX.antoineComp_dist_le",
-        "GX.antoineComp_injective",
-        "GX.antoineComp_prefix",
-        "GX.antoineComp_succ_subset",
-        "GX.antoineEx",
-        "GX.antoineEy",
-        "GX.antoineFin64Homeomorph",
-        "GX.antoineLink",
-        "GX.antoineLink_dist_le",
-        "GX.antoineLink_isCompact",
-        "GX.antoineMap",
-        "GX.antoineMap_bounds",
-        "GX.antoineMap_disjoint",
-        "GX.antoineMap_dist_le",
-        "GX.antoineMap_injective",
-        "GX.antoineMap_mem",
-        "GX.antoineNecklace",
-        "GX.antoineNecklaceR3",
-        "GX.antoineNecklaceR3_isCantorSubset",
-        "GX.antoineNecklace_antoine",
-        "GX.antoineNecklace_isCantorSubset",
-        "GX.antoineNecklace_nonempty",
-        "GX.antoineNecklace_not_isSLSCIn",
+        "GX.antoineNecklace_not_isSLSCInCC_of",
+        "GX.antoineNecklace_not_isSLSCInCC",
         "GX.antoineNecklace_wild_not_isSLSCInCC",
-        "GX.antoinePerm",
-        "GX.antoineStage",
-        "GX.antoineStage_succ_subset",
-        "GX.antoineStage_zero",
-        "GX.antoineStereo",
-        "GX.antoineStereo_injective",
-        "GX.antoineT",
-        "GX.antoineT_cases",
-        "GX.antoineZ",
-        "GX.antoine_abs_fst_le",
-        "GX.antoine_abs_snd_fst_le",
-        "GX.antoine_abs_snd_snd_le",
-        "GX.antoine_adj_succ",
-        "GX.antoine_base_mem",
-        "GX.antoine_cauchy",
-        "GX.antoine_centre_mem",
-        "GX.antoine_dist_le",
-        "GX.antoine_eq_of_mem",
-        "GX.antoine_link_aux",
-        "GX.antoine_sep_or_adj",
-        "GX.continuous_antoineCode",
-        "GX.continuous_antoineComp",
-        "GX.continuous_antoineMap",
-        "GX.continuous_antoineStereo",
-        "GX.isCompact_antoineNecklaceR3",
-        "GX.isWildCantor_antoineNecklace",
-        "GX.range_antoineCode"
+        "GX.exists_wild_cantor_not_isSLSCInCC"
       ],
       "lean_stated": "scaffold",
       "lean_proved": "partial",
       "bucket": "C",
-      "scope_notes": "WP-27f, audited clean. Partial: tagged sorry: Antoine's theorem for the explicit necklace (whose Cantor property, nesting and the pairwise disjointness of the 64 links of each generation are PROVED). Missing: (1) the essential loop — a meridian of a link L of generation n is not null-homotopic in S^3 minus (C ∩ L). No abelian invariant can detect it (H^1 of the complement of a closed subset of a Cantor set vanishes by Alexander duality, so winding/linking numbers, maps to S^1 and abelian covers all give 0); by compactness of a null-homotopy it suffices to detect it in the complement of each finite stage C_m ∩ L (64^(m-n) solid tori), which needs for every m a non-abelian covering/representation of π₁ of that complement (an iterated lift, the depth-2 instance of which is the dihedral invariant of ex:consider_denote_absolute_galois, or Antoine's van Kampen computation); mathlib has neither van Kampen nor π₁ of a solid-torus complement. (2) Accessibility: a path from each x ∈ C to the meridian meeting C only at x. (3) Wildness: a Cantor set carried into a great circle has a semi-locally simply connected complement, which needs the simple connectivity of S^3 minus a compact subset of a circle (again van Kampen-type). Readings/questions: The claim is stated for one explicit Antoine necklace (square rings, 64 links per chain, ratio 7/80). Antoine necklaces are not all ambient-equivalent (Sher 1968), though Antoine's theorem holds for each; is the explicit necklace an acceptable reading of DEC-58, or is a statement over every Antoine necklace (a predicate on nested chains of linked tame solid tori) wanted?",
-      "notes": "WP-27f, audited clean. Partial: tagged sorry: Antoine's theorem for the explicit necklace (whose Cantor property, nesting and the pairwise disjointness of the 64 links of each generation are PROVED). Missing: (1) the essential loop — a meridian of a link L of generation n is not null-homotopic in S^3 minus (C ∩ L). No abelian invariant can detect it (H^1 of the complement of a closed subset of a Cantor set vanishes by Alexander duality, so winding/linking numbers, maps to S^1 and abelian covers all give 0); by compactness of a null-homotopy it suffices to detect it in the complement of each finite stage C_m ∩ L (64^(m-n) solid tori), which needs for every m a non-abelian covering/representation of π₁ of that complement (an iterated lift, the depth-2 instance of which is the dihedral invariant of ex:consider_denote_absolute_galois, or Antoine's van Kampen computation); mathlib has neither van Kampen nor π₁ of a solid-torus complement. (2) Accessibility: a path from each x ∈ C to the meridian meeting C only at x. (3) Wildness: a Cantor set carried into a great circle has a semi-locally simply connected complement, which needs the simple connectivity of S^3 minus a compact subset of a circle (again van Kampen-type). Readings/questions: The claim is stated for one explicit Antoine necklace (square rings, 64 links per chain, ratio 7/80). Antoine necklaces are not all ambient-equivalent (Sher 1968), though Antoine's theorem holds for each; is the explicit necklace an acceptable reading of DEC-58, or is a statement over every Antoine necklace (a predicate on nested chains of linked tame solid tori) wanted?",
+      "scope_notes": "WP-35h, audited clean. Partial: tagged sorry: Antoine's lemma proper, exactly GX.AntoineMeridianEssential: for n <= m the meridian GX.antoineMeridian of a generation-n link L (carried by antoineComp v n, then into S^3) is not null-homotopic in S^3 minus (C_m ∩ L), the 64^(m-n) linked square solid tori of generation m inside L. No abelian invariant detects it for m > n (H_1 of the complement is free on the meridians of the sublinks, each sublink is null-homologous in L, so the meridian of L is 0 in H_1, a product of commutators); it needs Antoine's van Kampen computation for a chain of linked solid tori or a non-abelian covering tower. mathlib has no van Kampen theorem, no pi_1 of a solid-torus complement, no PL solid-torus theory. Everything around it is built: compactness reduction (GX.antoine_homotopicIn_stage, stages compact GX.antoineStage_isCompact), link selection (GX.antoineComp_diam, GX.antoineP0_not_mem_word_link), accessibility (GX.antoineVert_not_mem_necklace), the based loop (GX.antoineLoop0, GX.antoineLoop0_memOmega) and conjugation (GX.antoine_homotopicIn_conj). Readings/questions: The row's hypothesis 'S wild' is a property of the necklace the conclusion does not use; it is derived here only under the named tame-Cantor fact GX.TameCantorSLSC. Should the row require the necklace's wildness to be certified (a further general-position result: S^3 minus a Cantor subset of a great circle is simply connected), or is the conclusion for the ruled necklace (DEC-58/68 (f)) the whole row?",
+      "notes": "WP-35h, audited clean. Partial: tagged sorry: Antoine's lemma proper, exactly GX.AntoineMeridianEssential: for n <= m the meridian GX.antoineMeridian of a generation-n link L (carried by antoineComp v n, then into S^3) is not null-homotopic in S^3 minus (C_m ∩ L), the 64^(m-n) linked square solid tori of generation m inside L. No abelian invariant detects it for m > n (H_1 of the complement is free on the meridians of the sublinks, each sublink is null-homologous in L, so the meridian of L is 0 in H_1, a product of commutators); it needs Antoine's van Kampen computation for a chain of linked solid tori or a non-abelian covering tower. mathlib has no van Kampen theorem, no pi_1 of a solid-torus complement, no PL solid-torus theory. Everything around it is built: compactness reduction (GX.antoine_homotopicIn_stage, stages compact GX.antoineStage_isCompact), link selection (GX.antoineComp_diam, GX.antoineP0_not_mem_word_link), accessibility (GX.antoineVert_not_mem_necklace), the based loop (GX.antoineLoop0, GX.antoineLoop0_memOmega) and conjugation (GX.antoine_homotopicIn_conj). Readings/questions: The row's hypothesis 'S wild' is a property of the necklace the conclusion does not use; it is derived here only under the named tame-Cantor fact GX.TameCantorSLSC. Should the row require the necklace's wildness to be certified (a further general-position result: S^3 minus a Cantor subset of a great circle is simply connected), or is the conclusion for the ruled necklace (DEC-58/68 (f)) the whole row?",
       "lean_proved_override": "partial",
       "paper_findings": [
-        "Under DEC-58 the example is about Antoine's necklace, now constructed (GX.antoineNecklace) and the statement made about it; the general wild-Cantor reading (refuted in WP-26h modulo Kirkor's existence) is only a side remark (GX.wild_cantor_claim_false_of_exists, proved).",
-        "The geometry of the construction is checked mechanically: all 64×64 pairs of first-generation links are box-separated except the 64 cyclically consecutive pairs (GX.antoine_sep_or_adj, GX.antoine_adj_succ, by decide), and consecutive ones are disjoint (GX.antoine_link_aux); that consecutive links are genuinely LINKED is read off the coordinates and is used only inside the citation."
+        "Under DEC-58/DEC-68 (f) the example is about one explicit Antoine necklace, constructed and proved a Cantor set; the general wild-Cantor reading fails as soon as some wild Cantor set has simply connected, locally non-separating complement (GX.wild_cantor_claim_false_of_exists, proved).",
+        "l.1578: the conclusion does not depend on wildness; for the necklace it reduces (proved) to Antoine's lemma that the meridian of a link is essential in the complement of the finite stages inside it, at ONE point of S (the fixed point of g_0)."
       ],
       "extra_lean_files": [
         "scaffold/GXScaffold/Branched/GaloisExamples.lean"
@@ -5069,14 +5261,30 @@
         "GX.conicalPolar",
         "GX.conicalDev_posEmb_eq_conicalPolar",
         "GX.hasDerivAt_conicalPolar",
-        "GX.conicalPolar_metric"
+        "GX.conicalPolar_metric",
+        "GX.tameCylMetric",
+        "GX.cylMetricForm",
+        "GX.cylMetricForm_apply",
+        "GX.cylMetricForm_comm",
+        "GX.cylMetricForm_self",
+        "GX.cylMetricForm_pos",
+        "GX.cylMetricForm_zero_degenerate",
+        "GX.contDiff_cylMetricForm",
+        "GX.norm_le_of_cylMetricForm_lt_one",
+        "GX.cylCoordDomain",
+        "GX.cylCoord",
+        "GX.cylCoordHomeo",
+        "GX.isOpenEmbedding_cylCoord",
+        "GX.range_cylCoord",
+        "GX.conicalDev_cylCoord",
+        "GX.tameInnerCLM",
+        "GX.tameInnerCLM_apply"
       ],
       "lean_stated": "strict",
-      "lean_proved": "partial",
-      "bucket": "C",
-      "scope_notes": "WP-27g, audited clean. Partial: a reading awaiting the author Readings/questions: l.1619: 'the covering can be endowed with the singular Euclidean metric dr² + r²dθ² + Σdz²' is now proved in coordinates (GX has no Riemannian metric): on {r > 0} the differential of D = (r cos θ, r sin θ, z) at (r, θ, z) sends (ρ, φ, ζ) to w with ‖w₁‖² + ‖w₂‖² = ρ² + r²φ² + ‖ζ‖², i.e. D^*⟨·,·⟩ = dr² + r²dθ² + Σdz_i² (GX.conicalPolar_metric, a conjunct of GX.tame_conical). Every other assertion is proved: sing(M) = π{r=0}, M̃^{sing M} ≅ susp(ℝ) × ℝⁿ over M, D continuous on the whole cover, an a.e. (G,X)-morphism, Γ-equivariant. Does the author accept this coordinate reading of the metric sentence, closing the row?",
-      "notes": "WP-27g, audited clean. Partial: a reading awaiting the author Readings/questions: l.1619: 'the covering can be endowed with the singular Euclidean metric dr² + r²dθ² + Σdz²' is now proved in coordinates (GX has no Riemannian metric): on {r > 0} the differential of D = (r cos θ, r sin θ, z) at (r, θ, z) sends (ρ, φ, ζ) to w with ‖w₁‖² + ‖w₂‖² = ρ² + r²φ² + ‖ζ‖², i.e. D^*⟨·,·⟩ = dr² + r²dθ² + Σdz_i² (GX.conicalPolar_metric, a conjunct of GX.tame_conical). Every other assertion is proved: sing(M) = π{r=0}, M̃^{sing M} ≅ susp(ℝ) × ℝⁿ over M, D continuous on the whole cover, an a.e. (G,X)-morphism, Γ-equivariant. Does the author accept this coordinate reading of the metric sentence, closing the row?",
-      "lean_proved_override": "partial",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "WP-35c, audited clean.",
+      "notes": "WP-35c, audited clean.",
       "extra_lean_files": [
         "GX/SingularII/Unloopable.lean"
       ],
@@ -5129,8 +5337,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27g, audited clean. Readings/questions: Readings (no ruling needed, recorded): 'no developing map' is now proved in BOTH senses of def:developing_map — for M̃ → M (l.1731: no a.e. (G,X)-morphism from the cylinder, with the corollary's structure, into X; GX.not_isAEMorphismOf_btzDev) and 'M admits no developing map' (l.1729: for no T2/LPC/first-countable branched covering M̂ → M possibly branched over sing(M) and no maximal a.e. atlas on M̂ making it an a.e. morphism is there an a.e. morphism M̂ → X; GX.not_admits_developing_btz, via universality); both strictly stronger than the paper's argument (D does not extend), which is also proved for every translate g·D; sing(M) = π{r=0} exactly, so the cylinder is M̃^{sing M}; the printed formula is recovered from btzDev with x₀ = 0, v = (-1,1,0), time 2τ (btzDev_paper_coords); the printed argument 'θ/2π' is not used. wtame_btz_isom0 now carries every conjunct of wtame_btz at G = Isom₀.",
-      "notes": "WP-27g, audited clean. Readings/questions: Readings (no ruling needed, recorded): 'no developing map' is now proved in BOTH senses of def:developing_map — for M̃ → M (l.1731: no a.e. (G,X)-morphism from the cylinder, with the corollary's structure, into X; GX.not_isAEMorphismOf_btzDev) and 'M admits no developing map' (l.1729: for no T2/LPC/first-countable branched covering M̂ → M possibly branched over sing(M) and no maximal a.e. atlas on M̂ making it an a.e. morphism is there an a.e. morphism M̂ → X; GX.not_admits_developing_btz, via universality); both strictly stronger than the paper's argument (D does not extend), which is also proved for every translate g·D; sing(M) = π{r=0} exactly, so the cylinder is M̃^{sing M}; the printed formula is recovered from btzDev with x₀ = 0, v = (-1,1,0), time 2τ (btzDev_paper_coords); the printed argument 'θ/2π' is not used. wtame_btz_isom0 now carries every conjunct of wtame_btz at G = Isom₀.",
+      "scope_notes": "WP-35c, audited clean. Readings/questions: Readings (no ruling needed, recorded): 'no developing map' is now proved in BOTH senses of def:developing_map — for M̃ → M (l.1731: no a.e. (G,X)-morphism from the cylinder, with the corollary's structure, into X; GX.not_isAEMorphismOf_btzDev) and 'M admits no developing map' (l.1729: for no T2/LPC/first-countable branched covering M̂ → M possibly branched over sing(M) and no maximal a.e. atlas on M̂ making it an a.e. morphism is there an a.e. morphism M̂ → X; GX.not_admits_developing_btz, via universality); both strictly stronger than the paper's argument (D does not extend), which is also proved for every translate g·D; sing(M) = π{r=0} exactly, so the cylinder is M̃^{sing M}; the printed formula is recovered from btzDev with x₀ = 0, v = (-1,1,0), time 2τ (btzDev_paper_coords); the printed argument 'θ/2π' is not used. wtame_btz_isom0 now carries every conjunct of wtame_btz at G = Isom₀.",
+      "notes": "WP-35c, audited clean. Readings/questions: Readings (no ruling needed, recorded): 'no developing map' is now proved in BOTH senses of def:developing_map — for M̃ → M (l.1731: no a.e. (G,X)-morphism from the cylinder, with the corollary's structure, into X; GX.not_isAEMorphismOf_btzDev) and 'M admits no developing map' (l.1729: for no T2/LPC/first-countable branched covering M̂ → M possibly branched over sing(M) and no maximal a.e. atlas on M̂ making it an a.e. morphism is there an a.e. morphism M̂ → X; GX.not_admits_developing_btz, via universality); both strictly stronger than the paper's argument (D does not extend), which is also proved for every translate g·D; sing(M) = π{r=0} exactly, so the cylinder is M̃^{sing M}; the printed formula is recovered from btzDev with x₀ = 0, v = (-1,1,0), time 2τ (btzDev_paper_coords); the printed argument 'θ/2π' is not used. wtame_btz_isom0 now carries every conjunct of wtame_btz at G = Isom₀.",
       "extra_lean_files": [
         "GX/SingularII/Unloopable.lean"
       ],
@@ -5179,8 +5387,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27g, audited clean. Readings/questions: Reading taken: the 'singular structure induced by a stereographic projection' is the maximal a.e. atlas generated by the single chart φ : 𝕊²∖{N} → E²; 'M̃^{sing M} = M' is a homeomorphism over M (branching locus empty).",
-      "notes": "WP-27g, audited clean. Readings/questions: Reading taken: the 'singular structure induced by a stereographic projection' is the maximal a.e. atlas generated by the single chart φ : 𝕊²∖{N} → E²; 'M̃^{sing M} = M' is a homeomorphism over M (branching locus empty).",
+      "scope_notes": "WP-35c, audited clean. Readings/questions: Reading taken: the 'singular structure induced by a stereographic projection' is the maximal a.e. atlas generated by the single chart φ : 𝕊²∖{N} → E²; 'M̃^{sing M} = M' is a homeomorphism over M (branching locus empty).",
+      "notes": "WP-35c, audited clean. Readings/questions: Reading taken: the 'singular structure induced by a stereographic projection' is the maximal a.e. atlas generated by the single chart φ : 𝕊²∖{N} → E²; 'M̃^{sing M} = M' is a homeomorphism over M (branching locus empty).",
       "extra_lean_files": [
         "GX/SingularII/Unloopable.lean"
       ],
@@ -5222,8 +5430,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27g, audited clean. Readings/questions: Recorded reading: the paper's 'semi-locally simply connected' (l.1156) is stated for connected spaces, the Lean V carries no connectedness; under local path-connectedness the readings agree, proved as GX.isLocallyUnloopable_iff (equivalently, open path-connected SLSC V) via GX.semilocallySimplyConnected_pathComponentIn.",
-      "notes": "WP-27g, audited clean. Readings/questions: Recorded reading: the paper's 'semi-locally simply connected' (l.1156) is stated for connected spaces, the Lean V carries no connectedness; under local path-connectedness the readings agree, proved as GX.isLocallyUnloopable_iff (equivalently, open path-connected SLSC V) via GX.semilocallySimplyConnected_pathComponentIn.",
+      "scope_notes": "WP-35c, audited clean. Readings/questions: Recorded reading: the paper's 'semi-locally simply connected' (l.1156) is stated for connected spaces, the Lean V carries no connectedness; under local path-connectedness the readings agree, proved as GX.isLocallyUnloopable_iff (equivalently, open path-connected SLSC V) via GX.semilocallySimplyConnected_pathComponentIn.",
+      "notes": "WP-35c, audited clean. Readings/questions: Recorded reading: the paper's 'semi-locally simply connected' (l.1156) is stated for connected spaces, the Lean V carries no connectedness; under local path-connectedness the readings agree, proved as GX.isLocallyUnloopable_iff (equivalently, open path-connected SLSC V) via GX.semilocallySimplyConnected_pathComponentIn.",
       "extra_lean_files": [
         "GX/SingularII/Unloopable.lean"
       ],
@@ -5263,13 +5471,12 @@
         "GX.semilocallySimplyConnected_compl_of_sing_subset"
       ],
       "lean_stated": "strict",
-      "lean_proved": "partial",
-      "bucket": "C",
-      "scope_notes": "WP-27g, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Does the §3 standing hypothesis (l.810: all spaces Hausdorff, locally path-connected, first countable) extend to the 'Singular (G,X)-manifolds (II)' section? If so, lem:analytical_structure_locally_unloopable closes as proved.",
-      "notes": "WP-27g, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Does the §3 standing hypothesis (l.810: all spaces Hausdorff, locally path-connected, first countable) extend to the 'Singular (G,X)-manifolds (II)' section? If so, lem:analytical_structure_locally_unloopable closes as proved.",
-      "lean_proved_override": "partial",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "WP-35c, audited clean.",
+      "notes": "WP-35c, audited clean.",
       "paper_findings": [
-        "F1 (l.1653–1658): the conclusion 'admits a maximal covering possibly branched over S' is prop:universality (l.1158), whose hypotheses include Y locally path-connected (and §3's first countable, l.810); a singular (G,X)-manifold is only locally connected (def:singular_manifold_locally_connected, l.474) and need not be locally path-connected at its singular points, so the lemma needs 'M locally path-connected' (carried here). The proof's 'unloopable' (l.1656) is undefined; it is read as semilocally simply connected, which is what is proved (with connectedness) for M ∖ S."
+        "F1 (l.1653–1658), resolved by DEC-66 (a): the conclusion is prop:universality, which needs M locally path-connected and first countable; §3's standing assumption (l.810) covers §2.5. Recorded: the proof's 'unloopable' (l.1656) is read as semilocally simply connected, what is proved (with connectedness) for M ∖ S."
       ],
       "extra_lean_files": [
         "GX/SingularII/Unloopable.lean"
@@ -5313,13 +5520,12 @@
         "GX.singular_manifold_branched_covering_aepullback"
       ],
       "lean_stated": "strict",
-      "lean_proved": "partial",
-      "bucket": "C",
-      "scope_notes": "WP-27g, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Rule the reading Γ(N/M) for the printed Γ(M̃^S/M) (l.1680)? Under it the row is certified in full (uniqueness read as DEC-42; ord(π) = ord_π(N); the equality reg(π) = reg(N) ∩ {π local homeomorphism} of the proof is also proved).",
-      "notes": "WP-27g, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Rule the reading Γ(N/M) for the printed Γ(M̃^S/M) (l.1680)? Under it the row is certified in full (uniqueness read as DEC-42; ord(π) = ord_π(N); the equality reg(π) = reg(N) ∩ {π local homeomorphism} of the proof is also proved).",
-      "lean_proved_override": "partial",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "WP-35c, audited clean.",
+      "notes": "WP-35c, audited clean.",
       "paper_findings": [
-        "F2 (l.1680): 'the Galois group Γ(M̃^S/M) acts' in the proposition is a slip: no S occurs in its hypotheses, and the proof (l.1688) argues for Γ(N/M) (while saying it acts 'on M̃^S'). Proved for Γ(N/M) = deckGroup π; the M̃^S statement is the corollary's. Also l.1688 cites 'Proposition \\ref{lem:aepullback}' (a lemma)."
+        "F2 (l.1680), resolved by DEC-67 (a): the printed Γ(M̃^S/M) is read Γ(N/M), as the proof (l.1688) argues; recorded also that l.1688 cites 'Proposition \\ref{lem:aepullback}' (a lemma)."
       ],
       "extra_lean_files": [
         "GX/SingularII/Unloopable.lean"
@@ -5357,13 +5563,12 @@
         "GX.singular_manifold_skeletal_subset_btz"
       ],
       "lean_stated": "strict",
-      "lean_proved": "partial",
-      "bucket": "C",
-      "scope_notes": "WP-27g, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Accept 'M connected (and §3's standing hypotheses)' as implicit in the notation M̃^S (as DEC-46 (c) did for g^*A), closing the row?",
-      "notes": "WP-27g, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Accept 'M connected (and §3's standing hypotheses)' as implicit in the notation M̃^S (as DEC-46 (c) did for g^*A), closing the row?",
-      "lean_proved_override": "partial",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "WP-35c, audited clean.",
+      "notes": "WP-35c, audited clean.",
       "paper_findings": [
-        "F3 (l.1693): M̃^S is defined (prop:universality, l.1158) only for M connected (and locally path-connected, first countable); the corollary does not assume M connected. Carried."
+        "F3 (l.1693), resolved by DEC-66 (b): M̃^S is defined (prop:universality, l.1158) only for M connected; the notation presupposes it."
       ],
       "extra_lean_files": [
         "GX/SingularII/Unloopable.lean"
@@ -5484,14 +5689,10 @@
         "GX.existsUnique_holonomyOf"
       ],
       "lean_stated": "strict",
-      "lean_proved": "partial",
-      "bucket": "C",
-      "scope_notes": "WP-27h, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: lem:holonomy (l.1753): accept the reading 'Γ acting on M' (the domain of f)? Under it the row closes (GX.existsUnique_holonomy).",
-      "notes": "WP-27h, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: lem:holonomy (l.1753): accept the reading 'Γ acting on M' (the domain of f)? Under it the row closes (GX.existsUnique_holonomy).",
-      "lean_proved_override": "partial",
-      "paper_findings": [
-        "l.1753 (lem:holonomy): the printed statement has Γ act on N while f : M → X; equivariance of f only makes sense for an action on M (the domain of f). Read as Γ acting on M; the commented proof (l.1755–1759) is for Γ(N/M) acting on N and D : N → X, i.e. the same with M := N."
-      ],
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "WP-35d, audited clean.",
+      "notes": "WP-35d, audited clean.",
       "extra_lean_files": [
         "GX/SingularII/Developing.lean"
       ],
@@ -5606,6 +5807,7 @@
         "GX/SingularII/Developing.lean"
       ],
       "decls": [
+        "GX.singular_manifold_holonomy_indeed_of_isLocallyUnloopable",
         "GX.singular_manifold_holonomy_indeed",
         "GX.regChartedSpace",
         "GX.hasGroupoid_regChartedSpace",
@@ -5613,14 +5815,10 @@
         "GX.aePullback_val_reg_spec"
       ],
       "lean_stated": "strict",
-      "lean_proved": "partial",
-      "bucket": "C",
-      "scope_notes": "WP-27h, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: rem:singular_manifold_holonomy_indeed (l.1768): accept the reading 'for a developing map D of \\widetilde M with holonomy ρ, D restricted to \\widetilde{reg M} ⊆ \\widetilde M is a developing map of the (G,X)-manifold reg(M) in the classical sense (GX.developing_theorem), whose classical holonomy is γ ↦ ρ(γ̃), γ̃ the extension of γ' (and M locally path-connected)?",
-      "notes": "WP-27h, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: rem:singular_manifold_holonomy_indeed (l.1768): accept the reading 'for a developing map D of \\widetilde M with holonomy ρ, D restricted to \\widetilde{reg M} ⊆ \\widetilde M is a developing map of the (G,X)-manifold reg(M) in the classical sense (GX.developing_theorem), whose classical holonomy is γ ↦ ρ(γ̃), γ̃ the extension of γ' (and M locally path-connected)?",
-      "lean_proved_override": "partial",
-      "paper_findings": [
-        "As WP-27g's F1/F3: the statement involves \\widetilde M (resp. lem:dense_orbits, spread_connected_image), which need the base locally path-connected (prop:universality, §3 standing l.810); a singular (G,X)-manifold is only locally connected (l.474), so 'locally path-connected' is carried."
-      ],
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "WP-35d, audited clean.",
+      "notes": "WP-35d, audited clean.",
       "extra_lean_files": [
         "GX/SingularII/Developing.lean"
       ],
@@ -5702,14 +5900,10 @@
         "GX.eq_of_isHolonomyOf_one"
       ],
       "lean_stated": "strict",
-      "lean_proved": "partial",
-      "bucket": "C",
-      "scope_notes": "WP-27h, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: lem:descend_developing_map (l.1780): accept N (the base) locally path-connected, the §3 standing assumption for bases of branched coverings that lem:dense_orbits uses? Under it the row closes.",
-      "notes": "WP-27h, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: lem:descend_developing_map (l.1780): accept N (the base) locally path-connected, the §3 standing assumption for bases of branched coverings that lem:dense_orbits uses? Under it the row closes.",
-      "lean_proved_override": "partial",
-      "paper_findings": [
-        "As WP-27g's F1/F3: the statement involves lem:dense_orbits and cor:spread_connected_image (used in the proof, l.1789–1792), which need the base locally path-connected (prop:universality, §3 standing l.810); a singular (G,X)-manifold is only locally connected (l.474), so 'locally path-connected' is carried. Also: 'D̄ is a (G,X)-morphism on ord(N)' (l.1793) holds on ord(p) ∩ reg(N), portly, which is what the a.e. conclusion needs."
-      ],
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "WP-35d, audited clean.",
+      "notes": "WP-35d, audited clean.",
       "extra_lean_files": [
         "GX/SingularII/Developing.lean"
       ],
@@ -5796,15 +5990,12 @@
         "GX.exists_developing_of_simplyConnected"
       ],
       "lean_stated": "strict",
-      "lean_proved": "partial",
-      "bucket": "C",
-      "scope_notes": "WP-27h, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: prop:branched_devmap (l.1807): accept 'M locally path-connected' (the hypothesis of prop:universality under which \\widetilde M is defined, as WP-27g F1/F3)? Under it the row closes (GX.singular_developing_theorem, with X locally unloopable as the section's standing hypothesis).",
-      "notes": "WP-27h, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: prop:branched_devmap (l.1807): accept 'M locally path-connected' (the hypothesis of prop:universality under which \\widetilde M is defined, as WP-27g F1/F3)? Under it the row closes (GX.singular_developing_theorem, with X locally unloopable as the section's standing hypothesis).",
-      "lean_proved_override": "partial",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "WP-35d, audited clean.",
+      "notes": "WP-35d, audited clean.",
       "paper_findings": [
-        "As WP-27g's F1/F3: the statement involves \\widetilde M (resp. lem:dense_orbits, spread_connected_image), which need the base locally path-connected (prop:universality, §3 standing l.810); a singular (G,X)-manifold is only locally connected (l.474), so 'locally path-connected' is carried.",
-        "l.1811–1819, the proof uses \\widehat M = \\widetilde M^{S ∪ sing M}, which exists only when M ∖ (S ∪ sing M) is semilocally simply connected; this is supplied by the section's standing assumption X locally unloopable (l.1660, via lem:analytical_structure_locally_unloopable) — the dependence is made explicit in GX.singular_developing_theorem_of_slsc.",
-        "l.1812–1819: the formal proof does not use \\widehat M' nor lem:descend_developing_map; it compares D ∘ Φ (Φ : \\widehat M → N) and F ∘ Ψ (Ψ : \\widehat M → \\widetilde M, F the classical developing map of the simply connected \\widetilde{reg M}) on the connected \\widehat M ∖ \\widehat S (they differ by one g), and descends D ∘ Φ along the open map Ψ (constancy on fibres by density of \\widetilde M ∖ \\widetilde S and openness of Ψ). The paper's 'Γ(\\widehat M'/\\widetilde reg(M)) = Γ(\\widehat M/\\widetilde M)' and 'the action of Γ on \\widehat D_0 is trivial … apply lem:descend again' are thus not needed."
+        "(kept from WP-27h, not a defect) l.1812–1819: the formal proof does not use \\widehat M' nor lem:descend_developing_map; it compares D ∘ Φ and F ∘ Ψ on the connected \\widehat M ∖ \\widehat S and descends along the open map Ψ (SCOPE (c))."
       ],
       "extra_lean_files": [
         "GX/SingularII/Developing.lean"
@@ -5845,8 +6036,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27i, audited clean.",
-      "notes": "WP-27i, audited clean.",
+      "scope_notes": "WP-35e, audited clean.",
+      "notes": "WP-35e, audited clean.",
       "extra_lean_files": [
         "GX/SingularII/Tame.lean"
       ],
@@ -5887,8 +6078,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27i, audited clean.",
-      "notes": "WP-27i, audited clean.",
+      "scope_notes": "WP-35e, audited clean.",
+      "notes": "WP-35e, audited clean.",
       "paper_findings": [
         "l.1834 (proof of lem:embedding_tame): 'The morphism M -> N lifts to a morphism \\widetilde M -> \\widetilde N' fails when f sends regular points to singular ones: for the k-fold quotient R^2 -> E^2_{2pi/k} (an a.e. morphism, regular off 0), a lift R^2 -> \\widetilde N over f would restrict to a lift of R^2\\{0} -> cone\\{apex} to its universal cover, impossible since the generator of pi_1 maps to k times a generator (sketch, not formalized). The statement is true: the Lean proof lifts from \\widehat M = \\widetilde M^{M\\U}, U portly with f regular on U, into \\widetilde{reg N}, extends the lift to the Fox completions (IsFoxCompletion.existsUnique_extend), composes with the developing map of \\widetilde N (lem:morphism_singular_manifolds_branched) and concludes by prop:branched_devmap."
       ],
@@ -5929,8 +6120,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27i, audited clean.",
-      "notes": "WP-27i, audited clean.",
+      "scope_notes": "WP-35e, audited clean.",
+      "notes": "WP-35e, audited clean.",
       "extra_lean_files": [
         "GX/SingularII/Tame.lean"
       ],
@@ -5972,8 +6163,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27i, audited clean.",
-      "notes": "WP-27i, audited clean.",
+      "scope_notes": "WP-35e, audited clean.",
+      "notes": "WP-35e, audited clean.",
       "paper_findings": [
         "l.1839 (cor:open_subsets_tame_singular): only connected open subsets can be tame (def:developing_map asks a branched covering, whose target is connected); the row is read under the standing convention l.1712 with DEC-66(b), and closes."
       ],
@@ -6025,8 +6216,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "WP-27i, audited clean.",
-      "notes": "WP-27i, audited clean.",
+      "scope_notes": "WP-35e, audited clean.",
+      "notes": "WP-35e, audited clean.",
       "extra_lean_files": [
         "GX/SingularII/Tame.lean"
       ],
@@ -6066,13 +6257,12 @@
         "GX.tameHolonomyOrbitSetoid"
       ],
       "lean_stated": "strict",
-      "lean_proved": "partial",
-      "bucket": "C",
-      "scope_notes": "WP-27i, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: rem:tamely_singular_manifold_admits (l.1869): must an injective developing map N -> X make Γ(N/M) transitive on the fibres of N -> M over the BRANCH locus? (Over the ordinary regular locus it should follow from D injective and equivariant: the holonomy subgroup is normal, and the decks extend by Fox's theorem — sketch, not formalized, and the Lean statement assumes N Galoisian outright.) Is N meant Galoisian (e.g. N = \\widetilde M, via prop:Galoisian_semilocal), given that §3.4 says completions of Galoisian coverings need not be Galoisian? The remark is proved for Galoisian N. | rem:tamely_singular_manifold_admits (l.1869): is 'isomorphic' meant topologically or as singular (G,X)-manifolds? Both are proved (for Galoisian N): the (G,X) form puts on Γ(N/M)\\D(N) the quotient structure through the projection from N ≅ D(N), rather than prop:aeGXquotient's (whose free/properly discontinuous hypotheses are not available for Γ(N/M) on D(N)). Accept this as the meaning of the quotient structure?",
-      "notes": "WP-27i, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: rem:tamely_singular_manifold_admits (l.1869): must an injective developing map N -> X make Γ(N/M) transitive on the fibres of N -> M over the BRANCH locus? (Over the ordinary regular locus it should follow from D injective and equivariant: the holonomy subgroup is normal, and the decks extend by Fox's theorem — sketch, not formalized, and the Lean statement assumes N Galoisian outright.) Is N meant Galoisian (e.g. N = \\widetilde M, via prop:Galoisian_semilocal), given that §3.4 says completions of Galoisian coverings need not be Galoisian? The remark is proved for Galoisian N. | rem:tamely_singular_manifold_admits (l.1869): is 'isomorphic' meant topologically or as singular (G,X)-manifolds? Both are proved (for Galoisian N): the (G,X) form puts on Γ(N/M)\\D(N) the quotient structure through the projection from N ≅ D(N), rather than prop:aeGXquotient's (whose free/properly discontinuous hypotheses are not available for Γ(N/M) on D(N)). Accept this as the meaning of the quotient structure?",
-      "lean_proved_override": "partial",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "WP-35e, audited clean.",
+      "notes": "WP-35e, audited clean.",
       "paper_findings": [
-        "l.1869 (rem:tamely_singular_manifold_admits): the identification M ≅ Γ(N/M)\\D(N) needs Γ(N/M) to act transitively on the fibres of N -> M; proved for Galoisian N."
+        "l.1869 (rem:tamely_singular_manifold_admits): the identification M ≅ Γ(N/M)\\D(N) needs Γ(N/M) to act transitively on the fibres of N -> M (otherwise the map [D x] ↦ p x is not injective); DEC-71 rules the reading 'N Galoisian', under which the remark is certified in full."
       ],
       "extra_lean_files": [
         "GX/SingularII/Tame.lean"
@@ -6105,20 +6295,56 @@
       "statement_sha256": "0987098b83d3e608efe86bf6951880f3b1b1666fb65335f5e63047eccc4c7e10",
       "statement_sha256_current": "0987098b83d3e608efe86bf6951880f3b1b1666fb65335f5e63047eccc4c7e10",
       "lean_files": [
-        "GX/SingularII/Tame.lean"
+        "GX/Hyperbolic/Plane.lean"
       ],
       "decls": [
-        "GX.not_isOpen_horodisc_insert",
-        "GX.not_mem_interior_of_subset_ball_insert"
+        "GX.take_closed_unit_disc",
+        "GX.IsCuspedHyperbolic",
+        "GX.IsCuspedHyperbolic.singularStructure",
+        "GX.IsCuspedHyperbolic.sing_eq",
+        "GX.IsCuspedHyperbolic.notMem_support_of_cusp",
+        "GX.injective_of_isCuspDev",
+        "GX.exists_homeomorph_basicSet",
+        "GX.image_basicSet",
+        "GX.notMem_support_of_horo_nbhd",
+        "GX.not_isOpen_horoSet",
+        "GX.horoSet",
+        "GX.PoincareDisc",
+        "GX.ClosedDisc",
+        "GX.hypDist",
+        "GX.cosh_hypDist",
+        "GX.hypIsomSubgroup",
+        "GX.HypIsom",
+        "GX.HypIsom.exists_mobF",
+        "GX.HypIsom.extFun",
+        "GX.analyticStructure_closedDisc",
+        "GX.isLocallyUnloopable_closedDisc",
+        "GX.IsCompleteHyperbolic",
+        "GX.CuspChart",
+        "GX.CuspChart.E",
+        "GX.CuspChart.IsHyperbolicCusp",
+        "GX.horodisc",
+        "GX.horodisc_eq_ball",
+        "GX.HypIsom.mob_mem_horodisc_iff",
+        "GX.exists_cusp_lift",
+        "GX.exists_end_lift",
+        "GX.end_eq_of_comp_eq",
+        "GX.basicSet_eq_insert",
+        "GX.continuousAt_of_cusp"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "C",
-      "scope_notes": "WP-27i, audited clean. Partial: a reading awaiting the author Readings/questions: ex:take_closed_unit_disc (l.1877): may the example stay partial, with only its last sentence (a horodisc ∪ {ξ} is not open in the closed disc, proved in the stronger 'no subset of the open disc ∪ {ξ} is a neighbourhood of ξ' form) certified, until hyperbolic-surface infrastructure (Isom(H^2), completeness ⇒ developing map onto H^2, cusps) exists?",
-      "notes": "WP-27i, audited clean. Partial: a reading awaiting the author Readings/questions: ex:take_closed_unit_disc (l.1877): may the example stay partial, with only its last sentence (a horodisc ∪ {ξ} is not open in the closed disc, proved in the stronger 'no subset of the open disc ∪ {ξ} is a neighbourhood of ξ' form) certified, until hyperbolic-surface infrastructure (Isom(H^2), completeness ⇒ developing map onto H^2, cusps) exists?",
+      "scope_notes": "WP-35i, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: ex:take_closed_unit_disc (l.1878): may 'M\\S endowed with a finite volume complete hyperbolic metric' be read, for the example, as its (G,X) content: a complete (Isom(H),H)-structure (developing maps covering maps) with a cusp neighbourhood at each point of S (the parabolic model w -> phi^{-1}(e^{2 pi i w}) on {Im w > c})? Under that reading every assertion of the example is proved with no sorry; the Riemannian-metric-to-(G,X) translation, Hopf-Rinow completeness and the thick-thin decomposition (finite volume => cusps) are not formalized.",
+      "notes": "WP-35i, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: ex:take_closed_unit_disc (l.1878): may 'M\\S endowed with a finite volume complete hyperbolic metric' be read, for the example, as its (G,X) content: a complete (Isom(H),H)-structure (developing maps covering maps) with a cusp neighbourhood at each point of S (the parabolic model w -> phi^{-1}(e^{2 pi i w}) on {Im w > c})? Under that reading every assertion of the example is proved with no sorry; the Riemannian-metric-to-(G,X) translation, Hopf-Rinow completeness and the thick-thin decomposition (finite volume => cusps) are not formalized.",
       "lean_proved_override": "partial",
+      "paper_findings": [
+        "l.1880 'with injective developing map': true for EVERY developing map of \\widetilde M (they differ by G), not only for one (proved: take_closed_unit_disc).",
+        "l.1881 'an open neighborhood U of a singular point x ... is homeomorphic to {r<r_0}' holds for arbitrarily small such U (x to the apex), not for every open neighbourhood; and the singular points of \\widetilde M are exactly the points over S = sing(M) (proved: a point over a cusp has horodisc neighbourhoods, so no chart of p^*B contains it).",
+        "l.1882 'D(U) is a horodisc centered at D(x)': D(U) is the horodisc together with its centre D(x) in the boundary circle (x in U); it is this set that is not open in X."
+      ],
       "extra_lean_files": [
-        "GX/SingularII/Tame.lean"
+        "GX/Hyperbolic/Plane.lean"
       ],
       "in_lean_scope": true,
       "stale": false
@@ -6155,8 +6381,8 @@
       "lean_stated": "scaffold",
       "lean_proved": "none",
       "bucket": "B",
-      "scope_notes": "WP-27j, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
-      "notes": "WP-27j, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
+      "scope_notes": "WP-35f, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
+      "notes": "WP-35f, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
       "extra_lean_files": [
         "scaffold/GXScaffold/SingularII/Models.lean"
       ],
@@ -6195,8 +6421,8 @@
       "lean_stated": "scaffold",
       "lean_proved": "none",
       "bucket": "B",
-      "scope_notes": "WP-27j, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
-      "notes": "WP-27j, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
+      "scope_notes": "WP-35f, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
+      "notes": "WP-35f, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
       "extra_lean_files": [
         "scaffold/GXScaffold/SingularII/Models.lean"
       ],
@@ -6238,8 +6464,8 @@
       "lean_stated": "scaffold",
       "lean_proved": "none",
       "bucket": "B",
-      "scope_notes": "WP-27j, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
-      "notes": "WP-27j, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
+      "scope_notes": "WP-35f, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
+      "notes": "WP-35f, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
       "paper_findings": [
         "The round-3 question on the reading of 'X_A-atlas' (literal cover vs a chart centred at every singular point) is answered by DEC-67 (e): the printed def:atlas is kept literal (IsXAAtlas, IsXAManifoldPrinted) and X_A-manifolds have a chart centred at every singular point (IsXAManifold). Closed."
       ],
@@ -6286,8 +6512,8 @@
       "lean_stated": "scaffold",
       "lean_proved": "none",
       "bucket": "B",
-      "scope_notes": "WP-27j, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
-      "notes": "WP-27j, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
+      "scope_notes": "WP-35f, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
+      "notes": "WP-35f, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
       "extra_lean_files": [
         "scaffold/GXScaffold/SingularII/Models.lean"
       ],
@@ -6329,8 +6555,8 @@
       "lean_stated": "scaffold",
       "lean_proved": "none",
       "bucket": "B",
-      "scope_notes": "WP-27j, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
-      "notes": "WP-27j, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
+      "scope_notes": "WP-35f, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
+      "notes": "WP-35f, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
       "paper_findings": [
         "l.1921: under the printed def:atlas (charts covering M) a singular point need not be the centre of a chart, so 'has exactly one type' fails in its existence half (e.g. the singular lines of the paper's own cex l.1930 with S = {O}); DEC-67 (e) reads X_A-manifolds as having a chart centred at every singular point, under which the remark holds (GX.existsUnique_hasXAType)."
       ],
@@ -6377,11 +6603,11 @@
       "lean_stated": "scaffold",
       "lean_proved": "partial",
       "bucket": "C",
-      "scope_notes": "WP-27j, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: rem:theorem_theo_local_tame: is the intended statement the global equivalence 'every X_A-manifold is tame iff every model is tame'? Under DEC-67 (e) its 'only if' needs every singular point of each model to have a type (true e.g. when S_α = sing X_α, GX.isXAManifold_model_of_sing_subset). Not ruled. | rem:theorem_theo_local_tame (l.1924): the per-manifold 'iff' is refuted in prose only (no formal counterexample) and nothing shows the htype hypothesis of forall_isTame_iff is needed. Master: register the reading of l.1924 as an OQ (round-3 audit, carried from AUDIT-3).",
-      "notes": "WP-27j, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: rem:theorem_theo_local_tame: is the intended statement the global equivalence 'every X_A-manifold is tame iff every model is tame'? Under DEC-67 (e) its 'only if' needs every singular point of each model to have a type (true e.g. when S_α = sing X_α, GX.isXAManifold_model_of_sing_subset). Not ruled. | rem:theorem_theo_local_tame (l.1924): the per-manifold 'iff' is refuted in prose only (no formal counterexample) and nothing shows the htype hypothesis of forall_isTame_iff is needed. Master: register the reading of l.1924 as an OQ (round-3 audit, carried from AUDIT-3).",
+      "scope_notes": "WP-35f, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: rem:theorem_theo_local_tame read as the GLOBAL equivalence (no ruling says otherwise): for the printed notion of X_A-manifold it is proved with no extra hypothesis (GX.forall_isTame_iff_printed); for the notion ruled by DEC-67 (e) its 'only if' needs every singular point of each model to have a type (htype of GX.forall_isTame_iff), because a model need not then be an X_A-manifold. Informal counterexample without htype (not formalized: needs a non-tame singular point, none in the library): one model with a tame point of S and a non-tame untyped singular point elsewhere — every X_A-manifold avoids the latter, so all are tame, while the model is not. Rule: accept the global reading with htype (row would close), or the printed notion? | The per-manifold 'iff' of l.1924 is false (a tame X_A-manifold need not use every model); refuted in prose only.",
+      "notes": "WP-35f, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: rem:theorem_theo_local_tame read as the GLOBAL equivalence (no ruling says otherwise): for the printed notion of X_A-manifold it is proved with no extra hypothesis (GX.forall_isTame_iff_printed); for the notion ruled by DEC-67 (e) its 'only if' needs every singular point of each model to have a type (htype of GX.forall_isTame_iff), because a model need not then be an X_A-manifold. Informal counterexample without htype (not formalized: needs a non-tame singular point, none in the library): one model with a tame point of S and a non-tame untyped singular point elsewhere — every X_A-manifold avoids the latter, so all are tame, while the model is not. Rule: accept the global reading with htype (row would close), or the printed notion? | The per-manifold 'iff' of l.1924 is false (a tame X_A-manifold need not use every model); refuted in prose only.",
       "lean_proved_override": "partial",
       "paper_findings": [
-        "l.1924: per manifold, 'an X_A-manifold is tame iff all models are tame' is false (a tame X_A-manifold need not use every model, and a chart domain is only an open subset of a model). Proved: models of an atlas tame => tame (GX.isTame_of_isXAAtlas) and the global equivalence over all X_A-manifolds, for the printed notion (GX.forall_isTame_iff_printed) and, for the notion ruled by DEC-67 (e), over models every singular point of which has a type (GX.forall_isTame_iff): under DEC-67 (e) a model with an untyped point of sing X_α \\ S_α is not itself an X_A-manifold."
+        "l.1924: per manifold 'an X_A-manifold is tame iff all models are tame' is false (a tame X_A-manifold need not use every model). Proved: models of an atlas tame ⇒ tame (GX.isTame_of_isXAAtlas) and the GLOBAL equivalence over all X_A-manifolds — for the printed notion without further hypothesis (GX.forall_isTame_iff_printed), for the DEC-67 (e) notion over models every singular point of which has a type (GX.forall_isTame_iff)."
       ],
       "extra_lean_files": [
         "scaffold/GXScaffold/SingularII/Models.lean"
@@ -6472,8 +6698,8 @@
       "lean_stated": "scaffold",
       "lean_proved": "partial",
       "bucket": "C",
-      "scope_notes": "WP-27j, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: DEC-69 accepted 'Troyanov named with a non-vacuity witness'. The named Prop, as it can be stated in this library (no cone angles, no (SO(4),S³)-structure), is not tied to θ and is provable at a trivial group on ℂ (GX.troyanovSuspensionTheorem_of_subsingleton). Does DEC-69 accept this form — facts: M connected, O singular, some other singular point, rigidity at O, non-extendable local rotations — with the row partial? Or should the named result be restated at (SO(4),S³) once a rigid SO(4)-action on the 3-sphere and spherical cone surfaces are built? | The named external result is stated over a general (G,X) rather than at (SO(4),S³): the (SO(4),S³) analytic structure (its rigid action on S³) is not in the library. Instantiating it at (SO(4),S³) is a follow-up (needs a MulAction/IsRigidAction of SO(4) on the 3-sphere).",
-      "notes": "WP-27j, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: DEC-69 accepted 'Troyanov named with a non-vacuity witness'. The named Prop, as it can be stated in this library (no cone angles, no (SO(4),S³)-structure), is not tied to θ and is provable at a trivial group on ℂ (GX.troyanovSuspensionTheorem_of_subsingleton). Does DEC-69 accept this form — facts: M connected, O singular, some other singular point, rigidity at O, non-extendable local rotations — with the row partial? Or should the named result be restated at (SO(4),S³) once a rigid SO(4)-action on the 3-sphere and spherical cone surfaces are built? | The named external result is stated over a general (G,X) rather than at (SO(4),S³): the (SO(4),S³) analytic structure (its rigid action on S³) is not in the library. Instantiating it at (SO(4),S³) is a follow-up (needs a MulAction/IsRigidAction of SO(4) on the 3-sphere).",
+      "scope_notes": "WP-35f, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: DEC-69 is applied as ruled: Troyanov's theorem (MR1005085) with the suspension is the named external Prop GX.TroyanovSuspensionTheorem, an explicit hypothesis of GX.cex_start_singular_manifold_homeomorphic, with non-vacuity witnesses (GX.troyanovAngleCondition_witness; GX.exists_suspensionCexFacts, the Joukowski structure; GX.troyanovSuspensionTheorem_of_subsingleton, the Prop holds for a trivial group on ℂ); row partial. Disclosed: the Prop is not tied to θ (no cone angles in the library); restating it at (SO(4),𝕊³) needs spherical cone surfaces and a rigid SO(4)-action on 𝕊³.",
+      "notes": "WP-35f, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: DEC-69 is applied as ruled: Troyanov's theorem (MR1005085) with the suspension is the named external Prop GX.TroyanovSuspensionTheorem, an explicit hypothesis of GX.cex_start_singular_manifold_homeomorphic, with non-vacuity witnesses (GX.troyanovAngleCondition_witness; GX.exists_suspensionCexFacts, the Joukowski structure; GX.troyanovSuspensionTheorem_of_subsingleton, the Prop holds for a trivial group on ℂ); row partial. Disclosed: the Prop is not tied to θ (no cone angles in the library); restating it at (SO(4),𝕊³) needs spherical cone surfaces and a rigid SO(4)-action on 𝕊³.",
       "lean_proved_override": "partial",
       "paper_findings": [
         "Proved from the named external result (DEC-69): for every s ≥ 3 pairwise distinct angles satisfying Troyanov's condition there is a connected singular (G,X)-manifold M with O ∈ sing M and some other singular point, such that for S ⊆ sing M, (M,S) is analytic iff S = {O}, and (M, sing M) is not analytic (GX.cex_start_singular_manifold_homeomorphic), 0 sorry.",
@@ -6523,8 +6749,8 @@
       "lean_stated": "scaffold",
       "lean_proved": "none",
       "bucket": "B",
-      "scope_notes": "WP-27j, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
-      "notes": "WP-27j, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
+      "scope_notes": "WP-35f, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
+      "notes": "WP-35f, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
       "paper_findings": [
         "Not a defect: (A) and (C) force a tamifying topology to coincide with the weak one on p⁻¹(reg M) (IsTamifyingTopology.induced_reg_eq). The proof of theo:local_virt_tame (l.2096) needs exactly this to apply lem:spread_top ('R … on which strong and weak topologies agree') and does not check it; it holds."
       ],
@@ -6565,8 +6791,8 @@
       "lean_stated": "scaffold",
       "lean_proved": "none",
       "bucket": "B",
-      "scope_notes": "WP-27j, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
-      "notes": "WP-27j, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
+      "scope_notes": "WP-35f, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
+      "notes": "WP-35f, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
       "extra_lean_files": [
         "scaffold/GXScaffold/SingularII/Models.lean"
       ],
@@ -6599,6 +6825,37 @@
         "scaffold/GXScaffold/SingularII/Models.lean"
       ],
       "decls": [
+        "GX.isVirtuallyTame_of_descending",
+        "GX.local_virt_tame_descending",
+        "GX.IsDescendingChartMap",
+        "GX.IsChartDescent",
+        "GX.IsChartDescent.restrict",
+        "GX.IsChartDescent.reg_subset_image",
+        "GX.descNhds",
+        "GX.descTop",
+        "GX.descNhds_eq",
+        "GX.descNhds_le",
+        "GX.nhds_descTop",
+        "GX.descTop_le",
+        "GX.nhds_descTop_eq_map",
+        "GX.continuousOn_descTop",
+        "GX.isLocalTamifying_descTop",
+        "GX.exists_smul_eq_of_isChartDescent",
+        "GX.nhds_descTop_le_of_aut",
+        "GX.isVirtuallyTame_of_liftable",
+        "GX.local_virt_tame_liftable",
+        "GX.IsLiftableChartMap",
+        "GX.isLiftableChartMap_refl",
+        "GX.isLiftableChartMap_modelChartSelf",
+        "GX.chartTop",
+        "GX.chartNhds",
+        "GX.isLocalTamifying_chartTop",
+        "GX.nhds_chartTop_le_of_aut",
+        "GX.isLocalTamifying_natural_reg",
+        "GX.exists_smul_eq_of_isChartLift",
+        "GX.IsChartLift",
+        "GX.exists_deck_eqOn_of_base_eq",
+        "GX.eqOn_maxBranched_of_base_eq",
         "GX.local_virt_tame",
         "GX.isVirtuallyTame_of_isXAManifold",
         "GX.exists_isLocalTamifying_charts",
@@ -6613,22 +6870,22 @@
         "GX.aeAutMapsMax",
         "GX.isVirtuallyTame_of_isXAManifold_of_isTame",
         "GX.exists_lift_singularAut",
-        "GX.spread_top",
         "GX.spread_top_deck",
         "GX.strongPullTop"
       ],
       "lean_stated": "scaffold",
       "lean_proved": "partial",
       "bucket": "C",
-      "scope_notes": "WP-27j, audited clean. Partial: tagged sorry: piece (2), the construction of T_{U,V,φ} (l.2088-2140); unbuilt covering theory, three inputs missing from the library: (i) lem:spread_top (GX.spread_top, stated); (ii) Galoisianity of sub-coverings of Galoisian maximal coverings on their SINGULAR fibres — Ũ → Û, Ṽ → V̂ (l.2093) and M̃^S → N (l.2025), asserted by the paper without argument, needed for the openness of ℓ for the strong topologies, first countability of T_{U,V,φ} and its independence of the point of an ℓ-fibre (sketch: universal covering over reg, uniform fibre discreteness GX.discreteTopology_fiber_of_isSLSCAt at singular points); (iii) naturality under restriction to W ⊆ U, i.e. the Claim of lem:spread_top for j : W̃ → Ũ. Estimated 2-3k lines; route in the sorry text. BLOCKED: routed to a dedicated 'local tamifying topologies' package against the frozen interface GX.IsLocalTamifying. Readings/questions: theo:local_virt_tame: the hypothesis (a tamifying T_α on which Aut(X̃_α) acts) already gives (ii). Is the intended content 'every X_A-manifold is virtually tame'? | Master (round-4 audit major 2): rule the routing of piece (2) of theo:local_virt_tame — a dedicated 'local tamifying topologies' package (GX.exists_isLocalTamifying_charts + lem:spread_top + a sub-covering Galois lemma, ~2–3k lines) against the frozen interface GX.IsLocalTamifying, with the row stated/blocked — or re-dispatch with piece (2) in scope. At graduation, split the StrongPull/ChartGlue/LocalVirtTame sections into their own module so the 2 sorries are not attributed to the closed rows.",
-      "notes": "WP-27j, audited clean. Partial: tagged sorry: piece (2), the construction of T_{U,V,φ} (l.2088-2140); unbuilt covering theory, three inputs missing from the library: (i) lem:spread_top (GX.spread_top, stated); (ii) Galoisianity of sub-coverings of Galoisian maximal coverings on their SINGULAR fibres — Ũ → Û, Ṽ → V̂ (l.2093) and M̃^S → N (l.2025), asserted by the paper without argument, needed for the openness of ℓ for the strong topologies, first countability of T_{U,V,φ} and its independence of the point of an ℓ-fibre (sketch: universal covering over reg, uniform fibre discreteness GX.discreteTopology_fiber_of_isSLSCAt at singular points); (iii) naturality under restriction to W ⊆ U, i.e. the Claim of lem:spread_top for j : W̃ → Ũ. Estimated 2-3k lines; route in the sorry text. BLOCKED: routed to a dedicated 'local tamifying topologies' package against the frozen interface GX.IsLocalTamifying. Readings/questions: theo:local_virt_tame: the hypothesis (a tamifying T_α on which Aut(X̃_α) acts) already gives (ii). Is the intended content 'every X_A-manifold is virtually tame'? | Master (round-4 audit major 2): rule the routing of piece (2) of theo:local_virt_tame — a dedicated 'local tamifying topologies' package (GX.exists_isLocalTamifying_charts + lem:spread_top + a sub-covering Galois lemma, ~2–3k lines) against the frozen interface GX.IsLocalTamifying, with the row stated/blocked — or re-dispatch with piece (2) in scope. At graduation, split the StrongPull/ChartGlue/LocalVirtTame sections into their own module so the 2 sorries are not attributed to the closed rows.",
+      "scope_notes": "WP-35f, audited clean. Partial: tagged sorry: piece (2) for the NON-descending charts only (IsDescendingChartMap fails: V̂ → V does not dominate Û → U, so r : Ṽ → V̂ is not an isomorphism). For every descending chart it is built and proved with ℓ arbitrary (GX.descTop, GX.isLocalTamifying_descTop, GX.nhds_descTop_le_of_aut, 0 sorry), so the ℓ-quotient is not the obstruction. MATHEMATICAL obstruction on the r side: for a non-descending chart the paper's T_{U,V,φ} is the ℓ-quotient of r^*T_α, and its (D) (l.2128–2133) needs r⁻¹(R) portly for r^*T_α, i.e. lem:spread_top (c) for r, false in general (WP-27k GX.not_spreadTopConnCE on GX.cex_spread_top_sector) and equivalent to GX.StrongLocallyConnectedOrd, not known to follow from 'T_α tamifying, Aut-continuous, X_α locally Galoisian'. Informal mechanism (not formalized): a local loop around the singular stratum dying in π₁(reg X_α) but not in π₁(reg V), at a singular point of infinite local deck group (at finite local degree (A)+(C) force T_α natural), e.g. two crossing singular planes in dimension 4. The case would also need the maximal covering Ṽ of V̂ and r^*T_α on it (infrastructure, not built since its (D) fails in general). No counterexample to the theorem is known. sorryAx reaches only exists_isLocalTamifying_charts, isVirtuallyTame_of_isXAManifold, local_virt_tame (axiom sweep over all 202 declarations). Readings/questions: theo:local_virt_tame: the proved form adds 'every singular point is the centre of a chart descending from the maximal covering of its model' (GX.IsDescendingChartMap, which covers r : Ṽ → V̂ an isomorphism with ℓ arbitrary). Does the author accept this as the ruled form (row closed under a ruling), or require the general statement, whose proof's (D) step rests on lem:spread_top (c) for r (false in general)? A possible model-side repair to rule on: assume of the models that T_α satisfies GX.StrongLocallyConnectedOrd for the sub-coverings r : Ṽ → V̂ of its connected open subsets (then the paper's construction goes through, but r^*T_α on Ṽ would still have to be built). | theo:local_virt_tame: the implication 'r : Ṽ → V̂ an isomorphism (a condition on the model alone) ⇒ IsDescendingChartMap' is informal here (prop:universality applied to Û → U read over V through φ). Formalizing it needs one missing lemma — a branched covering postcomposed with a homeomorphism of the base is a branched covering (only precomposition, IsBranchedCovering.comp_homeomorph, exists) — plus GX.maxBranched_universal and the Galoisianity of the maximal covering of V (local Galoisianity at V). Should a later package state the hypothesis model-side? | theo:local_virt_tame: is the intended content 'every X_A-manifold is virtually tame' (the (i) ⇒ (ii) direction being degenerate)?",
+      "notes": "WP-35f, audited clean. Partial: tagged sorry: piece (2) for the NON-descending charts only (IsDescendingChartMap fails: V̂ → V does not dominate Û → U, so r : Ṽ → V̂ is not an isomorphism). For every descending chart it is built and proved with ℓ arbitrary (GX.descTop, GX.isLocalTamifying_descTop, GX.nhds_descTop_le_of_aut, 0 sorry), so the ℓ-quotient is not the obstruction. MATHEMATICAL obstruction on the r side: for a non-descending chart the paper's T_{U,V,φ} is the ℓ-quotient of r^*T_α, and its (D) (l.2128–2133) needs r⁻¹(R) portly for r^*T_α, i.e. lem:spread_top (c) for r, false in general (WP-27k GX.not_spreadTopConnCE on GX.cex_spread_top_sector) and equivalent to GX.StrongLocallyConnectedOrd, not known to follow from 'T_α tamifying, Aut-continuous, X_α locally Galoisian'. Informal mechanism (not formalized): a local loop around the singular stratum dying in π₁(reg X_α) but not in π₁(reg V), at a singular point of infinite local deck group (at finite local degree (A)+(C) force T_α natural), e.g. two crossing singular planes in dimension 4. The case would also need the maximal covering Ṽ of V̂ and r^*T_α on it (infrastructure, not built since its (D) fails in general). No counterexample to the theorem is known. sorryAx reaches only exists_isLocalTamifying_charts, isVirtuallyTame_of_isXAManifold, local_virt_tame (axiom sweep over all 202 declarations). Readings/questions: theo:local_virt_tame: the proved form adds 'every singular point is the centre of a chart descending from the maximal covering of its model' (GX.IsDescendingChartMap, which covers r : Ṽ → V̂ an isomorphism with ℓ arbitrary). Does the author accept this as the ruled form (row closed under a ruling), or require the general statement, whose proof's (D) step rests on lem:spread_top (c) for r (false in general)? A possible model-side repair to rule on: assume of the models that T_α satisfies GX.StrongLocallyConnectedOrd for the sub-coverings r : Ṽ → V̂ of its connected open subsets (then the paper's construction goes through, but r^*T_α on Ṽ would still have to be built). | theo:local_virt_tame: the implication 'r : Ṽ → V̂ an isomorphism (a condition on the model alone) ⇒ IsDescendingChartMap' is informal here (prop:universality applied to Û → U read over V through φ). Formalizing it needs one missing lemma — a branched covering postcomposed with a homeomorphism of the base is a branched covering (only precomposition, IsBranchedCovering.comp_homeomorph, exists) — plus GX.maxBranched_universal and the Galoisianity of the maximal covering of V (local Galoisianity at V). Should a later package state the hypothesis model-side? | theo:local_virt_tame: is the intended content 'every X_A-manifold is virtually tame' (the (i) ⇒ (ii) direction being degenerate)?",
       "lean_proved_override": "partial",
       "paper_findings": [
-        "l.2025, l.2093: the proof asserts that the sub-coverings M̃^S → N, Ũ → Û, Ṽ → V̂ of Galoisian maximal coverings are Galoisian; transitivity on the singular fibres is not argued. It is true (sketch in the sorry text of GX.exists_isLocalTamifying_charts) but needs covering theory the paper does not give.",
-        "l.2101: the gluing ('the topology generated by … all X_A-charts') uses that T_{U,V,φ} restricts to T_{W,φ(W),φ|W} on p⁻¹(W) for W ⊆ U, which the paper neither states nor proves (only independence of (V,φ) for fixed U, l.2104-2107).",
-        "l.2101-2103: under the printed def:atlas the gluing has a gap at singular points which are the centre of no chart (no counterexample known); DEC-67 (e) removes it, and the gluing is proved under it (GX.exists_isTamifyingTopology_of_local, GX.XAChart.eq_of_mem_centre, GX.XAChart.exists_aut_eq).",
-        "l.1974: (i) ⇒ (ii) holds trivially — the hypothesis (a tamifying T_α) already makes each model virtually tame — and under DEC-67 (e) a model need not be an X_A-manifold, so the paper's route 'each X_α is an X_A-manifold' is not available; the equivalence is degenerate (GX.local_virt_tame).",
-        "Round-4 audit major 2 (piece (2) still a tagged sorry although the dispatch says 'prove in full'): not built this round either. The sorry'd statement GX.exists_isLocalTamifying_charts is not known false; its three missing inputs (lem:spread_top, Galoisianity of sub-coverings on singular fibres, restriction-naturality) are named in the sorry text. Needs a master ruling: route to a dedicated 'local tamifying topologies' package against the frozen interface GX.IsLocalTamifying (row stated/blocked), or re-dispatch with piece (2) in scope."
+        "l.2128–2133 ((D) of the proof): 'r⁻¹(R) is strongly portly' is lem:spread_top (c) for r : Ṽ → V̂, which is false in general (WP-27k's sector counterexample, GX.cex_spread_top_sector) and equivalent to the local condition GX.StrongLocallyConnectedOrd; the tamifying hypotheses on T_α are not shown to give it. The proof is complete whenever r^*T_α is not needed, i.e. when V̂ → V dominates Û → U (in particular r an isomorphism, ℓ arbitrary): formalized, GX.isVirtuallyTame_of_descending, 0 sorry, with ALL the theorem's hypotheses including local Galoisianity. In general the theorem is neither proved nor refuted here.",
+        "l.2096 ('consider the quotient topology on Û'): built, as the quotient of T_α by a descent V̂ → Û (GX.descTop, neighbourhoods GX.nhds_descTop); it does not depend on the descent (GX.descNhds_eq), which is the paper's 'does not depend on r, φ̃ or ℓ' (l.2097) for the descending charts.",
+        "l.2101: the gluing ('the topology generated by … all X_A-charts') uses that T_{U,V,φ} restricts to T_{W,φ(W),φ|W} on p⁻¹(W) for W ⊆ U, which the paper neither states nor proves (only independence of (V,φ) for fixed U, l.2104–2107); proved for descending charts (GX.nhds_descTop_le_of_aut) and for liftable ones (GX.nhds_chartTop_le_of_aut), any open W, no connectedness needed.",
+        "l.2025, l.2093: the Galoisianity of the sub-coverings M̃^S → N, Ũ → Û, Ṽ → V̂ is asserted without argument; WP-27k proves it (GX.isGaloisian_of_comp, SpreadTop) under reg U slsc in U; for the descents V̂ → Û used here it is GX.IsChartDescent.exists_deck (two descents taking the same value differ by a deck transformation of X̃_α), from the discreteness of the fibres of X̃_α → X_α (the model's local Galoisianity).",
+        "l.2101–2103: under the printed def:atlas the gluing has a gap at singular points centring no chart (no counterexample known); DEC-67 (e) removes it, and the proved forms use only charts centred at singular points.",
+        "l.1974: (i) ⇒ (ii) holds trivially — the hypothesis (a tamifying T_α) already makes each model virtually tame — and under DEC-67 (e) a model need not be an X_A-manifold; the equivalence is degenerate (GX.local_virt_tame, GX.local_virt_tame_descending, GX.local_virt_tame_liftable)."
       ],
       "extra_lean_files": [
         "scaffold/GXScaffold/SingularII/Models.lean"
@@ -6659,22 +6916,24 @@
       "statement_sha256": "5d840d0959d299f624eb42cbbde2185e8718584520d2d59afa859a8d546c9a24",
       "statement_sha256_current": "5d840d0959d299f624eb42cbbde2185e8718584520d2d59afa859a8d546c9a24",
       "lean_files": [
-        "scaffold/GXScaffold/SingularII/Models.lean"
+        "scaffold/GXScaffold/SingularII/SpreadTop.lean"
       ],
       "decls": [
-        "GX.strongPullTop",
-        "GX.strongPullTop_le",
-        "GX.isOpen_strongPullTop_connectedComponentIn",
-        "GX.continuous_strongPullTop",
-        "GX.strongPullTop_self"
+        "GX.strongPullTop_eq_generateFrom_union",
+        "GX.strongPullGen",
+        "GX.strongPullTop_eq_inf_generateFrom",
+        "GX.strongPullTop_eq_generateFrom",
+        "GX.isTopologicalBasis_strongPullGen",
+        "GX.hasBasis_nhds_strongPullTop",
+        "GX.continuous_strongPullTop_iff"
       ],
       "lean_stated": "scaffold",
       "lean_proved": "none",
       "bucket": "B",
-      "scope_notes": "WP-27j, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
-      "notes": "WP-27j, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate.",
+      "scope_notes": "WP-35g, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate. Readings/questions: GX.strongPullTop is defined (and marked) in GXScaffold.SingularII.Models; this file proves the verbatim 'generated by T_M and the components' identity (GX.strongPullTop_eq_generateFrom_union) and marks the label too at the dispatch's request. Curate as one row attributed to both files, or to Models only.",
+      "notes": "WP-35g, audited clean; closed in the scaffold, its module waits on a sorry elsewhere to graduate. Readings/questions: GX.strongPullTop is defined (and marked) in GXScaffold.SingularII.Models; this file proves the verbatim 'generated by T_M and the components' identity (GX.strongPullTop_eq_generateFrom_union) and marks the label too at the dispatch's request. Curate as one row attributed to both files, or to Models only.",
       "extra_lean_files": [
-        "scaffold/GXScaffold/SingularII/Models.lean"
+        "scaffold/GXScaffold/SingularII/SpreadTop.lean"
       ],
       "in_lean_scope": true,
       "stale": false
@@ -6710,6 +6969,13 @@
         "scaffold/GXScaffold/SingularII/SpreadTop.lean"
       ],
       "decls": [
+        "GX.spread_top_of_local",
+        "GX.spread_top_of_isPortly",
+        "GX.not_spreadTopGalLocalCE",
+        "GX.SpreadTopGalLocalCE",
+        "GX.strongLocallyConnectedOrd_halfCut",
+        "GX.not_spreadTopGalConnCE",
+        "GX.SpreadTopGalConnCE",
         "GX.spread_top_corrected",
         "GX.not_spreadTopPrinted",
         "GX.SpreadTopPrinted",
@@ -6745,15 +7011,18 @@
       "lean_stated": "scaffold",
       "lean_proved": "partial",
       "bucket": "C",
-      "scope_notes": "WP-27k, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Strongest true form: (c) and (e) hold exactly under the local hypothesis GX.StrongLocallyConnectedOrd (which may be what 'we may assume' intends as a hypothesis on T); rule whether theo:local_virt_tame should carry it, and whether the corrected form with hRc and StrongLocallyConnectedOrd closes the row.",
-      "notes": "WP-27k, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Strongest true form: (c) and (e) hold exactly under the local hypothesis GX.StrongLocallyConnectedOrd (which may be what 'we may assume' intends as a hypothesis on T); rule whether theo:local_virt_tame should carry it, and whether the corrected form with hRc and StrongLocallyConnectedOrd closes the row.",
+      "scope_notes": "WP-35g, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Rule whether GX.spread_top_of_local (all five clauses, under N → M Galoisian, p⁻¹(R) connected and StrongLocallyConnectedOrd, the latter two proved necessary) is accepted as the corrected form, closing the row; theo:local_virt_tame's non-descending charts need the same local hypothesis for r^*T_α (WP-35f).",
+      "notes": "WP-35g, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Rule whether GX.spread_top_of_local (all five clauses, under N → M Galoisian, p⁻¹(R) connected and StrongLocallyConnectedOrd, the latter two proved necessary) is accepted as the corrected form, closing the row; theo:local_virt_tame's non-descending charts need the same local hypothesis for r^*T_α (WP-35f).",
       "lean_proved_override": "partial",
       "paper_findings": [
         "l.1990–2004: lem:spread_top is false as printed. Counterexample (formal, GX.cex_spread_top_halfCut / GX.not_spreadTopPrinted): M = N = ℂ, S = ∅, q = id, p: M̃^∅ → ℂ the universal covering, R = {Im ≠ 0}, T = the topology of ℂ generated by the usual one and {Im ≥ 0}. All hypotheses hold; p⁻¹{Im ≥ 0} and p⁻¹{Im < 0} are p^*T-open, so p^*T is disconnected and (a), (e) fail. The proof uses 'N strongly connected' (l.2018) and 'R̂ weakly connected' (l.2047), neither of which is a hypothesis.",
         "l.2047: 'R̂ is weakly connected' does not follow even when T is connected (informal, not formalized; the formal correction only needs the half-cut counterexample): M = N = ℂ*, S = ∅, p the universal covering (log), T cutting ℂ* along the positive real ray with the ray glued to the upper bank; p^*T splits M̃ into strips. Corrected form: assume p⁻¹(R) connected (true when R is portly for the natural topology, as in the application l.2096).",
         "l.2029/2034: the Claim's 'We may assume that Ô ∩ R̂ is connected' is unproved (the argument lifts a path from x̂ to some point over z, not to ẑ) and is exactly (c): GX.isPortly_strongPullTop_iff_local. It fails (FORMAL, GX.cex_spread_top_sector, GX.not_spreadTopConnCE): M = N = ℂ, S = {0}, M̃^{0} ≅ 𝔻_∞ the logarithmic covering completed at 0 (GX.exists_homeomorph_maxBranched_qDisc), q = id, R = ℂ∖{0} (portly for both topologies, p⁻¹R connected), T = usual ⊓ generateFrom{{0} ∪ {Re > 0}} (first countable, LPC, agreeing with the usual topology on R). The preimage of the sector is p^*T-open and p^*T-connected through the branch point, its regular part p⁻¹{Re > 0} is not connected: (c), (e) and the Claim's local hypothesis all fail. theo:local_virt_tame uses (c)/(e) through (D) and the strong branched covering; its proof inherits the gap.",
         "l.2025: 'M̃^S → M is Galoisian and thus so is M̃^S → N' is asserted without argument; it is true (GX.isGaloisian_of_comp: deck transitivity over q⁻¹(M∖S) by uniqueness of lifts, dense orbits, discrete fibres from M∖S slsc in M), using N Hausdorff, LPC, first countable and M∖S ⊆ ord_q (GX.compl_subset_ordY_of_comp).",
-        "l.2017–2018 'lem:path_covering' is applied relative to an open connected O (GX.exists_path_of_isPortly_of_isOpen), and the Claim's second part needs fibres of p discrete (from M∖S slsc in M) to pick Ô ∩ p⁻¹(y) = {ŷ}."
+        "l.2017–2018 'lem:path_covering' is applied relative to an open connected O (GX.exists_path_of_isPortly_of_isOpen), and the Claim's second part needs fibres of p discrete (from M∖S slsc in M) to pick Ô ∩ p⁻¹(y) = {ŷ}.",
+        "Proof BUILT (WP-35g) for all five clauses: GX.spread_top_of_local proves (a) first countable+connected+LPC, (b), (c), (d), (e) exactly as printed under three added hypotheses (N → M Galoisian; p⁻¹(R) connected; StrongLocallyConnectedOrd). Both topological added hypotheses are now shown necessary in the presence of all the others (in both counterexamples q = id is Galoisian): the half-cut example satisfies the local hypothesis (GX.strongLocallyConnectedOrd_halfCut, via GX.exists_homeomorph_maxBranched_empty: M̃^∅ → ℂ is a homeomorphism) and p^*T is disconnected; the sector example satisfies p⁻¹R connected and (c), (e) fail.",
+        "(d) without 'N → M Galoisian' is not formalized either way. Informal counterexample sketch: N a non-normal finite intermediate covering of a space with non-abelian π₁ (e.g. ℂ minus two points, S = ∅) has Γ(N/M) trivial, so any T is allowed; take T cut (as in halfCutTop) at one point n₀ of a fibre and natural elsewhere; a deck transformation γ of M̃ sending a point over n₁ ≠ n₀ to a point over n₀ (exists, M̃ → M Galoisian) is not p^*T-continuous there.",
+        "The dispatch cites the proof as l.2068–2136; that range is the proof of theo:local_virt_tame. The proof of lem:spread_top is l.2010–2061 (it follows rem:intuitively_spread_thinner_than)."
       ],
       "extra_lean_files": [
         "scaffold/GXScaffold/SingularII/SpreadTop.lean"
@@ -6810,8 +7079,8 @@
       "lean_stated": "scaffold",
       "lean_proved": "partial",
       "bucket": "C",
-      "scope_notes": "WP-27k, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Reading of 'intuitively': the formal statements above (coarsest among spread topologies whenever p^*T is one; iff locally connected; with the two examples). Rule whether the row closes under this reading.",
-      "notes": "WP-27k, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Reading of 'intuitively': the formal statements above (coarsest among spread topologies whenever p^*T is one; iff locally connected; with the two examples). Rule whether the row closes under this reading.",
+      "scope_notes": "WP-35g, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Reading of 'intuitively': the formal statements above (coarsest among spread topologies whenever p^*T is one; iff locally connected; with the two examples). Rule whether the row closes under this reading.",
+      "notes": "WP-35g, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Reading of 'intuitively': the formal statements above (coarsest among spread topologies whenever p^*T is one; iff locally connected; with the two examples). Rule whether the row closes under this reading.",
       "lean_proved_override": "partial",
       "paper_findings": [
         "l.2006: read literally, 'p^*T is the coarsest topology on M such that (M,p^*T) → (N,T) is a spread' is false — p^*T need not be a spread at all (GX.not_isSpread_strongPullTop_ratTop: p = id on ℝ, T generated by the usual topology and ℚ; p^*T is not locally connected at √2). The true content: every spread topology finer than T_M is finer than p^*T, and p^*T is the coarsest one exactly when it is locally connected (GX.isSpread_strongPullTop_iff, GX.isGreatest_strongPullTop). The remark's own 'However' sentence is GX.cex_component_not_strongPull_connected (ℝ cut at 0). The proof block following the remark (l.2010–2061) is the proof of lem:spread_top, formalized under that label."
@@ -6860,8 +7129,8 @@
       "lean_stated": "scaffold",
       "lean_proved": "partial",
       "bucket": "C",
-      "scope_notes": "WP-27k, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Not built, forward dependency: the massive particle E_θ^{1,2}, its maximal covering, and the BTZ tamifying topology T on it — §4's prop:BTZ_virt_tame (l.2252) — and the isomorphism of BTZ̃ → BTZ with Ẽ_θ → E_θ in the category of spreads; the remark's concrete claims rest on them. Formalized: the mechanism (Γ-invariance without Aut-invariance) for an abstract T and V, with a toy instance.",
-      "notes": "WP-27k, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Not built, forward dependency: the massive particle E_θ^{1,2}, its maximal covering, and the BTZ tamifying topology T on it — §4's prop:BTZ_virt_tame (l.2252) — and the isomorphism of BTZ̃ → BTZ with Ẽ_θ → E_θ in the category of spreads; the remark's concrete claims rest on them. Formalized: the mechanism (Γ-invariance without Aut-invariance) for an abstract T and V, with a toy instance.",
+      "scope_notes": "WP-35g, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Not built, forward dependency: the massive particle E_θ^{1,2}, its maximal covering, and the BTZ tamifying topology T on it — §4's prop:BTZ_virt_tame (l.2252) — and the isomorphism of BTZ̃ → BTZ with Ẽ_θ → E_θ in the category of spreads; the remark's concrete claims rest on them. Formalized: the mechanism (Γ-invariance without Aut-invariance) for an abstract T and V, with a toy instance. | Still blocked (WP-35g): the massive particle E_θ^{1,2} and the BTZ tamifying topology are §4 (WP-28, not started); no ruling permits a named stand-in.",
+      "notes": "WP-35g, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Not built, forward dependency: the massive particle E_θ^{1,2}, its maximal covering, and the BTZ tamifying topology T on it — §4's prop:BTZ_virt_tame (l.2252) — and the isomorphism of BTZ̃ → BTZ with Ẽ_θ → E_θ in the category of spreads; the remark's concrete claims rest on them. Formalized: the mechanism (Γ-invariance without Aut-invariance) for an abstract T and V, with a toy instance. | Still blocked (WP-35g): the massive particle E_θ^{1,2} and the BTZ tamifying topology are §4 (WP-28, not started); no ruling permits a named stand-in.",
       "lean_proved_override": "partial",
       "paper_findings": [
         "l.2148: 'V ⊂ {t>0} or V ⊂ {t>0}' — the second should read {t<0}.",
@@ -6911,13 +7180,14 @@
         "GX.quotient_dev",
         "GX.deckMapsMax_base",
         "GX.deckMapsMax_inv",
-        "GX.deckMapsMax_transitive"
+        "GX.deckMapsMax_transitive",
+        "GX.quotient_virtually_tame_cover_of_slsc"
       ],
       "lean_stated": "scaffold",
       "lean_proved": "partial",
       "bucket": "C",
-      "scope_notes": "WP-27k, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Is 'M̃ → M Galoisian' meant to be part of 'virtually tamely singular' (e.g. via locally Galoisian), or should the remark carry it? And does 'isomorphic' mean as singular (G,X)-manifolds (needs prop:aeGXquotient's structure on Γ\\D(N))?",
-      "notes": "WP-27k, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Is 'M̃ → M Galoisian' meant to be part of 'virtually tamely singular' (e.g. via locally Galoisian), or should the remark carry it? And does 'isomorphic' mean as singular (G,X)-manifolds (needs prop:aeGXquotient's structure on Γ\\D(N))?",
+      "scope_notes": "WP-35g, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Is 'M̃ → M Galoisian' meant to be part of 'virtually tamely singular' (e.g. via locally Galoisian), or should the remark carry it? And does 'isomorphic' mean as singular (G,X)-manifolds (needs prop:aeGXquotient's structure on Γ\\D(N))? | Twin of rem:tamely_singular_manifold_admits (l.1869), for which DEC-71 ruled 'N Galoisian'. Does DEC-71 extend to l.2154? Note: the proved form needs Γ(M̃/M) transitive on fibres (or reg M slsc in M); 'N → M Galoisian' alone would additionally need the deck transformations of N to be continuous for the quotient of T (a lift of Γ(N/M) to Γ(M̃/M), not built).",
+      "notes": "WP-35g, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Is 'M̃ → M Galoisian' meant to be part of 'virtually tamely singular' (e.g. via locally Galoisian), or should the remark carry it? And does 'isomorphic' mean as singular (G,X)-manifolds (needs prop:aeGXquotient's structure on Γ\\D(N))? | Twin of rem:tamely_singular_manifold_admits (l.1869), for which DEC-71 ruled 'N Galoisian'. Does DEC-71 extend to l.2154? Note: the proved form needs Γ(M̃/M) transitive on fibres (or reg M slsc in M); 'N → M Galoisian' alone would additionally need the deck transformations of N to be continuous for the quotient of T (a lift of Γ(N/M) to Γ(M̃/M), not built).",
       "lean_proved_override": "partial",
       "paper_findings": [
         "l.2154: the remark's identification uses that the fibres of N → M are Γ(N/M)-orbits; this follows (descend_mem_deckMapsOf, quotient_virtually_tame_cover) from injectivity of D when M̃ → M is Galoisian, which the remark does not state. The previous round's claim that the remark is false for non-Galoisian N is WITHDRAWN (no counterexample; for an injective developing map every γ ∈ Γ(M̃/M) descends). Recorded as a narrowing."

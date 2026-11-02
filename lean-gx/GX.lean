@@ -16,5 +16,6 @@ import GX.Branched.Galois
 import GX.SingularII.Unloopable
 import GX.SingularII.Developing
 import GX.SingularII.Tame
+import GX.Hyperbolic.Plane
 
 /-! The strict library of the paper `gx` (`papers/gx`). Every module is imported here. -/

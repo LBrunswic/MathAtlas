@@ -47,11 +47,12 @@ is ported, with its origin cited. Graduation into `lean/` is two `git mv`s.
 | `GX.Singular.Quotient` | `prop:aeGXquotient` | quotients; conical models `E^n_α` by a cone distance; five example rows partial (readings) |
 | `GX.Singular.Suspension` | `def:topological_suspension` … `rem:proof_above_works_quotient` (8 rows) | suspensions; `prop:susp_portly`, `lem:connected_union` |
 | `GX.Topology.PortlyExamples` | — | `ex:following_example_skeletal_itemize` partial: item 3 false as written (bow-tie), its corrected form proved; dimension theory for closed totally disconnected sets and the local structure of simplicial complexes built (WP-26g, 0 `sorry`) |
-| `GX.Branched.Paths` | §3.3 (8 of 12 rows closed) | almost trivial loops in the literal compact-open reading (DEC-55), almost homotopy, `theo:ramified_covering_path`, the fibres ℤ^ℕ |
-| `GX.Branched.Galois` | §3.4 (11 of 13 rows closed) | Galoisian and quasi-Galoisian coverings, `prop:Galoisian_semilocal`, `theo:Galois_cor` |
+| `GX.Branched.Paths` | §3.3 (11 of 12 rows closed) | almost trivial loops in the literal compact-open reading (DEC-55), almost homotopy, `theo:ramified_covering_path`, the fibres ℤ^ℕ |
+| `GX.Branched.Galois` | §3.4 (12 of 13 rows closed; `theo:Galois_cor` under DEC-70) | Galoisian and quasi-Galoisian coverings, `prop:Galoisian_semilocal`, `theo:Galois_cor` |
 | `GX.SingularII.Unloopable` | §2.5 opening | locally unloopable models, branched coverings of singular manifolds |
 | `GX.SingularII.Developing` | §2.5.1 | **the singular developing theorem** `GX.singular_developing_theorem` (`prop:branched_devmap`), holonomy, descent |
 | `GX.SingularII.Tame` | §2.5.2 | tame singularities, `theo:local_tame` |
+| `GX.Hyperbolic.Plane` | — | ℍ², Isom⁺(ℍ²) analytic, complete hyperbolic structures, cusps (DEC-71); `ex:take_closed_unit_disc` partial (reading of 'finite volume complete hyperbolic metric') |
 | `GXScaffold.SingularII.Models` | §2.5.3–4 | analytic families, X_A-atlases, virtually tame models; `theo:local_virt_tame` (2 tagged `sorry`s) |
 | `GXScaffold.SingularII.SpreadTop` | §2.5 close | `lem:spread_top`, the spread topology (scaffold because it imports Models) |
 | `GXScaffold.Branched.GaloisExamples` | — | the closing examples; Antoine's necklace explicit (DEC-58/68), Antoine's theorem a tagged `sorry` |

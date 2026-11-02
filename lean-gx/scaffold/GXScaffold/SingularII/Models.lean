@@ -4,7 +4,8 @@ import GX.Topology.PortlyExamples
 /-!
 # Singular `(G,X)`-manifolds (II): analytic families of models, virtually tame models
 
-Package WP-27j. `papers/gx`, `RamcovGX.tex:1889–1983`, §2.5.3 "Analytic family" and §2.5.4
+Package WP-27j, piece (2) of `theo:local_virt_tame` by WP-35f (liftable charts; descending charts, `ℓ`
+arbitrary, in fix round 1). `papers/gx`, `RamcovGX.tex:1889–1983`, §2.5.3 "Analytic family" and §2.5.4
 "Virtually tame models" (`(G,X)` analytical, `X` locally unloopable, l.1660; manifolds connected,
 l.1712), on WP-27i's `GX.SingularII.Tame`.
 
@@ -33,16 +34,31 @@ l.1712), on WP-27i's `GX.SingularII.Tame`.
 * **`def:singular_manifold_virtually_tame`** — `RamcovGX.tex:1960`: `GX.IsTamifyingTopology`,
   `GX.IsVirtuallyTame`; `GX.isTamifyingTopology_natural_iff`, `GX.IsTame.isVirtuallyTame`.
 * **`def:singular_manifold_locally_galoisian`** — `RamcovGX.tex:1969`: `GX.IsLocallyGaloisian`.
-* `theo:local_virt_tame` — `RamcovGX.tex:1974` — stated (SCOPE (d)), `X_A`-manifolds as ruled
-  (DEC-67 (e)): `GX.local_virt_tame`, `GX.isVirtuallyTame_of_isXAManifold`; the gluing (piece (3))
-  proved, `GX.exists_isTamifyingTopology_of_local`; resting on piece (2),
-  `GX.exists_isLocalTamifying_charts` (tagged `sorry`), and through it on `lem:spread_top`.
-  Proved for tame models: `GX.isVirtuallyTame_of_isXAManifold_of_isTame`.
+* `theo:local_virt_tame` — `RamcovGX.tex:1974` — partial (SCOPE (d)), `X_A`-manifolds as ruled
+  (DEC-67 (e)). PROVED, 0 `sorry`, under all the theorem's hypotheses, when the singular points
+  are centres of charts DESCENDING from the maximal coverings of the models (the case of the proof
+  where `T_{U,V,φ}` is the `ℓ`-quotient of `T_α` itself — e.g. `r : Ṽ → V̂` an isomorphism,
+  `ℓ : Ũ → Û` arbitrary): `GX.isVirtuallyTame_of_descending`, `GX.local_virt_tame_descending` —
+  piece (2) built as the quotient of `T_α` by a descent `V̂ → Û` (`GX.IsChartDescent`,
+  `GX.descTop`, `GX.isLocalTamifying_descTop`, naturality `GX.nhds_descTop_le_of_aut`, the
+  Galoisianity of the descents `GX.IsChartDescent.exists_deck` from the models' local
+  Galoisianity), the gluing (piece (3)) `GX.exists_isTamifyingTopology_of_local`; the condition
+  `GX.IsDescendingChartMap` holds for liftable charts (`GX.IsLiftableChartMap.isDescendingChartMap`)
+  and is satisfiable at singular points (`GX.isLiftableChartMap_refl`,
+  `GX.isLiftableChartMap_modelChartSelf`). The earlier special case `ℓ`, `r` both isomorphisms is
+  kept, without local Galoisianity: `GX.isVirtuallyTame_of_liftable`,
+  `GX.local_virt_tame_liftable` (`GX.chartTop`, `GX.isLocalTamifying_chartTop`,
+  `GX.nhds_chartTop_le_of_aut`). In general stated: `GX.local_virt_tame`,
+  `GX.isVirtuallyTame_of_isXAManifold`, on `GX.exists_isLocalTamifying_charts` (tagged `sorry`, a
+  mathematical obstruction confined to the non-descending charts, where `r` is not an
+  isomorphism: the paper's (D) rests on `lem:spread_top` (c) for `r`, false in general). Proved
+  for tame models: `GX.isVirtuallyTame_of_isXAManifold_of_isTame`.
 * **`def:topological_spaces_continuous_map`** — `RamcovGX.tex:1984` (outside the dispatch, needed by
   the proof): `GX.strongPullTop`; `GX.continuous_strongPullTop`, `GX.strongPullTop_self`.
-* `lem:spread_top` — `RamcovGX.tex:1990` — stated (SCOPE (e)): `GX.spread_top` (tagged `sorry`,
-  outside the dispatch); (d) proved under the Galoisian hypothesis its proof uses,
-  `GX.spread_top_deck`.
+* `lem:spread_top` — `RamcovGX.tex:1990` — certified by WP-27k (`GXScaffold.SingularII.SpreadTop`:
+  false as printed, `GX.not_spreadTopPrinted`; corrected, `GX.spread_top_corrected`); here only
+  (d), under the Galoisian hypothesis its proof uses, `GX.spread_top_deck` (SCOPE (e)). The false
+  statement `GX.spread_top` this module carried is removed (WP-35f).
 
 > The automorphisms group of $M$ denoted $\Aut(M)$ is the group of isomorphisms of singular
 > $(G,X)$-manifolds from $M$ to itself. (l.1895)
@@ -91,12 +107,12 @@ l.1712), on WP-27i's `GX.SingularII.Tame`.
 | singular manifolds Hausdorff, locally path-connected, first countable (DEC-66 (a), §3's standing l.810), connected where `\widetilde M` is used (DEC-66 (b), (c)) | ✓ carried where `\widetilde M` is used; ⚠ weakened to locally connected in the definitions |
 | `def:atlas`: `x ∈ sing(M)` | ⚠ weakened: not a field — it follows (`XAChart.mem_sing`) |
 | `def:singular_manifold_virtually_tame` (B): "the developing map" | ✓ read: any map inducing a `(G,X)`-morphism on `p⁻¹(reg M)` (unique up to `G`, `aeMorphism_model_unique`) |
-| `theo:local_virt_tame`: models locally Galoisian, analytic family | ✓ carried (`hgal`, `hfam`); not used by the proved parts |
+| `theo:local_virt_tame`: models locally Galoisian, analytic family | ✓ carried (`hgal`, `hfam`); local Galoisianity used, as the paper does (l.2093), by the descending form (`isVirtuallyTame_of_descending`: the descents `V̂ → Û` are Galoisian, `IsChartDescent.exists_deck`, through the discrete fibres of `\widetilde X_α → X_α`, `discreteTopology_fiber_of_isLocallyGaloisian`); not used by the liftable special case |
 | `theo:local_virt_tame`: `Aut(\widetilde X_α)` acts `T_α`-continuously | ✓ carried (`HasAutContinuousTamifying`: every a.e. isomorphism of `\widetilde X_α`, structure `p^*B`) |
 | `cex:start_singular_manifold_homeomorphic`: `Σ` generic, Troyanov, the suspension | ⚠ named external (DEC-69): `TroyanovSuspensionTheorem` — Troyanov's angle condition (`TroyanovAngleCondition`), "generic" read as "all `θ_i` different" (l.1935), and the facts the cex derives (`SuspensionCexFacts`: `M` connected, `O` singular, another singular point, rigidity at `O`, non-extendable local rotations); not tied to the angles (`troyanovSuspensionTheorem_of_subsingleton`); the concrete `M` is not built |
-| `lem:spread_top`: `M` first countable, connected, LPC, T2; `S` skeletal, `M ∖ S` slsc in `M` | ✓ carried (`hrel : IsSLSCInCC Sᶜ`); ⚠ strengthened: `M ∖ S` also semilocally simply connected as a space (`hSc`, the library's construction of `\widetilde M^S`, `prop:universality`) |
-| `lem:spread_top`: "sub-covering `\widetilde M^S → N → M`" | ✓ read: `p`, `q` branched coverings, `q ∘ p` the projection |
+| `lem:spread_top` (d): `M` first countable, connected, LPC, T2; `S` skeletal; "sub-covering" | ✓ carried; ✓ read: `p`, `q` branched coverings, `q ∘ p` the projection; ⚠ strengthened: `M ∖ S` semilocally simply connected as a space (`hSc`, the library's `\widetilde M^S`) |
 | `lem:spread_top` (d): (none) | ⚠ added (DEC-27): `N → M` Galoisian, `N` Hausdorff (`spread_top_deck`), what the proof's `γ̄` (l.2071) needs |
+| `theo:local_virt_tame`, (ii) ⇒ (i): (none) | ⚠ added (DEC-27), for the proved form: every singular point of `M` is the centre of an `X_A`-chart descending from the maximal covering of its model (`IsDescendingChartMap`: for all `e` over `U` and `f` over `φ(p e)`, a descent `V̂ ∋ f → Û ∋ e` of `φ⁻¹`, i.e. `V̂ → V` dominates `Û → U`; it holds when `r : Ṽ → V̂` is an isomorphism, `ℓ : Ũ → Û` arbitrary — informally by `prop:universality`, not formalized). Only the `r` side is forced: for a non-descending chart `r` is not an isomorphism, and the proof's (D) then needs `lem:spread_top` (c) for `r`, false in general (SCOPE (d)). The `ℓ`-quotient is built (`descTop`) and is no restriction (`isVirtuallyTame_of_descending`). The liftable special case (`IsLiftableChartMap`: `ℓ` and `r` both isomorphisms) is kept; ⚠ weakened there: local Galoisianity is not used (`isVirtuallyTame_of_liftable`); the `X_A`-atlas is used by neither form beyond the charts centred at singular points |
 | `theo:local_virt_tame`, `rem:singular_point_manifold_has`: `M` an `X_A`-manifold | ✓ read as ruled (DEC-67 (e)): `IsXAManifold` asks a chart centred at every singular point, what the remark's existence and the proof's gluing (l.2101–2103) use |
 
 ## SCOPE (disclosed)
@@ -142,41 +158,72 @@ l.1712), on WP-27i's `GX.SingularII.Tame`.
   fact is stronger than the paper's sentence (automorphisms of neighbourhoods of `O`); its
   derivation for the suspension is in the docstring of `isAnalyticModelFamily_unit_iff_eq_singleton`.
 * **(d)** `theo:local_virt_tame`, (ii) ⇒ (i), `X_A`-manifolds as ruled (DEC-67 (e)): the proof
-  (l.2086–2140) has three pieces. (1) `lem:spread_top` (stated, SCOPE (e)). (2) The topologies
-  `T_{U,V,φ}` on `p⁻¹(U)` for each `X_A`-chart, with their properties and naturality:
-  `exists_isLocalTamifying_charts`, stated (one tagged `sorry`; its three missing inputs and
-  route named there; blocked on a dedicated "local tamifying topologies" package, the interface
-  frozen), on the interface `IsLocalTamifying` (the paper's (A)–(D), first
-  countability, local path-connectedness and agreement with the natural topology, all over `U`).
-  (3) The gluing, proved: `exists_isTamifyingTopology_of_local` glues local tamifying topologies
-  whose neighbourhood filters agree over the overlaps (`glueTop`, `nhds_glueTop`) into a tamifying
-  topology — first countability, local path-connectedness, (A), (B) (the regular developing map
-  `exists_isRegDevelopingOnReg`, extended by local continuous extensions agreeing on the dense
-  `p⁻¹(reg M)`), (C) and (D) (`isPortly_iUnion_of_local`). The agreement over the overlaps uses
-  DEC-67 (e): near a point which has a type, every chart has that type (`XAChart.eq_of_mem_centre`)
-  and differs from a chart centred there by an automorphism (`XAChart.exists_aut_eq`), so
-  naturality gives it. Under the printed `def:atlas` the gluing has a gap at singular points which
-  are the centre of no chart (finding, no counterexample known); DEC-67 (e) removes it. Findings:
-  the gluing (l.2101, "the topology generated by … all `X_A`-charts") uses that `T_{U,V,φ}`
-  restricts to `T_{W,φ(W),φ|W}` on `p⁻¹(W)` for `W ⊆ U`, which the paper neither states nor proves
-  (only independence of `(V, φ)` for a fixed `U`, l.2104–2107); and the proof asserts without
-  argument that the sub-coverings `\widetilde U → Û`, `\widetilde V → V̂` (l.2093) and
-  `\widetilde M^S → N` (l.2025) of Galoisian maximal coverings are Galoisian (transitive on singular
-  fibres too), which the openness of `ℓ` for the strong topologies needs.
-* **(e)** `lem:spread_top` is stated here (`spread_top`, on `strongPullTop`,
-  `def:topological_spaces_continuous_map`), because the proof of `theo:local_virt_tame` applies it;
-  it is outside the dispatch. Its proof (l.2068–2136) is not built — out of scope: the
-  ingredients are `GX.path_covering`, `GX.maxBranched_isGaloisian_cc` (from the paper's `hrel`),
-  `GX.branched_covering_restriction` and `GX.complete_path_carac`, to be read for two topologies.
-  Item (d) is split off and proved (`spread_top_deck`) under the hypothesis its proof uses, `N → M`
+  (l.2086–2140) has three pieces. (1) `lem:spread_top`, certified by WP-27k (false as printed;
+  (c) false even with `p⁻¹(R)` connected). (2) The topologies `T_{U,V,φ}` on `p⁻¹(U)` for each
+  `X_A`-chart, with their properties and naturality, on the interface `IsLocalTamifying` (the
+  paper's (A)–(D), first countability, local path-connectedness and agreement with the natural
+  topology, all over `U`). (3) The gluing, proved: `exists_isTamifyingTopology_of_local` glues
+  local tamifying topologies whose neighbourhood filters agree over the overlaps (`glueTop`,
+  `nhds_glueTop`) into a tamifying topology — first countability, local path-connectedness, (A),
+  (B) (the regular developing map `exists_isRegDevelopingOnReg`, extended by local continuous
+  extensions agreeing on the dense `p⁻¹(reg M)`), (C) and (D) (`isPortly_iUnion_of_local`).
+  **Piece (2) is built (WP-35f fix round 1) for every chart DESCENDING from the maximal covering
+  of its model** (`IsDescendingChartMap`: for all `e` over `U` and `f` over `φ(p e)`, a descent
+  `Ψ : V̂ ∋ f → Û ∋ e` of `φ⁻¹`, `IsChartDescent` — continuous on the component `V̂` of `q⁻¹(V)`,
+  `φ ∘ p ∘ Ψ = q`). This is the case of the proof where `V̂ → V` dominates `Û → U`, so that
+  `T_{U,V,φ}` is the `ℓ`-quotient of `T_α` itself and `r^*T_α` never enters; it contains the case
+  `r : Ṽ → V̂` an isomorphism with `ℓ : Ũ → Û` ARBITRARY (then `V̂ → V` is the maximal covering of
+  `V ≅ U` and dominates `Û → U`, `prop:universality` — informal, not formalized), and the liftable
+  charts (`IsLiftableChartMap.isDescendingChartMap`). Then `T_{U,V,φ}` (`descTop`) has at a point
+  `y` over `U` the neighbourhoods `Ψ(𝓝_{T_α}(f))` for a chosen descent `Ψ` with `Ψ f = y` (the
+  quotient topology, `descNhds`, `nhds_descTop`), natural off `p⁻¹(U)`. The descents are
+  Galoisian: two descents taking the same value differ by an element of `Γ(\widetilde X_α/X_α)`
+  (`IsChartDescent.exists_deck`: a regular point near one is moved to a regular point near the
+  other with the same image — `IsChartDescent.reg_subset_image`, path lifting through `q` — and
+  the discreteness of the fibres of `q`, which is the model's local Galoisianity,
+  `discreteTopology_fiber_of_isLocallyGaloisian`, pins the singular point: this is the paper's
+  l.2093 "since `X_α` is locally Galoisian … all Galoisian"). So `T_{U,V,φ}` does not depend on the
+  descent (`descNhds_eq`), every descent is `T_α → T_{U,V,φ}` continuous and open, and onto `Û`
+  (`IsChartDescent.surjOn_cc`). All eight fields of `IsLocalTamifying` hold
+  (`isLocalTamifying_descTop`): first countability and local path-connectedness as images; natural
+  over `reg U` (a descent is open at regular points); (A) through (A) for `T_α`; (B) by descending
+  `g • D_α`, where `D₀ ∘ Ψ = g • D_α` on the connected `reg(V̂)` (`exists_smul_eq_of_isChartDescent`,
+  `lem:MtoXG`) and `D_α ∘ δ = D_α` for the deck transformations relating points of a fibre of `Ψ`
+  (on `reg(V̂)`, then by `T_α`-density, l.2117–2128); (C) a deck transformation of `\widetilde M`
+  composed with a descent is a descent; (D) the image of the `T_α`-portly `reg(V̂)` by the open
+  surjective descent (l.2128–2133, `isPreconnected_inter_of_cover_of`). Naturality (l.2104–2107, and
+  the restriction to `W ⊆ U` the gluing l.2101 uses without statement) goes through the lift `Λ` of
+  `ψ ∈ Aut(X_α)` to `\widetilde X_α` (`exists_lift_singularAut`, `T_α`-continuous by hypothesis):
+  `nhds_descTop_le_of_aut`. With the natural topology over `reg M` (`isLocalTamifying_natural_reg`)
+  this gives `isVirtuallyTame_of_descending` (0 `sorry`). The earlier special case `ℓ`, `r` both
+  isomorphisms (`IsLiftableChartMap`, `chartTop`: `T_α` transported by homeomorphisms,
+  `isLocalTamifying_chartTop`, `nhds_chartTop_le_of_aut`, `isVirtuallyTame_of_liftable`) is kept:
+  it does not use local Galoisianity. Both hypotheses are met, at every point including singular
+  ones, by the chart `(X_α, X_α, id)` of a model whose maximal covering is Galoisian
+  (`isLiftableChartMap_refl`), so neither is vacuous at singular points.
+  **In general piece (2) is not proved** (`exists_isLocalTamifying_charts`, tagged `sorry`), and
+  what is missing is confined to the NON-descending charts: there `V̂ → V` does not dominate
+  `Û → U`, so `r : Ṽ → V̂` is not an isomorphism, and the paper's `T_{U,V,φ}` is the `ℓ`-quotient
+  of `r^*T_α`; its (D) (l.2128–2133) needs `r⁻¹(R)` portly for `r^*T_α`, which is
+  `lem:spread_top` (c) for `r`, false in general (WP-27k's sector counterexample) and equivalent to
+  `GX.StrongLocallyConnectedOrd`, not known to follow from the hypotheses on `T_α`; this is a gap
+  of the paper's proof (finding). The `ℓ`-quotient itself is not an obstruction (built here). No
+  counterexample to the theorem is known. The agreement over the overlaps uses DEC-67 (e): near a
+  point which has a type, every chart has that type (`XAChart.eq_of_mem_centre`) and differs from a
+  chart centred there by an automorphism (`XAChart.exists_aut_eq`), so naturality gives it. Under
+  the printed `def:atlas` the gluing has a gap at singular points which are the centre of no chart
+  (finding, no counterexample known); DEC-67 (e) removes it. Further findings: the proof asserts
+  without argument that the sub-coverings `\widetilde U → Û`, `\widetilde V → V̂` (l.2093) and
+  `\widetilde M^S → N` (l.2025) of Galoisian maximal coverings are Galoisian (proved by WP-27k,
+  `GX.isGaloisian_of_comp`; for the descents `V̂ → Û` used here, `IsChartDescent.exists_deck`).
+* **(e)** `lem:spread_top` is certified by WP-27k in `GXScaffold.SingularII.SpreadTop` (which
+  imports this module): false as printed (`GX.not_spreadTopPrinted`), its strongest true form
+  `GX.spread_top_corrected`. Here only `strongPullTop` (`def:topological_spaces_continuous_map`) and
+  item (d), split off and proved (`spread_top_deck`) under the hypothesis its proof uses, `N → M`
   Galoisian (and `N` Hausdorff, for the uniqueness of lifts): the paper's `γ̄ ∈ Γ(N/M)` with
   `p ∘ γ = γ̄ ∘ p` (l.2071) exists for every `γ` when `N → M` is Galoisian
   (`exists_deck_semiconj_of_isGaloisian`), and the paper's one application (l.2093) has it. The
-  paper's `M ∖ S` semi-locally simply connected in `M` is carried (`hrel`), and the library's
-  `\widetilde M^S` adds `M ∖ S` semilocally simply connected as a space (`hSc`,
-  `GX.maxBranched_basic`); "sub-covering" is read as two branched coverings `p`, `q` with `q ∘ p`
-  the projection. Besides the Claim, the proof uses that `\widetilde M^S → N` is Galoisian
-  (l.2025, "and thus so is"), asserted without argument (finding, SCOPE (d)).
+  (false) statement `GX.spread_top` with its tagged `sorry` was removed at WP-35f.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Builds on
 `GX.SingularII.Tame`, `GX.SingularII.Developing`, `GX.Branched.Galois`,
@@ -2140,48 +2187,1167 @@ theorem spread_top_deck {M : Type u} [TopologicalSpace M] [T2Space M] [LocPathCo
   obtain ⟨γ', hγ', h⟩ := exists_deck_semiconj_of_isGaloisian (tN := tN) hS hSc y₀ hp hq hqp hγ
   exact continuous_strongPullTop_of_semiconj p T γ (hTdeck _ ⟨γ', hγ', rfl⟩) h
 
-/-- `lem:spread_top` (`RamcovGX.tex:1990`, proof l.2068–2136), (a), (b), (c), (e), stated; (d) is
-`spread_top_deck` (proved, under the Galoisian hypothesis its proof uses). `M` first countable,
-connected, locally path-connected, Hausdorff; `S` skeletal with `M ∖ S` semi-locally simply
-connected in `M` (`hrel`, the paper's hypothesis, which its proof uses at l.2025/2027 through
-`GX.maxBranched_isGaloisian_cc`) and semilocally simply connected as a space (`hSc`, the hypothesis
-under which the library builds `\widetilde M^S`, `GX.maxBranched_basic`); a
-sub-covering `\widetilde M^S → N → M` (`p`, `q` branched coverings, `q ∘ p` the projection); `T` a
-first countable, locally path-connected topology on `N` finer than its own, for which `Γ(N/M)` acts
-continuously; `R ⊆ ord_p(N)` `T`-portly, on which `T` and the topology of `N` agree. Then for
-`p^*T`: (a) first countable, connected, locally path-connected; (b) `p^*T` agrees with the natural
-topology on `p⁻¹(R)`; (c) `p⁻¹(R)` is `p^*T`-portly; (e) `p` is a branched covering for `p^*T` and
-`T`. -/
-theorem spread_top {M : Type u} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
-    [FirstCountableTopology M] [ConnectedSpace M] {S : Set M} (hS : IsSkeletal S)
-    (hSc : SemilocallySimplyConnected (Sᶜ : Set M)) (hrel : IsSLSCInCC (Sᶜ : Set M))
-    (y₀ : (Sᶜ : Set M))
-    {N : Type v} [tN : TopologicalSpace N] {p : MaxBranchedCover S y₀ → N} {q : N → M}
-    (hp : IsBranchedCovering p) (hq : IsBranchedCovering q) (hqp : ∀ e, q (p e) = e.base)
-    {R : Set N} (hR : R ⊆ ordY p) (T : TopologicalSpace N) (hTle : T ≤ tN)
-    (hT1 : @FirstCountableTopology N T) (hT2 : @LocPathConnectedSpace N T)
-    (hTdeck : ∀ f ∈ @deckMapsOf N M tN q, Continuous[T, T] f) (hRT : @IsPortly N T R)
-    (hRagree : TopologicalSpace.induced (Subtype.val : R → N) T =
-      TopologicalSpace.induced (Subtype.val : R → N) tN) :
-    (@FirstCountableTopology _ (strongPullTop p T) ∧ @ConnectedSpace _ (strongPullTop p T) ∧
-        @LocPathConnectedSpace _ (strongPullTop p T)) ∧
-      TopologicalSpace.induced (Subtype.val : (p ⁻¹' R) → MaxBranchedCover S y₀)
-          (strongPullTop p T) =
-        TopologicalSpace.induced (Subtype.val : (p ⁻¹' R) → MaxBranchedCover S y₀)
-          (inferInstance : TopologicalSpace (MaxBranchedCover S y₀)) ∧
-      @IsPortly _ (strongPullTop p T) (p ⁻¹' R) ∧
-      @IsBranchedCovering _ _ (strongPullTop p T) T p := by
-  sorry -- SORRY(lem:spread_top): outside the WP-27j dispatch (stated at the round-1 audit's
-  -- request), not a mathematical obstruction: the proof of l.2068–2136 is unbuilt. Its
-  -- ingredients are in the library — the Claim's strongly continuous paths (`GX.path_covering`,
-  -- `GX/Topology/Portly.lean`) lifted through the Galoisian `\widetilde M^S → N`
-  -- (`GX.maxBranched_isGaloisian_cc` from `hrel`, no countability, `GXScaffold/Branched/Galois.lean`),
-  -- components of preimages of
-  -- `\widetilde M^S → N` (`GX.branched_covering_restriction`), and (e) by
-  -- `GX.complete_path_carac` (`GX/Branched/Basic.lean`) for the strong topologies — the work is
-  -- their two-topology versions (every instance argument must be read in `p^*T` or `T`).
-  -- Proved here: `p` strongly continuous (`continuous_strongPullTop`), `p^*T ≤` natural
-  -- (`strongPullTop_le`), and (d) (`spread_top_deck`).
+/-! `lem:spread_top` (`RamcovGX.tex:1990`), (a), (b), (c), (e), is not stated here: the printed
+statement is FALSE (WP-27k, `GX.not_spreadTopPrinted` on `GX.cex_spread_top_halfCut`, in
+`GXScaffold.SingularII.SpreadTop`, which imports this module), and (c), (e) remain false with
+`p⁻¹(R)` connected (`GX.not_spreadTopConnCE`, `GX.cex_spread_top_sector`); its strongest true form
+is `GX.spread_top_corrected` there. The statement this module carried (with a tagged `sorry`) was
+removed at WP-35f. (d) is `spread_top_deck` above. -/
+
+/-! ### `theo:local_virt_tame`, piece (2) when the coverings `ℓ`, `r` are trivial (WP-35f) -/
+
+section LiftUnique
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  {N : Type u} [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
+  [FirstCountableTopology N] [ConnectedSpace N] [SingularGXStructure G X N]
+
+/-- Uniqueness of lifts into `\widetilde N`: two maps `F₁ F₂ : E → \widetilde N`, continuous on an
+open `Z`, with the same projection on `Z`, regular over the dense preconnected open `Z' ⊆ Z`, and
+agreeing at one point of `Z'`, agree on `Z`. -/
+theorem eqOn_maxBranched_of_base_eq (hregN : SemilocallySimplyConnected ((Sing G X N)ᶜ : Set N))
+    {yN : ((Sing G X N)ᶜ : Set N)} {E : Type*} [TopologicalSpace E]
+    {F₁ F₂ : E → MaxBranchedCover (Sing G X N) yN} {Z Z' : Set E} (hZ : IsOpen Z)
+    (hZ'Z : Z' ⊆ Z) (hZ'o : IsOpen Z') (hZ'c : IsPreconnected Z') (hcl : Z ⊆ closure Z')
+    (h₁ : ContinuousOn F₁ Z) (h₂ : ContinuousOn F₂ Z) (hb : ∀ z ∈ Z, (F₁ z).base = (F₂ z).base)
+    (hreg : ∀ z ∈ Z', (F₁ z).base ∈ Reg G X N) {z₀ : E} (hz₀ : z₀ ∈ Z') (h0 : F₁ z₀ = F₂ z₀) :
+    EqOn F₁ F₂ Z := by
+  have hS₀ := isSkeletal_sing G X N
+  obtain ⟨-, hβbc, hβS, -, -, -⟩ := maxBranched_basic hS₀ hregN yN
+  haveI : T2Space (MaxBranchedCover (Sing G X N) yN) := (maxBranched_instances hS₀ hregN yN).2.2
+  have hordβ : Reg G X N ⊆ ordY (SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) :=
+    fun y hy => by by_contra hn; exact (hβS hn) hy
+  -- closedness of the equaliser inside `Z`
+  have hclosed : ∀ z ∈ Z, ∀ u : Set E, z ∈ closure u → (∀ w ∈ u, F₁ w = F₂ w) → F₁ z = F₂ z := by
+    intro z hz u hzu hu
+    haveI : (𝓝[u] z).NeBot := mem_closure_iff_nhdsWithin_neBot.1 hzu
+    have c₁ := (h₁.continuousAt (hZ.mem_nhds hz)).tendsto.mono_left
+      (nhdsWithin_le_nhds (s := u))
+    have c₂ := (h₂.continuousAt (hZ.mem_nhds hz)).tendsto.mono_left
+      (nhdsWithin_le_nhds (s := u))
+    exact tendsto_nhds_unique c₁ (c₂.congr' (eventually_nhdsWithin_of_forall fun w hw =>
+      (hu w hw).symm))
+  set Eq₀ : Set E := {z | z ∈ Z' ∧ F₁ z = F₂ z} with hEq₀
+  have hEo : IsOpen Eq₀ := by
+    refine isOpen_iff_mem_nhds.2 fun z hz => ?_
+    obtain ⟨hzZ', hzeq⟩ := hz
+    have hzZ := hZ'Z hzZ'
+    obtain ⟨e, hve, hpe⟩ := hβbc.ordX_subset_isLocalHomeomorphOn (hordβ (hreg z hzZ'))
+      (F₁ z) rfl
+    have hc₁ := h₁.continuousAt (hZ.mem_nhds hzZ)
+    have hc₂ := h₂.continuousAt (hZ.mem_nhds hzZ)
+    have hv₂ : F₂ z ∈ e.source := hzeq ▸ hve
+    filter_upwards [hc₁.preimage_mem_nhds (e.open_source.mem_nhds hve),
+      hc₂.preimage_mem_nhds (e.open_source.mem_nhds hv₂), hZ'o.mem_nhds hzZ'] with w hw₁ hw₂ hw
+    refine ⟨hw, e.injOn hw₁ hw₂ ?_⟩
+    rw [← hpe]; exact hb w (hZ'Z hw)
+  have hsub : Z' ⊆ Eq₀ := by
+    refine hZ'c.subset_of_closure_inter_subset hEo ⟨z₀, hz₀, hz₀, h0⟩ ?_
+    rintro z ⟨hzc, hzZ'⟩
+    exact ⟨hzZ', hclosed z (hZ'Z hzZ') Eq₀ hzc fun w hw => hw.2⟩
+  intro z hz
+  exact hclosed z hz Z' (hcl hz) fun w hw => (hsub hw).2
+
+/-- Two lifts with the same projection, regular over a dense preconnected open subset, differ by an
+element of `Γ(\widetilde N/N)`. -/
+theorem exists_deck_eqOn_of_base_eq (hregN : SemilocallySimplyConnected ((Sing G X N)ᶜ : Set N))
+    {yN : ((Sing G X N)ᶜ : Set N)} {E : Type*} [TopologicalSpace E]
+    {F₁ F₂ : E → MaxBranchedCover (Sing G X N) yN} {Z Z' : Set E} (hZ : IsOpen Z)
+    (hZ'Z : Z' ⊆ Z) (hZ'o : IsOpen Z') (hZ'c : IsPreconnected Z') (hcl : Z ⊆ closure Z')
+    (hne : Z'.Nonempty)
+    (h₁ : ContinuousOn F₁ Z) (h₂ : ContinuousOn F₂ Z) (hb : ∀ z ∈ Z, (F₁ z).base = (F₂ z).base)
+    (hreg : ∀ z ∈ Z', (F₁ z).base ∈ Reg G X N) :
+    ∃ δ ∈ deckGroup (SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N),
+      EqOn F₂ (fun z => δ (F₁ z)) Z := by
+  have hS₀ := isSkeletal_sing G X N
+  obtain ⟨z₀, hz₀⟩ := hne
+  obtain ⟨δ, hδ, hδz⟩ := maxBranched_transitive hS₀ hregN yN (F₁ z₀) (F₂ z₀)
+    (hb z₀ (hZ'Z hz₀)) (fun h => h (hreg z₀ hz₀))
+  refine ⟨δ, hδ, eqOn_maxBranched_of_base_eq hregN hZ hZ'Z hZ'o hZ'c hcl h₂
+    (δ.continuous.comp_continuousOn h₁) (fun z hz => ?_) (fun z hz => ?_) hz₀ hδz.symm⟩
+  · show (F₂ z).base = (δ (F₁ z)).base
+    rw [deck_apply _ hδ, hb z hz]
+  · rw [← hb z (hZ'Z hz)]; exact hreg z hz
+
+end LiftUnique
+
+
+/-- A topology carried as data, so that it is never a local instance (statements below mention
+both it and the natural topology of the same type). -/
+structure WrappedTop (α : Type*) where
+  /-- The topology. -/
+  top : TopologicalSpace α
+
+theorem mem_of_mem_connectedComponentIn_preimage {E Y : Type*} [TopologicalSpace E] {p : E → Y}
+    {U : Set Y} {z y : E} (h : y ∈ connectedComponentIn (p ⁻¹' U) z) : p y ∈ U :=
+  connectedComponentIn_subset (p ⁻¹' U) z h
+
+
+theorem mem_nhds_iff_of {α : Type*} (t : TopologicalSpace α) {x : α} {s : Set α} :
+    s ∈ @nhds α t x ↔ ∃ u ⊆ s, IsOpen[t] u ∧ x ∈ u := by
+  letI := t; exact mem_nhds_iff
+
+theorem mem_of_mem_nhds_of {α : Type*} (t : TopologicalSpace α) {x : α} {s : Set α}
+    (h : s ∈ @nhds α t x) : x ∈ s := by
+  letI := t; exact mem_of_mem_nhds h
+
+theorem eventually_mem_nhds_iff_of {α : Type*} (t : TopologicalSpace α) {x : α} {s : Set α} :
+    (∀ᶠ y in @nhds α t x, s ∈ @nhds α t y) ↔ s ∈ @nhds α t x := by
+  letI := t; exact eventually_mem_nhds_iff
+
+theorem eventually_nhdsWithin_of_forall_of {α : Type*} (t : TopologicalSpace α) {x : α}
+    {s : Set α} {p : α → Prop} (h : ∀ y ∈ s, p y) : ∀ᶠ y in @nhdsWithin α t x s, p y := by
+  letI := t; exact eventually_nhdsWithin_of_forall h
+
+theorem nhdsWithin_le_nhds_of {α : Type*} (t : TopologicalSpace α) {x : α} {s : Set α} :
+    @nhdsWithin α t x s ≤ @nhds α t x := by
+  letI := t; exact nhdsWithin_le_nhds
+
+
+theorem isOpen_iff_mem_nhds_of {α : Type*} (t : TopologicalSpace α) {s : Set α} :
+    IsOpen[t] s ↔ ∀ x ∈ s, s ∈ @nhds α t x := by
+  letI := t; exact isOpen_iff_mem_nhds
+
+theorem mem_closure_iff_nhds_of {α : Type*} (t : TopologicalSpace α) {x : α} {s : Set α} :
+    x ∈ @closure α t s ↔ ∀ u ∈ @nhds α t x, (u ∩ s).Nonempty := by
+  letI := t; exact mem_closure_iff_nhds
+
+theorem isPathConnected_image_of {α β : Type*} (t₁ : TopologicalSpace α)
+    (t₂ : TopologicalSpace β) {s : Set α} (hs : @IsPathConnected α t₁ s) {f : α → β}
+    (hf : @ContinuousOn α β t₁ t₂ f s) : @IsPathConnected β t₂ (f '' s) := by
+  letI := t₁; letI := t₂; exact hs.image' hf
+
+theorem isPreconnected_image_of {α β : Type*} (t₁ : TopologicalSpace α)
+    (t₂ : TopologicalSpace β) {s : Set α} (hs : @IsPreconnected α t₁ s) {f : α → β}
+    (hf : @ContinuousOn α β t₁ t₂ f s) : @IsPreconnected β t₂ (f '' s) := by
+  letI := t₁; letI := t₂; exact hs.image f hf
+
+
+theorem continuousOn_mono_of {α β : Type*} (t₁ : TopologicalSpace α) (t₂ : TopologicalSpace β)
+    {f : α → β} {s s' : Set α} (h : @ContinuousOn α β t₁ t₂ f s) (hs : s' ⊆ s) :
+    @ContinuousOn α β t₁ t₂ f s' := by
+  letI := t₁; letI := t₂; exact h.mono hs
+
+
+theorem mem_closure_of_dense_of {α : Type*} (t : TopologicalSpace α) {s : Set α}
+    (h : @Dense α t s) (x : α) : x ∈ @closure α t s := by
+  letI := t; exact h x
+
+theorem isPreconnected_inter_of_isPortly_of {α : Type*} (t : TopologicalSpace α) {U W : Set α}
+    (h : @IsPortly α t U) (hW : IsOpen[t] W) (hWc : @IsPreconnected α t W) :
+    @IsPreconnected α t (W ∩ U) := by
+  letI := t; exact h.locallyConnectedIn W hW hWc
+
+theorem isPreconnected_empty_of {α : Type*} (t : TopologicalSpace α) :
+    @IsPreconnected α t ∅ := by
+  letI := t; exact isPreconnected_empty
+
+
+theorem continuousOn_of_continuous_of {α β : Type*} (t₁ : TopologicalSpace α)
+    (t₂ : TopologicalSpace β) {f : α → β} (h : @Continuous α β t₁ t₂ f) (s : Set α) :
+    @ContinuousOn α β t₁ t₂ f s := by
+  letI := t₁; letI := t₂; exact h.continuousOn
+
+
+theorem continuous_comp_of {α β γ : Type*} (t₁ : TopologicalSpace α) (t₂ : TopologicalSpace β)
+    (t₃ : TopologicalSpace γ) {g : β → γ} {f : α → β} (hg : @Continuous β γ t₂ t₃ g)
+    (hf : @Continuous α β t₁ t₂ f) : @Continuous α γ t₁ t₃ (fun x => g (f x)) := by
+  letI := t₁; letI := t₂; letI := t₃; exact hg.comp hf
+
+/-- `comap f (𝓝 (f x)) = 𝓝 x` for a map continuous with a continuous inverse (explicit
+topologies). -/
+theorem comap_nhds_eq_of_leftInverse {Y : Type*} {t : TopologicalSpace Y} {f g : Y → Y}
+    (hf : Continuous[t, t] f) (hg : Continuous[t, t] g) (hgf : ∀ y, g (f y) = y) (y : Y) :
+    Filter.comap f (@nhds Y t (f y)) = @nhds Y t y := by
+  refine le_antisymm (fun s hs => ?_) (@Continuous.tendsto Y Y t t f hf y).le_comap
+  refine ⟨g ⁻¹' s, ?_, fun z hz => by simpa [hgf] using hz⟩
+  have := (@Continuous.tendsto Y Y t t g hg (f y))
+  rw [hgf] at this
+  exact this hs
+
+/-- Restricting a `comap` to a set on which two maps agree. -/
+theorem principal_inf_comap_congr {E Y : Type*} {A : Set E} {f g : E → Y} (h : EqOn f g A)
+    (F : Filter Y) : 𝓟 A ⊓ Filter.comap f F = 𝓟 A ⊓ Filter.comap g F := by
+  rw [inf_comm, inf_comm (𝓟 A)]
+  ext s
+  rw [mem_inf_principal, mem_inf_principal, Filter.mem_comap, Filter.mem_comap]
+  constructor
+  · rintro ⟨t, ht, hts⟩
+    exact ⟨t, ht, fun z hz hzA => hts (show f z ∈ t by rw [h hzA]; exact hz) hzA⟩
+  · rintro ⟨t, ht, hts⟩
+    exact ⟨t, ht, fun z hz hzA => hts (show g z ∈ t by rw [← h hzA]; exact hz) hzA⟩
+
+
+section ChartLift
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  {M : Type v} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
+  [FirstCountableTopology M] [ConnectedSpace M] [SingularGXStructure G X M]
+  {N : Type u} [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
+  [FirstCountableTopology N] [ConnectedSpace N] [SingularGXStructure G X N]
+
+/-- An isomorphism `φ : U → V` of open subsets, read as a map `M → N` (any value off `U`). -/
+def chartExt {U : Opens M} {V : Opens N} (φ : U ≃ₜ V) : M → N := fun m =>
+  if h : m ∈ U then (φ ⟨m, h⟩ : N) else Classical.arbitrary N
+
+theorem chartExt_apply {U : Opens M} {V : Opens N} (φ : U ≃ₜ V) {m : M} (hm : m ∈ U) :
+    chartExt φ m = (φ ⟨m, hm⟩ : N) := dif_pos hm
+
+theorem continuousOn_chartExt {U : Opens M} {V : Opens N} (φ : U ≃ₜ V) :
+    ContinuousOn (chartExt φ) (U : Set M) := by
+  rw [continuousOn_iff_continuous_restrict]
+  have : (U : Set M).restrict (chartExt φ) = fun m : U => (φ m : N) := by
+    funext m; exact chartExt_apply φ m.2
+  rw [this]
+  exact continuous_subtype_val.comp φ.continuous
+
+theorem chartExt_mem_reg_iff {U : Opens M} {V : Opens N} {φ : U ≃ₜ V}
+    (hφ : IsAEMorphism G X (φ : U → V)) {m : M} (hm : m ∈ U) :
+    chartExt φ m ∈ Reg G X N ↔ m ∈ Reg G X M := by
+  have h := (IsAEMorphism.preimage_reg_sing hφ φ.isLocalHomeomorph).1
+  rw [chartExt_apply φ hm]
+  have h1 : (φ ⟨m, hm⟩ : N) ∈ Reg G X N ↔ φ ⟨m, hm⟩ ∈ Reg G X V := by
+    rw [reg_opensSingular V]; rfl
+  have h2 : (⟨m, hm⟩ : U) ∈ Reg G X U ↔ m ∈ Reg G X M := by
+    rw [reg_opensSingular U]; rfl
+  rw [h1, ← h2, ← h]; rfl
+
+variable (G X) in
+/-- An isomorphism `φ : U → V` of open subsets of `M` and of a model `N` *lifts to the maximal
+coverings* if, for every pair of points `e ∈ \widetilde M` over `U` and `f ∈ \widetilde N` over
+`φ(p e)`, the components `Uh ∋ e` of `p⁻¹(U)` and `Vh ∋ f` of `q⁻¹(V)` are homeomorphic over `φ` by
+a homeomorphism sending `e` to `f` (`\widetilde M`, `\widetilde N` for every base point). This is
+the case of the proof of `theo:local_virt_tame` where its coverings `Ũ → Uh` and `Ṽ → Vh` are
+isomorphisms; the `Ũ → Uh` half is removed by `IsDescendingChartMap` (which it implies,
+`IsLiftableChartMap.isDescendingChartMap`, and under which the theorem is proved,
+`isVirtuallyTame_of_descending`). -/
+def IsLiftableChartMap {U : Opens M} {V : Opens N} (φ : U ≃ₜ V) : Prop :=
+  ∀ (y₀ : ((Sing G X M)ᶜ : Set M)) (yN : ((Sing G X N)ᶜ : Set N))
+    (e : MaxBranchedCover (Sing G X M) y₀) (f : MaxBranchedCover (Sing G X N) yN)
+    (he : e.base ∈ U), f.base = (φ ⟨e.base, he⟩ : N) →
+    ∃ Φ : connectedComponentIn
+        ((SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) ⁻¹' U) e ≃ₜ
+        connectedComponentIn ((SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) ⁻¹' V) f,
+      (Φ ⟨e, mem_connectedComponentIn he⟩ : MaxBranchedCover (Sing G X N) yN) = f ∧
+      ∀ z, (Φ z : MaxBranchedCover (Sing G X N) yN).base =
+        (φ ⟨(z : MaxBranchedCover (Sing G X M) y₀).base,
+          mem_preimage.1 (connectedComponentIn_subset _ _ z.2)⟩ : N)
+
+/-- A lift of `φ' : M → N` from the component `Uh ∋ e` of `p⁻¹(U)` onto the component `Vh ∋ f` of
+`q⁻¹(V)`, as a pair of maps of the whole spaces, mutually inverse continuous on `Uh`, `Vh`. -/
+structure IsChartLift {y₀ : ((Sing G X M)ᶜ : Set M)} {yN : ((Sing G X N)ᶜ : Set N)}
+    (U : Set M) (V : Set N) (φ' : M → N) (e : MaxBranchedCover (Sing G X M) y₀)
+    (f : MaxBranchedCover (Sing G X N) yN)
+    (F : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X N) yN)
+    (F' : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X M) y₀) : Prop where
+  apply_self : F e = f
+  mapsTo : MapsTo F (connectedComponentIn (SpreadEnd.base ⁻¹' U) e)
+    (connectedComponentIn (SpreadEnd.base ⁻¹' V) f)
+  mapsTo' : MapsTo F' (connectedComponentIn (SpreadEnd.base ⁻¹' V) f)
+    (connectedComponentIn (SpreadEnd.base ⁻¹' U) e)
+  left : ∀ z ∈ connectedComponentIn (SpreadEnd.base ⁻¹' U) e, F' (F z) = z
+  right : ∀ w ∈ connectedComponentIn (SpreadEnd.base ⁻¹' V) f, F (F' w) = w
+  contF : ContinuousOn F (connectedComponentIn (SpreadEnd.base ⁻¹' U) e)
+  contF' : ContinuousOn F' (connectedComponentIn (SpreadEnd.base ⁻¹' V) f)
+  base : ∀ z ∈ connectedComponentIn (SpreadEnd.base ⁻¹' U) e, (F z).base = φ' z.base
+
+theorem IsLiftableChartMap.exists_isChartLift {U : Opens M} {V : Opens N} {φ : U ≃ₜ V}
+    (hφ : IsLiftableChartMap G X φ) {y₀ : ((Sing G X M)ᶜ : Set M)}
+    {yN : ((Sing G X N)ᶜ : Set N)} (e : MaxBranchedCover (Sing G X M) y₀)
+    (f : MaxBranchedCover (Sing G X N) yN) (he : e.base ∈ U)
+    (hf : f.base = (φ ⟨e.base, he⟩ : N)) :
+    ∃ F F', IsChartLift (U : Set M) (V : Set N) (chartExt φ) e f F F' := by
+  set Uh := connectedComponentIn
+    ((SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) ⁻¹' U) e
+  set Vh := connectedComponentIn
+    ((SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) ⁻¹' V) f
+  obtain ⟨Φ, hΦe, hΦb⟩ := hφ y₀ yN e f he hf
+  let F : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X N) yN := fun z =>
+    if h : z ∈ Uh then (Φ ⟨z, h⟩ : MaxBranchedCover (Sing G X N) yN) else f
+  let F' : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X M) y₀ := fun w =>
+    if h : w ∈ Vh then (Φ.symm ⟨w, h⟩ : MaxBranchedCover (Sing G X M) y₀) else e
+  have hF : ∀ z (h : z ∈ Uh), F z = Φ ⟨z, h⟩ := fun z h => dif_pos h
+  have hF' : ∀ w (h : w ∈ Vh), F' w = Φ.symm ⟨w, h⟩ := fun w h => dif_pos h
+  have heUh : e ∈ Uh := mem_connectedComponentIn he
+  refine ⟨F, F', ⟨by rw [hF e heUh]; exact hΦe, fun z hz => by rw [hF z hz]; exact (Φ _).2,
+    fun w hw => by rw [hF' w hw]; exact (Φ.symm _).2, fun z hz => ?_, fun w hw => ?_, ?_, ?_,
+    fun z hz => ?_⟩⟩
+  · have h1 : F z ∈ Vh := by rw [hF z hz]; exact (Φ _).2
+    rw [hF' _ h1]
+    have : (⟨F z, h1⟩ : Vh) = Φ ⟨z, hz⟩ := Subtype.ext (hF z hz)
+    rw [this, Homeomorph.symm_apply_apply]
+  · have h1 : F' w ∈ Uh := by rw [hF' w hw]; exact (Φ.symm _).2
+    rw [hF _ h1]
+    have : (⟨F' w, h1⟩ : Uh) = Φ.symm ⟨w, hw⟩ := Subtype.ext (hF' w hw)
+    rw [this, Homeomorph.apply_symm_apply]
+  · rw [continuousOn_iff_continuous_restrict]
+    have : Uh.restrict F = fun z : Uh => (Φ z : MaxBranchedCover (Sing G X N) yN) := by
+      funext z; exact hF z z.2
+    rw [this]; exact continuous_subtype_val.comp Φ.continuous
+  · rw [continuousOn_iff_continuous_restrict]
+    have : Vh.restrict F' = fun w : Vh => (Φ.symm w : MaxBranchedCover (Sing G X M) y₀) := by
+      funext w; exact hF' w w.2
+    rw [this]; exact continuous_subtype_val.comp Φ.symm.continuous
+  · rw [hF z hz, hΦb, chartExt_apply φ (mem_preimage.1 (connectedComponentIn_subset _ _ hz))]
+
+/-- The components of `p⁻¹(U)` in `\widetilde M`: open, with a dense preconnected open regular
+part. -/
+theorem maxBranched_cc_facts (hregM : SemilocallySimplyConnected ((Sing G X M)ᶜ : Set M))
+    {y₀ : ((Sing G X M)ᶜ : Set M)} {U : Set M} (hU : IsOpen U)
+    {z : MaxBranchedCover (Sing G X M) y₀} (hz : z.base ∈ U) :
+    let Z := connectedComponentIn
+      ((SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) ⁻¹' U) z
+    IsOpen Z ∧ IsOpen (Z ∩ SpreadEnd.base ⁻¹' Reg G X M) ∧
+      IsPreconnected (Z ∩ SpreadEnd.base ⁻¹' Reg G X M) ∧
+      Z ⊆ closure (Z ∩ SpreadEnd.base ⁻¹' Reg G X M) ∧
+      (Z ∩ SpreadEnd.base ⁻¹' Reg G X M).Nonempty := by
+  intro Z
+  have hS₀ := isSkeletal_sing G X M
+  obtain ⟨-, hβbc, -, -, hβl, -⟩ := maxBranched_basic hS₀ hregM y₀
+  haveI := hβl
+  have hR := hβbc.isPortly_preimage (isPortly_reg G X M)
+  have hZo : IsOpen Z := (hU.preimage hβbc.isSpread.continuous).connectedComponentIn
+  have hcl : Z ⊆ closure (Z ∩ SpreadEnd.base ⁻¹' Reg G X M) := fun x hx =>
+    hZo.inter_closure ⟨hx, hR.dense x⟩
+  refine ⟨hZo, hZo.inter hR.isOpen, hR.locallyConnectedIn Z hZo
+    isPreconnected_connectedComponentIn, hcl, ?_⟩
+  exact closure_nonempty_iff.1 ⟨z, hcl (mem_connectedComponentIn hz)⟩
+
+end ChartLift
+
+section ChartTop
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  {M : Type v} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
+  [FirstCountableTopology M] [ConnectedSpace M] [SingularGXStructure G X M]
+  {N : Type u} [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
+  [FirstCountableTopology N] [ConnectedSpace N] [SingularGXStructure G X N]
+  {y₀ : ((Sing G X M)ᶜ : Set M)} {yN : ((Sing G X N)ᶜ : Set N)}
+
+/-- The neighbourhoods of the topology `T_{U,V,φ}` transported from a topology `T_N` of
+`\widetilde N` through chosen lifts `Fz z` (one for each `z` over `U`); the natural ones off
+`p⁻¹(U)`. -/
+def chartNhds (U : Set M)
+    (Fz : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X M) y₀ →
+      MaxBranchedCover (Sing G X N) yN)
+    (TN : WrappedTop (MaxBranchedCover (Sing G X N) yN))
+    (z : MaxBranchedCover (Sing G X M) y₀) : Filter (MaxBranchedCover (Sing G X M) y₀) :=
+  if z.base ∈ U then 𝓟 (connectedComponentIn (SpreadEnd.base ⁻¹' U) z) ⊓
+    Filter.comap (Fz z) (@nhds _ TN.top (Fz z z)) else 𝓝 z
+
+/-- The topology `T_{U,V,φ}` (`RamcovGX.tex:2093–2098`), in the case its coverings `ℓ`, `r` are
+isomorphisms: on each component `Û` of `p⁻¹(U)`, `T_N` transported by a lift `Û ≅ V̂` of `φ`;
+the natural topology off `p⁻¹(U)`. -/
+@[reducible] def chartTop (U : Set M)
+    (Fz : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X M) y₀ →
+      MaxBranchedCover (Sing G X N) yN)
+    (TN : WrappedTop (MaxBranchedCover (Sing G X N) yN)) :
+    TopologicalSpace (MaxBranchedCover (Sing G X M) y₀) :=
+  TopologicalSpace.mkOfNhds (chartNhds U Fz TN)
+
+variable {U : Set M} {V : Set N} {φ' : M → N}
+  {Fz : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X M) y₀ →
+      MaxBranchedCover (Sing G X N) yN}
+  {TN : WrappedTop (MaxBranchedCover (Sing G X N) yN)}
+
+/-- An element of `Γ(\widetilde N/N)` is a homeomorphism of a tamifying topology. -/
+theorem comap_deck_nhds_of_isTamifying (hTN : IsTamifyingTopology G X N yN TN.top)
+    {δ : MaxBranchedCover (Sing G X N) yN ≃ₜ MaxBranchedCover (Sing G X N) yN}
+    (hδ : δ ∈ deckGroup (SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N))
+    (v : MaxBranchedCover (Sing G X N) yN) :
+    Filter.comap δ (@nhds _ TN.top (δ v)) = @nhds _ TN.top v :=
+  comap_nhds_eq_of_leftInverse (hTN.continuous_deck _ ⟨δ, hδ, rfl⟩)
+    (hTN.continuous_deck _ ⟨δ⁻¹, inv_mem hδ, rfl⟩) (fun y => δ.symm_apply_apply y) v
+
+theorem continuous_deck_of_isTamifying (hTN : IsTamifyingTopology G X N yN TN.top)
+    {δ : MaxBranchedCover (Sing G X N) yN ≃ₜ MaxBranchedCover (Sing G X N) yN}
+    (hδ : δ ∈ deckGroup (SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N)) :
+    Continuous[TN.top, TN.top] δ :=
+  hTN.continuous_deck _ ⟨δ, hδ, rfl⟩
+
+/-- Two chosen lifts over the same component differ by an element of `Γ(\widetilde N/N)`. -/
+theorem chartLift_indep (hregM : SemilocallySimplyConnected ((Sing G X M)ᶜ : Set M))
+    (hregN : SemilocallySimplyConnected ((Sing G X N)ᶜ : Set N)) (hU : IsOpen U)
+    (hF : ∀ z : MaxBranchedCover (Sing G X M) y₀, z.base ∈ U →
+      ∃ F', IsChartLift U V φ' z (Fz z z) (Fz z) F')
+    (hφreg : ∀ m ∈ U, φ' m ∈ Reg G X N ↔ m ∈ Reg G X M)
+    {z y : MaxBranchedCover (Sing G X M) y₀} (hz : z.base ∈ U)
+    (hy : y ∈ connectedComponentIn (SpreadEnd.base ⁻¹' U) z) :
+    ∃ δ ∈ deckGroup (SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N),
+      EqOn (Fz y) (fun w => δ (Fz z w)) (connectedComponentIn (SpreadEnd.base ⁻¹' U) z) := by
+  have hyU : y.base ∈ U := mem_of_mem_connectedComponentIn_preimage hy
+  have hyz := connectedComponentIn_eq hy
+  obtain ⟨hZo, hZ'o, hZ'c, hcl, hne⟩ := maxBranched_cc_facts hregM hU hz
+  obtain ⟨Fz', hFz⟩ := hF z hz
+  obtain ⟨Fy', hFy⟩ := hF y hyU
+  have hcy : ContinuousOn (Fz y) (connectedComponentIn (SpreadEnd.base ⁻¹' U) z) := by
+    rw [hyz]; exact hFy.contF
+  refine exists_deck_eqOn_of_base_eq hregN hZo inter_subset_left hZ'o hZ'c hcl hne hFz.contF hcy
+    (fun w hw => ?_) (fun w hw => ?_)
+  · rw [hFz.base w hw, hFy.base w (hyz ▸ hw)]
+  · rw [hFz.base w hw.1]
+    exact (hφreg _ (mem_of_mem_connectedComponentIn_preimage hw.1)).2 hw.2
+
+theorem chartNhds_eq (hregM : SemilocallySimplyConnected ((Sing G X M)ᶜ : Set M))
+    (hregN : SemilocallySimplyConnected ((Sing G X N)ᶜ : Set N)) (hU : IsOpen U)
+    (hF : ∀ z : MaxBranchedCover (Sing G X M) y₀, z.base ∈ U →
+      ∃ F', IsChartLift U V φ' z (Fz z z) (Fz z) F')
+    (hφreg : ∀ m ∈ U, φ' m ∈ Reg G X N ↔ m ∈ Reg G X M)
+    (hTN : IsTamifyingTopology G X N yN TN.top)
+    {z y : MaxBranchedCover (Sing G X M) y₀} (hz : z.base ∈ U)
+    (hy : y ∈ connectedComponentIn (SpreadEnd.base ⁻¹' U) z) :
+    chartNhds U Fz TN y = 𝓟 (connectedComponentIn (SpreadEnd.base ⁻¹' U) z) ⊓
+      Filter.comap (Fz z) (@nhds _ TN.top (Fz z y)) := by
+  have hyU : y.base ∈ U := mem_of_mem_connectedComponentIn_preimage hy
+  have hyz := connectedComponentIn_eq hy
+  obtain ⟨δ, hδ, hEq⟩ := chartLift_indep hregM hregN hU hF hφreg hz hy
+  rw [chartNhds, if_pos hyU, ← hyz, principal_inf_comap_congr hEq, hEq hy,
+    ← comap_deck_nhds_of_isTamifying hTN hδ (Fz z y), Filter.comap_comap]
+  rfl
+
+theorem chartNhds_le (hregM : SemilocallySimplyConnected ((Sing G X M)ᶜ : Set M))
+    (hregN : SemilocallySimplyConnected ((Sing G X N)ᶜ : Set N)) (hU : IsOpen U) (hV : IsOpen V)
+    (hF : ∀ z : MaxBranchedCover (Sing G X M) y₀, z.base ∈ U →
+      ∃ F', IsChartLift U V φ' z (Fz z z) (Fz z) F')
+    (hTN : IsTamifyingTopology G X N yN TN.top) (y : MaxBranchedCover (Sing G X M) y₀) :
+    chartNhds U Fz TN y ≤ 𝓝 y := by
+  unfold chartNhds
+  split_ifs with hy
+  · intro s hs
+    obtain ⟨F', hFy⟩ := hF y hy
+    have hS₀ := isSkeletal_sing G X N
+    obtain ⟨-, hβbc, -, -, hβl, -⟩ := maxBranched_basic hS₀ hregN yN
+    haveI := hβl
+    obtain ⟨hZo, -⟩ := maxBranched_cc_facts hregM hU hy
+    have hyZ : y ∈ connectedComponentIn (SpreadEnd.base ⁻¹' U) y := mem_connectedComponentIn hy
+    have hVo : IsOpen (connectedComponentIn
+        ((SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) ⁻¹' V) (Fz y y)) :=
+      (hV.preimage hβbc.isSpread.continuous).connectedComponentIn
+    have hFyV := hFy.mapsTo hyZ
+    have hc' := hFy.contF'.continuousAt (hVo.mem_nhds hFyV)
+    rw [ContinuousAt, hFy.left y hyZ] at hc'
+    have ht : F' ⁻¹' (s ∩ connectedComponentIn (SpreadEnd.base ⁻¹' U) y) ∩
+        connectedComponentIn (SpreadEnd.base ⁻¹' V) (Fz y y) ∈ @nhds _ TN.top (Fz y y) :=
+      nhds_mono hTN.le_natural (Filter.inter_mem (hc' (Filter.inter_mem hs (hZo.mem_nhds hyZ)))
+        (hVo.mem_nhds hFyV))
+    refine Filter.mem_inf_of_inter (mem_principal_self _) (Filter.preimage_mem_comap ht) ?_
+    rintro w ⟨hwZ, hw, -⟩
+    have := hw.1
+    rwa [hFy.left w hwZ] at this
+  · exact le_rfl
+
+/-- A tamifying topology has the natural neighbourhoods at the points over `reg N`. -/
+theorem IsTamifyingTopology.nhds_eq_of_reg
+    (hregN : SemilocallySimplyConnected ((Sing G X N)ᶜ : Set N)) {T : WrappedTop
+      (MaxBranchedCover (Sing G X N) yN)} (hT : IsTamifyingTopology G X N yN T.top)
+    {r : MaxBranchedCover (Sing G X N) yN} (hr : r.base ∈ Reg G X N) :
+    @nhds _ T.top r = 𝓝 r := by
+  refine le_antisymm (nhds_mono hT.le_natural) fun s hs => ?_
+  obtain ⟨W, hWs, hWo, heW⟩ := (mem_nhds_iff_of T.top).1 hs
+  obtain ⟨V, hV, heV, hVW⟩ := hT.exists_isOpen_subset hregN hWo heW hr
+  exact Filter.mem_of_superset (hV.mem_nhds heV) (hVW.trans hWs)
+
+variable (hregM : SemilocallySimplyConnected ((Sing G X M)ᶜ : Set M))
+  (hregN : SemilocallySimplyConnected ((Sing G X N)ᶜ : Set N)) (hU : IsOpen U) (hV : IsOpen V)
+  (hF : ∀ z : MaxBranchedCover (Sing G X M) y₀, z.base ∈ U →
+      ∃ F', IsChartLift U V φ' z (Fz z z) (Fz z) F')
+  (hφreg : ∀ m ∈ U, φ' m ∈ Reg G X N ↔ m ∈ Reg G X M)
+  (hTN : IsTamifyingTopology G X N yN TN.top)
+include hregM hregN hU hV hF hφreg hTN
+
+theorem nhds_chartTop (y : MaxBranchedCover (Sing G X M) y₀) :
+    @nhds _ (chartTop U Fz TN) y = chartNhds U Fz TN y := by
+  refine nhds_mkOfNhds _ _ (fun z => ?_) (fun z s hs => ?_)
+  · unfold chartNhds
+    split_ifs with hz
+    · exact le_inf ((pure_le_principal _).2 (mem_connectedComponentIn hz))
+        (tendsto_pure_left.2 fun s hs => mem_of_mem_nhds_of TN.top hs).le_comap
+    · exact pure_le_nhds z
+  · by_cases hz : z.base ∈ U
+    · have hs' := hs
+      rw [chartNhds, if_pos hz] at hs'
+      obtain ⟨t₁, ht₁, t₂, ht₂, hsub⟩ := Filter.mem_inf_iff_superset.1 hs'
+      obtain ⟨t, ht, htt₂⟩ := Filter.mem_comap.1 ht₂
+      have e1 : ∀ᶠ w in chartNhds U Fz TN z, w ∈ connectedComponentIn (SpreadEnd.base ⁻¹' U) z := by
+        rw [chartNhds, if_pos hz]; exact Filter.mem_inf_of_left (mem_principal_self _)
+      have e2 : ∀ᶠ w in chartNhds U Fz TN z, t ∈ @nhds _ TN.top (Fz z w) := by
+        rw [chartNhds, if_pos hz]
+        exact Filter.mem_inf_of_right (Filter.preimage_mem_comap
+          ((eventually_mem_nhds_iff_of TN.top).2 ht))
+      filter_upwards [e1, e2] with w hw1 hw2
+      rw [chartNhds_eq hregM hregN hU hF hφreg hTN hz hw1]
+      exact Filter.mem_inf_of_inter (mem_principal_self _) (Filter.preimage_mem_comap hw2)
+        fun x hx => hsub ⟨mem_principal.1 ht₁ hx.1, htt₂ hx.2⟩
+    · rw [chartNhds, if_neg hz] at hs ⊢
+      filter_upwards [eventually_mem_nhds_iff.2 hs] with w hw
+      exact chartNhds_le hregM hregN hU hV hF hTN w hw
+
+/-- The neighbourhoods of `T_{U,V,φ}` at a point of a component `Û`, read through ANY lift of `φ`
+from `Û`. -/
+theorem nhds_chartTop_eq_of_isChartLift {z : MaxBranchedCover (Sing G X M) y₀}
+    (hz : z.base ∈ U) {f : MaxBranchedCover (Sing G X N) yN}
+    {G' : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X N) yN}
+    {G'' : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X M) y₀}
+    (hG : IsChartLift U V φ' z f G' G'') {y : MaxBranchedCover (Sing G X M) y₀}
+    (hy : y ∈ connectedComponentIn (SpreadEnd.base ⁻¹' U) z) :
+    @nhds _ (chartTop U Fz TN) y = 𝓟 (connectedComponentIn (SpreadEnd.base ⁻¹' U) z) ⊓
+      Filter.comap G' (@nhds _ TN.top (G' y)) := by
+  rw [nhds_chartTop hregM hregN hU hV hF hφreg hTN, chartNhds_eq hregM hregN hU hF hφreg hTN hz hy]
+  obtain ⟨hZo, hZ'o, hZ'c, hcl, hne⟩ := maxBranched_cc_facts hregM hU hz
+  obtain ⟨Fz', hFz⟩ := hF z hz
+  obtain ⟨δ, hδ, hEq⟩ := exists_deck_eqOn_of_base_eq hregN hZo inter_subset_left hZ'o hZ'c hcl hne
+    hFz.contF hG.contF (fun w hw => by rw [hFz.base w hw, hG.base w hw]) (fun w hw => by
+      rw [hFz.base w hw.1]
+      exact (hφreg _ (mem_of_mem_connectedComponentIn_preimage hw.1)).2 hw.2)
+  rw [principal_inf_comap_congr hEq, hEq hy, ← comap_deck_nhds_of_isTamifying hTN hδ (Fz z y),
+    Filter.comap_comap]
+  rfl
+
+/-- The image by a lift of a `T_{U,V,φ}`-neighbourhood inside `Û` is a `T_N`-neighbourhood. -/
+theorem image_mem_nhds_of_isChartLift {z : MaxBranchedCover (Sing G X M) y₀}
+    (hz : z.base ∈ U) {f : MaxBranchedCover (Sing G X N) yN}
+    {G' : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X N) yN}
+    {G'' : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X M) y₀}
+    (hG : IsChartLift U V φ' z f G' G'') {y : MaxBranchedCover (Sing G X M) y₀}
+    (hy : y ∈ connectedComponentIn (SpreadEnd.base ⁻¹' U) z) {A : Set (MaxBranchedCover (Sing G X M) y₀)}
+    (hA : A ∈ @nhds _ (chartTop U Fz TN) y) : G' '' A ∈ @nhds _ TN.top (G' y) := by
+  rw [nhds_chartTop_eq_of_isChartLift hregM hregN hU hV hF hφreg hTN hz hG hy] at hA
+  obtain ⟨t₁, ht₁, t₂, ht₂, hsub⟩ := Filter.mem_inf_iff_superset.1 hA
+  obtain ⟨t, ht, htt₂⟩ := Filter.mem_comap.1 ht₂
+  have hS₀ := isSkeletal_sing G X N
+  obtain ⟨-, hβbc, -, -, hβl, -⟩ := maxBranched_basic hS₀ hregN yN
+  haveI := hβl
+  have hVo : IsOpen (connectedComponentIn
+      ((SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) ⁻¹' V) f) :=
+    (hV.preimage hβbc.isSpread.continuous).connectedComponentIn
+  have hVn : connectedComponentIn (SpreadEnd.base ⁻¹' V) f ∈ @nhds _ TN.top (G' y) :=
+    nhds_mono hTN.le_natural (hVo.mem_nhds (hG.mapsTo hy))
+  refine Filter.mem_of_superset (Filter.inter_mem ht hVn) fun v hv => ?_
+  refine ⟨G'' v, hsub ⟨mem_principal.1 ht₁ (hG.mapsTo' hv.2), htt₂ ?_⟩, hG.right v hv.2⟩
+  show G' (G'' v) ∈ t
+  rw [hG.right v hv.2]; exact hv.1
+
+theorem tendsto_chartTop_lift {z y : MaxBranchedCover (Sing G X M) y₀} (hz : z.base ∈ U)
+    (hy : y ∈ connectedComponentIn (SpreadEnd.base ⁻¹' U) z) :
+    Tendsto (Fz z) (@nhds _ (chartTop U Fz TN) y) (@nhds _ TN.top (Fz z y)) := by
+  rw [nhds_chartTop hregM hregN hU hV hF hφreg hTN, chartNhds_eq hregM hregN hU hF hφreg hTN hz hy]
+  exact tendsto_comap.mono_left inf_le_right
+
+theorem continuousOn_chartTop_inv {z : MaxBranchedCover (Sing G X M) y₀} (hz : z.base ∈ U)
+    {F' : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X M) y₀}
+    (hFz : IsChartLift U V φ' z (Fz z z) (Fz z) F') :
+    @ContinuousOn _ _ TN.top (chartTop U Fz TN) F'
+      (connectedComponentIn (SpreadEnd.base ⁻¹' V) (Fz z z)) := by
+  intro v hv
+  show Tendsto F' (@nhdsWithin _ TN.top v _) (@nhds _ (chartTop U Fz TN) (F' v))
+  rw [nhds_chartTop hregM hregN hU hV hF hφreg hTN,
+    chartNhds_eq hregM hregN hU hF hφreg hTN hz (hFz.mapsTo' hv), hFz.right v hv]
+  refine tendsto_inf.2 ⟨tendsto_principal.2 (eventually_nhdsWithin_of_forall_of TN.top
+    fun v' hv' => hFz.mapsTo' hv'), tendsto_comap_iff.2 ?_⟩
+  have h1 : Tendsto (fun v' => v') (@nhdsWithin _ TN.top v
+      (connectedComponentIn (SpreadEnd.base ⁻¹' V) (Fz z z))) (@nhds _ TN.top v) :=
+    nhdsWithin_le_nhds_of TN.top
+  exact h1.congr' (eventually_nhdsWithin_of_forall_of TN.top fun v' hv' => (hFz.right v' hv').symm)
+
+theorem continuousOn_chartTop_lift {z : MaxBranchedCover (Sing G X M) y₀} (hz : z.base ∈ U) :
+    @ContinuousOn _ _ (chartTop U Fz TN) TN.top (Fz z)
+      (connectedComponentIn (SpreadEnd.base ⁻¹' U) z) := fun _ hy =>
+  ((tendsto_chartTop_lift hregM hregN hU hV hF hφreg hTN hz hy).mono_left
+    (nhdsWithin_le_nhds_of (chartTop U Fz TN)))
+
+/-- The topology `T_{U,V,φ}` is a local tamifying topology over `U` (`RamcovGX.tex:2093–2140`,
+the case `ℓ`, `r` isomorphisms): first countable and locally path-connected over `U` (transported
+from `T_N`), natural over `reg(U)` (`T_N` is natural over `reg N`), (A) over `U` (a set whose
+preimage is open has, through the lifts, a `T_N`-open preimage in `\widetilde N`, hence an open
+image in `N` by (A) for `T_N`), (B) over `U` (`g • D_N ∘ F` with `D₀ = g • D_N ∘ F` on the regular
+part, `hstr`), (C) over `U` (a deck transformation of `\widetilde M` is read through the lifts as
+one of `\widetilde N`) and (D) over `U` ((D) for `T_N`, transported). -/
+theorem isLocalTamifying_chartTop
+    (hlift' : ∀ (z : MaxBranchedCover (Sing G X M) y₀) (f : MaxBranchedCover (Sing G X N) yN),
+      z.base ∈ U → f.base = φ' z.base → ∃ G' G'', IsChartLift U V φ' z f G' G'')
+    (hφc : ContinuousOn φ' U) (hφinj : InjOn φ' U)
+    {D₀ : MaxBranchedCover (Sing G X M) y₀ → X} {Dₙ : MaxBranchedCover (Sing G X N) yN → X}
+    (hDₙ : Continuous[TN.top, _] Dₙ)
+    (hstr : ∀ z : MaxBranchedCover (Sing G X M) y₀, z.base ∈ U → ∃ g : G,
+      ∀ w ∈ connectedComponentIn (SpreadEnd.base ⁻¹' U) z ∩ SpreadEnd.base ⁻¹' Reg G X M,
+        D₀ w = g • Dₙ (Fz z w)) :
+    IsLocalTamifying G X M y₀ D₀ U (chartTop U Fz TN) := by
+  have hS₀M := isSkeletal_sing G X M
+  obtain ⟨-, hβM, -, -, hβlM, -⟩ := maxBranched_basic hS₀M hregM y₀
+  have hS₀N := isSkeletal_sing G X N
+  obtain ⟨-, hβN, -, -, hβlN, -⟩ := maxBranched_basic hS₀N hregN yN
+  haveI := hβlM
+  haveI := hβlN
+  have hle : chartTop U Fz TN ≤ weakTopMax G X M y₀ := (le_iff_nhds _ _).2 fun y => by
+    rw [nhds_chartTop hregM hregN hU hV hF hφreg hTN]
+    exact chartNhds_le hregM hregN hU hV hF hTN y
+  have hTopen : ∀ s, IsOpen s → IsOpen[chartTop U Fz TN] s := fun s hs =>
+    TopologicalSpace.le_def.1 hle s hs
+  have hZo : ∀ z : MaxBranchedCover (Sing G X M) y₀, z.base ∈ U →
+      IsOpen (connectedComponentIn (SpreadEnd.base ⁻¹' U) z) := fun z hz =>
+    (maxBranched_cc_facts hregM hU hz).1
+  have hVo : ∀ f : MaxBranchedCover (Sing G X N) yN,
+      IsOpen (connectedComponentIn (SpreadEnd.base ⁻¹' V) f) := fun f =>
+    (hV.preimage hβN.isSpread.continuous).connectedComponentIn
+  refine ⟨hle, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · -- first countable
+    intro e he
+    rw [nhds_chartTop hregM hregN hU hV hF hφreg hTN, chartNhds, if_pos he]
+    haveI := @FirstCountableTopology.nhds_generated_countable _ TN.top hTN.firstCountable (Fz e e)
+    infer_instance
+  · -- locally path-connected
+    intro e he
+    refine Filter.hasBasis_self.2 fun t ht => ?_
+    obtain ⟨F', hFe⟩ := hF e he
+    have heZ := mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' U) he
+    have ht' := ht
+    rw [nhds_chartTop hregM hregN hU hV hF hφreg hTN, chartNhds, if_pos he] at ht'
+    obtain ⟨t₁, ht₁, t₂, ht₂, hsub⟩ := Filter.mem_inf_iff_superset.1 ht'
+    obtain ⟨t', ht', htt₂⟩ := Filter.mem_comap.1 ht₂
+    have hVn : connectedComponentIn (SpreadEnd.base ⁻¹' V) (Fz e e) ∈ @nhds _ TN.top (Fz e e) :=
+      nhds_mono hTN.le_natural ((hVo _).mem_nhds (hFe.mapsTo heZ))
+    obtain ⟨P', ⟨hP'n, hP'c⟩, hP'sub⟩ :=
+      (@path_connected_basis _ TN.top hTN.locPathConnected (Fz e e)).mem_iff.1
+        (Filter.inter_mem ht' hVn)
+    refine ⟨F' '' P', ?_, isPathConnected_image_of TN.top (chartTop U Fz TN) hP'c
+      (continuousOn_mono_of TN.top (chartTop U Fz TN)
+        (continuousOn_chartTop_inv hregM hregN hU hV hF hφreg hTN he hFe)
+        fun v hv => (hP'sub hv).2), ?_⟩
+    · rw [nhds_chartTop hregM hregN hU hV hF hφreg hTN, chartNhds, if_pos he]
+      exact Filter.mem_inf_of_inter (mem_principal_self _) (Filter.preimage_mem_comap hP'n)
+        fun w hw => ⟨Fz e w, hw.2, hFe.left w hw.1⟩
+    · rintro _ ⟨v, hv, rfl⟩
+      refine hsub ⟨mem_principal.1 ht₁ (hFe.mapsTo' (hP'sub hv).2), htt₂ ?_⟩
+      show Fz e (F' v) ∈ t'
+      rw [hFe.right v (hP'sub hv).2]; exact (hP'sub hv).1
+  · -- natural over `reg`
+    intro e he hreg
+    obtain ⟨F', hFe⟩ := hF e he
+    have heZ := mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' U) he
+    rw [nhds_chartTop hregM hregN hU hV hF hφreg hTN]
+    refine le_antisymm (chartNhds_le hregM hregN hU hV hF hTN e) ?_
+    rw [chartNhds, if_pos he]
+    refine le_inf (le_principal_iff.2 ((hZo e he).mem_nhds heZ)) ?_
+    have hc := hFe.contF.continuousAt ((hZo e he).mem_nhds heZ)
+    have hr : (Fz e e).base ∈ Reg G X N := by
+      rw [hFe.base e heZ]; exact (hφreg _ he).2 hreg
+    have hc' : Tendsto (Fz e) (𝓝 e) (@nhds _ TN.top (Fz e e)) := by
+      rw [IsTamifyingTopology.nhds_eq_of_reg hregN hTN hr]; exact hc
+    exact hc'.le_comap
+  · -- (A)
+    intro O hO
+    set Y : Set N := φ' '' (O ∩ U) with hYdef
+    have hYq : IsOpen[TN.top] ((SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) ⁻¹' Y) := by
+      refine (isOpen_iff_mem_nhds_of TN.top).2 fun v hv => ?_
+      obtain ⟨u, ⟨huO, huU⟩, hvu⟩ := hv
+      obtain ⟨z, hz⟩ := hβM.surjective u
+      have hzU : z.base ∈ U := hz ▸ huU
+      obtain ⟨G', G'', hG⟩ := hlift' z v hzU (by rw [hz]; exact hvu.symm)
+      have hzZ := mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' U) hzU
+      have hA : connectedComponentIn (SpreadEnd.base ⁻¹' U) z ∩
+          ((SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) ⁻¹' O ∩ SpreadEnd.base ⁻¹' U) ∈
+            @nhds _ (chartTop U Fz TN) z :=
+        @IsOpen.mem_nhds _ (chartTop U Fz TN) _ _ (@IsOpen.inter _ (chartTop U Fz TN) _ _
+          (hTopen _ (hZo z hzU)) hO) ⟨hzZ, show z.base ∈ O from hz ▸ huO, hzU⟩
+      have himg := image_mem_nhds_of_isChartLift hregM hregN hU hV hF hφreg hTN hzU hG hzZ hA
+      rw [hG.apply_self] at himg
+      refine Filter.mem_of_superset himg ?_
+      rintro _ ⟨w, ⟨hwZ, hwO, hwU⟩, rfl⟩
+      exact ⟨w.base, ⟨hwO, hwU⟩, (hG.base w hwZ).symm⟩
+    have hY : IsOpen Y := by
+      have h : IsOpen[TopologicalSpace.coinduced SpreadEnd.base TN.top] Y := isOpen_coinduced.2 hYq
+      rwa [hTN.coinduced_eq] at h
+    have hOU : O ∩ U = U ∩ φ' ⁻¹' Y := by
+      ext m
+      constructor
+      · rintro ⟨hmO, hmU⟩; exact ⟨hmU, m, ⟨hmO, hmU⟩, rfl⟩
+      · rintro ⟨hmU, m', hm', heq⟩
+        exact ⟨hφinj hm'.2 hmU heq ▸ hm'.1, hmU⟩
+    rw [hOU]; exact hφc.isOpen_inter_preimage hU hY
+  · -- (B)
+    intro e he
+    obtain ⟨g, hg⟩ := hstr e he
+    refine ⟨connectedComponentIn (SpreadEnd.base ⁻¹' U) e, hTopen _ (hZo e he),
+      mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' U) he, fun w => g • Dₙ (Fz e w), ?_,
+      fun w hw => (hg w hw).symm⟩
+    intro y hy
+    exact (((@Continuous.tendsto _ _ TN.top _ Dₙ hDₙ (Fz e y)).comp
+      (tendsto_chartTop_lift hregM hregN hU hV hF hφreg hTN he hy)).const_smul g).mono_left
+      (nhdsWithin_le_nhds_of (chartTop U Fz TN))
+  · -- (C)
+    rintro f ⟨γ, hγ, rfl⟩ e he
+    have hγb : ∀ w, (γ w).base = w.base := deck_apply _ hγ
+    have hγe : (γ e).base ∈ U := by rw [hγb]; exact he
+    have hmap : ∀ (γ' : MaxBranchedCover (Sing G X M) y₀ ≃ₜ MaxBranchedCover (Sing G X M) y₀),
+        (∀ w, (γ' w).base = w.base) → ∀ a : MaxBranchedCover (Sing G X M) y₀, a.base ∈ U →
+        MapsTo γ' (connectedComponentIn (SpreadEnd.base ⁻¹' U) a)
+          (connectedComponentIn (SpreadEnd.base ⁻¹' U) (γ' a)) := by
+      intro γ' hγ' a ha
+      refine image_subset_iff.1 ((isPreconnected_connectedComponentIn.image _
+        γ'.continuous.continuousOn).subset_connectedComponentIn
+          ⟨a, mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' U) ha, rfl⟩ ?_)
+      rintro _ ⟨w, hw, rfl⟩
+      show (γ' w).base ∈ U
+      rw [hγ']; exact mem_of_mem_connectedComponentIn_preimage hw
+    have hγsb : ∀ w, (γ.symm w).base = w.base := fun w => by
+      rw [← hγb (γ.symm w), Homeomorph.apply_symm_apply]
+    obtain ⟨F₂', hF₂⟩ := hF (γ e) hγe
+    have hG : IsChartLift U V φ' e (Fz (γ e) (γ e)) (fun w => Fz (γ e) (γ w))
+        (fun v => γ.symm (F₂' v)) := by
+      refine ⟨rfl, fun w hw => hF₂.mapsTo (hmap γ hγb e he hw), fun v hv => ?_, fun w hw => ?_,
+        fun v hv => ?_, hF₂.contF.comp γ.continuous.continuousOn (hmap γ hγb e he),
+        γ.symm.continuous.comp_continuousOn hF₂.contF', fun w hw => ?_⟩
+      · have := hmap γ.symm hγsb (γ e) hγe (hF₂.mapsTo' hv)
+        rwa [Homeomorph.symm_apply_apply] at this
+      · show γ.symm (F₂' (Fz (γ e) (γ w))) = w
+        rw [hF₂.left _ (hmap γ hγb e he hw), Homeomorph.symm_apply_apply]
+      · show Fz (γ e) (γ (γ.symm (F₂' v))) = v
+        rw [Homeomorph.apply_symm_apply, hF₂.right v hv]
+      · show (Fz (γ e) (γ w)).base = φ' w.base
+        rw [hF₂.base _ (hmap γ hγb e he hw), hγb]
+    show Tendsto γ (@nhds _ (chartTop U Fz TN) e) (@nhds _ (chartTop U Fz TN) (γ e))
+    rw [nhds_chartTop_eq_of_isChartLift hregM hregN hU hV hF hφreg hTN he hG
+      (mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' U) he),
+      nhds_chartTop hregM hregN hU hV hF hφreg hTN,
+      chartNhds_eq hregM hregN hU hF hφreg hTN hγe
+        (mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' U) hγe)]
+    refine tendsto_inf.2 ⟨tendsto_principal.2 (Filter.mem_of_superset
+      (Filter.mem_inf_of_left (mem_principal_self _)) fun w hw => hmap γ hγb e he hw),
+      tendsto_comap_iff.2 (tendsto_comap.mono_left inf_le_right)⟩
+  · -- (D)
+    have hpre : (Subtype.val : (SpreadEnd.base ⁻¹' U : Set (MaxBranchedCover (Sing G X M) y₀)) →
+        MaxBranchedCover (Sing G X M) y₀) ⁻¹' (SpreadEnd.base ⁻¹' Reg G X M) =
+        Subtype.val ⁻¹' (SpreadEnd.base ⁻¹' Reg G X M ∩ SpreadEnd.base ⁻¹' U) := by
+      ext z; exact ⟨fun h => ⟨h, z.2⟩, fun h => h.1⟩
+    rw [hpre]
+    have hOU : IsOpen[chartTop U Fz TN]
+        ((SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) ⁻¹' U) :=
+      hTopen _ (hU.preimage hβM.isSpread.continuous)
+    refine (@isPortly_subtype_iff _ (chartTop U Fz TN) _ _ hOU inter_subset_right).2
+      ⟨hTopen _ (((isOpen_reg G X M).preimage hβM.isSpread.continuous).inter
+        (hU.preimage hβM.isSpread.continuous)), fun y hy => ?_, fun W hWo hWU hWc => ?_⟩
+    · obtain ⟨F', hFy⟩ := hF y hy
+      have hyZ := mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' U) hy
+      refine (mem_closure_iff_nhds_of (chartTop U Fz TN)).2 fun t ht => ?_
+      rw [nhds_chartTop hregM hregN hU hV hF hφreg hTN, chartNhds,
+        if_pos (show y.base ∈ U from hy)] at ht
+      obtain ⟨t₁, ht₁, t₂, ht₂, hsub⟩ := Filter.mem_inf_iff_superset.1 ht
+      obtain ⟨t', ht', htt₂⟩ := Filter.mem_comap.1 ht₂
+      have hVn : connectedComponentIn (SpreadEnd.base ⁻¹' V) (Fz y y) ∈
+          @nhds _ TN.top (Fz y y) :=
+        nhds_mono hTN.le_natural ((hVo _).mem_nhds (hFy.mapsTo hyZ))
+      have hd := mem_closure_of_dense_of TN.top (@IsPortly.dense _ TN.top _ hTN.isPortly) (Fz y y)
+      rw [mem_closure_iff_nhds_of TN.top] at hd
+      obtain ⟨v, ⟨hvt', hvV⟩, hvR⟩ := hd _ (Filter.inter_mem ht' hVn)
+      have hFv := hFy.mapsTo' hvV
+      refine ⟨F' v, hsub ⟨mem_principal.1 ht₁ hFv, htt₂ ?_⟩, ?_,
+        mem_of_mem_connectedComponentIn_preimage (p := SpreadEnd.base) hFv⟩
+      · show Fz y (F' v) ∈ t'
+        rw [hFy.right v hvV]; exact hvt'
+      · show (F' v).base ∈ Reg G X M
+        refine (hφreg _ (mem_of_mem_connectedComponentIn_preimage (p := SpreadEnd.base) hFv)).1 ?_
+        rw [← hFy.base _ hFv, hFy.right v hvV]; exact hvR
+    · rcases W.eq_empty_or_nonempty with rfl | ⟨w₀, hw₀⟩
+      · rw [empty_inter]; exact isPreconnected_empty_of (chartTop U Fz TN)
+      have hw₀U : w₀.base ∈ U := hWU hw₀
+      have hWc' : IsPreconnected W := by
+        have := isPreconnected_image_of (chartTop U Fz TN) (weakTopMax G X M y₀) hWc
+          (continuousOn_of_continuous_of _ _ (continuous_id_of_le hle) W)
+        rwa [image_id] at this
+      have hWZ : W ⊆ connectedComponentIn (SpreadEnd.base ⁻¹' U) w₀ :=
+        hWc'.subset_connectedComponentIn hw₀ hWU
+      obtain ⟨F', hFw⟩ := hF w₀ hw₀U
+      have hFW : IsOpen[TN.top] (Fz w₀ '' W) := by
+        refine (isOpen_iff_mem_nhds_of TN.top).2 ?_
+        rintro _ ⟨w, hw, rfl⟩
+        exact image_mem_nhds_of_isChartLift hregM hregN hU hV hF hφreg hTN hw₀U hFw (hWZ hw)
+          (@IsOpen.mem_nhds _ (chartTop U Fz TN) _ _ hWo hw)
+      have hFWc : @IsPreconnected _ TN.top (Fz w₀ '' W) :=
+        isPreconnected_image_of (chartTop U Fz TN) TN.top hWc
+          (continuousOn_mono_of (chartTop U Fz TN) TN.top
+            (continuousOn_chartTop_lift hregM hregN hU hV hF hφreg hTN hw₀U) hWZ)
+      have h1 := isPreconnected_inter_of_isPortly_of TN.top hTN.isPortly hFW hFWc
+      have h2 := isPreconnected_image_of TN.top (chartTop U Fz TN) h1
+        (continuousOn_mono_of TN.top (chartTop U Fz TN)
+          (continuousOn_chartTop_inv hregM hregN hU hV hF hφreg hTN hw₀U hFw)
+          (by rintro _ ⟨⟨w, hw, rfl⟩, -⟩; exact hFw.mapsTo (hWZ hw)))
+      have heq : F' '' (Fz w₀ '' W ∩ SpreadEnd.base ⁻¹' Reg G X N) =
+          W ∩ (SpreadEnd.base ⁻¹' Reg G X M ∩ SpreadEnd.base ⁻¹' U) := by
+        ext w
+        constructor
+        · rintro ⟨_, ⟨⟨w', hw', rfl⟩, hreg⟩, rfl⟩
+          rw [hFw.left w' (hWZ hw')]
+          refine ⟨hw', ?_, hWU hw'⟩
+          refine (hφreg _ (hWU hw')).1 ?_
+          rw [← hFw.base w' (hWZ hw')]; exact hreg
+        · rintro ⟨hw, hreg, -⟩
+          refine ⟨Fz w₀ w, ⟨⟨w, hw, rfl⟩, ?_⟩, hFw.left w (hWZ hw)⟩
+          show (Fz w₀ w).base ∈ Reg G X N
+          rw [hFw.base w (hWZ hw)]; exact (hφreg _ (hWU hw)).2 hreg
+      rw [← heq]; exact h2
+
+end ChartTop
+
+section ChartStructure
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  {M : Type v} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
+  [FirstCountableTopology M] [ConnectedSpace M] [SingularGXStructure G X M]
+  {N : Type u} [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
+  [FirstCountableTopology N] [ConnectedSpace N] [SingularGXStructure G X N]
+
+/-- `p : \widetilde M → M` induces a `(G,X)`-morphism on `p⁻¹(reg M)` (for `p^*B`). -/
+theorem isRegularOn_base_maxBranched (hregM : SemilocallySimplyConnected ((Sing G X M)ᶜ : Set M))
+    (y₀ : ((Sing G X M)ᶜ : Set M)) :
+    IsGXAtlas G (aePullback G (aeAtlas G X M)
+      (SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M)) ∧
+    IsRegularOn G (aePullback G (aeAtlas G X M)
+      (SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M)) (aeAtlas G X M) SpreadEnd.base
+      (SpreadEnd.base ⁻¹' Reg G X M) := by
+  set B := aeAtlas G X M
+  have hBm : IsMaximalAEAtlas G B := isMaximalAEAtlas_aeAtlas G X M
+  have hS₀ : IsSkeletal (Sing G X M) := isSkeletal_sing G X M
+  obtain ⟨-, hβbc, hβS, -, hβl, -⟩ := maxBranched_basic hS₀ hregM y₀
+  haveI := hβl
+  have hAt := aePullback_spec_of_isAELocalHomeomorph hBm.1 hβbc.isSpread.continuous
+    (hβbc.isAELocalHomeomorph hBm.1)
+  have hRo : IsOpen ((SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) ⁻¹' Reg G X M) :=
+    (isOpen_reg G X M).preimage hβbc.isSpread.continuous
+  have hordβ : Reg G X M ⊆ ordY (SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) :=
+    fun y hy => by by_contra hn; exact (hβS hn) hy
+  have hRsupp : (SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) ⁻¹' Reg G X M ⊆
+      support (aePullback G B (SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M)) :=
+    fun w hw => hAt.2.mem_support_of_isLocalHomeomorphOn' hAt.1 hBm.1 hw
+      (hβbc.ordX_subset_isLocalHomeomorphOn (hordβ hw))
+  have hregβ := hAt.2.regLocusOf_eq hAt.1.1 hBm.1
+  exact ⟨hAt.1.1.1, (isRegularOn_regLocusOf (G := G) _ B
+    (SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M)).mono
+    (fun w hw => by rw [hregβ]; exact ⟨hRsupp hw, hw⟩) hRo⟩
+
+/-- A map inducing a `(G,X)`-morphism on `p⁻¹(reg N)` is, near each point of it, a translate of a
+chart of `N` read through `p`. -/
+theorem IsRegDevelopingOnReg.eventually_eq_smul_chart
+    (hregN : SemilocallySimplyConnected ((Sing G X N)ᶜ : Set N)) {yN : ((Sing G X N)ᶜ : Set N)}
+    {D : MaxBranchedCover (Sing G X N) yN → X} (hD : IsRegDevelopingOnReg G X N yN D)
+    {v : MaxBranchedCover (Sing G X N) yN} (hv : v.base ∈ Reg G X N) :
+    ∃ c ∈ aeAtlas G X N, v.base ∈ c.source ∧ ∃ h : G, ∀ᶠ v' in 𝓝 v, D v' = h • c v'.base := by
+  obtain ⟨-, hβR⟩ := isRegularOn_base_maxBranched hregN yN
+  obtain ⟨e, he, hve⟩ := mem_support.1 (hβR.subset_support hv)
+  obtain ⟨c, hc, hvc⟩ := mem_support.1 hv
+  obtain ⟨a, ha⟩ := hβR.exists_smul_eq v hv e he c hc hve hvc
+  obtain ⟨b, hb⟩ := hD.eventually_eq_smul_model hv he hve
+  refine ⟨c, hc, hvc, b * a⁻¹, ?_⟩
+  filter_upwards [ha, hb] with y h1 h2
+  rw [h2, mul_smul, h1, inv_smul_smul]
+
+/-- An isomorphism `φ : U → V` of open subsets is, near a regular point of `U`, a translate of
+charts of `M` and `N` (`φ` induces a `(G,X)`-morphism on `reg U`). -/
+theorem eventually_chartExt_eq_smul {U : Opens M} {V : Opens N} {φ : U ≃ₜ V}
+    (hφ : IsAEMorphism G X (φ : U → V)) {u : U} (hu : (u : M) ∈ Reg G X M)
+    {c : OpenPartialHomeomorph N X} (hc : c ∈ aeAtlas G X N) (huc : (φ u : N) ∈ c.source) :
+    ∃ c' ∈ aeAtlas G X M, (u : M) ∈ c'.source ∧ ∃ g : G,
+      ∀ᶠ m in 𝓝 (u : M), c (chartExt φ m) = g • c' m := by
+  have hpre := (IsAEMorphism.preimage_reg_sing hφ φ.isLocalHomeomorph).1
+  have huU : u ∈ Reg G X U := by rw [reg_opensSingular U]; exact hu
+  have huV : φ u ∈ Reg G X V := by
+    have : u ∈ (φ : U → V) ⁻¹' Reg G X V := by rw [hpre]; exact huU
+    exact this
+  have huV' : (φ u : N) ∈ Reg G X N := by
+    have := huV; rw [reg_opensSingular V] at this; exact this
+  -- `φ` regular at `u`
+  have hrφ := hφ.regLocusOf_eq (isMaximalAEAtlas_aeAtlas G X U).1
+    (isMaximalAEAtlas_aeAtlas G X V).1
+  have hRφ := isRegularOn_regLocusOf (G := G) (aeAtlas G X U) (aeAtlas G X V) (φ : U → V)
+  have huR : u ∈ regLocusOf G (aeAtlas G X U) (aeAtlas G X V) (φ : U → V) := by
+    rw [hrφ]; exact ⟨huU, huV⟩
+  obtain ⟨eU, heU, hueU⟩ := mem_support.1 huU
+  obtain ⟨eV, heV, hueV⟩ := mem_support.1 huV
+  obtain ⟨g, hg⟩ := hRφ.exists_smul_eq u huR eU heU eV heV hueU hueV
+  -- the inclusions
+  have hvalV := (isAEMorphism_opensSingular_val (G := G) (X := X) V)
+  have hrV := hvalV.regLocusOf_eq (isMaximalAEAtlas_aeAtlas G X V).1
+    (isMaximalAEAtlas_aeAtlas G X N).1
+  have hRV := isRegularOn_regLocusOf (G := G) (aeAtlas G X V) (aeAtlas G X N)
+    (Subtype.val : V → N)
+  obtain ⟨a, ha⟩ := hRV.exists_smul_eq (φ u) (by rw [hrV]; exact ⟨huV, huV'⟩) eV heV c hc hueV huc
+  have hvalU := (isAEMorphism_opensSingular_val (G := G) (X := X) U)
+  have hrU := hvalU.regLocusOf_eq (isMaximalAEAtlas_aeAtlas G X U).1
+    (isMaximalAEAtlas_aeAtlas G X M).1
+  have hRU := isRegularOn_regLocusOf (G := G) (aeAtlas G X U) (aeAtlas G X M)
+    (Subtype.val : U → M)
+  obtain ⟨c', hc', huc'⟩ := mem_support.1 hu
+  obtain ⟨b, hb⟩ := hRU.exists_smul_eq u (by rw [hrU]; exact ⟨huU, hu⟩) eU heU c' hc' hueU huc'
+  refine ⟨c', hc', huc', a * g * b⁻¹, ?_⟩
+  rw [← U.isOpen.isOpenEmbedding_subtypeVal.map_nhds_eq u, Filter.eventually_map]
+  filter_upwards [hg, hb, φ.continuous.continuousAt.eventually ha] with y h1 h2 h3
+  rw [chartExt_apply φ y.2]
+  show c (φ y : N) = (a * g * b⁻¹) • c' (y : M)
+  rw [h3, h1, h2, mul_smul, mul_smul, inv_smul_smul, ← mul_smul]
+
+/-- The descent step of (B) (`RamcovGX.tex:2124–2128`): through a lift `F` of `φ` from a component
+`Û` of `p⁻¹(U)`, `D_N ∘ F` is a developing map of `reg(Û)`, so it differs from the developing map
+`D₀` of `reg(\widetilde M)` by one `g ∈ G` on the connected `reg(Û)`. -/
+theorem exists_smul_eq_of_isChartLift (hregM : SemilocallySimplyConnected ((Sing G X M)ᶜ : Set M))
+    (hregN : SemilocallySimplyConnected ((Sing G X N)ᶜ : Set N)) {U : Opens M} {V : Opens N}
+    {φ : U ≃ₜ V} (hφ : IsAEMorphism G X (φ : U → V)) {y₀ : ((Sing G X M)ᶜ : Set M)}
+    {yN : ((Sing G X N)ᶜ : Set N)} {D₀ : MaxBranchedCover (Sing G X M) y₀ → X}
+    (hD₀ : IsRegDevelopingOnReg G X M y₀ D₀) {Dₙ : MaxBranchedCover (Sing G X N) yN → X}
+    (hDₙ : IsRegDevelopingOnReg G X N yN Dₙ) {z : MaxBranchedCover (Sing G X M) y₀}
+    (hz : z.base ∈ U) {f : MaxBranchedCover (Sing G X N) yN}
+    {F : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X N) yN}
+    {F' : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X M) y₀}
+    (hF : IsChartLift (U : Set M) (V : Set N) (chartExt φ) z f F F') :
+    ∃ g : G, ∀ w ∈ connectedComponentIn (SpreadEnd.base ⁻¹' (U : Set M)) z ∩
+      SpreadEnd.base ⁻¹' Reg G X M, D₀ w = g • Dₙ (F w) := by
+  obtain ⟨hZo, hZ'o, hZ'c, -, -⟩ := maxBranched_cc_facts hregM U.isOpen hz
+  obtain ⟨hA, hβR⟩ := isRegularOn_base_maxBranched hregM y₀
+  have hreg : IsRegularOn G (aePullback G (aeAtlas G X M)
+      (SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M)) (gxModelAtlas G X)
+      (fun w => Dₙ (F w)) (connectedComponentIn (SpreadEnd.base ⁻¹' (U : Set M)) z ∩
+        SpreadEnd.base ⁻¹' Reg G X M) := by
+    refine isRegularOn_model_of_eventually_comp hA (hβR.mono inter_subset_right hZ'o)
+      fun w hw => ?_
+    have hwU : w.base ∈ U := mem_of_mem_connectedComponentIn_preimage hw.1
+    have hFw : (F w).base ∈ Reg G X N := by
+      rw [hF.base w hw.1]; exact (chartExt_mem_reg_iff hφ hwU).2 hw.2
+    obtain ⟨c, hc, hFc, h, hh⟩ := hDₙ.eventually_eq_smul_chart hregN hFw
+    have hφu : (φ ⟨w.base, hwU⟩ : N) ∈ c.source := by
+      rw [← chartExt_apply φ hwU, ← hF.base w hw.1]; exact hFc
+    obtain ⟨c', hc', hwc', g, hg⟩ := eventually_chartExt_eq_smul hφ (u := ⟨w.base, hwU⟩) hw.2 hc hφu
+    refine ⟨c', hc', hwc', h * g, ?_⟩
+    have hcF := hF.contF.continuousAt (hZo.mem_nhds hw.1)
+    have hcb : Tendsto (SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) (𝓝 w)
+        (𝓝 w.base) := SpreadEnd.continuous_base.continuousAt
+    filter_upwards [hcF.eventually hh, hcb.eventually hg, hZo.mem_nhds hw.1] with y h1 h2 h3
+    show Dₙ (F y) = (h * g) • c' y.base
+    rw [h1, hF.base y h3, h2, mul_smul]
+  obtain ⟨g, hg⟩ := exists_smul_eq_on_of_isRegularOn hZ'c hreg
+    (hD₀.mono inter_subset_right hZ'o)
+  exact ⟨g, hg⟩
+
+end ChartStructure
+
+section ChartNat
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  {M : Type v} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
+  [FirstCountableTopology M] [ConnectedSpace M] [SingularGXStructure G X M]
+  {N : Type u} [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
+  [FirstCountableTopology N] [ConnectedSpace N] [SingularGXStructure G X N]
+  {y₀ : ((Sing G X M)ᶜ : Set M)} {yN : ((Sing G X N)ᶜ : Set N)}
+
+/-- Naturality of `T_{U,V,φ}` (`RamcovGX.tex:2104–2107`, and the restriction the gluing l.2101
+uses): two lifted charts which, on an open `W` inside both domains, differ by an automorphism `ψ`
+of the model (`ψ ∘ φ₁ = φ₂` on `W`) give comparable neighbourhoods at the points over `W` (equal,
+`ψ⁻¹` giving the converse). Through the lift `Ψ` of `ψ` to `\widetilde N`
+(`exists_lift_singularAut`), `T_N`-continuous by hypothesis, the two lifts differ on each
+component of `p⁻¹(W)` by `δ ∘ Ψ`, `δ ∈ Γ(\widetilde N/N)`. -/
+theorem nhds_chartTop_le_of_aut (hregM : SemilocallySimplyConnected ((Sing G X M)ᶜ : Set M))
+    (hregN : SemilocallySimplyConnected ((Sing G X N)ᶜ : Set N))
+    {U₁ U₂ : Set M} {V₁ V₂ : Set N} {φ₁ φ₂ : M → N}
+    {Fz₁ Fz₂ : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X M) y₀ →
+      MaxBranchedCover (Sing G X N) yN}
+    {TN : WrappedTop (MaxBranchedCover (Sing G X N) yN)}
+    (hU₁ : IsOpen U₁) (hV₁ : IsOpen V₁)
+    (hF₁ : ∀ z : MaxBranchedCover (Sing G X M) y₀, z.base ∈ U₁ →
+      ∃ F', IsChartLift U₁ V₁ φ₁ z (Fz₁ z z) (Fz₁ z) F')
+    (hφreg₁ : ∀ m ∈ U₁, φ₁ m ∈ Reg G X N ↔ m ∈ Reg G X M)
+    (hU₂ : IsOpen U₂) (hV₂ : IsOpen V₂)
+    (hF₂ : ∀ z : MaxBranchedCover (Sing G X M) y₀, z.base ∈ U₂ →
+      ∃ F', IsChartLift U₂ V₂ φ₂ z (Fz₂ z z) (Fz₂ z) F')
+    (hφreg₂ : ∀ m ∈ U₂, φ₂ m ∈ Reg G X N ↔ m ∈ Reg G X M)
+    (hTN : IsTamifyingTopology G X N yN TN.top)
+    (hAut : ∀ f ∈ aeAutMapsMax G X N yN, Continuous[TN.top, TN.top] f)
+    {W : Set M} (hWo : IsOpen W) (hW₁ : W ⊆ U₁) (hW₂ : W ⊆ U₂) {ψ : N ≃ₜ N}
+    (hψ : ψ ∈ singularAut G X N) (hψφ : ∀ m ∈ W, ψ (φ₁ m) = φ₂ m)
+    {e : MaxBranchedCover (Sing G X M) y₀} (he : e.base ∈ W) :
+    @nhds _ (chartTop U₁ Fz₁ TN) e ≤ @nhds _ (chartTop U₂ Fz₂ TN) e := by
+  obtain ⟨Ψ, hΨb, hΨ⟩ := exists_lift_singularAut hregN yN hψ
+  have hΨc : Continuous[TN.top, TN.top] Ψ := hAut _ ⟨Ψ, rfl, hΨ⟩
+  obtain ⟨hZwo, hZw'o, hZw'c, hcl, hne⟩ := maxBranched_cc_facts hregM hWo he
+  have hZw₁ : connectedComponentIn ((SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) ⁻¹' W) e ⊆
+      connectedComponentIn (SpreadEnd.base ⁻¹' U₁) e :=
+    connectedComponentIn_mono _ (preimage_mono hW₁)
+  have hZw₂ : connectedComponentIn ((SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) ⁻¹' W) e ⊆
+      connectedComponentIn (SpreadEnd.base ⁻¹' U₂) e :=
+    connectedComponentIn_mono _ (preimage_mono hW₂)
+  obtain ⟨F₁', hF₁e⟩ := hF₁ e (hW₁ he)
+  obtain ⟨F₂', hF₂e⟩ := hF₂ e (hW₂ he)
+  obtain ⟨δ, hδ, hEq⟩ := exists_deck_eqOn_of_base_eq hregN hZwo inter_subset_left hZw'o hZw'c hcl hne
+    (F₁ := fun y => Ψ (Fz₁ e y)) (F₂ := Fz₂ e)
+    (Ψ.continuous.comp_continuousOn (hF₁e.contF.mono hZw₁)) (hF₂e.contF.mono hZw₂)
+    (fun y hy => by
+      show (Ψ (Fz₁ e y)).base = (Fz₂ e y).base
+      rw [hΨb, hF₁e.base y (hZw₁ hy), hF₂e.base y (hZw₂ hy),
+        hψφ _ (mem_of_mem_connectedComponentIn_preimage hy)])
+    (fun y hy => by
+      show (Ψ (Fz₁ e y)).base ∈ Reg G X N
+      have hyW : y.base ∈ W := mem_of_mem_connectedComponentIn_preimage hy.1
+      rw [hΨb, hF₁e.base y (hZw₁ hy.1), hψφ _ hyW]
+      exact (hφreg₂ _ (hW₂ hyW)).2 hy.2)
+  have hκ : Continuous[TN.top, TN.top] (fun v => δ (Ψ v)) :=
+    continuous_comp_of TN.top TN.top TN.top (continuous_deck_of_isTamifying hTN hδ) hΨc
+  have hZwmem : connectedComponentIn ((SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) ⁻¹' W) e ∈
+      chartNhds U₁ Fz₁ TN e :=
+    chartNhds_le hregM hregN hU₁ hV₁ hF₁ hTN e (hZwo.mem_nhds (mem_connectedComponentIn he))
+  rw [nhds_chartTop hregM hregN hU₁ hV₁ hF₁ hφreg₁ hTN, nhds_chartTop hregM hregN hU₂ hV₂ hF₂ hφreg₂ hTN]
+  have hZwmem' := hZwmem
+  rw [chartNhds, if_pos (hW₁ he)] at hZwmem'
+  rw [chartNhds, chartNhds, if_pos (hW₁ he), if_pos (hW₂ he)]
+  calc 𝓟 (connectedComponentIn (SpreadEnd.base ⁻¹' U₁) e) ⊓
+        Filter.comap (Fz₁ e) (@nhds _ TN.top (Fz₁ e e))
+      = 𝓟 (connectedComponentIn ((SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) ⁻¹' W) e) ⊓
+        (𝓟 (connectedComponentIn (SpreadEnd.base ⁻¹' U₁) e) ⊓
+          Filter.comap (Fz₁ e) (@nhds _ TN.top (Fz₁ e e))) :=
+        (inf_eq_right.2 (le_principal_iff.2 hZwmem')).symm
+    _ ≤ 𝓟 (connectedComponentIn ((SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) ⁻¹' W) e) ⊓
+        Filter.comap (Fz₁ e) (Filter.comap (fun v => δ (Ψ v))
+          (@nhds _ TN.top (δ (Ψ (Fz₁ e e))))) :=
+        inf_le_inf_left _ (inf_le_right.trans (Filter.comap_mono
+          (@Continuous.tendsto _ _ TN.top TN.top _ hκ (Fz₁ e e)).le_comap))
+    _ = 𝓟 (connectedComponentIn ((SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) ⁻¹' W) e) ⊓
+        Filter.comap (Fz₂ e) (@nhds _ TN.top (Fz₂ e e)) := by
+        rw [Filter.comap_comap, hEq (mem_connectedComponentIn he)]
+        exact (principal_inf_comap_congr hEq _).symm
+    _ ≤ 𝓟 (connectedComponentIn (SpreadEnd.base ⁻¹' U₂) e) ⊓
+        Filter.comap (Fz₂ e) (@nhds _ TN.top (Fz₂ e e)) :=
+        inf_le_inf_right _ (principal_mono.2 hZw₂)
+
+end ChartNat
+
+section NatReg
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  {M : Type v} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
+  [FirstCountableTopology M] [ConnectedSpace M] [SingularGXStructure G X M]
+
+/-- Over `reg(M)` the natural topology of `\widetilde M` is a local tamifying topology. -/
+theorem isLocalTamifying_natural_reg (hregM : SemilocallySimplyConnected ((Sing G X M)ᶜ : Set M))
+    {y₀ : ((Sing G X M)ᶜ : Set M)} {D₀ : MaxBranchedCover (Sing G X M) y₀ → X}
+    (hD₀ : IsRegDevelopingOnReg G X M y₀ D₀) :
+    IsLocalTamifying G X M y₀ D₀ (Reg G X M) (weakTopMax G X M y₀) := by
+  have hS₀ := isSkeletal_sing G X M
+  obtain ⟨-, hβbc, -, -, hβl, -⟩ := maxBranched_basic hS₀ hregM y₀
+  haveI := hβl
+  haveI := (maxBranched_instances hS₀ hregM y₀).2.1
+  have hRo : IsOpen ((SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) ⁻¹' Reg G X M) :=
+    (isOpen_reg G X M).preimage hβbc.isSpread.continuous
+  refine ⟨le_rfl, fun e _ => FirstCountableTopology.nhds_generated_countable e,
+    fun e _ => path_connected_basis e, fun e _ _ => rfl, fun O hO => ?_,
+    fun e he => ⟨_, hRo, he, D₀, hD₀.continuousOn, fun _ _ => rfl⟩,
+    fun f hf e _ => ?_, ?_⟩
+  · have h := (spread_connected_image hβbc).1 _ hO
+    rwa [← preimage_inter, image_preimage_eq _ hβbc.surjective] at h
+  · obtain ⟨γ, -, rfl⟩ := hf
+    exact γ.continuous.continuousAt
+  · show IsPortly ((Subtype.val : (SpreadEnd.base ⁻¹' Reg G X M : Set _) → _) ⁻¹'
+      (SpreadEnd.base ⁻¹' Reg G X M))
+    rw [Subtype.coe_preimage_self]
+    exact isPortly_univ
+
+end NatReg
+
+
+
+section LiftWitness
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  {N : Type u} [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
+  [FirstCountableTopology N] [ConnectedSpace N] [SingularGXStructure G X N]
+
+/-- A self-map of `\widetilde N` over `N` is, on the whole space, an element of
+`Γ(\widetilde N/N)` (uniqueness over the connected dense regular part). -/
+theorem exists_deck_eq_of_base_eq_maxBranched
+    (hregN : SemilocallySimplyConnected ((Sing G X N)ᶜ : Set N)) {y₁ y₂ : ((Sing G X N)ᶜ : Set N)}
+    {F : MaxBranchedCover (Sing G X N) y₁ → MaxBranchedCover (Sing G X N) y₂}
+    {F' : MaxBranchedCover (Sing G X N) y₂ → MaxBranchedCover (Sing G X N) y₁}
+    (hF : Continuous F) (hF' : Continuous F') (hFb : ∀ x, (F x).base = x.base)
+    (hF'b : ∀ x, (F' x).base = x.base) :
+    ∃ σ ∈ deckGroup (SpreadEnd.base : MaxBranchedCover (Sing G X N) y₁ → N),
+      ∀ x, F' (F x) = σ x := by
+  have hS := isSkeletal_sing G X N
+  obtain ⟨-, hβ, -, -, -, -⟩ := maxBranched_basic hS hregN y₁
+  haveI := hβ.connectedSpace_source
+  have hR := hβ.isPortly_preimage (isPortly_reg G X N)
+  obtain ⟨σ, hσ, hEq⟩ := exists_deck_eqOn_of_base_eq hregN isOpen_univ (subset_univ _) hR.isOpen
+    hR.isPreconnected (fun x _ => hR.dense x) hR.dense.nonempty continuousOn_id
+    (hF'.comp hF).continuousOn (fun x _ => by simp [hF'b, hFb]) (fun x hx => hx)
+    (F₁ := fun x => x) (F₂ := fun x => F' (F x))
+  exact ⟨σ, hσ, fun x => hEq (mem_univ x)⟩
+
+/-- Non-vacuity of `IsLiftableChartMap`: the chart `(N, N, id)` of a model whose maximal
+covering is Galoisian (`reg N` semi-locally simply connected in `N`, `prop:Galoisian_semilocal`)
+lifts to the maximal coverings, at every point, singular ones included: two maximal coverings of
+`N` (two base points) are isomorphic over `N` (`prop:universality`), by an isomorphism sending any
+point to any point of its fibre (Galoisian). -/
+theorem isLiftableChartMap_refl (hregN : SemilocallySimplyConnected ((Sing G X N)ᶜ : Set N))
+    (hgal : IsSLSCInCC ((Sing G X N)ᶜ : Set N)) :
+    IsLiftableChartMap G X (M := N) (N := N) (Homeomorph.refl (⊤ : Opens N)) := by
+  intro y₀ yN e f he hf
+  have hS := isSkeletal_sing G X N
+  obtain ⟨-, hβ₀, hβS₀, -, hβl₀, -⟩ := maxBranched_basic hS hregN y₀
+  obtain ⟨-, hβ₁, hβS₁, -, hβl₁, -⟩ := maxBranched_basic hS hregN yN
+  haveI := hβl₀
+  haveI := hβl₁
+  haveI := hβ₀.connectedSpace_source
+  haveI := hβ₁.connectedSpace_source
+  haveI := (maxBranched_instances hS hregN y₀).2.2
+  haveI := (maxBranched_instances hS hregN yN).2.2
+  obtain ⟨Φ₀, hΦ₀c, hΦ₀b, hΦ₀bc, -⟩ := maxBranched_universal hS hregN y₀ hβ₁ hβS₁
+  obtain ⟨Ψ₀, hΨ₀c, hΨ₀b, -, -⟩ := maxBranched_universal hS hregN yN hβ₀ hβS₀
+  have hgal₁ := maxBranched_isGaloisian_cc hS hregN yN hgal
+  obtain ⟨δ, hδ, hδe⟩ := hgal₁.2 (Φ₀ e) f (by rw [hΦ₀b, hf]; rfl)
+  set Φ₁ : MaxBranchedCover (Sing G X N) y₀ → MaxBranchedCover (Sing G X N) yN :=
+    fun x => δ (Φ₀ x) with hΦ₁
+  have hΦ₁c : Continuous Φ₁ := δ.continuous.comp hΦ₀c
+  have hΦ₁b : ∀ x, (Φ₁ x).base = x.base := fun x => by
+    show (δ (Φ₀ x)).base = x.base; rw [deck_apply _ hδ, hΦ₀b]
+  have hΦ₁s : Surjective Φ₁ := δ.surjective.comp hΦ₀bc.surjective
+  obtain ⟨σ, hσ, hσeq⟩ := exists_deck_eq_of_base_eq_maxBranched hregN hΦ₁c hΨ₀c hΦ₁b hΨ₀b
+  set Φinv : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X N) y₀ :=
+    fun v => σ.symm (Ψ₀ v) with hΦinv
+  have hΦinvc : Continuous Φinv := σ.symm.continuous.comp hΨ₀c
+  have hΦinvb : ∀ v, (Φinv v).base = v.base := fun v => by
+    have h := deck_apply _ (inv_mem hσ) (Ψ₀ v)
+    show (σ.symm (Ψ₀ v)).base = v.base
+    rw [← hΨ₀b v]; exact h
+  have hleft : ∀ x, Φinv (Φ₁ x) = x := fun x => by
+    show σ.symm (Ψ₀ (Φ₁ x)) = x
+    rw [hσeq x, Homeomorph.symm_apply_apply]
+  have hright : ∀ v, Φ₁ (Φinv v) = v := fun v => by
+    obtain ⟨x, rfl⟩ := hΦ₁s v
+    rw [hleft x]
+  have hcc₀ : connectedComponentIn ((SpreadEnd.base : MaxBranchedCover (Sing G X N) y₀ → N) ⁻¹'
+      ((⊤ : Opens N) : Set N)) e = univ := by
+    rw [Opens.coe_top, preimage_univ, connectedComponentIn_univ,
+      PreconnectedSpace.connectedComponent_eq_univ]
+  have hcc₁ : connectedComponentIn ((SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) ⁻¹'
+      ((⊤ : Opens N) : Set N)) f = univ := by
+    rw [Opens.coe_top, preimage_univ, connectedComponentIn_univ,
+      PreconnectedSpace.connectedComponent_eq_univ]
+  refine ⟨{ toFun := fun z => ⟨Φ₁ z, by rw [hcc₁]; trivial⟩
+            invFun := fun w => ⟨Φinv w, by rw [hcc₀]; trivial⟩
+            left_inv := fun z => Subtype.ext (hleft z)
+            right_inv := fun w => Subtype.ext (hright w)
+            continuous_toFun := (hΦ₁c.comp continuous_subtype_val).subtype_mk
+              fun _ => by rw [hcc₁]; trivial
+            continuous_invFun := (hΦinvc.comp continuous_subtype_val).subtype_mk
+              fun _ => by rw [hcc₀]; trivial }, ?_, ?_⟩
+  · show δ (Φ₀ e) = f
+    exact hδe
+  · intro z
+    show (Φ₁ z).base = _
+    rw [hΦ₁b]; rfl
+
+end LiftWitness
+
 
 /-! ### `theo:local_virt_tame` -/
 
@@ -2218,7 +3384,11 @@ and these topologies are natural: two `X_α`-charts which, on a connected open `
 domains, differ by an automorphism `ψ ∈ Aut(X_α)` (`ψ ∘ φ₁ = φ₂` on `W`) give the same
 neighbourhoods at every point of `p⁻¹(W)`. The paper proves the independence of `(V, φ)` for a
 fixed `U` (l.2104–2107); the naturality under restriction to `W ⊆ U` is used by its gluing
-(l.2101, "generated by … all `X_A`-charts") but not stated (finding). -/
+(l.2101, "generated by … all `X_A`-charts") but not stated (finding). STATED in general (tagged
+`sorry`, a mathematical obstruction recorded there, confined to the non-descending charts); built
+and proved for the charts descending from the maximal coverings of the models (`ℓ` arbitrary):
+`descTop`, `isLocalTamifying_descTop`, `nhds_descTop_le_of_aut`, and for the liftable ones
+(`chartTop`, `isLocalTamifying_chartTop`, `nhds_chartTop_le_of_aut`). -/
 theorem exists_isLocalTamifying_charts (hX : IsLocallyUnloopable X)
     (hfam : IsAnalyticModelFamily G X Xα S) (hgal : ∀ a, IsLocallyGaloisian G X (Xα a))
     (htam : ∀ a, HasAutContinuousTamifying G X (Xα a)) {M : Type v} [TopologicalSpace M]
@@ -2234,43 +3404,41 @@ theorem exists_isLocalTamifying_charts (hX : IsLocallyUnloopable X)
           (∀ w : W, ψ (c₁.φ ⟨w, h₁ w.2⟩ : Xα a) = (c₂.φ ⟨w, h₂ w.2⟩ : Xα a)) →
           ∀ e : MaxBranchedCover (Sing G X M) y₀, e.base ∈ W →
             @nhds _ (T ⟨a, x₁, c₁⟩) e = @nhds _ (T ⟨a, x₂, c₂⟩) e := by
-  sorry -- SORRY(theo:local_virt_tame): piece (2), the construction of `T_{U,V,φ}` (l.2088–2140).
-  -- Not a counterexample: unbuilt covering theory, three inputs missing from the library.
-  -- (i) `lem:spread_top` (`GX.spread_top`, stated) for `\widetilde V → V̂ → V`.
-  -- (ii) A sub-covering of a Galoisian maximal covering is Galoisian, deck-transitive on its
-  -- SINGULAR fibres too: `\widetilde U → Û` (l.2093), `\widetilde V → V̂` (l.2093) and
-  -- `\widetilde M^S → N` (l.2025, "and thus so is"). The paper asserts it without proof. Without it
-  -- the quotient map `ℓ : \widetilde U → Û` is not known to be open for the strong topologies,
-  -- and `T_{U,V,φ}` is not known to be first countable or to be independent of the point of the
-  -- `ℓ`-fibre. Sketch: over `reg`, `\widetilde U_reg → Û_reg` is the universal covering of
-  -- `Û_reg` (deck-transitive); at a singular `ũ`, the fibres of `\widetilde U → U` are uniformly
-  -- discrete (`GX.discreteTopology_fiber_of_isSLSCAt`, local Galoisianity of the model carried by
-  -- `φ`), so a deck transformation of `ℓ` moving a regular point of the component of `ũ` over a
-  -- small neighbourhood onto one of the component of `ũ'` moves `ũ` onto `ũ'`.
-  -- (iii) Naturality under restriction to `W ⊆ U` (SCOPE (d), second finding): for
-  -- `j : \widetilde W → \widetilde U` over `W ↪ U`, `j` maps each component of `j⁻¹(Z)`, `Z`
-  -- strongly open and connected, onto `Z` (the Claim of `lem:spread_top` for `j`).
-  -- Route once (i)–(iii) exist: `ℓ`, `r` from `GX.maxBranched_universal` applied to
-  -- `Û → U` and `V̂ → V` (`GX.branched_covering_restriction`); `φ̃` as in `exists_lift_singularAut`;
-  -- `T_{U,V,φ} :=` the topology generated by the natural one and the `γ(ℓ(C))`,
-  -- `γ ∈ Γ(\widetilde M/M)`, `C` open for `φ̃^*(r^*T_α)`, so that (C) holds by construction and
-  -- `nhds = map ℓ nhds` at every point of `ℓ(\widetilde U)`; the eight fields of
-  -- `IsLocalTamifying` from `lem:spread_top` (a)–(e) through `ℓ` (`IsPortly.image_of_isOpenMap`
-  -- for (D)); (B) by descending `D_α ∘ r ∘ φ̃` along `ℓ` (trivial holonomy of `\widetilde U → Û`,
-  -- `GX.aeMorphism_model_unique`); naturality from (iii), `exists_lift_singularAut` and the
-  -- `T_α`-continuity of `Aut(\widetilde X_α)` (`htam`). BLOCKED (round-3 audit): routed to a
-  -- dedicated "local tamifying topologies" package (this lemma, `lem:spread_top`, the sub-covering
-  -- Galois lemma (ii)) against the frozen interface `GX.IsLocalTamifying`.
+  sorry -- SORRY(theo:local_virt_tame): piece (2) IN GENERAL — the charts which do NOT descend
+  -- from the maximal covering of their model (`IsDescendingChartMap` fails: `V̂ → V` does not
+  -- dominate `Û → U`, so `r : Ṽ → V̂` (l.2088–2098) is not an isomorphism). Built and proved for
+  -- every descending chart, with `ℓ : Ũ → Û` ARBITRARY (fix round 1): the `ℓ`-quotient of `T_α`,
+  -- `descTop`, `isLocalTamifying_descTop`, `nhds_descTop_le_of_aut`, `isVirtuallyTame_of_descending`,
+  -- 0 `sorry` — so the `ℓ`-quotient is NOT what blocks this. What blocks it is a MATHEMATICAL
+  -- obstruction on the `r` side: for a non-descending chart the paper's `T_{U,V,φ}` is the
+  -- `ℓ`-quotient of `r^*T_α`, and its (D) (l.2128–2133) needs `r⁻¹(R)` portly in `Ṽ` for
+  -- `r^*T_α`, i.e. `lem:spread_top` (c) for `r`, and (c) is false in general (WP-27k,
+  -- `GX.not_spreadTopConnCE` on `GX.cex_spread_top_sector`): it is equivalent to the local
+  -- condition `GX.StrongLocallyConnectedOrd` (`GX.isPortly_strongPullTop_iff_local`), which "`T_α`
+  -- tamifying, `Aut(\widetilde X_α)`-continuous, `X_α` locally Galoisian" is not known to imply.
+  -- Mechanism (informal, not formalized): when a loop around the singular stratum near a point of
+  -- `V` dies in `π₁(reg X_α)` but not in `π₁(reg V)`, a `T_α`-neighbourhood `O` of a singular point
+  -- of `V̂` whose regular part carries no such loop has, in `r⁻¹(O)`, a component through the
+  -- singular point whose regular part falls into infinitely many sheets; at a point of finite local
+  -- degree (A) and (C) force `T_α` to be natural, so this needs an infinite local deck group, e.g.
+  -- two crossing singular planes in dimension 4. No counterexample to the THEOREM is known: another
+  -- topology than `T_{U,V,φ}` might be tamifying. Besides (D), the non-descending case would need
+  -- the maximal covering `Ṽ` of `V̂` and the pull-back `r^*T_α` (`strongPullTop`) on it, which are
+  -- infrastructure; they are not built because (D) for them fails in general. Settled inputs: the
+  -- Galoisianity of the sub-coverings (l.2025, l.2093) is `GX.isGaloisian_of_comp` (WP-27k) and,
+  -- for descents, `IsChartDescent.exists_deck`; restriction-naturality (l.2101) is
+  -- `nhds_descTop_le_of_aut`.
 
-/-- `theo:local_virt_tame`, (ii) ⇒ (i) (`RamcovGX.tex:1974`, proof l.2086–2140), `X_A`-manifolds read
-as ruled (DEC-67 (e): every singular point has a type): over an analytic family of locally
-Galoisian models each carrying a tamifying topology on which `Aut(\widetilde X_α)` acts
-continuously, every `X_A`-manifold is virtually tame. The gluing of the proof (l.2101–2103) uses
-the type at every singular point (SCOPE (d)): near a singular point `y` of type `b`, every chart has
-type `b` (`XAChart.eq_of_mem_centre`) and differs from a chart centred at `y` by an automorphism of
+/-- `theo:local_virt_tame`, (ii) ⇒ (i) (`RamcovGX.tex:1974`, proof l.2086–2140), in general,
+`X_A`-manifolds read as ruled (DEC-67 (e): every singular point has a type), STATED: it rests on
+the general piece (2), `exists_isLocalTamifying_charts` (tagged `sorry`, a mathematical obstruction:
+the paper's (D) needs `lem:spread_top` (c), false in general). The gluing (l.2101–2103) is proved
+(`exists_isTamifyingTopology_of_local`): near a singular point `y` of type `b`, every chart has type
+`b` (`XAChart.eq_of_mem_centre`) and differs from a chart centred at `y` by an automorphism of
 `X_b` (`XAChart.exists_aut_eq`), so all the local topologies agree there (naturality); over
-`reg(M)` they are the natural one. The gluing is proved (`exists_isTamifyingTopology_of_local`);
-the local topologies are `exists_isLocalTamifying_charts` (piece (2)). -/
+`reg(M)` they are the natural one. Proved, 0 `sorry`, when the charts descend from the maximal
+coverings of the models (`isVirtuallyTame_of_descending`, `ℓ` arbitrary) and, without local
+Galoisianity, when they lift (`isVirtuallyTame_of_liftable`). -/
 theorem isVirtuallyTame_of_isXAManifold (hX : IsLocallyUnloopable X)
     (hfam : IsAnalyticModelFamily G X Xα S) (hgal : ∀ a, IsLocallyGaloisian G X (Xα a))
     (htam : ∀ a, HasAutContinuousTamifying G X (Xα a)) {M : Type v} [TopologicalSpace M]
@@ -2314,12 +3482,14 @@ theorem isVirtuallyTame_of_isXAManifold (hX : IsLocallyUnloopable X)
     (fun c => c.2.2.U.isOpen) hcov T hT hcompat
   exact ⟨y₀, T', hT'⟩
 
-/-- `theo:local_virt_tame` (`RamcovGX.tex:1974`), `X_A`-manifolds read as ruled (DEC-67 (e)): under
-its hypotheses, (i) every `X_A`-manifold is virtually tame iff (ii) every model `X_α` is virtually
-tame. (ii) ⇒ (i) is `isVirtuallyTame_of_isXAManifold`. (i) ⇒ (ii) does not go through the models
-(under DEC-67 (e) a model `X_α` need not be an `X_A`-manifold, a point of `sing X_α ∖ S_α` may
-have no type): (ii) holds outright by the hypothesis on the models
-(`HasAutContinuousTamifying.isVirtuallyTame`), the degeneracy recorded in the findings. -/
+/-- `theo:local_virt_tame` (`RamcovGX.tex:1974`), `X_A`-manifolds read as ruled (DEC-67 (e)), in
+general (STATED, through `isVirtuallyTame_of_isXAManifold`): under its hypotheses, (i) every
+`X_A`-manifold is virtually tame iff (ii) every model `X_α` is virtually tame. (i) ⇒ (ii) does not
+go through the models (under DEC-67 (e) a model `X_α` need not be an `X_A`-manifold, a point of
+`sing X_α ∖ S_α` may have no type): (ii) holds outright by the hypothesis on the models
+(`HasAutContinuousTamifying.isVirtuallyTame`), the degeneracy recorded in the findings. The proved
+forms are `local_virt_tame_descending` (charts descending from the models' maximal coverings) and
+`local_virt_tame_liftable`. -/
 theorem local_virt_tame (hX : IsLocallyUnloopable X) (hfam : IsAnalyticModelFamily G X Xα S)
     (hgal : ∀ a, IsLocallyGaloisian G X (Xα a)) (htam : ∀ a, HasAutContinuousTamifying G X (Xα a)) :
     (∀ (N : Type u) [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
@@ -2339,5 +3509,1382 @@ theorem isVirtuallyTame_of_isXAManifold_of_isTame (hX : IsLocallyUnloopable X)
   (isTame_of_isXAManifold hX htame hM).isVirtuallyTame hX
 
 end LocalVirtTame
+
+section LiftedVirtTame
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  [FaithfulSMul G X]
+  {A : Type*} {Xα : A → Type u} [∀ a, TopologicalSpace (Xα a)] [∀ a, T2Space (Xα a)]
+  [∀ a, LocPathConnectedSpace (Xα a)] [∀ a, FirstCountableTopology (Xα a)]
+  [∀ a, ConnectedSpace (Xα a)] [∀ a, SingularGXStructure G X (Xα a)] {S : ∀ a, Set (Xα a)}
+
+/-- `theo:local_virt_tame`, (ii) ⇒ (i), proved in the case its proof's coverings are trivial: if
+every singular point of `M` is the centre of an `X_A`-chart which lifts to the maximal coverings
+(`IsLiftableChartMap`: `ℓ : Ũ → Û` and `r : Ṽ → V̂` isomorphisms), then `M` is virtually tame.
+The local topologies are the `T_{U,V,φ}` (`chartTop`, `isLocalTamifying_chartTop`) over the
+liftable charts and the natural one over `reg M` (`isLocalTamifying_natural_reg`); they agree over
+the overlaps by naturality (`nhds_chartTop_le_of_aut`, the paper's l.2104–2107, through
+`XAChart.eq_of_mem_centre` and `XAChart.exists_aut_eq`), and glue
+(`exists_isTamifyingTopology_of_local`). Neither local Galoisianity nor the `X_A`-atlas is used
+(the liftable charts carry what they give). Superseded, under local Galoisianity, by
+`isVirtuallyTame_of_descending` (`ℓ : Ũ → Û` arbitrary). -/
+theorem isVirtuallyTame_of_liftable (hX : IsLocallyUnloopable X)
+    (hfam : IsAnalyticModelFamily G X Xα S) (htam : ∀ a, HasAutContinuousTamifying G X (Xα a))
+    {M : Type v} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
+    [FirstCountableTopology M] [ConnectedSpace M] [SingularGXStructure G X M]
+    (hlift : ∀ y ∈ Sing G X M, ∃ (a : A) (c : XAChart G X Xα S a y), IsLiftableChartMap G X c.φ) :
+    IsVirtuallyTame G X M := by
+  obtain ⟨y₀⟩ := (nonempty_compl_of_isSkeletal (isSkeletal_sing G X M)).to_subtype
+  have hregM := semilocallySimplyConnected_compl_of_sing_subset (G := G) hX
+    (isClosed_sing G X M) subset_rfl
+  have hregN : ∀ a, SemilocallySimplyConnected ((Sing G X (Xα a))ᶜ : Set (Xα a)) := fun a =>
+    semilocallySimplyConnected_compl_of_sing_subset (G := G) hX (isClosed_sing G X (Xα a)) subset_rfl
+  obtain ⟨D₀, hD₀⟩ := exists_isRegDevelopingOnReg hregM y₀
+  have htam' : ∀ a, ∃ (yN : ((Sing G X (Xα a))ᶜ : Set (Xα a)))
+      (TN : WrappedTop (MaxBranchedCover (Sing G X (Xα a)) yN)),
+      IsTamifyingTopology G X (Xα a) yN TN.top ∧
+        ∀ f ∈ aeAutMapsMax G X (Xα a) yN, Continuous[TN.top, TN.top] f := fun a => by
+    obtain ⟨y, T, h1, h2⟩ := htam a
+    exact ⟨y, ⟨T⟩, h1, h2⟩
+  choose yN TN hTN hAut using htam'
+  have hDN : ∀ a, ∃ D : MaxBranchedCover (Sing G X (Xα a)) (yN a) → X,
+      Continuous[(TN a).top, _] D ∧ IsRegDevelopingOnReg G X (Xα a) (yN a) D :=
+    fun a => (hTN a).exists_extension
+  choose DN hDNc hDNr using hDN
+  have hFam : ∀ c : {c : Σ a : A, Σ x : M, XAChart G X Xα S a x //
+        IsLiftableChartMap G X c.2.2.φ},
+      ∃ Fz : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X M) y₀ →
+          MaxBranchedCover (Sing G X (Xα c.1.1)) (yN c.1.1),
+        ∀ z : MaxBranchedCover (Sing G X M) y₀, z.base ∈ (c.1.2.2.U : Set M) →
+          ∃ F', IsChartLift (c.1.2.2.U : Set M) (c.1.2.2.V : Set (Xα c.1.1))
+            (chartExt c.1.2.2.φ) z (Fz z z) (Fz z) F' := by
+    rintro ⟨⟨a, x, c⟩, hc⟩
+    obtain ⟨-, hβN, -, -, -, -⟩ := maxBranched_basic (isSkeletal_sing G X (Xα a)) (hregN a) (yN a)
+    obtain ⟨f₀, -⟩ := hβN.surjective (Classical.arbitrary (Xα a))
+    have : ∀ z : MaxBranchedCover (Sing G X M) y₀, ∃ F : MaxBranchedCover (Sing G X M) y₀ →
+        MaxBranchedCover (Sing G X (Xα a)) (yN a), z.base ∈ (c.U : Set M) →
+          ∃ F', IsChartLift (c.U : Set M) (c.V : Set (Xα a)) (chartExt c.φ) z (F z) F F' := by
+      intro z
+      by_cases hz : z.base ∈ (c.U : Set M)
+      · obtain ⟨f, hf⟩ := hβN.surjective (chartExt c.φ z.base)
+        obtain ⟨F, F', hl⟩ := hc.exists_isChartLift z f hz (by rw [hf, chartExt_apply])
+        refine ⟨F, fun _ => ⟨F', ?_⟩⟩
+        rw [hl.apply_self]; exact hl
+      · exact ⟨fun _ => f₀, fun h => absurd h hz⟩
+    choose Fz hFz using this
+    exact ⟨Fz, fun z hz => hFz z hz⟩
+  choose Fz hFz using hFam
+  let ι := Option {c : Σ a : A, Σ x : M, XAChart G X Xα S a x // IsLiftableChartMap G X c.2.2.φ}
+  let U : ι → Set M := fun i => match i with
+    | none => Reg G X M
+    | some c => (c.1.2.2.U : Set M)
+  let T : ι → TopologicalSpace (MaxBranchedCover (Sing G X M) y₀) := fun i => match i with
+    | none => weakTopMax G X M y₀
+    | some c => chartTop (c.1.2.2.U : Set M) (Fz c) ⟨(TN c.1.1).top⟩
+  have hUo : ∀ i, IsOpen (U i) := by
+    rintro (_ | c)
+    · exact isOpen_reg G X M
+    · exact c.1.2.2.U.isOpen
+  have hT : ∀ i, IsLocalTamifying G X M y₀ D₀ (U i) (T i) := by
+    rintro (_ | ⟨⟨a, x, c⟩, hc⟩)
+    · exact isLocalTamifying_natural_reg hregM hD₀
+    · exact isLocalTamifying_chartTop hregM (hregN a) c.U.isOpen c.V.isOpen (hFz ⟨⟨a, x, c⟩, hc⟩)
+        (fun m hm => chartExt_mem_reg_iff c.isAEMorphism hm) (hTN a)
+        (fun z f hz hf => hc.exists_isChartLift z f hz (by rw [hf, chartExt_apply]))
+        (continuousOn_chartExt c.φ)
+        (fun m hm m' hm' h => by
+          rw [chartExt_apply c.φ hm, chartExt_apply c.φ hm'] at h
+          exact congrArg Subtype.val (c.φ.injective (Subtype.ext h)))
+        (hDNc a) (fun z hz => exists_smul_eq_of_isChartLift hregM (hregN a) c.isAEMorphism hD₀
+          (hDNr a) hz (hFz ⟨⟨a, x, c⟩, hc⟩ z hz).choose_spec)
+  have hcov : ∀ y : M, ∃ i, y ∈ U i := fun y => by
+    by_cases hy : y ∈ Reg G X M
+    · exact ⟨none, hy⟩
+    · obtain ⟨a, c, hc⟩ := hlift y hy
+      exact ⟨some ⟨⟨a, y, c⟩, hc⟩, c.mem⟩
+  -- naturality at a singular point: every liftable chart agrees with one centred there
+  have key : ∀ (b : A) (y : M) (c₀ : XAChart G X Xα S b y) (hc₀ : IsLiftableChartMap G X c₀.φ)
+      (i : ι) (e : MaxBranchedCover (Sing G X M) y₀), e.base = y → y ∉ Reg G X M →
+      e.base ∈ U i → @nhds _ (T (some ⟨⟨b, y, c₀⟩, hc₀⟩)) e = @nhds _ (T i) e := by
+    rintro b y c₀ hc₀ (_ | ⟨⟨a, x, c⟩, hc⟩) e rfl hsing hi
+    · exact absurd hi hsing
+    set W : Opens M := ⟨connectedComponentIn ((c₀.U : Set M) ∩ c.U) e.base,
+      (c₀.U.isOpen.inter c.U.isOpen).connectedComponentIn⟩
+    have hyW : e.base ∈ W := mem_connectedComponentIn ⟨c₀.mem, hi⟩
+    have hW₀ : W ≤ c₀.U := fun z hz => (connectedComponentIn_subset _ _ hz).1
+    have hW : W ≤ c.U := fun z hz => (connectedComponentIn_subset _ _ hz).2
+    have hWc : IsConnected (W : Set M) := isConnected_connectedComponentIn_iff.2 ⟨c₀.mem, hi⟩
+    obtain rfl := XAChart.eq_of_mem_centre hfam c₀ c W hW₀ hW hWc hyW
+    obtain ⟨ψ, hψ, hψeq⟩ := c₀.exists_aut_eq hfam c W hW₀ hW hWc hyW
+    have hψφ : ∀ m ∈ (W : Set M), ψ (chartExt c₀.φ m) = chartExt c.φ m := fun m hm => by
+      rw [chartExt_apply _ (hW₀ hm), chartExt_apply _ (hW hm)]; exact hψeq ⟨m, hm⟩
+    have hψφ' : ∀ m ∈ (W : Set M), ψ⁻¹ (chartExt c.φ m) = chartExt c₀.φ m := fun m hm => by
+      rw [← hψφ m hm]; exact ψ.symm_apply_apply _
+    exact le_antisymm
+      (nhds_chartTop_le_of_aut hregM (hregN b) c₀.U.isOpen c₀.V.isOpen
+        (hFz ⟨⟨b, e.base, c₀⟩, hc₀⟩) (fun m hm => chartExt_mem_reg_iff c₀.isAEMorphism hm)
+        c.U.isOpen c.V.isOpen (hFz ⟨⟨b, x, c⟩, hc⟩)
+        (fun m hm => chartExt_mem_reg_iff c.isAEMorphism hm) (hTN b) (hAut b) W.isOpen hW₀ hW
+        hψ hψφ hyW)
+      (nhds_chartTop_le_of_aut hregM (hregN b) c.U.isOpen c.V.isOpen
+        (hFz ⟨⟨b, x, c⟩, hc⟩) (fun m hm => chartExt_mem_reg_iff c.isAEMorphism hm)
+        c₀.U.isOpen c₀.V.isOpen (hFz ⟨⟨b, e.base, c₀⟩, hc₀⟩)
+        (fun m hm => chartExt_mem_reg_iff c₀.isAEMorphism hm) (hTN b) (hAut b) W.isOpen hW hW₀
+        (inv_mem hψ) hψφ' hyW)
+  have hcompat : ∀ i j (e : MaxBranchedCover (Sing G X M) y₀), e.base ∈ U i → e.base ∈ U j →
+      @nhds _ (T i) e = @nhds _ (T j) e := by
+    intro i j e hi hj
+    by_cases hy : e.base ∈ Reg G X M
+    · rw [(hT i).nhds_reg e hi hy, (hT j).nhds_reg e hj hy]
+    · obtain ⟨b, c₀, hc₀⟩ := hlift e.base hy
+      rw [← key b _ c₀ hc₀ i e rfl hy hi, key b _ c₀ hc₀ j e rfl hy hj]
+  obtain ⟨T', hT'⟩ := exists_isTamifyingTopology_of_local hD₀ U hUo hcov T hT hcompat
+  exact ⟨y₀, T', hT'⟩
+
+end LiftedVirtTame
+
+section LiftedVirtTameEquiv
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  [FaithfulSMul G X]
+  {A : Type*} {Xα : A → Type u} [∀ a, TopologicalSpace (Xα a)] [∀ a, T2Space (Xα a)]
+  [∀ a, LocPathConnectedSpace (Xα a)] [∀ a, FirstCountableTopology (Xα a)]
+  [∀ a, ConnectedSpace (Xα a)] [∀ a, SingularGXStructure G X (Xα a)] {S : ∀ a, Set (Xα a)}
+
+/-- `theo:local_virt_tame` (`RamcovGX.tex:1974`), proved for the `X_A`-manifolds whose singular
+points are centres of charts lifting to the maximal coverings (`IsLiftableChartMap`): under the
+theorem's hypotheses (analytic family, a tamifying topology on each `\widetilde X_α` on which
+`Aut(\widetilde X_α)` acts continuously), (i) every such `X_A`-manifold is virtually tame iff (ii)
+every model is virtually tame. (ii) ⇒ (i) is `isVirtuallyTame_of_liftable`; (i) ⇒ (ii) holds
+outright by the hypothesis on the models, as in `local_virt_tame`. Local Galoisianity of the models
+is not used. -/
+theorem local_virt_tame_liftable (hX : IsLocallyUnloopable X)
+    (hfam : IsAnalyticModelFamily G X Xα S) (htam : ∀ a, HasAutContinuousTamifying G X (Xα a)) :
+    (∀ (N : Type u) [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
+        [FirstCountableTopology N] [ConnectedSpace N] [SingularGXStructure G X N],
+        IsXAManifold G X Xα S N →
+        (∀ y ∈ Sing G X N, ∃ (a : A) (c : XAChart G X Xα S a y), IsLiftableChartMap G X c.φ) →
+        IsVirtuallyTame G X N) ↔ ∀ a, IsVirtuallyTame G X (Xα a) :=
+  ⟨fun _ a => (htam a).isVirtuallyTame, fun _ _ _ _ _ _ _ _ _ hlift =>
+    isVirtuallyTame_of_liftable hX hfam htam hlift⟩
+
+/-- The liftability hypothesis is met at the points of `S_α` of a model whose maximal covering is
+Galoisian (`isLiftableChartMap_refl`): the chart `(X_α, X_α, id)`. -/
+theorem isLiftableChartMap_modelChartSelf (a : A)
+    (hregN : SemilocallySimplyConnected ((Sing G X (Xα a))ᶜ : Set (Xα a)))
+    (hgal : IsSLSCInCC ((Sing G X (Xα a))ᶜ : Set (Xα a))) {s : Xα a} (hs : s ∈ S a) :
+    IsLiftableChartMap G X (modelChartSelf G X S a hs).φ :=
+  isLiftableChartMap_refl hregN hgal
+
+end LiftedVirtTameEquiv
+
+section Descent
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  {M : Type v} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
+  [FirstCountableTopology M] [ConnectedSpace M] [SingularGXStructure G X M]
+  {N : Type u} [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
+  [FirstCountableTopology N] [ConnectedSpace N] [SingularGXStructure G X N]
+  {y₀ : ((Sing G X M)ᶜ : Set M)} {yN : ((Sing G X N)ᶜ : Set N)}
+
+/-- A *descent* of `φ' : M → N` from the component `V̂ ∋ f` of `q⁻¹(V)` in `\widetilde N`: a map
+`Ψ` continuous on `V̂`, with values over `U`, and over `φ'⁻¹` (`φ' ∘ p ∘ Ψ = q` on `V̂`). This is
+the map `ℓ ∘ φ̃⁻¹ ∘ r⁻¹ : V̂ → Û` of the proof of `theo:local_virt_tame` (l.2088–2098) when `r` is
+an isomorphism, and more generally whenever `V̂ → V` dominates `Û → U`. -/
+structure IsChartDescent (U : Set M) (V : Set N) (φ' : M → N)
+    (f : MaxBranchedCover (Sing G X N) yN)
+    (Ψ : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X M) y₀) : Prop where
+  base_mem : f.base ∈ V
+  contOn : ContinuousOn Ψ (connectedComponentIn (SpreadEnd.base ⁻¹' V) f)
+  mem : ∀ w ∈ connectedComponentIn (SpreadEnd.base ⁻¹' V) f, (Ψ w).base ∈ U
+  base : ∀ w ∈ connectedComponentIn (SpreadEnd.base ⁻¹' V) f, φ' (Ψ w).base = w.base
+
+/-- A descent restricts to a component of `q⁻¹(B)`, `B ⊆ V` open. -/
+theorem IsChartDescent.restrict {U U' : Set M} {V B : Set N} {φ' : M → N}
+    {f : MaxBranchedCover (Sing G X N) yN}
+    {Ψ : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X M) y₀}
+    (h : IsChartDescent U V φ' f Ψ) (hBV : B ⊆ V)
+    {v : MaxBranchedCover (Sing G X N) yN} (hv : v ∈ connectedComponentIn (SpreadEnd.base ⁻¹' V) f)
+    (hvB : v.base ∈ B) (hUU' : ∀ m ∈ U, φ' m ∈ B → m ∈ U') :
+    IsChartDescent U' B φ' v Ψ := by
+  have hsub : connectedComponentIn ((SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) ⁻¹' B) v ⊆
+      connectedComponentIn (SpreadEnd.base ⁻¹' V) f := by
+    rw [connectedComponentIn_eq hv]
+    exact connectedComponentIn_mono _ (preimage_mono hBV)
+  refine ⟨hvB, h.contOn.mono hsub, fun w hw => hUU' _ (h.mem w (hsub hw)) ?_, fun w hw =>
+    h.base w (hsub hw)⟩
+  rw [h.base w (hsub hw)]
+  exact mem_of_mem_connectedComponentIn_preimage hw
+
+/-- The image of a descent is connected, so it lies in one component of `p⁻¹(U)`. -/
+theorem IsChartDescent.mapsTo_cc {U : Set M} {V : Set N} {φ' : M → N}
+    {f : MaxBranchedCover (Sing G X N) yN}
+    {Ψ : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X M) y₀}
+    (h : IsChartDescent U V φ' f Ψ) {v : MaxBranchedCover (Sing G X N) yN}
+    (hv : v ∈ connectedComponentIn (SpreadEnd.base ⁻¹' V) f) :
+    MapsTo Ψ (connectedComponentIn (SpreadEnd.base ⁻¹' V) f)
+      (connectedComponentIn (SpreadEnd.base ⁻¹' U) (Ψ v)) := by
+  refine image_subset_iff.1 ((isPreconnected_connectedComponentIn.image _ h.contOn).subset_connectedComponentIn
+    ⟨v, hv, rfl⟩ ?_)
+  rintro _ ⟨w, hw, rfl⟩
+  exact h.mem w hw
+
+variable (hregM : SemilocallySimplyConnected ((Sing G X M)ᶜ : Set M))
+  (hregN : SemilocallySimplyConnected ((Sing G X N)ᶜ : Set N))
+  {U : Set M} {V : Set N} {φ' : M → N} (hU : IsOpen U) (hV : IsOpen V)
+  (hφc : ContinuousOn φ' U) (hφinj : InjOn φ' U) (hφV : MapsTo φ' U V)
+  (hφreg : ∀ m ∈ U, φ' m ∈ Reg G X N ↔ m ∈ Reg G X M)
+include hregM hregN hU hV hφc hφinj hφV hφreg
+
+/-- A descent `Ψ` from `V̂` covers the regular part of the component of `p⁻¹(U)` it lands in
+(path lifting: a path in `reg(Û)` is read through `φ'` in `reg(V)`, lifted to `V̂` through `q`,
+and pushed back by `Ψ`; uniqueness of lifts through `p` over `reg M`). -/
+theorem IsChartDescent.reg_subset_image {f : MaxBranchedCover (Sing G X N) yN}
+    {Ψ : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X M) y₀}
+    (hΨ : IsChartDescent U V φ' f Ψ) :
+    connectedComponentIn (SpreadEnd.base ⁻¹' U) (Ψ f) ∩ SpreadEnd.base ⁻¹' Reg G X M ⊆
+      Ψ '' connectedComponentIn (SpreadEnd.base ⁻¹' V) f := by
+  rintro c ⟨hcC, hcR⟩
+  have hS₀M := isSkeletal_sing G X M
+  obtain ⟨-, hβM, -, -, hβlM, -⟩ := maxBranched_basic hS₀M hregM y₀
+  have hS₀N := isSkeletal_sing G X N
+  obtain ⟨-, hβN, hβSN, -, hβlN, -⟩ := maxBranched_basic hS₀N hregN yN
+  haveI := hβlM
+  haveI := hβlN
+  have hordN : Reg G X N ⊆ ordY (SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) :=
+    fun y hy => by by_contra hn; exact (hβSN hn) hy
+  have hfV := mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' V) hΨ.base_mem
+  obtain ⟨-, -, -, -, ⟨u₀, hu₀V, hu₀R⟩⟩ := maxBranched_cc_facts hregN hV hΨ.base_mem
+  have hΨfU : (Ψ f).base ∈ U := hΨ.mem f hfV
+  obtain ⟨-, hCRo, hCRc, -, -⟩ := maxBranched_cc_facts hregM hU hΨfU
+  have hu₀C : Ψ u₀ ∈ connectedComponentIn (SpreadEnd.base ⁻¹' U) (Ψ f) := hΨ.mapsTo_cc hfV hu₀V
+  have hu₀R' : (Ψ u₀).base ∈ Reg G X M :=
+    (hφreg _ (hΨ.mem u₀ hu₀V)).1 (by rw [hΨ.base u₀ hu₀V]; exact hu₀R)
+  have hpc := (hCRo.isConnected_iff_isPathConnected).1 ⟨⟨_, hu₀C, hu₀R'⟩, hCRc⟩
+  have hj := hpc.joinedIn _ ⟨hu₀C, hu₀R'⟩ _ ⟨hcC, hcR⟩
+  set γ := hj.somePath
+  have hγ : ∀ t, γ t ∈ connectedComponentIn (SpreadEnd.base ⁻¹' U) (Ψ f) ∩
+      SpreadEnd.base ⁻¹' Reg G X M := hj.somePath_mem
+  have hγU : ∀ t, (γ t).base ∈ U := fun t => mem_of_mem_connectedComponentIn_preimage (hγ t).1
+  let β : C(unitInterval, N) := ⟨fun t => φ' (γ t).base,
+    hφc.comp_continuous (SpreadEnd.continuous_base.comp γ.continuous) hγU⟩
+  have hβR : ∀ t, β t ∈ Reg G X N := fun t => (hφreg _ (hγU t)).2 (hγ t).2
+  -- lift `β` through `q` from `u₀`
+  have he' : u₀.base ∈ ordY (SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) :=
+    hordN hu₀R
+  have h0 : u₀.base = β 0 := by
+    show u₀.base = φ' (γ 0).base
+    rw [γ.source, hΨ.base u₀ hu₀V]
+  obtain ⟨fl, hfl, hfl0, hfls⟩ := exists_partial_lift
+    (isCoveringMap_restrict_ordX hβN.isSpread.continuous) β (fun t _ => hordN (hβR t)) he' h0
+  obtain ⟨β', hβ', hβ'f⟩ := exists_extend_path_of_isCompleteSpread hβN.isSpread hβN.isComplete β fl
+    hfl (fun t ht => (hfls t ht).2)
+  have hβ'0 : β' 0 = u₀ := by rw [hβ'f 0 zero_lt_one, hfl0]
+  have hβ'V : ∀ t, β' t ∈ connectedComponentIn (SpreadEnd.base ⁻¹' V) f := by
+    have hrange : range β' ⊆ connectedComponentIn (SpreadEnd.base ⁻¹' V) u₀ :=
+      (isPreconnected_range β'.continuous).subset_connectedComponentIn ⟨0, hβ'0⟩ (by
+        rintro _ ⟨t, rfl⟩
+        show (β' t).base ∈ V
+        rw [hβ' t]; exact hφV (hγU t))
+    intro t
+    rw [connectedComponentIn_eq hu₀V]
+    exact hrange ⟨t, rfl⟩
+  have hEq := eqOn_maxBranched_of_base_eq hregM (E := unitInterval) (F₁ := fun t => Ψ (β' t))
+    (F₂ := fun t => γ t) isOpen_univ subset_rfl isOpen_univ isPreconnected_univ
+    (by rw [closure_univ]) (hΨ.contOn.comp_continuous β'.continuous hβ'V).continuousOn
+    γ.continuous.continuousOn (fun t _ => hφinj (hΨ.mem _ (hβ'V t)) (hγU t) (by
+      rw [hΨ.base _ (hβ'V t), hβ' t]; rfl))
+    (fun t _ => (hφreg _ (hΨ.mem _ (hβ'V t))).1 (by rw [hΨ.base _ (hβ'V t), hβ' t]; exact hβR t))
+    (mem_univ 0) (by show Ψ (β' 0) = γ 0; rw [hβ'0, γ.source])
+  refine ⟨β' 1, hβ'V 1, ?_⟩
+  have := hEq (mem_univ (1 : unitInterval))
+  simp only at this
+  rw [this, γ.target]
+
+/-- The sub-covering step (`RamcovGX.tex:2093`, "since `X_α` is locally Galoisian, the branched
+coverings … are all Galoisian"): two descents `Ψ₁` from `V̂₁`, `Ψ₂` from `V̂₂` (components of
+`q⁻¹(V)`) which take the same value at `v₁ ∈ V̂₁`, `v₂ ∈ V̂₂` differ by an element `δ` of
+`Γ(\widetilde N/N)`: `δ v₁ = v₂`, `δ(V̂₁) ⊆ V̂₂` and `Ψ₂ ∘ δ = Ψ₁` on `V̂₁`. The fibres of `q` are
+discrete (`hdisc`, the model's local Galoisianity); `δ` is the deck transformation moving a regular
+point `u₁` near `v₁` to a regular `u₂` near `v₂` with `Ψ₂ u₂ = Ψ₁ u₁` (`reg_subset_image`), and it
+sends `v₁` into a neighbourhood of `v₂` meeting the fibre only at `v₂`. -/
+theorem IsChartDescent.exists_deck
+    (hdisc : ∀ x : N, DiscreteTopology
+      ((SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) ⁻¹' {x}))
+    {f₁ f₂ : MaxBranchedCover (Sing G X N) yN}
+    {Ψ₁ Ψ₂ : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X M) y₀}
+    (h₁ : IsChartDescent U V φ' f₁ Ψ₁) (h₂ : IsChartDescent U V φ' f₂ Ψ₂)
+    {v₁ v₂ : MaxBranchedCover (Sing G X N) yN}
+    (hv₁ : v₁ ∈ connectedComponentIn (SpreadEnd.base ⁻¹' V) f₁)
+    (hv₂ : v₂ ∈ connectedComponentIn (SpreadEnd.base ⁻¹' V) f₂) (h : Ψ₁ v₁ = Ψ₂ v₂) :
+    ∃ δ ∈ deckGroup (SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N), δ v₁ = v₂ ∧
+      MapsTo δ (connectedComponentIn (SpreadEnd.base ⁻¹' V) f₁)
+        (connectedComponentIn (SpreadEnd.base ⁻¹' V) f₂) ∧
+      EqOn (fun w => Ψ₂ (δ w)) Ψ₁ (connectedComponentIn (SpreadEnd.base ⁻¹' V) f₁) := by
+  have hS₀N := isSkeletal_sing G X N
+  obtain ⟨-, hβN, -, -, hβlN, -⟩ := maxBranched_basic hS₀N hregN yN
+  haveI := hβlN
+  set q : MaxBranchedCover (Sing G X N) yN → N := SpreadEnd.base with hq
+  have hb₁₂ : v₁.base = v₂.base := by
+    rw [← h₁.base v₁ hv₁, ← h₂.base v₂ hv₂, h]
+  -- a neighbourhood of `v₂` meeting its fibre only at `v₂`
+  obtain ⟨N₂, hN₂o, hN₂e⟩ := isOpen_induced_iff.1
+    (@isOpen_discrete _ _ (hdisc v₂.base) {(⟨v₂, rfl⟩ : q ⁻¹' {v₂.base})})
+  have hv₂N₂ : v₂ ∈ N₂ := by
+    have : (⟨v₂, rfl⟩ : q ⁻¹' {v₂.base}) ∈ Subtype.val ⁻¹' N₂ := by rw [hN₂e]; rfl
+    exact this
+  have hN₂fib : ∀ w ∈ N₂, q w = v₂.base → w = v₂ := fun w hw hwq => by
+    have : (⟨w, hwq⟩ : q ⁻¹' {v₂.base}) ∈ Subtype.val ⁻¹' N₂ := hw
+    rw [hN₂e] at this
+    exact congrArg Subtype.val this
+  obtain ⟨B₀, hB₀, hv₂B₀, hB₀N₂⟩ := (isSpread_iff.1 hβN.isSpread).2.2 v₂ N₂ hN₂o hv₂N₂
+  set B := B₀ ∩ V with hBdef
+  have hBo : IsOpen B := hB₀.inter hV
+  have hv₂B : v₂.base ∈ B := ⟨hv₂B₀, mem_of_mem_connectedComponentIn_preimage hv₂⟩
+  have hv₁B : v₁.base ∈ B := hb₁₂ ▸ hv₂B
+  set U' := U ∩ φ' ⁻¹' B with hU'def
+  have hU'o : IsOpen U' := hφc.isOpen_inter_preimage hU hBo
+  have hUU' : ∀ m ∈ U, φ' m ∈ B → m ∈ U' := fun m hm hmB => ⟨hm, hmB⟩
+  have R₁ := h₁.restrict inter_subset_right hv₁ hv₁B hUU'
+  have R₂ := h₂.restrict inter_subset_right hv₂ hv₂B hUU'
+  have hφc' : ContinuousOn φ' U' := hφc.mono inter_subset_left
+  have hφinj' : InjOn φ' U' := hφinj.mono inter_subset_left
+  have hφB : MapsTo φ' U' B := fun m hm => hm.2
+  have hφreg' : ∀ m ∈ U', φ' m ∈ Reg G X N ↔ m ∈ Reg G X M := fun m hm => hφreg m hm.1
+  have himg₂ := R₂.reg_subset_image hregM hregN hU'o hBo hφc' hφinj' hφB hφreg'
+  -- a regular point `u₁` near `v₁`
+  obtain ⟨-, -, -, -, ⟨u₁, hu₁O, hu₁R⟩⟩ := maxBranched_cc_facts hregN hBo hv₁B
+  have hv₁O := mem_connectedComponentIn (F := q ⁻¹' B) hv₁B
+  have hu₁C : Ψ₁ u₁ ∈ connectedComponentIn (SpreadEnd.base ⁻¹' U') (Ψ₂ v₂) := by
+    rw [← h]; exact R₁.mapsTo_cc hv₁O hu₁O
+  have hu₁R' : (Ψ₁ u₁).base ∈ Reg G X M :=
+    (hφreg' _ (R₁.mem u₁ hu₁O)).1 (by rw [R₁.base u₁ hu₁O]; exact hu₁R)
+  obtain ⟨u₂, hu₂O, hu₂⟩ := himg₂ ⟨hu₁C, hu₁R'⟩
+  have hbu : u₁.base = u₂.base := by
+    rw [← R₁.base u₁ hu₁O, ← R₂.base u₂ hu₂O, hu₂]
+  obtain ⟨δ, hδ, hδu⟩ := maxBranched_transitive hS₀N hregN yN u₁ u₂ hbu (show u₁.base ∈ (Sing G X N)ᶜ
+    from fun hs => hs hu₁R)
+  have hδO : δ '' connectedComponentIn (q ⁻¹' B) v₁ = connectedComponentIn (q ⁻¹' B) v₂ := by
+    rw [connectedComponentIn_eq hu₁O, deck_image_connectedComponentIn q hδ (show q u₁ ∈ B from
+      mem_of_mem_connectedComponentIn_preimage hu₁O), hδu, ← connectedComponentIn_eq hu₂O]
+  have hδv₁ : δ v₁ = v₂ := by
+    have hmem : δ v₁ ∈ connectedComponentIn (q ⁻¹' B) v₂ := hδO ▸ mem_image_of_mem δ hv₁O
+    refine hN₂fib _ (hB₀N₂ ((connectedComponentIn_mono _ (preimage_mono inter_subset_left)) hmem)) ?_
+    rw [deck_apply q hδ]; exact hb₁₂
+  have hδV : MapsTo δ (connectedComponentIn (q ⁻¹' V) f₁) (connectedComponentIn (q ⁻¹' V) f₂) := by
+    intro w hw
+    have h1 : δ '' connectedComponentIn (q ⁻¹' V) v₁ = connectedComponentIn (q ⁻¹' V) (δ v₁) :=
+      deck_image_connectedComponentIn q hδ (mem_of_mem_connectedComponentIn_preimage hv₁)
+    rw [hδv₁, ← connectedComponentIn_eq hv₂, ← connectedComponentIn_eq hv₁] at h1
+    rw [← h1]; exact mem_image_of_mem δ hw
+  refine ⟨δ, hδ, hδv₁, hδV, ?_⟩
+  obtain ⟨hZo, hZ'o, hZ'c, hcl, -⟩ := maxBranched_cc_facts hregN hV h₁.base_mem
+  have hO₁V : connectedComponentIn (q ⁻¹' B) v₁ ⊆ connectedComponentIn (q ⁻¹' V) f₁ := by
+    rw [connectedComponentIn_eq hv₁]
+    exact connectedComponentIn_mono _ (preimage_mono inter_subset_right)
+  refine eqOn_maxBranched_of_base_eq hregM hZo inter_subset_left hZ'o hZ'c hcl
+    (h₂.contOn.comp δ.continuous.continuousOn hδV) h₁.contOn (fun w hw => ?_) (fun w hw => ?_)
+    ⟨hO₁V hu₁O, hu₁R⟩ (by show Ψ₂ (δ u₁) = Ψ₁ u₁; rw [hδu, hu₂])
+  · refine hφinj (h₂.mem _ (hδV hw)) (h₁.mem _ hw) ?_
+    rw [h₂.base _ (hδV hw), h₁.base _ hw]; exact deck_apply q hδ w
+  · refine (hφreg _ (h₂.mem _ (hδV hw.1))).1 ?_
+    rw [h₂.base _ (hδV hw.1)]
+    show q (δ w) ∈ Reg G X N
+    rw [deck_apply q hδ]; exact hw.2
+
+end Descent
+
+section DescTopHelpers
+
+/-- A preconnected `W`, covered by open subsets `p ⊆ W` each of which meets `R` in a preconnected
+set, and such that two of them which meet do so at a point of `R`, has `W ∩ R` preconnected
+(explicit topology). -/
+theorem isPreconnected_inter_of_cover_of {α : Type*} (t : TopologicalSpace α) {W R : Set α}
+    (hWc : @IsPreconnected α t W) (P : Set (Set α)) (hPo : ∀ p ∈ P, IsOpen[t] p)
+    (hcov : W ⊆ ⋃₀ P) (hPW : ∀ p ∈ P, p ⊆ W) (hPR : ∀ p ∈ P, @IsPreconnected α t (p ∩ R))
+    (hmeet : ∀ p ∈ P, ∀ p' ∈ P, (p ∩ p').Nonempty → (p ∩ p' ∩ R).Nonempty) :
+    @IsPreconnected α t (W ∩ R) := by
+  letI := t
+  intro u v hu hv hsub ⟨a, haWR, hau⟩ ⟨b, hbWR, hbv⟩
+  by_contra hne
+  have hne' : ∀ x ∈ W ∩ R, x ∈ u → x ∈ v → False := fun x hx hxu hxv =>
+    hne ⟨x, hx, hxu, hxv⟩
+  -- each `p ∩ R` lies in `u` or in `v`
+  have hside : ∀ p ∈ P, ∀ x ∈ p ∩ R, x ∈ u → ∀ y ∈ p ∩ R, y ∈ v → False := by
+    intro p hp x hx hxu y hy hyv
+    obtain ⟨z, hz, hzu, hzv⟩ := hPR p hp u v hu hv
+      (fun w hw => hsub ⟨hPW p hp hw.1, hw.2⟩) ⟨x, hx, hxu⟩ ⟨y, hy, hyv⟩
+    exact hne' z ⟨hPW p hp hz.1, hz.2⟩ hzu hzv
+  set 𝒰 := ⋃₀ {p ∈ P | ∃ x ∈ p ∩ R, x ∈ u}
+  set 𝒱 := ⋃₀ {p ∈ P | ∃ x ∈ p ∩ R, x ∈ v}
+  have h𝒰 : IsOpen 𝒰 := isOpen_sUnion fun p hp => hPo p hp.1
+  have h𝒱 : IsOpen 𝒱 := isOpen_sUnion fun p hp => hPo p hp.1
+  have hcov' : W ⊆ 𝒰 ∪ 𝒱 := by
+    intro w hw
+    obtain ⟨p, hp, hwp⟩ := hcov hw
+    obtain ⟨x, ⟨hxp, -⟩, hxR⟩ := hmeet p hp p hp ⟨w, hwp, hwp⟩
+    rcases hsub ⟨hPW p hp hxp, hxR⟩ with hxu | hxv
+    · exact Or.inl ⟨p, ⟨hp, x, ⟨hxp, hxR⟩, hxu⟩, hwp⟩
+    · exact Or.inr ⟨p, ⟨hp, x, ⟨hxp, hxR⟩, hxv⟩, hwp⟩
+  have ha : (W ∩ 𝒰).Nonempty := by
+    obtain ⟨p, hp, hap⟩ := hcov haWR.1
+    exact ⟨a, haWR.1, p, ⟨hp, a, ⟨hap, haWR.2⟩, hau⟩, hap⟩
+  have hb : (W ∩ 𝒱).Nonempty := by
+    obtain ⟨p, hp, hbp⟩ := hcov hbWR.1
+    exact ⟨b, hbWR.1, p, ⟨hp, b, ⟨hbp, hbWR.2⟩, hbv⟩, hbp⟩
+  obtain ⟨w, -, ⟨p, ⟨hp, x, hx, hxu⟩, hwp⟩, ⟨p', ⟨hp', y, hy, hyv⟩, hwp'⟩⟩ :=
+    hWc 𝒰 𝒱 h𝒰 h𝒱 hcov' ha hb
+  obtain ⟨r, ⟨hrp, hrp'⟩, hrR⟩ := hmeet p hp p' hp' ⟨w, hwp, hwp'⟩
+  rcases hsub ⟨hPW p hp hrp, hrR⟩ with hru | hrv
+  · exact hside p' hp' r ⟨hrp', hrR⟩ hru y hy hyv
+  · exact hside p hp x hx hxu r ⟨hrp, hrR⟩ hrv
+
+/-- In a locally path-connected (explicit) topology, an open set contains an open preconnected
+neighbourhood of each of its points. -/
+theorem exists_isOpen_isPreconnected_of {α : Type*} (t : TopologicalSpace α)
+    (hl : @LocPathConnectedSpace α t) {F : Set α} {x : α} (hF : IsOpen[t] F) (hx : x ∈ F) :
+    ∃ K, IsOpen[t] K ∧ x ∈ K ∧ K ⊆ F ∧ @IsPreconnected α t K := by
+  letI := t
+  haveI := hl
+  exact ⟨connectedComponentIn F x, hF.connectedComponentIn, mem_connectedComponentIn hx,
+    connectedComponentIn_subset _ _, isPreconnected_connectedComponentIn⟩
+
+/-- Two maps continuous for an explicit topology, agreeing on `s`, agree on `closure s`. -/
+theorem eqOn_of_subset_closure_of {α β : Type*} [TopologicalSpace β] [T2Space β]
+    (t : TopologicalSpace α) {f g : α → β} (hf : Continuous[t, _] f) (hg : Continuous[t, _] g)
+    {s u : Set α} (h : EqOn f g s) (hus : u ⊆ @closure α t s) : EqOn f g u := fun x hx => by
+  letI := t
+  exact ((isClosed_eq hf hg).closure_subset_iff.2 h) (hus hx)
+
+end DescTopHelpers
+
+section DescTop
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  {M : Type v} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
+  [FirstCountableTopology M] [ConnectedSpace M] [SingularGXStructure G X M]
+  {N : Type u} [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
+  [FirstCountableTopology N] [ConnectedSpace N] [SingularGXStructure G X N]
+  {y₀ : ((Sing G X M)ᶜ : Set M)} {yN : ((Sing G X N)ᶜ : Set N)}
+
+/-- The neighbourhoods of `T_{U,V,φ}` read through chosen descents: at a point `y` over `U`, the
+image by the descent `Ψz y` of the `T_N`-neighbourhoods of `fz y` (`Ψz y (fz y) = y`); the
+natural ones off `p⁻¹(U)`. This is the quotient (`RamcovGX.tex:2096`, "consider the quotient
+topology on `Û`") of `T_N` on `V̂` by the descent `V̂ → Û`. -/
+def descNhds (U : Set M)
+    (fz : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X N) yN)
+    (Ψz : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X N) yN →
+      MaxBranchedCover (Sing G X M) y₀)
+    (TN : WrappedTop (MaxBranchedCover (Sing G X N) yN))
+    (y : MaxBranchedCover (Sing G X M) y₀) : Filter (MaxBranchedCover (Sing G X M) y₀) :=
+  if y.base ∈ U then Filter.map (Ψz y) (@nhds _ TN.top (fz y)) else 𝓝 y
+
+/-- The topology `T_{U,V,φ}` (`RamcovGX.tex:2093–2098`) when `V̂ → V` dominates `Û → U` (in
+particular when `r : Ṽ → V̂` is an isomorphism, `ℓ` arbitrary): on each component `Û` of
+`p⁻¹(U)`, the quotient of `T_N` by a descent `V̂ → Û` of `φ⁻¹`; natural off `p⁻¹(U)`. -/
+@[reducible] def descTop (U : Set M)
+    (fz : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X N) yN)
+    (Ψz : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X N) yN →
+      MaxBranchedCover (Sing G X M) y₀)
+    (TN : WrappedTop (MaxBranchedCover (Sing G X N) yN)) :
+    TopologicalSpace (MaxBranchedCover (Sing G X M) y₀) :=
+  TopologicalSpace.mkOfNhds (descNhds U fz Ψz TN)
+
+/-- An element of `Γ(\widetilde N/N)` maps `T_N`-neighbourhoods onto `T_N`-neighbourhoods. -/
+theorem map_deck_nhds_of_isTamifying {TN : WrappedTop (MaxBranchedCover (Sing G X N) yN)}
+    (hTN : IsTamifyingTopology G X N yN TN.top)
+    {δ : MaxBranchedCover (Sing G X N) yN ≃ₜ MaxBranchedCover (Sing G X N) yN}
+    (hδ : δ ∈ deckGroup (SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N))
+    (v : MaxBranchedCover (Sing G X N) yN) :
+    Filter.map δ (@nhds _ TN.top v) = @nhds _ TN.top (δ v) := by
+  rw [← comap_deck_nhds_of_isTamifying hTN hδ v, Filter.map_comap_of_surjective δ.surjective]
+
+variable {U : Set M} {V : Set N} {φ' : M → N}
+  {fz : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X N) yN}
+  {Ψz : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X N) yN →
+      MaxBranchedCover (Sing G X M) y₀}
+  {TN : WrappedTop (MaxBranchedCover (Sing G X N) yN)}
+
+/-- A component of `q⁻¹(V)` is a `T_N`-neighbourhood of its points. -/
+theorem cc_mem_nhds_of_isTamifying (hregN : SemilocallySimplyConnected ((Sing G X N)ᶜ : Set N))
+    (hV : IsOpen V) (hTN : IsTamifyingTopology G X N yN TN.top)
+    {f w : MaxBranchedCover (Sing G X N) yN}
+    (hw : w ∈ connectedComponentIn (SpreadEnd.base ⁻¹' V) f) :
+    connectedComponentIn (SpreadEnd.base ⁻¹' V) f ∈ @nhds _ TN.top w := by
+  obtain ⟨-, hβN, -, -, hβlN, -⟩ := maxBranched_basic (isSkeletal_sing G X N) hregN yN
+  haveI := hβlN
+  exact nhds_mono hTN.le_natural
+    (((hV.preimage hβN.isSpread.continuous).connectedComponentIn).mem_nhds hw)
+
+variable (hregM : SemilocallySimplyConnected ((Sing G X M)ᶜ : Set M))
+  (hregN : SemilocallySimplyConnected ((Sing G X N)ᶜ : Set N))
+  (hU : IsOpen U) (hV : IsOpen V)
+  (hφc : ContinuousOn φ' U) (hφinj : InjOn φ' U) (hφV : MapsTo φ' U V)
+  (hφreg : ∀ m ∈ U, φ' m ∈ Reg G X N ↔ m ∈ Reg G X M)
+  (hdisc : ∀ x : N, DiscreteTopology
+      ((SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) ⁻¹' {x}))
+  (hF : ∀ z : MaxBranchedCover (Sing G X M) y₀, z.base ∈ U →
+      IsChartDescent U V φ' (fz z) (Ψz z) ∧ Ψz z (fz z) = z)
+  (hTN : IsTamifyingTopology G X N yN TN.top)
+include hregM hregN hU hV hφc hφinj hφV hφreg hdisc hF hTN
+
+/-- `T_{U,V,φ}` does not depend on the descents: at `Ψ' v`, for ANY descent `Ψ'` and any `v` in
+its domain, its neighbourhoods are the images by `Ψ'` of the `T_N`-neighbourhoods of `v`
+(two descents differ by an element of `Γ(\widetilde N/N)`, `T_N`-continuous by (C),
+`IsChartDescent.exists_deck`). -/
+theorem descNhds_eq {f' : MaxBranchedCover (Sing G X N) yN}
+    {Ψ' : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X M) y₀}
+    (h' : IsChartDescent U V φ' f' Ψ') {v : MaxBranchedCover (Sing G X N) yN}
+    (hv : v ∈ connectedComponentIn (SpreadEnd.base ⁻¹' V) f') :
+    descNhds U fz Ψz TN (Ψ' v) = Filter.map Ψ' (@nhds _ TN.top v) := by
+  have hyU : (Ψ' v).base ∈ U := h'.mem v hv
+  obtain ⟨hFy, hFy'⟩ := hF (Ψ' v) hyU
+  have hfy := mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' V) hFy.base_mem
+  obtain ⟨δ, hδ, hδv, -, hEq⟩ := hFy.exists_deck hregM hregN hU hV hφc hφinj hφV hφreg hdisc h'
+    hfy hv hFy'
+  rw [descNhds, if_pos hyU]
+  calc Filter.map (Ψz (Ψ' v)) (@nhds _ TN.top (fz (Ψ' v)))
+      = Filter.map (fun w => Ψ' (δ w)) (@nhds _ TN.top (fz (Ψ' v))) :=
+        Filter.map_congr (Filter.mem_of_superset (cc_mem_nhds_of_isTamifying hregN hV hTN hfy)
+          fun w hw => (hEq hw).symm)
+    _ = Filter.map Ψ' (Filter.map δ (@nhds _ TN.top (fz (Ψ' v)))) := by rw [Filter.map_map]; rfl
+    _ = Filter.map Ψ' (@nhds _ TN.top v) := by rw [map_deck_nhds_of_isTamifying hTN hδ, hδv]
+
+theorem descNhds_le (y : MaxBranchedCover (Sing G X M) y₀) : descNhds U fz Ψz TN y ≤ 𝓝 y := by
+  unfold descNhds
+  split_ifs with hy
+  · obtain ⟨hFy, hFy'⟩ := hF y hy
+    have hfy := mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' V) hFy.base_mem
+    obtain ⟨-, hβN, -, -, hβlN, -⟩ := maxBranched_basic (isSkeletal_sing G X N) hregN yN
+    haveI := hβlN
+    have hc := (hFy.contOn.continuousAt
+      (((hV.preimage hβN.isSpread.continuous).connectedComponentIn).mem_nhds hfy)).tendsto
+    rw [hFy'] at hc
+    exact (Filter.map_mono (nhds_mono hTN.le_natural)).trans hc
+  · exact le_rfl
+
+theorem nhds_descTop (y : MaxBranchedCover (Sing G X M) y₀) :
+    @nhds _ (descTop U fz Ψz TN) y = descNhds U fz Ψz TN y := by
+  refine nhds_mkOfNhds _ _ (fun z => ?_) (fun z s hs => ?_)
+  · unfold descNhds
+    split_ifs with hz
+    · intro s hs
+      have := mem_of_mem_nhds_of TN.top hs
+      rw [mem_preimage, (hF z hz).2] at this
+      exact this
+    · exact pure_le_nhds z
+  · by_cases hz : z.base ∈ U
+    · obtain ⟨hFz, -⟩ := hF z hz
+      have hs' := hs
+      rw [descNhds, if_pos hz] at hs'
+      have hfz := mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' V) hFz.base_mem
+      rw [descNhds, if_pos hz, Filter.eventually_map]
+      filter_upwards [(eventually_mem_nhds_iff_of TN.top).2 hs',
+        cc_mem_nhds_of_isTamifying hregN hV hTN hfz] with w hw1 hw2
+      rw [descNhds_eq hregM hregN hU hV hφc hφinj hφV hφreg hdisc hF hTN hFz hw2]
+      exact hw1
+    · rw [descNhds, if_neg hz] at hs ⊢
+      filter_upwards [eventually_mem_nhds_iff.2 hs] with w hw
+      exact descNhds_le hregM hregN hU hV hφc hφinj hφV hφreg hdisc hF hTN w hw
+
+theorem descTop_le : descTop U fz Ψz TN ≤ weakTopMax G X M y₀ := (le_iff_nhds _ _).2 fun y => by
+  rw [nhds_descTop hregM hregN hU hV hφc hφinj hφV hφreg hdisc hF hTN]
+  exact descNhds_le hregM hregN hU hV hφc hφinj hφV hφreg hdisc hF hTN y
+
+/-- Every descent is continuous from `T_N` to `T_{U,V,φ}` on its domain, with equality of the
+neighbourhood filters (a quotient map). -/
+theorem nhds_descTop_eq_map {f' : MaxBranchedCover (Sing G X N) yN}
+    {Ψ' : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X M) y₀}
+    (h' : IsChartDescent U V φ' f' Ψ') {v : MaxBranchedCover (Sing G X N) yN}
+    (hv : v ∈ connectedComponentIn (SpreadEnd.base ⁻¹' V) f') :
+    @nhds _ (descTop U fz Ψz TN) (Ψ' v) = Filter.map Ψ' (@nhds _ TN.top v) := by
+  rw [nhds_descTop hregM hregN hU hV hφc hφinj hφV hφreg hdisc hF hTN,
+    descNhds_eq hregM hregN hU hV hφc hφinj hφV hφreg hdisc hF hTN h' hv]
+
+theorem continuousOn_descTop {f' : MaxBranchedCover (Sing G X N) yN}
+    {Ψ' : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X M) y₀}
+    (h' : IsChartDescent U V φ' f' Ψ') :
+    @ContinuousOn _ _ TN.top (descTop U fz Ψz TN) Ψ'
+      (connectedComponentIn (SpreadEnd.base ⁻¹' V) f') := fun v hv => by
+  show Tendsto Ψ' (@nhdsWithin _ TN.top v _) (@nhds _ (descTop U fz Ψz TN) (Ψ' v))
+  rw [nhds_descTop_eq_map hregM hregN hU hV hφc hφinj hφV hφreg hdisc hF hTN h' hv]
+  exact tendsto_map.mono_left (Filter.map_mono (nhdsWithin_le_nhds_of TN.top))
+
+/-- A descent is surjective onto the component of `p⁻¹(U)` it lands in. -/
+theorem IsChartDescent.surjOn_cc {f : MaxBranchedCover (Sing G X N) yN}
+    {Ψ : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X M) y₀}
+    (hΨ : IsChartDescent U V φ' f Ψ) :
+    SurjOn Ψ (connectedComponentIn (SpreadEnd.base ⁻¹' V) f)
+      (connectedComponentIn (SpreadEnd.base ⁻¹' U) (Ψ f)) := by
+  intro y hy
+  have hyU : y.base ∈ U := mem_of_mem_connectedComponentIn_preimage hy
+  obtain ⟨hFy, hFy'⟩ := hF y hyU
+  have hfy := mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' V) hFy.base_mem
+  obtain ⟨-, -, -, -, ⟨u, huV, huR⟩⟩ := maxBranched_cc_facts hregN hV hFy.base_mem
+  have huC : Ψz y u ∈ connectedComponentIn (SpreadEnd.base ⁻¹' U) (Ψ f) := by
+    have := hFy.mapsTo_cc hfy huV
+    rwa [hFy', ← connectedComponentIn_eq hy] at this
+  have huR' : (Ψz y u).base ∈ Reg G X M :=
+    (hφreg _ (hFy.mem u huV)).1 (by rw [hFy.base u huV]; exact huR)
+  obtain ⟨u₂, hu₂V, hu₂⟩ := hΨ.reg_subset_image hregM hregN hU hV hφc hφinj hφV hφreg ⟨huC, huR'⟩
+  obtain ⟨δ, -, -, hδV, hEq⟩ := hFy.exists_deck hregM hregN hU hV hφc hφinj hφV hφreg hdisc hΨ huV
+    hu₂V hu₂.symm
+  exact ⟨δ (fz y), hδV hfy, (hEq hfy).trans hFy'⟩
+
+/-- The topology `T_{U,V,φ}` built from descents is a local tamifying topology over `U`
+(`RamcovGX.tex:2093–2140`, the case where `V̂ → V` dominates `Û → U`, `ℓ` arbitrary): first
+countable and locally path-connected (images of those of `T_N`), natural over `reg U` (a descent
+is open at regular points, `reg_subset_image`), (A) through (A) for `T_N`, (B) by descending
+`g • D_N` (`D_N ∘ δ = D_N` for the deck transformations `δ` relating two points of a fibre of the
+descent, by density of the regular part, `RamcovGX.tex:2117–2128`), (C) (a deck transformation
+composed with a descent is a descent) and (D) (`RamcovGX.tex:2128–2133`: the image of the portly
+`reg(V̂)` by the open surjective descent, `isPreconnected_inter_of_cover_of`). -/
+theorem isLocalTamifying_descTop
+    (hlift' : ∀ (z : MaxBranchedCover (Sing G X M) y₀) (f : MaxBranchedCover (Sing G X N) yN),
+      z.base ∈ U → f.base = φ' z.base →
+        ∃ Ψ, IsChartDescent U V φ' f Ψ ∧ Ψ f = z)
+    {D₀ : MaxBranchedCover (Sing G X M) y₀ → X} {Dₙ : MaxBranchedCover (Sing G X N) yN → X}
+    (hDₙ : Continuous[TN.top, _] Dₙ)
+    (hstr : ∀ z : MaxBranchedCover (Sing G X M) y₀, z.base ∈ U → ∃ g : G,
+      ∀ w ∈ connectedComponentIn (SpreadEnd.base ⁻¹' V) (fz z) ∩ SpreadEnd.base ⁻¹' Reg G X N,
+        D₀ (Ψz z w) = g • Dₙ w) :
+    IsLocalTamifying G X M y₀ D₀ U (descTop U fz Ψz TN) := by
+  have hS₀M := isSkeletal_sing G X M
+  obtain ⟨-, hβM, -, -, hβlM, -⟩ := maxBranched_basic hS₀M hregM y₀
+  have hS₀N := isSkeletal_sing G X N
+  obtain ⟨-, hβN, -, -, hβlN, -⟩ := maxBranched_basic hS₀N hregN yN
+  haveI := hβlM
+  haveI := hβlN
+  have hnhds := nhds_descTop hregM hregN hU hV hφc hφinj hφV hφreg hdisc hF hTN
+  have hmap := fun {f'} {Ψ'} (h' : IsChartDescent U V φ' f' Ψ') {v} hv =>
+    nhds_descTop_eq_map (fz := fz) (Ψz := Ψz) hregM hregN hU hV hφc hφinj hφV hφreg hdisc hF hTN
+      (f' := f') (Ψ' := Ψ') h' (v := v) hv
+  have hle := descTop_le hregM hregN hU hV hφc hφinj hφV hφreg hdisc hF hTN
+  have hTopen : ∀ s, IsOpen s → IsOpen[descTop U fz Ψz TN] s := fun s hs =>
+    TopologicalSpace.le_def.1 hle s hs
+  have hVn := fun {f w : MaxBranchedCover (Sing G X N) yN}
+    (hw : w ∈ connectedComponentIn (SpreadEnd.base ⁻¹' V) f) =>
+    cc_mem_nhds_of_isTamifying hregN hV hTN hw
+  have hZo : ∀ z : MaxBranchedCover (Sing G X M) y₀, z.base ∈ U →
+      IsOpen (connectedComponentIn (SpreadEnd.base ⁻¹' U) z) := fun z hz =>
+    (maxBranched_cc_facts hregM hU hz).1
+  -- density of the regular part, in `T_{U,V,φ}`
+  have hdense : ∀ y : MaxBranchedCover (Sing G X M) y₀, y.base ∈ U →
+      ∀ t ∈ @nhds _ (descTop U fz Ψz TN) y,
+        (t ∩ (SpreadEnd.base ⁻¹' Reg G X M ∩ SpreadEnd.base ⁻¹' U)).Nonempty := by
+    intro y hy t ht
+    obtain ⟨hFy, hFy'⟩ := hF y hy
+    have hfy := mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' V) hFy.base_mem
+    rw [hnhds, descNhds, if_pos hy] at ht
+    have hd := mem_closure_of_dense_of TN.top (@IsPortly.dense _ TN.top _ hTN.isPortly) (fz y)
+    rw [mem_closure_iff_nhds_of TN.top] at hd
+    obtain ⟨v, ⟨hvt, hvV⟩, hvR⟩ := hd _ (Filter.inter_mem ht (hVn hfy))
+    exact ⟨Ψz y v, hvt, (hφreg _ (hFy.mem v hvV)).1 (by rw [hFy.base v hvV]; exact hvR),
+      hFy.mem v hvV⟩
+  refine ⟨hle, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · -- first countable
+    intro e he
+    rw [hnhds, descNhds, if_pos he]
+    haveI := @FirstCountableTopology.nhds_generated_countable _ TN.top hTN.firstCountable (fz e)
+    infer_instance
+  · -- locally path-connected
+    intro e he
+    refine Filter.hasBasis_self.2 fun t ht => ?_
+    obtain ⟨hFe, hFe'⟩ := hF e he
+    have hfe := mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' V) hFe.base_mem
+    have ht' := ht
+    rw [hnhds, descNhds, if_pos he] at ht'
+    obtain ⟨P, ⟨hPn, hPc⟩, hPsub⟩ :=
+      (@path_connected_basis _ TN.top hTN.locPathConnected (fz e)).mem_iff.1
+        (Filter.inter_mem ht' (hVn hfe))
+    refine ⟨Ψz e '' P, ?_, isPathConnected_image_of TN.top (descTop U fz Ψz TN) hPc
+      (continuousOn_mono_of TN.top (descTop U fz Ψz TN)
+        (continuousOn_descTop hregM hregN hU hV hφc hφinj hφV hφreg hdisc hF hTN hFe)
+        fun v hv => (hPsub hv).2), ?_⟩
+    · rw [hnhds, descNhds, if_pos he]
+      exact Filter.image_mem_map hPn
+    · rintro _ ⟨v, hv, rfl⟩
+      exact (hPsub hv).1
+  · -- natural over `reg`
+    intro e he hreg
+    obtain ⟨hFe, hFe'⟩ := hF e he
+    have hfe := mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' V) hFe.base_mem
+    rw [hnhds]
+    refine le_antisymm (descNhds_le hregM hregN hU hV hφc hφinj hφV hφreg hdisc hF hTN e) ?_
+    have hfR : (fz e).base ∈ Reg G X N := by
+      rw [← hFe.base _ hfe, hFe']; exact (hφreg _ he).2 hreg
+    rw [descNhds, if_pos he, IsTamifyingTopology.nhds_eq_of_reg hregN hTN hfR]
+    intro s hs
+    obtain ⟨O, hOs, hOo, hfO⟩ := mem_nhds_iff.1 (show Ψz e ⁻¹' s ∈ 𝓝 (fz e) from hs)
+    obtain ⟨B₀, hB₀, hfB₀, hB₀O⟩ := (isSpread_iff.1 hβN.isSpread).2.2 (fz e) O hOo hfO
+    have hBo : IsOpen (B₀ ∩ V) := hB₀.inter hV
+    have hfB : (fz e).base ∈ B₀ ∩ V := ⟨hfB₀, hFe.base_mem⟩
+    have hU'o : IsOpen (U ∩ φ' ⁻¹' (B₀ ∩ V)) := hφc.isOpen_inter_preimage hU hBo
+    have R := hFe.restrict inter_subset_right hfe hfB (U' := U ∩ φ' ⁻¹' (B₀ ∩ V))
+      fun m hm hmB => ⟨hm, hmB⟩
+    have himg := R.reg_subset_image hregM hregN hU'o hBo (hφc.mono inter_subset_left)
+      (hφinj.mono inter_subset_left) (fun m hm => hm.2) (fun m hm => hφreg m hm.1)
+    rw [hFe'] at himg
+    have heU' : e.base ∈ U ∩ φ' ⁻¹' (B₀ ∩ V) := ⟨he, by
+      show φ' e.base ∈ B₀ ∩ V
+      rw [← hFe', hFe.base _ hfe]; exact hfB⟩
+    obtain ⟨-, hCRo, -, -, -⟩ := maxBranched_cc_facts hregM hU'o heU'
+    refine Filter.mem_of_superset (hCRo.mem_nhds ⟨mem_connectedComponentIn heU', hreg⟩)
+      fun y hy => ?_
+    obtain ⟨w, hw, rfl⟩ := himg hy
+    exact hOs (hB₀O ((connectedComponentIn_mono _ (preimage_mono inter_subset_left)) hw))
+  · -- (A)
+    intro O hO
+    set Y : Set N := φ' '' (O ∩ U) with hYdef
+    have hYq : IsOpen[TN.top] ((SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) ⁻¹' Y) := by
+      refine (isOpen_iff_mem_nhds_of TN.top).2 fun v hv => ?_
+      obtain ⟨u, ⟨huO, huU⟩, hvu⟩ := hv
+      obtain ⟨z, hz⟩ := hβM.surjective u
+      have hzU : z.base ∈ U := hz ▸ huU
+      obtain ⟨Ψ, hΨ, hΨv⟩ := hlift' z v hzU (by rw [hz]; exact hvu.symm)
+      have hvV := mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' V) hΨ.base_mem
+      have hA : (SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) ⁻¹' O ∩
+          SpreadEnd.base ⁻¹' U ∈ @nhds _ (descTop U fz Ψz TN) z :=
+        @IsOpen.mem_nhds _ (descTop U fz Ψz TN) _ _ hO ⟨show z.base ∈ O from hz ▸ huO, hzU⟩
+      rw [← hΨv, hmap hΨ hvV] at hA
+      refine Filter.mem_of_superset (Filter.inter_mem hA (hVn hvV)) fun w ⟨hwA, hwV⟩ => ?_
+      exact ⟨(Ψ w).base, hwA, hΨ.base w hwV⟩
+    have hY : IsOpen Y := by
+      have h : IsOpen[TopologicalSpace.coinduced SpreadEnd.base TN.top] Y := isOpen_coinduced.2 hYq
+      rwa [hTN.coinduced_eq] at h
+    have hOU : O ∩ U = U ∩ φ' ⁻¹' Y := by
+      ext m
+      constructor
+      · rintro ⟨hmO, hmU⟩; exact ⟨hmU, m, ⟨hmO, hmU⟩, rfl⟩
+      · rintro ⟨hmU, m', hm', heq⟩
+        exact ⟨hφinj hm'.2 hmU heq ▸ hm'.1, hmU⟩
+    rw [hOU]; exact hφc.isOpen_inter_preimage hU hY
+  · -- (B)
+    intro e he
+    obtain ⟨hFe, hFe'⟩ := hF e he
+    obtain ⟨g, hg⟩ := hstr e he
+    set Ψ := Ψz e
+    set f := fz e
+    set Vh := connectedComponentIn ((SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) ⁻¹' V) f
+    have hfe : f ∈ Vh := mem_connectedComponentIn hFe.base_mem
+    have hsurj := hFe.surjOn_cc hregM hregN hU hV hφc hφinj hφV hφreg hdisc hF hTN
+    rw [hFe'] at hsurj
+    -- `D_N` is constant on the fibres of the descent
+    have hinv : ∀ w ∈ Vh, ∀ w' ∈ Vh, Ψ w = Ψ w' → Dₙ w = Dₙ w' := by
+      intro w hw w' hw' hww'
+      obtain ⟨δ, hδ, hδw, hδV, hEq⟩ := hFe.exists_deck hregM hregN hU hV hφc hφinj hφV hφreg hdisc
+        hFe hw hw' hww'
+      have hR : EqOn (fun u => Dₙ (δ u)) Dₙ (Vh ∩ SpreadEnd.base ⁻¹' Reg G X N) := by
+        intro u hu
+        have hδu : δ u ∈ Vh ∩ SpreadEnd.base ⁻¹' Reg G X N := ⟨hδV hu.1, by
+          show (δ u).base ∈ Reg G X N
+          rw [show (δ u).base = u.base from deck_apply _ hδ u]; exact hu.2⟩
+        have h1 := hg _ hδu
+        have h2 := hg u hu
+        have h3 : Ψ (δ u) = Ψ u := hEq hu.1
+        rw [h3, h2] at h1
+        exact (smul_left_cancel g h1).symm
+      have hcl : Vh ⊆ @closure _ TN.top (Vh ∩ SpreadEnd.base ⁻¹' Reg G X N) := by
+        intro x hx
+        rw [mem_closure_iff_nhds_of TN.top]
+        intro t ht
+        have hd := mem_closure_of_dense_of TN.top (@IsPortly.dense _ TN.top _ hTN.isPortly) x
+        rw [mem_closure_iff_nhds_of TN.top] at hd
+        obtain ⟨r, ⟨hrt, hrV⟩, hrR⟩ := hd _ (Filter.inter_mem ht (hVn hx))
+        exact ⟨r, hrt, hrV, hrR⟩
+      have := eqOn_of_subset_closure_of TN.top
+        (continuous_comp_of TN.top TN.top _ hDₙ (continuous_deck_of_isTamifying hTN hδ)) hDₙ hR
+        hcl hw
+      simp only at this
+      rw [← hδw, this]
+    let σ : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X N) yN := fun y =>
+      if h : ∃ w ∈ Vh, Ψ w = y then h.choose else f
+    have hσ : ∀ y ∈ connectedComponentIn (SpreadEnd.base ⁻¹' U) e, σ y ∈ Vh ∧ Ψ (σ y) = y := by
+      intro y hy
+      have h : ∃ w ∈ Vh, Ψ w = y := hsurj hy
+      have : σ y = h.choose := dif_pos h
+      rw [this]; exact h.choose_spec
+    have hDΨ : ∀ w ∈ Vh, g • Dₙ (σ (Ψ w)) = g • Dₙ w := by
+      intro w hw
+      have hΨw : Ψ w ∈ connectedComponentIn (SpreadEnd.base ⁻¹' U) e := by
+        have := hFe.mapsTo_cc hfe hw; rwa [hFe'] at this
+      rw [hinv _ (hσ _ hΨw).1 w hw (hσ _ hΨw).2]
+    refine ⟨connectedComponentIn (SpreadEnd.base ⁻¹' U) e, hTopen _ (hZo e he),
+      mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' U) he, fun y => g • Dₙ (σ y), ?_,
+      fun y hy => ?_⟩
+    · intro y hy
+      obtain ⟨hσV, hσy⟩ := hσ y hy
+      show Tendsto (fun y => g • Dₙ (σ y)) (@nhdsWithin _ (descTop U fz Ψz TN) y _) (𝓝 _)
+      refine Tendsto.mono_left ?_ (nhdsWithin_le_nhds_of (descTop U fz Ψz TN))
+      rw [← hσy, hmap hFe hσV, Filter.tendsto_map'_iff]
+      have hc : Tendsto (fun w => g • Dₙ w) (@nhds _ TN.top (σ y)) (𝓝 (g • Dₙ (σ y))) :=
+        ((@Continuous.tendsto _ _ TN.top _ Dₙ hDₙ (σ y))).const_smul g
+      show Tendsto (fun w => g • Dₙ (σ (Ψ w))) (@nhds _ TN.top (σ y))
+        (𝓝 (g • Dₙ (σ (Ψ (σ y)))))
+      rw [hDΨ _ hσV]
+      refine hc.congr' (Filter.mem_of_superset (hVn hσV) fun w hw => ?_)
+      exact (hDΨ w hw).symm
+    · obtain ⟨hσV, hσy⟩ := hσ y hy.1
+      have hσR : (σ y).base ∈ Reg G X N := by
+        rw [← hFe.base _ hσV, hσy]; exact (hφreg _ (mem_of_mem_connectedComponentIn_preimage hy.1)).2 hy.2
+      have := hg (σ y) ⟨hσV, hσR⟩
+      rw [hσy] at this
+      exact this.symm
+  · -- (C)
+    rintro f ⟨γ, hγ, rfl⟩ e he
+    obtain ⟨hFe, hFe'⟩ := hF e he
+    have hfe := mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' V) hFe.base_mem
+    have hγΨ : IsChartDescent U V φ' (fz e) (fun w => γ (Ψz e w)) :=
+      ⟨hFe.base_mem, γ.continuous.comp_continuousOn hFe.contOn, fun w hw => by
+        show (γ (Ψz e w)).base ∈ U
+        rw [show (γ (Ψz e w)).base = (Ψz e w).base from deck_apply _ hγ _]; exact hFe.mem w hw,
+        fun w hw => by
+        show φ' (γ (Ψz e w)).base = w.base
+        rw [show (γ (Ψz e w)).base = (Ψz e w).base from deck_apply _ hγ _]; exact hFe.base w hw⟩
+    show Tendsto γ (@nhds _ (descTop U fz Ψz TN) e) (@nhds _ (descTop U fz Ψz TN) (γ e))
+    have hγe : γ e = (fun w => γ (Ψz e w)) (fz e) := by simp only [hFe']
+    rw [hγe, hmap hγΨ hfe, hnhds, descNhds, if_pos he, Filter.tendsto_map'_iff]
+    exact tendsto_map
+  · -- (D)
+    have hpre : (Subtype.val : (SpreadEnd.base ⁻¹' U : Set (MaxBranchedCover (Sing G X M) y₀)) →
+        MaxBranchedCover (Sing G X M) y₀) ⁻¹' (SpreadEnd.base ⁻¹' Reg G X M) =
+        Subtype.val ⁻¹' (SpreadEnd.base ⁻¹' Reg G X M ∩ SpreadEnd.base ⁻¹' U) := by
+      ext z; exact ⟨fun h => ⟨h, z.2⟩, fun h => h.1⟩
+    rw [hpre]
+    have hOU : IsOpen[descTop U fz Ψz TN]
+        ((SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) ⁻¹' U) :=
+      hTopen _ (hU.preimage hβM.isSpread.continuous)
+    refine (@isPortly_subtype_iff _ (descTop U fz Ψz TN) _ _ hOU inter_subset_right).2
+      ⟨hTopen _ (((isOpen_reg G X M).preimage hβM.isSpread.continuous).inter
+        (hU.preimage hβM.isSpread.continuous)), fun y hy => ?_, fun W hWo hWU hWc => ?_⟩
+    · exact (mem_closure_iff_nhds_of (descTop U fz Ψz TN)).2 (hdense y hy)
+    · rcases W.eq_empty_or_nonempty with rfl | ⟨w₀, hw₀⟩
+      · rw [empty_inter]; exact isPreconnected_empty_of (descTop U fz Ψz TN)
+      have hw₀U : w₀.base ∈ U := hWU hw₀
+      have hWc' : IsPreconnected W := by
+        have := isPreconnected_image_of (descTop U fz Ψz TN) (weakTopMax G X M y₀) hWc
+          (continuousOn_of_continuous_of _ _ (continuous_id_of_le hle) W)
+        rwa [image_id] at this
+      have hWZ : W ⊆ connectedComponentIn (SpreadEnd.base ⁻¹' U) w₀ :=
+        hWc'.subset_connectedComponentIn hw₀ hWU
+      obtain ⟨hFw, hFw'⟩ := hF w₀ hw₀U
+      set Ψ := Ψz w₀
+      set Vh := connectedComponentIn
+        ((SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) ⁻¹' V) (fz w₀)
+      have hsurj := hFw.surjOn_cc hregM hregN hU hV hφc hφinj hφV hφreg hdisc hF hTN
+      rw [hFw'] at hsurj
+      have hcont := continuousOn_descTop hregM hregN hU hV hφc hφinj hφV hφreg hdisc hF hTN hFw
+      -- the open set `V̂ ∩ Ψ⁻¹ W`
+      have hWo' : IsOpen[TN.top] (Vh ∩ Ψ ⁻¹' W) := by
+        refine (isOpen_iff_mem_nhds_of TN.top).2 fun x hx => Filter.inter_mem (hVn hx.1) ?_
+        have h1 := hmap hFw hx.1
+        have h2 : W ∈ @nhds _ (descTop U fz Ψz TN) (Ψ x) :=
+          @IsOpen.mem_nhds _ (descTop U fz Ψz TN) _ _ hWo hx.2
+        rw [h1] at h2
+        exact h2
+      set P : Set (Set (MaxBranchedCover (Sing G X M) y₀)) :=
+        {p | ∃ K, IsOpen[TN.top] K ∧ K ⊆ Vh ∩ Ψ ⁻¹' W ∧ @IsPreconnected _ TN.top K ∧ p = Ψ '' K}
+      refine isPreconnected_inter_of_cover_of (descTop U fz Ψz TN) hWc P ?_ ?_ ?_ ?_ ?_
+      · rintro _ ⟨K, hKo, hKs, -, rfl⟩
+        refine (isOpen_iff_mem_nhds_of (descTop U fz Ψz TN)).2 ?_
+        rintro _ ⟨k, hk, rfl⟩
+        rw [hmap hFw (hKs hk).1]
+        exact Filter.image_mem_map ((isOpen_iff_mem_nhds_of TN.top).1 hKo k hk)
+      · intro y hy
+        obtain ⟨w, hwV, rfl⟩ := hsurj (hWZ hy)
+        obtain ⟨K, hKo, hwK, hKs, hKc⟩ :=
+          exists_isOpen_isPreconnected_of TN.top hTN.locPathConnected hWo' ⟨hwV, hy⟩
+        exact ⟨Ψ '' K, ⟨K, hKo, hKs, hKc, rfl⟩, mem_image_of_mem _ hwK⟩
+      · rintro _ ⟨K, -, hKs, -, rfl⟩
+        rintro _ ⟨k, hk, rfl⟩
+        exact (hKs hk).2
+      · rintro _ ⟨K, hKo, hKs, hKc, rfl⟩
+        have heq : Ψ '' K ∩ (SpreadEnd.base ⁻¹' Reg G X M ∩ SpreadEnd.base ⁻¹' U) =
+            Ψ '' (K ∩ SpreadEnd.base ⁻¹' Reg G X N) := by
+          ext y
+          constructor
+          · rintro ⟨⟨k, hk, rfl⟩, hR, -⟩
+            refine ⟨k, ⟨hk, ?_⟩, rfl⟩
+            show k.base ∈ Reg G X N
+            rw [← hFw.base k (hKs hk).1]; exact (hφreg _ (hFw.mem k (hKs hk).1)).2 hR
+          · rintro ⟨k, ⟨hk, hR⟩, rfl⟩
+            refine ⟨mem_image_of_mem _ hk, (hφreg _ (hFw.mem k (hKs hk).1)).1 ?_,
+              hFw.mem k (hKs hk).1⟩
+            rw [hFw.base k (hKs hk).1]; exact hR
+        rw [heq]
+        exact isPreconnected_image_of TN.top (descTop U fz Ψz TN)
+          (isPreconnected_inter_of_isPortly_of TN.top hTN.isPortly hKo hKc)
+          (continuousOn_mono_of TN.top (descTop U fz Ψz TN) hcont fun k hk => (hKs hk.1).1)
+      · rintro p hp p' hp' ⟨y, hyp, hyp'⟩
+        have hpo : ∀ p ∈ P, IsOpen[descTop U fz Ψz TN] p := by
+          rintro _ ⟨K, hKo, hKs, -, rfl⟩
+          refine (isOpen_iff_mem_nhds_of (descTop U fz Ψz TN)).2 ?_
+          rintro _ ⟨k, hk, rfl⟩
+          rw [hmap hFw (hKs hk).1]
+          exact Filter.image_mem_map ((isOpen_iff_mem_nhds_of TN.top).1 hKo k hk)
+        have hyU : y.base ∈ U := by
+          obtain ⟨K, -, hKs, -, rfl⟩ := hp
+          obtain ⟨k, hk, rfl⟩ := hyp
+          exact hFw.mem k (hKs hk).1
+        obtain ⟨r, hr, hrR⟩ := hdense y hyU (p ∩ p')
+          (Filter.inter_mem ((isOpen_iff_mem_nhds_of _).1 (hpo p hp) y hyp)
+            ((isOpen_iff_mem_nhds_of _).1 (hpo p' hp') y hyp'))
+        exact ⟨r, hr, hrR⟩
+
+end DescTop
+
+section DescStructure
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  {M : Type v} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
+  [FirstCountableTopology M] [ConnectedSpace M] [SingularGXStructure G X M]
+  {N : Type u} [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
+  [FirstCountableTopology N] [ConnectedSpace N] [SingularGXStructure G X N]
+  {y₀ : ((Sing G X M)ᶜ : Set M)} {yN : ((Sing G X N)ᶜ : Set N)}
+
+/-- Over `V`, a descent of `φ` reads `p` as `φ⁻¹ ∘ q`. -/
+theorem IsChartDescent.base_eq_symm {U : Opens M} {V : Opens N} {φ : U ≃ₜ V}
+    {f : MaxBranchedCover (Sing G X N) yN}
+    {Ψ : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X M) y₀}
+    (hΨ : IsChartDescent (U : Set M) (V : Set N) (chartExt φ) f Ψ) {w : MaxBranchedCover (Sing G X N) yN}
+    (hw : w ∈ connectedComponentIn (SpreadEnd.base ⁻¹' (V : Set N)) f) :
+    (Ψ w).base = chartExt φ.symm w.base := by
+  have hwV : w.base ∈ V := mem_of_mem_connectedComponentIn_preimage hw
+  have hm := hΨ.mem w hw
+  rw [chartExt_apply φ.symm hwV]
+  have h := hΨ.base w hw
+  rw [chartExt_apply φ hm] at h
+  have : (⟨w.base, hwV⟩ : V) = φ ⟨(Ψ w).base, hm⟩ := Subtype.ext h.symm
+  rw [this, Homeomorph.symm_apply_apply]
+
+/-- The descent step of (B) (`RamcovGX.tex:2117–2128`): through a descent `Ψ : V̂ → Û` of `φ⁻¹`,
+`D₀ ∘ Ψ` is a developing map of `reg(V̂)`, so it differs from the developing map `D_N` by one
+`g ∈ G` on the connected `reg(V̂)`. -/
+theorem exists_smul_eq_of_isChartDescent
+    (hregM : SemilocallySimplyConnected ((Sing G X M)ᶜ : Set M))
+    (hregN : SemilocallySimplyConnected ((Sing G X N)ᶜ : Set N)) {U : Opens M} {V : Opens N}
+    {φ : U ≃ₜ V} (hφ : IsAEMorphism G X (φ : U → V)) {D₀ : MaxBranchedCover (Sing G X M) y₀ → X}
+    (hD₀ : IsRegDevelopingOnReg G X M y₀ D₀) {Dₙ : MaxBranchedCover (Sing G X N) yN → X}
+    (hDₙ : IsRegDevelopingOnReg G X N yN Dₙ) {f : MaxBranchedCover (Sing G X N) yN}
+    {Ψ : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X M) y₀}
+    (hΨ : IsChartDescent (U : Set M) (V : Set N) (chartExt φ) f Ψ) :
+    ∃ g : G, ∀ w ∈ connectedComponentIn (SpreadEnd.base ⁻¹' (V : Set N)) f ∩
+      SpreadEnd.base ⁻¹' Reg G X N, D₀ (Ψ w) = g • Dₙ w := by
+  obtain ⟨hZo, hZ'o, hZ'c, -, -⟩ := maxBranched_cc_facts hregN V.isOpen hΨ.base_mem
+  obtain ⟨hA, hβR⟩ := isRegularOn_base_maxBranched hregN yN
+  have hφs : IsAEMorphism G X (φ.symm : V → U) := hφ.symm_of_homeomorph
+  have hreg : IsRegularOn G (aePullback G (aeAtlas G X N)
+      (SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N)) (gxModelAtlas G X)
+      (fun w => D₀ (Ψ w)) (connectedComponentIn (SpreadEnd.base ⁻¹' (V : Set N)) f ∩
+        SpreadEnd.base ⁻¹' Reg G X N) := by
+    refine isRegularOn_model_of_eventually_comp hA (hβR.mono inter_subset_right hZ'o)
+      fun w hw => ?_
+    have hwV : w.base ∈ V := mem_of_mem_connectedComponentIn_preimage hw.1
+    have hmU := hΨ.mem w hw.1
+    have hΨR : (Ψ w).base ∈ Reg G X M := by
+      rw [hΨ.base_eq_symm hw.1, ← chartExt_mem_reg_iff hφ (by rw [← hΨ.base_eq_symm hw.1]; exact hmU)]
+      rw [← hΨ.base_eq_symm hw.1, hΨ.base w hw.1]; exact hw.2
+    obtain ⟨c', hc', hΨc', h, hh⟩ := hD₀.eventually_eq_smul_chart hregM hΨR
+    have hu : (φ.symm ⟨w.base, hwV⟩ : M) ∈ c'.source := by
+      rw [← chartExt_apply φ.symm hwV, ← hΨ.base_eq_symm hw.1]; exact hΨc'
+    obtain ⟨c, hc, hwc, g, hg⟩ := eventually_chartExt_eq_smul hφs (u := ⟨w.base, hwV⟩) hw.2 hc' hu
+    refine ⟨c, hc, hwc, h * g, ?_⟩
+    have hcΨ := hΨ.contOn.continuousAt (hZo.mem_nhds hw.1)
+    have hcb : Tendsto (SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) (𝓝 w)
+        (𝓝 w.base) := SpreadEnd.continuous_base.continuousAt
+    filter_upwards [hcΨ.eventually hh, hcb.eventually hg, hZo.mem_nhds hw.1] with y h1 h2 h3
+    show D₀ (Ψ y) = (h * g) • c y.base
+    rw [h1, hΨ.base_eq_symm h3, h2, mul_smul]
+  obtain ⟨g, hg⟩ := exists_smul_eq_on_of_isRegularOn hZ'c
+    (hDₙ.mono inter_subset_right hZ'o) hreg
+  exact ⟨g, hg⟩
+
+end DescStructure
+
+section DescNat
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  {M : Type v} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
+  [FirstCountableTopology M] [ConnectedSpace M] [SingularGXStructure G X M]
+  {N : Type u} [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
+  [FirstCountableTopology N] [ConnectedSpace N] [SingularGXStructure G X N]
+  {y₀ : ((Sing G X M)ᶜ : Set M)} {yN : ((Sing G X N)ᶜ : Set N)}
+
+/-- Naturality of `T_{U,V,φ}` built from descents (`RamcovGX.tex:2104–2107`, and the restriction
+the gluing l.2101 uses): two charts which, on an open `W` inside both domains, differ by an
+automorphism `ψ` of the model (`ψ ∘ φ₁ = φ₂` on `W`) give comparable neighbourhoods at the
+points over `W` (equal, `ψ⁻¹` giving the converse). Through the lift `Λ` of `ψ` to
+`\widetilde N` (`exists_lift_singularAut`, `T_N`-continuous by hypothesis), the first descent read
+through `Λ⁻¹` and the second, restricted near the point, are descents of the same chart; they
+differ by `δ ∈ Γ(\widetilde N/N)` (`IsChartDescent.exists_deck`). -/
+theorem nhds_descTop_le_of_aut (hregM : SemilocallySimplyConnected ((Sing G X M)ᶜ : Set M))
+    (hregN : SemilocallySimplyConnected ((Sing G X N)ᶜ : Set N))
+    (hdisc : ∀ x : N, DiscreteTopology
+      ((SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) ⁻¹' {x}))
+    {U₁ U₂ : Set M} {V₁ V₂ : Set N} {φ₁ φ₂ : M → N}
+    {fz₁ fz₂ : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X N) yN}
+    {Ψz₁ Ψz₂ : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X N) yN →
+      MaxBranchedCover (Sing G X M) y₀}
+    {TN : WrappedTop (MaxBranchedCover (Sing G X N) yN)}
+    (hU₁ : IsOpen U₁) (hV₁ : IsOpen V₁) (hφc₁ : ContinuousOn φ₁ U₁) (hφinj₁ : InjOn φ₁ U₁)
+    (hφV₁ : MapsTo φ₁ U₁ V₁) (hφreg₁ : ∀ m ∈ U₁, φ₁ m ∈ Reg G X N ↔ m ∈ Reg G X M)
+    (hF₁ : ∀ z : MaxBranchedCover (Sing G X M) y₀, z.base ∈ U₁ →
+      IsChartDescent U₁ V₁ φ₁ (fz₁ z) (Ψz₁ z) ∧ Ψz₁ z (fz₁ z) = z)
+    (hU₂ : IsOpen U₂) (hV₂ : IsOpen V₂) (hφc₂ : ContinuousOn φ₂ U₂) (hφinj₂ : InjOn φ₂ U₂)
+    (hφV₂ : MapsTo φ₂ U₂ V₂) (hφreg₂ : ∀ m ∈ U₂, φ₂ m ∈ Reg G X N ↔ m ∈ Reg G X M)
+    (hF₂ : ∀ z : MaxBranchedCover (Sing G X M) y₀, z.base ∈ U₂ →
+      IsChartDescent U₂ V₂ φ₂ (fz₂ z) (Ψz₂ z) ∧ Ψz₂ z (fz₂ z) = z)
+    (hTN : IsTamifyingTopology G X N yN TN.top)
+    (hAut : ∀ f ∈ aeAutMapsMax G X N yN, Continuous[TN.top, TN.top] f)
+    {W : Set M} (hWo : IsOpen W) (hW₂ : W ⊆ U₂) {ψ : N ≃ₜ N}
+    (hψ : ψ ∈ singularAut G X N) (hψφ : ∀ m ∈ W, ψ (φ₁ m) = φ₂ m)
+    {e : MaxBranchedCover (Sing G X M) y₀} (he : e.base ∈ W) (he₁ : e.base ∈ U₁) :
+    @nhds _ (descTop U₁ fz₁ Ψz₁ TN) e ≤ @nhds _ (descTop U₂ fz₂ Ψz₂ TN) e := by
+  obtain ⟨Λ, hΛb, hΛ⟩ := exists_lift_singularAut hregN yN hψ
+  have hΛc : Continuous[TN.top, TN.top] Λ := hAut _ ⟨Λ, rfl, hΛ⟩
+  have hΛsb : ∀ w, (Λ.symm w).base = ψ.symm w.base := fun w => by
+    have h := hΛb (Λ.symm w)
+    rw [Homeomorph.apply_symm_apply] at h
+    rw [h, Homeomorph.symm_apply_apply]
+  have hS₀N := isSkeletal_sing G X N
+  obtain ⟨-, hβN, -, -, hβlN, -⟩ := maxBranched_basic hS₀N hregN yN
+  haveI := hβlN
+  obtain ⟨h₁, h₁'⟩ := hF₁ e he₁
+  obtain ⟨h₂, h₂'⟩ := hF₂ e (hW₂ he)
+  set f₁ := fz₁ e
+  set f₂ := fz₂ e
+  set Ψ₁ := Ψz₁ e
+  set Ψ₂ := Ψz₂ e
+  have hf₁ := mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' V₁) h₁.base_mem
+  have hf₂ := mem_connectedComponentIn (F := SpreadEnd.base ⁻¹' V₂) h₂.base_mem
+  have hV₁o : IsOpen (connectedComponentIn
+      ((SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) ⁻¹' V₁) f₁) :=
+    (hV₁.preimage hβN.isSpread.continuous).connectedComponentIn
+  -- a neighbourhood of `f₁` whose points `Ψ₁` sends over `W`
+  have hnb : connectedComponentIn (SpreadEnd.base ⁻¹' V₁) f₁ ∩
+      Ψ₁ ⁻¹' ((SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) ⁻¹' W) ∈ 𝓝 f₁ := by
+    refine Filter.inter_mem (hV₁o.mem_nhds hf₁) ?_
+    have hc := h₁.contOn.continuousAt (hV₁o.mem_nhds hf₁)
+    refine hc.preimage_mem_nhds ((hWo.preimage SpreadEnd.continuous_base).mem_nhds ?_)
+    show (Ψ₁ f₁).base ∈ W
+    rw [h₁']; exact he
+  obtain ⟨O, hOs, hOo, hfO⟩ := mem_nhds_iff.1 hnb
+  obtain ⟨B₀, hB₀, hfB₀, hB₀O⟩ := (isSpread_iff.1 hβN.isSpread).2.2 f₁ O hOo hfO
+  set B₁ := B₀ ∩ V₁
+  set B₂ := ψ '' B₁ ∩ V₂
+  have hB₂o : IsOpen B₂ := (ψ.isOpenMap _ (hB₀.inter hV₁)).inter hV₂
+  have hbe : f₂.base = (Λ f₁).base := by
+    rw [hΛb, ← h₂.base f₂ hf₂, ← h₁.base f₁ hf₁, h₁', h₂']
+    exact (hψφ _ he).symm
+  have hgB₂ : (Λ f₁).base ∈ B₂ := ⟨by rw [hΛb]; exact mem_image_of_mem _ ⟨hfB₀, h₁.base_mem⟩,
+    hbe ▸ h₂.base_mem⟩
+  have hf₂B : f₂.base ∈ B₂ := by rw [hbe]; exact hgB₂
+  set U' := U₂ ∩ φ₂ ⁻¹' B₂
+  have hU'o : IsOpen U' := hφc₂.isOpen_inter_preimage hU₂ hB₂o
+  -- the first descent, read through `Λ⁻¹`
+  have hmapsΛ : MapsTo Λ.symm (connectedComponentIn (SpreadEnd.base ⁻¹' B₂) (Λ f₁))
+      (connectedComponentIn (SpreadEnd.base ⁻¹' B₁) f₁) := by
+    refine image_subset_iff.1 ((isPreconnected_connectedComponentIn.image _
+      Λ.symm.continuous.continuousOn).subset_connectedComponentIn
+        ⟨Λ f₁, mem_connectedComponentIn hgB₂, Λ.symm_apply_apply f₁⟩ ?_)
+    rintro _ ⟨w, hw, rfl⟩
+    show (Λ.symm w).base ∈ B₁
+    rw [hΛsb]
+    obtain ⟨b, hb, hbw⟩ := (mem_of_mem_connectedComponentIn_preimage hw).1
+    rw [← hbw, ψ.symm_apply_apply]; exact hb
+  have hB₁O : connectedComponentIn ((SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) ⁻¹' B₁)
+      f₁ ⊆ O := (connectedComponentIn_mono _ (preimage_mono inter_subset_left)).trans hB₀O
+  have D₁ : IsChartDescent U' B₂ φ₂ (Λ f₁) (fun w => Ψ₁ (Λ.symm w)) := by
+    have hin : ∀ w ∈ connectedComponentIn (SpreadEnd.base ⁻¹' B₂) (Λ f₁),
+        Λ.symm w ∈ connectedComponentIn (SpreadEnd.base ⁻¹' V₁) f₁ ∧
+          (Ψ₁ (Λ.symm w)).base ∈ W := fun w hw => hOs (hB₁O (hmapsΛ hw))
+    have hbase : ∀ w ∈ connectedComponentIn (SpreadEnd.base ⁻¹' B₂) (Λ f₁),
+        φ₂ (Ψ₁ (Λ.symm w)).base = w.base := fun w hw => by
+      rw [← hψφ _ (hin w hw).2, h₁.base _ (hin w hw).1, hΛsb, ψ.apply_symm_apply]
+    refine ⟨hgB₂, h₁.contOn.comp Λ.symm.continuous.continuousOn fun w hw => (hin w hw).1,
+      fun w hw => ⟨hW₂ (hin w hw).2, ?_⟩, hbase⟩
+    show φ₂ (Ψ₁ (Λ.symm w)).base ∈ B₂
+    rw [hbase w hw]; exact mem_of_mem_connectedComponentIn_preimage hw
+  have D₂ : IsChartDescent U' B₂ φ₂ f₂ Ψ₂ :=
+    h₂.restrict inter_subset_right hf₂ hf₂B fun m hm hmB => ⟨hm, hmB⟩
+  obtain ⟨δ, hδ, hδv, -, hEq⟩ := D₁.exists_deck hregM hregN hU'o hB₂o
+    (hφc₂.mono inter_subset_left) (hφinj₂.mono inter_subset_left) (fun m hm => hm.2)
+    (fun m hm => hφreg₂ m hm.1) hdisc D₂ (mem_connectedComponentIn hgB₂)
+    (mem_connectedComponentIn hf₂B)
+    (by show Ψ₁ (Λ.symm (Λ f₁)) = Ψ₂ f₂; rw [Λ.symm_apply_apply, h₁', h₂'])
+  have hκ : Continuous[TN.top, TN.top] (fun v => δ (Λ v)) :=
+    continuous_comp_of TN.top TN.top TN.top (continuous_deck_of_isTamifying hTN hδ) hΛc
+  have hev : ∀ᶠ w in @nhds _ TN.top f₁, Ψ₁ w = Ψ₂ (δ (Λ w)) := by
+    have hmem : Λ ⁻¹' connectedComponentIn (SpreadEnd.base ⁻¹' B₂) (Λ f₁) ∈ 𝓝 f₁ :=
+      Λ.continuous.continuousAt.preimage_mem_nhds
+        (((hB₂o.preimage hβN.isSpread.continuous).connectedComponentIn).mem_nhds
+          (mem_connectedComponentIn hgB₂))
+    filter_upwards [nhds_mono hTN.le_natural hmem] with w hw
+    have := hEq hw
+    dsimp only at this
+    rw [Λ.symm_apply_apply] at this
+    exact this.symm
+  have hF₁' : ∀ z : MaxBranchedCover (Sing G X M) y₀, z.base ∈ U₁ →
+      IsChartDescent U₁ V₁ φ₁ (fz₁ z) (Ψz₁ z) ∧ Ψz₁ z (fz₁ z) = z := hF₁
+  rw [nhds_descTop hregM hregN hU₁ hV₁ hφc₁ hφinj₁ hφV₁ hφreg₁ hdisc hF₁' hTN,
+    nhds_descTop hregM hregN hU₂ hV₂ hφc₂ hφinj₂ hφV₂ hφreg₂ hdisc hF₂ hTN, descNhds, descNhds,
+    if_pos he₁, if_pos (hW₂ he)]
+  calc Filter.map Ψ₁ (@nhds _ TN.top f₁)
+      = Filter.map (fun w => Ψ₂ (δ (Λ w))) (@nhds _ TN.top f₁) := Filter.map_congr hev
+    _ = Filter.map Ψ₂ (Filter.map (fun w => δ (Λ w)) (@nhds _ TN.top f₁)) := by
+        rw [Filter.map_map]; rfl
+    _ ≤ Filter.map Ψ₂ (@nhds _ TN.top f₂) := by
+        refine Filter.map_mono ?_
+        have := (@Continuous.tendsto _ _ TN.top TN.top _ hκ f₁)
+        rwa [hδv] at this
+
+end DescNat
+
+section DescChart
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  {M : Type v} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
+  [FirstCountableTopology M] [ConnectedSpace M] [SingularGXStructure G X M]
+  {N : Type u} [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
+  [FirstCountableTopology N] [ConnectedSpace N] [SingularGXStructure G X N]
+
+variable (G X) in
+/-- An isomorphism `φ : U → V` of open subsets of `M` and of a model `N` *descends from the
+maximal covering of the model* if, for every pair of points `e ∈ \widetilde M` over `U` and
+`f ∈ \widetilde N` over `φ(p e)`, there is a descent of `φ⁻¹` from the component `V̂ ∋ f` of
+`q⁻¹(V)` sending `f` to `e` (`IsChartDescent`: continuous on `V̂`, `φ ∘ p ∘ Ψ = q`), for every
+base points. This is the case of the proof of `theo:local_virt_tame` (l.2088–2098) in which the
+paper's `T_{U,V,φ}` is the quotient by `V̂ → Û` of `T_α` ITSELF, `r^*T_α` never entering: it holds
+when `r : Ṽ → V̂` is an isomorphism (`V̂ → V` is then the maximal covering of `V`, which dominates
+`Û → U`, `prop:universality`; informal, not formalized), whatever `ℓ : Ũ → Û`; and when the charts
+lift (`IsLiftableChartMap.isDescendingChartMap`). -/
+def IsDescendingChartMap {U : Opens M} {V : Opens N} (φ : U ≃ₜ V) : Prop :=
+  ∀ (y₀ : ((Sing G X M)ᶜ : Set M)) (yN : ((Sing G X N)ᶜ : Set N))
+    (e : MaxBranchedCover (Sing G X M) y₀) (f : MaxBranchedCover (Sing G X N) yN),
+    e.base ∈ U → f.base = chartExt φ e.base →
+      ∃ Ψ : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X M) y₀,
+        IsChartDescent (U : Set M) (V : Set N) (chartExt φ) f Ψ ∧ Ψ f = e
+
+/-- A chart lifting to the maximal coverings (`ℓ`, `r` isomorphisms) descends (the inverse of the
+lift is a descent). -/
+theorem IsLiftableChartMap.isDescendingChartMap {U : Opens M} {V : Opens N} {φ : U ≃ₜ V}
+    (hφ : IsLiftableChartMap G X φ) : IsDescendingChartMap G X φ := by
+  intro y₀ yN e f he hf
+  obtain ⟨F, F', hl⟩ := hφ.exists_isChartLift e f he (by rw [hf, chartExt_apply])
+  have hfV : f ∈ connectedComponentIn (SpreadEnd.base ⁻¹' (V : Set N)) f := by
+    have := hl.mapsTo (mem_connectedComponentIn he); rwa [hl.apply_self] at this
+  refine ⟨F', ⟨mem_of_mem_connectedComponentIn_preimage hfV, hl.contF', fun w hw =>
+    mem_of_mem_connectedComponentIn_preimage (hl.mapsTo' hw), fun w hw => ?_⟩, ?_⟩
+  · rw [← hl.base _ (hl.mapsTo' hw), hl.right w hw]
+  · rw [← hl.apply_self, hl.left e (mem_connectedComponentIn he)]
+
+/-- `theo:local_virt_tame`'s "locally Galoisian" (`def:singular_manifold_locally_galoisian`) at
+`U = N`: `reg N` is semi-locally simply connected at every point of `N` (homotopy form; `X`
+locally unloopable). -/
+theorem IsLocallyGaloisian.isSLSCAt (hX : IsLocallyUnloopable X) (hgal : IsLocallyGaloisian G X N)
+    (x : N) : IsSLSCAt ((Sing G X N)ᶜ : Set N) x := by
+  have hT := (hgal ⊤).2 ⟨x, trivial⟩
+  have hR : Reg G X (⊤ : Opens N) = ((Sing G X (⊤ : Opens N))ᶜ : Set (⊤ : Opens N)) :=
+    (compl_compl _).symm
+  rw [hR] at hT
+  have hsc := semilocallySimplyConnected_compl_of_sing_subset (G := G) hX
+    (isClosed_sing G X (⊤ : Opens N)) subset_rfl
+  have hT' := hT.isSLSCAt (isSkeletal_iff.1 (isSkeletal_sing G X (⊤ : Opens N))).isOpen hsc
+  have hpre : ((Sing G X (⊤ : Opens N))ᶜ : Set (⊤ : Opens N)) =
+      (Subtype.val : (⊤ : Opens N) → N) ⁻¹' (Sing G X N)ᶜ := by
+    rw [← hR, reg_opensSingular, show Reg G X N = (Sing G X N)ᶜ from (compl_compl _).symm]
+  rw [hpre] at hT'
+  exact IsSLSCAt.of_isOpenEmbedding (⊤ : Opens N).isOpen.isOpenEmbedding_subtypeVal hT'
+
+/-- The fibres of `\widetilde N → N` are discrete when `N` is locally Galoisian. -/
+theorem discreteTopology_fiber_of_isLocallyGaloisian (hX : IsLocallyUnloopable X)
+    (hgal : IsLocallyGaloisian G X N) (yN : ((Sing G X N)ᶜ : Set N)) (x : N) :
+    DiscreteTopology ((SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) ⁻¹' {x}) := by
+  have hS₀ := isSkeletal_sing G X N
+  have hreg := semilocallySimplyConnected_compl_of_sing_subset (G := G) hX
+    (isClosed_sing G X N) subset_rfl
+  obtain ⟨hl, -, -⟩ := maxBranched_instances hS₀ hreg yN
+  haveI := hl
+  obtain ⟨hbc, hpb⟩ := maxBranched_isBranchedCovering hS₀ hreg yN
+  exact discreteTopology_fiber_of_isSLSCAt hbc hS₀ hpb (hgal.isSLSCAt hX x)
+
+theorem mapsTo_chartExt {U : Opens M} {V : Opens N} (φ : U ≃ₜ V) :
+    MapsTo (chartExt φ) (U : Set M) (V : Set N) := fun m hm => by
+  rw [chartExt_apply φ hm]; exact (φ ⟨m, hm⟩).2
+
+theorem injOn_chartExt {U : Opens M} {V : Opens N} (φ : U ≃ₜ V) :
+    InjOn (chartExt φ) (U : Set M) := fun m hm m' hm' h => by
+  rw [chartExt_apply φ hm, chartExt_apply φ hm'] at h
+  exact congrArg Subtype.val (φ.injective (Subtype.ext h))
+
+end DescChart
+
+section DescVirtTame
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  [FaithfulSMul G X]
+  {A : Type*} {Xα : A → Type u} [∀ a, TopologicalSpace (Xα a)] [∀ a, T2Space (Xα a)]
+  [∀ a, LocPathConnectedSpace (Xα a)] [∀ a, FirstCountableTopology (Xα a)]
+  [∀ a, ConnectedSpace (Xα a)] [∀ a, SingularGXStructure G X (Xα a)] {S : ∀ a, Set (Xα a)}
+
+/-- `theo:local_virt_tame`, (ii) ⇒ (i), proved in the case where the proof's `T_{U,V,φ}` is a
+quotient of `T_α` itself: if every singular point of `M` is the centre of an `X_A`-chart which
+descends from the maximal covering of its model (`IsDescendingChartMap`: `V̂ → V` dominates
+`Û → U` — e.g. `r : Ṽ → V̂` an isomorphism, `ℓ : Ũ → Û` ARBITRARY), then `M` is virtually tame.
+The local topologies are the `T_{U,V,φ}` (`descTop`, `isLocalTamifying_descTop`: on each `Û` the
+quotient of `T_α` by a descent `V̂ → Û`, the paper's ℓ-quotient) over the descending charts and
+the natural one over `reg M` (`isLocalTamifying_natural_reg`); they agree over the overlaps by
+naturality (`nhds_descTop_le_of_aut`, l.2104–2107, through `XAChart.eq_of_mem_centre` and
+`XAChart.exists_aut_eq`), and glue (`exists_isTamifyingTopology_of_local`). The local
+Galoisianity of the models is used, as in the paper (l.2093), for the Galoisianity of the
+descents (`IsChartDescent.exists_deck`, through the discreteness of the fibres of
+`\widetilde X_α → X_α`, `discreteTopology_fiber_of_isLocallyGaloisian`). -/
+theorem isVirtuallyTame_of_descending (hX : IsLocallyUnloopable X)
+    (hfam : IsAnalyticModelFamily G X Xα S) (hgal : ∀ a, IsLocallyGaloisian G X (Xα a))
+    (htam : ∀ a, HasAutContinuousTamifying G X (Xα a))
+    {M : Type v} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
+    [FirstCountableTopology M] [ConnectedSpace M] [SingularGXStructure G X M]
+    (hdesc : ∀ y ∈ Sing G X M, ∃ (a : A) (c : XAChart G X Xα S a y),
+      IsDescendingChartMap G X c.φ) :
+    IsVirtuallyTame G X M := by
+  obtain ⟨y₀⟩ := (nonempty_compl_of_isSkeletal (isSkeletal_sing G X M)).to_subtype
+  have hregM := semilocallySimplyConnected_compl_of_sing_subset (G := G) hX
+    (isClosed_sing G X M) subset_rfl
+  have hregN : ∀ a, SemilocallySimplyConnected ((Sing G X (Xα a))ᶜ : Set (Xα a)) := fun a =>
+    semilocallySimplyConnected_compl_of_sing_subset (G := G) hX (isClosed_sing G X (Xα a)) subset_rfl
+  obtain ⟨D₀, hD₀⟩ := exists_isRegDevelopingOnReg hregM y₀
+  have htam' : ∀ a, ∃ (yN : ((Sing G X (Xα a))ᶜ : Set (Xα a)))
+      (TN : WrappedTop (MaxBranchedCover (Sing G X (Xα a)) yN)),
+      IsTamifyingTopology G X (Xα a) yN TN.top ∧
+        ∀ f ∈ aeAutMapsMax G X (Xα a) yN, Continuous[TN.top, TN.top] f := fun a => by
+    obtain ⟨y, T, h1, h2⟩ := htam a
+    exact ⟨y, ⟨T⟩, h1, h2⟩
+  choose yN TN hTN hAut using htam'
+  have hdisc : ∀ a (x : Xα a), DiscreteTopology
+      ((SpreadEnd.base : MaxBranchedCover (Sing G X (Xα a)) (yN a) → Xα a) ⁻¹' {x}) :=
+    fun a x => discreteTopology_fiber_of_isLocallyGaloisian hX (hgal a) (yN a) x
+  have hDN : ∀ a, ∃ D : MaxBranchedCover (Sing G X (Xα a)) (yN a) → X,
+      Continuous[(TN a).top, _] D ∧ IsRegDevelopingOnReg G X (Xα a) (yN a) D :=
+    fun a => (hTN a).exists_extension
+  choose DN hDNc hDNr using hDN
+  have hFam : ∀ c : {c : Σ a : A, Σ x : M, XAChart G X Xα S a x //
+        IsDescendingChartMap G X c.2.2.φ},
+      ∃ (fz : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X (Xα c.1.1)) (yN c.1.1))
+        (Ψz : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X (Xα c.1.1)) (yN c.1.1) →
+          MaxBranchedCover (Sing G X M) y₀),
+        ∀ z : MaxBranchedCover (Sing G X M) y₀, z.base ∈ (c.1.2.2.U : Set M) →
+          IsChartDescent (c.1.2.2.U : Set M) (c.1.2.2.V : Set (Xα c.1.1)) (chartExt c.1.2.2.φ)
+            (fz z) (Ψz z) ∧ Ψz z (fz z) = z := by
+    rintro ⟨⟨a, x, c⟩, hc⟩
+    obtain ⟨-, hβN, -, -, -, -⟩ := maxBranched_basic (isSkeletal_sing G X (Xα a)) (hregN a) (yN a)
+    obtain ⟨f₀, -⟩ := hβN.surjective (Classical.arbitrary (Xα a))
+    have : ∀ z : MaxBranchedCover (Sing G X M) y₀, ∃ (f : MaxBranchedCover (Sing G X (Xα a)) (yN a))
+        (Ψ : MaxBranchedCover (Sing G X (Xα a)) (yN a) → MaxBranchedCover (Sing G X M) y₀),
+        z.base ∈ (c.U : Set M) →
+          IsChartDescent (c.U : Set M) (c.V : Set (Xα a)) (chartExt c.φ) f Ψ ∧ Ψ f = z := by
+      intro z
+      by_cases hz : z.base ∈ (c.U : Set M)
+      · obtain ⟨f, hf⟩ := hβN.surjective (chartExt c.φ z.base)
+        obtain ⟨Ψ, hΨ, hΨf⟩ := hc y₀ (yN a) z f hz hf
+        exact ⟨f, Ψ, fun _ => ⟨hΨ, hΨf⟩⟩
+      · exact ⟨f₀, fun _ => z, fun h => absurd h hz⟩
+    choose fz Ψz hFz using this
+    exact ⟨fz, Ψz, hFz⟩
+  choose fz Ψz hFz using hFam
+  let ι := Option {c : Σ a : A, Σ x : M, XAChart G X Xα S a x // IsDescendingChartMap G X c.2.2.φ}
+  let U : ι → Set M := fun i => match i with
+    | none => Reg G X M
+    | some c => (c.1.2.2.U : Set M)
+  let T : ι → TopologicalSpace (MaxBranchedCover (Sing G X M) y₀) := fun i => match i with
+    | none => weakTopMax G X M y₀
+    | some c => descTop (c.1.2.2.U : Set M) (fz c) (Ψz c) ⟨(TN c.1.1).top⟩
+  have hUo : ∀ i, IsOpen (U i) := by
+    rintro (_ | c)
+    · exact isOpen_reg G X M
+    · exact c.1.2.2.U.isOpen
+  have hT : ∀ i, IsLocalTamifying G X M y₀ D₀ (U i) (T i) := by
+    rintro (_ | ⟨⟨a, x, c⟩, hc⟩)
+    · exact isLocalTamifying_natural_reg hregM hD₀
+    · exact isLocalTamifying_descTop hregM (hregN a) c.U.isOpen c.V.isOpen
+        (continuousOn_chartExt c.φ) (injOn_chartExt c.φ) (mapsTo_chartExt c.φ)
+        (fun m hm => chartExt_mem_reg_iff c.isAEMorphism hm) (hdisc a) (hFz ⟨⟨a, x, c⟩, hc⟩)
+        (hTN a) (fun z f hz hf => hc y₀ (yN a) z f hz hf) (hDNc a)
+        (fun z hz => exists_smul_eq_of_isChartDescent hregM (hregN a) c.isAEMorphism hD₀
+          (hDNr a) (hFz ⟨⟨a, x, c⟩, hc⟩ z hz).1)
+  have hcov : ∀ y : M, ∃ i, y ∈ U i := fun y => by
+    by_cases hy : y ∈ Reg G X M
+    · exact ⟨none, hy⟩
+    · obtain ⟨a, c, hc⟩ := hdesc y hy
+      exact ⟨some ⟨⟨a, y, c⟩, hc⟩, c.mem⟩
+  -- naturality at a singular point: every descending chart agrees with one centred there
+  have key : ∀ (b : A) (y : M) (c₀ : XAChart G X Xα S b y) (hc₀ : IsDescendingChartMap G X c₀.φ)
+      (i : ι) (e : MaxBranchedCover (Sing G X M) y₀), e.base = y → y ∉ Reg G X M →
+      e.base ∈ U i → @nhds _ (T (some ⟨⟨b, y, c₀⟩, hc₀⟩)) e = @nhds _ (T i) e := by
+    rintro b y c₀ hc₀ (_ | ⟨⟨a, x, c⟩, hc⟩) e rfl hsing hi
+    · exact absurd hi hsing
+    set W : Opens M := ⟨connectedComponentIn ((c₀.U : Set M) ∩ c.U) e.base,
+      (c₀.U.isOpen.inter c.U.isOpen).connectedComponentIn⟩
+    have hyW : e.base ∈ W := mem_connectedComponentIn ⟨c₀.mem, hi⟩
+    have hW₀ : W ≤ c₀.U := fun z hz => (connectedComponentIn_subset _ _ hz).1
+    have hW : W ≤ c.U := fun z hz => (connectedComponentIn_subset _ _ hz).2
+    have hWc : IsConnected (W : Set M) := isConnected_connectedComponentIn_iff.2 ⟨c₀.mem, hi⟩
+    obtain rfl := XAChart.eq_of_mem_centre hfam c₀ c W hW₀ hW hWc hyW
+    obtain ⟨ψ, hψ, hψeq⟩ := c₀.exists_aut_eq hfam c W hW₀ hW hWc hyW
+    have hψφ : ∀ m ∈ (W : Set M), ψ (chartExt c₀.φ m) = chartExt c.φ m := fun m hm => by
+      rw [chartExt_apply _ (hW₀ hm), chartExt_apply _ (hW hm)]; exact hψeq ⟨m, hm⟩
+    have hψφ' : ∀ m ∈ (W : Set M), ψ⁻¹ (chartExt c.φ m) = chartExt c₀.φ m := fun m hm => by
+      rw [← hψφ m hm]; exact ψ.symm_apply_apply _
+    exact le_antisymm
+      (nhds_descTop_le_of_aut hregM (hregN b) (hdisc b) c₀.U.isOpen c₀.V.isOpen
+        (continuousOn_chartExt c₀.φ) (injOn_chartExt c₀.φ) (mapsTo_chartExt c₀.φ)
+        (fun m hm => chartExt_mem_reg_iff c₀.isAEMorphism hm) (hFz ⟨⟨b, e.base, c₀⟩, hc₀⟩)
+        c.U.isOpen c.V.isOpen (continuousOn_chartExt c.φ) (injOn_chartExt c.φ)
+        (mapsTo_chartExt c.φ) (fun m hm => chartExt_mem_reg_iff c.isAEMorphism hm)
+        (hFz ⟨⟨b, x, c⟩, hc⟩) (hTN b) (hAut b) W.isOpen hW hψ hψφ hyW (hW₀ hyW))
+      (nhds_descTop_le_of_aut hregM (hregN b) (hdisc b) c.U.isOpen c.V.isOpen
+        (continuousOn_chartExt c.φ) (injOn_chartExt c.φ) (mapsTo_chartExt c.φ)
+        (fun m hm => chartExt_mem_reg_iff c.isAEMorphism hm) (hFz ⟨⟨b, x, c⟩, hc⟩)
+        c₀.U.isOpen c₀.V.isOpen (continuousOn_chartExt c₀.φ) (injOn_chartExt c₀.φ)
+        (mapsTo_chartExt c₀.φ) (fun m hm => chartExt_mem_reg_iff c₀.isAEMorphism hm)
+        (hFz ⟨⟨b, e.base, c₀⟩, hc₀⟩) (hTN b) (hAut b) W.isOpen hW₀ (inv_mem hψ) hψφ' hyW
+        (hW hyW))
+  have hcompat : ∀ i j (e : MaxBranchedCover (Sing G X M) y₀), e.base ∈ U i → e.base ∈ U j →
+      @nhds _ (T i) e = @nhds _ (T j) e := by
+    intro i j e hi hj
+    by_cases hy : e.base ∈ Reg G X M
+    · rw [(hT i).nhds_reg e hi hy, (hT j).nhds_reg e hj hy]
+    · obtain ⟨b, c₀, hc₀⟩ := hdesc e.base hy
+      rw [← key b _ c₀ hc₀ i e rfl hy hi, key b _ c₀ hc₀ j e rfl hy hj]
+  obtain ⟨T', hT'⟩ := exists_isTamifyingTopology_of_local hD₀ U hUo hcov T hT hcompat
+  exact ⟨y₀, T', hT'⟩
+
+/-- `theo:local_virt_tame` (`RamcovGX.tex:1974`), proved for the `X_A`-manifolds whose singular
+points are centres of charts descending from the maximal coverings of the models
+(`IsDescendingChartMap`, which covers `r : Ṽ → V̂` an isomorphism with `ℓ : Ũ → Û` arbitrary, and
+the liftable charts): under ALL the theorem's hypotheses (analytic family of locally Galoisian
+models, a tamifying topology on each `\widetilde X_α` on which `Aut(\widetilde X_α)` acts
+continuously), (i) every such `X_A`-manifold is virtually tame iff (ii) every model is virtually
+tame. (ii) ⇒ (i) is `isVirtuallyTame_of_descending`; (i) ⇒ (ii) holds outright by the hypothesis
+on the models, as in `local_virt_tame`. -/
+theorem local_virt_tame_descending (hX : IsLocallyUnloopable X)
+    (hfam : IsAnalyticModelFamily G X Xα S) (hgal : ∀ a, IsLocallyGaloisian G X (Xα a))
+    (htam : ∀ a, HasAutContinuousTamifying G X (Xα a)) :
+    (∀ (N : Type u) [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
+        [FirstCountableTopology N] [ConnectedSpace N] [SingularGXStructure G X N],
+        IsXAManifold G X Xα S N →
+        (∀ y ∈ Sing G X N, ∃ (a : A) (c : XAChart G X Xα S a y), IsDescendingChartMap G X c.φ) →
+        IsVirtuallyTame G X N) ↔ ∀ a, IsVirtuallyTame G X (Xα a) :=
+  ⟨fun _ a => (htam a).isVirtuallyTame, fun _ _ _ _ _ _ _ _ _ hdesc =>
+    isVirtuallyTame_of_descending hX hfam hgal htam hdesc⟩
+
+end DescVirtTame
 
 end GX

@@ -1,19 +1,26 @@
 import GX.Branched.Universality
 import GX.Singular.Suspension
 import GX.Singular.Atlas
+import Mathlib.Topology.VectorBundle.Riemannian
+import Mathlib.Geometry.Manifold.VectorBundle.Tangent
 
 /-!
 # Singular `(G,X)`-manifolds (II): the opening examples, locally unloopable models, branched coverings
 
-Package WP-27g. `papers/gx`, `RamcovGX.tex:1610–1705`: the opening of "Singular `(G,X)`-manifolds
-(II): tame and wild" and the subsection "Ramified coverings, group actions".
+Package WP-27g; WP-35c (2026-11-02) applied the author's rulings DEC-66 (a)(b) and DEC-67 (a), which
+close the lemma, the proposition and the corollary, and certified the metric sentence of `ex:Tame`
+with a mathlib Riemannian metric. `papers/gx`, `RamcovGX.tex:1610–1705`: the opening of
+"Singular `(G,X)`-manifolds (II): tame and wild" and the subsection "Ramified coverings, group
+actions".
 
-* `ex:Tame` — `RamcovGX.tex:1616` — partial (the metric sentence read in coordinates, no
-  ruling): `GX.tame_conical` (`𝔼^{n+2}_α`, `α ≠ 2π`, `G = Isom⁺`: `sing(M) = π{r=0}`,
-  `\widetilde M^{sing M} ≅ susp(ℝ) × ℝⁿ` over `M`, the developing map continuous, an a.e.
-  morphism, equivariant, `(r cos θ, r sin θ, z)` in the paper's angle, `GX.conicalDev_posEmb_div`;
-  the metric `dr² + r²dθ² + Σdz_i²` as the pull-back of the Euclidean one by `D`,
-  `GX.conicalPolar_metric`).
+* **`ex:Tame`** — `RamcovGX.tex:1616`: `GX.tame_conical` (`𝔼^{n+2}_α`, `α ≠ 2π`, `G = Isom⁺`:
+  `sing(M) = π{r=0}`, `\widetilde M^{sing M} ≅ susp(ℝ) × ℝⁿ` over `M`, the developing map
+  continuous, an a.e. morphism, equivariant, `(r cos θ, r sin θ, z)` in the paper's angle,
+  `GX.conicalDev_posEmb_div`); the singular Euclidean metric `dr² + r²dθ² + Σdz_i²` as a mathlib
+  `Bundle.RiemannianMetric` on the cylindrical coordinate domain `{r > 0}` (`GX.tameCylMetric`),
+  the coordinates an open embedding onto the regular part of the cover (`GX.cylCoord`,
+  `GX.isOpenEmbedding_cylCoord`, `GX.range_cylCoord`), the metric the pull-back of the Euclidean
+  one by `D` (`GX.conicalPolar_metric`), analytic in the coordinates and degenerate at `r = 0`.
 * **`ex:WTame`** — `RamcovGX.tex:1625`: `GX.wtame_btz` (every rigid `G` containing `P_α`),
   `GX.wtame_btz_isom0` (`G = Isom₀(𝔼^{1,2})`); `sing(M) = π{r=0}` (`GX.btz_whitehole_sing_eq`), the
   cylinder is `\widetilde M^{sing M}`, **no developing map** in both senses of `def:developing_map`
@@ -32,15 +39,17 @@ Package WP-27g. `papers/gx`, `RamcovGX.tex:1610–1705`: the opening of "Singula
   by charts into `X` (`GX.IsLocallyUnloopable.semilocallySimplyConnected_of_charts`); the
   equivalent form with path-connected `V` (`GX.isLocallyUnloopable_iff`); real normed spaces are
   locally unloopable (`GX.isLocallyUnloopable_of_normedSpace`).
-* `lem:analytical_structure_locally_unloopable` — `RamcovGX.tex:1653` — partial (`M` locally
-  path-connected carried): `GX.analytical_structure_locally_unloopable`,
-  `GX.semilocallySimplyConnected_compl_of_sing_subset`.
-* `prop:singular_manifold_branched_covering` — `RamcovGX.tex:1677` — partial (the printed
-  `Γ(\widetilde M^S/M)` read `Γ(N/M)`): `GX.singular_manifold_branched_covering`,
-  `GX.singular_manifold_branched_covering_aepullback`, `GX.IsBranchedCovering.isAEMorphismOf_deck`.
-* `cor:singular_manifold_skeletal_subset` — `RamcovGX.tex:1693` — partial (`M` connected and
-  locally path-connected carried): `GX.singular_manifold_skeletal_subset`, applied to the BTZ white
-  hole in `GX.singular_manifold_skeletal_subset_btz`.
+* **`lem:analytical_structure_locally_unloopable`** — `RamcovGX.tex:1653` — closed under DEC-66 (a)
+  (§3's standing hypotheses, Hausdorff, locally path-connected, first countable, cover §2.5):
+  `GX.analytical_structure_locally_unloopable`, `GX.semilocallySimplyConnected_compl_of_sing_subset`.
+* **`prop:singular_manifold_branched_covering`** — `RamcovGX.tex:1677` — closed under DEC-67 (a)
+  (l.1680 reads `Γ(N/M)` for the printed `Γ(\widetilde M^S/M)`):
+  `GX.singular_manifold_branched_covering`, `GX.singular_manifold_branched_covering_aepullback`,
+  `GX.IsBranchedCovering.isAEMorphismOf_deck`.
+* **`cor:singular_manifold_skeletal_subset`** — `RamcovGX.tex:1693` — closed under DEC-66 (a)(b)
+  (`\widetilde M^S` presupposes `M` connected; the standing hypotheses):
+  `GX.singular_manifold_skeletal_subset`, applied to the BTZ white hole in
+  `GX.singular_manifold_skeletal_subset_btz`.
 
 > A topological space $X$ is locally unloopable if it is locally path-connected and if for all
 > $x\in X$ and all neighborhood $\U$ of $x$, there exists an open neighborhood $\V\subset \U$ of
@@ -70,13 +79,14 @@ Package WP-27g. `papers/gx`, `RamcovGX.tex:1610–1705`: the opening of "Singula
 | paper hypothesis | here |
 |---|---|
 | `(G,X)` analytical (l.341, DEC-39), `X` locally unloopable (l.1660) | ⚠ weakened: `LocallyConnectedSpace X`, `T2Space X`, `IsRigidAction`, `ContinuousConstSMul` where used; local unloopability only in the lemma and the corollary; nothing at all for `semilocallySimplyConnected_compl_of_sing_subset` but `X` locally unloopable |
-| lem.: `M` a connected singular `(G,X)`-manifold (locally connected, T2, second countable) | ✓ `ConnectedSpace`, `T2Space` carried; ⚠ weakened: first countable instead of second countable; ⚠ strengthened: `LocPathConnectedSpace M` (finding F1) |
+| lem.: `M` a connected singular `(G,X)`-manifold (locally connected, T2, second countable) | ✓ `ConnectedSpace`, `T2Space` carried; ⚠ weakened: first countable instead of second countable; ✓ `LocPathConnectedSpace M`: §3's standing hypothesis, which covers §2.5 (DEC-66 (a); finding F1) |
 | lem.: `S` skeletal, `S ⊇ sing(M)` | ✓ carried |
 | prop.: `M` a singular `(G,X)`-manifold | ⚠ weakened: a maximal a.e. atlas `B` on `M`; no topological hypothesis on `M` or `N` (a spread has a locally connected source) |
 | prop.: `π` a branched covering | ✓ carried |
-| prop.: "`Γ(\widetilde M^S/M)` acts" | ⚠ read as `Γ(N/M)` (the proof's, l.1688; finding F2); `Γ(\widetilde M^S/M)` is the corollary's |
-| cor.: `M` a singular `(G,X)`-manifold, `S` skeletal `⊇ sing(M)` | ✓ carried; ⚠ strengthened: `M` connected, locally path-connected, first countable — the hypotheses of `prop:universality` under which `\widetilde M^S` is defined (finding F3) |
+| prop.: "`Γ(\widetilde M^S/M)` acts" | ✓ read as `Γ(N/M)` by ruling DEC-67 (a) (the proof's, l.1688; finding F2); `Γ(\widetilde M^S/M)` is the corollary's |
+| cor.: `M` a singular `(G,X)`-manifold, `S` skeletal `⊇ sing(M)` | ✓ carried; ✓ `M` connected: presupposed by the notation `\widetilde M^S` (DEC-66 (b)); ✓ locally path-connected, first countable: §3's standing hypotheses (DEC-66 (a)) — those of `prop:universality` under which `\widetilde M^S` is defined (finding F3) |
 | `ex:Tame`: `θ ∈ ℝ₊* ∖ {2π}`, `𝔼^{n+2}_θ` | ✓ `0 < α`, `α ≠ 2π`, `𝔼^{n+2}_α = Γ_1\(𝔻_∞ × E)`, `E` any finite-dimensional Euclidean space, `G = IsomPlus E` |
+| `ex:Tame`: "the covering can be endowed with the singular Euclidean metric" | ✓ a `Bundle.RiemannianMetric` on the cylindrical coordinate domain `{r > 0}`, the coordinates an open embedding onto the regular part of the cover (SCOPE (d)) |
 | `ex:WTame`: the extreme BTZ white hole of `ex:quotient_base` | ✓ `btzDev x₀ v`, every `x₀`, every `v` with `⟨v|u⟩ < 0`, every `α ≠ 0`, every rigid `G ∋ P_α` (`Isom₀` in `wtame_btz_isom0`) |
 | `ex:eucl_sphere`: `(Isom⁺(𝔼²), 𝔼²)`, stereographic projection from `N` | ✓ `IsomPlus (ℝ⁰)` on `ℂ × ℝ⁰`; ⚠ weakened: every rigid `G` acting continuously on any `X ≅ 𝔼²` (`eucl_sphere`) |
 
@@ -100,17 +110,28 @@ Package WP-27g. `papers/gx`, `RamcovGX.tex:1610–1705`: the opening of "Singula
   deck homeomorphism (`deckGroup π`) is an a.e. `(G,X)`-morphism of the pulled-back structure.
 * **(c)** `cor:singular_manifold_skeletal_subset`: `\widetilde M^S` is `MaxBranchedCover S y₀`
   (based at `y₀ ∈ M ∖ S`); `Γ(\widetilde M^S/M)` is `deckGroup SpreadEnd.base`.
-* **(d)** `ex:Tame` (partial): `𝔼^{n+2}_α` is `ex:conical`'s `Γ_1\(𝔻_∞ × E)` with the cone angle
+* **(d)** `ex:Tame` (closed): `𝔼^{n+2}_α` is `ex:conical`'s `Γ_1\(𝔻_∞ × E)` with the cone angle
   `α` (DEC-47); the paper's cylindrical angle `θ` is `α θ'` in the coordinate `θ'` of `𝔻_∞` on
   which `Γ_1` acts by `θ' ↦ θ' + 1`; "`\widetilde M^{sing(M)}` can be identified with
   `susp(ℝ) × ℝⁿ`" is a homeomorphism over `M` (`GX.Susp.homeomorphDInfty`). The developing map is
   `conicalDev α E`, continuous on the whole cover and an a.e. `(G,X)`-morphism into `X` (the cover
-  carrying the structure of the corollary, `conicalAtlas = aePullback B π`). "Endowed with the
-  singular Euclidean metric `dr² + r²dθ² + Σ dz_i²`" is read in coordinates — `GX` has no
-  Riemannian metric (cf. `GX.Singular.Quotient`, SCOPE (d)): on `{r > 0}` the differential of
-  `D = conicalPolar` at `(r, θ, z)` sends `(ρ, φ, ζ)` to a vector `w` with
-  `‖w₁‖² + ‖w₂‖² = ρ² + r²φ² + ‖ζ‖²`, i.e. `D^*⟨·,·⟩ = dr² + r²dθ² + Σdz_i²`
-  (`GX.conicalPolar_metric`). The row is partial only for this reading, put to the author.
+  carrying the structure of the corollary, `conicalAtlas = aePullback B π`). "In cylindrical
+  coordinates `(r, θ, z)`, the covering can be endowed with the singular Euclidean metric
+  `dr² + r²dθ² + Σ dz_i²`": the cylindrical coordinates `GX.cylCoord α E` (`(r, θ, z) ↦
+  (posEmb (r, θ/α), z)`) are an open embedding of the coordinate domain `{r > 0} ⊆ ℝ × ℝ × E` onto
+  the regular part `{r > 0}` of the cylinder (`isOpenEmbedding_cylCoord`, `range_cylCoord`; the
+  singular part `{r = 0}` is where the coordinates degenerate, every `θ` naming the same point).
+  The domain, an open subset of a vector space and so a smooth manifold, carries the mathlib
+  Riemannian metric `GX.tameCylMetric` (`Bundle.RiemannianMetric` on its tangent bundle) with
+  coordinate expression `g(ρ, φ, ζ) = ρ² + r²φ² + ‖ζ‖²` and analytic coefficients; it is
+  *Euclidean*: `D` is a local homeomorphism on the regular part and its differential at `(r, θ, z)`
+  sends `(ρ, φ, ζ)` to a vector `w` with `‖w₁‖² + ‖w₂‖² = g(ρ, φ, ζ)`, i.e. `g = D^*⟨·,·⟩`
+  (`GX.conicalPolar_metric`); and it is *singular*: its coefficient form is degenerate at `r = 0`
+  (`cylMetricForm_zero_degenerate`). The norm of `ℂ × E` is the sup norm, so the Euclidean
+  `‖w₁‖² + ‖w₂‖²` is written out. Mathlib's Riemannian metric lives on a manifold's tangent
+  bundle; the cover `Susp ℝ × E` is a topological space, not a smooth manifold in mathlib's sense,
+  so the metric is carried by its regular part in the paper's coordinates — which is where the
+  paper writes it.
 * **(e)** `ex:WTame` (closed): "no developing map" is proved in both readings of
   `def:developing_map`: for `\widetilde M → M` (l.1731, "a developing map of `\widetilde M → M` is
   simply called a developing map of `M`"): no a.e. `(G,X)`-morphism from the cylinder with the
@@ -131,12 +152,13 @@ Package WP-27g. `papers/gx`, `RamcovGX.tex:1610–1705`: the opening of "Singula
   along every filter converging to `N` off `N`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Builds on
-`GX.Branched.Universality`, `GX.Singular.Atlas`, `GX.Singular.Quotient`, `GX.Singular.Suspension`.
+`GX.Branched.Universality`, `GX.Singular.Atlas`, `GX.Singular.Quotient`, `GX.Singular.Suspension`,
+and mathlib's `Topology.VectorBundle.Riemannian`, `Geometry.Manifold.VectorBundle.Tangent`.
 -/
 
 noncomputable section
 open Set Filter Topology Function
-open scoped GX
+open scoped GX Manifold
 namespace GX
 
 set_option linter.unusedSectionVars false
@@ -312,8 +334,9 @@ theorem semilocallySimplyConnected_compl_of_sing_subset (hX : IsLocallyUnloopabl
   obtain ⟨e, -, hye⟩ := mem_support.1 hyR
   exact ⟨e.restrOpen Sᶜ hS.isOpen_compl, ⟨hye, hy⟩, fun z hz => hz.2⟩
 
-/-- `lem:analytical_structure_locally_unloopable` (`RamcovGX.tex:1653`), with `M` locally
-path-connected and first countable (the hypotheses of `prop:universality`; finding F1): if `X` is
+/-- **`lem:analytical_structure_locally_unloopable`** (`RamcovGX.tex:1653`), with `M` locally
+path-connected and first countable — §3's standing hypotheses, which cover §2.5 by ruling
+DEC-66 (a) (the hypotheses of `prop:universality`; finding F1): if `X` is
 locally unloopable, `M` a connected singular `(G,X)`-manifold and `S ⊇ Sing(M)` skeletal, then
 `M ∖ S` is semilocally simply connected and connected, and `M` admits a maximal covering possibly
 branched over `S`, `\widetilde M^S` (for every base point). No property of `G` is used. -/
@@ -388,10 +411,10 @@ theorem IsBranchedCovering.isAEMorphismOf_deck {π : N → M} (hπ : IsBranchedC
   have : A₁ = aePullback G B π := eq_aePullback hA₁ hcomp
   rwa [this] at hγA₁
 
-/-- `prop:singular_manifold_branched_covering` (`RamcovGX.tex:1677`), with the printed
-`Γ(\widetilde M^S/M)` read as `Γ(N/M)` (finding F2): for a branched covering `π : N → M` of a
-space with a maximal a.e. atlas `B`, the pullback `π^*B` is the unique maximal a.e. atlas making
-`π` an a.e. morphism; `reg(π) = reg(N) ∩ {π local homeomorphism} ⊇ reg(N) ∩ ord(π)`; and every
+/-- **`prop:singular_manifold_branched_covering`** (`RamcovGX.tex:1677`), with the printed
+`Γ(\widetilde M^S/M)` read as `Γ(N/M)` by ruling DEC-67 (a) (finding F2): for a branched covering
+`π : N → M` of a space with a maximal a.e. atlas `B`, the pullback `π^*B` is the unique maximal
+a.e. atlas making `π` an a.e. morphism; `reg(π) = reg(N) ∩ {π local homeomorphism} ⊇ reg(N) ∩ ord(π)`; and every
 deck transformation of `π` is an a.e. `(G,X)`-morphism of `π^*B`. -/
 theorem singular_manifold_branched_covering {π : N → M} (hπ : IsBranchedCovering π)
     {B : Set (OpenPartialHomeomorph M X)} (hB : IsMaximalAEAtlas G B) :
@@ -417,9 +440,10 @@ section Cor
 variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
   [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
 
-/-- `cor:singular_manifold_skeletal_subset` (`RamcovGX.tex:1693`), with `M` connected, locally
-path-connected and first countable (the hypotheses under which `\widetilde M^S` is defined,
-`prop:universality`; finding F3) and `X` locally unloopable (l.1660): `\widetilde M^S` carries a
+/-- **`cor:singular_manifold_skeletal_subset`** (`RamcovGX.tex:1693`), with `M` connected (presupposed
+by the notation `\widetilde M^S`, ruling DEC-66 (b)), locally path-connected and first countable
+(§3's standing hypotheses, DEC-66 (a)) — the hypotheses under which `\widetilde M^S` is defined,
+`prop:universality`; finding F3 — and `X` locally unloopable (l.1660): `\widetilde M^S` carries a
 unique a.e. `(G,X)`-structure making the projection an a.e. morphism (DEC-42), and the Galois group
 `Γ(\widetilde M^S/M)` acts by a.e. `(G,X)`-morphisms. -/
 theorem singular_manifold_skeletal_subset (hX : IsLocallyUnloopable X) {M : Type u}
@@ -1066,11 +1090,168 @@ theorem conicalPolar_metric (r θ ρ φ : ℝ) (z ζ : E) :
   have h := Real.sin_sq_add_cos_sq θ
   linear_combination (ρ ^ 2 + r ^ 2 * φ ^ 2) * h
 
-/-- `ex:Tame` (`RamcovGX.tex:1616`), without the metric sentence (SCOPE (d)): for
-`M = 𝔼^{n+2}_α` (`α > 0`, `α ≠ 2π`, `G = Isom⁺`), the structure is unique, `sing(M) = π{r=0}`, the
-cylinder carries the corollary's structure, `\widetilde M^{sing M} ≅ susp(ℝ) × ℝⁿ` over `M`, and the
-developing map `D` is continuous on the whole cover, an a.e. `(G,X)`-morphism into `X`,
-equivariant under the deck group, and `(r, θ, z) ↦ (r cos θ, r sin θ, z)` in the paper's angle. -/
+/-- The real inner product of `E` as a continuous bilinear map. -/
+noncomputable def tameInnerCLM : E →L[ℝ] E →L[ℝ] ℝ := innerSL ℝ
+
+theorem tameInnerCLM_apply (x y : E) : tameInnerCLM E x y = inner ℝ x y := rfl
+
+/-- The coordinate expression `dr² + r² dθ² + Σ dz_i²` at radius `r`, as a continuous bilinear
+form on `ℝ × ℝ × E` (directions `(ρ, φ, ζ)` of `(r, θ, z)`). -/
+noncomputable def cylMetricForm (r : ℝ) : (ℝ × ℝ × E) →L[ℝ] (ℝ × ℝ × E) →L[ℝ] ℝ :=
+  (ContinuousLinearMap.mul ℝ ℝ).bilinearComp (ContinuousLinearMap.fst ℝ ℝ (ℝ × E))
+      (ContinuousLinearMap.fst ℝ ℝ (ℝ × E)) +
+    r ^ 2 • (ContinuousLinearMap.mul ℝ ℝ).bilinearComp
+      ((ContinuousLinearMap.fst ℝ ℝ E).comp (ContinuousLinearMap.snd ℝ ℝ (ℝ × E)))
+      ((ContinuousLinearMap.fst ℝ ℝ E).comp (ContinuousLinearMap.snd ℝ ℝ (ℝ × E))) +
+    (tameInnerCLM E).bilinearComp
+      ((ContinuousLinearMap.snd ℝ ℝ E).comp (ContinuousLinearMap.snd ℝ ℝ (ℝ × E)))
+      ((ContinuousLinearMap.snd ℝ ℝ E).comp (ContinuousLinearMap.snd ℝ ℝ (ℝ × E)))
+
+theorem cylMetricForm_apply (r : ℝ) (v w : ℝ × ℝ × E) :
+    cylMetricForm E r v w = v.1 * w.1 + r ^ 2 * (v.2.1 * w.2.1) + inner ℝ v.2.2 w.2.2 := by
+  simp [cylMetricForm, tameInnerCLM_apply]
+
+theorem cylMetricForm_comm (r : ℝ) (v w : ℝ × ℝ × E) :
+    cylMetricForm E r v w = cylMetricForm E r w v := by
+  rw [cylMetricForm_apply, cylMetricForm_apply, real_inner_comm]; ring
+
+
+theorem cylMetricForm_self (r ρ φ : ℝ) (ζ : E) :
+    cylMetricForm E r (ρ, φ, ζ) (ρ, φ, ζ) = ρ ^ 2 + r ^ 2 * φ ^ 2 + ‖ζ‖ ^ 2 := by
+  rw [cylMetricForm_apply, real_inner_self_eq_norm_sq]; ring
+
+theorem cylMetricForm_pos {r : ℝ} (hr : r ≠ 0) {v : ℝ × ℝ × E} (hv : v ≠ 0) :
+    0 < cylMetricForm E r v v := by
+  obtain ⟨ρ, φ, ζ⟩ := v
+  rw [cylMetricForm_self]
+  have h1 := sq_nonneg ρ
+  have h2 : 0 ≤ r ^ 2 * φ ^ 2 := by positivity
+  have h3 := sq_nonneg ‖ζ‖
+  by_contra h
+  have hρ : ρ = 0 := by nlinarith
+  have hφ : φ = 0 := by
+    have : r ^ 2 * φ ^ 2 = 0 := by nlinarith
+    rcases mul_eq_zero.1 this with h | h
+    · exact absurd (pow_eq_zero_iff two_ne_zero |>.1 h) hr
+    · exact pow_eq_zero_iff two_ne_zero |>.1 h
+  have hζ : ζ = 0 := by
+    have : ‖ζ‖ ^ 2 = 0 := by nlinarith
+    exact norm_eq_zero.1 (pow_eq_zero_iff two_ne_zero |>.1 this)
+  exact hv (by simp [hρ, hφ, hζ])
+
+theorem cylMetricForm_zero_degenerate : cylMetricForm E 0 (0, 1, 0) (0, 1, 0) = 0 := by
+  rw [cylMetricForm_self]; simp
+
+theorem contDiff_cylMetricForm (v w : ℝ × ℝ × E) :
+    ContDiff ℝ ⊤ (fun q : ℝ × ℝ × E => cylMetricForm E q.1 v w) := by
+  simp only [cylMetricForm_apply]
+  fun_prop
+
+theorem norm_le_of_cylMetricForm_lt_one {r : ℝ} (hr : 0 < r) {v : ℝ × ℝ × E}
+    (hv : cylMetricForm E r v v < 1) : ‖v‖ ≤ max 1 r⁻¹ := by
+  obtain ⟨ρ, φ, ζ⟩ := v
+  rw [cylMetricForm_self] at hv
+  have h1 := sq_nonneg ρ
+  have h2 : 0 ≤ r ^ 2 * φ ^ 2 := by positivity
+  have h3 := sq_nonneg ‖ζ‖
+  have hρ : |ρ| ≤ 1 := by
+    rw [← sq_le_one_iff_abs_le_one]; linarith
+  have hζ : ‖ζ‖ ≤ 1 := by
+    have : ‖ζ‖ ^ 2 ≤ 1 := by linarith
+    nlinarith [norm_nonneg ζ]
+  have hφ : |φ| ≤ r⁻¹ := by
+    have hrφ : (r * |φ|) ^ 2 ≤ 1 := by rw [mul_pow, sq_abs]; linarith
+    have : r * |φ| ≤ 1 := by nlinarith [abs_nonneg φ, mul_nonneg hr.le (abs_nonneg φ)]
+    have h4 : |φ| ≤ 1 / r := (le_div_iff₀ hr).2 (by linarith)
+    rwa [one_div] at h4
+  simp only [Prod.norm_def, Real.norm_eq_abs, max_le_iff]
+  refine ⟨le_max_of_le_left hρ, le_max_of_le_right hφ, le_max_of_le_left hζ⟩
+
+/-- The coordinate domain `{r > 0} ⊆ ℝ × ℝ × E` of the cylindrical coordinates `(r, θ, z)`, an open
+subset of a vector space, hence a smooth manifold modelled on `𝓘(ℝ, ℝ × ℝ × E)`. -/
+def cylCoordDomain : TopologicalSpace.Opens (ℝ × ℝ × E) := ⟨{q | 0 < q.1}, isOpen_lt continuous_const continuous_fst⟩
+
+/-- **The singular Euclidean metric of `ex:Tame`** (`RamcovGX.tex:1619`) as a mathlib
+`Bundle.RiemannianMetric` on the tangent bundle of the coordinate domain `{r > 0}`:
+`g = dr² + r² dθ² + Σ dz_i²`. -/
+noncomputable def tameCylMetric :
+    Bundle.RiemannianMetric (TangentSpace 𝓘(ℝ, ℝ × ℝ × E) : cylCoordDomain E → Type _) where
+  inner b := cylMetricForm E b.1.1
+  symm b v w := cylMetricForm_comm E b.1.1 v w
+  pos b v hv := cylMetricForm_pos E (ne_of_gt b.2) hv
+  continuousAt b := by
+    have := (cylMetricForm E b.1.1).continuous₂.comp (continuous_id.prodMk continuous_id)
+    exact this.continuousAt
+  isVonNBounded b := by
+    change Bornology.IsVonNBounded ℝ {v : ℝ × ℝ × E | cylMetricForm E b.1.1 v v < 1}
+    rw [NormedSpace.isVonNBounded_iff]
+    refine (Metric.isBounded_closedBall (x := (0 : ℝ × ℝ × E)) (r := max 1 (b.1.1)⁻¹)).subset
+      fun v hv => ?_
+    rw [Metric.mem_closedBall, dist_zero_right]
+    exact norm_le_of_cylMetricForm_lt_one E b.2 hv
+
+/-- The paper's cylindrical coordinates `(r, θ, z)` (`r > 0`) of the regular part `{r > 0}` of the
+cylinder `𝔻_∞ × E`, in the paper's angle `θ` (the coordinate of `𝔻_∞` is `θ / α`). -/
+noncomputable def cylCoord (α : ℝ) (q : cylCoordDomain E) : DInfty × E :=
+  (DInfty.posEmb ⟨(q.1.1, q.1.2.1 / α), q.2⟩, q.1.2.2)
+
+/-- The cylindrical coordinates as a homeomorphism `{r > 0} ≃ₜ {r > 0} × E`. -/
+noncomputable def cylCoordHomeo {α : ℝ} (hα : α ≠ 0) :
+    cylCoordDomain E ≃ₜ {q : ℝ × ℝ // 0 < q.1} × E where
+  toFun q := (⟨(q.1.1, q.1.2.1 / α), q.2⟩, q.1.2.2)
+  invFun p := ⟨(p.1.1.1, α * p.1.1.2, p.2), p.1.2⟩
+  left_inv q := by
+    obtain ⟨⟨r, θ, z⟩, hq⟩ := q
+    simp only [Subtype.mk.injEq, Prod.mk.injEq, true_and, and_true]
+    field_simp
+  right_inv p := by
+    obtain ⟨⟨⟨r, θ⟩, hp⟩, z⟩ := p
+    simp only [Prod.mk.injEq, Subtype.mk.injEq, and_true, true_and]
+    field_simp
+  continuous_toFun := by
+    refine Continuous.prodMk (Continuous.subtype_mk ?_ _) ?_
+    · exact (continuous_fst.comp continuous_subtype_val).prodMk
+        ((continuous_fst.comp (continuous_snd.comp continuous_subtype_val)).div_const α)
+    · exact continuous_snd.comp (continuous_snd.comp continuous_subtype_val)
+  continuous_invFun := by
+    refine Continuous.subtype_mk ?_ _
+    exact (continuous_fst.comp (continuous_subtype_val.comp continuous_fst)).prodMk
+      ((continuous_const.mul (continuous_snd.comp (continuous_subtype_val.comp continuous_fst))).prodMk
+        continuous_snd)
+
+theorem isOpenEmbedding_cylCoord {α : ℝ} (hα : α ≠ 0) : IsOpenEmbedding (cylCoord E α) := by
+  have h := (DInfty.isOpenEmbedding_posEmb.prodMap (IsOpenEmbedding.id (X := E))).comp
+    (cylCoordHomeo E hα).isOpenEmbedding
+  exact h
+
+theorem range_cylCoord {α : ℝ} (hα : α ≠ 0) : range (cylCoord E α) = cylPos E := by
+  ext ⟨p, z⟩
+  constructor
+  · rintro ⟨q, hq⟩
+    rw [← hq]
+    exact q.2
+  · intro hp
+    refine ⟨⟨(p.r, α * p.θ, z), hp⟩, ?_⟩
+    simp only [cylCoord, Prod.mk.injEq, and_true]
+    rw [DInfty.ext_iff]
+    simp only [DInfty.posEmb_r, DInfty.posEmb_θ, true_and]
+    field_simp
+
+theorem conicalDev_cylCoord {α : ℝ} (hα : α ≠ 0) (q : cylCoordDomain E) :
+    conicalDev α E (cylCoord E α q) = conicalPolar E q.1.1 q.1.2.1 q.1.2.2 :=
+  conicalDev_posEmb_eq_conicalPolar E hα q.2 _ _
+
+
+/-- **`ex:Tame`** (`RamcovGX.tex:1616`): for `M = 𝔼^{n+2}_α` (`α > 0`, `α ≠ 2π`, `G = Isom⁺`), the
+structure is unique, `sing(M) = π{r=0}`, the cylinder carries the corollary's structure,
+`\widetilde M^{sing M} ≅ susp(ℝ) × ℝⁿ` over `M`, and the developing map `D` is continuous on the whole
+cover, an a.e. `(G,X)`-morphism into `X`, equivariant under the deck group, and
+`(r, θ, z) ↦ (r cos θ, r sin θ, z)` in the paper's angle. The metric sentence (SCOPE (d)): the
+cylindrical coordinates `(r, θ, z)` are an open embedding of `{r > 0}` onto the regular part `{r > 0}`
+of the cover, on which `D` is a local homeomorphism; the coordinate domain carries the Riemannian
+metric `g = dr² + r² dθ² + Σ dz_i²` (`GX.tameCylMetric`, a mathlib `Bundle.RiemannianMetric`), with
+analytic coefficients, equal to the pull-back `D^*⟨·,·⟩` of the Euclidean metric of `X` (so locally
+Euclidean), and degenerate at `r = 0` (singular). -/
 theorem tame_conical {α : ℝ} (hα : 0 < α) (h2π : α ≠ 2 * Real.pi) :
     (∃! B : Set (OpenPartialHomeomorph (Orbits (GammaA 1) (DInfty × E)) (ℂ × E)),
       IsMaximalAEAtlas (IsomPlus E) B ∧
@@ -1096,7 +1277,18 @@ theorem tame_conical {α : ℝ} (hα : 0 < α) (h2π : α ≠ 2 * Real.pi) :
     (∀ (r θ ρ φ : ℝ) (z ζ : E), ∃ w : ℂ × E,
       HasDerivAt (fun t : ℝ => conicalPolar E (r + t * ρ) (θ + t * φ) (z + t • ζ)) w 0 ∧
       ‖w.1‖ ^ 2 + ‖w.2‖ ^ 2 = ρ ^ 2 + r ^ 2 * φ ^ 2 + ‖ζ‖ ^ 2) ∧
-    IsLocallyUnloopable (ℂ × E) := by
+    IsLocallyUnloopable (ℂ × E) ∧
+    (IsOpenEmbedding (cylCoord E α) ∧ range (cylCoord E α) = cylPos E ∧
+      IsLocalHomeomorphOn (conicalDev α E) (cylPos E) ∧
+      (∀ q, conicalDev α E (cylCoord E α q) = conicalPolar E q.1.1 q.1.2.1 q.1.2.2) ∧
+      (∀ (b : cylCoordDomain E) (v : ℝ × ℝ × E),
+        (tameCylMetric E).inner b v v = v.1 ^ 2 + b.1.1 ^ 2 * v.2.1 ^ 2 + ‖v.2.2‖ ^ 2) ∧
+      (∀ (b : cylCoordDomain E) (v : ℝ × ℝ × E), ∃ w : ℂ × E,
+        HasDerivAt (fun t : ℝ => conicalPolar E (b.1.1 + t * v.1) (b.1.2.1 + t * v.2.1)
+          (b.1.2.2 + t • v.2.2)) w 0 ∧
+        ‖w.1‖ ^ 2 + ‖w.2‖ ^ 2 = (tameCylMetric E).inner b v v) ∧
+      (∀ v w : ℝ × ℝ × E, ContDiff ℝ ⊤ (fun q : ℝ × ℝ × E => cylMetricForm E q.1 v w)) ∧
+      cylMetricForm E 0 (0, 1, 0) (0, 1, 0) = 0) := by
   obtain ⟨-, hex, hsing⟩ := conical_isomPlus E hα
   obtain ⟨-, -, -, hiso⟩ := previous_examples_maxBranched.{0} (V := E) one_ne_zero
   have hD := isLocalHomeomorphOn_conicalDev (Z := E) hα.ne'
@@ -1109,12 +1301,19 @@ theorem tame_conical {α : ℝ} (hα : 0 < α) (h2π : α ≠ 2 * Real.pi) :
     continuous_conicalDev (Z := E) α, (isAEMorphismOf_iff hmax.1).2 ⟨continuous_conicalDev (Z := E) α,
       cylPos E, DInfty.isPortly_pos E, hreg⟩, fun k x => conicalDev_smul hα.ne' k x,
     fun r hr θ z => conicalDev_posEmb_div E hα.ne' hr θ z, conicalPolar_metric E,
-    isLocallyUnloopable_of_normedSpace _⟩
+    isLocallyUnloopable_of_normedSpace _, isOpenEmbedding_cylCoord E hα.ne',
+    range_cylCoord E hα.ne', hD, conicalDev_cylCoord E hα.ne', fun b v => ?_, fun b v => ?_,
+    contDiff_cylMetricForm E, cylMetricForm_zero_degenerate E⟩
   · rw [(hsing B hB hπ).2.2 h2π, setOf_r_eq_zero_cyl]
   · obtain ⟨Φ, hΦ⟩ := hiso y₀
     refine ⟨Φ.trans (Susp.homeomorphDInfty.symm.prodCongr (Homeomorph.refl E)), fun e => ?_⟩
     rw [← hΦ e]
     simp
+  · obtain ⟨ρ, φ, ζ⟩ := v
+    exact cylMetricForm_self E _ ρ φ ζ
+  · obtain ⟨ρ, φ, ζ⟩ := v
+    obtain ⟨w, hw, hw2⟩ := conicalPolar_metric E b.1.1 b.1.2.1 ρ φ b.1.2.2 ζ
+    exact ⟨w, hw, hw2.trans (cylMetricForm_self E _ ρ φ ζ).symm⟩
 
 end Tame
 

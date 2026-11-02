@@ -3,9 +3,9 @@ import GX.Branched.Paths
 /-!
 # Galoisian branched coverings and the Galois correspondence (§3.4, l.1417–1559)
 
-Packages WP-26f, WP-27e. `papers/gx`, `RamcovGX.tex:1417–1559`. Reworked to DEC-55 and DEC-57
-(2026-11-01): "almost trivial" is the **literal** compact-open notion `GX.AlmostTrivialCC` of
-`GX.Branched.Paths`, and semi-local simple connectedness is stated with it
+Packages WP-26f, WP-27e, WP-35b. `papers/gx`, `RamcovGX.tex:1417–1559`. Reworked to DEC-55,
+DEC-57 (2026-11-01) and DEC-70 (2026-11-02): "almost trivial" is the **literal** compact-open
+notion `GX.AlmostTrivialCC` of `GX.Branched.Paths`, and semi-local simple connectedness is stated with it
 (`GX.IsSLSCAtCC`, `GX.IsSLSCInCC`); quasi-Galoisian is the completion of a Galoisian covering over
 a portly `O`; `prop:Galoisian_fiber` uses a basis of open connected neighbourhoods;
 `rem:simple_cases` reads a codimension-`≥ 2` submanifold as locally flat and a simplicial complex
@@ -27,8 +27,9 @@ are the `…CC` declarations.)
   `GX.IsSLSCAtCC`, `GX.IsSLSCInCC`; the homotopy form `GX.IsSLSCAt`, `GX.IsSLSCIn` implies it
   (`GX.IsSLSCIn.isSLSCInCC`) and agrees with it for `U` open semilocally simply connected
   (`GX.isSLSCInCC_iff`).
-* `rem:definition_semi_locally_simply_connected` — `RamcovGX.tex:1455` (partial, the converse is
-  false; SCOPE (e)): `GX.isSLSCInCC_univ_of_semilocallySimplyConnected`.
+* `rem:definition_semi_locally_simply_connected` — `RamcovGX.tex:1455` (partial, corrected: one
+  direction only, SCOPE (e)): `GX.isSLSCInCC_univ_of_semilocallySimplyConnected`; the converse
+  fails, `GX.harmonicArchipelago_counterexample` (`GX.HarmonicArchipelago`).
 * **`rem:simple_cases`** — `RamcovGX.tex:1459` (DEC-55, DEC-57, SCOPE (f)): first item
   `GX.isSLSCInCC_of_locally_linear` (locally flat; linear model `GX.isSLSCInCC_compl_submodule`,
   `GX.isSLSCInCC_univ_of_normedSpace`), `GX.isSLSCInCC_compl_faces_of_locallyFinite`,
@@ -44,7 +45,7 @@ are the `…CC` declarations.)
 * **`prop:Galoisian_semilocal`** — `RamcovGX.tex:1514` (DEC-55): `GX.galoisian_semilocal_cc`;
   (ii) ⇒ (i) without second countability `GX.maxBranched_isGaloisian_cc`; homotopy form
   `GX.galoisian_semilocal`, `GX.maxBranched_isGaloisian`.
-* `theo:Galois_cor` — `RamcovGX.tex:1550` (partial, an added hypothesis; DEC-55):
+* **`theo:Galois_cor`** — `RamcovGX.tex:1550` (DEC-70: `Y ∖ S` slsc carried; DEC-55):
   `GX.galois_correspondence_cc`; homotopy form `GX.galois_correspondence`
   (`GX.maxBranched_isGaloisian`, `GX.galois_cor_quotient`, `GX.galois_cor_normal`).
 
@@ -75,7 +76,7 @@ are the `…CC` declarations.)
 | `lem:alternative_countable`: `Γ(X/Y)` countable | ✓ carried; no finiteness or surjectivity hypothesis needed (Baire, SCOPE (d)) |
 | `prop:Galoisian_semilocal`: `Y` connected, LPC, second countable, T2; `S` skeletal; `Y ∖ S` slsc | ✓ carried; (ii) ⇒ (i) without second countability |
 | `theo:Galois_cor`: `Y` connected, LPC, T2 (first countable, §3 standing) | ✓ carried |
-| `theo:Galois_cor`: (absent) `Y ∖ S` semi-locally simply connected | ⚠ strengthened (finding): `\widetilde Y^S` exists only under it (`prop:universality`) |
+| `theo:Galois_cor`: (absent) `Y ∖ S` semi-locally simply connected | ✓ carried (DEC-70; the omission is a finding): `\widetilde Y^S` exists only under it (`prop:universality`), and slsc in `Y` does not imply it (`GX.harmonicArchipelago_compl_empty`) |
 | `theo:Galois_cor`: second countability (used by the cited `prop:Galoisian_semilocal`) | ⚠ weakened: not needed (finding) |
 | `theo:Galois_cor`: coverings `X` | ✓ T2, LPC, first countable (§3 standing, as `prop:universality`) |
 | `def:semi_locally_simple_connectedness`: `X` Hausdorff, connected, LPC; `U` open; `x ∈ closure U` | ⚠ weakened: not used by the definition (defined for every set `U` and point `x`; `IsSLSCInCC` asks `U` dense, so every `x` is in `closure U`) |
@@ -108,10 +109,14 @@ discrete `Γ/Γ_{Û_U}`. (d) `lem:alternative_countable`: the paper's branching-
 replaced by Baire's theorem on the completely metrizable fibre
 (`GX.isCompletelyMetrizableSpace_fiber`): a countable fibre has an isolated point, and dense orbits
 of homeomorphisms make every point isolated. (e) `rem:definition_semi_locally_simply_connected`:
-only "slsc ⇒ slsc in itself" holds; the converse fails for the harmonic archipelago (every loop
-is homotopic into every neighbourhood of the base point, so the loops are almost trivial in the
-homotopy form and a fortiori in the literal one, but `π₁ ≠ 1`); the counterexample is NOT
-formalized. (f) `rem:simple_cases` (DEC-57): proved for complements of closed proper linear
+only "slsc ⇒ slsc in itself" holds (`GX.isSLSCInCC_univ_of_semilocallySimplyConnected`, the
+corrected statement); the converse fails for the harmonic archipelago `GX.HarmonicArchipelago`
+(a Hausdorff, path-connected, locally path-connected, metrizable — NOT compact — subspace of
+`ℂ × ℝ = ℝ³`): every loop is homotopic into every neighbourhood of the base point, so its loops
+are almost trivial in the homotopy form and a fortiori in the literal one
+(`GX.harmonicArchipelago_isSLSCInCC`), but the small loops `GX.archLoop` are not null-homotopic
+(`GX.archLoop_not_homotopic`, `GX.harmonicArchipelago_not_semilocallySimplyConnected`); the
+printed "iff" is refuted as a statement, `GX.not_semilocallySimplyConnected_of_isSLSCInCC_univ`. (f) `rem:simple_cases` (DEC-57): proved for complements of closed proper linear
 subspaces of a real normed space, transported to closed sets `X ∖ U` which are locally flat: every
 point of `X` has an open chart `V ≃ₜ E` which is either contained in `U` or carries `V ∖ U` onto
 a closed proper linear subspace (`GX.isSLSCInCC_of_locally_linear`; points of `U` far from `X ∖ U`
@@ -1181,7 +1186,7 @@ theorem isSLSCAt_of_discreteTopology_fiber [T2Space X] [LocPathConnectedSpace X]
 
 /-- `rem:definition_semi_locally_simply_connected` (`RamcovGX.tex:1455`), the true direction: a
 semi-locally simply connected space (DEC-41) is semi-locally simply connected in itself. The
-converse is false (the harmonic archipelago; see SCOPE). -/
+converse is false (the harmonic archipelago, `GX.harmonicArchipelago_counterexample`). -/
 theorem isSLSCIn_univ_of_semilocallySimplyConnected [LocallyConnectedSpace X]
     (h : SemilocallySimplyConnected X) : IsSLSCIn (univ : Set X) := by
   refine ⟨dense_univ, fun x => ?_⟩
@@ -1199,10 +1204,10 @@ theorem isSLSCIn_univ_of_semilocallySimplyConnected [LocallyConnectedSpace X]
   obtain ⟨F⟩ := hloop γ hγU
   exact ⟨Path.refl x, fun t _ _ => ⟨mem_of_mem_nhds hW, mem_univ _⟩, F, fun _ _ _ _ => mem_univ _⟩
 
-/-- **`rem:definition_semi_locally_simply_connected`** (`RamcovGX.tex:1455`) in the literal
+/-- `rem:definition_semi_locally_simply_connected` (`RamcovGX.tex:1455`) in the literal
 reading (DEC-55), the true direction: a semi-locally simply connected space (DEC-41) is
-semi-locally simply connected in itself. The converse is false (the harmonic archipelago; see
-SCOPE (e)). -/
+semi-locally simply connected in itself — the corrected statement. The converse is false (the
+harmonic archipelago, `GX.harmonicArchipelago_counterexample`; SCOPE (e)). -/
 theorem isSLSCInCC_univ_of_semilocallySimplyConnected [LocallyConnectedSpace X]
     (h : SemilocallySimplyConnected X) : IsSLSCInCC (univ : Set X) :=
   (isSLSCIn_univ_of_semilocallySimplyConnected h).isSLSCInCC
@@ -1703,6 +1708,1100 @@ end Linear
 
 end General
 
+/-! ### `rem:definition_semi_locally_simply_connected`: the harmonic archipelago
+
+The counterexample to the converse (DEC-27, WP-35b). `𝔸 ⊆ ℂ × ℝ = ℝ³` is the graph, over the
+open half-plane `Re z > 0` (the plane chart `w = 1/z`, in which the Hawaiian-earring circles
+`Re(1/z) = k/2` through the base point `0` are the vertical lines `Re w = k/2`), of the height
+`h(w) = sin²(2π Re w) / (1 + (Im w)²)`, together with the base point `0`: a hill of height `1`
+over each crescent between consecutive circles, the summits `(1/c, 1)`, `c = k/2 + 1/4`,
+accumulating at the missing point `(0, 1)`. Off the base point it is a surface
+(`GX.isOpenEmbedding_archPt`). Every loop at the base point is homotopic into any neighbourhood
+of it (`GX.archPush`: a compact loop climbs no far hill, and the near hills are pushed onto one
+circle), but the loop `Re w = N/2` (`GX.archLoop`) is not null-homotopic: a null-homotopy misses
+the summit of a far hill, and off that summit `GX.archF` maps `𝔸` to `ℂ ∖ {0}` with the loop of
+winding number `1`. -/
+
+section Archipelago
+
+/-- The height of the harmonic archipelago above the point `w⁻¹` of the plane. -/
+def archH (w : ℂ) : ℝ := Real.sin (2 * Real.pi * w.re) ^ 2 / (1 + w.im ^ 2)
+
+/-- The point of the archipelago above `w⁻¹`. -/
+def archE (w : ℂ) : ℂ × ℝ := (w⁻¹, archH w)
+
+/-- The harmonic archipelago as a subset of `ℂ × ℝ = ℝ³`. -/
+def archSet : Set (ℂ × ℝ) := {p | p = 0 ∨ (0 < p.1.re ∧ p.2 = archH p.1⁻¹)}
+
+/-- The harmonic archipelago. -/
+abbrev HarmonicArchipelago : Type := archSet
+
+/-- The open right half-plane `Re w > 0`, the chart of the archipelago off its base point. -/
+def archHalf : Set ℂ := {w | 0 < w.re}
+
+local notation "𝔸" => HarmonicArchipelago
+
+theorem archH_nonneg (w : ℂ) : 0 ≤ archH w := by unfold archH; positivity
+
+theorem archH_le (w : ℂ) : archH w ≤ 1 / (1 + w.im ^ 2) := by
+  unfold archH
+  gcongr
+  rw [sq_le_one_iff_abs_le_one]; exact Real.abs_sin_le_one _
+
+theorem continuous_archH : Continuous archH := by
+  unfold archH
+  exact Continuous.div (by fun_prop) (by fun_prop) (fun w => by positivity)
+
+theorem arch_re_inv_pos {w : ℂ} (hw : 0 < w.re) : 0 < (w⁻¹).re := by
+  rw [Complex.inv_re]
+  have : w ≠ 0 := fun h => by simp [h] at hw
+  exact div_pos hw (Complex.normSq_pos.2 this)
+
+theorem arch_ne_zero_of_re_pos {w : ℂ} (hw : 0 < w.re) : w ≠ 0 := fun h => by simp [h] at hw
+
+theorem archE_mem {w : ℂ} (hw : 0 < w.re) : archE w ∈ archSet :=
+  Or.inr ⟨arch_re_inv_pos hw, by simp [archE]⟩
+
+/-- The base point of the archipelago. -/
+def archO : 𝔸 := ⟨0, Or.inl rfl⟩
+
+/-- The point of the archipelago above `w⁻¹`, `Re w > 0`. -/
+def archPt (w : ℂ) (hw : 0 < w.re) : 𝔸 := ⟨archE w, archE_mem hw⟩
+
+theorem archPt_ne (w : ℂ) (hw : 0 < w.re) : archPt w hw ≠ archO := fun h => by
+  have := congrArg (fun p : 𝔸 => ((p : ℂ × ℝ).1)) h
+  simp [archPt, archO, archE, arch_ne_zero_of_re_pos hw] at this
+
+theorem arch_fst_eq_zero_iff (p : 𝔸) : (p : ℂ × ℝ).1 = 0 ↔ p = archO := by
+  constructor
+  · intro h
+    rcases p.2 with h' | ⟨h1, -⟩
+    · exact Subtype.ext h'
+    · rw [h] at h1; simp at h1
+  · rintro rfl; rfl
+
+theorem arch_cases (p : 𝔸) :
+    p = archO ∨ ∃ hw : 0 < (((p : ℂ × ℝ).1)⁻¹).re, p = archPt _ hw := by
+  rcases p.2 with h | ⟨h1, h2⟩
+  · exact Or.inl (Subtype.ext h)
+  · refine Or.inr ⟨arch_re_inv_pos h1, Subtype.ext ?_⟩
+    show (p : ℂ × ℝ) = archE _
+    ext
+    · simp [archE]
+    · simp [archE, h2]
+
+theorem dist_archO (p : 𝔸) : dist p archO = max ‖(p : ℂ × ℝ).1‖ |(p : ℂ × ℝ).2| := by
+  rw [Subtype.dist_eq, Prod.dist_eq]
+  simp [archO, dist_zero_right]
+
+theorem dist_archPt (w : ℂ) (hw : 0 < w.re) : dist (archPt w hw) archO = max ‖w‖⁻¹ (archH w) := by
+  rw [dist_archO]
+  simp [archPt, archE, norm_inv, abs_of_nonneg (archH_nonneg w)]
+
+theorem arch_norm_inv_le_re {w : ℂ} (hw : 0 < w.re) : ‖w‖⁻¹ ≤ (w.re)⁻¹ :=
+  inv_anti₀ hw (Complex.re_le_norm w)
+
+/-- The chart `w ↦ archPt w` of the archipelago off its base point. -/
+def archHomeo : archHalf ≃ₜ {p : 𝔸 // p ≠ archO} where
+  toFun w := ⟨archPt w.1 w.2, archPt_ne _ _⟩
+  invFun p := ⟨((p.1 : ℂ × ℝ).1)⁻¹, by
+    rcases arch_cases p.1 with h | ⟨hw, -⟩
+    · exact absurd h p.2
+    · exact hw⟩
+  left_inv w := Subtype.ext (by simp [archPt, archE])
+  right_inv p := by
+    rcases arch_cases p.1 with h | ⟨hw, h⟩
+    · exact absurd h p.2
+    · exact Subtype.ext h.symm
+  continuous_toFun := by
+    refine Continuous.subtype_mk (Continuous.subtype_mk ?_ _) _
+    show Continuous fun w : archHalf => archE w.1
+    unfold archE
+    exact (continuous_subtype_val.inv₀ fun w => arch_ne_zero_of_re_pos w.2).prodMk
+      (continuous_archH.comp continuous_subtype_val)
+  continuous_invFun := by
+    refine Continuous.subtype_mk ?_ _
+    refine Continuous.inv₀ (continuous_fst.comp (continuous_subtype_val.comp
+      continuous_subtype_val)) fun p => ?_
+    exact fun h => p.2 ((arch_fst_eq_zero_iff _).1 h)
+
+theorem isOpen_ne_archO : IsOpen {p : 𝔸 | p ≠ archO} := isOpen_ne
+
+/-- `w ↦ archPt w` is an open embedding of the half-plane onto the archipelago minus its base
+point. -/
+theorem isOpenEmbedding_archPt :
+    IsOpenEmbedding (fun w : archHalf => archPt w.1 w.2) :=
+  isOpen_ne_archO.isOpenEmbedding_subtypeVal.comp archHomeo.isOpenEmbedding
+
+/-- A compact subset of the archipelago stays away from its missing limit segment
+`{0} × ]0,1]`: on it, height `≥ δ` forces `‖z‖ ≥ r`. -/
+theorem arch_compact_bound {K : Set 𝔸} (hK : IsCompact K) {δ : ℝ} (hδ : 0 < δ) :
+    ∃ r > 0, ∀ p ∈ K, δ ≤ (p : ℂ × ℝ).2 → r ≤ ‖(p : ℂ × ℝ).1‖ := by
+  rcases K.eq_empty_or_nonempty with rfl | hne
+  · exact ⟨1, one_pos, fun p hp => absurd hp (notMem_empty p)⟩
+  set f : 𝔸 → ℝ := fun p => ‖(p : ℂ × ℝ).1‖ + max 0 (δ - (p : ℂ × ℝ).2)
+  have hf : Continuous f := by fun_prop
+  obtain ⟨p₀, hp₀, hmin⟩ := hK.exists_isMinOn hne hf.continuousOn
+  refine ⟨f p₀, ?_, fun p hp hδp => ?_⟩
+  · by_cases h0 : (p₀ : ℂ × ℝ).1 = 0
+    · have := (arch_fst_eq_zero_iff p₀).1 h0
+      subst this
+      simp [f, archO, hδ]
+    · have : 0 < ‖(p₀ : ℂ × ℝ).1‖ := norm_pos_iff.2 h0
+      have : 0 ≤ max 0 (δ - (p₀ : ℂ × ℝ).2) := le_max_left _ _
+      show 0 < ‖(p₀ : ℂ × ℝ).1‖ + max 0 (δ - (p₀ : ℂ × ℝ).2)
+      linarith
+  · have := hmin hp
+    simp only [mem_setOf_eq] at this
+    have hm : max 0 (δ - (p : ℂ × ℝ).2) = 0 := max_eq_left (by linarith)
+    calc f p₀ ≤ f p := this
+      _ = ‖(p : ℂ × ℝ).1‖ := by simp only [f, hm, add_zero]
+
+/-! #### Paths to the base point: pushing `|Im w|` to infinity -/
+
+section Ray
+
+variable (w : ℂ) (sg : ℝ)
+
+/-- First coordinate of the ray from `archPt w` to the base point (`z = w⁻¹` moved along the
+circle `Re(1/z) = Re w`). -/
+def archRayZ (s : ℝ) : ℂ :=
+  ((1 - s : ℝ) : ℂ) * w⁻¹ / (((1 - s : ℝ) : ℂ) + ((sg * s : ℝ) : ℂ) * w⁻¹ * Complex.I)
+
+/-- Second coordinate (height) of the ray. -/
+def archRayH (s : ℝ) : ℝ :=
+  (1 - s) ^ 2 * Real.sin (2 * Real.pi * w.re) ^ 2 / ((1 - s) ^ 2 + ((1 - s) * w.im + sg * s) ^ 2)
+
+/-- The point `w + i sg s / (1 - s)` of the half-plane. -/
+def archRayW (s : ℝ) : ℂ := w + ((sg * s / (1 - s) : ℝ) : ℂ) * Complex.I
+
+variable {w sg}
+
+theorem archRayW_re (s : ℝ) : (archRayW w sg s).re = w.re := by
+  simp only [archRayW, Complex.add_re, Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im,
+    Complex.I_re, Complex.I_im]
+  ring
+
+theorem archRayW_im (s : ℝ) : (archRayW w sg s).im = w.im + sg * s / (1 - s) := by
+  simp only [archRayW, Complex.add_im, Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im,
+    Complex.I_re, Complex.I_im]
+  ring
+
+theorem archRayZ_den_ne (hw : 0 < w.re) (hsg : sg ^ 2 = 1) (s : ℝ) :
+    ((1 - s : ℝ) : ℂ) + ((sg * s : ℝ) : ℂ) * w⁻¹ * Complex.I ≠ 0 := by
+  intro h
+  have him := congrArg Complex.im h
+  have hre := congrArg Complex.re h
+  simp at him hre
+  have hsg0 : sg ≠ 0 := by rintro rfl; norm_num at hsg
+  have hz := arch_re_inv_pos hw
+  rcases him with ((h1 | h1) | h1)
+  · exact hsg0 h1
+  · subst h1; simp at hre
+  · rcases h1 with h1 | h1
+    · linarith
+    · simp [h1] at hw
+
+theorem archRayH_den_pos (hsg : sg ^ 2 = 1) (s : ℝ) :
+    0 < (1 - s) ^ 2 + ((1 - s) * w.im + sg * s) ^ 2 := by
+  by_cases h : 1 - s = 0
+  · have : s = 1 := by linarith
+    subst this; simp [hsg]
+  · have := pow_pos (abs_pos.2 h) 2
+    rw [sq_abs] at this
+    positivity
+
+theorem archRayZ_eq (hw : 0 < w.re) (hsg : sg ^ 2 = 1) {s : ℝ} (hs : s < 1) :
+    archRayZ w sg s = (archRayW w sg s)⁻¹ := by
+  have hD := archRayZ_den_ne hw hsg s
+  have h1 : (1 - s : ℝ) ≠ 0 := by linarith
+  have hw0 := arch_ne_zero_of_re_pos hw
+  refine eq_inv_of_mul_eq_one_left ?_
+  unfold archRayZ archRayW
+  rw [div_mul_eq_mul_div, div_eq_one_iff_eq hD]
+  have h1' : (1 : ℂ) - s ≠ 0 := by exact_mod_cast h1
+  push_cast
+  field_simp
+
+theorem archRayH_eq (hsg : sg ^ 2 = 1) {s : ℝ} (hs : s < 1) : archRayH w sg s = archH (archRayW w sg s) := by
+  have h1 : (1 - s : ℝ) ≠ 0 := by linarith
+  unfold archRayH archH
+  rw [archRayW_re, archRayW_im]
+  have := archRayH_den_pos (w := w) hsg s
+  field_simp
+
+theorem arch_norm_le_norm_rayW (hsgw : 0 ≤ sg * w.im) {s : ℝ} (hs0 : 0 ≤ s) (hs : s < 1) :
+    ‖w‖ ≤ ‖archRayW w sg s‖ := by
+  rw [← sq_le_sq₀ (norm_nonneg _) (norm_nonneg _), ← Complex.normSq_eq_norm_sq,
+    ← Complex.normSq_eq_norm_sq, Complex.normSq_apply, Complex.normSq_apply,
+    archRayW_re, archRayW_im]
+  have h1 : 0 < 1 - s := by linarith
+  have : 0 ≤ sg * s / (1 - s) * w.im := by
+    rw [div_mul_eq_mul_div, mul_comm sg s, mul_assoc]
+    exact div_nonneg (mul_nonneg hs0 hsgw) h1.le
+  nlinarith [sq_nonneg (sg * s / (1 - s))]
+
+theorem archH_rayW_le (hsgw : 0 ≤ sg * w.im) {s : ℝ} (hs0 : 0 ≤ s) (hs : s < 1) :
+    archH (archRayW w sg s) ≤ archH w := by
+  unfold archH
+  rw [archRayW_re, archRayW_im]
+  have h1 : 0 < 1 - s := by linarith
+  have : 0 ≤ sg * s / (1 - s) * w.im := by
+    rw [div_mul_eq_mul_div, mul_comm sg s, mul_assoc]
+    exact div_nonneg (mul_nonneg hs0 hsgw) h1.le
+  apply div_le_div_of_nonneg_left (by positivity) (by positivity)
+  nlinarith [sq_nonneg (sg * s / (1 - s))]
+
+theorem archRayMem (hw : 0 < w.re) (hsg : sg ^ 2 = 1) {s : ℝ} (hs1 : s ≤ 1) :
+    (archRayZ w sg s, archRayH w sg s) ∈ archSet := by
+  rcases lt_or_eq_of_le hs1 with hs | rfl
+  · have hre : 0 < (archRayW w sg s).re := by rw [archRayW_re]; exact hw
+    have : (archRayZ w sg s, archRayH w sg s) = archE (archRayW w sg s) := by
+      rw [archRayZ_eq hw hsg hs, archRayH_eq hsg hs]; rfl
+    rw [this]; exact archE_mem hre
+  · left; simp [archRayZ, archRayH]
+
+/-- The path from `archPt w` to the base point along which `|Im w|` increases to infinity
+(`sg = ±1`, `sg · Im w ≥ 0`): the distance to the base point does not increase along it. -/
+def archRay (hw : 0 < w.re) (hsg : sg ^ 2 = 1) : Path (archPt w hw) archO where
+  toFun s := ⟨(archRayZ w sg s, archRayH w sg s), archRayMem hw hsg s.2.2⟩
+  continuous_toFun := by
+    refine Continuous.subtype_mk (Continuous.prodMk ?_ ?_) _
+    · unfold archRayZ
+      exact Continuous.div (by fun_prop) (by fun_prop) fun s => archRayZ_den_ne hw hsg s
+    · unfold archRayH
+      exact Continuous.div (by fun_prop) (by fun_prop) fun s => (archRayH_den_pos hsg s).ne'
+  source' := by
+    apply Subtype.ext
+    show (archRayZ w sg 0, archRayH w sg 0) = archE w
+    simp [archRayZ, archRayH, archE, archH]
+  target' := by
+    apply Subtype.ext
+    show (archRayZ w sg 1, archRayH w sg 1) = 0
+    simp [archRayZ, archRayH]
+
+theorem dist_archRay_le (hw : 0 < w.re) (hsg : sg ^ 2 = 1) (hsgw : 0 ≤ sg * w.im) (s : I) :
+    dist (archRay hw hsg s) archO ≤ dist (archPt w hw) archO := by
+  rcases lt_or_eq_of_le s.2.2 with hs | hs
+  · have hre : 0 < (archRayW w sg s).re := by rw [archRayW_re]; exact hw
+    have : archRay hw hsg s = archPt _ hre := Subtype.ext (by
+      show (archRayZ w sg s, archRayH w sg s) = archE _
+      rw [archRayZ_eq hw hsg hs, archRayH_eq hsg hs]; rfl)
+    rw [this, dist_archPt, dist_archPt]
+    have hn := arch_norm_le_norm_rayW hsgw s.2.1 hs
+    exact max_le_max (inv_anti₀ (norm_pos_iff.2 (arch_ne_zero_of_re_pos hw)) hn)
+      (archH_rayW_le hsgw s.2.1 hs)
+  · have : s = 1 := Subtype.ext hs
+    rw [this, Path.target, dist_self]; exact dist_nonneg
+
+end Ray
+
+/-- Every point is joined to the base point inside every ball around the base point that
+contains it. -/
+theorem arch_joinedIn_ball (p : 𝔸) {ε : ℝ} (hp : dist p archO < ε) :
+    JoinedIn (Metric.ball archO ε) p archO := by
+  rcases arch_cases p with rfl | ⟨hw, h⟩
+  · exact JoinedIn.refl hp
+  · rw [h] at hp ⊢
+    set w := ((p : ℂ × ℝ).1)⁻¹
+    set sg : ℝ := if 0 ≤ w.im then 1 else -1
+    have hsg : sg ^ 2 = 1 := by simp only [sg]; split_ifs <;> norm_num
+    have hsgw : 0 ≤ sg * w.im := by
+      simp only [sg]; split_ifs with h
+      · simpa using h
+      · nlinarith
+    exact ⟨archRay hw hsg, fun s => lt_of_le_of_lt (dist_archRay_le hw hsg hsgw s) hp⟩
+
+instance : PathConnectedSpace 𝔸 :=
+  ⟨⟨archO⟩, fun x y => by
+    have hx := (arch_joinedIn_ball x (lt_add_one (dist x archO))).joined
+    have hy := (arch_joinedIn_ball y (lt_add_one (dist y archO))).joined
+    exact hx.trans hy.symm⟩
+
+instance : LocPathConnectedSpace archHalf :=
+  (isOpen_lt continuous_const Complex.continuous_re).locPathConnectedSpace
+
+instance : LocPathConnectedSpace 𝔸 := by
+  refine locPathConnectedSpace_iff_pathComponentIn_mem_nhds.2 fun x u hu hxu => ?_
+  rcases arch_cases x with rfl | ⟨hw, hx⟩
+  · obtain ⟨ε, hε, hεu⟩ := Metric.isOpen_iff.1 hu archO hxu
+    refine mem_of_superset (Metric.ball_mem_nhds archO hε) fun q hq => ?_
+    exact ((arch_joinedIn_ball q hq).symm).mono hεu
+  · set f := fun w : archHalf => archPt w.1 w.2
+    have hf := isOpenEmbedding_archPt
+    set w : archHalf := ⟨_, hw⟩
+    have hfw : f w = x := hx.symm
+    have hu' : IsOpen (f ⁻¹' u) := hu.preimage hf.continuous
+    have hwu : w ∈ f ⁻¹' u := by show f w ∈ u; rw [hfw]; exact hxu
+    have h1 := locPathConnectedSpace_iff_pathComponentIn_mem_nhds.1 inferInstance w _ hu' hwu
+    have h2 : f '' pathComponentIn (f ⁻¹' u) w ∈ 𝓝 (f w) := (hf.image_mem_nhds).2 h1
+    rw [hfw] at h2
+    refine mem_of_superset h2 ?_
+    rintro _ ⟨y, hy, rfl⟩
+    have : JoinedIn u (f w) (f y) := (hy.map hf.continuous).mono (image_preimage_subset f u)
+    rw [hfw] at this
+    exact this
+
+/-! #### The deformation pushing the hills `Re w < n` onto the circle `Re w = n` -/
+
+section Push
+
+/-- The half-plane coordinate `p ↦ (p.1)⁻¹` (`0` at the base point). -/
+def archW (p : 𝔸) : ℂ := ((p : ℂ × ℝ).1)⁻¹
+
+theorem archPt_archW {p : 𝔸} (hw : 0 < (archW p).re) : archPt (archW p) hw = p := by
+  rcases arch_cases p with h | ⟨hw', h⟩
+  · subst h; simp [archW, archO] at hw
+  · exact h.symm
+
+theorem arch_fst_ne_zero_of_re_pos {p : 𝔸} (hw : 0 < (archW p).re) : (p : ℂ × ℝ).1 ≠ 0 := by
+  intro h; simp [archW, h] at hw
+
+theorem re_archW_pos {p : 𝔸} (h : (p : ℂ × ℝ).1 ≠ 0) : 0 < (archW p).re := by
+  rcases arch_cases p with h' | ⟨hw, -⟩
+  · exact absurd ((arch_fst_eq_zero_iff _).2 h') h
+  · exact hw
+
+/-- `w ↦ w + t·max(0, n - Re w)`. -/
+def archPushW (n t : ℝ) (w : ℂ) : ℂ := w + ((t * max 0 (n - w.re) : ℝ) : ℂ)
+
+theorem archPushW_re (n t : ℝ) (w : ℂ) : (archPushW n t w).re = w.re + t * max 0 (n - w.re) := by
+  simp [archPushW]
+
+theorem archPushW_im (n t : ℝ) (w : ℂ) : (archPushW n t w).im = w.im := by simp [archPushW]
+
+theorem archPushW_re_pos {n t : ℝ} {w : ℂ} (ht : 0 ≤ t) (hw : 0 < w.re) : 0 < (archPushW n t w).re := by
+  rw [archPushW_re]; have := mul_nonneg ht (le_max_left 0 (n - w.re)); linarith
+
+theorem archPushW_zero (n : ℝ) (w : ℂ) : archPushW n 0 w = w := by simp [archPushW]
+
+theorem archPushW_of_le {n t : ℝ} {w : ℂ} (h : n ≤ w.re) : archPushW n t w = w := by
+  simp [archPushW, max_eq_left (sub_nonpos.2 h)]
+
+theorem archPushW_one_re {n : ℝ} {w : ℂ} (h : w.re < n) : (archPushW n 1 w).re = n := by
+  rw [archPushW_re, max_eq_right (sub_nonneg.2 h.le)]; ring
+
+theorem dist_archE_zero (w : ℂ) : dist (archE w) 0 = max ‖w‖⁻¹ (archH w) := by
+  rw [Prod.dist_eq]
+  simp [archE, norm_inv, abs_of_nonneg (archH_nonneg w)]
+
+/-- The estimate behind the continuity of the push at the base point: points close to the base
+point stay close to it, uniformly in time. -/
+theorem archPush_estimate (n : ℝ) {ε : ℝ} (hε : 0 < ε) : ∃ δ > 0, ∀ w : ℂ, 0 < w.re →
+    max ‖w‖⁻¹ (archH w) < δ → ∀ t : ℝ, 0 ≤ t → t ≤ 1 →
+      max ‖archPushW n t w‖⁻¹ (archH (archPushW n t w)) < ε := by
+  set R : ℝ := |n| + 1 + 1 / ε
+  have hR : 0 < R := by positivity
+  refine ⟨min ε (1 / R), lt_min hε (by positivity), fun w hw hδ t ht0 ht1 => ?_⟩
+  have hδ1 := lt_of_lt_of_le hδ (min_le_left _ _)
+  have hδ2 := lt_of_lt_of_le hδ (min_le_right _ _)
+  by_cases hnw : n ≤ w.re
+  · rw [archPushW_of_le hnw]; exact hδ1
+  rw [not_le] at hnw
+  have hw0 : 0 < ‖w‖ := norm_pos_iff.2 (arch_ne_zero_of_re_pos hw)
+  have hwR : R < ‖w‖ := by
+    have := (max_lt_iff.1 hδ2).1
+    rw [inv_lt_comm₀ hw0 (by positivity), one_div, inv_inv] at this
+    exact this
+  have him : 1 + 1 / ε < |w.im| := by
+    have h1 := Complex.norm_le_abs_re_add_abs_im w
+    have h2 : |w.re| = w.re := abs_of_pos hw
+    have h3 : w.re ≤ |n| := hnw.le.trans (le_abs_self n)
+    simp only [R] at hwR
+    linarith
+  have hε' : 1 / ε < |w.im| := by linarith
+  have him1 : 1 < |w.im| := by linarith [show (0 : ℝ) < 1 / ε by positivity]
+  have hpos : 0 < |w.im| := by linarith
+  rw [max_lt_iff]
+  constructor
+  · calc ‖archPushW n t w‖⁻¹ ≤ |(archPushW n t w).im|⁻¹ :=
+          inv_anti₀ (by rwa [archPushW_im]) (Complex.abs_im_le_norm _)
+      _ = |w.im|⁻¹ := by rw [archPushW_im]
+      _ < ε := by
+          rw [inv_lt_comm₀ hpos hε]; rwa [one_div] at hε'
+  · calc archH (archPushW n t w) ≤ 1 / (1 + (archPushW n t w).im ^ 2) := archH_le _
+      _ = 1 / (1 + |w.im| ^ 2) := by rw [archPushW_im, sq_abs]
+      _ < ε := by
+          rw [div_lt_iff₀ (by positivity)]
+          rw [div_lt_iff₀ hε] at hε'
+          nlinarith
+
+/-- The value of the push. -/
+def archPushVal (n : ℝ) (x : I × 𝔸) : ℂ × ℝ :=
+  if (x.2 : ℂ × ℝ).1 = 0 then 0 else archE (archPushW n x.1 (archW x.2))
+
+theorem archPushVal_mem (n : ℝ) (x : I × 𝔸) : archPushVal n x ∈ archSet := by
+  unfold archPushVal
+  split_ifs with h
+  · exact Or.inl rfl
+  · exact archE_mem (archPushW_re_pos x.1.2.1 (re_archW_pos h))
+
+theorem continuous_archPushVal (n : ℝ) : Continuous (archPushVal n) := by
+    refine continuous_iff_continuousAt.2 fun x => ?_
+    obtain ⟨t, p⟩ := x
+    by_cases hp : (p : ℂ × ℝ).1 = 0
+    · rw [ContinuousAt, show archPushVal n (t, p) = 0 by simp [archPushVal, hp],
+        Metric.tendsto_nhds]
+      intro ε hε
+      obtain ⟨δ, hδ, hest⟩ := archPush_estimate n hε
+      have hpo : p = archO := (arch_fst_eq_zero_iff p).1 hp
+      subst hpo
+      filter_upwards [(continuous_snd.tendsto (t, archO)).eventually
+        (Metric.ball_mem_nhds archO hδ)] with x hx
+      by_cases hx0 : (x.2 : ℂ × ℝ).1 = 0
+      · simp [archPushVal, hx0, hε]
+      · simp only [archPushVal, if_neg hx0]
+        rw [dist_archE_zero]
+        have hw := re_archW_pos hx0
+        have hd : dist x.2 archO < δ := hx
+        rw [← archPt_archW hw, dist_archPt] at hd
+        exact hest _ hw hd _ x.1.2.1 x.1.2.2
+    · have hW : ContinuousAt (fun x : I × 𝔸 => archW x.2) (t, p) :=
+        ((continuous_fst.comp continuous_subtype_val).comp continuous_snd).continuousAt.inv₀ hp
+      have hev : archPushVal n =ᶠ[𝓝 (t, p)] fun x => archE (archPushW n x.1 (archW x.2)) := by
+        have : IsOpen {x : I × 𝔸 | (x.2 : ℂ × ℝ).1 ≠ 0} :=
+          isOpen_ne_fun ((continuous_fst.comp continuous_subtype_val).comp continuous_snd)
+            continuous_const
+        filter_upwards [this.mem_nhds hp] with x hx
+        simp only [archPushVal, if_neg (show (x.2 : ℂ × ℝ).1 ≠ 0 from hx)]
+      have hpush : ContinuousAt (fun x : I × 𝔸 => archPushW n x.1 (archW x.2)) (t, p) := by
+        unfold archPushW
+        exact hW.add (Complex.continuous_ofReal.continuousAt.comp
+          (((continuous_subtype_val.comp continuous_fst).continuousAt).mul
+            (continuousAt_const.max (continuousAt_const.sub
+              (Complex.continuous_re.continuousAt.comp hW)))))
+      have hne : archPushW n t (archW p) ≠ 0 :=
+        arch_ne_zero_of_re_pos (archPushW_re_pos t.2.1 (re_archW_pos hp))
+      have hE : ContinuousAt archE (archPushW n t (archW p)) :=
+        (continuousAt_inv₀ hne).prodMk continuous_archH.continuousAt
+      have hc : ContinuousAt (fun x : I × 𝔸 => archE (archPushW n x.1 (archW x.2))) (t, p) :=
+        ContinuousAt.comp (x := (t, p)) (f := fun x : I × 𝔸 => archPushW n x.1 (archW x.2)) hE hpush
+      exact hc.congr hev.symm
+
+/-- The push `[0,1] × 𝔸 → 𝔸`: at time `t` the hills `Re w < n` are pushed by `t·(n - Re w)`
+towards the circle `Re w = n`; the base point is fixed. -/
+def archPush (n : ℝ) : C(I × 𝔸, 𝔸) where
+  toFun x := ⟨archPushVal n x, archPushVal_mem n x⟩
+  continuous_toFun := (continuous_archPushVal n).subtype_mk _
+
+theorem archPush_apply (n : ℝ) (x : I × 𝔸) : (archPush n x : ℂ × ℝ) = archPushVal n x := rfl
+
+theorem archPush_zero (n : ℝ) (p : 𝔸) : archPush n (0, p) = p := by
+  apply Subtype.ext
+  rw [archPush_apply]
+  unfold archPushVal
+  split_ifs with h
+  · have := (arch_fst_eq_zero_iff p).1 h
+    subst this; rfl
+  · show archE (archPushW n 0 (archW p)) = (p : ℂ × ℝ)
+    rw [archPushW_zero]
+    exact congrArg Subtype.val (archPt_archW (re_archW_pos h))
+
+theorem archPush_base (n : ℝ) (t : I) : archPush n (t, archO) = archO :=
+  Subtype.ext (by rw [archPush_apply]; simp [archPushVal, archO])
+
+end Push
+
+/-! #### Semi-local simple connectedness in itself -/
+
+/-- After the push `archPush n` at time `1`, a point `p` of a set on which height `≥ ε/2` forces
+`‖z‖ ≥ r` lies in the `ε`-ball around the base point, as soon as `1/n < min r ε`. -/
+theorem dist_archPush_one_lt {n : ℕ} {ε r : ℝ} (hε : 0 < ε) (hn : 0 < n) (hnr : (n : ℝ)⁻¹ < r)
+    (hnε : (n : ℝ)⁻¹ < ε) {p : 𝔸} (hp : ε / 2 ≤ (p : ℂ × ℝ).2 → r ≤ ‖(p : ℂ × ℝ).1‖) :
+    dist (archPush n (1, p)) archO < ε := by
+  have hn' : (0 : ℝ) < n := by exact_mod_cast hn
+  by_cases h0 : (p : ℂ × ℝ).1 = 0
+  · have := (arch_fst_eq_zero_iff p).1 h0
+    subst this
+    rw [archPush_base, dist_self]; exact hε
+  have hw := re_archW_pos h0
+  set w := archW p
+  have hdist : dist (archPush n (1, p)) archO = dist (archE (archPushW n 1 w)) 0 := by
+    rw [Subtype.dist_eq, archPush_apply]
+    simp only [archPushVal, if_neg h0]; rfl
+  rw [hdist, dist_archE_zero, max_lt_iff]
+  by_cases hnw : (n : ℝ) ≤ w.re
+  · rw [archPushW_of_le hnw]
+    have hwn : ‖w‖⁻¹ ≤ (n : ℝ)⁻¹ := (arch_norm_inv_le_re hw).trans (inv_anti₀ hn' hnw)
+    refine ⟨hwn.trans_lt hnε, ?_⟩
+    have hpw : p = archPt w hw := (archPt_archW hw).symm
+    have h2 : (p : ℂ × ℝ).2 = archH w := by rw [hpw]; rfl
+    have h1 : ‖(p : ℂ × ℝ).1‖ = ‖w‖⁻¹ := by rw [hpw]; simp [archPt, archE, norm_inv]
+    by_contra hge
+    rw [not_lt] at hge
+    have := hp (by rw [h2]; linarith)
+    rw [h1] at this
+    linarith
+  · rw [not_le] at hnw
+    have hre := archPushW_one_re hnw
+    refine ⟨?_, ?_⟩
+    · calc ‖archPushW n 1 w‖⁻¹ ≤ ((archPushW n 1 w).re)⁻¹ := arch_norm_inv_le_re (by rw [hre]; exact hn')
+        _ = (n : ℝ)⁻¹ := by rw [hre]
+        _ < ε := hnε
+    · have : archH (archPushW n 1 w) = 0 := by
+        unfold archH
+        rw [hre, show 2 * Real.pi * (n : ℝ) = ((2 * n : ℕ) : ℝ) * Real.pi by push_cast; ring,
+          Real.sin_nat_mul_pi]
+        simp
+      rw [this]; exact hε
+
+/-- The archipelago is semi-locally simply connected in itself at its base point, in the
+homotopy form: every loop is homotopic (rel ends) to a loop in any given neighbourhood. -/
+theorem harmonicArchipelago_isSLSCAt_base : IsSLSCAt (univ : Set 𝔸) archO := by
+  refine ⟨univ, isOpen_univ, isPreconnected_univ, trivial, fun γ _ =>
+    ⟨fun _ _ _ => trivial, fun W hW => ?_⟩⟩
+  obtain ⟨ε, hε, hεW⟩ := Metric.mem_nhds_iff.1 hW
+  obtain ⟨r, hr, hK⟩ := arch_compact_bound (isCompact_range γ.continuous) (half_pos hε)
+  obtain ⟨n, hn⟩ := exists_nat_gt (max r⁻¹ ε⁻¹)
+  have hn0 : 0 < n := by
+    have : (0 : ℝ) < n := lt_of_le_of_lt (le_max_of_le_left (inv_pos.2 hr).le) hn
+    exact_mod_cast this
+  have hn' : (0 : ℝ) < n := by exact_mod_cast hn0
+  have hnr : (n : ℝ)⁻¹ < r := by
+    rw [inv_lt_comm₀ hn' hr]; exact lt_of_le_of_lt (le_max_left _ _) hn
+  have hnε : (n : ℝ)⁻¹ < ε := by
+    rw [inv_lt_comm₀ hn' hε]; exact lt_of_le_of_lt (le_max_right _ _) hn
+  let γ' : Path archO archO :=
+    { toFun := fun t => archPush n (1, γ t)
+      continuous_toFun := (archPush n).continuous.comp (continuous_const.prodMk γ.continuous)
+      source' := by simp [archPush_base]
+      target' := by simp [archPush_base] }
+  let H : Path.Homotopy γ γ' :=
+    { toFun := fun x => archPush n (x.1, γ x.2)
+      continuous_toFun := (archPush n).continuous.comp (continuous_fst.prodMk
+        (γ.continuous.comp continuous_snd))
+      map_zero_left := fun t => archPush_zero _ _
+      map_one_left := fun t => rfl
+      prop' := fun s t ht => by
+        rcases ht with rfl | rfl
+        · simp [archPush_base]
+        · simp [archPush_base] }
+  refine ⟨γ', fun t _ _ => ⟨hεW ?_, trivial⟩, H, fun _ _ _ _ => trivial⟩
+  exact dist_archPush_one_lt hε hn0 hnr hnε (hK _ (mem_range_self t))
+
+/-- Off its base point the archipelago is a surface (the half-plane chart). -/
+theorem harmonicArchipelago_isSLSCAt_pt (w : ℂ) (hw : 0 < w.re) :
+    IsSLSCAt (univ : Set 𝔸) (archPt w hw) := by
+  have h := isSLSCAt_of_radial_contraction (M := archHalf) (A := univ) ⟨w, hw⟩ one_pos
+    (fun v hv _ μ hμ0 hμ1 => by
+      show 0 < (w + μ • (v - w)).re
+      have hv' : 0 < v.re := hv
+      simp only [Complex.add_re, Complex.smul_re, Complex.sub_re, smul_eq_mul]
+      rcases eq_or_lt_of_le hμ0 with h0 | h0
+      · rw [← h0]; linarith
+      · nlinarith [mul_pos h0 hv', mul_nonneg (sub_nonneg.2 hμ1) hw.le])
+    (fun _ _ _ _ _ _ _ => trivial)
+  rw [preimage_univ] at h
+  have h' := IsSLSCAt.of_isOpenEmbedding isOpenEmbedding_archPt (A := univ)
+    (by rw [preimage_univ]; exact h)
+  exact h'
+
+/-- **`rem:definition_semi_locally_simply_connected`, the counterexample to the converse**:
+the harmonic archipelago is semi-locally simply connected in itself (homotopy form). -/
+theorem harmonicArchipelago_isSLSCIn : IsSLSCIn (univ : Set 𝔸) := by
+  refine ⟨dense_univ, fun p => ?_⟩
+  rcases arch_cases p with rfl | ⟨hw, h⟩
+  · exact harmonicArchipelago_isSLSCAt_base
+  · rw [h]; exact harmonicArchipelago_isSLSCAt_pt _ hw
+
+/-- The harmonic archipelago is semi-locally simply connected in itself in the literal sense of
+`def:semi_locally_simple_connectedness` (DEC-55). -/
+theorem harmonicArchipelago_isSLSCInCC : IsSLSCInCC (univ : Set 𝔸) :=
+  harmonicArchipelago_isSLSCIn.isSLSCInCC
+
+/-! #### The small loops `Re w = N/2` are not null-homotopic -/
+
+section Loop
+
+/-- The circle `Re(1/z) = N/2` through the base point, `z = 4 sin(πs) / (2N sin(πs) + i cos(πs))`
+(`1/z = N/2 + (i/4) cot(πs)`). -/
+def archLz (N : ℕ) (s : ℝ) : ℂ :=
+  ((4 * Real.sin (Real.pi * s) : ℝ) : ℂ) /
+    (((2 * N * Real.sin (Real.pi * s) : ℝ) : ℂ) + (Real.cos (Real.pi * s) : ℂ) * Complex.I)
+
+theorem arch_re_ofReal_add_mul_I (a b : ℝ) : ((a : ℂ) + (b : ℂ) * Complex.I).re = a := by simp
+
+theorem arch_im_ofReal_add_mul_I (a b : ℝ) : ((a : ℂ) + (b : ℂ) * Complex.I).im = b := by simp
+
+theorem arch_ofReal_add_mul_I_ne {a b : ℝ} (h : a ≠ 0 ∨ b ≠ 0) : (a : ℂ) + (b : ℂ) * Complex.I ≠ 0 := by
+  intro h0
+  have h1 := congrArg Complex.re h0
+  have h2 := congrArg Complex.im h0
+  rw [arch_re_ofReal_add_mul_I, Complex.zero_re] at h1
+  rw [arch_im_ofReal_add_mul_I, Complex.zero_im] at h2
+  rcases h with h | h
+  · exact h h1
+  · exact h h2
+
+theorem archLz_den_ne {N : ℕ} (hN : 0 < N) (s : ℝ) :
+    (((2 * N * Real.sin (Real.pi * s) : ℝ) : ℂ) + (Real.cos (Real.pi * s) : ℂ) * Complex.I) ≠ 0 := by
+  apply arch_ofReal_add_mul_I_ne
+  by_contra h
+  push Not at h
+  have hN' : (N : ℝ) ≠ 0 := by exact_mod_cast hN.ne'
+  have hs : Real.sin (Real.pi * s) = 0 := by
+    rcases mul_eq_zero.1 h.1 with h' | h'
+    · exfalso; exact hN' (by linarith)
+    · exact h'
+  have := Real.sin_sq_add_cos_sq (Real.pi * s)
+  rw [hs, h.2] at this; norm_num at this
+
+theorem archLz_div_eq_inv (S C n : ℝ) (hS : S ≠ 0) :
+    ((4 * S : ℝ) : ℂ) / (((2 * n * S : ℝ) : ℂ) + (C : ℂ) * Complex.I) =
+      (((n / 2 : ℝ) : ℂ) + ((C / (4 * S) : ℝ) : ℂ) * Complex.I)⁻¹ := by
+  have hS' : (S : ℂ) ≠ 0 := by exact_mod_cast hS
+  rw [show (((n / 2 : ℝ) : ℂ) + ((C / (4 * S) : ℝ) : ℂ) * Complex.I) =
+      (((2 * n * S : ℝ) : ℂ) + (C : ℂ) * Complex.I) / ((4 * S : ℝ) : ℂ) by
+    push_cast; field_simp; ring, inv_div]
+
+theorem archLz_eq {N : ℕ} {s : ℝ} (hs : Real.sin (Real.pi * s) ≠ 0) :
+    archLz N s = (((N / 2 : ℝ) : ℂ) +
+      ((Real.cos (Real.pi * s) / (4 * Real.sin (Real.pi * s)) : ℝ) : ℂ) * Complex.I)⁻¹ :=
+  archLz_div_eq_inv _ _ _ hs
+
+theorem archLz_of_sin_eq_zero {N : ℕ} {s : ℝ} (hs : Real.sin (Real.pi * s) = 0) :
+    archLz N s = 0 := by
+  simp [archLz, hs]
+
+theorem archH_half_nat (N : ℕ) (v : ℝ) : archH (((N / 2 : ℝ) : ℂ) + (v : ℂ) * Complex.I) = 0 := by
+  unfold archH
+  have : (((N / 2 : ℝ) : ℂ) + (v : ℂ) * Complex.I).re = N / 2 := by simp
+  rw [this, show 2 * Real.pi * ((N : ℝ) / 2) = (N : ℝ) * Real.pi by ring, Real.sin_nat_mul_pi]
+  simp
+
+theorem archLoopMem {N : ℕ} (hN : 0 < N) (s : ℝ) : (archLz N s, (0 : ℝ)) ∈ archSet := by
+  by_cases hs : Real.sin (Real.pi * s) = 0
+  · left; rw [archLz_of_sin_eq_zero hs]; rfl
+  · right
+    rw [archLz_eq hs, inv_inv]
+    have hN' : (0 : ℝ) < N := by exact_mod_cast hN
+    refine ⟨arch_re_inv_pos (by rw [arch_re_ofReal_add_mul_I]; positivity), ?_⟩
+    exact (archH_half_nat N _).symm
+
+/-- The loop `Re(1/z) = N/2` of the archipelago at its base point (height `0`). -/
+def archLoop (N : ℕ) (hN : 0 < N) : Path archO archO where
+  toFun s := ⟨(archLz N s, 0), archLoopMem hN s⟩
+  continuous_toFun := by
+    refine Continuous.subtype_mk (Continuous.prodMk ?_ continuous_const) _
+    unfold archLz
+    exact Continuous.div (by fun_prop) (by fun_prop) fun s => archLz_den_ne hN s
+  source' := Subtype.ext (by
+    show (archLz N 0, (0 : ℝ)) = 0
+    rw [archLz_of_sin_eq_zero (by simp)]; rfl)
+  target' := Subtype.ext (by
+    show (archLz N 1, (0 : ℝ)) = 0
+    rw [archLz_of_sin_eq_zero (by simp)]; rfl)
+
+theorem dist_archLoop_le {N : ℕ} (hN : 0 < N) (s : I) :
+    dist (archLoop N hN s) archO ≤ 2 / N := by
+  have hN' : (0 : ℝ) < N := by exact_mod_cast hN
+  rw [dist_archO]
+  show max ‖archLz N s‖ |(0 : ℝ)| ≤ 2 / N
+  rw [abs_zero]
+  refine max_le ?_ (by positivity)
+  by_cases hs : Real.sin (Real.pi * s) = 0
+  · rw [archLz_of_sin_eq_zero hs, norm_zero]; positivity
+  · rw [archLz_eq hs, norm_inv]
+    have hre : 0 < (((N / 2 : ℝ) : ℂ) +
+        ((Real.cos (Real.pi * s) / (4 * Real.sin (Real.pi * s)) : ℝ) : ℂ) * Complex.I).re := by
+      rw [arch_re_ofReal_add_mul_I]; positivity
+    refine (arch_norm_inv_le_re hre).trans (le_of_eq ?_)
+    rw [arch_re_ofReal_add_mul_I]; field_simp
+
+/-! The map to `ℂ ∖ {0}` detecting the loops, continuous off the summit `archPt c`. -/
+
+/-- `ζ = max(0, c - Re w) - i Im w`. -/
+def archZeta (c : ℝ) (w : ℂ) : ℂ := ((max 0 (c - w.re) : ℝ) : ℂ) - (w.im : ℂ) * Complex.I
+
+/-- `ζ² / |ζ|²` (`-1` where `ζ = 0`). -/
+def archFc (c : ℝ) (w : ℂ) : ℂ :=
+  if archZeta c w = 0 then -1 else archZeta c w ^ 2 / (Complex.normSq (archZeta c w) : ℂ)
+
+/-- The detecting map `𝔸 → ℂ ∖ {0}`: `-1` at the base point. -/
+def archF (c : ℝ) (p : 𝔸) : ℂ := if (p : ℂ × ℝ).1 = 0 then -1 else archFc c (archW p)
+
+theorem archZeta_re (c : ℝ) (w : ℂ) : (archZeta c w).re = max 0 (c - w.re) := by simp [archZeta]
+
+theorem archZeta_im (c : ℝ) (w : ℂ) : (archZeta c w).im = -w.im := by simp [archZeta]
+
+theorem continuous_archZeta (c : ℝ) : Continuous (archZeta c) := by
+  unfold archZeta; fun_prop
+
+theorem archFc_ne_zero (c : ℝ) (w : ℂ) : archFc c w ≠ 0 := by
+  unfold archFc
+  split_ifs with h
+  · norm_num
+  · exact div_ne_zero (pow_ne_zero 2 h) (by exact_mod_cast (Complex.normSq_pos.2 h).ne')
+
+theorem archF_ne_zero (c : ℝ) (p : 𝔸) : archF c p ≠ 0 := by
+  unfold archF; split_ifs
+  · norm_num
+  · exact archFc_ne_zero c _
+
+theorem normSq_archZeta (c : ℝ) (w : ℂ) :
+    (Complex.normSq (archZeta c w) : ℂ) = ((max 0 (c - w.re) : ℝ) : ℂ) ^ 2 + (w.im : ℂ) ^ 2 := by
+  rw [Complex.normSq_apply, archZeta_re, archZeta_im]; push_cast; ring
+
+/-- `ζ²/|ζ|² + 1 = 2 max(0, c - Re w) ζ / |ζ|²`. -/
+theorem archFc_add_one (c : ℝ) {w : ℂ} (h : archZeta c w ≠ 0) :
+    archFc c w + 1 = 2 * ((max 0 (c - w.re) : ℝ) : ℂ) * archZeta c w /
+      (Complex.normSq (archZeta c w) : ℂ) := by
+  have hn : (Complex.normSq (archZeta c w) : ℂ) ≠ 0 := by
+    exact_mod_cast (Complex.normSq_pos.2 h).ne'
+  rw [archFc, if_neg h, div_add_one hn]
+  congr 1
+  rw [normSq_archZeta]
+  unfold archZeta
+  ring_nf
+  rw [Complex.I_sq]
+  ring
+
+theorem norm_archFc_add_one_le {c : ℝ} (hc : 0 ≤ c) {w : ℂ} (hw : 0 ≤ w.re) (hv : w.im ≠ 0) :
+    ‖archFc c w + 1‖ ≤ 2 * c / |w.im| := by
+  have hζ : archZeta c w ≠ 0 := fun h => hv (by
+    have := congrArg Complex.im h; rw [archZeta_im] at this; simpa using this)
+  rw [archFc_add_one c hζ]
+  have hnz : 0 < ‖archZeta c w‖ := norm_pos_iff.2 hζ
+  have hnsq : (Complex.normSq (archZeta c w) : ℂ) = ((‖archZeta c w‖ ^ 2 : ℝ) : ℂ) := by
+    rw [Complex.normSq_eq_norm_sq]
+  have hΛ0 : 0 ≤ max 0 (c - w.re) := le_max_left _ _
+  have hΛ : max 0 (c - w.re) ≤ c := max_le hc (by linarith)
+  have hvz : |w.im| ≤ ‖archZeta c w‖ := by
+    have := Complex.abs_im_le_norm (archZeta c w)
+    rwa [archZeta_im, abs_neg] at this
+  rw [hnsq, norm_div, norm_mul, norm_mul, Complex.norm_real, Complex.norm_real, Real.norm_eq_abs,
+    Real.norm_eq_abs, abs_of_nonneg hΛ0, abs_of_nonneg (by positivity), Complex.norm_two]
+  rw [show 2 * max 0 (c - w.re) * ‖archZeta c w‖ / ‖archZeta c w‖ ^ 2 =
+    2 * max 0 (c - w.re) / ‖archZeta c w‖ by field_simp]
+  exact div_le_div₀ (by positivity) (by linarith) (abs_pos.2 hv) hvz
+
+theorem archFc_of_le {c : ℝ} {w : ℂ} (h : c ≤ w.re) : archFc c w = -1 := by
+  unfold archFc
+  split_ifs with hζ
+  · rfl
+  · have hz : archZeta c w = -((w.im : ℂ) * Complex.I) := by
+      simp [archZeta, max_eq_left (sub_nonpos.2 h)]
+    have hv : (w.im : ℂ) ≠ 0 := fun hv => hζ (by rw [hz, hv]; simp)
+    rw [normSq_archZeta, max_eq_left (sub_nonpos.2 h), hz]
+    push_cast
+    field_simp
+    ring_nf
+    rw [Complex.I_sq]
+    ring
+
+theorem continuousAt_archFc {c : ℝ} {w : ℂ} (hw : w ≠ (c : ℂ)) : ContinuousAt (archFc c) w := by
+  by_cases hζ : archZeta c w = 0
+  · have him : w.im = 0 := by
+      have := congrArg Complex.im hζ; rw [archZeta_im] at this; simpa using this
+    have hre : c ≤ w.re := by
+      have := congrArg Complex.re hζ; rw [archZeta_re] at this
+      simp at this; linarith
+    have hlt : c < w.re := lt_of_le_of_ne hre fun h => hw (Complex.ext (by simp [h]) (by simp [him]))
+    have hev : archFc c =ᶠ[𝓝 w] fun _ => -1 := by
+      filter_upwards [(isOpen_lt continuous_const Complex.continuous_re).mem_nhds hlt] with u hu
+      exact archFc_of_le (le_of_lt hu)
+    exact continuousAt_const.congr hev.symm
+  · have hev : archFc c =ᶠ[𝓝 w] fun u => archZeta c u ^ 2 / (Complex.normSq (archZeta c u) : ℂ) := by
+      filter_upwards [isOpen_ne_fun (continuous_archZeta c) continuous_const |>.mem_nhds hζ]
+        with u hu
+      simp only [archFc, if_neg (show archZeta c u ≠ 0 from hu)]
+    refine ContinuousAt.congr ?_ hev.symm
+    have hcz := (continuous_archZeta c).continuousAt (x := w)
+    refine (hcz.pow 2).div (Complex.continuous_ofReal.continuousAt.comp
+      (Complex.continuous_normSq.continuousAt.comp hcz)) ?_
+    exact_mod_cast (Complex.normSq_pos.2 hζ).ne'
+
+/-- `archF c` is continuous off the summit `archPt c`. -/
+theorem continuousOn_archF {c : ℝ} (hc : 0 < c) :
+    ContinuousOn (archF c) {archPt (c : ℂ) (by simpa using hc)}ᶜ := by
+  intro p hp
+  refine ContinuousAt.continuousWithinAt ?_
+  by_cases h0 : (p : ℂ × ℝ).1 = 0
+  · have := (arch_fst_eq_zero_iff p).1 h0
+    subst this
+    rw [ContinuousAt, show archF c archO = -1 by simp [archF, archO], Metric.tendsto_nhds]
+    intro ε hε
+    set δ : ℝ := 1 / (c + 2 * c / ε + 1)
+    have hδ : 0 < δ := by positivity
+    filter_upwards [Metric.ball_mem_nhds archO hδ] with q hq
+    by_cases hq0 : (q : ℂ × ℝ).1 = 0
+    · simp [archF, hq0, hε]
+    simp only [archF, if_neg hq0]
+    have hw := re_archW_pos hq0
+    set w := archW q
+    have hd : dist q archO < δ := hq
+    rw [← archPt_archW hw, dist_archPt] at hd
+    have hn := (max_lt_iff.1 hd).1
+    have hw0 : 0 < ‖w‖ := norm_pos_iff.2 (arch_ne_zero_of_re_pos hw)
+    have hwR : c + 2 * c / ε + 1 < ‖w‖ := by
+      rw [inv_lt_comm₀ hw0 hδ] at hn
+      simpa [δ] using hn
+    rw [dist_eq_norm, sub_neg_eq_add]
+    by_cases hcw : c ≤ w.re
+    · rw [archFc_of_le hcw]; simpa using hε
+    rw [not_le] at hcw
+    have him : 2 * c / ε + 1 < |w.im| := by
+      have := Complex.norm_le_abs_re_add_abs_im w
+      rw [abs_of_pos hw] at this; linarith
+    have hv : w.im ≠ 0 := fun h => by rw [h, abs_zero] at him; linarith [show 0 ≤ 2 * c / ε by positivity]
+    refine (norm_archFc_add_one_le hc.le hw.le hv).trans_lt ?_
+    rw [div_lt_iff₀ (abs_pos.2 hv)]
+    have := (div_lt_iff₀ hε).1 (show 2 * c / ε < |w.im| by linarith)
+    linarith
+  · have hW : ContinuousAt archW p :=
+      (continuous_fst.comp continuous_subtype_val).continuousAt.inv₀ h0
+    have hev : archF c =ᶠ[𝓝 p] fun q => archFc c (archW q) := by
+      have : IsOpen {q : 𝔸 | (q : ℂ × ℝ).1 ≠ 0} :=
+        isOpen_ne_fun (continuous_fst.comp continuous_subtype_val) continuous_const
+      filter_upwards [this.mem_nhds h0] with q hq
+      simp only [archF, if_neg (show (q : ℂ × ℝ).1 ≠ 0 from hq)]
+    refine ContinuousAt.congr ?_ hev.symm
+    have hne : archW p ≠ (c : ℂ) := by
+      intro h
+      apply hp
+      show p = _
+      rw [← archPt_archW (re_archW_pos h0)]
+      congr 1
+    exact ContinuousAt.comp (x := p) (f := archW) (continuousAt_archFc hne) hW
+
+/-! The lift of the detected loop through `exp`. -/
+
+/-- `ξ(s) = a sin(πs) - (i/4) cos(πs)` (`= sin(πs) · ζ` along the loop). -/
+def archXi (a s : ℝ) : ℂ :=
+  ((a * Real.sin (Real.pi * s) : ℝ) : ℂ) + ((-(Real.cos (Real.pi * s) / 4) : ℝ) : ℂ) * Complex.I
+
+theorem arch_sin_pi_nonneg (s : I) : 0 ≤ Real.sin (Real.pi * s) :=
+  Real.sin_nonneg_of_nonneg_of_le_pi (mul_nonneg Real.pi_pos.le s.2.1)
+    (by nlinarith [s.2.2, Real.pi_pos])
+
+theorem arch_cos_ne_zero_of_sin_eq_zero {x : ℝ} (h : Real.sin x = 0) : Real.cos x ≠ 0 := by
+  intro hc
+  have := Real.sin_sq_add_cos_sq x
+  rw [h, hc] at this; norm_num at this
+
+theorem archXi_mem_slitPlane {a : ℝ} (ha : 0 < a) (s : I) : archXi a s ∈ Complex.slitPlane := by
+  rw [Complex.mem_slitPlane_iff]
+  unfold archXi
+  rw [arch_re_ofReal_add_mul_I, arch_im_ofReal_add_mul_I]
+  rcases eq_or_lt_of_le (arch_sin_pi_nonneg s) with h | h
+  · right
+    have := arch_cos_ne_zero_of_sin_eq_zero h.symm
+    intro h'; apply this; linarith
+  · left; positivity
+
+theorem continuous_archXi (a : ℝ) : Continuous (archXi a) := by unfold archXi; fun_prop
+
+theorem arch_exp_two_arg_mul_I {ξ : ℂ} (h : ξ ≠ 0) :
+    Complex.exp (2 * Complex.arg ξ * Complex.I) = ξ ^ 2 / (Complex.normSq ξ : ℂ) := by
+  have hn : (‖ξ‖ : ℂ) ≠ 0 := by exact_mod_cast (norm_pos_iff.2 h).ne'
+  have h1 : Complex.exp (Complex.arg ξ * Complex.I) = ξ / ‖ξ‖ := by
+    rw [eq_div_iff hn, mul_comm]; exact Complex.norm_mul_exp_arg_mul_I ξ
+  rw [show 2 * Complex.arg ξ * Complex.I = Complex.arg ξ * Complex.I + Complex.arg ξ * Complex.I by
+    ring, Complex.exp_add, h1, Complex.normSq_eq_norm_sq]
+  push_cast
+  field_simp
+
+theorem archXi_ne_zero {a : ℝ} (ha : 0 < a) (s : I) : archXi a s ≠ 0 :=
+  Complex.slitPlane_ne_zero (archXi_mem_slitPlane ha s)
+
+theorem arch_sq_div_normSq_ofReal_mul_I {b : ℝ} (hb : b ≠ 0) :
+    ((b : ℂ) * Complex.I) ^ 2 / (Complex.normSq ((b : ℂ) * Complex.I) : ℂ) = -1 := by
+  rw [Complex.normSq_mul, Complex.normSq_ofReal, Complex.normSq_I, mul_pow, Complex.I_sq]
+  have : (b : ℂ) ≠ 0 := by exact_mod_cast hb
+  push_cast
+  field_simp
+
+theorem arch_sq_div_normSq_ofReal_mul {S : ℝ} (hS : S ≠ 0) (ζ : ℂ) :
+    ((S : ℂ) * ζ) ^ 2 / (Complex.normSq ((S : ℂ) * ζ) : ℂ) = ζ ^ 2 / (Complex.normSq ζ : ℂ) := by
+  rw [Complex.normSq_mul, Complex.normSq_ofReal, mul_pow]
+  have : (S : ℂ) ≠ 0 := by exact_mod_cast hS
+  push_cast
+  rw [show (S : ℂ) * (S : ℂ) = (S : ℂ) ^ 2 by ring]
+  exact mul_div_mul_left _ _ (pow_ne_zero 2 this)
+
+theorem archXi_eq_aux (a S C : ℝ) (hS : S ≠ 0) :
+    ((a * S : ℝ) : ℂ) + ((-(C / 4) : ℝ) : ℂ) * Complex.I =
+      (S : ℂ) * ((a : ℂ) + ((-(C / (4 * S)) : ℝ) : ℂ) * Complex.I) := by
+  have : (S : ℂ) ≠ 0 := by exact_mod_cast hS
+  push_cast
+  field_simp
+
+/-- Along the loop `Re w = N/2`, the detecting map is `ξ²/|ξ|²`. -/
+theorem archF_archLoop {c : ℝ} {N : ℕ} (hN : 0 < N) (hcN : (N : ℝ) / 2 < c) (s : I) :
+    archF c (archLoop N hN s) = archXi (c - N / 2) s ^ 2 /
+      (Complex.normSq (archXi (c - N / 2) s) : ℂ) := by
+  set a := c - (N : ℝ) / 2
+  have ha : 0 < a := by simp only [a]; linarith
+  have hfst : ((archLoop N hN s : 𝔸) : ℂ × ℝ).1 = archLz N s := rfl
+  by_cases hs : Real.sin (Real.pi * s) = 0
+  · have h0 : ((archLoop N hN s : 𝔸) : ℂ × ℝ).1 = 0 := by rw [hfst, archLz_of_sin_eq_zero hs]
+    rw [archF, if_pos h0]
+    have hcos := Real.sin_sq_add_cos_sq (Real.pi * s)
+    rw [hs] at hcos
+    have hx : archXi a s = ((-(Real.cos (Real.pi * s) / 4) : ℝ) : ℂ) * Complex.I := by
+      simp [archXi, hs]
+    rw [hx, arch_sq_div_normSq_ofReal_mul_I]
+    have := arch_cos_ne_zero_of_sin_eq_zero hs
+    intro h'; apply this; linarith
+  · have h0 : ((archLoop N hN s : 𝔸) : ℂ × ℝ).1 ≠ 0 := by
+      rw [hfst, archLz_eq hs]
+      exact inv_ne_zero (arch_ofReal_add_mul_I_ne (Or.inl (by
+        have : (0 : ℝ) < N := by exact_mod_cast hN
+        positivity)))
+    rw [archF, if_neg h0]
+    have hW : archW (archLoop N hN s) = (((N / 2 : ℝ) : ℂ) +
+        ((Real.cos (Real.pi * s) / (4 * Real.sin (Real.pi * s)) : ℝ) : ℂ) * Complex.I) := by
+      rw [archW, hfst, archLz_eq hs, inv_inv]
+    rw [hW]
+    set v : ℝ := Real.cos (Real.pi * s) / (4 * Real.sin (Real.pi * s))
+    have hz : archZeta c (((N / 2 : ℝ) : ℂ) + (v : ℂ) * Complex.I) =
+        (a : ℂ) + ((-v : ℝ) : ℂ) * Complex.I := by
+      unfold archZeta
+      rw [arch_re_ofReal_add_mul_I, arch_im_ofReal_add_mul_I, max_eq_right ha.le]
+      push_cast; ring
+    have hζ : (a : ℂ) + ((-v : ℝ) : ℂ) * Complex.I ≠ 0 := arch_ofReal_add_mul_I_ne (Or.inl ha.ne')
+    have hξ : archXi a s = (Real.sin (Real.pi * s) : ℂ) * ((a : ℂ) + ((-v : ℝ) : ℂ) * Complex.I) :=
+      archXi_eq_aux a _ _ hs
+    rw [archFc, hz, if_neg hζ, hξ, arch_sq_div_normSq_ofReal_mul hs]
+
+/-- **The small loops of the archipelago are not null-homotopic**: `archLoop N` is not homotopic
+(rel ends) to the constant loop. A null-homotopy has compact image, which misses the summit
+`archPt c` of a far enough hill (`c = M/2 + 1/4`); off that summit `archF c` is a continuous map to
+`ℂ ∖ {0}`, along which the loop has winding number `1`. -/
+theorem archLoop_not_homotopic {N : ℕ} (hN : 0 < N) :
+    ¬ (archLoop N hN).Homotopic (Path.refl archO) := by
+  rintro ⟨H⟩
+  obtain ⟨r, hr, hK⟩ := arch_compact_bound (isCompact_range H.continuous)
+    (by norm_num : (0 : ℝ) < 1 / 2)
+  obtain ⟨M, hM⟩ := exists_nat_gt (max (N : ℝ) (2 * r⁻¹))
+  set c : ℝ := M / 2 + 1 / 4
+  have hc : 0 < c := by positivity
+  have hcN : (N : ℝ) / 2 < c := by
+    have := le_max_left (N : ℝ) (2 * r⁻¹); simp only [c]; linarith
+  have hcr : c⁻¹ < r := by
+    rw [inv_lt_comm₀ hc hr]
+    have := le_max_right (N : ℝ) (2 * r⁻¹); simp only [c]; linarith
+  have hcre : 0 < (c : ℂ).re := by simpa using hc
+  set P : 𝔸 := archPt (c : ℂ) hcre
+  have hPh : (P : ℂ × ℝ).2 = 1 := by
+    show archH (c : ℂ) = 1
+    unfold archH
+    simp only [Complex.ofReal_re, Complex.ofReal_im]
+    rw [show 2 * Real.pi * c = (M : ℝ) * Real.pi + Real.pi / 2 by simp only [c]; ring,
+      Real.sin_add_pi_div_two, Real.cos_nat_mul_pi]
+    simp [← pow_mul, pow_mul']
+  have hPn : ‖(P : ℂ × ℝ).1‖ = c⁻¹ := by
+    show ‖(c : ℂ)⁻¹‖ = c⁻¹
+    rw [norm_inv, Complex.norm_real, Real.norm_eq_abs, abs_of_pos hc]
+  have hHP : ∀ x, H x ∈ ({P}ᶜ : Set 𝔸) := fun x hx => by
+    rw [mem_singleton_iff] at hx
+    have := hK (H x) (mem_range_self x) (by rw [hx, hPh]; norm_num)
+    rw [hx, hPn] at this
+    linarith
+  have hcont : Continuous fun x => archF c (H x) :=
+    (continuousOn_archF hc).comp_continuous H.continuous hHP
+  let m1 : CStar := ⟨-1, by norm_num⟩
+  have hbase : archF c archO = -1 := by simp [archF, archO]
+  let δ : Path m1 m1 :=
+    { toFun := fun s => ⟨archF c (archLoop N hN s), archF_ne_zero _ _⟩
+      continuous_toFun := by
+        refine Continuous.subtype_mk ?_ _
+        have : Continuous fun s : I => archF c (H (0, s)) := hcont.comp (Continuous.prodMk_right 0)
+        refine this.congr fun s => ?_
+        rw [H.apply_zero]; rfl
+      source' := Subtype.ext (by simp [hbase, m1])
+      target' := Subtype.ext (by simp [hbase, m1]) }
+  let G : Path.Homotopy δ (Path.refl m1) :=
+    { toFun := fun x => ⟨archF c (H x), archF_ne_zero _ _⟩
+      continuous_toFun := hcont.subtype_mk _
+      map_zero_left := fun s => Subtype.ext (by simp [δ, H.apply_zero])
+      map_one_left := fun s => Subtype.ext (by simp [H.apply_one, hbase, m1])
+      prop' := fun t s hs => by
+        rcases hs with rfl | rfl
+        · exact Subtype.ext (by simp [δ, hbase])
+        · exact Subtype.ext (by simp [δ, hbase]) }
+  have h1 := cWinding_homotopic ⟨G⟩
+  set a : ℝ := c - N / 2
+  have ha : 0 < a := by simp only [a]; linarith
+  let Γ : C(I, ℂ) := ⟨fun s => 2 * Complex.arg (archXi a s) * Complex.I, by
+    refine continuous_iff_continuousAt.2 fun s => ?_
+    have h := ((Complex.continuousAt_arg (archXi_mem_slitPlane ha s)).comp
+      (continuous_archXi a).continuousAt).comp (x := s) continuous_subtype_val.continuousAt
+    exact (continuousAt_const.mul (Complex.continuous_ofReal.continuousAt.comp h)).mul
+      continuousAt_const⟩
+  have hΓ : ∀ s, Complex.exp (Γ s) = δ s := fun s => by
+    show Complex.exp (2 * Complex.arg (archXi a s) * Complex.I) = archF c (archLoop N hN s)
+    rw [arch_exp_two_arg_mul_I (archXi_ne_zero ha s), archF_archLoop hN hcN s]
+  have hδ1 : cWinding δ = 1 := by
+    refine cWinding_eq δ hΓ ?_
+    show 2 * Complex.arg (archXi a 1) * Complex.I =
+      2 * Complex.arg (archXi a 0) * Complex.I + ((1 : ℤ) : ℂ) * (2 * Real.pi * Complex.I)
+    have e0 : archXi a 0 = ((1 / 4 : ℝ) : ℂ) * (-Complex.I) := by simp [archXi]
+    have e1 : archXi a 1 = ((1 / 4 : ℝ) : ℂ) * Complex.I := by simp [archXi]; ring
+    rw [e0, e1, Complex.arg_real_mul _ (by norm_num), Complex.arg_real_mul _ (by norm_num),
+      Complex.arg_I, Complex.arg_neg_I]
+    push_cast; ring
+  have hr0 : cWinding (Path.refl m1) = 0 := by
+    refine cWinding_eq _ (Γ := ContinuousMap.const I (Complex.log (-1))) (fun _ => ?_) (by simp)
+    simp [m1, Complex.exp_log (show (-1 : ℂ) ≠ 0 by norm_num)]
+  rw [hδ1, hr0] at h1
+  exact one_ne_zero h1
+
+/-- **The harmonic archipelago is not semi-locally simply connected** (at its base point): every
+neighbourhood of it contains a loop `archLoop N` which is not null-homotopic. -/
+theorem harmonicArchipelago_not_semilocallySimplyConnected : ¬ SemilocallySimplyConnected 𝔸 := by
+  intro h
+  obtain ⟨U, hU, hloop⟩ := h archO
+  obtain ⟨ε, hε, hεU⟩ := Metric.mem_nhds_iff.1 hU
+  obtain ⟨N, hN⟩ := exists_nat_gt (2 / ε)
+  have hN0 : 0 < N := by
+    have : (0 : ℝ) < N := lt_trans (by positivity) hN
+    exact_mod_cast this
+  have hN' : (0 : ℝ) < N := by exact_mod_cast hN0
+  refine archLoop_not_homotopic hN0 (hloop _ fun t => hεU ?_)
+  refine lt_of_le_of_lt (dist_archLoop_le hN0 t) ?_
+  rw [div_lt_iff₀ hN']
+  rw [div_lt_iff₀ hε] at hN
+  linarith
+
+end Loop
+
+
+/-! #### The counterexample -/
+
+/-- **`rem:definition_semi_locally_simply_connected`, the converse is false**: the harmonic
+archipelago `𝔸 ⊆ ℂ × ℝ = ℝ³` is Hausdorff, path-connected, locally path-connected (and metrizable)
+and semi-locally simply connected in itself in the literal sense of
+`def:semi_locally_simple_connectedness` (DEC-55), but it is not semi-locally simply connected. -/
+theorem harmonicArchipelago_counterexample :
+    T2Space 𝔸 ∧ PathConnectedSpace 𝔸 ∧ LocPathConnectedSpace 𝔸 ∧
+      IsSLSCInCC (univ : Set 𝔸) ∧ ¬ SemilocallySimplyConnected 𝔸 :=
+  ⟨inferInstance, inferInstance, inferInstance, harmonicArchipelago_isSLSCInCC,
+    harmonicArchipelago_not_semilocallySimplyConnected⟩
+
+/-- `rem:definition_semi_locally_simply_connected` as printed ("`X` is semi-locally simply
+connected iff it is semi-locally simply connected in itself", `X` Hausdorff, connected, locally
+path-connected) is false: the direction "slsc in itself ⇒ slsc" fails (the harmonic
+archipelago). -/
+theorem not_semilocallySimplyConnected_of_isSLSCInCC_univ :
+    ¬ ∀ (X : Type) [TopologicalSpace X] [T2Space X] [ConnectedSpace X] [LocPathConnectedSpace X],
+      IsSLSCInCC (univ : Set X) → SemilocallySimplyConnected X :=
+  fun h => harmonicArchipelago_not_semilocallySimplyConnected
+    (h 𝔸 harmonicArchipelago_isSLSCInCC)
+
+/-- `theo:Galois_cor` (DEC-70): its added hypothesis "`Y ∖ S` semi-locally simply connected" is
+not implied by "`Y ∖ S` semi-locally simply connected in `Y`": `Y` the harmonic archipelago
+(connected, locally path-connected, Hausdorff, first countable) and `S = ∅` (skeletal). -/
+theorem harmonicArchipelago_compl_empty :
+    IsSkeletal (∅ : Set 𝔸) ∧ IsSLSCInCC ((∅ : Set 𝔸)ᶜ) ∧ IsSLSCIn ((∅ : Set 𝔸)ᶜ) ∧
+      ¬ SemilocallySimplyConnected ((∅ : Set 𝔸)ᶜ : Set 𝔸) := by
+  refine ⟨isSkeletal_empty, by rw [compl_empty]; exact harmonicArchipelago_isSLSCInCC,
+    by rw [compl_empty]; exact harmonicArchipelago_isSLSCIn, fun h => ?_⟩
+  exact harmonicArchipelago_not_semilocallySimplyConnected
+    (h.of_homeomorph ((Homeomorph.setCongr compl_empty).trans (Homeomorph.Set.univ 𝔸)))
+
+end Archipelago
+
 /-! ### The maximal covering possibly branched over `S` -/
 
 section MaxCover
@@ -2081,10 +3180,12 @@ theorem galois_correspondence (hS : IsSkeletal S) (hSc : SemilocallySimplyConnec
     fun _ _ _ _ _ _ hp hpS => galois_cor_quotient hS hSc y₀ h hp hpS,
     fun _ _ _ _ hp hpS _ hH hX hXp => galois_cor_normal hS hSc y₀ h hp hpS hH hX hXp⟩
 
-/-- `theo:Galois_cor` (`RamcovGX.tex:1550`) in the literal reading of "almost trivial" (DEC-55):
-the hypothesis "`Y ∖ S` semi-locally simply connected in `Y`" is `GX.IsSLSCInCC`. `Y ∖ S`
-semi-locally simply connected is ADDED (finding, DEC-27: the maximal covering exists only under
-it); under it the literal and homotopy forms agree (`GX.isSLSCInCC_iff`). -/
+/-- **`theo:Galois_cor`** (`RamcovGX.tex:1550`) in the literal reading of "almost trivial"
+(DEC-55): the hypothesis "`Y ∖ S` semi-locally simply connected in `Y`" is `GX.IsSLSCInCC`.
+`Y ∖ S` semi-locally simply connected is CARRIED by the author's ruling DEC-70 (the hypothesis of
+`prop:universality`, under which alone the maximal covering exists; its omission from the printed
+statement is recorded, and it is not implied by slsc in `Y`: `GX.harmonicArchipelago_compl_empty`);
+under it the literal and homotopy forms agree (`GX.isSLSCInCC_iff`). -/
 theorem galois_correspondence_cc (hS : IsSkeletal S)
     (hSc : SemilocallySimplyConnected (Sᶜ : Set Y)) (y₀ : (Sᶜ : Set Y))
     (h : IsSLSCInCC (Sᶜ : Set Y)) :
