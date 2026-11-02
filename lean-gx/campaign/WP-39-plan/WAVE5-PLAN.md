@@ -43,3 +43,6 @@ Defects: D-11 (future_complete false; {τ<0}), D-12(a)–(f), D-1/2/5/6/8/10, "L
 
 ## Rulings: DEC-74 (E_θ family, θ ≠ 2π, massive cones), DEC-75 (loxodromic proved in 2+1), DEC-76 (π₁(Σ∖sing) non-abelian, s ≥ 1), DEC-77 (readings: no time reversal; M̃ with T_BTZ; Cauchy-maximal = IsETTMaximal; corrected future_complete); DEC-78 (Barbot side: SingularGeroch split).
 WP-39d grows to cover the massive cones E_α (DEC-74); WP-39m proves the loxodromic (DEC-75).
+
+## Pin
+lean-causal pinned at **731ed99** (SingularGeroch split, DEC-78; strict 0 sorry in 148 files). New strict `Causal.SingularGeroch`: `SingularFlatSpacetime`, `ModelMeasures`, `SingularFlatAxioms.mesure_admissible`, `geroch_hypotheses(_of_singularFlat)`, `geroch_sing_i_imp_ii`, `geroch_sing_i_imp_iii`, `geroch_sing_split`, `VecteurFlow`. E₀ timeFunction = SingularFlatAxioms (Iplus_of_lt) + ModelMeasures + GH ⇒ `geroch_sing_i_imp_ii`. The lakefile change is applied AFTER wave 4c (no lakefile edit while a wave builds).
