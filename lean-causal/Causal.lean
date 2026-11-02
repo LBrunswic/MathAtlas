@@ -60,6 +60,8 @@ import Causal.Flat.LipschitzGraph
 import Causal.Flat.Quotient
 import Causal.LemmaKBare
 import Causal.LemmaKReduction
+import Causal.LemmaKSC
+import Causal.LemmaKObstruction
 import Causal.Flat.Develop
 import Causal.Flat.Examples
 import Causal.Flat.Laoucapulse
