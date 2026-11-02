@@ -1,0 +1,1905 @@
+% report.tex -- compile with: latexmk -lualatex report.tex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\setmainfont{STIX Two Text}
+\setmathfont{STIX Two Math}
+\setmonofont{DejaVu Sans Mono}[Scale=0.80]
+\usepackage{booktabs,longtable,array}
+\usepackage{fancyvrb}
+\usepackage{luacode}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\setlist{itemsep=1pt,topsep=3pt}
+\setlength{\emergencystretch}{3em}
+
+% ---------------------------------------------------------------- Lean names
+% \lean{name}: typeset a Lean identifier verbatim in monospace, with break
+% points after '_' and '.', so long names do not overflow table cells.
+\begin{luacode*}
+-- break after '_' '.' ':' freely; at a lower->upper camelCase boundary with a small penalty
+function leanname(s)
+  local buf = ""
+  local prev = ""
+  for _, c in utf8.codes(s) do
+    local ch = utf8.char(c)
+    if prev:match("^%l$") and ch:match("^%u$") then
+      tex.sprint(-2, buf); buf = ""
+      tex.sprint("\\penalty100\\hskip0pt\\relax{}")
+    end
+    buf = buf .. ch
+    if ch == "_" or ch == "." or ch == ":" or ch == "/" then
+      tex.sprint(-2, buf); buf = ""
+      tex.sprint("\\allowbreak{}")
+    end
+    prev = ch
+  end
+  tex.sprint(-2, buf)
+end
+\end{luacode*}
+\newcommand{\lean}[1]{\texttt{\directlua{leanname("\luaescapestring{\detokenize{#1}}")}}}
+\newcommand{\lbl}[1]{\lean{#1}}   % paper labels (b-prefixed for Barbot)
+\newcommand{\dec}[1]{DEC-#1}
+
+% ---------------------------------------------------------------- maths
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Mink}{\mathbf{M}}
+\newcommand{\Dev}{\mathcal{D}}
+\newcommand{\Sc}{\widetilde{S}}
+\newcommand{\Isom}{\operatorname{Isom}}
+\newcommand{\SOo}{\mathrm{SO}_0}
+\newcommand{\sing}{\operatorname{sing}}
+\newcommand{\reg}{\operatorname{reg}}
+\newcommand{\inter}{\operatorname{int}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{reading}[theorem]{Reading}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newenvironment{leancode}{\VerbatimEnvironment\begin{Verbatim}[fontsize=\small,frame=single,framesep=2mm]}{\end{Verbatim}}
+
+\title{Formalizing Barbot's classification of globally hyperbolic flat spacetimes
+and Brunswic's branched coverings of singular $(G,X)$-manifolds in Lean~4
+on a topological-spacetime library}
+\author{Technical report on the \texttt{LeanArticles} repository\\
+\small (hub HEAD \texttt{e40d526}, 2026-11-02 20:05 UTC; host \texttt{node1})}
+\date{2 November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We report on two linked Lean~4 formalization campaigns built on a common library of
+\emph{topological} spacetimes (the ETT library \lean{Causal}). The first formalizes
+T.~Barbot, \emph{Globally hyperbolic flat space-times} (J.\ Geom.\ Phys.\ 53 (2005)
+123--165, arXiv math/0402257): both classification theorems, A and B, are proved in the
+strict library (where \texttt{sorry} is a compile error), with ledger closure 37 of 39.
+Theorem A is conditional only on four named externals that the paper cites (Benoist,
+Bieberbach~I, Auslander--Carrière--Dal'bo, Carrière--Dal'bo); Theorem B is conditional
+also on Selberg's lemma, which the paper does not cite and which enters through our
+finding F2 (\dec{44}). The second
+formalizes L.~Brunswic, \emph{On branched coverings of singular $(G,X)$-manifolds}
+(arXiv 2010.10610; Geom.\ Dedicata 2024): the Galois correspondence, universality and
+the singular developing theorem are closed in the strict library; Fox completion is partial
+by ruling (\dec{48}): existence and fullness are false as printed, while uniqueness,
+faithfulness and functorial extension are proved. Ledger closure is 108 of 149; the Section~4 main theorem (Mess-type uniformisation of
+$E_0$-manifolds) is ruled into a corrected form but not yet stated in Lean. Along the way
+we proved a universal maximal Cauchy development theorem (CBG) over rigid singular
+$(G,X)$-geometries, Geroch's theorem for flat spacetimes, Levin's continuous
+utility theorem and ``lemma~K'' in ETT's setting. A large number of statements in both
+papers are false or incomplete as printed; each is recorded in the ledger, most with a
+Lean counterexample or a corrected form; the Section~4 defects (D-1 to D-12) of the
+second paper and a few proof-level findings are so far recorded in prose and rulings only. Every reading, correction and conditional hypothesis is disclosed
+below.
+\end{abstract}
+
+\tableofcontents
+
+%======================================================================
+\section{Introduction and summary of results}
+%======================================================================
+
+\subsection{What was formalized}
+
+Two papers were formalized on top of one library.
+\begin{itemize}
+\item \textbf{Barbot.} T.~Barbot, \emph{Globally hyperbolic flat space-times},
+  J.\ Geom.\ Phys.\ 53 (2005) 123--165, arXiv math/0402257 (bib key
+  \lean{barbot_globally_2004}). Lean package: \texttt{lean-causal}, namespace
+  \lean{Causal.Flat}, strict library.
+\item \textbf{gx.} L.~Brunswic, \emph{On branched coverings of singular
+  $(G,X)$-manifolds}, arXiv 2010.10610, Geom.\ Dedicata 2024
+  (doi 10.1007/s10711-023-00873-0). The story source is the accepted version of
+  2023-05-27, \texttt{RamcovGX.tex} (\dec{24}). Lean package: \texttt{lean-gx}, strict
+  library \lean{GX} and scaffold \lean{GXScaffold}.
+\item \textbf{The common foundation} is \texttt{lean-causal}'s ETT library of topological
+  spacetimes, \lean{Causal} (strict) and \lean{CausalScaffold} (scaffold), on Lean v4.31.0
+  and mathlib \texttt{fabf563a}.
+\end{itemize}
+gx consumes Barbot's classification and imports \lean{Causal} (\dec{33}, \dec{34}); this is
+why Barbot's statements are kept in arbitrary dimension.
+
+\subsection{Headline results as formalized}
+
+\paragraph{Barbot, Theorem A} (\lbl{bthm:caucomp}): \lean{Causal.Flat.barbot_A}, with its
+embedding layer \lean{barbot_A₀}. Under reading R1 (\dec{43}): a finite cover of a
+Cauchy-complete globally hyperbolic flat spacetime tamely embeds into a linear twisted
+product over an absolutely maximal model of dimension $\le n$, the model being a
+translation, Misner, unipotent, or central-extension Cauchy-hyperbolic spacetime
+(\S\ref{sec:thmA}).
+
+\paragraph{Barbot, Theorem B} (\lbl{bthm:cauclo}): \lean{Causal.Flat.barbot_B} and its
+certified form \lean{barbot_B_geroch}. A finite cover of a maximal Cauchy-compact GH flat
+spacetime is absolutely maximal and is a translation spacetime, a Misner spacetime, or a
+Cauchy-compact Cauchy-hyperbolic $\times$ torus product (\S\ref{sec:thmB}).
+
+\paragraph{Conditional hypotheses.} Theorem A is conditional only on four named externals
+that the paper cites; Theorem B is conditional also on Selberg's lemma, which the paper does
+not cite (it enters through finding F2 and \dec{44}: the literal torus family (a) is reached
+only for $\pi_1$ finitely generated). All are entered as hypotheses, never as Lean axioms
+(\dec{36}):
+\begin{itemize}
+\item \lean{BarbotExternals d}, bundling Benoist (\lean{BenoistNoLox}), Bieberbach~I
+  (\lean{BieberbachI}), Auslander--Carrière--Dal'bo (\lean{AuslanderCarriereDalbo}) and
+  Carrière--Dal'bo's maximal unipotent subspace (\lean{MaxUnipotentSubspace});
+\item for Theorem B also \lean{SelbergLemma (Minkowski d)}, not cited by the paper.
+\end{itemize}
+\texttt{\#print axioms} for \lean{barbot_A}, \lean{barbot_A₀}, \lean{barbot_B},
+\lean{barbot_B_geroch} and \lean{barbot_B_zero_geroch} gives exactly
+\texttt{[propext, Classical.choice, Quot.sound]}. ``Sorry-free'' is not
+``unconditional'': for $d\ge 1$ (total dimension $n\ge 2$) no Lean witness of the
+externals exists, so the only unconditional forms live in dimension $n=1$
+(\lean{barbot_B_zero_geroch} carries no external at all).
+
+\paragraph{gx.} The Galois correspondence (\lbl{theo:Galois_cor}), universality
+(\lbl{prop:universality}), the singular developing theorem (\lbl{prop:branched_devmap},
+\lean{GX.singular_developing_theorem}) and \lbl{theo:local_tame} are closed in the strict
+library; the classical developing theorem is built in full. The Fox completion functor is
+partial by ruling (\dec{48}): existence is false as written and ``fully faithful'' is
+false, while uniqueness, faithfulness and functorial extension are proved.
+\lbl{theo:local_virt_tame} is proved in the descending-charts case only. The Section~4
+main theorem \lbl{theo:globally_hyperbolic_cauchy_complete_cauchy_maximal} is ruled into a
+Cauchy-compact, finite-type corrected form (\dec{28}, \dec{76}, \dec{77}) and is not yet
+stated in Lean (\S\ref{sec:gx}).
+
+\paragraph{Shared results} (\S\ref{sec:shared}). CBG, the universal maximal Cauchy
+development: \lean{Causal.CBG.cbg} over any rigid geometry and \lean{Causal.CBG.flat_cbg}
+for flat spacetimes, both sorry-free with standard axioms. Geroch's theorem for flat
+spacetimes (\lean{flatGerochGH}, all $d$). Levin's theorem
+(\lean{Causal.Causality.exists_timeFunction_of_secondCountable}) and lemma~K in ETT's
+setting (\lean{Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_causallyOpen}).
+
+\subsection{Closure figures}
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+ledger & statements in scope & terminal & closure (bucket A, strict) \\
+\midrule
+Barbot & 44 & 5 & \textbf{37 / 39} \\
+gx     & 162 & 13 & \textbf{108 / 149} (ledger at Lean \texttt{4628a29}) \\
+ETT    & 137 & 1 & 57 / 136 \\
+\bottomrule
+\end{tabular}
+\caption{Ledger closures (\texttt{tools/ledger.py stats}, read-only, at \texttt{e40d526}).}
+\end{table}
+
+Barbot's two open rows are the cited externals \lbl{bthm:ausl} and \lbl{bthm:unip},
+unproved by design (bucket D). The gx figure is the generated ledger at Lean
+\texttt{4628a29} (wave 4c); wave~5 marks about 27 further labels closed (23 at the
+20:05 UTC stamp, plus four definitions closed by WP-41l since) which are not yet counted,
+mostly because they sit in the scaffold. A refreshed ledger after graduation would read
+roughly 135 of 149; this is an estimate, not a ledger figure. It also assumes a split that
+has not been made: every Section~4 module (BTZ/Model, Rigid, Causality, Topology, VirtTame,
+LocalModel, CBG, Manifolds) imports \texttt{SingularII/Models.lean} transitively through
+SpreadTop, and Models.lean carries the open \lbl{theo:local_virt_tame} \texttt{sorry}
+(l.3518). Under the ledger's rule (a gx row counts only once closed in the strict library),
+graduation of the wave-5 rows needs that \texttt{sorry} split out of Models.lean
+(\dec{73}-style) or closed.
+
+Sorry census and gates at \texttt{e40d526}: \texttt{make check} in \texttt{lean-causal}
+ends ``lean-causal: all gates green''. Strict library: 0 \texttt{sorry} in 163 files; the
+axiom sweep covers 10{,}969 declarations in 164 strict modules (163 files plus the root),
+all within \lean{propext}/\lean{Classical.choice}/\lean{Quot.sound}. Scaffold: 6 tagged
+\texttt{sorry}s, located in 5 of its 6 files, carrying 14 declarations (\S\ref{sec:sorry}).
+gx strict: 19 files, 39{,}635 lines, 0 \texttt{sorry}; gx scaffold: 6 tagged
+\texttt{sorry}s at the 20:05 UTC stamp, 4 at 21:02 UTC (BTZ/LocalModel 2, SingularII/Models 1,
+BTZ/Manifolds 1; BTZ/CBG now has none). The gx scaffold is being edited by another session;
+see \S\ref{sec:gxarch}.
+
+\subsection{What remains}
+\begin{itemize}
+\item Barbot: the two cited externals of the ledger; the further externals Benoist,
+  Bieberbach~I and Selberg, which have no Lean witness for $d\ge 1$; lemma~K without causal
+  openness (two scaffold \texttt{sorry}s used by nothing).
+\item gx: the Section~4 main theorem and its remaining packages (WP-39i--k, m, n not
+  started; WP-39l partial); CBG for $E_0$-manifolds (the three BTZ residuals are now proved,
+  one of them given hLine; what remains is the two LocalModel \texttt{sorry}s behind hLine and
+  hSC, and a \lean{typeAgreement} field that is false as stated); the general case of
+  \lbl{theo:local_virt_tame}, whose \texttt{sorry} also blocks graduation of every Section~4
+  module; ledger regeneration after wave~5.
+\end{itemize}
+Section~\ref{sec:open} lists these precisely.
+
+%======================================================================
+\section{The common foundation}\label{sec:foundation}
+%======================================================================
+
+\subsection{The ETT library of topological spacetimes}
+
+\paragraph{Causality.} A \lean{Causality M} on a topological space $M$ is a family, indexed
+by the open sets $U$ of $M$, of two relations $\le_U$ (\lean{le U}) and $\ll_U$
+(\lean{lt U}) such that: both live on $U$; $\le_U$ is reflexive on $U$ and transitive;
+$\ll_U$ is transitive; both are monotone in the open set ($V\le U$ and $x\le_V y$ imply
+$x\le_U y$, likewise for $\ll$); $x\ll_U y$ implies $x\le_U y$; and the sets
+$\{y: x\ll_U y\}$, $\{y:y\ll_U x\}$ are open. This is the paper's ``equivalently'' form
+(\lbl{defi:causalite}, ETT.tex:237; \lbl{def:precausality}, ETT.tex:364). There is no gluing
+axiom; second countability and Hausdorffness are not part of the structure, and each
+theorem asks for what it uses. Time reversal \lean{C.dual} swaps arguments and every past
+statement is the future statement of \lean{C.dual}. Everything is indexed by an open set;
+no subtype of $M$ appears in a statement, and $M$ itself is $U=\top$.
+
+\paragraph{Futures.} $J^{\pm}_U(A)$ and $I^{\pm}_U(A)$ are defined from $\le_U$ and
+$\ll_U$. The continuously reachable future $K^+_U(A)$ (\lbl{defi:futur_continue}) is the
+union over $p\in A$ of the $y$ such that for every sequence $u_n\to p$ some $N$ makes
+$J^+_U(p)\cap\bigcap_{n\ge N}J^+_U(u_n)$ a neighbourhood of $y$ relative to $J^+_U(p)$.
+
+\paragraph{Properties.} Diamonds $J_U(p,q)=J^-_U(q)\cap J^+_U(p)$; \lean{IsCausal}
+($\le_\top$ antisymmetric); causal convexity; strong causality; \lean{Tarentin} (every $x$
+and neighbourhood $U$ have $p,q\in U$ with $x$ interior to $J_\top(p,q)$);
+\lean{CausallyOpen} (two-sided by \dec{8}: $J^{\pm}_U(V)$ open for all opens $V\le U$).
+\lean{GloballyHyperbolic} means \emph{causal with compact diamonds}; it does not provide a
+Cauchy surface.
+
+\paragraph{Curves and Cauchy surfaces.} A causal curve lives on a nonempty order-connected
+$I\subseteq\R$ and is future causal on every segment; \lean{Inextensible} means admitting no
+strict extension (\dec{6}, \dec{11}, \dec{13}). \lean{IsCauchySurfaceOn W S}: every
+inextensible causal curve of $W$ meets $S$ in exactly one point (\dec{14}).
+\lean{IsLocallyCauchy S}: each $x\in S$ has a causally convex open $U\ni x$ in which
+$S\cap U$ is Cauchy. \lean{CurvesExtend} is a named model fact: every causal curve over a
+segment lies on an inextensible one. \lean{IsCauchyEmbedding} (\dec{17}): GH source and
+target, an injective E-morphism mapping some Cauchy surface onto a Cauchy surface.
+\lean{AbsolutelyMinimalOn W}: every relation in an open $V\le W$ is a chain of relations
+localised in the members of any open cover.
+
+\paragraph{Other shared infrastructure.} Geroch (i)$\Rightarrow$(ii)$\Rightarrow$(iii);
+\lean{GXStructure} ($(G,X)$-manifolds over a maximal atlas); \lean{SingularFlat}
+(\lean{BTZAxioms}/\lean{SingularFlatAxioms} as named hypotheses); \lean{Splitting}
+($M\cong S\times\R$ from a causal flow); gluing; Minkowski and static models;
+\lean{Port.*}, the $(G,X)$ basics, universal cover and developing theorem ported from gx
+(\dec{37}).
+
+\subsection{Strict and scaffold}
+
+The strict libraries (\lean{Causal}, \lean{GX}) build with \texttt{warningAsError}, so a
+\texttt{sorry}, an unused variable or a deprecation fails the build. The scaffolds
+(\lean{CausalScaffold}, \lean{GXScaffold}) permit tagged
+\lean{sorry -- SORRY(<label>): <obstruction>} and are never imported by the strict
+libraries. Graduation is a file move performed by the master session. A rule we keep
+having to restate: \emph{scaffold placement is not a sorry} --- read the sorry count, not
+the directory.
+
+\verb|make check| runs: build of the strict library, build of the scaffold, and an audit
+(\lean{scripts/sorry_count.py}, which fails if the strict count is nonzero, then
+\lean{scripts/AxiomSweep.lean}). The sweep walks every declaration of every module
+through \lean{collectAxioms} and fails on any axiom outside \lean{propext},
+\lean{Classical.choice}, \lean{Quot.sound}; \lean{sorryAx} is reported, not failed, in
+the scaffold only. A scaffold module not imported by the scaffold root would be invisible
+to the sweep, so the root imports every module. Gates must be able to fail (fixtures and
+\texttt{make selftest}); no gate calls a model; reports are generated, never written.
+
+\subsection{Ledgers, marks, curation and buckets}
+
+\paragraph{Ledger.} One per paper, generated by \texttt{tools/ledger.py} from
+\texttt{papers/<slug>/ledger/ledger.toml}. For each labelled statement it records the
+natural-language status (proved, cited, partial, open, informal, with file:line), Lean
+stated (none/scaffold/strict), Lean proved (none/partial/closed) and the \verb|\ref| DAG.
+A changed LaTeX block flags the row stale. (Barbot's DAG edges are references, not logical
+dependencies.)
+
+\paragraph{Marks.} A file speaks for a label by the house form \textbf{\texttt{**label**}}
+in the first 4000 characters of its module docstring. The docstring contract contains the
+title, the certified labels with their lines, block quotes of the paper, a hypothesis
+checklist (carried, weakened, strengthened), a disclosed \texttt{SCOPE} section that the
+ledger reads verbatim, and provenance. Rule: mark only what is certified in full, with no
+\texttt{sorry} beneath and no added hypothesis; a narrower Lean statement is never a
+certificate (``Lean $\ge$ paper, never Lean $<$ paper''). For Barbot, the author's rulings
+(\dec{72}, \dec{83}, \dec{88}--\dec{105}) override this rule: a mark may carry a disclosed
+reading, an added hypothesis or a named external, or certify the strongest true (corrected)
+form of a statement false as printed.
+
+\paragraph{Curation.} \texttt{papers/<slug>/certificate/curation.toml} is applied by
+\texttt{tools/ledger\_curate.py}; its \texttt{--check} runs in the gate. Hand edits of
+\texttt{ledger.json} have no source, so the toml is the whole truth.
+
+\paragraph{Buckets.} A: nothing left, certified in full (for Barbot: closed and marked
+under the rulings above). B: routine on built layers.
+C: hard, blocked on a named obstruction. D: deferred (layer not built, or the paper does
+not prove it). T: terminal, with a checked \texttt{terminal\_reason}. Closure counts the
+in-scope non-T rows that are \emph{closed and in bucket A}. For Barbot, bucket A requires
+the author's \texttt{**} mark; sorry-free but unmarked rows are \emph{partial} in B, C or D;
+named externals keep \texttt{none}, ``not proved by design''. The evidence for
+``sorry-free'' is \texttt{\#print axioms} on every curated declaration (526 re-derived for
+Barbot on 2026-11-02). For gx a row counts only once closed in the \emph{strict} library.
+
+\subsection{The audit workflow}
+
+Execution follows \dec{9} (ETT) and \dec{38} (Barbot): each wave is a workflow of parallel
+author agents on disjoint new scaffold files, a read-only audit of every file, fixers, and
+a re-audit; the master session alone graduates, runs gates, curates and commits. The
+protocol (\texttt{docs/CAMPAIGN.md}): \emph{state first} (every statement with a
+\texttt{sorry}, typechecked, on disk), then prove; a residual \texttt{sorry} names its
+specific obstruction; never quietly weaken a statement; build only your own module; end
+with a \texttt{REPORT.json} (labels, status, hypotheses weakened or strengthened, findings,
+questions). Auditors check that the Lean statement is the paper's; the kernel checks the
+proof. The adversarial devices are:
+\begin{itemize}
+\item non-vacuity witnesses for every hypothesis set (timelike line, lightlike line,
+  Minkowski space, the static torus);
+\item counterexample witnesses for rejected readings (kink, arctan, branching line, gated
+  line);
+\item explicit refutation rounds (\lean{LemmaKObstruction});
+\item the defect rule \dec{27}: a statement false as written is formalized in its strongest
+  true form, with a counterexample for the printed form, and reported as a finding;
+\item the externals rule \dec{36}: an external is a \texttt{Prop} named after its source,
+  always with a non-vacuity witness and where possible a not-trivially-true witness,
+  never an \texttt{axiom}.
+\end{itemize}
+
+\subsection{Two-session coordination}
+
+\texttt{lean-causal} never imports \texttt{lean-gx}. \texttt{lean-gx} requires \lean{Causal}
+by git pin (\texttt{rev ca2ad78f2005\ldots}, subdirectory \texttt{lean-causal}), cloned into
+\texttt{lean-gx/.lake/packages}, so gx builds never touch \texttt{lean-causal/.lake}. Pin
+bumps are deliberate commits (\texttt{731ed99} via \texttt{b7b9c62}, recorded in the wave-5
+plan at \texttt{4628a29}; \texttt{ca2ad78} via \texttt{c0b5397}). The \dec{33} import gate allows only gx's Section~4 directories
+(\texttt{BTZ/}, \texttt{Lorentz/}) to import specific strict \lean{Causal.*} modules ---
+never the \lean{Causal} root, never \lean{CausalScaffold.*}. Contracts are written down
+(\texttt{BARBOT-INTERFACE.md}, \texttt{CBG-REVIEW.md}, \texttt{A3-B-INVESTIGATION.md},
+\texttt{SCOPE.md}, \texttt{CBG-DESIGN.md} \S6). Findings against another campaign's files
+are never applied across sessions: they are filed for the author, who rules (\dec{64},
+\dec{65}, \dec{73}, \dec{78}).
+
+%======================================================================
+\section{Barbot: globally hyperbolic flat spacetimes}\label{sec:barbot}
+%======================================================================
+
+\subsection{Provenance}
+
+The labelled copy is \texttt{papers/barbot/legacy/labeled/GHFspace.tex}; ledger and
+docstrings cite its line numbers (``l.''), which run 0--44 lines later than the original's (0 in the preamble, 1 at Theorem~A,
+44 at the end).
+Labels are b-prefixed (\lbl{bthm:}, \lbl{bprop:}, \lbl{blem:}, \lbl{bcor:}, \lbl{bdef:});
+prose items are cited as [x.Y]. The campaign ran 2026-10-31 to 2026-11-02 in waves
+WP-30 to WP-35, followed by closers and fixers (the \texttt{Lox/}, \texttt{Nonlox/},
+\texttt{Cla/}, \texttt{Geroch/} lemma modules); commits touching the Flat sources: 6, 19
+and 13 on those three days. On 2026-11-02, 93 modules graduated from
+\lean{CausalScaffold.X} to \lean{Causal.X} (renames only).
+
+\subsection{Setting and conventions}
+
+\paragraph{Dimension.} \lean{Minkowski d} is $\R\times\mathrm{EuclideanSpace}\,\R\,(\mathrm{Fin}\,d)$
+with $d$ spatial dimensions; Barbot's $n$ is $d+1$, and $d=0$ is $n=1$. Quadratic form
+$q(t,x)=-t^2+\|x\|^2$, signature $(-,+,\dots,+)$; time orientation by the $t$-coordinate;
+\lean{minkowski_le_top_iff}: $p\le q\iff \|q_2-p_2\|\le q_1-p_1$.
+
+\paragraph{Isometries.} \lean{isom d} is the group of affine maps with linear part in
+$\SOo(1,d)$ (orientation and time-orientation preserving, l.469--480); \lean{linOf} and
+\lean{trOf} are the linear and translation parts.
+
+\paragraph{Flat spacetimes.} \lean{FlatSpacetime d}: a carrier with
+\lean{TopologicalSpace}, \lean{T2Space}, \lean{ConnectedSpace},
+\lean{ChartedSpace (Minkowski d)} and \lean{HasGroupoid} for the $(\Isom,\Mink^n)$
+groupoid with maximal atlas (\dec{16}). Its causality is \lean{flatCausality d M}.
+Second countability is \emph{proved}, not assumed (\dec{49}).
+
+\paragraph{Global hyperbolicity.} \lean{GH M} is ETT's notion (causal, compact diamonds);
+Barbot's own (l.498--507: existence of a Cauchy surface) is \lean{BarbotGH M}. They are
+bridged by \lean{FlatGerochGH}, proved for every $d$ (\dec{65}, \S\ref{sec:geroch}).
+
+\paragraph{Maps and maximality.}
+\begin{itemize}
+\item \lean{IsLocalIsometry}: continuous, and locally given in charts by an element of
+  \lean{isom d}. An isometric embedding is an injective local isometry (\dec{45}, reading
+  (i)). \lean{IsTameEmbedding}: in addition, a bijection on fundamental groups at every
+  base point. \lean{IsFiniteCover}: a covering map which is a local isometry with finite
+  fibres.
+\item \lean{MGH M}: GH, and every flat Cauchy embedding of $M$ into a flat spacetime of the
+  same universe is surjective.
+\item \lean{AbsMax P M}: for every $N$ with \lean{GH N} and $P\,N$, every isometric
+  embedding $M\to N$ is surjective. $P$ is a parameter (\dec{45}, OQ-23): Cauchy-complete
+  targets for Theorem A, all flat GH targets for gx. The causal reading of ``embedding''
+  is rejected, because $\arctan\times\arctan$ would make $\Mink^2$ non-maximal.
+  \lean{AMGH CC M} $:=$ \lean{GH M} $\wedge$ \lean{CC M} $\wedge$ \lean{AbsMax CC M}.
+\end{itemize}
+
+\subsection{Cauchy-completeness: two notions and a bridge (\dec{35})}
+
+\begin{definition}[metric Cauchy-completeness, \lean{IsCauchyComplete}, CauchyComplete.lean:664]
+$M$ is Cauchy-complete if it has a Cauchy surface $S$ which is \emph{spacelike Lipschitz}
+(near each point, a $c$-Lipschitz graph in a chart with $c<1$, the constant depending on
+the point), whose induced length space (distance: infimum of the Lorentzian lengths
+$\int\sqrt{q(\gamma')}$ of Lipschitz curves in $S$) is complete, and such that the identity
+from the induced length space to $S\subseteq M$ is continuous (the clause actually stated in
+Lean, \lean{Continuous fun x : InducedLengthSpace d S => (toSubtype x : M)}; the other
+direction comes from the local Lipschitz-graph structure).
+\end{definition}
+The last clause is needed because of defect W3: for 1-Lipschitz graphs the induced
+pseudo-distance can vanish (the null graph $\{t=\langle e,x\rangle\}$), so the paper's
+``length metric'' is false in general (Table~\ref{tab:barbot-findings}, Prop 8.1).
+
+\begin{definition}[(CC$'$)]
+$\Sigma\subseteq\Mink^n$ satisfies (CC$'$) if it is an \emph{entire acausal graph}
+(acausal and meeting every timelike line) and \emph{null-saturated}: for every lightlike
+affine hyperplane $P$ with null direction $\Delta_0$, $\Sigma\cap P$ is empty or meets
+every $\Delta_0$-line in $P$. \lean{DevelopsCC S}: $S$ is Cauchy, $\Dev$ is injective on
+the lifted surface $\Sc$, and $\Dev(\Sc)$ satisfies (CC$'$).
+\end{definition}
+
+The paper spends completeness only in Prop~8.1 (\lbl{bprop:project}) and Cor~8.3
+(\lbl{bcor:quoiso}); everything downstream reads (CC$'$). The ruling \dec{35} keeps both:
+Theorem~A carries the paper's metric hypothesis, and the bridge
+\lean{developsCC_of_isCauchyComplete} (with \lean{exists_developsCC_of_isCauchyComplete'})
+yields (CC$'$):
+\begin{itemize}
+\item \lean{bprop_project}: for connected Hausdorff $X$, a spacelike development
+  $F:X\to\Mink^n$ complete for its pulled-back length, and $\Delta$ timelike, the
+  projection along $\Delta$ composed with $F$ is a homeomorphism. Only straight segments
+  are lifted (repair of W5): a lifted segment has pulled length at most that of the
+  segment, so it is Cauchy; radial lifts give a covering of $\R^d$, hence a homeomorphism.
+\item \lean{bcor_quoiso} gives null-saturation by separate openness (intermediate value
+  theorem) and closedness (8.1's argument on $\Sc\cap P_0$) steps, repairing W6.
+\end{itemize}
+Cor~8.2 is now stated from the paper's completeness via this bridge (\dec{105}):
+\lean{bcor_quo_of_isCauchyComplete} concludes that $S\hookrightarrow M$ and
+$\Dev|_{\Sc}$ are embeddings, $\pi_1(S)\to\pi_1(M)$ and $\rho$ are injective, $\rho(\Gamma)$
+acts freely on $\Dev(\Sc)$, and every timelike line meets $\Dev(\Sc)$.
+
+\subsection{Theorem A}\label{sec:thmA}
+
+Paper statement (l.340--347): \emph{Up to finite coverings and linear twisted products,
+every Cauchy-complete GH flat spacetime can be tamely embedded in an absolutely maximal GH
+spacetime which is a translation spacetime, a Misner spacetime, a unipotent spacetime, or
+the twisted product of a Cauchy-hyperbolic flat GH spacetime by a euclidean torus.}
+
+\begin{leancode}
+theorem barbot_A (hE : BarbotExternals d) (M : FlatSpacetime.{u} d)
+    (hGH : GH M) (hCC : IsCauchyComplete d M) :
+  ∃ (M' : FlatSpacetime.{0} d) (p : M' → M), IsFiniteCover d p ∧
+    ∃ (d₁ : ℕ) (_ : d₁ ≤ d) (M₁ : FlatSpacetime.{0} d₁) (B : FlatSpacetime.{0} d),
+      AMGH (CauchyCompleteClass d₁) M₁ ∧
+      (IsTranslationSpacetime M₁ ∨ IsMisnerFamily d₁ M₁ ∨
+         IsUnipotentFamily d₁ M₁ ∨ IsCHCentralExtension M₁) ∧
+      IsLTPOver B M₁ ∧ ∃ f : M' → B, IsTameEmbedding d f
+\end{leancode}
+(Classification.lean:2530.) $M$ may live in any universe; $M'$, $B$, $M_1$ are in
+\texttt{Type}, which is stronger; \lean{AbsMax} quantifies over \texttt{Type}-0 targets.
+
+\begin{reading}[R1, \dec{43}, ruling OQ-21]
+A finite cover $M'$ of $M$ tamely embeds in a linear twisted product $B$ over a model
+$M_1$ of dimension $d_1\le d$; $M_1$ is AMGH in its own dimension relative to
+Cauchy-complete targets (\dec{45}). This is what \S11 proves (l.2616, l.3326--3330,
+l.3453--3455). The base must be allowed to drop dimension (screw motion with irrational
+rotation in $\Mink^4$). R1$'$ ($M$ itself embeds in a finite quotient) is equivalent.
+R2 (``a finite cover of $M$ \emph{is} an LTP\ldots'', l.3504--3506 literally) is
+\emph{false}: $\langle\text{screw}\rangle$ acting on $\{t>\sqrt{x_2^2+x_3^2}\}$ in $\Mink^4$.
+R3 ($B$ itself AMGH) is not written in the paper.
+\end{reading}
+
+\paragraph{Linear twisted products} (TwistedProduct.lean:929--951). \lean{IsLTPOver B M₁}
+asks for $\Gamma$, $\Omega$ and an affine Minkowski embedding
+$\iota:\Mink^{d_1+1}\to\Mink^{d+1}$ with timelike orthochronous image $U$; $\Gamma$ preserves
+$U$ and restricts to isometries of $U$ \emph{including its orientation}
+(\lean{RestrictsIn}, cf.\ Lemma~5.5 below); $\Omega+w=\Omega$ for $w\in U^\perp$;
+$B=\Gamma\backslash\Omega$ and $M_1=\Gamma_U\backslash\iota^{-1}\Omega$.
+
+\paragraph{The four families.}
+\begin{itemize}
+\item \emph{Translation}: $\varphi\,\mathrm{horizGroup}(\Lambda)\varphi^{-1}\backslash\Mink^n$,
+  $\Lambda$ a ball-finite subgroup of the spatial $\R^d$.
+\item \emph{Misner}: $\Gamma=\varphi\,\mathrm{misnerGroup}(L)\varphi^{-1}$ in
+  $\Mink^{d+2}$, $L\subseteq\R\times\R^d$ ball-finite, on the wedge $\{xy<0,x>0\}$ or its
+  past twin; the family \emph{requires an element with nonzero boost parameter},
+  $\exists x\in L,\ x_1\ne 0$ (finding F1).
+\item \emph{Unipotent}: $\Gamma$ acting through $\mathrm{unipAction}$ on a component
+  $\{\alpha<y<\beta\}$ of $\{1+y\ell_i\ne0\}$.
+\item \emph{Family (b)}, \lean{IsCHCentralExtensionOf M Γ} (\dec{44}, finding F2): a
+  spacelike submodule $E$ spanned by the translation vectors of $\ker L\cap\Gamma$, which
+  are a lattice of $E$; $L(\gamma)|_E=\mathrm{id}$; $L(\Gamma)$ discrete with no global fixed
+  point on the Penrose sphere; $M=\Gamma\backslash\Omega^{\pm}(\Lambda(\Gamma))$ with
+  $\Omega^{\pm}$ $E$-invariant.
+\end{itemize}
+The literal ``Cauchy-hyperbolic $\times$ torus'' family (a), \lean{IsCHTorusProduct}, is
+family (b) with $L(\Gamma)$ torsion-free; it is reached only when $\pi_1$ is finitely
+generated, via Selberg. Def~4.18 asks ``no global fixed point'' rather than
+``nonelementary''; it therefore admits elementary groups with a loxodromic element
+(infinite dihedral). The fourth disjunct is thereby slightly broader than ``nonelementary''
+and faithful to Def~4.18. \lean{IsMisnerFamily} and \lean{IsUnipotentFamily} are defined
+to be \texttt{False} at $d_1=0$.
+
+\paragraph{Layering against circularity (gap G3).} The paper's proof of (i) applies
+Theorem~A to the target (l.3586--3592); this is non-circular only through three layers:
+\begin{enumerate}[label=(\roman*)]
+\item \lean{barbot_A₀} (Classification.lean:600) concludes \lean{EmbeddingOutput M}: a
+  finite cover $M'$, a subgroup $\Gamma$ and a \emph{convex} open $\Omega$, $B=\Gamma\backslash\Omega$,
+  a tame embedding $M'\to B$, and a model $M_1$ with \lean{IsModelA M₁} and
+  \lean{IsLTPOver B M₁}. Route: the bridge; \lean{bprop_danom} ($\Dev$ injective); the case
+  split \lean{caseOutput} (nonloxodromic \S9 or loxodromic \S10 with [10.M], [10.G]);
+  \lean{exists_finiteCover_tameEmbedding}.
+\item [11.i] absolute maximality of each model: \lean{amgh_of_isTranslationSpacetime},
+  \lean{amgh_of_isMisnerSpacetime}, \lean{amgh_of_isCHCentralExtension}.
+\item The unipotent family (G1+G3): \lean{exists_absMax_unipotent_ltp} replaces $M_1$ by a
+  maximal unipotent envelope $M_2$ and $B$ by an enlarged LTP $B_2$ with $B\hookrightarrow
+  B_2$ tame.
+\end{enumerate}
+
+\paragraph{Non-vacuity.} \lean{barbot_A_hypotheses_zero} (Classification.lean:614):
+\lean{BarbotExternals 0} holds and $\Mink^1$ is GH and Cauchy-complete. In every $d$,
+\lean{minkowskiSpace d} is GH and Cauchy-complete. Closure sizes (dependency snapshot
+2026-11-02 09:05Z): 69{,}563 constants for \lean{barbot_A₀}, 70{,}533 for \lean{barbot_A},
+reaching 79 and 84 project modules.
+
+\subsection{Theorem B}\label{sec:thmB}
+
+Paper statement (l.355--359): \emph{Up to finite coverings, every maximal Cauchy-compact GH
+flat spacetime is isometric to a translation spacetime, a Misner spacetime, or the twisted
+product of a standard spacetime (Cauchy-compact Cauchy-hyperbolic) by a euclidean torus.}
+
+\begin{leancode}
+theorem barbot_B (hE : BarbotExternals d) (hSel : SelbergLemma (Minkowski d))
+    (hK : ∀ N : FlatSpacetime.{0} d, GH N → FlatLemmaKData N)
+    (M : FlatSpacetime.{u} d) (hGH : GH M) (hC : CauchyCompact M) (hM : MGH M) :
+  ∃ (M₁ : FlatSpacetime.{0} d) (p : M₁ → M), IsFiniteCover d p ∧
+    AMGH (CauchyCompleteClass d) M₁ ∧
+    (IsTranslationSpacetime M₁ ∨ IsMisnerFamily d M₁ ∨
+       (IsCHTorusProduct M₁ ∧ CauchyCompact M₁))
+\end{leancode}
+(Classification.lean:2695.) G4 (``standard'' $=$ Cauchy-compact Cauchy-hyperbolic,
+\lean{IsStandard}) is \emph{not} carried literally: the library constructs no base spacetime
+for \lean{IsCHTorusProduct}, so Theorem~B states Cauchy-compactness of the product $M_1$
+instead (\lean{IsModelB}); \lean{IsStandard} is defined for reference only
+(Classification.lean:316--320). Family (a), \lean{IsCHTorusProduct} (Loxodromic.lean:2288),
+is not a literal product either: it is the torus bundle over the Cauchy-hyperbolic base with
+translation monodromy, i.e.\ family (b) with $L(\Gamma)$ torsion-free
+(\texttt{BARBOT-THEOREMS.md} \S1); it is reached only with $\pi_1$ finitely generated, through
+Selberg (\dec{44}).
+
+\paragraph{The certified form discharges $hK$.} \lean{barbot_B_geroch} has the same
+conclusion without $hK$: \lean{forall_flatLemmaKData_iff} shows
+$(\forall N,\ \mathrm{GH}\,N\to\lean{FlatLemmaKData}\,N)\iff\lean{FlatGerochGH}\,d$, and the
+right side is proved for all $d$ (\dec{65}). \lean{FlatLemmaKData N} has seven fields:
+tarentin, causally arc-connected, $J^{\pm}(p)\ne\{p\}$, \lean{CurvesExtend}, a chronal causal
+flow, and an acausal Cauchy surface.
+
+\paragraph{The unconditional form.} \lean{barbot_B_zero_geroch} ($d=0$, $n=1$) carries no
+named external: the Misner and unipotent families are \texttt{False} by definition and
+\lean{not_isHyperbolic_zero} excludes the loxodromic case.
+
+\paragraph{Proof route.} \lean{isCauchyComplete_of_cauchyCompact} (smoothing caps, \S8);
+then \lean{barbot_A₀}; then \lean{cauclo_from_embedding} (G9: nontrivial LTPs destroy
+Cauchy-compactness, l.3542; Selberg passes from (b) to (a); finite-cover maximality); and
+\lean{absMax_of_cauchyCompact_of_mgh}, Rem~2.3 corrected via lemma~K.
+
+\paragraph{Non-vacuity.} \lean{barbot_B_hypotheses_satisfiable} (TheoremBInputs:379):
+\lean{BarbotExternals 0} and \lean{SelbergLemma (Minkowski 0)} hold; for every $d$ the static
+torus \lean{torusSpace d} is GH, Cauchy-compact and MGH and carries \lean{FlatLemmaKData}.
+So for $d\ge1$ only $hE$ and $hSel$ lack a Lean witness. Closure sizes: 71{,}080 constants
+in 97 modules (\lean{barbot_B}); 71{,}288 in 107 (\lean{barbot_B_geroch}).
+
+\subsection{Architecture of the proof in Lean}
+
+Barbot's part of \lean{Causal/Flat} (excluding the four CBG files): 93 files, 74{,}334
+lines, about 4{,}198 declarations counted in code with comments and docstrings stripped
+(theorem 3{,}504; def 591; instance 63; abbrev 20; structure 18; class 2; no \texttt{lemma},
+no \texttt{axiom}). The count is a keyword scan, not an enumeration of the environment, and is
+approximate. Module roles, by section of the paper:
+\begin{itemize}
+\item \S2 and Minkowski geometry: \lean{Form}, \lean{Lorentz}, \lean{IsomCausal},
+  \lean{Achronal}, \lean{Isometries} (\lean{lorentz_trichotomy}: elliptic, loxodromic and
+  parabolic are disjoint and exhaustive with $\zeta\ne0$, $U\ne\mathrm{id}$).
+\item \S4.1 Penrose boundary and regular domains: \lean{Penrose}
+  ($\mathcal J\cong\mathcal S^+\times\R$, $\Omega^{\pm}(\Lambda)$). \S4.2--4.3 cosmological
+  time: \lean{Cosmological}, \lean{LipLength}, \lean{Semicomplete}, \lean{AgissonsGeneral},
+  \lean{Laoucapulse}, \lean{LaoucapulseVolume}.
+\item \S2--3 spacetimes: \lean{FlatSpacetime}, \lean{Quotient}, \lean{Examples} (models),
+  \lean{TwistedProduct} (\S5.S, Lemma~5.5).
+\item \S5 isometry classes: \lean{Externals}, \lean{Bieberbach}. \S6--7 achronal domains:
+  \lean{AchronalDomains} ($\Omega_g$, Lemma~7.1).
+\item \S2.4 and \S8 developing map: \lean{InducedLength}, \lean{LipschitzGraph},
+  \lean{CauchyComplete}, \lean{Develop}, \lean{QuoFull}, \lean{SplittingFull},
+  \lean{SecondCountable}; \S8.4 \lean{Abel}.
+\item \S9 nonloxodromic: \lean{Nonloxodromic}, \texttt{Nonlox/*}, \lean{TitsNull},
+  \lean{LimitesGeneral}. \S10 loxodromic: \lean{Loxodromic}, \texttt{Lox/*}.
+\item \S11 classification: \lean{Classification}, \texttt{Cla/*} (plan lemmas L1--L12:
+  \lean{LTPConvex}, \lean{FiniteCover}, \lean{TameNested}, \lean{RegularComplete},
+  \lean{UnipEnvelope}, \lean{UnipComplete}, \lean{LTPEnlarge}, \lean{LocallyCauchy},
+  \lean{CompactComplete}, \lean{SmoothCap}/\lean{SmoothCone}/\lean{SmoothGlue},
+  \lean{CoverMGH}, \lean{CoverMax}, \lean{CoverComp}, \lean{G9}, \lean{G9Pair},
+  \lean{G9PairLin}, \lean{CCComponent}).
+\item Theorem B's inputs: \lean{TheoremBInputs}, \lean{GerochFlat}, \texttt{Geroch/*}.
+\end{itemize}
+At \texttt{e40d526}, thirteen \texttt{Flat} modules are imported by the root and
+sorry-free but reached by no headline theorem (A, B, CBG): \lean{Abel}, \lean{Laoucapulse},
+\lean{LaoucapulseVolume}, \lean{LimitesGeneral}, \lean{AgissonsGeneral}, \lean{LipLength},
+\lean{QuoFull}, \lean{Semicomplete}, \lean{SplittingFull}, \lean{Lox.LevelComplete},
+\lean{Lox.QuotientComplete}, \lean{Lox.SelbergMono}, \lean{Lox.PastProper}. Several carry
+later marks (Prop~4.2, Cor~8.2, Prop~4.16, Prop~9.3, the splitting). (The five-module figure
+in \texttt{BARBOT-DEPENDENCIES.md} dates from its 2026-11-02 09:05 snapshot.)
+
+\subsection{Where the Lean proofs differ from the paper}
+
+\begin{enumerate}[label=(\arabic*)]
+\item \textbf{The completeness bridge} (\dec{35}), described above.
+\item \textbf{Prop 8.12 without slices} (repair of W7). \lean{bprop_danom}: under
+  \lean{T2Space M}, $\Dev$ is injective with $\mathrm{range}\,\Dev\subseteq\Omega(\Sc)$.
+  Chain: vertical maximal lifts meet $\Sc$ once; $\Dev$ is an isomorphism onto its image
+  $\Omega'$, in which $\Sigma$ is Cauchy; $\Omega'$ is causally convex; $\Gamma$ acts freely
+  and achronally; $\Omega'\subseteq U(\gamma)$ for all $\gamma$; $\Omega'$ is open and
+  connected, hence in $\Omega(\Sc)$. No completeness of slices, no splitting; T2 is needed
+  (\dec{90}).
+\item \textbf{GH of $\Omega(\Sc)$ from causal convexity} (Prop 8.10, repair of W8). The
+  components of $\inter U(\Gamma)$ are convex and causally convex via a property
+  \lean{IsCausalPiece} stable under intersection
+  (\lean{convex_causallyConvex_connectedComponentIn}); compact diamonds follow directly and
+  Beem--Ehrlich is not cited.
+\item \textbf{The flat causal flow} (\lean{flat_hasChronalCausalFlow}). Every flat
+  spacetime carries a chronal causal flow, glued from the charts' $e_0$ by a smooth
+  partition of unity and rescaled to be complete. A splitting $S\times\R\cong M$ exists iff
+  $J^{\pm}(S)$ is closed (\lean{isClosed_iff_exists_isCauchySplitting}), which replaces
+  ETT's ``$\psi$ is a local diffeomorphism''. \lean{bprop_splitting_full} reparametrises
+  orbits by Geroch's Cauchy time $T=\log(-t^-/t^+)$, giving
+  $\Phi:S\times\R\simeq M$ with every slice $T^{-1}(t)$ Cauchy.
+\item \textbf{Geroch via admissible measures} (\S\ref{sec:geroch}).
+\item \textbf{Cauchy-compact $\Rightarrow$ Cauchy-complete by smoothing caps}
+  (\texttt{Cla/SmoothCap}, \texttt{SmoothCone}, \texttt{SmoothGlue}, \texttt{CompactComplete});
+  the paper takes this for granted (l.3536). At $y\in S$, in a chart where $S$ is the graph
+  of a strict contraction $G$ over a spatial ball of radius $\delta$, take the past
+  hyperboloid of $q=(t_0+2a,y_0)$ of radius $a$ over the closed ball of radius
+  $\rho=\delta/2$, where $\eta=\min_{|x-y_0|=\rho}(G(x)-G(y_0)+\rho)>0$ and
+  $a=\min(\eta/4,\delta/4)$. The cap's rim lies strictly below $S$, and points of $S$ over
+  the ball of radius $a/2$ lie strictly below the cap. Finitely many caps cover the compact
+  $S$; with $K$ their union, $K\setminus I^-(K)$ is a nonempty compact spacelike Lipschitz
+  hypersurface. Rims are buried through $S$, so two charts are never compared and only
+  per-point Lipschitz constants are needed. A component is Cauchy by lemma~K and complete
+  because compact.
+\item \textbf{Lemma K} (\S\ref{sec:lemmaK}).
+\item \textbf{Cover maximality via developing maps} (\texttt{Cla/CoverMax}).
+  \lean{cover_range_eq_of_mgh}: for $M$ maximal GH with (CC$'$), $\Dev(\widetilde M)=\inter
+  D(\Sigma)$, without Cauchy-compactness. \lean{cover_maximal_of_isFiniteCover}: a
+  Cauchy-compact finite cover of a maximal Cauchy-compact GH $M$ is maximal, proved by
+  lifting a Cauchy embedding to universal covers --- without uniqueness of maximal Cauchy
+  developments. The paper uses this silently (l.3573--3581).
+\item \textbf{Equality and absolute maximality} (\S11.3). Lift with rigidity
+  (\lean{exists_lift_of_isQuotientOf}), equivariance (\lean{exists_deck_of_lift}),
+  surjectivity once $\mathrm{range}\,\Dev_N\subseteq g\Omega_0$
+  (\lean{surjective_of_lift_of_range_subset}). Translation spacetimes are absolutely maximal
+  among \emph{all} flat targets (\lean{absMax_of_isTranslationSpacetime}); Misner spacetimes
+  and quotients of $\Omega^{\pm}(\Lambda(\Gamma))$ among GH Cauchy-complete targets,
+  through the bridge applied to the target.
+\item \textbf{The Tits gap of Prop 9.1, proved elementarily} (\dec{50}, \lean{TitsNull}).
+  \lean{titsVirtuallyAbelianNull}: a discrete $\Gamma$ whose linear parts are all elliptic
+  and fix a null $v_0\neq0$ is virtually abelian in its linear parts. A rotation part
+  $\rho(A)=\pi A\pi+(1-\pi)$ on the screen $\mathrm{span}\{v_0,e_0\}^\perp\cong
+  v_0^\perp/\R v_0$ is multiplicative and bounded, and an elliptic $A$ with $\rho(A)=1$ is
+  the identity. Deep step with $\varepsilon=1/64$: elements with
+  $\|\rho-1\|<1/64$ commute, via Zassenhaus halving ($\|[X,Y]-1\|\le m/2$), an Engel
+  property from discreteness (after conjugating by a scaling in the flag
+  $\R v_0\subset v_0^\perp\subset\Mink^n\subset\Mink^n\times\R$), and Frobenius's lemma
+  through no-small-subgroups from von Neumann's mean ergodic theorem; finite index by
+  pigeonhole. Neither Tits' alternative nor Auslander's theorem is used.
+\item \textbf{Local Cartan} (\texttt{Lox/ClosedSubgroupNhds}): the closed-subgroup theorem in
+  local form by von Neumann's argument (one-parameter subgroups from $\exp$, Trotter, inverse
+  function theorem); it closes Prop~10.5 (\lean{bprop_LU_discrete}) and [10.G].
+\item \textbf{Misner identification [10.M]} (\lean{loxo_elementary_misner}). The second null
+  direction is fixed by $L(\Gamma_1)$ using conjugation-invariance of translation lengths
+  (\lean{Lox.fix_second_null}, replacing the formula of F4); Bieberbach is applied to
+  $\Gamma_1$'s euclidean model $(s,z)\mapsto(s+a,Az+u)$, discrete by properness on the tube
+  (\lean{Lox.misner_bieberbach}, replacing $\pi_P^{-1}(0)$, F3). The conclusion holds for a
+  finite-index $\Gamma'$, not for $\Gamma$.
+\item \textbf{Other replacements.} Lemma~10.1 via a uniform sign
+  (\lean{not_mem_quadrantPlus_quadrantMinus}), since $\Omega_{\mathrm{lox}}(\Gamma)$ is not
+  convex. Cor~10.3: properness via the $L(\Gamma)$-equivariant Gauss map of the
+  cosmological time, bounded on compacts (\lean{finite_of_gaussEquivariant}); the past case
+  by $p\mapsto-p$. Prop~10.4: the spacelike case via the fixed space of $L(\Gamma_{nd})$ and
+  the upper central series, not Cor~8.4 (false). Prop~9.5: an explicit symmetric extension
+  $\hat T(e+w)=T(e)$ (\lean{exists_symm_extension_of_coercive}). Lemma~8.6 via
+  $D(\Sigma)\subseteq U(\Gamma)$ and $\Sigma\subseteq\inter D(\Sigma)$.
+\end{enumerate}
+
+\subsection{Named externals and their witnesses}\label{sec:externals}
+
+\begin{leancode}
+structure BarbotExternals (d) : Prop where
+  benoist    : ∀ k ≤ d,     BenoistNoLox k
+  bieberbach : ∀ k ≤ d + 1, BieberbachI (EuclideanSpace ℝ (Fin k))
+  auslander  : ∀ k ≤ d,     AuslanderCarriereDalbo k
+  unipotent  : ∀ k ≤ d,     MaxUnipotentSubspace k
+\end{leancode}
+(Classification.lean:336; downward monotone, \lean{BarbotExternals.mono}; its only witness is
+\lean{barbotExternals_zero}.)
+
+\begin{center}\small
+\begin{longtable}{@{}p{3.2cm}p{7.2cm}p{5.4cm}@{}}
+\toprule
+external (source) & statement & witnesses \\
+\midrule\endhead
+\lean{BenoistNoLox d} (Prop 9.1, Benoist; Externals:526) &
+  every $G\le\SOo(1,d)$ without loxodromic element has a finite-index subgroup fixing a
+  timelike vector or a nonzero null vector &
+  \lean{benoistNoLox_zero}; not trivially true: \lean{not_benoist_conclusion_stdBoost} \\
+\lean{BieberbachI E} (\S5; Bieberbach:685) &
+  every discrete $\Gamma\le\Isom(E)$ has a nonempty invariant affine $U$ and a finite-index
+  $\Gamma'$ acting on $U$ effectively by translations (weakest form; the maximal and cocompact
+  forms are derived) &
+  \lean{bieberbachI_of_finrank_le_one}, \lean{bieberbachI_of_finite}; not trivially true:
+  \lean{not_isDiscreteEucl_euclTranslations} \\
+\lean{AuslanderCarriereDalbo d} (Thm 5.1, \lbl{bthm:ausl}; Externals:276) &
+  for discrete $\Gamma\le\lean{isom d}$, the closure of the identity component of
+  $\overline{L(\Gamma)}$ is nilpotent, and $\Gamma_{nd}$ is nilpotent (asks only discrete
+  $\Gamma$: a strengthened hypothesis) &
+  \lean{auslanderCarriereDalbo_zero}; no not-trivially-true witness \\
+\lean{MaxUnipotentSubspace d} (Thm 5.2, \lbl{bthm:unip}; Externals:315) &
+  every nilpotent $N\le\lean{isom d}$ has a unique nonempty maximal invariant affine subspace
+  on which it acts unipotently &
+  \lean{maxUnipotentSubspace_zero}; \lean{not_maxUnipotent_conclusion_top} \\
+\lean{SelbergLemma V} (Theorem B only; not cited by the paper, enters via F2/\dec{44}; Externals:825) &
+  every finitely generated subgroup of $GL(V)$ is virtually torsion-free &
+  \lean{selbergLemma_real}, \lean{selbergLemma_minkowski_zero};
+  \lean{not_selberg_conclusion_torsion}. None for $d\ge1$: Selberg in $GL_{n\ge2}(\R)$ is
+  not in mathlib \\
+\lean{LimitSetMinimal} (for \lbl{bprop:admlox} only; Externals:647) &
+  for discrete $G$ with no global fixed point, every closed nonempty invariant subset of the
+  Penrose sphere contains the repulsive set &
+  \lean{limitSetMinimal_zero}; \lean{not_limitSet_conclusion_stdBoostL} \\
+\bottomrule
+\end{longtable}
+\end{center}
+
+Externals used only by individual marked labels: \lean{BieberbachI} for \lbl{bcor:abel},
+\lean{AuslanderCarriereDalbo} and \lean{MaxUnipotentSubspace} for \lbl{bprop:U_timelike}
+and \lbl{bprop:LU_discrete}, \lean{BenoistNoLox} for \lbl{bprop:sanloxo}.
+\emph{Originally external, now proved}: \lean{TitsVirtuallyAbelianNull}
+(\lean{titsVirtuallyAbelianNull}, \dec{50}); \lean{FlatGerochGH} and
+\lean{FlatAdmissibleMeasures} (\dec{65}); Bonsante's exhaustion lemma (l.1144--1145,
+\lean{bonsante_exhaustion}); the universal form of \lean{FlatLemmaKData}; the elementary
+part of Bieberbach (``Bieberbach-light'': discrete translation groups are lattices in their
+span; finite isometry groups of a lattice). The printed folklore of Prop~10.4 is kept as
+\lean{AbelianPairAsPrinted}, refuted for $d\ge2$ by \lean{not_abelianPairAsPrinted}; no
+theorem depends on it.
+
+\subsection{Rulings}
+
+\begin{center}\small
+\begin{longtable}{@{}p{2.5cm}p{13.3cm}@{}}
+\toprule
+ruling & content \\
+\midrule\endhead
+\dec{34} & Barbot formalized on ETT in \texttt{lean-causal} as \lean{Causal.Flat}; external paper
+  under \texttt{papers/barbot}, b-prefixed labels; full classification; gx imports it. \\
+\dec{35} & Two Cauchy-completenesses: the metric one (as \dec{31} for gx) and (CC$'$); the
+  bridge is Prop~8.1 + Cor~8.3; Theorem A carries the paper's hypothesis. \\
+\dec{36} & External group theory as named hypotheses with non-vacuity witnesses;
+  Bieberbach-light proved. \\
+\dec{37} & Universal cover as data; developing map and holonomy proved on it; gx's
+  construction reused (\lean{Causal.Port.*}). \\
+\dec{38} & Execution as \dec{9}: author, read-only audit, fixers, re-audit. \\
+\dec{43} & Theorem A read as R1 (OQ-21); R2 false, R3 unwritten; gx sub-theorems exported
+  separately. \\
+\dec{44} & Rem~2.3 corrected (OQ-22) via lemma~K, literal form refuted by the slab; fourth
+  family of A is (b); (a) under $\pi_1$ f.g.\ via Selberg. \\
+\dec{45} & Isometric embedding $=$ injective local morphism; \lean{AbsMax P} parametric
+  (OQ-23); causal reading rejected. \\
+\dec{49}, \dec{50} & Second countability proved; the Prop~9.1 gap step proved. \\
+\dec{65} & \lean{FlatGerochGH} discharged by admissible measures; offered to ETT's
+  \lean{minkowski_exists_measure}. \\
+\dec{72} & A and B MARKED under the named externals. \\
+\dec{83} & Marked with readings: \lbl{bprop:LU_discrete}, \lbl{bprop:U_timelike},
+  \lbl{blem:sanlox}, \lbl{blem:loxregular}, \lbl{blem:SdanU}. \\
+\dec{88} & \lbl{bcor:level_sets_complete}, \lbl{bprop:regular_cauchy_complete} under
+  \lean{CosmoRegular}; [4.CT] a wording issue. \\
+\dec{89}--\dec{91} & \lbl{bcor:loxo_proper} (past case proved first); \lbl{bprop:danom}
+  with T2 implicit, fold counterexample kept; \lbl{bprop:ghyp} (W4 intended, W8 a finding
+  on the proof). \\
+\dec{92}, \dec{93} & Bare lemma K attempted, not settled (narrowed in
+  \lean{LemmaKReduction}); lemma K stated and proved in ETT's setting. \\
+\dec{94}--\dec{101} & \lbl{bdef:U_g}, \lbl{bdef:omega_gamma} (W4);
+  \lbl{bdef:omega_lambda}, \lbl{bprop:regular_iff_bounded}, \lbl{bcor:futetpast};
+  \lbl{bprop:admlox}, \lbl{bdef:definitioncauchyhyp}; \lbl{bprop:sanloxo} with ``$\Gamma$
+  discrete''; \lbl{blem:paranongh} (class-by-class form); \lbl{blem:suspendre} with
+  \lean{RestrictsIn}; \lbl{bprop:splitting} for a suitable splitting; \lbl{bcor:abel}
+  (unified repair). \\
+\dec{102}, \dec{103} & ``Expanding'' in Prop~4.2 is volume-expanding;
+  \lbl{bprop:limites}, \lbl{bprop:lip}; semicompleteness for \lbl{bprop:agissons}. \\
+\dec{104} & Prop~4.2 marked in two-case form: volume for $n\ge3$, conformal for $n=2$. \\
+\dec{105} & Cor~8.2 from the paper's completeness via the bridge. \\
+\bottomrule
+\end{longtable}
+\end{center}
+The full list, including the CBG/ETT rulings, is Appendix~\ref{app:rulings}.
+
+\paragraph{Prop 4.2, two-case form} (\lean{bprop_laoucapulse_two_case},
+LaoucapulseVolume.lean). For $g$ fixing $0$: if $d\ge2$, the volume-expanding set of $g$ on
+the Penrose boundary is the preimage of the volume-expanding set of $L(g)$ on the sphere;
+if $d<2$, for every $\lambda>0$ the metric-expanding set for $\lambda|\cdot|$ is the
+preimage of the conformally-expanding set. Volume Jacobians are exact: $a(g,u)^d$ on
+$\mathcal J^+$ and $a(g,u)^{d-1}$ on $\mathcal S$, with $a=1/N(L(g)v)$ (l.841); $n=1$ holds
+vacuously because $\mathcal S=\emptyset$. The audit removed an unneeded hypothesis $n\ge2$.
+
+\subsection{Closure progression}
+
+Bucket A, closed and marked (37 rows): \lbl{bthm:caucomp}, \lbl{bthm:cauclo};
+\S4.1--4.3: \lbl{bprop:laoucapulse}, \lbl{bdef:omega_lambda}, \lbl{bdef:regular_domain},
+\lbl{blem:fermons}, \lbl{bcor:closeregular}, \lbl{blem:closecool}, \lbl{blem:fermonsbis},
+\lbl{bprop:regular_iff_bounded}, \lbl{bcor:futetpast}, \lbl{bprop:lip},
+\lbl{bcor:level_sets_complete}, \lbl{bprop:regular_cauchy_complete},
+\lbl{bprop:agissons}, \lbl{bprop:admlox}, \lbl{bdef:definitioncauchyhyp}; \S5 and \S7:
+\lbl{blem:suspendre}, \lbl{blem:paranongh}; \S8: \lbl{bprop:project}, \lbl{bcor:quo},
+\lbl{bcor:quoiso}, \lbl{bcor:abel}, \lbl{bdef:U_g}, \lbl{blem:SdanU},
+\lbl{bdef:omega_gamma}, \lbl{bprop:ghyp}, \lbl{bprop:splitting}, \lbl{bprop:danom};
+\S9: \lbl{bprop:sanloxo}, \lbl{bprop:limites}, \lbl{bprop:extension}; \S10:
+\lbl{blem:sanlox}, \lbl{blem:loxregular}, \lbl{bcor:loxo_proper}, \lbl{bprop:U_timelike},
+\lbl{bprop:LU_discrete}. A grep of \texttt{**label**} over \texttt{Causal/} finds exactly
+37 distinct labels, equal to the closed set.
+
+Bucket A here means \emph{closed and marked under the author's rulings}, not ``certified
+in full with no added hypothesis''. Of the 37, the following carry a named external, an
+added hypothesis, a reading or a corrected form:
+\begin{itemize}
+\item named externals: \lbl{bthm:caucomp}, \lbl{bthm:cauclo} (\dec{72}, \dec{83});
+  \lbl{bprop:U_timelike} (Prop~10.4) and \lbl{bprop:LU_discrete} (Prop~10.5) (\dec{83});
+  \lbl{bprop:admlox} (Prop~4.17: the \lean{LimitSetMinimal} external and ``nonempty'',
+  \dec{96});
+\item added hypotheses: \lbl{bprop:danom} (Prop~8.12, $T_2$, \dec{90});
+  \lbl{bprop:sanloxo} (Prop~9.1, $\Gamma$ discrete, \dec{97}); \lbl{blem:suspendre}
+  (Lemma~5.5, \lean{RestrictsIn}, \dec{99});
+\item corrected forms of statements false as printed: \lbl{blem:paranongh} (Lemma~7.1,
+  \dec{98}); \lbl{bcor:abel} (Cor~8.4, \dec{101}); \lbl{bprop:regular_iff_bounded}
+  (Prop~4.10, sign typo, \dec{95});
+\item a reading: \lbl{bprop:laoucapulse} (Prop~4.2, two-case form, \dec{102}, \dec{104}).
+\end{itemize}
+
+Bucket T (5, excluded with reasons): Lemma~4.20 \lbl{blem:admissible_cone}, Prop~4.22
+\lbl{bprop:tri}, Def~4.24 \lbl{bdef:geometrically_finite}, Thm~4.25
+\lbl{bthm:convex_cocompact} (rests on Sullivan's structural stability), Thm~12.1
+\lbl{bthm:cmc} (CMC foliations). Progression: \dec{72} (A, B); $10\to15$ after \dec{83};
+$15\to20$ after \dec{88}--\dec{91}; $20\to35$ after \dec{94}--\dec{103}; $35\to37$ after
+\dec{104}/\dec{105}. (\texttt{LEDGER.md}'s header still stamps Lean at \texttt{007449d},
+the parent of \texttt{e40d526}.)
+
+\subsection{Findings against the paper}
+
+Line numbers refer to the labelled \texttt{GHFspace.tex}. ``Prose only'' marks a
+counterexample documented but not formalized. Two line numbers here correct the curation
+sources and are filed for the author: F3 is at l.3326--3327 (\texttt{curation.toml}:114 and
+\texttt{LEDGER.md}:41,\,83 say l.3320--3321, which hold the coordinate system), and the
+Lemma~4.6 typo is at l.937 (\texttt{curation.toml}:286 says l.938).
+
+{\footnotesize
+\begin{longtable}{@{}>{\raggedright}p{1.9cm}>{\raggedright}p{1.8cm}p{7.6cm}>{\raggedright\arraybackslash}p{4.0cm}@{}}
+\caption{Findings against Barbot's paper.}\label{tab:barbot-findings}\\
+\toprule
+label & paper line & finding & Lean witness \\
+\midrule\endfirsthead
+\toprule
+label & paper line & finding & Lean witness \\
+\midrule\endhead
+F1 & [11.i], l.3620 &
+  ``Misner spacetimes are absolutely maximal'' is false when $\Gamma$ has no loxodromic
+  element: for $\Gamma$ trivial the wedge $\{t>|x_1|\}$ sits non-surjectively in $\Mink^n$
+  (prose only). The family carries ``some $\gamma$ has nonzero boost''; then absolute
+  maximality is proved for both wedges. &
+  \lean{IsMisnerSpacetime}, \lean{surjective_of_isQuotientOf_misner},
+  \lean{amgh_of_isMisnerSpacetime} \\
+F2 / G5 & [10.G], l.3333--3456 &
+  Torsion of $L(\Gamma)$ is never treated. The literal family (a) is replaced by the
+  central-extension family (b); (a) is reached only for $\pi_1$ f.g., via Selberg. A
+  candidate counterexample to (a) ($G\le\SOo(1,2)$ discrete, infinitely generated, with
+  elliptic generators $g_m$ of every order $m$; $\Gamma\le\Isom(\Mink^4)$ generated by
+  $\Z e$ and $g_m\oplus(\text{translation by } e/m)$) is recorded as ``to be checked'';
+  not formalized. &
+  \lean{IsCHCentralExtension}, \lean{loxo_generic_torusProduct},
+  \lean{loxo_generic_centralExtension} \\
+F3 & [10.M], l.3326--3327 &
+  ``The action on $\pi_P^{-1}(0)$ is free and properly discontinuous'' is false: in
+  $\Mink^4$, $\gamma_0(x,z,y)=(e^{-1}x,R_\theta z,ey)$, $\theta/\pi$ irrational, acts on
+  $\pi_P^{-1}(0)$ by a rotation fixing 0. True for $\Gamma_0=\ker a$; the conclusion
+  stands. & \lean{Lox.misner_bieberbach} \\
+F4 & [10.M], l.3264--3269, l.3287 &
+  The conjugation formula for $\alpha(\gamma\gamma'\gamma^{-1})$ needs $\alpha(\gamma)$ to
+  fix the origin; a screw loxodromic fixes no point and conjugates drift by
+  $nR^n(I-R(\gamma'))u$. The conclusion is true via conjugation-invariance of translation
+  lengths. ``$L(\Gamma_0)$ is finite'' needs the reduction $U=\Mink^n$. &
+  \lean{Lox.fix_second_null} (SecondNullFix:736) \\
+G1 & [11.i], l.3678--3679 &
+  The unbounded unipotent case is ``similar'' and not written; it needs one-sided forms of
+  Props~9.3 and 9.5. & \lean{exists_absMax_unipotent_ltp} (Classification:2466) \\
+G3 & l.3586--3592 &
+  The proof of (i) applies Theorem~A to the target and drops the LTP and finite-cover
+  clauses; non-circular only through the layering A$_0$ $\to$ (i) $\to$ A. &
+  \lean{barbot_A₀}, \lean{amgh_of_isTranslationSpacetime} etc., \lean{barbot_A} \\
+Tame embedding & Thm A, \S11 &
+  The tame embedding into $B=\Gamma''\backslash\Omega$ needs $\Omega$ simply connected
+  ($\pi_1(B)$ is an extension of $\Gamma''$ by $\pi_1(\Omega)$). The paper's $\Omega$ are
+  convex, but this is not stated. &
+  \lean{EmbeddingOutput} (carries \lean{Convex}),
+  \lean{Cla.exists_isTameEmbedding_of_isQuotientOf_le} \\
+Translation spacetimes & l.3586--3590, l.3616--3618 &
+  [11.i] does not need Theorem A on the target: they are absolutely maximal among all flat
+  targets, GH or not. & \lean{absMax_of_isTranslationSpacetime} (Classification:941) \\
+Def 4.18 & l.1212--1214 &
+  ``No global fixed point'' (not ``nonelementary'') admits elementary groups with a
+  loxodromic element (infinite dihedral). Its GH needs a loxodromic element, which Def~4.18
+  yields only through Benoist, not invoked there. & \lean{IsCHCentralExtensionOf} \\
+{[3.U]} & l.729--741 &
+  The Cauchy argument for $S_f$ checks nonspacelike geodesics only; the separation claim
+  fails for bounded $f$ even with two finite poles ($n=4$, $f(y)=y$). The conclusion stands
+  for the chosen $f=\int a^2$; the case split at l.734--737 is incomplete when an end is
+  infinite. & recorded in SCOPE; \texttt{Cla/UnipComplete} \\
+Rem 2.2 & l.544 &
+  ``$S$ is not Cauchy in $\Mink^n$'' holds only for $n\ge2$. Harmless. &
+  \lean{not_isCauchySurface_graph_hyperboloid_of_criterion} \\
+{[2.3]} & l.485--490 &
+  Isometries preserving the causal relations of open subsets is never stated (in ETT a
+  theorem). Typo $\Isom(M^n)$ at l.490. & \lean{le_iff_le_isomImage} (IsomCausal:317) \\
+Rem 2.3 literal (OQ-22) & l.571--579 &
+  ``CGH $\Rightarrow$ AMGH'' is false: the slab $\Z^d\backslash\{0<t<1\}$ is GH and
+  Cauchy-compact and embeds, not onto, in the torus $\Z^d\backslash\Mink^n$. Corrected: add
+  MGH, use lemma~K. &
+  \lean{slab_embedding}, \lean{gh_slabSpace}, \lean{cauchyCompact_slabSpace},
+  \lean{absMax_of_cauchyCompact_of_mgh} \\
+Rem 2.3, spacelike $\Rightarrow$ Cauchy & l.577--578 &
+  False for a small spacelike disc; needs closed and connected (two disjoint Cauchy slices
+  are compact, locally Cauchy and met twice). For closed connected hypersurfaces it is
+  lemma~K. & \lean{Causality.isCauchySurface_of_isLocallyCauchyTwoSided} (CompactCauchy:738) \\
+Lemma K asserted & l.3537--3540 &
+  Asserted without proof; proved under \lean{FlatLemmaKData}, discharged on every GH flat
+  spacetime; in ETT's setting under causal openness (\dec{93}). &
+  \lean{flatGerochGH}, \lean{isCauchySurface_of_isLocallyCauchy_of_causallyOpen} \\
+(ii) from (i) & l.3578--3581 &
+  Also needs that a finite cover of a maximal Cauchy-compact spacetime is maximal; true,
+  proved without uniqueness of maximal developments. & \lean{Cla.cover_maximal_of_isFiniteCover} \\
+Smoothing step & l.3536; l.560--565 &
+  Cauchy-compact $\Rightarrow$ Cauchy-complete needs a smoothing step taken for granted;
+  proved by buried past-hyperboloid caps. &
+  \lean{Cla.exists_capEnvelope_of_isCompact_cauchy} (SmoothCap:407) \\
+G4 ``standard'' & l.355--358 &
+  Asserted in a parenthesis; read as Cauchy-compact Cauchy-hyperbolic. Not carried
+  literally: Theorem~B states Cauchy-compactness of the product instead. &
+  \lean{IsModelB}; \lean{IsStandard} reference only (Classification:316--325) \\
+Rem defdep & l.2517--2521; l.3552--3555 &
+  The first claim ($\mathrm{range}\,\Dev$ = Cauchy domain) is proved in the \dec{35} reading
+  as $\mathrm{range}\,\Dev=\inter D(\Sigma)$, without Cauchy-compactness. The second,
+  $\Omega(\Sc)=\inter D(\Sigma)$, is \emph{not} proved. & \lean{Cla.cover_range_eq_of_mgh} \\
+Prop 4.2 metric reading & l.859--865 &
+  ``Expanding'' is undefined. In the metric reading the proposition is false for $n=3$
+  (boost with $\cosh=5/4$, $\sinh=3/4$ at $(u_0,4)$), for every metric $\lambda|\cdot|$.
+  What holds in every $n$: $E$ open and $U\times\{0\}\subseteq E\subseteq\delta_+^{-1}(U)$. &
+  \lean{not_laoucapulseMetricReading_two} (Penrose:1275), \lean{laoucapulse_corrected} \\
+Prop 4.2 volume at $n=2$ & l.857--865 &
+  Under the volume reading (\dec{102}) false for $n=2$: on $S^0$ the Jacobian is $a^0=1$
+  while a boost expands volume on $J^+$. Holds for $n\ge3$; marked in two-case form
+  (\dec{104}). & \lean{not_laoucapulseVolumeReading_one}, \lean{bprop_laoucapulse_two_case} \\
+Def 4.4 & l.901--911; l.782--789 &
+  ``$|\Lambda|\ge2\Rightarrow\Omega^{\pm}$ regular'' is false for non-closed $\Lambda$
+  ($\Lambda=\{u_0\}\times]0,\infty[$); holds for closed $\Lambda$ of any size (\dec{95}).
+  Disjointness of $\Omega^{\pm}$ needs $\Lambda\ne\emptyset$. [4.J]: $x_0=1/\sqrt2$, not
+  $1/2$. & \lean{not_futureRegular_ray} (Penrose:914) \\
+Lemma 4.6 & l.937 & Typo: ``of $\Omega^+(\overline\Lambda)$'' should read ``of
+  $\overline\Lambda$''. & \lean{omegaPlus_closure_eq_interior} \\
+Lemma 4.9 & l.989--990 & ``With future regular closure'' is superfluous:
+  $\Omega^+(\overline\Lambda)=\inter\Omega^+(\Lambda)$ always. &
+  \lean{omegaPlus_closure_eq_interior} (Penrose:742) \\
+Prop 4.10 & l.1011--1031 &
+  Wrong sign: closed $\Lambda$ is future regular iff $s$ is bounded \emph{below}; refuted for
+  $n\ge2$ by $\Lambda=S\times[0,\infty)$. Compactness of $S$ not needed. A typo (\dec{95}). &
+  \lean{not_regularIffBoundedAsPrinted} (Penrose:849), \lean{futureRegular_iff_exists_lt} \\
+Cor 4.11 & l.1035--1040 & Needs $\Lambda$ closed: $\{u_0\}\times([0,1]\setminus\{1/2\})$ is
+  future and past regular, not compact. & \lean{futureRegular_pastRegular_not_isCompact} \\
+Prop 4.12 & l.1073--1105 & The dropped term $|\pi(p)-\pi(p')|^2\ge0$ is the achronality
+  of $\partial\Omega$, used silently. & \lean{minkQ_sub_nonneg_of_mem_frontier} \\
+{[4.CT]} & l.1049--1064, l.1144--1145 &
+  Wording (\dec{88}): ``at least 2 elements'' admits the unipotent domains of l.222--226
+  with unbounded proper times; intended reading: a regular domain, automatic for invariant
+  $\Lambda$ under a nonelementary group. Typos at l.1055, l.1064; $T$ is concave, not
+  ``$C^1$-convex''. Bonsante's Lemma~4.9 has a short causal proof. &
+  \lean{not_cosmoBoundedAsPrinted}, \lean{cosmoRegular_of_invariant}, \lean{bonsante_exhaustion} \\
+Prop 4.17 & l.1232--1266 &
+  Needs ``nonempty'' (\dec{96}). The basin of repulsion is all of $\mathcal J$ off the fibre
+  over the attractive point; convergence of the $s$-coordinate is not argued. &
+  \lean{bprop_admlox}, \lean{tendsto_isomPenrose_inv_pow} \\
+{[5.B]} & l.1732--1733, l.2611--2612, l.1772--1775 &
+  ``$\ker(\Gamma\to\Isom U)$ has finite index in $\Gamma_{nd}$'' is false (finite for discrete
+  $\Gamma$); needed: $\Gamma_{nd}$ acts by translations, and finite-by-$\Z^j$ is virtually
+  $\Z^j$. ``A unique maximal $U$'' does not determine $U$ (screw motion of $\R^3$); no single
+  $U$ serves both l.2611 and l.1773. & \lean{bieberbachMaxConclusion_of_bieberbachConclusion} \\
+Lemma 5.5 & l.1836--1844 &
+  False in dimension $\ge3$: in $\Mink^3$ the glide $(t,x)\mapsto(t+1,-x)$ preserves
+  $\{x_2=0\}$ with determinant $-1$, quotient a timelike Möbius strip. Fix: $\Gamma$
+  preserves the orientation of $U$ (\dec{99}). Freeness and properness do not make
+  $\Gamma\backslash\Omega$ causal ($\Z e_0$). &
+  \lean{not_restrictsIn_glideGroup_of_range} (TwistedProduct:2501), \lean{not_isCausal_timeGroup} \\
+Lemma 7.1 & l.2173--2209 &
+  False as printed: fails for $n\ge4$ if parabolic admits $R=\mathrm{id}$, for $n\ge6$ if
+  not; holds exactly for $n\le3$. Proof errors ($|g^qx|^2=|x|^2$; a false symmetry; the
+  transverse term is quartic, $-q^4|p\tau|^2/12$). Class-by-class form of record (\dec{98}). &
+  \lean{nullRotShift_counterexample}, \lean{halfTurnShift_counterexample},
+  \lean{paranongh_corrected} \\
+\S6 normal forms & l.1852--2014 &
+  The normal forms overlap ($\zeta=0$ allows the identity; parabolic contains elliptic and
+  unipotent); a partition with $\zeta\ne0$, $U\ne\mathrm{id}$. Further slips on $p=L(g)-\mathrm{id}$,
+  $\Mink^n=I+I^\perp$, $J$, the displayed matrix. & \lean{lorentz_trichotomy} (Isometries:2528) \\
+$\Omega_g$, [7.L], [7.E] & l.2024--2081 &
+  The printed $\Omega_g$ quantifies over $q=0$ and is empty; read $q\ne0$. $\Omega_g$ is open
+  for elliptic and parabolic $g$, and for loxodromic $g$ iff $\tau=0$ and $L(g)$ has finite
+  order on the frame's orthogonal; with $\tau\ne0$, $\Omega_g=\{xy\le0\}$. &
+  \lean{isOpen_achronalDomain_lox_iff} (AchronalDomains:874) \\
+Prop 8.1 (W5, W2, W3) & l.2215--2319 &
+  Maximal lifts of arbitrary paths are Cauchy only for rectifiable paths. $\Sc=p^{-1}(S)$ iff
+  $\pi_1(S)\to\pi_1(M)$ onto, never stated. The integrand is correct only for $n-1=1$
+  (W2). For 1-Lipschitz graphs the pseudo-distance can vanish (W3). &
+  \lean{bprop_project}, \lean{nullGraph_edist_eq_zero},
+  \lean{IsSpacelikeLipschitzIn.isHomeomorph_toSubtype} \\
+Cor 8.2 & l.2266--2326 &
+  $|x-y|^2>0$ defines acausality, not achronality; ``contracting'' is ambiguous; the
+  embedding claims need the local-graph structure; proved under T2; now stated from
+  completeness (\dec{105}). & \lean{bcor_quo_of_isCauchyComplete} \\
+Cor 8.3 (W6) & l.2287--2290 & ``Completely similar'' hides two distinct steps (openness,
+  closedness). & \lean{bcor_quoiso} \\
+Cor 8.4 & l.2295--2305 &
+  False as printed: $\Gamma_0\times\langle z\mapsto z+1\rangle$, $\Gamma_0$ cocompact Fuchsian,
+  acts on $\mathbb H^2\times\R$ in $\Mink^4$, not virtually abelian (prose); formalized
+  refutation uses $\Gamma(4)<SL(2,\Z)$ in every $n\ge4$. True with an invariant timelike
+  direction; unified repair (\dec{101}). &
+  \lean{not_bcorAbelPrinted} (Abel:791), \lean{bcor_abel_unified} \\
+Def 8.5 (W4) & l.2332--2349 & $U(\mathrm{id})=\emptyset$, so $U(\Gamma)$ ranges over
+  $\gamma\ne1$; for linear parabolic with $R=\mathrm{id}$ the fixed set has dimension $n-2$;
+  $J$ read as the null direction through a fixed point. & \lean{Ug}, \lean{UGamma},
+  \lean{omegaGamma} \\
+Lemma 8.6 & l.2383--2389 & ``The complement of $U(\gamma)$ is a union of lightlike
+  geodesics'' is false for loxodromic $\gamma$; repaired via $D(\Sigma)\subseteq U(\Gamma)$. &
+  \lean{blem_SdanU}, \lean{CCAction.false_of_le_smul} \\
+Rem 8.8 & l.2403--2408 & Under W4, $U(\Gamma')=U(\Gamma)$ fails with torsion; holds for
+  torsion-free $\Gamma$. & \lean{Ug_zpow}, \lean{achronalDomain_zpow} \\
+Prop 8.10 (W8) & l.2430--2431 & Convexity of components of $U(\gamma)$ fails for loxodromic
+  $\gamma$ with $\tau\ne0$, and does not pass to infinite intersections; repaired by a piece
+  property. & \lean{IsCausalPiece}, \lean{bprop_ghyp} \\
+Prop 8.11 & l.2461--2462 & ``Every $S\times\{*\}$ is Cauchy'' depends on the flow:
+  $\varphi_t(s,x)=(s+t(1+|x|),x)$ on $\Mink^n$ has a non-Cauchy slice at time 1. Read as
+  ``for a suitable splitting'' (\dec{100}). &
+  \lean{minkowski_skew_slice_not_isCauchySurface} (Splitting:922) \\
+Prop 8.12 (T2, W7) & l.2469--2491 & False without Hausdorffness (two copies of $\Mink^n$
+  glued along $\{t<0\}$, the fold; prose only). ``Every nonspacelike line meets
+  $\Dev(\Sc\times\{t\})$'' is false (hyperboloid). & \lean{bprop_danom},
+  \lean{dependenceDomain_hyperboloid} \\
+Prop 9.1 (Tits) & l.2575--2659 &
+  The proof produces a parabolic in the Zariski closure, not in $\Gamma$, and omits the
+  all-elliptic null-fixing branch; that branch needs discreteness (false for $n\ge6$
+  without it: a free unit-quaternion pair, prose only) and is proved elementarily
+  (\dec{50}). Further gaps listed in the ledger. &
+  \lean{titsVirtuallyAbelianNull} (TitsNull:1565), \lean{spacelike_translations_null_span} \\
+Prop 9.3, Rems 9.2, 9.4, [9.b] & l.2737--2987 &
+  Lattice claim needs only an additive group spanning $E$; Rem~9.2's changes are not frame
+  changes (correct: $v_n'=v_n+w-\tfrac{|w|^2}{2}v_0$); [9.b] uses Lemma~7.1 and Cor~8.3,
+  not needed; Rem~9.4 has an undrawn consequence. & \lean{bprop_limites},
+  \lean{b_trivial_model}, \lean{unipcomplet_model} \\
+Prop 9.5, [9.A] & l.3040--3126 & Compactness replaced by an explicit symmetric extension;
+  [9.A]'s conclusion concerns $M$, not $M(S)$. & \lean{exists_symm_extension_of_coercive} \\
+Lemma 10.1 & l.3136--3165 & $\Omega_{\mathrm{lox}}(\Gamma)$ is not convex; true by a uniform
+  sign. & \lean{not_mem_quadrantPlus_quadrantMinus} \\
+Lemma 10.2 & l.3191--3193 & ``The reader can easily check'' step filled in. &
+  \lean{exists_line_avoiding} \\
+Cor 10.3, [10.M] & l.3222--3330 & Properness needs neither Prop~4.16 nor Riemannian geometry
+  of $S_t$. ``$M(S)$ is an LTP over a Misner spacetime'' is false for $\Gamma$, true up to
+  finite index ($\langle\gamma_0,\sigma\rangle$, $\sigma\gamma_0\sigma^{-1}=\gamma_0^{-1}$). &
+  \lean{finite_of_gaussEquivariant}, \lean{loxo_elementary_misner} \\
+Prop 10.4 & l.3355--3359 & ``Abelian subgroups fix a pair of isotropic directions'' is false
+  for $n\ge3$ (a null rotation fixes one); the spacelike case rests on Cor~8.4 (false). &
+  \lean{not_abelianPairAsPrinted} (Externals:1004), \lean{bprop_U_timelike} \\
+Prop 10.5 & l.3409 & Spacelike translation vectors need not span a spacelike $E$
+  ($\Z(0,0,1)+\Z(1,1,\sqrt2)$ in $\Mink^3$); holds by $E$-invariance of $\Omega(\Sc)$. &
+  \lean{span_kerTranslations_spacelike}, \lean{bprop_LU_discrete} \\
+W1 (plan) & design note & Our own plan error: ``an entire acausal graph is Cauchy in
+  $\Mink^n$'' is false (hyperboloid). & \lean{not_isCauchySurface_graph_hyperboloid_of_criterion} \\
+Against ETT & ETT.tex:1792, l.1351 & ``$\psi$ is a local diffeomorphism'' needs smoothness;
+  topological replacement: $J^{\pm}(\Sigma)$ closed. On the lightlike line
+  $J^+(S)\setminus S\ne I^+(S)$. \lean{BTZAxioms.Iplus_eq} false in $E_0$ (\dec{64}). &
+  \lean{isClosed_iff_exists_isCauchySplitting}, \lean{lightlikeLine_Jplus_diff_ne_Iplus} \\
+\bottomrule
+\end{longtable}
+}
+
+%======================================================================
+\section{Singular branched coverings (gx)}\label{sec:gx}
+%======================================================================
+
+\subsection{The paper's theory}
+
+\paragraph{Singular $(G,X)$-manifolds.} $(G,X)$ is \emph{analytical} (\dec{39}, l.341): $X$
+connected, locally connected, Hausdorff; $G$ acts faithfully by homeomorphisms; two elements
+agreeing on a nonempty open set are equal. A singular $(G,X)$-manifold is a space with a
+maximal almost-everywhere atlas, i.e.\ a $(G,X)$-atlas on a \emph{portly} subset
+(\dec{25}); morphisms are a.e.\ morphisms.
+
+\paragraph{Spreads and Fox completion.} A spread is a continuous $p:X\to Y$ whose topology
+on $X$ is generated by components of preimages of opens. A point is ordinary if some
+neighbourhood has a nonempty, evenly covered preimage (\dec{40}). The completion is built
+from ends: decreasing choices $\chi(U)$ of components of $p^{-1}(U)$ over connected
+neighbourhoods $U$ of $y$. As printed, \lbl{theo:Fox_completion_functor} (l.914) asserts
+every spread has a unique completion and completion is a fully faithful endofunctor of
+\textsf{Spread}.
+
+\paragraph{Universality and Galois correspondence.} \lbl{prop:universality} (l.1158): for
+$Y$ connected, locally path-connected, Hausdorff and $S\subseteq Y$ skeletal with $Y\setminus S$
+semilocally simply connected, the maximal covering $\widetilde Y^S$ branched over $S$ exists,
+is unique and universal; it is the Fox completion of the universal cover of $Y\setminus S$.
+\lbl{theo:ramified_covering_path} (l.1322) describes it by almost-homotopy classes of paths.
+\lbl{theo:Galois_cor} (l.1550): $\widetilde Y^S$ is Galoisian and every covering branched
+over $S$ is a quotient by a subgroup of $\Gamma(\widetilde Y^S/Y)$. Fibres over branch points
+are projective limits (a Cantor fibre, $\Z^{\N}$).
+
+\paragraph{Developing maps.} \lbl{prop:branched_devmap} (l.1807): an a.e.\ morphism
+$\widetilde M\to X$ exists iff some branched covering of $M$ admits a developing map.
+\lbl{theo:local_tame} (l.1844): tamely singular iff locally tamely singular.
+\lbl{theo:local_virt_tame} (l.1974): for an analytic family of locally Galoisian models with
+tamifying topologies $T_\alpha$, every $X_A$-manifold is virtually tame iff every model is.
+\lbl{lem:spread_top} (l.1990) is the two-topology lemma.
+
+\paragraph{Section 4: $E_0$ (BTZ) manifolds.} $E_0$ is $\R^3$ with
+$-2\,d\tau\,dr+dr^2+r^2d\theta^2$; the developing map of its branched cover has image
+$J^+(\Delta)$, $\Delta$ lightlike; holonomy parabolic, deck group $\Z$; BTZ topology
+\lbl{defi:BTZtop}, \lbl{prop:quotient_chart}. As printed:
+\lbl{prop:globally_hyperbolic_cauchy_complete_manifolds} (l.2348): GH Cauchy-complete
+BTZ-manifolds are future complete; and the main theorem
+\lbl{theo:globally_hyperbolic_cauchy_complete_cauchy_maximal} (l.2363): for $M$ a GH,
+Cauchy-complete, Cauchy-maximal $E_0$-manifold with maximal branched cover $\widetilde M$,
+developing pair $(D,\rho)$ and $\Gamma\cong\pi_1(\reg M)$, up to time reversal $D$ is
+injective, $\rho$ faithful, discrete and torsion-free,
+$D(\widetilde M)=\bigcap_iJ^+(\Delta_i)\cup\bigcap_jI^+(\Pi_j)$, and $M\cong\rho\backslash
+D(\widetilde M)$. The proof cites Theorem~3 of B21 (arXiv 2108.12631) and Barbot's
+uniformisation.
+
+\begin{reading}[ruled form of the main theorem, \dec{28}, \dec{76}, \dec{77}]
+Cauchy-\emph{compact} instead of Cauchy-complete; finite type ($\pi_1(\Sigma\setminus\sing)$
+non-abelian, $s\ge1$ BTZ lines, i.e.\ $2g-2+s>0$); image
+$(\bigcup_i\Delta_i)\cup\bigcap_jI^+(\Pi_j)$; no time reversal (singularities force the
+future case); $\widetilde M$ carries $T_{\mathrm{BTZ}}$; Cauchy-maximal means
+\lean{Dev.IsETTMaximal}, equivalent to universality (\dec{59}). The route uses B21
+Prop~2.17/Cor~2.18 (absolute maximality of $\reg M$) instead of Thm~3, plus Barbot's
+\lean{equality_of_absMax}. Reason (\dec{28}): Barbot's equality needs absolute maximality
+(his Rem~8.13), which B21 provides only for Cauchy-compact $M$.
+\end{reading}
+
+\subsection{Lean architecture}\label{sec:gxarch}
+
+Package \texttt{lean-gx}: Lean v4.31.0, mathlib \texttt{fabf563a}, \lean{Causal} pinned at
+\texttt{ca2ad78} (``Lemma K round 3 \ldots\ Levin's theorem formalized'', re-pinned from
+\texttt{731ed99} in \texttt{c0b5397}). Strict library \lean{GX}: 19 files, 39{,}635 lines,
+0 \texttt{sorry}, imports \emph{no} \lean{Causal} module. Scaffold \lean{GXScaffold}, at the
+20:05 UTC stamp: 13 files (39{,}748 lines in the working tree), 6 tagged \texttt{sorry}s:
+BTZ/CBG 3, BTZ/LocalModel 2, SingularII/Models 1. Re-measured at 21:02 UTC, after WP-41g
+rewrote BTZ/CBG.lean and WP-41l added BTZ/Manifolds.lean: 15 files including the root
+\texttt{GXScaffold.lean} (44{,}539 lines), 4 tagged \texttt{sorry}s: BTZ/LocalModel 2
+(\lean{WP-41f:singularFlatAxioms.line}, \lean{WP-41f:secondCountable_of_cauchy}),
+SingularII/Models 1 (\lbl{theo:local_virt_tame}, Models.lean:3518), BTZ/Manifolds 1
+(\lbl{lem:globally_hyperbolic_manifolds_maximal}, the GH transfer to $\widetilde M$);
+BTZ/CBG.lean has none. Both new files were still under audit at 21:02 and are uncommitted;
+these figures are a moving snapshot. Section~4 lives in the scaffold's \texttt{BTZ/} and \texttt{Lorentz/},
+the only directories allowed to import \lean{Causal.*}. \verb|make check| runs the two builds
+and an audit (\texttt{causal\_import\_gate.py}, \texttt{sorry\_count.py},
+\texttt{AxiomSweep.lean}). Conventions: weakest hypotheses the proof uses; the \dec{27} defect
+rule; cited results built, not assumed (\dec{23}, \dec{26}), except named externals by ruling
+(Troyanov, \dec{69}; Barbot's externals via \texttt{lean-causal}, \dec{36}).
+
+Git state at the time of writing: \texttt{lean-gx}'s last commit is \texttt{940a190}; BTZ/LocalModel,
+BTZ/VirtTame, BTZ/CBG and (since WP-41l) BTZ/Manifolds are untracked, and several other scaffold files are modified and
+uncommitted --- another session is mid-wave. Module sizes are in
+Appendix~\ref{app:inventory}.
+
+\subsection{Status}
+
+\paragraph{Ledger} (\texttt{papers/gx/ledger/LEDGER.md}, generated at Lean \texttt{4628a29}).
+162 statements; NL proved or definitional 90; Lean stated 132 (108 closed, 11 partial);
+closure 108/149 (13 terminal rows lie after \verb|\end{document}|, l.2402 on). Buckets: A 108,
+B 13, C 11, T 13, unstated in scope 17 (16 in Section~4, plus \lbl{ex:follows_proposition_brunswic_cauchy},
+l.1927, which \dec{74} assigns to the Section~4 work).
+
+Bucket C: item~3 of \lbl{ex:following_example_skeletal_itemize} (false);
+\lbl{theo:Fox_completion_functor}, \lbl{prop:spread_fiber},
+\lbl{prop:branched_covering_composition} (all partial by \dec{48});
+\lbl{rem:definition_semi_locally_simply_connected} (the iff is false);
+\lbl{ex:wild_cantor_general_antoine}; \lbl{ex:take_closed_unit_disc};
+\lbl{cex:start_singular_manifold_homeomorphic} (Troyanov external);
+\lbl{theo:local_virt_tame}; \lbl{rem:intuitively_spread_thinner_than};
+\lbl{rem:quotient_virtually_tame}.
+
+\paragraph{Wave 5} (WP-41a--r) marks about 27 more labels closed (23 at the 20:05 UTC
+stamp), pending curation and graduation, which itself waits on Models.lean's
+\texttt{sorry} being split out or closed (\S\ref{sec:open}): \lbl{prop:BTZ_virt_tame} (41b); \lbl{ex:follows_proposition_brunswic_cauchy},
+\lbl{prop:BTZ_manifold_virt_tame} (41d); \lbl{defi:BTZtop}, \lbl{prop:quotient_chart},
+\lbl{rem:tamifying_topology_generated_open} (41h); \lbl{ex:take_closed_unit_disc} (41o,
+already in strict \texttt{Plane.lean}); nine Models definitions and remarks (41p);
+\lbl{lem:spread_top}, \lbl{rem:hypothesis_model_spaces_necessary},
+\lbl{rem:intuitively_spread_thinner_than}, \lbl{rem:quotient_virtually_tame} (41q); three
+\S3.4 examples including Antoine (41r). Partial: \lbl{prop:manifold_admits_galoisian_maximal}
+(readings), \lbl{theo:local_virt_tame}, \lbl{cex:start_singular_manifold_homeomorphic},
+\lbl{lem:manifolds_manifolds_causally_connected} (BTZ-manifold half only). After the stamp,
+WP-41l (BTZ/Manifolds) closes \lbl{def:manifolds_future_distinguishing_map},
+\lbl{def:manifolds_future_distinguishing_map_2}, \lbl{def:singular_manifold_endowed_causal}
+and \lbl{def:manifold_future_complete_all}, and marks
+\lbl{lem:globally_hyperbolic_manifolds_manifolds}, \lbl{lem:increasing_map} and
+\lbl{lem:globally_hyperbolic_manifolds_maximal} partial (REPORT.json, round~1; audit in
+progress).
+
+\paragraph{Section 4 progress against the WP-39 plan} (critical path f$\to$g$\to$i$\to$j$\to$k$\to$n).
+Done: WP-39a Lorentz/Bridge (null coordinates, \lean{NullIsom0} $\simeq^*$
+\lean{Causal.Flat.isom 2}, developing-pair bridge); WP-39b BTZ/Model ($E_0=\Gamma_{2\pi}\backslash
+(\mathbb D_\infty\times\R)$, the pulled-back metric, $D$ injective with range $J^+(\Delta)$,
+$\Gamma\cong\Z$, parabolic holonomy, $T_{\mathrm{BTZ}}=T_{\mathrm{nat}}\sqcap D^*T$,
+\lbl{prop:BTZ_virt_tame}); WP-39c Rigid; WP-39d VirtTame (the family $(E_\theta)$,
+$\theta\ne2\pi$, with B21 Prop~1.3 built); WP-39e Causality; WP-39h Topology. In progress:
+WP-39f LocalModel (2 \texttt{sorry}s). Done since the 20:05 UTC stamp: WP-39g CBG (WP-41g,
+sorry-free, conditional on hLine, hSC and hTA). Partial: WP-39l Manifolds (WP-41l, four
+definitions closed, one tagged \texttt{sorry}). Not started:
+WP-39i Spear (B21 Lemma~2.3; the paper's ``Lemma~2.4'' citation is wrong), WP-39j Surgery,
+WP-39k AbsMax (Prop~2.16 via lemma~K, Prop~2.17, Cor~2.18), WP-39m Holonomy
+(the loxodromic, \dec{75}; $\rho$ faithful, discrete, torsion-free), WP-39n Uniformization.
+The pre-authoring scope estimate for the Section~4 closure was 40--60k Lean lines.
+
+\subsection{CBG for $E_0$-manifolds: the obligations}\label{sec:e0cbg}
+
+The CBG local model is $Y=\Mink\oplus E_0$ (\lean{GX.E0Y}) with the a.e.-isomorphism groupoid,
+strata $\sing_0=\mathrm{Sing}(E_0)$, $\sing_\alpha=\emptyset$ for $\alpha\ne0$, and causality
+\lean{GX.E0.causalityYBTZ}. Proved, sorry-free: $T_2$, openness and density of the regular
+part, rigidity (B21 lem:liouville, \lean{GX.e0_rigid}), \lean{localUnique_sing} (B21
+prop:isom\_strong at $\alpha=\beta=0$; the proof avoids invariance of domain: lift through
+$\{r>0\}$, Liouville, the deck shift gives $gPg^{-1}=P^k$, axis preservation, then the
+intermediate value theorem forces $k=\pm1$), its adherent diamond form, cone slices (future off
+BTZ; past everywhere, at a BTZ point $w$ the slice $J^+(w)\cap\{\tau+r=c\}$), absolute
+minimality, \lean{BTZAxioms} with \lean{Iplus_of_lt}, 18 of 19 \lean{SingularFlatAxioms}
+fields, the time function and \lean{CurvesExtend} by Levin, second countability of $\reg M$,
+model measures, and $J^{\pm}(V)$ open at BTZ points.
+
+The assembly \lean{GX.E0LM.e0LocalModelOf} is sorry-free \emph{given three hypotheses}:
+\begin{itemize}
+\item \textbf{(O2) hLine}: each component of $\sing_0(M)$ is a BTZ line parametrised by
+  $\R$; tagged \texttt{sorry} \lean{WP-41f:singularFlatAxioms.line}. Obstruction: the
+  classification of connected second-countable Hausdorff 1-manifolds, absent from mathlib.
+\item \textbf{(O4$'$) hSC}: $M$ GH with a second-countable Cauchy surface is second
+  countable; tagged \texttt{sorry}, reduced to excluding a long-line-type BTZ component.
+\item \textbf{(O5) hTA}: \lean{typeAgreement} is \emph{false as stated} for $\Mink\oplus E_0$
+  at regular points of $E_0$ (\lean{GX.E0LM.e0_not_typeAgreement}, a \dec{27} counterexample);
+  its convergence form is proved (\lean{GX.E0LM.e0_typeAgreementTendsto}). So no \lean{LocalModel}
+  with this data exists until \texttt{lean-causal} restates the field.
+\end{itemize}
+The constructor \lean{Geometry.ofLocalModelOfBTZ} additionally needs three BTZ residuals:
+\lean{E0SliceFutureBTZ} (A4 future; Sbierski $\tau_q$, Lemma~3.11), \lean{E0GermExtFutureBTZ}
+(A3 future; lem:passe\_pgcd), \lean{E0GermExtPastBTZ} (A3 past). At the 20:05 UTC stamp they
+were draft \texttt{sorry}s in the untracked BTZ/CBG.lean. WP-41g rewrote that file at 20:46
+UTC (\texttt{REPORT.json} at 20:47; 0 \texttt{sorry}, standard axioms on its declarations):
+\lean{GX.E0CBG.e0_sliceFutureBTZ} and \lean{GX.E0CBG.e0_germExtFutureBTZ} are proved
+unconditionally, and \lean{GX.E0CBG.e0_germExtPastBTZ_of} is proved given hLine.
+\lean{GX.E0CBG.e0_cbg}, \lean{e0_cbg_isETTMaximal} and \lean{e0_cbg_ett} are sorry-free and
+parametrised by hLine, hSC, hTA. Since hTA is refuted (O5), they are \emph{vacuous} until the
+interface restates \lean{typeAgreement}; under the proposed convergence restatement they would
+rest on hLine and hSC only.
+
+\begin{remark}
+At the level of the generic constructor, CBG for singular geometries waits only on the
+three facts at BTZ points. For the $E_0$ instance those three facts are now proved (A3 past
+given hLine), so the $E_0$ geometry rests on hLine and hSC (the two LocalModel
+\texttt{sorry}s) and on the restatement of \lean{typeAgreement}; until that restatement,
+\lean{GX.E0CBG.e0_cbg} is vacuous.
+\end{remark}
+
+\subsection{Use of Barbot and CBG}
+
+gx imports scaffold-side only: \lean{Flat.Isometries}, \lean{Flat.Develop}, \lean{Flat.Form},
+\lean{Flat.IsomCausal}, \lean{Flat.Cosmological}, the CBG modules, \lean{Flat.CauchyComplete},
+\lean{Flat.SecondCountable}, \lean{Flat.Geroch.ChartNull}/\lean{ConeNull}, \lean{SingularFlat},
+\lean{SingularGeroch}, \lean{GXSingular}, \lean{LevinUtility}, \lean{CurvesExtend} and others.
+The Barbot exports planned for WP-39n --- \lean{uniformization},
+\lean{uniformization_injective}, \lean{uniformization_image},
+\lean{uniformization_properlyDiscontinuous}, \lean{equality_of_absMax},
+\lean{range_eq_omegaS_of_absMax} --- are sorry-free, use no named external (verified by the
+gx master at standard axioms on 2026-11-01), and are \emph{not yet imported}; gx's Section~4
+uses only these six, never \lean{barbot_A} or \lean{barbot_B}. The planned route applies
+Prop~8.12, Lemma~10.2/Cor~10.3 and \S11.3's equality to $\reg(M)$, absolutely maximal by
+B21 Cor~2.18 under Cauchy-compactness. Lemma~K's entry point is
+\lean{isCauchySurface_of_isLocallyCauchyTwoSided_of_pushUp}; gx's obligation ($J^+(V)$ open at
+BTZ points) is proved (\lean{GX.E0.isOpen_Jplus}). The six exports are in the strict modules
+\lean{Causal.Flat.Loxodromic} and \lean{Causal.Flat.Classification} (both imported by the
+\lean{Causal} root); the separate \texttt{Causal/Flat/Uniformization.lean} requested on
+2026-11-01, when they were still scaffold, has not been created and is now only a convenience
+split.
+
+\subsection{Rulings}
+
+See Appendix~\ref{app:rulings}: \dec{23}--\dec{33} (infrastructure and scope), \dec{39}--\dec{42},
+\dec{46}--\dec{48}, \dec{51}--\dec{58} (readings of \S\S2--3), \dec{59}--\dec{63} (CBG
+interface), \dec{66}--\dec{71} (\S2.5, \S3), \dec{74}--\dec{77} (Section~4), \dec{79}--\dec{82},
+\dec{84}--\dec{87} (late readings).
+
+\subsection{Findings against the paper}
+
+Line numbers refer to \texttt{RamcovGX.tex}. The ledger records 60 rows with findings
+(129 bullets); the principal ones follow.
+
+{\footnotesize
+\begin{longtable}{@{}>{\raggedright}p{2.2cm}>{\raggedright}p{1.5cm}p{7.6cm}>{\raggedright\arraybackslash}p{4.0cm}@{}}
+\caption{Findings against the gx paper.}\label{tab:gx-findings}\\
+\toprule
+label & paper line & finding & Lean witness \\
+\midrule\endfirsthead
+\toprule
+label & paper line & finding & Lean witness \\
+\midrule\endhead
+\lbl{theo:Fox_completion_functor} (existence) & l.915 &
+  ``Every spread admits a completion'' is false: $\C\setminus\{1/(n+1)\}\to\C$ (Hausdorff,
+  second countable, LPC source) has none --- any completion would be $\mathrm{id}_{\C}$ and the
+  image is not open. Fox's space-of-ends completion always exists, with dense locally
+  connected image, and is a completion iff the image is open; uniqueness up to unique
+  homeomorphism. &
+  \lean{GX.not_exists_isSpreadCompletion_foxSeq}, \lean{GX.exists_isSpreadCompletion_iff},
+  \lean{GX.IsFoxCompletion.existsUnique_homeomorph} \\
+\lbl{theo:Fox_completion_functor} (full) & l.915 &
+  Faithful but not full: $\C\setminus\{0\}$ and $\C\setminus\{1\}$ both complete to $\C$, and
+  the identity extends no morphism between them. What l.1170 and l.1439 use --- unique
+  functorial extension --- is true. &
+  \lean{GX.not_full_foxCompletionFunctor}, \lean{GX.IsFoxCompletion.existsUnique_extend} \\
+\lbl{prop:spread_fiber} & l.928--940 &
+  The map $p^{-1}(b)\to\varprojlim X_U$ is an injective embedding but not open (the comb).
+  ``Homeomorphism iff complete'' is false for fixed $b$ ($\exp$ at $b=1$); true form:
+  complete iff onto for every $b$. &
+  \lean{GX.not_isOpenMap_fiberMap_comb}, \lean{GX.isCompleteSpread_iff_forall_surjective_fiberMap} \\
+\lbl{cex:portlyness} & l.874 &
+  Item~2 proved as written: the topology generated by subspace components (portlyTop) is the
+  coarsest spread topology; an audit's suggested route was refuted (in prose, SCOPE; not
+  formalized). &
+  \lean{GX.portlyTop}, \lean{GX.cex_portlyness_paper} \\
+\lbl{lem:spread_partial_covering} & l.851 & Surjectivity is needed
+  (\lean{unitTrue : Unit → Bool}); portlyness is necessary. &
+  \lean{GX.spread_partial_covering_surjective_needed} \\
+\lbl{rem:ordinary_locii_open_but} & l.843 & Under \dec{40} the restriction is always a
+  surjective covering; the negative reading is false ($x\mapsto|x|$). &
+  \lean{GX.abs_ordX_not_isPreconnected_covering} \\
+skeletal example, item 3 & l.372 & False: the bow-tie; corrected with local strong
+  connectivity in codimension $\ge2$. & \lean{GX.bowtie_counterexample} \\
+\lbl{prop:GXquotient} & l.639 & False: $\Z/2$ on $\R\sqcup\R$ by
+  $\mathrm{inl}\,x\mapsto\mathrm{inr}\,2x$; the action must be by $(G,X)$-morphisms
+  (\dec{51}). & \lean{GX.gxQuotient_counterexample} \\
+\lbl{prop:aeGXquotient} & l.647 & Hausdorffness of the quotient needs the separating form of
+  proper discontinuity. & \lean{IsProperlyDiscontinuous.separates} \\
+\lbl{ex:conical} & l.347--351 & $dz^2+dr^2+\alpha r^2d\theta^2$ has cone angle $\sqrt\alpha$;
+  Euclidean apex iff $\alpha=4\pi^2$; the holonomy argument fails for
+  $\alpha\in2\pi\N^*\setminus\{2\pi\}$ (claim still true). & \lean{GX.conical_printed_metric} \\
+\lbl{ex:quotient_base} & l.664--685 & $\sing(M)\subseteq\pi\{r=0\}$ only; dimension of
+  cyl$\{n\}$ off by 2; massive-particle cone angle 1; printed black hole $\cong$ white hole
+  (needs past lightlike $u$); Misner condition is $\langle v|w\rangle\ne0$ for null $w\perp u$. &
+  \lean{GX.quotientBase_counterexample}, \lean{GX.btz_blackhole_iso_whitehole},
+  \lean{GX.misnerDev_spacelike_counterexample} \\
+\lbl{lem:GX_atlas_union} & l.412--418 & The family must be nonempty (\dec{46}). &
+  \lean{GX.not_isAEAtlas_iUnion_empty} \\
+\lbl{prop:susp_portly} & l.774 & Proof uses first countability, not a hypothesis; true
+  without it. & \lean{GX.isPreconnected_of_local} \\
+\lbl{prop:branched_covering_composition} & l.1091 & Printed (i)$\Rightarrow$(ii) refuted on
+  $D_\infty$; corrected: $q\circ p$ branched iff $\overline{q(Y\setminus\mathrm{ord}_pY)}$
+  skeletal, given finite fibres or $Z_1$ slsc (\dec{48}). &
+  \lean{GX.branched_covering_composition}, \lean{GX.not_isSkeletal_of_isBranchedCovering_comp} \\
+\lbl{theo:ramified_covering_path}, \lbl{theo:Galois_cor} & l.1322, l.1550 & Both omit
+  ``$Y\setminus S$ slsc'', used in the proofs (\dec{70}); ``slsc in $Y$'' does not imply it
+  (harmonic archipelago, $S=\emptyset$). Galois\_cor silently drops second countability (not
+  needed). & \lean{GX.harmonicArchipelago_compl_empty}, \lean{GX.galois_correspondence_cc},
+  \lean{GX.galois_cor_normal} \\
+\lbl{rem:definition_semi_locally_simply_connected} & l.1455--1457 & Only slsc $\Rightarrow$
+  slsc-in-itself; the converse is refuted by a non-compact harmonic archipelago. &
+  \lean{GX.harmonicArchipelago_counterexample}, \lean{GX.archLoop_not_homotopic} \\
+\lbl{rem:simple_cases} & l.1462--1465 & Codimension $\ge2$ is not needed. &
+  \lean{GX.isSLSCInCC_compl_submodule} \\
+Galoisian fibre / semilocal & l.1488--1536 & Transitivity fails for disconnected $U$; the proof
+  lifts from a singular point where lifts are not unique (repaired via the midpoint). &
+  \lean{GX.IsQuasiGaloisian.exists_image_eq} \\
+\lbl{ex:following_situations_semi_locally_simply} & l.1562--1564 & Item~3 false; item~1
+  needs only $n\ge1$; item~2 holds for any locally polygonal closed set in dimension $\ge2$. &
+  \lean{GX.following_situations_simplicial_false} \\
+\lbl{ex:consider_denote_absolute_galois} & l.1571--1573 & Printed $\Gamma_2$ is all of
+  $\Gamma$; corrected $\Gamma_2'$ (kernel of mod-2 windings) gives a Cantor fibre (\dec{69}). &
+  \lean{GX.absGal_Y₂_fiber_cantor_corrected} \\
+\lbl{ex:wild_cantor_general_antoine} & l.1578 & The general reading fails if some wild Cantor
+  set has a simply connected locally non-separating complement (proved conditionally). For
+  Antoine's necklace: built, a Cantor set, wildness certified (\dec{82}); Antoine's lemma
+  \emph{proved} (\dec{85}) via a topological van Kampen and a dihedral invariant. &
+  \lean{GX.antoineNecklace}, \lean{GX.antoineChainEssential_proof},
+  \lean{GX.VanKampen.homotopicIn_of_homotopicIn_union} \\
+\lbl{lem:embedding_tame} & l.1834 & Lifting fails when $f$ sends regular to singular points
+  (sketch only, not formalized); true via $\widehat M$ and Fox completions. &
+  \lean{IsFoxCompletion.existsUnique_extend} \\
+\lbl{rem:tamely_singular_manifold_admits} & l.1869 & Needs $N$ Galoisian (\dec{71}). &
+  \lean{GX.tamely_singular_manifold_admits} \\
+\lbl{ex:take_closed_unit_disc} & l.1879--1882 & Metric completeness is Thurston--Goldman
+  completeness; ``finite volume'' read as a cusp at each puncture (\dec{84}); thick--thin not
+  built. & \lean{GX.IsHyperbolicMetric.completeSpace_iff}, \lean{GX.CuspChart.cusp_finite_area} \\
+\lbl{rem:singular_point_manifold_has} & l.1921--1924 & A singular point need not be centred in a
+  chart (\dec{67}); per-manifold ``tame iff models tame'' false; global equivalence proved
+  (\dec{80}). & \lean{GX.forall_isTame_iff_printed}, \lean{GX.forall_isTame_iff} \\
+\lbl{cex:start_singular_manifold_homeomorphic} & l.1930 & Proved from Troyanov as a named
+  external (\dec{69}); the Prop is not tied to $\theta$; non-vacuity: the Joukowski structure. &
+  \lean{GX.cex_start_singular_manifold_homeomorphic} \\
+\lbl{theo:local_virt_tame} & l.1974--2133 & Step (D) asserts $r^{-1}(R)$ strongly portly ---
+  that is \lbl{lem:spread_top} (c), false in general (sector). Complete for descending charts;
+  no other topology repairs the gap; at finite local degree tamifying topologies are natural.
+  General case neither proved nor refuted (\dec{86}). &
+  \lean{GX.isVirtuallyTame_of_descending}; open \texttt{sorry} at Models.lean:3518 \\
+\lbl{lem:spread_top} & l.1990--2047 & False as printed: half-cut ($p^*T$ disconnected) and sector
+  counterexamples. Corrected (\dec{80}): $N\to M$ Galoisian, $p^{-1}(R)$ connected,
+  \lean{StrongLocallyConnectedOrd}; both topological hypotheses necessary. &
+  \lean{GX.cex_spread_top_halfCut}, \lean{GX.cex_spread_top_sector}, \lean{GX.spread_top_of_local} \\
+three remarks & l.2006--2154 & $p^*T$ need not be a spread; label collision ``(C)''; $T'$
+  tamifying is unargued (proved); $\{t>0\}$ should read $\{t<0\}$ at l.2148. &
+  \lean{GX.not_isSpread_strongPullTop_ratTop} \\
+\lbl{ex:follows_proposition_brunswic_cauchy} & l.1927 & $E_{2\pi}$ is regular and violates the
+  family definition: $\theta\ne2\pi$ (\dec{74}); B21 Prop~1.3 built. &
+  \lean{GX.mass_two_pi_sing_eq_empty}, \lean{GX.mass_to_btz_false} \\
+\lbl{prop:BTZ_virt_tame} & l.2257--2258 & Non sequitur (``contains an open set and is thus
+  open''); proof repaired, statement stands. & \lean{GX.btz_virt_tame} \\
+\lbl{prop:quotient_chart}, \lbl{rem:tamifying_topology_generated_open} & l.2286, l.2293 &
+  No proof printed; both proved; $J^{\pm}$ on BTZ$^\sim$ read as ETT's causality. &
+  \lean{GX.btz_quotient_chart}, \lean{GX.btzQuotChartIso} \\
+Section 4 defects D-1--D-12 & l.2183--2363 & D-1 line-stabiliser characterisation false for
+  affine isometries; D-2 GH lacks ``inextendible''; D-11
+  \lbl{prop:globally_hyperbolic_cauchy_complete_manifolds} is false
+  ($\{\tau<0\}\subset E_0$); D-12 main theorem: finite type missing (candidate: the tube
+  $\{r<c\}$), equality needs absolute maximality, wrong image display, rays may be full lines,
+  ``up to time reversal'' meaningless, proof gaps. & not yet in Lean (WP-39i--n);
+  rulings \dec{28}, \dec{76}, \dec{77} \\
+classical developing theorem & l.344, l.293 & Literal uniqueness ``up to conjugation'' false
+  for bare maps, true for morphisms (l.344 is a commented-out line of the source; the printed
+  l.293 states existence only); Hausdorffness, connectedness of $X$, second countability
+  never used. & \lean{GX.developing_unique_fails_for_bare_maps}, \lean{GX.developing_theorem} \\
+\bottomrule
+\end{longtable}
+}
+
+\paragraph{Findings against \texttt{lean-causal} from gx.} (1) \lean{LocalModel.typeAgreement}
+is false for $\Mink\oplus E_0$ at regular points of $E_0$ (\lean{GX.E0LM.e0_not_typeAgreement}); its
+convergence form holds. (2) \lean{BTZAxioms.Iplus_eq} is false in $E_0$
+(\lean{GX.E0.Iplus_ne_Jplus_diff}), replaced by \lean{Iplus_of_lt} (\dec{64}). (3) Under ETT
+\S4's causal \lean{IsRigid}, CBG fails (\dec{60}). (4) \lean{SingularFlatAxioms.lt_of_le_of_not_mem}
+is false in $E_0$, and was deleted.
+
+%======================================================================
+\section{Shared results built along the way}\label{sec:shared}
+%======================================================================
+
+\subsection{CBG: the universal maximal Cauchy development}
+
+\paragraph{Setting.} Requested by gx (\dec{29}: full flat CBG with singular lines, following
+Sbierski arXiv 1309.7591); overlaps ETT \S4 (\lbl{theo:CBG}, ETT.tex:1884). ``Maximal'' means
+Sbierski's universal property, Thm~2.8 (\dec{59}); the framework is Brunswic's thesis, rigid
+morphisms of singular $(G,X)$-manifolds, not ETT \S4's causal \lean{IsRigid} (\dec{60}).
+
+A Cauchy development of $M_0$ is a carrier ($T_2$, connected, second countable --- the last
+added by gx review C2), a structure, and a Cauchy embedding of $M_0$ which is a morphism.
+\lean{IsUniversal}: every development has a unique morphism into it. \lean{IsETTMaximal}:
+every morphism out of it is bijective.
+
+\begin{theorem}[\lean{Causal.CBG.cbg}]
+For a Geometry $\mathfrak G$, $M_0$ $T_2$, connected, second countable, with a structure whose
+causality is GH and a Cauchy surface $S$, a universal development exists.
+\end{theorem}
+Corollaries (sorry-free): \lean{cbg_ett} (an ETT-maximal development exists, and every
+ETT-maximal one is isomorphic to it by a unique morphism), \lean{cbg_isETTMaximal},
+\lean{isETTMaximal_iff_isUniversal} (universal $\Rightarrow$ ETT-maximal needs $M_0$
+nonempty). \emph{Strengthened hypothesis, disclosed}: \lean{cbg} assumes a Cauchy surface.
+Under the library's GH no Cauchy surface is given; it is recoverable in the flat case via
+Geroch (\lean{flat_cbg_gh} drops it) and at the singular flat instance via
+\lbl{theo:geroch_sing}, never for an abstract Geometry.
+
+\paragraph{Why rigidity and a size bound are essential} (design \S2 witnesses, in the causal
+pre-geometry): the kink $x\mapsto x$ ($x\le0$), $2x$ ($x>0$) gives
+\lean{not_exists_isUniversal_halfLineDev}; the arctan self-embedding gives
+\lean{not_isETTMaximal_halfLineDev}; \lean{causal_pgcd_not_unique}: two inequivalent maximal
+common sub-extensions; the branching line is not $T_2$ and
+\lean{not_isRigidFor_branchingLine}. Not formalized: the long ray (size-bound witness), and
+the full $T_2$ witness.
+
+\paragraph{Interface: Level A and Level B.} Level A, \lean{structure Geometry}: data
+(structures, causality, morphisms on opens), sheaf laws, morphisms are causal E-morphisms,
+absolute minimality, inverses on images, restriction, transport, gluing; A1 rigidity; A2
+singular strata with \lean{SingularFlatAxioms} (corrected by \dec{64}), \lean{curvesExtend}
+(for GH only), \lean{timeFunction}, compactness fields, \lean{secondCountable_of_cauchy}; A3
+germ extension (Sbierski Lemma~3.8) and A4 slices (Thm~3.6), both time directions --- no
+time reversal, since the reverse of an $E_0$-manifold is not one. Level B, \lean{structure
+LocalModel}: a model $Y$ with groupoid, causality and strata; morphisms via
+\lean{ChartedSpace.LiftPropOn}; fields B1 rigidity, B2 local uniqueness (regular, singular,
+adherent diamond form), B3 the A2 counterparts, and round-4 fields ($T_2$, \lean{isOpen_regY},
+\lean{dense_regY}, \lean{typeAgreement}, \lean{coneSliceFuture}, \lean{coneSlicePast}).
+
+\paragraph{From Level B to Level A} (\texttt{CBG/FromModel}).
+\lean{Geometry.ofLocalModelOfBTZ} needs three hypotheses: A3 future, A3 past and A4 future
+\emph{at BTZ points}; \lean{Geometry.ofLocalModelNoBTZ} (no BTZ stratum) needs none. A3 at
+every non-BTZ boundary point is proved; A4 from the cone-slice fields. The paper's hypotheses
+of prop:GX\_espace\_temps\_topo (analyticity, arc-connectedness, Baire) are replaced by their two
+consequences, asked directly (marked ``strengthened'').
+
+\paragraph{Proof in Sbierski's order} (packages, line counts in Appendix~\ref{app:inventory}):
+Geometry; CausalConvex (a Cauchy inclusion is causally convex; unions; lem:C\_ext\_connexe in
+strongest form); Injective (Sbierski Lemma~3.3, \lean{injOn_of_injOn_cauchy}); Pgcd (Thm~3.4,
+the MCGHD, \lean{exists_mcghd}); Corresponding (Prop~3.7); NoCorresponding (Lemmas~3.9, 3.11,
+Thms~3.6, 3.13; Zorn replaces the Geroch time; gluing $T_2$ iff no corresponding points); Ppcm
+(Thm~2.7, GH of the gluing proved directly via two-piece spaces); FamilyGluing; Bound
+(second-countable $T_0$ spaces inject into $\mathcal P(\N)$, so universality against small
+developments suffices); Maximal (Thm~2.8; GH of $\widetilde M$ proved \emph{first}, via
+many-piece spaces, then Cauchy, then second countability); FromModel.
+
+\paragraph{The flat instance.} \lean{flat_cbg}: for $M_0$ $T_2$, connected, charted on
+\lean{Minkowski d} with the isometry groupoid, GH, with a Cauchy surface, a universal
+development exists; \lean{flat_cbg_gh} drops $S$; \lean{flat_cbg_ett}; witness
+\lean{flat_cbg_minkowski}. The model \lean{flatModelOf d} has no singular strata. R1
+(compactness) is proved without a limit-curve theorem (\texttt{Flat/CBGCompact}): past-noncompact
+points form a closed future set disjoint from $\Sigma$, and a Zorn-maximal time graph inside
+it would be an inextensible curve missing $\Sigma$. A3 is not trivial, contrary to the design;
+A4 uses no hyperboloid. Disclosed limits: regular flat only; \lean{LocalModel.IsMor} is not
+proved equal to \lean{IsLocalIsometry}; universe \texttt{Type}. No ETT label is marked by CBG:
+ETT row \lbl{theo:CBG} still reads \texttt{lean\_stated = none}.
+
+\paragraph{Interface rounds.} Round 1 (gx review): C1 corrected BTZ bundle (became \dec{64}),
+C2 second countability carried, C3 \lean{curvesExtend} for GH only, C4 strong local uniqueness,
+C5 export the charted-space gluing; risk: package~10 must prove GH before second countability
+(resolved via many-piece spaces). Round 2: \lean{timeFunction} field (making \lean{cbg}
+sorry-free); a largeness clause later found vacuous. Round 3: the diamond clause with a regular
+tip; second countability in A3/A4; FromModel's generic cases. Round 4: \lean{t2Y}, cone slices
+replacing a level-set B4, \lean{typeAgreement}, \lean{isOpen_regY}, plus \lean{dense_regY}
+(added by the author, accepted by gx on 2026-11-02); FromModel became sorry-free.
+
+\paragraph{CBG findings.}
+\begin{itemize}
+\item \textbf{Sbierski's transitivity step} (proof of Thm~2.8, transitivity of (3.15)): it needs
+  $U_{12}\cap\psi_{12}^{-1}(U_{23})$ to be a CGHD, i.e.\ $\iota_1(\Sigma)$ Cauchy in an
+  intersection of Cauchy inclusions --- the existence half that CausalConvex leaves open, the
+  same as the scaffold \texttt{sorry} \lean{IsCauchyEmbedding.exists_mem_image_inf}, whose abstract
+  statement may be false. \lean{mcghd_cocycle} is proved by another route: agreement on
+  $U_{12}\cap U_{13}$ through the ppcm of $N_2,N_3$, then $W\subseteq U_{13}$ by an open--closed
+  argument whose closed half is the Hausdorffness of the ppcm of $N_1,N_3$. Sbierski's symmetry
+  of the MCGHD is used without being stated.
+\item \textbf{The causal reading fails} (kink, arctan, branching; \dec{60}).
+\item \textbf{A3 without (B).} (B) (thesis l.6634--6638, ``$J_{M_1}(\Sigma_1,p)\setminus\{p\}\subset
+  j_1(N)$'') is Sbierski Lemma~3.9's conclusion, hence A4's hypothesis; adding it to A3 breaks
+  the order. Future side at BTZ points: (B) automatic; past side: (B) can fail while A3 holds.
+  Against the thesis: a stray ``(B)'' label (l.6693), a missing $\setminus\{p\}$ (l.6658), and
+  the past side never treated.
+\item \textbf{A vacuous clause}: the round-2 largeness clause held for every $U$ by $r:=y_0$,
+  because BTZ points have empty chronological past; replaced by the diamond form.
+\item \textbf{\lean{dense_regY}} was needed (otherwise uncountably many singular types could form
+  an open piece).
+\item Others: ETT gives no argument for GH of the ppcm; the proof of cor:ext\_continue
+  (ETT.tex:2148--2156) is unsupported at one step; Sbierski Lemma~3.11's past side needs $p\notin
+  \sing_0$; a level-set B4 carried no localisation (1+1 counterexample); causal arc-connectedness
+  is necessary for convexity of Cauchy inclusions among causalities that are not absolutely minimal
+  (\lean{gateLine_cauchyInclusion_not_causallyConvex}); under Level~A this is open.
+\end{itemize}
+
+\subsection{Geroch for flat spacetimes}\label{sec:geroch}
+
+On every GH flat spacetime one Borel measure $\mu$ is admissible in both time directions
+(\lean{exists_admissible_measure}): a chart Lebesgue measure, finite, regular, positive on
+nonempty opens, null on closed sets with Lebesgue-null chart images. Property~3:
+$J^\mp(q)\setminus J^\mp(p)$ contains a nonempty open set. Property~4: $J^\mp(A)\setminus K^\mp(A)$
+lies in the frontier of $I^\mp(A)$, which meets each vertical line at most once and is therefore
+null by Fubini --- no Lipschitz-graph theory. ETT's \lean{geroch_i_imp_iii} then gives a Cauchy
+surface (\lean{flatGerochGH_of_admissible}), so \lean{FlatGerochGH d} holds for every $d$
+(\dec{65}). This discharges Theorem B's input $hK$.
+
+\subsection{Levin's theorem and lemma K}\label{sec:lemmaK}
+
+\paragraph{Origin.} Barbot Rem~2.3 (l.576--578, and \S11 l.3537--3539) asserts without proof that
+spacelike hypersurfaces in a CGH spacetime are Cauchy. \dec{44}: Rem~2.3 is corrected through
+lemma~K (a compact connected locally Cauchy hypersurface of a connected GH spacetime is Cauchy);
+\dec{92}: settle the bare form; \dec{93}: state it in ETT's setting.
+
+\begin{theorem}[Levin; \lean{Causal.Causality.exists_timeFunction_of_secondCountable}]
+Under $T_2$, second countability, tarentin and GH there is a continuous $\tau$ with $x\le y\Rightarrow
+\tau x\le\tau y$ and $x\le y$, $x\ne y\Rightarrow\tau x<\tau y$.
+\end{theorem}
+Built on mathlib's Urysohn machinery (\texttt{LevinUtility}): \lean{Levin.exists_cover} (order
+normality, by induction along a compact exhaustion, with locally finite unions), then
+\lean{Levin.exists_monotone_sep} (an order Urysohn function, running mathlib's \lean{Urysohns.CU}
+with the predicate ``open down-set with a closed down-set in between''), then
+\lean{Levin.exists_utility} ($T=\sum 2^{-n}u_n$ over a countable separating family). Closedness of
+$\le$ comes from prop:GH\_Jferme, antisymmetry from causality. Disclosed: $\tau$ is not a Cauchy
+time function and gives no splitting. Consequence: \lean{curvesExtend_of_secondCountable}.
+
+\begin{theorem}[lemma K in ETT's setting; \lean{isCauchySurface_of_isLocallyCauchy_of_causallyOpen}, LemmaK.lean:106]
+Let $M$ be $T_2$, second countable, connected, and $C$ tarentin, GH, causally arc-connected, with
+$J^{\pm}(p)\ne\{p\}$ for all $p$, and causally open. A compact, connected, locally Cauchy $S$ is a
+Cauchy surface.
+\end{theorem}
+Proof: \lean{CurvesExtend} from Levin, then the chart-side reduction
+\lean{isCauchySurface_of_isLocallyCauchy_of_isOpen_Jplus} (\texttt{LemmaKLocal}) with $J^{\pm}(V)$
+open read off causal openness. Second countability is used only for \lean{CurvesExtend}; the
+SC-free form takes it as a hypothesis. Barbot's Theorem B uses the two-sided form
+\lean{isCauchySurface_of_isLocallyCauchyTwoSided} under \lean{FlatLemmaKData}.
+
+\paragraph{The rounds on the bare form.} Round~1 (\texttt{LemmaKReduction}): a compact nonempty
+acausal $\Sigma$ with $J^+(\Sigma)\cup J^-(\Sigma)$ open is Cauchy; with no inextensible curve every
+set is Cauchy (so the long ray satisfies lemma~K vacuously --- argued, not formalized). Round~2
+(\texttt{LemmaKObstruction}, a refutation attempt that found no counterexample): chronology is
+irrelevant (\lean{bareLemmaK_of_withoutChronology}); tarentin forbids branching
+(\lean{not_tarentin_of_branching}); tarentin + GH $\Rightarrow$ locally compact; the surviving
+shape of a counterexample is non-metrizable, locally compact, dimension $\ge3$. \texttt{LemmaKSC}:
+second countability kills the long ray (\lean{countable_of_wellOrdered_chain}). Round~3
+(\texttt{LemmaKLocal}): two-sidedness is automatic where curves extend; $\Sigma$ is Cauchy iff
+$J^+(O^+)$ and $J^-(O^-)$ are open, $O^{\pm}$ the chart sides. \texttt{LemmaKSCLocal}: in the
+second-countable setting lemma~K is \emph{equivalent} to that openness
+(\lean{isCauchySurface_iff_isOpen_Jplus_chartFutureSide_of_secondCountable}).
+
+\subsection{Corrections to ETT}
+
+\paragraph{\dec{64}.} \lean{BTZAxioms.Iplus_eq}, $I^+(p)=J^+(p)\setminus S_0$, from defi:causal\_E0
+(ETT.tex l.1352--1355, flagged ``asserted without proof --- verify''), is false in $E_0$. With
+$-2d\tau dr+dr^2+r^2d\theta^2$, a future causal vector has $r'\ge0$ and $2\tau'r'\ge r'^2+r^2\theta'^2$,
+so $f=\tau-r/2$ is non-decreasing along causal curves and strictly increasing along timelike ones;
+the radial null ray reaches $x=(s/2,s,\theta_0)\in J^+(p)\setminus S_0$ with $f(x)=f(p)$, hence
+$x\notin I^+(p)$. Replaced by \lean{Iplus_of_lt} (for $p\le p'$ in $S_0$, $p\ne p'$:
+$J^+(p')\setminus S_0\subseteq I^+(p)$); \lean{lt_of_le_of_not_mem} deleted; users re-proved with
+statements unchanged. Found by gx's review C1.
+
+\paragraph{\dec{73}, \dec{78}.} Mechanical splits of the scaffold \lean{SubExtension} and
+\lean{SingularGeroch}: the sorry-free parts graduate verbatim (for CBG and gx's $E_0$ time
+function); the remainders stay in the scaffold (\lean{exists_mem_image_inf},
+\lean{isCauchySurfaceOn_inf}, \lean{c_ext_connexe}, \lean{cauchy_pgcd}; and
+\lean{geroch_sing_of_stronglyCausal}, \lean{timelikeLine_geroch_sing}, which rest on
+GerochEquiv's cited O'Neill step). No statement changed.
+
+\paragraph{\lean{minkowski_exists_measure} (\dec{65}).} \lean{minkowski_frontier_null_measure}
+(GerochFlat.lean:167) has exactly the statement of ETT's scaffold \texttt{sorry}
+\lean{minkowski_exists_measure}; \lean{minkowski_admissible_pair} that of
+\lean{minkowski_mesure_dieckmann}. The ETT file is \emph{not} edited: the proof is offered to the
+ETT campaign, and the \texttt{sorry} at \texttt{MinkowskiMeasure.lean:78} is still present and
+still reported; the ETT row remains bucket C.
+
+%======================================================================
+\section{Methodology and lessons}
+%======================================================================
+
+\paragraph{What the audits caught.} The findings tables are the main product besides the theorems.
+Several printed statements are false: Barbot's Rem~2.3, Lemma~5.5, Lemma~7.1, Cor~8.4, Prop~8.11's
+slice claim, Prop~4.2 in its metric reading, the literal reading R2 of Theorem~A (Prop~8.12
+would be false without Hausdorffness, which \dec{90} reads as implicit in ``manifold'';
+Prop~4.10's sign is a typo, \dec{95}); Brunswic's Fox existence and fullness, \lbl{prop:GXquotient},
+\lbl{lem:spread_top}, \lbl{prop:globally_hyperbolic_cauchy_complete_manifolds}. In most cases the
+\emph{conclusions} the papers need survive, with a repaired proof; the exceptions are recorded as
+readings (R1, the two-case Prop~4.2) or as corrected forms (the Section~4 main theorem).
+
+\paragraph{Overclaims caught, including our own.} The plan error W1 (entire acausal graphs are
+Cauchy) was ours. ETT's \lean{BTZAxioms.Iplus_eq} and the CBG interface field \lean{typeAgreement}
+were stated in our own library and found false by the other session. A round-2 interface clause was
+vacuous at exactly the points it was meant to constrain. A coordination note had a time direction
+reversed. A build log was stale with respect to the sources. Ledger headers lag their curation
+(Barbot's \texttt{LEDGER.md} still stamps \texttt{007449d}). And ``sorry-free'' was repeatedly in
+danger of being read as ``unconditional'', which it is not (\S\ref{sec:externals}).
+
+\paragraph{Adversarial checks.} Non-vacuity witnesses defeat theorems with unsatisfiable hypotheses;
+not-trivially-true witnesses defeat externals whose statement collapses; refutation rounds bound what
+an open statement could be (lemma~K's surviving counterexample shape); and the import gates, the axiom
+sweep and the sorry count are mechanical and must be able to fail.
+
+\paragraph{Statement changes are always disclosed.} Every strengthening (a Cauchy surface in
+\lean{cbg}; ``$\Gamma$ discrete'' in Prop~9.1; \lean{RestrictsIn}; $T_2$ in Prop~8.12), every reading
+(R1, W4, the closed-$\Lambda$ convention) and every corrected form is in a module docstring's
+checklist and SCOPE, in a ruling, and in the ledger. A narrower Lean statement is never a certificate.
+Rulings are the author's; findings against another session's files are filed, not applied.
+
+%======================================================================
+\section{Open problems}\label{sec:open}
+%======================================================================
+
+\begin{enumerate}
+\item \textbf{Lemma K without causal openness.} Two scaffold \texttt{sorry}s, tagged
+  \texttt{SORRY(DEC-44)}, kept as open generalisations, used by nothing:
+  \lean{Causal.Causality.isCauchySurface_of_isLocallyCauchy} (bare; module
+  \texttt{CausalScaffold.CompactCauchy}) and
+  \lean{Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_secondCountable} (module
+  \texttt{CausalScaffold.LemmaKSCOpen}). The
+  latter is equivalent to the openness of $J^+(O^+)$ and $J^-(O^-)$.
+\item \textbf{The cited externals.} \lbl{bthm:ausl} and \lbl{bthm:unip} are unproved by design.
+  Benoist, Bieberbach~I (in $\R^k$, $k\le d+1$) and Selberg have no Lean witness for $d\ge1$; Selberg
+  in $GL_{n\ge2}(\R)$ is not in mathlib. \lean{LimitSetMinimal} is carried by \lbl{bprop:admlox}.
+\item \textbf{Barbot residue.} Rem defdep's second claim $\Omega(\Sc)=\inter D(\Sigma)$; five terminal
+  statements never attempted; prose-only counterexamples (F2/G5 candidate ``to be checked'', the
+  non-Hausdorff fold, the trivial-$\Gamma$ wedge, the quaternion pair, the Fuchsian $\times\Z$
+  example); a packaged witness for the loxodromic hypothesis of the uniformization exports;
+  creating the planned strict module \texttt{Causal/Flat/Uniformization.lean}
+  (\texttt{BARBOT-GRADUATION.md}; the \lean{uniformization_*} exports currently sit in
+  \texttt{Flat/Loxodromic.lean}); stale docstrings flagged by
+  \texttt{BARBOT-DEPENDENCIES.md} (not re-checked).
+\item \textbf{gx's open items.} Ledger regeneration after wave~5 and graduation, which
+  first needs Models.lean's \lbl{theo:local_virt_tame} \texttt{sorry} (l.3518) split out or
+  closed, since every Section~4 module imports Models.lean through SpreadTop; the Section~4 main
+  theorem and its unstated companions (\lbl{prop:globally_hyperbolic_cauchy_complete_manifolds}
+  corrected with the counterexample $\{\tau<0\}$ to be formalized; \lbl{lem:increasing_map}; the
+  l.2317--2359 definitions) with packages WP-39i--n; the general case of \lbl{theo:local_virt_tame}
+  (Models.lean:3518, \dec{86}); rows partial by ruling (\dec{48}, \dec{69}); readings of
+  \lbl{prop:manifold_admits_galoisian_maximal} put to the author; the BTZ$^\sim$ half of
+  \lbl{lem:manifolds_manifolds_causally_connected}; tachyons and photons (l.682); STORY.md's headline
+  section, to be written by the author.
+\item \textbf{$E_0$ obligations for CBG} (\S\ref{sec:e0cbg}): the three BTZ residuals are
+  proved in BTZ/CBG.lean since 20:46 UTC (A3 past given hLine), so what remains is: (O2) the global BTZ
+  line (classification of second-countable 1-manifolds); (O4$'$) second countability from a Cauchy
+  surface; (O5) restating \lean{LocalModel.typeAgreement} in \texttt{lean-causal}, e.g.\ in its
+  convergence form. Until (O5) is done, \lean{GX.E0CBG.e0_cbg} is vacuous.
+\item \textbf{ETT.} The scaffold \texttt{sorry}s in GerochEquiv (the cited O'Neill step),
+  MinkowskiMeasure (a proof is on offer), SubExtension (two, including the existence half that
+  Sbierski's transitivity step needs). ETT ledger closure is 57/136.
+\end{enumerate}
+
+\appendix
+
+%======================================================================
+\section{Module inventory}\label{app:inventory}
+%======================================================================
+
+Line counts by \texttt{wc -l} at \texttt{e40d526} (lean-gx: working tree).
+
+\subsection{Barbot (\texttt{Causal/Flat}, excluding the four CBG files)}
+
+\begin{center}\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+part & files & lines & declarations \\
+\midrule
+top level & 34 & 45{,}265 & 2{,}900 \\
+\texttt{Lox/} & 26 & 7{,}590 & 324 \\
+\texttt{Nonlox/} & 10 & 4{,}743 & 301 \\
+\texttt{Cla/} & 19 & 16{,}009 & 655 \\
+\texttt{Geroch/} & 4 & 727 & 22 \\
+\midrule
+total & 93 & 74{,}334 & 4{,}202 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Largest top-level files: Loxodromic 3{,}771; Examples 2{,}994; Nonloxodromic 2{,}992;
+CauchyComplete 2{,}963; Classification 2{,}776; Isometries 2{,}540; TwistedProduct 2{,}507;
+Develop 2{,}424; AchronalDomains 2{,}175; Cosmological 2{,}102; LipschitzGraph 1{,}618; TitsNull
+1{,}580; Abel 1{,}496; Penrose 1{,}319; Bieberbach 1{,}243; InducedLength 1{,}213; Externals 1{,}052.
+
+Support modules outside \texttt{Flat} built in the Barbot campaign (14 files, 8{,}752 lines,
+475 declarations). Of these, Theorems A and B reach Port/\{UniversalCover, GXBasic,
+Developing\}, Splitting and CompactCauchy; the lemma-K/Levin modules (\dec{92}/\dec{93}) are
+used by no Barbot theorem:
+Port/UniversalCover 1{,}192; Port/GXBasic 769; Port/Developing 595; Splitting 1{,}952;
+CompactCauchy 886; LemmaKBare 731; CurvesExtend 549; LevinUtility 522; LemmaK 155; LemmaKLocal 323;
+LemmaKObstruction 300; LemmaKReduction 227; LemmaKSC 421; LemmaKSCLocal 130.
+
+\subsection{CBG}
+
+\texttt{Causal/CBG}, 11 files, 13{,}106 lines: Geometry 1{,}146; CausalConvex 1{,}467; Injective 673;
+Pgcd 870; Corresponding 1{,}151; NoCorresponding 852; Ppcm 1{,}436; FamilyGluing 854; Bound 450;
+Maximal 1{,}157; FromModel 3{,}050. \texttt{Causal/Flat/CBG*}, 4 files, 2{,}935 lines: CBG 968;
+CBGCompact 518; CBGGerm 857; CBGSlice 592. Total 16{,}041 lines. The lemma~K family (LemmaK*,
+LevinUtility, CompactCauchy) is 3{,}695 lines.
+
+\subsection{Whole \texttt{lean-causal}}
+\texttt{Causal/}: 163 files, 119{,}110 lines, 97 files under \texttt{Causal/Flat}. Axiom sweep:
+10{,}969 declarations in 164 strict modules; 15 scaffold declarations in 7 modules.
+
+\subsection{gx}
+
+\begin{center}\small
+\begin{tabular}{@{}llr@{\qquad}llr@{}}
+\toprule
+\multicolumn{3}{c}{strict \lean{GX} (19 files, 39{,}635 lines)} & \multicolumn{3}{c}{scaffold \lean{GXScaffold} (13 files, 20:05 UTC)} \\
+\midrule
+Topology & Portly & 646 & SingularII & Models & 5{,}652 \\
+ & UniversalCover & 1{,}181 & & SpreadTop & 3{,}970 \\
+ & PortlyExamples & 1{,}157 & Branched & GaloisExamples & 10{,}367 \\
+Structure & Basic & 911 & Topology & VanKampen & 851 \\
+ & Developing & 581 & Lorentz & Bridge & 743 \\
+Spread & Basic & 2{,}979 & BTZ & Model & 1{,}636 \\
+ & Completion & 2{,}478 & & Rigid & 3{,}489 \\
+Singular & Atlas & 1{,}812 & & Causality & 4{,}423 \\
+ & Quotient & 7{,}402 & & Topology & 2{,}264 \\
+ & Suspension & 921 & & VirtTame & 2{,}951 \\
+Branched & Basic & 889 & & LocalModel & 3{,}192 \\
+ & Universality & 2{,}492 & & CBG & 197 \\
+ & Paths & 5{,}564 & & & \\
+ & Galois & 3{,}210 & & & \\
+SingularII & Unloopable & 1{,}320 & & & \\
+ & Developing & 1{,}000 & & & \\
+ & Tame & 852 & & & \\
+Hyperbolic & Plane & 4{,}232 & & & \\
+\textit{root} & GX/Basic & 8 & \textit{root} & GXScaffold/Basic & 7 \\
+\bottomrule
+\end{tabular}
+\end{center}
+The scaffold columns are a 20:05 UTC snapshot that predates WP-41g and WP-41l. The scaffold
+total recorded at measurement is 39{,}748 lines; the per-file figures above sum to 39{,}742, the
+difference being consistent with files being edited by another session during the measurement.
+Re-measured at 21:02 UTC: BTZ/CBG 3{,}512 lines (rewritten by WP-41g), the new BTZ/Manifolds
+1{,}476 (WP-41l), all other scaffold files unchanged; 15 files including the 6-line root
+\texttt{GXScaffold.lean}, 44{,}539 lines. Both new files were still being audited.
+
+\subsection{Sorry census}\label{sec:sorry}
+\texttt{lean-causal} scaffold: CompactCauchy 1 (bare lemma~K), GerochEquiv 1, LemmaKSCOpen 1
+(second-countable lemma~K), MinkowskiMeasure 1, SubExtension 2. The 14 declarations resting on them:
+\lean{geroch_iii_imp_i}, \lean{geroch_tfae_strict}, \lean{geroch}, \lean{timelikeLine_geroch_tfae};
+\lean{minkowski_exists_measure}, \lean{minkowski_mesure_dieckmann};
+\lean{SingularFlatAxioms.geroch_sing_of_stronglyCausal}, \lean{timelikeLine_geroch_sing};
+\lean{IsCauchyEmbedding.exists_mem_image_inf}, \lean{isCauchySurfaceOn_inf}, \lean{c_ext_connexe},
+\lean{cauchy_pgcd}; \lean{Causality.isCauchySurface_of_isLocallyCauchy};
+\lean{Causality.isCauchySurface_of_isLocallyCauchy_of_secondCountable}. \texttt{lean-gx} scaffold:
+BTZ/CBG 3, BTZ/LocalModel 2, SingularII/Models 1 at the 20:05 UTC stamp; at 21:02 UTC,
+BTZ/LocalModel 2, SingularII/Models 1, BTZ/Manifolds 1, BTZ/CBG 0.
+
+%======================================================================
+\section{Rulings}\label{app:rulings}
+%======================================================================
+
+All rulings are the author's (Leo Brunswic), from \texttt{registers/DECISIONS.md}. Earlier ETT
+rulings cited in the text: \dec{6}, \dec{8} (causal openness two-sided), \dec{9} (campaign method),
+\dec{11}, \dec{13} (inextensibility), \dec{14} (Cauchy surfaces), \dec{16} ($(G,X)$-groupoid,
+maximal atlas), \dec{17} (Cauchy embeddings).
+
+{\small
+\begin{longtable}{@{}p{2.5cm}p{13.3cm}@{}}
+\toprule
+ruling & content \\
+\midrule\endhead
+\dec{23} & gx in a separate package \texttt{lean-gx}; the classical developing theorem with the
+  universal cover constructed. \\
+\dec{24} & Story source: the 2023 accepted version (178 environments, 162 rows; the 2021 draft
+  had 89 and 85). \\
+\dec{25} & Singular manifold $=$ maximal a.e.\ atlas on a portly subset. \\
+\dec{26} & Section~4 formalized fully, including its citations (B21 Thm~3, Barbot). \\
+\dec{27} & Defective statements proved in strongest true form with a counterexample; partial. \\
+\dec{28} & Main theorem in Cauchy-compact form with finite type. \\
+\dec{29}, \dec{30} & Full CBG for flat spacetimes with singular lines; Barbot's full classification. \\
+\dec{31} & Cauchy-complete $=$ complete for the induced length metric. \\
+\dec{32}, \dec{33} & Topological Geroch splitting; Section~4 causality is ETT's, Section~4 modules may
+  import strict \lean{Causal}. \\
+\dec{34}--\dec{38} & Barbot scope, completeness, externals, universal cover, execution (\S3). \\
+\dec{39}--\dec{42} & Analytical structure as at l.341; empty preimage not ordinary, covering means
+  surjective; slsc reads ``loops in $U$, trivial in $X$''; $M$ connected, open set nonempty. \\
+\dec{43}--\dec{45} & Theorem A as R1; Rem~2.3 corrected and family (b); embeddings and \lean{AbsMax}. \\
+\dec{46}--\dec{48} & Nonempty families, local a.e.\ morphisms, the equivalence of categories,
+  $\alpha=1$; cone angle and particle readings; Fox, spread\_fiber, composition stay partial. \\
+\dec{49}, \dec{50} & Second countability proved; Prop~9.1 gap step proved. \\
+\dec{51}--\dec{58} & \lbl{prop:GXquotient} by morphisms; $\sing(M)\subseteq\pi\{r=0\}$; $S\cup\{\text{apex}\}$;
+  the $KP^n$ construction; almost trivial loops literally; \S3.3/3.4 readings; Antoine's necklace. \\
+\dec{59}--\dec{63} & CBG: maximal $=$ Sbierski universal; thesis framework; parallel authoring;
+  $X_A$-morphisms in local form; condition at every singular point. \\
+\dec{64} & \lean{BTZAxioms.Iplus_eq} false in $E_0$; replaced by \lean{Iplus_of_lt}. \\
+\dec{65} & \lean{FlatGerochGH} by admissible measures; offered to ETT. \\
+\dec{66}--\dec{71} & \S3's standing hypotheses cover \S2.5; $\Gamma(N/M)$, holonomy, local tameness,
+  centred charts; corrected $\Gamma_2'$, Troyanov external; ``$Y\setminus S$ slsc'' added; $N$
+  Galoisian, build $\mathbb H^2$. \\
+\dec{72} & A and B MARKED under the named externals. \\
+\dec{73} & SubExtension split. \\
+\dec{74}--\dec{77} & $(E_\theta)$, $\theta\ne2\pi$; the loxodromic proved in 2+1 (not from
+  \lean{BenoistNoLox}); finite type; no time reversal, $T_{\mathrm{BTZ}}$, Cauchy-maximal $=$
+  \lean{IsETTMaximal}, corrected future completeness with $\{\tau<0\}$. \\
+\dec{78} & SingularGeroch split. \\
+\dec{79}--\dec{82} & $\widetilde Y^S$; harmonic archipelago may be non-compact; tame metric on
+  $\{r>0\}$, global equivalence, \lbl{lem:spread_top} corrected; hyperbolic disc metric reading;
+  certify Antoine wildness, keep pushing local\_virt\_tame. \\
+\dec{83} & Five Barbot \S8/\S10 labels marked with readings. \\
+\dec{84}--\dec{87} & Cusps, atlas given; Antoine's lemma via van Kampen; keep attacking
+  local\_virt\_tame with no added hypothesis; readings of the remarks. \\
+\dec{88}--\dec{105} & Barbot marks and readings (\S3, rulings table). \\
+\bottomrule
+\end{longtable}
+}
+
+\end{document}
