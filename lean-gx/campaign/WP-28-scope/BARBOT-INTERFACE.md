@@ -165,3 +165,11 @@ plus the round-1/2 fields (rigid, localUnique_sing strong, localUnique_reg, regu
 singularFlatAxioms (Corr), curvesExtend on GH, isCompact_*, secondCountable_of_cauchy).
 Constructor: `Geometry.ofLocalModelOfBTZ 𝔐 (hA3f : 𝔐.GermExtFutureBTZ) (hA3p : 𝔐.GermExtPastBTZ) (hA4f : 𝔐.SliceFutureBTZ)`
 (A4 past has no BTZ residual). `ofLocalModelNoBTZ 𝔐 (h0 : singY 0 = ∅)` for BTZ-free models.
+
+## DEC-64 landed (f84b69e) — SUPERSEDES every `BTZAxiomsCorr` / `SingularFlatAxiomsCorr` mention above
+
+Strict `Causal.Causality.BTZAxioms` now carries `Iplus_of_lt` (`Iplus_eq` is gone). The Corr bundles and `toCorr` bridges
+are DELETED; CBG uses the library's `BTZAxioms` / `SingularFlatAxioms`. FromModel lemmas renamed:
+`BTZAxioms.Iminus_opens_eq_empty`, `.inter_Iminus_opens_subset`, `.exists_le_inter_Iminus_subset`.
+`SingularFlatAxioms.lt_of_le_of_not_mem` deleted (false in E₀): use `lt_of_lt_of_le_of_not_mem`. `K_monotone` stronger.
+**gx's E₀ model supplies the library `SingularFlatAxioms` (with `Iplus_of_lt`) as LocalModel's `singularFlatAxioms`.**

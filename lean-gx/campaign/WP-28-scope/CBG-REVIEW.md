@@ -142,3 +142,5 @@ structure with `sing 0 ≠ ∅` has no witness".
   - Export package 11's charted-space gluing for gx's B21 Lemma 2.3.
 - **Gate.** The first gx deliverable is an E₀ instance of `BTZAxioms` (after C1) on M = E₀ itself.
   That is the satisfiability witness kb/0012 asks for, before packages 4–12 are built on it.
+
+> **Superseded (2026-11-02, DEC-64, f84b69e):** the corrected bundle `SingularFlatAxiomsCorr` proposed here became the strict library `SingularFlatAxioms` itself (`Iplus_of_lt` replaces `Iplus_eq`); the Corr names no longer exist.
