@@ -1,0 +1,40 @@
+{
+ "package": "WP-41o",
+ "round": 1,
+ "file": "GX/Hyperbolic/Plane.lean",
+ "verdict": "clean",
+ "builds": true,
+ "checks": {
+  "lake_env_lean_warningAsError": "`taskset -c 0-11 lake env lean -DwarningAsError=true GX/Hyperbolic/Plane.lean`: EXIT=0, no output (node1, 16.4 s)",
+  "sorry_count": "0: the token `sorry` does not occur anywhere in the file",
+  "lake_build_GX": "`taskset -c 0-11 lake build GX`: Build completed successfully (8578 jobs), EXIT=0. It was a no-op because the tree was already built. No Causal.* module was rebuilt",
+  "axioms": "propext, Classical.choice, Quot.sound for take_closed_unit_disc_metric, take_closed_unit_disc, IsCuspedHyperbolic.exists_unique_metric, IsCuspedHyperbolicMetric.isCuspedHyperbolic, CuspChart.cusp_finite_area, IsHyperbolicMetric.completeSpace_iff and IsHyperbolicMetric.unique",
+  "diff_vs_HEAD": "`git diff` on Plane.lean is +29/-19, all of it inside docstrings: the module docstring's status bullet, two checklist rows and SCOPE (b), plus the docstrings of IsCuspedHyperbolicMetric and take_closed_unit_disc_metric. No statement, proof or declaration name changed, which matches the REPORT",
+  "decls_exist": "every name in REPORT decls and extra_decls is declared in the file",
+  "name_clashes": "none possible: the diff adds no declaration, and the GX build, which imports Plane, is green",
+  "docstring_marks": "the only bold mark in the first 4000 characters is **`ex:take_closed_unit_disc`** (around char 362). The file's other labels, ex:quotient_base and def:topological_space_locally_unloopable, are references or reused API, are certified elsewhere (ledger: ex:quotient_base is strict in Quotient.lean), and are correctly left unmarked"
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "REPORT.json tex_lines [1877,1888]; module docstring 'RamcovGX.tex:1877–1886' (Plane.lean:12)",
+   "problem": "The example runs from \\begin{ex} at l.1877 to \\end{ex} at l.1883. The REPORT and the docstring give two different end lines, and neither is 1883. WP-40b's audit raised this and it is still unfixed.",
+   "fix": "Use 1877–1883 in both places."
+  },
+  {
+   "severity": "minor",
+   "where": "module docstring status bullet ('each cusp has finite area'); REPORT hypotheses row 'finite volume' ('each cusp is proved to have finite area')",
+   "problem": "No area measure on M ∖ S is built. What is proved is that W_c ∖ {s} is the injective, locally isometric image under E of a strip whose hyperbolic area in ℍ is 1/c. SCOPE (b) states this precisely. The one-line summaries say slightly more than that, which is harmless because DEC-84 does not owe the area.",
+   "fix": "Optional. Write 'each punctured cusp is the injective locally-isometric image of a strip of hyperbolic area 1/c'."
+  },
+  {
+   "severity": "minor",
+   "where": "SCOPE (c)",
+   "problem": "IsCuspedHyperbolicMetric still has no Lean inhabitant, either with S ≠ ∅ or with S = ∅, M = ℍ. I tried to satisfy the hypothesis on paper. A Riemannian hyperbolic metric that is complete, has finite volume and comes with an atlas compatible with it satisfies every field: the distance gives the topology and is a length metric, charts restricted to small convex balls are d_ℍ-isometries, and the ends are cusps (DEC-84). The thrice-punctured sphere Γ(2)\\ℍ inhabits it, so the hypothesis is not vacuous. This is disclosed, and was carried over from WP-35i and WP-40b.",
+   "fix": "Optional: the S = ∅, M = ℍ instance."
+  }
+ ],
+ "fidelity_summary": "take_closed_unit_disc_metric is unchanged from WP-40b and proves every assertion of l.1877–1883. M is a singular (G, X)-manifold with sing(M) = S, and it is tamely singular. A developing map exists, and every developing map is injective. The singular points of M̃ are exactly the points over S, and they map to ∂ℍ. Every singular point has arbitrarily small open neighbourhoods U ≃ₜ {r < r₀} ⊆ 𝔻_∞ (DInfty, from ex:quotient_base) that send x to the apex, with D(U) = horoSet(D x, τ), a horodisc together with its centre, and D(U) not open in X. Under DEC-81 + DEC-84 the hypothesis IsCuspedHyperbolicMetric is implied by the paper's: S finite, the (Isom ℍ, ℍ)-atlas as data (DEC-84), a metric that gives the topology, is a length metric and is locally d_ℍ in the charts (what a curvature −1 Riemannian distance is; the field local_isometry is the 'compatible with the metric' of DEC-84), metric completeness (carried literally, and proved equivalent to Thurston–Goldman completeness), and a hyperbolic cusp at each s ∈ S (DEC-84's reading of finite volume). The cusp notion is not trivial. CuspChart is an open V with V ∩ S = {s} and a homeomorphism φ : V ≃ ball(0, e^{-2πc}) with φ(s) = 0. IsHyperbolicCusp requires the period-1 map w ↦ φ⁻¹(e^{2πiw}) on {Im w > c} to be locally g • Cayley in the charts, which forces parabolic holonomy around s. The remaining hypothesis changes are weakenings and therefore strengthen the theorem: M need not be compact, the genus and 2g−2+s>0 are not used, second countability is not used. The instances T2, LocPathConnected, FirstCountable and Connected all hold for a closed genus-g surface. No added hypothesis carries the conclusion. DEC-55's compact-open definition does not apply to this file. The row's closure rests exactly on DEC-84, which the author ruled in answer to WP-40b's two questions, and the dispatch's 'certify and mark' is carried out by docstring re-marking only.",
+ "report_honesty": "The REPORT is honest and complete. The file certifies one label, ex:take_closed_unit_disc, now status closed with marked=true, which agrees with the module docstring mark. builds=true and sorry_count=0 both reproduce. The hypothesis table separates readings (metric, atlas, finite volume, all under DEC-81/84) from carried hypotheses (completeness) and weakenings (genus, 2g−2+s>0, second countability). The notes say that the strict file was edited and that the edit is docstrings only, and the diff confirms it. The only inaccuracy is the tex_lines end (minor).",
+ "questions_for_author": []
+}

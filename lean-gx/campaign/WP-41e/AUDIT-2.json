@@ -1,0 +1,55 @@
+{
+  "package": "WP-41e",
+  "round": 2,
+  "auditor": "read-only auditor, node1, 2026-11-02",
+  "files": ["scaffold/GXScaffold/BTZ/Causality.lean"],
+  "verdict": "clean",
+  "builds": true,
+  "sorry_count": 0,
+  "checks": {
+    "build": "I ran taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/Causality.lean (3,536 lines). It exited 0 in 6.9 s wall time with no output, so there is no 'declaration uses sorry' warning and no Causal.* module was recompiled. The olean (15:11:13) is newer than the source (15:10:32). The source has no sorry, admit, axiom, native_decide, implemented_by, unsafe or set_option.",
+    "axioms": "campaign/WP-41e/axioms.out has 310 lines, and every one reads [propext, Classical.choice, Quot.sound]. That matches the 310 distinct names in REPORT.json (label decls plus extra_decls). I re-ran #print axioms through a /tmp file on coneSlicePast_Y, coneSlicePast_YBTZ, sliceAt_past_of_mem_axis, diamonds_basis, alexandrovTopology_eq, chartIso_rotE0 and singularFlatAxioms_of_pushUp. Each gives the same three axioms.",
+    "round1_major_1_coneSlicePast_BTZ": "FIXED. GX.E0.sliceAt_past_of_mem_axis proves SliceAt causality w (fun O z => causality.le O w z) at every axis point w, with no hypothesis. K = {f ≥ τ_w, h = c}, c = τ_w + δ/4, which is J⁺(w) ∩ {τ + r = c} (Jplus_axis), as the dispatch asks. K is non-empty ((c,0) ∈ K), lies in ball(w, δ) ⊆ O, and its points satisfy z ≠ w and causality.le O w z (cle_ball_of_le_axis). The proof argues as follows. The thickening of the compact K lies in V. N = sliceDom (τ_w − η) (τ_w + 2ε) c contains w and lies in the ball. Γ = {h = c} ∩ N ⊆ V. Then isCauchySurfaceOn_sliceDom uses the library's IsCauchySurfaceOn: every inextensible causal curve of N meets Γ exactly once. Existence comes from the past and future extensibility lemmas plus the intermediate value theorem for h; uniqueness comes from hcoord_lt_of_le. coneSlicePast_Y and coneSlicePast_YBTZ hold at every point. I checked both against LocalModel.coneSlicePast (Causal/CBG/Geometry.lean:688-691): their statements are verbatim. coneSlicePast_Y_of_axis is kept only as the reduction.",
+    "round1_major_2_diamonds_basis": "FIXED. GX.E0.diamonds_basis gives: for every x and every U ∈ 𝓝 x, there are p, q ∈ U with x ∈ openDiamond ⊤ p q and diamond ⊤ p q ⊆ U. BTZ points are included. The proof combines tarentin in ball(x, δ/7) with diamond_subset_ball, which rests on Le.dist_le (dist ≤ 3Δτ). Two consequences are also proved: nhds_hasBasis_openDiamond, and alexandrovTopology_eq, which says Causal's alexandrovTopology equals the product topology. Causal's diamond is J⁻(q) ∩ J⁺(p) and openDiamond is its interior (Properties.lean:77-89), so neither notion is trivialised.",
+    "fidelity": "The causality is unchanged since round 1: CLe/CLt are existence of Causal.CurveOn for the local relations Le/Lt, Le is 'some developments btzPaperNull differ by a future null vector', and AUDIT-1 checked this against l.2237 and DEC-33. The dispatch items are proved as follows. The calculus is calculus_le / calculus_lt (0 ≤ Δr ≤ 2Δτ; τ, r, f, h monotone). I⁺(p) at a BTZ point p is Iplus_axis globally and Iplus_ball_axis in every ball. Iminus_eq_empty is Iminus_axis in every U. past_local and DEC-64's Iplus_of_lt are inside btzAxioms. I^± are open in every U (isOpen_CLt_right / isOpen_CLt_left). J^±(V) is open for every open V, BTZ points included, at U = ⊤, which is the form LemmaKBare takes. Diamonds form a basis. For the LocalModel fields, absolutelyMinimalOn_Y and coneSliceFuture_Y are verbatim with singY 0 := inr '' axis, and coneSlicePast_Y is verbatim at every point. I tried to satisfy every hypothesis and found none vacuous. The one hypothesis-carrying bundle is singularFlatAxioms_of_pushUp (hP : causality.PushUp). It is satisfiable, since local push-up is true in E0 (ETT cor:pushup_sing), it is disclosed as SCOPE (d), and it certifies no label. DEC-55 does not apply here, and nothing in the file depends on DEC-74.",
+    "docstring_marks": "No **`label`** mark appears in the first 4000 characters or anywhere else. The one touched row, lem:manifolds_manifolds_causally_connected, is mentioned unmarked at l.20-24. The other bold phrases are prose. This is consistent with kb/0006.",
+    "report": "REPORT.json is valid and matches the file: builds true, 0 sorry. It lists one label, lem:manifolds_manifolds_causally_connected, as partial and unmarked. The reasons given are the model-only scope (the lemma is about every BTZ- and BTZ~-manifold) and the CausallyArcConnected reading, which is recorded as a question as AUDIT-1 asked. The ledger rows at l.2317-2331 are def:manifolds_future_distinguishing_map, def:singular_manifold_endowed_causal, lem:globally_hyperbolic_manifolds_manifolds and lem:manifolds_manifolds_causally_connected. Only the last is touched, and the two defs are represented by library notions. The notes disclose every round-1 minor and name its owner: chartIso_mem goes to WP-39f; pushUp and CausallyOpenFuture go to WP-39f; the identifications with btzE0Structure and e0SingY go to WP-39f.",
+    "imports_dec33": "Clean. The file is under scaffold/GXScaffold/BTZ/. It imports only these strict Causal.* modules: ArcConnected, SingularFlat, Static, Minkowski, CauchyExtension, Flat.Form, Flat.CBGSlice, CurvesExtend and Flat.Cosmological. It never imports the root Causal or any CausalScaffold.* module, and it has no `open Causal`. Every Causal name is fully qualified. The axiom sweep shows that no sorried upstream module is used.",
+    "name_clashes": "None. Every declaration is GX.E0 or GX.E0.*. No other file under GX/ or scaffold/ declares E0 or opens namespace E0. Rigid.lean uses GX.E0Y and GX.e0*. tauShift and rotE0 do not collide with GX.timeShift."
+  },
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "docstring hypothesis table (chartIso_mem ⚠); SCOPE (b); chartIso_sectorChart, chartIso_tauShift, chartIso_rotE0",
+      "problem": "The LocalModel field chartIso_mem is still not discharged. The file proves only its generators: sector charts, τ-translations and rotations. It does not prove the transports of the Isom(E0) generators through toPaperY to 𝕄 ⊕ BTZE0. The deferral is disclosed, and the owner, WP-39f, is named. The field needs Rigid's e0Groupoid, whose elements are only a.e. regular, so it is assembly work.",
+      "fix": "WP-39f: prove ∀ e ∈ e0Groupoid, ChartIso causalityYBTZ causalityYBTZ e from the generators proved here, via SliceAt.transport-style transport through toPaperY."
+    },
+    {
+      "severity": "minor",
+      "where": "SCOPE (d); singularFlatAxioms_of_pushUp l.3305",
+      "problem": "Local push-up in every open U (SingularFlatAxioms.pushUp) and CausallyOpenFuture (J⁺_U(V) open for U ≠ ⊤) are not proved for E0. Both are disclosed and owed to WP-39f. Neither was a dispatch item, and the global push-up follows from Lt.trans_le / Le.trans_lt with le_top_iff / lt_top_iff, although no named declaration states it.",
+      "fix": "WP-39f (or a follow-up): prove causality.PushUp by concatenating CLt/CLe curves inside U, then discharge singularFlatAxioms_of_pushUp's hypothesis."
+    },
+    {
+      "severity": "minor",
+      "where": "SCOPE (a); causalityBTZE0 l.3478, coneSliceFuture_YBTZ l.3499",
+      "problem": "coneSliceFuture_YBTZ states the BTZ locus as toPaperY ⁻¹' singY0, and causalityYBTZ is a transport. No lemma here identifies either with Rigid's e0SingY 0 or with the chart causality of btzE0Structure. Until those identifications exist, '_YBTZ verbatim' holds only modulo them. This is disclosed and owed to WP-39f, and it is unchanged from AUDIT-1.",
+      "fix": "WP-39f: prove e0SingY 0 = toPaperY ⁻¹' singY0 and chartedCausality(btzE0Structure) = causalityBTZE0 before assembling 𝔐E₀."
+    }
+  ],
+  "labels": [
+    {
+      "label": "lem:manifolds_manifolds_causally_connected",
+      "tex_lines": [2329, 2331],
+      "reported_status": "partial",
+      "audited_status": "partial",
+      "marked": false,
+      "note": "Correct. The file proves CausallyArcConnected for the model E0, for Y = 𝕄 ⊕ E0 and for 𝕄 ⊕ BTZE0. The paper's lemma is about every BTZ- and BTZ~-manifold, which is WP-39f/l's. The reading of def:singular_manifold_endowed_causal as Causal's CausallyArcConnected, which is stronger, is put as a question."
+    }
+  ],
+  "questions_for_author": [
+    "Do you accept def:singular_manifold_endowed_causal (l.2319) read as Causal.Causality.CausallyArcConnected (≤_U and ≪_U realised by causal / chronal curves of U, in every open U)? The paper's form is the special case U = M and ≤ only.",
+    "Do you confirm that WP-39f owns the remaining E0 obligations this package defers: chartIso_mem for e0Groupoid, local push-up, CausallyOpenFuture at U ≠ ⊤, and the identification of causalityYBTZ / toPaperY⁻¹' singY0 with btzE0Structure / e0SingY?"
+  ],
+  "summary": "Verdict: clean. Both round-1 majors are fixed with real proofs. coneSlicePast at BTZ points is proved by sliceAt_past_of_mem_axis, so coneSlicePast_Y and coneSlicePast_YBTZ hold at every point, unconditionally and in LocalModel's verbatim shape. K = J⁺(w) ∩ {τ + r = c} is non-empty, and Γ is a genuine Cauchy surface of N in the library's sense. Diamonds form a basis (diamonds_basis), and from it the open-diamond neighbourhood basis and the Alexandrov topology equal to the topology are also proved. The Isom(E0) generators are ChartIso, and SingularFlatAxioms is bundled with push-up as its only disclosed input. The file builds cleanly, with 0 sorry and only the standard axioms on all 310 declarations. The DEC-33 gate is respected, there are no name clashes and no marks, and the single ledger row is correctly partial and unmarked. Three minors remain, each disclosed and owned by WP-39f: the groupoid assembly of chartIso_mem, local push-up / CausallyOpenFuture, and the identification of the transported BTZE0 causality and locus with Model/Rigid's."
+}

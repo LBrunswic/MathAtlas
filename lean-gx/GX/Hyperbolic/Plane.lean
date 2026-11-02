@@ -8,18 +8,22 @@ import Mathlib.MeasureTheory.Measure.Lebesgue.Complex
 /-!
 # The hyperbolic plane, cusped hyperbolic surfaces, and `ex:take_closed_unit_disc`
 
-Package WP-35i (DEC-71: "build ℍ²"), extended by WP-40b (DEC-81: the **metric reading**).
-`papers/gx`, `RamcovGX.tex:1877–1886`, on WP-27i's `GX.SingularII.Tame` (whose
-`GX.not_isOpen_horodisc_insert` is reused for the last sentence).
+Package WP-35i (DEC-71: "build ℍ²"), extended by WP-40b (DEC-81: the **metric reading**) and
+WP-41o (DEC-84: the row closes). `papers/gx`, `RamcovGX.tex:1877–1886`, on WP-27i's
+`GX.SingularII.Tame` (whose `GX.not_isOpen_horodisc_insert` is reused for the last sentence).
 
-* `ex:take_closed_unit_disc` — `RamcovGX.tex:1877` — partial: every assertion of the example is
-  proved for `M ∖ S` carrying a **complete hyperbolic metric** with a cusp at each point of `S`
-  (`GX.take_closed_unit_disc_metric`, hypothesis `GX.IsCuspedHyperbolicMetric`; the
-  `(G, X)` form `GX.take_closed_unit_disc`, hypothesis `GX.IsCuspedHyperbolic`); the two readings
-  agree (`GX.IsCuspedHyperbolicMetric.isCuspedHyperbolic`,
-  `GX.IsCuspedHyperbolic.exists_unique_metric`). Missing for `closed` (SCOPE (b)): the
-  thick–thin step "finite volume ⇒ a cusp at each puncture" (the cusps are assumed; that they
-  have finite area is proved, `GX.CuspChart.cusp_finite_area`), and the Riemannian tensor.
+* **`ex:take_closed_unit_disc`** — `RamcovGX.tex:1877` — closed under DEC-81 + DEC-84: every
+  assertion of the example is proved for `M ∖ S` carrying a **complete hyperbolic metric** of
+  finite volume, "finite volume" read as **a hyperbolic cusp at each point of `S`** and the
+  `(Isom ℍ, ℍ)`-atlas given as data **compatible with the metric** (DEC-84;
+  `GX.take_closed_unit_disc_metric`, hypothesis `GX.IsCuspedHyperbolicMetric`, the
+  compatibility being `GX.IsHyperbolicMetric.local_isometry`; the `(G, X)` form
+  `GX.take_closed_unit_disc`, hypothesis `GX.IsCuspedHyperbolic`); the two readings agree
+  (`GX.IsCuspedHyperbolicMetric.isCuspedHyperbolic`,
+  `GX.IsCuspedHyperbolic.exists_unique_metric`); each cusp has finite area
+  (`GX.CuspChart.cusp_finite_area`). Not built, and by DEC-84 not owed (SCOPE (b)): the
+  thick–thin step "finite volume ⇒ a cusp at each puncture", the area measure of the whole
+  surface, the Riemannian tensor.
   The metric content (DEC-81): the hyperbolic metric `GX.IsHyperbolicMetric` (a length metric
   giving the topology, locally the metric of `ℍ` in the charts), **unique**
   (`GX.IsHyperbolicMetric.unique`); for complete `(G, X)`-surfaces it exists and is complete
@@ -66,7 +70,8 @@ Package WP-35i (DEC-71: "build ℍ²"), extended by WP-40b (DEC-81: the **metric
 | `S` finite, `2g-2+s>0` | ✓ `S` finite carried; ⚠ weakened: `2g-2+s>0` not used (it is the existence condition) |
 | `M ∖ S` a hyperbolic metric | ✓ read metrically (DEC-81, SCOPE (b)): a `(G, ℍ)`-structure with a metric `m`, `IsHyperbolicMetric` (length metric, topology, locally `d_ℍ` in the charts); unique; the Riemannian tensor is not formalized |
 | complete | ✓ carried (DEC-81): `m` complete as a metric space (`IsCuspedHyperbolicMetric.complete`), equivalent to Thurston–Goldman completeness (`IsHyperbolicMetric.completeSpace_iff`) |
-| finite volume | ⚠ read (SCOPE (b)): a cusp at every point of `S` (`CuspChart`, `IsHyperbolicCusp`), whose area is proved finite (`CuspChart.cusp_finite_area`); finite volume ⇒ cusps (thick–thin) not built |
+| finite volume | ✓ read (DEC-84, SCOPE (b)): a hyperbolic cusp at every point of `S` (`CuspChart`, `IsHyperbolicCusp`), whose area is proved finite (`CuspChart.cusp_finite_area`); finite volume ⇒ cusps (thick–thin) not built, not owed under DEC-84 |
+| the `(G, ℍ)`-atlas | ✓ read (DEC-84): data (`ChartedSpace PoincareDisc (Sᶜ : Set M)`, `HasGroupoid … (gxGroupoid HypIsom PoincareDisc)`) compatible with the metric (`IsHyperbolicMetric.local_isometry`: locally `m = d_ℍ` read in the charts); the metric is then unique (`IsHyperbolicMetric.unique`) |
 | singular manifolds second countable | ⚠ weakened: not used |
 
 ## SCOPE (disclosed)
@@ -91,12 +96,14 @@ Package WP-35i (DEC-71: "build ℍ²"), extended by WP-40b (DEC-81: the **metric
   maps): ⇐ by the quotient metric of `ℍ` (`GX.IsHypQuotient`), ⇒ by Hopf–Rinow (geodesic arcs
   lift through the developing map, `GX.IsDevLocalIsometry.exists_lift_hypGeod`, by completeness;
   the lifts depend continuously on the end, mathlib's `IsLocalHomeomorph.continuous_lift`).
-  "Finite volume" is read as a cusp at each `s ∈ S`: a neighbourhood `V ≅ ball(0, e^{-2πc})`,
+  "Finite volume" is read (DEC-84, the author's ruling, under which the row is closed) as a
+  hyperbolic cusp at each `s ∈ S`, and the `(Isom ℍ, ℍ)`-atlas is data compatible with the
+  metric (the field `local_isometry` of `GX.IsHyperbolicMetric`). A cusp at `s`: a neighbourhood `V ≅ ball(0, e^{-2πc})`,
   `s ↦ 0`, on which `w ↦ φ⁻¹(e^{2πiw})`, `Im w > c`, is a `(G, ℍ)`-morphism; the cusp is proved
   to have finite area — `W_c ∖ {s}` is the injective, locally isometric image of the strip
   `{c < Im w, 0 ≤ Re w < 1}`, of area `1/c` for the invariant area `dx dy / y²`
-  (`GX.CuspChart.cusp_finite_area`). Not built: the thick–thin decomposition (finite volume ⇒
-  each end is a cusp), and the area measure of the whole surface. From this the file builds:
+  (`GX.CuspChart.cusp_finite_area`). Not built, and not owed under DEC-84: the thick–thin
+  decomposition (finite volume ⇒ each end is a cusp), and the area measure of the whole surface. From this the file builds:
   the developing map onto `ℍ`, the lifts of the cusps to horodiscs, the Fox ends over `S`, the
   extension of the developing map to the parabolic fixed points.
 * **(c)** No inhabitant with a cusp is constructed (e.g. `Γ(2)\ℍ`, the thrice-punctured sphere);
@@ -4137,8 +4144,10 @@ variable (M S) in
 /-- **The data of `ex:take_closed_unit_disc` under the metric reading** (DEC-81): `S ⊆ M` finite
 and `M ∖ S` a `(G, ℍ)`-surface (`G = Isom ℍ`) carrying a **complete hyperbolic metric** `m`
 (`GX.IsHyperbolicMetric`: a length metric giving the topology, locally the metric of `ℍ` in the
-charts; complete as a metric space), with a hyperbolic cusp at every point of `S` (the
-finite-volume ends; the thick–thin step finite volume ⇒ cusps is not built). -/
+charts; complete as a metric space), with a hyperbolic cusp at every point of `S` — the reading
+of "finite volume" ruled by DEC-84, the `(Isom ℍ, ℍ)`-atlas being data compatible with the
+metric (`IsHyperbolicMetric.local_isometry`); the thick–thin step finite volume ⇒ cusps is not
+built and, by DEC-84, not owed. -/
 structure IsCuspedHyperbolicMetric (m : MetricSpace (Sᶜ : Set M)) : Prop where
   finite : S.Finite
   hasGroupoid : HasGroupoid (Sᶜ : Set M) (gxGroupoid HypIsom PoincareDisc)
@@ -4178,7 +4187,8 @@ theorem IsCuspedHyperbolic.exists_unique_metric [T2Space M] [LocPathConnectedSpa
 variable [T2Space M] [LocPathConnectedSpace M] [FirstCountableTopology M] [ConnectedSpace M]
 
 variable (M S) in
-/-- **`ex:take_closed_unit_disc` under the metric reading** (`RamcovGX.tex:1877`, DEC-81, DEC-71).
+/-- **`ex:take_closed_unit_disc` under the metric reading** (`RamcovGX.tex:1877`, DEC-81, DEC-84,
+DEC-71); the certificate of the row.
 `M ∖ S` with a complete hyperbolic metric and a cusp at every point of the finite `S`
 (`GX.IsCuspedHyperbolicMetric`). Then every assertion of the example holds: `M` is a singular
 `(G, X)`-manifold with `sing(M) = S`, tamely singular, every developing map

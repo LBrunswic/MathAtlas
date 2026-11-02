@@ -1,0 +1,36 @@
+{
+ "package": "WP-41r",
+ "round": 3,
+ "auditor": "read-only auditor, node1, 2026-11-02",
+ "files": [
+  "scaffold/GXScaffold/Branched/GaloisExamples.lean",
+  "scaffold/GXScaffold/Topology/VanKampen.lean"
+ ],
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count": 0,
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean` on GaloisExamples.lean exits 0 in 1:53 with NO warnings, so there is no `declaration uses sorry`. `lake build --no-build GXScaffold.Branched.GaloisExamples` reports all 8570 targets up to date: the olean (16:10) postdates the source (16:06), and nothing was rebuilt. VanKampen.lean is unchanged since round 2 (14:36) and has 0 sorry. Neither file imports Causal.*.",
+  "axioms": "These all give exactly [propext, Classical.choice, Quot.sound]: GX.antoineChainEssential, antoineChainEssential_proof, antoineFirstGeneration, antoineMeridianEssentialTop, antoineNecklace_wild_not_isSLSCInCC, exists_wild_cantor_not_isSLSCInCC, antoineNecklace_not_isSLSCIn, isWildCantor_antoineNecklace, antoineNecklace_not_tame, absolute_galois_corrected and following_situations_semi_locally_simply. The new section has no set_option beyond maxRecDepth for kernel `decide`, no axiom, no native_decide, no implemented_by and no unsafe code. Its one instance is a local Decidable instance on a Fin 64 predicate.",
+  "round2_fix": "AUDIT-2's major is RESOLVED. The diff against scratch/GaloisExamples.fixer2-start.lean adds a section (l.6713-8266, 133 declarations) and changes docstrings only. No existing statement, signature or definition changed. GX.AntoineChainEssential (unchanged: for all a ≠ 0, the a-th power of antoineMuS is not HomotopicIn the complement of stereo '' antoineStage 1 relative to refl) is now proved by antoineChainEssential_proof. A null-homotopy H is lifted through exp to a continuous square root S of P∘H, P being the product of the 32 vertical-link Θ'ᵢ. G = antoineDg(H, S) is continuous and nonzero, equals -1 on the three base-point edges, and has winding a·2·(±1) on the bottom edge. AntoineLiftWind.of_freeHomotopy then forces 0, so a = 0. The route is the explicit non-abelian double cover the dispatch allowed. The SvK theorem stays in use for the induction over generations.",
+  "statement_fidelity": "The headline types are unchanged: antoineNecklace_wild_not_isSLSCInCC : IsWildCantor antoineNecklace ∧ ¬IsSLSCInCC antoineNecklaceᶜ, which is DEC-55 literal with DEC-82 wildness, and exists_wild_cantor_not_isSLSCInCC : ∃ C, IsWildCantor C ∧ ¬IsSLSCInCC Cᶜ. No hypothesis is added. The reading is ruled by DEC-58/DEC-68 (f): one explicit necklace, with the general-wild-Cantor reading's failure recorded by wild_cantor_claim_false_of_exists. DEC-85 is now met, because Antoine's lemma is proved, not assumed. The residual statement was verified true and non-vacuous in AUDIT-1/2 and is now a theorem.",
+  "docstring_marks": "The first 4000 characters mark exactly the three labels: ex:following_situations_semi_locally_simply, ex:consider_denote_absolute_galois and ex:wild_cantor_general_antoine. All three are certified with no sorry beneath them. No stale 'rests on the sorry' prose remains. The l.87 'NOT formalized' refers to Bing–Moise in the tame-knot discussion, already ruled by DEC-68 (c).",
+  "report": "REPORT.json says builds true, sorry_count 0, and lists all three labels as closed/marked. The two earlier labels are byte-identical to round 1. It lists 1000 distinct names with no duplicates. All 133 new declarations are listed. Every listed name exists, apart from a regex miss on GX.following_situations_semi_locally_simply, which exists: its axioms print.",
+  "name_clashes": "None. A script compared the 133 new names with GX/**, the other scaffold/** files and the pinned Causal sources, and found no hits."
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "GaloisExamples.lean:2 `import GXScaffold.Topology.VanKampen`",
+   "problem": "This scaffold-to-scaffold import is carried over from AUDIT-1/2 and disclosed in the notes.",
+   "fix": "Master session: graduate VanKampen to GX/Topology/VanKampen.lean first, repoint the import, and add the README module-table entry."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json, ex:wild_cantor_general_antoine findings[4]",
+   "problem": "The round-1 finding 'Hand computation (not formalized; recorded for the next package): ... D_inf representation' is now stale. The first generation is formalized by a different (double-cover) route, so the D_inf-colouring remark is no longer a pending item.",
+   "fix": "Reword it as historical, or drop it, when graduating the row."
+  }
+ ],
+ "summary": "Round 3: CLEAN. GaloisExamples.lean builds with no warnings and 0 sorry, and its olean is up to date. Every headline declaration depends only on [propext, Classical.choice, Quot.sound]. AUDIT-2's major is resolved: GX.AntoineChainEssential, the non-abelian heart of Antoine's lemma at the first generation, is unchanged and now proved by a continuous square-root / double-cover winding invariant (antoineChainEssential_proof). The change is purely additive, so no statement moved. ex:wild_cantor_general_antoine is therefore certified in full under DEC-58/68(f)/82/85, wildness included, and its bold mark and 'closed' status are earned. Marks, REPORT and names are consistent, and there are no clashes. Two minors remain: the carried scaffold import of VanKampen, and one stale REPORT finding."
+}

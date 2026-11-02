@@ -1,0 +1,75 @@
+{
+  "package": "WP-41r",
+  "round": 1,
+  "auditor": "read-only auditor, node1, 2026-11-02",
+  "files": [
+    "scaffold/GXScaffold/Branched/GaloisExamples.lean",
+    "scaffold/GXScaffold/Topology/VanKampen.lean"
+  ],
+  "verdict": "issues",
+  "builds": true,
+  "sorry_count": 1,
+  "checks": {
+    "build": "taskset -c 0-11 lake env lean GaloisExamples.lean: EXIT 0 in 1:50, exactly one warning `declaration uses sorry` at l.5132 (GX.antoineFirstGeneration). VanKampen.lean: EXIT 0, no warnings, 0 sorry. The oleans postdate the sources (GaloisExamples 13:49 > 13:47; VanKampen 13:35 > 13:29). Imports: no Causal.*, so DEC-33 is respected.",
+    "axioms": "#print axioms gives [propext, Classical.choice, Quot.sound] for GX.antoineMeridianEssentialTop_of_firstGeneration, GX.antoineNecklace_wild_not_isSLSCInCC_of_top, GX.VanKampen.homotopicIn_of_homotopicIn_union', GX.following_situations_semi_locally_simply, GX.absolute_galois_corrected, GX.isWildCantor_antoineNecklace_of_res and GX.tameCantorSLSC. GX.antoineNecklace_wild_not_isSLSCInCC adds sorryAx, which is what the report says.",
+    "report_decls_exist": "All 726 distinct names in REPORT.json (labels plus extra_decls) exist in the environment. I checked this with a script that also flags a planted missing name.",
+    "name_clashes": "None found. I compared every declaration name in both files against GX/** and the other scaffold/** files.",
+    "docstring_marks": "The module docstring's first 4000 characters mark only ex:following_situations_semi_locally_simply and ex:consider_denote_absolute_galois. ex:wild_cantor_general_antoine is unmarked and labelled stated. This matches the axioms.",
+    "residual_satisfiable": "I tested whether each of the six fields of GX.AntoineFirstGeneration is true, so the reduction cannot rest on an unsatisfiable premise. `disjoint`: checked numerically over all 64x63 ordered pairs on a dense grid of each link including its corners. The minimum of (max(|x|,|y|)-7/8)^2+z^2 over the other links is 0.125 against the bound 1/16, a margin of sqrt 0.125 = 0.354, which matches the report. Adjacent links are geometrically linked once: each vertical link's inner side crosses the horizontal neighbour's hole at rho in [1/4,1/2]. The 64-link chain alternates types all the way round, corners included, so it is a genuine closed chain and `chain` is the classical first-generation Antoine lemma. Since a link complement has a torsion-free pi_1, every nonzero power is also non-null. `collar_conn`, `collar_mer` (kernel of Z^2 -> Z), `collar_inj` (linking with L_j and L_{j+1} detects Z^2) and `joined` all hold for N_j = a round-square open solid torus, L_j the closed rectangle-section torus inside it (L subset N is proved), and the meridian of radius 3/14 lying strictly between the two (sqrt2/8 < 3/14 < 1/4). The residual is TRUE: the sorry is honest and the reduction is not vacuous.",
+    "vankampen_statements": "homotopicIn_of_homotopicIn_union is the standard injectivity consequence of SvK (U, V open, U, V and U∩V path-connected, pi_1(U∩V) injecting into both sides, gives pi_1(U) -> pi_1(U∪V) injective on null-homotopy). The primed form drops path-connectedness of U and V under LocPathConnectedSpace X. That is sound: U0 ∪ V0 is clopen in U ∪ V because (U\\U0)∩V0 = ∅ when U∩V is path-connected. Neither statement is vacuous; the hypotheses are the classical ones.",
+    "progress_vs_WP-40e": "This is a genuine narrowing with no weakening. Previously the sorry was the infinite family GX.AntoineMeridianEssentialTop (all k >= 1). It is now one fixed-level structure whose `chain` field contains the k = 1 case (all powers). GX.AntoineMeridianEssentialTop keeps its name and type, and no declaration was removed. The git diff (read-only) deletes only docstring prose and the old sorry body."
+  },
+  "issues": [
+    {
+      "severity": "major",
+      "where": "GaloisExamples.lean:5132 GX.antoineFirstGeneration; label ex:wild_cantor_general_antoine",
+      "problem": "DEC-85 rules that Antoine's lemma is PROVED, and the dispatch asked for the tagged sorry to be closed with the row certified in full, wildness included. That did not happen. The non-abelian heart `chain` remains, and the label stays `stated`. The report says this honestly, so it is not an overclaim. The obstruction is also bounded now: one explicit complement S^3 \\ C_1. The agent's own hand computation gives a D_inf colouring, and composing with D_inf -> D_n for a suitable odd n gives a FINITE permutation representation. That is exactly the dispatch's alternative route (a finite-sheeted covering detecting the meridian), and it was identified but not built.",
+      "fix": "Build the finite dihedral covering of S^3 \\ C_1 (or a D_n-valued homotopy-invariant loop invariant on an open cover glued by GX.VanKampen.Data.exists_extension, which already takes values in any group). Then show the meridian's monodromy is a translation of order n with n not dividing a; to cover every a ≠ 0, take n prime to a or use the D_inf invariant itself. Then close `chain` and mark the row."
+    },
+    {
+      "severity": "major",
+      "where": "GaloisExamples.lean:4847-4861 structure GX.AntoineFirstGeneration; sorry at l.5133",
+      "problem": "The single tagged sorry covers five fields that the agent itself calls 'abelian or point-set, routine but not yet written': `disjoint`, `collar_conn`, `collar_mer`, `collar_inj` and `joined`. They sit under the same sorry as the genuine obstruction `chain`. The protocol allows a tagged sorry only on a genuine obstruction after a serious attempt, so these five are avoidable sorried content. The heaviest is `disjoint`: a finite 64x64 check like the existing AntoineSep/AntoineAdj tables, with a margin of 0.354 against 0.25, which I verified numerically.",
+      "fix": "Prove `disjoint`, `collar_conn`, `collar_mer`, `collar_inj` and `joined` as separate sorry-free theorems. Narrow the residual to a single Prop (the `chain` field), for example a theorem `antoineFirstGeneration_of_chain : ChainEssential -> AntoineFirstGeneration`, so that the file's one sorry is exactly the non-abelian obstruction."
+    },
+    {
+      "severity": "minor",
+      "where": "VanKampen.lean:11 (module docstring)",
+      "problem": "The docstring names `GX.VanKampen.exists_extension`, which does not exist. The declaration is `GX.VanKampen.Data.exists_extension` (#print fails on the former).",
+      "fix": "Write `GX.VanKampen.Data.exists_extension`."
+    },
+    {
+      "severity": "minor",
+      "where": "GaloisExamples.lean:5141, 5163, 6098, 6145, 6194, 6213 (declaration docstrings)",
+      "problem": "These docstrings still say the declarations 'rest on the residual GX.antoineMeridianEssentialTop only'. Since WP-41r that is a sorry-free theorem, and the file's one residual is GX.antoineFirstGeneration.",
+      "fix": "Reword to 'rests on GX.antoineFirstGeneration (via GX.antoineMeridianEssentialTop)'."
+    },
+    {
+      "severity": "minor",
+      "where": "GaloisExamples.lean:6187, 6199, 6206 (declaration docstrings)",
+      "problem": "Declaration docstrings of CONDITIONAL theorems (`_of (hres : …)`, `_of_top (h : …)`) open with the bold mark **`ex:wild_cantor_general_antoine`**. The ledger reads only the module docstring, so nothing is mis-certified. But kb/0006 treats the bold mark as the claim of full certification, and a reader of the declaration can take it as one. This is carried over from earlier waves.",
+      "fix": "Drop the ** on conditional declarations, or write 'conditional on …' beside the mark."
+    },
+    {
+      "severity": "minor",
+      "where": "campaign/WP-41r/REPORT.json extra_decls",
+      "problem": "15 names (GX.loopNatPow, GX.loopZPow and their lemmas, GX.cWinding_pathRefl/pathSymm/loopNatPow/loopZPow, GX.pathToSub_loopZPow, GX.homotopicIn_conj_refl/_of) appear both in extra_decls and in the ex:wild_cantor_general_antoine decls.",
+      "fix": "List each name once."
+    },
+    {
+      "severity": "minor",
+      "where": "GaloisExamples.lean:2 `import GXScaffold.Topology.VanKampen`",
+      "problem": "A scaffold file now imports another scaffold module. Graduating GaloisExamples requires graduating VanKampen first, together with a README module-table entry. The notes disclose this.",
+      "fix": "Master session: graduate GXScaffold.Topology.VanKampen first (to GX/Topology/VanKampen.lean), then repoint the import."
+    }
+  ],
+  "labels": [
+    {"label": "ex:following_situations_semi_locally_simply", "report_status": "closed", "audit": "consistent: marked, sorry-free assembly (axioms clean); unchanged by WP-41r"},
+    {"label": "ex:consider_denote_absolute_galois", "report_status": "closed", "audit": "consistent: marked, sorry-free assembly (axioms clean); unchanged by WP-41r; the open question on the bibliographic sentence is the master's"},
+    {"label": "ex:wild_cantor_general_antoine", "report_status": "stated", "audit": "consistent and honest: unmarked; the headline depends on sorryAx through GX.antoineFirstGeneration only; the residual is true (see checks.residual_satisfiable); not closed as DEC-85 requires"}
+  ],
+  "questions_for_author": [
+    "Should the master accept a residual narrowed to the single field `chain` (the first-generation meridian essential in S^3 \\ C_1) as the documented obstruction for one more wave, or is DEC-85 to be read as forbidding any sorry on this row?"
+  ],
+  "summary": "Both files build, and the one sorry is GX.antoineFirstGeneration. Every certified claim has clean axioms. The docstring marks and the report are honest: Antoine stays stated and unmarked. The van Kampen theorem is correctly stated and sorry-free. The residual is true, so the sorry-free reduction from every generation to the first is real progress, not a vacuous one. Two major issues block a clean verdict. DEC-85's goal is unmet: `chain` is open, though its finite dihedral covering is identified. And the one sorry also covers five routine fields that should be proved separately. The minor issues are a stale declaration name in the VanKampen docstring, stale 'rests on' docstrings, bold marks on conditional declarations, duplicate report entries and the scaffold-to-scaffold import."
+}

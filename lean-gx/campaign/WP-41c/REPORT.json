@@ -1,0 +1,243 @@
+{
+ "package": "WP-41c",
+ "files": [
+  "scaffold/GXScaffold/BTZ/Rigid.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [],
+ "interface_fields": [
+  {
+   "field": "t2Y",
+   "status": "closed",
+   "decls": [
+    "GX.e0Y_t2Space"
+   ],
+   "note": "instance; T2 of BTZE0 from GX.btz_instances",
+   "sorries": []
+  },
+  {
+   "field": "closedUnderRestriction",
+   "status": "closed",
+   "decls": [
+    "GX.e0Groupoid_closedUnderRestriction"
+   ],
+   "note": "instance; G is a pregroupoid groupoid with a pointwise property",
+   "sorries": []
+  },
+  {
+   "field": "locallyConnected",
+   "status": "closed",
+   "decls": [
+    "GX.e0Y_locallyConnectedSpace"
+   ],
+   "note": "instance (not in the dispatch list, needed by LocalModel)",
+   "sorries": []
+  },
+  {
+   "field": "isOpen_regY",
+   "status": "closed",
+   "decls": [
+    "GX.e0_isOpen_regY"
+   ],
+   "note": "field text verbatim",
+   "sorries": []
+  },
+  {
+   "field": "dense_regY",
+   "status": "closed",
+   "decls": [
+    "GX.e0_dense_regY",
+    "GX.dense_e0Reg"
+   ],
+   "note": "from GX.isPortly_reg of E0",
+   "sorries": []
+  },
+  {
+   "field": "sing_mem",
+   "status": "closed",
+   "decls": [
+    "GX.e0_sing_mem",
+    "GX.mem_e0Reg_iff_of_mem"
+   ],
+   "note": "by the definition of G (both e and e.symm preserve Reg)",
+   "sorries": []
+  },
+  {
+   "field": "regularChart",
+   "status": "closed",
+   "decls": [
+    "GX.e0_regularChart",
+    "GX.mem_e0Groupoid_of_chart_eq"
+   ],
+   "note": "refl on M; at a regular point of E0 a chart of its maximal a.e. atlas followed by inl",
+   "sorries": []
+  },
+  {
+   "field": "localUnique_reg",
+   "status": "closed",
+   "decls": [
+    "GX.e0_localUnique_reg",
+    "GX.e0InlSmul",
+    "GX.e0InlSmul_mem"
+   ],
+   "note": "the only fully regular component is M (E0 is connected and has an axis point); Liouville via GX.exists_smul_eq_on_of_isPreconnected; injectivity unused",
+   "sorries": []
+  },
+  {
+   "field": "rigid",
+   "status": "closed",
+   "decls": [
+    "GX.e0_rigid",
+    "GX.isPreconnected_inter_e0Reg"
+   ],
+   "note": "B21 lem:liouville (BTZ_1.tex:361): reg(U) preconnected (Reg Y portly), rigidity of Isom(M3), continuity across the axis. Proved directly rather than through the strict IsAEMorphismOf.eq_of_eqOn (DEC-42, CBG-REVIEW §2): that lemma is about global maps of a preconnected singular manifold, while an element of G is a partial homeomorphism of the sum Y; bridging needs Y's a.e. atlas as a singular structure on each source, longer than the direct proof (SCOPE (a)).",
+   "sorries": []
+  },
+  {
+   "field": "localUnique_sing",
+   "status": "closed",
+   "decls": [
+    "GX.e0_localUnique_sing",
+    "GX.e0_localUnique_sing_core",
+    "GX.e0_localUnique_core_of_region",
+    "GX.btzE0_localUnique_core_of_region",
+    "GX.btzE0_localUnique_core",
+    "GX.e0_eqOn_of_eqOn_open"
+   ],
+   "note": "B21 prop:isom_strong at alpha=beta=0 (BTZ_1.tex:468-475), CLOSED, 0 sorry, no invariance of domain (CBG-REVIEW §2 route). Core: a box {r<eps1, |t-t0|<eps2} inside U, in log-polar coordinates a convex angle-shift-invariant B ⊆ C×R; (1) lift f|reg through the covering {r>0} -> reg E0 (mathlib IsCoveringMapOn.existsUnique_continuousMap_lifts, GX isCoveringMapOn_orbitMk_cylPos); (2) Liouville exists_smul_eq_on_of_isLocalHomeomorphOn: D∘f~ = g∘D; (3) one turn is a deck shift k, uniqueness of lifts, so gP = P^k g by rigidity of Isom(M3); (4) null coordinates: g preserves the fixed line Ru of P^k, is axis-preserving (GX.IsAxisAff: b(Lw)=b(w)/lam, lam>0), D^-1 g D is an explicit homeomorphism of the cylinder (GX.btzConj, GX.IsAxisAff.homeo; r -> r/lam, t -> (1/lam-lam) r + lam t + s0); (5) injectivity forces k = ±1 by the intermediate value theorem on the angle along one circle (GX.btzConj_winding, GX.e0BoxSec_orbit_ne); (6) descent to Aut(E0) (GX.btzE0Descend) and membership in G (GX.e0Lift_mem). k = -1 (theta -> -theta) is not excluded and need not be. The field's connectedness of U and 0 ≤ alpha0 are carried; the local core uses neither.",
+   "sorries": [],
+   "obstruction_correction": "Round-0's recorded obstruction ('no path/map lifting for covering maps in mathlib at this pin'; '(1)-(6) none exists') was wrong, as the audit said: mathlib fabf563a has IsCoveringMapOn.existsUnique_continuousMap_lifts, GX has exists_smul_eq_on_of_isLocalHomeomorphOn and isCoveringMapOn_orbitMk_cylPos, BTZ.Model has btzDevM_smul/btzDev_smul_all/btzDev_injective. The core is now proved."
+  },
+  {
+   "field": "localUnique_sing_adherent",
+   "status": "partial",
+   "decls": [
+    "GX.E0LocalUniqueSingAdherent",
+    "GX.e0_localUniqueSingAdherent_of_local",
+    "GX.e0_localUniqueSingAdherent_of_region"
+   ],
+   "note": "Mentions causalityY (WP-39e/41e's GXScaffold.BTZ.Causality, another package's file in progress, not imported). Stated verbatim as a Prop over a causality C. PROVED for every C from a hypothesis on C alone (GX.e0_localUniqueSingAdherent_of_region): every regular chronological diamond reg ∩ I+_O(y0) ∩ I-_O(r) with a BTZ tip contains a circle-swept region (image under (log r + i theta, t) -> [r, theta, t] of an open convex nonempty angle-shift-invariant B ⊆ C×R); the rest is the localUnique_sing core and rigidity.",
+   "sorries": [],
+   "pending_obligation": "(b1) for C = causalityY: every regular chronological diamond with a BTZ tip contains a circle-swept region. Expected easy from WP-41e's GX.E0.Iplus_axis (I+(p) = {r>0, f>tau_p}) and the closed form of I-(r): {tau > tau_p + r/2 + eta, tau < tau_r - eta', r < delta} is such a region (convex in log r)."
+  },
+  {
+   "field": "typeAgreement",
+   "status": "partial",
+   "decls": [
+    "GX.E0TypeAgreement",
+    "GX.e0_typeAgreement_of_reg"
+   ],
+   "note": "Mentions causalityY (WP-39e/41e). Stated verbatim as a Prop over C. Proved for every C: reduction to 'z0 is regular' (GX.e0_typeAgreement_of_reg; y0 not in sing_0 is regular, the second clause vacuous).",
+   "sorries": [],
+   "pending_obligation": "(b2) the hypothesis hreg of GX.e0_typeAgreement_of_reg for C = causalityY: a cluster value z0 of an injective local G-structomorphism on U ⊇ a regular diamond with regular tip y0 is regular (theta-loop holonomy argument in the diamond; needs C's local Minkowski structure)."
+  }
+ ],
+ "extra_decls": [
+  "GX.E0Y",
+  "GX.e0Inl",
+  "GX.e0Inr",
+  "GX.e0Atlas",
+  "GX.e0Reg",
+  "GX.e0SingY",
+  "GX.E0RegAt",
+  "GX.e0RegAt_of_exists",
+  "GX.E0RegAt.comp",
+  "GX.E0RegAt.congr",
+  "GX.e0RegAt_id",
+  "GX.e0Pregroupoid",
+  "GX.e0Groupoid",
+  "GX.mem_e0Groupoid_iff",
+  "GX.mem_e0Groupoid_of_chart_eq",
+  "GX.mapsTo_e0Reg_of_mem",
+  "GX.mem_e0Reg_iff_of_mem",
+  "GX.e0Atlas_eventually_smul_eq",
+  "GX.mem_e0Atlas",
+  "GX.e0Reg_eq",
+  "GX.e0RegSet_eq",
+  "GX.inr_mem_e0Reg_iff",
+  "GX.inl_mem_e0Reg",
+  "GX.connectedComponent_inl_subset",
+  "GX.connectedComponent_inr_subset",
+  "GX.connectedComponent_inr_eq",
+  "GX.exists_mem_connectedComponent_inr_sing",
+  "GX.mem_range_inl_of_forall",
+  "GX.btzE0_exists_notMem_reg",
+  "GX.e0SingY_mem",
+  "GX.e0_eq_of_mem_closure",
+  "GX.e0_eqOn_of_eqOn_open",
+  "GX.e0_nonempty_btzE0",
+  "GX.btzDev_e0_apply",
+  "GX.btzDev_e0_b",
+  "GX.nullQ_btzDev_e0",
+  "GX.DInfty.continuous_r'",
+  "GX.DInfty.continuousOn_θ'",
+  "GX.btzDevInv",
+  "GX.btzDevInv_btzDev",
+  "GX.btzDev_btzDevInv",
+  "GX.continuousOn_btzDevInv",
+  "GX.IsAxisAff",
+  "GX.IsAxisAff.apply",
+  "GX.nullQ_add_smul_nullU",
+  "GX.isAxisAff_of_mem",
+  "GX.IsAxisAff.symm",
+  "GX.btzConj",
+  "GX.IsAxisAff.image_mem",
+  "GX.IsAxisAff.btzDev_btzConj",
+  "GX.IsAxisAff.r_btzConj",
+  "GX.IsAxisAff.t_btzConj",
+  "GX.IsAxisAff.continuous_btzConj",
+  "GX.IsAxisAff.btzConj_symm_btzConj",
+  "GX.IsAxisAff.btzConj_btzConj_symm",
+  "GX.IsAxisAff.homeo",
+  "GX.IsAxisAff.mem_cylPos_iff",
+  "GX.IsAxisAff.btzConj_smul",
+  "GX.btzParab",
+  "GX.btzParab_zpow_smul",
+  "GX.eq_smul_nullU_of_parab_eq",
+  "GX.conj_zpow_of_conj",
+  "GX.map_line_of_conj",
+  "GX.btzParab_ne_one",
+  "GX.conj_ne_zero",
+  "GX.btzE0Descend",
+  "GX.btzE0Descend_mk",
+  "GX.btzE0_reg_eq",
+  "GX.e0Lift",
+  "GX.e0Lift_source",
+  "GX.e0Lift_target",
+  "GX.e0Lift_apply",
+  "GX.e0Lift_symm_apply",
+  "GX.e0RegAt_of_btzLift",
+  "GX.btzLift_symm_data",
+  "GX.e0Lift_mem",
+  "GX.e0BoxSec",
+  "GX.e0BoxSec_mem",
+  "GX.isOpenEmbedding_e0BoxSec",
+  "GX.e0BoxSec_add_two_pi",
+  "GX.e0Box",
+  "GX.isOpen_e0Box",
+  "GX.convex_e0Box",
+  "GX.mem_e0Box_add",
+  "GX.e0BoxSec_orbit_ne",
+  "GX.btzConj_winding",
+  "GX.btzE0_exists_box",
+  "GX.btzE0_localUnique_core_of_region",
+  "GX.btzE0_localUnique_core",
+  "GX.e0_localUnique_core_of_region",
+  "GX.e0_localUniqueSingAdherent_of_region"
+ ],
+ "kb_proposals": [
+  "LocalModel's Y for gx is Causal.Minkowski 2 ⊕ GX.BTZE0 (GX.E0Y), G = GX.e0Groupoid (a.e.-isomorphisms: pregroupoid with pointwise property E0RegAt), singY = GX.e0SingY (sing_0 = complement of support e0Atlas, sing_alpha = ∅ otherwise); field-type match with Causal.CBG.LocalModel.mk verified by elaboration.",
+  "Chart-independent membership in e0Groupoid: GX.mem_e0Groupoid_of_chart_eq (one pair of regular charts and one translation on the whole source) is the quickest way to put a concrete partial homeomorphism in G.",
+  "Any 'local-to-global' B2 statement for Y reduces, by GX.e0_eqOn_of_eqOn_open (rigidity propagation on a preconnected open set), to agreement with one element of G on one nonempty open set.",
+  "Lifting through the BTZ covering: GX.isCoveringMapOn_orbitMk_cylPos + mathlib IsCoveringMapOn.existsUnique_continuousMap_lifts on a convex box in log-polar coordinates (GX.e0BoxSec, GX.e0Box; Convex.contractibleSpace, IsOpen.locPathConnectedSpace) — no abstract universal cover needed.",
+  "An isometry g with gP = P^k g (k ≠ 0) is, in null coordinates, axis-preserving (GX.IsAxisAff), and D^-1 g D is an explicit homeomorphism of the cylinder (GX.btzConj): r -> r/lam, t -> (1/lam - lam) r + lam t + s0 — continuity at the axis needs only r and t, never theta (the natural topology of DInfty at the apex is {r < eps}).",
+  "B21 prop:isom_strong's 'injectivity forces l = 1' is the intermediate value theorem on the angle along one circle (GX.btzConj_winding): no invariance of domain, no normaliser classification."
+ ],
+ "notes": "Round 1 (fixer). 0 sorry. localUnique_sing CLOSED (round 0's single sorry, whose recorded obstruction was wrong, is proved). localUnique_sing_adherent and typeAgreement reported partial (audit minor 2) with their causality-only pending obligations (b1), (b2) explicit. SCOPE (b)'s 'large chronological futures' reworded (audit minor 3: empty diamonds, not proved). rigid kept direct, reason in SCOPE (a) (audit minor 4). G and singY are DEFINED here (GX.e0Groupoid, GX.e0SingY); WP-39e's causality and WP-39f's assembly should reuse them. No ledger RamcovGX row is certified (labels empty). The file imports only GXScaffold.BTZ.Model (no direct Causal import, DEC-33 gate unaffected). #print axioms: every theorem uses only propext, Classical.choice, Quot.sound. Build: taskset -c 0-11 lake build GXScaffold.BTZ.Rigid — 8620 jobs, only Rigid rebuilt.",
+ "round": 1,
+ "pending_obligations": [
+  "(b1) localUnique_sing_adherent for C = causalityY: every regular chronological diamond with a BTZ tip contains a circle-swept region (hypothesis hdiam of GX.e0_localUniqueSingAdherent_of_region).",
+  "(b2) typeAgreement for C = causalityY: the hypothesis hreg of GX.e0_typeAgreement_of_reg (cluster value z0 regular when y0 is regular)."
+ ]
+}

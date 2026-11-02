@@ -1,0 +1,37 @@
+{
+ "package": "WP-41r",
+ "round": 2,
+ "auditor": "read-only auditor, node1, 2026-11-02",
+ "files": [
+  "scaffold/GXScaffold/Branched/GaloisExamples.lean",
+  "scaffold/GXScaffold/Topology/VanKampen.lean"
+ ],
+ "verdict": "issues",
+ "builds": true,
+ "sorry_count": 1,
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean` on GaloisExamples.lean exits 0 in 1:41. It emits exactly one warning, `declaration uses sorry`, at l.6716 (GX.antoineChainEssential). VanKampen.lean exits 0 with no warnings and has 0 sorry. The oleans postdate the sources. Neither file imports Causal.*, so the DEC-33 import gate is respected.",
+  "axioms": "These all give [propext, Classical.choice, Quot.sound]: GX.antoineFirstGeneration_of_chain, antoineTube_disjoint, antoine_collar_conn, antoine_collar_mer, antoine_collar_inj, antoine_joined, antoineMeridianEssentialTop_of_firstGeneration, antoineNecklace_wild_not_isSLSCInCC_of_top, isWildCantor_antoineNecklace_of_res, tameCantorSLSC, following_situations_semi_locally_simply, absolute_galois_corrected, absGal_Y₂_fiber_cantor_corrected and VanKampen.homotopicIn_of_homotopicIn_union'. GX.antoineNecklace_wild_not_isSLSCInCC adds sorryAx, and only through GX.antoineChainEssential.",
+  "round1_fixes": "AUDIT-1 major 2 is RESOLVED. The five collar facts (disjoint, collar_conn, collar_mer, collar_inj, joined) are separate sorry-free theorems. GX.antoineFirstGeneration_of_chain : AntoineChainEssential → AntoineFirstGeneration is sorry-free. The file's one sorry is now exactly the `chain` field: GX.AntoineChainEssential is the same expression as AntoineFirstGeneration.chain. The four minor issues are also fixed. VanKampen's docstring now names GX.VanKampen.Data.exists_extension. The stale 'rests on the residual GX.antoineMeridianEssentialTop only' docstrings are gone. No bold label mark remains on any declaration docstring. REPORT has no duplicate names.",
+  "residual_truth": "GX.AntoineChainEssential is ∀ a ≠ 0, ¬ HomotopicIn (stereo '' antoineStage 1)ᶜ (loopZPow antoineMuS a) refl, where antoineMuS is antoineMeridian.map stereo. That meridian is the circle of radius 3/14 about (0,7/8,0) in the plane x = 0. It lies outside L, since the section's half-diagonal is √2/8 < 3/14, and therefore outside C₁ ⊆ L. This is the classical first-generation Antoine lemma for a closed alternating 64-link chain. AUDIT-1 verified the chain's geometry numerically, and the link complement has a torsion-free π₁. The residual is true and not vacuous. Its stage-0 analogue (l.4796) is proved by winding.",
+  "statement_fidelity": "No statement or signature changed since AUDIT-1. The headline conclusions (IsWildCantor ∧ ¬IsSLSCInCC, DEC-55 literal; DEC-82 wildness) keep their types, and no hypothesis was added.",
+  "docstring_marks": "The first 4000 characters of the module docstring mark only ex:following_situations_semi_locally_simply and ex:consider_denote_absolute_galois. The other label-like strings (cor:totdiscont, def:almost_trivial_loop, rem:simple_cases) are cross-references, not certifications. ex:wild_cantor_general_antoine is unmarked.",
+  "report": "REPORT.json lists all three labels of the file with statuses closed/closed/stated, and stated matches CAMPAIGN.md's definition. It lists 868 distinct names with no duplicates. The new round-1 declarations (AntoineChainEssential, antoineChainEssential, antoineFirstGeneration_of_chain, the collar/joined/tube theorems) are listed. The sorry entry names GX.antoineChainEssential with an accurate obstruction.",
+  "name_clashes": "None. A script compared the declaration names of both files with GX/** and the other scaffold/** files. Its only hit, `GX.for`, is a regex artefact from prose."
+ },
+ "issues": [
+  {
+   "severity": "major",
+   "where": "GaloisExamples.lean:6716 GX.antoineChainEssential; label ex:wild_cantor_general_antoine",
+   "problem": "DEC-85 rules that Antoine's lemma is PROVED, and the dispatch asked for the sorry to be closed so that the row is certified in full. That goal is still unmet. The non-abelian heart GX.AntoineChainEssential is sorried, and the label stays `stated`. The file contains no partial construction toward the detecting invariant: no Dihedral group, no colouring cocycle, no double cover. The obstruction note names a concrete route that is believed to work, a D_∞ representation from a Fox Z-colouring sending the meridian to translation by ±4, glued by the already-built GX.VanKampen.Data.exists_extension, which takes values in any group. So the sorry is an unbuilt step on a known route, not an obstruction met after an attempt. The report is honest about this, so there is no overclaim.",
+   "fix": "Build a D_∞-valued (or D_n-valued, n prime to a) homotopy-invariant multiplicative loop invariant on S³ ∖ C₁. Glue it with GX.VanKampen.Data.exists_extension from an open cover whose pieces have known π₁: the collars and tubes already classified by GX.antoine_collar_classify, plus the complement of the tubes. Evaluate it on loopZPow antoineMuS a to get a non-identity element for a ≠ 0. Then close GX.antoineChainEssential and mark the row."
+  },
+  {
+   "severity": "minor",
+   "where": "GaloisExamples.lean:2 `import GXScaffold.Topology.VanKampen`",
+   "problem": "This is a scaffold-to-scaffold import, carried over from AUDIT-1 and disclosed in the notes. Graduating this file requires graduating VanKampen first and adding a README module-table entry.",
+   "fix": "Master session: graduate VanKampen to GX/Topology/VanKampen.lean, then repoint the import."
+  }
+ ],
+ "summary": "Round 2. Both files build, and the one sorry is now exactly GX.antoineChainEssential, the non-abelian heart of Antoine's lemma at the first generation, which is true and not vacuous. AUDIT-1's major on the five collar facts is resolved: all five are proved sorry-free. Its four minors are fixed. Marks, REPORT and axioms are honest and consistent, and there are no name clashes. One major remains: DEC-85's goal is unmet, because the D_∞/D_n detecting invariant that the obstruction note describes has not been built, so ex:wild_cantor_general_antoine stays `stated`."
+}

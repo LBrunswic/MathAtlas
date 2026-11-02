@@ -1,0 +1,48 @@
+{
+ "package": "WP-41a",
+ "round": 1,
+ "file": "scaffold/GXScaffold/Lorentz/Bridge.lean",
+ "module": "GXScaffold.Lorentz.Bridge",
+ "verdict": "clean",
+ "builds": true,
+ "checks": {
+  "lake_env_lean": "`taskset -c 0-11 lake env lean scaffold/GXScaffold/Lorentz/Bridge.lean`: EXIT=0, no output (node1, 7.4 s). Also with `-DwarningAsError=true`: EXIT=0, no output",
+  "lake_build_module": "`taskset -c 0-11 lake build --no-build GXScaffold.Lorentz.Bridge`: 'All targets up-to-date (8605 jobs)', EXIT=0. The olean (12:57:53Z) is newer than the source (12:57:33Z). Nothing in Causal.* needs a rebuild",
+  "sorry_count": "0. None of the tokens sorry, admit, axiom, native_decide, implemented_by or extern occurs in the file",
+  "axioms": "`#print axioms` on all 60 extra_decls (fed through `lake env lean --stdin`): every one uses only standard axioms. 56 use [propext, Classical.choice, Quot.sound]. analyticStructure_iff_causal and isGXMorphism_iff_causal use [propext, Quot.sound]. isRigidAction_iff_causal and isAnalyticAction_iff_causal use no axioms. Every name resolved, so each declaration in REPORT exists",
+  "decl_count": "the file has 60 top-level declarations and REPORT.extra_decls lists 60. The two lists match one to one",
+  "name_clashes": "I grepped every declared short name as a theorem/def/instance/abbrev/structure/class head across GX/ and scaffold/ (Bridge.lean excluded) and found no hit. scaffold/GXScaffold/Lorentz/ holds only Bridge.lean and scaffold/GXScaffold/BTZ/ does not exist yet",
+  "DEC-33_gate": "the file is under scaffold/GXScaffold/Lorentz/. It imports only Causal.Flat.Isometries, Causal.Flat.Develop, GX.Singular.Quotient and GX.Structure.Developing: no `import Causal` root and no CausalScaffold.*. It opens only Set, Filter and Topology, never Causal. Every Causal.* name is written fully qualified",
+  "docstring_marks": "no **`label`** mark appears anywhere. The bold spans in the docstring are prose emphasis (**The isometry**, **Infrastructure for Section 4 ...**), not label marks. That is correct for an infrastructure package with no ledger label",
+  "dispatch_coverage": "every dispatch item is delivered, sorry-free: (i) the linear isometry nullToMink : (ℝ³,nullQ) ≃ₗ (𝐌³,minkQ), with minkQ_nullToMink exact; (ii) NullIsom0 ≃* Causal.Flat.isom 2 (nullIsom0EquivIsom), equivariant both ways (nullToMink_smul, nullToMink_symm_smul); the definitional mismatch (det>0 plus open cone vs det=1 plus closed cone) is genuinely resolved through det²=1 and a closure argument, not assumed; (iii) GX IsAnalyticAction/IsRigidAction/AnalyticStructure for isom d on Minkowski d, for every d (so 2 included), transported from Causal.Flat.isAnalyticAction_isom / analyticStructure_isom through field-by-field iff lemmas, plus a new IsAnalyticAction NullIsom0 ℝ³ instance; (iv) gxGroupoid_eq_causal is rfl, and the IsGXMorphism/IsGXAtlas/HasGroupoid iffs are real bridges, not trivialisations; (v) GX.UniversalCover ≃ₜ Causal.UniversalCover (toCausal, a genuine homeomorphism proved on the generating basic sets) and Deck ≃* Causal.Deck compatible with deckHom; (vi) GX.developing_theorem gives Causal.Flat.IsDevelopingPair (exists_isDevelopingPair_of_developing_theorem actually goes through GX.developing_theorem, not Causal's own exists_isDevelopingPair), with the converse and the null-coordinate transport"
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "Bridge.lean:279-281, nullToMink_nullU docstring",
+   "problem": "The docstring says the image `(1/2,(1/2,0))` is 'future lightlike', but the theorem proves only the coordinate identity. Neither Causal.Flat.IsFutureCausal nor minkQ = 0 is stated for it",
+   "fix": "Add a one-line lemma `Causal.Flat.IsFutureCausal (nullToMink nullU) ∧ Causal.Flat.minkQ (nullToMink nullU) = 0`, or drop the phrase. WP-39b will want the lemma anyway"
+  },
+  {
+   "severity": "minor",
+   "where": "Bridge.lean:690-702, isDevelopingPair_of_null; hypothesis checklist row 'developing pair'",
+   "problem": "`[LocPathConnectedSpace M]` and `hM : SemilocallySimplyConnected M` can both be derived from the ℝ³ charts: apply Causal.Flat.locPathConnectedSpace_of_flat 2 / semilocallySimplyConnected_of_flat 2 under the transported atlas. The flat-section lemmas derive them, but this one takes them as hypotheses. Both are satisfiable, so neither is vacuous, and they are harmless (proof-irrelevant). The checklist claims 'no hypothesis beyond the charted space' only for flat spacetimes and is silent on the null case",
+   "fix": "Either provide the two derivations for null-coordinate manifolds (via transportChartedSpace nullToMinkHomeomorph) or note in the checklist that they are derivable. Infrastructure only, so no ledger effect"
+  },
+  {
+   "severity": "minor",
+   "where": "Bridge.lean:25, module docstring quote",
+   "problem": "The P_θ quote is attributed to `RamcovGX.tex:672`, but the quoted sentence ('with $x_0\\in X$ arbitrary, $(P_\\theta)$ ... $\\langle v|u\\rangle<0$') is on line 673 (line 672 holds the displayed D(r,θ,t)). The line-293 citation is exact",
+   "fix": "Cite 672-673"
+  },
+  {
+   "severity": "minor",
+   "where": "Bridge.lean:6-76, module docstring",
+   "problem": "The docstring is 5,123 characters. This is harmless now because there is no label mark. A future label added to this file would have to sit inside the first 4,000 characters",
+   "fix": "None needed now"
+  }
+ ],
+ "fidelity_summary": "This package certifies no ledger label and the dispatch asked for none (WAVE5-PLAN WP-39a, infrastructure), so kb/0011 applies only to the bridges being honest. They are. Each equivalence is a real proof between the two libraries' independent definitions: NullIsom0 (gx: nullQ-preserving, det>0, open future cone preserved) against Causal.Flat.isom 2 = lorentz comap (minkQ-preserving, closed future cone preserved, det=1). Both directions are proved. Only the definitionally identical notions are discharged by rfl / Iff.rfl, and SCOPE (a) says which ones they are: the groupoids, the action classes, SemilocallySimplyConnected and IsGXAtlas. The universal covers are distinct types, and the file bridges them by a proved homeomorphism and a deck isomorphism; it does not pretend they are equal. The pulled-back cover charts depend on choices, and the file compares them only through choice-free characterisations (isGXMorphism_coverChartedSpace_iff / isGXMorphism_causalCover_iff), each proved from the pullback chart formula. I found no vacuous, circular or conclusion-carrying hypothesis. The hypotheses of exists_isDevelopingPair_of_developing_theorem are inhabited (the closing example instantiates it on 𝐌ⁿ itself), and the transport lemmas' equivariance hypotheses are discharged at nullToMink by nullToMink_smul / nullToMink_symm_smul. The cited results (GX.developing_theorem, Causal.Flat.isAnalyticAction_isom, det_sq_of_minkQ, lorentz.isFutureTimelike_apply) are strict, built library theorems, not assumptions (DEC-23). The paper's line 293 (X locally path-connected Hausdorff, G analytic by homeomorphisms) is matched by analyticStructure_flatIsom for (isom d, 𝐌ⁿ). nullIsom0EquivIsom_parab_smul states the line-673 fixing property for the normalised u = nullU. The general future lightlike u is handled in strict GX through parabConj (btz_whitehole_isom0), so that is a scoping choice, not a weakening",
+ "report_honesty": "REPORT.json is accurate. builds=true and sorry_count=0 are confirmed. labels=[] is correct, since no label is certified and none is marked. extra_decls is complete (60 of 60) and every listed name exists. The axiom claim is confirmed exactly, including the 'four use fewer'. The DEC-33 claims are confirmed. The remark that GX/Hyperbolic/Plane.lean is modified matches `git status` (WP-41o's edit, not this package's). The kb_proposals are consistent with the code: gxGroupoid_eq_causal is rfl, the covers are distinct types, and the `example` checks that the isom action has no diamond",
+ "questions_for_author": []
+}

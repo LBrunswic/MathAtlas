@@ -1,10 +1,11 @@
 import GX.Branched.Galois
+import GXScaffold.Topology.VanKampen
 import Mathlib.Geometry.Manifold.Instances.Sphere
 
 /-!
 # The examples closing §3.4 (l.1560–1583)
 
-Packages WP-26h, WP-27f, WP-35h, WP-40e. `papers/gx`, `RamcovGX.tex:1560–1583`. Reworked to DEC-55
+Packages WP-26h, WP-27f, WP-35h, WP-40e, WP-41r. `papers/gx`, `RamcovGX.tex:1560–1583`. Reworked to DEC-55
 (literal compact-open reading of "almost trivial"), DEC-58 (`ex:wild_cantor_general_antoine` is
 about Antoine's necklace), DEC-68 ((c) a tame knot is a locally polygonal set; (d) item 3 of
 `ex:following_situations_semi_locally_simply` corrected, locally finite complexes; (e) the `γₙ` are
@@ -28,14 +29,19 @@ DEC-82 (the necklace's wildness is certified too).
   set (`GX.absGal_Y₂_fiber_cantor_corrected`). The record (DEC-69): the printed `Γ₂` is `Γ`
   (`GX.printedGamma2_eq_top`); for the normal closure the fibre is not compact
   (`GX.absGal_Y₂_fiber_not_cantor_simple`, `GX.absGal_Y₂_fiber_corrected_simple`).
-* `ex:wild_cantor_general_antoine` — `RamcovGX.tex:1578` (stated, SCOPE (e)), for the ONE
+* **`ex:wild_cantor_general_antoine`** — `RamcovGX.tex:1578` (CLOSED under DEC-58, DEC-68 (f),
+  DEC-82, DEC-85, SCOPE (e)), for the ONE
   explicit necklace `GX.antoineNecklace` (DEC-58, DEC-68 (f)), built and proved a Cantor set
   (`GX.antoineNecklace_isCantorSubset`) and WILD (DEC-82: `GX.isWildCantor_antoineNecklace_of_res`,
   the tame side `GX.tameCantorSLSC` proved). The claim `GX.antoineNecklace_wild_not_isSLSCInCC`
-  is derived sorry-free (`GX.antoineNecklace_wild_not_isSLSCInCC_of_top`) from ONE residual,
-  Antoine's lemma for the top link `GX.AntoineMeridianEssentialTop` (the meridian of `L` is
-  essential in `S³ ∖ C_k`, `k ≥ 1`), the file's one `sorry` `GX.antoineMeridianEssentialTop`;
-  its equal-generation case is proved (`GX.antoineMeridianEssential_self`).
+  is derived sorry-free (`GX.antoineNecklace_wild_not_isSLSCInCC_of_top`) from Antoine's lemma
+  for the top link `GX.AntoineMeridianEssentialTop` (the meridian of `L` is essential in
+  `S³ ∖ C_k`, `k ≥ 1`), itself derived sorry-free (WP-41r, a van Kampen induction on `k`,
+  `GX.antoineMeridianEssentialTop_of_firstGeneration`, on `GX.VanKampen`) from the FIRST
+  generation `GX.AntoineFirstGeneration`, whose five collar facts are proved (WP-41r round 1,
+  `GX.antoineFirstGeneration_of_chain`), and whose non-abelian heart `GX.antoineChainEssential`
+  (the meridian of `L` is essential in `S³ ∖ C₁`) is PROVED (WP-41r round 2, a dihedral invariant
+  on the double cover along the vertical links, `GX.antoineChainEssential_proof`). No `sorry`.
 
 > In the following situations, $Y\setminus S$ is semi-locally simply connected in $Y$
 > (1) $Y$ is a $n$-manifold with $n\geq 2$ and $S$ is a finite subset; (2) $Y$ is a 3-manifold and
@@ -67,7 +73,7 @@ DEC-82 (the necklace's wildness is certified too).
 | ex. 1570: "the fibre is a Cantor set" | ✓ for `Γ₂'` (`GX.absGal_Y₂_fiber_cantor_corrected`); the record: ✗ for the normal closure, not compact, infinite and totally disconnected (`GX.absGal_Y₂_fiber_not_cantor_simple`, `GX.absGal_Y₂_fiber_corrected_simple`) |
 | ex. 1570: `γₙ` a simple loop around `(1/n,0)` | ✓ ruled (DEC-68 (e)): the lollipop loops `GX.absGalSimpleLoop` (used only by the recorded counterexample; `Γ₂'` is defined by windings); the general refutation takes any loops with the windings of simple loops, those around `1/(n+1)`, `n ≥ 2`, drawn in `GX.absGalR` (SCOPE (d)) |
 | ex. 1570: "answers positively Problem 10.7 of MR2198590" | — bibliographic remark, not a mathematical assertion; not formalized |
-| ex. 1578: `S` a wild Cantor set in `S³` | ✓ ruled (DEC-58, DEC-68 (f), DEC-82): one explicit Antoine necklace, built (`GX.antoineNecklace`), proved a Cantor set and proved WILD from the residual (`GX.isWildCantor_antoineNecklace_of_res`; the tame side, `GX.tameCantorSLSC`, sorry-free); the claim is proved for THIS necklace from the one residual `GX.AntoineMeridianEssentialTop` (the file's one tagged `sorry`, SCOPE (e)) |
+| ex. 1578: `S` a wild Cantor set in `S³` | ✓ ruled (DEC-58, DEC-68 (f), DEC-82): one explicit Antoine necklace, built (`GX.antoineNecklace`), proved a Cantor set and proved WILD from the residual (`GX.isWildCantor_antoineNecklace_of_res`; the tame side, `GX.tameCantorSLSC`, sorry-free); the claim is proved for THIS necklace from `GX.AntoineMeridianEssentialTop`, itself reduced (WP-41r, van Kampen) to the first generation `GX.AntoineFirstGeneration`, and that (WP-41r round 1, the five collar facts proved) to its non-abelian heart `GX.AntoineChainEssential`, PROVED (WP-41r round 2, `GX.antoineChainEssential_proof`, SCOPE (e)); no `sorry` |
 | "almost trivial" | ✓ literal compact-open reading (DEC-55) for both negative claims (`IsSLSCInCC`); positive results a fortiori |
 
 ## SCOPE (disclosed)
@@ -151,7 +157,7 @@ are nested and disjoint, the coding map `GX.antoineCode` is a homeomorphism
 set (`GX.antoineNecklaceR3_isCantorSubset`, `64 = 2⁶`), carried into `S³` by the inverse
 stereographic projection `GX.antoineStereo` (`GX.antoineNecklace_isCantorSubset`). That the
 consecutive links are LINKED (rather than merely non-separated by boxes) is read off the
-coordinates and used only inside the residual. The claim `GX.antoineNecklace_not_isSLSCInCC`
+coordinates: the longitude of each link winds once around the next (`GX.antoine_succ_wind`). The claim `GX.antoineNecklace_not_isSLSCInCC`
 (literal reading; for closed `C ⊆ S³` the two readings agree, `GX.sphere3_isSLSCInCC_compl_iff`)
 is proved from the criterion `GX.sphere3_not_isSLSCIn_of_essential` at the point
 `x₀ = GX.antoineStereo GX.antoineP0`, `p₀ = (-70/73, -70/73, 0)` the fixed point of `g₀`, by
@@ -170,11 +176,32 @@ generation reduces to the top link by self-similarity (`GX.antoineMeridianEssent
 the inverse similarity `GX.antoineCompInv`, conjugated by the stereographic chart, extends
 continuously over the pole, `GX.continuous_antoinePhi`), and the equal-generation case is proved
 (`GX.antoineMeridianEssential_self`: `(ρ - 7/8) + i z`, cut off far away, is a map
-`S³ ∖ L → ℂ ∖ 0` under which the meridian winds once, `GX.antoineTheta`). The residual is
-Antoine's lemma proper and is NOT formalized: `GX.antoineMeridianEssentialTop`'s tagged `sorry`
-(for `k ≥ 1` the meridian of `L` is null-homologous in `S³ ∖ C_k`, so no abelian invariant
-detects it; it needs a van Kampen computation for a closed chain of linked solid tori or a
-self-similar non-abelian covering). Wildness (DEC-82): a Cantor set of `S³` is tame if a
+`S³ ∖ L → ℂ ∖ 0` under which the meridian winds once, `GX.antoineTheta`). Antoine's lemma
+for every generation is PROVED from the first generation (WP-41r):
+`GX.antoineMeridianEssentialTop_of_firstGeneration`, by `GX.antoine_pow_essential`, an induction
+on `k` over all powers of the meridian: `S³ ∖ C_{k+1}` is `S³ ∖ C₁` with the 64 tubes
+`Nⱼ ∖ C_{k+1}` (`GX.antoineN1`, round tubes `(ρ-7/8)²+z² < 1/16`) glued one at a time along
+their collars (`GX.antoineA1`) by the injectivity consequence of a topological Seifert–van Kampen
+theorem built for the purpose (`GX.VanKampen.homotopicIn_of_homotopicIn_union'`, on an
+amalgamated product `Monoid.PushoutI`); on the tube's side the collar injects by self-similarity
+(`GX.antoinePhi`) and the statement at `k`, the base `k = 0` being the winding number
+(`GX.antoine_pow_essential_zero`). Of the six fixed-level facts about the closed chain `C₁` that
+make up the first generation (`GX.AntoineFirstGeneration`), five are PROVED (WP-41r round 1,
+`GX.antoineFirstGeneration_of_chain`): the tubes miss the other links (`GX.antoineTube_disjoint`),
+the base points are joined off `C₁` (`GX.antoine_joined`), and the collar `Aⱼ = Nⱼ ∖ Lⱼ` is
+path-connected and `π₁`-injective into the tube modulo the meridian and into `S³ ∖ C₁`
+(`GX.antoine_collar_conn`, `GX.antoine_collar_mer`, `GX.antoine_collar_inj`), by the
+classification of the collar's loops by two windings (`GX.antoine_collar_classify`) and the
+longitude of `Lⱼ` winding once around `Lⱼ₊₁` (`GX.antoine_succ_wind`). The sixth, the
+non-abelian heart `GX.AntoineChainEssential` (no nonzero power of the meridian of `L` is
+null-homotopic in `S³ ∖ C₁`; the meridian is null-homologous there, so no map to `ℂ ∖ 0` detects
+it), is PROVED (WP-41r round 2, `GX.antoineChainEssential_proof`) by the translation part of a
+`D_∞`-structure: on the double cover `s² = ∏ Θ'ᵢ` along the `32` vertical links, the slab around
+`{z = 0} ∪ {∞}` outside the closed holes of the horizontal links carries a continuous square root
+`χ · ∏ √Θ'ᵢ` (`GX.continuousAt_antoineDR`: the principal roots are cut exactly in the gaps of the
+closed chain, where the side `χ` of the core square flips with them), and the winding of
+`exp(iπ (s/R) φ(τ))` reads the meridian as `2`, its two crossings of the slab lying on opposite
+sheets (`GX.antoineDF_wind`). Wildness (DEC-82): a Cantor set of `S³` is tame if a
 homeomorphism of `S³` carries it into a great circle, wild otherwise (`GX.IsWildCantor`). The
 complement of a Cantor subset `C` of a great circle `Γ` IS semi-locally simply connected
 (`GX.tameCantorSLSC`, proved): near a point of `Γ` two points off `C` are joined through a
@@ -4635,19 +4662,3623 @@ theorem antoineMeridianEssentialStrict_of_top (h : AntoineMeridianEssentialTop) 
       antoineStereo (antoineMeridian t)
     exact antoinePhi_stereo v n _
 
-/-- **The file's one `sorry`: Antoine's lemma proper**, in its canonical form
-`GX.AntoineMeridianEssentialTop`: for `k ≥ 1` the meridian of the link `L` is not null-homotopic
-in `S³ ∖ C_k`. Everything else of the row is derived from it, sorry-free: the reduction of every
-generation to the top link (`GX.antoineMeridianEssentialStrict_of_top`, self-similarity), the
-equal-generation case (`GX.antoineMeridianEssential_self`), the compactness reduction
-(`GX.antoine_homotopicIn_stage`), link selection (`GX.antoineComp_diam`,
-`GX.antoineP0_not_mem_word_link`), accessibility (`GX.antoineVert_not_mem_necklace`) and the
-based loop (`GX.antoineLoop0`, `GX.antoine_homotopicIn_conj`), assembled in
-`GX.antoine_essential_loops`; and the wildness (`GX.tameCantorSLSC`). -/
-theorem antoineMeridianEssentialTop : AntoineMeridianEssentialTop := by
-  sorry -- SORRY(ex:wild_cantor_general_antoine): Antoine's lemma proper, exactly GX.AntoineMeridianEssentialTop: for k ≥ 1 the meridian GX.antoineMeridian of the link L (a circle of radius 3/14 around the core square) is not null-homotopic in S³ ∖ C_k, C_k = GX.antoineStage k the 64^k linked square solid tori of generation k. Every other generation reduces to this one (GX.antoineMeridianEssentialStrict_of_top) and k = 0 is proved (GX.antoineMeridianEssential_self, winding number of GX.antoineTheta). For k ≥ 1 no abelian invariant can detect it: the meridian disc of L meets exactly one link of the first-generation chain, twice with opposite signs, so in S³ ∖ C_1 the meridian of L is a meridian of that link times a conjugate of its inverse, null-homologous; every map to ℂ ∖ 0 (every abelian covering) kills it, and inductively the same holds at each generation. A proof needs a non-abelian invariant built for every k: Antoine's van Kampen computation for a closed chain of linked solid tori (π₁-injectivity of the boundary tori), or an explicit self-similar non-abelian covering of S³ ∖ C_k (a G-cocycle on an open cover of the solid torus minus its 64-link chain, with boundary data closed under the substitution). mathlib has no van Kampen theorem, no π₁ of a link complement and no covering built from a cocycle, and the 3-dimensional cocycle for the 64-link chain is the obstruction.
+/-! ### Antoine's lemma from its first generation: the van Kampen reduction (WP-41r)
 
-/-- The strict residual; rests on `GX.antoineMeridianEssentialTop` only. -/
+The infinite family `GX.AntoineMeridianEssentialTop` (`k ≥ 1`) is reduced, sorry-free, to ONE
+generation: `GX.AntoineFirstGeneration`. The proof is Antoine's: decompose
+`S³ ∖ C_{k+1} = (S³ ∖ C₁) ∪ ⋃ⱼ (Nⱼ ∖ C_{k+1})` (`Nⱼ` a tubular neighbourhood of the `j`-th link
+`Lⱼ` of the first generation), glue the 64 tubes one at a time by the injectivity consequence of
+Seifert–van Kampen (`GX.VanKampen.homotopicIn_of_homotopicIn_union'`), the collar `Nⱼ ∖ Lⱼ`
+injecting on both sides — on the side of the tube by the self-similarity `GX.antoinePhi` and the
+statement for `C_k` (induction on `k`, all powers of the meridian), on the outer side by the
+first generation — so that `π₁(S³ ∖ C₁) → π₁(S³ ∖ C_{k+1})` is injective on the powers of the
+meridian; the base `k = 0` is the winding number of `GX.antoineTheta`. -/
+
+section AntoineVK
+
+/-- Natural powers of a loop, by concatenation. -/
+def loopNatPow {X : Type*} [TopologicalSpace X] {x : X} (γ : Path x x) : ℕ → Path x x
+  | 0 => Path.refl x
+  | n + 1 => (loopNatPow γ n).trans γ
+
+/-- Integer powers of a loop (`γ⁻¹` for negative exponents). -/
+def loopZPow {X : Type*} [TopologicalSpace X] {x : X} (γ : Path x x) : ℤ → Path x x
+  | Int.ofNat n => loopNatPow γ n
+  | Int.negSucc n => loopNatPow γ.symm (n + 1)
+
+section Pow
+
+variable {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
+
+theorem loopNatPow_mem {S : Set X} {x : X} {γ : Path x x} (h : ∀ t, γ t ∈ S) :
+    ∀ n t, loopNatPow γ n t ∈ S := by
+  have hx : x ∈ S := γ.source ▸ h 0
+  intro n
+  induction n with
+  | zero => exact fun _ => hx
+  | succ n ih => exact VanKampen.mem_trans ih h
+
+theorem loopZPow_mem {S : Set X} {x : X} {γ : Path x x} (h : ∀ t, γ t ∈ S) :
+    ∀ a t, loopZPow γ a t ∈ S
+  | Int.ofNat n => loopNatPow_mem h n
+  | Int.negSucc n => loopNatPow_mem (VanKampen.mem_symm h) (n + 1)
+
+theorem loopNatPow_map {x : X} (γ : Path x x) {f : X → Y} (hf : Continuous f) :
+    ∀ n, (loopNatPow γ n).map hf = loopNatPow (γ.map hf) n
+  | 0 => by ext; rfl
+  | n + 1 => by rw [loopNatPow, Path.map_trans, loopNatPow_map γ hf n]; rfl
+
+theorem loopZPow_map {x : X} (γ : Path x x) {f : X → Y} (hf : Continuous f) :
+    ∀ a, (loopZPow γ a).map hf = loopZPow (γ.map hf) a
+  | Int.ofNat n => loopNatPow_map γ hf n
+  | Int.negSucc n => by
+    show (loopNatPow γ.symm (n + 1)).map hf = loopNatPow (γ.map hf).symm (n + 1)
+    rw [loopNatPow_map, Path.map_symm]
+
+theorem loopNatPow_congr {x y : X} {P : Path x x} {Q : Path y y} (h : ∀ t, P t = Q t) :
+    ∀ n t, loopNatPow P n t = loopNatPow Q n t := by
+  have hxy : x = y := by rw [← P.source, ← Q.source, h]
+  intro n
+  induction n with
+  | zero => exact fun _ => hxy
+  | succ n ih =>
+    intro t
+    simp only [loopNatPow, Path.trans_apply]
+    split_ifs
+    · exact ih _
+    · exact h _
+
+theorem loopZPow_congr {x y : X} {P : Path x x} {Q : Path y y} (h : ∀ t, P t = Q t) :
+    ∀ a t, loopZPow P a t = loopZPow Q a t
+  | Int.ofNat n => loopNatPow_congr h n
+  | Int.negSucc n => loopNatPow_congr (P := P.symm) (Q := Q.symm) (fun _ => h _) (n + 1)
+
+theorem cWinding_pathRefl (z : CStar) : cWinding (Path.refl z) = 0 :=
+  cWinding_eq _ (Γ := ContinuousMap.const I (Complex.log z))
+    (fun _ => by show Complex.exp (Complex.log z) = z; exact Complex.exp_log z.2) (by simp)
+
+theorem cWinding_pathSymm {z : CStar} (δ : Path z z) : cWinding δ.symm = -cWinding δ := by
+  have h := cWinding_trans δ δ.symm
+  rw [← cWinding_homotopic ⟨Path.Homotopy.reflTransSymm δ⟩, cWinding_pathRefl] at h
+  omega
+
+theorem cWinding_loopNatPow {z : CStar} (δ : Path z z) :
+    ∀ n : ℕ, cWinding (loopNatPow δ n) = n * cWinding δ
+  | 0 => by simp [loopNatPow, cWinding_pathRefl]
+  | n + 1 => by
+    rw [loopNatPow, cWinding_trans, cWinding_loopNatPow δ n]; push_cast; ring
+
+theorem cWinding_loopZPow {z : CStar} (δ : Path z z) :
+    ∀ a : ℤ, cWinding (loopZPow δ a) = a * cWinding δ
+  | Int.ofNat n => by
+    show cWinding (loopNatPow δ n) = _
+    rw [cWinding_loopNatPow]; rfl
+  | Int.negSucc n => by
+    show cWinding (loopNatPow δ.symm (n + 1)) = _
+    rw [cWinding_loopNatPow, cWinding_pathSymm, Int.negSucc_eq]; push_cast; ring
+
+theorem pathToSub_loopZPow {S : Set X} {x : X} {γ : Path x x} (h : ∀ t, γ t ∈ S) (a : ℤ)
+    (h' : ∀ t, loopZPow γ a t ∈ S) :
+    pathToSub (loopZPow γ a) h' = loopZPow (pathToSub γ h) a := by
+  ext t
+  have e : (pathToSub γ h).map continuous_subtype_val = γ := by ext; rfl
+  have := congrArg (fun p : Path x x => p t) (loopZPow_map (pathToSub γ h) continuous_subtype_val a)
+  simp only [e, Path.map_coe, Function.comp_apply] at this
+  exact this.symm
+
+/-- `T · 1 · T⁻¹ ≃ 1`, inside any set containing `T`. -/
+theorem homotopicIn_conj_refl {S : Set X} {x y : X} {T : Path x y} (hT : ∀ t, T t ∈ S) :
+    HomotopicIn S ((T.trans (Path.refl y)).trans T.symm) (Path.refl x) := by
+  have hx : x ∈ S := T.source ▸ hT 0
+  have hy : y ∈ S := T.target ▸ hT 1
+  refine VanKampen.homotopicIn_of_sub
+    (VanKampen.mem_trans (VanKampen.mem_trans hT (VanKampen.mem_refl hy)) (VanKampen.mem_symm hT))
+    (VanKampen.mem_refl hx)
+    (p' := ((pathToSub T hT).trans (Path.refl (⟨y, hy⟩ : S))).trans (pathToSub T hT).symm)
+    (q' := Path.refl (⟨x, hx⟩ : S)) (fun t => ?_) (fun t => rfl) ?_
+  · simp only [Path.trans_apply, Path.symm_apply]
+    split_ifs <;> rfl
+  · rw [← Path.Homotopic.Quotient.eq]
+    simp only [Path.Homotopic.Quotient.mk_trans, Path.Homotopic.Quotient.mk_symm,
+      Path.Homotopic.Quotient.mk_refl, Path.Homotopic.Quotient.trans_refl,
+      Path.Homotopic.Quotient.trans_symm]
+
+/-- A conjugate of a null-homotopic loop is null-homotopic. -/
+theorem homotopicIn_conj_of {S : Set X} {x y : X} {T : Path x y} (hT : ∀ t, T t ∈ S)
+    {M : Path y y} (hM : HomotopicIn S M (Path.refl y)) :
+    HomotopicIn S ((T.trans M).trans T.symm) (Path.refl x) :=
+  (((HomotopicIn.refl hT).hcomp hM).hcomp (HomotopicIn.refl (VanKampen.mem_symm hT))).trans
+    (homotopicIn_conj_refl hT)
+
+end Pow
+
+/-- The top meridian, in `S³`. -/
+abbrev antoineMuS : Path (antoineStereo antoineMerPt) (antoineStereo antoineMerPt) :=
+  antoineMeridian.map continuous_antoineStereo
+
+/-- **The base `k = 0`**: no nonzero power of the meridian is null-homotopic in `S³ ∖ L`
+(winding number of `GX.antoineTheta`). -/
+theorem antoine_pow_essential_zero (a : ℤ) (ha : a ≠ 0) :
+    ¬ HomotopicIn (antoineStereo '' antoineStage 0)ᶜ (loopZPow antoineMuS a) (Path.refl _) := by
+  set v : ℕ → Fin 64 := fun _ => 0
+  set K := antoineStereo '' antoineStage 0 with hKdef
+  rw [homotopicIn_iff]
+  rintro ⟨h1, h2, hom⟩
+  have hμ : ∀ t, antoineMuS t ∈ Kᶜ := fun t => by
+    rintro ⟨q, hq, e⟩
+    have := antoineStereo_injective e
+    rw [antoineStage_zero] at hq
+    exact antoineMeridian_not_mem t (this ▸ hq)
+  have hK : ∀ y : (Kᶜ : Set Sphere3), antoineTheta v 0 y ≠ 0 := fun y => by
+    refine antoineTheta_ne_zero v 0 fun hy => y.2 ?_
+    obtain ⟨q, hq, e⟩ := hy
+    refine ⟨q, ?_, e⟩
+    rw [antoineStage_zero]
+    simpa [antoineComp] using hq
+  let Θ' : C((Kᶜ : Set Sphere3), CStar) :=
+    ⟨fun y => ⟨antoineTheta v 0 y, hK y⟩,
+      ((continuous_antoineTheta v 0).comp continuous_subtype_val).subtype_mk _⟩
+  have hw := cWinding_homotopic (Path.Homotopic.map hom Θ')
+  have e1 : cWinding ((pathToSub antoineMuS hμ).map Θ'.continuous) = 1 := by
+    refine cWinding_eq _ (Γ := ⟨fun t => Complex.log (3 / 14) +
+      2 * Real.pi * Complex.I * (t : ℝ), by fun_prop⟩) (fun t => ?_) ?_
+    · show Complex.exp (Complex.log (3 / 14) + _) =
+        antoineTheta v 0 (antoineStereo (antoineComp v 0 (antoineMeridian t)))
+      rw [Complex.exp_add, Complex.exp_log (by norm_num), antoineTheta_stereo,
+        antoinePsi_meridian]
+    · simp only [ContinuousMap.coe_mk, Set.Icc.coe_one, Set.Icc.coe_zero, Complex.ofReal_one,
+        Complex.ofReal_zero, mul_one, mul_zero, add_zero, Int.cast_one, one_mul]
+  have e2 : cWinding ((pathToSub (Path.refl (antoineStereo antoineMerPt)) h2).map
+      Θ'.continuous) = 0 := by
+    rw [show (pathToSub (Path.refl (antoineStereo antoineMerPt)) h2).map Θ'.continuous =
+      Path.refl _ from by ext; rfl, cWinding_pathRefl]
+  rw [pathToSub_loopZPow hμ, loopZPow_map, cWinding_loopZPow, e1, e2, mul_one] at hw
+  exact ha hw
+
+/-- The tubular neighbourhood of the link `L`: the round tube `(ρ - 7/8)² + z² < 1/16` around
+the core square (`ρ = max(|x|,|y|)`). -/
+def antoineNbhd : Set (ℝ × ℝ × ℝ) := {p | (max |p.1| |p.2.1| - 7 / 8) ^ 2 + p.2.2 ^ 2 < 1 / 16}
+
+/-- The `j`-th link of the first generation, in `S³`. -/
+def antoineL1 (j : Fin 64) : Set Sphere3 := antoineStereo '' (antoineMap j '' antoineLink)
+
+/-- The tubular neighbourhood of the `j`-th link of the first generation, in `S³`. -/
+def antoineN1 (j : Fin 64) : Set Sphere3 := antoineStereo '' (antoineMap j '' antoineNbhd)
+
+/-- The collar `Nⱼ ∖ Lⱼ` of the `j`-th link. -/
+def antoineA1 (j : Fin 64) : Set Sphere3 := antoineN1 j \ antoineL1 j
+
+/-- The base point of the meridian of the `j`-th link. -/
+def antoineX1 (j : Fin 64) : Sphere3 := antoineStereo (antoineMap j antoineMerPt)
+
+/-- The meridian of the `j`-th link of the first generation, in `S³`. -/
+def antoineMu1 (j : Fin 64) : Path (antoineX1 j) (antoineX1 j) :=
+  (antoineMeridian.map (continuous_antoineMap j)).map continuous_antoineStereo
+
+/-- **Antoine's lemma at the first generation**, the residual of `GX.AntoineMeridianEssentialTop`
+after the van Kampen reduction (`GX.antoineMeridianEssentialTop_of_firstGeneration`): the
+non-abelian heart `chain` (no nonzero power of the meridian of `L` is null-homotopic in the
+complement of the closed chain `C₁` of 64 links) and the abelian collar facts of the 64 links. -/
+structure AntoineFirstGeneration : Prop where
+  chain : ∀ a : ℤ, a ≠ 0 →
+    ¬ HomotopicIn (antoineStereo '' antoineStage 1)ᶜ (loopZPow antoineMuS a) (Path.refl _)
+  disjoint : ∀ i j : Fin 64, i ≠ j →
+    Disjoint (antoineMap j '' antoineNbhd) (antoineMap i '' antoineLink)
+  collar_conn : ∀ j, IsPathConnected (antoineA1 j)
+  collar_mer : ∀ (j : Fin 64) (O : Set Sphere3), O ⊆ antoineN1 j →
+    ∀ δ : Path (antoineX1 j) (antoineX1 j), (∀ t, δ t ∈ antoineA1 j) →
+      HomotopicIn O δ (Path.refl _) →
+        ∃ a : ℤ, HomotopicIn (antoineA1 j) δ (loopZPow (antoineMu1 j) a)
+  collar_inj : ∀ (j : Fin 64) (δ : Path (antoineX1 j) (antoineX1 j)), (∀ t, δ t ∈ antoineA1 j) →
+    HomotopicIn (antoineStereo '' antoineStage 1)ᶜ δ (Path.refl _) →
+      HomotopicIn (antoineA1 j) δ (Path.refl _)
+  joined : ∀ j, JoinedIn (antoineStereo '' antoineStage 1)ᶜ (antoineStereo antoineMerPt)
+    (antoineX1 j)
+
+theorem antoineStage_one_eq : antoineStage 1 = ⋃ i, antoineMap i '' antoineLink := by
+  ext p
+  simp only [antoineStage, mem_iUnion]
+  constructor
+  · rintro ⟨w, hw⟩; exact ⟨w 0, hw⟩
+  · rintro ⟨i, hi⟩; exact ⟨fun _ => i, hi⟩
+
+theorem antoineLink_subset_nbhd : antoineLink ⊆ antoineNbhd := by
+  rintro p ⟨hz, hm1, hm2⟩
+  show (max |p.1| |p.2.1| - 7 / 8) ^ 2 + p.2.2 ^ 2 < 1 / 16
+  have h1 : |max |p.1| |p.2.1| - 7 / 8| ≤ 1 / 8 := abs_le.2 ⟨by linarith, by linarith⟩
+  have h2 := sq_abs (max |p.1| |p.2.1| - 7 / 8)
+  have h3 := sq_abs p.2.2
+  nlinarith [abs_nonneg (max |p.1| |p.2.1| - 7 / 8), abs_nonneg p.2.2]
+
+theorem isOpen_antoineNbhd : IsOpen antoineNbhd :=
+  isOpen_lt (by fun_prop) continuous_const
+
+theorem antoineMap_image_eq (j : Fin 64) (O : Set (ℝ × ℝ × ℝ)) :
+    antoineMap j '' O = antoineMapInv j ⁻¹' O := by
+  ext q
+  constructor
+  · rintro ⟨p, hp, rfl⟩; show antoineMapInv j (antoineMap j p) ∈ O; rwa [antoineMapInv_map]
+  · intro hq; exact ⟨_, hq, antoineMap_mapInv j q⟩
+
+theorem antoineStereo_image_eq (O : Set (ℝ × ℝ × ℝ)) :
+    antoineStereo '' O = {y : Sphere3 | (y : EuclideanSpace ℝ (Fin 4)) 3 < 1} ∩ antoineStereoInv ⁻¹' O := by
+  ext y
+  constructor
+  · rintro ⟨p, hp, rfl⟩
+    exact ⟨antoineStereo_three_lt p, by show antoineStereoInv _ ∈ O; rwa [antoineStereoInv_stereo]⟩
+  · rintro ⟨h3, hO⟩
+    exact ⟨_, hO, antoineStereo_stereoInv h3⟩
+
+theorem isOpen_antoineStereo_image {O : Set (ℝ × ℝ × ℝ)} (hO : IsOpen O) :
+    IsOpen (antoineStereo '' O) := by
+  rw [antoineStereo_image_eq]
+  have hc3 : Continuous fun z : Sphere3 => (z : EuclideanSpace ℝ (Fin 4)) 3 :=
+    (PiLp.continuous_apply 2 _ 3).comp continuous_subtype_val
+  refine ContinuousOn.isOpen_inter_preimage (fun y hy => ?_) (isOpen_lt hc3 continuous_const) hO
+  exact (continuousAt_antoineStereoInv hy).continuousWithinAt
+
+theorem isOpen_antoineN1 (j : Fin 64) : IsOpen (antoineN1 j) := by
+  refine isOpen_antoineStereo_image ?_
+  rw [antoineMap_image_eq]
+  exact isOpen_antoineNbhd.preimage (continuous_antoineMapInv j)
+
+theorem isClosed_antoineL1 (j : Fin 64) : IsClosed (antoineL1 j) :=
+  ((antoineLink_isCompact.image (continuous_antoineMap j)).image continuous_antoineStereo).isClosed
+
+theorem antoineMeridian_mem_nbhd (t : I) : antoineMeridian t ∈ antoineNbhd := by
+  show (max |(antoineMeridian t).1| |(antoineMeridian t).2.1| - 7 / 8) ^ 2 +
+    (antoineMeridian t).2.2 ^ 2 < 1 / 16
+  rw [antoineMeridian_apply]
+  set c := Real.cos (2 * Real.pi * t)
+  set s := Real.sin (2 * Real.pi * t)
+  have hcs : s ^ 2 + c ^ 2 = 1 := Real.sin_sq_add_cos_sq _
+  have hc1 : -1 ≤ c := Real.neg_one_le_cos _
+  have hpos : 0 ≤ 7 / 8 + 3 / 14 * c := by linarith
+  simp only [abs_zero]
+  rw [abs_of_nonneg hpos, max_eq_right hpos]
+  nlinarith
+
+theorem antoineMu1_mem (j : Fin 64) (t : I) : antoineMu1 j t ∈ antoineA1 j := by
+  refine ⟨⟨_, ⟨_, antoineMeridian_mem_nbhd t, rfl⟩, rfl⟩, ?_⟩
+  rintro ⟨q, ⟨p, hp, rfl⟩, e⟩
+  have e1 := antoineMap_injective j (antoineStereo_injective e)
+  exact antoineMeridian_not_mem t (e1 ▸ hp)
+
+theorem antoineMuS_not_mem (t : I) : antoineMuS t ∉ antoineStereo '' antoineStage 1 := by
+  rintro ⟨q, hq, e⟩
+  have := antoineStereo_injective e
+  have hq0 : q ∈ antoineStage 0 := antoineStage_antitone (Nat.zero_le 1) hq
+  rw [antoineStage_zero] at hq0
+  exact antoineMeridian_not_mem t (this ▸ hq0)
+
+/-- **The van Kampen induction**: under `GX.AntoineFirstGeneration`, no nonzero power of the
+meridian of `L` is null-homotopic in `S³ ∖ C_k`, for every `k`. -/
+theorem antoine_pow_essential (h : AntoineFirstGeneration) :
+    ∀ (k : ℕ) (a : ℤ), a ≠ 0 →
+      ¬ HomotopicIn (antoineStereo '' antoineStage k)ᶜ (loopZPow antoineMuS a) (Path.refl _) := by
+  haveI : LocPathConnectedSpace Sphere3 :=
+    ChartedSpace.locPathConnectedSpace (EuclideanSpace ℝ (Fin 3)) _
+  intro k
+  induction k with
+  | zero => exact antoine_pow_essential_zero
+  | succ k ih =>
+    intro a ha hnull
+    set K := antoineStereo '' antoineStage (k + 1) with hKdef
+    set C1 := antoineStereo '' antoineStage 1 with hC1def
+    have hC1 : C1 = ⋃ i, antoineL1 i := by rw [hC1def, antoineStage_one_eq, image_iUnion]; rfl
+    have hKC1 : K ⊆ C1 := image_mono (antoineStage_antitone (by omega))
+    have hKclosed : IsClosed K :=
+      ((antoineStage_isCompact _).image continuous_antoineStereo).isClosed
+    have hNL : ∀ i j : Fin 64, i ≠ j → Disjoint (antoineN1 j) (antoineL1 i) := fun i j hij =>
+      (Set.disjoint_image_iff antoineStereo_injective).2 (h.disjoint i j hij)
+    have hLN : ∀ j, antoineL1 j ⊆ antoineN1 j := fun j =>
+      image_mono (image_mono antoineLink_subset_nbhd)
+    -- points of a collar avoid every first-generation link, hence `C_{k+1}`
+    have hA : ∀ j x, x ∈ antoineA1 j → (∀ i, x ∉ antoineL1 i) ∧ x ∉ K := by
+      intro j x ⟨hxN, hxL⟩
+      have hxL' : ∀ i, x ∉ antoineL1 i := fun i hxi => by
+        by_cases e : i = j
+        · exact hxL (e ▸ hxi)
+        · exact Set.disjoint_left.1 (hNL i j e) hxN hxi
+      refine ⟨hxL', fun hxK => ?_⟩
+      have := hKC1 hxK
+      rw [hC1] at this
+      obtain ⟨i, hi⟩ := mem_iUnion.1 this
+      exact hxL' i hi
+    let M : ℕ → Set Sphere3 := fun m => (K ∪ ⋃ (i : Fin 64) (_ : m ≤ i.val), antoineL1 i)ᶜ
+    have memM : ∀ m x, x ∈ M m ↔ x ∉ K ∧ ∀ i : Fin 64, m ≤ i.val → x ∉ antoineL1 i := by
+      intro m x
+      simp only [M, mem_compl_iff, mem_union, mem_iUnion, not_or, not_exists]
+    have hM0 : M 0 = C1ᶜ := by
+      ext x
+      rw [memM, mem_compl_iff, hC1, mem_iUnion, not_exists]
+      constructor
+      · rintro ⟨_, h2⟩ i; exact h2 i (Nat.zero_le _)
+      · intro h2
+        refine ⟨fun hxK => ?_, fun i _ => h2 i⟩
+        have := hKC1 hxK
+        rw [hC1] at this
+        obtain ⟨i, hi⟩ := mem_iUnion.1 this
+        exact h2 i hi
+    have hM64 : M 64 = Kᶜ := by
+      ext x
+      rw [memM, mem_compl_iff]
+      exact ⟨fun h2 => h2.1, fun h2 => ⟨h2, fun i hi => absurd i.isLt (by omega)⟩⟩
+    have hMmono : ∀ m, M 0 ⊆ M m := fun m x hx => by
+      rw [memM] at hx ⊢
+      exact ⟨hx.1, fun i _ => hx.2 i (Nat.zero_le _)⟩
+    have hA0 : ∀ j, antoineA1 j ⊆ M 0 := fun j x hx => by
+      rw [memM]
+      exact ⟨(hA j x hx).2, fun i _ => (hA j x hx).1 i⟩
+    -- gluing the tubes one at a time
+    have hQ : ∀ m ≤ 64, ∀ δ : Path (antoineStereo antoineMerPt) (antoineStereo antoineMerPt),
+        (∀ t, δ t ∈ M 0) → HomotopicIn (M m) δ (Path.refl _) →
+          HomotopicIn (M 0) δ (Path.refl _) := by
+      intro m
+      induction m with
+      | zero => intro _ δ _ hδ; exact hδ
+      | succ m ihm =>
+        intro hm δ hδ0 hδ
+        set j : Fin 64 := ⟨m, by omega⟩ with hjdef
+        set U := M m with hUdef
+        set V := antoineN1 j \ K with hVdef
+        have hjm : j.val = m := rfl
+        have hUV : U ∪ V = M (m + 1) := by
+          ext x
+          constructor
+          · rintro (hx | ⟨hxN, hxK⟩)
+            · rw [memM] at hx ⊢
+              exact ⟨hx.1, fun i hi => hx.2 i (by omega)⟩
+            · rw [memM]
+              refine ⟨hxK, fun i hi hxi => ?_⟩
+              have hij : i ≠ j := fun e => by rw [e] at hi; omega
+              exact Set.disjoint_left.1 (hNL i j hij) hxN hxi
+          · intro hx
+            rw [memM] at hx
+            by_cases hxj : x ∈ antoineL1 j
+            · exact Or.inr ⟨hLN j hxj, hx.1⟩
+            · refine Or.inl ((memM m x).2 ⟨hx.1, fun i hi hxi => ?_⟩)
+              rcases Nat.eq_or_lt_of_le hi with e | hlt
+              · have : i = j := Fin.ext (by rw [hjm]; omega)
+                exact hxj (this ▸ hxi)
+              · exact hx.2 i hlt hxi
+        have hUiV : U ∩ V = antoineA1 j := by
+          ext x
+          constructor
+          · rintro ⟨hxU, hxN, _⟩
+            rw [memM] at hxU
+            exact ⟨hxN, hxU.2 j le_rfl⟩
+          · intro hx
+            exact ⟨hA0 j hx |> hMmono m, hx.1, (hA j x hx).2⟩
+        have hUo : IsOpen U := by
+          refine (hKclosed.union ?_).isOpen_compl
+          exact isClosed_iUnion_of_finite fun i =>
+            isClosed_iUnion_of_finite fun _ => isClosed_antoineL1 i
+        have hVo : IsOpen V := (isOpen_antoineN1 j).sdiff hKclosed
+        have hjoin := h.joined j
+        set c := hjoin.somePath with hcdef
+        have hc : ∀ t, c t ∈ M 0 := fun t => by rw [hM0]; exact hjoin.somePath_mem t
+        have hcU : ∀ t, c t ∈ U := fun t => hMmono m (hc t)
+        have hx : antoineX1 j ∈ U ∩ V := by
+          rw [hUiV]
+          have := antoineMu1_mem j 0
+          rwa [Path.source] at this
+        -- the collar injects into `U` (by the induction on `m`) and into `V` (on `k`)
+        have hinjU : ∀ δ' : Path (antoineX1 j) (antoineX1 j), (∀ t, δ' t ∈ U ∩ V) →
+            HomotopicIn U δ' (Path.refl _) → HomotopicIn (U ∩ V) δ' (Path.refl _) := by
+          intro δ' hδ' hnU
+          have hδ'A : ∀ t, δ' t ∈ antoineA1 j := fun t => hUiV ▸ hδ' t
+          have hδ'0 : ∀ t, δ' t ∈ M 0 := fun t => hA0 j (hδ'A t)
+          have h1 := homotopicIn_conj_of hcU hnU
+          have h2 := ihm (by omega) _ (VanKampen.mem_trans (VanKampen.mem_trans hc hδ'0)
+            (VanKampen.mem_symm hc)) h1
+          have h3 : HomotopicIn (M 0) δ' (Path.refl _) := antoine_homotopicIn_conj hc hδ'0 h2
+          rw [hM0] at h3
+          rw [hUiV]
+          exact h.collar_inj j δ' hδ'A h3
+        have hinjV : ∀ δ' : Path (antoineX1 j) (antoineX1 j), (∀ t, δ' t ∈ U ∩ V) →
+            HomotopicIn V δ' (Path.refl _) → HomotopicIn (U ∩ V) δ' (Path.refl _) := by
+          intro δ' hδ' hnV
+          have hδ'A : ∀ t, δ' t ∈ antoineA1 j := fun t => hUiV ▸ hδ' t
+          obtain ⟨b, hb⟩ := h.collar_mer j V (fun _ hx => hx.1) δ' hδ'A hnV
+          rcases eq_or_ne b 0 with rfl | hb0
+          · rw [hUiV]; exact hb
+          · exfalso
+            have hAV : antoineA1 j ⊆ V := fun x hx => (hUiV ▸ hx : x ∈ U ∩ V).2
+            have hmuV : HomotopicIn V (loopZPow (antoineMu1 j) b) (Path.refl _) :=
+              (hb.mono hAV).symm.trans hnV
+            set v : ℕ → Fin 64 := fun _ => j
+            have hmap := antoine_homotopicIn_map (U' := (antoineStereo '' antoineStage k)ᶜ)
+              (continuous_antoinePhi v 1) (fun y hy => antoinePhi_mapsTo v 1 k fun hy' => by
+                rw [Nat.add_comm] at hy'
+                exact hy.2 (image_mono inter_subset_left hy')) hmuV
+            apply ih b hb0
+            refine antoine_homotopicIn_refl_congr (antoinePhi_stereo v 1 antoineMerPt) ?_ hmap
+            intro t
+            rw [loopZPow_map]
+            exact loopZPow_congr (fun t => antoinePhi_stereo v 1 (antoineMeridian t)) b t
+        -- glue
+        have hδU : ∀ t, δ t ∈ U := fun t => hMmono m (hδ0 t)
+        have key := VanKampen.homotopicIn_of_homotopicIn_union' hUo hVo
+          (hUiV ▸ h.collar_conn j) hx hinjU hinjV
+          (γ := (c.symm.trans δ).trans c.symm.symm)
+          (VanKampen.mem_trans (VanKampen.mem_trans (VanKampen.mem_symm hcU) hδU)
+            (VanKampen.mem_symm (VanKampen.mem_symm hcU)))
+          (by rw [hUV]; exact homotopicIn_conj_of (VanKampen.mem_symm fun t => hMmono (m + 1) (hc t)) hδ)
+        exact ihm (by omega) δ hδ0 (antoine_homotopicIn_conj (VanKampen.mem_symm hcU) hδU key)
+    -- conclude
+    have hμ0 : ∀ t, loopZPow antoineMuS a t ∈ M 0 :=
+      loopZPow_mem (fun t => by rw [hM0]; exact antoineMuS_not_mem t) a
+    rw [← hM64] at hnull
+    have := hQ 64 le_rfl _ hμ0 hnull
+    rw [hM0] at this
+    exact h.chain a ha this
+
+/-- **`GX.AntoineMeridianEssentialTop` from the first generation** (sorry-free): Antoine's
+lemma for every generation follows from `GX.AntoineFirstGeneration`. -/
+theorem antoineMeridianEssentialTop_of_firstGeneration (h : AntoineFirstGeneration) :
+    AntoineMeridianEssentialTop := by
+  intro k _ hnull
+  refine antoine_pow_essential h k 1 one_ne_zero ?_
+  have hμ := hnull.mem_left
+  have hx := (Path.refl (antoineStereo antoineMerPt)).source ▸ hnull.mem_right 0
+  refine HomotopicIn.trans ?_ hnull
+  refine VanKampen.homotopicIn_of_sub (VanKampen.mem_trans (VanKampen.mem_refl hx) hμ) hμ
+    (p' := (Path.refl (⟨_, hx⟩ : ↥((antoineStereo '' antoineStage k)ᶜ))).trans (pathToSub _ hμ))
+    (q' := pathToSub _ hμ) (fun t => ?_) (fun t => rfl) ?_
+  · simp only [loopZPow, loopNatPow, Path.trans_apply]
+    split_ifs <;> rfl
+  · rw [← Path.Homotopic.Quotient.eq, Path.Homotopic.Quotient.mk_trans,
+      Path.Homotopic.Quotient.mk_refl, Path.Homotopic.Quotient.refl_trans]
+
+end AntoineVK
+
+/-! ### The first generation: the five collar facts, proved (WP-41r round 1)
+
+Five of the six fields of `GX.AntoineFirstGeneration` are fixed-level facts about the round tubes
+`Nⱼ` and their collars `Aⱼ = Nⱼ ∖ Lⱼ`, proved here: `disjoint` (`GX.antoineTube_disjoint`: the
+non-consecutive pairs are box-separated by `decide`, the consecutive ones miss by
+`GX.antoine_tube_aux`), `joined` (`GX.antoine_joined`: explicit polygonal paths, certified pair by
+pair by `decide`), `collar_conn` (`GX.antoine_collar_conn`: the collar retracts onto the torus
+`|W| = 3/14`, the image of `ℝ²` under `GX.antoineE`), `collar_mer` and `collar_inj`
+(`GX.antoine_collar_mer`, `GX.antoine_collar_inj`). The last two rest on the classification of
+the loops of the collar by two windings (`GX.antoine_collar_classify`: `π₁(T² × I) = ℤ²`, by the
+retraction and a straight-line homotopy of the lifted angles), the longitudinal winding being
+read in `S³ ∖ C₁` through the next link (`GX.antoine_succ_wind`: the longitude of `Lⱼ` winds
+`±1` around `Lⱼ₊₁`, by free homotopies in `ℂ ∖ 0`, `GX.AntoineLiftWind.of_freeHomotopy`). -/
+
+/-! ### Collar facts: disjointness of the tubes -/
+
+/-- The tube bounding boxes of `j` against the link boxes of `i` are separated. -/
+def AntoineTubeSep (i j : Fin 64) : Prop :=
+  antoineEx (antoineT i) + antoineEx (antoineT j) + 7 ≤ |(antoineZ i).1 - (antoineZ j).1| ∨
+  antoineEy (antoineT i) + antoineEy (antoineT j) + 7 ≤ |(antoineZ i).2 - (antoineZ j).2|
+
+instance antoineTubeSep_decidable (i j : Fin 64) : Decidable (AntoineTubeSep i j) := by
+  unfold AntoineTubeSep; infer_instance
+
+set_option maxRecDepth 100000 in
+theorem antoine_tubeSep_or_adj : ∀ i j : Fin 64, i ≠ j → AntoineTubeSep i j ∨ AntoineAdj i j := by
+  decide
+
+theorem antoineNbhd_bounds {p : ℝ × ℝ × ℝ} (hp : p ∈ antoineNbhd) :
+    |p.1| < 9 / 8 ∧ |p.2.1| < 9 / 8 ∧ |p.2.2| < 1 / 4 := by
+  have hp' : (max |p.1| |p.2.1| - 7 / 8) ^ 2 + p.2.2 ^ 2 < 1 / 16 := hp
+  have h1 : (max |p.1| |p.2.1| - 7 / 8) ^ 2 < 1 / 16 := by nlinarith [sq_nonneg p.2.2]
+  have h2 : p.2.2 ^ 2 < 1 / 16 := by nlinarith [sq_nonneg (max |p.1| |p.2.1| - 7 / 8)]
+  have h1' : max |p.1| |p.2.1| < 9 / 8 := by nlinarith
+  refine ⟨(le_max_left _ _).trans_lt h1', (le_max_right _ _).trans_lt h1', ?_⟩
+  exact abs_lt_of_sq_lt_sq (by linarith) (by norm_num)
+
+theorem antoineMap_bounds_nbhd (i : Fin 64) {p : ℝ × ℝ × ℝ} (hp : p ∈ antoineNbhd) :
+    |(antoineMap i p).1 - (antoineZ i).1 / 640| < (antoineEx (antoineT i) + 7) / 640 ∧
+      |(antoineMap i p).2.1 - (antoineZ i).2 / 640| < (antoineEy (antoineT i) + 7) / 640 := by
+  obtain ⟨hx, hy, hz⟩ := antoineNbhd_bounds hp
+  rcases antoineT_cases i with h | h | h <;>
+    simp only [antoineMap, h, antoinePerm, antoineEx, antoineEy, add_sub_cancel_left, abs_mul,
+      abs_of_pos (show (0 : ℝ) < 7 / 80 by norm_num)] <;>
+    push_cast <;> refine ⟨?_, ?_⟩ <;> linarith
+
+/-- A tube point `(a, b, c)` and a link point `(a', b', c')` of two interlocking links, with
+`a = a' + s`, `b = c'`, `c = b'`, `s = ±5/4`, cannot coincide. -/
+theorem antoine_tube_aux {a b c a' b' c' s : ℝ} (hs : s = 5 / 4 ∨ s = -(5 / 4))
+    (h1 : a = a' + s) (h2 : b = c') (h3 : c = b')
+    (hp : (max |a| |b| - 7 / 8) ^ 2 + c ^ 2 < 1 / 16)
+    (hp' : |c'| ≤ 1 / 8 ∧ max |a'| |b'| ≤ 1 ∧ 3 / 4 ≤ max |a'| |b'|) : False := by
+  obtain ⟨hc', ha1', ha2'⟩ := hp'
+  rw [← h2] at hc'
+  rw [← h3] at ha1' ha2'
+  have hc : c ^ 2 < 1 / 16 := by nlinarith [sq_nonneg (max |a| |b| - 7 / 8)]
+  have hc4 : |c| < 1 / 4 := abs_lt_of_sq_lt_sq (by linarith) (by norm_num)
+  have hA' : 3 / 4 ≤ |a'| := by
+    rcases le_max_iff.1 ha2' with h | h
+    · exact h
+    · linarith
+  have hx' : |a'| ≤ 1 := (le_max_left _ _).trans ha1'
+  have hρ : max |a| |b| ≤ 1 / 2 ∨ 2 ≤ max |a| |b| := by
+    have hb : |b| ≤ 1 / 2 := by linarith
+    rw [abs_le] at hx'
+    rcases le_abs'.1 hA' with h | h <;> rcases hs with rfl | rfl <;>
+      first
+      | (left; refine max_le ?_ hb; rw [abs_le]; constructor <;> linarith)
+      | (right; refine le_max_of_le_left ?_; rw [abs_of_neg (by linarith)]; linarith)
+      | (right; refine le_max_of_le_left ?_; rw [abs_of_pos (by linarith)]; linarith)
+  rcases hρ with h | h <;> nlinarith [sq_nonneg c]
+
+theorem antoineTube_disjoint (i j : Fin 64) (hij : i ≠ j) :
+    Disjoint (antoineMap j '' antoineNbhd) (antoineMap i '' antoineLink) := by
+  rw [Set.disjoint_left]
+  rintro _ ⟨p, hp, rfl⟩ ⟨p', hp', heq⟩
+  rcases antoine_tubeSep_or_adj i j hij with hsep | hadj
+  · obtain ⟨b1, b2, -⟩ := antoineMap_bounds i hp'
+    obtain ⟨b1', b2'⟩ := antoineMap_bounds_nbhd j hp
+    rw [← heq] at b1' b2'
+    rw [abs_le] at b1 b2
+    rw [abs_lt] at b1' b2'
+    rcases hsep with h | h
+    · have h' : ((antoineEx (antoineT i) + antoineEx (antoineT j) + 7 : ℤ) : ℝ) ≤
+          |((antoineZ i).1 : ℝ) - (antoineZ j).1| := by exact_mod_cast h
+      push_cast at h'
+      rcases le_abs'.1 h' with h'' | h'' <;> linarith
+    · have h' : ((antoineEy (antoineT i) + antoineEy (antoineT j) + 7 : ℤ) : ℝ) ≤
+          |((antoineZ i).2 : ℝ) - (antoineZ j).2| := by exact_mod_cast h
+      push_cast at h'
+      rcases le_abs'.1 h' with h'' | h'' <;> linarith
+  · have hp1 : (max |p.1| |p.2.1| - 7 / 8) ^ 2 + p.2.2 ^ 2 < 1 / 16 := hp
+    rcases hadj with ⟨hy, hx, ht⟩ | ⟨hx, hy, ht⟩
+    · have hy' : ((antoineZ i).2 : ℝ) = (antoineZ j).2 := by exact_mod_cast hy
+      have hx' : ((antoineZ i).1 : ℝ) - (antoineZ j).1 = 70 ∨
+          ((antoineZ i).1 : ℝ) - (antoineZ j).1 = -70 := by
+        rcases (abs_eq (by norm_num : (0 : ℤ) ≤ 70)).1 hx with h | h
+        · exact Or.inl (by exact_mod_cast h)
+        · exact Or.inr (by exact_mod_cast h)
+      rcases ht with ⟨ti, tj⟩ | ⟨ti, tj⟩
+      · -- link `i` horizontal, tube `j` vertical (`y`-plane)
+        simp only [antoineMap, ti, tj, antoinePerm, Prod.mk.injEq] at heq
+        obtain ⟨e1, e2, e3⟩ := heq
+        refine antoine_tube_aux (a := p.1) (b := p.2.1) (c := p.2.2) (a' := p'.1)
+          (b' := p'.2.1) (c' := p'.2.2)
+          (s := if ((antoineZ i).1 : ℝ) - (antoineZ j).1 = 70 then 5/4 else -(5/4))
+          ?_ ?_ (by linarith) (by linarith) hp1 hp'
+        · split_ifs <;> simp
+        · rcases hx' with h | h
+          · rw [if_pos h]; linarith
+          · rw [if_neg (by rw [h]; norm_num)]; linarith
+      · simp only [antoineMap, ti, tj, antoinePerm, Prod.mk.injEq] at heq
+        obtain ⟨e1, e2, e3⟩ := heq
+        refine antoine_tube_aux (a := p.1) (b := p.2.1) (c := p.2.2) (a' := p'.1)
+          (b' := p'.2.1) (c' := p'.2.2)
+          (s := if ((antoineZ i).1 : ℝ) - (antoineZ j).1 = 70 then 5/4 else -(5/4))
+          ?_ ?_ (by linarith) (by linarith) hp1 hp'
+        · split_ifs <;> simp
+        · rcases hx' with h | h
+          · rw [if_pos h]; linarith
+          · rw [if_neg (by rw [h]; norm_num)]; linarith
+    · have hx' : ((antoineZ i).1 : ℝ) = (antoineZ j).1 := by exact_mod_cast hx
+      have hy' : ((antoineZ i).2 : ℝ) - (antoineZ j).2 = 70 ∨
+          ((antoineZ i).2 : ℝ) - (antoineZ j).2 = -70 := by
+        rcases (abs_eq (by norm_num : (0 : ℤ) ≤ 70)).1 hy with h | h
+        · exact Or.inl (by exact_mod_cast h)
+        · exact Or.inr (by exact_mod_cast h)
+      rcases ht with ⟨ti, tj⟩ | ⟨ti, tj⟩
+      · simp only [antoineMap, ti, tj, antoinePerm, Prod.mk.injEq] at heq
+        obtain ⟨e1, e2, e3⟩ := heq
+        refine antoine_tube_aux (a := p.2.1) (b := p.1) (c := p.2.2) (a' := p'.2.1)
+          (b' := p'.1) (c' := p'.2.2)
+          (s := if ((antoineZ i).2 : ℝ) - (antoineZ j).2 = 70 then 5/4 else -(5/4))
+          ?_ ?_ (by linarith) (by linarith) (by rw [max_comm]; exact hp1)
+            ⟨hp'.1, by rw [max_comm]; exact hp'.2.1, by rw [max_comm]; exact hp'.2.2⟩
+        · split_ifs <;> simp
+        · rcases hy' with h | h
+          · rw [if_pos h]; linarith
+          · rw [if_neg (by rw [h]; norm_num)]; linarith
+      · simp only [antoineMap, ti, tj, antoinePerm, Prod.mk.injEq] at heq
+        obtain ⟨e1, e2, e3⟩ := heq
+        refine antoine_tube_aux (a := p.2.1) (b := p.1) (c := p.2.2) (a' := p'.2.1)
+          (b' := p'.1) (c' := p'.2.2)
+          (s := if ((antoineZ i).2 : ℝ) - (antoineZ j).2 = 70 then 5/4 else -(5/4))
+          ?_ ?_ (by linarith) (by linarith) (by rw [max_comm]; exact hp1)
+            ⟨hp'.1, by rw [max_comm]; exact hp'.2.1, by rw [max_comm]; exact hp'.2.2⟩
+        · split_ifs <;> simp
+        · rcases hy' with h | h
+          · rw [if_pos h]; linarith
+          · rw [if_neg (by rw [h]; norm_num)]; linarith
+
+
+/-! ### Collar facts: joining the base points -/
+
+theorem antoine_notMem_link_of_box (i : Fin 64) {p : ℝ × ℝ × ℝ}
+    (h : (antoineEx (antoineT i) : ℝ) / 640 < |p.1 - (antoineZ i).1 / 640| ∨
+      (antoineEy (antoineT i) : ℝ) / 640 < |p.2.1 - (antoineZ i).2 / 640|) :
+    p ∉ antoineMap i '' antoineLink := by
+  rintro ⟨q, hq, rfl⟩
+  obtain ⟨b1, b2, -⟩ := antoineMap_bounds i hq
+  rcases h with h | h <;> linarith
+
+theorem antoine_notMem_link_hole0 (i : Fin 64) (hT : antoineT i = 0) {p : ℝ × ℝ × ℝ}
+    (h1 : |p.1 - (antoineZ i).1 / 640| < 42 / 640) (h2 : |p.2.1 - (antoineZ i).2 / 640| < 42 / 640) :
+    p ∉ antoineMap i '' antoineLink := by
+  rintro ⟨q, ⟨-, -, hq⟩, rfl⟩
+  simp only [antoineMap, hT, antoinePerm, add_sub_cancel_left, abs_mul,
+    abs_of_pos (show (0 : ℝ) < 7 / 80 by norm_num)] at h1 h2
+  have : max |q.1| |q.2.1| < 3 / 4 := max_lt (by linarith) (by linarith)
+  linarith
+
+theorem antoine_notMem_link_hole2 (i : Fin 64) (hT : antoineT i = 2) {p : ℝ × ℝ × ℝ}
+    (h1 : |p.2.2| < 42 / 640) (h2 : |p.2.1 - (antoineZ i).2 / 640| < 42 / 640) :
+    p ∉ antoineMap i '' antoineLink := by
+  rintro ⟨q, ⟨-, -, hq⟩, rfl⟩
+  simp only [antoineMap, hT, antoinePerm, add_sub_cancel_left, abs_mul,
+    abs_of_pos (show (0 : ℝ) < 7 / 80 by norm_num)] at h1 h2
+  have : max |q.1| |q.2.1| < 3 / 4 := max_lt (by linarith) (by linarith)
+  linarith
+
+theorem antoine_mem_stage_one_bounds {p : ℝ × ℝ × ℝ} (h : p ∈ antoineStage 1) :
+    |p.2.1| ≤ 616 / 640 := by
+  obtain ⟨i, q, hq, rfl⟩ := antoine_mem_stage_one h
+  have hm := antoineMap_mem i hq
+  have := (le_max_right _ _).trans hm.2.1
+  have hb := (antoineMap_bounds i hq).2.1
+  have e2 : (antoineEy (antoineT i) : ℝ) ≤ 56 := by
+    rcases antoineT_cases i with h | h | h <;> simp [h, antoineEy]; norm_num
+  have hc : |((antoineZ i).2 : ℝ)| ≤ 560 := by
+    rcases antoine_centre_mem i with ⟨-, c2⟩ | ⟨c1, -⟩
+    · exact_mod_cast c2
+    · exact_mod_cast c1.le
+  rw [abs_le] at hb hc ⊢
+  constructor <;> linarith
+
+theorem antoine_notMem_stage_one_of (p : ℝ × ℝ × ℝ) (h : ∀ i : Fin 64, p ∉ antoineMap i '' antoineLink) :
+    p ∉ antoineStage 1 := by
+  intro hp
+  obtain ⟨i, q, hq, rfl⟩ := antoine_mem_stage_one hp
+  exact h i ⟨q, hq, rfl⟩
+
+set_option maxRecDepth 100000 in
+theorem antoine_joined_vert_cert : ∀ j i : Fin 64, antoineT j ≠ 1 →
+    (antoineEx (antoineT i) < |(antoineZ j).1 + 35 - (antoineZ i).1| ∨
+      antoineEy (antoineT i) < |(antoineZ j).2 + 61 - (antoineZ i).2|) ∨
+    (antoineT i = 0 ∧ |(antoineZ j).1 + 35 - (antoineZ i).1| < 42 ∧
+      |(antoineZ j).2 + 61 - (antoineZ i).2| < 42) := by
+  decide
+
+set_option maxRecDepth 100000 in
+theorem antoine_joined_shift_cert : ∀ j i : Fin 64, antoineT j ≠ 1 →
+    (antoineEx (antoineT i) < (antoineZ j).1 - (antoineZ i).1 ∨
+      (antoineZ j).1 + 35 - (antoineZ i).1 < -antoineEx (antoineT i) ∨
+      antoineEy (antoineT i) < |(antoineZ j).2 + 61 - (antoineZ i).2|) ∨
+    (antoineT i = 0 ∧ |(antoineZ j).1 - (antoineZ i).1| < 42 ∧
+      |(antoineZ j).1 + 35 - (antoineZ i).1| < 42 ∧ |(antoineZ j).2 + 61 - (antoineZ i).2| < 42) ∨
+    (antoineT i = 2 ∧ |(antoineZ j).2 + 61 - (antoineZ i).2| < 42) := by
+  decide
+
+/-- A segment of `ℝ³` all of whose points lie in `F` joins its ends in `F`. -/
+theorem antoine_joinedIn_seg {F : Set (ℝ × ℝ × ℝ)} {a b : ℝ × ℝ × ℝ}
+    (h : ∀ t : ℝ, 0 ≤ t → t ≤ 1 → a + t • (b - a) ∈ F) : JoinedIn F a b :=
+  ⟨antoineSeg a b, fun t => h t t.2.1 t.2.2⟩
+
+theorem antoine_int_abs_cast {a : ℤ} : (|(a : ℝ)|) = ((|a| : ℤ) : ℝ) := by push_cast; rfl
+
+theorem antoine_abs_div640 (a b : ℝ) : |a / 640 - b / 640| = |a - b| / 640 := by
+  rw [← sub_div, abs_div, abs_of_pos (by norm_num : (0 : ℝ) < 640)]
+
+theorem antoine_vert_notMem (j : Fin 64) (hT : antoineT j ≠ 1) (z : ℝ) :
+    ((((antoineZ j).1 : ℝ) + 35) / 640, (((antoineZ j).2 : ℝ) + 61) / 640, z) ∉ antoineStage 1 := by
+  refine antoine_notMem_stage_one_of _ fun i => ?_
+  rcases antoine_joined_vert_cert j i hT with (h | h) | ⟨hi, h1, h2⟩
+  · refine antoine_notMem_link_of_box i (Or.inl ?_)
+    have h' : ((antoineEx (antoineT i) : ℤ) : ℝ) < |((antoineZ j).1 : ℝ) + 35 - (antoineZ i).1| := by
+      exact_mod_cast h
+    show _ < |(((antoineZ j).1 : ℝ) + 35) / 640 - _|
+    rw [antoine_abs_div640]; linarith
+  · refine antoine_notMem_link_of_box i (Or.inr ?_)
+    have h' : ((antoineEy (antoineT i) : ℤ) : ℝ) < |((antoineZ j).2 : ℝ) + 61 - (antoineZ i).2| := by
+      exact_mod_cast h
+    show _ < |(((antoineZ j).2 : ℝ) + 61) / 640 - _|
+    rw [antoine_abs_div640]; linarith
+  · have h1' : |((antoineZ j).1 : ℝ) + 35 - (antoineZ i).1| < 42 := by exact_mod_cast h1
+    have h2' : |((antoineZ j).2 : ℝ) + 61 - (antoineZ i).2| < 42 := by exact_mod_cast h2
+    refine antoine_notMem_link_hole0 i hi ?_ ?_
+    · show |(((antoineZ j).1 : ℝ) + 35) / 640 - _| < _
+      rw [antoine_abs_div640]; linarith
+    · show |(((antoineZ j).2 : ℝ) + 61) / 640 - _| < _
+      rw [antoine_abs_div640]; linarith
+
+theorem antoine_shift_notMem (j : Fin 64) (hT : antoineT j ≠ 1) {d : ℝ} (hd0 : 0 ≤ d)
+    (hd1 : d ≤ 35) :
+    ((((antoineZ j).1 : ℝ) + d) / 640, (((antoineZ j).2 : ℝ) + 61) / 640, (0 : ℝ)) ∉
+      antoineStage 1 := by
+  refine antoine_notMem_stage_one_of _ fun i => ?_
+  have hE : (0 : ℝ) ≤ (antoineEx (antoineT i) : ℝ) := by
+    rcases antoineT_cases i with h | h | h <;> simp [h, antoineEx]
+  rcases antoine_joined_shift_cert j i hT with (h | h | h) | ⟨hi, h1, h1', h2⟩ | ⟨hi, h2⟩
+  · refine antoine_notMem_link_of_box i (Or.inl ?_)
+    have h' : ((antoineEx (antoineT i) : ℤ) : ℝ) < ((antoineZ j).1 : ℝ) - (antoineZ i).1 := by
+      exact_mod_cast h
+    show _ < |(((antoineZ j).1 : ℝ) + d) / 640 - _|
+    rw [antoine_abs_div640, abs_of_pos (by linarith)]; linarith
+  · refine antoine_notMem_link_of_box i (Or.inl ?_)
+    have h' : ((antoineZ j).1 : ℝ) + 35 - (antoineZ i).1 < -((antoineEx (antoineT i) : ℤ) : ℝ) := by
+      exact_mod_cast h
+    show _ < |(((antoineZ j).1 : ℝ) + d) / 640 - _|
+    rw [antoine_abs_div640, abs_of_neg (by linarith)]; linarith
+  · refine antoine_notMem_link_of_box i (Or.inr ?_)
+    have h' : ((antoineEy (antoineT i) : ℤ) : ℝ) < |((antoineZ j).2 : ℝ) + 61 - (antoineZ i).2| := by
+      exact_mod_cast h
+    show _ < |(((antoineZ j).2 : ℝ) + 61) / 640 - _|
+    rw [antoine_abs_div640]; linarith
+  · have h1a : |((antoineZ j).1 : ℝ) - (antoineZ i).1| < 42 := by exact_mod_cast h1
+    have h1b : |((antoineZ j).1 : ℝ) + 35 - (antoineZ i).1| < 42 := by exact_mod_cast h1'
+    have h2' : |((antoineZ j).2 : ℝ) + 61 - (antoineZ i).2| < 42 := by exact_mod_cast h2
+    refine antoine_notMem_link_hole0 i hi ?_ ?_
+    · show |(((antoineZ j).1 : ℝ) + d) / 640 - _| < _
+      rw [antoine_abs_div640, div_lt_div_iff_of_pos_right (by norm_num), abs_lt]
+      rw [abs_lt] at h1a h1b
+      constructor <;> linarith
+    · show |(((antoineZ j).2 : ℝ) + 61) / 640 - _| < _
+      rw [antoine_abs_div640]; linarith
+  · have h2' : |((antoineZ j).2 : ℝ) + 61 - (antoineZ i).2| < 42 := by exact_mod_cast h2
+    refine antoine_notMem_link_hole2 i hi (by simp) ?_
+    show |(((antoineZ j).2 : ℝ) + 61) / 640 - _| < _
+    rw [antoine_abs_div640]; linarith
+
+theorem antoineMap_merPt_of_ne (j : Fin 64) (hT : antoineT j ≠ 1) :
+    antoineMap j antoineMerPt =
+      (((antoineZ j).1 : ℝ) / 640, (((antoineZ j).2 : ℝ) + 61) / 640, (0 : ℝ)) := by
+  rcases antoineT_cases j with h | h | h
+  · simp only [antoineMap, h, antoinePerm, antoineMerPt, Prod.mk.injEq]; refine ⟨by ring, by ring, by ring⟩
+  · exact absurd h hT
+  · simp only [antoineMap, h, antoinePerm, antoineMerPt, Prod.mk.injEq]; refine ⟨by ring, by ring, by ring⟩
+
+theorem antoineMap_merPt_of_eq (j : Fin 64) (hT : antoineT j = 1) :
+    antoineMap j antoineMerPt =
+      (((antoineZ j).1 : ℝ) / 640, ((antoineZ j).2 : ℝ) / 640, (61 / 640 : ℝ)) := by
+  simp only [antoineMap, hT, antoinePerm, antoineMerPt, Prod.mk.injEq]; refine ⟨by ring, by ring, by ring⟩
+
+/-- `S³ ∖ C₁` joins the base point of the top meridian to the base point of the meridian of
+every first-generation link (`joined` of `GX.AntoineFirstGeneration`), in `ℝ³`: up to the plane
+`z = 1`, across, and down (after a shift of `35/640` along `x` for the links of types `0` and
+`2`). -/
+theorem antoine_joined_R3 (j : Fin 64) :
+    JoinedIn (antoineStage 1)ᶜ antoineMerPt (antoineMap j antoineMerPt) := by
+  have hhigh : ∀ p : ℝ × ℝ × ℝ, 56 / 640 < p.2.2 → p ∈ (antoineStage 1)ᶜ := fun p hp =>
+    antoine_not_mem_stage_one_of_z (by rw [abs_of_pos (by linarith)]; exact hp)
+  have h0 : JoinedIn (antoineStage 1)ᶜ antoineMerPt (0, 61 / 56, 1) := by
+    refine antoine_joinedIn_seg fun t _ _ => fun hp => ?_
+    have := antoine_mem_stage_one_bounds hp
+    simp only [antoineMerPt, Prod.fst_add, Prod.snd_add, Prod.smul_mk, Prod.mk_sub_mk,
+      smul_eq_mul] at this
+    rw [abs_le] at this
+    norm_num at this
+  have hacross : ∀ a b : ℝ, JoinedIn (antoineStage 1)ᶜ (0, 61 / 56, 1) (a, b, 1) := fun a b =>
+    antoine_joinedIn_seg fun t _ _ => hhigh _ (by
+      simp only [Prod.snd_add, Prod.smul_mk, Prod.mk_sub_mk, smul_eq_mul]; norm_num)
+  by_cases hT : antoineT j = 1
+  · rw [antoineMap_merPt_of_eq j hT]
+    refine (h0.trans (hacross (((antoineZ j).1 : ℝ) / 640) (((antoineZ j).2 : ℝ) / 640))).trans
+      (antoine_joinedIn_seg fun t _ ht1 => hhigh _ ?_)
+    simp only [Prod.snd_add, Prod.smul_mk, Prod.mk_sub_mk, smul_eq_mul]
+    nlinarith
+  · rw [antoineMap_merPt_of_ne j hT]
+    refine ((h0.trans (hacross ((((antoineZ j).1 : ℝ) + 35) / 640)
+      ((((antoineZ j).2 : ℝ) + 61) / 640))).trans
+      (antoine_joinedIn_seg fun t _ _ => ?_)).trans (antoine_joinedIn_seg fun t ht0 ht1 => ?_)
+      (y := ((((antoineZ j).1 : ℝ) + 35) / 640, (((antoineZ j).2 : ℝ) + 61) / 640, (0 : ℝ)))
+    · have e : ((((antoineZ j).1 : ℝ) + 35) / 640, (((antoineZ j).2 : ℝ) + 61) / 640, (1 : ℝ)) +
+          t • (((((antoineZ j).1 : ℝ) + 35) / 640, (((antoineZ j).2 : ℝ) + 61) / 640, (0 : ℝ)) -
+            ((((antoineZ j).1 : ℝ) + 35) / 640, (((antoineZ j).2 : ℝ) + 61) / 640, (1 : ℝ))) =
+          ((((antoineZ j).1 : ℝ) + 35) / 640, (((antoineZ j).2 : ℝ) + 61) / 640, 1 - t) := by
+        simp only [Prod.smul_mk, Prod.mk_sub_mk, Prod.mk_add_mk, smul_eq_mul, Prod.mk.injEq]
+        refine ⟨by ring, by ring, by ring⟩
+      rw [e]; exact antoine_vert_notMem j hT _
+    · have e : ((((antoineZ j).1 : ℝ) + 35) / 640, (((antoineZ j).2 : ℝ) + 61) / 640, (0 : ℝ)) +
+          t • ((((antoineZ j).1 : ℝ) / 640, (((antoineZ j).2 : ℝ) + 61) / 640, (0 : ℝ)) -
+            ((((antoineZ j).1 : ℝ) + 35) / 640, (((antoineZ j).2 : ℝ) + 61) / 640, (0 : ℝ))) =
+          ((((antoineZ j).1 : ℝ) + 35 * (1 - t)) / 640, (((antoineZ j).2 : ℝ) + 61) / 640,
+            (0 : ℝ)) := by
+        simp only [Prod.smul_mk, Prod.mk_sub_mk, Prod.mk_add_mk, smul_eq_mul, Prod.mk.injEq]
+        refine ⟨by ring, by ring, by ring⟩
+      rw [e]; exact antoine_shift_notMem j hT (by nlinarith) (by nlinarith)
+
+/-- `joined` of `GX.AntoineFirstGeneration`, in `S³`. -/
+theorem antoine_joined (j : Fin 64) :
+    JoinedIn (antoineStereo '' antoineStage 1)ᶜ (antoineStereo antoineMerPt) (antoineX1 j) := by
+  refine ((antoine_joined_R3 j).map continuous_antoineStereo).mono ?_
+  rintro _ ⟨p, hp, rfl⟩ ⟨q, hq, e⟩
+  exact hp (antoineStereo_injective e ▸ hq)
+
+
+/-! ### The collar of a link: coordinates -/
+
+/-- The square radius `ρ = max(|x|, |y|)`. -/
+def antoineRho (p : ℝ × ℝ × ℝ) : ℝ := max |p.1| |p.2.1|
+
+/-- The longitudinal coordinate `x + i y` of the collar. -/
+def antoineAng (p : ℝ × ℝ × ℝ) : ℂ := (p.1 : ℂ) + (p.2.1 : ℂ) * Complex.I
+
+/-- The meridional coordinate `(ρ - 7/8) + i z` of the collar. -/
+def antoineW (p : ℝ × ℝ × ℝ) : ℂ := ((antoineRho p - 7 / 8 : ℝ) : ℂ) + (p.2.2 : ℂ) * Complex.I
+
+/-- The collar `N ∖ L` of the link, in `ℝ³`. -/
+def antoineA0 : Set (ℝ × ℝ × ℝ) := antoineNbhd \ antoineLink
+
+theorem continuous_antoineRho : Continuous antoineRho := by unfold antoineRho; fun_prop
+theorem continuous_antoineAng : Continuous antoineAng := by unfold antoineAng; fun_prop
+theorem continuous_antoineW : Continuous antoineW := by
+  unfold antoineW; have := continuous_antoineRho; fun_prop
+
+theorem antoineW_normSq (p : ℝ × ℝ × ℝ) :
+    ‖antoineW p‖ ^ 2 = (antoineRho p - 7 / 8) ^ 2 + p.2.2 ^ 2 := by
+  rw [Complex.sq_norm, antoineW, Complex.normSq_add_mul_I]
+
+theorem antoineAng_normSq (p : ℝ × ℝ × ℝ) : ‖antoineAng p‖ ^ 2 = p.1 ^ 2 + p.2.1 ^ 2 := by
+  rw [Complex.sq_norm, antoineAng, Complex.normSq_add_mul_I]
+
+theorem mem_antoineNbhd_iff (p : ℝ × ℝ × ℝ) : p ∈ antoineNbhd ↔ ‖antoineW p‖ ^ 2 < 1 / 16 := by
+  rw [antoineW_normSq]; rfl
+
+/-- A point of the tube is in the link iff its meridional coordinate is in the square
+`[-1/8, 1/8]²`. -/
+theorem mem_antoineLink_iff (p : ℝ × ℝ × ℝ) :
+    p ∈ antoineLink ↔ |antoineRho p - 7 / 8| ≤ 1 / 8 ∧ |p.2.2| ≤ 1 / 8 := by
+  show (|p.2.2| ≤ 1 / 8 ∧ antoineRho p ≤ 1 ∧ 3 / 4 ≤ antoineRho p) ↔ _
+  rw [abs_le (a := antoineRho p - 7 / 8)]
+  constructor
+  · rintro ⟨h1, h2, h3⟩; exact ⟨⟨by linarith, by linarith⟩, h1⟩
+  · rintro ⟨⟨h1, h2⟩, h3⟩; exact ⟨h3, by linarith, by linarith⟩
+
+theorem antoineRho_nonneg (p : ℝ × ℝ × ℝ) : 0 ≤ antoineRho p :=
+  (abs_nonneg _).trans (le_max_left _ _)
+
+theorem antoineRho_gt_of_mem_nbhd {p : ℝ × ℝ × ℝ} (hp : p ∈ antoineNbhd) : 5 / 8 < antoineRho p := by
+  rw [mem_antoineNbhd_iff, antoineW_normSq] at hp
+  nlinarith [sq_nonneg p.2.2]
+
+theorem antoineW_norm_gt_of_mem {p : ℝ × ℝ × ℝ} (hp : p ∈ antoineA0) : 1 / 8 < ‖antoineW p‖ := by
+  obtain ⟨-, hp⟩ := hp
+  rw [mem_antoineLink_iff] at hp
+  by_contra hc
+  push Not at hc
+  have h2 := antoineW_normSq p
+  have hn : ‖antoineW p‖ ^ 2 ≤ 1 / 64 := by
+    have := norm_nonneg (antoineW p); nlinarith
+  have ha : (antoineRho p - 7 / 8) ^ 2 ≤ 1 / 64 := by nlinarith [sq_nonneg p.2.2]
+  have hb : p.2.2 ^ 2 ≤ 1 / 64 := by nlinarith [sq_nonneg (antoineRho p - 7 / 8)]
+  exact hp ⟨abs_le.2 ⟨by nlinarith, by nlinarith⟩, abs_le.2 ⟨by nlinarith, by nlinarith⟩⟩
+
+
+/-- `max(|cos α|, |sin α|)`, the square radius of the unit vector of angle `α`. -/
+def antoineM (α : ℝ) : ℝ := max |Real.cos α| |Real.sin α|
+
+theorem antoineM_pos (α : ℝ) : 0 < antoineM α := by
+  by_contra h
+  push Not at h
+  have h1 : |Real.cos α| ≤ 0 := (le_max_left _ _).trans h
+  have h2 : |Real.sin α| ≤ 0 := (le_max_right _ _).trans h
+  have := Real.sin_sq_add_cos_sq α
+  have e1 : Real.cos α = 0 := abs_nonpos_iff.1 h1
+  have e2 : Real.sin α = 0 := abs_nonpos_iff.1 h2
+  rw [e1, e2] at this; norm_num at this
+
+theorem continuous_antoineM : Continuous antoineM := by unfold antoineM; fun_prop
+
+/-- The parametrisation of the torus `|W| = 3/14` of the collar by the two angles. -/
+def antoineE (α β : ℝ) : ℝ × ℝ × ℝ :=
+  ((7 / 8 + 3 / 14 * Real.cos β) / antoineM α * Real.cos α,
+    (7 / 8 + 3 / 14 * Real.cos β) / antoineM α * Real.sin α, 3 / 14 * Real.sin β)
+
+theorem antoineRho_smul (r α : ℝ) (hr : 0 ≤ r) :
+    max |r * Real.cos α| |r * Real.sin α| = r * antoineM α := by
+  rw [abs_mul, abs_mul, abs_of_nonneg hr, antoineM, mul_max_of_nonneg _ _ hr]
+
+theorem antoineRho_E (α β : ℝ) : antoineRho (antoineE α β) = 7 / 8 + 3 / 14 * Real.cos β := by
+  have hm := antoineM_pos α
+  have hr : 0 ≤ (7 / 8 + 3 / 14 * Real.cos β) / antoineM α := by
+    have := Real.neg_one_le_cos β
+    exact div_nonneg (by linarith) hm.le
+  show max |_ * Real.cos α| |_ * Real.sin α| = _
+  rw [antoineRho_smul _ _ hr, div_mul_cancel₀ _ hm.ne']
+
+theorem antoineW_E (α β : ℝ) :
+    antoineW (antoineE α β) = (3 / 14 : ℂ) * Complex.exp (β * Complex.I) := by
+  rw [antoineW, antoineRho_E, Complex.exp_mul_I]
+  apply Complex.ext <;> simp [antoineE]
+
+theorem antoineE_mem (α β : ℝ) : antoineE α β ∈ antoineA0 := by
+  have hW : ‖antoineW (antoineE α β)‖ = 3 / 14 := by
+    rw [antoineW_E, norm_mul, Complex.norm_exp_ofReal_mul_I]; norm_num
+  refine ⟨?_, fun hL => ?_⟩
+  · rw [mem_antoineNbhd_iff, hW]; norm_num
+  · rw [mem_antoineLink_iff] at hL
+    have h2 := antoineW_normSq (antoineE α β)
+    rw [hW] at h2
+    obtain ⟨h3, h4⟩ := hL
+    have h5 : (antoineRho (antoineE α β) - 7 / 8) ^ 2 ≤ 1 / 64 := by
+      rw [← sq_abs]; nlinarith [abs_nonneg (antoineRho (antoineE α β) - 7 / 8)]
+    have h6 : (antoineE α β).2.2 ^ 2 ≤ 1 / 64 := by
+      rw [← sq_abs]; nlinarith [abs_nonneg (antoineE α β).2.2]
+    nlinarith
+
+theorem continuous_antoineE : Continuous fun q : ℝ × ℝ => antoineE q.1 q.2 := by
+  have hm : Continuous fun q : ℝ × ℝ => antoineM q.1 := continuous_antoineM.comp continuous_fst
+  have hd : Continuous fun q : ℝ × ℝ => (7 / 8 + 3 / 14 * Real.cos q.2) / antoineM q.1 :=
+    (by fun_prop : Continuous fun q : ℝ × ℝ => 7 / 8 + 3 / 14 * Real.cos q.2).div hm
+      fun q => (antoineM_pos q.1).ne'
+  unfold antoineE
+  fun_prop
+
+/-- A point with longitudinal polar coordinates `r e^{iα}` (`r > 0`) and meridional coordinate
+`(3/14) e^{iβ}` is `antoineE α β`. -/
+theorem antoineE_eq_of {q : ℝ × ℝ × ℝ} {r α β : ℝ} (hr : 0 < r) (h1 : q.1 = r * Real.cos α)
+    (h2 : q.2.1 = r * Real.sin α) (h3 : antoineRho q = 7 / 8 + 3 / 14 * Real.cos β)
+    (h4 : q.2.2 = 3 / 14 * Real.sin β) : antoineE α β = q := by
+  have hρ : antoineRho q = r * antoineM α := by
+    show max |q.1| |q.2.1| = _
+    rw [h1, h2, antoineRho_smul _ _ hr.le]
+  have hm := antoineM_pos α
+  have e : (7 / 8 + 3 / 14 * Real.cos β) / antoineM α = r := by
+    rw [← h3, hρ, mul_div_cancel_right₀ _ hm.ne']
+  obtain ⟨q1, q2, q3⟩ := q
+  simp only at h1 h2 h4
+  simp only [antoineE, e, h1, h2, h4]
+
+/-- Scaling the meridional coordinate by `λ`, keeping the longitudinal direction. -/
+def antoineScale (p : ℝ × ℝ × ℝ) (l : ℝ) : ℝ × ℝ × ℝ :=
+  (p.1 * ((7 / 8 + l * (antoineRho p - 7 / 8)) / antoineRho p),
+    p.2.1 * ((7 / 8 + l * (antoineRho p - 7 / 8)) / antoineRho p), l * p.2.2)
+
+theorem antoineRho_scale {p : ℝ × ℝ × ℝ} (hp : 0 < antoineRho p) {l : ℝ}
+    (hl : 0 ≤ 7 / 8 + l * (antoineRho p - 7 / 8)) :
+    antoineRho (antoineScale p l) = 7 / 8 + l * (antoineRho p - 7 / 8) := by
+  have hσ : 0 ≤ (7 / 8 + l * (antoineRho p - 7 / 8)) / antoineRho p := div_nonneg hl hp.le
+  show max |p.1 * _| |p.2.1 * _| = _
+  rw [abs_mul, abs_mul, abs_of_nonneg hσ, ← max_mul_of_nonneg _ _ hσ]
+  show antoineRho p * _ = _
+  field_simp
+
+theorem antoineW_scale {p : ℝ × ℝ × ℝ} (hp : 0 < antoineRho p) {l : ℝ}
+    (hl : 0 ≤ 7 / 8 + l * (antoineRho p - 7 / 8)) :
+    antoineW (antoineScale p l) = (l : ℂ) * antoineW p := by
+  rw [antoineW, antoineRho_scale hp hl, antoineW]
+  apply Complex.ext <;> simp [antoineScale]
+
+theorem antoineScale_one {p : ℝ × ℝ × ℝ} (hp : 0 < antoineRho p) : antoineScale p 1 = p := by
+  obtain ⟨a, b, c⟩ := p
+  simp only [antoineScale, one_mul, add_sub_cancel, div_self hp.ne', mul_one]
+
+theorem antoineScale_mem {p : ℝ × ℝ × ℝ} (hp : p ∈ antoineA0) {l : ℝ} (hl : 0 < l)
+    (hl1 : l * ‖antoineW p‖ < 1 / 4) (hl2 : 1 ≤ l ∨ 3 / 14 ≤ l * ‖antoineW p‖) :
+    antoineScale p l ∈ antoineA0 := by
+  have hρ := antoineRho_gt_of_mem_nbhd hp.1
+  have hW := antoineW_norm_gt_of_mem hp
+  have hu : |antoineRho p - 7 / 8| ≤ ‖antoineW p‖ := by
+    have := antoineW_normSq p
+    exact abs_le_of_sq_le_sq' (by nlinarith [sq_nonneg p.2.2]) (norm_nonneg _) |>.elim
+      (fun h1 h2 => abs_le.2 ⟨h1, h2⟩)
+  have hpos : 0 ≤ 7 / 8 + l * (antoineRho p - 7 / 8) := by
+    have : |l * (antoineRho p - 7 / 8)| < 1 / 4 := by
+      rw [abs_mul, abs_of_pos hl]
+      exact lt_of_le_of_lt (mul_le_mul_of_nonneg_left hu hl.le) hl1
+    rw [abs_lt] at this; linarith
+  have hWs : ‖antoineW (antoineScale p l)‖ = l * ‖antoineW p‖ := by
+    rw [antoineW_scale (by linarith) hpos, norm_mul, Complex.norm_real, Real.norm_eq_abs,
+      abs_of_pos hl]
+  refine ⟨?_, fun hL => ?_⟩
+  · rw [mem_antoineNbhd_iff, hWs]
+    have := mul_nonneg hl.le (norm_nonneg (antoineW p))
+    nlinarith
+  · rw [mem_antoineLink_iff, antoineRho_scale (by linarith) hpos] at hL
+    obtain ⟨h3, h4⟩ := hL
+    simp only [antoineScale] at h4
+    rw [add_sub_cancel_left] at h3
+    rcases hl2 with hl2 | hl2
+    · -- `λ ≥ 1`: the unscaled point was in the square already
+      refine hp.2 ((mem_antoineLink_iff p).2 ⟨?_, ?_⟩)
+      · rw [abs_mul, abs_of_pos hl] at h3
+        nlinarith [abs_nonneg (antoineRho p - 7 / 8)]
+      · rw [abs_mul, abs_of_pos hl] at h4
+        nlinarith [abs_nonneg p.2.2]
+    · have h2 := antoineW_normSq (antoineScale p l)
+      rw [hWs, antoineRho_scale (by linarith) hpos, add_sub_cancel_left] at h2
+      simp only [antoineScale] at h2
+      have h5 : (l * (antoineRho p - 7 / 8)) ^ 2 ≤ 1 / 64 := by
+        rw [← sq_abs]; nlinarith [abs_nonneg (l * (antoineRho p - 7 / 8))]
+      have h6 : (l * p.2.2) ^ 2 ≤ 1 / 64 := by
+        rw [← sq_abs]; nlinarith [abs_nonneg (l * p.2.2)]
+      nlinarith
+
+/-- The meridional factor `3/14 / |W|` retracting the collar onto the torus `|W| = 3/14`. -/
+def antoineK (p : ℝ × ℝ × ℝ) : ℝ := 3 / 14 / ‖antoineW p‖
+
+theorem antoineScale_K_eq {p : ℝ × ℝ × ℝ} (hp : p ∈ antoineA0) :
+    antoineE (Complex.arg (antoineAng p)) (Complex.arg (antoineW p)) =
+      antoineScale p (antoineK p) := by
+  have hρ := antoineRho_gt_of_mem_nbhd hp.1
+  have hW := antoineW_norm_gt_of_mem hp
+  have hW0 : antoineW p ≠ 0 := fun h => by rw [h, norm_zero] at hW; norm_num at hW
+  have hA0 : antoineAng p ≠ 0 := by
+    intro h
+    have h1 := congrArg Complex.re h
+    have h2 := congrArg Complex.im h
+    simp [antoineAng] at h1 h2
+    have : antoineRho p = 0 := by simp [antoineRho, h1, h2]
+    linarith
+  have hk : 0 < antoineK p := div_pos (by norm_num) (by linarith)
+  have hkW : antoineK p * ‖antoineW p‖ = 3 / 14 := div_mul_cancel₀ _ (by linarith)
+  have hu : |antoineRho p - 7 / 8| ≤ ‖antoineW p‖ := by
+    have := antoineW_normSq p
+    exact abs_le_of_sq_le_sq' (by nlinarith [sq_nonneg p.2.2]) (norm_nonneg _) |>.elim
+      (fun h1 h2 => abs_le.2 ⟨h1, h2⟩)
+  have hku : |antoineK p * (antoineRho p - 7 / 8)| ≤ 3 / 14 := by
+    rw [abs_mul, abs_of_pos hk, ← hkW]; exact mul_le_mul_of_nonneg_left hu hk.le
+  rw [abs_le] at hku
+  have hpos : 0 ≤ 7 / 8 + antoineK p * (antoineRho p - 7 / 8) := by linarith
+  have hσ : 0 < (7 / 8 + antoineK p * (antoineRho p - 7 / 8)) / antoineRho p :=
+    div_pos (by linarith) (by linarith)
+  have hWn : 0 < ‖antoineW p‖ := by linarith
+  refine antoineE_eq_of (r := ‖antoineAng p‖ * ((7 / 8 + antoineK p * (antoineRho p - 7 / 8)) /
+    antoineRho p)) (mul_pos (norm_pos_iff.2 hA0) hσ) ?_ ?_ ?_ ?_
+  · show p.1 * _ = _
+    rw [mul_comm ‖antoineAng p‖, mul_assoc, Complex.norm_mul_cos_arg]
+    simp [antoineAng]; ring
+  · show p.2.1 * _ = _
+    rw [mul_comm ‖antoineAng p‖, mul_assoc, Complex.norm_mul_sin_arg]
+    simp [antoineAng]; ring
+  · rw [antoineRho_scale (by linarith) hpos, Complex.cos_arg hW0]
+    simp only [antoineW, antoineK, Complex.add_re, Complex.ofReal_re, Complex.mul_re,
+      Complex.ofReal_im, Complex.I_re, Complex.I_im, mul_zero, sub_zero, mul_one, add_zero]
+    field_simp
+  · rw [Complex.sin_arg]
+    simp only [antoineScale, antoineW, antoineK, Complex.add_im, Complex.ofReal_im,
+      Complex.mul_im, Complex.ofReal_re, Complex.I_re, Complex.I_im, mul_zero, mul_one, zero_add,
+      add_zero]
+    field_simp
+
+
+theorem antoineK_pos {p : ℝ × ℝ × ℝ} (hp : p ∈ antoineA0) : 0 < antoineK p :=
+  div_pos (by norm_num) ((antoineW_norm_gt_of_mem hp).trans' (by norm_num))
+
+theorem antoineK_mul {p : ℝ × ℝ × ℝ} (hp : p ∈ antoineA0) : antoineK p * ‖antoineW p‖ = 3 / 14 :=
+  div_mul_cancel₀ _ ((antoineW_norm_gt_of_mem hp).trans' (by norm_num)).ne'
+
+/-- The interpolation `(1 - s) + s K` between `1` and the retraction factor keeps a point of the
+collar in the collar. -/
+theorem antoineScale_interp_mem {p : ℝ × ℝ × ℝ} (hp : p ∈ antoineA0) {s : ℝ} (hs0 : 0 ≤ s)
+    (hs1 : s ≤ 1) : antoineScale p (1 - s + s * antoineK p) ∈ antoineA0 := by
+  have hk := antoineK_pos hp
+  have hkW := antoineK_mul hp
+  have hW := antoineW_norm_gt_of_mem hp
+  have hWlt : ‖antoineW p‖ < 1 / 4 := by
+    have h := (mem_antoineNbhd_iff p).1 hp.1
+    nlinarith [norm_nonneg (antoineW p)]
+  have e : (1 - s + s * antoineK p) * ‖antoineW p‖ = (1 - s) * ‖antoineW p‖ + s * (3 / 14) := by
+    rw [← hkW]; ring
+  refine antoineScale_mem hp (by nlinarith) (by rw [e]; nlinarith) ?_
+  rcases le_or_gt 1 (antoineK p) with h | h
+  · left; nlinarith
+  · right
+    rw [e]
+    have : 3 / 14 < ‖antoineW p‖ := by
+      by_contra hc; push Not at hc
+      have : 1 ≤ antoineK p := by
+        rw [antoineK, le_div_iff₀ (by linarith)]; linarith
+      linarith
+    nlinarith
+
+/-- The collar `N ∖ L` is path-connected: every point joins the torus `|W| = 3/14` by scaling
+`W`, and the torus is the image of `ℝ²` (`GX.antoineE`). -/
+theorem isPathConnected_antoineA0 : IsPathConnected antoineA0 := by
+  have hR : IsPathConnected (range fun q : ℝ × ℝ => antoineE q.1 q.2) :=
+    isPathConnected_range continuous_antoineE
+  have hRA : (range fun q : ℝ × ℝ => antoineE q.1 q.2) ⊆ antoineA0 := by
+    rintro _ ⟨q, rfl⟩; exact antoineE_mem _ _
+  refine ⟨antoineE 0 0, antoineE_mem 0 0, fun y hy => ?_⟩
+  have hρ := antoineRho_gt_of_mem_nbhd hy.1
+  let γ : Path y (antoineScale y (antoineK y)) :=
+    { toFun := fun s => antoineScale y (1 - (s : ℝ) + (s : ℝ) * antoineK y)
+      continuous_toFun := by unfold antoineScale; fun_prop
+      source' := by simp only [Icc.coe_zero, sub_zero, zero_mul, add_zero]; exact antoineScale_one (by linarith)
+      target' := by simp only [Icc.coe_one, sub_self, one_mul, zero_add] }
+  have h1 : JoinedIn antoineA0 y (antoineScale y (antoineK y)) :=
+    ⟨γ, fun s => antoineScale_interp_mem hy s.2.1 s.2.2⟩
+  have h2 : JoinedIn antoineA0 (antoineE 0 0) (antoineScale y (antoineK y)) := by
+    rw [← antoineScale_K_eq hy]
+    exact (hR.joinedIn _ ⟨(0, 0), rfl⟩ _ ⟨(_, _), rfl⟩).mono hRA
+  exact h2.trans h1.symm
+
+/-- The collar of the `j`-th link is the image of `GX.antoineA0`. -/
+theorem antoineA1_eq (j : Fin 64) :
+    antoineA1 j = (antoineStereo ∘ antoineMap j) '' antoineA0 := by
+  rw [antoineA1, antoineN1, antoineL1, ← image_comp, ← image_comp, antoineA0,
+    image_sdiff (antoineStereo_injective.comp (antoineMap_injective j))]
+
+/-- `collar_conn` of `GX.AntoineFirstGeneration`. -/
+theorem antoine_collar_conn (j : Fin 64) : IsPathConnected (antoineA1 j) := by
+  rw [antoineA1_eq]
+  exact isPathConnected_antoineA0.image (continuous_antoineStereo.comp (continuous_antoineMap j))
+
+
+/-! ### The collar: classification of loops by the two windings -/
+
+/-- `f` has an `exp`-lift whose total increment is `n · 2πi`. -/
+def AntoineLiftWind (f : I → ℂ) (n : ℤ) : Prop :=
+  ∃ Γ : C(I, ℂ), (∀ t, Complex.exp (Γ t) = f t) ∧ Γ 1 = Γ 0 + n * (2 * Real.pi * Complex.I)
+
+theorem antoineLiftWind_cWinding {z : CStar} (γ : Path z z) :
+    AntoineLiftWind (fun t => (γ t : ℂ)) (cWinding γ) := by
+  obtain ⟨Γ, hΓ⟩ := exists_expLift γ.toContinuousMap
+  exact ⟨Γ, hΓ, cWinding_spec γ hΓ⟩
+
+theorem AntoineLiftWind.congr {f g : I → ℂ} {n : ℤ} (h : AntoineLiftWind f n) (e : ∀ t, f t = g t) :
+    AntoineLiftWind g n := by
+  obtain ⟨Γ, h1, h2⟩ := h
+  exact ⟨Γ, fun t => (h1 t).trans (e t), h2⟩
+
+/-- Two lifts of loops with equal winding, through the same base value, can be chosen with
+equal ends. -/
+theorem AntoineLiftWind.align {f g : I → ℂ} {n : ℤ} (hf : AntoineLiftWind f n)
+    (hg : AntoineLiftWind g n) (h0 : f 0 = g 0) :
+    ∃ Γf Γg : C(I, ℂ), (∀ t, Complex.exp (Γf t) = f t) ∧ (∀ t, Complex.exp (Γg t) = g t) ∧
+      Γf 0 = Γg 0 ∧ Γf 1 = Γg 1 := by
+  obtain ⟨Γ₁, h1, e1⟩ := hf
+  obtain ⟨Γ₂, h2, e2⟩ := hg
+  refine ⟨Γ₁, ⟨fun t => Γ₂ t + (Γ₁ 0 - Γ₂ 0), by fun_prop⟩, h1, fun t => ?_, ?_, ?_⟩
+  · show Complex.exp (Γ₂ t + (Γ₁ 0 - Γ₂ 0)) = g t
+    have hne : Complex.exp (Γ₂ 0) ≠ 0 := Complex.exp_ne_zero _
+    rw [Complex.exp_add, Complex.exp_sub, h1, h2, h2, h0, div_self (h2 0 ▸ hne), mul_one]
+  · show Γ₁ 0 = Γ₂ 0 + (Γ₁ 0 - Γ₂ 0); ring
+  · show Γ₁ 1 = Γ₂ 1 + (Γ₁ 0 - Γ₂ 0); rw [e1, e2]; ring
+
+theorem antoineAng_ne_zero {p : ℝ × ℝ × ℝ} (hp : 0 < antoineRho p) : antoineAng p ≠ 0 := by
+  intro h
+  have h1 := congrArg Complex.re h
+  have h2 := congrArg Complex.im h
+  simp [antoineAng] at h1 h2
+  have : antoineRho p = 0 := by simp [antoineRho, h1, h2]
+  linarith
+
+theorem antoineW_ne_zero {p : ℝ × ℝ × ℝ} (hp : p ∈ antoineA0) : antoineW p ≠ 0 := fun h => by
+  have := antoineW_norm_gt_of_mem hp; rw [h, norm_zero] at this; norm_num at this
+
+/-- The retraction of the collar onto the torus, in polar form (any angles). -/
+theorem antoineScale_K_eq_of {p : ℝ × ℝ × ℝ} (hp : p ∈ antoineA0) {α β : ℝ}
+    (hα1 : p.1 = ‖antoineAng p‖ * Real.cos α) (hα2 : p.2.1 = ‖antoineAng p‖ * Real.sin α)
+    (hβ1 : antoineRho p - 7 / 8 = ‖antoineW p‖ * Real.cos β)
+    (hβ2 : p.2.2 = ‖antoineW p‖ * Real.sin β) :
+    antoineE α β = antoineScale p (antoineK p) := by
+  have hρ := antoineRho_gt_of_mem_nbhd hp.1
+  have hW := antoineW_norm_gt_of_mem hp
+  have hk := antoineK_pos hp
+  have hkW := antoineK_mul hp
+  have hu : |antoineRho p - 7 / 8| ≤ ‖antoineW p‖ := by
+    have := antoineW_normSq p
+    exact abs_le_of_sq_le_sq' (by nlinarith [sq_nonneg p.2.2]) (norm_nonneg _) |>.elim
+      (fun h1 h2 => abs_le.2 ⟨h1, h2⟩)
+  have hku : |antoineK p * (antoineRho p - 7 / 8)| ≤ 3 / 14 := by
+    rw [abs_mul, abs_of_pos hk, ← hkW]; exact mul_le_mul_of_nonneg_left hu hk.le
+  rw [abs_le] at hku
+  have hpos : 0 ≤ 7 / 8 + antoineK p * (antoineRho p - 7 / 8) := by linarith
+  have hσ : 0 < (7 / 8 + antoineK p * (antoineRho p - 7 / 8)) / antoineRho p :=
+    div_pos (by linarith) (by linarith)
+  refine antoineE_eq_of (r := ‖antoineAng p‖ * ((7 / 8 + antoineK p * (antoineRho p - 7 / 8)) /
+    antoineRho p)) (mul_pos (norm_pos_iff.2 (antoineAng_ne_zero (by linarith))) hσ) ?_ ?_ ?_ ?_
+  · show p.1 * _ = _
+    rw [hα1]; ring
+  · show p.2.1 * _ = _
+    rw [hα2]; ring
+  · rw [antoineRho_scale (by linarith) hpos, hβ1, ← mul_assoc, hkW]
+  · show antoineK p * p.2.2 = _
+    rw [hβ2, ← mul_assoc, hkW]
+
+theorem antoine_polar_of_exp {w : ℂ} {Γ : ℂ} (h : Complex.exp Γ = w) :
+    w.re = ‖w‖ * Real.cos Γ.im ∧ w.im = ‖w‖ * Real.sin Γ.im := by
+  rw [← h, Complex.norm_exp, Complex.exp_re, Complex.exp_im]
+  exact ⟨rfl, rfl⟩
+
+/-- The retracted loop `R ∘ δ` of a loop of the collar based on the torus `|W| = 3/14`. -/
+def antoineRetr (p : ℝ × ℝ × ℝ) : ℝ × ℝ × ℝ := antoineScale p (antoineK p)
+
+theorem antoineW_merPt : antoineW antoineMerPt = 3 / 14 := by
+  have : antoineRho antoineMerPt = 61 / 56 := by
+    simp only [antoineRho, antoineMerPt, abs_zero]
+    rw [abs_of_pos (by norm_num), max_eq_right (by norm_num)]; norm_num
+  rw [antoineW, this]; simp [antoineMerPt]; norm_num
+
+theorem antoineK_merPt : antoineK antoineMerPt = 1 := by
+  rw [antoineK, antoineW_merPt]; norm_num
+
+theorem antoineRho_merPt : antoineRho antoineMerPt = 61 / 56 := by
+  simp only [antoineRho, antoineMerPt, abs_zero]
+  rw [abs_of_pos (by norm_num), max_eq_right (by norm_num)]; norm_num
+
+theorem antoineMerPt_mem : antoineMerPt ∈ antoineA0 := by
+  have := antoineMeridian_mem_nbhd 0
+  refine ⟨by simpa using this, fun h => ?_⟩
+  have := antoineMeridian_not_mem 0
+  simp at this
+  exact this h
+
+theorem antoineRetr_merPt : antoineRetr antoineMerPt = antoineMerPt := by
+  rw [antoineRetr, antoineK_merPt]; exact antoineScale_one (by rw [antoineRho_merPt]; norm_num)
+
+/-- Continuity of the scaling along a loop of the collar. -/
+theorem antoine_continuous_scale_along {δ : C(I, ℝ × ℝ × ℝ)} (hδ : ∀ t, δ t ∈ antoineA0)
+    {l : I × I → ℝ} (hl : Continuous l) :
+    Continuous fun z : I × I => antoineScale (δ z.2) (l z) := by
+  have hρ : Continuous fun z : I × I => antoineRho (δ z.2) :=
+    continuous_antoineRho.comp (δ.continuous.comp continuous_snd)
+  have hρ0 : ∀ z : I × I, antoineRho (δ z.2) ≠ 0 := fun z =>
+    (antoineRho_gt_of_mem_nbhd (hδ z.2).1).trans' (by norm_num) |>.ne'
+  have hσ : Continuous fun z : I × I =>
+      (7 / 8 + l z * (antoineRho (δ z.2) - 7 / 8)) / antoineRho (δ z.2) :=
+    (continuous_const.add (hl.mul (hρ.sub continuous_const))).div hρ hρ0
+  have hd : Continuous fun z : I × I => δ z.2 := δ.continuous.comp continuous_snd
+  exact ((continuous_fst.comp hd).mul hσ).prodMk
+    (((continuous_fst.comp (continuous_snd.comp hd)).mul hσ).prodMk
+      (hl.mul (continuous_snd.comp (continuous_snd.comp hd))))
+
+theorem antoine_continuous_K_along {δ : C(I, ℝ × ℝ × ℝ)} (hδ : ∀ t, δ t ∈ antoineA0) :
+    Continuous fun t => antoineK (δ t) :=
+  continuous_const.div (continuous_norm.comp (continuous_antoineW.comp δ.continuous))
+    fun t => ((antoineW_norm_gt_of_mem (hδ t)).trans' (by norm_num)).ne'
+
+theorem antoine_continuous_retr_along {δ : C(I, ℝ × ℝ × ℝ)} (hδ : ∀ t, δ t ∈ antoineA0) :
+    Continuous fun t => antoineRetr (δ t) := by
+  have hK := antoine_continuous_K_along hδ
+  have := antoine_continuous_scale_along hδ (l := fun z => antoineK (δ z.2))
+    (hK.comp (continuous_snd : Continuous fun z : I × I => z.2))
+  exact this.comp ((continuous_const : Continuous fun _ : I => (0 : I)).prodMk continuous_id)
+
+/-- The retracted loop `R ∘ δ`, on the torus `|W| = 3/14`. -/
+def antoineRetrLoop (δ : Path antoineMerPt antoineMerPt) (hδ : ∀ t, δ t ∈ antoineA0) :
+    Path antoineMerPt antoineMerPt where
+  toFun t := antoineRetr (δ t)
+  continuous_toFun := antoine_continuous_retr_along (δ := δ.toContinuousMap) hδ
+  source' := by simp [antoineRetr_merPt]
+  target' := by simp [antoineRetr_merPt]
+
+/-- `δ ≃ R ∘ δ` in the collar. -/
+theorem antoine_homotopicIn_retr {δ : Path antoineMerPt antoineMerPt}
+    (hδ : ∀ t, δ t ∈ antoineA0) : HomotopicIn antoineA0 δ (antoineRetrLoop δ hδ) := by
+  have hK := antoine_continuous_K_along (δ := δ.toContinuousMap) hδ
+  have hc := antoine_continuous_scale_along (δ := δ.toContinuousMap) hδ
+    (l := fun z => 1 - (z.1 : ℝ) + (z.1 : ℝ) * antoineK (δ z.2))
+    (by have := hK.comp (continuous_snd : Continuous fun z : I × I => z.2); fun_prop)
+  refine ⟨{ toFun := fun z => antoineScale (δ z.2) (1 - (z.1 : ℝ) + (z.1 : ℝ) * antoineK (δ z.2))
+            continuous_toFun := hc
+            map_zero_left := fun t => ?_
+            map_one_left := fun t => ?_
+            prop' := fun s t ht => ?_ }, fun z => ?_⟩
+  · simp only [Icc.coe_zero, sub_zero, zero_mul, add_zero]
+    exact antoineScale_one ((antoineRho_gt_of_mem_nbhd (hδ t).1).trans' (by norm_num))
+  · simp only [Icc.coe_one, sub_self, one_mul, zero_add]; rfl
+  · rcases ht with rfl | rfl
+    · show antoineScale (δ 0) _ = δ 0
+      rw [δ.source, antoineK_merPt, mul_one, sub_add_cancel]
+      exact antoineScale_one (by rw [antoineRho_merPt]; norm_num)
+    · show antoineScale (δ 1) _ = δ 1
+      rw [δ.target, antoineK_merPt, mul_one, sub_add_cancel]
+      exact antoineScale_one (by rw [antoineRho_merPt]; norm_num)
+  · exact antoineScale_interp_mem (hδ z.2) z.1.2.1 z.1.2.2
+
+/-- The retracted loop through lifts of its two coordinates. -/
+theorem antoineRetrLoop_eq {δ : Path antoineMerPt antoineMerPt} (hδ : ∀ t, δ t ∈ antoineA0)
+    {ΓA ΓW : C(I, ℂ)} (hA : ∀ t, Complex.exp (ΓA t) = antoineAng (δ t))
+    (hW : ∀ t, Complex.exp (ΓW t) = antoineW (δ t)) (t : I) :
+    antoineRetrLoop δ hδ t = antoineE (ΓA t).im (ΓW t).im := by
+  obtain ⟨a1, a2⟩ := antoine_polar_of_exp (hA t)
+  obtain ⟨b1, b2⟩ := antoine_polar_of_exp (hW t)
+  simp only [antoineAng, antoineW, Complex.add_re, Complex.ofReal_re, Complex.mul_re,
+    Complex.I_re, Complex.ofReal_im, Complex.I_im, mul_zero, sub_zero, Complex.add_im,
+    Complex.mul_im, mul_one, zero_add, add_zero] at a1 a2 b1 b2
+  exact (antoineScale_K_eq_of (hδ t) a1 a2 b1 b2).symm
+
+/-- **The collar is classified by the two windings**: two loops of the collar `N ∖ L` based at the
+meridian's base point, with equal longitudinal and equal meridional windings, are homotopic in
+the collar (`π₁(T² × I) = ℤ²`). -/
+theorem antoine_collar_classify {δ₁ δ₂ : Path antoineMerPt antoineMerPt}
+    (h₁ : ∀ t, δ₁ t ∈ antoineA0) (h₂ : ∀ t, δ₂ t ∈ antoineA0) {a b : ℤ}
+    (hA₁ : AntoineLiftWind (fun t => antoineAng (δ₁ t)) a)
+    (hA₂ : AntoineLiftWind (fun t => antoineAng (δ₂ t)) a)
+    (hW₁ : AntoineLiftWind (fun t => antoineW (δ₁ t)) b)
+    (hW₂ : AntoineLiftWind (fun t => antoineW (δ₂ t)) b) : HomotopicIn antoineA0 δ₁ δ₂ := by
+  obtain ⟨A₁, A₂, eA₁, eA₂, A0, A1⟩ := hA₁.align hA₂ (by simp)
+  obtain ⟨W₁, W₂, eW₁, eW₂, W0, W1⟩ := hW₁.align hW₂ (by simp)
+  refine (antoine_homotopicIn_retr h₁).trans (HomotopicIn.trans ?_
+    (antoine_homotopicIn_retr h₂).symm)
+  have hg : Continuous fun z : I × I =>
+      ((1 - (z.1 : ℝ)) * (A₁ z.2).im + (z.1 : ℝ) * (A₂ z.2).im,
+        (1 - (z.1 : ℝ)) * (W₁ z.2).im + (z.1 : ℝ) * (W₂ z.2).im) := by fun_prop
+  have hc := continuous_antoineE.comp hg
+  refine ⟨{ toFun := fun z => antoineE ((1 - (z.1 : ℝ)) * (A₁ z.2).im + (z.1 : ℝ) * (A₂ z.2).im)
+              ((1 - (z.1 : ℝ)) * (W₁ z.2).im + (z.1 : ℝ) * (W₂ z.2).im)
+            continuous_toFun := hc
+            map_zero_left := fun t => ?_
+            map_one_left := fun t => ?_
+            prop' := fun s t ht => ?_ }, fun z => antoineE_mem _ _⟩
+  · simp only [Icc.coe_zero, sub_zero, one_mul, zero_mul, add_zero]
+    exact (antoineRetrLoop_eq h₁ eA₁ eW₁ t).symm
+  · simp only [Icc.coe_one, sub_self, one_mul, zero_mul, zero_add]
+    exact (antoineRetrLoop_eq h₂ eA₂ eW₂ t).symm
+  · rcases ht with rfl | rfl
+    · show antoineE _ _ = antoineRetrLoop δ₁ h₁ 0
+      rw [antoineRetrLoop_eq h₁ eA₁ eW₁, ← A0, ← W0]; congr 1 <;> ring
+    · show antoineE _ _ = antoineRetrLoop δ₁ h₁ 1
+      rw [antoineRetrLoop_eq h₁ eA₁ eW₁, ← A1, ← W1]; congr 1 <;> ring
+
+
+/-! ### Windings: uniqueness, existence, homotopy invariance, powers -/
+
+theorem AntoineLiftWind.unique {f : I → ℂ} {n m : ℤ} (hn : AntoineLiftWind f n)
+    (hm : AntoineLiftWind f m) : n = m := by
+  obtain ⟨Γ, h1, e1⟩ := hn
+  obtain ⟨Γ', h2, e2⟩ := hm
+  have h := expLift_sub_const (Γ := Γ) (Γ' := Γ') (fun t => by rw [h1, h2]) 1
+  rw [e2, e1] at h
+  have h' : ((m : ℂ) - n) * (2 * Real.pi * Complex.I) = 0 := by linear_combination h
+  rcases mul_eq_zero.1 h' with h'' | h''
+  · exact_mod_cast (sub_eq_zero.1 h'').symm
+  · exact absurd h'' Complex.two_pi_I_ne_zero
+
+theorem antoine_exists_liftWind {f : I → ℂ} (hf : Continuous f) (h0 : ∀ t, f t ≠ 0)
+    (h01 : f 1 = f 0) : ∃ n, AntoineLiftWind f n := by
+  obtain ⟨Γ, hΓ⟩ := exists_expLift ⟨fun t => (⟨f t, h0 t⟩ : CStar), hf.subtype_mk _⟩
+  have e : Complex.exp (Γ 1) = Complex.exp (Γ 0) := by
+    have a := hΓ 1; have b := hΓ 0
+    simp only [ContinuousMap.coe_mk] at a b
+    rw [a, b, h01]
+  obtain ⟨n, hn⟩ := Complex.exp_eq_exp_iff_exists_int.1 e
+  exact ⟨n, Γ, fun t => hΓ t, hn⟩
+
+/-- The winding of `F` along a loop null-homotopic in a set where `F` is continuous and nonzero
+is `0`. -/
+theorem antoineLiftWind_of_homotopicIn_refl {X : Type*} [TopologicalSpace X] {O : Set X} {x : X}
+    {δ : Path x x} (h : HomotopicIn O δ (Path.refl x)) {F : X → ℂ} (hF : ContinuousOn F O)
+    (hF0 : ∀ y ∈ O, F y ≠ 0) : AntoineLiftWind (fun t => F (δ t)) 0 := by
+  rw [homotopicIn_iff] at h
+  obtain ⟨h1, h2, hom⟩ := h
+  let Θ : C(O, CStar) := ⟨fun y => ⟨F y, hF0 y y.2⟩, hF.restrict.subtype_mk _⟩
+  have hw := cWinding_homotopic (Path.Homotopic.map hom Θ)
+  have e2 : (pathToSub (Path.refl x) h2).map Θ.continuous = Path.refl _ := by ext; rfl
+  rw [e2, cWinding_pathRefl] at hw
+  have := antoineLiftWind_cWinding ((pathToSub δ h1).map Θ.continuous)
+  rw [hw] at this
+  exact this
+
+/-- Windings of powers of a loop. -/
+theorem antoineLiftWind_loopZPow {X : Type*} [TopologicalSpace X] {S : Set X} {x : X}
+    {γ : Path x x} (hγ : ∀ t, γ t ∈ S) {F : X → ℂ} (hF : ContinuousOn F S)
+    (hF0 : ∀ y ∈ S, F y ≠ 0) {n : ℤ} (hn : AntoineLiftWind (fun t => F (γ t)) n) (a : ℤ) :
+    AntoineLiftWind (fun t => F (loopZPow γ a t)) (a * n) := by
+  let Θ : C(S, CStar) := ⟨fun y => ⟨F y, hF0 y y.2⟩, hF.restrict.subtype_mk _⟩
+  have hc := antoineLiftWind_cWinding ((pathToSub γ hγ).map Θ.continuous)
+  have e := hc.unique hn
+  have hγ' := loopZPow_mem hγ a
+  have h2 := antoineLiftWind_cWinding ((pathToSub (loopZPow γ a) hγ').map Θ.continuous)
+  rw [pathToSub_loopZPow hγ a hγ', loopZPow_map, cWinding_loopZPow, e] at h2
+  refine h2.congr fun t => ?_
+  rw [← loopZPow_map, ← pathToSub_loopZPow hγ a hγ']
+  rfl
+
+/-! ### The meridian in collar coordinates -/
+
+theorem antoineRho_meridian (t : I) :
+    antoineRho (antoineMeridian t) = 7 / 8 + 3 / 14 * Real.cos (2 * Real.pi * t) := by
+  have hc1 : -1 ≤ Real.cos (2 * Real.pi * t) := Real.neg_one_le_cos _
+  have hpos : 0 ≤ 7 / 8 + 3 / 14 * Real.cos (2 * Real.pi * t) := by linarith
+  rw [antoineRho, antoineMeridian_apply]
+  simp only [abs_zero]
+  rw [abs_of_nonneg hpos, max_eq_right hpos]
+
+theorem antoineW_meridian (t : I) :
+    antoineW (antoineMeridian t) = (3 / 14 : ℂ) * Complex.exp (2 * Real.pi * Complex.I * t) := by
+  rw [antoineW, antoineRho_meridian]
+  have : (2 * Real.pi * Complex.I * (t : ℝ)) = ((2 * Real.pi * (t : ℝ) : ℝ) : ℂ) * Complex.I := by
+    push_cast; ring
+  rw [this, Complex.exp_mul_I]
+  apply Complex.ext <;> simp [antoineMeridian_apply] <;> ring
+
+theorem antoineMeridian_mem_A0 (t : I) : antoineMeridian t ∈ antoineA0 :=
+  ⟨antoineMeridian_mem_nbhd t, antoineMeridian_not_mem t⟩
+
+theorem antoineAng_ne_zero_of_mem {p : ℝ × ℝ × ℝ} (hp : p ∈ antoineNbhd) : antoineAng p ≠ 0 :=
+  antoineAng_ne_zero ((antoineRho_gt_of_mem_nbhd hp).trans' (by norm_num))
+
+theorem antoineLiftWind_meridian_W : AntoineLiftWind (fun t => antoineW (antoineMeridian t)) 1 := by
+  refine ⟨⟨fun t => Complex.log (3 / 14) + 2 * Real.pi * Complex.I * (t : ℝ), by fun_prop⟩,
+    fun t => ?_, ?_⟩
+  · show Complex.exp (Complex.log (3 / 14) + _) = antoineW (antoineMeridian t)
+    rw [Complex.exp_add, Complex.exp_log (by norm_num), antoineW_meridian]
+  · simp only [ContinuousMap.coe_mk, Set.Icc.coe_one, Set.Icc.coe_zero, Complex.ofReal_one,
+      Complex.ofReal_zero, mul_one, mul_zero, add_zero, Int.cast_one, one_mul]
+
+theorem antoineLiftWind_meridian_Ang :
+    AntoineLiftWind (fun t => antoineAng (antoineMeridian t)) 0 := by
+  have hslit : ∀ t, antoineAng (antoineMeridian t) ∈ Complex.slitPlane := fun t => by
+    have hc1 : -1 ≤ Real.cos (2 * Real.pi * t) := Real.neg_one_le_cos _
+    refine Or.inr ?_
+    simp only [antoineAng, antoineMeridian_apply, Complex.add_im, Complex.ofReal_im,
+      Complex.mul_im, Complex.ofReal_re, Complex.I_re, Complex.I_im, mul_zero, mul_one, zero_add]
+    linarith
+  have hc : Continuous fun t => antoineAng (antoineMeridian t) :=
+    continuous_antoineAng.comp antoineMeridian.continuous
+  refine ⟨⟨fun t => Complex.log (antoineAng (antoineMeridian t)),
+    continuous_iff_continuousAt.2 fun t => (hc.continuousAt).clog (hslit t)⟩,
+    fun t => Complex.exp_log (antoineAng_ne_zero_of_mem (antoineMeridian_mem_nbhd t)), ?_⟩
+  simp only [ContinuousMap.coe_mk, Path.source, Path.target, Int.cast_zero, zero_mul, add_zero]
+
+/-! ### Pulling a collar loop of `S³` back to `ℝ³` -/
+
+/-- The chart of the `j`-th tube, `(stereo ∘ g_j)⁻¹`. -/
+def antoineChart (j : Fin 64) (y : Sphere3) : ℝ × ℝ × ℝ := antoineMapInv j (antoineStereoInv y)
+
+theorem antoineChart_of_mem {j : Fin 64} {O : Set (ℝ × ℝ × ℝ)} {y : Sphere3}
+    (hy : y ∈ antoineStereo '' (antoineMap j '' O)) :
+    antoineChart j y ∈ O ∧ antoineStereo (antoineMap j (antoineChart j y)) = y := by
+  obtain ⟨_, ⟨q, hq, rfl⟩, rfl⟩ := hy
+  simp only [antoineChart, antoineStereoInv_stereo, antoineMapInv_map]
+  exact ⟨hq, trivial⟩
+
+theorem continuousOn_antoineChart (j : Fin 64) (O : Set (ℝ × ℝ × ℝ)) :
+    ContinuousOn (antoineChart j) (antoineStereo '' (antoineMap j '' O)) := by
+  rintro _ ⟨q, -, rfl⟩
+  exact ((continuous_antoineMapInv j).continuousAt.comp
+    (continuousAt_antoineStereoInv (antoineStereo_three_lt q))).continuousWithinAt
+
+/-- The pulled-back loop. -/
+def antoinePull (j : Fin 64) (δ : Path (antoineX1 j) (antoineX1 j))
+    (hδ : ∀ t, δ t ∈ antoineA1 j) : Path antoineMerPt antoineMerPt where
+  toFun t := antoineChart j (δ t)
+  continuous_toFun := by
+    have h : ∀ t, δ t ∈ antoineStereo '' (antoineMap j '' antoineA0) := fun t => by
+      rw [image_image]; exact (antoineA1_eq j) ▸ hδ t
+    exact (continuousOn_antoineChart j antoineA0).comp_continuous δ.continuous h
+  source' := by
+    show antoineChart j (δ 0) = _
+    rw [δ.source]; simp [antoineChart, antoineX1, antoineStereoInv_stereo, antoineMapInv_map]
+  target' := by
+    show antoineChart j (δ 1) = _
+    rw [δ.target]; simp [antoineChart, antoineX1, antoineStereoInv_stereo, antoineMapInv_map]
+
+theorem antoinePull_spec (j : Fin 64) (δ : Path (antoineX1 j) (antoineX1 j))
+    (hδ : ∀ t, δ t ∈ antoineA1 j) (t : I) :
+    antoinePull j δ hδ t ∈ antoineA0 ∧
+      antoineStereo (antoineMap j (antoinePull j δ hδ t)) = δ t := by
+  have h : δ t ∈ antoineStereo '' (antoineMap j '' antoineA0) := by
+    rw [image_image]; exact (antoineA1_eq j) ▸ hδ t
+  exact antoineChart_of_mem h
+
+theorem antoineMu1_eq (j : Fin 64) :
+    antoineMeridian.map (continuous_antoineStereo.comp (continuous_antoineMap j)) = antoineMu1 j := by
+  rfl
+
+/-- `collar_mer` of `GX.AntoineFirstGeneration`: a loop of the collar `Aⱼ` which is
+null-homotopic in the tube `Nⱼ` is, in `Aⱼ`, a power of the meridian. -/
+theorem antoine_collar_mer (j : Fin 64) (O : Set Sphere3) (hO : O ⊆ antoineN1 j)
+    (δ : Path (antoineX1 j) (antoineX1 j)) (hδ : ∀ t, δ t ∈ antoineA1 j)
+    (hnull : HomotopicIn O δ (Path.refl _)) :
+    ∃ a : ℤ, HomotopicIn (antoineA1 j) δ (loopZPow (antoineMu1 j) a) := by
+  set δ' := antoinePull j δ hδ
+  have hδ' : ∀ t, δ' t ∈ antoineA0 := fun t => (antoinePull_spec j δ hδ t).1
+  -- the longitudinal winding vanishes: `δ` is null in the tube
+  have hA : AntoineLiftWind (fun t => antoineAng (δ' t)) 0 := by
+    refine antoineLiftWind_of_homotopicIn_refl hnull (F := fun y => antoineAng (antoineChart j y))
+      ?_ ?_
+    · exact (continuous_antoineAng.comp_continuousOn
+        (continuousOn_antoineChart j antoineNbhd)).mono hO
+    · intro y hy
+      exact antoineAng_ne_zero_of_mem (antoineChart_of_mem (hO hy)).1
+  obtain ⟨b, hW⟩ := antoine_exists_liftWind (f := fun t => antoineW (δ' t))
+    (continuous_antoineW.comp δ'.continuous) (fun t => antoineW_ne_zero (hδ' t))
+    (by simp only [Path.source, Path.target])
+  have hμ := antoineMeridian_mem_A0
+  have hμA := antoineLiftWind_loopZPow hμ continuous_antoineAng.continuousOn
+    (fun y hy => antoineAng_ne_zero_of_mem hy.1) antoineLiftWind_meridian_Ang b
+  have hμW := antoineLiftWind_loopZPow hμ continuous_antoineW.continuousOn
+    (fun y hy => antoineW_ne_zero hy) antoineLiftWind_meridian_W b
+  rw [mul_zero] at hμA
+  rw [mul_one] at hμW
+  have hcl := antoine_collar_classify hδ' (loopZPow_mem hμ b) hA hμA hW hμW
+  refine ⟨b, ?_⟩
+  have hg := continuous_antoineStereo.comp (continuous_antoineMap j)
+  have hmap := hcl.map hg (V := antoineA1 j) (fun q hq => by rw [antoineA1_eq]; exact ⟨q, hq, rfl⟩)
+  refine hmap.of_eq ?_ ?_
+  · exact Path.ext (funext fun t => (antoinePull_spec j δ hδ t).2)
+  · rw [loopZPow_map, antoineMu1_eq]; rfl
+
+
+/-! ### Windings under free homotopies -/
+
+/-- **Free homotopy invariance** of the winding: a continuous family of loops of `ℂ ∖ 0` (the base
+point may move) has constant winding (homotopy lifting through `exp`). -/
+theorem AntoineLiftWind.of_freeHomotopy {G : I × I → ℂ} (hG : Continuous G)
+    (hG0 : ∀ z, G z ≠ 0) (hloop : ∀ s, G (s, 1) = G (s, 0)) {n : ℤ}
+    (h : AntoineLiftWind (fun t => G (0, t)) n) : AntoineLiftWind (fun t => G (1, t)) n := by
+  obtain ⟨Γ, hΓ, e⟩ := h
+  let H : C(I × I, CStar) := ⟨fun z => ⟨G z, hG0 z⟩, hG.subtype_mk _⟩
+  have H_0 : ∀ a, H (0, a) = cExp (Γ a) := fun a => Subtype.ext (by
+    show G (0, a) = Complex.exp (Γ a); rw [hΓ a])
+  set Λ := isCoveringMap_cExp.liftHomotopy H Γ H_0
+  have hΛ : ∀ z, Complex.exp (Λ z) = G z := fun z =>
+    congrArg Subtype.val (congrFun (isCoveringMap_cExp.liftHomotopy_lifts H Γ H_0) z)
+  have hΛ0 : ∀ a, Λ (0, a) = Γ a := isCoveringMap_cExp.liftHomotopy_zero H Γ H_0
+  have hd : (fun s : I => Λ (s, 1) - Λ (s, 0)) = fun _ => Λ (0, 1) - Λ (0, 0) := by
+    refine isCoveringMap_cExp.eq_of_comp_eq (by fun_prop) continuous_const ?_ 0 rfl
+    funext s
+    refine Subtype.ext ?_
+    simp only [comp_apply, cExp_apply, Complex.exp_sub, hΛ, hloop]
+    rw [div_self (hG0 _), div_self (hG0 _)]
+  refine ⟨⟨fun t => Λ (1, t), by fun_prop⟩, fun t => hΛ _, ?_⟩
+  have := congrFun hd 1
+  simp only [ContinuousMap.coe_mk]
+  rw [hΛ0, hΛ0, e] at this
+  linear_combination this
+
+/-- Straight-line version: two loops of `ℂ` whose joining segments avoid `0` have equal
+windings. -/
+theorem AntoineLiftWind.of_segment {f g : I → ℂ} (hf : Continuous f) (hg : Continuous g)
+    (hf1 : f 1 = f 0) (hg1 : g 1 = g 0)
+    (hne : ∀ t : I, ∀ s : ℝ, 0 ≤ s → s ≤ 1 → (1 - s) * f t + s * g t ≠ 0) {n : ℤ}
+    (h : AntoineLiftWind f n) : AntoineLiftWind g n := by
+  have := AntoineLiftWind.of_freeHomotopy (G := fun z : I × I => (1 - ((z.1 : ℝ) : ℂ)) * f z.2 +
+      ((z.1 : ℝ) : ℂ) * g z.2) (by fun_prop)
+    (fun z => by
+      exact hne z.2 z.1 z.1.2.1 z.1.2.2)
+    (fun s => by simp only [hf1, hg1]) (h.congr fun t => by simp)
+  exact this.congr fun t => by simp
+
+/-- Homotopy invariance of windings along a homotopy in a set where `F` is continuous and
+nonzero. -/
+theorem AntoineLiftWind.of_homotopicIn {X : Type*} [TopologicalSpace X] {O : Set X} {x : X}
+    {γ γ' : Path x x} (h : HomotopicIn O γ γ') {F : X → ℂ} (hF : ContinuousOn F O)
+    (hF0 : ∀ y ∈ O, F y ≠ 0) {n : ℤ} (hn : AntoineLiftWind (fun t => F (γ t)) n) :
+    AntoineLiftWind (fun t => F (γ' t)) n := by
+  rw [homotopicIn_iff] at h
+  obtain ⟨h1, h2, hom⟩ := h
+  let Θ : C(O, CStar) := ⟨fun y => ⟨F y, hF0 y y.2⟩, hF.restrict.subtype_mk _⟩
+  have hw := cWinding_homotopic (Path.Homotopic.map hom Θ)
+  have e1 := (antoineLiftWind_cWinding ((pathToSub γ h1).map Θ.continuous)).unique hn
+  have := antoineLiftWind_cWinding ((pathToSub γ' h2).map Θ.continuous)
+  rw [← hw, e1] at this
+  exact this
+
+/-! ### `Ψ` and `W` agree near the link -/
+
+theorem antoinePsi_eq_W {p : ℝ × ℝ × ℝ} (hp : antoineSq p ≤ 2) : antoinePsi p = antoineW p := by
+  have hρ0 := antoineRho_nonneg p
+  have hS : antoineSq p = antoineRho p ^ 2 + p.2.2 ^ 2 := rfl
+  have hρ2 : antoineRho p < 2 := by nlinarith [sq_nonneg p.2.2]
+  have e1 : min 2 (max |p.1| |p.2.1| + max 0 (antoineSq p - 2)) = antoineRho p := by
+    rw [max_eq_left (show antoineSq p - 2 ≤ 0 by linarith), add_zero]
+    exact min_eq_right hρ2.le
+  have e2 : max 0 (min 1 (3 - antoineSq p)) = 1 := by
+    rw [min_eq_left (by linarith), max_eq_right zero_le_one]
+  rw [antoinePsi, e1, e2, mul_one, antoineW]
+
+/-- Where `z² ≤ 6/5`, the segment from `Ψ p` to `W p` avoids `0` when `W p ≠ 0`. -/
+theorem antoine_segment_Psi_W {p : ℝ × ℝ × ℝ} (hz : p.2.2 ^ 2 ≤ 6 / 5) (hW : antoineW p ≠ 0)
+    {s : ℝ} (hs0 : 0 ≤ s) (hs1 : s ≤ 1) : (1 - s) * antoinePsi p + s * antoineW p ≠ 0 := by
+  rcases le_or_gt (antoineSq p) 2 with h | h
+  · rw [antoinePsi_eq_W h]
+    have : (1 - (s : ℂ)) * antoineW p + s * antoineW p = antoineW p := by ring
+    rw [this]; exact hW
+  · -- both real parts are positive
+    have hS : antoineSq p = antoineRho p ^ 2 + p.2.2 ^ 2 := rfl
+    have hρ0 := antoineRho_nonneg p
+    have hρ : 7 / 8 < antoineRho p := by nlinarith
+    intro h0
+    have hre := congrArg Complex.re h0
+    have hPre : (antoinePsi p).re =
+        min 2 (max |p.1| |p.2.1| + max 0 (antoineSq p - 2)) - 7 / 8 := by simp [antoinePsi]
+    have h1 : 0 < (antoinePsi p).re := by
+      have : antoineRho p ≤ max |p.1| |p.2.1| + max 0 (antoineSq p - 2) :=
+        le_add_of_nonneg_right (le_max_left _ _)
+      have h2 : 7 / 8 < min 2 (max |p.1| |p.2.1| + max 0 (antoineSq p - 2)) :=
+        lt_min (by norm_num) (by linarith)
+      linarith
+    have h2 : (antoineW p).re = antoineRho p - 7 / 8 := by simp [antoineW]
+    simp only [Complex.add_re, Complex.mul_re, Complex.sub_re, Complex.one_re, Complex.ofReal_re,
+      Complex.ofReal_im, Complex.sub_im, Complex.one_im, zero_mul, sub_zero, Complex.zero_re] at hre
+    rw [h2] at hre
+    have hb : 0 < antoineRho p - 7 / 8 := by linarith
+    have hm : 0 < min (antoinePsi p).re (antoineRho p - 7 / 8) := lt_min h1 hb
+    have e1 : (1 - s) * min (antoinePsi p).re (antoineRho p - 7 / 8) ≤ (1 - s) * (antoinePsi p).re :=
+      mul_le_mul_of_nonneg_left (min_le_left _ _) (by linarith)
+    have e2 : s * min (antoinePsi p).re (antoineRho p - 7 / 8) ≤ s * (antoineRho p - 7 / 8) :=
+      mul_le_mul_of_nonneg_left (min_le_right _ _) hs0
+    linarith
+
+
+/-! ### A longitude of the collar -/
+
+/-- The angle `π/2 - 2πt` of the longitude. -/
+def antoineLonAngle (t : I) : ℝ := Real.pi / 2 - 2 * Real.pi * t
+
+theorem antoineM_lonAngle_one : antoineM (antoineLonAngle 1) = antoineM (antoineLonAngle 0) := by
+  simp only [antoineM, antoineLonAngle, Icc.coe_one, Icc.coe_zero, mul_one, mul_zero, sub_zero,
+    Real.cos_sub_two_pi, Real.sin_sub_two_pi]
+
+theorem continuous_antoineLonAngle : Continuous antoineLonAngle := by
+  unfold antoineLonAngle; fun_prop
+
+theorem continuous_antoineE_comp {X : Type*} [TopologicalSpace X] {f g : X → ℝ}
+    (hf : Continuous f) (hg : Continuous g) : Continuous fun x => antoineE (f x) (g x) := by
+  have h := continuous_antoineE.comp (hf.prodMk hg)
+  exact h
+
+theorem antoineE_pi_div_two : antoineE (Real.pi / 2) 0 = antoineMerPt := by
+  have hM : antoineM (Real.pi / 2) = 1 := by
+    rw [antoineM, Real.cos_pi_div_two, Real.sin_pi_div_two, abs_zero, abs_one]
+    exact max_eq_right zero_le_one
+  rw [antoineE, hM, Real.cos_pi_div_two, Real.sin_pi_div_two, Real.cos_zero, Real.sin_zero,
+    antoineMerPt]
+  simp only [div_one, mul_zero, mul_one]
+
+theorem antoineLonAngle_zero : antoineLonAngle 0 = Real.pi / 2 := by
+  simp [antoineLonAngle]
+
+theorem antoineE_lonAngle_one (β : ℝ) : antoineE (antoineLonAngle 1) β = antoineE (Real.pi / 2) β := by
+  have e : antoineLonAngle 1 = Real.pi / 2 - 2 * Real.pi := by simp [antoineLonAngle]
+  simp only [antoineE, antoineM, e, Real.cos_sub_two_pi, Real.sin_sub_two_pi]
+
+/-- The longitude `t ↦ antoineE (π/2 - 2πt) 0` of the collar, based at the meridian's base point
+(Ang-winding `-1`, W-winding `0`). -/
+def antoineLon : Path antoineMerPt antoineMerPt where
+  toFun t := antoineE (antoineLonAngle t) 0
+  continuous_toFun := continuous_antoineE_comp continuous_antoineLonAngle continuous_const
+  source' := by rw [antoineLonAngle_zero, antoineE_pi_div_two]
+  target' := by rw [antoineE_lonAngle_one, antoineE_pi_div_two]
+
+theorem antoineLon_apply (t : I) : antoineLon t =
+    ((7 / 8 + 3 / 14) / antoineM (antoineLonAngle t) * Real.cos (antoineLonAngle t),
+      (7 / 8 + 3 / 14) / antoineM (antoineLonAngle t) * Real.sin (antoineLonAngle t), 0) := by
+  show antoineE _ 0 = _
+  simp only [antoineE, Real.cos_zero, Real.sin_zero, mul_one, mul_zero]
+
+theorem antoineLon_mem (t : I) : antoineLon t ∈ antoineA0 := antoineE_mem _ _
+
+theorem antoine_cM_pos (t : I) : 0 < (7 / 8 + 3 / 14 : ℝ) / antoineM (antoineLonAngle t) :=
+  div_pos (by norm_num) (antoineM_pos _)
+
+theorem antoine_cM_ge (t : I) : (7 / 8 + 3 / 14 : ℝ) ≤ (7 / 8 + 3 / 14) / antoineM (antoineLonAngle t) := by
+  have hm := antoineM_pos (antoineLonAngle t)
+  have hm1 : antoineM (antoineLonAngle t) ≤ 1 :=
+    max_le (Real.abs_cos_le_one _) (Real.abs_sin_le_one _)
+  rw [le_div_iff₀ hm]; nlinarith
+
+theorem continuous_antoine_cM : Continuous fun t : I =>
+    (7 / 8 + 3 / 14 : ℝ) / antoineM (antoineLonAngle t) :=
+  continuous_const.div (continuous_antoineM.comp continuous_antoineLonAngle)
+    fun _ => (antoineM_pos _).ne'
+
+theorem antoineLiftWind_lon_Ang : AntoineLiftWind (fun t => antoineAng (antoineLon t)) (-1) := by
+  have hc := continuous_antoine_cM
+  refine ⟨⟨fun t => (Real.log ((7 / 8 + 3 / 14 : ℝ) / antoineM (antoineLonAngle t)) : ℂ) +
+      (antoineLonAngle t : ℂ) * Complex.I, ?_⟩, fun t => ?_, ?_⟩
+  · have := hc.log fun t => (antoine_cM_pos t).ne'
+    have := continuous_antoineLonAngle
+    fun_prop
+  · show Complex.exp (_ + _) = antoineAng (antoineLon t)
+    rw [Complex.exp_add, ← Complex.ofReal_exp, Real.exp_log (antoine_cM_pos t), Complex.exp_mul_I,
+      antoineLon_apply, antoineAng]
+    rw [← Complex.ofReal_cos, ← Complex.ofReal_sin]
+    push_cast; ring
+  · simp only [ContinuousMap.coe_mk]
+    rw [antoineM_lonAngle_one]
+    simp only [antoineLonAngle, Icc.coe_one, Icc.coe_zero, mul_one, mul_zero, sub_zero]
+    push_cast; ring
+
+theorem antoineLiftWind_lon_W : AntoineLiftWind (fun t => antoineW (antoineLon t)) 0 := by
+  refine ⟨ContinuousMap.const _ (Complex.log (3 / 14)), fun t => ?_, by simp⟩
+  show Complex.exp (Complex.log (3 / 14)) = antoineW (antoineE _ 0)
+  rw [Complex.exp_log (by norm_num), antoineW_E]; simp
+
+
+/-! ### The longitude of a link links its successor once -/
+
+/-- The radius factor `c / M(α)` of the longitude. -/
+def antoineCM (t : I) : ℝ := (7 / 8 + 3 / 14 : ℝ) / antoineM (antoineLonAngle t)
+
+theorem antoineCM_one : antoineCM 1 = antoineCM 0 := by rw [antoineCM, antoineCM, antoineM_lonAngle_one]
+
+theorem antoineCM_pos (t : I) : 0 < antoineCM t := antoine_cM_pos t
+
+theorem antoineCM_ge (t : I) : (7 / 8 + 3 / 14 : ℝ) ≤ antoineCM t := antoine_cM_ge t
+
+theorem antoineCM_abs_cos_le (t : I) : |antoineCM t * Real.cos (antoineLonAngle t)| ≤ 7 / 8 + 3 / 14 := by
+  have hm := antoineM_pos (antoineLonAngle t)
+  have h : |Real.cos (antoineLonAngle t)| ≤ antoineM (antoineLonAngle t) := le_max_left _ _
+  rw [abs_mul, abs_of_pos (antoineCM_pos t), antoineCM, div_mul_eq_mul_div, div_le_iff₀ hm]
+  nlinarith
+
+theorem antoineCM_abs_sin_le (t : I) : |antoineCM t * Real.sin (antoineLonAngle t)| ≤ 7 / 8 + 3 / 14 := by
+  have hm := antoineM_pos (antoineLonAngle t)
+  have h : |Real.sin (antoineLonAngle t)| ≤ antoineM (antoineLonAngle t) := le_max_right _ _
+  rw [abs_mul, abs_of_pos (antoineCM_pos t), antoineCM, div_mul_eq_mul_div, div_le_iff₀ hm]
+  nlinarith
+
+/-- The winding of `Ψ` along the image of the longitude under an affine chart change `T`, from the
+explicit form `W(T(λ t)) - 3/8 = (c/M) κ e^{i ε α}`. -/
+theorem antoine_lon_psi_wind {T : ℝ × ℝ × ℝ → ℝ × ℝ × ℝ} (hT : Continuous T) {κ : ℂ} {θ : ℝ}
+    (hκ : Complex.exp ((θ : ℂ) * Complex.I) = κ) {ε : ℤ}
+    (hW : ∀ t, antoineW (T (antoineLon t)) - 3 / 8 =
+      ((antoineCM t : ℝ) : ℂ) * κ * Complex.exp ((((ε : ℝ) * antoineLonAngle t : ℝ) : ℂ) * Complex.I))
+    (hz : ∀ t, (T (antoineLon t)).2.2 ^ 2 ≤ 6 / 5) :
+    AntoineLiftWind (fun t => antoinePsi (T (antoineLon t))) (-ε) := by
+  have hκ1 : ‖κ‖ = 1 := by rw [← hκ, Complex.norm_exp_ofReal_mul_I]
+  have hZn : ∀ t, ‖antoineW (T (antoineLon t)) - 3 / 8‖ = antoineCM t := fun t => by
+    rw [hW, norm_mul, norm_mul, hκ1, Complex.norm_exp_ofReal_mul_I, Complex.norm_real,
+      Real.norm_eq_abs, abs_of_pos (antoineCM_pos t)]; ring
+  have hCM := antoineCM_ge
+  have hc : Continuous fun t => antoineW (T (antoineLon t)) :=
+    continuous_antoineW.comp (hT.comp antoineLon.continuous)
+  have hcP : Continuous fun t => antoinePsi (T (antoineLon t)) :=
+    continuous_antoinePsi.comp (hT.comp antoineLon.continuous)
+  have hloop : ∀ {f : ℝ × ℝ × ℝ → ℂ}, f (T (antoineLon 1)) = f (T (antoineLon 0)) := by
+    intro f; simp only [Path.source, Path.target]
+  -- (A) the explicit lift
+  have hA : AntoineLiftWind (fun t => antoineW (T (antoineLon t)) - 3 / 8) (-ε) := by
+    have hl := (continuous_antoine_cM.log fun t => (antoine_cM_pos t).ne')
+    refine ⟨⟨fun t => (Real.log (antoineCM t) : ℂ) + (θ : ℂ) * Complex.I +
+        (((ε : ℝ) * antoineLonAngle t : ℝ) : ℂ) * Complex.I, ?_⟩, fun t => ?_, ?_⟩
+    · have := continuous_antoineLonAngle
+      unfold antoineCM
+      fun_prop
+    · show Complex.exp (_ + _ + _) = antoineW (T (antoineLon t)) - 3 / 8
+      rw [hW, Complex.exp_add, Complex.exp_add, ← Complex.ofReal_exp,
+        Real.exp_log (antoineCM_pos t), hκ]
+    · simp only [ContinuousMap.coe_mk]
+      rw [antoineCM_one]
+      simp only [antoineLonAngle, Icc.coe_one, Icc.coe_zero, mul_one, mul_zero, sub_zero]
+      push_cast; ring
+  -- (B) add back `3/8`
+  have hB : AntoineLiftWind (fun t => antoineW (T (antoineLon t))) (-ε) := by
+    refine (AntoineLiftWind.of_segment (hc.sub continuous_const) hc (hloop (f := fun q => antoineW q - 3 / 8))
+      hloop ?_ hA)
+    intro t s hs0 hs1 h0
+    have e : (1 - (s : ℂ)) * (antoineW (T (antoineLon t)) - 3 / 8) + s * antoineW (T (antoineLon t)) =
+        (antoineW (T (antoineLon t)) - 3 / 8) + (s * (3 / 8) : ℝ) := by push_cast; ring
+    rw [e] at h0
+    have h1 := congrArg norm h0
+    rw [norm_zero] at h1
+    have h2 := norm_add_le (antoineW (T (antoineLon t)) - 3 / 8 + ((s * (3 / 8) : ℝ) : ℂ))
+      (-((s * (3 / 8) : ℝ) : ℂ))
+    rw [add_neg_cancel_right, h1, norm_neg, Complex.norm_real, Real.norm_eq_abs,
+      abs_of_nonneg (by positivity), hZn] at h2
+    have := hCM t
+    nlinarith
+  -- (C) `Ψ` against `W`
+  refine AntoineLiftWind.of_segment hc hcP hloop hloop ?_ hB
+  intro t s hs0 hs1
+  have hWne : antoineW (T (antoineLon t)) ≠ 0 := by
+    intro h0
+    have := hZn t
+    rw [h0, zero_sub, norm_neg] at this
+    have := hCM t
+    norm_num at *; linarith
+  have := antoine_segment_Psi_W (hz t) hWne (s := 1 - s) (by linarith) (by linarith)
+  have e : (1 - ((1 - s : ℝ) : ℂ)) * antoinePsi (T (antoineLon t)) +
+      ((1 - s : ℝ) : ℂ) * antoineW (T (antoineLon t)) =
+      (1 - (s : ℂ)) * antoineW (T (antoineLon t)) + s * antoinePsi (T (antoineLon t)) := by
+    push_cast; ring
+  rw [e] at this
+  exact this
+
+/-- The two shapes of the chart change between consecutive links. -/
+def antoineTX (sg : ℝ) (p : ℝ × ℝ × ℝ) : ℝ × ℝ × ℝ := (p.1 - sg * (5 / 4), p.2.2, p.2.1)
+
+def antoineTY (sg : ℝ) (p : ℝ × ℝ × ℝ) : ℝ × ℝ × ℝ := (p.2.2, p.2.1 - sg * (5 / 4), p.1)
+
+theorem continuous_antoineTX (sg : ℝ) : Continuous (antoineTX sg) := by unfold antoineTX; fun_prop
+theorem continuous_antoineTY (sg : ℝ) : Continuous (antoineTY sg) := by unfold antoineTY; fun_prop
+
+theorem antoineLon_coords (t : I) : antoineLon t =
+    (antoineCM t * Real.cos (antoineLonAngle t), antoineCM t * Real.sin (antoineLonAngle t), 0) := by
+  rw [antoineLon_apply]; rfl
+
+theorem antoine_lon_wind_TX (sg : ℝ) (hsg : sg = 1 ∨ sg = -1) : ∃ w : ℤ, w ≠ 0 ∧
+    AntoineLiftWind (fun t => antoinePsi (antoineTX sg (antoineLon t))) w := by
+  have hb := antoineCM_abs_cos_le
+  have hs := antoineCM_abs_sin_le
+  have hz : ∀ t, (antoineTX sg (antoineLon t)).2.2 ^ 2 ≤ 6 / 5 := fun t => by
+    rw [antoineLon_coords]
+    show (antoineCM t * Real.sin (antoineLonAngle t)) ^ 2 ≤ 6 / 5
+    have := hs t
+    rw [← sq_abs]; nlinarith [abs_nonneg (antoineCM t * Real.sin (antoineLonAngle t))]
+  rcases hsg with rfl | rfl
+  · refine ⟨1, one_ne_zero, ?_⟩
+    have := antoine_lon_psi_wind (continuous_antoineTX 1) (θ := Real.pi) (κ := -1)
+      (by rw [Complex.exp_mul_I, ← Complex.ofReal_cos, ← Complex.ofReal_sin, Real.cos_pi,
+        Real.sin_pi]; simp) (ε := -1) (fun t => ?_) hz
+    · simpa using this
+    · rw [antoineLon_coords]
+      have hb' := hb t
+      rw [abs_le] at hb'
+      have hρ : antoineRho (antoineTX 1 (antoineCM t * Real.cos (antoineLonAngle t),
+          antoineCM t * Real.sin (antoineLonAngle t), 0)) =
+          5 / 4 - antoineCM t * Real.cos (antoineLonAngle t) := by
+        simp only [antoineRho, antoineTX, abs_zero, one_mul]
+        rw [abs_of_neg (by linarith), max_eq_left (by linarith)]; ring
+      rw [antoineW, hρ, Complex.exp_mul_I, ← Complex.ofReal_cos, ← Complex.ofReal_sin]
+      apply Complex.ext
+      · simp [antoineTX, Real.cos_neg, Real.sin_neg]; ring
+      · simp [antoineTX, Real.cos_neg, Real.sin_neg]
+  · refine ⟨-1, by norm_num, ?_⟩
+    have := antoine_lon_psi_wind (continuous_antoineTX (-1)) (θ := 0) (κ := 1)
+      (by simp) (ε := 1) (fun t => ?_) hz
+    · simpa using this
+    · rw [antoineLon_coords]
+      have hb' := hb t
+      rw [abs_le] at hb'
+      have hρ : antoineRho (antoineTX (-1) (antoineCM t * Real.cos (antoineLonAngle t),
+          antoineCM t * Real.sin (antoineLonAngle t), 0)) =
+          antoineCM t * Real.cos (antoineLonAngle t) + 5 / 4 := by
+        simp only [antoineRho, antoineTX, abs_zero]
+        rw [abs_of_pos (by linarith), max_eq_left (by linarith)]; ring
+      rw [antoineW, hρ, Complex.exp_mul_I, ← Complex.ofReal_cos, ← Complex.ofReal_sin]
+      apply Complex.ext
+      · simp [antoineTX]; ring
+      · simp [antoineTX]
+
+theorem antoine_lon_wind_TY (sg : ℝ) (hsg : sg = 1 ∨ sg = -1) : ∃ w : ℤ, w ≠ 0 ∧
+    AntoineLiftWind (fun t => antoinePsi (antoineTY sg (antoineLon t))) w := by
+  have hb := antoineCM_abs_cos_le
+  have hs := antoineCM_abs_sin_le
+  have hz : ∀ t, (antoineTY sg (antoineLon t)).2.2 ^ 2 ≤ 6 / 5 := fun t => by
+    rw [antoineLon_coords]
+    show (antoineCM t * Real.cos (antoineLonAngle t)) ^ 2 ≤ 6 / 5
+    have := hb t
+    rw [← sq_abs]; nlinarith [abs_nonneg (antoineCM t * Real.cos (antoineLonAngle t))]
+  rcases hsg with rfl | rfl
+  · refine ⟨-1, by norm_num, ?_⟩
+    have := antoine_lon_psi_wind (continuous_antoineTY 1) (θ := Real.pi / 2) (κ := Complex.I)
+      (by rw [Complex.exp_mul_I, ← Complex.ofReal_cos, ← Complex.ofReal_sin, Real.cos_pi_div_two,
+        Real.sin_pi_div_two]; simp) (ε := 1) (fun t => ?_) hz
+    · simpa using this
+    · rw [antoineLon_coords]
+      have hs' := hs t
+      rw [abs_le] at hs'
+      have hρ : antoineRho (antoineTY 1 (antoineCM t * Real.cos (antoineLonAngle t),
+          antoineCM t * Real.sin (antoineLonAngle t), 0)) =
+          5 / 4 - antoineCM t * Real.sin (antoineLonAngle t) := by
+        simp only [antoineRho, antoineTY, abs_zero, one_mul]
+        rw [abs_of_neg (by linarith), max_eq_right (by linarith)]; ring
+      rw [antoineW, hρ, Complex.exp_mul_I, ← Complex.ofReal_cos, ← Complex.ofReal_sin]
+      apply Complex.ext
+      · simp [antoineTY]; ring
+      · simp [antoineTY]
+  · refine ⟨1, one_ne_zero, ?_⟩
+    have := antoine_lon_psi_wind (continuous_antoineTY (-1)) (θ := Real.pi / 2) (κ := Complex.I)
+      (by rw [Complex.exp_mul_I, ← Complex.ofReal_cos, ← Complex.ofReal_sin, Real.cos_pi_div_two,
+        Real.sin_pi_div_two]; simp) (ε := -1) (fun t => ?_) hz
+    · simpa using this
+    · rw [antoineLon_coords]
+      have hs' := hs t
+      rw [abs_le] at hs'
+      have hρ : antoineRho (antoineTY (-1) (antoineCM t * Real.cos (antoineLonAngle t),
+          antoineCM t * Real.sin (antoineLonAngle t), 0)) =
+          antoineCM t * Real.sin (antoineLonAngle t) + 5 / 4 := by
+        simp only [antoineRho, antoineTY, abs_zero]
+        rw [abs_of_pos (by linarith), max_eq_right (by linarith)]; ring
+      rw [antoineW, hρ, Complex.exp_mul_I, ← Complex.ofReal_cos, ← Complex.ofReal_sin]
+      apply Complex.ext
+      · simp [antoineTY, Real.cos_neg, Real.sin_neg]; ring
+      · simp [antoineTY, Real.cos_neg, Real.sin_neg]
+
+
+/-- The chart change from the `j`-th link to the `(j+1)`-st is one of the four shapes. -/
+theorem antoine_succ_form (j : Fin 64) :
+    (∃ sg : ℝ, (sg = 1 ∨ sg = -1) ∧ ∀ p, antoineMapInv (j + 1) (antoineMap j p) = antoineTX sg p) ∨
+    (∃ sg : ℝ, (sg = 1 ∨ sg = -1) ∧ ∀ p, antoineMapInv (j + 1) (antoineMap j p) = antoineTY sg p) := by
+  rcases antoine_adj_succ j with ⟨hy, hx, ht⟩ | ⟨hx, hy, ht⟩
+  · left
+    have hy' : ((antoineZ j).2 : ℝ) = (antoineZ (j + 1)).2 := by exact_mod_cast hy
+    refine ⟨(((antoineZ (j + 1)).1 : ℝ) - (antoineZ j).1) / 70, ?_, fun p => ?_⟩
+    · rcases (abs_eq (by norm_num : (0 : ℤ) ≤ 70)).1 hx with h | h
+      · right; have : ((antoineZ j).1 : ℝ) - (antoineZ (j + 1)).1 = 70 := by exact_mod_cast h
+        linarith [show (((antoineZ (j + 1)).1 : ℝ) - (antoineZ j).1) / 70 = -1 by
+          rw [div_eq_iff (by norm_num)]; linarith]
+      · left; have : ((antoineZ j).1 : ℝ) - (antoineZ (j + 1)).1 = -70 := by exact_mod_cast h
+        rw [div_eq_iff (by norm_num)]; linarith
+    · rcases ht with ⟨ti, tj⟩ | ⟨ti, tj⟩ <;>
+        simp only [antoineMapInv, antoineMap, ti, tj, antoinePerm, antoineTX, Prod.mk.injEq] <;>
+        refine ⟨?_, ?_, ?_⟩ <;> first | ring1 | (rw [hy']; ring1)
+  · right
+    have hx' : ((antoineZ j).1 : ℝ) = (antoineZ (j + 1)).1 := by exact_mod_cast hx
+    refine ⟨(((antoineZ (j + 1)).2 : ℝ) - (antoineZ j).2) / 70, ?_, fun p => ?_⟩
+    · rcases (abs_eq (by norm_num : (0 : ℤ) ≤ 70)).1 hy with h | h
+      · right; have : ((antoineZ j).2 : ℝ) - (antoineZ (j + 1)).2 = 70 := by exact_mod_cast h
+        rw [div_eq_iff (by norm_num)]; linarith
+      · left; have : ((antoineZ j).2 : ℝ) - (antoineZ (j + 1)).2 = -70 := by exact_mod_cast h
+        rw [div_eq_iff (by norm_num)]; linarith
+    · rcases ht with ⟨ti, tj⟩ | ⟨ti, tj⟩ <;>
+        simp only [antoineMapInv, antoineMap, ti, tj, antoinePerm, antoineTY, Prod.mk.injEq] <;>
+        refine ⟨?_, ?_, ?_⟩ <;> first | ring1 | (rw [hx']; ring1)
+
+/-- The longitude of the `j`-th link has nonzero winding with respect to the `(j+1)`-st. -/
+theorem antoine_succ_wind (j : Fin 64) : ∃ w : ℤ, w ≠ 0 ∧
+    AntoineLiftWind (fun t => antoinePsi (antoineMapInv (j + 1) (antoineMap j (antoineLon t)))) w := by
+  rcases antoine_succ_form j with ⟨sg, hsg, hT⟩ | ⟨sg, hsg, hT⟩
+  · obtain ⟨w, hw, h⟩ := antoine_lon_wind_TX sg hsg
+    exact ⟨w, hw, h.congr fun t => by rw [hT]⟩
+  · obtain ⟨w, hw, h⟩ := antoine_lon_wind_TY sg hsg
+    exact ⟨w, hw, h.congr fun t => by rw [hT]⟩
+
+theorem antoineTheta_one_stereo (i : Fin 64) (q : ℝ × ℝ × ℝ) :
+    antoineTheta (fun _ => i) 1 (antoineStereo q) = antoinePsi (antoineMapInv i q) := by
+  rw [antoineTheta, if_pos (antoineStereo_three_lt _), antoineStereoInv_stereo]; rfl
+
+theorem antoineTheta_ne_zero_of_compl {i : Fin 64} {y : Sphere3}
+    (hy : y ∈ (antoineStereo '' antoineStage 1)ᶜ) : antoineTheta (fun _ => i) 1 y ≠ 0 := by
+  refine antoineTheta_ne_zero _ _ fun h => hy ?_
+  obtain ⟨q, hq, rfl⟩ := h
+  refine ⟨q, ?_, rfl⟩
+  rw [antoineStage_one_eq]
+  exact mem_iUnion.2 ⟨i, hq⟩
+
+/-- Points of the collar `Aⱼ` are off the first stage. -/
+theorem antoineA1_subset_compl (j : Fin 64) : antoineA1 j ⊆ (antoineStereo '' antoineStage 1)ᶜ := by
+  rintro y ⟨hyN, hyL⟩ ⟨q, hq, rfl⟩
+  rw [antoineStage_one_eq] at hq
+  obtain ⟨i, hi⟩ := mem_iUnion.1 hq
+  by_cases e : i = j
+  · exact hyL (e ▸ ⟨q, hi, rfl⟩)
+  · obtain ⟨p, hp, hpq⟩ := hyN
+    have := antoineStereo_injective hpq
+    exact Set.disjoint_left.1 (antoineTube_disjoint i j e) (this ▸ hp) hi
+
+theorem antoineSq_lt_of_mem_nbhd {p : ℝ × ℝ × ℝ} (hp : p ∈ antoineNbhd) : antoineSq p ≤ 2 := by
+  obtain ⟨hx, hy, hz⟩ := antoineNbhd_bounds hp
+  have hρ : max |p.1| |p.2.1| < 9 / 8 := max_lt hx hy
+  have hρ0 : 0 ≤ max |p.1| |p.2.1| := (abs_nonneg _).trans (le_max_left _ _)
+  have hz2 : p.2.2 ^ 2 < 1 / 16 := by
+    rw [← sq_abs]; nlinarith [abs_nonneg p.2.2]
+  show (max |p.1| |p.2.1|) ^ 2 + p.2.2 ^ 2 ≤ 2
+  nlinarith
+
+/-- `collar_inj` of `GX.AntoineFirstGeneration`: a loop of the collar `Aⱼ` null-homotopic in
+`S³ ∖ C₁` is null-homotopic in `Aⱼ`. Its meridional winding is read by `Θⱼ`, its longitudinal
+winding by `Θⱼ₊₁` (the longitude of `Lⱼ` links `Lⱼ₊₁` once, `GX.antoine_succ_wind`), and the
+collar is classified by the two windings (`GX.antoine_collar_classify`). -/
+theorem antoine_collar_inj (j : Fin 64) (δ : Path (antoineX1 j) (antoineX1 j))
+    (hδ : ∀ t, δ t ∈ antoineA1 j)
+    (hnull : HomotopicIn (antoineStereo '' antoineStage 1)ᶜ δ (Path.refl _)) :
+    HomotopicIn (antoineA1 j) δ (Path.refl _) := by
+  set X := (antoineStereo '' antoineStage 1)ᶜ
+  set δ' := antoinePull j δ hδ
+  have hδ' : ∀ t, δ' t ∈ antoineA0 := fun t => (antoinePull_spec j δ hδ t).1
+  have hg := continuous_antoineStereo.comp (continuous_antoineMap j)
+  have hgA : MapsTo (antoineStereo ∘ antoineMap j) antoineA0 (antoineA1 j) := fun q hq => by
+    rw [antoineA1_eq]; exact ⟨q, hq, rfl⟩
+  -- the meridional winding vanishes (`Θⱼ`)
+  have hW : AntoineLiftWind (fun t => antoineW (δ' t)) 0 := by
+    refine (antoineLiftWind_of_homotopicIn_refl hnull (F := antoineTheta (fun _ => j) 1)
+      (continuous_antoineTheta _ _).continuousOn fun y hy => antoineTheta_ne_zero_of_compl hy).congr
+      fun t => ?_
+    rw [← (antoinePull_spec j δ hδ t).2]
+    show antoineTheta (fun _ => j) 1 (antoineStereo (antoineMap j (δ' t))) = _
+    rw [antoineTheta_one_stereo, antoineMapInv_map, antoinePsi_eq_W (antoineSq_lt_of_mem_nbhd (hδ' t).1)]
+  obtain ⟨a, hA⟩ := antoine_exists_liftWind (f := fun t => antoineAng (δ' t))
+    (continuous_antoineAng.comp δ'.continuous) (fun t => antoineAng_ne_zero_of_mem (hδ' t).1)
+    (by simp only [Path.source, Path.target])
+  -- classification against a power of the longitude
+  have hL := antoineLon_mem
+  have hLA := antoineLiftWind_loopZPow hL continuous_antoineAng.continuousOn
+    (fun y hy => antoineAng_ne_zero_of_mem hy.1) antoineLiftWind_lon_Ang (-a)
+  have hLW := antoineLiftWind_loopZPow hL continuous_antoineW.continuousOn
+    (fun y hy => antoineW_ne_zero hy) antoineLiftWind_lon_W (-a)
+  rw [show -a * -1 = a by ring] at hLA
+  rw [mul_zero] at hLW
+  have hcl := antoine_collar_classify hδ' (loopZPow_mem hL (-a)) hA hLA hW hLW
+  have hmap := hcl.map hg (V := antoineA1 j) hgA
+  have hδeq : δ'.map hg = δ := Path.ext (funext fun t => (antoinePull_spec j δ hδ t).2)
+  rw [hδeq, loopZPow_map] at hmap
+  -- the longitudinal winding vanishes (`Θⱼ₊₁`)
+  set Λ := antoineLon.map hg
+  have hΛ : ∀ t, Λ t ∈ antoineA1 j := fun t => hgA (hL t)
+  obtain ⟨w, hw, hwind⟩ := antoine_succ_wind j
+  have hΘ : ContinuousOn (antoineTheta (fun _ => j + 1) 1) (antoineA1 j) :=
+    (continuous_antoineTheta _ _).continuousOn
+  have hΘ0 : ∀ y ∈ antoineA1 j, antoineTheta (fun _ => j + 1) 1 y ≠ 0 := fun y hy =>
+    antoineTheta_ne_zero_of_compl (antoineA1_subset_compl j hy)
+  have h1 : AntoineLiftWind (fun t => antoineTheta (fun _ => j + 1) 1 (δ t)) 0 :=
+    antoineLiftWind_of_homotopicIn_refl hnull (continuous_antoineTheta _ _).continuousOn
+      fun y hy => antoineTheta_ne_zero_of_compl hy
+  have h2 := AntoineLiftWind.of_homotopicIn hmap hΘ hΘ0 h1
+  have hΛw : AntoineLiftWind (fun t => antoineTheta (fun _ => j + 1) 1 (Λ t)) w :=
+    hwind.congr fun t => (antoineTheta_one_stereo _ _).symm
+  have h3 := antoineLiftWind_loopZPow hΛ hΘ hΘ0 hΛw (-a)
+  have e := h2.unique h3
+  have ha : a = 0 := by
+    rcases mul_eq_zero.1 e.symm with h | h
+    · exact neg_eq_zero.1 h
+    · exact absurd h hw
+  rw [ha] at hmap
+  exact hmap
+
+
+/-- **The non-abelian heart of Antoine's lemma at the first generation** (the field `chain` of
+`GX.AntoineFirstGeneration`): no nonzero power of the meridian of `L` is null-homotopic in the
+complement of the closed chain `C₁` of the 64 links of the first generation. -/
+def AntoineChainEssential : Prop :=
+  ∀ a : ℤ, a ≠ 0 →
+    ¬ HomotopicIn (antoineStereo '' antoineStage 1)ᶜ (loopZPow antoineMuS a) (Path.refl _)
+
+/-- `GX.AntoineFirstGeneration` from its non-abelian field alone (sorry-free): the five collar
+facts are proved above. -/
+theorem antoineFirstGeneration_of_chain (h : AntoineChainEssential) : AntoineFirstGeneration :=
+  ⟨h, fun i j hij => antoineTube_disjoint i j hij, antoine_collar_conn, antoine_collar_mer,
+    antoine_collar_inj, antoine_joined⟩
+
+/-! ### Antoine's lemma at the first generation: a dihedral invariant (WP-41r round 2)
+
+`GX.AntoineChainEssential` is PROVED by an explicit non-abelian invariant, the double cover of
+`S³ ∖ C₁` along the `32` vertical links with a winding number on it (the translation part of the
+`D_∞`-representation of a Fox colouring), built from the existing winding invariants
+`GX.antoineTheta` and made concrete as follows.
+
+* `P = ∏ Θ'ᵢ` over the vertical links (`GX.antoineDP`; `Θ'ᵢ` is `Θᵢ` or its conjugate, so that
+  `Im Θ'ᵢ ≥ 0` is the outer side of the core square near `i`), and `Q = ∏ √Θ'ᵢ` (principal roots,
+  `GX.antoineDQ`). The double cover is `{(y, s) : s² = P y}`; a homotopy `H` of the square lifts to
+  it as `s = exp(Λ/2)`, `Λ` the `exp`-lift of `P ∘ H`.
+* The slab `N` (`GX.antoineDN`): `|τ| < 10⁻⁴` around the sphere `{z = 0} ∪ {∞}` (`τ` the third
+  coordinate of `S³`), off `C₁`, outside the closed holes of the `32` horizontal links. It is
+  relatively clopen in the slab (`GX.antoineD_horiz_strict_y`): the holes are cut off by `C₁`.
+* On `N`, `R = χ · Q` (`GX.antoineDR`) is a CONTINUOUS square root of `P`
+  (`GX.continuousAt_antoineDR`), `χ = -1` inside the core square, `+1` outside. The principal roots
+  are cut exactly in the `32` gaps between consecutive horizontal links, where a vertical link
+  passes (`GX.antoineD_cut_unique`), and there the side `χ` flips with the cut
+  (`GX.antoineD_chi_cut`, `sign(Im w)·√w = i√(-w)`, `GX.antoineDSq_neg_axis`); elsewhere `χ` is
+  locally constant, because in the slab the core square is covered by the closed holes and the
+  gaps (`GX.antoineD_square_cut`, `GX.antoineD_gap1D`). THIS is where the closing of the chain is
+  used: inside and outside of the core square communicate in `N` only through the gaps.
+* The invariant `g(y, s) = exp(iπ (s / R y) φ(τ y))` on `N`, `1` off it (`GX.antoineDg`; `φ` goes
+  from `0` to `2` across the slab): continuous along any lift (`GX.continuous_antoineDg`), equal to
+  `-1` at the base point on both sheets (`GX.antoineD_g_base`).
+* The meridian crosses the slab twice, outside and inside the core square, i.e. on opposite sheets:
+  `g` winds `2e` times along it (`GX.antoineDF_wind`, `e = ±1` the sheet), `2ea` times along its
+  `a`-th power, while a null-homotopy forces `0` (`GX.AntoineLiftWind.of_freeHomotopy`).
+-/
+
+
+/-- The modulus `ρ = max(|x|,|y|)` and `ρ² + z²` of `GX.antoinePsi`, read off. -/
+theorem antoineD_psi_re (q : ℝ × ℝ × ℝ) :
+    (antoinePsi q).re = min 2 (max |q.1| |q.2.1| + max 0 (antoineSq q - 2)) - 7 / 8 := by
+  simp [antoinePsi]
+
+theorem antoineD_psi_im (q : ℝ × ℝ × ℝ) :
+    (antoinePsi q).im = q.2.2 * max 0 (min 1 (3 - antoineSq q)) := by
+  simp [antoinePsi]
+
+theorem antoineD_sq_eq (q : ℝ × ℝ × ℝ) : antoineSq q = (max |q.1| |q.2.1|) ^ 2 + q.2.2 ^ 2 := rfl
+
+/-- Where `Re Ψ < 0`: near the core, and the imaginary part is `z` times a positive factor. -/
+theorem antoineD_psi_re_neg {q : ℝ × ℝ × ℝ} (h : (antoinePsi q).re < 0) :
+    max |q.1| |q.2.1| < 7 / 8 ∧ antoineSq q < 23 / 8 ∧ 0 < max 0 (min 1 (3 - antoineSq q)) := by
+  rw [antoineD_psi_re] at h
+  have h1 : max |q.1| |q.2.1| + max 0 (antoineSq q - 2) < 7 / 8 := by
+    by_contra hc; push Not at hc
+    have : min 2 (max |q.1| |q.2.1| + max 0 (antoineSq q - 2)) ≥ 7 / 8 := le_min (by norm_num) hc
+    linarith
+  have h2 : 0 ≤ max |q.1| |q.2.1| := (abs_nonneg _).trans (le_max_left _ _)
+  have h3 : antoineSq q - 2 ≤ max 0 (antoineSq q - 2) := le_max_right _ _
+  have h4 : 0 ≤ max 0 (antoineSq q - 2) := le_max_left _ _
+  refine ⟨by linarith, by linarith, lt_max_of_lt_right (lt_min one_pos (by linarith))⟩
+
+theorem antoineD_psi_re_pos {q : ℝ × ℝ × ℝ} (h : 7 / 8 < max |q.1| |q.2.1| ∨ 23 / 8 < antoineSq q) :
+    0 < (antoinePsi q).re := by
+  rw [antoineD_psi_re]
+  have h2 : 0 ≤ max |q.1| |q.2.1| := (abs_nonneg _).trans (le_max_left _ _)
+  have h3 : antoineSq q - 2 ≤ max 0 (antoineSq q - 2) := le_max_right _ _
+  have h4 : 0 ≤ max 0 (antoineSq q - 2) := le_max_left _ _
+  have : 7 / 8 < min 2 (max |q.1| |q.2.1| + max 0 (antoineSq q - 2)) :=
+    lt_min (by norm_num) (by rcases h with h | h <;> linarith)
+  linarith
+
+theorem antoineD_psi_re_gt {q : ℝ × ℝ × ℝ} (h : 1 < max |q.1| |q.2.1|) :
+    1 / 8 < (antoinePsi q).re := by
+  rw [antoineD_psi_re]
+  have h4 : 0 ≤ max 0 (antoineSq q - 2) := le_max_left _ _
+  have : 1 < min 2 (max |q.1| |q.2.1| + max 0 (antoineSq q - 2)) :=
+    lt_min (by norm_num) (by linarith)
+  linarith
+
+theorem antoineD_psi_re_le {q : ℝ × ℝ × ℝ} (h : (antoinePsi q).re ≤ 1 / 8) :
+    max |q.1| |q.2.1| ≤ 1 ∧ antoineSq q ≤ 3 := by
+  rw [antoineD_psi_re] at h
+  have h1 : max |q.1| |q.2.1| + max 0 (antoineSq q - 2) ≤ 1 := by
+    by_contra hc; push Not at hc
+    have : min 2 (max |q.1| |q.2.1| + max 0 (antoineSq q - 2)) > 1 := lt_min (by norm_num) hc
+    linarith
+  have h3 : antoineSq q - 2 ≤ max 0 (antoineSq q - 2) := le_max_right _ _
+  have h4 : 0 ≤ max 0 (antoineSq q - 2) := le_max_left _ _
+  have h2 : 0 ≤ max |q.1| |q.2.1| := (abs_nonneg _).trans (le_max_left _ _)
+  exact ⟨by linarith, by linarith⟩
+
+/-- On the plane of the link and near the centre, `Ψ` is a negative real. -/
+theorem antoineD_psi_negReal {q : ℝ × ℝ × ℝ} (hz : q.2.2 = 0) (hρ : max |q.1| |q.2.1| < 1 / 4) :
+    (antoinePsi q).im = 0 ∧ (antoinePsi q).re < 0 := by
+  refine ⟨by rw [antoineD_psi_im, hz, zero_mul], ?_⟩
+  rw [antoineD_psi_re]
+  have h2 : 0 ≤ max |q.1| |q.2.1| := (abs_nonneg _).trans (le_max_left _ _)
+  have hs : antoineSq q - 2 < 0 := by rw [antoineD_sq_eq, hz]; nlinarith
+  rw [max_eq_left hs.le, add_zero, min_eq_right (by linarith)]
+  linarith
+
+/-! ### A square root with the slit on the negative axis -/
+
+/-- The principal square root `exp(log w / 2)`. -/
+def antoineDSq (w : ℂ) : ℂ := Complex.exp (Complex.log w / 2)
+
+theorem antoineDSq_sq {w : ℂ} (hw : w ≠ 0) : antoineDSq w ^ 2 = w := by
+  rw [antoineDSq, sq, ← Complex.exp_add, add_halves, Complex.exp_log hw]
+
+theorem antoineDSq_ne_zero (w : ℂ) : antoineDSq w ≠ 0 := Complex.exp_ne_zero _
+
+theorem continuousAt_antoineDSq {w : ℂ} (hw : w ∈ Complex.slitPlane) : ContinuousAt antoineDSq w :=
+  Complex.continuous_exp.continuousAt.comp ((continuousAt_clog hw).div_const 2)
+
+theorem antoineD_exp_half_pi (L a : ℝ) :
+    Complex.exp (((L : ℂ) + ((a + Real.pi : ℝ) : ℂ) * Complex.I) / 2) =
+      Complex.exp (((L : ℂ) + (a : ℂ) * Complex.I) / 2) * Complex.I := by
+  have e : ((L : ℂ) + ((a + Real.pi : ℝ) : ℂ) * Complex.I) / 2 =
+      ((L : ℂ) + (a : ℂ) * Complex.I) / 2 + ((Real.pi / 2 : ℝ) : ℂ) * Complex.I := by
+    push_cast; ring
+  rw [e, Complex.exp_add, Complex.exp_mul_I]
+  push_cast
+  rw [Complex.cos_pi_div_two, Complex.sin_pi_div_two]
+  ring
+
+/-- Across the negative axis: `sign(Im w) · √w = i √(-w)` for `Re w < 0`. -/
+theorem antoineDSq_neg_axis {w : ℂ} (hw : w.re < 0) :
+    (if 0 ≤ w.im then (1 : ℂ) else -1) * antoineDSq w = Complex.I * antoineDSq (-w) := by
+  have hn : ‖-w‖ = ‖w‖ := norm_neg w
+  have hlog : ∀ z : ℂ, Complex.log z = (Real.log ‖z‖ : ℂ) + (Complex.arg z : ℂ) * Complex.I :=
+    fun z => by apply Complex.ext <;> simp [Complex.log_re, Complex.log_im]
+  simp only [antoineDSq, hlog, hn]
+  rcases lt_trichotomy w.im 0 with hi | hi | hi
+  · rw [if_neg (not_le.2 hi), Complex.arg_neg_eq_arg_add_pi_of_im_neg hi]
+    rw [show ((Complex.arg w + Real.pi : ℝ) : ℂ) = ((Complex.arg w + Real.pi : ℝ) : ℂ) from rfl,
+      antoineD_exp_half_pi]
+    ring_nf; rw [Complex.I_sq]; ring
+  · rw [if_pos hi.ge]
+    have h1 : Complex.arg w = Real.pi := Complex.arg_eq_pi_iff.2 ⟨hw, hi⟩
+    have h2 : Complex.arg (-w) = 0 :=
+      Complex.arg_eq_zero_iff.2 ⟨by simp; linarith, by simp [hi]⟩
+    rw [h1, h2]
+    have := antoineD_exp_half_pi (Real.log ‖w‖) 0
+    rw [zero_add] at this
+    rw [this]; push_cast; ring
+  · rw [if_pos hi.le, Complex.arg_neg_eq_arg_sub_pi_of_im_pos hi]
+    have := antoineD_exp_half_pi (Real.log ‖w‖) (Complex.arg w - Real.pi)
+    rw [sub_add_cancel] at this
+    rw [this]; push_cast; ring
+
+/-! ### Combinatorial data of the vertical links -/
+
+/-- The orientation of the vertical link `i`: conjugate `Θᵢ` on the sides `y = -7/8` and
+`x = -7/8` (so that `Im Θ'ᵢ ≥ 0` is the outer side of the core square near the link). -/
+def AntoineDCj (i : Fin 64) : Prop := i.val / 16 = 0 ∨ i.val / 16 = 3
+
+instance (i : Fin 64) : Decidable (AntoineDCj i) := by unfold AntoineDCj; infer_instance
+
+set_option maxRecDepth 100000 in
+theorem antoineD_vert_data : ∀ i : Fin 64,
+    (antoineT i = 1 → ((antoineZ i).2 = 560 ∧ ¬ AntoineDCj i ∨ (antoineZ i).2 = -560 ∧ AntoineDCj i) ∧
+      |(antoineZ i).1| ≤ 490) ∧
+    (antoineT i = 2 → ((antoineZ i).1 = 560 ∧ ¬ AntoineDCj i ∨ (antoineZ i).1 = -560 ∧ AntoineDCj i) ∧
+      |(antoineZ i).2| ≤ 490) := by
+  decide
+
+/-- Half-widths of the gap boxes of the vertical links. -/
+def antoineDGx (i : Fin 64) : ℤ := if antoineT i = 1 then 49 else 0
+def antoineDGy (i : Fin 64) : ℤ := if antoineT i = 2 then 49 else 0
+
+set_option maxRecDepth 100000 in
+theorem antoineD_gap_sep : ∀ v w : Fin 64, v ≠ w → antoineT v ≠ 0 → antoineT w ≠ 0 →
+    antoineDGx v + antoineDGx w < |(antoineZ v).1 - (antoineZ w).1| ∨
+      antoineDGy v + antoineDGy w < |(antoineZ v).2 - (antoineZ w).2| := by
+  decide
+
+set_option maxRecDepth 100000 in
+theorem antoineD_side_h : ∀ m : Fin 9, (∃ i : Fin 64, antoineT i = 0 ∧
+    antoineZ i = (140 * (m : ℤ) - 560, 560)) ∧ (∃ i : Fin 64, antoineT i = 0 ∧
+    antoineZ i = (140 * (m : ℤ) - 560, -560)) ∧ (∃ i : Fin 64, antoineT i = 0 ∧
+    antoineZ i = (560, 140 * (m : ℤ) - 560)) ∧ (∃ i : Fin 64, antoineT i = 0 ∧
+    antoineZ i = (-560, 140 * (m : ℤ) - 560)) := by
+  decide
+
+set_option maxRecDepth 100000 in
+theorem antoineD_side_v : ∀ m : Fin 8, (∃ i : Fin 64, antoineT i = 1 ∧
+    antoineZ i = (140 * (m : ℤ) - 490, 560)) ∧ (∃ i : Fin 64, antoineT i = 1 ∧
+    antoineZ i = (140 * (m : ℤ) - 490, -560)) ∧ (∃ i : Fin 64, antoineT i = 2 ∧
+    antoineZ i = (560, 140 * (m : ℤ) - 490)) ∧ (∃ i : Fin 64, antoineT i = 2 ∧
+    antoineZ i = (-560, 140 * (m : ℤ) - 490)) := by
+  decide
+
+set_option maxRecDepth 100000 in
+theorem antoineD_tube_links : ∀ i : Fin 64, i ≠ 40 →
+    antoineEx (antoineT i) + 7 ≤ |(antoineZ i).1| ∨ antoineEy (antoineT i) + 183 ≤ |(antoineZ i).2 - 560| := by
+  decide
+
+theorem antoineD_forty : antoineT 40 = 0 ∧ antoineZ 40 = (0, 560) := by decide
+
+set_option maxRecDepth 100000 in
+theorem antoineD_tube_horiz : ∀ i : Fin 64, antoineT i = 0 → i ≠ 40 →
+    140 ≤ |(antoineZ i).1| ∨ 1000 ≤ |(antoineZ i).2 - 560| := by
+  decide
+
+set_option maxRecDepth 100000 in
+theorem antoineD_tube_vert : ∀ i : Fin 64, antoineT i = 1 → (antoineZ i).2 = 560 →
+    70 ≤ |(antoineZ i).1| := by
+  decide
+
+/-! ### The inverse similarities in coordinates -/
+
+theorem antoineD_mapInv0 {i : Fin 64} (h : antoineT i = 0) (p : ℝ × ℝ × ℝ) :
+    antoineMapInv i p = ((p.1 - (antoineZ i).1 / 640) * (80 / 7),
+      (p.2.1 - (antoineZ i).2 / 640) * (80 / 7), p.2.2 * (80 / 7)) := by
+  simp only [antoineMapInv, h, antoinePerm]
+
+theorem antoineD_mapInv1 {i : Fin 64} (h : antoineT i = 1) (p : ℝ × ℝ × ℝ) :
+    antoineMapInv i p = ((p.1 - (antoineZ i).1 / 640) * (80 / 7), p.2.2 * (80 / 7),
+      (p.2.1 - (antoineZ i).2 / 640) * (80 / 7)) := by
+  simp only [antoineMapInv, h, antoinePerm]
+
+theorem antoineD_mapInv2 {i : Fin 64} (h : antoineT i = 2) (p : ℝ × ℝ × ℝ) :
+    antoineMapInv i p = (p.2.2 * (80 / 7), (p.2.1 - (antoineZ i).2 / 640) * (80 / 7),
+      (p.1 - (antoineZ i).1 / 640) * (80 / 7)) := by
+  simp only [antoineMapInv, h, antoinePerm]
+
+theorem antoineD_theta_eq (i : Fin 64) {y : Sphere3} (hy : (y : EuclideanSpace ℝ (Fin 4)) 3 < 1) :
+    antoineTheta (fun _ => i) 1 y = antoinePsi (antoineMapInv i (antoineStereoInv y)) := by
+  simp only [antoineTheta, if_pos hy, antoineCompInv]; rfl
+
+theorem antoineD_theta_pole (i : Fin 64) {y : Sphere3} (hy : ¬ (y : EuclideanSpace ℝ (Fin 4)) 3 < 1) :
+    antoineTheta (fun _ => i) 1 y = 9 / 8 := by
+  simp only [antoineTheta, if_neg hy]
+
+/-- The slab: `|2z/(|p|²+1)| < 10⁻⁴` with `x² + y² ≤ 8` forces `z` tiny or large. -/
+theorem antoineD_slab {x y z : ℝ} (h : |2 * z / (x ^ 2 + y ^ 2 + z ^ 2 + 1)| < 1 / 10000)
+    (hxy : x ^ 2 + y ^ 2 ≤ 8) : |z| < 1 / 200 ∨ 3 < |z| := by
+  by_contra hc; push Not at hc
+  obtain ⟨h1, h2⟩ := hc
+  have hN : 0 < x ^ 2 + y ^ 2 + z ^ 2 + 1 := by positivity
+  rw [abs_div, abs_of_pos hN, div_lt_iff₀ hN, abs_mul, abs_two] at h
+  have hz2 : z ^ 2 ≤ 9 := by rw [← sq_abs]; nlinarith [abs_nonneg z]
+  nlinarith
+
+/-! ### The dihedral invariant: definitions -/
+
+/-- The height coordinate of `S³ ⊆ ℝ⁴`: on `antoineStereo p` it is `2z/(|p|²+1)`; it vanishes
+exactly on the sphere `{z = 0} ∪ {∞}`. -/
+def antoineDTau (y : Sphere3) : ℝ := (y : EuclideanSpace ℝ (Fin 4)) 2
+
+/-- The crossing profile: `0` below the slab `|τ| < 10⁻⁴`, `2` above it, linear in between. -/
+def antoineDPhi (τ : ℝ) : ℝ := max 0 (min 2 (1 + 10000 * τ))
+
+/-- `Θ'ᵢ`: the winding invariant of the vertical link `i`, conjugated on two sides. -/
+def antoineDTh (i : Fin 64) (y : Sphere3) : ℂ :=
+  if AntoineDCj i then starRingEnd ℂ (antoineTheta (fun _ => i) 1 y)
+  else antoineTheta (fun _ => i) 1 y
+
+/-- The `32` vertical links. -/
+def antoineDV : Finset (Fin 64) := Finset.univ.filter fun i => antoineT i ≠ 0
+
+/-- The product of the `Θ'ᵢ` over the vertical links: its square root defines the double cover
+on which the dihedral invariant lives. -/
+def antoineDP (y : Sphere3) : ℂ := ∏ i ∈ antoineDV, antoineDTh i y
+
+/-- The product of the principal square roots of the `Θ'ᵢ`. -/
+def antoineDQ (y : Sphere3) : ℂ := ∏ i ∈ antoineDV, antoineDSq (antoineDTh i y)
+
+/-- The side of the core square: `-1` strictly inside it and near the plane `z = 0`, `1`
+otherwise. -/
+def antoineDChi (y : Sphere3) : ℂ :=
+  if (y : EuclideanSpace ℝ (Fin 4)) 3 < 1 ∧
+      max |(antoineStereoInv y).1| |(antoineStereoInv y).2.1| < 7 / 8 ∧
+      |(antoineStereoInv y).2.2| < 1 then -1 else 1
+
+/-- The square root of `GX.antoineDP` on the slab: the sides of the core square swap the sheets,
+and so do the cuts of the principal roots in the gaps; the two swaps cancel. -/
+def antoineDR (y : Sphere3) : ℂ := antoineDChi y * antoineDQ y
+
+/-- The slab around the sphere `{z = 0} ∪ {∞}`, off the first stage and off the closed holes of
+the horizontal links. -/
+def antoineDN : Set Sphere3 :=
+  {y | y ∈ (antoineStereo '' antoineStage 1)ᶜ ∧ |antoineDTau y| < 1 / 10000 ∧
+    ∀ h : Fin 64, antoineT h = 0 → 1 / 8 < (antoineTheta (fun _ => h) 1 y).re}
+
+/-- The dihedral invariant on the double cover `{(y, s) : s² = P y}`: crossing the slab on the
+sheet `s = σ R y` turns by `σ · 2π`. -/
+def antoineDg (y : Sphere3) (s : ℂ) : ℂ :=
+  if y ∈ antoineDN then
+    Complex.exp (Real.pi * Complex.I * (s / antoineDR y) * (antoineDPhi (antoineDTau y) : ℂ))
+  else 1
+
+/-! ### Basic properties -/
+
+theorem continuous_antoineDTau : Continuous antoineDTau :=
+  (PiLp.continuous_apply 2 _ 2).comp continuous_subtype_val
+
+theorem continuous_antoineDPhi : Continuous antoineDPhi := by unfold antoineDPhi; fun_prop
+
+theorem continuous_antoineDTh (i : Fin 64) : Continuous (antoineDTh i) := by
+  unfold antoineDTh
+  split_ifs
+  · exact Complex.continuous_conj.comp (continuous_antoineTheta _ _)
+  · exact continuous_antoineTheta _ _
+
+theorem antoineDTh_re (i : Fin 64) (y : Sphere3) :
+    (antoineDTh i y).re = (antoineTheta (fun _ => i) 1 y).re := by
+  unfold antoineDTh; split_ifs <;> simp
+
+theorem antoineDTh_im (i : Fin 64) (y : Sphere3) :
+    (antoineDTh i y).im = if AntoineDCj i then -(antoineTheta (fun _ => i) 1 y).im
+      else (antoineTheta (fun _ => i) 1 y).im := by
+  unfold antoineDTh; split_ifs <;> simp
+
+theorem antoineDTh_ne_zero (i : Fin 64) {y : Sphere3} (hy : y ∈ (antoineStereo '' antoineStage 1)ᶜ) :
+    antoineDTh i y ≠ 0 := by
+  unfold antoineDTh
+  have := antoineTheta_ne_zero_of_compl (i := i) hy
+  split_ifs
+  · exact (map_ne_zero _).2 this
+  · exact this
+
+theorem continuous_antoineDP : Continuous antoineDP := by
+  unfold antoineDP
+  exact continuous_finsetProd _ fun i _ => continuous_antoineDTh i
+
+theorem antoineDP_ne_zero {y : Sphere3} (hy : y ∈ (antoineStereo '' antoineStage 1)ᶜ) :
+    antoineDP y ≠ 0 :=
+  Finset.prod_ne_zero_iff.2 fun i _ => antoineDTh_ne_zero i hy
+
+theorem antoineDQ_sq {y : Sphere3} (hy : y ∈ (antoineStereo '' antoineStage 1)ᶜ) :
+    antoineDQ y ^ 2 = antoineDP y := by
+  unfold antoineDQ antoineDP
+  rw [← Finset.prod_pow]
+  exact Finset.prod_congr rfl fun i _ => antoineDSq_sq (antoineDTh_ne_zero i hy)
+
+theorem antoineDQ_ne_zero (y : Sphere3) : antoineDQ y ≠ 0 :=
+  Finset.prod_ne_zero_iff.2 fun _ _ => antoineDSq_ne_zero _
+
+theorem antoineDChi_sq (y : Sphere3) : antoineDChi y ^ 2 = 1 := by
+  unfold antoineDChi; split_ifs <;> norm_num
+
+theorem antoineDR_sq {y : Sphere3} (hy : y ∈ (antoineStereo '' antoineStage 1)ᶜ) :
+    antoineDR y ^ 2 = antoineDP y := by
+  rw [antoineDR, mul_pow, antoineDChi_sq, one_mul, antoineDQ_sq hy]
+
+theorem antoineDR_ne_zero (y : Sphere3) : antoineDR y ≠ 0 :=
+  mul_ne_zero (fun h => by have := antoineDChi_sq y; rw [h] at this; norm_num at this)
+    (antoineDQ_ne_zero y)
+
+theorem isOpen_antoineDX : IsOpen (antoineStereo '' antoineStage 1)ᶜ :=
+  ((antoineStage_isCompact 1).image continuous_antoineStereo).isClosed.isOpen_compl
+
+theorem isOpen_antoineDN : IsOpen antoineDN := by
+  have e : antoineDN = (antoineStereo '' antoineStage 1)ᶜ ∩ {y | |antoineDTau y| < 1 / 10000} ∩
+      ⋂ h : Fin 64, {y | antoineT h = 0 → 1 / 8 < (antoineTheta (fun _ => h) 1 y).re} := by
+    ext y; simp [antoineDN, and_assoc]
+  rw [e]
+  refine (isOpen_antoineDX.inter (isOpen_lt (continuous_abs.comp continuous_antoineDTau)
+    continuous_const)).inter (isOpen_iInter_of_finite fun h => ?_)
+  by_cases hh : antoineT h = 0
+  · simp only [hh, true_implies]
+    exact isOpen_lt continuous_const (Complex.continuous_re.comp (continuous_antoineTheta _ _))
+  · simp only [hh, false_implies, setOf_true, isOpen_univ]
+
+theorem antoineD_tau_eq {y : Sphere3} (hy : (y : EuclideanSpace ℝ (Fin 4)) 3 < 1) :
+    antoineDTau y = 2 * (antoineStereoInv y).2.2 / ((antoineStereoInv y).1 ^ 2 +
+      (antoineStereoInv y).2.1 ^ 2 + (antoineStereoInv y).2.2 ^ 2 + 1) := by
+  conv_lhs => rw [← antoineStereo_stereoInv hy]
+  rfl
+
+/-! ### Local geometry of the vertical links (in `ℝ³`) -/
+
+theorem antoineD_abs_k {a b : ℝ} (h : |a * (80 / 7)| < b) : |a| < b * (7 / 80) := by
+  rw [abs_mul, abs_of_pos (by norm_num : (0 : ℝ) < 80 / 7)] at h; linarith
+
+theorem antoineD_vert_cases {w : Fin 64} (hw : antoineT w ≠ 0) : antoineT w = 1 ∨ antoineT w = 2 := by
+  rcases antoineT_cases w with h | h | h
+  · exact absurd h hw
+  · exact Or.inl h
+  · exact Or.inr h
+
+/-- Where `Re Θ_w < 0` (`w` vertical): near the core of `w`, and `Im Θ_w` is the transverse
+coordinate `ζ` times a positive factor. -/
+theorem antoineD_vert_local {w : Fin 64} (hw : antoineT w ≠ 0) (p : ℝ × ℝ × ℝ)
+    (hre : (antoinePsi (antoineMapInv w p)).re < 0) : ∃ κ : ℝ, 0 < κ ∧ |p.2.2| < 49 / 640 ∧
+    ((antoineT w = 1 ∧ |p.1 - (antoineZ w).1 / 640| < 49 / 640 ∧
+        |p.2.1 - (antoineZ w).2 / 640| < 96 / 640 ∧
+        (antoinePsi (antoineMapInv w p)).im = (p.2.1 - (antoineZ w).2 / 640) * (80 / 7) * κ) ∨
+      (antoineT w = 2 ∧ |p.2.1 - (antoineZ w).2 / 640| < 49 / 640 ∧
+        |p.1 - (antoineZ w).1 / 640| < 96 / 640 ∧
+        (antoinePsi (antoineMapInv w p)).im = (p.1 - (antoineZ w).1 / 640) * (80 / 7) * κ)) := by
+  obtain ⟨hρ, hsq, hκ⟩ := antoineD_psi_re_neg hre
+  refine ⟨_, hκ, ?_⟩
+  rw [antoineD_psi_im]
+  rcases antoineD_vert_cases hw with h | h
+  · rw [antoineD_mapInv1 h] at hρ hsq ⊢
+    rw [antoineD_sq_eq] at hsq
+    simp only at hρ hsq ⊢
+    obtain ⟨h1, h2⟩ := max_lt_iff.1 hρ
+    have h3 := antoineD_abs_k h1
+    have h4 := antoineD_abs_k h2
+    have h0 : 0 ≤ max |(p.1 - (antoineZ w).1 / 640) * (80 / 7)| |p.2.2 * (80 / 7)| :=
+      (abs_nonneg _).trans (le_max_left _ _)
+    have h5 : ((p.2.1 - (antoineZ w).2 / 640) * (80 / 7)) ^ 2 < 23 / 8 := by nlinarith
+    have h6 : |p.2.1 - (antoineZ w).2 / 640| < 96 / 640 := by
+      rw [abs_lt]; constructor <;> nlinarith
+    refine ⟨by linarith, Or.inl ⟨h, by linarith, h6, by first | rfl | trivial⟩⟩
+  · rw [antoineD_mapInv2 h] at hρ hsq ⊢
+    rw [antoineD_sq_eq] at hsq
+    simp only at hρ hsq ⊢
+    obtain ⟨h1, h2⟩ := max_lt_iff.1 hρ
+    have h3 := antoineD_abs_k h1
+    have h4 := antoineD_abs_k h2
+    have h0 : 0 ≤ max |p.2.2 * (80 / 7)| |(p.2.1 - (antoineZ w).2 / 640) * (80 / 7)| :=
+      (abs_nonneg _).trans (le_max_left _ _)
+    have h5 : ((p.1 - (antoineZ w).1 / 640) * (80 / 7)) ^ 2 < 23 / 8 := by nlinarith
+    have h6 : |p.1 - (antoineZ w).1 / 640| < 96 / 640 := by
+      rw [abs_lt]; constructor <;> nlinarith
+    refine ⟨by linarith, Or.inr ⟨h, by linarith, h6, by first | rfl | trivial⟩⟩
+
+/-- A cut point of `Θ_w` lies in the gap box of `w`. -/
+theorem antoineD_cut_box {w : Fin 64} (hw : antoineT w ≠ 0) (p : ℝ × ℝ × ℝ)
+    (hre : (antoinePsi (antoineMapInv w p)).re < 0) (him : (antoinePsi (antoineMapInv w p)).im = 0) :
+    |p.1 - (antoineZ w).1 / 640| ≤ (antoineDGx w : ℝ) / 640 ∧
+      |p.2.1 - (antoineZ w).2 / 640| ≤ (antoineDGy w : ℝ) / 640 := by
+  obtain ⟨κ, hκ, -, h⟩ := antoineD_vert_local hw p hre
+  rcases h with ⟨h, h1, -, h3⟩ | ⟨h, h1, -, h3⟩
+  · rw [him] at h3
+    have : p.2.1 - (antoineZ w).2 / 640 = 0 := by
+      rcases mul_eq_zero.1 h3.symm with h' | h'
+      · rcases mul_eq_zero.1 h' with h'' | h''
+        · exact h''
+        · norm_num at h''
+      · exact absurd h' hκ.ne'
+    simp only [antoineDGx, antoineDGy, h, if_true, show (1 : Fin 3) ≠ 2 by decide, if_false]
+    push_cast
+    rw [this, abs_zero]; exact ⟨by linarith, by norm_num⟩
+  · rw [him] at h3
+    have : p.1 - (antoineZ w).1 / 640 = 0 := by
+      rcases mul_eq_zero.1 h3.symm with h' | h'
+      · rcases mul_eq_zero.1 h' with h'' | h''
+        · exact h''
+        · norm_num at h''
+      · exact absurd h' hκ.ne'
+    simp only [antoineDGx, antoineDGy, h, if_true, show (2 : Fin 3) ≠ 1 by decide, if_false]
+    push_cast
+    rw [this, abs_zero]; exact ⟨by norm_num, by linarith⟩
+
+/-- At most one vertical `Θ_w` is cut at a point. -/
+theorem antoineD_cut_unique {v w : Fin 64} (hv : antoineT v ≠ 0) (hw : antoineT w ≠ 0)
+    (p : ℝ × ℝ × ℝ) (hrv : (antoinePsi (antoineMapInv v p)).re < 0)
+    (hiv : (antoinePsi (antoineMapInv v p)).im = 0) (hrw : (antoinePsi (antoineMapInv w p)).re < 0)
+    (hiw : (antoinePsi (antoineMapInv w p)).im = 0) : v = w := by
+  by_contra hvw
+  obtain ⟨a1, a2⟩ := antoineD_cut_box hv p hrv hiv
+  obtain ⟨b1, b2⟩ := antoineD_cut_box hw p hrw hiw
+  rcases antoineD_gap_sep v w hvw hv hw with h | h
+  · have h' : ((antoineDGx v + antoineDGx w : ℤ) : ℝ) < |((antoineZ v).1 : ℝ) - (antoineZ w).1| := by
+      exact_mod_cast h
+    push_cast at h'
+    rw [lt_abs] at h'; rw [abs_le] at a1 b1
+    rcases h' with h' | h' <;> linarith [a1.1, a1.2, b1.1, b1.2]
+  · have h' : ((antoineDGy v + antoineDGy w : ℤ) : ℝ) < |((antoineZ v).2 : ℝ) - (antoineZ w).2| := by
+      exact_mod_cast h
+    push_cast at h'
+    rw [lt_abs] at h'; rw [abs_le] at a2 b2
+    rcases h' with h' | h' <;> linarith [a2.1, a2.2, b2.1, b2.2]
+
+theorem antoineD_neg_iff {a κ : ℝ} (hκ : 0 < κ) : a * (80 / 7) * κ < 0 ↔ a < 0 := by
+  constructor
+  · intro h; by_contra h'; push Not at h'
+    have := mul_nonneg (mul_nonneg h' (by norm_num : (0 : ℝ) ≤ 80 / 7)) hκ.le; linarith
+  · intro h; have := mul_pos (mul_pos (neg_pos.2 h) (by norm_num : (0 : ℝ) < 80 / 7)) hκ; linarith
+
+theorem antoineD_side_aux {a b c s : ℝ} (hs : s = 1 ∨ s = -1) (ha : |a| ≤ 539 / 640)
+    (hb : |b - s * (7 / 8)| < 96 / 640) (hc : |c| < 49 / 640) :
+    (max |a| |b| < 7 / 8 ∧ |c| < 1) ↔ s * (b - s * (7 / 8)) < 0 := by
+  rw [abs_le] at ha; rw [abs_lt] at hb hc
+  rcases hs with rfl | rfl
+  · rw [max_lt_iff, abs_lt, abs_lt, abs_lt]
+    constructor
+    · rintro ⟨⟨-, -, h⟩, -⟩; linarith
+    · intro h; refine ⟨⟨⟨by linarith, by linarith⟩, by linarith, by linarith⟩, by linarith, by linarith⟩
+  · rw [max_lt_iff, abs_lt, abs_lt, abs_lt]
+    constructor
+    · rintro ⟨⟨-, h, -⟩, -⟩; linarith
+    · intro h; refine ⟨⟨⟨by linarith, by linarith⟩, by linarith, by linarith⟩, by linarith, by linarith⟩
+
+/-- Near a cut of a vertical `Θ'_w`, the side of the core square is read by `Im Θ'_w`. -/
+theorem antoineD_side_of_cut {w : Fin 64} (hw : antoineT w ≠ 0) (p : ℝ × ℝ × ℝ)
+    (hre : (antoinePsi (antoineMapInv w p)).re < 0) :
+    (max |p.1| |p.2.1| < 7 / 8 ∧ |p.2.2| < 1) ↔
+      (if AntoineDCj w then -(antoinePsi (antoineMapInv w p)).im
+        else (antoinePsi (antoineMapInv w p)).im) < 0 := by
+  obtain ⟨κ, hκ, hz, h⟩ := antoineD_vert_local hw p hre
+  obtain ⟨d1, d2⟩ := antoineD_vert_data w
+  rcases h with ⟨h, h1, h2, h3⟩ | ⟨h, h1, h2, h3⟩
+  · obtain ⟨hc, hc1⟩ := d1 h
+    have hc1' : |((antoineZ w).1 : ℝ)| ≤ 490 := by exact_mod_cast hc1
+    have ha : |p.1| ≤ 539 / 640 := by
+      rw [abs_le] at hc1' ⊢; rw [abs_lt] at h1; constructor <;> linarith [h1.1, h1.2]
+    rw [h3]
+    rcases hc with ⟨hc, hcj⟩ | ⟨hc, hcj⟩
+    · have e : ((antoineZ w).2 : ℝ) / 640 = 1 * (7 / 8) := by rw [hc]; norm_num
+      rw [if_neg hcj, antoineD_neg_iff hκ]
+      rw [e] at h2 ⊢
+      have := antoineD_side_aux (a := p.1) (c := p.2.2) (Or.inl rfl) ha h2 hz
+      rw [this, one_mul]
+    · have e : ((antoineZ w).2 : ℝ) / 640 = -1 * (7 / 8) := by rw [hc]; norm_num
+      rw [if_pos hcj, show -((p.2.1 - (antoineZ w).2 / 640) * (80 / 7) * κ) =
+        (-(p.2.1 - (antoineZ w).2 / 640)) * (80 / 7) * κ by ring, antoineD_neg_iff hκ]
+      rw [e] at h2 ⊢
+      have := antoineD_side_aux (a := p.1) (c := p.2.2) (Or.inr rfl) ha h2 hz
+      rw [this, neg_one_mul]
+  · obtain ⟨hc, hc1⟩ := d2 h
+    have hc1' : |((antoineZ w).2 : ℝ)| ≤ 490 := by exact_mod_cast hc1
+    have ha : |p.2.1| ≤ 539 / 640 := by
+      rw [abs_le] at hc1' ⊢; rw [abs_lt] at h1; constructor <;> linarith [h1.1, h1.2]
+    rw [h3, max_comm]
+    rcases hc with ⟨hc, hcj⟩ | ⟨hc, hcj⟩
+    · have e : ((antoineZ w).1 : ℝ) / 640 = 1 * (7 / 8) := by rw [hc]; norm_num
+      rw [if_neg hcj, antoineD_neg_iff hκ]
+      rw [e] at h2 ⊢
+      have := antoineD_side_aux (a := p.2.1) (c := p.2.2) (Or.inl rfl) ha h2 hz
+      rw [this, one_mul]
+    · have e : ((antoineZ w).1 : ℝ) / 640 = -1 * (7 / 8) := by rw [hc]; norm_num
+      rw [if_pos hcj, show -((p.1 - (antoineZ w).1 / 640) * (80 / 7) * κ) =
+        (-(p.1 - (antoineZ w).1 / 640)) * (80 / 7) * κ by ring, antoineD_neg_iff hκ]
+      rw [e] at h2 ⊢
+      have := antoineD_side_aux (a := p.2.1) (c := p.2.2) (Or.inr rfl) ha h2 hz
+      rw [this, neg_one_mul]
+
+/-- One side of the core square is covered by the `9` horizontal links and the `8` gaps. -/
+theorem antoineD_gap1D {u : ℝ} (hu : |u| ≤ 560)
+    (h : ∀ m : Fin 9, 56 < |u - (140 * ((m : ℕ) : ℝ) - 560)|) :
+    ∃ m : Fin 8, |u - (140 * ((m : ℕ) : ℝ) - 490)| < 14 := by
+  rw [abs_le] at hu
+  set n := ⌊(u + 560) / 140⌋ with hn
+  have hf1 : (n : ℝ) ≤ (u + 560) / 140 := Int.floor_le _
+  have hf2 : (u + 560) / 140 < n + 1 := Int.lt_floor_add_one _
+  have hn0 : 0 ≤ n := by
+    have : (-1 : ℝ) < n := by have : 0 ≤ (u + 560) / 140 := by apply div_nonneg <;> linarith
+                              linarith
+    have : (-1 : ℤ) < n := by exact_mod_cast this
+    omega
+  have hn8 : n ≤ 8 := by
+    have : (n : ℝ) ≤ 8 := by
+      have : (u + 560) / 140 ≤ 8 := by rw [div_le_iff₀ (by norm_num)]; linarith
+      linarith
+    exact_mod_cast this
+  have hcast : ((n.toNat : ℕ) : ℝ) = (n : ℝ) := by
+    rw [show ((n.toNat : ℕ) : ℝ) = ((n.toNat : ℤ) : ℝ) by norm_cast, Int.toNat_of_nonneg hn0]
+  rw [le_div_iff₀ (by norm_num)] at hf1
+  rw [div_lt_iff₀ (by norm_num)] at hf2
+  have hm := h ⟨n.toNat, by omega⟩
+  simp only [hcast] at hm
+  by_cases h8 : n = 8
+  · exfalso
+    have : (n : ℝ) = 8 := by exact_mod_cast h8
+    rw [this] at hm hf1
+    have hu' : u = 560 := by linarith
+    rw [hu'] at hm; norm_num at hm
+  have hm' := h ⟨n.toNat + 1, by omega⟩
+  simp only [Nat.cast_add, Nat.cast_one, hcast] at hm'
+  refine ⟨⟨n.toNat, by omega⟩, ?_⟩
+  simp only [hcast]
+  rw [lt_abs] at hm hm'
+  rw [abs_lt]
+  constructor
+  · rcases hm with hm | hm <;> linarith
+  · rcases hm' with hm' | hm' <;> linarith
+
+theorem antoineD_abs_scale (a v : ℝ) : |(a - v / 640) * (80 / 7)| = |640 * a - v| / 56 := by
+  rw [show (a - v / 640) * (80 / 7) = (640 * a - v) / 56 by ring, abs_div,
+    abs_of_pos (by norm_num : (0 : ℝ) < 56)]
+
+theorem antoineD_side1 (p : ℝ × ℝ × ℝ) (c : ℤ) (hyc : p.2.1 = (c : ℝ) / 640) (hx : |p.1| ≤ 7 / 8)
+    (hz : |p.2.2| < 1 / 200)
+    (hH : ∀ m : Fin 9, ∃ i, antoineT i = 0 ∧ antoineZ i = (140 * ((m : ℕ) : ℤ) - 560, c))
+    (hV : ∀ m : Fin 8, ∃ i, antoineT i = 1 ∧ antoineZ i = (140 * ((m : ℕ) : ℤ) - 490, c))
+    (hN : ∀ h : Fin 64, antoineT h = 0 → 1 < max |(p.1 - (antoineZ h).1 / 640) * (80 / 7)|
+      |(p.2.1 - (antoineZ h).2 / 640) * (80 / 7)|) :
+    ∃ w, antoineT w ≠ 0 ∧ (antoinePsi (antoineMapInv w p)).re < 0 ∧
+      (antoinePsi (antoineMapInv w p)).im = 0 := by
+  have hu : |640 * p.1| ≤ 560 := by rw [abs_mul, abs_of_pos (by norm_num : (0 : ℝ) < 640)]; linarith
+  obtain ⟨m, hm⟩ := antoineD_gap1D hu fun m => by
+    obtain ⟨i, hi0, hiZ⟩ := hH m
+    have := hN i hi0
+    rw [hiZ, hyc] at this
+    simp only [sub_self, zero_mul, abs_zero] at this
+    rw [max_eq_left (abs_nonneg _), antoineD_abs_scale] at this
+    push_cast at this
+    rw [lt_div_iff₀ (by norm_num)] at this
+    linarith
+  obtain ⟨w, hw1, hwZ⟩ := hV m
+  refine ⟨w, by rw [hw1]; decide, ?_⟩
+  rw [antoineD_mapInv1 hw1, hwZ]
+  refine and_comm.1 (antoineD_psi_negReal ?_ ?_)
+  · dsimp only; rw [hyc]; ring
+  dsimp only
+  rw [max_lt_iff, antoineD_abs_scale]
+  push_cast
+  constructor
+  · rw [div_lt_iff₀ (by norm_num)]; linarith
+  · rw [abs_mul, abs_of_pos (by norm_num : (0 : ℝ) < 80 / 7)]; linarith
+
+theorem antoineD_side2 (p : ℝ × ℝ × ℝ) (c : ℤ) (hxc : p.1 = (c : ℝ) / 640) (hy : |p.2.1| ≤ 7 / 8)
+    (hz : |p.2.2| < 1 / 200)
+    (hH : ∀ m : Fin 9, ∃ i, antoineT i = 0 ∧ antoineZ i = (c, 140 * ((m : ℕ) : ℤ) - 560))
+    (hV : ∀ m : Fin 8, ∃ i, antoineT i = 2 ∧ antoineZ i = (c, 140 * ((m : ℕ) : ℤ) - 490))
+    (hN : ∀ h : Fin 64, antoineT h = 0 → 1 < max |(p.1 - (antoineZ h).1 / 640) * (80 / 7)|
+      |(p.2.1 - (antoineZ h).2 / 640) * (80 / 7)|) :
+    ∃ w, antoineT w ≠ 0 ∧ (antoinePsi (antoineMapInv w p)).re < 0 ∧
+      (antoinePsi (antoineMapInv w p)).im = 0 := by
+  have hu : |640 * p.2.1| ≤ 560 := by
+    rw [abs_mul, abs_of_pos (by norm_num : (0 : ℝ) < 640)]; linarith
+  obtain ⟨m, hm⟩ := antoineD_gap1D hu fun m => by
+    obtain ⟨i, hi0, hiZ⟩ := hH m
+    have := hN i hi0
+    rw [hiZ, hxc] at this
+    simp only [sub_self, zero_mul, abs_zero] at this
+    rw [max_eq_right (abs_nonneg _), antoineD_abs_scale] at this
+    push_cast at this
+    rw [lt_div_iff₀ (by norm_num)] at this
+    linarith
+  obtain ⟨w, hw1, hwZ⟩ := hV m
+  refine ⟨w, by rw [hw1]; decide, ?_⟩
+  rw [antoineD_mapInv2 hw1, hwZ]
+  refine and_comm.1 (antoineD_psi_negReal ?_ ?_)
+  · dsimp only; rw [hxc]; ring
+  dsimp only
+  rw [max_lt_iff, antoineD_abs_scale]
+  push_cast
+  constructor
+  · rw [abs_mul, abs_of_pos (by norm_num : (0 : ℝ) < 80 / 7)]; linarith
+  · rw [div_lt_iff₀ (by norm_num)]; linarith
+
+/-- **The gaps carry the cuts**: a point of the core square near the plane `z = 0`, outside the
+closed holes of the horizontal links, is a cut point of the root of some vertical `Θ_w`. -/
+theorem antoineD_square_cut (p : ℝ × ℝ × ℝ) (hz : |p.2.2| < 1 / 200) (hρ : max |p.1| |p.2.1| = 7 / 8)
+    (hN : ∀ h : Fin 64, antoineT h = 0 → 1 < max |(p.1 - (antoineZ h).1 / 640) * (80 / 7)|
+      |(p.2.1 - (antoineZ h).2 / 640) * (80 / 7)|) :
+    ∃ w, antoineT w ≠ 0 ∧ (antoinePsi (antoineMapInv w p)).re < 0 ∧
+      (antoinePsi (antoineMapInv w p)).im = 0 := by
+  rcases max_eq_iff.1 hρ with ⟨h1, h2⟩ | ⟨h1, h2⟩
+  · rw [h1] at h2
+    rcases (abs_eq (by norm_num : (0 : ℝ) ≤ 7 / 8)).1 h1 with e | e
+    · exact antoineD_side2 p 560 (by rw [e]; norm_num) h2 hz (fun m => (antoineD_side_h m).2.2.1)
+        (fun m => (antoineD_side_v m).2.2.1) hN
+    · exact antoineD_side2 p (-560) (by rw [e]; norm_num) h2 hz (fun m => (antoineD_side_h m).2.2.2)
+        (fun m => (antoineD_side_v m).2.2.2) hN
+  · rw [h1] at h2
+    rcases (abs_eq (by norm_num : (0 : ℝ) ≤ 7 / 8)).1 h1 with e | e
+    · exact antoineD_side1 p 560 (by rw [e]; norm_num) h2 hz (fun m => (antoineD_side_h m).1)
+        (fun m => (antoineD_side_v m).1) hN
+    · exact antoineD_side1 p (-560) (by rw [e]; norm_num) h2 hz (fun m => (antoineD_side_h m).2.1)
+        (fun m => (antoineD_side_v m).2.1) hN
+
+/-! ### The horizontal links in the slab -/
+
+theorem antoineD_horiz_out {h : Fin 64} (hT : antoineT h = 0) (p : ℝ × ℝ × ℝ) (hz : |p.2.2| < 1 / 200)
+    (hre : 1 / 8 < (antoinePsi (antoineMapInv h p)).re) :
+    1 < max |(p.1 - (antoineZ h).1 / 640) * (80 / 7)| |(p.2.1 - (antoineZ h).2 / 640) * (80 / 7)| := by
+  by_contra hle; push Not at hle
+  rw [antoineD_mapInv0 hT, antoineD_psi_re] at hre
+  rw [antoineD_sq_eq] at hre
+  simp only at hre
+  set m := max |(p.1 - (antoineZ h).1 / 640) * (80 / 7)| |(p.2.1 - (antoineZ h).2 / 640) * (80 / 7)|
+  have hm0 : 0 ≤ m := (abs_nonneg _).trans (le_max_left _ _)
+  have hz2 : (p.2.2 * (80 / 7)) ^ 2 < 1 := by
+    rw [← sq_abs, abs_mul, abs_of_pos (by norm_num : (0 : ℝ) < 80 / 7)]; nlinarith [abs_nonneg p.2.2]
+  rw [max_eq_left (by nlinarith), add_zero, min_eq_right (by linarith)] at hre
+  linarith
+
+theorem antoineD_horiz_strict {h : Fin 64} (hT : antoineT h = 0) {p : ℝ × ℝ × ℝ}
+    (hp : p ∉ antoineStage 1) (hz : |p.2.2| < 1 / 200)
+    (hre : (antoinePsi (antoineMapInv h p)).re ≤ 1 / 8) : (antoinePsi (antoineMapInv h p)).re < 1 / 8 := by
+  obtain ⟨hρ, -⟩ := antoineD_psi_re_le hre
+  have hzk : |(antoineMapInv h p).2.2| ≤ 1 / 8 := by
+    rw [antoineD_mapInv0 hT]; simp only
+    rw [abs_mul, abs_of_pos (by norm_num : (0 : ℝ) < 80 / 7)]; linarith
+  by_cases h34 : 3 / 4 ≤ max |(antoineMapInv h p).1| |(antoineMapInv h p).2.1|
+  · exfalso; apply hp
+    rw [antoineStage_one_eq]
+    exact mem_iUnion.2 ⟨h, antoineMapInv h p, ⟨hzk, hρ, h34⟩, antoineMap_mapInv h p⟩
+  · push Not at h34
+    rw [antoineD_psi_re, antoineD_sq_eq]
+    set m := max |(antoineMapInv h p).1| |(antoineMapInv h p).2.1|
+    have hm0 : 0 ≤ m := (abs_nonneg _).trans (le_max_left _ _)
+    have hz2 : (antoineMapInv h p).2.2 ^ 2 ≤ 1 / 64 := by
+      rw [← sq_abs]; nlinarith [abs_nonneg (antoineMapInv h p).2.2]
+    rw [max_eq_left (by nlinarith), add_zero, min_eq_right (by linarith)]
+    linarith
+
+/-! ### The slab in `S³` -/
+
+theorem antoineD_mem_X_iff {y : Sphere3} (hy : (y : EuclideanSpace ℝ (Fin 4)) 3 < 1) :
+    y ∈ (antoineStereo '' antoineStage 1)ᶜ ↔ antoineStereoInv y ∉ antoineStage 1 := by
+  constructor
+  · intro h h'; exact h ⟨_, h', antoineStereo_stereoInv hy⟩
+  · rintro h ⟨q, hq, rfl⟩; rw [antoineStereoInv_stereo] at h; exact h hq
+
+theorem antoineD_slab_y {y : Sphere3} (hy : (y : EuclideanSpace ℝ (Fin 4)) 3 < 1)
+    (hτ : |antoineDTau y| < 1 / 10000)
+    (hxy : (antoineStereoInv y).1 ^ 2 + (antoineStereoInv y).2.1 ^ 2 ≤ 8) :
+    |(antoineStereoInv y).2.2| < 1 / 200 ∨ 3 < |(antoineStereoInv y).2.2| := by
+  rw [antoineD_tau_eq hy] at hτ
+  exact antoineD_slab hτ hxy
+
+/-- In the slab, a point where `Re Θ_h ≤ 1/8` (`h` horizontal) has `Re Θ_h < 1/8`: the slab is
+cut by the closed holes along the first stage only. -/
+theorem antoineD_horiz_strict_y {h : Fin 64} (hT : antoineT h = 0) {y : Sphere3}
+    (hy : y ∈ (antoineStereo '' antoineStage 1)ᶜ) (hτ : |antoineDTau y| < 1 / 10000)
+    (hre : (antoineTheta (fun _ => h) 1 y).re ≤ 1 / 8) : (antoineTheta (fun _ => h) 1 y).re < 1 / 8 := by
+  by_cases h3 : (y : EuclideanSpace ℝ (Fin 4)) 3 < 1
+  · rw [antoineD_theta_eq h h3] at hre ⊢
+    set p := antoineStereoInv y
+    obtain ⟨hρ, hsq⟩ := antoineD_psi_re_le hre
+    rw [antoineD_mapInv0 hT] at hρ hsq
+    rw [antoineD_sq_eq] at hsq
+    simp only at hρ hsq
+    obtain ⟨h1, h2⟩ := max_le_iff.1 hρ
+    rw [antoineD_abs_scale, div_le_one (by norm_num)] at h1 h2
+    have hc := antoine_centre_mem h
+    have hc' : |((antoineZ h).1 : ℝ)| ≤ 560 ∧ |((antoineZ h).2 : ℝ)| ≤ 560 := by
+      rcases hc with ⟨c1, c2⟩ | ⟨c1, c2⟩
+      · exact ⟨by exact_mod_cast c1.le, by exact_mod_cast c2⟩
+      · exact ⟨by exact_mod_cast c2, by exact_mod_cast c1.le⟩
+    have hx : |p.1| ≤ 1 := by
+      have := hc'.1; rw [abs_le] at this h1 ⊢; constructor <;> linarith [h1.1, h1.2]
+    have hy' : |p.2.1| ≤ 1 := by
+      have := hc'.2; rw [abs_le] at this h2 ⊢; constructor <;> linarith [h2.1, h2.2]
+    have hxy : p.1 ^ 2 + p.2.1 ^ 2 ≤ 8 := by
+      have := sq_abs p.1; have := sq_abs p.2.1
+      nlinarith [abs_nonneg p.1, abs_nonneg p.2.1]
+    have hm0 : 0 ≤ max |(p.1 - (antoineZ h).1 / 640) * (80 / 7)| |(p.2.1 - (antoineZ h).2 / 640) * (80 / 7)| :=
+      (abs_nonneg _).trans (le_max_left _ _)
+    have hz3 : |p.2.2| ≤ 3 := by
+      have : (p.2.2 * (80 / 7)) ^ 2 ≤ 3 := by nlinarith
+      nlinarith [sq_abs p.2.2, abs_nonneg p.2.2]
+    rcases antoineD_slab_y h3 hτ hxy with hz | hz
+    · exact antoineD_horiz_strict hT ((antoineD_mem_X_iff h3).1 hy) hz (by
+        rw [← antoineD_theta_eq h h3]; rw [antoineD_theta_eq h h3]; exact hre)
+    · linarith
+  · rw [antoineD_theta_pole h h3] at hre; norm_num at hre
+
+/-! ### The root `GX.antoineDR` is continuous on the slab -/
+
+theorem antoineD_mem_V {w : Fin 64} : w ∈ antoineDV ↔ antoineT w ≠ 0 := by
+  simp [antoineDV]
+
+theorem antoineD_cut_of_not_slit {w : Fin 64} {y : Sphere3}
+    (hy : y ∈ (antoineStereo '' antoineStage 1)ᶜ) (h : antoineDTh w y ∉ Complex.slitPlane) :
+    (y : EuclideanSpace ℝ (Fin 4)) 3 < 1 ∧
+      (antoinePsi (antoineMapInv w (antoineStereoInv y))).re < 0 ∧
+      (antoinePsi (antoineMapInv w (antoineStereoInv y))).im = 0 := by
+  rw [Complex.mem_slitPlane_iff] at h; push Not at h
+  obtain ⟨h1, h2⟩ := h
+  have h3 : (y : EuclideanSpace ℝ (Fin 4)) 3 < 1 := by
+    by_contra h3
+    rw [antoineDTh_re, antoineD_theta_pole w h3] at h1; norm_num at h1
+  rw [antoineDTh_re, antoineD_theta_eq w h3] at h1
+  rw [antoineDTh_im, antoineD_theta_eq w h3] at h2
+  have h2' : (antoinePsi (antoineMapInv w (antoineStereoInv y))).im = 0 := by
+    split_ifs at h2 <;> linarith
+  refine ⟨h3, lt_of_le_of_ne h1 fun h0 => ?_, h2'⟩
+  apply antoineDTh_ne_zero w hy
+  apply Complex.ext
+  · rw [antoineDTh_re, antoineD_theta_eq w h3, h0]; rfl
+  · rw [antoineDTh_im, antoineD_theta_eq w h3, h2']; simp
+
+theorem antoineD_not_slit_of_cut {w : Fin 64} {y : Sphere3} (h3 : (y : EuclideanSpace ℝ (Fin 4)) 3 < 1)
+    (hre : (antoinePsi (antoineMapInv w (antoineStereoInv y))).re < 0)
+    (him : (antoinePsi (antoineMapInv w (antoineStereoInv y))).im = 0) :
+    antoineDTh w y ∉ Complex.slitPlane := by
+  rw [Complex.mem_slitPlane_iff, antoineDTh_re, antoineDTh_im, antoineD_theta_eq w h3, him]
+  push Not
+  exact ⟨hre.le, by split_ifs <;> simp⟩
+
+theorem antoineD_N_horiz {y : Sphere3} (hN : y ∈ antoineDN) (h3 : (y : EuclideanSpace ℝ (Fin 4)) 3 < 1)
+    (hz : |(antoineStereoInv y).2.2| < 1 / 200) (h : Fin 64) (hT : antoineT h = 0) :
+    1 < max |((antoineStereoInv y).1 - (antoineZ h).1 / 640) * (80 / 7)|
+      |((antoineStereoInv y).2.1 - (antoineZ h).2 / 640) * (80 / 7)| := by
+  have := hN.2.2 h hT
+  rw [antoineD_theta_eq h h3] at this
+  exact antoineD_horiz_out hT _ hz this
+
+theorem antoineD_chi_eventually {y₀ : Sphere3} (hN : y₀ ∈ antoineDN)
+    (hs : ∀ v ∈ antoineDV, antoineDTh v y₀ ∈ Complex.slitPlane) :
+    ∀ᶠ y in 𝓝 y₀, antoineDChi y = antoineDChi y₀ := by
+  have hc3 : Continuous fun z : Sphere3 => (z : EuclideanSpace ℝ (Fin 4)) 3 :=
+    (PiLp.continuous_apply 2 _ 3).comp continuous_subtype_val
+  by_cases h3 : (y₀ : EuclideanSpace ℝ (Fin 4)) 3 < 1
+  · have hcs := continuousAt_antoineStereoInv h3
+    have hcm : ContinuousAt (fun y => max |(antoineStereoInv y).1| |(antoineStereoInv y).2.1|) y₀ :=
+      ((continuous_abs.comp continuous_fst).max
+        (continuous_abs.comp (continuous_fst.comp continuous_snd))).continuousAt.comp hcs
+    have hcz : ContinuousAt (fun y => |(antoineStereoInv y).2.2|) y₀ :=
+      (continuous_abs.comp (continuous_snd.comp continuous_snd)).continuousAt.comp hcs
+    have e3 : ∀ᶠ y : Sphere3 in 𝓝 y₀, (y : EuclideanSpace ℝ (Fin 4)) 3 < 1 :=
+      hc3.continuousAt.eventually_lt continuousAt_const h3
+    by_cases hc : max |(antoineStereoInv y₀).1| |(antoineStereoInv y₀).2.1| < 7 / 8 ∧
+        |(antoineStereoInv y₀).2.2| < 1
+    · filter_upwards [e3, hcm.eventually_lt continuousAt_const hc.1,
+        hcz.eventually_lt continuousAt_const hc.2] with y a b c
+      unfold antoineDChi; rw [if_pos ⟨a, b, c⟩, if_pos ⟨h3, hc⟩]
+    · have hχ : antoineDChi y₀ = 1 := by unfold antoineDChi; rw [if_neg fun h => hc h.2]
+      rw [hχ]
+      by_cases hm : 7 / 8 < max |(antoineStereoInv y₀).1| |(antoineStereoInv y₀).2.1|
+      · filter_upwards [continuousAt_const.eventually_lt hcm hm] with y hy
+        unfold antoineDChi; rw [if_neg fun h => by linarith [h.2.1]]
+      by_cases hz : 1 < |(antoineStereoInv y₀).2.2|
+      · filter_upwards [continuousAt_const.eventually_lt hcz hz] with y hy
+        unfold antoineDChi; rw [if_neg fun h => by linarith [h.2.2]]
+      exfalso
+      push Not at hm hz
+      have hm0 : 0 ≤ max |(antoineStereoInv y₀).1| |(antoineStereoInv y₀).2.1| :=
+        (abs_nonneg _).trans (le_max_left _ _)
+      have hxy : (antoineStereoInv y₀).1 ^ 2 + (antoineStereoInv y₀).2.1 ^ 2 ≤ 8 := by
+        have a := le_max_left |(antoineStereoInv y₀).1| |(antoineStereoInv y₀).2.1|
+        have b := le_max_right |(antoineStereoInv y₀).1| |(antoineStereoInv y₀).2.1|
+        nlinarith [sq_abs (antoineStereoInv y₀).1, sq_abs (antoineStereoInv y₀).2.1,
+          abs_nonneg (antoineStereoInv y₀).1, abs_nonneg (antoineStereoInv y₀).2.1]
+      rcases antoineD_slab_y h3 hN.2.1 hxy with hz' | hz'
+      · have hm' : max |(antoineStereoInv y₀).1| |(antoineStereoInv y₀).2.1| = 7 / 8 := by
+          by_contra hne
+          exact hc ⟨lt_of_le_of_ne hm hne, by linarith⟩
+        obtain ⟨w, hw, hre, him⟩ :=
+          antoineD_square_cut _ hz' hm' (antoineD_N_horiz hN h3 hz')
+        exact antoineD_not_slit_of_cut h3 hre him (hs w (antoineD_mem_V.2 hw))
+      · linarith
+  · have hχ : antoineDChi y₀ = 1 := by unfold antoineDChi; rw [if_neg fun h => h3 h.1]
+    rw [hχ]
+    push Not at h3
+    filter_upwards [continuousAt_const.eventually_lt hc3.continuousAt
+      (show (19 / 20 : ℝ) < (y₀ : EuclideanSpace ℝ (Fin 4)) 3 by linarith)] with y hy
+    unfold antoineDChi
+    rw [if_neg]
+    rintro ⟨a, b, c⟩
+    have h4 := antoineStereoInv_sq_ge hy a
+    unfold antoineSq at h4
+    have hm0 : 0 ≤ max |(antoineStereoInv y).1| |(antoineStereoInv y).2.1| :=
+      (abs_nonneg _).trans (le_max_left _ _)
+    nlinarith [sq_abs (antoineStereoInv y).2.2, abs_nonneg (antoineStereoInv y).2.2]
+
+theorem antoineD_chi_cut {w : Fin 64} (hw : w ∈ antoineDV) {y : Sphere3}
+    (hre : (antoineTheta (fun _ => w) 1 y).re < 0) :
+    antoineDChi y * antoineDSq (antoineDTh w y) = Complex.I * antoineDSq (-antoineDTh w y) := by
+  have h3 : (y : EuclideanSpace ℝ (Fin 4)) 3 < 1 := by
+    by_contra h3; rw [antoineD_theta_pole w h3] at hre; norm_num at hre
+  have hre' : (antoineDTh w y).re < 0 := by rw [antoineDTh_re]; exact hre
+  rw [← antoineDSq_neg_axis hre']
+  congr 1
+  rw [antoineD_theta_eq w h3] at hre
+  have hside := antoineD_side_of_cut (antoineD_mem_V.1 hw) _ hre
+  unfold antoineDChi
+  simp only [h3, true_and]
+  rw [antoineDTh_im, antoineD_theta_eq w h3]
+  by_cases hc : max |(antoineStereoInv y).1| |(antoineStereoInv y).2.1| < 7 / 8 ∧
+      |(antoineStereoInv y).2.2| < 1
+  · rw [if_pos hc, if_neg (not_le.2 (hside.1 hc))]
+  · rw [if_neg hc, if_pos (not_lt.1 fun h => hc (hside.2 h))]
+
+/-- **The root is continuous on the slab**: where a vertical root is cut, the side of the core
+square flips with it (`GX.antoineD_chi_cut`); elsewhere the side is locally constant, because
+the core square meets the slab only in the gaps, where a root is cut
+(`GX.antoineD_square_cut`). This is where the closing of the chain enters. -/
+theorem continuousAt_antoineDR {y₀ : Sphere3} (hN : y₀ ∈ antoineDN) : ContinuousAt antoineDR y₀ := by
+  by_cases hA : ∃ w ∈ antoineDV, antoineDTh w y₀ ∉ Complex.slitPlane
+  · obtain ⟨w, hwV, hw⟩ := hA
+    obtain ⟨h3, hre, him⟩ := antoineD_cut_of_not_slit hN.1 hw
+    have hother : ∀ v ∈ antoineDV.erase w, antoineDTh v y₀ ∈ Complex.slitPlane := by
+      intro v hv
+      obtain ⟨hvw, hvV⟩ := Finset.mem_erase.1 hv
+      by_contra hc
+      obtain ⟨-, hre', him'⟩ := antoineD_cut_of_not_slit hN.1 hc
+      exact hvw (antoineD_cut_unique (antoineD_mem_V.1 hvV) (antoineD_mem_V.1 hwV) _ hre' him' hre him)
+    have hre0 : (antoineTheta (fun _ => w) 1 y₀).re < 0 := by rw [antoineD_theta_eq w h3]; exact hre
+    have hU : ∀ᶠ y in 𝓝 y₀, (antoineTheta (fun _ => w) 1 y).re < 0 :=
+      (Complex.continuous_re.comp (continuous_antoineTheta _ _)).continuousAt.eventually_lt
+        continuousAt_const hre0
+    have hneg : -antoineDTh w y₀ ∈ Complex.slitPlane := by
+      rw [Complex.mem_slitPlane_iff]; left
+      rw [Complex.neg_re, antoineDTh_re]; linarith
+    have h1 : ContinuousAt (fun y => antoineDSq (-antoineDTh w y)) y₀ :=
+      (continuousAt_antoineDSq hneg).comp (f := fun y => -antoineDTh w y)
+        (continuous_antoineDTh w).neg.continuousAt
+    have h2 : ContinuousAt (fun y => ∏ v ∈ antoineDV.erase w, antoineDSq (antoineDTh v y)) y₀ :=
+      tendsto_finsetProd (f := fun v y => antoineDSq (antoineDTh v y))
+        (a := fun v => antoineDSq (antoineDTh v y₀)) _ fun v hv =>
+          (continuousAt_antoineDSq (hother v hv)).comp (continuous_antoineDTh v).continuousAt
+    have hF : ContinuousAt (fun y => Complex.I * antoineDSq (-antoineDTh w y) *
+        ∏ v ∈ antoineDV.erase w, antoineDSq (antoineDTh v y)) y₀ :=
+      (continuousAt_const.mul h1).mul h2
+    refine hF.congr ?_
+    filter_upwards [hU] with y hy
+    unfold antoineDR antoineDQ
+    rw [← Finset.mul_prod_erase _ _ hwV, ← mul_assoc, antoineD_chi_cut hwV hy]
+  · push Not at hA
+    have hχ : ContinuousAt antoineDChi y₀ :=
+      continuousAt_const.congr (Filter.EventuallyEq.symm (antoineD_chi_eventually hN hA))
+    have h2 : ContinuousAt antoineDQ y₀ :=
+      tendsto_finsetProd (f := fun v y => antoineDSq (antoineDTh v y))
+        (a := fun v => antoineDSq (antoineDTh v y₀)) _ fun v hv =>
+          (continuousAt_antoineDSq (hA v hv)).comp (continuous_antoineDTh v).continuousAt
+    exact hχ.mul h2
+
+/-! ### The invariant is continuous on the double cover -/
+
+theorem antoineD_sigma_sq {y : Sphere3} (hy : y ∈ (antoineStereo '' antoineStage 1)ᶜ) {s : ℂ}
+    (hs : s ^ 2 = antoineDP y) : (s / antoineDR y) ^ 2 = 1 := by
+  rw [div_pow, hs, antoineDR_sq hy, div_self (antoineDP_ne_zero hy)]
+
+theorem antoineD_sigma_cases {e : ℂ} (h : e ^ 2 = 1) : e = 1 ∨ e = -1 := by
+  rw [sq] at h; exact mul_self_eq_one_iff.1 h
+
+theorem antoineD_phi_ends {τ : ℝ} (h : 1 / 10000 ≤ |τ|) : antoineDPhi τ = 0 ∨ antoineDPhi τ = 2 := by
+  unfold antoineDPhi
+  rcases le_abs'.1 h with h | h
+  · left; exact max_eq_left ((min_le_right _ _).trans (by linarith))
+  · right; rw [min_eq_left (by linarith), max_eq_right (by norm_num)]
+
+theorem antoineD_exp_ends {e : ℂ} (he : e = 1 ∨ e = -1) {φ : ℝ} (hφ : φ = 0 ∨ φ = 2) :
+    Complex.exp (Real.pi * Complex.I * e * (φ : ℂ)) = 1 := by
+  rcases hφ with rfl | rfl
+  · simp
+  · rcases he with rfl | rfl
+    · rw [show (Real.pi : ℂ) * Complex.I * 1 * ((2 : ℝ) : ℂ) = 2 * Real.pi * Complex.I by push_cast; ring]
+      exact Complex.exp_two_pi_mul_I
+    · rw [show (Real.pi : ℂ) * Complex.I * (-1) * ((2 : ℝ) : ℂ) = -(2 * Real.pi * Complex.I) by
+        push_cast; ring, Complex.exp_neg, Complex.exp_two_pi_mul_I, inv_one]
+
+theorem antoineD_norm_exp_sub_one {e : ℂ} (he : e = 1 ∨ e = -1) (φ : ℝ) :
+    ‖Complex.exp (Real.pi * Complex.I * e * (φ : ℂ)) - 1‖ =
+      ‖Complex.exp (Real.pi * Complex.I * (φ : ℂ)) - 1‖ := by
+  rcases he with rfl | rfl
+  · rw [mul_one]
+  · have e : Complex.exp (Real.pi * Complex.I * (-1) * (φ : ℂ)) =
+        starRingEnd ℂ (Complex.exp (Real.pi * Complex.I * (φ : ℂ))) := by
+      rw [← Complex.exp_conj]; congr 1
+      simp [Complex.conj_ofReal]
+    rw [e, show starRingEnd ℂ (Complex.exp (Real.pi * Complex.I * (φ : ℂ))) - 1 =
+      starRingEnd ℂ (Complex.exp (Real.pi * Complex.I * (φ : ℂ)) - 1) by simp, Complex.norm_conj]
+
+/-- **The invariant on the double cover is continuous**: along any continuous `F` into
+`S³ ∖ C₁` with a continuous square root `S` of `P ∘ F`, `z ↦ g (F z) (S z)` is continuous. -/
+theorem continuous_antoineDg {Z : Type*} [TopologicalSpace Z] {F : Z → Sphere3} (hF : Continuous F)
+    (hFX : ∀ z, F z ∈ (antoineStereo '' antoineStage 1)ᶜ) {S : Z → ℂ} (hS : Continuous S)
+    (hSq : ∀ z, S z ^ 2 = antoineDP (F z)) : Continuous fun z => antoineDg (F z) (S z) := by
+  refine continuous_iff_continuousAt.2 fun z₀ => ?_
+  by_cases hN : F z₀ ∈ antoineDN
+  · have hev : ∀ᶠ z in 𝓝 z₀, F z ∈ antoineDN :=
+      hF.continuousAt.preimage_mem_nhds (isOpen_antoineDN.mem_nhds hN)
+    have hR : ContinuousAt (fun z => antoineDR (F z)) z₀ :=
+      (continuousAt_antoineDR hN).comp hF.continuousAt
+    have hc : ContinuousAt (fun z => Complex.exp (Real.pi * Complex.I * (S z / antoineDR (F z)) *
+        (antoineDPhi (antoineDTau (F z)) : ℂ))) z₀ := by
+      have h1 : ContinuousAt (fun z => S z / antoineDR (F z)) z₀ :=
+        hS.continuousAt.div hR (antoineDR_ne_zero _)
+      have h2 : Continuous fun z => (antoineDPhi (antoineDTau (F z)) : ℂ) :=
+        Complex.continuous_ofReal.comp (continuous_antoineDPhi.comp (continuous_antoineDTau.comp hF))
+      exact Complex.continuous_exp.continuousAt.comp ((continuousAt_const.mul h1).mul h2.continuousAt)
+    refine hc.congr ?_
+    filter_upwards [hev] with z hz
+    simp only [antoineDg, if_pos hz]
+  · have hg0 : antoineDg (F z₀) (S z₀) = 1 := by simp only [antoineDg, if_neg hN]
+    by_cases hτ : |antoineDTau (F z₀)| < 1 / 10000
+    · -- in the slab, off `N`: some horizontal `Re Θ_h ≤ 1/8`, hence `< 1/8` nearby
+      have : ¬ ∀ h : Fin 64, antoineT h = 0 → 1 / 8 < (antoineTheta (fun _ => h) 1 (F z₀)).re :=
+        fun h => hN ⟨hFX z₀, hτ, h⟩
+      push Not at this
+      obtain ⟨h, hT, hle⟩ := this
+      have hlt := antoineD_horiz_strict_y hT (hFX z₀) hτ hle
+      have hev : ∀ᶠ z in 𝓝 z₀, (antoineTheta (fun _ => h) 1 (F z)).re < 1 / 8 :=
+        ((Complex.continuous_re.comp (continuous_antoineTheta _ _)).comp hF).continuousAt.eventually_lt
+          continuousAt_const hlt
+      refine (continuousAt_const (y := (1 : ℂ))).congr ?_
+      filter_upwards [hev] with z hz
+      simp only [antoineDg]
+      rw [if_neg fun hN' => by linarith [hN'.2.2 h hT]]
+    · -- off the slab: squeeze against `exp(iπφ)`, which is `1` at `z₀`
+      push Not at hτ
+      have hG' : Continuous fun z => Complex.exp (Real.pi * Complex.I *
+          (antoineDPhi (antoineDTau (F z)) : ℂ)) :=
+        Complex.continuous_exp.comp (continuous_const.mul (Complex.continuous_ofReal.comp
+          (continuous_antoineDPhi.comp (continuous_antoineDTau.comp hF))))
+      have hG'0 : Complex.exp (Real.pi * Complex.I * (antoineDPhi (antoineDTau (F z₀)) : ℂ)) = 1 := by
+        have := antoineD_exp_ends (e := 1) (Or.inl rfl) (antoineD_phi_ends hτ)
+        rwa [mul_one] at this
+      have ht : Tendsto (fun z => Complex.exp (Real.pi * Complex.I *
+          (antoineDPhi (antoineDTau (F z)) : ℂ))) (𝓝 z₀) (𝓝 1) := by
+        have := hG'.continuousAt (x := z₀); rwa [ContinuousAt, hG'0] at this
+      show Tendsto _ (𝓝 z₀) (𝓝 (antoineDg (F z₀) (S z₀)))
+      rw [hg0, tendsto_iff_norm_sub_tendsto_zero]
+      have ht' := (tendsto_iff_norm_sub_tendsto_zero.1 ht)
+      refine squeeze_zero (fun _ => norm_nonneg _) (fun z => ?_) ht'
+      by_cases hz : F z ∈ antoineDN
+      · simp only [antoineDg, if_pos hz]
+        rw [antoineD_norm_exp_sub_one (antoineD_sigma_cases (antoineD_sigma_sq (hFX z) (hSq z)))]
+      · simp only [antoineDg, if_neg hz, sub_self, norm_zero]; exact norm_nonneg _
+
+/-! ### A tube around the meridian -/
+
+section Tube
+
+variable {p : ℝ × ℝ × ℝ} (hx : |p.1| < 1 / 100) (hlo : 1 / 49 < (p.2.1 - 7 / 8) ^ 2 + p.2.2 ^ 2)
+  (hhi : (p.2.1 - 7 / 8) ^ 2 + p.2.2 ^ 2 < 4 / 49)
+include hx hlo hhi
+
+theorem antoineD_tube_b1 : |p.2.1 - 7 / 8| < 2 / 7 := by
+  have : (p.2.1 - 7 / 8) ^ 2 < (2 / 7) ^ 2 := by nlinarith [sq_nonneg p.2.2]
+  exact abs_lt_of_sq_lt_sq this (by norm_num)
+
+theorem antoineD_tube_b2 : |p.2.2| < 2 / 7 := by
+  have : p.2.2 ^ 2 < (2 / 7) ^ 2 := by nlinarith [sq_nonneg (p.2.1 - 7 / 8)]
+  exact abs_lt_of_sq_lt_sq this (by norm_num)
+
+theorem antoineD_tube_xy : p.1 ^ 2 + p.2.1 ^ 2 ≤ 8 := by
+  have h1 := antoineD_tube_b1 hx hlo hhi
+  rw [abs_lt] at hx h1
+  nlinarith
+
+theorem antoineD_tube_notMem : p ∉ antoineStage 1 := by
+  have h1 := antoineD_tube_b1 hx hlo hhi
+  have h2 := antoineD_tube_b2 hx hlo hhi
+  intro hp
+  rw [antoineStage_one_eq] at hp
+  obtain ⟨i, q, hq, rfl⟩ := mem_iUnion.1 hp
+  obtain ⟨b1, b2, b3⟩ := antoineMap_bounds i hq
+  by_cases hi : i = 40
+  · subst hi
+    obtain ⟨hT, hZ⟩ := antoineD_forty
+    have hz : |(antoineMap 40 q).2.2| ≤ 7 / 640 := by
+      have := hq.1
+      simp only [antoineMap, hT, antoinePerm]
+      rw [abs_mul, abs_of_pos (by norm_num : (0 : ℝ) < 7 / 80)]; nlinarith [abs_nonneg q.2.2]
+    rw [hT, hZ] at b2
+    simp only [antoineEy] at b2
+    push_cast at b2
+    have e : ((antoineMap 40 q).2.1 - 7 / 8) ^ 2 + (antoineMap 40 q).2.2 ^ 2 ≤
+        (56 / 640) ^ 2 + (7 / 640) ^ 2 := by
+      have a1 : |(antoineMap 40 q).2.1 - 7 / 8| ≤ 56 / 640 := by
+        convert b2 using 2; norm_num
+      nlinarith [sq_abs ((antoineMap 40 q).2.1 - 7 / 8), sq_abs (antoineMap 40 q).2.2,
+        abs_nonneg ((antoineMap 40 q).2.1 - 7 / 8), abs_nonneg (antoineMap 40 q).2.2]
+    linarith
+  · rcases antoineD_tube_links i hi with h | h
+    · have h' : ((antoineEx (antoineT i) + 7 : ℤ) : ℝ) ≤ |((antoineZ i).1 : ℝ)| := by exact_mod_cast h
+      push_cast at h'
+      rw [abs_le] at b1; rw [abs_lt] at hx
+      rcases le_abs'.1 h' with h' | h' <;> linarith [b1.1, b1.2]
+    · have h' : ((antoineEy (antoineT i) + 183 : ℤ) : ℝ) ≤ |((antoineZ i).2 : ℝ) - 560| := by
+        exact_mod_cast h
+      push_cast at h'
+      rw [abs_le] at b2; rw [abs_lt] at h1
+      rcases le_abs'.1 h' with h' | h' <;> linarith [b2.1, b2.2]
+
+theorem antoineD_tube_vert_re {v : Fin 64} (hv : antoineT v ≠ 0) :
+    0 < (antoinePsi (antoineMapInv v p)).re := by
+  have h1 := antoineD_tube_b1 hx hlo hhi
+  rw [abs_lt] at hx h1
+  obtain ⟨d1, d2⟩ := antoineD_vert_data v
+  apply antoineD_psi_re_pos
+  rcases antoineD_vert_cases hv with h | h
+  · rw [antoineD_mapInv1 h, antoineD_sq_eq]
+    simp only
+    rcases (d1 h).1 with ⟨hc, -⟩ | ⟨hc, -⟩
+    · left
+      have h70 : (70 : ℝ) ≤ |((antoineZ v).1 : ℝ)| := by exact_mod_cast antoineD_tube_vert v h hc
+      refine lt_of_lt_of_le ?_ (le_max_left _ _)
+      rw [antoineD_abs_scale, lt_div_iff₀ (by norm_num)]
+      rcases le_abs'.1 h70 with h' | h'
+      · rw [abs_of_pos (by linarith)]; linarith
+      · rw [abs_of_neg (by linarith)]; linarith
+    · right
+      have hc' : ((antoineZ v).2 : ℝ) = -560 := by exact_mod_cast hc
+      rw [hc']
+      have hm0 : 0 ≤ max |(p.1 - (antoineZ v).1 / 640) * (80 / 7)| |p.2.2 * (80 / 7)| :=
+        (abs_nonneg _).trans (le_max_left _ _)
+      nlinarith
+  · rw [antoineD_mapInv2 h, antoineD_sq_eq]
+    simp only
+    right
+    rcases (d2 h).1 with ⟨hc, -⟩ | ⟨hc, -⟩
+    · have hc' : ((antoineZ v).1 : ℝ) = 560 := by exact_mod_cast hc
+      rw [hc']
+      have hm0 : 0 ≤ max |p.2.2 * (80 / 7)| |(p.2.1 - (antoineZ v).2 / 640) * (80 / 7)| :=
+        (abs_nonneg _).trans (le_max_left _ _)
+      nlinarith
+    · have hc' : ((antoineZ v).1 : ℝ) = -560 := by exact_mod_cast hc
+      rw [hc']
+      have hm0 : 0 ≤ max |p.2.2 * (80 / 7)| |(p.2.1 - (antoineZ v).2 / 640) * (80 / 7)| :=
+        (abs_nonneg _).trans (le_max_left _ _)
+      nlinarith
+
+
+theorem antoineD_tube_far (hz : |p.2.2| < 1 / 200) : 1 / 8 < |p.2.1 - 7 / 8| := by
+  have : (1 / 8 : ℝ) ^ 2 < (p.2.1 - 7 / 8) ^ 2 := by nlinarith [sq_abs p.2.2, abs_nonneg p.2.2]
+  have := sq_lt_sq.1 this
+  rwa [abs_of_pos (by norm_num : (0 : ℝ) < 1 / 8)] at this
+
+theorem antoineD_tube_slab (hτ : |2 * p.2.2 / (p.1 ^ 2 + p.2.1 ^ 2 + p.2.2 ^ 2 + 1)| < 1 / 10000) :
+    |p.2.2| < 1 / 200 := by
+  rcases antoineD_slab hτ (antoineD_tube_xy hx hlo hhi) with h | h
+  · exact h
+  · linarith [antoineD_tube_b2 hx hlo hhi]
+
+theorem antoineD_tube_horiz_re (hz : |p.2.2| < 1 / 200) {h : Fin 64} (hT : antoineT h = 0) :
+    1 / 8 < (antoinePsi (antoineMapInv h p)).re := by
+  have hf := antoineD_tube_far hx hlo hhi hz
+  have h1 := antoineD_tube_b1 hx hlo hhi
+  apply antoineD_psi_re_gt
+  rw [antoineD_mapInv0 hT]
+  simp only
+  by_cases hi : h = 40
+  · subst hi
+    rw [antoineD_forty.2]
+    refine lt_of_lt_of_le ?_ (le_max_right _ _)
+    rw [antoineD_abs_scale, lt_div_iff₀ (by norm_num)]
+    push_cast
+    rw [show 640 * p.2.1 - 560 = 640 * (p.2.1 - 7 / 8) by ring, abs_mul,
+      abs_of_pos (by norm_num : (0 : ℝ) < 640)]
+    linarith
+  · rcases antoineD_tube_horiz h hT hi with hc | hc
+    · have hc' : (140 : ℝ) ≤ |((antoineZ h).1 : ℝ)| := by exact_mod_cast hc
+      refine lt_of_lt_of_le ?_ (le_max_left _ _)
+      rw [antoineD_abs_scale, lt_div_iff₀ (by norm_num)]
+      rw [abs_lt] at hx
+      rcases le_abs'.1 hc' with h' | h'
+      · rw [abs_of_pos (by linarith)]; linarith
+      · rw [abs_of_neg (by linarith)]; linarith
+    · have hc' : (1000 : ℝ) ≤ |((antoineZ h).2 : ℝ) - 560| := by exact_mod_cast hc
+      refine lt_of_lt_of_le ?_ (le_max_right _ _)
+      rw [antoineD_abs_scale, lt_div_iff₀ (by norm_num)]
+      rw [abs_lt] at h1
+      rcases le_abs'.1 hc' with h' | h'
+      · rw [abs_of_pos (by linarith)]; linarith
+      · rw [abs_of_neg (by linarith)]; linarith
+
+theorem antoineD_tube_side (hz : |p.2.2| < 1 / 200) :
+    (max |p.1| |p.2.1| < 7 / 8 ∧ |p.2.2| < 1) ↔ ¬ 7 / 8 < p.2.1 := by
+  have hf := antoineD_tube_far hx hlo hhi hz
+  have h1 := antoineD_tube_b1 hx hlo hhi
+  rw [abs_lt] at h1 hx
+  constructor
+  · rintro ⟨h, -⟩ h'
+    have := (max_lt_iff.1 h).2
+    rw [abs_lt] at this; linarith
+  · intro h; push Not at h
+    have h2 : p.2.1 < 7 / 8 - 1 / 8 := by
+      rcases lt_abs.1 hf with h' | h' <;> linarith
+    refine ⟨max_lt_iff.2 ⟨?_, ?_⟩, by rw [abs_lt] at hz ⊢; constructor <;> linarith [hz.1, hz.2]⟩
+    · rw [abs_lt]; constructor <;> linarith
+    · rw [abs_lt]; constructor <;> linarith
+
+theorem antoineD_tube_mid (h : p.2.1 = 7 / 8) :
+    1 / 10000 < |2 * p.2.2 / (p.1 ^ 2 + p.2.1 ^ 2 + p.2.2 ^ 2 + 1)| := by
+  have hz2 : 1 / 49 < p.2.2 ^ 2 := by rw [h] at hlo; linarith
+  have hz : 1 / 8 < |p.2.2| := by
+    have := sq_lt_sq.1 (show (1 / 8 : ℝ) ^ 2 < p.2.2 ^ 2 by nlinarith)
+    rwa [abs_of_pos (by norm_num : (0 : ℝ) < 1 / 8)] at this
+  have hxy := antoineD_tube_xy hx hlo hhi
+  have hb := antoineD_tube_b2 hx hlo hhi
+  have hN : 0 < p.1 ^ 2 + p.2.1 ^ 2 + p.2.2 ^ 2 + 1 := by positivity
+  rw [abs_div, abs_of_pos hN, lt_div_iff₀ hN, abs_mul, abs_two]
+  have : p.2.2 ^ 2 ≤ 4 / 49 := by nlinarith [sq_abs p.2.2, abs_nonneg p.2.2]
+  nlinarith
+
+end Tube
+
+/-- The tube around the meridian `μ` of `L`, in the stereographic chart. -/
+def antoineDT : Set Sphere3 :=
+  {y | (y : EuclideanSpace ℝ (Fin 4)) 3 < 1 ∧ |(antoineStereoInv y).1| < 1 / 100 ∧
+    1 / 49 < ((antoineStereoInv y).2.1 - 7 / 8) ^ 2 + (antoineStereoInv y).2.2 ^ 2 ∧
+    ((antoineStereoInv y).2.1 - 7 / 8) ^ 2 + (antoineStereoInv y).2.2 ^ 2 < 4 / 49}
+
+theorem antoineDT_X {y : Sphere3} (hy : y ∈ antoineDT) : y ∈ (antoineStereo '' antoineStage 1)ᶜ :=
+  (antoineD_mem_X_iff hy.1).2 (antoineD_tube_notMem hy.2.1 hy.2.2.1 hy.2.2.2)
+
+theorem antoineDT_N {y : Sphere3} (hy : y ∈ antoineDT) (hτ : |antoineDTau y| < 1 / 10000) :
+    y ∈ antoineDN := by
+  have hz : |(antoineStereoInv y).2.2| < 1 / 200 := by
+    rw [antoineD_tau_eq hy.1] at hτ
+    exact antoineD_tube_slab hy.2.1 hy.2.2.1 hy.2.2.2 hτ
+  refine ⟨antoineDT_X hy, hτ, fun h hT => ?_⟩
+  rw [antoineD_theta_eq h hy.1]
+  exact antoineD_tube_horiz_re hy.2.1 hy.2.2.1 hy.2.2.2 hz hT
+
+theorem antoineDT_chi {y : Sphere3} (hy : y ∈ antoineDT) (hτ : |antoineDTau y| < 1 / 10000) :
+    antoineDChi y = if 7 / 8 < (antoineStereoInv y).2.1 then 1 else -1 := by
+  have hz : |(antoineStereoInv y).2.2| < 1 / 200 := by
+    rw [antoineD_tau_eq hy.1] at hτ
+    exact antoineD_tube_slab hy.2.1 hy.2.2.1 hy.2.2.2 hτ
+  have hs := antoineD_tube_side hy.2.1 hy.2.2.1 hy.2.2.2 hz
+  unfold antoineDChi
+  simp only [hy.1, true_and]
+  by_cases h : 7 / 8 < (antoineStereoInv y).2.1
+  · rw [if_pos h, if_neg fun h' => hs.1 h' h]
+  · rw [if_neg h, if_pos (hs.2 h)]
+
+theorem antoineDT_slit {y : Sphere3} (hy : y ∈ antoineDT) {v : Fin 64} (hv : v ∈ antoineDV) :
+    antoineDTh v y ∈ Complex.slitPlane := by
+  rw [Complex.mem_slitPlane_iff, antoineDTh_re, antoineD_theta_eq v hy.1]
+  exact Or.inl (antoineD_tube_vert_re hy.2.1 hy.2.2.1 hy.2.2.2 (antoineD_mem_V.1 hv))
+
+theorem antoineDT_mid {y : Sphere3} (hy : y ∈ antoineDT) (h : (antoineStereoInv y).2.1 = 7 / 8) :
+    1 / 10000 < |antoineDTau y| := by
+  rw [antoineD_tau_eq hy.1]
+  exact antoineD_tube_mid hy.2.1 hy.2.2.1 hy.2.2.2 h
+
+theorem antoineMuS_mem_DT (t : I) : antoineMuS t ∈ antoineDT := by
+  show antoineStereo (antoineMeridian t) ∈ antoineDT
+  refine ⟨antoineStereo_three_lt _, ?_⟩
+  rw [antoineStereoInv_stereo, antoineMeridian_apply]
+  simp only [abs_zero]
+  have hcs := Real.sin_sq_add_cos_sq (2 * Real.pi * t)
+  refine ⟨by norm_num, ?_, ?_⟩ <;> nlinarith
+
+/-! ### The invariant along the meridian -/
+
+/-- The side of the core square along the tube. -/
+def antoineDSide (y : Sphere3) : ℂ := if 7 / 8 < (antoineStereoInv y).2.1 then 1 else -1
+
+/-- The invariant on the sheet `s = e · Q` over the tube, in closed form. -/
+def antoineDF (e : ℂ) (y : Sphere3) : ℂ :=
+  Complex.exp (Real.pi * Complex.I * (e * antoineDSide y) * (antoineDPhi (antoineDTau y) : ℂ))
+
+theorem antoineDSide_cases (y : Sphere3) : antoineDSide y = 1 ∨ antoineDSide y = -1 := by
+  unfold antoineDSide; split_ifs <;> simp
+
+theorem antoineD_pm_mul {e f : ℂ} (he : e = 1 ∨ e = -1) (hf : f = 1 ∨ f = -1) :
+    e * f = 1 ∨ e * f = -1 := by
+  rcases he with rfl | rfl <;> rcases hf with rfl | rfl <;> norm_num
+
+theorem antoineDT_eqOn {e : ℂ} (he : e = 1 ∨ e = -1) :
+    EqOn (fun y => antoineDg y (e * antoineDQ y)) (antoineDF e) antoineDT := by
+  intro y hy
+  simp only [antoineDg, antoineDF]
+  by_cases hτ : |antoineDTau y| < 1 / 10000
+  · rw [if_pos (antoineDT_N hy hτ)]
+    congr 3
+    rw [antoineDR, antoineDT_chi hy hτ]
+    have hQ := antoineDQ_ne_zero y
+    unfold antoineDSide
+    split_ifs
+    · field_simp
+    · field_simp
+  · rw [if_neg fun h => hτ h.2.1]
+    push Not at hτ
+    exact (antoineD_exp_ends (antoineD_pm_mul he (antoineDSide_cases y))
+      (antoineD_phi_ends hτ)).symm
+
+theorem antoineDT_contOn {e : ℂ} (he : e = 1 ∨ e = -1) : ContinuousOn (antoineDF e) antoineDT := by
+  intro y hy
+  apply ContinuousAt.continuousWithinAt
+  have hcs := continuousAt_antoineStereoInv hy.1
+  have hcy : ContinuousAt (fun y => (antoineStereoInv y).2.1) y :=
+    (continuous_fst.comp continuous_snd).continuousAt.comp hcs
+  have hF : ∀ c : ℂ, Continuous fun y => Complex.exp (Real.pi * Complex.I * (e * c) *
+      (antoineDPhi (antoineDTau y) : ℂ)) := fun c =>
+    Complex.continuous_exp.comp (continuous_const.mul (Complex.continuous_ofReal.comp
+      (continuous_antoineDPhi.comp continuous_antoineDTau)))
+  by_cases hm : (antoineStereoInv y).2.1 = 7 / 8
+  · have hτ := antoineDT_mid hy hm
+    have hev : ∀ᶠ z in 𝓝 y, 1 / 10000 < |antoineDTau z| :=
+      continuousAt_const.eventually_lt (continuous_abs.comp continuous_antoineDTau).continuousAt hτ
+    have h1 : antoineDF e y = 1 :=
+      antoineD_exp_ends (antoineD_pm_mul he (antoineDSide_cases y)) (antoineD_phi_ends hτ.le)
+    refine (continuousAt_const (y := (1 : ℂ))).congr ?_
+    filter_upwards [hev] with z hz
+    exact (antoineD_exp_ends (antoineD_pm_mul he (antoineDSide_cases z)) (antoineD_phi_ends hz.le)).symm
+  · rcases lt_or_gt_of_ne hm with hlt | hgt
+    · refine (hF (-1)).continuousAt.congr ?_
+      filter_upwards [hcy.eventually_lt continuousAt_const hlt] with z hz
+      simp only [antoineDF, antoineDSide, if_neg (not_lt.2 hz.le)]
+    · refine (hF 1).continuousAt.congr ?_
+      filter_upwards [continuousAt_const.eventually_lt hcy hgt] with z hz
+      simp only [antoineDF, antoineDSide, if_pos hz]
+
+theorem antoineDTau_stereo (p : ℝ × ℝ × ℝ) :
+    antoineDTau (antoineStereo p) = 2 * p.2.2 / (p.1 ^ 2 + p.2.1 ^ 2 + p.2.2 ^ 2 + 1) := by
+  have := antoineD_tau_eq (antoineStereo_three_lt p); rwa [antoineStereoInv_stereo] at this
+
+/-- `τ` along the meridian. -/
+def antoineDTm (t : I) : ℝ := 2 * (3 / 14 * Real.sin (2 * Real.pi * t)) /
+  (0 ^ 2 + (7 / 8 + 3 / 14 * Real.cos (2 * Real.pi * t)) ^ 2 +
+    (3 / 14 * Real.sin (2 * Real.pi * t)) ^ 2 + 1)
+
+theorem antoineDTau_muS (t : I) : antoineDTau (antoineMuS t) = antoineDTm t := by
+  show antoineDTau (antoineStereo (antoineMeridian t)) = _
+  rw [antoineDTau_stereo, antoineMeridian_apply]; rfl
+
+theorem continuous_antoineDTm : Continuous antoineDTm := by
+  have : antoineDTm = fun t => antoineDTau (antoineMuS t) := funext fun t => (antoineDTau_muS t).symm
+  rw [this]; exact continuous_antoineDTau.comp antoineMuS.continuous
+
+theorem antoineDSide_muS (t : I) : antoineDSide (antoineMuS t) =
+    if 0 < Real.cos (2 * Real.pi * t) then 1 else -1 := by
+  show antoineDSide (antoineStereo (antoineMeridian t)) = _
+  simp only [antoineDSide, antoineStereoInv_stereo, antoineMeridian_apply]
+  congr 1
+  apply propext; constructor <;> intro h <;> nlinarith
+
+theorem antoineDTm_small {t : I} (h : |antoineDTm t| < 1 / 10000) :
+    |Real.sin (2 * Real.pi * t)| < 1 / 2 := by
+  unfold antoineDTm at h
+  set sn := Real.sin (2 * Real.pi * t)
+  set cs := Real.cos (2 * Real.pi * t)
+  have hcs : sn ^ 2 + cs ^ 2 = 1 := Real.sin_sq_add_cos_sq _
+  have hc1 : cs ≤ 1 := Real.cos_le_one _
+  have hc2 : -1 ≤ cs := Real.neg_one_le_cos _
+  have hN : 0 < 0 ^ 2 + (7 / 8 + 3 / 14 * cs) ^ 2 + (3 / 14 * sn) ^ 2 + 1 := by positivity
+  have hN2 : 0 ^ 2 + (7 / 8 + 3 / 14 * cs) ^ 2 + (3 / 14 * sn) ^ 2 + 1 ≤ 3 := by nlinarith
+  rw [abs_div, abs_of_pos hN, div_lt_iff₀ hN] at h
+  rw [abs_mul, abs_two, abs_mul, abs_of_pos (by norm_num : (0 : ℝ) < 3 / 14)] at h
+  nlinarith [abs_nonneg sn]
+
+theorem antoineD_cos_of_small {t : I} (h : |Real.sin (2 * Real.pi * t)| < 1 / 2) :
+    Real.cos (2 * Real.pi * t) ≠ 0 := by
+  intro h0
+  have hcs := Real.sin_sq_add_cos_sq (2 * Real.pi * t)
+  rw [h0] at hcs
+  nlinarith [sq_abs (Real.sin (2 * Real.pi * t)), abs_nonneg (Real.sin (2 * Real.pi * t))]
+
+theorem antoineD_cos_sign (t : I) :
+    ((t : ℝ) ≤ 1 / 4 → 0 ≤ Real.cos (2 * Real.pi * t)) ∧
+      (1 / 4 < (t : ℝ) → (t : ℝ) ≤ 3 / 4 → Real.cos (2 * Real.pi * t) ≤ 0) ∧
+      (3 / 4 < (t : ℝ) → 0 ≤ Real.cos (2 * Real.pi * t)) := by
+  have ht0 := t.2.1
+  have ht1 := t.2.2
+  have hpi := Real.pi_pos
+  refine ⟨fun h => Real.cos_nonneg_of_mem_Icc ⟨by nlinarith, by nlinarith⟩, fun h h' =>
+    Real.cos_nonpos_of_pi_div_two_le_of_le (by nlinarith) (by nlinarith), fun h => ?_⟩
+  rw [← Real.cos_sub_two_pi]
+  exact Real.cos_nonneg_of_mem_Icc ⟨by nlinarith, by nlinarith⟩
+
+theorem antoineD_exp_four {e : ℂ} (he : e = 1 ∨ e = -1) (x : ℝ) :
+    Complex.exp (Real.pi * Complex.I * e * (((4 + x : ℝ)) : ℂ)) =
+      Complex.exp (Real.pi * Complex.I * e * (x : ℂ)) ∧
+    Complex.exp (Real.pi * Complex.I * e * (((4 - x : ℝ)) : ℂ)) =
+      Complex.exp (Real.pi * Complex.I * (e * -1) * (x : ℂ)) := by
+  have h4 : Complex.exp (Real.pi * Complex.I * e * 4) = 1 := by
+    rcases he with rfl | rfl
+    · rw [show (Real.pi : ℂ) * Complex.I * 1 * 4 = ((2 : ℤ) : ℂ) * (2 * Real.pi * Complex.I) by
+        push_cast; ring]
+      exact Complex.exp_int_mul_two_pi_mul_I 2
+    · rw [show (Real.pi : ℂ) * Complex.I * (-1) * 4 = ((-2 : ℤ) : ℂ) * (2 * Real.pi * Complex.I) by
+        push_cast; ring]
+      exact Complex.exp_int_mul_two_pi_mul_I (-2)
+  constructor
+  · rw [show (Real.pi : ℂ) * Complex.I * e * (((4 + x : ℝ)) : ℂ) =
+      Real.pi * Complex.I * e * 4 + Real.pi * Complex.I * e * (x : ℂ) by push_cast; ring,
+      Complex.exp_add, h4, one_mul]
+  · rw [show (Real.pi : ℂ) * Complex.I * e * (((4 - x : ℝ)) : ℂ) =
+      Real.pi * Complex.I * e * 4 + Real.pi * Complex.I * (e * -1) * (x : ℂ) by push_cast; ring,
+      Complex.exp_add, h4, one_mul]
+
+theorem antoineDTm_quarter {t : I} (ht : (t : ℝ) = 1 / 4) : antoineDPhi (antoineDTm t) = 2 := by
+  unfold antoineDTm antoineDPhi
+  rw [ht, show 2 * Real.pi * (1 / 4) = Real.pi / 2 by ring, Real.sin_pi_div_two, Real.cos_pi_div_two]
+  rw [min_eq_left (by norm_num), max_eq_right (by norm_num)]
+
+theorem antoineDTm_three_quarter {t : I} (ht : (t : ℝ) = 3 / 4) : antoineDPhi (antoineDTm t) = 0 := by
+  unfold antoineDTm antoineDPhi
+  rw [ht, show 2 * Real.pi * (3 / 4) = Real.pi / 2 + Real.pi by ring, Real.sin_add_pi,
+    Real.cos_add_pi, Real.sin_pi_div_two, Real.cos_pi_div_two]
+  norm_num
+
+theorem antoineDTm_zero : antoineDTm 0 = 0 := by simp [antoineDTm]
+
+theorem antoineDTm_one : antoineDTm 1 = 0 := by simp [antoineDTm]
+
+/-- The lift of the invariant along the meridian, divided by `iπ e`: `φ` on `[0, 1/4]`, then
+`4 - φ`, then `4 + φ`. -/
+def antoineDXi (t : I) : ℝ :=
+  if (t : ℝ) ≤ 1 / 4 then antoineDPhi (antoineDTm t)
+  else if (t : ℝ) ≤ 3 / 4 then 4 - antoineDPhi (antoineDTm t) else 4 + antoineDPhi (antoineDTm t)
+
+theorem continuous_antoineDXi : Continuous antoineDXi := by
+  have hφ : Continuous fun t : I => antoineDPhi (antoineDTm t) :=
+    continuous_antoineDPhi.comp continuous_antoineDTm
+  have hin : Continuous fun t : I => if (t : ℝ) ≤ 3 / 4 then 4 - antoineDPhi (antoineDTm t)
+      else 4 + antoineDPhi (antoineDTm t) :=
+    Continuous.if_le (continuous_const.sub hφ) (continuous_const.add hφ) continuous_subtype_val
+      continuous_const fun t ht => by rw [antoineDTm_three_quarter ht]; ring
+  exact Continuous.if_le hφ hin continuous_subtype_val continuous_const fun t ht => by
+    rw [if_pos (by rw [ht]; norm_num), antoineDTm_quarter ht]; norm_num
+
+/-- **The meridian crosses the slab twice, on opposite sheets**: the invariant winds `2e`
+times along it. -/
+theorem antoineDF_wind {ez : ℤ} (hez : ez = 1 ∨ ez = -1) :
+    AntoineLiftWind (fun t => antoineDF (ez : ℂ) (antoineMuS t)) (2 * ez) := by
+  have he : (ez : ℂ) = 1 ∨ (ez : ℂ) = -1 := by rcases hez with rfl | rfl <;> simp
+  refine ⟨⟨fun t => Real.pi * Complex.I * (ez : ℂ) * ((antoineDXi t : ℝ) : ℂ), by
+    have := continuous_antoineDXi; fun_prop⟩, fun t => ?_, ?_⟩
+  · simp only [ContinuousMap.coe_mk, antoineDF, antoineDTau_muS, antoineDSide_muS]
+    obtain ⟨c1, c2, c3⟩ := antoineD_cos_sign t
+    by_cases hsm : |antoineDTm t| < 1 / 10000
+    · have hc := antoineD_cos_of_small (antoineDTm_small hsm)
+      rcases le_or_gt (t : ℝ) (1 / 4) with h1 | h1
+      · rw [if_pos (lt_of_le_of_ne (c1 h1) (Ne.symm hc))]
+        unfold antoineDXi; rw [if_pos h1, mul_one]
+      · rcases le_or_gt (t : ℝ) (3 / 4) with h3 | h3
+        · rw [if_neg (not_lt.2 (c2 h1 h3))]
+          unfold antoineDXi; rw [if_neg (not_le.2 h1), if_pos h3]
+          exact (antoineD_exp_four he _).2
+        · rw [if_pos (lt_of_le_of_ne (c3 h3) (Ne.symm hc))]
+          unfold antoineDXi; rw [if_neg (not_le.2 h1), if_neg (not_le.2 h3), mul_one]
+          exact (antoineD_exp_four he _).1
+    · push Not at hsm
+      have hends := antoineD_phi_ends hsm
+      have hsd : (if 0 < Real.cos (2 * Real.pi * t) then (1 : ℂ) else -1) = 1 ∨
+          (if 0 < Real.cos (2 * Real.pi * t) then (1 : ℂ) else -1) = -1 := by
+        split_ifs <;> simp
+      rw [antoineD_exp_ends (antoineD_pm_mul he hsd) hends]
+      unfold antoineDXi
+      rcases le_or_gt (t : ℝ) (1 / 4) with h1 | h1
+      · rw [if_pos h1]; exact antoineD_exp_ends he hends
+      · rcases le_or_gt (t : ℝ) (3 / 4) with h3 | h3
+        · rw [if_neg (not_le.2 h1), if_pos h3, (antoineD_exp_four he _).2]
+          exact antoineD_exp_ends (antoineD_pm_mul he (Or.inr rfl)) hends
+        · rw [if_neg (not_le.2 h1), if_neg (not_le.2 h3), (antoineD_exp_four he _).1]
+          exact antoineD_exp_ends he hends
+  · simp only [ContinuousMap.coe_mk, antoineDXi]
+    rw [if_neg (by norm_num), if_neg (by norm_num), if_pos (by norm_num), antoineDTm_one,
+      antoineDTm_zero]
+    simp only [antoineDPhi]
+    push_cast
+    ring
+
+/-! ### Antoine's lemma at the first generation -/
+
+theorem continuousAt_antoineDQ {y : Sphere3} (hs : ∀ v ∈ antoineDV, antoineDTh v y ∈ Complex.slitPlane) :
+    ContinuousAt antoineDQ y :=
+  tendsto_finsetProd (f := fun v y => antoineDSq (antoineDTh v y))
+    (a := fun v => antoineDSq (antoineDTh v y)) _ fun v hv =>
+      (continuousAt_antoineDSq (hs v hv)).comp (continuous_antoineDTh v).continuousAt
+
+theorem antoineD_base_mem : antoineStereo antoineMerPt ∈ antoineDN := by
+  have hT : antoineStereo antoineMerPt ∈ antoineDT := by
+    have := antoineMuS_mem_DT 0; rwa [Path.source] at this
+  refine antoineDT_N hT ?_
+  rw [antoineDTau_stereo]; simp [antoineMerPt]
+
+theorem antoineD_base_tau : antoineDTau (antoineStereo antoineMerPt) = 0 := by
+  rw [antoineDTau_stereo]; simp [antoineMerPt]
+
+/-- At the base point, on the slab's middle sphere, the invariant is `-1` on both sheets. -/
+theorem antoineD_g_base {s : ℂ} (hs : s ^ 2 = antoineDP (antoineStereo antoineMerPt)) :
+    antoineDg (antoineStereo antoineMerPt) s = -1 := by
+  have hX := antoineD_base_mem.1
+  simp only [antoineDg, if_pos antoineD_base_mem, antoineD_base_tau]
+  have h1 : antoineDPhi 0 = 1 := by simp [antoineDPhi]
+  rw [h1]
+  rcases antoineD_sigma_cases (antoineD_sigma_sq hX hs) with h | h
+  · rw [h]; push_cast; rw [mul_one, mul_one, Complex.exp_pi_mul_I]
+  · rw [h]; push_cast
+    rw [show (Real.pi : ℂ) * Complex.I * (-1) * 1 = -(Real.pi * Complex.I) by ring, Complex.exp_neg,
+      Complex.exp_pi_mul_I]; norm_num
+
+/-- **Antoine's lemma at the first generation, proved**: no nonzero power of the meridian of `L`
+is null-homotopic in `S³ ∖ C₁`. A null-homotopy `H` lifts to the double cover `s² = P` (`P` the
+product of the vertical `Θ'ᵢ`, `GX.antoineDP`); the invariant `GX.antoineDg` is continuous
+along the lift (`GX.continuous_antoineDg`), equal to `-1` on three edges of the square
+(`GX.antoineD_g_base`), and winds `2ea` times along the fourth (`GX.antoineDF_wind`): the
+meridian crosses the slab twice, on opposite sheets, because the sides of the core square are
+joined only through the gaps of the closed chain. -/
+theorem antoineChainEssential_proof : AntoineChainEssential := by
+  intro a ha hnull
+  obtain ⟨H, hH⟩ := hnull
+  -- the lift of `P ∘ H` through `exp`
+  let PH : C(I × I, CStar) := ⟨fun z => ⟨antoineDP (H z), antoineDP_ne_zero (hH z)⟩,
+    (continuous_antoineDP.comp H.continuous).subtype_mk _⟩
+  obtain ⟨Γ₀, hΓ₀⟩ := exists_expLift ⟨fun t => PH (0, t), by fun_prop⟩
+  have H_0 : ∀ t, PH (0, t) = cExp (Γ₀ t) := fun t => Subtype.ext (by
+    show antoineDP (H (0, t)) = Complex.exp (Γ₀ t); rw [hΓ₀ t]; rfl)
+  set Λ := isCoveringMap_cExp.liftHomotopy PH Γ₀ H_0
+  have hΛ : ∀ z, Complex.exp (Λ z) = antoineDP (H z) := fun z =>
+    congrArg Subtype.val (congrFun (isCoveringMap_cExp.liftHomotopy_lifts PH Γ₀ H_0) z)
+  set S : I × I → ℂ := fun z => Complex.exp (Λ z / 2)
+  have hS : Continuous S := by fun_prop
+  have hSq : ∀ z, S z ^ 2 = antoineDP (H z) := fun z => by
+    simp only [S]; rw [sq, ← Complex.exp_add, add_halves, hΛ]
+  set G : I × I → ℂ := fun z => antoineDg (H z) (S z)
+  have hG : Continuous G := continuous_antoineDg H.continuous hH hS hSq
+  have hG0 : ∀ z, G z ≠ 0 := fun z => by
+    simp only [G, antoineDg]; split_ifs
+    · exact Complex.exp_ne_zero _
+    · exact one_ne_zero
+  have hGb : ∀ z, H z = antoineStereo antoineMerPt → G z = -1 := fun z hz => by
+    simp only [G]; rw [hz]; exact antoineD_g_base (hz ▸ hSq z)
+  have hloop : ∀ s, G (s, 1) = G (s, 0) := fun s => by
+    rw [hGb _ (H.target s), hGb _ (H.source s)]
+  have hw1 : AntoineLiftWind (fun t => G (1, t)) 0 := by
+    refine ⟨⟨fun _ => Real.pi * Complex.I, continuous_const⟩, fun t => ?_, by simp⟩
+    show Complex.exp (Real.pi * Complex.I) = G (1, t)
+    rw [hGb (1, t) (by rw [H.apply_one]; rfl)]; exact Complex.exp_pi_mul_I
+  -- the sheet along the bottom edge
+  have hmem : ∀ t, loopZPow antoineMuS a t ∈ antoineDT := loopZPow_mem antoineMuS_mem_DT a
+  have hQc : Continuous fun t => antoineDQ (loopZPow antoineMuS a t) :=
+    continuous_iff_continuousAt.2 fun t =>
+      (continuousAt_antoineDQ fun v hv => antoineDT_slit (hmem t) hv).comp
+        (loopZPow antoineMuS a).continuous.continuousAt
+  have hH0 : ∀ t, H (0, t) = loopZPow antoineMuS a t := fun t => H.apply_zero t
+  set f : I → ℂ := fun t => S (0, t) / antoineDQ (loopZPow antoineMuS a t)
+  have hf : Continuous f := (hS.comp (Continuous.prodMk continuous_const continuous_id)).div hQc
+    fun t => antoineDQ_ne_zero _
+  have hf2 : ∀ t, f t = 1 ∨ f t = -1 := fun t => by
+    apply antoineD_sigma_cases
+    simp only [f]
+    rw [div_pow, hSq, hH0, antoineDQ_sq (antoineDT_X (hmem t)),
+      div_self (antoineDP_ne_zero (antoineDT_X (hmem t)))]
+  have hfc : ∀ t, f t = f 0 := by
+    intro t
+    by_contra hne
+    have hre : Continuous fun t => (f t).re := Complex.continuous_re.comp hf
+    rcases hf2 0 with h0 | h0 <;> rcases hf2 t with ht | ht
+    · exact hne (ht.trans h0.symm)
+    · obtain ⟨u, hu⟩ := intermediate_value_univ t 0 hre
+        (show (0 : ℝ) ∈ Set.Icc (f t).re (f 0).re by rw [h0, ht]; norm_num)
+      have hu' : (f u).re = 0 := hu
+      rcases hf2 u with h | h <;> rw [h] at hu' <;> norm_num at hu'
+    · obtain ⟨u, hu⟩ := intermediate_value_univ 0 t hre
+        (show (0 : ℝ) ∈ Set.Icc (f 0).re (f t).re by rw [h0, ht]; norm_num)
+      have hu' : (f u).re = 0 := hu
+      rcases hf2 u with h | h <;> rw [h] at hu' <;> norm_num at hu'
+    · exact hne (ht.trans h0.symm)
+  obtain ⟨ez, hez, hfe⟩ : ∃ ez : ℤ, (ez = 1 ∨ ez = -1) ∧ f 0 = ez := by
+    rcases hf2 0 with h | h
+    · exact ⟨1, Or.inl rfl, by rw [h]; simp⟩
+    · exact ⟨-1, Or.inr rfl, by rw [h]; simp⟩
+  have he : (ez : ℂ) = 1 ∨ (ez : ℂ) = -1 := by rcases hez with rfl | rfl <;> simp
+  have hbot : ∀ t, G (0, t) = antoineDF (ez : ℂ) (loopZPow antoineMuS a t) := fun t => by
+    have hSt : S (0, t) = (ez : ℂ) * antoineDQ (loopZPow antoineMuS a t) := by
+      have := hfc t
+      simp only [f] at this hfe
+      rw [hfe, div_eq_iff (antoineDQ_ne_zero _)] at this
+      exact this
+    simp only [G]
+    rw [hH0, hSt]
+    exact antoineDT_eqOn he (hmem t)
+  -- the winding along the bottom edge, and the contradiction
+  have hw0 : AntoineLiftWind (fun t => antoineDF (ez : ℂ) (loopZPow antoineMuS a t)) (a * (2 * ez)) :=
+    antoineLiftWind_loopZPow antoineMuS_mem_DT (antoineDT_contOn he)
+      (fun _ _ => Complex.exp_ne_zero _) (antoineDF_wind hez) a
+  have hw0' : AntoineLiftWind (fun t => G (0, t)) (a * (2 * ez)) :=
+    hw0.congr fun t => (hbot t).symm
+  have hw1' := AntoineLiftWind.of_freeHomotopy hG hG0 hloop hw0'
+  have := hw1'.unique hw1
+  rcases hez with rfl | rfl <;> omega
+
+/-- **The non-abelian heart of Antoine's lemma at the first generation**,
+`GX.AntoineChainEssential`, PROVED (WP-41r round 2) by the dihedral invariant above
+(`GX.antoineChainEssential_proof`). With it the first generation (`GX.antoineFirstGeneration_of_chain`,
+the five collar facts), every generation (`GX.antoineMeridianEssentialTop_of_firstGeneration`, the
+van Kampen induction `GX.antoine_pow_essential`), the reduction of every link to the top link
+(`GX.antoineMeridianEssentialStrict_of_top`), the compactness reduction, link selection,
+accessibility, the based loop and the wildness are all sorry-free. -/
+theorem antoineChainEssential : AntoineChainEssential := antoineChainEssential_proof
+
+/-- **Antoine's lemma at the first generation**, `GX.AntoineFirstGeneration`: from its non-abelian
+field `GX.antoineChainEssential` and the five collar facts, all proved. -/
+theorem antoineFirstGeneration : AntoineFirstGeneration :=
+  antoineFirstGeneration_of_chain antoineChainEssential
+
+/-- **Antoine's lemma for the top link**, `GX.AntoineMeridianEssentialTop`: derived, sorry-free in
+its own body, from the first generation `GX.antoineFirstGeneration` by the van Kampen reduction
+`GX.antoineMeridianEssentialTop_of_firstGeneration` (sorry-free, through
+`GX.antoineChainEssential`). -/
+theorem antoineMeridianEssentialTop : AntoineMeridianEssentialTop :=
+  antoineMeridianEssentialTop_of_firstGeneration antoineFirstGeneration
+
+/-- The strict residual, sorry-free (through `GX.antoineChainEssential`, via
+`GX.antoineMeridianEssentialTop`). -/
 theorem antoineMeridianEssentialStrict : AntoineMeridianEssentialStrict :=
   antoineMeridianEssentialStrict_of_top antoineMeridianEssentialTop
 
@@ -4657,8 +8288,8 @@ theorem antoineMeridianEssential_of_top (h : AntoineMeridianEssentialTop) :
     AntoineMeridianEssential :=
   antoineMeridianEssential_of_strict (antoineMeridianEssentialStrict_of_top h)
 
-/-- The residual `GX.AntoineMeridianEssential`; rests on `GX.antoineMeridianEssentialStrict`
-only. -/
+/-- The residual `GX.AntoineMeridianEssential`, sorry-free (through `GX.antoineChainEssential`, via
+`GX.antoineMeridianEssentialStrict`). -/
 theorem antoineMeridianEssential : AntoineMeridianEssential :=
   antoineMeridianEssential_of_strict antoineMeridianEssentialStrict
 
@@ -4669,8 +8300,8 @@ theorem antoineNecklace_not_isSLSCIn_of (hres : AntoineMeridianEssential) :
     ¬ IsSLSCIn antoineNecklaceᶜ :=
   sphere3_not_isSLSCIn_of_essential _ (antoine_essential_loops hres)
 
-/-- `ex:wild_cantor_general_antoine`, homotopy form; rests on the residual
-`GX.antoineMeridianEssentialTop` only. -/
+/-- `ex:wild_cantor_general_antoine`, homotopy form, sorry-free (through `GX.antoineChainEssential`, via
+`GX.antoineMeridianEssentialTop`). -/
 theorem antoineNecklace_not_isSLSCIn : ¬ IsSLSCIn antoineNecklaceᶜ :=
   antoineNecklace_not_isSLSCIn_of antoineMeridianEssential
 
@@ -5604,7 +9235,8 @@ theorem isWildCantor_antoineNecklace_of_res (hres : AntoineMeridianEssential) :
     IsWildCantor antoineNecklace :=
   isWildCantor_antoineNecklace_of hres tameCantorSLSC
 
-/-- Antoine's necklace is wild; rests on the residual `GX.antoineMeridianEssentialTop` only. -/
+/-- Antoine's necklace is wild, sorry-free (through `GX.antoineChainEssential`, via
+`GX.antoineMeridianEssentialTop`). -/
 theorem isWildCantor_antoineNecklace : IsWildCantor antoineNecklace :=
   isWildCantor_antoineNecklace_of_res antoineMeridianEssential
 
@@ -5651,8 +9283,8 @@ theorem antoineNecklace_not_tame_of (hres : AntoineMeridianEssential) :
   rintro ⟨h, e⟩
   exact (isWildCantor_antoineNecklace_of_res hres).2 ⟨h, e ▸ standardCantor3_subset⟩
 
-/-- Antoine's necklace is not tame; rests on the residual `GX.antoineMeridianEssentialTop`
-only. -/
+/-- Antoine's necklace is not tame, sorry-free (through `GX.antoineChainEssential`, via
+`GX.antoineMeridianEssentialTop`). -/
 theorem antoineNecklace_not_tame :
     ¬ ∃ h : Sphere3 ≃ₜ Sphere3, h '' antoineNecklace = standardCantor3 :=
   antoineNecklace_not_tame_of antoineMeridianEssential
@@ -5693,33 +9325,34 @@ theorem sphere3_isSLSCInCC_compl_iff {C : Set Sphere3} (hC : IsClosed C) :
   haveI := sphere3_locPathConnected
   isSLSCInCC_iff hC.isOpen_compl (sphere3_semilocallySimplyConnected_compl hC)
 
-/-- **`ex:wild_cantor_general_antoine`** (`RamcovGX.tex:1578`, DEC-58 and DEC-68 (f): `S` is
+/-- `ex:wild_cantor_general_antoine` (`RamcovGX.tex:1578`, DEC-58 and DEC-68 (f): `S` is
 the explicit Antoine necklace), literal reading (DEC-55), FROM THE RESIDUAL ALONE (sorry-free):
 the complement of `GX.antoineNecklace` is not semi-locally simply connected in `S³`. -/
 theorem antoineNecklace_not_isSLSCInCC_of (hres : AntoineMeridianEssential) :
     ¬ IsSLSCInCC antoineNecklaceᶜ := fun hcc => antoineNecklace_not_isSLSCIn_of hres
   ((sphere3_isSLSCInCC_compl_iff antoineNecklace_isCantorSubset.isClosed).1 hcc)
 
-/-- `ex:wild_cantor_general_antoine`, literal reading; rests on the residual
-`GX.antoineMeridianEssentialTop` only. -/
+/-- `ex:wild_cantor_general_antoine`, literal reading, sorry-free (through `GX.antoineChainEssential`, via
+`GX.antoineMeridianEssentialTop`). -/
 theorem antoineNecklace_not_isSLSCInCC : ¬ IsSLSCInCC antoineNecklaceᶜ :=
   antoineNecklace_not_isSLSCInCC_of antoineMeridianEssential
 
-/-- **`ex:wild_cantor_general_antoine`** with the wildness, FROM THE RESIDUAL ALONE
+/-- `ex:wild_cantor_general_antoine` with the wildness, FROM THE RESIDUAL ALONE
 (sorry-free): Antoine's necklace is a wild Cantor set of `S³` whose complement is not
 semi-locally simply connected (literal reading). -/
 theorem antoineNecklace_wild_not_isSLSCInCC_of (hres : AntoineMeridianEssential) :
     IsWildCantor antoineNecklace ∧ ¬ IsSLSCInCC antoineNecklaceᶜ :=
   ⟨isWildCantor_antoineNecklace_of_res hres, antoineNecklace_not_isSLSCInCC_of hres⟩
 
-/-- **`ex:wild_cantor_general_antoine`** with the wildness, from Antoine's lemma for the top link
+/-- `ex:wild_cantor_general_antoine` with the wildness, from Antoine's lemma for the top link
 `GX.AntoineMeridianEssentialTop` alone (sorry-free). -/
 theorem antoineNecklace_wild_not_isSLSCInCC_of_top (h : AntoineMeridianEssentialTop) :
     IsWildCantor antoineNecklace ∧ ¬ IsSLSCInCC antoineNecklaceᶜ :=
   antoineNecklace_wild_not_isSLSCInCC_of (antoineMeridianEssential_of_top h)
 
 /-- Antoine's necklace is a wild Cantor set of `S³` whose complement is not semi-locally simply
-connected (literal reading); rests on the residual `GX.antoineMeridianEssentialTop` only. -/
+connected (literal reading), sorry-free (through `GX.antoineChainEssential`, via
+`GX.antoineMeridianEssentialTop`). -/
 theorem antoineNecklace_wild_not_isSLSCInCC :
     IsWildCantor antoineNecklace ∧ ¬ IsSLSCInCC antoineNecklaceᶜ :=
   antoineNecklace_wild_not_isSLSCInCC_of antoineMeridianEssential

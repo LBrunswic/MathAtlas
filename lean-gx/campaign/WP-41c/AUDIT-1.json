@@ -1,0 +1,51 @@
+{
+  "package": "WP-41c",
+  "round": 1,
+  "auditor": "read-only auditor, round 1",
+  "file": "scaffold/GXScaffold/BTZ/Rigid.lean",
+  "module": "GXScaffold.BTZ.Rigid",
+  "verdict": "issues",
+  "builds": true,
+  "sorry_count": 1,
+  "checks": {
+    "build": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/Rigid.lean: OK in 5.4 s, nothing upstream rebuilt; one warning, 'declaration uses sorry' at l.652 (GX.e0_localUnique_sing_core). There are 3 textual occurrences of 'sorry' and exactly 1 is a real sorry term.",
+    "axioms": "Checked with #print axioms (lean --stdin, nothing written). e0_rigid, e0_localUnique_reg, e0_regularChart, e0_dense_regY, e0_sing_mem, e0_localUniqueSingAdherent_of_local and e0_typeAgreement_of_reg use only [propext, Classical.choice, Quot.sound]. e0_localUnique_sing adds sorryAx, through its core.",
+    "field_type_match": "Checked by elaboration (lean --stdin, importing Causal.CBG.Geometry). A Causal.CBG.LocalModel.{0} with Y := E0Y, G := e0Groupoid, singY := e0SingY and causalityY := C typechecks. It takes rigid := e0_rigid, localUnique_sing := e0_localUnique_sing, localUnique_reg, regularChart, sing_mem, isOpen_regY and dense_regY from this file, and h1 : E0LocalUniqueSingAdherent C, h2 : E0TypeAgreement C for the two causal fields; the other fields were left as sorry. So every theorem has the field's exact statement, and nothing was added or weakened.",
+    "G_definition": "e0Groupoid is the a.e.-isomorphism groupoid that BARBOT-INTERFACE.md l.83 rules ('G = a.e.-isomorphisms'). Causal.Flat.isom 2 is SO0(1,2) ⋉ R^3 (Flat/Form.lean:132, time orientation preserved), so B21's statements are not falsified by time reversal. sing_mem follows from the definition (both e and e.symm preserve Reg), which CBG-REVIEW §2 anticipates ('true by the definition of G'). This is the paper's rem:consequence_isomorphism_singular_manifolds (RamcovGX.tex:606), so the definition does not trivialise the notion. GX has no prior groupoid of a.e.-isomorphisms (only gxGroupoid, GX/Structure/Basic.lean:189), so nothing is redefined.",
+    "statement_fidelity": "No extra, vacuous or circular hypothesis in any closed theorem. localUnique_reg drops injectivity, which is stronger. rigid matches B21 lem:liouville (BTZ_1.tex:361). localUnique_sing matches prop:isom_strong at α = β = 0 (BTZ_1.tex:468–475), with the field's 'whole component' conclusion. The core (agreement with one e ∈ G on one non-empty open W ⊆ reg U) is equivalent to the field, so it is neither false nor weaker.",
+    "docstring_contract": "No **`label`** mark appears in the first 4000 characters, which is consistent with 'labels': []. B21 lem:liouville and prop:isom_strong are cited unmarked.",
+    "report": "REPORT.json is valid JSON. It lists every field the dispatch names, plus closedUnderRestriction and locallyConnected. Its 'builds' and 'sorry_count' fields are accurate. No RamcovGX ledger row is in scope (the dispatch gives interface fields only).",
+    "name_clashes": "None. All 64 declared names were compared against every theorem/def/abbrev/instance/lemma/structure/class name in GX/ and scaffold/ outside this file, 3977 names, with no intersection. The sibling WP-41e file (BTZ/Causality.lean) uses GX.E0 / GX.E0.*, which is distinct from GX.E0Y.",
+    "import_gate": "DEC-33 holds: the file imports only GXScaffold.BTZ.Model, does not open Causal, and uses Causal.* names fully qualified."
+  },
+  "issues": [
+    {
+      "severity": "major",
+      "where": "GX.e0_localUnique_sing_core (l.640–663); REPORT.json interface_fields[localUnique_sing].sorries[0].obstruction",
+      "problem": "The one sorry carries the whole mathematical content of localUnique_sing (B21 prop:isom_strong at α=β=0). Its recorded obstruction is factually wrong on the first two of its six steps. (1) 'no path/map lifting for covering maps in mathlib at this pin' is false: mathlib fabf563a has IsCoveringMap.exists_path_lifts and liftPath, and IsCoveringMap.existsUnique_continuousMap_lifts for simply connected, locally path-connected domains (Mathlib/Topology/Homotopy/Lifting.lean:216, 257, 421), plus IsCoveringMapOn.existsUnique_continuousMap_lifts (l.480). (2) Liouville on a lift exists in GX: exists_smul_eq_on_of_isPreconnected (already used in this file), developing_unique_of_preconnected and exists_developingMap for SimplyConnectedSpace (GX/Structure/Developing.lean:358, 374). Holonomy material for (3) is in GXScaffold.BTZ.Model: btzHol_isParabolic, btz_holonomy, btzHolonomy_generator, btzDeckEquiv, btz_deck_equiv_int, plus isLocalHomeomorphOn_btzDevM, btzDevM_injective and btzHol_zpow. 'None of (1)–(6) exists in GX or lean-causal' therefore overstates the gap. Only (4) the normaliser of ⟨P⟩ in Isom(M3), (5) the injectivity argument forcing ℓ = 1, and (6) the descent to Aut(E0) are genuinely missing. None of the intermediate lemmas (normaliser of P, non-injectivity of h_ℓ for ℓ ≠ 1, the lift of f|reg(N)) is stated or attempted. The sorry is not shown to rest on a genuine obstruction after a serious attempt.",
+      "fix": "Correct the obstruction text in the source comment and in REPORT. Then build the core: lift f|reg(N) through the explicit cylinder (mathlib's lifting criterion, or GX's exists_developingMap on the simply connected preimage); get g ∈ Isom(M3) from exists_smul_eq_on_of_isPreconnected; prove g P g⁻¹ = P^k and g(Δ) = Δ from btz_holonomy; prove the normaliser computation, the ℓ = 1 step and the descent. If a step still resists, leave a narrower tagged sorry on exactly that step (e.g. the normaliser of ⟨P⟩) and prove the rest."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json interface_fields[localUnique_sing_adherent], interface_fields[typeAgreement] (status 'stated', sorries [])",
+      "problem": "CAMPAIGN.md defines 'stated' as 'the statement typechecks and rests on a tagged sorry'. These two fields rest on no sorry: they are Prop definitions (E0LocalUniqueSingAdherent C, E0TypeAgreement C) with proved reductions, and their cores are not attempted. The dependency is genuine (causalityY is WP-39e's, and for arbitrary C both statements are false, so a sorry over all C would assert something false). The disclosure in SCOPE (b) and in the notes is honest, but sorry_count = 1 understates the open work: the assembly (WP-39f) will find no tagged decl for these fields.",
+      "fix": "Report both as 'partial' (the causality-free reduction is proved; the core is not attempted and is blocked on WP-39e's Causality). List the open core explicitly as a pending obligation under 'notes' or 'sorries', marked untagged-by-necessity."
+    },
+    {
+      "severity": "minor",
+      "where": "module docstring SCOPE (b), l.48–52",
+      "problem": "'for an arbitrary C both are false (a causality with large chronological futures makes the diamond clauses vacuous)' has the direction backwards. Large chronological futures make the diamond larger, so the inclusion hypothesis is harder to satisfy. The counterexample needs SMALL futures: lt O y0 r holds while Iplus O {y0} ∩ Iminus O {r} is empty, so the inclusion holds trivially and the conclusion must hold for every adherent U, which a boost along Δ refutes. The claim is also asserted, not proved.",
+      "fix": "Reword to 'a causality whose chronological diamonds are empty (or small)'. Optionally drop the unproved 'false for arbitrary C' claim, or prove it."
+    },
+    {
+      "severity": "minor",
+      "where": "GX.e0_rigid (l.553), GX.e0_eqOn_of_eqOn_open",
+      "problem": "CBG-REVIEW §2 names rigid as GX's IsAEMorphismOf.eq_of_eqOn (DEC-42, already proved; cf. the Continuous.ext_on argument at GX/Singular/Atlas.lean:~860–874). The file re-proves the propagation from scratch instead of bridging e0Groupoid elements to IsAEMorphismOf. Correct, but a reuse miss.",
+      "fix": "Optional: add a bridge e ∈ e0Groupoid → IsAEMorphismOn … on e.source and derive e0_rigid from the strict lemma, or note why the bridge costs more than the direct proof."
+    }
+  ],
+  "summary": "The file builds (5.4 s, nothing upstream rebuilt) and has exactly 1 real sorry. Every field theorem elaborates as the exact LocalModel field (checked by building a LocalModel.{0} with them). Closed and axiom-clean: t2Y, locallyConnected, closedUnderRestriction, isOpen_regY, dense_regY, sing_mem, regularChart, localUnique_reg and rigid. localUnique_sing is reduced, correctly, by rigidity to a local core that carries the whole of B21 prop:isom_strong as one tagged sorry. Its recorded obstruction is wrong about covering-map lifting (mathlib has IsCoveringMap.liftPath and existsUnique_continuousMap_lifts) and about Liouville and holonomy (in GX and BTZ.Model), and no intermediate step was attempted: major. localUnique_sing_adherent and typeAgreement are honestly stated as Props over a causality C with proved reductions; they are blocked on WP-39e, but labelled 'stated' without a sorry (minor). No hypotheses were added, no definition trivialises its notion, there are no name clashes and no docstring marks, and REPORT.json is valid and otherwise accurate. Verdict: issues (1 major, 3 minor).",
+  "questions_for_author": [
+    "Should WP-39f accept GX.e0Groupoid and GX.e0SingY (defined here) as the canonical G and singY of the E0 local model, and should WP-41e build its causality on GX.E0Y rather than on its own GX.E0 = ℝ × ℂ coordinates? Otherwise the two packages need a bridge before typeAgreement and localUnique_sing_adherent can be discharged."
+  ]
+}

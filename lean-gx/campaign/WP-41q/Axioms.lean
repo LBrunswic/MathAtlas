@@ -1,0 +1,10 @@
+import GXScaffold.SingularII.SpreadTop
+#print axioms GX.spread_top_of_local
+#print axioms GX.intuitively_spread_thinner_of_local
+#print axioms GX.cex_component_not_strongPull_connected
+#print axioms GX.hypothesis_model_spaces_necessary
+#print axioms GX.quotient_virtually_tame_galoisian'
+#print axioms GX.quotient_virtually_tame_galoisian
+#print axioms GX.not_isSpread_strongPullTop_ratTop
+#print axioms GX.not_isGreatest_strongPullTop_unrestricted
+#print axioms GX.strongPullTop_eq_generateFrom_union

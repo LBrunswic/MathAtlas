@@ -3,42 +3,60 @@ import GXScaffold.SingularII.Models
 /-!
 # Singular `(G,X)`-manifolds (II): the strong pull-back topology and the closing remarks of §2.5
 
-Packages WP-27k, WP-35g, WP-40d. `papers/gx`, `RamcovGX.tex:1984–2162`, on WP-27j/WP-35f's
-`GXScaffold.SingularII.Models` (which defines `GX.strongPullTop`; the tagged-`sorry` statement
-`GX.spread_top` it once carried was removed by WP-35f, and its statement survives here verbatim as
-`GX.SpreadTopPrinted`).
+Packages WP-27k, WP-35g, WP-40d, WP-41q. `papers/gx`, `RamcovGX.tex:1984–2162`, on
+`GXScaffold.SingularII.Models` (which defines `GX.strongPullTop`).
+
+Certified here (each under the ruling named; no `sorry` in this file):
+
+* **`lem:spread_top`** (l.1990) — `GX.spread_top_of_local`, the form DEC-80(c) accepts.
+* **`rem:intuitively_spread_thinner_than`** (l.2006) — `GX.intuitively_spread_thinner_of_local`,
+  read "in the setting of `lem:spread_top`" (DEC-87(d)); the "However" sentence:
+  `GX.cex_component_not_strongPull_connected`.
+* **`rem:hypothesis_model_spaces_necessary`** (l.2137) — `GX.hypothesis_model_spaces_necessary`,
+  "Hypothesis (C)" read as `theo:local_virt_tame`'s "`Aut(\widetilde X_α)` acts
+  `T_α`-continuously" (DEC-87(b)).
+* **`rem:quotient_virtually_tame`** (l.2154) — `GX.quotient_virtually_tame_galoisian'`, `N → M`
+  Galoisian (DEC-71 extended by DEC-87(c)), "isomorphic" read as homeomorphic (DEC-87(c)).
+* `def:topological_spaces_continuous_map` (l.1984) — certified in **Models** (DEC-87(e)); this
+  file adds only the verbatim wording `GX.strongPullTop_eq_generateFrom_union` and API.
+
+## The labels in detail
 
 * `def:topological_spaces_continuous_map` — `RamcovGX.tex:1984` — the definition is
-  `GX.strongPullTop`, in **Models** (marked there; the row is Models'). This file adds the
+  `GX.strongPullTop`, in Models (the row is Models', DEC-87(e)). This file adds the
   definition's wording verbatim, `GX.strongPullTop_eq_generateFrom_union` (`p^*T` is GENERATED
   by the open sets of `M` and the components of the `p⁻¹(O)`, `O ∈ T`), and the API:
   `GX.strongPullGen`, `GX.strongPullTop_eq_generateFrom` (the topology of the source is redundant
   over a spread), `GX.isTopologicalBasis_strongPullGen`, `GX.hasBasis_nhds_strongPullTop`,
   `GX.continuous_strongPullTop_iff`.
-* **`lem:spread_top`** — `RamcovGX.tex:1990` — closed under **DEC-80(c)**, which takes the
+* `lem:spread_top` — `RamcovGX.tex:1990` — closed under **DEC-80(c)**, which takes the
   corrected form `GX.spread_top_of_local` as the lemma: all five clauses (a)–(e), the proof
   (l.2010–2061) built, under `N → M` Galoisian ("sub-covering" includes it, DEC-80(c)), `p⁻¹(R)`
   connected (the proof's l.2047) and the Claim's local hypothesis `GX.StrongLocallyConnectedOrd`
   (l.2029); `\widetilde M^S` is `prop:universality`'s covering (`M ∖ S` semilocally simply
   connected, as DEC-79(a) reads `\widetilde Y^S`). The printed form is FALSE
-  (`GX.not_spreadTopPrinted`, on `GX.cex_spread_top_halfCut`) and each topological added
-  hypothesis is necessary in presence of all the others (`GX.not_spreadTopGalLocalCE`,
-  `GX.not_spreadTopGalConnCE`; in both `N → M` is `id`, Galoisian) — the counterexamples are kept
-  as the record of the correction. `GX.spread_top_of_isPortly` (`R` naturally portly, the
-  application l.2096); finer: `GX.spread_top_corrected`; the proof's "`\widetilde M^S → N`
-  Galoisian" (l.2025): `GX.isGaloisian_of_comp`.
-* `rem:intuitively_spread_thinner_than` — `RamcovGX.tex:2006` — partial (literally false,
-  DEC-27): in the lemma it accompanies the intuition HOLDS — under `lem:spread_top`'s ruled
-  hypotheses `p^*T` is the coarsest spread topology finer than that of `\widetilde M^S`
-  (`GX.intuitively_spread_thinner_of_local`); in general every spread topology finer than that of
-  `M` is finer than `p^*T` (`GX.le_strongPullTop_of_isSpread`), `p^*T` is the coarsest one when it
-  is a spread (`GX.isGreatest_strongPullTop_of_isSpread`), iff it is locally connected
-  (`GX.isSpread_strongPullTop_iff`); but `p^*T` need not be a spread
-  (`GX.not_isSpread_strongPullTop_ratTop`), the comparison must be restricted to topologies finer
-  than `T_M` (`GX.not_isGreatest_strongPullTop_unrestricted`), and components are not
-  `p^*T`-components (`GX.cex_component_not_strongPull_connected`): "(e) is thus non-trivial".
-* **`rem:hypothesis_model_spaces_necessary`** — `RamcovGX.tex:2137` — the remark's counterexample,
-  built on its own instance: `GX.hypothesis_model_spaces_necessary`. For every
+  (`GX.not_spreadTopPrinted`, on `GX.cex_spread_top_halfCut`; the printed statement survives
+  verbatim as `GX.SpreadTopPrinted`) and each topological added hypothesis is necessary in
+  presence of all the others (`GX.not_spreadTopGalLocalCE`, `GX.not_spreadTopGalConnCE`; in both
+  `N → M` is `id`, Galoisian) — the counterexamples are kept as the record of the correction.
+  `GX.spread_top_of_isPortly` (`R` naturally portly, the application l.2096); finer:
+  `GX.spread_top_corrected`; the proof's "`\widetilde M^S → N` Galoisian" (l.2025):
+  `GX.isGaloisian_of_comp`.
+* `rem:intuitively_spread_thinner_than` — `RamcovGX.tex:2006` — closed under **DEC-87(d)**
+  ("in the setting of `lem:spread_top`"): there the intuition HOLDS — under `lem:spread_top`'s
+  ruled hypotheses `p^*T` is the coarsest spread topology finer than that of `\widetilde M^S`
+  (`GX.intuitively_spread_thinner_of_local`); and "the definition does not guarantee that
+  `T_M`-connected components are `p^*T`-connected components" is
+  `GX.cex_component_not_strongPull_connected`. Read outside that setting the sentence is false
+  (DEC-27, kept as the record of why "intuitively" and the ruling are needed): `p^*T` need not be
+  a spread (`GX.not_isSpread_strongPullTop_ratTop`) and the comparison must be restricted to
+  topologies finer than `T_M` (`GX.not_isGreatest_strongPullTop_unrestricted`). In general every
+  spread topology finer than that of `M` is finer than `p^*T` (`GX.le_strongPullTop_of_isSpread`),
+  `p^*T` is the coarsest one when it is a spread (`GX.isGreatest_strongPullTop_of_isSpread`), iff
+  it is locally connected (`GX.isSpread_strongPullTop_iff`).
+* `rem:hypothesis_model_spaces_necessary` — `RamcovGX.tex:2137` — closed (DEC-87(b) rules the
+  reading of "Hypothesis (C)"), the remark's counterexample built on its own instance:
+  `GX.hypothesis_model_spaces_necessary`. For every
   `θ = α ∈ ℝ₊ ∖ {0, 2π}`, the (spinless) massive particle `𝔼^{1,2}_α` (`GX.MassCyl`,
   `GX.IsMassiveStructure`, non-vacuous by `GX.exists_isMassiveStructure`; DEC-47's developing map,
   DEC-74's family) has `sing = π{r = 0}` (`GX.massCyl_sing`), is tame (`GX.massCyl_isTame`),
@@ -49,14 +67,14 @@ Packages WP-27k, WP-35g, WP-40d. `papers/gx`, `RamcovGX.tex:1984–2162`, on WP-
   `2` lies in `Aut(\widetilde{𝔼_α})` (`GX.massCyl_timeShift_mem_aeAut`), is `T`-continuous and
   NOT `T'`-continuous (`GX.massCyl_timeShift_continuity`). The mechanism abstractly:
   `GX.hypothesis_model_spaces_mechanism` (`GX.mixedTop`).
-* `rem:quotient_virtually_tame` — `RamcovGX.tex:2154` — partial (a reading, awaiting a ruling):
-  for a **Galoisian** `N → M` — the reading DEC-71 rules for the twin remark l.1869 —
-  `GX.quotient_virtually_tame_galoisian'` proves the remark as printed, every `N` possibly branched
-  over `sing M`, `\widetilde M → N` the universal map, `N` with the quotient of `T`, `D` injective
-  with holonomy `ρ`: `M ≃ₜ Γ(N/M)\D(N)`, `D(N)` with the topology generated by `X` and the `D`-images
-  of the quotient of `T` (`GX.devImageTop`), by `[D n] ↦ π_N(n)` — no Galoisian hypothesis on
-  `\widetilde M → M` (the lifts `GX.exists_deck_lift_maxBranched`). Earlier forms, under
-  "`\widetilde M → M` Galoisian": `GX.quotient_virtually_tame_cover`,
+* `rem:quotient_virtually_tame` — `RamcovGX.tex:2154` — closed under **DEC-87(c)** (DEC-71's
+  "`N` Galoisian" extends to l.2154; "isomorphic" = homeomorphic):
+  `GX.quotient_virtually_tame_galoisian'` proves the remark as printed, every Galoisian `N`
+  possibly branched over `sing M`, `\widetilde M → N` the universal map, `N` with the quotient of
+  `T`, `D` injective with holonomy `ρ`: `M ≃ₜ Γ(N/M)\D(N)`, `D(N)` with the topology generated by
+  `X` and the `D`-images of the quotient of `T` (`GX.devImageTop`), by `[D n] ↦ π_N(n)` — no
+  Galoisian hypothesis on `\widetilde M → M` (the lifts `GX.exists_deck_lift_maxBranched`). Earlier
+  forms, under "`\widetilde M → M` Galoisian": `GX.quotient_virtually_tame_cover`,
   `GX.quotient_virtually_tame_cover_of_slsc`, `GX.quotient_virtually_tame`, `GX.quotient_dev`.
 
 > For any topology $\T$ on $N$ define $p^*\T$ the topology of $M$ generated by $\T_M$ and the
@@ -103,7 +121,7 @@ Packages WP-27k, WP-35g, WP-40d. `papers/gx`, `RamcovGX.tex:1984–2162`, on WP-
 | (d): (none) | ✓ ruled (DEC-80(c): "sub-covering" includes `N → M` Galoisian): `GX.spread_top_deck`, Models; necessity not formalized (informal: a non-normal intermediate covering) |
 | `rem:hypothesis_model_spaces_necessary`: `θ ∈ ℝ₊ ∖ {0, 2π}`, `𝔼^{1,2}_θ` a singular model | ✓ carried: `0 < α`, `α ≠ 2π`, every such `α` (the angles `α ∈ 2πℤ`, `α ≥ 4π`, included: `GX.apex_notMem_support_of_sep`); ✓ read: `𝔼^{1,2}_θ` the spinless massive particle `Γ_α\(𝔻_∞ × ℝ)` with DEC-47's developing map `massiveDev 1 0 α` (DEC-74's family), `G = Isom₀(𝔼^{1,2})`; ✓ the structure is any one making `π` an a.e. morphism (`IsMassiveStructure`; it exists and is unique, `GX.massive_particle_isom0`) |
 | `rem:hypothesis_model_spaces_necessary`: `T` "the tamifying topology we defined on `𝔼_0`" | ✓ `GX.btzGenTop`: generated by the natural topology and `U_λ = {rθ² < λ}` (l.1953), on the cylinder `𝔻_∞ × ℝ` which is both `\widetilde{BTZ}` and `\widetilde{𝔼_θ}` (the paper's isomorphism in `CatSpread`), transported along `Φ : \widetilde{𝔼_θ} ≃ₜ 𝔻_∞ × ℝ` over `𝔼_θ` |
-| `rem:quotient_virtually_tame` (`GX.quotient_virtually_tame_galoisian'`): `N → M` branched covering possibly branched over `sing M` | ✓ carried; ⚠ read: `N → M` Galoisian (DEC-71's reading of the twin l.1869; not yet ruled for l.2154); ✓ carried (DEC-66): `N` T2, LPC, first countable; `M` T2, LPC, first countable, connected; `M ∖ sing M` semilocally simply connected (the presupposition of `\widetilde M`); `\widetilde M → N` the universal map (`prop:universality`); `D` injective, continuous for the quotient of `T`, with holonomy `ρ : Γ(N/M) → G` (`IsHolonomyOf`, as in the twin); "isomorphic" read as homeomorphic (the remark specifies only topologies) |
+| `rem:quotient_virtually_tame` (`GX.quotient_virtually_tame_galoisian'`): `N → M` branched covering possibly branched over `sing M` | ✓ carried; ✓ ruled: `N → M` Galoisian (DEC-71's reading of the twin l.1869, extended to l.2154 by DEC-87(c)); ✓ carried (DEC-66): `N` T2, LPC, first countable; `M` T2, LPC, first countable, connected; `M ∖ sing M` semilocally simply connected (the presupposition of `\widetilde M`); `\widetilde M → N` the universal map (`prop:universality`); `D` injective, continuous for the quotient of `T`, with holonomy `ρ : Γ(N/M) → G` (`IsHolonomyOf`, as in the twin); ✓ ruled (DEC-87(c)): "isomorphic" read as homeomorphic (the remark specifies only topologies) |
 | `rem:quotient_virtually_tame`, earlier forms (`GX.quotient_virtually_tame_cover`) | ✓ read: `Pj : \widetilde M → N` onto, over `M` (the universal property); ⚠ added: `\widetilde M → M` Galoisian; `D` injective, continuous for the quotient of `T`, `D ∘ Pj` equivariant through its holonomy `ρ` (data) |
 
 ## SCOPE (disclosed)
@@ -123,8 +141,8 @@ Packages WP-27k, WP-35g, WP-40d. `papers/gx`, `RamcovGX.tex:1984–2162`, on WP-
   `T = GX.sectorTop`, whose neighbourhoods of `0` are `{0} ∪ (disc ∩ {Re > 0})`). Every
   hypothesis holds, `hRc` included, and the preimage of the sector is `p^*T`-open and connected
   while its regular part falls into infinitely many sheets: (c), (e) and the local hypothesis fail.
-* **(c)** `rem:hypothesis_model_spaces_necessary` (WP-40d: built). The remark's "Hypothesis (C)
-  for the model spaces" is `theo:local_virt_tame`'s hypothesis "`Aut(\widetilde X_α)` acts
+* **(c)** `rem:hypothesis_model_spaces_necessary` (WP-40d: built; DEC-87(b) rules the reading). The
+  remark's "Hypothesis (C) for the model spaces" is `theo:local_virt_tame`'s hypothesis "`Aut(\widetilde X_α)` acts
   `T_α`-continuously", not item (C) of `def:singular_manifold_virtually_tame` (`Γ`-continuity),
   which `T'` satisfies (finding: the label collides). The counterexample is proved on the remark's
   own instance (`GX.hypothesis_model_spaces_necessary`), including what the remark asserts without
@@ -138,8 +156,8 @@ Packages WP-27k, WP-35g, WP-40d. `papers/gx`, `RamcovGX.tex:1984–2162`, on WP-
   `T_{U,V,φ}` depends on the position of `V`, `GX.hypothesis_model_spaces_mechanism` — and the
   author's open question) carry no further assertion. The paper's "`V ⊂ {t>0}` or `V ⊂ {t>0}`"
   (l.2148) reads `{t<0}` second.
-* **(d)** `rem:quotient_virtually_tame`: for a Galoisian `N → M` (DEC-71's reading of the twin
-  remark, l.1869) the remark is proved as printed (`GX.quotient_virtually_tame_galoisian'`), with
+* **(d)** `rem:quotient_virtually_tame` (closed under DEC-87(c)): for a Galoisian `N → M` (DEC-71's
+  reading of the twin remark, l.1869, extended to l.2154 by DEC-87(c)) the remark is proved as printed (`GX.quotient_virtually_tame_galoisian'`), with
   "isomorphic" read as homeomorphic: the remark's three items specify topologies only, and the
   `(G,X)`-structure of `Γ(N/M)\D(N)` is nowhere defined (transporting `M`'s along the homeomorphism
   makes it an isomorphism tautologically). The proof needs no Galoisian hypothesis on
@@ -155,6 +173,13 @@ Packages WP-27k, WP-35g, WP-40d. `papers/gx`, `RamcovGX.tex:1984–2162`, on WP-
   fibre and natural at the others, and a deck transformation of `\widetilde M^S` exchanging two
   sheets over them is not `p^*T`-continuous). The proof's reference "l.2068–2136" in the
   dispatch is the proof of `theo:local_virt_tame`; the proof of `lem:spread_top` is l.2010–2061.
+* **(f)** `rem:intuitively_spread_thinner_than` (closed under DEC-87(d)): the remark is certified
+  in the setting of `lem:spread_top` (all hypotheses those of `GX.spread_top_of_local`), where
+  `p^*T` is the greatest element of `{σ' ≤ T_{\widetilde M^S} | p : (\widetilde M^S, σ') → (N,T)
+  a spread}` (`GX.intuitively_spread_thinner_of_local`; topologies ordered as in mathlib, so
+  "coarsest finer than `T_M`" is `IsGreatest` below `T_M`). Read for an arbitrary spread `p` and
+  arbitrary `T`, the first sentence is false twice over (`GX.not_isSpread_strongPullTop_ratTop`,
+  `GX.not_isGreatest_strongPullTop_unrestricted`); these are kept as the record of the reading.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Builds on
 `GXScaffold.SingularII.Models`, `GX.SingularII.Tame`, `GX.SingularII.Unloopable`,
@@ -1204,8 +1229,8 @@ theorem spread_top_of_isPortly (hS : IsSkeletal S) (hSc : SemilocallySimplyConne
   spread_top_of_local hS hSc hrel y₀ hp hq hqp hR hTle hT1 hT2 hTdeck hRT hRagree
     (isPreconnected_preimage_of_isPortly hp hRw) hH
 
-/-- `rem:intuitively_spread_thinner_than` (`RamcovGX.tex:2006`) in the lemma it accompanies: in
-the setting of `lem:spread_top` (its corrected form, DEC-80(c), `GX.spread_top_of_local`), the
+/-- **`rem:intuitively_spread_thinner_than`** (`RamcovGX.tex:2006`), closed under DEC-87(d), in
+the lemma it accompanies: in the setting of `lem:spread_top` (its corrected form, DEC-80(c), `GX.spread_top_of_local`), the
 remark's intuition holds — `p^*T` IS the coarsest topology on `\widetilde M^S`, among those finer
 than the natural one, making `p : (\widetilde M^S, ·) → (N, T)` a spread: (e) makes `p` a
 `p^*T`-branched covering, hence a spread (`GX.isGreatest_strongPullTop_of_isSpread`). This is
@@ -1748,8 +1773,9 @@ theorem quotient_virtually_tame_galoisian (y₀ : ((Sing G X M)ᶜ : Set M))
     exact hfo _ (hO.preimage continuous_quotient_mk')
   exact ⟨(Equiv.ofBijective F ⟨hFinj, hFs⟩).toHomeomorphOfContinuousOpen hFc hFo, fun n => hfD n⟩
 
-/-- `quotient_virtually_tame_galoisian` with `Pj` the universal map: for every branched covering
-`N → M` possibly branched over `sing M` (`N` Hausdorff, locally path-connected, first countable),
+/-- **`rem:quotient_virtually_tame`** (`RamcovGX.tex:2154`), closed under DEC-87(c) (`N → M`
+Galoisian, DEC-71 extended; "isomorphic" = homeomorphic): `quotient_virtually_tame_galoisian` with
+`Pj` the universal map: for every Galoisian branched covering `N → M` possibly branched over `sing M` (`N` Hausdorff, locally path-connected, first countable),
 `\widetilde M` maps onto `N` over `M` (`prop:universality`, `GX.maxBranched_universal`), and the
 conclusion holds for `N` with the quotient of `T` by that map. -/
 theorem quotient_virtually_tame_galoisian' (y₀ : ((Sing G X M)ᶜ : Set M))
@@ -3907,7 +3933,8 @@ topology and `{rθ² < λ}`); and the "messed up" `T'` generated by the natural 
 restriction of `T` to `{t > 0}`. `Γ(\widetilde{𝔼_α}/𝔼_α)` acts `T'`-continuously (`(C)`), but the
 time translation by `2` — an element of `Aut(\widetilde{𝔼_α})`, `T`-continuous — is not
 `T'`-continuous: hypothesis "`Aut(\widetilde X_α)` acts `T_α`-continuously" of
-`theo:local_virt_tame` is not implied by `T_α` tamifying. -/
+`theo:local_virt_tame` — the remark's "Hypothesis (C)", DEC-87(b) — is not implied by `T_α`
+tamifying. -/
 theorem hypothesis_model_spaces_necessary {α : ℝ} (hα : 0 < α) (hα2 : α ≠ 2 * π)
     [SingularGXStructure MinkIsom0 (ℝ × ℂ) (MassCyl α)] (hπ : IsMassiveStructure α)
     (y₀ : ((Sing MinkIsom0 (ℝ × ℂ) (MassCyl α))ᶜ : Set (MassCyl α))) :
