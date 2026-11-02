@@ -115,3 +115,25 @@ Finding: Sbierski's transitivity step (pdftotext l.1166–1170) needs U₁₂ �
 proved another way. Round 2: Geometry + LocalModel gain `timeFunction`; LocalModel gains `localUnique_sing_adherent`
 (wrap-around); `cbg` moves to CBG/Maximal.lean (same names, proved). **gx's E₀ instance:
 `Geometry.ofLocalModelOfGermSlice` + the two new LocalModel fields (exact text to come).**
+
+## flat_cbg sorry-free (f2d4202); interface round 3 in progress
+
+`flat_cbg`: every flat spacetime with a Cauchy surface (or GH) has a universal maximal Cauchy development; standard
+axioms (abstract `cbg` too). Round 3 applies the gx rulings: past-side clause = chronological DIAMOND with a regular
+tip (`r ∈ regY ∧ y₀ ≪_O r ∧ reg ∩ I⁺_O(y₀) ∩ I⁻_O(r) ⊆ U`); SC on germExt_* / slice_*.
+Reusable templates for gx's E₀ discharges:
+- Flat/CBGCompact: `Causality.isCompact_Jminus_inter_of_isCauchySurface` (T2, locally compact, causal, causally
+  arc-connected, closed ≤, time function, J⁻ of opens open, Σ acausal Cauchy with J^±(Σ) closed) — model-free,
+  no limit curves.
+- Flat/CBGGerm: Lemma 3.8's causal step, regular case (connected piece U ∩ κ⁻¹(ball ∩ open cone at c)).
+- Flat/CBGSlice: Thm 3.6's slices.
+
+## CBG interface round 3 (e6fd8ad) and gx's round-4 rulings (2026-11-02)
+
+FromModel proves for any LocalModel: A3 at regular points (`germ_future_reg`, `germ_past_reg`); A4 from cone-slice B4
+(`slice_future_of_cone` off BTZ, `slice_past_of_cone` everywhere); `diamond_clause_of_piece`.
+gx accepted as Level B fields (round 4): (1) `[T2Space Y]`; (2) B4 in cone-slice form `ConeSliceFuture` (off BTZ) /
+`ConeSlicePast` (everywhere), REPLACING the level-set B4; (3) type agreement ONLY at corresponding pairs (same stratum,
+same component); (4) `isOpen_regY`. gx's E₀ instance additionally owes (in hA3f/hA3p/hA4f/hA4p): lem:passe_pgcd
+(A3 future), an E₀ future slice off the cone (τ_q, Lemma 3.11), a regular a ∈ U ∩ I⁺(p) and I⁺(p) regular near p (A3 past);
+past cone-slices at BTZ points via τ + r level sets, K = a line segment below y.
