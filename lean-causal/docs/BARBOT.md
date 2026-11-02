@@ -1,7 +1,7 @@
 # The Barbot campaign — *Globally hyperbolic flat space-times* on the ETT library
 
 T. Barbot, *Globally hyperbolic flat space-times*, J. Geom. Phys. 53 (2005) 123–165, arXiv
-math/0402257 (`barbot_globally_2004`). Rulings: DEC-34 … DEC-38, DEC-72, DEC-83, DEC-88 … DEC-92; open questions OQ-21 … OQ-23;
+math/0402257 (`barbot_globally_2004`). Rulings: DEC-34 … DEC-38, DEC-72, DEC-83, DEC-88 … DEC-93; open questions OQ-21 … OQ-23;
 work packages WP-29 … WP-34. Read `docs/CAMPAIGN.md` (the protocol) and `kb/INDEX.md` first —
 **kb/0024** in particular — then this file.
 
@@ -153,7 +153,7 @@ Classes: **T** causal / order-topological / affine in Minkowski space; **D** met
 - **[10.M] carries `hBieb`** (2026-11-01): its statement was shown to imply Bieberbach I, so the named
   external is added, as in `BarbotExternals.bieberbach` and the `nonloxodromic_*` statements.
 
-## Rulings of 2026-11-02 (DEC-88 … DEC-92) — outcomes
+## Rulings of 2026-11-02 (DEC-88 … DEC-93) — outcomes
 
 Applied and integrated 2026-11-02; `make check` green (strict: 0 `sorry` in 150 files, axiom
 sweep 10602 declarations in 151 modules, all within `propext`/`Classical.choice`/`Quot.sound`).
@@ -204,6 +204,19 @@ Barbot ledger closure **15/39 → 20/39**.
   exact SC setting the target is EQUIVALENT to the causal openness of `≤` at those two open sets
   (`isCauchySurface_iff_isOpen_Jplus_chartFutureSide_of_secondCountable`), and holds under causal
   openness. No counterexample; **no finding against ETT.**
+- **DEC-93 — lemma K: PROVED in ETT's setting.** Causal openness (`CausallyOpen`,
+  `def:causally_open_spacetime_open`, two-sided per DEC-8) and second countability (`ETT.tex:255`)
+  are part of ETT's spacetime. New strict module `Causal.LemmaK`, the **lemma of record**:
+  `Causality.isCauchySurface_of_isLocallyCauchy_of_causallyOpen` — the bare stub's exact
+  hypotheses plus `[SecondCountableTopology M]` and `C.CausallyOpen` — by `CurvesExtend` from
+  Levin's theorem (`Causal.LevinUtility`) and `isCauchySurface_of_isLocallyCauchy_of_isOpen_Jplus`
+  (`Causal.LemmaKLocal`) with `J^±(V)` open read off `CausallyOpen` at `U = ⊤`; axioms
+  `propext`, `Classical.choice`, `Quot.sound`. Second countability is used only for `CurvesExtend`
+  (σ-compactness for Levin's utility); the SC-free form takes `CurvesExtend` as a hypothesis
+  (`…_of_causallyOpen_of_curvesExtend`). Non-vacuity on the timelike line with `Σ = {0}`
+  (`timelikeLine_causallyOpen`, `timelikeLine_isCauchySurface_zero_of_causallyOpen`). The two
+  forms without causal openness (`CausalScaffold.CompactCauchy`, bare; `CausalScaffold.LemmaKSCOpen`,
+  second countable) keep their tagged `sorry` as **open generalisations, not owed**.
 
 ## Findings against ETT (for the author; the ETT ledger is not edited from this campaign)
 

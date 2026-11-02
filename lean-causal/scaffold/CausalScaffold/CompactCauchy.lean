@@ -3,6 +3,11 @@ import Causal.CompactCauchy
 /-!
 # Lemma K, the bare DEC-44 form — the scaffold half of `Causal.CompactCauchy`
 
+**Open generalisation without causal openness, not owed (DEC-93); the lemma of record is
+`Causal.LemmaK`** (`Causality.isCauchySurface_of_isLocallyCauchy_of_causallyOpen`: these exact
+hypotheses plus causal openness and second countability, ETT's spacetime, proved). The `sorry`
+below is kept as an open question.
+
 No label is marked. This module holds only the **bare** DEC-44 form of Lemma K,
 `isCauchySurface_of_isLocallyCauchy` (locally Cauchy only, no splitting, no two-sidedness), stated
 with a tagged `sorry` so that gx has a target declaration. Lemma K's proved form
@@ -22,6 +27,10 @@ the one that module carried until the graduation of 2026-11-02, unchanged.
 
 ## SCOPE (disclosed)
 
+* **DEC-93 (2026-11-02): re-scoped.** Lemma K is stated in ETT's setting, where causal openness
+  (`CausallyOpen`, `def:causally_open_spacetime_open`, DEC-8) and second countability
+  (`ETT.tex:255`) are part of the spacetime, and proved there (`Causal.LemmaK`). This form,
+  without causal openness, is an open generalisation, **not owed**.
 * **Not proved**: one `sorry -- SORRY(DEC-44)`. Open in ETT generality and possibly false; the
   obstruction (no global projection, no two-sidedness) is `Causal.CompactCauchy`'s SCOPE.
   Nothing may depend on it, and no declaration does.
@@ -56,7 +65,9 @@ namespace Causality
 
 variable {C : Causality M}
 
-/-- **Lemma K, the bare DEC-44 form — OPEN, tagged `sorry`; nothing may depend on it.** On a
+/-- **Lemma K, the bare DEC-44 form — OPEN, tagged `sorry`; nothing may depend on it.** Open
+generalisation without causal openness, not owed (DEC-93); the lemma of record is `Causal.LemmaK`
+(`isCauchySurface_of_isLocallyCauchy_of_causallyOpen`). On a
 connected Hausdorff tarentin globally hyperbolic causally arc-connected spacetime with
 `J^±(p) ≠ {p}`, a compact connected locally Cauchy set is a Cauchy surface. This is the target gx
 points at; it is proved in `Causal.CompactCauchy`

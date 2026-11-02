@@ -153,6 +153,7 @@ import Causal.CBG.FromModel
 import Causal.Flat.CBGSlice
 import Causal.Flat.CBGGerm
 import Causal.Flat.CBG
+import Causal.LemmaK
 
 /-!
 # Causal — topological spacetimes
@@ -167,7 +168,8 @@ Since 2026-11-02 it also holds the Barbot campaign (*Globally hyperbolic flat sp
 `Causal.Splitting`, `Causal.LemmaKBare`, `Causal.LemmaKReduction`, whose labels are b-prefixed and read by
 `papers/barbot/ledger/` (kb/0024), with the label-free Lemma K work of DEC-92
 (`Causal.LemmaKSC`, `Causal.LemmaKObstruction`, `Causal.LevinUtility`, `Causal.LemmaKLocal`,
-`Causal.LemmaKSCLocal`); and, graduated the same day, the CBG work
+`Causal.LemmaKSCLocal`) and Lemma K's statement of record in ETT's setting (DEC-93,
+`Causal.LemmaK`: causally open, second countable); and, graduated the same day, the CBG work
 (`Causal.CBG.*`, `Causal.Flat.CBG`, `Causal.Flat.CBGGerm`, `Causal.Flat.CBGSlice`,
 `docs/CBG-DESIGN.md`).
 -/

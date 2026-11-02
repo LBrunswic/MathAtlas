@@ -3,6 +3,10 @@ import Causal.LemmaKSCLocal
 /-!
 # Lemma K, the bare DEC-44 form with second countability — OPEN
 
+**Open generalisation without causal openness, not owed (DEC-93); the lemma of record is
+`Causal.LemmaK`** (`Causality.isCauchySurface_of_isLocallyCauchy_of_causallyOpen`: these exact
+hypotheses plus causal openness, proved). The `sorry` below is kept as an open question.
+
 No label is marked. This module holds one tagged `sorry`: the bare form of Lemma K
 (`CausalScaffold.CompactCauchy.isCauchySurface_of_isLocallyCauchy`) with
 `[SecondCountableTopology M]` added, which is ETT's own definition of a spacetime and so is
@@ -23,6 +27,10 @@ faithful to the paper rather than a weakening of it:
 
 ## SCOPE (disclosed)
 
+* **DEC-93 (2026-11-02): re-scoped.** Causal openness (`CausallyOpen`,
+  `def:causally_open_spacetime_open`, DEC-8) is part of ETT's spacetime, and with it this
+  statement is proved (`Causal.LemmaK`). This form, without causal openness, is an open
+  generalisation, **not owed**.
 * **Not proved**: one `sorry -- SORRY(DEC-44)`. Nothing may depend on it, and no declaration does.
 * **The gap, narrowed (round 3, `Causal.LemmaKSCLocal`).** In exactly this setting:
   - `CurvesExtend` is PROVED (`Causality.curvesExtend_of_secondCountable`, `Causal.LevinUtility`:
@@ -57,7 +65,8 @@ namespace Causality
 variable {C : Causality M}
 
 /-- **Lemma K, the bare DEC-44 form with second countability — OPEN, tagged `sorry`; nothing may
-depend on it.** The stub `isCauchySurface_of_isLocallyCauchy` (`CausalScaffold.CompactCauchy`),
+depend on it.** Open generalisation without causal openness, not owed (DEC-93); the lemma of
+record is `Causal.LemmaK` (`isCauchySurface_of_isLocallyCauchy_of_causallyOpen`). The stub `isCauchySurface_of_isLocallyCauchy` (`CausalScaffold.CompactCauchy`),
 with `[SecondCountableTopology M]` added (ETT's definition of a spacetime, `ETT.tex:255`) and
 otherwise its exact hypotheses. -/
 theorem isCauchySurface_of_isLocallyCauchy_of_secondCountable [T2Space M]
