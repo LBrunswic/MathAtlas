@@ -146,3 +146,10 @@ Flat.FlatSpacetime, Flat.Quotient, Flat.LipschitzGraph, Flat.Loxodromic, Flat.Cl
 request. Stays scaffold: CBG.*, Flat.CBG, Flat.CBGGerm, Flat.CBGSlice, the CompactCauchy stub (bare lemma K).
 **Blocker for gx's strict Section 4:** CBG.* imports ETT's sorried SubExtension — requested to cut that dependency.
 gx imports specific modules only, never the `Causal` root.
+
+## Graduation LANDED (ba5ed22) — read every `CausalScaffold.X` above as `Causal.X` except:
+
+CBG.*, Flat.CBG, Flat.CBGGerm, Flat.CBGSlice, and the stub `CausalScaffold.CompactCauchy` (bare lemma K, sorry), which
+stay in the scaffold until round 4 + DEC-73 (SubExtension split, GXSingular graduated). Note: commit 82ee40f does not
+build (renames without content); base nothing on it. TODO (gx, after wave 4b): update the docstring mention at
+GX/Structure/Basic.lean:263 to the Causal.* path.
