@@ -1,0 +1,59 @@
+{
+  "package": "WP-35a",
+  "round": 2,
+  "auditor": "read-only auditor, node1, 2026-11-02",
+  "file": "GX/Branched/Paths.lean",
+  "report": "campaign/WP-35a/REPORT.json",
+  "verdict": "clean",
+  "builds": true,
+  "sorry_count": 0,
+  "checks": {
+    "build": "taskset -c 0-11 lake env lean -DwarningAsError=true GX/Branched/Paths.lean: EXIT 0, no output (10.3 s wall). taskset -c 0-11 lake build GX: 'Build completed successfully (8577 jobs)', EXIT 0.",
+    "sorry_axioms": "No sorry/admit/axiom/native_decide/implemented_by/extern in the file. campaign/WP-35a/Axioms.lean re-run: all ten main theorems (almost_homotopic_carac_cc_component, AlmostTrivialCC.of_carac_component, hausdorff_first_countable_connected_cc, almost_homotopic_carac2_cc, almost_homotopic_carac2_of_isMaximal_cc, ramified_covering_path, omegaEnd_isBranchedCovering, carthesian_piOne_S₂, carthesian_S₂_almostTrivial, carthesian_S₂_not_trivial) depend only on [propext, Classical.choice, Quot.sound].",
+    "round1_major_1": "FIXED. lem:almost_homotopic_carac2 is no longer bold anywhere in the file (module list l.20 writes it plain with 'NOT marked (strengthened, SCOPE (i))'; the declaration docstrings of almost_homotopic_carac2_cc / _of_isMaximal(_cc) carry no mark). The hypothesis-checklist row reads '⚠ strengthened (finding)' and names the added S skeletal, Y∖S slsc, Y connected and that no ruling covers them (DEC-70 names only theo:ramified_covering_path and theo:Galois_cor; DEC-66 (b) only M connected). REPORT row: status partial, marked false, hypothesis 'strengthened', with the question to the author. registers/DECISIONS.md was re-read up to DEC-72: still no ruling names this row, so partial is the correct status. The ledger at HEAD (LEDGER.md l.547) already records it partial.",
+    "round1_major_2": "FIXED. All 11 bold marks of the module docstring now sit at character offsets 303..2003, inside tools/ledger.py's 4000-character lean_index window (regex count over text[:4000] = 11 = the number of closed rows). The SCOPE block (offsets 4734..7700) lies inside lean_scope_blocks' 8000-character window.",
+    "lean_diff": "git diff HEAD on the file: the only new declarations are AlmostTrivialCC.of_carac_component and almost_homotopic_carac_cc_component (both round 0); the round-1 fixes touched docstrings only. No existing statement or proof changed.",
+    "statement_fidelity": "Re-read the paper l.1189-1416 (statements and proofs) against the Lean. AlmostTrivialCC is DEC-55's literal compact-open component definition (OmegaSet ⊆ C(I,X)); the homotopy form enters only through proved bridges. AlmostHomotopicCC is γ₂⁻¹*γ₁ almost trivial, as printed. lem:almost_homotopic_carac (both items literal, plus the stronger homotopy form) and lem:hausdorff_first_countable_connected (Equivalence on {γ // MemOmega U γ}) carry LPC, U open and U slsc (DEC-68 (b)); Hausdorff, first countable, connected, x ∈ closure U are dropped. theo:ramified_covering_path carries T2, LPC, first countable, connected, S skeletal and Sᶜ slsc (DEC-70) and gives OmegaQuot S y₀ ≃ₜ MaxBranchedCover S y₀ over Y plus the branched-covering assertions. ex:consider_carthesian_coordinates_usual: cartS₂ is the planar sine curve with its limit segment times {0} (DEC-68 (a)); all four claims proved (¬IsHomTrivial is against DEC-56 (g)'s weaker s<1 form, hence strong). lem:almost_homotopic_carac2's Lean forms are correct but strengthened, now honestly disclosed. No vacuous or unsatisfiable hypothesis: ex:consider_fiber_above_homeomorphic proves S skeletal and ℂ∖S slsc for a concrete S, and cartS₁ᶜ is an open slsc U.",
+    "report": "All 12 environments of l.1189-1416 (excluding the section labels and the §3.4 labels) are in REPORT.json; 11 closed and marked, 1 partial unmarked, matching the docstring. All 140 declarations REPORT.json lists are defined in the file; every GX.* name in the module docstring exists.",
+    "names": "The two new theorem names occur nowhere else in GX/ or scaffold/."
+  },
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "Paths.lean module docstring, hypothesis-checklist row for lem:almost_homotopic_carac2 (l.66)",
+      "problem": "The parenthesis says GX.almost_homotopic_carac2_of_isMaximal_cc holds for 'any maximal covering, still with Y ∖ S slsc', but that theorem also takes hS : IsSkeletal S. SCOPE (i) has the same omission. REPORT.json states it correctly ('still adds S skeletal and Y minus S slsc').",
+      "fix": "Write 'still with S skeletal and Y ∖ S slsc' in both places. Docstring only."
+    },
+    {
+      "severity": "minor",
+      "where": "theo:ramified_covering_path, SCOPE (d); REPORT question",
+      "problem": "Carried from round 1: reading (d), that X carries the quotient of the compact-open topology of Ω, is covered by DEC-70's 'rows close' only implicitly. It is the only reading consistent with the proof (l.1339-1383), so CLOSED is not an overclaim.",
+      "fix": "The master records that DEC-70 covers (d), or puts it to the author together with the lem:almost_homotopic_carac2 question."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/README.md l.50, module table row GX.Branched.Paths",
+      "problem": "Still reads '§3.3 (8 of 12 rows closed)'. The file now certifies 11 of 12. This file is outside the package's write set.",
+      "fix": "The master updates the row when graduating."
+    }
+  ],
+  "row_verdicts": {
+    "def:almost_trivial_loop": "closed, marked: correct (DEC-55)",
+    "ex:consider_carthesian_coordinates_usual": "closed, marked: correct under DEC-68 (a)",
+    "def:almost_homotopic_paths": "closed, marked: correct",
+    "rem:implicitely_two_almost_homotopic": "closed, marked: correct (by typing)",
+    "lem:almost_homotopic_carac": "closed, marked: correct under DEC-68 (b)",
+    "lem:hausdorff_first_countable_connected": "closed, marked: correct under DEC-68 (b)",
+    "lem:almost_homotopic_carac2": "partial, unmarked: correct. The strengthening (S skeletal, Y∖S slsc, Y connected) is not covered by any ruling up to DEC-72, and it is disclosed in the docstring, SCOPE (i), the checklist and REPORT, with a precise question to the author",
+    "theo:ramified_covering_path": "closed, marked: correct under DEC-70 (reading (d) covered implicitly, minor)",
+    "def:covering_branched_two_paths": "closed, marked: correct under DEC-56 (e)",
+    "prop:general_fiber_path": "closed, marked: correct under DEC-56 (e)(f)",
+    "prop:general_fiber_path_universal": "closed, marked: correct; mark now inside the ledger window",
+    "ex:consider_fiber_above_homeomorphic": "closed, marked: correct; mark now inside the ledger window"
+  },
+  "questions_for_author": [
+    "lem:almost_homotopic_carac2 (l.1306): may 'Ỹ^S, a maximal covering possibly branched above some S' be read as prop:universality's covering, so that it carries S skeletal and Y ∖ S semilocally simply connected (as DEC-70 rules for theo:ramified_covering_path and theo:Galois_cor)? The proof at l.1316 uses that p⁻¹(Y∖S) is simply connected. If yes, the row closes with no change to the Lean.",
+    "theo:ramified_covering_path: confirm that DEC-70 accepts reading (d), that X carries the quotient of the compact-open topology of Ω."
+  ],
+  "summary": "Both round-1 majors are fixed with docstring-only changes. (1) lem:almost_homotopic_carac2 is now unmarked and partial everywhere: the docstring, the checklist ('⚠ strengthened (finding)'), SCOPE (i) and REPORT, with a precise question to the author. No ruling up to DEC-72 covers its added hypotheses. (2) All 11 closed marks are inside the ledger's 4000-character window (offsets 303..2003). The file builds with -DwarningAsError=true (EXIT 0) and lake build GX succeeds (8577 jobs). There are 0 sorry, and the ten main theorems use only the standard three axioms. DEC-55, DEC-56, DEC-68 (a)(b) and DEC-70 are applied correctly. All 12 labels are reported, all 140 declarations exist, and there are no name clashes. Three minor issues remain: the checklist and SCOPE (i) leave S skeletal out of the _of_isMaximal_cc description, reading (d) is covered by DEC-70 only implicitly, and the README row is stale. Verdict: clean (11 of 12 rows closed, 1 partial pending the author)."
+}

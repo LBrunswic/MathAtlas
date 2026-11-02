@@ -1,0 +1,47 @@
+{
+  "package": "WP-35c",
+  "round": 1,
+  "file": "GX/SingularII/Unloopable.lean",
+  "module": "GX.SingularII.Unloopable",
+  "audited_source_mtime": "2026-11-02T07:15:24Z (olean 07:15:43, REPORT 07:16:38)",
+  "verdict": "clean",
+  "builds": true,
+  "sorry_count_measured": 0,
+  "strict_library_builds": true,
+  "summary": "(1) Build. `taskset -c 0-11 lake env lean -DwarningAsError=true GX/SingularII/Unloopable.lean` exits 0 with no output. `taskset -c 0-11 lake build GX` reports 'Build completed successfully (8577 jobs)' and was already up to date, with 0 warnings. The file has no sorry, admit or axiom. `#print axioms`, run from a /tmp file outside the tree, gives [propext, Classical.choice, Quot.sound] for tame_conical, tameCylMetric, analytical_structure_locally_unloopable, singular_manifold_branched_covering, singular_manifold_skeletal_subset, singular_manifold_skeletal_subset_btz, wtame_btz_isom0 and eucl_sphere_isomPlus. (2) Ruling rows. A diff against campaign/WP-35c/Unloopable.pre-WP-35c.bak confirms the three Lean statements are unchanged; only docstrings, marks, the checklist and SCOPE changed. lem:analytical_structure_locally_unloopable carries T2, LocPathConnectedSpace, FirstCountableTopology and ConnectedSpace on M. These are exactly the standing hypotheses DEC-66 (a) makes binding on §2.5 (l.810), plus the lemma's own 'connected'. Second countability is weakened to first countability. The conclusion is the paper's (a maximal covering possibly branched over S exists, for every base point), plus that M∖S is SLSC and connected. So closing and marking under DEC-66 (a) is correct. prop:singular_manifold_branched_covering assumes only a maximal a.e. atlas on M and no topology on M or N, so it is stronger than the paper even before DEC-66. It proves: unique maximal pullback structure; reg(π) = supp ∩ {π local homeo} ⊇ supp ∩ ordX π; deckGroup π acts by a.e. morphisms. That is Γ(N/M), the reading DEC-67 (a) rules, so closing and marking is correct. cor:singular_manifold_skeletal_subset carries M connected (DEC-66 (b)) and LPC/FC/T2 (DEC-66 (a)), plus X locally unloopable, which is the section standing at l.1660 and is in force at l.1693. It gives the existence, SameAEStructure, the ∃! maximal structure, and deckGroup SpreadEnd.base acting. Closing and marking are correct, and the hypotheses are discharged on a concrete example (singular_manifold_skeletal_subset_btz). (3) ex:Tame. tame_conical keeps every conjunct the prior audit verified, and the new conjuncts are genuine. cylCoord is an open embedding of {r>0} ⊆ ℝ×ℝ×E onto cylPos E, the regular part of the cylinder model of M̃^{sing M} (which is identified with Susp ℝ × E over M in the same theorem). conicalDev is a local homeomorphism there and conicalDev ∘ cylCoord = conicalPolar. tameCylMetric is a mathlib Bundle.RiemannianMetric on the tangent bundle of the coordinate domain with inner = ρ²+r²φ²+‖ζ‖², and pos uses r>0. The derivative of D∘cylCoord sends v to w with ‖w₁‖²+‖w₂‖² = g(v,v), the Euclidean norm written out because ℂ×E carries the sup norm. By polarization this is g = D^*eucl. The coefficients are ContDiff ℝ ⊤, which is ω (analytic) at this pin. The paper's sentence (l.1619) gives a metric 'in cylindrical coordinates', and θ is not a coordinate at r = 0, so the coordinate expression is defined exactly on the regular part. Reading it as a metric on the regular part of the cover, expressed in the paper's coordinates, is faithful and does not outrun the paper. The dispatch's condition ('certify it in full if the paper's claim is exactly that') is met, and the agent went further than a coordinate identity by building an actual metric object. I accept closed and marked, with the residual question recorded below. (4) REPORT.json is honest. All seven \\label{}s in l.1610–1705 are listed, sec:GXsing2 aside. The file's 71 declarations match the REPORT's decls plus extra_decls exactly in both directions. Rulings are cited per row. (5) The paper's multi-part statements are covered in full. (6) Cited results are built, not assumed: maxBranched_isMaximal, maxBranched_isBranchedCovering, aepullback, aePullback_spec_of_isAELocalHomeomorph, regLocusOf_eq_inter_isLocalHomeomorphOn, conical_isomPlus and previous_examples_*. (7) Names: all 71 declaration names were grepped against GX/ and scaffold/ (excluding this file), with no clash. The scaffold copy of Unloopable is gone. Docstring contract: all seven marks fall within the first 4000 characters, at offsets 694, 1443, 2174, 2462, 2963, 3259 and 3565. Vacuity: tameCylMetric is an inhabitant, cylPos E is nonempty and the metric is positive-definite, and IsLocallyUnloopable (ℂ×E) is proved in the same theorem. No hypothesis carries the conclusion. DEC-55 is not engaged in this range. There is no blocker and no major issue. Five minor issues follow.",
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "tame_conical, the 'singular' conjunct `cylMetricForm E 0 (0, 1, 0) (0, 1, 0) = 0`; module SCOPE (d)",
+      "problem": "'Singular' is certified only as arithmetic on the coefficient formula at r = 0. That point lies outside the metric's domain (tameCylMetric lives on {r > 0}), and in the cover every θ names the same point there. The metric is not related to the cover's singular part {r = 0}: it has no extension there, and no length or distance structure on the whole Susp ℝ × E is proved. This is consistent with the coordinate reading the row closes under, and SCOPE (d) states it ('its coefficient form is degenerate at r = 0'). But if the author means by 'singular Euclidean metric' the cone length metric on the whole covering, that is not certified.",
+      "fix": "Optionally add a SCOPE (d) sentence: no metric or length structure is asserted at r = 0, and 'singular' is the degeneracy of the coordinate expression. Or put the reading to the author (see questions)."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json kb_proposals[0] and the ex:Tame notes ('a genuine mathlib Riemannian metric')",
+      "problem": "Bundle.RiemannianMetric (Topology/VectorBundle/Riemannian.lean:370) is only a fibrewise family of inner products. It imposes no continuity or smoothness in the base point. Mathlib's regular notions are ContinuousRiemannianMetric (l.468) and ContMDiffRiemannianMetric (Geometry/Manifold/VectorBundle/Riemannian.lean:244). The file does prove the regularity separately, coefficientwise (contDiff_cylMetricForm, analytic), which is mathematically sufficient on a trivial tangent bundle. As written, though, the kb proposal would lead a later session to believe Bundle.RiemannianMetric alone certifies a smooth metric. The bundled ContMDiffRiemannianMetric is blocked at this pin because NormedAddCommGroup ((ℝ × ℝ × E) →L[ℝ] (ℝ × ℝ × E) →L[ℝ] ℝ) fails to synthesize. The auditor reproduced that failure, while the ℝ × ℝ version synthesizes.",
+      "fix": "Reword the kb proposal: 'Bundle.RiemannianMetric is a fibrewise inner-product family with no base regularity; prove smoothness separately (coefficientwise on a trivial bundle) or use ContMDiffRiemannianMetric when the norm on F →L F →L ℝ synthesizes.'"
+    },
+    {
+      "severity": "minor",
+      "where": "wtame_btz docstring (l.915–921)",
+      "problem": "This was carried over from WP-27g AUDIT-1 and is still stale. The docstring gives only the l.1731 sense of 'no developing map', but the theorem and the module docstring also carry the l.1729 'M admits none' conjunct (not_admits_developing_btz).",
+      "fix": "Add the 'admits' sense (l.1729, over §3's class of spaces, now standing by DEC-66 (a)) to the docstring."
+    },
+    {
+      "severity": "minor",
+      "where": "SCOPE (a) / IsLocallyUnloopable",
+      "problem": "This was carried over from WP-27g AUDIT-1 and is still undisclosed. The paper's SLSC (l.1156) is stated for Hausdorff, connected, LPC spaces. V here is not required to be Hausdorff. This is harmless, since it is automatic when X is T2 and it only weakens hypotheses.",
+      "fix": "Add one SCOPE (a) sentence on Hausdorffness."
+    },
+    {
+      "severity": "minor",
+      "where": "module docstring, ## SCOPE (disclosed) at character offset 7614, Provenance at 12795",
+      "problem": "tools/ledger.py's lean_scope_blocks searches text[:8000] for `^## SCOPE … (?=^Provenance:|^-/)`. The terminator lies past 8000, so the regex does not match, and none of this file's disclosures (including SCOPE (d), on which ex:Tame's closure rests) reach the ledger. This is pre-existing: it was already the case in the pre-WP-35c file, with SCOPE at 6486 and Provenance at 10666. It is a tooling and length issue, not a proof issue.",
+      "fix": "Master: either shorten the docstring so SCOPE through Provenance falls within 8000 characters, or let ledger.py read the SCOPE block beyond 8000."
+    }
+  ],
+  "questions_for_author": [
+    "ex:Tame (l.1619): 'the covering can be endowed with the singular Euclidean metric dr² + r²dθ² + Σdz_i²'. Is this the metric on the regular part {r > 0} of the cover, expressed in the cylindrical coordinates and degenerate at r = 0? That is what is certified (GX.tameCylMetric, GX.conicalPolar_metric), and the row is closed under it. Or is a cone length metric on the whole covering, including r = 0, intended?"
+  ]
+}

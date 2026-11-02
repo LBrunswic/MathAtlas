@@ -1,0 +1,62 @@
+{
+  "package": "WP-35f",
+  "round": "1 (read-only audit of the WP-35f round on WP-27j's Models.lean; source 08:13:58Z, olean 08:14:19Z, REPORT 08:15:17Z, 2026-11-02)",
+  "file": "scaffold/GXScaffold/SingularII/Models.lean",
+  "verdict": "issues",
+  "builds": true,
+  "sorry_count_measured": 1,
+  "summary": "BUILD: `taskset -c 0-11 lake env lean scaffold/GXScaffold/SingularII/Models.lean` exits 0 in 10.4 s. Exactly one warning ('declaration uses sorry', l.3362, GX.exists_isLocalTamifying_charts, tagged SORRY(theo:local_virt_tame)); REPORT sorry_count 1 matches. The olean is newer than the source. AXIOMS (stdin, nothing written): over all 171 declarations sorryAx reaches exactly exists_isLocalTamifying_charts, isVirtuallyTame_of_isXAManifold, local_virt_tame; every other declaration (all 8 marked rows, the whole liftable chain isVirtuallyTame_of_liftable / local_virt_tame_liftable / isLocalTamifying_chartTop / nhds_chartTop_le_of_aut / isLiftableChartMap_refl, the cex chain, forall_isTame_iff(_printed), existsUnique_hasXAType) depends on at most propext, Classical.choice, Quot.sound. COVERAGE: the file's 171 declarations equal REPORT's decls + extra_decls exactly; no name is declared in GX/ or the 23 other scaffold files. MARKS: exactly the 8 rows REPORT marks closed are bold (module and declaration docstrings); no partial row is bold. CHANGES: the diff against campaign/WP-35f/Models.pre-WP-35f.lean.bak touches the docstring, removes GX.spread_top (false, WP-27k's GX.not_spreadTopPrinted), adds piece (2) in the liftable case (l.2164-3322) and the liftable theorems (l.3476-3644); the cex section is untouched since WP-27j AUDIT-3. Downstream: SpreadTop.lean typechecks against the new Models (exit 0, no warning); no other file referenced GX.spread_top. DEC-67 (e) is applied (IsXAManifold.hasType; rem:singular_point_manifold_has closed via existsUnique_hasXAType, uniqueness by the paper's argument). DEC-69 is applied as ruled (TroyanovSuspensionTheorem an explicit hypothesis of the cex, non-vacuity witnesses, row partial) and unchanged. The new piece (2) is genuine, not vacuous: IsLocalTamifying is the global notion read locally (IsTamifyingTopology.isLocalTamifying), chartTop is T_α transported by lifts via mkOfNhds, all eight fields are proved, naturality under restriction and Aut is proved, the gluing yields a real IsTamifyingTopology, and IsLiftableChartMap is satisfiable at singular points (isLiftableChartMap_refl). ONE MAJOR: the dispatch said CLOSE theo:local_virt_tame. The row stays partial on a sorry described as 'a MATHEMATICAL obstruction, not infrastructure'. That obstruction (lem:spread_top (c) false in general, WP-27k's sector counterexample) concerns only r : Ṽ → V̂. Yet the proved form assumes BOTH ℓ : Ũ → Û and r iso (IsLiftableChartMap). The case r iso / ℓ arbitrary is reachable by the paper's own proof: r^*T_α = T_α, (D) is inherited from T_α, and ℓ is a quotient by a deck group. That case is blocked only by the unbuilt ℓ-quotient. So the obstruction is mis-scoped and the strongest form the paper's proof supports is not proved. The other findings are minor and carried, or graduation notes.",
+  "issues": [
+    {
+      "severity": "major",
+      "where": "GX.IsLiftableChartMap (l.2394), GX.isVirtuallyTame_of_liftable (l.3495), GX.local_virt_tame_liftable (l.3626); the sorry comment of GX.exists_isLocalTamifying_charts (l.3377-3398); hypothesis checklist row 'theo:local_virt_tame, (ii) ⇒ (i): (none)'; REPORT theo:local_virt_tame hypotheses[2] and sorries[0]",
+      "problem": "The dispatch asks to CLOSE the sorries of theo:local_virt_tame. One remains, on the fully general piece (2). It is justified as 'blocked by a MATHEMATICAL obstruction, not by infrastructure': the paper's (D) (l.2128-2133) needs r⁻¹(R) portly for r^*T_α, i.e. lem:spread_top (c) for r. I checked WP-27k's GX.cex_spread_top_sector, GX.not_spreadTopConnCE and GX.isPortly_strongPullTop_iff_local in SpreadTop.lean. They are sorry-free and say what is claimed, so the obstruction is real FOR r. But the proved substitute, IsLiftableChartMap, demands that the components Û of p⁻¹(U) and V̂ of q⁻¹(V) be homeomorphic over φ, i.e. that BOTH ℓ : Ũ → Û and r : Ṽ → V̂ be isomorphisms. The checklist says 'without it the proof's (D) fails', which holds only for the r half. When r is an isomorphism and ℓ is not, the paper's construction meets no spread_top (c) issue, as each step of the proof shows. (1) r^*T_α = T_α on V̂ (strongPullTop of a homeomorphism with T_α locally connected, cf. GX.strongPullTop_self). (2) (D) for Ṽ = V̂ is (D) of T_α restricted to the open V̂. (3) Û gets the quotient topology of Ũ ≅ V̂ by Γ(Ũ/Û). Portliness passes to Û as the paper argues (l.2128-2131): the regular part is saturated and ℓ is open and surjective. (4) (B) descends because D∘ℓ = g·D_U on reg Ũ. (5) Galoisianity of ℓ is GX.isGaloisian_of_comp. Nothing there is a known-false step; what is missing is the ℓ-quotient construction, which REPORT's own question estimates at ~1.5k lines. That is infrastructure. The r-iso / ℓ-arbitrary case is not marginal. 'Ṽ → V̂ iso for small V' is a condition on the MODELS alone, like the paper's other hypotheses, whereas IsLiftableChartMap constrains M. It covers the case where a local meridian dies in π₁(reg M) but not in π₁(reg X_α). So the row's proved form is weaker than the strongest form the paper's proof supports (DEC-27 asks for the strongest), and the sorry's tag misdescribes what blocks the excluded ℓ-nontrivial case.",
+      "fix": "Either (preferred) prove the stronger form: replace IsLiftableChartMap by a condition on r only. That is, for the chart's V, Ṽ → V̂ an isomorphism, a model-side hypothesis; better still, StrongLocallyConnectedOrd for r^*T_α (GX.isPortly_strongPullTop_iff_local), which subsumes it. Then build T_{U,V,φ} on Û as the ℓ-quotient of the transported topology. This keeps the general sorry only where r violates the local condition. Or, at minimum, correct the record. In the checklist row, the sorry comment and REPORT, say that the ℓ-iso half of IsLiftableChartMap is an infrastructure restriction (the ℓ-quotient is unbuilt) and that only the r half is forced by the spread_top (c) obstruction. List the ℓ-quotient as unbuilt work in REPORT notes. The row stays partial in both cases unless a ruling accepts a corrected form."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT rem:theorem_theo_local_tame (findings[0], questions); GX.forall_isTame_iff (l.1278)",
+      "problem": "Carried from WP-27j AUDIT-1/2/3. The dispatch asks to certify the global-equivalence reading. It is proved outright for the printed notion (forall_isTame_iff_printed), but for the DEC-67 (e) notion only under htype. The necessity of htype, and the falsity of the per-manifold 'iff', are argued in prose only. The library contains no non-tame singular manifold (grep: no ¬ IsTame / not_isTame in GX/ or scaffold/), so the counterexample cannot be formalized now. The row is honestly partial and the question is raised.",
+      "fix": "No package action. Master: rule the reading of l.1924 under DEC-67 (e) (global equivalence with htype, or the printed notion), which would close the row."
+    },
+    {
+      "severity": "minor",
+      "where": "GX.local_virt_tame (l.3457), GX.local_virt_tame_liftable (l.3626); REPORT theo:local_virt_tame findings[4]",
+      "problem": "Under the theorem's hypothesis (a tamifying T_α on every model), (ii) holds outright, so both 'equivalences' are degenerate: (i) ⇒ (ii) is HasAutContinuousTamifying.isVirtuallyTame, not the paper's route 'each X_α is an X_A-manifold', which fails under DEC-67 (e). This is disclosed, and the real content is the (ii) ⇒ (i) theorems. Recorded only so that the master does not read the iff as carrying more than isVirtuallyTame_of_liftable.",
+      "fix": "None; REPORT's question 'is the intended content every X_A-manifold is virtually tame?' is the right one for the author."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/GXScaffold/SingularII/SpreadTop.lean l.7, l.62-63 (WP-27k's file, not this package's)",
+      "problem": "After WP-35f removed GX.spread_top from Models, SpreadTop's module docstring still says Models 'states GX.spread_top with a tagged sorry' and reads hypotheses 'as in GX.spread_top'. Prose only; SpreadTop typechecks with no warning against the new Models.",
+      "fix": "Master or WP-27k: refresh those docstring lines at graduation (point to SpreadTopPrinted)."
+    },
+    {
+      "severity": "minor",
+      "where": "Whole module vs per-file sorry attribution (carried)",
+      "problem": "The single sorry and its two dependents share the module with 8 marked rows and the closed liftable chain. The axiom sweep confirms that no marked declaration depends on it, but a per-file count would attribute it to them. This is disclosed in REPORT notes.",
+      "fix": "At graduation split exists_isLocalTamifying_charts, isVirtuallyTame_of_isXAManifold and local_virt_tame into their own module, as REPORT notes propose."
+    }
+  ],
+  "checks": {
+    "build": "taskset -c 0-11 lake env lean scaffold/GXScaffold/SingularII/Models.lean: exit 0, 10.4 s, 1 warning (sorry, l.3362)",
+    "olean": "Models.olean 08:14:19Z newer than source 08:13:58Z (lake build not re-run by the auditor, to write nothing)",
+    "sorryAx_reach": [
+      "GX.exists_isLocalTamifying_charts",
+      "GX.isVirtuallyTame_of_isXAManifold",
+      "GX.local_virt_tame"
+    ],
+    "axioms_other": "propext, Classical.choice, Quot.sound only (171 declarations swept via lake env lean --stdin)",
+    "decls_file_vs_report": "171 = 171, identical sets",
+    "name_clashes": "none against GX/ and the 23 other scaffold files",
+    "marks": "bold labels = def:singular_manifold_automorphisms_group, def:family_singular_manifolds_endowed, def:atlas, def:analytic_family_model_spaces, rem:singular_point_manifold_has, def:singular_manifold_virtually_tame, def:singular_manifold_locally_galoisian, def:topological_spaces_continuous_map = REPORT's 8 marked rows",
+    "labels_in_range": "every ledger row l.1895-1990 attributed to Models.lean is in REPORT; ex:follows_proposition_brunswic_cauchy (l.1927) is a cited row with no file, outside this package (Section 4 / brunswic2021cauchy)",
+    "downstream": "SpreadTop.lean typechecks against the new Models (exit 0, no warning); GX.spread_top referenced nowhere in code",
+    "obstruction_check": "GX.cex_spread_top_sector / GX.not_spreadTopConnCE / GX.isPortly_strongPullTop_iff_local exist and are sorry-free in SpreadTop.lean; they bear on r : Ṽ → V̂ only (see major)",
+    "rulings": "DEC-67 (e) applied (IsXAManifold.hasType); DEC-69 applied (named Prop, explicit hypothesis, witnesses, row partial); DEC-55 literal IsSLSCInCC used in IsLocallyGaloisian; no ruling routes or accepts a corrected form of theo:local_virt_tame (DECISIONS.md through DEC-73, OQ table)"
+  },
+  "questions_for_master": [
+    "theo:local_virt_tame: re-dispatch with the r-only (model-side) hypothesis — Ṽ → V̂ iso, or StrongLocallyConnectedOrd for r^*T_α — and the ℓ-quotient in scope, or accept the liftable form with corrected wording? Under either, the general case is a genuine gap of the paper's proof (l.2128-2133) and needs an author ruling to close the row.",
+    "rem:theorem_theo_local_tame: rule the global-equivalence reading under DEC-67 (e) with htype (row would close), or the printed notion."
+  ]
+}

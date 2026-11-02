@@ -1,0 +1,74 @@
+{
+  "package": "WP-35d",
+  "files": ["GX/SingularII/Developing.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "lem:holonomy",
+      "tex_lines": [1753, 1760],
+      "status": "closed",
+      "marked": true,
+      "decls": ["GX.existsUnique_holonomy", "GX.existsUnique_holonomy_hom", "GX.existsUnique_holonomyOf"],
+      "hypotheses": [
+        {"paper": "Γ acting on N", "here": "read", "note": "Γ acts on M, the domain of f (DEC-67 (b)); certified in full under the ruling"},
+        {"paper": "M connected (section standing, l.1712)", "here": "carried", "note": "ConnectedSpace; LocallyConnectedSpace M (a singular manifold is locally connected)"},
+        {"paper": "(G,X) analytical", "here": "carried", "note": "IsRigidAction, FaithfulSMul, X T2 and locally connected"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "rem:singular_manifold_holonomy_indeed",
+      "tex_lines": [1768, 1770],
+      "status": "closed",
+      "marked": true,
+      "decls": ["GX.singular_manifold_holonomy_indeed_of_isLocallyUnloopable", "GX.singular_manifold_holonomy_indeed", "GX.regChartedSpace", "GX.hasGroupoid_regChartedSpace", "GX.exists_mem_aePullback_val_reg", "GX.aePullback_val_reg_spec"],
+      "hypotheses": [
+        {"paper": "'is indeed the holonomy of reg(M) in the usual sense'", "here": "read", "note": "DEC-67 (c): D restricted to the universal cover of reg(M) is a classical developing map of reg(M) (GX.developing_theorem), its classical holonomy γ ↦ ρ(γ̃)"},
+        {"paper": "\\widetilde M defined (prop:universality)", "here": "carried", "note": "M locally path-connected (DEC-66 (c)), T2, first countable (DEC-66 (a)), connected (l.1712); reg(M) semilocally simply connected derived from the section's standing X locally unloopable (l.1660) in the new GX.singular_manifold_holonomy_indeed_of_isLocallyUnloopable; GX.singular_manifold_holonomy_indeed keeps only the slsc hypothesis"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "lem:descend_developing_map",
+      "tex_lines": [1780, 1797],
+      "status": "closed",
+      "marked": true,
+      "decls": ["GX.descend_developing_map", "GX.eq_of_isHolonomyOf_one"],
+      "hypotheses": [
+        {"paper": "N a singular (G,X)-manifold, base of a branched covering", "here": "carried", "note": "N T2, locally path-connected, first countable (DEC-66 (a)(c), the §3 class of bases; lem:dense_orbits, cor:spread_connected_image); M T2"},
+        {"paper": "quasi-Galoisian", "here": "carried", "note": "IsQuasiGaloisian p"},
+        {"paper": "the holonomy is trivial", "here": "carried", "note": "IsHolonomyOf p D 1; independent of D by developing_pair_unique"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "prop:branched_devmap",
+      "tex_lines": [1807, 1819],
+      "status": "closed",
+      "marked": true,
+      "decls": ["GX.singular_developing_theorem", "GX.singular_developing_theorem_of_slsc", "GX.exists_developing_maxBranched_of_branchedCovering", "GX.exists_developing_of_simplyConnected"],
+      "hypotheses": [
+        {"paper": "(G,X) analytical, X locally unloopable (section standing, l.1660)", "here": "carried", "note": "IsLocallyUnloopable X in singular_developing_theorem; ..._of_slsc needs only M ∖ S slsc for skeletal S ⊇ sing(M)"},
+        {"paper": "M a connected singular manifold", "here": "carried", "note": "locally path-connected (DEC-66 (c)); T2, first countable (DEC-66 (a)); connected (l.1712)"},
+        {"paper": "(ii) N → M a branched covering", "here": "carried", "note": "N in the §3 class (T2, LPC, first countable, DEC-66 (a)), in the universe of M for the iff; (ii) ⇒ (i) in every universe"}
+      ],
+      "sorries": [],
+      "findings": [
+        "(kept from WP-27h, not a defect) l.1812–1819: the formal proof does not use \\widehat M' nor lem:descend_developing_map; it compares D ∘ Φ and F ∘ Ψ on the connected \\widehat M ∖ \\widehat S and descends along the open map Ψ (SCOPE (c))."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": ["GX.singular_manifold_holonomy_indeed_of_isLocallyUnloopable"],
+  "kb_proposals": [
+    "When a statement's object (\\widetilde M) needs a hypothesis that a section's standing assumption implies (X locally unloopable ⇒ reg(M) slsc), give a thin corollary in the standing form next to the general one, so the mark rests on the paper's hypotheses rather than on the derived one."
+  ],
+  "notes": "Strict-file edit dispatched by the master session (WP-35d). Only GX/SingularII/Developing.lean edited: module docstring (marks, hypothesis checklist, SCOPE (d)), three declaration docstrings (DEC citations), and one new theorem GX.singular_manifold_holonomy_indeed_of_isLocallyUnloopable (the remark under the standing X locally unloopable; a one-line corollary of GX.singular_manifold_holonomy_indeed). No existing declaration name or statement changed. `taskset -c 0-11 lake env lean -DwarningAsError=true GX/SingularII/Developing.lean` exit 0; `taskset -c 0-11 lake build GX` succeeded (8577 jobs, 0 warnings; downstream GX.SingularII.Tame rebuilt fine). 0 sorry. Axioms propext/Classical.choice/Quot.sound (campaign/WP-35d/Axioms.lean). New name grepped against GX/ and scaffold/: no clash. All four rows close under DEC-66 (a)(c) and DEC-67 (b)(c); the ledger rows should be updated from partial (WP-27h) to closed, marked under the rulings."
+}

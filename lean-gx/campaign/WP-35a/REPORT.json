@@ -1,0 +1,491 @@
+{
+  "package": "WP-35a",
+  "files": [
+    "GX/Branched/Paths.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "def:almost_trivial_loop",
+      "tex_lines": [
+        1210,
+        1213
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.AlmostTrivialCC",
+        "GX.OmegaSet",
+        "GX.MemOmega",
+        "GX.AlmostTrivial",
+        "GX.AlmostTrivialAt",
+        "GX.AlmostTrivial.almostTrivialCC",
+        "GX.AlmostTrivialCC.almostTrivial",
+        "GX.almostTrivialCC_iff",
+        "GX.eventually_almostTrivialAt_iff",
+        "GX.eventually_homotopic_family",
+        "GX.OmegaHomotopic.mem_connectedComponentIn"
+      ],
+      "hypotheses": [
+        {
+          "paper": "X Hausdorff, locally path-connected",
+          "here": "weakened",
+          "note": "not used by the definition"
+        },
+        {
+          "paper": "U open, x in closure U",
+          "here": "weakened",
+          "note": "not used by the definition"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.1201 calls 'same connected component of the compact-open Omega(x,y,U)' and 'homotopic with respect to U' equivalent. Homotopic => same component holds in general (GX.OmegaHomotopic.mem_connectedComponentIn); for almost triviality the converse is proved when U is open and semilocally simply connected and X locally path-connected (GX.almostTrivialCC_iff: for each open V the set of loops homotopic w.r.t. U to a loop of Omega(x,x,V cap U) is clopen in Omega(x,x,U), being decided by the middle of the loop, whose compact-open perturbations are homotopies in U up to short end connections, by homotopy lifting in the universal cover of U). Without semilocal simple connectivity of U the 'equivalently' is not established (the clopen argument needs it: without it a compact-open perturbation of the middle of a loop need not be homotopic to it; no counterexample to the 'equivalently' is proved)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "ex:consider_carthesian_coordinates_usual",
+      "tex_lines": [
+        1214,
+        1260
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.cartS₁",
+        "GX.cartS₂",
+        "GX.IsHomTrivial",
+        "GX.IsHomTrivial.almostTrivial",
+        "GX.IsHomTrivial.almostTrivialCC",
+        "GX.carthesian_S₁_trivial",
+        "GX.CartPiOneZ",
+        "GX.carthesian_piOne_S₁",
+        "GX.carthesian_piOne_S₁_at",
+        "GX.cartDeg",
+        "GX.cartDeg_bijective",
+        "GX.carthesian_piOne_S₂",
+        "GX.cartHE",
+        "GX.cartKappa",
+        "GX.cartLambda",
+        "GX.cartΦ",
+        "GX.cartR",
+        "GX.cartYp",
+        "GX.fgMulEquivOfHomotopyEquiv",
+        "GX.cartDeg₂",
+        "GX.cartDeg₂_mk",
+        "GX.carthesian_S₂_almostTrivial",
+        "GX.cart_middle_homotopic",
+        "GX.cartCirc",
+        "GX.cWinding_cartCirc",
+        "GX.isPathConnected_ball_diff_cartS₂",
+        "GX.cartLoopSubgroup",
+        "GX.carthesian_S₂_not_trivial",
+        "GX.not_isHomTrivial_cartγ",
+        "GX.cartγ",
+        "GX.cartγ_memOmega",
+        "GX.cartPl",
+        "GX.cartAp",
+        "GX.cartAm",
+        "GX.cartPsi",
+        "GX.cartF₀",
+        "GX.cartW",
+        "GX.cartPsiW",
+        "GX.cartFW",
+        "GX.cartM",
+        "GX.wind_const_family",
+        "GX.sgnDist",
+        "GX.continuousOn_sgnDist"
+      ],
+      "hypotheses": [
+        {
+          "paper": "S2 = {y = sin(1/x)} union {x=z=0, |y|<=1} (l.1216)",
+          "here": "carried",
+          "note": "under DEC-68 (a): S2 = (topologist's sine curve with its limit segment) x {0} (GX.cartS₂)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.1216: S2 is printed as {y = sin(1/x)} union a segment, which in R^3 is a surface (z free); read with z = 0 on the graph (the planar topologist's sine curve), as the proof's 'plane {z=0}' and claim 1 require",
+        "l.1243-1244: H'(s,t) = (0, lambda_s t, 0) lies on the segment of S2; with gamma(t) = (0,0,t) near the ends it should read (0, 0, lambda_s t) and (0, 0, -lambda_s t)",
+        "l.1218: 'The isomorphism is given by the number of turns around S_i' — for S1 this is GX.cartDeg (winding of y + iz), proved bijective",
+        "l.1229-1257 (fourth claim): the mod 2 intersection numbers can be replaced by windings around 0 of psi + i z, psi a signed distance to the planar curve P: globally psi > 0 above P; locally psi* > 0 only on the finitely many pockets of A+ met at an intermediate time (they are cut off at x = 1/(pi/2 + 2 pi k) and x = -1/(3 pi/2 + 2 pi k), where sin(1/x) = 1). The winding of psi + i z along the reparametrised homotopy stays -pi, that of psi* + i z is +pi near the end of the homotopy, and the two agree at the intermediate time. Formalized as GX.not_isHomTrivial_cartγ for the loop t -> (0, 4 sin^2(pi t), sin(pi t) cos(pi t)) (it leaves O upwards over the limit segment, crosses z = 0 once at (0,4,0) in A+, and returns from below); the paper's normalisation through c (l.1236-1241) is replaced by an explicit frame reparametrisation (GX.cartM).",
+        "l.1222: the paper's loop 'gamma(t) = (0,0,t) for t < 1/4' is not needed; any loop leaving O over the limit segment and crossing the plane only in A+ works",
+        "l.1218, l.1224 ('left to the reader', first claim for S2): proof supplied by an explicit homotopy equivalence R^3 minus S2 ~ R^3 minus S1 (GX.cartHE): (x,y,z) -> (x, y + 2s psi/(|psi|+|z|), z) pushes the plane points above/below P off the strip R x [-1,1] x {0}, and the radial expansion (x,w) -> (x, (1 + s/|w|) w) of w = (y,z) maps R^3 minus S1 into the complement of that strip; the transfer to pi_1 is Mathlib's equivalence of fundamental groupoids",
+        "l.1225-1228 (third claim): the paper's step 'Y minus closed B(S2,eps) is homeomorphic to Y minus S1' is not used; instead the middle of the loop is homotopic in Y minus S2 to a path of B minus S2 because pi_1(Y minus S2) = Z is generated by a small circle around an arc of S2 inside B (in the plane x = 1/(2 pi k)), and B minus S2 is path-connected (GX.cart_middle_homotopic)",
+        "l.1216 (ruled, DEC-68 (a)): as printed {y = sin(1/x)} is a surface of R^3 and S2 is not closed; certified for S2 = sine curve x {0}"
+      ],
+      "questions": [
+        "Reading (g) (DEC-56): homotopically trivial = homotopic with fixed ends to the constant loop through loops of Omega(O,O,U) (GX.IsHomTrivial). Reading (a) of DEC-68 for S2."
+      ]
+    },
+    {
+      "label": "def:almost_homotopic_paths",
+      "tex_lines": [
+        1262,
+        1266
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.AlmostHomotopicCC",
+        "GX.AlmostHomotopicCC.mem",
+        "GX.MemOmega.of_loop",
+        "GX.AlmostHomotopic",
+        "GX.AlmostHomotopic.almostHomotopicCC",
+        "GX.AlmostHomotopicCC.almostHomotopic",
+        "GX.almostHomotopicCC_iff"
+      ],
+      "hypotheses": [
+        {
+          "paper": "X Hausdorff, LPC; U open; (x,y) in U x closure U",
+          "here": "weakened",
+          "note": "not used; x in U is forced by the definition (GX.AlmostHomotopicCC.mem)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "rem:implicitely_two_almost_homotopic",
+      "tex_lines": [
+        1268,
+        1269
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.AlmostHomotopicCC.ends",
+        "GX.AlmostHomotopic.ends"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "lem:almost_homotopic_carac",
+      "tex_lines": [
+        1271,
+        1289
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.almost_homotopic_carac_cc_component",
+        "GX.AlmostTrivialCC.of_carac_component",
+        "GX.almost_homotopic_carac_cc",
+        "GX.AlmostTrivialCC.of_carac",
+        "GX.almost_homotopic_carac",
+        "GX.splice",
+        "GX.AlmostTrivialAt.exists_mid",
+        "GX.AlmostTrivial.exists_mid",
+        "GX.AlmostTrivialAt.of_mid",
+        "GX.splice_omegaHomotopic"
+      ],
+      "hypotheses": [
+        {
+          "paper": "X Hausdorff, first countable, connected, LPC",
+          "here": "weakened",
+          "note": "LPC carried; Hausdorff, first countable, connected not used"
+        },
+        {
+          "paper": "U open",
+          "here": "carried",
+          "note": ""
+        },
+        {
+          "paper": "U semilocally simply connected (DEC-68 (b))",
+          "here": "carried",
+          "note": "used for (i) => (ii) only; (ii) => (i) holds with no hypothesis (GX.AlmostTrivialCC.of_carac_component, GX.AlmostTrivialCC.of_carac)"
+        },
+        {
+          "paper": "x in closure U",
+          "here": "weakened",
+          "note": "not used"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.1277: item (ii) prints gamma_{|[0,t_0]} * omega * gamma_{|[t_1,t_0]}; the last factor is gamma_{|[t_1,1]}",
+        "l.1278-1279 (ruled, DEC-68 (b)): the proof of (i) => (ii) uses the homotopy form of l.1201, which the literal component form (DEC-55) implies when U is semilocally simply connected (GX.almostTrivialCC_iff); certified with U slsc.",
+        "Item (ii)'s 'homotopic in Omega(x,x,U)' is certified in both readings: literal (same compact-open component, GX.almost_homotopic_carac_cc_component) and homotopy form (stronger, GX.almost_homotopic_carac_cc)."
+      ],
+      "questions": [
+        "Reading (b): '*' as any parameterization is made concrete by GX.splice."
+      ]
+    },
+    {
+      "label": "lem:hausdorff_first_countable_connected",
+      "tex_lines": [
+        1290,
+        1305
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.hausdorff_first_countable_connected_cc",
+        "GX.almostHomotopicCC_refl",
+        "GX.AlmostHomotopicCC.symm",
+        "GX.AlmostTrivialCC.symm",
+        "GX.AlmostHomotopicCC.trans",
+        "GX.hausdorff_first_countable_connected",
+        "GX.GermEquiv",
+        "GX.almostHomotopic_iff_germEquiv"
+      ],
+      "hypotheses": [
+        {
+          "paper": "X Hausdorff, first countable, connected, LPC; U open",
+          "here": "weakened",
+          "note": "LPC and U open carried (for transitivity); the rest not used"
+        },
+        {
+          "paper": "y in closure U",
+          "here": "weakened",
+          "note": "not used; x in U carried"
+        },
+        {
+          "paper": "U semilocally simply connected (DEC-68 (b))",
+          "here": "carried",
+          "note": "for transitivity only; reflexivity and symmetry hold in general"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.1298-1303: the proof's indices drift (gamma_2^{-1}*gamma_1 for gamma_2^{-1}*gamma_3, gamma_{2|[0,t_1]} for gamma_{2|[0,t_2]}, omega_3 for omega_2, t_0 for t_1); the argument is sound once corrected, for the homotopy form",
+        "Under DEC-55 the proof rests on lem:almost_homotopic_carac (i) => (ii), certified with U slsc (DEC-68 (b))."
+      ],
+      "questions": []
+    },
+    {
+      "label": "lem:almost_homotopic_carac2",
+      "tex_lines": [
+        1306,
+        1321
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.almost_homotopic_carac2_cc",
+        "GX.almost_homotopic_carac2_of_isMaximal_cc",
+        "GX.almost_homotopic_carac2",
+        "GX.almost_homotopic_carac2_of_isMaximal",
+        "GX.maxBranched_existsUnique_lift",
+        "GX.maxBranched_lifting",
+        "GX.lift_end_eq_of_almostHomotopic",
+        "GX.almostHomotopic_of_lift_end_eq",
+        "GX.IsStandardNbhd",
+        "GX.IsSpread.hasBasis_standardNbhd"
+      ],
+      "hypotheses": [
+        {
+          "paper": "widetilde Y^S -> Y maximal covering possibly branched over S",
+          "here": "strengthened",
+          "note": "widetilde Y^S read as the covering of prop:universality: adds S skeletal, Y minus S slsc, Y connected (GX.almost_homotopic_carac2_cc on GX.MaxBranchedCover); the form for an arbitrary maximal covering (GX.almost_homotopic_carac2_of_isMaximal_cc) still adds S skeletal and Y minus S slsc. No ruling covers this row: DEC-70 names only theo:ramified_covering_path and theo:Galois_cor, DEC-66 (b) only 'M connected'."
+        },
+        {
+          "paper": "Y, widetilde Y^S Hausdorff, LPC, first countable",
+          "here": "carried",
+          "note": "§3 standing assumption (l.815, DEC-66 (a))"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.1313, l.1318: 'standard neighborhood' is used but never defined in the paper (reading (c), DEC-56: GX.IsStandardNbhd)",
+        "The second half of the proof (l.1316) uses that p^{-1}(Y minus S) is simply connected, a property of the widetilde Y^S built in prop:universality from the universal cover of Y minus S; for an arbitrary covering that is merely maximal the lemma needs Y minus S slsc (heuristically: for the harmonic archipelago Y, S empty, the identity is maximal while the converse direction fails; not formalized). Certified for the covering of prop:universality, the paper's widetilde Y^S.",
+        "WP-35a round 1 (audit): reverted to partial and unmarked — the Lean is unchanged, the strengthening (S skeletal, Y minus S slsc) is not covered by a ruling; checklist row set to '⚠ strengthened (finding)'."
+      ],
+      "questions": [
+        "For the author: does DEC-70's hypothesis 'Y minus S semilocally simply connected' (with S skeletal, as in prop:universality) extend to lem:almost_homotopic_carac2 (l.1306), i.e. may widetilde Y^S at l.1307 be read as prop:universality's covering? The proof at l.1316 uses that p^{-1}(Y minus S) is simply connected. If yes the row closes with no change to the Lean (GX.almost_homotopic_carac2_cc, GX.almost_homotopic_carac2_of_isMaximal_cc); until then it is partial."
+      ]
+    },
+    {
+      "label": "theo:ramified_covering_path",
+      "tex_lines": [
+        1322,
+        1383
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.ramified_covering_path",
+        "GX.omegaEnd_isBranchedCovering",
+        "GX.OmegaSpace",
+        "GX.OmegaRel",
+        "GX.omegaRel_equivalence",
+        "GX.OmegaQuot",
+        "GX.omegaEnd",
+        "GX.omegaLift",
+        "GX.continuous_omegaLift_one",
+        "GX.isOpenMap_omegaLift_one",
+        "GX.surjective_omegaLift_one",
+        "GX.omegaLift_one_eq_iff"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Y first countable, connected, LPC, Hausdorff; S skeletal",
+          "here": "carried",
+          "note": ""
+        },
+        {
+          "paper": "Y minus S semilocally simply connected (DEC-70)",
+          "here": "carried",
+          "note": "omitted in print at l.1322, used at l.1349"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.1322 (ruled, DEC-70): the statement omits 'Y minus S semilocally simply connected', which its proof uses at l.1349 and without which widetilde Y^S is not available; the omission is recorded, the row closes"
+      ],
+      "questions": [
+        "Reading (d): X carries the quotient of the compact-open topology of Omega by the literal almost homotopy (GX.OmegaRel, an equivalence relation by GX.omegaRel_equivalence). No ruling names (d) explicitly (DEC-56 accepted (c)(e)(f)(g)); it is the only reading consistent with the proof, and DEC-70 rules the row closes. The master may record that DEC-70 covers (d), or put (d) to the author with the lem:almost_homotopic_carac2 question."
+      ]
+    },
+    {
+      "label": "def:covering_branched_two_paths",
+      "tex_lines": [
+        1385,
+        1388
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.PHomotopic",
+        "GX.FreePath",
+        "GX.pHomotopic_equivalence"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "Reading (e), accepted by DEC-56."
+      ]
+    },
+    {
+      "label": "prop:general_fiber_path",
+      "tex_lines": [
+        1390,
+        1397
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.general_fiber_path",
+        "GX.PiOneP",
+        "GX.piOnePMap",
+        "GX.compOfClass",
+        "GX.isCoveringMap_restrict_compl"
+      ],
+      "hypotheses": [
+        {
+          "paper": "p a covering branched over S",
+          "here": "weakened",
+          "note": "possibly branched over a skeletal S (as the branching locus is); X LPC, Y T1, locally connected are standing assumptions (l.815, l.962)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "'left to the reader' (l.1383): proof supplied"
+      ],
+      "questions": [
+        "Readings (e), (f), accepted by DEC-56."
+      ]
+    },
+    {
+      "label": "prop:general_fiber_path_universal",
+      "tex_lines": [
+        1399,
+        1406
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.general_fiber_path_universal",
+        "GX.PiOneU",
+        "GX.FreeHomotopic",
+        "GX.piOneUMap",
+        "GX.pHomotopic_of_freeHomotopic",
+        "GX.freeHomotopic_of_pHomotopic"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Y first countable connected LPC Hausdorff; S skeletal; Y minus S slsc",
+          "here": "carried",
+          "note": ""
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "'left to the reader' (l.1383): proof supplied"
+      ],
+      "questions": [
+        "Readings (e), (f), accepted by DEC-56."
+      ]
+    },
+    {
+      "label": "ex:consider_fiber_above_homeomorphic",
+      "tex_lines": [
+        1409,
+        1416
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.fiber_above_homeomorphic",
+        "GX.fibS",
+        "GX.fibD",
+        "GX.isSkeletal_fibS",
+        "GX.semilocallySimplyConnected_fibS",
+        "GX.fibS_tower",
+        "GX.countable_piOneU_fibD",
+        "GX.infinite_fiber_piOneUMap_fibD",
+        "GX.argLift_freeHomotopic",
+        "GX.towerHomeomorph",
+        "GX.prodNatPiHomeomorph",
+        "GX.not_locallyCompactSpace_nat_pi"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Y = R^2",
+          "here": "carried",
+          "note": "as C; S skeletal and C minus S slsc are proved, not assumed"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.1414: 'the natural map pi_1(a,D_{n+1}) -> pi_1(a,D_n) has an infinite fiber above every point' is asserted without proof; it is supplied",
+        "l.1415: 'the result follows' also needs the sets pi_1(a,D_n) countable and pi_1(a,D_1) countable nonempty; the limit is pi_1(a,D_1) x N^N, homeomorphic to Z^N",
+        "l.1409: 'answers positively Problem 10.8 of MR2198590' is bibliographic and not formalized"
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "GX.eventually_homotopic_family",
+    "GX.homotopic_cancel_ends",
+    "GX.eventually_almostTrivialAt_iff",
+    "GX.AlmostTrivialCC.almostTrivial",
+    "GX.almostTrivialCC_iff",
+    "GX.AlmostTrivialCC.symm",
+    "GX.omegaPath",
+    "GX.affI",
+    "GX.subpath_eq_affI",
+    "GX.sgnDist",
+    "GX.continuousOn_sgnDist",
+    "GX.sgnDist_pos",
+    "GX.sgnDist_neg",
+    "GX.sgnDist_zero",
+    "GX.wind_const_family",
+    "GX.div_mem_slitPlane_of_sameSign",
+    "GX.squareExt_eq",
+    "GX.arg_ofReal_mul_I",
+    "GX.arg_neg_ofReal_mul_I",
+    "GX.AlmostTrivialCC.of_carac_component"
+  ],
+  "kb_proposals": [
+    "In Ω(x,x,U), (ii) ⇒ (i) of lem:almost_homotopic_carac in the literal reading is immediate: the splice γ|[0,t0] * ω * γ|[t1,1] already lies in Ω(x,x,V∩U) (GX.AlmostTrivialCC.of_carac_component); only (i) ⇒ (ii) needs U slsc"
+  ],
+  "notes": "WP-35a edits the STRICT file GX/Branched/Paths.lean (dispatched exception). Round 0: two new theorems GX.AlmostTrivialCC.of_carac_component and GX.almost_homotopic_carac_cc_component; docstrings/marks/checklist/SCOPE updated to DEC-68 (a)(b) and DEC-70. Round 1 (audit fixes, docstrings only, no Lean statement or proof changed): (1) lem:almost_homotopic_carac2 reverted — unmarked in the module list and in the declaration docstring of GX.almost_homotopic_carac2_cc, checklist row '⚠ strengthened (finding)', SCOPE (i) explains, REPORT row partial/unmarked/'strengthened'; (2) module preamble and bullet lists shortened (auxiliary declaration names moved to SCOPE (j)), so all 11 ** marks now sit at character offsets 303..2003 < 4000 (was 4122/4301 for the last two). taskset -c 0-11 lake env lean -DwarningAsError=true GX/Branched/Paths.lean: EXIT 0, no output; taskset -c 0-11 lake build GX: 8577 jobs, success, downstream Galois, SingularII.Developing, SingularII.Tame rebuilt fine. 0 sorry; #print axioms (campaign/WP-35a/Axioms.lean) of the ten main theorems = [propext, Classical.choice, Quot.sound]. Rows: 11 closed and marked, lem:almost_homotopic_carac2 partial pending an author ruling. Minor for the master: README.md module table row for GX.Branched.Paths still says '8 of 12 rows closed' (now 11 of 12); reading (d) of theo:ramified_covering_path is covered by DEC-70 only implicitly."
+}

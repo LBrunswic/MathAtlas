@@ -1,0 +1,89 @@
+{
+  "package": "WP-35h",
+  "round": 1,
+  "auditor": "read-only auditor, round 1",
+  "date": "2026-11-02",
+  "host": "node1",
+  "file": "scaffold/GXScaffold/Branched/GaloisExamples.lean",
+  "file_sha256": "f0b24e4eebc980914ea31e14babdd48710549dc953dd186e1afe8ab0a1ef17d0",
+  "verdict": "issues",
+  "builds": true,
+  "build_evidence": "taskset -c 0-11 lake env lean scaffold/GXScaffold/Branched/GaloisExamples.lean: EXIT 0, 11 s wall; exactly one warning 'declaration uses sorry' at 3457:8 (GX.antoineNecklace_antoine). The module olean (07:29:15Z) postdates the source (07:29:03Z). 'lake build' was not re-run, because an auditor writes nothing else.",
+  "sorry_count_real": 1,
+  "sorry_count_reported": 1,
+  "axioms": {
+    "GX.following_situations_semi_locally_simply": "propext, Classical.choice, Quot.sound",
+    "GX.absolute_galois_corrected": "propext, Classical.choice, Quot.sound",
+    "GX.following_situations_simplicial_false": "propext, Classical.choice, Quot.sound",
+    "GX.gamma2_le_cantGamma": "propext, Classical.choice, Quot.sound",
+    "GX.absGal_Y₂_fiber_not_cantor_simple": "propext, Classical.choice, Quot.sound",
+    "GX.absGal_Y₂_fiber_corrected_simple": "propext, Classical.choice, Quot.sound",
+    "GX.antoineNecklace_isCantorSubset": "propext, Classical.choice, Quot.sound",
+    "GX.wild_cantor_claim_false_of_exists": "propext, Classical.choice, Quot.sound",
+    "GX.sphere3_isSLSCInCC_compl_iff": "propext, Classical.choice, Quot.sound",
+    "GX.antoineNecklace_wild_not_isSLSCInCC": "propext, sorryAx, Classical.choice, Quot.sound (expected: through GX.antoineNecklace_antoine)"
+  },
+  "rows": [
+    {
+      "label": "ex:following_situations_semi_locally_simply",
+      "reported_status": "closed",
+      "audited_status": "closed",
+      "marked_ok": true,
+      "notes": "The assembly GX.following_situations_semi_locally_simply is sorry-free and in the literal DEC-55 form (IsSLSCInCC, obtained a fortiori from IsSLSCIn, which includes density). Item 1: any ChartedSpace (EuclideanSpace ℝ (Fin n)) Y with n ≥ 2, no T2 or second countability, S finite. This is at least as strong as the paper. Item 2: GX.IsLocallyPolygonal (a homeomorphism of a neighbourhood onto an open subset of ℝ³ carrying S to a polygonal set) is a faithful reading of DEC-68 (c), weaker than global PL polygonality. It is satisfiable, and the classical tame knots of ℝ³ satisfy it (GX.isLocallyPolygonal_homeomorph_image). Item 3: locally finite complex with HasFacesOfCardGe K n is exactly the DEC-68 (d) correction. skeletonFaces (card + 1 ≤ n) is the (n-2)-skeleton. The connected counterexample GX.following_situations_simplicial_false (tetrahedron plus a dangling edge in ℝ⁵, n = 3) is correct. Under DEC-68 (c)(d) the row is CLOSED and the mark is warranted."
+    },
+    {
+      "label": "ex:consider_denote_absolute_galois",
+      "reported_status": "closed",
+      "audited_status": "closed",
+      "marked_ok": true,
+      "notes": "First claim: proved in the literal reading (GX.absGal_not_isSLSCInCC via GX.isSLSCInCC_iff; ℂ∖S is open and semilocally simply connected). Corrected fibre claim (DEC-69): GX.cantGamma is defined as the common kernel of the deck signs on continuous square roots of p - 1/(n+1). GX.mem_cantGamma_iff characterises it on every loop class as 'even winding around every 1/(n+1)', and every element of π₁ is such a class, so the characterisation is complete. GX.cantGamma_normal holds. The fibre GX.cantFiber0 = SpreadEnd.base⁻¹'{0} of the Fox completion of GX.cantProj : HomeoQuotient(cantHomeo) → ℂ is proved homeomorphic to {0,1}^ℕ and hence to cantorSet (IsCantorSubset = Nonempty (C ≃ₜ cantorSet)), for every base point and sorry-free. Using ord(Ỹ^S) = \\widetilde{ℂ∖S} and Γ through π₁ matches the library's own construction (GX.MaxBranchedCover = SpreadEnd (univCoverProj S y₀), GX.deckOrdEquiv). The DEC-58 normal-closure record is kept (GX.absGal_Y₂_fiber_not_cantor_simple, GX.absGal_Y₂_fiber_corrected_simple, GX.gamma2_le_cantGamma), and DEC-68 (e) lollipop loops are used there. CLOSED under DEC-69; the mark is warranted, subject to the bibliographic question below."
+    },
+    {
+      "label": "ex:wild_cantor_general_antoine",
+      "reported_status": "stated",
+      "audited_status": "stated",
+      "marked_ok": true,
+      "notes": "The label is unmarked, which is correct. The necklace is built and proved a Cantor set without sorry. I checked the geometry by hand: link radial width 1/4 and height 1/4, 16 copies per side at spacing 7/64, ratio 7/80, alternate horizontal and vertical planes. Each consecutive pair passes through the other's hole and is disjoint; the corner rings link both neighbours, and the two neighbours of a corner are box-separated (|Δx| = 70 > 63). The chain lies in L (radial 504..616 within 480..640, |z| ≤ 56 < 80). So the sorry'd GX.antoineNecklace_antoine is a TRUE statement about what was built: it is wild, and the essential based loops exist. I also confirm the agent's argument that the dispatch's ℤ/2 or linking route cannot work. Alexander duality kills H¹ of the complement of the necklace, and the meridian of L has linking number 0 with every finite-stage core. So the residual (1) genuinely needs a non-abelian invariant or van Kampen. The row is honestly reported as 'stated'. See the major issue: the sorry was not narrowed."
+    }
+  ],
+  "issues": [
+    {
+      "severity": "major",
+      "where": "GX.antoineNecklace_antoine (l.3457–3462); the dispatch for ex:wild_cantor_general_antoine",
+      "problem": "The dispatch asked to CLOSE Antoine's theorem or, if out of reach, to leave ONE tagged sorry naming exactly the residual lemma. The sorry'd declaration is unchanged from WP-27f, with only its tag text edited (diff against campaign/WP-35h/scratch/GaloisExamples.orig.lean). It is still the whole cited theorem, and it bundles three independent facts the tag itself lists. (3) wildness is not needed for the row's conclusion ¬IsSLSCInCC; antoineNecklace_not_isSLSCIn uses only the second conjunct. (2) accessibility is not a van-Kampen-type obstruction. Only (1), meridian essentiality, is irreducible. The elementary reductions inside (1) are not built either: a null-homotopy has compact image, so it misses some finite stage C_m; and a link L ⊆ V with x ∉ L can be chosen from GX.antoineComp_diam and the coding. The package made no Lean progress on Antoine, so the residual is named in prose, not isolated as a lemma.",
+      "fix": "Isolate the irreducible residual as its own declaration, for example 'for all n ≤ m, the meridian of a generation-n link L is not null-homotopic in S³ ∖ (antoineStage m ∩ L)', and make it the file's single tagged sorry. Prove the finite-stage reduction by compactness, the link selection, the accessibility path and the based loop from it. Derive ¬IsSLSCInCC from that residual alone. Move wildness out of the row's claim, or into a separate side statement that does not feed the row's conclusion. Wildness follows from ¬IsSLSCIn Cᶜ together with IsSLSCIn of the complement of a Cantor subset of a great circle (a local fact, not simple connectivity) and homeomorphism invariance. If any piece is still out of reach, report it as such."
+    },
+    {
+      "severity": "minor",
+      "where": "CantorFibre section (GX.cantProj, GX.CantY₂)",
+      "problem": "The paper's Y₂ is 'the completion of the spread Γ₂\\ord(Ỹ^S) → Y'. For the record quotient the file proves that presupposition (GX.absGal_isSpread_ordY₂Proj). For the corrected Γ₂' it does not: no IsSpread (cantProj y₀) is stated. The Cantor conclusion does not need it, but the object is described as the completion of a spread.",
+      "fix": "Add theorem cant_isSpread_cantProj : IsSpread (cantProj y₀) := isSpread_homeoQuotient_lift (absGal_isSpread_univCoverProj y₀) …, a verbatim copy of absGal_isSpread_ordY₂Proj's proof, and cite it in absolute_galois_corrected's docstring or conjoin it."
+    },
+    {
+      "severity": "minor",
+      "where": "module docstring, l.57",
+      "problem": "The unmarked row's entry ('`ex:wild_cantor_general_antoine` — `RamcovGX.tex:1578`') starts at character 4430, past the 4000 characters the ledger reads (kb/0006). The label string itself does appear earlier, at l.8, inside the DEC-58 parenthetical. The two marked labels are at characters 773 and 1947.",
+      "fix": "Shorten the ex:consider_denote_absolute_galois bullet (most of its mechanism belongs in SCOPE (d)) so that all three '— `RamcovGX.tex:LINE`' entries fall within the first 4000 characters."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json, ex:following_situations_semi_locally_simply, hypotheses",
+      "problem": "The REPORT says 'item 1: n >= 2' is 'carried', while the docstring checklist (l.94) says '⚠ weakened'. Both are true of different declarations: the assembly carries n ≥ 2, and GX.following_situations_finite_euclidean needs only n ≥ 1. The two records disagree in wording only.",
+      "fix": "Use one wording in both places, e.g. 'carried in the assembly; weakened (n ≥ 1) in GX.following_situations_finite_euclidean'."
+    }
+  ],
+  "checks": {
+    "1_build_and_sorry": "Builds; 1 real sorry (GX.antoineNecklace_antoine), matching the REPORT; no axiom, admit, native_decide or implemented_by in the file; the axiom sweep is as listed above.",
+    "2_statement_fidelity": "Item statements are at least as strong as the paper under DEC-68 (c)(d). The corrected absolute-Galois statement is DEC-69's. DEC-55's literal compact-open notion (IsSLSCInCC) is used for every SLSC claim. No vacuous hypotheses: IsLocallyPolygonal, LocallyFinite and HasFacesOfCardGe are all satisfiable, and the counterexample complex satisfies the paper's hypotheses. No definition trivialises its notion: IsCantorSubset is homeomorphism to cantorSet, the fibre lives in the library's SpreadEnd, and cantGamma is characterised by windings. The sorry'd Antoine statement is true of the built necklace.",
+    "3_docstring_contract": "Marks are correct: two bold labels, both certified (one under DEC-68, one under DEC-69); the Antoine label is unmarked. There is a hypothesis checklist, SCOPE and provenance. The 4000-character placement point is minor.",
+    "4_report_honest_complete": "All three labels of the file are present with correct statuses. All 443 file declarations are listed (label decls plus extra_decls), and every listed declaration exists. The sorry and its obstruction are disclosed. No previously proved declaration was dropped (compared with the WP-27f original in scratch/).",
+    "5_missing_labels_or_parts": "None missing. 'Answers positively Problem 10.7 of MR2198590' is excluded as bibliographic; this is flagged as a question for the master.",
+    "6_cited_results": "cor:totdiscont, rem:simple_cases (isSLSCIn_compl_faces_of_locallyFinite), the universal cover and SpreadEnd are all built in GX. Antoine's theorem is the one cited-and-unbuilt result; the dispatch permits it as a single tagged sorry, and the row is honestly 'stated'.",
+    "7_name_clashes": "None. All 443 declaration names were grepped against every other .lean file under GX/ and scaffold/."
+  },
+  "questions_for_author": [
+    "l.1573: is 'This answers positively Problem 10.7 of MR2198590' outside the certification of ex:consider_denote_absolute_galois (the REPORT's reading, row closed under DEC-69), or should the row stay partial until the Montesinos problem is formalized?",
+    "ex:wild_cantor_general_antoine under DEC-68 (f): should the row's certified conclusion be ¬IsSLSCInCC alone (wildness of the explicit necklace being the paper's hypothesis, not its conclusion), so that wildness need not rest on the same residual?"
+  ],
+  "summary": "The file builds with exactly one tagged sorry (Antoine's theorem), and the axiom sweep is clean everywhere else. ex:following_situations_semi_locally_simply and ex:consider_denote_absolute_galois (DEC-69's kernel of the mod-2 windings, whose fibre over 0 is proved homeomorphic to {0,1}^ℕ) are genuinely closed, faithful to the rulings, and correctly marked. The REPORT is complete and there are no name clashes. One major issue: the Antoine sorry was not narrowed to a residual lemma as dispatched. It is the WP-27f statement unchanged and bundles wildness, which the row's conclusion does not need, with accessibility and meridian essentiality; the elementary reductions are not built. The agent's argument that no abelian invariant can detect the meridian is correct, and the sorry'd statement is true of the necklace as built. Three minor issues: no IsSpread for the corrected quotient, the Antoine docstring entry past 4000 characters, and inconsistent n ≥ 2 wording in the REPORT."
+}

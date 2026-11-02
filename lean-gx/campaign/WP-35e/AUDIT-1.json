@@ -1,0 +1,27 @@
+{
+ "package": "WP-35e",
+ "round": 1,
+ "file": "GX/SingularII/Tame.lean",
+ "module": "GX.SingularII.Tame",
+ "audited_source_mtime": "2026-11-02T07:30:23Z (olean 07:30:35, REPORT 07:31:09)",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "strict_library_builds": true,
+ "summary": "(1) Build. `taskset -c 0-11 lake env lean -DwarningAsError=true GX/SingularII/Tame.lean` exits 0 with no output. `taskset -c 0-11 lake build GX` reports 'Build completed successfully (8577 jobs)' with no warnings; the Tame olean postdates the source. grep finds no sorry, admit, axiom, native_decide or extern in the file. campaign/WP-35e/Axioms.lean, re-run, gives [propext, Classical.choice, Quot.sound] for all six main declarations. (2) What changed. Diffing against the pre-edit backup /tmp/Tame.lean.WP35e.orig, and `git diff HEAD` (a57989d, +27/-21), shows docstring changes only: the module header, the rem bullet (now bold), its checklist row (strengthened -> carried under DEC-71), SCOPE (c), and the docstrings of tamely_singular_manifold_admits and tamely_singular_manifold_admits_aeIso. No statement, proof or name moved. (3) Fidelity, read against l.1712 (M, N connected), l.1660 (X locally unloopable), l.1826-1885 and the proofs. lem:embedding_tame (isTame_of_isAEMorphism): M and N connected, T2, LPC and first countable (DEC-66(a)(c)). f is any a.e. morphism, with no local-homeomorphism requirement, so the Lean statement is the paper's in full. The proof uses a valid route that avoids the paper's false lift (the finding is recorded). cor:branched_covering_tame_singular: N with p an a.e. morphism, or aeAtlas N = p^*B. Connectedness of N is derived (connectedSpace_source), not assumed. cor:open_subsets_tame_singular: [ConnectedSpace U] comes from the section convention l.1712 with DEC-66(b), and it is necessary, since IsTame.connectedSpace shows a tame space is connected. The ledger already shows the row 'yes'. theo:local_tame: IsLocallyTame is literally DEC-67(d), every point has an open neighbourhood that is tame with the pullback structure opensSingularGXStructure, whose Reg/Sing are the restrictions. Both directions are proved. (2)=>(1) follows the paper: local extensions on components of p^-1(V), descent along Psi, then gluing by density of the portly regular part. rem:tamely_singular_manifold_admits: for p Galoisian (DEC-71), D injective and any rho satisfying the holonomy relation, it gives a homeomorphism Gamma(N/M)\\D(N) =~ M via [D x] -> p x, with D(N) carrying the topology coinduced by D (homeomorph_rangeTameTopology proves that makes D a homeomorphism). The aeIso form adds that the maximal a.e. atlas on the quotient making the projection an a.e. morphism exists, is unique and equals h^*B_M, and that h and h.symm are a.e. morphisms. Tameness of M and D being a developing map are not used, so these hypotheses are weakened, which is reported. M only needs T1, also reported. The hypotheses are satisfiable (for example p = id: the deck group is trivial, rho = 1). Nothing is vacuous or circular. DEC-55 does not bear on this file. (4) Docstring contract (kb/0006). All six bold marks sit before character 1800, inside the 4000 limit. ex:take_closed_unit_disc is correctly unmarked, its row left to WP-35i as the dispatch asks. (5) REPORT.json lists all seven labels of the file with correct status and decls. Its residuals are stated. (6) The cited results (prop:branched_devmap, Fox extension, universal cover, lem:aepullback, lem:morphism_singular_manifolds_branched) are strict-library theorems. Axioms are clean. (7) No declaration name in the file is declared in any other file of GX/ or scaffold/ (bash grep over 30 names).",
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "GX.tamely_singular_manifold_admits_aeIso docstring and SCOPE (c)",
+   "problem": "The prose says D(N) carries 'the structure transported from N along D (for a developing map D, the one for which the inclusion D(N) ⊆ X is an a.e. morphism)'. The parenthetical is a uniqueness or identification claim that no Lean declaration proves. The theorem never puts a structure on D(N) and never assumes D is a developing map: the quotient structure is characterised through N's atlas. The claim is mathematically right when D is an a.e. morphism, since D is then an a.e. local homeomorphism and lem:aepullback gives aeAtlas N = D^*(model). The certified statement is unaffected.",
+   "fix": "Either reword the parenthetical as an unformalized remark, or add a one-line corollary: for IsDevelopingMapOf with aeAtlas N = p^*B, aeAtlas N = aePullback (gxModelAtlas) D."
+  },
+  {
+   "severity": "minor",
+   "where": "campaign/WP-35e/REPORT.json, labels[ex:take_closed_unit_disc].questions",
+   "problem": "The question asking whether the example may stay partial until hyperbolic-surface infrastructure exists has been answered by DEC-71 ('build ℍ²', delegated to WP-35i). The report carries it unchanged, as if it were still open.",
+   "fix": "Replace the question with a note that DEC-71 answered it and that WP-35i owns the row."
+  }
+ ],
+ "questions_for_author": []
+}

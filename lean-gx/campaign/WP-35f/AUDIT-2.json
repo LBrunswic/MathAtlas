@@ -1,0 +1,64 @@
+{
+ "package": "WP-35f",
+ "round": "2 (read-only audit of WP-35f fix round 1: source 08:49:32Z, olean 08:51:30Z, REPORT 08:52:47Z, 2026-11-02; against AUDIT-1.json and WP-27j AUDIT-3.json)",
+ "file": "scaffold/GXScaffold/SingularII/Models.lean",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 1,
+ "summary": "BUILD: `taskset -c 0-11 lake env lean scaffold/GXScaffold/SingularII/Models.lean` exits 0 in 10.8 s. It emits exactly one warning, 'declaration uses sorry' at l.3392 (GX.exists_isLocalTamifying_charts, tagged SORRY(theo:local_virt_tame)), so REPORT's sorry_count 1 is right. The olean is newer than the source. AXIOMS: I ran #print axioms over all 202 declarations through `lake env lean --stdin`, which writes nothing. sorryAx reaches exactly exists_isLocalTamifying_charts, isVirtuallyTame_of_isXAManifold and local_virt_tame. Of the rest, 186 use propext/Classical.choice/Quot.sound, 8 use propext/Quot.sound and 5 use none. That covers every declaration under the 8 marked rows, the new descending chain (isVirtuallyTame_of_descending, local_virt_tame_descending, isLocalTamifying_descTop, descNhds_eq, IsChartDescent.exists_deck, nhds_descTop_le_of_aut, IsLiftableChartMap.isDescendingChartMap), the liftable chain and the cex chain. COVERAGE: the file's 202 declarations are exactly REPORT's decls + extra_decls. No name clashes with GX/ or the 23 other scaffold files. MARKS: bold labels are exactly REPORT's 8 marked rows; no partial row is bold. DIFF against Models.pre-fix-round1.lean.bak: purely additive in code (the Descent/DescTop/DescNat/DescChart/DescVirtTame sections, l.3682-4888); everything else is docstring/comment. No definition the earlier audits checked (IsTamifyingTopology, IsVirtuallyTame, IsLocalTamifying, IsXAManifold, the cex section) changed. SpreadTop.lean still typechecks against the new Models (exit 0, no output). AUDIT-1's major is RESOLVED, in substance of its preferred form. (1) The ℓ half of the restriction is gone. The new hypothesis IsDescendingChartMap (for all base points, every e over U and every f over φ(p e) admit a descent Ψ : V̂ ∋ f → Û ∋ e of φ⁻¹, continuous on V̂ with φ∘p∘Ψ = q) says only 'V̂ → V dominates Û → U'. It is implied by liftability (proved). It holds, informally by prop:universality and disclosed as such, when r : Ṽ → V̂ is an isomorphism with ℓ arbitrary. That covers the BTZ-type models the section is written for, where π₁(reg V) → π₁(reg X_α) is injective. (2) The ℓ-quotient is BUILT: descTop via mkOfNhds, with neighbourhoods Ψ(𝓝_{T_α} f), independent of the descent (descNhds_eq, via the Galoisianity of descents from the discreteness of the q-fibres, which is the model's local Galoisianity, used as the paper uses it at l.2093). All eight IsLocalTamifying fields are proved, naturality is proved, and isVirtuallyTame_of_descending is proved under ALL the theorem's hypotheses plus the descending one. (3) The remaining sorry is now correctly scoped to the non-descending charts, where the paper's T_{U,V,φ} needs r^*T_α. I re-read l.2086-2140. The proof's (D) there needs r⁻¹(R) portly for r^*T_α, which is lem:spread_top (c) for r. WP-27k's formal sector counterexample refutes (c) in general, and nothing in the theorem's hypotheses is shown to supply it. So the sorry rests on a gap in the paper's proof, not on unbuilt infrastructure, and CAMPAIGN.md allows a tagged sorry for such an obstruction. The sorried lemma is no stronger than the theorem: if M is virtually tame, the constant family T c := T satisfies it, via IsTamifyingTopology.isLocalTamifying, with trivial naturality. The row stays partial, honestly, and the master is asked for a ruling. DEC-67 (e) is applied (IsXAManifold.hasType; rem:singular_point_manifold_has closed by existsUnique_hasXAType). Under it the gluing gap at points centring no chart is gone (XAChart.eq_of_mem_centre + exists_aut_eq). DEC-69 is applied as ruled and is unchanged since AUDIT-1. Only minor issues remain, all disclosed.",
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "GX.IsDescendingChartMap (l.4668) and its docstring; checklist row 'theo:local_virt_tame, (ii) ⇒ (i)'; REPORT theo:local_virt_tame questions[1]",
+   "problem": "Three gaps in what is proved about IsDescendingChartMap. (1) The proved form's added hypothesis is about M, not the model alone: 'V̂ → V dominates Û → U'. The model-side sufficient condition 'r : Ṽ → V̂ an isomorphism ⇒ IsDescendingChartMap' is informal: it needs postcomposition of a branched covering by a base homeomorphism, maxBranched_universal and the Galoisianity of Ṽ → V. (2) No witness shows that IsDescendingChartMap is strictly weaker than IsLiftableChartMap. The only satisfiability witnesses are liftable charts (isLiftableChartMap_refl, isLiftableChartMap_modelChartSelf), so the 'ℓ arbitrary' gain over round 1 is argued, not exhibited. (3) The other model-side repair, StrongLocallyConnectedOrd for r^*T_α, is not stated; it would need Ṽ and r^*T_α built. Mathematically it is incomparable with the descending form, and through the paper's proof it covers non-descending charts. All three are disclosed in the docstrings (marked 'informal, not formalized'), in REPORT questions and in blocked_on. None affects the row's status, which is partial either way.",
+   "fix": "No package action required. A later package could add (a) the bridge lemma 'r iso ⇒ IsDescendingChartMap', so the proved form has a model-side corollary, and (b) one descending chart that is not liftable, for example a model whose local meridian survives in π₁(reg X_α) while M's Û is a finite quotient. Master: rule on the descending form (row closed under the ruling) or ask for the StrongLocallyConnectedOrd form."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT rem:theorem_theo_local_tame (findings[0], questions); GX.forall_isTame_iff",
+   "problem": "Carried from WP-27j AUDIT-1/2/3 and WP-35f AUDIT-1. The dispatch asks for the global-equivalence reading. That reading is proved outright for the printed notion (forall_isTame_iff_printed), but for the DEC-67 (e) notion only under htype. The necessity of htype, and the falsity of the per-manifold iff, are argued in prose only. The library still contains no non-tame singular manifold (grep: no ¬ IsTame / not_isTame in GX/ or scaffold/), so DEC-27's counterexample cannot be formalized now. The row is honestly partial and the question is raised.",
+   "fix": "No package action. Master: rule on the reading of l.1924 under DEC-67 (e), either the global reading with htype or the printed notion; either ruling would close the row."
+  },
+  {
+   "severity": "minor",
+   "where": "GX.local_virt_tame, GX.local_virt_tame_descending (l.4877), GX.local_virt_tame_liftable; REPORT theo:local_virt_tame findings[5]",
+   "problem": "Carried. Under the theorem's hypothesis every model is already virtually tame, so (i) ⇒ (ii) is degenerate in all three iff forms. This is disclosed. The real content is isVirtuallyTame_of_descending, plus the stated isVirtuallyTame_of_isXAManifold.",
+   "fix": "None. REPORT's question to the author is the right one."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/GXScaffold/SingularII/SpreadTop.lean l.7, l.15, l.62-63 (WP-27k's file, not this package's)",
+   "problem": "Carried from AUDIT-1. SpreadTop's docstring still says that Models 'states GX.spread_top with a tagged sorry' and reads hypotheses 'as in GX.spread_top', but WP-35f removed that declaration. This is prose only; the file typechecks against the new Models.",
+   "fix": "Master or WP-27k: refresh those lines at graduation so they point to SpreadTopPrinted."
+  },
+  {
+   "severity": "minor",
+   "where": "Whole module vs the ledger's per-file sorry attribution (carried)",
+   "problem": "The one sorry and its two dependents share the module with the 8 marked rows and the sorry-free descending and liftable chains. The axiom sweep confirms that none of those depends on sorryAx, but a per-file count would attribute the sorry to them. REPORT notes disclose this.",
+   "fix": "At graduation, split exists_isLocalTamifying_charts, isVirtuallyTame_of_isXAManifold and local_virt_tame into their own module."
+  }
+ ],
+ "checks": {
+  "build": "taskset -c 0-11 lake env lean scaffold/GXScaffold/SingularII/Models.lean: exit 0, 10.8 s wall, 1 warning (sorry, l.3392)",
+  "olean": "Models.olean 08:51:30Z is newer than source 08:49:32Z. The auditor did not re-run lake build, so as to write nothing",
+  "sorryAx_reach": [
+   "GX.exists_isLocalTamifying_charts",
+   "GX.isVirtuallyTame_of_isXAManifold",
+   "GX.local_virt_tame"
+  ],
+  "axioms_other": "186 × [propext, Classical.choice, Quot.sound], 8 × [propext, Quot.sound], 5 × none; 202 declarations swept via lake env lean --stdin",
+  "decls_file_vs_report": "202 = 202, identical sets",
+  "name_clashes": "none against GX/ and the 23 other scaffold files",
+  "marks": "bold = def:singular_manifold_automorphisms_group, def:family_singular_manifolds_endowed, def:atlas, def:analytic_family_model_spaces, rem:singular_point_manifold_has, def:singular_manifold_virtually_tame, def:singular_manifold_locally_galoisian, def:topological_spaces_continuous_map = REPORT's 8 marked rows; rem:theorem_theo_local_tame, cex:start_singular_manifold_homeomorphic, theo:local_virt_tame and lem:spread_top are unmarked and partial",
+  "labels_in_range": "every ledger row l.1895-2005 attributed to Models.lean is in REPORT. ex:follows_proposition_brunswic_cauchy (cited, no file), rem:intuitively_spread_thinner_than and rem:hypothesis_model_spaces_necessary (SpreadTop.lean) are outside this package",
+  "diff_since_AUDIT-1": "code changes are additive only (l.3682-4888: IsChartDescent, descNhds/descTop, isLocalTamifying_descTop, nhds_descTop_le_of_aut, IsDescendingChartMap, discreteTopology_fiber_of_isLocallyGaloisian, isVirtuallyTame_of_descending, local_virt_tame_descending); everything else is docstring or comment",
+  "downstream": "SpreadTop.lean typechecks against the new Models (lake env lean: exit 0, no output)",
+  "sorry_strength": "exists_isLocalTamifying_charts follows from the conclusion of isVirtuallyTame_of_isXAManifold (a constant family of a global tamifying T, IsTamifyingTopology.isLocalTamifying), so the sorry is no stronger than the theorem",
+  "rulings": "DEC-67 (e) applied; DEC-69 applied and unchanged; DEC-55 literal IsSLSCInCC in IsLocallyGaloisian; no ruling in DECISIONS.md (through DEC-73) or the OQ table accepts a corrected form of theo:local_virt_tame or rules l.1924",
+  "scratch": "the auditor's scratch files were in /tmp only and were removed"
+ },
+ "questions_for_master": [
+  "theo:local_virt_tame: accept the descending form (GX.local_virt_tame_descending: every singular point centres an X_A-chart with V̂ → V dominating Û → U, which covers r : Ṽ → V̂ an isomorphism with ℓ arbitrary) as the ruled form, closing the row? Or require the general statement? Its proof's (D) needs lem:spread_top (c) for r, which is false in general, so closing it needs either a new proof or a model-side hypothesis (StrongLocallyConnectedOrd for r^*T_α).",
+  "rem:theorem_theo_local_tame: rule the reading of l.1924 under DEC-67 (e): the global equivalence with htype, or the printed notion of X_A-manifold."
+ ]
+}

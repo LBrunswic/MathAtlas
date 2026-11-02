@@ -1,0 +1,92 @@
+{
+  "package": "WP-35h",
+  "round": 2,
+  "auditor": "read-only auditor, round 2",
+  "date": "2026-11-02",
+  "host": "node1",
+  "file": "scaffold/GXScaffold/Branched/GaloisExamples.lean",
+  "file_sha256": "fe6fe9578a769bd1234857e88ef59aeac25d2ff2a4d4b13650a86426d367961a",
+  "verdict": "clean",
+  "builds": true,
+  "build_evidence": "taskset -c 0-11 lake env lean scaffold/GXScaffold/Branched/GaloisExamples.lean: EXIT 0, 12 s wall. Exactly one warning, 'declaration uses sorry' at 4014:8 (GX.antoineMeridianEssential). The olean (07:54) is as new as the source (07:54). Every 'sorry' elsewhere in the file is inside a comment or docstring.",
+  "sorry_count_real": 1,
+  "sorry_count_reported": 1,
+  "axioms": {
+    "GX.following_situations_semi_locally_simply": "propext, Classical.choice, Quot.sound",
+    "GX.absolute_galois_corrected": "propext, Classical.choice, Quot.sound",
+    "GX.absGal_Y₂_fiber_cantor_corrected": "propext, Classical.choice, Quot.sound",
+    "GX.cant_isSpread_cantProj": "propext, Classical.choice, Quot.sound",
+    "GX.antoineNecklace_isCantorSubset": "propext, Classical.choice, Quot.sound",
+    "GX.antoine_essential_loops": "propext, Classical.choice, Quot.sound",
+    "GX.antoineNecklace_not_isSLSCIn_of": "propext, Classical.choice, Quot.sound",
+    "GX.antoineNecklace_not_isSLSCInCC_of": "propext, Classical.choice, Quot.sound",
+    "GX.isWildCantor_antoineNecklace_of": "propext, Classical.choice, Quot.sound",
+    "GX.antoineNecklace_not_isSLSCInCC": "propext, sorryAx, Classical.choice, Quot.sound (expected: through the residual GX.antoineMeridianEssential)"
+  },
+  "report_checks": "All 517 names in REPORT.json (labels, extra_decls, sorries) resolve, checked with #check. Over the label decls, #print axioms finds sorryAx in exactly six: GX.antoineMeridianEssential, GX.antoineNecklace_not_isSLSCIn, GX.antoineNecklace_not_isSLSCInCC, GX.antoineNecklace_wild_not_isSLSCInCC, GX.exists_wild_cantor_not_isSLSCIn and GX.exists_wild_cantor_not_isSLSCInCC. All six belong to the 'stated' row ex:wild_cantor_general_antoine. No decl of the two 'closed' rows depends on sorry.",
+  "name_clashes": "None. All 517 top-level declaration names of the file were compared with every other .lean under GX/ and scaffold/, with zero collisions. The build importing GX.Branched.Galois also succeeds.",
+  "round1_followup": [
+    {
+      "issue": "major: the bundled sorry GX.antoineNecklace_antoine (wildness + accessibility + essentiality)",
+      "status": "fixed",
+      "evidence": "GX.antoineNecklace_antoine no longer exists. The single sorry is now the Prop GX.AntoineMeridianEssential: for all v and n ≤ m, the image under antoineComp v n of GX.antoineMeridian is not HomotopicIn (S³ ∖ stereo(antoineStage m ∩ antoineComp v n '' antoineLink)) to the constant path. Everything else is built sorry-free from it: the compactness reduction GX.antoine_homotopicIn_stage (finite intersection property on the compact range of the homotopy), link selection, accessibility, the based loop and conjugation. These are assembled in GX.antoine_essential_loops, whose K = stereo(C ∩ g₀ᵏg₁L) is closed, lies in C and misses x₀. Wildness is separated: GX.isWildCantor_antoineNecklace_of rests on the residual, the named GX.TameCantorSLSC and the proved GX.IsSLSCIn.map_homeomorph, and does not feed the row's claim."
+    },
+    {
+      "issue": "minor: no IsSpread for Γ₂'",
+      "status": "fixed",
+      "evidence": "GX.cant_isSpread_cantProj, conjoined in GX.absolute_galois_corrected"
+    },
+    {
+      "issue": "minor: unmarked row entry past character 4000",
+      "status": "fixed",
+      "evidence": "The three '— `RamcovGX.tex:LINE`' entries start at characters 775, 1389 and 2100."
+    },
+    {
+      "issue": "minor: item-1 wording disagreement",
+      "status": "fixed",
+      "evidence": "The REPORT and the checklist now both say 'carried in the assembly; weakened to n ≥ 1 in GX.following_situations_finite_euclidean'."
+    }
+  ],
+  "rows": [
+    {
+      "label": "ex:following_situations_semi_locally_simply",
+      "reported_status": "closed",
+      "audited_status": "closed",
+      "marked_ok": true,
+      "notes": "Unchanged since round 1 apart from docstring wording, so the round-1 analysis stands. The assembly is in the literal DEC-55 form (IsSLSCInCC). Item 2 is locally polygonal (DEC-68 (c)). Item 3 is corrected to HasFacesOfCardGe over locally finite complexes (DEC-68 (d)), with the connected counterexample GX.following_situations_simplicial_false. Closed under the ruling, and the mark is warranted."
+    },
+    {
+      "label": "ex:consider_denote_absolute_galois",
+      "reported_status": "closed",
+      "audited_status": "closed",
+      "marked_ok": true,
+      "notes": "The fibre machinery is unchanged since round 1. Added: GX.cant_isSpread_cantProj, so Y₂' is the completion of a spread as the paper says, now conjoined in the assembly GX.absolute_galois_corrected. The assembly is sorry-free. The first claim is literal (DEC-55). The DEC-69 corrected Γ₂' = GX.cantGamma is characterised by even windings (GX.mem_cantGamma_iff), and its fibre over 0 is a Cantor set for every base point. The normal-closure record is kept. Closed under DEC-69. The bibliographic sentence (l.1573) is still the REPORT's open question."
+    },
+    {
+      "label": "ex:wild_cantor_general_antoine",
+      "reported_status": "stated",
+      "audited_status": "stated",
+      "marked_ok": true,
+      "notes": "Correctly left unmarked in the module docstring. The row's claim GX.antoineNecklace_not_isSLSCInCC (literal, DEC-55, through GX.sphere3_isSLSCInCC_compl_iff for closed C) is derived without sorry from the residual alone, via GX.antoineNecklace_not_isSLSCInCC_of. I checked that the residual is TRUE and not vacuous. The meridian (circle of radius 3/14 around (0,7/8,0) in the plane x = 0) misses L: where |z| ≤ 1/8, |y − 7/8| ≥ 0.174 > 1/8, and GX.antoineMeridian_not_mem proves it. It is essential in S³ ∖ L. For m > n, C_m ∩ L_n is exactly the descendants of L_n, because generation-n links are disjoint (GX.antoineMap_disjoint) and the stages are nested. The first-stage chain interlocks: the right bar of a type-0 ring at x ∈ [c+0.0656, c+0.0875] passes through the hole x ∈ (c+0.0437, c+0.175) of the next type-1 ring, and conversely. The chain closes up (16·70 = 1120 = 2·560, GX.antoine_adj_succ). So the residual is Antoine's classical lemma: the meridian of T is essential in the complement of a linked chain going around T, iterated, with the self-similar statement for generation n. The tag correctly explains why the dispatch's abelian/ℤ₂ route cannot work: the meridian of L is 0 in H₁ of the finite-stage complement. The sorry is genuine and was seriously attempted: every reduction around it is built. It is the ONE named residual the dispatch allowed, so 'stated' is the honest status."
+    }
+  ],
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "GX.antoineNecklace_not_isSLSCInCC_of, declaration docstring l.4091",
+      "problem": "This docstring opens with the bold mark **`ex:wild_cantor_general_antoine`**. The declaration is conditional on the residual, and the row is 'stated' and unmarked. kb/0006 binds the mark in the module docstring only, and this occurrence is past the 4000-character window the ledger reads, so nothing is overclaimed in the ledger. It is still inconsistent with the mark-only-when-certified convention.",
+      "fix": "Write the label without ** in this declaration docstring, e.g. '`ex:wild_cantor_general_antoine` … from the residual'."
+    },
+    {
+      "severity": "minor",
+      "where": "GX.AntoineMeridianEssential (l.3888)",
+      "problem": "The residual quantifies over every word v and generation n ≤ m. By self-similarity it reduces to the case n = 0: the meridian of L is essential in S³ ∖ C_m for every m. The similarity antoineComp v n extends to a homeomorphism of S³, and C_m ∩ L_n = antoineComp v n '' C_{m−n}. This is a narrowing, not a defect: the stated residual is true and is exactly what the reduction consumes.",
+      "fix": "Optional: prove the n = 0 to general-n transfer and state the sorry for the outer link only, so the open lemma is the textbook statement."
+    }
+  ],
+  "questions_for_author": [
+    "l.1573: is 'This answers positively Problem 10.7 of MR2198590' outside the certification of ex:consider_denote_absolute_galois (the REPORT's reading, row closed under DEC-69)?",
+    "ex:wild_cantor_general_antoine under DEC-58/DEC-68 (f): is the certified conclusion ¬IsSLSCInCC for the explicit necklace (wildness being the paper's hypothesis, here derived only under the named GX.TameCantorSLSC), or must the necklace's wildness also be certified before the row can close once the residual is proved?"
+  ],
+  "summary": "Round 1's major is fixed. The bundled Antoine sorry is replaced by ONE true, precisely stated residual, GX.AntoineMeridianEssential: the meridian of a generation-n link is essential in the complement of its generation-m sublinks. The row's literal claim is derived from it without sorry, and wildness is split off. All round-1 minors are fixed. The file builds with exactly one sorry, the two closed rows are sorry-free under DEC-68/DEC-69, the REPORT is complete and honest, and there are no name clashes. Two minors remain. Verdict: clean."
+}

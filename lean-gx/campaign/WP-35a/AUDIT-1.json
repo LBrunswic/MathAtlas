@@ -1,0 +1,70 @@
+{
+  "package": "WP-35a",
+  "round": 1,
+  "auditor": "read-only auditor, node1, 2026-11-02",
+  "file": "GX/Branched/Paths.lean",
+  "report": "campaign/WP-35a/REPORT.json",
+  "verdict": "issues",
+  "builds": true,
+  "sorry_count": 0,
+  "checks": {
+    "build": "taskset -c 0-11 lake env lean -DwarningAsError=true GX/Branched/Paths.lean: EXIT 0, no output (10 s wall, 54 s user). taskset -c 0-11 lake build GX: 'Build completed successfully (8577 jobs)', EXIT 0, no warning or error line. The build was cached, so the current olean matches the current source. Galois, SingularII.Developing and SingularII.Tame are included in that build.",
+    "sorry": "No 'sorry', 'admit', 'axiom', native_decide, implemented_by or extern occurs anywhere in the file. I ran campaign/WP-35a/Axioms.lean (lake env lean). All ten main theorems depend only on [propext, Classical.choice, Quot.sound]: almost_homotopic_carac_cc_component, AlmostTrivialCC.of_carac_component, hausdorff_first_countable_connected_cc, almost_homotopic_carac2_cc, almost_homotopic_carac2_of_isMaximal_cc, ramified_covering_path, omegaEnd_isBranchedCovering, carthesian_piOne_S₂, carthesian_S₂_almostTrivial and carthesian_S₂_not_trivial.",
+    "diff": "git diff HEAD changes the strict file in only two ways: the docstrings and module text (DEC-68/DEC-70 annotations, SCOPE (g')(h)(i)), and two new theorems, AlmostTrivialCC.of_carac_component and almost_homotopic_carac_cc_component (l.1148-1191). No existing declaration's statement, name or proof changed. This matches the REPORT's note.",
+    "report_decls": "I grepped the file for every declaration REPORT.json lists (140 names across labels and extra_decls). All 140 are defined in it.",
+    "labels": "The 12 environments in RamcovGX.tex l.1189-1416 are all in REPORT.json, and none is missing. Besides those 12, the section holds only sec:maximal_branched_path, plus sec:galoisian_branched and def:automorphisms_spread, which belong to section 3.4.",
+    "name_clashes": "None. The two new names, AlmostTrivialCC.of_carac_component and almost_homotopic_carac_cc_component, occur nowhere in GX/ or scaffold/ outside this file.",
+    "DEC-55": "Applied correctly. AlmostTrivialCC is the literal definition: connectedComponentIn (OmegaSet U x x) γ meets OmegaSet (V ∩ U) x x for every V ∈ 𝓝 x, with OmegaSet a subset of C(I,X) in the compact-open topology. The homotopy form appears only through proved bridges, never as an assumption. The bridges are OmegaHomotopic.mem_connectedComponentIn (always), AlmostTrivial.almostTrivialCC (always) and almostTrivialCC_iff (U open and slsc, X LPC).",
+    "DEC-56": "(c) IsStandardNbhd is the component of e in p⁻¹(V), with V an open connected neighbourhood of p(e); this is the ruling. (g) IsHomTrivial is a fixed-end homotopy to refl x that stays in U for s < 1 and 0 < t < 1. O lies in S_i, so the constant loop is not in Ω(O,O,U), and 'through loops of Ω(O,O,U)' can only mean s < 1.",
+    "DEC-68 (a)": "cartS₂ = {x ≠ 0, y = sin(1/x), z = 0} ∪ {x = z = 0, |y| ≤ 1}. This is the topologist's sine curve with its limit segment, times {0}, as ruled. All four claims are proved for it: carthesian_piOne_S₁ and carthesian_piOne_S₂ (π₁ ≅ ℤ at every base point, through the degree cartDeg and the homotopy equivalence cartHE), carthesian_S₁_trivial (IsHomTrivial and AlmostTrivialCC), carthesian_S₂_almostTrivial (literal form) and carthesian_S₂_not_trivial (an explicit cartγ ∈ Ω(O,O,Y∖S₂) with ¬IsHomTrivial). Row CLOSED is correct.",
+    "DEC-68 (b)": "lem:almost_homotopic_carac: almost_homotopic_carac_cc_component states (i) ⇔ (ii) with both items literal. almost_homotopic_carac_cc states it with (ii) as an explicit homotopy, which is stronger. Both use [LocPathConnectedSpace X], IsOpen U and SemilocallySimplyConnected U, and the paper's quantifiers are matched: V open with x ∈ V, 0 < t₀ < t₁ < 1, γ([0,t₀] ∪ [t₁,1]) ⊆ V, ω in V ∩ U. (ii) ⇒ (i) is proved with no hypothesis at all. This settles the WP-27d round-1 minor issue on the reading of (ii). lem:hausdorff_first_countable_connected: hausdorff_first_countable_connected_cc is an Equivalence on {γ // MemOmega U γ} under LPC, U open and slsc, and x ∈ U. Reflexivity and symmetry are proved hypothesis-free. Both rows CLOSED is correct.",
+    "DEC-70": "ramified_covering_path carries T2, LPC, FirstCountable and Connected on Y, S skeletal, Sᶜ slsc, and y₀ ∈ Sᶜ. It proves OmegaQuot S y₀ ≃ₜ MaxBranchedCover S y₀ over Y (Ψ q).base = omegaEnd q. omegaEnd_isBranchedCovering gives the branched-covering and possibly-branched-over-S assertions. Ω = OmegaSpace (start y₀, interior in Sᶜ, free end) matches l.1324, and OmegaRel is literal almost homotopy. Row CLOSED is correct under DEC-70. The quotient-topology reading (d) is discussed in issue 3.",
+    "statement_fidelity": "Every hypothesis the file drops is genuinely unused: Hausdorff, first countability and connectedness of X in the two lemmas, and x ∈ closure U. Every carried hypothesis is satisfiable: ex:consider_fiber_above_homeomorphic proves S skeletal and ℂ∖S slsc for a concrete S, and cartS₁ᶜ is an open slsc U. No definition trivialises its notion. The single exception is the lem:almost_homotopic_carac2 row (issue 1).",
+    "marks": "All 12 labels are bold in the module docstring and all are status closed in the REPORT. 10 of the 12 marks fall inside the ledger's 4000-character window and 2 do not (issue 2)."
+  },
+  "issues": [
+    {
+      "severity": "major",
+      "where": "lem:almost_homotopic_carac2: GX.almost_homotopic_carac2_cc (l.2034), GX.almost_homotopic_carac2_of_isMaximal_cc (l.2045); module docstring l.43-46 and the hypothesis checklist row (l.65); REPORT row lem:almost_homotopic_carac2",
+      "problem": "The row is CLOSED and bold-marked, but it rests on a reading no ruling covers. The paper (l.1307) states the lemma for 'a maximal covering possibly branched above some S', with no hypothesis on S. Both Lean forms add S skeletal, Y ∖ S semilocally simply connected and Y connected. The _of_isMaximal_cc form, which takes an arbitrary IsMaximalPossiblyBranched p S, still requires hSc. The REPORT's own finding says that for a merely maximal covering 'the lemma needs Y minus S slsc' (harmonic archipelago, S = ∅, heuristic). The REPORT's question also says the row 'reverts to partial' unless the master confirms DEC-70 / DEC-66 (b) covers it. Neither does. DEC-70 names only theo:ramified_covering_path and theo:Galois_cor. DEC-66 (b) rules only that the notation M̃^S presupposes M connected. The WP-27d round-1 audit put exactly this question to the author ('does the notation widetilde Y^S carry prop:universality's hypotheses?'), and no DEC answers it. The precedent goes the other way: theo:Galois_cor's identical strengthening ('widetilde Y^S exists only under it') was held partial until DEC-70 ruled on it by name. Under DEC-27 and docs/CAMPAIGN.md ('no added hypothesis'), this row is partial. The hypothesis checklist writes '✓' where kb/0006 requires '⚠ strengthened'. The REPORT says 'carried' for a hypothesis the paper does not state.",
+      "fix": "Either get an author ruling that extends DEC-70 to lem:almost_homotopic_carac2 (Ỹ^S denotes prop:universality's covering, so S skeletal and Y∖S slsc), or revert the row. To revert: remove the ** mark (write `lem:almost_homotopic_carac2`), set the checklist row to '⚠ strengthened (finding)', set REPORT status 'partial', marked false, hypothesis 'strengthened', and keep the question. Nothing in the Lean needs to change."
+    },
+    {
+      "severity": "major",
+      "where": "Paths.lean module docstring, l.53-58 (character offsets 4122 and 4301); tools/ledger.py:300 (head = text[:4000]); kb/0006 item 2",
+      "problem": "Two closed rows' marks now fall outside the window tools/ledger.py's lean_index reads (head = text[:4000]). **`prop:general_fiber_path_universal`** starts at offset 4122 and **`ex:consider_fiber_above_homeomorphic`** at 4301. At HEAD, prop:general_fiber_path_universal was at offset 3813 and was seen; WP-35a's longer preamble and bullets pushed it out, so this is a regression this package introduced. The ex:consider_fiber_above_homeomorphic mark was already at the edge (3992; the WP-27d round-1 minor issue 1) and is further out now. The ledger will attach neither closed row to this file, although REPORT.json and the docstring certify both.",
+      "fix": "Shorten the docstring above the bullet list so the last mark ends before offset 4000. Candidates: the 9-line preamble l.5-14, or the ex:consider_carthesian and lem bullets l.19-46, whose declaration lists can move below the mark list or into SCOPE. Check with: python3 -c \"import re;t=open('GX/Branched/Paths.lean').read()[:4000];print(len(re.findall(r'\\*\\*`[a-z]+:[A-Za-z0-9_]+`\\*\\*',t)))\". The result must be 12."
+    },
+    {
+      "severity": "minor",
+      "where": "theo:ramified_covering_path; SCOPE (d) (l.95-97); REPORT row question",
+      "problem": "Reading (d) has no ruling that names it: X carries the quotient of the compact-open topology of Ω. The WP-27d audit put it to the author as 'not yet ruled', and DEC-56 accepted (c)(e)(f)(g) but not (d). DEC-70 then rules that the row closes, which I read as the author accepting the row as formalized. The reading is also the only one consistent with the proof (l.1339-1383 proves ψ̄ a homeomorphism from ψ continuous and open on Ω). So I do not count the CLOSED status as an overclaim, but the coverage is implicit.",
+      "fix": "The master should record in the ledger that DEC-70's 'rows close' covers reading (d), or put (d) to the author together with issue 1."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/README.md, module table row GX.Branched.Paths",
+      "problem": "The table still reads '§3.3 (8 of 12 rows closed)'. After WP-35a the file claims 12 of 12 (11 of 12 if issue 1 reverts). The file is outside this package's write set, so this note is for the master.",
+      "fix": "The master updates the README row when graduating."
+    }
+  ],
+  "row_verdicts": {
+    "def:almost_trivial_loop": "closed, marked: correct (literal compact-open definition, DEC-55)",
+    "ex:consider_carthesian_coordinates_usual": "closed, marked: correct under DEC-68 (a); all four claims proved for S₂ = sine curve × {0}",
+    "def:almost_homotopic_paths": "closed, marked: correct (γ₂⁻¹ * γ₁ is based at y, as in the paper)",
+    "rem:implicitely_two_almost_homotopic": "closed, marked: correct (true by typing)",
+    "lem:almost_homotopic_carac": "closed, marked: correct under DEC-68 (b); (ii) is proved in both the literal and the homotopy readings, and (ii) ⇒ (i) holds with no hypothesis",
+    "lem:hausdorff_first_countable_connected": "closed, marked: correct under DEC-68 (b); slsc is used only for transitivity",
+    "lem:almost_homotopic_carac2": "OVERCLAIMED: the Lean is correct, but S skeletal, Y∖S slsc and Y connected are added hypotheses that no ruling covers (DEC-70 names only ramified_covering_path and Galois_cor). Partial unless the author rules (issue 1)",
+    "theo:ramified_covering_path": "closed, marked: correct under DEC-70; reading (d) is covered only implicitly by 'rows close' (issue 3)",
+    "def:covering_branched_two_paths": "closed, marked: correct under DEC-56 (e) (unchanged since WP-27d)",
+    "prop:general_fiber_path": "closed, marked: correct under DEC-56 (e)(f) (unchanged)",
+    "prop:general_fiber_path_universal": "closed: correct (unchanged), but its mark has been pushed out of the ledger window (issue 2)",
+    "ex:consider_fiber_above_homeomorphic": "closed: correct (unchanged), but its mark is outside the ledger window (issue 2)"
+  },
+  "questions_for_author": [
+    "lem:almost_homotopic_carac2 (l.1307): does 'Ỹ^S, a maximal covering possibly branched above some S' carry prop:universality's hypotheses (S skeletal, Y ∖ S semilocally simply connected, Y connected), as DEC-70 rules for theo:ramified_covering_path and theo:Galois_cor? With that ruling the row closes; without it the row is partial.",
+    "theo:ramified_covering_path: confirm that DEC-70's 'rows close' accepts reading (d), that X carries the quotient of the compact-open topology of Ω."
+  ],
+  "summary": "GX/Branched/Paths.lean builds with -DwarningAsError=true (EXIT 0, no output), and the strict library builds (lake build GX, 8577 jobs, EXIT 0). The file has 0 sorry, and the ten main theorems use only propext, Classical.choice and Quot.sound. WP-35a changed only docstrings and added two theorems, with no name clash; both new theorems are correct. One is (ii) ⇒ (i) of lem:almost_homotopic_carac in the fully literal reading, proved with no hypothesis. The other is the fully literal (i) ⇔ (ii) under U slsc. DEC-55, DEC-56 (c)(g), DEC-68 (a)(b) and DEC-70 are applied correctly. ex:consider_carthesian_coordinates_usual, lem:almost_homotopic_carac, lem:hausdorff_first_countable_connected and theo:ramified_covering_path are rightly closed. Every REPORT declaration exists, and all 12 labels are reported. There are two major issues. (1) lem:almost_homotopic_carac2 is closed and marked under the reading 'Ỹ^S = prop:universality's covering'. That reading adds S skeletal, Y∖S slsc and Y connected, and no ruling covers it: DEC-70 names only two other rows, and the WP-27d question on this exact point is unanswered. The REPORT itself says the row reverts to partial without a ruling, and the checklist writes ✓ where it should write ⚠ strengthened. It needs a ruling or a revert to partial. (2) The longer docstring pushes the closed marks of prop:general_fiber_path_universal (now at offset 4122, was 3813) and ex:consider_fiber_above_homeomorphic (4301) out of the ledger's 4000-character window. There are two minor issues: reading (d) is covered only implicitly by DEC-70, and the README row is stale."
+}

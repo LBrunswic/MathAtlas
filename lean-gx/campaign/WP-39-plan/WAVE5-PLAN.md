@@ -15,8 +15,8 @@ saved by the master session. Rulings Q1–Q7 below are put to the author before 
 - WP-39e BTZ/Causality (L): causality on 𝕄 ⊕ E₀ from causal curves (DEC-33); f=τ−r/2, h=τ+r monotone; I⁺(p) local form;
   Iminus_eq_empty, past_local, Iplus_of_lt; J^±(V) open incl. BTZ; absolutelyMinimalOn_Y, chartIso_mem, coneSliceFuture,
   coneSlicePast (BTZ: K = J⁺_O(y) ∩ {τ+r=c}).
-- WP-39f BTZ/LocalModel (XL): assemble 𝔐E₀; global fields singularFlatAxioms, timeFunction (Geroch time on GH E₀-manifolds:
-  dominant cost), curvesExtend, isCompact_* (Flat/CBGCompact templates), secondCountable_of_cauchy (countably many lines).
+- WP-39f BTZ/LocalModel (XL): assemble 𝔐E₀; global fields singularFlatAxioms, timeFunction (via strict `geroch_sing_i_imp_ii` after DEC-78's split:
+  gx supplies SingularFlatAxioms + ModelMeasures on E₀-manifolds), curvesExtend, isCompact_* (Flat/CBGCompact templates), secondCountable_of_cauchy (countably many lines).
 - WP-39g BTZ/CBG (L): hA3f (lem:passe_pgcd), hA3p, hA4f (Sbierski τ_q, Lemma 3.11); Geometry.ofLocalModelOfBTZ; cbg for E₀.
 - WP-39h BTZ/Topology (M): defi:BTZtop (l.2281), prop:quotient_chart (l.2286), rem:tamifying_topology_generated_open (l.2293).
 - WP-39i BTZ/Spear (L): B21 Lemma 2.3 (gluedChartedSpace), Lemma 2.4, full future BTZ rays.
@@ -41,4 +41,5 @@ at BTZ points; bridges may not be definitional; AbsMax over Type 0; Models scaff
 Defects: D-11 (future_complete false; {τ<0}), D-12(a)–(f), D-1/2/5/6/8/10, "Lemma 2.4" → 2.3, ex l.1927 includes θ=2π
 (E_{2π} regular; B21 Prop 1.3 assumes α ≠ 2π).
 
-## Rulings asked (Q1–Q7): see registers/DECISIONS.md once answered.
+## Rulings: DEC-74 (E_θ family, θ ≠ 2π, massive cones), DEC-75 (loxodromic proved in 2+1), DEC-76 (π₁(Σ∖sing) non-abelian, s ≥ 1), DEC-77 (readings: no time reversal; M̃ with T_BTZ; Cauchy-maximal = IsETTMaximal; corrected future_complete); DEC-78 (Barbot side: SingularGeroch split).
+WP-39d grows to cover the massive cones E_α (DEC-74); WP-39m proves the loxodromic (DEC-75).

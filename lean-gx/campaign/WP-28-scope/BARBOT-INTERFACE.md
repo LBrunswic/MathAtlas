@@ -173,3 +173,12 @@ are DELETED; CBG uses the library's `BTZAxioms` / `SingularFlatAxioms`. FromMode
 `BTZAxioms.Iminus_opens_eq_empty`, `.inter_Iminus_opens_subset`, `.exists_le_inter_Iminus_subset`.
 `SingularFlatAxioms.lt_of_le_of_not_mem` deleted (false in E₀): use `lt_of_lt_of_le_of_not_mem`. `K_monotone` stronger.
 **gx's E₀ model supplies the library `SingularFlatAxioms` (with `Iplus_of_lt`) as LocalModel's `singularFlatAxioms`.**
+
+## SingularGeroch split (DEC-78, author) — gx's timeFunction obligation reduced
+
+Strict (verbatim, after the split): SingularFlatSpacetime, `ModelMeasures`, `mesure_admissible`, `geroch_hypotheses*`,
+`geroch_sing_i_imp_ii` (GH ⇒ Cauchy time function, strictly increasing along ≤), `geroch_sing_i_imp_iii`, `geroch_sing_split`.
+Scaffold: `geroch_sing_of_stronglyCausal`. **gx's timeFunction discharge for E₀ = `SingularFlatAxioms` + `ModelMeasures`
+on E₀-manifolds** (local admissible measures in causally convex charts). Template: Causal.Flat.Geroch.{ConeNull,
+ChartNull, ChartMeasure} (frontier of a past set meets each vertical line at most once ⇒ null by Fubini; try on the E₀
+chart minus the BTZ line). Pin: after the split's sha (f84b69e is the DEC-64 sha).
