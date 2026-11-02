@@ -137,3 +137,12 @@ gx accepted as Level B fields (round 4): (1) `[T2Space Y]`; (2) B4 in cone-slice
 same component); (4) `isOpen_regY`. gx's E₀ instance additionally owes (in hA3f/hA3p/hA4f/hA4p): lem:passe_pgcd
 (A3 future), an E₀ future slice off the cone (τ_q, Lemma 3.11), a regular a ∈ U ∩ I⁺(p) and I⁺(p) regular near p (A3 past);
 past cone-slices at BTZ points via τ + r level sets, K = a line segment below y.
+
+## Graduation (pending): CausalScaffold.X → Causal.X, 95 modules, no declaration renamed
+
+After it lands, gx's pinned modules: Causal.{CompactCauchy, CurvesExtend, Splitting, LemmaKBare, Flat.Developing,
+Flat.FlatSpacetime, Flat.Quotient, Flat.LipschitzGraph, Flat.Loxodromic, Flat.Classification, Flat.GerochFlat}
+(+ Flat.Form, Flat.Cosmological, Flat.CBGCompact, Flat.Geroch.*). Step 6 (Causal.Flat.Uniformization) SKIPPED at gx's
+request. Stays scaffold: CBG.*, Flat.CBG, Flat.CBGGerm, Flat.CBGSlice, the CompactCauchy stub (bare lemma K).
+**Blocker for gx's strict Section 4:** CBG.* imports ETT's sorried SubExtension — requested to cut that dependency.
+gx imports specific modules only, never the `Causal` root.
