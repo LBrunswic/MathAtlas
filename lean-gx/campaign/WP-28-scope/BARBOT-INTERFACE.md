@@ -182,3 +182,11 @@ Scaffold: `geroch_sing_of_stronglyCausal`. **gx's timeFunction discharge for E�
 on E₀-manifolds** (local admissible measures in causally convex charts). Template: Causal.Flat.Geroch.{ConeNull,
 ChartNull, ChartMeasure} (frontier of a past set meets each vertical line at most once ⇒ null by Fubini; try on the E₀
 chart minus the BTZ line). Pin: after the split's sha (f84b69e is the DEC-64 sha).
+
+## Levin's theorem (ca2ad78, strict `Causal.LevinUtility`) — a shortcut for the timeFunction field, AFTER the next pin bump
+
+`Causal.Causality.exists_timeFunction_of_secondCountable [T2Space M] [SecondCountableTopology M] (hT : C.Tarentin)
+(hG : C.GloballyHyperbolic)` : a continuous τ, monotone, strictly increasing along ≤ (not Cauchy); no measures;
+also `curvesExtend_of_secondCountable`. Exactly the body of CBG's `timeFunction` field. gx stays pinned at 731ed99 during
+wave 5 (no re-pin while a wave builds); if WP-41f's ModelMeasures route proves costly, re-pin at ≥ ca2ad78 afterwards and
+replace it by Levin (T2 + SC + tarentin from SingularFlatAxioms + GH).
