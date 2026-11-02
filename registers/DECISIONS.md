@@ -101,6 +101,7 @@ is a new row that names it.
 | DEC-90 | 2026-11-02 | Barbot `bprop:danom` (Prop 8.12) is MARKED, `[T2Space M]` recorded as implicit in "manifold" (✓ carried), the non-Hausdorff fold counterexample kept as a finding | AUTHOR | answer "Mark, T2 as implicit" |
 | DEC-91 | 2026-11-02 | Barbot `bprop:ghyp` (Prop 8.10) is MARKED; W4 (U(Γ) over γ ≠ 1, Ω_g over q ≠ 0, interior of U(g)) is the intended reading, W8 (the convexity argument of l.2430–2431) a finding on the proof, the statement being unchanged | AUTHOR | answer "Accept W4 and mark" |
 | DEC-92 | 2026-11-02 | The bare lemma K (`CausalScaffold.CompactCauchy.isCauchySurface_of_isLocallyCauchy`, ETT generality) is to be SETTLED: proved, or refuted (a refutation is a finding against ETT's generality) | AUTHOR | answer "Settle it: prove or refute" |
+| DEC-93 | 2026-11-02 | Lemma K ("a compact connected locally Cauchy Σ in a GH spacetime is Cauchy", Barbot l.3537–3539, DEC-44/92) is stated in ETT's setting with **causal openness** (`CausallyOpen`, `def:causally_open_spacetime_open`, two-sided per DEC-8) and second countability (ETT.tex:255) as part of the spacetime; proved there from Levin's theorem (CurvesExtend) and the chart-side reduction (Causal.LemmaKSCLocal). The forms without causal openness stay in the scaffold as open generalisations, not owed | AUTHOR | answer "Add causal openness to ETT's setting"; after DEC-92 round 3 (ca2ad78) |
 
 ## Open questions
 
