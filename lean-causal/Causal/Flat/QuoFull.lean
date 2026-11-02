@@ -1,18 +1,20 @@
 import Causal.Flat.Develop
+import Causal.Flat.CauchyComplete
 
 /-!
-# `Causal.Flat.QuoFull` — Cor 8.2 in full (DEC-35 reading): the embeddings and `π₁(S) ↪ π₁(M)`
+# `Causal.Flat.QuoFull` — Cor 8.2 in full: the embeddings and `π₁(S) ↪ π₁(M)`, from completeness
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §8,
 `GHFspace.tex` l.2263–2271 (labelled file).
 
-* `bcor:quo` — `GHFspace.tex:2264` (Cor 8.2, l.2263–2271), every clause stated and proved in
-  the DEC-35 reading **from the hypothesis `DevelopsCC.injOn`** (`𝒟` injective on `S̃`, which is
-  the injective half of "`𝒟 ∘ f̃` is an embedding" and is assumed, not proved — checklist, SCOPE),
-  `M` Hausdorff (T2 implicit in "manifold", as DEC-90 rules for `bprop:danom`), the `π₁` clause
-  at base points of the component of `x₀` (connected `M`: every base point);
-  **unmarked, no ruling yet** (SCOPE) — `bcor_quo_full`, `bcor_quo_full_of_connected`,
-  `injective_fundamentalGroup_map_val`, `contractibleSpace_liftSet`, `isEmbedding_develop_liftSet`:
+* **`bcor:quo`** — `GHFspace.tex:2264` (Cor 8.2, l.2263–2271; DEC-105)
+  (`bcor_quo_of_isCauchyComplete`, `bcor_quo_of_isCauchyComplete'`): every clause, from the
+  paper's Cauchy-completeness — (CC′) obtained from completeness through the bridge (DEC-35;
+  Prop 8.1 / Cor 8.3, `developsCC_of_isCauchyComplete`, glued by
+  `developsCC_of_isCauchyComplete_of_isDevelopingPair`), so `𝒟` injective on `S̃` is proved,
+  not assumed; M connected implicit (in "spacetime", `FlatSpacetime`; Hausdorff in "manifold",
+  DEC-90); f = inclusion of S ⊆ M (disclosed); `M` GH and `S` a Cauchy surface, the DEC-35
+  reading of the paper's complete hypersurface (checklist, SCOPE).
   > The maps $f$ and ${\mathcal D} \circ \tilde{f}$ are embeddings. The natural morphism
   > $\Gamma \subset \pi_{1}(M)$ and the morphism $\rho$ are injective. Moreover,
   > ${\mathcal D} \circ \tilde{f}(\widetilde{S})$ intersects every timelike geodesic.
@@ -29,59 +31,50 @@ dimensions: Barbot's `n` is `d + 1`.
 
 ## Main declarations
 
-* `graphHomeomorph` — the graph of a continuous `g : ℝᵈ → ℝ` is homeomorphic to `ℝᵈ`.
-* `isEmbedding_develop_liftSet` — `𝒟 ∘ f̃ : S̃ → 𝐌ⁿ` is an embedding (T2).
-* `contractibleSpace_liftSet` — `S̃ = p⁻¹(S)` is contractible: `𝒟` maps it homeomorphically onto
-  the entire graph `Σ`, and `Σ ≅ ℝᵈ` (T2).
-* `injective_pathQuotient_map_val_of_preimage` — for a covering `p : E → X` and `S ⊆ X` with
-  `p⁻¹(S)` simply connected, `S ↪ X` is injective on homotopy classes of paths between points of
-  `S` over which `p⁻¹(S)` has a point (lift both paths from one point; homotopic below, so they
-  end at one point; homotopic in the simply connected `p⁻¹(S)`; project back to `S`).
-* `injective_fundamentalGroup_map_val` — `π₁(S, s) → π₁(M, s)` is injective for `s ∈ S` in the
-  component of `x₀`.
-* `bcor_quo_full` — every clause of Cor 8.2; `bcor_quo_full_of_connected` — `M` connected.
+* `bcor_quo_of_isCauchyComplete` — **the principal theorem** (DEC-105): `M : FlatSpacetime`, GH,
+  `S` a Cauchy surface complete for its induced length (the fields of `IsCauchyComplete`), any
+  developing pair; every clause of Cor 8.2. `bcor_quo_of_isCauchyComplete'` — from
+  `IsCauchyComplete d M`: some Cauchy surface satisfies them for every developing pair.
+* `developsCC_of_isCauchyComplete_of_isDevelopingPair` — the glue: the bridge's conjunction is
+  `DevelopsCC` (no normalisation of the pair or base point needed: the bridge takes any `dev`
+  that is a `(G,X)`-morphism of the universal cover at any `x₀`, `IsDevelopingPair.gx`).
+* `bcor_quo_full`, `bcor_quo_full_of_connected` — every clause from `DevelopsCC` (relative form,
+  kept: `DevelopsCC.injOn` a hypothesis there).
+* `graphHomeomorph`, `isEmbedding_develop_liftSet`, `contractibleSpace_liftSet` (`S̃ ≅ Σ ≅ ℝᵈ`),
+  `injective_pathQuotient_map_val_of_preimage`, `injective_fundamentalGroup_map_val`.
 
 ## Hypothesis checklist
 
 | paper hypothesis | here |
 |---|---|
-| `S` a complete Riemannian hypersurface, `f` an isometric immersion (l.2215–2216) | ⚠ strengthened (DEC-35 reading, as in `Flat/Develop`): `S` a Cauchy surface of `M` with `DevelopsCC`; `f` is the inclusion `S ⊆ M`, `S̃ := p⁻¹(S) ⊆ M̃`, `f̃` its inclusion |
-| "`𝒟 ∘ f̃` is an embedding": its injectivity (in the paper a consequence of completeness, Prop 8.1) | ⚠ strengthened: carried as the hypothesis `DevelopsCC.injOn` (`𝒟` injective on `S̃ = p⁻¹(S)`; DEC-35 bridge, `Flat/Develop`); only the topological half of the embedding is proved — `𝒟` a local homeomorphism, the injectivity extended from `S̃` to `M̃` (`injective_of_developsCC`), hence `isOpenEmbedding_of_developsCC` and `isEmbedding_develop_liftSet` |
-| `Γ = π₁(S)`, "the natural morphism `Γ ⊂ π₁(M)`" | ✓ `FundamentalGroup.map` of the inclusion `S → M` at `s ∈ S`; at every `s` for `M` connected, at the `s` of the component of `x₀` otherwise (SCOPE) |
-| (implicit) `M` a manifold: Hausdorff | ✓ carried: `[T2Space M]`, implicit in "manifold" as DEC-90 rules |
-| (implicit) `M` connected (a spacetime) | ✓ carried only in `bcor_quo_full_of_connected`; `bcor_quo_full` restricts the base point instead |
+| `S` a complete Riemannian hypersurface (l.2215–2216) | ✓ carried in the DEC-35 reading of completeness (DEC-105): `IsSpacelikeLipschitz d S` (⚠ weakened: Lipschitz in flat charts, not smooth), `CompleteSpace (InducedLengthSpace d S)`, the topology field (W3) — the fields of `IsCauchyComplete` |
+| `M` a flat spacetime; `S` a Cauchy surface, `M` GH | ⚠ strengthened (DEC-35/DEC-105 reading: the paper's "Cauchy-complete", l.551): §8 does not ask `S` Cauchy; `GH M` is used only for `S̃` connected (B1) |
+| `f` an isometric immersion; `f̃` a lifting | ✓ in the reading: f = inclusion of S ⊆ M (disclosed), `S̃ := p⁻¹(S)`, `f̃` its inclusion |
+| "`𝒟 ∘ f̃` is an embedding": its injectivity (Prop 8.1) | ✓ proved through the bridge (DEC-35) in `bcor_quo_of_isCauchyComplete`; assumed (`DevelopsCC.injOn`) only in the relative `bcor_quo_full` |
+| `Γ = π₁(S)`, "the natural morphism `Γ ⊂ π₁(M)`" | ✓ `FundamentalGroup.map` of the inclusion at every `s ∈ S` |
+| (implicit) `M` Hausdorff and connected (manifold, spacetime) | ✓ carried by `FlatSpacetime` (T2 as DEC-90; connected implicit in "spacetime", DEC-105) |
 | "timelike geodesic" | ✓ the timelike affine lines `p + ℝ v`, `v` future timelike (as in `bcor_quo`) |
 
 ## SCOPE (disclosed)
 
-* **Reading.** DEC-35: the paper's immersed complete hypersurface is replaced by a Cauchy surface
-  with (CC′) for its lift; under it "`f` is an embedding" is the subspace inclusion
+* **Reading.** DEC-35/DEC-105: the paper's immersed complete hypersurface is a Cauchy surface of
+  a GH `M` complete for its induced length; "`f` is an embedding" is then the subspace inclusion
   (`IsEmbedding.subtypeVal`), not the paper's claim that an isometric immersion of a complete
-  hypersurface is injective and proper. The immersion form (blocker of the curation row) is not
-  formalized: the library has no immersed hypersurfaces.
-* **`DevelopsCC.injOn` is assumed.** The injectivity of `𝒟` on `S̃` — the injective half of
-  "`𝒟 ∘ f̃` is an embedding", which the paper derives from completeness (Prop 8.1) — is a field
-  of `DevelopsCC` (`Flat/Develop`, DEC-35 bridge), not a theorem. Downstream of it, and so proved
-  only relative to it: the embedding `isEmbedding_develop_liftSet` (through
-  `injective_of_developsCC`), the contractibility of `S̃` (`contractibleSpace_liftSet`), hence the
-  `π₁` clause (`injective_fundamentalGroup_map_val`), and the injectivity of `ρ` and freeness of
-  `ρ(Γ)` on `Σ` (`bcor_quo`, via `eq_one_of_holonomy_fix`). Only "`f` is an embedding", the
-  invariance of `Σ` under `ρ(Γ)` and "`Σ` meets every timelike line" do not use it. So the
-  printed statement is proved in the DEC-35 reading, not unconditionally: the hypothesis
-  replacing completeness carries the injectivity half of the embedding clause.
+  hypersurface is injective and proper. The immersion form is not formalized: the library has no
+  immersed hypersurfaces.
+* **(CC′) from completeness.** In `bcor_quo_of_isCauchyComplete` the injectivity of `𝒟` on `S̃`
+  (hence the embedding, the contractibility of `S̃`, the `π₁` clause, `ρ` injective and `ρ(Γ)`
+  free on `Σ`) rests on the proved bridge (Prop 8.1, `[8.G]`, Cor 8.3, B1–B3 of
+  `Flat/CauchyComplete`), not on a hypothesis. `bcor_quo_full` keeps the relative form.
 * **`Γ ⊂ π₁(M)`.** Proved directly, without the splitting `M ≅ S × ℝ` (Prop 8.11): a loop of `S`
   null-homotopic in `M` lifts to a loop of `S̃`, contractible because `𝒟` embeds it onto the
-  entire graph `Σ ≅ ℝᵈ`. The paper's `Γ` is `π₁` of the connected `S`; in the reading `S` may
-  meet several components of a disconnected `M`, and only the part over the component of `x₀`
-  is developed, so `bcor_quo_full` asks `s ∈ range p`; for connected `M` this is automatic.
-  Corollary: `S ∩ range p` is path connected, and the restricted `p : S̃ → S` is, at the level
-  of `π₁`, the universal covering of the paper's set-up (finding of the curation row, l.2215–2223,
-  answered in the reading).
+  entire graph `Σ ≅ ℝᵈ`. In the relative `bcor_quo_full` (`M` not assumed connected) the clause
+  asks `s ∈ range p`.
 * **Sorries: none.** No axiom beyond Lean's three.
-* **Mark.** None: the label's curation row waits on the master's ruling on the DEC-35 reading.
+* **Mark.** `bcor:quo` marked on `bcor_quo_of_isCauchyComplete` by DEC-105 (2026-11-02).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Barbot campaign,
-`bcor:quo` completion pass.
+`bcor:quo` completion pass; ruling L (DEC-105).
 -/
 
 namespace Causal.Flat
@@ -223,9 +216,84 @@ theorem bcor_quo_full_of_connected [T2Space M] [ConnectedSpace M]
 
 end QuoFull
 
+/-! ### Cor 8.2 from the paper's Cauchy-completeness (DEC-105, through the DEC-35 bridge) -/
+
+section FromComplete
+
+universe u
+
+/-- **The glue** between the DEC-35 bridge and `DevelopsCC`: for a globally hyperbolic flat
+spacetime `M` and a Cauchy surface `S` that is Cauchy-complete in the paper's sense (spacelike
+Lipschitz, complete for its induced length, topology field), every developing pair develops `S`
+as (CC′) — `injOn`, `IsEntireAcausalGraph` and `NullSaturated` from
+`developsCC_of_isCauchyComplete` (Prop 8.1, `[8.G]`, Cor 8.3). -/
+theorem developsCC_of_isCauchyComplete_of_isDevelopingPair (M : FlatSpacetime.{u} d) (hGH : GH M)
+    {S : Set M} (hS : (flatCausality d M).IsCauchySurface S) (hL : IsSpacelikeLipschitz d S)
+    (hc : CompleteSpace (InducedLengthSpace d S))
+    (htop : Continuous fun x : InducedLengthSpace d S => (InducedLengthSpace.toSubtype x : M))
+    {x₀ : M} {D : UniversalCover M x₀ → Minkowski d} {ρ : Deck (UniversalCover.proj M x₀) →* isom d}
+    (hpair : IsDevelopingPair x₀ D ρ) : DevelopsCC x₀ D S := by
+  obtain ⟨hS', hinj, hent, hnull⟩ :=
+    developsCC_of_isCauchyComplete M hGH hS hL hc htop x₀ D hpair.gx
+  exact ⟨hS', hinj, ⟨hent, hnull⟩⟩
+
+/-- **Cor 8.2** (`bcor:quo`, l.2263–2271), every clause, **from the paper's hypothesis** (DEC-105):
+`M` a flat spacetime (connected and Hausdorff, implicit in "spacetime"/"manifold"), globally
+hyperbolic, `S` a Cauchy surface of `M` complete for its induced length (the paper's
+Cauchy-completeness in the DEC-35 reading: `IsSpacelikeLipschitz`, `CompleteSpace` of
+`InducedLengthSpace`, the topology field — exactly the fields of `IsCauchyComplete`), `f` the
+inclusion `S ⊆ M`, `(𝒟, ρ)` any developing pair. The injectivity of `𝒟` on `S̃ = p⁻¹(S)` is no
+longer assumed: (CC′) is obtained from completeness through the proved bridge
+(`developsCC_of_isCauchyComplete_of_isDevelopingPair`). Clauses: `f` is an embedding, `𝒟 ∘ f̃` is
+an embedding, `π₁(S, s) → π₁(M, s)` is injective at every `s ∈ S`, `ρ` is injective, `ρ(Γ)`
+preserves `Σ = 𝒟(S̃)` and acts freely on it, and `Σ` meets every timelike line. -/
+theorem bcor_quo_of_isCauchyComplete (M : FlatSpacetime.{u} d) (hGH : GH M) {S : Set M}
+    (hS : (flatCausality d M).IsCauchySurface S) (hL : IsSpacelikeLipschitz d S)
+    (hc : CompleteSpace (InducedLengthSpace d S))
+    (htop : Continuous fun x : InducedLengthSpace d S => (InducedLengthSpace.toSubtype x : M))
+    {x₀ : M} {D : UniversalCover M x₀ → Minkowski d} {ρ : Deck (UniversalCover.proj M x₀) →* isom d}
+    (hpair : IsDevelopingPair x₀ D ρ) :
+    IsEmbedding (Subtype.val : S → M) ∧
+      IsEmbedding (fun z : UniversalCover.proj M x₀ ⁻¹' S => D z) ∧
+      (∀ s : S, Injective (FundamentalGroup.map ⟨Subtype.val, continuous_subtype_val⟩ s)) ∧
+      Injective ρ ∧ (∀ γ ∈ ρ.range, γ • (D '' (UniversalCover.proj M x₀ ⁻¹' S)) =
+        D '' (UniversalCover.proj M x₀ ⁻¹' S)) ∧
+      (∀ γ ∈ ρ.range, γ ≠ 1 → ∀ x ∈ D '' (UniversalCover.proj M x₀ ⁻¹' S), γ • x ≠ x) ∧
+      ∀ p v : Minkowski d, IsFutureTimelike v →
+        ∃ s : ℝ, p + s • v ∈ D '' (UniversalCover.proj M x₀ ⁻¹' S) :=
+  bcor_quo_full_of_connected hpair
+    (developsCC_of_isCauchyComplete_of_isDevelopingPair M hGH hS hL hc htop hpair)
+
+/-- **Cor 8.2 from `IsCauchyComplete d M`** (DEC-105): a globally hyperbolic Cauchy-complete flat
+spacetime has a Cauchy surface `S` such that, for every base point and every developing pair, all
+the clauses of `bcor_quo_of_isCauchyComplete` hold. -/
+theorem bcor_quo_of_isCauchyComplete' (M : FlatSpacetime.{u} d) (hGH : GH M)
+    (hCC : IsCauchyComplete d M) :
+    ∃ S : Set M, (flatCausality d M).IsCauchySurface S ∧
+      ∀ (x₀ : M) (D : UniversalCover M x₀ → Minkowski d)
+        (ρ : Deck (UniversalCover.proj M x₀) →* isom d), IsDevelopingPair x₀ D ρ →
+      IsEmbedding (Subtype.val : S → M) ∧
+      IsEmbedding (fun z : UniversalCover.proj M x₀ ⁻¹' S => D z) ∧
+      (∀ s : S, Injective (FundamentalGroup.map ⟨Subtype.val, continuous_subtype_val⟩ s)) ∧
+      Injective ρ ∧ (∀ γ ∈ ρ.range, γ • (D '' (UniversalCover.proj M x₀ ⁻¹' S)) =
+        D '' (UniversalCover.proj M x₀ ⁻¹' S)) ∧
+      (∀ γ ∈ ρ.range, γ ≠ 1 → ∀ x ∈ D '' (UniversalCover.proj M x₀ ⁻¹' S), γ • x ≠ x) ∧
+      ∀ p v : Minkowski d, IsFutureTimelike v →
+        ∃ s : ℝ, p + s • v ∈ D '' (UniversalCover.proj M x₀ ⁻¹' S) := by
+  obtain ⟨S, hS, hL, hc, htop⟩ := hCC
+  exact ⟨S, hS, fun _ _ _ hpair => bcor_quo_of_isCauchyComplete M hGH hS hL hc htop hpair⟩
+
+end FromComplete
+
 /-! ### Non-vacuity (kb/0011): `𝐌ⁿ` itself, `Σ = {t = 0}` -/
 
 example (x₀ : Minkowski d) :=
   bcor_quo_full_of_connected (isDevelopingPair_minkowski x₀) (developsCC_minkowski x₀)
+
+/-- Non-vacuity of the hypothesis of `bcor_quo_of_isCauchyComplete'` (kb/0011): `𝐌ⁿ` is a
+globally hyperbolic Cauchy-complete flat spacetime. -/
+example :=
+  bcor_quo_of_isCauchyComplete' (FlatSpacetime.minkowskiSpace d) gh_minkowskiSpace
+    isCauchyComplete_minkowskiSpace
 
 end Causal.Flat

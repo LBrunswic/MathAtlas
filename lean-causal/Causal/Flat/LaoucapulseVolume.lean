@@ -4,28 +4,29 @@ import Mathlib.MeasureTheory.Function.Jacobian
 import Mathlib.LinearAlgebra.Transvection.Basic
 
 /-!
-# `Causal.Flat.LaoucapulseVolume` — Barbot's Prop 4.2 in the volume reading (DEC-102)
+# `Causal.Flat.LaoucapulseVolume` — Barbot's Prop 4.2, two-case form (DEC-102, DEC-104)
 
 T. Barbot, *Globally hyperbolic flat space-times* (`papers/barbot`, arXiv math/0402257), §4.1.
-Line numbers are those of `papers/barbot/legacy/labeled/GHFspace.tex`. Label (not marked):
+Line numbers are those of `papers/barbot/legacy/labeled/GHFspace.tex`. Label certified:
 
-* `bprop:laoucapulse` — `GHFspace.tex:855` (Prop 4.2, l.854–866), **partial, unmarked**: proved
-  under DEC-102, "expanding" = volume-expanding (the volume Jacobian exceeds `1`), for the round
-  measure on `𝒮⁺` and the round measure times Lebesgue measure on `𝒥⁺ ≅ 𝒮⁺ × ℝ`, **but only for
-  `n ≥ 3` (`d ≥ 2`), which the paper does not print** — ⚠ strengthened, a finding (kb/0011):
-  DEC-102 rules the reading and not the dimension, and the mark awaits a ruling that Prop 4.2 is
-  read for `n ≥ 3`. The printed equality is `laoucapulse_volume`
-  (`laoucapulseVolumeReading`): for a linear isometry `g`,
-  `{w | g expands volume at w} = δ⁺⁻¹ {u | L(g) expands volume at u}`. Both Jacobians are
-  computed exactly, not bounded: `a(g, u)^d` at `(u, s) ∈ 𝒥⁺`, for every isometry and every `s`
-  (`hasVolumeJacobianAt_isomPenrose`), and `a(g, u)^{d−1}` at `u ∈ 𝒮` for `[L(g)]`
-  (`hasVolumeJacobianAt_lorentzSphere`), `a = 1/N(L(g)v)` (l.841); so for every `d` the
-  volume-expanding domain on `𝒥⁺` is `δ⁺⁻¹(U)`, `U = {a(g, ·) > 1}` (`laoucapulse_volume_domain`).
-  **The metric reading stays refuted, a finding**: false for `n = 3` and every euclidean metric
-  on `ℝ` (`Penrose.not_laoucapulseMetricReading_two`, `Laoucapulse.not_laoucapulseScaledReading_two`,
-  `_one`); at the very point `(u₀, 4)` of that refutation `g` expands volume
-  (`boostIsom_expandsVolumeAt_laoBase`). For `n = 2` the volume reading is false
-  (`not_laoucapulseVolumeReading_one`).
+* **`bprop:laoucapulse`** — `GHFspace.tex:855` (Prop 4.2, l.854–866;
+  `bprop_laoucapulse_two_case`), MARKED under DEC-104 (ruling K) in a two-case form, for every
+  dimension `n = d + 1` (`n = 1` vacuous, `𝒮 = ∅`): for `n ≥ 3` (`d ≥ 2`) "expanding" is **volume**-expanding (DEC-102: the
+  volume Jacobian exceeds `1`), for the round measure on `𝒮⁺` and the round measure times
+  Lebesgue on `𝒥⁺ ≅ 𝒮⁺ × ℝ` (`laoucapulse_volume`, `laoucapulseVolumeReading`): for a linear
+  isometry `g`, `{w | g expands volume at w} = δ⁺⁻¹ {u | L(g) expands volume at u}`; for `n = 2`
+  (`d = 1`, `𝒮 = S⁰`) it is the **conformal** reading (`a(g, ·) > 1` on `𝒮`, metric expansion
+  for the sup product with any `lam·|·|` on `ℝ`), where the printed equality holds exactly
+  (`Laoucapulse.laoucapulse_one`). Both Jacobians are computed exactly, not bounded: `a(g, u)^d`
+  at `(u, s) ∈ 𝒥⁺`, for every isometry and every `s` (`hasVolumeJacobianAt_isomPenrose`), and
+  `a(g, u)^{d−1}` at `u ∈ 𝒮` for `[L(g)]` (`hasVolumeJacobianAt_lorentzSphere`),
+  `a = 1/N(L(g)v)` (l.841); so for every `d` the volume-expanding domain on `𝒥⁺` is `δ⁺⁻¹(U)`,
+  `U = {a(g, ·) > 1}` (`laoucapulse_volume_domain`).
+  **Findings kept**: the volume reading is false for `n = 2` (`not_laoucapulseVolumeReading_one`:
+  `S⁰` has no volume to expand), hence the two cases; the metric reading is refuted for `n = 3`
+  and every euclidean metric on `ℝ` (`Penrose.not_laoucapulseMetricReading_two`,
+  `Laoucapulse.not_laoucapulseScaledReading_two`, `_one`); at the very point `(u₀, 4)` of that
+  refutation `g` expands volume (`boostIsom_expandsVolumeAt_laoBase`).
 
 > Observe also that the factor $\frac{1}{N(L(g)v)}$ is common to the $v$ and $s$ components.
 > Hence: (l.849–851)
@@ -45,10 +46,10 @@ Line numbers are those of `papers/barbot/legacy/labeled/GHFspace.tex`. Label (no
 
 | paper hypothesis | here |
 |---|---|
-| `g` linear (`τ = 0`) | ✓ carried in `laoucapulse_volume`; ⚠ weakened: not used (`laoucapulse_volume_domain`) |
-| round metric on `𝒮⁺`, any euclidean metric on `ℝ` | ✓ carried as their volumes: `roundMeasure d` (`toSphere`), `penroseVolume d` (product with Lebesgue); every normalisation gives the same Jacobian (`HasVolumeJacobianAt.smul_measure`, `.conj`) |
-| "expanding" (undefined) | read (DEC-102): `ExpandsVolumeAt μ f x := ∃ J > 1, HasVolumeJacobianAt μ f J x`, i.e. `\|det Df(x)\| > 1`; `J ≥ 0` is unique (`HasVolumeJacobianAt.unique`) |
-| `n ≥ 3` (not printed) | ⚠ strengthened (no ruling; DEC-102 covers the reading only): `2 ≤ d`; false for `d = 1` (`not_laoucapulseVolumeReading_one`: `𝒮⁺ = S⁰` has no volume to expand, `not_expandsVolumeAt_lorentzSphere_one`), a finding; the paper sets no `n ≥ 3` convention (l.2215: "dimension `n`"), cf. `Laoucapulse`'s same row. The label is therefore not marked |
+| `g` linear (`τ = 0`) | ✓ carried in `bprop_laoucapulse_two_case` and `laoucapulse_volume`; ⚠ weakened: not used (`laoucapulse_volume_domain`, `laoucapulse_one`) |
+| round metric on `𝒮⁺`, any euclidean metric on `ℝ` | ✓ carried as their volumes for `n ≥ 3`: `roundMeasure d` (`toSphere`), `penroseVolume d` (product with Lebesgue); every normalisation gives the same Jacobian (`HasVolumeJacobianAt.smul_measure`, `.conj`); for `n = 2` as `Laoucapulse`'s sup product `penroseDist lam`, every `lam > 0` |
+| "expanding" (undefined) | expanding: volume reading for n ≥ 3 (DEC-102), conformal for n = 2 (ruling K). Volume: `ExpandsVolumeAt μ f x := ∃ J > 1, HasVolumeJacobianAt μ f J x`, i.e. `\|det Df(x)\| > 1`; `J ≥ 0` is unique (`HasVolumeJacobianAt.unique`). Conformal (DEC-104): `IsConformallyExpandingAt` (`a > 1`) on `𝒮 = S⁰`, `IsExpandingAtWrt (penroseDist lam)` on `𝒥⁺`. Findings kept: the volume reading fails at `n = 2` (`not_laoucapulseVolumeReading_one`), the metric reading is refuted at `n = 3` (`not_laoucapulseMetricReading_two`) |
+| dimension `n` | ✓ carried: every `d`; `d = 0` vacuous (`𝒮 = ∅`, `isEmpty_penroseSphere_zero`), `d = 1` conformal, `d ≥ 2` volume (DEC-104) |
 
 ## SCOPE (disclosed)
 
@@ -74,7 +75,7 @@ Line numbers are those of `papers/barbot/legacy/labeled/GHFspace.tex`. Label (no
   `Λ̂ × {0}`; it is `laoucapulse_cover` (`Laoucapulse`), unaffected.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Barbot campaign,
-DEC-102.
+DEC-102, DEC-104 (ruling K).
 -/
 
 open MeasureTheory Set Metric Topology Filter
@@ -799,5 +800,35 @@ theorem boostIsom_expandsVolumeAt_laoBase (s : ℝ) :
     Laoucapulse.lorentzScale_boost]
   simp [Laoucapulse.laoBase]
   norm_num
+
+/-- **`bprop:laoucapulse` (Prop 4.2, l.855), the two-case form of DEC-104 (ruling K)**, for every
+dimension `d` (Barbot's `n = d + 1`) and every linear isometry `g`:
+
+* `d ≥ 2` (`n ≥ 3`), **volume reading** (DEC-102): the domain of `𝒥⁺ ≅ 𝒮 × ℝ` where `g` expands
+  volume (round measure × Lebesgue) is the `δ⁺`-preimage of the domain of `𝒮` where `L(g)`
+  expands volume (round measure) — `laoucapulse_volume`;
+* `d = 1` (`n = 2`, `𝒮 = S⁰`), **conformal reading**: for every euclidean metric `lam·|·|` on `ℝ`,
+  the domain where `g` is metrically expanding for the sup product metric is the `δ⁺`-preimage of
+  the domain where `L(g)` is conformally expanding (`a(g, ·) > 1`) — `laoucapulse_one`.
+
+The two cases are exhaustive. At `d = 0` (`n = 1`) both hold vacuously: `𝒮 = ∅`
+(`isEmpty_penroseSphere_zero`), so both sides of the `d < 2` equality are empty. The volume reading's failure at `d = 1`
+(`not_laoucapulseVolumeReading_one`) and the metric reading's refutation at `d = 2`
+(`not_laoucapulseMetricReading_two`) are findings, not covered here. -/
+theorem bprop_laoucapulse_two_case {g : isom d} (hg : g • (0 : Minkowski d) = 0) :
+    (2 ≤ d →
+      {w | ExpandsVolumeAt (penroseVolume d) (isomPenrose g) w} =
+        Prod.fst ⁻¹' {u | ExpandsVolumeAt (roundMeasure d) (lorentzSphere (linearPart g)) u}) ∧
+    (d < 2 → ∀ lam : ℝ, 0 < lam →
+      {w | IsExpandingAtWrt (penroseDist lam) (isomPenrose g) w} =
+        Prod.fst ⁻¹' {u | IsConformallyExpandingAt (linearPart g) u}) := by
+  rcases Nat.eq_zero_or_pos d with rfl | hd
+  · refine ⟨fun h => by omega, fun _ lam _ => ?_⟩
+    haveI := isEmpty_penroseSphere_zero
+    ext w
+    exact isEmptyElim w.1
+  refine ⟨fun h2 => laoucapulse_volume h2 hg, fun h2 lam hlam => ?_⟩
+  obtain rfl : d = 1 := by omega
+  exact laoucapulse_one g hlam
 
 end Causal.Flat
