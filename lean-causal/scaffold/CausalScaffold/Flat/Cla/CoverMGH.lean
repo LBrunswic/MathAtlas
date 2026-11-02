@@ -4,6 +4,7 @@ import CausalScaffold.Flat.Loxodromic
 import CausalScaffold.CompactCauchy
 import CausalScaffold.CurvesExtend
 import CausalScaffold.Flat.Cla.LocallyCauchy
+import CausalScaffold.Flat.Cla.CoverMax
 
 /-!
 # `CausalScaffold.Flat.Cla.CoverMGH` — a finite cover of a maximal Cauchy-compact GH flat spacetime is GH, Cauchy-compact, maximal, and absolutely maximal
@@ -13,9 +14,10 @@ Theorem B (`bthm:cauclo`, l.3535–3548 of `papers/barbot/legacy/labeled/GHFspac
 (ii) (l.3572–3581). **No label is marked**: this module proves steps (1)–(3) of
 `Flat/Classification.lean`'s `cauclo_from_embedding` (the finite cover `M'` is GH,
 Cauchy-compact and maximal; every isometric embedding of it into a GH spacetime is onto a
-Cauchy-compact one) up to **one** tagged `sorry`, the maximality of `M'` (finding 2).
+Cauchy-compact one) with **no `sorry`** (2026-11-01: the maximality of `M'`, finding 2, is
+`Flat/Cla/CoverMax.lean`'s `cover_maximal_of_isFiniteCover`).
 
-* `mgh_cauchyCompact_of_isFiniteCover` — the statement, **assembled, one upstream `sorry`**
+* `mgh_cauchyCompact_of_isFiniteCover` — the statement, **assembled, no `sorry`**
   (`maximal_of_isFiniteCover`: every flat Cauchy embedding of `M'` is onto; finding 2).
 * **Proved, no `sorry`:** **GH lifts along a finite cover** (`gh_of_isFiniteCover`): causality
   (`isCausal_of_isLocalIsometry`, through `eq_of_le_of_apply_eq`) and **compact diamonds**
@@ -55,22 +57,23 @@ dimensions: Barbot's `n` is `d + 1`.
 | "closed spacelike hypersurfaces in GH spacetimes are Cauchy" (l.3537–3538, l.3579–3580) | ⚠ strengthened (DEC-44): lemma K in conclusion form `hK`, over `FlatSpacetime.{0}` — compact, connected and locally Cauchy two-sided ⇒ Cauchy; Classification derives it from `FlatLemmaKData` exactly as in `absMax_of_cauchyCompact_of_mgh` |
 | the embedded copy of the Cauchy surface is a spacelike hypersurface | L8 (`CausalScaffold.Flat.Cla.LocallyCauchy`): the image of a compact acausal Cauchy surface under an isometric embedding is locally Cauchy two-sided |
 | GH of the cover (used silently, l.3573) | ✓ proved (`gh_of_isFiniteCover`), not assumed |
-| maximality of `M'` (not in the paper: finding 2) | ⚠ the one `sorry` (SCOPE) |
+| maximality of `M'` (not in the paper: finding 2) | ✓ proved (`maximal_of_isFiniteCover`, through CoverMax; SCOPE) |
 | universes | `M` in any universe; `M'`, the targets of `MGH M'` and `B` in `Type` (as `hK` and `cauclo_from_embedding`); `isCompact_diamond_of_isFiniteCover` in any two universes |
 
 ## SCOPE (disclosed)
 
-* **The one `sorry`** is `maximal_of_isFiniteCover`: every flat Cauchy embedding `g : M' → N'`
-  is onto (finding 2: the paper never states it; it says "up to finite coverings" and uses the
-  maximality of the cover silently, l.3573–3581). It is the descent of a Cauchy extension of `M'`
-  to one of `M`, which needs either the uniqueness of maximal Cauchy developments (gx's CBG,
-  DEC-29) or Rem `dependance` (l.3552: the developing map of a maximal Cauchy-compact `M` is a
-  homeomorphism of `M̃` onto the domain of dependence `int D(Σ)` of `Σ = 𝒟(S̃)`). Neither is in
-  the library; the precise obstruction is at the `sorry`.
-* Everything else is proved: all of `GH M'` (causality and compact diamonds), all of
-  `CauchyCompact M'`, and the last conjunct from `MGH M'`, `hK` and L8.
-* `MGH M` is used by nothing proved; it enters only the `sorry` (with a universe transport from
-  `Type` to `M`'s universe, `MGH M` quantifying over targets in `M`'s universe).
+* **No `sorry`** (2026-11-01). `maximal_of_isFiniteCover` — every flat Cauchy embedding
+  `g : M' → N'` is onto (finding 2: the paper never states it; it says "up to finite coverings"
+  and uses the maximality of the cover silently, l.3573–3581) — is CoverMax's
+  `cover_maximal_of_isFiniteCover`, by the flat route, not CBG: Rem `defdep`'s first claim
+  (l.2517–2521) in the form `𝒟(M̃) = int D(Σ)` for a maximal `M` (`cover_range_eq_of_mgh`:
+  `M` Cauchy-embeds in the GH quotient `ρ(π₁M)\int D(Σ)`, after a universe transport `ULift`),
+  then the lift of `g` to the universal covers (`cover_surjective_of_range_eq`), the target being
+  Cauchy-compact hence Cauchy-complete (L9, sorry-free since 2026-11-01).
+* Everything is proved: all of `GH M'` (causality and compact diamonds), all of
+  `CauchyCompact M'`, `MGH M'`, and the last conjunct from `MGH M'`, `hK` and L8.
+* `MGH M` is used once, by `maximal_of_isFiniteCover` (CoverMax applies it to `ULift` of
+  `ρ(π₁M)\int D(Σ)`, in `M`'s universe).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -616,14 +619,15 @@ theorem isConnected_of_isCauchySurface {N : FlatSpacetime.{u} d}
 
 /-- **Maximality of a finite cover** (finding 2): every flat Cauchy embedding of `M'` is onto.
 The paper never states it (it says "up to finite coverings" and uses the maximality of the cover
-silently, l.3573–3581). -/
+silently, l.3573–3581). No `sorry`: CoverMax's `cover_maximal_of_isFiniteCover`, with the
+Cauchy-compactness of `M'` from `cauchyCompact_of_isFiniteCover`. -/
 theorem maximal_of_isFiniteCover (hGH : GH M) (hC : CauchyCompact M) (hM : MGH M)
     (hp : IsFiniteCover d p) :
-    ∀ (N : FlatSpacetime.{0} d) (g : M' → N), IsFlatCauchyEmbedding d g → Surjective g := by
-  sorry -- SORRY(bthm:cauclo, finding 2): descent of a Cauchy extension `g : M' → N'` of the cover to one of `M`, not in the library. Route: pass to the Galois core `M'' → M` (normal core of the finite-index `p_*π₁M'` in `π₁M`; finite deck group `G`; the composition of finite covers is not in mathlib at this pin), extend `G` to the Cauchy development `N''` of `M''` — either by the uniqueness of maximal Cauchy developments (gx's CBG, DEC-29, not graduated) or flatly: lift `g` to universal covers with `𝒟_{N''} ∘ g̃ = 𝒟_M` after normalisation (no lifting lemma for flat Cauchy embeddings to universal covers is in Develop), show `𝒟(Ñ'') ⊆ int D(Σ)` for `Σ = 𝒟(S̃)` (Develop's `bprop_danom` needs `DevelopsCC`, i.e. (CC′) for `Σ`, which is Classification's open `isCauchyComplete_of_cauchyCompact`), that `ρ(π₁M)` acts freely (torsion fixes the barycentre of an orbit in the convex `Ω(S̃)` ⊇ `𝒟(M̃)`, `bprop_ghyp`) and properly on `int D(Σ)`, so that `ρ(π₁M)\int D(Σ)` is a GH Cauchy extension of `M` (Examples' `globallyHyperbolic_quotient` is for Barbot's GH), which `MGH M` forces to be onto after a universe transport from `Type` to `M`'s universe; then `𝒟(M̃) = int D(Σ) ⊇ 𝒟(Ñ')` and `g` is onto
+    ∀ (N : FlatSpacetime.{0} d) (g : M' → N), IsFlatCauchyEmbedding d g → Surjective g :=
+  cover_maximal_of_isFiniteCover hGH hC hM hp (cauchyCompact_of_isFiniteCover hGH hC hp)
 
 /-- **A finite cover of a maximal Cauchy-compact GH flat spacetime is maximal GH**:
-`gh_of_isFiniteCover` (proved) and `maximal_of_isFiniteCover` (the one `sorry`). -/
+`gh_of_isFiniteCover` and `maximal_of_isFiniteCover` (both proved). -/
 theorem mgh_of_isFiniteCover (hGH : GH M) (hC : CauchyCompact M) (hM : MGH M)
     (hp : IsFiniteCover d p) : MGH M' :=
   ⟨gh_of_isFiniteCover hGH hp, maximal_of_isFiniteCover hGH hC hM hp⟩
@@ -635,8 +639,8 @@ end Cover
 /-- **A finite cover `M'` of a maximal Cauchy-compact GH flat spacetime is maximal
 Cauchy-compact GH, and every isometric embedding of `M'` into a GH spacetime `B` is onto a
 Cauchy-compact `B`** (l.3536–3540, l.3578–3581; steps (1)–(3) of `cauclo_from_embedding`).
-GH: `gh_of_isFiniteCover` (proved); maximality: `maximal_of_isFiniteCover` (the one
-`sorry`); Cauchy-compactness: `cauchyCompact_of_isFiniteCover`; the last conjunct: the image
+GH: `gh_of_isFiniteCover` (proved); maximality: `maximal_of_isFiniteCover` (proved, through
+CoverMax); Cauchy-compactness: `cauchyCompact_of_isFiniteCover`; the last conjunct: the image
 of the compact acausal Cauchy
 surface `S` of `M'` is compact, connected (`isConnected_of_isCauchySurface`) and locally Cauchy
 two-sided (L8), hence Cauchy by lemma K (`hK`), so `f` is a flat Cauchy embedding

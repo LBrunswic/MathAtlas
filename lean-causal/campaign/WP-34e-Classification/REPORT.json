@@ -706,5 +706,55 @@
    "For the UPPER part K ∖ I⁻(K) use PAST hyperboloids (centre to the future): the upper part is the upper envelope; future caps have high rims."
   ],
   "notes": "Theorem B's smoothing leaf is closed; of the two sorry leaves named at b09c061 only Cla.maximal_of_isFiniteCover remains (not touched here). The scaffold root does not import CompactComplete, SmoothGlue or SmoothCap (kb/0025), so the axiom sweep does not see them; axioms were checked by hand."
+ },
+ "closer_L10_cover_maximal": {
+  "date": "2026-11-01",
+  "host": "node1",
+  "decl": "Causal.Flat.Cla.maximal_of_isFiniteCover",
+  "status": "closed: no sorry. Statement textually unchanged; its body is now `cover_maximal_of_isFiniteCover hGH hC hM hp (cauchyCompact_of_isFiniteCover hGH hC hp)`. CoverMGH.lean has no sorry left.",
+  "files_written": [
+   "scaffold/CausalScaffold/Flat/Cla/CoverMax.lean (new, 778 lines, sorry-free)",
+   "scaffold/CausalScaffold/Flat/Cla/CoverMGH.lean (one import `CausalScaffold.Flat.Cla.CoverMax`, the body of maximal_of_isFiniteCover, docstrings: module header, checklist row, SCOPE, three theorem docstrings)"
+  ],
+  "import_graph": "CoverMax imports Flat.Nonloxodromic, Flat.Loxodromic, Flat.Cla.CompactComplete only (none of them imports CoverMGH, Classification, TheoremBInputs, GerochFlat or CBG/*); CoverMGH imports CoverMax; acyclic. The four Classification lemmas needed are re-proved locally under cover_* names (SCOPE of CoverMax).",
+  "build": "taskset -c 0-11 lake build CausalScaffold.Flat.Cla.CoverMax: only CoverMax built (dependencies up to date, checked with --no-build). lake env lean CoverMax.lean and CoverMGH.lean: 0 errors, 0 warnings. CoverMGH's olean is STALE (new import): a builder must rebuild CausalScaffold.Flat.Cla.CoverMGH, then Classification and its dependents (TheoremBInputs, GerochFlat, Flat/CBG).",
+  "axioms": "#print axioms, /tmp copies against current oleans: Cla.cover_maximal_of_isFiniteCover, Cla.maximal_of_isFiniteCover, Cla.mgh_cauchyCompact_of_isFiniteCover: [propext, Classical.choice, Quot.sound]. Causal.Flat.barbot_B, on /tmp/BarbotBAx.lean = the imports of CoverMGH and Classification (minus CoverMGH) + CoverMGH's body + Classification's body: [propext, Classical.choice, Quot.sound] -- Theorem B carries NO sorry at current oleans (its remaining inputs are the named hypotheses BarbotExternals, SelbergLemma, hK). kb/0025: the scaffold root does not import CoverMax, so the axiom sweep cannot see it until the master adds it.",
+  "route": "Flat, not CBG and not the Galois core. (1) cover_range_eq_of_mgh: for M MGH with a developing pair (D, rho) and DevelopsCC x0 D S, range D = int D(Sigma), Sigma = D(proj^-1 S) = graph f (no Cauchy-compactness used). W = int D(Sigma) is Gamma-invariant (isometries map D(Sigma) to D(gamma Sigma): the meets characterisation), connected (vertical segments to Sigma) and causally convex (mem_interior_dependenceDomain_of_le_of_nonneg/nonpos) hence GH; Gamma = rho.range acts freely and acausally (D(Sigma) ⊆ U(Gamma) ⊆ achronalDomain gamma: gamma x - x spacelike) and properly discontinuously (cover_finite_le_smul: x <= gamma y goes through sigma in Sigma comparable to both, so sigma, gamma^-1 sigma lie in the compact (J^-(x) ∪ J^+(x) ∪ J^-(y) ∪ J^+(y)) ∩ Sigma, and CCAction.proper; boxes for compact sets). Examples' gh_toFlatSpacetime gives GH of B = Gamma\\W; D descends to an isometric embedding M -> B carrying S onto Gamma\\Sigma, a Cauchy surface (Quotient.isCauchySurface_image_of_isCauchySurfaceOn, isCauchySurfaceOn_interior_dependenceDomain). MGH M applied to ULift.{u} B (coverULiftSpacetime: atlas precomposed with ULift.down) makes it onto, so range D = W. (2) cover_surjective_of_range_eq: for g : M' -> N a flat Cauchy embedding, N is Cauchy-compact (g of a compact Cauchy surface of M'; acausal by isAcausal_of_isCauchySurface_of_hasChronalCausalFlow) hence Cauchy-complete (L9) with D_N injective; lift proj_M through p to q : M~ -> M' and g ∘ q through proj_N to G : M~ -> N~; rigidity D_N ∘ G = h D. The developed lift Sigma_2 of the Cauchy surface g(p^-1 S) is a Cauchy surface of range D_N, (CC') by ccPrime_of_isCauchySurfaceOn from N's own (CC') surface, and contains the entire graph h Sigma, so equals it; range D_N ⊆ int D(h Sigma) = h range D = range(D_N ∘ G), so G and g are onto.",
+  "extra_decls": [
+   "Causal.Flat.Cla.cover_smul_mem_dependenceDomain",
+   "Causal.Flat.Cla.cover_smul_mem_interior_dependenceDomain",
+   "Causal.Flat.Cla.cover_eq_of_subset_of_isEntireAcausalGraph",
+   "Causal.Flat.Cla.coverVert",
+   "Causal.Flat.Cla.cover_exists_graph_comparable",
+   "Causal.Flat.Cla.cover_finite_le_smul",
+   "Causal.Flat.Cla.cover_exists_box",
+   "Causal.Flat.Cla.cover_finite_smul_inter",
+   "Causal.Flat.Cla.cover_causallyConvexIn",
+   "Causal.Flat.Cla.cover_isConnected",
+   "Causal.Flat.Cla.cover_minkQ_pos",
+   "Causal.Flat.Cla.cover_not_le_smul",
+   "Causal.Flat.Cla.cover_smul_ne",
+   "Causal.Flat.Cla.cover_exists_lift",
+   "Causal.Flat.Cla.cover_isFlatCauchyEmbedding_comp",
+   "Causal.Flat.Cla.coverULiftChartedSpace",
+   "Causal.Flat.Cla.coverULift_hasGroupoid",
+   "Causal.Flat.Cla.coverULiftSpacetime",
+   "Causal.Flat.Cla.coverULiftSpacetime_up",
+   "Causal.Flat.Cla.cover_range_eq_of_mgh",
+   "Causal.Flat.Cla.cover_isCauchySurfaceOn_range",
+   "Causal.Flat.Cla.cover_surjective_of_range_eq",
+   "Causal.Flat.Cla.cover_maximal_of_isFiniteCover"
+  ],
+  "local_copies": "cover_isLocalIsometry_of_comp = Classification.IsLocalIsometry.of_comp_left_of_continuous; cover_isLocalIsometry_of_comp_right = IsLocalIsometry.of_comp_right; cover_gh_of_isIsometricEmbedding_of_surjective = globallyHyperbolic_of_isIsometricEmbedding_of_surjective; cover_exists_deck_apply_eq = UniversalCover.exists_deck_apply_eq (Classification cannot be imported: it imports CoverMGH). Graduation may deduplicate.",
+  "findings": [
+   "Rem defdep's first claim (GHFspace.tex l.2517-2521: for M maximal GH, the image of the developing map is the Cauchy domain of S) is proved in the DEC-35 reading, range D = int D(Sigma), for every MGH flat spacetime with (CC') -- Cauchy-compactness is not needed (cover_range_eq_of_mgh). Its second claim (Omega(S~) = int D(Sigma), Rem dependance l.3552-3555) is not proved: only int D(Sigma) = range D ⊆ Omega(S~).",
+   "Finding 2 (maximality of a finite cover, used silently l.3573-3581) is true and proved without the uniqueness of maximal Cauchy developments (CBG): Rem defdep for M plus the lifting argument suffice. The obstruction text's Galois-core route is unnecessary.",
+   "maximal_of_isFiniteCover's conclusion holds for targets N in every universe (cover_maximal_of_isFiniteCover is universe-polymorphic in M, M', N)."
+  ],
+  "kb_proposals": [
+   "To apply MGH M (targets in M's universe) to a quotient Gamma\\Omega (built in Type), transport with Cla.coverULiftSpacetime (ULift with the atlas precomposed by ULift.down; HasGroupoid by OpenPartialHomeomorph.ext, ULift.up an isometric bijection) and Cla.cover_isFlatCauchyEmbedding_comp.",
+   "For an entire acausal graph Sigma (CC'), int D(Sigma) in Minkowski space is causally convex, connected, invariant under every isometry preserving Sigma, and the holonomy group acts on it freely, acausally and properly discontinuously (Cla.CoverMax §1-§2): the quotient Gamma\\int D(Sigma) is a GH flat spacetime with Cauchy surface Gamma\\Sigma."
+  ],
+  "notes": "Theorem B's last plan-lemma sorry is gone; barbot_B is sorry-free at current oleans (by the /tmp concatenation above). The master must (a) rebuild CoverMGH, Classification and downstream, (b) add CausalScaffold.Flat.Cla.CoverMax to the scaffold root (kb/0025), (c) re-run the axiom sweep and regenerate the dependency report."
  }
 }
