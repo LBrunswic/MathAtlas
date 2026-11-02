@@ -154,6 +154,9 @@ import Causal.Flat.CBGSlice
 import Causal.Flat.CBGGerm
 import Causal.Flat.CBG
 import Causal.LemmaK
+import Causal.Flat.LimitesGeneral
+import Causal.Flat.AgissonsGeneral
+import Causal.Flat.LipLength
 
 /-!
 # Causal — topological spacetimes

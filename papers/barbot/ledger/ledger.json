@@ -171,7 +171,7 @@
   },
   "lean": {
     "root": "/home/maxbrain/Dropbox/LeanArticles/lean-causal",
-    "git_commit": "617c607"
+    "git_commit": "940a190"
   },
   "statements": [
     {
@@ -889,28 +889,42 @@
       "statement_sha256": "5465865e6d4f5c26aa4d4021045385dd45bfc392ade05bd35db96cd1d61b385e",
       "statement_sha256_current": "5465865e6d4f5c26aa4d4021045385dd45bfc392ade05bd35db96cd1d61b385e",
       "lean_files": [
-        "Causal/Flat/Cosmological.lean"
+        "Causal/Flat/Cosmological.lean",
+        "Causal/Flat/LipLength.lean"
       ],
       "decls": [
         "Causal.Flat.minkQ_gaussMap_sub_le",
         "Causal.Flat.sqrt_minkQ_gaussMap_sub_le",
         "Causal.Flat.minkQ_gaussMap_sub_nonneg",
-        "Causal.Flat.minkQ_sub_nonneg_of_mem_frontier"
+        "Causal.Flat.minkQ_sub_nonneg_of_mem_frontier",
+        "Causal.Flat.LipLength.lipschitzWith_gaussInduced",
+        "Causal.Flat.LipLength.edist_gaussInduced_le",
+        "Causal.Flat.LipLength.lipschitzWith_gaussSpace",
+        "Causal.Flat.LipLength.gaussInduced",
+        "Causal.Flat.LipLength.gaussSpace",
+        "Causal.Flat.LipLength.lipschitzWith_inducedMap",
+        "Causal.Flat.LipLength.lorentzLength_le_of_chord",
+        "Causal.Flat.LipLength.sqrt_minkQ_deriv_le_of_chord",
+        "Causal.Flat.LipLength.lipschitzWith_gaussMap_comp",
+        "Causal.Flat.LipLength.norm_sub_le_of_minkQ_eq_neg_one",
+        "Causal.Flat.LipLength.fst_le_of_minkQ_eq_neg_one",
+        "Causal.Flat.LipLength.lipschitzWith_gaussInduced_cone"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "B",
-      "scope_notes": "Flat/Cosmological.lean (WP-33b), strict, sorry-free (#print axioms re-derived 2026-11-02), unmarked. Proved in chordal form: t^2|n(p) - n(p')|^2 <= |p - p'|^2 on S_t, with the Minkowski-form chord on both sides. The chordal form is what Cla/RegularComplete.lean consumes (rC_gronwall); Lox/LevelComplete.lean does not use the Gauss map at all.",
+      "scope_notes": "Flat/Cosmological.lean (WP-33b) and Flat/LipLength.lean (2026-11-02), strict, sorry-free (#print axioms against import Causal re-derived 2026-11-02: [propext, Classical.choice, Quot.sound]), unmarked. Chordal form (Cosmological.lean): t^2|n(p) - n(p')|^2 <= |p - p'|^2 on S_t, consumed by Cla/RegularComplete.lean (rC_gronwall). Length form (LipLength.lean): lipschitzWith_gaussInduced, LipschitzWith (t^-1) (gaussInduced h t V) from InducedLength (cosmoLevel Lambda t) V to InducedLength (graph (hyperboloid d)) top, for CosmoRegular Lambda, 0 < t and any open V (V = top is S_t); edist_gaussInduced_le the edist form; lipschitzWith_gaussSpace the same between the glued InducedLengthSpace (DEC-35). Route (differs from l.1084-1091's infimum of chord sums, which is neither proved nor used): the chordal inequality at epsilon = t on chords of a Lipschitz curve passes to derivatives (sqrt_minkQ_deriv_le_of_chord), integrates to lengths (lorentzLength_le_of_chord) and bounds the distance through the infimum over paths (lipschitzWith_inducedMap, K != 0 since 0 * top = 0); the hyperboloid estimates give that n maps Lipschitz curves to Lipschitz curves (lipschitzWith_gaussMap_comp). Readings, disclosed: 'induced riemannian metric' as DEC-35's induced length (as in the marked bcor:level_sets_complete); 'the usual hyperbolic metric' as the hyperboloid's induced length (arccosh formula not proved); regularity as CosmoRegular (DEC-88); the C^1 assumption on T unused; n not shown continuous on S_t, only along Lipschitz curves. Non-vacuity: lipschitzWith_gaussInduced_cone (future cone, d >= 1). Lox/LevelComplete.lean does not use the Gauss map.",
       "nl_status_override": "proved",
       "nl_reason": "its proof is the \\preua block at GHFspace.tex:1081",
-      "notes": "Flat/Cosmological.lean (WP-33b), strict, sorry-free (#print axioms re-derived 2026-11-02), unmarked. Proved in chordal form: t^2|n(p) - n(p')|^2 <= |p - p'|^2 on S_t, with the Minkowski-form chord on both sides. The chordal form is what Cla/RegularComplete.lean consumes (rC_gronwall); Lox/LevelComplete.lean does not use the Gauss map at all.",
-      "blocked_on": "the passage from the chordal inequality to the length metrics (inf of chord sums, l.1087-1091); off the spine since the completeness of S_t was proved without it (bcor:level_sets_complete)",
+      "notes": "Flat/Cosmological.lean (WP-33b) and Flat/LipLength.lean (2026-11-02), strict, sorry-free (#print axioms against import Causal re-derived 2026-11-02: [propext, Classical.choice, Quot.sound]), unmarked. Chordal form (Cosmological.lean): t^2|n(p) - n(p')|^2 <= |p - p'|^2 on S_t, consumed by Cla/RegularComplete.lean (rC_gronwall). Length form (LipLength.lean): lipschitzWith_gaussInduced, LipschitzWith (t^-1) (gaussInduced h t V) from InducedLength (cosmoLevel Lambda t) V to InducedLength (graph (hyperboloid d)) top, for CosmoRegular Lambda, 0 < t and any open V (V = top is S_t); edist_gaussInduced_le the edist form; lipschitzWith_gaussSpace the same between the glued InducedLengthSpace (DEC-35). Route (differs from l.1084-1091's infimum of chord sums, which is neither proved nor used): the chordal inequality at epsilon = t on chords of a Lipschitz curve passes to derivatives (sqrt_minkQ_deriv_le_of_chord), integrates to lengths (lorentzLength_le_of_chord) and bounds the distance through the infimum over paths (lipschitzWith_inducedMap, K != 0 since 0 * top = 0); the hyperboloid estimates give that n maps Lipschitz curves to Lipschitz curves (lipschitzWith_gaussMap_comp). Readings, disclosed: 'induced riemannian metric' as DEC-35's induced length (as in the marked bcor:level_sets_complete); 'the usual hyperbolic metric' as the hyperboloid's induced length (arccosh formula not proved); regularity as CosmoRegular (DEC-88); the C^1 assumption on T unused; n not shown continuous on S_t, only along Lipschitz curves. Non-vacuity: lipschitzWith_gaussInduced_cone (future cone, d >= 1). Lox/LevelComplete.lean does not use the Gauss map.",
+      "blocked_on": "awaiting the author's mark (printed statement proved in length form by Flat/LipLength.lean under the disclosed readings: DEC-35 induced length on S_t, DEC-88 CosmoRegular, and 'the usual hyperbolic metric' read as the induced length of the hyperboloid in M^n, whose agreement with arccosh(-<u|v>) is not proved)",
       "lean_proved_override": "partial",
       "paper_findings": [
         "Prop 4.12's proof (l.1073-1105) works directly at epsilon = t with q = pi(p) on the boundary; the dropped term |pi(p) - pi(p')|^2 >= 0 is the achronality of the boundary of Omega, which the proof uses silently."
       ],
       "extra_lean_files": [
-        "Causal/Flat/Cosmological.lean"
+        "Causal/Flat/Cosmological.lean",
+        "Causal/Flat/LipLength.lean"
       ],
       "in_lean_scope": true,
       "stale": false
@@ -1057,7 +1071,8 @@
       "lean_files": [
         "Causal/Flat/Cosmological.lean",
         "Causal/Flat/Lox/QuotientComplete.lean",
-        "Causal/Flat/Lox/LevelComplete.lean"
+        "Causal/Flat/Lox/LevelComplete.lean",
+        "Causal/Flat/AgissonsGeneral.lean"
       ],
       "decls": [
         "Causal.Flat.Lox.isCauchyComplete_flatQuotient_of_invariant",
@@ -1068,21 +1083,31 @@
         "Causal.Flat.smul_cosmoLevel",
         "Causal.Flat.smul_mem_cosmoLevel_iff",
         "Causal.Flat.cosmoRetract_smul",
-        "Causal.Flat.preimage_omegaPlus_of_isomPenrose"
+        "Causal.Flat.preimage_omegaPlus_of_isomPenrose",
+        "Causal.Flat.bprop_agissons_general",
+        "Causal.Flat.agissons_properlyDiscontinuous",
+        "Causal.Flat.isOfFinOrder_of_smul_eq",
+        "Causal.Flat.agissons_free",
+        "Causal.Flat.agissons_actsFreelyProperlyOn",
+        "Causal.Flat.finite_of_norm_affExt_le",
+        "Causal.Flat.norm_affExt_le",
+        "Causal.Flat.inv_mem_returnSet",
+        "Causal.Flat.bprop_agissons_general_cone"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "B",
-      "scope_notes": "Flat/Cosmological.lean (WP-33b) and Flat/Lox/QuotientComplete.lean, strict, sorry-free (#print axioms re-derived 2026-11-02), unmarked (QuotientComplete cites it as a step, not the statement). Proved: T, every S_t and the retraction r are Gamma-invariant/equivariant, for any isometry preserving Omega (discreteness and torsion-freeness not used); and the clause 'Gamma\\Omega is Cauchy-complete' for a Gamma acting freely and properly discontinuously on Omega+(Lambda), CosmoRegular Lambda (Lox.isCauchyComplete_flatQuotient_cosmo, the level-set completeness supplied by bcor:level_sets_complete; torsion-freeness replaced by freeness, which the proof uses). Not proved: that a discrete Gamma preserving Omega acts properly discontinuously, and freely when torsion-free. bcor:loxo_proper reaches proper discontinuity by another route (equivariant Gauss map).",
+      "scope_notes": "Flat/Cosmological.lean (WP-33b), Flat/Lox/QuotientComplete.lean and Flat/AgissonsGeneral.lean (2026-11-02), strict, sorry-free (#print axioms against import Causal re-derived 2026-11-02: [propext, Classical.choice, Quot.sound]), unmarked. bprop_agissons_general, for CosmoRegular Lambda, DiscreteTopology Gamma in isomTopology (the Lie-group topology from linear and translation parts) and Gamma preserving Omega+(Lambda): Gamma acts properly discontinuously on Omega+(Lambda) (agissons_properlyDiscontinuous, torsion-freeness not used); if Gamma is torsion-free (IsTorsionFreeSubgroup) it acts freely (isOfFinOrder_of_smul_eq, agissons_free) and there is a flat spacetime M with IsQuotientOf M Gamma Omega+(Lambda), GH M, IsCauchyComplete d M (DEC-35) and an acausal Cauchy surface (image of S_1). Route: the equivariant Gauss map bounded on compacts bounds the linear part of a returning gamma, then the translation part, and discreteness closes it through exists_affExt_isolated (TitsNull) with total boundedness and pigeonhole; the quotient clauses reuse gh_quotient_omegaPlus, isCauchySurface_quotient_cosmoLevel and Cla.isCauchyComplete_of_isQuotientOf_regular. Readings, disclosed: Omega = Omega+(Lambda) with CosmoRegular (DEC-88); rho(Gamma) read as Gamma; the Riemannian argument on S_t replaced by the Gauss map; l.1191-1196 ('trivial on S_t implies trivial') not needed. Non-vacuity: bprop_agissons_general_cone (trivial group on the future cone, d >= 1). Earlier: T, S_t and the retraction r are Gamma-invariant/equivariant for any isometry preserving Omega (Cosmological.lean), and Lox.isCauchyComplete_flatQuotient_cosmo.",
       "nl_status_override": "proved",
       "nl_reason": "its proof is the \\preua block at GHFspace.tex:1183",
-      "notes": "Flat/Cosmological.lean (WP-33b) and Flat/Lox/QuotientComplete.lean, strict, sorry-free (#print axioms re-derived 2026-11-02), unmarked (QuotientComplete cites it as a step, not the statement). Proved: T, every S_t and the retraction r are Gamma-invariant/equivariant, for any isometry preserving Omega (discreteness and torsion-freeness not used); and the clause 'Gamma\\Omega is Cauchy-complete' for a Gamma acting freely and properly discontinuously on Omega+(Lambda), CosmoRegular Lambda (Lox.isCauchyComplete_flatQuotient_cosmo, the level-set completeness supplied by bcor:level_sets_complete; torsion-freeness replaced by freeness, which the proof uses). Not proved: that a discrete Gamma preserving Omega acts properly discontinuously, and freely when torsion-free. bcor:loxo_proper reaches proper discontinuity by another route (equivariant Gauss map).",
-      "blocked_on": "proper discontinuity for an arbitrary discrete Gamma preserving Omega, and freeness from torsion-freeness (not formalized: only the loxodromic case, bcor:loxo_proper, by another route)",
+      "notes": "Flat/Cosmological.lean (WP-33b), Flat/Lox/QuotientComplete.lean and Flat/AgissonsGeneral.lean (2026-11-02), strict, sorry-free (#print axioms against import Causal re-derived 2026-11-02: [propext, Classical.choice, Quot.sound]), unmarked. bprop_agissons_general, for CosmoRegular Lambda, DiscreteTopology Gamma in isomTopology (the Lie-group topology from linear and translation parts) and Gamma preserving Omega+(Lambda): Gamma acts properly discontinuously on Omega+(Lambda) (agissons_properlyDiscontinuous, torsion-freeness not used); if Gamma is torsion-free (IsTorsionFreeSubgroup) it acts freely (isOfFinOrder_of_smul_eq, agissons_free) and there is a flat spacetime M with IsQuotientOf M Gamma Omega+(Lambda), GH M, IsCauchyComplete d M (DEC-35) and an acausal Cauchy surface (image of S_1). Route: the equivariant Gauss map bounded on compacts bounds the linear part of a returning gamma, then the translation part, and discreteness closes it through exists_affExt_isolated (TitsNull) with total boundedness and pigeonhole; the quotient clauses reuse gh_quotient_omegaPlus, isCauchySurface_quotient_cosmoLevel and Cla.isCauchyComplete_of_isQuotientOf_regular. Readings, disclosed: Omega = Omega+(Lambda) with CosmoRegular (DEC-88); rho(Gamma) read as Gamma; the Riemannian argument on S_t replaced by the Gauss map; l.1191-1196 ('trivial on S_t implies trivial') not needed. Non-vacuity: bprop_agissons_general_cone (trivial group on the future cone, d >= 1). Earlier: T, S_t and the retraction r are Gamma-invariant/equivariant for any isometry preserving Omega (Cosmological.lean), and Lox.isCauchyComplete_flatQuotient_cosmo.",
+      "blocked_on": "the clause 'semicomplete' in the conclusion (l.1180; l.450: geodesically future or past complete): the library has no definition of geodesic (semi)completeness, so it is not formalized; every other clause is proved for an arbitrary discrete Gamma preserving Omega+(Lambda) (Flat/AgissonsGeneral.lean)",
       "lean_proved_override": "partial",
       "extra_lean_files": [
         "Causal/Flat/Cosmological.lean",
         "Causal/Flat/Lox/QuotientComplete.lean",
-        "Causal/Flat/Lox/LevelComplete.lean"
+        "Causal/Flat/Lox/LevelComplete.lean",
+        "Causal/Flat/AgissonsGeneral.lean"
       ],
       "in_lean_scope": true,
       "stale": false
@@ -2344,7 +2369,8 @@
       "statement_sha256": "908d1050ca63846e299fd94368c4aee740ac8114009ab83209209c13529f0a87",
       "statement_sha256_current": "908d1050ca63846e299fd94368c4aee740ac8114009ab83209209c13529f0a87",
       "lean_files": [
-        "Causal/Flat/Nonloxodromic.lean"
+        "Causal/Flat/Nonloxodromic.lean",
+        "Causal/Flat/LimitesGeneral.lean"
       ],
       "decls": [
         "Causal.Flat.bprop_limites",
@@ -2352,25 +2378,40 @@
         "Causal.Flat.limites_of_leading",
         "Causal.Flat.leading_nonneg_of_achronal",
         "Causal.Flat.NolParam.nolQ_powA_sub",
-        "Causal.Flat.nonneg_on_span_of_addSubgroup"
+        "Causal.Flat.nonneg_on_span_of_addSubgroup",
+        "Causal.Flat.bprop_limites_general",
+        "Causal.Flat.bprop_limites_general_of_ccPrime",
+        "Causal.Flat.bprop_limites_bounded_model",
+        "Causal.Flat.bprop_limites_general_model",
+        "Causal.Flat.bprop_limites_of_isAchronal",
+        "Causal.Flat.bprop_limites_general_model_hypotheses",
+        "Causal.Flat.limitesShift_injOn",
+        "Causal.Flat.exists_limitesShift_inv",
+        "Causal.Flat.nolToMink_shiftY_act",
+        "Causal.Flat.NolParam.shiftConj_eq",
+        "Causal.Flat.NolParam.shiftConj_act"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "B",
-      "scope_notes": "Flat/Nonloxodromic.lean (WP-34c), no sorry beneath bprop_limites. Rem 9.2 (choixcoord), [9.b], [9.U] and Rem 9.4 (unipcomplet) are partial in the same file.",
+      "scope_notes": "Flat/Nonloxodromic.lean (WP-34c) and Flat/LimitesGeneral.lean (2026-11-02), strict, sorry-free (#print axioms against import Causal re-derived 2026-11-02: [propext, Classical.choice, Quot.sound]), unmarked. The normalised case is bprop_limites; the general case is bprop_limites_general (in M^n) and bprop_limites_bounded_model: with c = (y_- + y_+)/2 and a = (y_+ - y_-)/2, the change of origin shiftY c is the M^n translation by -c v_n (nolToMink_shiftY_act, no boost, same null frame), the conjugated group shiftConj c g has u-vectors u + cTu and v-vectors T'(u + cTu) for a linear T' (exists_limitesShift_inv, from limitesShift_injOn), pi_1 of the shifted set contains ]-a, a[, and LimitesIneq holds for T' at -a, a: the printed '|y_+ T(u)| <= |u| after reducing to y_- = -y_+'. In the original coordinates: |a T u| <= |u + c T u| (bprop_limites_general_model). Readings, disclosed: S~ need only be achronal (bprop_limites_of_isAchronal), which CCPrime supplies (CCPrime.entire.acausal, minkowski_isAchronal_of_isAcausal; bprop_limites_general_of_ccPrime), so DEC-35's acausal reading is not used; any real y_- < y_+ (0 in I unused); pi_1(S~) contains ]y_-, y_+[ in place of equality; fixed null frame nolToMink (inherited). Non-vacuity: bprop_limites_general_model_hypotheses (paraboloid, T = id, at y_- = -1/2, y_+ = 1). Rem 9.2 (choixcoord), [9.b], [9.U] and Rem 9.4 (unipcomplet) are partial in Nonloxodromic.lean; Prop 9.5 (bprop:extension) is still stated in the normalised form only.",
       "nl_status_override": "proved",
       "nl_reason": "its proof is the \\preua block at GHFspace.tex:2965",
-      "notes": "Flat/Nonloxodromic.lean (WP-34c), no sorry beneath bprop_limites. Rem 9.2 (choixcoord), [9.b], [9.U] and Rem 9.4 (unipcomplet) are partial in the same file.",
-      "blocked_on": "the change of origin in y (only the normalised case y_- = -y_+ is proved) and the reading of S~ as acausal",
+      "notes": "Flat/Nonloxodromic.lean (WP-34c) and Flat/LimitesGeneral.lean (2026-11-02), strict, sorry-free (#print axioms against import Causal re-derived 2026-11-02: [propext, Classical.choice, Quot.sound]), unmarked. The normalised case is bprop_limites; the general case is bprop_limites_general (in M^n) and bprop_limites_bounded_model: with c = (y_- + y_+)/2 and a = (y_+ - y_-)/2, the change of origin shiftY c is the M^n translation by -c v_n (nolToMink_shiftY_act, no boost, same null frame), the conjugated group shiftConj c g has u-vectors u + cTu and v-vectors T'(u + cTu) for a linear T' (exists_limitesShift_inv, from limitesShift_injOn), pi_1 of the shifted set contains ]-a, a[, and LimitesIneq holds for T' at -a, a: the printed '|y_+ T(u)| <= |u| after reducing to y_- = -y_+'. In the original coordinates: |a T u| <= |u + c T u| (bprop_limites_general_model). Readings, disclosed: S~ need only be achronal (bprop_limites_of_isAchronal), which CCPrime supplies (CCPrime.entire.acausal, minkowski_isAchronal_of_isAcausal; bprop_limites_general_of_ccPrime), so DEC-35's acausal reading is not used; any real y_- < y_+ (0 in I unused); pi_1(S~) contains ]y_-, y_+[ in place of equality; fixed null frame nolToMink (inherited). Non-vacuity: bprop_limites_general_model_hypotheses (paraboloid, T = id, at y_- = -1/2, y_+ = 1). Rem 9.2 (choixcoord), [9.b], [9.U] and Rem 9.4 (unipcomplet) are partial in Nonloxodromic.lean; Prop 9.5 (bprop:extension) is still stated in the normalised form only.",
+      "blocked_on": "awaiting the author's mark (printed statement proved for arbitrary finite y_- < y_+ by Flat/LimitesGeneral.lean; the one strengthened hypothesis left is the fixed null frame nolToMink, the same reading as the marked bprop:extension)",
       "lean_proved_override": "partial",
       "paper_findings": [
         "l.2982-2987: 'since u(Gamma) is a lattice of E' needs only that u(Gamma) is an additive group spanning E (a continuous quadratic form nonnegative on a subgroup is nonnegative on its real span).",
         "Rem 9.2 (l.2737-2760): the changes of v_n are not changes of null frame (|v_n + w|^2 = |w|^2, |v_n + a v_0|^2 = 2a); the correct change is v_n' = v_n + w - (|w|^2/2) v_0; the first bullet (w in Delta_0) is not a frame change at all.",
         "[9.b] l.2776-2787 uses Lemma 7.1 (false as printed for n >= 4) and Cor 8.3; neither is needed for a purely unipotent gamma_1 (b_trivial_model); for gamma_1 = R U with R != id the analogue is not written.",
-        "Rem 9.4 (l.2958-2962) has a consequence the paper does not draw: when every element of Gamma is a nonlinear unipotent isometry, M(S) = Gamma\\M^n embeds in no unipotent spacetime (M^4, Gamma = <phi(e_1 + e_2)> on {y > -1})."
+        "Rem 9.4 (l.2958-2962) has a consequence the paper does not draw: when every element of Gamma is a nonlinear unipotent isometry, M(S) = Gamma\\M^n embeds in no unipotent spacetime (M^4, Gamma = <phi(e_1 + e_2)> on {y > -1}).",
+        "l.2935-2936, l.2944: the normalisation 'reducing as above to y_- = -y_+' changes E and T, not only y: E becomes (1 + cT)E and T becomes T' with T'(u + cTu) = Tu (c = (y_- + y_+)/2); it needs 1 + cT injective on E, true (a kernel vector would make the leading term (y-c)(y'-c)|Tu|^2 negative for y < c < y') but unstated (Flat/LimitesGeneral.lean).",
+        "l.2941-2946: in the original coordinates the inequality reads |((y_+ - y_-)/2) T u| <= |u + ((y_- + y_+)/2) T u|; the printed |y_+ T(u)| <= |u| holds for T' in the reduced coordinates only.",
+        "l.2941-2946: 'positive' is 'nonnegative', and S~ achronal suffices (acausal not needed)."
       ],
       "extra_lean_files": [
-        "Causal/Flat/Nonloxodromic.lean"
+        "Causal/Flat/Nonloxodromic.lean",
+        "Causal/Flat/LimitesGeneral.lean"
       ],
       "in_lean_scope": true,
       "stale": false
