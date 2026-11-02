@@ -1,5 +1,5 @@
-import CausalScaffold.CBG.Pgcd
-import CausalScaffold.CBG.Corresponding
+import Causal.CBG.Pgcd
+import Causal.CBG.Corresponding
 
 /-!
 # No corresponding boundary points between a development and the MCGHD (Sbierski §3.2)

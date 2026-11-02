@@ -1,6 +1,6 @@
-import CausalScaffold.CBG.Geometry
-import CausalScaffold.CBG.CausalConvex
-import CausalScaffold.CBG.Injective
+import Causal.CBG.Geometry
+import Causal.CBG.CausalConvex
+import Causal.CBG.Injective
 
 /-!
 # The maximal common Cauchy development of two developments over a geometry (CBG, step 3)

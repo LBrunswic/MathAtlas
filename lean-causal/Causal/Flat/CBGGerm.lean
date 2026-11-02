@@ -1,5 +1,5 @@
-import CausalScaffold.CBG.FromModel
-import CausalScaffold.CBG.Corresponding
+import Causal.CBG.FromModel
+import Causal.CBG.Corresponding
 import Causal.Flat.Penrose
 import Causal.Flat.SecondCountable
 
@@ -73,8 +73,9 @@ model). Cited, unmarked: `cor:ext_continue` — `ETT.tex:2144`; Sbierski 1309.75
 ## SCOPE (disclosed)
 
 * **What the flat A3 rests on.** Nothing beyond `𝔐`'s fields. For `flatModelOf d hJ₁ hJ₂` that is
-  `hJ₂` (future side) / `hJ₁` (past side) through `isCompact_*`; for `flatModel d` the two tagged R1
-  `sorry`s of `Flat/CBG` (`flat_isCompact_Jminus_inter_of_isCauchySurface` and past form). The
+  `hJ₂` (future side) / `hJ₁` (past side) through `isCompact_*`; for `flatModel d` the R1 lemmas
+  of `Flat/CBG` (`flat_isCompact_Jminus_inter_of_isCauchySurface` and past form; tagged `sorry`s
+  when this file was written, proved since). The
   compactness is used only for `lem:Sigma_separe` (`J^±(Σ)` a neighbourhood of `p`, `q`); the
   chronal-flow splitting (`flat_isClosed_Jplus_Jminus_of_isCauchySurface`, `Flat/CBG`) gives the
   closedness of `J^∓(Σ)` without R1 and could replace it (not done: this file may not import

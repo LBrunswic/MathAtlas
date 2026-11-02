@@ -129,6 +129,22 @@ import Causal.Flat.Classification
 import Causal.Flat.TheoremBInputs
 import Causal.Flat.GerochFlat
 import Causal.Flat.CBGCompact
+import Causal.SubExtension
+import Causal.GXSingular
+import Causal.CBG.CausalConvex
+import Causal.CBG.Geometry
+import Causal.CBG.Injective
+import Causal.CBG.FamilyGluing
+import Causal.CBG.Bound
+import Causal.CBG.Corresponding
+import Causal.CBG.Pgcd
+import Causal.CBG.NoCorresponding
+import Causal.CBG.Ppcm
+import Causal.CBG.Maximal
+import Causal.CBG.FromModel
+import Causal.Flat.CBGSlice
+import Causal.Flat.CBGGerm
+import Causal.Flat.CBG
 
 /-!
 # Causal — topological spacetimes
@@ -141,5 +157,7 @@ paper labels it certifies in its docstring, in the form the ledger reads
 Since 2026-11-02 it also holds the Barbot campaign (*Globally hyperbolic flat space-times*,
 `docs/BARBOT.md`): `Causal.Flat.*`, `Causal.Port.*`, `Causal.CompactCauchy`, `Causal.CurvesExtend`,
 `Causal.Splitting`, `Causal.LemmaKBare`, whose labels are b-prefixed and read by
-`papers/barbot/ledger/` (kb/0024).
+`papers/barbot/ledger/` (kb/0024); and, graduated the same day, the CBG work
+(`Causal.CBG.*`, `Causal.Flat.CBG`, `Causal.Flat.CBGGerm`, `Causal.Flat.CBGSlice`,
+`docs/CBG-DESIGN.md`).
 -/

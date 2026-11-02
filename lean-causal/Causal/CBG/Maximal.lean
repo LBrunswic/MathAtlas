@@ -1,7 +1,7 @@
-import CausalScaffold.CBG.Ppcm
-import CausalScaffold.CBG.Bound
-import CausalScaffold.CBG.Pgcd
-import CausalScaffold.CBG.FamilyGluing
+import Causal.CBG.Ppcm
+import Causal.CBG.Bound
+import Causal.CBG.Pgcd
+import Causal.CBG.FamilyGluing
 
 /-!
 # The maximal Cauchy development: gluing all developments along their pairwise MCGHDs (Sbierski Thm 2.8)

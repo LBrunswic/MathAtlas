@@ -1,7 +1,8 @@
 # CBG for flat spacetimes with singular lines — ETT generality, Sbierski's order (design)
 
 Read-only design, 2026-11-01, requested by gx (gx DEC-29: full flat CBG with singular lines,
-Sbierski 1309.7591, `papers/gx/sources/1309.7591/`). Home: `lean-causal/scaffold/CausalScaffold/CBG/`.
+Sbierski 1309.7591, `papers/gx/sources/1309.7591/`). Home: `lean-causal/Causal/CBG/` (strict library since 2026-11-02; authored in
+`scaffold/CausalScaffold/CBG/`).
 It overlaps ETT §4 (`theo:CBG` and its lemmas, `scaffold/CausalScaffold/SubExtension.lean`): marking
 ETT labels is the ETT campaign's; rows stay partial until the singular instance discharges the model.
 
@@ -56,7 +57,7 @@ Hausdorffness of the glued space is a THEOREM (Sbierski Thm 3.13, from A1–A4; 
 model Y (Minkowski ⊕ Σ_α E_α), `G : StructureGroupoid Y`, admissible = `ChartedSpace Y M`,
 `HasGroupoid M G`, T2, connected; `IsMor` = `LiftProp (G.IsLocalStructomorphWithinAt)`; (B1) G rigid on
 connected opens; (B2) local uniqueness (B21 `prop:isom` + `lem:liouville`); (B3) causal facts on Y;
-(B4) slices on Y. `Geometry.ofLocalModel : Level B → Level A`. **No time reversal:** the time
+(B4) slices on Y (cone-slice form since round 4, §6). `Geometry.ofLocalModel : Level B → Level A` (round 4: `ofLocalModelOfBTZ`). **No time reversal:** the time
 reverse of an E₀-manifold is not one (gx D-12(e)): A3/A4 stated in both directions.
 
 ## 3. Sbierski's order on the API
@@ -86,7 +87,7 @@ gx for E₀: (i) model + `SingularFlatAxioms`; (ii) B1 a.e. rigidity (`lem:liouv
 BTZ points (`prop:isom`, α = 0); (iv) B4 both directions (spear graphs); (v) K± calculus at BTZ
 points; (vi) second countability of E_{≥0}-manifolds; (vii) `sigmaCompact`.
 
-## 5. Packages (`scaffold/CausalScaffold/CBG/`, ~11–13k lines)
+## 5. Packages (`Causal/CBG/`, ~11–13k lines)
 | # | file | content | deps | risk |
 |---|---|---|---|---|
 | 1 | Geometry | Level A/B, `IsRigidFor`, kink/arctan witnesses | — | interface — **gate: review before 4–10** |
@@ -153,3 +154,34 @@ points; R4 no duality; R5 the ruling on "maximal".
   of agreement inside `reg`; BTZ future (`lem:passe_pgcd`, a non-cone A4 slice); BTZ past (a
   regular tip, `I⁺(p)` regular). The model-free Prop 3.7 core (from `Flat/CBGGerm`) and A4 assembly
   (from `Flat/CBGSlice`) moved into `FromModel`, names unchanged.
+- **Interface round 4 (gx, 2026-11-02): APPLIED.** `LocalModel` (Level B) fields, exact text:
+  (1) `[t2Y : T2Space Y]`;
+  (2) the level-set B4 `slice_future`/`slice_past` is **deleted** (no consumer) and replaced by
+  `coneSliceFuture : ∀ y : Y, y ∉ singY 0 → ∀ O : Opens Y, y ∈ O → ∃ K : Set Y, K ⊆ O ∧
+  (∀ z ∈ K, z ∉ singY 0 ∧ z ≠ y ∧ causalityY.le O z y) ∧ ∀ V : Set Y, IsOpen V → K ⊆ V →
+  ∃ (N : Opens Y) (Γ : Set Y), y ∈ N ∧ N ≤ O ∧ Γ ⊆ N ∧ Γ ⊆ V ∧ causalityY.IsCauchySurfaceOn N Γ`
+  and `coneSlicePast : ∀ y : Y, ∀ O : Opens Y, y ∈ O → ∃ K : Set Y, K ⊆ O ∧ (∀ z ∈ K, z ≠ y ∧
+  causalityY.le O y z) ∧ ∀ V : Set Y, IsOpen V → K ⊆ V → ∃ (N : Opens Y) (Γ : Set Y), y ∈ N ∧
+  N ≤ O ∧ Γ ⊆ N ∧ Γ ⊆ V ∧ causalityY.IsCauchySurfaceOn N Γ`;
+  (3) `typeAgreement : ∀ U : Set Y, IsOpen U → IsConnected U → ∀ y₀ : Y, y₀ ∉ singY 0 →
+  (∃ O : Opens Y, y₀ ∈ O ∧ ∃ r ∈ O, (causalityY.lt O r y₀ ∧ causalityY.Iplus O {r} ∩
+  causalityY.Iminus O {y₀} ⊆ U) ∨ (causalityY.lt O y₀ r ∧ causalityY.Iplus O {y₀} ∩
+  causalityY.Iminus O {r} ⊆ U)) → ∀ z₀ : Y, ∀ f : Y → Y, (∀ y ∈ U,
+  G.IsLocalStructomorphWithinAt f U y) → InjOn f U → MapClusterPt z₀ (𝓝[U] y₀) f →
+  (∀ α : ℝ, 0 ≤ α → (y₀ ∈ singY α ↔ z₀ ∈ singY α)) ∧ ((∃ α : ℝ, 0 ≤ α ∧ y₀ ∈ singY α) →
+  z₀ ∈ connectedComponent y₀)`;
+  (4) `isOpen_regY : IsOpen {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α}`;
+  **plus, NOT in the agreed list (for gx's confirmation):** `dense_regY : Dense {y | ∀ α : ℝ,
+  0 ≤ α → y ∉ singY α}` — A3 at a massive point gets agreement from `localUnique_sing` on the
+  regular part of the piece only, and nothing agreed makes that part accumulate (an open set can
+  be foliated by uncountably many closed loci `sing_α`, each with empty interior, union closed).
+  `CBG/FromModel` is now **sorry-free**: A3 at every non-BTZ boundary point, regular or massive
+  (`germ_future_nonBTZ`, `germ_past_nonBTZ`, core `germ_ext_nonBTZ`), A4 off the BTZ locus /
+  everywhere (`slice_future_of_cone`, `slice_past_of_cone`). The sorried `Geometry.ofLocalModel`
+  is deleted; `Geometry.ofLocalModelOfGermSlice` stays; new `Geometry.ofLocalModelOfBTZ 𝔐 hA3f
+  hA3p hA4f` whose only extra hypotheses are `𝔐.GermExtFutureBTZ`, `𝔐.GermExtPastBTZ`,
+  `𝔐.SliceFutureBTZ` (the Level-A statements of A3 future / A3 past / A4 future with the extra
+  last hypothesis `p ∈ sing s 0`; owed by gx for `E₀`: `lem:passe_pgcd`; a regular `a ∈ U ∩ I⁺(p)`
+  and `I⁺(p)` regular near `p`; a slice off the cone), and `Geometry.ofLocalModelNoBTZ 𝔐
+  (singY 0 = ∅)`. The flat model supplies every new field (`Flat/CBGSlice`'s
+  `minkowski_coneSlice`; the rest trivial, `singY = ∅`); `flat_cbg`, `cbg` stay axiom-clean.

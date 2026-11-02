@@ -8,6 +8,11 @@ import Causal.GXStructure
 Neither is marked: the singular structure is abstracted (SCOPE), the uniqueness is proved among
 absolutely minimal causalities, and the remark only for unbranched maps at regular points.
 
+**Graduated (DEC-73, 2026-11-02)** from the scaffold (`scaffold/CausalScaffold/GXSingular.lean`,
+module `CausalScaffold.GXSingular`), sorry-free, unchanged but for this paragraph; so that the CBG
+work (`Causal.CBG.FromModel`) can graduate. Its reconciliation with gx's DEC-25 (a.e.
+morphisms of singular `(G,X)`-manifolds) is a follow-up, not done here.
+
 > Let $(G,X,X_A)$ be an analytic singular structure and let $(M,\A)$ be a $(G,X,X_A)$-manifold.
 > Assume moreover that (a) $X$ is a causally arc-connected Baire topological spacetime on which
 > $G$ acts by morphisms of topological spacetimes; (b) for every $\alpha \in A$, the model space

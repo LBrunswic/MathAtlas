@@ -11,7 +11,7 @@ work packages WP-29 … WP-34. Read `docs/CAMPAIGN.md` (the protocol) and `kb/IN
 | the PDF | `papers/gx/sources/math_0402257/math_0402257.pdf` |
 | the ledger | `papers/barbot/ledger/LEDGER.md` — 44 statements, 5 terminal |
 | the Lean | `Causal/Flat/*` (strict, namespace `Causal.Flat`), `scaffold/CausalScaffold/Flat/*` (scaffold) |
-| graduation | **2026-11-02** (`docs/BARBOT-GRADUATION.md`): 93 modules moved `CausalScaffold.X` → `Causal.X` (`Flat.*` incl. `Lox/`, `Nonlox/`, `Cla/`, `Geroch/`; `Port.*`; `CompactCauchy`'s proved part, `CurvesExtend`, `Splitting`, `LemmaKBare`) — module renames only, no declaration renamed. Still scaffold: `CBG.*`, `Flat.CBG`, `Flat.CBGGerm`, `Flat.CBGSlice`, and `CausalScaffold.CompactCauchy` (the bare lemma K, a `sorry`) |
+| graduation | **2026-11-02** (`docs/BARBOT-GRADUATION.md`): 93 modules moved `CausalScaffold.X` → `Causal.X` (`Flat.*` incl. `Lox/`, `Nonlox/`, `Cla/`, `Geroch/`; `Port.*`; `CompactCauchy`'s proved part, `CurvesExtend`, `Splitting`, `LemmaKBare`) — module renames only, no declaration renamed. Still scaffold: only `CausalScaffold.CompactCauchy` (the bare lemma K). The CBG work (`Causal.CBG.*`, `Causal.Flat.CBG{,Germ,Slice}`) graduated the same day, after interface round 4 and the DEC-73 split of ETT's `SubExtension` (the bare lemma K, a `sorry`) |
 
 **Who consumes it.** gx's Section 4 (WP-28) uses Barbot's classification (DEC-26, DEC-30) and may
 import `Causal` (DEC-33); this campaign proves it, gx imports it (DEC-34). Keep statements in the

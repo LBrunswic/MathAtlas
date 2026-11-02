@@ -20,7 +20,7 @@ submodule, so the library is grown here in the layout it will have there: gradua
 | library | where | rule |
 |---|---|---|
 | `Causal` | `Causal/` | strict: `warningAsError`, so a `sorry`, an unused variable or a deprecation fails the build |
-| `CausalScaffold` | `scaffold/CausalScaffold/` | `sorry` permitted and tagged; never imported by `Causal`. A module is here either because a proof is missing or because it rests on a **reading of the paper awaiting the author's ruling** — each module says which. The layer of the curves graduated on 2026-09-27 (DEC-6); the scaffold holds the campaign's files (`docs/CAMPAIGN.md`) until they graduate; today the modules resting on a `sorry` (`GerochEquiv`, `MinkowskiMeasure`, `SubExtension`), on one (`SingularGeroch`), or on an unruled reading (`GXSingular`, OQ-19), and the Barbot campaign's CBG work and bare Lemma K (`CBG.*`, `Flat.CBG*`, `CompactCauchy`); the rest of the Barbot campaign graduated on 2026-11-02 |
+| `CausalScaffold` | `scaffold/CausalScaffold/` | `sorry` permitted and tagged; never imported by `Causal`. A module is here either because a proof is missing or because it rests on a **reading of the paper awaiting the author's ruling** — each module says which. The layer of the curves graduated on 2026-09-27 (DEC-6); the scaffold holds the campaign's files (`docs/CAMPAIGN.md`) until they graduate; today the modules resting on a `sorry` (`GerochEquiv`, `MinkowskiMeasure`, `SubExtension`), on one (`SingularGeroch`), and the Barbot campaign's bare Lemma K (`CompactCauchy`); the rest of the Barbot campaign graduated on 2026-11-02, `GXSingular` and the sorry-free part of `SubExtension` the same day (DEC-73), then the CBG work (`CBG.*`, `Flat.CBG*`) |
 
 ## Modules
 
@@ -76,13 +76,14 @@ submodule, so the library is grown here in the layout it will have there: gradua
 | `Causal.Flat.Loxodromic`, `Causal.Flat.TitsNull` and `Causal.Flat.Lox.*` (21) | — | Barbot §10, the loxodromic case; `maxHeartbeats` in `Loxodromic`, `Lox.SecondNullFix` (SCOPE) |
 | `Causal.Flat.Classification` and `Causal.Flat.Cla.*` (15) | `bthm:caucomp`, `bthm:cauclo` | Barbot §11, Theorems A and B, under the named externals; `maxHeartbeats` in `Cla.G9Pair` (SCOPE) |
 | `Causal.Flat.TheoremBInputs`, `Causal.Flat.GerochFlat`, `Causal.Flat.Geroch.*` (4), `Causal.Flat.CBGCompact` | — | Theorem B's inputs (lemma K's data, Selberg), admissible measures on every GH flat spacetime, compactness of `J^∓(p) ∩ Σ` |
+| `Causal.SubExtension` | — | common sub- and over-extensions, abstractly: the sorry-free part of the former scaffold file (DEC-73, 2026-11-02): `IsRigid`, `CommonSubExtension`, `CommonOverExtension`, `IsPgcdCandidate`, `pgcdOpens`/`pgcdMap`, the kink/timelike-line witnesses, `c_ext_connexe_of_isCauchySurfaceOn` |
+| `Causal.GXSingular` | — (OQ-19) | `prop:GX_sing_espace_temps_topo` for abstracted model spaces; graduated from the scaffold (DEC-73, 2026-11-02) |
 | `CausalScaffold.GerochEquiv` | — | `theo:geroch`, the equivalence; one `sorry`, the cited (iii)⇒(i) |
-| `CausalScaffold.GXSingular` | — (OQ-19) | `prop:GX_sing_espace_temps_topo` for abstracted model spaces |
 | `CausalScaffold.SingularGeroch` | — | `theo:geroch_sing` (DEC-18), `prop:mesure_admissible`; rests on `GerochEquiv` |
 | `CausalScaffold.MinkowskiMeasure` | — | `prop:mesure_dieckmann_Lorentz` on Minkowski space; one `sorry` (null boundaries of past sets) |
-| `CausalScaffold.SubExtension` | — | common sub- and over-extensions, `lem:C_ext_connexe`, `prop:Cauchy_pgcd`; two `sorry`s |
+| `CausalScaffold.SubExtension` | — | the remainder of the DEC-73 split: `exists_mem_image_inf`, `isCauchySurfaceOn_inf`, `c_ext_connexe` (`lem:C_ext_connexe`) and `cauchy_pgcd` (`prop:Cauchy_pgcd`); two `sorry`s; imports `Causal.SubExtension` |
 | `CausalScaffold.CompactCauchy` | — | the bare DEC-44 form of Lemma K, `isCauchySurface_of_isLocallyCauchy`; one `sorry`, nothing depends on it (Barbot) |
-| `CausalScaffold.CBG.*` (11), `CausalScaffold.Flat.CBG`, `.Flat.CBGGerm`, `.Flat.CBGSlice` | — | the Barbot campaign's CBG work (`docs/CBG-DESIGN.md`); tagged `sorry`s in `CBG.FromModel` |
+| `Causal.CBG.*` (11), `Causal.Flat.CBG`, `.Flat.CBGGerm`, `.Flat.CBGSlice` | — | the Barbot campaign's CBG work (`docs/CBG-DESIGN.md`), sorry-free since interface round 4; graduated from the scaffold 2026-11-02. No label marked; A3/A4 at BTZ points are explicit hypotheses of `Geometry.ofLocalModelOfBTZ` (gx's, for `E₀`) |
 
 What each label's status is, which declarations carry it and what formalizing found in the paper
 is in `papers/ett/ledger/LEDGER.md`, generated from the sources and from

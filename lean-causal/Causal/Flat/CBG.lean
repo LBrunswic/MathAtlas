@@ -1,13 +1,13 @@
-import CausalScaffold.CBG.FromModel
-import CausalScaffold.CBG.Maximal
+import Causal.CBG.FromModel
+import Causal.CBG.Maximal
 import Causal.Flat.GerochFlat
 import Causal.Flat.SecondCountable
 import Causal.Flat.LipschitzGraph
 import Causal.Flat.Developing
 import Causal.Flat.CauchyComplete
 import Causal.Flat.CBGCompact
-import CausalScaffold.Flat.CBGGerm
-import CausalScaffold.Flat.CBGSlice
+import Causal.Flat.CBGGerm
+import Causal.Flat.CBGSlice
 
 /-!
 # The flat instance of the CBG campaign: the local model `Minkowski d`, and `flat_cbg`
@@ -55,8 +55,12 @@ rows stay partial until the singular instance discharges the model »). Cited, u
   - B3 `secondCountable_of_cauchy`: outright, `flat_secondCountableTopology` (DEC-49).
   - B3 `timeFunction` (round 2 (1)): `flat_hasTimeFunction` — the Geroch time of the admissible
     measures of `Flat/GerochFlat` — through `chartedCausality_eq_flatCausality`.
-  - B4 `slice_future`, `slice_past` (`minkowski_slice_future`, `minkowski_slice_past`): **not the
-    hyperboloids of the design** — the time coordinate `∓ t` on a small diamond
+  - **Round 4 (2026-11-02) fields**: `T2Space` (Minkowski is metric); `isOpen_regY`, `dense_regY`
+    (`regY = univ`); `typeAgreement` vacuous (`singY = ∅`); B4 in cone-slice form
+    `coneSliceFuture`, `coneSlicePast`, **proved** (`Flat/CBGSlice`'s `minkowski_coneSlice`: the
+    closed slice ball on the past / future cone, the diamond over a slightly larger slice ball).
+  - Former B4 (rounds 1–3, deleted from `LocalModel` in round 4; kept as lemmas)
+    `minkowski_slice_future`, `minkowski_slice_past`: **not the hyperboloids of the design** — the time coordinate `∓ t` on a small diamond
     `I⁺(y − ε e₀) ∩ I⁻(y + ε e₀)`; the level set at `t = c` is a Cauchy surface of the diamond
     over it (its domain of dependence), through `isCauchySurfaceOn_graph_of_saturated`
     (`Flat/LipschitzGraph`) for the constant graph, global hyperbolicity by causal convexity
@@ -88,8 +92,9 @@ rows stay partial until the singular instance discharges the model »). Cited, u
   `flatGerochGH`).
 * **`flat_cbg`**, `flat_cbg_gh`, `flat_cbg_flatSpacetime` (bundled `N : FlatSpacetime.{0} d`,
   `Flat.GH N`), **sorry-free**: the same in `flatGeometry d` — `flatGeometryOf` at the proved R1
-  and the proved A3/A4 of §7b, definitionally `Geometry.ofLocalModel (flatModel d)` but **not**
-  through `CBG/FromModel`'s four tagged A3/A4 `sorry`s — with **no hypothesis beyond the paper's**
+  and the proved A3/A4 of §7b, built from `Flat/CBGGerm`'s and `Flat/CBGSlice`'s A3/A4 (`CBG/FromModel`'s generic
+  `Geometry.ofLocalModelOfBTZ` / `ofLocalModelNoBTZ`, sorry-free since round 4, would give the same
+  geometry up to proof irrelevance of the A3/A4 fields) — with **no hypothesis beyond the paper's**
   (regular flat case). `#print axioms flat_cbg`: `[propext, Classical.choice, Quot.sound]`.
   Witness: `flat_cbg_minkowski` (`M₀ = Minkowski d`).
 * **The ETT/Barbot reading** `flat_cbg_ett_of` (sorry-free, same hypotheses as `flat_cbg_gh_of`)
@@ -107,8 +112,8 @@ rows stay partial until the singular instance discharges the model »). Cited, u
 | "maximal" | DEC-59: `Dev.IsUniversal`; ETT/Barbot reading `Dev.IsETTMaximal` in `flat_cbg_ett_of`/`flat_cbg_ett` |
 | "unique up to isomorphism" (`ETT.tex:1886`) | ✓ `Dev.IsUniversal.unique` (`CBG/Geometry`) / `Dev.IsUniversal.existsUnique_iso` (`CBG/Maximal`), sorry-free, no rigidity; stated for the flat instance in `flat_cbg_ett_of` (sorry-free) and `flat_cbg_ett` |
 | design §4 `IsMor = IsLocalIsometry` | ⚠ reading: `LocalModel.IsMor` (`LiftPropOn G.IsLocalStructomorphWithinAt`), the interface's; its identification with `IsLocalIsometry` is not proved here |
-| design §4 A4 "hyperboloid level sets of `τ_q`" | ⚠ replaced: B4 only asks a local time with Cauchy level sets; the flat time `∓t` on a diamond satisfies it. The `τ_q` property Sbierski uses — « `τ_q(r)` is only greater than zero for `r ∈ J⁻(q)` » (Sbierski p. 19, pdftotext l. 983), keeping `S ⊆ Ū ∩ J⁺(ι(M))` (overline lost by pdftotext) — is used in the **proof of Thm 3.6** (not in Lemma 3.11, which only produces `q`); it is A4's (`CBG/FromModel`'s `sliceFuture`), not B4's, and the flat-time inhabitant of B4 lacks it (SCOPE: the 1+1 example). A4 itself is proved for the flat model **without** `τ_q` (`flatModelOf_sliceFuture`/`…Past`, `Flat/CBGSlice`: a diamond over a slice ball strictly inside `U`) |
-| design §4 A3 "trivial (one `g` on a connected `V`)" | ✓ derived for the flat model (`flatModelOf_germExtFuture`/`…Past`, from `Flat/CBGGerm`), not trivial: Sbierski Lemma 3.8's causal localisation along a chart segment, then one groupoid element on `U ∩ κ⁻¹(ball ∩ I^ε(c))` (star-shaped, B1). `CBG/FromModel`'s generic `germExtFuture`/`germExtPast` stay tagged for other models; `flat_cbg_of` still takes A3 as a hypothesis, `flat_cbg` discharges it |
+| design §4 A4 "hyperboloid level sets of `τ_q`" | ⚠ replaced (round 4: B4 is the cone-slice form, `minkowski_coneSlice`; the following is the history of the level-set B4 of rounds 1–3): B4 only asked a local time with Cauchy level sets; the flat time `∓t` on a diamond satisfies it. The `τ_q` property Sbierski uses — « `τ_q(r)` is only greater than zero for `r ∈ J⁻(q)` » (Sbierski p. 19, pdftotext l. 983), keeping `S ⊆ Ū ∩ J⁺(ι(M))` (overline lost by pdftotext) — is used in the **proof of Thm 3.6** (not in Lemma 3.11, which only produces `q`); it is A4's (`CBG/FromModel`'s `sliceFuture`), not B4's, and the flat-time inhabitant of B4 lacks it (SCOPE: the 1+1 example). A4 itself is proved for the flat model **without** `τ_q` (`flatModelOf_sliceFuture`/`…Past`, `Flat/CBGSlice`: a diamond over a slice ball strictly inside `U`) |
+| design §4 A3 "trivial (one `g` on a connected `V`)" | ✓ derived for the flat model (`flatModelOf_germExtFuture`/`…Past`, from `Flat/CBGGerm`), not trivial: Sbierski Lemma 3.8's causal localisation along a chart segment, then one groupoid element on `U ∩ κ⁻¹(ball ∩ I^ε(c))` (star-shaped, B1). `CBG/FromModel`'s generic `germExtFuture_of`/`germExtPast_of` (round 4, sorry-free off the BTZ locus) serve other models; `flat_cbg_of` still takes A3 as a hypothesis, `flat_cbg` discharges it |
 | design §4 A2 `isCompact_*` ("flat GH") | ✓ proved: `FlatCompactJplusJminus`/`FlatCompactJminusJplus` (`flat_isCompact_Jplus_inter_Jminus`, past form) from `J⁻(p) ∩ Σ` / `J⁺(p) ∩ Σ` compact (`Flat/CBGCompact`); only closedness of `≤`, a time function and `J⁻` of opens open are used, not compact diamonds |
 
 ## SCOPE (disclosed)
@@ -116,10 +121,9 @@ rows stay partial until the singular instance discharges the model »). Cited, u
 * **What `flat_cbg` rests on: nothing.** `flat_cbg`, `flat_cbg_gh`, `flat_cbg_ett`, the bundled
   forms and `flat_cbg_minkowski` are sorry-free (`[propext, Classical.choice, Quot.sound]`): R1 is
   `Flat/CBGCompact`, A3 `Flat/CBGGerm`, A4 `Flat/CBGSlice`, and `flatGeometry d` is built with
-  `flatGeometryOf` rather than `Geometry.ofLocalModel`, so `CBG/FromModel`'s four tagged A3/A4
-  `sorry`s (`LocalModel.germExtFuture`, `germExtPast`, `sliceFuture`, `slicePast`, stated for every
-  local model) are no longer reached by the flat instance. They remain open for other models (the
-  singular `E₀` instance, gx's). The conditional forms `flat_cbg_of`, `flat_cbg_gh_of`,
+  `flatGeometryOf`. (Since interface round 4, 2026-11-02, `CBG/FromModel` has no `sorry` at all:
+  its generic A3/A4 are proved off the BTZ locus and take the BTZ-point cases as the explicit
+  hypotheses of `Geometry.ofLocalModelOfBTZ`, vacuous here, `singY = ∅`.) The conditional forms `flat_cbg_of`, `flat_cbg_gh_of`,
   `flat_cbg_ett_of` keep A3/A4 and `hJ₁`, `hJ₂` as hypotheses, unchanged.
 * **Former R1 obstruction, withdrawn.** The earlier SORRY text claimed `J⁻(p) ∩ Σ` compact needs a
   limit-curve theorem (the past null cone of `p` down to `Σ`). `Flat/CBGCompact` avoids it: the set
@@ -147,7 +151,7 @@ rows stay partial until the singular instance discharges the model »). Cited, u
   `x = ±2δ` on `∂U`; but the level set `{t = −δ} ∩ W` of a diamond `W ⊇ K` of radius `ε` enters
   `int(Uᶜ)` for `2δ < |x| < ε − δ`. So a derivation of A4 from B4 (`CBG/FromModel`'s `sliceFuture`)
   cannot use B4's piece `N` whole: it must take `U ∪ (N ∩ I⁻(q))`, or B4 needs a localisation
-  clause. The B4 field as approved is proved correctly here; this is a caution on its use.
+  clause. (Resolved in round 4: the level-set B4 is deleted, the cone-slice B4 replaces it.)
 * **Universe.** `Minkowski d : Type`, so the model is `LocalModel.{0}` and `flat_cbg` is for
   `M₀ : Type`; every development is quantified in `Type` (`Dev`).
 * **No identification of `LocalModel.IsMor` with `IsLocalIsometry`** (`Flat/FlatSpacetime`); the
@@ -721,8 +725,16 @@ noncomputable def flatModelOf (hJ₁ : FlatCompactJplusJminus d) (hJ₂ : FlatCo
   secondCountable_of_cauchy := by
     intro M _ _ _ _ _ _ _ _ _
     exact flat_secondCountableTopology (d := d) M
-  slice_future := minkowski_slice_future
-  slice_past := minkowski_slice_past
+  isOpen_regY := by simp
+  dense_regY := by simp
+  typeAgreement := fun _ _ _ _ _ _ _ _ _ _ _ =>
+    ⟨fun _ _ => by simp, fun ⟨_, _, h⟩ => by simp at h⟩
+  coneSliceFuture := fun y _ O hyO => by
+    obtain ⟨K, hKO, hK, hV⟩ := minkowski_coneSlice (d := d) (Or.inl rfl) y O hyO
+    exact ⟨K, hKO, fun z hz => ⟨by simp, (hK z hz).1, (hK z hz).2.1 rfl⟩, hV⟩
+  coneSlicePast := fun y O hyO => by
+    obtain ⟨K, hKO, hK, hV⟩ := minkowski_coneSlice (d := d) (Or.inr rfl) y O hyO
+    exact ⟨K, hKO, fun z hz => ⟨(hK z hz).1, (hK z hz).2.2 rfl⟩, hV⟩
   timeFunction := by
     intro M _ _ _ _ _ _ hGH
     rw [chartedCausality_eq_flatCausality] at hGH ⊢
@@ -807,8 +819,8 @@ noncomputable def flatGeometryOf (hJ₁ : FlatCompactJplusJminus d) (hJ₂ : Fla
 variable (d) in
 /-- **The flat geometry** (sorry-free): `Geometry.ofLocalModelOfGermSlice (flatModel d)` with the
 proved A3/A4 of the flat model (`flatModelOf_germExtFuture`, `…Past`, `flatModelOf_sliceFuture`,
-`…Past`). It is definitionally `Geometry.ofLocalModel (flatModel d)` (A3/A4 are `Prop`s, proof
-irrelevance), but does not go through `CBG/FromModel`'s four tagged A3/A4 `sorry`s. -/
+`…Past`). (Before interface round 4 this bypassed `CBG/FromModel`'s generic constructor and its
+tagged A3/A4 `sorry`s; both are gone since round 4.) -/
 noncomputable def flatGeometry : Geometry.{0} :=
   flatGeometryOf d flat_isCompact_Jplus_inter_Jminus flat_isCompact_Jminus_inter_Jplus
     flatModelOf_germExtFuture flatModelOf_germExtPast flatModelOf_sliceFuture

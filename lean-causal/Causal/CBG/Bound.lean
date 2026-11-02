@@ -1,4 +1,4 @@
-import CausalScaffold.CBG.Geometry
+import Causal.CBG.Geometry
 
 /-!
 # The size bound of the CBG construction: small developments

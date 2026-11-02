@@ -1,4 +1,4 @@
-import CausalScaffold.SubExtension
+import Causal.SubExtension
 import Causal.CompactCauchy
 import Causal.PushoutCausal
 import Causal.SingularFlat
@@ -71,6 +71,9 @@ Framework (DEC-60): Brunswic's thesis, **rigid morphisms of singular `(G,X)`-man
 | Sbierski Lemma 3.8 (extension at corresponding points, Def 3.5) | A3 `germExt_future`/`germExt_past`: `MapClusterPt q (𝓝[U] p) ψ` is Def 3.5 |
 | "maximal" | DEC-59: `Dev.IsUniversal` (Sbierski); `Dev.IsETTMaximal` the ETT form, equivalent given `cbg` (`CBG/Maximal`) |
 | Sbierski Lemma 3.3 (`ψ` injective; « time function » on each GHD) | ✓ round 2 (1): `Geometry.timeFunction` (A2), `LocalModel.timeFunction` (B3): every GH admissible spacetime has a continuous function strictly increasing along `≤` (the body of `Causality.HasTimeFunction`, `CBG/Pgcd`); discharges the `hT` of `Pgcd`, `NoCorresponding`, `Ppcm` and `Geometry.HasTimeFunctions` of `Maximal` |
+| `cor:model_corresponding` (`ETT.tex:2158`), type of corresponding points | ⚠ added, read on `Y` (round 4 (3), gx-agreed): `LocalModel.typeAgreement`, at non-BTZ `y₀`, for pieces containing a chronological diamond with tip `y₀` |
+| B4 slices (Sbierski (3.12), Lemma 3.11) | ⚠ replaced (round 4 (2), gx-agreed): cone-slice forms `coneSliceFuture` (off `sing₀`), `coneSlicePast` (everywhere); the level-set B4 is deleted |
+| model Hausdorff; singular loci closed | ✓ round 4 (1), (4): `[t2Y : T2Space Y]`, `isOpen_regY`; ⚠ added, not agreed: `dense_regY` |
 | past side at a BTZ point (gx, `A3-B-INVESTIGATION.md`; the thesis never treats it) | ⚠ added, gx's form: `LocalModel.localUnique_sing_adherent`, largeness clause in the **diamond form with a regular tip** (interface round 3, 2026-11-02; round 2's clause was vacuous at `α₀ = 0`, SCOPE) |
 
 ## SCOPE (disclosed)
@@ -104,10 +107,24 @@ Framework (DEC-60): Brunswic's thesis, **rigid morphisms of singular `(G,X)`-man
   on `slice_future`/`slice_past` (and on `CBG/FromModel`'s `GermExtFuture`, … copies), so that A3/A4
   are derivable from the B3 facts, which all assume it; consumers had it in scope
   (`CGHDData.ext_continue` now asks it of `N`).
-  Level B → Level A (`Geometry.ofLocalModel`) is package 11. A3 (`germExt_*`) and A4 (`slice_*`)
+  Level B → Level A (`Geometry.ofLocalModelOfBTZ`, `CBG/FromModel`) is package 11. A3 (`germExt_*`) and A4 (`slice_*`)
   are stated in the CGHD setting of Sbierski Lemma 3.8 / Thm 3.6, in both time directions (no
   duality, gx D-12(e)). The thesis extends only under `J(Σ,p) ∖ {p} ⊂ N`
   (`prop:Cauchy_non_max`, `these.tex:6634–6640`); A3 asks it at every corresponding point.
+* **Interface round 4 (design §6, gx-agreed 2026-11-02), applied to `LocalModel`.** (1)
+  `[t2Y : T2Space Y]` (instance field). (2) The level-set B4 `slice_future`/`slice_past` of rounds
+  1–3 is **deleted** and replaced by the cone-slice forms `coneSliceFuture` (off the BTZ locus) and
+  `coneSlicePast` (everywhere), round 3's `ConeSliceFuture`/`ConeSlicePast` verbatim; the old B4
+  had no consumer (`CBG/FromModel` derived A4 from the cone forms since round 3; its only
+  inhabitants, `Flat/CBG`'s `minkowski_slice_future`/`_past`, stay as lemmas). (3)
+  `typeAgreement`, on `Y`: for a connected open `U` containing a chronological diamond with tip
+  `y₀ ∉ sing₀`, an injective local `G`-structomorphism on `U` clustering at `z₀` at `y₀` has
+  `y₀ ∈ sing_α ↔ z₀ ∈ sing_α` (`α ≥ 0`) and, `y₀` singular, `z₀` in the component of `y₀`. (4)
+  `isOpen_regY`. **Plus one field not in the agreed list, for gx's confirmation: `dense_regY`**
+  (the massive case of A3 needs regular points accumulating in the piece; see its docstring for
+  why no agreed field gives it). With them `CBG/FromModel` derives A3 and A4 at every non-BTZ
+  boundary point and is sorry-free; the BTZ-point cases are the explicit hypotheses of
+  `Geometry.ofLocalModelOfBTZ`. The flat model (`Flat/CBG`'s `flatModelOf`) supplies all six.
 * Witnesses, proved: in the causal pre-geometry (`causalPreGeometry`, morphisms `IsEMorphismOn`)
   the timelike half-line has **no universal development** (`kinkIso`), the line is not
   ETT-maximal (`arctanSelf`, a non-surjective Cauchy self-embedding) and rigidity fails
@@ -656,6 +673,12 @@ structure LocalModel where
   from B1 needs connected chart neighbourhoods; so does A3 (one element of `G` on a connected
   piece of `U` near `p`). §3.1, §3.4. -/
   [locallyConnected : LocallyConnectedSpace Y]
+  /-- **Round 4 (1), gx-agreed 2026-11-02: the model is Hausdorff** (Minkowski space and gx's
+  `𝕄 ⊕ Σ_α 𝔼_α` are metric). Used by A3 (`CBG/FromModel`, `germ_ext_reg`, `germ_ext_nonBTZ`):
+  the element `e ∈ G` that B2 gives on a connected piece and the chart at `q` both carry `ψ`'s
+  germ to a limit at the chart image of `p`, so `e (κ p) = κ' q` is uniqueness of limits in `Y`;
+  and the extension of an agreement from the regular part of a piece to the whole piece. -/
+  [t2Y : T2Space Y]
   /-- **B1, rigidity of `G`** (analyticity of `(G,X)`, `these.tex:1185–1192`: « deux éléments
   $g_1,g_2$ de $G$ sont égaux si et seulement si les restrictions […] à $\U$ sont égales »):
   elements of `G` agreeing on a non-empty open subset of a connected open set agree on it. Gives
@@ -785,7 +808,7 @@ structure LocalModel where
     (chartedCausality causalityY M).GloballyHyperbolic →
     (chartedCausality causalityY M).CurvesExtend
   /-- **B3, time functions** (design §6, interface round 2 (1), the counterpart of
-  `Geometry.timeFunction`, which `Geometry.ofLocalModel` fills from it): every globally hyperbolic
+  `Geometry.timeFunction`, which `Geometry.ofLocalModelOfGermSlice` fills from it): every globally hyperbolic
   admissible `M` carries a continuous `T : M → ℝ` strictly increasing along `≤` (the body of
   `Causality.HasTimeFunction`, `CBG/Pgcd`, verbatim). Flat instance: the Geroch time of admissible
   measures (`Flat/GerochFlat`; `Flat/CBG` already proves the statement for `flatCausality`); `E₀`:
@@ -819,31 +842,86 @@ structure LocalModel where
     [ChartedSpace Y M] [HasGroupoid M G], (chartedCausality causalityY M).GloballyHyperbolic →
     ∀ S : Set M, (chartedCausality causalityY M).IsCauchySurface S →
     SecondCountableTopology S → SecondCountableTopology M
-  /-- **B4, slices on `Y`, future side** (Sbierski (3.12): `τ_q`, decreasing to the future, with
-  spacelike level sets): every point has arbitrarily small open `W` with a continuous `τ`
-  strictly decreasing along the relations of `W`, each level set of which is a Cauchy surface of
-  a globally hyperbolic open `N ⊆ W`. Gives A4 (`slice_future`). -/
-  slice_future : ∀ y : Y, ∀ O ∈ 𝓝 y, ∃ (W : Opens Y) (τ : Y → ℝ), y ∈ W ∧ (W : Set Y) ⊆ O ∧
-    ContinuousOn τ W ∧
-    (∀ x ∈ W, ∀ x' ∈ W, causalityY.le W x x' → x ≠ x' → τ x' < τ x) ∧
-    ∀ c ∈ τ '' W, ∃ N : Opens Y, τ ⁻¹' {c} ∩ W ⊆ N ∧ N ≤ W ∧ causalityY.GloballyHyperbolicOn N ∧
-      causalityY.IsCauchySurfaceOn N (τ ⁻¹' {c} ∩ W)
-  /-- **B4, past side** (`τ` increasing; no time reversal, gx D-12(e)). Gives A4
-  (`slice_past`). -/
-  slice_past : ∀ y : Y, ∀ O ∈ 𝓝 y, ∃ (W : Opens Y) (τ : Y → ℝ), y ∈ W ∧ (W : Set Y) ⊆ O ∧
-    ContinuousOn τ W ∧
-    (∀ x ∈ W, ∀ x' ∈ W, causalityY.le W x x' → x ≠ x' → τ x < τ x') ∧
-    ∀ c ∈ τ '' W, ∃ N : Opens Y, τ ⁻¹' {c} ∩ W ⊆ N ∧ N ≤ W ∧ causalityY.GloballyHyperbolicOn N ∧
-      causalityY.IsCauchySurfaceOn N (τ ⁻¹' {c} ∩ W)
+  /-- **Round 4 (4), gx-agreed 2026-11-02: the regular part of the model is open**, i.e. the
+  singular loci `⋃_{α ≥ 0} sing_α(Y)` form a closed set (in gx's `𝕄 ⊕ Σ_α 𝔼_α` each `sing_α` is a
+  line of `𝔼_α`; flat: `singY = ∅`). Consumed by `CBG/FromModel`'s `germ_ext_nonBTZ` (massive
+  case): the regular part `A ∩ κ⁻¹ reg(Y)` of A3's piece is open, so `ψ` restricts to a morphism
+  on it, where B2 at a singular point (`localUnique_sing`) is applied; the agreement is then
+  extended to `A` by `dense_regY` and `T2Space Y`. -/
+  isOpen_regY : IsOpen {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α}
+  /-- **Round 4, added by the round-4 author — NOT in gx's agreed list, for gx's confirmation:
+  the regular part of the model is dense.** Needed by A3 at a massive boundary point (`α > 0`,
+  `CBG/FromModel`'s `germ_ext_nonBTZ`): B2 at a singular point (`localUnique_sing`) gives one
+  `e ∈ G` agreeing with `ψ` (read in charts) on the **regular** part of the connected piece `A`
+  only; to get `e (κ p) = κ' q` and agreement on `A` the regular part must accumulate at every
+  point of `A`. Neither `isOpen_regY` nor the B3 facts give it: `interior_sing` is per `α`, and an
+  open set can be covered by uncountably many loci `sing_α` (a foliation by timelike lines, each
+  of its own `α`), each closed with empty interior, with `⋃_α sing_α` closed. True in gx's model
+  (the singular loci are lines in 3-manifolds) and for the flat model (`singY = ∅`). -/
+  dense_regY : Dense {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α}
+  /-- **Round 4 (3), gx-agreed 2026-11-02 ("type agreement, stated on `Y`"): the type of a
+  corresponding point, and its component.** `U` is a connected open set of `Y` containing a
+  chronological diamond with tip `y₀` — below `y₀` (`r ≪_O y₀`, `I⁺_O(r) ∩ I⁻_O(y₀) ⊆ U`, the
+  future-side piece of A3) or above it (`y₀ ≪_O r`, `I⁺_O(y₀) ∩ I⁻_O(r) ⊆ U`, the past-side piece);
+  `y₀` is not a BTZ point; `f` is an injective local `G`-structomorphism on `U` (at its singular
+  points too) clustering at `z₀` along `U` at `y₀` (`MapClusterPt z₀ (𝓝[U] y₀) f`, Sbierski
+  Def 3.5 read in charts). Conclusion: `y₀` and `z₀` have the same type
+  (`cor:model_corresponding`, `ETT.tex:2158`, read on `Y`), and if `y₀` is singular, `z₀` lies in
+  the component of `y₀` (in gx's model each type `α > 0` lies in the one component `𝔼_α`). This
+  is exactly what `CBG/FromModel` consumes (`germ_ext_nonBTZ`): with `y₀ = κ p`, `z₀ = κ' q`,
+  `f = κ' ∘ ψ ∘ κ⁻¹` on the chart image of A3's piece; the type equality decides the case (both
+  regular: `localUnique_reg` via `regularChart`; both singular: `localUnique_sing`), the component
+  is `localUnique_sing`'s `MapsTo … (connectedComponent y₀)` hypothesis. Only `α ≥ 0` is asked
+  (`sing_α` is unconstrained for `α < 0`), and BTZ `y₀` are excluded (those cases are the
+  explicit hypotheses of `Geometry.ofLocalModelOfBTZ`). Vacuous for the flat model. -/
+  typeAgreement : ∀ U : Set Y, IsOpen U → IsConnected U → ∀ y₀ : Y, y₀ ∉ singY 0 →
+    (∃ O : Opens Y, y₀ ∈ O ∧ ∃ r ∈ O,
+      (causalityY.lt O r y₀ ∧ causalityY.Iplus O {r} ∩ causalityY.Iminus O {y₀} ⊆ U) ∨
+      (causalityY.lt O y₀ r ∧ causalityY.Iplus O {y₀} ∩ causalityY.Iminus O {r} ⊆ U)) →
+    ∀ z₀ : Y, ∀ f : Y → Y, (∀ y ∈ U, G.IsLocalStructomorphWithinAt f U y) → InjOn f U →
+    MapClusterPt z₀ (𝓝[U] y₀) f →
+    (∀ α : ℝ, 0 ≤ α → (y₀ ∈ singY α ↔ z₀ ∈ singY α)) ∧
+      ((∃ α : ℝ, 0 ≤ α ∧ y₀ ∈ singY α) → z₀ ∈ connectedComponent y₀)
+  /-- **B4, future side, in cone-slice form** (round 4 (2), gx-agreed 2026-11-02: replaces the
+  level-set B4 `slice_future` of rounds 1–3; statement verbatim `CBG/FromModel`'s round-3
+  `ConeSliceFuture`). At every point `y` off the BTZ locus and in every open `O ∋ y`, a set
+  `K ⊆ O` of points of the punctured causal past `J⁻_O(y) ∖ {y}`, off the BTZ locus, such that
+  **every open `V ⊇ K` contains a Cauchy surface `Γ` of some open `N ∋ y`, `N ⊆ O`** (`Γ ⊆ N`).
+  Flat (`Flat/CBGSlice`, `minkowski_coneSlice`): `K` the closed slice ball
+  `{t = t(y) − δ, ‖x − x(y)‖ ≤ δ}` on the past cone of `y`, `N` the diamond over a slightly larger
+  slice ball, which an open `V ⊇ K` contains by compactness. Gives A4 future at every boundary
+  point off the BTZ locus (`CBG/FromModel`, `slice_future_of_cone`). Asked only off the BTZ locus:
+  near a BTZ point the punctured past is a segment of the line (`past_local`), so no cone slice
+  exists there. -/
+  coneSliceFuture : ∀ y : Y, y ∉ singY 0 → ∀ O : Opens Y, y ∈ O → ∃ K : Set Y, K ⊆ O ∧
+    (∀ z ∈ K, z ∉ singY 0 ∧ z ≠ y ∧ causalityY.le O z y) ∧
+    ∀ V : Set Y, IsOpen V → K ⊆ V → ∃ (N : Opens Y) (Γ : Set Y), y ∈ N ∧ N ≤ O ∧
+      Γ ⊆ N ∧ Γ ⊆ V ∧ causalityY.IsCauchySurfaceOn N Γ
+  /-- **B4, past side, in cone-slice form** (round 4 (2), gx-agreed: replaces `slice_past`;
+  statement verbatim `CBG/FromModel`'s round-3 `ConeSlicePast`): as `coneSliceFuture` with `K` in
+  the punctured causal future `J⁺_O(y) ∖ {y}`, **at every point** (every point is in `Z⁺`,
+  `mem_Zplus`; at a BTZ `y` of `E₀` the future cone is large, `Iplus_of_lt`). No time reversal
+  (gx D-12(e)). Gives A4 past everywhere (`slice_past_of_cone`). -/
+  coneSlicePast : ∀ y : Y, ∀ O : Opens Y, y ∈ O → ∃ K : Set Y, K ⊆ O ∧
+    (∀ z ∈ K, z ≠ y ∧ causalityY.le O y z) ∧
+    ∀ V : Set Y, IsOpen V → K ⊆ V → ∃ (N : Opens Y) (Γ : Set Y), y ∈ N ∧ N ≤ O ∧
+      Γ ⊆ N ∧ Γ ⊆ V ∧ causalityY.IsCauchySurfaceOn N Γ
 
 namespace LocalModel
 
 variable (𝔐 : LocalModel.{u})
 
 attribute [instance] LocalModel.topY LocalModel.closedUnderRestriction LocalModel.locallyConnected
+  LocalModel.t2Y
 
 /-- The regular part of the model, `reg(Y)`. -/
 def regY : Set 𝔐.Y := {y | ∀ α : ℝ, 0 ≤ α → y ∉ 𝔐.singY α}
+
+/-- A point of `Y` that is not regular lies in some `sing_α`, `α ≥ 0`. -/
+theorem exists_mem_singY_of_not_mem_regY {y : 𝔐.Y} (h : y ∉ 𝔐.regY) :
+    ∃ α : ℝ, 0 ≤ α ∧ y ∈ 𝔐.singY α := by
+  by_contra hcon
+  exact h fun α hα hy => hcon ⟨α, hα, hy⟩
 
 /-- A Level-B structure on `M`: an atlas modelled on `Y` with transitions in `G`
 (`these.tex:3133`, read through `HasGroupoid`). -/
@@ -867,8 +945,8 @@ def sing {M : Type u} [TopologicalSpace M] (s : 𝔐.Str M) (α : ℝ) : Set M :
 
 variable (𝔐)
 
-/-- The pre-geometry of a local model. `Geometry.ofLocalModel` (package 11, `CBG/FromModel`)
-completes it to Level A. -/
+/-- The pre-geometry of a local model. `Geometry.ofLocalModelOfBTZ` (package 11, `CBG/FromModel`)
+completes it to Level A, the BTZ-point cases of A3/A4 as explicit hypotheses. -/
 noncomputable def toPreGeometry : PreGeometry.{u} where
   Str := 𝔐.Str
   causality := causality

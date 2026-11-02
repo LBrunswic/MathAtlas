@@ -1,5 +1,5 @@
-import CausalScaffold.CBG.NoCorresponding
-import CausalScaffold.CBG.CausalConvex
+import Causal.CBG.NoCorresponding
+import Causal.CBG.CausalConvex
 
 /-!
 # Two developments embed in a common one: the gluing along the MCGHD (Sbierski Thm 2.7)

@@ -1,328 +1,344 @@
 {
- "package": "WP-36a-CBGGeometry",
- "files": [
-  "scaffold/CausalScaffold/CBG/Geometry.lean"
- ],
- "builds": true,
- "sorry_count": 0,
- "labels": [
-  {
-   "label": "theo:CBG",
-   "tex_lines": [
-    1884,
-    1887
-   ],
-   "status": "stated",
-   "marked": false,
-   "decls": [
+  "package": "WP-36a-CBGGeometry",
+  "files": [
+    "scaffold/CausalScaffold/CBG/Geometry.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "theo:CBG",
+      "tex_lines": [
+        1884,
+        1887
+      ],
+      "status": "stated",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.Dev.IsUniversal",
+        "Causal.CBG.Dev.IsETTMaximal",
+        "Causal.CBG.Dev.IsUniversal.unique",
+        "Causal.CBG.Dev.IsUniversal.isETTMaximal",
+        "Causal.CBG.Dev.IsETTMaximal.isUniversal"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M_0 globally hyperbolic singular flat spacetime",
+          "here": "carried",
+          "note": "an abstract Geometry (Level A) with s₀ : 𝔊.Str M₀, T2, connected, GH; the singular flat case is the Level-B instance (packages 11, 12, gx)"
+        },
+        {
+          "paper": "globally hyperbolic (no Cauchy surface assumed; ETT.tex:1885, these.tex:6288)",
+          "here": "strengthened",
+          "note": "cbg and its corollaries also assume a Cauchy surface S: the library's GloballyHyperbolic (Causal/Properties.lean:144) is causal + compact diamonds and gives none, and without one no Dev exists; recoverable at the singular flat instance via theo:geroch_sing (ETT.tex:1771, DEC-18), never for an abstract Geometry"
+        },
+        {
+          "paper": "maximal Cauchy extension",
+          "here": "strengthened",
+          "note": "DEC-59: universal (Sbierski Thm 2.8); the ETT form is the corollary cbg_isETTMaximal, and isETTMaximal_iff_isUniversal shows the two readings agree once cbg holds"
+        },
+        {
+          "paper": "unique up to isomorphism",
+          "here": "carried",
+          "note": "Dev.IsUniversal.unique, proved outright (unique isomorphism)"
+        },
+        {
+          "paper": "rigidity of E≥0-morphisms (rem:CBG_analytique)",
+          "here": "carried",
+          "note": "Geometry.rigid (A1), into Hausdorff targets only (not_isRigidFor_branchingLine)"
+        },
+        {
+          "paper": "M₀ (and every development) second countable (these.tex:1357)",
+          "here": "carried",
+          "note": "gx review C2: [SecondCountableTopology M₀] on cbg / Dev.self, Dev.sc on carriers; was an A2 obligation"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT §4's printed setting (abstract morphisms IsEMorphismOn, ETT.tex:1849–1852) has no universal development: in causalPreGeometry the timelike half-line has no universal development (not_exists_isUniversal_halfLineDev, via kinkIso), and the candidate ℝ is not ETT-maximal (not_isETTMaximal_halfLineDev: arctanSelf is a non-surjective Cauchy self-embedding fixing ]-∞,0], isCauchyEmbedding_arctanSelf). Non-existence of an ETT-maximal development (and failure of uniqueness) in the ETT reading is NOT proved. DEC-60's ruling, in this proved extent",
+        "rem:CBG_analytique (ETT.tex:1903–1910) quotes rigidity for morphisms 'defined on a connected manifold'; it also needs a Hausdorff TARGET: any morphism predicate containing the two inclusions ℝ → branching line (ETT.tex:1312) is not rigid (not_isRigidFor_branchingLine)",
+        "The Cauchy-surface hypothesis of cbg is a ⚠ strengthening of theo:CBG / theo:Cauchy_ext ('globally hyperbolic' only); recoverable at the singular flat instance via theo:geroch_sing (DEC-18), not for an abstract Geometry",
+        "Design §2's T2 witness proper (without T2 carriers the branching line IS a minimal over-extension, so CommonSubExtension/CommonOverExtension must ask T2) is not formalized; only rigidity failure into a non-T2 target is (not_isRigidFor_branchingLine)",
+        "Audit fix (blocking): the former single field LocalModel.localUnique had an unconstrained regular branch; with regularChart, the groupoid inverse and sing_mem it forced an element of G sending all of 𝕄 into reg(𝔼_α), impossible by the developing map, so gx's model 𝕄 ⊕ Σ_α 𝔼_α could not instantiate Level B. Split into localUnique_sing (thesis def:analytique, these.tex:3335–3340: f : reg(U) → reg(Y) with MapsTo into the connected component of the singular point y₀, i.e. the same model) and localUnique_reg (this file's own Liouville branch, with MapsTo into fully regular components). The flat instance is unaffected",
+        "rem:CBG_manquant (i) (ETT.tex:2343–2356): second countability is part of the definition (these.tex:1357–1359; gx def:singular_manifold_locally_connected), not a theorem; after gx review C2 it is a hypothesis of every admissible spacetime (Dev.sc and the A2/B3 binders), and the limit's second countability is the field secondCountable_of_cauchy (GH + SC Cauchy surface ⇒ SC; proved for regular flat via the splitting, DEC-49; open with singular charts, R2)",
+        "defi:causal_E0 (ETT.tex:1352–1355, flagged 'asserted without proof — verify'; also the thesis): I⁺(p) = J⁺(p) ∖ sing₀ at a BTZ point is FALSE in E₀ (gx review C1): for −2dτdr + dr² + r²dθ², f = τ − r/2 is non-decreasing along causal and strictly increasing along timelike curves, so the radial null ray (s/2, s, θ₀) from p = (0,0) lies in J⁺(p) ∖ sing₀ but not in I⁺(p). The true statement: J⁺(p′) ∖ sing₀ ⊆ I⁺(p) for p < p′ on the line (Iplus_of_lt). Consequence: Causality.SingularFlatAxioms (strict library) is not satisfied by E₀ itself (E₀/⟨τ-translation⟩, non-causal, appears to satisfy it; no claim about other E₀-manifolds); DEC-64 rules the library fix and SingularFlatAxioms.lt_of_le_of_not_mem is false at x = p, y = (s/2,s,θ₀); K_monotone, K_densite_sing, K_ordre survive (re-proved here from Iplus_of_lt). By hand, not formalized (no E₀ in Lean)"
+      ],
+      "questions": [
+        "ANSWERED: these.tex:3176 — DEC-63, the condition holds at every singular point (here asked at every x ∈ M, the regular points adding nothing); these.tex:3177–3182 — DEC-62, the LOCAL form (LiftPropOn G.IsLocalStructomorphWithinAt) is the reading",
+        "A3 (germExt_future/past) extends ψ at EVERY corresponding boundary point (Sbierski Lemma 3.8, Def 3.5 = MapClusterPt q (𝓝[U] p) ψ); the thesis extends only under J(Σ,p)∖{p} ⊂ N (prop:Cauchy_non_max, these.tex:6634–6640). gx: is A3 true at BTZ points without that hypothesis (it should be, via K⁻(p)∩J⁺(Σ) ⊂ U from lem:corresponding_K, these.tex:6558)? If not, A3 must carry the (3.10)-type hypothesis and package 6 must route Lemma 3.9 accordingly",
+        "B2's same-model hypothesis (localUnique_sing MapsTo into connectedComponent y₀) replaces famille analytique (b) / def:incompatibles (these.tex:3328–3332, 3346–3353). gx: confirm that at a BTZ corresponding boundary point the transported ψ lands in the component of the chart image of p (package 11 derives it from sing_mem + the chart at q)",
+        "Geometry and LocalModel have no inhabitant in this file (kb/0011, kb/0012). Before the gate closes: check the flat LocalModel field by field (Y = Minkowski d, singY = ∅, G = isometry groupoid, regularChart := refl, localUnique_sing vacuous, localUnique_reg = Liouville)"
+      ]
+    },
+    {
+      "label": "rem:CBG_analytique",
+      "tex_lines": [
+        1903,
+        1910
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.Geometry.rigid",
+        "Causal.CBG.LocalModel.rigid",
+        "Causal.CBG.not_isRigidFor_branchingLine",
+        "Causal.CBG.LocalModel.localUnique_sing",
+        "Causal.CBG.LocalModel.localUnique_reg",
+        "Causal.CBG.LocalModel.regularChart",
+        "Causal.CBG.not_isRigidFor_causalPreGeometry"
+      ],
+      "hypotheses": [
+        {
+          "paper": "two E≥0-morphisms on a connected manifold agreeing on a non-empty open set agree",
+          "here": "strengthened",
+          "note": "target Hausdorff required (branching-line witness)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.CBG.IsRigidFor",
+    "Causal.CBG.isRigid_iff_isRigidFor",
+    "Causal.CBG.PreGeometry",
+    "Causal.CBG.Geometry",
+    "Causal.CBG.Geometry.isMor_val",
+    "Causal.CBG.Geometry.IsMor.restrict",
+    "Causal.CBG.chartedCausality",
+    "Causal.CBG.chartedSing",
+    "Causal.CBG.LocalModel",
+    "Causal.CBG.LocalModel.regY",
+    "Causal.CBG.LocalModel.Str",
+    "Causal.CBG.LocalModel.causality",
+    "Causal.CBG.LocalModel.IsMor",
+    "Causal.CBG.LocalModel.sing",
+    "Causal.CBG.LocalModel.toPreGeometry",
+    "Causal.CBG.Dev",
+    "Causal.CBG.Dev.IsMorphism",
     "Causal.CBG.Dev.IsUniversal",
     "Causal.CBG.Dev.IsETTMaximal",
+    "Causal.CBG.Dev.self",
+    "Causal.CBG.Dev.IsMorphism.id",
+    "Causal.CBG.Dev.IsMorphism.comp",
     "Causal.CBG.Dev.IsUniversal.unique",
     "Causal.CBG.Dev.IsUniversal.isETTMaximal",
-    "Causal.CBG.Dev.IsETTMaximal.isUniversal"
-   ],
-   "hypotheses": [
-    {
-     "paper": "M_0 globally hyperbolic singular flat spacetime",
-     "here": "carried",
-     "note": "an abstract Geometry (Level A) with s₀ : 𝔊.Str M₀, T2, connected, GH; the singular flat case is the Level-B instance (packages 11, 12, gx)"
-    },
-    {
-     "paper": "globally hyperbolic (no Cauchy surface assumed; ETT.tex:1885, these.tex:6288)",
-     "here": "strengthened",
-     "note": "cbg and its corollaries also assume a Cauchy surface S: the library's GloballyHyperbolic (Causal/Properties.lean:144) is causal + compact diamonds and gives none, and without one no Dev exists; recoverable at the singular flat instance via theo:geroch_sing (ETT.tex:1771, DEC-18), never for an abstract Geometry"
-    },
-    {
-     "paper": "maximal Cauchy extension",
-     "here": "strengthened",
-     "note": "DEC-59: universal (Sbierski Thm 2.8); the ETT form is the corollary cbg_isETTMaximal, and isETTMaximal_iff_isUniversal shows the two readings agree once cbg holds"
-    },
-    {
-     "paper": "unique up to isomorphism",
-     "here": "carried",
-     "note": "Dev.IsUniversal.unique, proved outright (unique isomorphism)"
-    },
-    {
-     "paper": "rigidity of E≥0-morphisms (rem:CBG_analytique)",
-     "here": "carried",
-     "note": "Geometry.rigid (A1), into Hausdorff targets only (not_isRigidFor_branchingLine)"
-    },
-    {
-     "paper": "M₀ (and every development) second countable (these.tex:1357)",
-     "here": "carried",
-     "note": "gx review C2: [SecondCountableTopology M₀] on cbg / Dev.self, Dev.sc on carriers; was an A2 obligation"
-    }
-   ],
-   "sorries": [],
-   "findings": [
-    "ETT §4's printed setting (abstract morphisms IsEMorphismOn, ETT.tex:1849–1852) has no universal development: in causalPreGeometry the timelike half-line has no universal development (not_exists_isUniversal_halfLineDev, via kinkIso), and the candidate ℝ is not ETT-maximal (not_isETTMaximal_halfLineDev: arctanSelf is a non-surjective Cauchy self-embedding fixing ]-∞,0], isCauchyEmbedding_arctanSelf). Non-existence of an ETT-maximal development (and failure of uniqueness) in the ETT reading is NOT proved. DEC-60's ruling, in this proved extent",
-    "rem:CBG_analytique (ETT.tex:1903–1910) quotes rigidity for morphisms 'defined on a connected manifold'; it also needs a Hausdorff TARGET: any morphism predicate containing the two inclusions ℝ → branching line (ETT.tex:1312) is not rigid (not_isRigidFor_branchingLine)",
-    "The Cauchy-surface hypothesis of cbg is a ⚠ strengthening of theo:CBG / theo:Cauchy_ext ('globally hyperbolic' only); recoverable at the singular flat instance via theo:geroch_sing (DEC-18), not for an abstract Geometry",
-    "Design §2's T2 witness proper (without T2 carriers the branching line IS a minimal over-extension, so CommonSubExtension/CommonOverExtension must ask T2) is not formalized; only rigidity failure into a non-T2 target is (not_isRigidFor_branchingLine)",
-    "Audit fix (blocking): the former single field LocalModel.localUnique had an unconstrained regular branch; with regularChart, the groupoid inverse and sing_mem it forced an element of G sending all of 𝕄 into reg(𝔼_α), impossible by the developing map, so gx's model 𝕄 ⊕ Σ_α 𝔼_α could not instantiate Level B. Split into localUnique_sing (thesis def:analytique, these.tex:3335–3340: f : reg(U) → reg(Y) with MapsTo into the connected component of the singular point y₀, i.e. the same model) and localUnique_reg (this file's own Liouville branch, with MapsTo into fully regular components). The flat instance is unaffected",
-    "rem:CBG_manquant (i) (ETT.tex:2343–2356): second countability is part of the definition (these.tex:1357–1359; gx def:singular_manifold_locally_connected), not a theorem; after gx review C2 it is a hypothesis of every admissible spacetime (Dev.sc and the A2/B3 binders), and the limit's second countability is the field secondCountable_of_cauchy (GH + SC Cauchy surface ⇒ SC; proved for regular flat via the splitting, DEC-49; open with singular charts, R2)",
-    "defi:causal_E0 (ETT.tex:1352–1355, flagged 'asserted without proof — verify'; also the thesis): I⁺(p) = J⁺(p) ∖ sing₀ at a BTZ point is FALSE in E₀ (gx review C1): for −2dτdr + dr² + r²dθ², f = τ − r/2 is non-decreasing along causal and strictly increasing along timelike curves, so the radial null ray (s/2, s, θ₀) from p = (0,0) lies in J⁺(p) ∖ sing₀ but not in I⁺(p). The true statement: J⁺(p′) ∖ sing₀ ⊆ I⁺(p) for p < p′ on the line (Iplus_of_lt). Consequence: Causality.SingularFlatAxioms (strict library) is not satisfied by E₀ itself (E₀/⟨τ-translation⟩, non-causal, appears to satisfy it; no claim about other E₀-manifolds); DEC-64 rules the library fix and SingularFlatAxioms.lt_of_le_of_not_mem is false at x = p, y = (s/2,s,θ₀); K_monotone, K_densite_sing, K_ordre survive (re-proved here from Iplus_of_lt). By hand, not formalized (no E₀ in Lean)"
-   ],
-   "questions": [
-    "ANSWERED: these.tex:3176 — DEC-63, the condition holds at every singular point (here asked at every x ∈ M, the regular points adding nothing); these.tex:3177–3182 — DEC-62, the LOCAL form (LiftPropOn G.IsLocalStructomorphWithinAt) is the reading",
-    "A3 (germExt_future/past) extends ψ at EVERY corresponding boundary point (Sbierski Lemma 3.8, Def 3.5 = MapClusterPt q (𝓝[U] p) ψ); the thesis extends only under J(Σ,p)∖{p} ⊂ N (prop:Cauchy_non_max, these.tex:6634–6640). gx: is A3 true at BTZ points without that hypothesis (it should be, via K⁻(p)∩J⁺(Σ) ⊂ U from lem:corresponding_K, these.tex:6558)? If not, A3 must carry the (3.10)-type hypothesis and package 6 must route Lemma 3.9 accordingly",
-    "B2's same-model hypothesis (localUnique_sing MapsTo into connectedComponent y₀) replaces famille analytique (b) / def:incompatibles (these.tex:3328–3332, 3346–3353). gx: confirm that at a BTZ corresponding boundary point the transported ψ lands in the component of the chart image of p (package 11 derives it from sing_mem + the chart at q)",
-    "Geometry and LocalModel have no inhabitant in this file (kb/0011, kb/0012). Before the gate closes: check the flat LocalModel field by field (Y = Minkowski d, singY = ∅, G = isometry groupoid, regularChart := refl, localUnique_sing vacuous, localUnique_reg = Liouville)"
-   ]
-  },
-  {
-   "label": "rem:CBG_analytique",
-   "tex_lines": [
-    1903,
-    1910
-   ],
-   "status": "partial",
-   "marked": false,
-   "decls": [
-    "Causal.CBG.Geometry.rigid",
-    "Causal.CBG.LocalModel.rigid",
+    "Causal.CBG.Dev.IsETTMaximal.isUniversal",
+    "Causal.CBG.causalPreGeometry",
+    "Causal.CBG.isEMorphism_timelikeLine_of_strictMono",
+    "Causal.CBG.halfLineEmb",
+    "Causal.CBG.halfLineEmb_strictMono",
+    "Causal.CBG.halfLineEmb_neg",
+    "Causal.CBG.halfLineEmb_isEMorphism",
+    "Causal.CBG.halfLineDev",
+    "Causal.CBG.not_exists_isUniversal_halfLineDev",
+    "Causal.CBG.kinkIso_halfLineEmb",
+    "Causal.CBG.arctanSelf",
+    "Causal.CBG.arctanSelf_strictMono",
+    "Causal.CBG.arctanSelf_continuous",
+    "Causal.CBG.arctanSelf_not_surjective",
+    "Causal.CBG.isCauchyEmbedding_arctanSelf",
+    "Causal.CBG.isMorphism_arctanSelf",
+    "Causal.CBG.not_isETTMaximal_halfLineDev",
+    "Causal.CBG.not_isRigidFor_causalPreGeometry",
+    "Causal.CBG.branchInc",
+    "Causal.CBG.BranchingLine",
+    "Causal.CBG.isOpenEmbedding_branchInc",
+    "Causal.CBG.branchingLine_mem_Cdist",
+    "Causal.CBG.branchingLine_not_t2Space",
+    "Causal.CBG.branchingLine_compatibleAlong",
+    "Causal.CBG.branchingCausality",
+    "Causal.CBG.isEMorphism_branching_ι₁",
+    "Causal.CBG.isEMorphism_branching_ι₂",
     "Causal.CBG.not_isRigidFor_branchingLine",
-    "Causal.CBG.LocalModel.localUnique_sing",
-    "Causal.CBG.LocalModel.localUnique_reg",
-    "Causal.CBG.LocalModel.regularChart",
-    "Causal.CBG.not_isRigidFor_causalPreGeometry"
-   ],
-   "hypotheses": [
-    {
-     "paper": "two E≥0-morphisms on a connected manifold agreeing on a non-empty open set agree",
-     "here": "strengthened",
-     "note": "target Hausdorff required (branching-line witness)"
-    }
-   ],
-   "sorries": [],
-   "findings": [],
-   "questions": []
-  }
- ],
- "extra_decls": [
-  "Causal.CBG.IsRigidFor",
-  "Causal.CBG.isRigid_iff_isRigidFor",
-  "Causal.CBG.PreGeometry",
-  "Causal.CBG.Geometry",
-  "Causal.CBG.Geometry.isMor_val",
-  "Causal.CBG.Geometry.IsMor.restrict",
-  "Causal.CBG.chartedCausality",
-  "Causal.CBG.chartedSing",
-  "Causal.CBG.LocalModel",
-  "Causal.CBG.LocalModel.regY",
-  "Causal.CBG.LocalModel.Str",
-  "Causal.CBG.LocalModel.causality",
-  "Causal.CBG.LocalModel.IsMor",
-  "Causal.CBG.LocalModel.sing",
-  "Causal.CBG.LocalModel.toPreGeometry",
-  "Causal.CBG.Dev",
-  "Causal.CBG.Dev.IsMorphism",
-  "Causal.CBG.Dev.IsUniversal",
-  "Causal.CBG.Dev.IsETTMaximal",
-  "Causal.CBG.Dev.self",
-  "Causal.CBG.Dev.IsMorphism.id",
-  "Causal.CBG.Dev.IsMorphism.comp",
-  "Causal.CBG.Dev.IsUniversal.unique",
-  "Causal.CBG.Dev.IsUniversal.isETTMaximal",
-  "Causal.CBG.Dev.IsETTMaximal.isUniversal",
-  "Causal.CBG.causalPreGeometry",
-  "Causal.CBG.isEMorphism_timelikeLine_of_strictMono",
-  "Causal.CBG.halfLineEmb",
-  "Causal.CBG.halfLineEmb_strictMono",
-  "Causal.CBG.halfLineEmb_neg",
-  "Causal.CBG.halfLineEmb_isEMorphism",
-  "Causal.CBG.halfLineDev",
-  "Causal.CBG.not_exists_isUniversal_halfLineDev",
-  "Causal.CBG.kinkIso_halfLineEmb",
-  "Causal.CBG.arctanSelf",
-  "Causal.CBG.arctanSelf_strictMono",
-  "Causal.CBG.arctanSelf_continuous",
-  "Causal.CBG.arctanSelf_not_surjective",
-  "Causal.CBG.isCauchyEmbedding_arctanSelf",
-  "Causal.CBG.isMorphism_arctanSelf",
-  "Causal.CBG.not_isETTMaximal_halfLineDev",
-  "Causal.CBG.not_isRigidFor_causalPreGeometry",
-  "Causal.CBG.branchInc",
-  "Causal.CBG.BranchingLine",
-  "Causal.CBG.isOpenEmbedding_branchInc",
-  "Causal.CBG.branchingLine_mem_Cdist",
-  "Causal.CBG.branchingLine_not_t2Space",
-  "Causal.CBG.branchingLine_compatibleAlong",
-  "Causal.CBG.branchingCausality",
-  "Causal.CBG.isEMorphism_branching_ι₁",
-  "Causal.CBG.isEMorphism_branching_ι₂",
-  "Causal.CBG.not_isRigidFor_branchingLine",
-  "Causal.CBG.not_isRigidFor_branchingCausality",
-  "Causal.Causality.BTZAxiomsCorr",
-  "Causal.Causality.SingularFlatAxiomsCorr",
-  "Causal.Causality.BTZAxioms.toCorr",
-  "Causal.Causality.SingularFlatAxioms.toCorr",
-  "Causal.Causality.timelikeLine_singularFlatAxiomsCorr",
-  "Causal.Causality.lightlikeLine_btzAxiomsCorr",
-  "Causal.Causality.SingularFlatAxiomsCorr.mem_sing_zero_of_le",
-  "Causal.Causality.SingularFlatAxiomsCorr.lt_of_lt_of_le_of_not_mem",
-  "Causal.Causality.SingularFlatAxiomsCorr.K_monotone",
-  "Causal.Causality.SingularFlatAxiomsCorr.K_densite_sing",
-  "Causal.Causality.SingularFlatAxiomsCorr.K_ordre"
- ],
- "gx_signatures": {
-  "note": "Level B is what gx instantiates (design §4): a term of Causal.CBG.LocalModel.{u}; structures on M are Σ' cs : ChartedSpace Y M, HasGroupoid M G; morphisms LiftPropOn G.IsLocalStructomorphWithinAt f W; causality chartedCausality causalityY M (the generated causality of the chart transports); sing_α through chartAt. regY y := ∀ α ≥ 0, y ∉ singY α. Package 11 (CBG/FromModel) builds Geometry.ofLocalModel : LocalModel → Geometry. Flat instance: Y = Minkowski d, singY = ∅, G = local isometries; regularChart by refl, localUnique_sing vacuous, localUnique_reg = Liouville. Geometry/LocalModel are not inhabited in this file (packages 11, 12).",
-  "LocalModel_fields": [
-   "Y : Type u",
-   "[topY : TopologicalSpace Y]",
-   "G : StructureGroupoid Y",
-   "[closedUnderRestriction : ClosedUnderRestriction G]",
-   "causalityY : Causality Y",
-   "singY : ℝ → Set Y",
-   "[locallyConnected : LocallyConnectedSpace Y]",
-   "rigid : ∀ e ∈ G, ∀ e' ∈ G, ∀ U : Set Y, IsOpen U → IsPreconnected U → U ⊆ e.source → U ⊆ e'.source → ∀ O ⊆ U, IsOpen O → O.Nonempty → EqOn e e' O → EqOn e e' U",
-   "localUnique_sing : ∀ U : Set Y, IsOpen U → IsConnected U → ∀ y₀ ∈ U, ∀ α₀ : ℝ, 0 ≤ α₀ → y₀ ∈ singY α₀ → ∀ f : Y → Y, (∀ y ∈ U ∩ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α}, G.IsLocalStructomorphWithinAt f (U ∩ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α}) y) → InjOn f (U ∩ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α}) → MapsTo f (U ∩ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α}) (connectedComponent y₀) → ∃ e ∈ G, connectedComponent y₀ ⊆ e.source ∧ EqOn f e (U ∩ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α})",
-   "localUnique_reg : ∀ U : Set Y, IsOpen U → IsConnected U → (∀ y ∈ U, ∀ z ∈ connectedComponent y, ∀ α : ℝ, 0 ≤ α → z ∉ singY α) → ∀ f : Y → Y, (∀ y ∈ U, G.IsLocalStructomorphWithinAt f U y) → InjOn f U → MapsTo f U {z | ∀ w ∈ connectedComponent z, ∀ α : ℝ, 0 ≤ α → w ∉ singY α} → ∃ e ∈ G, (∀ y ∈ U, connectedComponent y ⊆ e.source) ∧ EqOn f e U",
-   "regularChart : ∀ y : Y, (∀ α : ℝ, 0 ≤ α → y ∉ singY α) → ∃ e ∈ G, y ∈ e.source ∧ ∀ z ∈ connectedComponent (e y), ∀ α : ℝ, 0 ≤ α → z ∉ singY α",
-   "absolutelyMinimalOn_Y : ∀ W : Opens Y, causalityY.AbsolutelyMinimalOn W",
-   "chartIso_mem : ∀ e ∈ G, ChartIso causalityY causalityY e",
-   "sing_mem : ∀ e ∈ G, ∀ y ∈ e.source, ∀ α : ℝ, 0 ≤ α → (y ∈ singY α ↔ e y ∈ singY α)",
-   "singularFlatAxioms : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [ChartedSpace Y M] [HasGroupoid M G], (chartedCausality causalityY M).SingularFlatAxiomsCorr (chartedSing singY M)",
-   "curvesExtend : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [ChartedSpace Y M] [HasGroupoid M G], (chartedCausality causalityY M).GloballyHyperbolic → (chartedCausality causalityY M).CurvesExtend",
-   "isCompact_Jplus_inter_Jminus : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [ChartedSpace Y M] [HasGroupoid M G], (chartedCausality causalityY M).GloballyHyperbolic → ∀ S : Set M, (chartedCausality causalityY M).IsCauchySurface S → ∀ p : M, IsCompact ((chartedCausality causalityY M).Jplus ⊤ S ∩ (chartedCausality causalityY M).Jminus ⊤ {p})",
-   "isCompact_Jminus_inter_Jplus : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [ChartedSpace Y M] [HasGroupoid M G], (chartedCausality causalityY M).GloballyHyperbolic → ∀ S : Set M, (chartedCausality causalityY M).IsCauchySurface S → ∀ p : M, IsCompact ((chartedCausality causalityY M).Jminus ⊤ S ∩ (chartedCausality causalityY M).Jplus ⊤ {p})",
-   "slice_future : ∀ y : Y, ∀ O ∈ 𝓝 y, ∃ (W : Opens Y) (τ : Y → ℝ), y ∈ W ∧ (W : Set Y) ⊆ O ∧ ContinuousOn τ W ∧ (∀ x ∈ W, ∀ x' ∈ W, causalityY.le W x x' → x ≠ x' → τ x' < τ x) ∧ ∀ c ∈ τ '' W, ∃ N : Opens Y, τ ⁻¹' {c} ∩ W ⊆ N ∧ N ≤ W ∧ causalityY.GloballyHyperbolicOn N ∧ causalityY.IsCauchySurfaceOn N (τ ⁻¹' {c} ∩ W)",
-   "slice_past : ∀ y : Y, ∀ O ∈ 𝓝 y, ∃ (W : Opens Y) (τ : Y → ℝ), y ∈ W ∧ (W : Set Y) ⊆ O ∧ ContinuousOn τ W ∧ (∀ x ∈ W, ∀ x' ∈ W, causalityY.le W x x' → x ≠ x' → τ x < τ x') ∧ ∀ c ∈ τ '' W, ∃ N : Opens Y, τ ⁻¹' {c} ∩ W ⊆ N ∧ N ≤ W ∧ causalityY.GloballyHyperbolicOn N ∧ causalityY.IsCauchySurfaceOn N (τ ⁻¹' {c} ∩ W)",
-   "secondCountable_of_cauchy : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [ChartedSpace Y M] [HasGroupoid M G], (chartedCausality causalityY M).GloballyHyperbolic → ∀ S : Set M, (chartedCausality causalityY M).IsCauchySurface S → SecondCountableTopology S → SecondCountableTopology M",
-   "timeFunction : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [ChartedSpace Y M] [HasGroupoid M G], (chartedCausality causalityY M).GloballyHyperbolic → ∃ T : M → ℝ, Continuous T ∧ ∀ x y, (chartedCausality causalityY M).le ⊤ x y → x ≠ y → T x < T y",
-   "localUnique_sing_adherent : ∀ U : Set Y, IsOpen U → IsConnected U → U ⊆ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α} → ∀ y₀ : Y, ∀ α₀ : ℝ, 0 ≤ α₀ → y₀ ∈ singY α₀ → (∃ O : Opens Y, y₀ ∈ O ∧ ∃ r ∈ O, causalityY.le O y₀ r ∧ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α} ∩ causalityY.Iminus O {r} ⊆ U) → ∀ z₀ ∈ singY α₀, ∀ f : Y → Y, (∀ y ∈ U, G.IsLocalStructomorphWithinAt f U y) → InjOn f U → MapsTo f U (connectedComponent y₀) → MapClusterPt z₀ (𝓝[U] y₀) f → ∃ e ∈ G, connectedComponent y₀ ⊆ e.source ∧ EqOn f e U"
+    "Causal.CBG.not_isRigidFor_branchingCausality",
+    "Causal.Causality.BTZAxiomsCorr",
+    "Causal.Causality.SingularFlatAxiomsCorr",
+    "Causal.Causality.BTZAxioms.toCorr",
+    "Causal.Causality.SingularFlatAxioms.toCorr",
+    "Causal.Causality.timelikeLine_singularFlatAxiomsCorr",
+    "Causal.Causality.lightlikeLine_btzAxiomsCorr",
+    "Causal.Causality.SingularFlatAxiomsCorr.mem_sing_zero_of_le",
+    "Causal.Causality.SingularFlatAxiomsCorr.lt_of_lt_of_le_of_not_mem",
+    "Causal.Causality.SingularFlatAxiomsCorr.K_monotone",
+    "Causal.Causality.SingularFlatAxiomsCorr.K_densite_sing",
+    "Causal.Causality.SingularFlatAxiomsCorr.K_ordre"
   ],
-  "Level_B_defs": [
-   "noncomputable def chartedCausality (D : Causality Y) (M : Type u) [TopologicalSpace M] [ChartedSpace Y M] : Causality M := Causality.generated (fun x : M => chartSource (chartAt Y x)) (fun x => ⟨x, mem_chart_source Y x⟩) (fun x => D.chartTransport (chartAt Y x))",
-   "def chartedSing (singY : ℝ → Set Y) (M : Type u) [TopologicalSpace M] [ChartedSpace Y M] (α : ℝ) : Set M := {x | chartAt Y x x ∈ singY α}",
-   "def LocalModel.Str (M : Type u) [TopologicalSpace M] : Type u := Σ' cs : ChartedSpace 𝔐.Y M, @HasGroupoid 𝔐.Y _ M _ cs 𝔐.G",
-   "def LocalModel.IsMor (s : 𝔐.Str M) (t : 𝔐.Str N) (W : Opens M) (f : M → N) : Prop := letI := s.1; letI := t.1; ChartedSpace.LiftPropOn 𝔐.G.IsLocalStructomorphWithinAt f W"
-  ],
-  "PreGeometry_fields": [
-   "Str : ∀ (M : Type u) [TopologicalSpace M], Type u",
-   "causality : ∀ {M : Type u} [TopologicalSpace M], Str M → Causality M",
-   "IsMor : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N], Str M → Str N → Opens M → (M → N) → Prop"
-  ],
-  "Geometry_fields": [
-   "isMor_mono : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] {s : Str M} {t : Str N} {W W' : Opens M} {f : M → N}, IsMor s t W f → W' ≤ W → IsMor s t W' f",
-   "isMor_of_locally : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] {s : Str M} {t : Str N} {W : Opens M} {f : M → N}, (∀ x ∈ W, ∃ V : Opens M, V ≤ W ∧ x ∈ V ∧ IsMor s t V f) → IsMor s t W f",
-   "isMor_id : ∀ {M : Type u} [TopologicalSpace M] (s : Str M) (W : Opens M), IsMor s s W id",
-   "isMor_comp : ∀ {M N P : Type u} [TopologicalSpace M] [TopologicalSpace N] [TopologicalSpace P] {s : Str M} {t : Str N} {r : Str P} {W : Opens M} {V : Opens N} {f : M → N} {g : N → P}, IsMor t r V g → IsMor s t W f → MapsTo f W V → IsMor s r W (g ∘ f)",
-   "isMor_congr : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] {s : Str M} {t : Str N} {W : Opens M} {f g : M → N}, IsMor s t W f → EqOn f g W → IsMor s t W g",
-   "isEMorphismOn_of_isMor : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] {s : Str M} {t : Str N} {W : Opens M} {f : M → N}, IsMor s t W f → IsEMorphismOn (causality s) (causality t) W f",
-   "absolutelyMinimalOn : ∀ {M : Type u} [TopologicalSpace M] (s : Str M) (W : Opens M), (causality s).AbsolutelyMinimalOn W",
-   "isMor_inv : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] [Nonempty M] {s : Str M} {t : Str N} {W : Opens M} {f : M → N} (h : IsMor s t W f), InjOn f W → IsMor t s ((isEMorphismOn_of_isMor h).imageOpens W le_rfl) (invFunOn f W)",
-   "restrict : ∀ {M : Type u} [TopologicalSpace M], Str M → (W : Opens M) → Str W",
-   "isMor_corestrict_iff : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] (s : Str M) (W : Opens M) (t : Str N) (V : Opens N) (g : N → W), IsMor t (restrict s W) V g ↔ IsMor t s V (Subtype.val ∘ g)",
-   "transport : ∀ {M M' : Type u} [TopologicalSpace M] [TopologicalSpace M'], (M ≃ₜ M') → Str M → Str M'",
-   "isMor_transport : ∀ {M M' : Type u} [TopologicalSpace M] [TopologicalSpace M'] (e : M ≃ₜ M') (s : Str M), IsMor s (transport e s) ⊤ e",
-   "glue : ∀ {Z : Type u} [TopologicalSpace Z] {ι : Type u} (M : ι → Type u) [∀ i, TopologicalSpace (M i)] (s : ∀ i, Str (M i)) (e : ∀ i, M i → Z) (he : ∀ i, IsOpenEmbedding (e i)), (∀ z, ∃ i, z ∈ range (e i)) → (∀ i j, ∃ φ : M i → M j, IsMor (s i) (s j) ⟨e i ⁻¹' range (e j), (he j).isOpen_range.preimage (he i).continuous⟩ φ ∧ ∀ x, e i x ∈ range (e j) → e j (φ x) = e i x) → ∃ t : Str Z, ∀ i, IsMor (s i) t ⊤ (e i)",
-   "rigid : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] [T2Space N] (s : Str M) (t : Str N), IsRigidFor (IsMor s t)",
-   "sing : ∀ {M : Type u} [TopologicalSpace M], Str M → ℝ → Set M",
-   "isMor_sing : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] {s : Str M} {t : Str N} {W : Opens M} {f : M → N}, IsMor s t W f → ∀ {x : M}, x ∈ W → ∀ {α : ℝ}, 0 ≤ α → (x ∈ sing s α ↔ f x ∈ sing t α)",
-   "singularFlatAxioms : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] (s : Str M), (causality s).SingularFlatAxiomsCorr (sing s)",
-   "curvesExtend : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] (s : Str M), (causality s).GloballyHyperbolic → (causality s).CurvesExtend",
-   "isCompact_Jplus_inter_Jminus : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] (s : Str M), (causality s).GloballyHyperbolic → ∀ S : Set M, (causality s).IsCauchySurface S → ∀ p : M, IsCompact ((causality s).Jplus ⊤ S ∩ (causality s).Jminus ⊤ {p})",
-   "isCompact_Jminus_inter_Jplus : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] (s : Str M), (causality s).GloballyHyperbolic → ∀ S : Set M, (causality s).IsCauchySurface S → ∀ p : M, IsCompact ((causality s).Jminus ⊤ S ∩ (causality s).Jplus ⊤ {p})",
-   "secondCountable_of_cauchy : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] (s : Str M), (causality s).GloballyHyperbolic → ∀ S : Set M, (causality s).IsCauchySurface S → SecondCountableTopology S → SecondCountableTopology M",
-   "germExt_future : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] [T2Space M] [ConnectedSpace M] [T2Space N] [ConnectedSpace N] (s : Str M) (t : Str N) (U : Opens M) (ψ : M → N) (S : Set M) (h : IsMor s t U ψ), InjOn ψ U → (causality s).GloballyHyperbolic → (causality t).GloballyHyperbolic → (causality s).GloballyHyperbolicOn U → (causality t).GloballyHyperbolicOn ((isEMorphismOn_of_isMor h).imageOpens U le_rfl) → S ⊆ U → (causality s).IsCauchySurface S → (causality s).IsCauchySurfaceOn U S → (causality t).IsCauchySurface (ψ '' S) → (causality t).IsCauchySurfaceOn ((isEMorphismOn_of_isMor h).imageOpens U le_rfl) (ψ '' S) → ∀ p : M, ∀ q : N, p ∈ frontier (U : Set M) → p ∈ (causality s).Jplus ⊤ S → MapClusterPt q (𝓝[(U : Set M)] p) ψ → ∃ (O : Opens M) (φ : M → N), p ∈ O ∧ IsMor s t O φ ∧ φ p = q ∧ EqOn φ ψ (O ⊓ U : Opens M)",
-   "germExt_past : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] [T2Space M] [ConnectedSpace M] [T2Space N] [ConnectedSpace N] (s : Str M) (t : Str N) (U : Opens M) (ψ : M → N) (S : Set M) (h : IsMor s t U ψ), InjOn ψ U → (causality s).GloballyHyperbolic → (causality t).GloballyHyperbolic → (causality s).GloballyHyperbolicOn U → (causality t).GloballyHyperbolicOn ((isEMorphismOn_of_isMor h).imageOpens U le_rfl) → S ⊆ U → (causality s).IsCauchySurface S → (causality s).IsCauchySurfaceOn U S → (causality t).IsCauchySurface (ψ '' S) → (causality t).IsCauchySurfaceOn ((isEMorphismOn_of_isMor h).imageOpens U le_rfl) (ψ '' S) → ∀ p : M, ∀ q : N, p ∈ frontier (U : Set M) → p ∈ (causality s).Jminus ⊤ S → MapClusterPt q (𝓝[(U : Set M)] p) ψ → ∃ (O : Opens M) (φ : M → N), p ∈ O ∧ IsMor s t O φ ∧ φ p = q ∧ EqOn φ ψ (O ⊓ U : Opens M)",
-   "slice_future : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] (s : Str M) (U : Opens M) (S : Set M), (causality s).GloballyHyperbolic → (causality s).GloballyHyperbolicOn U → S ⊆ U → (causality s).IsCauchySurface S → (causality s).IsCauchySurfaceOn U S → ∀ p : M, p ∈ frontier (U : Set M) → p ∈ (causality s).Jplus ⊤ S → (causality s).Jminus ⊤ {p} ∩ frontier (U : Set M) ∩ (causality s).Jplus ⊤ S = {p} → ∀ O : Opens M, p ∈ O → ∃ U' : Opens M, U < U' ∧ (U' : Set M) ⊆ U ∪ O ∧ (causality s).GloballyHyperbolicOn U' ∧ (causality s).IsCauchySurfaceOn U' S",
-   "slice_past : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] (s : Str M) (U : Opens M) (S : Set M), (causality s).GloballyHyperbolic → (causality s).GloballyHyperbolicOn U → S ⊆ U → (causality s).IsCauchySurface S → (causality s).IsCauchySurfaceOn U S → ∀ p : M, p ∈ frontier (U : Set M) → p ∈ (causality s).Jminus ⊤ S → (causality s).Jplus ⊤ {p} ∩ frontier (U : Set M) ∩ (causality s).Jminus ⊤ S = {p} → ∀ O : Opens M, p ∈ O → ∃ U' : Opens M, U < U' ∧ (U' : Set M) ⊆ U ∪ O ∧ (causality s).GloballyHyperbolicOn U' ∧ (causality s).IsCauchySurfaceOn U' S",
-   "timeFunction : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] (s : Str M), (causality s).GloballyHyperbolic → ∃ T : M → ℝ, Continuous T ∧ ∀ x y, (causality s).le ⊤ x y → x ≠ y → T x < T y"
-  ],
-  "localUnique_obligation": "gx obligation for 𝕄 ⊕ Σ_α 𝔼_α: localUnique_sing is the thesis's analyticity of each 𝔼_α (def:analytique, these.tex:3335–3340; prop:isom, these.tex:4332, injectivity these.tex:4426) for maps into the SAME model; localUnique_reg is Liouville on 𝕄 for maps 𝕄 ⊇ U → 𝕄. Maps between different models are excluded by the MapsTo hypotheses (famille analytique (b), def:incompatibles, these.tex:3328–3332, 3346–3353, at the instance). A3 at a regular boundary point: regularChart on both the M and N sides, then localUnique_reg",
-  "Dev_fields": [
-   "carrier : Type u",
-   "[top : TopologicalSpace carrier]",
-   "[t2 : T2Space carrier]",
-   "[conn : ConnectedSpace carrier]",
-   "[sc : SecondCountableTopology carrier]",
-   "str : 𝔊.Str carrier",
-   "emb : M₀ → carrier",
-   "isCauchyEmbedding : IsCauchyEmbedding (𝔊.causality s₀) (𝔊.causality str) emb",
-   "isMor : 𝔊.IsMor s₀ str ⊤ emb"
-  ],
-  "corrected_bundle": {
-   "BTZAxiomsCorr_fields": [
-    "singularPastAt : ∀ p ∈ S₀, C.SingularPastAt p",
-    "Iminus_eq_empty : ∀ p ∈ S₀, C.Iminus ⊤ {p} = ∅",
-    "Iplus_of_lt : ∀ p ∈ S₀, ∀ p' ∈ S₀, C.le ⊤ p p' → p ≠ p' → C.Jplus ⊤ {p'} \\ S₀ ⊆ C.Iplus ⊤ {p}",
-    "past_local : ∀ p ∈ S₀, ∃ U : Opens M, p ∈ U ∧ ∀ q, C.le U q p → q ∈ S₀",
-    "line : ∀ p ∈ S₀, ∃ γ : ℝ → M, γ 0 = p ∧ (C.IsCausal → IsClosedEmbedding γ) ∧ C.Inextensible ⊤ univ γ ∧ range γ = connectedComponentIn S₀ p"
-   ],
-   "SingularFlatAxiomsCorr": "structure Causal.Causality.SingularFlatAxiomsCorr (C : Causality M) (sing : ℝ → Set M) : Prop extends BTZAxiomsCorr C (sing 0) — fields pushUp, absolutelyMinimal, causallyArcConnected, tarentin, mem_Zplus, mem_Zminus_iff, t2, secondCountable, metrizable, locallyCompact, noIsolated, isClosed_sing, interior_sing, massive_line, verbatim from Causality.SingularFlatAxioms",
-   "bridge": [
-    "theorem BTZAxioms.toCorr {S₀ : Set M} (h : C.BTZAxioms S₀) : C.BTZAxiomsCorr S₀",
-    "theorem SingularFlatAxioms.toCorr {sing : ℝ → Set M} (h : C.SingularFlatAxioms sing) : C.SingularFlatAxiomsCorr sing"
-   ],
-   "re-proved": [
-    "theorem K_monotone (h : C.SingularFlatAxiomsCorr sing) (hc : C.IsCausal) (hqp : C.le ⊤ q p) : C.Kminus ⊤ {q} ⊆ C.Kminus ⊤ {p} ∧ C.Kplus ⊤ {p} ⊆ C.Kplus ⊤ {q}",
-    "theorem K_densite_sing (h : C.SingularFlatAxiomsCorr sing) (x : M) : C.Jplus ⊤ {x} ⊆ closure (C.Kplus ⊤ {x}) ∧ C.Jminus ⊤ {x} ⊆ closure (C.Kminus ⊤ {x})",
-    "theorem K_ordre (h : C.SingularFlatAxiomsCorr sing) (hG : C.GloballyHyperbolic) : (∀ x y, C.le ⊤ x y ↔ C.Kminus ⊤ {x} ⊆ C.Kminus ⊤ {y}) ∧ (∀ x y, C.le ⊤ x y ↔ C.Kplus ⊤ {y} ⊆ C.Kplus ⊤ {x}) ∧ Function.Injective (fun x => C.Kminus ⊤ {x}) ∧ Function.Injective (fun x => C.Kplus ⊤ {x})",
-    "theorem lt_of_lt_of_le_of_not_mem (h : C.SingularFlatAxiomsCorr sing) {x' : M} (hx : x ∈ sing 0) (hx' : x' ∈ sing 0) (hxx' : C.le ⊤ x x') (hne : x ≠ x') (hy : y ∉ sing 0) (hx'y : C.le ⊤ x' y) : C.lt ⊤ x y",
-    "theorem mem_sing_zero_of_le (h : C.SingularFlatAxiomsCorr sing) (hp : p ∈ sing 0) (hqp : C.le ⊤ q p) : q ∈ sing 0"
-   ]
+  "gx_signatures": {
+    "note": "Level B is what gx instantiates (design §4): a term of Causal.CBG.LocalModel.{u}; structures on M are Σ' cs : ChartedSpace Y M, HasGroupoid M G; morphisms LiftPropOn G.IsLocalStructomorphWithinAt f W; causality chartedCausality causalityY M (the generated causality of the chart transports); sing_α through chartAt. regY y := ∀ α ≥ 0, y ∉ singY α. Package 11 (CBG/FromModel) builds Geometry.ofLocalModel : LocalModel → Geometry. Flat instance: Y = Minkowski d, singY = ∅, G = local isometries; regularChart by refl, localUnique_sing vacuous, localUnique_reg = Liouville. Geometry/LocalModel are not inhabited in this file (packages 11, 12).",
+    "LocalModel_fields": [
+      "Y : Type u",
+      "[topY : TopologicalSpace Y]",
+      "G : StructureGroupoid Y",
+      "[closedUnderRestriction : ClosedUnderRestriction G]",
+      "causalityY : Causality Y",
+      "singY : ℝ → Set Y",
+      "[locallyConnected : LocallyConnectedSpace Y]",
+      "rigid : ∀ e ∈ G, ∀ e' ∈ G, ∀ U : Set Y, IsOpen U → IsPreconnected U → U ⊆ e.source → U ⊆ e'.source → ∀ O ⊆ U, IsOpen O → O.Nonempty → EqOn e e' O → EqOn e e' U",
+      "localUnique_sing : ∀ U : Set Y, IsOpen U → IsConnected U → ∀ y₀ ∈ U, ∀ α₀ : ℝ, 0 ≤ α₀ → y₀ ∈ singY α₀ → ∀ f : Y → Y, (∀ y ∈ U ∩ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α}, G.IsLocalStructomorphWithinAt f (U ∩ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α}) y) → InjOn f (U ∩ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α}) → MapsTo f (U ∩ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α}) (connectedComponent y₀) → ∃ e ∈ G, connectedComponent y₀ ⊆ e.source ∧ EqOn f e (U ∩ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α})",
+      "localUnique_reg : ∀ U : Set Y, IsOpen U → IsConnected U → (∀ y ∈ U, ∀ z ∈ connectedComponent y, ∀ α : ℝ, 0 ≤ α → z ∉ singY α) → ∀ f : Y → Y, (∀ y ∈ U, G.IsLocalStructomorphWithinAt f U y) → InjOn f U → MapsTo f U {z | ∀ w ∈ connectedComponent z, ∀ α : ℝ, 0 ≤ α → w ∉ singY α} → ∃ e ∈ G, (∀ y ∈ U, connectedComponent y ⊆ e.source) ∧ EqOn f e U",
+      "regularChart : ∀ y : Y, (∀ α : ℝ, 0 ≤ α → y ∉ singY α) → ∃ e ∈ G, y ∈ e.source ∧ ∀ z ∈ connectedComponent (e y), ∀ α : ℝ, 0 ≤ α → z ∉ singY α",
+      "absolutelyMinimalOn_Y : ∀ W : Opens Y, causalityY.AbsolutelyMinimalOn W",
+      "chartIso_mem : ∀ e ∈ G, ChartIso causalityY causalityY e",
+      "sing_mem : ∀ e ∈ G, ∀ y ∈ e.source, ∀ α : ℝ, 0 ≤ α → (y ∈ singY α ↔ e y ∈ singY α)",
+      "singularFlatAxioms : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [ChartedSpace Y M] [HasGroupoid M G], (chartedCausality causalityY M).SingularFlatAxiomsCorr (chartedSing singY M)",
+      "curvesExtend : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [ChartedSpace Y M] [HasGroupoid M G], (chartedCausality causalityY M).GloballyHyperbolic → (chartedCausality causalityY M).CurvesExtend",
+      "isCompact_Jplus_inter_Jminus : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [ChartedSpace Y M] [HasGroupoid M G], (chartedCausality causalityY M).GloballyHyperbolic → ∀ S : Set M, (chartedCausality causalityY M).IsCauchySurface S → ∀ p : M, IsCompact ((chartedCausality causalityY M).Jplus ⊤ S ∩ (chartedCausality causalityY M).Jminus ⊤ {p})",
+      "isCompact_Jminus_inter_Jplus : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [ChartedSpace Y M] [HasGroupoid M G], (chartedCausality causalityY M).GloballyHyperbolic → ∀ S : Set M, (chartedCausality causalityY M).IsCauchySurface S → ∀ p : M, IsCompact ((chartedCausality causalityY M).Jminus ⊤ S ∩ (chartedCausality causalityY M).Jplus ⊤ {p})",
+      "slice_future : ∀ y : Y, ∀ O ∈ 𝓝 y, ∃ (W : Opens Y) (τ : Y → ℝ), y ∈ W ∧ (W : Set Y) ⊆ O ∧ ContinuousOn τ W ∧ (∀ x ∈ W, ∀ x' ∈ W, causalityY.le W x x' → x ≠ x' → τ x' < τ x) ∧ ∀ c ∈ τ '' W, ∃ N : Opens Y, τ ⁻¹' {c} ∩ W ⊆ N ∧ N ≤ W ∧ causalityY.GloballyHyperbolicOn N ∧ causalityY.IsCauchySurfaceOn N (τ ⁻¹' {c} ∩ W)",
+      "slice_past : ∀ y : Y, ∀ O ∈ 𝓝 y, ∃ (W : Opens Y) (τ : Y → ℝ), y ∈ W ∧ (W : Set Y) ⊆ O ∧ ContinuousOn τ W ∧ (∀ x ∈ W, ∀ x' ∈ W, causalityY.le W x x' → x ≠ x' → τ x < τ x') ∧ ∀ c ∈ τ '' W, ∃ N : Opens Y, τ ⁻¹' {c} ∩ W ⊆ N ∧ N ≤ W ∧ causalityY.GloballyHyperbolicOn N ∧ causalityY.IsCauchySurfaceOn N (τ ⁻¹' {c} ∩ W)",
+      "secondCountable_of_cauchy : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [ChartedSpace Y M] [HasGroupoid M G], (chartedCausality causalityY M).GloballyHyperbolic → ∀ S : Set M, (chartedCausality causalityY M).IsCauchySurface S → SecondCountableTopology S → SecondCountableTopology M",
+      "timeFunction : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [ChartedSpace Y M] [HasGroupoid M G], (chartedCausality causalityY M).GloballyHyperbolic → ∃ T : M → ℝ, Continuous T ∧ ∀ x y, (chartedCausality causalityY M).le ⊤ x y → x ≠ y → T x < T y",
+      "localUnique_sing_adherent : ∀ U : Set Y, IsOpen U → IsConnected U → U ⊆ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α} → ∀ y₀ : Y, ∀ α₀ : ℝ, 0 ≤ α₀ → y₀ ∈ singY α₀ → (∃ O : Opens Y, y₀ ∈ O ∧ ∃ r ∈ O, causalityY.le O y₀ r ∧ {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α} ∩ causalityY.Iminus O {r} ⊆ U) → ∀ z₀ ∈ singY α₀, ∀ f : Y → Y, (∀ y ∈ U, G.IsLocalStructomorphWithinAt f U y) → InjOn f U → MapsTo f U (connectedComponent y₀) → MapClusterPt z₀ (𝓝[U] y₀) f → ∃ e ∈ G, connectedComponent y₀ ⊆ e.source ∧ EqOn f e U"
+    ],
+    "Level_B_defs": [
+      "noncomputable def chartedCausality (D : Causality Y) (M : Type u) [TopologicalSpace M] [ChartedSpace Y M] : Causality M := Causality.generated (fun x : M => chartSource (chartAt Y x)) (fun x => ⟨x, mem_chart_source Y x⟩) (fun x => D.chartTransport (chartAt Y x))",
+      "def chartedSing (singY : ℝ → Set Y) (M : Type u) [TopologicalSpace M] [ChartedSpace Y M] (α : ℝ) : Set M := {x | chartAt Y x x ∈ singY α}",
+      "def LocalModel.Str (M : Type u) [TopologicalSpace M] : Type u := Σ' cs : ChartedSpace 𝔐.Y M, @HasGroupoid 𝔐.Y _ M _ cs 𝔐.G",
+      "def LocalModel.IsMor (s : 𝔐.Str M) (t : 𝔐.Str N) (W : Opens M) (f : M → N) : Prop := letI := s.1; letI := t.1; ChartedSpace.LiftPropOn 𝔐.G.IsLocalStructomorphWithinAt f W"
+    ],
+    "PreGeometry_fields": [
+      "Str : ∀ (M : Type u) [TopologicalSpace M], Type u",
+      "causality : ∀ {M : Type u} [TopologicalSpace M], Str M → Causality M",
+      "IsMor : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N], Str M → Str N → Opens M → (M → N) → Prop"
+    ],
+    "Geometry_fields": [
+      "isMor_mono : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] {s : Str M} {t : Str N} {W W' : Opens M} {f : M → N}, IsMor s t W f → W' ≤ W → IsMor s t W' f",
+      "isMor_of_locally : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] {s : Str M} {t : Str N} {W : Opens M} {f : M → N}, (∀ x ∈ W, ∃ V : Opens M, V ≤ W ∧ x ∈ V ∧ IsMor s t V f) → IsMor s t W f",
+      "isMor_id : ∀ {M : Type u} [TopologicalSpace M] (s : Str M) (W : Opens M), IsMor s s W id",
+      "isMor_comp : ∀ {M N P : Type u} [TopologicalSpace M] [TopologicalSpace N] [TopologicalSpace P] {s : Str M} {t : Str N} {r : Str P} {W : Opens M} {V : Opens N} {f : M → N} {g : N → P}, IsMor t r V g → IsMor s t W f → MapsTo f W V → IsMor s r W (g ∘ f)",
+      "isMor_congr : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] {s : Str M} {t : Str N} {W : Opens M} {f g : M → N}, IsMor s t W f → EqOn f g W → IsMor s t W g",
+      "isEMorphismOn_of_isMor : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] {s : Str M} {t : Str N} {W : Opens M} {f : M → N}, IsMor s t W f → IsEMorphismOn (causality s) (causality t) W f",
+      "absolutelyMinimalOn : ∀ {M : Type u} [TopologicalSpace M] (s : Str M) (W : Opens M), (causality s).AbsolutelyMinimalOn W",
+      "isMor_inv : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] [Nonempty M] {s : Str M} {t : Str N} {W : Opens M} {f : M → N} (h : IsMor s t W f), InjOn f W → IsMor t s ((isEMorphismOn_of_isMor h).imageOpens W le_rfl) (invFunOn f W)",
+      "restrict : ∀ {M : Type u} [TopologicalSpace M], Str M → (W : Opens M) → Str W",
+      "isMor_corestrict_iff : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] (s : Str M) (W : Opens M) (t : Str N) (V : Opens N) (g : N → W), IsMor t (restrict s W) V g ↔ IsMor t s V (Subtype.val ∘ g)",
+      "transport : ∀ {M M' : Type u} [TopologicalSpace M] [TopologicalSpace M'], (M ≃ₜ M') → Str M → Str M'",
+      "isMor_transport : ∀ {M M' : Type u} [TopologicalSpace M] [TopologicalSpace M'] (e : M ≃ₜ M') (s : Str M), IsMor s (transport e s) ⊤ e",
+      "glue : ∀ {Z : Type u} [TopologicalSpace Z] {ι : Type u} (M : ι → Type u) [∀ i, TopologicalSpace (M i)] (s : ∀ i, Str (M i)) (e : ∀ i, M i → Z) (he : ∀ i, IsOpenEmbedding (e i)), (∀ z, ∃ i, z ∈ range (e i)) → (∀ i j, ∃ φ : M i → M j, IsMor (s i) (s j) ⟨e i ⁻¹' range (e j), (he j).isOpen_range.preimage (he i).continuous⟩ φ ∧ ∀ x, e i x ∈ range (e j) → e j (φ x) = e i x) → ∃ t : Str Z, ∀ i, IsMor (s i) t ⊤ (e i)",
+      "rigid : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] [T2Space N] (s : Str M) (t : Str N), IsRigidFor (IsMor s t)",
+      "sing : ∀ {M : Type u} [TopologicalSpace M], Str M → ℝ → Set M",
+      "isMor_sing : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] {s : Str M} {t : Str N} {W : Opens M} {f : M → N}, IsMor s t W f → ∀ {x : M}, x ∈ W → ∀ {α : ℝ}, 0 ≤ α → (x ∈ sing s α ↔ f x ∈ sing t α)",
+      "singularFlatAxioms : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] (s : Str M), (causality s).SingularFlatAxiomsCorr (sing s)",
+      "curvesExtend : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] (s : Str M), (causality s).GloballyHyperbolic → (causality s).CurvesExtend",
+      "isCompact_Jplus_inter_Jminus : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] (s : Str M), (causality s).GloballyHyperbolic → ∀ S : Set M, (causality s).IsCauchySurface S → ∀ p : M, IsCompact ((causality s).Jplus ⊤ S ∩ (causality s).Jminus ⊤ {p})",
+      "isCompact_Jminus_inter_Jplus : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] (s : Str M), (causality s).GloballyHyperbolic → ∀ S : Set M, (causality s).IsCauchySurface S → ∀ p : M, IsCompact ((causality s).Jminus ⊤ S ∩ (causality s).Jplus ⊤ {p})",
+      "secondCountable_of_cauchy : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] (s : Str M), (causality s).GloballyHyperbolic → ∀ S : Set M, (causality s).IsCauchySurface S → SecondCountableTopology S → SecondCountableTopology M",
+      "germExt_future : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] [T2Space M] [ConnectedSpace M] [T2Space N] [ConnectedSpace N] (s : Str M) (t : Str N) (U : Opens M) (ψ : M → N) (S : Set M) (h : IsMor s t U ψ), InjOn ψ U → (causality s).GloballyHyperbolic → (causality t).GloballyHyperbolic → (causality s).GloballyHyperbolicOn U → (causality t).GloballyHyperbolicOn ((isEMorphismOn_of_isMor h).imageOpens U le_rfl) → S ⊆ U → (causality s).IsCauchySurface S → (causality s).IsCauchySurfaceOn U S → (causality t).IsCauchySurface (ψ '' S) → (causality t).IsCauchySurfaceOn ((isEMorphismOn_of_isMor h).imageOpens U le_rfl) (ψ '' S) → ∀ p : M, ∀ q : N, p ∈ frontier (U : Set M) → p ∈ (causality s).Jplus ⊤ S → MapClusterPt q (𝓝[(U : Set M)] p) ψ → ∃ (O : Opens M) (φ : M → N), p ∈ O ∧ IsMor s t O φ ∧ φ p = q ∧ EqOn φ ψ (O ⊓ U : Opens M)",
+      "germExt_past : ∀ {M N : Type u} [TopologicalSpace M] [TopologicalSpace N] [T2Space M] [ConnectedSpace M] [T2Space N] [ConnectedSpace N] (s : Str M) (t : Str N) (U : Opens M) (ψ : M → N) (S : Set M) (h : IsMor s t U ψ), InjOn ψ U → (causality s).GloballyHyperbolic → (causality t).GloballyHyperbolic → (causality s).GloballyHyperbolicOn U → (causality t).GloballyHyperbolicOn ((isEMorphismOn_of_isMor h).imageOpens U le_rfl) → S ⊆ U → (causality s).IsCauchySurface S → (causality s).IsCauchySurfaceOn U S → (causality t).IsCauchySurface (ψ '' S) → (causality t).IsCauchySurfaceOn ((isEMorphismOn_of_isMor h).imageOpens U le_rfl) (ψ '' S) → ∀ p : M, ∀ q : N, p ∈ frontier (U : Set M) → p ∈ (causality s).Jminus ⊤ S → MapClusterPt q (𝓝[(U : Set M)] p) ψ → ∃ (O : Opens M) (φ : M → N), p ∈ O ∧ IsMor s t O φ ∧ φ p = q ∧ EqOn φ ψ (O ⊓ U : Opens M)",
+      "slice_future : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] (s : Str M) (U : Opens M) (S : Set M), (causality s).GloballyHyperbolic → (causality s).GloballyHyperbolicOn U → S ⊆ U → (causality s).IsCauchySurface S → (causality s).IsCauchySurfaceOn U S → ∀ p : M, p ∈ frontier (U : Set M) → p ∈ (causality s).Jplus ⊤ S → (causality s).Jminus ⊤ {p} ∩ frontier (U : Set M) ∩ (causality s).Jplus ⊤ S = {p} → ∀ O : Opens M, p ∈ O → ∃ U' : Opens M, U < U' ∧ (U' : Set M) ⊆ U ∪ O ∧ (causality s).GloballyHyperbolicOn U' ∧ (causality s).IsCauchySurfaceOn U' S",
+      "slice_past : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] (s : Str M) (U : Opens M) (S : Set M), (causality s).GloballyHyperbolic → (causality s).GloballyHyperbolicOn U → S ⊆ U → (causality s).IsCauchySurface S → (causality s).IsCauchySurfaceOn U S → ∀ p : M, p ∈ frontier (U : Set M) → p ∈ (causality s).Jminus ⊤ S → (causality s).Jplus ⊤ {p} ∩ frontier (U : Set M) ∩ (causality s).Jminus ⊤ S = {p} → ∀ O : Opens M, p ∈ O → ∃ U' : Opens M, U < U' ∧ (U' : Set M) ⊆ U ∪ O ∧ (causality s).GloballyHyperbolicOn U' ∧ (causality s).IsCauchySurfaceOn U' S",
+      "timeFunction : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] (s : Str M), (causality s).GloballyHyperbolic → ∃ T : M → ℝ, Continuous T ∧ ∀ x y, (causality s).le ⊤ x y → x ≠ y → T x < T y"
+    ],
+    "localUnique_obligation": "gx obligation for 𝕄 ⊕ Σ_α 𝔼_α: localUnique_sing is the thesis's analyticity of each 𝔼_α (def:analytique, these.tex:3335–3340; prop:isom, these.tex:4332, injectivity these.tex:4426) for maps into the SAME model; localUnique_reg is Liouville on 𝕄 for maps 𝕄 ⊇ U → 𝕄. Maps between different models are excluded by the MapsTo hypotheses (famille analytique (b), def:incompatibles, these.tex:3328–3332, 3346–3353, at the instance). A3 at a regular boundary point: regularChart on both the M and N sides, then localUnique_reg",
+    "Dev_fields": [
+      "carrier : Type u",
+      "[top : TopologicalSpace carrier]",
+      "[t2 : T2Space carrier]",
+      "[conn : ConnectedSpace carrier]",
+      "[sc : SecondCountableTopology carrier]",
+      "str : 𝔊.Str carrier",
+      "emb : M₀ → carrier",
+      "isCauchyEmbedding : IsCauchyEmbedding (𝔊.causality s₀) (𝔊.causality str) emb",
+      "isMor : 𝔊.IsMor s₀ str ⊤ emb"
+    ],
+    "corrected_bundle": {
+      "BTZAxiomsCorr_fields": [
+        "singularPastAt : ∀ p ∈ S₀, C.SingularPastAt p",
+        "Iminus_eq_empty : ∀ p ∈ S₀, C.Iminus ⊤ {p} = ∅",
+        "Iplus_of_lt : ∀ p ∈ S₀, ∀ p' ∈ S₀, C.le ⊤ p p' → p ≠ p' → C.Jplus ⊤ {p'} \\ S₀ ⊆ C.Iplus ⊤ {p}",
+        "past_local : ∀ p ∈ S₀, ∃ U : Opens M, p ∈ U ∧ ∀ q, C.le U q p → q ∈ S₀",
+        "line : ∀ p ∈ S₀, ∃ γ : ℝ → M, γ 0 = p ∧ (C.IsCausal → IsClosedEmbedding γ) ∧ C.Inextensible ⊤ univ γ ∧ range γ = connectedComponentIn S₀ p"
+      ],
+      "SingularFlatAxiomsCorr": "structure Causal.Causality.SingularFlatAxiomsCorr (C : Causality M) (sing : ℝ → Set M) : Prop extends BTZAxiomsCorr C (sing 0) — fields pushUp, absolutelyMinimal, causallyArcConnected, tarentin, mem_Zplus, mem_Zminus_iff, t2, secondCountable, metrizable, locallyCompact, noIsolated, isClosed_sing, interior_sing, massive_line, verbatim from Causality.SingularFlatAxioms",
+      "bridge": [
+        "theorem BTZAxioms.toCorr {S₀ : Set M} (h : C.BTZAxioms S₀) : C.BTZAxiomsCorr S₀",
+        "theorem SingularFlatAxioms.toCorr {sing : ℝ → Set M} (h : C.SingularFlatAxioms sing) : C.SingularFlatAxiomsCorr sing"
+      ],
+      "re-proved": [
+        "theorem K_monotone (h : C.SingularFlatAxiomsCorr sing) (hc : C.IsCausal) (hqp : C.le ⊤ q p) : C.Kminus ⊤ {q} ⊆ C.Kminus ⊤ {p} ∧ C.Kplus ⊤ {p} ⊆ C.Kplus ⊤ {q}",
+        "theorem K_densite_sing (h : C.SingularFlatAxiomsCorr sing) (x : M) : C.Jplus ⊤ {x} ⊆ closure (C.Kplus ⊤ {x}) ∧ C.Jminus ⊤ {x} ⊆ closure (C.Kminus ⊤ {x})",
+        "theorem K_ordre (h : C.SingularFlatAxiomsCorr sing) (hG : C.GloballyHyperbolic) : (∀ x y, C.le ⊤ x y ↔ C.Kminus ⊤ {x} ⊆ C.Kminus ⊤ {y}) ∧ (∀ x y, C.le ⊤ x y ↔ C.Kplus ⊤ {y} ⊆ C.Kplus ⊤ {x}) ∧ Function.Injective (fun x => C.Kminus ⊤ {x}) ∧ Function.Injective (fun x => C.Kplus ⊤ {x})",
+        "theorem lt_of_lt_of_le_of_not_mem (h : C.SingularFlatAxiomsCorr sing) {x' : M} (hx : x ∈ sing 0) (hx' : x' ∈ sing 0) (hxx' : C.le ⊤ x x') (hne : x ≠ x') (hy : y ∉ sing 0) (hx'y : C.le ⊤ x' y) : C.lt ⊤ x y",
+        "theorem mem_sing_zero_of_le (h : C.SingularFlatAxiomsCorr sing) (hp : p ∈ sing 0) (hqp : C.le ⊤ q p) : q ∈ sing 0"
+      ]
+    },
+    "cbg_location": "cbg, cbg_isETTMaximal, isETTMaximal_iff_isUniversal are stated and proved in CBG/Maximal (deleted from Geometry 2026-11-01, interface round 2)"
   },
-  "cbg_location": "cbg, cbg_isETTMaximal, isETTMaximal_iff_isUniversal are stated and proved in CBG/Maximal (deleted from Geometry 2026-11-01, interface round 2)"
- },
- "kb_proposals": [
-  "A Dev-carrier numeral fails to elaborate (OfNat halfLineDev.carrier): `change ℝ → Mbar.carrier at f` after destructuring, or annotate `(1 : ℝ)`",
-  "Causal.timelikeLine_isCauchySurface_singleton lives in CausalScaffold.CompactCauchy: import it rather than re-proving (a re-proof is a public-name collision)",
-  "A groupoid encoding of 'restriction of an automorphism of Y' must say the element of G is defined on the whole component (B2), else germ extension to a point outside the domain (A3) is not derivable — AND must constrain the target component (same model / fully regular), else with a groupoid containing regular-chart moves 𝔼_α → 𝕄 the field is unsatisfiable (audit of WP-36a)",
-  "Causality.BTZAxioms.Iplus_eq is false in E₀ (radial null ray); use Causality.BTZAxiomsCorr / SingularFlatAxiomsCorr (CBG/Geometry) and SingularFlatAxioms.toCorr until the strict library is corrected; K_monotone/K_densite_sing/K_ordre have corrected versions there"
- ],
- "notes": "The file existed from a predecessor run of this package (no REPORT); this run fixed three build errors and a deprecation, removed a public-name collision (timelikeLine_isCauchySurface_singleton, now imported from CausalScaffold.CompactCauchy) and a root-namespace lemma (now Causal.CBG.isEMorphism_timelikeLine_of_strictMono), strengthened B2 to the thesis's analytic-model form (an element of G on the whole component, so that A3 is derivable at a boundary point outside U) and added B2 regularChart and the instance field locallyConnected (needed to derive A1 from B1), and added Dev.IsMorphism.id/comp, Dev.IsUniversal.unique, Dev.IsETTMaximal.isUniversal, cbg_isETTMaximal, isETTMaximal_iff_isUniversal, isCauchyEmbedding_arctanSelf. One sorry (cbg, tagged SORRY(theo:CBG)); everything else axiom-clean by #print axioms (propext, Classical.choice, Quot.sound). Typechecked with `taskset -c 0-11 lake env lean`; the module is not yet in the scaffold root (kb/0025: the master adds it). GATED: the gx session reviews Level B (LocalModel) before packages 4–7 and 9–12 build on it; the open points are in theo:CBG's questions (A3 at BTZ points without the thesis's hypothesis (B); the local vs strong form of X_A-morphisms; the sing(M) quantifier at these.tex:3176). The long-ray size witness is not formalized (no long line in mathlib). Imports: SubExtension, CompactCauchy, PushoutCausal, SingularFlat, GXStructure; never lean-gx. FIXER RUN (post-audit): blocking B2 defect fixed by splitting localUnique into localUnique_sing (thesis def:analytique, same-model MapsTo) and localUnique_reg (fully regular target MapsTo); checklist rows corrected (row for def:analytique, famille analytique (b) as a carried reading, the regular branch as an addition, a new ⚠-strengthened row for the Cauchy surface); SCOPE now discloses the unformalized T2 minimal-over-extension witness, the ETT-reading extent of the witnesses, the absence of inhabitants of Geometry/LocalModel, and the planned causality laws for restrict/transport/glue; the cbg docstrings no longer open bold on the label; extra_decls completed. Re-typechecked: one warning (the tagged SORRY(theo:CBG)), axioms of the witnesses [propext, Classical.choice, Quot.sound]. GX-REVIEW FIXER RUN (2026-11-01): C1–C4 of lean-gx/campaign/WP-28-scope/CBG-REVIEW.md applied (see gx_review_changes; new signatures in gx_signatures). Strict library untouched: graduating C1 into Causal/SingularFlat.lean (replace Iplus_eq, audit lt_of_le_of_not_mem and its users incl. SingularGeroch.mesure_admissible) is the master session's. The corrected bundle lives in namespace Causal.Causality inside this scaffold file, to ease graduation (check for collisions when it moves). Re-typechecked with taskset -c 0-11 lake env lean: zero errors, one warning (the tagged SORRY(theo:CBG)); witnesses (kink, arctan, branching line) and the new K lemmas axiom-clean by #print axioms (propext, Classical.choice, Quot.sound). Ready for gx re-review. INTERFACE ROUND 2 (2026-11-01): see interface_round_2. Interface round 3 (2026-11-02) applied: see interface_round_3.",
- "planned_lemmas": [
-  "package 4 (Pgcd): causality (restrict s W) = the restriction of causality s to W (isMor_val, isEMorphismOn_of_isMor, absolutelyMinimalOn, LocalIsomorphism.unique)",
-  "package 7 (Ppcm) / 8: the glued structure's causality is Gluing.causality (same derivation, via the glue embeddings); transport likewise via isMor_transport"
- ],
- "gx_review_changes": {
-  "review": "lean-gx/campaign/WP-28-scope/CBG-REVIEW.md (verdict OBJECT on singularFlatAxioms; C1–C5)",
-  "C1": "BLOCKING, applied in Geometry.lean (strict Causal/SingularFlat.lean NOT edited): new Causal.Causality.BTZAxiomsCorr / SingularFlatAxiomsCorr = the library bundles with Iplus_eq (I⁺(p) = J⁺(p) ∖ S₀, false in E₀: radial null ray (s/2,s,θ₀) from p=(0,0), f = τ − r/2) replaced by Iplus_of_lt : ∀ p ∈ S₀, ∀ p' ∈ S₀, C.le ⊤ p p' → p ≠ p' → C.Jplus ⊤ {p'} \\ S₀ ⊆ C.Iplus ⊤ {p}. Audit of the other fields against the counterexample: none refuted (singularPastAt, Iminus_eq_empty, past_local, line, pushUp, tarentin, mem_Zplus, mem_Zminus_iff, topological; massive_line vacuous). The false implication 'x ∈ S, y ∉ S, x ≤ y → x ≪ y' is the library THEOREM SingularFlatAxioms.lt_of_le_of_not_mem, not a field; its three consumers K_monotone, K_densite_sing (past half), K_ordre are re-proved from Iplus_of_lt (SingularFlatAxiomsCorr.*). Bridges BTZAxioms.toCorr, SingularFlatAxioms.toCorr. Level A Geometry.singularFlatAxioms and Level B LocalModel.singularFlatAxioms now ask SingularFlatAxiomsCorr.",
-  "C1_design_impact": "CBG-DESIGN §3: Iplus_eq reaches §3 only via the K± calculus — step 4 (Prop 3.7 = lem:corresponding_K via K_ordre/K_monotone; Lemma 3.9 via the Geroch time, whose SingularGeroch.mesure_admissible takes K_monotone) and through the Geroch time C3's curvesExtend_of_timeFunction (step 1). Iplus_of_lt suffices for all (K_monotone/K_densite_sing/K_ordre proved here). Owed by whoever graduates C1: SingularGeroch.mesure_admissible restated on the corrected bundle (same proof). Steps 2, 3, 5, 6, 7 do not use it.",
-  "C2": "BLOCKING, applied: [SecondCountableTopology M] added to the binders of Level A singularFlatAxioms, curvesExtend, isCompact_Jplus_inter_Jminus, isCompact_Jminus_inter_Jplus and of the same Level B fields; Dev gains [sc : SecondCountableTopology carrier] (instance attribute); new field secondCountable_of_cauchy in Level B (gx discharges via the splitting) and in Level A (consumed by package 10 for M̄). Dev.self, cbg, cbg_isETTMaximal, isETTMaximal_iff_isUniversal gain [SecondCountableTopology M₀] (necessary: M₀ embeds openly in every Dev). Size bound §3.6 consistent: SC + T2 carriers embed in Set ℕ.",
-  "C3": "applied: curvesExtend (Level A and B) takes (causality s).GloballyHyperbolic → (Level B: chartedCausality … GloballyHyperbolic →). Dischargeable by curvesExtend_of_timeFunction (CurvesExtend.lean:409) or GloballyHyperbolic.curvesExtend (CurvesExtend.lean:447); flat instance: curvesExtend_of_isCausalFlow (Flat/CauchyComplete.lean:2467), curvesExtendOn_of_timeFunction (CBG/CausalConvex.lean:273).",
-  "C4": "applied: localUnique_sing unchanged (strong form kept); docstring cites B21 prop:isom_strong (BTZ_1.tex:468–475, arXiv 2108.12631) at α=β=0, B21 prop:isom (BTZ_1.tex:378) as insufficient, gx's past-side example and Sbierski Lemma 3.9, and gx's invariance-of-domain-free route.",
-  "C5": "requests to Barbot, not changes to Level B: not acted on here (package 11 / gluing export).",
-  "DEC-62_63": "recorded in the hypothesis checklist: DEC-62 (X_A-morphisms in the LOCAL form) replaces the ⚠ reading row; DEC-63 (these.tex:3176 quantifies over EVERY singular point) replaces the ⚠ reading/finding row.",
-  "not_changed": "universes (gx §3: Y : Type u forces Y into M's universe; gx can instantiate at u = 0) — left as is, flagged for gx"
- },
- "interface_round_2": {
-  "date": "2026-11-01",
-  "added": [
-   "Causal.CBG.Geometry.timeFunction",
-   "Causal.CBG.LocalModel.timeFunction",
-   "Causal.CBG.LocalModel.localUnique_sing_adherent"
+  "kb_proposals": [
+    "A Dev-carrier numeral fails to elaborate (OfNat halfLineDev.carrier): `change ℝ → Mbar.carrier at f` after destructuring, or annotate `(1 : ℝ)`",
+    "Causal.timelikeLine_isCauchySurface_singleton lives in CausalScaffold.CompactCauchy: import it rather than re-proving (a re-proof is a public-name collision)",
+    "A groupoid encoding of 'restriction of an automorphism of Y' must say the element of G is defined on the whole component (B2), else germ extension to a point outside the domain (A3) is not derivable — AND must constrain the target component (same model / fully regular), else with a groupoid containing regular-chart moves 𝔼_α → 𝕄 the field is unsatisfiable (audit of WP-36a)",
+    "Causality.BTZAxioms.Iplus_eq is false in E₀ (radial null ray); use Causality.BTZAxiomsCorr / SingularFlatAxiomsCorr (CBG/Geometry) and SingularFlatAxioms.toCorr until the strict library is corrected; K_monotone/K_densite_sing/K_ordre have corrected versions there"
   ],
-  "deleted": [
-   "Causal.CBG.cbg (sorried)",
-   "Causal.CBG.cbg_isETTMaximal",
-   "Causal.CBG.isETTMaximal_iff_isUniversal"
+  "notes": "The file existed from a predecessor run of this package (no REPORT); this run fixed three build errors and a deprecation, removed a public-name collision (timelikeLine_isCauchySurface_singleton, now imported from CausalScaffold.CompactCauchy) and a root-namespace lemma (now Causal.CBG.isEMorphism_timelikeLine_of_strictMono), strengthened B2 to the thesis's analytic-model form (an element of G on the whole component, so that A3 is derivable at a boundary point outside U) and added B2 regularChart and the instance field locallyConnected (needed to derive A1 from B1), and added Dev.IsMorphism.id/comp, Dev.IsUniversal.unique, Dev.IsETTMaximal.isUniversal, cbg_isETTMaximal, isETTMaximal_iff_isUniversal, isCauchyEmbedding_arctanSelf. One sorry (cbg, tagged SORRY(theo:CBG)); everything else axiom-clean by #print axioms (propext, Classical.choice, Quot.sound). Typechecked with `taskset -c 0-11 lake env lean`; the module is not yet in the scaffold root (kb/0025: the master adds it). GATED: the gx session reviews Level B (LocalModel) before packages 4–7 and 9–12 build on it; the open points are in theo:CBG's questions (A3 at BTZ points without the thesis's hypothesis (B); the local vs strong form of X_A-morphisms; the sing(M) quantifier at these.tex:3176). The long-ray size witness is not formalized (no long line in mathlib). Imports: SubExtension, CompactCauchy, PushoutCausal, SingularFlat, GXStructure; never lean-gx. FIXER RUN (post-audit): blocking B2 defect fixed by splitting localUnique into localUnique_sing (thesis def:analytique, same-model MapsTo) and localUnique_reg (fully regular target MapsTo); checklist rows corrected (row for def:analytique, famille analytique (b) as a carried reading, the regular branch as an addition, a new ⚠-strengthened row for the Cauchy surface); SCOPE now discloses the unformalized T2 minimal-over-extension witness, the ETT-reading extent of the witnesses, the absence of inhabitants of Geometry/LocalModel, and the planned causality laws for restrict/transport/glue; the cbg docstrings no longer open bold on the label; extra_decls completed. Re-typechecked: one warning (the tagged SORRY(theo:CBG)), axioms of the witnesses [propext, Classical.choice, Quot.sound]. GX-REVIEW FIXER RUN (2026-11-01): C1–C4 of lean-gx/campaign/WP-28-scope/CBG-REVIEW.md applied (see gx_review_changes; new signatures in gx_signatures). Strict library untouched: graduating C1 into Causal/SingularFlat.lean (replace Iplus_eq, audit lt_of_le_of_not_mem and its users incl. SingularGeroch.mesure_admissible) is the master session's. The corrected bundle lives in namespace Causal.Causality inside this scaffold file, to ease graduation (check for collisions when it moves). Re-typechecked with taskset -c 0-11 lake env lean: zero errors, one warning (the tagged SORRY(theo:CBG)); witnesses (kink, arctan, branching line) and the new K lemmas axiom-clean by #print axioms (propext, Classical.choice, Quot.sound). Ready for gx re-review. INTERFACE ROUND 2 (2026-11-01): see interface_round_2. Interface round 3 (2026-11-02) applied: see interface_round_3. ROUND 4 (2026-11-02): LocalModel gains [t2Y : T2Space Y], isOpen_regY, dense_regY (added, not agreed), typeAgreement, coneSliceFuture, coneSlicePast; slice_future/slice_past (level-set B4) deleted. Still sorry-free.",
+  "planned_lemmas": [
+    "package 4 (Pgcd): causality (restrict s W) = the restriction of causality s to W (isMor_val, isEMorphismOn_of_isMor, absolutelyMinimalOn, LocalIsomorphism.unique)",
+    "package 7 (Ppcm) / 8: the glued structure's causality is Gluing.causality (same derivation, via the glue embeddings); transport likewise via isMor_transport"
   ],
-  "time_function_predicate": "stated with the body of Causality.HasTimeFunction (CBG/Pgcd) written out, since that def is downstream; definitionally equal: 𝔊.timeFunction s hGH : (𝔊.causality s).HasTimeFunction and 𝔊.timeFunction : 𝔊.HasTimeFunctions (CBG/Maximal) typecheck (checked on a stdin copy). No def was moved, so Pgcd/Maximal keep their names and do not break.",
-  "finding": "localUnique_sing_adherent is transcribed exactly as agreed (design §6 round 2 (2)), but its largeness clause is vacuous at α₀ = 0 in any model whose BTZ points have empty chronological past (E₀): take r := y₀ (CBG/FromModel BTZAxiomsCorr.exists_le_inter_Iminus_subset), so there the field is the point-contact form, which the cone counterexample refutes in E₀. Candidate repair, for gx: add the conjunct r ∈ regY (r regular above y₀), which gives the wrap-around region. Vacuous for the flat instance (singY = ∅).",
-  "downstream_breaks": [
-   "scaffold/CausalScaffold/CBG/FromModel.lean: ofLocalModelOfGermSlice misses field timeFunction (fix tested on a stdin copy)",
-   "scaffold/CausalScaffold/Flat/CBG.lean: flatModelOf misses timeFunction and localUnique_sing_adherent (fix tested on a stdin copy against stale FromModel/Maximal oleans)"
-  ],
-  "build": "taskset -c 0-11 lake build CausalScaffold.CBG.Geometry: success, no warnings; file sorry-free"
- },
- "interface_round_3": {
-  "date": "2026-11-02",
-  "agreed_with": "gx (design §6, interface round 3)",
-  "A": "LocalModel.localUnique_sing_adherent: largeness clause replaced by the diamond form with a regular tip, (∃ O : Opens Y, y₀ ∈ O ∧ ∃ r ∈ O, r ∈ regY ∧ causalityY.lt O y₀ r ∧ regY ∩ causalityY.Iplus O {y₀} ∩ causalityY.Iminus O {r} ⊆ U), regY spelled {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α} inside the structure. Docstring: gx's E₀ justification (r ∈ I⁺_O(y₀) open gives a line point q with y₀ < q ≪ r; I⁻_O(r) ∋ q contains a basic piece near q holding every small-radius regular point for every θ, as does I⁺_O(y₀); so the diamond's regular part contains a full θ-loop around Δ, holonomy P, the lift normalises ⟨P⟩) and the round-2 vacuity finding (r := y₀, BTZAxiomsCorr.exists_le_inter_Iminus_subset), now excluded by r ∈ regY.",
-  "B": "[SecondCountableTopology M] [SecondCountableTopology N] added to Geometry.germExt_future / germExt_past; [SecondCountableTopology M] to Geometry.slice_future / slice_past (and to CBG/FromModel's GermExtFuture/GermExtPast/SliceFuture/SlicePast copies).",
-  "consumers_fixed": [
-   "CBG/Corresponding: CGHDData.ext_continue and the A3-derived declarations after it (continuousWithinAt_update(_of_corresponds), tendsto_comp, eq_of_corresponds, mem_sing_iff, exists_nhds_correspondingSet, isOpen_correspondingSet) now ask [SecondCountableTopology N] (two section `variable`s); the dispatch's 'consumers already have SC in scope' held for M only",
-   "CBG/NoCorresponding: CGHDData.exists_isMor_eqOn_correspondingExt lost its `omit [SecondCountableTopology N] in`",
-   "CBG/FromModel: exists_eqOn_of_connected_sing_adherent's hlarge restated in the round-3 form",
-   "Flat/CBGGerm: flat_germExtFuture/Past intro two more instance binders; the local flat_secondCountableTopology haveI's are dropped (the field now gives SC)",
-   "Flat/CBG: flatModelOf_sliceFuture/Past intro one more instance binder; the flat instance's SC still from flat_secondCountableTopology where Flat/CBG builds carriers",
-   "CBG/Ppcm, CBG/Maximal: unchanged, rebuilt"
-  ],
-  "builds": "lake build CausalScaffold.CBG.{Geometry,Corresponding,NoCorresponding,Ppcm,Maximal,FromModel}, CausalScaffold.Flat.{CBGGerm,CBGSlice,CBG}: all succeed",
-  "axioms": "#print axioms Causal.CBG.flat_cbg, Causal.CBG.cbg = [propext, Classical.choice, Quot.sound] (unchanged)",
-  "sorry_count_Geometry": 0
- }
+  "gx_review_changes": {
+    "review": "lean-gx/campaign/WP-28-scope/CBG-REVIEW.md (verdict OBJECT on singularFlatAxioms; C1–C5)",
+    "C1": "BLOCKING, applied in Geometry.lean (strict Causal/SingularFlat.lean NOT edited): new Causal.Causality.BTZAxiomsCorr / SingularFlatAxiomsCorr = the library bundles with Iplus_eq (I⁺(p) = J⁺(p) ∖ S₀, false in E₀: radial null ray (s/2,s,θ₀) from p=(0,0), f = τ − r/2) replaced by Iplus_of_lt : ∀ p ∈ S₀, ∀ p' ∈ S₀, C.le ⊤ p p' → p ≠ p' → C.Jplus ⊤ {p'} \\ S₀ ⊆ C.Iplus ⊤ {p}. Audit of the other fields against the counterexample: none refuted (singularPastAt, Iminus_eq_empty, past_local, line, pushUp, tarentin, mem_Zplus, mem_Zminus_iff, topological; massive_line vacuous). The false implication 'x ∈ S, y ∉ S, x ≤ y → x ≪ y' is the library THEOREM SingularFlatAxioms.lt_of_le_of_not_mem, not a field; its three consumers K_monotone, K_densite_sing (past half), K_ordre are re-proved from Iplus_of_lt (SingularFlatAxiomsCorr.*). Bridges BTZAxioms.toCorr, SingularFlatAxioms.toCorr. Level A Geometry.singularFlatAxioms and Level B LocalModel.singularFlatAxioms now ask SingularFlatAxiomsCorr.",
+    "C1_design_impact": "CBG-DESIGN §3: Iplus_eq reaches §3 only via the K± calculus — step 4 (Prop 3.7 = lem:corresponding_K via K_ordre/K_monotone; Lemma 3.9 via the Geroch time, whose SingularGeroch.mesure_admissible takes K_monotone) and through the Geroch time C3's curvesExtend_of_timeFunction (step 1). Iplus_of_lt suffices for all (K_monotone/K_densite_sing/K_ordre proved here). Owed by whoever graduates C1: SingularGeroch.mesure_admissible restated on the corrected bundle (same proof). Steps 2, 3, 5, 6, 7 do not use it.",
+    "C2": "BLOCKING, applied: [SecondCountableTopology M] added to the binders of Level A singularFlatAxioms, curvesExtend, isCompact_Jplus_inter_Jminus, isCompact_Jminus_inter_Jplus and of the same Level B fields; Dev gains [sc : SecondCountableTopology carrier] (instance attribute); new field secondCountable_of_cauchy in Level B (gx discharges via the splitting) and in Level A (consumed by package 10 for M̄). Dev.self, cbg, cbg_isETTMaximal, isETTMaximal_iff_isUniversal gain [SecondCountableTopology M₀] (necessary: M₀ embeds openly in every Dev). Size bound §3.6 consistent: SC + T2 carriers embed in Set ℕ.",
+    "C3": "applied: curvesExtend (Level A and B) takes (causality s).GloballyHyperbolic → (Level B: chartedCausality … GloballyHyperbolic →). Dischargeable by curvesExtend_of_timeFunction (CurvesExtend.lean:409) or GloballyHyperbolic.curvesExtend (CurvesExtend.lean:447); flat instance: curvesExtend_of_isCausalFlow (Flat/CauchyComplete.lean:2467), curvesExtendOn_of_timeFunction (CBG/CausalConvex.lean:273).",
+    "C4": "applied: localUnique_sing unchanged (strong form kept); docstring cites B21 prop:isom_strong (BTZ_1.tex:468–475, arXiv 2108.12631) at α=β=0, B21 prop:isom (BTZ_1.tex:378) as insufficient, gx's past-side example and Sbierski Lemma 3.9, and gx's invariance-of-domain-free route.",
+    "C5": "requests to Barbot, not changes to Level B: not acted on here (package 11 / gluing export).",
+    "DEC-62_63": "recorded in the hypothesis checklist: DEC-62 (X_A-morphisms in the LOCAL form) replaces the ⚠ reading row; DEC-63 (these.tex:3176 quantifies over EVERY singular point) replaces the ⚠ reading/finding row.",
+    "not_changed": "universes (gx §3: Y : Type u forces Y into M's universe; gx can instantiate at u = 0) — left as is, flagged for gx"
+  },
+  "interface_round_2": {
+    "date": "2026-11-01",
+    "added": [
+      "Causal.CBG.Geometry.timeFunction",
+      "Causal.CBG.LocalModel.timeFunction",
+      "Causal.CBG.LocalModel.localUnique_sing_adherent"
+    ],
+    "deleted": [
+      "Causal.CBG.cbg (sorried)",
+      "Causal.CBG.cbg_isETTMaximal",
+      "Causal.CBG.isETTMaximal_iff_isUniversal"
+    ],
+    "time_function_predicate": "stated with the body of Causality.HasTimeFunction (CBG/Pgcd) written out, since that def is downstream; definitionally equal: 𝔊.timeFunction s hGH : (𝔊.causality s).HasTimeFunction and 𝔊.timeFunction : 𝔊.HasTimeFunctions (CBG/Maximal) typecheck (checked on a stdin copy). No def was moved, so Pgcd/Maximal keep their names and do not break.",
+    "finding": "localUnique_sing_adherent is transcribed exactly as agreed (design §6 round 2 (2)), but its largeness clause is vacuous at α₀ = 0 in any model whose BTZ points have empty chronological past (E₀): take r := y₀ (CBG/FromModel BTZAxiomsCorr.exists_le_inter_Iminus_subset), so there the field is the point-contact form, which the cone counterexample refutes in E₀. Candidate repair, for gx: add the conjunct r ∈ regY (r regular above y₀), which gives the wrap-around region. Vacuous for the flat instance (singY = ∅).",
+    "downstream_breaks": [
+      "scaffold/CausalScaffold/CBG/FromModel.lean: ofLocalModelOfGermSlice misses field timeFunction (fix tested on a stdin copy)",
+      "scaffold/CausalScaffold/Flat/CBG.lean: flatModelOf misses timeFunction and localUnique_sing_adherent (fix tested on a stdin copy against stale FromModel/Maximal oleans)"
+    ],
+    "build": "taskset -c 0-11 lake build CausalScaffold.CBG.Geometry: success, no warnings; file sorry-free"
+  },
+  "interface_round_3": {
+    "date": "2026-11-02",
+    "agreed_with": "gx (design §6, interface round 3)",
+    "A": "LocalModel.localUnique_sing_adherent: largeness clause replaced by the diamond form with a regular tip, (∃ O : Opens Y, y₀ ∈ O ∧ ∃ r ∈ O, r ∈ regY ∧ causalityY.lt O y₀ r ∧ regY ∩ causalityY.Iplus O {y₀} ∩ causalityY.Iminus O {r} ⊆ U), regY spelled {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α} inside the structure. Docstring: gx's E₀ justification (r ∈ I⁺_O(y₀) open gives a line point q with y₀ < q ≪ r; I⁻_O(r) ∋ q contains a basic piece near q holding every small-radius regular point for every θ, as does I⁺_O(y₀); so the diamond's regular part contains a full θ-loop around Δ, holonomy P, the lift normalises ⟨P⟩) and the round-2 vacuity finding (r := y₀, BTZAxiomsCorr.exists_le_inter_Iminus_subset), now excluded by r ∈ regY.",
+    "B": "[SecondCountableTopology M] [SecondCountableTopology N] added to Geometry.germExt_future / germExt_past; [SecondCountableTopology M] to Geometry.slice_future / slice_past (and to CBG/FromModel's GermExtFuture/GermExtPast/SliceFuture/SlicePast copies).",
+    "consumers_fixed": [
+      "CBG/Corresponding: CGHDData.ext_continue and the A3-derived declarations after it (continuousWithinAt_update(_of_corresponds), tendsto_comp, eq_of_corresponds, mem_sing_iff, exists_nhds_correspondingSet, isOpen_correspondingSet) now ask [SecondCountableTopology N] (two section `variable`s); the dispatch's 'consumers already have SC in scope' held for M only",
+      "CBG/NoCorresponding: CGHDData.exists_isMor_eqOn_correspondingExt lost its `omit [SecondCountableTopology N] in`",
+      "CBG/FromModel: exists_eqOn_of_connected_sing_adherent's hlarge restated in the round-3 form",
+      "Flat/CBGGerm: flat_germExtFuture/Past intro two more instance binders; the local flat_secondCountableTopology haveI's are dropped (the field now gives SC)",
+      "Flat/CBG: flatModelOf_sliceFuture/Past intro one more instance binder; the flat instance's SC still from flat_secondCountableTopology where Flat/CBG builds carriers",
+      "CBG/Ppcm, CBG/Maximal: unchanged, rebuilt"
+    ],
+    "builds": "lake build CausalScaffold.CBG.{Geometry,Corresponding,NoCorresponding,Ppcm,Maximal,FromModel}, CausalScaffold.Flat.{CBGGerm,CBGSlice,CBG}: all succeed",
+    "axioms": "#print axioms Causal.CBG.flat_cbg, Causal.CBG.cbg = [propext, Classical.choice, Quot.sound] (unchanged)",
+    "sorry_count_Geometry": 0
+  },
+  "interface_round_4": {
+    "date": "2026-11-02",
+    "agreed_with": "gx (design §6, interface round 4: fields (1)-(4))",
+    "fields_added_to_LocalModel": {
+      "t2Y": "[t2Y : T2Space Y]",
+      "isOpen_regY": "isOpen_regY : IsOpen {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α}",
+      "dense_regY (ADDED, not in gx's agreed list — for confirmation)": "dense_regY : Dense {y | ∀ α : ℝ, 0 ≤ α → y ∉ singY α}",
+      "typeAgreement": "typeAgreement : ∀ U : Set Y, IsOpen U → IsConnected U → ∀ y₀ : Y, y₀ ∉ singY 0 → (∃ O : Opens Y, y₀ ∈ O ∧ ∃ r ∈ O, (causalityY.lt O r y₀ ∧ causalityY.Iplus O {r} ∩ causalityY.Iminus O {y₀} ⊆ U) ∨ (causalityY.lt O y₀ r ∧ causalityY.Iplus O {y₀} ∩ causalityY.Iminus O {r} ⊆ U)) → ∀ z₀ : Y, ∀ f : Y → Y, (∀ y ∈ U, G.IsLocalStructomorphWithinAt f U y) → InjOn f U → MapClusterPt z₀ (𝓝[U] y₀) f → (∀ α : ℝ, 0 ≤ α → (y₀ ∈ singY α ↔ z₀ ∈ singY α)) ∧ ((∃ α : ℝ, 0 ≤ α ∧ y₀ ∈ singY α) → z₀ ∈ connectedComponent y₀)",
+      "coneSliceFuture": "coneSliceFuture : ∀ y : Y, y ∉ singY 0 → ∀ O : Opens Y, y ∈ O → ∃ K : Set Y, K ⊆ O ∧ (∀ z ∈ K, z ∉ singY 0 ∧ z ≠ y ∧ causalityY.le O z y) ∧ ∀ V : Set Y, IsOpen V → K ⊆ V → ∃ (N : Opens Y) (Γ : Set Y), y ∈ N ∧ N ≤ O ∧ Γ ⊆ N ∧ Γ ⊆ V ∧ causalityY.IsCauchySurfaceOn N Γ",
+      "coneSlicePast": "coneSlicePast : ∀ y : Y, ∀ O : Opens Y, y ∈ O → ∃ K : Set Y, K ⊆ O ∧ (∀ z ∈ K, z ≠ y ∧ causalityY.le O y z) ∧ ∀ V : Set Y, IsOpen V → K ⊆ V → ∃ (N : Opens Y) (Γ : Set Y), y ∈ N ∧ N ≤ O ∧ Γ ⊆ N ∧ Γ ⊆ V ∧ causalityY.IsCauchySurfaceOn N Γ"
+    },
+    "fields_deleted": "slice_future, slice_past (the level-set B4 of rounds 1-3): no consumer (CBG/FromModel derived A4 from the cone forms since round 3); their flat inhabitants Flat/CBG minkowski_slice_future/_past stay as lemmas",
+    "finding": "dense_regY is added beyond gx's agreed list: A3 at a massive boundary point needs regular points accumulating in the piece (B2 localUnique_sing gives agreement on the regular part only); isOpen_regY and the B3 facts do not give it (interior_sing is per α; an open set can be foliated by uncountably many closed singular loci with closed union). True in E₀ and the flat model. For gx's confirmation; if refused, the massive case returns to a hypothesis.",
+    "consumers": "CBG.{Corresponding,NoCorresponding,Ppcm,Maximal,FromModel}, Flat.{CBGGerm,CBGSlice,CBG} rebuild unchanged except FromModel (uses the fields) and Flat/CBG (flatModelOf supplies them; Flat/CBGSlice minkowski_coneSlice proves the cone slices)",
+    "sorry_count": 0
+  }
 }

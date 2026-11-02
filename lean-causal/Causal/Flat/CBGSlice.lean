@@ -1,5 +1,5 @@
-import CausalScaffold.CBG.CausalConvex
-import CausalScaffold.CBG.FromModel
+import Causal.CBG.CausalConvex
+import Causal.CBG.FromModel
 import Causal.Flat.Geroch.Reach
 import Causal.Flat.CauchyComplete
 import Causal.Flat.SecondCountable
@@ -48,6 +48,11 @@ The library's Minkowski space `Minkowski d` has `d` spatial dimensions (Barbot's
   uniqueness by acausality of `S` (`isCauchySurfaceOn_sup_of_slice`); `U'` is causally convex
   (`causallyConvexIn_of_isCauchySurfaceOn`), hence globally hyperbolic
   (`GloballyHyperbolicOn.of_causallyConvexIn`).
+* **`minkowski_coneSlice`** (interface round 4, 2026-11-02): the cone-slice B4 of `LocalModel`
+  (`coneSliceFuture` for `s = 1`, `coneSlicePast` for `s = −1`) for Minkowski space — the same
+  construction read in the identity chart: `K` the closed slice ball on the past / future cone of
+  `y`, and for every open `V ⊇ K` a diamond `N ∋ y`, `N ⊆ O`, whose equatorial slice `Γ ⊆ V` is a
+  Cauchy surface of it. `Flat/CBG`'s `flatModelOf` fills the two fields with it.
 * **What resolves the previous agent's caution** (`Flat/CBG` SCOPE, "B4 carries no localisation
   to `J⁻(q)`"; `CBG/FromModel`'s `sliceFuture` SORRY: "nothing ties N to the side of τ⁻¹(c) that
   U ∪ N must add"): the slice `Γ` is taken **inside `U`**, strictly below `p`, rather than through
@@ -95,7 +100,8 @@ The library's Minkowski space `Minkowski d` has `d` spatial dimensions (Barbot's
   `U` serves A4; whether the consumer (`NoCorresponding`) needs `U' ∖ U` to be reachable by A3's
   extension is that package's concern (A3 extends at every point of `∂U` it is given).
 * Universe: `M : Type u` (the flat model is `LocalModel.{0}`, so the integrator uses `u = 0`).
-* Not imported by the scaffold root `CausalScaffold.lean` (kb/0025): registration is the master's.
+* Strict library since 2026-11-02 (CBG graduation): imported by `Causal.lean`, so the strict
+  build and the axiom sweep see it (kb/0025).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -186,6 +192,114 @@ theorem isCauchySurfaceOn_sliceDiamond (c : ℝ) (x₀ : EuclideanSpace ℝ (Fin
     constructor <;> linarith [hz.1, hz.2]
 
 end Diamond
+
+/-- **The cone-slice B4 for Minkowski space** (interface round 4: the `LocalModel` fields
+`coneSliceFuture` (`s = 1`) and `coneSlicePast` (`s = −1`) for the flat model, `Flat/CBG`'s
+`flatModelOf`). In an open `O ∋ y`, with `ball y r ⊆ O` and `δ = r/4`: `K` is the closed slice ball
+`{(t(y) − sδ, x) : ‖x − x(y)‖ ≤ δ}`, on the past (`s = 1`) or future (`s = −1`) cone of `y`
+(`staticLe_of_ball`); an open `V ⊇ K` contains the slice ball of a slightly larger radius
+`δ + ε'` (compactness, `thickening_closedBall`), and that slice is a Cauchy surface of the diamond
+`sliceDiamond (t(y) − sδ, x(y)) (δ + ε')`, which contains `y` and lies in `ball y r ⊆ O`
+(the construction of `flat_exists_cauchy_nbhd`, read in the identity chart). -/
+theorem minkowski_coneSlice {s : ℝ} (hs : s = 1 ∨ s = -1) (y : Minkowski d)
+    (O : Opens (Minkowski d)) (hyO : y ∈ O) :
+    ∃ K : Set (Minkowski d), K ⊆ O ∧
+      (∀ z ∈ K, z ≠ y ∧ (s = 1 → (minkowski d).le O z y) ∧ (s = -1 → (minkowski d).le O y z)) ∧
+      ∀ V : Set (Minkowski d), IsOpen V → K ⊆ V →
+        ∃ (N : Opens (Minkowski d)) (Γ : Set (Minkowski d)), y ∈ N ∧ N ≤ O ∧ Γ ⊆ N ∧ Γ ⊆ V ∧
+          (minkowski d).IsCauchySurfaceOn N Γ := by
+  obtain ⟨r, hr, hball⟩ := Metric.isOpen_iff.1 O.isOpen y hyO
+  set δ := r / 4 with hδ
+  have hδ0 : 0 < δ := by positivity
+  have hs0 : |s| = 1 := by rcases hs with rfl | rfl <;> norm_num
+  set t₀ := y.1 - s * δ with ht₀
+  let f : EuclideanSpace ℝ (Fin d) → Minkowski d := fun x => (t₀, x)
+  have hf : Continuous f := by fun_prop
+  have hdist : ∀ x : EuclideanSpace ℝ (Fin d), ‖x - y.2‖ ≤ δ →
+      dist ((t₀, x) : Minkowski d) y ≤ δ := fun x hx => by
+    rw [Prod.dist_eq, Real.dist_eq, dist_eq_norm]
+    refine max_le ?_ hx
+    rw [ht₀, show y.1 - s * δ - y.1 = -(s * δ) by ring, abs_neg, abs_mul, hs0,
+      abs_of_pos hδ0, one_mul]
+  have hkey : ∀ w : Minkowski d, dist w y < 3 * δ → w ∈ O := fun w hw =>
+    hball (by rw [mem_ball]; linarith)
+  refine ⟨f '' closedBall y.2 δ, ?_, ?_, ?_⟩
+  · rintro _ ⟨x, hx, rfl⟩
+    rw [mem_closedBall, dist_eq_norm] at hx
+    exact hkey _ (by have := hdist x hx; linarith)
+  · rintro _ ⟨x, hx, rfl⟩
+    rw [mem_closedBall, dist_eq_norm] at hx
+    have hd := hdist x hx
+    refine ⟨fun h => ?_, fun h1 => ?_, fun h1 => ?_⟩
+    · have h1 : t₀ = y.1 := congrArg Prod.fst h
+      rw [ht₀] at h1
+      have : s * δ = 0 := by linarith
+      rcases mul_eq_zero.1 this with h | h
+      · rcases hs with rfl | rfl <;> norm_num at h
+      · exact hδ0.ne' h
+    · subst h1
+      refine staticCausality.le_iff.2 (staticLe_of_ball (ρ := 2 * δ) (fun w hw => hkey w
+        ((dist_triangle w _ y).trans_lt (by linarith))) ?_ ?_ ?_)
+      · show t₀ ≤ y.1
+        rw [ht₀]; linarith
+      · show dist x y.2 ≤ y.1 - t₀
+        rw [ht₀, dist_eq_norm]; linarith
+      · show y.1 - t₀ < 2 * δ
+        rw [ht₀]; linarith
+    · subst h1
+      refine staticCausality.le_iff.2 (staticLe_of_ball (ρ := 2 * δ) (fun w hw => hkey w
+        (by linarith)) ?_ ?_ ?_)
+      · show y.1 ≤ t₀
+        rw [ht₀]; linarith
+      · show dist y.2 x ≤ t₀ - y.1
+        rw [ht₀, dist_comm, dist_eq_norm]; linarith
+      · show t₀ - y.1 < 2 * δ
+        rw [ht₀]; linarith
+  · intro V hVo hKV
+    have hT' : IsOpen (f ⁻¹' V) := hVo.preimage hf
+    have hKT : closedBall y.2 δ ⊆ f ⁻¹' V := fun x hx => hKV ⟨x, hx, rfl⟩
+    obtain ⟨ε, hε, hεT⟩ := (isCompact_closedBall y.2 δ).exists_thickening_subset_open hT' hKT
+    rw [thickening_closedBall hε hδ0.le] at hεT
+    set ε' := min (ε / 2) δ with hε'
+    have hε'0 : 0 < ε' := lt_min (by positivity) hδ0
+    have hε'ε : ε' < ε := (min_le_left _ _).trans_lt (by linarith)
+    have hε'δ : ε' ≤ δ := min_le_right _ _
+    set ρ := δ + ε' with hρ
+    set Nd : Opens (Minkowski d) := sliceDiamond (t₀, y.2) ρ with hNd
+    have hNdball : ∀ w ∈ Nd, dist w y < r := by
+      intro w hw
+      rw [mem_sliceDiamond] at hw
+      simp only at hw
+      have h0 := norm_nonneg (w.2 - y.2)
+      have h1 := neg_abs_le (s * δ)
+      have h2 := le_abs_self (s * δ)
+      have hst : |s * δ| = δ := by rw [abs_mul, hs0, abs_of_pos hδ0, one_mul]
+      rw [Prod.dist_eq, max_lt_iff, Real.dist_eq, dist_eq_norm, abs_lt]
+      rw [ht₀] at hw
+      refine ⟨⟨by linarith [hw.1, hw.2], by linarith [hw.1, hw.2]⟩, by linarith [hw.1, hw.2]⟩
+    refine ⟨Nd, (Nd : Set (Minkowski d)) ∩ graph fun _ : EuclideanSpace ℝ (Fin d) => t₀, ?_,
+      fun w hw => hball (hNdball w hw), inter_subset_left, ?_, ?_⟩
+    · show y ∈ sliceDiamond (t₀, y.2) ρ
+      rw [mem_sliceDiamond]
+      simp only [sub_self, norm_zero]
+      rw [ht₀]
+      rcases hs with rfl | rfl <;> constructor <;> linarith
+    · rintro w ⟨hwNd, hwg⟩
+      have hwNd' : w ∈ sliceDiamond (t₀, y.2) ρ := hwNd
+      have hwg' : w.1 = t₀ := hwg
+      rw [mem_sliceDiamond] at hwNd'
+      simp only at hwNd'
+      have hx : w.2 ∈ f ⁻¹' V := hεT (by
+        rw [mem_ball, dist_eq_norm, add_comm]
+        have := hwNd'.1
+        rw [hwg'] at this
+        linarith)
+      have hfw : f w.2 = w := Prod.ext hwg'.symm rfl
+      rw [mem_preimage, hfw] at hx
+      exact hx
+    · exact isCauchySurfaceOn_congr' (isCauchySurfaceOn_sliceDiamond t₀ y.2 ρ)
+        fun w hw => ⟨fun h => ⟨hw, h⟩, fun h => h.2⟩
+
 
 /-! ### §3 The chart: a sliced neighbourhood of `p` whose slice lies in `U` -/
 

@@ -1,4 +1,4 @@
-import CausalScaffold.SubExtension
+import Causal.SubExtension
 import Causal.CurvesExtend
 import Causal.CompactCauchy
 import Mathlib.Order.Interval.Set.IsoIoo

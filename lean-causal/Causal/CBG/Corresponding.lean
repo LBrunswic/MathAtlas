@@ -1,5 +1,5 @@
-import CausalScaffold.CBG.Geometry
-import CausalScaffold.CBG.CausalConvex
+import Causal.CBG.Geometry
+import Causal.CBG.CausalConvex
 
 /-!
 # Corresponding boundary points: `lem:corresponding_K` with `K^±`, `cor:ext_continue`, `C` open
