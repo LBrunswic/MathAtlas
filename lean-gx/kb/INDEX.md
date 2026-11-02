@@ -8,3 +8,4 @@ gx-specific. One fact per entry; propose one when you finish.
 
 | id | kind | entry |
 |---|---|---|
+| [0001](entries/0001-btz-terminology.md) | convention | gx's BTZ is BBS's *extreme* BTZ-like; BBS's BTZ-like is gx's `misner_btz` |
