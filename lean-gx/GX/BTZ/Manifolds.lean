@@ -9,34 +9,37 @@ import Causal.GXStructure
 /-!
 # `GX.BTZ.Manifolds` — causal notions on `BTZ`- and `\widetilde{BTZ}`-manifolds (l.2313–2359)
 
-Package WP-41l (WAVE5-PLAN.md, WP-39l), completed by WP-43e. `papers/gx`, §4.5
-(`RamcovGX.tex:2313–2361`).
+Packages WP-41l, WP-43e, WP-44c (DEC-106: `\widetilde M` carries its **natural** topology for
+causality and GH). `papers/gx`, §4.5 (`RamcovGX.tex:2313–2361`).
 
-* **`def:manifolds_future_distinguishing_map`** — `RamcovGX.tex:2317`, and its verbatim repeat
-  **`def:manifolds_future_distinguishing_map_2`** — `RamcovGX.tex:2356` (D-8, one definition):
-  `GX.IsFutureDistinguishing`.
-* **`def:singular_manifold_endowed_causal`** — `RamcovGX.tex:2319`: `GX.IsCausallyConnected`
-  (literal; WP-41e's stronger `CausallyArcConnected` implies it,
-  `GX.isCausallyConnected_of_causallyArcConnected`).
-* **`def:manifold_future_complete_all`** — `RamcovGX.tex:2343`: `GX.IsFutureComplete`, for `M`
-  `GX.BTZTildeData.IsBTZFutureComplete`; inhabited by the model (`GX.btzJ0_isFutureComplete`);
-  invariant under `D ↦ g · D` (`GX.BTZTildeData.isBTZFutureComplete_iff_of_smul`).
-* **`lem:globally_hyperbolic_manifolds_maximal`** — `RamcovGX.tex:2359`, the paper's statement
-  "`M` GH ⇒ `\widetilde M` (with `T_BTZ`, DEC-77 (b)) future distinguishing", 0 `sorry`:
-  `GX.BTZTildeData.isFutureDistinguishing_of_base` — NOT by l.2361's Lorentzian route (`\widetilde M`
-  GH), which is false: `J⁺(Δ₀) ≅ \widetilde{𝔼₀}` with `T_BTZ` is not GH
-  (`GX.btzJ0Tilde_not_globallyHyperbolic`, `GX.btzJ0_not_isCompact_diamond`), but through the
-  causal projection `\widetilde M → M` (`GX.BTZTildeData.proj_le`) and `M`'s strong causality.
-* `lem:globally_hyperbolic_manifolds_manifolds` — `RamcovGX.tex:2325`, partial (reading of
-  `\widetilde{BTZ}`-manifold): `GX.e0Manifold_isFutureDistinguishing`,
-  `GX.btzTildeAtlas_isFutureDistinguishing`, `GX.BTZTildeData.isFutureDistinguishing`; also for
-  `M` in the `SingularGXStructure` form, `GX.e0SingManifold_isFutureDistinguishing`.
-* `lem:manifolds_manifolds_causally_connected` — `RamcovGX.tex:2329`, partial (same reading):
-  `GX.e0Manifold_isCausallyConnected`, `GX.btzTildeAtlas_isCausallyConnected`,
-  `GX.BTZTildeData.isCausallyConnected`.
-* `lem:increasing_map` — `RamcovGX.tex:2334`, partial (D-10 `∀ x y ∈ \widetilde M`; rests on WP-41d's
-  readings of `\widetilde M`): `GX.BTZTildeData.increasing` (`<` of l.2193),
-  `GX.BTZTildeData.increasing_lt` (`≪`), generic `GX.btzTilde_le_dev`, `GX.btzTilde_lt_dev`.
+* **`def:manifolds_future_distinguishing_map`** (l.2317) and its repeat
+  **`def:manifolds_future_distinguishing_map_2`** (l.2356, D-8): `GX.IsFutureDistinguishing`.
+* **`def:singular_manifold_endowed_causal`** (l.2319): `GX.IsCausallyConnected`.
+* **`lem:manifolds_manifolds_causally_connected`** (l.2329): `GX.e0Manifold_isCausallyConnected`,
+  `GX.BTZTildeData.natIsCausallyConnected` (natural topology), `GX.btzTildeAtlas_isCausallyConnected`.
+* **`lem:increasing_map`** (l.2334, `∀ x y ∈ \widetilde M`, D-10): `GX.BTZTildeData.natIncreasing`
+  (`<` of l.2193), `GX.BTZTildeData.natIncreasing_lt` (`≪`).
+
+Partial (a reading, not ruled; DEC-27 counterexample to the literal DEC-106 reading):
+
+* `lem:globally_hyperbolic_manifolds_maximal` (l.2359). Literal DEC-106 reading FALSE: `natCausality`
+  relates by `≪` only regular points, so all BTZ points have `I⁺ = ∅`
+  (`GX.BTZTildeData.not_isFutureDistinguishing_natCausality`). Strongest true form, `M` GH:
+  `I⁺(x) = I⁺(y)` iff `x = y` or both are BTZ points (`GX.BTZTildeData.natIplus_eq_iff`). Read
+  for the chart-generated `≪` of `(\widetilde M, T')`: `GX.BTZTildeData.isFutureDistinguishing_of_base`.
+  "`M` GH ⇒ `\widetilde M` GH (natural)" is NOT proved (SCOPE (f)).
+* `lem:globally_hyperbolic_manifolds_manifolds` (l.2325). The `BTZ` half is proved
+  (`GX.e0Manifold_isFutureDistinguishing`, `GX.e0SingManifold_isFutureDistinguishing`). The
+  `\widetilde{BTZ}` half is false literally (same counterexample). Natural GH ⇒ strongest true form:
+  `GX.BTZTildeData.natIplus_eq_iff_of_natGloballyHyperbolic`. Natural GH ⇒ FD for the `T'` `≪`:
+  `GX.BTZTildeData.isFutureDistinguishing_of_natGloballyHyperbolic`. Natural GH is not shown
+  satisfiable when `sing M ≠ ∅`.
+* `def:manifold_future_complete_all` (l.2343): `GX.IsFutureComplete`; for `M` read with the `T'`
+  `≪`, `GX.BTZTildeData.IsBTZFutureComplete` (model `GX.btzJ0_isFutureComplete`). Literal DEC-106
+  reading unsatisfiable once `sing M ≠ ∅` (`GX.BTZTildeData.not_isFutureComplete_natCausality`).
+
+Finding kept (DEC-106): with `T_BTZ` the model `J⁺(Δ₀)` is not GH
+(`GX.btzJ0_not_isCompact_diamond`, `GX.btzJ0Tilde_not_globallyHyperbolic`).
 
 > \begin{defi} A $\BTZtilde$-manifolds $M$ is future distinguishing if the map $x\mapsto I^+(x)$
 > defined on $M$ is injective. \end{defi}
@@ -98,6 +101,29 @@ Package WP-41l (WAVE5-PLAN.md, WP-39l), completed by WP-43e. `papers/gx`, §4.5
   `GX.btzJ0Tilde_not_globallyHyperbolic`). WP-41l's tagged transfer `M GH ⇒ \widetilde M GH` is
   removed (it fails for `M = 𝔼₀`'s GH past half `{τ < 0}`, whose `\widetilde M` is the corresponding
   part of `J⁺(Δ₀)`; the instance is argued, not formalized).
+* **DEC-106, the natural topology (WP-44c).** `GX.BTZTildeData.natCausality` is a causality on
+  `\widetilde M` with its natural (Fox completion) topology: `≤_U` is the chart-generated relation
+  of `U` read in `(\widetilde M, T')` (`natOpens`: a natural open is `T'`-open), `≪_U` its
+  restriction to pairs of regular points (`regPart`; a `T'`-open subset of `p⁻¹(reg M)` is
+  naturally open, `isOpen_inter_regPart`). Its diamonds are those of `BTZTildeData.causality`
+  (`natCausality_diamond`), it is causal, causally connected (a `T'`-curve is a natural curve,
+  `natCausality_causalCurveOn`), and `D` is increasing on it. **GH ⇒ future distinguishing
+  without tarentin** (`GX.isFutureDistinguishing_of_isCompact_image_diamond`, pointwise
+  `GX.le_of_Iplus_eq_of_isCompact_image_diamond`): from `I⁺(x) = I⁺(y)` and `q ≫ x`, `x` is a
+  limit of points of `I⁺(y) ∩ I⁻(q) ⊆ J(y, q)`, and `J(y, q)` is compact, hence closed.
+* **DEC-27 for the literal DEC-106 reading (WP-44c round 1).** `natCausality` has `I⁺(x) = ∅` at
+  every BTZ point (`natCausality_Iplus_eq_empty`), and `p` is onto (`exists_not_mem_regPart`), so
+  two singular points of `M` make `natCausality` not future distinguishing
+  (`not_isFutureDistinguishing_natCausality`, `…_of_ne`) and one makes it never future complete
+  (`not_isFutureComplete_natCausality`). **Strongest true form**: the regular points are in the
+  natural `Z⁺` (`natCausality_mem_Zplus`), and `I⁺(x) = I⁺(y)` iff `x = y` or both are BTZ
+  points — from `M` GH (`natIplus_eq_iff`, injective on `regPart`: `natIplus_injOn_regPart`;
+  the sheet step `eq_of_dev_eq_of_proj_eq` is shared with `isFutureDistinguishing_of_base`) and
+  from natural GH of `\widetilde M` (`natIplus_eq_iff_of_natGloballyHyperbolic`). Model
+  non-vacuity of the coarser-topology route: the diamonds of `J⁺(Δ₀)` are compact in `𝐌³`
+  (`GX.btzJ0_isCompact_val_image_diamond`), so the model is future distinguishing
+  (`GX.btzJ0_isFutureDistinguishing`) although not `T_BTZ`-GH. Natural GH of an instance with
+  `sing M ≠ ∅` is NOT established.
 
 ## Hypothesis checklist
 
@@ -106,14 +132,14 @@ Package WP-41l (WAVE5-PLAN.md, WP-39l), completed by WP-43e. `papers/gx`, §4.5
 | `x ↦ I⁺(x)` injective (l.2317 = l.2356) | ✓ `IsFutureDistinguishing C`, for every causality (`I⁺ = C.Iplus ⊤ {x}`) |
 | "some causal pre-order extending the one on `reg(M)`" (l.2319) | ✓ any `Causal.Causality`; "future causal path" = `CausalCurveOn ⊤ c 0 1` |
 | `BTZ`-manifold (l.2325, l.2329) | ✓ read: LocalModel's charted form (`E0Y`, `e0Groupoid`, `chartedCausality`); `[T2Space M]` (DEC-66 (a)) for l.2325 |
-| `\widetilde{BTZ}`-manifold (l.2325, l.2329; never defined, WP-41d's question) | ⚠ read: Hausdorff space with an atlas into `J⁺(Δ₀)` (BTZ topology), causality generated by the charts; no compatibility used (⚠ weakened) |
+| `\widetilde{BTZ}`-manifold (l.2325, l.2329; never defined, WP-41d's question) | ⚠ DEC-106: `\widetilde M` with its natural topology and `natCausality` (FD literally false, strongest true form proved); FD for the `T'` `≪` under natural GH (a reading, not ruled); also any space with an atlas into `J⁺(Δ₀)`, causality generated by the charts, GH read in any coarser Hausdorff topology (no compatibility used) |
 | globally hyperbolic | ✓ ETT's `GloballyHyperbolic` (causal + compact diamonds; l.2235's Geroch form) |
-| `D : \widetilde M → 𝐌³`, `T_BTZ` (l.2312, DEC-77 (b)) | ✓ `BTZTildeData`: WP-41d's tamifying topology (chartwise `T_BTZ`, natural over `reg M`), `T'`-continuous `D`, `IsLocallyBTZTilde` |
-| `∀ x,y ∈ M` in `lem:increasing_map` | ⚠ corrected (D-10): `∀ x, y ∈ \widetilde M` |
+| `D : \widetilde M → 𝐌³`, `T_BTZ` (l.2312) | ✓ `BTZTildeData`: WP-41d's tamifying topology (chartwise `T_BTZ`, natural over `reg M`), `T'`-continuous `D`, `IsLocallyBTZTilde`; DEC-106: `T'` builds the charts (hence the relations) and nothing else — causality and GH are read in the natural topology (`natCausality`) |
+| `∀ x,y ∈ M` in `lem:increasing_map` | ✓ as dispatched (D-10): `∀ x, y ∈ \widetilde M` |
 | `x < y` (l.2193: causal and `t' > t`) | ✓ `≤ ∧ ≠ ⇒ D x ≤ D y ∧ D x ≠ D y`; `≪` version too |
 | "for all `x ∈ \widetilde M`" (l.2343) | ✓ `IsFutureComplete C D`, `J^±`, `I^±` of `\widetilde M` and of `minkowski 2` |
 | `M` globally hyperbolic (l.2359) | ✓ carried (`e0ManifoldCausality M`, the chart-generated causality, DEC-33) |
-| its maximal branched covering `\widetilde M` (l.2359) | ✓ read (DEC-77 (b)): `BTZTildeData`, `T_BTZ` presented by `Φ` lifting the projection (`isPresentation`, the hypothesis of every construction) |
+| its maximal branched covering `\widetilde M` (l.2359) | ⚠ DEC-106: `BTZTildeData` (its `T'` presented by `Φ` lifting the projection, `isPresentation`); the natural causality `natCausality` makes FD false (`not_isFutureDistinguishing_natCausality`) and its strongest true form is `natIplus_eq_iff`; FD for the chart-generated `≪` of `(\widetilde M, T')` is `isFutureDistinguishing_of_base` (a reading, not ruled) |
 
 ## SCOPE (disclosed)
 
@@ -127,12 +153,14 @@ Package WP-41l (WAVE5-PLAN.md, WP-39l), completed by WP-43e. `papers/gx`, §4.5
   needed and not proved.
 * (c) `lem:increasing_map` is proved from the construction: each generating link is an increasing
   model curve read by `D = g · val ∘ κ`, and `g` is monotone (`isom_le_top_iff`); the paper's
-  "locally increasing + causally connected" is this argument. It rests on WP-41d's two pending
-  readings of `prop:manifold_admits_galoisian_maximal` (chartwise `T_BTZ`; local `\widetilde{BTZ}`).
+  "locally increasing + causally connected" is this argument. It uses WP-41d's construction of
+  `\widetilde M` (chartwise `T_BTZ`; local `\widetilde{BTZ}`), which DEC-106 keeps for the charts.
 * (d) `lem:globally_hyperbolic_manifolds_maximal`: the paper's hypothesis "`M` globally
   hyperbolic" is stated for `M`'s own causality, generated by its charts into `𝕄 ⊕ 𝔼₀`
-  (`e0ManifoldCausality`; the `SingularGXStructure` form, the one `\widetilde M` is built from), and
-  the paper's statement is `BTZTildeData.isFutureDistinguishing_of_base`, proved with 0 `sorry`.
+  (`e0ManifoldCausality`; the `SingularGXStructure` form, the one `\widetilde M` is built from).
+  The conclusion, read for the chart-generated `≪` of `(\widetilde M, T')`, is
+  `BTZTildeData.isFutureDistinguishing_of_base`; for the natural causality, `natIplus_eq_iff` (see
+  (f)). Both proved with 0 `sorry`.
   `BTZTildeData` gained the field `isPresentation` (WP-43e): `Φ` lifts the projection
   `\widetilde{𝔼₀} → 𝔼₀`, which every construction already assumed (`nonempty` takes it); it is
   what ties the lifted charts `Ψ` of `IsLocallyBTZTilde` to the causality of `𝔼₀`. The proof
@@ -141,6 +169,27 @@ Package WP-41l (WAVE5-PLAN.md, WP-39l), completed by WP-43e. `papers/gx`, §4.5
 * (e) `GX.btz_manifold_exists_chartwise_tamifying_reg` and `GX.isLocallyBTZTilde_of_chartwise`
   repeat WP-41d's proofs verbatim (VirtTame), keeping one more conclusion (natural over `reg M`)
   and allowing any `T'`, `D`; no statement of WP-41d is changed.
+* (f) DEC-106 (WP-44c). **Argued, not formalized**: the natural topology carries no causality
+  with the geometric `≪` — a natural neighbourhood of a BTZ point `s` is a whole component of
+  `p⁻¹(U)`, on which `D` is unbounded (the parabolic holonomy pushes `γⁿ w` to the future along
+  `Δ`), so `I⁻(y) ∋ s` is not naturally open. `natCausality` therefore keeps `≪` between regular
+  points only (a choice, not shown to be the largest admissible one), and with it the literal
+  statements of l.2325 (`\widetilde{BTZ}` half), l.2343 and l.2359 are FALSE as soon as `sing M`
+  has two points (one for l.2343): `not_isFutureDistinguishing_natCausality`,
+  `not_isFutureComplete_natCausality`. What is proved instead: (i) the strongest true natural
+  form, `I⁺(x) = I⁺(y)` iff `x = y` or both are BTZ points (`natIplus_eq_iff` from `M` GH,
+  `natIplus_eq_iff_of_natGloballyHyperbolic` from natural GH); (ii) the reading "FD and future
+  completeness for the chart-generated `≪` of `(\widetilde M, T')`" (`isFutureDistinguishing_of_base`,
+  `isFutureDistinguishing_of_natGloballyHyperbolic`, `IsBTZFutureComplete`), whose `J^±` agree
+  with `natCausality`'s; this reading is NOT ruled (question to the author, REPORT WP-44c), so
+  the three rows are not marked. Also argued: natural diamonds have empty interior at BTZ points
+  (`D` is bounded on a diamond), so `natCausality` is not tarentin there and ETT's GH ⇒ strongly
+  causal route is unavailable; the tarentin-free `le_of_Iplus_eq_of_isCompact_image_diamond`
+  replaces it. **Natural GH is not shown satisfiable when `sing M ≠ ∅`** (no instance is built),
+  and **"`M` GH ⇒ `\widetilde M` GH" (natural) is NOT proved**: CoverMGH's finite-chain argument
+  (`Causal.Flat.Cla.isCompact_diamond_of_isFiniteCover`) uses finite fibres for the compact
+  `p⁻¹(J(px, py))` and a finite label set; here the fibres are infinite, and at a BTZ sheet `D` is
+  not naturally continuous, so the limit step needs the lifted chart's local order.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; lean-causal `ca2ad78`
 (`lake-manifest.json`).
@@ -174,7 +223,7 @@ theorem isCausallyConnected_of_causallyArcConnected {C : Causal.Causality N}
     (h : C.CausallyArcConnected) : IsCausallyConnected C := fun x y hxy =>
   ((h ⊤ le_rfl x y).1.1 hxy)
 
-/-- **`def:manifold_future_complete_all`** (`RamcovGX.tex:2343`): for a causality `C` on
+/-- `def:manifold_future_complete_all` (`RamcovGX.tex:2343`): for a causality `C` on
 `\widetilde M` and a developing map `D`, *future completeness* is
 `D(J⁺(x)) = J⁺(D x)` and `D(I⁺(x)) = I⁺(D x)` for every `x`. -/
 def IsFutureComplete (C : Causal.Causality N) (D : N → Causal.Minkowski 2) : Prop :=
@@ -188,6 +237,53 @@ theorem isFutureDistinguishing_of_globallyHyperbolic [T2Space N] {C : Causal.Cau
     (hT : C.Tarentin) (hZ : ∀ x : N, x ∈ C.Zplus) (hG : C.GloballyHyperbolic) :
     IsFutureDistinguishing C := fun x y h =>
   Causal.Causality.Iplus_injOn_Zplus (hG.stronglyCausal hT) (hZ x) (hZ y) h
+
+section Coarse
+
+variable {N₀ : Type*} [TopologicalSpace N₀] [T2Space N₀]
+
+/-- The pointwise step of `isFutureDistinguishing_of_isCompact_image_diamond`: if `x` is strongly
+tarentin in the future (`x ∈ Z⁺`), the diamonds are compact in a coarser Hausdorff topology and
+`I⁺(x) = I⁺(y)`, then `y ≤ x`. Only `Z⁺` at `x` is used. -/
+theorem le_of_Iplus_eq_of_isCompact_image_diamond {C : Causal.Causality N} (ι : N → N₀)
+    (hι : Continuous ι) (hinj : Injective ι) (hK : ∀ p q : N, IsCompact (ι '' C.diamond ⊤ p q))
+    {x y : N} (hx : x ∈ C.Zplus) (h : C.Iplus ⊤ {x} = C.Iplus ⊤ {y}) : C.le ⊤ y x := by
+  obtain ⟨q, hq, -⟩ := hx univ univ_mem
+  have hxq : C.lt ⊤ x q := Causal.Precausality.mem_Iplus_singleton.1 hq
+  have hcl : ι x ∈ closure (ι '' C.diamond ⊤ y q) := by
+    rw [mem_closure_iff_nhds]
+    intro O hO
+    have hN : ι ⁻¹' O ∩ {z | C.lt ⊤ z q} ∈ 𝓝 x :=
+      inter_mem (hι.continuousAt.preimage_mem_nhds hO) ((C.isOpen_lt_left ⊤ q).mem_nhds hxq)
+    obtain ⟨z, hzI, hzN⟩ := hx _ hN
+    refine ⟨ι z, hzN.1, z, ?_, rfl⟩
+    have hzI' : z ∈ C.Iplus ⊤ {y} := h ▸ hzI
+    rw [Causal.Causality.mem_diamond]
+    exact ⟨C.le_of_lt (Causal.Precausality.mem_Iplus_singleton.1 hzI'), C.le_of_lt hzN.2⟩
+  rw [(hK y q).isClosed.closure_eq] at hcl
+  obtain ⟨z, hz, hzx⟩ := hcl
+  rw [← hinj hzx]
+  exact (Causal.Causality.mem_diamond.1 hz).1
+
+/-- **Future distinguishing from compact diamonds in a coarser Hausdorff topology** (the step of
+`lem:globally_hyperbolic_manifolds_manifolds` that survives DEC-106): if every point is strongly
+tarentin in the future (`Z⁺`) and the diamonds are compact for a coarser Hausdorff topology (read
+through a continuous injection `ι`), then `x ↦ I⁺(x)` is injective. No tarentin hypothesis: from
+`I⁺(x) = I⁺(y)` and `q ≫ x`, `ι x` is a limit of points `ι z`, `z ∈ I⁺(y) ∩ I⁻(q) ⊆ J(y, q)`. -/
+theorem isFutureDistinguishing_of_isCompact_image_diamond {C : Causal.Causality N} (ι : N → N₀)
+    (hι : Continuous ι) (hinj : Injective ι) (hcaus : C.IsCausal) (hZ : ∀ x : N, x ∈ C.Zplus)
+    (hK : ∀ p q : N, IsCompact (ι '' C.diamond ⊤ p q)) : IsFutureDistinguishing C := by
+  intro x y h
+  exact hcaus (le_of_Iplus_eq_of_isCompact_image_diamond ι hι hinj hK (hZ y) h.symm)
+    (le_of_Iplus_eq_of_isCompact_image_diamond ι hι hinj hK (hZ x) h)
+
+/-- Globally hyperbolic with `Z⁺ = N` (no tarentin hypothesis) implies future distinguishing. -/
+theorem isFutureDistinguishing_of_globallyHyperbolic_of_Zplus [T2Space N] {C : Causal.Causality N}
+    (hZ : ∀ x : N, x ∈ C.Zplus) (hG : C.GloballyHyperbolic) : IsFutureDistinguishing C :=
+  isFutureDistinguishing_of_isCompact_image_diamond id continuous_id injective_id hG.1 hZ
+    fun p q => by rw [image_id]; exact hG.2 p q
+
+end Coarse
 
 end Defs
 
@@ -496,6 +592,17 @@ theorem btzTildeAtlas_isFutureDistinguishing [T2Space N]
     (hG : (btzTildeAtlasCausality A hA).GloballyHyperbolic) :
     IsFutureDistinguishing (btzTildeAtlasCausality A hA) :=
   isFutureDistinguishing_of_globallyHyperbolic btzTildeAtlas_tarentin btzTildeAtlas_mem_Zplus hG
+
+/-- `lem:globally_hyperbolic_manifolds_manifolds`, `\widetilde{BTZ}`-manifolds, for **any coarser
+Hausdorff topology** (DEC-106: the natural topology of `\widetilde M` is coarser than `T_BTZ`):
+causal, with diamonds compact once read by a continuous injection `ι` into a Hausdorff space,
+implies future distinguishing. -/
+theorem btzTildeAtlas_isFutureDistinguishing_of_isCompact_image {N₀ : Type*}
+    [TopologicalSpace N₀] [T2Space N₀] (ι : N → N₀) (hι : Continuous ι) (hinj : Injective ι)
+    (hcaus : (btzTildeAtlasCausality A hA).IsCausal)
+    (hK : ∀ p q : N, IsCompact (ι '' (btzTildeAtlasCausality A hA).diamond ⊤ p q)) :
+    IsFutureDistinguishing (btzTildeAtlasCausality A hA) :=
+  isFutureDistinguishing_of_isCompact_image_diamond ι hι hinj hcaus btzTildeAtlas_mem_Zplus hK
 
 /-! #### Atlases compatible with a developing map -/
 
@@ -1287,7 +1394,8 @@ theorem isLocallyBTZTilde_of_chartwise
     (fun v hv => hg v hv.1 hv.2) hc1 hc2 inter_subset_left hcl
 
 /-- **`\widetilde M` with `T_BTZ` is a `\widetilde{BTZ}`-manifold developed by `D`** (l.2310,
-l.2312–2313, DEC-77 (b)): for every `𝔼₀`-manifold `M`, every base point and every presentation
+l.2312–2313; DEC-106 keeps `T_BTZ` for the charts, hence the relations, and for the headline's
+homeomorphism, reversing DEC-77 (b) for causality and GH): for every `𝔼₀`-manifold `M`, every base point and every presentation
 `Φ` of `\widetilde{𝔼₀}`, `\widetilde M` carries a tamifying topology `T'`, chartwise `T_BTZ` and
 natural over `reg M`, and a `T'`-continuous developing map `D`, with which `(\widetilde M, T')`
 is covered by charts into `J⁺(Δ₀)` developed by `D` (`IsBTZTildeDev`); its causality is
@@ -1382,7 +1490,9 @@ theorem mem_xaChartToE0Y_source' {x : M}
 
 variable (M) in
 /-- **`\widetilde M` with the BTZ topology and its developing map** (l.2312: "Developing map … will
-always refer to the one for the `T_BTZ`-topology"; DEC-77 (b)): a topology `T'` on the maximal
+always refer to the one for the `T_BTZ`-topology"; DEC-106: `T_BTZ` builds the charts, hence the
+causal relations, and the headline's homeomorphism; causality and GH are read in the natural
+topology, `natCausality`, reversing DEC-77 (b)): a topology `T'` on the maximal
 covering, finer than the natural one and natural over `reg M`, a `T'`-continuous developing map
 `D`, and the lifted charts of `GX.IsLocallyBTZTilde` (chartwise `T_BTZ`). One exists for every
 base point and presentation (`GX.btz_manifold_tilde_isBTZTildeDev`, `GX.BTZTildeData.nonempty`). -/
@@ -1428,8 +1538,11 @@ abbrev Space : Type v := WithWrappedTop d.T'
 theorem isBTZTildeDev : IsBTZTildeDev (N := d.Space) d.D :=
   isBTZTildeDev_of_isLocallyBTZTilde d.le_natural d.nhds_reg d.isRegDeveloping d.isLocallyBTZTilde
 
-/-- **The causality of `\widetilde M`** (l.2313, DEC-33, DEC-77 (b)): generated by the charts of
-`(\widetilde M, T_BTZ)` into `J⁺(Δ₀)` developed by `D`. -/
+/-- **The causal relations of `\widetilde M`** (l.2313, DEC-33): generated by the charts of
+`(\widetilde M, T_BTZ)` into `J⁺(Δ₀)` developed by `D`. Under DEC-106 (which reverses DEC-77 (b))
+the causality of `\widetilde M` is read in its natural topology, `BTZTildeData.natCausality`, whose
+`≤` is this one and whose `≪` is this one between regular points; this causality's `≪` (at BTZ
+points too) is the one the reading "FD / future complete for the `T'` `≪`" uses (not ruled). -/
 noncomputable def causality : Causal.Causality d.Space :=
   btzTildeCausality d.D d.isBTZTildeDev
 
@@ -1455,10 +1568,10 @@ theorem isCausal : d.causality.IsCausal := btzTilde_isCausal
 theorem isCausallyConnected : IsCausallyConnected d.causality :=
   btzTildeAtlas_isCausallyConnected (hA := d.isBTZTildeDev)
 
-/-- `lem:globally_hyperbolic_manifolds_manifolds` and the Lorentzian half of
-`lem:globally_hyperbolic_manifolds_maximal`
-for `\widetilde M` with `T_BTZ` (DEC-77 (b)): if `\widetilde M` is globally hyperbolic, it is future
-distinguishing. -/
+/-- For `\widetilde M` with `T_BTZ` (the superseded reading DEC-77 (b), kept for its users): if
+`\widetilde M` is globally hyperbolic for `T_BTZ`, it is future distinguishing. The hypothesis
+fails as soon as `sing M ≠ ∅` (`GX.btzJ0Tilde_not_globallyHyperbolic`); the DEC-106 form is
+`isFutureDistinguishing_of_natGloballyHyperbolic`. -/
 theorem isFutureDistinguishing (hG : d.causality.GloballyHyperbolic) :
     IsFutureDistinguishing d.causality :=
   btzTildeAtlas_isFutureDistinguishing (hA := d.isBTZTildeDev) hG
@@ -1481,16 +1594,11 @@ theorem continuous_toNat : Continuous d.toNat := continuous_id_of_le d.le_natura
 theorem continuous_proj : Continuous d.proj :=
   (continuous_base_weakTopMax (Causal.Flat.isom 2) (Causal.Minkowski 2) M y₀).comp d.continuous_toNat
 
-/-- `I⁺(x) = I⁺(y)` forces `D x = D y` (`Z⁺`, continuity and monotonicity of `D`, closedness of
-`J⁺` in `𝐌³`). -/
-theorem dev_le_of_Iplus_eq {x y : d.Space}
-    (h : d.causality.Iplus ⊤ {x} = d.causality.Iplus ⊤ {y}) :
+/-- A point in the closure of `I⁺(y)` (in `(\widetilde M, T')`) develops into `J⁺(D y)`
+(continuity and monotonicity of `D`, closedness of `J⁺` in `𝐌³`). -/
+theorem dev_le_of_mem_closure_Iplus {x y : d.Space}
+    (hx : x ∈ closure (d.causality.Iplus ⊤ {y})) :
     (Causal.minkowski 2).le ⊤ (d.D y) (d.D x) := by
-  have hx : x ∈ closure (d.causality.Iplus ⊤ {y}) := by
-    rw [← h, mem_closure_iff_nhds]
-    intro t ht
-    obtain ⟨z, hz, hzt⟩ := btzTildeAtlas_mem_Zplus (hA := d.isBTZTildeDev) x t ht
-    exact ⟨z, hzt, hz⟩
   have h1 : d.dev x ∈ closure (d.dev '' d.causality.Iplus ⊤ {y}) :=
     mem_closure_image d.continuous_dev.continuousAt hx
   have h2 : d.dev '' d.causality.Iplus ⊤ {y} ⊆ (Causal.minkowski 2).Jplus ⊤ {d.D y} := by
@@ -1502,6 +1610,20 @@ theorem dev_le_of_Iplus_eq {x y : d.Space}
     Causal.minkowski_globallyHyperbolic.isClosed_Jplus_singleton Causal.minkowski_tarentin _
   have := closure_minimal h2 hcl h1
   rwa [Causal.Precausality.mem_Jplus_singleton] at this
+
+/-- `x` is in the closure of its own chronological future (`Z⁺`). -/
+theorem mem_closure_Iplus_self (x : d.Space) : x ∈ closure (d.causality.Iplus ⊤ {x}) := by
+  rw [mem_closure_iff_nhds]
+  intro t ht
+  obtain ⟨z, hz, hzt⟩ := btzTildeAtlas_mem_Zplus (hA := d.isBTZTildeDev) x t ht
+  exact ⟨z, hzt, hz⟩
+
+/-- `I⁺(x) = I⁺(y)` forces `D y ≤ D x` (`Z⁺`, continuity and monotonicity of `D`, closedness of
+`J⁺` in `𝐌³`). -/
+theorem dev_le_of_Iplus_eq {x y : d.Space}
+    (h : d.causality.Iplus ⊤ {x} = d.causality.Iplus ⊤ {y}) :
+    (Causal.minkowski 2).le ⊤ (d.D y) (d.D x) :=
+  d.dev_le_of_mem_closure_Iplus (h ▸ d.mem_closure_Iplus_self x)
 
 theorem dev_eq_of_Iplus_eq {x y : d.Space}
     (h : d.causality.Iplus ⊤ {x} = d.causality.Iplus ⊤ {y}) : d.D x = d.D y :=
@@ -1774,16 +1896,12 @@ theorem proj_le (hM : IsBTZSingModelled M)
   | single hl => exact d.proj_le_of_link hM hl
   | tail _ hl ih => exact (e0ManifoldCausality M hM).le_trans ih (d.proj_le_of_link hM hl)
 
-/-- With `M` globally hyperbolic, `I⁺(x) = I⁺(y)` in `\widetilde M` forces `p(y) ≤ p(x)`. -/
-theorem proj_le_of_Iplus_eq (hM : IsBTZSingModelled M)
+/-- With `M` globally hyperbolic, a point in the closure of `I⁺(y)` (in `(\widetilde M, T')`)
+projects into `J⁺(p(y))` (`p` causal and continuous, `J⁺` closed in the GH `M`). -/
+theorem proj_le_of_mem_closure_Iplus (hM : IsBTZSingModelled M)
     (hG : (e0ManifoldCausality M hM).GloballyHyperbolic) {x y : d.Space}
-    (h : d.causality.Iplus ⊤ {x} = d.causality.Iplus ⊤ {y}) :
+    (hx : x ∈ closure (d.causality.Iplus ⊤ {y})) :
     (e0ManifoldCausality M hM).le ⊤ (d.proj y) (d.proj x) := by
-  have hx : x ∈ closure (d.causality.Iplus ⊤ {y}) := by
-    rw [← h, mem_closure_iff_nhds]
-    intro t ht
-    obtain ⟨z, hz, hzt⟩ := btzTildeAtlas_mem_Zplus (hA := d.isBTZTildeDev) x t ht
-    exact ⟨z, hzt, hz⟩
   have h1 : d.proj x ∈ closure (d.proj '' d.causality.Iplus ⊤ {y}) :=
     mem_closure_image d.continuous_proj.continuousAt hx
   have h2 : d.proj '' d.causality.Iplus ⊤ {y} ⊆
@@ -1795,6 +1913,13 @@ theorem proj_le_of_Iplus_eq (hM : IsBTZSingModelled M)
   have hcl := hG.isClosed_Jplus_singleton (e0ManifoldCausality_tarentin hM) (d.proj y)
   have := closure_minimal h2 hcl h1
   rwa [Causal.Precausality.mem_Jplus_singleton] at this
+
+/-- With `M` globally hyperbolic, `I⁺(x) = I⁺(y)` in `\widetilde M` forces `p(y) ≤ p(x)`. -/
+theorem proj_le_of_Iplus_eq (hM : IsBTZSingModelled M)
+    (hG : (e0ManifoldCausality M hM).GloballyHyperbolic) {x y : d.Space}
+    (h : d.causality.Iplus ⊤ {x} = d.causality.Iplus ⊤ {y}) :
+    (e0ManifoldCausality M hM).le ⊤ (d.proj y) (d.proj x) :=
+  d.proj_le_of_mem_closure_Iplus hM hG (h ▸ d.mem_closure_Iplus_self x)
 
 /-- **Sheets**: every point `x` of `\widetilde M` has an open neighbourhood `U₀` of `p(x)` in `M`
 such that the component of `p⁻¹(U₀)` through `x` is `T'`-open and the pair `(p, D)` is injective
@@ -1840,16 +1965,14 @@ theorem exists_injective_sheet (x : d.Space) :
     refine ⟨U, hUo, hxU, ?_, fun a b ha hb hab _ => hcov.injOn (x := d.toNat x) hxU ha hb hab⟩
     exact ((hUo.preimage SpreadEnd.continuous_base).connectedComponentIn).preimage d.continuous_toNat
 
-/-- **`lem:globally_hyperbolic_manifolds_maximal`** (`RamcovGX.tex:2359`): if the `𝔼₀`-manifold
-`M` is globally hyperbolic, its maximal branched covering `\widetilde M` (with `T_BTZ`,
-DEC-77 (b)) is future distinguishing. -/
-theorem isFutureDistinguishing_of_base (hM : IsBTZSingModelled M)
-    (hG : (e0ManifoldCausality M hM).GloballyHyperbolic) : IsFutureDistinguishing d.causality := by
-  intro x y hxy
-  have hxy' : d.causality.Iplus ⊤ {x} = d.causality.Iplus ⊤ {y} := hxy
-  have hD := d.dev_eq_of_Iplus_eq hxy'
-  have hP : d.proj x = d.proj y :=
-    hG.1 (d.proj_le_of_Iplus_eq hM hG hxy'.symm) (d.proj_le_of_Iplus_eq hM hG hxy')
+/-- **The sheet step** of `lem:globally_hyperbolic_manifolds_maximal`: with `M` globally hyperbolic,
+if `D x = D y`, `p x = p y` and every neighbourhood of `x` (in `(\widetilde M, T')`) contains a
+point in the causal future of `y`, then `x = y`. Around `p x` a causally convex `V` of `M` (strong
+causality) inside a sheet `U₀` on which `(p, D)` is injective; a causal chain from `y` to such a
+point over `V` stays in the component of `p⁻¹(U₀)` through `x`. -/
+theorem eq_of_dev_eq_of_proj_eq (hM : IsBTZSingModelled M)
+    (hG : (e0ManifoldCausality M hM).GloballyHyperbolic) {x y : d.Space} (hD : d.D x = d.D y)
+    (hP : d.proj x = d.proj y) (hz : ∀ t ∈ 𝓝 x, ∃ z ∈ t, d.causality.le ⊤ y z) : x = y := by
   obtain ⟨U₀, hU₀o, hxU₀, hSo, hinj⟩ := d.exists_injective_sheet x
   obtain ⟨V, hV, hVU, hconv⟩ :=
     hG.stronglyCausal (e0ManifoldCausality_tarentin hM) (d.proj x) U₀ (hU₀o.mem_nhds hxU₀)
@@ -1857,11 +1980,7 @@ theorem isFutureDistinguishing_of_base (hM : IsBTZSingModelled M)
       (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) y₀ → M) ⁻¹' U₀) (d.toNat x) :=
     mem_connectedComponentIn hxU₀
   have hWo := hSo.inter ((isOpen_interior (s := V)).preimage d.continuous_proj)
-  obtain ⟨z, hzI, hzW⟩ := btzTildeAtlas_mem_Zplus (hA := d.isBTZTildeDev) x _
-    (hWo.mem_nhds ⟨hxS, mem_interior_iff_mem_nhds.2 hV⟩)
-  have hzI' : z ∈ d.causality.Iplus ⊤ {y} := by rw [← hxy']; exact hzI
-  have hyz : d.causality.le ⊤ y z :=
-    d.causality.le_of_lt (Causal.Precausality.mem_Iplus_singleton.1 hzI')
+  obtain ⟨z, hzW, hyz⟩ := hz _ (hWo.mem_nhds ⟨hxS, mem_interior_iff_mem_nhds.2 hV⟩)
   have hyV : d.proj y ∈ V := hP ▸ mem_of_mem_nhds hV
   have hzV : d.proj z ∈ V := interior_subset hzW.2
   have hcc := d.mem_connectedComponentIn_of_le (U₀ := V) hyz fun w h1 h2 =>
@@ -1874,10 +1993,33 @@ theorem isFutureDistinguishing_of_base (hM : IsBTZSingModelled M)
     exact connectedComponentIn_mono _ (preimage_mono hVU) hcc
   exact hinj x y hxS hyS hP hD
 
+/-- `lem:globally_hyperbolic_manifolds_maximal` (`RamcovGX.tex:2359`), **for the chart-generated
+`≪` of `(\widetilde M, T')`** (the reading of REPORT WP-44c, not ruled): if the `𝔼₀`-manifold `M`
+is globally hyperbolic, `x ↦ I⁺(x)` is injective on `\widetilde M` for the chronological relation
+generated by the charts of `(\widetilde M, T')` (`BTZTildeData.causality`). This relation is NOT
+the chronological relation of the natural causality `natCausality` of DEC-106, for which the
+literal statement is false as soon as `sing M` has two points
+(`not_isFutureDistinguishing_natCausality`); its strongest true natural form is
+`natIplus_eq_iff`. -/
+theorem isFutureDistinguishing_of_base (hM : IsBTZSingModelled M)
+    (hG : (e0ManifoldCausality M hM).GloballyHyperbolic) : IsFutureDistinguishing d.causality := by
+  intro x y hxy
+  have hxy' : d.causality.Iplus ⊤ {x} = d.causality.Iplus ⊤ {y} := hxy
+  have hD := d.dev_eq_of_Iplus_eq hxy'
+  have hP : d.proj x = d.proj y :=
+    hG.1 (d.proj_le_of_Iplus_eq hM hG hxy'.symm) (d.proj_le_of_Iplus_eq hM hG hxy')
+  refine d.eq_of_dev_eq_of_proj_eq hM hG hD hP fun t ht => ?_
+  obtain ⟨z, hzI, hzt⟩ := btzTildeAtlas_mem_Zplus (hA := d.isBTZTildeDev) x t ht
+  have hzI' : z ∈ d.causality.Iplus ⊤ {y} := by rw [← hxy']; exact hzI
+  exact ⟨z, hzt, d.causality.le_of_lt (Causal.Precausality.mem_Iplus_singleton.1 hzI')⟩
+
 variable (M) in
-/-- **`def:manifold_future_complete_all`** (`RamcovGX.tex:2343`) for a `BTZ`-manifold `M`: for all
+/-- `def:manifold_future_complete_all` (`RamcovGX.tex:2343`) for a `BTZ`-manifold `M`, **read for
+the chart-generated `≪` of `(\widetilde M, T')`** (REPORT WP-44c, not ruled): for all
 `x ∈ \widetilde M`, `D(J⁺(x)) = J⁺(D x)` and `D(I⁺(x)) = I⁺(D x)`, the causality of `\widetilde M`
-being that of `T_BTZ` (`BTZTildeData.causality`). -/
+being `BTZTildeData.causality` (its `J^±` are those of the natural causality of DEC-106,
+`natCausality_le_top_iff`; its `I^±` are not). Read with `natCausality` the definition is
+unsatisfiable once `sing M ≠ ∅` (`not_isFutureComplete_natCausality`). -/
 def IsBTZFutureComplete (d : BTZTildeData M y₀ Φ) : Prop :=
   IsFutureComplete d.causality d.D
 
@@ -1893,6 +2035,315 @@ theorem isBTZFutureComplete_iff_of_smul (d d' : BTZTildeData M y₀ Φ) (hT : d.
   subst hT hD
   unfold IsBTZFutureComplete causality
   exact isFutureComplete_btzTildeCausality_smul_iff g _ _
+
+/-! #### DEC-106: `\widetilde M` with its natural topology -/
+
+/-- A point of `\widetilde M` (natural topology) read in `(\widetilde M, T')`. -/
+def fromNat (x : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) y₀) :
+    d.Space := x
+
+/-- A natural open set of `\widetilde M`, read as an open set of `(\widetilde M, T')`. -/
+def natOpens (U : Opens (MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) y₀)) :
+    Opens d.Space :=
+  ⟨d.toNat ⁻¹' U, U.isOpen.preimage d.continuous_toNat⟩
+
+omit [T2Space M] [LocPathConnectedSpace M] [FirstCountableTopology M] in
+@[simp] theorem natOpens_top : d.natOpens ⊤ = ⊤ := Opens.ext rfl
+
+omit [T2Space M] [LocPathConnectedSpace M] [FirstCountableTopology M] in
+theorem natOpens_mono {U V : Opens (MaxBranchedCover (Sing (Causal.Flat.isom 2)
+    (Causal.Minkowski 2) M) y₀)} (h : V ≤ U) : d.natOpens V ≤ d.natOpens U :=
+  fun _ hx => h hx
+
+/-- The regular part `p⁻¹(reg M)` of `\widetilde M`. -/
+def regPart : Set (MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) y₀) :=
+  SpreadEnd.base ⁻¹' Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M
+
+theorem isOpen_regPart : IsOpen (regPart (y₀ := y₀)) :=
+  isOpen_preimage_base_weakTopMax y₀ (isOpen_reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M)
+
+/-- A `T'`-open set, cut down to the regular part, is open for the natural topology. -/
+theorem isOpen_inter_regPart {S : Set d.Space} (hS : IsOpen S) :
+    IsOpen (d.fromNat ⁻¹' S ∩ regPart (y₀ := y₀)) := by
+  rw [isOpen_iff_mem_nhds]
+  rintro y ⟨hyS, hyR⟩
+  have h1 : S ∈ @nhds _ d.T'.top y := hS.mem_nhds hyS
+  rw [d.nhds_reg y hyR] at h1
+  exact inter_mem h1 (isOpen_regPart.mem_nhds hyR)
+
+/-- **The causality of `\widetilde M` for its natural topology** (DEC-106): the causal relation
+`≤_U` of a natural open `U` is that of `U` read in `(\widetilde M, T')` (the causality generated by
+the charts developed by `D`, `BTZTildeData.causality`); the chronological relation is `≪_U`
+restricted to pairs of regular points. Argued, not formalized: the openness axiom forbids
+`s ∈ I⁻(y)` at a BTZ point `s` (a natural neighbourhood of `s` is a whole component of `p⁻¹(U)`,
+on which `D` is unbounded); that this restriction is the largest admissible one is not proved.
+With it, every BTZ point has `I⁺ = ∅` (`natCausality_Iplus_eq_empty`). -/
+noncomputable def natCausality :
+    Causal.Causality (MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) y₀) where
+  le U x y := d.causality.le (d.natOpens U) (d.fromNat x) (d.fromNat y)
+  lt U x y := d.causality.lt (d.natOpens U) (d.fromNat x) (d.fromNat y) ∧ x ∈ regPart (y₀ := y₀) ∧
+    y ∈ regPart (y₀ := y₀)
+  le_mem_left h := d.causality.le_mem_left h
+  le_mem_right h := d.causality.le_mem_right h
+  lt_mem_left h := d.causality.lt_mem_left h.1
+  lt_mem_right h := d.causality.lt_mem_right h.1
+  le_refl hx := d.causality.le_refl (U := d.natOpens _) hx
+  le_trans h₁ h₂ := d.causality.le_trans h₁ h₂
+  lt_trans h₁ h₂ := ⟨d.causality.lt_trans h₁.1 h₂.1, h₁.2.1, h₂.2.2⟩
+  le_mono h _ _ h' := d.causality.le_mono (d.natOpens_mono h) h'
+  lt_mono h _ _ h' := ⟨d.causality.lt_mono (d.natOpens_mono h) h'.1, h'.2⟩
+  le_of_lt h := d.causality.le_of_lt h.1
+  isOpen_lt_right U x := by
+    by_cases hx : x ∈ regPart (y₀ := y₀)
+    · have := d.isOpen_inter_regPart (d.causality.isOpen_lt_right (d.natOpens U) (d.fromNat x))
+      convert this using 1
+      ext y
+      simp only [mem_setOf_eq, mem_inter_iff, mem_preimage, hx, true_and]
+    · convert isOpen_empty using 1
+      ext y
+      simp [hx]
+  isOpen_lt_left U x := by
+    by_cases hx : x ∈ regPart (y₀ := y₀)
+    · have := d.isOpen_inter_regPart (d.causality.isOpen_lt_left (d.natOpens U) (d.fromNat x))
+      convert this using 1
+      ext y
+      simp only [mem_setOf_eq, mem_inter_iff, mem_preimage, hx, and_true]
+    · convert isOpen_empty using 1
+      ext y
+      simp [hx]
+
+theorem natCausality_le_iff {U : Opens (MaxBranchedCover (Sing (Causal.Flat.isom 2)
+    (Causal.Minkowski 2) M) y₀)} {x y} :
+    d.natCausality.le U x y ↔ d.causality.le (d.natOpens U) (d.fromNat x) (d.fromNat y) := Iff.rfl
+
+theorem natCausality_le_top_iff {x y} :
+    d.natCausality.le ⊤ x y ↔ d.causality.le ⊤ (d.fromNat x) (d.fromNat y) := by
+  rw [natCausality_le_iff, natOpens_top]
+
+theorem natCausality_lt_iff {U : Opens (MaxBranchedCover (Sing (Causal.Flat.isom 2)
+    (Causal.Minkowski 2) M) y₀)} {x y} :
+    d.natCausality.lt U x y ↔ d.causality.lt (d.natOpens U) (d.fromNat x) (d.fromNat y) ∧
+      x ∈ regPart (y₀ := y₀) ∧ y ∈ regPart (y₀ := y₀) := Iff.rfl
+
+/-- The diamonds of the natural causality are those of `BTZTildeData.causality`. -/
+theorem natCausality_diamond (x y) :
+    d.natCausality.diamond ⊤ x y = d.toNat '' d.causality.diamond ⊤ (d.fromNat x) (d.fromNat y) := by
+  ext z
+  rw [Causal.Causality.mem_diamond, natCausality_le_top_iff, natCausality_le_top_iff]
+  constructor
+  · intro h
+    exact ⟨d.fromNat z, Causal.Causality.mem_diamond.2 h, rfl⟩
+  · rintro ⟨w, hw, rfl⟩
+    exact Causal.Causality.mem_diamond.1 hw
+
+/-- `\widetilde M` is causal for its natural causality. -/
+theorem natCausality_isCausal : d.natCausality.IsCausal := fun _ _ hxy hyx =>
+  d.isCausal ((d.natCausality_le_top_iff).1 hxy) ((d.natCausality_le_top_iff).1 hyx)
+
+/-- **`lem:increasing_map`** (`RamcovGX.tex:2334`, `∀ x, y ∈ \widetilde M`), for the natural
+causality of `\widetilde M` (DEC-106): `x < y ⇒ D(x) < D(y)` (`<` of l.2193). -/
+theorem natIncreasing {x y} (h : d.natCausality.le ⊤ x y) (hne : x ≠ y) :
+    (Causal.minkowski 2).le ⊤ (d.D x) (d.D y) ∧ d.D x ≠ d.D y :=
+  d.increasing ((d.natCausality_le_top_iff).1 h) hne
+
+/-- `lem:increasing_map`, chronological order, natural causality: `x ≪ y ⇒ D(x) ≪ D(y)`. -/
+theorem natIncreasing_lt {x y} (h : d.natCausality.lt ⊤ x y) :
+    (Causal.minkowski 2).lt ⊤ (d.D x) (d.D y) := by
+  have h' := ((d.natCausality_lt_iff).1 h).1
+  rw [natOpens_top] at h'
+  exact d.increasing_lt h'
+
+/-- A future causal curve of `(\widetilde M, T')` is one of `\widetilde M` with its natural
+causality. -/
+theorem natCausality_causalCurveOn {c : ℝ → d.Space} {a b : ℝ}
+    (hc : d.causality.CausalCurveOn ⊤ c a b) :
+    d.natCausality.CausalCurveOn ⊤ (fun s => d.toNat (c s)) a b :=
+  ⟨fun _ _ => trivial, fun t ht N _ htN => hc.rel t ht (d.natOpens N) le_top htN⟩
+
+/-- **`lem:manifolds_manifolds_causally_connected`** for `\widetilde M` with its natural
+causality (DEC-106). -/
+theorem natIsCausallyConnected : IsCausallyConnected d.natCausality := by
+  intro x y hxy
+  obtain ⟨c, hc, hc0, hc1⟩ := d.isCausallyConnected _ _ ((d.natCausality_le_top_iff).1 hxy)
+  exact ⟨fun s => d.toNat (c s), d.natCausality_causalCurveOn hc, hc0, hc1⟩
+
+/-- `lem:globally_hyperbolic_manifolds_manifolds` for `\widetilde M`, **mixed reading** (REPORT
+WP-44c, not ruled): if `\widetilde M` is globally hyperbolic for its natural causality (diamonds
+compact in the natural topology), `x ↦ I⁺(x)` is injective for the chart-generated `≪` of
+`(\widetilde M, T')`. The hypothesis is never shown satisfiable when `sing M ≠ ∅` (no instance is
+built). The natural-causality conclusion is `natIplus_eq_iff_of_natGloballyHyperbolic`. -/
+theorem isFutureDistinguishing_of_natGloballyHyperbolic
+    (hG : d.natCausality.GloballyHyperbolic) : IsFutureDistinguishing d.causality :=
+  isFutureDistinguishing_of_isCompact_image_diamond d.toNat d.continuous_toNat injective_id
+    d.isCausal (btzTildeAtlas_mem_Zplus (hA := d.isBTZTildeDev)) fun p q => by
+      have := hG.2 (d.toNat p) (d.toNat q)
+      rwa [natCausality_diamond] at this
+
+/-! #### DEC-27: the literal DEC-106 reading of `≪` at BTZ points -/
+
+theorem natCausality_lt_top_iff {x y} :
+    d.natCausality.lt ⊤ x y ↔ d.causality.lt ⊤ (d.fromNat x) (d.fromNat y) ∧
+      x ∈ regPart (y₀ := y₀) ∧ y ∈ regPart (y₀ := y₀) := by
+  rw [natCausality_lt_iff, natOpens_top]
+
+/-- **A BTZ point has empty natural chronological future**: `natCausality` relates by `≪` only
+regular points. -/
+theorem natCausality_Iplus_eq_empty {x} (hx : x ∉ regPart (y₀ := y₀)) :
+    d.natCausality.Iplus ⊤ {x} = ∅ := by
+  refine eq_empty_iff_forall_notMem.2 fun z hz => hx ?_
+  exact ((d.natCausality_lt_top_iff).1 (Causal.Precausality.mem_Iplus_singleton.1 hz)).2.1
+
+/-- The point of `\widetilde M` over a point of `M`, singular if the point is (`p` surjective: the
+maximal covering is a branched covering, `maxBranched_basic`). -/
+theorem exists_not_mem_regPart {s : M} (hs : s ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) :
+    ∃ x : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) y₀,
+      SpreadEnd.base x = s ∧ x ∉ regPart (y₀ := y₀) := by
+  have hreg : SemilocallySimplyConnected ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M)ᶜ :
+      Set M) := semilocallySimplyConnected_compl_of_sing_subset (G := Causal.Flat.isom 2)
+    (isLocallyUnloopable_of_normedSpace (Causal.Minkowski 2))
+    (isClosed_sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) subset_rfl
+  obtain ⟨-, hβ, -⟩ :=
+    maxBranched_basic (isSkeletal_sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) hreg y₀
+  obtain ⟨x, hx⟩ := hβ.surjective s
+  exact ⟨x, hx, fun h => (show SpreadEnd.base x ∈ Sing (Causal.Flat.isom 2)
+    (Causal.Minkowski 2) M from hx ▸ hs) h⟩
+
+/-- **DEC-27 counterexample to the literal DEC-106 reading of
+`lem:globally_hyperbolic_manifolds_maximal` and of the `\widetilde{BTZ}` half of
+`lem:globally_hyperbolic_manifolds_manifolds`**: two distinct BTZ points of `\widetilde M` have
+the same (empty) natural chronological future, so `natCausality` is not future distinguishing. -/
+theorem not_isFutureDistinguishing_natCausality_of_ne {x x'} (hx : x ∉ regPart (y₀ := y₀))
+    (hx' : x' ∉ regPart (y₀ := y₀)) (hne : x ≠ x') : ¬ IsFutureDistinguishing d.natCausality :=
+  fun h => hne (h ((d.natCausality_Iplus_eq_empty hx).trans (d.natCausality_Iplus_eq_empty hx').symm))
+
+/-- **DEC-27 counterexample, base form**: as soon as `sing M` has two points, `\widetilde M` with
+its natural causality is not future distinguishing — whatever the global hyperbolicity of `M` or
+of `\widetilde M`. -/
+theorem not_isFutureDistinguishing_natCausality {s s' : M}
+    (hs : s ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M)
+    (hs' : s' ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) (hne : s ≠ s') :
+    ¬ IsFutureDistinguishing d.natCausality := by
+  obtain ⟨x, hx, hxr⟩ := exists_not_mem_regPart (y₀ := y₀) hs
+  obtain ⟨x', hx', hxr'⟩ := exists_not_mem_regPart (y₀ := y₀) hs'
+  exact d.not_isFutureDistinguishing_natCausality_of_ne hxr hxr' fun h => hne (hx ▸ hx' ▸ h ▸ rfl)
+
+/-- **DEC-27 counterexample to the literal DEC-106 reading of `def:manifold_future_complete_all`**:
+at a BTZ point `x`, `D(I⁺(x)) = D(∅) = ∅ ≠ I⁺(D x)`, so `\widetilde M` with its natural causality
+is never future complete once `sing M ≠ ∅`. -/
+theorem not_isFutureComplete_natCausality {s : M}
+    (hs : s ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) :
+    ¬ IsFutureComplete d.natCausality d.D := by
+  intro h
+  obtain ⟨x, -, hxr⟩ := exists_not_mem_regPart (y₀ := y₀) hs
+  have h2 := (h x).2
+  rw [d.natCausality_Iplus_eq_empty hxr, image_empty] at h2
+  obtain ⟨m, hm⟩ := Causal.Causality.Iplus_nonempty_of_mem_Zplus (C := Causal.minkowski 2)
+    (p := d.D x) (by rw [Causal.minkowski_Zplus]; trivial)
+  rw [← h2] at hm
+  exact hm
+
+/-! #### The strongest true form for the natural causality -/
+
+/-- Natural `Z⁺` at regular points: every `T'`-neighbourhood of a regular point meets its
+natural chronological future. -/
+theorem exists_natIplus_mem_of_reg {x} (hx : x ∈ regPart (y₀ := y₀)) {t : Set d.Space}
+    (ht : t ∈ 𝓝 (d.fromNat x)) : ∃ z, z ∈ d.natCausality.Iplus ⊤ {x} ∧ d.fromNat z ∈ t := by
+  have hR : d.toNat ⁻¹' regPart (y₀ := y₀) ∈ 𝓝 (d.fromNat x) :=
+    (isOpen_regPart.preimage d.continuous_toNat).mem_nhds hx
+  obtain ⟨z, hz, hzt⟩ := btzTildeAtlas_mem_Zplus (hA := d.isBTZTildeDev) (d.fromNat x) _
+    (inter_mem ht hR)
+  refine ⟨d.toNat z, ?_, hzt.1⟩
+  rw [Causal.Precausality.mem_Iplus_singleton, natCausality_lt_top_iff]
+  exact ⟨Causal.Precausality.mem_Iplus_singleton.1 hz, hx, hzt.2⟩
+
+/-- The regular points of `\widetilde M` are strongly tarentin in the future for its natural
+causality. -/
+theorem natCausality_mem_Zplus {x} (hx : x ∈ regPart (y₀ := y₀)) : x ∈ d.natCausality.Zplus := by
+  intro N hN
+  obtain ⟨z, hz, hzN⟩ := d.exists_natIplus_mem_of_reg hx
+    (d.continuous_toNat.continuousAt.preimage_mem_nhds hN)
+  exact ⟨z, hz, hzN⟩
+
+/-- A point with the natural chronological future of a regular point is regular. -/
+theorem mem_regPart_of_natIplus_eq {x y} (hx : x ∈ regPart (y₀ := y₀))
+    (h : d.natCausality.Iplus ⊤ {x} = d.natCausality.Iplus ⊤ {y}) : y ∈ regPart (y₀ := y₀) := by
+  obtain ⟨z, hz, -⟩ := d.exists_natIplus_mem_of_reg hx (t := univ) univ_mem
+  rw [h, Causal.Precausality.mem_Iplus_singleton, natCausality_lt_top_iff] at hz
+  exact hz.2.1
+
+/-- Equal natural futures of a regular point `x` and of `y` put `x` in the closure of the
+chart-generated `I⁺(y)`. -/
+theorem mem_closure_Iplus_of_natIplus_eq {x y} (hx : x ∈ regPart (y₀ := y₀))
+    (h : d.natCausality.Iplus ⊤ {x} = d.natCausality.Iplus ⊤ {y}) :
+    d.fromNat x ∈ closure (d.causality.Iplus ⊤ {d.fromNat y}) := by
+  rw [mem_closure_iff_nhds]
+  intro t ht
+  obtain ⟨z, hz, hzt⟩ := d.exists_natIplus_mem_of_reg hx ht
+  rw [h, Causal.Precausality.mem_Iplus_singleton, natCausality_lt_top_iff] at hz
+  exact ⟨d.fromNat z, hzt, Causal.Precausality.mem_Iplus_singleton.2 hz.1⟩
+
+/-- `lem:globally_hyperbolic_manifolds_maximal`, **strongest true form for the natural causality
+of DEC-106**: with `M` globally hyperbolic, two points of `\widetilde M` have the same natural
+chronological future iff they are equal or both BTZ points. So `x ↦ I⁺(x)` is injective on the
+regular part and separates regular points from BTZ points; it identifies all BTZ points
+(`natCausality_Iplus_eq_empty`). -/
+theorem natIplus_eq_iff (hM : IsBTZSingModelled M)
+    (hG : (e0ManifoldCausality M hM).GloballyHyperbolic) {x y} :
+    d.natCausality.Iplus ⊤ {x} = d.natCausality.Iplus ⊤ {y} ↔
+      x = y ∨ (x ∉ regPart (y₀ := y₀) ∧ y ∉ regPart (y₀ := y₀)) := by
+  constructor
+  · intro h
+    by_cases hx : x ∈ regPart (y₀ := y₀)
+    · left
+      have hy := d.mem_regPart_of_natIplus_eq hx h
+      have hxc := d.mem_closure_Iplus_of_natIplus_eq hx h
+      have hyc := d.mem_closure_Iplus_of_natIplus_eq hy h.symm
+      have hD : d.D x = d.D y := Causal.minkowski_isCausal (d.dev_le_of_mem_closure_Iplus hyc)
+        (d.dev_le_of_mem_closure_Iplus hxc)
+      have hP : d.proj (d.fromNat x) = d.proj (d.fromNat y) :=
+        hG.1 (d.proj_le_of_mem_closure_Iplus hM hG hyc) (d.proj_le_of_mem_closure_Iplus hM hG hxc)
+      refine d.eq_of_dev_eq_of_proj_eq hM hG (x := d.fromNat x) (y := d.fromNat y) hD hP
+        fun t ht => ?_
+      obtain ⟨z, hz, hzt⟩ := d.exists_natIplus_mem_of_reg hx ht
+      rw [h, Causal.Precausality.mem_Iplus_singleton, natCausality_lt_top_iff] at hz
+      exact ⟨d.fromNat z, hzt, d.causality.le_of_lt hz.1⟩
+    · by_cases hy : y ∈ regPart (y₀ := y₀)
+      · exact absurd (d.mem_regPart_of_natIplus_eq hy h.symm) hx
+      · exact Or.inr ⟨hx, hy⟩
+  · rintro (rfl | ⟨hx, hy⟩)
+    · rfl
+    · rw [d.natCausality_Iplus_eq_empty hx, d.natCausality_Iplus_eq_empty hy]
+
+/-- With `M` globally hyperbolic, `x ↦ I⁺(x)` (natural causality) is injective on the regular part
+of `\widetilde M`. -/
+theorem natIplus_injOn_regPart (hM : IsBTZSingModelled M)
+    (hG : (e0ManifoldCausality M hM).GloballyHyperbolic) :
+    InjOn (fun x => d.natCausality.Iplus ⊤ {x}) (regPart (y₀ := y₀)) := fun _ hx _ _ h =>
+  ((d.natIplus_eq_iff hM hG).1 h).resolve_right fun h' => h'.1 hx
+
+/-- `lem:globally_hyperbolic_manifolds_manifolds` for `\widetilde M`, **strongest true form in the
+natural reading of DEC-106**: if `\widetilde M` is globally hyperbolic for its natural causality,
+two points have the same natural chronological future iff they are equal or both BTZ points. -/
+theorem natIplus_eq_iff_of_natGloballyHyperbolic (hG : d.natCausality.GloballyHyperbolic) {x y} :
+    d.natCausality.Iplus ⊤ {x} = d.natCausality.Iplus ⊤ {y} ↔
+      x = y ∨ (x ∉ regPart (y₀ := y₀) ∧ y ∉ regPart (y₀ := y₀)) := by
+  have hK : ∀ p q, IsCompact (id '' d.natCausality.diamond ⊤ p q) := fun p q => by
+    rw [image_id]; exact hG.2 p q
+  constructor
+  · intro h
+    by_cases hx : x ∈ regPart (y₀ := y₀)
+    · have hy := d.mem_regPart_of_natIplus_eq hx h
+      exact Or.inl (hG.1
+        (le_of_Iplus_eq_of_isCompact_image_diamond id continuous_id injective_id hK
+          (d.natCausality_mem_Zplus hy) h.symm)
+        (le_of_Iplus_eq_of_isCompact_image_diamond id continuous_id injective_id hK
+          (d.natCausality_mem_Zplus hx) h))
+    · by_cases hy : y ∈ regPart (y₀ := y₀)
+      · exact absurd (d.mem_regPart_of_natIplus_eq hy h.symm) hx
+      · exact Or.inr ⟨hx, hy⟩
+  · rintro (rfl | ⟨hx, hy⟩)
+    · rfl
+    · rw [d.natCausality_Iplus_eq_empty hx, d.natCausality_Iplus_eq_empty hy]
 
 end BTZTildeData
 
@@ -1944,6 +2395,32 @@ theorem btzJ0_isFutureComplete :
     simp only [mem_image, Causal.Precausality.mem_Iplus_singleton, btzJ0_lt_top_iff]
     exact ⟨fun ⟨y, hy, hym⟩ => hym ▸ hy, fun hm =>
       ⟨BTZJplus.mk m (hfut m ((Causal.minkowski 2).le_of_lt hm)), hm, rfl⟩⟩
+
+/-- **The model's diamonds are compact in `𝐌³`** (non-vacuity of the coarser-topology hypothesis
+of `btzTildeAtlas_isFutureDistinguishing_of_isCompact_image` in the case where `T_BTZ`-GH fails,
+`btzJ0_not_isCompact_diamond`): `val` maps the diamond `J(p, q)` of `J⁺(Δ₀)` onto the Minkowski
+diamond `J(p, q)` (`J⁺(Δ₀)` is a future set), which is compact. -/
+theorem btzJ0_isCompact_val_image_diamond (p q : BTZJ0) :
+    IsCompact (BTZJplus.val '' (btzTildeCausality _ btzJ0_isBTZTildeDev).diamond ⊤ p q) := by
+  have hfut : ∀ m, (Causal.minkowski 2).le ⊤ p.val m → m ∈ btzJplus (0 : ℝ × ℝ × ℝ) :=
+    fun m hm => by
+      obtain ⟨r, hr, hrp⟩ := p.mem
+      exact ⟨r, hr, (Causal.minkowski 2).le_trans hrp hm⟩
+  have : BTZJplus.val '' (btzTildeCausality _ btzJ0_isBTZTildeDev).diamond ⊤ p q =
+      (Causal.minkowski 2).diamond ⊤ p.val q.val := by
+    ext m
+    simp only [mem_image, Causal.Causality.mem_diamond, btzJ0_le_top_iff]
+    exact ⟨fun ⟨y, hy, hym⟩ => hym ▸ hy, fun hm => ⟨BTZJplus.mk m (hfut m hm.1), hm, rfl⟩⟩
+  rw [this]
+  exact Causal.minkowski_globallyHyperbolic.2 _ _
+
+/-- The model `J⁺(Δ₀)` with `T_BTZ` is future distinguishing, through its compact Minkowski
+diamonds, although it is not `T_BTZ`-globally hyperbolic (`btzJ0_not_globallyHyperbolic`). -/
+theorem btzJ0_isFutureDistinguishing :
+    IsFutureDistinguishing (btzTildeCausality _ btzJ0_isBTZTildeDev) :=
+  btzTildeAtlas_isFutureDistinguishing_of_isCompact_image (hA := btzJ0_isBTZTildeDev)
+    BTZJplus.val continuous_btzJ_val Subtype.val_injective btzTilde_isCausal
+    btzJ0_isCompact_val_image_diamond
 
 theorem btzJ0Cex_mem_jplus {y : ℝ × ℝ × ℝ} (h : 0 < y.2.1 ∨ ∃ s : ℝ, y = s • nullU) :
     nullToMink y ∈ btzJplus (0 : ℝ × ℝ × ℝ) := by

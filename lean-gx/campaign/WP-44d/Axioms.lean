@@ -1,0 +1,21 @@
+import GXScaffold.BTZ.Spear
+#print axioms GX.E0Spear.CylChartData.globallyHyperbolic_glued
+#print axioms GX.E0Spear.CylChartData.isCauchySurface_glued
+#print axioms GX.E0Spear.CylChartData.twoPiece
+#print axioms GX.E0Spear.CylChartData.isCompact_diamond_mixed
+#print axioms GX.E0Spear.CylChartData.not_inextensible_above
+#print axioms GX.E0Spear.CylChartData.exists_spear_below
+#print axioms GX.E0Spear.exists_spearNbhd_below
+#print axioms GX.E0Spear.exists_spearDevelopment
+#print axioms GX.E0Spear.lem_tube
+#print axioms GX.E0Spear.exists_fullFutureBTZRay
+#print axioms GX.E0Spear.lem_add_BTZ_param
+#print axioms GX.E0Spear.lem_add_BTZ_param_line
+#print axioms GX.E0Spear.lem_add_BTZ_param_of_cauchyMaximal
+#print axioms GX.E0Spear.IsE0CauchyMaximal.isSpearNbhd_of_spearDevelopment
+#print axioms GX.E0Spear.frontier_spear
+#print axioms GX.E0Spear.isSpearNbhd_model
+#print axioms GX.E0Spear.lem_tube_e0
+#print axioms GX.E0Spear.exists_fullFutureBTZRay_e0
+#print axioms GX.E0Spear.lem_add_BTZ_param_line_e0
+#print axioms GX.E0Spear.lem_add_BTZ_param_of_cauchyMaximal_e0

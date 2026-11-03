@@ -1,0 +1,47 @@
+{
+  "package": "WP-44a",
+  "round": 1,
+  "auditor": "read-only auditor, round 1",
+  "file": "GX/Singular/Quotient.lean",
+  "verdict": "issues",
+  "builds": true,
+  "checks": {
+    "lean_warningAsError": "taskset -c 0-11 lake env lean -DwarningAsError=true GX/Singular/Quotient.lean: exit 0, no output (45 s)",
+    "sorry_count": 0,
+    "lake_build_GX": "taskset -c 0-11 lake build GX: Build completed successfully (8738 jobs), exit 0",
+    "axioms": "GX.tachyon_isom0, GX.photon_isom0: [propext, Classical.choice, Quot.sound]",
+    "name_clashes": "none: every new top-level name of section TachyonPhoton was grepped against GX/ and scaffold/ outside Quotient.lean",
+    "docstring_marks": "measured in characters from the start of the module docstring: prop:aeGXquotient 155, prop:GXquotient 401, ex:quotient_base 704, ex:conical 3233, ex:consider_identifying_point_wise_stabilizer 4939 (over 4000; pre-existing, now 94 characters further)"
+  },
+  "issues": [
+    {
+      "severity": "blocker",
+      "where": "GX.tachyon_isom0, GX.photon_isom0, GX.RayLiftQuotient (Quotient.lean:7952-8015, 8380-8508); docstring checklist row 'tachyons / photons' and SCOPE (c); REPORT.json status 'closed'",
+      "problem": "Neither quotient Γ\\(𝔻_∞ × ℝ) that the file builds is Hausdorff, so neither is a singular (G,X)-manifold in the paper's sense. Definition l.474 requires a singular (G,X)-manifold to be locally connected, Hausdorff and second countable. ex:quotient_base l.668 says the quotient 'is naturally a singular (G,X)-manifold', and l.682's tachyons and photons are variations of it. The file still certifies them as such: the checklist row reads ✓ and the report says the action is 'free and properly discontinuous'. RayLiftQuotient carries only the weak half `disc` (a neighbourhood meets its translates only through the stabiliser). It never asserts T2, and existsUnique_aeGXQuotient does not need T2, so the atlas lives on a non-Hausdorff space. The cause is that apex neighbourhoods of 𝔻_∞ are the sets {r < ε} for the Euclidean r (DInfty.hasBasis_nhds_apex), and the lifted Lorentz action does not preserve them. (T) TACHYON: the quotient is not even T1. tachyon_isom0 produces A = tachA β with β ≠ 0; take β > 0 (β < 0 is symmetric). Let x = (r, θ = 0, z) with r > 0, a point on an eigen-ray of A. Iterating cplx_rayLift gives cplx(φ⁻ⁿx) = A⁻ⁿ(r) = r e^{−nβ}, and κ = 0 leaves z fixed. So φ⁻ⁿx → (apex, z) in 𝔻_∞ × ℝ. Every open set around π(apex, z) has a saturated open preimage containing {r < ε} × (z−δ, z+δ), hence some φ⁻ⁿx, hence x. So π(x) lies in every neighbourhood of π(apex, z), while π(x) ≠ π(apex, z) because the axis is fixed pointwise. (P) PHOTON: the quotient is not T2. Take the standard frame of photon_isom0 (h = 1, x₀ = 0, v = nullU, w = photEmb, c = 1), g = P_s with s > 0, Δ > 0 and n ≥ 1. The generator sends (b, x, a) to (b, x + s b, a + s² b + 2 s x) (photA, photκ). Its n-th power sends (b, x, a) to (b, x + n s b, a + 2 s n x + s² b n²). Take p_n with cplx = (b, x) = (−Δ/(s²n²), Δ/(s n)) and z = 0. Then φⁿp_n has cplx = (−Δ/(s²n²), 0) and z = Δ. So p_n → (apex, 0) while φⁿp_n → (apex, Δ). The axis points (apex, 0) and (apex, Δ) are distinct fixed points, hence distinct orbits, yet every pair of their neighbourhoods meets in the quotient. Geometrically: a boost's orbits on its null eigen-planes accumulate on the fixed spacelike line, and a null rotation's orbits shear onto the fixed null line, so with the Euclidean radial coordinate neither action is properly discontinuous in the paper's sense at the axis. l.648, 'by assumption the quotient is Hausdorff', is exactly what fails. The dispatched construction (BBS REVIEW §H.2, BBS-NOTES (3)) has the same gap: H.2 checks only `hdisc`. On {r > 0} alone the action is fine, since θ moves by more than π per step. The defect is at the axis.",
+      "fix": "Pick one. (a) Correct the construction so the quotient is Hausdorff, and assert it. Give the cylinder an axis topology adapted to the action: apex neighbourhoods built from an equivariant radial coordinate ρ with ρ∘φ = ρ (a θ-dependent rescaling of r defined on a fundamental domain of the θ-lift and extended equivariantly), or the Fox completion of the regular quotient π{r>0}, as DEC-106 does for M̃. Then add T2Space, SecondCountableTopology and LocallyConnectedSpace of the quotient, i.e. 'M is a singular (G,X)-manifold', to RayLiftQuotient. The photon also needs the z-drift r·κ handled in that topology. (b) Under DEC-27, keep the shipped decls as what they are. Prove the counterexamples above, at least the tachyon's non-T1 and the photon's non-T2. Report l.682 as partial with the finding. Turn the checklist ✓ into ⚠, and stop calling the action properly discontinuous (it satisfies only the neighbourhood half). Either way, take the defect in the BBS §H.2 statement back to the BBS campaign."
+    },
+    {
+      "severity": "major",
+      "where": "REPORT.json labels[0] (hypotheses, findings); docstring SCOPE (c) 'for every m ≠ 0 the action is free and properly discontinuous'",
+      "problem": "The report does not mention that `disc` is the weak half of proper discontinuity, nor that the second half (separating distinct orbits, hence a Hausdorff quotient) is false here. SCOPE (b) of the same file reads 'properly discontinuous' as the full IsProperlyDiscontinuous, and the paper's proof (l.648) uses Hausdorffness. Read against those, the report's sentence 'For every m ≠ 0 the action on {r>0} is free and properly discontinuous' is true on {r>0} but misleading for the action on 𝔻_∞ × ℝ that the quotient is taken by. This is an unreported weakening. It is subsumed by the blocker but must be fixed in the report text whichever fix is taken.",
+      "fix": "List under 'hypotheses' and 'findings' that RayLiftQuotient.disc is the neighbourhood half only, and that orbit separation fails at the axis (tachyon: off-axis orbits accumulate at axis points; photon: distinct axis points are inseparable)."
+    },
+    {
+      "severity": "minor",
+      "where": "module docstring, mark **`ex:consider_identifying_point_wise_stabilizer`**",
+      "problem": "The mark sits at character 4939 of the module docstring, past the 4000-character window of the docstring contract. This was already the case before WP-44a; the new ex:quotient_base text moves it about 94 characters further.",
+      "fix": "Shorten the ex:quotient_base or ex:conical bullets, or move detail into SCOPE, so that every mark falls inside the first 4000 characters."
+    }
+  ],
+  "verified_ok": [
+    "The file builds with -DwarningAsError=true, has 0 sorry, and the strict library builds (lake build GX green). The headline axioms are standard.",
+    "eq_boostAff_of_fix and eq_parabAff_of_fix are correct and fully proved: an element of Isom₀ fixing ℝ(0,0,1) (resp. ℝ(1,0,0)) pointwise is a boost (resp. a null rotation), and the determinant and time orientation exclude the other candidates.",
+    "The hypotheses of tachyon_isom0 and photon_isom0 are satisfiable (boostConj h β with β ≠ 0, parabConj h s with s ≠ 0) and none is vacuous. The statements are fully general in x₀, v, g ≠ 1 and m ≠ 0. A is pinned to g by the stated linear relation, and IsHyperbolicPlaneMap / IsParabolicPlaneMap are honest definitions.",
+    "The developing-map and holonomy parts are proved: rayDev is a local homeomorphism on {r>0}, D∘φ = g·D, D(k·x) = g^k·D(x), the action is free on {r>0}, the maximal a.e. structure is unique for the topology used, and sing ⊆ π{r=0}.",
+    "The report's finding that a null rotation preserves no complement of ℝv, so the photon action must also shift z, is correct and worth passing on. BBS H.2's z-preserving formula is right for the tachyon only."
+  ],
+  "questions_for_author": [
+    "Is the l.682 identification '𝔻_∞ = ℝ₊* × \\widetilde{ℝP¹} ∪ {(0,0)}' meant with the Euclidean radius of a complement plane, as formalized? If so, the tachyon/photon quotients are not Hausdorff and the sentence needs a different radial coordinate or axis topology (e.g. one invariant under the lifted holonomy, or the Fox completion of the regular quotient)."
+  ],
+  "summary": "The file builds clean with 0 sorry, `lake build GX` is green, and there are no name clashes. The Lorentz-algebra half is sound: boosts and null rotations are characterised, and the developing map, holonomy and atlas uniqueness are proved. But the certified objects are not singular (G,X)-manifolds. With 𝔻_∞'s apex neighbourhoods {r<ε}, the tachyon quotient is not T1 (eigen-ray orbits accumulate at axis points) and the photon quotient is not T2 (distinct axis points cannot be separated). RayLiftQuotient asserts only the weak `disc` half of proper discontinuity and no Hausdorffness, so the ✓ in the checklist and the status 'closed' overclaim l.682. Blocker; fix by an action-adapted axis topology with T2 asserted, or report partial with the counterexamples."
+}

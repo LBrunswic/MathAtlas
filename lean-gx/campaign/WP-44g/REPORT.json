@@ -1,0 +1,189 @@
+{
+ "package": "WP-44g",
+ "files": [
+  "scaffold/GXScaffold/BTZ/Uniformization.lean"
+ ],
+ "builds": true,
+ "sorry_count": 1,
+ "labels": [
+  {
+   "label": "theo:globally_hyperbolic_cauchy_complete_cauchy_maximal",
+   "tex_lines": [
+    2363,
+    2396
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.btz_uniformization_C1",
+    "GX.btz_uniformization_C1_of_isFreeGroup",
+    "GX.btz_uniformization",
+    "GX.btz_uniformization_reg",
+    "GX.btz_uniformization_reg_of_regM",
+    "GX.e0RegM_range_not_subset_omegaMinus",
+    "GX.e0RegM_range_not_subset_omegaMinus_of_regM",
+    "GX.not_isMetabelianGroup_of_isFreeGroup",
+    "GX.not_isMetabelianGroup_of_isFreeGroup'",
+    "GX.freeGroup_not_isMetabelianGroup",
+    "GX.freeGroup_fin2_comm_ne",
+    "GX.freeGroup_commute_of_subsingleton",
+    "GX.false_of_sing_of_pastComplete",
+    "GX.dev_eventually_chartMap_sector",
+    "GX.aeChart_eventually_chartMap_sector",
+    "GX.exists_isom_eq_of_locally",
+    "GX.regCoverBase",
+    "GX.continuous_regCoverBase",
+    "GX.btzPaperDev_ray",
+    "GX.uniformization_of_absMax",
+    "GX.uniformization_range_eq_of_absMax",
+    "GX.uniformization_quotient_aux",
+    "GX.exists_isometry_quotient_of_absMax",
+    "GX.isFutureComplete_of_range_eq_omegaPlus",
+    "GX.injective_of_isFutureComplete",
+    "GX.BTZTildeData.injective_D_of_isBTZFutureComplete"
+   ],
+   "hypotheses": [
+    {
+     "paper": "M globally hyperbolic",
+     "here": "carried",
+     "note": "(CE M).GloballyHyperbolic"
+    },
+    {
+     "paper": "Cauchy-complete",
+     "here": "strengthened",
+     "note": "Cauchy-compact (DEC-28) read per DEC-107: ∃ S, E0Surgery.IsE0C1SpacelikeCauchy M S in the form of record btz_uniformization_C1 (topological E0CauchyCompact kept in btz_uniformization)"
+    },
+    {
+     "paper": "Cauchy-maximal",
+     "here": "carried",
+     "note": "IsE0CauchyMaximal M (DEC-77 (c))"
+    },
+    {
+     "paper": "finite type: pi1(Sigma minus sing) non-abelian, s >= 1 (DEC-76)",
+     "here": "strengthened",
+     "note": "pi1(Reg M) not metabelian (btz_uniformization_C1), or pi1(Reg M) FREE and non-abelian (btz_uniformization_C1_of_isFreeGroup, via the proved GX.not_isMetabelianGroup_of_isFreeGroup); freeness of pi1 of the punctured Cauchy surface is carried, not proved; s >= 1 carried as (chartedSing e0SingY M 0).Nonempty"
+    },
+    {
+     "paper": "up to time reversal",
+     "here": "dropped",
+     "note": "DEC-77 (a); future case proved (GX.e0RegM_range_not_subset_omegaMinus_of_regM, sorry-free)"
+    },
+    {
+     "paper": "(implicit) M second countable",
+     "here": "strengthened",
+     "note": "SecondCountableTopology M carried (Cor 2.18's form)"
+    },
+    {
+     "paper": "the given developing pair (D, rho)",
+     "here": "carried",
+     "note": "every developing pair of Reg M is a hypothesis"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "GX.E0AbsMax.cor_abs_max_C1",
+     "obstruction": "UPSTREAM only, through GX.E0AbsMax.cor_abs_max_C1 (B21 Cor 2.18, DEC-107 form): GXScaffold.BTZ.AbsMax's three open leaves (GX.E0AbsMax.sing_eq_of_le_of_le_of_stronglyCausalOn_e0, GX.E0AbsMax.exists_small_cauchyChart, GX.E0AbsMax.E0Pushout.isCompact_diamond_mixed) and GXScaffold.BTZ.Surgery's (G3) isCauchySurface_sigmaStar, (G4a) isSpacelikeLipschitzAt_cusp, (G5) completeSpace_sigmaStar under E0Surgery.regM_isCauchyComplete_of_C1. The not-owed (G0) smoothing is OFF this path (it stays under the kept topological forms via cor_abs_max_e0). Everything local is sorry-free: btz_uniformization_reg_of_regM and e0RegM_range_not_subset_omegaMinus_of_regM are on [propext, Classical.choice, Quot.sound]."
+    }
+   ],
+   "findings": [
+    "The headline as printed (l.2363) is supported only in DEC-28's Cauchy-compact form (Barbot's equality needs absolute maximality, B21 Cor 2.18); with DEC-107 the form of record is btz_uniformization_C1, whose only sorryAx comes through cor_abs_max_C1 (the (G0) smoothing is no longer on the path).",
+    "The display l.2369 is wrong (D-12 (c)); certified: D(Reg M~) = Omega+(Lambda) = bigcap_w I+(Pi_w) with equality, plus, on M itself, a full future BTZ ray from every BTZ point (E0Spear.exists_fullFutureBTZRay_e0, B21 Lemma 2.3) — the M-side of 'future complete lightlike rays Delta_i'.",
+    "DEC-76's 'non-abelian' suffices once pi1(Reg M) is known free: a non-abelian free group is not metabelian (GX.not_isMetabelianGroup_of_isFreeGroup, 0 sorry: two distinct generators map onto F_2, where [[a,b],[a,b^-1]] != 1 is decided by reduction; a free group on <= 1 generator is commutative). The remaining gap to DEC-76's literal hypothesis is purely the geometric fact 'pi1(Reg M) is free' (Reg M ~ (Sigma minus sing) x R, s >= 1, the surface classification), carried as IsFreeGroup.",
+    "The theorem's 'M~' with BTZ topology: under DEC-106 T_BTZ enters only the final homeomorphism M = rho\\D(M~), which is the unformalized BTZ half; the injectivity step on M~ (l.2392-2394) is proved with the chart-generated << of (M~, T') (IsBTZFutureComplete), the natural-topology literal reading being refuted in GX.BTZ.Manifolds (not_isFutureComplete_natCausality)."
+   ],
+   "questions": [
+    "Bridge (WP-43f's question, still open): the BTZ half (D on sing M~, Delta_i in the boundary of Omega, M = rho\\D(M~) with T_BTZ) needs a SingularGXStructure built from the ChartedSpace E0Y / e0Groupoid atlas, an identification reg M~ ≃ₜ UniversalCover (e0RegMFlat M) x0 compatible with the developing maps, and then the limit construction of D at BTZ points. Not built in WP-44g (a package of its own: the presentations live in different universes/instance stacks — BTZTildeData over SingularGXStructure (Isom M^3) M^3 M, MaxBranchedCover — versus ChartedSpace E0Y M). Should a dedicated package build it, or is the headline accepted on Reg M + full future BTZ rays of M?",
+    "DEC-76 reading: accept (a) 'pi1(Reg M) not metabelian', or (b) 'pi1(Reg M) free and non-abelian' (btz_uniformization_C1_of_isFreeGroup, which is now literally DEC-76 plus freeness), or (c) require freeness to be proved (surface classification of a Cauchy surface of Reg M, not available)?"
+   ]
+  },
+  {
+   "label": "prop:globally_hyperbolic_cauchy_complete_manifolds",
+   "tex_lines": [
+    2348,
+    2353
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.btz_isFutureComplete_C1",
+    "GX.btz_reg_isFutureComplete",
+    "GX.e0PastHalf_counterexample",
+    "GX.e0PastHalf_counterexample_DEC31",
+    "GX.IsE0CauchyComplete",
+    "GX.e0SliceSys",
+    "GX.e0SliceSys_of_mem",
+    "GX.e0SliceSys_of_not_mem",
+    "GX.localDensity_e0SliceSys_of_not_mem",
+    "GX.e0PastHalfSlice",
+    "GX.e0PastHalf_isE0CauchyComplete",
+    "GX.e0PastHalf",
+    "GX.e0PastHalf_globallyHyperbolic",
+    "GX.e0PastHalf_sing_nonempty",
+    "GX.e0PastHalf_not_isFutureComplete",
+    "GX.pastHalf_rad_locally",
+    "GX.pastHalf_cover_lt",
+    "GX.isFutureComplete_of_range_eq_omegaPlus",
+    "GX.e0RegM_range_not_subset_omegaMinus_of_regM",
+    "GX.false_of_sing_of_pastComplete"
+   ],
+   "hypotheses": [
+    {
+     "paper": "globally hyperbolic",
+     "here": "carried",
+     "note": "(CE M).GloballyHyperbolic"
+    },
+    {
+     "paper": "Cauchy-complete",
+     "here": "strengthened",
+     "note": "DEC-77's corrected form: Cauchy-compact (DEC-107: ∃ S, IsE0C1SpacelikeCauchy M S) + Cauchy-maximal + pi1(Reg M) not metabelian + a BTZ point (selects the future case)"
+    },
+    {
+     "paper": "conclusion 'future complete' (def:manifold_future_complete_all over M~)",
+     "here": "read",
+     "note": "as the proof's two steps: Reg M~ future complete for every developing pair (l.2350) AND full future BTZ rays from every BTZ point (l.2352); the literal natural-topology reading (DEC-106) is unsatisfiable once sing M != ∅ (GX.BTZTildeData.not_isFutureComplete_natCausality, WP-44c)"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "GX.E0AbsMax.cor_abs_max_C1",
+     "obstruction": "UPSTREAM only, through GX.E0AbsMax.cor_abs_max_C1 (B21 Cor 2.18, DEC-107 form): GXScaffold.BTZ.AbsMax's three open leaves (GX.E0AbsMax.sing_eq_of_le_of_le_of_stronglyCausalOn_e0, GX.E0AbsMax.exists_small_cauchyChart, GX.E0AbsMax.E0Pushout.isCompact_diamond_mixed) and GXScaffold.BTZ.Surgery's (G3) isCauchySurface_sigmaStar, (G4a) isSpacelikeLipschitzAt_cusp, (G5) completeSpace_sigmaStar under E0Surgery.regM_isCauchyComplete_of_C1. The not-owed (G0) smoothing is OFF this path (it stays under the kept topological forms via cor_abs_max_e0). Everything local is sorry-free: btz_uniformization_reg_of_regM and e0RegM_range_not_subset_omegaMinus_of_regM are on [propext, Classical.choice, Quot.sound]. Used by GX.btz_isFutureComplete_C1 (step (1)); step (2), the BTZ rays, is sorry-free (E0Spear.exists_fullFutureBTZRay_e0)."
+    },
+    {
+     "decl": "GX.e0PastHalf_isE0CauchyComplete",
+     "obstruction": "LOCAL tagged sorry (the only one in the file), on the counterexample's printed hypothesis in DEC-31's sense; GX.e0PastHalf_counterexample (GH + BTZ points + failure of the conclusion) stays sorry-free. Three unbuilt pieces: (i) {tau = -1} is a Cauchy surface of {tau<0} — needs tau - 1/tau to be a Cauchy time function, i.e. tau -> 0- along future-inextensible and -> -inf along past-inextensible causal curves of {tau<0} (a confinement argument like E0.futureExtensible_sliceDom on the unbounded domain, including convergence of the angular part); (ii) the developed slice btzPaperDev({-1} x (0,inf) x R) is a spacelike Lipschitz graph in every flat chart of Reg {tau<0} (Causal.Flat.IsSpacelikeLipschitzIn); (iii) the length metric of e0SliceSys on the slice equals the Euclidean metric of C in the coordinate x.2 (density |z'| at regular times from btzPaperDev's pullback dr^2 + r^2 dtheta^2, 0 at the BTZ time; lower bound by FTC on the regular intervals with z = 0 at BTZ times, upper bound by straight segments, which needs the derivative of the local angle lift E0.angle), hence complete with continuous identity."
+    }
+   ],
+   "findings": [
+    "As printed the proposition is false (D-11, DEC-77). Counterexample {tau<0} ⊂ E0: GH, BTZ points, no developing pair of Reg {tau<0} future complete (GX.e0PastHalf_counterexample, 0 sorry). Its Cauchy-completeness (DEC-31) is now STATED with a Lean predicate, GX.IsE0CauchyComplete (Cauchy surface S, Causal.Flat.IsSpacelikeLipschitz of S ∩ Reg in Reg M's flat charts, CompleteSpace of the length space of GX.e0SliceSys S — flat charts at regular points, constant at BTZ points, so a BTZ time contributes no length — and continuity of the identity to M); the full counterexample with the printed hypothesis is GX.e0PastHalf_counterexample_DEC31, resting on GX.e0PastHalf_isE0CauchyComplete (tagged sorry).",
+    "Under DEC-106 the conclusion 'M future complete' (def:manifold_future_complete_all, x in M~) cannot hold literally once sing M != ∅ (natCausality has I+ = ∅ at BTZ points, WP-44c); the certified content is the proof's two steps: Reg M~ future complete and full future BTZ rays (B21 Lemma 2.3, which the proof cites as 'Lemma 2.4', D-11 (b)).",
+    "The proof's l.2350 omits that Barbot's future completeness needs equality D(reg M~) = Omega+, i.e. absolute maximality (B21 Cor 2.18) and the future case."
+   ],
+   "questions": [
+    "Is DEC-31's predicate as formalized (GX.IsE0CauchyComplete: the length structure across the BTZ lines given by a chart system constant at BTZ points, i.e. a curve's length = the integral of its regular densities) the intended reading of 'the length structure extended across the singular lines'?"
+   ]
+  }
+ ],
+ "extra_decls": [
+  "GX.btz_uniformization_reg_of_regM",
+  "GX.e0RegM_range_not_subset_omegaMinus_of_regM",
+  "GX.freeGroup_fin2_comm_ne",
+  "GX.freeGroup_commute_of_subsingleton",
+  "GX.freeGroup_not_isMetabelianGroup",
+  "GX.not_isMetabelianGroup_of_isFreeGroup",
+  "GX.not_isMetabelianGroup_of_isFreeGroup'",
+  "GX.e0SliceSys",
+  "GX.e0SliceSys_of_mem",
+  "GX.e0SliceSys_of_not_mem",
+  "GX.localDensity_e0SliceSys_of_not_mem",
+  "GX.IsE0CauchyComplete",
+  "GX.e0PastHalfSlice"
+ ],
+ "kb_proposals": [
+  "A non-abelian free group is not metabelian: GX.not_isMetabelianGroup_of_isFreeGroup; in FreeGroup (Fin 2) concrete word inequalities close by `decide` (FreeGroup has DecidableEq via reduce), standard axioms only.",
+  "To feed the gx headline from any form of B21 Cor 2.18, use GX.btz_uniformization_reg_of_regM / GX.e0RegM_range_not_subset_omegaMinus_of_regM, which take only the triple (GH, Cauchy-complete, AbsMax) of Reg M and are sorry-free.",
+  "DEC-107's form of record is E0AbsMax.cor_abs_max_C1 (no (G0)); E0Spear.exists_fullFutureBTZRay_e0 is parameter-free and sorry-free (GH + Cauchy-maximal).",
+  "DEC-31 for E0-manifolds: GX.IsE0CauchyComplete with the chart system GX.e0SliceSys (flat chart of Reg M at regular points, constant 0 at BTZ points; localDensity_e0SliceSys_of_not_mem)."
+ ],
+ "notes": "WP-44g edit of scaffold/GXScaffold/BTZ/Uniformization.lean (WP-43f's file; pre-edit copy campaign/WP-44g/Uniformization.before.lean.bak). Everything previously proved is kept with unchanged names and signatures: btz_uniformization_reg and e0RegM_range_not_subset_omegaMinus are now one-line wrappers of new sorry-free cores *_of_regM (same statements); btz_uniformization, btz_reg_isFutureComplete, e0PastHalf_counterexample untouched. NEW: §3c free/metabelian algebra (0 sorry); §4a forms of record btz_uniformization_C1 (adds full future BTZ rays to the conclusion) and btz_isFutureComplete_C1 (DEC-107, through cor_abs_max_C1, (G0) off path); §4c btz_uniformization_C1_of_isFreeGroup (DEC-76 'non-abelian' + carried freeness); §4d DEC-31 predicate IsE0CauchyComplete / e0SliceSys; e0PastHalf_isE0CauchyComplete (ONE tagged sorry, SORRY(prop:globally_hyperbolic_cauchy_complete_manifolds)) and e0PastHalf_counterexample_DEC31; §5 docstring re-cited to DEC-106. The file previously had 0 sorry; it now has 1, in a new statement not on the headline's path. NOT done: the ChartedSpace E0Y / SingularGXStructure bridge and the BTZ half of the headline (SCOPE (b)); the proof that pi1(Reg M) is free. Neither row can be marked: (1) both forms of record still carry sorryAx, only via GX.E0AbsMax.cor_abs_max_C1 (AbsMax 3 leaves + Surgery G3/G4a/G5) — the dispatch's expectation 'standard axioms only' on GX.btz_uniformization does NOT hold (it is [propext, sorryAx, Classical.choice, Quot.sound], also through the not-owed (G0)); (2) the BTZ half is unformalized. Axiom sweep campaign/WP-44g/Axioms.lean -> axioms.out (29 decls): all new local decls except e0PastHalf_isE0CauchyComplete / e0PastHalf_counterexample_DEC31 on standard axioms; sorryAx in the headline forms only through cor_abs_max_C1 / cor_abs_max_e0. DEC-33 gate: file under scaffold/GXScaffold/BTZ/, imports unchanged (GXScaffold.BTZ.AbsMax, GX.BTZ.Manifolds, Causal.Flat.Lox.PastProper), no Causal root, no CausalScaffold, no `open Causal`; Causal.* names fully qualified. New names grepped against GX/ and scaffold/: no clash. Build: taskset -c 0-11 lake build GXScaffold.BTZ.Uniformization — success, 8738 jobs, only this module built (Surgery/AbsMax replayed, no GX.* or Causal.* recompiled); lake env lean: one 'declaration uses sorry' warning (e0PastHalf_isE0CauchyComplete), no other warning.",
+ "round": 4
+}

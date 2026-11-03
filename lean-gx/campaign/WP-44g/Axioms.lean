@@ -1,0 +1,31 @@
+import GXScaffold.BTZ.Uniformization
+
+#print axioms GX.btz_uniformization
+#print axioms GX.btz_uniformization_C1
+#print axioms GX.btz_uniformization_C1_of_isFreeGroup
+#print axioms GX.btz_isFutureComplete_C1
+#print axioms GX.btz_reg_isFutureComplete
+#print axioms GX.btz_uniformization_reg
+#print axioms GX.btz_uniformization_reg_of_regM
+#print axioms GX.e0RegM_range_not_subset_omegaMinus
+#print axioms GX.e0RegM_range_not_subset_omegaMinus_of_regM
+#print axioms GX.freeGroup_fin2_comm_ne
+#print axioms GX.freeGroup_commute_of_subsingleton
+#print axioms GX.freeGroup_not_isMetabelianGroup
+#print axioms GX.not_isMetabelianGroup_of_isFreeGroup
+#print axioms GX.not_isMetabelianGroup_of_isFreeGroup'
+#print axioms GX.e0SliceSys
+#print axioms GX.e0SliceSys_of_mem
+#print axioms GX.e0SliceSys_of_not_mem
+#print axioms GX.localDensity_e0SliceSys_of_not_mem
+#print axioms GX.IsE0CauchyComplete
+#print axioms GX.e0PastHalfSlice
+#print axioms GX.e0PastHalf_isE0CauchyComplete
+#print axioms GX.e0PastHalf_counterexample
+#print axioms GX.e0PastHalf_counterexample_DEC31
+#print axioms GX.false_of_sing_of_pastComplete
+#print axioms GX.uniformization_of_absMax
+#print axioms GX.isFutureComplete_of_range_eq_omegaPlus
+#print axioms GX.BTZTildeData.injective_D_of_isBTZFutureComplete
+#print axioms GX.E0AbsMax.cor_abs_max_C1
+#print axioms GX.E0Spear.exists_fullFutureBTZRay_e0

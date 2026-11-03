@@ -1,0 +1,61 @@
+{
+  "package": "WP-44a",
+  "round": 2,
+  "auditor": "read-only auditor, round 2",
+  "file": "GX/Singular/Quotient.lean",
+  "verdict": "clean",
+  "builds": true,
+  "checks": {
+    "lean_warningAsError": "taskset -c 0-11 lake env lean -DwarningAsError=true GX/Singular/Quotient.lean: exit 0, no output (46 s wall)",
+    "sorry_count": "0 (grep for sorry/admit/axiom in the file: no hits)",
+    "lake_build_GX": "taskset -c 0-11 lake build GX: 'Build completed successfully (8738 jobs)', exit 0, no Causal.* recompiled",
+    "axioms": "GX.tachyon_isom0, GX.photon_isom0, GX.thetaLiftQuotient_of_frame, GX.rayLiftQuotient_tachyon_not_t1, GX.rayLiftQuotient_photon_not_t2: [propext, Classical.choice, Quot.sound]",
+    "diff_vs_HEAD": "git diff HEAD on the file: only the module docstring (lines 28-232) and an appended section after quotientBase_ruled (+1837 lines). No existing statement of another label changed.",
+    "name_clashes": "none. Every top-level name new since Quotient.lean.round0.bak (32 names, e.g. ThetaLiftQuotient, thetaLiftQuotient_of_frame, thetaDev, exists_equivariant_curve, exists_turning_curve, exists_rayLiftLog_curve, IsProperlyDiscontinuous.of_t2Space_orbits, rayLiftQuotient_tachyon_not_t1, rayLiftQuotient_photon_not_t2, strictMono_of_strictMonoOn_pieces, GammaA.ofInt_add_one) was grepped as a declaration in GX/ and scaffold/ outside the file",
+    "docstring_marks": "character offsets in the module docstring: prop:aeGXquotient 155, prop:GXquotient 401, ex:quotient_base 704, ex:conical 1595, ex:consider_identifying_point_wise_stabilizer 2063. All are under 4000, so AUDIT-1's minor is fixed."
+  },
+  "round1_findings": {
+    "blocker (non-Hausdorff quotient)": "FIXED. tachyon_isom0 and photon_isom0 now conclude ThetaLiftQuotient. That structure asserts T2Space, LocallyConnectedSpace, SecondCountableTopology and ≃ₜ ℂ × ℝ of the orbit space, plus the full GX.IsProperlyDiscontinuous (both fields, exists_nhds and separates). All of it is proved: the topology comes from quotientBase_topology at α = 2π, and full proper discontinuity from IsProperlyDiscontinuous.of_t2Space_orbits, a correct and general proof. The defect of the dispatched construction is proved, not just asserted: rayLiftQuotient_tachyon_not_t1 (every β ≠ 0, every m) and rayLiftQuotient_photon_not_t2 (every s ≠ 0, every m).",
+    "major (unreported weakening)": "FIXED. The docstrings of RayLiftQuotient, rayLiftQuotient_of_frame and homeoZ_quotient now say that `disc` is only the neighbourhood half and that the quotient is not Hausdorff. SCOPE (c)(i) and REPORT.json hypotheses and findings record the same.",
+    "minor (mark past 4000)": "FIXED (2063)."
+  },
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[0].status 'closed' together with questions[0]; SCOPE (c)(i)",
+      "problem": "The row closes on a reading that has no ruling. The paper (labeled tex l.679, l.682 in the registers' numbering) never defines 'tachyon' or 'photon' and gives no developing map for them. The file reads them as holonomy g ∈ Isom₀ ∖ {1} fixing a spacelike (resp. null) line pointwise, and reads 'an action of Γ = ℤ on the coordinate θ' literally: r and z are fixed. The report's own question says the other reading (the Euclidean-radius action the dispatch prescribed) is false and would make the row partial under DEC-27. Under CAMPAIGN.md, a reading normally makes a row 'partial'. I judge the literal reading to be the paper's own text: 'on the coordinate θ' with r untouched is exactly what Γ_α does at l.666. So 'closed' is defensible. Still, it depends on that judgement and not on a DEC.",
+      "fix": "No Lean change. The master session should put the reading to the author (or record that the literal text needs no ruling) before graduating the row as closed. Nothing else in the file depends on it."
+    },
+    {
+      "severity": "minor",
+      "where": "Quotient.lean:8746-8748 (tachyon_conj), 8762-8764 (photon_conj); REPORT.json labels[0].decls",
+      "problem": "The docstrings of tachyon_conj and photon_conj still read 'The tachyon of the boost B_β …' and 'The photon of the null rotation P_s …'. Both theorems conclude RayLiftQuotient, the non-Hausdorff defect record. The certified objects are tachyon_conj_theta and photon_conj_theta. REPORT.json lists the defect-record decls (RayLiftQuotient, rayLiftQuotient_of_frame, tachyon_conj, photon_conj, homeoZ_quotient, IsTurning, isTurning_rayLiftHomeo, rayLiftHomeo, HomeoZ) under the decls of a 'closed' label, mixed with the decls that certify it.",
+      "fix": "Reword the two docstrings to 'The Euclidean-radius (non-Hausdorff) tachyon/photon construction …, see tachyon_conj_theta'. In REPORT.json, move the defect-record decls to findings or extra_decls."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels",
+      "problem": "The report lists only ex:quotient_base, and of that row only the tachyon/photon decls. The file also certifies prop:aeGXquotient, prop:GXquotient, ex:conical and ex:consider_identifying_point_wise_stabilizer, and partially rem:previous_examples_instances_developing. The ex:quotient_base entry spans tex_lines 660-683 but omits the row's other decls (quotientBase_ruled, misner_variations_ruled, massive_particle_intended, btz_*) and the DEC-47/DEC-52 corrected forms the row closes under. Those labels are reported in campaign/WP-26b/REPORT.json, and the diff confirms their statements are unchanged, so nothing is misreported. The report is just not file-complete, as the dispatch template asks.",
+      "fix": "Either add the other five labels, copied from WP-26b with status unchanged, or state in 'notes' that the other labels of the file are as reported in WP-26b and untouched by WP-44a."
+    },
+    {
+      "severity": "minor",
+      "where": "ThetaLiftQuotient (Quotient.lean:8407-8433)",
+      "problem": "The quotient is taken by the translation θ ↦ θ + 2π. ψ conjugates that translation to the hyperbolic (parabolic) lift F = rayAngleLift A m (field `lift`), and ψ enters the developing map (field `dev_eq`). So the content is right. The literal object 'Γ acting hyperbolically on θ', i.e. the quotient by (r,θ,z) ↦ (r, Fθ, z), is homeomorphic to it via (r,θ,z) ↦ (r, ψθ, z), which preserves 𝔻_∞'s apex basis {r < ε}. That equivalence is not stated.",
+      "fix": "Optional: a corollary stating the structure for the Γ-action through F itself, by transport along id × ψ × id."
+    }
+  ],
+  "verified_ok": [
+    "Fidelity: tachyon_isom0 and photon_isom0 are universal in x₀, in a spacelike (resp. non-zero null) v, in g ∈ Isom₀ ∖ {1} fixing x₀ + ℝv pointwise, and in m ≠ 0. The paper's sentence is existential ('can be obtained'), so the Lean is at least as strong. m = 0, the lift fixing the eigen-rays, is honestly not claimed. Odd π-lifts would need −A, which is not in Isom₀, so the 2πm lifts are all the relevant ones.",
+    "The hypotheses are satisfiable: boostConj h β and parabConj h s with β, s ≠ 0 lie in NullIsom0, are ≠ 1 and fix the line. IsHyperbolicPlaneMap (eigenvalues l, l⁻¹ with l > 0, l ≠ 1) and IsParabolicPlaneMap (unipotent, ≠ 1) are honest. They are tied to g by the stated linear relation on w ζ + z(cv), and A is not free.",
+    "ThetaLiftQuotient does not trivialise the notion. D is pinned by dev_eq (x₀ + (z + r b(θ))u + r R(θ) w(e^{iψθ}), R > 0, continuous R and b) together with dev_axis. It is a local homeomorphism on {r>0}, which also forces w to have rank 2. Holonomy is D(k·x) = g^k·D x for every k. Γ acts by a.e. morphisms. There is a unique maximal a.e. Isom₀-structure making the projection an a.e. morphism, and sing ⊆ π{r=0}, the DEC-52 form for ex:quotient_base.",
+    "The topology is the right model. With Γ acting on θ alone, the axis neighbourhoods {r<ε} are invariant. The developing map restricted to a fundamental domain is the wedge whose two edges g identifies, i.e. the polyhedral-gluing tachyon/photon of the literature (consistent with l.681). The orbit space is Hausdorff, locally connected, second countable and ≅ ℂ × ℝ, matching def l.474 and 'homeomorphic to ℝ^n' at l.668.",
+    "The counterexamples to the dispatched (BBS §H.2) construction are proved theorems for every parameter value. The feedback to BBS in REPORT.json findings is accurate. The finding that the photon's Euclidean-radius action must shift z (no invariant complement of ℝv) is correct.",
+    "No cited result is assumed. No sorry, no axiom beyond the standard three. No hypothesis carries the conclusion: T2 and proper discontinuity are fields of the conclusion and are proved, not assumed.",
+    "Docstring contract: the ex:quotient_base mark is justified under DEC-47/DEC-52 plus the literal reading above. The checklist rows 120-121 accurately describe what is carried. l.681 ('gluings of polyedra') is listed as an informal sentence with the reason (SCOPE (c)(ii)), unchanged from WP-26b."
+  ],
+  "questions_for_author": [
+    "l.682 (labeled tex l.679): is 'a hyperbolic (resp. parabolic) action of Γ = ℤ on the coordinate θ' meant with r untouched? That is the formalized reading, and its quotient is the polyhedral gluing, a Hausdorff singular manifold. The alternative is the Euclidean-radius action of BBS §H.2, whose quotient is proved non-T₁ (tachyon) and non-T₂ (photon)."
+  ],
+  "summary": "Round 1's blocker is fixed. Γ = ℤ now acts on θ alone, and ψ conjugates the generator to the lift of A. The quotient is proved Hausdorff, locally connected, second countable and ≅ ℂ × ℝ, with full proper discontinuity, holonomy g, a local-homeomorphism developing map and a unique maximal a.e. Isom₀-structure with sing ⊆ π{r=0}. This holds for every x₀, every spacelike/null v, every g ≠ 1 fixing the line and every m ≠ 0. The non-Hausdorff dispatched construction is kept as a proved defect record. The file builds warning-free with 0 sorry, lake build GX is green, there are no name clashes and all marks are under 4000 characters. Four minors remain: the closed status rests on an unruled (literal) reading, two legacy docstrings and the REPORT decl list still present the defect record as 'the tachyon', REPORT.json is not file-complete (the other labels are in WP-26b and unchanged), and the F-action form of the quotient is not stated."
+}

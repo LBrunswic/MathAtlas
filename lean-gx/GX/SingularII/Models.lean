@@ -5,7 +5,8 @@ import GX.Topology.PortlyExamples
 # Singular `(G,X)`-manifolds (II): analytic families of models, virtually tame models
 
 WP-27j; WP-35f (liftable, then descending charts); WP-40c (DEC-80 (b), DEC-82); WP-41p (DEC-86,
-DEC-87 (a)(e): the bridge "`r` an isomorphism ⇒ the chart descends", the counterexample schema).
+DEC-87 (a)(e): the bridge "`r` an isomorphism ⇒ the chart descends", the counterexample schema);
+WP-43g (`GX.ThinCex`); WP-44b (DEC-109: the row certified by its descending-chart form).
 `papers/gx`, `RamcovGX.tex:1889–1983`, §2.5.3–4 (`(G,X)` analytical, `X` locally unloopable,
 l.1660; manifolds connected, l.1712), on `GX.SingularII.Tame`.
 
@@ -27,20 +28,20 @@ l.1660; manifolds connected, l.1712), on `GX.SingularII.Tame`.
 * `cex:start_singular_manifold_homeomorphic` — l.1930 — partial (SCOPE (c), DEC-69): Troyanov's
   theorem named, `GX.TroyanovSuspensionTheorem`; `GX.cex_start_singular_manifold_homeomorphic`;
   non-vacuity `GX.exists_suspensionCexFacts` (the Joukowski structure).
-* `theo:local_virt_tame` — l.1974 — partial (SCOPE (d)): **FALSE as printed** (WP-43g, DEC-86):
-  `GX.not_localVirtTameStatement`, by the counterexample `GX.ThinCex`
-  (`GX.ThinCex.local_virt_tame_counterexample`, 0 `sorry`: a cone-over-`T²` model, all
-  hypotheses true incl. `X` connected and second countability, an open `V` not virtually tame;
-  piece (2) fails there, `GX.ThinCex.not_forall_hasLocalTamifyingCharts_VV`). Corrected forms PROVED, 0 `sorry`,
-  under all the theorem's hypotheses: charts DESCENDING from the maximal coverings of their
-  models, `GX.isVirtuallyTame_of_descending`, `GX.local_virt_tame_descending`; `r` an isomorphism,
-  `GX.isVirtuallyTame_of_hasMaximalLifts`; finite local degree; in general conditional on piece
-  (2), `GX.HasLocalTamifyingCharts`: `GX.local_virt_tame_of_charts`; (i) ⇒ (ii)
-  `GX.local_virt_tame_forward`.
+* **`theo:local_virt_tame`** — l.1974, certified by its DESCENDING-CHART form (DEC-109, SCOPE
+  (d)): `GX.isVirtuallyTame_of_descending`, `GX.local_virt_tame_descending` (0 `sorry`, all the
+  theorem's hypotheses; singular points centre charts descending from the maximal coverings of
+  their models — the form Section 4 uses). FALSE as printed (WP-43g, DEC-86):
+  `GX.not_localVirtTameStatement`, counterexample `GX.ThinCex`
+  (`GX.ThinCex.local_virt_tame_counterexample`: a cone-over-`T²` model, `X` not a manifold at `0`;
+  piece (2) fails, `GX.ThinCex.not_forall_hasLocalTamifyingCharts_VV`). Other corrected forms
+  proved: `GX.isVirtuallyTame_of_hasMaximalLifts`,
+  `GX.isVirtuallyTame_of_isXAManifold_of_hasFiniteLocalDegree`, `GX.local_virt_tame_liftable`,
+  `GX.local_virt_tame_of_charts`, `GX.local_virt_tame_forward`.
 * `lem:spread_top` — l.1990 — certified elsewhere (`GX.SingularII.SpreadTop`,
   `GX.spread_top_of_local`, DEC-80 (c)); here only (d), `GX.spread_top_deck` (SCOPE (e)).
 
-### Details of the partial rows
+### Details of the partial and corrected rows
 
 * `cex:start_singular_manifold_homeomorphic` (SCOPE (c), DEC-69): on
   `GX.TroyanovAngleCondition`, `GX.SuspensionCexFacts`; the inference
@@ -50,7 +51,8 @@ l.1660; manifolds connected, l.1712), on `GX.SingularII.Tame`.
   `GX.troyanovAngleCondition_witness`, `GX.exists_suspensionCexFacts` (the Joukowski structure on
   `ℂ`, `sing = {0, ±1}`, every field exercised); the named `Prop` is not tied to `θ`
   (`GX.troyanovSuspensionTheorem_of_subsingleton`); the concrete `M` not built.
-* `theo:local_virt_tame`, `X_A`-manifolds as ruled (DEC-67 (e)). The descending form: piece (2)
+* `theo:local_virt_tame`, `X_A`-manifolds as ruled (DEC-67 (e)); certified by the descending
+  form (DEC-109). The descending form: piece (2)
   built as the quotient of `T_α` by a descent `V̂ → Û` (`GX.IsChartDescent`, `GX.descTop`,
   `GX.isLocalTamifying_descTop`, naturality `GX.nhds_descTop_le_of_aut`, the Galoisianity of the
   descents `GX.IsChartDescent.exists_deck` from the models' local Galoisianity), the gluing
@@ -81,7 +83,7 @@ l.1660; manifolds connected, l.1712), on `GX.SingularII.Tame`.
   (`GX.IsTamifyingTopology.eq_natural_of_hasFiniteLocalDegree`), the models are tame, and (ii) ⇒ (i)
   holds (`GX.isVirtuallyTame_of_isXAManifold_of_hasFiniteLocalDegree`). The general statement is
   REFUTED (WP-43g, SCOPE (d), last paragraph; the earlier "neither a proof nor a counterexample"
-  is superseded).
+  is superseded); DEC-109 certifies the row by the descending form, the manifold case not pursued.
 
 > The automorphisms group of $M$ denoted $\Aut(M)$ is the group of isomorphisms of singular
 > $(G,X)$-manifolds from $M$ to itself. (l.1895)
@@ -135,7 +137,7 @@ l.1660; manifolds connected, l.1712), on `GX.SingularII.Tame`.
 | `cex:start_singular_manifold_homeomorphic`: `Σ` generic, Troyanov, the suspension | ⚠ named external (DEC-69): `TroyanovSuspensionTheorem` — Troyanov's angle condition (`TroyanovAngleCondition`), "generic" read as "all `θ_i` different" (l.1935), and the facts the cex derives (`SuspensionCexFacts`: `M` connected, `O` singular, another singular point, rigidity at `O`, non-extendable local rotations); not tied to the angles (`troyanovSuspensionTheorem_of_subsingleton`); the concrete `M` is not built |
 | `lem:spread_top` (d): `M` first countable, connected, LPC, T2; `S` skeletal; "sub-covering" | ✓ carried; ✓ read: `p`, `q` branched coverings, `q ∘ p` the projection; ⚠ strengthened: `M ∖ S` semilocally simply connected as a space (`hSc`, the library's `\widetilde M^S`) |
 | `lem:spread_top` (d): (none) | ⚠ added (DEC-27): `N → M` Galoisian, `N` Hausdorff (`spread_top_deck`), what the proof's `γ̄` (l.2014) needs |
-| `theo:local_virt_tame`, (ii) ⇒ (i): (none) | ⚠ added (DEC-27), for the proved form: every singular point of `M` is the centre of an `X_A`-chart descending from the maximal covering of its model (`IsDescendingChartMap`: for all `e` over `U` and `f` over `φ(p e)`, a descent `V̂ ∋ f → Û ∋ e` of `φ⁻¹`, i.e. `V̂ → V` dominates `Û → U`; it holds when `r : Ṽ → V̂` is an isomorphism, `ℓ : Ũ → Û` arbitrary — `isDescendingChartMap_of_homeomorph`, WP-41p — and whenever `V̂` dominates `Ṽ`, `isDescendingChartMap_of_section`). Only the `r` side is forced: for a non-descending chart `r` is not an isomorphism, and the proof's (D) then needs `lem:spread_top` (c) for `r`, false in general (SCOPE (d)). The `ℓ`-quotient is built (`descTop`) and is no restriction (`isVirtuallyTame_of_descending`). The liftable special case (`IsLiftableChartMap`: `ℓ` and `r` both isomorphisms) is kept; ⚠ weakened there: local Galoisianity is not used (`isVirtuallyTame_of_liftable`); the `X_A`-atlas is used by neither form beyond the charts centred at singular points |
+| `theo:local_virt_tame`, (ii) ⇒ (i): (none) | ⚠ added (DEC-27), accepted by DEC-109 as the certified form: every singular point of `M` is the centre of an `X_A`-chart descending from the maximal covering of its model (`IsDescendingChartMap`: for all `e` over `U` and `f` over `φ(p e)`, a descent `V̂ ∋ f → Û ∋ e` of `φ⁻¹`, i.e. `V̂ → V` dominates `Û → U`; it holds when `r : Ṽ → V̂` is an isomorphism, `ℓ : Ũ → Û` arbitrary — `isDescendingChartMap_of_homeomorph`, WP-41p — and whenever `V̂` dominates `Ṽ`, `isDescendingChartMap_of_section`). Only the `r` side is forced: for a non-descending chart `r` is not an isomorphism, and the proof's (D) then needs `lem:spread_top` (c) for `r`, false in general (SCOPE (d)). The `ℓ`-quotient is built (`descTop`) and is no restriction (`isVirtuallyTame_of_descending`). The liftable special case (`IsLiftableChartMap`: `ℓ` and `r` both isomorphisms) is kept; ⚠ weakened there: local Galoisianity is not used (`isVirtuallyTame_of_liftable`); the `X_A`-atlas is used by neither form beyond the charts centred at singular points |
 | `theo:local_virt_tame`, `rem:singular_point_manifold_has`: `M` an `X_A`-manifold | ✓ read as ruled (DEC-67 (e)): `IsXAManifold` asks a chart centred at every singular point, what the remark's existence and the proof's gluing (l.2077) use |
 | `rem:theorem_theo_local_tame`: "a `X_A`-manifold is tame iff all models are tame" | ✓ read as ruled (DEC-80 (b)): the GLOBAL equivalence over all `X_A`-manifolds; for the printed notion (l.1913) nothing is added (`forall_isTame_iff_printed`); for the DEC-67 (e) notion the models are `X_A`-manifolds (`htype`: every singular point of a model has a type), what the paper presumes at l.2069 ("each `X_α` is an `X_A`-manifold"), used by "only if" only; the `htype` form is covered by DEC-80 (b), as DEC-87 (a) records |
 | `rem:theorem_theo_local_tame`: models connected, `X` locally unloopable (standing) | ✓ carried; ⚠ weakened: analyticity of the family is not used, only `S_α` non-empty (`hne`) |
@@ -193,7 +195,25 @@ l.1660; manifolds connected, l.1712), on `GX.SingularII.Tame`.
   `Aut(Σ) ≅ Aut(M)` and the `s` singular rays are not in the library or mathlib. The rigidity
   fact is stronger than the paper's sentence (automorphisms of neighbourhoods of `O`); its
   derivation for the suspension is in the docstring of `isAnalyticModelFamily_unit_iff_eq_singleton`.
-* **(d)** `theo:local_virt_tame`, (ii) ⇒ (i), `X_A`-manifolds as ruled (DEC-67 (e)): the proof
+* **(d)** `theo:local_virt_tame`. **Ruling (DEC-109, WP-44b).** The theorem is false in the
+  paper's generality (`GX.not_localVirtTameStatement`, counterexample `GX.ThinCex`, last paragraph
+  of this item); the author rules the row CERTIFIED by its descending-chart form — every singular
+  point of `M` the centre of an `X_A`-chart descending from the maximal covering of its model
+  (`GX.IsDescendingChartMap`), under all the theorem's hypotheses:
+  `GX.isVirtuallyTame_of_descending` ((ii) ⇒ (i)) and `GX.local_virt_tame_descending` (the iff),
+  0 `sorry`. That is the form Section 4 uses. The manifold case (`X` a manifold, e.g.
+  `𝔼^{1,2}`, where no counterexample is known) is not pursued. Recorded beside it, all proved,
+  0 `sorry`: the counterexample `GX.ThinCex` (`GX.ThinCex.local_virt_tame_counterexample`, the
+  failure of piece (2) `GX.ThinCex.not_forall_hasLocalTamifyingCharts_VV`, the non-virtually-tame
+  `X_A`-manifold `GX.ThinCex.not_isVirtuallyTame_VV`); `r` an isomorphism,
+  `GX.isVirtuallyTame_of_hasMaximalLifts` (through `GX.isDescendingChartMap_of_homeomorph`,
+  `GX.isDescendingChartMap_of_section`); models of finite local degree,
+  `GX.isVirtuallyTame_of_isXAManifold_of_hasFiniteLocalDegree`; tame models,
+  `GX.isVirtuallyTame_of_isXAManifold_of_isTame`; liftable charts, `GX.isVirtuallyTame_of_liftable`,
+  `GX.local_virt_tame_liftable`; the general (ii) ⇒ (i) conditional on piece (2),
+  `GX.isVirtuallyTame_of_isXAManifold`, `GX.local_virt_tame_of_charts`; (i) ⇒ (ii),
+  `GX.local_virt_tame_forward`; the counterexample schema `GX.not_forall_isVirtuallyTame_of_opens`.
+  The history follows. (ii) ⇒ (i), `X_A`-manifolds as ruled (DEC-67 (e)): the proof
   (l.2068–2136) has three pieces. (1) `lem:spread_top`, certified by WP-27k (false as printed;
   (c) false even with `p⁻¹(R)` connected). (2) The topologies `T_{U,V,φ}` on `p⁻¹(U)` for each
   `X_A`-chart, with their properties and naturality, on the interface `IsLocalTamifying` (the
@@ -359,7 +379,8 @@ l.1660; manifolds connected, l.1712), on `GX.SingularII.Tame`.
   thin tubes about the helicoid, which carry `λ` but no `μ`. The model geometry `X` is not a
   manifold at `0` (a point with contractible punctured neighbourhoods), which the paper's
   standing assumption (an analytical structure with `X` locally unloopable, l.1660) allows;
-  whether a counterexample exists with `X` a manifold (e.g. `𝔼^{1,2}`) is asked of the author.
+  whether a counterexample exists with `X` a manifold (e.g. `𝔼^{1,2}`) was asked of the author,
+  who ruled (DEC-109) the descending-chart form certified and the manifold case not pursued.
 * **(e)** `lem:spread_top` is certified by WP-27k in `GX.SingularII.SpreadTop` (which
   imports this module): false as printed (`GX.not_spreadTopPrinted`); the corrected form ruled by
   DEC-80 (c) is `GX.spread_top_of_local` there (with `GX.spread_top_corrected`). Here only `strongPullTop` (`def:topological_spaces_continuous_map`) and
@@ -3793,7 +3814,7 @@ points are centres of charts lifting to the maximal coverings (`IsLiftableChartM
 theorem's hypotheses (analytic family, a tamifying topology on each `\widetilde X_α` on which
 `Aut(\widetilde X_α)` acts continuously), (i) every such `X_A`-manifold is virtually tame iff (ii)
 every model is virtually tame. (ii) ⇒ (i) is `isVirtuallyTame_of_liftable`; (i) ⇒ (ii) holds
-outright by the hypothesis on the models, as in `local_virt_tame`. Local Galoisianity of the models
+outright by the hypothesis on the models, as in `local_virt_tame_forward`. Local Galoisianity of the models
 is not used. -/
 theorem local_virt_tame_liftable (hX : IsLocallyUnloopable X)
     (hfam : IsAnalyticModelFamily G X Xα S) (htam : ∀ a, HasAutContinuousTamifying G X (Xα a)) :
@@ -5009,7 +5030,7 @@ the liftable charts): under ALL the theorem's hypotheses (analytic family of loc
 models, a tamifying topology on each `\widetilde X_α` on which `Aut(\widetilde X_α)` acts
 continuously), (i) every such `X_A`-manifold is virtually tame iff (ii) every model is virtually
 tame. (ii) ⇒ (i) is `isVirtuallyTame_of_descending`; (i) ⇒ (ii) holds outright by the hypothesis
-on the models, as in `local_virt_tame`. -/
+on the models (`local_virt_tame_forward`). Certified as the row by DEC-109. -/
 theorem local_virt_tame_descending (hX : IsLocallyUnloopable X)
     (hfam : IsAnalyticModelFamily G X Xα S) (hgal : ∀ a, IsLocallyGaloisian G X (Xα a))
     (htam : ∀ a, HasAutContinuousTamifying G X (Xα a)) :

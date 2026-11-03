@@ -25,51 +25,20 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
   `ℝ ⊕ ℝ` by `x ↦ 2x`).
 * **`ex:quotient_base`** — `RamcovGX.tex:660` — closed in the corrected forms ruled by DEC-52
   (`sing(M) ⊆ π{r=0}`; the variations ask `⟨v|w⟩ ≠ 0` for every non-zero null `w ⊥ u`) and the
-  developing maps of DEC-47: the corrected statement in one piece `GX.quotientBase_ruled`, the
-  variations with DEC-52's hypothesis verbatim `GX.misner_variations_ruled` (timelike `v` satisfy
-  it, `GX.nullB_ne_zero_of_timelike`); the printed "`sing(M) = {r=0}`" stays refuted
-  (`GX.quotientBase_counterexample`, a finding); `GX.DInfty` (`𝔻_∞`, the paper's topology
-  `DInfty.instTopologicalSpace`), `GX.DInfty.isPortly_pos`, `GX.devAtlas`, `GX.devStructure`,
-  `GX.GammaA`, `GX.quotientBase`, `GX.quotientBase_topology`, `GX.cylHomeomorph` (`M ≅ ℂ × Z`),
-  `GX.quotientBase_sing_subset`; "`sing(M) = {r=0}`" refuted by
-  `GX.quotientBase_counterexample`; the disc `GX.Disc`, `GX.discQuot`, `GX.discHomeomorph`,
-  `GX.isCoveringMapOn_discQuot` (for `cex:proposition_prop_branched_covering`). Lorentzian
-  instances, in `G = Isom₀(𝔼^{1,2})` (`GX.LorentzIsom0`): the massive particle with the intended
-  developing map `(z + σθ/α, r cos θ, r sin θ)` (DEC-47) `GX.massive_particle_intended` (holonomy
-  the screw motion of angle `α`), every angular speed `GX.massive_particle`,
-  `GX.massive_particle_isom0` (the printed `c = 1/α` gives angle `1`: `GX.massiveDev_smul`, a
-  slip); the extreme BTZ white hole `GX.btz_whitehole`, `GX.btz_isom0`, for every `x₀`, future
-  lightlike `u` and `⟨v|u⟩ < 0` `GX.btz_whitehole_isom0` (through the `Isom₀`-transitivity
-  `GX.exists_isom0_nullU`), developing into the future side of the null plane
-  `GX.btzDevGen_future_side`; the extreme BTZ black hole with a past lightlike `u` (DEC-47) for
-  every `x₀`, past lightlike `u` and `⟨v|u⟩ < 0` `GX.btz_blackhole_past_isom0` (developing into the
-  past side; `GX.nullB_neg_of_future`); the printed `D'(r,θ,t) = D(r,θ,−t)`
-  `GX.btz_blackhole`, isomorphic to the white hole `GX.btz_blackhole_iso_whitehole`,
-  `GX.btz_blackhole_isom0` (the slip); the Misner / BTZ variations with boosts `GX.misner_btz`,
-  `GX.misner_isom0`, for every `x₀`, every spacelike `u` and every timelike (or suitably
-  non-degenerate spacelike) `v` `GX.misner_isom0_general` (through the `Isom₀`-transitivity
-  `GX.exists_isom0_nullS`, `GX.misner_general`) ("`v` spacelike" insufficient:
-  `GX.misnerDev_spacelike_counterexample`); the
-  descent lemma `GX.isAEMorphismOf_quotientBase`.
+  developing maps of DEC-47: `GX.quotientBase_ruled`, `GX.misner_variations_ruled`; the printed
+  "`sing(M) = {r=0}`" refuted (`GX.quotientBase_counterexample`, a finding); `GX.DInfty`,
+  `GX.quotientBase`, `GX.quotientBase_topology`, `GX.cylHomeomorph`, `GX.quotientBase_sing_subset`;
+  in `Isom₀(𝔼^{1,2})`: `GX.massive_particle_intended`, `GX.btz_whitehole_isom0`,
+  `GX.btz_blackhole_past_isom0`, `GX.misner_isom0_general`; the tachyons and photons (l.682,
+  WP-44a) `GX.tachyon_isom0`, `GX.photon_isom0` (`Γ = ℤ` on `θ` alone, `GX.ThetaLiftQuotient`;
+  the Euclidean-radius reading is not Hausdorff, `GX.rayLiftQuotient_tachyon_not_t1`,
+  `GX.rayLiftQuotient_photon_not_t2`). All names: SCOPE (c).
 * **`ex:conical`** — `RamcovGX.tex:347`, read with the cone angle `α` (DEC-47): `GX.conical`
-  (holonomy `ρ_α`, the structure, "extends to the whole space iff `α = 2π`", the whole axis
-  singular otherwise), `GX.conicalDev_smul` (`ρ(1)` the rotation of angle `α`),
-  `GX.conical_holonomy_eq_one_iff` (trivial iff `α ∈ 2πℕ*`); the holonomy as one homomorphism
-  `ρ : π₁({r > 0}, y₀) → ℝ^n ⋊ SO(n) = Isom⁺(𝔼^n)` with the developing map `ρ`-equivariant,
-  `ρ = ρ_α^χ` for `χ : π₁ ≃ ℤ`, `ρ(1) = ρ_α` and `ρ(1) = 1` in `G` iff `α ∈ 2πℕ*`:
-  `GX.conical_holonomy` (`GX.conicalRot`, `GX.conicalRot_eq_one_iff`, `GX.conical_zpow_smul`);
-  `GX.conical_isomPlus` (the paper's
-  `G = ℝ^n ⋊ SO(n) = Isom⁺(𝔼^n)`, every `α > 0`, every `n`), witness `GX.conical_circle`;
-  `π₁({r > 0}) = ℤ`: `GX.conical_fundamentalGroup` (`FundamentalGroup ≃* ℤ` at every base point),
-  through the deck group — `GX.cylPosDeck_bijective` (`Γ_1` is the whole deck group of the
-  universal covering `{r > 0} → π{r > 0}`, `GX.previous_examples_universalCover`) and
-  `GX.fundamentalGroup_cylPos` (the isomorphism conjugates each loop's deck transformation to the
-  corresponding element of `Γ_1`, read by the developing map as `ρ`); the metric: the cone `GX.Cone` ported from
-  `lean-causal`, `𝔼^n_α = GX.ConicalSpace α E = C_α × ℝ^{n-2}` (`ℓ²`), the homeomorphism
-  `GX.conicalMetricHomeo` (cylindrical coordinates; the cone metric induces the quotient topology),
-  `GX.conical_locally_euclidean_prod` (locally Euclidean on `{r > 0}`), `GX.conical_metric`,
-  `GX.dist_coneOf`, `GX.conical_locally_euclidean`; the printed metric (angle `√α`, the slip)
-  refuted at `α = 2π`: `GX.conical_printed_metric`, `GX.conical_printed_metric_two_pi`.
+  (holonomy `ρ_α`, the structure, "extends to the whole space iff `α = 2π`"),
+  `GX.conical_holonomy_eq_one_iff`, `GX.conical_holonomy` (`ρ : π₁({r > 0}) → Isom⁺(𝔼^n)`),
+  `GX.conical_isomPlus`, `GX.conical_fundamentalGroup` (`π₁({r > 0}) = ℤ`), the metric
+  `GX.conical_metric`, `GX.conical_printed_metric_two_pi` (the printed angle `√α`, the slip). All
+  names: SCOPE (d).
 * **`ex:consider_identifying_point_wise_stabilizer`** — `RamcovGX.tex:629` — closed, the
   "submodels of `𝕂P^n`" sentence read as ruled by DEC-54(a) (the construction for every
   analytical `(G,X)` and every finite `Γ ⊆ G` acting freely on a portly subset):
@@ -148,6 +117,8 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
 | `ex:conical`: the holonomy `ρ : π₁ = ℤ → ℝ^n ⋊ SO(n)`, `ρ(1)` the rotation of angle `α` | ✓ proved: one homomorphism `π₁ →* Isom⁺(𝔼^n)`, the developing map equivariant, `ρ(1) = ρ_α`, trivial iff `α ∈ 2πℕ*` (`conical_holonomy`) |
 | `ex:quotient_base`, massive particle: `D = (z + σθ/α, r cos(θ/α), r sin(θ/α))` | ✓ ruled reading (DEC-47): `D = (z + σθ/α, r cos θ, r sin θ)` (`massive_particle_intended`); the printed map has angle `1` (a finding) |
 | `ex:quotient_base`, BTZ black hole: `D'(r,θ,t) = D(r,θ,−t)` | ✓ ruled reading (DEC-47): `D` with a past lightlike `u` (`btz_blackhole_past_isom0`); the printed `D'` gives the white hole again (a finding) |
+| `ex:quotient_base`, tachyons / photons: "a hyperbolic (resp. parabolic) action of `Γ = ℤ` on `θ`, `𝔻_∞ = ℝ₊* × \widetilde{ℝP¹} ∪ {(0,0)}`" | ✓ reading (SCOPE (c)(i)): `Γ = ℤ` acts on `θ` alone, and the identification `ψ : ℝ ≃ₜ \widetilde{ℝP¹}` conjugates it to the lift of `A` (`ThetaLiftQuotient.lift`); every `x₀`, every spacelike (resp. non-zero null) `v`, every `g ∈ Isom₀ ∖ {1}` fixing `x₀ + ℝv` pointwise, every `m ≠ 0` (`tachyon_isom0`, `photon_isom0`); `g` is then a boost (resp. a null rotation), proved (`eq_boostAff_of_fix`, `eq_parabAff_of_fix`) |
+| `ex:quotient_base`, tachyons / photons: "naturally a singular `(G,X)`-manifold" (l.668, def l.474: Hausdorff, second countable, locally connected) | ✓ carried: `T2Space`, `SecondCountableTopology`, `LocallyConnectedSpace` of the quotient, `≅ ℂ × ℝ`, `Γ` properly discontinuous in the full sense (`IsProperlyDiscontinuous`, `ThetaLiftQuotient`); the Euclidean-radius action is not (`rayLiftQuotient_tachyon_not_t1`, `rayLiftQuotient_photon_not_t2`) |
 
 ## SCOPE (disclosed)
 
@@ -157,7 +128,37 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
 * **(b)** "Properly discontinuous" is read as `IsProperlyDiscontinuous` (neighbourhoods meeting
   their translates only through the stabiliser; distinct orbits separated); the structure needs
   only the first half, Hausdorffness of `Γ\M` the second (`IsProperlyDiscontinuous.t2Space`).
-* **(c)** `ex:quotient_base`: `cyl{n} = 𝔻_∞ × Z` for any locally connected `Z` (the paper's
+* **(c)** `ex:quotient_base`. The declarations — the row closes in the corrected forms ruled by DEC-52
+  (`sing(M) ⊆ π{r=0}`; the variations ask `⟨v|w⟩ ≠ 0` for every non-zero null `w ⊥ u`) and the
+  developing maps of DEC-47: the corrected statement in one piece `GX.quotientBase_ruled`, the
+  variations with DEC-52's hypothesis verbatim `GX.misner_variations_ruled` (timelike `v` satisfy
+  it, `GX.nullB_ne_zero_of_timelike`); the printed "`sing(M) = {r=0}`" stays refuted
+  (`GX.quotientBase_counterexample`, a finding); `GX.DInfty` (`𝔻_∞`, the paper's topology
+  `DInfty.instTopologicalSpace`), `GX.DInfty.isPortly_pos`, `GX.devAtlas`, `GX.devStructure`,
+  `GX.GammaA`, `GX.quotientBase`, `GX.quotientBase_topology`, `GX.cylHomeomorph` (`M ≅ ℂ × Z`),
+  `GX.quotientBase_sing_subset`; "`sing(M) = {r=0}`" refuted by
+  `GX.quotientBase_counterexample`; the disc `GX.Disc`, `GX.discQuot`, `GX.discHomeomorph`,
+  `GX.isCoveringMapOn_discQuot` (for `cex:proposition_prop_branched_covering`). Lorentzian
+  instances, in `G = Isom₀(𝔼^{1,2})` (`GX.LorentzIsom0`): the massive particle with the intended
+  developing map `(z + σθ/α, r cos θ, r sin θ)` (DEC-47) `GX.massive_particle_intended` (holonomy
+  the screw motion of angle `α`), every angular speed `GX.massive_particle`,
+  `GX.massive_particle_isom0` (the printed `c = 1/α` gives angle `1`: `GX.massiveDev_smul`, a
+  slip); the extreme BTZ white hole `GX.btz_whitehole`, `GX.btz_isom0`, for every `x₀`, future
+  lightlike `u` and `⟨v|u⟩ < 0` `GX.btz_whitehole_isom0` (through the `Isom₀`-transitivity
+  `GX.exists_isom0_nullU`), developing into the future side of the null plane
+  `GX.btzDevGen_future_side`; the extreme BTZ black hole with a past lightlike `u` (DEC-47) for
+  every `x₀`, past lightlike `u` and `⟨v|u⟩ < 0` `GX.btz_blackhole_past_isom0` (developing into the
+  past side; `GX.nullB_neg_of_future`); the printed `D'(r,θ,t) = D(r,θ,−t)`
+  `GX.btz_blackhole`, isomorphic to the white hole `GX.btz_blackhole_iso_whitehole`,
+  `GX.btz_blackhole_isom0` (the slip); the Misner / BTZ variations with boosts `GX.misner_btz`,
+  `GX.misner_isom0`, for every `x₀`, every spacelike `u` and every timelike (or suitably
+  non-degenerate spacelike) `v` `GX.misner_isom0_general` (through the `Isom₀`-transitivity
+  `GX.exists_isom0_nullS`, `GX.misner_general`) ("`v` spacelike" insufficient:
+  `GX.misnerDev_spacelike_counterexample`); the
+  descent lemma `GX.isAEMorphismOf_quotientBase`; the tachyons and photons (l.682)
+  `GX.tachyon_isom0`, `GX.photon_isom0` through `GX.thetaLiftQuotient_of_frame`,
+  `GX.tachyon_conj_theta`, `GX.photon_conj_theta` (below, (i)).
+  The reading: `cyl{n} = 𝔻_∞ × Z` for any locally connected `Z` (the paper's
   `ℝ^n`); `D` is a local homeomorphism on `{r > 0}`; `M ≅ ℂ × Z`. The paper's `ℝ^n` is a
   dimension slip (`ℝ^{n+2}`, or `cyl` built on `ℝ^{n-2}`). `Γ_α` is `GammaA α ≅ ℤ`. Lorentzian
   instances: the massive particle (Minkowski `ℝ × ℂ`, `D` with angular speed `c`; DEC-47 reads
@@ -184,20 +185,70 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
   non-zero null `w ⊥ u` (`misner_variations_ruled`; "`v` spacelike" alone is insufficient,
   `misnerDev_spacelike_counterexample`, a finding). The dimension slip (`cyl{n} = 𝔻_∞ × ℝ^n`
   said homeomorphic to `ℝ^n`) is absorbed by the generality in `Z`: `M ≅ ℂ × Z` for every `Z`.
-  **Informal sentences, not formalized, with the reason.** (i) l.682, tachyons and photons
-  "can be obtained as variations of the above example with a hyperbolic (resp. parabolic) action
-  of `Γ = ℤ` on the coordinate `θ`, with the identification `𝔻_∞ = ℝ_+^* × \widetilde{ℝP^1} ∪
-  {(0,0)}`": the paper gives no developing map, no element of `PSL(2,ℝ)` nor which of its lifts
-  to `\widetilde{ℝP^1}` generates `Γ` (the lifts fixing a lift of a fixed point act with fixed
-  points, the others freely, so the choice decides whether the action on `{r > 0}` is free at all),
-  and "tachyon", "photon" are not defined in the paper (they are the literature's names,
-  `Particules_1`, `barbot2012particles`); the action of `Γ` on the cylinder, hence the quotient,
-  is not determined, so the sentence asserts the existence of unspecified variations and has no
-  statement to certify. (ii) l.684, "all these examples can also be obtained via gluings of
+  **The tachyons and photons** (l.682, WP-44a). "Tachyon" and "photon" are not defined in the
+  paper; they are read, as in the literature it cites (`Particules_1`, `barbot2012particles`), as
+  the variations whose holonomy is an element `g ≠ 1` of `Isom₀` fixing pointwise a spacelike
+  (resp. null) line `x₀ + ℝv`. Such a `g` is a boost (resp. a null rotation), proved:
+  `eq_boostAff_of_fix`, `eq_parabAff_of_fix` (the orientation reversing candidates are excluded by
+  the determinant, `det_eq_of_coord`). The plane of rays is a complement `P = w(ℂ)` of `ℝv`
+  (`P = v^⊥` for the tachyon), with rays `ℝ₊ w(e^{iθ})`; the linear part of `g` acts on
+  `P ≅ 𝔼^{1,2}/ℝv` by `A ∈ SL(2,ℝ)`, **hyperbolic** (`IsHyperbolicPlaneMap`) resp. **parabolic**
+  (`IsParabolicPlaneMap`), with an `ℝv`-component `κ` (`0` for the tachyon); `A` turns no ray onto
+  its opposite (`RayAdmissible`), so its action on rays lifts to `\widetilde{ℝP¹} = ℝ` as
+  `rayAngleLift A m : θ ↦ θ + rayShift A θ + 2πm`, a strictly increasing homeomorphism
+  (`strictMono_rayAngleLift`), `m ∈ ℤ` the choice of lift (every `m ≠ 0` is certified; `m = ±1` is
+  the tachyon/photon proper; `m = 0` fixes the eigen-rays and is not claimed). (i) "A hyperbolic
+  (resp. parabolic) action of `Γ = ℤ` on the coordinate `θ` with `𝔻_∞ = ℝ₊* × \widetilde{ℝP¹} ∪
+  {(0,0)}`" is read literally, as a variation of the action `Γ_α` above: `Γ = GammaA (2π)` acts on
+  `θ` alone (`(r, θ, z) ↦ (r, θ + 2π, z)`), and the identification of `θ` with `\widetilde{ℝP¹}`
+  is a homeomorphism `ψ : ℝ ≃ₜ ℝ` conjugating the generator to `rayAngleLift A m`
+  (`ThetaLiftQuotient.lift`: `ψ(θ + 2π) = ψ θ + rayShift A (ψ θ) + 2πm`), so that the action on
+  `θ` *is* the hyperbolic (parabolic) one. The developing map (`thetaDev`) is
+  `D(r, θ, z) = x₀ + (z + r b(θ)) c v + r R(θ) w(e^{iψ θ})`, `R > 0` (`ThetaLiftQuotient.dev_eq`):
+  it sends `(r, θ, z)` to the ray of angle `ψ θ` modulo `ℝv`, the axis onto the singular line
+  (`dev_axis`), is a local homeomorphism on `{r > 0}` with holonomy `g` (`D(k·x) = g^k·D x`); it is
+  built on a curve `c` of the fundamental domain extended equivariantly
+  (`exists_equivariant_curve`, `exists_turning_curve`, `exists_rayLiftLog_curve`). The quotient
+  `M = Γ\(𝔻_∞ × ℝ)` is a **singular `(Isom₀, 𝔼^{1,2})`-manifold**: Hausdorff, locally connected,
+  second countable, homeomorphic to `ℂ × ℝ` (`quotientBase_topology`, `cylHomeomorph`), `Γ`
+  free on `{r > 0}` and properly discontinuous in the full sense of SCOPE (b)
+  (`IsProperlyDiscontinuous.of_t2Space_orbits`), with a unique maximal a.e. structure for which the
+  projection is an a.e. morphism and singular locus in `π{r = 0}` (`ThetaLiftQuotient`,
+  `thetaLiftQuotient_of_frame`). **The Euclidean-radius reading fails** (the construction first
+  dispatched, `papers/bbs/REVIEW.md` §H.2): acting by `rayLiftHomeo`,
+  `(r, θ, z) ↦ (r ‖A e^{iθ}‖, θ + rayShift A θ + 2πm, z + r κ(e^{iθ}))`, keeps the apex
+  neighbourhoods `{r < ε}` of `𝔻_∞` but not the orbits away from them: `RayLiftQuotient` holds
+  (free on `{r > 0}`, only the neighbourhood half `disc` of proper discontinuity, a unique maximal
+  a.e. structure), yet the orbit space is not `T₁` for the tachyon (the contracted eigen-ray
+  accumulates at the axis, `rayLiftQuotient_tachyon_not_t1`) and not `T₂` for the photon (the
+  null rotation shears orbits onto the fixed line, `rayLiftQuotient_photon_not_t2`), so it is not a
+  singular manifold. The orientation of `w` is not pinned: the paper makes no positivity claim.
+  That the axis is actually singular, and BBS's degree, are not asserted by the paper and not
+  formalized.
+  **Informal sentence, not formalized, with the reason.** (ii) l.684, "all these examples can also be obtained via gluings of
   polyedra": no polyhedra, gluing maps nor isomorphism are given, and gluings of polyhedra are
   described only informally (l.624). Both sentences are remarks pointing at the literature; the
   precise assertions of the example are certified above.
-* **(d)** `ex:conical` (closed under DEC-47's cone angle `α`): `𝔼^n_α = Γ_1\(𝔻_∞ × Z)` with `Z = ℝ^{n-2}`, developed by
+* **(d)** `ex:conical`. The declarations: `GX.conical`
+  (holonomy `ρ_α`, the structure, "extends to the whole space iff `α = 2π`", the whole axis
+  singular otherwise), `GX.conicalDev_smul` (`ρ(1)` the rotation of angle `α`),
+  `GX.conical_holonomy_eq_one_iff` (trivial iff `α ∈ 2πℕ*`); the holonomy as one homomorphism
+  `ρ : π₁({r > 0}, y₀) → ℝ^n ⋊ SO(n) = Isom⁺(𝔼^n)` with the developing map `ρ`-equivariant,
+  `ρ = ρ_α^χ` for `χ : π₁ ≃ ℤ`, `ρ(1) = ρ_α` and `ρ(1) = 1` in `G` iff `α ∈ 2πℕ*`:
+  `GX.conical_holonomy` (`GX.conicalRot`, `GX.conicalRot_eq_one_iff`, `GX.conical_zpow_smul`);
+  `GX.conical_isomPlus` (the paper's
+  `G = ℝ^n ⋊ SO(n) = Isom⁺(𝔼^n)`, every `α > 0`, every `n`), witness `GX.conical_circle`;
+  `π₁({r > 0}) = ℤ`: `GX.conical_fundamentalGroup` (`FundamentalGroup ≃* ℤ` at every base point),
+  through the deck group — `GX.cylPosDeck_bijective` (`Γ_1` is the whole deck group of the
+  universal covering `{r > 0} → π{r > 0}`, `GX.previous_examples_universalCover`) and
+  `GX.fundamentalGroup_cylPos` (the isomorphism conjugates each loop's deck transformation to the
+  corresponding element of `Γ_1`, read by the developing map as `ρ`); the metric: the cone `GX.Cone` ported from
+  `lean-causal`, `𝔼^n_α = GX.ConicalSpace α E = C_α × ℝ^{n-2}` (`ℓ²`), the homeomorphism
+  `GX.conicalMetricHomeo` (cylindrical coordinates; the cone metric induces the quotient topology),
+  `GX.conical_locally_euclidean_prod` (locally Euclidean on `{r > 0}`), `GX.conical_metric`,
+  `GX.dist_coneOf`, `GX.conical_locally_euclidean`; the printed metric (angle `√α`, the slip)
+  refuted at `α = 2π`: `GX.conical_printed_metric`, `GX.conical_printed_metric_two_pi`.
+  The reading (closed under DEC-47's cone angle `α`): `𝔼^n_α = Γ_1\(𝔻_∞ × Z)` with `Z = ℝ^{n-2}`, developed by
   `(r,θ,z) ↦ (r e^{iαθ}, z)`, for any rigid `(G, ℂ × Z)` containing the rotation `ρ_α`; "the
   structure cannot be extended to the whole `ℝ^n`" is read as: the maximal a.e. atlas does not
   cover the axis. The holonomy `ρ(1)` is the equivariance of the developing map along the deck
@@ -7398,5 +7449,1842 @@ theorem quotientBase_ruled {G X : Type*} [TopologicalSpace X] [Group G] [MulActi
   obtain ⟨B, ⟨hB, hπ⟩, huniq⟩ := quotientBase hα hD hΓ
   exact ⟨⟨B, ⟨hB, hπ, quotientBase_sing_subset hα hD hB hπ⟩,
     fun B' hB' => huniq B' ⟨hB'.1, hB'.2.1⟩⟩, ⟨cylHomeomorph hα Z⟩⟩
+
+/-! ## WP-44a: the tachyons and photons of `ex:quotient_base` (`RamcovGX.tex:682`)
+
+`Γ = ℤ` acting on the infinite angle cylinder through the lift of the action of `g ∈ Isom₀` on the
+rays of a plane complementing its fixed line (the construction of `papers/bbs/REVIEW.md` §H.2),
+the quotient structure by `existsUnique_aeGXQuotient`. -/
+
+section TachyonPhoton
+
+open scoped Real
+
+/-! ### The lift to `𝔻_∞ × ℝ` of a linear map of the plane `ℂ` acting on rays -/
+
+/-- **`A` turns no ray onto its opposite**: `A c / c` never lies on `(−∞, 0]`, i.e. `A` has no
+eigenvalue in `(−∞, 0]`. Then the angle by which `A` turns a ray is in `(−π, π)` and depends
+continuously on the ray. -/
+def RayAdmissible (A : ℂ ≃ₗ[ℝ] ℂ) : Prop := ∀ c : ℂ, c ≠ 0 → A c / c ∈ Complex.slitPlane
+
+/-- The angle `arg (A e^{iθ} / e^{iθ}) ∈ (−π, π]` by which `A` turns the ray of `e^{iθ}`. -/
+noncomputable def rayShift (A : ℂ ≃ₗ[ℝ] ℂ) (θ : ℝ) : ℝ :=
+  Complex.arg (A (Complex.exp (θ * Complex.I)) / Complex.exp (θ * Complex.I))
+
+theorem inv_mem_slitPlane_of_mem {z : ℂ} (hz : z ∈ Complex.slitPlane) :
+    z⁻¹ ∈ Complex.slitPlane := by
+  have hz0 : z ≠ 0 := Complex.slitPlane_ne_zero hz
+  have hn : 0 < Complex.normSq z := Complex.normSq_pos.2 hz0
+  rw [Complex.mem_slitPlane_iff] at hz ⊢
+  rw [Complex.inv_re, Complex.inv_im]
+  rcases hz with h | h
+  · exact Or.inl (div_pos h hn)
+  · exact Or.inr (div_ne_zero (neg_ne_zero.2 h) hn.ne')
+
+theorem RayAdmissible.symm {A : ℂ ≃ₗ[ℝ] ℂ} (hA : RayAdmissible A) : RayAdmissible A.symm := by
+  intro c hc
+  have hd : A.symm c ≠ 0 := (LinearEquiv.map_ne_zero_iff _).2 hc
+  have h := inv_mem_slitPlane_of_mem (hA _ hd)
+  rwa [LinearEquiv.apply_symm_apply, inv_div] at h
+
+/-- `A` has no eigenvalue in `(−∞, 0]` (checked on eigenvectors). -/
+theorem RayAdmissible.of_eigen {A : ℂ ≃ₗ[ℝ] ℂ}
+    (h : ∀ c : ℂ, c ≠ 0 → ∀ t : ℝ, t ≤ 0 → A c ≠ t • c) : RayAdmissible A := by
+  intro c hc
+  by_contra hs
+  rw [Complex.mem_slitPlane_iff, not_or, not_lt, not_not] at hs
+  refine h c hc (A c / c).re hs.1 ?_
+  have hq : A c / c = ((A c / c).re : ℂ) := Complex.ext (by simp) (by simp [hs.2])
+  rw [Complex.real_smul, ← hq, div_mul_cancel₀ _ hc]
+
+theorem rayShift_lt_pi {A : ℂ ≃ₗ[ℝ] ℂ} (hA : RayAdmissible A) (θ : ℝ) : rayShift A θ < π :=
+  lt_of_le_of_ne (Complex.arg_le_pi _) (Complex.slitPlane_arg_ne_pi (hA _ (Complex.exp_ne_zero _)))
+
+theorem neg_pi_lt_rayShift (A : ℂ ≃ₗ[ℝ] ℂ) (θ : ℝ) : -π < rayShift A θ := Complex.neg_pi_lt_arg _
+
+/-- **The polar form of `A e^{iθ}`**: `A e^{iθ} = ‖A e^{iθ}‖ e^{i(θ + rayShift A θ)}`: the ray of
+`e^{iθ}` is mapped to the ray of `e^{i(θ + rayShift A θ)}`. -/
+theorem rayShift_polar (A : ℂ ≃ₗ[ℝ] ℂ) (θ : ℝ) :
+    A (Complex.exp (θ * Complex.I)) = ‖A (Complex.exp (θ * Complex.I))‖ *
+      Complex.exp (((θ + rayShift A θ : ℝ) : ℂ) * Complex.I) := by
+  set e := Complex.exp (θ * Complex.I)
+  have he : e ≠ 0 := Complex.exp_ne_zero _
+  have hne : ‖e‖ = 1 := Complex.norm_exp_ofReal_mul_I θ
+  have hw := Complex.norm_mul_exp_arg_mul_I (A e / e)
+  rw [norm_div, hne, div_one] at hw
+  have hexp : Complex.exp (((θ + rayShift A θ : ℝ) : ℂ) * Complex.I) =
+      e * Complex.exp ((rayShift A θ : ℂ) * Complex.I) := by
+    rw [← Complex.exp_add]; push_cast; ring_nf
+  rw [hexp, rayShift, ← mul_assoc, mul_comm (‖A e‖ : ℂ) e, mul_assoc, hw, mul_div_cancel₀ _ he]
+
+theorem continuous_rayShift {A : ℂ ≃ₗ[ℝ] ℂ} (hA : RayAdmissible A) : Continuous (rayShift A) := by
+  have hc : Continuous fun θ : ℝ => A (Complex.exp (θ * Complex.I)) / Complex.exp (θ * Complex.I) :=
+    (A.toLinearMap.continuous_of_finiteDimensional.comp (by fun_prop)).div (by fun_prop)
+      fun _ => Complex.exp_ne_zero _
+  exact continuous_iff_continuousAt.2 fun θ =>
+    ContinuousAt.comp (x := θ) (g := Complex.arg)
+      (Complex.continuousAt_arg (hA _ (Complex.exp_ne_zero _))) hc.continuousAt
+
+theorem DInfty.cplx_twoPi_eq (p : DInfty) :
+    DInfty.cplx (2 * π) p = (p.r : ℂ) * Complex.exp (p.θ * Complex.I) := by
+  rw [DInfty.cplx, div_self (by positivity : (2 * π : ℝ) ≠ 0), one_mul]
+
+theorem rayLift_pos_aux (A : ℂ ≃ₗ[ℝ] ℂ) {r : ℝ} (hr : 0 < r) (θ : ℝ) :
+    0 < r * ‖A (Complex.exp (θ * Complex.I))‖ :=
+  mul_pos hr (norm_pos_iff.2 ((LinearEquiv.map_ne_zero_iff A).2 (Complex.exp_ne_zero _)))
+
+/-- **The lift of `(A, κ)` to the infinite angle cylinder, turned by `m` sheets**: on `{r > 0}`,
+`(r, θ, z) ↦ (r ‖A e^{iθ}‖, θ + rayShift A θ + 2πm, z + r κ(e^{iθ}))`; the axis is fixed. It covers
+`(c, z) ↦ (A c, z + κ c)` (`cplx_rayLift`, `snd_rayLift`). -/
+noncomputable def rayLift (A : ℂ ≃ₗ[ℝ] ℂ) (κ : ℂ →ₗ[ℝ] ℝ) (m : ℤ) (x : DInfty × ℝ) :
+    DInfty × ℝ :=
+  if h : 0 < x.1.r then
+    (⟨x.1.r * ‖A (Complex.exp (x.1.θ * Complex.I))‖, x.1.θ + rayShift A x.1.θ + 2 * π * m,
+      Or.inl (rayLift_pos_aux A h _)⟩, x.2 + x.1.r * κ (Complex.exp (x.1.θ * Complex.I)))
+  else x
+
+variable {A : ℂ ≃ₗ[ℝ] ℂ} {κ : ℂ →ₗ[ℝ] ℝ} {m : ℤ}
+
+theorem rayLift_of_pos {x : DInfty × ℝ} (h : 0 < x.1.r) :
+    rayLift A κ m x = (⟨x.1.r * ‖A (Complex.exp (x.1.θ * Complex.I))‖,
+      x.1.θ + rayShift A x.1.θ + 2 * π * m, Or.inl (rayLift_pos_aux A h _)⟩,
+      x.2 + x.1.r * κ (Complex.exp (x.1.θ * Complex.I))) := dif_pos h
+
+theorem rayLift_of_not_pos {x : DInfty × ℝ} (h : ¬ 0 < x.1.r) : rayLift A κ m x = x := dif_neg h
+
+theorem cplx_rayLift (x : DInfty × ℝ) :
+    DInfty.cplx (2 * π) (rayLift A κ m x).1 = A (DInfty.cplx (2 * π) x.1) := by
+  by_cases h : 0 < x.1.r
+  · rw [rayLift_of_pos h, DInfty.cplx_twoPi_eq, DInfty.cplx_twoPi_eq]
+    simp only
+    have hper : ((x.1.θ + rayShift A x.1.θ + 2 * π * m : ℝ) : ℂ) * Complex.I =
+        ((x.1.θ + rayShift A x.1.θ : ℝ) : ℂ) * Complex.I + (m : ℂ) * (2 * π * Complex.I) := by
+      push_cast; ring
+    have hA' : A ((x.1.r : ℂ) * Complex.exp (x.1.θ * Complex.I)) =
+        (x.1.r : ℂ) * A (Complex.exp (x.1.θ * Complex.I)) := by
+      rw [← Complex.real_smul, map_smul, Complex.real_smul]
+    rw [hper, Complex.exp_add, Complex.exp_int_mul_two_pi_mul_I, mul_one]
+    conv_rhs => rw [hA', rayShift_polar A x.1.θ]
+    push_cast; ring
+  · rw [rayLift_of_not_pos h, DInfty.eq_apex_of_not_pos h, DInfty.cplx_apex, map_zero]
+
+theorem snd_rayLift (x : DInfty × ℝ) :
+    (rayLift A κ m x).2 = x.2 + κ (DInfty.cplx (2 * π) x.1) := by
+  by_cases h : 0 < x.1.r
+  · rw [show (rayLift A κ m x).2 = x.2 + x.1.r * κ (Complex.exp (x.1.θ * Complex.I)) by
+      rw [rayLift_of_pos h], DInfty.cplx_twoPi_eq,
+      show ((x.1.r : ℂ) * Complex.exp (↑x.1.θ * Complex.I)) =
+        x.1.r • Complex.exp (↑x.1.θ * Complex.I) from Complex.real_smul.symm, map_smul, smul_eq_mul]
+  · rw [rayLift_of_not_pos h, DInfty.eq_apex_of_not_pos h, DInfty.cplx_apex, map_zero, add_zero]
+
+theorem r_rayLift (x : DInfty × ℝ) : (rayLift A κ m x).1.r = ‖A (DInfty.cplx (2 * π) x.1)‖ := by
+  rw [← cplx_rayLift, DInfty.norm_cplx]
+
+theorem rayLift_pos_iff (x : DInfty × ℝ) : 0 < (rayLift A κ m x).1.r ↔ 0 < x.1.r := by
+  rw [r_rayLift, norm_pos_iff, LinearEquiv.map_ne_zero_iff, ← norm_pos_iff, DInfty.norm_cplx]
+
+theorem θ_rayLift_of_pos {x : DInfty × ℝ} (h : 0 < x.1.r) :
+    (rayLift A κ m x).1.θ = x.1.θ + rayShift A x.1.θ + 2 * π * m := by
+  rw [rayLift_of_pos h]
+
+/-- Two points of `𝔻_∞` above the same point of `ℂ` whose angles differ by less than `2π` are
+equal. -/
+theorem DInfty.eq_of_cplx_eq {p q : DInfty} (h : DInfty.cplx (2 * π) p = DInfty.cplx (2 * π) q)
+    (hθ : |p.θ - q.θ| < 2 * π) : p = q := by
+  have hr : p.r = q.r := by rw [← DInfty.norm_cplx (2 * π) p, h, DInfty.norm_cplx]
+  rcases p.pos_or_eq_apex with hp | hp
+  · rw [DInfty.cplx_twoPi_eq, DInfty.cplx_twoPi_eq, hr] at h
+    have hq : (q.r : ℂ) ≠ 0 := by rw [← hr]; exact_mod_cast hp.ne'
+    obtain ⟨n, hn⟩ := Complex.exp_eq_exp_iff_exists_int.1 (mul_left_cancel₀ hq h)
+    have hn' : ((p.θ : ℝ) : ℂ) * Complex.I = ((q.θ + n * (2 * π) : ℝ) : ℂ) * Complex.I := by
+      rw [hn]; push_cast; ring
+    have him : p.θ = q.θ + n * (2 * π) := by
+      exact_mod_cast mul_right_cancel₀ Complex.I_ne_zero hn'
+    have h0 : n = 0 := by
+      by_contra hn0
+      have h1 : (1 : ℝ) ≤ |(n : ℝ)| := by rw [← Int.cast_abs]; exact_mod_cast Int.one_le_abs hn0
+      have h2 : |p.θ - q.θ| = |(n : ℝ)| * (2 * π) := by
+        rw [him, add_sub_cancel_left, abs_mul, abs_of_pos Real.two_pi_pos]
+      nlinarith [Real.pi_pos]
+    subst h0
+    simp at him
+    exact DInfty.ext hr him
+  · have hq : ¬ 0 < q.r := by rw [← hr, hp]; simp
+    rw [hp, DInfty.eq_apex_of_not_pos hq]
+
+/-- `(A', κ', −m)` undoes `(A, κ, m)` when `A' ∘ A = 1` and `κ' ∘ A = −κ`. -/
+theorem rayLift_rayLift {A' : ℂ ≃ₗ[ℝ] ℂ} (hAA : ∀ c, A' (A c) = c) {κ' : ℂ →ₗ[ℝ] ℝ}
+    (hκ : ∀ c, κ' (A c) = -κ c) {m' : ℤ} (hm : m' = -m) (hA : RayAdmissible A)
+    (x : DInfty × ℝ) : rayLift A' κ' m' (rayLift A κ m x) = x := by
+  refine Prod.ext ?_ ?_
+  · by_cases h : 0 < x.1.r
+    · have h' : 0 < (rayLift A κ m x).1.r := (rayLift_pos_iff x).2 h
+      refine DInfty.eq_of_cplx_eq (by rw [cplx_rayLift, cplx_rayLift, hAA]) ?_
+      rw [θ_rayLift_of_pos h', θ_rayLift_of_pos h, hm]
+      have h1 := rayShift_lt_pi hA x.1.θ
+      have h2 := neg_pi_lt_rayShift A x.1.θ
+      have h3 := neg_pi_lt_rayShift A' (x.1.θ + rayShift A x.1.θ + 2 * π * m)
+      have h4 : rayShift A' (x.1.θ + rayShift A x.1.θ + 2 * π * m) ≤ π := Complex.arg_le_pi _
+      rw [abs_lt, Int.cast_neg]
+      constructor <;> linarith
+    · rw [rayLift_of_not_pos h, rayLift_of_not_pos h]
+  · rw [snd_rayLift, snd_rayLift, cplx_rayLift, hκ]; ring
+
+theorem continuous_rayLift (hA : RayAdmissible A) (κ : ℂ →ₗ[ℝ] ℝ) (m : ℤ) :
+    Continuous (rayLift A κ m) := by
+  have hAc : Continuous A := A.toLinearMap.continuous_of_finiteDimensional
+  have hκc : Continuous κ := κ.continuous_of_finiteDimensional
+  have hsnd : Continuous fun x : DInfty × ℝ => (rayLift A κ m x).2 := by
+    simp_rw [snd_rayLift]
+    exact continuous_snd.add (hκc.comp ((DInfty.continuous_cplx _).comp continuous_fst))
+  have hr : Continuous fun x : DInfty × ℝ => (rayLift A κ m x).1.r := by
+    simp_rw [r_rayLift]
+    exact (hAc.comp ((DInfty.continuous_cplx _).comp continuous_fst)).norm
+  refine continuous_iff_continuousAt.2 fun x => ?_
+  rcases x.1.pos_or_eq_apex with hx | hx
+  · obtain ⟨q, hq⟩ : x.1 ∈ range DInfty.posEmb := by rw [DInfty.range_posEmb]; exact hx
+    have hemb : IsOpenEmbedding (Prod.map DInfty.posEmb (id : ℝ → ℝ)) :=
+      DInfty.isOpenEmbedding_posEmb.prodMap IsOpenEmbedding.id
+    have hcomp : Continuous (rayLift A κ m ∘ Prod.map DInfty.posEmb (id : ℝ → ℝ)) := by
+      have heq : rayLift A κ m ∘ Prod.map DInfty.posEmb (id : ℝ → ℝ) =
+          fun w : {q : ℝ × ℝ // 0 < q.1} × ℝ =>
+            (DInfty.posEmb ⟨(w.1.1.1 * ‖A (Complex.exp (w.1.1.2 * Complex.I))‖,
+              w.1.1.2 + rayShift A w.1.1.2 + 2 * π * m), rayLift_pos_aux A w.1.2 _⟩,
+              w.2 + w.1.1.1 * κ (Complex.exp (w.1.1.2 * Complex.I))) := by
+        funext w
+        simp only [Function.comp_apply]
+        rw [rayLift_of_pos (show 0 < (DInfty.posEmb w.1).r from w.1.2)]
+        rfl
+      rw [heq]
+      have h1 : Continuous fun w : {q : ℝ × ℝ // 0 < q.1} × ℝ => w.1.1.1 :=
+        continuous_fst.comp (continuous_subtype_val.comp continuous_fst)
+      have h2 : Continuous fun w : {q : ℝ × ℝ // 0 < q.1} × ℝ => w.1.1.2 :=
+        continuous_snd.comp (continuous_subtype_val.comp continuous_fst)
+      have h3 : Continuous fun w : {q : ℝ × ℝ // 0 < q.1} × ℝ =>
+          Complex.exp (w.1.1.2 * Complex.I) := by fun_prop
+      refine Continuous.prodMk (DInfty.continuous_posEmb.comp (Continuous.subtype_mk
+        (Continuous.prodMk (h1.mul (hAc.comp h3).norm)
+          ((h2.add ((continuous_rayShift hA).comp h2)).add continuous_const)) _))
+        (continuous_snd.add (h1.mul (hκc.comp h3)))
+    have hx' : x = Prod.map DInfty.posEmb id (q, x.2) := by
+      rw [Prod.map_apply, hq]; rfl
+    rw [hx']
+    exact hemb.continuousAt_iff.1 hcomp.continuousAt
+  · show ContinuousAt (fun y => ((rayLift A κ m y).1, (rayLift A κ m y).2)) x
+    refine ContinuousAt.prodMk ?_ hsnd.continuousAt
+    have hfix : (rayLift A κ m x).1 = DInfty.apex := by
+      rw [rayLift_of_not_pos (by rw [hx]; simp), hx]
+    rw [ContinuousAt, hfix]
+    refine DInfty.hasBasis_nhds_apex.tendsto_right_iff.2 fun ε hε => ?_
+    have h0 : (rayLift A κ m x).1.r = 0 := by rw [hfix]; rfl
+    exact (hr.tendsto x).eventually_lt_const (by rw [h0]; exact hε)
+
+/-- **The lift as a homeomorphism of the infinite angle cylinder**, inverse the lift of
+`(A⁻¹, −κ ∘ A⁻¹, −m)`. -/
+noncomputable def rayLiftHomeo (A : ℂ ≃ₗ[ℝ] ℂ) (hA : RayAdmissible A) (κ : ℂ →ₗ[ℝ] ℝ) (m : ℤ) :
+    DInfty × ℝ ≃ₜ DInfty × ℝ where
+  toFun := rayLift A κ m
+  invFun := rayLift A.symm (-(κ.comp A.symm.toLinearMap)) (-m)
+  left_inv x := rayLift_rayLift (fun c => A.symm_apply_apply c)
+    (fun c => by simp) rfl hA x
+  right_inv x := rayLift_rayLift (fun c => A.apply_symm_apply c)
+    (fun c => by simp) (by ring) hA.symm x
+  continuous_toFun := continuous_rayLift hA κ m
+  continuous_invFun := continuous_rayLift hA.symm _ _
+
+theorem rayLiftHomeo_apply (hA : RayAdmissible A) (x : DInfty × ℝ) :
+    rayLiftHomeo A hA κ m x = rayLift A κ m x := rfl
+
+/-! ### `Γ = ℤ` acting through the powers of a homeomorphism -/
+
+/-- **`Γ = ℤ` acting through the powers of a homeomorphism `φ`** (the group of the tachyon and
+photon variations of `ex:quotient_base`, `RamcovGX.tex:682`). A type synonym of `Multiplicative ℤ`
+carrying `φ`. -/
+def HomeoZ {M : Type*} [TopologicalSpace M] (_φ : M ≃ₜ M) : Type := Multiplicative ℤ
+
+namespace HomeoZ
+
+variable {M : Type*} [TopologicalSpace M] {φ : M ≃ₜ M}
+
+instance : Group (HomeoZ φ) := inferInstanceAs (Group (Multiplicative ℤ))
+
+/-- The integer `k`. -/
+def toInt (k : HomeoZ φ) : ℤ := @Multiplicative.toAdd ℤ k
+
+/-- The element of `Γ` of an integer. -/
+def ofInt (n : ℤ) : HomeoZ φ := Multiplicative.ofAdd n
+
+@[simp] theorem toInt_ofInt (n : ℤ) : (ofInt n : HomeoZ φ).toInt = n := rfl
+
+@[simp] theorem ofInt_toInt (k : HomeoZ φ) : ofInt k.toInt = k := rfl
+
+@[simp] theorem toInt_one : (1 : HomeoZ φ).toInt = 0 := rfl
+
+@[simp] theorem toInt_mul (a b : HomeoZ φ) : (a * b).toInt = a.toInt + b.toInt := rfl
+
+theorem eq_one_of_toInt_eq_zero {k : HomeoZ φ} (h : k.toInt = 0) : k = 1 := by
+  rw [← ofInt_toInt k, h]; rfl
+
+/-- `k · x = φ^k x`. -/
+instance instMulAction : MulAction (HomeoZ φ) M where
+  smul k x := (φ ^ k.toInt) x
+  one_smul x := by
+    show (φ ^ (1 : HomeoZ φ).toInt) x = x
+    rw [toInt_one, zpow_zero]; rfl
+  mul_smul a b x := by
+    show (φ ^ (a * b).toInt) x = (φ ^ a.toInt) ((φ ^ b.toInt) x)
+    rw [toInt_mul, zpow_add]; rfl
+
+theorem smul_def (k : HomeoZ φ) (x : M) : k • x = (φ ^ k.toInt) x := rfl
+
+theorem ofInt_one_smul (x : M) : (ofInt 1 : HomeoZ φ) • x = φ x := by
+  rw [smul_def, toInt_ofInt, zpow_one]
+
+instance : ContinuousConstSMul (HomeoZ φ) M := ⟨fun k => (φ ^ k.toInt).continuous⟩
+
+end HomeoZ
+
+section HomeoZCylinder
+
+variable {φ : DInfty × ℝ ≃ₜ DInfty × ℝ}
+
+/-- Conditions on a homeomorphism `φ` of the cylinder: it fixes the axis pointwise, preserves
+`{r > 0}`, and turns every point of `{r > 0}` by more than `π` in the direction `σ = ±1`. -/
+structure IsTurning (φ : DInfty × ℝ ≃ₜ DInfty × ℝ) (σ : ℝ) : Prop where
+  sigma : σ = 1 ∨ σ = -1
+  fix_axis : ∀ x : DInfty × ℝ, ¬ 0 < x.1.r → φ x = x
+  mapsTo : ∀ x ∈ cylPos ℝ, φ x ∈ cylPos ℝ
+  turn : ∀ x ∈ cylPos ℝ, π < σ * ((φ x).1.θ - x.1.θ)
+
+namespace IsTurning
+
+variable {σ : ℝ} (hφ : IsTurning φ σ)
+include hφ
+
+theorem symm_mapsTo : ∀ x ∈ cylPos ℝ, φ.symm x ∈ cylPos ℝ := by
+  intro x hx
+  by_contra h
+  have h' := hφ.fix_axis _ h
+  rw [Homeomorph.apply_symm_apply] at h'
+  rw [← h'] at h
+  exact h hx
+
+theorem zpow_mapsTo (n : ℤ) : ∀ x ∈ cylPos ℝ, (φ ^ n) x ∈ cylPos ℝ := by
+  induction n using Int.induction_on with
+  | zero => intro x hx; exact hx
+  | succ n ih => intro x hx; rw [zpow_add_one]; exact ih _ (hφ.mapsTo x hx)
+  | pred n ih => intro x hx; rw [zpow_sub_one]; exact ih _ (hφ.symm_mapsTo x hx)
+
+theorem pow_turn (k : ℕ) : ∀ x ∈ cylPos ℝ, (k : ℝ) * π ≤ σ * (((φ ^ k) x).1.θ - x.1.θ) := by
+  induction k with
+  | zero => intro x _; simp
+  | succ k ih =>
+    intro x hx
+    have h1 := ih _ (hφ.mapsTo x hx)
+    have h2 := hφ.turn x hx
+    rw [pow_succ]
+    show _ ≤ σ * (((φ ^ k) (φ x)).1.θ - x.1.θ)
+    push_cast
+    nlinarith
+
+theorem le_abs_zpow (n : ℤ) (hn : n ≠ 0) :
+    ∀ x ∈ cylPos ℝ, π ≤ |((φ ^ n) x).1.θ - x.1.θ| := by
+  have hσ : |σ| = 1 := by rcases hφ.sigma with h | h <;> simp [h]
+  have key : ∀ a : ℝ, |σ * a| = |a| := fun a => by rw [abs_mul, hσ, one_mul]
+  intro x hx
+  rcases n with k | k
+  · have hk : 1 ≤ k := by
+      rcases Nat.eq_zero_or_pos k with h | h
+      · exact absurd (by rw [h]; rfl) hn
+      · exact h
+    have h := hφ.pow_turn k x hx
+    rw [Int.ofNat_eq_natCast, zpow_natCast, ← key]
+    have : (1 : ℝ) * π ≤ k * π := by
+      exact mul_le_mul_of_nonneg_right (by exact_mod_cast hk) Real.pi_pos.le
+    exact le_trans (by linarith) (le_abs_self _)
+  · have hy := hφ.zpow_mapsTo (Int.negSucc k) x hx
+    have h := hφ.pow_turn (k + 1) _ hy
+    have hxy : (φ ^ (k + 1)) ((φ ^ Int.negSucc k) x) = x := by
+      rw [zpow_negSucc, Homeomorph.inv_apply, Homeomorph.apply_symm_apply]
+    rw [hxy] at h
+    rw [← abs_neg, neg_sub, ← key]
+    have : (1 : ℝ) * π ≤ ((k + 1 : ℕ) : ℝ) * π :=
+      mul_le_mul_of_nonneg_right (by exact_mod_cast Nat.succ_pos k) Real.pi_pos.le
+    exact le_trans (by linarith) (le_abs_self _)
+
+/-- `Γ` acts freely on `{r > 0}`. -/
+theorem free : ∀ x ∈ cylPos ℝ, ∀ k : HomeoZ φ, k • x = x → k = 1 := by
+  intro x hx k hk
+  by_contra h1
+  have hn : k.toInt ≠ 0 := fun h => h1 (HomeoZ.eq_one_of_toInt_eq_zero h)
+  have h := hφ.le_abs_zpow _ hn x hx
+  rw [← HomeoZ.smul_def, hk, sub_self, abs_zero] at h
+  exact absurd h (not_le.2 Real.pi_pos)
+
+/-- `Γ` acts properly discontinuously (the first half of the reading `IsProperlyDiscontinuous`):
+a point of `{r > 0}` has a neighbourhood (an angular sector of width `π`) disjoint from its
+translates; the axis is fixed. -/
+theorem disc : ∀ x : DInfty × ℝ, ∃ U ∈ 𝓝 x, ∀ k : HomeoZ φ,
+    ((k • ·) '' U ∩ U).Nonempty → k • x = x := by
+  intro x
+  by_cases hx : 0 < x.1.r
+  · set O : Set (ℝ × ℝ) := {q | 0 < q.1 ∧ |q.2 - x.1.θ| < π / 2}
+    have hO : IsOpen O := (isOpen_lt continuous_const continuous_fst).inter
+      (isOpen_lt ((continuous_snd.sub continuous_const).abs) continuous_const)
+    have hU : IsOpen {y : DInfty × ℝ | (y.1.r, y.1.θ) ∈ O} :=
+      (DInfty.isOpen_coord hO fun _ hq => hq.1).preimage continuous_fst
+    refine ⟨_, hU.mem_nhds ⟨hx, by simpa using Real.pi_pos⟩,
+      fun k ⟨_, ⟨y, hy, rfl⟩, hky⟩ => ?_⟩
+    by_cases hk : k.toInt = 0
+    · rw [HomeoZ.eq_one_of_toInt_eq_zero hk, one_smul]
+    · have h := hφ.le_abs_zpow _ hk y hy.1
+      rw [← HomeoZ.smul_def] at h
+      have h1 := hy.2
+      have h2 := hky.2
+      have : |(k • y).1.θ - y.1.θ| < π := by
+        calc |(k • y).1.θ - y.1.θ| = |((k • y).1.θ - x.1.θ) - (y.1.θ - x.1.θ)| := by ring_nf
+          _ ≤ |(k • y).1.θ - x.1.θ| + |y.1.θ - x.1.θ| := abs_sub _ _
+          _ < π / 2 + π / 2 := add_lt_add h2 h1
+          _ = π := by ring
+      exact absurd h (not_le.2 this)
+  · refine ⟨univ, univ_mem, fun k _ => ?_⟩
+    rw [HomeoZ.smul_def]
+    have : ∀ n : ℤ, (φ ^ n) x = x := by
+      intro n
+      induction n using Int.induction_on with
+      | zero => rfl
+      | succ n ih => rw [zpow_add_one, Homeomorph.mul_apply, hφ.fix_axis x hx, ih]
+      | pred n ih =>
+        rw [zpow_sub_one, Homeomorph.mul_apply, Homeomorph.inv_apply]
+        have : φ.symm x = x := by
+          conv_lhs => rw [← hφ.fix_axis x hx]
+          exact φ.symm_apply_apply x
+        rw [this, ih]
+    exact this _
+
+end IsTurning
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X]
+
+/-- **The quotient of the cylinder by `Γ = ℤ` acting through a turning homeomorphism** (the common
+tail of the tachyon and photon variations): if `D` is a local homeomorphism on `{r > 0}` with
+`D ∘ φ = ρ · D` there, then `D (k · x) = ρ^k · D x`, `Γ` acts freely on `{r > 0}` with the
+neighbourhood half of proper discontinuity, by a.e. `(G,X)`-morphisms of the pulled back
+structure (the orbit space need not be Hausdorff: `rayLiftQuotient_tachyon_not_t1`), the quotient
+`Γ\(𝔻_∞ × ℝ)` carries a unique maximal a.e. `(G,X)`-structure for which the projection is an a.e.
+morphism (`existsUnique_aeGXQuotient`), and its singular locus lies in the image of the axis. -/
+theorem homeoZ_quotient [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X] {σ : ℝ}
+    (hφ : IsTurning φ σ) {D : DInfty × ℝ → X} (hD : IsLocalHomeomorphOn D (cylPos ℝ)) (ρ : G)
+    (hρ : ∀ x ∈ cylPos ℝ, D (φ x) = ρ • D x) :
+    (∀ k : HomeoZ φ, ∀ x ∈ cylPos ℝ, D (k • x) = (ρ ^ k.toInt) • D x) ∧
+    (∀ x ∈ cylPos ℝ, ∀ k : HomeoZ φ, k • x = x → k = 1) ∧
+    (∀ x : DInfty × ℝ, ∃ U ∈ 𝓝 x, ∀ k : HomeoZ φ, ((k • ·) '' U ∩ U).Nonempty → k • x = x) ∧
+    (∀ k : HomeoZ φ, IsAEMorphismOf G (maximalAEAtlas G (devAtlas G D (cylPos ℝ)))
+      (maximalAEAtlas G (devAtlas G D (cylPos ℝ))) fun x => k • x) ∧
+    (∃! B : Set (OpenPartialHomeomorph (Orbits (HomeoZ φ) (DInfty × ℝ)) X),
+      IsMaximalAEAtlas G B ∧
+      IsAEMorphismOf G (maximalAEAtlas G (devAtlas G D (cylPos ℝ))) B (orbitMk (HomeoZ φ))) ∧
+    ∀ B : Set (OpenPartialHomeomorph (Orbits (HomeoZ φ) (DInfty × ℝ)) X),
+      IsMaximalAEAtlas G B →
+      IsAEMorphismOf G (maximalAEAtlas G (devAtlas G D (cylPos ℝ))) B (orbitMk (HomeoZ φ)) →
+      (support B)ᶜ ⊆ orbitMk (HomeoZ φ) '' {x : DInfty × ℝ | x.1.r = 0} := by
+  have hP := DInfty.isPortly_pos ℝ
+  have hpow : ∀ n : ℤ, ∀ x ∈ cylPos ℝ, D ((φ ^ n) x) = (ρ ^ n) • D x := by
+    intro n
+    induction n using Int.induction_on with
+    | zero => intro x _; rw [zpow_zero, zpow_zero, one_smul]; rfl
+    | succ n ih =>
+      intro x hx
+      rw [zpow_add_one, Homeomorph.mul_apply, ih _ (hφ.mapsTo x hx), hρ x hx, zpow_add_one,
+        mul_smul]
+    | pred n ih =>
+      intro x hx
+      have hy := hφ.symm_mapsTo x hx
+      have h1 : D (φ.symm x) = ρ⁻¹ • D x := by
+        rw [eq_inv_smul_iff, ← hρ _ hy, Homeomorph.apply_symm_apply]
+      rw [zpow_sub_one, Homeomorph.mul_apply, Homeomorph.inv_apply, ih _ hy, h1, zpow_sub_one,
+        mul_smul]
+  have hhol : ∀ k : HomeoZ φ, ∀ x ∈ cylPos ℝ, D (k • x) = (ρ ^ k.toInt) • D x :=
+    fun k x hx => hpow k.toInt x hx
+  have hΓ : ∀ k : HomeoZ φ, IsAEMorphismOf G (maximalAEAtlas G (devAtlas G D (cylPos ℝ)))
+      (maximalAEAtlas G (devAtlas G D (cylPos ℝ))) fun x => k • x := fun k =>
+    isAEMorphismOf_devStructure hP hD (continuous_const_smul k)
+      (fun x hx => hφ.zpow_mapsTo k.toInt x hx)
+      fun x hx => ⟨ρ ^ k.toInt, by
+        filter_upwards [hP.isOpen.mem_nhds hx] with y hy
+        exact hhol k y hy⟩
+  letI := devStructure (G := G) hP hD
+  have hex := existsUnique_aeGXQuotient hΓ hφ.disc hP hφ.free
+  refine ⟨hhol, hφ.free, hφ.disc, hΓ, hex, fun B hB hπ y hy => ?_⟩
+  obtain ⟨x, rfl⟩ := Quotient.mk_surjective y
+  refine ⟨x, ?_, rfl⟩
+  by_contra hx
+  have hx' : 0 < x.1.r := lt_of_le_of_ne x.1.r_nonneg (Ne.symm hx)
+  have hloc := isLocalHomeomorphOn_orbitMk hφ.disc hφ.free
+  exact hy (hπ.mem_support_of_isLocalHomeomorphOn (isAEAtlas_devAtlas hP hD |>.maximalAEAtlas) hB
+    (subset_support_devStructure hP hD hx') (hloc.mono (singleton_subset_iff.2 hx')))
+
+end HomeoZCylinder
+
+/-- The lift of `(A, κ, m)`, `m ≠ 0`, is a turning homeomorphism (direction the sign of `m`):
+`θ ↦ θ + rayShift A θ + 2πm` moves every angle by more than `π`, as `|rayShift A θ| < π`. -/
+theorem isTurning_rayLiftHomeo (hA : RayAdmissible A) (κ : ℂ →ₗ[ℝ] ℝ) {m : ℤ} (hm : m ≠ 0) :
+    IsTurning (rayLiftHomeo A hA κ m) (if 0 < m then 1 else -1) where
+  sigma := by split_ifs <;> simp
+  fix_axis x hx := rayLift_of_not_pos hx
+  mapsTo x hx := (rayLift_pos_iff x).2 hx
+  turn x hx := by
+    rw [rayLiftHomeo_apply, θ_rayLift_of_pos hx,
+      show x.1.θ + rayShift A x.1.θ + 2 * π * m - x.1.θ = rayShift A x.1.θ + 2 * π * m by ring]
+    have h1 := rayShift_lt_pi hA x.1.θ
+    have h2 := neg_pi_lt_rayShift A x.1.θ
+    split_ifs with h
+    · have : (1 : ℝ) ≤ m := by exact_mod_cast h
+      nlinarith [Real.pi_pos]
+    · have : (m : ℝ) ≤ -1 := by
+        have : m < 0 := lt_of_le_of_ne (not_lt.1 h) hm
+        exact_mod_cast Int.le_sub_one_of_lt this
+      nlinarith [Real.pi_pos]
+
+/-! ### The developing map `D(r, θ, z) = x₀ + z u + r w(e^{iθ})` in Minkowski space -/
+
+/-- `(r, θ, z) ↦ (r e^{iθ}, z)` is a local homeomorphism on `{r > 0}`. -/
+theorem isLocalHomeomorphOn_cplxProd :
+    IsLocalHomeomorphOn (fun x : DInfty × ℝ => (DInfty.cplx (2 * π) x.1, x.2)) (cylPos ℝ) := by
+  intro x hx
+  obtain ⟨e, hxe, he⟩ := DInfty.isLocalHomeomorphOn_cplx (α := 2 * π) (by positivity) x.1 hx
+  refine ⟨e.prod (OpenPartialHomeomorph.refl ℝ), ⟨hxe, mem_univ _⟩, funext fun y => ?_⟩
+  rw [OpenPartialHomeomorph.prod_apply, ← he]
+  rfl
+
+/-- **The developing map of the tachyon and photon variations**: `D(r, θ, z) = x₀ + z u + r w(e^{iθ})`,
+for a vector `u` (spanning the singular line `x₀ + ℝu`) and a linear `w : ℂ → 𝔼^{1,2}`
+parametrising a complement `P = w(ℂ)` of `ℝu`; the rays of `P` are `ℝ₊ w(e^{iθ})`. -/
+noncomputable def rayDev (x₀ u : ℝ × ℝ × ℝ) (w : ℂ →ₗ[ℝ] ℝ × ℝ × ℝ) (x : DInfty × ℝ) :
+    ℝ × ℝ × ℝ :=
+  x₀ + (w (DInfty.cplx (2 * π) x.1) + x.2 • u)
+
+theorem rayDev_axis (x₀ u : ℝ × ℝ × ℝ) (w : ℂ →ₗ[ℝ] ℝ × ℝ × ℝ) (z : ℝ) :
+    rayDev x₀ u w (DInfty.apex, z) = x₀ + z • u := by
+  simp [rayDev]
+
+theorem rayDev_of_pos (x₀ u : ℝ × ℝ × ℝ) (w : ℂ →ₗ[ℝ] ℝ × ℝ × ℝ) (x : DInfty × ℝ) :
+    rayDev x₀ u w x = x₀ + x.2 • u + x.1.r • w (Complex.exp (x.1.θ * Complex.I)) := by
+  rw [rayDev, DInfty.cplx_twoPi_eq, ← Complex.real_smul, map_smul]; abel
+
+/-- **The Euclidean-radius reading of the tachyon and photon variations** (the construction of
+`papers/bbs/REVIEW.md` §H.2), for the developing map `rayDev x₀ u w`, the generator
+`rayLiftHomeo A hA κ m` of `Γ = ℤ` and the holonomy `g`: `D` is a local homeomorphism on `{r > 0}`
+with `D ∘ φ = g · D`, so `D(k · x) = g^k · D x`; `Γ` acts freely on `{r > 0}`, with the
+**neighbourhood half only** of proper discontinuity (`disc`), by a.e. morphisms; the orbit space
+carries a unique maximal a.e. `(Isom₀, 𝔼^{1,2})`-structure for which the projection is an a.e.
+morphism, and its singular locus lies in the image of the axis `{r = 0}`. **This orbit space is
+not Hausdorff** — orbits of the off-axis points accumulate on the axis, since `φ` rescales the
+Euclidean radius: not `T₁` for the tachyon (`rayLiftQuotient_tachyon_not_t1`), not `T₂` for the
+photon (`rayLiftQuotient_photon_not_t2`) — so it is **not** a singular `(G,X)`-manifold
+(`RamcovGX.tex:474`); the certified construction is `ThetaLiftQuotient`, where `Γ` acts on `θ`
+alone. Kept as a record of the defect. -/
+structure RayLiftQuotient (x₀ u : ℝ × ℝ × ℝ) (w : ℂ →ₗ[ℝ] ℝ × ℝ × ℝ) (A : ℂ ≃ₗ[ℝ] ℂ)
+    (hA : RayAdmissible A) (κ : ℂ →ₗ[ℝ] ℝ) (m : ℤ) (g : NullIsom0) : Prop where
+  isLocalHomeomorphOn : IsLocalHomeomorphOn (rayDev x₀ u w) (cylPos ℝ)
+  dev_lift : ∀ x, rayDev x₀ u w (rayLiftHomeo A hA κ m x) = g • rayDev x₀ u w x
+  holonomy : ∀ k : HomeoZ (rayLiftHomeo A hA κ m), ∀ x ∈ cylPos ℝ,
+    rayDev x₀ u w (k • x) = (g ^ k.toInt) • rayDev x₀ u w x
+  free : ∀ x ∈ cylPos ℝ, ∀ k : HomeoZ (rayLiftHomeo A hA κ m), k • x = x → k = 1
+  disc : ∀ x : DInfty × ℝ, ∃ U ∈ 𝓝 x, ∀ k : HomeoZ (rayLiftHomeo A hA κ m),
+    ((k • ·) '' U ∩ U).Nonempty → k • x = x
+  isAEMorphism : ∀ k : HomeoZ (rayLiftHomeo A hA κ m), IsAEMorphismOf NullIsom0
+    (maximalAEAtlas NullIsom0 (devAtlas NullIsom0 (rayDev x₀ u w) (cylPos ℝ)))
+    (maximalAEAtlas NullIsom0 (devAtlas NullIsom0 (rayDev x₀ u w) (cylPos ℝ))) fun x => k • x
+  existsUnique : ∃! B : Set (OpenPartialHomeomorph
+      (Orbits (HomeoZ (rayLiftHomeo A hA κ m)) (DInfty × ℝ)) (ℝ × ℝ × ℝ)),
+    IsMaximalAEAtlas NullIsom0 B ∧ IsAEMorphismOf NullIsom0
+      (maximalAEAtlas NullIsom0 (devAtlas NullIsom0 (rayDev x₀ u w) (cylPos ℝ))) B
+      (orbitMk (HomeoZ (rayLiftHomeo A hA κ m)))
+  sing_subset : ∀ B : Set (OpenPartialHomeomorph
+      (Orbits (HomeoZ (rayLiftHomeo A hA κ m)) (DInfty × ℝ)) (ℝ × ℝ × ℝ)),
+    IsMaximalAEAtlas NullIsom0 B → IsAEMorphismOf NullIsom0
+      (maximalAEAtlas NullIsom0 (devAtlas NullIsom0 (rayDev x₀ u w) (cylPos ℝ))) B
+      (orbitMk (HomeoZ (rayLiftHomeo A hA κ m))) →
+    (support B)ᶜ ⊆ orbitMk (HomeoZ (rayLiftHomeo A hA κ m)) '' {x : DInfty × ℝ | x.1.r = 0}
+
+/-- **The Euclidean-radius tachyon / photon construction, for any frame**: if `(ζ, z) ↦ w ζ + z u`
+is bijective, `g ∈ Isom₀` fixes `x₀` and its linear part acts by
+`w ζ + z u ↦ w (A ζ) + (z + κ ζ) u`, with `A` turning no ray onto its opposite, then for every
+`m ≠ 0` all the conclusions of `RayLiftQuotient` hold (its quotient is not Hausdorff; the
+corrected form is `thetaLiftQuotient_of_frame`). -/
+theorem rayLiftQuotient_of_frame (x₀ u : ℝ × ℝ × ℝ) (w : ℂ →ₗ[ℝ] ℝ × ℝ × ℝ)
+    (hF : Function.Bijective (w.coprod (LinearMap.toSpanSingleton ℝ (ℝ × ℝ × ℝ) u)))
+    (A : ℂ ≃ₗ[ℝ] ℂ) (hA : RayAdmissible A) (κ : ℂ →ₗ[ℝ] ℝ) (g : NullIsom0)
+    (hgx : g • x₀ = x₀)
+    (hgA : ∀ (ζ : ℂ) (z : ℝ), (g : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear (w ζ + z • u) =
+      w (A ζ) + (z + κ ζ) • u) {m : ℤ} (hm : m ≠ 0) :
+    RayLiftQuotient x₀ u w A hA κ m g := by
+  set Fl := w.coprod (LinearMap.toSpanSingleton ℝ (ℝ × ℝ × ℝ) u)
+  set F : (ℂ × ℝ) ≃ₜ (ℝ × ℝ × ℝ) :=
+    (LinearEquiv.ofBijective Fl hF).toContinuousLinearEquiv.toHomeomorph.trans
+      (Homeomorph.addLeft x₀)
+  have hFapp : ∀ y : ℂ × ℝ, F y = x₀ + (w y.1 + y.2 • u) := fun y => by
+    simp [F, Fl, LinearMap.coprod_apply]
+  have hDeq : rayDev x₀ u w = F ∘ fun x : DInfty × ℝ => (DInfty.cplx (2 * π) x.1, x.2) := by
+    funext x; rw [Function.comp_apply, hFapp]; rfl
+  have hD : IsLocalHomeomorphOn (rayDev x₀ u w) (cylPos ℝ) := by
+    rw [hDeq]
+    exact F.isLocalHomeomorph.isLocalHomeomorphOn.comp isLocalHomeomorphOn_cplxProd
+      (mapsTo_univ _ _)
+  have hg : ∀ y, g • (x₀ + y) = x₀ + (g : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear y := by
+    intro y
+    have h1 := affineEquiv_apply_eq_add_linear (g : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) (x₀ + y)
+    have h2 := affineEquiv_apply_eq_add_linear (g : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) x₀
+    have h3 : (g : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) x₀ = x₀ := hgx
+    show (g : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) (x₀ + y) = _
+    rw [h1, map_add]
+    rw [h2] at h3
+    rw [← add_assoc, h3]
+  have hlift : ∀ x, rayDev x₀ u w (rayLiftHomeo A hA κ m x) = g • rayDev x₀ u w x := by
+    intro x
+    rw [rayDev, rayDev, rayLiftHomeo_apply, cplx_rayLift, snd_rayLift, hg, hgA]
+  obtain ⟨hhol, hfree, hdisc, hΓ, hex, hsing⟩ :=
+    homeoZ_quotient (isTurning_rayLiftHomeo hA κ hm) hD g fun x _ => hlift x
+  exact ⟨hD, hlift, hhol, hfree, hdisc, hΓ, hex, hsing⟩
+
+/-! ### The corrected construction: `Γ = ℤ` acting on `θ` alone -/
+
+/-- **A curve equivariant under a homeomorphism, from a fundamental domain**: a continuous
+`c₀ : ℝ → Y` with `c₀ T = F (c₀ 0)` extends from `[0, T]` to a continuous `c` with
+`c (θ + T) = F (c θ)`. -/
+theorem exists_equivariant_curve {Y : Type*} [TopologicalSpace Y] (F : Y ≃ₜ Y) {T : ℝ}
+    (hT : 0 < T) {c₀ : ℝ → Y} (hc₀ : Continuous c₀) (hend : c₀ T = F (c₀ 0)) :
+    ∃ c : ℝ → Y, Continuous c ∧ (∀ θ, c (θ + T) = F (c θ)) ∧ ∀ θ ∈ Icc 0 T, c θ = c₀ θ := by
+  set c : ℝ → Y := fun θ => (F ^ ⌊θ / T⌋) (c₀ (θ - ⌊θ / T⌋ * T)) with hcdef
+  have hpiece : ∀ n : ℤ, ∀ θ ∈ Icc (n * T) ((n + 1) * T), c θ = (F ^ n) (c₀ (θ - n * T)) := by
+    intro n θ ⟨h1, h2⟩
+    rcases h2.lt_or_eq with h2 | h2
+    · have hf : ⌊θ / T⌋ = n := by
+        rw [Int.floor_eq_iff]
+        exact ⟨(le_div_iff₀ hT).2 h1, (div_lt_iff₀ hT).2 h2⟩
+      simp only [c, hf]
+    · have hf : ⌊θ / T⌋ = n + 1 := by
+        rw [h2, mul_div_cancel_right₀ _ hT.ne']
+        exact_mod_cast Int.floor_intCast (n + 1)
+      simp only [c]
+      rw [hf, h2, zpow_add_one, Homeomorph.mul_apply]
+      push_cast
+      rw [sub_self, ← hend]
+      congr 2; ring
+  refine ⟨c, ?_, fun θ => ?_, fun θ hθ => ?_⟩
+  · refine LocallyFinite.continuous (f := fun n : ℤ => Icc (n * T) ((n + 1) * T)) ?_ ?_
+      (fun _ => isClosed_Icc) fun n => ?_
+    · intro x
+      set a := ⌊x / T⌋
+      have ha1 : (a : ℝ) * T ≤ x := (le_div_iff₀ hT).1 (Int.floor_le _)
+      have ha2 : x < (a + 1) * T := (div_lt_iff₀ hT).1 (Int.lt_floor_add_one _)
+      refine ⟨Ioo (x - T) (x + T), Ioo_mem_nhds (by linarith) (by linarith),
+        (Set.finite_Icc (a - 1) (a + 1)).subset fun n ⟨y, ⟨hy1, hy2⟩, hy3, hy4⟩ => ?_⟩
+      have h1 : (n : ℝ) * T < (a + 2) * T := by nlinarith
+      have h2 : (a - 1 : ℝ) * T < (n + 1) * T := by nlinarith
+      have h1' : (n : ℝ) < a + 2 := lt_of_mul_lt_mul_right h1 hT.le
+      have h2' : (a - 1 : ℝ) < n + 1 := lt_of_mul_lt_mul_right h2 hT.le
+      constructor
+      · have : a - 1 < n + 1 := by exact_mod_cast h2'
+        omega
+      · have : n < a + 2 := by exact_mod_cast h1'
+        omega
+    · refine eq_univ_of_forall fun θ => mem_iUnion.2 ⟨⌊θ / T⌋, ?_, ?_⟩
+      · exact (le_div_iff₀ hT).1 (Int.floor_le _)
+      · exact ((div_lt_iff₀ hT).1 (Int.lt_floor_add_one _)).le
+    · refine ContinuousOn.congr (f := fun θ => (F ^ n) (c₀ (θ - n * T)))
+        ((F ^ n).continuous.comp (hc₀.comp (continuous_id.sub continuous_const))).continuousOn
+        fun θ hθ => hpiece n θ hθ
+  · have hf : ⌊(θ + T) / T⌋ = 1 + ⌊θ / T⌋ := by
+      rw [add_div, div_self hT.ne', Int.floor_add_one, add_comm]
+    simp only [c, hf]
+    rw [zpow_add, zpow_one, Homeomorph.mul_apply]
+    congr 3; push_cast; ring
+  · have := hpiece 0 θ (by simpa using hθ)
+    rw [this, zpow_zero]
+    simp
+
+/-- A function strictly monotone on every period `[nT, (n+1)T]` is strictly monotone. -/
+theorem strictMono_of_strictMonoOn_pieces {f : ℝ → ℝ} {T : ℝ} (hT : 0 < T)
+    (h : ∀ n : ℤ, StrictMonoOn f (Icc (n * T) ((n + 1) * T))) : StrictMono f := by
+  have hstep : ∀ n : ℤ, f (n * T) < f ((n + 1) * T) := fun n =>
+    h n ⟨le_rfl, by nlinarith⟩ ⟨by nlinarith, le_rfl⟩ (by nlinarith)
+  have hchain : ∀ n : ℤ, ∀ j : ℕ, f (n * T) ≤ f ((n + j) * T) := by
+    intro n j
+    induction j with
+    | zero => simp
+    | succ j ih =>
+      have := hstep (n + j)
+      push_cast at this ⊢
+      rw [← add_assoc]
+      linarith
+  intro x y hxy
+  set a := ⌊x / T⌋
+  set b := ⌊y / T⌋
+  have ha1 : (a : ℝ) * T ≤ x := (le_div_iff₀ hT).1 (Int.floor_le _)
+  have ha2 : x < (a + 1) * T := (div_lt_iff₀ hT).1 (Int.lt_floor_add_one _)
+  have hb1 : (b : ℝ) * T ≤ y := (le_div_iff₀ hT).1 (Int.floor_le _)
+  have hb2 : y < (b + 1) * T := (div_lt_iff₀ hT).1 (Int.lt_floor_add_one _)
+  have hab : a ≤ b := Int.floor_mono (div_le_div_of_nonneg_right hxy.le hT.le)
+  rcases hab.lt_or_eq with hab | hab
+  · have h1 : f x < f ((a + 1) * T) := h a ⟨ha1, ha2.le⟩ ⟨by nlinarith, le_rfl⟩ ha2
+    obtain ⟨j, hj⟩ : ∃ j : ℕ, b = a + 1 + j := ⟨(b - (a + 1)).toNat, by omega⟩
+    have h2 := hchain (a + 1) j
+    have h3 : f (b * T) ≤ f y := (h b).monotoneOn ⟨le_rfl, by nlinarith⟩ ⟨hb1, hb2.le⟩ hb1
+    rw [hj] at h3
+    push_cast at h2 h3
+    linarith
+  · rw [← hab] at hb2
+    exact h a ⟨ha1, ha2.le⟩ ⟨by linarith, hb2.le⟩ hxy
+
+
+theorem rayShift_add_two_pi (A : ℂ ≃ₗ[ℝ] ℂ) (θ : ℝ) : rayShift A (θ + 2 * π) = rayShift A θ := by
+  have : Complex.exp (((θ + 2 * π : ℝ) : ℂ) * Complex.I) = Complex.exp ((θ : ℂ) * Complex.I) := by
+    push_cast
+    rw [add_mul, Complex.exp_add, Complex.exp_two_pi_mul_I, mul_one]
+  rw [rayShift, rayShift, this]
+
+/-- The lift `θ ↦ θ + rayShift A θ + 2πm` of the action of `A` on the rays of the plane. -/
+noncomputable def rayAngleLift (A : ℂ ≃ₗ[ℝ] ℂ) (m : ℤ) (θ : ℝ) : ℝ := θ + rayShift A θ + 2 * π * m
+
+theorem rayAngleLift_add_two_pi (A : ℂ ≃ₗ[ℝ] ℂ) (m : ℤ) (θ : ℝ) :
+    rayAngleLift A m (θ + 2 * π) = rayAngleLift A m θ + 2 * π := by
+  rw [rayAngleLift, rayAngleLift, rayShift_add_two_pi]; ring
+
+/-- **The lift of the action of an admissible `A` on the rays is strictly increasing**: it is
+continuous and injective (the lift `rayLiftHomeo` is), and commutes with `θ ↦ θ + 2π`. -/
+theorem strictMono_rayAngleLift {A : ℂ ≃ₗ[ℝ] ℂ} (hA : RayAdmissible A) (m : ℤ) :
+    StrictMono (rayAngleLift A m) := by
+  have hc : Continuous (rayAngleLift A m) :=
+    ((continuous_id.add (continuous_rayShift hA)).add continuous_const)
+  have hinj : Function.Injective (rayAngleLift A m) := by
+    intro θ θ' h
+    have ha := rayLift_pos_aux A one_pos θ
+    have ha' := rayLift_pos_aux A one_pos θ'
+    rw [one_mul] at ha ha'
+    set a := ‖A (Complex.exp (θ * Complex.I))‖
+    set a' := ‖A (Complex.exp (θ' * Complex.I))‖
+    let y : DInfty × ℝ := (⟨1, θ, Or.inl one_pos⟩, 0)
+    let y' : DInfty × ℝ := (⟨a / a', θ', Or.inl (div_pos ha ha')⟩, 0)
+    have hyy : rayLift A 0 m y = rayLift A 0 m y' := by
+      rw [rayLift_of_pos (show 0 < y.1.r from one_pos),
+        rayLift_of_pos (show 0 < y'.1.r from div_pos ha ha')]
+      refine Prod.ext (DInfty.ext ?_ ?_) ?_
+      · show 1 * a = a / a' * a'
+        field_simp
+      · exact h
+      · simp [y, y']
+    have := (rayLiftHomeo A hA 0 m).injective hyy
+    exact congrArg (fun p : DInfty × ℝ => p.1.θ) this
+  rcases hc.strictMono_of_inj hinj with h | h
+  · exact h
+  · exfalso
+    have := h (show (0 : ℝ) < 0 + 2 * π by linarith [Real.pi_pos])
+    rw [rayAngleLift_add_two_pi] at this
+    linarith [Real.pi_pos]
+
+/-- For `m ≥ 1` the lift turns every angle by at least `π`. -/
+theorem add_pi_le_rayAngleLift (A : ℂ ≃ₗ[ℝ] ℂ) {m : ℤ} (hm : 1 ≤ m) (θ : ℝ) :
+    θ + π ≤ rayAngleLift A m θ := by
+  have h1 := neg_pi_lt_rayShift A θ
+  have h2 : (1 : ℝ) ≤ m := by exact_mod_cast hm
+  rw [rayAngleLift]; nlinarith [Real.pi_pos]
+
+/-! ### Log-polar coordinates on `{r > 0}` -/
+
+theorem cylPosHomeo_fst {Z : Type*} [TopologicalSpace Z] (x : cylPos Z) :
+    ((cylPosHomeo Z) x).1 = (Real.log x.1.1.r : ℂ) + (x.1.1.θ : ℂ) * Complex.I := by
+  have hx : x.1.1 = DInfty.posEmb ⟨(x.1.1.r, x.1.1.θ), x.2⟩ := rfl
+  show (logHomeo one_ne_zero (DInfty.posChart.symm x.1.1)) = _
+  rw [hx, DInfty.posChart_symm_posEmb]
+  show (Real.log x.1.1.r : ℂ) + ((1 * x.1.1.θ : ℝ) : ℂ) * Complex.I = _
+  rw [one_mul]
+  rfl
+
+theorem cylPosHomeo_snd {Z : Type*} [TopologicalSpace Z] (x : cylPos Z) :
+    ((cylPosHomeo Z) x).2 = x.1.2 := rfl
+
+theorem cylPosHomeo_symm_r {Z : Type*} [TopologicalSpace Z] (w : ℂ × Z) :
+    ((cylPosHomeo Z).symm w).1.1.r = Real.exp w.1.re := rfl
+
+theorem cylPosHomeo_symm_θ {Z : Type*} [TopologicalSpace Z] (w : ℂ × Z) :
+    ((cylPosHomeo Z).symm w).1.1.θ = w.1.im := div_one _
+
+theorem cylPosHomeo_symm_snd {Z : Type*} [TopologicalSpace Z] (w : ℂ × Z) :
+    ((cylPosHomeo Z).symm w).1.2 = w.2 := rfl
+
+
+/-- **The lift `rayLiftHomeo A hA κ m`, restricted to `{r > 0}`, in log-polar coordinates**. -/
+noncomputable def rayLiftLog (A : ℂ ≃ₗ[ℝ] ℂ) (hA : RayAdmissible A) (κ : ℂ →ₗ[ℝ] ℝ) (m : ℤ) :
+    ℂ × ℝ ≃ₜ ℂ × ℝ :=
+  ((cylPosHomeo ℝ).symm.trans ((rayLiftHomeo A hA κ m).subtype (p := (· ∈ cylPos ℝ))
+    (q := (· ∈ cylPos ℝ)) fun x => show x ∈ cylPos ℝ ↔ rayLiftHomeo A hA κ m x ∈ cylPos ℝ from
+      (rayLift_pos_iff x).symm)).trans (cylPosHomeo ℝ)
+
+theorem rayLiftLog_val (hA : RayAdmissible A) (y : ℂ × ℝ) :
+    ((cylPosHomeo ℝ).symm (rayLiftLog A hA κ m y)).1 = rayLift A κ m ((cylPosHomeo ℝ).symm y).1 := by
+  rw [rayLiftLog, Homeomorph.trans_apply, Homeomorph.symm_apply_apply]
+  rfl
+
+theorem rayLiftLog_symm_val (hA : RayAdmissible A) (y : ℂ × ℝ) :
+    ((cylPosHomeo ℝ).symm ((rayLiftLog A hA κ m).symm y)).1 =
+      rayLift A.symm (-(κ.comp A.symm.toLinearMap)) (-m) ((cylPosHomeo ℝ).symm y).1 := by
+  simp only [rayLiftLog, Homeomorph.symm_trans_apply, Homeomorph.symm_symm,
+    Homeomorph.symm_apply_apply]
+  rfl
+
+theorem rayLiftLog_im (hA : RayAdmissible A) (y : ℂ × ℝ) :
+    (rayLiftLog A hA κ m y).1.im = rayAngleLift A m y.1.im := by
+  have h := congrArg (fun p : DInfty × ℝ => p.1.θ) (rayLiftLog_val (κ := κ) (m := m) hA y)
+  rw [cylPosHomeo_symm_θ, θ_rayLift_of_pos (((cylPosHomeo ℝ).symm y).2), cylPosHomeo_symm_θ] at h
+  exact h
+
+theorem rayLiftLog_symm_im (hA : RayAdmissible A) (y : ℂ × ℝ) :
+    ((rayLiftLog A hA κ m).symm y).1.im = rayAngleLift A.symm (-m) y.1.im := by
+  have h := congrArg (fun p : DInfty × ℝ => p.1.θ) (rayLiftLog_symm_val (κ := κ) (m := m) hA y)
+  rw [cylPosHomeo_symm_θ, θ_rayLift_of_pos (((cylPosHomeo ℝ).symm y).2), cylPosHomeo_symm_θ] at h
+  rw [h, rayAngleLift]
+
+
+/-- **Conjugating a turning homeomorphism to a translation**: if `F` acts on `ℂ × ℝ` preserving
+the order of the imaginary parts (both `F` and `F⁻¹`) and raising them by at least `π`, there is a
+continuous curve `c` with `c (θ + 2π) = F (c θ)` whose imaginary part `ψ` is a homeomorphism
+`ℝ ≃ₜ ℝ`. -/
+theorem exists_turning_curve (F : ℂ × ℝ ≃ₜ ℂ × ℝ)
+    (hF : ∀ y y' : ℂ × ℝ, y.1.im < y'.1.im → (F y).1.im < (F y').1.im)
+    (hF' : ∀ y y' : ℂ × ℝ, y.1.im < y'.1.im → (F.symm y).1.im < (F.symm y').1.im)
+    (hturn : ∀ y : ℂ × ℝ, y.1.im + π ≤ (F y).1.im) :
+    ∃ c : ℝ → ℂ × ℝ, Continuous c ∧ (∀ θ, c (θ + 2 * π) = F (c θ)) ∧
+      ∃ ψ : ℝ ≃ₜ ℝ, ∀ θ, ψ θ = (c θ).1.im := by
+  set T := 2 * π with hTdef
+  have hT : 0 < T := Real.two_pi_pos
+  set c₀ : ℝ → ℂ × ℝ := fun t => (t / T) • F 0
+  have hc₀ : Continuous c₀ := (continuous_id.div_const T).smul continuous_const
+  have hend : c₀ T = F (c₀ 0) := by simp [c₀, div_self hT.ne']
+  obtain ⟨c, hc, hcT, hc0⟩ := exists_equivariant_curve F hT hc₀ hend
+  set f : ℝ → ℝ := fun θ => (c θ).1.im with hfdef
+  have hfc : Continuous f := Complex.continuous_im.comp (continuous_fst.comp hc)
+  have hF0 : 0 < (F 0).1.im := by
+    have := hturn 0
+    simp only [Prod.fst_zero, Complex.zero_im, zero_add] at this
+    linarith [Real.pi_pos]
+  have hpiece0 : StrictMonoOn f (Icc 0 T) := by
+    intro x hx y hy hxy
+    simp only [f, hc0 x hx, hc0 y hy, c₀, Prod.smul_fst, Complex.smul_im, smul_eq_mul]
+    exact mul_lt_mul_of_pos_right (div_lt_div_of_pos_right hxy hT) hF0
+  have hshift : ∀ θ, f (θ + T) = (F (c θ)).1.im := fun θ => by simp only [f, hcT]
+  have hshift' : ∀ θ, f θ = (F.symm (c (θ + T))).1.im := fun θ => by
+    simp only [f, hcT, Homeomorph.symm_apply_apply]
+  have hpieces : ∀ n : ℤ, StrictMonoOn f (Icc (n * T) ((n + 1) * T)) := by
+    intro n
+    induction n using Int.induction_on with
+    | zero => simpa using hpiece0
+    | succ n ih =>
+      intro x hx y hy hxy
+      have hx' : x - T ∈ Icc ((n : ℝ) * T) ((n + 1) * T) := by
+        push_cast at hx; constructor <;> nlinarith [hx.1, hx.2]
+      have hy' : y - T ∈ Icc ((n : ℝ) * T) ((n + 1) * T) := by
+        push_cast at hy; constructor <;> nlinarith [hy.1, hy.2]
+      have := ih hx' hy' (by linarith)
+      rw [show x = x - T + T by ring, show y = y - T + T by ring, hshift, hshift]
+      exact hF _ _ this
+    | pred n ih =>
+      intro x hx y hy hxy
+      have hx' : x + T ∈ Icc (((-n : ℤ) : ℝ) * T) ((((-n : ℤ) : ℝ) + 1) * T) := by
+        push_cast at hx ⊢; constructor <;> nlinarith [hx.1, hx.2]
+      have hy' : y + T ∈ Icc (((-n : ℤ) : ℝ) * T) ((((-n : ℤ) : ℝ) + 1) * T) := by
+        push_cast at hy ⊢; constructor <;> nlinarith [hy.1, hy.2]
+      have := ih hx' hy' (by linarith)
+      rw [hshift' x, hshift' y]
+      exact hF' _ _ this
+  have hmono : StrictMono f := strictMono_of_strictMonoOn_pieces hT hpieces
+  have hup : ∀ θ, f θ + π ≤ f (θ + T) := fun θ => by rw [hshift]; exact hturn _
+  have hk : ∀ k : ℕ, f 0 + k * π ≤ f (k * T) ∧ f (-(k * T)) ≤ f 0 - k * π := by
+    intro k
+    induction k with
+    | zero => simp
+    | succ k ih =>
+      constructor
+      · have := hup (k * T)
+        have e : ((k + 1 : ℕ) : ℝ) * T = k * T + T := by push_cast; ring
+        rw [e]
+        push_cast
+        linarith [ih.1]
+      · have := hup (-((k + 1 : ℕ) * T))
+        rw [show -(((k + 1 : ℕ) : ℝ) * T) + T = -(k * T) by push_cast; ring] at this
+        push_cast at this ⊢
+        linarith [ih.2]
+  have hsurj : Function.Surjective f := by
+    intro p
+    obtain ⟨k, hk'⟩ := exists_nat_gt (|p - f 0| / π)
+    have hkπ : |p - f 0| < k * π := (div_lt_iff₀ Real.pi_pos).1 hk'
+    refine mem_range_of_exists_le_of_exists_ge hfc ⟨-(k * T), ?_⟩ ⟨k * T, ?_⟩
+    · have := (hk k).2
+      have := neg_abs_le (p - f 0)
+      linarith
+    · have := (hk k).1
+      have := le_abs_self (p - f 0)
+      linarith
+  exact ⟨c, hc, hcT, (hmono.orderIsoOfSurjective f hsurj).toHomeomorph, fun θ => rfl⟩
+
+
+/-- **The fundamental-domain curve of the lift**, for every `m ≠ 0`: a continuous `c : ℝ → ℂ × ℝ`
+(log-polar coordinates of `{r > 0}`) with `c (θ + 2π) = rayLiftLog A hA κ m (c θ)`, whose angle
+`ψ θ = Im (c θ).1` is a homeomorphism `ℝ ≃ₜ ℝ` (increasing for `m > 0`, decreasing for `m < 0`). -/
+theorem exists_rayLiftLog_curve (hA : RayAdmissible A) (κ : ℂ →ₗ[ℝ] ℝ) {m : ℤ} (hm : m ≠ 0) :
+    ∃ c : ℝ → ℂ × ℝ, Continuous c ∧ (∀ θ, c (θ + 2 * π) = rayLiftLog A hA κ m (c θ)) ∧
+      ∃ ψ : ℝ ≃ₜ ℝ, ∀ θ, ψ θ = (c θ).1.im := by
+  set F := rayLiftLog A hA κ m
+  have hF : ∀ y y' : ℂ × ℝ, y.1.im < y'.1.im → (F y).1.im < (F y').1.im := fun y y' h => by
+    rw [rayLiftLog_im, rayLiftLog_im]; exact strictMono_rayAngleLift hA m h
+  have hF' : ∀ y y' : ℂ × ℝ, y.1.im < y'.1.im → (F.symm y).1.im < (F.symm y').1.im :=
+    fun y y' h => by
+      rw [rayLiftLog_symm_im, rayLiftLog_symm_im]; exact strictMono_rayAngleLift hA.symm (-m) h
+  rcases lt_or_gt_of_ne hm with hm' | hm'
+  · have hturn : ∀ y : ℂ × ℝ, y.1.im + π ≤ (F.symm y).1.im := fun y => by
+      rw [rayLiftLog_symm_im]; exact add_pi_le_rayAngleLift _ (by omega) _
+    obtain ⟨c', hc', hcT', ψ', hψ'⟩ := exists_turning_curve F.symm hF'
+      (by simpa only [Homeomorph.symm_symm] using hF) hturn
+    refine ⟨fun θ => c' (-θ), hc'.comp continuous_neg, fun θ => ?_,
+      (Homeomorph.neg ℝ).trans ψ', fun θ => ?_⟩
+    · have := hcT' (-(θ + 2 * π))
+      rw [show -(θ + 2 * π) + 2 * π = -θ by ring] at this
+      simp only [this, Homeomorph.apply_symm_apply]
+    · rw [Homeomorph.trans_apply, hψ']; rfl
+  · have hturn : ∀ y : ℂ × ℝ, y.1.im + π ≤ (F y).1.im := fun y => by
+      rw [rayLiftLog_im]; exact add_pi_le_rayAngleLift _ (by omega) _
+    exact exists_turning_curve F hF hF' hturn
+
+/-- **The developing map of the corrected tachyon / photon**, built on a curve `c` of
+`exists_rayLiftLog_curve`: `D(r, θ, z) = x₀ + z u + r W(θ)`, `W(θ) = rayDev(c θ) − x₀`. -/
+noncomputable def thetaDev (x₀ u : ℝ × ℝ × ℝ) (w : ℂ →ₗ[ℝ] ℝ × ℝ × ℝ) (c : ℝ → ℂ × ℝ)
+    (x : DInfty × ℝ) : ℝ × ℝ × ℝ :=
+  x₀ + x.2 • u + x.1.r • (rayDev x₀ u w ((cylPosHomeo ℝ).symm (c x.1.θ)).1 - x₀)
+
+theorem thetaDev_eq (x₀ u : ℝ × ℝ × ℝ) (w : ℂ →ₗ[ℝ] ℝ × ℝ × ℝ) (c : ℝ → ℂ × ℝ)
+    (x : DInfty × ℝ) : thetaDev x₀ u w c x = x₀ + (x.2 + x.1.r * (c x.1.θ).2) • u +
+      (x.1.r * Real.exp (c x.1.θ).1.re) • w (Complex.exp ((c x.1.θ).1.im * Complex.I)) := by
+  rw [thetaDev, rayDev_of_pos, cylPosHomeo_symm_r, cylPosHomeo_symm_θ, cylPosHomeo_symm_snd]
+  module
+
+
+/-- **Full proper discontinuity** from its neighbourhood half and a Hausdorff orbit space: the
+saturations of disjoint neighbourhoods of two orbits separate them. -/
+theorem IsProperlyDiscontinuous.of_t2Space_orbits {Γ M : Type*} [Group Γ] [MulAction Γ M]
+    [TopologicalSpace M]
+    (hdisc : ∀ x : M, ∃ U ∈ 𝓝 x, ∀ γ : Γ, ((γ • ·) '' U ∩ U).Nonempty → γ • x = x)
+    [T2Space (Orbits Γ M)] : IsProperlyDiscontinuous Γ M := by
+  refine ⟨hdisc, fun x y hxy => ?_⟩
+  have hne : orbitMk Γ x ≠ orbitMk Γ y := fun h => by
+    obtain ⟨γ, hγ⟩ := exists_smul_eq_of_orbitMk_eq h
+    exact hxy γ hγ
+  obtain ⟨U', V', hU', hV', hUV⟩ := t2_separation_nhds hne
+  refine ⟨orbitMk Γ ⁻¹' U', continuous_quot_mk.continuousAt.preimage_mem_nhds hU',
+    orbitMk Γ ⁻¹' V', continuous_quot_mk.continuousAt.preimage_mem_nhds hV', fun γ => ?_⟩
+  rw [Set.disjoint_left]
+  rintro _ ⟨z, hz, rfl⟩ hzV
+  have h1 : orbitMk Γ (γ • z) ∈ U' := by rw [orbitMk_smul]; exact hz
+  exact Set.disjoint_left.1 hUV h1 hzV
+
+theorem GammaA.ofInt_add_one {α : ℝ} (k : ℤ) :
+    (GammaA.ofInt (k + 1) : GammaA α) = GammaA.ofInt 1 * GammaA.ofInt k := by
+  rw [← GammaA.ofInt_toInt (GammaA.ofInt 1 * GammaA.ofInt k : GammaA α), GammaA.toInt_mul,
+    GammaA.toInt_ofInt, GammaA.toInt_ofInt, add_comm]
+
+/-- **The corrected tachyon / photon** (`ex:quotient_base`, `RamcovGX.tex:682`): `Γ = ℤ` acts on
+the coordinate `θ` of `𝔻_∞ × ℝ` (r and z fixed, the generator `θ ↦ θ + 2π`, `Γ = GammaA (2π)`),
+and the identification `ψ : ℝ ≃ₜ ℝ = \widetilde{ℝP¹}` of `θ` with the lifted rays of `P`
+(`D(r, θ, z)` lies on the ray `ℝ₊ w(e^{iψ θ})` modulo `ℝu`, `dev_eq`) conjugates the generator to
+the lift `rayAngleLift A m` of the action of `A` on the rays (`lift`): the action on `θ` *is* the
+hyperbolic (parabolic) action of `A`. The developing map `D` is a local homeomorphism on `{r > 0}`
+with holonomy `g`, sends the axis onto the singular line `x₀ + ℝu`, and `M = Γ\(𝔻_∞ × ℝ)` is a
+**singular `(Isom₀, 𝔼^{1,2})`-manifold**: Hausdorff, locally connected, second countable
+(homeomorphic to `ℂ × ℝ`), `Γ` acting freely on `{r > 0}` and properly discontinuously in the full
+sense, with a unique maximal a.e. structure for which the projection is an a.e. morphism and
+singular locus in the image of `{r = 0}`. -/
+structure ThetaLiftQuotient (x₀ u : ℝ × ℝ × ℝ) (w : ℂ →ₗ[ℝ] ℝ × ℝ × ℝ) (A : ℂ ≃ₗ[ℝ] ℂ)
+    (m : ℤ) (g : NullIsom0) (D : DInfty × ℝ → ℝ × ℝ × ℝ) (ψ : ℝ ≃ₜ ℝ) : Prop where
+  lift : ∀ θ, ψ (θ + 2 * π) = rayAngleLift A m (ψ θ)
+  dev_eq : ∃ R b : ℝ → ℝ, Continuous R ∧ Continuous b ∧ (∀ θ, 0 < R θ) ∧ ∀ x : DInfty × ℝ,
+    D x = x₀ + (x.2 + x.1.r * b x.1.θ) • u +
+      (x.1.r * R x.1.θ) • w (Complex.exp (ψ x.1.θ * Complex.I))
+  dev_axis : ∀ z : ℝ, D (DInfty.apex, z) = x₀ + z • u
+  isLocalHomeomorphOn : IsLocalHomeomorphOn D (cylPos ℝ)
+  holonomy : ∀ (k : GammaA (2 * π)) (x : DInfty × ℝ), D (k • x) = (g ^ k.toInt) • D x
+  free : ∀ x ∈ cylPos ℝ, ∀ k : GammaA (2 * π), k • x = x → k = 1
+  properlyDiscontinuous : IsProperlyDiscontinuous (GammaA (2 * π)) (DInfty × ℝ)
+  t2Space : T2Space (Orbits (GammaA (2 * π)) (DInfty × ℝ))
+  locallyConnectedSpace : LocallyConnectedSpace (Orbits (GammaA (2 * π)) (DInfty × ℝ))
+  secondCountableTopology : SecondCountableTopology (Orbits (GammaA (2 * π)) (DInfty × ℝ))
+  homeomorph_cplx : Nonempty (Orbits (GammaA (2 * π)) (DInfty × ℝ) ≃ₜ ℂ × ℝ)
+  isAEMorphism : ∀ k : GammaA (2 * π), IsAEMorphismOf NullIsom0
+    (maximalAEAtlas NullIsom0 (devAtlas NullIsom0 D (cylPos ℝ)))
+    (maximalAEAtlas NullIsom0 (devAtlas NullIsom0 D (cylPos ℝ))) fun x => k • x
+  existsUnique : ∃! B : Set (OpenPartialHomeomorph
+      (Orbits (GammaA (2 * π)) (DInfty × ℝ)) (ℝ × ℝ × ℝ)),
+    IsMaximalAEAtlas NullIsom0 B ∧ IsAEMorphismOf NullIsom0
+      (maximalAEAtlas NullIsom0 (devAtlas NullIsom0 D (cylPos ℝ))) B (orbitMk (GammaA (2 * π)))
+  sing_subset : ∀ B : Set (OpenPartialHomeomorph
+      (Orbits (GammaA (2 * π)) (DInfty × ℝ)) (ℝ × ℝ × ℝ)),
+    IsMaximalAEAtlas NullIsom0 B → IsAEMorphismOf NullIsom0
+      (maximalAEAtlas NullIsom0 (devAtlas NullIsom0 D (cylPos ℝ))) B (orbitMk (GammaA (2 * π))) →
+    (support B)ᶜ ⊆ orbitMk (GammaA (2 * π)) '' {x : DInfty × ℝ | x.1.r = 0}
+
+/-- **The corrected tachyon / photon construction, for any frame**: under the hypotheses of
+`rayLiftQuotient_of_frame`, for every `m ≠ 0` there are a developing map `D` and an
+identification `ψ` with all the conclusions of `ThetaLiftQuotient`. -/
+theorem thetaLiftQuotient_of_frame (x₀ u : ℝ × ℝ × ℝ) (w : ℂ →ₗ[ℝ] ℝ × ℝ × ℝ)
+    (hF : Function.Bijective (w.coprod (LinearMap.toSpanSingleton ℝ (ℝ × ℝ × ℝ) u)))
+    (A : ℂ ≃ₗ[ℝ] ℂ) (hA : RayAdmissible A) (κ : ℂ →ₗ[ℝ] ℝ) (g : NullIsom0)
+    (hgx : g • x₀ = x₀)
+    (hgA : ∀ (ζ : ℂ) (z : ℝ), (g : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear (w ζ + z • u) =
+      w (A ζ) + (z + κ ζ) • u) {m : ℤ} (hm : m ≠ 0) :
+    ∃ (D : DInfty × ℝ → ℝ × ℝ × ℝ) (ψ : ℝ ≃ₜ ℝ), ThetaLiftQuotient x₀ u w A m g D ψ := by
+  have hold := rayLiftQuotient_of_frame x₀ u w hF A hA κ g hgx hgA hm
+  obtain ⟨c, hc, hcT, ψ, hψ⟩ := exists_rayLiftLog_curve hA κ hm
+  set D := thetaDev x₀ u w c with hDdef'
+  set L := (g : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear
+  have hg : ∀ y, g • (x₀ + y) = x₀ + L y := by
+    intro y
+    have h1 := affineEquiv_apply_eq_add_linear (g : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) (x₀ + y)
+    have h2 := affineEquiv_apply_eq_add_linear (g : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) x₀
+    have h3 : (g : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) x₀ = x₀ := hgx
+    show (g : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) (x₀ + y) = _
+    rw [h1, map_add]
+    rw [h2] at h3
+    rw [← add_assoc, h3]
+  have hLu : L u = u := by
+    have := hgA 0 1
+    simpa using this
+  set W : ℝ → ℝ × ℝ × ℝ := fun θ => rayDev x₀ u w ((cylPosHomeo ℝ).symm (c θ)).1 - x₀ with hWdef
+  have hW : ∀ θ, W (θ + 2 * π) = L (W θ) := by
+    intro θ
+    simp only [W]
+    rw [hcT, rayLiftLog_val, ← rayLiftHomeo_apply hA, hold.dev_lift]
+    generalize rayDev x₀ u w ((cylPosHomeo ℝ).symm (c θ)).1 = p
+    rw [show p = x₀ + (p - x₀) by abel, hg, add_sub_cancel_left, add_sub_cancel_left]
+  have hDW : ∀ x, D x = x₀ + x.2 • u + x.1.r • W x.1.θ := fun x => rfl
+  have hgen : ∀ x, D ((GammaA.ofInt 1 : GammaA (2 * π)) • x) = g • D x := by
+    intro x
+    rw [hDW, hDW, DInfty.smul_prod_def, DInfty.smul_def, GammaA.toInt_ofInt,
+      show x₀ + x.2 • u + x.1.r • W x.1.θ = x₀ + (x.2 • u + x.1.r • W x.1.θ) by abel, hg,
+      map_add, map_smul, map_smul, hLu]
+    rcases x.1.pos_or_eq_apex with h | h
+    · rw [DInfty.rot_of_pos h, Int.cast_one, one_mul]
+      simp only
+      rw [hW]; abel
+    · rw [h, DInfty.rot_apex]
+      simp
+  have hpow : ∀ n : ℤ, ∀ x, D ((GammaA.ofInt n : GammaA (2 * π)) • x) = (g ^ n) • D x := by
+    intro n
+    induction n using Int.induction_on with
+    | zero => intro x; rw [zpow_zero, one_smul]; exact congrArg D (one_smul (GammaA (2 * π)) x)
+    | succ n ih =>
+      intro x
+      rw [GammaA.ofInt_add_one, mul_smul, hgen, ih, smul_smul, ← zpow_one_add, add_comm]
+    | pred n ih =>
+      intro x
+      have h1 := ih x
+      rw [show (-(n : ℤ)) = (-(n : ℤ) - 1) + 1 by ring, GammaA.ofInt_add_one, mul_smul, hgen]
+        at h1
+      rw [eq_inv_smul_iff.2 h1, smul_smul, ← zpow_neg_one, ← zpow_add,
+        show -1 + (-(n : ℤ) - 1 + 1) = -(n : ℤ) - 1 by ring]
+  have hhol : ∀ (k : GammaA (2 * π)) x, D (k • x) = (g ^ k.toInt) • D x := fun k x =>
+    hpow k.toInt x
+  -- the local homeomorphism
+  set a : ℝ → ℝ := fun θ => (c θ).1.re
+  set b : ℝ → ℝ := fun θ => (c θ).2
+  have ha : Continuous a := Complex.continuous_re.comp (continuous_fst.comp hc)
+  have hb : Continuous b := continuous_snd.comp hc
+  have hψc := ψ.continuous
+  have hψs := ψ.symm.continuous
+  let Ψ : ℂ × ℝ ≃ₜ ℂ × ℝ :=
+    { toFun := fun y => (((y.1.re + a y.1.im : ℝ) : ℂ) + ((ψ y.1.im : ℝ) : ℂ) * Complex.I,
+        y.2 + Real.exp y.1.re * b y.1.im)
+      invFun := fun y => (((y.1.re - a (ψ.symm y.1.im) : ℝ) : ℂ) +
+        ((ψ.symm y.1.im : ℝ) : ℂ) * Complex.I,
+        y.2 - Real.exp (y.1.re - a (ψ.symm y.1.im)) * b (ψ.symm y.1.im))
+      left_inv := fun y => by
+        refine Prod.ext (Complex.ext ?_ ?_) ?_ <;> simp
+      right_inv := fun y => by
+        refine Prod.ext (Complex.ext ?_ ?_) ?_ <;> simp
+      continuous_toFun := by fun_prop
+      continuous_invFun := by fun_prop }
+  let Ψs : cylPos ℝ ≃ₜ cylPos ℝ := (cylPosHomeo ℝ).trans (Ψ.trans (cylPosHomeo ℝ).symm)
+  have hkey : ∀ x : cylPos ℝ, D x.1 = rayDev x₀ u w (Ψs x).1 := by
+    intro x
+    have hr := x.2
+    simp only [mem_setOf_eq] at hr
+    rw [hDdef', thetaDev_eq, rayDev_of_pos]
+    simp only [Ψs, Homeomorph.trans_apply]
+    rw [cylPosHomeo_symm_r, cylPosHomeo_symm_θ, cylPosHomeo_symm_snd]
+    simp only [Ψ, Homeomorph.homeomorph_mk_coe, Equiv.coe_fn_mk, cylPosHomeo_fst, cylPosHomeo_snd]
+    simp only [Complex.add_re, Complex.ofReal_re, Complex.mul_re, Complex.I_re, Complex.I_im,
+      Complex.ofReal_im, mul_zero, sub_zero, Complex.add_im, Complex.mul_im, mul_one, zero_add,
+      add_zero, Real.exp_add, Real.exp_log hr, ← hψ]
+    rfl
+  have hopen : IsOpen (cylPos ℝ) := DInfty.isOpen_pos.preimage continuous_fst
+  have h1 : IsLocalHomeomorph (rayDev x₀ u w ∘ (Subtype.val : cylPos ℝ → DInfty × ℝ)) :=
+    isLocalHomeomorph_iff_isLocalHomeomorphOn_univ.2 (hold.isLocalHomeomorphOn.comp
+      hopen.isOpenEmbedding_subtypeVal.isLocalHomeomorph.isLocalHomeomorphOn fun x _ => x.2)
+  have hD : IsLocalHomeomorphOn D (cylPos ℝ) := by
+    have : D ∘ (Subtype.val : cylPos ℝ → DInfty × ℝ) =
+        (rayDev x₀ u w ∘ Subtype.val) ∘ Ψs := funext hkey
+    exact isLocalHomeomorphOn_of_subtype hopen (this ▸ h1.comp Ψs.isLocalHomeomorph)
+  -- the quotient
+  have hP := DInfty.isPortly_pos ℝ
+  have hα : (2 * π : ℝ) ≠ 0 := Real.two_pi_pos.ne'
+  have hΓ : ∀ k : GammaA (2 * π), IsAEMorphismOf NullIsom0
+      (maximalAEAtlas NullIsom0 (devAtlas NullIsom0 D (cylPos ℝ)))
+      (maximalAEAtlas NullIsom0 (devAtlas NullIsom0 D (cylPos ℝ))) fun x => k • x := fun k =>
+    isAEMorphismOf_devStructure hP hD (continuous_const_smul k)
+      (fun x hx => show 0 < (DInfty.rot _ x.1).r by rw [DInfty.rot_r]; exact hx)
+      fun x _ => ⟨g ^ k.toInt, Eventually.of_forall fun y => hhol k y⟩
+  obtain ⟨ht2, hlc, hsc⟩ := quotientBase_topology (Z := ℝ) hα
+  refine ⟨D, ψ, ⟨fun θ => ?_, ⟨fun θ => Real.exp (a θ), b, Real.continuous_exp.comp ha, hb,
+    fun θ => Real.exp_pos _, fun x => ?_⟩, fun z => ?_, hD, hhol, DInfty.free_pos hα,
+    @IsProperlyDiscontinuous.of_t2Space_orbits _ _ _ _ _ (DInfty.disc_prod hα) ht2, ht2, hlc,
+    hsc inferInstance, ⟨cylHomeomorph hα ℝ⟩, hΓ, quotientBase hα hD hΓ,
+    fun B hB hπ => quotientBase_sing_subset hα hD hB hπ⟩⟩
+  · rw [hψ, hψ, hcT, rayLiftLog_im]
+  · rw [hDdef', thetaDev_eq, ← hψ]
+  · simp [hDdef', thetaDev]
+
+/-! ### Hyperbolic and parabolic maps of the plane of rays -/
+
+/-- `A` is **hyperbolic** (an element of `SL(2, ℝ)` with two distinct positive eigenvalues
+`λ, λ⁻¹`): its action on the rays of the plane, lifted to `\widetilde{ℝP¹} = ℝ`, is hyperbolic. -/
+def IsHyperbolicPlaneMap (A : ℂ ≃ₗ[ℝ] ℂ) : Prop :=
+  ∃ l : ℝ, 0 < l ∧ l ≠ 1 ∧ ∃ c₁ c₂ : ℂ, c₁ ≠ 0 ∧ c₂ ≠ 0 ∧ A c₁ = l • c₁ ∧ A c₂ = l⁻¹ • c₂
+
+/-- `A` is **parabolic** (unipotent and `≠ 1`: `(A − 1)² = 0`, `A ≠ 1`). -/
+def IsParabolicPlaneMap (A : ℂ ≃ₗ[ℝ] ℂ) : Prop :=
+  (∃ c : ℂ, A c ≠ c) ∧ ∀ c : ℂ, A (A c) - (2 : ℝ) • A c + c = 0
+
+/-- The diagonal map `c ↦ e^β Re c + i e^{−β} Im c`: the boost `B_β` on the plane `{x = 0}`. -/
+noncomputable def tachA (β : ℝ) : ℂ ≃ₗ[ℝ] ℂ where
+  toFun c := ⟨Real.exp β * c.re, Real.exp (-β) * c.im⟩
+  invFun c := ⟨Real.exp (-β) * c.re, Real.exp β * c.im⟩
+  map_add' c c' := by apply Complex.ext <;> simp <;> ring
+  map_smul' t c := by apply Complex.ext <;> simp <;> ring
+  left_inv c := by
+    apply Complex.ext <;> simp [← mul_assoc, ← Real.exp_add]
+  right_inv c := by
+    apply Complex.ext <;> simp [← mul_assoc, ← Real.exp_add]
+
+theorem tachA_apply (β : ℝ) (c : ℂ) :
+    tachA β c = ⟨Real.exp β * c.re, Real.exp (-β) * c.im⟩ := rfl
+
+theorem rayAdmissible_tachA (β : ℝ) : RayAdmissible (tachA β) := by
+  refine RayAdmissible.of_eigen fun c hc t ht h => ?_
+  rw [tachA_apply, Complex.real_smul] at h
+  have hre := congrArg Complex.re h
+  have him := congrArg Complex.im h
+  simp only [Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im, zero_mul, sub_zero,
+    Complex.mul_im, add_zero] at hre him
+  by_cases h1 : c.re = 0
+  · have h2 : c.im ≠ 0 := fun h2 => hc (Complex.ext h1 h2)
+    have : Real.exp (-β) = t := mul_right_cancel₀ h2 (by rw [him])
+    linarith [Real.exp_pos (-β)]
+  · have : Real.exp β = t := mul_right_cancel₀ h1 (by rw [hre])
+    linarith [Real.exp_pos β]
+
+theorem isHyperbolicPlaneMap_tachA {β : ℝ} (hβ : β ≠ 0) : IsHyperbolicPlaneMap (tachA β) := by
+  refine ⟨Real.exp β, Real.exp_pos β, fun h => hβ (by simpa using h), 1, Complex.I, one_ne_zero,
+    Complex.I_ne_zero, ?_, ?_⟩
+  · apply Complex.ext <;> simp only [tachA_apply, Complex.smul_re, Complex.smul_im, smul_eq_mul,
+      Complex.one_re, Complex.one_im, mul_one, mul_zero]
+  · apply Complex.ext <;> simp only [tachA_apply, Complex.smul_re, Complex.smul_im, smul_eq_mul,
+      Complex.I_re, Complex.I_im, mul_one, mul_zero, Real.exp_neg]
+
+/-- The shear `c ↦ Re c + i (Im c + s Re c)`: the null rotation `P_s` on `(1,0,0)`'s quotient. -/
+noncomputable def photA (s : ℝ) : ℂ ≃ₗ[ℝ] ℂ where
+  toFun c := ⟨c.re, c.im + s * c.re⟩
+  invFun c := ⟨c.re, c.im - s * c.re⟩
+  map_add' c c' := Complex.ext (by simp) (by simp; ring)
+  map_smul' t c := Complex.ext (by simp) (by simp; ring)
+  left_inv c := by apply Complex.ext <;> simp
+  right_inv c := by apply Complex.ext <;> simp
+
+theorem photA_apply (s : ℝ) (c : ℂ) : photA s c = ⟨c.re, c.im + s * c.re⟩ := rfl
+
+/-- The `(1,0,0)`-component of `P_s` on the plane `{a = 0}`: `c ↦ s² Re c + 2s Im c`. -/
+noncomputable def photκ (s : ℝ) : ℂ →ₗ[ℝ] ℝ := s ^ 2 • Complex.reLm + (2 * s) • Complex.imLm
+
+theorem photκ_apply (s : ℝ) (c : ℂ) : photκ s c = s ^ 2 * c.re + 2 * s * c.im := by
+  simp [photκ]
+
+theorem rayAdmissible_photA (s : ℝ) : RayAdmissible (photA s) := by
+  refine RayAdmissible.of_eigen fun c hc t ht h => ?_
+  rw [photA_apply, Complex.real_smul] at h
+  have hre := congrArg Complex.re h
+  have him := congrArg Complex.im h
+  simp only [Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im, zero_mul, sub_zero,
+    Complex.mul_im, add_zero] at hre him
+  by_cases h1 : c.re = 0
+  · have h2 : c.im ≠ 0 := fun h2 => hc (Complex.ext h1 h2)
+    rw [h1, mul_zero, add_zero] at him
+    have : (1 : ℝ) = t := mul_right_cancel₀ h2 (by rw [one_mul]; exact him)
+    linarith
+  · have : (1 : ℝ) = t := mul_right_cancel₀ h1 (by rw [one_mul]; exact hre)
+    linarith
+
+theorem isParabolicPlaneMap_photA {s : ℝ} (hs : s ≠ 0) : IsParabolicPlaneMap (photA s) := by
+  refine ⟨⟨1, fun h => hs ?_⟩, fun c => ?_⟩
+  · have := congrArg Complex.im h
+    simpa [photA_apply] using this
+  · apply Complex.ext <;> simp [photA_apply] <;> ring
+
+/-! ### Tachyons and photons for the conjugates of the standard boosts and null rotations -/
+
+/-- The linear part of a conjugate `h b h⁻¹` (`b` linear): `h_lin ∘ b_lin ∘ h_lin⁻¹`. -/
+theorem conj_linear_apply (h b : NullIsom0) (hb : (b : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) 0 = 0)
+    (y : ℝ × ℝ × ℝ) :
+    ((h * b * h⁻¹ : NullIsom0) : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear
+      ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear y) =
+      (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear
+        ((b : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear y) := by
+  set H : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ) := ↑h
+  set Bb : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ) := ↑b
+  set Gg : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ) := ↑(h * b * h⁻¹)
+  have hGH : ∀ y, Gg (H y) = H (Bb y) := fun y => by
+    show (h * b * h⁻¹) • (h • y) = h • (b • y)
+    rw [mul_smul, mul_smul, inv_smul_smul]
+  have hlin : ∀ (F : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) (y : ℝ × ℝ × ℝ), F.linear y = F y - F 0 :=
+    fun F y => by rw [affineEquiv_apply_eq_add_linear F y]; abel
+  rw [hlin H, map_sub, hlin Gg, hlin Gg (H 0), hGH, hGH, hb, hlin H, hlin Bb, hb]
+  abel_nf
+
+/-- `ℂ` onto the plane `{x = 0} = (0,0,1)^⊥`: `c ↦ (Re c, Im c, 0)`. -/
+noncomputable def tachEmb : ℂ →ₗ[ℝ] ℝ × ℝ × ℝ where
+  toFun c := (c.re, c.im, 0)
+  map_add' c c' := by ext <;> simp
+  map_smul' t c := by ext <;> simp
+
+/-- `ℂ` onto the plane `{a = 0}`, a complement of `ℝ(1,0,0)`: `c ↦ (0, Re c, Im c)`. -/
+noncomputable def photEmb : ℂ →ₗ[ℝ] ℝ × ℝ × ℝ where
+  toFun c := (0, c.re, c.im)
+  map_add' c c' := by ext <;> simp
+  map_smul' t c := by ext <;> simp
+
+theorem tachEmb_apply (c : ℂ) : tachEmb c = (c.re, c.im, 0) := rfl
+
+theorem photEmb_apply (c : ℂ) : photEmb c = (0, c.re, c.im) := rfl
+
+/-- The frame `(ζ, z) ↦ h_lin (w₀ ζ + z u₀)` is bijective when `(ζ, z) ↦ w₀ ζ + z u₀` is. -/
+theorem bijective_frame (h : NullIsom0) (w₀ : ℂ →ₗ[ℝ] ℝ × ℝ × ℝ) (u₀ : ℝ × ℝ × ℝ)
+    (hb : Function.Bijective fun y : ℂ × ℝ => w₀ y.1 + y.2 • u₀) :
+    Function.Bijective (((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear.toLinearMap ∘ₗ w₀).coprod
+      (LinearMap.toSpanSingleton ℝ (ℝ × ℝ × ℝ)
+        ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear u₀))) := by
+  have heq : ⇑(((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear.toLinearMap ∘ₗ w₀).coprod
+      (LinearMap.toSpanSingleton ℝ (ℝ × ℝ × ℝ)
+        ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear u₀))) =
+      (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear ∘ fun y : ℂ × ℝ => w₀ y.1 + y.2 • u₀ := by
+    funext y
+    simp [LinearMap.coprod_apply]
+  rw [heq]
+  exact (LinearEquiv.bijective _).comp hb
+
+theorem bijective_tachFrame : Function.Bijective fun y : ℂ × ℝ => tachEmb y.1 + y.2 • nullS := by
+  refine Function.bijective_iff_has_inverse.2 ⟨fun p => (⟨p.1, p.2.1⟩, p.2.2), fun y => ?_,
+    fun p => ?_⟩
+  · ext <;> simp [tachEmb_apply, nullS]
+  · ext <;> simp [tachEmb_apply, nullS]
+
+theorem bijective_photFrame : Function.Bijective fun y : ℂ × ℝ => photEmb y.1 + y.2 • nullU := by
+  refine Function.bijective_iff_has_inverse.2 ⟨fun p => (⟨p.2.1, p.2.2⟩, p.1), fun y => ?_,
+    fun p => ?_⟩
+  · ext <;> simp [photEmb_apply, nullU]
+  · ext <;> simp [photEmb_apply, nullU]
+
+theorem boostAff_zero_linear (β : ℝ) (y : ℝ × ℝ × ℝ) : (boostAff 0 β).linear y = boost β y := by
+  have := affineEquiv_apply_eq_add_linear (boostAff 0 β) y
+  rw [boostAff_apply, boostAff_apply] at this
+  simpa using this.symm
+
+theorem parabAff_zero_linear (s : ℝ) (y : ℝ × ℝ × ℝ) : (parabAff 0 s).linear y = parab s y := by
+  have := affineEquiv_apply_eq_add_linear (parabAff 0 s) y
+  rw [parabAff_apply, parabAff_apply] at this
+  simpa using this.symm
+
+/-- The boost `B_β` fixing `h(0) + ℝ h(0,0,1)` acts on the frame `(ζ, z) ↦ h(ζ, z)` by
+`(ζ, z) ↦ (tachA β ζ, z)`. -/
+theorem boostConj_linear_frame (h : NullIsom0) (β : ℝ) (ζ : ℂ) (z : ℝ) :
+    (boostConj h β : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear
+      ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear (tachEmb ζ) +
+        z • (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear nullS) =
+      (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear (tachEmb (tachA β ζ)) +
+        z • (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear nullS := by
+  have h0 : ((⟨boostAff 0 β, boost_mem 0 β⟩ : NullIsom0) : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) 0 =
+      0 := by simp [boostAff_apply]
+  have hc := conj_linear_apply h ⟨boostAff 0 β, boost_mem 0 β⟩ h0 (tachEmb ζ + z • nullS)
+  rw [map_add, map_smul] at hc
+  rw [boostConj, hc, boostAff_zero_linear, ← map_smul, ← map_add]
+  congr 1
+  ext <;> simp [boost_apply, tachEmb_apply, tachA_apply, nullS]
+
+/-- The null rotation `P_s` fixing `h(0) + ℝ h(1,0,0)` acts on the frame `(ζ, z) ↦ h(ζ, z)` by
+`(ζ, z) ↦ (photA s ζ, z + photκ s ζ)`. -/
+theorem parabConj_linear_frame (h : NullIsom0) (s : ℝ) (ζ : ℂ) (z : ℝ) :
+    (parabConj h s : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear
+      ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear (photEmb ζ) +
+        z • (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear nullU) =
+      (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear (photEmb (photA s ζ)) +
+        (z + photκ s ζ) • (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear nullU := by
+  have h0 : ((⟨parabAff 0 s, parab_mem 0 s⟩ : NullIsom0) : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) 0 =
+      0 := by simp [parabAff_apply]
+  have hc := conj_linear_apply h ⟨parabAff 0 s, parab_mem 0 s⟩ h0 (photEmb ζ + z • nullU)
+  rw [map_add, map_smul] at hc
+  rw [parabConj, hc, parabAff_zero_linear, ← map_smul, ← map_add]
+  congr 1
+  ext <;> simp [parab_apply, photEmb_apply, photA_apply, photκ_apply, nullU]
+  ring
+
+/-- **The tachyon of the boost `B_β` fixing `h(0) + ℝ h(0,0,1)` pointwise**, for every `m ≠ 0`:
+the plane of rays is `h((0,0,1)^⊥)`, on which `B_β` is `tachA β` (hyperbolic for `β ≠ 0`). -/
+theorem tachyon_conj (h : NullIsom0) {β : ℝ} {m : ℤ} (hm : m ≠ 0) :
+    RayLiftQuotient ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) 0)
+      ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear nullS)
+      ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear.toLinearMap ∘ₗ tachEmb) (tachA β)
+      (rayAdmissible_tachA β) 0 m (boostConj h β) := by
+  refine rayLiftQuotient_of_frame _ _ _ (bijective_frame h _ _ bijective_tachFrame) _ _ _ _
+    ?_ (fun ζ z => ?_) hm
+  · have := boostConj_fix h β 0
+    simpa using this
+  · simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, Function.comp_apply,
+      LinearMap.zero_apply, add_zero]
+    exact boostConj_linear_frame h β ζ z
+
+/-- **The photon of the null rotation `P_s` fixing `h(0) + ℝ h(1,0,0)` pointwise**, for every
+`m ≠ 0`: the plane of rays is `h({a = 0})`, on which `P_s` acts modulo `ℝ h(1,0,0)` by `photA s`
+(parabolic for `s ≠ 0`), with `(1,0,0)`-component `photκ s`. -/
+theorem photon_conj (h : NullIsom0) {s : ℝ} {m : ℤ} (hm : m ≠ 0) :
+    RayLiftQuotient ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) 0)
+      ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear nullU)
+      ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear.toLinearMap ∘ₗ photEmb) (photA s)
+      (rayAdmissible_photA s) (photκ s) m (parabConj h s) := by
+  refine rayLiftQuotient_of_frame _ _ _ (bijective_frame h _ _ bijective_photFrame) _ _ _ _
+    ?_ (fun ζ z => ?_) hm
+  · have := parabConj_fix h s 0
+    simpa using this
+  · simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, Function.comp_apply]
+    exact parabConj_linear_frame h s ζ z
+
+/-- **The corrected tachyon of the boost `B_β` fixing `h(0) + ℝ h(0,0,1)` pointwise**, for every
+`m ≠ 0`: `Γ = ℤ` acting on `θ` alone (`ThetaLiftQuotient`). -/
+theorem tachyon_conj_theta (h : NullIsom0) {β : ℝ} {m : ℤ} (hm : m ≠ 0) :
+    ∃ (D : DInfty × ℝ → ℝ × ℝ × ℝ) (ψ : ℝ ≃ₜ ℝ),
+      ThetaLiftQuotient ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) 0)
+        ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear nullS)
+        ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear.toLinearMap ∘ₗ tachEmb) (tachA β) m
+        (boostConj h β) D ψ := by
+  refine thetaLiftQuotient_of_frame _ _ _ (bijective_frame h _ _ bijective_tachFrame) _
+    (rayAdmissible_tachA β) 0 _ ?_ (fun ζ z => ?_) hm
+  · have := boostConj_fix h β 0
+    simpa using this
+  · simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, Function.comp_apply,
+      LinearMap.zero_apply, add_zero]
+    exact boostConj_linear_frame h β ζ z
+
+/-- **The corrected photon of the null rotation `P_s` fixing `h(0) + ℝ h(1,0,0)` pointwise**, for
+every `m ≠ 0`: `Γ = ℤ` acting on `θ` alone (`ThetaLiftQuotient`). -/
+theorem photon_conj_theta (h : NullIsom0) {s : ℝ} {m : ℤ} (hm : m ≠ 0) :
+    ∃ (D : DInfty × ℝ → ℝ × ℝ × ℝ) (ψ : ℝ ≃ₜ ℝ),
+      ThetaLiftQuotient ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) 0)
+        ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear nullU)
+        ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear.toLinearMap ∘ₗ photEmb) (photA s) m
+        (parabConj h s) D ψ := by
+  refine thetaLiftQuotient_of_frame _ _ _ (bijective_frame h _ _ bijective_photFrame) _
+    (rayAdmissible_photA s) (photκ s) _ ?_ (fun ζ z => ?_) hm
+  · have := parabConj_fix h s 0
+    simpa using this
+  · simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, Function.comp_apply]
+    exact parabConj_linear_frame h s ζ z
+
+/-! ### The Euclidean-radius lift `rayLiftHomeo` does not give a Hausdorff quotient -/
+
+/-- The powers of `rayLiftHomeo` fix the axis. -/
+theorem rayLiftHomeo_zpow_axis (hA : RayAdmissible A) (κ : ℂ →ₗ[ℝ] ℝ) (m : ℤ) (z : ℝ) (n : ℤ) :
+    (rayLiftHomeo A hA κ m ^ n) (DInfty.apex, z) = (DInfty.apex, z) := by
+  have hfix : ∀ (φ : DInfty × ℝ ≃ₜ DInfty × ℝ), φ (DInfty.apex, z) = (DInfty.apex, z) →
+      ∀ n : ℤ, (φ ^ n) (DInfty.apex, z) = (DInfty.apex, z) := by
+    intro φ hφ n
+    induction n using Int.induction_on with
+    | zero => rfl
+    | succ n ih => rw [zpow_add_one, Homeomorph.mul_apply, hφ, ih]
+    | pred n ih =>
+      rw [zpow_sub_one, Homeomorph.mul_apply, Homeomorph.inv_apply]
+      have : φ.symm (DInfty.apex, z) = (DInfty.apex, z) := by
+        conv_lhs => rw [← hφ]
+        exact φ.symm_apply_apply _
+      rw [this, ih]
+  exact hfix _ (rayLift_of_not_pos (by simp)) n
+
+/-- **The lift of a map with an eigenvalue `l ∈ (0, 1)` has a non-`T₁` quotient**: on the
+eigen-ray, the orbit of a point accumulates at the apex (`r ↦ l r`), so its image lies in every
+neighbourhood of the image of an axis point. -/
+theorem not_t1Space_rayLift_of_eigen (hA : RayAdmissible A) {m : ℤ} {c₀ : ℂ} (hc₀ : ‖c₀‖ = 1)
+    {l : ℝ} (hl0 : 0 < l) (hl1 : l < 1) (hAc : A c₀ = l • c₀) :
+    ¬ T1Space (Orbits (HomeoZ (rayLiftHomeo A hA 0 m)) (DInfty × ℝ)) := by
+  intro hT1
+  set φ := rayLiftHomeo A hA 0 m
+  set x : DInfty × ℝ := (DInfty.ofCplx (2 * π) c₀, 0)
+  set p : DInfty × ℝ := (DInfty.apex, 0)
+  have h2π : (2 * π : ℝ) ≠ 0 := Real.two_pi_pos.ne'
+  have hiter : ∀ n : ℕ, DInfty.cplx (2 * π) ((φ ^ n) x).1 = ((l ^ n : ℝ) : ℂ) * c₀ ∧
+      ((φ ^ n) x).2 = 0 := by
+    intro n
+    induction n with
+    | zero => simp [x, DInfty.cplx_ofCplx h2π]
+    | succ n ih =>
+      rw [pow_succ', Homeomorph.mul_apply]
+      refine ⟨?_, ?_⟩
+      · rw [show φ ((φ ^ n) x) = rayLift A 0 m ((φ ^ n) x) from rfl, cplx_rayLift, ih.1,
+          ← Complex.real_smul, map_smul, hAc, smul_smul, Complex.real_smul]
+        push_cast; ring
+      · rw [show φ ((φ ^ n) x) = rayLift A 0 m ((φ ^ n) x) from rfl, snd_rayLift, ih.2]
+        simp
+  have hr : ∀ n : ℕ, ((φ ^ n) x).1.r = l ^ n := fun n => by
+    rw [← DInfty.norm_cplx (2 * π), (hiter n).1, norm_mul, hc₀, mul_one, Complex.norm_real,
+      Real.norm_of_nonneg (pow_nonneg hl0.le n)]
+  have htend : Tendsto (fun n : ℕ => (φ ^ n) x) atTop (𝓝 p) := by
+    rw [nhds_prod_eq]
+    refine Tendsto.prodMk ?_ ?_
+    · refine DInfty.hasBasis_nhds_apex.tendsto_right_iff.2 fun ε hε => ?_
+      filter_upwards [(tendsto_pow_atTop_nhds_zero_of_lt_one hl0.le hl1).eventually_lt_const hε]
+        with n hn
+      show ((φ ^ n) x).1.r < ε
+      rw [hr]; exact hn
+    · exact tendsto_const_nhds.congr fun n => ((hiter n).2).symm
+  have hne : orbitMk (HomeoZ φ) p ≠ orbitMk (HomeoZ φ) x := by
+    intro h
+    obtain ⟨k, hk⟩ := exists_smul_eq_of_orbitMk_eq h
+    rw [HomeoZ.smul_def, rayLiftHomeo_zpow_axis] at hk
+    have := congrArg (fun q : DInfty × ℝ => q.1.r) hk
+    simp only [x, DInfty.apex_r, DInfty.ofCplx_r, hc₀] at this
+    exact zero_ne_one this
+  have hO : IsOpen (orbitMk (HomeoZ φ) ⁻¹' {orbitMk (HomeoZ φ) x}ᶜ) :=
+    (@isClosed_singleton _ _ hT1 _).isOpen_compl.preimage continuous_quot_mk
+  obtain ⟨n, hn⟩ := (htend.eventually (hO.mem_nhds hne)).exists
+  apply hn
+  show orbitMk (HomeoZ φ) ((φ ^ ((n : ℤ))) x) = orbitMk (HomeoZ φ) x
+  rw [← HomeoZ.toInt_ofInt (φ := φ) (n : ℤ), ← HomeoZ.smul_def, orbitMk_smul]
+
+/-- **The Euclidean-radius tachyon quotient is not `T₁`** (so not a singular `(G,X)`-manifold,
+`RamcovGX.tex:474`): for every boost parameter `β ≠ 0` and every `m`, the quotient of `𝔻_∞ × ℝ`
+by `rayLiftHomeo (tachA β) _ 0 m` — the action of `RayLiftQuotient` / `tachyon_conj` — is not
+`T₁`: a point of the contracted eigen-ray lies in every neighbourhood of an axis point. -/
+theorem rayLiftQuotient_tachyon_not_t1 {β : ℝ} (hβ : β ≠ 0) (m : ℤ) :
+    ¬ T1Space (Orbits (HomeoZ (rayLiftHomeo (tachA β) (rayAdmissible_tachA β) 0 m))
+      (DInfty × ℝ)) := by
+  rcases lt_or_gt_of_ne hβ with h | h
+  · refine not_t1Space_rayLift_of_eigen (rayAdmissible_tachA β) (c₀ := 1) (by simp)
+      (Real.exp_pos β) (Real.exp_lt_one_iff.2 h) ?_
+    apply Complex.ext
+    · simp only [tachA_apply, Complex.smul_re, smul_eq_mul]
+    · simp only [tachA_apply, Complex.smul_im, smul_eq_mul, Complex.one_im, mul_zero]
+  · refine not_t1Space_rayLift_of_eigen (rayAdmissible_tachA β) (c₀ := Complex.I) (by simp)
+      (Real.exp_pos (-β)) (Real.exp_lt_one_iff.2 (by linarith)) ?_
+    apply Complex.ext
+    · simp only [tachA_apply, Complex.smul_re, smul_eq_mul, Complex.I_re, mul_zero]
+    · simp only [tachA_apply, Complex.smul_im, smul_eq_mul]
+
+
+/-- A sequence of the cylinder whose radius tends to `0` and height to `z` tends to `(apex, z)`. -/
+theorem tendsto_apex_of_r {f : ℕ → DInfty × ℝ} {z : ℝ}
+    (hr : Tendsto (fun n => (f n).1.r) atTop (𝓝 0)) (hz : Tendsto (fun n => (f n).2) atTop (𝓝 z)) :
+    Tendsto f atTop (𝓝 (DInfty.apex, z)) := by
+  rw [nhds_prod_eq]
+  refine Tendsto.prodMk ?_ hz
+  exact DInfty.hasBasis_nhds_apex.tendsto_right_iff.2 fun ε hε => hr.eventually_lt_const hε
+
+/-- **The Euclidean-radius photon quotient is not Hausdorff**: for every `s ≠ 0` and every `m`,
+in the quotient of `𝔻_∞ × ℝ` by `rayLiftHomeo (photA s) _ (photκ s) m` — the action of
+`RayLiftQuotient` / `photon_conj` — the images of the distinct axis points `(apex, 0)` and
+`(apex, 1)` have no disjoint neighbourhoods: `p_n = (−1/(s²n²), 1/(sn), 0) → (apex, 0)` while
+`φⁿ p_n = (−1/(s²n²), 0, 1) → (apex, 1)` (the null rotation shears its orbits onto the fixed
+null line). -/
+theorem rayLiftQuotient_photon_not_t2 {s : ℝ} (hs : s ≠ 0) (m : ℤ) :
+    ¬ T2Space (Orbits (HomeoZ (rayLiftHomeo (photA s) (rayAdmissible_photA s) (photκ s) m))
+      (DInfty × ℝ)) := by
+  intro hT2
+  set φ := rayLiftHomeo (photA s) (rayAdmissible_photA s) (photκ s) m
+  have h2π : (2 * π : ℝ) ≠ 0 := Real.two_pi_pos.ne'
+  have hiter : ∀ (y : DInfty × ℝ) (n : ℕ),
+      DInfty.cplx (2 * π) ((φ ^ n) y).1 = ⟨(DInfty.cplx (2 * π) y.1).re,
+        (DInfty.cplx (2 * π) y.1).im + n * s * (DInfty.cplx (2 * π) y.1).re⟩ ∧
+      ((φ ^ n) y).2 = y.2 + s ^ 2 * (DInfty.cplx (2 * π) y.1).re * n ^ 2 +
+        2 * s * n * (DInfty.cplx (2 * π) y.1).im := by
+    intro y n
+    induction n with
+    | zero => refine ⟨Complex.ext (by simp) (by simp), by simp⟩
+    | succ n ih =>
+      rw [pow_succ', Homeomorph.mul_apply]
+      refine ⟨?_, ?_⟩
+      · rw [show φ ((φ ^ n) y) = rayLift (photA s) (photκ s) m ((φ ^ n) y) from rfl,
+          cplx_rayLift, ih.1, photA_apply]
+        apply Complex.ext
+        · simp
+        · simp only [Nat.cast_add, Nat.cast_one]; ring
+      · rw [show φ ((φ ^ n) y) = rayLift (photA s) (photκ s) m ((φ ^ n) y) from rfl,
+          snd_rayLift, ih.1, ih.2, photκ_apply]
+        push_cast; ring
+  -- the sequence
+  set c : ℕ → ℂ := fun n => ⟨-1 / (s ^ 2 * n ^ 2), 1 / (s * n)⟩
+  set p : ℕ → DInfty × ℝ := fun n => (DInfty.ofCplx (2 * π) (c n), 0)
+  have hcp : ∀ n, DInfty.cplx (2 * π) (p n).1 = c n := fun n => DInfty.cplx_ofCplx h2π _
+  have hq : ∀ n : ℕ, 1 ≤ n → DInfty.cplx (2 * π) ((φ ^ n) (p n)).1 = ⟨-1 / (s ^ 2 * n ^ 2), 0⟩ ∧
+      ((φ ^ n) (p n)).2 = 1 := by
+    intro n hn
+    have hn0 : (n : ℝ) ≠ 0 := by exact_mod_cast (Nat.one_le_iff_ne_zero.1 hn)
+    obtain ⟨h1, h2⟩ := hiter (p n) n
+    rw [hcp] at h1 h2
+    refine ⟨h1.trans (Complex.ext rfl ?_), ?_⟩
+    · show 1 / (s * n) + n * s * (-1 / (s ^ 2 * n ^ 2)) = 0
+      field_simp; ring
+    · rw [h2]
+      show 0 + s ^ 2 * (-1 / (s ^ 2 * n ^ 2)) * n ^ 2 + 2 * s * n * (1 / (s * n)) = 1
+      field_simp; ring
+  -- radii tend to `0`
+  have hinv : Tendsto (fun n : ℕ => (1 : ℝ) / n) atTop (𝓝 0) := tendsto_one_div_atTop_nhds_zero_nat
+  have hbound : ∀ n : ℕ, 1 ≤ n → ‖c n‖ ≤ (1 / s ^ 2 + 1 / |s|) * (1 / n) := by
+    intro n hn
+    have hn1 : (1 : ℝ) ≤ n := by exact_mod_cast hn
+    refine (Complex.norm_le_abs_re_add_abs_im _).trans ?_
+    show |-1 / (s ^ 2 * n ^ 2)| + |1 / (s * n)| ≤ _
+    have hs2 : 0 < s ^ 2 := by positivity
+    have hn0 : (0 : ℝ) < n := by linarith
+    rw [abs_div, abs_div, abs_neg, abs_one, abs_mul, abs_mul, abs_of_pos hs2,
+      abs_of_pos (pow_pos hn0 2), abs_of_pos hn0]
+    have hsa : 0 < |s| := abs_pos.2 hs
+    rw [add_mul]
+    gcongr
+    · rw [div_mul_div_comm, one_mul]
+      gcongr
+      nlinarith
+    · rw [div_mul_div_comm, one_mul]
+  have hr1 : Tendsto (fun n => (p n).1.r) atTop (𝓝 0) := by
+    have hev : ∀ᶠ n : ℕ in atTop, ‖c n‖ ≤ (1 / s ^ 2 + 1 / |s|) * (1 / n) :=
+      eventually_atTop.2 ⟨1, hbound⟩
+    have := squeeze_zero' (Eventually.of_forall fun n => norm_nonneg (c n)) hev
+      (by have h := hinv.const_mul (1 / s ^ 2 + 1 / |s|); rwa [mul_zero] at h)
+    refine this.congr fun n => ?_
+    simp only [p, DInfty.ofCplx_r]
+  have hr2 : Tendsto (fun n => ((φ ^ n) (p n)).1.r) atTop (𝓝 0) := by
+    have hev : ∀ᶠ n : ℕ in atTop, ((φ ^ n) (p n)).1.r = 1 / s ^ 2 * (1 / n) ^ 2 :=
+      eventually_atTop.2 ⟨1, fun n hn => by
+        rw [← DInfty.norm_cplx (2 * π), (hq n hn).1]
+        have hn0 : (0 : ℝ) < n := by exact_mod_cast hn
+        rw [show (⟨-1 / (s ^ 2 * n ^ 2), 0⟩ : ℂ) = ((-1 / (s ^ 2 * n ^ 2) : ℝ) : ℂ) from rfl,
+          Complex.norm_real, Real.norm_eq_abs, abs_div, abs_neg, abs_one, abs_of_pos (by positivity)]
+        field_simp⟩
+    have h0 : Tendsto (fun n : ℕ => 1 / s ^ 2 * (1 / (n : ℝ)) ^ 2) atTop (𝓝 0) := by
+      have h := (hinv.pow 2).const_mul (1 / s ^ 2)
+      rwa [zero_pow two_ne_zero, mul_zero] at h
+    exact h0.congr' (hev.mono fun n hn => hn.symm)
+  have ht1 : Tendsto p atTop (𝓝 (DInfty.apex, 0)) := tendsto_apex_of_r hr1 tendsto_const_nhds
+  have ht2 : Tendsto (fun n => (φ ^ n) (p n)) atTop (𝓝 (DInfty.apex, 1)) :=
+    tendsto_apex_of_r hr2 (tendsto_const_nhds.congr' (eventually_atTop.2
+      ⟨1, fun n hn => (hq n hn).2.symm⟩))
+  -- the two axis points have distinct orbits
+  have hne : orbitMk (HomeoZ φ) (DInfty.apex, (0 : ℝ)) ≠ orbitMk (HomeoZ φ) (DInfty.apex, (1 : ℝ)) := by
+    intro h
+    obtain ⟨k, hk⟩ := exists_smul_eq_of_orbitMk_eq h
+    rw [HomeoZ.smul_def, rayLiftHomeo_zpow_axis] at hk
+    exact zero_ne_one (congrArg Prod.snd hk)
+  obtain ⟨U, V, hU, hV, hUV⟩ := @t2_separation_nhds _ _ hT2 _ _ hne
+  have hU' := continuous_quot_mk.continuousAt.preimage_mem_nhds hU
+  have hV' := continuous_quot_mk.continuousAt.preimage_mem_nhds hV
+  obtain ⟨n, hn1, hn2⟩ := ((ht1.eventually hU').and (ht2.eventually hV')).exists
+  have hsame : orbitMk (HomeoZ φ) ((φ ^ n) (p n)) = orbitMk (HomeoZ φ) (p n) := by
+    rw [show (φ ^ n) (p n) = (φ ^ ((n : ℤ))) (p n) by rw [zpow_natCast],
+      ← HomeoZ.toInt_ofInt (φ := φ) (n : ℤ), ← HomeoZ.smul_def, orbitMk_smul]
+  have h1 : orbitMk (HomeoZ φ) (p n) ∈ U := hn1
+  have h2 : orbitMk (HomeoZ φ) (p n) ∈ V := by rw [← hsame]; exact hn2
+  exact Set.disjoint_left.1 hUV h1 h2
+
+/-! ### Every element of `Isom₀` fixing a spacelike (resp. null) line pointwise is a boost (resp. a
+null rotation) -/
+
+/-- `ℝ³ ≅ Fin 3 → ℝ`, to compute determinants by matrices. -/
+noncomputable def nullCoordFin3 : (ℝ × ℝ × ℝ) ≃ₗ[ℝ] (Fin 3 → ℝ) where
+  toFun y := ![y.1, y.2.1, y.2.2]
+  invFun f := (f 0, f 1, f 2)
+  map_add' y y' := by ext i; fin_cases i <;> rfl
+  map_smul' c y := by ext i; fin_cases i <;> rfl
+  left_inv y := rfl
+  right_inv f := by ext i; fin_cases i <;> rfl
+
+/-- The determinant of a linear map of `ℝ³` given by a matrix in the coordinates `(a, b, x)`. -/
+theorem det_eq_of_coord (L : (ℝ × ℝ × ℝ) →ₗ[ℝ] (ℝ × ℝ × ℝ)) (M : Matrix (Fin 3) (Fin 3) ℝ)
+    (hL : ∀ y, L y = (M 0 0 * y.1 + M 0 1 * y.2.1 + M 0 2 * y.2.2,
+      M 1 0 * y.1 + M 1 1 * y.2.1 + M 1 2 * y.2.2, M 2 0 * y.1 + M 2 1 * y.2.1 + M 2 2 * y.2.2)) :
+    LinearMap.det L = M.det := by
+  rw [← LinearMap.det_conj L nullCoordFin3, ← LinearMap.det_toLin' M]
+  congr 1
+  refine LinearMap.ext fun f => ?_
+  ext i
+  fin_cases i <;>
+    simp [nullCoordFin3, hL, Matrix.toLin'_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+
+theorem nullB_nullS (w : ℝ × ℝ × ℝ) : nullB w nullS = w.2.2 := by simp [nullB, nullS]
+
+/-- An element of `Isom₀` is the sum of its value at `0` and its linear part. -/
+theorem isom0_decomp (g : NullIsom0) (y : ℝ × ℝ × ℝ) :
+    g • y = (g : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) 0 + (g : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear y :=
+  affineEquiv_apply_eq_add_linear _ y
+
+/-- The coordinates of a linear map of `ℝ³` on the standard basis. -/
+theorem linear_coord (L : (ℝ × ℝ × ℝ) →ₗ[ℝ] (ℝ × ℝ × ℝ)) (y : ℝ × ℝ × ℝ) :
+    L y = y.1 • L (1, 0, 0) + y.2.1 • L (0, 1, 0) + y.2.2 • L (0, 0, 1) := by
+  rw [← map_smul, ← map_smul, ← map_smul, ← map_add, ← map_add]
+  congr 1
+  ext <;> simp
+
+/-- **An element of `Isom₀(𝔼^{1,2})` fixing the spacelike line `ℝ(0,0,1)` pointwise is a boost
+`B_β`** (the reflections exchanging the two null lines of `(0,0,1)^⊥` reverse the orientation). -/
+theorem eq_boostAff_of_fix (g : NullIsom0) (hg : ∀ t : ℝ, g • (t • nullS) = t • nullS) :
+    ∃ β : ℝ, (g : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) = boostAff 0 β := by
+  set H : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ) := ↑g
+  set L := H.linear
+  have h0 : H 0 = 0 := by have := hg 0; rw [zero_smul] at this; exact this
+  have hdec : ∀ y, H y = L y := fun y => by rw [affineEquiv_apply_eq_add_linear H y, h0, zero_add]
+  have hLS : L nullS = nullS := by
+    have := hg 1; rw [one_smul] at this; rw [← hdec]; exact this
+  have hB : ∀ y y', nullB (L y) (L y') = nullB y y' := nullB_map g
+  have hQ : ∀ y, nullQ (L y) = nullQ y := g.2.1
+  have hx : ∀ y, (L y).2.2 = y.2.2 := fun y => by
+    have := hB y nullS
+    rwa [hLS, nullB_nullS, nullB_nullS] at this
+  set p := (L (1, 0, 0)).1
+  set s := (L (1, 0, 0)).2.1
+  set q := (L (0, 1, 0)).1
+  set t := (L (0, 1, 0)).2.1
+  have hLa : L (1, 0, 0) = (p, s, 0) := Prod.ext rfl (Prod.ext rfl (by rw [hx]))
+  have hLb : L (0, 1, 0) = (q, t, 0) := Prod.ext rfl (Prod.ext rfl (by rw [hx]))
+  have hLc : L (0, 0, 1) = (0, 0, 1) := hLS
+  have hLy : ∀ y : ℝ × ℝ × ℝ, L y = (p * y.1 + q * y.2.1, s * y.1 + t * y.2.1, y.2.2) := by
+    intro y
+    have := linear_coord L.toLinearMap y
+    simp only [LinearEquiv.coe_coe] at this
+    rw [this, hLa, hLb, hLc]
+    ext <;> simp <;> ring
+  have hps : p * s = 0 := by
+    have := hQ (1, 0, 0); rw [hLa] at this; dsimp only [nullQ] at this; nlinarith
+  have hqt : q * t = 0 := by
+    have := hQ (0, 1, 0); rw [hLb] at this; dsimp only [nullQ] at this; nlinarith
+  have hpq : p * t + q * s = 1 := by
+    have := hB (1, 0, 0) (0, 1, 0); rw [hLa, hLb] at this; dsimp only [nullB] at this; nlinarith
+  have hdet : 0 < p * t - q * s := by
+    have h1 := g.2.2.1
+    rw [LinearEquiv.coe_det] at h1
+    rw [det_eq_of_coord L.toLinearMap !![p, q, 0; s, t, 0; 0, 0, 1] (fun y => by
+      simp only [LinearEquiv.coe_coe]; rw [hLy]; simp)] at h1
+    simpa [Matrix.det_fin_three] using h1
+  have hτ : 0 < p + q + s + t := by
+    have := g.2.2.2 (1, 1, 0) (by simp [nullQ]) (by simp)
+    show 0 < p + q + s + t
+    have h2 : nullτ (L (1, 1, 0)) = p + q + s + t := by rw [hLy]; simp; ring
+    rw [← h2]; exact this
+  have hp : p ≠ 0 := by
+    intro hp
+    rw [hp, zero_mul, zero_add] at hpq
+    rw [hp, zero_mul, zero_sub] at hdet
+    linarith
+  have hs : s = 0 := (mul_eq_zero.1 hps).resolve_left hp
+  rw [hs, mul_zero, add_zero] at hpq
+  have ht : t ≠ 0 := right_ne_zero_of_mul (hpq ▸ one_ne_zero)
+  have hq : q = 0 := (mul_eq_zero.1 hqt).resolve_right ht
+  have hp0 : 0 < p := by
+    rw [hs, hq] at hτ
+    by_contra hneg
+    have : t < 0 := by nlinarith
+    linarith
+  refine ⟨Real.log p, AffineEquiv.ext fun y => ?_⟩
+  rw [hdec, hLy, boostAff_apply, boost_apply, hs, hq, Real.exp_log hp0, Real.exp_neg,
+    Real.exp_log hp0, sub_zero, zero_add]
+  have : t = p⁻¹ := by field_simp; linarith
+  ext <;> simp [this]
+
+/-- **An element of `Isom₀(𝔼^{1,2})` fixing the null line `ℝ(1,0,0)` pointwise is a null rotation
+`P_s`** (the orientation-reversing ones are excluded by the determinant). -/
+theorem eq_parabAff_of_fix (g : NullIsom0) (hg : ∀ t : ℝ, g • (t • nullU) = t • nullU) :
+    ∃ s : ℝ, (g : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) = parabAff 0 s := by
+  set H : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ) := ↑g
+  set L := H.linear
+  have h0 : H 0 = 0 := by have := hg 0; rw [zero_smul] at this; exact this
+  have hdec : ∀ y, H y = L y := fun y => by rw [affineEquiv_apply_eq_add_linear H y, h0, zero_add]
+  have hLU : L nullU = nullU := by
+    have := hg 1; rw [one_smul] at this; rw [← hdec]; exact this
+  have hB : ∀ y y', nullB (L y) (L y') = nullB y y' := nullB_map g
+  have hQ : ∀ y, nullQ (L y) = nullQ y := g.2.1
+  have hb : ∀ y, (L y).2.1 = y.2.1 := fun y => by
+    have := hB y nullU
+    rw [hLU, nullB_nullU, nullB_nullU] at this
+    linarith
+  set δ := (L (0, 1, 0)).1
+  set ε := (L (0, 1, 0)).2.2
+  set α := (L (0, 0, 1)).1
+  set γ := (L (0, 0, 1)).2.2
+  have hLa : L (1, 0, 0) = (1, 0, 0) := hLU
+  have hLb : L (0, 1, 0) = (δ, 1, ε) := Prod.ext rfl (Prod.ext (by rw [hb]) rfl)
+  have hLc : L (0, 0, 1) = (α, 0, γ) := Prod.ext rfl (Prod.ext (by rw [hb]) rfl)
+  have hLy : ∀ y : ℝ × ℝ × ℝ,
+      L y = (y.1 + δ * y.2.1 + α * y.2.2, y.2.1, ε * y.2.1 + γ * y.2.2) := by
+    intro y
+    have := linear_coord L.toLinearMap y
+    simp only [LinearEquiv.coe_coe] at this
+    rw [this, hLa, hLb, hLc]
+    ext <;> simp <;> ring
+  have hδ : δ = ε ^ 2 := by
+    have := hQ (0, 1, 0); rw [hLb] at this; dsimp only [nullQ] at this; nlinarith
+  have hγ : γ ^ 2 = 1 := by
+    have := hQ (0, 0, 1); rw [hLc] at this; dsimp only [nullQ] at this; nlinarith
+  have hα : α = 2 * ε * γ := by
+    have := hB (0, 1, 0) (0, 0, 1); rw [hLb, hLc] at this; dsimp only [nullB] at this; nlinarith
+  have hdet : 0 < γ := by
+    have h1 := g.2.2.1
+    rw [LinearEquiv.coe_det] at h1
+    rw [det_eq_of_coord L.toLinearMap !![1, δ, α; 0, 1, 0; 0, ε, γ] (fun y => by
+      simp only [LinearEquiv.coe_coe]; rw [hLy]; simp)] at h1
+    simpa [Matrix.det_fin_three] using h1
+  have hγ1 : γ = 1 := by nlinarith
+  refine ⟨ε, AffineEquiv.ext fun y => ?_⟩
+  rw [hdec, hLy, parabAff_apply, parab_apply, hδ, hα, hγ1, sub_zero, zero_add]
+  ext <;> simp <;> ring
+
+/-! ### `ex:quotient_base`, l.682: tachyons and photons -/
+
+/-- The conjugate `h⁻¹ g h` of an element `g` fixing `x₀ + ℝu` pointwise, where `h(0) = x₀` and
+`h_lin(u₀) = u`, fixes `ℝu₀` pointwise. -/
+theorem conj_fix_of_fix (g h : NullIsom0) {x₀ u u₀ : ℝ × ℝ × ℝ}
+    (h0 : (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) 0 = x₀)
+    (hu : (h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear u₀ = u)
+    (hg : ∀ t : ℝ, g • (x₀ + t • u) = x₀ + t • u) (t : ℝ) :
+    (h⁻¹ * g * h) • (t • u₀) = t • u₀ := by
+  have hh : h • (t • u₀) = x₀ + t • u := by
+    rw [isom0_decomp, h0, map_smul, hu]
+  rw [mul_smul, mul_smul, hh, hg, ← hh, inv_smul_smul]
+
+/-- `boostAff 0 0 = 1` and `parabAff 0 0 = 1`. -/
+theorem boostAff_zero_zero : boostAff 0 0 = 1 :=
+  AffineEquiv.ext fun y => by rw [boostAff_apply, boost_zero]; simp
+
+theorem parabAff_zero_zero : parabAff 0 0 = 1 :=
+  AffineEquiv.ext fun y => by rw [parabAff_apply, parab_zero]; simp
+
+/-- **`ex:quotient_base`, the tachyons** (`RamcovGX.tex:682`), in `G = Isom₀(𝔼^{1,2})`: for every
+base point `x₀`, every spacelike `v` (`Q(v) > 0`), every `g ∈ Isom₀`, `g ≠ 1`, fixing the spacelike
+line `x₀ + ℝv` pointwise (necessarily a boost, `eq_boostAff_of_fix`) and every number of turns
+`m ≠ 0` (`m = ±1`: the tachyon itself), with `w` a parametrisation of the plane `P = v^⊥`
+complementing `ℝv`: the linear part of `g` acts on `P` by a **hyperbolic** `A`; `Γ = ℤ` acts on
+the coordinate `θ` of `𝔻_∞ × ℝ` alone (`θ ↦ θ + 2π`, `r` and `z` fixed: `GammaA (2π)`), and the
+identification `ψ : ℝ ≃ₜ ℝ = \widetilde{ℝP¹}` of `θ` with the lifted rays of `P` (the developing
+map sends `(r, θ, z)` to the ray `ℝ₊ w(e^{iψθ})` modulo `ℝv`) conjugates this action to the lift
+`θ ↦ θ + rayShift A θ + 2πm` of the action of `A` on the rays — a hyperbolic action on `θ`; the
+developing map `D` has holonomy `g`, and `M = Γ\(𝔻_∞ × ℝ)` is a singular
+`(Isom₀, 𝔼^{1,2})`-manifold (Hausdorff, locally connected, second countable, `≅ ℂ × ℝ`), with all
+the conclusions of `ThetaLiftQuotient`. (The Euclidean-radius action `rayLiftHomeo` of
+`tachyon_conj` gives a non-`T₁` quotient: `rayLiftQuotient_tachyon_not_t1`.) -/
+theorem tachyon_isom0 (x₀ : ℝ × ℝ × ℝ) {v : ℝ × ℝ × ℝ} (hv : 0 < nullQ v) (g : NullIsom0)
+    (hgv : ∀ t : ℝ, g • (x₀ + t • v) = x₀ + t • v) (hg : g ≠ 1) {m : ℤ} (hm : m ≠ 0) :
+    ∃ (A : ℂ ≃ₗ[ℝ] ℂ) (_ : RayAdmissible A) (w : ℂ →ₗ[ℝ] ℝ × ℝ × ℝ) (c : ℝ),
+      IsHyperbolicPlaneMap A ∧ 0 < c ∧ (∀ ζ, nullB (w ζ) v = 0) ∧
+      (∀ (ζ : ℂ) (z : ℝ), (g : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear (w ζ + z • (c • v)) =
+        w (A ζ) + z • (c • v)) ∧
+      ∃ (D : DInfty × ℝ → ℝ × ℝ × ℝ) (ψ : ℝ ≃ₜ ℝ), ThetaLiftQuotient x₀ (c • v) w A m g D ψ := by
+  set c := (√(nullQ v))⁻¹ with hcdef
+  have hc0 : 0 < c := inv_pos.2 (Real.sqrt_pos.2 hv)
+  have hu : nullQ (c • v) = 1 := by
+    rw [nullQ_smul, hcdef, inv_pow, Real.sq_sqrt hv.le, inv_mul_cancel₀ hv.ne']
+  obtain ⟨h, h0, hhu⟩ := exists_isom0_nullS x₀ hu
+  set H : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ) := ↑h
+  have hfix : ∀ t : ℝ, (h⁻¹ * g * h) • (t • nullS) = t • nullS :=
+    conj_fix_of_fix g h h0 hhu fun t => by rw [smul_smul]; exact hgv _
+  obtain ⟨β, hβ⟩ := eq_boostAff_of_fix _ hfix
+  have hg' : h⁻¹ * g * h = ⟨boostAff 0 β, boost_mem 0 β⟩ := Subtype.ext hβ
+  have hgeq : boostConj h β = g := by
+    rw [boostConj, ← hg']; group
+  have hβ0 : β ≠ 0 := by
+    rintro rfl
+    refine hg ?_
+    have : h⁻¹ * g * h = 1 := by rw [hg']; exact Subtype.ext boostAff_zero_zero
+    calc g = h * (h⁻¹ * g * h) * h⁻¹ := by group
+      _ = 1 := by rw [this]; group
+  have hq := tachyon_conj_theta h (β := β) hm
+  rw [hgeq, h0, hhu] at hq
+  refine ⟨tachA β, rayAdmissible_tachA β, H.linear.toLinearMap ∘ₗ tachEmb, c,
+    isHyperbolicPlaneMap_tachA hβ0, hc0, fun ζ => ?_, fun ζ z => ?_, hq⟩
+  · have hv' : v = c⁻¹ • H.linear nullS := by rw [hhu, smul_smul, inv_mul_cancel₀ hc0.ne', one_smul]
+    simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, Function.comp_apply]
+    rw [hv', nullB_smul_right, nullB_map h, nullB_nullS, tachEmb_apply, mul_zero]
+  · have := boostConj_linear_frame h β ζ z
+    rw [hgeq, hhu] at this
+    simpa using this
+
+/-- A non-zero null vector is future or past: `τ(v) ≠ 0`. -/
+theorem nullτ_ne_zero_of_null {v : ℝ × ℝ × ℝ} (hv0 : v ≠ 0) (hv : nullQ v = 0) : nullτ v ≠ 0 := by
+  intro h
+  simp only [nullτ_apply] at h
+  simp only [nullQ] at hv
+  have ha : v.1 = -v.2.1 := by linarith
+  rw [ha] at hv
+  have h1 : v.2.2 = 0 := by nlinarith [sq_nonneg v.2.2, sq_nonneg v.2.1]
+  have h2 : v.2.1 = 0 := by nlinarith [sq_nonneg v.2.2, sq_nonneg v.2.1]
+  exact hv0 (Prod.ext (by rw [ha, h2]; simp) (Prod.ext h2 h1))
+
+/-- **`ex:quotient_base`, the photons** (`RamcovGX.tex:682`), in `G = Isom₀(𝔼^{1,2})`: for every
+base point `x₀`, every non-zero null `v`, every `g ∈ Isom₀`, `g ≠ 1`, fixing the null line
+`x₀ + ℝv` pointwise (necessarily a null rotation, `eq_parabAff_of_fix`) and every `m ≠ 0`
+(`m = ±1`: the photon itself), with `w` a parametrisation of a plane `P` complementing `ℝv`: the
+linear part of `g` acts on `P ≅ 𝔼^{1,2}/ℝv` by a **parabolic** `A` (with `ℝv`-component `κ`);
+`Γ = ℤ` acts on the coordinate `θ` of `𝔻_∞ × ℝ` alone, conjugated by the identification
+`ψ : ℝ ≃ₜ \widetilde{ℝP¹}` to the lift `θ ↦ θ + rayShift A θ + 2πm` of the action of `A` on the
+rays of `P` — a parabolic action on `θ`; the developing map has holonomy `g` and the quotient is a
+singular `(Isom₀, 𝔼^{1,2})`-manifold, with all the conclusions of `ThetaLiftQuotient`. (The
+Euclidean-radius action of `photon_conj` gives a non-Hausdorff quotient:
+`rayLiftQuotient_photon_not_t2`.) -/
+theorem photon_isom0 (x₀ : ℝ × ℝ × ℝ) {v : ℝ × ℝ × ℝ} (hv0 : v ≠ 0) (hv : nullQ v = 0)
+    (g : NullIsom0) (hgv : ∀ t : ℝ, g • (x₀ + t • v) = x₀ + t • v) (hg : g ≠ 1) {m : ℤ}
+    (hm : m ≠ 0) :
+    ∃ (A : ℂ ≃ₗ[ℝ] ℂ) (_ : RayAdmissible A) (κ : ℂ →ₗ[ℝ] ℝ) (w : ℂ →ₗ[ℝ] ℝ × ℝ × ℝ) (c : ℝ),
+      IsParabolicPlaneMap A ∧ c ≠ 0 ∧
+      (∀ (ζ : ℂ) (z : ℝ), (g : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear (w ζ + z • (c • v)) =
+        w (A ζ) + (z + κ ζ) • (c • v)) ∧
+      ∃ (D : DInfty × ℝ → ℝ × ℝ × ℝ) (ψ : ℝ ≃ₜ ℝ), ThetaLiftQuotient x₀ (c • v) w A m g D ψ := by
+  have hτ := nullτ_ne_zero_of_null hv0 hv
+  obtain ⟨c, hc0, hcτ⟩ : ∃ c : ℝ, c ≠ 0 ∧ 0 < nullτ (c • v) := by
+    rcases lt_or_gt_of_ne hτ with h | h
+    · refine ⟨-1, by norm_num, ?_⟩
+      rw [map_smul, smul_eq_mul]
+      linarith
+    · exact ⟨1, one_ne_zero, by rw [one_smul]; exact h⟩
+  have hu : nullQ (c • v) = 0 := by rw [nullQ_smul, hv, mul_zero]
+  obtain ⟨h, h0, hhu⟩ := exists_isom0_nullU x₀ hu hcτ
+  set H : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ) := ↑h
+  have hfix : ∀ t : ℝ, (h⁻¹ * g * h) • (t • nullU) = t • nullU :=
+    conj_fix_of_fix g h h0 hhu fun t => by rw [smul_smul]; exact hgv _
+  obtain ⟨s, hs⟩ := eq_parabAff_of_fix _ hfix
+  have hg' : h⁻¹ * g * h = ⟨parabAff 0 s, parab_mem 0 s⟩ := Subtype.ext hs
+  have hgeq : parabConj h s = g := by
+    rw [parabConj, ← hg']; group
+  have hs0 : s ≠ 0 := by
+    rintro rfl
+    refine hg ?_
+    have : h⁻¹ * g * h = 1 := by rw [hg']; exact Subtype.ext parabAff_zero_zero
+    calc g = h * (h⁻¹ * g * h) * h⁻¹ := by group
+      _ = 1 := by rw [this]; group
+  have hq := photon_conj_theta h (s := s) hm
+  rw [hgeq, h0, hhu] at hq
+  refine ⟨photA s, rayAdmissible_photA s, photκ s, H.linear.toLinearMap ∘ₗ photEmb, c,
+    isParabolicPlaneMap_photA hs0, hc0, fun ζ z => ?_, hq⟩
+  have := parabConj_linear_frame h s ζ z
+  rw [hgeq, hhu] at this
+  simpa using this
+
+end TachyonPhoton
 
 end GX

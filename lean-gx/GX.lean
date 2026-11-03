@@ -34,5 +34,6 @@ import GX.BTZ.Manifolds
 import GX.Suspension.Conic
 import GX.Suspension.Celestial
 import GX.Suspension.Affine
+import GX.BTZ.Spear
 
 /-! The strict library of the paper `gx` (`papers/gx`). Every module is imported here. -/

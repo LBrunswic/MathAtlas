@@ -1,0 +1,112 @@
+{
+ "package": "WP-44c",
+ "round": 1,
+ "auditor": "read-only auditor, round 1",
+ "file": "GX/BTZ/Manifolds.lean",
+ "verdict": "issues",
+ "builds": true,
+ "build_check": "taskset -c 0-11 lake env lean -DwarningAsError=true GX/BTZ/Manifolds.lean: no diagnostics, exit 0, 29.0 s wall. Real sorry count 0: 'sorry' appears only in docstrings (l.55, l.143); no admit, no axiom. taskset -c 0-11 lake build GX: 'Build completed successfully (8738 jobs)', exit 0, no Causal.* module rebuilt. campaign/WP-44c/axioms.out shows [propext, Classical.choice, Quot.sound] for the 14 headline decls. The downstream scaffold/GXScaffold/BTZ/Uniformization.lean (the only importer) typechecks with no error (lake env lean; only its pre-existing 'declaration uses sorry' warnings). DEC-33 gate respected: imports Causal.{StrongCausality,GlobalHyperbolicity,Generated,GXStructure} in GX/BTZ/, no root Causal, no CausalScaffold, no 'open Causal'. No name clash: none of the 21 new decls (diff against campaign/WP-44c/Manifolds.pre-WP-44c.lean.bak) is declared anywhere else under GX/ or scaffold/. All 8 labels of the module are **marked** in the first 4000 characters, and REPORT lists all 8.",
+ "auditor_lean_check": "A scratch file outside the repo (/tmp/wp44c_audit/Check.lean, importing GX.BTZ.Manifolds) proves, exit 0: (i) for every d : BTZTildeData and every x ∉ BTZTildeData.regPart, d.natCausality.Iplus ⊤ {x} = ∅; (ii) if x ≠ x' are both singular, ¬ IsFutureDistinguishing d.natCausality. Both are one-liners from natCausality_lt_iff: the file's own DEC-106 causality defines ≪ only between regular points.",
+ "labels": [
+  {
+   "label": "def:manifolds_future_distinguishing_map",
+   "report_status": "closed",
+   "audit": "agree",
+   "note": "Unchanged since WP-43e (audited clean): injectivity of x ↦ C.Iplus ⊤ {x} for any causality."
+  },
+  {
+   "label": "def:manifolds_future_distinguishing_map_2",
+   "report_status": "closed",
+   "audit": "agree",
+   "note": "D-8 repeat, same decl."
+  },
+  {
+   "label": "def:singular_manifold_endowed_causal",
+   "report_status": "closed",
+   "audit": "agree",
+   "note": "Unchanged, literal definition."
+  },
+  {
+   "label": "def:manifold_future_complete_all",
+   "report_status": "closed",
+   "audit": "disagree (should be partial or re-ruled)",
+   "note": "IsBTZFutureComplete still uses d.causality, the causality of (M̃, T'). The structure docstring cites DEC-77 (b) as its authority, and DEC-106 reverses DEC-77 (b). Read with the file's natural causality d.natCausality, the definition fails at every BTZ point x, because D '' I⁺(x) = D '' ∅ = ∅ while I⁺(D x) ≠ ∅ in Minkowski space. REPORT says 'Content unchanged' and keeps the row closed. Its basis changed, though, so it now rests on the same unruled reading as the FD rows (issue 2)."
+  },
+  {
+   "label": "lem:globally_hyperbolic_manifolds_manifolds",
+   "report_status": "closed",
+   "audit": "disagree (should be partial)",
+   "note": "The BTZ-manifold half (charted e0Manifold_isFutureDistinguishing and SingularGXStructure e0SingManifold_isFutureDistinguishing) is sound. The BTZ~ half, isFutureDistinguishing_of_natGloballyHyperbolic, takes GH of natCausality as its hypothesis and concludes FD of d.causality, a different Causality on a different topology. FD of natCausality itself is FALSE as soon as M̃ has two singular points (auditor check (ii)). So under the file's DEC-106 object the literal lemma is false. What is certified is a reading ('FD for the geometric ≪') that no ruling accepts, and REPORT itself asks the question. Also, the hypothesis is never shown satisfiable when sing ≠ ∅ (issue 3). isFutureDistinguishing_of_isCompact_image_diamond and btzTildeAtlas_isFutureDistinguishing_of_isCompact_image are correct, tarentin-free, and a genuine gain."
+  },
+  {
+   "label": "lem:manifolds_manifolds_causally_connected",
+   "report_status": "closed",
+   "audit": "agree, conditionally",
+   "note": "natIsCausallyConnected uses only ≤, which is the canonical chart-generated relation read on natural opens (natOpens). Curves are ETT CurveOn and quantify over natural opens. The transfer from T' is sound. It is conditional only on accepting natCausality's ≤ as the DEC-106 causal relation, which is unproblematic. The WP-43e curation flagged WP-41d's readings (chartwise T_BTZ; local BTZ~) as the reason for 'partial', and no DEC was found that settles them. The dispatch instructs certification, so this is recorded as a question rather than an issue."
+  },
+  {
+   "label": "lem:increasing_map",
+   "report_status": "closed",
+   "audit": "agree, conditionally",
+   "note": "natIncreasing (< of l.2193: ≤ ∧ ≠ ⇒ D x ≤ D y ∧ D x ≠ D y) is proved for all x, y ∈ M̃, as dispatched (D-10, recorded as 'weakened'). natIncreasing_lt is the ≪ form for the restricted ≪. The same caveat as the previous row applies to the WP-41d readings and to D-10, which has no DEC entry (the dispatch is the only acceptance)."
+  },
+  {
+   "label": "lem:globally_hyperbolic_manifolds_maximal",
+   "report_status": "closed",
+   "audit": "disagree (should be partial until ruled)",
+   "note": "isFutureDistinguishing_of_base is a real, sorry-free proof that the chronological relation of (M̃, T') has injective I⁺ when M is GH, and it is what Uniformization needs. But the conclusion is IsFutureDistinguishing d.causality, not of M̃'s DEC-106 causality. With the file's own natCausality the conclusion is false whenever sing M ≠ ∅ (auditor check (ii); sing M̃ contains whole half-lines). The docstring sentence 'a property of the relation, the same in the natural topology of DEC-106 and in T_BTZ' is contradicted by natCausality, whose ≪ is a different relation. The dispatch's route (lift of a Cauchy surface is Cauchy, M̃ GH in the natural topology) is not delivered (issue 4). The T_BTZ counterexample is correctly kept as a finding."
+  }
+ ],
+ "dispatch_check": "Dispatch: re-prove lem:globally_hyperbolic_manifolds_maximal through 'M GH ⇒ the lift of a Cauchy surface is Cauchy, M̃ GH' in the natural topology, keep the T_BTZ counterexample as a finding, and certify the four rows. Delivered: the T_BTZ counterexample is kept; natCausality, causal connectedness, D increasing and natural-GH ⇒ FD (for d.causality) are built; 0 sorry; warning-free. Not delivered: M̃ GH in the natural topology, and the Cauchy-surface lift. REPORT discloses this, with the obstruction 'infinite fibres; BTZ-sheet limit step'. Two of the four rows (and one already-closed definition) are marked closed only under a reading that REPORT itself flags as an open question and recommends downgrading if rejected. DEC-27 and CAMPAIGN.md make such rows partial until a ruling accepts the reading.",
+ "issues": [
+  {
+   "severity": "blocker",
+   "where": "lem:globally_hyperbolic_manifolds_maximal (GX.BTZTildeData.isFutureDistinguishing_of_base, l.1918–1921 docstring) and the BTZ~ half of lem:globally_hyperbolic_manifolds_manifolds (GX.BTZTildeData.isFutureDistinguishing_of_natGloballyHyperbolic, l.2102–2110); module docstring marks; REPORT status 'closed'",
+   "problem": "These rows are marked and closed on an unruled reading. DEC-106 puts M̃'s causality in its natural topology. The file's realisation of that causality, natCausality, keeps ≪ only between regular points, so I⁺(x) = ∅ for every BTZ point. Then IsFutureDistinguishing d.natCausality is FALSE as soon as M̃ has two singular points, which always holds when sing M ≠ ∅ (auditor Lean check (ii), exit 0). The certified conclusions are instead FD of d.causality, the causality of (M̃, T_BTZ). The natural-GH theorem mixes the two: its hypothesis is on natCausality and its conclusion on d.causality. The docstring claim that FD is 'the same in the natural topology of DEC-106 and in T_BTZ' is contradicted by natCausality. REPORT asks this as a question and itself says the rows should be partial if the reading is not accepted. Marking them anyway is an overclaim under CAMPAIGN.md ('partial — … or a reading') and DEC-27.",
+   "fix": "Unmark both labels (backticks only) and set them to partial, pending a ruling. Prove and report the DEC-27 counterexample for the literal reading (¬ IsFutureDistinguishing d.natCausality when two singular points exist; the 6-line proof is in the auditor's scratch check). State the corrected reading in the docstring: FD for the chart-generated ≪ of (M̃, T'), GH for natural compactness. Remove the 'same in the natural topology' sentence. Put the reading question to the author (a DEC) and re-mark only after it is accepted."
+  },
+  {
+   "severity": "major",
+   "where": "def:manifold_future_complete_all (GX.BTZTildeData.IsBTZFutureComplete, l.1953–1958; BTZTildeData docstring l.1457 citing DEC-77 (b)); REPORT 'Content unchanged'",
+   "problem": "The definition still reads M̃'s causality in T_BTZ, justified by DEC-77 (b), which DEC-106 reversed. Read with natCausality it is unsatisfiable at any BTZ point (D '' ∅ ≠ I⁺(D x)). So the row's basis moved from a ruled reading to an unruled one, but it stays closed and marked and is described as unchanged. The stale DEC-77 (b) citations in the BTZTildeData and IsBTZFutureComplete docstrings remain.",
+   "fix": "Record that the definition uses the chart-generated ≪ of (M̃, T') (the same reading as issue 1), update the DEC-77 (b) citations to DEC-106 plus the reading, and set the row to partial until the same ruling covers it (or ask for it in the same question)."
+  },
+  {
+   "severity": "major",
+   "where": "GX.BTZTildeData.isFutureDistinguishing_of_natGloballyHyperbolic; REPORT finding under lem:globally_hyperbolic_manifolds_manifolds ('in the natural topology it is not [vacuous]')",
+   "problem": "The hypothesis d.natCausality.GloballyHyperbolic is never shown satisfiable for any instance with sing M ≠ ∅. When sing M = ∅ it equals T'-GH and is satisfiable, but that is not the paper's case. REPORT's argument for non-vacuity does not hold. It says the natural topology is coarser, so a Minkowski/T_BTZ-compact diamond is naturally compact. But the diamonds with a BTZ vertex are exactly the ones that are NOT T_BTZ-compact (GX.btzJ0_not_isCompact_diamond), and no topology on M̃ pulled back from Minkowski is shown finer than the natural one. Non-vacuity is plausible: in the model the Minkowski image of a diamond with vertex on Δ₀ is closed, since J⁺_𝕄(0) ∩ {v = 0} ⊆ Δ₀, and E₀'s neighbourhoods of the BTZ line are coarse. But it is argued, not proved.",
+   "fix": "Either prove one instance (e.g. natCausality GH for M = E₀ or its GH past half {τ<0}, or at least the model atlas instance of btzTildeAtlas_isFutureDistinguishing_of_isCompact_image with ι = val, whose diamond images are compact), or rewrite the finding as 'non-vacuity at sing ≠ ∅ not established' and drop the incorrect coarser-topology argument."
+  },
+  {
+   "severity": "major",
+   "where": "lem:globally_hyperbolic_manifolds_maximal — dispatch deliverable; SCOPE (f)",
+   "problem": "The dispatched re-proof is absent: 'M GH ⇒ the lift of a Cauchy surface is Cauchy, M̃ GH' in the natural topology. No theorem produces natCausality.GloballyHyperbolic from GH of M. The paper's l.2359 statement does not need it, and the previous route (isFutureDistinguishing_of_base) stays. But this was the package's primary charge and the point of DEC-106, and it leaves issue 3's hypothesis without a producer. It is disclosed honestly, with a specific obstruction (infinite fibres; the limit step at BTZ sheets).",
+   "fix": "Either attack it (finite-sheet lemma over compact sets in M, plus the lifted-chart limit step), or have the master accept the disclosed obstruction and re-dispatch. Either way it should be listed under 'sorries/obstructions' of the row rather than only in findings."
+  },
+  {
+   "severity": "minor",
+   "where": "GX.BTZTildeData.natCausality docstring (l.2009–2012); SCOPE (f)",
+   "problem": "Two claims are unproved. The docstring says natCausality's ≪ is 'the largest part of ≪ the openness axiom lets through at the BTZ points', and SCOPE (f) says no causality on the natural topology carries the geometric ≪. Both are argued in the model and not formalized. They are the stated justification for the reading in issue 1.",
+   "fix": "Mark both as argued (not formalized) in the docstring, or prove the model case (I⁻(y) ∋ s not naturally open at a BTZ point s)."
+  },
+  {
+   "severity": "minor",
+   "where": "GX.BTZTildeData.ofNat (l.1976)",
+   "problem": "The name ofNat inside namespace BTZTildeData reads like the OfNat numeral machinery (kb/0016, namespace shadowing). It is harmless here, because numerals elaborate through the fully qualified OfNat.ofNat, but it is confusing.",
+   "fix": "Optional: rename it to fromNat or natToSpace in a later wave."
+  }
+ ],
+ "checks": {
+  "1_build_and_sorry": "pass: warningAsError build clean, 0 real sorry, lake build GX green, no Causal rebuild",
+  "2_statement_fidelity": "fail: two rows plus one definition certify FD / future completeness for the T'-causality while DEC-106 places M̃'s causality in the natural topology. The file's own natural causality makes the literal FD statement false (proved by the auditor). The BTZ-manifold halves, causal connectedness and lem:increasing_map are faithful.",
+  "3_docstring_contract": "fail: **marks** on lem:globally_hyperbolic_manifolds_manifolds, lem:globally_hyperbolic_manifolds_maximal and def:manifold_future_complete_all rest on an unruled reading",
+  "4_report_honest_complete": "mostly: all 8 labels are listed and the reading question and missing deliverable are disclosed. But it marks rows closed that it says should be downgraded if the reading is rejected, says 'Content unchanged' for def:manifold_future_complete_all, and its non-vacuity finding uses an incorrect argument.",
+  "5_missing_labels_or_parts": "the dispatched intermediate (M̃ GH, natural) is missing; no paper label is missing",
+  "6_cited_results_proved": "pass: no cited result is assumed; strong causality and closedness of J⁺ of M come from lean-causal's proved GH API",
+  "7_name_clashes": "pass"
+ },
+ "questions_for_master": [
+  "Under DEC-106, should 'future distinguishing' and 'future complete' for M̃ be read for the chart-generated ≪ of (M̃, T_BTZ), as the file does, given that no natural-topology Causality carries that ≪ at BTZ points (argued) and the file's natCausality makes FD false? This needs an author ruling before lem:globally_hyperbolic_manifolds_maximal, the BTZ~ half of lem:globally_hyperbolic_manifolds_manifolds and def:manifold_future_complete_all can be marked.",
+  "Are D-10 (∀ x,y ∈ M̃) and WP-41d's readings of prop:manifold_admits_galoisian_maximal (chartwise T_BTZ; local BTZ~), which the WP-43e curation gave as the reason lem:increasing_map and the causal-connectedness row were partial, now accepted by a DEC? None was found; the dispatch is the only acceptance."
+ ]
+}

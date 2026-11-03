@@ -5,47 +5,45 @@ import Causal.Flat.Lox.PastProper
 /-!
 # `GXScaffold.BTZ.Uniformization` — uniformization of GH Cauchy-compact Cauchy-maximal `𝔼₀`-manifolds
 
-Packages WP-41n and WP-43f (WAVE5-PLAN.md, WP-39n). `papers/gx`, §4.6 (`RamcovGX.tex:2348–2396`), DEC-28's
-Cauchy-compact form (`brunswic2021cauchy` Prop 2.17 / Cor 2.18), DEC-75/76/77.
+Packages WP-41n, WP-43f, WP-44g (WAVE5-PLAN.md, WP-39n). `papers/gx`, §4.6
+(`RamcovGX.tex:2348–2396`), DEC-28 (Cauchy-compact, `brunswic2021cauchy` Cor 2.18), DEC-107
+(Cauchy-compact = a compact `C¹` spacelike Cauchy surface), DEC-75/76/77, DEC-106, DEC-31.
 **No ledger label is certified in full here, so nothing is marked.** Two rows, both partial:
 
 * `theo:globally_hyperbolic_cauchy_complete_cauchy_maximal` — `RamcovGX.tex:2363`, partial
-  (DEC-27/28): `GX.btz_uniformization` — for `M` GH, Cauchy-compact, Cauchy-maximal, with a BTZ
-  point (`s ≥ 1`) and `π₁(Reg M)` not metabelian, and **every** developing pair `(𝒟, ρ)` of
-  `Reg M`: `𝒟` injective on `Reg M̃`; `ρ` faithful, discrete, torsion-free; a loxodromic in
-  `ρ(Γ)` (DEC-75); the `Γ`-invariant family of lightlike planes `(Π_w)_{w ∈ Λ(Γ)}`;
-  `𝒟(Reg M̃) = ⋂_w I⁺(Π_w)` (an equality, future case, DEC-77 (a)); `Γ` free and properly
-  discontinuous; `Reg M̃` future complete; `𝒟` induces an isometry `Reg M ≅ ρ(Γ)\Ω⁺`. The future
-  case is PROVED (WP-43f, 0 `sorry` in this file): `GX.e0RegM_range_not_subset_omegaMinus`, from
-  `GX.false_of_sing_of_pastComplete` (a BTZ point forbids an injective past-complete developed
-  `Reg M̃`; standard axioms only). The (O2) hypothesis `hLine` of WP-41n is discharged
-  (`GX.E0AbsMax.cor_abs_max_e0`). The `sorry`s left beneath the row are upstream only (SCOPE (d)). The BTZ
-  half (`𝒟` on `sing M̃`, the rays `Δ_i`, `T_BTZ` near them) is not formalized (SCOPE (b)), except
-  the injectivity step `GX.BTZTildeData.injective_D_of_isBTZFutureComplete` (l.2392–2394).
+  (DEC-27/28). Form of record `GX.btz_uniformization_C1` (DEC-107): for `M` GH, Cauchy-maximal,
+  with a compact `C¹` spacelike Cauchy surface, a BTZ point (`s ≥ 1`), `π₁(Reg M)` not
+  metabelian, and **every** developing pair `(𝒟, ρ)` of `Reg M`: a loxodromic in `ρ(Γ)` (DEC-75);
+  `𝒟` injective on `Reg M̃`; `ρ` faithful, discrete, torsion-free; the `Γ`-invariant planes
+  `(Π_w)_{w ∈ Λ}`; `𝒟(Reg M̃) = ⋂_w I⁺(Π_w)` (equality, future case PROVED, DEC-77 (a)); `Γ` free
+  and properly discontinuous; `Reg M̃` future complete; `𝒟` induces `Reg M ≅ ρ(Γ)\Ω⁺`; every BTZ
+  point starts a full future BTZ ray. With DEC-76's « non-abelian » when `π₁(Reg M)` is free:
+  `GX.btz_uniformization_C1_of_isFreeGroup` (`GX.not_isMetabelianGroup_of_isFreeGroup`). The
+  topological-Cauchy-compact form `GX.btz_uniformization` is kept. Not formalized: `𝒟` on
+  `sing M̃`, the rays `Δ_i ⊂ ∂Ω`, `M ≅ ρ\𝒟(M̃)` with `T_BTZ` (SCOPE (b)); `sorry`s upstream only.
 * `prop:globally_hyperbolic_cauchy_complete_manifolds` — `RamcovGX.tex:2348`, partial, corrected
-  (DEC-77): `GX.btz_reg_isFutureComplete` — GH + Cauchy-compact + Cauchy-maximal + `π₁(Reg M)` not
-  metabelian + a BTZ point ⇒ the **regular part** is future complete (the proof's first step,
-  l.2350); the BTZ rays (B21 Lemma 2.3) are not. The counterexample to the printed statement
-  (D-11) is built, 0 `sorry`: `GX.e0PastHalf_counterexample` — `{τ<0} ⊂ 𝔼₀` is a GH
-  `𝔼₀`-manifold with BTZ points, and for every developing pair of `Reg {τ<0}` and every `z`,
-  `𝒟(I⁺(z)) ≠ I⁺(𝒟 z)` (`GX.e0PastHalf_not_isFutureComplete`); its Cauchy-completeness (DEC-31)
-  is not stated, the scaffold having no DEC-31 predicate for `𝔼₀`-manifolds (SCOPE (c)).
+  (DEC-77). Form of record `GX.btz_isFutureComplete_C1`: GH + Cauchy-maximal + compact `C¹`
+  spacelike Cauchy surface + a BTZ point + `π₁(Reg M)` not metabelian ⇒ (1) `Reg M̃` future
+  complete for every developing pair (l.2350) and (2) full future BTZ rays from every BTZ point
+  (l.2352, `E0Spear.exists_fullFutureBTZRay_e0`, B21 Lemma 2.3). The counterexample to the
+  printed statement: `GX.e0PastHalf_counterexample` (0 `sorry`: `{τ<0}` GH, BTZ points, no
+  developing pair of `Reg {τ<0}` future complete) and, with the printed hypothesis in DEC-31's
+  sense (`GX.IsE0CauchyComplete`, defined here), `GX.e0PastHalf_counterexample_DEC31`, whose
+  DEC-31 half `GX.e0PastHalf_isE0CauchyComplete` is this file's one tagged `sorry` (SCOPE (c)).
 
 Proved here, of general use (0 `sorry`, standard axioms only):
 
 * `GX.uniformization_range_eq_of_absMax`, `GX.uniformization_of_absMax`: Barbot's equality
   `𝒟(M̃) = Ω^±(Λ(Γ))` for any absolutely maximal flat spacetime with (CC′) and a loxodromic, with
-  the quotient `M ≅ ρ(Γ)\Ω^±` (`GX.exists_isometry_quotient_of_absMax`, `GX.uniformization_quotient_aux`).
-* `GX.isFutureComplete_of_range_eq_omegaPlus`: `𝒟` injective onto `Ω⁺(Λ)` ⇒ `M̃` future complete.
-* `GX.injective_of_isFutureComplete`: the injectivity step of l.2392–2394, for any causality.
-* `GX.exists_affine_eq_of_locally`: a function locally affine through an open map is globally
-  affine on a preconnected space; `GX.pastHalf_rad_locally`: `r` is affine in `𝒟` near every point.
-* `GX.false_of_sing_of_pastComplete` (WP-43f): an `𝔼₀`-manifold with a BTZ point has no developing
-  map of `Reg M̃` that is injective with a past-complete image — the radial segment into the BTZ
-  point lifts into one component of the lifted sector, where `𝒟 = g • chartMap`
-  (`GX.dev_eventually_chartMap_sector`, `GX.exists_isom_eq_of_locally`), so its development
-  converges to a point of `J⁻(𝒟 z̃)`; past completeness and the open embedding `𝒟` would make the
-  BTZ point regular.
+  the quotient `M ≅ ρ(Γ)\Ω^±` (`GX.exists_isometry_quotient_of_absMax`).
+* `GX.btz_uniformization_reg_of_regM`, `GX.e0RegM_range_not_subset_omegaMinus_of_regM` (WP-44g):
+  the headline's `Reg M` content from the triple « `Reg M` GH, Cauchy-complete, absolutely
+  maximal » alone, so any form of Cor 2.18 feeds it.
+* `GX.not_isMetabelianGroup_of_isFreeGroup` (WP-44g): a non-abelian free group is not metabelian
+  (two generators onto `F₂`, where `⁅⁅a, b⁆, ⁅a, b⁻¹⁆⁆ ≠ 1` is decided by reduction).
+* `GX.isFutureComplete_of_range_eq_omegaPlus`, `GX.injective_of_isFutureComplete`,
+  `GX.exists_affine_eq_of_locally`, `GX.false_of_sing_of_pastComplete` (WP-43f: a BTZ point
+  forbids an injective developed `Reg M̃` with past-complete image).
 
 > \begin{prop} Globally hyperbolic Cauchy-complete $\BTZ$-manifolds are future complete.
 > \end{prop} \begin{proof} From Theorem 3 of \cite{brunswic2021cauchy} the regular par of $M$ is
@@ -65,52 +63,51 @@ Proved here, of general use (0 `sorry`, standard axioms only):
 > isomorphism $M\xrightarrow{~~\overline \D~~} \rho\backslash\D(\widetilde M)$. \end{thm}
 > (l.2363–2376)
 
-## Hypothesis checklist
+## Hypothesis checklist (forms of record `btz_uniformization_C1`, `btz_isFutureComplete_C1`)
 
 | paper / ruling | here |
 |---|---|
-| `M` globally hyperbolic (l.2363) | ✓ carried: `(CE M).GloballyHyperbolic` (ETT's, the charted causality) |
-| Cauchy-complete (l.2363) | ⚠ strengthened: **Cauchy-compact** `E0CauchyCompact M` (DEC-28; Barbot's equality needs absolute maximality, which B21 gives only via Cor 2.18) |
-| Cauchy-maximal (l.2363) | ✓ carried: `IsE0CauchyMaximal M` (DEC-77 (c), `Dev.IsETTMaximal` among `𝔼₀`-manifolds) |
-| finite type, `π₁(Σ∖sing)` non-abelian, `s ≥ 1` (DEC-76) | ⚠ strengthened: `π₁(Reg M)` **not metabelian** (Holonomy's finding: non-abelian is refuted algebraically); `s ≥ 1` ✓ as `(chartedSing e0SingY M 0).Nonempty` |
-| "up to time reversal" (dropped, DEC-77 (a)) | ✓ the future case is concluded and PROVED (`e0RegM_range_not_subset_omegaMinus`, WP-43f) |
-| `M` second countable | ⚠ carried, as in `GXScaffold.BTZ.AbsMax` (Cor 2.18's form; implicit in "manifold"); (O2) `hLine` is no longer a hypothesis (`E0AbsMax.e0_hLine`) |
-| the given pair `(𝒟, ρ)` (l.2365) | ✓ every developing pair of `Reg M` is a hypothesis, not an `∃` |
-| `𝒟` injective | ⚠ on `Reg M̃` ✓; on `M̃`: the step l.2392–2394 proved, its inputs carried |
+| `M` globally hyperbolic (l.2363) | ✓ carried: `(CE M).GloballyHyperbolic` (ETT's, the charted causality of `M`) |
+| Cauchy-complete (l.2363) | ⚠ strengthened (DEC-28): Cauchy-compact, read per DEC-107 as `∃ S, E0Surgery.IsE0C1SpacelikeCauchy M S` (B21 l.227; no smoothing) |
+| Cauchy-maximal (l.2363) | ✓ carried: `IsE0CauchyMaximal M` (DEC-77 (c)) |
+| finite type, `π₁(Σ∖sing)` non-abelian, `s ≥ 1` (DEC-76) | ⚠ `π₁(Reg M)` **not metabelian** (non-abelian is refuted algebraically, `GX.exists_nonabelian_subgroup_noLox`); or « free and non-abelian » (`_of_isFreeGroup`); `s ≥ 1` ✓ `(chartedSing e0SingY M 0).Nonempty` |
+| "up to time reversal" (dropped, DEC-77 (a)) | ✓ the future case is concluded and PROVED |
+| `M` second countable | ⚠ carried (implicit in « manifold »; Cor 2.18's form) |
+| the given pair `(𝒟, ρ)` (l.2365) | ✓ every developing pair of `Reg M` is a hypothesis |
+| `𝒟` injective | ⚠ on `Reg M̃` ✓; on `M̃`: the step l.2392–2394 proved (§5), its inputs carried |
 | `ρ` faithful, discrete, torsion-free | ✓ |
-| `D(M̃) = (⋃Δᵢ) ∪ ⋂ I⁺(Πⱼ)` (DEC-28's display) | ⚠ the regular half `𝒟(Reg M̃) = ⋂ I⁺(Π_w)` ✓ (equality); the rays `Δ_i` ✗ |
-| `M ≅ ρ\D(M̃)`, BTZ topology | ⚠ `Reg M ≅ ρ(Γ)\Ω⁺` ✓ (isometry, `𝒟`-induced); at the BTZ points ✗ |
+| `D(M̃) = (⋃Δᵢ) ∪ ⋂ I⁺(Πⱼ)` (DEC-28's display) | ⚠ `𝒟(Reg M̃) = ⋂ I⁺(Π_w)` ✓ (equality); the full future BTZ rays of `M` ✓; the rays `Δ_i = 𝒟(S_x)` in `∂Ω` ✗ |
+| `M ≅ ρ\D(M̃)`, BTZ topology (DEC-106: `T_BTZ` here only) | ⚠ `Reg M ≅ ρ(Γ)\Ω⁺` ✓ (isometry, `𝒟`-induced); at the BTZ points ✗ |
+| prop: « future complete » (`def:manifold_future_complete_all` over `M̃`) | ⚠ read as the proof's two steps: `Reg M̃` future complete ✓ + full future BTZ rays ✓ (the literal natural-topology reading is unsatisfiable once `sing M ≠ ∅`, `GX.BTZTildeData.not_isFutureComplete_natCausality`, WP-44c) |
 
 ## SCOPE (disclosed)
 
-* (a) **The future-case selection** (DEC-77 (a)) is PROVED (WP-43f), by a route that needs neither
-  `𝒟` extended to the BTZ points nor the parabolic holonomy of the loop around a line: in the past
-  case `𝒟(Reg M̃) = Ω⁻(Λ)` is past complete, and `GX.false_of_sing_of_pastComplete` refutes that.
-  The future case `Ω⁺ ⊆ Ω⁻` is excluded by `Ω⁺ ∩ Ω⁻ = ∅` (`Λ ≠ ∅`, the loxodromic).
+* (a) **The future-case selection** (DEC-77 (a)) is PROVED (WP-43f): in the past case
+  `𝒟(Reg M̃) = Ω⁻(Λ)` is past complete, which `GX.false_of_sing_of_pastComplete` refutes.
 * (b) **The BTZ half of the headline is not formalized**: `𝒟` on `sing M̃`, the rays
-  `Δ_i = 𝒟(S_x)` in `∂Ω`, the image `(⋃Δ_i) ∪ Ω`, and `M ≅ ρ\𝒟(M̃)` for the BTZ topology. They live
-  on the maximal branched covering `BTZTildeData` (GX.BTZ.Manifolds), built over the
-  `SingularGXStructure` presentation of `M`, while Cauchy-compactness, Cauchy-maximality and
-  absolute maximality of `Reg M` are stated for `ChartedSpace E0Y M` (GXScaffold.BTZ.AbsMax). No
-  bridge identifies the two presentations, nor `reg M̃` with the universal cover of `Reg M`. The
-  injectivity step is proved abstractly and on `BTZTildeData`, with its inputs as hypotheses.
-* (c) `prop:globally_hyperbolic_cauchy_complete_manifolds`: the regular part only; "full future
-  BTZ rays" (B21 Lemma 2.3, the paper's "Lemma 2.4") and future completeness at BTZ points are
-  not formalized. The counterexample `{τ<0} ⊂ 𝔼₀` (D-11, §4b) is proved GH
-  (`GX.e0PastHalf_globallyHyperbolic`), with BTZ points (`GX.e0PastHalf_sing_nonempty`), and not
-  future complete on its regular part for every developing pair
-  (`GX.e0PastHalf_not_isFutureComplete`): `r = t − x` read through `𝒟` is globally affine, strictly
-  increasing along `I⁺` and bounded by `r(z) − 2τ(z)` there since `τ < 0`, while an affine
-  function is unbounded on a timelike ray. Its Cauchy-completeness (the printed hypothesis, the
-  plane `{τ = −1}` with `dr² + r²dθ²`) is **not stated**: the scaffold has no DEC-31 predicate for
-  `𝔼₀`-manifolds (the induced length structure across the BTZ lines is Surgery's obstruction
-  (3)), and `Causal.Flat.IsCauchyComplete` of `Reg {τ<0}` is not the paper's hypothesis (we expect
-  it to fail: no cusp surgery is available below `τ = 0`).
-* (d) Upstream `sorry`s inherited (`#print axioms`, `campaign/WP-43f/axioms.out`), all through
-  `GX.E0AbsMax.cor_abs_max_e0` (B21 Cor 2.18): the three open leaves of `GXScaffold.BTZ.AbsMax`
-  and `GX.E0Surgery.regM_isCauchyComplete` (`GXScaffold.BTZ.Surgery`). Everything proved in this
-  file, the `M̃` injectivity step included (WP-43e removed its upstream input), is on standard
-  axioms; the headline row cannot be marked until those upstream rows close.
+  `Δ_i = 𝒟(S_x)` in `∂Ω`, the image `(⋃Δ_i) ∪ Ω`, and `M ≅ ρ\𝒟(M̃)` for `T_BTZ` (DEC-106: the
+  only place `T_BTZ` enters). They live on the maximal branched covering `BTZTildeData`
+  (`GX.BTZ.Manifolds`), built over the `SingularGXStructure` presentation of `M`, while
+  Cauchy-compactness, Cauchy-maximality and absolute maximality of `Reg M` are stated for
+  `ChartedSpace E0Y M` (`GXScaffold.BTZ.AbsMax`). The bridge (a `SingularGXStructure` from the
+  `e0Groupoid` atlas, `reg M̃ ≃ₜ` the universal cover of `Reg M` over the base point, `𝒟`
+  restricted to `reg M̃` a developing pair of `Reg M`) is not built (WP-44g). What the BTZ half
+  needs beyond it: the limit `𝒟(x̃) = lim 𝒟` along the lifted radial segment
+  (`GX.dev_eventually_chartMap_sector` gives `𝒟 = g • chartMap` on a lifted sector), the
+  parabolic stabiliser of the developed line, and its position in `∂Ω⁺(Λ)`.
+* (c) `prop:globally_hyperbolic_cauchy_complete_manifolds`: the counterexample `{τ<0} ⊂ 𝔼₀` is
+  GH, has BTZ points and no future-complete developed `Reg` (0 `sorry`). Its Cauchy-completeness
+  in DEC-31's sense (`GX.IsE0CauchyComplete`: a Cauchy surface, spacelike Lipschitz in the flat
+  charts of `Reg M`, complete for the length of `GX.e0SliceSys`, which measures in the flat charts
+  and is constant at BTZ points) is stated, `GX.e0PastHalf_isE0CauchyComplete`, and rests on a
+  tagged `sorry`: `{τ = −1}` Cauchy in `{τ<0}`, spacelike Lipschitz, and its length metric the
+  Euclidean metric of `ℂ` — none of the three is built anywhere.
+* (d) Upstream `sorry`s inherited (`#print axioms`, `campaign/WP-44g/axioms.out`). The forms of
+  record go through `GX.E0AbsMax.cor_abs_max_C1`: `GXScaffold.BTZ.AbsMax`'s three open leaves
+  (`sing_eq_of_le_of_le_of_stronglyCausalOn_e0`, `exists_small_cauchyChart`,
+  `E0Pushout.isCompact_diamond_mixed`) and `GXScaffold.BTZ.Surgery`'s (G3), (G4a), (G5) under
+  `regM_isCauchyComplete_of_C1`; the not-owed (G0) smoothing is off their path (it remains under
+  the kept topological forms). The headline rows cannot be marked until those rows close.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; lean-causal `ca2ad78`
 (`lake-manifest.json`).
@@ -763,6 +760,68 @@ theorem false_of_sing_of_pastComplete (hsing : (Causal.CBG.chartedSing e0SingY M
 
 end FutureSelection
 
+/-! ## §3c A non-abelian free group is not metabelian (DEC-76's « non-abelian », algebraically) -/
+
+section FreeMetabelian
+
+open scoped commutatorElement
+
+/-- In `F₂ = ⟨a, b⟩`, the commutators `⁅a, b⁆` and `⁅a, b⁻¹⁆` do not commute (by reduction). -/
+theorem freeGroup_fin2_comm_ne :
+    ⁅⁅FreeGroup.of (0 : Fin 2), FreeGroup.of (1 : Fin 2)⁆,
+      ⁅FreeGroup.of (0 : Fin 2), (FreeGroup.of (1 : Fin 2))⁻¹⁆⁆ ≠ 1 := by
+  decide
+
+/-- A free group on at most one generator is commutative. -/
+theorem freeGroup_commute_of_subsingleton {X : Type*} [Subsingleton X] (a b : FreeGroup X) :
+    Commute a b := by
+  induction a using FreeGroup.induction_on with
+  | C1 => exact Commute.one_left b
+  | of x =>
+    induction b using FreeGroup.induction_on with
+    | C1 => exact Commute.one_right _
+    | of y => rw [Subsingleton.elim x y]
+    | inv_of y h => exact h.inv_right
+    | mul y z hy hz => exact hy.mul_right hz
+  | inv_of x h => exact h.inv_left
+  | mul x y hx hy => exact hx.mul_left hy
+
+/-- A free group on two distinct generators is not metabelian. -/
+theorem freeGroup_not_isMetabelianGroup {X : Type*} {a b : X} (hab : a ≠ b) :
+    ¬ IsMetabelianGroup (FreeGroup X) := by
+  classical
+  intro h
+  set f : FreeGroup X →* FreeGroup (Fin 2) :=
+    FreeGroup.lift (fun i => if i = a then FreeGroup.of 0 else if i = b then FreeGroup.of 1 else 1)
+  have h1 := congrArg f (h (FreeGroup.of a) (FreeGroup.of b) (FreeGroup.of a) (FreeGroup.of b)⁻¹)
+  simp only [map_commutatorElement, map_inv, map_one, f, FreeGroup.lift_apply_of,
+    if_neg (Ne.symm hab)] at h1
+  exact freeGroup_fin2_comm_ne h1
+
+/-- **A non-abelian free group is not metabelian.** -/
+theorem not_isMetabelianGroup_of_isFreeGroup {G : Type*} [Group G] [IsFreeGroup G]
+    (hna : ∃ x y : G, x * y ≠ y * x) : ¬ IsMetabelianGroup G := by
+  intro h
+  set e := IsFreeGroup.toFreeGroup G
+  by_cases hs : Subsingleton (IsFreeGroup.Generators G)
+  · obtain ⟨x, y, hxy⟩ := hna
+    apply hxy
+    apply e.injective
+    rw [map_mul, map_mul]
+    exact (freeGroup_commute_of_subsingleton (e x) (e y)).eq
+  · obtain ⟨a, b, hab⟩ := (not_subsingleton_iff_nontrivial.1 hs).exists_pair_ne
+    exact freeGroup_not_isMetabelianGroup hab fun p q r s => by
+      have := h (e.symm p) (e.symm q) (e.symm r) (e.symm s)
+      apply e.symm.injective
+      simpa [map_commutatorElement] using this
+
+/-- `not_isMetabelianGroup_of_isFreeGroup` with freeness as an explicit hypothesis. -/
+theorem not_isMetabelianGroup_of_isFreeGroup' {G : Type*} [Group G] (hfree : IsFreeGroup G)
+    (hna : ∃ x y : G, x * y ≠ y * x) : ¬ IsMetabelianGroup G :=
+  not_isMetabelianGroup_of_isFreeGroup hna
+
+end FreeMetabelian
+
 /-! ## §4 The `𝔼₀` case: `Reg M` of a GH Cauchy-compact Cauchy-maximal `𝔼₀`-manifold -/
 
 section E0
@@ -773,6 +832,7 @@ open scoped Causal.Flat
 variable {M : Type} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M]
   [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid]
 
+omit [SecondCountableTopology M] in
 /-- **The uniformization of `Reg M`** (gx l.2377–2381 and l.2400–2403 on the regular part, in
 DEC-28's Cauchy-compact form): for `M` a globally hyperbolic, Cauchy-compact, Cauchy-maximal
 `𝔼₀`-manifold whose `π₁(Reg M)` is not metabelian, and **every** developing pair `(𝒟, ρ)` of
@@ -782,6 +842,63 @@ the future case, `𝒟(Reg M̃) = Ω⁺(Λ) = ⋂_w I⁺(Π_w)` (**equality**, B
 `ρ(π₁)` free and properly discontinuous on it, `Reg M̃` future complete, and `𝒟` induces
 `Reg M ≅ ρ(π₁)\Ω⁺(Λ)` — or the time-reversed statement. The case selection is
 `btz_uniformization`'s. -/
+theorem btz_uniformization_reg_of_regM
+    (hRM : Causal.Flat.GH (e0RegMFlat M) ∧ Causal.Flat.IsCauchyComplete 2 (e0RegMFlat M) ∧
+      Causal.Flat.AbsMax (fun _ => True) (e0RegMFlat M)) (x₀ : e0RegMFlat M)
+    (hnm : ¬IsMetabelianGroup (Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀)))
+    (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
+    (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2)
+    (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ) :
+    (∃ γ ∈ ρ.range, Causal.Flat.IsLoxodromic (Causal.Flat.linOf γ)) ∧ Injective D ∧
+      Injective ρ ∧ DiscreteTopology ρ.range ∧ Causal.Flat.IsTorsionFreeSubgroup ρ.range ∧
+      (∀ γ ∈ ρ.range, ∀ w ∈ Causal.Flat.limitSetJ ρ.range,
+        Causal.Flat.isomPenrose γ w ∈ Causal.Flat.limitSetJ ρ.range ∧
+          (fun p => γ • p) '' nullPlane w = nullPlane (Causal.Flat.isomPenrose γ w)) ∧
+      ((Causal.Flat.FutureRegular (Causal.Flat.limitSetJ ρ.range) ∧
+          range D = Causal.Flat.omegaPlus (Causal.Flat.limitSetJ ρ.range) ∧
+          Causal.Flat.omegaPlus (Causal.Flat.limitSetJ ρ.range) =
+            ⋂ w ∈ Causal.Flat.limitSetJ ρ.range, (Causal.minkowski 2).Iplus ⊤ (nullPlane w) ∧
+          Causal.Flat.ActsFreelyProperlyOn ρ.range
+            (Causal.Flat.omegaPlus (Causal.Flat.limitSetJ ρ.range)) ∧
+          (letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat M) x₀
+           haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat M) x₀
+           IsFutureComplete
+            (Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat M) x₀)) D) ∧
+          ∃ (B : Causal.Flat.FlatSpacetime.{0} 2) (π : Causal.Flat.limitOpensPlus ρ.range → B),
+            IsCoveringMap π ∧ Causal.Flat.IsLocalIsometry 2 π ∧ Surjective π ∧
+            (∀ p q : Causal.Flat.limitOpensPlus ρ.range,
+              π p = π q ↔ ∃ γ ∈ ρ.range, γ • (p : Causal.Minkowski 2) = q) ∧
+            Causal.Flat.GH B ∧
+            ∃ f : e0RegMFlat M ≃ₜ B, Causal.Flat.IsLocalIsometry 2 f ∧
+              ∀ z (hz : D z ∈ Causal.Flat.limitOpensPlus ρ.range),
+                f (Causal.UniversalCover.proj (e0RegMFlat M) x₀ z) = π ⟨D z, hz⟩) ∨
+        (Causal.Flat.PastRegular (Causal.Flat.limitSetJ ρ.range) ∧
+          range D = Causal.Flat.omegaMinus (Causal.Flat.limitSetJ ρ.range) ∧
+          Causal.Flat.omegaMinus (Causal.Flat.limitSetJ ρ.range) =
+            ⋂ w ∈ Causal.Flat.limitSetJ ρ.range, (Causal.minkowski 2).Iminus ⊤ (nullPlane w) ∧
+          Causal.Flat.ActsFreelyProperlyOn ρ.range
+            (Causal.Flat.omegaMinus (Causal.Flat.limitSetJ ρ.range)) ∧
+          ∃ (B : Causal.Flat.FlatSpacetime.{0} 2) (π : Causal.Flat.limitOpensMinus ρ.range → B),
+            IsCoveringMap π ∧ Causal.Flat.IsLocalIsometry 2 π ∧ Surjective π ∧
+            (∀ p q : Causal.Flat.limitOpensMinus ρ.range,
+              π p = π q ↔ ∃ γ ∈ ρ.range, γ • (p : Causal.Minkowski 2) = q) ∧
+            Causal.Flat.GH B ∧
+            ∃ f : e0RegMFlat M ≃ₜ B, Causal.Flat.IsLocalIsometry 2 f ∧
+              ∀ z (hz : D z ∈ Causal.Flat.limitOpensMinus ρ.range),
+                f (Causal.UniversalCover.proj (e0RegMFlat M) x₀ z) = π ⟨D z, hz⟩)) := by
+  obtain ⟨hGH', hCC', hAM⟩ := hRM
+  obtain ⟨hlox, hD, hρ, hdisc, htf, hinv, -⟩ := e0RegM_holonomy M hGH' hCC' x₀ hnm D ρ hpair
+  obtain ⟨S, hS⟩ := Causal.Flat.exists_developsCC_of_isCauchyComplete' (e0RegMFlat M) hGH' hCC' hpair
+  obtain ⟨-, hcase⟩ := uniformization_of_absMax (e0RegMFlat M) hpair hGH'.1 hS hlox hAM
+  refine ⟨hlox, hD, hρ, hdisc, htf, hinv, ?_⟩
+  rcases hcase with ⟨hF, hr, hfp, hB⟩ | ⟨hP, hr, hfp, hB⟩
+  · exact Or.inl ⟨hF, hr, omegaPlus_eq_iInter_Iplus _, hfp,
+      isFutureComplete_of_range_eq_omegaPlus (e0RegMFlat M) hpair hD hr, hB⟩
+  · exact Or.inr ⟨hP, hr, omegaMinus_eq_iInter_Iminus _, hfp, hB⟩
+
+/-- `btz_uniformization_reg` in the topological Cauchy-compact form (`E0CauchyCompact`, through
+`E0AbsMax.cor_abs_max_e0`); the DEC-107 form is `btz_uniformization_reg_of_regM` fed by
+`E0AbsMax.cor_abs_max_C1`. -/
 theorem btz_uniformization_reg (hGH : (CE M).GloballyHyperbolic) (hCC : E0CauchyCompact M)
     (hmax : IsE0CauchyMaximal M) (x₀ : e0RegMFlat M)
     (hnm : ¬IsMetabelianGroup (Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀)))
@@ -824,23 +941,17 @@ theorem btz_uniformization_reg (hGH : (CE M).GloballyHyperbolic) (hCC : E0Cauchy
             Causal.Flat.GH B ∧
             ∃ f : e0RegMFlat M ≃ₜ B, Causal.Flat.IsLocalIsometry 2 f ∧
               ∀ z (hz : D z ∈ Causal.Flat.limitOpensMinus ρ.range),
-                f (Causal.UniversalCover.proj (e0RegMFlat M) x₀ z) = π ⟨D z, hz⟩)) := by
-  obtain ⟨hGH', hCC', hAM⟩ := cor_abs_max_e0 hGH hCC hmax
-  obtain ⟨hlox, hD, hρ, hdisc, htf, hinv, -⟩ := e0RegM_holonomy M hGH' hCC' x₀ hnm D ρ hpair
-  obtain ⟨S, hS⟩ := Causal.Flat.exists_developsCC_of_isCauchyComplete' (e0RegMFlat M) hGH' hCC' hpair
-  obtain ⟨-, hcase⟩ := uniformization_of_absMax (e0RegMFlat M) hpair hGH'.1 hS hlox hAM
-  refine ⟨hlox, hD, hρ, hdisc, htf, hinv, ?_⟩
-  rcases hcase with ⟨hF, hr, hfp, hB⟩ | ⟨hP, hr, hfp, hB⟩
-  · exact Or.inl ⟨hF, hr, omegaPlus_eq_iInter_Iplus _, hfp,
-      isFutureComplete_of_range_eq_omegaPlus (e0RegMFlat M) hpair hD hr, hB⟩
-  · exact Or.inr ⟨hP, hr, omegaMinus_eq_iInter_Iminus _, hfp, hB⟩
+                f (Causal.UniversalCover.proj (e0RegMFlat M) x₀ z) = π ⟨D z, hz⟩)) :=
+  btz_uniformization_reg_of_regM (cor_abs_max_e0 hGH hCC hmax) x₀ hnm D ρ hpair
 
+omit [SecondCountableTopology M] in
 /-- **The future case is forced by a BTZ line** (DEC-77 (a); SCOPE D-11 (d)): if `M` has a BTZ
 point, the developed regular part does not lie in a past regular domain. By Barbot's equality
 (`btz_uniformization_reg`) `𝒟(Reg M̃) = Ω⁺(Λ)` or `Ω⁻(Λ)`; the first is disjoint from `Ω⁻(Λ)`
 (`Λ ≠ ∅`), the second is past complete, which `false_of_sing_of_pastComplete` refutes. -/
-theorem e0RegM_range_not_subset_omegaMinus (hGH : (CE M).GloballyHyperbolic)
-    (hCC : E0CauchyCompact M) (hmax : IsE0CauchyMaximal M)
+theorem e0RegM_range_not_subset_omegaMinus_of_regM
+    (hRM : Causal.Flat.GH (e0RegMFlat M) ∧ Causal.Flat.IsCauchyComplete 2 (e0RegMFlat M) ∧
+      Causal.Flat.AbsMax (fun _ => True) (e0RegMFlat M))
     (hsing : (Causal.CBG.chartedSing e0SingY M 0).Nonempty) (x₀ : e0RegMFlat M)
     (hnm : ¬IsMetabelianGroup (Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀)))
     (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
@@ -849,7 +960,7 @@ theorem e0RegM_range_not_subset_omegaMinus (hGH : (CE M).GloballyHyperbolic)
     ¬ range D ⊆ Causal.Flat.omegaMinus (Causal.Flat.limitSetJ ρ.range) := by
   intro hsub
   obtain ⟨hlox, hD, -, -, -, -, hcase⟩ :=
-    btz_uniformization_reg hGH hCC hmax x₀ hnm D ρ hpair
+    btz_uniformization_reg_of_regM hRM x₀ hnm D ρ hpair
   rcases hcase with ⟨-, hr, -⟩ | ⟨-, hr, -⟩
   · -- future case: `Ω⁺(Λ) ⊆ Ω⁻(Λ)` is impossible, `Λ ≠ ∅` (the loxodromic's fixed points)
     obtain ⟨γ, hγ, hl⟩ := hlox
@@ -863,6 +974,17 @@ theorem e0RegM_range_not_subset_omegaMinus (hGH : (CE M).GloballyHyperbolic)
     exact false_of_sing_of_pastComplete hsing hpair hD fun p z hpz => by
       rw [hr]
       exact Causal.Flat.Jminus_omegaMinus_subset _ ⟨D z, hr ▸ mem_range_self z, hpz⟩
+
+/-- `e0RegM_range_not_subset_omegaMinus` in the topological Cauchy-compact form. -/
+theorem e0RegM_range_not_subset_omegaMinus (hGH : (CE M).GloballyHyperbolic)
+    (hCC : E0CauchyCompact M) (hmax : IsE0CauchyMaximal M)
+    (hsing : (Causal.CBG.chartedSing e0SingY M 0).Nonempty) (x₀ : e0RegMFlat M)
+    (hnm : ¬IsMetabelianGroup (Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀)))
+    (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
+    (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2)
+    (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ) :
+    ¬ range D ⊆ Causal.Flat.omegaMinus (Causal.Flat.limitSetJ ρ.range) :=
+  e0RegM_range_not_subset_omegaMinus_of_regM (cor_abs_max_e0 hGH hCC hmax) hsing x₀ hnm D ρ hpair
 
 /-- **THE HEADLINE on the regular part, future case** (`theo:globally_hyperbolic_cauchy_complete_cauchy_maximal`,
 gx l.2363, in DEC-28's Cauchy-compact form with DEC-76/77): for `M` a globally hyperbolic,
@@ -926,7 +1048,191 @@ theorem btz_reg_isFutureComplete (hGH : (CE M).GloballyHyperbolic) (hCC : E0Cauc
     IsFutureComplete (Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat M) x₀)) D :=
   (btz_uniformization hGH hCC hmax hsing x₀ hnm D ρ hpair).2.2.2.2.2.2.2.2.2.2.1
 
+/-! ### §4a The forms of record (DEC-107: « Cauchy-compact » is a compact `C¹` spacelike Cauchy surface)
+
+`E0AbsMax.cor_abs_max_C1` feeds the `_of_regM` cores, so the not-owed (G0) smoothing
+`E0Surgery.exists_isE0C1SpacelikeCauchy` is off the path. The headline adds the BTZ side that is
+available on `M` itself: every BTZ point is the origin of a full future BTZ ray
+(`E0Spear.exists_fullFutureBTZRay_e0`, B21 Lemma 2.3 — the paper's « Lemma 2.4 », l.2352). -/
+
+/-- **THE HEADLINE, form of record** (`theo:globally_hyperbolic_cauchy_complete_cauchy_maximal`, gx
+l.2363, DEC-28 + DEC-107 + DEC-76/77): for `M` a globally hyperbolic Cauchy-maximal
+`𝔼₀`-manifold with a compact `C¹` spacelike Cauchy surface, at least one BTZ point, and
+`π₁(Reg M)` not metabelian, and **every** developing pair `(𝒟, ρ)` of `Reg M`: a loxodromic in
+`ρ(π₁)`; `𝒟` injective on `Reg M̃`; `ρ` faithful, discrete, torsion-free; the `ρ(π₁)`-invariant
+null planes `(Π_w)_{w ∈ Λ}`; `𝒟(Reg M̃) = Ω⁺(Λ) = ⋂_w I⁺(Π_w)`, freely and properly
+discontinuously acted on; `Reg M̃` future complete; `𝒟` induces an isometry
+`Reg M ≅ ρ(π₁)\Ω⁺(Λ)`; and every BTZ point of `M` starts a full future BTZ ray. -/
+theorem btz_uniformization_C1 (hGH : (CE M).GloballyHyperbolic)
+    (hCC : ∃ S : Set M, E0Surgery.IsE0C1SpacelikeCauchy M S)
+    (hmax : IsE0CauchyMaximal M) (hsing : (Causal.CBG.chartedSing e0SingY M 0).Nonempty)
+    (x₀ : e0RegMFlat M)
+    (hnm : ¬IsMetabelianGroup (Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀)))
+    (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
+    (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2)
+    (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ) :
+    (∃ γ ∈ ρ.range, Causal.Flat.IsLoxodromic (Causal.Flat.linOf γ)) ∧ Injective D ∧
+      Injective ρ ∧ DiscreteTopology ρ.range ∧ Causal.Flat.IsTorsionFreeSubgroup ρ.range ∧
+      (∀ γ ∈ ρ.range, ∀ w ∈ Causal.Flat.limitSetJ ρ.range,
+        Causal.Flat.isomPenrose γ w ∈ Causal.Flat.limitSetJ ρ.range ∧
+          (fun p => γ • p) '' nullPlane w = nullPlane (Causal.Flat.isomPenrose γ w)) ∧
+      Causal.Flat.FutureRegular (Causal.Flat.limitSetJ ρ.range) ∧
+      range D = Causal.Flat.omegaPlus (Causal.Flat.limitSetJ ρ.range) ∧
+      Causal.Flat.omegaPlus (Causal.Flat.limitSetJ ρ.range) =
+        ⋂ w ∈ Causal.Flat.limitSetJ ρ.range, (Causal.minkowski 2).Iplus ⊤ (nullPlane w) ∧
+      Causal.Flat.ActsFreelyProperlyOn ρ.range
+        (Causal.Flat.omegaPlus (Causal.Flat.limitSetJ ρ.range)) ∧
+      (letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat M) x₀
+       haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat M) x₀
+       IsFutureComplete
+        (Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat M) x₀)) D) ∧
+      (∃ (B : Causal.Flat.FlatSpacetime.{0} 2) (π : Causal.Flat.limitOpensPlus ρ.range → B),
+        IsCoveringMap π ∧ Causal.Flat.IsLocalIsometry 2 π ∧ Surjective π ∧
+        (∀ p q : Causal.Flat.limitOpensPlus ρ.range,
+          π p = π q ↔ ∃ γ ∈ ρ.range, γ • (p : Causal.Minkowski 2) = q) ∧
+        Causal.Flat.GH B ∧
+        ∃ f : e0RegMFlat M ≃ₜ B, Causal.Flat.IsLocalIsometry 2 f ∧
+          ∀ z (hz : D z ∈ Causal.Flat.limitOpensPlus ρ.range),
+            f (Causal.UniversalCover.proj (e0RegMFlat M) x₀ z) = π ⟨D z, hz⟩) ∧
+      ∀ p ∈ S0 M, ∃ γ : ℝ → M, E0Spear.IsFullFutureBTZRay p γ := by
+  obtain ⟨hlox, hD, hρ, hdisc, htf, hinv, hcase⟩ :=
+    btz_uniformization_reg_of_regM (cor_abs_max_C1 hGH hCC hmax) x₀ hnm D ρ hpair
+  rcases hcase with ⟨hF, hr, hI, hfp, hfc, hB⟩ | ⟨-, hr, -⟩
+  · exact ⟨hlox, hD, hρ, hdisc, htf, hinv, hF, hr, hI, hfp, hfc, hB,
+      fun p hp => E0Spear.exists_fullFutureBTZRay_e0 hGH hmax hp⟩
+  · exact absurd hr.subset (e0RegM_range_not_subset_omegaMinus_of_regM
+      (cor_abs_max_C1 hGH hCC hmax) hsing x₀ hnm D ρ hpair)
+
+/-- **`prop:globally_hyperbolic_cauchy_complete_manifolds` (l.2348), corrected (DEC-77), form of
+record (DEC-107)**: a globally hyperbolic Cauchy-maximal `𝔼₀`-manifold with a compact `C¹`
+spacelike Cauchy surface, a BTZ point and `π₁(Reg M)` not metabelian is future complete in the
+two senses of the paper's proof: (1) its regular part — for every developing pair of `Reg M` and
+every `z ∈ Reg M̃`, `𝒟(J⁺(z)) = J⁺(𝒟 z)` and `𝒟(I⁺(z)) = I⁺(𝒟 z)` (l.2350); (2) its singular
+locus contains full future BTZ rays — every BTZ point `p` is `γ 0` for a ray
+`γ(t) = ψ(v + t, 0)`, `ψ` an injective `𝔼₀`-morphism on a neighbourhood of the whole model ray
+(l.2352, B21 Lemma 2.3). -/
+theorem btz_isFutureComplete_C1 (hGH : (CE M).GloballyHyperbolic)
+    (hCC : ∃ S : Set M, E0Surgery.IsE0C1SpacelikeCauchy M S)
+    (hmax : IsE0CauchyMaximal M) (hsing : (Causal.CBG.chartedSing e0SingY M 0).Nonempty)
+    (x₀ : e0RegMFlat M)
+    (hnm : ¬IsMetabelianGroup (Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀)))
+    (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
+    (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2)
+    (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ) :
+    (letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat M) x₀
+     haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat M) x₀
+     IsFutureComplete (Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat M) x₀)) D) ∧
+      ∀ p ∈ S0 M, ∃ γ : ℝ → M, E0Spear.IsFullFutureBTZRay p γ :=
+  ⟨(btz_uniformization_C1 hGH hCC hmax hsing x₀ hnm D ρ hpair).2.2.2.2.2.2.2.2.2.2.1,
+    fun _ hp => E0Spear.exists_fullFutureBTZRay_e0 hGH hmax hp⟩
+
+/-! ### §4c DEC-76's « `π₁` non-abelian », through freeness
+
+A non-abelian free group is not metabelian (`GX.not_isMetabelianGroup_of_isFreeGroup`: map two
+distinct generators onto those of `F₂`, where `⁅⁅a, b⁆, ⁅a, b⁻¹⁆⁆ ≠ 1` is decided by reduction).
+So the headline holds with DEC-76's hypothesis « non-abelian » as soon as `π₁(Reg M)` is known to
+be free — the geometric fact (`Reg M ≅ (Σ ∖ sing) × ℝ`, `s ≥ 1`, a punctured surface has a free
+`π₁`) that is carried here as the hypothesis `IsFreeGroup`. -/
+
+/-- **The headline with DEC-76's « non-abelian »**, `π₁(Reg M)` being free. -/
+theorem btz_uniformization_C1_of_isFreeGroup (hGH : (CE M).GloballyHyperbolic)
+    (hCC : ∃ S : Set M, E0Surgery.IsE0C1SpacelikeCauchy M S)
+    (hmax : IsE0CauchyMaximal M) (hsing : (Causal.CBG.chartedSing e0SingY M 0).Nonempty)
+    (x₀ : e0RegMFlat M)
+    (hfree : IsFreeGroup (Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀)))
+    (hna : ∃ a b : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀), a * b ≠ b * a)
+    (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
+    (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2)
+    (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ) :
+    (∃ γ ∈ ρ.range, Causal.Flat.IsLoxodromic (Causal.Flat.linOf γ)) ∧ Injective D ∧
+      Injective ρ ∧ DiscreteTopology ρ.range ∧ Causal.Flat.IsTorsionFreeSubgroup ρ.range ∧
+      (∀ γ ∈ ρ.range, ∀ w ∈ Causal.Flat.limitSetJ ρ.range,
+        Causal.Flat.isomPenrose γ w ∈ Causal.Flat.limitSetJ ρ.range ∧
+          (fun p => γ • p) '' nullPlane w = nullPlane (Causal.Flat.isomPenrose γ w)) ∧
+      Causal.Flat.FutureRegular (Causal.Flat.limitSetJ ρ.range) ∧
+      range D = Causal.Flat.omegaPlus (Causal.Flat.limitSetJ ρ.range) ∧
+      Causal.Flat.omegaPlus (Causal.Flat.limitSetJ ρ.range) =
+        ⋂ w ∈ Causal.Flat.limitSetJ ρ.range, (Causal.minkowski 2).Iplus ⊤ (nullPlane w) ∧
+      Causal.Flat.ActsFreelyProperlyOn ρ.range
+        (Causal.Flat.omegaPlus (Causal.Flat.limitSetJ ρ.range)) ∧
+      (letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat M) x₀
+       haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat M) x₀
+       IsFutureComplete
+        (Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat M) x₀)) D) ∧
+      (∃ (B : Causal.Flat.FlatSpacetime.{0} 2) (π : Causal.Flat.limitOpensPlus ρ.range → B),
+        IsCoveringMap π ∧ Causal.Flat.IsLocalIsometry 2 π ∧ Surjective π ∧
+        (∀ p q : Causal.Flat.limitOpensPlus ρ.range,
+          π p = π q ↔ ∃ γ ∈ ρ.range, γ • (p : Causal.Minkowski 2) = q) ∧
+        Causal.Flat.GH B ∧
+        ∃ f : e0RegMFlat M ≃ₜ B, Causal.Flat.IsLocalIsometry 2 f ∧
+          ∀ z (hz : D z ∈ Causal.Flat.limitOpensPlus ρ.range),
+            f (Causal.UniversalCover.proj (e0RegMFlat M) x₀ z) = π ⟨D z, hz⟩) ∧
+      ∀ p ∈ S0 M, ∃ γ : ℝ → M, E0Spear.IsFullFutureBTZRay p γ :=
+  btz_uniformization_C1 hGH hCC hmax hsing x₀ (not_isMetabelianGroup_of_isFreeGroup' hfree hna)
+    D ρ hpair
+
 end E0
+
+/-! ## §4d DEC-31: Cauchy-completeness of an `𝔼₀`-manifold (the induced length metric)
+
+DEC-31: a Cauchy surface is Cauchy-complete when it is complete for its induced length metric —
+lengths measured in the flat charts, the length structure extended across the singular lines. On
+`S ⊆ M` the chart system `e0SliceSys S` reads a point `y` in the flat chart of `Reg M` at a regular
+`x`, and is constant at a BTZ point `x`, so a curve of `S` has density `√(q(ċ))` at a regular
+time and `0` at a BTZ time: the length of a curve is the integral of its regular densities (the
+lengths of its regular pieces), which is the extension across the lines. This is
+`Causal.Flat.IsCauchyComplete` (Barbot l.551–553, DEC-35) with the regular flat charts and that
+extension; on a manifold with no BTZ point it is the chart system of `Causal.Flat.chartSys`. -/
+
+section DEC31
+
+open E0CBG
+
+variable {M : Type} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [ChartedSpace E0Y M]
+  [HasGroupoid M e0Groupoid]
+
+/-- **The length chart system of `S ⊆ M`** (DEC-31): the flat chart of `Reg M` at a regular
+point, constant (`0`) at a BTZ point. -/
+noncomputable def e0SliceSys (S : Set M) (x y : S) : Causal.Minkowski 2 := by
+  classical
+  exact if hx : (x : M) ∈ E0LM.e0RegM M then
+    if hy : (y : M) ∈ E0LM.e0RegM M then
+      chartAt (Causal.Minkowski 2) (show e0RegMFlat M from (⟨x, hx⟩ : E0LM.e0RegM M))
+        (show e0RegMFlat M from (⟨y, hy⟩ : E0LM.e0RegM M))
+    else 0
+  else 0
+
+/-- At a BTZ point the length chart system is constant. -/
+theorem e0SliceSys_of_not_mem {S : Set M} {x : S} (hx : (x : M) ∉ E0LM.e0RegM M) (y : S) :
+    e0SliceSys S x y = 0 := by
+  simp [e0SliceSys, hx]
+
+/-- At a regular point, the length chart system is the flat chart of `Reg M`. -/
+theorem e0SliceSys_of_mem {S : Set M} {x y : S} (hx : (x : M) ∈ E0LM.e0RegM M)
+    (hy : (y : M) ∈ E0LM.e0RegM M) :
+    e0SliceSys S x y = chartAt (Causal.Minkowski 2)
+      (show e0RegMFlat M from (⟨x, hx⟩ : E0LM.e0RegM M))
+        (show e0RegMFlat M from (⟨y, hy⟩ : E0LM.e0RegM M)) := by
+  simp [e0SliceSys, hx, hy]
+
+/-- A BTZ time of a curve contributes no length (DEC-31's extension across the lines). -/
+theorem localDensity_e0SliceSys_of_not_mem {S : Set M} {c : ℝ → S} {t : ℝ}
+    (ht : (c t : M) ∉ E0LM.e0RegM M) :
+    Causal.Flat.localDensity (e0SliceSys S) c t = 0 := by
+  simp [Causal.Flat.localDensity, e0SliceSys_of_not_mem ht]
+
+/-- **DEC-31 Cauchy-completeness of an `𝔼₀`-manifold**: a Cauchy surface `S`, spacelike Lipschitz
+in the flat charts of `Reg M`, complete for its induced length metric (the length space of
+`e0SliceSys S`), whose metric topology is at least as fine as the topology of `M`. -/
+def IsE0CauchyComplete (M : Type) [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
+    [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid] : Prop :=
+  ∃ S : Set M, (CE M).IsCauchySurface S ∧
+    Causal.Flat.IsSpacelikeLipschitz 2 (E0Surgery.regSet M S) ∧
+    CompleteSpace (Causal.Flat.LocalLengthSpace (e0SliceSys S)) ∧
+    Continuous fun x : Causal.Flat.LocalLengthSpace (e0SliceSys S) =>
+      ((Causal.Flat.LocalLengthSpace.toSpace x : S) : M)
+
+end DEC31
 
 /-! ## §4b The counterexample `{τ<0} ⊂ 𝔼₀` to the printed proposition (D-11, DEC-77) -/
 
@@ -1359,6 +1665,49 @@ theorem e0PastHalf_counterexample :
   ⟨e0PastHalf_globallyHyperbolic, e0PastHalf_sing_nonempty, fun x₀ _ _ hpair hfc =>
     e0PastHalf_not_isFutureComplete hpair (Causal.UniversalCover.base x₀) (hfc _).2⟩
 
+/-- The slice `{τ = −1}` of `{τ<0}` (paper time `−1`). -/
+def e0PastHalfSlice : Set e0PastHalf := {y | (E0.paperOfY (y : E0Y)).1 = -1}
+
+/-- **`{τ<0}` is Cauchy-complete in DEC-31's sense** — the printed hypothesis of
+`prop:globally_hyperbolic_cauchy_complete_manifolds`, on the counterexample: the slice
+`{τ = −1}` is a Cauchy surface, spacelike in the flat charts, and its induced length metric is
+`dr² + r²dθ²` (`btzPaperDev`'s pullback at `dτ = 0`), the Euclidean metric of `ℂ` in the
+coordinate `x.2`, hence complete. -/
+theorem e0PastHalf_isE0CauchyComplete : IsE0CauchyComplete e0PastHalf :=
+  ⟨e0PastHalfSlice, sorry⟩ -- SORRY(prop:globally_hyperbolic_cauchy_complete_manifolds): three
+  -- unbuilt pieces, none in the scaffold or in lean-causal. (i) Cauchy: `{τ = −1}` meets every
+  -- inextensible causal curve of `{τ<0}` — needs `T = τ − 1/τ` to be a Cauchy time function
+  -- (`E0Spear.isCauchySurface_level`), i.e. `τ → 0⁻` along every future-inextensible causal curve
+  -- and `τ → −∞` along every past-inextensible one (a confinement argument: `f = τ − r/2` and
+  -- `h = τ + r` monotone bound `r`, and the angular part must converge — the analogue of
+  -- `E0.futureExtensible_sliceDom` on the unbounded domain `{τ<0}`). (ii) Spacelike Lipschitz:
+  -- the developed slice `btzPaperDev({−1} × (0,∞) × ℝ)` (`T = −1 + Y²/(2(T−X))`) is, in each flat
+  -- chart of `Reg {τ<0}` (locally `g • chartMap`, `pastHalf_aeChart_eventually`), a graph of a
+  -- `c`-Lipschitz function, `c < 1`, in some frame (`Causal.Flat.IsSpacelikeLipschitzIn`).
+  -- (iii) Completeness and continuity: the density of a curve `c` of the slice is
+  -- `√(minkQ (d/dt btzPaperDev(−1, r, θ))) = |ż|`, `z = (c ·).2 ∈ ℂ`, at regular times and `0` at
+  -- the BTZ point (`localDensity_e0SliceSys_of_not_mem`); so `|z(1) − z(0)| ≤ length` (FTC on the
+  -- regular intervals, `Causal.Flat.norm_sub_le_integral_norm_deriv`, with `z = 0` at BTZ times)
+  -- and straight segments realise `|z₁ − z₀|` (needs the derivative of the local angle lift
+  -- `E0.angle y`), so `edist = ‖z₁ − z₀‖` and the length space is isometric to `ℂ`.
+
+/-- **D-11's counterexample with the printed hypothesis** (DEC-27, DEC-31, DEC-77): `{τ<0} ⊂ 𝔼₀` is
+globally hyperbolic, Cauchy-complete in DEC-31's sense, has BTZ points, and its regular part is
+not future complete for any developing pair. -/
+theorem e0PastHalf_counterexample_DEC31 :
+    (CE e0PastHalf).GloballyHyperbolic ∧ IsE0CauchyComplete e0PastHalf ∧
+      (Causal.CBG.chartedSing e0SingY e0PastHalf 0).Nonempty ∧
+      ∀ (x₀ : e0RegMFlat e0PastHalf)
+        (D : Causal.UniversalCover (e0RegMFlat e0PastHalf) x₀ → Causal.Minkowski 2)
+        (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat e0PastHalf) x₀) →*
+          Causal.Flat.isom 2),
+        Causal.Flat.IsDevelopingPair x₀ D ρ →
+          letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat e0PastHalf) x₀
+          haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat e0PastHalf) x₀
+          ¬ IsFutureComplete
+            (Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat e0PastHalf) x₀)) D :=
+  ⟨e0PastHalf_counterexample.1, e0PastHalf_isE0CauchyComplete, e0PastHalf_counterexample.2⟩
+
 end PastHalfRad
 
 end PastHalf
@@ -1379,8 +1728,9 @@ variable {M : Type v} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
   {Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN ≃ₜ DInfty × ℝ}
 
 /-- **`𝒟` is injective on `M̃`** (the headline's first bullet, the step l.2392–2394 on the maximal
-branched covering with `T_BTZ`, DEC-77 (b)): if `M` is globally hyperbolic, `M` future complete
-(`def:manifold_future_complete_all`, the conclusion of
+branched covering; DEC-106: the charts and their `≪` from `T_BTZ`, `M`'s GH in `M`): if `M` is
+globally hyperbolic, `M̃` future complete for the chart-generated `≪`
+(`def:manifold_future_complete_all` read as `IsBTZFutureComplete`, the conclusion of
 `prop:globally_hyperbolic_cauchy_complete_manifolds`), `𝒟` injective on `reg M̃` (Barbot) and every
 `I⁺(x)` regular (B21: a BTZ point is not in the chronological future of anything), then `𝒟` is
 injective on `M̃`. Future distinguishing is `BTZTildeData.isFutureDistinguishing_of_base`. -/

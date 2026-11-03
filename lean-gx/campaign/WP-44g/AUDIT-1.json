@@ -1,0 +1,96 @@
+{
+ "package": "WP-44g",
+ "round": 1,
+ "auditor": "read-only auditor, round 1",
+ "file": "scaffold/GXScaffold/BTZ/Uniformization.lean",
+ "host": "node1",
+ "builds": true,
+ "build_command": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/Uniformization.lean: exit 0, 10.9 s wall. Exactly one warning: l.1676:8 'declaration uses sorry' (GX.e0PastHalf_isE0CauchyComplete). taskset -c 0-11 lake build --no-build GXScaffold.BTZ.Uniformization: 'All targets up-to-date (8738 jobs)'. The olean (09:15:28) is newer than the source (09:14:34). Only the upstream AbsMax/Surgery sorry warnings replay. Nothing was recompiled or written.",
+ "sorry_count": 1,
+ "sorries": [
+  "GX.e0PastHalf_isE0CauchyComplete (l.1676-1692), `⟨e0PastHalfSlice, sorry⟩ -- SORRY(prop:globally_hyperbolic_cauchy_complete_manifolds)`. The sorry is tagged and its obstruction text is precise. The auditor checked the three claims by hand and found each TRUE. (i) {tau = -1} is a Cauchy surface of {tau<0}. tau is non-decreasing along future causal curves, and strictly so unless the curve is constant. A curve with bounded tau has convergent r and theta, because |theta'| <= tau'/r0, or it converges to a BTZ point. So tau sweeps (-inf, 0) along every inextensible causal curve. (ii) The developed slice T = -1 + Y^2/(2(T-X)) has unit timelike normal (Minkowski norm -1), so it is locally a c-Lipschitz graph with c < 1. (iii) The pulled-back metric is |dz|^2 on C, which is complete. So the sorry sits on a true statement, not a false one. It is not on the headline path."
+ ],
+ "upstream_sorries": [
+  "Independent #print axioms via `lake env lean --stdin` (no file written): btz_uniformization, btz_uniformization_C1, btz_uniformization_C1_of_isFreeGroup, btz_isFutureComplete_C1, btz_reg_isFutureComplete, btz_uniformization_reg and e0RegM_range_not_subset_omegaMinus all depend on [propext, sorryAx, Classical.choice, Quot.sound]. The only route is GX.E0AbsMax.cor_abs_max_C1 / cor_abs_max_e0 (sorryAx). Standard axioms only: btz_uniformization_reg_of_regM, e0RegM_range_not_subset_omegaMinus_of_regM, freeGroup_fin2_comm_ne, freeGroup_commute_of_subsingleton (propext and Quot.sound only), freeGroup_not_isMetabelianGroup, not_isMetabelianGroup_of_isFreeGroup(') , e0SliceSys*, IsE0CauchyComplete, e0PastHalfSlice, e0PastHalf_counterexample, e0PastHalf_globallyHyperbolic, e0PastHalf_not_isFutureComplete, e0PastHalf_sing_nonempty, pastHalf_rad_locally, false_of_sing_of_pastComplete, uniformization_of_absMax, uniformization_range_eq_of_absMax, exists_isometry_quotient_of_absMax, isFutureComplete_of_range_eq_omegaPlus, injective_of_isFutureComplete, exists_affine_eq_of_locally, BTZTildeData.injective_D_of_isBTZFutureComplete, E0Spear.exists_fullFutureBTZRay_e0. e0PastHalf_isE0CauchyComplete and e0PastHalf_counterexample_DEC31 use sorryAx through the local sorry. All of this matches campaign/WP-44g/axioms.out and the REPORT. The dispatch expected 'standard axioms only' on GX.btz_uniformization. That does NOT hold, and the REPORT says so."
+ ],
+ "verdict": "clean",
+ "checks": {
+  "1_build_and_sorry": "Builds, with 1 real sorry, matching the REPORT's sorry_count = 1. The olean is up to date. No GX.* or Causal.* module was rebuilt.",
+  "2_statement_fidelity": "No blocker. (a) Headline btz_uniformization_C1 hypotheses: GH; a compact C1 spacelike Cauchy surface (IsE0C1SpacelikeCauchy has fields cauchy, compact, reg and rim, the DEC-107 reading); IsE0CauchyMaximal (DEC-77 (c)); a BTZ point (S0 M = chartedSing e0SingY M 0, s >= 1); pi1(Reg M) not metabelian (IsMetabelianGroup in GX/BTZ/Holonomy.lean:1323 is the genuine 'any two commutators commute'); SecondCountableTopology; every developing pair. Each is a ruled reading or a reported strengthening. None is vacuous: developing pairs exist (Causal.Flat.exists_isDevelopingPair), and freeness plus non-abelian implies not metabelian is now proved, so the hypothesis holds for the intended punctured-surface pi1. Conclusions: the regular half (D injective on the universal cover of Reg M, rho faithful/discrete/torsion-free, invariant null planes, D(Reg) = Omega+ = bigcap I+(Pi_w) with equality, free proper action, future completeness, isometric quotient) plus full future BTZ rays from every BTZ point. These are faithful to the regular content of l.2363-2403. The BTZ half (D on sing M~, the Delta_i in the boundary of Omega, the full image (union Delta_i) union Omega, and M = rho\\D(M~) with T_BTZ) is ABSENT and disclosed (SCOPE (b), REPORT questions), and the row is partial and unmarked. (b) btz_uniformization_C1_of_isFreeGroup is DEC-76's literal 'non-abelian' with IsFreeGroup carried and reported. (c) The prop form of record btz_isFutureComplete_C1 reads 'future complete' as the proof's two steps. This is reported as a reading. The literal conclusion over M~ cannot hold with the strict library's natCausality, whose `lt` is restricted to regular points by definition (GX/BTZ/Manifolds.lean:2084), so that limb is a design fact upstream of this file. (d) DEC-31 predicate GX.IsE0CauchyComplete: it mirrors Causal.Flat.IsCauchyComplete (Causal/Flat/CauchyComplete.lean:664) field for field, with a chart system that is constant at BTZ points. It does not trivialise: pathLength is top unless the path is locally Lipschitz in charts, the FTC lower bound survives the zero density at BTZ times, and S meets each BTZ line once. It duplicates no existing predicate (grep of GX/ and scaffold/ finds none). (e) DEC-106 is applied to the headline in the sense that T_BTZ enters only the unformalized final homeomorphism. The §5 helper uses d.causality (T_BTZ), as disclosed. See the minor issue on its docstring. (f) DEC-55 is not relevant here. DEC-33 import gate: the file is under scaffold/GXScaffold/BTZ/, imports Causal.Flat.Lox.PastProper only, has no root Causal, no CausalScaffold and no `open Causal` (only `open scoped Causal.Flat`, as in the pre-edit file), and qualifies Causal.* fully.",
+  "3_docstring_contract": "No **`label`** mark in the module docstring. Both labels appear in the first 4000 characters, written unmarked as partial. This is correct. See the minor issue on the bold labels in two declaration docstrings.",
+  "4_report": "Honest and complete. Exactly two ledger labels touch this file (grep of the file and LEDGER.md; def:manifold_future_complete_all is certified in GX/BTZ/Manifolds.lean). Both are listed as partial, unmarked, with decls. The sorry, the upstream sorryAx, the unmet dispatch goals (bridge, pi1 freeness, standard axioms) and the build output all match what the auditor re-ran. Nothing was removed relative to Uniformization.before.lean.bak: the declaration diff is additive only.",
+  "5_missing_parts": "Headline: the whole BTZ half is missing (D on sing M~, Delta_i, the image display, M = rho\\D(M~) with T_BTZ). It is not even stated with a tagged sorry, because stating it needs the ChartedSpace E0Y / SingularGXStructure bridge. Prop: the literal M~ conclusion is missing. Counterexample: the DEC-31 hypothesis is stated and sorry'd. All of this is disclosed. Neither row can graduate as closed.",
+  "6_cited_results": "Barbot's equality, B21 Lemma 2.3 (the BTZ rays) and the free-to-not-metabelian algebra are built, not assumed. B21 Cor 2.18 (cor_abs_max_C1) is built but carries upstream sorries in AbsMax and Surgery. 'pi1(Reg M) is free' is carried as a hypothesis in the _of_isFreeGroup variant only.",
+  "7_name_clashes": "None. The 59 declaration names were grepped by their last component against every .lean file under GX/ and scaffold/ other than this one: 0 hits."
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "dispatch vs result; REPORT notes",
+   "problem": "Three of the dispatch's goals are unmet: certify the headline in full, build the ChartedSpace E0Y / SingularGXStructure bridge, and prove pi1 of the punctured surface free. The fourth, standard axioms on GX.btz_uniformization, is also unmet, because cor_abs_max_C1 still carries sorryAx from AbsMax's 3 leaves and Surgery's G3/G4a/G5. The REPORT states all of this accurately. It is a limit on what this file can claim, not a defect of the file.",
+   "fix": "None in this file. The master should dispatch the bridge as its own package, or rule (REPORT question 1) that the headline is accepted on its Reg M content plus the full future BTZ rays."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json, prop:globally_hyperbolic_cauchy_complete_manifolds, hypotheses",
+   "problem": "This was carried over from WP-43f AUDIT-1 issue 2 and is still not fixed. The prop row bundles Cauchy-compact, Cauchy-maximal, 'pi1 not metabelian' and 'a BTZ point' into the single 'Cauchy-complete' entry. It also omits SecondCountableTopology M, which btz_isFutureComplete_C1 carries through cor_abs_max_C1. The 'not metabelian vs DEC-76/77 non-abelian' strengthening is not cross-referenced in the prop row, although DEC-77's corrected prop says 'pi1 non-abelian'.",
+   "fix": "Split the entry into separate hypothesis rows (Cauchy-compact: strengthened, DEC-107; Cauchy-maximal: added, DEC-77; pi1 not metabelian: strengthened vs DEC-77; BTZ point: added, DEC-76/77 (a); SecondCountable: carried, implicit) and point to the headline row's DEC-76 question."
+  },
+  {
+   "severity": "minor",
+   "where": "GX.IsE0CauchyComplete (l.1227-1233); REPORT prop row question",
+   "problem": "DEC-31 says 'piecewise-smooth spacelike in flat charts'. The predicate asks spacelike Lipschitz of S ∩ Reg in Reg M's flat charts, which follows Causal's DEC-35 convention. It asks nothing of S at the BTZ points (compare IsE0C1SpacelikeCauchy's rim field). As a HYPOTHESIS that the counterexample must satisfy, a weaker predicate gives a weaker counterexample. The actual slice {tau = -1} is analytic and meets any reasonable stronger form, but Lean will certify only this one. The REPORT's question asks about the length structure only.",
+   "fix": "Extend the DEC-31 question to cover (a) Lipschitz vs piecewise-smooth and (b) whether a condition at the BTZ points is intended. Optionally record in the predicate's docstring that it is the DEC-35-style weakening."
+  },
+  {
+   "severity": "minor",
+   "where": "GX.e0PastHalf_isE0CauchyComplete (l.1676)",
+   "problem": "One sorry covers all four conjuncts: Cauchy surface, spacelike Lipschitz, CompleteSpace and continuity. Nothing of the four is proved separately, so progress cannot be closed or tracked piece by piece. The auditor checked each of (i)-(iii) and found it TRUE (see sorries), so the sorry is legitimate and not a false statement.",
+   "fix": "Split it into four lemmas with their own tagged sorries, keeping the obstruction texts (i), (ii), (iii)a and (iii)b. (i) is probably the cheapest, via the monotonicity of tau and f = tau - r/2 already used in e0PastHalf_not_isFutureComplete (E0.calculus_lt)."
+  },
+  {
+   "severity": "minor",
+   "where": "§5 docstring, GX.BTZTildeData.injective_D_of_isBTZFutureComplete (l.1730-1736)",
+   "problem": "The docstring says 'DEC-106: the charts and their ≪ from T_BTZ'. DEC-106 rules the opposite for causality: M~ carries its NATURAL topology for causality and GH, and T_BTZ is used only for the final homeomorphism. The lemma itself is a true conditional, with hfc, hreg and hI carried, and it certifies nothing. But reading the l.2392-2394 injectivity step with T_BTZ causality is a reading that DEC-106 does not cover. REPORT finding 4 explains it but raises no question.",
+   "fix": "Reword to: 'T_BTZ chart causality (a reading: DEC-106's natural causality has I+ = ∅ at BTZ points by construction, GX/BTZ/Manifolds.lean:2084, so the literal step is unavailable)'. Add a REPORT question asking which causality the author intends for the injectivity step."
+  },
+  {
+   "severity": "minor",
+   "where": "module docstring l.16-20, headline bullet",
+   "problem": "'𝒟 injective on Reg M̃' and '𝒟(Reg M̃) = ...' use Reg M̃ for the universal cover of Reg M. Identifying the two is exactly what the unbuilt bridge would provide. SCOPE (b) discloses the bridge as missing, but the headline bullet reads as if it were on the branched cover's regular part.",
+   "fix": "Write 'the universal cover of Reg M (= reg M̃ once the bridge of SCOPE (b) is built)' in the form-of-record bullets."
+  },
+  {
+   "severity": "minor",
+   "where": "declaration docstrings l.1034 and l.1106",
+   "problem": "These two declaration docstrings open with **`prop:globally_hyperbolic_cauchy_complete_manifolds` ...**, the bold-backticked label form that kb/0006 reserves for certification marks. They lie outside the 4000-character ledger window, so the contract holds. A whole-file grep for the mark would misread them, though. l.1034 predates WP-44g; l.1106 is new.",
+   "fix": "Drop the bold around the label in declaration docstrings, e.g. **Corrected form** of `prop:...`."
+  },
+  {
+   "severity": "minor",
+   "where": "module docstring hypothesis checklist l.73",
+   "problem": "'non-abelian is refuted algebraically (GX.exists_nonabelian_subgroup_noLox)' overstates. That lemma shows a non-abelian subgroup of Isom(M^3) with no loxodromic, which refutes the algebraic step 'non-abelian holonomy implies a loxodromic'. It does not refute the theorem under DEC-76's hypothesis, which is true because pi1(Reg M) is free and not_isMetabelianGroup_of_isFreeGroup applies. The ledger's wording ('does not suffice algebraically') is the accurate one.",
+   "fix": "Use the ledger's wording."
+  },
+  {
+   "severity": "minor",
+   "where": "GX.e0PastHalf_counterexample / _DEC31",
+   "problem": "This was carried over from WP-43f AUDIT-1 issue 3. The 'for every developing pair ... not future complete' conjunct does not show the existence of a developing pair on its face. It is not vacuous, because Causal.Flat.exists_isDevelopingPair supplies one.",
+   "fix": "Optionally add the conjunct '∃ x₀ D ρ, IsDevelopingPair x₀ D ρ', which is one line."
+  }
+ ],
+ "verified_findings": [
+  "GX.not_isMetabelianGroup_of_isFreeGroup is genuine. The two-generator case maps onto F_2 by FreeGroup.lift, and the `decide` on [[a,b],[a,b^-1]] != 1 is a real reduction check. The at-most-one-generator case is commutative, proved by induction. It uses standard axioms only.",
+  "btz_uniformization_reg_of_regM and e0RegM_range_not_subset_omegaMinus_of_regM depend only on the triple (GH, Causal.Flat.IsCauchyComplete, AbsMax) of Reg M. They are sorry-free, and cor_abs_max_C1's type is exactly that triple from (GH, ∃ S IsE0C1SpacelikeCauchy, IsE0CauchyMaximal) plus SecondCountable. So the headline's only sorryAx is upstream, as claimed.",
+  "e0PastHalf_counterexample (GH, BTZ points, no developing pair future complete) is untouched and still uses standard axioms only.",
+  "GX.e0SliceSys plus LocalLengthSpace gives a non-degenerate length structure. Non-LocLip paths have length top, the BTZ times have density 0 and measure zero, and the displacement is still bounded by the length.",
+  "The paper's l.2369 display and 'Lemma 2.4' citation corrections are recorded consistently with LEDGER.md and D-11/D-12."
+ ],
+ "questions_for_author": [
+  "DEC-76 reading for the headline: accept (a) 'pi1(Reg M) not metabelian', (b) 'pi1(Reg M) free and non-abelian' (btz_uniformization_C1_of_isFreeGroup), or (c) require 'pi1(Reg M) is free' to be proved from the surface structure Reg M ≃ (Σ∖sing) × ℝ, s ≥ 1?",
+  "The BTZ half of the headline (D on sing M~, Delta_i, M = rho\\D(M~) with T_BTZ) needs a SingularGXStructure built from the ChartedSpace E0Y atlas, with reg M~ ≃ the universal cover of Reg M. Should it be its own package, or is the headline accepted on Reg M plus the full future BTZ rays?",
+  "DEC-31: is GX.IsE0CauchyComplete the intended predicate? It has three parts: spacelike Lipschitz in Reg M's flat charts in place of piecewise-smooth; no condition at the BTZ points; and length extended across the lines by zero density at BTZ times.",
+  "DEC-106 vs the injectivity step (l.2392-2394) and the prop's conclusion: the natural causality has no chronological relation at BTZ points by construction, so the literal step is unavailable. Is the T_BTZ chart causality (IsBTZFutureComplete) the intended reading for this step, or should natCausality be revisited upstream?"
+ ],
+ "notes": "Read-only audit. The only file written is this one. Commands run: `lake env lean` on the file, `lake build --no-build`, and two `lake env lean --stdin` axiom and definition probes, all under taskset -c 0-11. Verdict 'clean' means that both rows are honestly PARTIAL and unmarked, nothing is overclaimed, vacuous or false, and the one local sorry is tagged and on a true statement. Neither row is certifiable until the upstream AbsMax and Surgery leaves close, the BTZ half is built, and the DEC-76 reading is ruled."
+}
