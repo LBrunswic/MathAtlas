@@ -80,6 +80,19 @@ Classes: **T** causal / order-topological / affine in Minkowski space; **D** met
 
 ### §5 Around Bieberbach (l.1667–1822)
 - `bthm:ausl` 5.1, `bthm:unip` 5.2 — E (cited).
+  **Both are proved** (DEC-121, 2026-11-03), along the routes of `docs/CARRIERE-DALBO-SURVEY.md`,
+  for `Isom(𝐌ⁿ)` (the form Barbot uses; narrower than the printed `Aff(n, ℝ)`, so neither label is
+  marked, kb/0011). `maxUnipotentSubspace d` (`Flat/MaxUnipProof`): Fried–Goldman–Hirsch's Fitting
+  subspace `x₀ + V₁` is the greatest unipotent-invariant subspace (`Flat/MaxUnipFitting`, any `N`),
+  and `x₀` exists by `H¹(N; 𝐌ⁿ/V₁) = 0` (`Flat/MaxUnipCocycle`), Hirsch's vanishing for nilpotent
+  `N` by centre induction (`Flat/MaxUnipHirsch`). `auslanderCarriereDalbo d` (`Flat/ACDProof`): a
+  Lorentz Zassenhaus–Frobenius argument — two elements of a discrete `Γ` with linear parts
+  `1/128`-close to `1` generate a nilpotent group (`Flat/ACDHall`: scaling, halving, Hall's lemma);
+  near-identity elements of a nilpotent `N ≤ SO₀(1, d)` commute (`Flat/ACDNull`, timelike/null,
+  and `Flat/ACDLoxodromic`, reduced to the null case); then `G₀` is abelian and `Γ_nd` nilpotent
+  (`Flat/ACDReduction`). With them `Flat/BarbotUnconditional` gives `barbot_A_unconditional`,
+  `barbot_B_unconditional` (with lemma K's data) and `barbot_B_geroch_unconditional`: Theorems A
+  and B with no external hypothesis.
 - [5.B] Bieberbach — G; the light part is proved (DEC-36).
   **Bieberbach I is proved** (DEC-110, 2026-11-03): `bieberbachI` in `Flat/BieberbachProof`, every
   finite dimension, through virtual abelianity (`Flat/BieberbachZassenhaus`, `…Abelian`, `…MinSet`,

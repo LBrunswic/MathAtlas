@@ -175,6 +175,16 @@ import Causal.Flat.SelbergResidue
 import Causal.Flat.SelbergTorsion
 import Causal.Flat.SelbergMatrix
 import Causal.Flat.SelbergProof
+import Causal.Flat.MaxUnipHirsch
+import Causal.Flat.MaxUnipCocycle
+import Causal.Flat.MaxUnipFitting
+import Causal.Flat.MaxUnipProof
+import Causal.Flat.ACDReduction
+import Causal.Flat.ACDHall
+import Causal.Flat.ACDNull
+import Causal.Flat.ACDLoxodromic
+import Causal.Flat.ACDProof
+import Causal.Flat.BarbotUnconditional
 
 /-!
 # Causal — topological spacetimes
@@ -200,5 +210,10 @@ classification on `ℍᵈ`, without Zariski closure (DEC-111: `Causal.Flat.Gromo
 (`Causal.CBG.*`, `Causal.Flat.CBG`, `Causal.Flat.CBGGerm`, `Causal.Flat.CBGSlice`,
 `docs/CBG-DESIGN.md`). Since 2026-11-03 the Barbot external `SelbergLemma` is proved for every
 finite-dimensional real `V` by congruence subgroups (DEC-115: `Causal.Flat.SelbergBase`,
-`…Residue`, `…Torsion`, `…Matrix`, `Causal.Flat.SelbergProof`).
+`…Residue`, `…Torsion`, `…Matrix`, `Causal.Flat.SelbergProof`). The last two externals,
+`MaxUnipotentSubspace` (Fried–Goldman–Hirsch: `Causal.Flat.MaxUnipHirsch`, `…Cocycle`,
+`…Fitting`, `Causal.Flat.MaxUnipProof`) and `AuslanderCarriereDalbo` (a Lorentz
+Zassenhaus–Frobenius argument: `Causal.Flat.ACDReduction`, `…Hall`, `…Null`, `…Loxodromic`,
+`Causal.Flat.ACDProof`), are proved too (DEC-121), and `Causal.Flat.BarbotUnconditional` states
+Theorems A and B with no external hypothesis.
 -/

@@ -15,8 +15,11 @@ and the reduction lemma its consumer runs. Labels (lines of `papers/barbot/legac
 all unmarked:
 
 * `bthm:ausl` — `GHFspace.tex:1697` (Thm 5.1): `AuslanderCarriereDalbo`; consumer
-  `exists_invariant_maxUnipotent` (with `bthm:unip`).
-* `bthm:unip` — `GHFspace.tex:1710` (Thm 5.2): `MaxUnipotentSubspace`.
+  `exists_invariant_maxUnipotent` (with `bthm:unip`). Since DEC-121 (2026-11-03) **proved** as
+  `auslanderCarriereDalbo d` in `Flat/ACDProof`, every `d` (Lorentz Zassenhaus–Frobenius).
+* `bthm:unip` — `GHFspace.tex:1710` (Thm 5.2): `MaxUnipotentSubspace`. Since DEC-121
+  (2026-11-03) **proved** as `maxUnipotentSubspace d` in `Flat/MaxUnipProof`, every `d`
+  (Fried–Goldman–Hirsch). Both statements here unchanged.
 * `bprop:sanloxo` — `GHFspace.tex:2573` (Prop 9.1): `BenoistNoLox` (its whole conclusion is the
   honest unit, SCOPE); consumer `exists_finiteIndex_fixes_of_noLox`. Not proved here, and since
   DEC-111 (2026-11-03) **proved** as `benoistNoLox d` in `Flat/GromovProof`, every `d`, by
@@ -278,7 +281,8 @@ def AusConclusion (Γ : Subgroup (isom d)) : Prop :=
 
 variable (d) in
 /-- **Auslander's theorem, refined by Carrière and Dal'bo** (`bthm:ausl`, l.1697–1704,
-`cardal` Theorem 1.2.1), external (DEC-36), for discrete subgroups of `Isom(𝐌ⁿ)`. -/
+`cardal` Theorem 1.2.1), external (DEC-36), for discrete subgroups of `Isom(𝐌ⁿ)`. Not proved in
+this module; proved as `auslanderCarriereDalbo` in `Flat/ACDProof` (DEC-121). -/
 def AuslanderCarriereDalbo : Prop :=
   ∀ Γ : Subgroup (isom d), DiscreteTopology Γ → AusConclusion Γ
 
@@ -317,7 +321,8 @@ def IsMaxUnipotent (N : Subgroup (isom d)) (U : AffineSubspace ℝ (Minkowski d)
 variable (d) in
 /-- **Carrière–Dal'bo's maximal unipotent subspace** (`bthm:unip`, l.1709–1717, `cardal`
 Proposition 1.2.2), external (DEC-36), for nilpotent groups of isometries of `𝐌ⁿ`: a nonempty
-maximal invariant unipotent affine subspace exists, and it is the only maximal one. -/
+maximal invariant unipotent affine subspace exists, and it is the only maximal one. Not proved in
+this module; proved as `maxUnipotentSubspace` in `Flat/MaxUnipProof` (DEC-121). -/
 def MaxUnipotentSubspace : Prop :=
   ∀ N : Subgroup (isom d), Group.IsNilpotent N →
     ∃ U : AffineSubspace ℝ (Minkowski d), (U : Set (Minkowski d)).Nonempty ∧ IsMaxUnipotent N U ∧
