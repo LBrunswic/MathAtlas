@@ -1,0 +1,2372 @@
+import GXScaffold.BTZ.CBG
+import Causal.SingularGeroch
+
+/-!
+# `GXScaffold.BTZ.Spear` — spear neighbourhoods and full future BTZ rays (B21 Lemmas 2.3, 2.4)
+
+Package WP-41i (WAVE5-PLAN.md, WP-39i), fixer round 1. `brunswic2021cauchy` (**B21**,
+`papers/gx/sources/2108.12631/src/BTZ_1.tex`) Def 2.1 (l.611), Lemma 2.3 `lem:tube` (l.635),
+Lemma 2.4 `lem:add_BTZ_param` (l.685), cited by `papers/gx` at `RamcovGX.tex:2352` (proof of
+`prop:globally_hyperbolic_cauchy_complete_manifolds`, l.2348) as « Lemma 2.4 » — **the right
+citation is Lemma 2.3** (finding). **No gx ledger label is marked**: these are cited results built
+here (DEC-23), not rows of the gx ledger. Rows touched, unmarked:
+
+* `lem:tube` (B21 Lemma 2.3, l.635) — **stated** (`GX.E0Spear.lem_tube`, no Cauchy-surface
+  hypothesis). The gluing is **built** (`GX.E0Spear.exists_spearDevelopment`, §4a–§4b):
+  `M₀ = M ∖ J⁺(κ⁻¹Π)` (`CylChartData.W0o`, open, a past set, `p ∈ M₀`, GH in `M`, a Cauchy surface
+  of `M` inside it), `M₂` the `Causal.CBG.FamilyGlueData` gluing of `M₀` and the spear piece `𝒫`
+  (`CylChartData.glueData`) with the atlas `FamilyGlueData.chartedSpace`
+  (= `Causal.CBG.gluedChartedSpace`, `glueCS`), transitions in the groupoid (`glue_hasGroupoid`),
+  **Hausdorff** (`t2Space_glued`, closed graph of `κ⁻¹`), second countable, connected given `M₀` is;
+  the spear chart of `M₂` (`ψN`, vertex `p`), `M₀ → M` a Cauchy embedding
+  (`isCauchyEmbedding_val`); the CBG step `IsE0CauchyMaximal.isSpearNbhd_of_spearDevelopment`.
+  Four isolated tagged `sorry`s: `CylChartData.connectedSpace_W0`,
+  `CylChartData.isCauchySurfaceOn_W0`, **`CylChartData.globallyHyperbolic_glued`** (the genuine
+  one) and `CylChartData.isCauchySurface_glued`. Conditional on `hLine`, `hSC` (CBG, WP-41f/g).
+* full future BTZ rays (`RamcovGX.tex:2352`) — **stated** (`GX.E0Spear.exists_fullFutureBTZRay`,
+  from `lem_tube`). A spear gives a full ray (`IsSpearNbhd.exists_ray`, `…exists_ray_mem_nhds`);
+  full rays lie in `sing₀`, are injective, continuous, future directed and future inextensible
+  (`IsFullFutureBTZRay.{zero, mem_S0, injOn, continuousOn, le, not_tendsto}`, `axis_noLimit`), and
+  cover the future half of their BTZ line (`IsFullFutureBTZRay.exists_eq_of_line`), 0 `sorry`.
+* `lem:add_BTZ_param` (B21 Lemma 2.4, l.685) — **partial**: the paper's statement
+  `GX.E0Spear.lem_add_BTZ_param_line` (a spear of vertex `q`, any `p` of `q`'s BTZ component in
+  `I⁻(Σ)`; `τ_Σ` **continuous** over the closed disc, `continuousOn_tauS`): the case « `q` in the
+  past of `p` » proved, the case « `q` in the future of `p` » a tagged `sorry`; the vertex-at-`p`
+  special case `GX.E0Spear.lem_add_BTZ_param` 0 `sorry`; added hypothesis `hLM` (the BTZ lines of
+  `M`, WP-41f's (O2)); smoothness not claimed (`C⁰` only). Cauchy-maximal form
+  `GX.E0Spear.lem_add_BTZ_param_of_cauchyMaximal` (through `lem_tube`, hence **stated**).
+* B21 Def 2.1 (spear neighbourhood) — **partial** (`IsSpearNbhd`; head/shaft corrected, finding).
+
+> \begin{defou}[Spear neighborhood] Let $M$ be a $\mass{\geq0}$-manifold and let $\Delta$ be a
+> BTZ-line. A spear neighborhood around $\Delta$ of vertex $p\in \Delta$ and radius $R>0$ is a
+> neighborhood of $]p,+\infty[$ such that there exists a singular $\mass{}$-isomorphism
+> $\phi: \U\rightarrow \V\subset \mass{0}$ with $\phi(p)=(-2R,0,0),\quad \V:= J^+(\phi(p)) \cap
+> \{\r\leq R\}\subset \mass{0}$. The boundary of $\U$ is the union of the light cone
+> $\phi^{-1}(\{\r = 2(\tau-R),\r<R\})$ and a half-tube $\phi^{-1}(\{\r=R, \tau\geq 0\})$. The former
+> is called the \textbf{head} and the latter the \textbf{shaft} of $\U$. \end{defou} (l.611–619)
+>
+> \begin{lemou} Let $M$ be a globally hyperbolic $\mass{\geq0}$-manifold. If $M$ is
+> Cauchy-maximal then, for any BTZ line $\Delta$ and any $p\in \Delta$, there exists a spear
+> neighborhood around $\Delta$ of vertex $p$. \end{lemou} (l.635–638)
+>
+> \begin{lemou} Let $M$ be a globally hyperbolic $\mass{\geq0}$-manifold, let $\Sigma$ be
+> Cauchy-surface of $M$ and let a BTZ line $\Delta$ of $M$ admitting a spear neighborhood. Then,
+> for all $p\in \Delta\cap I^-(\Sigma)$, there exists a spear neighborhood
+> $\phi:\mathcal S \rightarrow \mass{0}$ around $\Delta$ of vertex $p$ and some radius $R>0$ such
+> that $\Sigma\cap \S$ lie in the shaft of $\Delta$ and $\phi(\Sigma\cap \mathcal S)\subset \mass{0}$
+> is the graph of a smooth positive function $\tau_\Sigma: \mathbb D_R\rightarrow \RR_+^*$.
+> \end{lemou} (l.685–695)
+>
+> Finally Lemma 2.4 of \cite{brunswic2021cauchy} implies that the singular locus contains full
+> future BTZ rays. (`RamcovGX.tex:2352`)
+
+## What is built
+
+* **§1 the model.** `spear v R = {f ≥ v, r ≤ R} = J⁺((v,0)) ∩ {r ≤ R}` (`spear`,
+  `spear_eq_Jplus_inter`), closed, containing the ray `[v, +∞[`; spears and cylinders are causally
+  convex (`mem_spear_of_le`, `mem_cyl_of_le`, `le_of_le_top_of_mem_cyl`); vertical lines are future
+  null (`le_vertical`); `spear_diff_Jplus_disc`; head and shaft corrected, and **the boundary of a
+  spear is its head and its shaft** (`interior_spear`, `frontier_spear`).
+* **§2 spear neighbourhoods and full rays** (`IsSpearNbhd`, `IsFullFutureBTZRay`); transfer of the
+  relations of `𝔼₀` along `𝔼₀`-morphisms (`le_of_isE0Mor`, `le_of_isE0Mor_paper`); a chart cylinder
+  at every BTZ point (`exists_cyl_chart`, `exists_cylChartData`).
+* **§3 Cauchy-maximality** (`IsE0CauchyMaximal`; DEC-77(c): `isE0CauchyMaximal_iff_isETTMaximal`)
+  and universality over Cauchy sub-developments (`IsE0CauchyMaximal.exists_morphism_of_dev`).
+* **§4a–§4b the gluing of Lemma 2.3** (above), **§4 Lemma 2.3** (`SpearDevelopment`, `lem_tube`,
+  `exists_fullFutureBTZRay`, `exists_isCauchySurface_of_globalBTZ`: a GH `𝔼₀`-manifold has a Cauchy
+  surface, strict `geroch_sing_i_imp_iii`), level sets of Cauchy time functions are Cauchy
+  (`isCauchySurface_level`).
+* **§5–6 Lemma 2.4** (`spear_shaft_vertical`, `spear_vertical_meets`, `continuousOn_tauS`,
+  `lem_add_BTZ_param`, `IsFullFutureBTZRay.exists_eq_of_line`, `lem_add_BTZ_param_line`,
+  `lem_add_BTZ_param_of_cauchyMaximal`), with `not_lt_self`, `notMem_of_mem_Iminus`,
+  `exists_tendsto_of_monotone` and the escape lemmas `axis_noLimit`, `spear_vertical_noLimit`.
+  Non-vacuity: `isSpearNbhd_model`.
+
+## Hypothesis checklist
+
+| paper | here |
+|---|---|
+| `𝔼_{≥0}`-manifold (Lemmas 2.3, 2.4) | ⚠ **weakened** (the class shrinks): `𝔼₀`-manifolds only, `ChartedSpace E0Y M`, `HasGroupoid M e0Groupoid` (`Y = 𝕄 ⊕ 𝔼₀`; massive cones not in `Y`, as WP-41e/f), Hausdorff, second countable, connected (DEC-66). Harmless for gx, whose Section 4 uses `𝔼₀` only; no ruling covers it for B21 Lemmas 2.3/2.4 (question) |
+| globally hyperbolic | ✓ `(CE M).GloballyHyperbolic`; the Cauchy surface is **derived** (`exists_isCauchySurface_of_globalBTZ`, `CylChartData.exists_cauchy_subset_W0`), not assumed |
+| Cauchy-maximal | ✓ read (DEC-77(c)): `IsE0CauchyMaximal` = `Dev.IsETTMaximal` |
+| spear neighbourhood, `φ(p) = (−2R,0,0)` | ⚠ read: `ψ = φ⁻¹` an injective `𝔼₀`-morphism on an open `W ⊇ 𝒮`, vertex `(v,0)`, `v` free; head/shaft corrected (finding) |
+| « neighbourhood of `]p,+∞[` » | ✓ `IsSpearNbhd.exists_ray_mem_nhds` |
+| CBG (hidden in « `M₂` embeds into `M` ») | ✓ `E0CBG.e0_cbg`, ⚠ conditional on `hLine` (O2), `hSC` (O4) |
+| Lemma 2.4: `M` GH | ⚠ strengthened: `hLM` (the BTZ lines of `M`, WP-41f's (O2), true, open there) |
+| Lemma 2.4: « `Δ` admitting a spear neighbourhood », `p ∈ Δ ∩ I⁻(Σ)` | ✓ `lem_add_BTZ_param_line`: spear of vertex `q`, `p ∈ connectedComponentIn (S0 M) q` (`Δ` = component of `sing₀`); the future case a tagged `sorry` |
+| Lemma 2.4: `τ_Σ` « smooth positive » | ⚠ `C⁰`: `ContinuousOn τ_Σ (closedBall 0 R′)` (smoothness needs `Σ` smooth spacelike; `Σ` is a topological Cauchy surface here); « positive » read as `τ_Σ > v + R′/2` |
+| Lemma 2.4: « in the shaft » | ⚠ read: the open region `τ > v + R′/2` above the rim of the head (Def 2.1's shaft is the boundary half-tube; B21 Prop 2.17, PDF l.1983, uses the conclusion as « a circle in the shaft ») |
+
+## SCOPE (disclosed; five tagged `sorry`s)
+
+* Lemma 2.3, four isolated facts of the gluing: `connectedSpace_W0` (needs a splitting of
+  `𝔼₀`-manifolds: connected Cauchy surfaces), `isCauchySurfaceOn_W0` (the relative curve-extension
+  theory for an open past set), `globallyHyperbolic_glued` (**the genuine obstruction**: no
+  « Cauchy ⇒ GH » for `𝔼₀`-manifolds, no comparison of glued and piece causalities), and
+  `isCauchySurface_glued` (B21's `c₀ ∪ c₁` argument at curve level, same missing comparison).
+* Lemma 2.4, the case « `q` in the future of `p` » (charts glued along `[p, q]`).
+
+Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; lean-causal `ca2ad78`
+(`lake-manifest.json`; imports `Causal.SingularGeroch`, strict, DEC-33).
+-/
+
+namespace GX
+
+open Set Filter Topology Function TopologicalSpace
+open scoped Real
+
+namespace E0Spear
+
+open E0
+
+/-! ### §1 Spears in the model `𝔼₀` (paper coordinates `(τ, z = r e^{iθ})`) -/
+
+section Model
+
+/-- The vertex `(v, 0)` on the BTZ line of `𝔼₀`. -/
+def vertex (v : ℝ) : E0 := (v, 0)
+
+theorem vertex_mem_axis (v : ℝ) : vertex v ∈ axis := rfl
+
+/-- **The spear of `𝔼₀` of vertex `(v,0)` and radius `R`** (B21 Def 2.1, `BTZ_1.tex:607`):
+`J⁺((v,0)) ∩ {r ≤ R} = {f ≥ v, r ≤ R}`, `f = τ − r/2` (`spear_eq_Jplus_inter`). -/
+def spear (v R : ℝ) : Set E0 := {x | v ≤ fcoord x ∧ rad x ≤ R}
+
+/-- The head of the spear: the piece `{f = v, r ≤ R}` of the light cone of the vertex
+(corrected form of the printed `{r = 2(τ − R), r < R}`, finding). -/
+def spearHead (v R : ℝ) : Set E0 := {x | fcoord x = v ∧ rad x ≤ R}
+
+/-- The shaft of the spear: the half-tube `{r = R, τ ≥ v + R/2}` above the rim of the head. -/
+def spearShaft (v R : ℝ) : Set E0 := {x | rad x = R ∧ v + R / 2 ≤ x.1}
+
+theorem mem_spear {v R : ℝ} {x : E0} : x ∈ spear v R ↔ v ≤ fcoord x ∧ rad x ≤ R := Iff.rfl
+
+theorem spear_eq_Jplus_inter (v R : ℝ) :
+    spear v R = causality.Jplus ⊤ {vertex v} ∩ {x | rad x ≤ R} := by
+  rw [Jplus_axis (vertex_mem_axis v)]
+  rfl
+
+theorem isClosed_spear (v R : ℝ) : IsClosed (spear v R) :=
+  (isClosed_le continuous_const continuous_fcoord).inter
+    (isClosed_le continuous_rad continuous_const)
+
+/-- The BTZ ray `[v, +∞[` of the axis lies in the spear. -/
+theorem axis_mem_spear {v R t : ℝ} (hR : 0 ≤ R) (ht : v ≤ t) : ((t, 0) : E0) ∈ spear v R := by
+  have h0 : rad ((t, 0) : E0) = 0 := rad_eq_zero.2 rfl
+  refine ⟨?_, ?_⟩
+  · simp only [fcoord, h0]; linarith
+  · rw [h0]; exact hR
+
+theorem vertex_mem_spear {v R : ℝ} (hR : 0 ≤ R) : vertex v ∈ spear v R :=
+  axis_mem_spear hR le_rfl
+
+theorem spear_mono {v v' R R' : ℝ} (hv : v ≤ v') (hR : R' ≤ R) : spear v' R' ⊆ spear v R :=
+  fun _ hx => ⟨hv.trans hx.1, hx.2.trans hR⟩
+
+/-- The interior of a spear of positive radius: `{f > v, r < R}`. -/
+theorem interior_spear {v R : ℝ} (hR : 0 < R) :
+    interior (spear v R) = {x | v < fcoord x ∧ rad x < R} := by
+  apply Subset.antisymm
+  · intro x hx
+    have hxS : x ∈ spear v R := interior_subset hx
+    have hnhds : interior (spear v R) ∈ 𝓝 x := isOpen_interior.mem_nhds hx
+    refine ⟨?_, ?_⟩
+    · by_contra hf
+      have hf' : fcoord x = v := le_antisymm (not_lt.1 hf) hxS.1
+      -- move down along the vertical line: `f` decreases below `v`
+      let c : ℝ → E0 := fun ε => (x.1 - ε, x.2)
+      have hc : Continuous c := (continuous_const.sub continuous_id).prodMk continuous_const
+      have hc0 : c 0 = x := by simp [c]
+      have hev : ∀ᶠ ε in 𝓝 (0 : ℝ), c ε ∈ interior (spear v R) :=
+        hc.continuousAt.preimage_mem_nhds (by rw [hc0]; exact hnhds)
+      obtain ⟨δ, hδ, hball⟩ := Metric.eventually_nhds_iff.1 hev
+      have hmem := interior_subset (hball (show dist (δ / 2) 0 < δ by
+        rw [Real.dist_eq, sub_zero, abs_of_pos (by linarith)]; linarith))
+      have : fcoord (c (δ / 2)) = fcoord x - δ / 2 := by simp [c, fcoord, rad]; ring
+      have h1 := hmem.1
+      rw [this, hf'] at h1
+      linarith
+    · by_contra hr
+      have hr' : rad x = R := le_antisymm hxS.2 (not_lt.1 hr)
+      -- move outwards along a radial null-or-spacelike line keeping `f ≥ v`
+      let c : ℝ → E0 := fun ε => (x.1 + ε * R, ((1 + ε : ℝ) : ℂ) * x.2)
+      have hc : Continuous c := (continuous_const.add (continuous_id.mul continuous_const)).prodMk
+        ((Complex.continuous_ofReal.comp (continuous_const.add continuous_id)).mul
+          continuous_const)
+      have hc0 : c 0 = x := by simp [c]
+      have hev : ∀ᶠ ε in 𝓝 (0 : ℝ), c ε ∈ interior (spear v R) :=
+        hc.continuousAt.preimage_mem_nhds (by rw [hc0]; exact hnhds)
+      obtain ⟨δ, hδ, hball⟩ := Metric.eventually_nhds_iff.1 hev
+      have hmem := interior_subset (hball (show dist (δ / 2) 0 < δ by
+        rw [Real.dist_eq, sub_zero, abs_of_pos (by linarith)]; linarith))
+      have hrc : rad (c (δ / 2)) = (1 + δ / 2) * R := by
+        simp only [c, rad, norm_mul, Complex.norm_real, Real.norm_eq_abs]
+        rw [abs_of_pos (by linarith)]
+        exact congrArg _ hr'
+      have h2 := hmem.2
+      rw [hrc] at h2
+      nlinarith
+  · exact interior_maximal (fun x hx => ⟨hx.1.le, hx.2.le⟩)
+      ((isOpen_lt continuous_const continuous_fcoord).inter
+        (isOpen_lt continuous_rad continuous_const))
+
+/-- **The boundary of a spear is its head and its shaft** (Def 2.1, l.614–615, in the corrected
+form: the head is the cone piece `{f = v, r ≤ R}`, the shaft the half-tube `{r = R, τ ≥ v + R/2}`;
+the printed `{r = 2(τ − R)}` and `{τ ≥ 0}` do not fit the printed vertex `(−2R, 0, 0)`). -/
+theorem frontier_spear {v R : ℝ} (hR : 0 < R) :
+    frontier (spear v R) = spearHead v R ∪ spearShaft v R := by
+  rw [frontier, (isClosed_spear v R).closure_eq, interior_spear hR]
+  ext x
+  simp only [spear, spearHead, spearShaft, Set.mem_sdiff, mem_setOf_eq, mem_union, not_and_or,
+    not_lt, fcoord]
+  constructor
+  · rintro ⟨⟨h1, h2⟩, h3 | h3⟩
+    · exact Or.inl ⟨le_antisymm h3 h1, h2⟩
+    · exact Or.inr ⟨le_antisymm h2 h3, by rw [← le_antisymm h2 h3]; linarith⟩
+  · rintro (⟨h1, h2⟩ | ⟨h1, h2⟩)
+    · exact ⟨⟨h1.ge, h2⟩, Or.inl h1.le⟩
+    · exact ⟨⟨by rw [h1]; linarith, h1.le⟩, Or.inr h1.ge⟩
+
+/-- **Spears are causally convex in `𝔼₀`**: `f` and `r` are non-decreasing along `≤`. -/
+theorem mem_spear_of_le {v R : ℝ} {U V : Opens E0} {x y z : E0} (hx : x ∈ spear v R)
+    (hz : z ∈ spear v R) (hxy : causality.le U x y) (hyz : causality.le V y z) :
+    y ∈ spear v R :=
+  ⟨hx.1.trans (calculus_le hxy).2.2.2.2.1, ((calculus_le hyz).2.2.2.1).trans hz.2⟩
+
+/-- **The open cylinders `{a < τ < b, r < ρ}` are causally convex in `𝔼₀`.** -/
+def cyl (a b ρ : ℝ) : Set E0 := {x | a < x.1 ∧ x.1 < b ∧ rad x < ρ}
+
+theorem isOpen_cyl (a b ρ : ℝ) : IsOpen (cyl a b ρ) :=
+  (isOpen_lt continuous_const continuous_fst).inter
+    ((isOpen_lt continuous_fst continuous_const).inter (isOpen_lt continuous_rad continuous_const))
+
+theorem mem_cyl_of_le {a b ρ : ℝ} {U V : Opens E0} {x y z : E0} (hx : x ∈ cyl a b ρ)
+    (hz : z ∈ cyl a b ρ) (hxy : causality.le U x y) (hyz : causality.le V y z) :
+    y ∈ cyl a b ρ :=
+  ⟨hx.1.trans_le (calculus_le hxy).2.2.1, ((calculus_le hyz).2.2.1).trans_lt hz.2.1,
+    ((calculus_le hyz).2.2.2.1).trans_lt hz.2.2⟩
+
+/-- The vertical segment from `(τ, z)` to `(τ', z)`, read through the development. -/
+theorem lift_vertical (τ τ' s : ℝ) (z : ℂ) (θ : ℝ) :
+    seg (lift (τ, z) θ) (lift (τ', z) θ) s = lift (τ + s * (τ' - τ), z) θ := by
+  simp only [seg, lift, btzPaperNull, rad]
+  ext <;> simp; ring
+
+/-- **The vertical lines `θ, r` fixed are future null** (`∂_τ` is null for
+`−2dτdr + dr² + r²dθ²`): `(τ, z) ≤_U (τ', z)` for `τ ≤ τ'` as soon as the vertical segment lies
+in `U`. -/
+theorem le_vertical {U : Opens E0} {τ τ' : ℝ} {z : ℂ} (h : τ ≤ τ')
+    (hU : ∀ s ∈ Icc (0 : ℝ) 1, ((τ + s * (τ' - τ), z) : E0) ∈ U) :
+    causality.le U (τ, z) (τ', z) := by
+  have hx : Polar ((τ, z) : E0) (Complex.arg z) := polar_arg ((τ, z) : E0)
+  have hy : Polar ((τ', z) : E0) (Complex.arg z) := polar_arg ((τ', z) : E0)
+  refine cle_of_seg hx hy ?_ fun s hs => ?_
+  · rw [nullCone_lift_iff]
+    refine ⟨h, le_rfl, ?_⟩
+    simp [rad]
+  · rw [lift_vertical, unlift_lift (polar_arg ((τ + s * (τ' - τ), z) : E0))]
+    exact hU s hs
+
+theorem le_vertical_top {τ τ' : ℝ} {z : ℂ} (h : τ ≤ τ') :
+    causality.le ⊤ ((τ, z) : E0) (τ', z) :=
+  le_vertical h fun _ _ => trivial
+
+/-- **Above a horizontal disc, the spear is in its causal future**: a point of `spear v R` with
+`τ ≥ c` lies above the point `(c, z)` of the disc `Π = {τ = c, r ≤ R}`; hence the part of the
+spear outside `J⁺(Π)` lies below the level `τ = c` (`spear_diff_Jplus_disc`). -/
+def disc (c R : ℝ) : Set E0 := {x | x.1 = c ∧ rad x ≤ R}
+
+theorem spear_diff_Jplus_disc (v R c : ℝ) :
+    spear v R \ causality.Jplus ⊤ (disc c R) ⊆ {x | x.1 < c} := by
+  rintro ⟨τ, z⟩ ⟨hx, hnot⟩
+  by_contra hc
+  refine hnot ⟨(c, z), ⟨rfl, hx.2⟩, le_vertical_top (not_lt.1 hc)⟩
+
+end Model
+
+/-! ### §2 Spear neighbourhoods and full future BTZ rays in an `𝔼₀`-manifold -/
+
+section Manifold
+
+open E0CBG
+
+/-- `f` is an `𝔼₀`-morphism on `W` (`LiftPropOn` of the a.e.-isomorphism groupoid, DEC-62's local
+form; the morphisms of `E0CBG.e0Geometry`, `E0CBG.e0Geometry_isMor`). -/
+abbrev IsE0Mor {X N : Type} [TopologicalSpace X] [TopologicalSpace N] [ChartedSpace E0Y X]
+    [ChartedSpace E0Y N] (f : X → N) (W : Set X) : Prop :=
+  ChartedSpace.LiftPropOn e0Groupoid.IsLocalStructomorphWithinAt f W
+
+/-- The vertex `(v, 0)` of `𝔼₀` in the model space `Y = 𝕄 ⊕ 𝔼₀`. -/
+noncomputable def yVertex (v : ℝ) : E0Y := paperInY (vertex v)
+
+/-- The spear `spear v R` in the model space `Y`. -/
+noncomputable def spearY (v R : ℝ) : Set E0Y := paperInY '' spear v R
+
+/-- The axis point `(v + t, 0)` in `Y`. -/
+noncomputable def yAxis (v t : ℝ) : E0Y := paperInY ((v + t, 0) : E0)
+
+variable {M : Type} [TopologicalSpace M] [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid]
+
+/-- **A spear neighbourhood around the BTZ line through `p`, of vertex `p` and radius `R`**
+(B21 Def 2.1, `BTZ_1.tex:604–614`): a subset `U = ψ(S)` of `M`, `S = J⁺((v,0)) ∩ {r ≤ R}` the
+spear of `𝔼₀`, for an injective `𝔼₀`-morphism `ψ` defined on an open neighbourhood `W` of `S` in
+`Y`, sending the vertex to `p`. The paper's « singular `𝔼`-isomorphism `φ : 𝒰 → 𝒱` » is
+`ψ⁻¹`; the vertex's `τ`-coordinate `v` is free (the paper's `(−2R, 0, 0)` is a normalisation by a
+`τ`-translation, and is inconsistent with its own head formula: finding). -/
+structure IsSpearNbhd (p : M) (R : ℝ) (U : Set M) : Prop where
+  pos : 0 < R
+  chart : ∃ (v : ℝ) (W : Set E0Y) (ψ : E0Y → M), IsOpen W ∧ spearY v R ⊆ W ∧ IsE0Mor ψ W ∧
+    InjOn ψ W ∧ ψ (yVertex v) = p ∧ U = ψ '' spearY v R
+
+/-- **A full future BTZ ray from `p`** (`RamcovGX.tex:2350`, « the singular locus contains full
+future BTZ rays »): `γ(t) = ψ(v + t, 0)` for an injective `𝔼₀`-morphism `ψ` defined on an open
+neighbourhood of the **whole** model ray `{(v + t, 0) : t ≥ 0}` — the ray is complete for the
+affine parameter of the BTZ line, which the morphism preserves. `γ 0 = p`. -/
+def IsFullFutureBTZRay (p : M) (γ : ℝ → M) : Prop :=
+  ∃ (v : ℝ) (W : Set E0Y) (ψ : E0Y → M), IsOpen W ∧ (∀ t, 0 ≤ t → yAxis v t ∈ W) ∧
+    IsE0Mor ψ W ∧ InjOn ψ W ∧ ψ (yVertex v) = p ∧ ∀ t, γ t = ψ (yAxis v t)
+
+end Manifold
+
+/-! ### §2a Transferring the causal relations of `𝔼₀` along `𝔼₀`-morphisms -/
+
+section Transfer
+
+open E0CBG
+
+theorem chartImage_refl {X : Type*} [TopologicalSpace X] (V : Opens X) :
+    Causal.chartImage (OpenPartialHomeomorph.refl X) V = V := by
+  apply SetLike.coe_injective
+  rw [Causal.coe_chartImage]
+  simp
+
+/-- On the model `Y` charted over itself, the charted causality is the model causality `D`. -/
+theorem ceY_le_iff {V : Opens E0Y} {a b : E0Y} (ha : a ∈ V) (hb : b ∈ V) :
+    (CE E0Y).le V a b ↔ E0LM.D.le V a b := by
+  have h := Causal.CBG.chartedCausality_chartIso (M := E0Y) (G := e0Groupoid)
+    E0.chartIso_mem_e0Groupoid E0.absolutelyMinimalOn_YBTZ a V
+    (fun x _ => by simp [Causal.chartSource]) a ha b hb
+  rw [chartAt_self_eq, chartImage_refl] at h
+  exact h.1
+
+/-- The relations of `𝔼₀` (paper coordinates) are those of `D` on `Y` through `paperInY`. -/
+theorem D_le_of_le {U : Opens E0} {x y : E0} (h : causality.le U x y) :
+    E0LM.D.le (Causal.chartImage paperInY U) (paperInY x) (paperInY y) :=
+  ((chartIso_paperInY U (fun z _ => by simp [Causal.chartSource]) x (causality.le_mem_left h) y
+    (causality.le_mem_right h)).1).1 h
+
+/-- **An `𝔼₀`-morphism maps `D`-relations inside its domain to relations of the target.** -/
+theorem le_of_isE0Mor {N : Type} [TopologicalSpace N] [ChartedSpace E0Y N]
+    [HasGroupoid N e0Groupoid] {ψ : E0Y → N} {W : Set E0Y} (hW : IsOpen W) (hψ : IsE0Mor ψ W)
+    {V : Opens E0Y} (hV : (V : Set E0Y) ⊆ W) {a b : E0Y} (h : E0LM.D.le V a b) :
+    (CE N).le ⊤ (ψ a) (ψ b) :=
+  (Causal.CBG.isEMorphismOn_of_liftPropOn E0.chartIso_mem_e0Groupoid E0.absolutelyMinimalOn_YBTZ
+    (W := ⟨W, hW⟩) hψ).map_le V ⊤ hV (fun _ _ => trivial)
+    ((ceY_le_iff (E0LM.D.le_mem_left h) (E0LM.D.le_mem_right h)).2 h)
+
+/-- **An `𝔼₀`-morphism maps relations of `𝔼₀` inside (the preimage of) its domain to relations of
+the target.** -/
+theorem le_of_isE0Mor_paper {N : Type} [TopologicalSpace N] [ChartedSpace E0Y N]
+    [HasGroupoid N e0Groupoid] {ψ : E0Y → N} {W : Set E0Y} (hW : IsOpen W) (hψ : IsE0Mor ψ W)
+    {U : Opens E0} (hU : (U : Set E0) ⊆ paperInY ⁻¹' W) {x y : E0} (h : causality.le U x y) :
+    (CE N).le ⊤ (ψ (paperInY x)) (ψ (paperInY y)) := by
+  refine le_of_isE0Mor hW hψ ?_ (D_le_of_le h)
+  rw [Causal.coe_chartImage]
+  rintro _ ⟨z, ⟨-, hz⟩, rfl⟩
+  exact hU hz
+
+theorem continuous_paperInY : Continuous paperInY := by
+  rw [← continuousOn_univ, ← paperInY_source]; exact paperInY.continuousOn
+
+theorem yAxis_mem_e0SingY (v t : ℝ) : yAxis v t ∈ e0SingY 0 := by
+  rw [yAxis, paperInY_apply, E0LM.inr_mem_e0SingY_zero_iff, Homeomorph.apply_symm_apply]
+  rfl
+
+theorem yAxis_zero (v : ℝ) : yAxis v 0 = yVertex v := by
+  simp [yAxis, yVertex, vertex]
+
+theorem yAxis_injective (v : ℝ) : Injective (yAxis v) := by
+  intro s t h
+  have h1 := paperInY.injOn (by simp) (by simp) h
+  simp only [Prod.mk.injEq, add_right_inj, and_true] at h1
+  exact h1
+
+theorem continuous_yAxis (v : ℝ) : Continuous (yAxis v) :=
+  continuous_paperInY.comp ((continuous_const.add continuous_id).prodMk continuous_const)
+
+end Transfer
+
+/-! ### §2b A spear neighbourhood gives a full future BTZ ray; properties of full rays -/
+
+section Rays
+
+open E0CBG
+
+variable {M : Type} [TopologicalSpace M] [ChartedSpace E0Y M]
+
+theorem yAxis_mem_spearY {v R t : ℝ} (hR : 0 ≤ R) (ht : 0 ≤ t) : yAxis v t ∈ spearY v R :=
+  ⟨_, axis_mem_spear hR (by linarith), rfl⟩
+
+/-- **A spear neighbourhood of vertex `p` contains a full future BTZ ray from `p`** (Def 2.1:
+« a neighbourhood of `]p, +∞[` »). -/
+theorem IsSpearNbhd.exists_ray {p : M} {R : ℝ} {U : Set M} (h : IsSpearNbhd p R U) :
+    ∃ γ : ℝ → M, IsFullFutureBTZRay p γ ∧ ∀ t, 0 ≤ t → γ t ∈ U := by
+  obtain ⟨v, W, ψ, hW, hSW, hψ, hinj, hp, rfl⟩ := h.chart
+  refine ⟨fun t => ψ (yAxis v t), ⟨v, W, ψ, hW, fun t ht => hSW (yAxis_mem_spearY h.pos.le ht),
+    hψ, hinj, hp, fun _ => rfl⟩, fun t ht => ⟨_, yAxis_mem_spearY h.pos.le ht, rfl⟩⟩
+
+/-- **`U` is a neighbourhood of the open ray `]p, +∞[`**: the interior `{f > v, r < R}` of the
+spear is open, contains the axis points above the vertex, and `ψ` is an open map on `W`. -/
+theorem IsSpearNbhd.exists_ray_mem_nhds [HasGroupoid M e0Groupoid] {p : M} {R : ℝ} {U : Set M} (h : IsSpearNbhd p R U) :
+    ∃ γ : ℝ → M, IsFullFutureBTZRay p γ ∧ ∀ t, 0 < t → U ∈ 𝓝 (γ t) := by
+  obtain ⟨v, W, ψ, hW, hSW, hψ, hinj, hp, rfl⟩ := h.chart
+  refine ⟨fun t => ψ (yAxis v t), ⟨v, W, ψ, hW,
+    fun t ht => hSW (yAxis_mem_spearY h.pos.le ht), hψ, hinj, hp, fun _ => rfl⟩, fun t ht => ?_⟩
+  set O : Set E0 := {x | v < fcoord x ∧ rad x < R} with hOdef
+  have hOo : IsOpen O := (isOpen_lt continuous_const continuous_fcoord).inter
+    (isOpen_lt continuous_rad continuous_const)
+  have hOS : O ⊆ spear v R := fun x hx => ⟨hx.1.le, hx.2.le⟩
+  have hPo : IsOpen (paperInY '' O) := by
+    have := paperInY.isOpen_image_source_inter hOo
+    rwa [paperInY_source, univ_inter] at this
+  have hPW : paperInY '' O ⊆ W := fun _ hy => hSW (image_mono hOS hy)
+  have hE := Causal.CBG.isEMorphismOn_of_liftPropOn E0.chartIso_mem_e0Groupoid
+    E0.absolutelyMinimalOn_YBTZ (W := ⟨W, hW⟩) hψ
+  have hopen := hE.isOpen_image ⟨_, hPo⟩ hPW
+  have hmem : yAxis v t ∈ paperInY '' O := by
+    refine ⟨((v + t, 0) : E0), ⟨?_, ?_⟩, rfl⟩
+    · have h0 : rad (((v + t, 0) : E0)) = 0 := rad_eq_zero.2 rfl
+      simp only [fcoord, h0]; linarith
+    · rw [rad_eq_zero.2 rfl]; exact h.pos
+  exact Filter.mem_of_superset (hopen.mem_nhds (mem_image_of_mem ψ hmem))
+    (image_mono (image_mono hOS))
+
+namespace IsFullFutureBTZRay
+
+variable {p : M} {γ : ℝ → M}
+
+theorem zero (h : IsFullFutureBTZRay p γ) : γ 0 = p := by
+  obtain ⟨v, W, ψ, -, -, -, -, hp, hγ⟩ := h
+  rw [hγ, yAxis_zero, hp]
+
+/-- The ray lies in the BTZ locus `sing₀(M)` (morphisms preserve the type of a point). -/
+theorem mem_S0 (h : IsFullFutureBTZRay p γ) {t : ℝ} (ht : 0 ≤ t) : γ t ∈ S0 M := by
+  obtain ⟨v, W, ψ, hW, hray, hψ, -, -, hγ⟩ := h
+  rw [hγ]
+  refine (Causal.CBG.mem_chartedSing_iff_of_liftPropOn e0_sing_mem hW hψ (hray t ht)
+    le_rfl).1 ?_
+  show chartAt E0Y (yAxis v t) (yAxis v t) ∈ e0SingY 0
+  rw [chartAt_self_eq]
+  exact yAxis_mem_e0SingY v t
+
+/-- The ray is injective. -/
+theorem injOn (h : IsFullFutureBTZRay p γ) : InjOn γ (Ici 0) := by
+  obtain ⟨v, W, ψ, -, hray, -, hinj, -, hγ⟩ := h
+  intro s hs t ht hst
+  rw [hγ, hγ] at hst
+  exact yAxis_injective v (hinj (hray s hs) (hray t ht) hst)
+
+/-- The ray is continuous. -/
+theorem continuousOn (h : IsFullFutureBTZRay p γ) : ContinuousOn γ (Ici 0) := by
+  obtain ⟨v, W, ψ, -, hray, hψ, -, -, hγ⟩ := h
+  have hγ' : γ = ψ ∘ yAxis v := funext hγ
+  rw [hγ']
+  have hψc : ContinuousOn ψ W := fun x hx => (hψ x hx).continuousWithinAt
+  exact hψc.comp (continuous_yAxis v).continuousOn (fun t ht => hray t ht)
+
+/-- **The ray is future directed**: `γ s ≤ γ t` for `0 ≤ s ≤ t`. -/
+theorem le [HasGroupoid M e0Groupoid] (h : IsFullFutureBTZRay p γ) {s t : ℝ} (hs : 0 ≤ s) (hst : s ≤ t) :
+    (CE M).le ⊤ (γ s) (γ t) := by
+  obtain ⟨v, W, ψ, hW, hray, hψ, -, -, hγ⟩ := h
+  rw [hγ, hγ]
+  set U : Opens E0 := ⟨paperInY ⁻¹' W, hW.preimage continuous_paperInY⟩
+  refine le_of_isE0Mor_paper hW hψ (U := U) subset_rfl ?_
+  refine le_vertical (by linarith) fun r hr => ?_
+  show paperInY ((v + s + r * (v + t - (v + s)), 0) : E0) ∈ W
+  have : v + s + r * (v + t - (v + s)) = v + (s + r * (t - s)) := by ring
+  rw [this]
+  exact hray _ (by nlinarith [hr.1, hr.2])
+
+end IsFullFutureBTZRay
+
+end Rays
+
+/-- **Non-vacuity**: in the model itself (`M = Y`), the spear `spearY v R` is a spear neighbourhood
+of the vertex (`ψ = id`). -/
+theorem isSpearNbhd_model (v : ℝ) {R : ℝ} (hR : 0 < R) :
+    IsSpearNbhd (M := E0Y) (yVertex v) R (spearY v R) :=
+  ⟨hR, v, univ, id, isOpen_univ, subset_univ _, Causal.CBG.liftPropOn_id isOpen_univ,
+    injOn_id _, rfl, (image_id _).symm⟩
+
+/-! ### §2c A chart cylinder at a BTZ point -/
+
+section CylChart
+
+open E0CBG
+
+variable {M : Type} [TopologicalSpace M] [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid]
+
+/-- **A chart cylinder at a BTZ point** (the first step of the proof of B21 Lemma 2.3, « a
+neighbourhood `𝒰̄` of `p` isomorphic to `{τ ∈ [τ₁, R/2], r ≤ R}` »): every BTZ point `p` is the
+image of the axis point `(v,0)` under an injective `𝔼₀`-morphism `ψ` (the inverse of the preferred
+chart) defined on a neighbourhood of a cylinder `{|τ − v| < ε, r < ε}` of `𝔼₀`. -/
+theorem exists_cyl_chart {p : M} (hp : p ∈ S0 M) :
+    ∃ (v ε : ℝ) (W : Set E0Y) (ψ : E0Y → M), 0 < ε ∧ IsOpen W ∧
+      paperInY '' cyl (v - ε) (v + ε) ε ⊆ W ∧ IsE0Mor ψ W ∧ InjOn ψ W ∧ ψ (yVertex v) = p := by
+  set κ := chartAt E0Y p with hκ
+  have hκp : κ p ∈ e0SingY 0 := hp
+  obtain ⟨x, hx, hax⟩ := E0LM.mem_e0SingY_zero_iff.1 hκp
+  set w := E0.toPaper x with hw
+  have hwv : w = vertex w.1 := Prod.ext rfl hax
+  have hpw : paperInY w = κ p := by
+    rw [paperInY_apply, hw, Homeomorph.symm_apply_apply, hx]
+  have hT : IsOpen (paperInY ⁻¹' κ.target) := κ.open_target.preimage continuous_paperInY
+  have hwT : w ∈ paperInY ⁻¹' κ.target := by
+    show paperInY w ∈ κ.target
+    rw [hpw]; exact κ.map_source (mem_chart_source E0Y p)
+  obtain ⟨δ, hδ, hball⟩ := Metric.isOpen_iff.1 hT w hwT
+  have hQ : ∀ y : E0Y, e0Groupoid.IsLocalStructomorphWithinAt id univ y := fun y _ =>
+    ⟨OpenPartialHomeomorph.refl E0Y, e0Groupoid.id_mem, fun _ _ => rfl, trivial⟩
+  refine ⟨w.1, δ / 2, κ.target, κ.symm, by linarith, κ.open_target, ?_,
+    e0Groupoid.isLocalStructomorphWithinAt_localInvariantProp.liftPropOn_chart_symm hQ,
+    κ.symm.injOn, ?_⟩
+  · rintro _ ⟨y, hy, rfl⟩
+    refine hball ?_
+    rw [Metric.mem_ball, Prod.dist_eq]
+    refine max_lt ?_ ?_
+    · rw [Real.dist_eq, abs_lt]; constructor <;> linarith [hy.1, hy.2.1]
+    · have h0 : w.2 = 0 := hax
+      rw [h0, dist_zero_right]
+      exact hy.2.2.trans (by linarith)
+  · show κ.symm (paperInY (vertex w.1)) = p
+    rw [← hwv, hpw, κ.left_inv (mem_chart_source E0Y p)]
+
+end CylChart
+
+/-! ### §3 Cauchy-maximality (DEC-77(c)) and universality over Cauchy sub-developments -/
+
+section CauchyMaximal
+
+open E0CBG
+
+/-- **Cauchy-maximality of an `𝔼₀`-manifold** (B21 « Cauchy-maximal », DEC-77(c)): every Cauchy
+embedding of `M` into an `𝔼₀`-manifold (Hausdorff, connected, second countable) which is an
+`𝔼₀`-morphism is bijective. This is `Dev.IsETTMaximal` of `M` as a development of itself
+(`isE0CauchyMaximal_iff_isETTMaximal`), stated without the CBG geometry's parameters. -/
+def IsE0CauchyMaximal (M : Type) [TopologicalSpace M] [ChartedSpace E0Y M] : Prop :=
+  ∀ (N : Type) [TopologicalSpace N] [T2Space N] [ConnectedSpace N] [SecondCountableTopology N]
+    [ChartedSpace E0Y N] [HasGroupoid N e0Groupoid] (f : M → N),
+    Causal.IsCauchyEmbedding (CE M) (CE N) f → IsE0Mor f univ → Bijective f
+
+variable
+  (hLine : ∀ (M : Type) [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
+    [SecondCountableTopology M] [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid],
+    E0LM.E0GlobalBTZ (Causal.CBG.chartedCausality E0LM.D M) (Causal.CBG.chartedSing e0SingY M 0))
+  (hSC : ∀ {M : Type} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [ChartedSpace E0Y M]
+    [HasGroupoid M e0Groupoid], (Causal.CBG.chartedCausality E0LM.D M).GloballyHyperbolic →
+    ∀ S : Set M, (Causal.CBG.chartedCausality E0LM.D M).IsCauchySurface S →
+    SecondCountableTopology S → SecondCountableTopology M)
+
+/-- The causality of a structure of `e0Geometry` is the charted causality of its atlas. -/
+theorem e0Geometry_causality_str {X : Type} [TopologicalSpace X]
+    (s : (e0Geometry hLine hSC).Str X) :
+    (e0Geometry hLine hSC).causality s = @Causal.CBG.chartedCausality E0Y _ E0LM.D X _ s.1 :=
+  rfl
+
+/-- The morphisms of `e0Geometry` between two structures are the `𝔼₀`-morphisms of the atlases. -/
+theorem e0Geometry_isMor_str {X N : Type} [TopologicalSpace X] [TopologicalSpace N]
+    (s : (e0Geometry hLine hSC).Str X) (t : (e0Geometry hLine hSC).Str N) (W : Opens X)
+    (f : X → N) :
+    (e0Geometry hLine hSC).IsMor s t W f ↔ @IsE0Mor X N _ _ s.1 t.1 f W :=
+  Iff.rfl
+
+/-- An `𝔼₀`-morphism is an abstract `𝕄≥0`-morphism of the charted causalities. -/
+theorem isEMorphismOn_of_isE0Mor {X N : Type} [TopologicalSpace X] [TopologicalSpace N]
+    [ChartedSpace E0Y X] [ChartedSpace E0Y N] [HasGroupoid X e0Groupoid]
+    [HasGroupoid N e0Groupoid] {f : X → N} {W : Opens X} (hf : IsE0Mor f W) :
+    Causal.IsEMorphismOn (CE X) (CE N) W f :=
+  Causal.CBG.isEMorphismOn_of_liftPropOn E0.chartIso_mem_e0Groupoid E0.absolutelyMinimalOn_YBTZ hf
+
+variable {M : Type} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M]
+  [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid]
+
+/-- **DEC-77(c)**: `IsE0CauchyMaximal M` is `Dev.IsETTMaximal` of `M` as its own development in the
+CBG geometry `E0CBG.e0Geometry` (whose structures are the `𝔼₀`-atlases, morphisms the
+`𝔼₀`-morphisms, causality the charted one). -/
+theorem isE0CauchyMaximal_iff_isETTMaximal (hGH : (CE M).GloballyHyperbolic) {S : Set M}
+    (hS : (CE M).IsCauchySurface S) :
+    IsE0CauchyMaximal M ↔
+      (Causal.CBG.Dev.self (e0Geometry hLine hSC) (e0Str hLine hSC M) hGH hS).IsETTMaximal := by
+  constructor
+  · intro hmax N f hf
+    letI : ChartedSpace E0Y N.carrier := N.str.1
+    haveI : HasGroupoid N.carrier e0Groupoid := N.str.2
+    obtain ⟨hf1, hf2⟩ := hf
+    have hfe : f = N.emb := hf2
+    subst hfe
+    exact hmax N.carrier N.emb N.isCauchyEmbedding hf1
+  · intro hETT N _ _ _ _ _ _ f hf hfm
+    let Nd : Causal.CBG.Dev (e0Geometry hLine hSC).toPreGeometry (e0Str hLine hSC M) :=
+      { carrier := N
+        str := e0Str hLine hSC N
+        emb := f
+        isCauchyEmbedding := hf
+        isMor := hfm }
+    exact hETT Nd f ⟨hfm, rfl⟩
+
+/-- **Cauchy-maximality gives universality over every Cauchy sub-development** (the step hidden in
+B21 Lemma 2.3's « since `M` is Cauchy-maximal, `M₂` embeds into `M` », SCOPE R2(c)): if `M₀`
+Cauchy-embeds in a Cauchy-maximal `M` by an `𝔼₀`-morphism `ι`, every Cauchy development `N` of
+`M₀` maps into `M` by an injective `𝔼₀`-morphism over `ι`. Proof: CBG (`e0_cbg`) gives the
+universal development `M̄` of `M₀`; the morphism `g : M → M̄` over `M₀` is a Cauchy embedding
+(Sbierski Lemma 3.3, `sbierski_lemma_3_3`, Levin's time function on `M`), hence bijective by
+Cauchy-maximality; then `F = g⁻¹ ∘ h` for `h : N → M̄`, injective by Lemma 3.3 on `N`. -/
+theorem IsE0CauchyMaximal.exists_morphism_of_dev (hmax : IsE0CauchyMaximal M)
+    {M₀ : Type} [TopologicalSpace M₀] [T2Space M₀] [ConnectedSpace M₀] [SecondCountableTopology M₀]
+    [ChartedSpace E0Y M₀] [HasGroupoid M₀ e0Groupoid] (ι : M₀ → M)
+    (hι : Causal.IsCauchyEmbedding (CE M₀) (CE M) ι) (hιm : IsE0Mor ι univ)
+    (N : Causal.CBG.Dev (e0Geometry hLine hSC).toPreGeometry (e0Str hLine hSC M₀)) :
+    ∃ F : N.carrier → M, (e0Geometry hLine hSC).IsMor N.str (e0Str hLine hSC M) ⊤ F ∧
+      F ∘ N.emb = ι ∧ Injective F := by
+  obtain ⟨S₀, hS₀, -⟩ := hι.exists_cauchy
+  obtain ⟨Mbar, hU⟩ := e0_cbg hLine hSC hι.globallyHyperbolic_source hS₀
+  have hGM : (CE M).GloballyHyperbolic := hι.globallyHyperbolic_target
+  let DM : Causal.CBG.Dev (e0Geometry hLine hSC).toPreGeometry (e0Str hLine hSC M₀) :=
+    { carrier := M
+      str := e0Str hLine hSC M
+      emb := ι
+      isCauchyEmbedding := hι
+      isMor := hιm }
+  obtain ⟨g, hg, -⟩ := hU DM
+  letI : ChartedSpace E0Y Mbar.carrier := Mbar.str.1
+  haveI : HasGroupoid Mbar.carrier e0Groupoid := Mbar.str.2
+  have hGbar : (CE Mbar.carrier).GloballyHyperbolic := Mbar.isCauchyEmbedding.globallyHyperbolic_target
+  -- `g` is a Cauchy embedding
+  have hgm : IsE0Mor g (⊤ : Opens M) := hg.1
+  have hgE : Causal.IsEMorphism (CE M) (CE Mbar.carrier) g := isEMorphismOn_of_isE0Mor hgm
+  have hιS : (CE M).IsCauchySurface (ι '' S₀) := hι.isCauchySurface_image hS₀
+  have hgS : g '' (ι '' S₀) = Mbar.emb '' S₀ := by
+    rw [image_image]; exact image_congr fun x _ => congrFun hg.2 x
+  have hbarS : (CE Mbar.carrier).IsCauchySurface (Mbar.emb '' S₀) :=
+    Mbar.isCauchyEmbedding.isCauchySurface_image hS₀
+  obtain ⟨T, hTc, hT⟩ := E0LM.e0_timeFunction hGM
+  have hgC : Causal.IsCauchyEmbedding (CE M) (CE Mbar.carrier) g := by
+    refine Causal.CBG.sbierski_lemma_3_3 hGM hGbar hgE hTc hT hιS (by rw [hgS]; exact hbarS) ?_
+      E0LM.e0_causallyArcConnected (E0LM.e0_curvesExtend hGbar)
+    rintro _ ⟨x, -, rfl⟩ _ ⟨y, -, rfl⟩ hxy
+    have hxy' : Mbar.emb x = Mbar.emb y := by
+      have h1 := congrFun hg.2 x; have h2 := congrFun hg.2 y
+      simp only [comp_apply] at h1 h2
+      rw [← h1, ← h2]; exact hxy
+    rw [Mbar.isCauchyEmbedding.injective hxy']
+  have hbij : Bijective g := hmax Mbar.carrier g hgC hg.1
+  -- the inverse of `g` is a morphism
+  haveI : Nonempty M := ⟨ι (Classical.arbitrary M₀)⟩
+  have hinv := (e0Geometry hLine hSC).isMor_inv hg.1 hbij.1.injOn
+  have htop : ((e0Geometry hLine hSC).isEMorphismOn_of_isMor hg.1).imageOpens ⊤ le_rfl = ⊤ := by
+    apply SetLike.coe_injective
+    rw [Causal.IsEMorphismOn.coe_imageOpens, Opens.coe_top, image_univ_of_surjective hbij.2,
+      Opens.coe_top]
+  rw [htop] at hinv
+  set k := invFunOn g ((⊤ : Opens M) : Set M) with hk
+  have hkg : k ∘ g = id := funext fun x =>
+    hbij.1.injOn.leftInvOn_invFunOn (show x ∈ ((⊤ : Opens M) : Set M) from trivial)
+  obtain ⟨h, hh, -⟩ := hU N
+  refine ⟨k ∘ h, (e0Geometry hLine hSC).isMor_comp hinv hh.1 (fun _ _ => trivial), ?_, ?_⟩
+  · rw [comp_assoc, hh.2, ← hg.2, ← comp_assoc, hkg, id_comp]
+  · -- injectivity: Lemma 3.3 on `N`
+    letI : ChartedSpace E0Y N.carrier := N.str.1
+    haveI : HasGroupoid N.carrier e0Groupoid := N.str.2
+    have hGN : (CE N.carrier).GloballyHyperbolic := N.isCauchyEmbedding.globallyHyperbolic_target
+    have hFm : (e0Geometry hLine hSC).IsMor N.str (e0Str hLine hSC M) ⊤ (k ∘ h) :=
+      (e0Geometry hLine hSC).isMor_comp hinv hh.1 (fun _ _ => trivial)
+    have hFm' : IsE0Mor (k ∘ h) (⊤ : Opens N.carrier) := hFm
+    have hFE : Causal.IsEMorphism (CE N.carrier) (CE M) (k ∘ h) := isEMorphismOn_of_isE0Mor hFm'
+    have hFι : (k ∘ h) ∘ N.emb = ι := by
+      rw [comp_assoc, hh.2, ← hg.2, ← comp_assoc, hkg, id_comp]
+    obtain ⟨TN, hTNc, hTN⟩ := E0LM.e0_timeFunction hGN
+    have hNS : (CE N.carrier).IsCauchySurface (N.emb '' S₀) :=
+      N.isCauchyEmbedding.isCauchySurface_image hS₀
+    refine Causal.CBG.injective_of_mapsTo_cauchy hFE hTNc hTN hNS ?_ hιS ?_ hGM.1
+      E0LM.e0_causallyArcConnected (E0LM.e0_curvesExtend hGM)
+    · rintro _ ⟨x, -, rfl⟩ _ ⟨y, -, rfl⟩ hxy
+      have h1 := congrFun hFι x; have h2 := congrFun hFι y
+      simp only [comp_apply] at h1 h2 hxy
+      rw [hι.injective (h1.symm.trans (hxy.trans h2))]
+    · rintro _ ⟨x, hx, rfl⟩
+      exact ⟨x, hx, (congrFun hFι x).symm⟩
+
+end CauchyMaximal
+
+/-! ### §4a The pieces of the gluing of Lemma 2.3: `M₀ = M ∖ J⁺(φ⁻¹Π)` and the spear piece
+
+Normalisation (BTZ_1.tex:642–660, with the radii fixed): the chart `κ = chartAt p` reads a cylinder
+`{|τ − v| < ε, r < ε}` around `p = κ⁻¹(v, 0)` (`CylChartData`). The disc is
+`Π = {τ = v + ε/2, r ≤ ε/4}` (`glueDisc`), `M₀ = M ∖ J⁺(κ⁻¹Π)` (`glueW0`), the spear piece is the
+open `𝒫 = {f > v − ε/2, r < ε/4}` of `𝔼₀` (`gluePaper`, containing the spear `spear v (ε/8)`),
+glued to `M₀` along `𝒫 ∩ cyl ∩ κ(M₀)`. That overlap lies in the compact `glueF ⊆ cyl` (points of
+`𝒫 ∩ cyl` above `Π` are in `J⁺(κ⁻¹Π)`), which is what makes the gluing Hausdorff. -/
+
+section GluePieces
+
+open E0CBG
+
+variable {M : Type} [TopologicalSpace M] [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid]
+
+/-- **The chart cylinder at a BTZ point** (data form of `exists_cyl_chart`, with the chart
+`κ = chartAt p` itself): `κ⁻¹` is defined on the cylinder `{|τ − v| < ε, r < ε}` and sends its
+axis point `(v, 0)` to `p`. -/
+structure CylChartData (p : M) where
+  v : ℝ
+  ε : ℝ
+  pos : 0 < ε
+  cyl_sub : paperInY '' cyl (v - ε) (v + ε) ε ⊆ (chartAt E0Y p).target
+  vertex_eq : (chartAt E0Y p).symm (yVertex v) = p
+
+omit [HasGroupoid M e0Groupoid] in
+/-- Every BTZ point has a chart cylinder (`exists_cyl_chart`'s proof, keeping `κ = chartAt p`). -/
+theorem exists_cylChartData {p : M} (hp : p ∈ S0 M) : Nonempty (CylChartData p) := by
+  set κ := chartAt E0Y p with hκ
+  have hκp : κ p ∈ e0SingY 0 := hp
+  obtain ⟨x, hx, hax⟩ := E0LM.mem_e0SingY_zero_iff.1 hκp
+  set w := E0.toPaper x with hw
+  have hwv : w = vertex w.1 := Prod.ext rfl hax
+  have hpw : paperInY w = κ p := by
+    rw [paperInY_apply, hw, Homeomorph.symm_apply_apply, hx]
+  have hT : IsOpen (paperInY ⁻¹' κ.target) := κ.open_target.preimage continuous_paperInY
+  have hwT : w ∈ paperInY ⁻¹' κ.target := by
+    show paperInY w ∈ κ.target
+    rw [hpw]; exact κ.map_source (mem_chart_source E0Y p)
+  obtain ⟨δ, hδ, hball⟩ := Metric.isOpen_iff.1 hT w hwT
+  refine ⟨⟨w.1, δ / 2, by linarith, ?_, ?_⟩⟩
+  · rintro _ ⟨y, hy, rfl⟩
+    refine hball ?_
+    rw [Metric.mem_ball, Prod.dist_eq]
+    refine max_lt ?_ ?_
+    · rw [Real.dist_eq, abs_lt]; constructor <;> linarith [hy.1, hy.2.1]
+    · have h0 : w.2 = 0 := hax
+      rw [h0, dist_zero_right]
+      exact hy.2.2.trans (by linarith)
+  · show κ.symm (paperInY (vertex w.1)) = p
+    rw [← hwv, hpw, κ.left_inv (mem_chart_source E0Y p)]
+
+/-- The disc `Π = {τ = v + ε/2, r ≤ ε/4}` of the gluing. -/
+def glueDisc (v ε : ℝ) : Set E0 := disc (v + ε / 2) (ε / 4)
+
+/-- The spear piece `𝒫 = {f > v − ε/2, r < ε/4}`, paper coordinates. -/
+def gluePaper (v ε : ℝ) : Set E0 := {x | v - ε / 2 < fcoord x ∧ rad x < ε / 4}
+
+/-- The compact `F = {v − ε/2 ≤ τ ≤ v + ε/2, r ≤ ε/4}` containing the overlap. -/
+def glueF (v ε : ℝ) : Set E0 := {x | v - ε / 2 ≤ x.1 ∧ x.1 ≤ v + ε / 2 ∧ rad x ≤ ε / 4}
+
+theorem glueDisc_eq (v ε : ℝ) :
+    glueDisc v ε = ({v + ε / 2} : Set ℝ) ×ˢ Metric.closedBall (0 : ℂ) (ε / 4) := by
+  ext ⟨τ, z⟩
+  simp [glueDisc, disc, rad]
+
+theorem isCompact_glueDisc (v ε : ℝ) : IsCompact (glueDisc v ε) := by
+  rw [glueDisc_eq]; exact isCompact_singleton.prod (isCompact_closedBall _ _)
+
+theorem glueF_eq (v ε : ℝ) :
+    glueF v ε = Icc (v - ε / 2) (v + ε / 2) ×ˢ Metric.closedBall (0 : ℂ) (ε / 4) := by
+  ext ⟨τ, z⟩
+  simp [glueF, rad, and_assoc]
+
+theorem isCompact_glueF (v ε : ℝ) : IsCompact (glueF v ε) := by
+  rw [glueF_eq]; exact isCompact_Icc.prod (isCompact_closedBall _ _)
+
+theorem glueDisc_subset_cyl {v ε : ℝ} (hε : 0 < ε) : glueDisc v ε ⊆ cyl (v - ε) (v + ε) ε :=
+  fun x hx => ⟨by rw [hx.1]; linarith, by rw [hx.1]; linarith, hx.2.trans_lt (by linarith)⟩
+
+theorem glueF_subset_cyl {v ε : ℝ} (hε : 0 < ε) : glueF v ε ⊆ cyl (v - ε) (v + ε) ε :=
+  fun x hx => ⟨by linarith [hx.1], by linarith [hx.2.1], hx.2.2.trans_lt (by linarith)⟩
+
+theorem isOpen_gluePaper (v ε : ℝ) : IsOpen (gluePaper v ε) :=
+  (isOpen_lt continuous_const continuous_fcoord).inter (isOpen_lt continuous_rad continuous_const)
+
+theorem spear_subset_gluePaper {v ε : ℝ} (hε : 0 < ε) : spear v (ε / 8) ⊆ gluePaper v ε :=
+  fun x hx => ⟨by linarith [hx.1], hx.2.trans_lt (by linarith)⟩
+
+theorem vertex_mem_gluePaper {v ε : ℝ} (hε : 0 < ε) : vertex v ∈ gluePaper v ε :=
+  spear_subset_gluePaper hε (vertex_mem_spear (by linarith))
+
+theorem vertex_mem_cyl {v ε : ℝ} (hε : 0 < ε) : vertex v ∈ cyl (v - ε) (v + ε) ε := by
+  refine ⟨by simp [vertex]; linarith, by simp [vertex]; linarith, ?_⟩
+  rw [rad_eq_zero.2 (vertex_mem_axis v)]; exact hε
+
+/-- `𝒫` is connected: the image of `]v − ε/2, +∞[ × D(0, ε/4)` under `(s, z) ↦ (s + |z|/2, z)`. -/
+theorem isConnected_gluePaper {v ε : ℝ} (hε : 0 < ε) : IsConnected (gluePaper v ε) := by
+  have heq : gluePaper v ε =
+      (fun q : ℝ × ℂ => ((q.1 + ‖q.2‖ / 2, q.2) : E0)) '' (Ioi (v - ε / 2) ×ˢ
+        Metric.ball (0 : ℂ) (ε / 4)) := by
+    ext ⟨τ, z⟩
+    simp only [gluePaper, fcoord, rad, mem_setOf_eq, mem_image, mem_prod, mem_Ioi,
+      mem_ball_zero_iff, Prod.exists, Prod.mk.injEq]
+    constructor
+    · rintro ⟨h1, h2⟩
+      exact ⟨τ - ‖z‖ / 2, z, ⟨h1, h2⟩, by ring, rfl⟩
+    · rintro ⟨s, z', ⟨h1, h2⟩, h3, rfl⟩
+      refine ⟨?_, h2⟩
+      rw [← h3]; simpa using h1
+  rw [heq]
+  refine (isConnected_Ioi.prod (Metric.isConnected_ball (by linarith))).image _ ?_
+  exact ((continuous_fst.add (continuous_norm.comp continuous_snd |>.div_const 2)).prodMk
+    continuous_snd).continuousOn
+
+/-- **Cylinders are causally convex**, relations realised inside. -/
+theorem le_of_le_top_of_mem_cyl {a b ρ : ℝ} {U : Opens E0} (hU : cyl a b ρ ⊆ U) {x y : E0}
+    (hx : x ∈ cyl a b ρ) (hy : y ∈ cyl a b ρ) (h : causality.le ⊤ x y) : causality.le U x y := by
+  obtain ⟨c, hc, hc0, hc1⟩ := (E0.causallyArcConnected ⊤ le_rfl x y).1.1 h
+  have hmem : ∀ s ∈ Icc (0 : ℝ) 1, c s ∈ U := fun s hs => by
+    have h1 : causality.le ⊤ x (c s) := by rw [← hc0]; exact hc.le_of_le le_rfl hs.1 hs.2
+    have h2 : causality.le ⊤ (c s) y := by rw [← hc1]; exact hc.le_of_le hs.1 hs.2 le_rfl
+    exact hU (mem_cyl_of_le hx hy h1 h2)
+  exact (E0.causallyArcConnected U le_top x y).1.2
+    ⟨c, Causal.CurveOn.restrict hc le_rfl le_rfl le_top hmem, hc0, hc1⟩
+
+variable {p : M} (d : CylChartData p)
+
+theorem isE0Mor_chartAt_symm (p : M) :
+    IsE0Mor (chartAt E0Y p).symm (chartAt E0Y p).target := by
+  have hQ : ∀ y : E0Y, e0Groupoid.IsLocalStructomorphWithinAt id univ y := fun y _ =>
+    ⟨OpenPartialHomeomorph.refl E0Y, e0Groupoid.id_mem, fun _ _ => rfl, trivial⟩
+  exact e0Groupoid.isLocalStructomorphWithinAt_localInvariantProp.liftPropOn_chart_symm hQ
+
+omit [HasGroupoid M e0Groupoid] in
+theorem CylChartData.cyl_sub' : cyl (d.v - d.ε) (d.v + d.ε) d.ε ⊆
+    paperInY ⁻¹' (chartAt E0Y p).target := fun x hx => d.cyl_sub ⟨x, hx, rfl⟩
+
+/-- **The relations of the cylinder transfer to `M`** through `κ⁻¹`. -/
+theorem CylChartData.le_of_le {x y : E0} (hx : x ∈ cyl (d.v - d.ε) (d.v + d.ε) d.ε)
+    (hy : y ∈ cyl (d.v - d.ε) (d.v + d.ε) d.ε) (h : causality.le ⊤ x y) :
+    (CE M).le ⊤ ((chartAt E0Y p).symm (paperInY x)) ((chartAt E0Y p).symm (paperInY y)) :=
+  le_of_isE0Mor_paper (chartAt E0Y p).open_target (isE0Mor_chartAt_symm p)
+    (U := ⟨cyl (d.v - d.ε) (d.v + d.ε) d.ε, isOpen_cyl _ _ _⟩) d.cyl_sub'
+    (le_of_le_top_of_mem_cyl subset_rfl hx hy h)
+
+/-- The compact `κ⁻¹Π` of `M`. -/
+noncomputable def CylChartData.K : Set M :=
+  (chartAt E0Y p).symm '' (paperInY '' glueDisc d.v d.ε)
+
+omit [HasGroupoid M e0Groupoid] in
+theorem CylChartData.isCompact_K : IsCompact d.K := by
+  rw [CylChartData.K, image_image]
+  refine (isCompact_glueDisc d.v d.ε).image_of_continuousOn ?_
+  exact (chartAt E0Y p).continuousOn_symm.comp continuous_paperInY.continuousOn
+    fun x hx => d.cyl_sub' (glueDisc_subset_cyl d.pos hx)
+
+/-- The set `M₀ = M ∖ J⁺(κ⁻¹Π)`. -/
+def CylChartData.W0 : Set M := ((CE M).Jplus ⊤ d.K)ᶜ
+
+theorem CylChartData.isOpen_W0 [T2Space M] (hGH : (CE M).GloballyHyperbolic) :
+    IsOpen d.W0 :=
+  (Causal.Causality.isClosed_Jplus_of_isCompact (hGH.isClosed_le E0LM.e0_tarentin)
+    d.isCompact_K).isOpen_compl
+
+omit [HasGroupoid M e0Groupoid] in
+/-- `M₀` is a past set. -/
+theorem CylChartData.mem_W0_of_le {x y : M} (hx : x ∈ d.W0) (hyx : (CE M).le ⊤ y x) :
+    y ∈ d.W0 := by
+  rintro ⟨k, hk, hky⟩
+  exact hx ⟨k, hk, (CE M).le_trans hky hyx⟩
+
+/-- **`p ∈ M₀`**: were `κ⁻¹(c, z) ≤ p` for a point of `Π`, the vertex being below `(c, z)` in the
+cylinder, `p ≤ κ⁻¹(c, z) ≤ p`, so `(c, z)` would be the vertex. -/
+theorem CylChartData.mem_W0 (hGH : (CE M).GloballyHyperbolic) : p ∈ d.W0 := by
+  rintro ⟨_, ⟨_, ⟨y, hy, rfl⟩, rfl⟩, hyp⟩
+  have hyc := glueDisc_subset_cyl d.pos hy
+  have hvy : causality.le ⊤ (vertex d.v) y := by
+    rw [le_top_iff, le_axis_iff (vertex_mem_axis d.v)]
+    have h1 : y.1 = d.v + d.ε / 2 := hy.1
+    have h2 : rad y ≤ d.ε / 4 := hy.2
+    simp only [fcoord, vertex]; linarith [d.pos]
+  have h1 := d.le_of_le (vertex_mem_cyl d.pos) hyc hvy
+  have hpv : (chartAt E0Y p).symm (paperInY (vertex d.v)) = p := d.vertex_eq
+  rw [hpv] at h1
+  have heq := hGH.1 h1 hyp
+  have h2 : paperInY y = paperInY (vertex d.v) := by
+    have := (chartAt E0Y p).symm.injOn (d.cyl_sub ⟨y, hyc, rfl⟩)
+      (d.cyl_sub ⟨_, vertex_mem_cyl d.pos, rfl⟩) (heq.symm.trans hpv.symm)
+    exact this
+  have h3 := paperInY.injOn (by simp) (by simp) h2
+  have : y.1 = d.v := by rw [h3]; rfl
+  have h4 : y.1 = d.v + d.ε / 2 := hy.1
+  linarith [d.pos]
+
+/-- **The points of `𝒫 ∩ cyl` whose image is in `M₀` lie in the compact `F`** (below `Π`). -/
+theorem CylChartData.mem_glueF {x : E0} (hxP : x ∈ gluePaper d.v d.ε)
+    (hxC : x ∈ cyl (d.v - d.ε) (d.v + d.ε) d.ε)
+    (hxW : (chartAt E0Y p).symm (paperInY x) ∈ d.W0) : x ∈ glueF d.v d.ε := by
+  refine ⟨?_, ?_, hxP.2.le⟩
+  · have := hxP.1; simp only [fcoord] at this; linarith [rad_nonneg x]
+  · by_contra hc
+    push Not at hc
+    have hd : ((d.v + d.ε / 2, x.2) : E0) ∈ glueDisc d.v d.ε := ⟨rfl, hxP.2.le⟩
+    have hle : causality.le ⊤ ((d.v + d.ε / 2, x.2) : E0) x := le_vertical_top hc.le
+    exact hxW ⟨_, ⟨_, ⟨_, hd, rfl⟩, rfl⟩,
+      d.le_of_le (glueDisc_subset_cyl d.pos hd) hxC hle⟩
+
+end GluePieces
+
+/-! ### §4b The glue data of Lemma 2.3 (`Causal.CBG.FamilyGlueData`, two pieces) -/
+
+section GlueData
+
+open E0CBG
+
+/-- The two pieces of the gluing of Lemma 2.3: `false ↦ M₀`, `true ↦ 𝒫`. -/
+def gluePiece {M : Type} [TopologicalSpace M] (A : Opens M) (B : Opens E0Y) : Bool → Type
+  | false => A
+  | true => B
+
+instance gluePiece.instTop {M : Type} [TopologicalSpace M] (A : Opens M) (B : Opens E0Y) :
+    ∀ b, TopologicalSpace (gluePiece A B b)
+  | false => inferInstanceAs (TopologicalSpace A)
+  | true => inferInstanceAs (TopologicalSpace B)
+
+noncomputable instance gluePiece.instCharted {M : Type} [TopologicalSpace M] [ChartedSpace E0Y M]
+    (A : Opens M) (B : Opens E0Y) : ∀ b, ChartedSpace E0Y (gluePiece A B b)
+  | false => inferInstanceAs (ChartedSpace E0Y A)
+  | true => inferInstanceAs (ChartedSpace E0Y B)
+
+instance gluePiece.instHasGroupoid {M : Type} [TopologicalSpace M] [ChartedSpace E0Y M]
+    [HasGroupoid M e0Groupoid] (A : Opens M) (B : Opens E0Y) :
+    ∀ b, HasGroupoid (gluePiece A B b) e0Groupoid
+  | false => inferInstanceAs (HasGroupoid A e0Groupoid)
+  | true => inferInstanceAs (HasGroupoid B e0Groupoid)
+
+instance gluePiece.instT2 {M : Type} [TopologicalSpace M] [T2Space M] (A : Opens M)
+    (B : Opens E0Y) : ∀ b, T2Space (gluePiece A B b)
+  | false => inferInstanceAs (T2Space A)
+  | true => inferInstanceAs (T2Space B)
+
+/-- `Y = 𝕄 ⊕ 𝔼₀` is second countable (as in `E0LM.e0_chart_source_secondCountable`). -/
+instance secondCountableTopology_E0Y_spear : SecondCountableTopology E0Y := by
+  haveI : SecondCountableTopology BTZE0 :=
+    (quotientBase_topology (Z := ℝ) btz_two_pi_ne_zero).2.2 inferInstance
+  infer_instance
+
+instance gluePiece.instSC {M : Type} [TopologicalSpace M] [SecondCountableTopology M]
+    (A : Opens M) (B : Opens E0Y) : ∀ b, SecondCountableTopology (gluePiece A B b)
+  | false => inferInstanceAs (SecondCountableTopology A)
+  | true => inferInstanceAs (SecondCountableTopology B)
+
+theorem isOpen_paperInY_image {A : Set E0} (hA : IsOpen A) : IsOpen (paperInY '' A) := by
+  have := paperInY.isOpen_image_source_inter hA
+  rwa [paperInY_source, univ_inter] at this
+
+/-- The spear piece `𝒫` as an open set of `Y`. -/
+noncomputable def gluePY (v ε : ℝ) : Opens E0Y :=
+  ⟨paperInY '' gluePaper v ε, isOpen_paperInY_image (isOpen_gluePaper v ε)⟩
+
+/-- The chart cylinder in `Y`. -/
+noncomputable def glueCY (v ε : ℝ) : Set E0Y := paperInY '' cyl (v - ε) (v + ε) ε
+
+theorem isOpen_glueCY (v ε : ℝ) : IsOpen (glueCY v ε) := isOpen_paperInY_image (isOpen_cyl _ _ _)
+
+variable {M : Type} [TopologicalSpace M] [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid]
+  [T2Space M] {p : M} (d : CylChartData p) (hGH : (CE M).GloballyHyperbolic)
+
+/-- `M₀` as an open set. -/
+noncomputable def CylChartData.W0o : Opens M := ⟨d.W0, d.isOpen_W0 hGH⟩
+
+/-- The part of `M₀` glued to `𝒫`: `κ⁻¹(cyl ∩ 𝒫) ∩ M₀`. -/
+noncomputable def CylChartData.U01 : Opens (d.W0o hGH) :=
+  ⟨Subtype.val ⁻¹' ((chartAt E0Y p).source ∩ chartAt E0Y p ⁻¹' (glueCY d.v d.ε ∩ gluePY d.v d.ε)),
+    ((chartAt E0Y p).isOpen_inter_preimage ((isOpen_glueCY _ _).inter
+      (gluePY d.v d.ε).isOpen)).preimage continuous_subtype_val⟩
+
+/-- The part of `𝒫` glued to `M₀`: `cyl ∩ 𝒫 ∩ κ(M₀)`. -/
+noncomputable def CylChartData.U10 : Opens (gluePY d.v d.ε) :=
+  ⟨Subtype.val ⁻¹' (glueCY d.v d.ε ∩ (chartAt E0Y p).symm ⁻¹' d.W0), by
+    have h : glueCY d.v d.ε ∩ (chartAt E0Y p).symm ⁻¹' d.W0 =
+        glueCY d.v d.ε ∩ ((chartAt E0Y p).symm.source ∩ (chartAt E0Y p).symm ⁻¹' d.W0) := by
+      ext y
+      exact ⟨fun h => ⟨h.1, d.cyl_sub h.1, h.2⟩, fun h => ⟨h.1, h.2.2⟩⟩
+    rw [h]
+    exact ((isOpen_glueCY _ _).inter ((chartAt E0Y p).symm.isOpen_inter_preimage
+      (d.isOpen_W0 hGH))).preimage continuous_subtype_val⟩
+
+/-- The transition `M₀ ⊇ U₀₁ → 𝒫`, `x ↦ κ x`. -/
+noncomputable def CylChartData.φ01 (x : d.U01 hGH) : gluePY d.v d.ε :=
+  ⟨chartAt E0Y p x.1.1, x.2.2.2⟩
+
+/-- The transition `𝒫 ⊇ U₁₀ → M₀`, `y ↦ κ⁻¹ y`. -/
+noncomputable def CylChartData.φ10 (y : d.U10 hGH) : d.W0o hGH :=
+  ⟨(chartAt E0Y p).symm y.1.1, y.2.2⟩
+
+/-- The open sets of the glue data. -/
+noncomputable def CylChartData.glueU : (i j : Bool) → Opens (gluePiece (d.W0o hGH) (gluePY d.v d.ε) i)
+  | false, false => ⊤
+  | false, true => d.U01 hGH
+  | true, false => d.U10 hGH
+  | true, true => ⊤
+
+/-- The transitions of the glue data. -/
+noncomputable def CylChartData.glueφ : (i j : Bool) → d.glueU hGH i j →
+    gluePiece (d.W0o hGH) (gluePY d.v d.ε) j
+  | false, false => fun x => x.1
+  | false, true => fun x => d.φ01 hGH x
+  | true, false => fun y => d.φ10 hGH y
+  | true, true => fun x => x.1
+
+/-- **The glue data of Lemma 2.3**: `M₀` and `𝒫` glued along `U₀₁ ≅ U₁₀` by the chart `κ`. -/
+noncomputable def CylChartData.glueData :
+    Causal.CBG.FamilyGlueData Bool (gluePiece (d.W0o hGH) (gluePY d.v d.ε)) where
+  U := d.glueU hGH
+  φ := d.glueφ hGH
+  continuous_φ := by
+    rintro (_ | _) (_ | _)
+    · exact continuous_subtype_val
+    · exact ((chartAt E0Y p).continuousOn.comp_continuous
+        (continuous_subtype_val.comp continuous_subtype_val) fun x => x.2.1).subtype_mk _
+    · exact ((chartAt E0Y p).continuousOn_symm.comp_continuous
+        (continuous_subtype_val.comp continuous_subtype_val) fun y => d.cyl_sub y.2.1).subtype_mk _
+    · exact continuous_subtype_val
+  φ_mem := by
+    rintro (_ | _) (_ | _) x
+    · trivial
+    · show (chartAt E0Y p x.1.1 ∈ glueCY d.v d.ε) ∧
+        (chartAt E0Y p).symm (chartAt E0Y p x.1.1) ∈ d.W0
+      exact ⟨x.2.2.1, by rw [(chartAt E0Y p).left_inv x.2.1]; exact x.1.2⟩
+    · show (chartAt E0Y p).symm x.1.1 ∈ (chartAt E0Y p).source ∧
+        chartAt E0Y p ((chartAt E0Y p).symm x.1.1) ∈ glueCY d.v d.ε ∩ gluePY d.v d.ε
+      exact ⟨(chartAt E0Y p).map_target (d.cyl_sub x.2.1), by
+        rw [(chartAt E0Y p).right_inv (d.cyl_sub x.2.1)]; exact ⟨x.2.1, x.1.2⟩⟩
+    · trivial
+  U_self := by rintro (_ | _) <;> rfl
+  φ_self := by rintro (_ | _) x <;> rfl
+  cocycle := by
+    rintro (_ | _) (_ | _) (_ | _) x h
+    · exact ⟨trivial, rfl⟩
+    · exact ⟨h, rfl⟩
+    · exact ⟨trivial, Subtype.ext ((chartAt E0Y p).left_inv x.2.1)⟩
+    · exact ⟨x.2, rfl⟩
+    · exact ⟨x.2, rfl⟩
+    · exact ⟨trivial, Subtype.ext ((chartAt E0Y p).right_inv (d.cyl_sub x.2.1))⟩
+    · exact ⟨h, rfl⟩
+    · exact ⟨trivial, rfl⟩
+
+/-- The graph of a self-transition of a family gluing is the diagonal. -/
+theorem familyGlue_graph_self {I : Type} {X : I → Type} [∀ i, TopologicalSpace (X i)]
+    (D : Causal.CBG.FamilyGlueData I X) (i : I) :
+    Causal.Gluing.graph (Subtype.val : D.U i i → X i) (D.φ i i) = diagonal (X i) := by
+  ext ⟨a, b⟩
+  constructor
+  · rintro ⟨w, hw⟩
+    simp only [Prod.mk.injEq, D.φ_self] at hw
+    exact hw.1.symm.trans hw.2
+  · intro h
+    have h' : a = b := h
+    subst h'
+    exact ⟨⟨a, D.mem_U_self i a⟩, by simp [D.φ_self]⟩
+
+/-- The graph of `φ j i` is the transpose of the graph of `φ i j`. -/
+theorem familyGlue_mem_graph_swap {I : Type} {X : I → Type} [∀ i, TopologicalSpace (X i)]
+    (D : Causal.CBG.FamilyGlueData I X) {i j : I} {a : X j} {b : X i}
+    (h : (a, b) ∈ Causal.Gluing.graph (Subtype.val : D.U j i → X j) (D.φ j i)) :
+    (b, a) ∈ Causal.Gluing.graph (Subtype.val : D.U i j → X i) (D.φ i j) := by
+  obtain ⟨w, hw⟩ := h
+  simp only [Prod.mk.injEq] at hw
+  obtain ⟨rfl, rfl⟩ := hw
+  exact ⟨⟨D.φ j i w, D.φ_mem j i w⟩, by simp [D.φ_φ]⟩
+
+theorem familyGlue_graph_swap {I : Type} {X : I → Type} [∀ i, TopologicalSpace (X i)]
+    (D : Causal.CBG.FamilyGlueData I X) (i j : I) :
+    Causal.Gluing.graph (Subtype.val : D.U j i → X j) (D.φ j i) =
+      Prod.swap ⁻¹' Causal.Gluing.graph (Subtype.val : D.U i j → X i) (D.φ i j) := by
+  ext ⟨a, b⟩
+  exact ⟨familyGlue_mem_graph_swap D, familyGlue_mem_graph_swap D⟩
+
+/-- **The graph of `κ⁻¹ : U₁₀ → M₀` is closed** (the Hausdorffness of `M₂`, which B21 asserts
+without proof): off the compact `F ⊇ U₁₀` the complement is open; at `(y, x)` with `y ∈ F`,
+`κ⁻¹` is continuous at `y`, so either `x = κ⁻¹ y` (and `(y, x)` is on the graph) or `x` and
+`κ⁻¹ y` are separated in `M`. -/
+theorem CylChartData.isClosed_graph10 :
+    IsClosed (range fun w : d.U10 hGH => ((w.1 : gluePY d.v d.ε), d.φ10 hGH w)) := by
+  set κ := chartAt E0Y p with hκ
+  rw [← isOpen_compl_iff, isOpen_iff_forall_mem_open]
+  rintro ⟨y, x⟩ hyx
+  set FY : Set E0Y := paperInY '' glueF d.v d.ε with hFY
+  have hFc : IsClosed FY := ((isCompact_glueF _ _).image continuous_paperInY).isClosed
+  have hFsub : ∀ w : d.U10 hGH, ((w.1 : gluePY d.v d.ε) : E0Y) ∈ FY := by
+    intro w
+    obtain ⟨e, he, hee⟩ := w.1.2
+    obtain ⟨e', he', hee'⟩ := w.2.1
+    have hee2 : e = e' := paperInY.injOn (by simp) (by simp) (hee.trans hee'.symm)
+    subst hee2
+    refine ⟨e, d.mem_glueF he he' ?_, hee⟩
+    rw [hee]; exact w.2.2
+  by_cases hyF : (y : E0Y) ∈ FY
+  · have hyC : (y : E0Y) ∈ glueCY d.v d.ε := by
+      obtain ⟨e, he, hee⟩ := hyF; exact ⟨e, glueF_subset_cyl d.pos he, hee⟩
+    have hyT : (y : E0Y) ∈ κ.target := d.cyl_sub hyC
+    by_cases hxy : κ.symm y = (x : M)
+    · exfalso
+      apply hyx
+      refine ⟨⟨y, hyC, show κ.symm y ∈ d.W0 by rw [hxy]; exact x.2⟩, ?_⟩
+      exact Prod.ext rfl (Subtype.ext hxy)
+    · obtain ⟨V1, V2, hV1, hV2, h1, h2, hV12⟩ := t2_separation hxy
+      refine ⟨{q | (q.1 : E0Y) ∈ κ.target ∩ κ.symm ⁻¹' V1 ∧ (q.2 : M) ∈ V2}, ?_, ?_,
+        ⟨⟨hyT, h1⟩, h2⟩⟩
+      · rintro ⟨y', x'⟩ ⟨⟨-, h1'⟩, h2'⟩ ⟨w, hw⟩
+        simp only [Prod.mk.injEq] at hw
+        obtain ⟨rfl, rfl⟩ := hw
+        exact Set.disjoint_left.1 hV12 h1' h2'
+      · refine IsOpen.inter ?_ (hV2.preimage (continuous_subtype_val.comp continuous_snd))
+        have := κ.symm.isOpen_inter_preimage hV1
+        rw [OpenPartialHomeomorph.symm_source] at this
+        exact this.preimage (continuous_subtype_val.comp continuous_fst)
+  · refine ⟨{q | (q.1 : E0Y) ∉ FY}, ?_,
+      hFc.isOpen_compl.preimage (continuous_subtype_val.comp continuous_fst), hyF⟩
+    rintro ⟨y', x'⟩ hy' ⟨w, hw⟩
+    simp only [Prod.mk.injEq] at hw
+    obtain ⟨rfl, rfl⟩ := hw
+    exact hy' (hFsub w)
+
+/-- **`M₂` is Hausdorff** (`FamilyGlueData.t2Space_iff_isClosed_graph`). -/
+theorem CylChartData.t2Space_glued : T2Space (d.glueData hGH).Glued := by
+  rw [Causal.CBG.FamilyGlueData.t2Space_iff_isClosed_graph]
+  have h10 : IsClosed (Causal.Gluing.graph (Subtype.val : (d.glueData hGH).U true false → _)
+      ((d.glueData hGH).φ true false)) := d.isClosed_graph10 hGH
+  rintro (_ | _) (_ | _)
+  · rw [familyGlue_graph_self]; exact isClosed_diagonal
+  · rw [familyGlue_graph_swap]; exact h10.preimage continuous_swap
+  · exact h10
+  · rw [familyGlue_graph_self]; exact isClosed_diagonal
+
+/-- **`M₂` is second countable** (a countable gluing of second-countable pieces). -/
+theorem CylChartData.secondCountable_glued [SecondCountableTopology M] :
+    SecondCountableTopology (d.glueData hGH).Glued :=
+  (d.glueData hGH).secondCountableTopology
+
+omit [HasGroupoid M e0Groupoid] [T2Space M] in
+/-- **Corestriction of `𝔼₀`-morphisms to an open set** (mathlib's
+`ChartedSpace.liftPropWithinAt_subtypeVal_comp_iff`). -/
+theorem isE0Mor_corestrict_iff {X Z : Type} [TopologicalSpace X] [TopologicalSpace Z]
+    [ChartedSpace E0Y X] [ChartedSpace E0Y Z] {U : Opens Z} (g : X → U) (s : Set X) :
+    IsE0Mor (Subtype.val ∘ g) s ↔ IsE0Mor g s :=
+  forall₂_congr fun x _ => ChartedSpace.liftPropWithinAt_subtypeVal_comp_iff g s x
+
+omit [HasGroupoid M e0Groupoid] [T2Space M] in
+/-- The inclusion of an open set is an `𝔼₀`-morphism. -/
+theorem isE0Mor_val {X : Type} [TopologicalSpace X] [ChartedSpace E0Y X]
+    [HasGroupoid X e0Groupoid] (U : Opens X) : IsE0Mor (Subtype.val : U → X) univ := by
+  have h : IsE0Mor (Subtype.val ∘ (id : U → U)) univ :=
+    (isE0Mor_corestrict_iff (id : U → U) univ).2 (Causal.CBG.liftPropOn_id isOpen_univ)
+  exact h
+
+/-- The point `(v, 0)` of `𝒫`. -/
+noncomputable def CylChartData.vertexP : gluePY d.v d.ε :=
+  ⟨paperInY (vertex d.v), vertex d.v, vertex_mem_gluePaper d.pos, rfl⟩
+
+/-- The point `p` of `M₀`. -/
+noncomputable def CylChartData.pW0 : d.W0o hGH := ⟨p, d.mem_W0 hGH⟩
+
+/-- The pieces are non-empty. -/
+@[reducible] noncomputable def CylChartData.glueNonempty :
+    ∀ b, Nonempty (gluePiece (d.W0o hGH) (gluePY d.v d.ε) b)
+  | false => ⟨d.pW0 hGH⟩
+  | true => ⟨d.vertexP⟩
+
+/-- `κ` read `M₀ → 𝒫` (junk value off `U₀₁`). -/
+noncomputable def CylChartData.φ'01 (x : d.W0o hGH) : gluePY d.v d.ε := by
+  classical
+  exact if h : chartAt E0Y p x.1 ∈ gluePY d.v d.ε then ⟨_, h⟩ else d.vertexP
+
+/-- `κ⁻¹` read `𝒫 → M₀` (junk value off `U₁₀`). -/
+noncomputable def CylChartData.φ'10 (y : gluePY d.v d.ε) : d.W0o hGH := by
+  classical
+  exact if h : (chartAt E0Y p).symm y.1 ∈ d.W0 then ⟨_, h⟩ else d.pW0 hGH
+
+/-- The transitions, as maps of the whole pieces. -/
+noncomputable def CylChartData.glueφ' : (i j : Bool) →
+    gluePiece (d.W0o hGH) (gluePY d.v d.ε) i → gluePiece (d.W0o hGH) (gluePY d.v d.ε) j
+  | false, false => id
+  | false, true => d.φ'01 hGH
+  | true, false => d.φ'10 hGH
+  | true, true => id
+
+theorem CylChartData.glueφ'_eq (i j : Bool) (x : (d.glueData hGH).U i j) :
+    d.glueφ' hGH i j x = (d.glueData hGH).φ i j x := by
+  classical
+  cases i <;> cases j
+  · rfl
+  · show d.φ'01 hGH x.1 = d.φ01 hGH x
+    unfold CylChartData.φ'01
+    split_ifs with h
+    · rfl
+    · exact absurd x.2.2.2 h
+  · show d.φ'10 hGH x.1 = d.φ10 hGH x
+    unfold CylChartData.φ'10
+    split_ifs with h
+    · rfl
+    · exact absurd x.2.2 h
+  · rfl
+
+/-- **The transitions are `𝔼₀`-morphisms** on the glued parts (`κ`, `κ⁻¹` read through the
+inclusions and corestricted). -/
+theorem CylChartData.liftPropOn_glueφ' (i j : Bool) :
+    ChartedSpace.LiftPropOn e0Groupoid.IsLocalStructomorphWithinAt (d.glueφ' hGH i j)
+      ((d.glueData hGH).U i j) := by
+  classical
+  have hQ : ∀ y : E0Y, e0Groupoid.IsLocalStructomorphWithinAt id univ y := fun y _ =>
+    ⟨OpenPartialHomeomorph.refl E0Y, e0Groupoid.id_mem, fun _ _ => rfl, trivial⟩
+  cases i <;> cases j
+  · exact Causal.CBG.liftPropOn_id ((d.glueData hGH).U false false).isOpen
+  · show IsE0Mor (d.φ'01 hGH) (d.U01 hGH)
+    rw [← isE0Mor_corestrict_iff]
+    have hκ : IsE0Mor (chartAt E0Y p) (chartAt E0Y p).source :=
+      e0Groupoid.isLocalStructomorphWithinAt_localInvariantProp.liftPropOn_chart hQ
+    have hval : IsE0Mor (Subtype.val : d.W0o hGH → M) (d.U01 hGH) :=
+      Causal.CBG.liftPropOn_mono_of_le isOpen_univ (d.U01 hGH).isOpen (isE0Mor_val _)
+        (subset_univ _)
+    have hc := Causal.CBG.liftPropOn_comp (d.U01 hGH).isOpen (chartAt E0Y p).open_source hκ hval
+      fun x hx => hx.1
+    refine Causal.CBG.liftPropOn_congr_of_eqOn (d.U01 hGH).isOpen hc fun x hx => ?_
+    have hx' : chartAt E0Y p x.1 ∈ gluePY d.v d.ε := hx.2.2
+    simp only [comp_apply, CylChartData.φ'01, dif_pos hx']
+  · show IsE0Mor (d.φ'10 hGH) (d.U10 hGH)
+    rw [← isE0Mor_corestrict_iff]
+    have hval : IsE0Mor (Subtype.val : gluePY d.v d.ε → E0Y) (d.U10 hGH) :=
+      Causal.CBG.liftPropOn_mono_of_le isOpen_univ (d.U10 hGH).isOpen (isE0Mor_val _)
+        (subset_univ _)
+    have hc := Causal.CBG.liftPropOn_comp (d.U10 hGH).isOpen (chartAt E0Y p).open_target
+      (isE0Mor_chartAt_symm p) hval fun y hy => d.cyl_sub hy.1
+    refine Causal.CBG.liftPropOn_congr_of_eqOn (d.U10 hGH).isOpen hc fun y hy => ?_
+    have hy' : (chartAt E0Y p).symm y.1 ∈ d.W0 := hy.2
+    simp only [comp_apply, CylChartData.φ'10, dif_pos hy']
+  · exact Causal.CBG.liftPropOn_id ((d.glueData hGH).U true true).isOpen
+
+/-- **The atlas of `M₂`**: `FamilyGlueData.chartedSpace` (`Causal.CBG.gluedChartedSpace`). -/
+@[reducible] noncomputable def CylChartData.glueCS : ChartedSpace E0Y (d.glueData hGH).Glued :=
+  letI := d.glueNonempty hGH
+  (d.glueData hGH).chartedSpace E0Y
+
+/-- **`M₂` is an `𝔼₀`-manifold** (`FamilyGlueData.hasGroupoid_chartedSpace_of_eqOn`). -/
+theorem CylChartData.glue_hasGroupoid :
+    @HasGroupoid E0Y _ (d.glueData hGH).Glued _ (d.glueCS hGH) e0Groupoid :=
+  letI := d.glueNonempty hGH
+  (d.glueData hGH).hasGroupoid_chartedSpace_of_eqOn (d.glueφ' hGH) (d.liftPropOn_glueφ' hGH)
+    (d.glueφ'_eq hGH)
+
+/-- **The pieces embed by `𝔼₀`-morphisms** (`FamilyGlueData.liftPropOn_ι_of_eqOn`). -/
+theorem CylChartData.glue_liftPropOn_ι (i : Bool) :
+    @IsE0Mor _ _ _ _ _ (d.glueCS hGH) ((d.glueData hGH).ι i) univ :=
+  letI := d.glueNonempty hGH
+  (d.glueData hGH).liftPropOn_ι_of_eqOn (d.glueφ' hGH) (d.liftPropOn_glueφ' hGH)
+    (d.glueφ'_eq hGH) i
+
+/-- The corestriction `Y → 𝒫` (junk value off `𝒫`). -/
+noncomputable def CylChartData.gIntoP (y : E0Y) : gluePY d.v d.ε := by
+  classical
+  exact if h : y ∈ gluePY d.v d.ε then ⟨y, h⟩ else d.vertexP
+
+/-- **The spear chart of `M₂`**: `𝒫 ∋ y ↦ [y] ∈ M₂`. -/
+noncomputable def CylChartData.ψN (y : E0Y) : (d.glueData hGH).Glued :=
+  (d.glueData hGH).ι true (d.gIntoP y)
+
+omit [HasGroupoid M e0Groupoid] [T2Space M] in
+theorem CylChartData.gIntoP_of_mem {y : E0Y} (hy : y ∈ gluePY d.v d.ε) :
+    d.gIntoP y = ⟨y, hy⟩ := by
+  unfold CylChartData.gIntoP
+  rw [dif_pos hy]
+
+theorem CylChartData.isE0Mor_ψN :
+    @IsE0Mor _ _ _ _ _ (d.glueCS hGH) (d.ψN hGH) (gluePY d.v d.ε : Set E0Y) := by
+  letI := d.glueCS hGH
+  have hg : IsE0Mor d.gIntoP (gluePY d.v d.ε : Set E0Y) := by
+    rw [← isE0Mor_corestrict_iff]
+    refine Causal.CBG.liftPropOn_congr_of_eqOn (gluePY d.v d.ε).isOpen
+      (Causal.CBG.liftPropOn_id (gluePY d.v d.ε).isOpen) fun y hy => ?_
+    simp only [comp_apply, d.gIntoP_of_mem hy, id]
+  exact Causal.CBG.liftPropOn_comp (gluePY d.v d.ε).isOpen isOpen_univ
+    (d.glue_liftPropOn_ι hGH true) hg (mapsTo_univ _ _)
+
+theorem CylChartData.injOn_ψN : InjOn (d.ψN hGH) (gluePY d.v d.ε : Set E0Y) := by
+  intro y hy y' hy' h
+  have h1 := (d.glueData hGH).injective_ι true h
+  rw [d.gIntoP_of_mem hy, d.gIntoP_of_mem hy'] at h1
+  exact congrArg Subtype.val h1
+
+theorem CylChartData.vertexP_mem_U10 : d.vertexP ∈ d.U10 hGH :=
+  ⟨⟨vertex d.v, vertex_mem_cyl d.pos, rfl⟩, by
+    show (chartAt E0Y p).symm (paperInY (vertex d.v)) ∈ d.W0
+    rw [show paperInY (vertex d.v) = yVertex d.v from rfl, d.vertex_eq]; exact d.mem_W0 hGH⟩
+
+/-- **The vertex of the spear chart of `M₂` is `p`** (glued to `p ∈ M₀`). -/
+theorem CylChartData.ψN_vertex :
+    d.ψN hGH (yVertex d.v) = (d.glueData hGH).ι false (d.pW0 hGH) := by
+  have hmem : yVertex d.v ∈ gluePY d.v d.ε := d.vertexP.2
+  rw [CylChartData.ψN, d.gIntoP_of_mem hmem]
+  refine (d.glueData hGH).ι_eq_ι_iff.2 ⟨d.vertexP_mem_U10 hGH, ?_⟩
+  exact Subtype.ext d.vertex_eq
+
+omit [HasGroupoid M e0Groupoid] [T2Space M] in
+theorem CylChartData.spearY_subset : spearY d.v (d.ε / 8) ⊆ (gluePY d.v d.ε : Set E0Y) :=
+  image_mono (spear_subset_gluePaper d.pos)
+
+omit [HasGroupoid M e0Groupoid] [T2Space M] in
+theorem CylChartData.connectedSpace_gluePY : ConnectedSpace (gluePY d.v d.ε) :=
+  isConnected_iff_connectedSpace.1 ((isConnected_gluePaper d.pos).image _
+    continuous_paperInY.continuousOn)
+
+/-- **`M₂` is connected** once `M₀` is: the two pieces are connected and meet at `p`. -/
+theorem CylChartData.connectedSpace_glued [ConnectedSpace (d.W0o hGH)] :
+    ConnectedSpace (d.glueData hGH).Glued := by
+  haveI : ConnectedSpace (gluePiece (d.W0o hGH) (gluePY d.v d.ε) false) :=
+    ‹ConnectedSpace (d.W0o hGH)›
+  haveI : ConnectedSpace (gluePiece (d.W0o hGH) (gluePY d.v d.ε) true) :=
+    d.connectedSpace_gluePY
+  have h0 := isConnected_range ((d.glueData hGH).continuous_ι false)
+  have h1 := isConnected_range ((d.glueData hGH).continuous_ι true)
+  have hx0 : (d.glueData hGH).ι false (d.pW0 hGH) ∈ range ((d.glueData hGH).ι false) :=
+    mem_range_self _
+  have hx1 : (d.glueData hGH).ι false (d.pW0 hGH) ∈ range ((d.glueData hGH).ι true) :=
+    ⟨d.gIntoP (yVertex d.v), d.ψN_vertex hGH⟩
+  have hU : range ((d.glueData hGH).ι false) ∪ range ((d.glueData hGH).ι true) = univ := by
+    refine eq_univ_of_forall fun z => ?_
+    obtain ⟨i, x, rfl⟩ := (d.glueData hGH).exists_ι z
+    cases i
+    · exact Or.inl ⟨x, rfl⟩
+    · exact Or.inr ⟨x, rfl⟩
+  rw [connectedSpace_iff_univ, ← hU]
+  exact IsConnected.union ⟨_, hx0, hx1⟩ h0 h1
+
+/-- The inclusion `M₀ → M` is an abstract morphism. -/
+theorem CylChartData.isEMorphism_val :
+    Causal.IsEMorphism (CE (d.W0o hGH)) (CE M) (Subtype.val : d.W0o hGH → M) :=
+  isEMorphismOn_of_isE0Mor (W := ⊤) (isE0Mor_val (d.W0o hGH))
+
+/-- **`M₀` is globally hyperbolic in `M`**: a past set is causally convex. -/
+theorem CylChartData.globallyHyperbolicOn_W0 :
+    (CE M).GloballyHyperbolicOn (d.W0o hGH) :=
+  Causal.Causality.GloballyHyperbolicOn.of_causallyConvexIn E0LM.e0_causallyArcConnected hGH
+    ⟨le_top, fun _ _ _ hq _ hz => d.mem_W0_of_le hq (Causal.Causality.mem_diamond.1 hz).2⟩
+
+/-- **The level sets of a Cauchy time function strictly increasing along `≤` are Cauchy
+surfaces** (`Causal.Causality.IsCauchyTimeFunction.isCauchySurface` at an arbitrary level). -/
+theorem isCauchySurface_level {X : Type} [TopologicalSpace X] [T1Space X]
+    {C : Causal.Causality X} (hC : C.CausallyArcConnected) (hcaus : C.IsCausal)
+    (hJm : ∀ q : X, C.Jminus ⊤ {q} ≠ {q}) (hJp : ∀ q : X, C.Jplus ⊤ {q} ≠ {q}) {T : X → ℝ}
+    (hT : C.IsCauchyTimeFunction T) (hstrict : ∀ x y, C.le ⊤ x y → x ≠ y → T x < T y) (a : ℝ) :
+    C.IsCauchySurface (T ⁻¹' {a}) := by
+  intro I c hc
+  obtain ⟨ψ, -, -, hψr, hcψ⟩ := hc.reparam hC hcaus hJm hJp
+  obtain ⟨hbot, htop⟩ := hT.2 _ hcψ
+  have hcont : Continuous (T ∘ (c ∘ ψ)) := hT.1.continuous.comp hcψ.1.continuous
+  obtain ⟨s₁, hs₁⟩ := (hbot.eventually (eventually_le_atBot a)).exists
+  obtain ⟨s₂, hs₂⟩ := (htop.eventually (eventually_ge_atTop a)).exists
+  obtain ⟨s, hs⟩ := intermediate_value_univ s₁ s₂ hcont ⟨hs₁, hs₂⟩
+  refine ⟨c (ψ s), ⟨⟨ψ s, hψr ▸ mem_range_self s, rfl⟩, hs⟩, ?_⟩
+  rintro y ⟨⟨t, ht, rfl⟩, hy0⟩
+  have hy0' : T (c t) = a := hy0
+  have hs' : T (c (ψ s)) = a := hs
+  have hψs : ψ s ∈ I := hψr ▸ mem_range_self s
+  by_contra hne
+  rcases le_total (ψ s) t with h | h
+  · have := hstrict _ _ (hc.1.le_of_le hψs ht h) (Ne.symm hne)
+    linarith
+  · have := hstrict _ _ (hc.1.le_of_le ht hψs h) hne
+    linarith
+
+include hGH in
+/-- **A Cauchy surface of `M` inside `M₀`**: a level `T = a` of the Cauchy time function of
+`geroch_sing_i_imp_ii`, below the compact `κ⁻¹Π` (`a < min_{κ⁻¹Π} T`). -/
+theorem CylChartData.exists_cauchy_subset_W0 [SecondCountableTopology M]
+    (hLM : E0LM.E0GlobalBTZ (CE M) (S0 M)) :
+    ∃ S : Set M, S ⊆ d.W0 ∧ (CE M).IsCauchySurface S := by
+  letI : MeasurableSpace M := borel M
+  haveI : BorelSpace M := ⟨rfl⟩
+  have hA := E0LM.e0_singularFlatAxioms_of E0.chartIso_mem_e0Groupoid hLM
+  obtain ⟨T, hT, hstrict⟩ := hA.geroch_sing_i_imp_ii (E0LM.e0_modelMeasures M hGH) hGH
+  have hd0 : ((d.v + d.ε / 2, (0 : ℂ)) : E0) ∈ glueDisc d.v d.ε := by
+    refine ⟨rfl, ?_⟩
+    show ‖(0 : ℂ)‖ ≤ d.ε / 4
+    rw [norm_zero]; linarith [d.pos]
+  have hKne : d.K.Nonempty := ⟨_, _, ⟨_, hd0, rfl⟩, rfl⟩
+  obtain ⟨k₀, hk₀, hmin⟩ := d.isCompact_K.exists_isMinOn hKne hT.1.continuous.continuousOn
+  refine ⟨T ⁻¹' {T k₀ - 1}, ?_, isCauchySurface_level E0LM.e0_causallyArcConnected hGH.1
+    hA.Jminus_ne_singleton hA.Jplus_ne_singleton hT hstrict _⟩
+  rintro x hx ⟨k, hk, hkx⟩
+  have hx' : T x = T k₀ - 1 := hx
+  have h1 : T k₀ ≤ T k := hmin hk
+  have h2 : T k ≤ T x := by
+    by_cases hkx' : k = x
+    · rw [hkx']
+    · exact (hstrict _ _ hkx hkx').le
+  linarith
+
+/-! #### The four facts of Lemma 2.3 not proved here (each a tagged `sorry`, isolated) -/
+
+/-- **`M₀ = M ∖ J⁺(κ⁻¹Π)` is connected** (needed: CBG's `M₀` is a connected development
+carrier). True: every point of `M₀` is joined inside `M₀` (a past set) by a past causal curve to
+the Cauchy surface `T = a` below `κ⁻¹Π`, and `{T < a} ≅ Σ × ]−∞, a[` is connected. -/
+theorem CylChartData.connectedSpace_W0 [ConnectedSpace M] [SecondCountableTopology M]
+    (hLM : E0LM.E0GlobalBTZ (CE M) (S0 M)) : ConnectedSpace (d.W0o hGH) := by
+  sorry -- SORRY(lem:tube): connectedness of M₀ = M ∖ J⁺(κ⁻¹Π). The reduction to a Cauchy surface is available (`Causal.Causality.mem_connectedComponentIn_inf_of_subsingleton`: every point of M₀ is joined inside M₀ to the level set T = a of `exists_cauchy_subset_W0`, once that level set is Cauchy for M₀ — `isCauchySurfaceOn_W0`), but the level set itself must be connected, i.e. the splitting M ≅ Σ × ℝ of a connected GH 𝔼₀-manifold; the strict `geroch_sing_split` needs a `VecteurFlow` (a continuous causal flow), not built for 𝔼₀-manifolds, and the connectedness lemmas of lean-causal for Cauchy surfaces (`connectedSpace_preimage_cauchy`, `isConnected_of_isCauchySurface`) are for flat spacetimes only
+
+/-- **A Cauchy surface of `M` inside the past set `M₀` is a Cauchy surface of `M₀`.** True: the
+maximal extension `c′` in `M` of an inextensible curve `c` of `M₀` meets `M₀` in an initial
+segment (`M₀` is a past set), which is `c` by inextensibility; it contains the point of `c′` on
+`S ⊆ M₀`. -/
+theorem CylChartData.isCauchySurfaceOn_W0 {S : Set M} (hSW : S ⊆ d.W0)
+    (hS : (CE M).IsCauchySurface S) : (CE M).IsCauchySurfaceOn (d.W0o hGH) S := by
+  sorry -- SORRY(lem:tube): every inextensible causal curve of the open past set M₀ meets S. Uniqueness is free (`hS.inter_subsingleton`); existence needs the relative extension theory: a curve of M₀ inextensible in M₀ but not in M has an endpoint in M (a compact `J⁻(S) ∩ J⁺(c t₀)` bounds its future end when it stays below S; its past end stays in M₀ since M₀ is a past set). lean-causal's extension lemmas (`futureExtensible_of_forall_ge`, `Inextensible.reparam`, `curvesExtend_of_timeFunction`) are stated for curves of M over ℝ (`⊤`, `univ`), not for an open subset W and an interval I, and `inextensible_ordConnectedComponent` goes the other way (M ⇒ W)
+
+/-- **`M₂` is globally hyperbolic** — the genuine obstruction of Lemma 2.3 (B21 does not argue
+it: it shows `Σ` Cauchy in `M₂` and concludes). -/
+theorem CylChartData.globallyHyperbolic_glued :
+    (@CE (d.glueData hGH).Glued _ (d.glueCS hGH)).GloballyHyperbolic := by
+  sorry -- SORRY(lem:tube): global hyperbolicity of the gluing M₂ = M₀ ∪_κ 𝒫: causality and compactness of the mixed diamonds J(x, y), x ∈ M₀, y ∈ 𝒫 above Π. The library has no « Cauchy surface ⇒ globally hyperbolic » for 𝔼₀-manifolds (singular Geroch (iii)⇒(i) is scaffold, DEC-78), and `Causal.Causality.TwoPiece.isCompact_diamond_mixed` needs a Cauchy surface common to both pieces, which 𝒫 does not share with M₀; the charted causality of M₂ is not yet related to those of its pieces (lean-causal's `Gluing.causality` comparison is the planned lemma of CBG package 7), so even causality of M₂ needs a curve-level argument through the overlap's frontier in 𝒫 (the cap of J⁺(Π))
+
+/-- **`Σ` is a Cauchy surface of `M₂`** (B21 l.663–672: a past-inextensible causal curve of `M₂`
+splits as `c₀ = c ∩ M₀`, `c₁ = c ∖ M₀`, `c₁` reaching `Π` and never `Σ`, `c₀` meeting `Σ` once). -/
+theorem CylChartData.isCauchySurface_glued {S : Set M} (hSW : S ⊆ d.W0)
+    (hS : (CE M).IsCauchySurface S) :
+    (@CE (d.glueData hGH).Glued _ (d.glueCS hGH)).IsCauchySurface
+      ((d.glueData hGH).ι false '' (Subtype.val ⁻¹' S : Set (d.W0o hGH))) := by
+  sorry -- SORRY(lem:tube): B21's c = c₀ ∪ c₁ argument in M₂, at the level of lean-causal's inextensible causal curves over intervals of the glued charted causality: it needs (i) the relations of M₂ restricted to each piece to be those of the piece (the comparison of the glued and the piece causalities, CBG package 7's planned lemma, not available), (ii) that a causal curve of 𝒫 ∖ (overlap) is monotone in τ and r and has a past endpoint on Π (the 𝔼₀ calculus `calculus_le` gives monotonicity; the endpoint is the curve-extension theory again), and (iii) `isCauchySurfaceOn_W0` for the c₀ part
+
+end GlueData
+
+/-! ### §4 B21 Lemma 2.3 (`lem:tube`): spear neighbourhoods in Cauchy-maximal `𝔼₀`-manifolds -/
+
+section Tube
+
+open E0CBG
+
+/-- **The output of the gluing in the proof of B21 Lemma 2.3** (`BTZ_1.tex:646–674`): a Cauchy
+sub-development `ι : M₀ → M` of `M` (the paper's `M₀ = M ∖ J⁺(φ⁻¹Π)`, through which `p = ι p₀`
+is reached), and a Cauchy development `emb : M₀ → N` of `M₀` (the paper's
+`M₂ = (M₀ ⊔ 𝒮)/∼`) carrying a spear chart `ψ` of vertex `emb p₀`. -/
+structure SpearDevelopment (M : Type) [TopologicalSpace M] [ChartedSpace E0Y M] (p : M) where
+  /-- The Cauchy sub-development `M₀`. -/
+  M₀ : Type
+  [top₀ : TopologicalSpace M₀]
+  [t2₀ : T2Space M₀]
+  [conn₀ : ConnectedSpace M₀]
+  [sc₀ : SecondCountableTopology M₀]
+  [cs₀ : ChartedSpace E0Y M₀]
+  [hg₀ : HasGroupoid M₀ e0Groupoid]
+  /-- The development `M₂` of `M₀` containing the spear. -/
+  N : Type
+  [topN : TopologicalSpace N]
+  [t2N : T2Space N]
+  [connN : ConnectedSpace N]
+  [scN : SecondCountableTopology N]
+  [csN : ChartedSpace E0Y N]
+  [hgN : HasGroupoid N e0Groupoid]
+  ι : M₀ → M
+  isCauchyEmbedding_ι : Causal.IsCauchyEmbedding (CE M₀) (CE M) ι
+  isE0Mor_ι : IsE0Mor ι univ
+  emb : M₀ → N
+  isCauchyEmbedding_emb : Causal.IsCauchyEmbedding (CE M₀) (CE N) emb
+  isE0Mor_emb : IsE0Mor emb univ
+  R : ℝ
+  pos : 0 < R
+  v : ℝ
+  W : Set E0Y
+  isOpen_W : IsOpen W
+  spear_subset : spearY v R ⊆ W
+  ψ : E0Y → N
+  isE0Mor_ψ : IsE0Mor ψ W
+  injOn_ψ : InjOn ψ W
+  p₀ : M₀
+  ι_p₀ : ι p₀ = p
+  ψ_vertex : ψ (yVertex v) = emb p₀
+
+attribute [instance] SpearDevelopment.top₀ SpearDevelopment.t2₀ SpearDevelopment.conn₀
+  SpearDevelopment.sc₀ SpearDevelopment.cs₀ SpearDevelopment.hg₀ SpearDevelopment.topN
+  SpearDevelopment.t2N SpearDevelopment.connN SpearDevelopment.scN SpearDevelopment.csN
+  SpearDevelopment.hgN
+
+variable
+  (hLine : ∀ (M : Type) [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
+    [SecondCountableTopology M] [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid],
+    E0LM.E0GlobalBTZ (Causal.CBG.chartedCausality E0LM.D M) (Causal.CBG.chartedSing e0SingY M 0))
+  (hSC : ∀ {M : Type} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [ChartedSpace E0Y M]
+    [HasGroupoid M e0Groupoid], (Causal.CBG.chartedCausality E0LM.D M).GloballyHyperbolic →
+    ∀ S : Set M, (Causal.CBG.chartedCausality E0LM.D M).IsCauchySurface S →
+    SecondCountableTopology S → SecondCountableTopology M)
+
+variable {M : Type} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M]
+  [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid]
+
+include hLine hSC in
+/-- **The last step of B21 Lemma 2.3** (`BTZ_1.tex:673–674`): « `M₀ → M₂` is a Cauchy-embedding,
+since `M` is Cauchy-maximal `M₂` embeds into `M`. The spear `𝒮` thus embeds in `M` around `Δ` »
+— the embedding is `IsE0CauchyMaximal.exists_morphism_of_dev` (CBG universality), and the spear
+chart of `M₂` composed with it is a spear chart of `M`. -/
+theorem IsE0CauchyMaximal.isSpearNbhd_of_spearDevelopment (hmax : IsE0CauchyMaximal M) {p : M}
+    (D : SpearDevelopment M p) : ∃ R U, IsSpearNbhd p R U := by
+  let Nd : Causal.CBG.Dev (e0Geometry hLine hSC).toPreGeometry (e0Str hLine hSC D.M₀) :=
+    { carrier := D.N
+      str := e0Str hLine hSC D.N
+      emb := D.emb
+      isCauchyEmbedding := D.isCauchyEmbedding_emb
+      isMor := D.isE0Mor_emb }
+  obtain ⟨F, hF, hFe, hFi⟩ := IsE0CauchyMaximal.exists_morphism_of_dev hLine hSC hmax D.ι
+    D.isCauchyEmbedding_ι D.isE0Mor_ι Nd
+  have hF' : IsE0Mor F univ := hF
+  refine ⟨D.R, F '' (D.ψ '' spearY D.v D.R), D.pos, D.v, D.W, F ∘ D.ψ, D.isOpen_W, D.spear_subset,
+    Causal.CBG.liftPropOn_comp D.isOpen_W isOpen_univ hF' D.isE0Mor_ψ (mapsTo_univ _ _),
+    hFi.comp_injOn D.injOn_ψ, ?_, by rw [image_comp]⟩
+  change F (D.ψ (yVertex D.v)) = p
+  have h1 : D.ψ (yVertex D.v) = D.emb D.p₀ := D.ψ_vertex
+  exact (congrArg F h1).trans ((congrFun hFe D.p₀).trans D.ι_p₀)
+
+include hLine hSC in
+/-- **`M₀ → M` is a Cauchy embedding** (the inclusion of the past set `M₀`): `M₀` is globally
+hyperbolic (causally convex in `M`, `Geometry.causality_restrict`), and the level set
+`T = a` below `κ⁻¹Π` is a Cauchy surface of `M` and of `M₀`. -/
+theorem CylChartData.isCauchyEmbedding_val {p : M} (d : CylChartData p)
+    (hGH : (CE M).GloballyHyperbolic) :
+    Causal.IsCauchyEmbedding (CE (d.W0o hGH)) (CE M) (Subtype.val : d.W0o hGH → M) := by
+  have hres := Causal.CBG.Geometry.causality_restrict (𝔊 := e0Geometry hLine hSC)
+    (e0Str hLine hSC M) (d.W0o hGH)
+  have hCE : CE (d.W0o hGH) = ((CE M).restrict (d.W0o hGH)).toSubtype := hres
+  obtain ⟨S, hSW, hS⟩ := d.exists_cauchy_subset_W0 hGH (hLine M)
+  have hval := d.isEMorphism_val hGH
+  have hU : ((d.W0o hGH : Opens M) : Set M) =
+      Subtype.val '' ((⊤ : Opens (d.W0o hGH)) : Set (d.W0o hGH)) := by
+    rw [Opens.coe_top, image_univ, Subtype.range_coe]
+  have himg : Subtype.val '' (Subtype.val ⁻¹' S : Set (d.W0o hGH)) = S := by
+    ext x
+    exact ⟨fun ⟨y, hy, hyx⟩ => hyx ▸ hy, fun hx => ⟨⟨x, hSW hx⟩, hx, rfl⟩⟩
+  refine ⟨?_, hGH, hval, Subtype.val_injective, Subtype.val ⁻¹' S, ?_, by rw [himg]; exact hS⟩
+  · rw [hCE]; exact Causal.Causality.globallyHyperbolic_toSubtype (d.globallyHyperbolicOn_W0 hGH)
+  · refine (hval.isCauchySurfaceOn_image_iff Subtype.val_injective.injOn le_rfl hU
+      (subset_univ _)).2 ?_
+    rw [himg]
+    exact d.isCauchySurfaceOn_W0 hGH hSW hS
+
+include hLine hSC in
+/-- **The gluing of B21 Lemma 2.3** (`BTZ_1.tex:646–672`): around every BTZ point `p` of a
+globally hyperbolic `𝔼₀`-manifold there is a `SpearDevelopment`. Built: `M₀ = M ∖ J⁺(κ⁻¹Π)`
+(`CylChartData.W0o`), `M₂` the `Causal.CBG.FamilyGlueData` gluing of `M₀` and the spear piece
+`𝒫` along `κ` (`CylChartData.glueData`), its atlas `FamilyGlueData.chartedSpace`
+(`Causal.CBG.gluedChartedSpace`) with transitions in the groupoid (`glue_hasGroupoid`), Hausdorff
+(`t2Space_glued`, closed graph), second countable, connected, `M₀ → M` a Cauchy embedding
+(`isCauchyEmbedding_val`), the spear chart `ψN` of vertex `p`. Four facts are isolated tagged
+`sorry`s: `connectedSpace_W0`, `isCauchySurfaceOn_W0`, `globallyHyperbolic_glued`,
+`isCauchySurface_glued`. -/
+theorem exists_spearDevelopment (hGH : (CE M).GloballyHyperbolic) {p : M} (hp : p ∈ S0 M) :
+    Nonempty (SpearDevelopment M p) := by
+  obtain ⟨d⟩ := exists_cylChartData hp
+  letI := d.glueCS hGH
+  haveI := d.glue_hasGroupoid hGH
+  haveI := d.t2Space_glued hGH
+  haveI := d.secondCountable_glued hGH
+  haveI : ConnectedSpace (d.W0o hGH) := d.connectedSpace_W0 hGH (hLine M)
+  haveI := d.connectedSpace_glued hGH
+  have hι := d.isCauchyEmbedding_val hLine hSC hGH
+  obtain ⟨S, hSW, hS⟩ := d.exists_cauchy_subset_W0 hGH (hLine M)
+  have hemb : IsE0Mor ((d.glueData hGH).ι false : d.W0o hGH → (d.glueData hGH).Glued) univ :=
+    d.glue_liftPropOn_ι hGH false
+  have hembE : Causal.IsEMorphism (CE (d.W0o hGH)) (CE (d.glueData hGH).Glued)
+      ((d.glueData hGH).ι false) := isEMorphismOn_of_isE0Mor (W := ⊤) hemb
+  have hSsub : (CE (d.W0o hGH)).IsCauchySurface (Subtype.val ⁻¹' S : Set (d.W0o hGH)) := by
+    have hval := d.isEMorphism_val hGH
+    have hU : ((d.W0o hGH : Opens M) : Set M) =
+        Subtype.val '' ((⊤ : Opens (d.W0o hGH)) : Set (d.W0o hGH)) := by
+      rw [Opens.coe_top, image_univ, Subtype.range_coe]
+    refine (hval.isCauchySurfaceOn_image_iff Subtype.val_injective.injOn le_rfl hU
+      (subset_univ _)).2 ?_
+    have himg : Subtype.val '' (Subtype.val ⁻¹' S : Set (d.W0o hGH)) = S := by
+      ext x
+      exact ⟨fun ⟨y, hy, hyx⟩ => hyx ▸ hy, fun hx => ⟨⟨x, hSW hx⟩, hx, rfl⟩⟩
+    rw [himg]
+    exact d.isCauchySurfaceOn_W0 hGH hSW hS
+  exact ⟨{ M₀ := d.W0o hGH
+           N := (d.glueData hGH).Glued
+           ι := Subtype.val
+           isCauchyEmbedding_ι := hι
+           isE0Mor_ι := isE0Mor_val _
+           emb := (d.glueData hGH).ι false
+           isCauchyEmbedding_emb := ⟨hι.globallyHyperbolic_source, d.globallyHyperbolic_glued hGH,
+             hembE, (d.glueData hGH).injective_ι false, _, hSsub,
+             d.isCauchySurface_glued hGH hSW hS⟩
+           isE0Mor_emb := hemb
+           R := d.ε / 8
+           pos := by linarith [d.pos]
+           v := d.v
+           W := gluePY d.v d.ε
+           isOpen_W := (gluePY d.v d.ε).isOpen
+           spear_subset := d.spearY_subset
+           ψ := d.ψN hGH
+           isE0Mor_ψ := d.isE0Mor_ψN hGH
+           injOn_ψ := d.injOn_ψN hGH
+           p₀ := d.pW0 hGH
+           ι_p₀ := rfl
+           ψ_vertex := d.ψN_vertex hGH }⟩
+
+/-- **A globally hyperbolic `𝔼₀`-manifold has a Cauchy surface** (the strict
+`Causal.Causality.SingularFlatAxioms.geroch_sing_i_imp_iii`, from `SingularFlatAxioms` — given by its BTZ lines
+`hLM`, `E0LM.e0_singularFlatAxioms_of` — and the local admissible measures
+`E0LM.e0_modelMeasures`). Used to drop the Cauchy-surface hypothesis of Lemma 2.3 (audit round 1). -/
+theorem exists_isCauchySurface_of_globalBTZ {N : Type} [TopologicalSpace N] [T2Space N]
+    [SecondCountableTopology N] [ChartedSpace E0Y N] [HasGroupoid N e0Groupoid]
+    (hLM : E0LM.E0GlobalBTZ (CE N) (S0 N)) (hGH : (CE N).GloballyHyperbolic) :
+    ∃ S : Set N, (CE N).IsCauchySurface S := by
+  letI : MeasurableSpace N := borel N
+  haveI : BorelSpace N := ⟨rfl⟩
+  exact (E0LM.e0_singularFlatAxioms_of E0.chartIso_mem_e0Groupoid hLM).geroch_sing_i_imp_iii
+    (E0LM.e0_modelMeasures N hGH) hGH
+
+include hLine hSC in
+/-- **B21 Lemma 2.3** (`lem:tube`, `BTZ_1.tex:635–638`): in a globally hyperbolic, Cauchy-maximal
+`𝔼₀`-manifold, every BTZ point `p` is the vertex of a spear neighbourhood around its BTZ line.
+Parameters `hLine`, `hSC`: those of CBG for `𝔼₀` (`E0CBG.e0Geometry`, WP-41f's (O2), (O4)). No
+Cauchy surface is assumed: the gluing builds its own (`CylChartData.exists_cauchy_subset_W0`,
+a level of the Cauchy time function of `geroch_sing_i_imp_ii`). -/
+theorem lem_tube (hGH : (CE M).GloballyHyperbolic) (hmax : IsE0CauchyMaximal M) {p : M}
+    (hp : p ∈ S0 M) : ∃ R U, IsSpearNbhd p R U := by
+  exact IsE0CauchyMaximal.isSpearNbhd_of_spearDevelopment hLine hSC hmax
+    (exists_spearDevelopment hLine hSC hGH hp).some
+
+include hLine hSC in
+/-- **Full future BTZ rays** (`RamcovGX.tex:2350`'s « the singular locus contains full future BTZ
+rays », correctly cited as B21 Lemma 2.3, not « Lemma 2.4 »: finding): in a globally hyperbolic
+Cauchy-maximal `𝔼₀`-manifold, from every BTZ point starts a full future BTZ ray. -/
+theorem exists_fullFutureBTZRay (hGH : (CE M).GloballyHyperbolic) (hmax : IsE0CauchyMaximal M)
+    {p : M} (hp : p ∈ S0 M) : ∃ γ : ℝ → M, IsFullFutureBTZRay p γ := by
+  obtain ⟨R, U, h⟩ := lem_tube hLine hSC hGH hmax hp
+  obtain ⟨γ, hγ, -⟩ := h.exists_ray
+  exact ⟨γ, hγ⟩
+
+end Tube
+
+/-! ### §5 B21 Lemma 2.4 (`lem:add_BTZ_param`): a Cauchy surface as a graph over the spear -/
+
+section AddBTZParam
+
+open E0CBG
+
+variable {M : Type} [TopologicalSpace M] [ChartedSpace E0Y M]
+
+/-- **Moving the vertex up the ray**: a spear neighbourhood of vertex `q` gives one of vertex
+every point `γ t` of its ray, of the same radius (the first case of the proof of Lemma 2.4,
+« if `q` is in the past of `p` »). -/
+theorem IsSpearNbhd.of_ray {q : M} {R : ℝ} {U : Set M} (h : IsSpearNbhd q R U) :
+    ∃ (v : ℝ) (W : Set E0Y) (ψ : E0Y → M), IsOpen W ∧ spearY v R ⊆ W ∧ IsE0Mor ψ W ∧
+      InjOn ψ W ∧ ψ (yVertex v) = q ∧ ∀ t, 0 ≤ t → IsSpearNbhd (ψ (yAxis v t)) R
+        (ψ '' spearY (v + t) R) := by
+  obtain ⟨v, W, ψ, hW, hSW, hψ, hinj, hq, -⟩ := h.chart
+  refine ⟨v, W, ψ, hW, hSW, hψ, hinj, hq, fun t ht => ⟨h.pos, v + t, W, ψ, hW,
+    (image_mono (spear_mono (by linarith) le_rfl)).trans hSW, hψ, hinj, rfl, rfl⟩⟩
+
+/-- **`≪` is irreflexive on a globally hyperbolic `𝔼₀`-manifold**: `I⁺(x) ∩ I⁻(x)` is open and,
+by causality, contained in `{x}`, while `x` is not isolated. -/
+theorem not_lt_self (hGH : (CE M).GloballyHyperbolic) (x : M) : ¬ (CE M).lt ⊤ x x := by
+  intro hx
+  have hO : IsOpen ({y | (CE M).lt ⊤ x y} ∩ {y | (CE M).lt ⊤ y x}) :=
+    ((CE M).isOpen_lt_right ⊤ x).inter ((CE M).isOpen_lt_left ⊤ x)
+  have hsub : {y | (CE M).lt ⊤ x y} ∩ {y | (CE M).lt ⊤ y x} ⊆ {x} := fun y hy =>
+    hGH.1 ((CE M).le_of_lt hy.2) ((CE M).le_of_lt hy.1)
+  haveI := E0LM.charted_nhdsNE_neBot (M := M) E0LM.e0Y_nhdsNE_neBot x
+  have h1 : ({x} : Set M) ∈ 𝓝 x := Filter.mem_of_superset (hO.mem_nhds ⟨hx, hx⟩) hsub
+  have h2 : ({x}ᶜ ∩ {x} : Set M) ∈ 𝓝[≠] x :=
+    Filter.inter_mem self_mem_nhdsWithin (mem_nhdsWithin_of_mem_nhds h1)
+  obtain ⟨y, hy1, hy2⟩ := Filter.nonempty_of_mem h2
+  exact hy1 hy2
+
+/-- **A Cauchy surface does not meet its chronological past.** -/
+theorem notMem_of_mem_Iminus [HasGroupoid M e0Groupoid] [T2Space M] [SecondCountableTopology M]
+    (hGH : (CE M).GloballyHyperbolic) {Sig : Set M}
+    (hSig : (CE M).IsCauchySurface Sig) {x : M} (hx : x ∈ (CE M).Iminus ⊤ Sig) : x ∉ Sig := by
+  intro hxS
+  obtain ⟨σ, hσ, hxσ⟩ := hx
+  have hac := hSig.isAcausal E0LM.e0_causallyArcConnected (E0LM.e0_curvesExtend hGH)
+  have := hac x hxS σ hσ ((CE M).le_of_lt hxσ)
+  subst this
+  exact not_lt_self hGH x hxσ
+
+theorem isOpen_Iminus (A : Set M) : IsOpen ((CE M).Iminus ⊤ A) := by
+  have : (CE M).Iminus ⊤ A = ⋃ a ∈ A, {y | (CE M).lt ⊤ y a} := by
+    ext y; simp [Causal.Precausality.mem_Iminus]
+  rw [this]
+  exact isOpen_biUnion fun a _ => (CE M).isOpen_lt_left ⊤ a
+
+/-- **B21 Lemma 2.4, proved part** (`BTZ_1.tex:685–695` and the second half of its proof,
+l.735–758): for a spear neighbourhood of vertex `p ∈ I⁻(Σ)`, after shrinking the radius,
+(a) `Σ` meets the spear only in its shaft region `τ > v + R′/2`, and (b) on each vertical null
+line `{z} × ℝ` of the spear it meets it at most once (the paper's « each `c_{θ₀,r₀}` intersects
+`Φ(Σ ∩ 𝒮′)` at most once »; here the vertical half of `c_{θ₀,r₀}` suffices). -/
+theorem spear_shaft_vertical [HasGroupoid M e0Groupoid] [T2Space M] [SecondCountableTopology M]
+    (hGH : (CE M).GloballyHyperbolic) {Sig : Set M}
+    (hSig : (CE M).IsCauchySurface Sig) {p : M} {R : ℝ} {U : Set M} (hU : IsSpearNbhd p R U)
+    (hpS : p ∈ (CE M).Iminus ⊤ Sig) :
+    ∃ (R' v : ℝ) (W : Set E0Y) (ψ : E0Y → M), 0 < R' ∧ R' ≤ R ∧ IsOpen W ∧ spearY v R' ⊆ W ∧
+      IsE0Mor ψ W ∧ InjOn ψ W ∧ ψ (yVertex v) = p ∧
+      (∀ x ∈ spear v R', x.1 ≤ v + R' / 2 → ψ (paperInY x) ∈ (CE M).Iminus ⊤ Sig) ∧
+      (∀ x ∈ spear v R', ψ (paperInY x) ∈ Sig → v + R' / 2 < x.1) ∧
+      (∀ x ∈ spear v R', ∀ y ∈ spear v R', x.2 = y.2 → ψ (paperInY x) ∈ Sig →
+        ψ (paperInY y) ∈ Sig → x = y) := by
+  obtain ⟨v, W, ψ, hW, hSW, hψ, hinj, hp, -⟩ := hU.chart
+  have hR := hU.pos
+  -- the open neighbourhood of the vertex mapped into `I⁻(Σ)`
+  set Φ : E0 → M := ψ ∘ paperInY with hΦ
+  have hψc : ContinuousOn ψ W := fun x hx => (hψ x hx).continuousWithinAt
+  have hPo : IsOpen (paperInY ⁻¹' W) := hW.preimage continuous_paperInY
+  have hΦc : ContinuousOn Φ (paperInY ⁻¹' W) :=
+    hψc.comp continuous_paperInY.continuousOn (fun _ h => h)
+  have hV : IsOpen (paperInY ⁻¹' W ∩ Φ ⁻¹' ((CE M).Iminus ⊤ Sig)) :=
+    hΦc.isOpen_inter_preimage hPo (isOpen_Iminus Sig)
+  have hvV : vertex v ∈ paperInY ⁻¹' W ∩ Φ ⁻¹' ((CE M).Iminus ⊤ Sig) := by
+    refine ⟨hSW ⟨_, vertex_mem_spear hR.le, rfl⟩, ?_⟩
+    show ψ (yVertex v) ∈ (CE M).Iminus ⊤ Sig
+    rw [hp]; exact hpS
+  obtain ⟨ε, hε, hball⟩ := Metric.isOpen_iff.1 hV _ hvV
+  set R' := min R (ε / 2) with hR'
+  have hR'pos : 0 < R' := lt_min hR (by linarith)
+  have hR'R : R' ≤ R := min_le_left _ _
+  have hR'ε : R' ≤ ε / 2 := min_le_right _ _
+  have hsub : spearY v R' ⊆ W := (image_mono (spear_mono le_rfl hR'R)).trans hSW
+  have hac := hSig.isAcausal E0LM.e0_causallyArcConnected (E0LM.e0_curvesExtend hGH)
+  have hlow : ∀ x ∈ spear v R', x.1 ≤ v + R' / 2 → ψ (paperInY x) ∈ (CE M).Iminus ⊤ Sig := by
+    intro x hx hτ
+    have hτv : v + rad x / 2 ≤ x.1 := by have := hx.1; simp only [fcoord] at this; linarith
+    have hdist : dist x (vertex v) < ε := by
+      rw [Prod.dist_eq]
+      refine max_lt ?_ ?_
+      · rw [Real.dist_eq, vertex, abs_lt]
+        constructor <;> nlinarith [rad_nonneg x, hx.2]
+      · rw [vertex, dist_zero_right]
+        exact (hx.2.trans hR'ε).trans_lt (by linarith)
+    exact (hball hdist).2
+  refine ⟨R', v, W, ψ, hR'pos, hR'R, hW, hsub, hψ, hinj, hp, hlow, ?_, ?_⟩
+  · intro x hx hxS
+    by_contra hτ
+    push Not at hτ
+    exact notMem_of_mem_Iminus hGH hSig (hlow x hx hτ) hxS
+  · rintro ⟨τ₁, z⟩ hx ⟨τ₂, z'⟩ hy hzz hxS hyS
+    simp only at hzz
+    subst hzz
+    have key : ∀ a b : ℝ, ((a, z) : E0) ∈ spear v R' → ((b, z) : E0) ∈ spear v R' → a ≤ b →
+        ψ (paperInY (a, z)) ∈ Sig → ψ (paperInY (b, z)) ∈ Sig → a = b := by
+      intro a b ha hb hab haS hbS
+      have hle : (CE M).le ⊤ (ψ (paperInY (a, z))) (ψ (paperInY (b, z))) := by
+        set O : Opens E0 := ⟨paperInY ⁻¹' W, hPo⟩
+        refine le_of_isE0Mor_paper hW hψ (U := O) subset_rfl (le_vertical hab fun s hs => ?_)
+        have hmem : ((a + s * (b - a), z) : E0) ∈ spear v R' :=
+          ⟨by
+            have h1 := ha.1
+            simp only [fcoord, rad] at h1 ⊢
+            nlinarith [hs.1, hs.2],
+            hb.2⟩
+        exact hsub ⟨_, hmem, rfl⟩
+      have heq := hac _ haS _ hbS hle
+      have h2 := hinj (hsub ⟨_, ha, rfl⟩) (hsub ⟨_, hb, rfl⟩) heq
+      have h3 := paperInY.injOn (by simp) (by simp) h2
+      exact (Prod.mk.injEq _ _ _ _ ▸ h3).1
+    rcases le_total τ₁ τ₂ with h | h
+    · rw [key τ₁ τ₂ hx hy h hxS hyS]
+    · rw [key τ₂ τ₁ hy hx h hyS hxS]
+
+/-- A cluster point of a map that eventually lies in a closed set lies in it. -/
+theorem mem_of_mapClusterPt_of_eventually {ι X : Type*} [TopologicalSpace X] {l : Filter ι}
+    {u : ι → X} {q : X} {A : Set X} (hA : IsClosed A) (hq : MapClusterPt q l u)
+    (h : ∀ᶠ i in l, u i ∈ A) : q ∈ A := by
+  have hq' : ClusterPt q (map u l) := hq
+  have : ClusterPt q (𝓟 A) := hq'.mono (le_principal_iff.2 (Filter.mem_map.2 h))
+  exact hA.closure_subset this.mem_closure
+
+/-- In `𝔼₀`, a causal relation between two points of a spear is realised inside every open set
+containing the spear (spears are causally convex, `𝔼₀` causally arc-connected). -/
+theorem le_of_le_top_of_mem_spear {v R : ℝ} {U : Opens E0} (hU : spear v R ⊆ U) {x y : E0}
+    (hx : x ∈ spear v R) (hy : y ∈ spear v R) (h : causality.le ⊤ x y) : causality.le U x y := by
+  obtain ⟨c, hc, hc0, hc1⟩ := (E0.causallyArcConnected ⊤ le_rfl x y).1.1 h
+  have hmem : ∀ s ∈ Icc (0 : ℝ) 1, c s ∈ U := fun s hs => by
+    have h1 : causality.le ⊤ x (c s) := by rw [← hc0]; exact hc.le_of_le le_rfl hs.1 hs.2
+    have h2 : causality.le ⊤ (c s) y := by rw [← hc1]; exact hc.le_of_le hs.1 hs.2 le_rfl
+    exact hU (mem_spear_of_le hx hy h1 h2)
+  exact (E0.causallyArcConnected U le_top x y).1.2
+    ⟨c, Causal.CurveOn.restrict hc le_rfl le_rfl le_top hmem, hc0, hc1⟩
+
+/-- **A future-monotone curve eventually in a compact set converges** in a globally hyperbolic
+`𝔼₀`-manifold: its cluster points are all above the curve (`J⁺` closed) and below each other
+(`J⁻` closed), hence equal by causality. -/
+theorem exists_tendsto_of_monotone [HasGroupoid M e0Groupoid] [T2Space M] (hGH : (CE M).GloballyHyperbolic)
+    {γ : ℝ → M} {t₀ : ℝ} (hmono : ∀ s t, t₀ ≤ s → s ≤ t → (CE M).le ⊤ (γ s) (γ t))
+    {K : Set M} (hK : IsCompact K) (hKγ : ∀ t, t₀ ≤ t → γ t ∈ K) :
+    ∃ q, Tendsto γ atTop (𝓝 q) := by
+  have hT := E0LM.e0_tarentin (M := M)
+  have hev : ∀ᶠ t in atTop, γ t ∈ K := eventually_atTop.2 ⟨t₀, hKγ⟩
+  obtain ⟨q, -, hq⟩ := hK.exists_mapClusterPt (f := atTop) (u := γ) (le_principal_iff.2 hev)
+  have habove : ∀ q', MapClusterPt q' atTop γ → ∀ s, t₀ ≤ s → (CE M).le ⊤ (γ s) q' := by
+    intro q' hq' s hs
+    have := mem_of_mapClusterPt_of_eventually (hGH.isClosed_Jplus_singleton hT (γ s)) hq'
+      (eventually_atTop.2 ⟨s, fun t ht => by simpa using hmono s t hs ht⟩)
+    simpa using this
+  have huniq : ∀ q', MapClusterPt q' atTop γ → q' = q := by
+    intro q' hq'
+    have h1 : (CE M).le ⊤ q' q := by
+      have := mem_of_mapClusterPt_of_eventually (hGH.isClosed_Jminus_singleton hT q) hq'
+        (eventually_atTop.2 ⟨t₀, fun t ht => by simpa using habove q hq t ht⟩)
+      simpa using this
+    have h2 : (CE M).le ⊤ q q' := by
+      have := mem_of_mapClusterPt_of_eventually (hGH.isClosed_Jminus_singleton hT q') hq
+        (eventually_atTop.2 ⟨t₀, fun t ht => by simpa using habove q' hq' t ht⟩)
+      simpa using this
+    exact hGH.1 h1 h2
+  exact ⟨q, hK.tendsto_nhds_of_unique_mapClusterPt hev fun x _ hx => huniq x hx⟩
+
+attribute [local instance] btzE0Structure in
+/-- **The BTZ ray of a spear chart has no future endpoint in `M`** (« full » rays are
+inextensible). At a limit point `q` (a BTZ point, `sing₀` being closed), `f = κ ∘ ψ` (`κ` the
+chart at `q`) is, on the connected component `U` of its domain around the tail, a local
+`G`-structomorphism into `𝔼₀` near a singular point; WP-41c's core (`btzE0_localUnique_core`,
+B21 `prop:isom_strong`) gives a **global** homeomorphism `Ψ` of `𝔼₀` with `f = Ψ` on a non-empty
+open set, hence on `U` (rigidity `e0_eqOn_of_eqOn_open`, density of the regular part). Then
+`f (ray) → κ q ∈ range Ψ`, so the ray itself converges in `𝔼₀` — but its `τ` tends to `+∞`. -/
+theorem axis_noLimit [HasGroupoid M e0Groupoid] [T2Space M] {v : ℝ} {W : Set E0Y} {ψ : E0Y → M}
+    (hW : IsOpen W) (hray : ∀ t, 0 ≤ t → yAxis v t ∈ W) (hψ : IsE0Mor ψ W) (hinj : InjOn ψ W)
+    (q : M) : ¬ Tendsto (fun t => ψ (yAxis v t)) atTop (𝓝 q) := by
+  intro hlim
+  have hR : IsFullFutureBTZRay (ψ (yVertex v)) (fun t => ψ (yAxis v t)) :=
+    ⟨v, W, ψ, hW, hray, hψ, hinj, rfl, fun _ => rfl⟩
+  have hS0 : IsClosed (S0 M) :=
+    E0LM.charted_isClosed_sing e0_sing_mem le_rfl (E0LM.isClosed_e0SingY 0)
+  have hq : q ∈ S0 M := hS0.mem_of_tendsto hlim (eventually_atTop.2 ⟨0, fun t ht => hR.mem_S0 ht⟩)
+  set κ := chartAt E0Y q with hκ
+  have hκq : κ q ∈ e0SingY 0 := hq
+  obtain ⟨x₀, hx₀, -⟩ := E0LM.mem_e0SingY_zero_iff.1 hκq
+  have hψc : ContinuousOn ψ W := fun x hx => (hψ x hx).continuousWithinAt
+  have hOq : IsOpen (κ.source ∩ κ ⁻¹' range Sum.inr) :=
+    κ.isOpen_inter_preimage isOpen_range_inr
+  set V : Set E0Y := W ∩ ψ ⁻¹' (κ.source ∩ κ ⁻¹' range Sum.inr) with hV
+  have hVo : IsOpen V := hψc.isOpen_inter_preimage hW hOq
+  obtain ⟨T, hT⟩ := eventually_atTop.1
+    (hlim.eventually (hOq.mem_nhds ⟨mem_chart_source E0Y q, ⟨x₀, hx₀.symm⟩⟩))
+  set T' := max T 0 with hT'
+  have htail : ∀ t, T' ≤ t → yAxis v t ∈ V := fun t ht =>
+    ⟨hray t ((le_max_right _ _).trans ht), hT t ((le_max_left _ _).trans ht)⟩
+  set U := connectedComponentIn V (yAxis v T') with hU
+  have hUo : IsOpen U := hVo.connectedComponentIn
+  have hUV : U ⊆ V := connectedComponentIn_subset _ _
+  have hUc : IsPreconnected U := isPreconnected_connectedComponentIn
+  have htailU : ∀ t, T' ≤ t → yAxis v t ∈ U := by
+    have hpre : IsPreconnected (yAxis v '' Ici T') :=
+      isPreconnected_Ici.image _ (continuous_yAxis v).continuousOn
+    have hsub := hpre.subset_connectedComponentIn (x := yAxis v T') ⟨T', self_mem_Ici, rfl⟩
+      (by rintro _ ⟨t, ht, rfl⟩; exact htail t ht)
+    exact fun t ht => hsub ⟨t, ht, rfl⟩
+  -- `U` lies in the `𝔼₀` summand
+  have hUinr : U ⊆ range Sum.inr := by
+    rcases Sum.isPreconnected_iff.1 hUc with ⟨t, -, ht⟩ | ⟨t, -, ht⟩
+    · exfalso
+      have h0 := htailU T' le_rfl
+      rw [ht] at h0
+      obtain ⟨m, -, hm⟩ := h0
+      simp [yAxis, paperInY_apply] at hm
+    · rw [ht]; exact image_subset_range _ _
+  -- `f = κ ∘ ψ` is an `𝔼₀`-morphism on `U`, with values in the `𝔼₀` summand
+  set f : E0Y → E0Y := κ ∘ ψ with hf
+  have hQ : ∀ y : E0Y, e0Groupoid.IsLocalStructomorphWithinAt id univ y := fun y _ =>
+    ⟨OpenPartialHomeomorph.refl E0Y, e0Groupoid.id_mem, fun _ _ => rfl, trivial⟩
+  have hψU : IsE0Mor ψ U :=
+    Causal.CBG.liftPropOn_mono_of_le hW hUo hψ (fun y hy => (hUV hy).1)
+  have hfU : IsE0Mor f U :=
+    Causal.CBG.liftPropOn_comp hUo κ.open_source
+      (e0Groupoid.isLocalStructomorphWithinAt_localInvariantProp.liftPropOn_chart hQ) hψU
+      (fun y hy => (hUV hy).2.1)
+  have hfinr : ∀ y ∈ U, f y ∈ range Sum.inr := fun y hy => (hUV hy).2.2
+  set S : Set E0Y := U ∩ e0Reg with hSdef
+  have hSo : IsOpen S := hUo.inter isOpen_e0Reg
+  have hSc : IsPreconnected S := isPreconnected_inter_e0Reg hUo hUc
+  have hfS : ∀ y ∈ S, e0Groupoid.IsLocalStructomorphWithinAt f S y := by
+    intro y hy _
+    have h := (hfU y hy.1).2
+    simp only [chartAt_self_eq, OpenPartialHomeomorph.refl_symm, OpenPartialHomeomorph.refl_apply,
+      preimage_id_eq] at h
+    obtain ⟨e, he, hfe, hye⟩ := h hy.1
+    exact ⟨e, he, fun z hz => hfe ⟨hz.1.1, hz.2⟩, hye⟩
+  have hfinj : InjOn f S := fun y hy y' hy' h =>
+    hinj (hUV hy.1).1 (hUV hy'.1).1 (κ.injOn (hUV hy.1).2.1 (hUV hy'.1).2.1 h)
+  -- the core: a global homeomorphism `Ψ` of `𝔼₀`
+  set U' : Set BTZE0 := Sum.inr ⁻¹' U
+  set F : BTZE0 → BTZE0 := fun x => e0Inr.symm (f (Sum.inr x))
+  have hfF : ∀ x ∈ U', f (Sum.inr x) = Sum.inr (F x) := fun x hx => by
+    obtain ⟨z, hz⟩ := hfinr (Sum.inr x) hx
+    simp only [F, ← hz, e0Inr_symm_inr]
+  have hloc : ∀ x ∈ U' ∩ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0,
+      ∃ e ∈ e0Groupoid, Sum.inr x ∈ e.source ∧ f =ᶠ[𝓝 (Sum.inr x)] e := by
+    rintro x ⟨hx, hxr⟩
+    have hxS : (Sum.inr x : E0Y) ∈ S := ⟨hx, inr_mem_e0Reg_iff.2 hxr⟩
+    obtain ⟨e, he, hfe, hxe⟩ := hfS _ hxS hxS
+    exact ⟨e, he, hxe, Filter.eventually_of_mem ((hSo.inter e.open_source).mem_nhds ⟨hxS, hxe⟩)
+      fun z hz => hfe hz⟩
+  have hFc : ∀ x ∈ U' ∩ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0, ContinuousAt F x := by
+    intro x hx
+    obtain ⟨e, -, hxe, hfe⟩ := hloc x hx
+    have hfc : ContinuousAt f (Sum.inr x) := (e.continuousAt hxe).congr hfe.symm
+    have h1 : ContinuousAt e0Inr.symm (f (Sum.inr x)) :=
+      e0Inr.symm.continuousAt (by rw [e0Inr_symm_source, hfF x hx.1]; exact ⟨_, rfl⟩)
+    exact ContinuousAt.comp (g := e0Inr.symm) (f := fun x : BTZE0 => f (Sum.inr x)) h1
+      (ContinuousAt.comp (g := f) (f := Sum.inr) hfc continuous_inr.continuousAt)
+  have hFreg : ∀ x ∈ U' ∩ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0,
+      F x ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0 := by
+    rintro x ⟨hx, hxr⟩
+    have hxS : (Sum.inr x : E0Y) ∈ S := ⟨hx, inr_mem_e0Reg_iff.2 hxr⟩
+    obtain ⟨e, he, hfe, hxe⟩ := hfS _ hxS hxS
+    have hfe' : ∀ z ∈ S ∩ e.source, f z = e z := fun z hz => hfe hz
+    have := mapsTo_e0Reg_of_mem he hxe hxS.2
+    rw [← hfe' _ ⟨hxS, hxe⟩, hfF x hx] at this
+    exact inr_mem_e0Reg_iff.1 this
+  have hFloc : ∀ x ∈ U' ∩ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0,
+      ∃ c ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0, x ∈ c.source ∧
+      ∃ c' ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0, F x ∈ c'.source ∧
+      ∃ h : Causal.Flat.isom 2, ∀ᶠ z in 𝓝 x, c' (F z) = h • c z := by
+    rintro x ⟨hx, hxr⟩
+    have hxS : (Sum.inr x : E0Y) ∈ S := ⟨hx, inr_mem_e0Reg_iff.2 hxr⟩
+    obtain ⟨e, he, hfe, hxe⟩ := hfS _ hxS hxS
+    have hfe' : ∀ z ∈ S ∩ e.source, f z = e z := fun z hz => hfe hz
+    obtain ⟨c, hc, hxc⟩ := mem_support.1 hxr
+    obtain ⟨c', hc', hFxc⟩ := mem_support.1 (hFreg x ⟨hx, hxr⟩)
+    have hex : e (Sum.inr x) = Sum.inr (F x) := by rw [← hfe' _ ⟨hxS, hxe⟩, hfF x hx]
+    obtain ⟨-, hch⟩ := ((mem_e0Groupoid_iff.1 he).1 _ hxe).2 hxS.2
+    obtain ⟨h, hh⟩ := hch _ (e0InrChart_mem_e0Atlas hc) _ (e0InrChart_mem_e0Atlas hc')
+      (mem_e0InrChart_source.2 ⟨x, hxc, rfl⟩)
+      (by rw [hex]; exact mem_e0InrChart_source.2 ⟨_, hFxc, rfl⟩)
+    refine ⟨c, hc, hxc, c', hc', hFxc, h, ?_⟩
+    have hS' : Sum.inr ⁻¹' S ∈ 𝓝 x := (hSo.preimage continuous_inr).mem_nhds hxS
+    have he' : Sum.inr ⁻¹' e.source ∈ 𝓝 x := (e.open_source.preimage continuous_inr).mem_nhds hxe
+    filter_upwards [continuous_inr.continuousAt.eventually hh, hS', he'] with z hz hzS hze
+    rw [← hfe' _ ⟨hzS, hze⟩, hfF z hzS.1, e0InrChart_inr, e0InrChart_inr] at hz
+    exact hz
+  have hFinj : InjOn F (U' ∩ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) := by
+    rintro x ⟨hx, hxr⟩ x' ⟨hx', hxr'⟩ hxx'
+    have := hfinj ⟨hx, inr_mem_e0Reg_iff.2 hxr⟩ ⟨hx', inr_mem_e0Reg_iff.2 hxr'⟩
+      (by rw [hfF x hx, hfF x' hx', show F x = F x' from hxx'])
+    exact Sum.inr_injective this
+  set a₀ : BTZE0 := E0.toPaper.symm ((v + T', 0) : E0)
+  have ha₀ : (Sum.inr a₀ : E0Y) = yAxis v T' := by simp [a₀, yAxis, paperInY_apply]
+  have ha₀U : a₀ ∈ U' := by show (Sum.inr a₀ : E0Y) ∈ U; rw [ha₀]; exact htailU T' le_rfl
+  have ha₀reg : a₀ ∉ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0 := by
+    rw [← inr_mem_e0Reg_iff, ha₀]
+    have := yAxis_mem_e0SingY v T'
+    exact this.2
+  obtain ⟨Ψ, ψ', g, hlift, hpos, hD, W₀, hW₀o, hW₀ne, hW₀U, hW₀eq⟩ :=
+    btzE0_localUnique_core ha₀reg (hUo.preimage continuous_inr) ha₀U hFc hFreg hFloc hFinj
+  set e := e0Lift Ψ with he
+  have heG : e ∈ e0Groupoid := e0Lift_mem Ψ ψ' g hlift hpos hD
+  have hSe : S ⊆ e.source := fun y hy => by rw [e0Lift_source]; exact hUinr hy.1
+  have heqW : EqOn f e (Sum.inr '' W₀) := by
+    rintro _ ⟨w, hw, rfl⟩
+    rw [hfF w (hW₀U hw).1, e0Lift_apply, hW₀eq hw]
+  have heqS : EqOn f e S :=
+    e0_eqOn_of_eqOn_open hSo hSc hfS heG hSe (isOpenMap_inr _ hW₀o) (hW₀ne.image _)
+      (by rintro _ ⟨w, hw, rfl⟩; exact ⟨(hW₀U hw).1, inr_mem_e0Reg_iff.2 (hW₀U hw).2⟩) heqW
+  -- on the whole tail
+  have hfc : ContinuousOn f U := fun y hy => (hfU y hy).continuousWithinAt
+  have heq_tail : ∀ t, T' ≤ t → f (yAxis v t) = e (yAxis v t) := by
+    intro t ht
+    have hy := htailU t ht
+    refine e0_eq_of_mem_closure ((hfc _ hy).continuousAt (hUo.mem_nhds hy))
+      (e.continuousAt (by rw [e0Lift_source]; exact hUinr hy))
+      (dense_e0Reg.open_subset_closure_inter hUo hy) heqS
+  -- the ray converges in `𝔼₀`
+  have hκc : ContinuousAt κ q := κ.continuousAt (mem_chart_source E0Y q)
+  have hflim : Tendsto (fun t => e (yAxis v t)) atTop (𝓝 (κ q)) :=
+    (hκc.tendsto.comp hlim).congr' (eventually_atTop.2 ⟨T', fun t ht => heq_tail t ht⟩)
+  have hκqt : κ q ∈ e.target := by rw [e0Lift_target]; exact ⟨x₀, hx₀.symm⟩
+  have hylim : Tendsto (fun t => yAxis v t) atTop (𝓝 (e.symm (κ q))) := by
+    refine ((e.continuousAt_symm hκqt).tendsto.comp hflim).congr' ?_
+    refine eventually_atTop.2 ⟨T', fun t ht => ?_⟩
+    exact e.left_inv (by rw [e0Lift_source]; exact hUinr (htailU t ht))
+  have hys : e.symm (κ q) ∈ paperOfY.source := by
+    rw [paperOfY_source, ← e0Lift_source Ψ]; exact e.map_target hκqt
+  have hplim := ((paperOfY.continuousAt hys).tendsto.comp hylim)
+  have hcoord : ∀ t, paperOfY (yAxis v t) = ((v + t, 0) : E0) := fun t => by
+    simp [yAxis, paperInY_apply]
+  have h1 : Tendsto (fun t : ℝ => (((v + t, 0) : E0)).1) atTop
+      (𝓝 (paperOfY (e.symm (κ q))).1) := by
+    have := (continuous_fst.tendsto _).comp hplim
+    refine this.congr' (Filter.Eventually.of_forall fun t => ?_)
+    simp only [comp_apply, hcoord]
+  have h2 : Tendsto (fun t : ℝ => (((v + t, 0) : E0)).1) atTop atTop :=
+    tendsto_atTop_add_const_left _ v tendsto_id
+  exact not_tendsto_nhds_of_tendsto_atTop h2 _ h1
+
+/-- **A full future BTZ ray has no future endpoint in `M`** (it is future inextensible: « full »). -/
+theorem IsFullFutureBTZRay.not_tendsto [HasGroupoid M e0Groupoid] [T2Space M] {p : M}
+    {γ : ℝ → M} (h : IsFullFutureBTZRay p γ) (q : M) : ¬ Tendsto γ atTop (𝓝 q) := by
+  obtain ⟨v, W, ψ, hW, hray, hψ, hinj, -, hγ⟩ := h
+  have : γ = fun t => ψ (yAxis v t) := funext hγ
+  rw [this]
+  exact axis_noLimit hW hray hψ hinj q
+
+/-- **The image of a vertical null ray of a spear chart has no future endpoint in `M`.** Were
+`ψ(t, z) → q`, the BTZ ray below (`(t, 0) ≤ (t + |z|/2, z)`, `J⁺((t,0)) = {f ≥ t}`) would be a
+future-monotone curve in the compact diamond `J(ψ(v,0), q)`, hence convergent
+(`exists_tendsto_of_monotone`), against `axis_noLimit`. -/
+theorem spear_vertical_noLimit [HasGroupoid M e0Groupoid] [T2Space M] [SecondCountableTopology M]
+    (hGH : (CE M).GloballyHyperbolic)
+    {R' v : ℝ} {W : Set E0Y} {ψ : E0Y → M} (hW : IsOpen W) (hsub : spearY v R' ⊆ W)
+    (hψ : IsE0Mor ψ W) (hinj : InjOn ψ W) {z : ℂ} (hz : ‖z‖ ≤ R') (q : M) :
+    ¬ Tendsto (fun t : ℝ => ψ (paperInY (t, z))) atTop (𝓝 q) := by
+  intro hlim
+  have hR' : 0 ≤ R' := (norm_nonneg z).trans hz
+  have hT := E0LM.e0_tarentin (M := M)
+  have hPo : IsOpen (paperInY ⁻¹' W) := hW.preimage continuous_paperInY
+  set O : Opens E0 := ⟨paperInY ⁻¹' W, hPo⟩
+  have hSO : spear v R' ⊆ O := fun x hx => hsub ⟨x, hx, rfl⟩
+  set c : ℝ := v + ‖z‖ / 2 with hc
+  have hmemz : ∀ t, c ≤ t → ((t, z) : E0) ∈ spear v R' := fun t ht => by
+    refine ⟨?_, hz⟩; simp only [fcoord, rad]; linarith [hc]
+  have hvert : ∀ s t, c ≤ s → s ≤ t →
+      (CE M).le ⊤ (ψ (paperInY (s, z))) (ψ (paperInY (t, z))) := fun s t hs hst =>
+    le_of_isE0Mor_paper hW hψ (U := O) subset_rfl
+      (le_of_le_top_of_mem_spear hSO (hmemz s hs) (hmemz t (hs.trans hst)) (le_vertical_top hst))
+  -- the vertical line lies below `q`
+  have hbelow : ∀ t, c ≤ t → (CE M).le ⊤ (ψ (paperInY (t, z))) q := fun t ht => by
+    have := (hGH.isClosed_Jplus_singleton hT (ψ (paperInY (t, z)))).mem_of_tendsto hlim
+      (eventually_atTop.2 ⟨t, fun s hs => by simpa using hvert t s ht hs⟩)
+    simpa using this
+  -- the BTZ ray lies below the vertical line, hence below `q`
+  have haxis : ∀ s, 0 ≤ s → (CE M).le ⊤ (ψ (yAxis v s)) (ψ (paperInY (v + s + ‖z‖ / 2, z))) := by
+    intro s hs
+    have h1 : ((v + s, 0) : E0) ∈ spear v R' := axis_mem_spear hR' (by linarith)
+    have h2 := hmemz (v + s + ‖z‖ / 2) (show v + ‖z‖ / 2 ≤ v + s + ‖z‖ / 2 by linarith)
+    refine le_of_isE0Mor_paper hW hψ (U := O) subset_rfl (le_of_le_top_of_mem_spear hSO h1 h2 ?_)
+    rw [le_top_iff, le_axis_iff rfl]
+    simp only [fcoord, rad]; linarith
+  have hmonoA : ∀ s t, 0 ≤ s → s ≤ t → (CE M).le ⊤ (ψ (yAxis v s)) (ψ (yAxis v t)) := by
+    have hray : IsFullFutureBTZRay (ψ (yVertex v)) (fun t => ψ (yAxis v t)) :=
+      ⟨v, W, ψ, hW, fun t ht => hsub (yAxis_mem_spearY hR' ht), hψ, hinj, rfl, fun _ => rfl⟩
+    exact fun s t hs hst => hray.le hs hst
+  obtain ⟨q', hq'⟩ := exists_tendsto_of_monotone hGH hmonoA (hGH.2 (ψ (yAxis v 0)) q)
+    fun t ht => Causal.Causality.mem_diamond.2 ⟨hmonoA 0 t le_rfl ht,
+      (CE M).le_trans (haxis t ht) (hbelow _ (show v + ‖z‖ / 2 ≤ v + t + ‖z‖ / 2 by linarith))⟩
+  exact axis_noLimit hW (fun t ht => hsub (yAxis_mem_spearY hR' ht)) hψ hinj q' hq'
+
+/-- **Every vertical null line of the shrunk spear meets `Σ`** (the existence half of « `Φ(Σ ∩ 𝒮′)`
+is exactly the graph of `τ_Σ` », `BTZ_1.tex:756–757`): the vertical line starts in `I⁻(Σ)` (at the
+bottom of the shaft); were it in `J⁻(Σ)` forever, it would be a monotone curve in the compact
+`J⁻(Σ) ∩ J⁺(γ t₀)`, hence convergent (cluster points are unique: `≤` is closed and `M` causal),
+against `spear_vertical_noLimit`; so it reaches `J⁺(Σ)`, and by connectedness it meets
+`J⁺(Σ) ∩ J⁻(Σ) = Σ`. -/
+theorem spear_vertical_meets [HasGroupoid M e0Groupoid] [T2Space M] [SecondCountableTopology M]
+    (hLM : E0LM.E0GlobalBTZ (CE M) (S0 M))
+    (hGH : (CE M).GloballyHyperbolic) {Sig : Set M} (hSig : (CE M).IsCauchySurface Sig)
+    {R' v : ℝ} {W : Set E0Y} {ψ : E0Y → M} (hW : IsOpen W)
+    (hsub : spearY v R' ⊆ W) (hψ : IsE0Mor ψ W) (hinj : InjOn ψ W)
+    (hshaft : ∀ x ∈ spear v R', x.1 ≤ v + R' / 2 → ψ (paperInY x) ∈ (CE M).Iminus ⊤ Sig)
+    {z : ℂ} (hz : ‖z‖ ≤ R') :
+    ∃ τ : ℝ, ((τ, z) : E0) ∈ spear v R' ∧ ψ (paperInY (τ, z)) ∈ Sig := by
+  have hA := E0LM.e0_singularFlatAxioms_of E0.chartIso_mem_e0Groupoid hLM
+  have hext := E0LM.e0_curvesExtend hGH
+  have hac := hSig.isAcausal E0LM.e0_causallyArcConnected hext
+  obtain ⟨T, hTc, hT⟩ := E0LM.e0_timeFunction hGH
+  set t₀ : ℝ := v + R' / 2 with ht₀
+  set γ : ℝ → M := fun t => ψ (paperInY (t, z)) with hγ
+  have hmem : ∀ t, t₀ ≤ t → ((t, z) : E0) ∈ spear v R' := fun t ht => by
+    refine ⟨?_, hz⟩
+    simp only [fcoord, rad]; linarith
+  have hPo : IsOpen (paperInY ⁻¹' W) := hW.preimage continuous_paperInY
+  have hmono : ∀ s t, t₀ ≤ s → s ≤ t → (CE M).le ⊤ (γ s) (γ t) := by
+    intro s t hs hst
+    set O : Opens E0 := ⟨paperInY ⁻¹' W, hPo⟩
+    refine le_of_isE0Mor_paper hW hψ (U := O) subset_rfl (le_vertical hst fun r hr => ?_)
+    exact hsub ⟨_, hmem _ (by nlinarith [hr.1, hr.2]), rfl⟩
+  have hψc : ContinuousOn ψ W := fun x hx => (hψ x hx).continuousWithinAt
+  have hγc : ContinuousOn γ (Ici t₀) := by
+    refine hψc.comp (continuous_paperInY.comp (continuous_id.prodMk continuous_const)).continuousOn
+      fun t ht => hsub ⟨_, hmem t ht, rfl⟩
+  have hJp := E0LM.sfa_isClosed_Jplus_cauchy hA hGH hext hSig
+  have hJm := E0LM.sfa_isClosed_Jminus_cauchy hA hGH hext hSig
+  have hle_closed := hGH.isClosed_le hA.tarentin
+  -- the vertical line reaches `J⁺(Σ)`
+  obtain ⟨t₁, ht₁, ht₁S⟩ : ∃ t₁, t₀ ≤ t₁ ∧ γ t₁ ∈ (CE M).Jplus ⊤ Sig := by
+    by_contra hcon
+    push Not at hcon
+    have hin : ∀ t, t₀ ≤ t → γ t ∈ (CE M).Jminus ⊤ Sig ∩ (CE M).Jplus ⊤ {γ t₀} := fun t ht =>
+      ⟨((Causal.Causality.mem_Jplus_union_Jminus_of_isCauchySurface hext hSig (γ t)).resolve_left
+        (hcon t ht)), by simpa using hmono t₀ t le_rfl ht⟩
+    have hK := E0LM.sfa_isCompact_Jminus_inter_Jplus hA hGH hTc hT hSig (γ t₀)
+    have hev : ∀ᶠ t in atTop, γ t ∈ (CE M).Jminus ⊤ Sig ∩ (CE M).Jplus ⊤ {γ t₀} :=
+      eventually_atTop.2 ⟨t₀, hin⟩
+    obtain ⟨q, -, hq⟩ := hK.exists_mapClusterPt (f := atTop) (u := γ) (le_principal_iff.2 hev)
+    -- every cluster point is above the whole line
+    have habove : ∀ q', MapClusterPt q' atTop γ → ∀ s, t₀ ≤ s → (CE M).le ⊤ (γ s) q' := by
+      intro q' hq' s hs
+      have := mem_of_mapClusterPt_of_eventually
+        (hGH.isClosed_Jplus_singleton hA.tarentin (γ s)) hq'
+        (eventually_atTop.2 ⟨s, fun t ht => by simpa using hmono s t hs ht⟩)
+      simpa using this
+    have huniq : ∀ q', MapClusterPt q' atTop γ → q' = q := by
+      intro q' hq'
+      have h1 : (CE M).le ⊤ q' q := by
+        have := mem_of_mapClusterPt_of_eventually
+          (hGH.isClosed_Jminus_singleton hA.tarentin q) hq'
+          (eventually_atTop.2 ⟨t₀, fun t ht => by simpa using habove q hq t ht⟩)
+        simpa using this
+      have h2 : (CE M).le ⊤ q q' := by
+        have := mem_of_mapClusterPt_of_eventually
+          (hGH.isClosed_Jminus_singleton hA.tarentin q') hq
+          (eventually_atTop.2 ⟨t₀, fun t ht => by simpa using habove q' hq' t ht⟩)
+        simpa using this
+      exact hGH.1 h1 h2
+    have htend : Tendsto γ atTop (𝓝 q) :=
+      hK.tendsto_nhds_of_unique_mapClusterPt hev fun x _ hx => huniq x hx
+    exact spear_vertical_noLimit hGH hW hsub hψ hinj hz q htend
+  -- the start of the vertical line is in `J⁻(Σ)`
+  have ht₀S : γ t₀ ∈ (CE M).Jminus ⊤ Sig := by
+    obtain ⟨σ, hσ, hlt⟩ := hshaft _ (hmem t₀ le_rfl) le_rfl
+    exact ⟨σ, hσ, (CE M).le_of_lt hlt⟩
+  -- connectedness of the segment
+  have hpre : IsPreconnected (γ '' Icc t₀ t₁) :=
+    isPreconnected_Icc.image γ (hγc.mono fun t ht => ht.1)
+  obtain ⟨_, ⟨t, ht, rfl⟩, hγt⟩ := isPreconnected_closed_iff.1 hpre _ _ hJp hJm
+    (fun _ ⟨t, _, ht⟩ => ht ▸ Causal.Causality.mem_Jplus_union_Jminus_of_isCauchySurface hext hSig _)
+    ⟨γ t₁, ⟨t₁, ⟨ht₁, le_rfl⟩, rfl⟩, ht₁S⟩ ⟨γ t₀, ⟨t₀, ⟨le_rfl, ht₁⟩, rfl⟩, ht₀S⟩
+  refine ⟨t, hmem t ht.1, ?_⟩
+  rw [← Causal.Causality.Jplus_inter_Jminus_eq hGH.1 hac]
+  exact hγt
+
+/-- **The graph function `τ_Σ` is continuous on the closed disc** (B21 Lemma 2.4's « smooth », its
+`C⁰` part; B21 Prop 2.17, PDF l.1983, uses the conclusion as « a circle in the shaft »). If `Σ`
+meets the shrunk spear exactly along the graph of `τ_Σ` over `D_{R′}`, in the shaft, then `τ_Σ` is
+continuous: for `a < τ_Σ(z)` the point `ψ(a, z)` is not in the closed `J⁺(Σ)` (else it would be in
+`Σ`, below the graph point), so neither is `ψ(a, z′)` for `z′` near `z`, whence `a < τ_Σ(z′)`;
+symmetrically with `J⁻(Σ)` above the graph. -/
+theorem continuousOn_tauS [HasGroupoid M e0Groupoid] [T2Space M] [SecondCountableTopology M]
+    (hLM : E0LM.E0GlobalBTZ (CE M) (S0 M)) (hGH : (CE M).GloballyHyperbolic) {Sig : Set M}
+    (hSig : (CE M).IsCauchySurface Sig) {R' v : ℝ} {W : Set E0Y} {ψ : E0Y → M} (hW : IsOpen W)
+    (hsub : spearY v R' ⊆ W) (hψ : IsE0Mor ψ W) {τS : ℂ → ℝ}
+    (hpos : ∀ z : ℂ, ‖z‖ ≤ R' → v + R' / 2 < τS z)
+    (hgraph : ∀ x ∈ spear v R', (ψ (paperInY x) ∈ Sig ↔ x.1 = τS x.2)) :
+    ContinuousOn τS (Metric.closedBall 0 R') := by
+  have hA := E0LM.e0_singularFlatAxioms_of E0.chartIso_mem_e0Groupoid hLM
+  have hext := E0LM.e0_curvesExtend hGH
+  have hac := hSig.isAcausal E0LM.e0_causallyArcConnected hext
+  have hJp := E0LM.sfa_isClosed_Jplus_cauchy hA hGH hext hSig
+  have hJm := E0LM.sfa_isClosed_Jminus_cauchy hA hGH hext hSig
+  have hPo : IsOpen (paperInY ⁻¹' W) := hW.preimage continuous_paperInY
+  have hψc : ContinuousOn ψ W := fun x hx => (hψ x hx).continuousWithinAt
+  set t₀ : ℝ := v + R' / 2 with ht₀
+  have hmem : ∀ (t : ℝ) (z : ℂ), ‖z‖ ≤ R' → t₀ ≤ t → ((t, z) : E0) ∈ spear v R' :=
+    fun t z hz ht => ⟨by simp only [fcoord, rad]; linarith, hz⟩
+  have hmono : ∀ z : ℂ, ‖z‖ ≤ R' → ∀ s t, t₀ ≤ s → s ≤ t →
+      (CE M).le ⊤ (ψ (paperInY ((s, z) : E0))) (ψ (paperInY ((t, z) : E0))) := by
+    intro z hz s t hs hst
+    set O : Opens E0 := ⟨paperInY ⁻¹' W, hPo⟩
+    refine le_of_isE0Mor_paper hW hψ (U := O) subset_rfl (le_vertical hst fun r hr => ?_)
+    exact hsub ⟨_, hmem _ z hz (by nlinarith [hr.1, hr.2]), rfl⟩
+  have hcont : ∀ t, t₀ ≤ t →
+      ContinuousOn (fun z : ℂ => ψ (paperInY ((t, z) : E0))) (Metric.closedBall 0 R') :=
+    fun t ht => hψc.comp (continuous_paperInY.comp (continuous_const.prodMk continuous_id)).continuousOn
+      fun z hz => hsub ⟨_, hmem t z (mem_closedBall_zero_iff.1 hz) ht, rfl⟩
+  have hS : ∀ z : ℂ, ‖z‖ ≤ R' → ψ (paperInY ((τS z, z) : E0)) ∈ Sig := fun z hz =>
+    (hgraph _ (hmem _ z hz (hpos z hz).le)).2 rfl
+  have hJJ : (CE M).Jplus ⊤ Sig ∩ (CE M).Jminus ⊤ Sig = Sig :=
+    Causal.Causality.Jplus_inter_Jminus_eq hGH.1 hac
+  intro z hz
+  have hz' := mem_closedBall_zero_iff.1 hz
+  refine tendsto_order.2 ⟨fun a ha => ?_, fun b hb => ?_⟩
+  · by_cases hat : a < t₀
+    · exact eventually_nhdsWithin_of_forall fun z' hz'' =>
+        hat.trans (hpos z' (mem_closedBall_zero_iff.1 hz''))
+    push Not at hat
+    have hnot : ψ (paperInY ((a, z) : E0)) ∉ (CE M).Jplus ⊤ Sig := by
+      intro h
+      have hJ : ψ (paperInY ((a, z) : E0)) ∈ (CE M).Jminus ⊤ Sig :=
+        ⟨_, hS z hz', hmono z hz' a (τS z) hat ha.le⟩
+      have hin : ψ (paperInY ((a, z) : E0)) ∈ Sig := by rw [← hJJ]; exact ⟨h, hJ⟩
+      have h1 : a = τS z := (hgraph _ (hmem a z hz' hat)).1 hin
+      linarith
+    filter_upwards [hcont a hat z hz (hJp.isOpen_compl.mem_nhds hnot), self_mem_nhdsWithin]
+      with z' h1 h2
+    have h2' := mem_closedBall_zero_iff.1 h2
+    by_contra hle
+    push Not at hle
+    exact h1 ⟨_, hS z' h2', hmono z' h2' (τS z') a (hpos z' h2').le hle⟩
+  · have hbt : t₀ ≤ b := ((hpos z hz').trans hb).le
+    have hnot : ψ (paperInY ((b, z) : E0)) ∉ (CE M).Jminus ⊤ Sig := by
+      intro h
+      have hJ : ψ (paperInY ((b, z) : E0)) ∈ (CE M).Jplus ⊤ Sig :=
+        ⟨_, hS z hz', hmono z hz' (τS z) b (hpos z hz').le hb.le⟩
+      have hin : ψ (paperInY ((b, z) : E0)) ∈ Sig := by rw [← hJJ]; exact ⟨hJ, h⟩
+      have h1 : b = τS z := (hgraph _ (hmem b z hz' hbt)).1 hin
+      linarith
+    filter_upwards [hcont b hbt z hz (hJm.isOpen_compl.mem_nhds hnot), self_mem_nhdsWithin]
+      with z' h1 h2
+    have h2' := mem_closedBall_zero_iff.1 h2
+    by_contra hle
+    push Not at hle
+    exact h1 ⟨_, hS z' h2', hmono z' h2' b (τS z') hbt hle⟩
+
+/-- **B21 Lemma 2.4** (`lem:add_BTZ_param`, `BTZ_1.tex:685–695`), for a spear of vertex `p` (the
+paper's hypothesis « `Δ` admits a spear neighbourhood » with the vertex moved to `p`, see
+`IsSpearNbhd.of_ray`, `lem_add_BTZ_param_line` for the paper's form, and
+`lem_add_BTZ_param_of_cauchyMaximal`): after shrinking the radius, `Σ` meets the spear exactly
+along the graph of a **continuous** function `τ_Σ` over the closed disc `D_{R′}`
+(`continuousOn_tauS`), and that graph lies in the shaft `τ > v + R′/2` (the paper's « positive »
+after its normalisation `Φ(p) = (−R/2, 0, 0)`). Smoothness of `τ_Σ` is not claimed: `Σ` is a
+topological Cauchy surface here (the paper's transversality argument uses `Σ` spacelike smooth). -/
+theorem lem_add_BTZ_param [HasGroupoid M e0Groupoid] [T2Space M] [SecondCountableTopology M]
+    (hLM : E0LM.E0GlobalBTZ (CE M) (S0 M)) (hGH : (CE M).GloballyHyperbolic) {Sig : Set M}
+    (hSig : (CE M).IsCauchySurface Sig) {p : M} {R : ℝ} {U : Set M} (hU : IsSpearNbhd p R U)
+    (hpS : p ∈ (CE M).Iminus ⊤ Sig) :
+    ∃ (R' v : ℝ) (W : Set E0Y) (ψ : E0Y → M), 0 < R' ∧ R' ≤ R ∧ IsOpen W ∧ spearY v R' ⊆ W ∧
+      IsE0Mor ψ W ∧ InjOn ψ W ∧ ψ (yVertex v) = p ∧
+      ∃ τS : ℂ → ℝ, ContinuousOn τS (Metric.closedBall 0 R') ∧
+        (∀ z : ℂ, ‖z‖ ≤ R' → v + R' / 2 < τS z) ∧
+        ∀ x ∈ spear v R', (ψ (paperInY x) ∈ Sig ↔ x.1 = τS x.2) := by
+  obtain ⟨R', v, W, ψ, hR', hR'R, hW, hsub, hψ, hinj, hp, hlow, hshaft, huniq⟩ :=
+    spear_shaft_vertical hGH hSig hU hpS
+  have hmeet : ∀ z : ℂ, ‖z‖ ≤ R' →
+      ∃ τ : ℝ, ((τ, z) : E0) ∈ spear v R' ∧ ψ (paperInY (τ, z)) ∈ Sig := fun z hz =>
+    spear_vertical_meets hLM hGH hSig hW hsub hψ hinj hlow hz
+  classical
+  let τS : ℂ → ℝ := fun z => if h : ‖z‖ ≤ R' then (hmeet z h).choose else v + R'
+  have hτS : ∀ z (hz : ‖z‖ ≤ R'), ((τS z, z) : E0) ∈ spear v R' ∧
+      ψ (paperInY (τS z, z)) ∈ Sig := fun z hz => by
+    simp only [τS, dif_pos hz]; exact (hmeet z hz).choose_spec
+  have hpos : ∀ z : ℂ, ‖z‖ ≤ R' → v + R' / 2 < τS z := fun z hz =>
+    hshaft _ (hτS z hz).1 (hτS z hz).2
+  have hgraph : ∀ x ∈ spear v R', (ψ (paperInY x) ∈ Sig ↔ x.1 = τS x.2) := by
+    intro x hx
+    have hz : ‖x.2‖ ≤ R' := hx.2
+    constructor
+    · intro hxS
+      have := huniq x hx _ (hτS x.2 hz).1 rfl hxS (hτS x.2 hz).2
+      rw [this]
+    · intro hx1
+      have : x = (τS x.2, x.2) := Prod.ext hx1 rfl
+      rw [this]; exact (hτS x.2 hz).2
+  exact ⟨R', v, W, ψ, hR', hR'R, hW, hsub, hψ, hinj, hp, τS,
+    continuousOn_tauS hLM hGH hSig hW hsub hψ hpos hgraph, hpos, hgraph⟩
+
+/-- **The future half of a BTZ line is covered by any full future ray from its point** (the
+first case of B21 Lemma 2.4's proof, « if `q` is in the past of `p`, then `p ∈ 𝒮` »): if `γ` is
+the BTZ line through `q` (a closed embedding, future causal, onto the component of `sing₀`
+through `q`, as `E0LM.E0GlobalBTZ.line` gives), every `γ s`, `s ≥ 0`, lies on a full future BTZ
+ray `r` from `q`. Proof: `r` lies in the component, so `r = γ ∘ h` with `h` continuous (`γ` an
+embedding); `h ≥ 0` (else `r t ≤ q ≤ r t`, so `t = 0`); `h` is unbounded (else `r` is a monotone
+curve in the compact `γ([0, B])`, hence convergent, against `IsFullFutureBTZRay.not_tendsto`); the
+intermediate value theorem concludes. -/
+theorem IsFullFutureBTZRay.exists_eq_of_line [HasGroupoid M e0Groupoid] [T2Space M]
+    (hGH : (CE M).GloballyHyperbolic) {q : M} {r : ℝ → M} (hr : IsFullFutureBTZRay q r)
+    {γ : ℝ → M} (hγ0 : γ 0 = q) (hγe : IsClosedEmbedding γ)
+    (hγc : (CE M).CausalCurveIn ⊤ univ γ) (hγr : range γ = connectedComponentIn (S0 M) q)
+    {s : ℝ} (hs : 0 ≤ s) : ∃ t, 0 ≤ t ∧ r t = γ s := by
+  have hrr : ∀ t, 0 ≤ t → r t ∈ range γ := by
+    intro t ht
+    rw [hγr]
+    have hpre : IsPreconnected (r '' Ici 0) := isPreconnected_Ici.image r hr.continuousOn
+    have hsub := hpre.subset_connectedComponentIn (x := q) ⟨0, self_mem_Ici, hr.zero⟩
+      (by rintro _ ⟨u, hu, rfl⟩; exact hr.mem_S0 hu)
+    exact hsub ⟨t, ht, rfl⟩
+  classical
+  let h : ℝ → ℝ := fun t => if ht : 0 ≤ t then (hrr t ht).choose else 0
+  have hh : ∀ t, 0 ≤ t → γ (h t) = r t := fun t ht => by
+    simp only [h, dif_pos ht]; exact (hrr t ht).choose_spec
+  have hhc : ContinuousOn h (Ici 0) := by
+    rw [hγe.isInducing.continuousOn_iff]
+    exact hr.continuousOn.congr fun t ht => hh t ht
+  have hh0 : h 0 = 0 := hγe.injective (by rw [hh 0 le_rfl, hr.zero, hγ0])
+  have hhnn : ∀ t, 0 ≤ t → 0 ≤ h t := by
+    intro t ht
+    by_contra hneg
+    push Not at hneg
+    have h1 : (CE M).le ⊤ (r t) q := by
+      rw [← hh t ht, ← hγ0]; exact hγc.le_of_le trivial trivial hneg.le
+    have h2 : (CE M).le ⊤ q (r t) := by rw [← hr.zero]; exact hr.le le_rfl ht
+    have h3 : r t = r 0 := (hGH.1 h1 h2).trans hr.zero.symm
+    have h4 : t = 0 := hr.injOn ht (show (0 : ℝ) ∈ Ici 0 from mem_Ici.2 le_rfl) h3
+    subst h4
+    rw [hh0] at hneg
+    exact lt_irrefl _ hneg
+  obtain ⟨t₁, ht₁, hst₁⟩ : ∃ t, 0 ≤ t ∧ s ≤ h t := by
+    by_contra hcon
+    push Not at hcon
+    have hK : IsCompact (γ '' Icc 0 s) := isCompact_Icc.image hγe.continuous
+    obtain ⟨q', hq'⟩ := exists_tendsto_of_monotone hGH (t₀ := 0) (fun a b ha hab => hr.le ha hab)
+      hK fun t ht => ⟨h t, ⟨hhnn t ht, (hcon t ht).le⟩, hh t ht⟩
+    exact hr.not_tendsto q' hq'
+  obtain ⟨t, ht, hts⟩ := intermediate_value_Icc ht₁ (hhc.mono Icc_subset_Ici_self)
+    ⟨by rw [hh0]; exact hs, hst₁⟩
+  exact ⟨t, ht.1, by rw [← hh t ht.1, hts]⟩
+
+/-- **B21 Lemma 2.4, the paper's statement** (`lem:add_BTZ_param`, `BTZ_1.tex:685–695`): the BTZ
+line `Δ` (the component of `sing₀(M)` through `q`) admits a spear neighbourhood, of vertex `q`;
+then for every `p ∈ Δ ∩ I⁻(Σ)` there is a spear neighbourhood of vertex `p` meeting `Σ` exactly
+along the graph of a **continuous** function `τ_Σ` over the closed disc, in the shaft
+(`τ_Σ > v + R′/2`, the paper's « positive » after its normalisation). Proof: `Δ` is the line
+`γ` of `hLM`; if `p = γ s`, `s ≥ 0` (« `q` in the past of `p` »), `p` is on the spear's ray
+(`IsFullFutureBTZRay.exists_eq_of_line`), the vertex moves up (`IsSpearNbhd.of_ray`) and
+`lem_add_BTZ_param` concludes. The case `s < 0` (« `q` in the future of `p` », the charts along
+`[p, q]` glued) is a tagged `sorry`. -/
+theorem lem_add_BTZ_param_line [HasGroupoid M e0Groupoid] [T2Space M] [SecondCountableTopology M]
+    (hLM : E0LM.E0GlobalBTZ (CE M) (S0 M)) (hGH : (CE M).GloballyHyperbolic) {Sig : Set M}
+    (hSig : (CE M).IsCauchySurface Sig) {q : M} {R : ℝ} {U : Set M} (hU : IsSpearNbhd q R U)
+    {p : M} (hpq : p ∈ connectedComponentIn (S0 M) q) (hpS : p ∈ (CE M).Iminus ⊤ Sig) :
+    ∃ (R' v : ℝ) (W : Set E0Y) (ψ : E0Y → M), 0 < R' ∧ IsOpen W ∧ spearY v R' ⊆ W ∧
+      IsE0Mor ψ W ∧ InjOn ψ W ∧ ψ (yVertex v) = p ∧
+      ∃ τS : ℂ → ℝ, ContinuousOn τS (Metric.closedBall 0 R') ∧
+        (∀ z : ℂ, ‖z‖ ≤ R' → v + R' / 2 < τS z) ∧
+        ∀ x ∈ spear v R', (ψ (paperInY x) ∈ Sig ↔ x.1 = τS x.2) := by
+  obtain ⟨v, W, ψ, hW, hSW, hψ, hinj, hq, hrays⟩ := hU.of_ray
+  have hR := hU.pos
+  have hr : IsFullFutureBTZRay q (fun t => ψ (yAxis v t)) :=
+    ⟨v, W, ψ, hW, fun t ht => hSW (yAxis_mem_spearY hR.le ht), hψ, hinj, hq, fun _ => rfl⟩
+  have hq0 : q ∈ S0 M := by
+    have := hr.mem_S0 (le_refl 0)
+    rwa [hr.zero] at this
+  obtain ⟨γ, hγ0, hγe, hγi, hγr⟩ := hLM.line q hq0
+  have hpγ : p ∈ range γ := by rw [hγr]; exact hpq
+  obtain ⟨s, rfl⟩ := hpγ
+  rcases le_or_gt 0 s with hs | hs
+  · obtain ⟨t, ht, hts⟩ := hr.exists_eq_of_line hGH hγ0 (hγe hGH.1) hγi.1 hγr hs
+    have hsp := hrays t ht
+    have hts' : ψ (yAxis v t) = γ s := hts
+    rw [hts'] at hsp
+    obtain ⟨R', v', W', ψ', hR', -, hW', hsub', hψ', hinj', hp', τS, h0, h1, h2⟩ :=
+      lem_add_BTZ_param hLM hGH hSig hsp hpS
+    exact ⟨R', v', W', ψ', hR', hW', hsub', hψ', hinj', hp', τS, h0, h1, h2⟩
+  · sorry -- SORRY(lem:add_BTZ_param): the case « q in the future of p » (p = γ s, s < 0, on the BTZ line below the given spear's vertex q): B21 l.725–733 covers the compact segment γ([s, 0]) by finitely many axis charts {α_i < τ < β_i, r < R_i}, normalises every change of chart to the identity of 𝔼₀ (B21 prop:isom: they are rotation-translations along the axis) and glues them with the spear chart into one injective chart Φ of a shaft {r < R′, τ > α} ∋ Φ(p). Not built: the normalisation needs the transition of two axis charts read as one global isometry of 𝔼₀ on a CONNECTED overlap (WP-41c's btzE0_localUnique_core gives it on a component; arranging the components along the segment, the finite induction over the cover, and injectivity of the glued Φ on a neighbourhood of the compact segment — locally injective and injective on a compact set ⇒ injective nearby — are each unproved here)
+
+end AddBTZParam
+
+/-! ### §6 Lemma 2.4 in the setting where B21 applies it: Cauchy-maximal manifolds -/
+
+section AddBTZParamMax
+
+open E0CBG
+
+variable
+  (hLine : ∀ (M : Type) [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
+    [SecondCountableTopology M] [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid],
+    E0LM.E0GlobalBTZ (Causal.CBG.chartedCausality E0LM.D M) (Causal.CBG.chartedSing e0SingY M 0))
+  (hSC : ∀ {M : Type} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [ChartedSpace E0Y M]
+    [HasGroupoid M e0Groupoid], (Causal.CBG.chartedCausality E0LM.D M).GloballyHyperbolic →
+    ∀ S : Set M, (Causal.CBG.chartedCausality E0LM.D M).IsCauchySurface S →
+    SecondCountableTopology S → SecondCountableTopology M)
+
+variable {M : Type} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M]
+  [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid]
+
+include hLine hSC in
+/-- **B21 Lemma 2.4 for Cauchy-maximal `M`** (the setting of B21 Prop 2.17, where it is used): for
+every BTZ point `p ∈ I⁻(Σ)` there is a spear neighbourhood of vertex `p` meeting `Σ` along the
+graph of a function over the disc, in the shaft. The vertex is placed at `p` by Lemma 2.3. -/
+theorem lem_add_BTZ_param_of_cauchyMaximal (hGH : (CE M).GloballyHyperbolic) {Sig : Set M}
+    (hSig : (CE M).IsCauchySurface Sig) (hmax : IsE0CauchyMaximal M) {p : M} (hp : p ∈ S0 M)
+    (hpS : p ∈ (CE M).Iminus ⊤ Sig) :
+    ∃ (R' v : ℝ) (W : Set E0Y) (ψ : E0Y → M), 0 < R' ∧ IsOpen W ∧ spearY v R' ⊆ W ∧
+      IsE0Mor ψ W ∧ InjOn ψ W ∧ ψ (yVertex v) = p ∧
+      ∃ τS : ℂ → ℝ, ContinuousOn τS (Metric.closedBall 0 R') ∧
+        (∀ z : ℂ, ‖z‖ ≤ R' → v + R' / 2 < τS z) ∧
+        ∀ x ∈ spear v R', (ψ (paperInY x) ∈ Sig ↔ x.1 = τS x.2) := by
+  obtain ⟨R, U, hU⟩ := lem_tube hLine hSC hGH hmax hp
+  obtain ⟨R', v, W, ψ, hR', -, hW, hsub, hψ, hinj, hpv, τS, h0, h1, h2⟩ :=
+    lem_add_BTZ_param (hLine M) hGH hSig hU hpS
+  exact ⟨R', v, W, ψ, hR', hW, hsub, hψ, hinj, hpv, τS, h0, h1, h2⟩
+
+end AddBTZParamMax
+
+end E0Spear
+
+end GX

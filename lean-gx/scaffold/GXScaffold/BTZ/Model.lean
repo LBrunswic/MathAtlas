@@ -2,7 +2,7 @@ import GXScaffold.Lorentz.Bridge
 import GXScaffold.SingularII.SpreadTop
 
 /-!
-# `GXScaffold.BTZ.Model` — the BTZ model space `𝔼₀` as a singular `(Isom(𝐌³), 𝐌³)`-manifold
+# `GXScaffold.BTZ.Model` — the BTZ model space `𝔼₀` as a singular `(Isom₀(𝐌³), 𝐌³)`-manifold
 
 Package WP-41b (WAVE5-PLAN.md, WP-39b). `papers/gx`, §4.4 "Some complements on the BTZ model"
 (`RamcovGX.tex:2234–2300`) and the motivational example `sec:mot_BTZ` (l.1942–1958) it relies
@@ -37,7 +37,10 @@ fixes `Δ` pointwise `GX.btzHol_smul_of_mem_btzLine` and is parabolic `GX.btzHol
 values of `D` at the axis `GX.btzDev_cluster` (l.1949); the cylinder's regular locus
 `GX.support_btzCyl`; the paper's coordinates `GX.btzDevM_paper_coords`; the paper's `D` verbatim `GX.btzPaperDev`
 `= btzDevM 0 btzV0 ∘ ((τ,r,θ) ↦ (r,−θ,2τ))` `GX.btzPaperDev_eq_btzDevM`, `GX.btzPaperDev_axis`, and
-its pullback metric `GX.btzPaperDev_pullback_minkB`, `GX.btzPaperDev_pullback`.
+its pullback metric `GX.btzPaperDev_pullback_minkB`, `GX.btzPaperDev_pullback`; every chart of the
+structure, read in the paper's coordinates (`GX.btzPaperCyl`), is locally `g • D`
+(`GX.btz_chart_eq_smul_btzPaperDev`) and a local isometry of the printed metric
+(`GX.btz_chart_pullback`, `GX.btzE0_chart_pullback`).
 `GX.btz_dev_injective_range` and `GX.btzTop_eq` hold for **every** homeomorphism
 `Φ : \widetilde{𝔼₀} ≃ₜ 𝔻_∞ × ℝ` (no `hΦ` needed); `D` is tied to the developing map of
 `\widetilde{𝔼₀}` by `GX.btz_isRegDevelopingOnReg`, which uses `hΦ`.
@@ -64,7 +67,7 @@ its pullback metric `GX.btzPaperDev_pullback_minkB`, `GX.btzPaperDev_pullback`.
 
 | paper hypothesis | here |
 |---|---|
-| `𝔼₀` = `ℝ³` with `−2dτdr + dr² + r²dθ²` (l.1944) | ✓ `Γ_{2π}\(𝔻_∞ × ℝ)` (`≅ ℂ × ℝ`, `GX.cylHomeomorph`) with the structure developed on `{r>0}` by the paper's `D` (`GX.IsBTZStructure`; unique, `GX.btz_existsUnique`), and `D^*(−dt²+dx²+dy²) = −2dτdr + dr² + r²dθ²` **proved** at every point (`GX.btzPaperDev_pullback`, `GX.btzPaperDev_pullback_minkB`; `D` in the paper's coordinates `GX.btzPaperDev_eq_btzDevM`): the charts of the structure are local isometries of the printed metric (printed `r²dθ` read `r²dθ²`) |
+| `𝔼₀` = `ℝ³` with `−2dτdr + dr² + r²dθ²` (l.1944) | ✓ `Γ_{2π}\(𝔻_∞ × ℝ)` (`≅ ℂ × ℝ`, `GX.cylHomeomorph`) with the structure developed on `{r>0}` by the paper's `D` (`GX.IsBTZStructure`; unique, `GX.btz_existsUnique`), and `D^*(−dt²+dx²+dy²) = −2dτdr + dr² + r²dθ²` **proved** at every point (`GX.btzPaperDev_pullback`, `GX.btzPaperDev_pullback_minkB`; `D` in the paper's coordinates `GX.btzPaperDev_eq_btzDevM`): the charts of the structure are local isometries of the printed metric, `GX.btz_chart_pullback` (printed `r²dθ` read `r²dθ²`; the converse is Liouville, WP-39c) |
 | `G = Isom₀(𝔼^{1,2})` (l.668), `X = 𝔼^{1,2}` | ✓ `Causal.Flat.isom 2`, `Causal.Minkowski 2` (bridge: `GX.nullIsom0EquivIsom`, `GX.nullToMink`) |
 | `D(τ,r,θ/2π)` (l.2237) | ✓ corrected (D-5): `θ ∈ ℝ`; the printed `D` verbatim is `GX.btzPaperDev = btzDevM 0 btzV0 ∘ ((τ,r,θ) ↦ (r,−θ,2τ))` (`GX.btzPaperDev_eq_btzDevM`; `θ ↦ −θ` conjugates `Γ_α` by `k ↦ k⁻¹`) |
 | the paper's `x₀ = 0`, `v`, period `2π` | ⚠ weakened: every `x₀`, every `v` with `⟨v|u⟩ < 0`, every `α ≠ 0`; the paper's instance `GX.btzE0_virt_tame` |
@@ -102,7 +105,7 @@ noncomputable def btzDevM (x₀ v : ℝ × ℝ × ℝ) (y : DInfty × ℝ) : Cau
   nullToMink (btzDev x₀ v y)
 
 /-- **The holonomy of the BTZ model**: the parabolic `P_α` (fixing `x₀ + ℝu` pointwise) as an
-element of `Isom(𝐌³)`. -/
+element of `Isom₀(𝐌³)`. -/
 noncomputable def btzHol (x₀ : ℝ × ℝ × ℝ) (α : ℝ) : Causal.Flat.isom 2 :=
   nullIsom0EquivIsom ⟨parabAff x₀ α, parab_mem x₀ α⟩
 
@@ -172,7 +175,7 @@ theorem isAEMorphismOf_btzCyl_smul (x₀ : ℝ × ℝ × ℝ) {v : ℝ × ℝ ×
 
 end BTZDev
 
-/-! ### `𝔼₀` as a singular `(Isom(𝐌³), 𝐌³)`-manifold -/
+/-! ### `𝔼₀` as a singular `(Isom₀(𝐌³), 𝐌³)`-manifold -/
 
 section Model
 
@@ -180,8 +183,8 @@ section Model
 same type as `GX.MassCyl α`, with a different structure. -/
 abbrev BTZModel (α : ℝ) : Type := Orbits (GammaA α) (DInfty × ℝ)
 
-/-- **The BTZ structure exists and is unique** (`ex:quotient_base`'s white hole transported by the
-bridge): `𝔼₀` carries a unique maximal a.e. `(Isom(𝐌³), 𝐌³)`-atlas for which the projection
+/-- **The BTZ structure exists and is unique** (the construction of `ex:quotient_base`, redone over
+`Causal.Flat.isom 2`): `𝔼₀` carries a unique maximal a.e. `(Isom₀(𝐌³), 𝐌³)`-atlas for which the projection
 from the cylinder (with the structure pulled back by `btzDevM`) is an a.e. morphism. -/
 theorem btz_existsUnique (x₀ : ℝ × ℝ × ℝ) {v : ℝ × ℝ × ℝ} (hv : 0 < v.2.1) {α : ℝ} (hα : α ≠ 0) :
     ∃! B : Set (OpenPartialHomeomorph (BTZModel α) (Causal.Minkowski 2)),
@@ -965,7 +968,7 @@ noncomputable def btzHolHom (x₀ : ℝ × ℝ × ℝ) (α : ℝ) : GammaA α �
   map_one' := by simp
   map_mul' a b := by rw [GammaA.toInt_mul, zpow_add]
 
-/-- **The holonomy of `\widetilde{𝔼₀}`**: `ρ : Γ(\widetilde{𝔼₀}/𝔼₀) → Isom(𝐌³)`. -/
+/-- **The holonomy of `\widetilde{𝔼₀}`**: `ρ : Γ(\widetilde{𝔼₀}/𝔼₀) → Isom₀(𝐌³)`. -/
 noncomputable def btzHolonomy (x₀ : ℝ × ℝ × ℝ) (hα : α ≠ 0)
     (hΦ : ∀ e, orbitMk (GammaA α) (Φ e) = e.base) :
     deckGroup (SpreadEnd.base : MaxBranchedCover (Sing (Causal.Flat.isom 2)
@@ -1362,7 +1365,7 @@ end CoverFacts
 section E0
 
 /-- The paper's `v = (−1, 1, 0)` (null coordinates): `btzDev 0 btzV0` is the paper's `D` of
-`sec:mot_BTZ` (`btzDev_paper_coords`). -/
+`sec:mot_BTZ` (`btzDevM_paper_coords`). -/
 def btzV0 : ℝ × ℝ × ℝ := (-1, 1, 0)
 
 theorem btzV0_pos : 0 < btzV0.2.1 := one_pos
@@ -1499,6 +1502,127 @@ abbrev BTZE0 : Type := BTZModel (2 * π)
 
 theorem isBTZStructure_btzE0 : @IsBTZStructure 0 btzV0 (2 * π) btzE0Structure :=
   Classical.choose_spec (exists_isBTZStructure (α := 2 * π) 0 btzV0_pos btz_two_pi_ne_zero)
+
+/-! ### The charts of `𝔼₀` are local isometries of the printed metric
+
+The composite of `btz_eventually_chart` (a chart is locally `g⁻¹ • D`), `btzPaperDev_eq_btzDevM` (the
+paper's coordinates) and `btzPaperDev_pullback` (the pullback metric), stated as one theorem. Only
+this direction: the converse (every oriented, time-oriented local isometry of the printed metric is
+a chart) is Liouville's theorem for flat Lorentzian metrics (`lem:liouville`, WP-39c). -/
+
+/-- **The paper's cylindrical coordinates** `p = (τ, r, θ) ↦ (r, −θ, 2τ)` on the cylinder
+`𝔻_∞ × ℝ` (`btzPaperDev_eq_btzDevM`), made total by sending `r ≤ 0` to the axis; only `r > 0` is
+used. -/
+noncomputable def btzPaperCyl (p : ℝ × ℝ × ℝ) : DInfty × ℝ :=
+  if h : 0 < p.2.1 then (DInfty.posEmb ⟨(p.2.1, -p.2.2), h⟩, 2 * p.1) else (DInfty.apex, 2 * p.1)
+
+theorem btzPaperCyl_of_pos {p : ℝ × ℝ × ℝ} (h : 0 < p.2.1) :
+    btzPaperCyl p = (DInfty.posEmb ⟨(p.2.1, -p.2.2), h⟩, 2 * p.1) := dif_pos h
+
+theorem btzPaperCyl_mem_cylPos {p : ℝ × ℝ × ℝ} (h : 0 < p.2.1) : btzPaperCyl p ∈ cylPos ℝ := by
+  rw [btzPaperCyl_of_pos h]; exact h
+
+theorem continuousAt_btzPaperCyl {p : ℝ × ℝ × ℝ} (h : 0 < p.2.1) : ContinuousAt btzPaperCyl p := by
+  have hU : IsOpen {q : ℝ × ℝ × ℝ | 0 < q.2.1} :=
+    isOpen_lt continuous_const (continuous_fst.comp continuous_snd)
+  have hc : Continuous fun q : {q : ℝ × ℝ × ℝ | 0 < q.2.1} =>
+      ((DInfty.posEmb ⟨(q.1.2.1, -q.1.2.2), q.2⟩, 2 * q.1.1) : DInfty × ℝ) := by
+    refine Continuous.prodMk (DInfty.continuous_posEmb.comp ?_) ?_
+    · exact Continuous.subtype_mk
+        (((continuous_fst.comp continuous_snd).comp continuous_subtype_val).prodMk
+          ((continuous_snd.comp continuous_snd).comp continuous_subtype_val).neg) _
+    · exact continuous_const.mul (continuous_fst.comp continuous_subtype_val)
+  have hon : ContinuousOn btzPaperCyl {q : ℝ × ℝ × ℝ | 0 < q.2.1} := by
+    rw [continuousOn_iff_continuous_restrict]
+    have : restrict {q : ℝ × ℝ × ℝ | 0 < q.2.1} btzPaperCyl = fun q =>
+        ((DInfty.posEmb ⟨(q.1.2.1, -q.1.2.2), q.2⟩, 2 * q.1.1) : DInfty × ℝ) := by
+      funext q; exact btzPaperCyl_of_pos q.2
+    rw [this]; exact hc
+  exact hon.continuousAt (hU.mem_nhds h)
+
+theorem btzPaperDev_eq_btzDevM_btzPaperCyl {p : ℝ × ℝ × ℝ} (h : 0 < p.2.1) :
+    btzPaperDev p = btzDevM 0 btzV0 (btzPaperCyl p) := by
+  rw [btzPaperCyl_of_pos h]; exact btzPaperDev_eq_btzDevM h p.2.2 p.1
+
+/-- An element of `Isom₀` acts on a differentiable map by its linear part. -/
+theorem hasFDerivAt_isom_smul {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    {f : E → Causal.Minkowski 2} {f' : E →L[ℝ] Causal.Minkowski 2} {p : E}
+    (g : Causal.Flat.isom 2) (hf : HasFDerivAt f f' p) :
+    HasFDerivAt (fun q => g • f q) ((LinearMap.toContinuousLinearMap
+      ((g : Causal.Minkowski 2 ≃ᵃ[ℝ] Causal.Minkowski 2).linear :
+        Causal.Minkowski 2 →ₗ[ℝ] Causal.Minkowski 2)).comp f') p := by
+  have hfun : (fun q => g • f q) = fun q => (LinearMap.toContinuousLinearMap
+      ((g : Causal.Minkowski 2 ≃ᵃ[ℝ] Causal.Minkowski 2).linear :
+        Causal.Minkowski 2 →ₗ[ℝ] Causal.Minkowski 2)) (f q) + g • (0 : Causal.Minkowski 2) := by
+    funext q
+    have := Causal.Flat.isom_sub (g : Causal.Minkowski 2 ≃ᵃ[ℝ] Causal.Minkowski 2) 0 (f q)
+    rw [sub_zero] at this
+    rw [Causal.Flat.isom_smul_def, Causal.Flat.isom_smul_def, LinearMap.coe_toContinuousLinearMap',
+      LinearEquiv.coe_coe, ← this, sub_add_cancel]
+  rw [hfun]
+  exact ((LinearMap.toContinuousLinearMap _).hasFDerivAt.comp p hf).add_const _
+
+theorem hasFDerivAt_btzPaperDev (p : ℝ × ℝ × ℝ) :
+    HasFDerivAt btzPaperDev (fderiv ℝ btzPaperDev p) p := by
+  obtain ⟨L, hL, -⟩ := hasFDerivAt_btzPaperNull p
+  have hfun : btzPaperDev = (LinearMap.toContinuousLinearMap
+      (nullToMink : (ℝ × ℝ × ℝ) →ₗ[ℝ] Causal.Minkowski 2)) ∘ btzPaperNull :=
+    funext fun q => btzPaperDev_eq_nullToMink q
+  rw [hfun]
+  exact (((LinearMap.toContinuousLinearMap
+    (nullToMink : (ℝ × ℝ × ℝ) →ₗ[ℝ] Causal.Minkowski 2)).hasFDerivAt.comp p hL).differentiableAt
+    ).hasFDerivAt
+
+/-- **A chart of the BTZ model read in the paper's coordinates is locally `g • D`**: near a point
+`p = (τ, r, θ)` with `r > 0`, `c(π(r, −θ, 2τ)) = g • D(τ, r, θ)` for some `g ∈ Isom₀(𝐌³)`, `D` the
+paper's developing map (`btzPaperDev`). -/
+theorem btz_chart_eq_smul_btzPaperDev {α : ℝ}
+    [SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2) (BTZModel α)]
+    (hπ : IsBTZStructure 0 btzV0 α) {c : OpenPartialHomeomorph (BTZModel α) (Causal.Minkowski 2)}
+    (hc : c ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (BTZModel α))
+    {p : ℝ × ℝ × ℝ} (hr : 0 < p.2.1) (hpc : orbitMk (GammaA α) (btzPaperCyl p) ∈ c.source) :
+    ∃ g : Causal.Flat.isom 2, ∀ᶠ q in 𝓝 p,
+      c (orbitMk (GammaA α) (btzPaperCyl q)) = g • btzPaperDev q := by
+  obtain ⟨g, hg⟩ := btz_eventually_chart (x₀ := 0) btzV0_pos hπ (btzPaperCyl_mem_cylPos hr) hc hpc
+  have hU : IsOpen {q : ℝ × ℝ × ℝ | 0 < q.2.1} :=
+    isOpen_lt continuous_const (continuous_fst.comp continuous_snd)
+  refine ⟨g⁻¹, ?_⟩
+  filter_upwards [continuousAt_btzPaperCyl hr hg, hU.mem_nhds hr] with q hq hq'
+  rw [btzPaperDev_eq_btzDevM_btzPaperCyl hq', hq, smul_smul, inv_mul_cancel, one_smul]
+
+/-- **The charts of the BTZ model are local isometries of the printed metric** (`RamcovGX.tex:1944`,
+`r²dθ` read `r²dθ²`): for every chart `c` of the structure and every `p = (τ, r, θ)` with `r > 0`
+in its domain, `q ↦ c(π(r, −θ, 2τ))` is differentiable at `p` and pulls `−dt² + dx² + dy²` back to
+`−2dτdr + dr² + r²dθ²`. -/
+theorem btz_chart_pullback {α : ℝ}
+    [SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2) (BTZModel α)]
+    (hπ : IsBTZStructure 0 btzV0 α) {c : OpenPartialHomeomorph (BTZModel α) (Causal.Minkowski 2)}
+    (hc : c ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (BTZModel α))
+    {p : ℝ × ℝ × ℝ} (hr : 0 < p.2.1) (hpc : orbitMk (GammaA α) (btzPaperCyl p) ∈ c.source) :
+    DifferentiableAt ℝ (fun q => c (orbitMk (GammaA α) (btzPaperCyl q))) p ∧
+    ∀ h : ℝ × ℝ × ℝ, Causal.Flat.minkQ
+      (fderiv ℝ (fun q => c (orbitMk (GammaA α) (btzPaperCyl q))) p h) =
+        -2 * h.1 * h.2.1 + h.2.1 ^ 2 + p.2.1 ^ 2 * h.2.2 ^ 2 := by
+  obtain ⟨g, hg⟩ := btz_chart_eq_smul_btzPaperDev hπ hc hr hpc
+  have H := hasFDerivAt_isom_smul g (hasFDerivAt_btzPaperDev p)
+  have H' := H.congr_of_eventuallyEq hg
+  refine ⟨H'.differentiableAt, fun h => ?_⟩
+  rw [H'.fderiv, ContinuousLinearMap.comp_apply, LinearMap.coe_toContinuousLinearMap',
+    LinearEquiv.coe_coe, Causal.Flat.lorentz.minkQ_apply (Causal.Flat.mem_isom_iff.1 g.2),
+    btzPaperDev_pullback]
+
+/-- `btz_chart_pullback` for the paper's `𝔼₀` (`α = 2π`, `btzE0Structure`). -/
+theorem btzE0_chart_pullback :
+    letI := btzE0Structure
+    ∀ {c : OpenPartialHomeomorph BTZE0 (Causal.Minkowski 2)},
+      c ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0 →
+      ∀ {p : ℝ × ℝ × ℝ}, 0 < p.2.1 → orbitMk (GammaA (2 * π)) (btzPaperCyl p) ∈ c.source →
+      DifferentiableAt ℝ (fun q => c (orbitMk (GammaA (2 * π)) (btzPaperCyl q))) p ∧
+      ∀ h : ℝ × ℝ × ℝ, Causal.Flat.minkQ
+        (fderiv ℝ (fun q => c (orbitMk (GammaA (2 * π)) (btzPaperCyl q))) p h) =
+          -2 * h.1 * h.2.1 + h.2.1 ^ 2 + p.2.1 ^ 2 * h.2.2 ^ 2 :=
+  letI := btzE0Structure
+  fun hc _ hr hpc => btz_chart_pullback isBTZStructure_btzE0 hc hr hpc
 
 /-- **`prop:BTZ_virt_tame`** (`RamcovGX.tex:2252`) for the paper's `𝔼₀` itself. -/
 theorem btzE0_virt_tame :

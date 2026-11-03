@@ -4,75 +4,81 @@ import GX.Topology.PortlyExamples
 /-!
 # Singular `(G,X)`-manifolds (II): analytic families of models, virtually tame models
 
-Package WP-27j, piece (2) of `theo:local_virt_tame` by WP-35f (liftable charts; descending charts, `ℓ`
-arbitrary, in fix round 1); WP-40c: `rem:theorem_theo_local_tame` certified under DEC-80 (b), and
-the general case of `theo:local_virt_tame` pushed (DEC-82) — the necessary condition every
-tamifying topology satisfies, and finite local degree forcing naturality. `papers/gx`, `RamcovGX.tex:1889–1983`, §2.5.3 "Analytic family" and §2.5.4
-"Virtually tame models" (`(G,X)` analytical, `X` locally unloopable, l.1660; manifolds connected,
-l.1712), on WP-27i's `GX.SingularII.Tame`.
+WP-27j; WP-35f (liftable, then descending charts); WP-40c (DEC-80 (b), DEC-82); WP-41p (DEC-86,
+DEC-87 (a)(e): the bridge "`r` an isomorphism ⇒ the chart descends", the counterexample schema).
+`papers/gx`, `RamcovGX.tex:1889–1983`, §2.5.3–4 (`(G,X)` analytical, `X` locally unloopable,
+l.1660; manifolds connected, l.1712), on `GX.SingularII.Tame`.
 
-* **`def:singular_manifold_automorphisms_group`** — `RamcovGX.tex:1895`: `GX.singularAut`.
-* **`def:family_singular_manifolds_endowed`** — `RamcovGX.tex:1899`: `GX.IsAnalyticModelFamily`,
-  the printed clause `GX.isAnalyticModelFamily_iff`.
-* **`def:atlas`** — `RamcovGX.tex:1905`: `GX.XAChart`, `GX.HasXAType`, `GX.IsXAAtlas`.
-* **`def:analytic_family_model_spaces`** — `RamcovGX.tex:1913`, read as ruled (DEC-67 (e): a chart
-  centred at every singular point): `GX.IsXAManifold`; the printed form `GX.IsXAManifoldPrinted`,
-  `GX.isXAManifoldPrinted_iff`, `GX.isXAManifold_model`.
-* **`rem:singular_point_manifold_has`** — `RamcovGX.tex:1921`, under DEC-67 (e):
-  `GX.existsUnique_hasXAType` (uniqueness `GX.hasType_unique`, the remark's own argument).
-* **`rem:theorem_theo_local_tame`** — `RamcovGX.tex:1924`, read as ruled (DEC-80 (b): the GLOBAL
-  equivalence "every `X_A`-manifold is tame iff every model is tame", SCOPE (b)):
-  `GX.forall_isTame_iff_printed` (`X_A`-manifolds as printed, l.1913: no further hypothesis), and
-  for `X_A`-manifolds as ruled by DEC-67 (e) `GX.forall_isTame_iff` (models `X_A`-manifolds, the
-  paper's own presumption l.2086); the direction "models tame ⇒ tame" per manifold:
+* **`def:singular_manifold_automorphisms_group`** — l.1895: `GX.singularAut`.
+* **`def:family_singular_manifolds_endowed`** — l.1899: `GX.IsAnalyticModelFamily`,
+  `GX.isAnalyticModelFamily_iff`.
+* **`def:atlas`** — l.1905: `GX.XAChart`, `GX.HasXAType`, `GX.IsXAAtlas`.
+* **`def:analytic_family_model_spaces`** — l.1913, DEC-67 (e): `GX.IsXAManifold`; printed
+  `GX.IsXAManifoldPrinted`, `GX.isXAManifoldPrinted_iff`, `GX.isXAManifold_model`.
+* **`rem:singular_point_manifold_has`** — l.1921, DEC-67 (e): `GX.existsUnique_hasXAType`.
+* **`rem:theorem_theo_local_tame`** — l.1924, the GLOBAL equivalence (DEC-80 (b); its htype form
+  covered by DEC-87 (a)): `GX.forall_isTame_iff_printed`, `GX.forall_isTame_iff`; per manifold
   `GX.isTame_of_isXAAtlas`, `GX.isTame_of_isXAManifold`, `GX.isTame_of_isXAManifoldPrinted`.
-* `cex:start_singular_manifold_homeomorphic` — `RamcovGX.tex:1930` — partial (SCOPE (c), DEC-69):
-  Troyanov's theorem with the suspension named, `GX.TroyanovSuspensionTheorem` (on
-  `GX.TroyanovAngleCondition`, `GX.SuspensionCexFacts`); the cex from it,
-  `GX.cex_start_singular_manifold_homeomorphic`; the inference
+* **`def:singular_manifold_virtually_tame`** — l.1960: `GX.IsTamifyingTopology`,
+  `GX.IsVirtuallyTame`; `GX.isTamifyingTopology_natural_iff`, `GX.IsTame.isVirtuallyTame`.
+* **`def:singular_manifold_locally_galoisian`** — l.1969: `GX.IsLocallyGaloisian`.
+* **`def:topological_spaces_continuous_map`** — l.1984, certified here (DEC-87 (e)):
+  `GX.strongPullTop`; `GX.continuous_strongPullTop`, `GX.strongPullTop_self`.
+* `cex:start_singular_manifold_homeomorphic` — l.1930 — partial (SCOPE (c), DEC-69): Troyanov's
+  theorem named, `GX.TroyanovSuspensionTheorem`; `GX.cex_start_singular_manifold_homeomorphic`;
+  non-vacuity `GX.exists_suspensionCexFacts` (the Joukowski structure).
+* `theo:local_virt_tame` — l.1974 — partial (SCOPE (d)). PROVED, 0 `sorry`, under all the
+  theorem's hypotheses, when the charts centred at singular points DESCEND from the maximal
+  coverings of their models: `GX.isVirtuallyTame_of_descending`, `GX.local_virt_tame_descending`
+  (`ℓ` arbitrary); in particular when `r : Ṽ → V̂` is an isomorphism — the bridge
+  `GX.isDescendingChartMap_of_homeomorph` (WP-41p), `GX.isVirtuallyTame_of_hasMaximalLifts`. In
+  general stated: `GX.local_virt_tame`, on `GX.exists_isLocalTamifying_charts` (tagged `sorry`, an
+  open mathematical question). Necessary conditions on ANY tamifying topology and the
+  counterexample schema: `GX.not_isVirtuallyTame_of_forall_not_joinedIn`,
+  `GX.not_forall_isVirtuallyTame_of_opens_of_forall_not_joinedIn`.
+* `lem:spread_top` — l.1990 — certified elsewhere (`GXScaffold.SingularII.SpreadTop`,
+  `GX.spread_top_of_local`, DEC-80 (c)); here only (d), `GX.spread_top_deck` (SCOPE (e)).
+
+### Details of the partial rows
+
+* `cex:start_singular_manifold_homeomorphic` (SCOPE (c), DEC-69): on
+  `GX.TroyanovAngleCondition`, `GX.SuspensionCexFacts`; the inference
   `GX.SuspensionCexFacts.isAnalyticModelFamily_unit_iff`
   (`GX.isAnalyticModelFamily_unit_iff_eq_singleton`,
   `GX.IsAnalyticModelFamily.inter_eq_empty_of_not_extend`); non-vacuity witnesses
   `GX.troyanovAngleCondition_witness`, `GX.exists_suspensionCexFacts` (the Joukowski structure on
   `ℂ`, `sing = {0, ±1}`, every field exercised); the named `Prop` is not tied to `θ`
   (`GX.troyanovSuspensionTheorem_of_subsingleton`); the concrete `M` not built.
-* **`def:singular_manifold_virtually_tame`** — `RamcovGX.tex:1960`: `GX.IsTamifyingTopology`,
-  `GX.IsVirtuallyTame`; `GX.isTamifyingTopology_natural_iff`, `GX.IsTame.isVirtuallyTame`.
-* **`def:singular_manifold_locally_galoisian`** — `RamcovGX.tex:1969`: `GX.IsLocallyGaloisian`.
-* `theo:local_virt_tame` — `RamcovGX.tex:1974` — partial (SCOPE (d)), `X_A`-manifolds as ruled
-  (DEC-67 (e)). PROVED, 0 `sorry`, under all the theorem's hypotheses, when the singular points
-  are centres of charts DESCENDING from the maximal coverings of the models (the case of the proof
-  where `T_{U,V,φ}` is the `ℓ`-quotient of `T_α` itself — e.g. `r : Ṽ → V̂` an isomorphism,
-  `ℓ : Ũ → Û` arbitrary): `GX.isVirtuallyTame_of_descending`, `GX.local_virt_tame_descending` —
-  piece (2) built as the quotient of `T_α` by a descent `V̂ → Û` (`GX.IsChartDescent`,
-  `GX.descTop`, `GX.isLocalTamifying_descTop`, naturality `GX.nhds_descTop_le_of_aut`, the
-  Galoisianity of the descents `GX.IsChartDescent.exists_deck` from the models' local
-  Galoisianity), the gluing (piece (3)) `GX.exists_isTamifyingTopology_of_local`; the condition
-  `GX.IsDescendingChartMap` holds for liftable charts (`GX.IsLiftableChartMap.isDescendingChartMap`)
-  and is satisfiable at singular points (`GX.isLiftableChartMap_refl`,
-  `GX.isLiftableChartMap_modelChartSelf`). The earlier special case `ℓ`, `r` both isomorphisms is
-  kept, without local Galoisianity: `GX.isVirtuallyTame_of_liftable`,
-  `GX.local_virt_tame_liftable` (`GX.chartTop`, `GX.isLocalTamifying_chartTop`,
-  `GX.nhds_chartTop_le_of_aut`). In general stated: `GX.local_virt_tame`,
-  `GX.isVirtuallyTame_of_isXAManifold`, on `GX.exists_isLocalTamifying_charts` (tagged `sorry`, a
-  mathematical obstruction confined to the non-descending charts, where `r` is not an
-  isomorphism: the paper's (D) rests on `lem:spread_top` (c) for `r`, false in general). Proved
-  for tame models: `GX.isVirtuallyTame_of_isXAManifold_of_isTame`. WP-40c (DEC-82), for ANY
-  tamifying topology, not only the paper's `T_{U,V,φ}`: a deck transformation fixing a point `s` of
-  `\widetilde M` is carried by the `D`-small regular part of every neighbourhood of `s`
-  (`GX.IsTamifyingTopology.exists_joinedIn_reg_of_fixed`,
-  `GX.IsTamifyingTopology.exists_joinedIn_devSmall`), so where it is not, `M` is not virtually
-  tame (`GX.not_isTamifyingTopology_of_forall_not_joinedIn`,
-  `GX.not_isVirtuallyTame_of_forall_not_joinedIn`); at a point of finite local degree a tamifying
-  topology is natural (`GX.IsTamifyingTopology.nhds_eq_of_finite_stab`,
-  `GX.IsTamifyingTopology.nhds_eq_of_free`). Neither a proof nor a counterexample of the general
-  statement (SCOPE (d), last paragraph).
-* **`def:topological_spaces_continuous_map`** — `RamcovGX.tex:1984` (outside the dispatch, needed by
-  the proof): `GX.strongPullTop`; `GX.continuous_strongPullTop`, `GX.strongPullTop_self`.
-* `lem:spread_top` — `RamcovGX.tex:1990` — certified by WP-27k (`GXScaffold.SingularII.SpreadTop`:
-  false as printed, `GX.not_spreadTopPrinted`; corrected, `GX.spread_top_corrected`); here only
-  (d), under the Galoisian hypothesis its proof uses, `GX.spread_top_deck` (SCOPE (e)). The false
-  statement `GX.spread_top` this module carried is removed (WP-35f).
+* `theo:local_virt_tame`, `X_A`-manifolds as ruled (DEC-67 (e)). The descending form: piece (2)
+  built as the quotient of `T_α` by a descent `V̂ → Û` (`GX.IsChartDescent`, `GX.descTop`,
+  `GX.isLocalTamifying_descTop`, naturality `GX.nhds_descTop_le_of_aut`, the Galoisianity of the
+  descents `GX.IsChartDescent.exists_deck` from the models' local Galoisianity), the gluing
+  (piece (3)) `GX.exists_isTamifyingTopology_of_local`; `GX.IsDescendingChartMap` holds for
+  liftable charts (`GX.IsLiftableChartMap.isDescendingChartMap`) and is satisfiable at singular
+  points (`GX.isLiftableChartMap_refl`, `GX.isLiftableChartMap_modelChartSelf`). The bridge
+  (WP-41p): `r : Ṽ → V̂` an isomorphism (`GX.HasMaximalLifts`, a property of the model's open `V`
+  alone), or merely `V̂` dominating `Ṽ` (`GX.isDescendingChartMap_of_section`), gives
+  `IsDescendingChartMap`, by postcomposing the branched covering `Û → U` with `φ`
+  (`GX.IsBranchedCovering.homeomorph_comp`, `GX.IsPossiblyBranchedOver.homeomorph_comp`), the
+  universality of `Ṽ` and its Galoisianity. The earlier special case `ℓ`, `r` both isomorphisms
+  is kept, without local Galoisianity: `GX.isVirtuallyTame_of_liftable`,
+  `GX.local_virt_tame_liftable`. In general stated: `GX.local_virt_tame`,
+  `GX.isVirtuallyTame_of_isXAManifold`, on `GX.exists_isLocalTamifying_charts` (tagged `sorry`:
+  confined to the charts where `r` is NOT an isomorphism; the paper's (D) rests there on
+  `lem:spread_top` (c) for `r`, false in general). Proved for tame models:
+  `GX.isVirtuallyTame_of_isXAManifold_of_isTame`. Necessary conditions (WP-40c) on ANY tamifying
+  topology: `GX.IsTamifyingTopology.exists_joinedIn_reg_of_fixed`,
+  `GX.IsTamifyingTopology.exists_joinedIn_devSmall`, criterion
+  `GX.not_isTamifyingTopology_of_forall_not_joinedIn`, `GX.not_isVirtuallyTame_of_forall_not_joinedIn`;
+  finite local degree forces naturality, `GX.IsTamifyingTopology.nhds_eq_of_finite_stab`,
+  `GX.IsTamifyingTopology.nhds_eq_of_free`. The counterexample schema (WP-41p): an open connected
+  subset of a model with typed singular points is an `X_A`-manifold (`GX.isXAManifold_opens`), so
+  one such subset which is not virtually tame refutes (i) (`GX.not_forall_isVirtuallyTame_of_opens`,
+  `GX.not_forall_isVirtuallyTame_of_opens_of_forall_not_joinedIn`). Models of finite local degree
+  (`GX.HasFiniteLocalDegree`): a tamifying topology is then natural
+  (`GX.IsTamifyingTopology.eq_natural_of_hasFiniteLocalDegree`), the models are tame, and (ii) ⇒ (i)
+  holds (`GX.isVirtuallyTame_of_isXAManifold_of_hasFiniteLocalDegree`). Neither a proof nor a
+  counterexample of the general statement (SCOPE (d), last paragraphs).
 
 > The automorphisms group of $M$ denoted $\Aut(M)$ is the group of isomorphisms of singular
 > $(G,X)$-manifolds from $M$ to itself. (l.1895)
@@ -121,14 +127,14 @@ l.1712), on WP-27i's `GX.SingularII.Tame`.
 | singular manifolds Hausdorff, locally path-connected, first countable (DEC-66 (a), §3's standing l.810), connected where `\widetilde M` is used (DEC-66 (b), (c)) | ✓ carried where `\widetilde M` is used; ⚠ weakened to locally connected in the definitions |
 | `def:atlas`: `x ∈ sing(M)` | ⚠ weakened: not a field — it follows (`XAChart.mem_sing`) |
 | `def:singular_manifold_virtually_tame` (B): "the developing map" | ✓ read: any map inducing a `(G,X)`-morphism on `p⁻¹(reg M)` (unique up to `G`, `aeMorphism_model_unique`) |
-| `theo:local_virt_tame`: models locally Galoisian, analytic family | ✓ carried (`hgal`, `hfam`); local Galoisianity used, as the paper does (l.2093), by the descending form (`isVirtuallyTame_of_descending`: the descents `V̂ → Û` are Galoisian, `IsChartDescent.exists_deck`, through the discrete fibres of `\widetilde X_α → X_α`, `discreteTopology_fiber_of_isLocallyGaloisian`); not used by the liftable special case |
+| `theo:local_virt_tame`: models locally Galoisian, analytic family | ✓ carried (`hgal`, `hfam`); local Galoisianity used, as the paper does (l.2088), by the descending form (`isVirtuallyTame_of_descending`: the descents `V̂ → Û` are Galoisian, `IsChartDescent.exists_deck`, through the discrete fibres of `\widetilde X_α → X_α`, `discreteTopology_fiber_of_isLocallyGaloisian`); not used by the liftable special case |
 | `theo:local_virt_tame`: `Aut(\widetilde X_α)` acts `T_α`-continuously | ✓ carried (`HasAutContinuousTamifying`: every a.e. isomorphism of `\widetilde X_α`, structure `p^*B`) |
 | `cex:start_singular_manifold_homeomorphic`: `Σ` generic, Troyanov, the suspension | ⚠ named external (DEC-69): `TroyanovSuspensionTheorem` — Troyanov's angle condition (`TroyanovAngleCondition`), "generic" read as "all `θ_i` different" (l.1935), and the facts the cex derives (`SuspensionCexFacts`: `M` connected, `O` singular, another singular point, rigidity at `O`, non-extendable local rotations); not tied to the angles (`troyanovSuspensionTheorem_of_subsingleton`); the concrete `M` is not built |
 | `lem:spread_top` (d): `M` first countable, connected, LPC, T2; `S` skeletal; "sub-covering" | ✓ carried; ✓ read: `p`, `q` branched coverings, `q ∘ p` the projection; ⚠ strengthened: `M ∖ S` semilocally simply connected as a space (`hSc`, the library's `\widetilde M^S`) |
-| `lem:spread_top` (d): (none) | ⚠ added (DEC-27): `N → M` Galoisian, `N` Hausdorff (`spread_top_deck`), what the proof's `γ̄` (l.2071) needs |
-| `theo:local_virt_tame`, (ii) ⇒ (i): (none) | ⚠ added (DEC-27), for the proved form: every singular point of `M` is the centre of an `X_A`-chart descending from the maximal covering of its model (`IsDescendingChartMap`: for all `e` over `U` and `f` over `φ(p e)`, a descent `V̂ ∋ f → Û ∋ e` of `φ⁻¹`, i.e. `V̂ → V` dominates `Û → U`; it holds when `r : Ṽ → V̂` is an isomorphism, `ℓ : Ũ → Û` arbitrary — informally by `prop:universality`, not formalized). Only the `r` side is forced: for a non-descending chart `r` is not an isomorphism, and the proof's (D) then needs `lem:spread_top` (c) for `r`, false in general (SCOPE (d)). The `ℓ`-quotient is built (`descTop`) and is no restriction (`isVirtuallyTame_of_descending`). The liftable special case (`IsLiftableChartMap`: `ℓ` and `r` both isomorphisms) is kept; ⚠ weakened there: local Galoisianity is not used (`isVirtuallyTame_of_liftable`); the `X_A`-atlas is used by neither form beyond the charts centred at singular points |
-| `theo:local_virt_tame`, `rem:singular_point_manifold_has`: `M` an `X_A`-manifold | ✓ read as ruled (DEC-67 (e)): `IsXAManifold` asks a chart centred at every singular point, what the remark's existence and the proof's gluing (l.2101–2103) use |
-| `rem:theorem_theo_local_tame`: "a `X_A`-manifold is tame iff all models are tame" | ✓ read as ruled (DEC-80 (b)): the GLOBAL equivalence over all `X_A`-manifolds; for the printed notion (l.1913) nothing is added (`forall_isTame_iff_printed`); for the DEC-67 (e) notion the models are `X_A`-manifolds (`htype`: every singular point of a model has a type), what the paper presumes at l.2086 ("each `X_α` is an `X_A`-manifold"), used by "only if" only |
+| `lem:spread_top` (d): (none) | ⚠ added (DEC-27): `N → M` Galoisian, `N` Hausdorff (`spread_top_deck`), what the proof's `γ̄` (l.2014) needs |
+| `theo:local_virt_tame`, (ii) ⇒ (i): (none) | ⚠ added (DEC-27), for the proved form: every singular point of `M` is the centre of an `X_A`-chart descending from the maximal covering of its model (`IsDescendingChartMap`: for all `e` over `U` and `f` over `φ(p e)`, a descent `V̂ ∋ f → Û ∋ e` of `φ⁻¹`, i.e. `V̂ → V` dominates `Û → U`; it holds when `r : Ṽ → V̂` is an isomorphism, `ℓ : Ũ → Û` arbitrary — `isDescendingChartMap_of_homeomorph`, WP-41p — and whenever `V̂` dominates `Ṽ`, `isDescendingChartMap_of_section`). Only the `r` side is forced: for a non-descending chart `r` is not an isomorphism, and the proof's (D) then needs `lem:spread_top` (c) for `r`, false in general (SCOPE (d)). The `ℓ`-quotient is built (`descTop`) and is no restriction (`isVirtuallyTame_of_descending`). The liftable special case (`IsLiftableChartMap`: `ℓ` and `r` both isomorphisms) is kept; ⚠ weakened there: local Galoisianity is not used (`isVirtuallyTame_of_liftable`); the `X_A`-atlas is used by neither form beyond the charts centred at singular points |
+| `theo:local_virt_tame`, `rem:singular_point_manifold_has`: `M` an `X_A`-manifold | ✓ read as ruled (DEC-67 (e)): `IsXAManifold` asks a chart centred at every singular point, what the remark's existence and the proof's gluing (l.2077) use |
+| `rem:theorem_theo_local_tame`: "a `X_A`-manifold is tame iff all models are tame" | ✓ read as ruled (DEC-80 (b)): the GLOBAL equivalence over all `X_A`-manifolds; for the printed notion (l.1913) nothing is added (`forall_isTame_iff_printed`); for the DEC-67 (e) notion the models are `X_A`-manifolds (`htype`: every singular point of a model has a type), what the paper presumes at l.2069 ("each `X_α` is an `X_A`-manifold"), used by "only if" only; the `htype` form is covered by DEC-80 (b), as DEC-87 (a) records |
 | `rem:theorem_theo_local_tame`: models connected, `X` locally unloopable (standing) | ✓ carried; ⚠ weakened: analyticity of the family is not used, only `S_α` non-empty (`hne`) |
 
 ## SCOPE (disclosed)
@@ -144,8 +150,11 @@ l.1712), on WP-27i's `GX.SingularII.Tame`.
   hypothesis for the printed notion of `X_A`-manifold (`forall_isTame_iff_printed`: "if" by
   `theo:local_tame` along an atlas, `isTame_of_isXAAtlas`; "only if" because each model is an
   `X_A`-manifold, `isXAManifoldPrinted_model`), and for the notion ruled by DEC-67 (e) over models
-  which are `X_A`-manifolds — every singular point of a model has a type, the paper's presumption
-  at l.2086 (`forall_isTame_iff`; "if" needs nothing, `isTame_of_isXAManifold`). Findings kept:
+  which are `X_A`-manifolds — every singular point of a model has a type (`htype`), the paper's
+  presumption at l.2069 (`forall_isTame_iff`; "if" needs nothing, `isTame_of_isXAManifold`). The
+  `htype` form is licensed by a ruling, not only by the presumption: DEC-80 (b) answered WP-35f's
+  question offering "the global reading with `htype`", and DEC-87 (a) records that DEC-80 (b)
+  covers it; hence the mark. Findings kept:
   read per manifold the "iff" is false (a tame `X_A`-manifold need not use every model); and under
   DEC-67 (e) without that presumption "only if" fails (informal: a model with a non-tame untyped
   singular point; no `X_A`-manifold contains a copy of a neighbourhood of it, by analyticity) — not
@@ -180,7 +189,7 @@ l.1712), on WP-27i's `GX.SingularII.Tame`.
   fact is stronger than the paper's sentence (automorphisms of neighbourhoods of `O`); its
   derivation for the suspension is in the docstring of `isAnalyticModelFamily_unit_iff_eq_singleton`.
 * **(d)** `theo:local_virt_tame`, (ii) ⇒ (i), `X_A`-manifolds as ruled (DEC-67 (e)): the proof
-  (l.2086–2140) has three pieces. (1) `lem:spread_top`, certified by WP-27k (false as printed;
+  (l.2068–2136) has three pieces. (1) `lem:spread_top`, certified by WP-27k (false as printed;
   (c) false even with `p⁻¹(R)` connected). (2) The topologies `T_{U,V,φ}` on `p⁻¹(U)` for each
   `X_A`-chart, with their properties and naturality, on the interface `IsLocalTamifying` (the
   paper's (A)–(D), first countability, local path-connectedness and agreement with the natural
@@ -195,7 +204,8 @@ l.1712), on WP-27i's `GX.SingularII.Tame`.
   `φ ∘ p ∘ Ψ = q`). This is the case of the proof where `V̂ → V` dominates `Û → U`, so that
   `T_{U,V,φ}` is the `ℓ`-quotient of `T_α` itself and `r^*T_α` never enters; it contains the case
   `r : Ṽ → V̂` an isomorphism with `ℓ : Ũ → Û` ARBITRARY (then `V̂ → V` is the maximal covering of
-  `V ≅ U` and dominates `Û → U`, `prop:universality` — informal, not formalized), and the liftable
+  `V ≅ U` and dominates `Û → U`, `prop:universality` — formalized at WP-41p,
+  `isDescendingChartMap_of_homeomorph`, see the last paragraphs), and the liftable
   charts (`IsLiftableChartMap.isDescendingChartMap`). Then `T_{U,V,φ}` (`descTop`) has at a point
   `y` over `U` the neighbourhoods `Ψ(𝓝_{T_α}(f))` for a chosen descent `Ψ` with `Ψ f = y` (the
   quotient topology, `descNhds`, `nhds_descTop`), natural off `p⁻¹(U)`. The descents are
@@ -204,17 +214,17 @@ l.1712), on WP-27i's `GX.SingularII.Tame`.
   other with the same image — `IsChartDescent.reg_subset_image`, path lifting through `q` — and
   the discreteness of the fibres of `q`, which is the model's local Galoisianity,
   `discreteTopology_fiber_of_isLocallyGaloisian`, pins the singular point: this is the paper's
-  l.2093 "since `X_α` is locally Galoisian … all Galoisian"). So `T_{U,V,φ}` does not depend on the
+  l.2088 "since `X_α` is locally Galoisian … all Galoisian"). So `T_{U,V,φ}` does not depend on the
   descent (`descNhds_eq`), every descent is `T_α → T_{U,V,φ}` continuous and open, and onto `Û`
   (`IsChartDescent.surjOn_cc`). All eight fields of `IsLocalTamifying` hold
   (`isLocalTamifying_descTop`): first countability and local path-connectedness as images; natural
   over `reg U` (a descent is open at regular points); (A) through (A) for `T_α`; (B) by descending
   `g • D_α`, where `D₀ ∘ Ψ = g • D_α` on the connected `reg(V̂)` (`exists_smul_eq_of_isChartDescent`,
   `lem:MtoXG`) and `D_α ∘ δ = D_α` for the deck transformations relating points of a fibre of `Ψ`
-  (on `reg(V̂)`, then by `T_α`-density, l.2117–2128); (C) a deck transformation of `\widetilde M`
+  (on `reg(V̂)`, then by `T_α`-density, l.2115–2127); (C) a deck transformation of `\widetilde M`
   composed with a descent is a descent; (D) the image of the `T_α`-portly `reg(V̂)` by the open
-  surjective descent (l.2128–2133, `isPreconnected_inter_of_cover_of`). Naturality (l.2104–2107, and
-  the restriction to `W ⊆ U` the gluing l.2101 uses without statement) goes through the lift `Λ` of
+  surjective descent (l.2130–2134, `isPreconnected_inter_of_cover_of`). Naturality (l.2091–2093, and
+  the restriction to `W ⊆ U` the gluing l.2077 uses without statement) goes through the lift `Λ` of
   `ψ ∈ Aut(X_α)` to `\widetilde X_α` (`exists_lift_singularAut`, `T_α`-continuous by hypothesis):
   `nhds_descTop_le_of_aut`. With the natural topology over `reg M` (`isLocalTamifying_natural_reg`)
   this gives `isVirtuallyTame_of_descending` (0 `sorry`). The earlier special case `ℓ`, `r` both
@@ -226,7 +236,7 @@ l.1712), on WP-27i's `GX.SingularII.Tame`.
   **In general piece (2) is not proved** (`exists_isLocalTamifying_charts`, tagged `sorry`), and
   what is missing is confined to the NON-descending charts: there `V̂ → V` does not dominate
   `Û → U`, so `r : Ṽ → V̂` is not an isomorphism, and the paper's `T_{U,V,φ}` is the `ℓ`-quotient
-  of `r^*T_α`; its (D) (l.2128–2133) needs `r⁻¹(R)` portly for `r^*T_α`, which is
+  of `r^*T_α`; its (D) (l.2130–2134) needs `r⁻¹(R)` portly for `r^*T_α`, which is
   `lem:spread_top` (c) for `r`, false in general (WP-27k's sector counterexample) and equivalent to
   `GX.StrongLocallyConnectedOrd`, not known to follow from the hypotheses on `T_α`; this is a gap
   of the paper's proof (finding). The `ℓ`-quotient itself is not an obstruction (built here). No
@@ -235,11 +245,12 @@ l.1712), on WP-27i's `GX.SingularII.Tame`.
   chart centred there by an automorphism (`XAChart.exists_aut_eq`), so naturality gives it. Under
   the printed `def:atlas` the gluing has a gap at singular points which are the centre of no chart
   (finding, no counterexample known); DEC-67 (e) removes it. Further findings: the proof asserts
-  without argument that the sub-coverings `\widetilde U → Û`, `\widetilde V → V̂` (l.2093) and
+  without argument that the sub-coverings `\widetilde U → Û`, `\widetilde V → V̂` (l.2088) and
   `\widetilde M^S → N` (l.2025) of Galoisian maximal coverings are Galoisian (proved by WP-27k,
   `GX.isGaloisian_of_comp`; for the descents `V̂ → Û` used here, `IsChartDescent.exists_deck`).
-  **The general case, pushed (WP-40c, DEC-82): neither closed nor refuted.** What is now proved is
-  that the obstruction is not an artefact of the paper's choice of `T_{U,V,φ}`. For EVERY
+  **The general case, pushed (WP-40c, DEC-82; WP-41p, DEC-86): neither closed nor refuted.** What
+  is proved is a NECESSARY condition on every tamifying topology, not only the paper's
+  `T_{U,V,φ}` (it is not shown to be violated anywhere). For EVERY
   tamifying topology `T` on `\widetilde M` and every deck transformation `f` fixing a point `s`,
   `T`-neighbourhoods `N` of `s` satisfy: `N ∩ f⁻¹N` is a neighbourhood ((C)), its regular part is
   non-empty and lies in the path-connected regular part of a path component of `N` ((D), local
@@ -264,22 +275,60 @@ l.1712), on WP-27i's `GX.SingularII.Tame`.
   `X_α`, hence meets the lift of `P₂` near `s`, hence contains a natural neighbourhood of such a
   point and the small meridians `b` in it; so `reg O` carries `b`, `r⁻¹(O)` has connected regular
   part, and the paper's construction goes through there (finding, informal: the library has no
-  4-dimensional models). More generally the construction goes through wherever the loops of
-  `reg V̂` local at `s` are generated by meridians of strata of finite local degree. A
-  counterexample to the theorem would need a model with a local loop of `reg V̂` at a singular
-  point NOT so generated (e.g. a commutator of meridians of strata of infinite local degree, at the
-  vertex of a tripod of singular rays in dimension 3, the model's regular part abelianising the
-  local group) that every `D_α`-small regular region near `s` avoids while `T_α` stays tamifying;
-  whether such a model exists is open. Building one (a three-dimensional `(G,X)`-structure whose
-  maximal branched covering has non-abelian local groups, with a non-natural tamifying topology)
-  is beyond the library: it has no non-tame singular manifold at all.
+  4-dimensional models). Read with the audit's caveat (WP-40c AUDIT-1, minor 3): this argument
+  goes through when the meridians every `T_α`-open `O ∋ ŝ` is forced to contain generate
+  `K = π₁(reg V̂)` locally — e.g. an abelian local group, as for the Hopf link of the two planes —
+  but when the local group is non-abelian and a stratum has several lifted sheets through `ŝ`, `K`
+  may need meridians around sheets `O` does not meet (conjugates), so "generated by meridians of
+  finite-degree strata" is not by itself sufficient.
+  **WP-41p (DEC-86, no hypothesis on the models).** (1) The bridge is formalized: `r : Ṽ → V̂` an
+  isomorphism for the chart's `V` (`HasMaximalLifts`, a property of the model's open `V` alone)
+  gives `IsDescendingChartMap` (`isDescendingChartMap_of_homeomorph`; weakest form
+  `isDescendingChartMap_of_section`: `V̂` dominates `Ṽ`), hence `isVirtuallyTame_of_hasMaximalLifts`.
+  Its proof postcomposes the branched covering `Û → U` with the homeomorphism `φ`
+  (`IsBranchedCovering.homeomorph_comp`), applies the universality of `Ṽ` and moves the point by a
+  deck transformation of `Ṽ` (Galoisian: the model's local Galoisianity at `V`). So the open case
+  is EXACTLY the charts with `r` not an isomorphism, i.e. `π₁(reg V) → π₁(reg X_α)` not injective
+  on the component. (2) The counterexample half is reduced to ONE model: an open connected
+  `V ⊆ X_α` meeting `S_α` with `sing V ⊆ S_α` is an `X_A`-manifold (`isXAManifold_opens`), so a
+  single such `V` which is not virtually tame — e.g. one satisfying the WP-40c criterion in `Ṽ` —
+  refutes (i) (`not_forall_isVirtuallyTame_of_opens`,
+  `not_forall_isVirtuallyTame_of_opens_of_forall_not_joinedIn`, 0 `sorry`). (2') A model of
+  finite local degree everywhere (`HasFiniteLocalDegree`) has only the natural tamifying topology
+  (`IsTamifyingTopology.eq_natural_of_hasFiniteLocalDegree`, from `nhds_eq_of_finite_stab` at every
+  point and the Galoisianity of `\widetilde X_α`, `IsLocallyGaloisian.isGaloisian_maxBranched`), so
+  it is tame and (ii) ⇒ (i) holds over such models
+  (`isVirtuallyTame_of_isXAManifold_of_hasFiniteLocalDegree`): a counterexample needs a model of
+  INFINITE local degree somewhere. (3) Informal analysis
+  (not formalized) of where such a `V` can live: the deck transformation must fix `s̃` (be
+  represented at every scale near `s`) and lie in `N = ker(π₁(reg V) → π₁(reg X_α))`. When
+  `X_α` is a topological SURFACE this forces local degree `1` at `ŝ`: the kernel of
+  `π₁(reg W) → π₁(reg X_α)` (`W` a small disc about `s`) is normally generated by simple loops
+  `k ⊂ reg W`, essential in `reg W`, bounding a disc `Δ ⊆ reg X_α`; `k` also bounds a disc
+  `D' ⊆ W` (Schoenflies) containing singular points, so `X_α = D' ∪ Δ ≅ S²` and `sing X_α ⊆ W`;
+  at every scale this gives `sing X_α = {s}`, `reg X_α ≅ ℝ²` simply connected, and
+  the local group killed — where `T_α` is natural (`nhds_eq_of_finite_stab`) and `V` is tame. So a
+  counterexample needs `dim ≥ 3` (or a non-manifold `X`, e.g. an open book `ℝ × tripod`, whose
+  regular 2-complexes can kill local loops by attached fins — but rigidity of the action makes a
+  developing structure there hard to build). In dimension 3, at the vertex of a tripod of singular
+  rays (local group `F₂ = ⟨m₁, m₂⟩`) with `[m₁, m₂]` killed in `π₁(reg X_α)` (local image `ℤ²`):
+  `reg V̂` near `ŝ` is the `ℤ²`-cover of a pair of pants, of infinite genus, `K = [F₂, F₂]` free of
+  infinite rank; a `T_α`-neighbourhood bounded in the `ℤ²` direction carries only finitely many
+  handles, so the paper's `r^*T_α` FAILS (D) there; but the WP-40c necessary condition concerns
+  `D_α`-small regions, which for a developing map degenerating at `ŝ` (as in BTZ, where `D_α`-small
+  regions grow unboundedly in the lifted angle as `r → 0`) carry every fixed element of `K`. So
+  whether some OTHER tamifying topology exists on `Ṽ` (the paper's closing question at
+  `rem:hypothesis_model_spaces_necessary`, l.2137–2149, is the same question for (C)) is the
+  irreducible open point; building such a model (a 3-dimensional `(G,X)`-structure with a
+  collision vertex, its maximal branched covering and a non-natural tamifying topology) is beyond
+  the library, which has no non-tame singular manifold at all.
 * **(e)** `lem:spread_top` is certified by WP-27k in `GXScaffold.SingularII.SpreadTop` (which
-  imports this module): false as printed (`GX.not_spreadTopPrinted`), its strongest true form
-  `GX.spread_top_corrected`. Here only `strongPullTop` (`def:topological_spaces_continuous_map`) and
+  imports this module): false as printed (`GX.not_spreadTopPrinted`); the corrected form ruled by
+  DEC-80 (c) is `GX.spread_top_of_local` there (with `GX.spread_top_corrected`). Here only `strongPullTop` (`def:topological_spaces_continuous_map`) and
   item (d), split off and proved (`spread_top_deck`) under the hypothesis its proof uses, `N → M`
   Galoisian (and `N` Hausdorff, for the uniqueness of lifts): the paper's `γ̄ ∈ Γ(N/M)` with
-  `p ∘ γ = γ̄ ∘ p` (l.2071) exists for every `γ` when `N → M` is Galoisian
-  (`exists_deck_semiconj_of_isGaloisian`), and the paper's one application (l.2093) has it. The
+  `p ∘ γ = γ̄ ∘ p` (l.2014) exists for every `γ` when `N → M` is Galoisian
+  (`exists_deck_semiconj_of_isGaloisian`), and the paper's one application (l.2088) has it. The
   (false) statement `GX.spread_top` with its tagged `sorry` was removed at WP-35f.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Builds on
@@ -640,7 +689,7 @@ theorem isXAManifoldPrinted_iff : IsXAManifoldPrinted G X Xα S M ↔
     obtain ⟨a, x, c, hy⟩ := h y
     exact ⟨⟨a, x, c⟩, trivial, hy⟩
 
-/-- The first step of the proof of `theo:local_virt_tame` (l.2105): two `X_α`-charts agree, on a
+/-- The first step of the proof of `theo:local_virt_tame` (l.2093): two `X_α`-charts agree, on a
 connected open `W` inside both domains and containing the centre of the first, up to an
 automorphism of `X_α` — `φ₂ ∘ φ₁⁻¹ : φ₁(W) → φ₂(W)` is an isomorphism of connected open subsets
 meeting `S_α`, hence (analyticity) the restriction of some `ψ ∈ Aut(X_α)`. -/
@@ -1345,7 +1394,8 @@ variable (G X Xα S) in
 /-- **`rem:theorem_theo_local_tame`** (`RamcovGX.tex:1924`), as ruled by DEC-80 (b) — the GLOBAL
 equivalence — for `X_A`-manifolds as printed (l.1913, an `X_A`-atlas): over a family of (connected)
 models, every `X_A`-manifold is tame iff every model is tame. No further hypothesis ("if":
-`theo:local_tame` along the atlas; "only if": each model is an `X_A`-manifold). -/
+`theo:local_tame` along the atlas; "only if": each model is an `X_A`-manifold). DEC-87 (a): DEC-80 (b)
+also covers the `htype` form `forall_isTame_iff`. -/
 theorem forall_isTame_iff_printed (hX : IsLocallyUnloopable X) [∀ a, ConnectedSpace (Xα a)]
     (hne : ∀ a, (S a).Nonempty) :
     (∀ (N : Type u) [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
@@ -1358,8 +1408,9 @@ variable (G X Xα S) in
 /-- **`rem:theorem_theo_local_tame`** (`RamcovGX.tex:1924`), as ruled by DEC-80 (b) — the GLOBAL
 equivalence — for `X_A`-manifolds as ruled by DEC-67 (e): over a family of (connected) models which
 are themselves `X_A`-manifolds — every singular point of a model has a type (`htype`), the paper's
-presumption at l.2086, used by "only if" only (`isXAManifold_model`) — every `X_A`-manifold is tame
-iff every model is tame. -/
+presumption at l.2069, used by "only if" only (`isXAManifold_model`) — every `X_A`-manifold is tame
+iff every model is tame. The `htype` form is the one DEC-80 (b) accepted (WP-35f's question offered
+"the global reading with `htype`"), as DEC-87 (a) records. -/
 theorem forall_isTame_iff (hX : IsLocallyUnloopable X) [∀ a, ConnectedSpace (Xα a)]
     (hne : ∀ a, (S a).Nonempty)
     (htype : ∀ a, ∀ y ∈ Sing G X (Xα a), ∃ b, HasXAType (G := G) (X := X) (Xα := Xα) (S := S) b y) :
@@ -1564,7 +1615,7 @@ theorem exists_isOpen_subset_of_strongPred
 natural neighbourhood of each of its points over `reg(M)`. (On a sheet `U` of the covering
 `p⁻¹(reg M) → reg M`, a `T`-open `W ⊆ U` has saturation `⋃_γ γ(W)`, `T`-open by (C), so `p(W)` is
 open by (A), and `W = U ∩ p⁻¹(p(W))`.) This is the hypothesis "strong and weak topologies agree on
-`R`" under which the proof of `theo:local_virt_tame` (l.2096) applies `lem:spread_top`, and which
+`R`" under which the proof of `theo:local_virt_tame` (l.2088) applies `lem:spread_top`, and which
 the paper does not check. -/
 theorem IsTamifyingTopology.exists_isOpen_subset
     (hreg : SemilocallySimplyConnected ((Sing G X M)ᶜ : Set M)) {y₀ : ((Sing G X M)ᶜ : Set M)}
@@ -1609,7 +1660,7 @@ variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
   {N : Type u} [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
   [FirstCountableTopology N] [ConnectedSpace N] [SingularGXStructure G X N]
 
-/-- The second step of the proof of `theo:local_virt_tame` (l.2106, "an automorphism of `X_α` …
+/-- The second step of the proof of `theo:local_virt_tame` (l.2093, "an automorphism of `X_α` …
 lifts to an automorphism of `\widetilde X_α`"): every `ψ ∈ Aut(N)` lifts to a homeomorphism `Ψ`
 of `\widetilde N = \widetilde N^{sing N}` over `ψ`, an a.e. `(G,X)`-morphism for the structure
 `p^*B` (an element of `Aut(\widetilde N)`). `ψ` preserves `reg(N)`, its restriction lifts to the
@@ -1824,7 +1875,7 @@ theorem IsRegDevelopingOnReg.congr {y₀ : ((Sing G X M)ᶜ : Set M)}
   IsRegularOn.congr_of_eqOn' h hDD'
 
 variable (G X M) in
-/-- The local data of the proof of `theo:local_virt_tame` (l.2096–2140) over an open `U ⊆ M`:
+/-- The local data of the proof of `theo:local_virt_tame` (l.2073–2136) over an open `U ⊆ M`:
 a topology `T` on `\widetilde M`, finer than the natural one, which at the points of `p⁻¹(U)`
 is first countable and locally path-connected, agrees with the natural topology over `reg(M)`,
 induces on `U` the natural topology ((A) over `U`), carries a `T`-continuous extension of the
@@ -2061,7 +2112,7 @@ variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
 
 /-- `\widetilde M` carries a developing map over its regular part: the developing map of the
 simply connected `\widetilde{reg M} = p⁻¹(reg M)` (`GX.exists_developing_of_simplyConnected`),
-read on `\widetilde M` (`D₀` of the proof of `theo:local_virt_tame`, l.2088). -/
+read on `\widetilde M` (`D₀` of the proof of `theo:local_virt_tame`, l.2014). -/
 theorem exists_isRegDevelopingOnReg (hreg : SemilocallySimplyConnected ((Sing G X M)ᶜ : Set M))
     (y₀ : ((Sing G X M)ᶜ : Set M)) :
     ∃ D₀ : MaxBranchedCover (Sing G X M) y₀ → X, IsRegDevelopingOnReg G X M y₀ D₀ := by
@@ -2125,7 +2176,8 @@ section StrongPull
 
 variable {E : Type*} {N : Type*} [TopologicalSpace E]
 
-/-- **`def:topological_spaces_continuous_map`** (`RamcovGX.tex:1984`): for `p : E → N` and a topology
+/-- **`def:topological_spaces_continuous_map`** (`RamcovGX.tex:1984`, certified here, DEC-87 (e)):
+for `p : E → N` and a topology
 `T` on `N`, `p^*T` is the topology of `E` generated by the topology of `E` and the connected
 components (for the topology of `E`) of the `p⁻¹(O)`, `O ∈ T`. ("Generated by" is the supremum of
 open sets, i.e. the infimum `⊓` in mathlib's order, where finer is smaller.) -/
@@ -2145,7 +2197,7 @@ theorem isOpen_strongPullTop_connectedComponentIn (p : E → N) (T : Topological
   (TopologicalSpace.le_def.1 (inf_le_right : strongPullTop p T ≤ _)) _
     (TopologicalSpace.GenerateOpen.basic _ ⟨O, hO, x, hx, rfl⟩)
 
-/-- `p : (E, p^*T) → (N, T)` is continuous (`RamcovGX.tex:2069`, "it follows from the definitions
+/-- `p : (E, p^*T) → (N, T)` is continuous (`RamcovGX.tex:2010`, "it follows from the definitions
 that `p` is continuous for the strong topologies"): `p⁻¹(O)` is the union of its components. -/
 theorem continuous_strongPullTop (p : E → N) (T : TopologicalSpace N) :
     Continuous[strongPullTop p T, T] p := by
@@ -2181,7 +2233,7 @@ theorem Homeomorph.preimage_connectedComponentIn_strongPull (γ : E ≃ₜ E) (F
   · have hx' : γ.symm x ∉ γ ⁻¹' F := by simpa using hx
     rw [connectedComponentIn_eq_empty hx, connectedComponentIn_eq_empty hx', preimage_empty]
 
-/-- `lem:spread_top` (d), the paper's argument (l.2071–2073): a homeomorphism `γ` of `E` lying over
+/-- `lem:spread_top` (d), the paper's argument (l.2014): a homeomorphism `γ` of `E` lying over
 a `T`-continuous `γ̄` of `N` (`p ∘ γ = γ̄ ∘ p`) is `p^*T`-continuous. -/
 theorem continuous_strongPullTop_of_semiconj (p : E → N) (T : TopologicalSpace N) (γ : E ≃ₜ E)
     {γ' : N → N} (hγ' : Continuous[T, T] γ') (h : ∀ e, p (γ e) = γ' (p e)) :
@@ -2204,7 +2256,7 @@ topology on `N` in context can refer to the homeomorphisms of the first). -/
 def deckMapsOf {N : Type*} {Y : Type*} [TopologicalSpace N] (q : N → Y) : Set (N → N) :=
   {f | ∃ γ ∈ deckGroup q, ⇑γ = f}
 
-/-- `lem:spread_top` (`RamcovGX.tex:1990`), (d) — the existence of `γ̄` in its proof (l.2071): when
+/-- `lem:spread_top` (`RamcovGX.tex:1990`), (d) — the existence of `γ̄` in its proof (l.2014): when
 `N → M` is Galoisian and `N` Hausdorff, every `γ ∈ Γ(\widetilde M^S/M)` lies over some
 `γ̄ ∈ Γ(N/M)` (`p ∘ γ = γ̄ ∘ p`). `Γ(N/M)` is transitive on the fibre of `q` through `p(z₀)` and
 `p(γ z₀)`; `p ∘ γ` and `γ̄ ∘ p` are two lifts of the projection through `q` agreeing at `z₀`
@@ -2231,7 +2283,7 @@ theorem exists_deck_semiconj_of_isGaloisian {M : Type u} [TopologicalSpace M] [T
     (z₀ := z₀) (by rw [hz₀]; exact hy) (by simp only [comp_apply]; exact hγ'z.symm)
   exact congrFun this e
 
-/-- `lem:spread_top` (d) (`RamcovGX.tex:1999`, proof l.2071–2073), proved under the hypothesis its
+/-- `lem:spread_top` (d) (`RamcovGX.tex:1999`, proof l.2014), proved under the hypothesis its
 proof uses: if `N → M` is Galoisian (`N` Hausdorff) and `Γ(N/M)` acts `T`-continuously, then
 `Γ(\widetilde M^S/M)` acts `p^*T`-continuously. -/
 theorem spread_top_deck {M : Type u} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
@@ -2249,8 +2301,8 @@ theorem spread_top_deck {M : Type u} [TopologicalSpace M] [T2Space M] [LocPathCo
 /-! `lem:spread_top` (`RamcovGX.tex:1990`), (a), (b), (c), (e), is not stated here: the printed
 statement is FALSE (WP-27k, `GX.not_spreadTopPrinted` on `GX.cex_spread_top_halfCut`, in
 `GXScaffold.SingularII.SpreadTop`, which imports this module), and (c), (e) remain false with
-`p⁻¹(R)` connected (`GX.not_spreadTopConnCE`, `GX.cex_spread_top_sector`); its strongest true form
-is `GX.spread_top_corrected` there. The statement this module carried (with a tagged `sorry`) was
+`p⁻¹(R)` connected (`GX.not_spreadTopConnCE`, `GX.cex_spread_top_sector`); the corrected form ruled
+by DEC-80 (c) is `GX.spread_top_of_local` there. The statement this module carried (with a tagged `sorry`) was
 removed at WP-35f. (d) is `spread_top_deck` above. -/
 
 /-! ### `theo:local_virt_tame`, piece (2) when the coverings `ℓ`, `r` are trivial (WP-35f) -/
@@ -2597,7 +2649,7 @@ def chartNhds (U : Set M)
   if z.base ∈ U then 𝓟 (connectedComponentIn (SpreadEnd.base ⁻¹' U) z) ⊓
     Filter.comap (Fz z) (@nhds _ TN.top (Fz z z)) else 𝓝 z
 
-/-- The topology `T_{U,V,φ}` (`RamcovGX.tex:2093–2098`), in the case its coverings `ℓ`, `r` are
+/-- The topology `T_{U,V,φ}` (`RamcovGX.tex:2073–2076`), in the case its coverings `ℓ`, `r` are
 isomorphisms: on each component `Û` of `p⁻¹(U)`, `T_N` transported by a lift `Û ≅ V̂` of `φ`;
 the natural topology off `p⁻¹(U)`. -/
 @[reducible] def chartTop (U : Set M)
@@ -2817,7 +2869,7 @@ theorem continuousOn_chartTop_lift {z : MaxBranchedCover (Sing G X M) y₀} (hz 
   ((tendsto_chartTop_lift hregM hregN hU hV hF hφreg hTN hz hy).mono_left
     (nhdsWithin_le_nhds_of (chartTop U Fz TN)))
 
-/-- The topology `T_{U,V,φ}` is a local tamifying topology over `U` (`RamcovGX.tex:2093–2140`,
+/-- The topology `T_{U,V,φ}` is a local tamifying topology over `U` (`RamcovGX.tex:2073–2136`,
 the case `ℓ`, `r` isomorphisms): first countable and locally path-connected over `U` (transported
 from `T_N`), natural over `reg(U)` (`T_N` is natural over `reg N`), (A) over `U` (a set whose
 preimage is open has, through the lifts, a `T_N`-open preimage in `\widetilde N`, hence an open
@@ -3147,7 +3199,7 @@ theorem eventually_chartExt_eq_smul {U : Opens M} {V : Opens N} {φ : U ≃ₜ V
   show c (φ y : N) = (a * g * b⁻¹) • c' (y : M)
   rw [h3, h1, h2, mul_smul, mul_smul, inv_smul_smul, ← mul_smul]
 
-/-- The descent step of (B) (`RamcovGX.tex:2124–2128`): through a lift `F` of `φ` from a component
+/-- The descent step of (B) (`RamcovGX.tex:2124–2127`): through a lift `F` of `φ` from a component
 `Û` of `p⁻¹(U)`, `D_N ∘ F` is a developing map of `reg(Û)`, so it differs from the developing map
 `D₀` of `reg(\widetilde M)` by one `g ∈ G` on the connected `reg(Û)`. -/
 theorem exists_smul_eq_of_isChartLift (hregM : SemilocallySimplyConnected ((Sing G X M)ᶜ : Set M))
@@ -3200,7 +3252,7 @@ variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
   [FirstCountableTopology N] [ConnectedSpace N] [SingularGXStructure G X N]
   {y₀ : ((Sing G X M)ᶜ : Set M)} {yN : ((Sing G X N)ᶜ : Set N)}
 
-/-- Naturality of `T_{U,V,φ}` (`RamcovGX.tex:2104–2107`, and the restriction the gluing l.2101
+/-- Naturality of `T_{U,V,φ}` (`RamcovGX.tex:2091–2093`, and the restriction the gluing l.2077
 uses): two lifted charts which, on an open `W` inside both domains, differ by an automorphism `ψ`
 of the model (`ψ ∘ φ₁ = φ₂` on `W`) give comparable neighbourhoods at the points over `W` (equal,
 `ψ⁻¹` giving the converse). Through the lift `Ψ` of `ψ` to `\widetilde N`
@@ -3435,15 +3487,15 @@ theorem HasAutContinuousTamifying.isVirtuallyTame {N : Type u} [TopologicalSpace
   obtain ⟨y₀, T, hT, -⟩ := h
   exact ⟨y₀, T, hT⟩
 
-/-- `theo:local_virt_tame`, piece (2) of the proof (l.2088–2140), stated: the topologies
+/-- `theo:local_virt_tame`, piece (2) of the proof (l.2073–2136), stated: the topologies
 `T_{U,V,φ}`. For every `X_A`-chart `c = (U, V, φ)` of type `α` there is a local tamifying topology
 over `U` (`IsLocalTamifying`: on a component `Û` of `p⁻¹(U)`, the quotient by `ℓ : \widetilde U → Û`
 of `φ̃^*(r^*T_α)`, `r : \widetilde V → V̂` and `φ̃ : \widetilde U ≃ \widetilde V` the lift of `φ`),
 and these topologies are natural: two `X_α`-charts which, on a connected open `W` inside both
 domains, differ by an automorphism `ψ ∈ Aut(X_α)` (`ψ ∘ φ₁ = φ₂` on `W`) give the same
 neighbourhoods at every point of `p⁻¹(W)`. The paper proves the independence of `(V, φ)` for a
-fixed `U` (l.2104–2107); the naturality under restriction to `W ⊆ U` is used by its gluing
-(l.2101, "generated by … all `X_A`-charts") but not stated (finding). STATED in general (tagged
+fixed `U` (l.2091–2093); the naturality under restriction to `W ⊆ U` is used by its gluing
+(l.2077, "generated by … all `X_A`-charts") but not stated (finding). STATED in general (tagged
 `sorry`, a mathematical obstruction recorded there, confined to the non-descending charts); built
 and proved for the charts descending from the maximal coverings of the models (`ℓ` arbitrary):
 `descTop`, `isLocalTamifying_descTop`, `nhds_descTop_le_of_aut`, and for the liftable ones
@@ -3465,12 +3517,12 @@ theorem exists_isLocalTamifying_charts (hX : IsLocallyUnloopable X)
             @nhds _ (T ⟨a, x₁, c₁⟩) e = @nhds _ (T ⟨a, x₂, c₂⟩) e := by
   sorry -- SORRY(theo:local_virt_tame): piece (2) IN GENERAL — the charts which do NOT descend
   -- from the maximal covering of their model (`IsDescendingChartMap` fails: `V̂ → V` does not
-  -- dominate `Û → U`, so `r : Ṽ → V̂` (l.2088–2098) is not an isomorphism). Built and proved for
+  -- dominate `Û → U`, so `r : Ṽ → V̂` (l.2073–2076) is not an isomorphism). Built and proved for
   -- every descending chart, with `ℓ : Ũ → Û` ARBITRARY (fix round 1): the `ℓ`-quotient of `T_α`,
   -- `descTop`, `isLocalTamifying_descTop`, `nhds_descTop_le_of_aut`, `isVirtuallyTame_of_descending`,
   -- 0 `sorry` — so the `ℓ`-quotient is NOT what blocks this. What blocks it is a MATHEMATICAL
   -- obstruction on the `r` side: for a non-descending chart the paper's `T_{U,V,φ}` is the
-  -- `ℓ`-quotient of `r^*T_α`, and its (D) (l.2128–2133) needs `r⁻¹(R)` portly in `Ṽ` for
+  -- `ℓ`-quotient of `r^*T_α`, and its (D) (l.2130–2134) needs `r⁻¹(R)` portly in `Ṽ` for
   -- `r^*T_α`, i.e. `lem:spread_top` (c) for `r`, and (c) is false in general (WP-27k,
   -- `GX.not_spreadTopConnCE` on `GX.cex_spread_top_sector`): it is equivalent to the local
   -- condition `GX.StrongLocallyConnectedOrd` (`GX.isPortly_strongPullTop_iff_local`), which "`T_α`
@@ -3478,30 +3530,34 @@ theorem exists_isLocalTamifying_charts (hX : IsLocallyUnloopable X)
   -- Mechanism (informal, not formalized): when a loop around the singular stratum near a point of
   -- `V` dies in `π₁(reg X_α)` but not in `π₁(reg V)`, a `T_α`-neighbourhood `O` of a singular point
   -- of `V̂` whose regular part carries no such loop has, in `r⁻¹(O)`, a component through the
-  -- singular point whose regular part falls into infinitely many sheets. WP-40c: the obstruction is
-  -- INTRINSIC — any tamifying topology on `\widetilde M` must carry each deck transformation fixing
-  -- a point in the `D`-small regular part of every neighbourhood of it
-  -- (`IsTamifyingTopology.exists_joinedIn_devSmall`, `not_isVirtuallyTame_of_forall_not_joinedIn`),
-  -- so another topology than `T_{U,V,φ}` cannot escape it; and at finite local degree a tamifying
+  -- singular point whose regular part falls into infinitely many sheets. WP-40c: a NECESSARY
+  -- condition on every tamifying topology on `\widetilde M` (not shown violated anywhere): it must
+  -- carry each deck transformation fixing a point in the `D`-small regular part of every
+  -- neighbourhood of it (`IsTamifyingTopology.exists_joinedIn_devSmall`,
+  -- `not_isVirtuallyTame_of_forall_not_joinedIn`); and at finite local degree a tamifying
   -- topology is natural (`IsTamifyingTopology.nhds_eq_of_finite_stab`), which REFUTES WP-35f's
-  -- candidate (two crossing singular planes in dimension 4: the dying meridian is a meridian of a
-  -- stratum of local degree 1, so by (A) every `T_α`-neighbourhood carries it). A counterexample
-  -- would need a local loop of `reg V̂` not generated by meridians of strata of finite local
-  -- degree (e.g. a commutator at the vertex of a singular tripod in dimension 3) avoided by every
-  -- `D_α`-small region; no such model is known, none is in the library (it has no non-tame
+  -- candidate (two crossing singular planes in dimension 4, abelian local group). WP-41p (DEC-86):
+  -- the open case is EXACTLY the charts where `r` is not an isomorphism — when it is, the chart
+  -- descends (`isDescendingChartMap_of_homeomorph`, `isVirtuallyTame_of_hasMaximalLifts`, 0
+  -- `sorry`); a counterexample is ONE open connected `V ⊆ X_α` with typed singular points which
+  -- is not virtually tame (`not_forall_isVirtuallyTame_of_opens`); surfaces cannot give one
+  -- (informal, SCOPE (d)); in dimension 3 the paper's `r^*T_α` fails (D) at a tripod vertex with
+  -- `[m₁, m₂]` killed, but the necessary condition holds for BTZ-like degenerating `D_α`, so
+  -- whether another tamifying topology exists is open; no such model is in the library (it has
+  -- no non-tame
   -- singular manifold), and the theorem is neither proved nor refuted. Besides (D), the
   -- non-descending case would need
   -- the maximal covering `Ṽ` of `V̂` and the pull-back `r^*T_α` (`strongPullTop`) on it, which are
   -- infrastructure; they are not built because their (D) is not known to hold under the theorem's
   -- hypotheses (it fails for `lem:spread_top` in general, WP-27k). Settled inputs: the
-  -- Galoisianity of the sub-coverings (l.2025, l.2093) is `GX.isGaloisian_of_comp` (WP-27k) and,
-  -- for descents, `IsChartDescent.exists_deck`; restriction-naturality (l.2101) is
+  -- Galoisianity of the sub-coverings (l.2025, l.2088) is `GX.isGaloisian_of_comp` (WP-27k) and,
+  -- for descents, `IsChartDescent.exists_deck`; restriction-naturality (l.2077) is
   -- `nhds_descTop_le_of_aut`.
 
-/-- `theo:local_virt_tame`, (ii) ⇒ (i) (`RamcovGX.tex:1974`, proof l.2086–2140), in general,
+/-- `theo:local_virt_tame`, (ii) ⇒ (i) (`RamcovGX.tex:1974`, proof l.2068–2136), in general,
 `X_A`-manifolds read as ruled (DEC-67 (e): every singular point has a type), STATED: it rests on
 the general piece (2), `exists_isLocalTamifying_charts` (tagged `sorry`, a mathematical obstruction:
-the paper's (D) needs `lem:spread_top` (c), false in general). The gluing (l.2101–2103) is proved
+the paper's (D) needs `lem:spread_top` (c), false in general). The gluing (l.2077) is proved
 (`exists_isTamifyingTopology_of_local`): near a singular point `y` of type `b`, every chart has type
 `b` (`XAChart.eq_of_mem_centre`) and differs from a chart centred at `y` by an automorphism of
 `X_b` (`XAChart.exists_aut_eq`), so all the local topologies agree there (naturality); over
@@ -3593,7 +3649,7 @@ every singular point of `M` is the centre of an `X_A`-chart which lifts to the m
 (`IsLiftableChartMap`: `ℓ : Ũ → Û` and `r : Ṽ → V̂` isomorphisms), then `M` is virtually tame.
 The local topologies are the `T_{U,V,φ}` (`chartTop`, `isLocalTamifying_chartTop`) over the
 liftable charts and the natural one over `reg M` (`isLocalTamifying_natural_reg`); they agree over
-the overlaps by naturality (`nhds_chartTop_le_of_aut`, the paper's l.2104–2107, through
+the overlaps by naturality (`nhds_chartTop_le_of_aut`, the paper's l.2091–2093, through
 `XAChart.eq_of_mem_centre` and `XAChart.exists_aut_eq`), and glue
 (`exists_isTamifyingTopology_of_local`). Neither local Galoisianity nor the `X_A`-atlas is used
 (the liftable charts carry what they give). Superseded, under local Galoisianity, by
@@ -3761,7 +3817,7 @@ variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
 
 /-- A *descent* of `φ' : M → N` from the component `V̂ ∋ f` of `q⁻¹(V)` in `\widetilde N`: a map
 `Ψ` continuous on `V̂`, with values over `U`, and over `φ'⁻¹` (`φ' ∘ p ∘ Ψ = q` on `V̂`). This is
-the map `ℓ ∘ φ̃⁻¹ ∘ r⁻¹ : V̂ → Û` of the proof of `theo:local_virt_tame` (l.2088–2098) when `r` is
+the map `ℓ ∘ φ̃⁻¹ ∘ r⁻¹ : V̂ → Û` of the proof of `theo:local_virt_tame` (l.2073–2076) when `r` is
 an isomorphism, and more generally whenever `V̂ → V` dominates `Û → U`. -/
 structure IsChartDescent (U : Set M) (V : Set N) (φ' : M → N)
     (f : MaxBranchedCover (Sing G X N) yN)
@@ -3873,7 +3929,7 @@ theorem IsChartDescent.reg_subset_image {f : MaxBranchedCover (Sing G X N) yN}
   simp only at this
   rw [this, γ.target]
 
-/-- The sub-covering step (`RamcovGX.tex:2093`, "since `X_α` is locally Galoisian, the branched
+/-- The sub-covering step (`RamcovGX.tex:2088`, "since `X_α` is locally Galoisian, the branched
 coverings … are all Galoisian"): two descents `Ψ₁` from `V̂₁`, `Ψ₂` from `V̂₂` (components of
 `q⁻¹(V)`) which take the same value at `v₁ ∈ V̂₁`, `v₂ ∈ V̂₂` differ by an element `δ` of
 `Γ(\widetilde N/N)`: `δ v₁ = v₂`, `δ(V̂₁) ⊆ V̂₂` and `Ψ₂ ∘ δ = Ψ₁` on `V̂₁`. The fibres of `q` are
@@ -4042,7 +4098,7 @@ variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
 
 /-- The neighbourhoods of `T_{U,V,φ}` read through chosen descents: at a point `y` over `U`, the
 image by the descent `Ψz y` of the `T_N`-neighbourhoods of `fz y` (`Ψz y (fz y) = y`); the
-natural ones off `p⁻¹(U)`. This is the quotient (`RamcovGX.tex:2096`, "consider the quotient
+natural ones off `p⁻¹(U)`. This is the quotient (`RamcovGX.tex:2076`, "consider the quotient
 topology on `Û`") of `T_N` on `V̂` by the descent `V̂ → Û`. -/
 def descNhds (U : Set M)
     (fz : MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X N) yN)
@@ -4052,7 +4108,7 @@ def descNhds (U : Set M)
     (y : MaxBranchedCover (Sing G X M) y₀) : Filter (MaxBranchedCover (Sing G X M) y₀) :=
   if y.base ∈ U then Filter.map (Ψz y) (@nhds _ TN.top (fz y)) else 𝓝 y
 
-/-- The topology `T_{U,V,φ}` (`RamcovGX.tex:2093–2098`) when `V̂ → V` dominates `Û → U` (in
+/-- The topology `T_{U,V,φ}` (`RamcovGX.tex:2073–2076`) when `V̂ → V` dominates `Û → U` (in
 particular when `r : Ṽ → V̂` is an isomorphism, `ℓ` arbitrary): on each component `Û` of
 `p⁻¹(U)`, the quotient of `T_N` by a descent `V̂ → Û` of `φ⁻¹`; natural off `p⁻¹(U)`. -/
 @[reducible] def descTop (U : Set M)
@@ -4205,12 +4261,12 @@ theorem IsChartDescent.surjOn_cc {f : MaxBranchedCover (Sing G X N) yN}
   exact ⟨δ (fz y), hδV hfy, (hEq hfy).trans hFy'⟩
 
 /-- The topology `T_{U,V,φ}` built from descents is a local tamifying topology over `U`
-(`RamcovGX.tex:2093–2140`, the case where `V̂ → V` dominates `Û → U`, `ℓ` arbitrary): first
+(`RamcovGX.tex:2073–2136`, the case where `V̂ → V` dominates `Û → U`, `ℓ` arbitrary): first
 countable and locally path-connected (images of those of `T_N`), natural over `reg U` (a descent
 is open at regular points, `reg_subset_image`), (A) through (A) for `T_N`, (B) by descending
 `g • D_N` (`D_N ∘ δ = D_N` for the deck transformations `δ` relating two points of a fibre of the
-descent, by density of the regular part, `RamcovGX.tex:2117–2128`), (C) (a deck transformation
-composed with a descent is a descent) and (D) (`RamcovGX.tex:2128–2133`: the image of the portly
+descent, by density of the regular part, `RamcovGX.tex:2115–2127`), (C) (a deck transformation
+composed with a descent is a descent) and (D) (`RamcovGX.tex:2130–2134`: the image of the portly
 `reg(V̂)` by the open surjective descent, `isPreconnected_inter_of_cover_of`). -/
 theorem isLocalTamifying_descTop
     (hlift' : ∀ (z : MaxBranchedCover (Sing G X M) y₀) (f : MaxBranchedCover (Sing G X N) yN),
@@ -4531,7 +4587,7 @@ theorem IsChartDescent.base_eq_symm {U : Opens M} {V : Opens N} {φ : U ≃ₜ V
   have : (⟨w.base, hwV⟩ : V) = φ ⟨(Ψ w).base, hm⟩ := Subtype.ext h.symm
   rw [this, Homeomorph.symm_apply_apply]
 
-/-- The descent step of (B) (`RamcovGX.tex:2117–2128`): through a descent `Ψ : V̂ → Û` of `φ⁻¹`,
+/-- The descent step of (B) (`RamcovGX.tex:2115–2127`): through a descent `Ψ : V̂ → Û` of `φ⁻¹`,
 `D₀ ∘ Ψ` is a developing map of `reg(V̂)`, so it differs from the developing map `D_N` by one
 `g ∈ G` on the connected `reg(V̂)`. -/
 theorem exists_smul_eq_of_isChartDescent
@@ -4585,8 +4641,8 @@ variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
   [FirstCountableTopology N] [ConnectedSpace N] [SingularGXStructure G X N]
   {y₀ : ((Sing G X M)ᶜ : Set M)} {yN : ((Sing G X N)ᶜ : Set N)}
 
-/-- Naturality of `T_{U,V,φ}` built from descents (`RamcovGX.tex:2104–2107`, and the restriction
-the gluing l.2101 uses): two charts which, on an open `W` inside both domains, differ by an
+/-- Naturality of `T_{U,V,φ}` built from descents (`RamcovGX.tex:2091–2093`, and the restriction
+the gluing l.2077 uses): two charts which, on an open `W` inside both domains, differ by an
 automorphism `ψ` of the model (`ψ ∘ φ₁ = φ₂` on `W`) give comparable neighbourhoods at the
 points over `W` (equal, `ψ⁻¹` giving the converse). Through the lift `Λ` of `ψ` to
 `\widetilde N` (`exists_lift_singularAut`, `T_N`-continuous by hypothesis), the first descent read
@@ -4729,11 +4785,12 @@ variable (G X) in
 maximal covering of the model* if, for every pair of points `e ∈ \widetilde M` over `U` and
 `f ∈ \widetilde N` over `φ(p e)`, there is a descent of `φ⁻¹` from the component `V̂ ∋ f` of
 `q⁻¹(V)` sending `f` to `e` (`IsChartDescent`: continuous on `V̂`, `φ ∘ p ∘ Ψ = q`), for every
-base points. This is the case of the proof of `theo:local_virt_tame` (l.2088–2098) in which the
+base points. This is the case of the proof of `theo:local_virt_tame` (l.2073–2076) in which the
 paper's `T_{U,V,φ}` is the quotient by `V̂ → Û` of `T_α` ITSELF, `r^*T_α` never entering: it holds
 when `r : Ṽ → V̂` is an isomorphism (`V̂ → V` is then the maximal covering of `V`, which dominates
-`Û → U`, `prop:universality`; informal, not formalized), whatever `ℓ : Ũ → Û`; and when the charts
-lift (`IsLiftableChartMap.isDescendingChartMap`). -/
+`Û → U`, `prop:universality`; formalized at WP-41p: `isDescendingChartMap_of_homeomorph`, and
+`isDescendingChartMap_of_section` when `V̂` merely dominates `Ṽ`), whatever `ℓ : Ũ → Û`; and when
+the charts lift (`IsLiftableChartMap.isDescendingChartMap`). -/
 def IsDescendingChartMap {U : Opens M} {V : Opens N} (φ : U ≃ₜ V) : Prop :=
   ∀ (y₀ : ((Sing G X M)ᶜ : Set M)) (yN : ((Sing G X N)ᶜ : Set N))
     (e : MaxBranchedCover (Sing G X M) y₀) (f : MaxBranchedCover (Sing G X N) yN),
@@ -4811,9 +4868,9 @@ descends from the maximal covering of its model (`IsDescendingChartMap`: `V̂ �
 The local topologies are the `T_{U,V,φ}` (`descTop`, `isLocalTamifying_descTop`: on each `Û` the
 quotient of `T_α` by a descent `V̂ → Û`, the paper's ℓ-quotient) over the descending charts and
 the natural one over `reg M` (`isLocalTamifying_natural_reg`); they agree over the overlaps by
-naturality (`nhds_descTop_le_of_aut`, l.2104–2107, through `XAChart.eq_of_mem_centre` and
+naturality (`nhds_descTop_le_of_aut`, l.2091–2093, through `XAChart.eq_of_mem_centre` and
 `XAChart.exists_aut_eq`), and glue (`exists_isTamifyingTopology_of_local`). The local
-Galoisianity of the models is used, as in the paper (l.2093), for the Galoisianity of the
+Galoisianity of the models is used, as in the paper (l.2088), for the Galoisianity of the
 descents (`IsChartDescent.exists_deck`, through the discreteness of the fibres of
 `\widetilde X_α → X_α`, `discreteTopology_fiber_of_isLocallyGaloisian`). -/
 theorem isVirtuallyTame_of_descending (hX : IsLocallyUnloopable X)
@@ -5157,5 +5214,439 @@ theorem IsTamifyingTopology.nhds_eq_of_free [LocallyConnectedSpace M]
     fun f hf x hx hfx => hfree f hf x hx hfx
 
 end TamifyingNecessary
+
+
+/-! ### WP-41p: the bridge "`r : Ṽ → V̂` an isomorphism ⇒ the chart descends", and the
+counterexample schema of `theo:local_virt_tame` (DEC-86)
+
+Postcomposing a branched covering with a homeomorphism of the base
+(`IsBranchedCovering.homeomorph_comp`) is what the bridge needs: the component `Û` of `p⁻¹(U)` is a
+branched covering of `U`, hence through `φ` of `V`, and the universality of the maximal covering
+`Ṽ` of `V` maps `Ṽ` onto it over `φ⁻¹`. -/
+
+section BaseHomeo
+
+variable {E Y Z : Type*} [TopologicalSpace E] [TopologicalSpace Y] [TopologicalSpace Z]
+
+/-- Postcomposing a branched covering with a homeomorphism of the base gives a branched
+covering. -/
+theorem IsBranchedCovering.homeomorph_comp [LocallyConnectedSpace Y] [LocallyConnectedSpace Z]
+    {p : E → Y} (hp : IsBranchedCovering p) (h : Y ≃ₜ Z) : IsBranchedCovering (h ∘ p) := by
+  haveI := hp.isSpread.locallyConnectedSpace
+  haveI := hp.connectedSpace_source
+  haveI := hp.connectedSpace_target
+  have hcommY : ∀ x, (h ∘ p) ((Homeomorph.refl E) x) = h (p x) := fun _ => rfl
+  refine ⟨(IsSpread.of_isInducing h.isInducing).comp hp.isSpread, ?_,
+    h.surjective.comp hp.surjective, inferInstance,
+    h.surjective.connectedSpace h.continuous, ?_, ?_⟩
+  · rw [isCompleteSpread_iff]
+    intro e
+    have hcomm : ∀ x, p (id x) = h.symm ((h ∘ p) x) := fun x => by simp
+    obtain ⟨x, hx⟩ := isCompleteSpread_iff.1 hp.isComplete
+      (SpreadEnd.map h.symm.continuous continuous_id hcomm e)
+    refine ⟨x, fun W hW => ?_⟩
+    obtain ⟨a, ha⟩ := e.nonempty hW
+    have hV : IsCNbhd (h.symm e.base) (h ⁻¹' W) := by
+      refine ⟨hW.1.preimage h.continuous, ?_, ?_⟩
+      · have := hW.2.1.image _ h.symm.continuous.continuousOn
+        rwa [h.image_symm] at this
+      · show h (h.symm e.base) ∈ W
+        rw [h.apply_symm_apply]; exact hW.2.2
+    have hWV : W ⊆ h.symm ⁻¹' (h ⁻¹' W) := fun z hz => by
+      show h (h.symm z) ∈ W
+      rw [h.apply_symm_apply]; exact hz
+    have h1 := hx _ hV
+    rw [SpreadEnd.map_apply h.symm.continuous continuous_id hcomm e hV hW hWV ha] at h1
+    obtain ⟨a₀, ha₀, he⟩ := e.isCompOf W hW
+    have hU' : e W = connectedComponentIn ((h ∘ p) ⁻¹' W) a := by
+      rw [he] at ha ⊢
+      exact connectedComponentIn_eq ha
+    rw [hU']
+    exact h1
+  · rw [← image_ordX_of_homeomorph (Homeomorph.refl E) h hcommY]
+    have : ⇑(Homeomorph.refl E) = id := rfl
+    rw [this, image_id]
+    exact hp.isPortly_ordX
+  · rw [← image_ordY_of_homeomorph (Homeomorph.refl E) h hcommY, h.image_eq_preimage_symm]
+    exact hp.isPortly_ordY.preimage_of_isLocalHomeomorph h.symm.isLocalHomeomorph
+
+/-- The branching locus of `h ∘ p` is the image by `h` of that of `p`. -/
+theorem IsPossiblyBranchedOver.homeomorph_comp {p : E → Y} {S : Set Y}
+    (hS : IsPossiblyBranchedOver p S) (h : Y ≃ₜ Z) : IsPossiblyBranchedOver (h ∘ p) (h '' S) := by
+  intro z hz
+  have hcommY : ∀ x, (h ∘ p) ((Homeomorph.refl E) x) = h (p x) := fun _ => rfl
+  refine ⟨h.symm z, hS fun hy => hz ?_, h.apply_symm_apply z⟩
+  rw [← image_ordY_of_homeomorph (Homeomorph.refl E) h hcommY]
+  exact ⟨h.symm z, hy, h.apply_symm_apply z⟩
+
+end BaseHomeo
+
+section RIso
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  {M : Type v} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
+  [FirstCountableTopology M] [ConnectedSpace M] [SingularGXStructure G X M]
+  {N : Type u} [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
+  [FirstCountableTopology N] [ConnectedSpace N] [SingularGXStructure G X N]
+
+/-- The bridge "`r : Ṽ → V̂` an isomorphism ⇒ the chart descends", in its weakest form: if every
+component `V̂` of `q⁻¹(V)` in `\widetilde N` dominates the maximal covering `Ṽ` of `V` (a map
+`ρ : V̂ → Ṽ` continuous on `V̂` and over `V` — the inverse of `r`), then `φ : U ≅ V` descends
+from the maximal covering of `N` (`IsDescendingChartMap`). Proof: the component `Û ∋ e` of
+`p⁻¹(U)` is a branched covering of `U` possibly branched over `sing U`
+(`lem:branched_covering_restriction`), hence through the homeomorphism `φ` one of `V` possibly
+branched over `sing V` (`IsBranchedCovering.homeomorph_comp`, `φ(sing U) = sing V`); the
+universality of `Ṽ` (`prop:universality`, `maxBranched_universal`) gives `Φ : Ṽ → Û` over `φ⁻¹`,
+surjective; `Ṽ → V` is Galoisian (`reg V` semi-locally simply connected in `V`, the local
+Galoisianity of the model, `prop:Galoisian_semilocal`), so a deck transformation `δ` of `Ṽ` moves
+`ρ(f)` to a preimage of `e`; the descent is `Φ ∘ δ ∘ ρ`. -/
+theorem isDescendingChartMap_of_section (hX : IsLocallyUnloopable X) {U : Opens M} {V : Opens N}
+    {φ : U ≃ₜ V} (hφ : IsAEMorphism G X (φ : U → V)) (hUc : IsConnected (U : Set M))
+    (hVc : IsConnected (V : Set N)) (hgalV : IsSLSCInCC (Reg G X V))
+    (hρ : ∀ (yN : ((Sing G X N)ᶜ : Set N)) (f : MaxBranchedCover (Sing G X N) yN),
+      f.base ∈ V → ∃ (v₀ : ((Sing G X V)ᶜ : Set V))
+        (ρ : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X V) v₀),
+        ContinuousOn ρ (connectedComponentIn (SpreadEnd.base ⁻¹' (V : Set N)) f) ∧
+        ∀ w ∈ connectedComponentIn (SpreadEnd.base ⁻¹' (V : Set N)) f,
+          ((ρ w).base : N) = w.base) :
+    IsDescendingChartMap G X φ := by
+  intro y₀ yN e f he hf
+  have hS₀ := isSkeletal_sing G X M
+  have hreg := semilocallySimplyConnected_compl_of_sing_subset (G := G) hX
+    (isClosed_sing G X M) subset_rfl
+  obtain ⟨-, hβbc, hβS, -, hβl, -⟩ := maxBranched_basic hS₀ hreg y₀
+  haveI := hβl
+  haveI : ConnectedSpace U := isConnected_iff_connectedSpace.1 hUc
+  haveI : ConnectedSpace V := isConnected_iff_connectedSpace.1 hVc
+  haveI : LocPathConnectedSpace V := V.isOpen.locPathConnectedSpace
+  haveI : LocPathConnectedSpace U := U.isOpen.locPathConnectedSpace
+  haveI := (maxBranched_instances hS₀ hreg y₀).2.2
+  have hβc : Continuous (SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) :=
+    hβbc.isSpread.continuous
+  -- the component `Û ∋ e` of `p⁻¹(U)`, a branched covering of `U`
+  set Wh : Set (MaxBranchedCover (Sing G X M) y₀) :=
+    connectedComponentIn ((SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) ⁻¹'
+      (U : Set M)) e
+  have hWho : IsOpen Wh := (U.isOpen.preimage hβc).connectedComponentIn
+  have heWh : e ∈ Wh := mem_connectedComponentIn he
+  have hcomp : IsCompOf (SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) (U : Set M) Wh :=
+    isCompOf_connectedComponentIn he
+  have hmaps : MapsTo (SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) Wh (U : Set M) :=
+    fun w hw => connectedComponentIn_subset _ e hw
+  haveI : LocPathConnectedSpace Wh := hWho.locPathConnectedSpace
+  set q : Wh → U := fun w => ⟨(w : MaxBranchedCover (Sing G X M) y₀).base, hmaps w.2⟩ with hqdef
+  have hq : IsBranchedCovering q :=
+    branched_covering_restriction hβbc U.isOpen hUc.isPreconnected hcomp hmaps
+  have hqS : IsPossiblyBranchedOver q (Sing G X U) := by
+    intro v hv
+    rw [sing_opensSingular]
+    by_contra hvS
+    apply hv
+    have hvo : (v : M) ∈ ordY (SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) := by
+      by_contra hn; exact hvS (hβS hn)
+    have := subset_ordY_restrict hβc hmaps U.isOpen
+      (fun W' hW'V a ha => hcomp.subset_of_meets isPreconnected_connectedComponentIn
+        ((connectedComponentIn_subset _ _).trans (preimage_mono hW'V))
+        ⟨a, mem_connectedComponentIn ha, a.2⟩) (fun b _ => hq.surjective b)
+    exact this ⟨v.2, hvo⟩
+  -- read over `V` through `φ`
+  have hq' : IsBranchedCovering (φ ∘ q) := hq.homeomorph_comp φ
+  have hsing : φ '' Sing G X U ⊆ Sing G X V := by
+    rintro _ ⟨u, hu, rfl⟩
+    have h := (IsAEMorphism.preimage_reg_sing hφ φ.isLocalHomeomorph).2
+    rw [← h] at hu; exact hu
+  have hq'S : IsPossiblyBranchedOver (φ ∘ q) (Sing G X V) := fun z hz =>
+    hsing (hqS.homeomorph_comp φ hz)
+  -- the maximal covering `Ṽ` of `V`, and the section `ρ`
+  have hSV := isSkeletal_sing G X V
+  have hregV := semilocallySimplyConnected_compl_of_sing_subset (G := G) hX hSV.isClosed subset_rfl
+  have hfV : f.base ∈ V := by rw [hf]; exact mapsTo_chartExt φ he
+  obtain ⟨v₀, ρ, hρc, hρb⟩ := hρ yN f hfV
+  obtain ⟨-, hγbc, -, -, hγl, -⟩ := maxBranched_basic hSV hregV v₀
+  haveI := hγl
+  haveI := (maxBranched_instances hSV hregV v₀).2.2
+  obtain ⟨Φ, hΦc, hΦp, hΦbc, -⟩ := maxBranched_universal hSV hregV v₀ hq' hq'S
+  have hgalV' : IsSLSCInCC ((Sing G X V)ᶜ : Set V) := by
+    have hR : Reg G X V = ((Sing G X V)ᶜ : Set V) := (compl_compl _).symm
+    rw [← hR]; exact hgalV
+  have hγgal := maxBranched_isGaloisian_cc hSV hregV v₀ hgalV'
+  obtain ⟨ev, hev⟩ := hΦbc.surjective ⟨e, heWh⟩
+  have hfmem : f ∈ connectedComponentIn (SpreadEnd.base ⁻¹' (V : Set N)) f :=
+    mem_connectedComponentIn hfV
+  have hbase : (ρ f).base = ev.base := by
+    apply Subtype.ext
+    rw [hρb f hfmem, ← hΦp ev, hev, hf, chartExt_apply φ he]
+    rfl
+  obtain ⟨δ, hδ, hδe⟩ := hγgal.2 (ρ f) ev hbase
+  refine ⟨fun w => ((Φ (δ (ρ w)) : Wh) : MaxBranchedCover (Sing G X M) y₀), ⟨hfV, ?_, ?_, ?_⟩, ?_⟩
+  · exact continuous_subtype_val.comp_continuousOn
+      ((hΦc.comp δ.continuous).comp_continuousOn hρc)
+  · intro w _
+    exact hmaps (Φ (δ (ρ w))).2
+  · intro w hw
+    have h1 := hΦp (δ (ρ w))
+    have h2 : (δ (ρ w)).base = (ρ w).base := deck_apply _ hδ _
+    rw [chartExt_apply φ (hmaps (Φ (δ (ρ w))).2), ← hρb w hw, ← h2, ← h1]
+    rfl
+  · show ((Φ (δ (ρ f)) : Wh) : MaxBranchedCover (Sing G X M) y₀) = e
+    rw [hδe, hev]
+
+/-- **The bridge "`r : Ṽ → V̂` an isomorphism ⇒ `IsDescendingChartMap`"** (the question left by
+WP-35f/WP-40c): if for every component `V̂` of `q⁻¹(V)` in `\widetilde N` the maximal covering `Ṽ`
+of `V` (branched over `sing V`) is homeomorphic to `V̂` over `V` — the proof's `r : Ṽ → V̂`
+(l.2074) is an isomorphism — then the chart `φ : U ≅ V` descends from the maximal covering of the
+model, whatever `ℓ : Ũ → Û`. -/
+theorem isDescendingChartMap_of_homeomorph (hX : IsLocallyUnloopable X) {U : Opens M}
+    {V : Opens N} {φ : U ≃ₜ V} (hφ : IsAEMorphism G X (φ : U → V)) (hUc : IsConnected (U : Set M))
+    (hVc : IsConnected (V : Set N)) (hgalV : IsSLSCInCC (Reg G X V))
+    (hr : ∀ (yN : ((Sing G X N)ᶜ : Set N)) (f : MaxBranchedCover (Sing G X N) yN),
+      f.base ∈ V → ∃ (v₀ : ((Sing G X V)ᶜ : Set V))
+        (R : MaxBranchedCover (Sing G X V) v₀ ≃ₜ
+          connectedComponentIn (SpreadEnd.base ⁻¹' (V : Set N)) f),
+        ∀ x, ((R x : MaxBranchedCover (Sing G X N) yN).base) = (x.base : N)) :
+    IsDescendingChartMap G X φ := by
+  refine isDescendingChartMap_of_section hX hφ hUc hVc hgalV fun yN f hf => ?_
+  set C := connectedComponentIn
+    ((SpreadEnd.base : MaxBranchedCover (Sing G X N) yN → N) ⁻¹' (V : Set N)) f
+  obtain ⟨v₀, R, hR⟩ := hr yN f hf
+  have hfC : f ∈ C := mem_connectedComponentIn hf
+  let ρ : MaxBranchedCover (Sing G X N) yN → MaxBranchedCover (Sing G X V) v₀ := fun w =>
+    if h : w ∈ C then R.symm ⟨w, h⟩ else R.symm ⟨f, hfC⟩
+  have hρ : ∀ w (h : w ∈ C), ρ w = R.symm ⟨w, h⟩ := fun w h => dif_pos h
+  refine ⟨v₀, ρ, ?_, fun w hw => ?_⟩
+  · rw [continuousOn_iff_continuous_restrict]
+    have : C.restrict ρ = fun w : C => R.symm w := by
+      funext w; exact hρ w w.2
+    rw [this]; exact R.symm.continuous
+  · rw [hρ w hw, ← hR, R.apply_symm_apply]
+
+end RIso
+
+section RIsoVirtTame
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  [FaithfulSMul G X]
+  {A : Type*} {Xα : A → Type u} [∀ a, TopologicalSpace (Xα a)] [∀ a, T2Space (Xα a)]
+  [∀ a, LocPathConnectedSpace (Xα a)] [∀ a, FirstCountableTopology (Xα a)]
+  [∀ a, ConnectedSpace (Xα a)] [∀ a, SingularGXStructure G X (Xα a)] {S : ∀ a, Set (Xα a)}
+
+variable (G X) in
+/-- An open `V` of a model `N` *has maximal lifts* if every component `V̂` of `q⁻¹(V)` in
+`\widetilde N` (any base point) is homeomorphic over `V` to the maximal covering `Ṽ` of `V`
+branched over `sing V`: the map `r : Ṽ → V̂` of the proof of `theo:local_virt_tame` (l.2074) is an
+isomorphism. A property of the model alone. -/
+def HasMaximalLifts {N : Type u} [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
+    [FirstCountableTopology N] [ConnectedSpace N] [SingularGXStructure G X N] (V : Opens N) :
+    Prop :=
+  ∀ (yN : ((Sing G X N)ᶜ : Set N)) (f : MaxBranchedCover (Sing G X N) yN), f.base ∈ V →
+    ∃ (v₀ : ((Sing G X V)ᶜ : Set V))
+      (R : MaxBranchedCover (Sing G X V) v₀ ≃ₜ
+        connectedComponentIn (SpreadEnd.base ⁻¹' (V : Set N)) f),
+      ∀ x, ((R x : MaxBranchedCover (Sing G X N) yN).base) = (x.base : N)
+
+/-- `theo:local_virt_tame`, (ii) ⇒ (i), proved whenever `r : Ṽ → V̂` is an isomorphism (`ℓ`
+arbitrary): if every singular point of `M` is the centre of an `X_A`-chart `(U, V, φ)` whose
+`V` has maximal lifts in its model (`HasMaximalLifts`), then `M` is virtually tame, under all the
+theorem's hypotheses. Through the bridge `isDescendingChartMap_of_homeomorph` and
+`isVirtuallyTame_of_descending`. -/
+theorem isVirtuallyTame_of_hasMaximalLifts (hX : IsLocallyUnloopable X)
+    (hfam : IsAnalyticModelFamily G X Xα S) (hgal : ∀ a, IsLocallyGaloisian G X (Xα a))
+    (htam : ∀ a, HasAutContinuousTamifying G X (Xα a))
+    {M : Type v} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
+    [FirstCountableTopology M] [ConnectedSpace M] [SingularGXStructure G X M]
+    (hr : ∀ y ∈ Sing G X M, ∃ (a : A) (c : XAChart G X Xα S a y), HasMaximalLifts G X c.V) :
+    IsVirtuallyTame G X M := by
+  refine isVirtuallyTame_of_descending hX hfam hgal htam fun y hy => ?_
+  obtain ⟨a, c, hc⟩ := hr y hy
+  haveI : ConnectedSpace c.V := isConnected_iff_connectedSpace.1 c.isConnected_V
+  haveI : ConnectedSpace c.U := c.φ.symm.surjective.connectedSpace c.φ.symm.continuous
+  exact ⟨a, c, isDescendingChartMap_of_homeomorph hX c.isAEMorphism
+    (isConnected_iff_connectedSpace.2 inferInstance) c.isConnected_V (hgal a c.V) hc⟩
+
+end RIsoVirtTame
+
+section OpensXA
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  {A : Type*} {Xα : A → Type u} [∀ a, TopologicalSpace (Xα a)]
+  [∀ a, LocallyConnectedSpace (Xα a)] [∀ a, SingularGXStructure G X (Xα a)] {S : ∀ a, Set (Xα a)}
+
+/-- The homeomorphism `(⊤ : Opens V) ≃ₜ V`. -/
+def opensTopHomeo {Y : Type*} [TopologicalSpace Y] (V : Opens Y) : (⊤ : Opens V) ≃ₜ V where
+  toFun x := x.1
+  invFun v := ⟨v, trivial⟩
+  left_inv _ := rfl
+  right_inv _ := rfl
+  continuous_toFun := continuous_subtype_val
+  continuous_invFun := continuous_id.subtype_mk _
+
+variable (G X S) in
+/-- The `X_α`-chart `(V, V, id)` of an open connected `V ⊆ X_α` around a point of `V ∩ S_α`. -/
+def opensModelChart (a : A) (V : Opens (Xα a)) (hVc : IsConnected (V : Set (Xα a))) {y : V}
+    (hy : (y : Xα a) ∈ S a) : XAChart G X Xα S a y where
+  U := ⊤
+  V := V
+  φ := opensTopHomeo V
+  mem := trivial
+  isConnected_V := hVc
+  isAEMorphism := by
+    apply isAEMorphism_of_val_comp V
+    have h : (Subtype.val ∘ (opensTopHomeo V : (⊤ : Opens V) → V)) =
+        (Subtype.val : V → Xα a) ∘ (Subtype.val : (⊤ : Opens V) → V) := rfl
+    rw [h]
+    exact (isAEMorphism_opensSingular_val V).comp (isAEMorphism_opensSingular_val ⊤)
+  mem_S := hy
+
+/-- An open connected subset `V` of a model `X_α` is an `X_A`-manifold (DEC-67 (e)) as soon as
+it meets `S_α` and every singular point of `X_α` in `V` lies in `S_α` (each then centres the chart
+`(V, V, id)`). -/
+theorem isXAManifold_opens (a : A) (V : Opens (Xα a)) (hVc : IsConnected (V : Set (Xα a)))
+    (hne : ((V : Set (Xα a)) ∩ S a).Nonempty)
+    (hsing : ∀ y ∈ (V : Set (Xα a)), y ∈ Sing G X (Xα a) → y ∈ S a) :
+    IsXAManifold G X Xα S V := by
+  obtain ⟨s, hsV, hsS⟩ := hne
+  refine ⟨isXAManifoldPrinted_iff.2 fun y => ⟨a, ⟨s, hsV⟩,
+    opensModelChart G X S a V hVc (y := ⟨s, hsV⟩) hsS, trivial⟩, fun y hy => ⟨a, ⟨?_⟩⟩⟩
+  rw [sing_opensSingular] at hy
+  exact opensModelChart G X S a V hVc (hsing y y.2 hy)
+
+end OpensXA
+
+section CexSchema
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  {A : Type*} {Xα : A → Type u} [∀ a, TopologicalSpace (Xα a)] [∀ a, T2Space (Xα a)]
+  [∀ a, LocPathConnectedSpace (Xα a)] [∀ a, FirstCountableTopology (Xα a)]
+  [∀ a, SingularGXStructure G X (Xα a)] {S : ∀ a, Set (Xα a)}
+
+/-- The shape of a counterexample to the general `theo:local_virt_tame`, (ii) ⇒ (i): an open
+connected `V` of a model, meeting `S_α`, whose singular points lie in `S_α` (so `V` is an
+`X_A`-manifold, `isXAManifold_opens`), and which is NOT virtually tame, refutes "(i) every
+`X_A`-manifold is virtually tame". The hypotheses of the theorem on the models are not needed for
+this implication; a counterexample to the theorem is such a `V` in a family satisfying them. -/
+theorem not_forall_isVirtuallyTame_of_opens (a : A) (V : Opens (Xα a))
+    (hVc : IsConnected (V : Set (Xα a))) (hne : ((V : Set (Xα a)) ∩ S a).Nonempty)
+    (hsing : ∀ y ∈ (V : Set (Xα a)), y ∈ Sing G X (Xα a) → y ∈ S a)
+    (hV : ¬ IsVirtuallyTame G X V) :
+    ¬ ∀ (N : Type u) [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
+        [FirstCountableTopology N] [ConnectedSpace N] [SingularGXStructure G X N],
+        IsXAManifold G X Xα S N → IsVirtuallyTame G X N := by
+  intro h
+  haveI : ConnectedSpace V := isConnected_iff_connectedSpace.1 hVc
+  haveI : LocPathConnectedSpace V := V.isOpen.locPathConnectedSpace
+  exact hV (h V (isXAManifold_opens a V hVc hne hsing))
+
+/-- The counterexample schema read through the necessary condition of WP-40c
+(`not_isVirtuallyTame_of_forall_not_joinedIn`): a model `X_α` with an open connected `V` as in
+`not_forall_isVirtuallyTame_of_opens` in whose maximal covering `\widetilde V` some deck
+transformation fixing a point `s` is carried by no `D`-small regular region near `s` refutes
+"(i) every `X_A`-manifold is virtually tame". This reduces the open question of DEC-82/DEC-86 to
+a property of ONE open subset of ONE model. -/
+theorem not_forall_isVirtuallyTame_of_opens_of_forall_not_joinedIn (a : A) (V : Opens (Xα a))
+    (hVc : IsConnected (V : Set (Xα a))) (hne : ((V : Set (Xα a)) ∩ S a).Nonempty)
+    (hsing : ∀ y ∈ (V : Set (Xα a)), y ∈ Sing G X (Xα a) → y ∈ S a)
+    (h : ∀ y₀ : ((Sing G X V)ᶜ : Set V), ∃ f ∈ deckMapsMax G X V y₀,
+      ∃ s : MaxBranchedCover (Sing G X V) y₀, f s = s ∧
+      ∀ D : MaxBranchedCover (Sing G X V) y₀ → X, IsRegDevelopingOnReg G X V y₀ D →
+      ∀ x₀ : X, ∃ E ∈ 𝓝 x₀, ∃ W ∈ @nhds _ (weakTopMax G X V y₀) s, ∀ z,
+        ¬ @JoinedIn _ (weakTopMax G X V y₀) (W ∩ (SpreadEnd.base ⁻¹' Reg G X V ∩ D ⁻¹' E))
+          z (f z)) :
+    ¬ ∀ (N : Type u) [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
+        [FirstCountableTopology N] [ConnectedSpace N] [SingularGXStructure G X N],
+        IsXAManifold G X Xα S N → IsVirtuallyTame G X N :=
+  not_forall_isVirtuallyTame_of_opens a V hVc hne hsing
+    (not_isVirtuallyTame_of_forall_not_joinedIn h)
+
+end CexSchema
+
+
+/-! ### WP-41p: finite local degree — a tamifying topology is then natural
+
+Where every point of `\widetilde M` has finite local degree, `IsTamifyingTopology.nhds_eq_of_finite_stab`
+holds everywhere, so a tamifying topology is the natural one and virtual tameness is tameness;
+`theo:local_virt_tame` (ii) ⇒ (i) follows for such models from `theo:local_tame`. -/
+
+section FiniteDegree
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  [FaithfulSMul G X]
+  {M : Type u} [TopologicalSpace M] [SingularGXStructure G X M] [T2Space M]
+  [LocPathConnectedSpace M] [FirstCountableTopology M] [ConnectedSpace M]
+
+variable (G X M) in
+/-- `\widetilde M` (based at `y₀`) has *finite local degree*: every point `e` has a natural open
+neighbourhood `W` such that the deck transformations bringing a point of `W` back into `W` form a
+finite set of transformations fixing `e`. A property of `M` alone. -/
+def HasFiniteLocalDegree (y₀ : ((Sing G X M)ᶜ : Set M)) : Prop :=
+  ∀ e : MaxBranchedCover (Sing G X M) y₀, ∃ W : Set (MaxBranchedCover (Sing G X M) y₀),
+    IsOpen[weakTopMax G X M y₀] W ∧ e ∈ W ∧
+    ∃ F : Set (MaxBranchedCover (Sing G X M) y₀ → MaxBranchedCover (Sing G X M) y₀),
+      F.Finite ∧ F ⊆ deckMapsMax G X M y₀ ∧ (∀ f ∈ F, f e = e) ∧
+      ∀ f ∈ deckMapsMax G X M y₀, ∀ x ∈ W, f x ∈ W → f ∈ F
+
+/-- At finite local degree everywhere, a tamifying topology IS the natural one (`\widetilde M → M`
+Galoisian), so `M` is tame: for such `M`, virtually tame and tame agree. -/
+theorem IsTamifyingTopology.eq_natural_of_hasFiniteLocalDegree {y₀ : ((Sing G X M)ᶜ : Set M)}
+    (hgal : IsGaloisian (SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M))
+    {T : TopologicalSpace (MaxBranchedCover (Sing G X M) y₀)}
+    (hT : IsTamifyingTopology G X M y₀ T) (hfin : HasFiniteLocalDegree G X M y₀) :
+    T = weakTopMax G X M y₀ := by
+  refine TopologicalSpace.ext_nhds fun e => ?_
+  obtain ⟨W, hWo, heW, F, hF, hFd, hFe, hstab⟩ := hfin e
+  exact hT.nhds_eq_of_finite_stab hgal hWo heW hF hFd hFe hstab
+
+/-- A virtually tame singular manifold of finite local degree is tame. -/
+theorem isTame_of_isTamifyingTopology_of_hasFiniteLocalDegree (hX : IsLocallyUnloopable X)
+    {y₀ : ((Sing G X M)ᶜ : Set M)}
+    (hgal : IsGaloisian (SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M))
+    {T : TopologicalSpace (MaxBranchedCover (Sing G X M) y₀)}
+    (hT : IsTamifyingTopology G X M y₀ T) (hfin : HasFiniteLocalDegree G X M y₀) :
+    IsTame G X M := by
+  have h := hT.eq_natural_of_hasFiniteLocalDegree hgal hfin
+  subst h
+  exact (isTame_iff_isTamifyingTopology_natural hX y₀).2 hT
+
+/-- A locally Galoisian singular manifold has a Galoisian maximal covering
+(`prop:Galoisian_semilocal`, `X` locally unloopable). -/
+theorem IsLocallyGaloisian.isGaloisian_maxBranched (hX : IsLocallyUnloopable X)
+    (hgal : IsLocallyGaloisian G X M) (y₀ : ((Sing G X M)ᶜ : Set M)) :
+    IsGaloisian (SpreadEnd.base : MaxBranchedCover (Sing G X M) y₀ → M) := by
+  have hS := isSkeletal_sing G X M
+  have hreg := semilocallySimplyConnected_compl_of_sing_subset (G := G) hX
+    (isClosed_sing G X M) subset_rfl
+  exact maxBranched_isGaloisian hS hreg y₀ ⟨(isSkeletal_iff.1 hS).dense, hgal.isSLSCAt hX⟩
+
+end FiniteDegree
+
+section FiniteDegreeVirtTame
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+  [FaithfulSMul G X]
+  {A : Type*} {Xα : A → Type u} [∀ a, TopologicalSpace (Xα a)] [∀ a, T2Space (Xα a)]
+  [∀ a, LocPathConnectedSpace (Xα a)] [∀ a, FirstCountableTopology (Xα a)]
+  [∀ a, ConnectedSpace (Xα a)] [∀ a, SingularGXStructure G X (Xα a)] {S : ∀ a, Set (Xα a)}
+
+/-- `theo:local_virt_tame`, (ii) ⇒ (i), for models of FINITE LOCAL DEGREE: a virtually tame,
+locally Galoisian model whose maximal covering has finite local degree is tame
+(`isTame_of_isTamifyingTopology_of_hasFiniteLocalDegree`), so every `X_A`-manifold over such
+models is tame, hence virtually tame. Neither analyticity nor `Aut`-continuity is used. -/
+theorem isVirtuallyTame_of_isXAManifold_of_hasFiniteLocalDegree (hX : IsLocallyUnloopable X)
+    (hgal : ∀ a, IsLocallyGaloisian G X (Xα a)) (hvt : ∀ a, IsVirtuallyTame G X (Xα a))
+    (hfin : ∀ a (yN : ((Sing G X (Xα a))ᶜ : Set (Xα a))), HasFiniteLocalDegree G X (Xα a) yN)
+    {M : Type v} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
+    [FirstCountableTopology M] [ConnectedSpace M] [SingularGXStructure G X M]
+    (hM : IsXAManifold G X Xα S M) : IsVirtuallyTame G X M := by
+  refine isVirtuallyTame_of_isXAManifold_of_isTame hX (fun a => ?_) hM
+  obtain ⟨yN, T, hT⟩ := hvt a
+  exact isTame_of_isTamifyingTopology_of_hasFiniteLocalDegree hX
+    ((hgal a).isGaloisian_maxBranched hX yN) hT (hfin a yN)
+
+end FiniteDegreeVirtTame
 
 end GX

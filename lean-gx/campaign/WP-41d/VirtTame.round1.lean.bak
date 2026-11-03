@@ -1,0 +1,2295 @@
+import GXScaffold.BTZ.Rigid
+
+/-!
+# `GXScaffold.BTZ.VirtTame` — the analytic family `(𝔼_θ)`, virtual tameness of `𝔼₀`-manifolds
+
+Package WP-41d (WAVE5-PLAN.md, WP-39d, enlarged by DEC-74). `papers/gx`, `RamcovGX.tex:1927`,
+`2262`, `2308`. **0 `sorry`.** `G = Isom(𝐌³) = Causal.Flat.isom 2`, `X = Causal.Minkowski 2`
+(lean-causal `731ed99`, DEC-33: qualified, never opened).
+
+* **`ex:follows_proposition_brunswic_cauchy`** — l.1927, as ruled by DEC-74 (`θ ≥ 0`, `θ ≠ 2π`,
+  massive cones included): `GX.isAnalyticModelFamily_ePaper` (indexed by `{θ ≥ 0, θ ≠ 2π}`,
+  `GX.ePaperToIdx`: `θ = 0 ↦ 𝔼₀`, `θ > 0 ↦ 𝔼_θ`), `GX.isAnalyticModelFamily_eFam` (indexed by
+  `Option MassIdx`); `S_θ = sing(𝔼_θ)`. B21 Prop 1.3 is BUILT (DEC-23): `GX.btzE0_exists_aut`
+  (`𝔼₀`, from WP-41c's core), `GX.mass_exists_aut` and `GX.mass_to_mass` (massive cones:
+  `θ = θ'`, rotation-translations), `GX.mass_to_btz_false` (no mixed type). The `θ = 2π` slip:
+  `GX.mass_two_pi_sing_eq_empty`, `GX.not_isAnalyticModelFamily_two_pi` (finding).
+* **`prop:BTZ_manifold_virt_tame`** — l.2262: `GX.btz_manifold_virt_tame` — every `𝔼₀`-manifold
+  (`IsXAManifold` over the one-model family `GX.btzFam`, `S = sing 𝔼₀`) is virtually tame, through
+  `GX.isVirtuallyTame_of_hasMaximalLifts` / `isVirtuallyTame_of_descending` (0 `sorry`): `{𝔼₀}`
+  analytic `GX.isAnalyticModelFamily_btzFam`, `𝔼₀` locally Galoisian `GX.isLocallyGaloisian_btzE0`,
+  `Aut(\widetilde{𝔼₀})` `T_BTZ`-continuous (`GX.btz_hasAutContinuousTamifying`, WP-41b), every
+  singular point centred in a box chart with maximal lifts (`GX.hasMaximalLifts_btzBox`,
+  `GX.exists_xaChart_hasMaximalLifts`).
+* `prop:manifold_admits_galoisian_maximal` — l.2308 — **partial**:
+  `GX.btz_manifold_galoisian_maximal`: `\widetilde M → M` Galoisian (`GX.btz_manifold_isGaloisian`),
+  exactly branched over `sing M` (`GX.btz_manifold_sing_subset_branchingLocus`), a developing map
+  continuous for a tamifying topology. NOT formalized: "`\widetilde M` is a
+  `\widetilde{𝔼₀}`-manifold" (SCOPE (c)).
+
+Infrastructure: the massive cones `GX.MassModel`, `GX.massStructure` (developing map
+`GX.massDevM = (t, r e^{iθ̃})`, holonomy the rotation `GX.massRot θ`), `Sing(𝔼_θ) = {r = 0}`
+`GX.mass_sing`; the lifting step of B21 Prop 1.3 for any two cylinder models `GX.cyl_lift`;
+`Isom(𝐌³)`-elements keeping the time axis `GX.isom_eq_of_timeAxis`; a branched covering with
+simply connected regular part is maximal `GX.exists_homeomorph_maxBranched_of_simplyConnected`.
+
+## Hypothesis checklist
+
+| paper | here |
+|---|---|
+| `(𝔼_θ)_{θ ≥ 0}` (l.1927) | ⚠ corrected (DEC-74): `θ ≠ 2π` — `sing(𝔼_{2π}) = ∅`, no `S_{2π} ≠ ∅` (`not_isAnalyticModelFamily_two_pi`) |
+| `𝔼_θ`, `θ > 0`: the massive particle (l.1890) | ✓ read (DEC-47): `Γ_θ\(𝔻_∞ × ℝ)` developed by `(t, r cos θ̃, r sin θ̃)`, spin 0, holonomy the rotation of angle `θ` (`massDevM_smul`) |
+| `S_θ ⊆ sing(𝔼_θ)` | ✓ `S_θ = sing(𝔼_θ)` (the whole line, l.1944/`mass_sing`) |
+| B21 Prop 1.3 (cited) | ✓ built here (DEC-23), for every pair `θ, θ'` |
+| "BTZ-manifold" (l.2262, l.2300) | ✓ read: `IsXAManifold` over `{𝔼₀}` (DEC-67 (e)) |
+| `theo:local_virt_tame` (cited by the proof, l.2266) | ⚠ replaced by its proved descending form (`isVirtuallyTame_of_hasMaximalLifts`, 0 `sorry`); its hypotheses are all checked for `{𝔼₀}` |
+| standing: `M` Hausdorff, LPC, first countable, connected (DEC-66) | ✓ carried |
+
+## SCOPE (disclosed)
+
+* **(a)** The paper indexes by `θ ≥ 0`; `θ = 0 ↦ 𝔼₀` holds propositionally (`ePaperToIdx_zero`):
+  the family is defined on `Option MassIdx` and reindexed (`IsAnalyticModelFamily.comp_injective`).
+* **(b)** `prop:BTZ_manifold_virt_tame`'s proof cites `theo:local_virt_tame`, whose general case is
+  an open tagged `sorry` (Models, DEC-86); `𝔼₀`-charts restrict to boxes whose preimage components
+  in `\widetilde{𝔼₀}` are maximal coverings (`r` an isomorphism), the case proved there.
+* **(c)** "`\widetilde M` is a `\widetilde{𝔼₀}`-manifold" needs a singular structure on
+  `\widetilde M` and `\widetilde{𝔼₀}` (`p^*B`) and lifted charts `Û ≅ V̂`; with DEC-67 (e)'s atlas
+  clause (charts centred at singular points covering `\widetilde M`) it is not implied by the local
+  lifts. Not formalized; the row is partial.
+-/
+
+namespace GX
+
+open Set Filter Topology Function TopologicalSpace
+open scoped Real
+
+attribute [local instance] btzE0Structure
+
+/-! ### The standing instances of `𝔼₀` -/
+
+section Instances
+
+theorem vt_btzE0_instances : T2Space BTZE0 ∧ LocPathConnectedSpace BTZE0 ∧
+    FirstCountableTopology BTZE0 ∧ ConnectedSpace BTZE0 :=
+  btz_instances btz_two_pi_ne_zero
+
+instance vtBTZE0_t2Space : T2Space BTZE0 := vt_btzE0_instances.1
+instance vtBTZE0_locPathConnectedSpace : LocPathConnectedSpace BTZE0 := vt_btzE0_instances.2.1
+instance vtBTZE0_firstCountableTopology : FirstCountableTopology BTZE0 := vt_btzE0_instances.2.2.1
+instance vtBTZE0_connectedSpace : ConnectedSpace BTZE0 := vt_btzE0_instances.2.2.2
+
+end Instances
+
+/-! ### Automorphisms of `𝔼₀` from `D`-equivariant lifts -/
+
+section Aut
+
+/-- A homeomorphism of `𝔼₀` lifting to a homeomorphism of the cylinder which preserves `{r > 0}`
+and is `D`-equivariant is an automorphism of `𝔼₀` (an a.e. `(G,X)`-morphism). -/
+theorem btzE0_isAEMorphism_of_lift (Ψ : BTZE0 ≃ₜ BTZE0) (ψ : DInfty × ℝ ≃ₜ DInfty × ℝ)
+    (g : Causal.Flat.isom 2)
+    (hlift : ∀ y, Ψ (orbitMk (GammaA (2 * π)) y) = orbitMk (GammaA (2 * π)) (ψ y))
+    (hpos : ∀ y, ψ y ∈ cylPos ℝ ↔ y ∈ cylPos ℝ)
+    (hD : ∀ y ∈ cylPos ℝ, btzDevM 0 btzV0 (ψ y) = g • btzDevM 0 btzV0 y) :
+    IsAEMorphism (Causal.Flat.isom 2) (Causal.Minkowski 2) (Ψ : BTZE0 → BTZE0) := by
+  have hB := isMaximalAEAtlas_aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0
+  have hmaps : MapsTo Ψ (Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)
+      (Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) := by
+    intro x hx
+    rw [btzE0_reg_eq] at hx ⊢
+    obtain ⟨yt, hyt, rfl⟩ := hx
+    exact ⟨ψ yt, (hpos yt).2 hyt, (hlift yt).symm⟩
+  refine (isAEMorphismOf_iff hB.1).2 ⟨Ψ.continuous, _, isPortly_reg _ _ _,
+    IsRegularOn.of_exists hB.1.1 hB.1.1 (isOpen_reg _ _ _) subset_rfl hmaps
+      Ψ.continuous.continuousOn fun x hx => ?_⟩
+  obtain ⟨c₀, hc₀, hxc₀⟩ := mem_support.1 hx
+  have hxR := hx
+  rw [btzE0_reg_eq] at hxR
+  obtain ⟨yt, hyt, rfl⟩ := hxR
+  have hψyt : ψ yt ∈ cylPos ℝ := (hpos yt).2 hyt
+  obtain ⟨c₀', hc₀', hxc₀'⟩ := mem_support.1 (hmaps hx)
+  have hxc₀'' : orbitMk (GammaA (2 * π)) (ψ yt) ∈ c₀'.source := by rw [← hlift]; exact hxc₀'
+  obtain ⟨h₁, hh₁⟩ := btz_eventually_chart btzV0_pos isBTZStructure_btzE0 hyt hc₀ hxc₀
+  obtain ⟨h₂, hh₂⟩ := btz_eventually_chart btzV0_pos isBTZStructure_btzE0 hψyt hc₀' hxc₀''
+  refine ⟨c₀, hc₀, c₀', hc₀', hxc₀, hxc₀', h₂⁻¹ * g * h₁, ?_⟩
+  have hcyl : ∀ᶠ y' in 𝓝 yt, c₀' (Ψ (orbitMk (GammaA (2 * π)) y')) =
+      (h₂⁻¹ * g * h₁) • c₀ (orbitMk (GammaA (2 * π)) y') := by
+    filter_upwards [hh₁, ψ.continuous.continuousAt.eventually hh₂,
+      (isOpen_lt continuous_const (DInfty.continuous_r'.comp continuous_fst)).mem_nhds hyt]
+      with y' e1 e2 e3
+    rw [hlift, mul_smul, mul_smul, ← e1, ← hD y' e3, e2, inv_smul_smul]
+  exact (isOpenMap_quotient_mk'_mul.nhds_le yt) (eventually_map.2 hcyl)
+
+/-- **The `exists_aut` clause of analyticity for `𝔼₀`** (B21 Prop 1.3 at `α = β = 0`): an a.e.
+isomorphism between connected open subsets of `𝔼₀`, the first meeting the singular line, is the
+restriction of an automorphism of `𝔼₀`. -/
+theorem btzE0_exists_aut (U₁ U₂ : Opens BTZE0) (hU₁ : IsConnected (U₁ : Set BTZE0))
+    (φ : U₁ ≃ₜ U₂) (hφ : IsAEMorphism (Causal.Flat.isom 2) (Causal.Minkowski 2) (φ : U₁ → U₂))
+    (hS : ((U₁ : Set BTZE0) ∩ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0).Nonempty) :
+    ∃ ψ ∈ singularAut (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0,
+      ∀ x : U₁, ψ x = (φ x : BTZE0) := by
+  obtain ⟨x₀, hx₀U, hx₀S⟩ := hS
+  have hFc : ∀ x ∈ (U₁ : Set BTZE0) ∩ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0,
+      ContinuousAt (chartExt φ) x := fun x hx =>
+    (continuousOn_chartExt φ).continuousAt (U₁.isOpen.mem_nhds hx.1)
+  have hFreg : ∀ x ∈ (U₁ : Set BTZE0) ∩ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0,
+      chartExt φ x ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0 := fun x hx =>
+    (chartExt_mem_reg_iff hφ hx.1).2 hx.2
+  have hFloc : ∀ x ∈ (U₁ : Set BTZE0) ∩ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0,
+      ∃ c ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0, x ∈ c.source ∧
+      ∃ c' ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0, chartExt φ x ∈ c'.source ∧
+      ∃ h : Causal.Flat.isom 2, ∀ᶠ z in 𝓝 x, c' (chartExt φ z) = h • c z := by
+    intro x hx
+    obtain ⟨c', hc', hxc'⟩ := mem_support.1 (hFreg x hx)
+    have hxc'' : (φ ⟨x, hx.1⟩ : BTZE0) ∈ c'.source := by
+      rw [← chartExt_apply φ hx.1]; exact hxc'
+    obtain ⟨c, hc, hxc, h, hh⟩ := eventually_chartExt_eq_smul hφ (u := ⟨x, hx.1⟩) hx.2 hc' hxc''
+    exact ⟨c, hc, hxc, c', hc', hxc', h, hh⟩
+  have hinj : InjOn (chartExt φ)
+      ((U₁ : Set BTZE0) ∩ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) :=
+    (injOn_chartExt φ).mono inter_subset_left
+  obtain ⟨Ψ, ψ, g, hlift, hpos, hD, W, hW, hWne, hWsub, hWeq⟩ :=
+    btzE0_localUnique_core hx₀S U₁.isOpen hx₀U hFc hFreg hFloc hinj
+  have hΨ := btzE0_isAEMorphism_of_lift Ψ ψ g hlift hpos hD
+  refine ⟨Ψ, hΨ, ?_⟩
+  haveI : ConnectedSpace U₁ := isConnected_iff_connectedSpace.1 hU₁
+  have h1 : IsAEMorphism (Causal.Flat.isom 2) (Causal.Minkowski 2)
+      ((Subtype.val : U₂ → BTZE0) ∘ (φ : U₁ → U₂)) :=
+    (isAEMorphism_opensSingular_val U₂).comp hφ
+  have h2 : IsAEMorphism (Causal.Flat.isom 2) (Causal.Minkowski 2)
+      ((Ψ : BTZE0 → BTZE0) ∘ (Subtype.val : U₁ → BTZE0)) :=
+    hΨ.comp (isAEMorphism_opensSingular_val U₁)
+  obtain ⟨w, hw⟩ := hWne
+  have heq := IsAEMorphism.eq_of_eqOn h2 h1 (W := Subtype.val ⁻¹' W)
+    (hW.preimage continuous_subtype_val) ⟨⟨w, (hWsub hw).1⟩, hw⟩ (fun x hx => by
+      show Ψ x = (φ x : BTZE0)
+      rw [← hWeq hx, chartExt_apply φ x.2])
+  intro x
+  exact congrFun heq x
+
+end Aut
+
+/-! ### The one-model family `{𝔼₀}` -/
+
+section Family
+
+/-- The one-model family `{𝔼₀}` (index `Unit`), the models of the `𝔼₀`-manifolds of §4.5. -/
+abbrev btzFam : Unit → Type := fun _ => BTZE0
+
+/-- The distinguished singular sets of `btzFam`: the whole singular line. -/
+def btzFamS : ∀ a : Unit, Set (btzFam a) :=
+  fun _ => Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0
+
+theorem btzE0_sing_nonempty :
+    (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0).Nonempty := by
+  rw [btz_sing btzV0_pos btz_two_pi_ne_zero isBTZStructure_btzE0]
+  exact ⟨_, ⟨(DInfty.apex, 0), rfl, rfl⟩⟩
+
+/-- `{𝔼₀}` is an analytic family of model spaces. -/
+theorem isAnalyticModelFamily_btzFam :
+    IsAnalyticModelFamily (Causal.Flat.isom 2) (Causal.Minkowski 2) btzFam btzFamS where
+  nonempty _ := btzE0_sing_nonempty
+  subset_sing _ := subset_rfl
+  eq_of_iso _ _ _ _ _ _ _ _ _ := rfl
+  exists_aut _ U₁ U₂ h₁ _ φ hφ hS := btzE0_exists_aut U₁ U₂ h₁ φ hφ hS
+
+end Family
+
+/-! ### `𝔼₀` is locally Galoisian -/
+
+section LocGal
+
+/-- In an open subset `W` of a real normed space, the complement of a closed proper linear
+subspace `L` is semi-locally simply connected in `W` (radial contraction). -/
+theorem isSLSCIn_subtype_compl_submodule {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    {W : Set E} (hW : IsOpen W) (L : Submodule ℝ E) (hL : IsClosed (L : Set E)) (hLt : L ≠ ⊤) :
+    IsSLSCIn (((↑) : W → E) ⁻¹' (L : Set E)ᶜ) := by
+  refine ⟨?_, fun x => ?_⟩
+  · have hd : Dense ((L : Set E)ᶜ) := by
+      rw [← interior_eq_empty_iff_dense_compl]
+      by_contra hne
+      exact hLt (L.eq_top_of_nonempty_interior' (Set.nonempty_iff_ne_empty.2 hne))
+    exact hd.preimage (hW.isOpenMap_subtype_val)
+  obtain ⟨r, hr, hrW, hball⟩ : ∃ r > 0, Metric.ball (x : E) r ⊆ W ∧
+      ((x : E) ∉ L → Metric.ball (x : E) r ⊆ (L : Set E)ᶜ) := by
+    by_cases hx : (x : E) ∈ L
+    · obtain ⟨r, hr, hrb⟩ := Metric.isOpen_iff.1 hW x x.2
+      exact ⟨r, hr, hrb, fun h => absurd hx h⟩
+    · obtain ⟨r, hr, hrb⟩ := Metric.isOpen_iff.1 (hW.inter hL.isOpen_compl) x ⟨x.2, hx⟩
+      exact ⟨r, hr, fun y hy => (hrb hy).1, fun _ y hy => (hrb hy).2⟩
+  have hdist : ∀ v : E, ∀ μ : ℝ, 0 ≤ μ → μ ≤ 1 → dist v (x : E) < r →
+      (x : E) + μ • (v - x) ∈ Metric.ball (x : E) r := by
+    intro v μ hμ hμ1 hv
+    rw [Metric.mem_ball, dist_eq_norm, add_sub_cancel_left, norm_smul, Real.norm_of_nonneg hμ]
+    rw [dist_eq_norm] at hv
+    calc μ * ‖v - x‖ ≤ 1 * ‖v - x‖ := by gcongr
+      _ < r := by rw [one_mul]; exact hv
+  refine isSLSCAt_of_radial_contraction x hr (fun v _ hv μ hμ hμ1 => hrW (hdist v μ hμ hμ1 hv))
+    (fun v _ hv hvL μ hμ hμ1 => ?_)
+  by_cases hx : (x : E) ∈ L
+  · intro hmem
+    apply hvL
+    have h1 : μ • (v - x) ∈ L := by
+      have := L.sub_mem hmem hx
+      simpa using this
+    have h2 : v - x ∈ L := (L.smul_mem_iff hμ.ne').1 h1
+    have := L.add_mem h2 hx
+    simpa using this
+  · exact hball hx (hdist v μ hμ.le hμ1 hv)
+
+/-- A point of `𝔼₀` is regular iff its first cylindrical coordinate is non-zero. -/
+theorem btzE0_mem_reg_iff (x : BTZE0) :
+    x ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0 ↔
+      (cylHomeomorph btz_two_pi_ne_zero ℝ x).1 ≠ 0 := by
+  obtain ⟨y, rfl⟩ := Quotient.mk''_surjective (s₁ := MulAction.orbitRel (GammaA (2 * π))
+    (DInfty × ℝ)) x
+  show orbitMk (GammaA (2 * π)) y ∈ _ ↔ _
+  rw [btzE0_reg_eq, cylHomeomorph_apply, ← mem_preimage, preimage_image_cylPos, ne_eq,
+    ← norm_eq_zero, DInfty.norm_cplx]
+  show 0 < y.1.r ↔ ¬ y.1.r = 0
+  exact ⟨fun h h0 => by rw [h0] at h; exact lt_irrefl _ h,
+    fun h => lt_of_le_of_ne y.1.r_nonneg (Ne.symm h)⟩
+
+/-- In every open subset `V` of `𝔼₀`, `reg V` is semi-locally simply connected in `V`
+(homotopy form): through the cylindrical coordinates `𝔼₀ ≅ ℂ × ℝ` the singular line is the
+linear line `{0} × ℝ`, and the radial contraction applies. -/
+theorem btzE0_isSLSCIn_reg_opens (V : Opens BTZE0) :
+    IsSLSCIn (Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) V) := by
+  set H := cylHomeomorph btz_two_pi_ne_zero ℝ
+  set L : Submodule ℝ (ℂ × ℝ) := LinearMap.ker (LinearMap.fst ℝ ℂ ℝ)
+  have hLs : (L : Set (ℂ × ℝ)) = {w | w.1 = 0} := by ext w; simp [L]
+  have hL : IsClosed (L : Set (ℂ × ℝ)) := by
+    rw [hLs]; exact isClosed_eq continuous_fst continuous_const
+  have hLt : L ≠ ⊤ := fun h => by
+    have : ((1 : ℂ), (0 : ℝ)) ∈ L := h ▸ Submodule.mem_top
+    simp [L] at this
+  have hW : IsOpen (H '' (V : Set BTZE0)) := H.isOpenMap _ V.isOpen
+  have h := (isSLSCIn_subtype_compl_submodule hW L hL hLt).of_homeomorph (H.image V)
+  have heq : Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) V =
+      (H.image V) ⁻¹' (((↑) : (H '' (V : Set BTZE0)) → ℂ × ℝ) ⁻¹' (L : Set (ℂ × ℝ))ᶜ) := by
+    ext v
+    rw [reg_opensSingular, mem_preimage, mem_preimage, mem_preimage, btzE0_mem_reg_iff, hLs]
+    rfl
+  rw [heq]; exact h
+
+/-- **`𝔼₀` is locally Galoisian** (`RamcovGX.tex:2266`). -/
+theorem isLocallyGaloisian_btzE0 :
+    IsLocallyGaloisian (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0 := fun V =>
+  (btzE0_isSLSCIn_reg_opens V).isSLSCInCC
+
+end LocGal
+
+/-! ### A branched covering with simply connected regular part is maximal -/
+
+section MaxLift
+
+/-- A covering `p : X → Y` possibly branched over a skeletal `S` (`Y ∖ S` semi-locally simply
+connected) whose regular part `p⁻¹(Y ∖ S)` is simply connected is the maximal covering
+`\widetilde Y^S`, over `Y`. -/
+theorem exists_homeomorph_maxBranched_of_simplyConnected {Y : Type u} [TopologicalSpace Y]
+    [T2Space Y] [LocPathConnectedSpace Y] [FirstCountableTopology Y] [ConnectedSpace Y]
+    {S : Set Y} (hS : IsSkeletal S) (hSc : SemilocallySimplyConnected (Sᶜ : Set Y))
+    {X : Type*} [TopologicalSpace X] [T2Space X] [LocPathConnectedSpace X]
+    [FirstCountableTopology X] {p : X → Y} (hp : IsBranchedCovering p)
+    (hpS : IsPossiblyBranchedOver p S) [SimplyConnectedSpace (p ⁻¹' Sᶜ)] (y₀ : (Sᶜ : Set Y)) :
+    ∃ Φ : MaxBranchedCover S y₀ ≃ₜ X, ∀ e, p (Φ e) = e.base := by
+  have hO : IsPortly (Sᶜ : Set Y) := isSkeletal_iff.1 hS
+  haveI : LocPathConnectedSpace (Sᶜ : Set Y) := hO.isOpen.locPathConnectedSpace
+  have hOp : (Sᶜ : Set Y) ⊆ ordY p := fun y hy => by
+    by_contra h
+    exact hy (hpS h)
+  obtain ⟨hcovE, hsurjE, -, -⟩ := hp.restrict_isCoveringMap hO hOp
+  haveI : LocPathConnectedSpace (p ⁻¹' Sᶜ) :=
+    (hO.isOpen.preimage hp.isSpread.continuous).locPathConnectedSpace
+  obtain ⟨e₀, he₀⟩ := hsurjE y₀
+  obtain ⟨Θ, -, hΘ⟩ := UniversalCover.exists_homeomorph_of_simplyConnected (y₀ := y₀) hSc hcovE he₀
+  have h₁ := hp.isSpreadCompletion_preimage hO
+  have h₂ := (maxBranched_basic hS hSc y₀).1
+  have hcomm : ∀ a, univCoverProj S y₀ (Θ.symm a) = id ((p ∘ ((↑) : p ⁻¹' Sᶜ → X)) a) :=
+    fun a => by
+      have := congrFun hΘ (Θ.symm a)
+      simp only [comp_apply, Homeomorph.apply_symm_apply] at this
+      show ((UniversalCover.proj (Sᶜ : Set Y) y₀ (Θ.symm a) : Y)) = p a
+      rw [← this]; rfl
+  obtain ⟨Ψ, ⟨hΨc, hΨp, -⟩, -⟩ := h₁.toIsFoxCompletion.existsUnique_extend
+    h₂.toIsFoxCompletion continuous_id Θ.symm.continuous hcomm
+  exact maxBranched_unique hS hSc y₀ hp hpS hΨc hΨp
+
+/-- The box `π({r < ε} × ]t₀ − δ, t₀ + δ[)` of `𝔼₀` around the axis point at height `t₀`. -/
+def btzBox (ε t₀ δ : ℝ) : Opens BTZE0 :=
+  ⟨cylHomeomorph btz_two_pi_ne_zero ℝ ⁻¹' (Metric.ball (0 : ℂ) ε ×ˢ Metric.ball t₀ δ),
+    (Metric.isOpen_ball.prod Metric.isOpen_ball).preimage (cylHomeomorph _ ℝ).continuous⟩
+
+theorem isConnected_btzBox {ε δ : ℝ} (hε : 0 < ε) (hδ : 0 < δ) (t₀ : ℝ) :
+    IsConnected (btzBox ε t₀ δ : Set BTZE0) := by
+  have : (btzBox ε t₀ δ : Set BTZE0) = (cylHomeomorph btz_two_pi_ne_zero ℝ).symm ''
+      (Metric.ball (0 : ℂ) ε ×ˢ Metric.ball t₀ δ) := by
+    rw [Homeomorph.image_symm]; rfl
+  rw [this]
+  exact ((convex_ball (0 : ℂ) ε).prod (convex_ball t₀ δ)).isConnected
+    ((Metric.nonempty_ball.2 hε).prod (Metric.nonempty_ball.2 hδ)) |>.image _
+    (cylHomeomorph _ ℝ).symm.continuous.continuousOn
+
+/-- Every open set containing a point of the singular line contains a box around it. -/
+theorem exists_btzBox_subset {x₀ : BTZE0}
+    (hx₀ : x₀ ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) {O : Set BTZE0}
+    (hO : IsOpen O) (hx₀O : x₀ ∈ O) :
+    ∃ ε > 0, ∃ δ > 0, ∃ t₀ : ℝ, x₀ ∈ btzBox ε t₀ δ ∧ (btzBox ε t₀ δ : Set BTZE0) ⊆ O := by
+  rw [btz_sing btzV0_pos btz_two_pi_ne_zero isBTZStructure_btzE0] at hx₀
+  obtain ⟨⟨p, t⟩, hp, rfl⟩ := hx₀
+  simp only [mem_setOf_eq] at hp
+  subst hp
+  have hpre : orbitMk (GammaA (2 * π)) ⁻¹' O ∈ 𝓝 ((DInfty.apex, t) : DInfty × ℝ) :=
+    (hO.preimage continuous_quot_mk).mem_nhds hx₀O
+  obtain ⟨ε, hε, δ, hδ, hsub⟩ := cylBasic_subset hpre
+  refine ⟨ε, hε, δ, hδ, t, cylBasic_mem btz_two_pi_ne_zero hε hδ t, fun z hz => ?_⟩
+  obtain ⟨w, rfl⟩ := Quotient.mk''_surjective (s₁ := MulAction.orbitRel (GammaA (2 * π))
+    (DInfty × ℝ)) z
+  have hw : w ∈ orbitMk (GammaA (2 * π)) ⁻¹' (btzBox ε t δ : Set BTZE0) := hz
+  have hw' : w ∈ {p : DInfty | p.r < ε} ×ˢ Metric.ball t δ := by
+    rw [← cylBasic_preimage btz_two_pi_ne_zero ε (Metric.ball t δ)]; exact hw
+  exact hsub hw'
+
+set_option maxHeartbeats 1600000 in
+/-- **Boxes have maximal lifts**: every component of the preimage of a box in `\widetilde{𝔼₀}`
+is the maximal covering of the box. -/
+theorem hasMaximalLifts_btzBox {ε δ : ℝ} (hε : 0 < ε) (hδ : 0 < δ) (t₀ : ℝ) :
+    HasMaximalLifts (Causal.Flat.isom 2) (Causal.Minkowski 2) (btzBox ε t₀ δ) := by
+  intro yN f hf
+  have hX := isLocallyUnloopable_of_normedSpace (Causal.Minkowski 2)
+  have hS₀ := isSkeletal_sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0
+  have hreg := semilocallySimplyConnected_compl_of_sing_subset (G := Causal.Flat.isom 2) hX
+    (isClosed_sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) subset_rfl
+  obtain ⟨-, hβbc, hβS, -, hβl, -⟩ := maxBranched_basic hS₀ hreg yN
+  haveI := hβl
+  haveI := (maxBranched_instances hS₀ hreg yN).2.2
+  have hβc : Continuous (SpreadEnd.base :
+      MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN → BTZE0) :=
+    hβbc.isSpread.continuous
+  obtain ⟨Φ, hΦ⟩ := btz_exists_homeomorph (x₀ := 0) btzV0_pos btz_two_pi_ne_zero
+    isBTZStructure_btzE0 yN
+  set Vb := btzBox ε t₀ δ with hVbdef
+  set B : Set (DInfty × ℝ) := {p : DInfty | p.r < ε} ×ˢ Metric.ball t₀ δ with hBdef
+  have hpre : (SpreadEnd.base : MaxBranchedCover (Sing (Causal.Flat.isom 2)
+      (Causal.Minkowski 2) BTZE0) yN → BTZE0) ⁻¹' (Vb : Set BTZE0) = Φ ⁻¹' B := by
+    ext e
+    rw [mem_preimage, ← hΦ e, hBdef, ← cylBasic_preimage btz_two_pi_ne_zero ε (Metric.ball t₀ δ)]
+    rfl
+  have hprec : IsPreconnected ((SpreadEnd.base : MaxBranchedCover (Sing (Causal.Flat.isom 2)
+      (Causal.Minkowski 2) BTZE0) yN → BTZE0) ⁻¹' (Vb : Set BTZE0)) := by
+    rw [hpre, ← Φ.image_symm]
+    exact (cylBasic_isPreconnected ε δ t₀ hε).image _ Φ.symm.continuous.continuousOn
+  have hVbc : IsConnected (Vb : Set BTZE0) := by
+    have : (Vb : Set BTZE0) = (cylHomeomorph btz_two_pi_ne_zero ℝ).symm ''
+        (Metric.ball (0 : ℂ) ε ×ˢ Metric.ball t₀ δ) := by
+      rw [Homeomorph.image_symm]; rfl
+    rw [this]
+    exact ((convex_ball (0 : ℂ) ε).prod (convex_ball t₀ δ)).isConnected
+      ((Metric.nonempty_ball.2 hε).prod (Metric.nonempty_ball.2 hδ)) |>.image _
+      (cylHomeomorph _ ℝ).symm.continuous.continuousOn
+  have hCo' : IsOpen (connectedComponentIn ((SpreadEnd.base : MaxBranchedCover (Sing
+      (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN → BTZE0) ⁻¹' (Vb : Set BTZE0)) f) :=
+    (Vb.isOpen.preimage hβc).connectedComponentIn
+  have hf' : f.base ∈ (Vb : Set BTZE0) := hf
+  have hcomp' := isCompOf_connectedComponentIn (p := (SpreadEnd.base : MaxBranchedCover (Sing
+      (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN → BTZE0)) (U := (Vb : Set BTZE0)) hf'
+  have hmaps' : MapsTo (SpreadEnd.base : MaxBranchedCover (Sing (Causal.Flat.isom 2)
+      (Causal.Minkowski 2) BTZE0) yN → BTZE0) (connectedComponentIn ((SpreadEnd.base :
+      MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN → BTZE0) ⁻¹'
+      (Vb : Set BTZE0)) f) (Vb : Set BTZE0) :=
+    fun w hw => connectedComponentIn_subset _ f hw
+  have hCeq' : connectedComponentIn ((SpreadEnd.base : MaxBranchedCover (Sing (Causal.Flat.isom 2)
+      (Causal.Minkowski 2) BTZE0) yN → BTZE0) ⁻¹' (Vb : Set BTZE0)) f =
+      ((SpreadEnd.base : MaxBranchedCover (Sing (Causal.Flat.isom 2)
+      (Causal.Minkowski 2) BTZE0) yN → BTZE0) ⁻¹' (Vb : Set BTZE0)) := by
+    have hfm : f ∈ (SpreadEnd.base : MaxBranchedCover (Sing (Causal.Flat.isom 2)
+        (Causal.Minkowski 2) BTZE0) yN → BTZE0) ⁻¹' (Vb : Set BTZE0) := Set.mem_preimage.2 hf'
+    exact hprec.connectedComponentIn hfm
+  generalize connectedComponentIn ((SpreadEnd.base : MaxBranchedCover (Sing (Causal.Flat.isom 2)
+      (Causal.Minkowski 2) BTZE0) yN → BTZE0) ⁻¹' (Vb : Set BTZE0)) f = C at hCo' hcomp' hmaps' hCeq' ⊢
+  have hCo := hCo'
+  have hcomp := hcomp'
+  have hmaps := hmaps'
+  have hCeq : C = Φ ⁻¹' B := hCeq'.trans hpre
+  haveI : LocPathConnectedSpace C := hCo.locPathConnectedSpace
+  set q : C → Vb := fun w => ⟨(w : MaxBranchedCover (Sing (Causal.Flat.isom 2)
+      (Causal.Minkowski 2) BTZE0) yN).base, hmaps w.2⟩ with hqdef
+  have hq : IsBranchedCovering q :=
+    branched_covering_restriction hβbc Vb.isOpen hVbc.isPreconnected hcomp hmaps
+  have hqS : IsPossiblyBranchedOver q (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) Vb) := by
+    intro v hv
+    rw [sing_opensSingular]
+    by_contra hvS
+    apply hv
+    have hvo : (v : BTZE0) ∈ ordY (SpreadEnd.base : MaxBranchedCover (Sing (Causal.Flat.isom 2)
+        (Causal.Minkowski 2) BTZE0) yN → BTZE0) := by
+      by_contra hn; exact hvS (hβS hn)
+    have := subset_ordY_restrict hβc hmaps Vb.isOpen
+      (fun W' hW'V a ha => hcomp.subset_of_meets isPreconnected_connectedComponentIn
+        ((connectedComponentIn_subset _ _).trans (preimage_mono hW'V))
+        ⟨a, mem_connectedComponentIn ha, a.2⟩) (fun b _ => hq.surjective b)
+    exact this ⟨v.2, hvo⟩
+  -- the regular part of `C` is the convex box `e0Box (log ε) t₀ δ` in log-polar coordinates
+  have hregC : ∀ t : C, q t ∈ (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) Vb)ᶜ ↔
+      Φ (t : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN) ∈ cylPos ℝ := by
+    intro t
+    rw [sing_opensSingular, mem_compl_iff, mem_preimage]
+    show (t : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN).base ∉
+      (Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)ᶜ ↔ _
+    rw [notMem_compl_iff, ← hΦ, btzE0_reg_eq, ← mem_preimage, preimage_image_cylPos]
+  have hB : ∀ t : C, Φ (t : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2)
+      BTZE0) yN) ∈ B := fun t => (Set.ext_iff.1 hCeq _).1 t.2
+  set T := q ⁻¹' (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) Vb)ᶜ
+  have hTpos : ∀ t : T, Φ ((t : C) : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN) ∈ cylPos ℝ := fun t =>
+    (hregC t).1 t.2
+  have hTmem : ∀ t : T, cylPosHomeo ℝ ⟨Φ ((t : C) : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN), hTpos t⟩ ∈
+      e0Box (Real.log ε) t₀ δ := by
+    intro t
+    set w := cylPosHomeo ℝ ⟨Φ ((t : C) : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN), hTpos t⟩
+    have hw : e0BoxSec w = Φ ((t : C) : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN) := by
+      show (((cylPosHomeo ℝ).symm w) : DInfty × ℝ) = _
+      rw [Homeomorph.symm_apply_apply]
+    obtain ⟨h1, h2⟩ := hB t
+    refine ⟨(Real.lt_log_iff_exp_lt hε).2 ?_, ?_⟩
+    · rw [← e0BoxSec_r, hw]; exact h1
+    · rw [← e0BoxSec_t, hw]; exact h2
+  have hinvC : ∀ w ∈ e0Box (Real.log ε) t₀ δ, Φ.symm (e0BoxSec w) ∈ C := by
+    intro w hw
+    refine (Set.ext_iff.1 hCeq _).2 ?_
+    rw [mem_preimage, Φ.apply_symm_apply]
+    refine ⟨?_, ?_⟩
+    · show (e0BoxSec w).1.r < ε
+      rw [e0BoxSec_r]; exact (Real.lt_log_iff_exp_lt hε).1 hw.1
+    · show dist (e0BoxSec w).2 t₀ < δ
+      rw [e0BoxSec_t]; exact hw.2
+  have hinvT : ∀ (w : ℂ × ℝ) (hw : w ∈ e0Box (Real.log ε) t₀ δ),
+      (⟨Φ.symm (e0BoxSec w), hinvC w hw⟩ : C) ∈ T := by
+    intro w hw
+    refine (hregC _).2 ?_
+    show Φ (Φ.symm (e0BoxSec w)) ∈ cylPos ℝ
+    rw [Φ.apply_symm_apply]; exact e0BoxSec_mem w
+  let eT : T ≃ₜ e0Box (Real.log ε) t₀ δ :=
+    { toFun := fun t => ⟨cylPosHomeo ℝ ⟨Φ ((t : C) : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN), hTpos t⟩, hTmem t⟩
+      invFun := fun w => ⟨⟨Φ.symm (e0BoxSec w.1), hinvC w.1 w.2⟩, hinvT w.1 w.2⟩
+      left_inv := fun t => by
+        apply Subtype.ext; apply Subtype.ext
+        show Φ.symm (((cylPosHomeo ℝ).symm (cylPosHomeo ℝ _)) : DInfty × ℝ) = _
+        rw [Homeomorph.symm_apply_apply, Homeomorph.symm_apply_apply]
+      right_inv := fun w => by
+        apply Subtype.ext
+        show cylPosHomeo ℝ ⟨Φ (Φ.symm (e0BoxSec w.1)), _⟩ = w.1
+        have : (⟨Φ (Φ.symm (e0BoxSec w.1)), by rw [Φ.apply_symm_apply]; exact e0BoxSec_mem _⟩ :
+            cylPos ℝ) = (cylPosHomeo ℝ).symm w.1 := by
+          apply Subtype.ext
+          show Φ (Φ.symm (e0BoxSec w.1)) = e0BoxSec w.1
+          exact Φ.apply_symm_apply _
+        rw [this, Homeomorph.apply_symm_apply]
+      continuous_toFun := by
+        refine Continuous.subtype_mk ((cylPosHomeo ℝ).continuous.comp ?_) _
+        exact (Φ.continuous.comp (continuous_subtype_val.comp continuous_subtype_val)).subtype_mk _
+      continuous_invFun := by
+        refine Continuous.subtype_mk (Continuous.subtype_mk ?_ _) _
+        exact Φ.symm.continuous.comp
+          (isOpenEmbedding_e0BoxSec.continuous.comp continuous_subtype_val) }
+  haveI : ContractibleSpace (e0Box (Real.log ε) t₀ δ) :=
+    (convex_e0Box _ _ _).contractibleSpace ⟨(((Real.log ε - 1 : ℝ) : ℂ), t₀), by
+      simp [e0Box, hδ]⟩
+  haveI : ContractibleSpace T := eT.contractibleSpace
+  haveI : SimplyConnectedSpace T := SimplyConnectedSpace.ofContractible T
+  haveI : ConnectedSpace Vb := isConnected_iff_connectedSpace.1 hVbc
+  haveI : LocPathConnectedSpace Vb := Vb.isOpen.locPathConnectedSpace
+  obtain ⟨v₀⟩ := (nonempty_compl_of_isSkeletal
+    (isSkeletal_sing (Causal.Flat.isom 2) (Causal.Minkowski 2) Vb)).to_subtype
+  have hSVc := semilocallySimplyConnected_compl_of_sing_subset (G := Causal.Flat.isom 2) hX
+    (isClosed_sing (Causal.Flat.isom 2) (Causal.Minkowski 2) Vb) subset_rfl
+  obtain ⟨R, hR⟩ := exists_homeomorph_maxBranched_of_simplyConnected
+    (isSkeletal_sing (Causal.Flat.isom 2) (Causal.Minkowski 2) Vb) hSVc hq hqS v₀
+  exact ⟨v₀, R, fun x => congrArg Subtype.val (hR x)⟩
+
+end MaxLift
+
+/-! ### `prop:BTZ_manifold_virt_tame` -/
+
+section VirtTame
+
+variable {M : Type v} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
+  [FirstCountableTopology M] [ConnectedSpace M]
+  [SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2) M]
+
+omit [T2Space M] [FirstCountableTopology M] [ConnectedSpace M] in
+/-- Every `𝔼₀`-chart centred at `y` restricts to one whose image is a box. -/
+theorem exists_xaChart_btzBox_le {y : M}
+    (c : XAChart (Causal.Flat.isom 2) (Causal.Minkowski 2) btzFam btzFamS () y) :
+    ∃ c' : XAChart (Causal.Flat.isom 2) (Causal.Minkowski 2) btzFam btzFamS () y,
+      c'.U ≤ c.U ∧ ∃ ε > 0, ∃ δ > 0, ∃ t₀ : ℝ, c'.V = btzBox ε t₀ δ := by
+  obtain ⟨ε, hε, δ, hδ, t₀, hx₀, hsub⟩ := exists_btzBox_subset c.mem_S c.V.isOpen (c.φ ⟨y, c.mem⟩).2
+  set Bx := btzBox ε t₀ δ
+  have hBc : IsConnected (Bx : Set BTZE0) := isConnected_btzBox hε hδ t₀
+  -- the preimage of the box in `c.U`
+  have hWo : IsOpen (Subtype.val '' (c.φ ⁻¹' (Subtype.val ⁻¹' (Bx : Set BTZE0))) : Set M) :=
+    c.U.isOpen.isOpenMap_subtype_val _
+      ((Bx.isOpen.preimage continuous_subtype_val).preimage c.φ.continuous)
+  set W : Opens M := ⟨_, hWo⟩
+  have hWU : W ≤ c.U := by rintro _ ⟨u, -, rfl⟩; exact u.2
+  have hyW : y ∈ W := ⟨⟨y, c.mem⟩, hx₀, rfl⟩
+  have hVB : (Subtype.val : c.V → BTZE0) '' (Subtype.val ⁻¹' (Bx : Set BTZE0)) = Bx := by
+    exact image_preimage_eq_of_subset (by rw [Subtype.range_coe]; exact hsub)
+  have hWc : IsConnected (W : Set M) := by
+    have hpc : IsConnected ((Subtype.val : c.V → BTZE0) ⁻¹' (Bx : Set BTZE0)) :=
+      ⟨⟨c.φ ⟨y, c.mem⟩, hx₀⟩, Topology.IsInducing.subtypeVal.isPreconnected_image.1
+        (by
+          convert hBc.isPreconnected using 1
+          refine image_preimage_eq_of_subset fun z hz => ?_
+          exact ⟨⟨z, hsub hz⟩, rfl⟩)⟩
+    have : (W : Set M) = Subtype.val '' (c.φ.symm '' (Subtype.val ⁻¹' (Bx : Set BTZE0))) := by
+      show Subtype.val '' (c.φ ⁻¹' _) = _
+      rw [Homeomorph.image_symm]
+    rw [this]
+    exact (hpc.image _ c.φ.symm.continuous.continuousOn).image _
+      continuous_subtype_val.continuousOn
+  refine ⟨c.restrict W hyW hWU hWc, hWU, ε, hε, δ, hδ, t₀, ?_⟩
+  have hV' : (c.restrict W hyW hWU hWc).V = Bx := by
+    apply Opens.ext
+    show Subtype.val '' (c.φ '' (Subtype.val ⁻¹' (W : Set M))) = (Bx : Set BTZE0)
+    have h1 : (Subtype.val : c.U → M) ⁻¹' (W : Set M) = c.φ ⁻¹' (Subtype.val ⁻¹' (Bx : Set BTZE0)) :=
+      Subtype.val_injective.preimage_image _
+    rw [h1, Homeomorph.image_preimage, hVB]
+  exact hV'
+
+omit [T2Space M] [FirstCountableTopology M] [ConnectedSpace M] in
+/-- Every `𝔼₀`-chart centred at `y` restricts, inside any open `O ∋ y`, to one whose image is a
+box. -/
+theorem exists_xaChart_btzBox {y : M}
+    (c : XAChart (Causal.Flat.isom 2) (Causal.Minkowski 2) btzFam btzFamS () y) {O : Set M}
+    (hO : IsOpen O) (hyO : y ∈ O) :
+    ∃ c' : XAChart (Causal.Flat.isom 2) (Causal.Minkowski 2) btzFam btzFamS () y,
+      (c'.U : Set M) ⊆ O ∧ ∃ ε > 0, ∃ δ > 0, ∃ t₀ : ℝ, c'.V = btzBox ε t₀ δ := by
+  set W₀ : Opens M := ⟨connectedComponentIn ((c.U : Set M) ∩ O) y,
+    (c.U.isOpen.inter hO).connectedComponentIn⟩
+  have hyW₀ : y ∈ W₀ := mem_connectedComponentIn ⟨c.mem, hyO⟩
+  have hW₀U : W₀ ≤ c.U := fun z hz => (connectedComponentIn_subset _ _ hz).1
+  have hW₀c : IsConnected (W₀ : Set M) := isConnected_connectedComponentIn_iff.2 ⟨c.mem, hyO⟩
+  obtain ⟨c', hc'U, hbox⟩ := exists_xaChart_btzBox_le (c.restrict W₀ hyW₀ hW₀U hW₀c)
+  exact ⟨c', fun z hz => (connectedComponentIn_subset _ _ (hc'U hz)).2, hbox⟩
+
+omit [T2Space M] [FirstCountableTopology M] [ConnectedSpace M] in
+/-- Every `𝔼₀`-chart centred at `y` restricts to one with maximal lifts. -/
+theorem exists_xaChart_hasMaximalLifts {y : M}
+    (c : XAChart (Causal.Flat.isom 2) (Causal.Minkowski 2) btzFam btzFamS () y) :
+    ∃ c' : XAChart (Causal.Flat.isom 2) (Causal.Minkowski 2) btzFam btzFamS () y,
+      HasMaximalLifts (Causal.Flat.isom 2) (Causal.Minkowski 2) c'.V := by
+  obtain ⟨c', -, ε, hε, δ, hδ, t₀, hV⟩ := exists_xaChart_btzBox_le c
+  exact ⟨c', hV ▸ hasMaximalLifts_btzBox hε hδ t₀⟩
+
+
+
+/-- **`prop:BTZ_manifold_virt_tame`** (`RamcovGX.tex:2262`): every `𝔼₀`-manifold is virtually
+tame. -/
+theorem btz_manifold_virt_tame
+    (hM : IsXAManifold (Causal.Flat.isom 2) (Causal.Minkowski 2) btzFam btzFamS M) :
+    IsVirtuallyTame (Causal.Flat.isom 2) (Causal.Minkowski 2) M := by
+  refine isVirtuallyTame_of_hasMaximalLifts (isLocallyUnloopable_of_normedSpace _)
+    isAnalyticModelFamily_btzFam (fun _ => isLocallyGaloisian_btzE0)
+    (fun _ => btz_hasAutContinuousTamifying (x₀ := 0) btzV0_pos btz_two_pi_ne_zero
+      isBTZStructure_btzE0) fun y hy => ?_
+  obtain ⟨a, ⟨c⟩⟩ := hM.hasType y hy
+  obtain ⟨c', hc'⟩ := exists_xaChart_hasMaximalLifts c
+  exact ⟨(), c', hc'⟩
+
+end VirtTame
+
+/-! ### `prop:manifold_admits_galoisian_maximal` -/
+
+section GalMax
+
+/-- An open subset of a real normed space is semi-locally simply connected in itself. -/
+theorem isSLSCIn_univ_subtype_of_isOpen {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    {W : Set E} (hW : IsOpen W) : IsSLSCIn (univ : Set W) := by
+  refine ⟨dense_univ, fun x => ?_⟩
+  obtain ⟨r, hr, hrW⟩ := Metric.isOpen_iff.1 hW x x.2
+  have h := isSLSCAt_of_radial_contraction (M := W) (A := univ) x hr
+    (fun v _ hv μ hμ hμ1 => hrW (by
+      rw [Metric.mem_ball, dist_eq_norm, add_sub_cancel_left, norm_smul, Real.norm_of_nonneg hμ]
+      rw [dist_eq_norm] at hv
+      calc μ * ‖v - x‖ ≤ 1 * ‖v - x‖ := by gcongr
+        _ < r := by rw [one_mul]; exact hv))
+    (fun _ _ _ _ _ _ _ => trivial)
+  rwa [preimage_univ] at h
+
+/-- The component of the preimage of a box in `\widetilde{𝔼₀}` is the whole preimage,
+`Φ⁻¹({r < ε} × ]t₀ − δ, t₀ + δ[)`. -/
+theorem btzBox_cc_eq {ε δ : ℝ} (hε : 0 < ε) (t₀ : ℝ)
+    {yN : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)ᶜ : Set BTZE0)}
+    (Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN ≃ₜ
+      DInfty × ℝ) (hΦ : ∀ e, orbitMk (GammaA (2 * π)) (Φ e) = e.base)
+    {f : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN}
+    (hf : f.base ∈ (btzBox ε t₀ δ : Set BTZE0)) :
+    connectedComponentIn ((SpreadEnd.base : MaxBranchedCover (Sing (Causal.Flat.isom 2)
+      (Causal.Minkowski 2) BTZE0) yN → BTZE0) ⁻¹' (btzBox ε t₀ δ : Set BTZE0)) f =
+      Φ ⁻¹' ({p : DInfty | p.r < ε} ×ˢ Metric.ball t₀ δ) := by
+  have hpre : (SpreadEnd.base : MaxBranchedCover (Sing (Causal.Flat.isom 2)
+      (Causal.Minkowski 2) BTZE0) yN → BTZE0) ⁻¹' (btzBox ε t₀ δ : Set BTZE0) =
+      Φ ⁻¹' ({p : DInfty | p.r < ε} ×ˢ Metric.ball t₀ δ) := by
+    ext e
+    rw [mem_preimage, ← hΦ e, ← cylBasic_preimage btz_two_pi_ne_zero ε (Metric.ball t₀ δ)]
+    rfl
+  have hprec : IsPreconnected ((SpreadEnd.base : MaxBranchedCover (Sing (Causal.Flat.isom 2)
+      (Causal.Minkowski 2) BTZE0) yN → BTZE0) ⁻¹' (btzBox ε t₀ δ : Set BTZE0)) := by
+    rw [hpre, ← Φ.image_symm]
+    exact (cylBasic_isPreconnected ε δ t₀ hε).image _ Φ.symm.continuous.continuousOn
+  rw [hprec.connectedComponentIn (Set.mem_preimage.2 hf), hpre]
+
+variable {M : Type v} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
+  [FirstCountableTopology M] [ConnectedSpace M]
+  [SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2) M]
+
+omit [T2Space M] [LocPathConnectedSpace M] [FirstCountableTopology M] [ConnectedSpace M] in
+/-- In an `𝔼₀`-manifold, `reg M` is semi-locally simply connected in `M` (`𝔼₀` being locally
+Galoisian, `RamcovGX.tex:2266`). -/
+theorem btz_manifold_isSLSCIn_reg
+    (hM : IsXAManifold (Causal.Flat.isom 2) (Causal.Minkowski 2) btzFam btzFamS M) :
+    IsSLSCIn (Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M) := by
+  refine isSLSCIn_of_local fun x => ?_
+  by_cases hx : x ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M
+  · obtain ⟨e, he, hxe⟩ := mem_support.1 hx
+    refine ⟨e.source, e.open_source, hxe, ?_⟩
+    have hsub : e.source ⊆ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M := fun z hz =>
+      mem_support.2 ⟨e, he, hz⟩
+    have h1 := (isSLSCIn_univ_subtype_of_isOpen e.open_target).of_homeomorph
+      e.toHomeomorphSourceTarget
+    rw [preimage_univ] at h1
+    rwa [show ((↑) : e.source → M) ⁻¹' Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M = univ
+      from eq_univ_of_forall fun z => hsub z.2]
+  · obtain ⟨a, ⟨c⟩⟩ := hM.hasType x hx
+    refine ⟨c.U, c.U.isOpen, c.mem, ?_⟩
+    have h1 := (btzE0_isSLSCIn_reg_opens c.V).of_homeomorph c.φ
+    have h2 := (IsAEMorphism.preimage_reg_sing c.isAEMorphism c.φ.isLocalHomeomorph).1
+    rw [h2, reg_opensSingular] at h1
+    exact h1
+
+/-- **The maximal covering of an `𝔼₀`-manifold is Galoisian** (`RamcovGX.tex:2300–2301`). -/
+theorem btz_manifold_isGaloisian
+    (hM : IsXAManifold (Causal.Flat.isom 2) (Causal.Minkowski 2) btzFam btzFamS M)
+    (y₀ : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M)ᶜ : Set M)) :
+    IsGaloisian (SpreadEnd.base :
+      MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) y₀ → M) := by
+  have hX := isLocallyUnloopable_of_normedSpace (Causal.Minkowski 2)
+  have hreg := semilocallySimplyConnected_compl_of_sing_subset (G := Causal.Flat.isom 2) hX
+    (isClosed_sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) subset_rfl
+  have h := btz_manifold_isSLSCIn_reg hM
+  rw [show Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M =
+    (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M)ᶜ from (compl_compl _).symm] at h
+  exact maxBranched_isGaloisian (isSkeletal_sing _ _ M) hreg y₀ h
+
+set_option maxHeartbeats 3200000 in
+/-- **`\widetilde M` is exactly branched over `sing M`** (`RamcovGX.tex:2303–2304`): no singular
+point of an `𝔼₀`-manifold is ordinary. If `y` were, a sheet over a neighbourhood would carry the
+descent `Ψ` of a box chart injectively in the base, so `Ψ` would identify two `Γ`-related points
+`a ≠ k·a` of the regular part of the box in `\widetilde{𝔼₀}`; but `D_M ∘ Ψ = g · D_{𝔼₀}` there
+(`exists_smul_eq_of_isChartDescent`) and `D_{𝔼₀}` is injective (`btzDevM_injective`). -/
+theorem btz_manifold_sing_subset_branchingLocus
+    (hM : IsXAManifold (Causal.Flat.isom 2) (Causal.Minkowski 2) btzFam btzFamS M)
+    (y₀ : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M)ᶜ : Set M)) :
+    Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M ⊆ branchingLocus (SpreadEnd.base :
+      MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) y₀ → M) := by
+  intro y hy hord
+  obtain ⟨U', hU'o, hyU', -, hev⟩ := hord
+  have hX := isLocallyUnloopable_of_normedSpace (Causal.Minkowski 2)
+  have hregM := semilocallySimplyConnected_compl_of_sing_subset (G := Causal.Flat.isom 2) hX
+    (isClosed_sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) subset_rfl
+  have hS₀M := isSkeletal_sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M
+  obtain ⟨-, hβbc, -, -, hβl, -⟩ := maxBranched_basic hS₀M hregM y₀
+  haveI := hβl
+  obtain ⟨e, he⟩ := hβbc.surjective y
+  obtain ⟨a, ⟨c₀⟩⟩ := hM.hasType y hy
+  obtain ⟨c, hcU', ε, hε, δ, hδ, t₀, hcV⟩ := exists_xaChart_btzBox c₀ hU'o hyU'
+  have hml : HasMaximalLifts (Causal.Flat.isom 2) (Causal.Minkowski 2) c.V :=
+    hcV ▸ hasMaximalLifts_btzBox hε hδ t₀
+  haveI : ConnectedSpace c.V := isConnected_iff_connectedSpace.1 c.isConnected_V
+  haveI : ConnectedSpace c.U := c.φ.symm.surjective.connectedSpace c.φ.symm.continuous
+  have hUc : IsConnected (c.U : Set M) := isConnected_iff_connectedSpace.2 inferInstance
+  have hdesc := isDescendingChartMap_of_homeomorph hX c.isAEMorphism hUc c.isConnected_V
+    (isLocallyGaloisian_btzE0 c.V) hml
+  -- the model side
+  have hS₀ := isSkeletal_sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0
+  have hreg₀ := semilocallySimplyConnected_compl_of_sing_subset (G := Causal.Flat.isom 2) hX
+    (isClosed_sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) subset_rfl
+  obtain ⟨yN⟩ := btz_exists_reg (x₀ := 0) btzV0_pos btz_two_pi_ne_zero isBTZStructure_btzE0
+  obtain ⟨Φ, hΦ⟩ := btz_exists_homeomorph (x₀ := 0) btzV0_pos btz_two_pi_ne_zero
+    isBTZStructure_btzE0 yN
+  obtain ⟨-, hβbcN, -, -, hβlN, -⟩ := maxBranched_basic hS₀ hreg₀ yN
+  haveI := hβlN
+  obtain ⟨f, hf⟩ := hβbcN.surjective (chartExt c.φ e.base)
+  have heU : e.base ∈ (c.U : Set M) := by rw [he]; exact c.mem
+  obtain ⟨Ψ, hΨ, hΨf⟩ := hdesc y₀ yN e f heU hf
+  -- the developing maps
+  obtain ⟨D₀, hD₀⟩ := exists_isRegDevelopingOnReg hregM y₀
+  have hDN := btz_isRegDevelopingOnReg (y₀ := yN) btzV0_pos btz_two_pi_ne_zero
+    isBTZStructure_btzE0 hΦ
+  obtain ⟨g, hg⟩ := exists_smul_eq_of_isChartDescent hregM hreg₀ c.isAEMorphism hD₀ hDN hΨ
+  -- the component of the box
+  have hfV : f.base ∈ (c.V : Set BTZE0) := hΨ.base_mem
+  have hfB : f.base ∈ (btzBox ε t₀ δ : Set BTZE0) := by rw [← hcV]; exact hfV
+  have hcc := btzBox_cc_eq hε t₀ Φ hΦ hfB
+  rw [← hcV] at hcc
+  -- two `Γ`-related regular points of it
+  set w : ℂ × ℝ := (((Real.log ε - 1 : ℝ) : ℂ), t₀) with hwdef
+  set k : GammaA (2 * π) := GammaA.ofInt 1 with hkdef
+  have hwB : ∀ z : DInfty × ℝ, z.1.r = Real.exp (Real.log ε - 1) → z.2 = t₀ →
+      z ∈ {p : DInfty | p.r < ε} ×ˢ Metric.ball t₀ δ := by
+    intro z hz1 hz2
+    refine ⟨?_, ?_⟩
+    · show z.1.r < ε
+      rw [hz1, Real.exp_sub, Real.exp_log hε]
+      exact div_lt_self hε (Real.one_lt_exp_iff.2 one_pos)
+    · show dist z.2 t₀ < δ
+      rw [hz2, dist_self]; exact hδ
+  have hw1 : e0BoxSec w ∈ {p : DInfty | p.r < ε} ×ˢ Metric.ball t₀ δ :=
+    hwB _ (by rw [e0BoxSec_r]; simp [w]) (by rw [e0BoxSec_t])
+  have hw2 : k • e0BoxSec w ∈ {p : DInfty | p.r < ε} ×ˢ Metric.ball t₀ δ := by
+    refine hwB _ ?_ ?_
+    · rw [gammaA_smul_r, e0BoxSec_r]; simp [w]
+    · rw [DInfty.smul_prod_def, e0BoxSec_t]
+  have hmemReg : ∀ z : DInfty × ℝ, z ∈ cylPos ℝ →
+      (Φ.symm z).base ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0 := by
+    intro z hz
+    rw [← hΦ, Φ.apply_symm_apply, btzE0_reg_eq]
+    exact ⟨z, hz, rfl⟩
+  have hkpos : k • e0BoxSec w ∈ cylPos ℝ := by
+    show 0 < (k • e0BoxSec w).1.r
+    rw [gammaA_smul_r]; exact e0BoxSec_mem w
+  have ha : Φ.symm (e0BoxSec w) ∈ connectedComponentIn ((SpreadEnd.base :
+      MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN → BTZE0) ⁻¹'
+      (c.V : Set BTZE0)) f := by
+    rw [hcc, mem_preimage, Φ.apply_symm_apply]; exact hw1
+  have ha' : Φ.symm (k • e0BoxSec w) ∈ connectedComponentIn ((SpreadEnd.base :
+      MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN → BTZE0) ⁻¹'
+      (c.V : Set BTZE0)) f := by
+    rw [hcc, mem_preimage, Φ.apply_symm_apply]; exact hw2
+  have hqa : (Φ.symm (e0BoxSec w)).base = (Φ.symm (k • e0BoxSec w)).base := by
+    rw [← hΦ, ← hΦ, Φ.apply_symm_apply, Φ.apply_symm_apply, orbitMk_smul]
+  have hne : k • e0BoxSec w ≠ e0BoxSec w := by
+    intro h
+    have h1 := DInfty.free_pos (Z := ℝ) btz_two_pi_ne_zero (e0BoxSec w) (e0BoxSec_mem w) k h
+    have h2 : k.toInt = (1 : GammaA (2 * π)).toInt := congrArg GammaA.toInt h1
+    simp [k] at h2
+  -- `Ψ` identifies them
+  obtain ⟨E, hE⟩ := hev e (show e.base ∈ U' by rw [he]; exact hyU')
+  have hsheet : ∀ z ∈ connectedComponentIn ((SpreadEnd.base :
+      MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN → BTZE0) ⁻¹'
+      (c.V : Set BTZE0)) f, Ψ z ∈ connectedComponentIn ((SpreadEnd.base :
+        MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) y₀ → M) ⁻¹' U') e := by
+    intro z hz
+    have h1 := hΨ.mapsTo_cc (mem_connectedComponentIn hfV) hz
+    rw [hΨf] at h1
+    exact connectedComponentIn_mono _ (preimage_mono hcU') h1
+  have hbase : (Ψ (Φ.symm (e0BoxSec w))).base = (Ψ (Φ.symm (k • e0BoxSec w))).base :=
+    injOn_chartExt c.φ (hΨ.mem _ ha) (hΨ.mem _ ha') (by rw [hΨ.base _ ha, hΨ.base _ ha', hqa])
+  have hΨeq : Ψ (Φ.symm (e0BoxSec w)) = Ψ (Φ.symm (k • e0BoxSec w)) := by
+    have := E.injective (a₁ := ⟨_, hsheet _ ha⟩) (a₂ := ⟨_, hsheet _ ha'⟩)
+      (Subtype.ext (by rw [hE, hE]; exact hbase))
+    exact congrArg Subtype.val this
+  -- and `D_{𝔼₀}` separates them
+  have e1 := hg _ ⟨ha, hmemReg _ (e0BoxSec_mem w)⟩
+  have e2 := hg _ ⟨ha', hmemReg _ hkpos⟩
+  rw [hΨeq, e2] at e1
+  have hD : btzDevM 0 btzV0 (k • e0BoxSec w) = btzDevM 0 btzV0 (e0BoxSec w) := by
+    have := smul_left_cancel g e1
+    simpa only [comp_apply, Φ.apply_symm_apply] using this
+  exact hne (btzDevM_injective 0 btzV0_pos hD)
+
+/-- **`prop:manifold_admits_galoisian_maximal`** (`RamcovGX.tex:2308`), the first two assertions:
+an `𝔼₀`-manifold `M` admits a Galoisian maximal covering exactly branched above `sing(M)`, and a
+developing map continuous for the tamifying topology. (`\widetilde M` a `\widetilde{𝔼₀}`-manifold:
+see SCOPE.) -/
+theorem btz_manifold_galoisian_maximal
+    (hM : IsXAManifold (Causal.Flat.isom 2) (Causal.Minkowski 2) btzFam btzFamS M) :
+    (∀ y₀ : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M)ᶜ : Set M),
+      IsGaloisian (SpreadEnd.base :
+        MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) y₀ → M) ∧
+      branchingLocus (SpreadEnd.base :
+        MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) y₀ → M) =
+        Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) ∧
+    ∃ (y₀ : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M)ᶜ : Set M))
+      (T : TopologicalSpace
+        (MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) y₀)),
+      IsTamifyingTopology (Causal.Flat.isom 2) (Causal.Minkowski 2) M y₀ T ∧
+      ∃ D : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) y₀ →
+          Causal.Minkowski 2,
+        Continuous[T, _] D ∧ IsRegDevelopingOnReg (Causal.Flat.isom 2) (Causal.Minkowski 2) M y₀ D := by
+  refine ⟨fun y₀ => ⟨btz_manifold_isGaloisian hM y₀, Subset.antisymm ?_
+    (btz_manifold_sing_subset_branchingLocus hM y₀)⟩, ?_⟩
+  · have hX := isLocallyUnloopable_of_normedSpace (Causal.Minkowski 2)
+    have hreg := semilocallySimplyConnected_compl_of_sing_subset (G := Causal.Flat.isom 2) hX
+      (isClosed_sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) subset_rfl
+    exact (maxBranched_isBranchedCovering (isSkeletal_sing _ _ M) hreg y₀).2
+  · obtain ⟨y₀, T, hT⟩ := btz_manifold_virt_tame hM
+    exact ⟨y₀, T, hT, hT.exists_extension⟩
+
+end GalMax
+
+end GX
+
+/-! ## Part II: the massive cones and the family `(𝔼_θ)` -/
+
+namespace GX
+open Set Filter Topology Function TopologicalSpace
+open scoped Real
+
+section MassiveRot
+
+/-- The identification `ℂ ≃ ℝ²` of the spatial plane of `𝐌³`. -/
+noncomputable def massRepr : ℂ ≃ₗᵢ[ℝ] EuclideanSpace ℝ (Fin 2) :=
+  Complex.orthonormalBasisOneI.repr
+
+/-- The spatial rotation of angle `β` of `𝐌³`, as a linear map. -/
+noncomputable def massRotLin (β : ℝ) : Causal.Minkowski 2 ≃ₗ[ℝ] Causal.Minkowski 2 :=
+  LinearEquiv.prodCongr (LinearEquiv.refl ℝ ℝ)
+    (massRepr.symm.toLinearEquiv ≪≫ₗ (rotation (Circle.exp β)).toLinearEquiv ≪≫ₗ
+      massRepr.toLinearEquiv)
+
+theorem massRotLin_apply (β : ℝ) (v : Causal.Minkowski 2) :
+    massRotLin β v = (v.1, massRepr (Circle.exp β * massRepr.symm v.2)) := rfl
+
+theorem minkQ_massRotLin (β : ℝ) (v : Causal.Minkowski 2) :
+    Causal.Flat.minkQ (massRotLin β v) = Causal.Flat.minkQ v := by
+  rw [massRotLin_apply, Causal.Flat.minkQ, Causal.Flat.minkQ, LinearIsometryEquiv.norm_map,
+    norm_mul, Circle.norm_coe, one_mul, LinearIsometryEquiv.norm_map]
+
+theorem massRotLin_add (β γ : ℝ) :
+    (massRotLin (β + γ) : Causal.Minkowski 2 →ₗ[ℝ] Causal.Minkowski 2) =
+      (massRotLin β : Causal.Minkowski 2 →ₗ[ℝ] Causal.Minkowski 2) ∘ₗ massRotLin γ := by
+  apply LinearMap.ext
+  intro v
+  simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, massRotLin_apply,
+    LinearIsometryEquiv.symm_apply_apply, Circle.exp_add, Circle.coe_mul, mul_assoc]
+
+theorem massRotLin_mem (β : ℝ) : massRotLin β ∈ Causal.Flat.lorentz 2 := by
+  refine Causal.Flat.mem_lorentz_of (minkQ_massRotLin β) ?_ ?_
+  · show 0 < (massRotLin β (Causal.Flat.timeUnit 2)).1
+    rw [massRotLin_apply]
+    simp [Causal.Flat.timeUnit]
+  · refine Causal.Flat.det_eq_one_of_eq_sq (B := massRotLin (β / 2)) (minkQ_massRotLin β) ?_
+    rw [← massRotLin_add, add_halves]
+
+/-- **The spatial rotation of angle `β`** about the time axis, an element of `Isom(𝐌³)`. -/
+noncomputable def massRot (β : ℝ) : Causal.Flat.isom 2 :=
+  ⟨(massRotLin β).toAffineEquiv, massRotLin_mem β⟩
+
+theorem massRot_smul (β : ℝ) (v : Causal.Minkowski 2) :
+    massRot β • v = (v.1, massRepr (Circle.exp β * massRepr.symm v.2)) := rfl
+
+end MassiveRot
+
+end GX
+
+namespace GX
+open Set Filter Topology Function TopologicalSpace
+open scoped Real
+
+section MassiveDev
+
+/-- **The developing map of the massive cone** `𝔼_θ` in Minkowski coordinates:
+`D(p, t) = (t, r e^{iθ̃})` (`ex:quotient_base` with DEC-47's `(r cos θ, r sin θ)`). -/
+noncomputable def massDevM (y : DInfty × ℝ) : Causal.Minkowski 2 :=
+  (y.2, massRepr (DInfty.cplx (2 * π) y.1))
+
+/-- The homeomorphism `ℝ × ℂ ≃ 𝐌³`. -/
+noncomputable def massLinHomeo : ℝ × ℂ ≃ₜ Causal.Minkowski 2 :=
+  (Homeomorph.refl ℝ).prodCongr massRepr.toHomeomorph
+
+theorem massDevM_eq : massDevM = massLinHomeo ∘ massiveDev 1 0 1 := by
+  funext y
+  simp [massDevM, massiveDev, massLinHomeo]
+
+theorem isLocalHomeomorphOn_massDevM : IsLocalHomeomorphOn massDevM (cylPos ℝ) := by
+  rw [massDevM_eq]
+  exact massLinHomeo.isLocalHomeomorph.isLocalHomeomorphOn.comp
+    (isLocalHomeomorphOn_massiveDev one_ne_zero 0 1) (mapsTo_univ _ _)
+
+theorem massDevM_smul {α : ℝ} (k : GammaA α) (y : DInfty × ℝ) :
+    massDevM (k • y) = massRot (k.toInt * α) • massDevM y := by
+  rw [massRot_smul]
+  simp only [massDevM, DInfty.smul_prod_def, DInfty.smul_def, LinearIsometryEquiv.symm_apply_apply,
+    DInfty.cplx_rot, Circle.coe_exp]
+  congr 3
+  field_simp
+
+theorem isAEMorphismOf_massCyl_smul {α : ℝ} (k : GammaA α) :
+    IsAEMorphismOf (Causal.Flat.isom 2)
+      (maximalAEAtlas (Causal.Flat.isom 2) (devAtlas (Causal.Flat.isom 2) massDevM (cylPos ℝ)))
+      (maximalAEAtlas (Causal.Flat.isom 2) (devAtlas (Causal.Flat.isom 2) massDevM (cylPos ℝ)))
+      fun x => k • x :=
+  isAEMorphismOf_devStructure (DInfty.isPortly_pos ℝ) isLocalHomeomorphOn_massDevM
+    (DInfty.continuous_smul_prod k) (fun x hx => by show 0 < (k • x).1.r; rw [gammaA_smul_r]; exact hx)
+    fun _ _ => ⟨massRot (k.toInt * α), Eventually.of_forall fun y => massDevM_smul k y⟩
+
+end MassiveDev
+
+/-! ### The massive model spaces `𝔼_θ`, `θ > 0` -/
+
+section MassiveModel
+
+/-- The angles of the massive cones in the family: `θ > 0`, `θ ≠ 2π`. -/
+abbrev MassIdx : Type := {θ : ℝ // 0 < θ ∧ θ ≠ 2 * π}
+
+/-- **The massive cone** `𝔼_θ = Γ_θ\(𝔻_∞ × ℝ)` (a type synonym, so that its structure is not
+confused with the BTZ one on the same quotient). -/
+def MassModel (θ : ℝ) : Type := Orbits (GammaA θ) (DInfty × ℝ)
+
+instance (θ : ℝ) : TopologicalSpace (MassModel θ) :=
+  inferInstanceAs (TopologicalSpace (Orbits (GammaA θ) (DInfty × ℝ)))
+
+/-- The projection of the cylinder onto `𝔼_θ`. -/
+noncomputable def massMk (θ : ℝ) : DInfty × ℝ → MassModel θ := orbitMk (GammaA θ)
+
+theorem mass_existsUnique {θ : ℝ} (hθ : θ ≠ 0) :
+    ∃! B : Set (OpenPartialHomeomorph (MassModel θ) (Causal.Minkowski 2)),
+      IsMaximalAEAtlas (Causal.Flat.isom 2) B ∧ IsAEMorphismOf (Causal.Flat.isom 2)
+        (maximalAEAtlas (Causal.Flat.isom 2) (devAtlas (Causal.Flat.isom 2) massDevM (cylPos ℝ)))
+        B (massMk θ) :=
+  quotientBase hθ isLocalHomeomorphOn_massDevM isAEMorphismOf_massCyl_smul
+
+/-- The structure of `MassModel θ` is the massive one. -/
+def IsMassStructure (θ : ℝ)
+    [SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ)] : Prop :=
+  IsAEMorphismOf (Causal.Flat.isom 2)
+    (maximalAEAtlas (Causal.Flat.isom 2) (devAtlas (Causal.Flat.isom 2) massDevM (cylPos ℝ)))
+    (aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ)) (massMk θ)
+
+theorem exists_isMassStructure {θ : ℝ} (hθ : θ ≠ 0) :
+    ∃ s : SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ),
+      @IsMassStructure θ s := by
+  obtain ⟨B, ⟨hB, hπ⟩, -⟩ := mass_existsUnique hθ
+  exact ⟨⟨B, hB⟩, hπ⟩
+
+/-- The structure of `𝔼_θ`. -/
+noncomputable instance massStructure (θ : MassIdx) :
+    SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1) :=
+  Classical.choose (exists_isMassStructure θ.2.1.ne')
+
+theorem isMassStructure_massStructure (θ : MassIdx) : IsMassStructure θ.1 :=
+  Classical.choose_spec (exists_isMassStructure θ.2.1.ne')
+
+theorem mass_instances {θ : ℝ} (hθ : θ ≠ 0) :
+    T2Space (MassModel θ) ∧ LocPathConnectedSpace (MassModel θ) ∧
+      FirstCountableTopology (MassModel θ) ∧ ConnectedSpace (MassModel θ) := by
+  obtain ⟨h1, h2, h3, h4, -, -⟩ := cyl_instances (V := ℝ) hθ
+  exact ⟨h1, h2, h3, h4⟩
+
+instance (θ : MassIdx) : T2Space (MassModel θ.1) := (mass_instances θ.2.1.ne').1
+instance (θ : MassIdx) : LocPathConnectedSpace (MassModel θ.1) := (mass_instances θ.2.1.ne').2.1
+instance (θ : MassIdx) : FirstCountableTopology (MassModel θ.1) :=
+  (mass_instances θ.2.1.ne').2.2.1
+instance (θ : MassIdx) : ConnectedSpace (MassModel θ.1) := (mass_instances θ.2.1.ne').2.2.2
+
+end MassiveModel
+
+end GX
+
+namespace GX
+open Set Filter Topology Function TopologicalSpace
+open scoped Real
+
+section MassiveSing
+
+/-- A variant of `apex_notMem_support_of_smul_ne`: a shift `τ` of the cylinder preserving `r` and
+the height, preserving `D` on `{r > 0}` and moving every point of `{r > 0}` off its `Γ`-orbit,
+forbids a chart at the axis (a chart there would be injective, and read `g · D`). -/
+theorem apex_notMem_support_of_shift {G X Z : Type*} [TopologicalSpace X] [Group G]
+    [MulAction G X] [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X]
+    [IsRigidAction G X] [TopologicalSpace Z] [LocallyConnectedSpace Z] {α : ℝ}
+    {D : DInfty × Z → X} (hD : IsLocalHomeomorphOn D (cylPos Z))
+    {B : Set (OpenPartialHomeomorph (Orbits (GammaA α) (DInfty × Z)) X)}
+    (hB : IsMaximalAEAtlas G B)
+    (hπ : IsAEMorphismOf G (maximalAEAtlas G (devAtlas G D (cylPos Z))) B (orbitMk (GammaA α)))
+    {τ : DInfty × Z → DInfty × Z} (hτr : ∀ y, (τ y).1.r = y.1.r) (hτz : ∀ y, (τ y).2 = y.2)
+    (hτD : ∀ y ∈ cylPos Z, D (τ y) = D y)
+    (hτo : ∀ y ∈ cylPos Z, orbitMk (GammaA α) (τ y) ≠ orbitMk (GammaA α) y) (z₀ : Z) :
+    orbitMk (GammaA α) (DInfty.apex, z₀) ∉ support B := by
+  intro hmem
+  have hP := DInfty.isPortly_pos Z
+  obtain ⟨φ, hφ, hφs⟩ := mem_support.1 hmem
+  have hO : orbitMk (GammaA α) ⁻¹' φ.source ∈ 𝓝 (DInfty.apex, z₀) :=
+    continuous_quot_mk.continuousAt.preimage_mem_nhds (φ.open_source.mem_nhds hφs)
+  obtain ⟨u, hu, v, hv, huv⟩ := mem_nhds_prod_iff.1 hO
+  obtain ⟨ε, hε, hεu⟩ := DInfty.hasBasis_nhds_apex.mem_iff.1 hu
+  obtain ⟨V, hVv, -, hzV, hVc⟩ :=
+    locallyConnectedSpace_iff_subsets_isOpen_isConnected.1 inferInstance z₀ v hv
+  set S : Set (DInfty × Z) := {p : DInfty | 0 < p.r ∧ p.r < ε} ×ˢ V
+  have hSc : IsPreconnected S := (DInfty.isPreconnected_pos_r_lt ε).prod hVc.isPreconnected
+  have hSP : S ⊆ cylPos Z := fun y hy => hy.1.1
+  have hSO : ∀ y ∈ S, orbitMk (GammaA α) y ∈ φ.source := fun y hy => huv ⟨hεu hy.1.2, hVv hy.2⟩
+  have hdev := isAEAtlas_devAtlas (G := G) hP hD
+  have hreg := hπ.regLocusOf_eq hdev.maximalAEAtlas hB.1
+  have hloc : ∀ y ∈ S, ∃ g : G, ∀ᶠ y' in 𝓝 y, φ (orbitMk (GammaA α) y') = g • D y' := by
+    intro y hy
+    have hyR : y ∈ regLocusOf G (maximalAEAtlas G (devAtlas G D (cylPos Z))) B
+        (orbitMk (GammaA α)) := by
+      rw [hreg]
+      exact ⟨subset_support_devStructure hP hD (hSP hy), mem_support.2 ⟨φ, hφ, hSO y hy⟩⟩
+    have hys : y ∈ support (devAtlas G D (cylPos Z)) := by
+      rw [support_devAtlas hP.isOpen hD]; exact hSP hy
+    obtain ⟨e, he, hye⟩ := mem_support.1 hys
+    obtain ⟨g, hg⟩ := (isRegularOn_regLocusOf (G := G) _ _ _).exists_smul_eq y hyR e
+      (hdev.subset_maximalAEAtlas he) φ hφ hye (hSO y hy)
+    obtain ⟨h, hh⟩ := he.2 y hye
+    refine ⟨g * h⁻¹, ?_⟩
+    filter_upwards [hg, hh] with y' h1 h2
+    rw [h1, h2, mul_smul, inv_smul_smul]
+  obtain ⟨g, hg⟩ := exists_smul_eq_on_of_isLocalHomeomorphOn hP.isOpen hD hSc hSP hloc
+  have hr : (0 : ℝ) < ε / 2 := half_pos hε
+  set y : DInfty × Z := (DInfty.posEmb ⟨(ε / 2, 0), hr⟩, z₀)
+  have hyS : y ∈ S := ⟨⟨hr, show ε / 2 < ε by linarith⟩, hzV⟩
+  have hτS : τ y ∈ S := ⟨show 0 < (τ y).1.r ∧ (τ y).1.r < ε by rw [hτr]; exact hyS.1,
+    show (τ y).2 ∈ V by rw [hτz]; exact hyS.2⟩
+  have h1 : φ (orbitMk (GammaA α) (τ y)) = φ (orbitMk (GammaA α) y) := by
+    rw [hg _ hτS, hg _ hyS, hτD y (hSP hyS)]
+  exact hτo y (hSP hyS) (φ.injOn (hSO _ hτS) (hSO _ hyS) h1)
+
+/-- `e^{iθ} c = c` with `c ≠ 0` forces `θ ∈ 2πℤ`. -/
+theorem exists_int_of_exp_mul_eq {θ : ℝ} {c : ℂ} (hc : c ≠ 0)
+    (h : Complex.exp (θ * Complex.I) * c = c) : ∃ m : ℤ, θ = m * (2 * π) := by
+  have he : Complex.exp (θ * Complex.I) = 1 := mul_right_cancel₀ hc (by rw [one_mul]; exact h)
+  obtain ⟨m, hm⟩ := Complex.exp_eq_one_iff.1 he
+  refine ⟨m, ?_⟩
+  have := congrArg Complex.im hm
+  simp at this
+  linarith
+
+/-- **`Sing(𝔼_θ) = {r = 0}`** for `θ > 0`, `θ ≠ 2π`: for `θ ∉ 2πℤ` the holonomy moves every regular
+point; for `θ = 2πm`, `m ≥ 2`, the developing map is `m`-to-`1` around the axis. -/
+theorem mass_sing (θ : MassIdx) :
+    Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1) =
+      massMk θ.1 '' {x : DInfty × ℝ | x.1 = DInfty.apex} := by
+  have hθ0 : θ.1 ≠ 0 := θ.2.1.ne'
+  have hD := isLocalHomeomorphOn_massDevM
+  have hB := isMaximalAEAtlas_aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1)
+  have hπ := isMassStructure_massStructure θ
+  refine Subset.antisymm ?_ ?_
+  · rw [← setOf_r_eq_zero_cyl]; exact quotientBase_sing_subset hθ0 hD hB hπ
+  · rintro _ ⟨⟨p, z⟩, hx, rfl⟩
+    simp only [mem_setOf_eq] at hx
+    subst hx
+    by_cases hm : ∃ m : ℤ, θ.1 = m * (2 * π)
+    · obtain ⟨m, hm⟩ := hm
+      have hπ0 : (0 : ℝ) < π := Real.pi_pos
+      have hm1 : 1 ≤ m := by
+        by_contra h
+        have : (m : ℝ) ≤ 0 := by exact_mod_cast (by omega : m ≤ 0)
+        have := θ.2.1
+        nlinarith
+      have hm2 : 2 ≤ m := by
+        by_contra h
+        have : m = 1 := by omega
+        exact θ.2.2 (by rw [hm, this]; simp)
+      refine apex_notMem_support_of_shift (τ := fun y => (DInfty.rot (2 * π) y.1, y.2)) hD hB hπ
+        (fun y => DInfty.rot_r _ _) (fun y => rfl) (fun y _ => ?_) (fun y hy => ?_) z
+      · simp only [massDevM, DInfty.cplx_rot]
+        congr 2
+        rw [show (2 * π / (2 * π) * (2 * π) : ℝ) = 2 * π by field_simp]
+        rw [show (((2 * π : ℝ) : ℂ) * Complex.I) = 2 * π * Complex.I by push_cast; ring,
+          Complex.exp_two_pi_mul_I, one_mul]
+      · intro h
+        obtain ⟨k, hk⟩ := exists_smul_eq_of_orbitMk_eq h
+        have hθk := congrArg (fun w : DInfty × ℝ => w.1.θ) hk
+        simp only [DInfty.smul_prod_def, DInfty.smul_def] at hθk
+        have hy' : 0 < (DInfty.rot (2 * π) y.1).r := by rw [DInfty.rot_r]; exact hy
+        have hrθ : ∀ (t : ℝ) (q : DInfty), 0 < q.r → (DInfty.rot t q).θ = q.θ + t :=
+          fun t q hq => by rw [DInfty.rot_of_pos hq]
+        have h0 : (DInfty.rot (k.toInt * θ.1) (DInfty.rot (2 * π) y.1)).θ = y.1.θ := hθk
+        rw [hrθ _ _ hy', hrθ _ _ hy] at h0
+        have h1 : (k.toInt : ℝ) * (m * (2 * π)) = -(2 * π) := by rw [← hm]; linarith
+        have h2 : (k.toInt : ℝ) * m = -1 := by
+          have : ((k.toInt : ℝ) * m + 1) * (2 * π) = 0 := by linarith
+          rcases mul_eq_zero.1 this with h | h
+          · linarith
+          · linarith
+        have h3 : k.toInt * m = -1 := by exact_mod_cast h2
+        have h4 : m ∣ 1 := ⟨-k.toInt, by linarith⟩
+        have h5 := Int.le_of_dvd one_pos h4
+        omega
+    · refine apex_notMem_support_of_smul_ne hD hB hπ (fun y hy h => hm ?_) z
+      rw [massDevM_smul, massRot_smul] at h
+      have h2 := congrArg (fun v : Causal.Minkowski 2 => massRepr.symm v.2) h
+      simp only [LinearIsometryEquiv.symm_apply_apply, GammaA.toInt_ofInt, Int.cast_one,
+        one_mul, Circle.coe_exp, massDevM] at h2
+      refine exists_int_of_exp_mul_eq ?_ h2
+      rw [ne_eq, ← norm_eq_zero, DInfty.norm_cplx]
+      exact hy.ne'
+
+end MassiveSing
+
+end GX
+
+namespace GX
+open Set Filter Topology Function TopologicalSpace
+open scoped Real
+
+section CylLift
+
+variable {α : ℝ} {D : DInfty × ℝ → Causal.Minkowski 2}
+
+/-- `e0BoxSec` turns one period `α` of the angle into the deck generator of `Γ_α`. -/
+theorem e0BoxSec_add_period (α : ℝ) (w : ℂ × ℝ) :
+    e0BoxSec (w + (((α : ℝ) : ℂ) * Complex.I, 0)) = (GammaA.ofInt 1 : GammaA α) • e0BoxSec w := by
+  rw [DInfty.smul_prod_def, DInfty.smul_def, DInfty.rot_of_pos (e0BoxSec_mem w)]
+  refine Prod.ext (DInfty.ext ?_ ?_) ?_
+  · simp
+  · simp only [e0BoxSec_θ, Prod.fst_add, Complex.add_im, Complex.mul_im, Complex.ofReal_re,
+      Complex.I_im, Complex.ofReal_im, Complex.I_re]
+    simp
+  · simp
+
+/-- Near a point of `{r > 0}`, a chart of a model `Γ_α\(𝔻_∞ × ℝ)` developed by `D` is, read
+through the projection, a translate of `D` (`btz_eventually_chart` for every such model). -/
+theorem cyl_eventually_chart (hD : IsLocalHomeomorphOn D (cylPos ℝ))
+    [SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2) (Orbits (GammaA α) (DInfty × ℝ))]
+    (hπ : IsAEMorphismOf (Causal.Flat.isom 2)
+      (maximalAEAtlas (Causal.Flat.isom 2) (devAtlas (Causal.Flat.isom 2) D (cylPos ℝ)))
+      (aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (Orbits (GammaA α) (DInfty × ℝ)))
+      (orbitMk (GammaA α))) {y : DInfty × ℝ}
+    (hy : y ∈ cylPos ℝ) {c : OpenPartialHomeomorph (Orbits (GammaA α) (DInfty × ℝ)) (Causal.Minkowski 2)}
+    (hc : c ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (Orbits (GammaA α) (DInfty × ℝ)))
+    (hyc : orbitMk (GammaA α) y ∈ c.source) :
+    ∃ g : Causal.Flat.isom 2, ∀ᶠ y' in 𝓝 y, D y' = g • c (orbitMk (GammaA α) y') := by
+  have hP := DInfty.isPortly_pos ℝ
+  have hB := isMaximalAEAtlas_aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2)
+    (Orbits (GammaA α) (DInfty × ℝ))
+  have hdev := isAEAtlas_devAtlas (G := Causal.Flat.isom 2) hP hD
+  have hreg := hπ.regLocusOf_eq hdev.maximalAEAtlas hB.1
+  have hyR : y ∈ regLocusOf (Causal.Flat.isom 2)
+      (maximalAEAtlas (Causal.Flat.isom 2) (devAtlas (Causal.Flat.isom 2) D (cylPos ℝ)))
+      (aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (Orbits (GammaA α) (DInfty × ℝ)))
+      (orbitMk (GammaA α)) := by
+    rw [hreg]
+    exact ⟨subset_support_devStructure hP hD hy, mem_support.2 ⟨c, hc, hyc⟩⟩
+  have hys : y ∈ support (devAtlas (Causal.Flat.isom 2) D (cylPos ℝ)) := by
+    rw [support_devAtlas hP.isOpen hD]; exact hy
+  obtain ⟨e, he, hye⟩ := mem_support.1 hys
+  obtain ⟨g, hg⟩ := (isRegularOn_regLocusOf (G := Causal.Flat.isom 2) _ _ _).exists_smul_eq y hyR e
+    (hdev.subset_maximalAEAtlas he) c hc hye hyc
+  obtain ⟨h, hh⟩ := he.2 y hye
+  refine ⟨h * g⁻¹, ?_⟩
+  filter_upwards [hg, hh] with y' h1 h2
+  rw [h2, h1, mul_smul, inv_smul_smul]
+
+/-- **The lifting step of B21 Prop 1.3**, for any two models `Γ_{α₁}\(𝔻_∞ × ℝ)`,
+`Γ_{α₂}\(𝔻_∞ × ℝ)` developed by `D₁`, `D₂`: a map `F` which on the regular part of `U` is a
+local isometry, read on a convex region `B` of log-polar coordinates inside `U`, lifts to
+`L : B → {r > 0}` with `D₂ ∘ L = g · D₁ ∘ σ` for one `g` (Liouville on the simply connected `B`);
+if `B` is invariant under one turn `α₁`, the turn is carried by one deck element `k ∈ Γ_{α₂}`. -/
+theorem cyl_lift {α₁ α₂ : ℝ} (hα₂ : α₂ ≠ 0) {D₁ D₂ : DInfty × ℝ → Causal.Minkowski 2}
+    (hD₁ : IsLocalHomeomorphOn D₁ (cylPos ℝ)) (hD₂ : IsLocalHomeomorphOn D₂ (cylPos ℝ))
+    [s₁ : SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2)
+      (Orbits (GammaA α₁) (DInfty × ℝ))]
+    [s₂ : SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2)
+      (Orbits (GammaA α₂) (DInfty × ℝ))]
+    (hπ₁ : IsAEMorphismOf (Causal.Flat.isom 2)
+      (maximalAEAtlas (Causal.Flat.isom 2) (devAtlas (Causal.Flat.isom 2) D₁ (cylPos ℝ)))
+      (aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (Orbits (GammaA α₁) (DInfty × ℝ)))
+      (orbitMk (GammaA α₁)))
+    (hπ₂ : IsAEMorphismOf (Causal.Flat.isom 2)
+      (maximalAEAtlas (Causal.Flat.isom 2) (devAtlas (Causal.Flat.isom 2) D₂ (cylPos ℝ)))
+      (aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (Orbits (GammaA α₂) (DInfty × ℝ)))
+      (orbitMk (GammaA α₂)))
+    (hR₂ : Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (Orbits (GammaA α₂) (DInfty × ℝ)) =
+      orbitMk (GammaA α₂) '' cylPos ℝ)
+    {B : Set (ℂ × ℝ)} (hBo : IsOpen B) (hBc : Convex ℝ B) (hBne : B.Nonempty)
+    (hBs : ∀ w ∈ B, w + (((α₁ : ℝ) : ℂ) * Complex.I, 0) ∈ B)
+    {F : Orbits (GammaA α₁) (DInfty × ℝ) → Orbits (GammaA α₂) (DInfty × ℝ)}
+    (hFc : ∀ w ∈ B, ContinuousAt F (orbitMk (GammaA α₁) (e0BoxSec w)))
+    (hFreg : ∀ w ∈ B, F (orbitMk (GammaA α₁) (e0BoxSec w)) ∈
+      Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (Orbits (GammaA α₂) (DInfty × ℝ)))
+    (hFloc : ∀ w ∈ B,
+      ∃ c ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (Orbits (GammaA α₁) (DInfty × ℝ)),
+        orbitMk (GammaA α₁) (e0BoxSec w) ∈ c.source ∧
+      ∃ c' ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (Orbits (GammaA α₂) (DInfty × ℝ)),
+        F (orbitMk (GammaA α₁) (e0BoxSec w)) ∈ c'.source ∧
+      ∃ h : Causal.Flat.isom 2,
+        ∀ᶠ z in 𝓝 (orbitMk (GammaA α₁) (e0BoxSec w)), c' (F z) = h • c z) :
+    ∃ (L : B → DInfty × ℝ) (g : Causal.Flat.isom 2) (k : GammaA α₂), Continuous L ∧
+      (∀ a, L a ∈ cylPos ℝ) ∧
+      (∀ a, orbitMk (GammaA α₂) (L a) = F (orbitMk (GammaA α₁) (e0BoxSec a.1))) ∧
+      (∀ a, D₂ (L a) = g • D₁ (e0BoxSec a.1)) ∧
+      ∀ a : B, L ⟨_, hBs _ a.2⟩ = k • L a := by
+  obtain ⟨w₀, hw₀⟩ := hBne
+  haveI : ContractibleSpace B := hBc.contractibleSpace ⟨_, hw₀⟩
+  haveI : LocPathConnectedSpace B := hBo.locPathConnectedSpace
+  set σ : B → DInfty × ℝ := fun a => e0BoxSec a.1
+  have hσc : Continuous σ := isOpenEmbedding_e0BoxSec.continuous.comp continuous_subtype_val
+  have hσemb : IsOpenEmbedding σ := isOpenEmbedding_e0BoxSec.comp hBo.isOpenEmbedding_subtypeVal
+  have hσP : ∀ a, σ a ∈ cylPos ℝ := fun a => e0BoxSec_mem _
+  have hqσ : Continuous fun a : B => orbitMk (GammaA α₁) (σ a) := continuous_quot_mk.comp hσc
+  have hφc : Continuous fun a : B => F (orbitMk (GammaA α₁) (σ a)) :=
+    continuous_iff_continuousAt.2 fun a =>
+      ContinuousAt.comp (g := F) (f := fun a : B => orbitMk (GammaA α₁) (σ a))
+        (hFc _ a.2) hqσ.continuousAt
+  set φ : C(B, Orbits (GammaA α₂) (DInfty × ℝ)) :=
+    ⟨fun a => F (orbitMk (GammaA α₁) (σ a)), hφc⟩
+  have hs : ∀ a, φ a ∈ orbitMk (GammaA α₂) '' cylPos ℝ := fun a => by
+    rw [← hR₂]; exact hFreg _ a.2
+  have hcov := isCoveringMapOn_orbitMk_cylPos (Z := ℝ) hα₂
+  set a₀ : B := ⟨_, hw₀⟩
+  obtain ⟨e₀, -, he₀⟩ := hs a₀
+  obtain ⟨L, ⟨hL0, hLq⟩, -⟩ := hcov.existsUnique_continuousMap_lifts φ he₀ hs
+  have hLq' : ∀ a, orbitMk (GammaA α₂) (L a) = F (orbitMk (GammaA α₁) (σ a)) := fun a =>
+    congrFun hLq a
+  have hLP : ∀ a, L a ∈ cylPos ℝ := fun a => by
+    have : L a ∈ orbitMk (GammaA α₂) ⁻¹' (orbitMk (GammaA α₂) '' cylPos ℝ) := by
+      rw [mem_preimage, hLq']; exact hs a
+    rwa [preimage_image_cylPos] at this
+  have hloc : ∀ a ∈ (univ : Set B), ∃ g : Causal.Flat.isom 2,
+      ∀ᶠ a' in 𝓝 a, D₂ (L a') = g • D₁ (σ a') := by
+    intro a _
+    obtain ⟨c, hc, hxc, c', hc', hFxc, h, hh⟩ := hFloc _ a.2
+    obtain ⟨g₁, hg₁⟩ := cyl_eventually_chart hD₁ hπ₁ (hσP a) hc hxc
+    have hLc : orbitMk (GammaA α₂) (L a) ∈ c'.source := by rw [hLq']; exact hFxc
+    obtain ⟨g₂, hg₂⟩ := cyl_eventually_chart hD₂ hπ₂ (hLP a) hc' hLc
+    refine ⟨g₂ * h * g₁⁻¹, ?_⟩
+    filter_upwards [L.continuous.continuousAt.eventually hg₂, hσc.continuousAt.eventually hg₁,
+      hqσ.continuousAt.eventually hh] with a' e1 e2 e3
+    rw [e1, hLq', e3, e2, mul_smul, mul_smul, inv_smul_smul]
+  have hDσ : IsLocalHomeomorphOn (D₁ ∘ σ) univ :=
+    hD₁.comp hσemb.isLocalHomeomorph.isLocalHomeomorphOn fun a _ => hσP a
+  obtain ⟨g, hg⟩ := exists_smul_eq_on_of_isLocalHomeomorphOn (G := Causal.Flat.isom 2)
+    (F := D₂ ∘ L) isOpen_univ hDσ isPreconnected_univ subset_rfl hloc
+  -- the turn
+  set τ : B → B := fun a => ⟨_, hBs _ a.2⟩
+  have hτc : Continuous τ := (continuous_subtype_val.add continuous_const).subtype_mk _
+  have hστ : ∀ a, σ (τ a) = (GammaA.ofInt 1 : GammaA α₁) • σ a := fun a =>
+    e0BoxSec_add_period α₁ a.1
+  have hφτ : ∀ a, F (orbitMk (GammaA α₁) (σ (τ a))) = F (orbitMk (GammaA α₁) (σ a)) :=
+    fun a => by rw [hστ, orbitMk_smul]
+  obtain ⟨k, hk⟩ := exists_smul_eq_of_orbitMk_eq (Γ := GammaA α₂)
+    (show orbitMk (GammaA α₂) (L a₀) = orbitMk (GammaA α₂) (L (τ a₀)) by
+      rw [hLq', hLq', hφτ])
+  have he₁ : orbitMk (GammaA α₂) (L (τ a₀)) = φ a₀ := by
+    rw [hLq', hφτ]; rfl
+  have hLτ : L.comp ⟨τ, hτc⟩ = ⟨fun a => k • L a, (continuous_const_smul k).comp L.continuous⟩ :=
+    (hcov.existsUnique_continuousMap_lifts φ he₁ hs).unique
+      ⟨rfl, funext fun a => by
+        show orbitMk (GammaA α₂) (L (τ a)) = F (orbitMk (GammaA α₁) (σ a))
+        rw [hLq', hφτ]⟩
+      ⟨hk, funext fun a => by
+        show orbitMk (GammaA α₂) (k • L a) = F (orbitMk (GammaA α₁) (σ a))
+        rw [orbitMk_smul, hLq']⟩
+  exact ⟨L, g, k, L.continuous, hLP, hLq', fun a => hg a trivial,
+    fun a => DFunLike.congr_fun hLτ a⟩
+
+end CylLift
+
+end GX
+
+namespace GX
+open Set Filter Topology Function TopologicalSpace
+open scoped Real
+
+section MassCore
+
+theorem mass_reg (θ : MassIdx) :
+    Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1) = massMk θ.1 '' cylPos ℝ := by
+  have h := mass_sing θ
+  have h2 : (orbitMk (GammaA θ.1) '' {x : DInfty × ℝ | x.1 = DInfty.apex})ᶜ =
+      orbitMk (GammaA θ.1) '' cylPos ℝ := compl_image_axis θ.1
+  calc Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1)
+      = (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1))ᶜ := (compl_compl _).symm
+    _ = _ := by rw [h]; exact h2
+
+theorem continuous_massDevM : Continuous massDevM :=
+  continuous_snd.prodMk (massRepr.continuous.comp ((DInfty.continuous_cplx _).comp continuous_fst))
+
+theorem massDevM_apex (s : ℝ) : massDevM (DInfty.apex, s) = (s, 0) := by
+  simp [massDevM]
+
+/-- The points `(e^{c - 1 - n}, 0, s)` of the log-polar box tend to the axis point `(apex, s)`. -/
+theorem tendsto_e0BoxSec_seq (c s : ℝ) :
+    Tendsto (fun n : ℕ => e0BoxSec ((((c - 1 - n : ℝ)) : ℂ), s)) atTop (𝓝 (DInfty.apex, s)) := by
+  have h0 : Tendsto (fun n : ℕ => (c - 1) - (n : ℝ)) atTop atBot := by
+    refine tendsto_atBot.2 fun b => (eventually_ge_atTop ⌈c - 1 - b⌉₊).mono fun n hn => ?_
+    have h1 := Nat.le_ceil (c - 1 - b)
+    have h2 : (⌈c - 1 - b⌉₊ : ℝ) ≤ n := by exact_mod_cast hn
+    linarith
+  have h1 : Tendsto (fun n : ℕ => Real.exp (c - 1 - n)) atTop (𝓝 0) :=
+    Real.tendsto_exp_atBot.comp h0
+  have hfst : Tendsto (fun n : ℕ => (e0BoxSec ((((c - 1 - n : ℝ)) : ℂ), s)).1) atTop
+      (𝓝 DInfty.apex) := by
+    refine DInfty.hasBasis_nhds_apex.tendsto_right_iff.2 fun ε hε => ?_
+    filter_upwards [(h1.eventually (gt_mem_nhds hε))] with n hn
+    have hr : (e0BoxSec ((((c - 1 - n : ℝ)) : ℂ), s)).1.r = Real.exp (c - 1 - n) := by
+      rw [e0BoxSec_r, Complex.ofReal_re]
+    show (e0BoxSec ((((c - 1 - n : ℝ)) : ℂ), s)).1.r < ε
+    rw [hr]; exact hn
+  have hsnd : Tendsto (fun n : ℕ => (e0BoxSec ((((c - 1 - n : ℝ)) : ℂ), s)).2) atTop (𝓝 s) :=
+    tendsto_const_nhds.congr fun n => (e0BoxSec_t _).symm
+  exact hfst.prodMk_nhds hsnd
+
+/-- A sequence of the cylinder `Γ_α`-projecting to a sequence converging to an axis point
+converges to an axis point. -/
+theorem tendsto_cyl_of_tendsto_orbitMk {α : ℝ} (hα : α ≠ 0) {u : ℕ → DInfty × ℝ} {s : ℝ}
+    (hu : Tendsto (fun n => orbitMk (GammaA α) (u n)) atTop
+      (𝓝 (orbitMk (GammaA α) ((DInfty.apex, s) : DInfty × ℝ)))) :
+    Tendsto u atTop (𝓝 (DInfty.apex, s)) := by
+  have h1 := ((cylHomeomorph hα ℝ).continuous.tendsto _).comp hu
+  simp only [comp_def, cylHomeomorph_apply, DInfty.cplx_apex] at h1
+  rw [nhds_prod_eq] at h1 ⊢
+  have hr : Tendsto (fun n => (u n).1.r) atTop (𝓝 0) := by
+    have := (continuous_norm.tendsto _).comp (h1.fst)
+    simpa [comp_def, DInfty.norm_cplx] using this
+  refine Tendsto.prodMk ?_ h1.snd
+  refine DInfty.hasBasis_nhds_apex.tendsto_right_iff.2 fun ε hε => ?_
+  exact hr.eventually (gt_mem_nhds hε)
+
+end MassCore
+
+end GX
+
+namespace GX
+open Set Filter Topology Function TopologicalSpace
+open scoped Real
+
+section TimeAxis
+
+/-- **An isometry of `𝐌³` keeping two points of the time axis on it is a rotation about the axis
+followed by a time translation.** -/
+theorem isom_eq_of_timeAxis (g : Causal.Flat.isom 2) {s₁ s₂ : ℝ} (hs : s₁ ≠ s₂)
+    (h₁ : (g • ((s₁, 0) : Causal.Minkowski 2)).2 = 0)
+    (h₂ : (g • ((s₂, 0) : Causal.Minkowski 2)).2 = 0) :
+    ∃ c γ : ℝ, ∀ v : Causal.Minkowski 2,
+      g • v = (v.1 + c, massRepr (Circle.exp γ * massRepr.symm v.2)) := by
+  set f : Causal.Minkowski 2 ≃ᵃ[ℝ] Causal.Minkowski 2 := g.1
+  set A : Causal.Minkowski 2 →ₗ[ℝ] Causal.Minkowski 2 := f.linear.toLinearMap with hAdef
+  have hA : f.linear ∈ Causal.Flat.lorentz 2 := g.2
+  have hQ : ∀ v, Causal.Flat.minkQ (A v) = Causal.Flat.minkQ v :=
+    Causal.Flat.lorentz.minkQ_apply hA
+  have hsmul : ∀ v, g • v = f v := fun v => rfl
+  have hdec : ∀ v, f v = A v + f 0 := fun v => by
+    have h := f.toAffineMap.linearMap_vsub v 0
+    rw [vsub_eq_sub, vsub_eq_sub, sub_zero] at h
+    rw [show A v = f v - f 0 from h]; abel
+  set e₀ : Causal.Minkowski 2 := ((1 : ℝ), (0 : EuclideanSpace ℝ (Fin 2)))
+  have hse : ∀ s : ℝ, ((s, 0) : Causal.Minkowski 2) = s • e₀ := fun s => by
+    simp [e₀, Prod.smul_mk]
+  have hf : ∀ s : ℝ, f ((s, 0) : Causal.Minkowski 2) = s • A e₀ + f 0 := fun s => by
+    rw [hdec, hse, map_smul]
+  have h₁' := h₁; have h₂' := h₂
+  rw [hsmul, hf] at h₁' h₂'
+  simp only [Prod.snd_add, Prod.smul_snd] at h₁' h₂'
+  have hAe2 : (A e₀).2 = 0 := by
+    have : (s₁ - s₂) • (A e₀).2 = 0 := by
+      rw [sub_smul]
+      have : s₁ • (A e₀).2 - s₂ • (A e₀).2 =
+          (s₁ • (A e₀).2 + (f 0).2) - (s₂ • (A e₀).2 + (f 0).2) := by abel
+      rw [this, h₁', h₂', sub_self]
+    exact (smul_eq_zero.1 this).resolve_left (sub_ne_zero.2 hs)
+  have hAe1 : (A e₀).1 = 1 := by
+    have hq := hQ e₀
+    have hfc : Causal.Flat.IsFutureCausal (A e₀) :=
+      Causal.Flat.lorentz.isFutureCausal_apply hA (v := e₀) ⟨by simp [e₀],
+        by simp [Causal.Flat.minkQ, e₀]⟩
+    simp only [Causal.Flat.minkQ, hAe2, norm_zero, e₀] at hq
+    simp at hq
+    have h0 := hfc.1
+    rcases hq with h | h
+    · exact h
+    · exfalso; have : (A e₀).1 = -1 := h; linarith
+  have hAe : A e₀ = e₀ := Prod.ext hAe1 hAe2
+  have hb2 : (f 0).2 = 0 := by rw [hAe2, smul_zero, zero_add] at h₁'; exact h₁'
+  -- the spatial part
+  set R : EuclideanSpace ℝ (Fin 2) →ₗ[ℝ] EuclideanSpace ℝ (Fin 2) :=
+    LinearMap.snd ℝ ℝ (EuclideanSpace ℝ (Fin 2)) ∘ₗ A ∘ₗ LinearMap.inr ℝ ℝ (EuclideanSpace ℝ (Fin 2))
+    with hRdef
+  have hAv1 : ∀ v : EuclideanSpace ℝ (Fin 2), (A (0, v)).1 = 0 := fun v => by
+    have h := Causal.Flat.minkB_map_of_minkQ hQ ((0, v) : Causal.Minkowski 2) e₀
+    rw [hAe] at h
+    simpa [Causal.Flat.minkB, e₀] using h
+  have hAv : ∀ v : EuclideanSpace ℝ (Fin 2), A (0, v) = (0, R v) := fun v =>
+    Prod.ext (hAv1 v) rfl
+  have hAw : ∀ w : Causal.Minkowski 2, A w = (w.1, R w.2) := fun w => by
+    have : w = w.1 • e₀ + (0, w.2) := by ext <;> simp [e₀]
+    rw [this, map_add, map_smul, hAe, hAv]
+    ext <;> simp [e₀]
+  have hRn : ∀ v, ‖R v‖ = ‖v‖ := fun v => by
+    have h := hQ ((0, v) : Causal.Minkowski 2)
+    rw [hAv] at h
+    simp only [Causal.Flat.minkQ] at h
+    have h2 : ‖R v‖ ^ 2 = ‖v‖ ^ 2 := by simpa using h
+    exact (sq_eq_sq₀ (norm_nonneg _) (norm_nonneg _)).1 h2
+  -- read on `ℂ`
+  set R' : ℂ →ₗᵢ[ℝ] ℂ :=
+    { toLinearMap := massRepr.symm.toLinearEquiv.toLinearMap ∘ₗ R ∘ₗ
+        massRepr.toLinearEquiv.toLinearMap
+      norm_map' := fun z => by
+        simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, comp_apply,
+          LinearIsometryEquiv.coe_toLinearEquiv, LinearIsometryEquiv.norm_map, hRn] }
+  set R'' : ℂ ≃ₗᵢ[ℝ] ℂ := R'.toLinearIsometryEquiv rfl
+  have hR''z : ∀ z, R'' z = massRepr.symm (R (massRepr z)) := fun z => rfl
+  -- determinant
+  have hdetA : LinearMap.det A = 1 := Causal.Flat.lorentz.det_eq_one hA
+  have hAprod : A = LinearMap.prodMap LinearMap.id R := by
+    apply LinearMap.ext; intro w; rw [hAw]; rfl
+  have hdetR : LinearMap.det R = 1 := by
+    rw [hAprod, LinearMap.det_prodMap, LinearMap.det_id, one_mul] at hdetA; exact hdetA
+  have hdetR' : LinearMap.det (R''.toLinearEquiv : ℂ →ₗ[ℝ] ℂ) = 1 := by
+    have : (R''.toLinearEquiv : ℂ →ₗ[ℝ] ℂ) = (massRepr.symm.toLinearEquiv : _ →ₗ[ℝ] ℂ) ∘ₗ R ∘ₗ
+        (massRepr.symm.toLinearEquiv.symm : ℂ →ₗ[ℝ] _) := rfl
+    rw [this, LinearMap.det_conj, hdetR]
+  obtain ⟨a, ha | ha⟩ := linear_isometry_complex R''
+  swap
+  · exfalso
+    have h1 : (R''.toLinearEquiv : ℂ →ₗ[ℝ] ℂ) =
+        ((rotation a).toLinearEquiv : ℂ →ₗ[ℝ] ℂ) ∘ₗ Complex.conjAe.toLinearEquiv.toLinearMap := by
+      rw [ha]; rfl
+    rw [h1, LinearMap.det_comp, det_rotation, Complex.det_conjAe] at hdetR'
+    norm_num at hdetR'
+  obtain ⟨γ, hγ⟩ := Circle.exp_surjective a
+  refine ⟨(f 0).1, γ, fun v => ?_⟩
+  rw [hsmul, hdec, hAw]
+  have hRv : R v.2 = massRepr (Circle.exp γ * massRepr.symm v.2) := by
+    have h := congrArg (fun F : ℂ ≃ₗᵢ[ℝ] ℂ => F (massRepr.symm v.2)) ha
+    simp only [hR''z, LinearIsometryEquiv.apply_symm_apply, rotation_apply] at h
+    rw [hγ, ← h, LinearIsometryEquiv.apply_symm_apply]
+  ext
+  · simp
+  · simp [hb2, hRv]
+
+end TimeAxis
+
+end GX
+
+namespace GX
+open Set Filter Topology Function TopologicalSpace
+open scoped Real
+
+section CylAut
+
+/-- A homeomorphism of the cylinder normalising `Γ_α` descends to `Γ_α\(𝔻_∞ × ℝ)`. -/
+noncomputable def cylDescend {α : ℝ} (ψ : DInfty × ℝ ≃ₜ DInfty × ℝ)
+    (h₁ : ∀ (m : GammaA α) (y : DInfty × ℝ), ∃ m' : GammaA α, ψ (m • y) = m' • ψ y)
+    (h₂ : ∀ (m : GammaA α) (y : DInfty × ℝ), ∃ m' : GammaA α,
+      ψ.symm (m • y) = m' • ψ.symm y) :
+    Orbits (GammaA α) (DInfty × ℝ) ≃ₜ Orbits (GammaA α) (DInfty × ℝ) where
+  toFun := Quotient.map' ψ fun a b hab => by
+    obtain ⟨m, rfl⟩ := MulAction.mem_orbit_iff.1 (MulAction.orbitRel_apply.1 hab)
+    obtain ⟨m', hm'⟩ := h₁ m b
+    exact MulAction.orbitRel_apply.2 (MulAction.mem_orbit_iff.2 ⟨m', hm'.symm⟩)
+  invFun := Quotient.map' ψ.symm fun a b hab => by
+    obtain ⟨m, rfl⟩ := MulAction.mem_orbit_iff.1 (MulAction.orbitRel_apply.1 hab)
+    obtain ⟨m', hm'⟩ := h₂ m b
+    exact MulAction.orbitRel_apply.2 (MulAction.mem_orbit_iff.2 ⟨m', hm'.symm⟩)
+  left_inv := fun x => Quotient.inductionOn' x fun y => by
+    simp only [Quotient.map'_mk'']; rw [ψ.symm_apply_apply]
+  right_inv := fun x => Quotient.inductionOn' x fun y => by
+    simp only [Quotient.map'_mk'']; rw [ψ.apply_symm_apply]
+  continuous_toFun := Continuous.quotient_map' ψ.continuous _
+  continuous_invFun := Continuous.quotient_map' ψ.symm.continuous _
+
+theorem cylDescend_mk {α : ℝ} (ψ : DInfty × ℝ ≃ₜ DInfty × ℝ) (h₁ h₂) (y : DInfty × ℝ) :
+    cylDescend (α := α) ψ h₁ h₂ (orbitMk (GammaA α) y) = orbitMk (GammaA α) (ψ y) := rfl
+
+/-- A homeomorphism of a model `Γ_α\(𝔻_∞ × ℝ)` lifting `D`-equivariantly to the cylinder, `{r > 0}`
+preserved, is an automorphism (`btzE0_isAEMorphism_of_lift` for every such model). -/
+theorem cyl_isAEMorphism_of_lift {α : ℝ} {D : DInfty × ℝ → Causal.Minkowski 2}
+    (hD : IsLocalHomeomorphOn D (cylPos ℝ))
+    [s : SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2)
+      (Orbits (GammaA α) (DInfty × ℝ))]
+    (hπ : IsAEMorphismOf (Causal.Flat.isom 2)
+      (maximalAEAtlas (Causal.Flat.isom 2) (devAtlas (Causal.Flat.isom 2) D (cylPos ℝ)))
+      (aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (Orbits (GammaA α) (DInfty × ℝ)))
+      (orbitMk (GammaA α)))
+    (hR : Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (Orbits (GammaA α) (DInfty × ℝ)) =
+      orbitMk (GammaA α) '' cylPos ℝ)
+    (Ψ : Orbits (GammaA α) (DInfty × ℝ) ≃ₜ Orbits (GammaA α) (DInfty × ℝ))
+    (ψ : DInfty × ℝ ≃ₜ DInfty × ℝ) (g : Causal.Flat.isom 2)
+    (hlift : ∀ y, Ψ (orbitMk (GammaA α) y) = orbitMk (GammaA α) (ψ y))
+    (hpos : ∀ y, ψ y ∈ cylPos ℝ ↔ y ∈ cylPos ℝ)
+    (hDψ : ∀ y ∈ cylPos ℝ, D (ψ y) = g • D y) :
+    IsAEMorphism (Causal.Flat.isom 2) (Causal.Minkowski 2) (Ψ : Orbits (GammaA α) (DInfty × ℝ) →
+      Orbits (GammaA α) (DInfty × ℝ)) := by
+  have hB := isMaximalAEAtlas_aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2)
+    (Orbits (GammaA α) (DInfty × ℝ))
+  have hmaps : MapsTo Ψ (Reg (Causal.Flat.isom 2) (Causal.Minkowski 2)
+      (Orbits (GammaA α) (DInfty × ℝ))) (Reg (Causal.Flat.isom 2) (Causal.Minkowski 2)
+      (Orbits (GammaA α) (DInfty × ℝ))) := by
+    intro x hx
+    rw [hR] at hx ⊢
+    obtain ⟨yt, hyt, rfl⟩ := hx
+    exact ⟨ψ yt, (hpos yt).2 hyt, (hlift yt).symm⟩
+  refine (isAEMorphismOf_iff hB.1).2 ⟨Ψ.continuous, _, isPortly_reg _ _ _,
+    IsRegularOn.of_exists hB.1.1 hB.1.1 (isOpen_reg _ _ _) subset_rfl hmaps
+      Ψ.continuous.continuousOn fun x hx => ?_⟩
+  obtain ⟨c₀, hc₀, hxc₀⟩ := mem_support.1 hx
+  have hxR := hx
+  rw [hR] at hxR
+  obtain ⟨yt, hyt, rfl⟩ := hxR
+  have hψyt : ψ yt ∈ cylPos ℝ := (hpos yt).2 hyt
+  obtain ⟨c₀', hc₀', hxc₀'⟩ := mem_support.1 (hmaps hx)
+  have hxc₀'' : orbitMk (GammaA α) (ψ yt) ∈ c₀'.source := by rw [← hlift]; exact hxc₀'
+  obtain ⟨h₁, hh₁⟩ := cyl_eventually_chart hD hπ hyt hc₀ hxc₀
+  obtain ⟨h₂, hh₂⟩ := cyl_eventually_chart hD hπ hψyt hc₀' hxc₀''
+  refine ⟨c₀, hc₀, c₀', hc₀', hxc₀, hxc₀', h₂⁻¹ * g * h₁, ?_⟩
+  have hcyl : ∀ᶠ y' in 𝓝 yt, c₀' (Ψ (orbitMk (GammaA α) y')) =
+      (h₂⁻¹ * g * h₁) • c₀ (orbitMk (GammaA α) y') := by
+    filter_upwards [hh₁, ψ.continuous.continuousAt.eventually hh₂,
+      (isOpen_lt continuous_const (DInfty.continuous_r'.comp continuous_fst)).mem_nhds hyt]
+      with y' e1 e2 e3
+    rw [hlift, mul_smul, mul_smul, ← e1, ← hDψ y' e3, e2, inv_smul_smul]
+  exact (isOpenMap_quotient_mk'_mul.nhds_le yt) (eventually_map.2 hcyl)
+
+/-- A continuous function with integer values on a preconnected space is constant. -/
+theorem eq_of_int_valued {Y : Type*} [TopologicalSpace Y] [PreconnectedSpace Y] {f : Y → ℝ}
+    (hf : Continuous f) (hZ : ∀ y, ∃ m : ℤ, f y = m) (y₀ y : Y) : f y = f y₀ := by
+  obtain ⟨m₀, hm₀⟩ := hZ y₀
+  obtain ⟨m, hm⟩ := hZ y
+  by_contra hne
+  rcases lt_or_gt_of_ne hne with h | h
+  · obtain ⟨z, hz⟩ := intermediate_value_univ y y₀ hf
+      (show (m : ℝ) + 1 / 2 ∈ Icc (f y) (f y₀) by
+        rw [hm, hm₀] at h ⊢
+        have : m < m₀ := by exact_mod_cast h
+        have : (m : ℝ) + 1 ≤ m₀ := by exact_mod_cast this
+        constructor <;> linarith)
+    obtain ⟨m', hm'⟩ := hZ z
+    rw [hm'] at hz
+    have h1 : (m : ℝ) < m' := by linarith
+    have h2 : (m' : ℝ) < m + 1 := by linarith
+    have h1' : m < m' := by exact_mod_cast h1
+    have h2' : m' < m + 1 := by exact_mod_cast h2
+    omega
+  · obtain ⟨z, hz⟩ := intermediate_value_univ y₀ y hf
+      (show (m₀ : ℝ) + 1 / 2 ∈ Icc (f y₀) (f y) by
+        rw [hm, hm₀] at h ⊢
+        have : m₀ < m := by exact_mod_cast h
+        have : (m₀ : ℝ) + 1 ≤ m := by exact_mod_cast this
+        constructor <;> linarith)
+    obtain ⟨m', hm'⟩ := hZ z
+    rw [hm'] at hz
+    have h1 : (m₀ : ℝ) < m' := by linarith
+    have h2 : (m' : ℝ) < m₀ + 1 := by linarith
+    have h1' : m₀ < m' := by exact_mod_cast h1
+    have h2' : m' < m₀ + 1 := by exact_mod_cast h2
+    omega
+
+end CylAut
+
+end GX
+
+namespace GX
+open Set Filter Topology Function TopologicalSpace
+open scoped Real
+
+section MassCases
+
+/-- `Isom(𝐌³)` preserves `minkQ` of differences. -/
+theorem minkQ_isom_sub (g : Causal.Flat.isom 2) (v w : Causal.Minkowski 2) :
+    Causal.Flat.minkQ (g • v - g • w) = Causal.Flat.minkQ (v - w) := by
+  have h := (g.1 : Causal.Minkowski 2 ≃ᵃ[ℝ] Causal.Minkowski 2).toAffineMap.linearMap_vsub v w
+  rw [vsub_eq_sub, vsub_eq_sub] at h
+  show Causal.Flat.minkQ (g.1 v - g.1 w) = _
+  rw [show g.1 v - g.1 w = g.1.linear (v - w) from h.symm]
+  exact Causal.Flat.lorentz.minkQ_apply g.2 _
+
+/-- An axis point of `𝔼_θ` has a log-polar box around it inside any open set containing it. -/
+theorem mass_box (θ : MassIdx) {U : Set (MassModel θ.1)} (hU : IsOpen U) {x₀ : MassModel θ.1}
+    (hx₀U : x₀ ∈ U) (hx₀S : x₀ ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1)) :
+    ∃ ε > 0, ∃ δ > 0, ∃ t₀ : ℝ, (∀ w ∈ e0Box (Real.log ε) t₀ δ, massMk θ.1 (e0BoxSec w) ∈ U) ∧
+      (∀ s ∈ Metric.ball t₀ δ, massMk θ.1 (DInfty.apex, s) ∈ U) := by
+  rw [mass_sing θ] at hx₀S
+  obtain ⟨⟨p, t⟩, hp, rfl⟩ := hx₀S
+  simp only [mem_setOf_eq] at hp
+  subst hp
+  have hpre : massMk θ.1 ⁻¹' U ∈ 𝓝 ((DInfty.apex, t) : DInfty × ℝ) :=
+    (hU.preimage continuous_quot_mk).mem_nhds hx₀U
+  obtain ⟨ε, hε, δ, hδ, hsub⟩ := cylBasic_subset hpre
+  refine ⟨ε, hε, δ, hδ, t, fun w hw => hsub ⟨?_, hw.2⟩, fun s hs => hsub ⟨?_, hs⟩⟩
+  · show (e0BoxSec w).1.r < ε
+    rw [e0BoxSec_r]; exact (Real.lt_log_iff_exp_lt hε).1 hw.1
+  · show DInfty.apex.r < ε
+    rw [DInfty.apex_r]; exact hε
+
+theorem mem_e0Box_seq {ε δ t₀ s : ℝ} (hs : s ∈ Metric.ball t₀ δ) (n : ℕ) :
+    ((((Real.log ε - 1 - n : ℝ)) : ℂ), s) ∈ e0Box (Real.log ε) t₀ δ := by
+  refine ⟨?_, hs⟩
+  show (((Real.log ε - 1 - n : ℝ)) : ℂ).re < Real.log ε
+  rw [Complex.ofReal_re]
+  have : (0 : ℝ) ≤ n := Nat.cast_nonneg n
+  linarith
+
+end MassCases
+
+end GX
+
+namespace GX
+open Set Filter Topology Function TopologicalSpace
+open scoped Real
+
+section MassCases2
+
+set_option maxHeartbeats 1600000 in
+/-- **The lift at an axis point of `𝔼_θ`**: for an isomorphism `F` from a neighbourhood of a
+singular point of `𝔼_θ` into a model `Γ_{α₂}\(𝔻_∞ × ℝ)` developed by `D₂`, a log-polar box, the
+lift `L` of `cyl_lift` and its limits along the radial sequences: `L` tends to an axis point of
+the target cylinder and `D₂ ∘ L` to `g · (s, 0)`. -/
+theorem mass_lift_axis (θ : MassIdx) {α₂ : ℝ} (hα₂ : α₂ ≠ 0) {D₂ : DInfty × ℝ → Causal.Minkowski 2}
+    (hD₂ : IsLocalHomeomorphOn D₂ (cylPos ℝ))
+    [s₂ : SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2)
+      (Orbits (GammaA α₂) (DInfty × ℝ))]
+    (hπ₂ : IsAEMorphismOf (Causal.Flat.isom 2)
+      (maximalAEAtlas (Causal.Flat.isom 2) (devAtlas (Causal.Flat.isom 2) D₂ (cylPos ℝ)))
+      (aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (Orbits (GammaA α₂) (DInfty × ℝ)))
+      (orbitMk (GammaA α₂)))
+    (hR₂ : Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (Orbits (GammaA α₂) (DInfty × ℝ)) =
+      orbitMk (GammaA α₂) '' cylPos ℝ)
+    (hS₂ : Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (Orbits (GammaA α₂) (DInfty × ℝ)) =
+      orbitMk (GammaA α₂) '' {x : DInfty × ℝ | x.1 = DInfty.apex})
+    {U : Set (MassModel θ.1)} (hU : IsOpen U) {x₀ : MassModel θ.1} (hx₀U : x₀ ∈ U)
+    (hx₀S : x₀ ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1))
+    {F : MassModel θ.1 → Orbits (GammaA α₂) (DInfty × ℝ)}
+    (hFc : ∀ x ∈ U, ContinuousAt F x)
+    (hFs : ∀ x ∈ U, x ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1) →
+      F x ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (Orbits (GammaA α₂) (DInfty × ℝ)))
+    (hFreg : ∀ x ∈ U ∩ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1),
+      F x ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (Orbits (GammaA α₂) (DInfty × ℝ)))
+    (hFloc : ∀ x ∈ U ∩ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1),
+      ∃ c ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1), x ∈ c.source ∧
+      ∃ c' ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (Orbits (GammaA α₂) (DInfty × ℝ)),
+        F x ∈ c'.source ∧ ∃ h : Causal.Flat.isom 2, ∀ᶠ z in 𝓝 x, c' (F z) = h • c z) :
+    ∃ (ε δ t₀ : ℝ) (_ : 0 < ε) (_ : 0 < δ) (L : e0Box (Real.log ε) t₀ δ → DInfty × ℝ)
+      (g : Causal.Flat.isom 2) (k : GammaA α₂),
+      Continuous L ∧ (∀ a, L a ∈ cylPos ℝ) ∧
+      (∀ a, orbitMk (GammaA α₂) (L a) = F (massMk θ.1 (e0BoxSec a.1))) ∧
+      (∀ a, D₂ (L a) = g • massDevM (e0BoxSec a.1)) ∧
+      (∀ a : e0Box (Real.log ε) t₀ δ, L ⟨_, mem_e0Box_add a.2 θ.1⟩ = k • L a) ∧
+      (∀ w ∈ e0Box (Real.log ε) t₀ δ, massMk θ.1 (e0BoxSec w) ∈ U) ∧
+      ∀ s (hs : s ∈ Metric.ball t₀ δ), ∃ s' : ℝ,
+        Tendsto (fun n : ℕ => L ⟨_, mem_e0Box_seq hs n⟩) atTop (𝓝 (DInfty.apex, s')) ∧
+        Tendsto (fun n : ℕ => D₂ (L ⟨_, mem_e0Box_seq hs n⟩)) atTop
+          (𝓝 (g • ((s, 0) : Causal.Minkowski 2))) := by
+  obtain ⟨ε, hε, δ, hδ, t₀, hBU, hAxU⟩ := mass_box θ hU hx₀U hx₀S
+  have hregσ : ∀ w, massMk θ.1 (e0BoxSec w) ∈
+      Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1) := fun w => by
+    rw [mass_reg θ]; exact ⟨_, e0BoxSec_mem w, rfl⟩
+  obtain ⟨L, g, k, hLc, hLP, hLq, hLD, hdeck⟩ := cyl_lift (α₁ := θ.1) hα₂
+    isLocalHomeomorphOn_massDevM hD₂ (s₁ := massStructure θ) (s₂ := s₂)
+    (isMassStructure_massStructure θ) hπ₂ hR₂ (isOpen_e0Box _ _ _) (convex_e0Box _ _ _)
+    ⟨_, mem_e0Box_seq (Metric.mem_ball_self hδ) 0⟩ (fun w hw => mem_e0Box_add hw θ.1) (F := F)
+    (fun w hw => hFc _ (hBU w hw)) (fun w hw => hFreg _ ⟨hBU w hw, hregσ w⟩)
+    (fun w hw => hFloc _ ⟨hBU w hw, hregσ w⟩)
+  refine ⟨ε, δ, t₀, hε, hδ, L, g, k, hLc, hLP, hLq, hLD, hdeck, hBU, fun s hs => ?_⟩
+  have hseq := tendsto_e0BoxSec_seq (Real.log ε) s
+  have hFx : Tendsto (fun n : ℕ => F (massMk θ.1 (e0BoxSec ((((Real.log ε - 1 - n : ℝ)) : ℂ),
+      s)))) atTop (𝓝 (F (massMk θ.1 (DInfty.apex, s)))) :=
+    (hFc _ (hAxU s hs)).tendsto.comp ((continuous_quot_mk.tendsto _).comp hseq)
+  have hsing : massMk θ.1 (DInfty.apex, s) ∈
+      Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1) := by
+    rw [mass_sing]; exact ⟨_, rfl, rfl⟩
+  have hFs' := hFs _ (hAxU s hs) hsing
+  rw [hS₂] at hFs'
+  obtain ⟨⟨p', s'⟩, hp', hps'⟩ := hFs'
+  simp only [mem_setOf_eq] at hp'
+  subst hp'
+  refine ⟨s', tendsto_cyl_of_tendsto_orbitMk hα₂ ?_, ?_⟩
+  · rw [hps']; exact hFx.congr fun n => (hLq _).symm
+  · have h1 : Tendsto (fun n : ℕ => g • massDevM (e0BoxSec ((((Real.log ε - 1 - n : ℝ)) : ℂ),
+        s))) atTop (𝓝 (g • ((s, 0) : Causal.Minkowski 2))) := by
+      rw [← massDevM_apex]
+      exact ((continuous_const_smul g).tendsto _).comp ((continuous_massDevM.tendsto _).comp hseq)
+    exact h1.congr fun n => (hLD _).symm
+
+end MassCases2
+
+end GX
+
+namespace GX
+open Set Filter Topology Function TopologicalSpace
+open scoped Real
+
+section MassToBTZ
+
+attribute [local instance] btzE0Structure
+
+/-- **No isomorphism carries a singular point of a massive cone `𝔼_θ` into `𝔼₀`** (the type of a
+singular point, B21 Prop 1.3): read through the lift, `g` would send two points of the timelike
+axis `(s, 0)` into cluster values of the BTZ developing map at the axis, i.e. onto the lightlike
+line `Δ` (`btzDev_cluster`); an isometry cannot make a timelike segment lightlike. -/
+theorem mass_to_btz_false (θ : MassIdx) {U : Set (MassModel θ.1)} (hU : IsOpen U)
+    {x₀ : MassModel θ.1} (hx₀U : x₀ ∈ U)
+    (hx₀S : x₀ ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1))
+    {F : MassModel θ.1 → BTZE0}
+    (hFc : ∀ x ∈ U, ContinuousAt F x)
+    (hFs : ∀ x ∈ U, x ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1) →
+      F x ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)
+    (hFreg : ∀ x ∈ U ∩ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1),
+      F x ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)
+    (hFloc : ∀ x ∈ U ∩ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1),
+      ∃ c ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1), x ∈ c.source ∧
+      ∃ c' ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0,
+        F x ∈ c'.source ∧ ∃ h : Causal.Flat.isom 2, ∀ᶠ z in 𝓝 x, c' (F z) = h • c z) :
+    False := by
+  obtain ⟨ε, δ, t₀, hε, hδ, L, g, k, -, -, -, -, -, -, hlim⟩ := mass_lift_axis θ
+    btz_two_pi_ne_zero (isLocalHomeomorphOn_btzDevM 0 btzV0_pos) (s₂ := btzE0Structure)
+    isBTZStructure_btzE0 btzE0_reg_eq
+    (btz_sing btzV0_pos btz_two_pi_ne_zero isBTZStructure_btzE0) hU hx₀U hx₀S hFc hFs hFreg hFloc
+  have key : ∀ s ∈ Metric.ball t₀ δ, ∃ a : ℝ,
+      g • ((s, 0) : Causal.Minkowski 2) = nullToMink (a • nullU) := by
+    intro s hs
+    obtain ⟨s', hL, hD⟩ := hlim s hs
+    have hw : Tendsto (btzDev 0 btzV0) (map (fun n : ℕ => L ⟨_, mem_e0Box_seq hs n⟩) atTop)
+        (𝓝 (nullToMink.symm (g • ((s, 0) : Causal.Minkowski 2)))) := by
+      rw [tendsto_map'_iff]
+      have := (nullToMinkHomeomorph.symm.continuous.tendsto _).comp hD
+      refine this.congr fun n => ?_
+      simp [btzDevM]
+    obtain ⟨a, -, ha⟩ := btzDev_cluster 0 btzV0_pos (F := map _ atTop) hL hw
+    refine ⟨a, ?_⟩
+    rw [zero_add] at ha
+    rw [← ha, LinearEquiv.apply_symm_apply]
+  obtain ⟨a₁, h₁⟩ := key t₀ (Metric.mem_ball_self hδ)
+  obtain ⟨a₂, h₂⟩ := key (t₀ + δ / 2) (by
+    rw [Metric.mem_ball, Real.dist_eq, add_sub_cancel_left, abs_of_pos (half_pos hδ)]
+    exact half_lt_self hδ)
+  have hQ := minkQ_isom_sub g ((t₀ + δ / 2, 0) : Causal.Minkowski 2) ((t₀, 0) : Causal.Minkowski 2)
+  rw [h₁, h₂, ← map_sub, ← sub_smul, minkQ_nullToMink, nullQ_smul] at hQ
+  simp [nullQ, nullU, Causal.Flat.minkQ] at hQ
+  nlinarith
+
+end MassToBTZ
+
+end GX
+
+namespace GX
+open Set Filter Topology Function TopologicalSpace
+open scoped Real
+
+section MassToMass
+
+theorem cplx_two_pi (q : DInfty) :
+    DInfty.cplx (2 * π) q = (q.r : ℂ) * Complex.exp ((q.θ : ℂ) * Complex.I) := by
+  rw [DInfty.cplx]
+  congr 3
+  field_simp
+
+/-- A lift `L` of `g · D ∘ σ` through the massive developing map, `g` a rotation about the time
+axis followed by a time translation, is a rotation-translation of the cylinder (one integer of
+turns, by continuity). -/
+theorem mass_lift_eq_rot {B : Set (ℂ × ℝ)} [PreconnectedSpace B] {L : B → DInfty × ℝ}
+    (hLc : Continuous L) (hLP : ∀ a, L a ∈ cylPos ℝ) {c γ : ℝ}
+    (hLD : ∀ a, massDevM (L a) = ((massDevM (e0BoxSec a.1)).1 + c,
+      massRepr (Circle.exp γ * massRepr.symm (massDevM (e0BoxSec a.1)).2))) (a₀ : B) :
+    ∃ γ' : ℝ, Circle.exp γ' = Circle.exp γ ∧
+      ∀ a, L a = (DInfty.rot γ' (e0BoxSec a.1).1, (e0BoxSec a.1).2 + c) := by
+  have hπ : (0 : ℝ) < π := Real.pi_pos
+  -- pointwise
+  have hpt : ∀ a, (L a).2 = (e0BoxSec a.1).2 + c ∧ (L a).1.r = (e0BoxSec a.1).1.r ∧
+      ∃ n : ℤ, (L a).1.θ = γ + (e0BoxSec a.1).1.θ + n * (2 * π) := by
+    intro a
+    have h := hLD a
+    simp only [massDevM, LinearIsometryEquiv.symm_apply_apply, Prod.mk.injEq] at h
+    obtain ⟨h1, h2⟩ := h
+    have h2' := massRepr.injective h2
+    rw [cplx_two_pi, cplx_two_pi, Circle.coe_exp] at h2'
+    set p := (e0BoxSec a.1).1
+    set q := (L a).1
+    have hp : 0 < p.r := e0BoxSec_mem _
+    have hq : 0 < q.r := hLP a
+    have hr : q.r = p.r := by
+      have := congrArg norm h2'
+      simp only [norm_mul, Complex.norm_real, Complex.norm_exp_ofReal_mul_I, mul_one,
+        Real.norm_of_nonneg hq.le, Real.norm_of_nonneg hp.le] at this
+      linarith
+    refine ⟨h1, hr, ?_⟩
+    rw [hr] at h2'
+    have hpc : (p.r : ℂ) ≠ 0 := Complex.ofReal_ne_zero.2 hp.ne'
+    have h3 : Complex.exp ((q.θ : ℂ) * Complex.I) = Complex.exp (((γ + p.θ : ℝ) : ℂ) * Complex.I) := by
+      have : (p.r : ℂ) * Complex.exp ((q.θ : ℂ) * Complex.I) =
+          (p.r : ℂ) * Complex.exp (((γ + p.θ : ℝ) : ℂ) * Complex.I) := by
+        rw [h2']; push_cast; rw [add_mul, Complex.exp_add]; ring
+      exact mul_left_cancel₀ hpc this
+    obtain ⟨n, hn⟩ := Complex.exp_eq_exp_iff_exists_int.1 h3
+    refine ⟨n, ?_⟩
+    have := congrArg Complex.im hn
+    simp at this
+    linarith
+  -- the integer is constant
+  set f : B → ℝ := fun a => ((L a).1.θ - γ - (e0BoxSec a.1).1.θ) / (2 * π)
+  have hfc : Continuous f := by
+    refine Continuous.div_const (Continuous.sub (Continuous.sub ?_ continuous_const) ?_) _
+    · exact DInfty.continuousOn_θ'.comp_continuous (continuous_fst.comp hLc) hLP
+    · have : (fun a : B => (e0BoxSec a.1).1.θ) = fun a : B => a.1.1.im := funext fun a => e0BoxSec_θ _
+      rw [this]; exact Complex.continuous_im.comp (continuous_fst.comp continuous_subtype_val)
+  have hfZ : ∀ a, ∃ m : ℤ, f a = m := fun a => by
+    obtain ⟨-, -, n, hn⟩ := hpt a
+    refine ⟨n, ?_⟩
+    simp only [f, hn]
+    field_simp
+    ring
+  obtain ⟨m₀, hm₀⟩ := hfZ a₀
+  refine ⟨γ + m₀ * (2 * π), ?_, fun a => ?_⟩
+  · apply Subtype.ext
+    rw [Circle.coe_exp, Circle.coe_exp]
+    push_cast
+    rw [add_mul, Complex.exp_add, show (m₀ : ℂ) * (2 * π) * Complex.I = m₀ * (2 * π * Complex.I) by
+      ring, Complex.exp_int_mul_two_pi_mul_I, mul_one]
+  obtain ⟨h1, h2, -⟩ := hpt a
+  have hfa : f a = m₀ := by rw [eq_of_int_valued hfc hfZ a₀ a, hm₀]
+  have hθ : (L a).1.θ = (e0BoxSec a.1).1.θ + (γ + m₀ * (2 * π)) := by
+    simp only [f] at hfa
+    field_simp at hfa
+    linarith
+  refine Prod.ext (DInfty.ext ?_ ?_) h1
+  · rw [DInfty.rot_r]; exact h2
+  · rw [DInfty.rot_of_pos (e0BoxSec_mem _)]; exact hθ
+
+set_option maxHeartbeats 3200000 in
+/-- **B21 Prop 1.3 for the massive cones**: an isomorphism `F` from a neighbourhood of a singular
+point of `𝔼_θ` into `𝔼_{θ'}` forces `θ = θ'`, and is, on a log-polar box, a rotation-translation
+`(p, t) ↦ (rot γ p, t + c)` of the cylinder, `D`-equivariant for one `g ∈ Isom(𝐌³)`. Read
+through the lift, `g` keeps the timelike axis (the radial limits), hence is a rotation-translation
+(`isom_eq_of_timeAxis`); one turn `θ` is `k` turns `θ'`, and injectivity forces `k = 1`. -/
+theorem mass_to_mass (θ θ' : MassIdx) {U : Set (MassModel θ.1)} (hU : IsOpen U)
+    {x₀ : MassModel θ.1} (hx₀U : x₀ ∈ U)
+    (hx₀S : x₀ ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1))
+    {F : MassModel θ.1 → MassModel θ'.1}
+    (hFc : ∀ x ∈ U, ContinuousAt F x)
+    (hFs : ∀ x ∈ U, x ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1) →
+      F x ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ'.1))
+    (hFreg : ∀ x ∈ U ∩ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1),
+      F x ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ'.1))
+    (hFloc : ∀ x ∈ U ∩ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1),
+      ∃ c ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1), x ∈ c.source ∧
+      ∃ c' ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ'.1),
+        F x ∈ c'.source ∧ ∃ h : Causal.Flat.isom 2, ∀ᶠ z in 𝓝 x, c' (F z) = h • c z)
+    (hinj : InjOn F (U ∩ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1))) :
+    θ.1 = θ'.1 ∧ ∃ (γ c : ℝ) (B : Set (ℂ × ℝ)), IsOpen B ∧ B.Nonempty ∧
+      (∀ w ∈ B, massMk θ.1 (e0BoxSec w) ∈ U) ∧
+      (∀ w ∈ B, F (massMk θ.1 (e0BoxSec w)) =
+        massMk θ'.1 (DInfty.rot γ (e0BoxSec w).1, (e0BoxSec w).2 + c)) ∧
+      ∃ g : Causal.Flat.isom 2, ∀ y : DInfty × ℝ,
+        massDevM (DInfty.rot γ y.1, y.2 + c) = g • massDevM y := by
+  obtain ⟨ε, δ, t₀, hε, hδ, L, g, k, hLc, hLP, hLq, hLD, hdeck, hBU, hlim⟩ := mass_lift_axis θ
+    θ'.2.1.ne' isLocalHomeomorphOn_massDevM (s₂ := massStructure θ')
+    (isMassStructure_massStructure θ') (mass_reg θ') (mass_sing θ') hU hx₀U hx₀S hFc hFs hFreg
+    hFloc
+  have hax : ∀ s ∈ Metric.ball t₀ δ, (g • ((s, 0) : Causal.Minkowski 2)).2 = 0 := by
+    intro s hs
+    obtain ⟨s', hL, hD⟩ := hlim s hs
+    have h2 := (continuous_massDevM.tendsto _).comp hL
+    rw [massDevM_apex] at h2
+    rw [tendsto_nhds_unique hD h2]
+  have hm2 : t₀ + δ / 2 ∈ Metric.ball t₀ δ := by
+    rw [Metric.mem_ball, Real.dist_eq, add_sub_cancel_left, abs_of_pos (half_pos hδ)]
+    exact half_lt_self hδ
+  obtain ⟨c, γ, hg⟩ := isom_eq_of_timeAxis g (s₁ := t₀) (s₂ := t₀ + δ / 2)
+    (by linarith [half_pos hδ]) (hax _ (Metric.mem_ball_self hδ)) (hax _ hm2)
+  haveI : PreconnectedSpace (e0Box (Real.log ε) t₀ δ) :=
+    isPreconnected_iff_preconnectedSpace.1 (convex_e0Box _ _ _).isPreconnected
+  have hLD' : ∀ a, massDevM (L a) = ((massDevM (e0BoxSec a.1)).1 + c,
+      massRepr (Circle.exp γ * massRepr.symm (massDevM (e0BoxSec a.1)).2)) := fun a => by
+    rw [hLD, hg]
+  set a₀ : e0Box (Real.log ε) t₀ δ := ⟨_, mem_e0Box_seq (Metric.mem_ball_self hδ) 0⟩
+  obtain ⟨γ', hγ', hL⟩ := mass_lift_eq_rot hLc hLP hLD' a₀
+  have hθrot : ∀ (t : ℝ) (q : DInfty), 0 < q.r → (DInfty.rot t q).θ = q.θ + t :=
+    fun t q hq => by rw [DInfty.rot_of_pos hq]
+  have hσθ : ∀ w : ℂ × ℝ, (e0BoxSec w).1.θ = w.1.im := fun w => e0BoxSec_θ w
+  have hσr : ∀ w : ℂ × ℝ, 0 < (e0BoxSec w).1.r := fun w => e0BoxSec_mem w
+  -- one turn `θ` is `k` turns `θ'`
+  have hk : θ.1 = k.toInt * θ'.1 := by
+    have h := hdeck a₀
+    rw [hL, hL] at h
+    have h1 := congrArg (fun y : DInfty × ℝ => y.1.θ) h
+    simp only [DInfty.smul_prod_def, DInfty.smul_def] at h1
+    rw [hθrot _ _ (hσr _), hθrot _ _ (by rw [DInfty.rot_r]; exact hσr _), hθrot _ _ (hσr _),
+      hσθ, hσθ] at h1
+    simp only [Prod.fst_add, Complex.add_im, Complex.mul_im, Complex.ofReal_re, Complex.I_im,
+      Complex.ofReal_im, Complex.I_re, mul_one, mul_zero, sub_zero] at h1
+    linarith
+  have hθ0 := θ.2.1
+  have hθ'0 := θ'.2.1
+  have hk1 : k.toInt = 1 := by
+    have hkpos : 0 < k.toInt := by
+      have : (0 : ℝ) < k.toInt := by
+        by_contra hle; push Not at hle; nlinarith
+      exact_mod_cast this
+    by_contra hne
+    have hk2 : 2 ≤ k.toInt := by omega
+    -- the points `w₀` and `w₀ + iθ'` have one image
+    set w₀ := a₀.1
+    have hw₁ : w₀ + (((θ'.1 : ℝ) : ℂ) * Complex.I, 0) ∈ e0Box (Real.log ε) t₀ δ :=
+      mem_e0Box_add a₀.2 θ'.1
+    set a₁ : e0Box (Real.log ε) t₀ δ := ⟨_, hw₁⟩
+    have ha₁ : a₁.1 = w₀ + (((θ'.1 : ℝ) : ℂ) * Complex.I, 0) := rfl
+    have hLa₁ : L a₁ = (GammaA.ofInt 1 : GammaA θ'.1) • L a₀ := by
+      rw [hL, hL]
+      refine Prod.ext (DInfty.ext ?_ ?_) ?_
+      · simp only [DInfty.smul_prod_def, DInfty.smul_def, DInfty.rot_r, e0BoxSec_r, ha₁,
+          Prod.fst_add, Complex.add_re, Complex.mul_re, Complex.ofReal_re, Complex.I_re,
+          Complex.ofReal_im, Complex.I_im, mul_zero, mul_one, sub_zero, add_zero]
+        rfl
+      · simp only [DInfty.smul_prod_def, DInfty.smul_def]
+        rw [hθrot _ _ (hσr _), hθrot _ _ (by rw [DInfty.rot_r]; exact hσr _), hθrot _ _ (hσr _),
+          hσθ, hσθ, ha₁]
+        simp only [Prod.fst_add, Complex.add_im, Complex.mul_im, Complex.ofReal_re, Complex.I_im,
+          Complex.ofReal_im, Complex.I_re, mul_one, mul_zero, GammaA.toInt_ofInt,
+          Int.cast_one, one_mul, add_zero]
+        ring
+      · simp only [DInfty.smul_prod_def, e0BoxSec_t, ha₁, Prod.snd_add, add_zero]
+        rfl
+    have hF1 : F (massMk θ.1 (e0BoxSec a₁.1)) = F (massMk θ.1 (e0BoxSec a₀.1)) := by
+      rw [← hLq, ← hLq, hLa₁, orbitMk_smul]
+    have hreg : ∀ w, massMk θ.1 (e0BoxSec w) ∈
+        Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1) := fun w => by
+      rw [mass_reg θ]; exact ⟨_, e0BoxSec_mem w, rfl⟩
+    have h2 := hinj ⟨hBU _ a₁.2, hreg _⟩ ⟨hBU _ a₀.2, hreg _⟩ hF1
+    obtain ⟨j, hj⟩ := exists_smul_eq_of_orbitMk_eq (Γ := GammaA θ.1) h2.symm
+    have h3 := congrArg (fun y : DInfty × ℝ => y.1.θ) hj
+    simp only [DInfty.smul_prod_def, DInfty.smul_def] at h3
+    rw [hθrot _ _ (hσr _), hσθ, hσθ] at h3
+    simp only [a₁, Prod.fst_add, Complex.add_im, Complex.mul_im, Complex.ofReal_re, Complex.I_im,
+      Complex.ofReal_im, Complex.I_re, mul_one, mul_zero, sub_zero] at h3
+    have h4 : (j.toInt : ℝ) * θ.1 = θ'.1 := by linarith
+    rw [hk] at h4
+    have h5 : ((j.toInt : ℝ) * k.toInt) = 1 := by
+      have : ((j.toInt : ℝ) * k.toInt) * θ'.1 = 1 * θ'.1 := by rw [one_mul, mul_assoc]; exact h4
+      exact mul_right_cancel₀ hθ'0.ne' this
+    have h6 : j.toInt * k.toInt = 1 := by exact_mod_cast h5
+    have h7 : k.toInt ∣ 1 := ⟨j.toInt, by linarith⟩
+    have := Int.le_of_dvd one_pos h7
+    omega
+  refine ⟨by rw [hk, hk1]; simp, γ', c, e0Box (Real.log ε) t₀ δ, isOpen_e0Box _ _ _, ⟨_, a₀.2⟩,
+    hBU, fun w hw => ?_, g, fun y => ?_⟩
+  · rw [← hL ⟨w, hw⟩]; exact (hLq ⟨w, hw⟩).symm
+  · rw [hg]
+    simp only [massDevM, LinearIsometryEquiv.symm_apply_apply, DInfty.cplx_rot, Circle.coe_exp]
+    congr 2
+    rw [show (2 * π / (2 * π) * γ' : ℝ) = γ' by field_simp]
+    have := congrArg (fun z : Circle => (z : ℂ)) hγ'
+    simp only [Circle.coe_exp] at this
+    rw [this]
+
+end MassToMass
+
+end GX
+
+namespace GX
+open Set Filter Topology Function TopologicalSpace
+open scoped Real
+
+section MassAut
+
+/-- The rotation-translation `(p, t) ↦ (rot γ p, t + c)` of the cylinder. -/
+noncomputable def cylRotHomeo (γ c : ℝ) : DInfty × ℝ ≃ₜ DInfty × ℝ where
+  toFun y := (DInfty.rot γ y.1, y.2 + c)
+  invFun y := (DInfty.rot (-γ) y.1, y.2 - c)
+  left_inv y := by
+    simp only [← DInfty.rot_add, neg_add_cancel, DInfty.rot_zero, add_sub_cancel_right]
+  right_inv y := by
+    simp only [← DInfty.rot_add, add_neg_cancel, DInfty.rot_zero, sub_add_cancel]
+  continuous_toFun := ((DInfty.continuous_rot γ).comp continuous_fst).prodMk
+    (continuous_snd.add continuous_const)
+  continuous_invFun := ((DInfty.continuous_rot (-γ)).comp continuous_fst).prodMk
+    (continuous_snd.sub continuous_const)
+
+theorem cylRotHomeo_smul {α : ℝ} (γ c : ℝ) (m : GammaA α) (y : DInfty × ℝ) :
+    cylRotHomeo γ c (m • y) = m • cylRotHomeo γ c y := by
+  show (DInfty.rot γ (m • y).1, (m • y).2 + c) = m • (DInfty.rot γ y.1, y.2 + c)
+  simp only [DInfty.smul_prod_def, DInfty.smul_def, ← DInfty.rot_add, add_comm γ]
+
+theorem cylRotHomeo_symm_smul {α : ℝ} (γ c : ℝ) (m : GammaA α) (y : DInfty × ℝ) :
+    (cylRotHomeo γ c).symm (m • y) = m • (cylRotHomeo γ c).symm y := by
+  show (DInfty.rot (-γ) (m • y).1, (m • y).2 - c) = m • (DInfty.rot (-γ) y.1, y.2 - c)
+  simp only [DInfty.smul_prod_def, DInfty.smul_def, ← DInfty.rot_add, add_comm (-γ)]
+
+/-- **The `exists_aut` clause of analyticity for `𝔼_θ`** (B21 Prop 1.3, massive case). -/
+theorem mass_exists_aut (θ : MassIdx) (U₁ U₂ : Opens (MassModel θ.1))
+    (hU₁ : IsConnected (U₁ : Set (MassModel θ.1))) (φ : U₁ ≃ₜ U₂)
+    (hφ : IsAEMorphism (Causal.Flat.isom 2) (Causal.Minkowski 2) (φ : U₁ → U₂))
+    (hS : ((U₁ : Set (MassModel θ.1)) ∩
+      Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1)).Nonempty) :
+    ∃ ψ ∈ singularAut (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1),
+      ∀ x : U₁, ψ x = (φ x : MassModel θ.1) := by
+  obtain ⟨x₀, hx₀U, hx₀S⟩ := hS
+  have hFc : ∀ x ∈ (U₁ : Set (MassModel θ.1)), ContinuousAt (chartExt φ) x := fun x hx =>
+    (continuousOn_chartExt φ).continuousAt (U₁.isOpen.mem_nhds hx)
+  have hFs : ∀ x ∈ (U₁ : Set (MassModel θ.1)),
+      x ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1) →
+      chartExt φ x ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1) :=
+    fun x hx hxs h => hxs ((chartExt_mem_reg_iff hφ hx).1 h)
+  have hFreg : ∀ x ∈ (U₁ : Set (MassModel θ.1)) ∩
+      Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1),
+      chartExt φ x ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1) := fun x hx =>
+    (chartExt_mem_reg_iff hφ hx.1).2 hx.2
+  have hFloc : ∀ x ∈ (U₁ : Set (MassModel θ.1)) ∩
+      Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1),
+      ∃ c ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1), x ∈ c.source ∧
+      ∃ c' ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1),
+        chartExt φ x ∈ c'.source ∧
+      ∃ h : Causal.Flat.isom 2, ∀ᶠ z in 𝓝 x, c' (chartExt φ z) = h • c z := by
+    intro x hx
+    obtain ⟨c', hc', hxc'⟩ := mem_support.1 (hFreg x hx)
+    have hxc'' : (φ ⟨x, hx.1⟩ : MassModel θ.1) ∈ c'.source := by
+      rw [← chartExt_apply φ hx.1]; exact hxc'
+    obtain ⟨c, hc, hxc, h, hh⟩ := eventually_chartExt_eq_smul hφ (u := ⟨x, hx.1⟩) hx.2 hc' hxc''
+    exact ⟨c, hc, hxc, c', hc', hxc', h, hh⟩
+  have hinj : InjOn (chartExt φ) ((U₁ : Set (MassModel θ.1)) ∩
+      Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1)) :=
+    (injOn_chartExt φ).mono inter_subset_left
+  obtain ⟨-, γ, c, B, hBo, ⟨w₀, hw₀⟩, hBU, hBF, g, hgD⟩ :=
+    mass_to_mass θ θ U₁.isOpen hx₀U hx₀S hFc hFs hFreg hFloc hinj
+  set ψ := cylRotHomeo γ c
+  set Ψ : MassModel θ.1 ≃ₜ MassModel θ.1 := cylDescend (α := θ.1) ψ
+    (fun m y => ⟨m, cylRotHomeo_smul γ c m y⟩) (fun m y => ⟨m, cylRotHomeo_symm_smul γ c m y⟩)
+  have hΨ : IsAEMorphism (Causal.Flat.isom 2) (Causal.Minkowski 2) (Ψ : MassModel θ.1 →
+      MassModel θ.1) :=
+    cyl_isAEMorphism_of_lift isLocalHomeomorphOn_massDevM (s := massStructure θ)
+      (isMassStructure_massStructure θ) (mass_reg θ) Ψ ψ g (fun y => rfl)
+      (fun y => by show 0 < (DInfty.rot γ y.1).r ↔ 0 < y.1.r; rw [DInfty.rot_r])
+      (fun y _ => hgD y)
+  refine ⟨Ψ, hΨ, ?_⟩
+  haveI : ConnectedSpace U₁ := isConnected_iff_connectedSpace.1 hU₁
+  have h1 : IsAEMorphism (Causal.Flat.isom 2) (Causal.Minkowski 2)
+      ((Subtype.val : U₂ → MassModel θ.1) ∘ (φ : U₁ → U₂)) :=
+    (isAEMorphism_opensSingular_val U₂).comp hφ
+  have h2 : IsAEMorphism (Causal.Flat.isom 2) (Causal.Minkowski 2)
+      ((Ψ : MassModel θ.1 → MassModel θ.1) ∘ (Subtype.val : U₁ → MassModel θ.1)) :=
+    hΨ.comp (isAEMorphism_opensSingular_val U₁)
+  set W : Set (MassModel θ.1) := massMk θ.1 '' (e0BoxSec '' B)
+  have hWo : IsOpen W := isOpenMap_quotient_mk'_mul _ (isOpenEmbedding_e0BoxSec.isOpenMap _ hBo)
+  have hwW : massMk θ.1 (e0BoxSec w₀) ∈ W := ⟨_, ⟨w₀, hw₀, rfl⟩, rfl⟩
+  have heq := IsAEMorphism.eq_of_eqOn h2 h1 (W := Subtype.val ⁻¹' W)
+    (hWo.preimage continuous_subtype_val) ⟨⟨_, hBU w₀ hw₀⟩, hwW⟩ (fun x hx => by
+      obtain ⟨_, ⟨w, hw, rfl⟩, hxw⟩ := hx
+      show Ψ x = (φ x : MassModel θ.1)
+      have hx1 : (x : MassModel θ.1) = massMk θ.1 (e0BoxSec w) := hxw.symm
+      rw [← chartExt_apply φ x.2, hx1, hBF w hw]
+      rfl)
+  intro x
+  exact congrFun heq x
+
+end MassAut
+
+end GX
+
+namespace GX
+open Set Filter Topology Function TopologicalSpace
+open scoped Real
+
+section TwoPi
+
+/-- The homeomorphism `ℂ × ℝ ≃ 𝐌³`, `(z, t) ↦ (t, z)`. -/
+noncomputable def massSwapHomeo : ℂ × ℝ ≃ₜ Causal.Minkowski 2 :=
+  (Homeomorph.prodComm ℂ ℝ).trans massLinHomeo
+
+/-- **`θ = 2π` is not a model**: the massive structure on `𝔼_{2π}` has no singular point (the
+developing map descends to a homeomorphism `𝔼_{2π} ≅ 𝐌³`). So no `S_{2π} ≠ ∅` with
+`S_{2π} ⊆ sing(𝔼_{2π})` exists — the slip of `ex:follows_proposition_brunswic_cauchy`
+(`θ ≥ 0` includes `2π`; B21 Prop 1.3 assumes `α ≠ 2π`, DEC-74). -/
+theorem mass_two_pi_sing_eq_empty
+    [s : SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel (2 * π))]
+    (hs : IsMassStructure (2 * π)) :
+    Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel (2 * π)) = ∅ := by
+  have h := quotientBase_support_eq_univ (Z := ℝ) (G := Causal.Flat.isom 2)
+    (Real.two_pi_pos.ne') isLocalHomeomorphOn_massDevM isAEMorphismOf_massCyl_smul
+    ((cylHomeomorph (Real.two_pi_pos.ne') ℝ).trans massSwapHomeo) (fun x _ => by
+      simp [massSwapHomeo, massLinHomeo, massDevM, cylHomeomorph_apply])
+    (isMaximalAEAtlas_aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel (2 * π))) hs
+  show (support (aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel (2 * π))))ᶜ = ∅
+  exact (congrArg compl h).trans compl_univ
+
+/-- Hence `(𝔼_{2π}, S)` is not an analytic family, whatever `S`. -/
+theorem not_isAnalyticModelFamily_two_pi
+    [s : SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel (2 * π))]
+    (hs : IsMassStructure (2 * π)) (S : Unit → Set (MassModel (2 * π)))
+    [LocallyConnectedSpace (MassModel (2 * π))] :
+    ¬ IsAnalyticModelFamily (Causal.Flat.isom 2) (Causal.Minkowski 2)
+      (fun _ : Unit => MassModel (2 * π)) S := fun h => by
+  obtain ⟨x, hx⟩ := h.nonempty ()
+  have := h.subset_sing () hx
+  rw [mass_two_pi_sing_eq_empty hs] at this
+  exact this
+
+end TwoPi
+
+end GX
+
+/-! ## Part III: the family `(𝔼_θ)_{θ ≥ 0, θ ≠ 2π}` is analytic -/
+
+namespace GX
+open Set Filter Topology Function TopologicalSpace
+open scoped Real
+
+section Family2
+
+variable {M : Type*} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
+  [FirstCountableTopology M] [ConnectedSpace M]
+  [SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2) M]
+  {N : Type*} [TopologicalSpace N] [T2Space N] [LocPathConnectedSpace N]
+  [FirstCountableTopology N] [ConnectedSpace N]
+  [SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2) N]
+
+/-- An a.e. isomorphism of open subsets, read as a map `M → N` (`chartExt`), has the properties
+the rigidity cores ask for. -/
+theorem chartExt_facts {U : Opens M} {V : Opens N} {φ : U ≃ₜ V}
+    (hφ : IsAEMorphism (Causal.Flat.isom 2) (Causal.Minkowski 2) (φ : U → V)) :
+    (∀ x ∈ (U : Set M), ContinuousAt (chartExt φ) x) ∧
+    (∀ x ∈ (U : Set M), x ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M →
+      chartExt φ x ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) N) ∧
+    (∀ x ∈ (U : Set M) ∩ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M,
+      chartExt φ x ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) N) ∧
+    (∀ x ∈ (U : Set M) ∩ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M,
+      ∃ c ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) M, x ∈ c.source ∧
+      ∃ c' ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) N, chartExt φ x ∈ c'.source ∧
+      ∃ h : Causal.Flat.isom 2, ∀ᶠ z in 𝓝 x, c' (chartExt φ z) = h • c z) ∧
+    InjOn (chartExt φ) ((U : Set M) ∩ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M) := by
+  refine ⟨fun x hx => (continuousOn_chartExt φ).continuousAt (U.isOpen.mem_nhds hx),
+    fun x hx hxs h => hxs ((chartExt_mem_reg_iff hφ hx).1 h),
+    fun x hx => (chartExt_mem_reg_iff hφ hx.1).2 hx.2, fun x hx => ?_,
+    (injOn_chartExt φ).mono inter_subset_left⟩
+  obtain ⟨c', hc', hxc'⟩ := mem_support.1 ((chartExt_mem_reg_iff hφ hx.1).2 hx.2)
+  have hxc'' : (φ ⟨x, hx.1⟩ : N) ∈ c'.source := by
+    rw [← chartExt_apply φ hx.1]; exact hxc'
+  obtain ⟨c, hc, hxc, h, hh⟩ := eventually_chartExt_eq_smul hφ (u := ⟨x, hx.1⟩) hx.2 hc' hxc''
+  exact ⟨c, hc, hxc, c', hc', hxc', h, hh⟩
+
+/-- An isomorphism of open subsets maps a singular point of its domain to one of its image. -/
+theorem chartExt_mem_sing {U : Opens M} {V : Opens N} {φ : U ≃ₜ V}
+    (hφ : IsAEMorphism (Causal.Flat.isom 2) (Causal.Minkowski 2) (φ : U → V)) {x : M}
+    (hxU : x ∈ (U : Set M)) (hxS : x ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) :
+    (φ ⟨x, hxU⟩ : N) ∈ (V : Set N) ∩ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) N :=
+  ⟨(φ ⟨x, hxU⟩).2, fun h => hxS ((chartExt_mem_reg_iff hφ hxU).1 (by
+    rw [chartExt_apply φ hxU]; exact h))⟩
+
+end Family2
+
+section EFamily
+
+attribute [local instance] btzE0Structure
+
+/-- **The index of the family `(𝔼_θ)_{θ ≥ 0, θ ≠ 2π}`**, `none` for `θ = 0` (the BTZ model `𝔼₀`)
+and `some θ` for the massive cones. -/
+abbrev EIdx : Type := Option MassIdx
+
+/-- **The family `(𝔼_θ)`** (`RamcovGX.tex:1927`, DEC-74). -/
+def eFam : EIdx → Type
+  | none => BTZE0
+  | some θ => MassModel θ.1
+
+instance eFamTop : ∀ a : EIdx, TopologicalSpace (eFam a)
+  | none => inferInstanceAs (TopologicalSpace BTZE0)
+  | some θ => inferInstanceAs (TopologicalSpace (MassModel θ.1))
+
+instance eFamLC : ∀ a : EIdx, LocallyConnectedSpace (eFam a)
+  | none => inferInstanceAs (LocallyConnectedSpace BTZE0)
+  | some θ => inferInstanceAs (LocallyConnectedSpace (MassModel θ.1))
+
+instance eFamT2 : ∀ a : EIdx, T2Space (eFam a)
+  | none => inferInstanceAs (T2Space BTZE0)
+  | some θ => inferInstanceAs (T2Space (MassModel θ.1))
+
+instance eFamLPC : ∀ a : EIdx, LocPathConnectedSpace (eFam a)
+  | none => inferInstanceAs (LocPathConnectedSpace BTZE0)
+  | some θ => inferInstanceAs (LocPathConnectedSpace (MassModel θ.1))
+
+instance eFamFC : ∀ a : EIdx, FirstCountableTopology (eFam a)
+  | none => inferInstanceAs (FirstCountableTopology BTZE0)
+  | some θ => inferInstanceAs (FirstCountableTopology (MassModel θ.1))
+
+instance eFamConn : ∀ a : EIdx, ConnectedSpace (eFam a)
+  | none => inferInstanceAs (ConnectedSpace BTZE0)
+  | some θ => inferInstanceAs (ConnectedSpace (MassModel θ.1))
+
+noncomputable instance eFamStr :
+    ∀ a : EIdx, SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2) (eFam a)
+  | none => btzE0Structure
+  | some θ => massStructure θ
+
+/-- The distinguished singular sets: the whole singular line of each model. -/
+def eFamS : ∀ a : EIdx, Set (eFam a) := fun a => Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (eFam a)
+
+/-- **`ex:follows_proposition_brunswic_cauchy`** (`RamcovGX.tex:1927`), as ruled by DEC-74: the
+family `(𝔼_θ)_{θ ≥ 0, θ ≠ 2π}` — the BTZ model `𝔼₀` and the massive cones `𝔼_θ`, `θ > 0`,
+`θ ≠ 2π` — is an analytic family of model spaces, with `S_θ = sing(𝔼_θ)`. -/
+theorem isAnalyticModelFamily_eFam :
+    IsAnalyticModelFamily (Causal.Flat.isom 2) (Causal.Minkowski 2) eFam eFamS where
+  nonempty a := by
+    rcases a with _ | θ
+    · exact btzE0_sing_nonempty
+    · show (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (MassModel θ.1)).Nonempty
+      rw [mass_sing]; exact ⟨_, ⟨(DInfty.apex, 0), rfl, rfl⟩⟩
+  subset_sing _ := subset_rfl
+  eq_of_iso a₁ a₂ U₁ U₂ h₁ h₂ φ hφ hS := by
+    rcases a₁ with _ | θ <;> rcases a₂ with _ | θ'
+    · rfl
+    · exfalso
+      obtain ⟨x, hxU, hxS⟩ := hS
+      have hφ' := IsAEMorphism.symm_of_homeomorph (φ := φ) hφ
+      obtain ⟨hFc, hFs, hFreg, hFloc, -⟩ := chartExt_facts (M := eFam (some θ')) (N := eFam none)
+        (φ := φ.symm) hφ'
+      obtain ⟨hyU, hyS⟩ := chartExt_mem_sing (M := eFam none) (N := eFam (some θ')) hφ hxU hxS
+      exact mass_to_btz_false θ' U₂.isOpen hyU hyS hFc hFs hFreg hFloc
+    · exfalso
+      obtain ⟨x, hxU, hxS⟩ := hS
+      obtain ⟨hFc, hFs, hFreg, hFloc, -⟩ := chartExt_facts (M := eFam (some θ)) (N := eFam none)
+        (φ := φ) hφ
+      exact mass_to_btz_false θ U₁.isOpen hxU hxS hFc hFs hFreg hFloc
+    · obtain ⟨x, hxU, hxS⟩ := hS
+      obtain ⟨hFc, hFs, hFreg, hFloc, hinj⟩ := chartExt_facts (M := eFam (some θ))
+        (N := eFam (some θ')) (φ := φ) hφ
+      exact congrArg some (Subtype.ext (mass_to_mass θ θ' U₁.isOpen hxU hxS hFc hFs hFreg hFloc
+        hinj).1)
+  exists_aut a U₁ U₂ h₁ _ φ hφ hS := by
+    rcases a with _ | θ
+    · exact btzE0_exists_aut U₁ U₂ h₁ φ hφ hS
+    · exact mass_exists_aut θ U₁ U₂ h₁ φ hφ hS
+
+/-- The paper's index set `{θ ≥ 0, θ ≠ 2π}` (DEC-74). -/
+abbrev EPaperIdx : Type := {θ : ℝ // 0 ≤ θ ∧ θ ≠ 2 * π}
+
+/-- `θ ↦ 𝔼_θ`: `θ = 0` is the BTZ model, `θ > 0` a massive cone. -/
+noncomputable def ePaperToIdx (θ : EPaperIdx) : EIdx :=
+  if h : θ.1 = 0 then none else some ⟨θ.1, lt_of_le_of_ne θ.2.1 (Ne.symm h), θ.2.2⟩
+
+theorem ePaperToIdx_zero (h : (0 : ℝ) ≤ 0 ∧ (0 : ℝ) ≠ 2 * π) : ePaperToIdx ⟨0, h⟩ = none :=
+  dif_pos rfl
+
+theorem ePaperToIdx_pos (θ : EPaperIdx) (hθ : 0 < θ.1) :
+    ePaperToIdx θ = some ⟨θ.1, hθ, θ.2.2⟩ := dif_neg hθ.ne'
+
+theorem ePaperToIdx_injective : Injective ePaperToIdx := by
+  intro θ θ' h
+  unfold ePaperToIdx at h
+  by_cases h1 : θ.1 = 0 <;> by_cases h2 : θ'.1 = 0
+  · exact Subtype.ext (h1.trans h2.symm)
+  · rw [dif_pos h1, dif_neg h2] at h; exact absurd h (by simp)
+  · rw [dif_neg h1, dif_pos h2] at h; exact absurd h (by simp)
+  · rw [dif_neg h1, dif_neg h2] at h
+    have h3 := Option.some_injective MassIdx h
+    exact Subtype.ext (congrArg (fun x : MassIdx => x.1) h3)
+
+end EFamily
+
+section Reindex
+
+variable {G : Type*} {X : Type*} [TopologicalSpace X] [Group G] [MulAction G X]
+  [ContinuousConstSMul G X] [LocallyConnectedSpace X] [T2Space X] [IsRigidAction G X]
+
+/-- Analyticity is preserved by an injective reindexing of the family. -/
+theorem IsAnalyticModelFamily.comp_injective {A B : Type*} {Xα : A → Type u}
+    [∀ a, TopologicalSpace (Xα a)] [∀ a, LocallyConnectedSpace (Xα a)]
+    [∀ a, SingularGXStructure G X (Xα a)] {S : ∀ a, Set (Xα a)}
+    (h : IsAnalyticModelFamily G X Xα S) (σ : B → A) (hσ : Injective σ) :
+    IsAnalyticModelFamily G X (fun b => Xα (σ b)) (fun b => S (σ b)) where
+  nonempty b := h.nonempty (σ b)
+  subset_sing b := h.subset_sing (σ b)
+  eq_of_iso b₁ b₂ U₁ U₂ h₁ h₂ φ hφ hS := hσ (h.eq_of_iso (σ b₁) (σ b₂) U₁ U₂ h₁ h₂ φ hφ hS)
+  exists_aut b U₁ U₂ h₁ h₂ φ hφ hS := h.exists_aut (σ b) U₁ U₂ h₁ h₂ φ hφ hS
+
+end Reindex
+
+/-- **`ex:follows_proposition_brunswic_cauchy`**, indexed as printed: `(𝔼_θ)_{θ ≥ 0, θ ≠ 2π}`
+(DEC-74) is an analytic family of model spaces. -/
+theorem isAnalyticModelFamily_ePaper :
+    IsAnalyticModelFamily (Causal.Flat.isom 2) (Causal.Minkowski 2)
+      (fun θ : EPaperIdx => eFam (ePaperToIdx θ)) (fun θ => eFamS (ePaperToIdx θ)) :=
+  isAnalyticModelFamily_eFam.comp_injective ePaperToIdx ePaperToIdx_injective
+
+end GX

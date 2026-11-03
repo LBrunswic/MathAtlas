@@ -1,75 +1,52 @@
 {
-  "package": "WP-41r",
-  "round": 1,
-  "auditor": "read-only auditor, node1, 2026-11-02",
-  "files": [
-    "scaffold/GXScaffold/Branched/GaloisExamples.lean",
-    "scaffold/GXScaffold/Topology/VanKampen.lean"
-  ],
-  "verdict": "issues",
-  "builds": true,
-  "sorry_count": 1,
-  "checks": {
-    "build": "taskset -c 0-11 lake env lean GaloisExamples.lean: EXIT 0 in 1:50, exactly one warning `declaration uses sorry` at l.5132 (GX.antoineFirstGeneration). VanKampen.lean: EXIT 0, no warnings, 0 sorry. The oleans postdate the sources (GaloisExamples 13:49 > 13:47; VanKampen 13:35 > 13:29). Imports: no Causal.*, so DEC-33 is respected.",
-    "axioms": "#print axioms gives [propext, Classical.choice, Quot.sound] for GX.antoineMeridianEssentialTop_of_firstGeneration, GX.antoineNecklace_wild_not_isSLSCInCC_of_top, GX.VanKampen.homotopicIn_of_homotopicIn_union', GX.following_situations_semi_locally_simply, GX.absolute_galois_corrected, GX.isWildCantor_antoineNecklace_of_res and GX.tameCantorSLSC. GX.antoineNecklace_wild_not_isSLSCInCC adds sorryAx, which is what the report says.",
-    "report_decls_exist": "All 726 distinct names in REPORT.json (labels plus extra_decls) exist in the environment. I checked this with a script that also flags a planted missing name.",
-    "name_clashes": "None found. I compared every declaration name in both files against GX/** and the other scaffold/** files.",
-    "docstring_marks": "The module docstring's first 4000 characters mark only ex:following_situations_semi_locally_simply and ex:consider_denote_absolute_galois. ex:wild_cantor_general_antoine is unmarked and labelled stated. This matches the axioms.",
-    "residual_satisfiable": "I tested whether each of the six fields of GX.AntoineFirstGeneration is true, so the reduction cannot rest on an unsatisfiable premise. `disjoint`: checked numerically over all 64x63 ordered pairs on a dense grid of each link including its corners. The minimum of (max(|x|,|y|)-7/8)^2+z^2 over the other links is 0.125 against the bound 1/16, a margin of sqrt 0.125 = 0.354, which matches the report. Adjacent links are geometrically linked once: each vertical link's inner side crosses the horizontal neighbour's hole at rho in [1/4,1/2]. The 64-link chain alternates types all the way round, corners included, so it is a genuine closed chain and `chain` is the classical first-generation Antoine lemma. Since a link complement has a torsion-free pi_1, every nonzero power is also non-null. `collar_conn`, `collar_mer` (kernel of Z^2 -> Z), `collar_inj` (linking with L_j and L_{j+1} detects Z^2) and `joined` all hold for N_j = a round-square open solid torus, L_j the closed rectangle-section torus inside it (L subset N is proved), and the meridian of radius 3/14 lying strictly between the two (sqrt2/8 < 3/14 < 1/4). The residual is TRUE: the sorry is honest and the reduction is not vacuous.",
-    "vankampen_statements": "homotopicIn_of_homotopicIn_union is the standard injectivity consequence of SvK (U, V open, U, V and U∩V path-connected, pi_1(U∩V) injecting into both sides, gives pi_1(U) -> pi_1(U∪V) injective on null-homotopy). The primed form drops path-connectedness of U and V under LocPathConnectedSpace X. That is sound: U0 ∪ V0 is clopen in U ∪ V because (U\\U0)∩V0 = ∅ when U∩V is path-connected. Neither statement is vacuous; the hypotheses are the classical ones.",
-    "progress_vs_WP-40e": "This is a genuine narrowing with no weakening. Previously the sorry was the infinite family GX.AntoineMeridianEssentialTop (all k >= 1). It is now one fixed-level structure whose `chain` field contains the k = 1 case (all powers). GX.AntoineMeridianEssentialTop keeps its name and type, and no declaration was removed. The git diff (read-only) deletes only docstring prose and the old sorry body."
+ "package": "WP-41r",
+ "round": 1,
+ "auditor": "read-only auditor (re-dispatched round 1), node1, 2026-11-02 ~18:00Z",
+ "files": [
+  "scaffold/GXScaffold/Branched/GaloisExamples.lean",
+  "scaffold/GXScaffold/Topology/VanKampen.lean"
+ ],
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count": 0,
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean scaffold/GXScaffold/Branched/GaloisExamples.lean` exits 0 in 1:59 wall and prints nothing at all: no error, no warning, no `declaration uses sorry`. VanKampen.lean also exits 0 with no output. Causal.* was not recompiled, and neither file imports Causal. The GaloisExamples olean (16:10:35) postdates the source (16:06:30). The file is the one committed at be62f94, and `git status` shows it clean. No `lake build` was run, to keep this audit read-only.",
+  "sorry_scan": "`grep -w sorry` finds only prose in both files, at l.37/39/44/76/167/4667/5117/6707/8265/8273 and VanKampen l.9. Neither file contains `axiom`, `admit`, `native_decide`, `implemented_by`, `unsafe`, `extern` or `skipKernelTC`. Its only set_options are `maxRecDepth 100000` (for kernel `decide`) and `linter.unusedSectionVars false`.",
+  "axioms": "`#print axioms`, piped through `lake env lean --stdin`, gives exactly [propext, Classical.choice, Quot.sound] for each of these: GX.antoineNecklace_wild_not_isSLSCInCC, GX.exists_wild_cantor_not_isSLSCInCC, GX.isWildCantor_antoineNecklace, GX.antoineNecklace_not_tame, GX.antoineChainEssential, GX.antoineMeridianEssentialTop, GX.antoineNecklace_isCantorSubset, GX.tameCantorSLSC, GX.absolute_galois_corrected and GX.following_situations_semi_locally_simply.",
+  "statement_fidelity": "The headline is `GX.antoineNecklace_wild_not_isSLSCInCC : IsWildCantor antoineNecklace ∧ ¬ IsSLSCInCC antoineNecklaceᶜ`. `IsSLSCInCC` is the strict library's DEC-55 literal compact-open form (GX/Branched/Galois.lean:959), and the homotopy form implies it, so its negation is the strongest form. `Sphere3` is the unit sphere of EuclideanSpace ℝ (Fin 4) with the subspace topology. `IsCantorSubset C := Nonempty (C ≃ₜ cantorSet)` is literal. `IsWildCantor C` says C is Cantor and no self-homeomorphism of S³ carries C INTO the great circle {w₂ = w₃ = 0}. This is at least classical wildness, and `GX.antoineNecklace_not_tame` proves the classical form too: not ambient-homeomorphic to `standardCantor3`. `antoineNecklace` is the stereographic image of ⋂ₙ antoineStage n (64 maps of ratio 7/80 iterated on a square solid torus), proved a Cantor set through Fin 64^ℕ ≃ₜ Bool^ℕ. The headline depends only on these definitions. The internal Props (AntoineMeridianEssentialTop, AntoineFirstGeneration, AntoineChainEssential) are all PROVED, so none of them is a hidden assumption. They are also not vacuous: AntoineChainEssential says that for every a ≠ 0 the a-th power of the meridian is not null-homotopic in S³ ∖ stereo(C₁), a satisfiable and non-trivial claim. Under DEC-58/DEC-68 (f), the paper's general 'if S is a wild Cantor set' is read as the one explicit necklace. DEC-82 is met: wildness is certified unconditionally. DEC-85 is met: Antoine's lemma is built, from a topological SvK (the gluing half plus injectivity into Monoid.PushoutI) and a double-cover winding invariant at the first generation. DEC-27 then allows CLOSED under an accepted reading. No extra hypothesis is added. The paper gives this example no proof, so there is nothing further to match.",
+  "unchanged_rows": "A diff against the previous wave's committed file (8ce06a3) shows that only the Antoine region and docstrings changed: the old sorry at old l.4638-4648 became the new sections at l.4665-8281. The other two labels' declarations are untouched, so their earlier certifications stand. Their bold marks rest on DEC-68 (c)(d) and DEC-69, which accept the corrected forms.",
+  "docstring_contract": "The three bold marks, ex:following_situations_semi_locally_simply, ex:consider_denote_absolute_galois and ex:wild_cantor_general_antoine, sit at character offsets 880, 1494 and 2207, all within the first 4000 characters. Each label is certified in full under its rulings. The module docstring and the hypothesis table no longer mention a sorry for Antoine. The bold marks that earlier waves had placed on CONDITIONAL Antoine declarations are removed (old l.5696/5708/5715).",
+  "report": "REPORT.json is valid. It lists all three labels of the file (the docstring names no other row label, only `cor:totdiscont`/`rem:simple_cases` as cited infrastructure), with status closed, marked true, sorry_count 0 and builds true. All 1000 distinct names in labels[].decls plus extra_decls resolve under `#check` against the built module. The 69 extra_decls no longer overlap the label decls.",
+  "names": "A scripted scan covered the 1005 declarations of GaloisExamples.lean and VanKampen.lean (namespace-qualified) against every other file in GX/**, scaffold/** and the pinned .lake/packages/Causal/lean-causal/Causal/**. It found no clash. Its one hit, `GX.for`, is a prose artefact on both sides (docstring lines beginning 'lemma for' and 'structure for')."
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "GaloisExamples.lean:2 `import GXScaffold.Topology.VanKampen`",
+   "problem": "A scaffold module imports another scaffold module. This is carried over and disclosed in REPORT notes.",
+   "fix": "Master: graduate VanKampen.lean to GX/Topology/VanKampen.lean first, repoint the import, and add a README module-table row."
   },
-  "issues": [
-    {
-      "severity": "major",
-      "where": "GaloisExamples.lean:5132 GX.antoineFirstGeneration; label ex:wild_cantor_general_antoine",
-      "problem": "DEC-85 rules that Antoine's lemma is PROVED, and the dispatch asked for the tagged sorry to be closed with the row certified in full, wildness included. That did not happen. The non-abelian heart `chain` remains, and the label stays `stated`. The report says this honestly, so it is not an overclaim. The obstruction is also bounded now: one explicit complement S^3 \\ C_1. The agent's own hand computation gives a D_inf colouring, and composing with D_inf -> D_n for a suitable odd n gives a FINITE permutation representation. That is exactly the dispatch's alternative route (a finite-sheeted covering detecting the meridian), and it was identified but not built.",
-      "fix": "Build the finite dihedral covering of S^3 \\ C_1 (or a D_n-valued homotopy-invariant loop invariant on an open cover glued by GX.VanKampen.Data.exists_extension, which already takes values in any group). Then show the meridian's monodromy is a translation of order n with n not dividing a; to cover every a ≠ 0, take n prime to a or use the D_inf invariant itself. Then close `chain` and mark the row."
-    },
-    {
-      "severity": "major",
-      "where": "GaloisExamples.lean:4847-4861 structure GX.AntoineFirstGeneration; sorry at l.5133",
-      "problem": "The single tagged sorry covers five fields that the agent itself calls 'abelian or point-set, routine but not yet written': `disjoint`, `collar_conn`, `collar_mer`, `collar_inj` and `joined`. They sit under the same sorry as the genuine obstruction `chain`. The protocol allows a tagged sorry only on a genuine obstruction after a serious attempt, so these five are avoidable sorried content. The heaviest is `disjoint`: a finite 64x64 check like the existing AntoineSep/AntoineAdj tables, with a margin of 0.354 against 0.25, which I verified numerically.",
-      "fix": "Prove `disjoint`, `collar_conn`, `collar_mer`, `collar_inj` and `joined` as separate sorry-free theorems. Narrow the residual to a single Prop (the `chain` field), for example a theorem `antoineFirstGeneration_of_chain : ChainEssential -> AntoineFirstGeneration`, so that the file's one sorry is exactly the non-abelian obstruction."
-    },
-    {
-      "severity": "minor",
-      "where": "VanKampen.lean:11 (module docstring)",
-      "problem": "The docstring names `GX.VanKampen.exists_extension`, which does not exist. The declaration is `GX.VanKampen.Data.exists_extension` (#print fails on the former).",
-      "fix": "Write `GX.VanKampen.Data.exists_extension`."
-    },
-    {
-      "severity": "minor",
-      "where": "GaloisExamples.lean:5141, 5163, 6098, 6145, 6194, 6213 (declaration docstrings)",
-      "problem": "These docstrings still say the declarations 'rest on the residual GX.antoineMeridianEssentialTop only'. Since WP-41r that is a sorry-free theorem, and the file's one residual is GX.antoineFirstGeneration.",
-      "fix": "Reword to 'rests on GX.antoineFirstGeneration (via GX.antoineMeridianEssentialTop)'."
-    },
-    {
-      "severity": "minor",
-      "where": "GaloisExamples.lean:6187, 6199, 6206 (declaration docstrings)",
-      "problem": "Declaration docstrings of CONDITIONAL theorems (`_of (hres : …)`, `_of_top (h : …)`) open with the bold mark **`ex:wild_cantor_general_antoine`**. The ledger reads only the module docstring, so nothing is mis-certified. But kb/0006 treats the bold mark as the claim of full certification, and a reader of the declaration can take it as one. This is carried over from earlier waves.",
-      "fix": "Drop the ** on conditional declarations, or write 'conditional on …' beside the mark."
-    },
-    {
-      "severity": "minor",
-      "where": "campaign/WP-41r/REPORT.json extra_decls",
-      "problem": "15 names (GX.loopNatPow, GX.loopZPow and their lemmas, GX.cWinding_pathRefl/pathSymm/loopNatPow/loopZPow, GX.pathToSub_loopZPow, GX.homotopicIn_conj_refl/_of) appear both in extra_decls and in the ex:wild_cantor_general_antoine decls.",
-      "fix": "List each name once."
-    },
-    {
-      "severity": "minor",
-      "where": "GaloisExamples.lean:2 `import GXScaffold.Topology.VanKampen`",
-      "problem": "A scaffold file now imports another scaffold module. Graduating GaloisExamples requires graduating VanKampen first, together with a README module-table entry. The notes disclose this.",
-      "fix": "Master session: graduate GXScaffold.Topology.VanKampen first (to GX/Topology/VanKampen.lean), then repoint the import."
-    }
-  ],
-  "labels": [
-    {"label": "ex:following_situations_semi_locally_simply", "report_status": "closed", "audit": "consistent: marked, sorry-free assembly (axioms clean); unchanged by WP-41r"},
-    {"label": "ex:consider_denote_absolute_galois", "report_status": "closed", "audit": "consistent: marked, sorry-free assembly (axioms clean); unchanged by WP-41r; the open question on the bibliographic sentence is the master's"},
-    {"label": "ex:wild_cantor_general_antoine", "report_status": "stated", "audit": "consistent and honest: unmarked; the headline depends on sorryAx through GX.antoineFirstGeneration only; the residual is true (see checks.residual_satisfiable); not closed as DEC-85 requires"}
-  ],
-  "questions_for_author": [
-    "Should the master accept a residual narrowed to the single field `chain` (the first-generation meridian essential in S^3 \\ C_1) as the documented obstruction for one more wave, or is DEC-85 to be read as forbidding any sorry on this row?"
-  ],
-  "summary": "Both files build, and the one sorry is GX.antoineFirstGeneration. Every certified claim has clean axioms. The docstring marks and the report are honest: Antoine stays stated and unmarked. The van Kampen theorem is correctly stated and sorry-free. The residual is true, so the sorry-free reduction from every generation to the first is real progress, not a vacuous one. Two major issues block a clean verdict. DEC-85's goal is unmet: `chain` is open, though its finite dihedral covering is identified. And the one sorry also covers five routine fields that should be proved separately. The minor issues are a stale declaration name in the VanKampen docstring, stale 'rests on' docstrings, bold marks on conditional declarations, duplicate report entries and the scaffold-to-scaffold import."
+  {
+   "severity": "minor",
+   "where": "GaloisExamples.lean:35-36 and l.76 (module docstring, hypothesis table), l.213",
+   "problem": "The docstring cites the wildness as `GX.isWildCantor_antoineNecklace_of_res`, a theorem taking `hres : AntoineMeridianEssential`, rather than the unconditional `GX.isWildCantor_antoineNecklace` (l.9240). Nothing is overclaimed, since the residual is proved, but a reader of the certificate is pointed at the conditional form.",
+   "fix": "Cite `GX.isWildCantor_antoineNecklace` (and `GX.antoineNecklace_not_tame`) as the wildness certificates, and keep `_of_res` as the derivation."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json, ex:wild_cantor_general_antoine findings[4]",
+   "problem": "The finding 'Hand computation (not formalized; recorded for the next package): … D_inf representation …' is stale. The first generation is now formalized by the double-cover route, so it no longer records a pending item. AUDIT-3 raised the same point.",
+   "fix": "Reword it as a remark on the alternative route, or drop it."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/README.md:58 (module table; outside the package's write set)",
+   "problem": "The GXScaffold.Branched.GaloisExamples row still reads 'Antoine's theorem a tagged `sorry`'. The file now has 0 sorry and certifies the row in full.",
+   "fix": "Master: update the row, and add GXScaffold.Topology.VanKampen."
+  }
+ ],
+ "questions_for_master": [
+  "This dispatch asked for AUDIT-1.json, and a round-1 audit already existed (13:56Z, verdict 'issues', committed at be62f94), followed by AUDIT-2 ('issues') and AUDIT-3 ('clean'). This file overwrites the committed AUDIT-1 as instructed; the previous one is recoverable with `git show be62f94:lean-gx/campaign/WP-41r/AUDIT-1.json`. Was the re-dispatch intended as a fresh audit sequence?"
+ ],
+ "summary": "Round 1 (re-dispatched): CLEAN. Both files typecheck with no output (0 sorry, no warnings), and every headline depends only on [propext, Classical.choice, Quot.sound]. ex:wild_cantor_general_antoine is certified in full under DEC-58/68(f)/82/85. Its headline says the explicit Antoine necklace is a Cantor set, wild, and has a complement that is not semi-locally simply connected in S³ in the DEC-55 literal sense. Wildness is unconditional (GX.isWildCantor_antoineNecklace), and the classical not-tame form is also proved. Antoine's lemma (GX.AntoineMeridianEssentialTop) is built from a sorry-free topological SvK (GX.VanKampen) and a double-cover invariant at the first generation. No hypothesis is added, and the definitions are literal and non-vacuous. The other two labels are unchanged since the previous wave. Marks, REPORT and names are consistent, and there are no clashes. Four minors: the carried scaffold import, the docstring citing the conditional wildness theorem, a stale REPORT finding, and the stale README row (master)."
 }

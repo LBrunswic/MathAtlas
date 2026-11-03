@@ -122,11 +122,10 @@
    "sorries": [],
    "findings": [
     "No proof is printed (the ledger row is 'open'). The proof here: D : (cylinder, T_BTZ) -> (J+(Delta), BTZ) is a homeomorphism (GX.btzJDevHomeomorph): continuity because D^{-1}(I+(p_s) u ]p_s,+inf[) = {s < t + kappa r} is naturally open; openness at the axis from the estimate GX.btz_axis_diamond (the set I-(P_eta) n (I+(p_{t-eta}) u ]p_{t-eta},+inf[) pulls back into the horn neighbourhood {r(1+theta^2) < eps, |t'-t| < eps}); D is Gamma-equivariant and T_BTZ induces the quotient topology of E_0 (coinduced_orbitMk_tamTop), so D-bar is a homeomorphism; on regular parts both charts are translates of D.",
-    "With the BTZ topology Gamma\\J+(Delta) is Hausdorff (GX.btzJQuot_instances), in contrast with the quotient of the usual topology (l.2273)."
+    "With the BTZ topology Gamma\\J+(Delta) is Hausdorff (GX.btzJQuot_instances), in contrast with the quotient of the usual topology (l.2273).",
+    "The paper does not say which singular E^{1,2}-structure Gamma\\J+(Delta) carries (l.2286-2289). It is forced, not a reading: the regular part Gamma\\(J+(Delta)\\Delta) is the quotient of an open subset of E^{1,2} by a free, properly discontinuous group of isometries, and the singular structure extending it making the projection an a.e. morphism is unique (prop:aeGXquotient; GX.btzJQuot_existsUnique). That structure is the one used (AUDIT-2 minor: moved from questions to findings)."
    ],
-   "questions": [
-    "The paper does not say which singular E^{1,2}-structure Gamma\\J+(Delta) carries; the quotient of the structure developed by the inclusion J+(Delta)\\Delta -> E^{1,2} is taken (the only natural one, and unique by prop:aeGXquotient). Confirm this is the intended structure."
-   ]
+   "questions": []
   },
   {
    "label": "rem:tamifying_topology_generated_open",
@@ -134,9 +133,36 @@
     2293,
     2294
    ],
-   "status": "partial",
-   "marked": false,
+   "status": "closed",
+   "marked": true,
    "decls": [
+    "GX.btz_tamifying_topology_generated_open_ett",
+    "GX.btz_hasBasis_nhds_diamond_ett",
+    "GX.btz_tamifying_topology_generated_open_cover_ett",
+    "GX.BTZTildeCyl",
+    "GX.btzTildeCylTop",
+    "GX.btzTildeDev",
+    "GX.btzCylCausality",
+    "GX.btzCylCausality_le_top_iff",
+    "GX.btzCylCausality_lt_top_iff",
+    "GX.btzCylCausality_diamond",
+    "GX.BTZTildeCover",
+    "GX.btzTildeCoverTop",
+    "GX.btzTildeCoverHomeomorph",
+    "GX.btzCoverCausality",
+    "GX.btzJCausality",
+    "GX.btzJCausality_le_top_iff",
+    "GX.btzJCausality_lt_top_iff",
+    "GX.btzJCLe",
+    "GX.btzJCLt",
+    "GX.btzJCLe_top_iff",
+    "GX.btzJCLt_top_iff",
+    "GX.btzJ_isOpen_CLt_right",
+    "GX.btzJ_isOpen_CLt_left",
+    "GX.btzJ_axis_convex",
+    "GX.btzJ_continuousOn_of_mono",
+    "GX.btzJ_curveOn_seg",
+    "GX.btzJ_curveOn_seg_lt",
     "GX.btz_tamifying_topology_generated_open",
     "GX.btz_tamifying_topology_generated_open_cover",
     "GX.btz_tamifying_topology_generated_open_transport",
@@ -151,21 +177,20 @@
     {
      "paper": "BTZ-tilde with T_BTZ",
      "here": "carried",
-     "note": "the cylinder model with hornTop (= Model's T_BTZ, btzTop_eq); AUDIT-1 fix: on the maximal branched cover itself, GX.btz_tamifying_topology_generated_open_cover now takes Phi lifting the projection (orbitMk o Phi = base) and the BTZ-structure hypotheses, and proves Phi^* hornTop is the cover's tamifying topology (btz_isTamifyingTopology), D o Phi its developing map over the regular part (btz_isRegDevelopingOnReg), and the generation by T_BTZ-open diamonds of the (D o Phi)-order. The former any-Phi statement is kept, renamed and documented as the transport lemma GX.btz_tamifying_topology_generated_open_transport"
+     "note": "DEC-77 (b). The cylinder model as the type GX.BTZTildeCyl whose topology is hornTop (= Model's T_BTZ, btzTop_eq); and the maximal branched covering itself as GX.BTZTildeCover Phi (topology Phi^* hornTop) for Phi lifting the projection (orbitMk o Phi = base): Phi^* hornTop is the cover's tamifying topology (btz_isTamifyingTopology) and D o Phi its developing map over the regular part (btz_isRegDevelopingOnReg), both restated in GX.btz_tamifying_topology_generated_open_cover_ett"
     },
     {
-     "paper": "J^-(p), J^+(q) for p, q in BTZ-tilde (not defined in the paper)",
-     "here": "reading",
-     "note": "y <= y' iff D(y) <= D(y') in E^{1,2} (GX.btzCylLe), D the developing map, injective onto J+(Delta): the cover analogue of GX.E0.Le ('developments differing by a future causal vector, winding free')"
+     "paper": "J^-(p), J^+(q) for p, q in BTZ-tilde (not defined; l.2313 'causal notions extend naturally')",
+     "here": "carried",
+     "note": "DEC-33: ETT's topological-spacetime causality from curves (DEC-6/DEC-13). GX.btzJCausality : Causal.Causality on J+(Delta) with the BTZ topology: q <=_U q' iff a BTZ-continuous curve of U, locally non-decreasing for the order of E^{1,2} (the chart of J+(Delta)\\Delta is the identity of E^{1,2}; at points of Delta, which carry no chart, the local relation is the ambient one, exactly as WP-41e's GX.E0.causality does at BTZ points), joins them; I^+_U(x), I^-_U(x) open in every U, points of Delta included (btzJ_isOpen_CLt_right / _left, via the axis estimate btzJ_axis_convex). Transported to BTZ-tilde along D (GX.btzCylCausality) and to the cover along Phi (GX.btzCoverCausality). The previous round's reading (y <= y' iff D(y) <= D(y')) is now a THEOREM about this causality: GX.btzJCLe_top_iff, GX.btzCylCausality_le_top_iff (straight causal segments of J+(Delta) are BTZ-continuous causal curves, btzJ_continuousOn_of_mono)"
     }
    ],
    "sorries": [],
    "findings": [
-    "No proof is printed. True at every point, BTZ points included: off the axis the diamond J-(D y + eta e) n J+(D y - eta e), e = (1,1,0) in null coordinates, lies in the null box of radius 2 eta; at an axis point (apex,t) the diamond J-(P_eta) n J+((apex, t-eta)), P_eta = x0 + (t+eta, eta, 0), lies in the horn neighbourhood and its T_BTZ-interior contains I-(P_eta) n {t-eta < t' + kappa r} (GX.btz_exists_diamond)."
+    "No proof is printed. True at every point, BTZ points included: off the axis the diamond J-(D y + eta e) n J+(D y - eta e), e = (1,1,0) in null coordinates, lies in the null box of radius 2 eta; at an axis point (apex,t) the diamond J-(P_eta) n J+((apex, t-eta)), P_eta = x0 + (t+eta, eta, 0), lies in the horn neighbourhood and its T_BTZ-interior contains I-(P_eta) n {t-eta < t' + kappa r} (GX.btz_exists_diamond).",
+    "With the ETT causality of DEC-33 the global causal order of BTZ-tilde is exactly the order of the developments in E^{1,2} (D injective onto J+(Delta)); a point of the singular line is never chronologically after anything (btzJ_mem_reg_of_lt), consistent with DEC-64."
    ],
-   "questions": [
-    "The causal order on BTZ-tilde is not defined in the paper (l.2313 says causal notions 'extend naturally'). Reading taken: y <= y' iff D(y) <= D(y') in E^{1,2} (D injective onto J+(Delta)). Accept this reading (the row would then close), or require the order from T_BTZ-continuous causal curves (then the equivalence with the D-pullback order is owed)?"
-   ]
+   "questions": []
   }
  ],
  "extra_decls": [
@@ -191,15 +216,52 @@
   "GX.btz_coinduced_hornTop",
   "GX.fst_nullToMink_nullU",
   "GX.hornTop_isPortly_cylPos",
-  "GX.hornTop_locallyConnected"
+  "GX.hornTop_locallyConnected",
+  "GX.btzJLe",
+  "GX.btzJLt",
+  "GX.btzJRelOn",
+  "GX.btzJ_isRelFamily_relOn",
+  "GX.btzJ_isRelFamily_le",
+  "GX.btzJ_isRelFamily_lt",
+  "GX.btzJ_curveOn_of_continuousOn",
+  "GX.btzJ_curveOn_const",
+  "GX.btzJ_curveOn_mono_rel",
+  "GX.btzJ_curve_append",
+  "GX.btz_isFutureCausal_smul",
+  "GX.btz_isFutureTimelike_smul",
+  "GX.btzJSegPt",
+  "GX.btzJSeg",
+  "GX.btzJ_le_segPt",
+  "GX.btzJ_lt_segPt",
+  "GX.btzJ_val_le_segPt",
+  "GX.btzJSegPt_mem",
+  "GX.continuous_btzJ_val",
+  "GX.btzJ_exists_coords",
+  "GX.btzJ_mem_jplus_coords",
+  "GX.btzJ_mem_genSet_of_ray_le",
+  "GX.btzJ_mem_ray_of_le_line",
+  "GX.btzJ_continuousOn_seg",
+  "GX.btzJ_mem_reg_of_lt",
+  "GX.btzJ_exists_ball_of_reg",
+  "GX.btzJSegPt_mem_ball",
+  "GX.btzOpensImage",
+  "GX.btzOpensImage_top",
+  "GX.btzOpensImage_mono",
+  "GX.btz_mem_opensImage",
+  "GX.btzTransportCausality",
+  "GX.btzTransportCausality_le_top_iff",
+  "GX.btzTransportCausality_lt_top_iff",
+  "GX.btzInducedHomeomorph"
  ],
  "kb_proposals": [
   "A `set T := (t : TopologicalSpace X)` in a proof makes T a LOCAL INSTANCE: every later lemma whose instance argument is synthesized picks T and fails with 'synthesized instance not defeq'. Write the topology out, or use `have hT : T = …`.",
   "With a non-instance topology (hornTop), `Homeomorph.continuous`, `IsOpen.preimage`, `IsOpen.mem_nhds` all re-synthesize the instance and fail; use the raw continuity lemmas or `@IsOpen.mem_nhds _ t _ _ h hx`.",
-  "A type synonym `def BTZJplus := {q // …}` with its own TopologicalSpace instance (an inf of induced and generateFrom) and its own MulAction lets `Orbits Γ BTZJplus` carry the right quotient topology with no instance clash; nhds of the instance is obtained by a `calc … := rfl` step to the inf, then `@nhds_inf _ t₁ t₂ q` with explicit topologies."
+  "A type synonym `def BTZJplus := {q // …}` with its own TopologicalSpace instance (an inf of induced and generateFrom) and its own MulAction lets `Orbits Γ BTZJplus` carry the right quotient topology with no instance clash; nhds of the instance is obtained by a `calc … := rfl` step to the inf, then `@nhds_inf _ t₁ t₂ q` with explicit topologies.",
+  "A non-instance topology (hornTop) cannot carry a Causal.Causality: Precausality.le/Jplus and the Top of Opens re-synthesize the instance (Prod) and fail. Use a type synonym `def BTZTildeCyl := DInfty × ℝ` with `instance : TopologicalSpace BTZTildeCyl := hornTop`; existing hornTop lemmas then apply by `exact` (defeq).",
+  "To build an ETT causality from curves on a singular model, the reusable recipe is WP-41e's GX.E0.causality / WP-41h's GX.btzJCausality: local relation = ambient order, curves = Causal.CurveOn of relOn, global <= by straight segments, openness of I^± by a curve point just before/after plus a convex neighbourhood (an axis estimate at singular points)."
  ],
- "notes": "Imports only GXScaffold.BTZ.Model (and through it GX.Singular.Atlas's SingGXCat) (no Causal.* import of its own; the Causal names used come through Model/Bridge: Causal.minkowski, Causal.Flat.le_top_iff_minkQ/lt_top_iff_minkQ, Causal.Causality.isOpen_Iplus/isOpen_Iminus, Causal.Precausality.mem_*_singleton). lake build GXScaffold.BTZ.Topology: only replays, no Causal or GX module rebuilt. Axioms of btz_quotient_chart, btzE0_quotient_chart, btz_tamifying_topology_generated_open, btzJDevHomeomorph: propext, Classical.choice, Quot.sound (no sorryAx). The structure on J+(Delta) and on Gamma\\J+(Delta) is independent of v; proofs use btzV0 as a witness. GXScaffold.SingularII.Models' sorry (theo:local_virt_tame) is not in the dependency cone of any theorem here. Fixer round 1: no sorry, builds (lake build GXScaffold.BTZ.Topology: replays only, nothing rebuilt); axioms of btzJTop_eq_btzLineTop, IsBTZLightlikeLine.btzLineRay_eq, btzQuotChartIso, btz_tamifying_topology_generated_open_cover: propext, Classical.choice, Quot.sound.",
- "round": "fixer-1",
+ "notes": "Imports only GXScaffold.BTZ.Model (and through it GX.Singular.Atlas's SingGXCat) (no Causal.* import of its own; the Causal names used come through Model/Bridge: Causal.minkowski, Causal.Flat.le_top_iff_minkQ/lt_top_iff_minkQ, Causal.Causality.isOpen_Iplus/isOpen_Iminus, Causal.Precausality.mem_*_singleton). lake build GXScaffold.BTZ.Topology: only replays, no Causal or GX module rebuilt. Axioms of btz_quotient_chart, btzE0_quotient_chart, btz_tamifying_topology_generated_open, btzJDevHomeomorph: propext, Classical.choice, Quot.sound (no sorryAx). The structure on J+(Delta) and on Gamma\\J+(Delta) is independent of v; proofs use btzV0 as a witness. GXScaffold.SingularII.Models' sorry (theo:local_virt_tame) is not in the dependency cone of any theorem here. Fixer round 1: no sorry, builds (lake build GXScaffold.BTZ.Topology: replays only, nothing rebuilt); axioms of btzJTop_eq_btzLineTop, IsBTZLightlikeLine.btzLineRay_eq, btzQuotChartIso, btz_tamifying_topology_generated_open_cover: propext, Classical.choice, Quot.sound. Fixer round 2 (re-dispatch): rem:tamifying_topology_generated_open CLOSED under DEC-33 + DEC-77(b) — the ETT causality of J+(Delta) (GX.btzJCausality, a genuine Causal.Causality: I^±_U open in every U) is built from curves and transported to BTZ-tilde (GX.btzCylCausality on the type synonym GX.BTZTildeCyl with T_BTZ) and to the maximal branched cover (GX.btzCoverCausality); its global order is proved equal to the D-pullback order, so the earlier reading is a theorem, and the remark is stated with its J^±. prop:quotient_chart's question moved to findings (AUDIT-2 minor). File still imports only GXScaffold.BTZ.Model (no new import). lake build GXScaffold.BTZ.Topology: only this module rebuilt (GXScaffold.SingularII.Models replayed with its known sorry, not in the cone). Axioms of btz_tamifying_topology_generated_open_ett, _cover_ett, btzJCausality, btzCylCausality_le_top_iff, btz_quotient_chart: propext, Classical.choice, Quot.sound. 0 sorry; names grepped against GX/ and scaffold/: no clash.",
+ "round": "fixer-2",
  "fixes": [
   {
    "audit": "major: defi:BTZtop only for x0 + R u",
@@ -216,6 +278,18 @@
   {
    "audit": "minor: bold mark at char 1729",
    "done": "removed; only the two ledger labels carry **`...`** in the module docstring (chars 224, 1171)"
+  },
+  {
+   "audit": "AUDIT-2 minor: prop:quotient_chart closed with a question",
+   "done": "moved to findings, stated as forced (unique quotient structure)"
+  },
+  {
+   "audit": "AUDIT-2 minor: olean older than source",
+   "done": "lake build GXScaffold.BTZ.Topology re-run after the last edit"
+  },
+  {
+   "audit": "AUDIT-2: rem:tamifying_topology_generated_open partial (causal order a reading)",
+   "done": "ETT causality from curves built (DEC-33), global order proved = D-pullback order; remark stated with its J^±, on the cylinder and on the cover; row closed and marked"
   }
  ]
 }

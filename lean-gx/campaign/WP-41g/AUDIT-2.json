@@ -1,0 +1,59 @@
+{
+ "package": "WP-41g",
+ "round": 2,
+ "auditor": "read-only auditor, round 2 (host node1; source 21:04:22, olean 21:04:46, REPORT.json 21:05:52; CBG.lean sha256 89ac7285...68ac67)",
+ "file": "scaffold/GXScaffold/BTZ/CBG.lean",
+ "module": "GXScaffold.BTZ.CBG",
+ "verdict": "clean",
+ "builds": true,
+ "build_check": "`taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/CBG.lean` exits 0 in 5.7 s with no output (no warning, no 'declaration uses sorry'). The olean is newer than the source. `lake env lean campaign/WP-41g/Axioms.lean` reproduces axioms.out: 123 declarations swept, 0 non-standard axioms. e0Geometry, e0_cbg, e0_cbg_isETTMaximal, e0_cbg_ett, e0TLocalModel, TGeometry.ofLocalModelOfBTZ, germ_ext_nonBTZ and the three residuals depend on [propext, Classical.choice, Quot.sound] only. The witness e0GeometryWitness, built from WP-41f's e0_globalBTZ and e0_secondCountable_of_cauchy, adds only sorryAx, which comes from those two upstream tags. scripts/causal_import_gate.py: ok (DEC-33). lake-manifest pins Causal at ca2ad78f, the commit .lake/packages/Causal is checked out at. The dispatch's 731ed99 is stale.",
+ "sorry_count": 0,
+ "sorry_count_matches_report": true,
+ "round1_issues": [
+  {"round1": "major: E0 Geometry and CBG vacuous (hTA refuted)", "status": "FIXED. e0Geometry and e0_cbg* now take only hLine (O2) and hSC (O4). Both are true statements, open as tagged sorries in WP-41f, and are the parameters of the existing e0LocalModelOf. The refuted hTA is gone, and the Axioms.lean witness instantiates the geometry. typeAgreement is now the convergence form, proved without sorry (E0LM.e0_typeAgreementTendsto)."},
+  {"round1": "minor: status vocabulary / 'only for Sigma_separe'", "status": "FIXED. GermExtPastBTZ (standalone) is now 'partial', with mem_Zplus, K_densite_sing, Iminus_eq_empty, pushUp and sfa_isCompact_Jplus_inter_Jminus listed."},
+  {"round1": "minor: bold-backtick declaration names; CBG bullet not saying vacuous", "status": "FIXED. The ledger regex (tools/ledger.py:237) matches nothing in the first 4000 characters. The CBG bullet now states the conditionality on (O2)/(O4)."}
+ ],
+ "checks": {
+  "1_build_and_sorries": "PASS. 0 real sorries. The only textual 'sorry' hits are the docstring (l.23, l.45).",
+  "2_statement_fidelity": "PASS. (a) The port: I regenerated it with campaign/WP-41g/scratch/port.py from the pinned lean-causal sources and diffed it against the file (from '/-- **Level B: a local model**' up to 'end Port'). The only differences are a 4-line docstring note on TLocalModel.typeAgreement and the corrected 'Causal.CBG.PreGeometry' token, which the script mangles to 'PreCausal.CBG.Geometry'. So the structure TLocalModel matches Causal.CBG.LocalModel field for field except typeAgreement, where Tendsto f (𝓝[U] y₀) (𝓝 z₀) replaces MapClusterPt. The single call site is germ_ext_nonBTZ, which now uses tendsto_chart … hT, with hT the Tendsto already in scope. TGeometry.ofLocalModelOfBTZ returns a genuine Causal.CBG.Geometry.{u}, so its A1–A4 are kernel-checked from the TLocalModel fields. (b) e0TLocalModel: every field is a sorry-free proved lemma except singularFlatAxioms (via hLine) and secondCountable_of_cauchy (= hSC). No hypothesis is circular or refuted. I read E0GlobalBTZ.line: it is plausibly true for every second-countable T2 connected E0-manifold. Components of sing₀ are intervals, or circles when M is non-causal, and the closed-embedding clause is guarded by IsCausal. It is WP-41f's obligation, not this package's. (c) e0Geometry is a genuine geometry of E0-manifolds: Str = Σ' ChartedSpace E0Y, HasGroupoid e0Groupoid (rfl), causality = CE (rfl), IsMor = LiftPropOn e0Groupoid.IsLocalStructomorphWithinAt (Iff.rfl). (d) e0_cbg / e0_cbg_isETTMaximal / e0_cbg_ett carry exactly the hypotheses of strict Causal.CBG.cbg / cbg_isETTMaximal / cbg_ett (Maximal.lean:1093, 1124, 1136): T2, connected, second countable, GH, a Cauchy surface. No hypothesis is added. They match DEC-59 (universal), DEC-77(c) (Dev.IsETTMaximal among E0-manifolds) and uniqueness up to unique isomorphism. (e) The three residuals are unchanged in substance since round 1. The bridges e0TLocalModel_* typecheck against the port's predicates, which are lean-causal's verbatim. SliceFutureBTZ and GermExtFutureBTZ take no parameter. GermExtPastBTZ takes hLine, disclosed, and hLine is already a parameter of the model. DEC-55 is not relevant.",
+  "3_docstring_contract": "PASS. No **`prefix:label`** mark in the first 4000 characters, and no ledger row exists for these interface obligations. Thesis labels appear unmarked. The paper (thesis) and Sbierski quotes, the hypothesis checklist (port replacement, hLine strengthening, conditionality marked ⚠), SCOPE and provenance (ca2ad78) are all present.",
+  "4_report_honest_complete": "PASS. labels [] is correct. papers/gx/ledger has no CBG row, and RamcovGX.tex l.2225, which cites CBG, is unlabelled prose. All five dispatch fields are reported with accurate statuses: SliceFutureBTZ closed, GermExtFutureBTZ closed, GermExtPastBTZ partial (hLine), E0 Geometry partial (hLine, hSC, port), CBG partial (hLine, hSC). The hypotheses are itemised. sorry_count 0, 3523 lines, 123 declarations: all match. The caveat that the convergence form is not formally weaker for an arbitrary causality (bot filter) is disclosed, and so is the upstream recommendation.",
+  "5_missing_parts": "None within the package's scope. The dispatch's last item (E0 Geometry and cbg / cbg_isETTMaximal) is delivered non-vacuously, conditional only on WP-41f's (O2)/(O4), and is reported partial.",
+  "6_cited_results": "PASS. Causal.CBG.cbg / cbg_isETTMaximal / cbg_ett are strict and sorry-free (axiom sweep). The scaffold lemmas used are sorry-free: e0_typeAgreementTendsto, e0_localUniqueSingAdherent, e0_singularFlatAxioms_of, e0_timeFunction, e0_curvesExtend, sfa_isCompact_*, e0_rigid, e0_localUnique_sing/reg, e0_regularChart, e0_dense_regY, E0.coneSlice*_YBTZ. The only open inputs are hLine and hSC, explicit parameters.",
+  "7_name_clashes": "PASS. I checked all 84 top-level declaration names of the file against GX/ and scaffold/. The only short-name hit is 'causality': GX.E0.causality (Causality.lean:1114) and the def at Manifolds.lean:1341, both with different full names from GX.E0CBG.TLocalModel.causality. Nothing else in GX/ or scaffold/ mentions E0CBG."
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "l.1617-3364 (section Port: `open Causal.CBG` inside `namespace GX`)",
+   "problem": "The dispatch says to qualify Causal.* fully and never open Causal and GX together. The port opens Causal.CBG for about 1740 lines inside namespace GX. The gate script passes (it checks only `open Causal GX`), the open is scoped to the section, and it is disclosed. The author already hit the resulting shadowing and qualified around it (transportChartedSpace, liftPropOn_transport; kb_proposal 6).",
+   "fix": "Acceptable for a temporary verbatim port. When lean-causal restates the field, delete the port as planned. Until then, keep the open scoped to the section."
+  },
+  {
+   "severity": "minor",
+   "where": "l.1635-3361 (GX.E0CBG.TLocalModel, TGeometry, germ_ext_reg, germ_ext_nonBTZ, isCorrPair_of_cghd, germ_future_*/germ_past_*, ...)",
+   "problem": "The port duplicates about 1740 lines of strict lean-causal under GX.E0CBG.* names. Their short names coincide with Causal.CBG's, so a downstream file opening both GX.E0CBG and Causal.CBG gets ambiguous identifiers. This is a graduation and maintenance hazard, not a correctness defect.",
+   "fix": "Master session: route the REPORT's question 1 (restate Causal.CBG.LocalModel.typeAgreement in Tendsto form, add tendsto_chart) to lean-causal, then replace the port by Geometry.ofLocalModelOfBTZ with the existing bridges."
+  },
+  {
+   "severity": "minor",
+   "where": "section headers l.315/1593 (two '§3c') and l.507/3366 (two '§3d')",
+   "problem": "Section numbers are duplicated. The module docstring's '§3c, the port' is ambiguous.",
+   "fix": "Renumber the port and the E0 model sections (for example §5, §6)."
+  }
+ ],
+ "label_rows": [],
+ "dispatch_fields_audited": [
+  {"field": "SliceFutureBTZ", "report_status": "closed", "audit": "confirmed: unconditional, 0 sorry; bridges to lean-causal's and the port's predicates typecheck"},
+  {"field": "GermExtFutureBTZ", "report_status": "closed", "audit": "confirmed: unconditional, 0 sorry"},
+  {"field": "GermExtPastBTZ", "report_status": "partial", "audit": "confirmed: added hLine (O2), disclosed, already a parameter of every E0 local model"},
+  {"field": "E0 Geometry", "report_status": "partial", "audit": "confirmed: a genuine Causal.CBG.Geometry of E0-manifolds; non-vacuous; conditional on hLine/hSC; goes through the disclosed port"},
+  {"field": "CBG for E0-manifolds", "report_status": "partial", "audit": "confirmed: strict cbg / cbg_isETTMaximal / cbg_ett on e0Geometry, no added hypothesis beyond hLine/hSC; matches DEC-59, DEC-77(c)"}
+ ],
+ "questions_for_author": [
+  "Will lean-causal restate LocalModel.typeAgreement in convergence form (Tendsto f (𝓝[U] y₀) (𝓝 z₀))? That would let the 1740-line port in GXScaffold.BTZ.CBG be deleted. Its only consumer, germ_ext_nonBTZ, has the Tendsto in scope; I confirmed this by regenerating and diffing the port.",
+  "Is hLine (O2) accepted as a parameter of the standalone A3-past theorem, given that every E0 local model already takes it?"
+ ],
+ "summary": "Round 2 of WP-41g is clean. The file builds with 0 sorry and standard axioms only (123 declarations swept). It passes the DEC-33 gate, has no name clashes, and its pin ca2ad78 is consistent. Round 1's major issue is fixed: the E0 Geometry and the CBG theorems no longer take the refuted hTA. They go through a port of Causal.CBG.LocalModel / FromModel with typeAgreement in its proved convergence form. Regenerating the port from the pinned sources and diffing it shows the text is verbatim except for the declared field change and its one call site. The geometry is a genuine Causal.CBG.Geometry whose structures are exactly the E0-atlases (rfl). The CBG results are strict cbg / cbg_isETTMaximal / cbg_ett with no added hypotheses, conditional only on WP-41f's open (O2) hLine and (O4) hSC, and instantiable (Axioms.lean witness). They are reported partial. SliceFutureBTZ and GermExtFutureBTZ are closed unconditionally; GermExtPastBTZ is partial on hLine, disclosed. The report is honest and complete, with labels [] correct. Three minor points remain: the port's scoped `open Causal.CBG` inside namespace GX, the duplicated lean-causal code and its short names (a graduation hazard pending the upstream restatement), and duplicated section numbers."
+}

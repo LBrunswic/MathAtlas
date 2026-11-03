@@ -1,0 +1,283 @@
+{
+ "package": "WP-41f",
+ "round": "fixer round 1 (after AUDIT-1.json; lean-causal re-pinned ca2ad78)",
+ "files": [
+  "scaffold/GXScaffold/BTZ/LocalModel.lean"
+ ],
+ "builds": true,
+ "sorry_count": 2,
+ "labels": [
+  {
+   "label": "lem:manifolds_manifolds_causally_connected",
+   "tex_lines": [
+    2329,
+    2330
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.E0LM.e0_causallyArcConnected",
+    "GX.E0LM.charted_causallyArcConnected"
+   ],
+   "hypotheses": [
+    {
+     "paper": "BTZ-manifold",
+     "here": "reading",
+     "note": "ChartedSpace GX.E0Y M with HasGroupoid M GX.e0Groupoid (atlas on Y = M^3 + E_0, transitions the a.e.-isomorphisms), causality Causal.CBG.chartedCausality GX.E0.causalityYBTZ M (DEC-33); no T2, connectedness or second countability asked"
+    },
+    {
+     "paper": "causally connected (def:singular_manifold_endowed_causal, l.2319)",
+     "here": "reading",
+     "note": "Causal.Causality.CausallyArcConnected: x <= y iff a future causal curve from x to y, for <= and <<, in every open set (stronger than the paper)"
+    },
+    {
+     "paper": "(round 0: added hGD = chartIso_mem)",
+     "here": "removed",
+     "note": "discharged by WP-41e's GX.E0.chartIso_mem_e0Groupoid; e0_causallyArcConnected now has no hypothesis"
+    },
+    {
+     "paper": "BTZ~-manifolds",
+     "here": "not covered",
+     "note": "the universal-cover / T_BTZ model is not formalized here (WP-39l)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "Is 'BTZ-manifold' (l.2313-2329) the E_0-manifolds of Section 4 read as atlases on M^3 + E_0 with a.e.-isomorphism transitions (the CBG LocalModel instance), as taken here?"
+   ]
+  }
+ ],
+ "dispatch_fields": [
+  {
+   "field": "singularFlatAxioms",
+   "status": "partial",
+   "decls": [
+    "GX.E0LM.e0_singularFlatAxioms_of"
+   ],
+   "note": "18 of 19 SFA fields proved for every E0-manifold (Iplus_of_lt DEC-64 included); `line` is the hypothesis hLine, sorry (O2) in GX.E0LM.e0_globalBTZ"
+  },
+  {
+   "field": "ModelMeasures (input of timeFunction)",
+   "status": "closed",
+   "decls": [
+    "GX.E0LM.e0_modelMeasures_of"
+   ],
+   "note": "round 0's O3 closed: one global admissible pair on the causally convex M; future mu = Lebesgue in countably many regular ChartIso charts onto M^3 (frontier I+(A) null by the Flat/Geroch ConeNull/ChartNull templates), past mu + nu, nu = Lebesgue on the BTZ line in axis charts (lambda_3 + lambda_1); admissibility from push-up, Z+-/tarentin, I-(p)=empty, SingularPastAt, Iplus_of_lt (property 4: J-(A)\\K-(A) lies in frontier I-(A)\\S plus countably many line points); no longer consumed by the assembly (Levin gives the time function), kept as GX.E0LM.e0_modelMeasures"
+  },
+  {
+   "field": "timeFunction",
+   "status": "closed",
+   "decls": [
+    "GX.E0LM.e0_timeFunction",
+    "GX.E0LM.e0LocalModelOf"
+   ],
+   "note": "strict Causal.Causality.exists_timeFunction_of_secondCountable (Causal.LevinUtility, ca2ad78) from tarentin (GX.E0LM.e0_tarentin = charted_tarentin) and GH; independent of SFA.line (O2) and of ModelMeasures"
+  },
+  {
+   "field": "curvesExtend",
+   "status": "closed",
+   "decls": [
+    "GX.E0LM.e0_curvesExtend",
+    "GX.E0LM.e0LocalModelOf"
+   ],
+   "note": "strict Causal.Causality.curvesExtend_of_secondCountable; independent of O2"
+  },
+  {
+   "field": "isCompact_Jplus_inter_Jminus / isCompact_Jminus_inter_Jplus",
+   "status": "closed modulo SFA.line",
+   "decls": [
+    "GX.E0LM.sfa_isCompact_Jplus_inter_Jminus",
+    "GX.E0LM.sfa_isCompact_Jminus_inter_Jplus"
+   ],
+   "note": "Flat/CBGCompact template + Flat/CBG reduction, time function by Levin; still through SFA, hence modulo O2"
+  },
+  {
+   "field": "secondCountable_of_cauchy",
+   "status": "partial (reduced)",
+   "decls": [
+    "GX.E0LM.e0_secondCountable_of_cauchy",
+    "GX.E0LM.e0_secondCountable_of_lineStep",
+    "GX.E0LM.e0RegM_secondCountable",
+    "GX.E0LM.e0_lineStep_of_cauchy"
+   ],
+   "note": "Reg M PROVED second countable for every T2 connected E0-manifold (no SC of M): flat (Isom M^3, M^3)-structure on Reg M (e0RegM_chartedSpace, e0RegM_hasGroupoid via e0_flat_transition_mem), Reg M connected (isPreconnected_e0RegM), then strict Causal.Flat.flat_secondCountableTopology. O4 is proved (sorry-free) from the line step E0LineStep (e0_secondCountable_of_lineStep: countably many BTZ components through the Lindelof Sigma cap sing_0, each the image of R, plus Reg M; M Lindelof, countably many SC chart domains). The line step under GH + SC Cauchy surface is the tagged sorry e0_lineStep_of_cauchy."
+  },
+  {
+   "field": "chartIso_mem",
+   "status": "closed",
+   "decls": [
+    "GX.E0LM.e0_chartIso_mem"
+   ],
+   "note": "= GX.E0.chartIso_mem_e0Groupoid (WP-41e round 2)"
+  },
+  {
+   "field": "typeAgreement",
+   "status": "refuted",
+   "decls": [
+    "GX.E0LM.e0_not_typeAgreement",
+    "GX.E0LM.e0_typeAgreementTendsto",
+    "GX.E0LM.e0_typeAgreement_inl"
+   ],
+   "note": "false for M^3 + E_0 (WP-41c's counterexample, ported); convergence form and the M^3-tip case proved"
+  }
+ ],
+ "sorries": [
+  {
+   "decl": "GX.E0LM.e0_globalBTZ",
+   "obstruction": "SFA field `line` (M second countable): sing_0(M) is proved a 1-manifold with causally increasing charts (e0_line_piece); the global parametrisation of a component by R (inextensible, a closed embedding when M is causal) is the classification of connected second-countable Hausdorff 1-manifolds, absent from mathlib at this pin. Alternative routes recorded in SCOPE (O2), not attempted: order-theoretic (countable dense subset of a component + back-and-forth, S^1 split off by non-causality) and developing (the axis-preserving transitions give each component an (Aff+(R), R)-structure; its developing map is injective)."
+  },
+  {
+   "decl": "GX.E0LM.e0_lineStep_of_cauchy",
+   "obstruction": "the global BTZ line WITHOUT [SecondCountableTopology M] (the only input of secondCountable_of_cauchy left): every component of sing_0(M) of a GH E0-manifold with SC Cauchy surface is the image of an inextensible causal R-curve. Reg M is second countable (proved), so the round-0 diagnosis (developing theorem for Reg M) is withdrawn; what is missing is excluding a non-sigma-compact component without SC of M (e.g. via the (Aff+(R),R)-structure and Causal.secondCountableTopology_of_gx), then O2's parametrisation and inextensibility. O2 itself cannot be used: it assumes SC of M."
+  }
+ ],
+ "extra_decls": [
+  "GX.E0LM.e0LocalModelOf",
+  "GX.E0LM.e0LocalModel_of_typeAgreement",
+  "GX.E0LM.e0_modelMeasures_of",
+  "GX.E0LM.e0_modelMeasures",
+  "GX.E0LM.e0_chartIso_mem",
+  "GX.E0LM.e0_line_piece",
+  "GX.E0LM.e0_exists_minkChart_M",
+  "GX.E0LM.minkowski_volume_singleton",
+  "GX.E0LM.exists_chart_measure_on",
+  "GX.E0LM.exists_line_measure",
+  "GX.E0LM.admissiblePast_of_measures",
+  "GX.E0LM.admissibleFuture_of_measure",
+  "GX.E0LM.Iminus_subset_Kminus_of",
+  "GX.E0LM.lt_top_symm_of_convex_of_chartIso",
+  "GX.E0LM.volume_chart_frontier_Iminus_null_of_chartIso",
+  "GX.E0LM.volume_chart_frontier_Iplus_null_of_chartIso",
+  "GX.E0LM.inlChart",
+  "GX.E0LM.embChart",
+  "GX.E0LM.chartIso_inlChart",
+  "GX.E0LM.chartIso_embChart",
+  "GX.E0LM.exists_minkChart_Y",
+  "GX.E0LM.e0_not_typeAgreement",
+  "GX.E0LM.e0_typeAgreementTendsto",
+  "GX.E0LM.e0_typeAgreement_inl",
+  "GX.E0LM.ta_diam",
+  "GX.E0LM.ta_segLt_inl",
+  "GX.E0LM.ta_segLt_inr",
+  "GX.E0LM.ta_toPaper_btzDevInv",
+  "GX.E0LM.E0GlobalBTZ",
+  "GX.E0LM.e0_singularFlatAxioms_of",
+  "GX.E0LM.e0_localUniqueSingAdherent",
+  "GX.E0LM.e0SingY_zero",
+  "GX.E0LM.e0SingY_of_ne",
+  "GX.E0LM.mem_e0Reg_iff",
+  "GX.E0LM.mem_reg_btzE0_iff",
+  "GX.E0LM.LocZplus",
+  "GX.E0LM.LocZminus",
+  "GX.E0LM.LocTarentin",
+  "GX.E0LM.LocNoPast",
+  "GX.E0LM.LocPastIn",
+  "GX.E0LM.rel_of_causallyConvex",
+  "GX.E0LM.locZplus_of",
+  "GX.E0LM.locZminus_of",
+  "GX.E0LM.locTarentin_of",
+  "GX.E0LM.yb_locZplus",
+  "GX.E0LM.yb_locZminus",
+  "GX.E0LM.yb_locTarentin",
+  "GX.E0LM.yb_locNoPast",
+  "GX.E0LM.yb_locPastIn",
+  "GX.E0LM.pushUpOn_of_chartIso",
+  "GX.E0LM.lt_of_lt_of_le_link",
+  "GX.E0LM.lt_of_le_link_of_lt",
+  "GX.E0LM.prop_zero_of_down",
+  "GX.E0LM.prop_one_of_up",
+  "GX.E0LM.e0_lt_of_lt_of_le",
+  "GX.E0LM.e0_lt_of_le_of_lt",
+  "GX.E0LM.e0_pushUp",
+  "GX.E0LM.sum_pushUp",
+  "GX.E0LM.transport_pushUp",
+  "GX.E0LM.yb_pushUp",
+  "GX.E0LM.e0_local_Iplus_of_lt",
+  "GX.E0LM.yb_local_Iplus_of_lt",
+  "GX.E0LM.e0_le_ball_of_axis",
+  "GX.E0LM.e0_exists_below",
+  "GX.E0LM.e0_future_nhds",
+  "GX.E0LM.e0_past_nhds",
+  "GX.E0LM.yb_exists_below",
+  "GX.E0LM.yb_future_nhds",
+  "GX.E0LM.yb_past_nhds",
+  "GX.E0LM.chartAt_mem_singY_iff",
+  "GX.E0LM.charted_mem_Zplus",
+  "GX.E0LM.charted_mem_Zminus",
+  "GX.E0LM.charted_Iminus_eq_empty",
+  "GX.E0LM.charted_past_local",
+  "GX.E0LM.charted_tarentin",
+  "GX.E0LM.charted_pushUp",
+  "GX.E0LM.charted_isClosed_sing",
+  "GX.E0LM.charted_interior_sing",
+  "GX.E0LM.charted_nhdsNE_neBot",
+  "GX.E0LM.charted_Iplus_of_lt",
+  "GX.E0LM.charted_singularPastAt",
+  "GX.E0LM.sfa_isOpen_Jplus",
+  "GX.E0LM.sfa_isOpen_Jminus",
+  "GX.E0LM.exists_lt_notMem_Jplus",
+  "GX.E0LM.exists_lt_notMem_Jminus",
+  "GX.E0LM.exists_nhds_notMem_Jminus_of_singularPastAt",
+  "GX.E0LM.sfa_isClosed_Jplus_cauchy",
+  "GX.E0LM.sfa_isClosed_Jminus_cauchy",
+  "GX.E0LM.sfa_timeFunction",
+  "GX.E0LM.sfa_isCompact_Jplus_inter_Jminus",
+  "GX.E0LM.sfa_isCompact_Jminus_inter_Jplus",
+  "GX.E0LM.weaklyLocallyCompactSpace_sum",
+  "GX.E0LM.locallyCompactSpace_btzE0",
+  "GX.E0LM.locallyCompactSpace_e0Y",
+  "GX.E0LM.nhdsNE_neBot_of_isOpenEmbedding",
+  "GX.E0LM.e0Y_nhdsNE_neBot",
+  "GX.E0LM.isClosed_e0SingY",
+  "GX.E0LM.interior_e0SingY",
+  "GX.E0LM.e0_tarentin",
+  "GX.E0LM.e0_timeFunction",
+  "GX.E0LM.e0_curvesExtend",
+  "GX.E0LM.e0RegM",
+  "GX.E0LM.mem_e0RegM_iff",
+  "GX.E0LM.dense_e0RegM",
+  "GX.E0LM.exists_isPreconnected_inter_e0RegM",
+  "GX.E0LM.isPreconnected_e0RegM",
+  "GX.E0LM.flatGroupoid_closedUnderRestriction",
+  "GX.E0LM.source_subset_e0Reg",
+  "GX.E0LM.e0_flat_transition_aux",
+  "GX.E0LM.e0_flat_transition_mem",
+  "GX.E0LM.e0RegM_chart_reg",
+  "GX.E0LM.regAtlasChart",
+  "GX.E0LM.regAtlasChart_mem",
+  "GX.E0LM.mem_regAtlasChart_source",
+  "GX.E0LM.regChartM",
+  "GX.E0LM.e0RegM_chartedSpace",
+  "GX.E0LM.e0RegM_hasGroupoid",
+  "GX.E0LM.e0RegM_secondCountable",
+  "GX.E0LM.e0_sing_nhds_component",
+  "GX.E0LM.e0_chart_source_secondCountable",
+  "GX.E0LM.E0LineStep",
+  "GX.E0LM.e0_secondCountable_of_lineStep",
+  "GX.E0LM.e0_lineStep_of_cauchy"
+ ],
+ "kb_proposals": [
+  "A model fact transfers to every admissible M only if it is stated in every open set W of Y (the ChartIso of chartAt relates relations of U to relations of chartImage U, never of top); strong causality + causal arc-connectedness turns a top-level fact into its every-open form (GX.E0LM.rel_of_causallyConvex).",
+  "Global facts at BTZ points of a charted M (I^-(p) empty, past_local) come from absolute minimality: the last link of a TransGen chain lies in some chart domain; chart independence of sing_alpha is sing_mem on the transition.",
+  "Push-up of E_0 in every open set: propagate along the causal curve by real induction on [0,1] (GX.E0LM.prop_one_of_up / prop_zero_of_down); regular points through the sector chart (ChartIso + minkowski_pushUp), axis points through E0.Iplus_ball_axis and a perturbation f(w) > tau_a.",
+  "local notation for a term followed by a field (`CM.lt`) does not parse; write the term in full or use a set/abbrev.",
+  "ModelMeasures needs no local construction when a global admissible pair exists: take U = M (CausallyConvexIn univ top is trivial, admissiblePastOn_top). For E0-manifolds the global pair is Lebesgue in regular ChartIso charts (+ Lebesgue on the BTZ line for the past); see GX.E0LM.e0_modelMeasures_of.",
+  "volume on Causal.Minkowski d (= R x EuclideanSpace) has no NoAtoms instance found by inferInstance at this pin; a point is null via {p} subset {p.1} x univ and Measure.volume_eq_prod / prod_prod (GX.E0LM.minkowski_volume_singleton).",
+  "Causal.CBG.LocalModel.typeAgreement is false for gx's E0 model (GX.E0LM.e0_not_typeAgreement); any assembly of the instance must wait for the CBG interface to restate the field (the convergence form holds).",
+  "Causal.gxGroupoid (lean-causal) and GX.gxGroupoid (lean-gx) are distinct definitions; the strict Causal.Flat.flat_secondCountableTopology needs the Causal one, which has no ClosedUnderRestriction instance at ca2ad78 (prove it by closedUnderRestriction_iff_id_le + Causal.mem_gxGroupoid_of_eq_id, GX.E0LM.flatGroupoid_closedUnderRestriction).",
+  "The regular part of a singular manifold is a (G,X)-manifold on the subtype: charts (chartAt).trans c with c in the regular atlas, then subtypeRestr; transitions by OpenPartialHomeomorph.subtypeRestr_symm_trans_subtypeRestr + closedUnderRestriction' (GX.E0LM.e0RegM_hasGroupoid).",
+  "A dense open R of a preconnected space is preconnected if every point has an open V with V cap R preconnected (GX.E0LM.isPreconnected_e0RegM: the sets of points with a neighbourhood whose R-part lies in u, resp. v, are open, disjoint by density, and cover).",
+  "With Levin (Causal.LevinUtility) a time function needs only T2 + SC + tarentin + GH: no measures, no SingularFlatAxioms."
+ ],
+ "findings_interface": [
+  "Causal.CBG.LocalModel.typeAgreement (Geometry.lean, unchanged at ca2ad78) is FALSE for Y = M^3 + E_0 with G the a.e.-isomorphisms and the model causality (GX.E0LM.e0_not_typeAgreement, WP-41c's counterexample): no LocalModel with this data exists. Its convergence form (Tendsto f (nhdsWithin y0 U) (nhds z0) for MapClusterPt) is proved (GX.E0LM.e0_typeAgreementTendsto). The CBG side must restate the field before the E0 model can be instantiated.",
+  "LocalModel.secondCountable_of_cauchy: Reg M is second countable for every T2 connected E0-manifold with no hypothesis on M (GX.E0LM.e0RegM_secondCountable, through the strict flat_secondCountableTopology). The field reduces, sorry-free, to the BTZ-line step on M without second countability (GX.E0LM.e0_secondCountable_of_lineStep); only that step is open.",
+  "timeFunction and curvesExtend no longer depend on SingularFlatAxioms.line: Levin's theorem (Causal.LevinUtility) needs only tarentin, which is proved locally (charted_tarentin)."
+ ],
+ "questions": [
+  "Should the CBG interface replace typeAgreement's MapClusterPt hypothesis by convergence (Tendsto), which holds for the E0 model?",
+  "secondCountable_of_cauchy for the E0 model now rests only on the BTZ-line step without second countability of M (GX.E0LM.e0_lineStep_of_cauchy): should the interface (a) keep the field as is, so that the step must be built (the (Aff+(R),R)-structure on each BTZ component is the proposed route), or (b) carry second countability of the BTZ locus sing_0(M) (or of each of its components) as an extra hypothesis, which with GX.E0LM.e0RegM_secondCountable would discharge the field?"
+ ],
+ "notes": "Fixer round 1 of WP-41f (AUDIT-1.json applied). scaffold/GXScaffold/BTZ/LocalModel.lean, 3192 lines, namespace GX.E0LM (new names grepped: no clash in GX/ or scaffold/). `taskset -c 0-11 lake build GXScaffold.BTZ.LocalModel` green (8727 jobs; nothing in GX.* or Causal.* recompiled). DEC-33 gate: file under scaffold/GXScaffold/BTZ/; imports strict Causal.{CBG.Geometry, CBG.FromModel, SingularGeroch, Flat.CBGCompact, Flat.CauchyComplete, Flat.CBG, CurvesExtend, Flat.Geroch.ChartNull, Flat.Geroch.ConeNull, LevinUtility, Flat.SecondCountable} at ca2ad78 plus GXScaffold.BTZ.{Rigid, Causality}; no `import Causal` root, no CausalScaffold, no `open Causal`. #print axioms (campaign/WP-41f/Axioms.lean, axioms.out): every proved declaration propext/Classical.choice/Quot.sound; sorryAx only in e0_globalBTZ, e0_lineStep_of_cauchy, and e0_secondCountable_of_cauchy / e0LocalModel_of_typeAgreement (which use them). CHANGES (audit): MAJOR — the O4 tag is replaced: Reg M is proved second countable (new §5c: flat structure on the subtype Reg M, connectedness of Reg M, strict flat_secondCountableTopology), and O4 is proved from the SC-free BTZ-line step (e0_secondCountable_of_lineStep); the sorry moves to e0_lineStep_of_cauchy with the precise remaining obstruction; the interface question is narrowed to that step. MASTER NOTE — timeFunction and curvesExtend now come from Causal.LevinUtility (e0_timeFunction, e0_curvesExtend) and no longer depend on O2 or on ModelMeasures; isCompact_* still go through SFA (O2). O2 — kept as a tagged sorry; the order-theoretic and developing routes are recorded in SCOPE (not attempted). O5 typeAgreement — the field is unchanged at ca2ad78 and stays refuted (e0_not_typeAgreement); it cannot be proved. MINORS — provenance ca2ad78 in the docstring; §6d holds the closed round-0 wrappers e0_chartIso_mem and e0_modelMeasures, §7 is retitled 'remaining obligations'; weaklyLocallyCompactSpace_sum is now a theorem used as a local instance (to move to a general GX topology file at graduation); the SORRY(WP-41f:<field>) convention is noted in SCOPE. Round-1 file kept at campaign/WP-41f/LocalModel.round1.lean.bak, round 0 at LocalModel.round0.lean.bak."
+}

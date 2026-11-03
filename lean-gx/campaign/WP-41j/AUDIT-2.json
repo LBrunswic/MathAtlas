@@ -1,0 +1,87 @@
+{
+  "package": "WP-41j",
+  "round": 2,
+  "auditor": "read-only auditor, round 2",
+  "file": "scaffold/GXScaffold/BTZ/Surgery.lean",
+  "host": "node1",
+  "builds": true,
+  "build_command": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/Surgery.lean (exit 0, 5.7 s, a single warning 'declaration uses sorry' at l.1854, no recompilation of Causal.* or GX.*)",
+  "sorry_count": 1,
+  "sorries": ["GX.E0Surgery.regM_isCauchyComplete (l.1854-1858), tagged SORRY(prop:abs_max)"],
+  "verdict": "clean",
+  "checks": {
+    "builds_and_sorry_count": "pass: 1 sorry, matching REPORT.sorry_count = 1. campaign/WP-41j/axioms.out covers all 86 declarations of the file (86 #print lines); only regM_isCauchyComplete depends on sorryAx.",
+    "statement_fidelity": "pass under the reported readings. Lemma 2.7 is the pointwise iff. Lemma 2.6(ii) is complete: C^n, positive, periodic, spacelike, CompleteSpace of the pulled length, tau -> +infinity. Lemma 2.8(1) concludes spacelike AND complete. Lemma 2.8(2) proves Tendsto at the axis, uniform in theta. Both carry C^1 on the strip, disclosed as a strengthened hypothesis, with a question. Lemma 2.10 gives the exact count in the K-3 reading: past end in [p] means F < 0 somewhere or an approach to the axis; future end means tau unbounded or a last point on the rim. These end conditions are implied by the paper's 'closed in S*, inextendible in Int S*', because r and tau are non-decreasing along a causal curve and causal curves are not imprisoned. Non-vacuity: lem_curve_extension_ii_complete satisfies every hypothesis of 2.8(1); lem_intersect_number_complete_vertical witnesses 2.10. CompleteSpace is not trivial: the zero-sorry Lemma 2.8(2) applied to g = 0 (delta = 1 > 0, C^1, g does not go to +infinity) shows that g = 0 has an incomplete pulled length. The strip reading of 'complete' is equivalent to completeness of Sigma* (Riemannian covering). It is disclosed as a reading with a question. regM_isCauchyComplete reads Cauchy-compact as a topological compact Cauchy surface. That hypothesis is weaker than B21 l.227's smooth spacelike one, so the statement is stronger (see m4).",
+    "docstring_contract": "pass: no **`label`** mark anywhere, as none is certified. Every row is described in the first 4000 characters, in prose ('partial', 'stated', 'not attempted'). The hypothesis checklist now has the prop:abs_max rows, and Lemma 2.8's regularity is classified 'strengthened' (round-1 m5 fixed).",
+    "report_honest_complete": "pass: one row per label (2.6(i), 2.6(ii), 2.7, 2.8, 2.9, 2.10, Cor 2.11, Prop 2.17 first assertion). Statuses are not overclaimed and the strengthenings are disclosed. Minor points: m1 (an unsubstantiated claim inside the Cor 2.11 row) and m6.",
+    "missing_labels_or_parts": "Cor 2.11, which the dispatch names, and its prerequisite Lemma 2.9 are not attempted. They are reported as such, which is the remedy round 1 offered (AUDIT-1 M2), so they are recorded as minor m1 rather than major, pending a ruling. Prop 2.17's other assertion (Reg M is E_{A*}-maximal) is outside the row's stated scope (m6).",
+    "cited_results_proved": "Lemmas 2.6(ii), 2.7, 2.8(1), 2.8(2) and 2.10 (K-3) are proved with 0 sorry and only standard axioms. Prop 2.17's first assertion is stated. Its spear-local half (spear_surgery_local) is proved. The remaining sorry names upstream sorries in GXScaffold.BTZ.Spear (Lemma 2.3: connectedSpace_W0, isCauchySurfaceOn_W0, globallyHyperbolic_glued, isCauchySurface_glued; the future case of Lemma 2.4), all confirmed present in Spear.lean, plus three specific infrastructure gaps.",
+    "name_clashes": "pass: every declaration lives in GX.E0Surgery, and no other file under GX/ or scaffold/ declares or opens that namespace. DEC-33 gate respected: the file is under scaffold/GXScaffold/BTZ/, imports strict Causal.Flat.CauchyComplete only, never imports Causal or CausalScaffold.*, never opens Causal, and qualifies Causal.* names fully."
+  },
+  "round1_resolution": {
+    "M1": "resolved: C^1 is now an explicit hypothesis of Lemma 2.8(1) and (2), disclosed as strengthened, with the reason (l.812's sup over an annulus) and a question.",
+    "M2": "resolved as AUDIT-1 offered: Cor 2.11 and Lemma 2.9 are separate not-attempted rows. Lemma 2.10's count is stated and proved (lem_intersect_number_complete), lim tau = +infinity is used at the axis, and there is a non-vacuity witness. The 'downstream in WP-39k' claim is withdrawn.",
+    "M3": "largely resolved: Lemma 2.8(1) and (2) are proved, and the spear-local half of Prop 2.17 is proved. The global decomposition of regM_isCauchyComplete (Sigma* built in Reg M, reduced to Spear's sorries) is not done. Its obstruction text is now specific and the dependence on upstream sorries is real (see m4).",
+    "m1": "resolved (spacelike half conjoined).",
+    "m2": "mostly resolved; residual slips in m3 below.",
+    "m3": "resolved.",
+    "m4": "resolved (86 of 86 declarations swept).",
+    "m5": "resolved."
+  },
+  "verified_findings": [
+    "Lemma 2.6, confirmed: the proofs of (i) and (ii) are swapped. The proof labelled (i), l.858-870, defines the complete cusp tau^R + M(1/r - 1/R). The proof labelled (ii), l.872-878, defines the compact disc (constant M/R for r <= R/2).",
+    "Lemma 2.6, confirmed: the display at l.865 drops the factor 2 of -2 d_r tau. The correct value is delta = 1 + 2M/r^2 - (tau^R')^2/r^2 >= 1/r^2, as proved in lem_curve_extension_ii.",
+    "Lemma 2.8(2), confirmed: l.835's interval ]r_n, r_{n+1}[ should read ]r_{n+1}, r_n[. With |theta'| <= 2pi/r_n one has r^2 theta'^2 <= 4pi^2, so the bound at l.838-840 is sqrt(1 + 4pi^2 - 2 tau'), not sqrt(5 - 2 tau'). The conclusion is unaffected."
+  ],
+  "issues": [
+    {
+      "id": "m1",
+      "severity": "minor",
+      "where": "REPORT row brunswic2021cauchy:cor:intersect (findings); module docstring SCOPE (a)",
+      "problem": "Cor 2.11 is named in the dispatch and is not attempted. Its prerequisite Lemma 2.9 is not attempted either. Both are honestly reported, which was AUDIT-1 M2's remedy. However, the row's finding 'In a K-3 route Prop 2.17 can use Lemma 2.10's count directly ... without Cor 2.11' is asserted without argument, and it is doubtful. B21's proof of Prop 2.17 (l.1093) uses Cor 2.11 to transfer the count of the ORIGINAL Cauchy surface Sigma inside each spear to Sigma*. That transfer needs Lemma 2.9-type information about Sigma cap S. Example: an inextendible causal curve of Reg M can approach the BTZ line above w = Sigma cap Delta. It then misses Sigma cap S and meets Sigma* once, so the bookkeeping is not 'Lemma 2.10 alone'.",
+      "fix": "Restate the finding as a proposed route (a question for the master session or the author), not as a fact. Alternatively, ask for a ruling that descopes Cor 2.11 and Lemma 2.9 from WP-39j. If they stay in scope, Lemma 2.9 first needs a reading of 'spacelike graph through the BTZ axis' in E0 (e.g. via f = tau - r/2, DEC-64), which is an author question."
+    },
+    {
+      "id": "m2",
+      "severity": "minor",
+      "where": "module docstring, Provenance line (l.92-93)",
+      "problem": "The Provenance line now reads 'lean-causal 731ed99'. The actual pin (lake-manifest.json inputRev; .lake/packages/Causal HEAD) is ca2ad78. AUDIT-1 noted that the line was correct at ca2ad78, so this is a regression in the fixer round.",
+      "fix": "Write lean-causal ca2ad78."
+    },
+    {
+      "id": "m3",
+      "severity": "minor",
+      "where": "docstrings of exists_height_nonneg_of_unbounded (l.917), exists_height_neg_of_axis (l.930-931), lem_surface_complete_two (proof l.823-850), spear_surgery_local (l.1092-1096)",
+      "problem": "Residual line-reference slips against BTZ_1.tex. The sup(c) = +infinity convention is at l.916 (l.917 is \\begin{itemize}). The 'lim tau = +infinity places inf(c) in [p]' bullet is at l.927-929 (l.930 is \\end{itemize}, l.931 is blank). Lemma 2.8(2)'s proof starts at l.827 (l.823 ends item 1). The Prop 2.17 surgery paragraph is at l.1090-1093.",
+      "fix": "Correct the four references."
+    },
+    {
+      "id": "m4",
+      "severity": "minor",
+      "where": "GX.E0Surgery.regM_isCauchyComplete (l.1854), hypothesis hCC; SORRY obstruction (1)",
+      "problem": "hCC reads Cauchy-compact as a topological compact Cauchy surface. B21 l.227 defines Cauchy-compact by a smooth spacelike compact Cauchy surface. The Lean hypothesis is weaker, so the statement is stronger than the paper's. That is allowed and disclosed ('read', with a question). But obstruction (1), the C^0 rim datum, is partly created by this choice. Under the paper's hypothesis, Sigma cap S_Delta is a smooth spacelike circle (l.1090-1091), and what would remain is a C^1 variant of Spear's Lemma 2.4. Separately, AUDIT-1 M3's requested global decomposition (Sigma* in Reg M, reduced to Spear's sorries) is delivered only for its spear-local half.",
+      "fix": "Pending the reported question, consider also stating the paper-faithful variant, with a smooth spacelike compact Cauchy surface or a C^1 rim datum, so that obstruction (1) reduces to an upstream C^1 Lemma 2.4. Optionally, state the intermediate global lemmas with tagged sorries so that the remaining gaps are isolated declarations."
+    },
+    {
+      "id": "m5",
+      "severity": "minor",
+      "where": "GX.E0Surgery.cor_intersect (l.501)",
+      "problem": "The declaration is named after the label cor:intersect (Cor 2.11), but it proves the K-3 arc lemma, and the label itself is not attempted. Its docstring and the REPORT both say so, but a ledger mapping by name could misattribute it.",
+      "fix": "Rename it (e.g. arc_meets_graph_Icc). Renaming the decl is optional; the disclosure is already present."
+    },
+    {
+      "id": "m6",
+      "severity": "minor",
+      "where": "REPORT row prop:abs_max",
+      "problem": "Prop 2.17 (l.1078-1081) asserts that Reg M is globally hyperbolic, E_{A*}-maximal and Cauchy-complete. The row certifies the 'first assertion'. Global hyperbolicity follows from the Cauchy surface inside IsCauchyComplete. The maximality assertion is recorded nowhere in this REPORT, neither as out of scope nor as assigned to another package.",
+      "fix": "Add a sentence (or a not-attempted sub-row) saying where 'Reg M E_{A*}-maximal' is formalized, or that it is out of WP-39j's scope."
+    }
+  ],
+  "questions_for_author": [
+    "Lemma 2.8: accept 'piecewise smooth' = C^1 on the strip (one piece), and 'complete' = completeness of the pulled length over the strip (0, R] x R, which is equivalent to completeness of Sigma* by the covering argument?",
+    "Lemma 2.10: accept the K-3 reading of the curve hypotheses (past end: a point below Sigma* or an approach to the axis; future end: tau unbounded or a last point on the rim)?",
+    "Prop 2.17: read Cauchy-compact as in B21 l.227 (a smooth spacelike compact Cauchy surface) rather than topologically, or build a smoothing step for E0-manifolds?",
+    "Are Cor 2.11 and Lemma 2.9 descoped from WP-39j? If not, what reading of 'spacelike graph through the BTZ axis' should Lemma 2.9 use?"
+  ],
+  "notes": "No blocker and no major. Every theorem other than regM_isCauchyComplete is kernel-checked with [propext, Classical.choice, Quot.sound]. The single sorry is honestly scoped: it depends on Spear's five sorries plus three specific infrastructure gaps. The dispatch pin 731ed99 is stale; the build used ca2ad78 as pinned and recompiled nothing."
+}

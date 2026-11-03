@@ -1,4 +1,5 @@
 import GXScaffold.BTZ.Model
+import GXScaffold.BTZ.Rigid
 import Causal.ArcConnected
 import Causal.SingularFlat
 import Causal.Static
@@ -8,11 +9,13 @@ import Causal.Flat.Form
 import Causal.Flat.CBGSlice
 import Causal.CurvesExtend
 import Causal.Flat.Cosmological
+import Causal.GXSingular
+import Causal.Flat.IsomCausal
 
 /-!
 # `GXScaffold.BTZ.Causality` — the causality of `𝔼₀` and of `Y = 𝕄 ⊕ 𝔼₀`, from causal curves
 
-Package WP-41e (WAVE5-PLAN.md, WP-39e; fixer round 1 after `AUDIT-1.json`). `papers/gx`,
+Package WP-41e (WAVE5-PLAN.md, WP-39e; round 2 after `AUDIT-2.json`: `chartIso_mem` closed). `papers/gx`,
 §4.2–4.3 (`RamcovGX.tex:2193–2246`, the orders of `𝐄^{1,2}` and "future causal or chronological
 curves are curves that are locally increasing") extended to `𝔼₀` as l.2313 asks ("Causal notions
 introduced in the section `sec:mess` above extend naturally to `BTZ̃`-manifolds and
@@ -62,6 +65,17 @@ unmarked: `lem:manifolds_manifolds_causally_connected` (l.2329) for the model `�
 * Model's `𝔼₀`: `GX.E0.toPaper : GX.BTZE0 ≃ₜ E0`, the transported `GX.E0.causalityYBTZ` on
   `𝕄 ⊕ BTZE0` (Rigid's `E0Y` carrier) with `absolutelyMinimalOn_YBTZ`, `coneSliceFuture_YBTZ`,
   `coneSlicePast_YBTZ` (every point).
+* **`LocalModel.chartIso_mem` for `𝔐E₀`** (`GX.E0.chartIso_mem_e0Groupoid`: every element of
+  Rigid's `GX.e0Groupoid` is a `Causal.ChartIso` of `causalityYBTZ`, BTZ points included). The
+  charts of `BTZE0`'s maximal a.e. atlas are chart isomorphisms (`GX.E0.chartIso_aeAtlas`: locally
+  `g •` a sector chart, `btz_chart_eq_smul_btzPaperDev`), hence Rigid's `e0Atlas`
+  (`GX.E0.chartIso_e0Atlas`); at a regular point an element of `G` is `c'⁻¹ ∘ g ∘ c`
+  (`GX.E0.isoNear_of_mem_e0Groupoid_reg`); at a BTZ point it is read in `𝔼₀`'s coordinates
+  (`GX.E0.paperConj`) and **a partial homeomorphism of `𝔼₀` preserving the axis and a chart
+  isomorphism near its regular points is one** (`GX.E0.chartIso_of_axis`: causal curves through
+  the axis are mapped by the orientation along the axis, `GX.E0.orientation_axis`, and the
+  closedness of `J^±`, `GX.E0.le_ends_of_leaves`); the local isomorphisms glue by absolute
+  minimality (`GX.E0.chartIso_of_isoNear`, the argument of `Causal.chartIso_of_mem_maximalAtlas`).
 
 ## Hypothesis checklist
 
@@ -73,22 +87,23 @@ unmarked: `lem:manifolds_manifolds_causally_connected` (l.2329) for the model `�
 | `I^±` open; `J^±(V)` open, BTZ points included | ✓ every `U`; `J^±(V)` for `U = ⊤` (lemma K's form) |
 | diamonds a basis | ✓ (full diamonds; `I⁻ = ∅` on the axis) |
 | `LocalModel`: `absolutelyMinimalOn_Y`, `coneSliceFuture`, `coneSlicePast` | ✓ verbatim |
-| `LocalModel.chartIso_mem` | ⚠ partial: sector charts and `Isom(𝔼₀)`'s generators; the groupoid is WP-39f's |
+| `LocalModel.chartIso_mem` | ✓ verbatim for Rigid's `e0Groupoid` (`chartIso_mem_e0Groupoid`) |
 
 ## SCOPE (disclosed)
 
 * (a) The causality is built on `E0 = ℝ × ℂ` from the developing map alone and transported to
   `GX.BTZE0` by `toPaper`; `btzE0Structure` is not used; Rigid's `e0SingY 0 = toPaperY ⁻¹' singY0`
   and the identification with Model's structure are WP-39f's assembly lemmas.
-* (b) `chartIso_mem` itself needs the groupoid (WP-41c's `e0Groupoid`, built after this file): its
-  elements are restrictions of the sector charts' transitions and of `Isom(𝔼₀)`, whose generators
-  are proved here; the assembly is WP-39f's.
+* (b) `chartIso_mem` is proved for Rigid's `e0Groupoid` (this file imports
+  `GXScaffold.BTZ.Rigid`, round 2); it uses no rigidity (`localUnique_sing`): continuity, the
+  axis-to-axis property of `G` and its regular charts suffice. `LocalModel`'s (O1) is this theorem.
 * (c) Massive cones `𝔼_α` (DEC-74) are not part of `Y` here.
 * (d) **Push-up in every open set** (`SingularFlatAxioms.pushUp`) and **`CausallyOpenFuture`**
   (`J⁺_U(V)` open for `V ⊆ U`, `U ≠ ⊤`) are not proved: both need a chain argument along a causal
   curve of `U` (local push-up off the axis through the sector charts, `Iplus_of_lt` read in `U` at
   the axis). Push-up holds globally (`Lt.trans_le`, `Le.trans_lt`); `CausallyOpenFuture` follows
-  from local push-up and local `Iplus_of_lt`. Owed by WP-39f.
+  from local push-up and local `Iplus_of_lt`. Local push-up is proved in `GXScaffold.BTZ.LocalModel`
+  (`GX.E0LM.e0_pushUp`), which imports this file.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; lean-causal `731ed99`.
 -/
@@ -3530,6 +3545,878 @@ theorem coneSlicePast_YBTZ : ∀ y : Causal.Minkowski 2 ⊕ BTZE0,
   exact key
 
 end BTZE0
+
+
+/-! ### Chart isomorphisms, locally -/
+
+section IsoNear
+
+open TopologicalSpace
+
+variable {M X Z : Type*} [TopologicalSpace M] [TopologicalSpace X] [TopologicalSpace Z]
+  {C : Causal.Causality M} {D : Causal.Causality X} {E : Causal.Causality Z}
+  {e : OpenPartialHomeomorph M X} {f : OpenPartialHomeomorph X Z} {O O' : Opens M}
+
+/-- `e` carries the relations of every open subset of `O` to those of its image: `Causal.ChartIso`
+restricted to the open subsets of `O`. -/
+def IsoNear (C : Causal.Causality M) (D : Causal.Causality X) (e : OpenPartialHomeomorph M X)
+    (O : Opens M) : Prop :=
+  ∀ V : Opens M, V ≤ O → ∀ a ∈ V, ∀ b ∈ V,
+    (C.le V a b ↔ D.le (Causal.chartImage e V) (e a) (e b)) ∧
+      (C.lt V a b ↔ D.lt (Causal.chartImage e V) (e a) (e b))
+
+theorem isoNear_of_chartIso (h : Causal.ChartIso C D e) (hO : O ≤ Causal.chartSource e) :
+    IsoNear C D e O := fun V hV => h V (hV.trans hO)
+
+theorem IsoNear.mono (h : IsoNear C D e O) (hO : O' ≤ O) : IsoNear C D e O' :=
+  fun V hV => h V (hV.trans hO)
+
+theorem chartImage_congr {e e' : OpenPartialHomeomorph M X} {V : Opens M}
+    (hV : V ≤ Causal.chartSource e) (hV' : V ≤ Causal.chartSource e')
+    (heq : ∀ z ∈ V, e z = e' z) : Causal.chartImage e V = Causal.chartImage e' V := by
+  apply SetLike.coe_injective
+  rw [Causal.coe_chartImage_of_le hV, Causal.coe_chartImage_of_le hV']
+  exact image_congr heq
+
+/-- Two charts which agree on `O` are isomorphisms near `O` together. -/
+theorem IsoNear.congr {e e' : OpenPartialHomeomorph M X} (h : IsoNear C D e O)
+    (hO : O ≤ Causal.chartSource e) (hO' : O ≤ Causal.chartSource e')
+    (heq : ∀ z ∈ O, e z = e' z) : IsoNear C D e' O := by
+  intro V hV a ha b hb
+  rw [← chartImage_congr (hV.trans hO) (hV.trans hO') fun z hz => heq z (hV hz),
+    ← heq a (hV ha), ← heq b (hV hb)]
+  exact h V hV a ha b hb
+
+theorem chartImage_trans {V : Opens M} (hV : V ≤ Causal.chartSource (e.trans f)) :
+    Causal.chartImage (e.trans f) V = Causal.chartImage f (Causal.chartImage e V) := by
+  have hVe : V ≤ Causal.chartSource e := fun z hz => (hV hz).1
+  have hVf : Causal.chartImage e V ≤ Causal.chartSource f := by
+    intro p hp
+    obtain ⟨z, -, hzV, rfl, -⟩ := Causal.exists_of_mem_chartImage hp
+    exact (hV hzV).2
+  apply SetLike.coe_injective
+  rw [Causal.coe_chartImage_of_le hV, Causal.coe_chartImage_of_le hVf,
+    Causal.coe_chartImage_of_le hVe, OpenPartialHomeomorph.coe_trans, image_comp]
+
+/-- **Composition.** -/
+theorem IsoNear.trans {O'' : Opens X} (h : IsoNear C D e O) (h' : IsoNear D E f O'')
+    (hO : O ≤ Causal.chartSource (e.trans f)) (hO'' : Causal.chartImage e O ≤ O'') :
+    IsoNear C E (e.trans f) O := by
+  intro V hV a ha b hb
+  have hVt := hV.trans hO
+  have hVe : V ≤ Causal.chartSource e := fun z hz => (hVt hz).1
+  have h1 := h V hV a ha b hb
+  have h2 := h' (Causal.chartImage e V) ((Causal.chartImage_mono hV).trans hO'') (e a)
+    (Causal.mem_chartImage_of_mem (hVe ha) ha) (e b) (Causal.mem_chartImage_of_mem (hVe hb) hb)
+  rw [chartImage_trans hVt, OpenPartialHomeomorph.coe_trans, comp_apply, comp_apply, ← h2.1,
+    ← h2.2]
+  exact h1
+
+theorem chartIso_trans (h : Causal.ChartIso C D e) (h' : Causal.ChartIso D E f) :
+    Causal.ChartIso C E (e.trans f) :=
+  IsoNear.trans (isoNear_of_chartIso h (fun z hz => hz.1)) h' le_rfl (by
+    intro p hp
+    obtain ⟨z, -, hzV, rfl, -⟩ := Causal.exists_of_mem_chartImage hp
+    exact hzV.2)
+
+/-- **Inverse.** -/
+theorem IsoNear.symm (h : IsoNear C D e O) (hO : O ≤ Causal.chartSource e) :
+    IsoNear D C e.symm (Causal.chartImage e O) := by
+  intro V' hV' a' ha' b' hb'
+  have hVt : (V' : Set X) ⊆ e.target := fun p hp => by
+    obtain ⟨z, hz, -, rfl, -⟩ := Causal.exists_of_mem_chartImage (hV' hp)
+    exact e.map_source hz
+  set V := Causal.chartImage e.symm V'
+  have hVO : V ≤ O := by
+    intro z hz
+    obtain ⟨p, -, hpV, rfl, -⟩ := Causal.exists_of_mem_chartImage hz
+    obtain ⟨w, hw, hwO, rfl, -⟩ := Causal.exists_of_mem_chartImage (hV' hpV)
+    rw [e.left_inv hw]; exact hwO
+  have hVs : V ≤ Causal.chartSource e := hVO.trans hO
+  have himg : Causal.chartImage e V = V' := by
+    apply SetLike.coe_injective
+    rw [Causal.coe_chartImage_of_le hVs]
+    show e '' (e.symm '' (e.target ∩ V')) = V'
+    rw [inter_eq_right.2 hVt, image_image]
+    conv_rhs => rw [← image_id (V' : Set X)]
+    exact image_congr fun p hp => e.right_inv (hVt hp)
+  have ha : e.symm a' ∈ V := Causal.mem_chartImage_of_mem (e.symm.map_source' (hVt ha') |> fun _ =>
+    (show a' ∈ e.symm.source from hVt ha')) ha'
+  have hb : e.symm b' ∈ V := Causal.mem_chartImage_of_mem (show b' ∈ e.symm.source from hVt hb') hb'
+  have := h V hVO _ ha _ hb
+  rw [himg, e.right_inv (hVt ha'), e.right_inv (hVt hb')] at this
+  exact ⟨this.1.symm, this.2.symm⟩
+
+theorem isoNear_of_agreeOn (h : Causal.AgreeOn C (D.chartTransport e) O)
+    (hO : O ≤ Causal.chartSource e) : IsoNear C D e O := by
+  intro V hV a ha b hb
+  have hVs := hV.trans hO
+  have h1 := h V hV a b
+  rw [Causal.Causality.chartTransport, Causal.LocalCausality.extend_le_iff hVs,
+    Causal.LocalCausality.extend_lt_iff hVs] at h1
+  exact ⟨h1.1.trans ⟨fun h => h.2.2, fun h' => ⟨ha, hb, h'⟩⟩,
+    h1.2.trans ⟨fun h => h.2.2, fun h' => ⟨ha, hb, h'⟩⟩⟩
+
+theorem agreeOn_of_isoNear (h : IsoNear C D e O) (hO : O ≤ Causal.chartSource e) :
+    Causal.AgreeOn C (D.chartTransport e) O := by
+  intro V hV a b
+  have hVs := hV.trans hO
+  rw [Causal.Causality.chartTransport, Causal.LocalCausality.extend_le_iff hVs,
+    Causal.LocalCausality.extend_lt_iff hVs]
+  refine ⟨⟨fun hab => ?_, fun hab => ?_⟩, ⟨fun hab => ?_, fun hab => ?_⟩⟩
+  · have ha := C.le_mem_left hab; have hb := C.le_mem_right hab
+    exact ⟨ha, hb, ((h V hV a ha b hb).1).1 hab⟩
+  · exact ((h V hV a hab.1 b hab.2.1).1).2 hab.2.2
+  · have ha := C.lt_mem_left hab; have hb := C.lt_mem_right hab
+    exact ⟨ha, hb, ((h V hV a ha b hb).2).1 hab⟩
+  · exact ((h V hV a hab.1 b hab.2.1).2).2 hab.2.2
+
+/-- **A chart which is near every point of its source an isomorphism is one**, for causalities
+absolutely minimal on every open set (the argument of `Causal.chartIso_of_mem_maximalAtlas`). -/
+theorem chartIso_of_isoNear (hC : ∀ W : Opens M, C.AbsolutelyMinimalOn W)
+    (hD : ∀ W : Opens X, D.AbsolutelyMinimalOn W)
+    (h : ∀ x ∈ e.source, ∃ O : Opens M, x ∈ O ∧ O ≤ Causal.chartSource e ∧ IsoNear C D e O) :
+    Causal.ChartIso C D e := by
+  have hCe := D.chartTransport_chartIso e
+  have hloc : ∀ x ∈ Causal.chartSource e, ∃ O : Opens M, x ∈ O ∧
+      Causal.AgreeOn C (D.chartTransport e) O := fun x hx => by
+    obtain ⟨O, hxO, hO, hiso⟩ := h x hx
+    exact ⟨O, hxO, agreeOn_of_isoNear hiso hO⟩
+  have hACe : (D.chartTransport e).AbsolutelyMinimalOn (Causal.chartSource e) :=
+    hCe.absolutelyMinimalOn le_rfl (hD _)
+  refine hCe.congr fun V hV x y => ?_
+  have h₁ := Causal.imp_of_agree_locally (hC _) hloc hV (x := x) (y := y)
+  have h₂ := Causal.imp_of_agree_locally hACe (fun z hz => by
+    obtain ⟨O, hzO, hO⟩ := hloc z hz
+    exact ⟨O, hzO, hO.symm⟩) hV (x := x) (y := y)
+  exact ⟨⟨h₁.1, h₂.1⟩, ⟨h₁.2, h₂.2⟩⟩
+
+end IsoNear
+
+
+/-! ### The charts of `𝕄 ⊕ BTZE0` -/
+
+section ChartsY
+
+open TopologicalSpace
+
+variable {X Z : Type*} [TopologicalSpace X] [TopologicalSpace Z]
+
+/-- A homeomorphism is a chart isomorphism from the causality it transports. -/
+theorem chartIso_transport (e : X ≃ₜ Z) (C : Causal.Causality Z) :
+    Causal.ChartIso (transportCausality e C) C e.toOpenPartialHomeomorph := by
+  intro U hU x _ y _
+  have : Causal.chartImage e.toOpenPartialHomeomorph U = opensImage e U := by
+    apply SetLike.coe_injective; rw [Causal.coe_chartImage_of_le hU]; rfl
+  rw [this]; exact ⟨Iff.rfl, Iff.rfl⟩
+
+theorem chartIso_transport_symm (e : X ≃ₜ Z) (C : Causal.Causality Z) :
+    Causal.ChartIso C (transportCausality e C) e.symm.toOpenPartialHomeomorph := by
+  intro U hU x _ y _
+  have : opensImage e (Causal.chartImage e.symm.toOpenPartialHomeomorph U) = U := by
+    apply opensImage_eq; rw [Causal.coe_chartImage_of_le hU]; rfl
+  show (C.le U x y ↔ C.le (opensImage e _) (e (e.symm x)) (e (e.symm y))) ∧
+    (C.lt U x y ↔ C.lt (opensImage e _) (e (e.symm x)) (e (e.symm y)))
+  rw [this, e.apply_symm_apply, e.apply_symm_apply]
+  exact ⟨Iff.rfl, Iff.rfl⟩
+
+@[simp] theorem toPaperY_inl (m : Causal.Minkowski 2) : toPaperY (Sum.inl m) = Sum.inl m := rfl
+
+@[simp] theorem toPaperY_inr (x : BTZE0) : toPaperY (Sum.inr x) = Sum.inr (toPaper x) := rfl
+
+theorem rightOpens_opensImage_toPaperY (U : Opens (Causal.Minkowski 2 ⊕ BTZE0)) :
+    rightOpens (opensImage toPaperY U) = opensImage toPaper (rightOpens U) := by
+  ext w
+  show Sum.inr w ∈ toPaperY '' (U : Set (Causal.Minkowski 2 ⊕ BTZE0)) ↔ w ∈ toPaper '' (Sum.inr ⁻¹' (U : Set (Causal.Minkowski 2 ⊕ BTZE0)))
+  constructor
+  · rintro ⟨u | u, hu, he⟩
+    · simp at he
+    · simp only [toPaperY_inr, Sum.inr.injEq] at he
+      exact ⟨u, hu, he⟩
+  · rintro ⟨u, hu, rfl⟩
+    exact ⟨Sum.inr u, hu, rfl⟩
+
+theorem leftOpens_opensImage_toPaperY (U : Opens (Causal.Minkowski 2 ⊕ BTZE0)) :
+    leftOpens (opensImage toPaperY U) = leftOpens U := by
+  ext w
+  show Sum.inl w ∈ toPaperY '' (U : Set (Causal.Minkowski 2 ⊕ BTZE0)) ↔ Sum.inl w ∈ (U : Set (Causal.Minkowski 2 ⊕ BTZE0))
+  constructor
+  · rintro ⟨u | u, hu, he⟩
+    · simp only [toPaperY_inl, Sum.inl.injEq] at he
+      exact he ▸ hu
+    · simp at he
+  · intro hu
+    exact ⟨Sum.inl w, hu, rfl⟩
+
+variable {U : Opens (Causal.Minkowski 2 ⊕ BTZE0)}
+
+theorem le_inr_iff {a b : BTZE0} :
+    causalityYBTZ.le U (.inr a) (.inr b) ↔ causalityBTZE0.le (rightOpens U) a b := by
+  show causality.le (rightOpens (opensImage toPaperY U)) (toPaper a) (toPaper b) ↔ _
+  rw [rightOpens_opensImage_toPaperY]; rfl
+
+theorem lt_inr_iff {a b : BTZE0} :
+    causalityYBTZ.lt U (.inr a) (.inr b) ↔ causalityBTZE0.lt (rightOpens U) a b := by
+  show causality.lt (rightOpens (opensImage toPaperY U)) (toPaper a) (toPaper b) ↔ _
+  rw [rightOpens_opensImage_toPaperY]; rfl
+
+theorem le_inl_iff {a b : Causal.Minkowski 2} :
+    causalityYBTZ.le U (.inl a) (.inl b) ↔ (Causal.minkowski 2).le (leftOpens U) a b := by
+  show (Causal.minkowski 2).le (leftOpens (opensImage toPaperY U)) a b ↔ _
+  rw [leftOpens_opensImage_toPaperY]
+
+theorem lt_inl_iff {a b : Causal.Minkowski 2} :
+    causalityYBTZ.lt U (.inl a) (.inl b) ↔ (Causal.minkowski 2).lt (leftOpens U) a b := by
+  show (Causal.minkowski 2).lt (leftOpens (opensImage toPaperY U)) a b ↔ _
+  rw [leftOpens_opensImage_toPaperY]
+
+/-- The `𝕄`-chart of `Y` is a chart isomorphism. -/
+theorem chartIso_e0Inl_symm : Causal.ChartIso causalityYBTZ (Causal.minkowski 2) e0Inl.symm := by
+  intro V hV x hx y hy
+  have hVs : (V : Set (Causal.Minkowski 2 ⊕ BTZE0)) ⊆ range Sum.inl := fun z hz => by
+    have := hV hz; rwa [Causal.mem_chartSource, e0Inl_symm_source] at this
+  obtain ⟨a, rfl⟩ := hVs hx
+  obtain ⟨b, rfl⟩ := hVs hy
+  have himg : Causal.chartImage e0Inl.symm V = leftOpens V := by
+    ext m
+    rw [Causal.coe_chartImage_of_le hV]
+    constructor
+    · rintro ⟨u, hu, rfl⟩
+      obtain ⟨m', rfl⟩ := hVs hu
+      rw [e0Inl_symm_inl]; exact hu
+    · intro hm
+      exact ⟨Sum.inl m, hm, e0Inl_symm_inl m⟩
+  rw [himg, e0Inl_symm_inl, e0Inl_symm_inl, le_inl_iff, lt_inl_iff]
+  exact ⟨Iff.rfl, Iff.rfl⟩
+
+theorem rightOpens_chartImage_e0Inr (V : Opens BTZE0) :
+    rightOpens (Causal.chartImage e0Inr V) = V := by
+  ext x
+  show Sum.inr x ∈ e0Inr '' (e0Inr.source ∩ V) ↔ x ∈ V
+  rw [e0Inr_source, univ_inter]
+  constructor
+  · rintro ⟨u, hu, he⟩
+    rw [e0Inr_apply, Sum.inr.injEq] at he
+    exact he ▸ hu
+  · intro hx; exact ⟨x, hx, rfl⟩
+
+theorem chartIso_e0Inr : Causal.ChartIso causalityBTZE0 causalityYBTZ e0Inr := by
+  intro V _ x _ y _
+  rw [e0Inr_apply, e0Inr_apply, le_inr_iff, lt_inr_iff, rightOpens_chartImage_e0Inr]
+  exact ⟨Iff.rfl, Iff.rfl⟩
+
+theorem chartIso_e0Inr_symm : Causal.ChartIso causalityYBTZ causalityBTZE0 e0Inr.symm := by
+  intro V hV x hx y hy
+  have hVs : (V : Set (Causal.Minkowski 2 ⊕ BTZE0)) ⊆ range Sum.inr := fun z hz => by
+    have := hV hz; rwa [Causal.mem_chartSource, e0Inr_symm_source] at this
+  obtain ⟨a, rfl⟩ := hVs hx
+  obtain ⟨b, rfl⟩ := hVs hy
+  have himg : Causal.chartImage e0Inr.symm V = rightOpens V := by
+    ext m
+    rw [Causal.coe_chartImage_of_le hV]
+    constructor
+    · rintro ⟨u, hu, rfl⟩
+      obtain ⟨m', rfl⟩ := hVs hu
+      rw [e0Inr_symm_inr]; exact hu
+    · intro hm
+      exact ⟨Sum.inr m, hm, e0Inr_symm_inr m⟩
+  rw [himg, e0Inr_symm_inr, e0Inr_symm_inr, le_inr_iff, lt_inr_iff]
+  exact ⟨Iff.rfl, Iff.rfl⟩
+
+/-- `𝔼₀` (paper coordinates) into `Y = 𝕄 ⊕ BTZE0`. -/
+noncomputable def paperInY : OpenPartialHomeomorph E0 (Causal.Minkowski 2 ⊕ BTZE0) :=
+  toPaper.symm.toOpenPartialHomeomorph.trans e0Inr
+
+/-- `Y ⊇ BTZE0` to `𝔼₀` (paper coordinates). -/
+noncomputable def paperOfY : OpenPartialHomeomorph (Causal.Minkowski 2 ⊕ BTZE0) E0 :=
+  e0Inr.symm.trans toPaper.toOpenPartialHomeomorph
+
+theorem chartIso_paperInY : Causal.ChartIso causality causalityYBTZ paperInY :=
+  chartIso_trans (chartIso_transport_symm toPaper causality) chartIso_e0Inr
+
+theorem chartIso_paperOfY : Causal.ChartIso causalityYBTZ causality paperOfY :=
+  chartIso_trans chartIso_e0Inr_symm (chartIso_transport toPaper causality)
+
+@[simp] theorem paperInY_apply (w : E0) : paperInY w = Sum.inr (toPaper.symm w) := rfl
+
+@[simp] theorem paperOfY_inr (x : BTZE0) : paperOfY (Sum.inr x) = toPaper x := by
+  simp [paperOfY]
+
+@[simp] theorem paperInY_source : paperInY.source = univ := by
+  simp [paperInY]
+
+theorem paperOfY_source : paperOfY.source = range Sum.inr := by
+  simp [paperOfY]
+
+end ChartsY
+
+/-! ### The charts of the maximal a.e. atlas of `BTZE0` are chart isomorphisms -/
+
+section AeCharts
+
+open TopologicalSpace
+
+attribute [local instance] btzE0Structure
+
+theorem toPaper_orbitMk_snd' (y : DInfty × ℝ) :
+    (toPaper (orbitMk (GammaA (2 * π)) y)).2 = (starRingEnd ℂ) (DInfty.cplx (2 * π) y.1) := by
+  show (paperCoords (cylHomeomorph btz_two_pi_ne_zero ℝ _)).2 = _
+  rw [cylHomeomorph_apply]; rfl
+
+/-- A point of Model's `𝔼₀` is regular iff it is off the axis in the paper's coordinates. -/
+theorem mem_reg_iff_toPaper (x : BTZE0) :
+    x ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0 ↔ toPaper x ∉ axis := by
+  have key : ∀ y : DInfty × ℝ, (toPaper (orbitMk (GammaA (2 * π)) y)).2 ≠ 0 ↔ 0 < y.1.r := by
+    intro y
+    rw [toPaper_orbitMk_snd', Ne, map_eq_zero, ← norm_eq_zero, DInfty.norm_cplx]
+    exact ⟨fun h => lt_of_le_of_ne y.1.r_nonneg (Ne.symm h), fun h => h.ne'⟩
+  rw [btzE0_reg_eq]
+  obtain ⟨y, rfl⟩ := Quotient.mk_surjective x
+  show _ ↔ (toPaper (Quotient.mk _ y)).2 ≠ 0
+  constructor
+  · rintro ⟨y', hy', he⟩
+    have := (key y').2 hy'
+    rwa [show orbitMk (GammaA (2 * π)) y' = Quotient.mk _ y from he] at this
+  · intro h
+    exact ⟨y, (key y).1 h, rfl⟩
+
+/-- A point of `𝔼₀` off the axis, in the polar form `(τ, r e^{iθ})`, is the class of the cylinder
+point `btzPaperCyl (τ, r, θ)`. -/
+theorem toPaper_symm_eq_orbitMk {w : E0} (hw : w ∉ axis) {θ : ℝ} (hθ : Polar w θ) :
+    toPaper.symm w = orbitMk (GammaA (2 * π)) (btzPaperCyl (w.1, rad w, θ)) := by
+  have hr : 0 < rad w := rad_pos.2 hw
+  apply toPaper.injective
+  rw [Homeomorph.apply_symm_apply, btzPaperCyl_of_pos (p := (w.1, rad w, θ)) hr]
+  have h2 : ((w.1, (rad w : ℂ) * cexp (θ * I)) : E0) = w := Prod.ext rfl hθ.symm
+  exact ((toPaper_posEmb hr θ w.1).trans h2).symm
+
+/-- The sector chart read on Model's `𝔼₀`. -/
+noncomputable def sectorChartBTZ (y : E0) (hy : y.2 ≠ 0) :
+    OpenPartialHomeomorph BTZE0 (Causal.Minkowski 2) :=
+  toPaper.toOpenPartialHomeomorph.trans (sectorChart y hy)
+
+theorem chartIso_sectorChartBTZ {y : E0} (hy : y.2 ≠ 0) :
+    Causal.ChartIso causalityBTZE0 (Causal.minkowski 2) (sectorChartBTZ y hy) :=
+  chartIso_trans (chartIso_transport toPaper causality) (chartIso_sectorChart hy)
+
+theorem causalityBTZE0_causallyArcConnected : causalityBTZE0.CausallyArcConnected :=
+  transport_causallyArcConnected causallyArcConnected
+
+/-- **The charts of `BTZE0`'s maximal a.e. atlas are chart isomorphisms** onto `𝕄`: near each
+point such a chart is `g •` a sector chart (`btz_chart_eq_smul_btzPaperDev`). -/
+theorem chartIso_aeAtlas {c : OpenPartialHomeomorph BTZE0 (Causal.Minkowski 2)}
+    (hc : c ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) :
+    Causal.ChartIso causalityBTZE0 (Causal.minkowski 2) c := by
+  refine chartIso_of_isoNear (causalityBTZE0_causallyArcConnected.absolutelyMinimalOn_all)
+    (Causal.minkowski_causallyArcConnected.absolutelyMinimalOn_all) fun x hx => ?_
+  set y := toPaper x
+  have hxr : x ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0 :=
+    mem_support.2 ⟨c, hc, hx⟩
+  have hyax : y ∉ axis := (mem_reg_iff_toPaper x).1 hxr
+  have hy : y.2 ≠ 0 := hyax
+  set p : ℝ × ℝ × ℝ := (y.1, rad y, angle y y)
+  have hpx : orbitMk (GammaA (2 * π)) (btzPaperCyl p) = x := by
+    rw [← toPaper_symm_eq_orbitMk hyax (polar_angle hy y), Homeomorph.symm_apply_apply]
+  obtain ⟨g, hg⟩ := btz_chart_eq_smul_btzPaperDev isBTZStructure_btzE0 hc
+    (p := p) (rad_pos.2 hyax) (by rw [hpx]; exact hx)
+  set φ : BTZE0 → ℝ × ℝ × ℝ := fun z => ((toPaper z).1, rad (toPaper z), angle y (toPaper z))
+  have hφ : ContinuousAt φ x := by
+    have hang : ContinuousAt (angle y) y :=
+      (continuousOn_angle y).continuousAt ((isOpen_sector y).mem_nhds (mem_sector_self hy))
+    have h3 : ContinuousAt (fun z => angle y (toPaper z)) x :=
+      ContinuousAt.comp (g := angle y) (f := toPaper) hang toPaper.continuous.continuousAt
+    exact (continuous_fst.comp toPaper.continuous).continuousAt.prodMk
+      ((continuous_rad.comp toPaper.continuous).continuousAt.prodMk h3)
+  have hev : ∀ᶠ z in 𝓝 x, z ∈ c.source ∧ toPaper z ∈ sector y ∧
+      c z = g • sectorChartBTZ y hy z := by
+    have h1 : ∀ᶠ z in 𝓝 x, c (orbitMk (GammaA (2 * π)) (btzPaperCyl (φ z))) =
+        g • btzPaperDev (φ z) := hφ.eventually hg
+    have h2 : ∀ᶠ z in 𝓝 x, toPaper z ∈ sector y :=
+      toPaper.continuous.continuousAt.preimage_mem_nhds
+        ((isOpen_sector y).mem_nhds (mem_sector_self hy))
+    filter_upwards [h1, h2, c.open_source.mem_nhds hx] with z hz1 hz2 hz3
+    refine ⟨hz3, hz2, ?_⟩
+    have hzax : toPaper z ∉ axis := not_mem_axis_of_mem_sector hz2
+    have hz : orbitMk (GammaA (2 * π)) (btzPaperCyl (φ z)) = z := by
+      rw [← toPaper_symm_eq_orbitMk hzax (polar_angle hy (toPaper z)),
+        Homeomorph.symm_apply_apply]
+    rw [hz] at hz1
+    rw [hz1]
+    show g • btzPaperDev (φ z) = g • chartMap y (toPaper z)
+    rw [chartMap_eq]
+  set O : Opens BTZE0 := ⟨interior {z | z ∈ c.source ∧ toPaper z ∈ sector y ∧
+      c z = g • sectorChartBTZ y hy z}, isOpen_interior⟩
+  have hO : O ≤ Causal.chartSource (sectorChartBTZ y hy) ⊓ Causal.chartSource c := by
+    intro z hz
+    obtain ⟨h1, h2, -⟩ := interior_subset hz
+    refine ⟨?_, h1⟩
+    show z ∈ (toPaper.toOpenPartialHomeomorph.trans (sectorChart y hy)).source
+    rw [OpenPartialHomeomorph.trans_source]
+    exact ⟨trivial, h2⟩
+  have hagree := Causal.ChartIso.agreeOn_of_smul Causal.Flat.isom_strongMorphism
+    (chartIso_sectorChartBTZ hy) ((Causal.minkowski 2).chartTransport_chartIso c) hO
+    (fun z hz => (interior_subset hz).2.2)
+  exact ⟨O, mem_interior_iff_mem_nhds.2 hev, hO.trans inf_le_right,
+    isoNear_of_agreeOn hagree (hO.trans inf_le_right)⟩
+
+/-- **The regular charts of `Y = 𝕄 ⊕ BTZE0`** (Rigid's `e0Atlas`) are chart isomorphisms. -/
+theorem chartIso_e0Atlas {c : OpenPartialHomeomorph (Causal.Minkowski 2 ⊕ BTZE0)
+    (Causal.Minkowski 2)} (hc : c ∈ e0Atlas) :
+    Causal.ChartIso causalityYBTZ (Causal.minkowski 2) c := by
+  rcases mem_e0Atlas.1 hc with rfl | ⟨c', hc', rfl⟩
+  · exact chartIso_e0Inl_symm
+  · exact chartIso_trans chartIso_e0Inr_symm (chartIso_aeAtlas hc')
+
+end AeCharts
+
+/-! ### Curves through the BTZ line under a homeomorphism regular off it -/
+
+section AxisCurves
+
+open TopologicalSpace
+
+variable {F : OpenPartialHomeomorph E0 E0}
+
+theorem Lt.not_mem_axis {x y : E0} (h : Lt x y) : y ∉ axis := fun hy => by
+  obtain ⟨hx, -⟩ := (le_axis_iff' hy).1 h.le
+  have := ((lt_axis_iff hx).1 h).1
+  rw [rad_eq_zero.2 hy] at this
+  exact lt_irrefl _ this
+
+theorem chartImage_symm_chartImage {e : OpenPartialHomeomorph E0 E0} {V : Opens E0}
+    (hV : V ≤ Causal.chartSource e) :
+    Causal.chartImage e.symm (Causal.chartImage e V) = V := by
+  have hV' : Causal.chartImage e V ≤ Causal.chartSource e.symm := by
+    intro p hp
+    obtain ⟨z, hz, -, rfl, -⟩ := Causal.exists_of_mem_chartImage hp
+    exact e.map_source hz
+  apply SetLike.coe_injective
+  rw [Causal.coe_chartImage_of_le hV', Causal.coe_chartImage_of_le hV, image_image]
+  conv_rhs => rw [← image_id (V : Set E0)]
+  exact image_congr fun z hz => e.left_inv (hV hz)
+
+variable (hreg : ∀ x ∈ F.source, x ∉ axis → ∃ O : Opens E0, x ∈ O ∧
+  O ≤ Causal.chartSource F ∧ IsoNear causality causality F O)
+include hreg
+
+/-- Near a parameter where a causal curve is off the axis, its image is `≼`-increasing. -/
+theorem regular_window_le {V : Opens E0} (hV : V ≤ Causal.chartSource F) {γ : ℝ → E0} {a b : ℝ}
+    (hc : Causal.CurveOn (relOn Le) V γ a b) {t : ℝ} (ht : t ∈ Icc a b) (hγt : γ t ∉ axis) :
+    ∃ l u, l < t ∧ t < u ∧ ∀ s ∈ Icc a b, ∀ s' ∈ Icc a b, l < s → s < s' → s' < u →
+      Le (F (γ s)) (F (γ s')) := by
+  obtain ⟨O, hxO, -, hiso⟩ := hreg (γ t) (hV (hc.mem t ht)) hγt
+  set W : Opens E0 := O ⊓ V
+  have hpre : γ ⁻¹' W ∈ 𝓝[Icc a b] t :=
+    (hc.continuousOn isRelFamily_le) t ht (W.isOpen.mem_nhds ⟨hxO, hc.mem t ht⟩)
+  obtain ⟨ε, hε, hball⟩ := Metric.mem_nhdsWithin_iff.1 hpre
+  refine ⟨t - ε, t + ε, by linarith, by linarith, fun s hs s' hs' h1 h2 h3 => ?_⟩
+  have hmem : ∀ τ ∈ Icc s s', γ τ ∈ W := fun τ hτ => hball
+    ⟨by rw [Metric.mem_ball, Real.dist_eq, abs_lt]; constructor <;> linarith [hτ.1, hτ.2],
+      ⟨hs.1.trans hτ.1, hτ.2.trans hs'.2⟩⟩
+  have hW : causality.le W (γ s) (γ s') :=
+    ⟨s, s', h2.le, γ, hc.restrict hs.1 hs'.2 inf_le_right hmem, rfl, rfl⟩
+  exact le_of_le (((hiso W inf_le_left (γ s) (hmem s ⟨le_rfl, h2.le⟩) (γ s')
+    (hmem s' ⟨h2.le, le_rfl⟩)).1).1 hW)
+
+/-- Near a parameter where a chronological curve is off the axis, its image is `≺`-increasing. -/
+theorem regular_window_lt {V : Opens E0} (hV : V ≤ Causal.chartSource F) {γ : ℝ → E0} {a b : ℝ}
+    (hc : Causal.CurveOn (relOn Lt) V γ a b) {t : ℝ} (ht : t ∈ Icc a b) (hγt : γ t ∉ axis) :
+    ∃ l u, l < t ∧ t < u ∧ ∀ s ∈ Icc a b, ∀ s' ∈ Icc a b, l < s → s < s' → s' < u →
+      Lt (F (γ s)) (F (γ s')) := by
+  obtain ⟨O, hxO, -, hiso⟩ := hreg (γ t) (hV (hc.mem t ht)) hγt
+  set W : Opens E0 := O ⊓ V
+  have hpre : γ ⁻¹' W ∈ 𝓝[Icc a b] t :=
+    (hc.continuousOn isRelFamily_lt) t ht (W.isOpen.mem_nhds ⟨hxO, hc.mem t ht⟩)
+  obtain ⟨ε, hε, hball⟩ := Metric.mem_nhdsWithin_iff.1 hpre
+  refine ⟨t - ε, t + ε, by linarith, by linarith, fun s hs s' hs' h1 h2 h3 => ?_⟩
+  have hmem : ∀ τ ∈ Icc s s', γ τ ∈ W := fun τ hτ => hball
+    ⟨by rw [Metric.mem_ball, Real.dist_eq, abs_lt]; constructor <;> linarith [hτ.1, hτ.2],
+      ⟨hs.1.trans hτ.1, hτ.2.trans hs'.2⟩⟩
+  have hW : causality.lt W (γ s) (γ s') :=
+    ⟨s, s', h2, γ, hc.restrict hs.1 hs'.2 inf_le_right hmem, rfl, rfl⟩
+  exact lt_of_lt (((hiso W inf_le_left (γ s) (hmem s ⟨le_rfl, h2.le⟩) (γ s')
+    (hmem s' ⟨h2.le, le_rfl⟩)).2).1 hW)
+
+/-- A causal curve off the axis has a `≼`-increasing image. -/
+theorem regular_curve_le {V : Opens E0} (hV : V ≤ Causal.chartSource F) {γ : ℝ → E0} {a b : ℝ}
+    (hc : Causal.CurveOn (relOn Le) V γ a b) (hoff : ∀ s ∈ Icc a b, γ s ∉ axis) {s s' : ℝ}
+    (hs : a ≤ s) (hss' : s < s') (hs' : s' ≤ b) : Le (F (γ s)) (F (γ s')) := by
+  have hcont : ContinuousOn (fun t => F (γ t)) (Icc a b) :=
+    F.continuousOn.comp (hc.continuousOn isRelFamily_le) fun t ht => hV (hc.mem t ht)
+  have himg : Causal.CurveOn (relOn Le) ⊤ (fun t => F (γ t)) a b :=
+    curveOn_of_local hcont (fun _ _ => trivial)
+      fun t ht => regular_window_le hreg hV hc ht (hoff t ht)
+  exact (himg.rel_of_lt isRelFamily_le hs hss' hs').2.2
+
+/-- A chronological curve off the axis has a `≺`-increasing image. -/
+theorem regular_curve_lt {V : Opens E0} (hV : V ≤ Causal.chartSource F) {γ : ℝ → E0} {a b : ℝ}
+    (hc : Causal.CurveOn (relOn Lt) V γ a b) (hoff : ∀ s ∈ Icc a b, γ s ∉ axis) {s s' : ℝ}
+    (hs : a ≤ s) (hss' : s < s') (hs' : s' ≤ b) : Lt (F (γ s)) (F (γ s')) := by
+  have hcont : ContinuousOn (fun t => F (γ t)) (Icc a b) :=
+    F.continuousOn.comp (hc.continuousOn isRelFamily_lt) fun t ht => hV (hc.mem t ht)
+  have himg : Causal.CurveOn (relOn Lt) ⊤ (fun t => F (γ t)) a b :=
+    curveOn_of_local hcont (fun _ _ => trivial)
+      fun t ht => regular_window_lt hreg hV hc ht (hoff t ht)
+  exact (himg.rel_of_lt isRelFamily_lt hs hss' hs').2.2
+
+/-- **The limit at the axis**: a causal curve leaving the axis at its start has a causally related
+image of its ends (`J⁻` is closed). -/
+theorem le_ends_of_leaves {V : Opens E0} (hV : V ≤ Causal.chartSource F) {γ : ℝ → E0} {a b : ℝ}
+    (hc : Causal.CurveOn (relOn Le) V γ a b) (hab : a < b) (hoff : ∀ s ∈ Ioc a b, γ s ∉ axis) :
+    Le (F (γ a)) (F (γ b)) := by
+  have hcont : ContinuousOn (fun t => F (γ t)) (Icc a b) :=
+    F.continuousOn.comp (hc.continuousOn isRelFamily_le) fun t ht => hV (hc.mem t ht)
+  have hS := isClosed_Jminus (F (γ b))
+  have hsub : (fun t => F (γ t)) '' Ioo a b ⊆ causality.Jminus ⊤ {F (γ b)} := by
+    rintro _ ⟨σ, hσ, rfl⟩
+    rw [Causal.Precausality.mem_Jminus_singleton, le_top_iff]
+    exact regular_curve_le hreg hV (hc.restrict hσ.1.le le_rfl le_rfl
+      fun t ht => hc.mem t ⟨hσ.1.le.trans ht.1, ht.2⟩)
+      (fun t ht => hoff t ⟨hσ.1.trans_le ht.1, ht.2⟩) le_rfl hσ.2 le_rfl
+  have hcl : F (γ a) ∈ closure ((fun t => F (γ t)) '' Ioo a b) :=
+    ((hcont a ⟨le_rfl, hab.le⟩).mono Ioo_subset_Icc_self).mem_closure_image
+      (by rw [closure_Ioo hab.ne]; exact ⟨le_rfl, hab.le⟩)
+  have := hS.closure_subset_iff.2 hsub hcl
+  rwa [Causal.Precausality.mem_Jminus_singleton, le_top_iff] at this
+
+variable (hax : ∀ x ∈ F.source, F x ∈ axis ↔ x ∈ axis)
+include hax
+
+/-- **Orientation along the axis**: near a BTZ point, `F` preserves the order of `τ` on the axis
+(a chronological ray leaving `p₂` and the closedness of `J^±` force `F p₁ ≼ F p₂`). -/
+theorem orientation_axis {p₀ : E0} (hp₀ : p₀ ∈ F.source) :
+    ∃ δ > 0, Metric.ball p₀ δ ⊆ F.source ∧ ∀ p₁ ∈ Metric.ball p₀ δ, ∀ p₂ ∈ Metric.ball p₀ δ,
+      p₁ ∈ axis → p₂ ∈ axis → p₁.1 ≤ p₂.1 → (F p₁).1 ≤ (F p₂).1 := by
+  obtain ⟨δ₀, hδ₀, hball⟩ := Metric.isOpen_iff.1 F.open_source p₀ hp₀
+  refine ⟨δ₀ / 10, by positivity, (Metric.ball_subset_ball (by linarith)).trans hball,
+    fun p₁ hp₁ p₂ hp₂ hax₁ hax₂ h12 => ?_⟩
+  set B₀ : Opens E0 := ⟨Metric.ball p₀ δ₀, Metric.isOpen_ball⟩
+  have hB₀ : B₀ ≤ Causal.chartSource F := hball
+  -- the image of a chronological future point of `p₂`
+  have key : ∀ q, Lt p₂ q → dist q p₂ < δ₀ / 10 → Le (F p₁) (F q) := by
+    intro q hq hqd
+    have h1q : Le p₁ q := (le_axis hax₁ hax₂ h12).trans hq.le
+    obtain ⟨θ₁, θ₂, hp₁θ, hqθ, hN⟩ := h1q
+    set P := lift p₁ θ₁
+    set Q := lift q θ₂
+    have hqax : q ∉ axis := hq.not_mem_axis
+    have hP0 : P.2.1 = 0 := rad_eq_zero.2 hax₁
+    have hQ : Q.2.1 = rad q := rfl
+    have hmem : ∀ s ∈ Icc (0 : ℝ) 1, unlift (seg P Q s) ∈ B₀ := by
+      intro s hs
+      obtain ⟨hl, hr⟩ := le_seg_ends (adm_lift p₁ θ₁) hN hs
+      rw [unlift_lift hp₁θ] at hl
+      rw [unlift_lift hqθ] at hr
+      have d1 := hl.dist_le
+      have d2 := hr.closed.1
+      have d3 := (le_abs_self _).trans (abs_fst_sub_le_dist q p₂)
+      have d4 := (le_abs_self _).trans (abs_fst_sub_le_dist p₂ p₀)
+      have d5 := (neg_le_abs _).trans (abs_fst_sub_le_dist p₁ p₀)
+      rw [Metric.mem_ball] at hp₁ hp₂
+      show dist (unlift (seg P Q s)) p₀ < δ₀
+      have := dist_triangle (unlift (seg P Q s)) p₁ p₀
+      rw [dist_comm] at d1
+      linarith
+    have hc := curveOn_unlift_seg (adm_lift p₁ θ₁) hN hmem
+    have hoff : ∀ s ∈ Ioc (0 : ℝ) 1, unlift (seg P Q s) ∉ axis := by
+      intro s hs
+      rw [← rad_pos, rad_unlift (adm_seg (adm_lift p₁ θ₁) hN hs.1.le).nonneg, seg_snd_fst, hP0,
+        hQ]
+      have := rad_pos.2 hqax
+      nlinarith [hs.1]
+    have := le_ends_of_leaves hreg hB₀ hc zero_lt_one hoff
+    simp only [seg_zero, seg_one, unlift_lift hp₁θ] at this
+    rwa [show unlift Q = q from unlift_lift hqθ] at this
+  -- `p₂` is a limit of such points
+  have hp₂s : p₂ ∈ F.source := hball (Metric.ball_subset_ball (by linarith) hp₂)
+  set T : Set E0 := {q | Lt p₂ q ∧ dist q p₂ < δ₀ / 10}
+  have hT : p₂ ∈ closure T := by
+    rw [mem_closure_iff_nhds]
+    intro N hN
+    obtain ⟨q, hq, hlt⟩ := exists_lt_mem p₂ (inter_mem hN (Metric.ball_mem_nhds p₂
+      (show (0 : ℝ) < δ₀ / 10 by positivity)))
+    exact ⟨q, hq.1, hlt, hq.2⟩
+  have hcl := (F.continuousAt hp₂s).continuousWithinAt.mem_closure_image hT
+  have hsub : F '' T ⊆ causality.Jplus ⊤ {F p₁} := by
+    rintro _ ⟨q, hq, rfl⟩
+    rw [Causal.Precausality.mem_Jplus_singleton, le_top_iff]
+    exact key q hq.1 hq.2
+  have hle := (isClosed_Jplus (F p₁)).closure_subset_iff.2 hsub hcl
+  rw [Causal.Precausality.mem_Jplus_singleton, le_top_iff] at hle
+  exact ((le_axis_iff' ((hax p₂ hp₂s).2 hax₂)).1 hle).2
+
+/-- **The image of a causal curve is a causal curve**, also through the axis. -/
+theorem cle_image {V : Opens E0} (hV : V ≤ Causal.chartSource F) {x y : E0} (h : CLe V x y) :
+    CLe (Causal.chartImage F V) (F x) (F y) := by
+  obtain ⟨a, b, hab, γ, hc, rfl, rfl⟩ := h
+  have hcont : ContinuousOn (fun t => F (γ t)) (Icc a b) :=
+    F.continuousOn.comp (hc.continuousOn isRelFamily_le) fun t ht => hV (hc.mem t ht)
+  refine ⟨a, b, hab, fun t => F (γ t), curveOn_of_local hcont
+    (fun t ht => Causal.mem_chartImage_of_mem (hV (hc.mem t ht)) (hc.mem t ht))
+    (fun t ht => ?_), rfl, rfl⟩
+  by_cases hγt : γ t ∈ axis
+  swap
+  · exact regular_window_le hreg hV hc ht hγt
+  obtain ⟨δ, hδ, hδs, hor⟩ := orientation_axis hreg hax (hV (hc.mem t ht))
+  have hpre : γ ⁻¹' Metric.ball (γ t) δ ∈ 𝓝[Icc a b] t :=
+    (hc.continuousOn isRelFamily_le) t ht (Metric.ball_mem_nhds _ hδ)
+  obtain ⟨ε, hε, hball⟩ := Metric.mem_nhdsWithin_iff.1 hpre
+  refine ⟨t - ε, t + ε, by linarith, by linarith, fun s hs s' hs' h1 h2 h3 => ?_⟩
+  have hB : ∀ τ ∈ Icc s s', γ τ ∈ Metric.ball (γ t) δ := fun τ hτ => hball
+    ⟨by rw [Metric.mem_ball, Real.dist_eq, abs_lt]; constructor <;> linarith [hτ.1, hτ.2],
+      ⟨hs.1.trans hτ.1, hτ.2.trans hs'.2⟩⟩
+  have hsrc : ∀ τ ∈ Icc a b, γ τ ∈ F.source := fun τ hτ => hV (hc.mem τ hτ)
+  -- along the axis part, the orientation
+  have haxis : ∀ σ ∈ Icc s s', ∀ σ' ∈ Icc s s', σ ≤ σ' → γ σ' ∈ axis →
+      Le (F (γ σ)) (F (γ σ')) := by
+    intro σ hσ σ' hσ' hle hσ'ax
+    have hσab : σ ∈ Icc a b := ⟨hs.1.trans hσ.1, hσ.2.trans hs'.2⟩
+    have hσ'ab : σ' ∈ Icc a b := ⟨hs.1.trans hσ'.1, hσ'.2.trans hs'.2⟩
+    have hLe : Le (γ σ) (γ σ') := by
+      rcases hle.lt_or_eq with hlt | heq
+      · exact (hc.rel_of_lt isRelFamily_le hσab.1 hlt hσ'ab.2).2.2
+      · rw [heq]; exact le_refl' _
+    obtain ⟨hσax, hτ⟩ := (le_axis_iff' hσ'ax).1 hLe
+    exact le_axis ((hax _ (hsrc σ hσab)).2 hσax) ((hax _ (hsrc σ' hσ'ab)).2 hσ'ax)
+      (hor _ (hB σ hσ) _ (hB σ' hσ') hσax hσ'ax hτ)
+  have hss : s ∈ Icc s s' := ⟨le_rfl, h2.le⟩
+  have hss' : s' ∈ Icc s s' := ⟨h2.le, le_rfl⟩
+  by_cases hs'ax : γ s' ∈ axis
+  · exact haxis s hss s' hss' h2.le hs'ax
+  set A : Set ℝ := Icc s s' ∩ γ ⁻¹' axis
+  by_cases hA : A.Nonempty
+  swap
+  · have hoff : ∀ τ ∈ Icc s s', γ τ ∉ axis := fun τ hτ hτax => hA ⟨τ, hτ, hτax⟩
+    exact regular_curve_le hreg hV (hc.restrict hs.1 hs'.2 le_rfl
+      fun τ hτ => hc.mem τ ⟨hs.1.trans hτ.1, hτ.2.trans hs'.2⟩) hoff le_rfl h2 le_rfl
+  have hAc : IsClosed A :=
+    ((hc.continuousOn isRelFamily_le).mono (Icc_subset_Icc hs.1 hs'.2)).preimage_isClosed_of_isClosed
+      isClosed_Icc isClosed_axis
+  have hAb : BddAbove A := ⟨s', fun τ hτ => hτ.1.2⟩
+  set t₁ := sSup A
+  have ht₁ : t₁ ∈ A := hAc.csSup_mem hA hAb
+  have ht₁s' : t₁ < s' := lt_of_le_of_ne ht₁.1.2 fun h => hs'ax (h ▸ ht₁.2)
+  have hoff : ∀ τ ∈ Ioc t₁ s', γ τ ∉ axis := fun τ hτ hτax =>
+    absurd (le_csSup hAb ⟨⟨ht₁.1.1.trans hτ.1.le, hτ.2⟩, hτax⟩) (not_le.2 hτ.1)
+  have h1' := haxis s hss t₁ ht₁.1 ht₁.1.1 ht₁.2
+  have h2' := le_ends_of_leaves hreg hV (hc.restrict (hs.1.trans ht₁.1.1) hs'.2 le_rfl
+    fun τ hτ => hc.mem τ ⟨(hs.1.trans ht₁.1.1).trans hτ.1, hτ.2.trans hs'.2⟩) ht₁s' hoff
+  exact h1'.trans h2'
+
+omit hax in
+/-- **The image of a chronological curve is a chronological curve**, also from the axis. -/
+theorem clt_image {V : Opens E0} (hV : V ≤ Causal.chartSource F) {x y : E0} (h : CLt V x y) :
+    CLt (Causal.chartImage F V) (F x) (F y) := by
+  obtain ⟨a, b, hab, γ, hc, rfl, rfl⟩ := h
+  have hcont : ContinuousOn (fun t => F (γ t)) (Icc a b) :=
+    F.continuousOn.comp (hc.continuousOn isRelFamily_lt) fun t ht => hV (hc.mem t ht)
+  have hcle : Causal.CurveOn (relOn Le) V γ a b :=
+    curveOn_mono_rel (fun _ _ _ h => ⟨h.1, h.2.1, h.2.2.le⟩) hc
+  have hoff : ∀ s ∈ Ioc a b, γ s ∉ axis := fun s hs =>
+    (hc.rel_of_lt isRelFamily_lt le_rfl hs.1 hs.2).2.2.not_mem_axis
+  have hglob : ∀ s ∈ Icc a b, ∀ s' ∈ Icc a b, s < s' → Lt (F (γ s)) (F (γ s')) := by
+    intro s hs s' hs' hss'
+    have hrest : ∀ {σ σ' : ℝ}, a < σ → σ < σ' → σ' ≤ b → Lt (F (γ σ)) (F (γ σ')) :=
+      fun {σ σ'} hσ hσσ' hσ' => regular_curve_lt hreg hV (hc.restrict hσ.le hσ' le_rfl
+        fun τ hτ => hc.mem τ ⟨hσ.le.trans hτ.1, hτ.2.trans hσ'⟩)
+        (fun τ hτ => hoff τ ⟨hσ.trans_le hτ.1, hτ.2.trans hσ'⟩) le_rfl hσσ' le_rfl
+    rcases hs.1.lt_or_eq with has | has
+    · exact hrest has hss' hs'.2
+    · subst has
+      set σ := (a + s') / 2
+      have h1 : a < σ := by simp only [σ]; linarith
+      have h2 : σ < s' := by simp only [σ]; linarith
+      have hle := le_ends_of_leaves hreg hV (hcle.restrict le_rfl (h2.le.trans hs'.2) le_rfl
+        fun τ hτ => hcle.mem τ ⟨hτ.1, hτ.2.trans (h2.le.trans hs'.2)⟩) h1
+        (fun τ hτ => hoff τ ⟨hτ.1, hτ.2.trans (h2.le.trans hs'.2)⟩)
+      exact hle.trans_lt (hrest h1 h2 hs'.2)
+  refine ⟨a, b, hab, fun t => F (γ t), curveOn_of_local hcont
+    (fun t ht => Causal.mem_chartImage_of_mem (hV (hc.mem t ht)) (hc.mem t ht))
+    (fun t _ => ⟨a - 1, b + 1, by linarith [‹t ∈ Icc a b›.1], by linarith [‹t ∈ Icc a b›.2],
+      fun s hs s' hs' _ h _ => hglob s hs s' hs' h⟩), rfl, rfl⟩
+
+/-- **A partial homeomorphism of `𝔼₀` preserving the axis and a chart isomorphism near every
+regular point is a chart isomorphism**, BTZ points included. -/
+theorem chartIso_of_axis : Causal.ChartIso causality causality F := by
+  have hax' : ∀ x ∈ F.symm.source, F.symm x ∈ axis ↔ x ∈ axis := fun x hx => by
+    have h := hax (F.symm x) (F.map_target hx)
+    rw [F.right_inv hx] at h
+    exact h.symm
+  have hreg' : ∀ x ∈ F.symm.source, x ∉ axis → ∃ O : Opens E0, x ∈ O ∧
+      O ≤ Causal.chartSource F.symm ∧ IsoNear causality causality F.symm O := by
+    intro x hx hxax
+    have hz : F.symm x ∈ F.source := F.map_target hx
+    obtain ⟨O, hzO, hOs, hiso⟩ := hreg (F.symm x) hz fun h => hxax ((hax' x hx).1 h)
+    refine ⟨Causal.chartImage F O, ?_, ?_, hiso.symm hOs⟩
+    · have := Causal.mem_chartImage_of_mem hz hzO
+      rwa [F.right_inv hx] at this
+    · intro p hp
+      obtain ⟨z, hz', -, rfl, -⟩ := Causal.exists_of_mem_chartImage hp
+      exact F.map_source hz'
+  intro V hV x hx y hy
+  have hV' : Causal.chartImage F V ≤ Causal.chartSource F.symm := by
+    intro p hp
+    obtain ⟨z, hz', -, rfl, -⟩ := Causal.exists_of_mem_chartImage hp
+    exact F.map_source hz'
+  have hback : ∀ {p q : E0}, p ∈ V → q ∈ V →
+      (CLe (Causal.chartImage F V) (F p) (F q) → CLe V p q) ∧
+        (CLt (Causal.chartImage F V) (F p) (F q) → CLt V p q) := by
+    intro p q hp hq
+    have e1 := chartImage_symm_chartImage hV
+    have ep := F.left_inv (hV hp)
+    have eq := F.left_inv (hV hq)
+    refine ⟨fun h => ?_, fun h => ?_⟩
+    · have := cle_image (F := F.symm) hreg' hax' hV' h
+      rwa [e1, ep, eq] at this
+    · have := clt_image (F := F.symm) hreg' hV' h
+      rwa [e1, ep, eq] at this
+  exact ⟨⟨cle_image hreg hax hV, (hback hx hy).1⟩, ⟨clt_image hreg hV, (hback hx hy).2⟩⟩
+
+end AxisCurves
+
+/-! ### `chartIso_mem`: the elements of `G` are chart isomorphisms of `𝕄 ⊕ BTZE0` -/
+
+section ChartIsoMem
+
+open TopologicalSpace
+
+attribute [local instance] btzE0Structure
+
+/-- At a regular point an element of `G` is, near the point, `c'⁻¹ ∘ g ∘ c` for regular charts
+`c`, `c'` and `g ∈ Isom(𝐌³)`: a chart isomorphism near the point. -/
+theorem isoNear_of_mem_e0Groupoid_reg {e : OpenPartialHomeomorph E0Y E0Y} (he : e ∈ e0Groupoid)
+    {x : E0Y} (hx : x ∈ e.source) (hxr : x ∈ e0Reg) :
+    ∃ O : Opens E0Y, x ∈ O ∧ O ≤ Causal.chartSource e ∧
+      IsoNear causalityYBTZ causalityYBTZ e O := by
+  obtain ⟨hcont, hreg⟩ := (mem_e0Groupoid_iff.1 he).1 x hx
+  obtain ⟨hex, hch⟩ := hreg hxr
+  obtain ⟨c, hc, hxc⟩ := mem_support.1 hxr
+  obtain ⟨c', hc', hexc⟩ := mem_support.1 hex
+  obtain ⟨g, hg⟩ := hch c hc c' hc' hxc hexc
+  have hev : ∀ᶠ z in 𝓝 x, z ∈ c.source ∧ z ∈ e.source ∧ e z ∈ c'.source ∧
+      c' (e z) = g • c z := by
+    filter_upwards [c.open_source.mem_nhds hxc, e.open_source.mem_nhds hx,
+      hcont.preimage_mem_nhds (c'.open_source.mem_nhds hexc), hg] with z h1 h2 h3 h4
+    exact ⟨h1, h2, h3, h4⟩
+  set O : Opens E0Y := ⟨interior {z | z ∈ c.source ∧ z ∈ e.source ∧ e z ∈ c'.source ∧
+      c' (e z) = g • c z}, isOpen_interior⟩
+  have hO : O ≤ Causal.chartSource c ⊓ Causal.chartSource e := fun z hz =>
+    ⟨(interior_subset hz).1, (interior_subset hz).2.1⟩
+  have hagree := Causal.ChartIso.agreeOn_of_regular Causal.Flat.isom_strongMorphism
+    (chartIso_e0Atlas hc) (causalityYBTZ.chartTransport_chartIso e) (chartIso_e0Atlas hc') hO
+    fun z hz => ⟨(interior_subset hz).2.2.1, (interior_subset hz).2.2.2⟩
+  exact ⟨O, mem_interior_iff_mem_nhds.2 hev, hO.trans inf_le_right,
+    isoNear_of_agreeOn hagree (hO.trans inf_le_right)⟩
+
+/-- An element of `G` read in the paper's coordinates of `𝔼₀`. -/
+noncomputable def paperConj (e : OpenPartialHomeomorph E0Y E0Y) : OpenPartialHomeomorph E0 E0 :=
+  paperInY.trans (e.trans paperOfY)
+
+theorem paperConj_apply (e : OpenPartialHomeomorph E0Y E0Y) (w : E0) :
+    paperConj e w = paperOfY (e (paperInY w)) := rfl
+
+theorem mem_paperConj_source {e : OpenPartialHomeomorph E0Y E0Y} {w : E0} :
+    w ∈ (paperConj e).source ↔ paperInY w ∈ e.source ∧ e (paperInY w) ∈ range Sum.inr := by
+  simp only [paperConj, OpenPartialHomeomorph.trans_source, paperInY_source, univ_inter,
+    mem_preimage, mem_inter_iff, paperOfY_source]
+
+theorem paperInY_paperOfY {z : E0Y} (hz : z ∈ range Sum.inr) : paperInY (paperOfY z) = z := by
+  obtain ⟨u, rfl⟩ := hz
+  rw [paperOfY_inr, paperInY_apply, Homeomorph.symm_apply_apply]
+
+theorem inr_mem_e0Reg_iff_toPaper {u : BTZE0} : (Sum.inr u : E0Y) ∈ e0Reg ↔ toPaper u ∉ axis := by
+  rw [inr_mem_e0Reg_iff, mem_reg_iff_toPaper]
+
+theorem paperInY_mem_e0Reg_iff {w : E0} : paperInY w ∈ e0Reg ↔ w ∉ axis := by
+  rw [paperInY_apply, inr_mem_e0Reg_iff_toPaper, Homeomorph.apply_symm_apply]
+
+/-- **An element of `G`, read in `𝔼₀`'s coordinates, is a chart isomorphism**, BTZ points
+included. -/
+theorem chartIso_paperConj {e : OpenPartialHomeomorph E0Y E0Y} (he : e ∈ e0Groupoid) :
+    Causal.ChartIso causality causality (paperConj e) := by
+  have hreg : ∀ x ∈ (paperConj e).source, x ∉ axis → ∃ O : Opens E0, x ∈ O ∧
+      O ≤ Causal.chartSource (paperConj e) ∧ IsoNear causality causality (paperConj e) O := by
+    intro w hw hwax
+    obtain ⟨hw1, hw2⟩ := mem_paperConj_source.1 hw
+    obtain ⟨O, hxO, hOs, hiso⟩ :=
+      isoNear_of_mem_e0Groupoid_reg he hw1 (paperInY_mem_e0Reg_iff.2 hwax)
+    set O₁ : Opens E0Y := O ⊓ Causal.chartSource (e.trans paperOfY)
+    have hiso₁ : IsoNear causalityYBTZ causality (e.trans paperOfY) O₁ := by
+      refine IsoNear.trans (hiso.mono inf_le_left) (isoNear_of_chartIso chartIso_paperOfY le_rfl)
+        inf_le_right ?_
+      intro p hp
+      obtain ⟨z, -, hz, rfl, -⟩ := Causal.exists_of_mem_chartImage hp
+      exact hz.2.2
+    have hcont : Continuous paperInY := continuous_inr.comp toPaper.symm.continuous
+    set O₂ : Opens E0 := Causal.chartSource (paperConj e) ⊓ ⟨paperInY ⁻¹' O₁, O₁.isOpen.preimage hcont⟩
+    refine ⟨O₂, ⟨hw, hxO, ?_⟩, inf_le_left, ?_⟩
+    · show paperInY w ∈ (e.trans paperOfY).source
+      rw [OpenPartialHomeomorph.trans_source, paperOfY_source]; exact ⟨hw1, hw2⟩
+    · refine IsoNear.trans (isoNear_of_chartIso chartIso_paperInY fun z _ => by
+        show z ∈ paperInY.source; rw [paperInY_source]; trivial) hiso₁ inf_le_left ?_
+      intro p hp
+      obtain ⟨z, -, hz, rfl, -⟩ := Causal.exists_of_mem_chartImage hp
+      exact hz.2
+  have hax : ∀ x ∈ (paperConj e).source, paperConj e x ∈ axis ↔ x ∈ axis := by
+    intro w hw
+    obtain ⟨hw1, ⟨u, hu⟩⟩ := mem_paperConj_source.1 hw
+    have h := mem_e0Reg_iff_of_mem he hw1
+    rw [paperInY_mem_e0Reg_iff, ← hu, inr_mem_e0Reg_iff_toPaper] at h
+    rw [paperConj_apply, ← hu, paperOfY_inr]
+    exact not_iff_not.1 h.symm
+  exact chartIso_of_axis hreg hax
+
+/-- **`LocalModel.chartIso_mem` for `𝔐E₀`** (`Y = 𝕄 ⊕ BTZE0`, `G = GX.e0Groupoid`, the causality
+`GX.E0.causalityYBTZ`): every element of `G` is a chart isomorphism, at the BTZ points included.
+At a regular point it is `c'⁻¹ ∘ g ∘ c` (`isoNear_of_mem_e0Groupoid_reg`); at a BTZ point it is
+read in `𝔼₀`'s coordinates (`chartIso_paperConj`); the two are glued by absolute minimality
+(`chartIso_of_isoNear`). -/
+theorem chartIso_mem_e0Groupoid :
+    ∀ e ∈ e0Groupoid, Causal.ChartIso causalityYBTZ causalityYBTZ e := by
+  intro e he
+  refine chartIso_of_isoNear absolutelyMinimalOn_YBTZ absolutelyMinimalOn_YBTZ fun x hx => ?_
+  by_cases hxr : x ∈ e0Reg
+  · exact isoNear_of_mem_e0Groupoid_reg he hx hxr
+  have hexr : e x ∉ e0Reg := fun h => hxr ((mem_e0Reg_iff_of_mem he hx).2 h)
+  have hinr : ∀ {z : E0Y}, z ∉ e0Reg → z ∈ range Sum.inr := fun {z} hz => by
+    rcases z with m | u
+    · exact absurd (inl_mem_e0Reg m) hz
+    · exact ⟨u, rfl⟩
+  set e' := paperOfY.trans ((paperConj e).trans paperInY)
+  have hiso : Causal.ChartIso causalityYBTZ causalityYBTZ e' :=
+    chartIso_trans chartIso_paperOfY (chartIso_trans (chartIso_paperConj he) chartIso_paperInY)
+  set O : Opens E0Y := Causal.chartSource (e.trans paperOfY) ⊓ Causal.chartSource paperOfY
+  have hOe : O ≤ Causal.chartSource e := fun z hz => hz.1.1
+  have hsrc : ∀ {z : E0Y}, z ∈ Causal.chartSource paperOfY → z ∈ range Sum.inr := fun {z} h => by
+    have h' : z ∈ paperOfY.source := h
+    rwa [paperOfY_source] at h'
+  have hsrc' : ∀ {z : E0Y}, z ∈ paperOfY.source → z ∈ range Sum.inr := fun {z} h => by
+    rwa [paperOfY_source] at h
+  have hOe' : O ≤ Causal.chartSource e' := by
+    intro z hz
+    obtain ⟨⟨hz1, hz2⟩, hz3⟩ := hz
+    have hz3' := hsrc hz3
+    have hz2' : e z ∈ range Sum.inr := hsrc' hz2
+    show z ∈ (paperOfY.trans ((paperConj e).trans paperInY)).source
+    rw [OpenPartialHomeomorph.trans_source, OpenPartialHomeomorph.trans_source, paperInY_source]
+    refine ⟨hz3, ?_, trivial⟩
+    rw [mem_paperConj_source, paperInY_paperOfY hz3']
+    exact ⟨hz1, hz2'⟩
+  have heq : ∀ z ∈ O, e' z = e z := by
+    intro z hz
+    obtain ⟨⟨-, hz2⟩, hz3⟩ := hz
+    have hz3' := hsrc hz3
+    have hz2' : e z ∈ range Sum.inr := hsrc' hz2
+    show paperInY (paperConj e (paperOfY z)) = e z
+    rw [paperConj_apply, paperInY_paperOfY hz3', paperInY_paperOfY hz2']
+  refine ⟨O, ⟨⟨hx, ?_⟩, ?_⟩, hOe, ?_⟩
+  · show e x ∈ paperOfY.source
+    rw [paperOfY_source]; exact hinr hexr
+  · show x ∈ paperOfY.source
+    rw [paperOfY_source]; exact hinr hxr
+  · exact (isoNear_of_chartIso hiso hOe').congr hOe' hOe heq
+
+end ChartIsoMem
 
 end E0
 

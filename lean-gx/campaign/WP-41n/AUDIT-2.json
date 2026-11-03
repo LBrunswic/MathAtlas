@@ -1,0 +1,59 @@
+{
+  "package": "WP-41n",
+  "round": 2,
+  "auditor": "read-only auditor, round 2",
+  "file": "scaffold/GXScaffold/BTZ/Uniformization.lean",
+  "host": "node1",
+  "builds": true,
+  "build_command": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/Uniformization.lean: exit 0, 6.6 s wall. One warning, 'declaration uses sorry' at l.434 (GX.e0RegM_range_not_subset_omegaMinus). Nothing recompiled. The olean (01:18:54) is newer than the source (01:18:47), which fits the reported lake build. The auditor did not re-run lake build (read-only).",
+  "sorry_count": 1,
+  "sorries": [
+    "GX.e0RegM_range_not_subset_omegaMinus (l.434-442), SORRY(theo:globally_hyperbolic_cauchy_complete_cauchy_maximal): FUTURE CASE SELECTION. Same obstruction as round 1. The text now also names a second route that avoids extending D. The obstruction is genuine: D must be extended across sing0, and no bridge exists from ChartedSpace E0Y to SingularGXStructure/BTZTildeData."
+  ],
+  "verdict": "clean",
+  "checks": {
+    "builds_and_sorry_count": "pass. One local tagged sorry, and REPORT.sorry_count = 1 matches. The auditor re-ran campaign/WP-41n/Axioms.lean with lake env lean; the output is byte-identical to axioms.out. Every §4b declaration, including e0PastHalf_counterexample, e0PastHalf_not_isFutureComplete, e0PastHalf_globallyHyperbolic, e0PastHalf_sing_nonempty, pastHalf_rad_locally and exists_affine_eq_of_locally, uses only [propext, Classical.choice, Quot.sound]. So do the six general theorems and every consumed Causal declaration. That list covers the 20 from round 1 plus isLocalIsometry_iff_eventually, IsLocalIsometry.strongMorphism, isom_smul_def, isEMorphism_iff, minkowski_lt_top_iff, CBG.chartedCausality_chartIso, coe_chartImage_of_le and UniversalCover.base. It includes Causal.Flat.uniformization, _injective, _image, _properlyDiscontinuous, equality_of_absMax, range_eq_omegaS_of_absMax and Lox.bcor_loxo_proper_both. sorryAx appears only where the REPORT says it does: btz_uniformization_reg through cor_abs_max, which is upstream (WP-41k/41j); btz_uniformization and btz_reg_isFutureComplete through the local sorry; and injective_D_of_isBTZFutureComplete through isFutureDistinguishing_of_base / globallyHyperbolic_of_base (WP-41l).",
+    "round1_major_fixed": "pass. The {tau<0} counterexample (DEC-77, DEC-27) is now built with 0 sorry. The auditor checked the mathematics against the Lean. e0PastHalf is the open image of {w.1 < 0} under paperInY, so it is an E0-manifold through the Opens charted structure. Its paper chart has source univ, and chartIso_paperChart with U = ⊤ identifies its charted causality with E0's relation restricted to {tau<0}. e0_le_of_le_top_of_fst_neg removes the restriction because tau is non-decreasing along a future causal curve. It is GH: antisymmetry comes from E0.isCausal, and compact diamonds come from the closed set J+(P) ∩ J-(Q) bounded by dist ≤ 3Δτ. The point (-1,0) lies on the axis, so the manifold has a BTZ point. The non-future-completeness argument is sound. r = t - x is locally affine in D (pastHalf_aeChart_eventually reads every a.e.-atlas chart as g • chartMap, and minkTMinusX_chartMap gives r), so it is globally affine on the preconnected universal cover (exists_affine_eq_of_locally). E0.calculus_lt gives r(z) < r(w) along I+, and fcoord = tau - r/2 increases strictly; with tau(w) < 0 that yields r(w) < r(z) - 2 tau(z). But D z + t e0 lies in I+(D z) for every t > 0, and a strictly increasing affine function of t is unbounded. The ∀-pair form is not vacuous: Causal.Flat.exists_isDevelopingPair (Causal/Flat/Develop.lean:2148) supplies a pair, and Reg{tau<0} is nonempty.",
+    "statement_fidelity": "pass. The headline and the corrected proposition are unchanged since round 1 and remain at least as strong as the paper's regular-part assertions. The equality D(Reg M~) = Omega+ = ⋂ I+(Pi_w) follows DEC-28. The future case follows DEC-77 (a), isolated in one tagged sorry. Every developing pair is a hypothesis, not an existential. The hypotheses E0CauchyCompact, IsE0CauchyMaximal (DEC-77 (c)) and chartedSing nonempty (s ≥ 1, DEC-76) are neither trivial nor circular. The deviations are all disclosed: not-metabelian in place of non-abelian (a question is now raised), hLine (now disclosed as the open upstream E0LM.e0_globalBTZ), and SecondCountableTopology. hLine (E0GlobalBTZ: each component of sing0 is the range of an inextensible causal ℝ-curve) is plausible for every E0-manifold, including the case where a BTZ line closes up into a circle (non-injective γ is allowed there), so the headline is not vacuous through it. DEC-55 does not apply here (no almost-trivial loops).",
+    "docstring_contract": "pass. A regex over the first 4,000 characters finds no **`…`** mark. Both labels appear in that window with their RamcovGX.tex lines. The round-1 bold-backtick formula is gone.",
+    "report_honest_and_complete": "pass with minor gaps (issues 2 and 3). Every declaration of the file is listed in REPORT.json (decls or extra_decls). The four round-1 minor issues are addressed: the vocabulary is fixed, the metabelian question is added, the hLine provenance is recorded, and the docstring mark syntax is removed. The pin discrepancy (dispatch 731ed99 vs lake-manifest ca2ad78f) is disclosed and confirmed.",
+    "missing_labels_or_parts": "These parts are not formalized and are disclosed as partial: the BTZ half of the headline (D on sing M~, Δ_i ⊆ ∂Ω, (⋃Δ_i) ∪ Ω, M ≅ ρ\\D(M~) for T_BTZ), the prop's BTZ rays (B21 Lemma 2.3), and the counterexample's Cauchy-completeness (issue 1). All rest on infrastructure the scaffold lacks. Both rows are correctly partial and unmarked. def:manifold_future_complete_all is only consumed here (Manifolds certifies it).",
+    "cited_results_proved": "pass. Barbot's equality, the quotient and loxodromic properness are lean-causal theorems with standard axioms. DEC-75's loxodromic comes through GX.e0RegM_holonomy (clean). B21 Cor 2.18 is built, with upstream leaves disclosed. Nothing cited is assumed, except the disclosed hLine (the statement of the open upstream e0_globalBTZ).",
+    "name_clashes": "pass. All 34 declaration names of the file, the 23 new §4b names included, were grepped as definitions over GX/ and scaffold/ excluding this file. None occurs elsewhere.",
+    "dec33_gate": "pass. The file sits under scaffold/GXScaffold/BTZ/. Its imports are GXScaffold.BTZ.AbsMax, GXScaffold.BTZ.Manifolds and Causal.Flat.Lox.PastProper (strict). It has no Causal root import, no CausalScaffold and no `open Causal`, only `open scoped Causal.Flat`, and Causal.* names are fully qualified."
+  },
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "GX.e0PastHalf_counterexample (l.919-939); prop row findings[0] and questions[0]; docstring SCOPE (c)",
+      "problem": "The counterexample does not state the printed hypothesis it must satisfy, 'Cauchy-complete' (DEC-31). Formally it refutes only 'GH + s ≥ 1 ⇒ regular part future complete'. The stated reason is sound: the scaffold has no DEC-31 predicate for singular E0-manifolds. Causal.Flat.IsCauchyComplete exists only for flat spacetimes, and on Reg{tau<0} it should fail because of the punctured plane. The omission is disclosed, and a question is raised to the author, who named this counterexample in DEC-77. Even so, the cheap formal half is not proved: that {tau = -1} is a Cauchy surface of {tau<0}.",
+      "fix": "Optionally prove (CE e0PastHalf).IsCauchySurface (paperInY '' {w | w.1 = -1}) (Causal.Causality.IsCauchySurface), so that only the length-metric completeness remains in prose. Keep the question to the author about defining the DEC-31 predicate for E0-manifolds."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json, prop row 'hypotheses' and 'questions'",
+      "problem": "The prop row lists only two hypothesis entries. hLine (the open upstream E0LM.e0_globalBTZ) and SecondCountableTopology M are hypotheses of GX.btz_reg_isFutureComplete, but they are reported only in the headline row. Likewise, the 'not metabelian vs DEC-76 non-abelian' ruling request is asked only in the headline row, although it binds the prop's corrected form too (DEC-77 says 'π₁ non-abelian'). A ledger reader working row by row would miss these.",
+      "fix": "Copy the hLine/second-countability hypothesis entry and the metabelian question into the prop row, or add a cross-reference."
+    },
+    {
+      "severity": "minor",
+      "where": "GX.e0PastHalf_counterexample docstring (l.925-926); prop row findings[0]",
+      "problem": "Two things are left unflagged or implicit. First, the docstring asserts in prose, without saying 'not formalized', that {tau<0} is neither Cauchy-compact nor Cauchy-maximal and that π₁(Reg{tau<0}) ≅ ℤ; the REPORT does say these are not formalized. Second, failure of the printed conclusion (def:manifold_future_complete_all over M~ with T_BTZ) follows from the regular-part failure only through reg M~ ≅ the universal cover of Reg M and the agreement of I+ of regular points in M~ and in Reg M~. That agreement holds because timelike curves avoid BTZ points, but it is not formalized, and neither the docstring nor the REPORT says so explicitly.",
+      "fix": "Add '(not formalized)' to those docstring claims. Add one sentence to the finding: the M~-level failure follows from the regular-part failure through the missing presentation bridge (SCOPE (b))."
+    }
+  ],
+  "verified_findings": [
+    "D-11 / DEC-77: the printed prop is false. {tau<0} ⊂ E0 is GH, has BTZ points, and is not future complete on its regular part for every developing pair (built, 0 sorry, standard axioms).",
+    "D-12 (b) / DEC-28: Barbot's equality needs absolute maximality, given by B21 Cor 2.18 only in the Cauchy-compact case. Used correctly.",
+    "D-12 (c): the display at l.2369 is wrong; the proof (l.2386-2388) gives (⋃Δ_i) ∪ ⋂_{j∈J} I+(Π_j).",
+    "D-11 (d): the paper never argues the future-case selection; it is isolated in GX.e0RegM_range_not_subset_omegaMinus.",
+    "The paper's 'Lemma 2.4 of brunswic2021cauchy' (l.2352) is B21 Lemma 2.3.",
+    "WP-41m's GX.exists_nonabelian_subgroup_noLox: non-abelian alone does not give a loxodromic algebraically; hence 'not metabelian' in the formal hypothesis."
+  ],
+  "questions_for_author": [
+    "DEC-76 vs the formal hypothesis, for both rows: accept 'π₁(Reg M) not metabelian' as the reading of 'π₁(Σ∖sing) non-abelian' (the two agree for the free π₁ of a punctured surface), or require that equivalence to be built?",
+    "Should a package define DEC-31's Cauchy-completeness for singular E0-manifolds (length structure across BTZ lines) so that the {tau<0} counterexample carries the printed hypothesis formally, or is the counterexample accepted with GH + BTZ points + failure of the conclusion, its Cauchy-completeness in prose?",
+    "The BTZ half of the headline, the future-case selection and the prop's BTZ rays all wait on a bridge between ChartedSpace E0Y M and SingularGXStructure/BTZTildeData, plus reg M~ ≅ the universal cover of Reg M. Should a package build it, or is the regular-part reading accepted for these rows?"
+  ],
+  "notes": "Read-only round 2. The auditor wrote only this file. The round-1 major issue (the missing {tau<0} counterexample) is fixed with a sound, sorry-free, standard-axiom proof that is not vacuous (a developing pair exists by Causal.Flat.exists_isDevelopingPair). The four round-1 minor issues are addressed. No blocker or major issue remains: one genuine tagged sorry, nothing overclaimed, no mark, both rows honestly partial. The three remaining issues are minor reporting and wording points."
+}

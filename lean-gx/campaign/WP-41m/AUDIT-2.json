@@ -1,0 +1,49 @@
+{
+  "package": "WP-41m",
+  "round": 2,
+  "auditor": "read-only auditor, round 2",
+  "file": "scaffold/GXScaffold/BTZ/Holonomy.lean",
+  "module": "GXScaffold.BTZ.Holonomy",
+  "verdict": "clean",
+  "builds": true,
+  "build_command": "cd lean-gx && taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/Holonomy.lean (EXIT 0, no errors, no warnings, 9.7 s wall; no Causal/GX recompilation)",
+  "sorry_count": 0,
+  "axioms": "Re-checked by a scratch file in /tmp importing the module: #print axioms for GX.e0RegM_holonomy, GX.e0RegM_exists_holonomy, GX.holonomy_package_of_isCauchyComplete, GX.exists_holonomy_package_of_isCauchyComplete, GX.limitSetJ_nullPlane_invariant, GX.benoistNoLox_two, GX.exists_nonabelian_subgroup_noLox, GX.e0RegMFlat and GX.holonomy_torsionFree all give [propext, Classical.choice, Quot.sound]. The olean (21:57:14Z) is newer than the source (21:56:47Z), so round 1's m4 is resolved.",
+  "round1_disposition": {
+    "M1": "FIXED. GX.holonomy_package_of_isCauchyComplete (l.1368) and GX.e0RegM_holonomy (l.1453) now take (D) (ρ) (hpair : IsDevelopingPair x₀ D ρ) as arguments and conclude for that pair, with no outer ∃. The ∃ forms survive as separate corollaries: GX.exists_holonomy_package_of_isCauchyComplete and GX.e0RegM_exists_holonomy. The proof instantiates Causal.Flat.exists_developsCC_of_isCauchyComplete at the given D (hS D hpair.gx), as round 1 prescribed.",
+    "m1": "FIXED. The REPORT rows for the ⊆ and the future/past disjunction are now tagged 'missing' (conclusion weakened, WP-39n), and the docstring checklist matches. 'weakened' is kept only for 'Cauchy-maximal not used', which is the correct favourable sense of kb/0006 (assumes less).",
+    "m2": "FIXED. The Γ-invariance of the plane family, ∀ γ ∈ ρ.range, ∀ w ∈ limitSetJ ρ.range, isomPenrose γ w ∈ limitSetJ ρ.range ∧ γ • Π_w = Π_{γ·w}, is now a conjunct of holonomy_package and of all four paper-facing theorems.",
+    "m3": "FIXED. findings[0] is now filed against the dispatch's reading of DEC-75/76, not against the paper. It states that under DEC-76 the paper's assertion is true and that only the Lean route lacks the surface-group fact.",
+    "m4": "FIXED. The olean postdates the source.",
+    "m5": "FIXED. SCOPE (c') discloses that the linear part's faithfulness and discreteness (l.2230–2231) is not proved."
+  },
+  "checks": {
+    "1_build_and_sorry": "PASS: builds clean, 0 sorry, no admit, no axiom declarations, no native_decide. Standard axioms only.",
+    "2_statement_fidelity": "PASS under the ruled readings. Each definition the conclusion uses was checked in the pinned lean-causal source (ca2ad78). isomTopology is the subspace topology of Aff (End × ℝ³), and a scratch rfl check confirms it is the instance in scope, so DiscreteTopology ρ.range is not trivial. IsTorsionFreeSubgroup is the standard notion. IsLoxodromic is elliptic·hyperbolic, commuting, in SO₀. ActsFreelyProperlyOn is free plus finitely many γ with γK ∩ K ≠ ∅ for compact K ⊆ Ω. FutureRegular means Ω⁺ is nonempty and open. limitSetJ is the closure of the repulsive fixed points of the loxodromics, so it is nonempty once a loxodromic exists. nullPlane w is the genuine lightlike plane {p | ⟨(1,u)|p⟩ = s}, and the ⋂ I⁺(Π_w) form is proved from halfPlus, not defined into it (DEC-28's form). IsDevelopingPair and Deck are the genuine notions, and the pair hypotheses are satisfiable (Causal.Flat.exists_isDevelopingPair). IsMetabelianOn and IsMetabelianGroup are elementwise 'commutators commute', which is equivalent to an abelian derived subgroup; solvability is proved. The ActsFreelyProperlyOn conclusion is on Ω⁺(Λ) ⊇ D(reg M̃), which is at least as strong as the paper's 'on Ω' because a free proper action restricts to the invariant subset. Carried hypotheses: GH and Cauchy-completeness (DEC-31) of Reg M are reported, and their derivation from M (B21 Thm 3) is WP-39j/k's. Reported strengthening: 'π₁(Reg M) not metabelian' replaces DEC-76's 'π₁(Σ∖sing) non-abelian, s ≥ 1'. It is tagged ⚠ strengthened, a finding as kb/0006 requires. The proved counterexample GX.exists_nonabelian_subgroup_noLox shows that non-abelian does not suffice algebraically. Bridging it needs Reg M ≅ Σ*×ℝ and freeness of π₁ of a punctured orientable surface, which is not a reasonable package scope, so it is not counted as an avoidable weakening. The row stays partial, as DEC-27 requires without a ruling. Two conclusion weakenings are disclosed as 'missing' and assigned to WP-39n by WAVE5-PLAN (l.28–29: 'from uniformization + equality_of_absMax'): D(Reg M̃) ⊆ Ω instead of =, and the future/past disjunction instead of DEC-77(a)'s forced future case, which needs sing ≠ ∅ and is not visible from Reg M alone. DEC-55 is not relevant.",
+    "3_docstring_contract": "PASS: nothing is marked, which is correct for a partial row. The label theo:globally_hyperbolic_cauchy_complete_cauchy_maximal occurs at character offset < 700 of the module docstring. No bold span matches tools/ledger.py's mark regex (\\*\\*`(prefix:name)`\\*\\*): l.29's **`GX.benoistNoLox_two …`** has no label prefix, and l.538's **`bprop:sanloxo` in 2+1 …** has text between the backtick and the closing **. The hypothesis checklist, SCOPE and Provenance sections are present.",
+    "4_report_honesty": "PASS: all 98 declarations in the file appear in labels[].decls ∪ extra_decls, and no reported name is absent from the file (scripted cross-check). builds = true, sorry_count = 0, status partial and marked = false are all correct. The hypothesis rows match the Lean statements. The notes disclose the pin discrepancy (dispatch 731ed99, lake-manifest ca2ad78f) and the two sorry'd decls of the imported GXScaffold.BTZ.LocalModel that this file does not use; the axiom check confirms they are not consumed.",
+    "5_missing_labels_or_parts": "PASS for the package scope. The only gx label the file serves is theo:globally_hyperbolic_cauchy_complete_cauchy_maximal, in part, and it is listed. §4.3's prose (l.2222–2232) carries no label. The parts of the multi-part theorem not delivered here are listed as 'missing' with their owner WP-39n: the BTZ rays Δ_i, D injective on all of M̃, the ⋃Δ ∪ ⋂I⁺ image, the isomorphism M ≅ ρ\\D(M̃), equality, and the future case.",
+    "6_cited_results_proved": "PASS: uniformization, uniformization_injective, discreteTopology_of_developsCC, exists_developsCC_of_isCauchyComplete and exists_isDevelopingPair come from strict Causal and are axiom-clean. Barbot's Prop 9.1 (Benoist) is not taken as the external hypothesis BenoistNoLox. It is PROVED for d = 2 (GX.benoistNoLox_two, through GX.lorentz2_noLox_classification), and the loxodromic element is proved from not-metabelian, as DEC-75 requires.",
+    "7_name_clashes": "PASS: none of the 98 short names (including the two round-1 additions exists_holonomy_package_of_isCauchyComplete and e0RegM_exists_holonomy) is declared in any other .lean file under GX/ or scaffold/ (scripted grep over theorem/def/lemma/structure/abbrev/instance/class/inductive heads)."
+  },
+  "issues": [
+    {
+      "id": "n1",
+      "severity": "minor",
+      "where": "GX.e0RegM_holonomy docstring (l.1448–1449)",
+      "problem": "The docstring says that every developing pair of Reg M is covered, 'in particular the restriction of D_BTZ to reg M̃, which WP-39n holds'. Lean's statement is about pairs on Causal.UniversalCover (e0RegMFlat M) x₀. WP-39n's reg(M̃) is that cover only after an identification of covers. The paper asserts Γ ≅ π₁(reg M), i.e. reg M̃ → Reg M is universal, but nothing builds that identification. REPORT's note hedges correctly ('once it is shown to be a developing pair'); the docstring does not.",
+      "fix": "Reword as '(in particular, once reg M̃ is identified with Reg M's universal cover, the restriction of D_BTZ that WP-39n holds)'."
+    },
+    {
+      "id": "n2",
+      "severity": "minor",
+      "where": "REPORT.json notes / module Provenance",
+      "problem": "The dispatch states the Causal pin as 731ed99, but lake-manifest.json and the checked-out package are at ca2ad78f. The file and the REPORT disclose this correctly. It is a record discrepancy for the master session to reconcile, not a defect in this package.",
+      "fix": "No change to the file. The master session should update WAVE5-PLAN's pin line or the dispatch template."
+    }
+  ],
+  "questions_for_author": [
+    "DEC-76 (carried over from round 1, still open): may 'π₁(Reg M) not metabelian' (implied by non-solvable) stand as the stated form of the finite-type hypothesis for the Barbot step, so that the row can close under a ruling? The alternative is to build the surface-group fact: Reg M ≅ Σ*×ℝ, and π₁ of a punctured orientable surface is free, so non-abelian implies rank ≥ 2, which implies not metabelian. The counterexample GX.exists_nonabelian_subgroup_noLox shows the step cannot be purely algebraic from non-abelianness."
+  ],
+  "summary": "Round 2: all six round-1 findings are fixed, including the major M1. The paper-facing theorems now quantify over the given developing pair, with the ∃ forms kept as separate corollaries. The file builds clean, with 0 sorry and standard axioms only, and the olean is fresh. Every conclusion predicate is a genuine notion from the pinned lean-causal; DiscreteTopology is checked to use isomTopology. The 2+1 algebra (BenoistNoLox 2; no loxodromic ⇒ metabelian) is a real proof. The REPORT is complete (98/98 decls) and honest. Its one strengthening, 'not metabelian' for DEC-76's 'non-abelian', is reported with a proved counterexample and put to the author. The ⊆-for-= and future/past weakenings are disclosed as missing parts owned by WP-39n. No name clashes and no marks. Two minors remain: a docstring hedge about D_BTZ|reg M̃, and the pin record. Verdict: clean."
+}

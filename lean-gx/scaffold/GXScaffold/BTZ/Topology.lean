@@ -24,13 +24,14 @@ Package WP-41h (WAVE5-PLAN.md, WP-39h). `papers/gx`, §4.4 (`RamcovGX.tex:2268�
   `GX.btzJQuot_instances`), `𝔼₀` carrying the BTZ structure and `Γ\J⁺(Δ)` the quotient
   (`prop:aeGXquotient`, `GX.btzJQuot_existsUnique`, `GX.btzJQuotStructure`) of the structure of
   `J⁺(Δ)` whose charts are the identity of `𝐌³` on `J⁺(Δ) ∖ Δ` (`GX.btzJStructure`).
-* `rem:tamifying_topology_generated_open` — `RamcovGX.tex:2293` (unmarked: a reading, SCOPE (a)):
-  `GX.btz_tamifying_topology_generated_open` (cylinder model of `\widetilde{𝔼₀}`),
-  `GX.btz_tamifying_topology_generated_open_cover` (on `\widetilde{𝔼₀}` itself, for `Φ` lifting the
-  projection: `Φ^* hornTop` is its tamifying topology and `D ∘ Φ` its developing map), the
-  transport lemma `GX.btz_tamifying_topology_generated_open_transport`, the basis form
-  `GX.btz_hasBasis_nhds_diamond`; the causal order of `\widetilde{𝔼₀}` read through its injective
-  developing map (`GX.btzCylLe`, `GX.btzCylDiamond`).
+* **`rem:tamifying_topology_generated_open`** — `RamcovGX.tex:2293`, with the ETT causality of
+  `\widetilde{𝔼₀}` (DEC-33, DEC-77 (b)): `GX.btz_tamifying_topology_generated_open_ett` on
+  `\widetilde{𝔼₀}` (cylinder model `GX.BTZTildeCyl`, topology `T_BTZ`), its causality
+  `GX.btzCylCausality` (ETT's, from curves) — and on the maximal branched covering itself
+  `GX.btz_tamifying_topology_generated_open_cover_ett` (`GX.BTZTildeCover`, `GX.btzCoverCausality`);
+  basis form `GX.btz_hasBasis_nhds_diamond_ett`. The global order of the ETT causality is the
+  order of the developments (`GX.btzCylCausality_le_top_iff`, `btzCylLe`), whence the earlier
+  forms `GX.btz_tamifying_topology_generated_open`, `..._cover`, `..._transport`.
 
 Infrastructure: `D` is a homeomorphism from the cylinder with `T_BTZ` onto `J⁺(Δ)` with the BTZ
 topology (`GX.btzJDevHomeomorph`, the motivation l.2279; `GX.btzJTop_eq_coinduced`: the BTZ
@@ -64,13 +65,19 @@ topology is that of `𝐌³` (`GX.nhds_btzJ_of_mem_reg`); `Γ` acts on `J⁺(Δ)
 | the singular structure of `Γ\J⁺(Δ)` (unstated) | the quotient (`prop:aeGXquotient`) of the structure developed by the inclusion on `J⁺(Δ) ∖ Δ`; unique (`btzJQuot_existsUnique`) |
 | "isomorphism of singular manifolds" | ✓ homeomorphism + a.e. morphism both ways (`rem:composition_morphisms_morphisms_category`); both sides objects of `SingGXCat` (T2, locally connected, second countable) and `D̄` an isomorphism there (`btzQuotChartIso`) |
 | `\widetilde{BTZ}`, `T_BTZ` (l.2293) | ✓ the cylinder with `hornTop` (= Model's `T_BTZ`, `btzTop_eq`), and `MaxBranchedCover` with `Φ^* hornTop` for `Φ` lifting the projection (`orbitMk ∘ Φ = base`): then `Φ^* hornTop` is the tamifying topology and `D ∘ Φ` the developing map (`btz_isTamifyingTopology`, `btz_isRegDevelopingOnReg`, restated in `btz_tamifying_topology_generated_open_cover`) |
+| `J^±` on `\widetilde{BTZ}` (l.2293; "causal notions extend naturally", l.2313) | ✓ DEC-33: ETT's causality from curves — `GX.btzJCausality` on `J⁺(Δ)` (BTZ-continuous curves, locally increasing for the order of `𝐌³`; the chart of `J⁺(Δ) ∖ Δ` is the identity of `𝐌³`), transported along `D` to `\widetilde{𝔼₀}` with `T_BTZ` (DEC-77 (b)), `GX.btzCylCausality`, and along `Φ` to the cover, `GX.btzCoverCausality`; `I^±_U` open in every `U`, points of `Δ` included (`GX.btzJ_isOpen_CLt_right`, `GX.btzJ_isOpen_CLt_left`); globally `≤` is the order of the developments (`GX.btzJCLe_top_iff`, `GX.btzCylCausality_le_top_iff`) |
 
 ## SCOPE (disclosed)
 
 * **(a)** `rem:tamifying_topology_generated_open`: the paper does not define `J^±` on
-  `\widetilde{BTZ}`. Reading: `y ≤ y'` iff `D(y) ≤ D(y')` in `𝐌³` (`btzCylLe`), `D` the
-  developing map, injective onto `J⁺(Δ)` (the cover analogue of `GX.E0.Le`, "winding free"). With
-  it the remark is proved at every point, axis included (`btz_exists_diamond`). Row partial.
+  `\widetilde{BTZ}` (l.2313: causal notions "extend naturally"). Under DEC-33 the causality is
+  ETT's, from curves: on `J⁺(Δ)` a curve is BTZ-continuous and locally non-decreasing for the order
+  of `𝐌³` — the chart of `J⁺(Δ) ∖ Δ` is the identity, and at a point of `Δ` (no chart) the local
+  relation is still the ambient one, as `GX.E0.causality` does at BTZ points; transported along
+  `D` (resp. `Φ`). Proved, not read: its global order is `D(y) ≤ D(y')` (straight segments of
+  `J⁺(Δ)` are BTZ-continuous, `GX.btzJ_continuousOn_of_mono`), and `I^±_U(x)` are open (axis
+  estimate `GX.btzJ_axis_convex`). The remark then holds at every point, axis included
+  (`btz_exists_diamond`).
 * **(b)** No proof is printed for `prop:quotient_chart`; the one here: `D` is a homeomorphism
   `(cylinder, T_BTZ) → (J⁺(Δ), BTZ)` — continuity from `D⁻¹(I⁺(p_s) ∪ ]p_s,∞[) = {s < t + κr}`;
   openness from the axis estimate — `Γ`-equivariant, so `D̄` is a homeomorphism (`T_BTZ` induces
@@ -1289,8 +1296,8 @@ variable {x₀ v : ℝ × ℝ × ℝ}
 
 variable (x₀ v) in
 /-- **The causal order of `\widetilde{𝔼₀}`** (cylinder model), read through its developing map
-`D`, which is injective onto `J⁺(Δ)`: `y ≤ y'` iff `D(y) ≤ D(y')` in `𝐌³` (the reading of
-l.2313's "causal notions extend naturally to `\widetilde{BTZ}`-manifolds" taken here). -/
+`D`, which is injective onto `J⁺(Δ)`: `y ≤ y'` iff `D(y) ≤ D(y')` in `𝐌³`. It is the global
+order of the ETT causality `btzCylCausality` of DEC-33 (`btzCylCausality_le_top_iff`). -/
 def btzCylLe (y y' : DInfty × ℝ) : Prop :=
   (Causal.minkowski 2).le ⊤ (btzDevM x₀ v y) (btzDevM x₀ v y')
 
@@ -1490,5 +1497,768 @@ theorem btz_tamifying_topology_generated_open_cover {α : ℝ}
     btz_tamifying_topology_generated_open_transport Φ hv⟩
 
 end Diamonds
+
+
+/-! ### The ETT causality of `J⁺(Δ)` and of `\widetilde{𝔼₀}`, from causal curves (DEC-33)
+
+DEC-33: the causal structure of a singular flat (BTZ) manifold is ETT's, generated by the local
+causality, curves as in DEC-6/DEC-13; DEC-77 (b): `\widetilde{BTZ}` carries `T_BTZ` and causality is
+read in it. On `J⁺(Δ)` with the BTZ topology, `x ≤_U y` iff a future causal curve of `U` joins
+them, a curve being BTZ-continuous and locally non-decreasing for the order of `𝐌³` (the chart of
+`J⁺(Δ) ∖ Δ` is the identity of `𝐌³`; at a point of `Δ` the ambient order, as `GX.E0.causality`
+does at BTZ points). Transported to the cylinder `(\widetilde{𝔼₀}, T_BTZ)` by the homeomorphism
+`D` (`GX.btzJDevHomeomorph`), and to the maximal branched covering itself. -/
+
+section ETTCausality
+
+open TopologicalSpace
+
+variable {x₀ : ℝ × ℝ × ℝ}
+
+/-- The order of `𝐌³` on `J⁺(Δ)`. -/
+def btzJLe (q q' : BTZJplus x₀) : Prop := (Causal.minkowski 2).le ⊤ q.val q'.val
+
+/-- The chronology of `𝐌³` on `J⁺(Δ)`. -/
+def btzJLt (q q' : BTZJplus x₀) : Prop := (Causal.minkowski 2).lt ⊤ q.val q'.val
+
+theorem btzJLe.trans {q q' q'' : BTZJplus x₀} (h₁ : btzJLe q q') (h₂ : btzJLe q' q'') :
+    btzJLe q q'' := (Causal.minkowski 2).le_trans h₁ h₂
+
+theorem btzJLt.trans {q q' q'' : BTZJplus x₀} (h₁ : btzJLt q q') (h₂ : btzJLt q' q'') :
+    btzJLt q q'' := (Causal.minkowski 2).lt_trans h₁ h₂
+
+theorem btzJLt.le {q q' : BTZJplus x₀} (h : btzJLt q q') : btzJLe q q' :=
+  (Causal.minkowski 2).le_of_lt h
+
+theorem btzJLe.refl (q : BTZJplus x₀) : btzJLe q q := (Causal.minkowski 2).le_refl (mem_univ _)
+
+/-- The relation `R` restricted to the open set `N`. -/
+def btzJRelOn (R : BTZJplus x₀ → BTZJplus x₀ → Prop) (N : Opens (BTZJplus x₀))
+    (q q' : BTZJplus x₀) : Prop :=
+  q ∈ N ∧ q' ∈ N ∧ R q q'
+
+theorem btzJ_isRelFamily_relOn {R : BTZJplus x₀ → BTZJplus x₀ → Prop}
+    (hR : ∀ {x y z}, R x y → R y z → R x z) : Causal.IsRelFamily (btzJRelOn R) where
+  mem_left h := h.1
+  mem_right h := h.2.1
+  trans h₁ h₂ := ⟨h₁.1, h₂.2.1, hR h₁.2.2 h₂.2.2⟩
+  mono hN _ _ h := ⟨hN h.1, hN h.2.1, h.2.2⟩
+
+theorem btzJ_isRelFamily_le : Causal.IsRelFamily (btzJRelOn (btzJLe (x₀ := x₀))) :=
+  btzJ_isRelFamily_relOn btzJLe.trans
+
+theorem btzJ_isRelFamily_lt : Causal.IsRelFamily (btzJRelOn (btzJLt (x₀ := x₀))) :=
+  btzJ_isRelFamily_relOn btzJLt.trans
+
+/-- A continuous curve, `R`-increasing on `[a, b]`, is a curve of every open set containing it. -/
+theorem btzJ_curveOn_of_continuousOn {R : BTZJplus x₀ → BTZJplus x₀ → Prop}
+    {W : Opens (BTZJplus x₀)} {c : ℝ → BTZJplus x₀} {a b : ℝ} (hc : ContinuousOn c (Icc a b))
+    (hmem : ∀ t ∈ Icc a b, c t ∈ W)
+    (hR : ∀ s ∈ Icc a b, ∀ s' ∈ Icc a b, s < s' → R (c s) (c s')) :
+    Causal.CurveOn (btzJRelOn R) W c a b where
+  mem := hmem
+  rel t ht N _ htN := by
+    have hN : c ⁻¹' N ∈ 𝓝[Icc a b] t := hc t ht (N.isOpen.mem_nhds htN)
+    obtain ⟨ε, hε, hball⟩ := Metric.mem_nhdsWithin_iff.1 hN
+    refine ⟨t - ε, t + ε, by linarith, by linarith, fun s hs s' hs' h1 h2 h3 => ?_⟩
+    have hsb : s ∈ Metric.ball t ε := by
+      rw [Metric.mem_ball, Real.dist_eq, abs_lt]; constructor <;> linarith
+    have hs'b : s' ∈ Metric.ball t ε := by
+      rw [Metric.mem_ball, Real.dist_eq, abs_lt]; constructor <;> linarith
+    exact ⟨hball ⟨hsb, hs⟩, hball ⟨hs'b, hs'⟩, hR s hs s' hs' h2⟩
+
+section Curves
+
+variable {r r' : Opens (BTZJplus x₀) → BTZJplus x₀ → BTZJplus x₀ → Prop} {U W : Opens (BTZJplus x₀)}
+  {c c' : ℝ → BTZJplus x₀} {a b a' b' : ℝ}
+
+theorem btzJ_curveOn_const {q : BTZJplus x₀} (hq : q ∈ U) : Causal.CurveOn r U (fun _ => q) 0 0 where
+  mem _ _ := hq
+  rel t _ _ _ _ := ⟨t - 1, t + 1, by linarith, by linarith, fun s hs s' hs' _ h _ => by
+    have : s = s' := by rw [hs.1.antisymm' hs.2, hs'.1.antisymm' hs'.2]
+    exact absurd this h.ne⟩
+
+theorem btzJ_curveOn_mono_rel (h : ∀ N x y, r N x y → r' N x y) (hc : Causal.CurveOn r W c a b) :
+    Causal.CurveOn r' W c a b where
+  mem := hc.mem
+  rel t ht N hN htN := by
+    obtain ⟨l, u, hl, hu, h'⟩ := hc.rel t ht N hN htN
+    exact ⟨l, u, hl, hu, fun s hs s' hs' h1 h2 h3 => h _ _ _ (h' s hs s' hs' h1 h2 h3)⟩
+
+/-- Concatenation of two curves, the second translated to start where the first ends. -/
+theorem btzJ_curve_append (hr : Causal.IsRelFamily r) (hc : Causal.CurveOn r U c a b)
+    (hc' : Causal.CurveOn r U c' a' b') (hab : a ≤ b) (hab' : a' ≤ b') (h : c b = c' a') :
+    ∃ d : ℝ → BTZJplus x₀, Causal.CurveOn r U d a (b + (b' - a')) ∧ d a = c a ∧
+      d (b + (b' - a')) = c' b' := by
+  have e1 : 1 * b + (a' - b) = a' := by ring
+  have e2 : 1 * (b + (b' - a')) + (a' - b) = b' := by ring
+  have hc'' : Causal.CurveOn r U (fun t => c' (1 * t + (a' - b))) b (b + (b' - a')) :=
+    Causal.CurveOn.comp_affine (k := 1) (m := a' - b) one_pos (by rw [e1, e2]; exact hc')
+  have hj : c b = (fun t => c' (1 * t + (a' - b))) b := by simp only; rw [e1]; exact h
+  refine ⟨_, Causal.CurveOn.concat hr hc hc'' hab (by linarith) hj, by simp [hab], ?_⟩
+  by_cases hb : b + (b' - a') ≤ b
+  · have : b' = a' := le_antisymm (by linarith) hab'
+    subst this
+    simp only [sub_self, add_zero, le_refl, if_true]
+    exact h
+  · simp only [hb, if_false]; rw [e2]
+
+end Curves
+
+/-! #### Straight segments of `J⁺(Δ)` -/
+
+theorem btz_isFutureCausal_smul {k : ℝ} (hk : 0 ≤ k) {w : Causal.Minkowski 2}
+    (hw : Causal.Flat.IsFutureCausal w) : Causal.Flat.IsFutureCausal (k • w) := by
+  refine ⟨?_, ?_⟩
+  · simp only [Prod.smul_fst, smul_eq_mul]; exact mul_nonneg hk hw.1
+  · rw [Causal.Flat.minkQ_smul]; exact mul_nonpos_of_nonneg_of_nonpos (sq_nonneg k) hw.2
+
+theorem btz_isFutureTimelike_smul {k : ℝ} (hk : 0 < k) {w : Causal.Minkowski 2}
+    (hw : Causal.Flat.IsFutureTimelike w) : Causal.Flat.IsFutureTimelike (k • w) := by
+  refine ⟨?_, ?_⟩
+  · simp only [Prod.smul_fst, smul_eq_mul]; exact mul_pos hk hw.1
+  · rw [Causal.Flat.minkQ_smul]; exact mul_neg_of_pos_of_neg (pow_pos hk 2) hw.2
+
+/-- The point `q + max(0,s) (q' − q)` of `𝐌³`. -/
+noncomputable def btzJSegPt (q q' : BTZJplus x₀) (s : ℝ) : Causal.Minkowski 2 :=
+  q.val + max 0 s • (q'.val - q.val)
+
+theorem btzJSegPt_sub (q q' : BTZJplus x₀) (s s' : ℝ) :
+    btzJSegPt q q' s' - btzJSegPt q q' s = (max 0 s' - max 0 s) • (q'.val - q.val) := by
+  rw [btzJSegPt, btzJSegPt, add_sub_add_left_eq_sub, ← sub_smul]
+
+theorem btzJ_le_segPt {q q' : BTZJplus x₀} (h : btzJLe q q') {s s' : ℝ} (hss' : s ≤ s') :
+    (Causal.minkowski 2).le ⊤ (btzJSegPt q q' s) (btzJSegPt q q' s') := by
+  rw [Causal.Flat.le_top_iff_minkQ, btzJSegPt_sub]
+  refine btz_isFutureCausal_smul (sub_nonneg.2 (max_le_max le_rfl hss')) ?_
+  exact Causal.Flat.le_top_iff_minkQ.1 h
+
+theorem btzJ_lt_segPt {q q' : BTZJplus x₀} (h : btzJLt q q') {s s' : ℝ} (hs : 0 ≤ s)
+    (hss' : s < s') :
+    (Causal.minkowski 2).lt ⊤ (btzJSegPt q q' s) (btzJSegPt q q' s') := by
+  rw [Causal.Flat.lt_top_iff_minkQ, btzJSegPt_sub, max_eq_right hs,
+    max_eq_right (hs.trans hss'.le)]
+  exact btz_isFutureTimelike_smul (sub_pos.2 hss') (Causal.Flat.lt_top_iff_minkQ.1 h)
+
+theorem btzJSegPt_zero (q q' : BTZJplus x₀) : btzJSegPt q q' 0 = q.val := by
+  simp [btzJSegPt]
+
+theorem btzJSegPt_one (q q' : BTZJplus x₀) : btzJSegPt q q' 1 = q'.val := by
+  simp [btzJSegPt]
+
+theorem btzJ_val_le_segPt {q q' : BTZJplus x₀} (h : btzJLe q q') (s : ℝ) :
+    (Causal.minkowski 2).le ⊤ q.val (btzJSegPt q q' s) := by
+  rw [Causal.Flat.le_top_iff_minkQ, btzJSegPt, add_sub_cancel_left]
+  exact btz_isFutureCausal_smul (le_max_left 0 s) (Causal.Flat.le_top_iff_minkQ.1 h)
+
+theorem btzJSegPt_mem {q q' : BTZJplus x₀} (h : btzJLe q q') (s : ℝ) :
+    btzJSegPt q q' s ∈ btzJplus x₀ := by
+  obtain ⟨p, hp, hpq⟩ := q.mem
+  exact ⟨p, hp, (Causal.minkowski 2).le_trans hpq (btzJ_val_le_segPt h s)⟩
+
+/-- **The straight segment** from `q` to `q'` in `J⁺(Δ)`, `q ≤ q'`. -/
+noncomputable def btzJSeg {q q' : BTZJplus x₀} (h : btzJLe q q') (s : ℝ) : BTZJplus x₀ :=
+  BTZJplus.mk (btzJSegPt q q' s) (btzJSegPt_mem h s)
+
+@[simp] theorem btzJSeg_val {q q' : BTZJplus x₀} (h : btzJLe q q') (s : ℝ) :
+    (btzJSeg h s).val = btzJSegPt q q' s := rfl
+
+theorem btzJSeg_zero {q q' : BTZJplus x₀} (h : btzJLe q q') : btzJSeg h 0 = q :=
+  BTZJplus.ext (btzJSegPt_zero q q')
+
+theorem btzJSeg_one {q q' : BTZJplus x₀} (h : btzJLe q q') : btzJSeg h 1 = q' :=
+  BTZJplus.ext (btzJSegPt_one q q')
+
+theorem continuous_btzJSegPt (q q' : BTZJplus x₀) : Continuous (btzJSegPt q q') := by
+  unfold btzJSegPt; fun_prop
+
+theorem btzJSegPt_eq_of_mem {q q' : BTZJplus x₀} {s : ℝ} (hs : s ∈ Icc (0 : ℝ) 1) :
+    btzJSegPt q q' s = q.val + s • (q'.val - q.val) := by
+  rw [btzJSegPt, max_eq_right hs.1]
+
+/-! #### A monotone path of `𝐌³` in `J⁺(Δ)` is BTZ-continuous -/
+
+theorem continuous_btzJ_val : Continuous (BTZJplus.val : BTZJplus x₀ → Causal.Minkowski 2) :=
+  continuous_iff_le_induced.2 inf_le_left
+
+theorem btzJ_exists_coords (m : Causal.Minkowski 2) : ∃ y, m = nullToMink (x₀ + y) :=
+  ⟨nullToMink.symm m - x₀, by simp⟩
+
+theorem btzJ_mem_jplus_coords (y : ℝ × ℝ × ℝ) :
+    nullToMink (x₀ + y) ∈ btzJplus x₀ ↔ 0 < y.2.1 ∨ ∃ s : ℝ, y = s • nullU := by
+  rw [btzJplus, mem_jplus_btzLine_iff, add_sub_cancel_left]
+  simp only [add_right_inj]
+
+/-- After a point of the half-ray `]p, +∞[`, one is in `I⁺(p) ∪ ]p, +∞[`. -/
+theorem btzJ_mem_genSet_of_ray_le {p r m : Causal.Minkowski 2} (hp : p ∈ btzLine x₀)
+    (hr : r ∈ btzRay p) (h : (Causal.minkowski 2).le ⊤ r m) : m ∈ btzJGenSet p := by
+  obtain ⟨σ, rfl⟩ := (mem_btzLine_iff x₀).1 hp
+  rw [btzRay_btzPt] at hr
+  obtain ⟨σ', hσ', rfl⟩ := hr
+  obtain ⟨y, rfl⟩ := btzJ_exists_coords (x₀ := x₀) m
+  rw [btzPt, btzJ_le_iff] at h
+  simp only [nullU, Prod.fst_sub, Prod.snd_sub, Prod.smul_fst,
+    Prod.smul_snd, smul_eq_mul, mul_one, mul_zero, add_sub_add_left_eq_sub, sub_zero] at h
+  obtain ⟨h1, h2, h3⟩ := h
+  rcases h2.lt_or_eq with hb | hb
+  · left
+    rw [Causal.Precausality.mem_Iplus_singleton, btzPt, btzJ_lt_iff]
+    simp only [nullU, Prod.fst_sub, Prod.snd_sub, Prod.smul_fst,
+      Prod.smul_snd, smul_eq_mul, mul_one, mul_zero, add_sub_add_left_eq_sub, sub_zero]
+    refine ⟨by linarith, hb, by nlinarith⟩
+  · right
+    have hc : y.2.2 = 0 := by
+      rw [← hb, mul_zero] at h3
+      exact pow_eq_zero_iff (n := 2) two_ne_zero |>.1 (le_antisymm h3 (sq_nonneg _))
+    rw [btzRay_btzPt]
+    refine ⟨y.1, by linarith, ?_⟩
+    rw [btzPt]
+    congr 2
+    ext <;> simp [nullU, ← hb, hc]
+
+/-- A point of `J⁺(Δ)` before a point of `Δ` is on `Δ`; past `p` along `Δ` it is in `]p, +∞[`. -/
+theorem btzJ_mem_ray_of_le_line {m r : Causal.Minkowski 2} (hm : m ∈ btzJplus x₀)
+    (hr : r ∈ btzLine x₀) (h : (Causal.minkowski 2).le ⊤ m r) {σ : ℝ}
+    (hσ : σ < (nullToMink.symm m - x₀).1) : m ∈ btzRay (btzPt x₀ σ) := by
+  obtain ⟨ρ, rfl⟩ := (mem_btzLine_iff x₀).1 hr
+  obtain ⟨y, rfl⟩ := btzJ_exists_coords (x₀ := x₀) m
+  rw [btzJ_mem_jplus_coords] at hm
+  simp only [LinearEquiv.symm_apply_apply, add_sub_cancel_left] at hσ
+  rw [btzPt, btzJ_le_iff] at h
+  simp only [nullU, Prod.fst_sub, Prod.snd_sub, Prod.smul_fst,
+    Prod.smul_snd, smul_eq_mul, mul_one, mul_zero, add_sub_add_left_eq_sub] at h
+  rcases hm with hb | ⟨s, rfl⟩
+  · exfalso; linarith [h.2.1]
+  · rw [btzRay_btzPt]
+    simp only [nullU, Prod.smul_fst, smul_eq_mul, mul_one] at hσ
+    exact ⟨s, hσ, rfl⟩
+
+/-- **A Minkowski-continuous causally monotone path of `J⁺(Δ)` is continuous for the BTZ
+topology.** -/
+theorem btzJ_continuousOn_of_mono {γ : ℝ → BTZJplus x₀} {a b : ℝ}
+    (hc : ContinuousOn (fun s => (γ s).val) (Icc a b))
+    (hm : ∀ s ∈ Icc a b, ∀ s' ∈ Icc a b, s ≤ s' → btzJLe (γ s) (γ s')) :
+    ContinuousOn γ (Icc a b) := by
+  intro t ht
+  show Filter.Tendsto γ (𝓝[Icc a b] t) (𝓝 (γ t))
+  rw [nhds_btzJ, Filter.tendsto_inf]
+  refine ⟨Filter.tendsto_comap_iff.2 (hc t ht), ?_⟩
+  rw [TopologicalSpace.nhds_generateFrom]
+  refine Filter.tendsto_iInf.2 fun S => Filter.tendsto_iInf.2 fun hS => ?_
+  obtain ⟨hmem, p, hp, rfl⟩ := hS
+  rw [Filter.tendsto_principal]
+  rcases hmem with hI | hR
+  · filter_upwards [hc t ht ((Causal.Causality.isOpen_Iplus (C := Causal.minkowski 2)).mem_nhds hI)]
+      with s hs
+    exact Or.inl hs
+  · obtain ⟨σ, rfl⟩ := (mem_btzLine_iff x₀).1 hp
+    have hline : (γ t).val ∈ btzLine x₀ := btzRay_subset_btzLine hp hR
+    have hO : IsOpen {m : Causal.Minkowski 2 | σ < (nullToMink.symm m - x₀).1} :=
+      isOpen_lt continuous_const (continuous_fst.comp
+        (nullToMinkHomeomorph.symm.continuous.sub continuous_const))
+    have htO : (γ t).val ∈ {m : Causal.Minkowski 2 | σ < (nullToMink.symm m - x₀).1} := by
+      have hR' := hR
+      rw [btzRay_btzPt] at hR'
+      obtain ⟨σ', hσ', he⟩ := hR'
+      simp only [mem_setOf_eq, he, btzPt, LinearEquiv.symm_apply_apply, add_sub_cancel_left,
+        nullU, Prod.smul_fst, smul_eq_mul, mul_one]
+      exact hσ'
+    filter_upwards [hc t ht (hO.mem_nhds htO), self_mem_nhdsWithin] with s hsO hs
+    rcases le_total t s with hts | hst
+    · exact btzJ_mem_genSet_of_ray_le hp hR (hm t ht s hs hts)
+    · exact Or.inr (btzJ_mem_ray_of_le_line (γ s).mem hline (hm s hs t ht hst) hsO)
+
+theorem btzJ_continuousOn_seg {q q' : BTZJplus x₀} (h : btzJLe q q') :
+    ContinuousOn (btzJSeg h) (Icc 0 1) :=
+  btzJ_continuousOn_of_mono (continuous_btzJSegPt q q').continuousOn
+    fun _ _ _ _ hss' => btzJ_le_segPt h hss'
+
+/-- **A straight causal segment of `J⁺(Δ)` is a future causal curve.** -/
+theorem btzJ_curveOn_seg {q q' : BTZJplus x₀} (h : btzJLe q q') {U : Opens (BTZJplus x₀)}
+    (hU : ∀ s ∈ Icc (0 : ℝ) 1, btzJSeg h s ∈ U) :
+    Causal.CurveOn (btzJRelOn btzJLe) U (btzJSeg h) 0 1 :=
+  btzJ_curveOn_of_continuousOn (btzJ_continuousOn_seg h) hU
+    fun _ _ _ _ hss' => btzJ_le_segPt h hss'.le
+
+/-- **A straight chronological segment of `J⁺(Δ)` is a future chronological curve.** -/
+theorem btzJ_curveOn_seg_lt {q q' : BTZJplus x₀} (h : btzJLt q q') {U : Opens (BTZJplus x₀)}
+    (hU : ∀ s ∈ Icc (0 : ℝ) 1, btzJSeg h.le s ∈ U) :
+    Causal.CurveOn (btzJRelOn btzJLt) U (btzJSeg h.le) 0 1 :=
+  btzJ_curveOn_of_continuousOn (btzJ_continuousOn_seg h.le) hU
+    fun _ hs _ _ hss' => btzJ_lt_segPt h hs.1 hss'
+
+/-! #### The causality -/
+
+/-- `q ≤_U q'`: a future causal curve of `U` from `q` to `q'` (DEC-33, curves as in DEC-6/13). -/
+def btzJCLe (U : Opens (BTZJplus x₀)) (q q' : BTZJplus x₀) : Prop :=
+  ∃ a b : ℝ, a ≤ b ∧ ∃ c : ℝ → BTZJplus x₀, Causal.CurveOn (btzJRelOn btzJLe) U c a b ∧
+    c a = q ∧ c b = q'
+
+/-- `q ≪_U q'`: a future chronological curve of `U` over a non-trivial segment. -/
+def btzJCLt (U : Opens (BTZJplus x₀)) (q q' : BTZJplus x₀) : Prop :=
+  ∃ a b : ℝ, a < b ∧ ∃ c : ℝ → BTZJplus x₀, Causal.CurveOn (btzJRelOn btzJLt) U c a b ∧
+    c a = q ∧ c b = q'
+
+variable {U V : Opens (BTZJplus x₀)} {q q' q'' : BTZJplus x₀}
+
+theorem btzJCLe.le (h : btzJCLe U q q') : btzJLe q q' := by
+  obtain ⟨a, b, hab, c, hc, rfl, rfl⟩ := h
+  rcases hab.lt_or_eq with hab | hab
+  · exact (hc.rel_of_lt btzJ_isRelFamily_le le_rfl hab le_rfl).2.2
+  · rw [hab]; exact btzJLe.refl _
+
+theorem btzJCLt.lt (h : btzJCLt U q q') : btzJLt q q' := by
+  obtain ⟨a, b, hab, c, hc, rfl, rfl⟩ := h
+  exact (hc.rel_of_lt btzJ_isRelFamily_lt le_rfl hab le_rfl).2.2
+
+theorem btzJCLe.mem_left (h : btzJCLe U q q') : q ∈ U := by
+  obtain ⟨a, b, hab, c, hc, rfl, -⟩ := h; exact hc.mem a ⟨le_rfl, hab⟩
+
+theorem btzJCLe.mem_right (h : btzJCLe U q q') : q' ∈ U := by
+  obtain ⟨a, b, hab, c, hc, -, rfl⟩ := h; exact hc.mem b ⟨hab, le_rfl⟩
+
+theorem btzJCLt.cle (h : btzJCLt U q q') : btzJCLe U q q' := by
+  obtain ⟨a, b, hab, c, hc, h1, h2⟩ := h
+  exact ⟨a, b, hab.le, c, btzJ_curveOn_mono_rel (fun _ _ _ h => ⟨h.1, h.2.1, h.2.2.le⟩) hc, h1, h2⟩
+
+theorem btzJCLe.refl (hq : q ∈ U) : btzJCLe U q q := ⟨0, 0, le_rfl, _, btzJ_curveOn_const hq, rfl, rfl⟩
+
+theorem btzJCLe.trans (h₁ : btzJCLe U q q') (h₂ : btzJCLe U q' q'') : btzJCLe U q q'' := by
+  obtain ⟨a, b, hab, c, hc, rfl, rfl⟩ := h₁
+  obtain ⟨a', b', hab', c', hc', h1, rfl⟩ := h₂
+  obtain ⟨d, hd, hda, hdb⟩ := btzJ_curve_append btzJ_isRelFamily_le hc hc' hab hab' h1.symm
+  exact ⟨a, _, by linarith, d, hd, hda, hdb⟩
+
+theorem btzJCLt.trans (h₁ : btzJCLt U q q') (h₂ : btzJCLt U q' q'') : btzJCLt U q q'' := by
+  obtain ⟨a, b, hab, c, hc, rfl, rfl⟩ := h₁
+  obtain ⟨a', b', hab', c', hc', h1, rfl⟩ := h₂
+  obtain ⟨d, hd, hda, hdb⟩ := btzJ_curve_append btzJ_isRelFamily_lt hc hc' hab.le hab'.le h1.symm
+  exact ⟨a, _, by linarith, d, hd, hda, hdb⟩
+
+theorem btzJCLe.mono (hVU : V ≤ U) (h : btzJCLe V q q') : btzJCLe U q q' := by
+  obtain ⟨a, b, hab, c, hc, h1, h2⟩ := h
+  exact ⟨a, b, hab, c, hc.mono_opens btzJ_isRelFamily_le hVU, h1, h2⟩
+
+theorem btzJCLt.mono (hVU : V ≤ U) (h : btzJCLt V q q') : btzJCLt U q q' := by
+  obtain ⟨a, b, hab, c, hc, h1, h2⟩ := h
+  exact ⟨a, b, hab, c, hc.mono_opens btzJ_isRelFamily_lt hVU, h1, h2⟩
+
+/-- **Globally, `q ≤ q'` iff `q ≤ q'` in `𝐌³`**: realised by the straight segment. -/
+theorem btzJCLe_top_iff : btzJCLe ⊤ q q' ↔ btzJLe q q' :=
+  ⟨btzJCLe.le, fun h => ⟨0, 1, zero_le_one, _, btzJ_curveOn_seg h fun _ _ => trivial,
+    btzJSeg_zero h, btzJSeg_one h⟩⟩
+
+theorem btzJCLt_top_iff : btzJCLt ⊤ q q' ↔ btzJLt q q' :=
+  ⟨btzJCLt.lt, fun h => ⟨0, 1, zero_lt_one, _, btzJ_curveOn_seg_lt h fun _ _ => trivial,
+    btzJSeg_zero h.le, btzJSeg_one h.le⟩⟩
+
+/-! #### Openness of the chronological relation -/
+
+/-- Chronologically after a point of `J⁺(Δ)` is off `Δ`. -/
+theorem btzJ_mem_reg_of_lt (h : btzJLt q q') : q' ∈ btzJReg x₀ := by
+  show q'.val ∉ btzLine x₀
+  intro hl
+  have hq := q.mem
+  obtain ⟨y, hy⟩ := btzJ_exists_coords (x₀ := x₀) q.val
+  obtain ⟨ρ, hρ⟩ := (mem_btzLine_iff x₀).1 hl
+  have h' : (Causal.minkowski 2).lt ⊤ q.val q'.val := h
+  rw [hy, hρ, btzPt, btzJ_lt_iff] at h'
+  rw [hy, btzJ_mem_jplus_coords] at hq
+  simp only [nullU, Prod.fst_sub, Prod.snd_sub, Prod.smul_fst, Prod.smul_snd, smul_eq_mul, mul_one,
+    mul_zero, add_sub_add_left_eq_sub] at h'
+  rcases hq with hb | ⟨s, rfl⟩
+  · linarith [h'.2.1]
+  · simp [nullU] at h'
+
+/-- **The axis estimate in `J⁺(Δ)`**: an open set containing a point `x` of `Δ` contains every
+`q` with `p ≤ q ≤ P`, for some `P ≫ x` and `p ∈ Δ` before `x` (`x ∈ ]p, +∞[`). -/
+theorem btzJ_axis_convex {O : Set (BTZJplus x₀)} (hO : IsOpen O) {x : BTZJplus x₀} (hx : x ∈ O)
+    (hax : x.val ∈ btzLine x₀) :
+    ∃ P p : Causal.Minkowski 2, (Causal.minkowski 2).lt ⊤ x.val P ∧ p ∈ btzLine x₀ ∧
+      x.val ∈ btzJGenSet p ∧ ∀ q : BTZJplus x₀, (Causal.minkowski 2).le ⊤ q.val P →
+        (Causal.minkowski 2).le ⊤ p q.val → q ∈ O := by
+  have hv := btzV0_pos
+  obtain ⟨t, ht⟩ := (mem_btzLine_iff x₀).1 hax
+  have hxD : x = btzJDev x₀ btzV0 hv (DInfty.apex, t) :=
+    BTZJplus.ext (by rw [btzJDev_val, btzDevM_apex]; exact ht)
+  have hN : btzJDev x₀ btzV0 hv ⁻¹' O ∈ @nhds _ hornTop (DInfty.apex, t) :=
+    @IsOpen.mem_nhds _ hornTop _ _ ((@continuous_def _ _ hornTop _ _).1 (continuous_btzJDev hv) O hO)
+      (by rw [mem_preimage, ← hxD]; exact hx)
+  obtain ⟨ε, hε, hεN⟩ := (hasBasis_nhds_hornTop_apex t).mem_iff.1 hN
+  obtain ⟨η, hη, hdiam⟩ := btz_axis_diamond (x₀ := x₀) hv t hε
+  refine ⟨btzTopVertex x₀ t η, btzPt x₀ (t - η), ?_, (mem_btzLine_iff x₀).2 ⟨_, rfl⟩, ?_,
+    fun q h1 h2 => ?_⟩
+  · rw [ht]; exact btzPt_lt_btzTopVertex x₀ t hη
+  · right; rw [ht, btzRay_btzPt]; exact ⟨t, by linarith, rfl⟩
+  · obtain ⟨y', rfl⟩ := btzJDev_surjective (x₀ := x₀) hv q
+    rw [btzJDev_val] at h1 h2
+    rw [← Causal.Precausality.mem_Jplus_singleton, btzDevM_mem_Jplus_iff hv] at h2
+    exact hεN (hdiam y' h1 h2)
+
+/-- A small ball around a regular point is in every neighbourhood. -/
+theorem btzJ_exists_ball_of_reg {O : Set (BTZJplus x₀)} (hO : IsOpen O) {x : BTZJplus x₀}
+    (hx : x ∈ O) (hreg : x ∈ btzJReg x₀) :
+    ∃ ε > 0, ∀ q : BTZJplus x₀, q.val ∈ Metric.ball x.val ε → q ∈ O := by
+  have hn : O ∈ 𝓝 x := hO.mem_nhds hx
+  rw [nhds_btzJ_of_mem_reg hreg] at hn
+  obtain ⟨T, hT, hTO⟩ := Filter.mem_comap.1 hn
+  obtain ⟨ε, hε, hball⟩ := Metric.mem_nhds_iff.1 hT
+  exact ⟨ε, hε, fun q hq => hTO (hball hq)⟩
+
+theorem btzJSegPt_mem_ball {q q' : BTZJplus x₀} {m : Causal.Minkowski 2} {ε : ℝ}
+    (hq : q.val ∈ Metric.ball m ε) (hq' : q'.val ∈ Metric.ball m ε) {s : ℝ}
+    (hs : s ∈ Icc (0 : ℝ) 1) : btzJSegPt q q' s ∈ Metric.ball m ε := by
+  rw [btzJSegPt_eq_of_mem hs]
+  exact (convex_ball m ε).add_smul_sub_mem hq hq' hs
+
+/-- **`I⁺_U(x)` is open.** -/
+theorem btzJ_isOpen_CLt_right (U : Opens (BTZJplus x₀)) (x : BTZJplus x₀) :
+    IsOpen {y | btzJCLt U x y} := by
+  rw [isOpen_iff_mem_nhds]
+  rintro y ⟨a, b, hab, c, hc, rfl, rfl⟩
+  have hbU : c b ∈ U := hc.mem b ⟨hab.le, le_rfl⟩
+  obtain ⟨l, u, hl, hu, hrel⟩ := hc.rel b ⟨hab.le, le_rfl⟩ U le_rfl hbU
+  have hm : max a l < b := max_lt hab hl
+  have hreg : c b ∈ btzJReg x₀ := by
+    have h1 : (max a l + b) / 2 ∈ Icc a b :=
+      ⟨by linarith [le_max_left a l], by linarith⟩
+    exact btzJ_mem_reg_of_lt (hrel _ h1 b ⟨hab.le, le_rfl⟩
+      (by linarith [le_max_right a l]) (by linarith) hu).2.2
+  obtain ⟨ε, hε, hball⟩ := btzJ_exists_ball_of_reg U.isOpen hbU hreg
+  have hcont : ContinuousWithinAt (fun s => (c s).val) (Icc a b) b :=
+    continuous_btzJ_val.continuousAt.comp_continuousWithinAt
+      ((hc.continuousOn btzJ_isRelFamily_lt) b ⟨hab.le, le_rfl⟩)
+  have hpre : (fun s => (c s).val) ⁻¹' Metric.ball (c b).val (ε / 2) ∈ 𝓝[Icc a b] b :=
+    hcont (Metric.ball_mem_nhds _ (by linarith))
+  obtain ⟨δ₁, hδ₁, hδball⟩ := Metric.mem_nhdsWithin_iff.1 hpre
+  set s₀ := (max (max a l) (b - δ₁) + b) / 2 with hs₀
+  have hm' : max (max a l) (b - δ₁) < b := max_lt hm (by linarith)
+  have hs₀b : s₀ < b := by rw [hs₀]; linarith
+  have hs₀a : a ≤ s₀ := by
+    have : a ≤ max (max a l) (b - δ₁) := (le_max_left _ _).trans (le_max_left _ _)
+    rw [hs₀]; linarith
+  have hs₀l : l < s₀ := by
+    have : l ≤ max (max a l) (b - δ₁) := (le_max_right _ _).trans (le_max_left _ _)
+    rw [hs₀]; linarith
+  have hs₀δ : b - δ₁ < s₀ := by
+    have : b - δ₁ ≤ max (max a l) (b - δ₁) := le_max_right _ _
+    rw [hs₀]; linarith
+  have hs₀mem : s₀ ∈ Icc a b := ⟨hs₀a, hs₀b.le⟩
+  have hzy : btzJLt (c s₀) (c b) := (hrel s₀ hs₀mem b ⟨hab.le, le_rfl⟩ hs₀l hs₀b hu).2.2
+  have hzball : (c s₀).val ∈ Metric.ball (c b).val (ε / 2) := by
+    refine hδball ⟨?_, hs₀mem⟩
+    rw [Metric.mem_ball, Real.dist_eq, abs_lt]; constructor <;> linarith
+  have hW : IsOpen (BTZJplus.val ⁻¹' (Metric.ball (c b).val (ε / 2) ∩
+      (Causal.minkowski 2).Iplus ⊤ {(c s₀).val}) : Set (BTZJplus x₀)) :=
+    isOpen_btzJ_val_preimage (Metric.isOpen_ball.inter
+      (Causal.Causality.isOpen_Iplus (C := Causal.minkowski 2)))
+  refine Filter.mem_of_superset (hW.mem_nhds ⟨Metric.mem_ball_self (by linarith), ?_⟩) ?_
+  · exact Causal.Precausality.mem_Iplus_singleton.2 hzy
+  · rintro y' ⟨hy'b, hy'c⟩
+    have hzy' : btzJLt (c s₀) y' := Causal.Precausality.mem_Iplus_singleton.1 hy'c
+    have hsegU : ∀ s ∈ Icc (0 : ℝ) 1, btzJSeg hzy'.le s ∈ U := fun s hs =>
+      hball _ (Metric.ball_subset_ball (by linarith) (btzJSegPt_mem_ball hzball hy'b hs))
+    have hseg := btzJ_curveOn_seg_lt hzy' hsegU
+    have hres : Causal.CurveOn (btzJRelOn btzJLt) U c a s₀ :=
+      hc.restrict le_rfl hs₀b.le le_rfl fun t ht => hc.mem t ⟨ht.1, ht.2.trans hs₀b.le⟩
+    obtain ⟨d, hd, hda, hdb⟩ := btzJ_curve_append btzJ_isRelFamily_lt hres hseg hs₀a zero_le_one
+      (btzJSeg_zero hzy'.le).symm
+    exact ⟨a, _, by linarith, d, hd, hda, hdb.trans (btzJSeg_one hzy'.le)⟩
+
+/-- **`I⁻_U(y)` is open**, points of `Δ` included. -/
+theorem btzJ_isOpen_CLt_left (U : Opens (BTZJplus x₀)) (y : BTZJplus x₀) :
+    IsOpen {x | btzJCLt U x y} := by
+  rw [isOpen_iff_mem_nhds]
+  rintro x ⟨a, b, hab, c, hc, rfl, hcb⟩
+  have haU : c a ∈ U := hc.mem a ⟨le_rfl, hab.le⟩
+  obtain ⟨l, u, hl, hu, hrel⟩ := hc.rel a ⟨le_rfl, hab.le⟩ U le_rfl haU
+  have htail : ∀ s₀ ∈ Ioo a b, ∀ x' : BTZJplus x₀, ∀ d : ℝ → BTZJplus x₀,
+      Causal.CurveOn (btzJRelOn btzJLt) U d 0 1 → d 0 = x' → d 1 = c s₀ → btzJCLt U x' y := by
+    intro s₀ hs₀ x' d hd hd0 hd1
+    have hres : Causal.CurveOn (btzJRelOn btzJLt) U c s₀ b :=
+      hc.restrict hs₀.1.le le_rfl le_rfl fun t ht => hc.mem t ⟨hs₀.1.le.trans ht.1, ht.2⟩
+    obtain ⟨e, he, hea, heb⟩ := btzJ_curve_append btzJ_isRelFamily_lt hd hres zero_le_one hs₀.2.le hd1
+    exact ⟨0, _, by linarith [hs₀.2], e, he, hea.trans hd0, heb.trans hcb⟩
+  have hcont : ContinuousWithinAt (fun s => (c s).val) (Icc a b) a :=
+    continuous_btzJ_val.continuousAt.comp_continuousWithinAt
+      ((hc.continuousOn btzJ_isRelFamily_lt) a ⟨le_rfl, hab.le⟩)
+  -- a parameter `s₀ ∈ (a, min b u)` close to `a`, given a neighbourhood of `c a` in `𝐌³`
+  have hpick : ∀ T ∈ 𝓝 (c a).val, ∃ s₀ ∈ Ioo a b, (c s₀).val ∈ T ∧ btzJLt (c a) (c s₀) := by
+    intro T hT
+    obtain ⟨δ₁, hδ₁, hδball⟩ := Metric.mem_nhdsWithin_iff.1 (hcont hT)
+    set s₀ := (a + min (min b u) (a + δ₁)) / 2 with hs₀
+    have hm : a < min (min b u) (a + δ₁) := lt_min (lt_min hab hu) (by linarith)
+    have hs₀a : a < s₀ := by rw [hs₀]; linarith
+    have hs₀b : s₀ < b := by
+      have : min (min b u) (a + δ₁) ≤ b := (min_le_left _ _).trans (min_le_left _ _)
+      rw [hs₀]; linarith
+    have hs₀u : s₀ < u := by
+      have : min (min b u) (a + δ₁) ≤ u := (min_le_left _ _).trans (min_le_right _ _)
+      rw [hs₀]; linarith
+    have hs₀δ : s₀ < a + δ₁ := by
+      have : min (min b u) (a + δ₁) ≤ a + δ₁ := min_le_right _ _
+      rw [hs₀]; linarith
+    have hs₀mem : s₀ ∈ Icc a b := ⟨hs₀a.le, hs₀b.le⟩
+    refine ⟨s₀, ⟨hs₀a, hs₀b⟩, hδball ⟨?_, hs₀mem⟩,
+      (hrel a ⟨le_rfl, hab.le⟩ s₀ hs₀mem hl hs₀a hs₀u).2.2⟩
+    rw [Metric.mem_ball, Real.dist_eq, abs_lt]; constructor <;> linarith
+  by_cases hreg : c a ∈ btzJReg x₀
+  · -- off `Δ`: a ball
+    obtain ⟨ε, hε, hball⟩ := btzJ_exists_ball_of_reg U.isOpen haU hreg
+    obtain ⟨s₀, hs₀, hzball, hxz⟩ := hpick _ (Metric.ball_mem_nhds (c a).val (half_pos hε))
+    have hW : IsOpen (BTZJplus.val ⁻¹' (Metric.ball (c a).val (ε / 2) ∩
+        (Causal.minkowski 2).Iminus ⊤ {(c s₀).val}) : Set (BTZJplus x₀)) :=
+      isOpen_btzJ_val_preimage (Metric.isOpen_ball.inter
+        (Causal.Causality.isOpen_Iminus (C := Causal.minkowski 2)))
+    refine Filter.mem_of_superset (hW.mem_nhds ⟨Metric.mem_ball_self (by linarith),
+      Causal.Precausality.mem_Iminus_singleton.2 hxz⟩) ?_
+    rintro x' ⟨hx'b, hx'c⟩
+    have hx'z : btzJLt x' (c s₀) := Causal.Precausality.mem_Iminus_singleton.1 hx'c
+    have hsegU : ∀ s ∈ Icc (0 : ℝ) 1, btzJSeg hx'z.le s ∈ U := fun s hs =>
+      hball _ (Metric.ball_subset_ball (by linarith) (btzJSegPt_mem_ball hx'b hzball hs))
+    exact htail s₀ hs₀ x' _ (btzJ_curveOn_seg_lt hx'z hsegU) (btzJSeg_zero _) (btzJSeg_one _)
+  · -- on `Δ`: the axis estimate
+    have hax : (c a).val ∈ btzLine x₀ := by
+      by_contra h; exact hreg h
+    obtain ⟨P, p, hxP, hp, hxp, hconv⟩ := btzJ_axis_convex U.isOpen haU hax
+    obtain ⟨s₀, hs₀, hzP, hxz⟩ := hpick _ ((Causal.Causality.isOpen_Iminus
+      (C := Causal.minkowski 2) (U := ⊤) (A := {P})).mem_nhds
+      (Causal.Precausality.mem_Iminus_singleton.2 hxP))
+    have hzP' : (Causal.minkowski 2).lt ⊤ (c s₀).val P :=
+      Causal.Precausality.mem_Iminus_singleton.1 hzP
+    have hW : IsOpen (BTZJplus.val ⁻¹' (Causal.minkowski 2).Iminus ⊤ {(c s₀).val} ∩
+        BTZJplus.val ⁻¹' btzJGenSet p : Set (BTZJplus x₀)) :=
+      (isOpen_btzJ_val_preimage (Causal.Causality.isOpen_Iminus (C := Causal.minkowski 2))).inter
+        (isOpen_btzJ_gen hp)
+    refine Filter.mem_of_superset (hW.mem_nhds ⟨Causal.Precausality.mem_Iminus_singleton.2 hxz,
+      hxp⟩) ?_
+    rintro x' ⟨hx'c, hx'g⟩
+    have hx'z : btzJLt x' (c s₀) := Causal.Precausality.mem_Iminus_singleton.1 hx'c
+    have hpx' : (Causal.minkowski 2).le ⊤ p x'.val := by
+      rcases hx'g with h | h
+      · exact (Causal.minkowski 2).le_of_lt (Causal.Precausality.mem_Iplus_singleton.1 h)
+      · obtain ⟨σ, hσ, he⟩ := h
+        rw [he, Causal.Flat.le_top_iff_minkQ, add_sub_cancel_left]
+        refine btz_isFutureCausal_smul hσ.le ⟨?_, ?_⟩
+        · rw [fst_nullToMink_nullU]; norm_num
+        · rw [minkQ_nullToMink]; simp [nullQ, nullU]
+    have hsegU : ∀ s ∈ Icc (0 : ℝ) 1, btzJSeg hx'z.le s ∈ U := fun s hs => by
+      refine hconv _ ?_ ?_
+      · have h1 := btzJ_le_segPt hx'z.le hs.2
+        rw [btzJSegPt_one] at h1
+        exact (Causal.minkowski 2).le_trans h1 ((Causal.minkowski 2).le_of_lt hzP')
+      · exact (Causal.minkowski 2).le_trans hpx' (btzJ_val_le_segPt hx'z.le s)
+    exact htail s₀ hs₀ x' _ (btzJ_curveOn_seg_lt hx'z hsegU) (btzJSeg_zero _) (btzJSeg_one _)
+
+variable (x₀) in
+/-- **The ETT causality of `J⁺(Δ)` with the BTZ topology** (DEC-33): `q ≤_U q'` (resp.
+`q ≪_U q'`) iff a future causal (resp. chronological) curve of `U` joins them, the curves being
+BTZ-continuous and locally increasing for the order of `𝐌³`. -/
+noncomputable def btzJCausality : Causal.Causality (BTZJplus x₀) where
+  le := btzJCLe
+  lt := btzJCLt
+  le_mem_left h := h.mem_left
+  le_mem_right h := h.mem_right
+  lt_mem_left h := h.cle.mem_left
+  lt_mem_right h := h.cle.mem_right
+  le_refl hx := btzJCLe.refl hx
+  le_trans := btzJCLe.trans
+  lt_trans := btzJCLt.trans
+  le_mono hVU _ _ h := h.mono hVU
+  lt_mono hVU _ _ h := h.mono hVU
+  le_of_lt h := h.cle
+  isOpen_lt_right := btzJ_isOpen_CLt_right
+  isOpen_lt_left := btzJ_isOpen_CLt_left
+
+/-- **Globally, the causal order of `J⁺(Δ)` is that of `𝐌³`.** -/
+theorem btzJCausality_le_top_iff : (btzJCausality x₀).le ⊤ q q' ↔
+    (Causal.minkowski 2).le ⊤ q.val q'.val := btzJCLe_top_iff
+
+theorem btzJCausality_lt_top_iff : (btzJCausality x₀).lt ⊤ q q' ↔
+    (Causal.minkowski 2).lt ⊤ q.val q'.val := btzJCLt_top_iff
+
+/-! #### Transport to `\widetilde{𝔼₀}` -/
+
+/-- The image of an open set by a homeomorphism. -/
+def btzOpensImage {X Z : Type*} [TopologicalSpace X] [TopologicalSpace Z] (e : X ≃ₜ Z)
+    (U : Opens X) : Opens Z :=
+  ⟨e '' U, e.isOpenMap U U.isOpen⟩
+
+theorem btzOpensImage_top {X Z : Type*} [TopologicalSpace X] [TopologicalSpace Z] (e : X ≃ₜ Z) :
+    btzOpensImage e ⊤ = ⊤ :=
+  Opens.ext (by simp [btzOpensImage])
+
+theorem btzOpensImage_mono {X Z : Type*} [TopologicalSpace X] [TopologicalSpace Z] (e : X ≃ₜ Z)
+    {V U : Opens X} (h : V ≤ U) : btzOpensImage e V ≤ btzOpensImage e U := by
+  rintro _ ⟨x, hx, rfl⟩
+  exact ⟨x, h hx, rfl⟩
+
+theorem btz_mem_opensImage {X Z : Type*} [TopologicalSpace X] [TopologicalSpace Z] (e : X ≃ₜ Z)
+    {U : Opens X} {x : X} (h : e x ∈ btzOpensImage e U) : x ∈ U :=
+  e.injective.mem_set_image.1 h
+
+/-- **A causality transported along a homeomorphism** `e : X ≃ₜ Z`: `x ≤_U y` iff
+`e x ≤_{e(U)} e y`. -/
+def btzTransportCausality {X Z : Type*} [TopologicalSpace X] [TopologicalSpace Z] (e : X ≃ₜ Z)
+    (C : Causal.Causality Z) : Causal.Causality X where
+  le U x y := C.le (btzOpensImage e U) (e x) (e y)
+  lt U x y := C.lt (btzOpensImage e U) (e x) (e y)
+  le_mem_left h := btz_mem_opensImage e (C.le_mem_left h)
+  le_mem_right h := btz_mem_opensImage e (C.le_mem_right h)
+  lt_mem_left h := btz_mem_opensImage e (C.lt_mem_left h)
+  lt_mem_right h := btz_mem_opensImage e (C.lt_mem_right h)
+  le_refl hx := C.le_refl ⟨_, hx, rfl⟩
+  le_trans h₁ h₂ := C.le_trans h₁ h₂
+  lt_trans h₁ h₂ := C.lt_trans h₁ h₂
+  le_mono hVU _ _ h := C.le_mono (btzOpensImage_mono e hVU) h
+  lt_mono hVU _ _ h := C.lt_mono (btzOpensImage_mono e hVU) h
+  le_of_lt h := C.le_of_lt h
+  isOpen_lt_right U x := (C.isOpen_lt_right (btzOpensImage e U) (e x)).preimage e.continuous
+  isOpen_lt_left U x := (C.isOpen_lt_left (btzOpensImage e U) (e x)).preimage e.continuous
+
+theorem btzTransportCausality_le_top_iff {X Z : Type*} [TopologicalSpace X] [TopologicalSpace Z]
+    (e : X ≃ₜ Z) (C : Causal.Causality Z) {x y : X} :
+    (btzTransportCausality e C).le ⊤ x y ↔ C.le ⊤ (e x) (e y) := by
+  show C.le (btzOpensImage e ⊤) (e x) (e y) ↔ _
+  rw [btzOpensImage_top]
+
+theorem btzTransportCausality_lt_top_iff {X Z : Type*} [TopologicalSpace X] [TopologicalSpace Z]
+    (e : X ≃ₜ Z) (C : Causal.Causality Z) {x y : X} :
+    (btzTransportCausality e C).lt ⊤ x y ↔ C.lt ⊤ (e x) (e y) := by
+  show C.lt (btzOpensImage e ⊤) (e x) (e y) ↔ _
+  rw [btzOpensImage_top]
+
+/-- **`\widetilde{𝔼₀}`** (cylinder model `𝔻_∞ × ℝ`) as a type whose topology is `T_BTZ = hornTop`
+(DEC-77 (b)). -/
+def BTZTildeCyl : Type := DInfty × ℝ
+
+/-- `T_BTZ`, the topology of `\widetilde{𝔼₀}`. -/
+instance btzTildeCylTop : TopologicalSpace BTZTildeCyl := hornTop
+
+variable {v : ℝ × ℝ × ℝ}
+
+variable (x₀ v) in
+/-- `D : \widetilde{𝔼₀} ≃ₜ (J⁺(Δ), BTZ)` on the type `BTZTildeCyl`. -/
+noncomputable def btzTildeDev (hv : 0 < v.2.1) : BTZTildeCyl ≃ₜ BTZJplus x₀ :=
+  btzJDevHomeomorph x₀ v hv
+
+variable (x₀ v) in
+/-- **The ETT causality of `\widetilde{𝔼₀}`** (DEC-33, DEC-77 (b)): `btzJCausality` transported along
+`D : (\widetilde{𝔼₀}, T_BTZ) ≃ₜ (J⁺(Δ), BTZ)`. Its curves are the `T_BTZ`-continuous curves along
+which the developments are locally increasing in `𝐌³`. -/
+noncomputable def btzCylCausality (hv : 0 < v.2.1) : Causal.Causality BTZTildeCyl :=
+  btzTransportCausality (btzTildeDev x₀ v hv) (btzJCausality x₀)
+
+/-- **Globally, the ETT causal order of `\widetilde{𝔼₀}` is the order of the developments**
+(`btzCylLe`): the reading of the previous round is a theorem. -/
+theorem btzCylCausality_le_top_iff (hv : 0 < v.2.1) {y y' : BTZTildeCyl} :
+    (btzCylCausality x₀ v hv).le ⊤ y y' ↔ btzCylLe x₀ v y y' :=
+  (btzTransportCausality_le_top_iff _ _).trans btzJCausality_le_top_iff
+
+theorem btzCylCausality_lt_top_iff (hv : 0 < v.2.1) {y y' : BTZTildeCyl} :
+    (btzCylCausality x₀ v hv).lt ⊤ y y' ↔
+      (Causal.minkowski 2).lt ⊤ (btzDevM x₀ v y) (btzDevM x₀ v y') :=
+  (btzTransportCausality_lt_top_iff _ _).trans btzJCausality_lt_top_iff
+
+theorem btzCylCausality_diamond (hv : 0 < v.2.1) (p q : BTZTildeCyl) :
+    (btzCylCausality x₀ v hv).Jminus ⊤ {p} ∩ (btzCylCausality x₀ v hv).Jplus ⊤ {q} =
+      (btzCylDiamond x₀ v p q : Set BTZTildeCyl) := by
+  ext y
+  simp only [mem_inter_iff, Causal.Precausality.mem_Jminus_singleton,
+    Causal.Precausality.mem_Jplus_singleton, btzCylCausality_le_top_iff]
+  rfl
+
+/-- **`rem:tamifying_topology_generated_open`** (`RamcovGX.tex:2293`), with the ETT causality of
+`\widetilde{𝔼₀}` (DEC-33, DEC-77 (b)): `T_BTZ` is generated by the `T_BTZ`-open diamonds
+`Int_{T_BTZ}(J⁻(p) ∩ J⁺(q))`, `p, q ∈ \widetilde{𝔼₀}`, `J^±` those of `btzCylCausality`. -/
+theorem btz_tamifying_topology_generated_open_ett (hv : 0 < v.2.1) :
+    btzTildeCylTop = TopologicalSpace.generateFrom
+      {S | ∃ p q : BTZTildeCyl, S = interior
+        ((btzCylCausality x₀ v hv).Jminus ⊤ {p} ∩ (btzCylCausality x₀ v hv).Jplus ⊤ {q})} := by
+  simp_rw [btzCylCausality_diamond]
+  exact btz_tamifying_topology_generated_open hv
+
+/-- The basis form, with the ETT causality. -/
+theorem btz_hasBasis_nhds_diamond_ett (hv : 0 < v.2.1) (y : BTZTildeCyl) :
+    (𝓝 y).HasBasis
+      (fun pq : BTZTildeCyl × BTZTildeCyl => y ∈ interior
+        ((btzCylCausality x₀ v hv).Jminus ⊤ {pq.1} ∩ (btzCylCausality x₀ v hv).Jplus ⊤ {pq.2}))
+      (fun pq => interior
+        ((btzCylCausality x₀ v hv).Jminus ⊤ {pq.1} ∩ (btzCylCausality x₀ v hv).Jplus ⊤ {pq.2})) := by
+  simp_rw [btzCylCausality_diamond]
+  exact btz_hasBasis_nhds_diamond hv y
+
+/-- An equivalence is a homeomorphism from the induced topology. -/
+def btzInducedHomeomorph {X Y : Type*} (e : X ≃ Y) (t : TopologicalSpace Y) :
+    @Homeomorph X Y (TopologicalSpace.induced e t) t :=
+  @Homeomorph.mk X Y (TopologicalSpace.induced e t) t e continuous_induced_dom
+    (continuous_induced_rng.2 (by
+      have : (⇑e ∘ e.invFun) = id := funext fun y => e.apply_symm_apply y
+      rw [this]; exact @continuous_id _ t))
+
+section Cover
+
+variable {α : ℝ} [SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2) (BTZModel α)]
+  {y₀ : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (BTZModel α))ᶜ : Set (BTZModel α))}
+
+/-- **The maximal branched covering `\widetilde{𝔼₀}` with the topology `Φ^* T_BTZ`** (DEC-77 (b)),
+for a homeomorphism `Φ` onto the cylinder. -/
+def BTZTildeCover (_Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (BTZModel α)) y₀ ≃ₜ
+      DInfty × ℝ) : Type :=
+  MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (BTZModel α)) y₀
+
+noncomputable instance btzTildeCoverTop (Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2)
+    (BTZModel α)) y₀ ≃ₜ DInfty × ℝ) : TopologicalSpace (BTZTildeCover Φ) :=
+  TopologicalSpace.induced Φ hornTop
+
+/-- `Φ : (\widetilde{𝔼₀}, Φ^* T_BTZ) ≃ₜ (cylinder, T_BTZ)`. -/
+noncomputable def btzTildeCoverHomeomorph (Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2)
+    (BTZModel α)) y₀ ≃ₜ DInfty × ℝ) : BTZTildeCover Φ ≃ₜ BTZTildeCyl :=
+  btzInducedHomeomorph Φ.toEquiv hornTop
+
+variable (x₀ v) in
+/-- **The ETT causality of the maximal branched covering `\widetilde{𝔼₀}`**, transported along `Φ`. -/
+noncomputable def btzCoverCausality (Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2)
+    (Causal.Minkowski 2) (BTZModel α)) y₀ ≃ₜ DInfty × ℝ) (hv : 0 < v.2.1) :
+    Causal.Causality (BTZTildeCover Φ) :=
+  btzTransportCausality (btzTildeCoverHomeomorph Φ) (btzCylCausality x₀ v hv)
+
+/-- **`rem:tamifying_topology_generated_open`** (`RamcovGX.tex:2293`) **on `\widetilde{𝔼₀}` itself**,
+the maximal branched covering of `𝔼₀` over its singular locus, with its ETT causality: for `Φ`
+onto the cylinder lifting the projection, `Φ^* hornTop` is the tamifying topology `T_BTZ`, `D ∘ Φ`
+a developing map of the cover over its regular part, the global order of the ETT causality is the
+order of the developments `D ∘ Φ`, and `T_BTZ` is generated by the `T_BTZ`-interiors of the
+diamonds `J⁻(p) ∩ J⁺(q)`. -/
+theorem btz_tamifying_topology_generated_open_cover_ett
+    (Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) (BTZModel α)) y₀ ≃ₜ
+      DInfty × ℝ) (hv : 0 < v.2.1) (hα : α ≠ 0) (hπ : IsBTZStructure x₀ v α)
+    (hΦ : ∀ e, orbitMk (GammaA α) (Φ e) = e.base) :
+    IsTamifyingTopology (Causal.Flat.isom 2) (Causal.Minkowski 2) (BTZModel α) y₀
+      (btzTildeCoverTop Φ) ∧
+    IsRegDevelopingOnReg (Causal.Flat.isom 2) (Causal.Minkowski 2) (BTZModel α) y₀
+      (btzDevM x₀ v ∘ Φ) ∧
+    (∀ e e' : BTZTildeCover Φ, (btzCoverCausality x₀ v Φ hv).le ⊤ e e' ↔
+      (Causal.minkowski 2).le ⊤ (btzDevM x₀ v (Φ e)) (btzDevM x₀ v (Φ e'))) ∧
+    btzTildeCoverTop Φ = TopologicalSpace.generateFrom
+      {S | ∃ p q : BTZTildeCover Φ, S = interior
+        ((btzCoverCausality x₀ v Φ hv).Jminus ⊤ {p} ∩ (btzCoverCausality x₀ v Φ hv).Jplus ⊤ {q})} := by
+  have hle : ∀ e e' : BTZTildeCover Φ, (btzCoverCausality x₀ v Φ hv).le ⊤ e e' ↔
+      (Causal.minkowski 2).le ⊤ (btzDevM x₀ v (Φ e)) (btzDevM x₀ v (Φ e')) := fun e e' =>
+    (btzTransportCausality_le_top_iff _ _).trans (btzCylCausality_le_top_iff hv)
+  refine ⟨btz_isTamifyingTopology hv hα hπ hΦ, btz_isRegDevelopingOnReg hv hα hπ hΦ, hle, ?_⟩
+  have hD : ∀ p q : BTZTildeCover Φ, (btzCoverCausality x₀ v Φ hv).Jminus ⊤ {p} ∩
+      (btzCoverCausality x₀ v Φ hv).Jplus ⊤ {q} =
+      {e | btzCylLe x₀ v (Φ e) (Φ p) ∧ btzCylLe x₀ v (Φ q) (Φ e)} := by
+    intro p q
+    ext e
+    simp only [mem_inter_iff, Causal.Precausality.mem_Jminus_singleton,
+      Causal.Precausality.mem_Jplus_singleton, hle]
+    rfl
+  simp_rw [hD]
+  exact btz_tamifying_topology_generated_open_transport Φ hv
+
+end Cover
+
+end ETTCausality
 
 end GX

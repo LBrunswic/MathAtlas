@@ -41,7 +41,6 @@
     "GX.isPortly_strongPullTop_iff_local",
     "GX.isBranchedCovering_strongPullTop",
     "GX.isPreconnected_preimage_of_isPortly",
-    "GX.spread_top_deck",
     "GX.SpreadTopConnCE",
     "GX.not_spreadTopConnCE",
     "GX.cex_spread_top_sector",
@@ -92,9 +91,13 @@
     "Proof BUILT (WP-35g) for all five clauses: GX.spread_top_of_local proves (a) first countable+connected+LPC, (b), (c), (d), (e) exactly as printed under three added hypotheses (N → M Galoisian; p⁻¹(R) connected; StrongLocallyConnectedOrd). Both topological added hypotheses are now shown necessary in the presence of all the others (in both counterexamples q = id is Galoisian): the half-cut example satisfies the local hypothesis (GX.strongLocallyConnectedOrd_halfCut, via GX.exists_homeomorph_maxBranched_empty: M̃^∅ → ℂ is a homeomorphism) and p^*T is disconnected; the sector example satisfies p⁻¹R connected and (c), (e) fail.",
     "(d) without 'N → M Galoisian' is not formalized either way. Informal counterexample sketch: N a non-normal finite intermediate covering of a space with non-abelian π₁ (e.g. ℂ minus two points, S = ∅) has Γ(N/M) trivial, so any T is allowed; take T cut (as in halfCutTop) at one point n₀ of a fibre and natural elsewhere; a deck transformation γ of M̃ sending a point over n₁ ≠ n₀ to a point over n₀ (exists, M̃ → M Galoisian) is not p^*T-continuous there.",
     "The dispatch cites the proof as l.2068–2136; that range is the proof of theo:local_virt_tame. The proof of lem:spread_top is l.2010–2061 (it follows rem:intuitively_spread_thinner_than).",
-    "WP-40d: row CLOSED under DEC-80(c) (GX.spread_top_of_local is the lemma); the counterexamples to the printed form are kept as the record of the correction. Docstring mark applied in the module docstring and on GX.spread_top_of_local."
+    "WP-40d: row CLOSED under DEC-80(c) (GX.spread_top_of_local is the lemma); the counterexamples to the printed form are kept as the record of the correction. Docstring mark applied in the module docstring and on GX.spread_top_of_local.",
+    "WP-41q: GX.spread_top_deck is declared in GXScaffold.SingularII.Models, not here; moved to decls_imported (audit round 1, minor)."
    ],
-   "questions": []
+   "questions": [],
+   "decls_imported": [
+    "GX.spread_top_deck"
+   ]
   },
   {
    "label": "rem:hypothesis_model_spaces_necessary",
@@ -213,7 +216,7 @@
     {
      "paper": "(the setting)",
      "here": "carried",
-     "note": "RULED (DEC-87(d)): read 'in the setting of lem:spread_top' — every hypothesis of GX.spread_top_of_local (DEC-80(c) form); 'coarsest topology making p a spread' = IsGreatest among σ' ≤ T_{M̃^S} (finer than the natural topology, mathlib order) with p : (M̃^S, σ') → (N, T) a spread"
+     "note": "RULED (DEC-87(d)): read 'in the setting of lem:spread_top' — every hypothesis of GX.spread_top_of_local (DEC-80(c) form); 'coarsest topology making p a spread' = IsGreatest among σ' ≤ T_{M̃^S} (finer than the natural topology, mathlib order) with p : (M̃^S, σ') → (N, T) a spread. The restriction to topologies finer than T_{M̃^S} is the paper's strong-topology convention (l.1981: the strong topology is the thinner of the two) and is part of the exact form put to the author in WP-40d's ruling question (answered 'Accept (a)–(e)', DEC-87). It is needed even in the lemma's setting: for a non-injective covering p and T = T_N, σ' = p⁻¹T_N is a spread topology strictly coarser than T_M (audit round 1)."
     }
    ],
    "sorries": [],
@@ -313,7 +316,6 @@
   }
  ],
  "extra_decls": [
-  "GX.strongPullTop",
   "GX.strongPullGen",
   "GX.strongPullTop_eq_inf_generateFrom",
   "GX.strongPullTop_eq_generateFrom",
@@ -416,5 +418,9 @@
   "Sing of a cylinder quotient when the holonomy generator has finite order (α ∈ 2πℤ, α ≥ 4π): GX.apex_notMem_support_of_sep — the developing map identifies two points of different orbits near the apex.",
   "IsTamifyingTopology transports along a homeomorphism Φ : M̃ ≃ₜ Y over M: induced Φ T' with (A) from coinduced_compose + GX.coinduced_induced_of_surjective, LPC via IsOpenEmbedding.locPathConnectedSpace, first countability via firstCountableTopology_induced, (D) via IsPortly.image_of_isOpenMap on Φ.symm (GX.massCyl_isTamifying_tamTop)."
  ],
- "notes": "WP-41q on WP-40d's SpreadTop.lean (pre-edit copy: campaign/WP-41q/SpreadTop.pre-WP-41q.lean.bak). Lean code UNCHANGED (only docstrings edited): every proof WP-27k/WP-35g/WP-40d made is kept. Applied DEC-87: (b) rem:hypothesis_model_spaces_necessary — reading ruled, row stays closed+marked; (c) rem:quotient_virtually_tame — CLOSED and MARKED with GX.quotient_virtually_tame_galoisian'; (d) rem:intuitively_spread_thinner_than — CLOSED and MARKED with GX.intuitively_spread_thinner_of_local (+ GX.cex_component_not_strongPull_connected for the 'However' sentence); (e) def:topological_spaces_continuous_map — attributed to Models, unmarked here. Module docstring restructured: a 'Certified here' list opens it, all four bold marks within the first 860 characters (lem:spread_top 327, rem:intuitively_spread_thinner_than 415, rem:hypothesis_model_spaces_necessary 640, rem:quotient_virtually_tame 852); hypothesis checklist and SCOPE (c), (d) updated, SCOPE (f) added. Checks: taskset -c 0-11 lake env lean on the file: no errors/warnings; taskset -c 0-11 lake build GXScaffold.SingularII.SpreadTop succeeds (Models replayed only, its known sorry warning is Models'); 0 sorry in this file; axiom sweep campaign/WP-41q/Axioms.lean (output axioms.out) over the 9 certifying/record declarations: all [propext, Classical.choice, Quot.sound], no sorryAx. No new declaration names (no clash possible). Nothing outside the file and the report dir was written."
+ "notes": "WP-41q on WP-40d's SpreadTop.lean (pre-edit copy: campaign/WP-41q/SpreadTop.pre-WP-41q.lean.bak). Lean code UNCHANGED (only docstrings edited): every proof WP-27k/WP-35g/WP-40d made is kept. Applied DEC-87: (b) rem:hypothesis_model_spaces_necessary — reading ruled, row stays closed+marked; (c) rem:quotient_virtually_tame — CLOSED and MARKED with GX.quotient_virtually_tame_galoisian'; (d) rem:intuitively_spread_thinner_than — CLOSED and MARKED with GX.intuitively_spread_thinner_of_local (+ GX.cex_component_not_strongPull_connected for the 'However' sentence); (e) def:topological_spaces_continuous_map — attributed to Models, unmarked here. Module docstring restructured: a 'Certified here' list opens it, all four bold marks within the first 860 characters (lem:spread_top 327, rem:intuitively_spread_thinner_than 415, rem:hypothesis_model_spaces_necessary 640, rem:quotient_virtually_tame 852); hypothesis checklist and SCOPE (c), (d) updated, SCOPE (f) added. Checks: taskset -c 0-11 lake env lean on the file: no errors/warnings; taskset -c 0-11 lake build GXScaffold.SingularII.SpreadTop succeeds (Models replayed only, its known sorry warning is Models'); 0 sorry in this file; axiom sweep campaign/WP-41q/Axioms.lean (output axioms.out) over the 9 certifying/record declarations: all [propext, Classical.choice, Quot.sound], no sorryAx. No new declaration names (no clash possible). Nothing outside the file and the report dir was written. Round 2 (after AUDIT-1, verdict clean, 3 minor issues): (1) the Models declarations GX.spread_top_deck and GX.strongPullTop moved out of decls/extra_decls into decls_imported / extra_decls_imported; (2) the 'Certified here' marks now follow kb/0006's format **`label`** — `RamcovGX.tex:LINE` — decl (marks at characters 327, 428, 666, 893 of the module docstring); (3) the provenance of the σ' ≤ T_M restriction in rem:intuitively_spread_thinner_than is stated (strong-topology convention l.1981, the form named in WP-40d's question). Docstring-only change again; re-checked: taskset -c 0-11 lake env lean exit 0 with no output; taskset -c 0-11 lake build GXScaffold.SingularII.SpreadTop succeeds (Models replayed, its known sorry warning at Models.lean:3503 is Models'); 0 sorry; axioms.out regenerated, all 9 [propext, Classical.choice, Quot.sound].",
+ "extra_decls_imported": [
+  "GX.strongPullTop (GXScaffold.SingularII.Models)",
+  "GX.spread_top_deck (GXScaffold.SingularII.Models)"
+ ]
 }

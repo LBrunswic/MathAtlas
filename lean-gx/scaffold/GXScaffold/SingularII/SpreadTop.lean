@@ -8,17 +8,20 @@ Packages WP-27k, WP-35g, WP-40d, WP-41q. `papers/gx`, `RamcovGX.tex:1984–2162`
 
 Certified here (each under the ruling named; no `sorry` in this file):
 
-* **`lem:spread_top`** (l.1990) — `GX.spread_top_of_local`, the form DEC-80(c) accepts.
-* **`rem:intuitively_spread_thinner_than`** (l.2006) — `GX.intuitively_spread_thinner_of_local`,
-  read "in the setting of `lem:spread_top`" (DEC-87(d)); the "However" sentence:
-  `GX.cex_component_not_strongPull_connected`.
-* **`rem:hypothesis_model_spaces_necessary`** (l.2137) — `GX.hypothesis_model_spaces_necessary`,
-  "Hypothesis (C)" read as `theo:local_virt_tame`'s "`Aut(\widetilde X_α)` acts
-  `T_α`-continuously" (DEC-87(b)).
-* **`rem:quotient_virtually_tame`** (l.2154) — `GX.quotient_virtually_tame_galoisian'`, `N → M`
-  Galoisian (DEC-71 extended by DEC-87(c)), "isomorphic" read as homeomorphic (DEC-87(c)).
-* `def:topological_spaces_continuous_map` (l.1984) — certified in **Models** (DEC-87(e)); this
-  file adds only the verbatim wording `GX.strongPullTop_eq_generateFrom_union` and API.
+* **`lem:spread_top`** — `RamcovGX.tex:1990` — `GX.spread_top_of_local`, the form DEC-80(c)
+  accepts.
+* **`rem:intuitively_spread_thinner_than`** — `RamcovGX.tex:2006` —
+  `GX.intuitively_spread_thinner_of_local`, read "in the setting of `lem:spread_top`"
+  (DEC-87(d)); the "However" sentence: `GX.cex_component_not_strongPull_connected`.
+* **`rem:hypothesis_model_spaces_necessary`** — `RamcovGX.tex:2137` —
+  `GX.hypothesis_model_spaces_necessary`, "Hypothesis (C)" read as `theo:local_virt_tame`'s
+  "`Aut(\widetilde X_α)` acts `T_α`-continuously" (DEC-87(b)).
+* **`rem:quotient_virtually_tame`** — `RamcovGX.tex:2154` — `GX.quotient_virtually_tame_galoisian'`,
+  `N → M` Galoisian (DEC-71 extended by DEC-87(c)), "isomorphic" read as homeomorphic
+  (DEC-87(c)).
+* `def:topological_spaces_continuous_map` — `RamcovGX.tex:1984` — certified in **Models**
+  (DEC-87(e)); this file adds only the verbatim wording `GX.strongPullTop_eq_generateFrom_union`
+  and API.
 
 ## The labels in detail
 

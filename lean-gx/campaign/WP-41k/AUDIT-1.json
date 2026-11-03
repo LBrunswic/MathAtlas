@@ -1,0 +1,90 @@
+{
+ "package": "WP-41k",
+ "round": 1,
+ "auditor": "read-only auditor, round 1",
+ "file": "scaffold/GXScaffold/BTZ/AbsMax.lean",
+ "host": "node1",
+ "builds": true,
+ "build_command": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/AbsMax.lean (exit 0, 2.8 s wall, five warnings 'declaration uses sorry' at l.507, 705, 816, 823, 848, no recompilation of Causal.* or GX.*). The olean at .lake/build/lib/lean/GXScaffold/BTZ/AbsMax.olean (00:24) is newer than the source (00:23), consistent with the reported lake build; the auditor did not re-run lake build (read-only).",
+ "sorry_count": 5,
+ "sorries": [
+  "GX.E0AbsMax.sing_eq_of_le_of_le_of_stronglyCausalOn (l.507-510), SORRY(brunswic2021cauchy:Lemma 2.14)",
+  "GX.E0AbsMax.isLocallyCauchy_image (l.705-710), SORRY(brunswic2021cauchy:prop:cauchy_abs_max)",
+  "GX.E0AbsMax.lem_extension_hausdorff (l.816-819), SORRY(brunswic2021cauchy:lem:extension_hausdorff)",
+  "GX.E0AbsMax.exists_e0Pushout (l.823-827), SORRY(brunswic2021cauchy:prop:abs_max)",
+  "GX.E0AbsMax.E0Pushout.isCompact_diamond_mixed (l.848-852), SORRY(brunswic2021cauchy:prop:abs_max)"
+ ],
+ "verdict": "issues",
+ "checks": {
+  "builds_and_sorry_count": "pass: 5 tagged sorries, each isolated in its own declaration, matching REPORT.sorry_count = 5. The auditor re-ran campaign/WP-41k/Axioms.lean (lake env lean, no writes): exactly 14 declarations depend on sorryAx (the five leaves, btzExt_isCausal_of_stronglyCausalOn, cor_GH_causal, isE0Maximal_of_isE0CauchyMaximal, prop_cauchy_abs_max(_of_cauchyCompact), E0Pushout.globallyHyperbolic, absMax_e0RegM, prop_abs_max, cor_abs_max), the other 32 only on propext/Classical.choice/Quot.sound, as reported. Checked independently through `lake env lean --stdin`: lemma K (Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_pushUp_of_isOpen_Jplus), E0LM.e0_curvesExtend, E0LM.sfa_isOpen_Jplus, E0LM.e0_singularFlatAxioms_of, E0LM.e0_tarentin, E0LM.e0_causallyArcConnected, Causal.Flat.flat_secondCountableTopology, gh_e0RegMFlat, globallyHyperbolic_opens_of_causallyConvexIn, isConnected_of_isCauchySurface, btzExt_causallyConvexIn_of_globallyHyperbolicOn, isCausal_of_twoOpens, globallyHyperbolic_of_twoOpens are all sorry-free; GX.E0Surgery.regM_isCauchyComplete (upstream WP-41j) carries sorryAx, as reported.",
+  "statement_fidelity": "pass on the statements themselves, under the disclosed readings. Remark 1 (l.995-998): GloballyHyperbolicOn A for a causally convex open A of a GH causally arc-connected causality, and (CE W).GloballyHyperbolic for 𝔼₀. Lemma 2.13(a) matches l.1002 exactly (x ∈ sing0 ∩ A, y ∈ sing0, x ≤ y ⇒ y ∈ A; sing0(M0) = sing0(M1) ∩ A for an open embedding); (b) matches l.1005 with BTZ-extension = open A, Aᶜ ⊆ sing0 (B21's definition in open-set form). Lemma 2.14 / Cor 2.15: StronglyCausalOn is Causal.StronglyCausal relativised to A (same neighbourhood-not-open reading), conclusion C.IsCausal; not trivialising. Prop 2.16 for A = {0}: IsE0Maximal is the injective-𝔼₀-morphism-into-GH ⇒ bijective notion, symmetric to E0Spear.IsE0CauchyMaximal (DEC-77(c), equivalence to Dev.IsETTMaximal proved in Spear); Cauchy-compact read as a compact acausal topological Cauchy surface (weaker than B21 l.227's smooth spacelike one, so the statement is stronger; acausality is in any case implied by DEC-14 Cauchy + CurvesExtend). Prop 2.17 / Cor 2.18 for A = {0}: GH ∧ IsCauchyComplete ∧ AbsMax (fun _ => True) of e0RegMFlat M, i.e. E_∅-maximality = Barbot absolute maximality over all GH flat targets (DEC-45 'all flat GH targets for gx'), the DEC-28 input. Non-vacuity of E0Pushout: every field (comm, cover, glue, sing_ι₁/ι₂, le_ι₂, T2, connected, second countable) holds for the genuine push-out (M ⊔ N)/Reg M once Lemma 2.12 holds; second countability of N is available (Causal.Flat.FlatSpacetime.secondCountableTopology, Geroch flat case), connectedness from FlatSpacetime. No field carries the conclusion: surjectivity of f comes from E0-maximality applied to ι₁. The causality bullet avoids Lemma 2.14's sorry correctly (isCausal_of_twoOpens: a loop through BTZ points lies in sing0 ⊆ A, A GH). DEC-55 (compact-open loops) is not relevant to this file. See m1 (Lemma 2.14's sorried statement is posed in a generality where the paper's proof does not apply) and m2 (IsE0Maximal's readings).",
+  "docstring_contract": "FAIL: two **`label`** marks, **`brunswic2021cauchy:Remark 1`** and **`brunswic2021cauchy:lem:BTZext_caus_conv`**, both within the first 4000 characters, are claims of full certification that the file does not support (B1, M1). The same docstring says 'No gx ledger label is certified: these are cited results built here (DEC-23)', and the sibling WP-41j file (Surgery.lean) states the house practice for B21 rows: 'No label is marked: these are cited results built here (DEC-23), not gx ledger rows.' The checklist and SCOPE sections are present; Provenance gives the actual Causal pin ca2ad78 (lake-manifest inputRev verified; the dispatch's 731ed99 is stale). Minor: 'What is proved (0 sorry unless named)' lists Prop 2.16 and the push-out's global hyperbolicity without naming their sorry dependences in that section (m4).",
+  "report_honest_complete": "partial: one row per label of the dispatch (Remark 1, Lemmas 2.12-2.15, Props 2.16-2.17, Cor 2.18), sorries and upstream dependences correctly listed, axiom sweep accurate. But the two marked rows carry status 'closed' although they rest on named model-fact hypotheses (SingularFlatAxioms / CausallyArcConnected) and, for Remark 1, on a reading the author flags himself; under kb/0012 and kb/0006 both are 'partial', unmarked (B1, M1). Lemma 2.12's 'stated' undersells the narrowing (m3).",
+  "missing_labels_or_parts": "pass: every label of the dispatch has a row and every part of each multi-part statement has a declaration (Lemma 2.13 (a) and (b); Prop 2.16 both directions; Prop 2.17's three assertions GH, Cauchy-complete, E_{A*}-maximal; Cor 2.18's three). Lemma 2.12 is stated only in the case Prop 2.17 uses and only its Hausdorffness (the atlas half is exists_e0Pushout); reported.",
+  "cited_results_proved": "pass: lemma K comes from strict Causal.LemmaKLocal and is sorry-free; every hypothesis of lemma K on N is discharged by sorry-free E0LM lemmas (tarentin, arc-connected, J±(p) ≠ {p}, push-up, Z⁺, J⁺(V) open, Levin's CurvesExtend), conditional on hLine as reported; connectedness of the compact Cauchy surface is proved (isConnected_of_isCauchySurface_abstract) rather than assumed. The remaining inputs are tagged sorries or the upstream regM_isCauchyComplete, all reported.",
+  "name_clashes": "pass: namespace GX.E0AbsMax occurs in no other file of GX/ or scaffold/; 46 declarations, no duplicates.",
+  "import_gate": "pass: imports GXScaffold.BTZ.Surgery and strict Causal.LemmaKLocal only, file under scaffold/GXScaffold/BTZ/ (DEC-33); no `import Causal`, no CausalScaffold, no `open Causal`; Causal.* names fully qualified."
+ },
+ "verified_findings": [
+  "B21 l.1019-1031 (Lemma 2.13(b)): the step c([0,t0[) ⊂ J⁻_{M0}(q') for q' ∈ I⁺(c(t0)) needs push-up and that the chronal curve from c(s) to q' stays in M0 (I⁻ = ∅ at BTZ points); both are proved in btzExt_causallyConvexIn_of_globallyHyperbolicOn. The finding is accurate.",
+  "Prop 2.17's causality bullet (l.1099) needs only the instance of Cor 2.15 with no new BTZ point (sing0(M̄) ⊆ ι₁(M)), and that instance is sorry-free (isCausal_of_twoOpens). Accurate.",
+  "Prop 2.16's (i)⇒(ii) reduces to the local Cauchy property of f(S) once lemma K is available; the covering/O'Neill/intersection-number argument is not needed. Accurate.",
+  "GH of Reg M (gh_e0RegMFlat) needs neither Cauchy-maximality nor compactness, only (O2): verified sorry-free."
+ ],
+ "issues": [
+  {
+   "id": "B1",
+   "severity": "blocker",
+   "where": "module docstring l.12-14 (**`brunswic2021cauchy:lem:BTZext_caus_conv`**); REPORT row brunswic2021cauchy:lem:BTZext_caus_conv (status 'closed', marked true)",
+   "problem": "Lemma 2.13 is marked and reported closed, but the certificate is btzExt_causallyConvexIn_iff / btzExt_causallyConvexIn_of_globallyHyperbolicOn, which take `h : C.SingularFlatAxioms sing` — the ETT model facts of an E≥0-manifold (push-up, absolute minimality, arc-connectedness, tarentin, Z±, the BTZ/massive lines, the topology) bundled as one named hypothesis. kb/0012 (lean-causal) is explicit: model facts are carried as named hypotheses and 'The row is partial, bucket D, never marked.' No E≥0-manifold is shown to satisfy SingularFlatAxioms unconditionally: for 𝔼₀-manifolds it comes from e0_sfa, i.e. from (O2) hLine, whose proof E0LM.e0_globalBTZ is an upstream tagged sorry; for the massive models of 'E≥0' (DEC-74's E_θ, θ > 0) nothing is built. The REPORT's own question ('marked on the strength of the SFA-abstract statement (kb/0012)') reads kb/0012 backwards. The mark also contradicts the docstring's own sentence 'No gx ledger label is certified' and the WP-41j precedent for B21 rows.",
+   "fix": "Remove the ** mark (write `brunswic2021cauchy:lem:BTZext_caus_conv`), set the REPORT row to status 'partial', marked false, with the hypothesis 'E≥0-manifold facts (SingularFlatAxioms)' classed as a named model-fact hypothesis (kb/0012), and note that the 𝔼₀ instance is conditional on (O2). The proofs themselves are correct and need no change."
+  },
+  {
+   "id": "M1",
+   "severity": "major",
+   "where": "module docstring l.9-11 (**`brunswic2021cauchy:Remark 1`**); REPORT row brunswic2021cauchy:Remark 1 (status 'closed', marked true, question 'The marked status assumes yes')",
+   "problem": "Remark 1 is marked in a reading the REPORT itself leaves open: (a) 'an embedding ι : M0 → M1' is read as an open subset with the restricted causality (no transport of GH back along an abstract embedding is proved: globallyHyperbolicOn_of_le_iff goes from the source to the image, not back); (b) the paper's 'E≥0-manifolds' are covered only by the abstract theorem under the hypothesis C.CausallyArcConnected — which is itself an SFA model-fact field (cor:massA_cac) — and unconditionally only for 𝔼₀ (globallyHyperbolic_opens_of_causallyConvexIn). kb/0006: 'A label proved ... in a reading the paper does not settle, is written WITHOUT the ** mark'; kb/0011: a statement narrower than the paper's is never its certificate. Here the mark is conditional on an affirmative answer to an unasked question.",
+   "fix": "Unmark the row and report it 'partial' (open-set reading kb/0001; general E≥0 via the arc-connectedness hypothesis; 𝔼₀ unconditional), and put the question to the master session. If a ruling accepts the open-set reading and the 𝔼₀-only certificate for gx's purposes, the mark can be restored with the ruling cited."
+  },
+  {
+   "id": "m1",
+   "severity": "minor",
+   "where": "GX.E0AbsMax.sing_eq_of_le_of_le_of_stronglyCausalOn (l.504-510), and through it btzExt_isCausal_of_stronglyCausalOn, cor_GH_causal",
+   "problem": "The sorried BTZ-loop lemma is stated for an ABSTRACT causality with SingularFlatAxioms, while the paper's proof (l.1034-1036) and the obstruction text both rest on 𝔼₀ charts and B21 Prop 1.3 (the tube ⟨γ⟩\\{r < r*}) — structure an abstract SFA causality does not carry. At that generality the statement is not known to be provable (no abstract argument is offered, and SFA alone may admit a strongly causal A around a closed BTZ loop). The sorry is reported, so this is not an overclaim, but a successor following the obstruction text would find the stated lemma does not give access to charts.",
+   "fix": "Either restate the loop lemma (and Lemma 2.14 / Cor 2.15's full forms) for 𝔼₀-manifolds, C = CE M, sing = chartedSing (keeping the regular-case abstract), or add to the SORRY text that the abstract form may be unprovable and the chart-based form is the one owed."
+  },
+  {
+   "id": "m2",
+   "severity": "minor",
+   "where": "GX.E0AbsMax.IsE0Maximal (l.660-664); REPORT row prop:cauchy_abs_max; module docstring Hypothesis checklist row '𝔼_A-maximal'",
+   "problem": "Two readings of B21's E_A-maximality (l.1043-1046) are built into IsE0Maximal without being reported as readings or findings: (a) 'a.e. 𝔼-morphism' is read as an 𝔼₀-morphism on univ (IsE0Mor f univ), the same class as IsE0CauchyMaximal (DEC-77(c)); (b) the target N is required connected. (b) is necessary, not cosmetic: literally (N any GH E_A-manifold), E_A-maximality fails for every M, since M ↪ M ⊔ M' into a GH disjoint union is a non-surjective embedding; B21's proof writes 'we assume without loss of generality that M and N are connected' (l.1058), which is not without loss of generality for N. This is a DEC-27-type paper finding.",
+   "fix": "Record (a) as a reading in the REPORT row and the checklist, and (b) as a finding (with the disjoint-union counterexample, optionally proved) under prop:cauchy_abs_max."
+  },
+  {
+   "id": "m3",
+   "severity": "minor",
+   "where": "REPORT row brunswic2021cauchy:lem:extension_hausdorff (status 'stated')",
+   "problem": "The row is 'stated', but the Lean statement is a narrowing of Lemma 2.12: M0 = Reg M, M1 = M an 𝔼₀-manifold, M2 = N a flat GH spacetime (sing0 = ∅), j an isometric embedding, and only the Hausdorffness of the push-out is concluded (the 𝔼≥0-manifold structure is the separate sorry exists_e0Pushout). 'stated' per CAMPAIGN means the paper's statement typechecks on a sorry; here a special case does. The hypothesis note says 'strengthened', which is right, but the status should say so.",
+   "fix": "Set status 'partial' (special case, stated on a sorry), or keep 'stated' with an explicit note 'special case only'."
+  },
+  {
+   "id": "m4",
+   "severity": "minor",
+   "where": "module docstring, '## What is proved (0 `sorry` unless named)', bullet §3–§6 (l.65-72)",
+   "problem": "The bullet lists 'Prop 2.16 through lemma K' and 'the push-out structure E0Pushout and its global hyperbolicity' among the 0-sorry results without naming isLocallyCauchy_image and E0Pushout.isCompact_diamond_mixed there; the row list above and SCOPE do name them, so nothing is hidden, but the section's own convention ('0 sorry unless named') is broken.",
+   "fix": "Name the two sorried inputs in that bullet (e.g. 'Prop 2.16 (i)⇒(ii) modulo isLocallyCauchy_image', 'E0Pushout.globallyHyperbolic modulo isCompact_diamond_mixed')."
+  },
+  {
+   "id": "m5",
+   "severity": "minor",
+   "where": "btzExt_causallyConvexIn_of_globallyHyperbolicOn, btzExt_isCausal_of_stronglyCausalOn, stronglyCausalOn_of_globallyHyperbolicOn, cor_GH_causal, isCausal_of_twoOpens, globallyHyperbolic_of_twoOpens ([T2Space X] binders); REPORT row lem:BTZext_caus_conv hypothesis note 'M₁ Hausdorff (T2Space) used'",
+   "problem": "Causal.SingularFlatAxioms already has the field t2 : T2Space M, so the [T2Space X] instance arguments are redundant with h; the REPORT presents Hausdorffness as an additional carried hypothesis.",
+   "fix": "Drop the binder and use `haveI := h.t2`, or note in the REPORT that T2 is part of SFA. Style only."
+  }
+ ],
+ "questions_for_author": [
+  "Remark 1: is the open-set reading of 'an embedding ι : M0 → M1' (kb/0001) together with the 𝔼₀-unconditional / abstract-arc-connected certificate accepted as certifying the remark for gx's purposes? Until ruled, the row is partial (M1).",
+  "Prop 2.16 (B21 l.1043-1046): accept the reading of E_A-maximality with connected targets and 𝔼₀-morphisms for 'a.e. 𝔼-morphism', recording the disjoint-union defect of the literal definition (m2)?"
+ ],
+ "notes": "The mathematics of the file is sound and the sorries are genuine obstructions, each precisely described; the axiom sweep, the lemma-K discharge, the push-out structure's non-vacuity, and the sorry-free GH of Reg M (gh_e0RegMFlat, given O2) all check out. The verdict is 'issues' because of the two ** marks (B1 blocker, M1 major): both should be removed and the rows reported partial, which needs no change to any proof. Remaining items are minor."
+}

@@ -38,6 +38,15 @@ PKGS = [
     ("WP-40a", "GX/Branched/Paths.lean"), ("WP-40b", "GX/Hyperbolic/Plane.lean"),
     ("WP-40c", "scaffold/GXScaffold/SingularII/Models.lean"), ("WP-40d", "scaffold/GXScaffold/SingularII/SpreadTop.lean"),
     ("WP-40e", "scaffold/GXScaffold/Branched/GaloisExamples.lean"),
+    ("WP-41a", "scaffold/GXScaffold/Lorentz/Bridge.lean"), ("WP-41b", "scaffold/GXScaffold/BTZ/Model.lean"),
+    ("WP-41c", "scaffold/GXScaffold/BTZ/Rigid.lean"), ("WP-41e", "scaffold/GXScaffold/BTZ/Causality.lean"),
+    ("WP-41h", "scaffold/GXScaffold/BTZ/Topology.lean"), ("WP-41d", "scaffold/GXScaffold/BTZ/VirtTame.lean"),
+    ("WP-41f", "scaffold/GXScaffold/BTZ/LocalModel.lean"), ("WP-41g", "scaffold/GXScaffold/BTZ/CBG.lean"),
+    ("WP-41i", "scaffold/GXScaffold/BTZ/Spear.lean"), ("WP-41l", "scaffold/GXScaffold/BTZ/Manifolds.lean"),
+    ("WP-41j", "scaffold/GXScaffold/BTZ/Surgery.lean"), ("WP-41m", "scaffold/GXScaffold/BTZ/Holonomy.lean"),
+    ("WP-41k", "scaffold/GXScaffold/BTZ/AbsMax.lean"), ("WP-41n", "scaffold/GXScaffold/BTZ/Uniformization.lean"),
+    ("WP-41o", "GX/Hyperbolic/Plane.lean"), ("WP-41p", "scaffold/GXScaffold/SingularII/Models.lean"),
+    ("WP-41q", "scaffold/GXScaffold/SingularII/SpreadTop.lean"), ("WP-41r", "scaffold/GXScaffold/Branched/GaloisExamples.lean"),
 ]
 FILE_OVERRIDE = {"ex:following_example_skeletal_itemize": "GX/Topology/PortlyExamples.lean"}
 RENAMES = {  # (file, old) -> new, applied at graduation to resolve name clashes

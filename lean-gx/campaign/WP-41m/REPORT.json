@@ -1,0 +1,192 @@
+{
+  "package": "WP-41m",
+  "files": [
+    "scaffold/GXScaffold/BTZ/Holonomy.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "theo:globally_hyperbolic_cauchy_complete_cauchy_maximal",
+      "tex_lines": [
+        2363,
+        2380
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.e0RegM_holonomy",
+        "GX.e0RegM_exists_holonomy",
+        "GX.holonomy_package_of_isCauchyComplete",
+        "GX.exists_holonomy_package_of_isCauchyComplete",
+        "GX.holonomy_package",
+        "GX.holonomy_injective",
+        "GX.holonomy_discrete",
+        "GX.holonomy_torsionFree",
+        "GX.exists_isLoxodromic_of_not_metabelian",
+        "GX.omegaPlus_eq_iInter_Iplus",
+        "GX.limitSetJ_nullPlane_invariant",
+        "GX.e0RegMFlat"
+      ],
+      "hypotheses": [
+        {
+          "paper": "reg(M) globally hyperbolic and Cauchy-complete (from B21 Thm 3, l.2378)",
+          "here": "carried",
+          "note": "hypotheses GH (e0RegMFlat M), IsCauchyComplete 2 (e0RegMFlat M) (DEC-31 induced length); their derivation from M is WP-39j/k's"
+        },
+        {
+          "paper": "reg(M) Cauchy-maximal",
+          "here": "weakened",
+          "note": "assumes less (favourable): not used; Barbot gives D(reg M~) ⊆ Ω; equality needs absolute maximality (SCOPE D-12(b), WP-39k/n)"
+        },
+        {
+          "paper": "Σ of finite type, π₁(Σ∖sing) non-abelian, s ≥ 1 (DEC-76)",
+          "here": "strengthened",
+          "note": "π₁(Reg M) (deck group) NOT METABELIAN; non-abelian alone is refuted algebraically by GX.exists_nonabelian_subgroup_noLox; the two agree for π₁ of a punctured surface (free of rank ≥ 2), which is not formalized"
+        },
+        {
+          "paper": "a loxodromic element (Barbot Lemma 10.2; DEC-75)",
+          "here": "carried",
+          "note": "PROVED in 2+1 from not-metabelian, no external (GX.exists_isLoxodromic_of_not_metabelian, GX.benoistNoLox_two)"
+        },
+        {
+          "paper": "up to time reversal (dropped by DEC-77 (a))",
+          "here": "missing",
+          "note": "CONCLUSION weakened (missing assertion, assigned to WP-39n): the future/past disjunction is concluded; selecting the future case from sing ≠ ∅ is WP-39n's"
+        },
+        {
+          "paper": "Ω = D(reg M~) = ⋂ I⁺(Π_j)",
+          "here": "missing",
+          "note": "CONCLUSION weakened (missing assertion, assigned to WP-39n): D(reg M~) ⊆ Ω⁺(Λ(Γ)) = ⋂_{w∈Λ(Γ)} I⁺(Π_w) (Barbot Prop 8.12 gives ⊆ only; = needs absolute maximality, Causal.Flat.range_eq_omegaS_of_absMax). The Γ-invariance of (Π_w) is now a conjunct of the package."
+        },
+        {
+          "paper": "the given developing map and holonomy (D, ρ) (l.2363–2365, 2378)",
+          "here": "exact",
+          "note": "round 1 fix: every developing pair is an argument (D ρ, hpair : IsDevelopingPair x₀ D ρ); no outer ∃. The ∃ forms are kept as corollaries GX.exists_holonomy_package_of_isCauchyComplete / GX.e0RegM_exists_holonomy. WP-39n can apply GX.e0RegM_holonomy to D_BTZ restricted to reg M~ once it is shown to be a developing pair of e0RegMFlat M."
+        },
+        {
+          "paper": "§4.3 'linear part is discrete and faithful' (l.2230–2231, quoted in the docstring)",
+          "here": "missing",
+          "note": "not proved here: ρ is faithful and discrete in Isom(𝐌³); faithfulness/discreteness of linOf ∘ ρ in SO₀(1,2) is not formalized (SCOPE (c')). Context quote only, not an assertion of label theo:globally_hyperbolic_cauchy_complete_cauchy_maximal."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "On the dispatch's reading of DEC-75/76 (not a paper defect): the dispatch paraphrases the argument as 'an elementary non-abelian group cannot occur'. That sentence is not in RamcovGX.tex (l.2378–2380 only cite Barbot). As a statement about groups alone it is false: the isometries of E^{1,2} whose linear part fixes a null vector form a non-abelian group with no loxodromic element (GX.exists_nonabelian_subgroup_noLox: a null rotation and a translation do not commute). What the 2+1 algebra gives is: no loxodromic ⇒ L(Γ) abelian ⇒ Γ metabelian (GX.isMetabelianOn_of_noLox). Under DEC-76 (s ≥ 1, so π₁(Σ∖sing) is free, and non-abelian means free of rank ≥ 2, hence not metabelian) the paper's assertion is TRUE; only the Lean route lacks the surface-group fact, so the hypothesis is carried as 'π₁(Reg M) not metabelian'.",
+        "RamcovGX.tex:2178–2182 / l.2230: Barbot's Prop 9.1 (Benoist, an external in lean-causal) holds in 2+1 with finite index 1 and no discreteness: GX.benoistNoLox_two. A subgroup of SO₀(1,2) without loxodromic element is commutative (GX.lorentz2_noLox_classification).",
+        "RamcovGX.tex:2379: Barbot's results give D(reg M~) ⊆ Ω⁺(Λ), not equality; the paper's '=' needs absolute maximality of reg M (already SCOPE D-12(b))."
+      ],
+      "questions": [
+        "DEC-76: may the hypothesis be stated as 'π₁(Reg M) not metabelian' (or non-solvable), or must the surface-group fact (π₁(Σ∖sing) non-abelian ⇒ free of rank ≥ 2) be built? The latter needs the splitting Reg M ≅ Σ*×ℝ and the classification of π₁ of non-compact surfaces."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.IsNullFrame2",
+    "GX.IsNullFrame2.wu",
+    "GX.IsNullFrame2.eu",
+    "GX.IsNullFrame2.ew",
+    "GX.finrank_minkowski_two",
+    "GX.IsNullFrame2.linearIndependent",
+    "GX.IsNullFrame2.basis",
+    "GX.IsNullFrame2.basis_apply",
+    "GX.frameCoord",
+    "GX.IsNullFrame2.expand",
+    "GX.IsNullFrame2.minkB_eq",
+    "GX.IsNullFrame2.repr_apply",
+    "GX.IsNullFrame2.trace_eq",
+    "GX.IsNullFrame2.toMatrix_apply",
+    "GX.exists_isNullFrame2",
+    "GX.stdNull2",
+    "GX.stdNull2_ne_zero",
+    "GX.minkQ_stdNull2",
+    "GX.exists_isNullFrame2_std",
+    "GX.minkB_symm_apply",
+    "GX.lorentz2_trace_symm",
+    "GX.lorentz2_det_sub_smul",
+    "GX.isLoxodromic_of_three_lt_trace",
+    "GX.IsNullRot2",
+    "GX.IsNullFrame2.ext",
+    "GX.IsNullFrame2.isNullRot2_of_fix",
+    "GX.IsNullRot2.mul",
+    "GX.IsNullRot2.one",
+    "GX.IsNullRot2.pow",
+    "GX.IsNullRot2.symm_apply",
+    "GX.IsNullRot2.eq_one",
+    "GX.IsNullRot2.trace_mul",
+    "GX.lorentz2_commute_of_fix_null",
+    "GX.IsNullFrame2.eq_smul_of_null_orth",
+    "GX.exists_isLoxodromic_pow_mul_of_fix_null",
+    "GX.exists_future_null_rep",
+    "GX.exists_fixed_null_of_isParabolic",
+    "GX.lorentz2_fix_of_noLox",
+    "GX.lorentz2_commute_of_noLox",
+    "GX.fixesTimelikeOrNull_of_noLox_of_parabolic",
+    "GX.IsOrthoFrame2",
+    "GX.IsOrthoFrame2.e₁a",
+    "GX.IsOrthoFrame2.e₂a",
+    "GX.IsOrthoFrame2.e₂e₁",
+    "GX.IsOrthoFrame2.linearIndependent",
+    "GX.IsOrthoFrame2.basis",
+    "GX.IsOrthoFrame2.basis_apply",
+    "GX.orthoCoord",
+    "GX.IsOrthoFrame2.expand",
+    "GX.IsOrthoFrame2.minkB_eq",
+    "GX.IsOrthoFrame2.repr_apply",
+    "GX.IsOrthoFrame2.toMatrix_apply",
+    "GX.IsOrthoFrame2.ext",
+    "GX.exists_unit_dir",
+    "GX.exists_isOrthoFrame2",
+    "GX.IsRot2",
+    "GX.IsOrthoFrame2.isRot2_of_fix",
+    "GX.IsRot2.symm_apply",
+    "GX.lorentz2_commute_of_fix_timelike",
+    "GX.trace_rot_commutator_formula",
+    "GX.isLoxodromic_commutator_of_fix_timelike",
+    "GX.exists_unit_fixed_of_fixed_timelike",
+    "GX.lorentz2_noLox_classification",
+    "GX.benoistNoLox_two",
+    "GX.isom_commute_of_linOf_eq_one",
+    "GX.linOf_commutator_eq_one",
+    "GX.IsMetabelianOn",
+    "GX.linOf_commute_of_noLox_of_parabolic",
+    "GX.isMetabelianOn_of_noLox_of_parabolic",
+    "GX.exists_isLoxodromic_of_parabolic_of_not_metabelian",
+    "GX.linOf_commute_of_noLox",
+    "GX.isMetabelianOn_of_noLox",
+    "GX.exists_isLoxodromic_of_not_metabelian",
+    "GX.isomFixing",
+    "GX.exists_nonabelian_subgroup_noLox",
+    "GX.nullPlane",
+    "GX.halfPlus_eq_Iplus_nullPlane",
+    "GX.omegaPlus_eq_iInter_Iplus",
+    "GX.halfMinus_eq_Iminus_nullPlane",
+    "GX.omegaMinus_eq_iInter_Iminus",
+    "GX.smul_mem_nullPlane_iff",
+    "GX.limitSetJ_nullPlane_invariant",
+    "GX.holonomy_injective",
+    "GX.holonomy_discrete",
+    "GX.isTorsionFree_of_free_convex",
+    "GX.holonomy_torsionFree",
+    "GX.holonomy_package",
+    "GX.IsMetabelianGroup",
+    "GX.not_isMetabelianOn_range",
+    "GX.IsMetabelianGroup.isSolvable",
+    "GX.not_isMetabelianGroup_of_not_isSolvable",
+    "GX.e0RegM_connectedSpace",
+    "GX.e0RegMFlat",
+    "GX.e0RegMFlat_carrier",
+    "GX.exists_holonomy_package_of_isCauchyComplete",
+    "GX.e0RegM_exists_holonomy",
+    "GX.holonomy_package_of_isCauchyComplete",
+    "GX.e0RegM_holonomy"
+  ],
+  "kb_proposals": [
+    "2+1 trace route: tr A > 3 ⇒ loxodromic for A ∈ SO₀(1,2) (GX.isLoxodromic_of_three_lt_trace, via det(A − l) = −(l−1)(l² − (trA−1)l + 1)); null/orthonormal frames IsNullFrame2/IsOrthoFrame2 give bases, coordinates, trace and det formulas.",
+    "Inside namespace GX, `minkQ` resolves to GX.minkQ (ℝ × ℂ, GX/Singular/Quotient.lean): write Causal.Flat.minkQ.",
+    "⁅a, b⁆ for group elements needs `open scoped commutatorElement` at this pin.",
+    "Big matrix trace identities: isolate them in a pure-algebra lemma (simp only [Matrix.mul_apply, Fin.sum_univ_three, Matrix.vecHead, Matrix.vecTail, ...] then linear_combination with sympy-found coefficients); inside a long proof they time out."
+  ],
+  "notes": "Round 1 (fixer): applied audit M1 (major) — GX.holonomy_package_of_isCauchyComplete and GX.e0RegM_holonomy now take the developing pair (D ρ hpair) as arguments and conclude for it; the ∃ forms survive as GX.exists_holonomy_package_of_isCauchyComplete and GX.e0RegM_exists_holonomy. Minors: m2 the Γ-invariance of the null-plane family is a conjunct of GX.holonomy_package and of both paper-facing theorems; m1 the two conclusion weakenings are tagged 'missing' (WP-39n), 'weakened' kept for Cauchy-maximal only; m3 the finding re-filed on the dispatch/DEC-76 reading; m5 SCOPE (c') discloses that linear-part discreteness/faithfulness is not proved; m4 module rebuilt after the last write (taskset -c 0-11 lake build GXScaffold.BTZ.Holonomy, success, no Causal/GX rebuild). 0 sorry; standard axioms only for every main theorem (campaign/WP-41m/axioms.out, regenerated). The imported GXScaffold.BTZ.LocalModel carries two sorry'd decls (e0_globalBTZ, e0_lineStep_of_cauchy) that this file does not use (axioms clean). No ledger label is marked. Imports: GXScaffold.BTZ.LocalModel and strict Causal.Flat.{Loxodromic, Nonloxodromic, Classification}; import gate ok. Provenance: lean-causal ca2ad78 per lake-manifest.json (the dispatch's 731ed99 is the WAVE5-PLAN pin; the actual dependency is ca2ad78). Downstream (WP-39n) consumes GX.e0RegM_holonomy for its own pair (D_BTZ|reg M~); the future-case selection and D on the BTZ points remain WP-39n's. GX.benoistNoLox_two discharges lean-causal's external BenoistNoLox for d = 2. Pre-round backup at campaign/WP-41m/Holonomy.round0.lean.txt.",
+  "round": 1
+}

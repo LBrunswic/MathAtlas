@@ -8,11 +8,21 @@ Package WP-41c (WAVE5-PLAN.md, WP-39c). The model data of the CBG local model
 Section 4: `Y = 𝕄 ⊕ 𝔼₀` (`GX.E0Y`), the a.e.-isomorphism groupoid `G` (`GX.e0Groupoid`), the
 singular loci `sing_0 = Sing(𝔼₀)`, `sing_α = ∅` for `α ≠ 0` (`GX.e0SingY`), and the fields of
 `LocalModel` that are about `Y`, `G` and `singY` alone, each a standalone theorem with the field's
-statement verbatim (`Y`, `G`, `singY` substituted). **0 `sorry`.**
+statement verbatim (`Y`, `G`, `singY` substituted). **0 `sorry`.** (Round 3: `typeAgreement` is
+false as stated, with a proved counterexample, SCOPE (c); it holds verbatim at the tips in `𝕄`, and its
+convergence form holds at every regular tip.)
 
 No ledger label of `RamcovGX.tex` is certified here: the fields are CBG-interface obligations
 (`BARBOT-INTERFACE.md`, "gx's E₀ obligations"), not rows of the paper. Cited, unmarked:
 B21 `lem:liouville` (`BTZ_1.tex:361`), B21 `prop:isom_strong` (`BTZ_1.tex:468–475`).
+
+> **Lemma** (`lem:liouville`). Let `M →(f,g) N` be two a.e. `(G,X)`-morphisms with `M` connected.
+> If `f` and `g` agree on a non-empty open subset `𝒲` of `M`, then they agree on the whole `M`.
+
+> **Proposition** (`prop:isom_strong`). Let `α, β ∈ ℝ₊` with `α ≠ 2π`, and let `𝒰` be an open
+> connected subset of `𝔼^{1,2}_α` containing a singular point and let `φ : reg(𝒰) → 𝔼^{1,2}_β` be a
+> `𝔼`-morphism. If `φ` is injective then `α = β` and `φ` is the restriction of an element of
+> `Isom(𝔼^{1,2}_α)`.
 
 * `closedUnderRestriction` — `GX.e0Groupoid_closedUnderRestriction` (instance).
 * `t2Y` — `GX.e0Y_t2Space` (instance).
@@ -25,10 +35,24 @@ B21 `lem:liouville` (`BTZ_1.tex:361`), B21 `prop:isom_strong` (`BTZ_1.tex:468–
 * `localUnique_sing` (B2, B21 `prop:isom_strong` at `α = β = 0`) — **`GX.e0_localUnique_sing`**,
   closed: its local core `GX.e0_localUnique_sing_core` is proved by the route of CBG-REVIEW §2,
   without invariance of domain (below), and rigidity `GX.e0_eqOn_of_eqOn_open` globalises it.
-* `localUnique_sing_adherent`, `typeAgreement` — stated verbatim as `GX.E0LocalUniqueSingAdherent C`
-  and `GX.E0TypeAgreement C` over a causality `C` of `Y` (SCOPE (b)), **partial**: reduced, for
-  every `C`, to a property of `C`'s diamonds alone (`GX.e0_localUniqueSingAdherent_of_region`, via
-  `GX.e0_localUniqueSingAdherent_of_local`) and to "`z₀` regular" (`GX.e0_typeAgreement_of_reg`).
+* `localUnique_sing_adherent` — stated verbatim as `GX.E0LocalUniqueSingAdherent C` over a causality
+  `C` of `Y` (SCOPE (b)) and reduced, for every `C`, to a property of `C`'s diamonds alone
+  (`GX.e0_localUniqueSingAdherent_of_region`); that property is discharged for the model causality
+  by WP-41f (`GX.E0LM.e0_localUniqueSingAdherent`, `GXScaffold.BTZ.LocalModel` §6b).
+* `typeAgreement` — stated verbatim as `GX.E0TypeAgreement C`. **Finding: false for `𝕄 ⊕ 𝔼₀` at
+  the regular points of `𝔼₀`** (SCOPE (c); DEC-27 counterexample **proved**:
+  `GX.e0_not_typeAgreement_of`, for every `C` with two hypotheses on `C` alone, discharged for the
+  model causality in `campaign/WP-41c/TypeAgreementD.lean` as `GX.e0_not_typeAgreement_D`). Its
+  **convergence form** `GX.E0TypeAgreementTendsto C` (`MapClusterPt z₀ (𝓝[U] y₀) f` strengthened to
+  `Tendsto f (𝓝[U] y₀) (𝓝 z₀)`, the hypothesis `CBG/FromModel`'s `germ_ext_nonBTZ` holds) is
+  **proved** for every `C` in which straight timelike segments of the two chart maps are
+  chronological (`GX.e0_typeAgreementTendsto_of`, hypotheses `GX.E0TASegLt`); the two segment
+  hypotheses for `GX.E0.causalityYBTZ` are proved in `campaign/WP-41c/TypeAgreementD.lean`
+  (`GXScaffold.BTZ.Causality` imports this file, so they cannot be proved here). **At the tips in
+  `𝕄` the field holds verbatim** (`MapClusterPt`): `GX.E0TypeAgreementInl C`, the field restricted to
+  `y₀ = inl m` (`GX.E0TypeAgreement.inl`), is proved for every `C` with the `𝕄` segment hypothesis
+  (`GX.e0_typeAgreement_inl_of`): a connected `U ⊆ 𝕄` carries no holonomy, so `f` has one global
+  development (`GX.e0TA_global_rep_inl`).
 * Bonus instances: `locallyConnected` (`GX.e0Y_locallyConnectedSpace`).
 
 **The proof of `localUnique_sing`** (`GX.e0_localUnique_core_of_region`,
@@ -48,6 +72,16 @@ for `|k| ≥ 2` the intermediate value theorem on the angle along one circle pro
 `D⁻¹ g D` descends to `Aut(𝔼₀)` (`GX.btzE0Descend`), an element of `G` (`GX.e0Lift_mem`).
 `k = −1` (a reflection `θ ↦ −θ`) is not excluded and need not be.
 
+**The proof of `typeAgreement`'s convergence form** (`GX.e0_typeAgreementTendsto_of`). At a regular
+tip `y₀ = ι(v₀)`, `ι` the chart map `inl ∘ nullToMink` (`GX.e0TAInl`) or `inr ∘ [·] ∘ D⁻¹`
+(`GX.e0TAInr`), the diamond contains the cone region `K = B(v₀, ε) ∩ I^∓(v₀)` read through `ι`
+(`GX.e0TA_reg_of_chart`, by `GX.E0TASegLt`). If the limit `z₀` were a BTZ point: `f ∘ ι` lifts on
+the convex `K` through `{r > 0} → reg 𝔼₀`, and Liouville gives `D ∘ L = g · nullToMink`
+(`GX.e0TA_lift`); `r → 0` and `nullQ (D L) = r² − r t → 0` put `g · v₀` on the line `ℝu`
+(`GX.e0TA_tip`). Past cone: `g` maps it below the null plane `b = 0`, where `D` takes no value.
+Future cone: `P` fixes `g · v₀`, so `g⁻¹ P g` sends a point `u` of the cone to a point `u'` of the
+cone with `[L u'] = [L u]`, against injectivity (`GX.e0TA_absurd`).
+
 ## Hypothesis checklist
 
 | interface | here |
@@ -56,6 +90,7 @@ for `|k| ≥ 2` the intermediate value theorem on the angle along one circle pro
 | `G`: on the regular part the `(G,X)`-morphisms, near a singular point the restrictions of `Aut(𝔼₀)` | `G` = the a.e.-isomorphisms (BARBOT-INTERFACE, "Instance: `Y = 𝕄 ⊕ E₀`, `G` = a.e.-isomorphisms"): open partial homeomorphisms which, with their inverse, map `Reg` into `Reg` and are there, in the charts of `𝕄` and of the maximal a.e. atlas of `𝔼₀`, locally translations by `Isom(𝐌³)` |
 | `sing_α(Y)` | `sing_0 = Sing(Y) = inr '' Sing(𝔼₀)` (`= inr '' {r = 0}` by `GX.btz_sing`), `sing_α = ∅` for `α ≠ 0` |
 | `localUnique_sing`: `U` connected, `0 ≤ α₀` | carried verbatim; the local core uses neither (connectedness enters only through rigidity) |
+| `typeAgreement`: `MapClusterPt z₀ (𝓝[U] y₀) f` | ✓ verbatim at tips in `𝕄` (`GX.E0TypeAgreementInl`); ✗ false at regular tips in `𝔼₀` (SCOPE (c), counterexample `GX.e0_not_typeAgreement_of`), where it is **strengthened** to `Tendsto f (𝓝[U] y₀) (𝓝 z₀)` (`GX.E0TypeAgreementTendsto`, every other hypothesis verbatim, `U` connected unused) |
 
 ## SCOPE (disclosed)
 
@@ -65,16 +100,30 @@ for `|k| ≥ 2` the intermediate value theorem on the angle along one circle pro
   homeomorphism of the sum `Y`; the bridge would need `Y`'s a.e. atlas as a singular structure on
   each source, which is longer than the direct proof.
 * (b) `typeAgreement` and `localUnique_sing_adherent` mention the model causality `causalityY`,
-  which is WP-39e's (`GXScaffold.BTZ.Causality`, WP-41e, not imported: it is another package's
-  file in progress). They are stated as propositions over a causality `C`. Pending obligations
-  for the assembly (WP-39f), once `C` is fixed: **(b1)** every regular chronological diamond with
-  a BTZ tip contains a circle-swept region (the hypothesis of
-  `GX.e0_localUniqueSingAdherent_of_region`; for `𝔼₀`'s causality, `I⁺(p) = {r > 0, f > τ_p}`
-  makes the region `{τ > τ_p + r/2 + η, τ < τ_r − η', r < δ}`, convex in `log r` since `e^ρ` is
-  convex); **(b2)** the hypothesis `hreg` of `GX.e0_typeAgreement_of_reg` (`z₀` regular when `y₀`
-  is), the θ-loop holonomy argument in the diamond. For a causality whose chronological diamonds
-  are empty the inclusion hypotheses hold trivially and we expect both statements to fail; this is
-  not proved here, so no theorem over all `C` is claimed.
+  WP-41e's `GX.E0.causalityYBTZ` (`GXScaffold.BTZ.Causality`), which now imports this file; so they
+  are stated as propositions over a causality `C`, and every argument that needs `C` is isolated in
+  a named hypothesis on `C` alone: `hdiam` of `GX.e0_localUniqueSingAdherent_of_region` (discharged
+  by WP-41f) and `GX.E0TASegLt` (discharged in `campaign/WP-41c/TypeAgreementD.lean`). For a
+  causality whose chronological diamonds are empty these hypotheses fail, and we expect both
+  statements to fail; this is not proved here, so no theorem over all `C` is claimed.
+* (c) **`typeAgreement` is false as stated for `𝕄 ⊕ 𝔼₀`** (finding; **proved**,
+  `GX.e0_not_typeAgreement_of`, section "The counterexample"). At a regular
+  tip `y₀ ∈ 𝔼₀` the domain `U` may wind once around the axis and come back to `y₀` from a spacelike
+  direction, and along that end the cluster value of `f` is a BTZ point. In null coordinates:
+  `v₀ = (0, 1, 0) = D(1, 0, 1)`, `P = parab 2π`, `P v₀ = (4π², 1, 2π)`;
+  `H := parab' (−1/2π) ∘ (· − P v₀)` (an orthochronous isometry, `H(P v₀) = 0 ∈ ℝu`,
+  `H v₀ = (−4π², 1, 0)`); `Ũ := A ∪ T` with `A = B(v₀, 1/5) ∩ I⁻(v₀)` (`GX.e0CEA`) and the tube
+  `T = ⋃_{0<s<1} B((1 − s) P v₀ + s d, s/100)`, `d = (−1/10, 9/10, 0)` (`GX.e0CET`);
+  `U := [D⁻¹ Ũ]`, `f [D⁻¹ w] := [D⁻¹ H w]` (`GX.e0CEf`). Then `U` is open and connected, contains
+  the past diamond of `O = [D⁻¹ B(v₀, 1/5)]` at `y₀`, and `f` is an injective local
+  `G`-structomorphism (one partial homeomorphism `GX.e0CEe ∈ G` carries it): `|c| < b` on `H(Ũ)`,
+  and `Ũ` meets its `Pᵏ`-translates nowhere (`GX.e0CE_injOn`: `b`, `nullQ` and `c − 2πk b` are the
+  invariants; `nullQ > 0` on `A`, `< 0` near the apex of `T`). Along the apex end of `T`,
+  `f → [apex, 0] ∈ sing₀` (`GX.e0CE_mapClusterPt`),
+  while `y₀ ∉ sing₀`. At the tips in `𝕄` there is no domain holonomy, and the field is proved
+  (`GX.e0_typeAgreement_inl_of`).
+  The convergence form (`GX.E0TypeAgreementTendsto`) is what is proved; it is what
+  `CBG/FromModel`'s `germ_ext_nonBTZ` can supply (there `ψ` converges along the piece, `hT`).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; lean-causal `731ed99`.
 -/
@@ -1775,5 +1824,1666 @@ theorem e0_localUniqueSingAdherent_of_region (C : Causal.Causality E0Y)
     hinj hmaps
 
 end CausalFields
+
+/-! ### `typeAgreement`, the convergence form -/
+
+section TypeAgreementTendsto
+
+open TopologicalSpace
+
+/-- `typeAgreement` with the cluster hypothesis strengthened to convergence. -/
+def E0TypeAgreementTendsto (C : Causal.Causality E0Y) : Prop :=
+  ∀ U : Set E0Y, IsOpen U → IsConnected U → ∀ y₀ : E0Y, y₀ ∉ e0SingY 0 →
+    (∃ O : Opens E0Y, y₀ ∈ O ∧ ∃ r ∈ O,
+      (C.lt O r y₀ ∧ C.Iplus O {r} ∩ C.Iminus O {y₀} ⊆ U) ∨
+      (C.lt O y₀ r ∧ C.Iplus O {y₀} ∩ C.Iminus O {r} ⊆ U)) →
+    ∀ z₀ : E0Y, ∀ f : E0Y → E0Y, (∀ y ∈ U, e0Groupoid.IsLocalStructomorphWithinAt f U y) →
+    InjOn f U → Tendsto f (𝓝[U] y₀) (𝓝 z₀) →
+    (∀ α : ℝ, 0 ≤ α → (y₀ ∈ e0SingY α ↔ z₀ ∈ e0SingY α)) ∧
+      ((∃ α : ℝ, 0 ≤ α ∧ y₀ ∈ e0SingY α) → z₀ ∈ connectedComponent y₀)
+
+
+/-! #### The open future cone in null coordinates -/
+
+/-- The open future timelike cone of `(ℝ³, nullQ)`: `b > 0`, `c² < ab` (the same body as
+`GX.e0TACone` of `GXScaffold.BTZ.Causality`). -/
+def e0TACone (V : ℝ × ℝ × ℝ) : Prop := 0 < V.2.1 ∧ V.2.2 ^ 2 < V.1 * V.2.1
+
+theorem e0TACone.fst_pos {V : ℝ × ℝ × ℝ} (h : e0TACone V) : 0 < V.1 := by
+  obtain ⟨hb, hc⟩ := h
+  by_contra ha
+  have ha' : V.1 ≤ 0 := not_lt.1 ha
+  nlinarith [sq_nonneg V.2.2]
+
+theorem e0TA_cross_le {a₁ b₁ c₁ a₂ b₂ c₂ : ℝ} (ha₁ : 0 ≤ a₁) (hb₁ : 0 ≤ b₁)
+    (h₁ : c₁ ^ 2 ≤ a₁ * b₁) (ha₂ : 0 ≤ a₂) (hb₂ : 0 ≤ b₂) (h₂ : c₂ ^ 2 ≤ a₂ * b₂) :
+    2 * (c₁ * c₂) ≤ a₁ * b₂ + a₂ * b₁ := by
+  have hprod : (c₁ * c₂) ^ 2 ≤ (a₁ * b₁) * (a₂ * b₂) := by
+    rw [mul_pow]; exact mul_le_mul h₁ h₂ (sq_nonneg _) (mul_nonneg ha₁ hb₁)
+  have hamgm : 4 * ((a₁ * b₁) * (a₂ * b₂)) ≤ (a₁ * b₂ + a₂ * b₁) ^ 2 := by
+    nlinarith [sq_nonneg (a₁ * b₂ - a₂ * b₁)]
+  have hS : 0 ≤ a₁ * b₂ + a₂ * b₁ := by positivity
+  have h4 : (2 * (c₁ * c₂)) ^ 2 ≤ (a₁ * b₂ + a₂ * b₁) ^ 2 := by nlinarith
+  exact (abs_le_of_sq_le_sq' h4 hS).2
+
+theorem e0TACone.smul {V : ℝ × ℝ × ℝ} (hV : e0TACone V) {s : ℝ} (hs : 0 < s) :
+    e0TACone (s • V) := by
+  obtain ⟨hb, h⟩ := hV
+  refine ⟨?_, ?_⟩
+  · simp only [Prod.smul_snd, Prod.smul_fst, smul_eq_mul]; positivity
+  · simp only [Prod.smul_snd, Prod.smul_fst, smul_eq_mul]
+    have : (s * V.2.2) ^ 2 = s ^ 2 * V.2.2 ^ 2 := by ring
+    rw [this, show s * V.1 * (s * V.2.1) = s ^ 2 * (V.1 * V.2.1) by ring]
+    exact mul_lt_mul_of_pos_left h (by positivity)
+
+theorem e0TACone.add {V W : ℝ × ℝ × ℝ} (hV : e0TACone V) (hW : e0TACone W) :
+    e0TACone (V + W) := by
+  have ha₁ := hV.fst_pos.le
+  have ha₂ := hW.fst_pos.le
+  obtain ⟨hb₁, h₁⟩ := hV
+  obtain ⟨hb₂, h₂⟩ := hW
+  have hx := e0TA_cross_le ha₁ hb₁.le h₁.le ha₂ hb₂.le h₂.le
+  refine ⟨?_, ?_⟩
+  · simp only [Prod.fst_add, Prod.snd_add]; linarith
+  · simp only [Prod.fst_add, Prod.snd_add]
+    nlinarith
+
+theorem e0TA_isOpen_cone : IsOpen {V : ℝ × ℝ × ℝ | e0TACone V} := by
+  have h1 : Continuous fun V : ℝ × ℝ × ℝ => V.2.1 := continuous_snd.fst
+  have h2 : Continuous fun V : ℝ × ℝ × ℝ => V.2.2 ^ 2 := continuous_snd.snd.pow 2
+  have h3 : Continuous fun V : ℝ × ℝ × ℝ => V.1 * V.2.1 := continuous_fst.mul continuous_snd.fst
+  exact (isOpen_lt continuous_const h1).inter (isOpen_lt h2 h3)
+
+/-- **Minkowski's chronology in null coordinates**: `nullToMink P ≪ nullToMink Q` iff `Q − P` lies
+in the open future cone. -/
+theorem e0TA_minkowski_lt_iff (P Q : ℝ × ℝ × ℝ) :
+    (Causal.minkowski 2).lt ⊤ (nullToMink P) (nullToMink Q) ↔ e0TACone (Q - P) := by
+  rw [Causal.Flat.lt_top_iff_minkQ, ← map_sub, isFutureTimelike_nullToMink_iff]
+  simp only [nullτ_apply, nullQ]
+  constructor
+  · rintro ⟨hc, hab⟩
+    refine ⟨?_, by linarith⟩
+    by_contra h
+    have h' : (Q - P).2.1 ≤ 0 := not_lt.1 h
+    have ha : 0 < (Q - P).1 := by linarith
+    nlinarith [mul_nonpos_of_nonneg_of_nonpos ha.le h', sq_nonneg (Q - P).2.2]
+  · intro h
+    have ha := h.fst_pos
+    obtain ⟨hb, hc⟩ := h
+    exact ⟨by linarith, by linarith⟩
+
+theorem e0TA_btzDevInv_mem {v : ℝ × ℝ × ℝ} (hv : 0 < v.2.1) : btzDevInv v ∈ cylPos ℝ := by
+  have h := btzDev_e0_b (btzDevInv v)
+  rw [btzDev_btzDevInv (Or.inl hv)] at h
+  show 0 < (btzDevInv v).1.r
+  rw [← h]; exact hv
+
+/-- A local `G`-structomorphism on an open `U` is continuous at every point of `U`. -/
+theorem e0TA_continuousAt {U : Set E0Y} (hU : IsOpen U) {f : E0Y → E0Y}
+    (hf : ∀ y ∈ U, e0Groupoid.IsLocalStructomorphWithinAt f U y) {y : E0Y} (hy : y ∈ U) :
+    ContinuousAt f y := by
+  obtain ⟨e, -, heq, hye⟩ := hf y hy hy
+  have h : f =ᶠ[𝓝 y] e :=
+    Filter.eventually_of_mem ((hU.inter e.open_source).mem_nhds ⟨hy, hye⟩) fun z hz => heq hz
+  exact (e.continuousAt hye).congr h.symm
+
+/-- **Lift and Liouville on a convex region of `𝐌³`** (null coordinates). Let `ι` map an open
+convex `K ⊆ ℝ³` into `U ∩ reg Y`, read in regular charts of `Y` as translates of `nullToMink`, and
+let `f` be a local `G`-structomorphism on `U` sending `ι(K)` into `𝔼₀`. Then `f ∘ ι` lifts through
+the covering `{r > 0} → reg 𝔼₀` to `L`, and `D ∘ L = g · nullToMink` on `K` for one `g ∈ Isom(𝐌³)`. -/
+theorem e0TA_lift {K : Set (ℝ × ℝ × ℝ)} (hKo : IsOpen K) (hKc : Convex ℝ K) (hKne : K.Nonempty)
+    {ι : ℝ × ℝ × ℝ → E0Y} (hιc : ContinuousOn ι K)
+    (hchart : ∀ v ∈ K, ∃ c ∈ e0Atlas, ι v ∈ c.source ∧ ∃ g₁ : Causal.Flat.isom 2,
+      ∀ᶠ v' in 𝓝 v, c (ι v') = g₁ • nullToMink v')
+    {U : Set E0Y} (hU : IsOpen U) (hιU : ∀ v ∈ K, ι v ∈ U) (hιreg : ∀ v ∈ K, ι v ∈ e0Reg)
+    {f : E0Y → E0Y} (hf : ∀ y ∈ U, e0Groupoid.IsLocalStructomorphWithinAt f U y)
+    (hfr : ∀ v ∈ K, f (ι v) ∈ range Sum.inr) :
+    ∃ (L : ℝ × ℝ × ℝ → DInfty × ℝ) (g : Causal.Flat.isom 2), ∀ v ∈ K, L v ∈ cylPos ℝ ∧
+      f (ι v) = Sum.inr (orbitMk (GammaA (2 * π)) (L v)) ∧
+      btzDevM 0 btzV0 (L v) = g • nullToMink v := by
+  classical
+  obtain ⟨w₀, hw₀⟩ := hKne
+  haveI : ContractibleSpace K := hKc.contractibleSpace ⟨_, hw₀⟩
+  haveI : LocPathConnectedSpace K := hKo.locPathConnectedSpace
+  set R : E0Y → BTZE0 := Sum.elim (fun _ => orbitMk (GammaA (2 * π)) (DInfty.apex, 0)) id
+    with hRdef
+  have hR : Continuous R := Continuous.sumElim continuous_const continuous_id
+  have hfR : ∀ v ∈ K, f (ι v) = Sum.inr (R (f (ι v))) := fun v hv => by
+    obtain ⟨x, hx⟩ := hfr v hv; rw [← hx]; rfl
+  have hιa : ∀ a : K, ContinuousAt (fun a' : K => ι a'.1) a := fun a =>
+    (hιc.continuousAt (hKo.mem_nhds a.2)).comp continuous_subtype_val.continuousAt
+  have hφc : Continuous fun a : K => R (f (ι a.1)) :=
+    hR.comp (continuous_iff_continuousAt.2 fun a =>
+      ContinuousAt.comp (g := f) (e0TA_continuousAt hU hf (hιU _ a.2)) (hιa a))
+  set φ : C(K, BTZE0) := ⟨_, hφc⟩
+  have hreg : ∀ a : K, φ a ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0 := fun a => by
+    obtain ⟨e, he, heq, hye⟩ := hf _ (hιU _ a.2) (hιU _ a.2)
+    have h1 := mapsTo_e0Reg_of_mem he hye (hιreg _ a.2)
+    have h2 : f (ι a.1) = e (ι a.1) := heq ⟨hιU _ a.2, hye⟩
+    rw [← h2, hfR _ a.2] at h1
+    exact inr_mem_e0Reg_iff.1 h1
+  have hs : ∀ a, φ a ∈ orbitMk (GammaA (2 * π)) '' cylPos ℝ := fun a => by
+    rw [← btzE0_reg_eq]; exact hreg a
+  have hcov := isCoveringMapOn_orbitMk_cylPos (Z := ℝ) btz_two_pi_ne_zero
+  set a₀ : K := ⟨_, hw₀⟩
+  obtain ⟨e₀, -, he₀⟩ := hs a₀
+  obtain ⟨L, ⟨-, hLq⟩, -⟩ := hcov.existsUnique_continuousMap_lifts φ he₀ hs
+  have hLq' : ∀ a, orbitMk (GammaA (2 * π)) (L a) = φ a := fun a => congrFun hLq a
+  have hLP : ∀ a, L a ∈ cylPos ℝ := fun a => by
+    have : L a ∈ orbitMk (GammaA (2 * π)) ⁻¹' (orbitMk (GammaA (2 * π)) '' cylPos ℝ) := by
+      rw [mem_preimage, hLq']; exact hs a
+    rwa [preimage_image_cylPos] at this
+  -- `D ∘ L` is locally a translate of `nullToMink`
+  have hloc : ∀ a ∈ (univ : Set K), ∃ g : Causal.Flat.isom 2,
+      ∀ᶠ a' in 𝓝 a, btzDevM 0 btzV0 (L a') = g • nullToMink a'.1 := by
+    intro a _
+    obtain ⟨c, hc, hac, g₁, hg₁⟩ := hchart a.1 a.2
+    obtain ⟨e, he, heq, hye⟩ := hf _ (hιU _ a.2) (hιU _ a.2)
+    obtain ⟨c₀', hc₀', hφc₀'⟩ := mem_support.1 (hreg a)
+    have hc' := e0InrChart_mem_e0Atlas hc₀'
+    have h2 : f (ι a.1) = e (ι a.1) := heq ⟨hιU _ a.2, hye⟩
+    have hfa : e (ι a.1) ∈ (e0Inr.symm.trans c₀').source := by
+      rw [← h2, hfR _ a.2]; exact mem_e0InrChart_source.2 ⟨_, hφc₀', rfl⟩
+    obtain ⟨h, hh⟩ := (((mem_e0Groupoid_iff.1 he).1 _ hye).2 (hιreg _ a.2)).2 c hc _ hc' hac hfa
+    have hLc : orbitMk (GammaA (2 * π)) (L a) ∈ c₀'.source := by rw [hLq']; exact hφc₀'
+    obtain ⟨g₂, hg₂⟩ := btz_eventually_chart btzV0_pos isBTZStructure_btzE0 (hLP a) hc₀' hLc
+    refine ⟨g₂ * h * g₁, ?_⟩
+    have hUe : ∀ᶠ y in 𝓝 (ι a.1), f y = e y :=
+      Filter.eventually_of_mem ((hU.inter e.open_source).mem_nhds ⟨hιU _ a.2, hye⟩)
+        fun y hy => (heq hy : f y = e y)
+    filter_upwards [L.continuous.continuousAt.eventually hg₂, (hιa a).eventually hh,
+      (hιa a).eventually hUe, continuous_subtype_val.continuousAt.eventually hg₁] with a' e1 e2 e3 e4
+    have e5 : c₀' (orbitMk (GammaA (2 * π)) (L a')) = (e0Inr.symm.trans c₀') (f (ι a'.1)) := by
+      rw [hfR _ a'.2, e0InrChart_inr, hLq']; rfl
+    rw [e1, e5, e3, e2, e4, mul_smul, mul_smul]
+  have hD : IsLocalHomeomorphOn (fun a : K => nullToMink a.1) univ :=
+    isLocalHomeomorph_iff_isLocalHomeomorphOn_univ.1
+      (nullToMinkHomeomorph.isLocalHomeomorph.comp hKo.isOpenEmbedding_subtypeVal.isLocalHomeomorph)
+  obtain ⟨g, hg⟩ := exists_smul_eq_on_of_isLocalHomeomorphOn (G := Causal.Flat.isom 2)
+    (F := fun a : K => btzDevM 0 btzV0 (L a)) isOpen_univ hD isPreconnected_univ subset_rfl hloc
+  refine ⟨fun v => if h : v ∈ K then L ⟨v, h⟩ else (DInfty.apex, 0), g, fun v hv => ?_⟩
+  simp only [dif_pos hv]
+  refine ⟨hLP _, ?_, hg _ trivial⟩
+  rw [hfR v hv, hLq']; rfl
+
+/-- **The tip goes to the singular line.** If on `K` the lift `L` develops as `g · nullToMink` and
+`[L v] → x₁` at a BTZ point as `v → v₀` in `K`, then `g · nullToMink v₀` lies on the line `ℝu`:
+the `b`-coordinate of `D(L v)` is `r(L v) → 0`, and `nullQ (D (L v)) = r² − r t → 0`. -/
+theorem e0TA_tip {F : Filter (ℝ × ℝ × ℝ)} [hne : F.NeBot] {v₀ : ℝ × ℝ × ℝ} (hF : F ≤ 𝓝 v₀)
+    {L : ℝ × ℝ × ℝ → DInfty × ℝ} {g : Causal.Flat.isom 2}
+    (hL : ∀ᶠ v in F, btzDevM 0 btzV0 (L v) = g • nullToMink v) {x₁ : BTZE0}
+    (hx₁ : x₁ ∉ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)
+    (hT : Tendsto (fun v => orbitMk (GammaA (2 * π)) (L v)) F (𝓝 x₁)) :
+    ∃ a : ℝ, g • nullToMink v₀ = nullToMink (a • nullU) := by
+  have hS : x₁ ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0 := hx₁
+  rw [btz_sing btzV0_pos btz_two_pi_ne_zero isBTZStructure_btzE0] at hS
+  obtain ⟨⟨p, t₁⟩, hp, rfl⟩ := hS
+  simp only [mem_setOf_eq] at hp
+  subst hp
+  set G : ℝ × ℝ × ℝ → ℝ × ℝ × ℝ := fun v => nullToMink.symm (g • nullToMink v) with hGdef
+  have hGc : Continuous G := by
+    have h1 : Continuous fun v : ℝ × ℝ × ℝ => g • nullToMink v :=
+      (continuous_const_smul g).comp nullToMinkHomeomorph.continuous
+    exact nullToMinkHomeomorph.symm.continuous.comp h1
+  have hGL : ∀ᶠ v in F, btzDev 0 btzV0 (L v) = G v := hL.mono fun v hv => by
+    apply nullToMink.injective
+    rw [hGdef]; simp only [LinearEquiv.apply_symm_apply]
+    exact hv
+  have hr : Tendsto (fun v => (L v).1.r) F (𝓝 0) := by
+    have h := ((continuous_norm.comp (continuous_fst.comp
+      (cylHomeomorph btz_two_pi_ne_zero ℝ).continuous)).tendsto _).comp hT
+    simp only [Function.comp_def, cylHomeomorph_apply, DInfty.norm_cplx, DInfty.apex_r] at h
+    exact h
+  have ht : Tendsto (fun v => (L v).2) F (𝓝 t₁) := by
+    have h := ((continuous_snd.comp (cylHomeomorph btz_two_pi_ne_zero ℝ).continuous).tendsto
+      _).comp hT
+    simp only [Function.comp_def, cylHomeomorph_apply] at h
+    exact h
+  have hGt : Tendsto G F (𝓝 (G v₀)) := hGc.continuousAt.tendsto.mono_left hF
+  have hb : (G v₀).2.1 = 0 := by
+    have h1 : Tendsto (fun v => (G v).2.1) F (𝓝 (G v₀).2.1) :=
+      ((continuous_fst.comp continuous_snd).tendsto _).comp hGt
+    refine tendsto_nhds_unique h1 (hr.congr' ?_)
+    filter_upwards [hGL] with v hv
+    rw [← hv, btzDev_e0_b]
+  have hq : nullQ (G v₀) = 0 := by
+    have hQc : Continuous nullQ := by unfold nullQ; fun_prop
+    have h1 : Tendsto (fun v => nullQ (G v)) F (𝓝 (nullQ (G v₀))) :=
+      (hQc.tendsto _).comp hGt
+    have h2 : Tendsto (fun v => (L v).1.r ^ 2 - (L v).1.r * (L v).2) F
+        (𝓝 (0 ^ 2 - 0 * t₁)) := (hr.pow 2).sub (hr.mul ht)
+    rw [zero_pow two_ne_zero, zero_mul, sub_zero] at h2
+    refine tendsto_nhds_unique h1 (h2.congr' ?_)
+    filter_upwards [hGL] with v hv
+    rw [← hv, nullQ_btzDev_e0]
+  have hc : (G v₀).2.2 = 0 := by
+    have : (G v₀).2.2 ^ 2 - (G v₀).1 * (G v₀).2.1 = 0 := hq
+    rw [hb, mul_zero, sub_zero] at this
+    exact pow_eq_zero_iff two_ne_zero |>.1 this
+  refine ⟨(G v₀).1, ?_⟩
+  have hGv : G v₀ = (G v₀).1 • nullU := by
+    ext <;> simp [nullU, hb, hc]
+  rw [← hGv, hGdef]; simp only [LinearEquiv.apply_symm_apply]
+
+/-- The open future timelike cone (null coordinates) is convex. -/
+theorem e0TA_nullConeLt_combo {V W : ℝ × ℝ × ℝ} (hV : e0TACone V) (hW : e0TACone W)
+    {a b : ℝ} (ha : 0 ≤ a) (hb : 0 ≤ b) (hab : a + b = 1) : e0TACone (a • V + b • W) := by
+  rcases ha.eq_or_lt with rfl | ha'
+  · rw [zero_add] at hab; subst hab; simpa using hW
+  · rcases hb.eq_or_lt with rfl | hb'
+    · rw [add_zero] at hab; subst hab; simpa using hV
+    · exact (hV.smul ha').add (hW.smul hb')
+
+theorem e0TA_convex_past (v₀ : ℝ × ℝ × ℝ) : Convex ℝ {v | e0TACone (v₀ - v)} := by
+  intro x hx y hy a b ha hb hab
+  have h : a • (v₀ - x) + b • (v₀ - y) = (a + b) • v₀ - (a • x + b • y) := by module
+  rw [hab, one_smul] at h
+  show e0TACone (v₀ - (a • x + b • y))
+  rw [← h]; exact e0TA_nullConeLt_combo hx hy ha hb hab
+
+theorem e0TA_convex_future (v₀ : ℝ × ℝ × ℝ) : Convex ℝ {v | e0TACone (v - v₀)} := by
+  intro x hx y hy a b ha hb hab
+  have h : a • (x - v₀) + b • (y - v₀) = (a • x + b • y) - (a + b) • v₀ := by module
+  rw [hab, one_smul] at h
+  show e0TACone ((a • x + b • y) - v₀)
+  rw [← h]; exact e0TA_nullConeLt_combo hx hy ha hb hab
+
+/-- The timelike vector `(1, 1, 0)` of null coordinates. -/
+theorem e0TA_cone_e : e0TACone ((1, 1, 0) : ℝ × ℝ × ℝ) := ⟨one_pos, by norm_num⟩
+
+/-- **The contradiction from a representation** on a cone region `K` at `v₀`: `f ∘ ι = [L]` with
+`D ∘ L = g · nullToMink` on `K`, and `g · v₀` on the line `ℝu`. Past cone: `g` maps it below the
+null plane, where `D` takes no value. Future cone: `P` fixes `g · v₀`, so `g⁻¹ P g` maps a point `u`
+of the cone to another point `u'` of the cone with `[L u'] = [L u]`, against injectivity. -/
+theorem e0TA_absurd_rep {ι : ℝ × ℝ × ℝ → E0Y} {v₀ : ℝ × ℝ × ℝ} {ε₀ : ℝ}
+    (hinj : InjOn ι (Metric.ball v₀ ε₀)) {K : Set (ℝ × ℝ × ℝ)} (hKne : K.Nonempty)
+    (hKb : K ⊆ Metric.ball v₀ ε₀)
+    (hcone : (∀ v ∈ K, e0TACone (v₀ - v)) ∨
+      (∃ ε > 0, ∀ v, dist v v₀ < ε → e0TACone (v - v₀) → v ∈ K))
+    {U : Set E0Y} (hιU : ∀ v ∈ K, ι v ∈ U) {f : E0Y → E0Y} (hfinj : InjOn f U)
+    {L : ℝ × ℝ × ℝ → DInfty × ℝ} {g : Causal.Flat.isom 2}
+    (hL : ∀ v ∈ K, L v ∈ cylPos ℝ ∧ f (ι v) = Sum.inr (orbitMk (GammaA (2 * π)) (L v)) ∧
+      btzDevM 0 btzV0 (L v) = g • nullToMink v)
+    {a : ℝ} (ha : g • nullToMink v₀ = nullToMink (a • nullU)) : False := by
+  rcases hcone with hpast | ⟨ε, hε, hfut⟩
+  · -- past cone: `b < 0` below the line, `b = r > 0` on the image
+    obtain ⟨v, hv⟩ := hKne
+    have h1 : (Causal.minkowski 2).lt ⊤ (nullToMink v) (nullToMink v₀) :=
+      (e0TA_minkowski_lt_iff v v₀).2 (hpast v hv)
+    have h2 := (Causal.Flat.isom_lt_top_iff g).2 h1
+    rw [← (hL v hv).2.2, ha, btzDevM, e0TA_minkowski_lt_iff] at h2
+    have h3 := h2.1
+    have h4 : (L v).1.r > 0 := (hL v hv).1
+    simp only [Prod.snd_sub, Prod.fst_sub, btzDev_e0_b, nullU, Prod.smul_snd, Prod.smul_fst,
+      smul_zero] at h3
+    linarith
+  · -- future cone: the parabolic `P` identifies two points of the cone
+    set P : Causal.Flat.isom 2 := btzHol 0 (2 * π)
+    have hfix : P • (g • nullToMink v₀) = g • nullToMink v₀ :=
+      btzHol_smul_of_mem_btzLine 0 (2 * π) ⟨a, by show nullToMink (0 + a • nullU) = _; rw [zero_add, ha]⟩
+    set h : Causal.Flat.isom 2 := g⁻¹ * P * g with hhdef
+    have hhfix : h • nullToMink v₀ = nullToMink v₀ := by
+      rw [hhdef, mul_smul, mul_smul, hfix, inv_smul_smul]
+    set e : ℝ × ℝ × ℝ := (1, 1, 0)
+    set u : ℝ → ℝ × ℝ × ℝ := fun s => v₀ + s • e with hudef
+    set u' : ℝ → ℝ × ℝ × ℝ := fun s => nullToMink.symm (h • nullToMink (u s)) with hu'def
+    have hu : Continuous u := continuous_const.add (continuous_id.smul continuous_const)
+    have hu' : Continuous u' := nullToMinkHomeomorph.symm.continuous.comp
+      ((continuous_const_smul h).comp (nullToMinkHomeomorph.continuous.comp hu))
+    have hu0 : u 0 = v₀ := by simp [hudef]
+    have hu'0 : u' 0 = v₀ := by
+      simp only [hu'def, hu0, hhfix, LinearEquiv.symm_apply_apply]
+    have hev : ∀ᶠ s in 𝓝[>] (0 : ℝ), dist (u s) v₀ < min ε ε₀ ∧ dist (u' s) v₀ < min ε ε₀ ∧
+        0 < s := by
+      have hm : (0 : ℝ) < min ε ε₀ := lt_min hε (by
+        obtain ⟨v, hv⟩ := hKne; exact (Metric.pos_of_mem_ball (hKb hv)))
+      have t1 : Tendsto u (𝓝[>] (0 : ℝ)) (𝓝 v₀) :=
+        (hu0 ▸ hu.continuousAt.tendsto).mono_left nhdsWithin_le_nhds
+      have t2 : Tendsto u' (𝓝[>] (0 : ℝ)) (𝓝 v₀) :=
+        (hu'0 ▸ hu'.continuousAt.tendsto).mono_left nhdsWithin_le_nhds
+      filter_upwards [t1 (Metric.ball_mem_nhds _ hm), t2 (Metric.ball_mem_nhds _ hm),
+        self_mem_nhdsWithin] with s h1 h2 h3
+      exact ⟨h1, h2, h3⟩
+    obtain ⟨s, hs1, hs2, hs0⟩ := hev.exists
+    have hcu : e0TACone (u s - v₀) := by
+      have : u s - v₀ = s • e := by simp [hudef]
+      rw [this]; exact e0TA_cone_e.smul hs0
+    have huK : u s ∈ K := hfut _ (hs1.trans_le (min_le_left _ _)) hcu
+    have hcu' : e0TACone (u' s - v₀) := by
+      rw [← e0TA_minkowski_lt_iff]
+      have e1 : nullToMink (u' s) = h • nullToMink (u s) := by
+        simp only [hu'def, LinearEquiv.apply_symm_apply]
+      rw [e1, ← hhfix, Causal.Flat.isom_lt_top_iff, e0TA_minkowski_lt_iff]
+      exact hcu
+    have hu'K : u' s ∈ K := hfut _ (hs2.trans_le (min_le_left _ _)) hcu'
+    have hD : btzDevM 0 btzV0 (L (u' s)) =
+        btzDevM 0 btzV0 ((GammaA.ofInt 1 : GammaA (2 * π)) • L (u s)) := by
+      rw [btzDevM_smul, GammaA.toInt_ofInt, zpow_one, (hL _ hu'K).2.2, (hL _ huK).2.2]
+      have e1 : nullToMink (u' s) = h • nullToMink (u s) := by
+        simp only [hu'def, LinearEquiv.apply_symm_apply]
+      rw [e1, hhdef, ← mul_smul, ← mul_smul]
+      congr 1
+      simp only [mul_assoc, mul_inv_cancel_left]; rfl
+    have hLeq := btzDevM_injective 0 btzV0_pos hD
+    have hfeq : f (ι (u' s)) = f (ι (u s)) := by
+      rw [(hL _ hu'K).2.1, (hL _ huK).2.1, hLeq, orbitMk_smul]
+    have hueq : u' s = u s := hinj (hKb hu'K) (hKb huK) (hfinj (hιU _ hu'K) (hιU _ huK) hfeq)
+    rw [hueq] at hLeq
+    exact btzDevM_ofInt_one_smul_ne 0 btzV0_pos btz_two_pi_ne_zero (hL _ huK).1
+      (congrArg (btzDevM 0 btzV0) hLeq.symm)
+
+
+/-- **The contradiction**, on a cone region `K` at `v₀` read through `ι`, for a BTZ cluster value.
+Past cone: `g` maps the past cone of `v₀` into the past of a point of `ℝu`, where `b < 0`, while
+`D(L v)` has `b = r > 0`. Future cone: `P` fixes the image of the tip, so `g⁻¹ P g` maps a point
+`u` of the cone to another point `u'` of the cone with `D(L u') = P · D(L u)`, i.e.
+`[L u'] = [L u]`, against injectivity. -/
+theorem e0TA_absurd {ι : ℝ × ℝ × ℝ → E0Y} {Ω : Set (ℝ × ℝ × ℝ)} (hΩ : IsOpen Ω)
+    (hιc : ContinuousOn ι Ω) (hιreg : ∀ v ∈ Ω, ι v ∈ e0Reg)
+    (hchart : ∀ v ∈ Ω, ∃ c ∈ e0Atlas, ι v ∈ c.source ∧ ∃ g₁ : Causal.Flat.isom 2,
+      ∀ᶠ v' in 𝓝 v, c (ι v') = g₁ • nullToMink v')
+    {v₀ : ℝ × ℝ × ℝ} (hv₀ : v₀ ∈ Ω) {ε₀ : ℝ} (hinj : InjOn ι (Metric.ball v₀ ε₀))
+    {K : Set (ℝ × ℝ × ℝ)} (hKo : IsOpen K) (hKc : Convex ℝ K) (hKne : K.Nonempty)
+    (hNe : (𝓝[K] v₀).NeBot) (hKΩ : K ⊆ Ω) (hKb : K ⊆ Metric.ball v₀ ε₀)
+    (hcone : (∀ v ∈ K, e0TACone (v₀ - v)) ∨
+      (∃ ε > 0, ∀ v, dist v v₀ < ε → e0TACone (v - v₀) → v ∈ K))
+    {U : Set E0Y} (hU : IsOpen U) (hιU : ∀ v ∈ K, ι v ∈ U)
+    {z₀ : E0Y} {f : E0Y → E0Y} (hf : ∀ y ∈ U, e0Groupoid.IsLocalStructomorphWithinAt f U y)
+    (hfinj : InjOn f U) (hT : Tendsto f (𝓝[U] (ι v₀)) (𝓝 z₀)) (hz : z₀ ∉ e0Reg) : False := by
+  obtain ⟨x₁, rfl, hx₁⟩ : ∃ x₁ : BTZE0, z₀ = Sum.inr x₁ ∧
+      x₁ ∉ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0 := by
+    rcases z₀ with m | x
+    · exact absurd (inl_mem_e0Reg m) hz
+    · exact ⟨x, rfl, fun h => hz (inr_mem_e0Reg_iff.2 h)⟩
+  have hιv₀ : ContinuousAt ι v₀ := hιc.continuousAt (hΩ.mem_nhds hv₀)
+  have hT' : Tendsto (f ∘ ι) (𝓝[K] v₀) (𝓝 (Sum.inr x₁)) :=
+    hT.comp (tendsto_nhdsWithin_iff.2 ⟨hιv₀.tendsto.mono_left nhdsWithin_le_nhds,
+      eventually_mem_nhdsWithin.mono hιU⟩)
+  -- `f ∘ ι` maps `K` into `𝔼₀`
+  have hcont : ContinuousOn (f ∘ ι) K := fun v hv =>
+    ((e0TA_continuousAt hU hf (hιU v hv)).comp
+      (hιc.continuousAt (hΩ.mem_nhds (hKΩ hv)))).continuousWithinAt
+  obtain ⟨v₁, hv₁r, hv₁K⟩ := ((hT'.eventually (isOpen_range_inr.mem_nhds ⟨x₁, rfl⟩)).and
+    eventually_mem_nhdsWithin).exists
+  have hsub := (hKc.isPreconnected.image _ hcont).subset_isClopen isClopen_range_inr
+    ⟨_, ⟨v₁, hv₁K, rfl⟩, hv₁r⟩
+  have hfr : ∀ v ∈ K, f (ι v) ∈ range Sum.inr := fun v hv => hsub ⟨v, hv, rfl⟩
+  obtain ⟨L, g, hL⟩ := e0TA_lift hKo hKc hKne (hιc.mono hKΩ) (fun v hv => hchart v (hKΩ hv)) hU
+    hιU (fun v hv => hιreg v (hKΩ hv)) hf hfr
+  have hTq : Tendsto (fun v => orbitMk (GammaA (2 * π)) (L v)) (𝓝[K] v₀) (𝓝 x₁) := by
+    rw [(IsEmbedding.inr : IsEmbedding (Sum.inr : BTZE0 → E0Y)).tendsto_nhds_iff]
+    refine hT'.congr' ?_
+    filter_upwards [self_mem_nhdsWithin] with v hv
+    exact (hL v hv).2.1
+  obtain ⟨a, ha⟩ := e0TA_tip nhdsWithin_le_nhds
+    (eventually_mem_nhdsWithin.mono fun v hv => (hL v hv).2.2) hx₁ hTq
+  exact e0TA_absurd_rep hinj hKne hKb hcone hιU hfinj hL ha
+
+/-- A ball at the tip on which `ι` stays in `Ω`, `O` and an open `W ∋ ι v₀`. -/
+theorem e0TA_exists_ball {ι : ℝ × ℝ × ℝ → E0Y} {Ω : Set (ℝ × ℝ × ℝ)} (hΩ : IsOpen Ω)
+    (hιc : ContinuousOn ι Ω) {v₀ : ℝ × ℝ × ℝ} (hv₀ : v₀ ∈ Ω) {ε₀ : ℝ} (hε₀ : 0 < ε₀)
+    {O : Opens E0Y} {W : Set E0Y} (hWo : IsOpen W) (hyO : ι v₀ ∈ O) (hyW : ι v₀ ∈ W) :
+    ∃ ε > 0, ε ≤ ε₀ ∧ ∀ v ∈ Metric.ball v₀ ε, v ∈ Ω ∧ ι v ∈ O ∧ ι v ∈ W := by
+  have hN : IsOpen (Ω ∩ ι ⁻¹' ((O : Set E0Y) ∩ W)) :=
+    hιc.isOpen_inter_preimage hΩ (O.isOpen.inter hWo)
+  obtain ⟨ε₁, hε₁, hball⟩ := Metric.isOpen_iff.1 hN v₀ ⟨hv₀, hyO, hyW⟩
+  refine ⟨min ε₀ ε₁, lt_min hε₀ hε₁, min_le_left _ _, fun v hv => ?_⟩
+  have := hball (Metric.ball_subset_ball (min_le_right _ _) hv)
+  exact ⟨this.1, this.2.1, this.2.2⟩
+
+/-- A ball at the tip cut by an open convex `S` containing the open ray `v₀ + (0, ∞) d`: open,
+convex, non-empty, with the tip adherent. -/
+theorem e0TA_cone_facts (v₀ : ℝ × ℝ × ℝ) {ε : ℝ} (hε : 0 < ε) {S : Set (ℝ × ℝ × ℝ)}
+    (hSo : IsOpen S) (hSc : Convex ℝ S) (d : ℝ × ℝ × ℝ) (hd : ∀ s : ℝ, 0 < s → v₀ + s • d ∈ S) :
+    IsOpen (Metric.ball v₀ ε ∩ S) ∧ Convex ℝ (Metric.ball v₀ ε ∩ S) ∧
+      (Metric.ball v₀ ε ∩ S).Nonempty ∧ (𝓝[Metric.ball v₀ ε ∩ S] v₀).NeBot := by
+  have hpath : Tendsto (fun s : ℝ => v₀ + s • d) (𝓝[>] 0) (𝓝 v₀) := by
+    have hc : Continuous fun s : ℝ => v₀ + s • d :=
+      continuous_const.add (continuous_id.smul continuous_const)
+    have := hc.continuousAt (x := 0) |>.tendsto
+    simp only [zero_smul, add_zero] at this
+    exact this.mono_left nhdsWithin_le_nhds
+  have hmem : ∀ᶠ s in 𝓝[>] (0 : ℝ), v₀ + s • d ∈ Metric.ball v₀ ε ∩ S := by
+    filter_upwards [hpath (Metric.ball_mem_nhds _ hε), self_mem_nhdsWithin] with s h1 h2
+    exact ⟨h1, hd s h2⟩
+  exact ⟨Metric.isOpen_ball.inter hSo, (convex_ball v₀ ε).inter hSc,
+    (let ⟨s, hs⟩ := hmem.exists; ⟨_, hs⟩),
+    mem_closure_iff_nhdsWithin_neBot.1 (mem_closure_of_tendsto hpath hmem)⟩
+
+theorem e0TA_isOpen_past (v₀ : ℝ × ℝ × ℝ) : IsOpen {v : ℝ × ℝ × ℝ | e0TACone (v₀ - v)} :=
+  e0TA_isOpen_cone.preimage (continuous_const.sub continuous_id)
+
+theorem e0TA_isOpen_future (v₀ : ℝ × ℝ × ℝ) : IsOpen {v : ℝ × ℝ × ℝ | e0TACone (v - v₀)} :=
+  e0TA_isOpen_cone.preimage (continuous_id.sub continuous_const)
+
+/-- **Straight timelike segments are chronological**: for a chart map `ι` of `Ω ⊆ ℝ³` (null
+coordinates) and a causality `C` of `Y`, two points of a convex open `V ⊆ Ω` with `ι(V) ⊆ O` whose
+developments are chronologically related in `𝐌³` are chronologically related in `O`. The only
+property of `C` the convergence form of `typeAgreement` uses. -/
+def E0TASegLt (C : Causal.Causality E0Y) (ι : ℝ × ℝ × ℝ → E0Y) (Ω : Set (ℝ × ℝ × ℝ)) : Prop :=
+  ∀ (O : Opens E0Y) (V : Set (ℝ × ℝ × ℝ)), IsOpen V → Convex ℝ V → V ⊆ Ω →
+    (∀ v ∈ V, ι v ∈ O) → ∀ v ∈ V, ∀ w ∈ V,
+      (Causal.minkowski 2).lt ⊤ (nullToMink v) (nullToMink w) → C.lt O (ι v) (ι w)
+
+/-- **The cone region in the diamond.** For a chart map `ι` of a neighbourhood `Ω` of the tip `v₀`
+(null coordinates) whose straight timelike segments are chronological in `C` (`E0TASegLt`), the
+diamond of the field contains, near its tip, `K = B(v₀, ε) ∩ I^∓(v₀)` read through `ι`. -/
+theorem e0TA_exists_cone (C : Causal.Causality E0Y) {ι : ℝ × ℝ × ℝ → E0Y}
+    {Ω : Set (ℝ × ℝ × ℝ)} (hΩ : IsOpen Ω) (hιc : ContinuousOn ι Ω) (hlt : E0TASegLt C ι Ω)
+    {v₀ : ℝ × ℝ × ℝ} (hv₀ : v₀ ∈ Ω) {ε₀ : ℝ} (hε₀ : 0 < ε₀)
+    {U : Set E0Y} {O : Opens E0Y} (hyO : ι v₀ ∈ O) {r : E0Y}
+    (hdia : (C.lt O r (ι v₀) ∧ C.Iplus O {r} ∩ C.Iminus O {ι v₀} ⊆ U) ∨
+      (C.lt O (ι v₀) r ∧ C.Iplus O {ι v₀} ∩ C.Iminus O {r} ⊆ U)) :
+    ∃ K : Set (ℝ × ℝ × ℝ), IsOpen K ∧ Convex ℝ K ∧ K.Nonempty ∧ (𝓝[K] v₀).NeBot ∧ K ⊆ Ω ∧
+      K ⊆ Metric.ball v₀ ε₀ ∧ ((∀ v ∈ K, e0TACone (v₀ - v)) ∨
+        (∃ ε > 0, ∀ v, dist v v₀ < ε → e0TACone (v - v₀) → v ∈ K)) ∧ ∀ v ∈ K, ι v ∈ U := by
+  rcases hdia with ⟨hlt₀, hsub⟩ | ⟨hlt₀, hsub⟩
+  · -- past diamond `I⁺_O(r) ∩ I⁻_O(y₀)`: the past cone at the tip
+    obtain ⟨ε, hε, hεε, hB⟩ := e0TA_exists_ball hΩ hιc hv₀ hε₀ (W := C.Iplus O {r})
+      C.isOpen_Iplus hyO (Causal.Precausality.mem_Iplus_singleton.2 hlt₀)
+    obtain ⟨hKo, hKc, hKne, hNe⟩ := e0TA_cone_facts v₀ hε (e0TA_isOpen_past v₀)
+      (e0TA_convex_past v₀) (-((1, 1, 0) : ℝ × ℝ × ℝ)) fun s hs => by
+        show e0TACone (v₀ - (v₀ + s • -((1, 1, 0) : ℝ × ℝ × ℝ)))
+        rw [smul_neg, ← sub_eq_add_neg, sub_sub_cancel]; exact e0TA_cone_e.smul hs
+    have hlt' := hlt O (Metric.ball v₀ ε) Metric.isOpen_ball (convex_ball _ _)
+      (fun v hv => (hB v hv).1) (fun v hv => (hB v hv).2.1)
+    refine ⟨_, hKo, hKc, hKne, hNe, fun v hv => (hB v hv.1).1,
+      fun v hv => Metric.ball_subset_ball hεε hv.1, Or.inl fun v hv => hv.2, fun v hv => ?_⟩
+    exact hsub ⟨(hB v hv.1).2.2, Causal.Precausality.mem_Iminus_singleton.2
+      (hlt' v hv.1 v₀ (Metric.mem_ball_self hε) ((e0TA_minkowski_lt_iff _ _).2 hv.2))⟩
+  · -- future diamond `I⁺_O(y₀) ∩ I⁻_O(r)`: the future cone at the tip
+    obtain ⟨ε, hε, hεε, hB⟩ := e0TA_exists_ball hΩ hιc hv₀ hε₀ (W := C.Iminus O {r})
+      C.isOpen_Iminus hyO (Causal.Precausality.mem_Iminus_singleton.2 hlt₀)
+    obtain ⟨hKo, hKc, hKne, hNe⟩ := e0TA_cone_facts v₀ hε (e0TA_isOpen_future v₀)
+      (e0TA_convex_future v₀) ((1, 1, 0) : ℝ × ℝ × ℝ) fun s hs => by
+        show e0TACone (v₀ + s • ((1, 1, 0) : ℝ × ℝ × ℝ) - v₀)
+        rw [add_sub_cancel_left]; exact e0TA_cone_e.smul hs
+    have hlt' := hlt O (Metric.ball v₀ ε) Metric.isOpen_ball (convex_ball _ _)
+      (fun v hv => (hB v hv).1) (fun v hv => (hB v hv).2.1)
+    refine ⟨_, hKo, hKc, hKne, hNe, fun v hv => (hB v hv.1).1,
+      fun v hv => Metric.ball_subset_ball hεε hv.1,
+      Or.inr ⟨ε, hε, fun v hd hc => ⟨hd, hc⟩⟩, fun v hv => ?_⟩
+    exact hsub ⟨Causal.Precausality.mem_Iplus_singleton.2
+      (hlt' v₀ (Metric.mem_ball_self hε) v hv.1 ((e0TA_minkowski_lt_iff _ _).2 hv.2)),
+      (hB v hv.1).2.2⟩
+
+/-- **`z₀` is regular**, for a chart map `ι` of a neighbourhood `Ω` of the tip `v₀` (null
+coordinates) whose straight timelike segments in convex sets are chronological in `C`. The
+diamond contains a cone region at the tip (`e0TA_exists_cone`), along which `e0TA_absurd` refutes
+a BTZ limit. -/
+theorem e0TA_reg_of_chart (C : Causal.Causality E0Y) {ι : ℝ × ℝ × ℝ → E0Y}
+    {Ω : Set (ℝ × ℝ × ℝ)} (hΩ : IsOpen Ω)
+    (hιc : ContinuousOn ι Ω) (hιreg : ∀ v ∈ Ω, ι v ∈ e0Reg)
+    (hchart : ∀ v ∈ Ω, ∃ c ∈ e0Atlas, ι v ∈ c.source ∧ ∃ g₁ : Causal.Flat.isom 2,
+      ∀ᶠ v' in 𝓝 v, c (ι v') = g₁ • nullToMink v')
+    (hlt : E0TASegLt C ι Ω)
+    {v₀ : ℝ × ℝ × ℝ} (hv₀ : v₀ ∈ Ω) {ε₀ : ℝ} (hε₀ : 0 < ε₀) (hinj : InjOn ι (Metric.ball v₀ ε₀))
+    {U : Set E0Y} (hU : IsOpen U) {O : Opens E0Y} (hyO : ι v₀ ∈ O) {r : E0Y}
+    (hdia : (C.lt O r (ι v₀) ∧ C.Iplus O {r} ∩ C.Iminus O {ι v₀} ⊆ U) ∨
+      (C.lt O (ι v₀) r ∧ C.Iplus O {ι v₀} ∩ C.Iminus O {r} ⊆ U))
+    {z₀ : E0Y} {f : E0Y → E0Y} (hf : ∀ y ∈ U, e0Groupoid.IsLocalStructomorphWithinAt f U y)
+    (hfinj : InjOn f U) (hT : Tendsto f (𝓝[U] (ι v₀)) (𝓝 z₀)) : z₀ ∈ e0Reg := by
+  by_contra hz
+  obtain ⟨K, hKo, hKc, hKne, hNe, hKΩ, hKb, hcone, hιU⟩ :=
+    e0TA_exists_cone C hΩ hιc hlt hv₀ hε₀ hyO hdia
+  exact e0TA_absurd hΩ hιc hιreg hchart hv₀ hinj hKo hKc hKne hNe hKΩ hKb hcone hU hιU hf
+    hfinj hT hz
+
+/-! #### The two chart maps of a regular tip -/
+
+/-- The chart map at a point of `𝕄`: `v ↦ inl (nullToMink v)`. -/
+noncomputable def e0TAInl (v : ℝ × ℝ × ℝ) : E0Y := Sum.inl (nullToMink v)
+
+/-- The chart map at a regular point of `𝔼₀`: `v ↦ inr [D⁻¹ v]` on `{b > 0}`. -/
+noncomputable def e0TAInr (v : ℝ × ℝ × ℝ) : E0Y :=
+  Sum.inr (orbitMk (GammaA (2 * π)) (btzDevInv v))
+
+theorem e0TAInl_chart (v : ℝ × ℝ × ℝ) : ∃ c ∈ e0Atlas, e0TAInl v ∈ c.source ∧
+    ∃ g₁ : Causal.Flat.isom 2, ∀ᶠ v' in 𝓝 v, c (e0TAInl v') = g₁ • nullToMink v' :=
+  ⟨e0Inl.symm, e0Inl_symm_mem_e0Atlas, by rw [e0Inl_symm_source]; exact ⟨_, rfl⟩, 1,
+    Eventually.of_forall fun v' => by simp [e0TAInl]⟩
+
+theorem e0TA_isOpen_b : IsOpen {v : ℝ × ℝ × ℝ | 0 < v.2.1} :=
+  isOpen_lt continuous_const (continuous_fst.comp continuous_snd)
+
+theorem e0TAInr_continuousOn : ContinuousOn e0TAInr {v : ℝ × ℝ × ℝ | 0 < v.2.1} :=
+  continuous_inr.comp_continuousOn (continuous_quot_mk.comp_continuousOn continuousOn_btzDevInv)
+
+theorem e0TAInr_reg {v : ℝ × ℝ × ℝ} (hv : 0 < v.2.1) : e0TAInr v ∈ e0Reg := by
+  rw [e0TAInr, inr_mem_e0Reg_iff, btzE0_reg_eq]
+  exact ⟨_, e0TA_btzDevInv_mem hv, rfl⟩
+
+theorem e0TAInr_chart {v : ℝ × ℝ × ℝ} (hv : 0 < v.2.1) : ∃ c ∈ e0Atlas, e0TAInr v ∈ c.source ∧
+    ∃ g₁ : Causal.Flat.isom 2, ∀ᶠ v' in 𝓝 v, c (e0TAInr v') = g₁ • nullToMink v' := by
+  have hy := e0TA_btzDevInv_mem hv
+  have hx : orbitMk (GammaA (2 * π)) (btzDevInv v) ∈
+      Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0 := by
+    rw [btzE0_reg_eq]; exact ⟨_, hy, rfl⟩
+  obtain ⟨c₀, hc₀, hxc₀⟩ := mem_support.1 hx
+  obtain ⟨g, hg⟩ := btz_eventually_chart btzV0_pos isBTZStructure_btzE0 hy hc₀ hxc₀
+  refine ⟨_, e0InrChart_mem_e0Atlas hc₀, mem_e0InrChart_source.2 ⟨_, hxc₀, rfl⟩, g⁻¹, ?_⟩
+  have hci : ContinuousAt btzDevInv v := continuousOn_btzDevInv.continuousAt (e0TA_isOpen_b.mem_nhds hv)
+  filter_upwards [hci.eventually hg, e0TA_isOpen_b.mem_nhds hv] with v' h1 h2
+  rw [btzDevM, btzDev_btzDevInv (Or.inl h2)] at h1
+  rw [e0TAInr, e0InrChart_inr, h1, inv_smul_smul]
+
+/-- `ι = inr ∘ [·] ∘ D⁻¹` is injective on the ball of radius `b(v₀)/2`: two points with one
+image differ by `Pᵏ`, which moves the `c`-coordinate by `2πk·b`. -/
+theorem e0TAInr_injOn {v₀ : ℝ × ℝ × ℝ} (hv₀ : 0 < v₀.2.1) :
+    InjOn e0TAInr (Metric.ball v₀ (v₀.2.1 / 2)) := by
+  have hb : ∀ u ∈ Metric.ball v₀ (v₀.2.1 / 2), v₀.2.1 / 2 < u.2.1 ∧
+      |u.2.2 - v₀.2.2| < v₀.2.1 / 2 := fun u hu => by
+    have hd := Metric.mem_ball.1 hu
+    have hd2 : dist u.2 v₀.2 ≤ dist u v₀ := by rw [Prod.dist_eq]; exact le_max_right _ _
+    have hd21 : dist u.2.1 v₀.2.1 ≤ dist u.2 v₀.2 := by rw [Prod.dist_eq]; exact le_max_left _ _
+    have hd22 : dist u.2.2 v₀.2.2 ≤ dist u.2 v₀.2 := by rw [Prod.dist_eq]; exact le_max_right _ _
+    rw [Real.dist_eq] at hd21 hd22
+    have h1 : |u.2.1 - v₀.2.1| < v₀.2.1 / 2 := by linarith
+    exact ⟨by linarith [abs_lt.1 h1], by linarith⟩
+  have hpos : ∀ u ∈ Metric.ball v₀ (v₀.2.1 / 2), 0 < u.2.1 := fun u hu => by
+    linarith [(hb u hu).1]
+  intro v hv w hw h
+  have h' : orbitMk (GammaA (2 * π)) (btzDevInv v) = orbitMk (GammaA (2 * π)) (btzDevInv w) :=
+    Sum.inr_injective h
+  obtain ⟨γ, hγ⟩ := exists_smul_eq_of_orbitMk_eq h'
+  have hw' : w = parab (γ.toInt * (2 * π)) v := by
+    rw [← btzDev_btzDevInv (Or.inl (hpos w hw)), ← hγ, btzDev_smul_all,
+      btzDev_btzDevInv (Or.inl (hpos v hv))]
+    exact btzParab_zpow_smul _ _
+  have hk : γ.toInt = 0 := by
+    by_contra hk
+    have hc : w.2.2 - v.2.2 = γ.toInt * (2 * π) * v.2.1 := by rw [hw', parab_apply]; ring
+    have h1 : (1 : ℝ) ≤ |(γ.toInt : ℝ)| := by exact_mod_cast Int.one_le_abs hk
+    have h2 : |w.2.2 - v.2.2| < v₀.2.1 := by
+      have := (hb w hw).2; have := (hb v hv).2
+      rw [abs_lt] at *; constructor <;> linarith
+    have h3 : |w.2.2 - v.2.2| = |(γ.toInt : ℝ)| * (2 * π) * v.2.1 := by
+      rw [hc, abs_mul, abs_mul, abs_of_pos (by positivity : (0 : ℝ) < 2 * π),
+        abs_of_pos (hpos v hv)]
+    have hπ : (3 : ℝ) < π := Real.pi_gt_three
+    have h4 := (hb v hv).1
+    have h5 : 1 * (2 * π * v.2.1) ≤ |(γ.toInt : ℝ)| * (2 * π * v.2.1) :=
+      mul_le_mul_of_nonneg_right h1 (by positivity [hpos v hv])
+    have h6 : 0 < v.2.1 * (π - 3) := mul_pos (hpos v hv) (by linarith)
+    nlinarith
+  rw [hw', hk, Int.cast_zero, zero_mul, parab_zero]
+
+/-! #### Assembly -/
+
+/-- **`typeAgreement` for `𝕄 ⊕ 𝔼₀`, convergence form** (the field with `MapClusterPt z₀ (𝓝[U] y₀) f`
+strengthened to `Tendsto f (𝓝[U] y₀) (𝓝 z₀)`), for every causality `C` of `Y` in which straight
+timelike segments of the two chart maps are chronological (`E0TASegLt`; for the model causality
+`GX.E0.causalityYBTZ` both are a segment argument, `campaign/WP-41c/TypeAgreementD.lean`): a limit
+at a regular tip of an injective local `G`-structomorphism is regular. -/
+theorem e0_typeAgreementTendsto_of (C : Causal.Causality E0Y) (hinl : E0TASegLt C e0TAInl univ)
+    (hinr : E0TASegLt C e0TAInr {v | 0 < v.2.1}) : E0TypeAgreementTendsto C := by
+  intro U hU _ y₀ hy₀ hdia z₀ f hf hinj hT
+  have hy₀r : y₀ ∈ e0Reg := by by_contra h; exact hy₀ ⟨rfl, h⟩
+  have hz₀r : z₀ ∈ e0Reg := by
+    obtain ⟨O, hyO, r, -, hd⟩ := hdia
+    rcases y₀ with m | x
+    · have hι : e0TAInl (nullToMink.symm m) = Sum.inl m := by
+        simp [e0TAInl]
+      rw [← hι] at hyO hd hT
+      exact e0TA_reg_of_chart C isOpen_univ (continuous_inl.comp
+        nullToMinkHomeomorph.continuous).continuousOn (fun v _ => inl_mem_e0Reg _)
+        (fun v _ => e0TAInl_chart v) hinl
+        (mem_univ _) one_pos (fun a _ b _ h => nullToMink.injective (Sum.inl_injective h))
+        hU hyO hd hf hinj hT
+    · obtain ⟨yt, hyt, rfl⟩ : x ∈ orbitMk (GammaA (2 * π)) '' cylPos ℝ := by
+        rw [← btzE0_reg_eq]; exact inr_mem_e0Reg_iff.1 hy₀r
+      set v₀ := btzDev 0 btzV0 yt
+      have hb₀ : 0 < v₀.2.1 := by rw [btzDev_e0_b]; exact hyt
+      have hι : e0TAInr v₀ = Sum.inr (orbitMk (GammaA (2 * π)) yt) := by
+        rw [e0TAInr, btzDevInv_btzDev]
+      rw [← hι] at hyO hd hT
+      exact e0TA_reg_of_chart C e0TA_isOpen_b e0TAInr_continuousOn (fun v hv => e0TAInr_reg hv)
+        (fun v hv => e0TAInr_chart hv) hinr hb₀ (half_pos hb₀) (e0TAInr_injOn hb₀) hU hyO hd hf
+        hinj hT
+  refine ⟨fun α _ => ?_, fun ⟨α, _, h⟩ => absurd h.2 (not_not.2 hy₀r)⟩
+  simp only [e0SingY, mem_setOf_eq, not_not.2 hy₀r, not_not.2 hz₀r, and_false]
+
+
+/-! #### The original field at the tips in `𝕄` (no domain holonomy) -/
+
+/-- The developed image under `g`, in null coordinates: `Φ_g v = nullToMink⁻¹ (g · nullToMink v)`. -/
+noncomputable def e0TAPhi (g : Causal.Flat.isom 2) (v : ℝ × ℝ × ℝ) : ℝ × ℝ × ℝ :=
+  nullToMink.symm (g • nullToMink v)
+
+theorem continuous_e0TAPhi (g : Causal.Flat.isom 2) : Continuous (e0TAPhi g) :=
+  nullToMinkHomeomorph.symm.continuous.comp
+    ((continuous_const_smul g).comp nullToMinkHomeomorph.continuous)
+
+theorem nullToMink_e0TAPhi (g : Causal.Flat.isom 2) (v : ℝ × ℝ × ℝ) :
+    nullToMink (e0TAPhi g v) = g • nullToMink v := LinearEquiv.apply_symm_apply _ _
+
+/-- `Φ_{Pᵏ g} = parab (2πk) ∘ Φ_g`. -/
+theorem e0TAPhi_zpow_mul (k : ℤ) (g : Causal.Flat.isom 2) (v : ℝ × ℝ × ℝ) :
+    e0TAPhi (btzHol 0 (2 * π) ^ k * g) v = parab (k * (2 * π)) (e0TAPhi g v) := by
+  apply nullToMink.injective
+  rw [nullToMink_e0TAPhi, mul_smul, ← nullToMink_e0TAPhi g v, btzHol_zpow_smul,
+    ← btzParab_zpow_smul]
+
+/-- The chart map `[D⁻¹ ·]` is invariant under the holonomy. -/
+theorem e0TAInr_parab {w : ℝ × ℝ × ℝ} (hw : 0 < w.2.1) (k : ℤ) :
+    e0TAInr (parab (k * (2 * π)) w) = e0TAInr w := by
+  have hb' : 0 < (parab (k * (2 * π)) w).2.1 := by simpa [parab_apply] using hw
+  have h : btzDevInv (parab (k * (2 * π)) w) =
+      (GammaA.ofInt k : GammaA (2 * π)) • btzDevInv w := by
+    apply btzDev_injective 0 btzV0_pos
+    rw [btzDev_btzDevInv (Or.inl hb'), btzDev_smul_all, GammaA.toInt_ofInt,
+      btzDev_btzDevInv (Or.inl hw)]
+    exact (btzParab_zpow_smul k w).symm
+  rw [e0TAInr, e0TAInr, h, orbitMk_smul]
+
+/-- **A local representation** of `f` near a point of `𝕄` sent into `𝔼₀`: `f ∘ inl ∘ nullToMink`
+is `[D⁻¹ Φ_g]` on a neighbourhood (lift and Liouville on a ball, `e0TA_lift`). -/
+theorem e0TA_local_rep_inl {U : Set E0Y} (hU : IsOpen U) {f : E0Y → E0Y}
+    (hf : ∀ y ∈ U, e0Groupoid.IsLocalStructomorphWithinAt f U y)
+    (hfr : ∀ y ∈ U, f y ∈ range Sum.inr) {v : ℝ × ℝ × ℝ} (hv : e0TAInl v ∈ U) :
+    ∃ g : Causal.Flat.isom 2, ∀ᶠ v' in 𝓝 v,
+      0 < (e0TAPhi g v').2.1 ∧ f (e0TAInl v') = e0TAInr (e0TAPhi g v') := by
+  have hιc : Continuous e0TAInl := continuous_inl.comp nullToMinkHomeomorph.continuous
+  obtain ⟨δ, hδ, hball⟩ := Metric.isOpen_iff.1 (hU.preimage hιc) v hv
+  obtain ⟨L, g, hL⟩ := e0TA_lift Metric.isOpen_ball (convex_ball v δ) ⟨v, Metric.mem_ball_self hδ⟩
+    hιc.continuousOn (fun v' _ => e0TAInl_chart v') hU (fun v' hv' => hball hv')
+    (fun v' _ => inl_mem_e0Reg _) hf (fun v' hv' => hfr _ (hball hv'))
+  refine ⟨g, Filter.eventually_of_mem (Metric.ball_mem_nhds v hδ) fun v' hv' => ?_⟩
+  obtain ⟨hP, hq, hD⟩ := hL v' hv'
+  have hdev : btzDev 0 btzV0 (L v') = e0TAPhi g v' := by
+    apply nullToMink.injective; rw [nullToMink_e0TAPhi]; exact hD
+  refine ⟨by rw [← hdev, btzDev_e0_b]; exact hP, ?_⟩
+  rw [hq, e0TAInr, ← hdev, btzDevInv_btzDev]
+
+/-- **Two representations on a preconnected open set differ by the holonomy**: if `[D⁻¹ Φ_g]` and
+`[D⁻¹ Φ_{g'}]` agree on `W`, then `g' = Pᵏ g` (the integer `k = (c' − c)/(2πb)` is continuous on
+`W`, hence constant; rigidity of `Isom(𝐌³)`). -/
+theorem e0TA_rep_unique {W : Set (ℝ × ℝ × ℝ)} (hWo : IsOpen W) (hWc : IsPreconnected W)
+    (hWne : W.Nonempty) {g g' : Causal.Flat.isom 2}
+    (hb : ∀ v ∈ W, 0 < (e0TAPhi g v).2.1)
+    (heq : ∀ v ∈ W, e0TAInr (e0TAPhi g v) = e0TAInr (e0TAPhi g' v)) :
+    ∃ k : ℤ, g' = btzHol 0 (2 * π) ^ k * g := by
+  -- pointwise: `Φ_{g'} v = parab (2πk(v)) (Φ_g v)`
+  have hpt : ∀ v ∈ W, ∃ k : ℤ, e0TAPhi g' v = parab (k * (2 * π)) (e0TAPhi g v) := by
+    intro v hv
+    have h' := Sum.inr_injective (heq v hv)
+    obtain ⟨γ, hγ⟩ := exists_smul_eq_of_orbitMk_eq h'
+    have hb' : 0 < (e0TAPhi g' v).2.1 := by
+      by_contra hn
+      have hr : (btzDevInv (e0TAPhi g' v)).1.r = (e0TAPhi g v).2.1 := by
+        rw [← hγ, gammaA_smul_r, ← btzDev_e0_b, btzDev_btzDevInv (Or.inl (hb v hv))]
+      have h0 : (btzDevInv (e0TAPhi g' v)).1.r = 0 := by
+        rw [btzDevInv, dif_neg hn]; exact DInfty.apex_r
+      linarith [hb v hv]
+    refine ⟨γ.toInt, ?_⟩
+    rw [← btzDev_btzDevInv (Or.inl hb'), ← hγ, btzDev_smul_all,
+      btzDev_btzDevInv (Or.inl (hb v hv))]
+    exact btzParab_zpow_smul _ _
+  -- the integer is a continuous function of `v`
+  set κ : ℝ × ℝ × ℝ → ℝ := fun v =>
+    ((e0TAPhi g' v).2.2 - (e0TAPhi g v).2.2) / ((2 * π) * (e0TAPhi g v).2.1) with hκdef
+  have hκ : ∀ v ∈ W, ∀ k : ℤ, e0TAPhi g' v = parab (k * (2 * π)) (e0TAPhi g v) → κ v = k := by
+    intro v hv k hk
+    simp only [hκdef, hk, parab_apply]
+    have : (2 * π) * (e0TAPhi g v).2.1 ≠ 0 := by have := hb v hv; positivity
+    rw [div_eq_iff this]
+    ring
+  have hκc : ContinuousOn κ W := by
+    refine ContinuousOn.div (Continuous.continuousOn ?_) (Continuous.continuousOn ?_) ?_
+    · exact (continuous_snd.comp (continuous_snd.comp (continuous_e0TAPhi g'))).sub
+        (continuous_snd.comp (continuous_snd.comp (continuous_e0TAPhi g)))
+    · exact continuous_const.mul (continuous_fst.comp (continuous_snd.comp (continuous_e0TAPhi g)))
+    · intro v hv; have := hb v hv; positivity
+  obtain ⟨v₁, hv₁⟩ := hWne
+  obtain ⟨k₁, hk₁⟩ := hpt v₁ hv₁
+  have hall : ∀ v ∈ W, e0TAPhi g' v = parab (k₁ * (2 * π)) (e0TAPhi g v) := by
+    intro v hv
+    obtain ⟨k, hk⟩ := hpt v hv
+    suffices hkk : k = k₁ by rw [← hkk]; exact hk
+    by_contra hne
+    -- an intermediate value of `κ` between `k₁` and `k` is a half-integer
+    have hκ₁ := hκ v₁ hv₁ k₁ hk₁
+    have hκv := hκ v hv k hk
+    rcases lt_or_gt_of_ne hne with hlt | hlt
+    · have hmem : ((k : ℝ) + 1 / 2) ∈ Icc (κ v) (κ v₁) := by
+        rw [hκv, hκ₁]
+        have : (k : ℝ) + 1 ≤ k₁ := by exact_mod_cast hlt
+        constructor <;> linarith
+      obtain ⟨w, hw, hκw⟩ := hWc.intermediate_value hv hv₁ hκc hmem
+      obtain ⟨j, hj⟩ := hpt w hw
+      rw [hκ w hw j hj] at hκw
+      have h1 : (k : ℝ) < j := by linarith
+      have h2 : (j : ℝ) < k + 1 := by linarith
+      have h1' : k < j := by exact_mod_cast h1
+      have h2' : j < k + 1 := by exact_mod_cast h2
+      omega
+    · have hmem : ((k₁ : ℝ) + 1 / 2) ∈ Icc (κ v₁) (κ v) := by
+        rw [hκv, hκ₁]
+        have : (k₁ : ℝ) + 1 ≤ k := by exact_mod_cast hlt
+        constructor <;> linarith
+      obtain ⟨w, hw, hκw⟩ := hWc.intermediate_value hv₁ hv hκc hmem
+      obtain ⟨j, hj⟩ := hpt w hw
+      rw [hκ w hw j hj] at hκw
+      have h1 : (k₁ : ℝ) < j := by linarith
+      have h2 : (j : ℝ) < k₁ + 1 := by linarith
+      have h1' : k₁ < j := by exact_mod_cast h1
+      have h2' : j < k₁ + 1 := by exact_mod_cast h2
+      omega
+  -- rigidity of `Isom(𝐌³)` on the open set `nullToMink '' W`
+  refine ⟨k₁, ?_⟩
+  have hopen : IsOpen (nullToMink '' W) := by
+    rw [← coe_nullToMinkHomeomorph]; exact nullToMinkHomeomorph.isOpenMap W hWo
+  have hrig := IsRigidAction.smul_eq_of_eqOn (G := Causal.Flat.isom 2) hopen ⟨_, v₁, hv₁, rfl⟩
+    (g := g') (h := btzHol 0 (2 * π) ^ k₁ * g) (by
+      rintro _ ⟨v, hv, rfl⟩
+      show g' • nullToMink v = (btzHol 0 (2 * π) ^ k₁ * g) • nullToMink v
+      rw [← nullToMink_e0TAPhi, ← nullToMink_e0TAPhi, hall v hv, e0TAPhi_zpow_mul])
+  exact Subtype.ext (AffineEquiv.ext fun z => hrig z)
+
+
+/-- **The global representation** on a preconnected open `U ⊆ 𝕄` sent into `𝔼₀`: one `g` with
+`f ∘ inl ∘ nullToMink = [D⁻¹ Φ_g]` on all of `U` (the class of the local `g` modulo `⟨P⟩` is
+locally constant, `e0TA_rep_unique`, and `[D⁻¹ ·]` is `P`-invariant, `e0TAInr_parab`). -/
+theorem e0TA_global_rep_inl {U : Set E0Y} (hU : IsOpen U) {f : E0Y → E0Y}
+    (hf : ∀ y ∈ U, e0Groupoid.IsLocalStructomorphWithinAt f U y)
+    (hfr : ∀ y ∈ U, f y ∈ range Sum.inr) (hUc : IsPreconnected {v | e0TAInl v ∈ U})
+    {v₁ : ℝ × ℝ × ℝ} (hv₁ : e0TAInl v₁ ∈ U) :
+    ∃ g : Causal.Flat.isom 2, ∀ v, e0TAInl v ∈ U →
+      0 < (e0TAPhi g v).2.1 ∧ f (e0TAInl v) = e0TAInr (e0TAPhi g v) := by
+  set P : Causal.Flat.isom 2 := btzHol 0 (2 * π)
+  obtain ⟨g₀, hg₀⟩ := e0TA_local_rep_inl hU hf hfr hv₁
+  set Rep : Causal.Flat.isom 2 → ℝ × ℝ × ℝ → Prop := fun g v => ∀ᶠ v' in 𝓝 v,
+    0 < (e0TAPhi g v').2.1 ∧ f (e0TAInl v') = e0TAInr (e0TAPhi g v') with hRep
+  set u : Set (ℝ × ℝ × ℝ) := {v | ∃ k : ℤ, Rep (P ^ k * g₀) v} with hudef
+  have hu : IsOpen u := by
+    have : u = ⋃ k : ℤ, {v | Rep (P ^ k * g₀) v} := by ext v; simp [hudef]
+    rw [this]; exact isOpen_iUnion fun k => isOpen_setOf_eventually_nhds
+  have hsub : {v | e0TAInl v ∈ U} ⊆ u := by
+    refine hUc.subset_of_closure_inter_subset hu ⟨v₁, hv₁, 0, by simpa [hRep] using hg₀⟩ ?_
+    rintro v ⟨hvcl, hvU⟩
+    obtain ⟨g, hg⟩ := e0TA_local_rep_inl hU hf hfr hvU
+    obtain ⟨δ, hδ, hδg⟩ := Metric.eventually_nhds_iff.1 hg
+    obtain ⟨v', hv'B, k, hk⟩ := mem_closure_iff_nhds.1 hvcl _ (Metric.ball_mem_nhds v hδ)
+    obtain ⟨δ', hδ', hδk⟩ := Metric.eventually_nhds_iff.1 hk
+    have hd : dist v' v < δ := hv'B
+    set ρ := min δ' (δ - dist v' v)
+    have hρ : 0 < ρ := lt_min hδ' (by linarith)
+    have hW : ∀ w ∈ Metric.ball v' ρ, dist w v < δ ∧ dist w v' < δ' := fun w hw => by
+      have hw' : dist w v' < ρ := hw
+      refine ⟨?_, hw'.trans_le (min_le_left _ _)⟩
+      calc dist w v ≤ dist w v' + dist v' v := dist_triangle _ _ _
+        _ < (δ - dist v' v) + dist v' v := by
+          have := hw'.trans_le (min_le_right _ _); linarith
+        _ = δ := by ring
+    obtain ⟨m, hm⟩ := e0TA_rep_unique (g := P ^ k * g₀) (g' := g) Metric.isOpen_ball
+      (convex_ball v' ρ).isPreconnected ⟨v', Metric.mem_ball_self hρ⟩
+      (fun w hw => (hδk (hW w hw).2).1)
+      (fun w hw => (hδk (hW w hw).2).2.symm.trans (hδg (hW w hw).1).2)
+    refine ⟨m + k, ?_⟩
+    have : P ^ (m + k) * g₀ = g := by rw [hm, zpow_add, mul_assoc]
+    rw [this]; exact hg
+  refine ⟨g₀, fun v hv => ?_⟩
+  obtain ⟨k, hk⟩ := hsub hv
+  obtain ⟨h1, h2⟩ := hk.self_of_nhds
+  rw [e0TAPhi_zpow_mul] at h1 h2
+  have hb : 0 < (e0TAPhi g₀ v).2.1 := by simpa [parab_apply] using h1
+  exact ⟨hb, by rw [h2, e0TAInr_parab hb]⟩
+
+/-- **`typeAgreement` at the tips in `𝕄`**: the field's statement verbatim, `y₀ = inl m`. -/
+def E0TypeAgreementInl (C : Causal.Causality E0Y) : Prop :=
+    ∀ U : Set E0Y, IsOpen U → IsConnected U → ∀ m : Causal.Minkowski 2,
+    (∃ O : Opens E0Y, (Sum.inl m : E0Y) ∈ O ∧ ∃ r ∈ O,
+      (C.lt O r (Sum.inl m) ∧ C.Iplus O {r} ∩ C.Iminus O {Sum.inl m} ⊆ U) ∨
+      (C.lt O (Sum.inl m) r ∧ C.Iplus O {Sum.inl m} ∩ C.Iminus O {r} ⊆ U)) →
+    ∀ z₀ : E0Y, ∀ f : E0Y → E0Y, (∀ y ∈ U, e0Groupoid.IsLocalStructomorphWithinAt f U y) →
+    InjOn f U → MapClusterPt z₀ (𝓝[U] (Sum.inl m)) f →
+    (∀ α : ℝ, 0 ≤ α → ((Sum.inl m : E0Y) ∈ e0SingY α ↔ z₀ ∈ e0SingY α)) ∧
+      ((∃ α : ℝ, 0 ≤ α ∧ (Sum.inl m : E0Y) ∈ e0SingY α) →
+        z₀ ∈ connectedComponent (Sum.inl m : E0Y))
+
+/-- `E0TypeAgreementInl` is the restriction of the verbatim field to the tips in `𝕄`. -/
+theorem E0TypeAgreement.inl {C : Causal.Causality E0Y} (h : E0TypeAgreement C) :
+    E0TypeAgreementInl C := fun U hU hUc m hdia z₀ f hf hinj hcl =>
+  h U hU hUc (Sum.inl m) (fun h0 => h0.2 (inl_mem_e0Reg m)) hdia z₀ f hf hinj hcl
+
+/-- **`typeAgreement` verbatim at the tips in `𝕄`** (the field's own statement, `MapClusterPt`, for
+`y₀ = inl m`), for every causality `C` whose straight timelike segments of `𝕄` are chronological:
+`U ⊆ 𝕄` carries no holonomy, so `f` has one global development (`e0TA_global_rep_inl`), and a BTZ
+cluster value puts the tip's image on `ℝu` (`e0TA_tip` along an ultrafilter), against the cone in
+the diamond (`e0TA_absurd_rep`). -/
+theorem e0_typeAgreement_inl_of (C : Causal.Causality E0Y) (hinl : E0TASegLt C e0TAInl univ) :
+    E0TypeAgreementInl C := by
+  intro U hU hUc m hdia z₀ f hf hinj hcl
+  have hιc : Continuous e0TAInl := continuous_inl.comp nullToMinkHomeomorph.continuous
+  have hz : z₀ ∈ e0Reg := by
+    by_contra hz
+    obtain ⟨x₁, rfl, hx₁⟩ : ∃ x₁ : BTZE0, z₀ = Sum.inr x₁ ∧
+        x₁ ∉ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0 := by
+      rcases z₀ with m' | x
+      · exact absurd (inl_mem_e0Reg m') hz
+      · exact ⟨x, rfl, fun h => hz (inr_mem_e0Reg_iff.2 h)⟩
+    obtain ⟨O, hyO, r, -, hd⟩ := hdia
+    set v₀ := nullToMink.symm m
+    have hι : e0TAInl v₀ = Sum.inl m := by simp [e0TAInl, v₀]
+    rw [← hι] at hyO hd hcl
+    obtain ⟨K, -, -, hKne, -, -, hKb, hcone, hιU⟩ :=
+      e0TA_exists_cone C isOpen_univ hιc.continuousOn hinl (mem_univ v₀) one_pos hyO hd
+    obtain ⟨w₁, hw₁⟩ := hKne
+    -- `U ⊆ 𝕄`, and `f(U) ⊆ 𝔼₀`
+    have hUl : U ⊆ range Sum.inl :=
+      hUc.isPreconnected.subset_isClopen isClopen_range_inl ⟨_, hιU w₁ hw₁, nullToMink w₁, rfl⟩
+    have hfc : ContinuousOn f U := fun y hy => (e0TA_continuousAt hU hf hy).continuousWithinAt
+    have hcl' : Sum.inr x₁ ∈ closure (f '' U) :=
+      hcl.clusterPt.mem_closure_of_mem _ (image_mem_map self_mem_nhdsWithin)
+    obtain ⟨_, hy₁r, hy₁⟩ := mem_closure_iff.1 hcl' _ isOpen_range_inr ⟨x₁, rfl⟩
+    have hfr' := (hUc.isPreconnected.image f hfc).subset_isClopen isClopen_range_inr
+      ⟨_, hy₁, hy₁r⟩
+    have hfr : ∀ y ∈ U, f y ∈ range Sum.inr := fun y hy => hfr' ⟨y, hy, rfl⟩
+    -- the domain in null coordinates
+    set U' : Set (ℝ × ℝ × ℝ) := {v | e0TAInl v ∈ U} with hU'def
+    have hUim : U = e0TAInl '' U' := by
+      ext y; constructor
+      · intro hy
+        obtain ⟨m', rfl⟩ := hUl hy
+        exact ⟨nullToMink.symm m', by simpa [hU'def, e0TAInl] using hy, by simp [e0TAInl]⟩
+      · rintro ⟨v, hv, rfl⟩; exact hv
+    have hU'c : IsPreconnected U' := by
+      have hcont : Continuous fun y : E0Y =>
+          nullToMink.symm (Sum.elim id (fun _ => (0 : Causal.Minkowski 2)) y) :=
+        nullToMinkHomeomorph.symm.continuous.comp (Continuous.sumElim continuous_id continuous_const)
+      have : U' = (fun y : E0Y =>
+          nullToMink.symm (Sum.elim id (fun _ => (0 : Causal.Minkowski 2)) y)) '' U := by
+        rw [hUim, ← image_comp]
+        ext v; simp [e0TAInl]
+      rw [this]; exact hUc.isPreconnected.image _ hcont.continuousOn
+    obtain ⟨g, hg⟩ := e0TA_global_rep_inl hU hf hfr hU'c (hιU w₁ hw₁)
+    -- the cluster value along an ultrafilter at the tip
+    have hemb : IsEmbedding e0TAInl := IsEmbedding.inl.comp nullToMinkHomeomorph.isEmbedding
+    have hmap : 𝓝[U] (e0TAInl v₀) = map e0TAInl (𝓝[U'] v₀) := by
+      rw [hemb.map_nhdsWithin_eq, ← hUim]
+    rw [hmap] at hcl
+    have hcl2 : MapClusterPt (Sum.inr x₁) (𝓝[U'] v₀) (f ∘ e0TAInl) := by
+      show ClusterPt _ _
+      rw [← Filter.map_map]; exact hcl
+    obtain ⟨𝒰, h𝒰, hT⟩ := mapClusterPt_iff_ultrafilter.1 hcl2
+    set L : ℝ × ℝ × ℝ → DInfty × ℝ := fun v => btzDevInv (e0TAPhi g v) with hLdef
+    have hev : ∀ᶠ v in (𝒰 : Filter (ℝ × ℝ × ℝ)), v ∈ U' := h𝒰 self_mem_nhdsWithin
+    have hLM : ∀ v ∈ U', btzDevM 0 btzV0 (L v) = g • nullToMink v := fun v hv => by
+      rw [hLdef, btzDevM, btzDev_btzDevInv (Or.inl (hg v hv).1), nullToMink_e0TAPhi]
+    have hTq : Tendsto (fun v => orbitMk (GammaA (2 * π)) (L v)) (𝒰 : Filter (ℝ × ℝ × ℝ))
+        (𝓝 x₁) := by
+      rw [(IsEmbedding.inr : IsEmbedding (Sum.inr : BTZE0 → E0Y)).tendsto_nhds_iff]
+      refine hT.congr' (hev.mono fun v hv => ?_)
+      exact (hg v hv).2
+    obtain ⟨a, ha⟩ := e0TA_tip (F := (𝒰 : Filter (ℝ × ℝ × ℝ))) (h𝒰.trans nhdsWithin_le_nhds)
+      (hev.mono hLM) hx₁ hTq
+    exact e0TA_absurd_rep (ι := e0TAInl) (ε₀ := 1)
+      (fun a _ b _ h => nullToMink.injective (Sum.inl_injective h)) ⟨w₁, hw₁⟩ hKb hcone hιU
+      hinj (L := L) (g := g)
+      (fun v hv => ⟨e0TA_btzDevInv_mem (hg v (hιU v hv)).1, (hg v (hιU v hv)).2,
+        hLM v (hιU v hv)⟩) ha
+  have hy₀r : (Sum.inl m : E0Y) ∈ e0Reg := inl_mem_e0Reg m
+  refine ⟨fun α _ => ?_, fun ⟨α, _, h⟩ => absurd h.2 (not_not.2 hy₀r)⟩
+  simp only [e0SingY, mem_setOf_eq, not_not.2 hy₀r, not_not.2 hz, and_false]
+
+end TypeAgreementTendsto
+
+/-! ### The counterexample to `typeAgreement` (DEC-27) -/
+
+section Counterexample
+
+open TopologicalSpace
+
+/-! ### Data of the counterexample (null coordinates) -/
+
+/-- The tip `v₀ = (0, 1, 0) = D(1, 0, 1)`. -/
+def e0CEv : ℝ × ℝ × ℝ := (0, 1, 0)
+
+/-- `P v₀ = (4π², 1, 2π)`. -/
+noncomputable def e0CEp : ℝ × ℝ × ℝ := (4 * π ^ 2, 1, 2 * π)
+
+/-- The base point `d = v₀ − (1/10)(1, 1, 0)` of the tube. -/
+noncomputable def e0CEd : ℝ × ℝ × ℝ := (-(1 / 10), 9 / 10, 0)
+
+/-- The axis of the tube, `c(s) = (1 − s) P v₀ + s d`. -/
+noncomputable def e0CEc (s : ℝ) : ℝ × ℝ × ℝ := (1 - s) • e0CEp + s • e0CEd
+
+/-- The past cone region at the tip. -/
+def e0CEA : Set (ℝ × ℝ × ℝ) := {w | dist w e0CEv < 1 / 5 ∧ e0TACone (e0CEv - w)}
+
+/-- The tube, from the cone region to `P v₀`. -/
+noncomputable def e0CET : Set (ℝ × ℝ × ℝ) :=
+  ⋃ s ∈ Ioo (0 : ℝ) 1, Metric.ball (e0CEc s) (s / 100)
+
+/-- The domain, in null coordinates. -/
+noncomputable def e0CEUt : Set (ℝ × ℝ × ℝ) := e0CEA ∪ e0CET
+
+theorem e0CEc_apply (s : ℝ) :
+    e0CEc s = ((1 - s) * (4 * π ^ 2) - s / 10, 1 - s / 10, (1 - s) * (2 * π)) := by
+  simp only [e0CEc, e0CEp, e0CEd, Prod.smul_mk, smul_eq_mul, Prod.mk_add_mk]
+  ext <;> simp <;> ring
+
+/-- Coordinates of a point of a ball, in the sup metric. -/
+theorem e0CE_abs_lt_of_dist {w z : ℝ × ℝ × ℝ} {r : ℝ} (h : dist w z < r) :
+    |w.1 - z.1| < r ∧ |w.2.1 - z.2.1| < r ∧ |w.2.2 - z.2.2| < r := by
+  have h1 : dist w.1 z.1 ≤ dist w z := by rw [Prod.dist_eq]; exact le_max_left _ _
+  have h2 : dist w.2 z.2 ≤ dist w z := by rw [Prod.dist_eq]; exact le_max_right _ _
+  have h21 : dist w.2.1 z.2.1 ≤ dist w.2 z.2 := by rw [Prod.dist_eq]; exact le_max_left _ _
+  have h22 : dist w.2.2 z.2.2 ≤ dist w.2 z.2 := by rw [Prod.dist_eq]; exact le_max_right _ _
+  rw [Real.dist_eq] at h1 h21 h22
+  exact ⟨by linarith, by linarith, by linarith⟩
+
+/-- A point of the tube: `w = c(s) + x`, `s ∈ (0, 1)`, `|xᵢ| < s/100`. -/
+theorem e0CET_mem {w : ℝ × ℝ × ℝ} (hw : w ∈ e0CET) : ∃ s : ℝ, 0 < s ∧ s < 1 ∧
+    |w.1 - ((1 - s) * (4 * π ^ 2) - s / 10)| < s / 100 ∧ |w.2.1 - (1 - s / 10)| < s / 100 ∧
+    |w.2.2 - (1 - s) * (2 * π)| < s / 100 := by
+  simp only [e0CET, mem_iUnion, Metric.mem_ball] at hw
+  obtain ⟨s, ⟨hs0, hs1⟩, hd⟩ := hw
+  have := e0CE_abs_lt_of_dist hd
+  rw [e0CEc_apply] at this
+  exact ⟨s, hs0, hs1, this⟩
+
+theorem e0CEA_mem {w : ℝ × ℝ × ℝ} (hw : w ∈ e0CEA) :
+    |w.1| < 1 / 5 ∧ |w.2.1 - 1| < 1 / 5 ∧ |w.2.2| < 1 / 5 ∧ w.1 < 0 := by
+  obtain ⟨hd, hc⟩ := hw
+  have := e0CE_abs_lt_of_dist hd
+  simp only [e0CEv, sub_zero] at this
+  obtain ⟨hb, hq⟩ := hc
+  simp only [e0CEv, Prod.fst_sub, Prod.snd_sub] at hb hq
+  refine ⟨this.1, this.2.1, this.2.2, ?_⟩
+  nlinarith [sq_nonneg (0 - w.2.2)]
+
+theorem e0CEUt_b_pos {w : ℝ × ℝ × ℝ} (hw : w ∈ e0CEUt) : 0 < w.2.1 := by
+  rcases hw with hA | hT
+  · have := (e0CEA_mem hA).2.1; rw [abs_lt] at this; linarith
+  · obtain ⟨s, hs0, hs1, -, hb, -⟩ := e0CET_mem hT
+    rw [abs_lt] at hb; linarith
+
+theorem isOpen_e0CEA : IsOpen e0CEA :=
+  Metric.isOpen_ball.inter (e0TA_isOpen_past e0CEv)
+
+theorem isOpen_e0CET : IsOpen e0CET :=
+  isOpen_biUnion fun _ _ => Metric.isOpen_ball
+
+theorem isOpen_e0CEUt : IsOpen e0CEUt := isOpen_e0CEA.union isOpen_e0CET
+
+theorem continuous_e0CEc : Continuous e0CEc := by
+  unfold e0CEc; fun_prop
+
+theorem e0CEc_mem {s : ℝ} (hs : s ∈ Ioo (0 : ℝ) 1) : e0CEc s ∈ e0CET :=
+  mem_biUnion hs (Metric.mem_ball_self (by linarith [hs.1]))
+
+theorem isPreconnected_e0CET : IsPreconnected e0CET := by
+  refine isPreconnected_of_forall (e0CEc (1 / 2)) fun y hy => ?_
+  simp only [e0CET, mem_iUnion] at hy
+  obtain ⟨s, hs, hy⟩ := hy
+  set I : Set ℝ := uIcc s (1 / 2)
+  have hI : I ⊆ Ioo (0 : ℝ) 1 := by
+    intro t ht
+    rcases (mem_uIcc.1 ht) with ⟨h1, h2⟩ | ⟨h1, h2⟩
+    · exact ⟨by linarith [hs.1], by linarith⟩
+    · exact ⟨by linarith, by linarith [hs.2]⟩
+  refine ⟨Metric.ball (e0CEc s) (s / 100) ∪ e0CEc '' I, ?_, ?_, Or.inl hy, ?_⟩
+  · refine union_subset (subset_biUnion_of_mem (u := fun s => Metric.ball (e0CEc s) (s / 100)) hs) ?_
+    rintro _ ⟨t, ht, rfl⟩; exact e0CEc_mem (hI ht)
+  · exact Or.inr ⟨1 / 2, right_mem_uIcc, rfl⟩
+  · refine (convex_ball _ _).isPreconnected.union (e0CEc s)
+      (Metric.mem_ball_self (by linarith [hs.1])) ⟨s, left_mem_uIcc, rfl⟩
+      (isPreconnected_uIcc.image _ continuous_e0CEc.continuousOn)
+
+/-- A point of both pieces: `c(999/1000)`. -/
+theorem e0CEc_mem_A : e0CEc (999 / 1000) ∈ e0CEA := by
+  have hπ1 := Real.pi_gt_three
+  have hπ2 := Real.pi_lt_d2
+  have hπsq : π ^ 2 < 10 := by nlinarith
+  refine ⟨?_, ?_⟩
+  · rw [Prod.dist_eq, Prod.dist_eq, e0CEc_apply]
+    simp only [e0CEv, Real.dist_eq]
+    refine max_lt ?_ (max_lt ?_ ?_)
+    · rw [abs_lt]; constructor <;> nlinarith
+    · rw [abs_lt]; constructor <;> norm_num
+    · rw [abs_lt]; constructor <;> nlinarith
+  · rw [e0CEc_apply]
+    simp only [e0TACone, e0CEv, Prod.mk_sub_mk]
+    constructor
+    · norm_num
+    · nlinarith
+
+theorem isPreconnected_e0CEUt : IsPreconnected e0CEUt := by
+  have hA : IsPreconnected e0CEA :=
+    ((convex_ball e0CEv _).inter (e0TA_convex_past e0CEv)).isPreconnected
+  exact hA.union (e0CEc (999 / 1000)) e0CEc_mem_A (e0CEc_mem ⟨by norm_num, by norm_num⟩)
+    isPreconnected_e0CET
+
+/-! ### Injectivity of `[D⁻¹ ·]` on the domain -/
+
+/-- Two points of `{b > 0}` with one image under `[D⁻¹ ·]` differ by a power of `P`. -/
+theorem e0TAInr_eq_parab {w w' : ℝ × ℝ × ℝ} (hw : 0 < w.2.1) (hw' : 0 < w'.2.1)
+    (h : e0TAInr w = e0TAInr w') : ∃ k : ℤ, w' = parab (k * (2 * π)) w := by
+  have h' : orbitMk (GammaA (2 * π)) (btzDevInv w) = orbitMk (GammaA (2 * π)) (btzDevInv w') :=
+    Sum.inr_injective h
+  obtain ⟨γ, hγ⟩ := exists_smul_eq_of_orbitMk_eq h'
+  refine ⟨γ.toInt, ?_⟩
+  rw [← btzDev_btzDevInv (Or.inl hw'), ← hγ, btzDev_smul_all, btzDev_btzDevInv (Or.inl hw)]
+  exact btzParab_zpow_smul _ _
+
+theorem nullQ_parab (φ : ℝ) (w : ℝ × ℝ × ℝ) : nullQ (parab φ w) = nullQ w := by
+  simp only [nullQ, parab_apply]; ring
+
+theorem parab_neg_parab (φ : ℝ) (w : ℝ × ℝ × ℝ) : parab (-φ) (parab φ w) = w := by
+  simp only [parab_apply]; ext <;> simp; ring
+
+theorem e0CE_noAA {w : ℝ × ℝ × ℝ} (hw : w ∈ e0CEA) {k : ℤ} (hk : k ≠ 0)
+    (hw' : parab (k * (2 * π)) w ∈ e0CEA) : False := by
+  have h1 := e0CEA_mem hw
+  have h2 := e0CEA_mem hw'
+  simp only [parab_apply] at h2
+  have hπ := Real.pi_gt_three
+  have hk1 : (1 : ℝ) ≤ |(k : ℝ)| := by exact_mod_cast Int.one_le_abs hk
+  have hb : 4 / 5 < w.2.1 := by have := h1.2.1; rw [abs_lt] at this; linarith
+  have hc : |(k : ℝ) * (2 * π) * w.2.1| < 2 / 5 := by
+    have e : (k : ℝ) * (2 * π) * w.2.1 = (w.2.2 + k * (2 * π) * w.2.1) - w.2.2 := by ring
+    rw [e]; have := h2.2.2.1; have := h1.2.2.1
+    rw [abs_lt] at *; constructor <;> linarith
+  rw [abs_mul, abs_mul, abs_of_pos (by positivity : (0 : ℝ) < 2 * π),
+    abs_of_pos (by linarith : (0 : ℝ) < w.2.1)] at hc
+  have hpos : 0 < 2 * π * w.2.1 := by positivity
+  have h3 := mul_le_mul_of_nonneg_right hk1 hpos.le
+  have h4 : 2 * π * w.2.1 > 24 / 5 := by nlinarith
+  rw [one_mul, ← mul_assoc] at h3
+  linarith
+
+theorem e0CE_noTT {w : ℝ × ℝ × ℝ} (hw : w ∈ e0CET) {k : ℤ} (hk : k ≠ 0)
+    (hw' : parab (k * (2 * π)) w ∈ e0CET) : False := by
+  obtain ⟨s, hs0, hs1, -, hb, hc⟩ := e0CET_mem hw
+  obtain ⟨s', hs0', hs1', -, hb', hc'⟩ := e0CET_mem hw'
+  simp only [parab_apply] at hb' hc'
+  have hπ := Real.pi_gt_three
+  have hπ' := Real.pi_lt_d2
+  have hk1 : (1 : ℝ) ≤ |(k : ℝ)| := by exact_mod_cast Int.one_le_abs hk
+  rw [abs_lt] at hb hc hb' hc'
+  have hbpos : 89 / 100 < w.2.1 := by linarith
+  -- `|s − s'| ≤ (s + s')/10`
+  have hss : |s - s'| ≤ 1 / 5 := by rw [abs_le]; constructor <;> linarith
+  have hcc : |(k : ℝ) * (2 * π) * w.2.1| < 2 := by
+    have e : (k : ℝ) * (2 * π) * w.2.1 = (w.2.2 + k * (2 * π) * w.2.1) - w.2.2 := by ring
+    rw [e, abs_lt]; rw [abs_le] at hss
+    constructor <;> nlinarith
+  rw [abs_mul, abs_mul, abs_of_pos (by positivity : (0 : ℝ) < 2 * π),
+    abs_of_pos (by linarith : (0 : ℝ) < w.2.1)] at hcc
+  have hpos : 0 < 2 * π * w.2.1 := by positivity
+  have h3 := mul_le_mul_of_nonneg_right hk1 hpos.le
+  have h4 : 2 * π * w.2.1 > 5 := by nlinarith
+  rw [one_mul, ← mul_assoc] at h3
+  linarith
+
+
+theorem e0CE_pi_sq : 9 < π ^ 2 := by
+  have hπ := Real.pi_gt_three
+  calc (9 : ℝ) = 3 * 3 := by norm_num
+    _ < π * π := mul_lt_mul'' hπ hπ (by norm_num) (by norm_num)
+    _ = π ^ 2 := (sq π).symm
+
+/-- `nullQ` near the apex of the tube, in the form `s · (negative)`. -/
+theorem e0CE_Q_neg {s η₁ η₂ η₃ : ℝ} (hs0 : 0 < s) (hs : s < 1 / 25) (h1 : |η₁| < s / 100)
+    (h2 : |η₂| < s / 100) (h3 : |η₃| < s / 100) :
+    -(4 * π ^ 2) * (1 - s) * (9 / 10 * s + η₂) + 4 * π * (1 - s) * η₃ + η₃ ^ 2 +
+      (s / 10 - η₁) * (1 - s / 10 + η₂) < 0 := by
+  have hπ := Real.pi_gt_three
+  have hπ' := Real.pi_lt_d2
+  have hπ2 := e0CE_pi_sq
+  rw [abs_lt] at h1 h2 h3
+  have hu : 24 / 25 < 1 - s := by linarith
+  have t1 : 36 * (24 / 25) * (89 / 100 * s) < 4 * π ^ 2 * (1 - s) * (9 / 10 * s + η₂) := by
+    have hZ : 89 / 100 * s < 9 / 10 * s + η₂ := by linarith
+    have hXY : 36 * (24 / 25) < 4 * π ^ 2 * (1 - s) :=
+      mul_lt_mul'' (by linarith) hu (by norm_num) (by norm_num)
+    exact mul_lt_mul'' hXY hZ (by norm_num) (by positivity)
+  have hP : 0 < 4 * π * (1 - s) := by
+    have : 0 < 1 - s := by linarith
+    positivity
+  have t2 : 4 * π * (1 - s) * η₃ < 13 * (s / 100) := by
+    have e1 : 4 * π * (1 - s) * η₃ ≤ 4 * π * (1 - s) * (s / 100) :=
+      mul_le_mul_of_nonneg_left h3.2.le hP.le
+    have e2 : 4 * π * (1 - s) < 13 := by nlinarith
+    have e3 : 4 * π * (1 - s) * (s / 100) < 13 * (s / 100) :=
+      mul_lt_mul_of_pos_right e2 (by positivity)
+    linarith
+  have t3 : η₃ ^ 2 < s / 100 := by
+    have : |η₃| < 1 := by rw [abs_lt]; constructor <;> linarith
+    have h' : η₃ ^ 2 < 1 * (s / 100) := by
+      rw [sq]
+      calc η₃ * η₃ ≤ |η₃| * |η₃| := by rw [← abs_mul]; exact le_abs_self _
+        _ < 1 * (s / 100) := mul_lt_mul'' this (by rw [abs_lt]; exact h3) (abs_nonneg _)
+            (abs_nonneg _)
+    linarith
+  have t4 : (s / 10 - η₁) * (1 - s / 10 + η₂) < (s / 10 + s / 100) * 2 :=
+    mul_lt_mul'' (by linarith) (by linarith) (by linarith) (by linarith)
+  linarith
+
+/-- **The cone region and the tube are not `P`-related**: a translate of a point of `A` in the
+tube would have angle near `2π`, hence lie near the apex of the tube, where `nullQ < 0`, while
+`nullQ > 0` on `A`. -/
+theorem e0CE_noAT {w : ℝ × ℝ × ℝ} (hw : w ∈ e0CEA) {k : ℤ} (hk : k ≠ 0)
+    (hw' : parab (k * (2 * π)) w ∈ e0CET) : False := by
+  obtain ⟨ha, hb, hc, ha0⟩ := e0CEA_mem hw
+  have hcone := hw.2
+  obtain ⟨s, hs0, hs1, ha', hb', hc'⟩ := e0CET_mem hw'
+  simp only [parab_apply] at ha' hb' hc'
+  have hπ := Real.pi_gt_three
+  have hπ' := Real.pi_lt_d2
+  have hb1 : w.2.1 < 1 := by
+    have := hcone.1; simp only [e0CEv, Prod.snd_sub, Prod.fst_sub] at this; linarith
+  rw [abs_lt] at ha hb hc ha' hb' hc'
+  -- the winding is `1`
+  have hk1 : k = 1 := by
+    by_contra hne
+    have hpos : 0 < 2 * π * w.2.1 := by nlinarith
+    have hbig : 2 * π * w.2.1 > 24 / 5 := by nlinarith
+    rcases lt_or_gt_of_ne hk with hlt | hgt
+    · have : (k : ℝ) ≤ -1 := by exact_mod_cast Int.le_sub_one_iff.2 hlt
+      have h5 : (k : ℝ) * (2 * π) * w.2.1 ≤ -(2 * π * w.2.1) := by
+        nlinarith [mul_nonneg (by linarith : (0 : ℝ) ≤ -1 - k) hpos.le]
+      have h6 : 0 ≤ (1 - s) * (2 * π) := by
+        have : 0 ≤ 1 - s := by linarith
+        positivity
+      linarith [hc'.1]
+    · have : (2 : ℝ) ≤ k := by
+        have : 2 ≤ k := by omega
+        exact_mod_cast this
+      have h5 : 2 * (2 * π * w.2.1) ≤ (k : ℝ) * (2 * π) * w.2.1 := by
+        nlinarith [mul_nonneg (by linarith : (0 : ℝ) ≤ k - 2) hpos.le]
+      have h6 : (1 - s) * (2 * π) < 2 * π := by nlinarith
+      linarith [hc'.2]
+  subst hk1
+  simp only [Int.cast_one, one_mul] at ha' hb' hc'
+  -- the tube parameter is small
+  have hs : s < 1 / 25 := by
+    have hπs : 3 * s < π * s := mul_lt_mul_of_pos_right hπ hs0
+    have hbb : 1 - 11 / 100 * s < w.2.1 := by linarith [hb'.1]
+    have e1 : 2 * π * (1 - 11 / 100 * s) < 2 * π * w.2.1 :=
+      mul_lt_mul_of_pos_left hbb (by positivity)
+    have e2 : w.2.2 + 2 * π * w.2.1 - (1 - s) * (2 * π) < s / 100 := hc'.2
+    nlinarith
+  -- `nullQ` is positive on `A` and negative near the apex of the tube
+  have hQ : nullQ w = nullQ (parab (2 * π) w) := (nullQ_parab _ _).symm
+  have hQA : 0 < nullQ w := by
+    simp only [nullQ]; nlinarith [sq_nonneg w.2.2]
+  set a' := (parab (2 * π) w).1
+  set b' := (parab (2 * π) w).2.1
+  set c' := (parab (2 * π) w).2.2
+  have hQT : nullQ (parab (2 * π) w) = c' ^ 2 - a' * b' := rfl
+  set η₁ := a' - ((1 - s) * (4 * π ^ 2) - s / 10)
+  set η₂ := b' - (1 - s / 10)
+  set η₃ := c' - (1 - s) * (2 * π)
+  have h1 : |η₁| < s / 100 := by
+    simp only [η₁, a', parab_apply]; rw [abs_lt]; constructor <;> linarith
+  have h2 : |η₂| < s / 100 := by
+    simp only [η₂, b', parab_apply]; rw [abs_lt]; constructor <;> linarith
+  have h3 : |η₃| < s / 100 := by
+    simp only [η₃, c', parab_apply]; rw [abs_lt]; constructor <;> linarith
+  rw [abs_lt] at h1 h2 h3
+  have hexp : c' ^ 2 - a' * b' = -(4 * π ^ 2) * (1 - s) * (9 / 10 * s + η₂) +
+      4 * π * (1 - s) * η₃ + η₃ ^ 2 + (s / 10 - η₁) * (1 - s / 10 + η₂) := by
+    simp only [η₁, η₂, η₃]; ring
+  have hneg : c' ^ 2 - a' * b' < 0 := by
+    rw [hexp]
+    exact e0CE_Q_neg hs0 hs (by rw [abs_lt]; exact h1) (by rw [abs_lt]; exact h2)
+      (by rw [abs_lt]; exact h3)
+  linarith [hQ, hQT]
+
+theorem e0CE_injOn : InjOn e0TAInr e0CEUt := by
+  intro w hw w' hw' h
+  obtain ⟨k, hk⟩ := e0TAInr_eq_parab (e0CEUt_b_pos hw) (e0CEUt_b_pos hw') h
+  by_cases hk0 : k = 0
+  · rw [hk, hk0, Int.cast_zero, zero_mul, parab_zero]
+  exfalso
+  rcases hw with hA | hT <;> rcases hw' with hA' | hT'
+  · exact e0CE_noAA hA hk0 (hk ▸ hA')
+  · exact e0CE_noAT hA hk0 (hk ▸ hT')
+  · have hw : w = parab ((-k : ℤ) * (2 * π)) w' := by
+      rw [hk, Int.cast_neg, neg_mul, parab_neg_parab]
+    exact e0CE_noAT hA' (neg_ne_zero.2 hk0) (hw ▸ hT)
+  · exact e0CE_noTT hT hk0 (hk ▸ hT')
+
+/-! ### The isometry `H` and injectivity on the image -/
+
+/-- `H = parab' (−1/2π) ∘ (· − P v₀)`: an orthochronous isometry with `H(P v₀) = 0 ∈ ℝu`. -/
+noncomputable def e0CEH : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ) :=
+  (AffineEquiv.constVAdd ℝ (ℝ × ℝ × ℝ) (-e0CEp)).trans (parab' (-(1 / (2 * π)))).toAffineEquiv
+
+theorem e0CEH_apply (w : ℝ × ℝ × ℝ) :
+    e0CEH w = (w.1 - 4 * π ^ 2, w.2.1 - w.2.2 / π + w.1 / (4 * π ^ 2),
+      w.2.2 - w.1 / (2 * π)) := by
+  have hπ : π ≠ 0 := Real.pi_ne_zero
+  simp only [e0CEH, AffineEquiv.trans_apply, AffineEquiv.constVAdd_apply, vadd_eq_add,
+    LinearEquiv.coe_toAffineEquiv, parab'_apply, e0CEp]
+  ext <;> simp <;> field_simp <;> ring
+
+theorem e0CEH_mem : e0CEH ∈ NullIsom0 := by
+  have hlin : e0CEH.linear = (parab' (-(1 / (2 * π)))).toAffineEquiv.linear := by
+    ext v <;> rfl
+  obtain ⟨h1, h2, h3⟩ := parab'_mem (-(1 / (2 * π)))
+  refine ⟨fun v => ?_, ?_, fun v hv hτ => ?_⟩
+  · rw [hlin]; exact h1 v
+  · rw [hlin]; exact h2
+  · rw [hlin]; exact h3 v hv hτ
+
+/-- `H` as an element of `Isom(𝐌³)`. -/
+noncomputable def e0CEHM : Causal.Flat.isom 2 := nullIsom0EquivIsom ⟨e0CEH, e0CEH_mem⟩
+
+theorem nullToMink_e0CEH (w : ℝ × ℝ × ℝ) : nullToMink (e0CEH w) = e0CEHM • nullToMink w :=
+  nullToMink_smul ⟨e0CEH, e0CEH_mem⟩ w
+
+theorem continuous_e0CEH : Continuous e0CEH := e0CEH.toAffineMap.continuous_of_finiteDimensional
+
+theorem continuous_e0CEH_symm : Continuous e0CEH.symm :=
+  e0CEH.symm.toAffineMap.continuous_of_finiteDimensional
+
+/-- On the image of the domain, `b > 0` and the angle `c/b` lies in `(−1, 1)`. -/
+theorem e0CE_H_window {w : ℝ × ℝ × ℝ} (hw : w ∈ e0CEUt) :
+    0 < (e0CEH w).2.1 ∧ |(e0CEH w).2.2| < (e0CEH w).2.1 := by
+  have hπ := Real.pi_gt_three
+  have hπ' := Real.pi_lt_d2
+  have hπ2 := e0CE_pi_sq
+  have hπ0 : 0 < π := Real.pi_pos
+  rw [e0CEH_apply]
+  simp only
+  rcases hw with hA | hT
+  · obtain ⟨ha, hb, hc, -⟩ := e0CEA_mem hA
+    rw [abs_lt] at ha hb hc
+    have e1 : |w.2.2 / π| < 1 / 15 := by
+      rw [abs_div, abs_of_pos hπ0, div_lt_iff₀ hπ0, abs_lt]; constructor <;> nlinarith
+    have e2 : |w.1 / (4 * π ^ 2)| < 1 / 150 := by
+      rw [abs_div, abs_of_pos (by positivity : (0 : ℝ) < 4 * π ^ 2), div_lt_iff₀ (by positivity),
+        abs_lt]; constructor <;> nlinarith
+    have e3 : |w.1 / (2 * π)| < 1 / 25 := by
+      rw [abs_div, abs_of_pos (by positivity : (0 : ℝ) < 2 * π), div_lt_iff₀ (by positivity),
+        abs_lt]; constructor <;> nlinarith
+    rw [abs_lt] at e1 e2 e3 ⊢
+    refine ⟨by linarith, by constructor <;> linarith⟩
+  · obtain ⟨s, hs0, hs1, ha, hb, hc⟩ := e0CET_mem hT
+    set η₁ := w.1 - ((1 - s) * (4 * π ^ 2) - s / 10)
+    set η₂ := w.2.1 - (1 - s / 10)
+    set η₃ := w.2.2 - (1 - s) * (2 * π)
+    have hb' : w.2.1 - w.2.2 / π + w.1 / (4 * π ^ 2) =
+        s * (9 / 10 - 1 / (40 * π ^ 2)) + η₂ - η₃ / π + η₁ / (4 * π ^ 2) := by
+      simp only [η₁, η₂, η₃]; field_simp; ring
+    have hc' : w.2.2 - w.1 / (2 * π) = η₃ + s / (20 * π) - η₁ / (2 * π) := by
+      simp only [η₁, η₃]; field_simp; ring
+    rw [hb', hc']
+    rw [abs_lt] at ha hb hc
+    have e1 : |η₃ / π| < s / 300 := by
+      rw [abs_div, abs_of_pos hπ0, div_lt_iff₀ hπ0, abs_lt]; constructor <;> nlinarith
+    have e2 : |η₁ / (4 * π ^ 2)| < s / 3600 := by
+      rw [abs_div, abs_of_pos (by positivity : (0 : ℝ) < 4 * π ^ 2), div_lt_iff₀ (by positivity),
+        abs_lt]; constructor <;> nlinarith
+    have e3 : |η₁ / (2 * π)| < s / 600 := by
+      rw [abs_div, abs_of_pos (by positivity : (0 : ℝ) < 2 * π), div_lt_iff₀ (by positivity),
+        abs_lt]; constructor <;> nlinarith
+    have e4 : s / (20 * π) < s / 60 := by
+      rw [div_lt_div_iff₀ (by positivity) (by norm_num)]; nlinarith
+    have e5 : 0 < s / (20 * π) := by positivity
+    have e6 : 1 / (40 * π ^ 2) < 1 / 360 := by
+      rw [div_lt_div_iff₀ (by positivity) (by norm_num)]; nlinarith
+    have e7 : s * (9 / 10 - 1 / 360) < s * (9 / 10 - 1 / (40 * π ^ 2)) := by
+      apply mul_lt_mul_of_pos_left _ hs0; linarith
+    rw [abs_lt] at e1 e2 e3 ⊢
+    refine ⟨by linarith, by constructor <;> linarith⟩
+
+/-- `[D⁻¹ ·]` is injective on a set where `b > 0` and `|c| < b`. -/
+theorem e0TAInr_injOn_of_window {S : Set (ℝ × ℝ × ℝ)}
+    (hS : ∀ w ∈ S, 0 < w.2.1 ∧ |w.2.2| < w.2.1) : InjOn e0TAInr S := by
+  intro w hw w' hw' h
+  obtain ⟨k, hk⟩ := e0TAInr_eq_parab (hS w hw).1 (hS w' hw').1 h
+  by_cases hk0 : k = 0
+  · rw [hk, hk0, Int.cast_zero, zero_mul, parab_zero]
+  exfalso
+  have h1 := hS w hw
+  have h2 := hS w' hw'
+  rw [hk] at h2
+  simp only [parab_apply] at h2
+  have hk1 : (1 : ℝ) ≤ |(k : ℝ)| := by exact_mod_cast Int.one_le_abs hk0
+  have hπ := Real.pi_gt_three
+  have hlt : |(k : ℝ) * (2 * π) * w.2.1| < 2 * w.2.1 := by
+    have e : (k : ℝ) * (2 * π) * w.2.1 = (w.2.2 + k * (2 * π) * w.2.1) - w.2.2 := by ring
+    rw [e]
+    calc |(w.2.2 + k * (2 * π) * w.2.1) - w.2.2| ≤ |w.2.2 + k * (2 * π) * w.2.1| + |w.2.2| :=
+          abs_sub _ _
+      _ < w.2.1 + w.2.1 := add_lt_add h2.2 h1.2
+      _ = 2 * w.2.1 := by ring
+  rw [abs_mul, abs_mul, abs_of_pos (by positivity : (0 : ℝ) < 2 * π), abs_of_pos h1.1] at hlt
+  have hpos : 0 < 2 * π * w.2.1 := by have := h1.1; positivity
+  have h3 := mul_le_mul_of_nonneg_right hk1 hpos.le
+  rw [one_mul, ← mul_assoc] at h3
+  nlinarith
+
+/-! ### `[D⁻¹ ·]` is open, with continuous inverses on injectivity sets -/
+
+theorem e0TAInr_isOpen_image {S : Set (ℝ × ℝ × ℝ)} (hS : IsOpen S) (hSb : ∀ w ∈ S, 0 < w.2.1) :
+    IsOpen (e0TAInr '' S) := by
+  have hcyl : IsOpen (cylPos ℝ) :=
+    isOpen_lt continuous_const (DInfty.continuous_r'.comp continuous_fst)
+  have hD : ContinuousOn (btzDev 0 btzV0) (cylPos ℝ) := by
+    have h := (isLocalHomeomorphOn_btzDevM 0 btzV0_pos).continuousOn
+    have : btzDev 0 btzV0 = nullToMink.symm ∘ btzDevM 0 btzV0 := by
+      funext y; simp [btzDevM]
+    rw [this]; exact nullToMinkHomeomorph.symm.continuous.comp_continuousOn h
+  have himg : btzDevInv '' S = cylPos ℝ ∩ btzDev 0 btzV0 ⁻¹' S := by
+    ext y; constructor
+    · rintro ⟨w, hw, rfl⟩
+      exact ⟨e0TA_btzDevInv_mem (hSb w hw), by
+        rw [mem_preimage, btzDev_btzDevInv (Or.inl (hSb w hw))]; exact hw⟩
+    · rintro ⟨hy, hyS⟩
+      exact ⟨_, hyS, btzDevInv_btzDev y⟩
+  have h1 : IsOpen (btzDevInv '' S) := by rw [himg]; exact hD.isOpen_inter_preimage hcyl hS
+  have h2 : IsOpen (orbitMk (GammaA (2 * π)) '' (btzDevInv '' S)) :=
+    isOpenMap_quotient_mk'_mul _ h1
+  have h3 := (IsOpenEmbedding.inr : IsOpenEmbedding (Sum.inr : BTZE0 → E0Y)).isOpenMap _ h2
+  have : e0TAInr '' S = Sum.inr '' (orbitMk (GammaA (2 * π)) '' (btzDevInv '' S)) := by
+    rw [image_image, image_image]; rfl
+  rw [this]; exact h3
+
+theorem e0TAInr_invFunOn_tendsto {S : Set (ℝ × ℝ × ℝ)} (hS : IsOpen S)
+    (hSb : ∀ w ∈ S, 0 < w.2.1) (hinj : InjOn e0TAInr S) {w : ℝ × ℝ × ℝ} (hw : w ∈ S) :
+    Tendsto (invFunOn e0TAInr S) (𝓝 (e0TAInr w)) (𝓝 w) := by
+  intro N hN
+  obtain ⟨N', hN'N, hN'o, hwN'⟩ := mem_nhds_iff.1 (inter_mem hN (hS.mem_nhds hw))
+  have hopen := e0TAInr_isOpen_image hN'o fun v hv => hSb v (hN'N hv).2
+  refine Filter.mem_map.2 (Filter.mem_of_superset (hopen.mem_nhds ⟨w, hwN', rfl⟩) ?_)
+  rintro _ ⟨v, hv, rfl⟩
+  rw [mem_preimage, hinj.leftInvOn_invFunOn (hN'N hv).2]
+  exact (hN'N hv).1
+
+/-! ### The map `f` and its partial homeomorphism -/
+
+theorem e0CEUt_window_b {x : ℝ × ℝ × ℝ} (hx : x ∈ e0CEH '' e0CEUt) : 0 < x.2.1 := by
+  obtain ⟨w, hw, rfl⟩ := hx; exact (e0CE_H_window hw).1
+
+theorem e0CE_injOn_H : InjOn e0TAInr (e0CEH '' e0CEUt) :=
+  e0TAInr_injOn_of_window fun _ ⟨_, hw, h⟩ => h ▸ e0CE_H_window hw
+
+theorem isOpen_e0CEHUt : IsOpen (e0CEH '' e0CEUt) := by
+  have : e0CEH '' e0CEUt = e0CEH.symm ⁻¹' e0CEUt := by
+    ext x; constructor
+    · rintro ⟨w, hw, rfl⟩; simpa using hw
+    · intro hx; exact ⟨_, hx, by simp⟩
+  rw [this]; exact isOpen_e0CEUt.preimage continuous_e0CEH_symm
+
+/-- The domain `U = [D⁻¹ Ũ]`. -/
+noncomputable def e0CEU : Set E0Y := e0TAInr '' e0CEUt
+
+/-- The image `V = [D⁻¹ H Ũ]`. -/
+noncomputable def e0CEV : Set E0Y := e0TAInr '' (e0CEH '' e0CEUt)
+
+/-- **The map** `f [D⁻¹ w] = [D⁻¹ H w]` on `U`. -/
+noncomputable def e0CEf (y : E0Y) : E0Y := e0TAInr (e0CEH (invFunOn e0TAInr e0CEUt y))
+
+/-- Its inverse on `V`. -/
+noncomputable def e0CEg (y : E0Y) : E0Y :=
+  e0TAInr (e0CEH.symm (invFunOn e0TAInr (e0CEH '' e0CEUt) y))
+
+theorem e0CEf_apply {w : ℝ × ℝ × ℝ} (hw : w ∈ e0CEUt) : e0CEf (e0TAInr w) = e0TAInr (e0CEH w) := by
+  rw [e0CEf, e0CE_injOn.leftInvOn_invFunOn hw]
+
+theorem e0CEg_apply {w : ℝ × ℝ × ℝ} (hw : w ∈ e0CEUt) :
+    e0CEg (e0TAInr (e0CEH w)) = e0TAInr w := by
+  rw [e0CEg, e0CE_injOn_H.leftInvOn_invFunOn ⟨w, hw, rfl⟩, AffineEquiv.symm_apply_apply]
+
+theorem isOpen_e0CEU : IsOpen e0CEU :=
+  e0TAInr_isOpen_image isOpen_e0CEUt fun _ hw => e0CEUt_b_pos hw
+
+theorem isOpen_e0CEV : IsOpen e0CEV :=
+  e0TAInr_isOpen_image isOpen_e0CEHUt fun _ hx => e0CEUt_window_b hx
+
+theorem e0CEf_continuousAt {w : ℝ × ℝ × ℝ} (hw : w ∈ e0CEUt) : ContinuousAt e0CEf (e0TAInr w) := by
+  have ht := e0TAInr_invFunOn_tendsto isOpen_e0CEUt (fun _ h => e0CEUt_b_pos h) e0CE_injOn hw
+  have hb := (e0CE_H_window hw).1
+  have hc : ContinuousAt e0TAInr (e0CEH w) :=
+    e0TAInr_continuousOn.continuousAt (e0TA_isOpen_b.mem_nhds hb)
+  show Tendsto e0CEf (𝓝 (e0TAInr w)) (𝓝 (e0CEf (e0TAInr w)))
+  rw [e0CEf_apply hw]
+  exact hc.tendsto.comp (continuous_e0CEH.continuousAt.tendsto.comp ht)
+
+theorem e0CEg_continuousAt {w : ℝ × ℝ × ℝ} (hw : w ∈ e0CEUt) :
+    ContinuousAt e0CEg (e0TAInr (e0CEH w)) := by
+  have ht := e0TAInr_invFunOn_tendsto isOpen_e0CEHUt (fun _ h => e0CEUt_window_b h) e0CE_injOn_H
+    ⟨w, hw, rfl⟩
+  have hc : ContinuousAt e0TAInr w :=
+    e0TAInr_continuousOn.continuousAt (e0TA_isOpen_b.mem_nhds (e0CEUt_b_pos hw))
+  show Tendsto e0CEg (𝓝 (e0TAInr (e0CEH w))) (𝓝 (e0CEg (e0TAInr (e0CEH w))))
+  rw [e0CEg_apply hw]
+  have h2 : Tendsto (fun x => e0CEH.symm x) (𝓝 (e0CEH w)) (𝓝 w) := by
+    have := continuous_e0CEH_symm.continuousAt.tendsto (x := e0CEH w)
+    rwa [AffineEquiv.symm_apply_apply] at this
+  exact hc.tendsto.comp (h2.comp ht)
+
+/-- **The partial homeomorphism** `U → V` carrying `f`. -/
+noncomputable def e0CEe : OpenPartialHomeomorph E0Y E0Y where
+  toFun := e0CEf
+  invFun := e0CEg
+  source := e0CEU
+  target := e0CEV
+  map_source' := by
+    rintro _ ⟨w, hw, rfl⟩; rw [e0CEf_apply hw]; exact ⟨_, ⟨w, hw, rfl⟩, rfl⟩
+  map_target' := by
+    rintro _ ⟨_, ⟨w, hw, rfl⟩, rfl⟩; rw [e0CEg_apply hw]; exact ⟨w, hw, rfl⟩
+  left_inv' := by
+    rintro _ ⟨w, hw, rfl⟩; rw [e0CEf_apply hw, e0CEg_apply hw]
+  right_inv' := by
+    rintro _ ⟨_, ⟨w, hw, rfl⟩, rfl⟩; rw [e0CEg_apply hw, e0CEf_apply hw]
+  open_source := isOpen_e0CEU
+  open_target := isOpen_e0CEV
+  continuousOn_toFun := by
+    rintro _ ⟨w, hw, rfl⟩; exact (e0CEf_continuousAt hw).continuousWithinAt
+  continuousOn_invFun := by
+    rintro _ ⟨_, ⟨w, hw, rfl⟩, rfl⟩; exact (e0CEg_continuousAt hw).continuousWithinAt
+
+theorem nullToMink_e0CEH_symm (u : ℝ × ℝ × ℝ) :
+    nullToMink (e0CEH.symm u) = e0CEHM⁻¹ • nullToMink u := by
+  rw [eq_inv_smul_iff, ← nullToMink_e0CEH, AffineEquiv.apply_symm_apply]
+
+/-- The chart condition for `ι ∘ F ∘ ι⁻¹` at `ι w`, `F` a continuous map developing as `h`. -/
+theorem e0CE_regAt {S S' : Set (ℝ × ℝ × ℝ)} (hS : IsOpen S) (hSb : ∀ w ∈ S, 0 < w.2.1)
+    (hinj : InjOn e0TAInr S) {F : ℝ × ℝ × ℝ → ℝ × ℝ × ℝ} (hF : Continuous F)
+    (hFS : ∀ w ∈ S, F w ∈ S') (hS'b : ∀ w ∈ S', 0 < w.2.1)
+    {h : Causal.Flat.isom 2} (hFh : ∀ w, nullToMink (F w) = h • nullToMink w)
+    {φ : E0Y → E0Y} (hφ : ∀ w ∈ S, φ (e0TAInr w) = e0TAInr (F w))
+    (hφc : ContinuousAt φ (e0TAInr w₀)) (hw₀ : w₀ ∈ S) : E0RegAt φ (e0TAInr w₀) := by
+  refine e0RegAt_of_exists hφc ?_
+  obtain ⟨c, hc, hwc, g₁, hg₁⟩ := e0TAInr_chart (hSb w₀ hw₀)
+  obtain ⟨c', hc', hwc', g₂, hg₂⟩ := e0TAInr_chart (hS'b _ (hFS w₀ hw₀))
+  refine ⟨c, hc, c', hc', hwc, by rw [hφ w₀ hw₀]; exact hwc', g₂ * h * g₁⁻¹, ?_⟩
+  have ht := e0TAInr_invFunOn_tendsto hS hSb hinj hw₀
+  have hU : e0TAInr '' S ∈ 𝓝 (e0TAInr w₀) :=
+    (e0TAInr_isOpen_image hS hSb).mem_nhds ⟨w₀, hw₀, rfl⟩
+  have hFt : Tendsto (fun y => F (invFunOn e0TAInr S y)) (𝓝 (e0TAInr w₀)) (𝓝 (F w₀)) :=
+    hF.continuousAt.tendsto.comp ht
+  filter_upwards [hU, ht.eventually hg₁, hFt.eventually hg₂] with y hy e1 e2
+  obtain ⟨v, hv, rfl⟩ := hy
+  rw [hinj.leftInvOn_invFunOn hv] at e1 e2
+  rw [hφ v hv, e2, e1, hFh, mul_smul, mul_smul, inv_smul_smul]
+
+theorem e0CEe_mem : e0CEe ∈ e0Groupoid := by
+  rw [mem_e0Groupoid_iff]
+  refine ⟨?_, ?_⟩
+  · rintro _ ⟨w, hw, rfl⟩
+    exact e0CE_regAt (S' := e0CEH '' e0CEUt) isOpen_e0CEUt (fun _ h => e0CEUt_b_pos h)
+      e0CE_injOn continuous_e0CEH (fun v hv => ⟨v, hv, rfl⟩) (fun _ h => e0CEUt_window_b h) nullToMink_e0CEH
+      (fun v hv => e0CEf_apply hv) (e0CEf_continuousAt hw) hw
+  · rintro _ ⟨_, ⟨w, hw, rfl⟩, rfl⟩
+    exact e0CE_regAt (S' := e0CEUt) isOpen_e0CEHUt (fun _ h => e0CEUt_window_b h) e0CE_injOn_H
+      continuous_e0CEH_symm (fun u ⟨v, hv, he⟩ => by rw [← he, AffineEquiv.symm_apply_apply]; exact hv)
+      (fun _ h => e0CEUt_b_pos h) nullToMink_e0CEH_symm
+      (fun u ⟨v, hv, he⟩ => by
+        show e0CEg (e0TAInr u) = _
+        rw [← he, e0CEg_apply hv, AffineEquiv.symm_apply_apply])
+      (e0CEg_continuousAt hw) ⟨w, hw, rfl⟩
+
+theorem e0CEf_isLocalStructomorph :
+    ∀ y ∈ e0CEU, e0Groupoid.IsLocalStructomorphWithinAt e0CEf e0CEU y :=
+  fun _ hy _ => ⟨e0CEe, e0CEe_mem, fun _ _ => rfl, hy⟩
+
+theorem e0CEf_injOn : InjOn e0CEf e0CEU := by
+  rintro _ ⟨w, hw, rfl⟩ _ ⟨w', hw', rfl⟩ h
+  rw [e0CEf_apply hw, e0CEf_apply hw'] at h
+  rw [e0CEH.injective (e0CE_injOn_H ⟨w, hw, rfl⟩ ⟨w', hw', rfl⟩ h)]
+
+/-! ### The BTZ cluster value along the apex end of the tube -/
+
+theorem e0CEp_eq : e0CEp = parab ((1 : ℤ) * (2 * π)) e0CEv := by
+  simp only [e0CEp, e0CEv, parab_apply, Int.cast_one, one_mul]
+  ext <;> simp; ring
+
+theorem e0TAInr_e0CEp : e0TAInr e0CEp = e0TAInr e0CEv := by
+  rw [e0CEp_eq]; exact e0TAInr_parab (by simp [e0CEv]) 1
+
+/-- `H` maps the axis of the tube to the ray `s q₀`. -/
+noncomputable def e0CEq : ℝ × ℝ × ℝ :=
+  (-(4 * π ^ 2) - 1 / 10, 9 / 10 - 1 / (40 * π ^ 2), 1 / (20 * π))
+
+theorem e0CEH_c (s : ℝ) : e0CEH (e0CEc s) = s • e0CEq := by
+  have hπ : π ≠ 0 := Real.pi_ne_zero
+  rw [e0CEH_apply, e0CEc_apply]
+  simp only [e0CEq, Prod.smul_mk, smul_eq_mul]
+  ext <;> simp only <;> field_simp <;> ring
+
+theorem e0CEq_b : 0 < e0CEq.2.1 := by
+  have hπ2 := e0CE_pi_sq
+  simp only [e0CEq]
+  have : 1 / (40 * π ^ 2) < 1 / 360 := by
+    rw [div_lt_div_iff₀ (by positivity) (by norm_num)]; nlinarith
+  linarith
+
+/-- The BTZ point `[apex, 0]` of `Y`. -/
+noncomputable def e0CEz : E0Y := Sum.inr (orbitMk (GammaA (2 * π)) (DInfty.apex, 0))
+
+theorem e0CEz_not_reg : e0CEz ∉ e0Reg := by
+  rw [e0CEz, inr_mem_e0Reg_iff, btzE0_reg_eq]
+  rintro ⟨y, hy, he⟩
+  obtain ⟨γ, hγ⟩ := exists_smul_eq_of_orbitMk_eq he
+  have := gammaA_smul_r γ y
+  rw [hγ] at this
+  simp only [DInfty.apex_r] at this
+  have hy' : 0 < y.1.r := hy
+  linarith
+
+theorem btzDevInv_r {x : ℝ × ℝ × ℝ} (hx : 0 < x.2.1) : (btzDevInv x).1.r = x.2.1 := by
+  have h := btzDev_e0_b (btzDevInv x)
+  rw [btzDev_btzDevInv (Or.inl hx)] at h
+  exact h.symm
+
+theorem btzDevInv_t {x : ℝ × ℝ × ℝ} (hx : 0 < x.2.1) :
+    (btzDevInv x).2 = x.1 + x.2.1 - x.2.2 ^ 2 / x.2.1 := by
+  rw [btzDevInv, dif_pos hx]
+
+theorem e0CE_tendsto_z :
+    Tendsto (fun s : ℝ => e0TAInr (s • e0CEq)) (𝓝[>] 0) (𝓝 e0CEz) := by
+  have hb := e0CEq_b
+  set F : ℝ → DInfty × ℝ := fun s => btzDevInv (s • e0CEq) with hFdef
+  have hpos : ∀ᶠ s in 𝓝[>] (0 : ℝ), 0 < (s • e0CEq).2.1 := by
+    filter_upwards [self_mem_nhdsWithin] with s hs
+    show 0 < s * e0CEq.2.1
+    exact mul_pos hs hb
+  have h1 : Tendsto (fun s => (F s).1) (𝓝[>] (0 : ℝ)) (𝓝 DInfty.apex) := by
+    rw [DInfty.hasBasis_nhds_apex.tendsto_right_iff]
+    intro ε hε
+    have hlim : Tendsto (fun s : ℝ => s * e0CEq.2.1) (𝓝[>] (0 : ℝ)) (𝓝 0) := by
+      simpa using (tendsto_nhdsWithin_of_tendsto_nhds
+        (tendsto_id : Tendsto id (𝓝 (0 : ℝ)) (𝓝 0))).mul_const e0CEq.2.1
+    filter_upwards [hpos, hlim (Iio_mem_nhds hε)] with s hs h2
+    show (btzDevInv (s • e0CEq)).1.r < ε
+    rw [btzDevInv_r hs]; exact h2
+  have h2 : Tendsto (fun s => (F s).2) (𝓝[>] (0 : ℝ)) (𝓝 0) := by
+    set K := e0CEq.1 + e0CEq.2.1 - e0CEq.2.2 ^ 2 / e0CEq.2.1
+    have hlim : Tendsto (fun s : ℝ => s * K) (𝓝[>] (0 : ℝ)) (𝓝 0) := by
+      simpa using (tendsto_nhdsWithin_of_tendsto_nhds
+        (tendsto_id : Tendsto id (𝓝 (0 : ℝ)) (𝓝 0))).mul_const K
+    refine hlim.congr' ?_
+    filter_upwards [hpos, self_mem_nhdsWithin] with s hs hs0
+    show s * K = (btzDevInv (s • e0CEq)).2
+    rw [btzDevInv_t hs]
+    have : (s : ℝ) ≠ 0 := ne_of_gt hs0
+    simp only [K, Prod.smul_fst, Prod.smul_snd, smul_eq_mul]
+    field_simp
+  have hF : Tendsto F (𝓝[>] (0 : ℝ)) (𝓝 ((DInfty.apex, 0) : DInfty × ℝ)) := h1.prodMk_nhds h2
+  exact ((continuous_inr.comp continuous_quot_mk).tendsto _).comp hF
+
+/-- The tip `y₀ = [D⁻¹ v₀]`. -/
+noncomputable def e0CEy : E0Y := e0TAInr e0CEv
+
+theorem e0CE_mapClusterPt : MapClusterPt e0CEz (𝓝[e0CEU] e0CEy) e0CEf := by
+  have hp : Tendsto e0CEc (𝓝[>] (0 : ℝ)) (𝓝 e0CEp) := by
+    have := continuous_e0CEc.tendsto (0 : ℝ)
+    have h0 : e0CEc 0 = e0CEp := by simp [e0CEc]
+    rw [h0] at this
+    exact this.mono_left nhdsWithin_le_nhds
+  have hmem : ∀ᶠ s in 𝓝[>] (0 : ℝ), e0CEc s ∈ e0CEUt := by
+    filter_upwards [Ioo_mem_nhdsGT (show (0 : ℝ) < 1 by norm_num)] with s hs
+    exact Or.inr (e0CEc_mem hs)
+  have hcont : ContinuousAt e0TAInr e0CEp :=
+    e0TAInr_continuousOn.continuousAt (e0TA_isOpen_b.mem_nhds (by simp [e0CEp]))
+  have hy : Tendsto (fun s => e0TAInr (e0CEc s)) (𝓝[>] (0 : ℝ)) (𝓝[e0CEU] e0CEy) := by
+    refine tendsto_nhdsWithin_iff.2 ⟨?_, hmem.mono fun s hs => ⟨_, hs, rfl⟩⟩
+    have := hcont.tendsto.comp hp
+    rwa [Function.comp_def, e0TAInr_e0CEp] at this
+  have hf : Tendsto (fun s => e0CEf (e0TAInr (e0CEc s))) (𝓝[>] (0 : ℝ)) (𝓝 e0CEz) := by
+    refine e0CE_tendsto_z.congr' ?_
+    filter_upwards [hmem] with s hs
+    rw [e0CEf_apply hs, e0CEH_c]
+  have hcl : MapClusterPt e0CEz (map (fun s => e0TAInr (e0CEc s)) (𝓝[>] (0 : ℝ))) e0CEf := by
+    show ClusterPt _ _
+    rw [Filter.map_map]
+    exact hf.mapClusterPt
+  exact ClusterPt.mono hcl (Filter.map_mono hy)
+
+/-! ### The counterexample -/
+
+theorem e0CE_ball_b {w : ℝ × ℝ × ℝ} (hw : w ∈ Metric.ball e0CEv (1 / 5)) : 0 < w.2.1 := by
+  have := (e0CE_abs_lt_of_dist hw).2.1
+  simp only [e0CEv] at this
+  rw [abs_lt] at this; linarith
+
+/-- The neighbourhood `O = [D⁻¹ B(v₀, 1/5)]` of the tip. -/
+noncomputable def e0CEO : Opens E0Y :=
+  ⟨e0TAInr '' Metric.ball e0CEv (1 / 5),
+    e0TAInr_isOpen_image Metric.isOpen_ball fun _ hw => e0CE_ball_b hw⟩
+
+/-- **`typeAgreement` fails for `𝕄 ⊕ 𝔼₀`** (finding, `SCOPE (c)`), for every causality `C` in which
+straight timelike segments of `[D⁻¹ ·]` are chronological (`E0TASegLt`) and whose chronological past
+of the tip `y₀ = [D⁻¹(0, 1, 0)]` inside `O = [D⁻¹ B(v₀, 1/5)]` is read in the past cone of `v₀`
+(`hdiam`; for the model causality both are proved in `campaign/WP-41c/TypeAgreementD.lean`). The
+domain `U = [D⁻¹ Ũ]` winds once around the axis; `f [D⁻¹ w] = [D⁻¹ H w]` is an injective local
+`G`-structomorphism on it, regular at `y₀`, with the BTZ cluster value `[apex, 0]` at `y₀`. -/
+theorem e0_not_typeAgreement_of (C : Causal.Causality E0Y)
+    (hinr : E0TASegLt C e0TAInr {v | 0 < v.2.1})
+    (hdiam : ∀ x : E0Y, C.lt e0CEO x e0CEy → x ∈ e0TAInr '' e0CEA) : ¬ E0TypeAgreement C := by
+  intro h
+  have hUc : IsConnected e0CEU :=
+    ⟨⟨_, _, Or.inl e0CEc_mem_A, rfl⟩, isPreconnected_e0CEUt.image _
+      (e0TAInr_continuousOn.mono fun _ hw => e0CEUt_b_pos hw)⟩
+  have hy₀ : e0CEy ∉ e0SingY 0 := fun h0 => h0.2 (e0TAInr_reg (by simp [e0CEv]))
+  have hdv : dist e0CEd e0CEv < 1 / 5 := by
+    rw [Prod.dist_eq, Prod.dist_eq]
+    simp only [e0CEd, e0CEv, Real.dist_eq]
+    refine max_lt ?_ (max_lt ?_ ?_) <;> norm_num [abs_lt]
+  have hlt : C.lt e0CEO (e0TAInr e0CEd) e0CEy :=
+    hinr e0CEO (Metric.ball e0CEv (1 / 5)) Metric.isOpen_ball (convex_ball _ _)
+      (fun _ hw => e0CE_ball_b hw) (fun v hv => ⟨v, hv, rfl⟩) e0CEd hdv e0CEv
+      (Metric.mem_ball_self (by norm_num))
+      ((e0TA_minkowski_lt_iff _ _).2 (by
+        simp only [e0TACone, e0CEv, e0CEd, Prod.mk_sub_mk]; norm_num))
+  have hd : ∃ O : Opens E0Y, e0CEy ∈ O ∧ ∃ r ∈ O,
+      (C.lt O r e0CEy ∧ C.Iplus O {r} ∩ C.Iminus O {e0CEy} ⊆ e0CEU) ∨
+      (C.lt O e0CEy r ∧ C.Iplus O {e0CEy} ∩ C.Iminus O {r} ⊆ e0CEU) := by
+    refine ⟨e0CEO, ⟨e0CEv, Metric.mem_ball_self (by norm_num), rfl⟩, e0TAInr e0CEd,
+      ⟨e0CEd, hdv, rfl⟩, Or.inl ⟨hlt, fun x hx => ?_⟩⟩
+    obtain ⟨w, hw, rfl⟩ := hdiam x (Causal.Precausality.mem_Iminus_singleton.1 hx.2)
+    exact ⟨w, Or.inl hw, rfl⟩
+  obtain ⟨hty, -⟩ := h e0CEU isOpen_e0CEU hUc e0CEy hy₀ hd e0CEz e0CEf
+    e0CEf_isLocalStructomorph e0CEf_injOn e0CE_mapClusterPt
+  exact hy₀ ((hty 0 le_rfl).2 ⟨rfl, e0CEz_not_reg⟩)
+
+end Counterexample
 
 end GX

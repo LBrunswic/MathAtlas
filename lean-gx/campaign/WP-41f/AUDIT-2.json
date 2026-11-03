@@ -1,0 +1,73 @@
+{
+ "package": "WP-41f",
+ "round": 2,
+ "auditor": "read-only auditor, round 2 (audit of the fixer-round-1 file, source 20:06:45, REPORT.json 20:08)",
+ "file": "scaffold/GXScaffold/BTZ/LocalModel.lean",
+ "module": "GXScaffold.BTZ.LocalModel",
+ "verdict": "clean",
+ "builds": true,
+ "build_check": "`taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/LocalModel.lean` exits 0 in 5.4 s. It gives exactly 2 warnings, both 'declaration uses sorry', at l.3142 (e0_globalBTZ) and l.3153 (e0_lineStep_of_cauchy). The olean (20:07:09) is newer than the source (20:06:45). Nothing recompiled. lake-manifest pins Causal at ca2ad78, which the docstring now states. Re-running campaign/WP-41f/Axioms.lean (27 #print axioms) gives sorryAx only in e0_globalBTZ, e0_lineStep_of_cauchy, e0_secondCountable_of_cauchy and e0LocalModel_of_typeAgreement. Every other checked declaration uses [propext, Classical.choice, Quot.sound] only. That includes e0LocalModelOf, e0_timeFunction, e0_curvesExtend, isPreconnected_e0RegM, e0RegM_hasGroupoid, e0RegM_secondCountable, e0_sing_nhds_component and e0_secondCountable_of_lineStep. scripts/causal_import_gate.py prints 'ok (DEC-33)'.",
+ "sorry_count": 2,
+ "sorry_count_matches_report": true,
+ "checks": {
+  "1_build_and_sorries": "PASS. 2 real sorries, as reported (O2 e0_globalBTZ; O4' e0_lineStep_of_cauchy). The other textual occurrences of 'sorry' are in docstrings.",
+  "2_statement_fidelity": "PASS. The label row is unchanged from round 1. lem:manifolds_manifolds_causally_connected (RamcovGX.tex:2329, 'BTZ-manifold' read as M^3+E_0-manifold per l.2297) is e0_causallyArcConnected. It is hypothesis-free and stronger than the paper (CausallyArcConnected in every open set). The BTZ~ half is not covered and is disclosed. The new material of round 1: (a) e0RegM_secondCountable proves SC of Reg M for every T2 connected E0-manifold, with no SC asked of M. Reg M gets a genuine flat (Isom M^3, M^3) atlas: charts are chartAt.trans of a regular e0Atlas chart, restricted to the subtype; transitions are in Causal.gxGroupoid via e0_flat_transition_mem, which reads e0Groupoid's regular clause. Reg M is preconnected (isPreconnected_e0RegM, a correct density/local-preconnectedness argument), then the strict Causal.Flat.flat_secondCountableTopology applies (secondCountableTopology_of_gx; sorry-free). This closes AUDIT-1's major. (b) e0_secondCountable_of_lineStep is a genuine reduction, not a hidden conclusion. The hypothesis E0LineStep concerns only sing_0(M): each component is the range of an inextensible causal R-curve, i.e. E0GlobalBTZ.line minus gamma 0 = p and the closed-embedding clause, so it is weaker. The proof runs as follows. Reg M is Lindelof. Each line meets the Cauchy surface (IsCauchySurface applied to the inextensible gamma). The Lindelof S cap sing_0 is covered by countably many neighbourhoods O_q whose BTZ points lie in q's component (e0_sing_nhds_component from e0_line_piece), so countably many lines cover sing_0. Each range of R is Lindelof, so M is Lindelof, hence covered by countably many SC chart domains. It does not use GH, so it is weaker than needed. (c) e0_lineStep_of_cauchy's hypotheses (T2, connected, GH, a Cauchy surface S, S second countable) are satisfiable, and its conclusion is true. Components of sing_0 are 1-manifolds without boundary (e0_line_piece). They are SC because the axis-preserving transitions give an (Aff+(R),R)-structure, and secondCountableTopology_of_gx applies to (G,X)-manifolds with an analytic action. S^1 components are excluded since GH implies causal. A homeomorphic R-parametrisation of a closed 1-manifold component is inextensible. So the sorry is not false. (d) timeFunction and curvesExtend now come from the strict Levin theorem (exists_timeFunction_of_secondCountable, curvesExtend_of_secondCountable: T2, SC, tarentin, GH). This departs from the dispatch's geroch_sing_i_imp_ii + ModelMeasures route. It is disclosed and strictly better: fewer inputs, and it no longer depends on hLine. Their types are the LocalModel fields verbatim, since e0LocalModelOf typechecks. (e) typeAgreement is unchanged at ca2ad78 and stays refuted by a sorry-free counterexample (e0_not_typeAgreement). The convergence form is proved, which is DEC-27's handling. The assembly is still honestly conditional on the refutable hTA, and the docstrings say so ('no LocalModel with this data exists'). The rulings hold. DEC-64 holds: Iplus_of_lt is proved, not assumed. DEC-33 holds: imports are strict Causal.<Module> only, under scaffold/GXScaffold/BTZ/; no root import, no CausalScaffold, no 'open Causal'. DEC-78: e0_modelMeasures on borel M is kept. DEC-55 does not apply.",
+  "3_docstring_contract": "PASS. No **`label`** mark. 'No ledger label is marked' is stated, the label is in backticks at about character 700 with the '>' quote block, and the partial status is explained. The hypothesis checklist and SCOPE now carry O2 (with both alternative routes), O4' (with the withdrawn round-0 diagnosis) and the SORRY(WP-41f:<field>) convention. Provenance is corrected to ca2ad78.",
+  "4_report_honesty": "PASS. builds=true and sorry_count=2 are correct. The label row is partial and unmarked. The dispatch_fields statuses match the code: singularFlatAxioms partial (line = O2); ModelMeasures closed; timeFunction and curvesExtend closed via Levin and independent of O2; isCompact_* closed modulo SFA.line; secondCountable_of_cauchy 'partial (reduced)'; chartIso_mem closed; typeAgreement refuted. The sorries[] obstructions match the tags. The axioms claim reproduces. The interface findings and questions are narrowed correctly, to the line step. One minor completeness point is listed below.",
+  "5_missing_labels_or_parts": "Only lem:manifolds_manifolds_causally_connected is touched. Its BTZ~ half is disclosed as not covered (WP-39l). The ledger (papers/gx/ledger/LEDGER.md l.618) has the row open, consistent with WP-41e's and this file's 'partial'. No other gx ledger label is certified here.",
+  "6_cited_results": "Causal.Flat.flat_secondCountableTopology / secondCountableTopology_of_gx (Flat/SecondCountable.lean:330,379; through GX.developing_theorem), Causal.LevinUtility's exists_timeFunction_of_secondCountable and curvesExtend_of_secondCountable, the Flat/CBGCompact and Flat/CBG reductions, Flat/Geroch ConeNull and ChartNull, and WP-41e's E0.chartIso_mem_e0Groupoid are all strict or scaffold and sorry-free (the axioms output confirms this). The B21 Lemma 1.9 SFA bundle is built except 'line' (O2). Nothing cited is assumed, except the explicit hLine, hSC and hTA of e0LocalModelOf, which are discharged (O2 and O4 by tagged sorries) or refuted (hTA).",
+  "7_name_clashes": "PASS. All 23 new round-1 names were grepped with -w over GX/ and scaffold/, excluding this file: e0RegM, mem_e0RegM_iff, dense_e0RegM, exists_isPreconnected_inter_e0RegM, isPreconnected_e0RegM, flatGroupoid_closedUnderRestriction, source_subset_e0Reg, e0_flat_transition_aux/_mem, e0RegM_chart_reg, regAtlasChart(_mem), mem_regAtlasChart_source, regChartM, e0RegM_chartedSpace, e0RegM_hasGroupoid, e0RegM_secondCountable, e0_sing_nhds_component, e0_chart_source_secondCountable, E0LineStep, e0_secondCountable_of_lineStep, e0_lineStep_of_cauchy, e0_tarentin, e0_timeFunction, e0_curvesExtend. There are 0 hits. Everything is in GX.E0LM."
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "GX.E0LM.e0_globalBTZ (l.3142, O2) and GX.E0LM.e0_lineStep_of_cauchy (l.3153, O4'); SCOPE (O2)/(O4')",
+   "problem": "The two remaining sorries are genuine and disclosed. Both statements are true, so neither is a false sorry, and the protocol counts them as legitimate outcomes. However, the routes the SCOPE lists as 'not attempted' can be built with in-tree tools. Rigid.lean already has IsAxisAff, the axis-preserving transitions acting affinely on the axis (l.655-721). The strict Causal.secondCountableTopology_of_gx [IsAnalyticAction G E] (Flat/SecondCountable.lean:330) and GX.developing_theorem exist. An (Aff+(R), R)-atlas on each component L of sing_0(M), with charts from e0_line_piece read in axis coordinates, would make L second countable through secondCountableTopology_of_gx. An injective monotone developing map would give the R- or S^1-parametrisation. That one construction would discharge O4' (no SC of M needed) and O2 together, with no classification of 1-manifolds. O2's tag says the parametrisation 'is the classification of connected second-countable Hausdorff 1-manifolds, absent from mathlib'. That overstates the obstruction: it is one route, and the developing route bypasses it.",
+   "fix": "Optional for this package. Either build the (Aff+(R),R)-structure on the components of sing_0 (IsAnalyticAction for Aff+(R) on R; a ChartedSpace R on the subtype L from e0_line_piece; transitions from IsAxisAff), which closes both sorries, or reword O2's tag to 'needs a parametrisation of each component (classification, or the developing route of SCOPE (ii))'."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json extra_decls",
+   "problem": "extra_decls lists 127 declarations. The file has 178. 51 are omitted, for example charted_exists_below, charted_future_nhds, charted_past_nhds, charted_local_Iplus_of_lt, the sum_loc*/transport_loc*/mink_loc*/e0_loc* families, emb, wOf/vOf and exists_eta_of_mem_open. The protocol asks only for 'lemmas of general use' and every label decl is listed, so this is a completeness nit, not a dishonesty.",
+   "fix": "Optionally list the general-use helpers (the transport_/sum_ families) or state in notes that extra_decls is selective."
+  },
+  {
+   "severity": "minor",
+   "where": "dispatch text versus file provenance",
+   "problem": "Information only, no defect in the file. The dispatch says lean-causal is pinned at 731ed99. lake-manifest.json pins ca2ad78, which the file, its docstring and REPORT all use (Levin's theorem exists only there). The orchestration text is stale, not the package.",
+   "fix": "None in this package; update the dispatcher's pin."
+  }
+ ],
+ "label_rows": [
+  {
+   "label": "lem:manifolds_manifolds_causally_connected",
+   "report_status": "partial",
+   "audited_status": "partial",
+   "marked": false,
+   "agree": true,
+   "note": "The E_0-manifold (BTZ-manifold) half is e0_causallyArcConnected: sorry-free, hypothesis-free and stronger than the paper. The BTZ~-manifold half is not covered. Partial is correct, and the label is unmarked."
+  }
+ ],
+ "dispatch_fields_audited": {
+  "singularFlatAxioms": "partial: 18/19 fields proved (Iplus_of_lt DEC-64); 'line' = O2, true, tagged sorry",
+  "ModelMeasures": "closed (verified in round 1; now an unconsumed wrapper e0_modelMeasures)",
+  "timeFunction / curvesExtend": "closed, sorry-free, by strict Levin (deviation from the dispatched geroch_sing_i_imp_ii route, disclosed, with fewer hypotheses); independent of O2",
+  "isCompact_*": "closed given SFA, i.e. modulo O2",
+  "secondCountable_of_cauchy": "partial: Reg M SC proved; reduction to E0LineStep proved sorry-free; the line step O4' is the one tagged sorry (true, genuine, buildable by the developing route)",
+  "chartIso_mem": "closed (E0.chartIso_mem_e0Groupoid)",
+  "typeAgreement": "refuted (sorry-free counterexample); convergence form and M^3-tip case proved; assembly honestly conditional on refutable hTA"
+ },
+ "prior_audit_resolution": {
+  "AUDIT-1 major (O4 misdiagnosed)": "RESOLVED. Reg M is proved SC (e0RegM_secondCountable, via flat_secondCountableTopology). O4 is reduced sorry-free to the line step. The tag, REPORT sorries[1], findings_interface[1] and questions[1] are restated with the precise remaining obstruction (SC across sing_0 without SC of M; O2 unusable because it assumes SC).",
+  "AUDIT-1 minor O2 routes": "RESOLVED as recorded in SCOPE (i)/(ii) (not built).",
+  "AUDIT-1 minor provenance": "RESOLVED (ca2ad78 in the docstring and REPORT).",
+  "AUDIT-1 minor §7 wrappers": "RESOLVED (§6d 'Round-0 obligations now closed'; §7 retitled 'remaining obligations').",
+  "AUDIT-1 minor weaklyLocallyCompactSpace_sum": "RESOLVED (now a theorem used via attribute [local instance] ... in).",
+  "AUDIT-1 minor SORRY tag format": "RESOLVED (convention noted in SCOPE)."
+ },
+ "questions_for_author": [
+  "LocalModel.typeAgreement is false for M^3 + E_0. Should the CBG interface restate it in the convergence form (Tendsto f (nhdsWithin y0 U) (nhds z0)), which is proved here (e0_typeAgreementTendsto)?",
+  "secondCountable_of_cauchy now rests only on the BTZ-line step without SC of M. Should gx build the (Aff+(R),R)-structure on the components of sing_0, which closes O2 and O4' together, or should the interface carry SC of sing_0(M) (or of its components)?"
+ ],
+ "summary": "The fixer-round-1 file builds with exactly the 2 reported sorries. They are e0_globalBTZ (O2, the SFA 'line' field) and e0_lineStep_of_cauchy (O4', the BTZ-line step without SC of M). Both are true and disclosed with specific obstructions. Every other declaration is axiom-clean, re-run. AUDIT-1's major is resolved. Reg M is now proved second countable for every T2 connected E_0-manifold, through a genuine flat atlas on the subtype and the strict flat_secondCountableTopology. secondCountable_of_cauchy is reduced sorry-free to a hypothesis about sing_0 alone (a correct Lindelof argument through the Cauchy surface). timeFunction and curvesExtend come from strict Levin, independent of O2. typeAgreement stays correctly refuted, and the assembly is honestly conditional. The one label is correctly partial and unmarked. REPORT is honest, there are no name clashes, and the DEC-33 gate is green. Only minors remain: the two sorries could be built by the developing route with in-tree tools, so O2's 'classification absent from mathlib' tag overstates the obstruction; extra_decls is selective; and the dispatch's 731ed99 pin is stale, though the package correctly uses ca2ad78. Verdict: clean."
+}

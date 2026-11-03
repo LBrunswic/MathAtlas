@@ -1,0 +1,68 @@
+{
+  "package": "WP-41n",
+  "round": 1,
+  "auditor": "read-only auditor, round 1",
+  "file": "scaffold/GXScaffold/BTZ/Uniformization.lean",
+  "host": "node1",
+  "builds": true,
+  "build_command": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/Uniformization.lean: exit 0, 4.2 s wall, one warning 'declaration uses sorry' at l.419 (GX.e0RegM_range_not_subset_omegaMinus). Nothing recompiled (Causal.*, GX.* and the other scaffold modules replayed). The olean (00:54:17) is newer than the source (00:54:01), which fits the reported lake build. The auditor did not re-run lake build (read-only).",
+  "sorry_count": 1,
+  "sorries": [
+    "GX.e0RegM_range_not_subset_omegaMinus (l.419-427), SORRY(theo:globally_hyperbolic_cauchy_complete_cauchy_maximal): FUTURE CASE SELECTION"
+  ],
+  "verdict": "issues",
+  "checks": {
+    "builds_and_sorry_count": "pass. One local tagged sorry, isolated in its own declaration; REPORT.sorry_count = 1 matches. The auditor re-ran campaign/WP-41n/Axioms.lean with lake env lean, and the output is byte-identical to axioms.out. The six general theorems (uniformization_range_eq_of_absMax, exists_isometry_quotient_of_absMax, uniformization_quotient_aux, uniformization_of_absMax, isFutureComplete_of_range_eq_omegaPlus, injective_of_isFutureComplete) depend only on propext, Classical.choice and Quot.sound. So do all 20 consumed Causal declarations, among them Causal.Flat.uniformization, _injective, _image, _properlyDiscontinuous, equality_of_absMax, range_eq_omegaS_of_absMax and Lox.bcor_loxo_proper_both. The same holds for GX.e0RegM_holonomy and omegaPlus/omegaMinus_eq_iInter_*. btz_uniformization_reg carries sorryAx only through GX.E0AbsMax.cor_abs_max (WP-41k/41j upstream); its own proof contains no sorry, as claimed. btz_uniformization and btz_reg_isFutureComplete add the local sorry. BTZTildeData.injective_D_of_isBTZFutureComplete inherits sorryAx through isFutureDistinguishing_of_base, i.e. globallyHyperbolic_of_base (WP-41l), as reported.",
+    "statement_fidelity": "pass with disclosed weakenings, plus one missing deliverable (issue 1). btz_uniformization quantifies over EVERY developing pair (D, rho) of Reg M rather than asserting one exists, which matches the paper's 'of developing map and holonomy (D, rho)'. The regular-part conclusions match the paper's proof l.2377-2381 and l.2400-2403 and are at least as strong: D injective; rho faithful, discrete and torsion-free; the Gamma-invariant null planes Pi_w; D(Reg M~) = Omega+ = bigcap I+(Pi_w) as an EQUALITY (DEC-28 via Cor 2.18 absolute maximality); a free, properly discontinuous action; Reg M ≃ₜ B as a local isometry, where B is a GH presentation of rho(Gamma)\\Omega+ (covering, onto, fibres = orbits). The hypotheses were checked against their definitions. E0CauchyCompact is a compact acausal Cauchy surface (B21's Cauchy-compact, DEC-28). IsE0CauchyMaximal is shown equivalent to Dev.IsETTMaximal by isE0CauchyMaximal_iff_isETTMaximal (DEC-77 (c)). hsing is (chartedSing e0SingY M 0).Nonempty, i.e. s ≥ 1 (DEC-76). None of these is trivial, circular, or carries the conclusion. The only deviations from the ruled hypothesis set are disclosed. (i) Not-metabelian is used in place of DEC-76's non-abelian; see issue 3. (ii) hLine is carried; see issue 4. (iii) SecondCountableTopology M is carried, which is implicit in 'manifold' and matches AbsMax. The tagged sorry asserts ¬ range D ⊆ Omega-(Lambda) under GH + Cauchy-compact + Cauchy-maximal + a BTZ point + not metabelian. This is D-11 (d)'s argument: a BTZ point has a nontrivial stabiliser, so it is not in Omega, and in the past case it would lie in J-(D y~) ⊆ Omega-. The auditor finds it true and adequately hypothesised. The obstruction is genuine: it needs D extended across sing0(M), and the scaffold has no bridge from ChartedSpace E0Y to SingularGXStructure/BTZTildeData. The causal-only alternative the auditor tried fails for the reason the SORRY text gives: a past timelike curve of bounded length in Minkowski need not converge. The dispatch suggests consuming Causal.Flat.equality_of_absMax directly. The file instead consumes range_eq_omegaS_of_absMax with P = True and replays equality_of_absMax's proof to keep the descended map. This was checked and is sound.",
+    "docstring_contract": "pass. No **`label`** mark is present, which is correct because both rows are partial. Both labels appear in the first ~1,700 characters, with RamcovGX.tex line numbers. The paper's statement and proof of the prop are quoted, the theorem is quoted (abridged with […]), and the hypothesis checklist and SCOPE follow. One cosmetic point is issue 5.",
+    "report_honest_and_complete": "pass with minor vocabulary slips (issue 6). Both labels the file touches are listed with decls, sorries, findings and questions. def:manifold_future_complete_all is only consumed, not certified (that is Manifolds'), so no row is owed for it. The upstream sorries are listed. The pin discrepancy (dispatch 731ed99 vs lake-manifest ca2ad78) is disclosed; lake-manifest.json confirms ca2ad78f.",
+    "missing_labels_or_parts": "The theorem's BTZ half is not formalized: D on sing M~, the rays Delta_i ⊆ ∂Omega, D(M~) = (⋃Delta_i) ∪ Omega, and M ≅ rho\\D(M~) for T_BTZ. The prop's BTZ-ray completeness (B21 Lemma 2.3) is not formalized either. Both gaps are disclosed (SCOPE (b), (c)), and both rest on the same missing presentation bridge, which the REPORT raises as a question. The {tau<0} counterexample is missing (issue 1).",
+    "cited_results_proved": "pass. Barbot's equality, the quotient and loxodromic properness come from lean-causal with standard axioms only (DEC-75's loxodromic via e0RegM_holonomy, also clean). B21 Cor 2.18 (cor_abs_max) is built, with WP-41k/41j's open leaves disclosed as upstream.",
+    "name_clashes": "pass. All 11 declaration names were grepped as definitions over GX/ and scaffold/; each occurs only in this file.",
+    "dec33_gate": "pass. The file is under scaffold/GXScaffold/BTZ/ and imports Causal.Flat.Lox.PastProper (a strict module). There is no `import Causal` root, no CausalScaffold, and no `open Causal`; only `open scoped Causal.Flat` is used, and Causal.* names are fully qualified."
+  },
+  "verified_findings": [
+    "D-11: the printed prop is false and needs Cauchy-maximality (B21 Lemma 2.3, which the paper calls 'Lemma 2.4'). The REPORT carries this as a finding.",
+    "D-12 (b): equality D(reg M~) = Omega needs absolute maximality, given by Cor 2.18 only in the Cauchy-compact case. This is used correctly here.",
+    "D-12 (c): the display l.2369 is wrong (bigcap J+(Delta_i) and the index j ∈ I); the proof gives (⋃Delta_i) ∪ bigcap_{j∈J} I+(Pi_j).",
+    "D-11 (d) / DEC-77 (a): the paper never argues the future-case selection; it is isolated in one lemma here.",
+    "WP-41m's GX.exists_nonabelian_subgroup_noLox: non-abelian alone does not give a loxodromic algebraically. This is consistent with Holonomy's audits."
+  ],
+  "issues": [
+    {
+      "severity": "major",
+      "where": "prop:globally_hyperbolic_cauchy_complete_manifolds row (REPORT findings[0]; docstring SCOPE (c))",
+      "problem": "The counterexample {tau<0} ⊂ E0 to the printed proposition is not built. DEC-77 rules the corrected form 'with the counterexample {tau<0} ⊂ E0'. DEC-27 requires 'strongest TRUE form + counterexample'. WAVE5-PLAN.md assigns it to this package: 'WP-39n ... (corrected, counterexample {tau<0})'. The REPORT discloses the omission, but the reason it gives ('needs E0's charted presentation of {tau<0}, its Cauchy-completeness and its M~') is infrastructure work, not a mathematical obstruction. A regular-part counterexample would match this file's own corrected conclusion, and it needs neither M~ nor the presentation bridge. It would also show that Cauchy-maximality is needed in the corrected statement.",
+      "fix": "Build {tau<0} as an open sub-E0-manifold, i.e. an open subset of the model with the induced ChartedSpace E0Y / HasGroupoid e0Groupoid. Prove it GH (Cauchy surface tau = -1) and Cauchy-complete (DEC-31's induced length metric, dr²+r²dθ²). Prove it is not future complete, either on the regular part (¬ IsFutureComplete for a developing pair of Reg {tau<0}, its developed future being cut off at tau = 0) or at a BTZ point. Name it, e.g., GX.e0PastHalf_not_futureComplete, and list it in the prop row's decls. If one sub-step (e.g. Cauchy-completeness) is a genuine obstruction, leave it as a tagged sorry with the exact obstruction, rather than omitting the whole counterexample."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json, prop row, hypothesis 'future complete: for all x in M~' ('here': 'weakened'); headline row, hypothesis 'up to time reversal' ('here': 'carried')",
+      "problem": "kb/0006's vocabulary is about HYPOTHESES: 'weakened' means the Lean theorem assumes less. Here 'weakened' labels a weakened CONCLUSION (regular part only), and 'carried' labels a hypothesis that is in fact dropped and replaced by a sorry'd lemma. A ledger reader would misread both entries.",
+      "fix": "Move the conclusion restriction to findings or to a 'conclusions' note. Mark 'up to time reversal' as 'dropped (DEC-77 (a)), future case via tagged sorry'."
+    },
+    {
+      "severity": "minor",
+      "where": "btz_uniformization / btz_reg_isFutureComplete hypothesis hnm; REPORT findings[3]",
+      "problem": "DEC-76 is a binding AUTHOR ruling: 'π₁(Σ∖sing) non-abelian'. The file assumes the stronger 'π₁(Reg M) not metabelian'. This is disclosed, and the algebraic counterexample shows why the stronger form is used. However, under DEC-76's own hypothesis the theorem is still true geometrically: π₁ of a punctured surface is free, and a non-abelian free group is not metabelian. So the deviation is a reading the author has not ruled on, and the REPORT raises no question to settle it.",
+      "fix": "Add a question to the headline row: either accept 'not metabelian' as the formal reading of DEC-76, or require π₁(Reg M) free / the surface classification so that 'non-abelian' is the hypothesis."
+    },
+    {
+      "severity": "minor",
+      "where": "section E0, variable hLine (l.345-348); REPORT hypothesis '(implicit) ... (O2) hLine'",
+      "problem": "hLine is a model fact universally quantified over every second-countable E0-manifold. It is the statement of E0LM.e0_globalBTZ, which is a sorry'd theorem in LocalModel. Carrying it as a hypothesis keeps btz_uniformization's sorryAx count lower than discharging it would. The fact is plausibly true (kb/0012 pattern, accepted in AbsMax's audits), and if it were false the headline would be vacuous. The REPORT calls it 'strengthened' but does not say that its proof obligation is an open upstream sorry.",
+      "fix": "In the REPORT note, add that hLine is E0LM.e0_globalBTZ's statement (open, WP-41f (O2)), so that discharging it at graduation is tracked."
+    },
+    {
+      "severity": "minor",
+      "where": "module docstring l.17 (**`𝒟(Reg M̃) = ⋂_w I⁺(Π_w)`**)",
+      "problem": "The docstring bolds a backticked formula, which is the kb/0006 mark syntax **`…`**, in the region the ledger reads. A naive mark parser could take it for a certification mark.",
+      "fix": "Use plain bold without backticks, or backticks without bold, for formulas in the first 4000 characters."
+    }
+  ],
+  "questions_for_author": [
+    "DEC-76 vs the formal hypothesis: accept 'π₁(Reg M) not metabelian' as the reading of 'π₁(Σ∖sing) non-abelian' (equivalent for the free π₁ of a punctured surface), or require that equivalence to be built?",
+    "The BTZ half of the headline, the future-case selection and the prop's BTZ rays all wait on a bridge between ChartedSpace E0Y M (where Cauchy-compactness, Cauchy-maximality and AbsMax live) and SingularGXStructure/BTZTildeData (where M~, T_BTZ and D live), plus reg M~ ≅ the universal cover of Reg M. Should a package build that bridge (the REPORT's question), or is the regular-part reading accepted for these rows?"
+  ],
+  "notes": "Read-only round 1. The auditor wrote only this file. The rows are honestly partial and nothing is overclaimed: no mark, one tagged sorry with a genuine obstruction, upstream sorries disclosed and reproduced by #print axioms. The single major issue is the missing {tau<0} counterexample, which DEC-77 and the package plan require and which looks buildable on the regular part without the missing bridge."
+}

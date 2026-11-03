@@ -1,0 +1,74 @@
+{
+  "package": "WP-41l",
+  "round": 2,
+  "auditor": "read-only auditor, round 2",
+  "file": "scaffold/GXScaffold/BTZ/Manifolds.lean",
+  "verdict": "clean",
+  "builds": true,
+  "build_check": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/Manifolds.lean: one diagnostic only, 'l.1380: declaration uses sorry' (GX.BTZTildeData.globallyHyperbolic_of_base), 24.8 s wall, nothing in Causal.* recompiled. Real sorry count 1 (l.1383, tagged SORRY(lem:globally_hyperbolic_manifolds_maximal)). Every other 'sorry' token is in docstrings. This matches REPORT sorry_count 1. axioms.out: sorryAx only in globallyHyperbolic_of_base and isFutureDistinguishing_of_base; every other headline decl uses [propext, Classical.choice, Quot.sound]. The olean (21:00:52) is newer than the source (21:00:19). DEC-33 gate respected: imports Causal.{StrongCausality,GlobalHyperbolicity,Generated,GXStructure} only, in scaffold/GXScaffold/BTZ/, no root import, no CausalScaffold, no open Causal. The lean-causal pin is ca2ad78 (lake-manifest; re-pinned at c0b5397 from 731ed99, which is its ancestor); the docstring provenance says ca2ad78 correctly.",
+  "round1_issues": {
+    "M1": "RESOLVED as a partial row. The paper's form is now stated: GX.BTZTildeData.isFutureDistinguishing_of_base, hypothesis 'M GH' on M's own chart-generated causality GX.e0ManifoldCausality (regular a.e.-atlas charts into 𝕄 and def:atlas E0-charts into 𝔼₀, in Y = 𝕄 ⊕ 𝔼₀, transporting E0LM.D). It rests on the transfer globallyHyperbolic_of_base. The causal half of the transfer is proved and the diamond compactness is one tagged sorry. The obstruction is genuine: lean-causal has GH lifting only along FINITE flat covers (Flat/Cla/CoverMGH.gh_of_isFiniteCover) and Cauchy surfaces lifting only through unbranched flat coverings (Flat/Develop.isCauchySurface_preimage). It has no Cauchy ⇒ GH for topological spacetimes: DEC-78 keeps (iii)⇒(i) in the scaffold, resting on a cited result. It has no limit-curve theorem. M̃ → M is an infinite branched covering with T_BTZ, so none of these applies. The row is correctly unmarked and partial.",
+    "m1": "RESOLVED: the only bold marks in the file are the 4 closed defs (module head and declaration docstrings); no partial label is bold anywhere.",
+    "m2": "RESOLVED in part, and disclosed: GX.BTZTildeData.isBTZFutureComplete_iff_of_smul (same T', D' = g·D). Independence of y₀/Φ is reported as not proved.",
+    "m3": "OPEN (optional): no inhabitant of the GH hypotheses is given, neither for the model nor for e0ManifoldCausality. Recorded in REPORT notes as not cheap.",
+    "m4": "OPEN (graduation item, disclosed): the ~230 lines copied from WP-41d."
+  },
+  "labels": [
+    {"label": "def:manifolds_future_distinguishing_map", "report_status": "closed", "audit": "agree", "note": "Injective (x ↦ C.Iplus ⊤ {x}), l.2317 literally; marked correctly."},
+    {"label": "def:manifolds_future_distinguishing_map_2", "report_status": "closed", "audit": "agree", "note": "l.2356 is a verbatim repeat (checked in the tex); D-8."},
+    {"label": "def:singular_manifold_endowed_causal", "report_status": "closed", "audit": "agree", "note": "Literal; the CausallyArcConnected bridge is correct."},
+    {"label": "def:manifold_future_complete_all", "report_status": "closed", "audit": "agree", "note": "Transcribes l.2343 for the data d (T_BTZ, D) under DEC-77 (b). Non-vacuous (btzJ0_isFutureComplete). Invariant under D ↦ g·D. Independence of y₀/Φ is disclosed as not proved (minor, as round 1)."},
+    {"label": "lem:globally_hyperbolic_manifolds_manifolds", "report_status": "partial", "audit": "agree", "note": "Partial only through the undefined-BTZ~-manifold reading, which is reported as a question. The new SingularGXStructure half e0SingManifold_isFutureDistinguishing is sound: generic chartAtlasCausality_tarentin / _mem_Zplus from E0LM.yb_locTarentin / yb_locZplus, then GH ⇒ strongly causal ⇒ Iplus_injOn_Zplus."},
+    {"label": "lem:manifolds_manifolds_causally_connected", "report_status": "partial", "audit": "agree", "note": "Unchanged from round 1. Correct."},
+    {"label": "lem:increasing_map", "report_status": "partial", "audit": "agree", "note": "Unchanged from round 1. D-10 and WP-41d's readings are disclosed."},
+    {"label": "lem:globally_hyperbolic_manifolds_maximal", "report_status": "partial", "audit": "agree", "note": "Stated in the paper's form, at least as strong as l.2359 under DEC-77 (b): any BTZTildeData d, no T2 on M̃ assumed (proved), and no hypothesis beyond the TildeM section's standing ones. One tagged sorry carries exactly the GH transfer, with a precise obstruction. Unmarked."}
+  ],
+  "issues": [
+    {
+      "id": "m5",
+      "severity": "minor",
+      "where": "sorry comment l.1383–1391; REPORT labels[lem:globally_hyperbolic_manifolds_maximal].sorries[0].obstruction",
+      "problem": "Two inaccuracies in the obstruction text. It cites 'lean-causal at 731ed99', but the pin is ca2ad78. It also says 'lean-causal 731ed99 has no covering-lift of GH or Cauchy surfaces'. That is false at both pins: Causal.Flat.Develop.isCauchySurface_preimage (Cauchy surfaces lift through a flat covering map) and Causal.Flat.Cla.CoverMGH.gh_of_isFiniteCover / isCompact_diamond_of_isFiniteCover (GH lifts along a finite flat cover) exist. They do not apply to an infinite branched cover with T_BTZ, so the obstruction stands. They are, however, the natural templates for the regular part.",
+      "fix": "Change the pin to ca2ad78. Restate the obstruction as: only unbranched flat coverings (Cauchy lift) and finite flat covers (GH lift) are available upstream, and Cauchy ⇒ GH for topological spacetimes is not built (DEC-78)."
+    },
+    {
+      "id": "m6",
+      "severity": "minor",
+      "where": "GX.BTZTildeData.globallyHyperbolic_of_base",
+      "problem": "The sorry covers the whole diamond-compactness goal. Sub-step (i), that the projection M̃ → M is causal, is in-scaffold work (comparing D-developed charts with M's charts through IsLocallyBTZTilde's lifts) and is not blocked upstream. Proving it as a separate sorry-free lemma would narrow the gap to properness alone. Separately, l.2359's conclusion (future distinguishing) needs only strong causality of M̃ plus Z⁺ plus T2 (isFutureDistinguishing_of_globallyHyperbolic uses only hG.stronglyCausal). A strong-causality transfer M ⇒ M̃ would need (i) and causal connectedness of M̃ (proved), not the properness input. That route could close the row as printed, although GH of M̃ is still owed downstream (theo:globally_hyperbolic_cauchy_complete_cauchy_maximal, 'Since M̃ is globally hyperbolic').",
+      "fix": "Optional: prove (i) as a separate lemma. Consider stating 'M GH ⇒ M̃ strongly causal' as a route to closing l.2359 without the properness input."
+    },
+    {
+      "id": "m7",
+      "severity": "minor",
+      "where": "section TildeM, l.987–989; module hypothesis checklist; REPORT hypotheses of lem:increasing_map / lem:globally_hyperbolic_manifolds_maximal / def:manifold_future_complete_all",
+      "problem": "The standing [T2Space M] [LocPathConnectedSpace M] [FirstCountableTopology M] [ConnectedSpace M] of every M̃ result are not listed in this file's checklist or in the REPORT hypotheses. They are inherited from WP-41d (VirtTame's checklist: 'standing: M Hausdorff, LPC, first countable, connected (DEC-66) ✓ carried'), and the paper's proof uses connectedness at l.2338, so this is a disclosure gap, not a weakening.",
+      "fix": "Add one checklist row, 'standing: M Hausdorff, LPC, first countable, connected (DEC-66, inherited from WP-41d)', and the same note in the REPORT hypotheses."
+    },
+    {
+      "id": "m3",
+      "severity": "minor",
+      "where": "btzTildeAtlas_isFutureDistinguishing, BTZTildeData.isFutureDistinguishing, e0SingManifold_isFutureDistinguishing, isFutureDistinguishing_of_base",
+      "problem": "Carried over from round 1: no example satisfies a GH hypothesis (the model J⁺(Δ₀), or an E0-manifold under e0ManifoldCausality).",
+      "fix": "Optional, as in round 1."
+    },
+    {
+      "id": "m4",
+      "severity": "minor",
+      "where": "btz_manifold_exists_chartwise_tamifying_reg, isLocallyBTZTilde_of_chartwise",
+      "problem": "Carried over from round 1: about 230 lines copied verbatim from WP-41d (disclosed in SCOPE (e)).",
+      "fix": "At graduation, move the regular-point clause into VirtTame."
+    }
+  ],
+  "checks": {
+    "statement_fidelity": "Every closed def transcribes the paper. The partial lemmas are at least as strong as printed under the disclosed readings. isFutureDistinguishing_of_base has exactly the paper's hypothesis (M GH, on M's chart-generated causality) and conclusion (M̃ with T_BTZ future distinguishing, DEC-77 (b)), quantified over every BTZTildeData, which is inhabited (BTZTildeData.nonempty). GloballyHyperbolic (Causal.Properties:144, causal ∧ compact diamonds) matches the refine in globallyHyperbolic_of_base. No hypothesis carries its conclusion. e0ManifoldCausality is a genuine generated causality, not a trivialisation. DEC-55 is not relevant.",
+    "docstring_contract": "Bold marks in the first 4000 characters (and in the whole file) are exactly the 4 closed defs. All 8 labels appear in the head, the 4 partial ones unmarked with status stated.",
+    "report_honest_and_complete": "All 8 labels of the file are listed. Statuses, decls and sorry_count 1 match the Lean. The obstruction text has the pin and upstream inaccuracies of m5. Standing hypotheses are not listed (m7).",
+    "missing_labels_or_parts": "None. The only missing assertion, the GH transfer of l.2359, is now stated and carries the one tagged sorry.",
+    "cited_results_built": "The upstream results used are sorry-free per axioms.out. The ETT direction Cauchy ⇒ GH is not used; it is named as missing, which agrees with DEC-78.",
+    "name_clashes": "None. The 26 declarations new in round 2 (chartAtlasCausality*, regChartToE0Y, xaChartToE0Y, e0ManifoldAtlas*, e0ManifoldCausality*, e0SingManifold_isFutureDistinguishing, the *_smul family, globallyHyperbolic_of_base, isFutureDistinguishing_of_base, IsBTZFutureComplete, isBTZFutureComplete_iff_of_smul) were grepped against GX/ and scaffold/ with no hit outside this file."
+  },
+  "questions_for_master": [
+    "Should lem:globally_hyperbolic_manifolds_maximal be pursued by strong-causality transfer (closes the printed lemma, avoids the properness input) or only by the GH transfer (needed downstream anyway by l.2390)?"
+  ]
+}

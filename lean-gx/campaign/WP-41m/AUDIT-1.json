@@ -1,0 +1,69 @@
+{
+  "package": "WP-41m",
+  "round": 1,
+  "auditor": "read-only auditor, round 1",
+  "file": "scaffold/GXScaffold/BTZ/Holonomy.lean",
+  "module": "GXScaffold.BTZ.Holonomy",
+  "verdict": "issues",
+  "builds": true,
+  "build_command": "cd lean-gx && taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/Holonomy.lean (exit 0, no errors, no warnings, 9.7 s wall)",
+  "sorry_count": 0,
+  "axioms": "re-checked via `lake env lean --stdin` with #print axioms: GX.e0RegM_holonomy, GX.holonomy_package, GX.benoistNoLox_two, GX.exists_nonabelian_subgroup_noLox all depend only on [propext, Classical.choice, Quot.sound]. So every cited Causal result consumed (uniformization, uniformization_injective, discreteTopology_of_developsCC, exists_developsCC_of_isCauchyComplete, exists_isDevelopingPair) is genuinely proved; BenoistNoLox is not consumed as a hypothesis, it is proved for d = 2.",
+  "checks": {
+    "1_build_and_sorry": "PASS: builds cleanly, 0 sorry, standard axioms only.",
+    "2_statement_fidelity": "ISSUE (major M1): the paper-facing theorems are existential in the developing pair. Otherwise: hypotheses are satisfiable and non-circular; isomTopology is the genuine subspace topology of Aff (End x R^n), so DiscreteTopology rho.range is not trivial; IsTorsionFreeSubgroup and ActsFreelyProperlyOn are the standard notions; IsCauchyComplete is DEC-31's induced length; nullPlane is a genuine lightlike plane. The extra hypothesis 'pi_1(Reg M) not metabelian' replaces DEC-76's 'pi_1(Sigma minus sing) non-abelian, s >= 1'. It is reported as strengthened, with a proved counterexample (GX.exists_nonabelian_subgroup_noLox) showing that non-abelian alone does not give a loxodromic algebraically. Getting from DEC-76 to not-metabelian needs Reg M = Sigma* x R and freeness of pi_1 of a punctured surface, which is beyond a reasonable package scope. The 'subset' rather than '=' for D(Reg M~) and Omega is correct: equality needs absolute maximality (Causal.Flat.range_eq_omegaS_of_absMax; SCOPE D-12(b); WAVE5-PLAN assigns it to WP-39n). The future/past disjunction is correct for Reg M alone; selecting the future case from sing nonempty is WP-39n's. DEC-55 is not relevant here.",
+    "3_docstring_contract": "PASS: no ledger label marked (correct, the row is partial). The label theo:globally_hyperbolic_cauchy_complete_cauchy_maximal appears unmarked within the first 4000 characters. The bold span **`GX.benoistNoLox_two : Causal.Flat.BenoistNoLox 2`** does not match tools/ledger.py's mark regex (it needs a label prefix like theo:/prop:). The checklist, SCOPE and provenance sections are present. Provenance says lean-causal ca2ad78, which matches lake-manifest.json and the checked-out package HEAD. WAVE5-PLAN says 731ed99; the actual dependency is the later ca2ad78.",
+    "4_report_honesty": "MOSTLY PASS: the decl list is complete. Every theorem/def in the file appears in labels[].decls or extra_decls and no reported name is missing from the file. Status partial, marked false and sorry_count 0 are all correct. Issues: M1 is not reported, plus minors m1 and m3.",
+    "5_missing_labels_or_parts": "PASS for this package's scope (WAVE5-PLAN WP-39m serves only the Barbot step of the main theorem; the four bullets, the BTZ rays, injectivity of D on all of M~ and the isomorphism are WP-39n's, and the report says so). Minor m2: Gamma-invariance of the plane family is outside the package conjunction.",
+    "6_cited_results_proved": "PASS: Barbot's uniformization, Prop 8.12 injectivity, discreteness and the CC' bridge come from strict Causal and are axiom-clean. Prop 9.1 (Benoist) is proved in 2+1 here (GX.lorentz2_noLox_classification, GX.benoistNoLox_two). The loxodromic element is proved (DEC-75) from not-metabelian.",
+    "7_name_clashes": "PASS: none of the 97 declaration names (short or dotted) is declared in any other file under GX/ or scaffold/ (textual grep of theorem/def/structure/lemma/abbrev/instance/inductive/class declarations)."
+  },
+  "issues": [
+    {
+      "id": "M1",
+      "severity": "major",
+      "where": "GX.holonomy_package_of_isCauchyComplete (l.1357-1371) and GX.e0RegM_holonomy (l.1417-1434)",
+      "problem": "Both paper-facing theorems conclude `∃ (D) (ρ), IsDevelopingPair x₀ D ρ ∧ ...`, i.e. 'SOME developing pair has these properties'. The paper (l.2363-2365, 2378) is about THE developing map and holonomy (D, ρ) of M~ — any given pair. In Lean the existential is strictly weaker: it is unrelated to the pair the downstream consumer (WP-39n) actually has, namely D_BTZ restricted to reg M~. Transferring it would need uniqueness of developing pairs up to Isom plus invariance of every conjunct, and that is not done. The weakening is avoidable: Causal.Flat.exists_developsCC_of_isCauchyComplete yields `∃ S, ∀ dev, IsGXMorphism dev → ...`, and the file's own proof already instantiates it at an arbitrary D (`hS D hpair.gx`). It is not reported anywhere in REPORT.json or the hypothesis checklist.",
+      "fix": "Restate both theorems universally: take `(D) (ρ) (hpair : IsDevelopingPair x₀ D ρ)` as arguments and drop the outer ∃ (a corollary with ∃ can be kept via exists_isDevelopingPair). Verified by the auditor via `lake env lean --stdin` with no file written: `obtain ⟨S, hS⟩ := exists_developsCC_of_isCauchyComplete M hGH hCC x₀; obtain ⟨h1,h2,h3,h4⟩ := hS D hpair.gx; have h : DevelopsCC x₀ D S := ⟨h1,h2,⟨h3,h4⟩⟩; exact holonomy_package hpair hGH.1 h (not_isMetabelianOn_range (holonomy_injective hpair hGH.1 h) hnm)` typechecks for an arbitrary given pair."
+    },
+    {
+      "id": "m1",
+      "severity": "minor",
+      "where": "REPORT.json labels[0].hypotheses rows 'Ω = D(reg M~) = ⋂ I⁺(Π_j)' and 'up to time reversal', both tagged \"here\": \"weakened\"",
+      "problem": "In kb/0006, 'weakened' means the Lean theorem ASSUMES LESS, which is a favourable tag. These two rows are weakenings of the CONCLUSION: ⊆ instead of =, and a future/past disjunction instead of the forced future case. The notes explain them correctly, but under this tag a curator could read them as benign. The same applies to the docstring checklist's '⚠ weakened' cell for Cauchy-maximal, which IS a correct use, beside the ⊆ cell.",
+      "fix": "Tag those two rows as conclusion weakenings / missing assertions (e.g. \"here\": \"missing (conclusion ⊆ only; WP-39n)\") and keep 'weakened' only for 'Cauchy-maximal not used'."
+    },
+    {
+      "id": "m2",
+      "severity": "minor",
+      "where": "GX.holonomy_package / GX.e0RegM_holonomy conclusion",
+      "problem": "The paper's 'Γ-invariant family of lightlike planes' is proved only in a separate lemma (GX.limitSetJ_nullPlane_invariant). The conjunction GX.e0RegM_holonomy states only ⋂_{w∈Λ(Γ)} I⁺(Π_w) with Λ = limitSetJ ρ.range, while its docstring says 'for a Γ-invariant family'. Nothing false is claimed, and the lemma is listed in decls.",
+      "fix": "Add the conjunct `∀ γ ∈ ρ.range, ∀ w ∈ limitSetJ ρ.range, isomPenrose γ w ∈ limitSetJ ρ.range ∧ (γ • ·) '' nullPlane w = nullPlane (isomPenrose γ w)` to the package statement, so the consumer gets the paper's sentence from one theorem."
+    },
+    {
+      "id": "m3",
+      "severity": "minor",
+      "where": "REPORT.json labels[0].findings[0]",
+      "problem": "The finding attributes the sentence 'an elementary non-abelian group cannot occur' to RamcovGX.tex:2378–2380. That sentence is not in the paper: l.2378–2380 only cite Barbot. It is the dispatch's paraphrase of DEC-75/76. The mathematics of the finding is right: non-abelian does not suffice algebraically, the counterexample is proved, and under DEC-76 (s ≥ 1, so π₁ is free) the paper's claim is true via surface topology. But it should be filed as a finding on the dispatch's reading, not as a paper defect.",
+      "fix": "Reword so that it cites the dispatch/DEC-76 reading rather than the paper lines, and state explicitly that under DEC-76 the paper's assertion is true and only the Lean route lacks the surface-group fact."
+    },
+    {
+      "id": "m4",
+      "severity": "minor",
+      "where": ".lake/build/lib/lean/GXScaffold/BTZ/Holonomy.olean",
+      "problem": "The olean (21:47:24Z) predates the last write of the source (21:47:46Z), so REPORT's 'Built with lake build GXScaffold.BTZ.Holonomy' refers to an earlier version of the text. The current source typechecks cleanly with lake env lean, so this is a graduation-hygiene point, not a correctness point.",
+      "fix": "The master session re-runs `taskset -c 0-11 lake build GXScaffold.BTZ.Holonomy` before graduating."
+    },
+    {
+      "id": "m5",
+      "severity": "minor",
+      "where": "module docstring, quote of l.2230–2231",
+      "problem": "The docstring quotes §4.3's 'whose linear part is discrete and faithful'. The file proves ρ faithful and discrete in Isom, but not that the LINEAR part L∘ρ is discrete or faithful, and the SCOPE section does not say so. It is not a ledger label, so nothing is overclaimed, but the quote invites the reading that it is certified.",
+      "fix": "Add a SCOPE line: the linear part's discreteness and faithfulness (l.2230) is not proved here."
+    }
+  ],
+  "questions_for_author": [
+    "DEC-76: is 'π₁(Reg M) not metabelian' an acceptable stated form of the finite-type hypothesis for the Barbot step, or must the surface-group fact (Reg M ≅ Σ*×ℝ and π₁ of a punctured surface free, hence non-abelian ⇒ not metabelian) be built? This is the package's own open question, and the auditor endorses it as the right one to put."
+  ],
+  "summary": "The file builds clean: 0 sorry, standard axioms only, every cited Causal result genuinely proved. The 2+1 algebra is a real proof: the classification of subgroups of SO₀(1,2) with no loxodromic element, BenoistNoLox 2, and the not-metabelian ⇒ loxodromic step. The non-abelian counterexample is correct. The REPORT is complete in its decls, and the partial status and absence of marks are correct. One major issue: the two paper-facing theorems are existential in the developing pair, whereas the paper speaks of the given pair. This is avoidable (the auditor checked that the ∀-form typechecks with the file's own proof), unreported, and it matters to WP-39n. Five minors: hypothesis-row tags, Γ-invariance outside the package conjunction, a finding misattributed to the paper, a stale olean, and an undisclosed linear-part quote."
+}

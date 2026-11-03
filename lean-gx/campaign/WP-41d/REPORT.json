@@ -1,0 +1,258 @@
+{
+ "package": "WP-41d",
+ "round": 2,
+ "files": [
+  "scaffold/GXScaffold/BTZ/VirtTame.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "ex:follows_proposition_brunswic_cauchy",
+   "tex_lines": [
+    1927,
+    1929
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.isAnalyticModelFamily_ePaper",
+    "GX.isAnalyticModelFamily_eFam",
+    "GX.ePaperToIdx",
+    "GX.ePaperToIdx_zero",
+    "GX.ePaperToIdx_pos",
+    "GX.ePaperToIdx_injective",
+    "GX.eFam",
+    "GX.eFamS",
+    "GX.EIdx",
+    "GX.EPaperIdx",
+    "GX.btzE0_exists_aut",
+    "GX.mass_exists_aut",
+    "GX.mass_to_mass",
+    "GX.mass_to_btz_false",
+    "GX.mass_two_pi_sing_eq_empty",
+    "GX.not_isAnalyticModelFamily_two_pi",
+    "GX.MassModel",
+    "GX.massStructure",
+    "GX.massDevM",
+    "GX.mass_sing"
+   ],
+   "hypotheses": [
+    {
+     "paper": "the family (E_theta)_{theta >= 0}",
+     "here": "strengthened",
+     "note": "RULED (DEC-74): theta >= 0, theta != 2pi, massive cones included; theta = 2pi is excluded because sing(E_{2pi}) is empty (GX.mass_two_pi_sing_eq_empty), so no non-empty S_{2pi} exists (GX.not_isAnalyticModelFamily_two_pi). Indexed as printed by {theta >= 0, theta != 2pi} (GX.EPaperIdx, GX.ePaperToIdx: 0 -> E_0, theta > 0 -> E_theta)"
+    },
+    {
+     "paper": "E_theta, theta > 0 (the massive particle of l.1890)",
+     "here": "read",
+     "note": "DEC-47's intended developing map: Gamma_theta\\(D_inf x R) developed by (t, r cos thetã, r sin thetã) (GX.massDevM), spin 0; holonomy the rotation of angle theta about the time axis (GX.massDevM_smul, GX.massRot in Causal.Flat.isom 2)"
+    },
+    {
+     "paper": "S_theta subset of sing(E_theta), non-empty",
+     "here": "carried",
+     "note": "S_theta = sing(E_theta) = the whole axis {r = 0} (GX.mass_sing for theta > 0, theta != 2pi, including theta in 2piZ, m >= 2, where the holonomy is trivial and the developing map is m-to-1; GX.btz_sing for E_0)"
+    },
+    {
+     "paper": "Proposition 1.3 of brunswic2021cauchy (cited)",
+     "here": "carried",
+     "note": "BUILT (DEC-23): E_0 -> E_0 (GX.btzE0_exists_aut from WP-41c's GX.btzE0_localUnique_core), E_theta -> E_theta' forces theta = theta' and is a rotation-translation (GX.mass_to_mass, GX.mass_exists_aut), no isomorphism between neighbourhoods of a massive and a BTZ singular point (GX.mass_to_btz_false, both directions by symmetry)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.1927: 'the family (E_theta)_{theta >= 0} is analytic' includes theta = 2pi, where E_{2pi} is regular (its developing map descends to a homeomorphism onto Minkowski space, GX.mass_two_pi_sing_eq_empty), so S_{2pi} subset of sing(E_{2pi}) = emptyset violates def:family_singular_manifolds_endowed's non-emptiness and the family is not analytic as printed (GX.not_isAnalyticModelFamily_two_pi); brunswic2021cauchy Prop 1.3 assumes alpha != 2pi. Corrected (DEC-74) and proved for theta >= 0, theta != 2pi.",
+    "l.1927: 'It follows from Proposition 1.3' needs, beyond Prop 1.3's local form, a globalisation (an a.e. isomorphism of connected opens meeting S agreeing with an automorphism on an open set agrees everywhere: rem:morphisms_analytical_two_equal, DEC-42) and that sing(E_theta) is the whole axis also for theta in 2piZ \\ {2pi} (trivial holonomy; GX.mass_sing uses the m-to-1 developing map instead). Both are proved here.",
+    "Cross types (E_0 vs E_alpha): proved by the radial limits of the lift — an isometry g with g . D_alpha = D_0 . L would send two points of the timelike axis to cluster values of the BTZ developing map at the axis, i.e. onto the lightlike line Delta (GX.btzDev_cluster), impossible for an isometry (GX.mass_to_btz_false). Massive vs massive: g keeps the time axis, hence is a rotation-translation (GX.isom_eq_of_timeAxis), one turn theta is k turns theta', and injectivity forces k = 1."
+   ],
+   "questions": []
+  },
+  {
+   "label": "prop:BTZ_manifold_virt_tame",
+   "tex_lines": [
+    2262,
+    2267
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.btz_manifold_virt_tame",
+    "GX.btz_xaManifold_virt_tame",
+    "GX.IsBTZSingModelled",
+    "GX.IsXAManifold.isBTZSingModelled",
+    "GX.isAnalyticModelFamily_btzFam",
+    "GX.btzFam",
+    "GX.btzFamS",
+    "GX.isLocallyGaloisian_btzE0",
+    "GX.btzE0_isSLSCIn_reg_opens",
+    "GX.hasMaximalLifts_btzBox",
+    "GX.exists_xaChart_hasMaximalLifts",
+    "GX.exists_xaChart_btzBox"
+   ],
+   "hypotheses": [
+    {
+     "paper": "BTZ-manifold (l.2262; 'a singular E-manifold whose singular locus is locally modelled on E_0', l.2300)",
+     "here": "weakened",
+     "note": "GX.btz_manifold_virt_tame assumes GX.IsBTZSingModelled M (every singular point is the centre of an E_0-chart, the l.2300 gloss = the hasType clause of IsXAManifold); the IsXAManifold form (DEC-67 (e)) is GX.btz_xaManifold_virt_tame via GX.IsXAManifold.isBTZSingModelled; the atlas clause is unused (AUDIT-1 m1)"
+    },
+    {
+     "paper": "standing: M Hausdorff, locally path-connected, first countable, connected",
+     "here": "carried",
+     "note": "DEC-66 (a)(b)(c)"
+    },
+    {
+     "paper": "Theorem theo:local_virt_tame applies (l.2266)",
+     "here": "carried",
+     "note": "through its proved descending form GX.isVirtuallyTame_of_hasMaximalLifts (Models, 0 sorry): all its hypotheses are checked — {E_0} analytic (GX.isAnalyticModelFamily_btzFam), E_0 locally Galoisian (GX.isLocallyGaloisian_btzE0), Aut(E_0~) T_BTZ-continuous (GX.btz_hasAutContinuousTamifying, WP-41b), and every singular point is the centre of a box chart whose preimage components in E_0~ are maximal coverings (GX.hasMaximalLifts_btzBox, GX.exists_xaChart_hasMaximalLifts)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.2266: 'Topologically, BTZ is homeomorphic to R^3 and sing(BTZ) is a line. Therefore BTZ is locally Galoisian' — local Galoisianity is about every open subset U (reg U slsc in U), not only BTZ itself; true (proved by radial contraction in cylindrical coordinates E_0 = C x R, GX.btzE0_isSLSCIn_reg_opens), but the inference from 'homeomorphic to R^3 with a line' needs the line to be straight in some global coordinates, which cylHomeomorph provides.",
+    "l.2266: the proof applies theo:local_virt_tame, whose general case is an open tagged sorry in Models (DEC-86); for E_0 every chart restricts to a box whose lifts r : V~ -> V^ are isomorphisms (a covering with simply connected regular part is maximal, GX.exists_homeomorph_maxBranched_of_simplyConnected), the case proved there, so the row closes without the open case."
+   ],
+   "questions": []
+  },
+  {
+   "label": "prop:manifold_admits_galoisian_maximal",
+   "tex_lines": [
+    2308,
+    2311
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.btz_manifold_galoisian_maximal",
+    "GX.btz_xaManifold_galoisian_maximal",
+    "GX.btz_manifold_isGaloisian",
+    "GX.btz_manifold_sing_subset_branchingLocus",
+    "GX.btz_manifold_isSLSCIn_reg",
+    "GX.btz_manifold_exists_chartwise_tamifying",
+    "GX.btz_manifold_tilde_isLocallyBTZTilde",
+    "GX.IsLocallyBTZTilde",
+    "GX.btz_exists_liftedChart",
+    "GX.btz_exists_descendingChart",
+    "GX.btz_exists_presentation",
+    "GX.btz_descent_injOn"
+   ],
+   "hypotheses": [
+    {
+     "paper": "M an E_0-manifold",
+     "here": "weakened",
+     "note": "GX.IsBTZSingModelled M (l.2300 gloss); IsXAManifold form GX.btz_xaManifold_galoisian_maximal; standing instances DEC-66"
+    },
+    {
+     "paper": "a developing map continuous for the tamifying topology T_BTZ (l.2309)",
+     "here": "read",
+     "note": "for EVERY base point y0 and every presentation Phi of E_0~ (one exists, GX.btz_exists_presentation): a tamifying topology T' on M~ whose neighbourhoods at the points of every lifted descending E_0-chart Psi are the Psi-images of T_BTZ = Phi^* hornTop neighbourhoods (GX.btz_manifold_exists_chartwise_tamifying), with a T'-continuous developing map. Fixes AUDIT-1 M1(b) and m2 (was: some y0, some tamifying topology)"
+    },
+    {
+     "paper": "Furthermore, M~ is a BTZ~-manifold (l.2310)",
+     "here": "read",
+     "note": "LOCAL reading GX.IsLocallyBTZTilde, proved by GX.btz_manifold_tilde_isLocallyBTZTilde: every singular point e of M~ is Psi f, f singular in E_0~, Psi : V^ -> U^ a lifted E_0-chart (components of q^-1 V and p^-1 U), V^ open (natural and T_BTZ), U^ open (natural and T'), Psi bijective, lifting c^-1, a homeomorphism for the natural topologies and for (T_BTZ, T'), preserving singular loci, D o Psi = g . D_{E_0} on all of V^ (extended from the T_BTZ-dense regular part by continuity). Not built: a SingularGXStructure on (M~, T') or an X_A-atlas on M~. Fixes AUDIT-1 M1(a)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.2302-2304: 'the singular locus being a 1-submanifold of non trivial holonomy, M~ is exactly branched over sing(M)' - proved (GX.btz_manifold_sing_subset_branchingLocus) by a holonomy-free argument: a box chart's descent Psi would identify two Gamma-related regular points of E_0~ while D_M o Psi = g . D_{E_0} there and D_{E_0} is injective (GX.btzDevM_injective).",
+    "l.2300: 'BTZ is locally Galoisian so M~ -> M is Galoisian' - proved: reg M slsc in M through the charts (GX.btz_manifold_isSLSCIn_reg), then prop:Galoisian_semilocal (GX.maxBranched_isGaloisian).",
+    "l.2309-2312: T_BTZ is a topology on E_0~ (defi:BTZtop is on J^+(Delta)), not on M~; 'continuous for T_BTZ' on M~ needs the topology transported chartwise. The transport is well defined because Aut(E_0~) is T_BTZ-continuous (overlaps of lifted charts differ by automorphisms); it is the glued topology of theo:local_virt_tame's proof (GX.btz_manifold_exists_chartwise_tamifying).",
+    "l.2310: the paper never defines a 'BTZ~-manifold' (it defines E_0-manifolds only, l.2300); the reading taken is the local one (a question)."
+   ],
+   "questions": [
+    "'Furthermore, M~ is a BTZ~-manifold' (l.2310): is the LOCAL reading formalized (GX.IsLocallyBTZTilde: every singular point of M~ has a neighbourhood identified with an open set of E_0~ around a singular point by a lifted chart that is a (natural and T_BTZ/T') homeomorphism preserving singular loci and intertwining developing maps) the intended one, or is a full singular (G,X)-structure on (M~, T_BTZ) with an X_A-atlas over {E_0~} (DEC-67 (e)) meant?",
+    "'continuous for the tamifying topology T_BTZ' (l.2309): is the reading 'continuous for the tamifying topology of M~ that is chartwise T_BTZ' (the glued topology, GX.btz_manifold_exists_chartwise_tamifying) accepted?"
+   ]
+  }
+ ],
+ "extra_decls": [
+  "GX.vt_btzE0_instances",
+  "GX.vtBTZE0_t2Space",
+  "GX.vtBTZE0_locPathConnectedSpace",
+  "GX.vtBTZE0_firstCountableTopology",
+  "GX.vtBTZE0_connectedSpace",
+  "GX.btzE0_isAEMorphism_of_lift",
+  "GX.btzE0_sing_nonempty",
+  "GX.isSLSCIn_subtype_compl_submodule",
+  "GX.btzE0_mem_reg_iff",
+  "GX.btzE0_isSLSCIn_reg_opens",
+  "GX.exists_homeomorph_maxBranched_of_simplyConnected",
+  "GX.btzBox",
+  "GX.isConnected_btzBox",
+  "GX.exists_btzBox_subset",
+  "GX.exists_xaChart_btzBox_le",
+  "GX.exists_xaChart_btzBox",
+  "GX.isSLSCIn_univ_subtype_of_isOpen",
+  "GX.btzBox_cc_eq",
+  "GX.massRepr",
+  "GX.massRotLin",
+  "GX.massRotLin_apply",
+  "GX.minkQ_massRotLin",
+  "GX.massRotLin_add",
+  "GX.massRotLin_mem",
+  "GX.massRot",
+  "GX.massRot_smul",
+  "GX.massLinHomeo",
+  "GX.massDevM_eq",
+  "GX.isLocalHomeomorphOn_massDevM",
+  "GX.massDevM_smul",
+  "GX.isAEMorphismOf_massCyl_smul",
+  "GX.MassIdx",
+  "GX.massMk",
+  "GX.mass_existsUnique",
+  "GX.IsMassStructure",
+  "GX.exists_isMassStructure",
+  "GX.isMassStructure_massStructure",
+  "GX.mass_instances",
+  "GX.apex_notMem_support_of_shift",
+  "GX.exists_int_of_exp_mul_eq",
+  "GX.e0BoxSec_add_period",
+  "GX.cyl_eventually_chart",
+  "GX.cyl_lift",
+  "GX.mass_reg",
+  "GX.continuous_massDevM",
+  "GX.massDevM_apex",
+  "GX.tendsto_e0BoxSec_seq",
+  "GX.tendsto_cyl_of_tendsto_orbitMk",
+  "GX.isom_eq_of_timeAxis",
+  "GX.cylDescend",
+  "GX.cylDescend_mk",
+  "GX.cyl_isAEMorphism_of_lift",
+  "GX.eq_of_int_valued",
+  "GX.minkQ_isom_sub",
+  "GX.mass_box",
+  "GX.mem_e0Box_seq",
+  "GX.mass_lift_axis",
+  "GX.cplx_two_pi",
+  "GX.mass_lift_eq_rot",
+  "GX.cylRotHomeo",
+  "GX.cylRotHomeo_smul",
+  "GX.cylRotHomeo_symm_smul",
+  "GX.massSwapHomeo",
+  "GX.chartExt_facts",
+  "GX.chartExt_mem_sing",
+  "GX.eFamTop",
+  "GX.eFamLC",
+  "GX.eFamT2",
+  "GX.eFamLPC",
+  "GX.eFamFC",
+  "GX.eFamConn",
+  "GX.eFamStr",
+  "GX.IsAnalyticModelFamily.comp_injective",
+  "GX.descLift_restrict",
+  "GX.IsChartDescent.surjOn_cc_of_lift",
+  "GX.IsChartDescent.nhds_eq_map_of_lift"
+ ],
+ "kb_proposals": [
+  "maxHeartbeats is per declaration: long proofs juggling MaxBranchedCover/connectedComponentIn exceed 200000 at the declaration's docstring position ('timeout at whnf' at col 0); a `set_option maxHeartbeats 1600000 in` before the docstring fixes it — first bisect with truncation to check it is not a genuine loop.",
+  "Local `haveI : ConnectedSpace ↥(V : Opens _)` / `LocPathConnectedSpace ↥V` introduced early in a proof about MaxBranchedCover make later elaboration much slower; introduce them just before the lemma that needs them.",
+  "A second structure on Orbits (GammaA α) (DInfty × ℝ): use a `def` type synonym (GX.MassModel) to keep it apart from BTZModel's; lemmas on Orbits apply by defeq; pass the structure explicitly with named instance binders ([s₁ : SingularGXStructure ...]) in generic cylinder lemmas.",
+  "A family indexed by Option with match-defined instances (GX.eFam): instance search does not unfold the match, so also declare T2Space/LocPathConnectedSpace/... instances on `eFam a` by match and instantiate generic lemmas at `eFam (some θ)`, not at `MassModel θ.1`.",
+  "GX.cyl_lift is the lifting step of B21 Prop 1.3 for any two cylinder models (any periods and developing maps); GX.isom_eq_of_timeAxis classifies Isom(M^3) elements keeping two points of the time axis on it (rotation + time translation, via linear_isometry_complex and det_conjAe).",
+  "GX.exists_homeomorph_maxBranched_of_simplyConnected: a branched covering with simply connected regular preimage is the maximal covering — the cheap route to HasMaximalLifts for small charts.",
+  "A binder `∃ T : TopologicalSpace α, ...` (or an `obtain`ed T) is a LOCAL INSTANCE for the rest of the statement/proof: every later `𝓝 x`, `IsOpen`, `connectedComponentIn` on α silently uses T. Bind it as `WrappedTop α` (Models) and write `T.top`, or keep it as `H.choose` in proofs.",
+  "With non-instance topologies, dot notation (`hc.tendsto`, `h.comp`, `hP.dense`) re-synthesizes the instance and fails with 'synthesized type class instance is not definitionally equal'; use the @-form with the topology passed explicitly (@Continuous.tendsto _ _ T _, @Continuous.comp _ _ _ T _ _ _ _, @IsPortly.dense _ T _).",
+  "GX.btz_exists_liftedChart / GX.btz_manifold_tilde_isLocallyBTZTilde: the lifted E_0-chart at a singular point of M~ (bijective, natural and (T_BTZ,T') homeomorphism, D o Psi = g . D_{E_0}) — the API Section 4 should use for local statements on M~."
+ ],
+ "notes": "Round 2 after AUDIT-1. All AUDIT-1 issues addressed: M1(a) the third assertion is stated and proved in the local reading (GX.IsLocallyBTZTilde, GX.btz_manifold_tilde_isLocallyBTZTilde); M1(b) the T_BTZ clause is now the chartwise-T_BTZ glued topology (GX.btz_manifold_exists_chartwise_tamifying, built from a predecessor's in-package scratch, now merged); m1 the theorems take GX.IsBTZSingModelled (hasType only), with IsXAManifold corollaries GX.btz_xaManifold_virt_tame / GX.btz_xaManifold_galoisian_maximal; m2 every assertion of the row is for every base point y0; m3 '>' quote block and Provenance line added, the partial label is unbolded everywhere; m4 the two unused simp args removed (the file now has NO warnings). Signature change: btz_manifold_virt_tame and btz_manifold_galoisian_maximal now take IsBTZSingModelled M instead of IsXAManifold (no other module imports VirtTame; the IsXAManifold forms are the btz_xaManifold_* names); btz_manifold_galoisian_maximal's conclusion is strengthened (forall y0, chartwise T_BTZ, the BTZ~ clause). `taskset -c 0-11 lake build GXScaffold.BTZ.VirtTame` succeeds (only VirtTame compiled; Models' pre-existing sorry warning replayed; nothing in GX.* or Causal.* recompiled). #print axioms on isAnalyticModelFamily_ePaper, isAnalyticModelFamily_eFam, not_isAnalyticModelFamily_two_pi, btz_manifold_virt_tame, btz_xaManifold_virt_tame, btz_manifold_galoisian_maximal, btz_xaManifold_galoisian_maximal, btz_manifold_tilde_isLocallyBTZTilde, btz_manifold_exists_chartwise_tamifying: propext, Classical.choice, Quot.sound only. DEC-33: sole import GXScaffold.BTZ.Rigid, no open Causal, Causal.* qualified. 14 new names grepped against GX/, scaffold/ and the pinned lean-causal: no clash. The round-1 file is kept at campaign/WP-41d/VirtTame.round1.lean.bak; the in-package scratch files were removed after merging. prop:manifold_admits_galoisian_maximal stays partial pending the author's ruling on the two readings (questions in the row); with a ruling accepting them it closes (DEC-27)."
+}

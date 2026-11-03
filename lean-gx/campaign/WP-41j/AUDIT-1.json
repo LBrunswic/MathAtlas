@@ -1,0 +1,89 @@
+{
+  "package": "WP-41j",
+  "round": 1,
+  "auditor": "read-only auditor, round 1",
+  "file": "scaffold/GXScaffold/BTZ/Surgery.lean",
+  "host": "node1",
+  "builds": true,
+  "build_command": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/Surgery.lean (exit 0, 3 'declaration uses sorry' warnings, no recompilation)",
+  "sorry_count": 3,
+  "sorries": ["GX.E0Surgery.lem_surface_complete_one (l.677)", "GX.E0Surgery.lem_surface_complete_two (l.686)", "GX.E0Surgery.regM_isCauchyComplete (l.706)"],
+  "verdict": "issues",
+  "checks": {
+    "builds_and_sorry_count": "pass: builds, 3 tagged sorries, matching REPORT.sorry_count = 3",
+    "statement_fidelity": "issues: see M1, M2",
+    "docstring_contract": "pass: no **`label`** mark anywhere, so nothing is overclaimed; all labels inside the first 4000 chars; minor gap m5",
+    "report_honest_complete": "mostly: statuses are not overclaimed; see M2, m2, m3, m4",
+    "missing_labels_or_parts": "see M2 (Cor 2.11 and the Lemma 2.10 dichotomy), m1 (spacelike half of Lemma 2.8(1)), m3 (Lemma 2.9, 2.6(i) not listed)",
+    "cited_results_proved": "Lemma 2.7 (pointwise), Lemma 2.6(ii) without 'complete', the K-3 monotonicity/IVT lemmas and log_rad_le_length are proved; Lemma 2.8(1)/(2) and Prop 2.17 (first assertion) are tagged sorries",
+    "name_clashes": "pass: no declaration of the file is redeclared under GX/ or scaffold/; DEC-33 gate respected (file under scaffold/GXScaffold/BTZ/, imports Causal.Flat.CauchyComplete only, no open Causal)"
+  },
+  "verified_findings": [
+    "Lemma 2.6: the proofs are swapped, confirmed. The formula given at l.858 as the proof of (i), tau^R(theta) + M(1/r - 1/R), blows up at r = 0 and is the complete cusp of (ii). The formula given as the proof of (ii) (l.870-877) is constant M/R on r <= R/2, i.e. the compact disc of (i).",
+    "Lemma 2.6 proof: the display at l.865 drops the factor 2 of -2 d_r tau. The correct value is delta = 1 + 2M/r^2 - (tau^R')^2/r^2 (the Lean e in lem_curve_extension_ii). The conclusion delta > 1/r^2 still holds. Confirmed.",
+    "Lemma 2.7's identity (l.757) is correct (graphQuad_eq). The pullback btzPaperDev_pullback = -2 dtau dr + dr^2 + r^2 dtheta^2 agrees with null coordinates (a,b,c) = (2tau + r theta^2 - r, r, -r theta) and Q = dc^2 - da db, which is what E0.Le uses."
+  ],
+  "issues": [
+    {
+      "id": "M1",
+      "severity": "major",
+      "where": "GX.E0Surgery.lem_surface_complete_one (l.677-682); REPORT row lem:surface_complete, hypothesis 'piecewise smooth'",
+      "problem": "The hypothesis hδ reads 'piecewise smooth' as pointwise HasFDerivAt on the region. That is weaker than DEC-31's 'piecewise-smooth spacelike in flat charts' and weaker than what the printed proof uses. At l.805-818 the proof bounds int |theta'| using sup over the compact annulus D_{r^*} minus D_{r_*} of |d_theta tau|. That sup is finite only when the derivative is locally bounded (C^1). For a function that is merely differentiable everywhere, d_theta g can be unbounded on compacts (x^2 sin(1/x^2)-type behaviour). The Lean statement is therefore a strengthening that the paper's argument does not prove and that may be false: no proof or argument is given that completeness survives without C^1. The tagged obstruction text and the REPORT do not mention this. The other routes do not close the gap either. Minimising the quadratic form gives only |theta'| <= density * sqrt(1 - 2 g_r)/C, and g_r is unbounded below without C^1.",
+      "fix": "Add the paper's regularity: ContDiffOn ℝ 1 g on {0 < r ≤ R}, or a local bound on L (1, 0), L (0, 1). This is the reading DEC-31 rules ('piecewise smooth') and is ⚠ carried, not a strengthening. Otherwise prove the differentiable-only form and keep it as ⚠ weakened with the justification. Update the SORRY text either way."
+    },
+    {
+      "id": "M2",
+      "severity": "major",
+      "where": "GX.E0Surgery.cor_intersect (l.506) and REPORT row 'lem:intersect_number_complete (Lemma 2.10) + cor:intersect (Cor 2.11)'",
+      "problem": "Cor 2.11 (l.910-912) asserts |c ∩ Σ| = |c* ∩ Σ*| for a compact spear and its regular part under the hypotheses of Lemmas 2.9 and 2.10. No declaration states this. The decl named cor_intersect proves something else: at most one intersection point, and existence iff F(c a) ≤ 0 ≤ F(c b), for a compact continuous ≼-increasing arc of {0 < r ≤ R}. Lemma 2.10's own conclusion is also unstated: |c* ∩ Σ*| = 1 iff sup(c*) ∈ J⁺(C*) ∪ {+∞}, else 0, for closed curves inextendible in Int(S*), with lim τ = +∞ used to place inf(c) in [p]. The row merges two labels into one 'partial' and never says that Cor 2.11's equality is absent. SCOPE K-3 (SCOPE.md l.268) marks the monotonicity + IVT substitution as 'no' in the weakening column, i.e. it changes the method, not the statements. The REPORT question also calls the sup(c)-position form 'downstream bookkeeping in WP-39k'. WAVE5-PLAN l.23 assigns 'Σ* Cauchy in Reg M' to WP-39j, which is this package, and its regM_isCauchyComplete is a sorry. Nothing downstream takes it over.",
+      "fix": "Split the row. Report cor:intersect as not-attempted, or as stated with a sorried statement of the equality, unless a ruling accepts the K-3 reading. Either state Lemma 2.10's dichotomy for inextendible-in-interior curves, using the lim τ = +∞ hypothesis (it is available from exists_cusp_isSpacelikeGraph), or report it explicitly as missing. Correct the 'downstream in WP-39k' claim."
+    },
+    {
+      "id": "M3",
+      "severity": "major",
+      "where": "SORRY texts at l.682, l.690, l.710; REPORT 'sorries'",
+      "problem": "The three sorries cover the core deliverables of the dispatch: Lemma 2.8 and the output 'Σ* a Cauchy surface of Reg M with IsCauchyComplete'. Their obstruction texts are lists of remaining proof steps inside the package's scope, not mathematical obstructions: extend log_rad_le_length from C^1 to Lipschitz-in-charts paths (a.e. differentiability, chain rule a.e.); the angular estimate; the coordinate upper bound; the curve construction of l.830-848. The l.690 claim that the curve-level use of completeness is 'not in the library' is overstated. Causal.Flat has the sub-path bound (a path is at least as long as the edist to its points, CauchyComplete.lean §SubPath), which makes points along a finite-length path Cauchy. It also has SpacelikeDevelopment.tendsto_lift_of_proj (l.1792). regM_isCauchyComplete has no partial infrastructure at all: no Σ* construction, no gluing, no use of cor_intersect. Mitigation: regM does depend on the Lemma 2.3 sorries in GXScaffold.BTZ.Spear, which is a genuine upstream dependency.",
+      "fix": "Attempt Lemma 2.8(2) and (1), the latter after M1. Give regM_isCauchyComplete at least its decomposition, i.e. Σ* and the per-spear lemma stated and reduced to Spear's Lemma 2.3, so that the remaining sorry is the upstream one. Rewrite the SORRY texts to name the genuine obstruction."
+    },
+    {
+      "id": "m1",
+      "severity": "minor",
+      "where": "GX.E0Surgery.lem_surface_complete_one (l.677)",
+      "problem": "Lemma 2.8(1) concludes 'Σ* is spacelike AND complete'. The Lean statement has only completeness. The spacelike half follows in two lines from hδ (C²/r² > 0) and lem_surface_causal, but it is neither stated nor reported.",
+      "fix": "Conjoin IsSpacelikeGraph g R, given hper, or the pointwise spacelike property; or report the omission."
+    },
+    {
+      "id": "m2",
+      "severity": "minor",
+      "where": "REPORT findings/tex_lines; docstring of cuspExt (l.198)",
+      "problem": "Several line numbers are off. The proof of Lemma 2.6 is l.856-881 (REPORT: l.845-866). The δ display is l.865 (REPORT: l.853; cuspExt docstring: l.845; the cusp formula is at l.858). Lemma 2.8's tex_lines end at 868, but its proof ends at l.851. Prop 2.17 is stated at l.1078-1082 and proved at l.1088-1104 (REPORT: [1078, 1095]).",
+      "fix": "Correct the line references."
+    },
+    {
+      "id": "m3",
+      "severity": "minor",
+      "where": "REPORT.labels",
+      "problem": "lem:intersect_number_compact (Lemma 2.9, l.885) and Lemma 2.6(i) have no rows. Lemma 2.9 appears only inside a hypothesis note, although Cor 2.11 is stated under its hypotheses.",
+      "fix": "Add not-attempted rows (or explicit sub-rows)."
+    },
+    {
+      "id": "m4",
+      "severity": "minor",
+      "where": "campaign/WP-41j/axioms.out",
+      "problem": "The axiom sweep omits GX.E0Surgery.lem_surface_complete_two (a sorried declaration). It lists 12 declarations but not that one.",
+      "fix": "Include every declaration of the file in the sweep."
+    },
+    {
+      "id": "m5",
+      "severity": "minor",
+      "where": "module docstring, Hypothesis checklist (l.73-83)",
+      "problem": "The checklist has no rows for prop:abs_max: E_A to E₀ only (⚠ strengthened, reported in REPORT), Cauchy-maximal as IsE0CauchyMaximal (DEC-77(c)), Cauchy-complete as IsCauchyComplete (DEC-31). Lemma 2.8's 'piecewise smooth as differentiable' is written '⚠ read'. kb/0006 asks for 'weakened' or 'strengthened' there, and here it is a weakening (see M1).",
+      "fix": "Add the prop:abs_max rows and classify the regularity reading."
+    }
+  ],
+  "questions_for_author": [
+    "Lemma 2.8(1): is 'piecewise smooth' to be read as C^1 on pieces (DEC-31), so that sup |∂_θ τ| over compact annuli is available, or is a differentiable-only form wanted?",
+    "Does the K-3 ruling (method substitution, 'no' weakening) cover replacing Cor 2.11's |c∩Σ| = |c*∩Σ*| and Lemma 2.10's sup(c*)-dichotomy by the at-most-one / sign-change statement, or must the printed forms still be stated?"
+  ],
+  "notes": "The pin in the dispatch (731ed99) is stale: lake-manifest.json and .lake/packages/Causal are at ca2ad78, which the file's Provenance line states correctly. No issue with the file."
+}

@@ -1,0 +1,89 @@
+{
+  "package": "WP-41i",
+  "round": 1,
+  "auditor": "read-only auditor (round 1)",
+  "file": "scaffold/GXScaffold/BTZ/Spear.lean",
+  "module": "GXScaffold.BTZ.Spear",
+  "verdict": "issues",
+  "builds": true,
+  "build_check": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/Spear.lean: EXIT 0, one warning 'declaration uses sorry' at l.794 (exists_spearDevelopment). No Causal.* recompilation.",
+  "sorry_count": 1,
+  "sorry_count_matches_report": true,
+  "axioms_check": "campaign/WP-41i/axioms.out agrees with the code: sorryAx only in lem_tube, exists_fullFutureBTZRay, lem_add_BTZ_param_of_cauchyMaximal, all through exists_spearDevelopment.",
+  "issues": [
+    {
+      "severity": "major",
+      "where": "Spear.lean:794-796 exists_spearDevelopment (lem:tube)",
+      "problem": "The one sorry covers the whole construction in the proof of Lemma 2.3, not just the part that is genuinely obstructed. The dispatch asked for M2 glued by Causal.CBG.gluedChartedSpace / FamilyGlueData.chartedSpace, plus Hausdorffness, plus the embedding by universality. Only the embedding is built (isSpearNbhd_of_spearDevelopment, exists_morphism_of_dev). The file never constructs M0 = M \\ J+(phi^-1 Pi), never constructs the glued space M2, and does not use gluedChartedSpace / hasGroupoid_chartedSpace (Causal/CBG/FromModel.lean:829). The SCOPE text itself names only 'M2 globally hyperbolic' as the genuine obstruction. The other ingredients are bundled into the same sorry with no attempt recorded: M0 open, connected and GH with Sigma Cauchy (M0 is a past set, and Sigma lies below Pi); the atlas and E0-groupoid of M2; M2 T2 (the closed-graph argument through the closed chart cylinder); and Sigma Cauchy in M2 (the paper's c = c0 ∪ c1).",
+      "fix": "Construct M0 and M2 explicitly with the gluing API. Prove the doable parts: M0's properties, the atlas and groupoid, T2, connectedness, second countability, and Sigma Cauchy in M2. Isolate the global hyperbolicity of M2 (the compact mixed diamonds) as the only tagged sorry, in its own lemma."
+    },
+    {
+      "severity": "major",
+      "where": "Spear.lean:1315 lem_add_BTZ_param (lem:add_BTZ_param)",
+      "problem": "Lemma 2.4 is not stated at paper strength anywhere in the file. The paper assumes that Delta admits SOME spear neighbourhood, of any vertex q on Delta, and concludes for every p ∈ Delta ∩ I^-(Sigma). The Lean statement instead takes a spear neighbourhood whose vertex is already p (hU : IsSpearNbhd p R U), which assumes the first half of the conclusion. The paper's main case, q in the future of p (finitely many axis-isometric charts along [p,q] glued by rotation-translations, B21 prop:isom), is missing. Even the case 'q in the past of p' is covered only for p written explicitly as psi(yAxis v t) (IsSpearNbhd.of_ray), not for an arbitrary p ∈ Delta ∩ J+(q). lem_add_BTZ_param_of_cauchyMaximal replaces the hypothesis with Cauchy-maximality, which is a different statement. The weakening is reported and the row is marked partial, but 'state first, then prove' requires the paper's statement to be present, with a tagged sorry if needed.",
+      "fix": "State Lemma 2.4 as in the paper: a spear neighbourhood of some vertex q, and p ∈ S0 M in the BTZ component of q, with p ∈ I^-(Sigma). Prove the q-in-the-past case for any such p, which needs Delta ∩ J+(q) to equal the ray. Prove the q-in-the-future case by gluing the axis charts along the compact segment [p,q], or leave it as a precisely tagged sorry. Keep the present lemma as the vertex-at-p special case."
+    },
+    {
+      "severity": "major",
+      "where": "Spear.lean:1321-1322 (conclusion of lem_add_BTZ_param); REPORT.json lem:add_BTZ_param hypotheses/findings",
+      "problem": "The paper's 'smooth positive function tau_Sigma' is weakened to a bare function, with no continuity. The report justifies this as 'for a topological Cauchy surface only a function'. That is not right. Continuity, the topological content of 'smooth', can be proved with tools already in the file. The set G = {x ∈ spear : psi x ∈ Sigma} is closed, since Sigma is closed and psi∘paperInY is continuous on an open set containing the spear, and G is the graph of tau_S. tau_S is bounded: if tau_S(z_n) → ∞ with z_n → z, then for each t the point (t,z) lies below (tau_S(z_n), z_n) for large n. So psi(t,z) ≤ sigma for a limit point sigma ∈ Sigma ∩ J+(p), which is compact. The vertical ray at z then lies in the compact set J^-(Sigma) ∩ J+(.), which spear_vertical_noLimit / exists_tendsto_of_monotone rule out. A closed graph with bounded values over a compact disc is continuous. B21 Prop 2.17 (PDF l.1983) uses the conclusion as 'Sigma ∩ S_Delta is a smooth spacelike CIRCLE in the shaft', so continuity is what the use needs.",
+      "fix": "Add ContinuousOn tau_S (closedBall 0 R') to the conclusions of lem_add_BTZ_param and lem_add_BTZ_param_of_cauchyMaximal and prove it as above. Correct the hypothesis note and the finding: smoothness is the reading, continuity is proved."
+    },
+    {
+      "severity": "minor",
+      "where": "Spear.lean:802 lem_tube, 811 exists_fullFutureBTZRay (hS : (CE M).IsCauchySurface S); REPORT 'globally hyperbolic: strengthened'",
+      "problem": "The extra Cauchy-surface hypothesis is reported, but its justification ('the library's GH gives none') is wrong in context. Both theorems already carry hLine, and hLine M : E0GlobalBTZ gives SingularFlatAxioms through E0LM.e0_singularFlatAxioms_of E0.chartIso_mem_e0Groupoid (as spear_vertical_meets does). E0LM.e0_modelMeasures M hGH gives ModelMeasures (on borel M). The strict Causal.SingularFlatAxioms.geroch_sing_i_imp_iii (Causal/SingularGeroch.lean:263) then gives ∃ S, IsCauchySurface S from GH. So S can be derived and the hypothesis is avoidable.",
+      "fix": "Drop hS from lem_tube and exists_fullFutureBTZRay and obtain S from hLine M + e0_modelMeasures + geroch_sing_i_imp_iii. Alternatively keep it and correct the justification in the REPORT and the docstring checklist."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json lem:add_BTZ_param findings[1] (B21 l.745-757)",
+      "problem": "The finding misreads the paper. It says B21 does not argue that every curve c_{theta0,r0} meets Sigma. In fact the paper gets existence of the graph over D_R a few lines earlier: near w = Sigma ∩ Delta, the smooth spacelike Sigma is transverse to the vertical lines, so it is a graph over D_eps, and R is then shrunk ('we can choose R small enough so that tau_Sigma is positive and defined over D_R'). The curves argument only gives 'at most once'. For a topological Sigma the inextensibility route the file takes (spear_vertical_noLimit, spear_vertical_meets) is needed and is a genuine contribution. The paper's argument is not incomplete in its own smooth setting.",
+      "fix": "Reword the finding: B21's existence step uses transversality of a smooth spacelike Sigma; for a topological Cauchy surface it is replaced by the inextensibility of the vertical null rays, proved here."
+    },
+    {
+      "severity": "minor",
+      "where": "Spear.lean docstring checklist l.84 and REPORT hypotheses ('E_{>=0}-manifold', here: 'read')",
+      "problem": "Restricting B21's E_{>=0}-manifolds (massive cones allowed) to E0-manifolds (Y = M ⊕ E0) shrinks the class of manifolds, so it is a weakening, not a reading. It is harmless for gx (its BTZ-manifolds and B21 Prop 2.17 are E0), but the tag is wrong, and no ruling covers Lemmas 2.3/2.4 (DEC-74's massive-cone family concerns the virtually-tame rows).",
+      "fix": "Tag it 'weakened (E0 only; gx uses E0)' in the REPORT, or obtain a ruling."
+    },
+    {
+      "severity": "minor",
+      "where": "Spear.lean:883, 1321 ('in the shaft' read as tau > v + R'/2); REPORT lem:add_BTZ_param",
+      "problem": "Def 2.1 defines the shaft as the boundary half-tube {r = R, tau >= ...}. Lemma 2.4's 'Sigma ∩ S lie in the shaft' with a graph over the whole disc D_R forces a region reading. B21 Prop 2.17 (PDF l.1983-1984) reads 'Sigma ∩ S_Delta is a ... circle in the shaft'. The file takes the region reading tau > v + R'/2, which, together with the graph statement, implies Sigma ∩ boundary-shaft = graph over the boundary of D_R. That is good, but it is a reading and is recorded only as '✓' in the checklist and nowhere under 'questions'.",
+      "fix": "Record the shaft-as-region reading under 'questions' or 'hypotheses: read', with the l.1983 usage. Once continuity is proved, optionally add the corollary that Sigma meets the boundary shaft in the circle {(tau_S z, z) : |z| = R'}."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json lem:add_BTZ_param sorries: []",
+      "problem": "lem_add_BTZ_param_of_cauchyMaximal is listed among this label's decls and depends on sorryAx (axioms.out), but the label's 'sorries' list is empty. It is mentioned only in a hypothesis note ('hence stated').",
+      "fix": "Add {decl: GX.E0Spear.lem_add_BTZ_param_of_cauchyMaximal, obstruction: through exists_spearDevelopment} to the label's sorries."
+    },
+    {
+      "severity": "minor",
+      "where": "Spear.lean §3 IsE0CauchyMaximal / §4 lem_tube",
+      "problem": "No non-vacuity witness for lem_tube's hypotheses (GH + Cauchy surface + IsE0CauchyMaximal + a BTZ point), e.g. E0 itself. isSpearNbhd_model witnesses only the spear notion. Not a defect: the definition is proved equivalent to Dev.IsETTMaximal (DEC-77(c)).",
+      "fix": "Optional: prove IsE0CauchyMaximal for the model E0 (or cite where it is proved)."
+    }
+  ],
+  "checked_clean": [
+    "Build: file typechecks; the real sorry count is 1, as reported; the tag is SORRY(lem:tube) with a specific obstruction.",
+    "Docstring contract (kb/0006): no **`label`** mark anywhere in the first 4000 characters; every row is written unmarked with its status (stated/partial). Correct, since no row is closed.",
+    "DEC-33: only import GXScaffold.BTZ.CBG; no `import Causal` root, no CausalScaffold, no `open Causal`; Causal names fully qualified; the file is under scaffold/GXScaffold/BTZ/.",
+    "Name clashes: GX.E0Spear and IsSpearNbhd / IsFullFutureBTZRay / IsE0CauchyMaximal / SpearDevelopment occur nowhere else in GX/ or scaffold/.",
+    "Def 2.1 finding verified: J+((v,0)) = {f >= v}, f = tau - r/2, so with phi(p) = (-2R,0,0) the head is {r = 2(tau+2R)} and the rim is at tau = -3R/2; the printed {r = 2(tau-R)} and {tau >= 0} fit neither. frontier_spear proves the corrected boundary. The free-vertex reading is harmless (tau-translations are E0-automorphisms) and is raised as a question.",
+    "IsSpearNbhd: reading psi = phi^-1 as an injective E0-morphism on an open W ⊇ spear is at worst a shrink of the paper's notion and is reported. 'Neighbourhood of ]p,+inf[' is proved (exists_ray_mem_nhds).",
+    "IsFullFutureBTZRay: not vacuous (model witness), proved to lie in sing0, injective, continuous, future directed and without future endpoint (axis_noLimit; uses btzE0_localUnique_core rigidity, 0 sorry).",
+    "IsE0CauchyMaximal ⇔ Dev.IsETTMaximal (DEC-77(c)) proved. exists_morphism_of_dev (Cauchy-maximality ⇒ universality over Cauchy sub-developments via e0_cbg + sbierski_lemma_3_3) proved with 0 sorry. hLine/hSC carried exactly as in CBG.lean (WP-41g's e0_cbg) and reported.",
+    "exists_spearDevelopment's statement is plausibly true (M0 = M \\ J+(phi^-1 Pi) is a past set containing a Cauchy surface of M; it does not assume Cauchy-maximality, so it is consistent with the {tau<0} counterexample) and is not trivially satisfiable.",
+    "Citation finding verified against the PDF: Def 2.1, Lemma 2.3 (lem:tube), Lemma 2.4 (lem:add_BTZ_param). RamcovGX.tex:2352's 'Lemma 2.4' should be 2.3. The l.725 typo ('future of q' for 'of p') is confirmed.",
+    "Full-rays row correctly applies DEC-77(c) (Cauchy-maximality added; Cauchy-completeness unused) and is honestly 'stated'.",
+    "REPORT.json is valid JSON, lists all four labels the file touches (lem:tube, lem:add_BTZ_param, full future BTZ rays, Def 2.1), and gives statuses consistent with the code; lean-causal pin ca2ad78 matches lake-manifest.json."
+  ],
+  "questions_for_author": [
+    "Is Lemma 2.4 for a topological Cauchy surface Sigma with tau_Sigma continuous (rather than smooth) an acceptable reading, given that IsCauchySurface carries no smooth structure?",
+    "Is the E0-only restriction of B21 Lemmas 2.3/2.4 (no massive cones) accepted for gx's purposes?",
+    "Should the paper-strength Lemma 2.4 (spear of arbitrary vertex q on Delta) be required, or is lem_add_BTZ_param_of_cauchyMaximal (the only use B21 Prop 2.17 makes of it) the formalization of record?"
+  ],
+  "summary": "Builds; one tagged sorry (exists_spearDevelopment), matching the report. Model geometry, spear/ray notions, Cauchy-maximality ⇔ IsETTMaximal, CBG universality and the ray-inextensibility lemmas are sound and sorry-free. Three majors: (1) the single sorry covers the whole M0/M2 gluing, although only GH of M2 is claimed as an obstruction, and the dispatched gluedChartedSpace construction is not built; (2) Lemma 2.4 is never stated at paper strength (the hypothesis already supplies a spear of vertex p); (3) tau_Sigma is left without continuity, though continuity is provable with the file's own tools and the report wrongly says only a function is possible. Minors: an avoidable Cauchy-surface hypothesis (derivable from hLine + geroch_sing_i_imp_iii), a finding that misreads B21's existence step, E0-only tagged as a 'read' rather than a weakening, the shaft-as-region reading unrecorded, and a missing sorries entry."
+}

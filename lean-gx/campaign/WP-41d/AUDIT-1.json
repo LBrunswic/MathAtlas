@@ -1,0 +1,161 @@
+{
+  "package": "WP-41d",
+  "round": 1,
+  "audit_of": "REPORT.json round 2 (the file as revised after the earlier AUDIT-1)",
+  "auditor": "read-only auditor (round 1, re-dispatched)",
+  "date": "2026-11-02",
+  "host": "node1",
+  "file": "scaffold/GXScaffold/BTZ/VirtTame.lean",
+  "module": "GXScaffold.BTZ.VirtTame",
+  "verdict": "clean",
+  "checks": {
+    "1_build": {
+      "result": "pass",
+      "detail": "`taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/VirtTame.lean` exits 0 in 40.9 s wall, with no errors and no warnings at all. The two unusedSimpArgs warnings of the earlier audit are gone. Real sorry count: 0. The file has no `sorry`, `admit`, `axiom`, `native_decide` or `implemented_by`; it does have six `set_option maxHeartbeats … in` lines, which are harmless. The VirtTame .olean (19:46:56) is newer than the source (19:45:10), and Rigid.olean is newer than Rigid.lean, which fits the REPORT's module-only `lake build`; I did not rebuild, to stay write-free. `#print axioms` was run through `lake env lean --stdin` on twelve declarations: isAnalyticModelFamily_ePaper, isAnalyticModelFamily_eFam, not_isAnalyticModelFamily_two_pi, btz_manifold_virt_tame, btz_xaManifold_virt_tame, btz_manifold_galoisian_maximal, btz_xaManifold_galoisian_maximal, btz_manifold_tilde_isLocallyBTZTilde, mass_sing, mass_to_mass, mass_to_btz_false and mass_exists_aut. All twelve give [propext, Classical.choice, Quot.sound] only. So the Models dependencies used (isVirtuallyTame_of_hasMaximalLifts → isVirtuallyTame_of_descending, maxBranched_isGaloisian) and WP-41b/41c's btz_hasAutContinuousTamifying and btzE0_localUnique_core are sorry-free transitively."
+    },
+    "2_statement_fidelity": {
+      "result": "pass",
+      "detail": [
+        "ex:follows_proposition_brunswic_cauchy (l.1927, DEC-74). isAnalyticModelFamily_ePaper has no hypotheses. It is indexed by {θ : ℝ // 0 ≤ θ ∧ θ ≠ 2π}, with θ = 0 ↦ BTZE0 and θ > 0 ↦ MassModel θ = Γ_θ\\(𝔻_∞ × ℝ), developed by massDevM (t, r e^{iθ̃}) with holonomy massRot (k·θ) (massDevM_smul); this is DEC-47's intended massive particle, massive cones of every angle θ > 0, θ ≠ 2π, included. The structure on MassModel θ is the unique one making the projection an a.e. morphism (mass_existsUnique is an ∃!, so Classical.choose in massStructure is harmless). S_θ = sing(E_θ) is the strongest choice, and it is non-empty: mass_sing gives the whole axis, also for θ ∈ 2πℤ∖{2π}. IsAnalyticModelFamily (Models l.512) is the faithful def:family_singular_manifolds_endowed: φ ranges over every homeomorphism of connected opens that is an a.e. morphism, and isAnalyticModelFamily_iff gives the printed single clause. All four type pairs are discharged: (none,none) by rfl; (none,some) via φ.symm and mass_to_btz_false; (some,none) by mass_to_btz_false; (some,some) by mass_to_mass, whose θ = θ' needs no extra hypothesis beyond the facts chartExt_facts derives from φ. exists_aut is btzE0_exists_aut / mass_exists_aut, with no hypothesis beyond the analyticity clause's. B21 Prop 1.3 (2108.12631 BTZ_1.tex prop:isom: α, β ∈ ℝ₊, α ≠ 2π) is BUILT here, not assumed (DEC-23). The θ = 2π counterexample is non-vacuous: IsMassStructure (2π) is inhabited by exists_isMassStructure (2π ≠ 0), LocallyConnectedSpace follows from mass_instances, and mass_two_pi_sing_eq_empty shows sing(E_{2π}) = ∅. `closed` with the bold mark is consistent with DEC-27, because DEC-74 rules the corrected index set.",
+        "prop:BTZ_manifold_virt_tame (l.2262). btz_manifold_virt_tame assumes IsBTZSingModelled M: every singular point is the centre of an E₀-chart. That is l.2300's gloss and IsXAManifold.hasType exactly, so it is weaker than IsXAManifold (DEC-67 (e)), whose form btz_xaManifold_virt_tame is a corollary; the weakening is reported (⚠ weakened). The standing instances are DEC-66 (a)(b)(c). The conclusion is the full IsVirtuallyTame. Every hypothesis of isVirtuallyTame_of_hasMaximalLifts is checked in-file or upstream with 0 sorry: {E₀} analytic, E₀ locally Galoisian by radial contraction in cylHomeomorph coordinates (for EVERY open V), Aut(E₀~) T_BTZ-continuous, and box charts with maximal lifts via exists_homeomorph_maxBranched_of_simplyConnected (the regular part of a box's preimage is the convex log-polar box, hence contractible). Routing around the open general case of theo:local_virt_tame is legitimate here: DEC-82/86 refuse the descending form as the THEOREM's certificate, not as a route to this proposition, whose conclusion is fully proved. The hypothesis is satisfiable non-vacuously (E₀ itself, isXAManifold_model_of_sing_subset).",
+        "prop:manifold_admits_galoisian_maximal (l.2308), partial and unmarked. btz_manifold_galoisian_maximal proves the following for every base point y₀: (i) IsGaloisian (SpreadEnd.base) and branchingLocus = Sing M (exactly branched), with no hypothesis beyond IsBTZSingModelled; (ii) for every y₀ and every presentation Φ of E₀~ (one exists, btz_exists_presentation, which makes the ∀Φ non-vacuous), a tamifying topology T' and a T'-continuous developing map D (IsRegDevelopingOnReg) satisfying IsLocallyBTZTilde. IsLocallyBTZTilde is a genuine local identification at every singular point e of M̃: a lifted E₀-chart Ψ from the component V̂ ∋ f of q⁻¹(V) to the component Û ∋ e of p⁻¹(U), bijective, lifting c⁻¹, both components open (natural, and T_BTZ = Φ^*hornTop resp. T'), nhds-preserving for the natural topologies AND 𝓝_{T'}(Ψ v) = Ψ_*𝓝_{T_BTZ}(v), singular loci preserved, D∘Ψ = g·D_{E₀} on all of V̂. This settles the earlier audit's M1(a) (the third assertion is now stated and proved in a reading) and M1(b) (T' is pinned down chartwise to T_BTZ, not an arbitrary tamifying topology), and m2 (∀ y₀ everywhere). Two readings remain: the local reading of 'M̃ is a BTZ~-manifold' (no SingularGXStructure on (M̃,T') and no X_A-atlas), and 'continuous for T_BTZ' read as the glued chartwise-T_BTZ topology. Both are disclosed in SCOPE (c) and asked as questions, so `partial` is exactly right under DEC-27; with a ruling accepting them the row closes.",
+        "No vacuous, circular or unsatisfiable hypothesis was found, nor a hidden assumption carrying the conclusion. hΦ (Φ lifts the projection) is satisfied by btz_exists_presentation. DEC-55's compact-open reading enters only through IsLocallyGaloisian = IsSLSCInCC (the literal compact-open-component form); here it is obtained from the homotopy form via `.isSLSCInCC`, a proved implication, which is the direction DEC-55 allows."
+      ]
+    },
+    "3_docstring_contract": {
+      "result": "pass",
+      "detail": "The first 4000 characters carry exactly two bold marks, **`ex:follows_proposition_brunswic_cauchy`** (l.10) and **`prop:BTZ_manifold_virt_tame`** (l.17), both certified in full. `prop:manifold_admits_galoisian_maximal` (l.23) is unbolded there and in its declaration docstrings (l.1423, l.1460); the bold '**partial (readings)**' is not a label mark. The rest of the kb/0006 layout is present: the title, a `>` quote block with the paper's sentences (l.1927, 2262, 2308–2310, 2300), the hypothesis checklist, SCOPE (a)–(c) and the Provenance line (mathlib fabf563a, v4.31.0)."
+    },
+    "4_report_honesty": {
+      "result": "pass",
+      "detail": "REPORT.json lists all three labels of the file. The only other labels the file mentions are cited ones: theo:local_virt_tame, ex:quotient_base and def:family_singular_manifolds_endowed. Status and mark agree with the file: closed/true, closed/true, partial/false. The 118 declaration names in the file equal the union of the labels' decls and extra_decls exactly, in both directions (instances named by the elaborator excluded). builds true and sorry_count 0 are confirmed. The hypotheses (corrected/read/weakened/carried) and the findings are accurate against l.1927, l.2262–2267, l.2300–2312 and B21 prop:isom: the θ = 2π slip; the globalisation that the Prop 1.3 citation needs; the 'homeomorphic to R³ with a line' inference; the holonomy-free exact-branching argument; T_BTZ not being a topology on M̃; and 'BTZ~-manifold' being undefined. The two questions are the two open readings."
+    },
+    "5_missing_labels_or_parts": {
+      "result": "pass",
+      "detail": "No dispatched label is missing. Every assertion of each statement is stated: Galoisian, maximal, exactly branched, a T_BTZ-continuous developing map, and M̃ a BTZ~-manifold (the last two in disclosed readings). prop:BTZ_virt_tame (l.2252) belongs to WP-41b and is not this package's."
+    },
+    "6_cited_results_proved": {
+      "result": "pass",
+      "detail": "B21 Prop 1.3 is built in-file for every pair of indices: btzE0_exists_aut (from WP-41c's btzE0_localUnique_core), mass_to_mass, mass_exists_aut and mass_to_btz_false. prop:BTZ_virt_tame / Aut(E₀~) T_BTZ-continuity comes from btz_hasAutContinuousTamifying and btz_aut_continuous (WP-41b, Model/Rigid). prop:Galoisian_semilocal is maxBranched_isGaloisian. theo:local_virt_tame is used only through its proved descending form. All are sorry-free according to the axiom check."
+    },
+    "7_name_clashes": {
+      "result": "pass",
+      "detail": "Each of the 118 base names was grepped as a theorem/lemma/def/abbrev/instance/structure/class head over GX/, every other scaffold/ file and the pinned .lake/packages/Causal/lean-causal/Causal: 0 hits. No other module imports GXScaffold.BTZ.VirtTame, so the signature change of round 2 breaks nothing. DEC-33 is respected: the file lives under scaffold/GXScaffold/BTZ/; its sole import is GXScaffold.BTZ.Rigid; there is no `import Causal` root, no CausalScaffold and no `open Causal`; Causal.* names are fully qualified."
+    }
+  },
+  "issues": [
+    {
+      "id": "m1",
+      "severity": "minor",
+      "where": "module docstring, hypothesis checklist l.61–62",
+      "problem": "The two rows carrying the pending readings of prop:manifold_admits_galoisian_maximal (\"continuous for T_BTZ\", \"M̃ is a BTZ~-manifold\") are marked '✓ read'. kb/0006's vocabulary is ✓ carried / ⚠ weakened / ⚠ strengthened, and these are open questions to the author, not ruled readings. Unlike l.56 ('✓ read (DEC-47)'), no ruling stands behind them.",
+      "fix": "Mark them '⚠ reading (question, SCOPE (c))' until the author rules; then switch to '✓ read (DEC-xx)'."
+    },
+    {
+      "id": "m2",
+      "severity": "minor",
+      "where": "GX.not_isAnalyticModelFamily_two_pi",
+      "problem": "The θ = 2π counterexample is stated for the one-member family {E_{2π}}, not for the printed family (E_θ)_{θ≥0}. The printed family's failure follows in one line, since any family with a member whose sing is empty fails `nonempty`/`subset_sing`, but no Lean statement says it.",
+      "fix": "Optional: state ¬ IsAnalyticModelFamily for any family indexed by a type containing θ = 2π with member MassModel (2π), or say in the finding that the printed-family form is the immediate corollary."
+    },
+    {
+      "id": "m3",
+      "severity": "minor",
+      "where": "GX.btz_xaManifold_galoisian_maximal",
+      "problem": "The IsXAManifold corollary drops the middle conjunct of btz_manifold_galoisian_maximal (the existence of a presentation Φ, ⟨h.1, h.2.2⟩), so the two forms do not have the same shape. Harmless, because btz_exists_presentation is a standalone theorem.",
+      "fix": "Optional: keep the conjunct, or note the omission in the docstring."
+    }
+  ],
+  "questions_for_author": [
+    "prop:manifold_admits_galoisian_maximal (l.2310): is the local reading GX.IsLocallyBTZTilde of 'M̃ is a BTZ~-manifold' the intended one? In it, every singular point of M̃ is identified with a singular point of E₀~ by a lifted chart that is a homeomorphism for the natural and the (T_BTZ, T') topologies, preserves the singular loci and intertwines the developing maps. Or is a full singular (G,X)-structure on (M̃, T') with an X_A-atlas over {E₀~} meant?",
+    "prop:manifold_admits_galoisian_maximal (l.2309): is 'continuous for the tamifying topology T_BTZ' accepted as continuity for the glued tamifying topology T' of M̃ that is chartwise T_BTZ (GX.btz_manifold_exists_chartwise_tamifying)? T_BTZ itself is a topology on E₀~ (or J^+(Δ)), not on M̃."
+  ],
+  "summary": "The file builds with 0 sorry and no warnings, and its main theorems depend only on propext, Classical.choice and Quot.sound. ex:follows_proposition_brunswic_cauchy, the whole family (E_θ), θ ≥ 0, θ ≠ 2π, massive cones included (DEC-74), is analytic with S_θ = sing(E_θ). B21 Prop 1.3 is built for all index pairs, and the θ = 2π counterexample is non-vacuous; the row is closed and marked. prop:BTZ_manifold_virt_tame is closed and marked, under the weaker hypothesis IsBTZSingModelled with the IsXAManifold corollary, avoiding theo:local_virt_tame's open general case legitimately. prop:manifold_admits_galoisian_maximal now states and proves every assertion for every base point and every presentation: Galoisian, exactly branched, a chartwise-T_BTZ tamifying topology with a continuous developing map, and the local BTZ~-manifold identification. It is honestly partial and unmarked pending the author's ruling on the two readings. REPORT.json is exact (118/118 declarations) and honest. There are no name clashes and no DEC-33 violation. Only three minors; verdict clean.",
+  "note_on_overwrite": "This file previously held an AUDIT-1 of the ROUND-1 file (verdict 'issues': M1 major plus m1–m4). The REPORT's round 2 addressed all of them, and that verdict is kept verbatim under 'superseded_audit' because the dispatch allows writing only this file.",
+  "superseded_audit": {
+    "package": "WP-41d",
+    "round": 1,
+    "auditor": "read-only auditor (round 1)",
+    "date": "2026-11-02",
+    "host": "node1",
+    "file": "scaffold/GXScaffold/BTZ/VirtTame.lean",
+    "module": "GXScaffold.BTZ.VirtTame",
+    "verdict": "issues",
+    "checks": {
+      "1_build": {
+        "result": "pass",
+        "detail": "`taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/VirtTame.lean`: exit 0, 37 s wall. No errors and no sorry warnings. Two linter warnings, both unusedSimpArgs. The existing .olean (16:03:40) is newer than the source (16:03:03), and the upstream Models/SpreadTop/Model/Rigid oleans are all newer than their sources. Real sorry count: 0. `#print axioms` was run via `lake env lean --stdin` on GX.isAnalyticModelFamily_ePaper, GX.isAnalyticModelFamily_eFam, GX.btz_manifold_virt_tame, GX.btz_manifold_galoisian_maximal, GX.not_isAnalyticModelFamily_two_pi and GX.mass_two_pi_sing_eq_empty. Every one gives [propext, Classical.choice, Quot.sound] only, so isVirtuallyTame_of_descending, isVirtuallyTame_of_hasMaximalLifts and btz_hasAutContinuousTamifying are sorry-free transitively. I did not run `lake build` of the module myself, to stay write-free."
+      },
+      "2_statement_fidelity": {
+        "result": "pass for ex:follows_proposition_brunswic_cauchy and prop:BTZ_manifold_virt_tame; partial row honest for prop:manifold_admits_galoisian_maximal",
+        "detail": [
+          "ex:follows_proposition_brunswic_cauchy (l.1927). GX.isAnalyticModelFamily_ePaper is stated with no hypotheses, over the index {θ ≥ 0, θ ≠ 2π}: θ = 0 maps to E₀ (BTZE0), θ > 0 to MassModel θ = Γ_θ\\(D_∞ × ℝ), developed by (t, r e^{iθ̃}) with holonomy the rotation by θ. This is DEC-47's intended massive particle, and the Γ_θ action is ex:quotient_base's θ ↦ θ + kθ. Taking S_θ = sing(E_θ) is the strongest choice, since a larger S fires analyticity more often. The structure field eq_of_iso / exists_aut matches def:family_singular_manifolds_endowed, and isAnalyticModelFamily_iff gives the printed single clause. All four type pairs are covered: (E₀,E₀) by rfl; (E₀,E_θ') via φ.symm and mass_to_btz_false; (E_θ,E₀) via mass_to_btz_false; (E_θ,E_θ') via mass_to_mass. The quantification is over every homeomorphism that is an a.e. morphism, at least as strong as 'a.e. isomorphism'. DEC-74's corrected index set is ruled, so `closed` is consistent with DEC-27. The θ = 2π counterexample is non-vacuous: IsMassStructure (2π) is inhabited by exists_isMassStructure, since 2π ≠ 0. B21 Prop 1.3 (2108.12631 prop:isom, l.378: α ≠ 2π, β arbitrary) is BUILT in-file and not assumed.",
+          "prop:BTZ_manifold_virt_tame (l.2262). M carries the DEC-66 standing instances (T2, LPC, first countable, connected) and IsXAManifold over {E₀} with S = sing E₀, read via DEC-67 (e). The conclusion is GX.IsVirtuallyTame, the full definition. Every hypothesis of isVirtuallyTame_of_hasMaximalLifts is discharged in-file or upstream with 0 sorry. The proof routes around the open general case of theo:local_virt_tame (DEC-86), which is legitimate here: DEC-82 rejects the descending form as a certificate for the THEOREM, not for this proposition, whose conclusion is fully proved. No hidden or circular hypothesis. The hypothesis is satisfiable: GX.isXAManifold_model (Models l.668) makes E₀ itself an {E₀}-manifold.",
+          "prop:manifold_admits_galoisian_maximal (l.2308). Proved: ∀ y₀, Galoisian ∧ branchingLocus = Sing M, i.e. exactly branched. Proved in a weaker reading: 'a developing map continuous for T_BTZ' is formalized as '∃ y₀ T, T tamifying ∧ ∃ D T-continuous', which is literally hT.exists_extension of btz_manifold_virt_tame. Missing: 'M̃ is a BTZ~-manifold'. The row is `partial` and unmarked, and SCOPE (c) plus the two questions disclose both gaps, so nothing is overclaimed. See issue M1."
+        ]
+      },
+      "3_docstring_contract": {
+        "result": "pass with minor",
+        "detail": "The first 4000 characters carry exactly the two bold marks **`ex:follows_proposition_brunswic_cauchy`** and **`prop:BTZ_manifold_virt_tame`**, both certified in full. prop:manifold_admits_galoisian_maximal is unbolded in the module docstring. Minor points are listed under issues m3."
+      },
+      "4_report_honesty": {
+        "result": "pass",
+        "detail": "REPORT.json lists all 3 labels in the file, and these are the only labels the file mentions apart from the cited theo:local_virt_tame and ex:quotient_base. Statuses closed/closed/partial and marks true/true/false match the file. The 104 declarations in the file match the union of the labels' decls and extra_decls exactly, in both directions. sorry_count 0 and builds true are confirmed. The findings (θ = 2π slip; globalisation plus 2πℤ∖{2π} in the Prop 1.3 citation; the 'homeomorphic to R³ with a line' inference; the holonomy-free exact-branching argument) are accurate against l.1927, l.2266 and l.2302–2304."
+      },
+      "5_missing_labels_or_parts": {
+        "result": "one missing assertion",
+        "detail": "No label is missing from the dispatch. One assertion of a multi-part statement is missing: the third assertion of prop:manifold_admits_galoisian_maximal (issue M1)."
+      },
+      "6_cited_results_proved": {
+        "result": "pass",
+        "detail": "B21 Prop 1.3 is built in-file: btzE0_exists_aut (from WP-41c's core), mass_to_mass, mass_exists_aut and mass_to_btz_false. prop:BTZ_virt_tame / Aut(E₀~) T_BTZ-continuity comes from btz_hasAutContinuousTamifying (Model.lean, WP-41b). prop:Galoisian_semilocal comes from maxBranched_isGaloisian. All are sorry-free according to the axiom check."
+      },
+      "7_name_clashes": {
+        "result": "pass",
+        "detail": "Each of the 104 declaration base names was grepped as a theorem/lemma/def/abbrev/instance/structure head over GX/, every other scaffold/ file and the pinned .lake/packages/Causal/lean-causal/Causal: 0 hits. DEC-33 is respected: the only import is GXScaffold.BTZ.Rigid, there is no `open Causal`, no CausalScaffold, and Causal.* names are fully qualified."
+      }
+    },
+    "issues": [
+      {
+        "id": "M1",
+        "severity": "major",
+        "where": "prop:manifold_admits_galoisian_maximal — GX.btz_manifold_galoisian_maximal (l.805), SCOPE (c)",
+        "problem": "A missing assertion and a weaker reading, both disclosed. (a) The third assertion, 'Furthermore, M̃ is a BTZ~-manifold' (l.2310), is not formalized at all: it has no statement and no tagged `sorry`. That breaks CAMPAIGN's state-first rule and kb/0011's 'choose a reading, disclose it, report it as a question'. REPORT itself says reading (i) is 'true by the box lifts': every singular point of M̃ with p^*B has a neighbourhood a.e.-isomorphic to an open of E₀~ around a singular point. HasMaximalLifts and the lifted box charts already provide the components. (b) 'a developing map continuous for the tamifying topology T_BTZ' is formalized as '∃ some tamifying topology T with a T-continuous D'. That is exactly btz_manifold_virt_tame's exists_extension and adds no content. Nothing identifies the glued topology with the topology T_BTZ induces chartwise on M̃, and l.2312 makes that topology the standing 'developing map' for the rest of §4.",
+        "fix": "State reading (i) as a theorem, both for the natural topology and for the glued tamifying topology (whose local pieces are by construction quotients of T_BTZ on E₀~ through the box descents), and prove it or leave a precisely tagged `sorry`. State the identification of the tamifying topology from btz_manifold_virt_tame with the chartwise T_BTZ topology (nhds of a lifted singular point = images of T_BTZ-nhds under the lifted box chart). Keep the row partial until the author rules on the BTZ~-manifold reading."
+      },
+      {
+        "id": "m1",
+        "severity": "minor",
+        "where": "btz_manifold_virt_tame, btz_manifold_isSLSCIn_reg, btz_manifold_sing_subset_branchingLocus, btz_manifold_galoisian_maximal",
+        "problem": "Only hM.hasType is ever used (lines 595, 663, 704); IsXAManifold.exists_atlas is never used. The theorems therefore hold under the l.2300 gloss 'singular locus locally modelled on E₀' alone. That is strictly weaker than IsXAManifold, because the atlas clause forces every regular point into an E₀-chart centred at a singular point. kb/0007 asks for the weakest sufficient hypotheses.",
+        "fix": "Either take `∀ y ∈ Sing M, ∃ a, HasXAType a y` as the hypothesis and keep IsXAManifold corollaries, or note in the checklist that the atlas clause is unused (⚠ weakened available)."
+      },
+      {
+        "id": "m2",
+        "severity": "minor",
+        "where": "GX.btz_manifold_galoisian_maximal",
+        "problem": "The Galoisian/exact-branching conjunct holds for every base point y₀, but the tamifying-topology conjunct only gives ∃ y₀.",
+        "fix": "Optional: transport along the base-point change of MaxBranchedCover, or note the asymmetry in SCOPE."
+      },
+      {
+        "id": "m3",
+        "severity": "minor",
+        "where": "module docstring; docstring of btz_manifold_galoisian_maximal (l.801)",
+        "problem": "kb/0006 items 3 and 6 are missing: there is no `>` block quoting the paper's sentences for the three labels, and no `Provenance: mathlib fabf563a …` line. Separately, the declaration docstring of the partial row's theorem bolds **`prop:manifold_admits_galoisian_maximal`**. This is outside the ledger's 4000-character window, but the bold mark means full certification.",
+        "fix": "Add the quote block and the provenance line. Unbold the label in that declaration docstring."
+      },
+      {
+        "id": "m4",
+        "severity": "minor",
+        "where": "two simp calls (linter.unusedSimpArgs)",
+        "problem": "Two unused-simp-argument linter warnings. Harmless in the scaffold, but they would fail the strict GX build (warningAsError) at graduation.",
+        "fix": "Drop the flagged simp arguments before graduation."
+      }
+    ],
+    "questions_for_author": [
+      "prop:manifold_admits_galoisian_maximal, 'M̃ is a BTZ~-manifold' (l.2310): is the local reading (every singular point of M̃ has a neighbourhood isomorphic to an open of BTZ~ around a singular point), with M̃ in the T_BTZ topology (DEC-77 (b)), the intended one? Or is it DEC-67 (e)'s full X_A-manifold notion, which also needs an atlas covering M̃?",
+      "Should 'continuous for the tamifying topology T_BTZ' (l.2309) be read as continuity for the specific chartwise-T_BTZ topology on M̃, which l.2312 makes standing for §4, rather than for some tamifying topology?"
+    ],
+    "summary": "The file builds with 0 sorry, and its main theorems depend only on the three standard axioms. ex:follows_proposition_brunswic_cauchy (DEC-74 form, with the non-vacuous θ = 2π counterexample) and prop:BTZ_manifold_virt_tame are genuinely certified in full, with B21 Prop 1.3 built rather than assumed. Their bold marks are justified, and REPORT.json is exact (all 104 declarations accounted for) and honest. There are no name clashes and no DEC-33 violation. One major: prop:manifold_admits_galoisian_maximal, honestly partial, leaves its third assertion ('M̃ is a BTZ~-manifold') entirely unstated, and its T_BTZ clause holds only in a reading that adds nothing to virtual tameness. Both gaps are disclosed, but the first is avoidable on the agent's own account. Four minors."
+  }
+}
