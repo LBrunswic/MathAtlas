@@ -1,0 +1,32 @@
+{
+ "package": "WP-45g",
+ "round": 2,
+ "file": "scaffold/BenzecriScaffold/Projective/Convex.lean",
+ "module": "BenzecriScaffold.Projective.Convex",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor, round 2 (WP-45j round 1, WP-45e round 3); hub commit d29f400 (lean-benzecri working tree byte-identical to it, no untracked files), mathlib fabf563a",
+ "summary": "Round 2. All four AUDIT-1 items are fixed. Déf. 8 is now marked under DEC-120 (OQ-24 ruled F(k) ∪ {O}) with no code change, as DEC-120 says; Déf. 7, 9 and 11 stay marked and their marks match DEC-120 ('Déf. 9 and 11 independent of OQ-24'). The new lemmas not_isConvexPartMinkowski_of_linearSubvariety_subset and closedSeg_subset_linearSubvariety_span are correct, non-vacuous and honestly named. The Minkowski material is correctly demoted to remarks. No issue. Ready to graduate after wave 1.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Projective/Convex.lean`: EXIT=0, no output (2 s; .olean newer than the source; no `lake build` run)",
+  "sorry_axioms": "`Lean.collectAxioms` over EVERY non-internal constant of the six audited modules, enumerated by module index from a /tmp scratch file via `lake env lean`: Subvariety 89, Hemisphere 107, Convex 54 (all [propext, Classical.choice, Quot.sound]); Structure/Basic 94 (69 the three, 24 [propext, Quot.sound], 1 none); Quotient 55 (42 / 13 [propext, Quot.sound]); Jets 27 (22 / 5 [propext, Quot.sound]). No sorryAx, no other axiom. No `sorry`, `admit`, `axiom`, `native_decide`, `implemented_by`, `extern`, `unsafe`, `opaque` or `set_option` token in any of the six files",
+  "imports": "BenzecriScaffold.Projective.Subvariety, Mathlib.Analysis.Convex.Body, Mathlib.Geometry.Convex.Cone.Basic only",
+  "report_decls": "every `Benzecri.*` name in the six REPORTs (251 strings) exists in the environment, except `Benzecri.Prop1Counterexample`, which is a namespace",
+  "name_clashes": "scripted over all 426 constants of the six modules: every name with the prefix Benzecri / Benzecri.Sphere / Benzecri.Prop1Counterexample stripped, checked against the root and the opened namespaces Set, Filter, Topology, Function, Bundle and Benzecri: 0 hits (the same scanner finds the 9 known, protected or harmless, hits of wave-1 Sphere, so it is not blind). The only constant outside `Benzecri` is the auto-generated `Homeomorph.addRight.congr_simp` (Structure/Basic, benign)",
+  "round1_fixes": {
+   "minor: OQ-24 dossier": "FIXED. not_isConvexPartMinkowski_of_linearSubvariety_subset (L ≠ ⊥, linearSubvariety L ⊆ k ⟹ ¬ IsConvexPartMinkowski k), the proof AUDIT-1 proposed; the p. 235 typography (« F(h) ∪ {O} » with the ∪ glyph ten lines above Déf. 8's '+') is in SCOPE and in the REPORT (3 occurrences)",
+   "nit: « segment de droite »": "FIXED. closedSeg_subset_linearSubvariety_span (closedSeg (mk M) (mk M') ⊆ linearSubvariety (span {M, M'})); checklist row added, SCOPE bullet rewritten (a line when M, M' are independent)",
+   "nit: 'weakened' vocabulary": "FIXED: Déf. 7's row reads 'generalised'",
+   "nit: upstream_moves": "KEPT as AUDIT-1 asked (ofCone_subset_of_forall, mk_someVector, exists_pos_someVector, isConvexPart_linearSubvariety), and now also named in SCOPE"
+  },
+  "mark_def8_dec120": "DEC-120: « F(k) + {O} » is F(k) ∪ {O}, 'so Déf. 8 is certified with no code change'. Verified: the only Lean change to Déf. 8's material since 282d693 is the added remark lemma; IsConvexPart (wave 1, Convex ℝ (insert 0 (F k))) is the first sentence in the ruled reading and isConvexPart_iff_isSegConvex (no hypothesis on E) proves it equal to the unambiguous second sentence, so both printed sentences define one class. Checklist row: 'reading (OQ-24 RULED, DEC-120)'; REPORT row 'reading (DEC-120, ruled)', status closed, marked. Earned",
+  "marks_def7_9_11": "Unchanged since AUDIT-1 except docstring wording; re-read: Déf. 7 (closedSeg/openSeg, closedSeg_mk/openSeg_mk for any representatives, zero_notMem_segment), Déf. 9 (IsStrictConvexPart, three iff lemmas making it reading-independent), Déf. 11 (IsCorpsConvexe, IsCorpsConvexeS, EA, ES, CA). DEC-120 names Déf. 9 and 11 explicitly; Déf. 7 rests on no reading. All four bold marks are in the header (offsets 502, 976, 1740, 2262 < 4000), each followed by ` — benzecri1960_ch1.tex:LINE` with the right line (234, 246, 255, 285)",
+  "new_decls": "not_isConvexPartMinkowski_of_linearSubvariety_subset: a remark, named for what it says, correctly flagged as supporting DEC-120's ruling (not as Déf. 8 content). closedSeg_subset_linearSubvariety_span: true for every pair of nonzero representatives (antipodal pairs included, where it reads {m, -m} ⊆ line), proof via Convex.segment_subset of the span. Both non-vacuous",
+  "prose": "KS / CS docstrings now cite DEC-120 instead of 'pending OQ-24'; Minkowski section header says 'ruled against by DEC-120: a remark'. No stale 'OPEN' wording left (grep)"
+ },
+ "issues": [],
+ "fidelity_summary": "Déf. 7, 8, 9 and 11 are formalized faithfully and all four marks are earned. Déf. 8 rests on DEC-120's ruling of OQ-24 and needs no code change, because the ruled reading of the first sentence is proved equivalent to the second. The Minkowski reading survives only as remarks that document why it was ruled out.",
+ "graduation": "ready, after Projective/Subvariety (wave 1); perform the REPORT upstream_moves at the same time",
+ "questions_for_author": []
+}

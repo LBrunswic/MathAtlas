@@ -1,0 +1,43 @@
+{
+ "package": "WP-45e",
+ "round": 3,
+ "file": "scaffold/BenzecriScaffold/Projective/Subvariety.lean",
+ "module": "BenzecriScaffold.Projective.Subvariety",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor, round 2 (WP-45j round 1, WP-45e round 3); hub commit d29f400 (lean-benzecri working tree byte-identical to it, no untracked files), mathlib fabf563a",
+ "summary": "Round 3, scoped to the DEC-120 mark change. No code changed since 8dd5161: `git diff 8dd5161 d29f400 -- …/Subvariety.lean` touches only the module docstring (marks, SCOPE, one checklist row) and the docstrings of IsConvexPart and convexQuotientEquiv; a comment-stripped comparison of the two versions is identical, and the working tree equals d29f400. Déf. 5 and Déf. 10 are now bold-marked in the header with the right tex lines, and their status lines and SCOPE state the readings they rest on: DEC-114's l ≠ 0 for Déf. 5, accepted by DEC-120, and for Déf. 10, OQ-24 ruled by DEC-120 plus DEC-114's saturated reading. The marks are earned. Three nits, one carried from AUDIT-2. Ready to graduate after Sphere.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Projective/Subvariety.lean`: EXIT=0, no output (4 s; .olean newer than the source; no `lake build` run)",
+  "sorry_axioms": "`Lean.collectAxioms` over EVERY non-internal constant of the six audited modules, enumerated by module index from a /tmp scratch file via `lake env lean`: Subvariety 89, Hemisphere 107, Convex 54 (all [propext, Classical.choice, Quot.sound]); Structure/Basic 94 (69 the three, 24 [propext, Quot.sound], 1 none); Quotient 55 (42 / 13 [propext, Quot.sound]); Jets 27 (22 / 5 [propext, Quot.sound]). No sorryAx, no other axiom. No `sorry`, `admit`, `axiom`, `native_decide`, `implemented_by`, `extern`, `unsafe`, `opaque` or `set_option` token in any of the six files",
+  "no_code_change": "`git diff 8dd5161 d29f400 -- lean-benzecri/scaffold/BenzecriScaffold/Projective/Subvariety.lean`: 22 insertions / 19 deletions, all inside `/-! … -/` and `/-- … -/` blocks (module doc l.21-39, checklist l.73, SCOPE l.81-98, docstrings of IsConvexPart l.903-908 and convexQuotientEquiv l.1031-1035). Scripted check: with every comment and docstring removed, the 8dd5161 and d29f400 sources are line-for-line identical; `git status` shows the file clean at d29f400",
+  "marks": "**`bzdef:c1s1d4_sous_variete_lineaire`** (offset 581) — `benzecri1960_ch1.tex:186`; **`bzdef:c1s1d5_hemisphere`** (1526) — `:202`; **`bzdef:c1s1d10_quotient`** (2699) — `:260`; all < 4000. Déf. 8 is no longer cited as open here; IsConvexPart's docstring points to Projective/Convex, where Déf. 8 is marked",
+  "def5_mark": "DEC-120 names 'Déf. 5 under l ≠ 0 (DEC-114)'. The content is unchanged and was verified complete in AUDIT-2 under that reading: isOpenHemisphere_frontier_closure (frontier, closure, continuity derived), closedHyperplane_converse, continuous_of_F_union_eq, openHemisphere_eq_iff, hyperplane_eq_iff. The literal-reading facts (isOpenHemisphere_empty, frontier_openHemisphere_zero) stay as remarks. REPORT: status closed, marked, hypotheses row 'reading', tex_lines [202, 220]. Earned",
+  "def10_mark": "The printed S(E) assertion is convexQuotientEquiv (an order isomorphism {k convex, l ⊆ k} ≃o {k' convex in S(E)/l}, no hypothesis on E or L), which DEC-114 ruled holds as printed, in Déf. 8's ∪ reading, now ruled by DEC-120 (OQ-24). The « De même que » premise is convexSaturatedEquiv in DEC-114's saturated reading. REPORT: status closed, marked, rows 'reading' for both, tex_lines [260, 266]. Earned (see nit 1 for the record)",
+  "report": "fix_round_dec120 lists exactly the three docstring changes; no decl added or removed; every decl the REPORT names exists"
+ },
+ "issues": [
+  {
+   "severity": "nit",
+   "where": "registers/DECISIONS.md DEC-120; REPORT labels[2].rests_on",
+   "problem": "DEC-120's enumerated list of accepted marks names Déf. 5, 6, 9, 11 and Prop. 1, plus Déf. 8 certified, but NOT Déf. 10. The Déf. 10 mark follows from DEC-120's general clause ('marks resting on ruled readings are accepted') applied to two ruled readings: OQ-24 (DEC-120) and the saturated analogy (DEC-114). It is earned mathematically, but the record has no line that names it",
+   "fix": "In the master's ledger curation, cite 'DEC-120 general clause + OQ-24 (DEC-120) + DEC-114 (Déf. 10 reading)' for the Déf. 10 row, or add 'and Déf. 10' to DEC-120's list at the next register edit if the author agrees"
+  },
+  {
+   "severity": "nit",
+   "where": "Subvariety.lean:1056-1058 (docstring of convexSaturatedEquiv) and SCOPE l.86-88",
+   "problem": "Carried from AUDIT-2, not addressed: '(C + L ⊆ C: the open, the closed, the conical ones)' is true only of those containing L (an open ball of ℝ² missing L = {x = 0} is not L-saturated), and the subtype does not ask L ⊆ C",
+   "fix": "As in AUDIT-2: write '(C + L ⊆ C: e.g. the open, the closed or the conical convex sets containing L)' in both places, and add 'no containment of L is asked; under the equivalence, C ⊇ L ⟺ O ∈ q(C)'"
+  },
+  {
+   "severity": "nit",
+   "where": "Subvariety.lean:69 (checklist row « Déf. 5: l ≠ 0 »)",
+   "problem": "The row still reads '⚠ reading', while the module now marks Déf. 5 and the sibling files write 'reading (DEC-…, ruled)' (Hemisphere, Convex, Basic)",
+   "fix": "Write 'reading (DEC-114, accepted by DEC-120)' for uniformity, so the mark's dependency is machine-visible in the same vocabulary"
+  }
+ ],
+ "fidelity_summary": "Unchanged mathematics, now correctly marked. Déf. 4 (round 2), Déf. 5 (DEC-114's l ≠ 0, accepted by DEC-120) and Déf. 10 (OQ-24 ruled ∪ by DEC-120; DEC-114's saturated reading of the premise) are all closed and marked, and each mark discloses the rulings it rests on.",
+ "graduation": "ready, after Projective/Sphere (wave 1)",
+ "questions_for_author": []
+}

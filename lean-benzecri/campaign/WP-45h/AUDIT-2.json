@@ -1,0 +1,65 @@
+{
+ "package": "WP-45h",
+ "round": 2,
+ "file": "scaffold/BenzecriScaffold/Structure/Basic.lean",
+ "module": "BenzecriScaffold.Structure.Basic",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor, round 2 (WP-45j round 1, WP-45e round 3); hub commit d29f400 (lean-benzecri working tree byte-identical to it, no untracked files), mathlib fabf563a",
+ "summary": "Round 2. All seven AUDIT-1 items and the three author questions are addressed: minor 1 by the new Structure/Jets (WP-45j, audited separately), minor 2 by scoping the affine-action instances, minor 3 by namespacing the counterexample helpers; the nits are fixed. The marks match DEC-120: Prop. 1 is marked under the connected-and-nonempty reading, with the disconnected and empty cases kept as remarks; Déf. 13 and Prop. 3 are unchanged and earned; Déf. 12 is cited unbolded here and marked in Jets. The Remarque is now marked, and the mark is earned: remarque_affine_vers_projective and maximalAtlas_transport_indep prove that the structure does not depend on j, for ANY affine injection into ANY open hemisphere of S(n). Four nits remain, none affecting a mark. Ready to graduate after wave 1, together with Structure/Jets.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Structure/Basic.lean`: EXIT=0, no output (5 s; .olean newer than the source; no `lake build` run)",
+  "sorry_axioms": "`Lean.collectAxioms` over EVERY non-internal constant of the six audited modules, enumerated by module index from a /tmp scratch file via `lake env lean`: Subvariety 89, Hemisphere 107, Convex 54 (all [propext, Classical.choice, Quot.sound]); Structure/Basic 94 (69 the three, 24 [propext, Quot.sound], 1 none); Quotient 55 (42 / 13 [propext, Quot.sound]); Jets 27 (22 / 5 [propext, Quot.sound]). No sorryAx, no other axiom. No `sorry`, `admit`, `axiom`, `native_decide`, `implemented_by`, `extern`, `unsafe`, `opaque` or `set_option` token in any of the six files",
+  "imports": "BenzecriScaffold.Projective.Hemisphere, BenzecriScaffold.Structure.Groupoid, Mathlib.Order.Filter.Germ.Basic, Mathlib.Topology.Connected.LocallyConnected: compliant",
+  "report_decls": "every `Benzecri.*` name in the six REPORTs (251 strings) exists in the environment, except `Benzecri.Prop1Counterexample`, which is a namespace",
+  "name_clashes": "scripted over all 426 constants of the six modules: every name with the prefix Benzecri / Benzecri.Sphere / Benzecri.Prop1Counterexample stripped, checked against the root and the opened namespaces Set, Filter, Topology, Function, Bundle and Benzecri: 0 hits (the same scanner finds the 9 known, protected or harmless, hits of wave-1 Sphere, so it is not blind). The only constant outside `Benzecri` is the auto-generated `Homeomorph.addRight.congr_simp` (Structure/Basic, benign)",
+  "round1_fixes": {
+   "minor 1: étalé topology / « revêtement »": "FIXED in the new module Structure/Jets (WP-45j): etaleTopology, isOpen_iff_isEtaleOpen, isCoveringMap_jets, IsJetStructure.isCoveringMap; the checklist rows here now point there. See WP-45j/AUDIT-1.json",
+   "minor 2: orphan MulAction (P ≃ᵃ[k] P) P": "FIXED: affineEquivApplyMulAction and affineEquivFaithfulSMul are `scoped instance`s of namespace Benzecri, as lean-gx scopes GX.affineEquivMulAction. Verified in scratch: outside the scope `MulAction (GAR 2) (Fin 2 → ℝ)` fails to synthesize; with `open scoped Benzecri` downstream use works (isCoveringMap_jets_aff applied). The two GAR n instances (ContinuousConstSMul, IsAnalyticAction) remain global; see nit 1",
+   "minor 3: counterexample helpers": "FIXED: cxA … cx_disjoint live in `namespace Benzecri.Prop1Counterexample`; only not_prop1_of_disconnected and not_existsUnique_smul_eq_of_empty are in Benzecri; REPORT extra_decls no longer lists them",
+   "nit: chartedSpaceOfAtlas l.479": "FIXED (docstring and module doc)",
+   "nit: Remarque l.319-329": "FIXED (module doc, REPORT tex_lines [319, 329])",
+   "nit: empty U": "FIXED: not_existsUnique_smul_eq_of_empty (G nontrivial ⟹ no unique g on ∅), cited in the Prop. 1 remark",
+   "nit: 'weakened' vocabulary": "FIXED: 'generalised' for V, Prop. 3's local g_ij and the Remarque's j; 'reading (DEC-120, ruled)' for Prop. 1's U",
+   "question: Prop. 1 finding vs reading": "RULED by DEC-120 (U connected); implemented as a reading, counterexample kept as a remark",
+   "question: Déf. 12 étalé topology": "RULED by DEC-120 ('Yes, build it'); built in Structure/Jets",
+   "question: « canoniquement associée »": "Answered by proof, not by ruling: independence of j is now proved (below)"
+  },
+  "mark_prop1": "DEC-120: 'Prop. 1 with U read connected'. 1°: existsUnique_smul_eq_of_isPreconnected (IsPreconnected U, U.Nonempty — i.e. Mathlib's IsConnected, Bourbaki's connexe; φ₁.source = φ₂.source = U, both compatible; ∃! g, ∀ y ∈ U, φ₁ y = g • φ₂ y). 2°: existsUnique_compatibleChart_jet (IsPreconnected U, x ∈ U; existence and uniqueness up to EqOnSource = equal on U; existence alone for every U: exists_compatibleChart_jet). Rigidity is IsAnalyticAction, an instance for GSR n and GAR n. The docstring states the reading and the remarks; the REPORT has findings [] and the row 'reading (DEC-120, ruled)'. Earned",
+  "mark_remarque": "remarque_affine_vers_projective: for ANY l ≠ 0 (Fact) and ANY j : ℝⁿ → openHemisphere l with IsAffine ℝ j (Déf. 6's structure) and j injective, it derives (not assumes) that ι = coe ∘ j is an open embedding and that φ : GAR n →* GSR n (conj σ ∘ affToGS) makes ι equivariant; the charts j ∘ φ give HasGroupoid (projGroupoid n) (« J''(V) définit sur V une structure de variété localement projective »); its jets are exactly {jetSMul g ⟨x, γ.map j⟩ | g ∈ GS(n), ⟨x, γ⟩ ∈ J(V)} = GS ∘ j ∘ J(V) = J''(V); and its maximal atlas equals the one transported along the standard chart s(·,1). maximalAtlas_transport_indep: for j into openHemisphere l and j' into openHemisphere l' (two possibly different hemispheres), both affine injective, the two transported structures have the same maximal atlas; pp.explicit confirms both sides use `transportChartedSpace hι` / `hι'` (there is no ambient ChartedSpace (S n) V). The IsOpenEmbedding arguments hι, hι' of maximalAtlas_transport_indep are needed only to name the transported charted spaces; they are Props supplied by remarque_affine_vers_projective, so the statement is not weakened. 'ANY open hemisphere': every open hemisphere of S(n) is openHemisphere l for an l ≠ 0 (Déf. 5), and Déf. 6's structure on it does not depend on l (hemi_vadd_indep, WP-45f), so the quantification over (l, j) covers every « isomorphisme compatible avec la structure affine de ℝⁿ sur un hémisphère »; the generalisation from isomorphism to injective affine map is a strengthening (an injective affine map ℝⁿ → H is onto by dimension). Non-vacuity: instantiated in scratch with l = lastForm n, j = hemiChartH. Earned",
+  "remarque_ingredients": "maximalAtlas_eq_of_eventually_smul (two (G,X)-structures whose preferred charts differ near every point by an element of G have equal maximal atlases) and maximalAtlas_transport_eq_of_smul (ι' = σ • ι ⟹ equal transported maximal atlases, ι' equivariant through σ φ σ⁻¹): correct, general, honestly named; listed in REPORT upstream_moves for Structure/Groupoid",
+  "mark_def13_prop3": "Unchanged since AUDIT-1 (IsCompatibleChart, isCompatibleChart_iff; existsUnique_structure_of_atlas{,_printed}); still earned",
+  "def12_here": "Déf. 12 is cited unbolded here with the pointer 'Certified in full together with Structure/Jets (WP-45j), which carries the mark'. The jet ⟺ atlas equivalence (isJetStructure_jets, exists_hasGroupoid_jets_eq_iff, maximalAtlas_eq_of_jets_eq) is unchanged and faithful to 1°/2°",
+  "scan": "PDF pp. 9-10 (journal pp. 236-237) re-read as page images at 110 dpi: Déf. 12, the Remarque, Déf. 13, Prop. 1-3 match the transcription l.304-379; the Prop. 2 proof prints « munie de la topologie discrète » for the fibre, as Jets uses"
+ },
+ "issues": [
+  {
+   "severity": "nit",
+   "where": "Structure/Basic.lean:441 (docstring of mem_jets_iff_existsUnique)",
+   "problem": "Stale: '(the topology of `J(V)` itself is not built, SCOPE)'. It is built now, in Structure/Jets, and this lemma is the set-level input of jetsTrivialization",
+   "fix": "Replace by '(the topology is the étalé one of `Structure/Jets`; this is the set-level form of `jetsTrivialization`)'"
+  },
+  {
+   "severity": "nit",
+   "where": "Structure/Basic.lean:166 (`instance : ContinuousConstSMul (GAR n) (Fin n → ℝ)`), :196 (`instance : IsAnalyticAction (GAR n) (Fin n → ℝ)`)",
+   "problem": "These two remain GLOBAL anonymous instances while the SMul they are about is now scoped. Outside the scope their type cannot even be elaborated (verified: `ContinuousConstSMul (Benzecri.GAR 2) (Fin 2 → ℝ)` fails on the missing SMul), so they are inert there, but a bridge file that opens lean-gx's scoped GX.affineEquivMulAction instead would meet a global instance keyed on Benzecri's (defeq) SMul. No diamond and no failure today",
+   "fix": "Name them and make them `scoped instance` too (e.g. `scoped instance GAR.continuousConstSMul`, `scoped instance GAR.isAnalyticAction`), and move them with affineEquivApplyMulAction to Projective/Groups at graduation (REPORT upstream_moves already lists them)"
+  },
+  {
+   "severity": "nit",
+   "where": "REPORT.json labels[0] (Déf. 12) and WP-45j/REPORT.json labels[0]",
+   "problem": "bzdef:c1s1d12 is reported 'closed, marked: true' by BOTH packages, while only Structure/Jets.lean carries the bold mark (WP-45h's row says so in `mark_location`). A ledger import keyed on REPORT rows would count it twice or attach it to Basic.lean",
+   "fix": "When curating the ledger, attach the row to Structure/Jets.lean (with Basic.lean as a dependency), or set WP-45h's row to `marked: false` with `mark_location` kept"
+  },
+  {
+   "severity": "nit",
+   "where": "Structure/Basic.lean:1036 (Prop1Counterexample.cxv)",
+   "problem": "Batteries' unusedArguments linter flags `cxv := fun _ => 10` (a constant function on Fin 1 written as a lambda). A false positive in substance",
+   "fix": "Write `cxv : Fin 1 → ℝ := Function.const _ 10` (or `@[nolint unusedArguments]`) before graduation, if the strict library runs the linter"
+  }
+ ],
+ "fidelity_summary": "Déf. 13, Prop. 1 (U connected and nonempty, DEC-120) and Prop. 3 are proved as printed; the Remarque is proved in its strongest form: for every affine injection of ℝⁿ into every open hemisphere of S(n), the transported structure is locally projective, its jets are J''(V) = GS ∘ j ∘ J(V), and it does not depend on j. Déf. 12's jet ⟺ atlas equivalence is here and its topological half is in Structure/Jets. All marks are earned.",
+ "graduation": "ready, after wave 1 (Structure/Groupoid, Projective/*) and Projective/Hemisphere; graduate together with Structure/Jets, which carries Déf. 12's mark; perform the REPORT upstream_moves at the same time",
+ "questions_for_author": []
+}

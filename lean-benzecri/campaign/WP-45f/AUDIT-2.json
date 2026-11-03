@@ -1,0 +1,37 @@
+{
+ "package": "WP-45f",
+ "round": 2,
+ "file": "scaffold/BenzecriScaffold/Projective/Hemisphere.lean",
+ "module": "BenzecriScaffold.Projective.Hemisphere",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor, round 2 (WP-45j round 1, WP-45e round 3); hub commit d29f400 (lean-benzecri working tree byte-identical to it, no untracked files), mathlib fabf563a",
+ "summary": "Round 2. All three AUDIT-1 items are fixed. The independence of Déf. 6 from the equation l is now a theorem (hemiTransEquiv, a LinearEquiv built by arrowCongr from ker_eq_of_openHemisphere_eq; coe_vadd_hemiTransEquiv; hemi_vadd_indep, exactly the form AUDIT-1 asked). The generic helpers are private, and the REPORT row reads 'reading (DEC-114, ruled)'. The Déf. 6 mark matches DEC-120 ('Déf. 6 (both readings agree)') and is earned. New since round 1: exists_eq_smul_hemiChart, the Remarque's key lemma (every affine injection ℝⁿ → H, H ANY open hemisphere of S(n), is σ ∘ s(·,1) with σ ∈ GS(n)); it is correct and non-vacuous. One pre-existing nit. Ready to graduate after wave 1.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Projective/Hemisphere.lean`: EXIT=0, no output (4 s; .olean newer than the source; no `lake build` run)",
+  "sorry_axioms": "`Lean.collectAxioms` over EVERY non-internal constant of the six audited modules, enumerated by module index from a /tmp scratch file via `lake env lean`: Subvariety 89, Hemisphere 107, Convex 54 (all [propext, Classical.choice, Quot.sound]); Structure/Basic 94 (69 the three, 24 [propext, Quot.sound], 1 none); Quotient 55 (42 / 13 [propext, Quot.sound]); Jets 27 (22 / 5 [propext, Quot.sound]). No sorryAx, no other axiom. No `sorry`, `admit`, `axiom`, `native_decide`, `implemented_by`, `extern`, `unsafe`, `opaque` or `set_option` token in any of the six files",
+  "imports": "BenzecriScaffold.Projective.{Subvariety,Groups}, BenzecriScaffold.Affine.Basic only (DEC-112)",
+  "report_decls": "every `Benzecri.*` name in the six REPORTs (251 strings) exists in the environment, except `Benzecri.Prop1Counterexample`, which is a namespace",
+  "name_clashes": "scripted over all 426 constants of the six modules: every name with the prefix Benzecri / Benzecri.Sphere / Benzecri.Prop1Counterexample stripped, checked against the root and the opened namespaces Set, Filter, Topology, Function, Bundle and Benzecri: 0 hits (the same scanner finds the 9 known, protected or harmless, hits of wave-1 Sphere, so it is not blind). The only constant outside `Benzecri` is the auto-generated `Homeomorph.addRight.congr_simp` (Structure/Basic, benign)",
+  "round1_fixes": {
+   "minor: independence of l at the level of the action": "FIXED. hemiTransEquiv h : HemiTrans l ≃ₗ[ℝ] HemiTrans l' (LinearEquiv.arrowCongr of Submodule.quotEquivOfEq and LinearEquiv.ofEq on the equal kernels); transl_hemiTransEquiv shows by rfl that the vector formula M ↦ M + u(q M) is unchanged; coe_vadd_hemiTransEquiv proves (e u +ᵥ m) = (u +ᵥ m) in S(E) for every m, by induction on the representative; hemi_vadd_indep packages it as ∃ e, ∀ u m, … — verbatim the statement AUDIT-1 proposed. Checklist row 'independence of the equation l' added; SCOPE rewritten",
+   "nit: generic names": "FIXED. mk_eq_mk_of_eq, snoc_add_snoc, smul_snoc, init_add, init_smul, snoc_init_smul_eq, continuous_init, GAR.apply_eq are now private. affLin/affToGL/affToGS stay public in Benzecri.Sphere and are listed in REPORT upstream_moves for Projective/Groups at graduation (AUDIT-1's own fix)",
+   "nit: REPORT 'here' of « structure d'espace affin »": "FIXED: 'reading (DEC-114, ruled)'"
+  },
+  "mark_def6_dec120": "DEC-120 accepts 'Déf. 6 (both readings agree)'. Re-verified: isSimplyTransitive_hemi (every l, Déf. 1 as printed), isAffineSpace_hemi_iff (↔ l ≠ 0, DEC-114), instAddTorsorHemi [Fact (l ≠ 0)]; the module docstring states the dependency on DEC-114/DEC-120. The mark is the first bold label of the file (offset 481 < 4000) followed by ` — benzecri1960_ch1.tex:222`. Earned",
+  "exists_eq_smul_hemiChart": "For l ≠ 0 (Fact) and j : ℝⁿ → openHemisphere l, IsAffine ℝ j (Déf. 2's predicate, for Déf. 6's AddTorsor) and injective, ∃ σ : GSR n, ∀ y, j y = σ • s(y, 1). The proof lifts j to the affine hyperplane l = 1 (hemiEquivLevelOne), builds the endomorphism L(y, t) = a.linear y + t·a(0) of ℝⁿ⁺¹, proves it injective (l kills the linear part and is 1 on a(0); injectivity of j on the linear part), and takes σ = [LinearEquiv.ofInjectiveEndo L]. Correct; the hypotheses are satisfiable (hemiChartH: isAffine_hemiChartH, bijective_hemiChartH, instantiated in scratch). Since every open hemisphere of S(n) is openHemisphere l for some l ≠ 0 (Déf. 5) and the structure does not depend on l (hemi_vadd_indep), this covers every « isomorphisme compatible avec la structure affine de ℝⁿ sur un hémisphère »",
+  "instances": "No new instance. `instance : Fact (lastForm n ≠ 0)` (round 1) is unchanged and harmless"
+ },
+ "issues": [
+  {
+   "severity": "nit",
+   "where": "Hemisphere.lean:392 (Sphere.levelOne)",
+   "problem": "Batteries' unusedArguments linter (run over the whole scaffold in scratch) flags `levelOne`'s `_hv₁ : l v₁ = 1`: the AffineSubspace mk' v₁ (ker l) does not use it. It is deliberate (it indexes the hyperplane by a witness), pre-dates round 1, and does not affect any mark",
+   "fix": "At graduation either add `@[nolint unusedArguments]` with a one-line reason, or state levelOne without the proof argument and keep `mem_levelOne hv₁`"
+  }
+ ],
+ "fidelity_summary": "Déf. 6 is formalized faithfully and its mark is earned: the printed formula, independence of the representative M, independence of the equation l (now proved as a linear isomorphism intertwining the two actions), simple transitivity on every open hemisphere, and the AddTorsor under DEC-114's l ≠ 0 accepted by DEC-120. The p. 236 sentence is proved. The Remarque's groundwork (exists_eq_smul_hemiChart) is correct and is what makes Structure/Basic's independence of j hold for every affine injection into every open hemisphere.",
+ "graduation": "ready, after the wave-1 modules it imports (Projective/Subvariety, Projective/Groups, Affine/Basic); perform the REPORT upstream_moves at the same time",
+ "questions_for_author": []
+}

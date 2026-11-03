@@ -1,0 +1,32 @@
+{
+ "package": "WP-45i",
+ "round": 2,
+ "file": "scaffold/BenzecriScaffold/Structure/Quotient.lean",
+ "module": "BenzecriScaffold.Structure.Quotient",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor, round 2 (WP-45j round 1, WP-45e round 3); hub commit d29f400 (lean-benzecri working tree byte-identical to it, no untracked files), mathlib fabf563a",
+ "summary": "Round 2. All five AUDIT-1 items are fixed, and DEC-120's ruling on « proprement discontinu » (Mathlib's ProperlyDiscontinuousSMul, V/G Hausdorff) is implemented with the weaker sense kept as a remark. ContinuousConstSMul Γ V is no longer a hypothesis: it is derived from « d'automorphismes » (continuousConstSMul_of_isGXMorphism) and injected into the three quotient statements by `haveI`. Since ContinuousConstSMul is a Prop, a caller with its own instance still gets the theorems (verified in scratch). Nothing is marked (no label). No issue. Ready to graduate after Structure/Basic.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Structure/Quotient.lean`: EXIT=0, no output (4 s; .olean newer than the source; no `lake build` run)",
+  "sorry_axioms": "`Lean.collectAxioms` over EVERY non-internal constant of the six audited modules, enumerated by module index from a /tmp scratch file via `lake env lean`: Subvariety 89, Hemisphere 107, Convex 54 (all [propext, Classical.choice, Quot.sound]); Structure/Basic 94 (69 the three, 24 [propext, Quot.sound], 1 none); Quotient 55 (42 / 13 [propext, Quot.sound]); Jets 27 (22 / 5 [propext, Quot.sound]). No sorryAx, no other axiom. No `sorry`, `admit`, `axiom`, `native_decide`, `implemented_by`, `extern`, `unsafe`, `opaque` or `set_option` token in any of the six files",
+  "imports": "BenzecriScaffold.Structure.Basic, Mathlib.Topology.Covering.Quotient, Mathlib.Geometry.Manifold.Instances.Quotient, Mathlib.CategoryTheory.Category.Basic: compliant",
+  "report_decls": "every `Benzecri.*` name in the six REPORTs (251 strings) exists in the environment, except `Benzecri.Prop1Counterexample`, which is a namespace",
+  "name_clashes": "scripted over all 426 constants of the six modules: every name with the prefix Benzecri / Benzecri.Sphere / Benzecri.Prop1Counterexample stripped, checked against the root and the opened namespaces Set, Filter, Topology, Function, Bundle and Benzecri: 0 hits (the same scanner finds the 9 known, protected or harmless, hits of wave-1 Sphere, so it is not blind). The only constant outside `Benzecri` is the auto-generated `Homeomorph.addRight.congr_simp` (Structure/Basic, benign)",
+  "round1_fixes": {
+   "minor: weaker sense of « proprement discontinu »": "FIXED: existsUnique_quotient_of_isQuotientCoveringMap (from IsQuotientCoveringMap, with no T2 or local compactness: existence of a (G,X)-structure on V/Γ making the projection a morphism, unique up to maximal atlas), a one-line application of existsUnique_pushforward, as AUDIT-1 verified. Docstring and checklist call it a remark under DEC-120",
+   "minor: § 2 on the full subcategory": "FIXED: SCOPE records that DEC-113's equivalence will use the full subcategory of connected Hausdorff (second countable) objects",
+   "nit: l.512-663": "FIXED (module doc l.19 and section header)",
+   "nit: Hom ext": "FIXED: `@[ext] theorem GXCat.hom_ext (h : f.1 = g.1) : f = g`. The optional forgetful functor was not added (AUDIT-1 said optional)",
+   "nit: redundant ContinuousConstSMul Γ V": "FIXED beyond the minimum: removed from the variables; continuousConstSMul_of_isGXMorphism derives it from hΓ; hasGroupoid_quotient, isGXMorphism_quotientMk and maximalAtlas_quotient_unique state it with `haveI` in the type"
+  },
+  "haveI_in_statements": "The `haveI := continuousConstSMul_of_isGXMorphism hΓ` in the TYPE of the three theorems elaborates the instance argument of MulAction.instChartedSpaceQuotient to that proof term. ContinuousConstSMul is a Prop-valued class, so any other instance is defeq by proof irrelevance: in scratch, with `[ContinuousConstSMul Γ V]` in context, `hasGroupoid_quotient hΓ` and `isGXMorphism_quotientMk hΓ` close goals stated with the ambient instance. No diamond",
+  "dec120": "« proprement discontinu » is ProperlyDiscontinuousSMul with T2Space V and LocallyCompactSpace V; checklist row cites DEC-120; REPORT `rulings` records it. Conforms",
+  "unchanged": "GXCat.category, IsGXMorphism and isGXMorphism_iff_jets, existsUnique_pullback, existsUnique_pushforward, IsGXDeck: unchanged since AUDIT-1 and still correct"
+ },
+ "issues": [],
+ "fidelity_summary": "The unlabelled prose of p. 238 is formalized faithfully: the category of (G,X)-manifolds with morphisms by charts (equivalent to « J(V₂)∘f ⊂ J(V₁) » for continuous f), the quotient V/Γ under DEC-120's sense of « proprement discontinu » (and, as a remark, under the wandering sense), and the étalé pull-back. « si R est galoisien … » and the universal covering's projection remain for wave 3 (Prop. 2), as disclosed.",
+ "graduation": "ready, after Structure/Basic",
+ "questions_for_author": []
+}
