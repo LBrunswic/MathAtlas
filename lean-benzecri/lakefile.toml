@@ -1,0 +1,30 @@
+name = "Benzecri"
+defaultTargets = ["Benzecri"]
+
+# The library of the paper `benzecri`: J.-P. Benzécri, "Sur les variétés localement affines et
+# localement projectives" (Bull. SMF 88 (1960) 229-332), formalized systematically as the home of
+# the (singular) Benzécri / affine suspension (DEC-112). A package of its own at the hub's pin.
+#
+# Layout (DEC-112): the classical core (Ch.1 first) imports Mathlib ONLY. The generalisation layers
+# (gx's singular (G,X) setting, ETT causality, the sheaf viewpoints, the Lorentzian / HS
+# specialisations) will `require` lean-gx, git-pinned to a gated commit (as lean-gx pins Causal);
+# neither lean-gx nor lean-causal ever imports this package. Until then only Mathlib is required.
+#
+# Mathlib at the hub's pin (hub.toml): tag v4.31.0, frozen by lake-manifest.json to fabf563a7c95.
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "v4.31.0"
+
+# The STRICT library. `sorry` is a compile error here: warningAsError.
+[[lean_lib]]
+name = "Benzecri"
+globs = ["Benzecri.*"]
+leanOptions = { warningAsError = true }
+
+# The SCAFFOLD library. `sorry` is permitted and tagged `SORRY(<label>): <obstruction>`. Not a
+# default target, and never imported by `Benzecri`: graduation is a file move.
+[[lean_lib]]
+name = "BenzecriScaffold"
+srcDir = "scaffold"
+globs = ["BenzecriScaffold.*"]

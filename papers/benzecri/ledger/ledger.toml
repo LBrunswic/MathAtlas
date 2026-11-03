@@ -1,0 +1,27 @@
+# Ledger configuration for benzecri: J.-P. Benzécri, Sur les variétés localement affines et localement
+# projectives (Bull. SMF 88 (1960) 229-332, his thèse), an EXTERNAL paper formalized in its own package
+# `lean-benzecri/` (DEC-112). The draft is a TRANSCRIPTION of the Numdam scan (legacy/MANIFEST.json):
+# the results A, B, C of the introduction and Chapter 1, in French environments aliased below. The
+# labels carry bz-prefixed kinds (bzdef, bzprop, ...), as barbot's carry b-prefixed ones (kb/0024 of
+# lean-causal), so that no other ledger ever reads a Benzécri docstring mark.
+[paper]
+root = "../legacy/labeled"
+document = "benzecri1960_ch1.tex"
+notation = []
+files = [["benzecri1960_ch1.tex", "body", "P"]]
+env_alias = { defin = "definition", prop = "proposition", theoreme = "theorem", lemme = "lemma", corollaire = "corollary", remarque = "remark", resume = "theorem", enonce = "theorem" }
+label_prefixes = ["bzthm", "bzprop", "bzlem", "bzcor", "bzdef", "bzrem"]
+coverage_recursive = false
+
+[lean]
+root = "../../../lean-benzecri"
+strict = ["Benzecri"]
+scaffold = ["scaffold/BenzecriScaffold"]
+scope = ["*"]
+
+[output]
+dir = "."
+json = "ledger.json"
+markdown = "LEDGER.md"
+dot = "dag.dot"
+tool_name = "tools/ledger.py"
