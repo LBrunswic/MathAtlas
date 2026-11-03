@@ -9,12 +9,16 @@
     {
       "label": "bzprop:c1s2p2_base_cone",
       "tex_lines": [
-        537,
-        543
+        540,
+        546
       ],
       "status": "closed",
       "marked": true,
       "decls": [
+        "Benzecri.ConeBase.existsUnique_baseStructure_of_properSMul",
+        "Benzecri.ConeBase.t2Space_iff_properSMul",
+        "Benzecri.ConeBase.properSMul_of_t2Space",
+        "Benzecri.ConeBase.t2Space_of_properSMul",
         "Benzecri.ConeBase",
         "Benzecri.ConeBase.mk",
         "Benzecri.ConeBase.baseChart",
@@ -33,33 +37,40 @@
         {
           "paper": "V une variété conique affine (Hausdorff, « variété »)",
           "here": "reading",
-          "note": "[T2Space V]: Déf. 3's action, through which B = V/ℝ⁺ is defined, needs it"
+          "note": "[T2Space V]: Déf. 3's action, through which B = V/ℝ⁺ is defined, needs it (kept by DEC-122)"
         },
         {
-          "paper": "structure localement projective de B",
-          "here": "carried",
-          "note": "ChartedSpace (S n) + HasGroupoid (projGroupoid n), Déf. 12 of the strict library (no Hausdorffness)"
+          "paper": "structure localement projective de B, read on a « variété » (plan F6, Déf. 12)",
+          "here": "carried in the corrected form",
+          "note": "T2Space (ConeBase n V) with ChartedSpace (S n) + HasGroupoid (projGroupoid n); without properness B can be non-Hausdorff (finding), and existsUnique_baseStructure is then the statement for a (GS,S)-structure on a non-Hausdorff space"
+        },
+        {
+          "paper": "(not printed) the action of ℝ₊* on V is proper",
+          "here": "added (ruled, DEC-122)",
+          "note": "equivalent to B Hausdorff: t2Space_iff_properSMul (⇐ Mathlib's t2Space_quotient_mulAction_of_properSMul; ⇒ proved: properSMul_of_t2Space, via Mathlib's ultrafilter criterion and the radius ratio in a cone chart); automatic for n ≤ 2 (Cone/LowDim)"
         },
         {
           "paper": "l'unique structure telle que les p(j) soient des jets projectifs",
           "here": "carried",
-          "note": "existsUnique_baseStructure: any (GS(n),S(n))-structure with every p(j) projective has the same maximal atlas"
+          "note": "existsUnique_baseStructure(_of_properSMul): any (GS(n),S(n))-structure with every p(j) projective has the same maximal atlas; the competitor cs is named on both sides (kb/0002, checked with pp.explicit)"
         }
       ],
       "sorries": [],
-      "findings": [],
+      "findings": [
+        "DEC-122 FINDING (§ 2 Prop. 2, l.540–546): read with a « variété » base (plan F6; Déf. 12: « Sur une variété V … structure de variété localement projective »), Prop. 2 is false for Benzécri's n = 3: V = {z > 0, (x,y) ≠ 0}/⟨diag(4, 1/8, 2)⟩ ⊂ ℝ³∖0 is a Hausdorff, second countable, connected affine conical 3-manifold whose base B = (ℝ²∖0)/⟨(p,q) ↦ (2p, q/16)⟩ is not Hausdorff (Benzecri.ConeCex.not_t2Space_coneBase, Benzecri.ConeCex.not_prop2HausdorffBaseAsRead, Cone/Counterexample). The hypothesis the statement omits is that ℝ₊* acts properly, equivalently B Hausdorff (ConeBase.t2Space_iff_properSMul, proved both ways); for n ≤ 2 it holds automatically (Benzecri.LowDim.t2Space_coneBase_of_le_one)."
+      ],
       "questions": [
-        "Does V Hausdorff (with Déf. 2's 3°) force the base B = V/ℝ⁺ to be Hausdorff? Not proved here; sufficient: the ℝ₊* action is proper (t2Space_of_properSMul). It matters for Déf. 3's « topologiquement trivial » (a section forces B Hausdorff: t2Space_of_section) and for wave 4's equivalence (F(B) is Hausdorff only over Hausdorff B). A naive counterexample (W = {x>0} ⊂ ℝ²−0 modulo diag(2,½)) violates 3°, which is what excludes it.",
         "Indexing: the cone is RnO (n+1), the base S n (Benzecri's n and n−1); GU(n+1) → GS(n) is QuotientGroup.mk, the inverse of isoGU."
-      ]
+      ],
+      "correction": "DEC-122: closed for the corrected statement (the action of ℝ₊* on V is proper; B Hausdorff), finding recorded. Formalization of record: Benzecri.ConeBase.existsUnique_baseStructure_of_properSMul."
     },
     {
       "label": "bzdef:c1s2d3_homotheties_positives",
       "tex_lines": [
-        523,
-        535
+        526,
+        538
       ],
-      "status": "partial",
+      "status": "closed",
       "marked": false,
       "decls": [
         "Benzecri.ConeBase.coneTrivialization",
@@ -70,23 +81,25 @@
         {
           "paper": "espace fibré R⁺-principal",
           "here": "carried",
-          "note": "free action (Cone/Basic) + equivariant local trivialisations over every base chart"
+          "note": "free action (Cone/Basic) + equivariant local trivialisations over every base chart; the base of this bundle is Hausdorff iff the action is proper (t2Space_iff_properSMul). Read with a Hausdorff base (Ehresmann/Steenrod) the sentence itself needs the properness hypothesis of DEC-122 — the counterexample is a locally trivial principal bundle over a non-Hausdorff base."
         }
       ],
       "sorries": [],
-      "findings": [],
-      "questions": [
-        "See WP-45m: the label is completed across Cone/Basic, Cone/Base, Cone/Section and stays partial."
-      ]
+      "findings": [
+        "See WP-45m: the Déf. 3 finding (DEC-122); the bundle sentence holds as a locally trivial free action for every V, and as a bundle over a Hausdorff base exactly when the action is proper."
+      ],
+      "questions": [],
+      "marked_in": "scaffold/BenzecriScaffold/Cone/Section.lean (WP-45o)",
+      "correction": "DEC-122: closed for the corrected statement, finding recorded"
     }
   ],
   "extra_decls": [
     "Benzecri.continuous_RPos_iff",
-    "Benzecri.radius",
-    "Benzecri.radius_smul",
-    "Benzecri.unitRep",
-    "Benzecri.toSphere_unitRep",
-    "Benzecri.unitRep_toSphere",
+    "Benzecri.Punctured.radius",
+    "Benzecri.Punctured.radius_smul",
+    "Benzecri.Sphere.unitRep",
+    "Benzecri.Sphere.toSphere_unitRep",
+    "Benzecri.Sphere.unitRep_toSphere",
     "Benzecri.ConeBase.isOpenQuotientMap_mk",
     "Benzecri.ConeBase.t2Space_of_properSMul",
     "Benzecri.ConeBase.mk_mem_baseChart_source_iff",
@@ -95,14 +108,31 @@
     "Benzecri.ConeBase.continuous_map",
     "Benzecri.ConeBase.isGXMorphism_map",
     "Benzecri.ConeBase.map_id",
-    "Benzecri.ConeBase.map_comp"
+    "Benzecri.ConeBase.map_comp",
+    "Benzecri.ConeBase.properSMul_of_tendsto",
+    "Benzecri.ConeBase.tendsto_fst_of_tendsto_radius",
+    "Benzecri.ConeBase.connectedSpace",
+    "Benzecri.ConeBase.secondCountableTopology"
   ],
   "upstream_moves": [
     "Benzecri.continuous_RPos_iff -> Benzecri/Projective/Groups.lean",
-    "Benzecri.unitRep, toSphere_unitRep (a continuous section of s through the unit sphere) -> Benzecri/Projective/Sphere.lean (Normed section)"
+    "Benzecri.Sphere.unitRep, Sphere.toSphere_unitRep (a continuous section of s through the unit sphere) -> Benzecri/Projective/Sphere.lean (Normed section)"
   ],
   "kb_proposals": [
     "To push a germ statement from V to B = V/ℝ⁺ use the open quotient map: ConeBase.mk_image_mem_nhds turns {y | P y} ∈ 𝓝 m into mk '' {…} ∈ 𝓝 (mk m)."
   ],
-  "notes": "Import: `import BenzecriScaffold.Cone.Base` (imports Cone.Basic, Mathlib ProperAction and FiberBundle.Trivialization). The base functor on morphisms (ConeBase.map, isGXMorphism_map, map_id, map_comp) is in place for wave 4's F⁻¹; F⁻¹ on objects is ConeBase n V with ConeBase.chartedSpace/hasGroupoid (global instances on the module's own type ConeBase). B's Hausdorffness is not claimed (Prop. 2 does not state it)."
+  "notes": "Import: `import BenzecriScaffold.Cone.Base` (unchanged). Prop. 2 is closed in its corrected form (DEC-122), marked, with the finding recorded. Wave 4: objects of ConeCat carry a proper action (Cone/Basic, IsProperConeObject), so F⁻¹(V) = ConeBase n V is Hausdorff by existsUnique_baseStructure_of_properSMul; the base functor on morphisms (ConeBase.map, isGXMorphism_map, map_id, map_comp) is unchanged.",
+  "fix_round": {
+    "audit": "WP-45n/AUDIT-1.json (verdict issues: one major, one minor, two nits) and DEC-122",
+    "fixed": [
+      "major (the mark rests on an undisclosed reading): ruled by DEC-122 — a FINDING, fixed by the properness hypothesis. Added Benzecri.ConeBase.existsUnique_baseStructure_of_properSMul (proper action → B Hausdorff ∧ every p(j) projective ∧ uniqueness), the formalization of record; the characterisation Benzecri.ConeBase.t2Space_iff_properSMul (the hard half properSMul_of_t2Space, ≈30 lines via Mathlib's properSMul_iff_continuousSMul_ultrafilter_tendsto_t2); the counterexample is Cone/Counterexample (WP-45p), the n ≤ 2 theorem Cone/LowDim (WP-45q). Hypotheses row and findings rewritten; the question moved to findings. Status: closed in corrected form, marked.",
+      "minor (Déf. 3 bundle sentence): noted in the Déf. 3 row and SCOPE — the base is Hausdorff iff the action is proper.",
+      "nit (N7–N8 citation): the docstring no longer cites papers/bbs N7–N8 as the source of the criterion (it is Mathlib's); N8 is cited in SCOPE as the analogous (mirror-image) phenomenon.",
+      "nit (generic names): Benzecri.radius → Benzecri.Punctured.radius (with coe_radius, radius_smul, continuous_radius), Benzecri.unitRep → Benzecri.Sphere.unitRep (with continuous_unitRep, toSphere_unitRep, unitRep_toSphere, radius_unitRep).",
+      "line numbers: Prop. 2 is l.540–546 and Déf. 3 l.526–538 after the transcription shift (DEC-122 enonce wrapper at l.431).",
+      "moved ConeBase.secondCountableTopology here from Cone/Section (same name); added ConeBase.connectedSpace."
+    ],
+    "statements_changed": "renames only (radius, unitRep); new theorems added; no existing statement changed",
+    "build": "lake build BenzecriScaffold.Cone.Base OK; lake env lean -DwarningAsError=true clean; 0 sorry; every constant: [propext, Classical.choice, Quot.sound]; kb/0002 checked with pp.explicit on existsUnique_baseStructure_of_properSMul (cs on the left, ConeBase.chartedSpace on the right)"
+  }
 }

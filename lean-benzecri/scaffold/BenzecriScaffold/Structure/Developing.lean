@@ -8,7 +8,8 @@ import Mathlib.Topology.Germ
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 1, journal p. 237; transcription
-`papers/benzecri/legacy/labeled/benzecri1960_ch1.tex`. Package WP-45k (wave 3, layer L4).
+`papers/benzecri/legacy/labeled/benzecri1960_ch1.tex`. Package WP-45k (wave 3, layer L4; fix round
+after AUDIT-1).
 
 * **`bzprop:c1s1p2_developpement`** — `benzecri1960_ch1.tex:357` (Prop. 2, l.357–369, p. 237).
   For a `(G,X)`-structure with `G` acting analytically (`IsAnalyticAction`) on a simply connected,
@@ -35,7 +36,10 @@ Also, for the prose of p. 238 (no label): « Au revêtement universel de $V$, s'
 proposition 2 : il peut être muni d'une projection sur $S(n)$ qui est isomorphisme local des
 structures projectives » — `exists_isGXMorphism_of_isCoveringMap`: on every simply connected,
 locally path-connected covering of a `(G,X)`-manifold, with the pulled-back structure
-(`Benzecri.pullbackChartedSpace`), there is a `(G,X)`-morphism to the model.
+(`Benzecri.pullbackChartedSpace`), there is a `(G,X)`-morphism to the model; for the paper's two
+cases with local path-connectedness derived from the pulled-back charts:
+`exists_isGXMorphism_of_isCoveringMap_proj`, `exists_isGXMorphism_of_isCoveringMap_aff`. The value
+of a jet at its source is `Benzecri.Jet.value` (Mathlib's `Filter.Germ.value` of `Sigma.snd`).
 
 > **Prop. 2.** Soit $V$ une variété localement projective (resp. affine) simplement connexe : il
 > existe une application $p$ de $V$ dans $S(n)$ (resp. $\R^n$) dont tous les jets appartiennent à
@@ -89,11 +93,11 @@ section General
 variable {M : Type u} [TopologicalSpace M] {X : Type v} [TopologicalSpace X]
   {G : Type w} [Group G] [MulAction G X] [ContinuousConstSMul G X]
 
-/-- The value of a jet at its source (Mathlib's `Filter.Germ.value`). -/
-def jetValue (j : Jet M X) : X := j.2.value
+/-- The value of a jet at its source (Mathlib's `Filter.Germ.value` of the germ, `Sigma.snd`). -/
+def Jet.value (j : Jet M X) : X := j.2.value
 
 omit [TopologicalSpace X] in
-@[simp] theorem jetValue_jet (x : M) (f : M → X) : jetValue (jet x f) = f x := rfl
+@[simp] theorem Jet.value_jet (x : M) (f : M → X) : Jet.value (jet x f) = f x := rfl
 
 /-- A jet of `J(V)` is the jet of a maximal-atlas chart at its source. -/
 theorem eq_jet_of_mem_jets [ChartedSpace X M] {j : Jet M X} (hj : j ∈ jets G X M) :
@@ -235,7 +239,7 @@ section Sections
 
 /-- **The developing map of a section** `σ` of `J(V) → V`: the value of the germ `σ(x)` at its
 source (« une composante connexe de $J(V)$ … définit l'application $p$ »). -/
-def developingOfSection (σ : M → jets G X M) (x : M) : X := jetValue (σ x).1
+def developingOfSection (σ : M → jets G X M) (x : M) : X := Jet.value (σ x).1
 
 omit [HasGroupoid M (gxGroupoid G X)] in
 /-- **A continuous section of `J(V) → V` defines a developing map, whose jets are the section.** -/
@@ -254,7 +258,7 @@ theorem jet_developingOfSection {σ : M → jets G X M} (hσ : Continuous σ)
       rw [hsec] at this
       exact this
     subst hzy
-    rw [developingOfSection, ← hz, jetValue_jet]
+    rw [developingOfSection, ← hz, Jet.value_jet]
   rw [hje]
   exact jet_eq_jet_iff.2 hev
 
@@ -416,6 +420,33 @@ theorem prop2_developpement_aff [ChartedSpace (Fin n → ℝ) V] [HasGroupoid V 
   haveI := locPathConnectedSpace_of_aff (n := n) (V := V)
   prop2_developpement
 
+/-- **p. 238, projective case**: every simply connected covering `N → V` of a locally projective
+manifold, with the pulled-back structure, has a projective morphism `N → S(n)`, unique up to
+`GS(n, ℝ)`. Local path-connectedness of `N` is derived from the pulled-back charts. -/
+theorem exists_isGXMorphism_of_isCoveringMap_proj [ChartedSpace (S n) V]
+    [HasGroupoid V (projGroupoid n)] {N : Type*} [TopologicalSpace N] [SimplyConnectedSpace N]
+    {π : N → V} (hπ : IsCoveringMap π) :
+    letI := pullbackChartedSpace (X := S n) hπ.isLocalHomeomorph
+    ∃ p : N → S n, IsGXMorphism (GSR n) (S n) p ∧ IsLocalHomeomorph p ∧
+      ∀ p' : N → S n, IsGXMorphism (GSR n) (S n) p' → ∃! g : GSR n, ∀ y, p' y = g • p y := by
+  letI := pullbackChartedSpace (X := S n) hπ.isLocalHomeomorph
+  haveI := locPathConnectedSpace_of_proj (n := n) (V := N)
+  exact exists_isGXMorphism_of_isCoveringMap hπ
+
+/-- **p. 238, affine case**: every simply connected covering `N → V` of a locally affine manifold,
+with the pulled-back structure, has an affine morphism `N → ℝⁿ`, unique up to `GA(n, ℝ)`. -/
+theorem exists_isGXMorphism_of_isCoveringMap_aff [ChartedSpace (Fin n → ℝ) V]
+    [HasGroupoid V (affGroupoid n)] {N : Type*} [TopologicalSpace N] [SimplyConnectedSpace N]
+    {π : N → V} (hπ : IsCoveringMap π) :
+    letI := pullbackChartedSpace (X := Fin n → ℝ) hπ.isLocalHomeomorph
+    ∃ p : N → (Fin n → ℝ), IsGXMorphism (GAR n) (Fin n → ℝ) p ∧ IsLocalHomeomorph p ∧
+      ∀ p' : N → (Fin n → ℝ), IsGXMorphism (GAR n) (Fin n → ℝ) p' →
+        ∃! g : GAR n, ∀ y, p' y = g • p y := by
+  letI := pullbackChartedSpace (X := Fin n → ℝ) hπ.isLocalHomeomorph
+  haveI := locPathConnectedSpace_of_aff (n := n) (V := N)
+  exact exists_isGXMorphism_of_isCoveringMap hπ
+
 end Instances
+
 
 end Benzecri

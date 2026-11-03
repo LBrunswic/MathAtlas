@@ -7,25 +7,32 @@ import Mathlib.Topology.PartitionOfUnity
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 2, journal pp. 240–241; transcription
 `papers/benzecri/legacy/labeled/benzecri1960_ch1.tex`, checked against the scan (PDF p. 13–14).
-Package WP-45o (wave 3, layer L5). The prose of p. 241 (l.546–549) carries no ledger label, so
-nothing here is marked.
+Package WP-45o (wave 3, layer L5; fix round after AUDIT-1 and DEC-122).
 
-* Unlabelled prose — `benzecri1960_ch1.tex:546` (l.546–549, p. 241): « on peut donc construire une
-  section de $V$ au-dessus de $B$ »: `ConeBase.exists_section` (for `B` Hausdorff and
-  paracompact) and `ConeBase.exists_section_of_secondCountable` (for `V` second countable — « à
-  base dénombrable d'ouverts » — and `B` Hausdorff). The construction is the plan's: a continuous
-  homogeneous « norm » `N : V → ℝ₊*`, `N(λm) = λN(m)` (`ConeBase.exists_homogeneous_norm`), glued
-  from the local norms `‖f(m)‖` of the cone charts by a partition of unity of `B` subordinate to the
-  base charts; the section is `σ(p(m)) = N(m)⁻¹ m` (`ConeBase.sectionOfNorm`), the locus `N = 1`.
-* `bzdef:c1s2d3_homotheties_positives` — `benzecri1960_ch1.tex:523` (Déf. 3, l.523–535, p. 240),
-  **status partial, not marked**: its last unproved sentence « cet espace fibré est topologiquement
-  trivial » is `ConeBase.trivialization` / `ConeBase.exists_trivialization` (an `ℝ₊*`-equivariant
-  homeomorphism `V ≃ₜ B × ℝ₊*` over `B`), under the hypothesis `B` Hausdorff (and paracompact, or
-  `V` second countable). **`B` Hausdorff is necessary** for any continuous section to exist
-  (`ConeBase.t2Space_of_section`), and it is not derived from `V` Hausdorff here (`Cone/Base`
-  SCOPE). The rest of Déf. 3 is proved in `Cone/Basic` (the action, independence of the chart for
-  `V` Hausdorff, freeness, continuity, affine but not conical automorphisms) and `Cone/Base` (the
-  principal bundle).
+* **`bzdef:c1s2d3_homotheties_positives`** — `benzecri1960_ch1.tex:526` (Déf. 3, l.526–538,
+  p. 240), **closed in its corrected form (DEC-122), the finding recorded**; marked here, where it
+  is completed. Its last sentence « cet espace fibré est topologiquement trivial » is
+  `ConeBase.exists_trivialization_of_properSMul`: for `V` a « variété » (Hausdorff, second
+  countable) on which `ℝ₊*` acts properly, there is an `ℝ₊*`-equivariant homeomorphism
+  `V ≃ₜ B × ℝ₊*` over `B` (`ConeBase.trivialization`, from a homogeneous norm). The rest of Déf. 3
+  is proved in `Cone/Basic` (the action `posSMul`, its independence of the chart for `V` Hausdorff,
+  the action law, continuity, freeness, affine but not conical automorphisms) and `Cone/Base` (the
+  principal bundle, `ConeBase.coneTrivialization`). **The finding**: without properness the
+  triviality is false — the counterexample `V` of `Cone/Counterexample` is homeomorphic to `B × ℝ₊*`
+  by no homeomorphism (`Benzecri.ConeCex.not_def3TrivialAsPrinted`).
+* Unlabelled prose — `benzecri1960_ch1.tex:549` (l.549–552, p. 241), « si $V$ est supposé
+  para-compact, on peut donc construire une section de $V$ au-dessus de $B$ »: **closed in its
+  corrected form (DEC-122), the finding recorded** — `ConeBase.exists_section_of_properSMul` (`V`
+  second countable, `ℝ₊*` acting properly). The printed inference is false: the counterexample `V`
+  is paracompact and has no section (`Benzecri.ConeCex.not_p241SectionAsPrinted`). For `V`
+  second countable the three conditions « a continuous section exists », « `B` is Hausdorff », « the
+  action is proper » are equivalent (`ConeBase.exists_section_iff_properSMul`,
+  `ConeBase.t2Space_iff_properSMul`). The construction is the plan's: a continuous homogeneous
+  « norm » `N : V → ℝ₊*`, `N(λm) = λN(m)` (`ConeBase.exists_homogeneous_norm`), glued from the local
+  norms `‖f(m)‖` of the cone charts by a partition of unity of `B` subordinate to the base charts;
+  the section is `σ(p(m)) = N(m)⁻¹ m` (`ConeBase.sectionOfNorm`), the locus `N = 1`. The forms with
+  `B` as hypothesis are kept: `ConeBase.exists_section` (`B` Hausdorff and paracompact),
+  `ConeBase.exists_section_of_secondCountable`, `ConeBase.exists_trivialization`.
 
 > Tout fibré localement trivial, dont la fibre est contractile, et dont la base est un espace
 > normal, à base dénombrable d'ouverts, possède une section; si $V$ est supposé para-compact, on
@@ -40,10 +47,11 @@ nothing here is marked.
 | paper hypothesis | here |
 |---|---|
 | « fibré localement trivial, dont la fibre est contractile » | ✓ proved, not assumed: `Cone/Base`'s `coneTrivialization` (fibre `ℝ₊*`); the general theorem on bundles with contractible fibre is NOT formalized — bypassed by the direct homogeneous-norm construction |
-| « la base est un espace normal » | ✓ carried as `[T2Space B] [ParacompactSpace B]` (Mathlib gives normality, `T4Space.of_paracompactSpace_t2Space`); `B` Hausdorff is necessary (`t2Space_of_section`) |
-| « à base dénombrable d'ouverts » | ✓ carried in `exists_section_of_secondCountable` as `[SecondCountableTopology V]` (then `B` is second countable and locally compact, hence paracompact) |
-| « si $V$ est supposé para-compact » | ⚠ reading: replaced by `B` paracompact Hausdorff (or `V` second countable, `B` Hausdorff); paracompactness of `V` alone is not known here to give `B` Hausdorff or paracompact (SCOPE) |
-| `V` a « variété » (Hausdorff) | ✓ carried: `[T2Space V]` (Déf. 3's action) |
+| « la base est un espace normal » | ✓ derived in the corrected forms: `B` is Hausdorff (properness, `t2Space_of_properSMul`), locally compact and second countable, hence paracompact and normal; in the forms with `B` as hypothesis, `[T2Space B] [ParacompactSpace B]` |
+| « à base dénombrable d'ouverts » | ✓ carried as `[SecondCountableTopology V]` (« variété », plan F6); then `B` is second countable |
+| « si $V$ est supposé para-compact » | ✗ **finding (DEC-122)**: not sufficient (`ConeCex.not_p241SectionAsPrinted`); replaced by `V` second countable |
+| (not printed) the action of `ℝ₊*` is proper | ⚠ **added, ruled (DEC-122)**: the correction; equivalent to `B` Hausdorff, and necessary (`exists_section_iff_properSMul`) |
+| `V` a « variété » (Hausdorff) | ✓ carried: `[T2Space V]` (Déf. 3's action; DEC-122 keeps this reading) |
 
 ## SCOPE (disclosed)
 
@@ -51,12 +59,13 @@ nothing here is marked.
 * The cited theorem (« Tout fibré localement trivial, dont la fibre est contractile … possède une
   section ») is not formalized in general: for the fibre `ℝ₊*` the partition-of-unity construction
   of a homogeneous norm gives the section directly, which is how the plan proposed it.
-* The paper's hypothesis « $V$ para-compact » is replaced by hypotheses on the base (Hausdorff and
-  paracompact, or `V` second countable with `B` Hausdorff). Since a section embeds `B` in `V`, `B`
-  must be Hausdorff for the conclusion to hold; whether `V` Hausdorff and paracompact forces it is
-  the open question of `Cone/Base` (REPORT `questions`).
+* The paper's hypothesis « $V$ para-compact » is replaced by `V` second countable (part of
+  « variété », plan F6). A form with `[ParacompactSpace V] [ConnectedSpace V]` (the audit's optional
+  nit: a connected, locally compact, paracompact Hausdorff space is σ-compact) is NOT formalized:
+  Mathlib has no « connected + paracompact + locally compact ⇒ σ-compact » at this pin.
 * « puisque $\R^+$ est homéomorphe au segment ouvert » (contractibility) is not used: the section is
   explicit.
+* `ConeBase.secondCountableTopology` moved to `Cone/Base` (same name).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -249,12 +258,6 @@ theorem exists_trivialization [T2Space (ConeBase n V)] [ParacompactSpace (ConeBa
 
 /-! ### Countability: the paper's « à base dénombrable d'ouverts » -/
 
-/-- The base of a second countable `V` is second countable. -/
-theorem secondCountableTopology [SecondCountableTopology V] :
-    SecondCountableTopology (ConeBase n V) := by
-  letI := coneMulAction (n + 1) V
-  exact TopologicalSpace.Quotient.secondCountableTopology isOpenQuotientMap_mk.isOpenMap
-
 /-- The base is locally compact (it is charted on the compact `S(n)`). -/
 theorem locallyCompactSpace : LocallyCompactSpace (ConeBase n V) :=
   ChartedSpace.locallyCompactSpace (S n) _
@@ -273,6 +276,46 @@ theorem exists_section_of_secondCountable [SecondCountableTopology V] [T2Space (
   haveI := paracompactSpace (n := n) (V := V)
   exact exists_section
 
+/-! ### The corrected forms (DEC-122): a proper action of `ℝ₊*` -/
+
+/-- **p. 241, corrected form (DEC-122)**: for `V` second countable (« variété ») on which `ℝ₊*`
+acts properly, `V → B` has a continuous section. The printed inference (« si $V$ est supposé
+para-compact, on peut donc construire une section ») is false without properness
+(`Benzecri.ConeCex.not_p241SectionAsPrinted`); properness is equivalent to `B` Hausdorff
+(`t2Space_iff_properSMul`), which a section forces (`t2Space_of_section`). -/
+theorem exists_section_of_properSMul [SecondCountableTopology V]
+    (h : @ProperSMul RPos V _ _ _ (coneMulAction (n + 1) V)) :
+    ∃ σ : ConeBase n V → V, Continuous σ ∧ ∀ b, mk (σ b) = b := by
+  haveI := t2Space_of_properSMul h
+  exact exists_section_of_secondCountable
+
+/-- **Déf. 3, « cet espace fibré est topologiquement trivial », corrected form (DEC-122)**: for `V`
+second countable on which `ℝ₊*` acts properly, there is an `ℝ₊*`-equivariant homeomorphism
+`V ≃ₜ B × ℝ₊*` over `B`. False without properness (`Benzecri.ConeCex.not_def3TrivialAsPrinted`). -/
+theorem exists_trivialization_of_properSMul [SecondCountableTopology V]
+    (h : @ProperSMul RPos V _ _ _ (coneMulAction (n + 1) V)) :
+    ∃ T : V ≃ₜ ConeBase n V × RPos, (∀ m, (T m).1 = mk m) ∧
+      ∀ (c : RPos) (m : V), T (posSMul (n + 1) c m) = ((T m).1, c * (T m).2) := by
+  haveI := t2Space_of_properSMul h
+  haveI := paracompactSpace (n := n) (V := V)
+  exact exists_trivialization
+
+/-- **The three conditions are equivalent** (for `V` second countable): `V → B` has a continuous
+section iff `B` is Hausdorff iff the action of `ℝ₊*` is proper. -/
+theorem exists_section_iff_properSMul [SecondCountableTopology V] :
+    (∃ σ : ConeBase n V → V, Continuous σ ∧ ∀ b, mk (σ b) = b) ↔
+      @ProperSMul RPos V _ _ _ (coneMulAction (n + 1) V) := by
+  refine ⟨fun ⟨σ, hσ, hmk⟩ => ?_, exists_section_of_properSMul⟩
+  haveI := t2Space_of_section hσ hmk
+  exact properSMul_of_t2Space
+
+/-- If `V` is homeomorphic to `B × ℝ₊*` (by any homeomorphism), `B` is Hausdorff: `B × ℝ₊*` is, and
+`b ↦ (b, 1)` embeds `B` in it. -/
+theorem t2Space_of_homeomorph (T : V ≃ₜ ConeBase n V × RPos) : T2Space (ConeBase n V) :=
+  haveI : T2Space (ConeBase n V × RPos) := T.symm.isEmbedding.t2Space
+  (isEmbedding_prodMkLeft (1 : RPos)).t2Space
+
 end ConeBase
+
 
 end Benzecri

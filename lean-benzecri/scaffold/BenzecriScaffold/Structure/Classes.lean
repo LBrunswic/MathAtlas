@@ -6,7 +6,7 @@ import Benzecri.Projective.Convex
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 1, journal pp. 238–239; transcription
-`papers/benzecri/legacy/labeled/benzecri1960_ch1.tex`. Package WP-45l (wave 3, layer L4).
+`papers/benzecri/legacy/labeled/benzecri1960_ch1.tex`. Package WP-45l (wave 3, layer L4; fix round after AUDIT-1 and DEC-122).
 
 * **`bzdef:c1s1d14_segment_variete`** — `benzecri1960_ch1.tex:410` (Déf. 14, l.410–417, p. 238):
   `Benzecri.IsGXSegment` (any `(G, X)`, with the model's segments as a parameter), and the paper's
@@ -15,19 +15,19 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
   lie in the segment (`IsGXSegment.left_mem`, `right_mem`), and the segments of the model are
   segments of the model manifold (`isProjSegment_closedSeg`, `isAffSegment_segment`).
 * **`bzdef:c1s1d15_homogene_balayable_divisible`** — `benzecri1960_ch1.tex:419` (Déf. 15,
-  l.419–429, p. 238): the group of automorphisms `Benzecri.GXAut G X V` (homeomorphisms which are
+  l.419–427, p. 238): the group of automorphisms `Benzecri.GXAut G X V` (homeomorphisms which are
   morphisms both ways; every bijective morphism is one, `GXAut.ofBijective`), acting on `V`;
   `Benzecri.IsHomogeneous` (transitive), `Benzecri.IsBalayableFor` / `Benzecri.IsBalayable`
   (a compact « domaine générateur » `K` with `V = ⋃_{g ∈ G₁} gK`), `Benzecri.IsDivisible` (a
   subgroup, properly discontinuous, without fixed point, with compact quotient). The prose « Il est
-  clair que toute variété divisible (ou homogène) est balayable » (l.434–435, p. 238):
+  clair que toute variété divisible (ou homogène) est balayable » (l.436, p. 238):
   `IsHomogeneous.isBalayable`, `IsDivisible.isBalayable` (the latter for a locally compact `V`, true
   of every locally projective or affine manifold: `IsDivisible.isBalayable_proj`, `_aff`).
-* **`bzdef:c1s1d16_maximale`** — `benzecri1960_ch1.tex:469` (Déf. 16, l.469–473, p. 239):
+* **`bzdef:c1s1d16_maximale`** — `benzecri1960_ch1.tex:472` (Déf. 16, l.472–476, p. 239):
   `Benzecri.IsMaximal` (`V` connected; every morphism `V → U` into a connected Hausdorff
   `(G, X)`-manifold which is injective is onto); **the printed form** — `V` isomorphic to no open
   subset `W ≠ U`, `W` with its open-subset structure — is equivalent (`isMaximal_iff`, through
-  `exists_opens_iso_iff`). The prose « Une variété compacte est évidemment maximale » (l.475):
+  `exists_opens_iso_iff`). The prose « Une variété compacte est évidemment maximale » (l.478):
   `isMaximal_of_compactSpace`.
 
 > **Déf. 14.** Soit $V$ une variété localement projective (resp. affine). Une partie $S$ de $V$ est
@@ -69,7 +69,7 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
 | Déf. 15: « $V/G_1$ compact » | ✓ carried: `CompactSpace (MulAction.orbitRel.Quotient G₁ V)` with the quotient topology |
 | prose: divisible ⇒ balayable | ✓ for `V` locally compact (`[LocallyCompactSpace V]`), automatic for every manifold modelled on `S(n)` or `ℝⁿ`; neither proper discontinuity nor freeness is used |
 | Déf. 16: `V` connected | ✓ carried: `ConnectedSpace V` is part of `IsMaximal` |
-| Déf. 16: `U` a « variété » connexe, localement projective, de même dimension | ✓ carried: `U` charted on the same model `X` (same dimension), `ConnectedSpace U`; « variété » read Hausdorff (`T2Space U`, plan F6; see questions); `U` ranges over the universe of `V` |
+| Déf. 16: `U` a « variété » connexe, localement projective, de même dimension | ✓ carried: `U` charted on the same model `X` (same dimension), `ConnectedSpace U`; « variété » read Hausdorff (`T2Space U`, ruled DEC-122); second countability of `U` not imposed and `U` ranging over the universe of `V` — the two definitions agree for second countable `V` (SCOPE) |
 | Déf. 16: « isomorphe à un ouvert de $U$, distinct de $U$ » | ✓ carried as an injective morphism `f : V → U` with `range f ≠ univ`: an injective morphism is an open embedding (`IsGXMorphism.isOpenEmbedding_of_injective`), i.e. an isomorphism onto the open set `f(V)` |
 | prose: compact ⇒ maximal | ✓ for `V` compact connected (`U` Hausdorff, as in the definition) |
 
@@ -78,15 +78,28 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
 * **Readings, not findings**: « segments » (plural, l.411) is read « segment »; Déf. 7's closed
   segment is meant by `(φ(M), φ(N))` (checked on the scan, p. 238: round brackets, Déf. 7's notation
   for the closed segment); the chart is required to be defined at `M` and `N`.
-* **Déf. 16, `U` Hausdorff**: without it « une variété compacte est évidemment maximale » fails
-  (the circle `S(1)` embeds as a proper open subset of the circle with one point doubled, a
-  connected non-Hausdorff locally projective 1-manifold); the counterexample is described here and
-  in REPORT, not formalized.
-* **Not formalized** (prose, no ledger row of its own): « Si $V$ est une variété localement
-  projective et compacte, son revêtement universel est divisible » (needs the universal covering
-  and its deck group, absent from Mathlib at this pin); the conditions necessary for sweepability
-  announced for later; the examples of p. 239 (the parabola, homogeneous not divisible; the plane
-  minus the integer lattice; the classification in dimension 2).
+* **Déf. 16, `U` Hausdorff (ruled, DEC-122: « Déf. 16's "compact ⇒ maximal" is read with U
+  Hausdorff »)**: without it « une variété compacte est évidemment maximale » fails (the circle
+  `S(1)` embeds as a proper open subset of the circle with one point doubled, a connected
+  non-Hausdorff locally projective 1-manifold); the counterexample is described here and in
+  REPORT, not formalized.
+* **Déf. 16, second countability and universe of `U`** (audit AUDIT-1 minor, corrected).
+  `IsMaximal` quantifies over connected Hausdorff `(G, X)`-manifolds `U` in the universe of `V`,
+  with no countability. Dropping second countability ENLARGES the class of `U`, so `IsMaximal` is a
+  priori STRONGER than the plan-F6 reading (`U` second countable); restricting `U` to `V`'s
+  universe makes it a priori WEAKER. **For `V` second countable the definitions agree** (argument,
+  not formalized): if `f : V → U` is an injective morphism with `f(V) ≠ U`, then `f(V)` is open
+  and, `U` being connected, not closed; pick `u ∈ closure f(V) ∖ f(V)` and a connected chart ball
+  `B'` at `u` (it meets `f(V)`); then `U' := f(V) ∪ B'` is an open, connected, Hausdorff, second
+  countable sub-manifold of `U`, and `f : V → U'` is still injective and not onto (`u ∈ U'`).
+  Moreover `|U'| ≤ |V| + 𝔠`, so `U'` is small in `V`'s universe and transports there. So a witness
+  of non-maximality in either sense gives one in the other.
+* **Not formalized** (prose): « Si $V$ est une variété localement projective et compacte, son
+  revêtement universel est divisible » (l.432–433) — now its own ledger row
+  `bzthm:c1s1_revetement_universel_divisible` (DEC-122), bucket D, out of scope here (needs the
+  universal covering and its deck group, absent from Mathlib at this pin); the conditions necessary
+  for sweepability announced for later; the examples of p. 239 (the parabola, homogeneous not
+  divisible; the plane minus the integer lattice; the classification in dimension 2).
 * The identification of `GXAut G X V` with `CategoryTheory.Aut` of the bundled object of `GXCat`
   is not stated; `GXAut` is the group of invertible morphisms by construction (a homeomorphism is
   invertible in `GXCat` iff it and its inverse are morphisms; `IsGXMorphism.homeomorph_symm` shows
