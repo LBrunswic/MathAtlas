@@ -1,0 +1,30 @@
+{
+  "package": "BBS-Celestial",
+  "round": 2,
+  "auditor": "read-only auditor, node1, 2026-11-03",
+  "file": "scaffold/GXScaffold/Suspension/Celestial.lean",
+  "report": "campaign/BBS-Celestial/REPORT.json",
+  "verdict": "clean",
+  "builds": true,
+  "sorry_count": 0,
+  "checks": {
+    "build": "Oleans of the three modules (06:51-06:52Z) postdate their sources (06:48-06:51Z), so importers were checked against the fixed code. taskset -c 0-11 lake env lean -DwarningAsError=true <file>: EXIT 0, no output, for Conic (4.2 s), Celestial (4.2 s), Affine (6.0 s). No line over 100 characters in any of the three.",
+    "sorry_axioms": "0 sorry (round-0 SORRY(celestial_sing_ray) gone). #print axioms on mem_reg_of_mk_mem_reg, mk_mem_sing, mk_mem_reg_iff, isAEAtlas_celestialAtlas, celestialStructure, celestial_counterexample, celestial_counterexample_hypotheses: [propext, Classical.choice, Quot.sound] only; no sorryAx.",
+    "sing_ray": "CLOSED, genuinely. mem_reg_of_mk_mem_reg (l.330-531) takes hreg : mk(x,t) ∈ Reg and builds a chart e' of Σ at x from scratch: a box B × ]l,u[ inside ψ's source; one g₀ on the preconnected regular part (IsPreconnected.induction₂' with hloc, from G's rigidity); radius preservation of φ∘g₀⁻¹∘ψ on Ω and then on the box by closure into the diagonal; e'(z) = π F(z,t) as an explicit OpenPartialHomeomorph (source B, all six fields proved); membership in aeAtlas by IsMaximalAEAtlas.mem_of_compatible. Nowhere is x ∈ Reg assumed or used; Reg H L S appears only for the points of Ω and the y of the compatibility step, which are inside the support of c'. CompactSpace L is really used (isCompact_univ in K = mk''(univ ×ˢ Icc (t/2) (2t)), giving C closed and inside U). Against mk_mem_reg, mem_reg_of_mk_mem_reg / mk_mem_sing / mk_mem_reg_iff add exactly one instance, [CompactSpace L] (#check), and it is disclosed: checklist row + footnote 4, docstring bullet, REPORT rem:regular_rays (status partial, the non-compact case an open question). mk_mem_reg_iff is the correct conjunction of mem_reg_of_mk_mem_reg and mk_mem_reg under the same hypotheses.",
+    "round1_major": "FIXED. Every 'necessary' now reads 'SUFFICIENT, NOT NECESSARY' (docstring l.24, checklist row 3 and footnote 3, REPORT hypothesis note). The (Aff(ℝ),ℝ) example and the radial-lift minimal hypothesis are findings; GX.isEmpty_conicStructure_affine_stabilizer (Affine.lean:461) is correct: for Nontrivial V, every link and action, the stabiliser contains T = 2⁻¹·id, fed to not_conicStructure_of_ray_contraction with c = 1/2. Its other half (the cone préatlas is an atlas) is disclosed as not formalized.",
+    "round1_minors": "FIXED: obstruction retagged (sorry closed by the auditor's route, no invariance of domain); LocallyConnectedSpace X / T2Space X now '⚠ strengthened (standing hypotheses of cor:maximal_atlas)'; lines wrapped.",
+    "names": "A probe importing GX, GXScaffold and GXScaffold.Suspension.Affine loads with EXIT 0 (no 'environment already contains'). A source grep of the 137 declaration names of the three files against lean-gx/GX and the rest of the scaffold finds only GX.DInfty.posChart / posChart_apply (vs GX.Susp.posChart) and an unrelated isRigidAction in another namespace of GX/Singular/Quotient.lean: distinct full names, no clash. All 135 declarations named in the three REPORTs resolve (#check).",
+    "import_gate": "python3 scripts/causal_import_gate.py: 'ok (DEC-33)'. Imports: Conic <- GX.Singular.Suspension (strict); Celestial <- GXScaffold.Suspension.Conic; Affine <- GXScaffold.Suspension.Celestial. NullIsom0/boost come from GX.Singular.Quotient (strict, transitively imported); no Causal import.",
+    "docstring": "kb 0006 order kept: checklist (4052), SCOPE (5700), Provenance (6418); no ** mark."
+  },
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "these.tex:1182 cited in Conic.lean:25,78; Celestial.lean:74,803; BBS-Conic REPORT (propri_action), BBS-Celestial REPORT (prop_suspension_celeste)",
+      "problem": "these.tex:1182 is a blank line. « Structure analytique » begins at these.tex:1185 (definition body 1186-1196), the line AUDIT-1 itself cited.",
+      "fix": "Replace 1182 by 1185 (all six loci)."
+    }
+  ],
+  "graduation": "FIT, after Conic. Strict-clean, 0 sorry, standard axioms. At graduation: rewrite the imports (Celestial -> GX.Suspension.Conic, Affine -> GX.Suspension.Celestial), move in the order Conic, Celestial, Affine, and add the three to GX.lean (GXScaffold.lean does not import them today, so the axiom sweep does not see them).",
+  "summary": "celestial_sing_ray is closed by a real proof that never assumes x ∈ Reg. CompactSpace L is the only added hypothesis, it is really used, and it is disclosed. mk_mem_reg_iff is correct. The wording now says 'sufficient, not necessary', and isEmpty_conicStructure_affine_stabilizer is correct. One minor citation is left (these.tex:1182 → 1185)."
+}

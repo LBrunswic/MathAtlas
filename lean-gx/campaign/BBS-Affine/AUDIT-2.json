@@ -1,0 +1,35 @@
+{
+  "package": "BBS-Affine",
+  "round": 2,
+  "auditor": "read-only auditor, node1, 2026-11-03",
+  "file": "scaffold/GXScaffold/Suspension/Affine.lean",
+  "report": "campaign/BBS-Affine/REPORT.json",
+  "verdict": "clean",
+  "builds": true,
+  "sorry_count": 0,
+  "checks": {
+    "build": "Oleans of the three modules (06:51-06:52Z) postdate their sources (06:48-06:51Z), so importers were checked against the fixed code. taskset -c 0-11 lake env lean -DwarningAsError=true <file>: EXIT 0, no output, for Conic (4.2 s), Celestial (4.2 s), Affine (6.0 s). No line over 100 characters in any of the three.",
+    "sorry_axioms": "0 sorry, none inherited. #print axioms on lem_analytique_counterexample, affineConic_isRayCompatible, not_conicStructure_of_contraction, not_conicStructure_of_ray_contraction, isEmpty_conicStructure_affine_stabilizer, isEmpty_conicStructure_nullIsom0, isEmpty_conicStructure_nullIsom0_stabilizer, nullIsom0Boost_mem_stabilizer, affineConic, affine_apex_mem_reg: [propext, Classical.choice, Quot.sound] only.",
+    "round1_major": "FIXED. The docstring, the theorem docstrings, the checklist footnote 2 and the REPORT now say 'no RADIUS-PRESERVING conic structure'. The 'necessary for the thesis's construction' wording is withdrawn ('NOT claimed necessary'). The BBS case is instantiated on the strict GX.NullIsom0 (GX/Singular/Quotient.lean:2945, LorentzIsom0 nullQ nullτ, i.e. Isom₀(𝔼^{1,2}) in null coordinates). nullIsom0Boost = boost (log 2) ∈ NullIsom0 by the strict boost_lin_mem, with action (2a, b/2, x) (nullIsom0Boost_smul) and fixing 0. isEmpty_conicStructure_nullIsom0 applies not_conicStructure_of_ray_contraction with v = (0,1,0), c = 1/2. That lemma is correct and uses only ‖·‖ on V, so G plays no role. The _stabilizer form quantifies over every L and every action of G_p (= SO₀(1,2)), and its hypotheses are satisfiable (trivial action), so the claim is non-vacuous and strong. The extension to the radial-lift correction is clearly labelled prose; it is scoped to the sphere chart and is sound (g_h h⁻¹ fixes every ray, so it is a positive scalar, so it is 1 in an isometry group).",
+    "round1_minors": "FIXED: bbs:L1_ray_space, bbs:L1_conic_at_0, bbs:L1_linear_chart_changes all 'partial'; lines wrapped.",
+    "names": "A probe importing GX, GXScaffold and GXScaffold.Suspension.Affine loads with EXIT 0 (no 'environment already contains'). A source grep of the 137 declaration names of the three files against lean-gx/GX and the rest of the scaffold finds only GX.DInfty.posChart / posChart_apply (vs GX.Susp.posChart) and an unrelated isRigidAction in another namespace of GX/Singular/Quotient.lean: distinct full names, no clash. All 135 declarations named in the three REPORTs resolve (#check).",
+    "import_gate": "python3 scripts/causal_import_gate.py: 'ok (DEC-33)'. Imports: Conic <- GX.Singular.Suspension (strict); Celestial <- GXScaffold.Suspension.Conic; Affine <- GXScaffold.Suspension.Celestial. NullIsom0/boost come from GX.Singular.Quotient (strict, transitively imported); no Causal import.",
+    "docstring": "kb 0006 order kept: checklist (3686), SCOPE (4450), Provenance (4948)."
+  },
+  "issues": [
+    {
+      "severity": "nit",
+      "where": "Affine.lean:26, '* **`these:lem_analytique` is false**'",
+      "problem": "The bullet opens with the ``**`label`` certification pattern (CAMPAIGN.md 'Mark only what is certified in full'). A mechanical reader could take it as a mark on a label that is refuted. The REPORT has marked = false.",
+      "fix": "'* **False as written:** `these:lem_analytique` …'."
+    },
+    {
+      "severity": "nit",
+      "where": "Affine.lean:397-398; Celestial.lean:264-265",
+      "problem": "Double blank lines.",
+      "fix": "Style only."
+    }
+  ],
+  "graduation": "FIT, after Conic and Celestial. Strict-clean, 0 sorry, standard axioms. At graduation: rewrite the imports (Celestial -> GX.Suspension.Conic, Affine -> GX.Suspension.Celestial), move in the order Conic, Celestial, Affine, and add the three to GX.lean (GXScaffold.lean does not import them today, so the axiom sweep does not see them).",
+  "summary": "Round-1 major fixed. The wording is now 'no RADIUS-PRESERVING', and the BBS case is proved on the strict GX.NullIsom0 with H = G_p = SO₀(1,2). Both isEmpty theorems are correct and non-vacuous. The lem_analytique counterexample here is correct. The REPORT rows are partial. Only nits are left."
+}

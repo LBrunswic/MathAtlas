@@ -1,0 +1,35 @@
+{
+  "package": "BBS-Conic",
+  "round": 2,
+  "auditor": "read-only auditor, node1, 2026-11-03",
+  "file": "scaffold/GXScaffold/Suspension/Conic.lean",
+  "report": "campaign/BBS-Conic/REPORT.json",
+  "verdict": "clean",
+  "builds": true,
+  "sorry_count": 0,
+  "checks": {
+    "build": "Oleans of the three modules (06:51-06:52Z) postdate their sources (06:48-06:51Z), so importers were checked against the fixed code. taskset -c 0-11 lake env lean -DwarningAsError=true <file>: EXIT 0, no output, for Conic (4.2 s), Celestial (4.2 s), Affine (6.0 s). No line over 100 characters in any of the three.",
+    "sorry_axioms": "0 sorry/admit/axiom (grep and scripts/sorry_count.py). #print axioms via lake env lean --stdin on linkAction, linkAction_unique, isAnalyticAction, map_smul_of_isFull, tautological, and lem_analytique_counterexample / affineConic_isRayCompatible: [propext, Classical.choice, Quot.sound] only.",
+    "round1_major": "FIXED. GX.lem_analytique_counterexample (Affine.lean:601) states IsAnalyticAction (V ≃ᵃ[ℝ] V) V ∧ ¬FaithfulSMul (stabilizer 0) (RaySphere V) under the letI of ConicChart.linkAction for the FULL stabiliser (le_rfl) and the thesis's ray condition (affineConic_isRayCompatible, proved for every h fixing 0, not only isometries). The proof shows 2·id acts as 1 through dir_smul_linkAction, then derives 2v = v. Non-vacuous: [Nontrivial V], finite-dimensional, any σ₀; IsAnalyticAction is GX's Faithful+Rigid, and the thesis's « structure analytique » (these.tex:1190: g1 = g2 iff equal on any nonempty open) implies faithfulness on the nonempty S(V), so the refutation is in the thesis's own sense. Row these:lem_analytique is 'partial', finding reworded to 'FALSE STATEMENT (not a proof gap)', docstring bullet reworded.",
+    "round1_minors": "FIXED: 'a sufficient corrected form' with the radial-lift condition named (docstring l.17-22, REPORT finding); SCOPE discloses the quotient topology (l.91-93); linkAction docstring now 'carried' (l.282-283); lines wrapped.",
+    "names": "A probe importing GX, GXScaffold and GXScaffold.Suspension.Affine loads with EXIT 0 (no 'environment already contains'). A source grep of the 137 declaration names of the three files against lean-gx/GX and the rest of the scaffold finds only GX.DInfty.posChart / posChart_apply (vs GX.Susp.posChart) and an unrelated isRigidAction in another namespace of GX/Singular/Quotient.lean: distinct full names, no clash. All 135 declarations named in the three REPORTs resolve (#check).",
+    "import_gate": "python3 scripts/causal_import_gate.py: 'ok (DEC-33)'. Imports: Conic <- GX.Singular.Suspension (strict); Celestial <- GXScaffold.Suspension.Conic; Affine <- GXScaffold.Suspension.Celestial. NullIsom0/boost come from GX.Singular.Quotient (strict, transitively imported); no Causal import.",
+    "docstring": "kb 0006 order kept: title, rows, quote block, checklist (4514), SCOPE (5784), Provenance (6690); no ** mark, correct for thesis rows."
+  },
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "these.tex:1182 cited in Conic.lean:25,78; Celestial.lean:74,803; BBS-Conic REPORT (propri_action), BBS-Celestial REPORT (prop_suspension_celeste)",
+      "problem": "these.tex:1182 is a blank line. « Structure analytique » begins at these.tex:1185 (definition body 1186-1196), the line AUDIT-1 itself cited.",
+      "fix": "Replace 1182 by 1185 (all six loci)."
+    },
+    {
+      "severity": "minor",
+      "where": "BBS-Conic REPORT these:lem_analytique finding ('Strongest true form proved: for a radius-preserving conic structure …')",
+      "problem": "A residual superlative: the radial-lift correction may also yield analyticity, so 'strongest' is unproved; it is the phrase round 1 removed elsewhere.",
+      "fix": "'A corrected form proved: …'."
+    }
+  ],
+  "graduation": "FIT. Strict-clean, 0 sorry, standard axioms, its only import is strict. At graduation: rewrite the imports (Celestial -> GX.Suspension.Conic, Affine -> GX.Suspension.Celestial), move in the order Conic, Celestial, Affine, and add the three to GX.lean (GXScaffold.lean does not import them today, so the axiom sweep does not see them).",
+  "summary": "Round-1 major fixed: lem_analytique is now reported false with a correct, non-vacuous Lean counterexample in the thesis's own sense; row partial. All minors fixed. Two minors left: a line citation (these.tex:1182 → 1185) and one 'strongest' left in the REPORT."
+}
