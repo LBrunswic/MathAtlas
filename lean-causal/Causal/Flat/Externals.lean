@@ -24,7 +24,9 @@ all unmarked:
 * `bprop:admlox` — `GHFspace.tex:1230` (Prop 4.17), its input: `LimitSetMinimal`; consumer
   `limitSet_invariant_and_minimal` (the half of 4.17 on `𝒮`). Finding: "nonempty" is needed.
 * Selberg's lemma (DEC-44, [10.G], finding F2): `SelbergLemma`; consumer
-  `exists_finiteIndex_torsionFree_linOf`.
+  `exists_finiteIndex_torsionFree_linOf`. Since DEC-115 (2026-11-03) **proved** as
+  `selbergLemma V` in `Flat/SelbergProof`, every finite-dimensional real `V`, by congruence
+  subgroups (statement here unchanged).
 * Folklore, proved: l.3295–3297 (`eigen_of_commute`, `lorentzSphere_fixed_of_commute`);
   `bprop:U_timelike` — `GHFspace.tex:3347` (Prop 10.4) uses a folklore **refuted** for `n ≥ 3`
   (`not_abelianPairAsPrinted`), true form on unipotents `fixed_null_of_commute_unipotent`.
@@ -79,7 +81,7 @@ that of `End × 𝐌ⁿ` (linear part, translation part). `linClosureIdentityCom
 | 9.1: "stabilizes an isotropic vector" | ⚠ strengthened conclusion: *fixes* a nonzero null vector (strongest form; SCOPE) |
 | 4.17 input: `Γ` discrete, no global fixed point on `𝐇̄ⁿ⁻¹` (l.1212–1214) | ✓ carried |
 | 4.17: "any closed invariant subset" | ⚠ strengthened: **nonempty** (finding: `∅` is closed and invariant) |
-| Selberg: finitely generated linear group (char 0) | over `ℝ`, finite-dimensional `V` |
+| Selberg: finitely generated linear group (char 0) | over `ℝ`, finite-dimensional `V`; proved since DEC-115 (`selbergLemma`, `Flat/SelbergProof`) |
 | 10.4 folklore: "abelian ⇒ a pair of isotropic directions, or elliptic" | refuted (`not_abelianPairAsPrinted`, `n ≥ 3`); true forms proved for loxodromic and unipotent members |
 
 ## SCOPE (disclosed)
@@ -826,7 +828,8 @@ def IsTorsionFreeSubgroup {G : Type*} [Group G] (H : Subgroup G) : Prop :=
 /-- **Selberg's lemma, as an external** (DEC-44, DEC-36): a finitely generated group of linear
 automorphisms of a finite-dimensional real vector space has a torsion-free subgroup of finite
 index. Not in mathlib at `fabf563a`. Consumed for Theorem A's literal family (a) under
-"`π₁` finitely generated" ([10.G], finding F2). -/
+"`π₁` finitely generated" ([10.G], finding F2). Since DEC-115 no longer an external: proved for
+every finite-dimensional real `V` as `selbergLemma` (`Flat/SelbergProof`). -/
 def SelbergLemma (V : Type*) [AddCommGroup V] [Module ℝ V] [FiniteDimensional ℝ V] : Prop :=
   ∀ G : Subgroup (V ≃ₗ[ℝ] V), G.FG →
     ∃ H : Subgroup (V ≃ₗ[ℝ] V), H ≤ G ∧ H.relIndex G ≠ 0 ∧ IsTorsionFreeSubgroup H

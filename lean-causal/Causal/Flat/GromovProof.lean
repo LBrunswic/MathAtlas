@@ -54,7 +54,9 @@ not, and `G` fixes a nonzero null vector (`Flat/GromovUnbounded`).
   `benoistNoLox d`; their statements are unchanged and still take `hB : BenoistNoLox d`.
 * The remaining externals of Theorems A/B are `AuslanderCarriereDalbo`, `MaxUnipotentSubspace`
   (the bundle `BarbotExternalsMin`) and, for B, `SelbergLemma` (and Lemma K's data for
-  `barbot_B_min`).
+  `barbot_B_min`). Since DEC-115 (2026-11-03) `SelbergLemma` is proved (`selbergLemma`,
+  `Flat/SelbergProof`, which imports this file); `barbot_B_final` and `barbot_B_geroch_final`
+  there are B under `BarbotExternalsMin d` alone. The statements here are unchanged.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Barbot campaign,
 DEC-111 (integrator of the Gromov route: `Flat/GromovBase`, `…Bounded`, `…Unbounded`). Line

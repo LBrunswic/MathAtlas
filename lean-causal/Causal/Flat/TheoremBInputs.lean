@@ -24,6 +24,9 @@ externals `BarbotExternals d` and `SelbergLemma (Minkowski d)`, with `hK` discha
   + compact diamonds) flat spacetime has a Cauchy surface (Barbot's GH, l.498–507).
 * Selberg, **proved, no `sorry`**: `selbergLemma_of_linearEquiv` (transport along `V ≃ₗ[ℝ] W`),
   `selbergLemma_minkowski_zero` (`SelbergLemma (Minkowski 0)`, from Externals' `SelbergLemma ℝ`).
+  Since DEC-115 (2026-11-03) Selberg's lemma is proved in **every** finite dimension
+  (`selbergLemma`, `Flat/SelbergProof`, by congruence subgroups); that file imports this one, so
+  the rows below keep their pre-DEC-115 wording and are superseded there.
 * Non-vacuity, **proved, no `sorry`**: `barbot_B_hypotheses_satisfiable` — at `d = 0` the bundle
   and Selberg hold, and in every dimension the static torus `ℤᵈ\𝐌ⁿ` is GH, Cauchy-compact, maximal
   and carries lemma K's data.
@@ -49,7 +52,7 @@ dimensions: Barbot's `n` is `d + 1`.
 | paper hypothesis | here |
 |---|---|
 | B: "closed spacelike hypersurfaces in GH spacetimes are Cauchy" (l.3537–3539), used through lemma K's data `FlatLemmaKData` on every GH target | ⚠ reduced: `FlatLemmaKData N ↔ BarbotGH N` (proved); the universal `hK` is equivalent to `FlatGerochGH d` (ETT-GH ⇒ a Cauchy surface). **Under Barbot's own definition of GH (l.498–507: GH means having Cauchy hypersurfaces) `FlatGerochGH` is a tautology**; it is the gap between ETT's `GloballyHyperbolic` and Barbot's GH, i.e. `theo:geroch` (i)⇒(iii) for flat spacetimes. It is further reduced to admissible measures (`flatGerochGH_of_admissible`, through `barbotGH_of_gh`, i.e. ETT's `geroch_i_imp_iii`) |
-| B: π₁ finitely generated ⇒ family (a), through Selberg's lemma (DEC-44) | ⚠ strengthened (unchanged): `SelbergLemma (Minkowski d)` stays a named external for `d ≥ 1` (Selberg in `GL_{n ≥ 2}(ℝ)`, not in mathlib); **discharged at `d = 0`** (`selbergLemma_minkowski_zero`) |
+| B: π₁ finitely generated ⇒ family (a), through Selberg's lemma (DEC-44) | ⚠ strengthened (unchanged): `SelbergLemma (Minkowski d)` stays a named external for `d ≥ 1` (Selberg in `GL_{n ≥ 2}(ℝ)`, not in mathlib); **discharged at `d = 0`** (`selbergLemma_minkowski_zero`); **proved for every `d`** since DEC-115 (`selbergLemma`, `Flat/SelbergProof`) |
 | B: Benoist, Bieberbach, Auslander–Carrière–Dal'bo, Carrière–Dal'bo (`BarbotExternals d`) | ✓ carried as in `barbot_B`; discharged at `d = 0` (`barbotExternals_zero`, Classification) |
 | B: `M` maximal Cauchy-compact GH | ✓ carried |
 
@@ -80,7 +83,9 @@ dimensions: Barbot's `n` is `d + 1`.
   `Cla.mgh_cauchyCompact_of_isFiniteCover`), and `hK` also by
   `absMax_of_cauchyCompact_of_mgh`.
 * **No `d ≥ 1` witness of all of Theorem B's hypotheses**: `SelbergLemma (Minkowski d)` for
-  `d ≥ 1` and `BarbotExternals d` for `d ≥ 1` are cited theorems not in mathlib.
+  `d ≥ 1` and `BarbotExternals d` for `d ≥ 1` are cited theorems not in mathlib. (Since DEC-115
+  `SelbergLemma (Minkowski d)` is proved for every `d`, `selbergLemma` in `Flat/SelbergProof`;
+  what remains cited is `BarbotExternalsMin d`.)
   `barbot_B_hypotheses_satisfiable` witnesses everything except the universal `FlatGerochGH`, at
   `d = 0` for the externals and in every `d` for the spacetime.
 * **Universes.** `barbot_B`'s `hK` ranges over `FlatSpacetime.{0} d`; the reductions here are

@@ -139,6 +139,15 @@ Classes: **T** causal / order-topological / affine in Minkowski space; **D** met
 - [10.M] the Misner case — G+T.
 - `bprop:U_timelike` 10.4, `bprop:LU_discrete` 10.5 — G.
 - [10.G] the generic case — G+T. **Gap:** the torsion of `L(Γ)` is never addressed.
+  **Selberg's lemma, the external that closes it (DEC-44), is proved** (DEC-115, 2026-11-03):
+  `selbergLemma V` in `Flat/SelbergProof`, every finite-dimensional real `V`, by congruence
+  subgroups — the entries of the generators generate a finitely generated subring `R ⊂ ℝ`
+  (`Flat/SelbergMatrix`); its residue fields at maximal ideals are finite and two of distinct
+  characteristics exist (`Flat/SelbergResidue`, ℤ Jacobson); torsion in a congruence kernel has
+  order a power of the residue characteristic (`Flat/SelbergTorsion`, by a geometric sum and the
+  adjugate, not Krull intersection), so `G ∩ Γ(m) ∩ Γ(m′)` is torsion-free of finite index.
+  `barbot_B_final`, `barbot_B_geroch_final` are Theorem B under `BarbotExternalsMin` alone
+  (`AuslanderCarriereDalbo`, `MaxUnipotentSubspace`).
 
 ### §11 Summary, and §12
 - `bthm:caucomp` Theorem A, `bthm:cauclo` Theorem B; [11.i] absolute maximality, [11.ii].

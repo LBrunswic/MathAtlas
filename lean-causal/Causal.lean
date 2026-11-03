@@ -170,6 +170,11 @@ import Causal.Flat.GromovBase
 import Causal.Flat.GromovBounded
 import Causal.Flat.GromovUnbounded
 import Causal.Flat.GromovProof
+import Causal.Flat.SelbergBase
+import Causal.Flat.SelbergResidue
+import Causal.Flat.SelbergTorsion
+import Causal.Flat.SelbergMatrix
+import Causal.Flat.SelbergProof
 
 /-!
 # Causal — topological spacetimes
@@ -193,5 +198,7 @@ abelianity (DEC-110: `Causal.Flat.BieberbachZassenhaus`, `…Abelian`, `…MinSe
 classification on `ℍᵈ`, without Zariski closure (DEC-111: `Causal.Flat.GromovBase`, `…Bounded`,
 `…Unbounded`, `Causal.Flat.GromovProof`); and, graduated the same day, the CBG work
 (`Causal.CBG.*`, `Causal.Flat.CBG`, `Causal.Flat.CBGGerm`, `Causal.Flat.CBGSlice`,
-`docs/CBG-DESIGN.md`).
+`docs/CBG-DESIGN.md`). Since 2026-11-03 the Barbot external `SelbergLemma` is proved for every
+finite-dimensional real `V` by congruence subgroups (DEC-115: `Causal.Flat.SelbergBase`,
+`…Residue`, `…Torsion`, `…Matrix`, `Causal.Flat.SelbergProof`).
 -/
