@@ -1,0 +1,108 @@
+{
+  "package": "WP-45n",
+  "files": [
+    "scaffold/BenzecriScaffold/Cone/Base.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bzprop:c1s2p2_base_cone",
+      "tex_lines": [
+        537,
+        543
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.ConeBase",
+        "Benzecri.ConeBase.mk",
+        "Benzecri.ConeBase.baseChart",
+        "Benzecri.ConeBase.baseChart_mk",
+        "Benzecri.ConeBase.baseChart_symm_trans_mem",
+        "Benzecri.ConeBase.chartedSpace",
+        "Benzecri.ConeBase.hasGroupoid",
+        "Benzecri.ConeBase.pJet",
+        "Benzecri.ConeBase.pJet_jet",
+        "Benzecri.ConeBase.jet_baseChart_eq",
+        "Benzecri.ConeBase.forall_pJet_mem_iff",
+        "Benzecri.ConeBase.existsUnique_baseStructure",
+        "Benzecri.ConeBase.existsUnique_baseStructure_charts"
+      ],
+      "hypotheses": [
+        {
+          "paper": "V une variété conique affine (Hausdorff, « variété »)",
+          "here": "reading",
+          "note": "[T2Space V]: Déf. 3's action, through which B = V/ℝ⁺ is defined, needs it"
+        },
+        {
+          "paper": "structure localement projective de B",
+          "here": "carried",
+          "note": "ChartedSpace (S n) + HasGroupoid (projGroupoid n), Déf. 12 of the strict library (no Hausdorffness)"
+        },
+        {
+          "paper": "l'unique structure telle que les p(j) soient des jets projectifs",
+          "here": "carried",
+          "note": "existsUnique_baseStructure: any (GS(n),S(n))-structure with every p(j) projective has the same maximal atlas"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "Does V Hausdorff (with Déf. 2's 3°) force the base B = V/ℝ⁺ to be Hausdorff? Not proved here; sufficient: the ℝ₊* action is proper (t2Space_of_properSMul). It matters for Déf. 3's « topologiquement trivial » (a section forces B Hausdorff: t2Space_of_section) and for wave 4's equivalence (F(B) is Hausdorff only over Hausdorff B). A naive counterexample (W = {x>0} ⊂ ℝ²−0 modulo diag(2,½)) violates 3°, which is what excludes it.",
+        "Indexing: the cone is RnO (n+1), the base S n (Benzecri's n and n−1); GU(n+1) → GS(n) is QuotientGroup.mk, the inverse of isoGU."
+      ]
+    },
+    {
+      "label": "bzdef:c1s2d3_homotheties_positives",
+      "tex_lines": [
+        523,
+        535
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.ConeBase.coneTrivialization",
+        "Benzecri.ConeBase.coneTrivialization_posSMul",
+        "Benzecri.ConeBase.exists_coneTrivialization"
+      ],
+      "hypotheses": [
+        {
+          "paper": "espace fibré R⁺-principal",
+          "here": "carried",
+          "note": "free action (Cone/Basic) + equivariant local trivialisations over every base chart"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "See WP-45m: the label is completed across Cone/Basic, Cone/Base, Cone/Section and stays partial."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.continuous_RPos_iff",
+    "Benzecri.radius",
+    "Benzecri.radius_smul",
+    "Benzecri.unitRep",
+    "Benzecri.toSphere_unitRep",
+    "Benzecri.unitRep_toSphere",
+    "Benzecri.ConeBase.isOpenQuotientMap_mk",
+    "Benzecri.ConeBase.t2Space_of_properSMul",
+    "Benzecri.ConeBase.mk_mem_baseChart_source_iff",
+    "Benzecri.ConeBase.mk_image_mem_nhds",
+    "Benzecri.ConeBase.map",
+    "Benzecri.ConeBase.continuous_map",
+    "Benzecri.ConeBase.isGXMorphism_map",
+    "Benzecri.ConeBase.map_id",
+    "Benzecri.ConeBase.map_comp"
+  ],
+  "upstream_moves": [
+    "Benzecri.continuous_RPos_iff -> Benzecri/Projective/Groups.lean",
+    "Benzecri.unitRep, toSphere_unitRep (a continuous section of s through the unit sphere) -> Benzecri/Projective/Sphere.lean (Normed section)"
+  ],
+  "kb_proposals": [
+    "To push a germ statement from V to B = V/ℝ⁺ use the open quotient map: ConeBase.mk_image_mem_nhds turns {y | P y} ∈ 𝓝 m into mk '' {…} ∈ 𝓝 (mk m)."
+  ],
+  "notes": "Import: `import BenzecriScaffold.Cone.Base` (imports Cone.Basic, Mathlib ProperAction and FiberBundle.Trivialization). The base functor on morphisms (ConeBase.map, isGXMorphism_map, map_id, map_comp) is in place for wave 4's F⁻¹; F⁻¹ on objects is ConeBase n V with ConeBase.chartedSpace/hasGroupoid (global instances on the module's own type ConeBase). B's Hausdorffness is not claimed (Prop. 2 does not state it)."
+}

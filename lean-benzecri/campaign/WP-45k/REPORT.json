@@ -1,0 +1,70 @@
+{
+  "package": "WP-45k",
+  "files": ["scaffold/BenzecriScaffold/Structure/Developing.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bzprop:c1s1p2_developpement",
+      "tex_lines": [357, 369],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.IsDeveloping",
+        "Benzecri.prop2_developpement",
+        "Benzecri.prop2_developpement_proj",
+        "Benzecri.prop2_developpement_aff",
+        "Benzecri.exists_isDeveloping",
+        "Benzecri.exists_isDeveloping_jet",
+        "Benzecri.existsUnique_isDeveloping_jet",
+        "Benzecri.IsDeveloping.smul",
+        "Benzecri.IsDeveloping.existsUnique_smul_eq",
+        "Benzecri.IsDeveloping.isLocalHomeomorph",
+        "Benzecri.isDeveloping_iff_isGXMorphism",
+        "Benzecri.IsDeveloping.existsUnique_jetSMul_eq",
+        "Benzecri.developingOfSection",
+        "Benzecri.jet_developingOfSection",
+        "Benzecri.isDeveloping_iff_continuous_section"
+      ],
+      "hypotheses": [
+        {"paper": "V une variété (connexe, séparée, à base dénombrable; plan F6)", "here": "generalised", "note": "Hausdorff and second countable unused; connectedness and nonemptiness follow from SimplyConnectedSpace"},
+        {"paper": "V simplement connexe", "here": "carried", "note": "[SimplyConnectedSpace V]"},
+        {"paper": "(implicit) V localement connexe par arcs, needed by the lifting theorem", "here": "carried as explicit hypothesis for general (G,X); DERIVED for the paper's two cases", "note": "locPathConnectedSpace_of_proj / locPathConnectedSpace_of_aff from ChartedSpace.locPathConnectedSpace; S(n) is a quotient of R^{n+1} minus 0 (locPathConnectedSpace_S)"},
+        {"paper": "tous les jets appartiennent à J(V)", "here": "carried", "note": "IsDeveloping G p := ∀ x, jet x p ∈ jets G X M"},
+        {"paper": "défini à une multiplication à gauche près par un élément de GS(n,R) [resp. GA(n,R)]", "here": "carried, both directions", "note": "g • p is developing; two developing maps differ by a UNIQUE g"},
+        {"paper": "ouvert étalé au-dessus de S(n) (resp. R^n)", "here": "carried", "note": "IsLocalHomeomorph p (kb/0001), and IsGXMorphism into the model"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "« variété » read per F6; only simple connectedness is used (it gives nonempty + path connected). Local path-connectedness is not a hypothesis of the instantiated statements: it is derived from the charts over S(n) / R^n."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.jetValue",
+    "Benzecri.jetValue_jet",
+    "Benzecri.eq_jet_of_mem_jets",
+    "Benzecri.IsDeveloping.continuous",
+    "Benzecri.IsDeveloping.eq_of_eventuallyEq",
+    "Benzecri.IsDeveloping.exists_eventually_smul_eq",
+    "Benzecri.isDeveloping_developingOfSection",
+    "Benzecri.IsDeveloping.jetSection",
+    "Benzecri.IsDeveloping.continuous_jetSection",
+    "Benzecri.exists_isGXMorphism_of_isCoveringMap",
+    "Benzecri.locPathConnectedSpace_nonzero",
+    "Benzecri.locPathConnectedSpace_S",
+    "Benzecri.locPathConnectedSpace_of_proj",
+    "Benzecri.locPathConnectedSpace_of_aff"
+  ],
+  "upstream_moves": [
+    "Benzecri.locPathConnectedSpace_S (and _nonzero) belong in Benzecri.Projective.Sphere (generalisable to Sphere E for E a topological vector space: quotient of the open set E∖0)",
+    "Benzecri.jetValue / jetValue_jet / eq_jet_of_mem_jets belong in Benzecri.Structure.Basic (Jets section)",
+    "Benzecri.locPathConnectedSpace_of_proj / _of_aff belong in Benzecri.Structure.Basic"
+  ],
+  "kb_proposals": [
+    "Mathlib's IsCoveringMap.existsUnique_continuousMap_lifts (Topology/Homotopy/Lifting.lean) applied to isCoveringMap_jets gives developing maps in a few lines: the developing map is Filter.Germ.value of the section's germ (jetValue); the étalé basic open {jet y e | y ∈ e.source} pins σ y = jet y e near x.",
+    "S(n) is locally path connected as a quotient (IsQuotientMap.locPathConnectedSpace) of the open set {v ≠ 0}; any charted space over S n or Fin n → ℝ is then locally path connected by ChartedSpace.locPathConnectedSpace."
+  ],
+  "notes": "No sorry; `lake env lean -DwarningAsError=true` clean; `lake build BenzecriScaffold.Structure.Developing` succeeds; #print axioms of prop2_developpement, _proj, _aff, existsUnique_isDeveloping_jet, exists_isGXMorphism_of_isCoveringMap, IsDeveloping.existsUnique_jetSMul_eq, isDeveloping_iff_continuous_section: [propext, Classical.choice, Quot.sound]. Also proved (no label, p. 238 prose): every simply connected, locally path-connected covering of a (G,X)-manifold, with the pulled-back structure, has a (G,X)-morphism to the model unique up to G (exists_isGXMorphism_of_isCoveringMap); the universal covering itself is not constructed (none in Mathlib at this pin). Not built: the homeomorphism J(V) ≅ V × G of the proof (only its set-theoretic form, existsUnique_jetSMul_eq). Root import line: `import BenzecriScaffold.Structure.Developing`."
+}
