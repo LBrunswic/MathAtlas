@@ -1,1 +1,11 @@
 import Benzecri.Basic
+import Benzecri.Projective.Sphere
+import Benzecri.Affine.Basic
+import Benzecri.Structure.Groupoid
+import Benzecri.Projective.Groups
+import Benzecri.Projective.Subvariety
+import Benzecri.Projective.Hemisphere
+import Benzecri.Projective.Convex
+import Benzecri.Structure.Basic
+import Benzecri.Structure.Quotient
+import Benzecri.Structure.Jets

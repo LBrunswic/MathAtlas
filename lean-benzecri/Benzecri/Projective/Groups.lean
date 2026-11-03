@@ -1,6 +1,6 @@
-import BenzecriScaffold.Projective.Sphere
-import BenzecriScaffold.Structure.Groupoid
-import BenzecriScaffold.Affine.Basic
+import Benzecri.Projective.Sphere
+import Benzecri.Structure.Groupoid
+import Benzecri.Affine.Basic
 import Mathlib.LinearAlgebra.Determinant
 import Mathlib.LinearAlgebra.AffineSpace.AffineEquiv
 import Mathlib.LinearAlgebra.LinearIndependent.Lemmas
@@ -9,7 +9,7 @@ import Mathlib.Algebra.Ring.Subring.Units
 import Mathlib.GroupTheory.QuotientGroup.Basic
 
 /-!
-# `BenzecriScaffold.Projective.Groups` — `GL`, `GA`, `GS`, `GU` and the isomorphism `i` (p. 236)
+# `Benzecri.Projective.Groups` — `GL`, `GA`, `GS`, `GU` and the isomorphism `i` (p. 236)
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 1, journal p. 236 (unlabelled prose); transcription

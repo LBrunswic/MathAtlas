@@ -1,11 +1,11 @@
-import BenzecriScaffold.Projective.Sphere
+import Benzecri.Projective.Sphere
 import Mathlib.LinearAlgebra.Dual.Lemmas
 import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
 import Mathlib.LinearAlgebra.Quotient.Basic
 import Mathlib.Analysis.Convex.Basic
 
 /-!
-# `BenzecriScaffold.Projective.Subvariety` — linear subvarieties, hemispheres, `S(E)/l` (Déf. 4, 5, 10)
+# `Benzecri.Projective.Subvariety` — linear subvarieties, hemispheres, `S(E)/l` (Déf. 4, 5, 10)
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 1, journal pp. 234–235; transcription

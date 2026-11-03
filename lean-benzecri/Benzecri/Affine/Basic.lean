@@ -7,7 +7,7 @@ import Mathlib.Analysis.Normed.Module.FiniteDimension
 import Mathlib.NumberTheory.Real.Irrational
 
 /-!
-# `BenzecriScaffold.Affine.Basic` — affine spaces and affine maps (Ch. 1 § 1, Déf. 1–2)
+# `Benzecri.Affine.Basic` — affine spaces and affine maps (Ch. 1 § 1, Déf. 1–2)
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 1, journal pp. 233–234; transcription

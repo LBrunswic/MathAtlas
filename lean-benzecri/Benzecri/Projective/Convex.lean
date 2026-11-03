@@ -1,9 +1,9 @@
-import BenzecriScaffold.Projective.Subvariety
+import Benzecri.Projective.Subvariety
 import Mathlib.Analysis.Convex.Body
 import Mathlib.Geometry.Convex.Cone.Basic
 
 /-!
-# `BenzecriScaffold.Projective.Convex` — segments, convex parts, strict convex parts, convex bodies (Déf. 7, 8, 9, 11)
+# `Benzecri.Projective.Convex` — segments, convex parts, strict convex parts, convex bodies (Déf. 7, 8, 9, 11)
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 1, journal pp. 235–236; transcription

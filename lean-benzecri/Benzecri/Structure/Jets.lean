@@ -1,8 +1,8 @@
-import BenzecriScaffold.Structure.Basic
+import Benzecri.Structure.Basic
 import Mathlib.Topology.Covering.Basic
 
 /-!
-# `BenzecriScaffold.Structure.Jets` — the étalé topology on jets; `J(V)` is a covering of `V` (Déf. 12)
+# `Benzecri.Structure.Jets` — the étalé topology on jets; `J(V)` is a covering of `V` (Déf. 12)
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 1, journal p. 236; transcription

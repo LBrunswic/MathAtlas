@@ -7,7 +7,7 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
 import Mathlib.Analysis.LocallyConvex.WithSeminorms
 
 /-!
-# `BenzecriScaffold.Projective.Sphere` — the projective sphere `S(E)` (Ch. 1 § 1, Déf. 3)
+# `Benzecri.Projective.Sphere` — the projective sphere `S(E)` (Ch. 1 § 1, Déf. 3)
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 1, journal p. 234; transcription

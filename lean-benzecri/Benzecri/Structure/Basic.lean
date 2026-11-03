@@ -1,10 +1,10 @@
-import BenzecriScaffold.Projective.Hemisphere
-import BenzecriScaffold.Structure.Groupoid
+import Benzecri.Projective.Hemisphere
+import Benzecri.Structure.Groupoid
 import Mathlib.Order.Filter.Germ.Basic
 import Mathlib.Topology.Connected.LocallyConnected
 
 /-!
-# `BenzecriScaffold.Structure.Basic` — locally projective and locally affine manifolds (Déf. 12, 13, Remarque, Prop. 1, 3)
+# `Benzecri.Structure.Basic` — locally projective and locally affine manifolds (Déf. 12, 13, Remarque, Prop. 1, 3)
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 1, journal pp. 236–237; transcription

@@ -1,11 +1,1 @@
 import BenzecriScaffold.Basic
-import BenzecriScaffold.Projective.Sphere
-import BenzecriScaffold.Affine.Basic
-import BenzecriScaffold.Structure.Groupoid
-import BenzecriScaffold.Projective.Groups
-import BenzecriScaffold.Projective.Subvariety
-import BenzecriScaffold.Projective.Hemisphere
-import BenzecriScaffold.Projective.Convex
-import BenzecriScaffold.Structure.Basic
-import BenzecriScaffold.Structure.Quotient
-import BenzecriScaffold.Structure.Jets

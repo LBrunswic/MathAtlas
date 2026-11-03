@@ -2,7 +2,7 @@ import Mathlib.Geometry.Manifold.HasGroupoid
 import Mathlib.Topology.Algebra.ConstMulAction
 
 /-!
-# `BenzecriScaffold.Structure.Groupoid` — the groupoid of a group action (plan F2)
+# `Benzecri.Structure.Groupoid` — the groupoid of a group action (plan F2)
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332. Package WP-45c (wave 1, layer L0). No ledger label is certified here: this module

@@ -1,9 +1,9 @@
-import BenzecriScaffold.Projective.Subvariety
-import BenzecriScaffold.Projective.Groups
-import BenzecriScaffold.Affine.Basic
+import Benzecri.Projective.Subvariety
+import Benzecri.Projective.Groups
+import Benzecri.Affine.Basic
 
 /-!
-# `BenzecriScaffold.Projective.Hemisphere` — the affine structure of an open hemisphere (Déf. 6)
+# `Benzecri.Projective.Hemisphere` — the affine structure of an open hemisphere (Déf. 6)
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 1, journal pp. 235–236; transcription

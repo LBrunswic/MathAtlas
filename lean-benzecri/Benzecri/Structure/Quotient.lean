@@ -1,10 +1,10 @@
-import BenzecriScaffold.Structure.Basic
+import Benzecri.Structure.Basic
 import Mathlib.Topology.Covering.Quotient
 import Mathlib.Geometry.Manifold.Instances.Quotient
 import Mathlib.CategoryTheory.Category.Basic
 
 /-!
-# `BenzecriScaffold.Structure.Quotient` — morphisms, the category, quotients `V/G`, étalé pull-backs (p. 238)
+# `Benzecri.Structure.Quotient` — morphisms, the category, quotients `V/G`, étalé pull-backs (p. 238)
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 1, journal p. 238 (unlabelled prose); transcription
