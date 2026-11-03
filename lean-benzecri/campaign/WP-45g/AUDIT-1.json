@@ -1,0 +1,57 @@
+{
+ "package": "WP-45g",
+ "round": 1,
+ "file": "scaffold/BenzecriScaffold/Projective/Convex.lean",
+ "module": "BenzecriScaffold.Projective.Convex",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor; files as on disk (untracked, wave 2), mathlib fabf563a",
+ "summary": "Checked the build, the axioms, name clashes, the REPORT decls, and the fidelity of Déf. 7, 8, 9 and 11 (l.234-292) and of the prose of pp. 235-236 to the transcription and to the scan (PDF pp. 8-9). Verified the OQ-24 evidence both in Lean and on the scan. There is no blocker or major issue. The Déf. 7, 9 and 11 marks are earned. The claim that Déf. 9 and Déf. 11 do not depend on OQ-24 is real for both readings on the table, and for the unambiguous segment form. The OQ-24 evidence holds, and the scan adds two further arguments for the ∪ reading. Déf. 8 is correctly left unmarked.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Projective/Convex.lean`: EXIT=0, no output (2.0 s; .olean 10:04 newer than source 10:01)",
+  "sorry_axioms": "all 302 constants of the wave-2 modules ⊆ [propext, Classical.choice, Quot.sound] (see WP-45f AUDIT-1); no sorry, admit, axiom or set_option token",
+  "imports": "BenzecriScaffold.Projective.Subvariety, Mathlib.Analysis.Convex.Body and Mathlib.Geometry.Convex.Cone.Basic only",
+  "scan_def8": "PDF p. 8 (journal p. 235) at 600 dpi: Déf. 8 prints « que F(k) + { O } soit un convexe de E » with an unambiguous '+'. Ten lines higher on the SAME page the typesetter prints « F(h) ∪ { O } = l⁻¹(O) » with the ∪ glyph, as Déf. 5 does on p. 234 (tex l.209). So '+' is in the original print, not a transcription or OCR error: either the period's '+' for a union of disjoint sets (F(k) ∩ {O} = ∅ since O ∉ F(k)), or a misprint. The second sentence is printed exactly as transcribed (l.250-252)",
+  "oq24_lean": "isConvexPart_iff_isSegConvex: (F(k) ∪ {O} convex) ↔ the segment form, for every real vector space E with no hypothesis; the proof handles antipodal pairs and the case a•x+b•y = 0. isSegConvex_univ against not_isConvexPartMinkowski_univ [Nontrivial E] (for E = 0 both sides hold vacuously, so the hypothesis is the right one). isConvexPart_linearSubvariety against not_isConvexPartMinkowski_linearSubvariety (L ≠ ⊥). So under the Minkowski reading the two sentences of Déf. 8 define different classes; under ∪ they define the same class. The WP-45g claim is verified",
+  "oq24_extra_evidence": "Verified in a /tmp scratch file: under the Minkowski reading NO part containing a nonzero linear subvariety is convex (`linearSubvariety L ⊆ k → ¬ IsConvexPartMinkowski k`, 4 lines from IsConvexPartMinkowski.neg_notMem and neg_mem_linearSubvariety). Déf. 10's second sentence, « les convexes de S(E) contenant l s'identifient aux convexes de S(E)/l », would then be about the empty family whenever l ≠ ∅. DEC-114 already ruled that Déf. 10's sphere statement holds as printed, and that ruling is only non-vacuous in the ∪ reading",
+  "independence_def9": "IsStrictConvexPart k := IsConvexPart k ∧ no antipodal pair. Three iff lemmas show it equals Convex ℝ (F k), the segment form ∧ no antipodes, and the Minkowski form ∧ no antipodes. So Déf. 9 is the same class under every reading on the table: the two readings of sentence 1, and sentence 2, which needs no reading. The independence is REAL. Under Minkowski the word « stricte » becomes idle, which is OQ-24's own remark ('makes Déf. 9 vacuous'); the class is unchanged",
+  "independence_def11": "IsCorpsConvexeS uses Déf. 8 only through IsStrictConvexPart; isCorpsConvexeS_iff gives Convex (F k) ∧ IsCompact k ∧ interior nonempty, with no reading involved. Real",
+  "mark_def7": "closedSeg/openSeg = s([M, M'] − {O}) and s(]M, M'[ − {O}) for Mathlib's chosen representatives. closedSeg_mk/openSeg_mk prove « le choix de M et M' est indifférent » for ANY representatives. zero_notMem_segment shows that for non-antipodal points s(M, M') is defined literally, because O ∉ [M, M']. The open segment is present. Earned",
+  "mark_def11": "IsCorpsConvexe (Convex ∧ IsCompact ∧ interior nonempty on Fin n → ℝ), IsCorpsConvexeS on S n = S(ℝⁿ⁺¹) with wave 1's quotient topology, EA n, ES n (= E(n)), CA n: every printed sentence has a counterpart. Earned",
+  "prose_K_C": "KE, CE, KS and CS are the four sets of l.269-272. KS and CS are over the ∪ reading and correctly unmarked prose",
+  "segment_on_line": "Verified in scratch that closedSeg (mk M) (mk M') ⊆ linearSubvariety (span {M, M'}) is a 6-line proof (see issue 2)",
+  "name_clashes": "0 against root, Set, Filter, Topology, Function (see WP-45f AUDIT-1)"
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "Convex.lean:315-369 (the OQ-24 section) and REPORT findings",
+   "problem": "The OQ-24 dossier omits two cheap, decisive arguments. (a) The scan shows '+' and '∪' side by side on p. 235, so '+' is the printed symbol and the typesetter had ∪. (b) Under the Minkowski reading, Déf. 10's « convexes de S(E) contenant l » is the empty family for every l ≠ ∅, which contradicts DEC-114's own ruling that Déf. 10's sphere statement holds as printed",
+   "fix": "Add `theorem not_isConvexPartMinkowski_of_linearSubvariety_subset {L} (hL : L ≠ ⊥) {k} (hk : linearSubvariety L ⊆ k) : ¬ IsConvexPartMinkowski k` (proof: `obtain ⟨v, hvL, hv⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hL; have hm := (mk_mem_linearSubvariety hv).2 hvL; exact h.neg_notMem (hk hm) (hk (neg_mem_linearSubvariety hm))`, verified). Cite it, and the p. 235 typography, in SCOPE and in the REPORT finding"
+  },
+  {
+   "severity": "nit",
+   "where": "Convex.lean:78-79 (SCOPE: '(m, m′) lies on the line … is not stated')",
+   "problem": "« segment de droite » is a name, not an assertion, but the inclusion in the line is cheap and is what makes it a segment « de droite »",
+   "fix": "Add `closedSeg_subset_linearSubvariety_span : closedSeg (mk M hM) (mk M' hM') ⊆ linearSubvariety (Submodule.span ℝ {M, M'})` (6 lines, verified: rw [closedSeg_mk]; take z ∈ [M, M']; it is a•M + b•M' ∈ span). Drop the SCOPE bullet"
+  },
+  {
+   "severity": "nit",
+   "where": "REPORT.json labels[0].hypotheses[0] (Déf. 7, 'weakened'); likewise WP-45h",
+   "problem": "'weakened' here means the hypothesis was DROPPED (a generalisation, compatible with the mark). In wave 1 ('finite dimension') and in WP-45h's « revêtement » row, the same word means the Lean result is WEAKER. One word for opposite directions makes the marks unreadable mechanically",
+   "fix": "Use 'generalised' (or 'dropped') when the Lean statement is stronger, and keep 'weakened' for a stronger hypothesis or a weaker conclusion"
+  },
+  {
+   "severity": "nit",
+   "where": "Convex.lean:99, :158, :162 and :355 (ofCone_subset_of_forall, mk_someVector, exists_pos_someVector, isConvexPart_linearSubvariety)",
+   "problem": "General Sphere/Subvariety facts live in the Convex module (already in REPORT upstream_moves)",
+   "fix": "Move at graduation as the REPORT proposes"
+  }
+ ],
+ "fidelity_summary": "Déf. 7 is faithful: it is defined for all pairs, and for non-antipodal pairs it is literally s([M, M']), independent of the representatives. Déf. 8 is correctly unmarked: both readings are formalized, and the ∪ reading is proved equivalent to the unambiguous segment form, while the Minkowski reading is proved to contradict it. Déf. 9 and Déf. 11 are marked, and the marks are earned: their content is the same class under every reading of Déf. 8 on the table, proved by three iff lemmas, so their independence from OQ-24 is a theorem, not a convention. The scan confirms the printed '+' next to a printed '∪' on the same page.",
+ "questions_for_author": [
+  "OQ-24: rule « F(k) + {O} » = F(k) ∪ {O}? The evidence is four-fold. The segment sentence is equivalent to it (isConvexPart_iff_isSegConvex). The Minkowski reading contradicts that sentence on S(E) and on every nonzero linear subvariety. The Minkowski reading makes Déf. 10's « convexes contenant l » empty (issue 1). And the print uses ∪ elsewhere on the same page, so '+' is notation or a misprint. Once ruled, Déf. 8 can be marked with no code change.",
+  "Keep Déf. 9 and Déf. 11 marked before OQ-24 is ruled? Their reading-independence is proved, so the auditor finds the marks earned; holding them with Déf. 8 would be a policy choice, not a mathematical one."
+ ]
+}

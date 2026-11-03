@@ -1,0 +1,48 @@
+{
+ "package": "WP-45f",
+ "round": 1,
+ "file": "scaffold/BenzecriScaffold/Projective/Hemisphere.lean",
+ "module": "BenzecriScaffold.Projective.Hemisphere",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor; files as on disk (untracked, wave 2), mathlib fabf563a",
+ "summary": "Checked the build, the axioms of every declaration, name clashes, the REPORT decls, the fidelity of the marked Déf. 6 to the transcription l.222-232 and the scan (PDF p. 8 = journal p. 235), the p. 236 sentence (l.280), and the groundwork for the Remarque. There is no blocker or major issue. The mark on bzdef:c1s1d6 is earned: it rests on DEC-114, which is ruled, and both consistent readings are proved. One implicit assertion has no Lean counterpart: that the structure does not depend on the choice of the equation l, at the level of the action. Everything else is a nit.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Projective/Hemisphere.lean`: EXIT=0, no output (3.8 s; the .olean, 10:01:05, is newer than the source, 10:00:51)",
+  "sorry_axioms": "`Lean.collectAxioms` over EVERY non-internal constant of the four wave-2 modules (302 constants), from /tmp scratch via `lake env lean`: 266 use [propext, Classical.choice, Quot.sound] and 36 use [propext, Quot.sound]; no sorryAx and no other axiom. `#print axioms Benzecri.Sphere.instAddTorsorHemi` = the three standard ones. No sorry, admit, axiom, native_decide, implemented_by, extern, set_option or private token in the file",
+  "imports": "BenzecriScaffold.Projective.{Subvariety,Groups}, BenzecriScaffold.Affine.Basic only (DEC-112)",
+  "report_decls": "Every Benzecri.* name in the four wave-2 REPORTs (labels.decls, extra_decls, prose.proved; 147 names) exists in the environment",
+  "mark_def6": "Déf. 6 asserts (a) L(E/N, N) acts on H by m+u = s(M+u(q(M))): hvadd, hvadd_mem, instVAddHemi; (b) the expression does not depend on the representative ([sic] « de m », read « de M »; the scan p. 235 does print « m »): hvadd_mk, mk_transl_eq_of_mk_eq, coe_vadd_eq, which hold for EVERY M ∈ F(m); (c) the result is a structure of affine space. As printed, Déf. 1 has no nonemptiness and Déf. 5 allows l = 0, and isSimplyTransitive_hemi holds for every l. In DEC-114's rulings (an affine space is nonempty; Déf. 5 has l ≠ 0), isAffineSpace_hemi_iff (↔ l ≠ 0) and instAddTorsorHemi [Fact (l ≠ 0)] hold. Only the mixed combination fails (nonempty Déf. 1 with l = 0 allowed, H = ∅), and DEC-114 rules that combination out. So the claim 'both readings agree' is correct and the mark is earned",
+  "def6_generalisation": "openHemisphere l uses any algebraic l : Module.Dual ℝ E and never uses that H is open. This strictly generalises Déf. 5's open hemispheres, so the mark is not affected",
+  "p236_sentence": "nonempty_hemi_affineEquiv: dim E = n+1, l ≠ 0 ⇒ Nonempty (H ≃ᵃ[ℝ] (Fin n → ℝ)). Its index convention matches S(n) = S(ℝⁿ⁺¹). hemiEquivLevelOne is a genuine AffineEquiv to the AffineSubspace l = 1, with linear part evalTrans",
+  "remarque_groundwork": "hemiChart, isOpenEmbedding_hemiChart, range_hemiChart, isAffine_hemiChartH, bijective_hemiChartH, affToGS (a hom, injective) and hemiChart_apply_eq_smul are all as described. The Remarque label is cited with plain backticks, not bold: correct",
+  "instances": "instAddTorsorHemi is assembled from instAddActionHemi and instVSubHemi (toAddAction := , toVSub := ), so it introduces no diamond. `instance : Fact (lastForm n ≠ 0)` is harmless",
+  "name_clashes": "A scratch metaprogram compared every declaration of the four modules, with the Benzecri/Benzecri.Sphere prefix stripped, against the root namespace and the opened namespaces Set, Filter, Topology, Function and Benzecri: 0 clashes. Mathlib's WittVector.init_add exists but is never opened"
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "Hemisphere.lean:68-71 (SCOPE), ker_eq_of_openHemisphere_eq (:321)",
+   "problem": "« Soient l une équation de H … le groupe des translations de H » implicitly asserts that the affine structure on H does not depend on the equation. Only the kernels are proved equal; the actions of HemiTrans l and HemiTrans (c • l) are not compared. SCOPE discloses this ('equal only propositionally'), but nothing proves it. It is the one implicit assertion of the marked block without a counterpart",
+   "fix": "Add `theorem hemi_vadd_indep {l l'} (h : openHemisphere l = openHemisphere l') : ∃ e : HemiTrans l ≃ₗ[ℝ] HemiTrans l', ∀ u (m : openHemisphere l), ((e u +ᵥ (⟨m, h ▸ m.2⟩ : openHemisphere l')) : Sphere E) = (u +ᵥ m : openHemisphere l)`. Build e from ker_eq_of_openHemisphere_eq via Submodule.quotEquivOfEq and LinearEquiv.ofEq; the proof is `transl` unfolded"
+  },
+  {
+   "severity": "nit",
+   "where": "Hemisphere.lean:689 (GAR.apply_eq), :523-546 (mk_eq_mk_of_eq, snoc_add_snoc, smul_snoc, init_add, init_smul), :404-443",
+   "problem": "General facts sit in Benzecri.Sphere under generic names. Benzecri.Sphere.GAR.apply_eq is not found by dot notation on f : GAR n; the Fin.snoc/Fin.init lemmas are not about spheres. The REPORT's upstream_moves already lists them",
+   "fix": "At graduation, move GAR.apply_eq/affLin/affToGL/affToGS to Projective/Groups (namespace Benzecri.GAR), mk_eq_mk_of_eq to Sphere, the Déf. 5 facts to Subvariety, and make the Fin helpers `private` or `protected`"
+  },
+  {
+   "severity": "nit",
+   "where": "REPORT.json labels[0].hypotheses[1].note",
+   "problem": "« structure d'espace affin » is listed as 'carried'. It is carried as printed; in DEC-114's reading it needs l ≠ 0, which is DEC-114's Déf. 5 reading. The note says so, but the row hides that the mark depends on a ruled reading",
+   "fix": "Change `here` to 'reading (DEC-114, ruled)', so the mark's dependency on DEC-114 is machine-visible"
+  }
+ ],
+ "fidelity_summary": "Déf. 6 is formalized faithfully. The translation space is L(E/N, N) = (E ⧸ ker l) →ₗ ker l, the action is the printed formula, its independence of the representative is proved for every representative, and the action is simply transitive on every open hemisphere (Déf. 1 as printed) and an AddTorsor when l ≠ 0 (DEC-114). Nothing is vacuous or definitional. The p. 236 sentence (an open hemisphere of S(n) ≅ ℝⁿ) is proved. The mark is earned. The only uncertified implicit content is the independence of the equation l at the level of the action (minor).",
+ "questions_for_author": [
+  "Accept the Déf. 6 mark on the basis that DEC-114's two rulings (Déf. 1 nonempty, Déf. 5 l ≠ 0) and the printed text both give a theorem (isSimplyTransitive_hemi for every l; isAffineSpace_hemi_iff ↔ l ≠ 0)? The auditor finds it earned.",
+  "Should the independence of the structure from the equation l (issue 1) be proved before graduation, or is ker_eq_of_openHemisphere_eq plus the SCOPE disclosure enough?"
+ ]
+}

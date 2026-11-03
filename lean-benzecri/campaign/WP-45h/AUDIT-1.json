@@ -1,0 +1,77 @@
+{
+ "package": "WP-45h",
+ "round": 1,
+ "file": "scaffold/BenzecriScaffold/Structure/Basic.lean",
+ "module": "BenzecriScaffold.Structure.Basic",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor; files as on disk (untracked, wave 2), mathlib fabf563a; lean-gx citations checked against `git show 4a577c5:lean-gx/GX/Structure/Basic.lean`",
+ "summary": "Checked the build, the axioms, name clashes, the REPORT decls, the gx ports and their citations, and the fidelity of Déf. 12, the Remarque, Déf. 13, Prop. 1 and Prop. 3 (l.304-379) to the transcription and to the scan (PDF pp. 9-10). There is no blocker or major issue. The Déf. 13 and Prop. 3 marks are earned. Déf. 12, the Remarque and Prop. 1 are correctly unmarked. The Prop. 1 finding is a fair literal reading and the counterexample is correct. The Déf. 12 jet ⟺ atlas equivalence is faithful to 1° and 2°. What « revêtement » still needs is listed in issue 1. The remaining issues are hygiene: a global orphan instance on Mathlib types, counterexample helpers polluting `Benzecri`, and one wrong gx line.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Structure/Basic.lean`: EXIT=0, no output (3.9 s; .olean 10:01:45 newer than source 09:55:18)",
+  "sorry_axioms": "all constants ⊆ [propext, Classical.choice, Quot.sound]; `#print axioms Benzecri.exists_hasGroupoid_jets_eq_iff` and `Benzecri.not_prop1_of_disconnected` give the three. The only declaration of the four modules outside `Benzecri` is the auto-generated `Homeomorph.addRight.congr_simp` (simp's congruence lemma, from the counterexample), which is benign",
+  "imports": "BenzecriScaffold.Projective.Hemisphere, BenzecriScaffold.Structure.Groupoid, Mathlib.Order.Filter.Germ.Basic, Mathlib.Topology.Connected.LocallyConnected: compliant",
+  "gx_citations": "At lean-gx 4a577c5, GX/Structure/Basic.lean (unchanged since; 911 lines): l.277 `section MaximalAtlas` … l.322 `end MaximalAtlas` ✓; l.284 eventually_smul_eq_of_eventually_smul_eq ✓; l.294 eventually_smul_eq_of_mem_maximalAtlas ✓; l.305 mem_maximalAtlas_iff_eventually ✓; l.405 exists_smul_eq_on_connectedComponentIn ✓; chartedSpaceOfAtlas is at l.479, NOT l.476 (476 is blank) ✗ (issue 4). The ported statements are verbatim the gx ones",
+  "def12_jet_form": "IsJetStructure G J has five fields. `iso` says every jet is the germ of an OpenPartialHomeomorph at a point of its source (« jets d'isomorphismes », plan F3). `isEtaleOpen` is « ouvert » (see issue 1). `source_surjective` is 1°. `smul_mem` and `transitive` are 2°: « opère » (the action preserves J and fibres) and « transitivement sur chaque fibre ». exists_hasGroupoid_jets_eq_iff: J is the jets of some (G,X)-structure iff IsJetStructure G J. maximalAtlas_eq_of_jets_eq: J determines the maximal atlas. So {structures up to maximal atlas} ≃ {jet structures}, which is exactly 'the structure is the datum J(V)'. No connectedness, Hausdorffness or analyticity is used: a generalisation. Faithful to 1° and 2°",
+  "def12_revetement": "Proved only as sets: the fibres are free G-orbits (eq_one_of_jetSMul_eq, needs IsAnalyticAction) and the jets over a chart domain are {g • jet y e}, each for a unique g (mem_jets_iff_existsUnique). There is no TopologicalSpace on Jet M X, so neither « J(V) ouvert » nor « revêtement » has a topological counterpart (issue 1)",
+  "mark_def13": "IsCompatibleChart G e := ∀ x ∈ e.source, jet x e ∈ jets G X M. This is « tous ses jets appartiennent à J(V) » verbatim, for a chart of U = e.source onto the open e.target. isCompatibleChart_iff ties it to the maximal atlas. The J(V) used is the one proved to be a Déf. 12 jet structure, so the unproved « revêtement » remark of Déf. 12 does not affect it. « carte compatible » is terminology. Earned",
+  "mark_prop3": "existsUnique_structure_of_atlas_printed: charts f i covering M (`hcov`), one g_ij on each NONEMPTY U_i ∩ U_j with f_i = g_ij • f_j there; it concludes a (G,X)-structure with every f_i compatible (Déf. 13), unique up to maximal atlas among all such structures. That is the printed statement. The strong form needs only local g_ij. Uniqueness up to maximal atlas = uniqueness of J(V) by maximalAtlas_eq_of_jets_eq. Earned",
+  "prop1_counterexample": "not_prop1_of_disconnected is correct. Take V = ℝ¹ (chartedSpaceSelf, connected, T2, second countable) and U = {y<1} ∪ {y>2}. φ₁ = cxChart is compatible (translation by 10 on {y>2}) and φ₂ = id_U is compatible. No g ∈ GA(1) has φ₁ = g•φ₂ on U, because GAR.eq_one_of_eqOn forces g = 1 on {y<1}. The jets at 0 agree, but φ₁ is not EqOnSource φ₂. So 1° (existence of g) and the uniqueness in 2° both fail",
+  "prop1_true_form": "existsUnique_smul_eq_of_isPreconnected (U preconnected and nonempty), existsUnique_compatibleChart_jet (U preconnected; uniqueness up to EqOnSource, i.e. equal on U), exists_compatibleChart_jet (2° existence for every U). Correct, with IsAnalyticAction instances for GSR n (wave 1) and GAR n (here)",
+  "remarque": "hasGroupoid_transport, trans_mem_maximalAtlas_transport and jets_transport (J'' = {g • (ι ∘ j)}) are stated for any open embedding ι equivariant through φ : G' →* G. hasGroupoid_projGroupoid_of_affine instantiates them for the standard chart. They are correctly unmarked: the generality of « un isomorphisme compatible … sur un hémisphère » is not reached",
+  "affine_instance": "`instance affineEquivApplyMulAction : MulAction (P ≃ᵃ[k] P) P` is GLOBAL, in namespace Benzecri, on Mathlib types; likewise the anonymous `FaithfulSMul (P ≃ᵃ[k] P) P`, and `ContinuousConstSMul`/`IsAnalyticAction` for GAR n (an abbrev, so on Mathlib's (Fin n → ℝ) ≃ᵃ[ℝ] _). Mathlib at fabf563a has no MulAction (P ≃ᵃ[k] P) P (grep of LinearAlgebra/AffineSpace), and no SMul (GAR n) (Fin n → ℝ) reaches Pi.instSMul, so there is NO diamond today. lean-gx defines the same action as `scoped instance affineEquivMulAction` (GX/Singular/Quotient.lean:2420, `open scoped GX`) with a definitionally equal body (smul f v := f v). A future bridge module opening that scope would hold two defeq instances: harmless but redundant (issue 2)",
+  "name_clashes": "0 against root and opened namespaces. `cxA`, `cxB`, `cxv`, `cxId`, `cxTrans`, `cxChart` (plus `isOpen_cxA/B`, `cx_disjoint*`, `cxChart_apply/_source`) are in namespace `Benzecri`, not the root, but they are public one-use names (issue 3)"
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "Structure/Basic.lean:92 (checklist '✓ carried: IsEtaleOpen'), :313-317 (IsEtaleOpen), :24-26 and SCOPE :102-105",
+   "problem": "The « J(V) est un revêtement » sentence is not proved topologically, and « ensemble ouvert » is a stand-in. IsEtaleOpen is the basic-open property of the étalé topology. No topology on Jet M X exists, so IsEtaleOpen is never proved equivalent to openness, and the checklist's '✓ carried' overstates. Missing for the mark: (1) `instance : TopologicalSpace (Jet M X) := generateFrom {S | ∃ (f : M → X) (W : Set M), IsOpen W ∧ S = (fun y => jet y f) '' W}`; (2) `isOpen_iff_isEtaleOpen : IsOpen J ↔ IsEtaleOpen J` (⇐ union of basics, ⇒ for a basic set by Germ.coe_eq + Eventually.eventually_nhds); (3) `isCoveringMap_jets [IsAnalyticAction G X] : IsCoveringMap (fun j : jets G X M => j.1.1)`, with G discrete. The trivialisation over e.source is (y, g) ↦ g • jet y e. Its sheets {jet y (g • e) | y ∈ e.source} are basic opens, pairwise disjoint by mem_jets_iff_existsUnique. Rigidity is needed here: without it the sheets can overlap and J(V) is non-Hausdorff, not a covering. Prop. 2's proof (wave 3) needs exactly this topology",
+   "fix": "Either build (1)-(3) (≈150 lines; the set-level work is done) and mark Déf. 12, or change the checklist row to '⚠ stand-in: IsEtaleOpen is the basic-open property of the étalé topology, which is not built' and keep Déf. 12 partial"
+  },
+  {
+   "severity": "minor",
+   "where": "Structure/Basic.lean:138 (affineEquivApplyMulAction), :145 (FaithfulSMul), :152, :182",
+   "problem": "A global orphan MulAction on Mathlib's P ≃ᵃ[k] P, in a scaffold file. No diamond exists today, but lean-gx deliberately scopes the identical instance (GX/Singular/Quotient.lean:2420), and the bridge layer will import both. A Mathlib upstream instance would duplicate it",
+   "fix": "Declare it `scoped instance` (namespace Benzecri, `open scoped Benzecri` where used), as lean-gx does, or specialise it to GAR n. Move it, the GAR n instances and GAR.eq_one_of_eqOn to Projective/Groups (REPORT upstream_moves). GAR.eq_one_of_eqOn could reuse gx's 3-line proof (AffineMap.ext_on with IsOpen.affineSpan_eq_top)"
+  },
+  {
+   "severity": "minor",
+   "where": "Structure/Basic.lean:899-1005 (section Counterexample)",
+   "problem": "Thirteen public one-use declarations (cxA, cxB, cxv, isOpen_cxA, isOpen_cxB, cxTrans, cxId, cx_disjoint_source, cx_disjoint_target, cxChart, cxChart_apply, cxChart_source, cx_disjoint) pollute namespace Benzecri for every downstream file",
+   "fix": "Make them `private`, or wrap the section in `namespace Prop1Counterexample … end Prop1Counterexample` and keep only `not_prop1_of_disconnected` public (in namespace Benzecri). Drop them from REPORT extra_decls"
+  },
+  {
+   "severity": "nit",
+   "where": "Structure/Basic.lean:49 and :458; REPORT upstream_moves[1]",
+   "problem": "chartedSpaceOfAtlas is cited at lean-gx/GX/Structure/Basic.lean l.476; at 4a577c5 it is l.479 (476 is blank)",
+   "fix": "Cite l.479"
+  },
+  {
+   "severity": "nit",
+   "where": "Structure/Basic.lean:27 ('l.319–330'); REPORT labels[1].tex_lines [319, 330]",
+   "problem": "The Remarque block is l.319-329 (\\end{remarque} at 329)",
+   "fix": "Cite l.319-329"
+  },
+  {
+   "severity": "nit",
+   "where": "REPORT labels[3].findings[0] (Prop. 1)",
+   "problem": "The added `U.Nonempty` (for the uniqueness of g in 1°) is a second, trivial instance of the same defect: for U = ∅ and G ≠ 1, uniqueness of g fails. It is in `hypotheses` but not in the finding text",
+   "fix": "Append to the finding: '…and the uniqueness of g in 1° needs U ≠ ∅'"
+  },
+  {
+   "severity": "nit",
+   "where": "REPORT labels[0].hypotheses, labels[1].hypotheses, labels[4].hypotheses ('weakened')",
+   "problem": "'weakened' is used for a dropped hypothesis (V; Prop. 3's local g_ij: generalisations), for a weakened conclusion (« revêtement »), and for a replaced, stronger hypothesis (the Remarque's j)",
+   "fix": "Use 'generalised' for the first, 'conclusion weakened' for the second, 'replaced (stronger)' for the third (see WP-45g AUDIT-1 issue 3)"
+  }
+ ],
+ "fidelity_summary": "The atlas definition (plan F2) and Déf. 12's jet definition are proved equivalent in both directions, with the structure determined by its jets. 1° and 2° are rendered faithfully. Only the closing « revêtement » sentence, and the topological meaning of « ouvert », are not formalized, so Déf. 12 is rightly partial. Déf. 13 is verbatim and its mark is earned. Prop. 3 is proved as printed plus a strong form, and its mark is earned. Prop. 1 is proved for connected U, with a correct counterexample in the paper's own setting for disconnected U. The Remarque is proved for the standard hemisphere chart and for every equivariant open embedding, and is rightly unmarked.",
+ "prop1_reading_or_finding": "A finding, under DEC-27, and a fair literal reading. (i) « soit U un ouvert de V » is unambiguous: the period's word for a connected open set is « domaine » or « ouvert connexe ». (ii) Plan F6's connectedness is a reading of « variété » (Déf. 12's « convexe » [sic]); U is never called a variété, neither in Prop. 1 nor in Déf. 13 (« carte d'un ouvert U d'une variété »). (iii) Benzécri states connectedness when he needs it: « simplement connexe » in Prop. 2, two lines later. (iv) The one-line proof « résulte facilement du 2° de la définition 12 » is analytic continuation over U, which uses connectedness of U: an omitted hypothesis its proof uses, the DEC-27 case. (v) The counterexample lives in the paper's own category: V = ℝ¹ is connected, Hausdorff and second countable. The author MAY instead rule it an evident omission, as DEC-114 did for Déf. 2's « linéaire »: the row would then be closed with U connected and nonempty, the counterexample kept as a remark. That is a ruling, not something the code decides.",
+ "questions_for_author": [
+  "Prop. 1: keep it as a DEC-27 finding (row partial), or rule « U connexe (et non vide) » an evident omission (row closed with the hypothesis, counterexample kept as a remark)? The auditor finds the finding fair; F6 does not cover U.",
+  "Déf. 12: build the étalé topology and the covering (issue 1, ≈150 lines, also needed by Prop. 2 in wave 3) to mark it, or keep it partial?",
+  "The Remarque: is « canoniquement associée » meant as 'determined by the jets GS ∘ j ∘ J(V)' (proved), or does it also require independence of the choice of j (not proved)?"
+ ]
+}

@@ -1,0 +1,204 @@
+{
+  "package": "WP-45h",
+  "files": [
+    "scaffold/BenzecriScaffold/Structure/Basic.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bzdef:c1s1d12_variete_localement_projective",
+      "tex_lines": [
+        304,
+        317
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.projGroupoid",
+        "Benzecri.affGroupoid",
+        "Benzecri.Jet",
+        "Benzecri.jet",
+        "Benzecri.IsIsoJet",
+        "Benzecri.IsEtaleOpen",
+        "Benzecri.jetSMul",
+        "Benzecri.IsJetStructure",
+        "Benzecri.jets",
+        "Benzecri.mem_maximalAtlas_iff_jets",
+        "Benzecri.isJetStructure_jets",
+        "Benzecri.exists_hasGroupoid_jets_eq_iff",
+        "Benzecri.maximalAtlas_eq_of_jets_eq",
+        "Benzecri.chartedSpaceOfJets",
+        "Benzecri.hasGroupoid_chartedSpaceOfJets",
+        "Benzecri.maximalAtlas_chartedSpaceOfJets",
+        "Benzecri.jets_chartedSpaceOfJets",
+        "Benzecri.eq_one_of_jetSMul_eq",
+        "Benzecri.mem_jets_iff_existsUnique"
+      ],
+      "hypotheses": [
+        {
+          "paper": "V a variété « convexe » ([sic] connexe), T2, second countable",
+          "here": "weakened",
+          "note": "none used; V any topological space"
+        },
+        {
+          "paper": "J(V) an open set of jets of isomorphisms",
+          "here": "carried",
+          "note": "IsEtaleOpen (basic opens of the étalé topology) + IsIsoJet (germs of OpenPartialHomeomorph)"
+        },
+        {
+          "paper": "« J(V) … est un revêtement de V »",
+          "here": "weakened",
+          "note": "only set-theoretically: free transitive fibres and local triviality over chart domains (eq_one_of_jetSMul_eq, mem_jets_iff_existsUnique); no topology on J(V)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "Déf. 12 prints « convexe »; read « connexe » ([sic]); not needed by anything proved.",
+        "To mark Déf. 12, should the étalé topology on Jet M X be built and J(V) → V proved an IsCoveringMap (G discrete)? Everything else of Déf. 12 is certified (both directions of the jet ⟺ atlas equivalence, and uniqueness)."
+      ]
+    },
+    {
+      "label": "bzrem:c1s1r1_affine_vers_projective",
+      "tex_lines": [
+        319,
+        330
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.transportChartedSpace",
+        "Benzecri.hasGroupoid_transport",
+        "Benzecri.trans_mem_maximalAtlas_transport",
+        "Benzecri.jets_transport",
+        "Benzecri.hasGroupoid_projGroupoid_of_affine",
+        "Benzecri.Sphere.isAffine_hemiChartH",
+        "Benzecri.Sphere.affToGS"
+      ],
+      "hypotheses": [
+        {
+          "paper": "j an isomorphism « compatible avec la structure affine de ℝⁿ » onto a hemisphere",
+          "here": "weakened",
+          "note": "replaced by: j an open embedding equivariant through a hom GA(n) →* GS(n); proved for the standard chart y ↦ s(y,1), which is an affine isomorphism onto H₀"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "« canoniquement associée »: proved in the sense that the structure is the one with jets GS ∘ j ∘ J(V) (jets_transport + maximalAtlas_eq_of_jets_eq); its independence of j, and that every affine isomorphism onto a hemisphere is an equivariant open embedding, are not proved. Is that the intended content?"
+      ]
+    },
+    {
+      "label": "bzdef:c1s1d13_carte_compatible",
+      "tex_lines": [
+        331,
+        338
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.IsCompatibleChart",
+        "Benzecri.isCompatibleChart_iff"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "bzprop:c1s1p1_cartes_compatibles",
+      "tex_lines": [
+        340,
+        355
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.existsUnique_smul_eq_of_isPreconnected",
+        "Benzecri.exists_compatibleChart_jet",
+        "Benzecri.existsUnique_compatibleChart_jet",
+        "Benzecri.not_prop1_of_disconnected",
+        "Benzecri.exists_smul_eq_on_connectedComponentIn",
+        "Benzecri.IsCompatibleChart.transHomeomorph_smul"
+      ],
+      "hypotheses": [
+        {
+          "paper": "U an open set of V",
+          "here": "added",
+          "note": "U CONNECTED (IsPreconnected) for 1° and for the uniqueness in 2°; U nonempty for the uniqueness of g"
+        },
+        {
+          "paper": "rigidity of GA / GS",
+          "here": "carried",
+          "note": "IsAnalyticAction G X; instances for GSR n (wave 1) and GAR n (here)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Prop. 1 (benzecri1960_ch1.tex:340–350) is false as printed for a disconnected open U: in the locally affine manifold ℝ¹ (connected, T2, second countable), U = {y < 1} ∪ {y > 2} carries two compatible charts — the identity, and the identity on {y < 1} glued to the translation by 10 on {y > 2} — which differ by no single g ∈ GA(1, ℝ) (1° fails) and have the same jet at 0 without being equal on U (uniqueness in 2° fails): not_prop1_of_disconnected. True with U connected (existsUnique_smul_eq_of_isPreconnected, existsUnique_compatibleChart_jet); 2°'s existence holds for every U (exists_compatibleChart_jet). The proof « résulte facilement du 2° de la définition 12 » uses connectedness implicitly."
+      ],
+      "questions": [
+        "Uniqueness in 2° is up to OpenPartialHomeomorph.EqOnSource (equal on U), since an OpenPartialHomeomorph carries values outside its source."
+      ]
+    },
+    {
+      "label": "bzprop:c1s1p3_atlas",
+      "tex_lines": [
+        371,
+        379
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.existsUnique_structure_of_atlas",
+        "Benzecri.existsUnique_structure_of_atlas_printed",
+        "Benzecri.chartedSpaceOfAtlas",
+        "Benzecri.mem_maximalAtlas_iff_eventually_of_cover"
+      ],
+      "hypotheses": [
+        {
+          "paper": "f_i = g_ij ∘ f_j on all of U_i ∩ U_j",
+          "here": "weakened",
+          "note": "near each point of U_i ∩ U_j suffices; the printed form is the corollary existsUnique_structure_of_atlas_printed"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.affineEquivApplyMulAction",
+    "Benzecri.affineEquiv_smul_def",
+    "Benzecri.GAR.eq_one_of_eqOn",
+    "instance Benzecri.(ContinuousConstSMul (GAR n) (Fin n → ℝ))",
+    "instance Benzecri.(IsAnalyticAction (GAR n) (Fin n → ℝ))",
+    "Benzecri.eventually_smul_eq_of_eventually_smul_eq",
+    "Benzecri.eventually_smul_eq_of_mem_maximalAtlas",
+    "Benzecri.mem_maximalAtlas_iff_eventually",
+    "Benzecri.transHomeomorph_smul_mem_maximalAtlas",
+    "Benzecri.hasGroupoid_mono",
+    "Benzecri.goodCharts",
+    "Benzecri.exists_goodChart_of_mem",
+    "Benzecri.cxA",
+    "Benzecri.cxB",
+    "Benzecri.cxv",
+    "Benzecri.cxId",
+    "Benzecri.cxTrans",
+    "Benzecri.cxChart",
+    "Benzecri.cxChart_apply",
+    "Benzecri.cxChart_source"
+  ],
+  "upstream_moves": [
+    "Benzecri.affineEquivApplyMulAction (MulAction (P ≃ᵃ[k] P) P, an instance on Mathlib types: Mathlib has none), the ContinuousConstSMul (GAR n) ℝⁿ and IsAnalyticAction (GAR n) ℝⁿ instances, Benzecri.GAR.eq_one_of_eqOn: belong to Projective/Groups (plan L0 'rigidity of GS/GA/GU')",
+    "Benzecri.eventually_smul_eq_of_eventually_smul_eq, eventually_smul_eq_of_mem_maximalAtlas, mem_maximalAtlas_iff_eventually, exists_smul_eq_on_connectedComponentIn, chartedSpaceOfAtlas (ports of lean-gx/GX/Structure/Basic.lean l.284, 294, 305, 405, 476): belong to Structure/Groupoid with the other gx ports",
+    "Benzecri.hasGroupoid_transport is the HasGroupoid form of monotonicity along an open X' ⊆ X deferred from wave 1 (Groupoid's transport_mem_gxGroupoid is the groupoid-level lemma); it could move to Structure/Groupoid"
+  ],
+  "build": "lake build of the module under taskset -c 0-11: success; lake env lean -DwarningAsError=true: clean; #print axioms on every main declaration: [propext, Classical.choice, Quot.sound]",
+  "kb_proposals": [
+    "Jets (plan F3): Jet M X := Σ x, Filter.Germ (𝓝 x) X; state fibre conditions as ⟨x, γ⟩ ∈ J to avoid Sigma HEq; after obtaining ⟨e, he, hx, hγ⟩ from membership in jets, `simp only at hx hγ` (reduces ⟨x,γ⟩.1) before `subst`.",
+    "Two ChartedSpace instances on one type: state with @-explicit instances and prove maximal-atlas equalities via a pointwise characterisation (mem_maximalAtlas_iff_eventually_of_cover / mem_maximalAtlas_iff_jets) applied with explicit instance arguments."
+  ],
+  "notes": "Lines: 1007. Plan F2/F3 followed: the atlas form is the definition, Déf. 12's jet form is the theorem exists_hasGroupoid_jets_eq_iff. The Prop. 1 counterexample's auxiliary declarations (cx*) are in namespace Benzecri."
+}

@@ -1,0 +1,60 @@
+{
+ "package": "WP-45i",
+ "round": 1,
+ "file": "scaffold/BenzecriScaffold/Structure/Quotient.lean",
+ "module": "BenzecriScaffold.Structure.Quotient",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor; files as on disk (untracked, wave 2), mathlib fabf563a; lean-gx citations checked against `git show 4a577c5:lean-gx/GX/Structure/Basic.lean`",
+ "summary": "Checked the build, the axioms, the REPORT decls, the gx ports and their line citations, and the fidelity of the unlabelled prose of p. 238 (l.390-408): the category, morphisms by jets, V/G, the étalé pull-back and coverings. Mathlib's ProperlyDiscontinuousSMul was compared against the weaker 'wandering' sense. There is no blocker or major issue and nothing is marked (no label). GXCat.category is a genuine category whose morphisms are the (G,X)-local isomorphisms. existsUnique_pullback, existsUnique_pushforward and hasGroupoid_quotient (with maximalAtlas_quotient_unique) are correctly stated. One generalisation is a verified one-liner and would make the result independent of the author's ruling on « proprement discontinu ».",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Structure/Quotient.lean`: EXIT=0, no output (3.2 s; .olean 10:01:47 newer than source 10:01:41)",
+  "sorry_axioms": "all constants ⊆ [propext, Classical.choice, Quot.sound] (see WP-45f AUDIT-1); no sorry, admit or set_option token",
+  "imports": "BenzecriScaffold.Structure.Basic, Mathlib.Topology.Covering.Quotient, Mathlib.Geometry.Manifold.Instances.Quotient, Mathlib.CategoryTheory.Category.Basic: compliant",
+  "gx_citations": "At lean-gx 4a577c5: l.524 IsGXMorphism ✓ (fields identical: continuous, exists_smul_eq), l.536 exists_smul_eq_of_mem_maximalAtlas ✓, l.582 isLocalHomeomorph ✓, l.761 Pullback header ✓, l.772 gxPullbackAtlas ✓, l.790 pullbackChartedSpace ✓ (ported with Mathlib's IsLocalHomeomorph.localInverseAt in place of gx's localHomeomorphAt, as disclosed), l.800 hasGroupoid_pullback ✓, l.818 isGXMorphism_pullback ✓, l.827 IsGXMorphism.maximalAtlas_eq ✓, l.856 existsUnique_pullback ✓, l.871 existsUnique_pullback_of_isCoveringMap ✓. The range '512–660' for the morphism section is off by three: `end Morphism` is l.663 (nit). The tex citations :390-408 and :551 (the bzthm label) are exact",
+  "category": "GXCat G X bundles a carrier : Type with topology, ChartedSpace X and HasGroupoid as instance fields. `GXCat.category` sets Hom V W := {f : V → W // IsGXMorphism G X f}, with id, comp, id_comp, comp_id and assoc all by rfl. In scratch, `(V ⟶ W) = {f : V → W // IsGXMorphism (GSR n) (S n) f}` holds by rfl for LocProj n. It is a genuine category. Its morphisms are exactly the maps that are continuous and, in charts near every point, the restriction of an element of G: the (G,X)-local isomorphisms. GXCat.isLocalHomeomorph_hom proves each is a local homeomorphism, and isGXMorphism_iff_jets proves the class equals the paper's « J(V₂)∘f ⊂ J(V₁) » for continuous f. Both objects share one model X, so they have the same dimension, as in plan F5",
+  "morphism_jets": "isGXMorphism_iff_jets is correctly stated: the composite germ is γ.compTendsto f, over all γ ∈ J(V₂) at f x. The continuity hypothesis is forced, because composing germs needs f to tend to f x. The reading is disclosed",
+  "pullback": "existsUnique_pullback: for p : M → N an IsLocalHomeomorph (« ouvert étalé », kb/0001), it gives ∃ structure on M with HasGroupoid and p a morphism, and every structure with p a morphism has the same maximal atlas. That is « l'unique structure telle que la projection soit un morphisme ». Correct; the covering case is a corollary (IsCoveringMap.isLocalHomeomorph)",
+  "pushforward": "existsUnique_pushforward: for p surjective, a local homeomorphism, and IsGXDeck, it gives existence plus uniqueness up to maximal atlas. IsGXDeck says every local deck transformation x ↦ x′ over p is a (G,X)-map near x. That is the right hypothesis: without it, the transitions of the pushed charts are not in G. Correct",
+  "quotient": "hasGroupoid_quotient states HasGroupoid for MATHLIB's instance MulAction.instChartedSpaceQuotient. It assumes ProperlyDiscontinuousSMul Γ V, ContinuousConstSMul Γ V, IsCancelSMul Γ V (free = « sans point fixe »), T2Space V and LocallyCompactSpace V, plus each γ • · an IsGXMorphism (« groupe … d'automorphismes »). isGXMorphism_quotientMk and maximalAtlas_quotient_unique give « l'unique structure pour laquelle la projection … soit un morphisme ». Correct. LocallyCompactSpace V is automatic for the paper's models: verified in scratch that `ChartedSpace.locallyCompactSpace (S n) V` and `(Fin n → ℝ) V` elaborate",
+  "proper_discontinuity": "Mathlib's ProperlyDiscontinuousSMul says that for compact K, L, {γ | γK ∩ L ≠ ∅} is finite. On a locally compact Hausdorff V this is the compact-set formulation the French school used around 1960 (Cartan; Bourbaki's « proprement » for a discrete group). The auditor's knowledge here is not checked against a source in the hub. The weaker 'wandering' sense — every point has U with γU ∩ U = ∅ for γ ≠ 1 — is Mathlib's IsQuotientCoveringMap.disjoint (Topology/Covering/Quotient.lean:38-41), and it already suffices for a (G,X)-structure on V/Γ, although V/Γ may then fail to be Hausdorff. Verified in scratch: from `hq : IsQuotientCoveringMap (Quotient.mk (orbitRel Γ V)) Γ` and hΓ, `existsUnique_pushforward hq.isCoveringMap.isLocalHomeomorph Quotient.mk_surjective (isGXDeck_quotientMk hΓ)` elaborates, with no T2 or local compactness (issue 1)"
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "Structure/Quotient.lean:540-583 (section Quotient); REPORT questions[0]",
+   "problem": "The author's question on « proprement discontinu » has a code-independent answer that the file does not record. The structure on V/Γ exists, uniquely, already under the weakest sense: the wandering neighbourhood condition, i.e. Mathlib's IsQuotientCoveringMap. Mathlib's ProperlyDiscontinuousSMul with T2 and local compactness is needed only to make V/Γ Hausdorff, i.e. a « variété » in plan F6's sense",
+   "fix": "Add `theorem existsUnique_quotient_of_isQuotientCoveringMap (hq : IsQuotientCoveringMap (Quotient.mk (MulAction.orbitRel Γ V)) Γ) (hΓ …) := existsUnique_pushforward hq.isCoveringMap.isLocalHomeomorph Quotient.mk_surjective (isGXDeck_quotientMk hΓ)` (verified). Narrow the question to: 'is V/G required to be Hausdorff (then Mathlib's sense), or only a (G,X)-space (then the weaker sense, proved too)?'"
+  },
+  {
+   "severity": "minor",
+   "where": "Structure/Quotient.lean:225-232 (GXCat), SCOPE :73-74",
+   "problem": "The objects carry no connectedness, Hausdorffness or second countability. The paper's objects are « variétés » (plan F6: connected, T2, second countable). That is fine for this groundwork, but § 2's « isomorphisme fonctoriel » (DEC-113: a CategoryTheory.Equivalence) is between categories of variétés. An equivalence built on GXCat would prove a different, more general statement, and the cone side's analogue may fail for non-T2 objects (Hausdorffness of B = V/ℝ₊*, plan § 2)",
+   "fix": "Record in SCOPE that the § 2 equivalence will use the full subcategory of GXCat on connected T2 (second countable) objects, e.g. `CategoryTheory.FullSubcategory (fun V : GXCat G X => ConnectedSpace V ∧ T2Space V)`. Decide this before wave 4"
+  },
+  {
+   "severity": "nit",
+   "where": "Structure/Quotient.lean:19 and :92 ('512–660')",
+   "problem": "The gx morphism section ends at l.663 (`end Morphism`); l.660 is inside the proof of IsGXMorphism.eq_of_eqOn",
+   "fix": "Cite l.512-663"
+  },
+  {
+   "severity": "nit",
+   "where": "Structure/Quotient.lean:238-244 (GXCat.category)",
+   "problem": "There is no `@[ext]` lemma for Hom (equality of underlying maps) and no ConcreteCategory/HasForget instance. Wave 4's functor proofs will need both",
+   "fix": "Add `@[ext] theorem GXCat.hom_ext {V W : GXCat G X} {f g : V ⟶ W} (h : f.1 = g.1) : f = g := Subtype.ext h` and, optionally, the forgetful functor to TopCat"
+  },
+  {
+   "severity": "nit",
+   "where": "Structure/Quotient.lean:540 ([ContinuousConstSMul Γ V])",
+   "problem": "This is redundant with hΓ (each γ • · is an IsGXMorphism, hence continuous). It is required only by Mathlib's instance, so a user must supply it separately",
+   "fix": "Keep it, documented as Mathlib's requirement; or derive it locally with `haveI : ContinuousConstSMul Γ V := ⟨fun γ => (hΓ γ).continuous⟩` in a wrapper theorem"
+  }
+ ],
+ "fidelity_summary": "The prose of p. 238 is formalized faithfully where it is formalized. Morphisms (by charts, equivalent to the jet definition for continuous maps) form a genuine category of local (G,X)-isomorphisms. The quotient by a properly discontinuous free group of automorphisms carries a unique structure making the projection a morphism. Every « ouvert étalé » (local homeomorphism) and every covering carries the unique pulled-back structure. Not formalized, and disclosed: « si R est galoisien, V est le quotient … » and the universal covering's projection (Prop. 2, wave 3). No label, nothing marked.",
+ "questions_for_author": [
+  "« proprement discontinu »: must V/G be Hausdorff (Mathlib's ProperlyDiscontinuousSMul with T2 and locally compact V, the compact-set sense of the period), or is the weaker wandering sense intended? With issue 1's one-liner, the structure is proved in both cases and only Hausdorffness of V/G depends on the choice.",
+  "For § 2's equivalence (DEC-113): restrict to connected Hausdorff (second countable) objects, i.e. a full subcategory of GXCat, as plan F6 reads « variété »?"
+ ]
+}
