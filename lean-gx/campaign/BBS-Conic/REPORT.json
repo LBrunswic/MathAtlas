@@ -1,0 +1,156 @@
+{
+  "package": "BBS-Conic",
+  "files": [
+    "scaffold/GXScaffold/Suspension/Conic.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "these:structure_conique",
+      "tex_lines": [
+        3569,
+        3578
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.ConicChart",
+        "GX.ConicChart.IsRayCompatible",
+        "GX.ConicStructure",
+        "GX.ConicChart.toConicStructure",
+        "GX.ConicStructure.isRayCompatible",
+        "GX.ConicChart.IsFull"
+      ],
+      "hypotheses": [
+        {
+          "paper": "G_p = Stab_G(p) (commented-out draft, these.tex:3574)",
+          "here": "generalised",
+          "note": "any subgroup H <= Stab_G(p) (BBS-Q2); the draft's choice is H = MulAction.stabilizer G p"
+        },
+        {
+          "paper": "phi_p : U -> susp(X_p) a homeomorphism (onto) (commented-out draft)",
+          "here": "weakened",
+          "note": "onto an open neighbourhood of O (BBS's reading); onto the whole cone is ConicChart.IsFull"
+        },
+        {
+          "paper": "ray condition (third item of the commented-out draft's definition)",
+          "here": "carried",
+          "note": "verbatim as ConicChart.IsRayCompatible; the corrected notion GX.ConicStructure additionally asks the radius to be preserved (phi(h x) = susp(h)(phi x)), see the design notes"
+        },
+        {
+          "paper": "susp(X_p) = X_p x R+/~ with the quotient topology (these.tex:3685-3687)",
+          "here": "reading",
+          "note": "GX.Susp carries RamcovGX's topology (RamcovGX.tex:710); the two agree for compact links (GX.Susp.eq_quotTop_of_compactSpace: spheres, Bool), not in general"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "DESIGN NOTE (draft, not a paper claim; source: draft material commented out in these.tex (l.3560–3677), not part of the thesis): the draft's third item (these.tex:3574) asks only that H maps rays to rays, while the draft's arguments for the suspension proposition (these.tex:3667, '(phi_p g phi_p^-1)(phi_i(x), r) = (g phi_i(x), r)') and for the analyticity lemma (these.tex:3611) use that phi_p g phi_p^-1 also PRESERVES THE RADIUS r. Read literally, without such a hypothesis, the cone charts phi_p^-1 o susp(phi_i) are not a (G,X)-atlas (GX.celestial_counterexample, BBS-Celestial) and the draft's lemma fails (GX.lem_analytique_counterexample); these counterexamples motivate the corrected definition. GX.ConicStructure (phi_p o h = susp(h|X_p) o phi_p on U cap h^-1 U) is A SUFFICIENT corrected form, not the minimal one: the weaker 'for each h in H some g_h in G with phi o g_h = susp(h.) o phi' (a radial lift) also serves the argument of these.tex:3667 and is a candidate minimal hypothesis for the author; it coincides with radius preservation (g_h = h) when G is contained in Isom. Not formalized; a later round may generalise ConicStructure to it.",
+        "DESIGN NOTE: radius preservation is restrictive: GX.ConicStructure.eq_of_tendsto_pow shows no RADIUS-PRESERVING conic structure exists when H contains an element contracting some orbit to p (e.g. a linear map with an eigenvalue in ]0,1[); for BBS's group G = Isom_0(E^{1,2}) with H = G_p = SO_0(1,2) this is GX.isEmpty_conicStructure_nullIsom0_stabilizer (BBS-Affine). This says nothing about the draft's ray-only notion nor about the radial-lift variant."
+      ],
+      "questions": [
+        "BBS-Q2: the stabiliser is a parameter H; is the intended default the full stabiliser (the draft's choice) or the pointwise stabiliser of a ray (BBS)? Both are instances."
+      ]
+    },
+    {
+      "label": "these:propri_action",
+      "tex_lines": [
+        3581,
+        3605
+      ],
+      "status": "closed",
+      "marked": false,
+      "decls": [
+        "GX.ConicChart.linkAction",
+        "GX.ConicChart.linkSmul_spec",
+        "GX.ConicChart.dir_smul_linkAction",
+        "GX.ConicChart.linkAction_unique",
+        "GX.ConicStructure.smul_eq_linkSmul",
+        "GX.ConicStructure.continuousConstSMul"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(G,X) analytic",
+          "here": "weakened",
+          "note": "only ContinuousConstSMul G X (G acts by homeomorphisms, part of 'structure analytique', these.tex:1185) is used"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Continuity of the induced action (not stated in the draft) is proved for a conic structure: GX.ConicStructure.continuousConstSMul.",
+        "Uniqueness of the induced action (any action making pi o phi equivariant is it) is proved: GX.ConicChart.linkAction_unique."
+      ],
+      "questions": []
+    },
+    {
+      "label": "these:lem_analytique",
+      "tex_lines": [
+        3606,
+        3615
+      ],
+      "status": "closed",
+      "marked": false,
+      "decls": [
+        "GX.lem_analytique_counterexample (in scaffold/GXScaffold/Suspension/Affine.lean)",
+        "GX.affineConic_isRayCompatible (in Affine.lean)",
+        "GX.ConicStructure.isAnalyticAction",
+        "GX.ConicStructure.isRigidAction",
+        "GX.ConicStructure.smul_eq_of_eqOn_link",
+        "GX.ConicStructure.smul_link_eq_of_forall"
+      ],
+      "hypotheses": [
+        {
+          "paper": "a conic structure (the commented-out draft's ray condition)",
+          "here": "carried",
+          "note": "certified for the corrected notion GX.ConicStructure (radius preserved), which is what the draft's argument (these.tex:3611, 'les actions de g et h sur U x R+ sont egales') uses; for it, (H, L) is analytic (isAnalyticAction) and rigid from rigid (isRigidAction), no sorry. The draft's ray-only wording is not the notion certified: read literally the draft's lemma fails (design note)"
+        },
+        {
+          "paper": "(G,X) analytic",
+          "here": "carried",
+          "note": "ContinuousConstSMul G X and IsAnalyticAction G X (IsRigidAction G X for the rigidity half)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "DESIGN NOTE (draft, not a paper claim; source: draft material commented out in these.tex (l.3560–3677), not part of the thesis): the draft's lemma (these.tex:3606), read literally with the ray condition only, fails; counterexample motivating the radius hypothesis of GX.ConicStructure: GX.lem_analytique_counterexample (Affine.lean): (G,X) = (Aff(V), V), analytic (faithful and rigid, proved), p = 0, G_p = GL(V), phi = the inverse of the sphere map (sigma, r) -> r sigma (GX.affineConic). Linear maps send rays to rays, so the draft's ray condition holds (GX.affineConic_isRayCompatible); the induced action is the normalised action on S(V); the homothety 2.id in G_p is not 1 but acts trivially on S(V) (proved via GX.ConicChart.dir_smul_linkAction), so (G_p, X_p) is not faithful, hence not analytic. A corrected form proved: for a radius-preserving conic structure (GX.ConicStructure), (H, L) is analytic (isAnalyticAction) and rigid from rigid (isRigidAction). Under the ray condition alone faithfulness fails; whether rigidity alone survives is not settled."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "GX.Susp.dir",
+    "GX.Susp.mk_dir_r",
+    "GX.Susp.dir_mk_of_pos",
+    "GX.Susp.eq_of_dir_eq_of_r_eq",
+    "GX.Susp.notMem_O_iff",
+    "GX.Susp.map_eq_mk",
+    "GX.Susp.dir_map_of_pos",
+    "GX.Susp.map_mem_O_iff",
+    "GX.Susp.continuousAt_dir",
+    "GX.Susp.continuous_mk_left",
+    "GX.Susp.continuousAt_map_mk",
+    "GX.Susp.radialAction",
+    "GX.ConicChart.smul_ne_of_mem_stabilizer",
+    "GX.ConicChart.eq_of_map_mem_O",
+    "GX.ConicChart.map_notMem_O",
+    "GX.ConicChart.symm_mk_zero",
+    "GX.ConicChart.exists_mem_dir_eq",
+    "GX.ConicChart.preimage_smul_source_mem_nhds",
+    "GX.ConicChart.exists_mem_smul_mem",
+    "GX.ConicChart.linkSmul",
+    "GX.ConicStructure.r_map_smul",
+    "GX.ConicStructure.dir_map_smul",
+    "GX.ConicStructure.exists_ball_subset",
+    "GX.ConicStructure.eq_of_tendsto_pow",
+    "GX.ConicStructure.map_smul_of_isFull",
+    "GX.ConicStructure.tautological",
+    "GX.ConicStructure.tautological_isFull"
+  ],
+  "kb_proposals": [
+    "GX.Susp.dir (Quotient.out a).1 is a TOTAL projection susp -> Sigma equal to pi off O (dir_mk_of_pos); every point is mk (dir a, r a) (mk_dir_r) and two points are equal iff same dir and same r (eq_of_dir_eq_of_r_eq): use these instead of case splits on representatives.",
+    "The topology of GX.Susp makes the balls {r < eps} a basis at O, so the image of ANY neighbourhood of the apex meets EVERY ray (ConicChart.exists_mem_dir_eq) - this is what makes the draft's induced action well defined; it would fail for a 'conic' chart onto a non-uniform neighbourhood.",
+    "A conic structure onto the whole cone (IsFull) is H-invariant on all of U (ConicStructure.map_smul_of_isFull, real induction along rays with IsClosed.Icc_subset_of_forall_mem_nhdsWithin); this is what the cone-chart compatibility needs at every radius."
+  ],
+  "notes": "Rows keyed these:* are NEW THEORY (layer L0), built under the author's ruling from draft material commented out in these.tex (l.3560–3677), not part of the thesis ('It was commented out for a reason'); they are not ledger rows and not thesis results: nothing marked, and each status certifies what the Lean proves about the corrected notion GX.ConicStructure. Counterexamples to the draft read literally are kept as design notes motivating radius preservation (relabel of 2026-11-03, on the author's correction; these:lem_analytique re-based from partial to closed on the corrected notion; these:structure_conique stays partial only for the topology reading (GX.Susp carries RamcovGX's topology, not the quotient topology of the live thesis text these.tex:3685-3687; they agree for compact links), structure-analytique citations corrected to these.tex:1185). 0 sorry; strict-clean (lake env lean -DwarningAsError=true: no output). #print axioms on linkAction, linkAction_unique, isRigidAction, continuousConstSMul, map_smul_of_isFull, eq_of_tendsto_pow, toConicStructure, tautological, and on the counterexample GX.lem_analytique_counterexample (Affine.lean): propext, Classical.choice, Quot.sound only. Imports only GX.Singular.Suspension. Round 1 audit fixes (AUDIT-1.json): lem_analytique's draft wording shown to fail by a Lean counterexample (placed in Affine.lean, which has the affine/sphere setting; Conic.lean is unchanged in code); the corrected form described as 'a sufficient corrected form' with the radial-lift condition named as the candidate minimal correction; SCOPE discloses the quotient-topology difference; 'added' ContinuousConstSMul corrected to 'carried'; lines wrapped to 100 (the checklist table now uses footnotes). Build: `taskset -c 0-11 lake build GXScaffold.Suspension.Conic` (2026-11-03) compiled only that module; beforehand `lake build --no-build GX.Singular.Suspension` reported all targets up to date (the umbrella `GX` is stale only on GX.BTZ.Manifolds, being edited by the gx master, which these modules do not import); no strict GX.* or Causal.* module was compiled. Non-vacuity: GX.ConicStructure.tautological (the apex of susp(L), H = top, identity chart, full)."
+}

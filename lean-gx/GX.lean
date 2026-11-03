@@ -31,5 +31,8 @@ import GX.BTZ.LocalModel
 import GX.BTZ.CBG
 import GX.BTZ.Holonomy
 import GX.BTZ.Manifolds
+import GX.Suspension.Conic
+import GX.Suspension.Celestial
+import GX.Suspension.Affine
 
 /-! The strict library of the paper `gx` (`papers/gx`). Every module is imported here. -/

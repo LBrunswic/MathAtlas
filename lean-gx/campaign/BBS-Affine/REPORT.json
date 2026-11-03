@@ -1,0 +1,165 @@
+{
+  "package": "BBS-Affine",
+  "files": [
+    "scaffold/GXScaffold/Suspension/Affine.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bbs:L1_ray_space (REVIEW.md §B L1, gap 1: S(V) as a type with its L-action)",
+      "tex_lines": [],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.RaySphere",
+        "GX.raySphereAction",
+        "GX.raySmul",
+        "GX.rayNormalize",
+        "GX.sphereSusp",
+        "GX.sphereConeMap",
+        "GX.sphereConeInv",
+        "GX.locallyConnectedSpace_raySphere",
+        "GX.preconnectedSpace_raySphere",
+        "GX.rayNormalize_smul_of_pos",
+        "GX.rayNormalize_raySphere",
+        "GX.dir_sphereConeInv",
+        "GX.sphereConeInv_mem_O_iff"
+      ],
+      "hypotheses": [
+        {
+          "paper": "S(V) = (V minus 0)/R+*",
+          "here": "reading",
+          "note": "represented by the unit sphere of the norm (BBS-Q3); susp(S(V)) homeomorphic to V by (sigma, r) -> r sigma (GX.sphereSusp); the homeomorphism with the quotient model is classical, not formalized"
+        },
+        {
+          "paper": "V a real vector space",
+          "here": "carried",
+          "note": "a real normed space; finite-dimensional where G must act continuously"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Status partial (round 1): S(V) rests on a READING (the unit sphere for (V minus 0)/R+*); the homeomorphism between the two models is classical and not formalized."
+      ],
+      "questions": [
+        "BBS-Q3: the sphere was chosen because susp(S(V)) = V is then explicit and its radius is the norm (the susp topology matches metric balls); is that acceptable as the representation of HS^n downstream?"
+      ]
+    },
+    {
+      "label": "bbs:L1_conic_at_0 (the conic structure of V at 0, REVIEW.md §B L1)",
+      "tex_lines": [],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.linIsom",
+        "GX.linIsomAction",
+        "GX.affineConic",
+        "GX.affineConic_isFull",
+        "GX.sphereConeInv_smul",
+        "GX.linIsom_smul_eq_raySmul",
+        "GX.affineConic_apply",
+        "GX.affineConic_isRayCompatible",
+        "GX.not_conicStructure_of_contraction",
+        "GX.not_conicStructure_of_ray_contraction",
+        "GX.not_conicStructure_nullBoost",
+        "GX.isEmpty_conicStructure_affine_stabilizer",
+        "GX.nullIsom0Boost",
+        "GX.nullIsom0Boost_smul",
+        "GX.nullIsom0Boost_mem_stabilizer",
+        "GX.isEmpty_conicStructure_nullIsom0",
+        "GX.isEmpty_conicStructure_nullIsom0_stabilizer"
+      ],
+      "hypotheses": [
+        {
+          "paper": "L = linear part of the stabiliser (any linear group)",
+          "here": "strengthened",
+          "note": "H = the linear isometries of the norm (GX.linIsom); forced for a RADIUS-PRESERVING conic structure (GX.not_conicStructure_of_contraction), NOT claimed necessary for the commented-out draft's construction, which the weaker radial-lift variant (BBS-Celestial) also serves"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "What is proved is narrower than 'the draft's suspension cannot reach BBS': no RADIUS-PRESERVING conic structure (GX.ConicStructure, BBS-Conic's corrected notion) exists at 0, for any chart and any link, when H contains an element acting on a line as multiplication by c in ]0,1[: GX.not_conicStructure_of_contraction (G = Aff(V)) and GX.not_conicStructure_of_ray_contraction (any G acting on V; G plays no role). Instances: GX.not_conicStructure_nullBoost (SO_0(1,1) on R^2, the round-0 witness), GX.isEmpty_conicStructure_affine_stabilizer (H = G_p in Aff(V), containing v -> v/2) and, for BBS's own group, GX.isEmpty_conicStructure_nullIsom0_stabilizer: G = GX.NullIsom0 = Isom_0(E^{1,2}) in null coordinates (GX.Singular.Quotient, reused), H = G_p = SO_0(1,2), which contains the boost GX.nullIsom0Boost = (a,b,x) -> (2a, b/2, x) (GX.boost (log 2), GX.boost_lin_mem).",
+        "Not proved: anything about the commented-out draft's ray-only notion, or the weaker radial-lift variant (for each h in H some g_h in G with phi o g_h = susp(h.) o phi). For G contained in Isom (e.g. Isom_0(E^{1,2})) and the sphere chart, a radial lift g_h fixes 0, hence is linear, and has the ray map of h, hence is a positive multiple of h, hence h (determinant 1): the obstruction then extends to that variant too. This argument is prose, not formalized. So, as far as proved, L1 for BBS cannot use a radius-preserving conic structure; a scale-equivariant suspension (e.g. cone charts (x,t) -> t * s(e x) twisted by the cocycle |k s(e x)|, or a chosen positive radius function on Sigma compatible with the charts) is the natural candidate.",
+        "DESIGN NOTE (draft, not a paper claim; source: draft material commented out in these.tex (l.3560–3677), not part of the thesis), for BBS-Conic: GX.lem_analytique_counterexample shows that the draft's lemma (row key these:lem_analytique, these.tex:3606), read literally, fails: (Aff(V), V) is analytic, the sphere chart satisfies the draft's ray condition for G_p = GL(V) (GX.affineConic_isRayCompatible), but 2.id acts trivially on S(V) under the induced action, which is therefore not faithful; the counterexample motivates radius preservation in GX.ConicStructure."
+      ],
+      "questions": [
+        "Which scale-equivariant suspension should L1 use for BBS (Lorentzian links): the R+*-bundle cone of Sigma (canonical, but not Susp Sigma on the nose), or Susp Sigma with a chosen radius function (non-canonical)?"
+      ]
+    },
+    {
+      "label": "bbs:L1_linear_chart_changes (REVIEW.md §B L1, gap 2: the cone of an (L,S(V))-chart is an (Aff,V)-chart with linear chart changes)",
+      "tex_lines": [],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.affine_coneChart_linear",
+        "GX.affineSuspension",
+        "GX.affine_apex_mem_reg",
+        "GX.affineConic_symm_mk"
+      ],
+      "hypotheses": [
+        {
+          "paper": "L arbitrary",
+          "here": "strengthened",
+          "note": "for H = linear isometries (as above)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "The cone charts of (H,S(V))-charts e, e' of Sigma differ near every point by a linear isometry of V (h.linear, h in H), and the cone over the model sphere is regular at the apex for dim V >= 2.",
+        "Status partial (round 1): the hypothesis is strengthened (H = linIsom V, the linear isometries, not an arbitrary linear group)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "bbs:L1_bridge_quotientBase (REVIEW.md §B L1, gap 3)",
+      "tex_lines": [],
+      "status": "not-attempted",
+      "marked": false,
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "The bridge 'celestial suspension = quotientBase models' is not attempted; for the Lorentzian line models it is blocked by the obstruction above (no radius-preserving conic structure when H contains a boost)."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.norm_raySphere",
+    "GX.raySphere_ne_zero",
+    "GX.norm_inv_smul_self",
+    "GX.coe_rayNormalize",
+    "GX.continuousAt_rayNormalize",
+    "GX.sphereConeMap_mk",
+    "GX.norm_sphereConeMap",
+    "GX.continuous_sphereConeMap",
+    "GX.continuous_sphereConeInv",
+    "GX.sphereConeMap_sphereConeInv",
+    "GX.sphereConeInv_sphereConeMap",
+    "GX.affine_apply_eq_linear",
+    "GX.affine_map_smul_of_fix",
+    "GX.affine_ne_zero_of_fix",
+    "GX.linIsom_fix",
+    "GX.norm_linIsom",
+    "GX.coe_linIsom_smul",
+    "GX.nullBoost",
+    "GX.nullBoost_apply",
+    "GX.nullBoost_mul",
+    "GX.Susp.locallyConnectedSpace_of",
+    "GX.rayNormalize_smul_of_pos",
+    "GX.rayNormalize_raySphere",
+    "GX.dir_sphereConeInv",
+    "GX.sphereConeInv_mem_O_iff",
+    "GX.affineConic_apply",
+    "GX.not_conicStructure_of_ray_contraction",
+    "GX.lem_analytique_counterexample"
+  ],
+  "kb_proposals": [
+    "An affine equivalence fixing 0 is its linear part (GX.affine_apply_eq_linear, from AffineMap.linearMap_vsub); use it to move scalars through elements of a stabiliser of 0 in V ≃ᵃ[ℝ] V under GX's scoped affineEquivMulAction.",
+    "LocallyConnectedSpace of a link L follows from that of susp(L) (GX.Susp.locallyConnectedSpace_of: project a connected neighbourhood of (sigma,1) by Susp.dir); for the unit sphere of a normed space use GX.locallyConnectedSpace_raySphere (an instance) rather than searching mathlib, which has none at this pin.",
+    "GX already has BBS's group: GX.NullIsom0 (Isom_0(E^{1,2}) in null coordinates, GX.Singular.Quotient) with GX.boost / GX.boost_lin_mem; instantiate Lorentzian claims there rather than on ad hoc subgroups of Aff(R^2)."
+  ],
+  "notes": "Relabel of 2026-11-03, on the author's correction: the source of L0 is draft material commented out in these.tex (l.3560–3677), not part of the thesis; draft-related items are design notes motivating the corrected definitions, not results about the thesis. No ledger label marked (REVIEW.md layer, no source statement). 0 sorry, none inherited (mk_mem_sing is now closed anyway and unused here). Strict-clean: lake env lean -DwarningAsError=true gives no output. #print axioms on sphereSusp, raySphereAction, affineConic, affineConic_isRayCompatible, lem_analytique_counterexample, not_conicStructure_of_contraction, not_conicStructure_of_ray_contraction, not_conicStructure_nullBoost, isEmpty_conicStructure_affine_stabilizer, isEmpty_conicStructure_nullIsom0_stabilizer, affine_coneChart_linear, affineSuspension, affine_apex_mem_reg, locallyConnectedSpace_raySphere: propext, Classical.choice, Quot.sound only. Imports only GXScaffold.Suspension.Celestial (which imports Conic, which imports GX.Singular.Suspension, which imports GX.Singular.Quotient: NullIsom0 and boost come from there, no new import). Round 1 audit fixes (AUDIT-1.json): every \"the draft's suspension cannot reach BBS\" / \"necessary for the draft's construction\" wording reworded to 'no RADIUS-PRESERVING conic structure'; the BBS case instantiated on GX.NullIsom0 (SO_0(1,2), boost (a,b,x) -> (2a, b/2, x)); the lem_analytique counterexample (for BBS-Conic, a design note on the commented-out draft, not part of the thesis) added here; bbs:L1_ray_space and bbs:L1_linear_chart_changes set to partial; lines wrapped to 100. Build: `taskset -c 0-11 lake build GXScaffold.Suspension.Affine` (2026-11-03) compiled only Affine (after Conic and Celestial, scaffold); `lake build --no-build GX.Singular.Suspension` up to date beforehand; no strict GX.* or Causal.* module compiled. Generic names were prefixed (rayNormalize, sphereConeMap, affine_apply_eq_linear, ...) to avoid shadowing mathlib roots inside namespace GX (lean-causal kb 0016); new names grep-checked against lean-gx/GX, the scaffold and lean-causal: no clash."
+}
