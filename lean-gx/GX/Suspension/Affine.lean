@@ -24,7 +24,7 @@ real vector space `V`, for `(G,X) = (V ≃ᵃ[ℝ] V, V)` (the affine group,
   preservation (BBS-Conic's sufficient correction), and for linear maps the radius is the norm.
   Its chart satisfies the draft's ray condition for the whole `G_p = GL(V)`
   (`GX.affineConic_isRayCompatible`).
-* The analyticity lemma of the commented-out draft (row key `these:lem_analytique`), read
+* The analyticity lemma of the commented-out draft (row key `draft:lem_analytique`), read
   literally, fails — `GX.lem_analytique_counterexample` (for BBS-Conic; the counterexample
   motivating radius preservation in `ConicStructure`, a design note, not a claim about the
   thesis): with that chart and `G_p = GL(V)`, the induced action on `S(V)` is not faithful
@@ -320,7 +320,7 @@ theorem sphereConeInv_smul (σ₀ : RaySphere V) (h : linIsom V) (x : V) :
       norm_linIsom]
 
 /-- **The conic structure of `V` at `0`** for the affine group and the linear isometries, with
-link `S(V)` (`these:structure_conique`, the commented-out draft's `these.tex:3569`, in its
+link `S(V)` (`draft:structure_conique`, the commented-out draft's `these.tex:3569`, in its
 corrected form): `φ = (σ, r) ↦
 r σ` inverted. -/
 def affineConic (σ₀ : RaySphere V) :
@@ -574,7 +574,7 @@ theorem affine_coneChart_linear (σ₀ : RaySphere V) {S : Type*} [TopologicalSp
     rw [hy, affineEquiv_smul_def, affine_apply_eq_linear (linIsom_fix h)]
 
 /-- **The `(Aff(V), V)`-suspension céleste of an `(H, S(V))`-manifold** (`H` the linear
-isometries): `these:defi_suspension_celeste` at the conic structure `affineConic`. -/
+isometries): `draft:defi_suspension_celeste` at the conic structure `affineConic`. -/
 @[reducible] def affineSuspension (σ₀ : RaySphere V) (S : Type*) [TopologicalSpace S]
     [PreconnectedSpace S] [LocallyConnectedSpace S]
     [SingularGXStructure (linIsom V) (RaySphere V) S] :
@@ -594,9 +594,9 @@ theorem affine_apex_mem_reg (hdim : 1 < Module.rank ℝ V) (σ₀ σ : RaySphere
   haveI := preconnectedSpace_raySphere hdim
   (affineConic σ₀).apex_mem_reg_model (affineConic_isFull σ₀) σ
 
-/-! ### The draft's `these:lem_analytique`, read literally, fails: a counterexample -/
+/-! ### The draft's `draft:lem_analytique`, read literally, fails: a counterexample -/
 
-/-- **The draft's lemma (`these:lem_analytique`, the commented-out `these.tex:3606`, not part of
+/-- **The draft's lemma (`draft:lem_analytique`, the commented-out `these.tex:3606`, not part of
 the thesis), read literally, fails**; this counterexample motivates radius preservation in
 `ConicStructure`. `(G,X) = (Aff(V), V)` is analytic (faithful and rigid), and the sphere chart at
 `0` satisfies the draft's ray condition for `G_p = GL(V)` (`affineConic_isRayCompatible`); but

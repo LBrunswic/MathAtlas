@@ -14,7 +14,7 @@ discarded draft; the `these:*` labels are row keys naming the file, not thesis r
 … a lift of the topological suspension functor"). **No ledger label is marked**: the draft is
 not a ledger source. Rows touched, unmarked:
 
-* `these:structure_conique` (Définition « Structure conique », `these.tex:3569`) — formalized in
+* `draft:structure_conique` (Définition « Structure conique », `these.tex:3569`) — formalized in
   two layers. `GX.ConicChart X p L`: an open neighbourhood `U` of `p` and a homeomorphism `φ` of
   `U` onto an open neighbourhood of the apex `O` of `susp(L)` (`RamcovGX.tex:710`, `GX.Susp`),
   `φ p ∈ O`. `GX.ConicChart.IsRayCompatible`: the draft's third item verbatim, for a subgroup
@@ -25,14 +25,14 @@ not a ledger source. Rows touched, unmarked:
   (BBS-Celestial): a candidate MINIMAL hypothesis, for the author, is "for each `h ∈ H` some
   `g_h ∈ G` with `φ ∘ g_h = susp(h·) ∘ φ`" (a radial lift), which is radius preservation
   (`g_h = h`) when `G ⊆ Isom`; it is not formalized here.
-* `these:propri_action` (the « propri » after the definition, `these.tex:3581`) — **proved**
+* `draft:propri_action` (the « propri » after the definition, `these.tex:3581`) — **proved**
   from the draft's literal ray condition, with `G` acting by homeomorphisms
   (`ContinuousConstSMul`, part of « structure analytique », `these.tex:1185`; the proof's
   "`U ∩ g⁻¹U` is a neighbourhood of `p`" is where it is used): `GX.ConicChart.linkAction` (a
   `MulAction H L`), characterised by `GX.ConicChart.dir_smul_linkAction` and unique
   (`GX.ConicChart.linkAction_unique`); continuity of the action,
   `GX.ConicStructure.continuousConstSMul`.
-* `these:lem_analytique` (`these.tex:3606`: `(G_p, X_p)` analytic if `(G,X)` is) — the draft's
+* `draft:lem_analytique` (`these.tex:3606`: `(G_p, X_p)` analytic if `(G,X)` is) — the draft's
   lemma, read literally, fails; the counterexample motivates radius preservation in
   `ConicStructure` (a design note): `GX.lem_analytique_counterexample` (in
   `GX.Suspension.Affine`) takes `(G,X) = (Aff(V), V)`, analytic, at `p = 0` with the
@@ -277,7 +277,7 @@ chosen `x' ∈ U ∩ h⁻¹U` off `p` with `π φ x' = σ`. -/
 def linkSmul [ContinuousConstSMul G X] (hH : H ≤ MulAction.stabilizer G p) (h : H) (σ : L) : L :=
   (c.φ ((h : G) • (c.exists_mem_smul_mem hH h σ).choose)).dir
 
-/-- **The induced action is well defined** (`these:propri_action`, the first half of the proof,
+/-- **The induced action is well defined** (`draft:propri_action`, the first half of the proof,
 `these.tex:3588–3591`): `h · σ = π φ(h · x)` for EVERY `x ∈ U ∩ h⁻¹U` off `p` with `π φ x = σ`. -/
 theorem linkSmul_spec [ContinuousConstSMul G X] (hH : H ≤ MulAction.stabilizer G p)
     (hc : c.IsRayCompatible H) (h : H) {x : X} (hx : x ∈ c.φ.source)
@@ -286,7 +286,7 @@ theorem linkSmul_spec [ContinuousConstSMul G X] (hH : H ≤ MulAction.stabilizer
   have hs := (c.exists_mem_smul_mem hH h (c.φ x).dir).choose_spec
   exact hc h h.2 _ hs.1 x hx hs.2.1 hhx hs.2.2.1 hxO hs.2.2.2
 
-/-- **`these:propri_action`** (`these.tex:3581`): the induced map is a group action of `H` on the
+/-- **`draft:propri_action`** (`these.tex:3581`): the induced map is a group action of `H` on the
 link — the draft's statement, under `ContinuousConstSMul G X` (carried: part of « structure
 analytique »). -/
 @[reducible] def linkAction [ContinuousConstSMul G X] (hH : H ≤ MulAction.stabilizer G p)
@@ -349,7 +349,7 @@ end ConicChart
 
 variable (G) in
 /-- A **conic structure** at `p` for the subgroup `H ≤ Stab_G(p)` with link `(H, L)`
-(`these:structure_conique`, `these.tex:3569`, in a SUFFICIENT corrected form): a conic chart
+(`draft:structure_conique`, `these.tex:3569`, in a SUFFICIENT corrected form): a conic chart
 which conjugates each `h ∈ H`, on `U ∩ h⁻¹U`, to the radial extension `susp(h·)` of the given
 action of `H` on `L`. It implies the draft's ray condition (`ConicStructure.isRayCompatible`);
 the converse fails (radius preservation is extra), and the extra is what the draft's argument for
@@ -396,7 +396,7 @@ theorem exists_ball_subset [ContinuousConstSMul G X] (h : H) :
     ⟨p, ⟨c.mem_source, show (h : G) • p ∈ c.φ.source by rw [hp]; exact c.mem_source⟩, rfl⟩
 
 include c in
-/-- **The induced action is continuous** (`these:propri_action`, continuity, not in the draft):
+/-- **The induced action is continuous** (`draft:propri_action`, continuity, not in the draft):
 each `h ∈ H` acts on `L` by `σ ↦ π φ(h · φ⁻¹(σ, r₀))` for a fixed small `r₀`. -/
 theorem continuousConstSMul [ContinuousConstSMul G X] : ContinuousConstSMul H L := by
   refine ⟨fun h => ?_⟩
@@ -436,7 +436,7 @@ theorem continuousConstSMul [ContinuousConstSMul G X] : ContinuousConstSMul H L 
   exact Susp.continuousAt_dir (show 0 < r₀ from hr₀)
 
 include c in
-/-- The core of `these:lem_analytique`: if `h, k ∈ H` agree on a nonempty open subset of the link,
+/-- The core of `draft:lem_analytique`: if `h, k ∈ H` agree on a nonempty open subset of the link,
 they agree on all of `X` (`G` rigid): they agree on the open cone over that subset. -/
 theorem smul_eq_of_eqOn_link [ContinuousConstSMul G X] [IsRigidAction G X] {h k : H} {U : Set L}
     (hU : IsOpen U) (hne : U.Nonempty) (heq : EqOn (fun σ : L => h • σ) (fun σ => k • σ) U)
@@ -487,14 +487,14 @@ theorem smul_link_eq_of_forall [ContinuousConstSMul G X] {h k : H}
 
 include c in
 /-- **Rigidity of the link, for a conic STRUCTURE** (radius preserved; row key
-`these:lem_analytique`, the draft's `these.tex:3606`, corrected): if `G` acts rigidly on `X`,
+`draft:lem_analytique`, the draft's `these.tex:3606`, corrected): if `G` acts rigidly on `X`,
 then `H` acts rigidly on the link. -/
 theorem isRigidAction [ContinuousConstSMul G X] [IsRigidAction G X] : IsRigidAction H L :=
   ⟨fun hU hne heq σ => c.smul_link_eq_of_forall (c.smul_eq_of_eqOn_link hU hne heq) σ⟩
 
 include c in
 /-- **Analyticity of the link, for a conic STRUCTURE** (radius preserved; row key
-`these:lem_analytique`, the draft's `these.tex:3606`, corrected): if `G` acts analytically
+`draft:lem_analytique`, the draft's `these.tex:3606`, corrected): if `G` acts analytically
 (faithfully and rigidly) on `X`, then `H` acts analytically on the link `L`. For the draft's
 ray-only notion the lemma, read literally, fails: faithfulness fails
 (`GX.lem_analytique_counterexample`, `GX.Suspension.Affine`), the counterexample
