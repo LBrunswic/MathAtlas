@@ -1,0 +1,49 @@
+{
+ "package": "WP-45m",
+ "round": 1,
+ "file": "scaffold/BenzecriScaffold/Cone/Basic.lean",
+ "module": "BenzecriScaffold.Cone.Basic",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor (round 1); hub commit 0fed8e1, files as committed (git status clean under lean-benzecri), mathlib fabf563a; scratch files /tmp/bzaudit/w3*.lean",
+ "summary": "Checked: the build, the axioms, every REPORT name, the imports, the instances, and the class binders of every uniqueness statement (meta scan of the ChartedSpace arguments). Checked the fidelity of Déf. 1, Déf. 2 and Prop. 1 against the transcription l.479–513; the marks are earned. Déf. 3 is rightly partial and unmarked: the chart-independence is proved for V Hausdorff (a necessary reading), and « topologiquement trivial » is FALSE without a hypothesis on B (counterexample, WP-45n AUDIT-1 'B_hausdorff'). No blocker or major issue in this file. Two minors: the Déf. 3 finding must reach the REPORT, and ConeCat admits non-Hausdorff bases. One nit.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Cone/Basic.lean`: EXIT=0, no output (3.8 s; .olean newer than source)",
+  "sorry_axioms": "isOpenCone_iff_iUnion_halfLine, def2_iff, existsUnique_coneStructure_of_atlas(_printed), IsConeChart.symm_smul_eq, posSMul_eq, not_isGXMorphism_cone_smul, IsGXMorphism.map_posSMul: [propext, Classical.choice, Quot.sound]; every REPORT decl ⊆ [propext, Classical.choice, Quot.sound] (several defs use fewer); a meta scan of the module's constants finds 0 with sorry and 0 outside namespace `Benzecri` (/tmp/bzaudit/w3decls.lean)",
+  "names": "All 156 names listed in the five REPORTs (labels[].decls, extra_decls, prose.decls) exist: /tmp/bzaudit/w3names.lean (#print axioms on each) EXIT=0, 156/156 resolved (labels[3].decls lists Benzecri.ConeBase.coneTrivialization and Benzecri.ConeBase.exists_trivialization, which live in Cone/Base and Cone/Section: see the nit)",
+  "imports": "Benzecri.Structure.Quotient, Mathlib.CategoryTheory.ObjectProperty.FullSubcategory: compliant",
+  "instances": "All on this file's own type `Punctured E` (a `def`, not reducible): MulAction (E ≃ₗ E), MulAction RPos, SMulCommClass, TopologicalSpace, ContinuousSMul, ContinuousConstSMul, IsAnalyticAction (strict-library class), Nonempty. None on a Mathlib type; connectedSpace_RPos is a theorem. coneMulAction is a reducible def, not an instance (the model cannot be inferred), as disclosed",
+  "def1": "IsOpenCone C := IsOpen C ∧ 0 ∉ C ∧ stable under t > 0. isOpenCone_iff_iUnion_halfLine proves it equal to the printed « partie ouverte de ℝⁿ−{O}, réunion de demi-droites ouvertes issues de l'origine » (open in ℝⁿ−{O} = open in ℝⁿ, since ℝⁿ−{O} is open). Mark earned",
+  "def2": "IsConeJetStructure n J := IsJetStructure (GUR n) J (iso jets, étalé-open, 1°, 2° operation and transitivity) plus 3° (exists_cone: a chart onto an IsConeSet target with all jets in J). « définition 2 » is read as Déf. 13 (DEC-113). def2_iff proves it equivalent to the atlas form. Verbatim. Mark earned",
+  "prop1": "existsUnique_coneStructure_of_atlas_printed: the hypotheses are a cover, targets that are open cones, and one g_ij ∈ GU(n) on each NONEMPTY overlap. It concludes a structure with HasConeCharts and every f_i compatible, unique among (GU,ℝⁿ−0)-structures with HasConeCharts and every f_i compatible. The strong form needs only local g_ij and drops HasConeCharts from the uniqueness. [sic] readings: {V_i} → {U_i}, f_i → f_j. Mark earned",
+  "class_binder_pitfall": "Meta scan (/tmp/bzaudit/w3inst.lean), the ChartedSpace argument of every maximalAtlas/jets/HasGroupoid/HasConeCharts/IsCompatibleChart occurrence. existsUnique_coneStructure_of_atlas(_printed): hypotheses and LHS on cs', RHS on cs. maximalAtlas_eq_of_common_cover: cs vs cs'. maximalAtlas_affine_unique: LHS cs, RHS affineChartedSpace n V. def2_iff: cs throughout. isGXMorphism_affine_smul: affineChartedSpace on both sides, as intended. No collapse",
+  "def3_partial_confirmed": "Proved: λm = f⁻¹(λf(m)) (posSMul) and its independence of the chart (IsConeChart.symm_smul_eq) for V Hausdorff (clopen argument on the connected ℝ₊*). The doubled half-line shows Hausdorffness is necessary: a reading of « variété », not a finding. Also proved: the action law, continuity, freeness, « automorphismes de sa structure localement affine » (isGXMorphism_affine_smul) « mais non de sa structure conique affine » (not_isGXMorphism_cone_smul, for c ≠ 1 and V nonempty: λⁿ ≠ ±1), and the principal bundle (Cone/Base). Not proved: « topologiquement trivial », only for B Hausdorff (+ paracompact), and that is FALSE in general. So partial and unmarked is correct, and the reason is now a counterexample rather than an open question"
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "REPORT labels[3] (Déf. 3): findings [] and questions[1]; docstring bullet on Déf. 3",
+   "problem": "The REPORT's open question (« Does V Hausdorff … force B Hausdorff? ») is answered: no, for Benzécri's n ≥ 3 (W = {z>0, (x,y)≠0} ⊂ ℝ³ modulo A = diag(4,1/8,2); full construction in WP-45n AUDIT-1 'B_hausdorff'). For that V, which is Hausdorff, second countable and paracompact, « cet espace fibré est topologiquement trivial » is false. The REPORT's own question says « A naive counterexample … violates 3° »; the corrected one satisfies 3° by removing every A-fixed ray. For n ≤ 2 the claim is true.",
+   "fix": "Move the question to `findings` (DEC-27, or the reading of ruling R2) with the counterexample and the n ≤ 2 positive result. Keep the row partial. Mention in the docstring's Déf. 3 bullet that the triviality fails without B Hausdorff ⇔ proper action."
+  },
+  {
+   "severity": "minor",
+   "where": "IsConeObject / ConeCat (Cone/Basic.lean:686, :693; unlabelled prose, wave-4 hook)",
+   "problem": "IsConeObject := HasConeCharts n V ∧ T2Space V admits the counterexample V, whose base is not Hausdorff. Wave 4's F⁻¹ : ConeCat → (locally projective variétés) would then not land in Hausdorff objects.",
+   "fix": "Decide with ruling R3. If objects carry a proper ℝ₊* action (equivalently B Hausdorff), add it to IsConeObject now, or record in SCOPE that ConeCat is provisional."
+  },
+  {
+   "severity": "nit",
+   "where": "REPORT labels[3].decls",
+   "problem": "It lists Benzecri.ConeBase.coneTrivialization and Benzecri.ConeBase.exists_trivialization. They exist, but in Cone/Base and Cone/Section, which WP-45n/o report.",
+   "fix": "Drop them from this REPORT, or annotate them as cross-references."
+  }
+ ],
+ "fidelity_summary": "Déf. 1, Déf. 2 and Prop. 1 are verbatim (with the transcription's [sic] readings and DEC-113) and their marks are earned. Déf. 3 is correctly partial. The chart-independence needs V Hausdorff (a reading, necessary). « topologiquement trivial » is not merely unproved but false for some Hausdorff, second-countable V when n ≥ 3, so it is a finding for the author to rule (R2).",
+ "B_hausdorff": "See WP-45n AUDIT-1, key 'B_hausdorff' (counterexample for n ≥ 3, theorem for n ≤ 2, equivalence with properness).",
+ "questions_for_author": [
+  "R2 (§ 2 Déf. 3, « topologiquement trivial », and the p. 241 section): rule it a DEC-27 finding (false for the paracompact V above; the hypothesis Benzécri omits is B séparé / a proper action)? Or a reading in which « espace fibré » (Ehresmann/Steenrod, base séparée) presupposes a Hausdorff base, so that Déf. 2 implicitly excludes V?",
+  "R3 (wave 4, the Énoncé): define the objects of the affine conical category as Déf. 2 + V Hausdorff + a proper ℝ₊* action (⇔ B Hausdorff), so that F⁻¹ lands in Hausdorff locally projective manifolds and F(B) is Hausdorff over Hausdorff B? Today `IsConeObject` (Cone/Basic) is HasConeCharts ∧ T2Space only, and admits the counterexample."
+ ]
+}

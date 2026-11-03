@@ -1,0 +1,41 @@
+{
+ "package": "WP-45o",
+ "round": 1,
+ "file": "scaffold/BenzecriScaffold/Cone/Section.lean",
+ "module": "BenzecriScaffold.Cone.Section",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor (round 1); hub commit 0fed8e1, files as committed (git status clean under lean-benzecri), mathlib fabf563a; scratch files /tmp/bzaudit/w3*.lean",
+ "summary": "Checked: the build, the axioms, every REPORT name, the instances, and the construction of the homogeneous norm, the section and the trivialisation. Checked the fidelity to the p. 241 prose (l.546–549) and to Déf. 3's « topologiquement trivial ». No label is marked, and Déf. 3 stays partial: confirmed. The added hypothesis 'B Hausdorff' is not only sufficient-and-necessary for a section: it is genuinely missing from the paper. For the paracompact counterexample V of WP-45n AUDIT-1, there is no section. So the 'reading' in the REPORT's prose entry is a finding. One minor, one nit.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Cone/Section.lean`: EXIT=0, no output (1.4 s; .olean newer than source)",
+  "sorry_axioms": "exists_section, exists_section_of_secondCountable, exists_trivialization, t2Space_of_section, exists_homogeneous_norm: [propext, Classical.choice, Quot.sound]; every REPORT decl ⊆ [propext, Classical.choice, Quot.sound] (several defs use fewer); a meta scan of the module's constants finds 0 with sorry and 0 outside namespace `Benzecri` (/tmp/bzaudit/w3decls.lean)",
+  "names": "All 156 names listed in the five REPORTs (labels[].decls, extra_decls, prose.decls) exist: /tmp/bzaudit/w3names.lean (#print axioms on each) EXIT=0, 156/156 resolved",
+  "imports": "BenzecriScaffold.Cone.Base, Mathlib.Topology.PartitionOfUnity: compliant",
+  "instances": "none declared (secondCountableTopology, locallyCompactSpace, paracompactSpace are theorems)",
+  "construction": "exists_homogeneous_norm takes [T2Space B] [ParacompactSpace B] and a partition of unity subordinate to the base-chart cover. N(m) = Σᶠ φ_x(p(m))·‖f_x(m)‖ is continuous: each term is continuous because p⁻¹(tsupport φ_x) ⊆ f_x.source, and the family is locally finite. N is positive and homogeneous of degree 1. sectionOfNorm σ(p(m)) = N(m)⁻¹·m is well defined and continuous. trivialization : V ≃ₜ B × ℝ₊*, m ↦ (p(m), N(m)), is ℝ₊*-equivariant. t2Space_of_section: a section embeds B in V, so B Hausdorff is necessary. Correct",
+  "hypotheses": "Honest. The paper's « V para-compact » is replaced by B Hausdorff + paracompact, or by V second countable + B Hausdorff (then B is second countable and locally compact, hence paracompact). The replacement is disclosed as a reading. The audit shows that 'B Hausdorff' cannot be derived from V Hausdorff + paracompact (WP-45n AUDIT-1 'B_hausdorff'), so it is a missing hypothesis of the paper, not a stand-in",
+  "def3_partial_confirmed": "« topologiquement trivial » is exists_trivialization under [T2Space B] [ParacompactSpace B]: partial, unmarked, correct"
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "REPORT prose.reading; labels[0].hypotheses[0] ('added'); labels[0].questions[0]; SCOPE bullet 3",
+   "problem": "The REPORT calls the replacement of « V para-compact » a reading and leaves 'does V Hausdorff force B Hausdorff' open. It is answered. For V = {z>0,(x,y)≠0}/⟨diag(4,1/8,2)⟩ ⊂ ℝ³ (Hausdorff, second countable, hence paracompact), B is not Hausdorff, so V → B has no section (t2Space_of_section) and V ≇ B × ℝ₊*. Benzécri's p. 241 inference « si V est supposé para-compact, on peut donc construire une section » is false. The cited theorem needs a normal base, and paracompactness of V does not supply it. For n ≤ 2 it is true.",
+   "fix": "Record it under `findings` (DEC-27, or under ruling R2): 'p. 241 and Déf. 3: false without B séparé (⇔ proper ℝ₊* action); counterexample n = 3; true for n ≤ 2'. Change SCOPE bullet 3 from 'open question' to the answer."
+  },
+  {
+   "severity": "nit",
+   "where": "exists_section / exists_section_of_secondCountable",
+   "problem": "The paper's hypothesis is on V (paracompact). Under F6, V is connected, and a connected, locally compact, paracompact Hausdorff V is σ-compact. So B (σ-compact, locally compact, and Hausdorff by assumption) is paracompact. A variant with [ParacompactSpace V] [ConnectedSpace V] [T2Space B] would be the closest true form of p. 241.",
+   "fix": "Optional: add `exists_section_of_paracompact` with those hypotheses (≈25 lines via σ-compactness)."
+  }
+ ],
+ "fidelity_summary": "The section and the triviality are proved under B Hausdorff (+ paracompact, or V second countable). That hypothesis is necessary, and it is missing from the paper: a finding on p. 241 and on Déf. 3's « topologiquement trivial », for the author to rule (R2). No mark is claimed; Déf. 3 stays partial.",
+ "B_hausdorff": "See WP-45n AUDIT-1, key 'B_hausdorff'.",
+ "questions_for_author": [
+  "R2 (§ 2 Déf. 3, « topologiquement trivial », and the p. 241 section): rule it a DEC-27 finding (false for the paracompact V above; the hypothesis Benzécri omits is B séparé / a proper action)? Or a reading in which « espace fibré » (Ehresmann/Steenrod, base séparée) presupposes a Hausdorff base, so that Déf. 2 implicitly excludes V?",
+  "R4: should the counterexample be formalized (DEC-27 asks for a proved counterexample when a statement is false, ≈300–500 lines), and should the n ≤ 2 theorem be recorded or formalized?"
+ ]
+}

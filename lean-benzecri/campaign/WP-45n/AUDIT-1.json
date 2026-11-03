@@ -1,0 +1,79 @@
+{
+ "package": "WP-45n",
+ "round": 1,
+ "file": "scaffold/BenzecriScaffold/Cone/Base.lean",
+ "module": "BenzecriScaffold.Cone.Base",
+ "verdict": "issues",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor (round 1); hub commit 0fed8e1, files as committed (git status clean under lean-benzecri), mathlib fabf563a; scratch files /tmp/bzaudit/w3*.lean",
+ "summary": "Checked: the build, the axioms, every REPORT name, the instances, and the class binders of existsUnique_baseStructure(_charts) and forall_pJet_mem_iff under a meta scan (clean: the competitor cs on the left, ConeBase.chartedSpace on the right). Checked the fidelity of § 2 Prop. 2 (l.537–543) and of the bundle sentence of Déf. 3. Settled the KEY QUESTION. B = V/ℝ₊* need NOT be Hausdorff when V is a Hausdorff affine conical manifold, in Benzécri's dimension n ≥ 3 (explicit counterexample). It is always Hausdorff for n ≤ 2, and in general B Hausdorff ⇔ the ℝ₊* action is proper. The Lean proof is correct for a (GS,S)-structure without Hausdorffness. But the REPORT records the B-Hausdorff point as an open question, and the « structure localement projective » row as 'carried'. Under plan F6 it is a reading, and for the counterexample V it is a finding. One major issue (the mark must rest on an explicit, disclosed reading or hypothesis, for the author to rule), one minor, two nits.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Cone/Base.lean`: EXIT=0, no output (4.8 s; .olean newer than source)",
+  "sorry_axioms": "existsUnique_baseStructure, existsUnique_baseStructure_charts, forall_pJet_mem_iff, baseChart_symm_trans_mem, t2Space_of_properSMul, coneTrivialization, isGXMorphism_map: [propext, Classical.choice, Quot.sound]; every REPORT decl ⊆ [propext, Classical.choice, Quot.sound] (several defs use fewer); a meta scan of the module's constants finds 0 with sorry and 0 outside namespace `Benzecri` (/tmp/bzaudit/w3decls.lean)",
+  "names": "All 156 names listed in the five REPORTs (labels[].decls, extra_decls, prose.decls) exist: /tmp/bzaudit/w3names.lean (#print axioms on each) EXIT=0, 156/156 resolved",
+  "imports": "BenzecriScaffold.Cone.Basic, Mathlib.Topology.Algebra.ProperAction.Basic, Mathlib.Topology.FiberBundle.Trivialization: compliant",
+  "instances": "TopologicalSpace, ChartedSpace (S n) and HasGroupoid (projGroupoid n) on `ConeBase n V`, a `def` of this file: its own type. None on a Mathlib type",
+  "prop2_statement": "ConeBase n V = Quotient of the orbit relation of Déf. 3's action, quotient topology. baseChart he : p(U) → s(C), p(m) ↦ s(f(m)), for each cone chart. Transitions are locally the class of g in GS(n) (baseChart_symm_trans_mem), giving a ChartedSpace with HasGroupoid. pJet j is the jet at p(m) of the base chart of any cone chart with jet j (well defined: jet_baseChart_eq; every j ∈ J₁ is reached: exists_isConeChart_jet_eq). existsUnique_baseStructure: every p(j) is a projective jet, and any (GS(n),S(n))-structure cs with HasGroupoid in which every p(j) is projective has the same maximal atlas. That is « l'unique structure telle que les p(j) soient des jets projectifs de B », verbatim in the setting of (GS,S)-structures on a topological space",
+  "class_binder_pitfall": "Meta scan: in existsUnique_baseStructure, jets on V use V's instance; the competitor's HasGroupoid, jets and maximalAtlas use the bound `cs`; the right-hand maximalAtlas uses `Benzecri.ConeBase.chartedSpace`. The same holds for _charts and forall_pJet_mem_iff. The pitfall of kb/0002 (found by this author) is avoided",
+  "B_hausdorff": {
+   "question": "Is B = V/ℝ₊* Hausdorff whenever V is a Hausdorff affine conical manifold (Déf. 2 with 3°)?",
+   "answer": "NO in Benzécri's dimension n ≥ 3 (Lean `ConeBase n V` with n ≥ 2): counterexample below. YES for n ≤ 2 (proof below). In every dimension: B Hausdorff ⇔ the ℝ₊* action on V is proper.",
+   "counterexample_n3": {
+    "data": "W = {(x,y,z) ∈ ℝ³ : z > 0, (x,y) ≠ (0,0)}, an open cone (connected). A = diag(4, 1/8, 2), det A = 1, so A ∈ GU(3) (even SL(3)); A W = W. Γ = ⟨A⟩ ≅ ℤ. V := W/Γ, π : W → V.",
+    "V_is_a_variete": "Γ acts freely and properly discontinuously on W: A^k v = v forces 2^k z = z, so k = 0; on a compact K ⊂ W, z ∈ [a,b] with a > 0, and A^k K ∩ K ≠ ∅ forces 2^k ∈ [a/b, b/a], finitely many k. So V is Hausdorff (Mathlib t2Space_of_properlyDiscontinuousSMul_of_t2Space), π is a covering, V is a connected, second countable, paracompact 3-manifold.",
+    "cone_charts_3deg": "Put ρ(x,y,z) = (p,q) = (x/z, y/z) ∈ ℝ²∖0 (ℝ₊*-invariant); A acts on ρ by α(p,q) = (2p, q/16). For v ∈ W with p ≠ 0 take N = {w ∈ W : |x/z| ∈ (|p|/√2, √2|p|)}; if p = 0 (so q ≠ 0) take N = {w ∈ W : |y/z| ∈ (|q|/2, 2|q|)}. N is an open cone and A^k N ∩ N = ∅ for k ≠ 0 (the ratio 2^k, resp. 16^{-k}, would lie in (1/2,2), resp. (1/4,4)). So π|N is a homeomorphism onto an open set and f_N := (π|N)⁻¹ is a chart onto the open cone N. Transitions f_{N'} ∘ f_N⁻¹ are locally A^k ∈ GU(3). By § 2 Prop. 1 (existsUnique_coneStructure_of_atlas) V is an affine conical manifold with these charts compatible, i.e. [ChartedSpace (RnO 3) V] [HasGroupoid V (coneGroupoid 3)] [HasConeCharts 3 V] [T2Space V]: every hypothesis of Cone/Base and Cone/Section holds, and V is connected, Hausdorff and second countable, so it is a « variété » under plan F6.",
+    "the_base": "Déf. 3's action is t·π(v) = π(t v) (each chart is the identity of W locally). B = V/ℝ₊* = W/(ℝ₊* × Γ) = D/⟨α⟩ with D = W/ℝ₊* ≅ ℝ²∖0 (via ρ). α is free and wandering on D, so B is a (non-Hausdorff) locally projective 2-manifold; its (GS(2), S(2))-structure is ConeBase.chartedSpace / hasGroupoid.",
+    "B_not_Hausdorff": "b = [(1,0)] ≠ b' = [(0,1)] (the α-orbit of (1,0) is {(2^k,0)}). P_k = (1, 16^{-k}) → (1,0) and α^{-k} P_k = (2^{-k}, 1) → (0,1), so every neighbourhood of b meets every neighbourhood of b' (D → B is open). In V: y_k = π(1, 16^{-k}, 1) → m = π(1,0,1), while 2^k·y_k = π(A^{-k}(2^k, 2^k·16^{-k}, 2^k)) = π(2^{-k}, 1, 1) → m' = π(0,1,1). λ_k = 2^k → ∞: exactly the mechanism of the 'easy half'.",
+    "all_n_ge_3": "In ℝⁿ, n ≥ 3: W = {v : v₃ > 0, (v₁,v₂) ≠ 0}, A = diag(4, 1/8, 2, 1, …, 1). The eigenvalues 4^k, 8^{-k}, 2^k, 1 are distinct for k ≠ 0, every eigenline meets W in nothing, and the same three arguments go through.",
+    "consequences": [
+     "§ 2 Prop. 2: B carries the (GS(n−1), S(n−1))-structure Lean proves, but B is not a « variété » (not séparé). If « structure localement projective » presupposes a variété (Déf. 12: « Sur une variété V … on définit une structure de variété localement projective »; plan F6), Prop. 2 as printed is false for this V.",
+     "§ 2 Déf. 3: « cet espace fibré est topologiquement trivial » is false for this V: a trivialisation V ≃ B × ℝ₊* over B gives a section, and a section embeds B in the Hausdorff V (ConeBase.t2Space_of_section).",
+     "p. 241: « si V est supposé para-compact, on peut donc construire une section de V au-dessus de B » is false: V is paracompact and has no section. The cited theorem needs the base normal; V paracompact does not give it.",
+     "§ 2 Énoncé (wave 4, bzthm:c1s2_isomorphisme_fonctoriel): the functor V ↦ B sends this affine conical manifold outside the category of locally projective variétés. The category of affine conical manifolds must be cut down (proper action), or the projective side must admit non-Hausdorff objects, in which case F(B) is not Hausdorff for B the circle with a doubled point and Déf. 3 itself breaks (Cone/Basic's doubled half-line)."
+    ],
+    "formalized": "No. Not formalized in this audit (a scratch Lean proof was not attempted). The arithmetic is elementary. A formal witness needs the quotient W/ℤ with its cone charts, about 300–500 lines (Mathlib supplies T2 and the covering for a properly discontinuous free action)."
+   },
+   "theorem_n_le_2": {
+    "statement": "Benzécri's n ≤ 2 (Lean `ConeBase 1 V`, `ConeBase 0 V`): if V is Hausdorff, B is Hausdorff.",
+    "proof": "n = 1: B is locally homeomorphic to S(0), which is discrete, so B is discrete. n = 2: suppose b = [m] ≠ b' = [m'] are inseparable. Shrink cone charts f : W → cone(D) ∋ f(m), f' : W' → cone(D') ∋ f'(m'), with D and D' open arcs ≠ S¹. f(W ∩ W') = cone(O), O ⊂ D open. Its components cone(O_k) each carry one transition g_k ∈ GU(2) (rigidity). (i) If an endpoint a of O_k lies in D, then g_k a ∉ D'. Take x ∈ W on the ray a, so x ∉ W', and y_j → x inside cone(O_k). Then f'(y_j) = g_k f(y_j) → g_k f(x), and if g_k a ∈ D' this limit lies in f'(W'), so y_j → f'⁻¹(g_k f(x)) ∈ W', and Hausdorffness forces x ∈ W'. Hence g_k a ∈ ∂D'. (ii) Each point of ∂D is an endpoint of at most one O_k, and each point of ∂D' of at most one O'_k = g_k O_k. So the 2·#{k} endpoints inject into the 4 points of ∂D ⊔ ∂D', and O has at most 2 components. (iii) Inseparability gives y_j ∈ W ∩ W' with directions → dir f(m) in chart 1 and → dir f'(m') in chart 2. Normalise |f(y_j)| = |f(m)| and pass to one component k. Then λ_j := |f'(m')|/|g_k f(y_j)| → |f'(m')|/|g_k f(m)| ∈ (0,∞). λ_j y_j → λ m in chart 1 and → m' in chart 2, so m' = λ m and b = b'. Contradiction.",
+    "why_dimension_2_is_special": "The proof needs the interior boundary of each overlap component to be finite (two endpoints), so it can be absorbed by ∂D ⊔ ∂D'. From dimension 3 of the cone (base dimension 2), an overlap component can have a large boundary inside D, and the counterexample exploits this."
+   },
+   "the_hint_candidate": "The suggested ℝ² construction (two arc-cones glued along infinitely many components by A^k, A a boost with |det| = 1) gives a non-Hausdorff locally projective 1-manifold B. But V is NOT Hausdorff: at an interior endpoint a of the k-th component, the ray over a in chart 1 and the ray over A^k a in chart 2 are inseparable. That is step (i) of the n = 2 proof, and the n = 2 theorem shows that no ℝ² construction can work.",
+   "equivalence_proper": "For V Hausdorff: B Hausdorff ⇔ the ℝ₊* action is proper. (⇐) is ConeBase.t2Space_of_properSMul. For (⇒): if B is Hausdorff, V ×_B V is closed in V × V. (m,t) ↦ (m, t·m) is a homeomorphism V × ℝ₊* → V ×_B V, with inverse t = radius(f(tm))/radius(f(m)) in any cone chart (coneTrivialization). So it is a closed embedding, hence proper. This is not formalized (≈60 lines). It is the hypothesis Prop. 2 and Déf. 3 should carry."
+  }
+ },
+ "issues": [
+  {
+   "severity": "major",
+   "where": "REPORT labels[0] (bzprop:c1s2p2_base_cone): status closed, marked; hypotheses row « structure localement projective de B » = 'carried'; questions[0]; docstring SCOPE 'Hausdorffness of B' and checklist row 'B a « variété » (Hausdorff) — not asserted'",
+   "problem": "The mark rests on reading « structure localement projective » as a (GS,S)-structure on a topological space with no Hausdorffness. Under plan F6 and Déf. 12 (« Sur une variété V … on définit une structure de variété localement projective »), a locally projective structure lives on a variété, which is Hausdorff. The audit's counterexample (check 'B_hausdorff') is a Hausdorff, second-countable affine conical 3-manifold V whose base is NOT Hausdorff. Under the F6 reading Prop. 2 is therefore false as printed for that V. So the row is either a closed row under an explicit, ruled reading, or a partial row with a DEC-27 finding. It is not 'carried', and the B-Hausdorff point is not an open question.",
+   "fix": "(1) REPORT: change the hypotheses row to 'reading: a (GS,S)-structure on the non-Hausdorff space B; B is not Hausdorff in general (counterexample, n ≥ 3); B Hausdorff ⇔ proper ℝ₊* action; B always Hausdorff for n ≤ 2'. Move questions[0] to findings with the construction. (2) Lean (for the F6 reading): add `existsUnique_baseStructure_of_properSMul : ProperSMul RPos V → T2Space (ConeBase n V) ∧ <existsUnique_baseStructure>`, and ideally `t2Space_iff_properSMul` (⇒ via the closed embedding V × ℝ₊* → V ×_B V, ≈60 lines). (3) The author rules R1. The mark stays only under the non-Hausdorff reading; under F6 the row becomes partial, or closed under the added properness hypothesis if the author rules it an evident omission. (4) Optionally formalize the counterexample (R4)."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT labels[1] (Déf. 3 bundle sentence) and kb_proposals",
+   "problem": "« V est ainsi munie d'une structure d'espace fibré ℝ⁺-principal » is proved as a locally trivial free action. That is correct, but the base of this bundle can be non-Hausdorff. If « espace fibré » is read with a Hausdorff base (Ehresmann/Steenrod), the sentence itself fails for the counterexample.",
+   "fix": "Note it in the Déf. 3 row as part of ruling R2."
+  },
+  {
+   "severity": "nit",
+   "where": "docstring: « Hausdorff criterion for the base (cf. papers/bbs NOTES-3+1 N7–N8) »",
+   "problem": "N8 is about quotients of the cone by a group with a radial cocycle (⟨g⟩ acting on V), not about V/ℝ₊*. The criterion here is the generic Mathlib one.",
+   "fix": "Cite N8 as the analogous phenomenon. The counterexample above is its mirror image: V = W/⟨A⟩ is Hausdorff because A's cocycle on the z-ray is the constant 2, while the base fails."
+  },
+  {
+   "severity": "nit",
+   "where": "Benzecri.radius, Benzecri.unitRep (root of namespace Benzecri)",
+   "problem": "Generic names for the sup-norm radius on RnO n and the unit representative of S n.",
+   "fix": "Namespace them (Punctured.radius, Sphere.unitRep) when moving upstream, as the REPORT already proposes for unitRep."
+  }
+ ],
+ "fidelity_summary": "The Lean statement of § 2 Prop. 2 is correct and faithful for (GS,S)-structures on a possibly non-Hausdorff B: the base charts, the jets p(j), and uniqueness, with no class-binder collapse. Whether the mark is earned depends on the meaning of « structure localement projective ». B = V/ℝ₊* can be non-Hausdorff for a Hausdorff, second-countable V when n ≥ 3 (W = {z>0, (x,y)≠0}/⟨diag(4,1/8,2)⟩), cannot be when n ≤ 2, and is Hausdorff exactly when ℝ₊* acts properly. So the mark must rest on a ruled reading or on an explicit properness hypothesis, and the REPORT must say so.",
+ "questions_for_author": [
+  "R1 (§ 2 Prop. 2, the mark): read « structure localement projective » on B as a (GS,S)-structure on a possibly non-Hausdorff space, and keep the row closed with the counterexample as a remark? Or read it as a « variété localement projective » (F6), making the row partial (a DEC-27 finding)? In the second case, add a statement under a proper ℝ₊* action (equivalently B Hausdorff) that also concludes T2Space B.",
+  "R2 (§ 2 Déf. 3, « topologiquement trivial », and the p. 241 section): rule it a DEC-27 finding (false for the paracompact V above; the hypothesis Benzécri omits is B séparé / a proper action)? Or a reading in which « espace fibré » (Ehresmann/Steenrod, base séparée) presupposes a Hausdorff base, so that Déf. 2 implicitly excludes V?",
+  "R3 (wave 4, the Énoncé): define the objects of the affine conical category as Déf. 2 + V Hausdorff + a proper ℝ₊* action (⇔ B Hausdorff), so that F⁻¹ lands in Hausdorff locally projective manifolds and F(B) is Hausdorff over Hausdorff B? Today `IsConeObject` (Cone/Basic) is HasConeCharts ∧ T2Space only, and admits the counterexample.",
+  "R4: should the counterexample be formalized (DEC-27 asks for a proved counterexample when a statement is false, ≈300–500 lines), and should the n ≤ 2 theorem be recorded or formalized?"
+ ]
+}

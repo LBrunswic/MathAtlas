@@ -1,0 +1,40 @@
+{
+ "package": "WP-45k",
+ "round": 1,
+ "file": "scaffold/BenzecriScaffold/Structure/Developing.lean",
+ "module": "BenzecriScaffold.Structure.Developing",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor (round 1); hub commit 0fed8e1, files as committed (git status clean under lean-benzecri), mathlib fabf563a; scratch files /tmp/bzaudit/w3*.lean",
+ "summary": "Checked: the build, the axioms, every REPORT name, the imports, the instances, the hypotheses of Prop. 2 (simple connectedness, local path-connectedness derived), the application of Mathlib's lifting theorem, and the fidelity of each of the three assertions of Prop. 2 to the transcription (l.357–363) and its proof (l.365–369). The mark is earned. No blocker, major or minor issue; two nits.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Structure/Developing.lean`: EXIT=0, no output (2.0 s; .olean newer than source)",
+  "sorry_axioms": "prop2_developpement, prop2_developpement_proj, prop2_developpement_aff, existsUnique_isDeveloping_jet, exists_isGXMorphism_of_isCoveringMap: [propext, Classical.choice, Quot.sound]; every REPORT decl ⊆ [propext, Classical.choice, Quot.sound] (several defs use fewer); a meta scan of the module's constants finds 0 with sorry and 0 outside namespace `Benzecri` (/tmp/bzaudit/w3decls.lean)",
+  "names": "All 156 names listed in the five REPORTs (labels[].decls, extra_decls, prose.decls) exist: /tmp/bzaudit/w3names.lean (#print axioms on each) EXIT=0, 156/156 resolved",
+  "imports": "Benzecri.Structure.Jets, Benzecri.Structure.Quotient, Mathlib.Topology.Homotopy.Lifting, Mathlib.Topology.Germ: compliant",
+  "instances": "none declared; the étalé topology is the strict library's scoped instance",
+  "existence": "exists_isDeveloping_jet applies `(isCoveringMap_jets M X G).existsUnique_continuousMap_lifts (ContinuousMap.id M) x₀ ⟨⟨x₀,γ₀⟩,h₀⟩ rfl`. Mathlib's theorem needs [SimplyConnectedSpace A] [LocPathConnectedSpace A] on the domain A = M, a covering p = (j ↦ j.1.1) : jets G X M → M (strict library, Déf. 12, G discrete), a map f = id and a matching base point. The lift σ is a continuous section (p ∘ σ = id); developingOfSection σ is the germ value, and jet_developingOfSection shows its jets are σ, through the étalé basic open of a chart. Correct, and it is Benzécri's proof (« une composante connexe de J(V) … définit l'application p »)",
+  "uniqueness": "« p est défini à une multiplication à gauche près par un élément de GS(n,ℝ) » is proved in both directions. IsDeveloping.smul: g•p is developing. IsDeveloping.existsUnique_smul_eq: two developing maps p, p' on a preconnected nonempty M satisfy p' = g•p for a UNIQUE g. The proof is clopen: the set where p' agrees near y with g₀•p is open, its complement (the points where another g works) is open, and rigidity (IsAnalyticAction) makes them disjoint. PreconnectedSpace and Nonempty come from SimplyConnectedSpace (path connected). It holds for EVERY simply connected (G,X)-manifold, with no Hausdorffness or countability",
+  "hypotheses": "The general theorem prop2_developpement carries [IsAnalyticAction G X] [SimplyConnectedSpace M] [LocPathConnectedSpace M]. The paper's cases prop2_developpement_proj / _aff carry only ChartedSpace, HasGroupoid and SimplyConnectedSpace. LocPathConnectedSpace is derived: locPathConnectedSpace_S uses Sphere.isQuotientMap_s.locPathConnectedSpace on the open {v ≠ 0}, then ChartedSpace.locPathConnectedSpace. Mathlib's SimplyConnectedSpace (path connected, trivial fundamental groupoid) coincides with Benzécri's « simplement connexe » for a locally path-connected space. Hausdorff and second countable (F6) are unused: a disclosed generalisation",
+  "etale": "« V, muni de la projection p, est un ouvert étalé » is read per kb/0001 as IsLocalHomeomorph p, plus IsGXMorphism into the model (isDeveloping_iff_isGXMorphism, both directions). Faithful",
+  "class_binder_pitfall": "No statement quantifies over a ChartedSpace. exists_isGXMorphism_of_isCoveringMap: the meta scan shows both IsGXMorphism occurrences use `pullbackChartedSpace` on N and `chartedSpaceSelf X`, as intended",
+  "proof_vs_statement": "The proof's « J(V) … topologiquement isomorphe au produit V × G » is given set-theoretically (IsDeveloping.existsUnique_jetSMul_eq) and disclosed in SCOPE. The statement does not need the homeomorphism"
+ },
+ "issues": [
+  {
+   "severity": "nit",
+   "where": "exists_isGXMorphism_of_isCoveringMap (p. 238 prose, unlabelled)",
+   "problem": "It carries [LocPathConnectedSpace N] for the covering N. Over S(n) or ℝⁿ this follows from the pulled-back charted space, exactly as Prop. 2's instances derive it.",
+   "fix": "Optional: add _proj/_aff corollaries deriving it (`ChartedSpace.locPathConnectedSpace` on the pullback), or leave as is (no label rests on it)."
+  },
+  {
+   "severity": "nit",
+   "where": "REPORT upstream_moves",
+   "problem": "jetValue duplicates Mathlib's `Filter.Germ.value` composed with Sigma.snd; the name `Benzecri.jetValue` is generic.",
+   "fix": "When graduating into Structure/Basic (as proposed), keep it as `Jet.value` or a simp-normal abbreviation."
+  }
+ ],
+ "fidelity_summary": "Prop. 2 is proved as printed, for every analytic (G,X), and instantiated for (GS(n), S(n)) and (GA(n), ℝⁿ) with no hypothesis beyond simple connectedness: existence, uniqueness up to a UNIQUE element of G, and local homeomorphism. The proof is Benzécri's: lift the identity through the covering J(V) → V. The mark is earned. Item 3 of the dispatch: yes, the uniqueness « à un élément de G près » is proved for the developing map of any simply connected manifold, and Mathlib's lifting theorem is applied correctly.",
+ "questions_for_author": []
+}

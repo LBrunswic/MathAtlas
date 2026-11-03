@@ -1,0 +1,42 @@
+{
+ "package": "WP-45l",
+ "round": 1,
+ "file": "scaffold/BenzecriScaffold/Structure/Classes.lean",
+ "module": "BenzecriScaffold.Structure.Classes",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor (round 1); hub commit 0fed8e1, files as committed (git status clean under lean-benzecri), mathlib fabf563a; scratch files /tmp/bzaudit/w3*.lean",
+ "summary": "Checked: the build, the axioms, every REPORT name, the instances, the class binders of IsMaximal and isMaximal_iff, the scan p. 238 (PDF p. 11) for Déf. 14's brackets, and Déf. 7 on scan p. 235 (PDF p. 8). Also checked the fidelity of Déf. 14, 15 and 16 and of the two prose claims (divisible ⇒ balayable, compact ⇒ maximal). The three marks are earned. One minor issue: the REPORT's justification for dropping second countability of U points the wrong way, though the definitions agree. Two nits: line numbers.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Structure/Classes.lean`: EXIT=0, no output (1.7 s; .olean newer than source)",
+  "sorry_axioms": "isMaximal_of_compactSpace, isMaximal_iff, exists_opens_iso_iff, IsDivisible.isBalayable(_proj/_aff), IsHomogeneous.isBalayable, isProjSegment_closedSeg: ⊆ [propext, Classical.choice, Quot.sound]; every REPORT decl ⊆ [propext, Classical.choice, Quot.sound] (several defs use fewer); a meta scan of the module's constants finds 0 with sorry and 0 outside namespace `Benzecri` (/tmp/bzaudit/w3decls.lean)",
+  "names": "All 156 names listed in the five REPORTs (labels[].decls, extra_decls, prose.decls) exist: /tmp/bzaudit/w3names.lean (#print axioms on each) EXIT=0, 156/156 resolved",
+  "imports": "Benzecri.Structure.Quotient, Benzecri.Projective.Convex: compliant",
+  "instances": "Group, MulAction, ContinuousConstSMul and FaithfulSMul on `GXAut G X M`, a `def` of this file over a Subgroup (M ≃ₜ M): its own type, not an orphan. None on a Mathlib type",
+  "def14_scan": "Scan p. 238: « φ(S) = (φ(M), φ(N)) » has ROUND brackets. Scan p. 235, Déf. 7: « le segment de droite fermé (m, m') » and « le segment ouvert )m, m'( ». So Déf. 14 means the CLOSED segment. The dispatch's 'open' is not the printed notation, and the author's reading is right. The Lean statement is IsGXSegment (GSR n) (b ≠ −a) Sphere.closedSeg, where Sphere.closedSeg is the strict library's Déf. 7 closed segment, and Déf. 7's standing hypothesis (not diametrically opposite) is carried as `adm`. O = φ.source is an open neighbourhood of S, and φ is compatible (Déf. 13). « segments » is read singular, per the transcription's comment. Mark earned",
+  "def15": "GXAut = homeomorphisms that are morphisms both ways (the isomorphisms of p. 238's category); IsHomogeneous = IsPretransitive; IsBalayableFor/IsBalayable = a compact K with ⋃_{g∈G₁} g•K = univ; IsDivisible = a subgroup G₁ with ProperlyDiscontinuousSMul (DEC-120), IsCancelSMul (free, « sans point fixe ») and CompactSpace of the orbit quotient with its quotient topology. Verbatim. Prose « toute variété divisible (ou homogène) est balayable »: IsDivisible.isBalayable needs only LocallyCompactSpace, discharged for every manifold over S(n) or ℝⁿ (_proj, _aff); homogeneous uses a singleton. Honest. Mark earned",
+  "def16": "IsMaximal G X M := ConnectedSpace M ∧ ∀ U : Type u, [TopologicalSpace U] [ChartedSpace X U] [HasGroupoid U] [ConnectedSpace U] [T2Space U], every injective morphism M → U is onto. isMaximal_iff / exists_opens_iso_iff prove it equal to the printed form (an isomorphism of M onto an open W ≠ U, W with the Opens charted space, morphism both ways). Same model ⇒ same dimension. Mark earned under the F6 reading « variété » ⇒ Hausdorff, which is load-bearing and disclosed. Second countability and the universe: issue 1",
+  "compact_maximal": "isMaximal_of_compactSpace assumes only [CompactSpace M] [ConnectedSpace M]; it uses U Hausdorff (from the definition): the range is compact hence closed, open (local homeomorphism), nonempty, so it is all of the connected U. The hypothesis set is honest. The U-Hausdorff reading is necessary, and the REPORT's witness is correct: the circle S(1) is an open proper subset of the circle with one point doubled (two copies glued along the complement of a point by the identity), which is a connected, non-Hausdorff, locally projective 1-manifold of the same dimension. It is described in SCOPE and in REPORT questions, not formalized: acceptable for a reading",
+  "class_binder_pitfall": "isMaximal_iff under the meta scan: IsGXMorphism h uses [M's ChartedSpace, W.instChartedSpace] and h.symm the reverse; W's comes from the bound U's instance. No comparison of two structures on one type. Clean"
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "REPORT labels[2].questions[0] (« Second countability of U is not imposed (it is not needed and only shrinks the class of U) »); SCOPE/hypothesis row of Déf. 16",
+   "problem": "Dropping second countability ENLARGES the class of U. That makes IsMaximal a priori STRONGER than the F6 reading, not weaker. Likewise, restricting U to M's universe makes it a priori weaker. Both are harmless, but for a reason the file does not give. (a) If M is second countable and f : M → U is an injective morphism with range ≠ U, then range f is open but not closed (U is connected). Pick u ∈ closure(range f) ∖ range f and a connected chart ball B' ∋ u. Then U' := range f ∪ B' is an open, connected, Hausdorff, second-countable sub-manifold of U, in the same universe, and f : M → U' is still not onto. (b) The same U' is Small.{u} (|U'| ≤ |M| + 𝔠), so a U in another universe transports to Type u.",
+   "fix": "Replace the parenthesis with: 'second countability of U is not imposed: for second-countable M the two definitions agree (U' = f(M) ∪ chart ball at a boundary point); likewise for the universe of U'. Optionally prove `isMaximal_iff_secondCountable` (≈40 lines)."
+  },
+  {
+   "severity": "nit",
+   "where": "REPORT labels[1].tex_lines [419, 429]; docstring 'l.419–429' and '(l.434–435, p. 238)'; REPORT labels[1].questions[0] 'Prose l.432–433'",
+   "problem": "Déf. 15 is l.419–427 (\\end{defin} at 427). « Si V est … compacte, son revêtement universel est divisible » is l.430–431. « Il est clair que toute variété divisible (ou homogène) est balayable » is l.433.",
+   "fix": "Cite l.419–427, l.430–431 and l.433."
+  }
+ ],
+ "fidelity_summary": "Déf. 14 is verbatim with Déf. 7's closed segment, confirmed on the scan. Déf. 15 is verbatim under DEC-120. Déf. 16 is verbatim up to the disclosed reading 'U Hausdorff', which is necessary (doubled circle), and two harmless choices (second countability, universe) whose stated justification should be corrected. Both prose claims are proved with honest hypotheses: local compactness for divisible ⇒ balayable, U Hausdorff for compact ⇒ maximal. Item 5 of the dispatch: yes, « compact ⇒ maximal » is proved with an honest hypothesis set; the U-Hausdorff reading is needed and disclosed.",
+ "questions_for_author": [
+  "Déf. 16: confirm the reading « variété » U ⇒ Hausdorff (necessary for « Une variété compacte est évidemment maximale »).",
+  "Déf. 15 prose (l.430–431, universal cover of a compact manifold is divisible): ledger row or prose? (unchanged from the REPORT)"
+ ]
+}
