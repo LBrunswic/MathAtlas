@@ -1,0 +1,74 @@
+{
+ "package": "WP-46h",
+ "round": 3,
+ "auditor": "read-only auditor, round 3",
+ "file": "scaffold/GXScaffold/BTZ/Uniformization.lean",
+ "host": "node1",
+ "builds": true,
+ "build_command": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/Uniformization.lean: exit 0, 20.3 s wall. Its only output is 'Uniformization.lean:2203:8: declaration uses `sorry`'. taskset -c 0-11 lake build --no-build GXScaffold.BTZ.Uniformization gives 'All targets up-to-date (8740 jobs)', so the olean matches the source; the only replayed warnings are AbsMax l.1038 and l.2235, plus this file's l.2203. No Causal.* module was rebuilt. #print axioms and #print were run through lake env lean --stdin, which writes nothing.",
+ "sorry_count": 1,
+ "sorries": [
+  "GX.btzTilde_null_supset (declared at l.2203; the sorry term is at l.2244), tagged SORRY(prop:globally_hyperbolic_cauchy_complete_manifolds). The open case is narrow: x is a BTZ point of M̃, m ∈ J⁺(Dx) ∖ I⁺(Dx) with m ≠ Dx, and the chart step from x towards m lands on another BTZ point, so m lies on the future half of the developed BTZ line. The obstruction text is precise: the full future BTZ ray must be lifted to M̃, with D of the lift equal to the whole null half-line. That needs a chain of descending charts and the parabolic stabiliser. It reaches isBTZFutureComplete_of_regFuture, btz_isBTZFutureComplete_C1 and btz_injective_dev_C1. It does NOT reach GX.btz_uniformization. Every other occurrence of 'sorry' in the file is inside a docstring or comment."
+ ],
+ "upstream_sorries": [
+  "Independent #print axioms: GX.btz_uniformization, GX.btz_isBTZFutureComplete_C1 and GX.btz_injective_dev_C1 are on [propext, sorryAx, Classical.choice, Quot.sound].",
+  "The following are on [propext, Classical.choice, Quot.sound]: GX.btz_uniformization_of_mixed, GX.e0PastHalf_counterexample_DEC118, GX.e0PastHalf_isE0CauchyComplete, GX.btzTilde_supset_of_null, GX.btzTilde_transport, GX.BTZTildeData.Iplus_subset_reg and GX.BTZTildeData.chart_notMem_btzJReg_of_sing.",
+  "The only sorryAx under GX.btz_uniformization is still GX.E0AbsMax.E0Pushout.isCompact_diamond_mixed (AbsMax l.2235, B21 Prop 2.17 mixed diamonds, outside the write set). It is reached through e0MixedDiamondsCompact_of_record. The dispatch's acceptance criterion, '#print axioms on GX.btz_uniformization must show standard axioms only', is NOT met. No ruling after DEC-119 (DEC-120..122 concern benzecri and Barbot) accepts the row on this leaf."
+ ],
+ "verdict": "issues",
+ "round2_followup": {
+  "major1_upstream_leaf": "NOT RESOLVED. Unchanged, and the fixer gives a reasoned refusal: the leaf is outside the write set and needs a Lorentzian volume or finite time separation. The question is routed to the author.",
+  "major2_local_sorry": "PARTIALLY RESOLVED. Part (i), the transport, is genuinely proved on standard axioms: btzTilde_transport uses flatCausality_absolutelyMinimal plus btzTilde_transport_local. So are btzTilde_supset_of_reg, I⁺ ⊇ at every point, and J⁺ ⊇ at regular points and off the BTZ line (btzTilde_supset_of_null, on standard axioms). The sorry has moved out of isBTZFutureComplete_of_regFuture and is narrowed to the developed-BTZ-line case in btzTilde_null_supset. It still sits under the prop's form of record.",
+  "major3_missing_headline_assertions": "PARTIALLY RESOLVED. The carried hypothesis hI is now derived (BTZTildeData.Iplus_subset_reg, on standard axioms), so btz_injective_dev_C1 has no hypothesis beyond the prop's ruled conclusion. Four things are still unbuilt: the rays Δ_i = D(S_x) ⊂ ∂Ω⁺ (Γ-invariant, future complete), the image (⋃Δᵢ) ∪ ⋂I⁺(Πⱼ), the T_BTZ homeomorphism M ≅ ρ\\D(M̃), and unconditional injectivity inside the form of record.",
+  "minor4_hI_obstruction": "RESOLVED. hI is proved. The proof goes through chart_notMem_btzJReg_of_sing: the descent chart sends a BTZ point to Δ₀, and btzTildeDev_notMem_reg_of_chart shows that a transition isometry cannot carry a point of Δ₀ to a regular point, because J⁺(Δ₀) is a Euclidean neighbourhood of no point of Δ₀ (btzJplus_notMem_nhds_of_mem_btzLine). I checked that argument and it is sound.",
+  "minor5_counterexample_nonvacuity": "RESOLVED. #check shows that e0PastHalf_counterexample_DEC118 now ends with '∃ y₀ yN Φ, presentation ∧ Nonempty (BTZTildeData {τ<0} y₀ Φ)', on standard axioms.",
+  "minor6_verbatim_wording": "RESOLVED IN THE DEF DOCSTRING ONLY. E0MixedDiamondsCompact's docstring now says CONCLUSION, STRONGER. The §4f header (l.1480, 'Its statement is the proposition') and REPORT.json still say 'statement' or 'verbatim'. See minor issue 1."
+ },
+ "checks": {
+  "1_build_and_sorry": "PASS on build. The real local sorry count is 1 (l.2244) and it is tagged with a specific obstruction. The file is not sorry-free, and the dispatch's 'close the file's tagged sorry' is not achieved.",
+  "2_statement_fidelity": "PASS under the rulings. The hypotheses of the headline and of the prop are unchanged from round 2 and still correct: (CE M).GloballyHyperbolic; ∃ S, IsE0C1SpacelikeCauchy M S (DEC-28/107/117); IsE0CauchyMaximal (DEC-77 (c)); IsFreeGroup together with ∃ a b, a*b ≠ b*a (DEC-76/119); s ≥ 1 as chartedSing nonempty; SecondCountableTopology carried and reported. The conclusion is IsBTZFutureComplete M d, which #print unfolds to IsFutureComplete d.causality d.D (DEC-118 (a)). It holds for every chartwise d extending D, and the existence of such a d is proved in the same statement, so it is not vacuous. btz_injective_dev_C1 was strengthened: hI is dropped. btzTilde_null_supset carries unused hypotheses (_hGH, _hmax, _hD, _hrays). These only weaken a sorried lemma and are supplied by the caller. The new lemmas are mathematically meaningful and are not trivialised: transport for flat le/lt, chart/Δ₀ correspondence, I⁺ regular. The counterexample is sound, with the printed hypothesis IsE0CauchyComplete (DEC-31/119) and ¬IsBTZFutureComplete for every datum. DEC-55 is not relevant to this file.",
+  "3_docstring_contract": "PASS. No **`label`** mark appears (a regex search found 0), which is correct because both rows are partial. The theo label is at docstring char 680 and the prop label at char 2193, both within the first 4000. The hypothesis checklist, SCOPE (a)–(e) and the provenance line are present and match the code. SCOPE (e) describes the narrowed sorry accurately.",
+  "4_report_honesty": "MOSTLY PASS. builds=true and sorry_count=1 are correct. Both rows are partial with marked=false. The upstream leaf and the local sorry are disclosed with their exact reach, and #print axioms confirms it. The labels are at docstring char ~680 and ~2190, as the REPORT says. One stale text remains (minor issue 1).",
+  "5_missing_assertions": "FAIL for 'certify IN FULL'. The headline is still missing the rays Δ_i, the image (⋃Δᵢ) ∪ ⋂I⁺(Πⱼ), M ≅ ρ\\D(M̃) for T_BTZ, and unconditional injectivity of D on M̃ inside the form of record. The prop's ruled conclusion still rests on the local sorry. The ledger assigns only these two rows to the file (LEDGER l.738 and l.741), so no label is missing.",
+  "6_cited_results": "Barbot's equality and quotient, B21 Thm 3 / Cor 2.16 for C¹, B21 Lemma 2.3, the DEC-119 bridge and M̃ GH are built on standard axioms. B21 Prop 2.17 / Cor 2.18 is built except for its mixed-diamond leaf, which is an upstream sorry. DEC-23 requires that leaf to be BUILT.",
+  "7_name_clashes": "PASS. I grepped all 123 declaration heads by last component against GX/ and scaffold/ (excluding this file): no clash. DEC-33 PASS. The imports are unchanged; the only Causal import is Causal.Flat.Lox.PastProper, in a file under scaffold/GXScaffold/BTZ/. There is only `open scoped Causal.Flat`: no root Causal import, no CausalScaffold and no `open Causal`."
+ },
+ "issues": [
+  {
+   "severity": "major",
+   "where": "theo:globally_hyperbolic_cauchy_complete_cauchy_maximal: GX.btz_uniformization (#print axioms)",
+   "problem": "Unchanged since rounds 1 and 2. #print axioms GX.btz_uniformization contains sorryAx, and it comes solely from the upstream leaf GX.E0AbsMax.E0Pushout.isCompact_diamond_mixed (B21 Prop 2.17's mixed diamonds; DEC-23 requires the cited result to be BUILT). The dispatch's explicit criterion fails. The dependency is cleanly isolated: btz_uniformization_of_mixed is on standard axioms.",
+   "fix": "A dedicated package should prove GX.E0MixedDiamondsCompact M, or the leaf under hGH/hmax, and pass it to btz_uniformization_of_mixed. The core is that a full future BTZ ray is not bounded above in the push-out by a regular point. Alternatively, the author rules on the route or accepts the row as partial on the leaf."
+  },
+  {
+   "severity": "major",
+   "where": "prop:globally_hyperbolic_cauchy_complete_manifolds: GX.btzTilde_null_supset (l.2203/2244), hence isBTZFutureComplete_of_regFuture, btz_isBTZFutureComplete_C1, btz_injective_dev_C1",
+   "problem": "The prop's form of record still rests on the file's one local tagged sorry. It is now narrowed to the future half of the developed BTZ line at a BTZ point of M̃. The obstruction is genuine and precisely stated: no regular point lies between x and m, so it needs the lifted full BTZ ray with D(lift) = Dx + ℝ₊u. The statement is plausibly true. But the dispatch's 'close the file's tagged sorry' is not achieved, and the row cannot be CLOSED.",
+   "fix": "Build the lifted BTZ ray. Cover the ray of proj x (hrays) by descending charts (exists_liftedChart_of_isChartwise), show that the transition isometries fix the developed line Δ₀ (the parabolic stabiliser), and conclude D(lift) = the whole null half-line. Then m = D(lift(t)), with x ≤ lift(t) by chart links along Δ₀. This is the same construction the headline's missing assertions need."
+  },
+  {
+   "severity": "major",
+   "where": "theo:globally_hyperbolic_cauchy_complete_cauchy_maximal: the paper's bullets at l.2368–2374 against GX.btz_uniformization",
+   "problem": "The form of record still lacks four assertions. (a) Unconditional injectivity of D on all of M̃: btz_injective_dev_C1 now has no extra hypothesis, but it depends on the sorried prop and is not part of btz_uniformization. (b) The Γ-invariant, relatively open, future-complete lightlike rays Δ_i = D(S_x) ⊂ ∂Ω⁺. (c) The image D(M̃) = (⋃Δᵢ) ∪ ⋂I⁺(Πⱼ), DEC-28's display. (d) M ≅ ρ\\D(M̃) for T_BTZ at the BTZ points (DEC-106); only Reg M ≅ ρ(Γ)\\Ω⁺ is proved. All of this is disclosed and the row is correctly partial, but 'certify IN FULL' is not achieved.",
+   "fix": "With the lifted BTZ ray above: D(S_x) is an open future half of a Γ_x-fixed lightlike line, contained in ∂Ω⁺ by T_BTZ-continuity. This gives Δ_x and the image, and, with the prop, injectivity can be added to the form of record. Then build the T_BTZ homeomorphism Γ\\M̃ ≅ ρ\\D(M̃)."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json (both rows' sorries[].obstruction for the upstream leaf, and kb_proposals[0]) and the §4f section header (l.1480)",
+   "problem": "These still describe GX.E0MixedDiamondsCompact as 'that leaf's statement verbatim' / 'its statement'. The def's own docstring was corrected, and REPORT.notes claims round-2 minor 6 was APPLIED. In fact the def is the leaf's conclusion without hGH/hmax, so it is a stronger proposition. This is harmless for soundness, but the text is inaccurate and the REPORT contradicts its own notes.",
+   "fix": "Replace 'statement verbatim' with 'conclusion, without the leaf's hGH/hmax premises (stronger)' in the REPORT and in the §4f header."
+  }
+ ],
+ "verified_findings": [
+  "BTZTildeData.Iplus_subset_reg is a genuine proof of B21's 'a BTZ point is in the chronological future of nothing', on standard axioms. The last link of a chart-generated ≪-chain ends at a point of btzJReg (btzJ_mem_reg_of_lt), and chart_notMem_btzJReg_of_sing excludes BTZ points. The latter comes from the descent chart (apex ↦ Δ₀) plus the transition-isometry argument, which uses the fact that J⁺(Δ₀) is a neighbourhood of no point of Δ₀.",
+  "btzTilde_transport genuinely transports the flat causality of Reg M̃ (le and lt) into BTZTildeData.causality, using absolute minimality of flatCausality and one T_BTZ chart per small flat ball. It is on standard axioms.",
+  "The prop's remaining gap is genuinely only the BTZ-line case. btzTilde_supset_of_null, on standard axioms, derives every reverse inclusion from that case alone.",
+  "e0PastHalf_counterexample_DEC118 now records its own non-vacuity (a presentation together with a nonempty datum), on standard axioms.",
+  "btz_uniformization_of_mixed remains on standard axioms. So does the BTZ half, which uses ONE chartwise datum carrying D, InjOn on reg M̃ and natural-topology GH."
+ ],
+ "questions_for_author": [
+  "B21 Prop 2.17's mixed-diamond leaf (the headline's ONLY sorryAx): should a Lorentzian volume, or finite time separation on compacts of a GH flat spacetime, be built (in lean-causal or gx) to prove that BTZ rays in the push-out are unbounded? Or is the headline accepted as partial on the isolated leaf?",
+  "Should a dedicated 'lifted BTZ ray / BTZ-limit of D' package build what remains of both rows? That is: btzTilde_null_supset (the prop's last case), the rays Δ_i ⊂ ∂Ω⁺, the image (⋃Δᵢ) ∪ Ω, and M ≅ ρ\\D(M̃) for T_BTZ."
+ ],
+ "notes": "Round 3 confirms real progress since round 2. Three new axiom-clean results: the transport Reg M̃ → M̃, the regularity of I⁺(x), and the chart/Δ₀ correspondence. The local sorry is narrowed to the developed BTZ line. hI is derived, and the counterexample now records its non-vacuity. No overclaim was found: both rows are correctly partial and unmarked, and the REPORT is accurate apart from one stale 'verbatim' text (minor). The verdict stays 'issues' because of three majors that stand between the file and the dispatch's 'certify IN FULL'. (1) The upstream B21 Prop 2.17 leaf keeps sorryAx under GX.btz_uniformization. (2) The prop's ruled conclusion rests on the narrowed local sorry. (3) The headline's BTZ assertions (Δ_i, the image, the T_BTZ quotient, injectivity in the form of record) are unbuilt. (2) and (3) need the same missing construction, the lifted BTZ ray. (1) is outside the write set. Neither row can be CLOSED without that construction, the leaf, or a ruling."
+}

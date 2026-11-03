@@ -6,40 +6,49 @@ import Causal.LemmaKLocal
 /-!
 # `GX.BTZ.Spear` — spear neighbourhoods and full future BTZ rays (B21 Lemmas 2.3, 2.4)
 
-Package WP-41i (WAVE5-PLAN.md, WP-39i), fixer round 2; WP-43a; **WP-44d (DEC-108): 0 `sorry`**.
-`brunswic2021cauchy` (**B21**, `papers/gx/sources/2108.12631/src/BTZ_1.tex`) Def 2.1 (l.611),
-Lemma 2.3 `lem:tube` (l.635), Lemma 2.4 `lem:add_BTZ_param` (l.685), cited by `papers/gx` at
-`RamcovGX.tex:2352` (proof of `prop:globally_hyperbolic_cauchy_complete_manifolds`, l.2348) as
-« Lemma 2.4 » — **the right citation is Lemma 2.3** (finding). **No gx ledger label is marked**:
-these are cited results built here (DEC-23), not rows of the gx ledger. Rows touched, unmarked:
+Package WP-41i (WAVE5-PLAN.md, WP-39i), fixer round 2; WP-43a; **WP-44d (DEC-108): 0 `sorry`**;
+WP-46b (DEC-116 (b)(c): marks; fixer round 2: Def 2.1's boundary sentence is the field
+`IsSpearNbhd.isClosed`). `brunswic2021cauchy` (**B21**,
+`papers/gx/sources/2108.12631/src/BTZ_1.tex`) Def 2.1 (l.611), Lemma 2.3 `lem:tube` (l.635),
+Lemma 2.4 `lem:add_BTZ_param` (l.685), cited by `papers/gx` at `RamcovGX.tex:2352` (proof of
+`prop:globally_hyperbolic_cauchy_complete_manifolds`, l.2348) as « Lemma 2.4 » — **the right
+citation is Lemma 2.3** (finding). These are cited results built here (DEC-23), not rows of the gx
+ledger, so they are marked with their source prefix `brunswic2021cauchy:` (no gx label is
+claimed). For `𝔼₀`-manifolds only, by DEC-116 (b) (gx §4 is `𝔼₀`, DEC-77 (c)):
 
-* `lem:tube` (B21 Lemma 2.3, l.635) — **proved, 0 `sorry`** (`GX.E0Spear.lem_tube`, CBG
-  parameters `hLine`, `hSC`; **parameter-free** `GX.E0Spear.lem_tube_e0`, the parameters being
-  `E0LM.e0_globalBTZ`, `E0LM.e0_secondCountable_of_cauchy`); partial only by its readings (E0-only,
-  Def 2.1's corrected spear). The gluing (`exists_spearDevelopment`, §4a–§4c): `M₀ = M ∖ J⁺(κ⁻¹Π)`,
-  under B21's normalisation (l.647: the chart cylinder **causally convex in `M`**,
-  `CylChartData.convex`; `κ⁻¹Π` acausal; overlap `𝒫 ∩ {τ < v + ε/2}`), glued to the spear piece `𝒫`
-  (`CylChartData.glueData`): an `𝔼₀`-manifold, Hausdorff, second countable, connected; and
-  (DEC-108, B21 never argues it) **`M₂` globally hyperbolic** (`CylChartData.globallyHyperbolic_glued`):
-  `M₂` is a `Causal.Causality.TwoPiece` (`CylChartData.twoPiece`, charts `pieceChart_of_isE0Mor`),
-  hence causal, its unmixed diamonds compact; **the mixed diamonds** `J(x, y)`, `x ∈ M₀`, `y ∈ 𝒫`
-  above `Π` — where no common Cauchy surface exists — are `j(D₀) ∪ Ψ(D₁)`, two compacts
-  (`CylChartData.isCompact_diamond_mixed`); **`Σ` Cauchy in `M₂`** (`CylChartData.isCauchySurface_glued`:
-  no inextensible curve stays in `𝒫` above `Π`, `CylChartData.not_inextensible_above`).
-* full future BTZ rays (`RamcovGX.tex:2352`) — **proved** (`GX.E0Spear.exists_fullFutureBTZRay`,
-  parameter-free `exists_fullFutureBTZRay_e0`), under DEC-77(c)'s Cauchy-maximality; the reading
-  `IsFullFutureBTZRay` (in `sing₀`, injective, continuous, future directed, future inextensible,
-  covering the future half of its BTZ line: `IsFullFutureBTZRay.{mem_S0, injOn, le, not_tendsto,
-  exists_eq_of_line}`).
-* `lem:add_BTZ_param` (B21 Lemma 2.4, l.685) — **both cases proved, 0 `sorry`**:
-  `GX.E0Spear.lem_add_BTZ_param_line` (added `hLM`, discharged in `lem_add_BTZ_param_line_e0`):
-  « `q` in the past of `p` » by `IsFullFutureBTZRay.exists_eq_of_line`; « `q` in the future of
-  `p` » (DEC-108) by continuation along the BTZ line (`exists_spearNbhd_below`), one chart at a
-  time (`CylChartData.exists_spear_below`: change of chart normalised to a global isometry of `𝔼₀`
-  on a connected overlap, B21 `prop:isom_strong`, and an injective glued chart). Partial by
-  `τ_Σ` **continuous** (not smooth; `continuousOn_tauS`) and the reading « in the shaft ».
-  `lem_add_BTZ_param_of_cauchyMaximal(_e0)`.
-* B21 Def 2.1 (spear neighbourhood) — **partial** (`IsSpearNbhd`; head/shaft corrected, finding).
+* **`brunswic2021cauchy:lem:tube`** (B21 Lemma 2.3, l.635) — **closed, 0 `sorry`**
+  (`GX.E0Spear.lem_tube`, CBG parameters `hLine`, `hSC`; **parameter-free**
+  `GX.E0Spear.lem_tube_e0`, the parameters being `E0LM.e0_globalBTZ`,
+  `E0LM.e0_secondCountable_of_cauchy`), under DEC-116 (b) (`𝔼₀` only) and (c) (Def 2.1's spear).
+  The gluing (`exists_spearDevelopment`, §4a–§4c): `M₀ = M ∖ J⁺(κ⁻¹Π)`, under B21's normalisation
+  (l.647: the chart cylinder **causally convex in `M`**, `CylChartData.convex`; `κ⁻¹Π` acausal;
+  overlap `𝒫 ∩ {τ < v + ε/2}`), glued to the spear piece `𝒫` (`CylChartData.glueData`): an
+  `𝔼₀`-manifold, Hausdorff, second countable, connected; **`M₂` globally hyperbolic** (DEC-108,
+  `CylChartData.globallyHyperbolic_glued`: a `Causal.Causality.TwoPiece`, mixed diamonds
+  `CylChartData.isCompact_diamond_mixed`); **`Σ` Cauchy in `M₂`** (`CylChartData.isCauchySurface_glued`).
+* `full future BTZ rays (RamcovGX.tex:2352)` — **closed, unmarked until the reading is confirmed**
+  (`GX.E0Spear.exists_fullFutureBTZRay`,
+  parameter-free `exists_fullFutureBTZRay_e0`), under DEC-77 (c)'s corrected hypotheses (GH +
+  Cauchy-maximal, counterexample `{τ < 0}`); `IsFullFutureBTZRay` is a **strengthening** of every
+  natural reading of « full future ray » (in `sing₀`, injective, continuous, future causal,
+  without future endpoint, and covering the whole future half `[p, +∞[` of the BTZ line `Δ`), each
+  proved (`IsFullFutureBTZRay.{mem_S0, injOn, continuousOn, le, not_tendsto, exists_eq_of_line}`).
+  The reading is not ruled (question in the REPORT; the paper has no label, kb/0006: no mark).
+* **`brunswic2021cauchy:Def 2.1`** (spear neighbourhood, l.611) — **closed** under DEC-116 (c)
+  (`𝔼₀` only: read, extension of DEC-116 (b), question): free vertex `(v, 0)`, head
+  `{f = v, r ≤ R}`, shaft `{r = R, τ ≥ v + R/2}` (`spear`, `spearHead`, `spearShaft`,
+  `IsSpearNbhd`); « the boundary of `𝒰` is head ∪ shaft » (l.617) read as part of the definition,
+  the field `IsSpearNbhd.isClosed`, **equivalent** to the sentence in every `𝔼₀`-manifold
+  (`frontier_spearImage_eq_iff_isClosed`; `IsSpearNbhd.frontier_eq`, no global hypothesis; model
+  `frontier_spear`) and **automatic** for GH `M` (`isClosed_spearImage`, `IsSpearNbhd.of_chart`,
+  `isSpearNbhd_iff_chart`); « neighbourhood of `]p,+∞[` » (`IsSpearNbhd.exists_ray_mem_nhds`, on
+  `Δ` itself `IsSpearNbhd.mem_nhds_of_line`).
+* `brunswic2021cauchy:lem:add_BTZ_param` (B21 Lemma 2.4, l.685) — **partial, unmarked**: both
+  cases proved, 0 `sorry` (`lem_add_BTZ_param_line(_e0)`, `lem_add_BTZ_param_of_cauchyMaximal(_e0)`;
+  « `q` in the future of `p` » by `exists_spearNbhd_below`, DEC-108), « in the shaft » ruled
+  (DEC-116 (c)); but `τ_Σ` is **continuous**, not smooth (`continuousOn_tauS`): for B21's
+  topological Cauchy surfaces (l.224) smoothness is false (finding, `Σ = {τ = |Re z|/4}` in `𝔼₀`);
+  no ruling accepts the `C⁰` form yet (question).
 
 > \begin{defou}[Spear neighborhood] Let $M$ be a $\mass{\geq0}$-manifold and let $\Delta$ be a
 > BTZ-line. A spear neighborhood around $\Delta$ of vertex $p\in \Delta$ and radius $R>0$ is a
@@ -66,6 +75,10 @@ these are cited results built here (DEC-23), not rows of the gx ledger. Rows tou
 
 ## What is built
 
+* **§5′ Def 2.1 in `M` (WP-46b fixer)**: `isCompact_spear_inter_le`, `isClosed_spearImage`,
+  `interior_spearImage`, `frontier_spearImage_eq_iff_isClosed`, `frontier_spearImage`,
+  `IsSpearNbhd.of_chart`, `isSpearNbhd_iff_chart`, `IsSpearNbhd.frontier_eq`,
+  `IsSpearNbhd.mem_nhds_of_line`; `isClosed_spearY`, `isClosed_image_spearY_of_subset` (round 2).
 * **§1 the model.** `spear v R = {f ≥ v, r ≤ R} = J⁺((v,0)) ∩ {r ≤ R}` (`spear`,
   `spear_eq_Jplus_inter`), closed, containing the ray `[v, +∞[`; spears and cylinders are causally
   convex (`mem_spear_of_le`, `mem_cyl_of_le`, `le_of_le_top_of_mem_cyl`); vertical lines are future
@@ -111,16 +124,18 @@ these are cited results built here (DEC-23), not rows of the gx ledger. Rows tou
 
 | paper | here |
 |---|---|
-| `𝔼_{≥0}`-manifold (Lemmas 2.3, 2.4) | ⚠ strengthened (E0 only; harmless for gx, DEC-77(c)): `𝔼₀`-manifolds only, `ChartedSpace E0Y M`, `HasGroupoid M e0Groupoid` (`Y = 𝕄 ⊕ 𝔼₀`; massive cones not in `Y`, as WP-41e/f), Hausdorff, second countable, connected (DEC-66). Harmless for gx, whose Section 4 uses `𝔼₀` only; no ruling covers it for B21 Lemmas 2.3/2.4 (question) |
+| `𝔼_{≥0}`-manifold (Lemmas 2.3, 2.4) | ✓ ruled (DEC-116 (b), DEC-77 (c)): `𝔼₀`-manifolds only, `ChartedSpace E0Y M`, `HasGroupoid M e0Groupoid` (`Y = 𝕄 ⊕ 𝔼₀`; massive cones not in `Y`, as WP-41e/f), Hausdorff, second countable, connected (DEC-66) |
 | globally hyperbolic | ✓ `(CE M).GloballyHyperbolic`; the Cauchy surface is **derived** (`exists_isCauchySurface_of_globalBTZ`, `CylChartData.exists_cauchy_subset_W0`), not assumed |
 | Cauchy-maximal | ✓ read (DEC-77(c)): `IsE0CauchyMaximal` = `Dev.IsETTMaximal` |
-| spear neighbourhood, `φ(p) = (−2R,0,0)` | ⚠ read: `ψ = φ⁻¹` an injective `𝔼₀`-morphism on an open `W ⊇ 𝒮`, vertex `(v,0)`, `v` free; head/shaft corrected (finding) |
-| « neighbourhood of `]p,+∞[` » | ✓ `IsSpearNbhd.exists_ray_mem_nhds` |
+| spear neighbourhood, `φ(p) = (−2R,0,0)` | ✓ ruled (DEC-116 (c)): `ψ = φ⁻¹` an injective `𝔼₀`-morphism on an open `W ⊇ 𝒮`, vertex `(v,0)`, `v` free; head `{f = v, r ≤ R}`, shaft `{r = R, τ ≥ v + R/2}` (`frontier_spear`; the printed formulas fit neither the printed vertex nor each other, finding) |
+| Def 2.1: `𝔼_{≥0}`-manifold | ✓ read (extension of DEC-116 (b), question): `𝔼₀`-manifolds only (B21 uses spear neighbourhoods only in Lemmas 2.3/2.4 and §2.2, all `𝔼₀`) |
+| Def 2.1: « the boundary of `𝒰` is the head ∪ the shaft » (l.617) | ✓ read as part of the definition (audit option (a)): the field `IsSpearNbhd.isClosed`, equivalent for every spear chart in every `𝔼₀`-manifold to `∂𝒰 = ψ(head ∪ shaft)` (`frontier_spearImage_eq_iff_isClosed`, via `interior_spearImage`); hence `IsSpearNbhd.frontier_eq` with no global hypothesis; in `𝔼₀` `frontier_spear`. For GH `M` (Lemmas 2.3/2.4) the field is automatic: `isClosed_spearImage` (`axis_noLimit` + `exists_tendsto_of_monotone`), `IsSpearNbhd.of_chart`, `isSpearNbhd_iff_chart` — so Lemmas 2.3/2.4 are unchanged in content |
+| « neighbourhood of `]p,+∞[` » | ✓ of the chart ray `ψ(]v,+∞[)`: `IsSpearNbhd.exists_ray_mem_nhds`; of `]p,+∞[ ⊆ Δ` itself for GH `M`: `IsSpearNbhd.mem_nhds_of_line` (via `IsFullFutureBTZRay.exists_eq_of_line`, the chart ray covers `[p,+∞[`) |
 | CBG (hidden in « `M₂` embeds into `M` ») | ✓ `E0CBG.e0_cbg`; `hLine` (O2), `hSC` (O4) discharged in the `_e0` forms (`E0LM.e0_globalBTZ`, `E0LM.e0_secondCountable_of_cauchy`) |
 | Lemma 2.4: `M` GH | ✓ `hLM` (the BTZ lines of `M`) discharged by `E0LM.e0_globalBTZ` in `lem_add_BTZ_param_line_e0` (`M` connected, DEC-66) |
 | Lemma 2.4: « `Δ` admitting a spear neighbourhood », `p ∈ Δ ∩ I⁻(Σ)` | ✓ `lem_add_BTZ_param_line`: spear of vertex `q`, `p ∈ connectedComponentIn (S0 M) q` (`Δ` = component of `sing₀`); both cases proved |
-| Lemma 2.4: `τ_Σ` « smooth positive » | ⚠ `C⁰`: `ContinuousOn τ_Σ (closedBall 0 R′)` (smoothness needs `Σ` smooth spacelike; `Σ` is a topological Cauchy surface here); « positive » read as `τ_Σ > v + R′/2` |
-| Lemma 2.4: « in the shaft » | ⚠ read: the open region `τ > v + R′/2` above the rim of the head (Def 2.1's shaft is the boundary half-tube; B21 Prop 2.17, PDF l.1983, uses the conclusion as « a circle in the shaft ») |
+| Lemma 2.4: `τ_Σ` « smooth positive » | ⚠ `C⁰`, the strongest true form for B21's topological Cauchy surfaces (l.224): `ContinuousOn τ_Σ (closedBall 0 R′)`; smoothness is false without `Σ` smooth (paper counterexample `Σ = {τ = |Re z|/4}` in `𝔼₀`, every spear chart of the axis being a rotation-translation, B21 `prop:isom_strong`: `τ_Σ` is not differentiable at `0`; not formalized); « positive » read as `τ_Σ > v + R′/2` (DEC-116 (c)). Unruled: the row stays partial |
+| Lemma 2.4: « in the shaft » | ✓ ruled (DEC-116 (c)): the open region `τ > v + R′/2` above the rim of the head (B21 Prop 2.17, PDF l.1983, uses the conclusion as « a circle in the shaft ») |
 
 ## SCOPE (disclosed; 0 `sorry`)
 
@@ -128,9 +143,20 @@ these are cited results built here (DEC-23), not rows of the gx ledger. Rows tou
   (§4c: two-piece structure, mixed diamonds), `isCauchySurface_glued` (now with
   `[SecondCountableTopology M]`, which its only caller carries; past ends above `Π` converge in `𝒫`,
   `pastExtensible_gluePaper`) and the future case of `lem_add_BTZ_param_line` (§5's continuation).
-* What remains partial is readings, not proofs: `𝔼₀`-manifolds only (B21 states `𝔼_{≥0}`; gx §4 is
-  `𝔼₀`, DEC-77(c)); Def 2.1's corrected head/shaft and free vertex; Lemma 2.4's `τ_Σ` continuous
-  (smoothness needs a smooth `Σ`) and « in the shaft » read as `τ > v + R′/2`.
+* WP-46b (DEC-116 (b)(c)): the readings `𝔼₀`-manifolds only, Def 2.1's free
+  vertex and corrected head/shaft, and « in the shaft » = `τ > v + R′/2` are ruled; `lem:tube`
+  and Def 2.1 close and are marked; the full future BTZ rays close, unmarked (reading unruled).
+  Fixer round 1: Def 2.1's boundary assertion proved **in `M`** (GH). Fixer round 2 (audit major,
+  option (a)): the sentence is the field `IsSpearNbhd.isClosed` (equivalent to it in every
+  `𝔼₀`-manifold, automatic in GH `M`); `IsSpearNbhd.of_ray` gains `[HasGroupoid M e0Groupoid]`,
+  `CylChartData.exists_spear_below` and `IsE0CauchyMaximal.isSpearNbhd_of_spearDevelopment` gain
+  `hGH` (both internal, GH callers only); `IsSpearNbhd.frontier_eq` loses its `hGH`/`T2Space`
+  (strengthened); §4 (`lem:tube`) moved after §5 so that it can use `isClosed_spearImage`.
+* What remains partial: Lemma 2.4's `τ_Σ` is continuous, not smooth. B21's Cauchy surfaces are
+  topological (l.224) and its proof's transversality (l.729) uses `Σ` smooth spacelike; for a
+  topological (even piecewise-smooth spacelike) `Σ` the smooth conclusion is false (the kinked
+  `Σ = {τ = |Re z|/4}` of `𝔼₀`). The `C¹` path of gx §4 (DEC-107, DEC-117) takes the `C¹`-ness of
+  the rim circle from `IsE0C1SpacelikeCauchy.rim` (`GX.BTZ.Surgery`), not from Lemma 2.4.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; lean-causal `ca2ad78`
 (`lake-manifest.json`; imports `Causal.SingularGeroch`, strict, DEC-33).
@@ -154,7 +180,7 @@ def vertex (v : ℝ) : E0 := (v, 0)
 
 theorem vertex_mem_axis (v : ℝ) : vertex v ∈ axis := rfl
 
-/-- **The spear of `𝔼₀` of vertex `(v,0)` and radius `R`** (B21 Def 2.1, `BTZ_1.tex:607`):
+/-- **The spear of `𝔼₀` of vertex `(v,0)` and radius `R`** (B21 Def 2.1, `BTZ_1.tex:616`):
 `J⁺((v,0)) ∩ {r ≤ R} = {f ≥ v, r ≤ R}`, `f = τ − r/2` (`spear_eq_Jplus_inter`). -/
 def spear (v R : ℝ) : Set E0 := {x | v ≤ fcoord x ∧ rad x ≤ R}
 
@@ -236,7 +262,7 @@ theorem interior_spear {v R : ℝ} (hR : 0 < R) :
       ((isOpen_lt continuous_const continuous_fcoord).inter
         (isOpen_lt continuous_rad continuous_const))
 
-/-- **The boundary of a spear is its head and its shaft** (Def 2.1, l.614–615, in the corrected
+/-- **The boundary of a spear is its head and its shaft** (Def 2.1, l.617, in the corrected
 form: the head is the cone piece `{f = v, r ≤ R}`, the shaft the half-tube `{r = R, τ ≥ v + R/2}`;
 the printed `{r = 2(τ − R)}` and `{τ ≥ 0}` do not fit the printed vertex `(−2R, 0, 0)`). -/
 theorem frontier_spear {v R : ℝ} (hR : 0 < R) :
@@ -358,13 +384,19 @@ noncomputable def yAxis (v t : ℝ) : E0Y := paperInY ((v + t, 0) : E0)
 variable {M : Type} [TopologicalSpace M] [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid]
 
 /-- **A spear neighbourhood around the BTZ line through `p`, of vertex `p` and radius `R`**
-(B21 Def 2.1, `BTZ_1.tex:604–614`): a subset `U = ψ(S)` of `M`, `S = J⁺((v,0)) ∩ {r ≤ R}` the
+(B21 Def 2.1, `BTZ_1.tex:611–620`): a subset `U = ψ(S)` of `M`, `S = J⁺((v,0)) ∩ {r ≤ R}` the
 spear of `𝔼₀`, for an injective `𝔼₀`-morphism `ψ` defined on an open neighbourhood `W` of `S` in
 `Y`, sending the vertex to `p`. The paper's « singular `𝔼`-isomorphism `φ : 𝒰 → 𝒱` » is
 `ψ⁻¹`; the vertex's `τ`-coordinate `v` is free (the paper's `(−2R, 0, 0)` is a normalisation by a
 `τ`-translation, and is inconsistent with its own head formula: finding). -/
 structure IsSpearNbhd (p : M) (R : ℝ) (U : Set M) : Prop where
   pos : 0 < R
+  /-- B21 Def 2.1's sentence « the boundary of `𝒰` is the union of the head and the shaft »
+  (l.617), read as part of the definition (WP-46b fixer round 2, audit option (a)): given
+  `chart`, it is **equivalent** to `IsClosed U` (`frontier_spearImage_eq_iff_isClosed`, no global
+  hypothesis; then `IsSpearNbhd.frontier_eq`), and it is **automatic** in a globally hyperbolic `M`
+  (`isClosed_spearImage`, `IsSpearNbhd.of_chart`, `isSpearNbhd_iff_chart`). -/
+  isClosed : IsClosed U
   chart : ∃ (v : ℝ) (W : Set E0Y) (ψ : E0Y → M), IsOpen W ∧ spearY v R ⊆ W ∧ IsE0Mor ψ W ∧
     InjOn ψ W ∧ ψ (yVertex v) = p ∧ U = ψ '' spearY v R
 
@@ -431,6 +463,14 @@ theorem continuous_paperInY : Continuous paperInY := by
 theorem isOpen_paperInY_image {A : Set E0} (hA : IsOpen A) : IsOpen (paperInY '' A) := by
   have := paperInY.isOpen_image_source_inter hA
   rwa [paperInY_source, univ_inter] at this
+
+/-- The spear `spearY v R` is closed in the model `Y` (`paperInY = Sum.inr ∘ toPaper.symm` is a
+closed embedding). -/
+theorem isClosed_spearY (v R : ℝ) : IsClosed (spearY v R) := by
+  have h : (⇑paperInY : E0 → E0Y) = Sum.inr ∘ GX.E0.toPaper.symm := funext paperInY_apply
+  rw [spearY, h]
+  exact (Topology.IsClosedEmbedding.inr.comp GX.E0.toPaper.symm.isClosedEmbedding).isClosedMap _
+    (isClosed_spear v R)
 
 theorem yAxis_mem_e0SingY (v t : ℝ) : yAxis v t ∈ e0SingY 0 := by
   rw [yAxis, paperInY_apply, E0LM.inr_mem_e0SingY_zero_iff, Homeomorph.apply_symm_apply]
@@ -549,8 +589,8 @@ end Rays
 of the vertex (`ψ = id`). -/
 theorem isSpearNbhd_model (v : ℝ) {R : ℝ} (hR : 0 < R) :
     IsSpearNbhd (M := E0Y) (yVertex v) R (spearY v R) :=
-  ⟨hR, v, univ, id, isOpen_univ, subset_univ _, Causal.CBG.liftPropOn_id isOpen_univ,
-    injOn_id _, rfl, (image_id _).symm⟩
+  ⟨hR, isClosed_spearY v R, v, univ, id, isOpen_univ, subset_univ _,
+    Causal.CBG.liftPropOn_id isOpen_univ, injOn_id _, rfl, (image_id _).symm⟩
 
 /-! ### §2c A chart cylinder at a BTZ point -/
 
@@ -754,7 +794,7 @@ end CauchyMaximal
 
 /-! ### §4a The pieces of the gluing of Lemma 2.3: `M₀ = M ∖ J⁺(φ⁻¹Π)` and the spear piece
 
-Normalisation (BTZ_1.tex:642–660, with the radii fixed): the chart `κ = chartAt p` reads a cylinder
+Normalisation (BTZ_1.tex:643–654, with the radii fixed): the chart `κ = chartAt p` reads a cylinder
 `{|τ − v| < ε, r < ε}` around `p = κ⁻¹(v, 0)`, causally convex in `M` (`CylChartData`; B21's
 « small enough so that `φ⁻¹Π` is acausal in `M` », l.647, in the stronger form the proof uses). The disc is
 `Π = {τ = v + ε/2, r ≤ ε/4}` (`glueDisc`), `M₀ = M ∖ J⁺(κ⁻¹Π)` (`CylChartData.W0`), the spear piece is the
@@ -1769,7 +1809,7 @@ def glueOverlap (v ε : ℝ) : Set E0 :=
 /-- **The overlap of the gluing is `𝒫 ∩ cyl ∩ {τ < v + ε/2}`** (normalisation of
 `CylChartData`, `mem_W0_iff`): so the part of `𝒫` not identified with `M₀` is
 `𝒫 ∖ cyl ∪ {τ ≥ v + ε/2}`, whose frontier against the overlap inside the chart cylinder is
-`Π` — B21's « the boundary of `M₀` in `M₂` is `Π` » (l.666). -/
+`Π` — B21's « the boundary of `M₀` in `M₂` is `Π` » (l.661). -/
 theorem CylChartData.mem_U10_iff (y : gluePY d.v d.ε) :
     y ∈ d.U10 hGH ↔ ∃ x ∈ glueOverlap d.v d.ε, paperInY x = y.1 := by
   obtain ⟨_, x, hxP, rfl⟩ := y
@@ -2930,7 +2970,7 @@ All four are stated for a `CylChartData`, i.e. **under B21's normalisation** (`B
 the chart cylinder is causally convex in `M` (`CylChartData.convex`, obtained from strong
 causality in `exists_cylChartData`), so `κ⁻¹Π` is acausal (`CylChartData.isAcausal_K`) and the
 overlap is exactly `𝒫 ∩ cyl ∩ {τ < v + ε/2}` (`CylChartData.mem_U10_iff`). This is what makes
-the frontier of `M₀` in `M₂` the disc `Π` (B21 l.666), on which the `c₀ ∪ c₁` argument rests;
+the frontier of `M₀` in `M₂` the disc `Π` (B21 l.661), on which the `c₀ ∪ c₁` argument rests;
 for a chart cylinder chosen only inside the chart target the overlap could be smaller (a causal
 curve leaving the cylinder from `κ⁻¹Π` and returning below `Π` removes the points it reaches
 from `M₀`, and they stay as extra points of `𝒫`), and the two glued leaves would not follow
@@ -3071,7 +3111,7 @@ theorem pastExtensible_gluePaper {v ε : ℝ} (hε : 0 < ε) {J : Set ℝ} {γ :
     (Causal.Flat.ordConnected_insert_of_isGLB hγ.ordConnected hglb) hq (E0.Jminus_ne_singleton hqP)
 
 /-- **No inextensible causal curve of `M₂` stays in `𝒫` above the disc** (B21's « `c₁` reaches
-`Π` », l.668): read in paper coordinates (through `ψN⁻¹` and `paperOfY`, inextensibility
+`Π` », l.663): read in paper coordinates (through `ψN⁻¹` and `paperOfY`, inextensibility
 transported by `IsEMorphismOn.inextensible_iff_invComp`), such a curve is an inextensible causal
 curve of `𝒫` at `τ ≥ v + ε/2`, and its past end converges in `𝒫` (`pastExtensible_gluePaper`). -/
 theorem CylChartData.not_inextensible_above {I : Set ℝ} {c : ℝ → (d.glueData hGH).Glued}
@@ -3140,7 +3180,7 @@ theorem CylChartData.not_inextensible_above {I : Set ℝ} {c : ℝ → (d.glueDa
   exact hpi.2 (hpast (pastExtensible_gluePaper d.pos hd
     ⟨-(Real.pi / 2), fun u hu => (hsub hu).1.le⟩ fun u hu => hτ _ (htan u hu)))
 
-/-- **`Σ` is a Cauchy surface of `M₂`** (B21 l.663–672: a past-inextensible causal curve of `M₂`
+/-- **`Σ` is a Cauchy surface of `M₂`** (B21 l.660–666: a past-inextensible causal curve of `M₂`
 splits as `c₀ = c ∩ M₀`, `c₁ = c ∖ M₀`, `c₁` reaching `Π` and never `Σ`, `c₀` meeting `Σ` once).
 An inextensible curve meets `M₀` (`not_inextensible_above`); its component there is inextensible in
 `M₀`, where `Σ` is Cauchy (`isCauchySurfaceOn_W0`); two points of `Σ` on it are related in `M`,
@@ -3196,213 +3236,6 @@ theorem CylChartData.isCauchySurface_glued [SecondCountableTopology M] {S : Set 
 
 end GlueData
 
-/-! ### §4 B21 Lemma 2.3 (`lem:tube`): spear neighbourhoods in Cauchy-maximal `𝔼₀`-manifolds -/
-
-section Tube
-
-open E0CBG
-
-/-- **The output of the gluing in the proof of B21 Lemma 2.3** (`BTZ_1.tex:646–674`): a Cauchy
-sub-development `ι : M₀ → M` of `M` (the paper's `M₀ = M ∖ J⁺(φ⁻¹Π)`, through which `p = ι p₀`
-is reached), and a Cauchy development `emb : M₀ → N` of `M₀` (the paper's
-`M₂ = (M₀ ⊔ 𝒮)/∼`) carrying a spear chart `ψ` of vertex `emb p₀`. -/
-structure SpearDevelopment (M : Type) [TopologicalSpace M] [ChartedSpace E0Y M] (p : M) where
-  /-- The Cauchy sub-development `M₀`. -/
-  M₀ : Type
-  [top₀ : TopologicalSpace M₀]
-  [t2₀ : T2Space M₀]
-  [conn₀ : ConnectedSpace M₀]
-  [sc₀ : SecondCountableTopology M₀]
-  [cs₀ : ChartedSpace E0Y M₀]
-  [hg₀ : HasGroupoid M₀ e0Groupoid]
-  /-- The development `M₂` of `M₀` containing the spear. -/
-  N : Type
-  [topN : TopologicalSpace N]
-  [t2N : T2Space N]
-  [connN : ConnectedSpace N]
-  [scN : SecondCountableTopology N]
-  [csN : ChartedSpace E0Y N]
-  [hgN : HasGroupoid N e0Groupoid]
-  ι : M₀ → M
-  isCauchyEmbedding_ι : Causal.IsCauchyEmbedding (CE M₀) (CE M) ι
-  isE0Mor_ι : IsE0Mor ι univ
-  emb : M₀ → N
-  isCauchyEmbedding_emb : Causal.IsCauchyEmbedding (CE M₀) (CE N) emb
-  isE0Mor_emb : IsE0Mor emb univ
-  R : ℝ
-  pos : 0 < R
-  v : ℝ
-  W : Set E0Y
-  isOpen_W : IsOpen W
-  spear_subset : spearY v R ⊆ W
-  ψ : E0Y → N
-  isE0Mor_ψ : IsE0Mor ψ W
-  injOn_ψ : InjOn ψ W
-  p₀ : M₀
-  ι_p₀ : ι p₀ = p
-  ψ_vertex : ψ (yVertex v) = emb p₀
-
-attribute [instance] SpearDevelopment.top₀ SpearDevelopment.t2₀ SpearDevelopment.conn₀
-  SpearDevelopment.sc₀ SpearDevelopment.cs₀ SpearDevelopment.hg₀ SpearDevelopment.topN
-  SpearDevelopment.t2N SpearDevelopment.connN SpearDevelopment.scN SpearDevelopment.csN
-  SpearDevelopment.hgN
-
-variable
-  (hLine : ∀ (M : Type) [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
-    [SecondCountableTopology M] [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid],
-    E0LM.E0GlobalBTZ (Causal.CBG.chartedCausality E0LM.D M) (Causal.CBG.chartedSing e0SingY M 0))
-  (hSC : ∀ {M : Type} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [ChartedSpace E0Y M]
-    [HasGroupoid M e0Groupoid], (Causal.CBG.chartedCausality E0LM.D M).GloballyHyperbolic →
-    ∀ S : Set M, (Causal.CBG.chartedCausality E0LM.D M).IsCauchySurface S →
-    SecondCountableTopology S → SecondCountableTopology M)
-
-variable {M : Type} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M]
-  [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid]
-
-include hLine hSC in
-/-- **The last step of B21 Lemma 2.3** (`BTZ_1.tex:673–674`): « `M₀ → M₂` is a Cauchy-embedding,
-since `M` is Cauchy-maximal `M₂` embeds into `M`. The spear `𝒮` thus embeds in `M` around `Δ` »
-— the embedding is `IsE0CauchyMaximal.exists_morphism_of_dev` (CBG universality), and the spear
-chart of `M₂` composed with it is a spear chart of `M`. -/
-theorem IsE0CauchyMaximal.isSpearNbhd_of_spearDevelopment (hmax : IsE0CauchyMaximal M) {p : M}
-    (D : SpearDevelopment M p) : ∃ R U, IsSpearNbhd p R U := by
-  let Nd : Causal.CBG.Dev (e0Geometry hLine hSC).toPreGeometry (e0Str hLine hSC D.M₀) :=
-    { carrier := D.N
-      str := e0Str hLine hSC D.N
-      emb := D.emb
-      isCauchyEmbedding := D.isCauchyEmbedding_emb
-      isMor := D.isE0Mor_emb }
-  obtain ⟨F, hF, hFe, hFi⟩ := IsE0CauchyMaximal.exists_morphism_of_dev hLine hSC hmax D.ι
-    D.isCauchyEmbedding_ι D.isE0Mor_ι Nd
-  have hF' : IsE0Mor F univ := hF
-  refine ⟨D.R, F '' (D.ψ '' spearY D.v D.R), D.pos, D.v, D.W, F ∘ D.ψ, D.isOpen_W, D.spear_subset,
-    Causal.CBG.liftPropOn_comp D.isOpen_W isOpen_univ hF' D.isE0Mor_ψ (mapsTo_univ _ _),
-    hFi.comp_injOn D.injOn_ψ, ?_, by rw [image_comp]⟩
-  change F (D.ψ (yVertex D.v)) = p
-  have h1 : D.ψ (yVertex D.v) = D.emb D.p₀ := D.ψ_vertex
-  exact (congrArg F h1).trans ((congrFun hFe D.p₀).trans D.ι_p₀)
-
-include hLine hSC in
-/-- **`M₀ → M` is a Cauchy embedding** (the inclusion of the past set `M₀`): `M₀` is globally
-hyperbolic (causally convex in `M`, `Geometry.causality_restrict`), and the level set
-`T = a` below `κ⁻¹Π` is a Cauchy surface of `M` and of `M₀`. -/
-theorem CylChartData.isCauchyEmbedding_val {p : M} (d : CylChartData p)
-    (hGH : (CE M).GloballyHyperbolic) :
-    Causal.IsCauchyEmbedding (CE (d.W0o hGH)) (CE M) (Subtype.val : d.W0o hGH → M) := by
-  have hres := Causal.CBG.Geometry.causality_restrict (𝔊 := e0Geometry hLine hSC)
-    (e0Str hLine hSC M) (d.W0o hGH)
-  have hCE : CE (d.W0o hGH) = ((CE M).restrict (d.W0o hGH)).toSubtype := hres
-  obtain ⟨S, hSW, hS⟩ := d.exists_cauchy_subset_W0 hGH (hLine M)
-  have hval := d.isEMorphism_val hGH
-  have hU : ((d.W0o hGH : Opens M) : Set M) =
-      Subtype.val '' ((⊤ : Opens (d.W0o hGH)) : Set (d.W0o hGH)) := by
-    rw [Opens.coe_top, image_univ, Subtype.range_coe]
-  have himg : Subtype.val '' (Subtype.val ⁻¹' S : Set (d.W0o hGH)) = S := by
-    ext x
-    exact ⟨fun ⟨y, hy, hyx⟩ => hyx ▸ hy, fun hx => ⟨⟨x, hSW hx⟩, hx, rfl⟩⟩
-  refine ⟨?_, hGH, hval, Subtype.val_injective, Subtype.val ⁻¹' S, ?_, by rw [himg]; exact hS⟩
-  · rw [hCE]; exact Causal.Causality.globallyHyperbolic_toSubtype (d.globallyHyperbolicOn_W0 hGH)
-  · refine (hval.isCauchySurfaceOn_image_iff Subtype.val_injective.injOn le_rfl hU
-      (subset_univ _)).2 ?_
-    rw [himg]
-    exact d.isCauchySurfaceOn_W0 hGH hSW hS
-
-include hLine hSC in
-/-- **The gluing of B21 Lemma 2.3** (`BTZ_1.tex:646–672`): around every BTZ point `p` of a
-globally hyperbolic `𝔼₀`-manifold there is a `SpearDevelopment`. Built: `M₀ = M ∖ J⁺(κ⁻¹Π)`
-(`CylChartData.W0o`), `M₂` the `Causal.CBG.FamilyGlueData` gluing of `M₀` and the spear piece
-`𝒫` along `κ` (`CylChartData.glueData`), its atlas `FamilyGlueData.chartedSpace`
-(`Causal.CBG.gluedChartedSpace`) with transitions in the groupoid (`glue_hasGroupoid`), Hausdorff
-(`t2Space_glued`, closed graph), second countable, connected, `M₀ → M` a Cauchy embedding
-(`isCauchyEmbedding_val`), the spear chart `ψN` of vertex `p`, `M₀` connected
-(`connectedSpace_W0`) and the level set Cauchy in `M₀` (`isCauchySurfaceOn_W0`), `M₂` globally
-hyperbolic (`globallyHyperbolic_glued`) with `Σ` a Cauchy surface (`isCauchySurface_glued`). -/
-theorem exists_spearDevelopment (hGH : (CE M).GloballyHyperbolic) {p : M} (hp : p ∈ S0 M) :
-    Nonempty (SpearDevelopment M p) := by
-  obtain ⟨d⟩ := exists_cylChartData hGH hp
-  letI := d.glueCS hGH
-  haveI := d.glue_hasGroupoid hGH
-  haveI := d.t2Space_glued hGH
-  haveI := d.secondCountable_glued hGH
-  haveI : ConnectedSpace (d.W0o hGH) := d.connectedSpace_W0 hGH (hLine M)
-  haveI := d.connectedSpace_glued hGH
-  have hι := d.isCauchyEmbedding_val hLine hSC hGH
-  obtain ⟨S, hSW, hS⟩ := d.exists_cauchy_subset_W0 hGH (hLine M)
-  have hemb : IsE0Mor ((d.glueData hGH).ι false : d.W0o hGH → (d.glueData hGH).Glued) univ :=
-    d.glue_liftPropOn_ι hGH false
-  have hembE : Causal.IsEMorphism (CE (d.W0o hGH)) (CE (d.glueData hGH).Glued)
-      ((d.glueData hGH).ι false) := isEMorphismOn_of_isE0Mor (W := ⊤) hemb
-  have hSsub : (CE (d.W0o hGH)).IsCauchySurface (Subtype.val ⁻¹' S : Set (d.W0o hGH)) := by
-    have hval := d.isEMorphism_val hGH
-    have hU : ((d.W0o hGH : Opens M) : Set M) =
-        Subtype.val '' ((⊤ : Opens (d.W0o hGH)) : Set (d.W0o hGH)) := by
-      rw [Opens.coe_top, image_univ, Subtype.range_coe]
-    refine (hval.isCauchySurfaceOn_image_iff Subtype.val_injective.injOn le_rfl hU
-      (subset_univ _)).2 ?_
-    have himg : Subtype.val '' (Subtype.val ⁻¹' S : Set (d.W0o hGH)) = S := by
-      ext x
-      exact ⟨fun ⟨y, hy, hyx⟩ => hyx ▸ hy, fun hx => ⟨⟨x, hSW hx⟩, hx, rfl⟩⟩
-    rw [himg]
-    exact d.isCauchySurfaceOn_W0 hGH hSW hS
-  exact ⟨{ M₀ := d.W0o hGH
-           N := (d.glueData hGH).Glued
-           ι := Subtype.val
-           isCauchyEmbedding_ι := hι
-           isE0Mor_ι := isE0Mor_val _
-           emb := (d.glueData hGH).ι false
-           isCauchyEmbedding_emb := ⟨hι.globallyHyperbolic_source, d.globallyHyperbolic_glued hGH,
-             hembE, (d.glueData hGH).injective_ι false, _, hSsub,
-             d.isCauchySurface_glued hGH hSW hS⟩
-           isE0Mor_emb := hemb
-           R := d.ε / 8
-           pos := by linarith [d.pos]
-           v := d.v
-           W := gluePY d.v d.ε
-           isOpen_W := (gluePY d.v d.ε).isOpen
-           spear_subset := d.spearY_subset
-           ψ := d.ψN hGH
-           isE0Mor_ψ := d.isE0Mor_ψN hGH
-           injOn_ψ := d.injOn_ψN hGH
-           p₀ := d.pW0 hGH
-           ι_p₀ := rfl
-           ψ_vertex := d.ψN_vertex hGH }⟩
-
-/-- **A globally hyperbolic `𝔼₀`-manifold has a Cauchy surface** (the strict
-`Causal.Causality.SingularFlatAxioms.geroch_sing_i_imp_iii`, from `SingularFlatAxioms` — given by its BTZ lines
-`hLM`, `E0LM.e0_singularFlatAxioms_of` — and the local admissible measures
-`E0LM.e0_modelMeasures`). Used to drop the Cauchy-surface hypothesis of Lemma 2.3 (audit round 1). -/
-theorem exists_isCauchySurface_of_globalBTZ {N : Type} [TopologicalSpace N] [T2Space N]
-    [SecondCountableTopology N] [ChartedSpace E0Y N] [HasGroupoid N e0Groupoid]
-    (hLM : E0LM.E0GlobalBTZ (CE N) (S0 N)) (hGH : (CE N).GloballyHyperbolic) :
-    ∃ S : Set N, (CE N).IsCauchySurface S := by
-  letI : MeasurableSpace N := borel N
-  haveI : BorelSpace N := ⟨rfl⟩
-  exact (E0LM.e0_singularFlatAxioms_of E0.chartIso_mem_e0Groupoid hLM).geroch_sing_i_imp_iii
-    (E0LM.e0_modelMeasures N hGH) hGH
-
-include hLine hSC in
-/-- **B21 Lemma 2.3** (`lem:tube`, `BTZ_1.tex:635–638`): in a globally hyperbolic, Cauchy-maximal
-`𝔼₀`-manifold, every BTZ point `p` is the vertex of a spear neighbourhood around its BTZ line.
-Parameters `hLine`, `hSC`: those of CBG for `𝔼₀` (`E0CBG.e0Geometry`, WP-41f's (O2), (O4)). No
-Cauchy surface is assumed: the gluing builds its own (`CylChartData.exists_cauchy_subset_W0`,
-a level of the Cauchy time function of `geroch_sing_i_imp_ii`). -/
-theorem lem_tube (hGH : (CE M).GloballyHyperbolic) (hmax : IsE0CauchyMaximal M) {p : M}
-    (hp : p ∈ S0 M) : ∃ R U, IsSpearNbhd p R U := by
-  exact IsE0CauchyMaximal.isSpearNbhd_of_spearDevelopment hLine hSC hmax
-    (exists_spearDevelopment hLine hSC hGH hp).some
-
-include hLine hSC in
-/-- **Full future BTZ rays** (`RamcovGX.tex:2350`'s « the singular locus contains full future BTZ
-rays », correctly cited as B21 Lemma 2.3, not « Lemma 2.4 »: finding): in a globally hyperbolic
-Cauchy-maximal `𝔼₀`-manifold, from every BTZ point starts a full future BTZ ray. -/
-theorem exists_fullFutureBTZRay (hGH : (CE M).GloballyHyperbolic) (hmax : IsE0CauchyMaximal M)
-    {p : M} (hp : p ∈ S0 M) : ∃ γ : ℝ → M, IsFullFutureBTZRay p γ := by
-  obtain ⟨R, U, h⟩ := lem_tube hLine hSC hGH hmax hp
-  obtain ⟨γ, hγ, -⟩ := h.exists_ray
-  exact ⟨γ, hγ⟩
-
-end Tube
-
 /-! ### §5 B21 Lemma 2.4 (`lem:add_BTZ_param`): a Cauchy surface as a graph over the spear -/
 
 section AddBTZParam
@@ -3411,16 +3244,40 @@ open E0CBG
 
 variable {M : Type} [TopologicalSpace M] [ChartedSpace E0Y M]
 
+/-- **A closed piece of a closed spear image is closed**: if `ψ(spearY v R)` is closed in `M`
+(`ψ` an injective `𝔼₀`-morphism on an open `W ⊇ spearY v R`), so is `ψ(S')` for every closed
+`S' ⊆ spearY v R` of `Y` (`ψ` is an open map on `W`; no global hypothesis on `M`). -/
+theorem isClosed_image_spearY_of_subset [HasGroupoid M e0Groupoid] {v R : ℝ} {W : Set E0Y}
+    {ψ : E0Y → M} (hW : IsOpen W) (hsub : spearY v R ⊆ W) (hψ : IsE0Mor ψ W) (hinj : InjOn ψ W)
+    (hcl : IsClosed (ψ '' spearY v R)) {S' : Set E0Y} (hS' : IsClosed S')
+    (hS'S : S' ⊆ spearY v R) : IsClosed (ψ '' S') := by
+  have hE := Causal.CBG.isEMorphismOn_of_liftPropOn E0.chartIso_mem_e0Groupoid
+    E0.absolutelyMinimalOn_YBTZ (W := ⟨W, hW⟩) hψ
+  refine isClosed_of_closure_subset fun m hm => ?_
+  have hmU : m ∈ ψ '' spearY v R := hcl.closure_subset (closure_mono (image_mono hS'S) hm)
+  obtain ⟨y, hy, rfl⟩ := hmU
+  by_contra hyS'
+  have hyS'' : y ∉ S' := fun h => hyS' ⟨y, h, rfl⟩
+  have hNo : IsOpen (W ∩ S'ᶜ) := hW.inter hS'.isOpen_compl
+  have hopen := hE.isOpen_image ⟨_, hNo⟩ inter_subset_left
+  obtain ⟨_, ⟨a, ha, rfl⟩, ⟨b, hb, hab⟩⟩ :=
+    mem_closure_iff.1 hm _ hopen ⟨y, ⟨hsub hy, hyS''⟩, rfl⟩
+  exact ha.2 (by rw [hinj ha.1 (hsub (hS'S hb)) hab.symm]; exact hb)
+
 /-- **Moving the vertex up the ray**: a spear neighbourhood of vertex `q` gives one of vertex
 every point `γ t` of its ray, of the same radius (the first case of the proof of Lemma 2.4,
 « if `q` is in the past of `p` »). -/
-theorem IsSpearNbhd.of_ray {q : M} {R : ℝ} {U : Set M} (h : IsSpearNbhd q R U) :
+theorem IsSpearNbhd.of_ray [HasGroupoid M e0Groupoid] {q : M} {R : ℝ} {U : Set M}
+    (h : IsSpearNbhd q R U) :
     ∃ (v : ℝ) (W : Set E0Y) (ψ : E0Y → M), IsOpen W ∧ spearY v R ⊆ W ∧ IsE0Mor ψ W ∧
       InjOn ψ W ∧ ψ (yVertex v) = q ∧ ∀ t, 0 ≤ t → IsSpearNbhd (ψ (yAxis v t)) R
         (ψ '' spearY (v + t) R) := by
-  obtain ⟨v, W, ψ, hW, hSW, hψ, hinj, hq, -⟩ := h.chart
-  refine ⟨v, W, ψ, hW, hSW, hψ, hinj, hq, fun t ht => ⟨h.pos, v + t, W, ψ, hW,
-    (image_mono (spear_mono (by linarith) le_rfl)).trans hSW, hψ, hinj, rfl, rfl⟩⟩
+  obtain ⟨v, W, ψ, hW, hSW, hψ, hinj, hq, rfl⟩ := h.chart
+  have hsub : ∀ t, 0 ≤ t → spearY (v + t) R ⊆ spearY v R := fun t ht =>
+    image_mono (spear_mono (by linarith) le_rfl)
+  refine ⟨v, W, ψ, hW, hSW, hψ, hinj, hq, fun t ht => ⟨h.pos,
+    isClosed_image_spearY_of_subset hW hSW hψ hinj h.isClosed (isClosed_spearY _ _) (hsub t ht),
+    v + t, W, ψ, hW, (hsub t ht).trans hSW, hψ, hinj, rfl, rfl⟩⟩
 
 /-- **`≪` is irreflexive on a globally hyperbolic `𝔼₀`-manifold**: `I⁺(x) ∩ I⁻(x)` is open and,
 by causality, contained in `{x}`, while `x` is not isolated. -/
@@ -3455,7 +3312,7 @@ theorem isOpen_Iminus (A : Set M) : IsOpen ((CE M).Iminus ⊤ A) := by
   exact isOpen_biUnion fun a _ => (CE M).isOpen_lt_left ⊤ a
 
 /-- **B21 Lemma 2.4, proved part** (`BTZ_1.tex:685–695` and the second half of its proof,
-l.735–758): for a spear neighbourhood of vertex `p ∈ I⁻(Σ)`, after shrinking the radius,
+l.727–741): for a spear neighbourhood of vertex `p ∈ I⁻(Σ)`, after shrinking the radius,
 (a) `Σ` meets the spear only in its shaft region `τ > v + R′/2`, and (b) on each vertical null
 line `{z} × ℝ` of the spear it meets it at most once (the paper's « each `c_{θ₀,r₀}` intersects
 `Φ(Σ ∩ 𝒮′)` at most once »; here the vertical half of `c_{θ₀,r₀}` suffices). -/
@@ -4056,6 +3913,201 @@ theorem IsFullFutureBTZRay.exists_eq_of_line [HasGroupoid M e0Groupoid] [T2Space
     ⟨by rw [hh0]; exact hs, hst₁⟩
   exact ⟨t, ht.1, by rw [← hh t ht.1, hts]⟩
 
+/-! #### The boundary of a spear neighbourhood in `M` (B21 Def 2.1, l.617; WP-46b fixer)
+
+Def 2.1 asserts that the boundary of `𝒰 = ψ(𝒮)` **in `M`** is its head and its shaft. In the model
+this is `frontier_spear`; in `M` it needs `𝒰` **closed**, which is not local: a sequence of the
+spear either stays in a compact part `{τ ≤ T}` (whose image is compact, hence closed, `M` being
+Hausdorff) or climbs, and then every axis point `γ(s)` lies below its limit (`J⁺(γ s)` is closed);
+the ray `γ` would be a monotone curve in the compact diamond `J(γ 0, m)`, hence convergent
+(`exists_tendsto_of_monotone`), against `axis_noLimit`. So **global hyperbolicity** is used;
+it is the hypothesis of Lemmas 2.3/2.4, the only places B21 uses spear neighbourhoods. The
+interior is the image of the model interior (`ψ` an injective open map on `W`).
+
+WP-46b fixer round 2 (audit option (a)): the boundary sentence is read **as part of Def 2.1**,
+the field `IsSpearNbhd.isClosed`; `frontier_spearImage_eq_iff_isClosed` proves the field
+equivalent to the sentence for every spear chart in every `𝔼₀`-manifold, so
+`IsSpearNbhd.frontier_eq` holds with no global hypothesis, and `isClosed_spearImage` makes the
+field automatic in GH `M` (`IsSpearNbhd.of_chart`, `isSpearNbhd_iff_chart`). -/
+
+/-- The part `{τ ≤ T}` of a spear of `𝔼₀` is compact. -/
+theorem isCompact_spear_inter_le (v R T : ℝ) : IsCompact (spear v R ∩ {x : E0 | x.1 ≤ T}) := by
+  refine ((isCompact_Icc (a := v) (b := T)).prod
+    (isCompact_closedBall (0 : ℂ) R)).of_isClosed_subset ((isClosed_spear v R).inter (isClosed_le continuous_fst continuous_const)) ?_
+  rintro x ⟨⟨h1, h2⟩, h3⟩
+  simp only [fcoord] at h1
+  refine ⟨⟨by linarith [rad_nonneg x], h3⟩, ?_⟩
+  rw [Metric.mem_closedBall, dist_zero_right]; exact h2
+
+/-- **The image of a spear under an injective `𝔼₀`-morphism is closed in a globally hyperbolic
+`M`** (B21 Def 2.1: the boundary of `𝒰` is contained in `𝒰`). -/
+theorem isClosed_spearImage [HasGroupoid M e0Groupoid] [T2Space M]
+    (hGH : (CE M).GloballyHyperbolic) {v R : ℝ} (hR : 0 ≤ R) {W : Set E0Y} {ψ : E0Y → M}
+    (hW : IsOpen W) (hsub : spearY v R ⊆ W) (hψ : IsE0Mor ψ W) (hinj : InjOn ψ W) :
+    IsClosed (ψ '' spearY v R) := by
+  have hT := E0LM.e0_tarentin (M := M)
+  have hψc : ContinuousOn ψ W := fun x hx => (hψ x hx).continuousWithinAt
+  have hPo : IsOpen (paperInY ⁻¹' W) := hW.preimage continuous_paperInY
+  set O : Opens E0 := ⟨paperInY ⁻¹' W, hPo⟩
+  have hSO : spear v R ⊆ O := fun x hx => hsub ⟨x, hx, rfl⟩
+  set A : ℝ → Set M := fun T => ψ '' (paperInY '' (spear v R ∩ {x | x.1 ≤ T})) with hAdef
+  set B : ℝ → Set M := fun T => ψ '' (paperInY '' (spear v R ∩ {x | T ≤ x.1})) with hBdef
+  have hA : ∀ T, IsClosed (A T) := fun T =>
+    (((isCompact_spear_inter_le v R T).image continuous_paperInY).image_of_continuousOn
+      (hψc.mono (by rintro _ ⟨x, hx, rfl⟩; exact hsub ⟨x, hx.1, rfl⟩))).isClosed
+  have hAS : ∀ T, A T ⊆ ψ '' spearY v R := fun T => image_mono (image_mono inter_subset_left)
+  have hAB : ∀ T, ψ '' spearY v R = A T ∪ B T := by
+    intro T
+    simp only [hAdef, hBdef, spearY, ← image_union, ← inter_union_distrib_left]
+    congr 2
+    ext x
+    simp only [mem_inter_iff, mem_union, mem_setOf_eq, iff_self_and]
+    intro _; exact le_total _ _
+  -- the high part of the spear lies above the axis point `γ s`
+  have hB : ∀ s, 0 ≤ s → B (v + s + R / 2) ⊆ (CE M).Jplus ⊤ {ψ (yAxis v s)} := by
+    rintro s hs _ ⟨_, ⟨x, hx, rfl⟩, rfl⟩
+    refine ⟨_, rfl, ?_⟩
+    refine le_of_isE0Mor_paper hW hψ (U := O) subset_rfl
+      (le_of_le_top_of_mem_spear hSO (axis_mem_spear hR (by linarith)) hx.1 ?_)
+    rw [le_top_iff, le_axis_iff rfl]
+    have h1 := hx.1.2
+    have h2 : v + s + R / 2 ≤ x.1 := hx.2
+    simp only [fcoord]; linarith
+  refine isClosed_of_closure_subset fun m hm => ?_
+  by_contra hmS
+  have hmB : ∀ s, 0 ≤ s → (CE M).le ⊤ (ψ (yAxis v s)) m := by
+    intro s hs
+    rw [hAB (v + s + R / 2), closure_union, (hA _).closure_eq] at hm
+    rcases hm with hm | hm
+    · exact absurd (hAS _ hm) hmS
+    · have := closure_minimal (hB s hs) (hGH.isClosed_Jplus_singleton hT _) hm
+      simpa using this
+  have hray : IsFullFutureBTZRay (ψ (yVertex v)) (fun t => ψ (yAxis v t)) :=
+    ⟨v, W, ψ, hW, fun t ht => hsub (yAxis_mem_spearY hR ht), hψ, hinj, rfl, fun _ => rfl⟩
+  have hmonoA : ∀ s t, 0 ≤ s → s ≤ t → (CE M).le ⊤ (ψ (yAxis v s)) (ψ (yAxis v t)) :=
+    fun s t hs hst => hray.le hs hst
+  obtain ⟨q', hq'⟩ := exists_tendsto_of_monotone hGH hmonoA (hGH.2 (ψ (yAxis v 0)) m)
+    fun t ht => Causal.Causality.mem_diamond.2 ⟨hmonoA 0 t le_rfl ht, hmB t ht⟩
+  exact axis_noLimit hW (fun t ht => hsub (yAxis_mem_spearY hR ht)) hψ hinj q' hq'
+
+/-- **The interior of a spear image is the image of the model interior** `{f > v, r < R}`
+(`ψ` is an injective open map on the open set `W`; no global hypothesis on `M`). -/
+theorem interior_spearImage [HasGroupoid M e0Groupoid] {v R : ℝ} (hR : 0 < R) {W : Set E0Y}
+    {ψ : E0Y → M} (hW : IsOpen W) (hsub : spearY v R ⊆ W) (hψ : IsE0Mor ψ W)
+    (hinj : InjOn ψ W) :
+    interior (ψ '' spearY v R) = ψ '' (paperInY '' {x | v < fcoord x ∧ rad x < R}) := by
+  have hψc : ContinuousOn ψ W := fun x hx => (hψ x hx).continuousWithinAt
+  apply Subset.antisymm
+  · intro y hy
+    obtain ⟨_, ⟨x, hx, rfl⟩, rfl⟩ := interior_subset hy
+    set O' : Set E0 := paperInY ⁻¹' (W ∩ ψ ⁻¹' interior (ψ '' spearY v R)) with hO'def
+    have hO' : IsOpen O' :=
+      (hψc.isOpen_inter_preimage hW isOpen_interior).preimage continuous_paperInY
+    have hxO' : x ∈ O' := ⟨hsub ⟨x, hx, rfl⟩, hy⟩
+    have hO'S : O' ⊆ spear v R := by
+      intro x' hx'
+      obtain ⟨_, ⟨x'', hx'', rfl⟩, he⟩ := interior_subset hx'.2
+      have h1 := hinj (hsub ⟨x'', hx'', rfl⟩) hx'.1 he
+      have h2 := paperInY.injOn (by simp) (by simp) h1
+      exact h2 ▸ hx''
+    have hxi : x ∈ interior (spear v R) := interior_maximal hO'S hO' hxO'
+    rw [interior_spear hR] at hxi
+    exact ⟨_, ⟨x, hxi, rfl⟩, rfl⟩
+  · have hOo : IsOpen {x : E0 | v < fcoord x ∧ rad x < R} :=
+      (isOpen_lt continuous_const continuous_fcoord).inter
+        (isOpen_lt continuous_rad continuous_const)
+    have hOS : {x : E0 | v < fcoord x ∧ rad x < R} ⊆ spear v R := fun x hx => ⟨hx.1.le, hx.2.le⟩
+    have hPW : paperInY '' {x : E0 | v < fcoord x ∧ rad x < R} ⊆ W :=
+      fun _ hy => hsub (image_mono hOS hy)
+    have hE := Causal.CBG.isEMorphismOn_of_liftPropOn E0.chartIso_mem_e0Groupoid
+      E0.absolutelyMinimalOn_YBTZ (W := ⟨W, hW⟩) hψ
+    have hopen := hE.isOpen_image ⟨_, isOpen_paperInY_image hOo⟩ hPW
+    exact interior_maximal (image_mono (image_mono hOS)) hopen
+
+/-- **B21 Def 2.1's boundary sentence is closedness** (no global hypothesis on `M`): for a spear
+chart `ψ`, `∂(ψ 𝒮) = ψ(head ∪ shaft)` **iff** `ψ 𝒮` is closed in `M` (the interior is always the
+image of the model interior, `interior_spearImage`, and `head ∪ shaft ⊆ 𝒮`). This is why
+`IsSpearNbhd.isClosed` is the paper's sentence. -/
+theorem frontier_spearImage_eq_iff_isClosed [HasGroupoid M e0Groupoid] {v R : ℝ} (hR : 0 < R)
+    {W : Set E0Y} {ψ : E0Y → M} (hW : IsOpen W) (hsub : spearY v R ⊆ W) (hψ : IsE0Mor ψ W)
+    (hinj : InjOn ψ W) :
+    frontier (ψ '' spearY v R) = ψ '' (paperInY '' (spearHead v R ∪ spearShaft v R)) ↔
+      IsClosed (ψ '' spearY v R) := by
+  have hpinj : Injective paperInY := fun a b h => paperInY.injOn (by simp) (by simp) h
+  have hint := interior_spearImage hR hW hsub hψ hinj
+  constructor
+  · intro hfr
+    refine isClosed_of_closure_subset ?_
+    rw [closure_eq_interior_union_frontier, hfr]
+    refine union_subset interior_subset (image_mono (image_mono ?_))
+    rw [← frontier_spear hR]
+    exact (isClosed_spear v R).frontier_subset
+  · intro hcl
+    rw [frontier, hcl.closure_eq, hint, ← frontier_spear hR, frontier,
+      (isClosed_spear v R).closure_eq, interior_spear hR, image_sdiff hpinj]
+    exact ((hinj.mono hsub).image_sdiff_subset
+      (image_mono fun x (hx : v < fcoord x ∧ rad x < R) => ⟨hx.1.le, hx.2.le⟩)).symm
+
+/-- **B21 Def 2.1 in `M`: the boundary of a spear neighbourhood is its head and its shaft**,
+`∂(ψ 𝒮) = ψ(head ∪ shaft)`, for a globally hyperbolic `M` (closedness, `isClosed_spearImage`). -/
+theorem frontier_spearImage [HasGroupoid M e0Groupoid] [T2Space M]
+    (hGH : (CE M).GloballyHyperbolic) {v R : ℝ} (hR : 0 < R) {W : Set E0Y} {ψ : E0Y → M}
+    (hW : IsOpen W) (hsub : spearY v R ⊆ W) (hψ : IsE0Mor ψ W) (hinj : InjOn ψ W) :
+    frontier (ψ '' spearY v R) = ψ '' (paperInY '' (spearHead v R ∪ spearShaft v R)) :=
+  (frontier_spearImage_eq_iff_isClosed hR hW hsub hψ hinj).2
+    (isClosed_spearImage hGH hR.le hW hsub hψ hinj)
+
+/-- **In a globally hyperbolic `M`, a spear chart gives a spear neighbourhood**: the field
+`IsSpearNbhd.isClosed` (Def 2.1's boundary sentence) is automatic (`isClosed_spearImage`). -/
+theorem IsSpearNbhd.of_chart [HasGroupoid M e0Groupoid] [T2Space M]
+    (hGH : (CE M).GloballyHyperbolic) {p : M} {R : ℝ} {U : Set M} (hR : 0 < R)
+    (h : ∃ (v : ℝ) (W : Set E0Y) (ψ : E0Y → M), IsOpen W ∧ spearY v R ⊆ W ∧ IsE0Mor ψ W ∧
+      InjOn ψ W ∧ ψ (yVertex v) = p ∧ U = ψ '' spearY v R) : IsSpearNbhd p R U := by
+  refine ⟨hR, ?_, h⟩
+  obtain ⟨v, W, ψ, hW, hsub, hψ, hinj, -, rfl⟩ := h
+  exact isClosed_spearImage hGH hR.le hW hsub hψ hinj
+
+/-- **In a globally hyperbolic `M`, a spear neighbourhood is exactly a spear chart** (so the
+statements of Lemmas 2.3/2.4, all for GH `M`, are unchanged by the field `isClosed`). -/
+theorem isSpearNbhd_iff_chart [HasGroupoid M e0Groupoid] [T2Space M]
+    (hGH : (CE M).GloballyHyperbolic) {p : M} {R : ℝ} {U : Set M} :
+    IsSpearNbhd p R U ↔ 0 < R ∧ ∃ (v : ℝ) (W : Set E0Y) (ψ : E0Y → M), IsOpen W ∧
+      spearY v R ⊆ W ∧ IsE0Mor ψ W ∧ InjOn ψ W ∧ ψ (yVertex v) = p ∧ U = ψ '' spearY v R :=
+  ⟨fun h => ⟨h.pos, h.chart⟩, fun h => IsSpearNbhd.of_chart hGH h.1 h.2⟩
+
+/-- **B21 Def 2.1, in every `𝔼₀`-manifold: a spear neighbourhood is closed, with interior the
+image of `{f > v, r < R}` and boundary the image of the head and the shaft** (l.617, with the
+corrected head/shaft of DEC-116 (c); no global hypothesis on `M`, the boundary sentence being the
+field `IsSpearNbhd.isClosed`, `frontier_spearImage_eq_iff_isClosed`). -/
+theorem IsSpearNbhd.frontier_eq [HasGroupoid M e0Groupoid] {p : M} {R : ℝ} {U : Set M}
+    (h : IsSpearNbhd p R U) :
+    ∃ (v : ℝ) (W : Set E0Y) (ψ : E0Y → M), IsOpen W ∧ spearY v R ⊆ W ∧ IsE0Mor ψ W ∧
+      InjOn ψ W ∧ ψ (yVertex v) = p ∧ U = ψ '' spearY v R ∧ IsClosed U ∧
+      interior U = ψ '' (paperInY '' {x | v < fcoord x ∧ rad x < R}) ∧
+      frontier U = ψ '' (paperInY '' (spearHead v R ∪ spearShaft v R)) := by
+  obtain ⟨v, W, ψ, hW, hsub, hψ, hinj, hp, rfl⟩ := h.chart
+  exact ⟨v, W, ψ, hW, hsub, hψ, hinj, hp, rfl, h.isClosed,
+    interior_spearImage h.pos hW hsub hψ hinj,
+    (frontier_spearImage_eq_iff_isClosed h.pos hW hsub hψ hinj).2 h.isClosed⟩
+
+/-- **A spear neighbourhood is a neighbourhood of `]p, +∞[` ⊆ `Δ`** (B21 Def 2.1, read on the BTZ
+line `Δ` itself rather than on the chart ray): for `γ` a parametrisation of `Δ` (the connected
+component of `sing₀` through `p`) as in `IsFullFutureBTZRay.exists_eq_of_line`, every `γ s`,
+`s > 0`, is a point of the chart ray strictly above `p`, hence an interior point
+(`IsSpearNbhd.exists_ray_mem_nhds`). -/
+theorem IsSpearNbhd.mem_nhds_of_line [HasGroupoid M e0Groupoid] [T2Space M]
+    (hGH : (CE M).GloballyHyperbolic) {p : M} {R : ℝ} {U : Set M} (h : IsSpearNbhd p R U)
+    {γ : ℝ → M} (hγ0 : γ 0 = p) (hγe : IsClosedEmbedding γ)
+    (hγc : (CE M).CausalCurveIn ⊤ univ γ) (hγr : range γ = connectedComponentIn (S0 M) p)
+    {s : ℝ} (hs : 0 < s) : U ∈ 𝓝 (γ s) := by
+  obtain ⟨r, hr, hU⟩ := h.exists_ray_mem_nhds
+  obtain ⟨t, ht, hrt⟩ := hr.exists_eq_of_line hGH hγ0 hγe hγc hγr hs.le
+  rcases ht.lt_or_eq with ht | ht
+  · rw [← hrt]; exact hU t ht
+  · subst ht
+    rw [hr.zero, ← hγ0] at hrt
+    exact absurd (hγe.injective hrt) hs.ne
+
 /-! #### The future case of Lemma 2.4 (WP-44d, DEC-108): continuation along the BTZ line
 
 B21 l.725–733 covers the segment `[p, q]` of the BTZ line by axis charts and glues them, after
@@ -4130,8 +4182,8 @@ attribute [local instance] btzE0Structure in
 /-- **The gluing step of B21 Lemma 2.4's future case**: if `b = κ⁻¹(w′, 0)`, a point of the axis
 of the chart cylinder of `a`, is the vertex of a spear neighbourhood, so is every axis point
 `κ⁻¹(u″, 0)` of the cylinder below it. -/
-theorem CylChartData.exists_spear_below [HasGroupoid M e0Groupoid] {a : M} (d : CylChartData a)
-    {R : ℝ} {U : Set M} {w' : ℝ}
+theorem CylChartData.exists_spear_below [HasGroupoid M e0Groupoid] [T2Space M] {a : M}
+    (d : CylChartData a) (hGH : (CE M).GloballyHyperbolic) {R : ℝ} {U : Set M} {w' : ℝ}
     (hU : IsSpearNbhd ((chartAt E0Y a).symm (paperInY ((w', 0) : E0))) R U)
     (hw' : ((w', 0) : E0) ∈ cyl (d.v - d.ε) (d.v + d.ε) d.ε)
     {u'' : ℝ} (hu1 : d.v - d.ε < u'') (hu2 : u'' ≤ w') :
@@ -4536,7 +4588,8 @@ theorem CylChartData.exists_spear_below [HasGroupoid M e0Groupoid] {a : M} (d : 
   have hvert : Φ (yVertex u) = κ.symm (paperInY ((u'', 0) : E0)) := by
     show Φ (paperInY ((u, 0) : E0)) = _
     rw [hΦ2 _ huSeg, ← hyu_eq, heyu]
-  exact ⟨R', Φ '' spearY u R', ⟨hR', u, W', Φ, hW'o, hsub', hΦmor, hΦinj, hvert, rfl⟩⟩
+  exact ⟨R', Φ '' spearY u R',
+    IsSpearNbhd.of_chart hGH hR' ⟨u, W', Φ, hW'o, hsub', hΦmor, hΦinj, hvert, rfl⟩⟩
 
 /-- **Continuation along the BTZ line** (B21 l.725–733, DEC-108): if the point `γ 0` of a BTZ line
 `γ` (continuous, in `sing₀`, future causal) is the vertex of a spear neighbourhood, so is every
@@ -4593,7 +4646,7 @@ theorem exists_spearNbhd_below [HasGroupoid M e0Groupoid] [T2Space M]
     have h := hγle t₂ t₁ (ht₂t₀.trans ht₀t₁)
     rw [← hτ₁, ← hτ₂] at h
     exact (calculus_le (d.le_model hτ₂C hτ₁C h)).2.2.1
-  obtain ⟨R₂, U₂, hU₂⟩ := d.exists_spear_below hU₁ hτ₁C hτ₂C.1 hτ₂τ₁
+  obtain ⟨R₂, U₂, hU₂⟩ := d.exists_spear_below hGH hU₁ hτ₁C hτ₂C.1 hτ₂τ₁
   rw [hτ₂] at hU₂
   have ht₂T : t₂ ∈ T := ⟨le_max_left _ _, ht₂t₀.trans ht₀0, R₂, U₂, hU₂⟩
   have ht₀t₂ : t₀ ≤ t₂ := csInf_le hTb ht₂T
@@ -4653,6 +4706,218 @@ theorem lem_add_BTZ_param_line [HasGroupoid M e0Groupoid] [T2Space M] [SecondCou
 
 end AddBTZParam
 
+/-! ### §4 B21 Lemma 2.3 (`lem:tube`): spear neighbourhoods in Cauchy-maximal `𝔼₀`-manifolds
+
+(Placed after §5, WP-46b fixer round 2: the spear chart it produces is closed in `M` by
+`isClosed_spearImage`, a §5′ lemma, which `IsSpearNbhd`'s `isClosed` field needs.) -/
+
+section Tube
+
+open E0CBG
+
+/-- **The output of the gluing in the proof of B21 Lemma 2.3** (`BTZ_1.tex:642–670`): a Cauchy
+sub-development `ι : M₀ → M` of `M` (the paper's `M₀ = M ∖ J⁺(φ⁻¹Π)`, through which `p = ι p₀`
+is reached), and a Cauchy development `emb : M₀ → N` of `M₀` (the paper's
+`M₂ = (M₀ ⊔ 𝒮)/∼`) carrying a spear chart `ψ` of vertex `emb p₀`. -/
+structure SpearDevelopment (M : Type) [TopologicalSpace M] [ChartedSpace E0Y M] (p : M) where
+  /-- The Cauchy sub-development `M₀`. -/
+  M₀ : Type
+  [top₀ : TopologicalSpace M₀]
+  [t2₀ : T2Space M₀]
+  [conn₀ : ConnectedSpace M₀]
+  [sc₀ : SecondCountableTopology M₀]
+  [cs₀ : ChartedSpace E0Y M₀]
+  [hg₀ : HasGroupoid M₀ e0Groupoid]
+  /-- The development `M₂` of `M₀` containing the spear. -/
+  N : Type
+  [topN : TopologicalSpace N]
+  [t2N : T2Space N]
+  [connN : ConnectedSpace N]
+  [scN : SecondCountableTopology N]
+  [csN : ChartedSpace E0Y N]
+  [hgN : HasGroupoid N e0Groupoid]
+  ι : M₀ → M
+  isCauchyEmbedding_ι : Causal.IsCauchyEmbedding (CE M₀) (CE M) ι
+  isE0Mor_ι : IsE0Mor ι univ
+  emb : M₀ → N
+  isCauchyEmbedding_emb : Causal.IsCauchyEmbedding (CE M₀) (CE N) emb
+  isE0Mor_emb : IsE0Mor emb univ
+  R : ℝ
+  pos : 0 < R
+  v : ℝ
+  W : Set E0Y
+  isOpen_W : IsOpen W
+  spear_subset : spearY v R ⊆ W
+  ψ : E0Y → N
+  isE0Mor_ψ : IsE0Mor ψ W
+  injOn_ψ : InjOn ψ W
+  p₀ : M₀
+  ι_p₀ : ι p₀ = p
+  ψ_vertex : ψ (yVertex v) = emb p₀
+
+attribute [instance] SpearDevelopment.top₀ SpearDevelopment.t2₀ SpearDevelopment.conn₀
+  SpearDevelopment.sc₀ SpearDevelopment.cs₀ SpearDevelopment.hg₀ SpearDevelopment.topN
+  SpearDevelopment.t2N SpearDevelopment.connN SpearDevelopment.scN SpearDevelopment.csN
+  SpearDevelopment.hgN
+
+variable
+  (hLine : ∀ (M : Type) [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
+    [SecondCountableTopology M] [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid],
+    E0LM.E0GlobalBTZ (Causal.CBG.chartedCausality E0LM.D M) (Causal.CBG.chartedSing e0SingY M 0))
+  (hSC : ∀ {M : Type} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [ChartedSpace E0Y M]
+    [HasGroupoid M e0Groupoid], (Causal.CBG.chartedCausality E0LM.D M).GloballyHyperbolic →
+    ∀ S : Set M, (Causal.CBG.chartedCausality E0LM.D M).IsCauchySurface S →
+    SecondCountableTopology S → SecondCountableTopology M)
+
+variable {M : Type} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M]
+  [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid]
+
+include hLine hSC in
+/-- **The last step of B21 Lemma 2.3** (`BTZ_1.tex:666–667`): « `M₀ → M₂` is a Cauchy-embedding,
+since `M` is Cauchy-maximal `M₂` embeds into `M`. The spear `𝒮` thus embeds in `M` around `Δ` »
+— the embedding is `IsE0CauchyMaximal.exists_morphism_of_dev` (CBG universality), and the spear
+chart of `M₂` composed with it is a spear chart of `M`. -/
+theorem IsE0CauchyMaximal.isSpearNbhd_of_spearDevelopment (hGH : (CE M).GloballyHyperbolic)
+    (hmax : IsE0CauchyMaximal M) {p : M}
+    (D : SpearDevelopment M p) : ∃ R U, IsSpearNbhd p R U := by
+  let Nd : Causal.CBG.Dev (e0Geometry hLine hSC).toPreGeometry (e0Str hLine hSC D.M₀) :=
+    { carrier := D.N
+      str := e0Str hLine hSC D.N
+      emb := D.emb
+      isCauchyEmbedding := D.isCauchyEmbedding_emb
+      isMor := D.isE0Mor_emb }
+  obtain ⟨F, hF, hFe, hFi⟩ := IsE0CauchyMaximal.exists_morphism_of_dev hLine hSC hmax D.ι
+    D.isCauchyEmbedding_ι D.isE0Mor_ι Nd
+  have hF' : IsE0Mor F univ := hF
+  refine ⟨D.R, F '' (D.ψ '' spearY D.v D.R), IsSpearNbhd.of_chart hGH D.pos
+    ⟨D.v, D.W, F ∘ D.ψ, D.isOpen_W, D.spear_subset,
+    Causal.CBG.liftPropOn_comp D.isOpen_W isOpen_univ hF' D.isE0Mor_ψ (mapsTo_univ _ _),
+    hFi.comp_injOn D.injOn_ψ, ?_, by rw [image_comp]⟩⟩
+  change F (D.ψ (yVertex D.v)) = p
+  have h1 : D.ψ (yVertex D.v) = D.emb D.p₀ := D.ψ_vertex
+  exact (congrArg F h1).trans ((congrFun hFe D.p₀).trans D.ι_p₀)
+
+include hLine hSC in
+/-- **`M₀ → M` is a Cauchy embedding** (the inclusion of the past set `M₀`): `M₀` is globally
+hyperbolic (causally convex in `M`, `Geometry.causality_restrict`), and the level set
+`T = a` below `κ⁻¹Π` is a Cauchy surface of `M` and of `M₀`. -/
+theorem CylChartData.isCauchyEmbedding_val {p : M} (d : CylChartData p)
+    (hGH : (CE M).GloballyHyperbolic) :
+    Causal.IsCauchyEmbedding (CE (d.W0o hGH)) (CE M) (Subtype.val : d.W0o hGH → M) := by
+  have hres := Causal.CBG.Geometry.causality_restrict (𝔊 := e0Geometry hLine hSC)
+    (e0Str hLine hSC M) (d.W0o hGH)
+  have hCE : CE (d.W0o hGH) = ((CE M).restrict (d.W0o hGH)).toSubtype := hres
+  obtain ⟨S, hSW, hS⟩ := d.exists_cauchy_subset_W0 hGH (hLine M)
+  have hval := d.isEMorphism_val hGH
+  have hU : ((d.W0o hGH : Opens M) : Set M) =
+      Subtype.val '' ((⊤ : Opens (d.W0o hGH)) : Set (d.W0o hGH)) := by
+    rw [Opens.coe_top, image_univ, Subtype.range_coe]
+  have himg : Subtype.val '' (Subtype.val ⁻¹' S : Set (d.W0o hGH)) = S := by
+    ext x
+    exact ⟨fun ⟨y, hy, hyx⟩ => hyx ▸ hy, fun hx => ⟨⟨x, hSW hx⟩, hx, rfl⟩⟩
+  refine ⟨?_, hGH, hval, Subtype.val_injective, Subtype.val ⁻¹' S, ?_, by rw [himg]; exact hS⟩
+  · rw [hCE]; exact Causal.Causality.globallyHyperbolic_toSubtype (d.globallyHyperbolicOn_W0 hGH)
+  · refine (hval.isCauchySurfaceOn_image_iff Subtype.val_injective.injOn le_rfl hU
+      (subset_univ _)).2 ?_
+    rw [himg]
+    exact d.isCauchySurfaceOn_W0 hGH hSW hS
+
+include hLine hSC in
+/-- **The gluing of B21 Lemma 2.3** (`BTZ_1.tex:643–667`): around every BTZ point `p` of a
+globally hyperbolic `𝔼₀`-manifold there is a `SpearDevelopment`. Built: `M₀ = M ∖ J⁺(κ⁻¹Π)`
+(`CylChartData.W0o`), `M₂` the `Causal.CBG.FamilyGlueData` gluing of `M₀` and the spear piece
+`𝒫` along `κ` (`CylChartData.glueData`), its atlas `FamilyGlueData.chartedSpace`
+(`Causal.CBG.gluedChartedSpace`) with transitions in the groupoid (`glue_hasGroupoid`), Hausdorff
+(`t2Space_glued`, closed graph), second countable, connected, `M₀ → M` a Cauchy embedding
+(`isCauchyEmbedding_val`), the spear chart `ψN` of vertex `p`, `M₀` connected
+(`connectedSpace_W0`) and the level set Cauchy in `M₀` (`isCauchySurfaceOn_W0`), `M₂` globally
+hyperbolic (`globallyHyperbolic_glued`) with `Σ` a Cauchy surface (`isCauchySurface_glued`). -/
+theorem exists_spearDevelopment (hGH : (CE M).GloballyHyperbolic) {p : M} (hp : p ∈ S0 M) :
+    Nonempty (SpearDevelopment M p) := by
+  obtain ⟨d⟩ := exists_cylChartData hGH hp
+  letI := d.glueCS hGH
+  haveI := d.glue_hasGroupoid hGH
+  haveI := d.t2Space_glued hGH
+  haveI := d.secondCountable_glued hGH
+  haveI : ConnectedSpace (d.W0o hGH) := d.connectedSpace_W0 hGH (hLine M)
+  haveI := d.connectedSpace_glued hGH
+  have hι := d.isCauchyEmbedding_val hLine hSC hGH
+  obtain ⟨S, hSW, hS⟩ := d.exists_cauchy_subset_W0 hGH (hLine M)
+  have hemb : IsE0Mor ((d.glueData hGH).ι false : d.W0o hGH → (d.glueData hGH).Glued) univ :=
+    d.glue_liftPropOn_ι hGH false
+  have hembE : Causal.IsEMorphism (CE (d.W0o hGH)) (CE (d.glueData hGH).Glued)
+      ((d.glueData hGH).ι false) := isEMorphismOn_of_isE0Mor (W := ⊤) hemb
+  have hSsub : (CE (d.W0o hGH)).IsCauchySurface (Subtype.val ⁻¹' S : Set (d.W0o hGH)) := by
+    have hval := d.isEMorphism_val hGH
+    have hU : ((d.W0o hGH : Opens M) : Set M) =
+        Subtype.val '' ((⊤ : Opens (d.W0o hGH)) : Set (d.W0o hGH)) := by
+      rw [Opens.coe_top, image_univ, Subtype.range_coe]
+    refine (hval.isCauchySurfaceOn_image_iff Subtype.val_injective.injOn le_rfl hU
+      (subset_univ _)).2 ?_
+    have himg : Subtype.val '' (Subtype.val ⁻¹' S : Set (d.W0o hGH)) = S := by
+      ext x
+      exact ⟨fun ⟨y, hy, hyx⟩ => hyx ▸ hy, fun hx => ⟨⟨x, hSW hx⟩, hx, rfl⟩⟩
+    rw [himg]
+    exact d.isCauchySurfaceOn_W0 hGH hSW hS
+  exact ⟨{ M₀ := d.W0o hGH
+           N := (d.glueData hGH).Glued
+           ι := Subtype.val
+           isCauchyEmbedding_ι := hι
+           isE0Mor_ι := isE0Mor_val _
+           emb := (d.glueData hGH).ι false
+           isCauchyEmbedding_emb := ⟨hι.globallyHyperbolic_source, d.globallyHyperbolic_glued hGH,
+             hembE, (d.glueData hGH).injective_ι false, _, hSsub,
+             d.isCauchySurface_glued hGH hSW hS⟩
+           isE0Mor_emb := hemb
+           R := d.ε / 8
+           pos := by linarith [d.pos]
+           v := d.v
+           W := gluePY d.v d.ε
+           isOpen_W := (gluePY d.v d.ε).isOpen
+           spear_subset := d.spearY_subset
+           ψ := d.ψN hGH
+           isE0Mor_ψ := d.isE0Mor_ψN hGH
+           injOn_ψ := d.injOn_ψN hGH
+           p₀ := d.pW0 hGH
+           ι_p₀ := rfl
+           ψ_vertex := d.ψN_vertex hGH }⟩
+
+/-- **A globally hyperbolic `𝔼₀`-manifold has a Cauchy surface** (the strict
+`Causal.Causality.SingularFlatAxioms.geroch_sing_i_imp_iii`, from `SingularFlatAxioms` — given by its BTZ lines
+`hLM`, `E0LM.e0_singularFlatAxioms_of` — and the local admissible measures
+`E0LM.e0_modelMeasures`). Used to drop the Cauchy-surface hypothesis of Lemma 2.3 (audit round 1). -/
+theorem exists_isCauchySurface_of_globalBTZ {N : Type} [TopologicalSpace N] [T2Space N]
+    [SecondCountableTopology N] [ChartedSpace E0Y N] [HasGroupoid N e0Groupoid]
+    (hLM : E0LM.E0GlobalBTZ (CE N) (S0 N)) (hGH : (CE N).GloballyHyperbolic) :
+    ∃ S : Set N, (CE N).IsCauchySurface S := by
+  letI : MeasurableSpace N := borel N
+  haveI : BorelSpace N := ⟨rfl⟩
+  exact (E0LM.e0_singularFlatAxioms_of E0.chartIso_mem_e0Groupoid hLM).geroch_sing_i_imp_iii
+    (E0LM.e0_modelMeasures N hGH) hGH
+
+include hLine hSC in
+/-- **B21 Lemma 2.3** (`lem:tube`, `BTZ_1.tex:635–638`): in a globally hyperbolic, Cauchy-maximal
+`𝔼₀`-manifold, every BTZ point `p` is the vertex of a spear neighbourhood around its BTZ line.
+Parameters `hLine`, `hSC`: those of CBG for `𝔼₀` (`E0CBG.e0Geometry`, WP-41f's (O2), (O4)). No
+Cauchy surface is assumed: the gluing builds its own (`CylChartData.exists_cauchy_subset_W0`,
+a level of the Cauchy time function of `geroch_sing_i_imp_ii`). -/
+theorem lem_tube (hGH : (CE M).GloballyHyperbolic) (hmax : IsE0CauchyMaximal M) {p : M}
+    (hp : p ∈ S0 M) : ∃ R U, IsSpearNbhd p R U := by
+  exact IsE0CauchyMaximal.isSpearNbhd_of_spearDevelopment hLine hSC hGH hmax
+    (exists_spearDevelopment hLine hSC hGH hp).some
+
+include hLine hSC in
+/-- **Full future BTZ rays** (`RamcovGX.tex:2350`'s « the singular locus contains full future BTZ
+rays », correctly cited as B21 Lemma 2.3, not « Lemma 2.4 »: finding): in a globally hyperbolic
+Cauchy-maximal `𝔼₀`-manifold, from every BTZ point starts a full future BTZ ray. -/
+theorem exists_fullFutureBTZRay (hGH : (CE M).GloballyHyperbolic) (hmax : IsE0CauchyMaximal M)
+    {p : M} (hp : p ∈ S0 M) : ∃ γ : ℝ → M, IsFullFutureBTZRay p γ := by
+  obtain ⟨R, U, h⟩ := lem_tube hLine hSC hGH hmax hp
+  obtain ⟨γ, hγ, -⟩ := h.exists_ray
+  exact ⟨γ, hγ⟩
+
+end Tube
+
 /-! ### §6 Lemma 2.4 in the setting where B21 applies it: Cauchy-maximal manifolds -/
 
 section AddBTZParamMax
@@ -4694,7 +4959,7 @@ end AddBTZParamMax
 
 The parameters `hLine`, `hSC` (the CBG inputs (O2), (O4) of `E0CBG.e0Geometry`) and the
 hypothesis `hLM` of Lemma 2.4 are discharged by the strict library: `E0LM.e0_globalBTZ` (O2) and
-`E0LM.e0_secondCountable_of_cauchy` (O4), as in `GXScaffold.BTZ.Surgery`. -/
+`E0LM.e0_secondCountable_of_cauchy` (O4), as in `GX.BTZ.Surgery`. -/
 
 section ParameterFree
 

@@ -1,0 +1,19 @@
+import GX.BTZ.Manifolds
+#print axioms GX.IsFutureDistinguishing
+#print axioms GX.e0Manifold_isFutureDistinguishing
+#print axioms GX.e0SingManifold_isFutureDistinguishing
+#print axioms GX.BTZTildeData.isFutureDistinguishing_of_natGloballyHyperbolic
+#print axioms GX.btzTildeAtlas_isFutureDistinguishing_of_isCompact_image
+#print axioms GX.BTZTildeData.natGloballyHyperbolic_iff
+#print axioms GX.BTZTildeData.isFutureDistinguishing_of_base
+#print axioms GX.BTZTildeData.isBTZFutureComplete_iff_of_smul
+#print axioms GX.btzJ0_isFutureComplete
+#print axioms GX.BTZTildeData.natIncreasing
+#print axioms GX.BTZTildeData.natIncreasing_lt
+#print axioms GX.BTZTildeData.natIsCausallyConnected
+#print axioms GX.e0Manifold_isCausallyConnected
+#print axioms GX.btzTildeAtlas_isCausallyConnected
+#print axioms GX.BTZTildeData.not_isFutureDistinguishing_natCausality
+#print axioms GX.BTZTildeData.not_isFutureComplete_natCausality
+#print axioms GX.BTZTildeData.natIplus_eq_iff
+#print axioms GX.isCausallyConnected_of_causallyArcConnected

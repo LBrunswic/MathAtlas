@@ -1,0 +1,26 @@
+import GX.BTZ.Spear
+#print axioms GX.E0Spear.lem_tube_e0
+#print axioms GX.E0Spear.exists_fullFutureBTZRay_e0
+#print axioms GX.E0Spear.lem_add_BTZ_param_line_e0
+#print axioms GX.E0Spear.lem_add_BTZ_param_of_cauchyMaximal_e0
+#print axioms GX.E0Spear.frontier_spear
+#print axioms GX.E0Spear.IsSpearNbhd.exists_ray_mem_nhds
+#print axioms GX.E0Spear.isSpearNbhd_model
+#print axioms GX.E0Spear.IsFullFutureBTZRay.not_tendsto
+#print axioms GX.E0Spear.IsFullFutureBTZRay.exists_eq_of_line
+#print axioms GX.E0Spear.isClosed_spearImage
+#print axioms GX.E0Spear.interior_spearImage
+#print axioms GX.E0Spear.frontier_spearImage
+#print axioms GX.E0Spear.IsSpearNbhd.frontier_eq
+#print axioms GX.E0Spear.IsSpearNbhd.mem_nhds_of_line
+#print axioms GX.E0Spear.isClosed_spearY
+#print axioms GX.E0Spear.isClosed_image_spearY_of_subset
+#print axioms GX.E0Spear.frontier_spearImage_eq_iff_isClosed
+#print axioms GX.E0Spear.IsSpearNbhd.of_chart
+#print axioms GX.E0Spear.isSpearNbhd_iff_chart
+#print axioms GX.E0Spear.IsSpearNbhd.of_ray
+#print axioms GX.E0Spear.CylChartData.exists_spear_below
+#print axioms GX.E0Spear.IsE0CauchyMaximal.isSpearNbhd_of_spearDevelopment
+#print axioms GX.E0Spear.lem_tube
+#print axioms GX.E0Spear.exists_spearNbhd_below
+#print axioms GX.E0Spear.lem_add_BTZ_param_line

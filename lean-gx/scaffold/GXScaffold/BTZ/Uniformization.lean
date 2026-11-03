@@ -1,49 +1,75 @@
 import GXScaffold.BTZ.AbsMax
+import GX.BTZ.HeadlineBridge
+import GX.BTZ.LiftGH
 import GX.BTZ.Manifolds
 import Causal.Flat.Lox.PastProper
 
 /-!
 # `GXScaffold.BTZ.Uniformization` — uniformization of GH Cauchy-compact Cauchy-maximal `𝔼₀`-manifolds
 
-Packages WP-41n, WP-43f, WP-44g (WAVE5-PLAN.md, WP-39n). `papers/gx`, §4.6
-(`RamcovGX.tex:2348–2396`), DEC-28 (Cauchy-compact, `brunswic2021cauchy` Cor 2.18), DEC-107
-(Cauchy-compact = a compact `C¹` spacelike Cauchy surface), DEC-75/76/77, DEC-106, DEC-31.
-**No ledger label is certified in full here, so nothing is marked.** Two rows, both partial:
+Packages WP-41n, WP-43f, WP-44g, WP-46h. `papers/gx` §4.6 (`RamcovGX.tex:2348–2396`); rulings
+DEC-28, DEC-31/119, DEC-75/76/77, DEC-106, DEC-107/117, DEC-118, DEC-119. **No ledger label is
+certified in full, so nothing is marked**: both rows are partial — the headline through ONE
+upstream leaf (SCOPE (d)) and its unbuilt BTZ assertions (SCOPE (b)); the proposition also through
+this file's **one tagged `sorry`** (SCOPE (e), `btzTilde_null_supset`: only the future half of the
+developed BTZ line at a BTZ point; WP-46h fixer round 2 narrowed it from all `⊇` halves).
 
 * `theo:globally_hyperbolic_cauchy_complete_cauchy_maximal` — `RamcovGX.tex:2363`, partial
-  (DEC-27/28). Form of record `GX.btz_uniformization_C1` (DEC-107): for `M` GH, Cauchy-maximal,
-  with a compact `C¹` spacelike Cauchy surface, a BTZ point (`s ≥ 1`), `π₁(Reg M)` not
-  metabelian, and **every** developing pair `(𝒟, ρ)` of `Reg M`: a loxodromic in `ρ(Γ)` (DEC-75);
-  `𝒟` injective on `Reg M̃`; `ρ` faithful, discrete, torsion-free; the `Γ`-invariant planes
-  `(Π_w)_{w ∈ Λ}`; `𝒟(Reg M̃) = ⋂_w I⁺(Π_w)` (equality, future case PROVED, DEC-77 (a)); `Γ` free
-  and properly discontinuous; `Reg M̃` future complete; `𝒟` induces `Reg M ≅ ρ(Γ)\Ω⁺`; every BTZ
-  point starts a full future BTZ ray. With DEC-76's « non-abelian » when `π₁(Reg M)` is free:
-  `GX.btz_uniformization_C1_of_isFreeGroup` (`GX.not_isMetabelianGroup_of_isFreeGroup`). The
-  topological-Cauchy-compact form `GX.btz_uniformization` is kept. Not formalized: `𝒟` on
-  `sing M̃`, the rays `Δ_i ⊂ ∂Ω`, `M ≅ ρ\𝒟(M̃)` with `T_BTZ` (SCOPE (b)); `sorry`s upstream only.
+  (DEC-27/28). Form of record `GX.btz_uniformization`: for `M` GH, Cauchy-maximal, with a compact
+  `C¹` spacelike Cauchy surface (DEC-107), a BTZ point (`s ≥ 1`), `π₁(Reg M)` **free and
+  non-abelian** (DEC-76 as DEC-119 reads it), and **every** developing pair `(𝒟, ρ)` of `Reg M`:
+  a loxodromic in `ρ(Γ)` (DEC-75); `𝒟` injective on `Reg M̃`; `ρ` faithful, discrete,
+  torsion-free; the `Γ`-invariant null planes `(Π_w)_{w ∈ Λ}`; `𝒟(Reg M̃) = Ω⁺(Λ) = ⋂_w I⁺(Π_w)`
+  (equality; future case PROVED, DEC-77 (a)); `Γ` free and properly discontinuous; `Reg M̃` future
+  complete; `𝒟` induces `Reg M ≅ ρ(Γ)\Ω⁺`; every BTZ point starts a full future BTZ ray; and the
+  BTZ half through the bridge (DEC-119, `GX.btz_uniformization_btzHalf`): `𝒟` extended
+  `T_BTZ`-continuously to the BTZ points of `M̃` and injective on `reg M̃`, `M̃` globally
+  hyperbolic in its natural topology (DEC-106/118 (b), `GX.BTZ.LiftGH`) and future
+  distinguishing (DEC-118 (a)) — ONE datum `d` (the chartwise `M̃`) carries all of it.
+  `GX.btz_uniformization_of_mixed`: the same on standard axioms given the one open leaf
+  `GX.E0MixedDiamondsCompact`. `GX.btz_injective_dev_C1`: `𝒟` injective on ALL of `M̃`, no
+  carried hypothesis (`I⁺(x) ⊆ reg M̃` is PROVED, `GX.BTZTildeData.Iplus_subset_reg`), through the
+  proposition. Not formalized: the rays `Δ_i ⊂ ∂Ω`, the image `(⋃Δ_i) ∪ Ω` and `M ≅ ρ\𝒟(M̃)` at
+  the BTZ points (SCOPE (b)).
 * `prop:globally_hyperbolic_cauchy_complete_manifolds` — `RamcovGX.tex:2348`, partial, corrected
-  (DEC-77). Form of record `GX.btz_isFutureComplete_C1`: GH + Cauchy-maximal + compact `C¹`
-  spacelike Cauchy surface + a BTZ point + `π₁(Reg M)` not metabelian ⇒ (1) `Reg M̃` future
-  complete for every developing pair (l.2350) and (2) full future BTZ rays from every BTZ point
-  (l.2352, `E0Spear.exists_fullFutureBTZRay_e0`, B21 Lemma 2.3). The counterexample to the
-  printed statement: `GX.e0PastHalf_counterexample` (0 `sorry`: `{τ<0}` GH, BTZ points, no
-  developing pair of `Reg {τ<0}` future complete) and, with the printed hypothesis in DEC-31's
-  sense (`GX.IsE0CauchyComplete`, defined here), `GX.e0PastHalf_counterexample_DEC31`, whose
-  DEC-31 half `GX.e0PastHalf_isE0CauchyComplete` is this file's one tagged `sorry` (SCOPE (c)).
+  (DEC-77). Form of record `GX.btz_isBTZFutureComplete_C1`: GH + Cauchy-maximal + compact `C¹`
+  spacelike Cauchy surface + a BTZ point + `π₁(Reg M)` not metabelian ⇒ for every developing pair
+  and presentation, the chartwise `M̃` extending `𝒟` exists and every such `M̃` is future complete
+  in DEC-118 (a)'s reading, `BTZTildeData.IsBTZFutureComplete` (`⊆` halves and `I⁺ ⊇` PROVED,
+  `J⁺ ⊇` PROVED except along the developed BTZ line, the tagged `sorry` of SCOPE (e)). Lemma `GX.btz_isFutureComplete_C1`: the proof's two steps (1) `Reg M̃` future
+  complete (l.2350) and (2) full future BTZ rays (l.2352, B21 Lemma 2.3). The counterexample to the
+  printed statement **with its printed hypothesis** (DEC-31 = `GX.IsE0CauchyComplete`, DEC-119) and
+  **its ruled conclusion**: `GX.e0PastHalf_counterexample_DEC118`, **0 `sorry`** — `{τ<0} ⊂ 𝔼₀`
+  is GH, Cauchy-complete (`GX.e0PastHalf_isE0CauchyComplete`), has BTZ points, and NO
+  `\widetilde{\{τ<0\}}`-datum is `IsBTZFutureComplete` (`GX.e0PastHalf_not_isBTZFutureComplete`);
+  nor is any developing pair of `Reg {τ<0}` (`GX.e0PastHalf_counterexample_DEC31`).
 
 Proved here, of general use (0 `sorry`, standard axioms only):
 
 * `GX.uniformization_range_eq_of_absMax`, `GX.uniformization_of_absMax`: Barbot's equality
   `𝒟(M̃) = Ω^±(Λ(Γ))` for any absolutely maximal flat spacetime with (CC′) and a loxodromic, with
   the quotient `M ≅ ρ(Γ)\Ω^±` (`GX.exists_isometry_quotient_of_absMax`).
-* `GX.btz_uniformization_reg_of_regM`, `GX.e0RegM_range_not_subset_omegaMinus_of_regM` (WP-44g):
-  the headline's `Reg M` content from the triple « `Reg M` GH, Cauchy-complete, absolutely
-  maximal » alone, so any form of Cor 2.18 feeds it.
-* `GX.not_isMetabelianGroup_of_isFreeGroup` (WP-44g): a non-abelian free group is not metabelian
-  (two generators onto `F₂`, where `⁅⁅a, b⁆, ⁅a, b⁻¹⁆⁆ ≠ 1` is decided by reduction).
+* `GX.btz_uniformization_reg_of_regM`, `GX.btz_uniformization_C1_of_regM`,
+  `GX.e0RegM_range_not_subset_omegaMinus_of_regM`: the headline's `Reg M` content from the triple
+  « `Reg M` GH, Cauchy-complete, absolutely maximal » (any form of B21 Cor 2.18);
+  `GX.cor_abs_max_C1_of_mixed`: Cor 2.18 (DEC-107) from `GX.E0MixedDiamondsCompact`.
+* `GX.not_isMetabelianGroup_of_isFreeGroup`: a non-abelian free group is not metabelian.
+* `GX.BTZTildeData.dev_image_Jplus_subset`, `GX.BTZTildeData.dev_image_Iplus_subset` (the `⊆`
+  halves of DEC-118 (a)'s future completeness on any `M̃`), `GX.e0PastHalf_not_isBTZFutureComplete`.
+* WP-46h fixer round 2, the BTZ side of `M̃`: `GX.btzTilde_transport` (flat causality of `Reg M̃`
+  ⇒ chart-generated causality of `M̃`), `GX.btzTilde_supset_of_reg`, `GX.btzTilde_supset_of_null`,
+  `GX.BTZTildeData.chart_notMem_btzJReg_of_sing` (every developed chart sends BTZ points to `Δ₀`),
+  `GX.BTZTildeData.Iplus_subset_reg` (`I⁺(x) ⊆ reg M̃`), `GX.BTZTildeData.exists_chart_step`,
+  `GX.btzTildeDev_notMem_reg_of_chart`, `GX.btzJplus_notMem_nhds_of_mem_btzLine`,
+  `GX.exists_mem_btzTildeDevAtlas_of_descent_val`.
 * `GX.isFutureComplete_of_range_eq_omegaPlus`, `GX.injective_of_isFutureComplete`,
-  `GX.exists_affine_eq_of_locally`, `GX.false_of_sing_of_pastComplete` (WP-43f: a BTZ point
-  forbids an injective developed `Reg M̃` with past-complete image).
+  `GX.exists_affine_eq_of_locally`, `GX.false_of_sing_of_pastComplete`.
+* WP-46h, DEC-31 on a slice: `GX.e0_isCauchySurfaceOn_pastOpen` (`{τ = −1}` Cauchy in
+  `{τ<0} ⊆ 𝔼₀`), `GX.pastHalf_regChart_eventually` (flat charts of `Reg {τ<0}` are `g •` sector
+  charts), `GX.hasDerivAt_chartMap_slice` (the sector chart along `τ = −1` is a local isometry
+  of `|dz|²`), `GX.norm_sub_le_integral_norm_deriv_complex`,
+  `GX.ofReal_norm_sub_le_lintegral_of_lipschitzOnWith`, `GX.ofReal_norm_sub_le_of_zeroFree`
+  (an FTC inequality across the zero set of a curve).
 
 > \begin{prop} Globally hyperbolic Cauchy-complete $\BTZ$-manifolds are future complete.
 > \end{prop} \begin{proof} From Theorem 3 of \cite{brunswic2021cauchy} the regular par of $M$ is
@@ -63,51 +89,63 @@ Proved here, of general use (0 `sorry`, standard axioms only):
 > isomorphism $M\xrightarrow{~~\overline \D~~} \rho\backslash\D(\widetilde M)$. \end{thm}
 > (l.2363–2376)
 
-## Hypothesis checklist (forms of record `btz_uniformization_C1`, `btz_isFutureComplete_C1`)
+## Hypothesis checklist (forms of record `btz_uniformization`, `btz_isBTZFutureComplete_C1`)
 
 | paper / ruling | here |
 |---|---|
-| `M` globally hyperbolic (l.2363) | ✓ carried: `(CE M).GloballyHyperbolic` (ETT's, the charted causality of `M`) |
-| Cauchy-complete (l.2363) | ⚠ strengthened (DEC-28): Cauchy-compact, read per DEC-107 as `∃ S, E0Surgery.IsE0C1SpacelikeCauchy M S` (B21 l.227; no smoothing) |
+| `M` globally hyperbolic (l.2363) | ✓ carried: `(CE M).GloballyHyperbolic` (ETT's, the charted causality of `M`; it is the bridge structure's, `E0Bridge.globallyHyperbolic_e0ManifoldCausality_iff`) |
+| Cauchy-complete (l.2363) | ⚠ strengthened (DEC-28): Cauchy-compact, read per DEC-107 as `∃ S, E0Surgery.IsE0C1SpacelikeCauchy M S` (B21 l.227; no smoothing, DEC-117) |
 | Cauchy-maximal (l.2363) | ✓ carried: `IsE0CauchyMaximal M` (DEC-77 (c)) |
-| finite type, `π₁(Σ∖sing)` non-abelian, `s ≥ 1` (DEC-76) | ⚠ `π₁(Reg M)` **not metabelian** (non-abelian is refuted algebraically, `GX.exists_nonabelian_subgroup_noLox`); or « free and non-abelian » (`_of_isFreeGroup`); `s ≥ 1` ✓ `(chartedSing e0SingY M 0).Nonempty` |
+| finite type, `π₁(Σ∖sing)` non-abelian, `s ≥ 1` (DEC-76) | ✓ read (DEC-119): `π₁(Reg M)` free (`IsFreeGroup`) and non-abelian; `s ≥ 1` ✓ `(chartedSing e0SingY M 0).Nonempty`. (The prop's form takes « not metabelian », which free non-abelian implies) |
 | "up to time reversal" (dropped, DEC-77 (a)) | ✓ the future case is concluded and PROVED |
 | `M` second countable | ⚠ carried (implicit in « manifold »; Cor 2.18's form) |
 | the given pair `(𝒟, ρ)` (l.2365) | ✓ every developing pair of `Reg M` is a hypothesis |
-| `𝒟` injective | ⚠ on `Reg M̃` ✓; on `M̃`: the step l.2392–2394 proved (§5), its inputs carried |
+| `M̃` and `𝒟` on it (DEC-106/119) | ✓ through the bridge: every presentation `Φ` of `\widetilde{𝔼₀}`, ONE chartwise `\widetilde M`-datum `d` with `d.D = 𝒟` on `reg M̃`, injective there, GH in the natural topology |
+| `𝒟` injective | ⚠ on `Reg M̃` ✓, the extension on `reg M̃` ✓; on all of `M̃`: `btz_injective_dev_C1`, input `IsBTZFutureComplete` from the prop (tagged `sorry`, SCOPE (e)); `I⁺(x) ⊆ reg M̃` PROVED (`BTZTildeData.Iplus_subset_reg`), no longer carried |
 | `ρ` faithful, discrete, torsion-free | ✓ |
-| `D(M̃) = (⋃Δᵢ) ∪ ⋂ I⁺(Πⱼ)` (DEC-28's display) | ⚠ `𝒟(Reg M̃) = ⋂ I⁺(Π_w)` ✓ (equality); the full future BTZ rays of `M` ✓; the rays `Δ_i = 𝒟(S_x)` in `∂Ω` ✗ |
-| `M ≅ ρ\D(M̃)`, BTZ topology (DEC-106: `T_BTZ` here only) | ⚠ `Reg M ≅ ρ(Γ)\Ω⁺` ✓ (isometry, `𝒟`-induced); at the BTZ points ✗ |
-| prop: « future complete » (`def:manifold_future_complete_all` over `M̃`) | ⚠ read as the proof's two steps: `Reg M̃` future complete ✓ + full future BTZ rays ✓ (the literal natural-topology reading is unsatisfiable once `sing M ≠ ∅`, `GX.BTZTildeData.not_isFutureComplete_natCausality`, WP-44c) |
+| `D(M̃) = (⋃Δᵢ) ∪ ⋂ I⁺(Πⱼ)` (DEC-28's display) | ⚠ `𝒟(Reg M̃) = ⋂ I⁺(Π_w)` ✓ (equality); full future BTZ rays of `M` ✓; the rays `Δ_i = 𝒟(S_x)` in `∂Ω` ✗ |
+| `M ≅ ρ\D(M̃)`, BTZ topology (DEC-106: `T_BTZ` here only) | ⚠ `Reg M ≅ ρ(Γ)\Ω⁺` ✓ (isometry); at the BTZ points ✗ |
+| prop: « future complete » (`def:manifold_future_complete_all` over `M̃`) | ⚠ DEC-118 (a)'s ruled reading `BTZTildeData.IsBTZFutureComplete M d` for every chartwise `d` extending `𝒟`: `⊆` halves PROVED; `I⁺(𝒟x) ⊆ 𝒟(I⁺x)` PROVED at every `x`; `J⁺(𝒟x) ⊆ 𝒟(J⁺x)` PROVED at regular `x` and off the developed BTZ line at BTZ `x` (transport `btzTilde_transport`); the BTZ line itself tagged `sorry` (SCOPE (e)); the proof's two steps `btz_isFutureComplete_C1` are its inputs |
+| prop's counterexample, printed hypothesis Cauchy-complete (DEC-31/119) | ✓ `IsE0CauchyComplete {τ<0}` PROVED; `¬ IsBTZFutureComplete` for EVERY datum of `{τ<0}` PROVED |
 
 ## SCOPE (disclosed)
 
-* (a) **The future-case selection** (DEC-77 (a)) is PROVED (WP-43f): in the past case
+* (a) **The future-case selection** (DEC-77 (a)) is PROVED: in the past case
   `𝒟(Reg M̃) = Ω⁻(Λ)` is past complete, which `GX.false_of_sing_of_pastComplete` refutes.
-* (b) **The BTZ half of the headline is not formalized**: `𝒟` on `sing M̃`, the rays
-  `Δ_i = 𝒟(S_x)` in `∂Ω`, the image `(⋃Δ_i) ∪ Ω`, and `M ≅ ρ\𝒟(M̃)` for `T_BTZ` (DEC-106: the
-  only place `T_BTZ` enters). They live on the maximal branched covering `BTZTildeData`
-  (`GX.BTZ.Manifolds`), built over the `SingularGXStructure` presentation of `M`, while
-  Cauchy-compactness, Cauchy-maximality and absolute maximality of `Reg M` are stated for
-  `ChartedSpace E0Y M` (`GXScaffold.BTZ.AbsMax`). The bridge (a `SingularGXStructure` from the
-  `e0Groupoid` atlas, `reg M̃ ≃ₜ` the universal cover of `Reg M` over the base point, `𝒟`
-  restricted to `reg M̃` a developing pair of `Reg M`) is not built (WP-44g). What the BTZ half
-  needs beyond it: the limit `𝒟(x̃) = lim 𝒟` along the lifted radial segment
-  (`GX.dev_eventually_chartMap_sector` gives `𝒟 = g • chartMap` on a lifted sector), the
-  parabolic stabiliser of the developed line, and its position in `∂Ω⁺(Λ)`.
-* (c) `prop:globally_hyperbolic_cauchy_complete_manifolds`: the counterexample `{τ<0} ⊂ 𝔼₀` is
-  GH, has BTZ points and no future-complete developed `Reg` (0 `sorry`). Its Cauchy-completeness
-  in DEC-31's sense (`GX.IsE0CauchyComplete`: a Cauchy surface, spacelike Lipschitz in the flat
-  charts of `Reg M`, complete for the length of `GX.e0SliceSys`, which measures in the flat charts
-  and is constant at BTZ points) is stated, `GX.e0PastHalf_isE0CauchyComplete`, and rests on a
-  tagged `sorry`: `{τ = −1}` Cauchy in `{τ<0}`, spacelike Lipschitz, and its length metric the
-  Euclidean metric of `ℂ` — none of the three is built anywhere.
-* (d) Upstream `sorry`s inherited (`#print axioms`, `campaign/WP-44g/axioms.out`). The forms of
-  record go through `GX.E0AbsMax.cor_abs_max_C1`: `GXScaffold.BTZ.AbsMax`'s three open leaves
-  (`sing_eq_of_le_of_le_of_stronglyCausalOn_e0`, `exists_small_cauchyChart`,
-  `E0Pushout.isCompact_diamond_mixed`) and `GXScaffold.BTZ.Surgery`'s (G3), (G4a), (G5) under
-  `regM_isCauchyComplete_of_C1`; the not-owed (G0) smoothing is off their path (it remains under
-  the kept topological forms). The headline rows cannot be marked until those rows close.
+* (b) **The BTZ half, what remains.** Built (WP-46h, through `GX.BTZ.HeadlineBridge` and
+  `GX.BTZ.LiftGH`): ONE chartwise datum carrying the extension of `𝒟` to the BTZ points,
+  its injectivity on `reg M̃` and `M̃` GH (natural topology); future distinguishing; and
+  injectivity on all of `M̃` (`btz_injective_dev_C1`, through the prop's `IsBTZFutureComplete`).
+  Built in fixer round 2: `I⁺(x) ⊆ reg M̃` (`BTZTildeData.Iplus_subset_reg`: every chart of the
+  developed atlas sends a BTZ point to `Δ₀`, `BTZTildeData.chart_notMem_btzJReg_of_sing`, because
+  the lifted chart does and a transition isometry cannot carry a point of `Δ₀` to a regular point —
+  `J⁺(Δ₀)` is a Euclidean neighbourhood of no point of `Δ₀`). Not built: the rays
+  `Δ_i = 𝒟(S_x)` (future complete, in `∂Ω⁺(Λ)`, `Γ`-invariant), the image `(⋃Δ_i) ∪ Ω`, and
+  `M ≅ ρ\𝒟(M̃)` for `T_BTZ` — each needs the limit of `𝒟` along lifted radial segments and the
+  parabolic stabiliser of the line.
+* (c) **Closed (WP-46h).** `GX.e0PastHalf_isE0CauchyComplete` is proved: (i) Cauchy, (ii)
+  spacelike Lipschitz, (iii) the length metric of `{τ = −1}` (BTZ time contributing `0`) is the
+  Euclidean metric of `ℂ` (`GX.edist_e0SliceSys_pastSlice`), hence complete with continuous
+  identity.
+* (d) **The one upstream leaf.** `#print axioms GX.btz_uniformization` shows `sorryAx`, and every
+  occurrence comes from `GX.E0AbsMax.E0Pushout.isCompact_diamond_mixed` (B21 Prop 2.17's mixed
+  diamonds, `GXScaffold.BTZ.AbsMax`, outside this write set; WP-46f: its core needs a Lorentzian
+  volume on the flat spacetime `N`). `GX.btz_uniformization_of_mixed` and
+  `GX.cor_abs_max_C1_of_mixed` take its statement `GX.E0MixedDiamondsCompact` as a hypothesis and
+  are on standard axioms (`campaign/WP-46h/axioms.out`). Surgery (G3)/(G4a)/(G5) and
+  `exists_small_cauchyChart` are closed upstream (WP-46e/f); the topological route is deleted
+  (DEC-117).
+* (e) **The one local `sorry`** (`btzTilde_null_supset`, used by
+  `isBTZFutureComplete_of_regFuture`). Fixer round 2 PROVED (i), the transport of the flat
+  causality of `Reg M̃` into the chart-generated causality of `M̃` (`btzTilde_transport`: the flat
+  causality is absolutely minimal, and on a small ball of a flat chart a relation is one link of
+  the `T_BTZ`-chart `h · d.D`), hence both reverse inclusions at regular points
+  (`btzTilde_supset_of_reg`), `I⁺(D x) ⊆ D(I⁺(x))` at EVERY point (`btzTilde_supset_of_null`: one
+  chart step `x ≪ y` lands at a regular `y`), and `J⁺(D x) ⊆ D(J⁺(x))` at a BTZ point whenever the
+  chart step reaches a regular point. Open: (ii), `m` on the future half of the developed BTZ line
+  of a BTZ point `x` — every point between develops onto the line, so it needs the full future BTZ
+  ray of `proj x` lifted to `M̃` with `D` of it the whole half-line (the BTZ-limit of `D`, SCOPE
+  (b)'s missing construction).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; lean-causal `ca2ad78`
 (`lake-manifest.json`).
@@ -822,6 +860,392 @@ theorem not_isMetabelianGroup_of_isFreeGroup' {G : Type*} [Group G] (hfree : IsF
 
 end FreeMetabelian
 
+/-! ### The easy halves of `def:manifold_future_complete_all` on `M̃` (DEC-118 (a))
+
+`D(J⁺(x)) ⊆ J⁺(D x)` and `D(I⁺(x)) ⊆ I⁺(D x)` for the chart-generated causality of every
+`\widetilde M`-datum: `lem:increasing_map` (`btzTilde_le_dev`, `BTZTildeData.increasing_lt`). -/
+
+section TildeSubsets
+
+universe w
+
+attribute [local instance] btzE0Structure
+
+variable {M : Type w} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
+  [FirstCountableTopology M] [ConnectedSpace M]
+  [SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2) M]
+  {y₀ : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M)ᶜ : Set M)}
+  {yN : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)ᶜ : Set BTZE0)}
+  {Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN ≃ₜ DInfty × ℝ}
+
+/-- `D(J⁺(x)) ⊆ J⁺(D x)` on `M̃` (chart-generated causality). -/
+theorem BTZTildeData.dev_image_Jplus_subset (d : BTZTildeData M y₀ Φ) (x : d.Space) :
+    d.D '' d.causality.Jplus ⊤ {x} ⊆ (Causal.minkowski 2).Jplus ⊤ {d.D x} := by
+  rintro _ ⟨w, hw, rfl⟩
+  have hw' : d.causality.le ⊤ x (w : d.Space) := Causal.Precausality.mem_Jplus_singleton.1 hw
+  exact Causal.Precausality.mem_Jplus_singleton.2 (btzTilde_le_dev (hD := d.isBTZTildeDev) hw').1
+
+/-- `D(I⁺(x)) ⊆ I⁺(D x)` on `M̃` (chart-generated causality). -/
+theorem BTZTildeData.dev_image_Iplus_subset (d : BTZTildeData M y₀ Φ) (x : d.Space) :
+    d.D '' d.causality.Iplus ⊤ {x} ⊆ (Causal.minkowski 2).Iplus ⊤ {d.D x} := by
+  rintro _ ⟨w, hw, rfl⟩
+  have hw' : d.causality.lt ⊤ x (w : d.Space) := Causal.Precausality.mem_Iplus_singleton.1 hw
+  exact Causal.Precausality.mem_Iplus_singleton.2 (d.increasing_lt hw')
+
+/-- **`𝒟` is injective on `M̃`** (the headline's first bullet, the step l.2392–2394 on the maximal
+branched covering; DEC-106: the charts and their `≪` from `T_BTZ`, `M`'s GH in `M`): if `M` is
+globally hyperbolic, `M̃` future complete for the chart-generated `≪`
+(`def:manifold_future_complete_all` read as `IsBTZFutureComplete`, the conclusion of
+`prop:globally_hyperbolic_cauchy_complete_manifolds`), `𝒟` injective on `reg M̃` (Barbot) and every
+`I⁺(x)` regular (B21: a BTZ point is not in the chronological future of anything), then `𝒟` is
+injective on `M̃`. Future distinguishing is `BTZTildeData.isFutureDistinguishing_of_base`. -/
+theorem BTZTildeData.injective_D_of_isBTZFutureComplete (d : BTZTildeData M y₀ Φ)
+    (hM : IsBTZSingModelled M) (hG : (e0ManifoldCausality M hM).GloballyHyperbolic)
+    (hfc : BTZTildeData.IsBTZFutureComplete M d)
+    (hreg : InjOn d.D {e | e.base ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M})
+    (hI : ∀ x : d.Space, d.causality.Iplus ⊤ {x} ⊆
+      {e | e.base ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M}) :
+    Injective d.D :=
+  injective_of_isFutureComplete (N := d.Space) hfc hreg hI (d.isFutureDistinguishing_of_base hM hG)
+
+end TildeSubsets
+
+/-! ### §2b Charts of `M̃` at BTZ points; `I⁺(x)` regular; one chart step (WP-46h fixer round 2)
+
+Every chart of the developed atlas of `M̃` sends a BTZ point to `Δ₀`
+(`BTZTildeData.chart_notMem_btzJReg_of_sing`, through the lifted chart of `IsLocallyBTZTilde` and
+the transition being an isometry), so a chronological future is regular
+(`BTZTildeData.Iplus_subset_reg`, B21: a BTZ point is in the chronological future of nothing);
+`BTZTildeData.exists_chart_step` is one straight step inside a chart. -/
+
+section TildeChartsAll
+
+open Filter Topology
+
+section ChartsBTZ
+
+open Classical
+
+variable {E : Type*} [TopologicalSpace E] {D : E → Causal.Minkowski 2}
+
+/-- `exists_mem_btzTildeDevAtlas_of_descent` with the value of the chart at a point of `U`:
+`κ (Ψ v) = j (Φ v)` for a `v ∈ V` with `Ψ v = e`. -/
+theorem exists_mem_btzTildeDevAtlas_of_descent_val {F : Type*} (Φ : F ≃ DInfty × ℝ) {V : Set F}
+    (hV : IsOpen[TopologicalSpace.induced Φ hornTop] V) {U : Set E} (hU : IsOpen U) {Ψ : F → E}
+    (hbij : BijOn Ψ V U)
+    (hn : ∀ v ∈ V, 𝓝 (Ψ v) = Filter.map Ψ (@nhds _ (TopologicalSpace.induced Φ hornTop) v))
+    {g : Causal.Flat.isom 2} (hg : ∀ v ∈ V, D (Ψ v) = g • btzDevM 0 btzV0 (Φ v)) {e : E}
+    (he : e ∈ U) :
+    ∃ κ ∈ btzTildeDevAtlas D, e ∈ κ.source ∧ ∃ v ∈ V, Ψ v = e ∧
+      κ e = btzJDev (0 : ℝ × ℝ × ℝ) btzV0 btzV0_pos (Φ v) := by
+  obtain ⟨v₀, hv₀, -⟩ := hbij.surjOn he
+  haveI : Nonempty F := ⟨v₀⟩
+  set TF : TopologicalSpace F := TopologicalSpace.induced Φ hornTop
+  set j : DInfty × ℝ → BTZJ0 := btzJDev (0 : ℝ × ℝ × ℝ) btzV0 btzV0_pos
+  set js : BTZJ0 → DInfty × ℝ := ⇑(btzJDevEquiv (0 : ℝ × ℝ × ℝ) btzV0 btzV0_pos).symm
+  have hj : Continuous[hornTop, btzJTop 0] j := continuous_btzJDev btzV0_pos
+  have hjs : Continuous[btzJTop 0, hornTop] js := continuous_btzJDevEquiv_symm btzV0_pos
+  have hjjs : ∀ q, j (js q) = q := fun q =>
+    (btzJDevEquiv (0 : ℝ × ℝ × ℝ) btzV0 btzV0_pos).apply_symm_apply q
+  have hjsj : ∀ y, js (j y) = y := fun y =>
+    (btzJDevEquiv (0 : ℝ × ℝ × ℝ) btzV0 btzV0_pos).symm_apply_apply y
+  have hΦ : Continuous[TF, hornTop] Φ := continuous_induced_dom
+  have hΦs : Continuous[hornTop, TF] Φ.symm := continuous_induced_rng.2 (by
+    have : (⇑Φ ∘ ⇑Φ.symm) = id := funext fun y => Φ.apply_symm_apply y
+    rw [this]; exact @continuous_id _ hornTop)
+  set inv : E → F := Function.invFunOn Ψ V
+  have hinv : ∀ w ∈ U, inv w ∈ V ∧ Ψ (inv w) = w := fun w hw => by
+    have h := hbij.surjOn hw
+    exact ⟨Function.invFunOn_mem h, Function.invFunOn_eq h⟩
+  have hinvΨ : ∀ v ∈ V, inv (Ψ v) = v := fun v hv => hbij.injOn.leftInvOn_invFunOn hv
+  have hVo : IsOpen[hornTop] (Φ.symm ⁻¹' V) := by
+    obtain ⟨O, hO, rfl⟩ := (@isOpen_induced_iff _ _ hornTop _ _).1 hV
+    have : Φ.symm ⁻¹' (Φ ⁻¹' O) = O := by
+      ext y; simp
+    rw [this]; exact hO
+  let κ : OpenPartialHomeomorph E BTZJ0 :=
+    { toFun := fun w => j (Φ (inv w))
+      invFun := fun q => Ψ (Φ.symm (js q))
+      source := U
+      target := js ⁻¹' (Φ.symm ⁻¹' V)
+      map_source' := fun w hw => by
+        show Φ.symm (js (j (Φ (inv w)))) ∈ V
+        rw [hjsj, Φ.symm_apply_apply]; exact (hinv w hw).1
+      map_target' := fun q hq => hbij.mapsTo hq
+      left_inv' := fun w hw => by
+        show Ψ (Φ.symm (js (j (Φ (inv w))))) = w
+        rw [hjsj, Φ.symm_apply_apply]; exact (hinv w hw).2
+      right_inv' := fun q hq => by
+        show j (Φ (inv (Ψ (Φ.symm (js q))))) = q
+        rw [hinvΨ _ hq, Φ.apply_symm_apply, hjjs]
+      open_source := hU
+      open_target := @IsOpen.preimage _ _ (btzJTop 0) hornTop _ hjs _ hVo
+      continuousOn_toFun := fun w hw => by
+        obtain ⟨v, hv, rfl⟩ := hbij.surjOn hw
+        refine ContinuousAt.continuousWithinAt ?_
+        show Tendsto (fun w => j (Φ (inv w))) (𝓝 (Ψ v)) (𝓝 (j (Φ (inv (Ψ v)))))
+        rw [hinvΨ v hv, hn v hv, tendsto_map'_iff]
+        have hc : Continuous[TF, btzJTop 0] (fun v => j (Φ v)) :=
+          @Continuous.comp _ _ _ TF hornTop (btzJTop 0) _ _ hj hΦ
+        refine (@Continuous.tendsto _ _ TF _ _ hc v).congr' ?_
+        filter_upwards [@IsOpen.mem_nhds _ TF _ _ hV hv] with v' hv'
+        simp only [comp_apply, hinvΨ v' hv']
+      continuousOn_invFun := fun q hq => by
+        refine ContinuousAt.continuousWithinAt ?_
+        show Tendsto _ (𝓝 q) (𝓝 (Ψ (Φ.symm (js q))))
+        rw [hn _ hq]
+        have hc : Continuous[btzJTop 0, TF] (fun q => Φ.symm (js q)) :=
+          @Continuous.comp _ _ _ (btzJTop 0) hornTop TF _ _ hΦs hjs
+        exact (tendsto_map (f := Ψ)).comp (@Continuous.tendsto _ _ (btzJTop 0) TF _ hc q) }
+  refine ⟨κ, ⟨g, fun w hw => ?_⟩, he, inv e, (hinv e he).1, (hinv e he).2, rfl⟩
+  obtain ⟨hv, hw'⟩ := hinv w hw
+  show D w = g • btzDevM 0 btzV0 (Φ (inv w))
+  conv_lhs => rw [← hw']
+  exact hg _ hv
+
+end ChartsBTZ
+
+/-- **`J⁺(Δ₀)` is not a neighbourhood of a point of `Δ₀`** (in `𝐌³`): below the line the null
+coordinate `b` is negative. -/
+theorem btzJplus_notMem_nhds_of_mem_btzLine {p : Causal.Minkowski 2}
+    (hp : p ∈ btzLine (0 : ℝ × ℝ × ℝ)) : btzJplus (0 : ℝ × ℝ × ℝ) ∉ 𝓝 p := by
+  intro hN
+  obtain ⟨s, rfl⟩ := (mem_btzLine_iff (0 : ℝ × ℝ × ℝ)).1 hp
+  set f : ℝ → Causal.Minkowski 2 := fun t =>
+    nullToMink ((0 : ℝ × ℝ × ℝ) + (s • nullU + ((0 : ℝ), -t, (0 : ℝ)))) with hfdef
+  have hfc : Continuous f := nullToMinkHomeomorph.continuous.comp (by fun_prop)
+  have hf0 : f 0 = btzPt (0 : ℝ × ℝ × ℝ) s := by simp [hfdef, btzPt]
+  have hN' : f ⁻¹' btzJplus (0 : ℝ × ℝ × ℝ) ∈ 𝓝 (0 : ℝ) :=
+    hfc.continuousAt.preimage_mem_nhds (by rw [hf0]; exact hN)
+  obtain ⟨δ, hδ, hball⟩ := Metric.mem_nhds_iff.1 hN'
+  have ht : f (δ / 2) ∈ btzJplus (0 : ℝ × ℝ × ℝ) :=
+    hball (by rw [Metric.mem_ball, Real.dist_eq, sub_zero, abs_of_pos (by linarith)]; linarith)
+  rw [hfdef] at ht
+  simp only at ht
+  rw [btzJ_mem_jplus_coords] at ht
+  rcases ht with h | ⟨s', hs'⟩
+  · simp [nullU] at h; linarith
+  · have := congrArg (fun z : ℝ × ℝ × ℝ => z.2.1) hs'
+    simp [nullU] at this
+    linarith
+
+
+/-- **A chart of a developed atlas sends a point to `Δ₀` as soon as one chart does** (the
+transition is an isometry; at a regular model point the image of a chart is a Euclidean
+neighbourhood, and `J⁺(Δ₀)` is a neighbourhood of no point of `Δ₀`). -/
+theorem btzTildeDev_notMem_reg_of_chart {N : Type*} [TopologicalSpace N]
+    {D : N → Causal.Minkowski 2} {κ κ' : OpenPartialHomeomorph N BTZJ0}
+    (hκ : κ ∈ btzTildeDevAtlas D) (hκ' : κ' ∈ btzTildeDevAtlas D) {w : N} (hw : w ∈ κ.source)
+    (hw' : w ∈ κ'.source) (h' : κ' w ∉ btzJReg (0 : ℝ × ℝ × ℝ)) :
+    κ w ∉ btzJReg (0 : ℝ × ℝ × ℝ) := by
+  intro hreg
+  obtain ⟨h, hh⟩ := btzTildeDevAtlas_transition hκ hκ'
+  have hO : IsOpen (κ '' (κ.source ∩ κ'.source)) := κ.isOpen_image_source_inter κ'.open_source
+  obtain ⟨ε, hε, hball⟩ := btzJ_exists_ball_of_reg hO ⟨w, ⟨hw, hw'⟩, rfl⟩ hreg
+  have hhalf : (κ w).val ∈ btzJ0HalfSpace := by
+    have := hreg; rw [btzJReg_eq_preimage] at this; exact this
+  obtain ⟨ε', hε', hball'⟩ := Metric.isOpen_iff.1 isOpen_btzJ0HalfSpace _ hhalf
+  have hsub : Metric.ball (κ w).val (min ε ε') ⊆
+      (fun m : Causal.Minkowski 2 => h • m) ⁻¹' btzJplus (0 : ℝ × ℝ × ℝ) := by
+    intro m hm
+    have hm1 : m ∈ Metric.ball (κ w).val ε := Metric.ball_subset_ball (min_le_left _ _) hm
+    have hm2 : m ∈ btzJplus (0 : ℝ × ℝ × ℝ) :=
+      btzJ0HalfSpace_subset (hball' (Metric.ball_subset_ball (min_le_right _ _) hm))
+    obtain ⟨p, hp, hpq⟩ := hball (BTZJplus.mk m hm2) hm1
+    have h1 := hh p hp
+    rw [hpq] at h1
+    show h • m ∈ btzJplus (0 : ℝ × ℝ × ℝ)
+    have h2 : (κ' p).val ∈ btzJplus (0 : ℝ × ℝ × ℝ) := (κ' p).2
+    rw [h1] at h2
+    exact h2
+  have hN : (fun m : Causal.Minkowski 2 => h • m) ⁻¹' btzJplus (0 : ℝ × ℝ × ℝ) ∈
+      𝓝 (κ w).val := Filter.mem_of_superset (Metric.ball_mem_nhds _ (lt_min hε hε')) hsub
+  have hN' : btzJplus (0 : ℝ × ℝ × ℝ) ∈ 𝓝 (h • (κ w).val) := by
+    have := (Causal.Flat.isom.toHomeomorph h).map_nhds_eq (κ w).val
+    rw [Causal.Flat.isom.coe_toHomeomorph] at this
+    rw [← this]
+    exact hN
+  have hline : (κ' w).val ∈ btzLine (0 : ℝ × ℝ × ℝ) := by
+    by_contra hc; exact h' hc
+  rw [← hh w ⟨hw, hw'⟩] at hN'
+  exact btzJplus_notMem_nhds_of_mem_btzLine hline hN'
+
+
+section TildeCharts
+
+universe w
+
+attribute [local instance] btzE0Structure
+
+variable {M : Type w} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
+  [FirstCountableTopology M] [ConnectedSpace M]
+  [SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2) M]
+  {y₀ : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M)ᶜ : Set M)}
+  {yN : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)ᶜ : Set BTZE0)}
+  {Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN ≃ₜ DInfty × ℝ}
+
+omit [T2Space M] [LocPathConnectedSpace M] [FirstCountableTopology M] in
+/-- **Every chart of `M̃` sends a BTZ point to `Δ₀`**: the lifted chart of `IsLocallyBTZTilde`
+does (`D_{𝔼₀}` maps the axis `{r = 0}` to `Δ₀`), and any two charts agree on this
+(`btzTildeDev_notMem_reg_of_chart`). -/
+theorem BTZTildeData.chart_notMem_btzJReg_of_sing (d : BTZTildeData M y₀ Φ)
+    {κ : OpenPartialHomeomorph d.Space BTZJ0} (hκ : κ ∈ btzTildeDevAtlas (N := d.Space) d.D)
+    {w : d.Space} (hw : w ∈ κ.source)
+    (hs : (d.toNat w).base ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) :
+    κ w ∉ btzJReg (0 : ℝ × ℝ × ℝ) := by
+  obtain ⟨c, f, Ψ, -, -, -, hVoB, -, hUoT, hbij, -, hiff, -, hT'n, g, hg⟩ :=
+    d.isLocallyBTZTilde (d.toNat w) hs
+  have hwU : d.toNat w ∈ connectedComponentIn ((SpreadEnd.base : MaxBranchedCover
+      (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M) y₀ → M) ⁻¹' (c.U : Set M)) (d.toNat w) :=
+    mem_connectedComponentIn c.mem
+  obtain ⟨κ', hκ', hw', v, hv, hΨv, hκ'w⟩ :=
+    exists_mem_btzTildeDevAtlas_of_descent_val (E := d.Space) Φ.toEquiv hVoB hUoT hbij hT'n hg
+      (e := w) hwU
+  have hvs : v.base ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0 := by
+    rw [← hiff v hv, hΨv]; exact hs
+  have key : ∀ (k : GammaA (2 * Real.pi)) (y : DInfty × ℝ), y.1 = DInfty.apex → k • y = y := by
+    rintro k ⟨p, t⟩ hp
+    simp only at hp
+    subst hp
+    rw [DInfty.smul_prod_def, DInfty.smul_def, DInfty.rot_apex]
+  have hs' : orbitMk (GammaA (2 * Real.pi)) (Φ v) ∈
+      orbitMk (GammaA (2 * Real.pi)) '' {x : DInfty × ℝ | x.1 = DInfty.apex} := by
+    rw [← btz_sing btzV0_pos btz_two_pi_ne_zero isBTZStructure_btzE0, d.isPresentation v]
+    exact hvs
+  obtain ⟨x, hx, hxe⟩ := hs'
+  obtain ⟨k, hk⟩ := exists_smul_eq_of_orbitMk_eq hxe
+  have hax : (Φ v).1 = DInfty.apex := by rw [← hk, key k x hx]; exact hx
+  have hκ'reg : κ' w ∉ btzJReg (0 : ℝ × ℝ × ℝ) := by
+    rw [hκ'w]
+    show btzJDev (0 : ℝ × ℝ × ℝ) btzV0 btzV0_pos (Φ.toEquiv v) ∉ btzJReg (0 : ℝ × ℝ × ℝ)
+    rw [btzJDev_mem_btzJReg_iff]
+    show ¬ 0 < (Φ v).1.r
+    rw [hax, DInfty.apex_r]; exact lt_irrefl 0
+  exact btzTildeDev_notMem_reg_of_chart hκ hκ' hw hw' hκ'reg
+
+/-- **A chronological future in `M̃` is regular** (B21: a BTZ point is in the chronological future
+of nothing): the last link of `x ≪ y` ends, in its chart, at a point of `I⁺` of the model, off
+`Δ₀` (`btzJ_mem_reg_of_lt`), which no BTZ point is (`chart_notMem_btzJReg_of_sing`). -/
+theorem BTZTildeData.Iplus_subset_reg (d : BTZTildeData M y₀ Φ) (x : d.Space) :
+    d.causality.Iplus ⊤ {x} ⊆
+      {e | e.base ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M} := by
+  intro y hy
+  have hxy : d.causality.lt ⊤ x y := Causal.Precausality.mem_Iplus_singleton.1 hy
+  have hlast : ∀ a b : d.Space, (∃ κ : btzTildeDevAtlas (N := d.Space) d.D,
+      ((btzJCausality (0 : ℝ × ℝ × ℝ)).chartTransport κ.1).lt (⊤ ⊓ Causal.chartSource κ.1) a b) →
+      (d.toNat b).base ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M := by
+    rintro a b ⟨⟨κ, hκ⟩, hl⟩
+    obtain ⟨-, ⟨-, hb⟩, hc⟩ := btzTilde_link_lt_iff.1 hl
+    have hreg : κ b ∈ btzJReg (0 : ℝ × ℝ × ℝ) := btzJ_mem_reg_of_lt hc.lt
+    by_contra hns
+    exact d.chart_notMem_btzJReg_of_sing hκ hb (by simpa [Sing] using hns) hreg
+  show (d.toNat y).base ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M
+  cases hxy with
+  | single hl => exact hlast _ _ hl
+  | tail _ hl => exact hlast _ _ hl
+
+
+/-- **One chart step into the chronological future**: for `D x ≪ m` there is `y` with
+`x ≪ y` in `M̃` and `D y ≪ m` — the beginning of the straight segment from `κ x` to
+`g⁻¹ m` in a chart `κ` at `x` (it is `T_BTZ`-continuous, so it starts inside `κ`'s target). -/
+theorem BTZTildeData.exists_chart_step (d : BTZTildeData M y₀ Φ) (x : d.Space)
+    {m : Causal.Minkowski 2} (hm : (Causal.minkowski 2).le ⊤ (d.D x) m) :
+    ∃ y : d.Space, ∃ κ ∈ btzTildeDevAtlas (N := d.Space) d.D, x ∈ κ.source ∧ y ∈ κ.source ∧
+      d.causality.le ⊤ x y ∧ (Causal.minkowski 2).le ⊤ (d.D y) m ∧
+      ((Causal.minkowski 2).lt ⊤ (d.D x) m →
+        d.causality.lt ⊤ x y ∧ (Causal.minkowski 2).lt ⊤ (d.D y) m) := by
+  obtain ⟨κ, hκ, hx⟩ := d.isBTZTildeDev x
+  obtain ⟨g, hg⟩ := hκ
+  have hDx : d.D x = g • (κ x).val := hg x hx
+  have h1 : (Causal.minkowski 2).le ⊤ (κ x).val (g⁻¹ • m) := by
+    have := (Causal.Flat.isom_le_top_iff g⁻¹).2 hm
+    rwa [hDx, inv_smul_smul] at this
+  have hm' : g⁻¹ • m ∈ btzJplus (0 : ℝ × ℝ × ℝ) := by
+    obtain ⟨p, hp, hpq⟩ := (κ x).mem
+    exact ⟨p, hp, (Causal.minkowski 2).le_trans hpq h1⟩
+  set q₁ : BTZJ0 := BTZJplus.mk (g⁻¹ • m) hm' with hq₁
+  have hlink : btzJLe (κ x) q₁ := h1
+  set c := btzJSeg hlink with hcdef
+  have hcont := btzJ_continuousOn_seg hlink
+  have hT : κ.target ∈ 𝓝 (c 0) := by
+    rw [hcdef, btzJSeg_zero]; exact κ.open_target.mem_nhds (κ.map_source hx)
+  have hev : c ⁻¹' κ.target ∈ 𝓝[Icc (0 : ℝ) 1] 0 := hcont 0 ⟨le_rfl, zero_le_one⟩ hT
+  obtain ⟨δ, hδ, hball⟩ := Metric.mem_nhdsWithin_iff.1 hev
+  set t : ℝ := min (δ / 2) (1 / 2) with htdef
+  have ht0 : 0 < t := lt_min (by linarith) (by norm_num)
+  have ht1 : t < 1 := lt_of_le_of_lt (min_le_right _ _) (by norm_num)
+  have htδ : t < δ := lt_of_le_of_lt (min_le_left _ _) (by linarith)
+  have hsmall : ∀ s ∈ Icc (0 : ℝ) 1, c (s * t) ∈ κ.target := fun s hs => by
+    have hst : s * t ∈ Icc (0 : ℝ) 1 :=
+      ⟨mul_nonneg hs.1 ht0.le, by nlinarith [hs.1, hs.2, ht0, ht1]⟩
+    refine hball ⟨?_, hst⟩
+    rw [Metric.mem_ball, Real.dist_eq, sub_zero, abs_of_nonneg hst.1]
+    nlinarith [hs.1, hs.2, ht0, htδ]
+  set q₂ := c t with hq₂
+  have hq₂T : q₂ ∈ κ.target := by simpa using hsmall 1 ⟨zero_le_one, le_rfl⟩
+  have hlink2 : btzJLe (κ x) q₂ := by
+    show (Causal.minkowski 2).le ⊤ (κ x).val (btzJSegPt (κ x) q₁ t)
+    have := btzJ_le_segPt hlink ht0.le
+    rwa [btzJSegPt_zero] at this
+  have hval2 : q₂.val = (κ x).val + t • ((g⁻¹ • m) - (κ x).val) := by
+    show btzJSegPt (κ x) q₁ t = _
+    rw [btzJSegPt_eq_of_mem ⟨ht0.le, ht1.le⟩]; rfl
+  have hseg2 : ∀ s ∈ Icc (0 : ℝ) 1, btzJSeg hlink2 s = c (s * t) := fun s hs => by
+    have hst : s * t ∈ Icc (0 : ℝ) 1 :=
+      ⟨mul_nonneg hs.1 ht0.le, by nlinarith [hs.1, hs.2, ht0, ht1]⟩
+    apply BTZJplus.ext
+    show btzJSegPt (κ x) q₂ s = btzJSegPt (κ x) q₁ (s * t)
+    rw [btzJSegPt_eq_of_mem hs, btzJSegPt_eq_of_mem hst, hval2, add_sub_cancel_left, smul_smul]
+    rfl
+  have hmem2 : ∀ s ∈ Icc (0 : ℝ) 1,
+      btzJSeg hlink2 s ∈ Causal.chartImage κ (⊤ ⊓ Causal.chartSource κ) := fun s hs => by
+    rw [hseg2 s hs]
+    have hT' := hsmall s hs
+    exact ⟨κ.symm (c (s * t)), ⟨κ.map_target hT', trivial, κ.map_target hT'⟩, κ.right_inv hT'⟩
+  set y := κ.symm q₂ with hydef
+  have hy : y ∈ κ.source := κ.map_target hq₂T
+  have hκy : κ y = q₂ := κ.right_inv hq₂T
+  have hDy : d.D y = g • q₂.val := by rw [hg y hy, hκy]
+  have hκ : κ ∈ btzTildeDevAtlas (N := d.Space) d.D := ⟨g, hg⟩
+  have hle : d.causality.le ⊤ x y := by
+    refine btzTildeAtlasCausality_le_of_link (hA := d.isBTZTildeDev) hκ
+      (btzTilde_link_le_iff.2 ⟨⟨trivial, hx⟩, ⟨trivial, hy⟩, ?_⟩)
+    rw [hκy]
+    exact ⟨0, 1, zero_le_one, btzJSeg hlink2, btzJ_curveOn_seg hlink2 hmem2, btzJSeg_zero hlink2,
+      btzJSeg_one hlink2⟩
+  have hq₂m : (Causal.minkowski 2).le ⊤ q₂.val (g⁻¹ • m) := by
+    have := btzJ_le_segPt hlink ht1.le
+    rw [btzJSegPt_one] at this
+    exact this
+  refine ⟨y, κ, hκ, hx, hy, hle, ?_, fun hlt => ?_⟩
+  · rw [hDy, ← smul_inv_smul g m]
+    exact (Causal.Flat.isom_le_top_iff g).2 hq₂m
+  · -- the chronological case
+    have hlinkL : btzJLt (κ x) q₁ := by
+      show (Causal.minkowski 2).lt ⊤ (κ x).val (g⁻¹ • m)
+      have := (Causal.Flat.isom_lt_top_iff g⁻¹).2 hlt
+      rwa [hDx, inv_smul_smul] at this
+    have hlink3 : btzJLt (κ x) q₂ := by
+      show (Causal.minkowski 2).lt ⊤ (κ x).val (btzJSegPt (κ x) q₁ t)
+      have := btzJ_lt_segPt hlinkL le_rfl ht0
+      rwa [btzJSegPt_zero] at this
+    have hq₂m' : (Causal.minkowski 2).lt ⊤ q₂.val (g⁻¹ • m) := by
+      have := btzJ_lt_segPt hlinkL ht0.le ht1
+      rw [btzJSegPt_one] at this
+      exact this
+    refine ⟨?_, ?_⟩
+    · refine btzTildeAtlasCausality_lt_of_link (hA := d.isBTZTildeDev) hκ
+        (btzTilde_link_lt_iff.2 ⟨⟨trivial, hx⟩, ⟨trivial, hy⟩, ?_⟩)
+      rw [hκy]
+      exact ⟨0, 1, zero_lt_one, btzJSeg hlink3.le, btzJ_curveOn_seg_lt hlink3 hmem2,
+        btzJSeg_zero hlink3.le, btzJSeg_one hlink3.le⟩
+    · rw [hDy, ← smul_inv_smul g m]
+      exact (Causal.Flat.isom_lt_top_iff g).2 hq₂m'
+
+end TildeCharts
+
+end TildeChartsAll
+
 /-! ## §4 The `𝔼₀` case: `Reg M` of a GH Cauchy-compact Cauchy-maximal `𝔼₀`-manifold -/
 
 section E0
@@ -896,10 +1320,11 @@ theorem btz_uniformization_reg_of_regM
       isFutureComplete_of_range_eq_omegaPlus (e0RegMFlat M) hpair hD hr, hB⟩
   · exact Or.inr ⟨hP, hr, omegaMinus_eq_iInter_Iminus _, hfp, hB⟩
 
-/-- `btz_uniformization_reg` in the topological Cauchy-compact form (`E0CauchyCompact`, through
-`E0AbsMax.cor_abs_max_e0`); the DEC-107 form is `btz_uniformization_reg_of_regM` fed by
-`E0AbsMax.cor_abs_max_C1`. -/
-theorem btz_uniformization_reg (hGH : (CE M).GloballyHyperbolic) (hCC : E0CauchyCompact M)
+/-- `btz_uniformization_reg_of_regM` fed by `E0AbsMax.cor_abs_max_C1` (DEC-107/117: « Cauchy-compact »
+is a compact `C¹` spacelike Cauchy surface; the topological route through `cor_abs_max_e0` and its
+smoothing step (G0) is deleted, DEC-117). -/
+theorem btz_uniformization_reg (hGH : (CE M).GloballyHyperbolic)
+    (hCC : ∃ S : Set M, E0Surgery.IsE0C1SpacelikeCauchy M S)
     (hmax : IsE0CauchyMaximal M) (x₀ : e0RegMFlat M)
     (hnm : ¬IsMetabelianGroup (Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀)))
     (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
@@ -942,7 +1367,7 @@ theorem btz_uniformization_reg (hGH : (CE M).GloballyHyperbolic) (hCC : E0Cauchy
             ∃ f : e0RegMFlat M ≃ₜ B, Causal.Flat.IsLocalIsometry 2 f ∧
               ∀ z (hz : D z ∈ Causal.Flat.limitOpensMinus ρ.range),
                 f (Causal.UniversalCover.proj (e0RegMFlat M) x₀ z) = π ⟨D z, hz⟩)) :=
-  btz_uniformization_reg_of_regM (cor_abs_max_e0 hGH hCC hmax) x₀ hnm D ρ hpair
+  btz_uniformization_reg_of_regM (cor_abs_max_C1 hGH hCC hmax) x₀ hnm D ρ hpair
 
 omit [SecondCountableTopology M] in
 /-- **The future case is forced by a BTZ line** (DEC-77 (a); SCOPE D-11 (d)): if `M` has a BTZ
@@ -975,16 +1400,16 @@ theorem e0RegM_range_not_subset_omegaMinus_of_regM
       rw [hr]
       exact Causal.Flat.Jminus_omegaMinus_subset _ ⟨D z, hr ▸ mem_range_self z, hpz⟩
 
-/-- `e0RegM_range_not_subset_omegaMinus` in the topological Cauchy-compact form. -/
+/-- `e0RegM_range_not_subset_omegaMinus` in the `C¹` Cauchy-compact form (DEC-107/117). -/
 theorem e0RegM_range_not_subset_omegaMinus (hGH : (CE M).GloballyHyperbolic)
-    (hCC : E0CauchyCompact M) (hmax : IsE0CauchyMaximal M)
+    (hCC : ∃ S : Set M, E0Surgery.IsE0C1SpacelikeCauchy M S) (hmax : IsE0CauchyMaximal M)
     (hsing : (Causal.CBG.chartedSing e0SingY M 0).Nonempty) (x₀ : e0RegMFlat M)
     (hnm : ¬IsMetabelianGroup (Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀)))
     (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
     (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2)
     (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ) :
     ¬ range D ⊆ Causal.Flat.omegaMinus (Causal.Flat.limitSetJ ρ.range) :=
-  e0RegM_range_not_subset_omegaMinus_of_regM (cor_abs_max_e0 hGH hCC hmax) hsing x₀ hnm D ρ hpair
+  e0RegM_range_not_subset_omegaMinus_of_regM (cor_abs_max_C1 hGH hCC hmax) hsing x₀ hnm D ρ hpair
 
 /-- **THE HEADLINE on the regular part, future case** (`theo:globally_hyperbolic_cauchy_complete_cauchy_maximal`,
 gx l.2363, in DEC-28's Cauchy-compact form with DEC-76/77): for `M` a globally hyperbolic,
@@ -994,7 +1419,8 @@ injective; `ρ` faithful, discrete and torsion-free; the null planes `(Π_w)_{w 
 `ρ(π₁)`-invariant family; `𝒟(Reg M̃) = Ω⁺(Λ) = ⋂_w I⁺(Π_w)` on which `ρ(π₁)` acts freely and
 properly discontinuously; `Reg M̃` is future complete; and `𝒟` induces an isometry
 `Reg M ≅ ρ(π₁)\Ω⁺(Λ)`. The future case is selected by `e0RegM_range_not_subset_omegaMinus`. -/
-theorem btz_uniformization (hGH : (CE M).GloballyHyperbolic) (hCC : E0CauchyCompact M)
+theorem btz_uniformization_regFuture (hGH : (CE M).GloballyHyperbolic)
+    (hCC : ∃ S : Set M, E0Surgery.IsE0C1SpacelikeCauchy M S)
     (hmax : IsE0CauchyMaximal M) (hsing : (Causal.CBG.chartedSing e0SingY M 0).Nonempty)
     (x₀ : e0RegMFlat M)
     (hnm : ¬IsMetabelianGroup (Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀)))
@@ -1036,8 +1462,8 @@ part**: a globally hyperbolic, Cauchy-compact, Cauchy-maximal `𝔼₀`-manifold
 `π₁(Reg M)` not metabelian has its regular part future complete: for every developing pair of
 `Reg M` and every `z ∈ Reg M̃`, `𝒟(J⁺(z)) = J⁺(𝒟 z)` and `𝒟(I⁺(z)) = I⁺(𝒟 z)` (the first step of
 the paper's proof, l.2350). -/
-theorem btz_reg_isFutureComplete (hGH : (CE M).GloballyHyperbolic) (hCC : E0CauchyCompact M)
-    (hmax : IsE0CauchyMaximal M) (hsing : (Causal.CBG.chartedSing e0SingY M 0).Nonempty)
+theorem btz_reg_isFutureComplete (hGH : (CE M).GloballyHyperbolic)
+    (hCC : ∃ S : Set M, E0Surgery.IsE0C1SpacelikeCauchy M S) (hmax : IsE0CauchyMaximal M) (hsing : (Causal.CBG.chartedSing e0SingY M 0).Nonempty)
     (x₀ : e0RegMFlat M)
     (hnm : ¬IsMetabelianGroup (Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀)))
     (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
@@ -1046,7 +1472,73 @@ theorem btz_reg_isFutureComplete (hGH : (CE M).GloballyHyperbolic) (hCC : E0Cauc
     letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat M) x₀
     haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat M) x₀
     IsFutureComplete (Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat M) x₀)) D :=
-  (btz_uniformization hGH hCC hmax hsing x₀ hnm D ρ hpair).2.2.2.2.2.2.2.2.2.2.1
+  (btz_uniformization_regFuture hGH hCC hmax hsing x₀ hnm D ρ hpair).2.2.2.2.2.2.2.2.2.2.1
+
+/-! ### §4f The headline's one open upstream leaf, isolated
+
+Every `sorryAx` under the headline comes from ONE declaration, B21 Prop 2.17's mixed diamonds
+`GX.E0AbsMax.E0Pushout.isCompact_diamond_mixed` (`GXScaffold.BTZ.AbsMax`). Its statement is the
+proposition `GX.E0MixedDiamondsCompact`; `GX.cor_abs_max_C1_of_mixed` is Cor 2.18 (DEC-107) from it
+with standard axioms only (the proof of `E0Pushout.globallyHyperbolic` / `absMax_e0RegM`, the leaf
+a hypothesis), so `GX.btz_uniformization_of_mixed` is the whole headline on standard axioms given
+that one proposition. -/
+
+variable (M) in
+/-- **The one open leaf of B21 Prop 2.17** (`GX.E0AbsMax.E0Pushout.isCompact_diamond_mixed`, its
+CONCLUSION): every mixed diamond `J(p, q)` — `p` BTZ, `q` regular — of the push-out
+`M̄ = M ∪_{Reg M} N` along an isometric embedding into a GH flat spacetime is compact. The leaf
+also assumes `M` globally hyperbolic and Cauchy-maximal; this proposition drops those premises,
+so it is STRONGER than the leaf (`e0MixedDiamondsCompact_of_record` recovers it from the leaf under
+them), and every consumer here (`absMax_e0RegM_of_mixed`, `cor_abs_max_C1_of_mixed`,
+`btz_uniformization_of_mixed`) carries both premises anyway. -/
+def E0MixedDiamondsCompact : Prop :=
+  ∀ {N : Causal.Flat.FlatSpacetime.{0} 2}, Causal.Flat.GH N → ∀ {f : e0RegMFlat M → N}
+    (P : E0Pushout M N f) {p q : P.carrier}, p ∈ S0 P.carrier → q ∉ S0 P.carrier →
+      IsCompact ((CE P.carrier).diamond ⊤ p q)
+
+/-- `E0AbsMax.absMax_e0RegM` with the mixed-diamond leaf as a hypothesis (the proof of
+`E0AbsMax.E0Pushout.globallyHyperbolic` and `absMax_e0RegM`, verbatim otherwise). -/
+theorem absMax_e0RegM_of_mixed (hmix : E0MixedDiamondsCompact M)
+    (hGH : (CE M).GloballyHyperbolic) {S : Set M}
+    (hS : (CE M).IsCauchySurface S) (hSc : IsCompact S) (hSac : (CE M).IsAcausal S)
+    (hmax : IsE0CauchyMaximal M) :
+    Causal.Flat.AbsMax (fun _ => True) (e0RegMFlat M) := by
+  have hE := isE0Maximal_of_isE0CauchyMaximal e0_hLine hGH hS hSc hSac hmax
+  intro N hN _ f hf y
+  obtain ⟨P⟩ := exists_e0Pushout hN hf
+  have hPGH : (CE P.carrier).GloballyHyperbolic := by
+    have hP := e0_sfa e0_hLine P.carrier
+    obtain ⟨hA, hsA, hBc⟩ := P.pieces
+    let A : TopologicalSpace.Opens P.carrier := ⟨range P.ι₁, hA⟩
+    let B : TopologicalSpace.Opens P.carrier := ⟨range P.ι₂, P.isOpenEmbedding_ι₂.isOpen_range⟩
+    have hGA : (CE P.carrier).GloballyHyperbolicOn A :=
+      globallyHyperbolicOn_of_le_iff hGH (continuous_of_isE0Mor P.isE0Mor_ι₁) rfl
+        (le_iff_of_isE0Mor P.isE0Mor_ι₁ P.injective_ι₁ rfl)
+    have hGB : (CE P.carrier).GloballyHyperbolicOn B :=
+      globallyHyperbolicOn_of_le_iff hN P.isOpenEmbedding_ι₂.continuous rfl
+        (P.le_ι₂ B rfl)
+    exact globallyHyperbolic_of_twoOpens hP (A := A) (B := B) hsA hBc hGA hGB
+      fun p hp q hq => hmix hN P hp hq
+  have hbij := hE P.carrier P.ι₁ hPGH P.isE0Mor_ι₁ P.injective_ι₁
+  obtain ⟨x, hx⟩ := hbij.2 (P.ι₂ y)
+  obtain ⟨w, -, hw⟩ := P.glue x y hx
+  exact ⟨w, hw⟩
+
+/-- `E0AbsMax.cor_abs_max_C1` with the mixed-diamond leaf as a hypothesis: standard axioms. -/
+theorem cor_abs_max_C1_of_mixed (hmix : E0MixedDiamondsCompact M)
+    (hGH : (CE M).GloballyHyperbolic)
+    (hCC : ∃ S : Set M, E0Surgery.IsE0C1SpacelikeCauchy M S) (hmax : IsE0CauchyMaximal M) :
+    Causal.Flat.GH (e0RegMFlat M) ∧ Causal.Flat.IsCauchyComplete 2 (e0RegMFlat M) ∧
+      Causal.Flat.AbsMax (fun _ => True) (e0RegMFlat M) := by
+  obtain ⟨S, hS⟩ := hCC
+  exact ⟨gh_e0RegMFlat_e0 hGH, E0Surgery.regM_isCauchyComplete_of_C1 hGH hS hmax,
+    absMax_e0RegM_of_mixed hmix hGH hS.cauchy hS.compact
+      (isAcausal_of_isCauchySurface_e0 hGH hS.cauchy) hmax⟩
+
+/-- The leaf of record discharges the hypothesis (through its tagged `sorry`). -/
+theorem e0MixedDiamondsCompact_of_record (hGH : (CE M).GloballyHyperbolic)
+    (hmax : IsE0CauchyMaximal M) : E0MixedDiamondsCompact M :=
+  fun {_N} hN {_f} P {_p _q} hp hq => E0Pushout.isCompact_diamond_mixed hGH hmax hN P hp hq
 
 /-! ### §4a The forms of record (DEC-107: « Cauchy-compact » is a compact `C¹` spacelike Cauchy surface)
 
@@ -1055,8 +1547,52 @@ theorem btz_reg_isFutureComplete (hGH : (CE M).GloballyHyperbolic) (hCC : E0Cauc
 available on `M` itself: every BTZ point is the origin of a full future BTZ ray
 (`E0Spear.exists_fullFutureBTZRay_e0`, B21 Lemma 2.3 — the paper's « Lemma 2.4 », l.2352). -/
 
-/-- **THE HEADLINE, form of record** (`theo:globally_hyperbolic_cauchy_complete_cauchy_maximal`, gx
-l.2363, DEC-28 + DEC-107 + DEC-76/77): for `M` a globally hyperbolic Cauchy-maximal
+/-- `btz_uniformization_C1` from the triple « `Reg M` GH, Cauchy-complete, absolutely maximal »
+(any form of B21 Cor 2.18), standard axioms only. -/
+theorem btz_uniformization_C1_of_regM (hGH : (CE M).GloballyHyperbolic)
+    (hRM : Causal.Flat.GH (e0RegMFlat M) ∧ Causal.Flat.IsCauchyComplete 2 (e0RegMFlat M) ∧
+      Causal.Flat.AbsMax (fun _ => True) (e0RegMFlat M))
+    (hmax : IsE0CauchyMaximal M) (hsing : (Causal.CBG.chartedSing e0SingY M 0).Nonempty)
+    (x₀ : e0RegMFlat M)
+    (hnm : ¬IsMetabelianGroup (Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀)))
+    (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
+    (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2)
+    (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ) :
+    (∃ γ ∈ ρ.range, Causal.Flat.IsLoxodromic (Causal.Flat.linOf γ)) ∧ Injective D ∧
+      Injective ρ ∧ DiscreteTopology ρ.range ∧ Causal.Flat.IsTorsionFreeSubgroup ρ.range ∧
+      (∀ γ ∈ ρ.range, ∀ w ∈ Causal.Flat.limitSetJ ρ.range,
+        Causal.Flat.isomPenrose γ w ∈ Causal.Flat.limitSetJ ρ.range ∧
+          (fun p => γ • p) '' nullPlane w = nullPlane (Causal.Flat.isomPenrose γ w)) ∧
+      Causal.Flat.FutureRegular (Causal.Flat.limitSetJ ρ.range) ∧
+      range D = Causal.Flat.omegaPlus (Causal.Flat.limitSetJ ρ.range) ∧
+      Causal.Flat.omegaPlus (Causal.Flat.limitSetJ ρ.range) =
+        ⋂ w ∈ Causal.Flat.limitSetJ ρ.range, (Causal.minkowski 2).Iplus ⊤ (nullPlane w) ∧
+      Causal.Flat.ActsFreelyProperlyOn ρ.range
+        (Causal.Flat.omegaPlus (Causal.Flat.limitSetJ ρ.range)) ∧
+      (letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat M) x₀
+       haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat M) x₀
+       IsFutureComplete
+        (Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat M) x₀)) D) ∧
+      (∃ (B : Causal.Flat.FlatSpacetime.{0} 2) (π : Causal.Flat.limitOpensPlus ρ.range → B),
+        IsCoveringMap π ∧ Causal.Flat.IsLocalIsometry 2 π ∧ Surjective π ∧
+        (∀ p q : Causal.Flat.limitOpensPlus ρ.range,
+          π p = π q ↔ ∃ γ ∈ ρ.range, γ • (p : Causal.Minkowski 2) = q) ∧
+        Causal.Flat.GH B ∧
+        ∃ f : e0RegMFlat M ≃ₜ B, Causal.Flat.IsLocalIsometry 2 f ∧
+          ∀ z (hz : D z ∈ Causal.Flat.limitOpensPlus ρ.range),
+            f (Causal.UniversalCover.proj (e0RegMFlat M) x₀ z) = π ⟨D z, hz⟩) ∧
+      ∀ p ∈ S0 M, ∃ γ : ℝ → M, E0Spear.IsFullFutureBTZRay p γ := by
+  obtain ⟨hlox, hD, hρ, hdisc, htf, hinv, hcase⟩ :=
+    btz_uniformization_reg_of_regM hRM x₀ hnm D ρ hpair
+  rcases hcase with ⟨hF, hr, hI, hfp, hfc, hB⟩ | ⟨-, hr, -⟩
+  · exact ⟨hlox, hD, hρ, hdisc, htf, hinv, hF, hr, hI, hfp, hfc, hB,
+      fun p hp => E0Spear.exists_fullFutureBTZRay_e0 hGH hmax hp⟩
+  · exact absurd hr.subset (e0RegM_range_not_subset_omegaMinus_of_regM
+      hRM hsing x₀ hnm D ρ hpair)
+
+/-- **The headline on `M` and `Reg M`, with « `π₁(Reg M)` not metabelian »**
+(`theo:globally_hyperbolic_cauchy_complete_cauchy_maximal`, gx l.2363, DEC-28 + DEC-107 + DEC-77;
+the form of record with DEC-119's « free and non-abelian » and the bridge is `btz_uniformization`): for `M` a globally hyperbolic Cauchy-maximal
 `𝔼₀`-manifold with a compact `C¹` spacelike Cauchy surface, at least one BTZ point, and
 `π₁(Reg M)` not metabelian, and **every** developing pair `(𝒟, ρ)` of `Reg M`: a loxodromic in
 `ρ(π₁)`; `𝒟` injective on `Reg M̃`; `ρ` faithful, discrete, torsion-free; the `ρ(π₁)`-invariant
@@ -1094,17 +1630,12 @@ theorem btz_uniformization_C1 (hGH : (CE M).GloballyHyperbolic)
         ∃ f : e0RegMFlat M ≃ₜ B, Causal.Flat.IsLocalIsometry 2 f ∧
           ∀ z (hz : D z ∈ Causal.Flat.limitOpensPlus ρ.range),
             f (Causal.UniversalCover.proj (e0RegMFlat M) x₀ z) = π ⟨D z, hz⟩) ∧
-      ∀ p ∈ S0 M, ∃ γ : ℝ → M, E0Spear.IsFullFutureBTZRay p γ := by
-  obtain ⟨hlox, hD, hρ, hdisc, htf, hinv, hcase⟩ :=
-    btz_uniformization_reg_of_regM (cor_abs_max_C1 hGH hCC hmax) x₀ hnm D ρ hpair
-  rcases hcase with ⟨hF, hr, hI, hfp, hfc, hB⟩ | ⟨-, hr, -⟩
-  · exact ⟨hlox, hD, hρ, hdisc, htf, hinv, hF, hr, hI, hfp, hfc, hB,
-      fun p hp => E0Spear.exists_fullFutureBTZRay_e0 hGH hmax hp⟩
-  · exact absurd hr.subset (e0RegM_range_not_subset_omegaMinus_of_regM
-      (cor_abs_max_C1 hGH hCC hmax) hsing x₀ hnm D ρ hpair)
+      ∀ p ∈ S0 M, ∃ γ : ℝ → M, E0Spear.IsFullFutureBTZRay p γ :=
+  btz_uniformization_C1_of_regM hGH (cor_abs_max_C1 hGH hCC hmax) hmax hsing x₀ hnm D ρ hpair
 
-/-- **`prop:globally_hyperbolic_cauchy_complete_manifolds` (l.2348), corrected (DEC-77), form of
-record (DEC-107)**: a globally hyperbolic Cauchy-maximal `𝔼₀`-manifold with a compact `C¹`
+/-- **The proof's two steps of `prop:globally_hyperbolic_cauchy_complete_manifolds`** (l.2348,
+DEC-77's corrected hypotheses, DEC-107; a LEMMA — the form of record, with DEC-118 (a)'s
+conclusion `IsBTZFutureComplete`, is `btz_isBTZFutureComplete_C1`): a globally hyperbolic Cauchy-maximal `𝔼₀`-manifold with a compact `C¹`
 spacelike Cauchy surface, a BTZ point and `π₁(Reg M)` not metabelian is future complete in the
 two senses of the paper's proof: (1) its regular part — for every developing pair of `Reg M` and
 every `z ∈ Reg M̃`, `𝒟(J⁺(z)) = J⁺(𝒟 z)` and `𝒟(I⁺(z)) = I⁺(𝒟 z)` (l.2350); (2) its singular
@@ -1170,6 +1701,802 @@ theorem btz_uniformization_C1_of_isFreeGroup (hGH : (CE M).GloballyHyperbolic)
       ∀ p ∈ S0 M, ∃ γ : ℝ → M, E0Spear.IsFullFutureBTZRay p γ :=
   btz_uniformization_C1 hGH hCC hmax hsing x₀ (not_isMetabelianGroup_of_isFreeGroup' hfree hna)
     D ρ hpair
+
+/-! ### §4e The BTZ half through the bridge (DEC-106, DEC-118, DEC-119)
+
+`GX.BTZ.HeadlineBridge` builds the singular structure of `M` from its `𝔼₀` atlas
+(`E0Bridge.e0SingularGXStructure`), `reg M̃ ≃ₜ` the universal cover of `Reg M`
+(`E0Bridge.regTildeHomeo`) and the extension of a developing pair of `Reg M` to the BTZ points
+(`E0Bridge.exists_btzTildeData_of_isDevelopingPair`); `GX.BTZ.LiftGH` proves `M̃` globally
+hyperbolic in its natural topology (DEC-106/118 (b)). -/
+
+attribute [local instance] btzE0Structure in
+/-- **The BTZ half of the headline, through the bridge**: for a globally hyperbolic `𝔼₀`-manifold
+`M`, a developing pair `(𝒟, ρ)` of `Reg M` with `𝒟` injective, and every presentation `Φ` of
+`\widetilde{𝔼₀}`: (1) ONE `\widetilde M`-datum `d` — the chartwise one (DEC-118 (c)) — on which
+`𝒟` extends to the BTZ points (`d.D` `T_BTZ`-continuous, `d.D = 𝒟` on `reg M̃` through
+`regTildeHomeo`), the extension is injective on `reg M̃`, and `M̃` is globally hyperbolic in its
+natural topology (DEC-106, DEC-118 (b)); (2) every `\widetilde M`-datum is future distinguishing
+for its chart-generated `≪` (DEC-118 (a)). The datum is `exists_isChartwise`'s, translated by
+`E0Bridge.exists_btzTildeData_extending` (same `T_BTZ`, and `IsChartwise` reads `T_BTZ` only). -/
+theorem btz_uniformization_btzHalf (hGH : (CE M).GloballyHyperbolic) (x₀ : e0RegMFlat M)
+    (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
+    (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2)
+    (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ) (hD : Injective D) :
+    letI := E0Bridge.e0SingularGXStructure M
+    haveI := ChartedSpace.locPathConnectedSpace E0Y M
+    ∀ {yN : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)ᶜ : Set BTZE0)}
+      {Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN ≃ₜ
+        DInfty × ℝ}, (∀ e, orbitMk (GammaA (2 * Real.pi)) (Φ e) = e.base) →
+      (∃ d : BTZTildeData M (E0Bridge.basePt x₀) Φ, d.IsChartwise ∧
+        (∀ z : E0Bridge.regTilde (E0Bridge.basePt x₀),
+          d.D (z : MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀)) =
+            D (E0Bridge.regTildeHomeo (E0Bridge.basePt x₀) z)) ∧
+        InjOn d.D (E0Bridge.regTilde (E0Bridge.basePt x₀)) ∧
+        d.natCausality.GloballyHyperbolic) ∧
+      ∀ d : BTZTildeData M (E0Bridge.basePt x₀) Φ, IsFutureDistinguishing d.causality := by
+  letI := E0Bridge.e0SingularGXStructure M
+  haveI := ChartedSpace.locPathConnectedSpace E0Y M
+  intro yN Φ hΦ
+  have hG : (e0ManifoldCausality M E0Bridge.isBTZSingModelled_e0).GloballyHyperbolic :=
+    E0Bridge.globallyHyperbolic_e0ManifoldCausality_iff.2 hGH
+  refine ⟨?_, fun d => d.isFutureDistinguishing_of_base E0Bridge.isBTZSingModelled_e0 hG⟩
+  -- ONE datum: the chartwise datum, translated so that its developing map is `𝒟` on `reg M̃`
+  -- (the translate keeps `T_BTZ`, and `IsChartwise` depends on `T_BTZ` alone)
+  obtain ⟨d0, hd0⟩ := BTZTildeData.exists_isChartwise (y₀ := E0Bridge.basePt x₀)
+    E0Bridge.isBTZSingModelled_e0 hΦ
+  obtain ⟨d, hT, hd⟩ := E0Bridge.exists_btzTildeData_extending (E0Bridge.basePt x₀) d0 hpair
+  have hch : d.IsChartwise := by
+    unfold BTZTildeData.IsChartwise
+    rw [hT]
+    exact hd0
+  refine ⟨d, hch, hd, ?_, d.natGloballyHyperbolic_of_base hch E0Bridge.isBTZSingModelled_e0 hG⟩
+  intro a ha b hb hab
+  have h1 := hd ⟨a, ha⟩
+  have h2 := hd ⟨b, hb⟩
+  simp only at h1 h2
+  rw [h1, h2] at hab
+  exact congrArg Subtype.val ((E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).injective (hD hab))
+
+/-! ### §4g′ Transport of the flat causality of `Reg M̃` into `M̃` (WP-46h fixer round 2)
+
+`btzTilde_transport`: a relation of the flat causality of the universal cover of `Reg M` is a
+relation of `BTZTildeData.causality` between the corresponding points of `reg M̃`
+(`E0Bridge.regTildeHomeo`) — the flat causality is absolutely minimal, and on a small ball of a
+flat chart a relation is one link of a `T_BTZ`-chart developed by `d.D`
+(`btzTilde_transport_local`). With it the reverse inclusions of DEC-118 (a) hold at regular points
+(`btzTilde_supset_of_reg`), the chronological one at every point (`btzTilde_supset_of_null`), and
+the causal one at BTZ points off the developed BTZ line (`btzTilde_null_supset`). -/
+
+section Transport
+
+open Filter Topology
+
+attribute [local instance] btzE0Structure in
+/-- **The local transport** (the core of `btzTilde_transport`): every point `c` of the universal
+cover of `Reg M` has an open neighbourhood `O` — a small ball of the flat chart at `c` on which
+`𝒟 = g · chart` — such that a relation `a ≤_O b` (resp. `a ≪_O b`) of the flat causality is a
+relation `ι a ≤ ι b` (resp. `≪`) of `BTZTildeData.causality`, `ι` the inclusion through
+`E0Bridge.regTildeHomeo`: `h · d.D` (a translation `h` into `J⁺(Δ₀) ∖ Δ₀`) is a chart of the
+developed atlas on `ι(O)`, and the straight segment of its target ball is one chart link. -/
+theorem btzTilde_transport_local (x₀ : e0RegMFlat M)
+    (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
+    (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2)
+    (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ) :
+    letI := E0Bridge.e0SingularGXStructure M
+    haveI := ChartedSpace.locPathConnectedSpace E0Y M
+    ∀ {yN : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)ᶜ : Set BTZE0)}
+      {Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN ≃ₜ
+        DInfty × ℝ} (d : BTZTildeData M (E0Bridge.basePt x₀) Φ),
+      (∀ z : E0Bridge.regTilde (E0Bridge.basePt x₀),
+          d.D (z : MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀)) =
+            D (E0Bridge.regTildeHomeo (E0Bridge.basePt x₀) z)) →
+      letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat M) x₀
+      haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat M) x₀
+      ∀ c : Causal.UniversalCover (e0RegMFlat M) x₀,
+        ∃ O : TopologicalSpace.Opens (Causal.UniversalCover (e0RegMFlat M) x₀), c ∈ O ∧
+          ∀ a ∈ O, ∀ b ∈ O,
+            ((Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat M) x₀)).le O a b →
+              d.causality.le ⊤
+                (d.fromNat (((E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).symm a :
+                  MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀))))
+                (d.fromNat (((E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).symm b :
+                  MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀))))) ∧
+            ((Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat M) x₀)).lt O a b →
+              d.causality.lt ⊤
+                (d.fromNat (((E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).symm a :
+                  MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀))))
+                (d.fromNat (((E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).symm b :
+                  MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀))))) := by
+  letI := E0Bridge.e0SingularGXStructure M
+  haveI := ChartedSpace.locPathConnectedSpace E0Y M
+  intro yN Φ d hd
+  letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat M) x₀
+  haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat M) x₀
+  intro c
+  set ι : Causal.UniversalCover (e0RegMFlat M) x₀ →
+      MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀) := fun a =>
+    (((E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).symm a : E0Bridge.regTilde (E0Bridge.basePt x₀)) :
+      MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀)) with hιdef
+  have hDι : ∀ a, d.D (ι a) = D a := fun a => by
+    show d.D (((E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).symm a : E0Bridge.regTilde (E0Bridge.basePt x₀)) :
+      MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀)) = D a
+    rw [hd, Homeomorph.apply_symm_apply]
+  have hιreg : ∀ a, (ι a).base ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M := fun a => by
+    have h := ((E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).symm a).2
+    have h' : (ι a).base ∈ (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M)ᶜ := h
+    simpa [Sing] using h'
+  have hιc : Continuous ι := continuous_subtype_val.comp (E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).symm.continuous
+  have hRo : IsOpen (E0Bridge.regTilde (E0Bridge.basePt x₀)) :=
+    (isClosed_sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M).isOpen_compl.preimage
+      SpreadEnd.continuous_base
+  have hιo : IsOpenMap ι :=
+    hRo.isOpenMap_subtype_val.comp (E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).symm.isOpenMap
+  have hιinj : Injective ι := Subtype.val_injective.comp (E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).symm.injective
+  -- the flat chart at `c` and `D = g • e` near `c`
+  set e := chartAt (Causal.Minkowski 2) c with hedef
+  have he : e ∈ (Causal.gxGroupoid (Causal.Flat.isom 2) (Causal.Minkowski 2)).maximalAtlas
+      (Causal.UniversalCover (e0RegMFlat M) x₀) :=
+    StructureGroupoid.chart_mem_maximalAtlas _ c
+  obtain ⟨g, hg⟩ := hpair.gx.exists_smul_eq c
+  have hg' : ∀ᶠ y in 𝓝 c, D y = g • e y ∧ y ∈ e.source := by
+    filter_upwards [hg, e.open_source.mem_nhds (mem_chart_source _ c)] with y hy hy'
+    refine ⟨?_, hy'⟩
+    simpa [chartAt_self_eq] using hy
+  obtain ⟨O₀, hO₀sub, hO₀o, hcO₀⟩ := mem_nhds_iff.1 hg'
+  have hcs : c ∈ e.source := mem_chart_source _ c
+  -- the ball of radius `ε` around `D c`
+  set W := e.target ∩ e.symm ⁻¹' O₀ with hWdef
+  have hWo : IsOpen W := e.isOpen_inter_preimage_symm hO₀o
+  have hgc : Continuous (fun m : Causal.Minkowski 2 => g⁻¹ • m) :=
+    (Causal.Flat.isom.toHomeomorph g⁻¹).continuous
+  have hW' : IsOpen ((fun m : Causal.Minkowski 2 => g⁻¹ • m) ⁻¹' W) := hWo.preimage hgc
+  have hDc : D c = g • e c := (hO₀sub hcO₀).1
+  have hcW : D c ∈ (fun m : Causal.Minkowski 2 => g⁻¹ • m) ⁻¹' W := by
+    show g⁻¹ • D c ∈ W
+    rw [hDc, inv_smul_smul]
+    exact ⟨e.map_source hcs, by rw [mem_preimage, e.left_inv hcs]; exact hcO₀⟩
+  obtain ⟨ε₁, hε₁, hB₁⟩ := Metric.isOpen_iff.1 hW' _ hcW
+  obtain ⟨ε₂, hε₂, hB₂⟩ := Metric.isOpen_iff.1 isOpen_btzJ0HalfSpace _ btzJ0Pt_mem
+  obtain ⟨ε, hε, hεε₁, hεε₂⟩ : ∃ ε : ℝ, 0 < ε ∧ ε ≤ ε₁ ∧ ε ≤ ε₂ :=
+    ⟨min ε₁ ε₂, lt_min hε₁ hε₂, min_le_left _ _, min_le_right _ _⟩
+  -- the translation `h` of `D c` to `btzJ0Pt`
+  obtain ⟨h, hh⟩ : ∃ h : Causal.Flat.isom 2, ∀ x, h • x = (btzJ0Pt - D c) + x :=
+    ⟨⟨AffineEquiv.constVAdd ℝ (Causal.Minkowski 2) (btzJ0Pt - D c),
+      Causal.Flat.constVAdd_mem_isom _⟩, fun x => by rw [Causal.Flat.isom_smul_def]; rfl⟩
+  have hhB : ∀ x, h • x ∈ Metric.ball btzJ0Pt ε ↔ x ∈ Metric.ball (D c) ε := fun x => by
+    rw [hh, Metric.mem_ball, Metric.mem_ball, dist_eq_norm, dist_eq_norm]
+    have : btzJ0Pt - D c + x - btzJ0Pt = x - D c := by abel
+    rw [this]
+  have hHalf : Metric.ball btzJ0Pt ε ⊆ btzJ0HalfSpace :=
+    (Metric.ball_subset_ball hεε₂).trans hB₂
+  have hBW : ∀ m ∈ Metric.ball (D c) ε, g⁻¹ • m ∈ W := fun m hm =>
+    hB₁ (Metric.ball_subset_ball hεε₁ hm)
+  -- the open set `O`
+  set O : Set (Causal.UniversalCover (e0RegMFlat M) x₀) :=
+    O₀ ∩ D ⁻¹' Metric.ball (D c) ε with hOdef
+  have hOo : IsOpen O := hO₀o.inter (Metric.isOpen_ball.preimage hpair.gx.continuous)
+  have hcO : c ∈ O := ⟨hcO₀, Metric.mem_ball_self hε⟩
+  have hOe : ∀ a ∈ O, D a = g • e a ∧ a ∈ e.source := fun a ha => hO₀sub ha.1
+  -- the inverse on the ball
+  have hinvB : ∀ m ∈ Metric.ball (D c) ε, e.symm (g⁻¹ • m) ∈ O ∧ D (e.symm (g⁻¹ • m)) = m :=
+    fun m hm => by
+      have hW := hBW m hm
+      have hp : e.symm (g⁻¹ • m) ∈ O₀ := hW.2
+      have hDp : D (e.symm (g⁻¹ • m)) = m := by
+        rw [(hO₀sub hp).1, e.right_inv hW.1, smul_inv_smul]
+      exact ⟨⟨hp, by rw [mem_preimage, hDp]; exact hm⟩, hDp⟩
+  have hval : ∀ a ∈ O, (btzJ0RegInv (h • d.D (ι a))).val = h • D a := fun a ha => by
+    rw [hDι]
+    exact btzJ0RegInv_val (btzJ0HalfSpace_subset (hHalf ((hhB _).2 ha.2)))
+  have hcontD : ∀ a, ContinuousAt d.D (ι a) := fun a => by
+    have h1 := @Continuous.continuousAt _ _ d.T'.top _ _ (ι a) d.continuous_D
+    unfold ContinuousAt at h1 ⊢
+    rwa [d.nhds_reg (ι a) (hιreg a)] at h1
+  have hhc : Continuous (fun x : Causal.Minkowski 2 => h • x) :=
+    (Causal.Flat.isom.toHomeomorph h).continuous
+  have hhic : Continuous (fun x : Causal.Minkowski 2 => h⁻¹ • x) :=
+    (Causal.Flat.isom.toHomeomorph h⁻¹).continuous
+  let κN : OpenPartialHomeomorph (MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀)) BTZJ0 :=
+    { toFun := fun w => btzJ0RegInv (h • d.D w)
+      invFun := fun q => ι (e.symm (g⁻¹ • (h⁻¹ • q.val)))
+      source := ι '' O
+      target := {q | q.val ∈ Metric.ball btzJ0Pt ε}
+      map_source' := by
+        rintro _ ⟨a, ha, rfl⟩
+        show (btzJ0RegInv (h • d.D (ι a))).val ∈ Metric.ball btzJ0Pt ε
+        rw [hval a ha]; exact (hhB _).2 ha.2
+      map_target' := fun q hq => by
+        have hm : h⁻¹ • q.val ∈ Metric.ball (D c) ε := by
+          rw [← hhB, smul_inv_smul]; exact hq
+        exact ⟨_, (hinvB _ hm).1, rfl⟩
+      left_inv' := by
+        rintro _ ⟨a, ha, rfl⟩
+        show ι (e.symm (g⁻¹ • (h⁻¹ • (btzJ0RegInv (h • d.D (ι a))).val))) = ι a
+        rw [hval a ha, inv_smul_smul, (hOe a ha).1, inv_smul_smul, e.left_inv (hOe a ha).2]
+      right_inv' := fun q hq => by
+        have hm : h⁻¹ • q.val ∈ Metric.ball (D c) ε := by
+          rw [← hhB, smul_inv_smul]; exact hq
+        show btzJ0RegInv (h • d.D (ι (e.symm (g⁻¹ • (h⁻¹ • q.val))))) = q
+        rw [hDι, (hinvB _ hm).2, smul_inv_smul, btzJ0RegInv_of_mem q.mem]
+        rfl
+      open_source := hιo _ hOo
+      open_target := Metric.isOpen_ball.preimage continuous_btzJ_val
+      continuousOn_toFun := by
+        rintro _ ⟨a, ha, rfl⟩
+        refine ContinuousAt.continuousWithinAt ?_
+        have hc2 : ContinuousAt btzJ0RegInv (h • d.D (ι a)) := by
+          rw [hDι]
+          exact btzJ0RegIncl.continuousAt_symm (hHalf ((hhB _).2 ha.2))
+        have h4 : ContinuousAt (fun w => h • d.D w) (ι a) :=
+          ContinuousAt.comp (g := fun x : Causal.Minkowski 2 => h • x) (f := d.D)
+            hhc.continuousAt (hcontD a)
+        exact ContinuousAt.comp (f := fun w => h • d.D w) hc2 h4
+      continuousOn_invFun := by
+        have hgc' : Continuous (fun x : Causal.Minkowski 2 => g⁻¹ • x) := hgc
+        refine hιc.comp_continuousOn (e.continuousOn_symm.comp
+          (hgc'.comp (hhic.comp continuous_btzJ_val)).continuousOn ?_)
+        intro q hq
+        have hm : h⁻¹ • q.val ∈ Metric.ball (D c) ε := by
+          rw [← hhB, smul_inv_smul]; exact hq
+        exact (hBW _ hm).1 }
+  let κ : OpenPartialHomeomorph d.Space BTZJ0 :=
+    OpenPartialHomeomorph.retopBTZ d.T' κN d.le_natural (by
+      rintro _ ⟨a, -, rfl⟩
+      exact d.nhds_reg (ι a) (hιreg a))
+  have hκv : ∀ a ∈ O, (κ (d.fromNat (ι a))).val = h • D a := hval
+  have hκs : ∀ a ∈ O, d.fromNat (ι a) ∈ κ.source := fun a ha => ⟨a, ha, rfl⟩
+  have hκ : κ ∈ btzTildeDevAtlas (N := d.Space) d.D := by
+    refine ⟨h⁻¹, ?_⟩
+    rintro _ ⟨a, ha, rfl⟩
+    show d.D (ι a) = h⁻¹ • (κ (d.fromNat (ι a))).val
+    rw [hκv a ha, inv_smul_smul, hDι]
+  have hOsub : (⟨O, hOo⟩ : TopologicalSpace.Opens _) ≤ Causal.chartSource e :=
+    fun a ha => (hOe a ha).2
+  have hchart := Causal.Flat.flatCausality_chartIso he
+  have hDle : ∀ a ∈ O, ∀ b ∈ O, (Causal.minkowski 2).le ⊤ (e a) (e b) →
+      btzJLe (κ (d.fromNat (ι a))) (κ (d.fromNat (ι b))) := fun a ha b hb hab => by
+    show (Causal.minkowski 2).le ⊤ (κ (d.fromNat (ι a))).val (κ (d.fromNat (ι b))).val
+    rw [hκv a ha, hκv b hb, (hOe a ha).1, (hOe b hb).1]
+    exact (Causal.Flat.isom_le_top_iff h).2 ((Causal.Flat.isom_le_top_iff g).2 hab)
+  have hDlt : ∀ a ∈ O, ∀ b ∈ O, (Causal.minkowski 2).lt ⊤ (e a) (e b) →
+      btzJLt (κ (d.fromNat (ι a))) (κ (d.fromNat (ι b))) := fun a ha b hb hab => by
+    show (Causal.minkowski 2).lt ⊤ (κ (d.fromNat (ι a))).val (κ (d.fromNat (ι b))).val
+    rw [hκv a ha, hκv b hb, (hOe a ha).1, (hOe b hb).1]
+    exact (Causal.Flat.isom_lt_top_iff h).2 ((Causal.Flat.isom_lt_top_iff g).2 hab)
+  have hball : ∀ a ∈ O, (κ (d.fromNat (ι a))).val ∈ Metric.ball btzJ0Pt ε := fun a ha => by
+    rw [hκv a ha]; exact (hhB _).2 ha.2
+  have hseg : ∀ a ∈ O, ∀ b ∈ O, ∀ (hl : btzJLe (κ (d.fromNat (ι a))) (κ (d.fromNat (ι b)))),
+      ∀ s ∈ Icc (0 : ℝ) 1, btzJSeg hl s ∈ Causal.chartImage κ (⊤ ⊓ Causal.chartSource κ) := by
+    intro a ha b hb hl s hs
+    have hmem : (btzJSeg hl s).val ∈ Metric.ball btzJ0Pt ε := by
+      rw [btzJSeg_val]
+      exact btzJSegPt_mem_ball (hball a ha) (hball b hb) hs
+    have hmem' : btzJSeg hl s ∈ κ.target := hmem
+    exact ⟨κ.symm (btzJSeg hl s), ⟨κ.map_target hmem', trivial, κ.map_target hmem'⟩,
+      κ.right_inv hmem'⟩
+  refine ⟨⟨O, hOo⟩, hcO, fun a ha b hb => ⟨fun hab => ?_, fun hab => ?_⟩⟩
+  · have h1 := ((hchart ⟨O, hOo⟩ hOsub a ha b hb).1).1 hab
+    have h2 : (Causal.minkowski 2).le ⊤ (e a) (e b) := (Causal.minkowski 2).le_mono le_top h1
+    have hl := hDle a ha b hb h2
+    exact btzTildeAtlasCausality_le_of_link (hA := d.isBTZTildeDev) hκ
+      (btzTilde_link_le_iff.2 ⟨⟨trivial, hκs a ha⟩, ⟨trivial, hκs b hb⟩,
+        0, 1, zero_le_one, btzJSeg hl, btzJ_curveOn_seg hl (hseg a ha b hb hl), btzJSeg_zero hl,
+        btzJSeg_one hl⟩)
+  · have h1 := ((hchart ⟨O, hOo⟩ hOsub a ha b hb).2).1 hab
+    have h2 : (Causal.minkowski 2).lt ⊤ (e a) (e b) := (Causal.minkowski 2).lt_mono le_top h1
+    have hl := hDlt a ha b hb h2
+    exact btzTildeAtlasCausality_lt_of_link (hA := d.isBTZTildeDev) hκ
+      (btzTilde_link_lt_iff.2 ⟨⟨trivial, hκs a ha⟩, ⟨trivial, hκs b hb⟩,
+        0, 1, zero_lt_one, btzJSeg hl.le, btzJ_curveOn_seg_lt hl (hseg a ha b hb hl.le),
+        btzJSeg_zero hl.le, btzJSeg_one hl.le⟩)
+
+
+attribute [local instance] btzE0Structure in
+/-- **Transport of the flat causality of `Reg M̃` into `M̃`** (WP-46h audit issue 2 (i)): for a
+developing pair `(𝒟, ρ)` of `Reg M` and a datum `d` whose developing map is `𝒟` on `reg M̃`, every
+relation `a ≤ b` / `a ≪ b` of the flat causality of the universal cover of `Reg M` is a relation of
+`BTZTildeData.causality` between the corresponding points of `reg M̃` (`E0Bridge.regTildeHomeo`).
+The flat causality is absolutely minimal (`flatCausality_absolutelyMinimal`), so a relation is a
+chain of relations inside the neighbourhoods of `btzTilde_transport_local`. -/
+theorem btzTilde_transport (x₀ : e0RegMFlat M)
+    (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
+    (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2)
+    (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ) :
+    letI := E0Bridge.e0SingularGXStructure M
+    haveI := ChartedSpace.locPathConnectedSpace E0Y M
+    ∀ {yN : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)ᶜ : Set BTZE0)}
+      {Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN ≃ₜ
+        DInfty × ℝ} (d : BTZTildeData M (E0Bridge.basePt x₀) Φ),
+      (∀ z : E0Bridge.regTilde (E0Bridge.basePt x₀),
+          d.D (z : MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀)) =
+            D (E0Bridge.regTildeHomeo (E0Bridge.basePt x₀) z)) →
+      letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat M) x₀
+      haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat M) x₀
+      ∀ a b : Causal.UniversalCover (e0RegMFlat M) x₀,
+        ((Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat M) x₀)).le ⊤ a b →
+          d.causality.le ⊤
+            (d.fromNat (((E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).symm a :
+              MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀))))
+            (d.fromNat (((E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).symm b :
+              MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀))))) ∧
+        ((Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat M) x₀)).lt ⊤ a b →
+          d.causality.lt ⊤
+            (d.fromNat (((E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).symm a :
+              MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀))))
+            (d.fromNat (((E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).symm b :
+              MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀))))) := by
+  letI := E0Bridge.e0SingularGXStructure M
+  haveI := ChartedSpace.locPathConnectedSpace E0Y M
+  intro yN Φ d hd
+  letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat M) x₀
+  haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat M) x₀
+  intro a b
+  have hloc := btzTilde_transport_local x₀ D ρ hpair d hd
+  set C := Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat M) x₀) with hCdef
+  set ι : Causal.UniversalCover (e0RegMFlat M) x₀ → d.Space := fun a =>
+    d.fromNat (((E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).symm a :
+      MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀))) with hιdef
+  set S : Set (TopologicalSpace.Opens (Causal.UniversalCover (e0RegMFlat M) x₀)) :=
+    {O | ∀ a ∈ O, ∀ b ∈ O, (C.le O a b → d.causality.le ⊤ (ι a) (ι b)) ∧
+      (C.lt O a b → d.causality.lt ⊤ (ι a) (ι b))} with hSdef
+  have hS : ∀ x ∈ (⊤ : TopologicalSpace.Opens (Causal.UniversalCover (e0RegMFlat M) x₀)),
+      ∃ O ∈ S, x ∈ O := fun x _ => by
+    obtain ⟨O, hx, hO⟩ := hloc x
+    exact ⟨O, hO, hx⟩
+  have hmin := (Causal.Precausality.absolutelyMinimal_iff.1
+    (Causal.Flat.flatCausality_absolutelyMinimal (d := 2)
+      (M := Causal.UniversalCover (e0RegMFlat M) x₀))) S hS ⊤ le_rfl a b
+  refine ⟨fun hab => ?_, fun hab => ?_⟩
+  · have hc := hmin.1 hab
+    clear hab hmin
+    induction hc with
+    | single hl =>
+      obtain ⟨O, hO, h⟩ := hl
+      rw [top_inf_eq] at h
+      exact (hO _ (C.le_mem_left h) _ (C.le_mem_right h)).1 h
+    | tail _ hl ih =>
+      obtain ⟨O, hO, h⟩ := hl
+      rw [top_inf_eq] at h
+      exact d.causality.le_trans ih ((hO _ (C.le_mem_left h) _ (C.le_mem_right h)).1 h)
+  · have hc := hmin.2 hab
+    clear hab hmin
+    induction hc with
+    | single hl =>
+      obtain ⟨O, hO, h⟩ := hl
+      rw [top_inf_eq] at h
+      exact (hO _ (C.lt_mem_left h) _ (C.lt_mem_right h)).2 h
+    | tail _ hl ih =>
+      obtain ⟨O, hO, h⟩ := hl
+      rw [top_inf_eq] at h
+      exact d.causality.lt_trans ih ((hO _ (C.lt_mem_left h) _ (C.lt_mem_right h)).2 h)
+
+
+attribute [local instance] btzE0Structure in
+/-- **The reverse inclusions of DEC-118 (a) at a regular point of `M̃`**: if `Reg M̃` is future
+complete for its flat causality (step (1) of the proof, l.2350), then for every `x ∈ reg M̃`,
+`J⁺(𝒟 x) ⊆ 𝒟(J⁺(x))` and `I⁺(𝒟 x) ⊆ 𝒟(I⁺(x))` in `M̃` (through `btzTilde_transport`). -/
+theorem btzTilde_supset_of_reg (x₀ : e0RegMFlat M)
+    (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
+    (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2)
+    (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ)
+    (hfc : letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat M) x₀
+     haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat M) x₀
+     IsFutureComplete (Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat M) x₀)) D) :
+    letI := E0Bridge.e0SingularGXStructure M
+    haveI := ChartedSpace.locPathConnectedSpace E0Y M
+    ∀ {yN : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)ᶜ : Set BTZE0)}
+      {Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN ≃ₜ
+        DInfty × ℝ} (d : BTZTildeData M (E0Bridge.basePt x₀) Φ),
+      (∀ z : E0Bridge.regTilde (E0Bridge.basePt x₀),
+          d.D (z : MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀)) =
+            D (E0Bridge.regTildeHomeo (E0Bridge.basePt x₀) z)) →
+      ∀ x : d.Space, (d.toNat x).base ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M →
+        (Causal.minkowski 2).Jplus ⊤ {d.D x} ⊆ d.D '' d.causality.Jplus ⊤ {x} ∧
+        (Causal.minkowski 2).Iplus ⊤ {d.D x} ⊆ d.D '' d.causality.Iplus ⊤ {x} := by
+  letI := E0Bridge.e0SingularGXStructure M
+  haveI := ChartedSpace.locPathConnectedSpace E0Y M
+  intro yN Φ d hd x hx
+  have htr := btzTilde_transport x₀ D ρ hpair d hd
+  letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat M) x₀
+  haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat M) x₀
+  have hxR : (d.toNat x : MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀)) ∈
+      E0Bridge.regTilde (E0Bridge.basePt x₀) := by
+    show (d.toNat x).base ∈ (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M)ᶜ
+    exact fun h => h hx
+  set z : E0Bridge.regTilde (E0Bridge.basePt x₀) := ⟨d.toNat x, hxR⟩ with hzdef
+  set c := E0Bridge.regTildeHomeo (E0Bridge.basePt x₀) z with hcdef
+  have hxc : d.fromNat (((E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).symm c :
+      MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀))) = x := by
+    rw [hcdef, Homeomorph.symm_apply_apply]; rfl
+  have hDx : d.D x = D c := hd z
+  have hDι : ∀ a, d.D (d.fromNat (((E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).symm a :
+      MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀)))) = D a := fun a => by
+    show d.D (((E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).symm a :
+      E0Bridge.regTilde (E0Bridge.basePt x₀)) : MaxBranchedCover (E0Bridge.sing M)
+        (E0Bridge.basePt x₀)) = D a
+    rw [hd, Homeomorph.apply_symm_apply]
+  refine ⟨fun m hm => ?_, fun m hm => ?_⟩
+  · rw [hDx, ← (hfc c).1] at hm
+    obtain ⟨c', hc', rfl⟩ := hm
+    have h1 := (htr c c').1 (Causal.Precausality.mem_Jplus_singleton.1 hc')
+    rw [hxc] at h1
+    have h2 : d.fromNat (((E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).symm c' :
+        MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀))) ∈ d.causality.Jplus ⊤ {x} :=
+      Causal.Precausality.mem_Jplus_singleton.2 h1
+    exact ⟨_, h2, hDι c'⟩
+  · rw [hDx, ← (hfc c).2] at hm
+    obtain ⟨c', hc', rfl⟩ := hm
+    have h1 := (htr c c').2 (Causal.Precausality.mem_Iplus_singleton.1 hc')
+    rw [hxc] at h1
+    have h2 : d.fromNat (((E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).symm c' :
+        MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀))) ∈ d.causality.Iplus ⊤ {x} :=
+      Causal.Precausality.mem_Iplus_singleton.2 h1
+    exact ⟨_, h2, hDι c'⟩
+
+
+attribute [local instance] btzE0Structure in
+/-- **The reverse inclusions of DEC-118 (a) on all of `M̃`, given the null part at the BTZ
+points**: with `Reg M̃` future complete, `I⁺(𝒟 x) ⊆ 𝒟(I⁺(x))` holds at EVERY `x` (a chart step
+`x ≪ y`, `𝒟 y ≪ m` lands at a regular `y`, `BTZTildeData.Iplus_subset_reg`, where
+`btzTilde_supset_of_reg` applies), and `J⁺(𝒟 x) ⊆ 𝒟(J⁺(x))` at every regular `x` and at every
+`m ∈ I⁺(𝒟 x)`; the remaining points — `x` BTZ, `m ∈ J⁺(𝒟 x) ∖ I⁺(𝒟 x)` — are the hypothesis
+`hnull` (`btzTilde_null_supset`). -/
+theorem btzTilde_supset_of_null (x₀ : e0RegMFlat M)
+    (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
+    (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2)
+    (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ)
+    (hfc : letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat M) x₀
+     haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat M) x₀
+     IsFutureComplete (Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat M) x₀)) D) :
+    letI := E0Bridge.e0SingularGXStructure M
+    haveI := ChartedSpace.locPathConnectedSpace E0Y M
+    ∀ {yN : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)ᶜ : Set BTZE0)}
+      {Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN ≃ₜ
+        DInfty × ℝ} (d : BTZTildeData M (E0Bridge.basePt x₀) Φ),
+      (∀ z : E0Bridge.regTilde (E0Bridge.basePt x₀),
+          d.D (z : MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀)) =
+            D (E0Bridge.regTildeHomeo (E0Bridge.basePt x₀) z)) →
+      (∀ x : d.Space, (d.toNat x).base ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M →
+        ∀ m ∈ (Causal.minkowski 2).Jplus ⊤ {d.D x}, m ∉ (Causal.minkowski 2).Iplus ⊤ {d.D x} →
+          m ∈ d.D '' d.causality.Jplus ⊤ {x}) →
+      ∀ x : d.Space,
+        (Causal.minkowski 2).Jplus ⊤ {d.D x} ⊆ d.D '' d.causality.Jplus ⊤ {x} ∧
+        (Causal.minkowski 2).Iplus ⊤ {d.D x} ⊆ d.D '' d.causality.Iplus ⊤ {x} := by
+  letI := E0Bridge.e0SingularGXStructure M
+  haveI := ChartedSpace.locPathConnectedSpace E0Y M
+  intro yN Φ d hd hnull x
+  have hreg := btzTilde_supset_of_reg x₀ D ρ hpair hfc d hd
+  have hI : ∀ x : d.Space,
+      (Causal.minkowski 2).Iplus ⊤ {d.D x} ⊆ d.D '' d.causality.Iplus ⊤ {x} := fun x m hm => by
+    have hm' := Causal.Precausality.mem_Iplus_singleton.1 hm
+    obtain ⟨y, κ, -, -, -, -, -, hlt⟩ :=
+      d.exists_chart_step x ((Causal.minkowski 2).le_of_lt hm')
+    obtain ⟨hxy, hym⟩ := hlt hm'
+    have hyR := d.Iplus_subset_reg x (Causal.Precausality.mem_Iplus_singleton.2 hxy)
+    obtain ⟨y', hy', hDy'⟩ := (hreg y hyR).2 (Causal.Precausality.mem_Iplus_singleton.2 hym)
+    have hy'' : d.causality.lt ⊤ y (d.fromNat y') :=
+      (Causal.Precausality.mem_Iplus_singleton (M := d.Space)).1 hy'
+    have h2 : (d.fromNat y') ∈ d.causality.Iplus ⊤ {x} :=
+      Causal.Precausality.mem_Iplus_singleton.2 (d.causality.lt_trans hxy hy'')
+    exact ⟨y', h2, hDy'⟩
+  refine ⟨fun m hm => ?_, hI x⟩
+  by_cases hx : (d.toNat x).base ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M
+  · exact (hreg x hx).1 hm
+  by_cases hmI : m ∈ (Causal.minkowski 2).Iplus ⊤ {d.D x}
+  · obtain ⟨y, hy, rfl⟩ := hI x hmI
+    have hy' : d.causality.lt ⊤ x (d.fromNat y) :=
+      (Causal.Precausality.mem_Iplus_singleton (M := d.Space)).1 hy
+    have h2 : (d.fromNat y) ∈ d.causality.Jplus ⊤ {x} :=
+      Causal.Precausality.mem_Jplus_singleton.2 (d.causality.le_of_lt hy')
+    exact ⟨y, h2, rfl⟩
+  exact hnull x (by simpa [Sing] using hx) m hm hmI
+
+attribute [local instance] btzE0Structure in
+/-- **The null part of `J⁺(𝒟 x)` at a BTZ point `x`** (the last step of
+`prop:globally_hyperbolic_cauchy_complete_manifolds`, l.2352): for `x` a BTZ point of `M̃` and
+`m ∈ J⁺(𝒟 x) ∖ I⁺(𝒟 x)`, `m ∈ 𝒟(J⁺(x))`. PROVED when `m = 𝒟 x`, and when the chart step from `x`
+towards `m` (`BTZTildeData.exists_chart_step`) reaches a regular point (then
+`btzTilde_supset_of_reg`) — i.e. whenever `m − 𝒟 x` is not along the developed BTZ line of `x`.
+The remaining case, `m` on the future half of the developed BTZ line of `x`, carries the file's
+one tagged `sorry`. -/
+theorem btzTilde_null_supset (_hGH : (CE M).GloballyHyperbolic)
+    (_hmax : IsE0CauchyMaximal M) (x₀ : e0RegMFlat M)
+    (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
+    (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2)
+    (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ) (_hD : Injective D)
+    (hfc : letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat M) x₀
+     haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat M) x₀
+     IsFutureComplete (Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat M) x₀)) D)
+    (_hrays : ∀ p ∈ S0 M, ∃ γ : ℝ → M, E0Spear.IsFullFutureBTZRay p γ) :
+    letI := E0Bridge.e0SingularGXStructure M
+    haveI := ChartedSpace.locPathConnectedSpace E0Y M
+    ∀ {yN : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)ᶜ : Set BTZE0)}
+      {Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN ≃ₜ
+        DInfty × ℝ}, (∀ e, orbitMk (GammaA (2 * Real.pi)) (Φ e) = e.base) →
+      ∀ d : BTZTildeData M (E0Bridge.basePt x₀) Φ, d.IsChartwise →
+        (∀ z : E0Bridge.regTilde (E0Bridge.basePt x₀),
+          d.D (z : MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀)) =
+            D (E0Bridge.regTildeHomeo (E0Bridge.basePt x₀) z)) →
+        ∀ x : d.Space, (d.toNat x).base ∈ Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M →
+          ∀ m ∈ (Causal.minkowski 2).Jplus ⊤ {d.D x}, m ∉ (Causal.minkowski 2).Iplus ⊤ {d.D x} →
+            m ∈ d.D '' d.causality.Jplus ⊤ {x} := by
+  letI := E0Bridge.e0SingularGXStructure M
+  haveI := ChartedSpace.locPathConnectedSpace E0Y M
+  intro yN Φ _hΦ d _hch hd x hxs m hm _hmI
+  have hreg := btzTilde_supset_of_reg x₀ D ρ hpair hfc d hd
+  by_cases hmx : m = d.D x
+  · have h2 : x ∈ d.causality.Jplus ⊤ {x} :=
+      Causal.Precausality.mem_Jplus_singleton.2 (d.causality.le_refl trivial)
+    exact ⟨x, h2, hmx.symm⟩
+  obtain ⟨y, κ, hκ, hxκ, hyκ, hxy, hym, -⟩ :=
+    d.exists_chart_step x (Causal.Precausality.mem_Jplus_singleton.1 hm)
+  by_cases hy : (d.toNat y).base ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M
+  · obtain ⟨y', hy', hDy'⟩ := (hreg y hy).1 (Causal.Precausality.mem_Jplus_singleton.2 hym)
+    have hy'' : d.causality.le ⊤ y (d.fromNat y') :=
+      (Causal.Precausality.mem_Jplus_singleton (M := d.Space)).1 hy'
+    have h2 : (d.fromNat y') ∈ d.causality.Jplus ⊤ {x} :=
+      Causal.Precausality.mem_Jplus_singleton.2 (d.causality.le_trans hxy hy'')
+    exact ⟨y', h2, hDy'⟩
+  · -- `x` and `y` are BTZ points, so `κ x, κ y ∈ Δ₀` (`chart_notMem_btzJReg_of_sing`)
+    have _hκx := d.chart_notMem_btzJReg_of_sing hκ hxκ hxs
+    have _hκy := d.chart_notMem_btzJReg_of_sing hκ hyκ (by simpa [Sing] using hy)
+    sorry -- SORRY(prop:globally_hyperbolic_cauchy_complete_manifolds): the future half of the developed BTZ line. Here x and the point y of the chart step are BTZ points of M̃, so κ x, κ y ∈ Δ₀ (`chart_notMem_btzJReg_of_sing`) and m − D x is a future null vector ALONG the developed lightlike line D(κ⁻¹ Δ₀) through D x; every z with x ≤ z and D z ∈ J⁻(m) develops onto that segment, so no regular point is available and the chart step cannot leave the line. What is missing is the BTZ-limit of D along the full future BTZ ray of `proj x` (`hrays`, B21 Lemma 2.3) LIFTED to M̃ from x: a chain of descending charts covering the ray (`exists_liftedChart_of_isChartwise`), the transition isometries preserving Δ₀ (the parabolic stabiliser of the developed line), and D(lifted ray) = the whole future half-line D x + ℝ₊ u. Only the null-on-the-line case is open: the chronological inclusion and the causal one off the line are proved (`btzTilde_supset_of_null`).
+
+end Transport
+
+/-! ### §4g `prop:globally_hyperbolic_cauchy_complete_manifolds` in its ruled reading (DEC-118 (a))
+
+« `M` future complete » (`def:manifold_future_complete_all`, l.2343) is read by DEC-118 (a) as
+`BTZTildeData.IsBTZFutureComplete M d`: `D(J⁺(x)) = J⁺(D x)` and `D(I⁺(x)) = I⁺(D x)` for EVERY
+`x ∈ M̃`, BTZ points included, for the chart-generated causality `BTZTildeData.causality`. The
+proof's two steps (`btz_isFutureComplete_C1`: `Reg M̃` future complete, and full future BTZ rays
+in `M`) do not give it for free — `J⁺` in `Reg M̃` is not `J⁺` in `M̃`.
+`isBTZFutureComplete_of_regFuture` is the reduction « the two steps ⇒ DEC-118 (a) », whose
+`⊆` halves are `lem:increasing_map` and whose `⊇` halves are §4g′ (`btzTilde_supset_of_null`, with the
+null part at BTZ points `btzTilde_null_supset`, the one tagged `sorry` of this file, on the BTZ line
+only). -/
+
+attribute [local instance] btzE0Structure in
+/-- **The proof's two steps give `M̃` future complete in DEC-118 (a)'s reading** (the last step of
+`prop:globally_hyperbolic_cauchy_complete_manifolds`, l.2350–2352): for `M` globally hyperbolic and
+Cauchy-maximal, a developing pair `(𝒟, ρ)` of `Reg M` with `𝒟` injective and `Reg M̃` future
+complete (step (1)), full future BTZ rays from every BTZ point (step (2)), every presentation `Φ`,
+and every chartwise datum `d` whose developing map is `𝒟` on `reg M̃`:
+`BTZTildeData.IsBTZFutureComplete M d`. The inclusions `D(J⁺(x)) ⊆ J⁺(D x)`,
+`D(I⁺(x)) ⊆ I⁺(D x)` are proved (`BTZTildeData.dev_image_Jplus_subset`/`_Iplus_subset`); the
+reverse inclusions are `btzTilde_supset_of_null` (proved) with its null part at BTZ points
+`btzTilde_null_supset` (tagged `sorry` on the developed BTZ line only, SCOPE (e)). -/
+theorem isBTZFutureComplete_of_regFuture (hGH : (CE M).GloballyHyperbolic)
+    (hmax : IsE0CauchyMaximal M) (x₀ : e0RegMFlat M)
+    (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
+    (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2)
+    (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ) (hD : Injective D)
+    (hfc : letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat M) x₀
+     haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat M) x₀
+     IsFutureComplete (Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat M) x₀)) D)
+    (hrays : ∀ p ∈ S0 M, ∃ γ : ℝ → M, E0Spear.IsFullFutureBTZRay p γ) :
+    letI := E0Bridge.e0SingularGXStructure M
+    haveI := ChartedSpace.locPathConnectedSpace E0Y M
+    ∀ {yN : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)ᶜ : Set BTZE0)}
+      {Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN ≃ₜ
+        DInfty × ℝ}, (∀ e, orbitMk (GammaA (2 * Real.pi)) (Φ e) = e.base) →
+      ∀ d : BTZTildeData M (E0Bridge.basePt x₀) Φ, d.IsChartwise →
+        (∀ z : E0Bridge.regTilde (E0Bridge.basePt x₀),
+          d.D (z : MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀)) =
+            D (E0Bridge.regTildeHomeo (E0Bridge.basePt x₀) z)) →
+        BTZTildeData.IsBTZFutureComplete M d := by
+  letI := E0Bridge.e0SingularGXStructure M
+  haveI := ChartedSpace.locPathConnectedSpace E0Y M
+  intro yN Φ hΦ d hch hd x
+  have hsup := btzTilde_supset_of_null x₀ D ρ hpair hfc d hd
+    (btzTilde_null_supset hGH hmax x₀ D ρ hpair hD hfc hrays hΦ d hch hd) x
+  exact ⟨(d.dev_image_Jplus_subset x).antisymm hsup.1, (d.dev_image_Iplus_subset x).antisymm hsup.2⟩
+
+attribute [local instance] btzE0Structure in
+/-- **`prop:globally_hyperbolic_cauchy_complete_manifolds`, form of record** (gx l.2348; DEC-77's
+corrected hypotheses, DEC-107's Cauchy-compact, DEC-118 (a)'s « future complete », DEC-106/118 (c)'s
+`M̃`): for `M` a globally hyperbolic Cauchy-maximal `𝔼₀`-manifold with a compact `C¹` spacelike
+Cauchy surface, a BTZ point and `π₁(Reg M)` not metabelian, every developing pair `(𝒟, ρ)` of
+`Reg M` and every presentation `Φ` of `\widetilde{𝔼₀}`: the chartwise `M̃` extending `𝒟` exists,
+and EVERY chartwise `M̃` extending `𝒟` is future complete,
+`BTZTildeData.IsBTZFutureComplete M d` (the input `hfc` of
+`BTZTildeData.injective_D_of_isBTZFutureComplete`). Through `isBTZFutureComplete_of_regFuture`
+(tagged `sorry`) and `btz_isFutureComplete_C1` (the upstream leaf). -/
+theorem btz_isBTZFutureComplete_C1 (hGH : (CE M).GloballyHyperbolic)
+    (hCC : ∃ S : Set M, E0Surgery.IsE0C1SpacelikeCauchy M S)
+    (hmax : IsE0CauchyMaximal M) (hsing : (Causal.CBG.chartedSing e0SingY M 0).Nonempty)
+    (x₀ : e0RegMFlat M)
+    (hnm : ¬IsMetabelianGroup (Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀)))
+    (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
+    (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2)
+    (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ) :
+    letI := E0Bridge.e0SingularGXStructure M
+    haveI := ChartedSpace.locPathConnectedSpace E0Y M
+    ∀ {yN : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)ᶜ : Set BTZE0)}
+      {Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN ≃ₜ
+        DInfty × ℝ}, (∀ e, orbitMk (GammaA (2 * Real.pi)) (Φ e) = e.base) →
+      (∃ d : BTZTildeData M (E0Bridge.basePt x₀) Φ, d.IsChartwise ∧
+        ∀ z : E0Bridge.regTilde (E0Bridge.basePt x₀),
+          d.D (z : MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀)) =
+            D (E0Bridge.regTildeHomeo (E0Bridge.basePt x₀) z)) ∧
+      ∀ d : BTZTildeData M (E0Bridge.basePt x₀) Φ, d.IsChartwise →
+        (∀ z : E0Bridge.regTilde (E0Bridge.basePt x₀),
+          d.D (z : MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀)) =
+            D (E0Bridge.regTildeHomeo (E0Bridge.basePt x₀) z)) →
+        BTZTildeData.IsBTZFutureComplete M d := by
+  letI := E0Bridge.e0SingularGXStructure M
+  haveI := ChartedSpace.locPathConnectedSpace E0Y M
+  intro yN Φ hΦ
+  have hU := btz_uniformization_C1 hGH hCC hmax hsing x₀ hnm D ρ hpair
+  have hsteps := btz_isFutureComplete_C1 hGH hCC hmax hsing x₀ hnm D ρ hpair
+  obtain ⟨d, hch, hd, -, -⟩ := (btz_uniformization_btzHalf hGH x₀ D ρ hpair hU.2.1 hΦ).1
+  exact ⟨⟨d, hch, hd⟩, isBTZFutureComplete_of_regFuture hGH hmax x₀ D ρ hpair hU.2.1 hsteps.1
+    hsteps.2 hΦ⟩
+
+attribute [local instance] btzE0Structure in
+/-- **`𝒟` injective on ALL of `M̃`** (the headline's first bullet at the BTZ points, l.2392–2394),
+for every chartwise `M̃` extending `𝒟`: through `btz_isBTZFutureComplete_C1` (the prop, its tagged
+`sorry` on the developed BTZ line, SCOPE (e)) and `BTZTildeData.injective_D_of_isBTZFutureComplete`;
+its hypothesis « every `I⁺(x)` is regular » (B21: a BTZ point is in the chronological future of
+nothing) is PROVED, `BTZTildeData.Iplus_subset_reg` (fixer round 2; it was carried before). -/
+theorem btz_injective_dev_C1 (hGH : (CE M).GloballyHyperbolic)
+    (hCC : ∃ S : Set M, E0Surgery.IsE0C1SpacelikeCauchy M S)
+    (hmax : IsE0CauchyMaximal M) (hsing : (Causal.CBG.chartedSing e0SingY M 0).Nonempty)
+    (x₀ : e0RegMFlat M)
+    (hnm : ¬IsMetabelianGroup (Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀)))
+    (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
+    (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2)
+    (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ) :
+    letI := E0Bridge.e0SingularGXStructure M
+    haveI := ChartedSpace.locPathConnectedSpace E0Y M
+    ∀ {yN : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)ᶜ : Set BTZE0)}
+      {Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN ≃ₜ
+        DInfty × ℝ}, (∀ e, orbitMk (GammaA (2 * Real.pi)) (Φ e) = e.base) →
+      ∀ d : BTZTildeData M (E0Bridge.basePt x₀) Φ, d.IsChartwise →
+        (∀ z : E0Bridge.regTilde (E0Bridge.basePt x₀),
+          d.D (z : MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀)) =
+            D (E0Bridge.regTildeHomeo (E0Bridge.basePt x₀) z)) →
+        Injective d.D := by
+  letI := E0Bridge.e0SingularGXStructure M
+  haveI := ChartedSpace.locPathConnectedSpace E0Y M
+  intro yN Φ hΦ d hch hd
+  have hU := btz_uniformization_C1 hGH hCC hmax hsing x₀ hnm D ρ hpair
+  have hG : (e0ManifoldCausality M E0Bridge.isBTZSingModelled_e0).GloballyHyperbolic :=
+    E0Bridge.globallyHyperbolic_e0ManifoldCausality_iff.2 hGH
+  have hfc := (btz_isBTZFutureComplete_C1 hGH hCC hmax hsing x₀ hnm D ρ hpair hΦ).2 d hch hd
+  refine d.injective_D_of_isBTZFutureComplete E0Bridge.isBTZSingModelled_e0 hG hfc ?_
+    d.Iplus_subset_reg
+  intro a ha b hb hab
+  have ha' : a ∈ E0Bridge.regTilde (E0Bridge.basePt x₀) := by
+    show a.base ∈ (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M)ᶜ
+    exact fun h => h ha
+  have hb' : b ∈ E0Bridge.regTilde (E0Bridge.basePt x₀) := by
+    show b.base ∈ (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M)ᶜ
+    exact fun h => h hb
+  have h1 := hd ⟨a, ha'⟩
+  have h2 := hd ⟨b, hb'⟩
+  simp only at h1 h2
+  rw [h1, h2] at hab
+  exact congrArg Subtype.val ((E0Bridge.regTildeHomeo (E0Bridge.basePt x₀)).injective (hU.2.1 hab))
+
+attribute [local instance] btzE0Structure in
+/-- **The headline on standard axioms, given the one open leaf** (`E0MixedDiamondsCompact`, B21
+Prop 2.17's mixed diamonds): the statement of `btz_uniformization`, through
+`cor_abs_max_C1_of_mixed`. -/
+theorem btz_uniformization_of_mixed (hmix : E0MixedDiamondsCompact M)
+    (hGH : (CE M).GloballyHyperbolic)
+    (hCC : ∃ S : Set M, E0Surgery.IsE0C1SpacelikeCauchy M S)
+    (hmax : IsE0CauchyMaximal M) (hsing : (Causal.CBG.chartedSing e0SingY M 0).Nonempty)
+    (x₀ : e0RegMFlat M)
+    (hfree : IsFreeGroup (Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀)))
+    (hna : ∃ a b : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀), a * b ≠ b * a)
+    (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
+    (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2)
+    (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ) :
+    ((∃ γ ∈ ρ.range, Causal.Flat.IsLoxodromic (Causal.Flat.linOf γ)) ∧ Injective D ∧
+      Injective ρ ∧ DiscreteTopology ρ.range ∧ Causal.Flat.IsTorsionFreeSubgroup ρ.range ∧
+      (∀ γ ∈ ρ.range, ∀ w ∈ Causal.Flat.limitSetJ ρ.range,
+        Causal.Flat.isomPenrose γ w ∈ Causal.Flat.limitSetJ ρ.range ∧
+          (fun p => γ • p) '' nullPlane w = nullPlane (Causal.Flat.isomPenrose γ w)) ∧
+      Causal.Flat.FutureRegular (Causal.Flat.limitSetJ ρ.range) ∧
+      range D = Causal.Flat.omegaPlus (Causal.Flat.limitSetJ ρ.range) ∧
+      Causal.Flat.omegaPlus (Causal.Flat.limitSetJ ρ.range) =
+        ⋂ w ∈ Causal.Flat.limitSetJ ρ.range, (Causal.minkowski 2).Iplus ⊤ (nullPlane w) ∧
+      Causal.Flat.ActsFreelyProperlyOn ρ.range
+        (Causal.Flat.omegaPlus (Causal.Flat.limitSetJ ρ.range)) ∧
+      (letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat M) x₀
+       haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat M) x₀
+       IsFutureComplete
+        (Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat M) x₀)) D) ∧
+      (∃ (B : Causal.Flat.FlatSpacetime.{0} 2) (π : Causal.Flat.limitOpensPlus ρ.range → B),
+        IsCoveringMap π ∧ Causal.Flat.IsLocalIsometry 2 π ∧ Surjective π ∧
+        (∀ p q : Causal.Flat.limitOpensPlus ρ.range,
+          π p = π q ↔ ∃ γ ∈ ρ.range, γ • (p : Causal.Minkowski 2) = q) ∧
+        Causal.Flat.GH B ∧
+        ∃ f : e0RegMFlat M ≃ₜ B, Causal.Flat.IsLocalIsometry 2 f ∧
+          ∀ z (hz : D z ∈ Causal.Flat.limitOpensPlus ρ.range),
+            f (Causal.UniversalCover.proj (e0RegMFlat M) x₀ z) = π ⟨D z, hz⟩) ∧
+      ∀ p ∈ S0 M, ∃ γ : ℝ → M, E0Spear.IsFullFutureBTZRay p γ) ∧
+    (letI := E0Bridge.e0SingularGXStructure M
+    haveI := ChartedSpace.locPathConnectedSpace E0Y M
+    ∀ {yN : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)ᶜ : Set BTZE0)}
+      {Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN ≃ₜ
+        DInfty × ℝ}, (∀ e, orbitMk (GammaA (2 * Real.pi)) (Φ e) = e.base) →
+      (∃ d : BTZTildeData M (E0Bridge.basePt x₀) Φ, d.IsChartwise ∧
+        (∀ z : E0Bridge.regTilde (E0Bridge.basePt x₀),
+          d.D (z : MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀)) =
+            D (E0Bridge.regTildeHomeo (E0Bridge.basePt x₀) z)) ∧
+        InjOn d.D (E0Bridge.regTilde (E0Bridge.basePt x₀)) ∧
+        d.natCausality.GloballyHyperbolic) ∧
+      ∀ d : BTZTildeData M (E0Bridge.basePt x₀) Φ, IsFutureDistinguishing d.causality) := by
+  have h := btz_uniformization_C1_of_regM hGH (cor_abs_max_C1_of_mixed hmix hGH hCC hmax) hmax hsing
+    x₀ (not_isMetabelianGroup_of_isFreeGroup' hfree hna) D ρ hpair
+  exact ⟨h, btz_uniformization_btzHalf hGH x₀ D ρ hpair h.2.1⟩
+
+attribute [local instance] btzE0Structure in
+/-- **THE HEADLINE** (`theo:globally_hyperbolic_cauchy_complete_cauchy_maximal`, gx l.2363), in the
+form the rulings fix: DEC-28 (Cauchy-compact), DEC-107/117 (a compact `C¹` spacelike Cauchy
+surface, through `E0AbsMax.cor_abs_max_C1`), DEC-76/119 (`π₁(Reg M)` **free and non-abelian**,
+`s ≥ 1`), DEC-77 (a) (no « up to time reversal »: the future case is proved), DEC-106/118/119 (the
+lifted `M̃` in its natural topology, the bridge). For `M` a globally hyperbolic Cauchy-maximal
+`𝔼₀`-manifold with a compact `C¹` spacelike Cauchy surface and a BTZ point, and **every**
+developing pair `(𝒟, ρ)` of `Reg M`:
+* a loxodromic in `ρ(π₁)` (DEC-75); `𝒟` injective on `Reg M̃`; `ρ` faithful, discrete and
+  torsion-free; the `ρ(π₁)`-invariant null planes `(Π_w)_{w ∈ Λ}`;
+* `𝒟(Reg M̃) = Ω⁺(Λ) = ⋂_w I⁺(Π_w)`, on which `ρ(π₁)` acts freely and properly discontinuously;
+  `Reg M̃` future complete; `𝒟` induces an isometry `Reg M ≅ ρ(π₁)\Ω⁺(Λ)`;
+* every BTZ point of `M` starts a full future BTZ ray (B21 Lemma 2.3);
+* the BTZ half through the bridge (`btz_uniformization_btzHalf`): ONE chartwise `M̃` on which `𝒟`
+  extends to the BTZ points (`T_BTZ`-continuously), injective on `reg M̃`, `M̃` globally
+  hyperbolic (natural topology); every `M̃` future distinguishing. -/
+theorem btz_uniformization (hGH : (CE M).GloballyHyperbolic)
+    (hCC : ∃ S : Set M, E0Surgery.IsE0C1SpacelikeCauchy M S)
+    (hmax : IsE0CauchyMaximal M) (hsing : (Causal.CBG.chartedSing e0SingY M 0).Nonempty)
+    (x₀ : e0RegMFlat M)
+    (hfree : IsFreeGroup (Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀)))
+    (hna : ∃ a b : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀), a * b ≠ b * a)
+    (D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2)
+    (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2)
+    (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ) :
+    ((∃ γ ∈ ρ.range, Causal.Flat.IsLoxodromic (Causal.Flat.linOf γ)) ∧ Injective D ∧
+      Injective ρ ∧ DiscreteTopology ρ.range ∧ Causal.Flat.IsTorsionFreeSubgroup ρ.range ∧
+      (∀ γ ∈ ρ.range, ∀ w ∈ Causal.Flat.limitSetJ ρ.range,
+        Causal.Flat.isomPenrose γ w ∈ Causal.Flat.limitSetJ ρ.range ∧
+          (fun p => γ • p) '' nullPlane w = nullPlane (Causal.Flat.isomPenrose γ w)) ∧
+      Causal.Flat.FutureRegular (Causal.Flat.limitSetJ ρ.range) ∧
+      range D = Causal.Flat.omegaPlus (Causal.Flat.limitSetJ ρ.range) ∧
+      Causal.Flat.omegaPlus (Causal.Flat.limitSetJ ρ.range) =
+        ⋂ w ∈ Causal.Flat.limitSetJ ρ.range, (Causal.minkowski 2).Iplus ⊤ (nullPlane w) ∧
+      Causal.Flat.ActsFreelyProperlyOn ρ.range
+        (Causal.Flat.omegaPlus (Causal.Flat.limitSetJ ρ.range)) ∧
+      (letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat M) x₀
+       haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat M) x₀
+       IsFutureComplete
+        (Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat M) x₀)) D) ∧
+      (∃ (B : Causal.Flat.FlatSpacetime.{0} 2) (π : Causal.Flat.limitOpensPlus ρ.range → B),
+        IsCoveringMap π ∧ Causal.Flat.IsLocalIsometry 2 π ∧ Surjective π ∧
+        (∀ p q : Causal.Flat.limitOpensPlus ρ.range,
+          π p = π q ↔ ∃ γ ∈ ρ.range, γ • (p : Causal.Minkowski 2) = q) ∧
+        Causal.Flat.GH B ∧
+        ∃ f : e0RegMFlat M ≃ₜ B, Causal.Flat.IsLocalIsometry 2 f ∧
+          ∀ z (hz : D z ∈ Causal.Flat.limitOpensPlus ρ.range),
+            f (Causal.UniversalCover.proj (e0RegMFlat M) x₀ z) = π ⟨D z, hz⟩) ∧
+      ∀ p ∈ S0 M, ∃ γ : ℝ → M, E0Spear.IsFullFutureBTZRay p γ) ∧
+    (letI := E0Bridge.e0SingularGXStructure M
+    haveI := ChartedSpace.locPathConnectedSpace E0Y M
+    ∀ {yN : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)ᶜ : Set BTZE0)}
+      {Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN ≃ₜ
+        DInfty × ℝ}, (∀ e, orbitMk (GammaA (2 * Real.pi)) (Φ e) = e.base) →
+      (∃ d : BTZTildeData M (E0Bridge.basePt x₀) Φ, d.IsChartwise ∧
+        (∀ z : E0Bridge.regTilde (E0Bridge.basePt x₀),
+          d.D (z : MaxBranchedCover (E0Bridge.sing M) (E0Bridge.basePt x₀)) =
+            D (E0Bridge.regTildeHomeo (E0Bridge.basePt x₀) z)) ∧
+        InjOn d.D (E0Bridge.regTilde (E0Bridge.basePt x₀)) ∧
+        d.natCausality.GloballyHyperbolic) ∧
+      ∀ d : BTZTildeData M (E0Bridge.basePt x₀) Φ, IsFutureDistinguishing d.causality) :=
+  btz_uniformization_of_mixed (e0MixedDiamondsCompact_of_record hGH hmax) hGH hCC hmax hsing x₀
+    hfree hna D ρ hpair
 
 end E0
 
@@ -1649,7 +2976,8 @@ points (`s ≥ 1`), and the conclusion of the corrected proposition (`btz_reg_is
 fails on it: for **every** developing pair `(𝒟, ρ)` of `Reg {τ<0}` and **every** `z ∈ Reg {τ<0}~`,
 `𝒟(I⁺(z)) ≠ I⁺(𝒟 z)`; in particular `Reg {τ<0}~` is not future complete. Its Cauchy surface
 `{τ = −1}` carries the flat complete metric `dr² + r²dθ²` (DEC-31's Cauchy-completeness of the
-paper's hypothesis; not stated here, see SCOPE (c)). It is neither Cauchy-compact nor
+paper's hypothesis, `e0PastHalf_isE0CauchyComplete`, `e0PastHalf_counterexample_DEC31`). It is
+neither Cauchy-compact nor
 Cauchy-maximal (`{τ<0} ⊂ 𝔼₀` is a Cauchy embedding), and `π₁(Reg {τ<0}) ≅ ℤ`. -/
 theorem e0PastHalf_counterexample :
     (CE e0PastHalf).GloballyHyperbolic ∧ (Causal.CBG.chartedSing e0SingY e0PastHalf 0).Nonempty ∧
@@ -1668,28 +2996,829 @@ theorem e0PastHalf_counterexample :
 /-- The slice `{τ = −1}` of `{τ<0}` (paper time `−1`). -/
 def e0PastHalfSlice : Set e0PastHalf := {y | (E0.paperOfY (y : E0Y)).1 = -1}
 
+/-! #### DEC-31 for `{τ<0}`: the slice `{τ = −1}` (SCOPE (c))
+
+(i) Cauchy: `{τ = −1} ∩ {τ<0}` is a Cauchy surface of `{τ<0} ⊆ 𝔼₀` (an inextensible causal curve
+of `{τ<0}` with `τ` bounded away from the level on one side has a limit in `{τ<0}` at that end, by
+the monotonicity of `τ`, `r` — the argument of `E0.isCauchySurfaceOn_sliceDom`), transported to
+`(CE {τ<0})` by the paper chart (`isCauchySurfaceOn_image_iff`). (ii) Spacelike Lipschitz: near a
+regular point the flat chart of `Reg {τ<0}` is `g •` a sector chart (`pastHalf_regChart_eventually`)
+and the slice's chart picture is the zero set of `chartHeight (−1) g`, cone-increasing
+(`E0Surgery.fderiv_chartHeight_pos` with `spacelikeDelta 0 0 r = 1`). -/
+
+section SliceCauchy
+
+open TopologicalSpace Filter Topology
+open scoped Real ENNReal NNReal
+
+/-- `{τ < 0}` as an open set of `𝔼₀` (paper coordinates). -/
+def e0PastOpen : Opens E0 := ⟨{z | z.1 < 0}, isOpen_lt continuous_fst continuous_const⟩
+
+theorem mem_e0PastOpen {z : E0} : z ∈ e0PastOpen ↔ z.1 < 0 := Iff.rfl
+
+/-- Paper time increases strictly along `≤` of `𝔼₀`. -/
+theorem e0_fst_lt_of_le {x y : E0} (h : E0.causality.le ⊤ x y) (hne : x ≠ y) : x.1 < y.1 := by
+  have hd := (E0.le_top_iff.1 h).dist_le
+  rcases (E0.calculus_le h).2.2.1.lt_or_eq with h' | h'
+  · exact h'
+  · exfalso; apply hne; rw [h', sub_self, mul_zero] at hd; exact dist_le_zero.1 hd
+
+theorem e0_pastExtensible_pastOpen {J : Set ℝ} {γ : ℝ → E0}
+    (hγ : E0.causality.CausalCurveIn e0PastOpen J γ) (hJ : BddBelow J)
+    (hT : ∀ u ∈ J, -1 < (γ u).1) : E0.causality.PastExtensible e0PastOpen J γ := by
+  by_cases hmin : ∃ a', IsLeast J a'
+  · obtain ⟨a', ha⟩ := hmin
+    exact Causal.Causality.pastExtensible_of_isLeast E0.causallyArcConnected E0.isCausal hγ ha
+      (E0.Jminus_ne_singleton (hγ.mem ha.1))
+  have hglb : IsGLB J (sInf J) := isGLB_csInf hγ.nonempty hJ
+  have hαJ : sInf J ∉ J := fun hα => hmin ⟨_, hα, hglb.1⟩
+  have hgt : ∀ u ∈ J, sInf J < u := fun u hu =>
+    lt_of_le_of_ne (hglb.1 hu) fun he => hαJ (he ▸ hu)
+  have hle := E0.le_of_le_top_curve hγ
+  obtain ⟨u₀, hu₀⟩ := hγ.nonempty
+  have hbdd : BddBelow ((fun u => (γ u).1) '' J) :=
+    ⟨-1, by rintro _ ⟨u, hu, rfl⟩; exact (hT u hu).le⟩
+  obtain ⟨p, hp⟩ := E0.exists_tendsto_of_bddBelow
+    (fun u hu u' hu' h => E0.le_top_iff.1 (hle u hu u' hu' h))
+    hγ.nonempty hγ.ordConnected hglb hαJ hbdd
+  have hsub := Causal.Flat.Ioo_subset_of_isGLB hγ.ordConnected hglb hu₀
+  have hpz : E0.causality.le ⊤ p (γ u₀) := by
+    refine Causal.Precausality.mem_Jminus_singleton.1
+      ((E0.isClosed_Jminus (γ u₀)).mem_of_tendsto hp ?_)
+    filter_upwards [Ioo_mem_nhdsGT (hgt u₀ hu₀)] with u hu
+    exact Causal.Precausality.mem_Jminus_singleton.2 (hle u (hsub hu) u₀ hu₀ hu.2.le)
+  have hpN : p ∈ e0PastOpen :=
+    lt_of_le_of_lt (E0.calculus_le hpz).2.2.1 (mem_e0PastOpen.1 (hγ.mem hu₀))
+  exact Causal.Causality.pastExtensible_of_tendsto_opens E0.isClosed_Jminus E0.stronglyCausal
+    E0.causallyArcConnected E0.isCausal hγ hpN hgt
+    (Causal.Flat.ordConnected_insert_of_isGLB hγ.ordConnected hglb) hp (E0.Jminus_ne_singleton hpN)
+
+theorem e0_futureExtensible_pastOpen {J : Set ℝ} {γ : ℝ → E0}
+    (hγ : E0.causality.CausalCurveIn e0PastOpen J γ) (hJ : BddAbove J)
+    (hT : ∀ u ∈ J, (γ u).1 < -1) : E0.causality.FutureExtensible e0PastOpen J γ := by
+  by_cases hmax : ∃ b', IsGreatest J b'
+  · obtain ⟨b', hb⟩ := hmax
+    exact Causal.Causality.futureExtensible_of_isGreatest E0.causallyArcConnected E0.isCausal hγ hb
+      (E0.Jplus_ne_singleton (hγ.mem hb.1))
+  have hlub : IsLUB J (sSup J) := isLUB_csSup hγ.nonempty hJ
+  have hβJ : sSup J ∉ J := fun hβ => hmax ⟨_, hβ, hlub.1⟩
+  have hlt : ∀ u ∈ J, u < sSup J := fun u hu =>
+    lt_of_le_of_ne (hlub.1 hu) fun he => hβJ (he ▸ hu)
+  have hle := E0.le_of_le_top_curve hγ
+  obtain ⟨u₀, hu₀⟩ := hγ.nonempty
+  have hbdd : BddAbove ((fun u => (γ u).1) '' J) :=
+    ⟨-1, by rintro _ ⟨u, hu, rfl⟩; exact (hT u hu).le⟩
+  obtain ⟨p, hp⟩ := E0.exists_tendsto_of_bddAbove
+    (fun u hu u' hu' h => E0.le_top_iff.1 (hle u hu u' hu' h))
+    hγ.nonempty hγ.ordConnected hlub hβJ hbdd
+  have hsub := Causal.Flat.Ioo_subset_of_isLUB hγ.ordConnected hlub hu₀
+  have hev : ∀ᶠ u in 𝓝[<] (sSup J), u ∈ J :=
+    mem_of_superset (Ioo_mem_nhdsLT (hlt u₀ hu₀)) hsub
+  have hp1 : p.1 ≤ -1 := (isClosed_le continuous_fst continuous_const).mem_of_tendsto hp
+    (hev.mono fun u hu => (hT u hu).le)
+  have hpN : p ∈ e0PastOpen := mem_e0PastOpen.2 (by linarith)
+  exact Causal.Causality.futureExtensible_of_tendsto_opens E0.isClosed_Jplus E0.stronglyCausal
+    E0.causallyArcConnected E0.isCausal hγ hpN hlt
+    (Causal.Flat.ordConnected_insert_of_isLUB hγ.ordConnected hlub) hp (E0.Jplus_ne_singleton hpN)
+
+/-- **`{τ = −1}` is a Cauchy surface of `{τ < 0} ⊆ 𝔼₀`**. -/
+theorem e0_isCauchySurfaceOn_pastOpen :
+    E0.causality.IsCauchySurfaceOn e0PastOpen ({z : E0 | z.1 = -1} ∩ e0PastOpen) := by
+  intro I γ hγ
+  have hle := E0.le_of_le_top_curve hγ.1
+  obtain ⟨hpi, hfi⟩ := Causal.Causality.inextensible_iff.1 hγ
+  obtain ⟨hd, hsub, htan, hpast, hfut⟩ := hγ.1.arctanReparam
+  have hbb : BddBelow (Real.arctan '' I) := ⟨-(Real.pi / 2), fun u hu => (hsub hu).1.le⟩
+  have hba : BddAbove (Real.arctan '' I) := ⟨Real.pi / 2, fun u hu => (hsub hu).2.le⟩
+  obtain ⟨s₁, hs₁, h₁⟩ : ∃ s ∈ I, (γ s).1 ≤ -1 := by
+    by_contra hcon
+    push Not at hcon
+    exact hpi.2 (hpast (e0_pastExtensible_pastOpen hd hbb fun u hu => hcon _ (htan u hu)))
+  obtain ⟨s₂, hs₂, h₂⟩ : ∃ s ∈ I, -1 ≤ (γ s).1 := by
+    by_contra hcon
+    push Not at hcon
+    exact hfi.2 (hfut (e0_futureExtensible_pastOpen hd hba fun u hu => hcon _ (htan u hu)))
+  have hex : ∃ s ∈ I, (γ s).1 = -1 := by
+    rcases le_total s₁ s₂ with h12 | h21
+    · have hIcc : Icc s₁ s₂ ⊆ I := hγ.1.ordConnected.out hs₁ hs₂
+      have hcont : ContinuousOn (fun s => (γ s).1) (Icc s₁ s₂) :=
+        continuous_fst.comp_continuousOn (hγ.1.continuousOn_Icc hs₁ hs₂)
+      obtain ⟨s, hs, hs0⟩ := intermediate_value_Icc h12 hcont ⟨h₁, h₂⟩
+      exact ⟨s, hIcc hs, hs0⟩
+    · have := (E0.calculus_le (hle s₂ hs₂ s₁ hs₁ h21)).2.2.1
+      exact ⟨s₂, hs₂, le_antisymm (this.trans h₁) h₂⟩
+  obtain ⟨s, hs, hsc⟩ := hex
+  refine ⟨γ s, ⟨⟨s, hs, rfl⟩, hsc, hγ.1.mem hs⟩, ?_⟩
+  rintro _ ⟨⟨s', hs', rfl⟩, hs'c, -⟩
+  have hs'c' : (γ s').1 = -1 := hs'c
+  by_contra hne
+  rcases le_total s s' with h | h
+  · have := e0_fst_lt_of_le (hle s hs s' hs' h) (Ne.symm hne)
+    rw [hsc, hs'c'] at this; exact lt_irrefl _ this
+  · have := e0_fst_lt_of_le (hle s' hs' s hs h) hne
+    rw [hsc, hs'c'] at this; exact lt_irrefl _ this
+
+theorem paperChart_pastHalf_apply (p a : e0PastHalf) :
+    paperChart p a = E0.paperOfY (a : E0Y) := by
+  show E0.paperOfY ((chartAt E0Y (p : E0Y)).subtypeRestr ⟨p⟩ a) = _
+  rw [OpenPartialHomeomorph.subtypeRestr_coe]
+  rfl
+
+/-- **`{τ = −1}` is a Cauchy surface of `{τ<0}`** (SCOPE (c), piece (i)). -/
+theorem e0PastHalfSlice_isCauchySurface : (CE e0PastHalf).IsCauchySurface e0PastHalfSlice := by
+  set p : e0PastHalf := ⟨E0.paperInY ((-1, 0) : E0), ⟨_, by norm_num, rfl⟩⟩
+  have hsrc : (⊤ : Opens e0PastHalf) ≤ Causal.chartSource (paperChart p) := by
+    rw [chartSource_paperChart_pastHalf]
+  have hU : ((e0PastOpen : Opens E0) : Set E0) = paperChart p '' ((⊤ : Opens e0PastHalf) : Set _) := by
+    rw [← Causal.coe_chartImage_of_le hsrc]
+    ext w
+    rw [SetLike.mem_coe, SetLike.mem_coe, mem_chartImage_paperChart_pastHalf]
+    rfl
+  have himg : paperChart p '' e0PastHalfSlice = {z : E0 | z.1 = -1} ∩ e0PastOpen := by
+    ext w
+    constructor
+    · rintro ⟨a, ha, rfl⟩
+      rw [paperChart_pastHalf_apply]
+      exact ⟨ha, (mem_e0PastHalf_iff.1 a.2).2⟩
+    · rintro ⟨hw, hw0⟩
+      refine ⟨⟨E0.paperInY w, w, hw0, rfl⟩, ?_, ?_⟩
+      · show (E0.paperOfY (E0.paperInY w)).1 = -1
+        rw [pastHalf_paperOfY_paperInY]; exact hw
+      · rw [paperChart_pastHalf_apply]; exact pastHalf_paperOfY_paperInY w
+  have := ((isEMorphismOn_of_chartIso (chartIso_paperChart p)).isCauchySurfaceOn_image_iff
+    (paperChart p).injOn hsrc hU (S := e0PastHalfSlice) (fun _ _ => trivial)).2
+  rw [himg] at this
+  exact this e0_isCauchySurfaceOn_pastOpen
+
+/-- The paper coordinates of a point of `Reg {τ<0}`. -/
+noncomputable def pastHalfPt (z : e0RegMFlat e0PastHalf) : E0 :=
+  E0.paperOfY ((E0Surgery.regVal e0PastHalf z : e0PastHalf) : E0Y)
+
+attribute [local instance] btzE0Structure in
+/-- **The flat charts of `Reg {τ<0}`** are, near every point `y`, `g •` the sector chart
+`chartMap` at the paper coordinates of `y`. -/
+theorem pastHalf_regChart_eventually (y : e0RegMFlat e0PastHalf) :
+    (pastHalfPt y).2 ≠ 0 ∧ ∃ g : Causal.Flat.isom 2, ∀ᶠ z in 𝓝 y,
+      z ∈ (chartAt (Causal.Minkowski 2) y).source ∧
+      chartAt (Causal.Minkowski 2) y z = g • E0.chartMap (pastHalfPt y) (pastHalfPt z) := by
+  set y' : E0LM.e0RegM e0PastHalf := y
+  set pt : e0RegMFlat e0PastHalf → E0Y := fun w => (show E0LM.e0RegM e0PastHalf from w).1.1
+    with hpt
+  have hptc : Continuous pt := continuous_subtype_val.comp continuous_subtype_val
+  have hrange : ∀ w, pt w ∈ range Sum.inr := fun w => by
+    rw [← E0.paperOfY_source]
+    exact (mem_e0PastHalf_iff.1 (show E0LM.e0RegM e0PastHalf from w).1.2).1
+  obtain ⟨x, hx⟩ := hrange y
+  have hsrc : Sum.inr x ∈ (E0LM.regAtlasChart y').source := by
+    rw [hx]; exact E0LM.mem_regAtlasChart_source y'
+  obtain ⟨c', hc', hceq, hxc⟩ := exists_of_mem_e0Atlas_inr (E0LM.regAtlasChart_mem y') hsrc
+  obtain ⟨g, hg⟩ := pastHalf_aeChart_eventually hc' hxc
+  set φ := fun w => e0Inr.symm (pt w) with hφ
+  have hφz : φ y = x := by simp only [hφ, ← hx, e0Inr_symm_inr]
+  have hφc : ContinuousAt φ y := by
+    refine ContinuousAt.comp (g := e0Inr.symm) ?_ hptc.continuousAt
+    exact e0Inr.symm.continuousAt (by rw [e0Inr_symm_source]; exact hrange y)
+  have hgφ : ∀ᶠ w in 𝓝 y, c' (φ w) = g • E0.chartMap (E0.toPaper x) (E0.toPaper (φ w)) :=
+    hφc.preimage_mem_nhds (t := {u | c' u = g • E0.chartMap (E0.toPaper x) (E0.toPaper u)})
+      (by rw [hφz]; exact hg)
+  have hxy : E0.toPaper x = pastHalfPt y := by
+    rw [← hφz]; rfl
+  refine ⟨?_, g, ?_⟩
+  · rw [← hxy]
+    have hxr : x ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0 :=
+      mem_support.2 ⟨c', hc', hxc⟩
+    exact (E0.mem_reg_iff_toPaper x).1 hxr
+  filter_upwards [hgφ, (chartAt (Causal.Minkowski 2) y).open_source.mem_nhds
+    (mem_chart_source _ y)] with w h0 hws
+  refine ⟨hws, ?_⟩
+  have hchart : (chartAt (Causal.Minkowski 2) y) w = c' (φ w) := by
+    show ((E0LM.regChartM y').subtypeRestr ⟨y'⟩) w = _
+    rw [E0AbsMax.regChart_subtypeRestr_eq, hceq]
+    rfl
+  rw [hchart, h0, hxy]
+  rfl
+
+open scoped Pointwise in
+/-- **`{τ = −1}` is spacelike Lipschitz in the flat charts of `Reg {τ<0}`** (SCOPE (c), piece
+(ii)): near a point, its chart picture is the zero set of the height `chartHeight (−1) g`
+(`τ + 1` read through `g⁻¹` and the sector chart), whose derivative is positive on the future
+causal cone (Lemma 2.7 for the constant graph, `spacelikeDelta 0 0 r = 1`). -/
+theorem e0PastHalfSlice_isSpacelikeLipschitz :
+    Causal.Flat.IsSpacelikeLipschitz 2 (E0Surgery.regSet e0PastHalf e0PastHalfSlice) := by
+  intro y hyT
+  obtain ⟨hx0, g, hg⟩ := pastHalf_regChart_eventually y
+  set x := pastHalfPt y with hxdef
+  set e := chartAt (Causal.Minkowski 2) y with he
+  set G : ℝ × ℝ → ℝ := fun _ => -1 with hG
+  have hper : ∀ r θ, G (r, θ + 2 * π) = G (r, θ) := fun _ _ => rfl
+  have hGs : ContDiffOn ℝ 1 G {q | 0 < q.1} := contDiffOn_const
+  set pp : ℝ × ℝ × ℝ := (x.1, E0.rad x, E0.angle x x) with hpp
+  have hrx : 0 < E0.rad x := E0.rad_pos.2 hx0
+  have hp₀ : e y = g • nullToMink (btzPaperNull pp) := by
+    rw [(hg.self_of_nhds).2]; rfl
+  have hQ₀ : E0Surgery.chartNull g (e y) = btzPaperNull pp := by
+    rw [hp₀]; simp [E0Surgery.chartNull]
+  have hp₀U : e y ∈ {p : Causal.Minkowski 2 | 0 < (E0Surgery.chartNull g p).2.1} := by
+    show 0 < (E0Surgery.chartNull g (e y)).2.1; rw [hQ₀]; exact hrx
+  obtain ⟨ε, hε, c, hc0, hc1, hballU, hinc⟩ := E0Surgery.exists_ball_isConeIncreasingOn
+    (E0Surgery.isOpen_chartPos g) (E0Surgery.contDiffOn_chartHeight hper hGs g) hp₀U (by
+      intro v hv0 hv
+      rw [hp₀]
+      exact E0Surgery.fderiv_chartHeight_pos hper hGs g hrx (hasFDerivAt_const (-1 : ℝ) _)
+        (by simp [E0Surgery.spacelikeDelta]) hv0 hv)
+  have hys : y ∈ e.source := mem_chart_source _ y
+  have hev : ∀ᶠ p in 𝓝 (e y), p ∈ e.target ∧ (e.symm p ∈ e.source ∧
+      e (e.symm p) = g • E0.chartMap x (pastHalfPt (e.symm p))) := by
+    have h1 : ∀ᶠ p in 𝓝 (e y), p ∈ e.target := e.open_target.mem_nhds (e.map_source hys)
+    have hc := e.continuousAt_symm (e.map_source hys)
+    have h2 : ∀ᶠ p in 𝓝 (e y), e.symm p ∈ {z | z ∈ e.source ∧
+        e z = g • E0.chartMap x (pastHalfPt z)} :=
+      hc.preimage_mem_nhds (by rw [e.left_inv hys]; exact hg)
+    exact h1.and h2
+  obtain ⟨ε', hε', hball'⟩ := Metric.eventually_nhds_iff_ball.1 hev
+  set W := Metric.ball (e y) (min ε ε') with hW
+  have hWε : W ⊆ Metric.ball (e y) ε := Metric.ball_subset_ball (min_le_left _ _)
+  have hWε' : W ⊆ Metric.ball (e y) ε' := Metric.ball_subset_ball (min_le_right _ _)
+  refine E0Surgery.isSpacelikeLipschitzAt_of_coneZeroSet (g := 1) Metric.isOpen_ball
+    (Metric.mem_ball_self (lt_min hε hε')) (fun p hp => (hball' p (hWε' hp)).1)
+    ((E0Surgery.contDiffOn_chartHeight hper hGs g).continuousOn.mono fun p hp => hballU (hWε hp))
+    hc0 hc1 (by simpa only [inv_one, one_smul] using hinc.mono le_rfl hWε) ?_ hyT
+  intro p hp
+  obtain ⟨hpt, hzs, hze⟩ := hball' p (hWε' hp)
+  set z := e.symm p with hz
+  have hez : e z = p := e.right_inv hpt
+  have hFp : E0Surgery.chartHeight G g p = (pastHalfPt z).1 + 1 := by
+    have h1 : E0Surgery.chartHeight G g p =
+        E0Surgery.nullHeight G (nullToMink.symm (E0.chartMap x (pastHalfPt z))) := by
+      simp only [E0Surgery.chartHeight]
+      rw [← hez, hze, inv_smul_smul]
+    rw [h1, E0Surgery.nullHeight, E0.unlift_symm_chartMap hx0]
+    simp [E0Surgery.height, E0Surgery.heightAt, hG]
+  constructor
+  · rintro ⟨z', ⟨hz'T, hz's⟩, hz'p⟩
+    have hzz : z' = z := e.injOn hz's hzs (hz'p.trans hez.symm)
+    rw [hzz] at hz'T
+    have : (pastHalfPt z).1 = -1 := hz'T
+    rw [hFp, this]; norm_num
+  · intro h0
+    refine ⟨z, ⟨?_, hzs⟩, hez⟩
+    show (pastHalfPt z).1 = -1
+    rw [hFp] at h0; linarith
+
+/-! (iii) Completeness and continuity. In the coordinate `z ∈ ℂ` of the slice, the length chart
+system `e0SliceSys` reads a curve, near a regular time, through `g •` the sector chart along
+`τ = −1` (`e0SliceSys_pastSlice_eventually`), whose velocity has Minkowski norm `‖ż‖`
+(`hasDerivAt_chartMap_slice`: `dr² + r²dθ² = |dz|²`); at a BTZ time the density is `0`. Lower
+bound: on a zero-free interval `z` is Lipschitz (`lipschitz_pastSliceZ_near`) and the FTC gives
+`‖Δz‖ ≤ ∫ ‖ż‖`; across the zeros `ofReal_norm_sub_le_of_zeroFree`. Upper bound: the straight
+segment (`pathLength_pastSliceSegment_le`). So the length metric is the Euclidean metric of `ℂ`
+(`edist_e0SliceSys_pastSlice`). -/
+
+/-- **The sector chart along the slice `τ = −1`**: for a curve `f` of `ℂ` through the sector of
+`x` (`x.2 ≠ 0`), `s ↦ chartMap x (−1, f s)` is differentiable where `f` is, with a velocity of
+Minkowski norm `‖f'‖` (the induced metric of `{τ = −1}` is `dr² + r²dθ² = |dz|²`). -/
+theorem hasDerivAt_chartMap_slice {x : E0} (hx : x.2 ≠ 0) {f : ℝ → ℂ} {f' : ℂ} {t : ℝ}
+    (hf : HasDerivAt f f' t) (hslit : f t / x.2 ∈ Complex.slitPlane) :
+    ∃ V : Causal.Minkowski 2, HasDerivAt (fun s => E0.chartMap x ((-1 : ℝ), f s)) V t ∧
+      Causal.Flat.minkQ V = ‖f'‖ ^ 2 := by
+  have hft : f t ≠ 0 := by
+    intro h; rw [h, zero_div] at hslit; exact Complex.slitPlane_ne_zero hslit rfl
+  set L : ℝ → ℂ := fun s => Complex.log (f s / x.2) with hLdef
+  set q : ℂ := f' / f t with hq
+  have hL : HasDerivAt L q t := by
+    have := (hf.div_const x.2).clog_real hslit
+    convert this using 1
+    rw [hq]; field_simp
+  -- the radius
+  have hfev : ∀ᶠ s in 𝓝 t, f s ≠ 0 := hf.continuousAt.eventually_ne hft
+  have hρeq : (fun s => ‖x.2‖ * Real.exp (L s).re) =ᶠ[𝓝 t] fun s => ‖f s‖ := by
+    filter_upwards [hfev] with s hs
+    simp only [hLdef, Complex.log_re, norm_div]
+    rw [Real.exp_log (div_pos (norm_pos_iff.2 hs) (norm_pos_iff.2 hx))]
+    field_simp
+  have hρ0 : HasDerivAt (fun s => ‖x.2‖ * Real.exp (L s).re)
+      (‖x.2‖ * (Real.exp (L t).re * q.re)) t := by
+    have h1 : HasDerivAt (fun s => (L s).re) q.re t := by
+      have := Complex.reCLM.hasFDerivAt.comp_hasDerivAt t hL
+      exact this
+    exact h1.exp.const_mul _
+  have hρt : ‖x.2‖ * Real.exp (L t).re = ‖f t‖ := hρeq.self_of_nhds
+  have hρ : HasDerivAt (fun s => ‖f s‖) (‖f t‖ * q.re) t := by
+    have := hρ0.congr_of_eventuallyEq hρeq.symm
+    rw [show ‖f t‖ * q.re = ‖x.2‖ * (Real.exp (L t).re * q.re) by rw [← hρt]; ring]
+    exact this
+  -- the angle
+  have hθ : HasDerivAt (fun s => Complex.arg x.2 + Complex.arg (f s / x.2)) q.im t := by
+    have h1 : HasDerivAt (fun s => (L s).im) q.im t := by
+      have := Complex.imCLM.hasFDerivAt.comp_hasDerivAt t hL
+      exact this
+    have := h1.const_add (Complex.arg x.2)
+    simpa [hLdef, Complex.log_im] using this
+  set ρ : ℝ := ‖f t‖ with hρdef
+  set θ : ℝ := Complex.arg x.2 + Complex.arg (f t / x.2) with hθdef
+  set ρ' : ℝ := ρ * q.re
+  set θ' : ℝ := q.im
+  have hN : HasDerivAt (fun s => btzPaperNull ((-1 : ℝ), ‖f s‖,
+      Complex.arg x.2 + Complex.arg (f s / x.2)))
+      (ρ' * θ ^ 2 + ρ * (2 * θ * θ') - ρ', ρ', -(ρ' * θ + ρ * θ')) t := by
+    have h1 : HasDerivAt (fun s => 2 * (-1 : ℝ) + ‖f s‖ *
+        (Complex.arg x.2 + Complex.arg (f s / x.2)) ^ 2 - ‖f s‖)
+        (ρ' * θ ^ 2 + ρ * (2 * θ * θ') - ρ') t := by
+      have hsq := hθ.pow 2
+      have := ((hρ.mul hsq).const_add (2 * (-1 : ℝ))).sub hρ
+      convert this using 1
+      all_goals first | rfl | (simp only [Pi.pow_apply, hθdef, hρdef]; ring)
+    have h3 : HasDerivAt (fun s => -(‖f s‖ * (Complex.arg x.2 + Complex.arg (f s / x.2))))
+        (-(ρ' * θ + ρ * θ')) t := by
+      have := (hρ.mul hθ).neg
+      convert this using 1
+      all_goals rfl
+    exact h1.prodMk (hρ.prodMk h3)
+  refine ⟨nullToMink (ρ' * θ ^ 2 + ρ * (2 * θ * θ') - ρ', ρ', -(ρ' * θ + ρ * θ')), ?_, ?_⟩
+  · have hcl := (LinearMap.toContinuousLinearMap
+      (nullToMink : (ℝ × ℝ × ℝ) →ₗ[ℝ] Causal.Minkowski 2)).hasFDerivAt.comp_hasDerivAt t hN
+    exact hcl
+  · rw [minkQ_nullToMink, nullQ]
+    have hnq : ‖q‖ ^ 2 = q.re ^ 2 + q.im ^ 2 := by
+      rw [Complex.sq_norm, Complex.normSq_apply]; ring
+    have hqn : ‖q‖ * ρ = ‖f'‖ := by
+      rw [hq, norm_div, div_mul_cancel₀ _ (norm_pos_iff.2 hft).ne']
+    have : ‖f'‖ ^ 2 = ρ ^ 2 * (q.re ^ 2 + q.im ^ 2) := by
+      rw [← hnq, ← hqn]; ring
+    rw [this]
+    simp only [ρ', θ']
+    ring
+
+
+
+/-- The coordinate `z ∈ ℂ` of a point of the slice `{τ = −1}`. -/
+noncomputable def pastSliceZ (s : e0PastHalfSlice) : ℂ := (E0.paperOfY ((s : e0PastHalf) : E0Y)).2
+
+theorem paperOfY_pastSlice (s : e0PastHalfSlice) :
+    E0.paperOfY ((s : e0PastHalf) : E0Y) = ((-1 : ℝ), pastSliceZ s) :=
+  Prod.ext s.2 rfl
+
+/-- The point `(−1, w)` of the slice. -/
+noncomputable def pastSlicePt (w : ℂ) : e0PastHalfSlice :=
+  ⟨⟨E0.paperInY ((-1 : ℝ), w), ⟨((-1 : ℝ), w), by norm_num, rfl⟩⟩,
+    show (E0.paperOfY (E0.paperInY ((-1 : ℝ), w))).1 = -1 by rw [pastHalf_paperOfY_paperInY]⟩
+
+theorem pastSliceZ_pastSlicePt (w : ℂ) : pastSliceZ (pastSlicePt w) = w := by
+  show (E0.paperOfY (E0.paperInY ((-1 : ℝ), w))).2 = w
+  rw [pastHalf_paperOfY_paperInY]
+
+theorem pastSlicePt_pastSliceZ (s : e0PastHalfSlice) : pastSlicePt (pastSliceZ s) = s := by
+  apply Subtype.ext; apply Subtype.ext
+  show E0.paperInY ((-1 : ℝ), pastSliceZ s) = ((s : e0PastHalf) : E0Y)
+  rw [← paperOfY_pastSlice, pastHalf_paperInY_paperOfY (mem_e0PastHalf_iff.1 (s : e0PastHalf).2).1]
+
+theorem continuous_pastSliceZ : Continuous pastSliceZ := by
+  have h : ContinuousOn E0.paperOfY (range ((↑) : e0PastHalf → E0Y)) :=
+    E0.paperOfY.continuousOn.mono (by
+      rintro _ ⟨a, rfl⟩; exact (mem_e0PastHalf_iff.1 a.2).1)
+  exact continuous_snd.comp (h.comp_continuous (continuous_subtype_val.comp continuous_subtype_val)
+    fun s => ⟨_, rfl⟩)
+
+theorem continuous_pastSlicePt : Continuous pastSlicePt := by
+  refine Continuous.subtype_mk (Continuous.subtype_mk ?_ _) _
+  exact E0.paperInY.continuousOn.comp_continuous (continuous_const.prodMk continuous_id)
+    (fun _ => by simp)
+
+/-- A point of `{τ<0}` is regular iff it is off the BTZ line. -/
+theorem mem_e0RegM_pastHalf_iff (a : e0PastHalf) :
+    a ∈ E0LM.e0RegM e0PastHalf ↔ (E0.paperOfY (a : E0Y)).2 ≠ 0 := by
+  rw [E0LM.mem_e0RegM_iff (mem_chart_source E0Y a)]
+  show (a : E0Y) ∈ e0Reg ↔ _
+  rw [← pastHalf_paperInY_paperOfY (mem_e0PastHalf_iff.1 a.2).1, E0.paperInY_mem_e0Reg_iff,
+    pastHalf_paperOfY_paperInY]
+  rfl
+
+theorem pastSliceReg_iff (s : e0PastHalfSlice) :
+    ((s : e0PastHalf)) ∈ E0LM.e0RegM e0PastHalf ↔ pastSliceZ s ≠ 0 :=
+  mem_e0RegM_pastHalf_iff _
+
+/-- **The length chart system of the slice near a regular point** is `g •` the sector chart along
+`τ = −1`. -/
+theorem e0SliceSys_pastSlice_eventually {s₀ : e0PastHalfSlice} (h0 : pastSliceZ s₀ ≠ 0) :
+    ∃ g : Causal.Flat.isom 2, ∀ᶠ s in 𝓝 s₀, e0SliceSys e0PastHalfSlice s₀ s =
+      g • E0.chartMap ((-1 : ℝ), pastSliceZ s₀) ((-1 : ℝ), pastSliceZ s) := by
+  have hreg := (pastSliceReg_iff s₀).2 h0
+  set y : e0RegMFlat e0PastHalf := (⟨(s₀ : e0PastHalf), hreg⟩ : E0LM.e0RegM e0PastHalf)
+  obtain ⟨-, g, hg⟩ := pastHalf_regChart_eventually y
+  refine ⟨g, ?_⟩
+  have hR : IsOpen ((E0LM.e0RegM e0PastHalf : Set e0PastHalf)) := (E0LM.e0RegM e0PastHalf).isOpen
+  have h1 : ∀ᶠ a in 𝓝 (s₀ : e0PastHalf), ∀ (ha : a ∈ E0LM.e0RegM e0PastHalf),
+      chartAt (Causal.Minkowski 2) y (show e0RegMFlat e0PastHalf from
+        (⟨a, ha⟩ : E0LM.e0RegM e0PastHalf)) =
+        g • E0.chartMap (pastHalfPt y) (pastHalfPt (show e0RegMFlat e0PastHalf from
+          (⟨a, ha⟩ : E0LM.e0RegM e0PastHalf))) := by
+    obtain ⟨O, hOP, hOo, hyO⟩ := eventually_nhds_iff.1 hg
+    have hOo' : IsOpen (((↑) : E0LM.e0RegM e0PastHalf → e0PastHalf) '' O) :=
+      hR.isOpenMap_subtype_val O hOo
+    filter_upwards [hOo'.mem_nhds ⟨y, hyO, rfl⟩] with a ⟨z, hzO, hza⟩ ha
+    have hz : z = ⟨a, ha⟩ := Subtype.ext hza
+    subst hz
+    exact (hOP _ hzO).2
+  have h2 : ∀ᶠ a in 𝓝 (s₀ : e0PastHalf), a ∈ E0LM.e0RegM e0PastHalf := hR.mem_nhds hreg
+  have h3 := (continuous_subtype_val.tendsto s₀).eventually (h1.and h2)
+  filter_upwards [h3] with s ⟨hs1, hs2⟩
+  rw [e0SliceSys_of_mem hreg hs2, hs1 hs2]
+  have e1 : pastHalfPt y = ((-1 : ℝ), pastSliceZ s₀) := paperOfY_pastSlice s₀
+  have e2 : pastHalfPt (show e0RegMFlat e0PastHalf from
+      (⟨(s : e0PastHalf), hs2⟩ : E0LM.e0RegM e0PastHalf)) = ((-1 : ℝ), pastSliceZ s) :=
+    paperOfY_pastSlice s
+  rw [e1, e2]
+
+/-- **The density of a curve of the slice at a regular time** is `‖ż‖` when `z = pastSliceZ ∘ c` is
+differentiable there. -/
+theorem localDensity_pastSlice_eq {c : ℝ → e0PastHalfSlice} {t : ℝ} (hc : ContinuousAt c t)
+    (ht : pastSliceZ (c t) ≠ 0) (hd : DifferentiableAt ℝ (fun s => pastSliceZ (c s)) t) :
+    Causal.Flat.localDensity (e0SliceSys e0PastHalfSlice) c t =
+      ENNReal.ofReal ‖deriv (fun s => pastSliceZ (c s)) t‖ := by
+  obtain ⟨g, hg⟩ := e0SliceSys_pastSlice_eventually ht
+  set x : E0 := ((-1 : ℝ), pastSliceZ (c t))
+  have hx : x.2 ≠ 0 := ht
+  have hev : (fun s => e0SliceSys e0PastHalfSlice (c t) (c s)) =ᶠ[𝓝 t]
+      fun s => g • E0.chartMap x ((-1 : ℝ), pastSliceZ (c s)) := hc.eventually hg
+  obtain ⟨V, hV, hQ⟩ := hasDerivAt_chartMap_slice hx hd.hasDerivAt (by
+    show pastSliceZ (c t) / pastSliceZ (c t) ∈ Complex.slitPlane
+    rw [div_self ht]; exact Complex.one_mem_slitPlane)
+  unfold Causal.Flat.localDensity
+  rw [hev.deriv_eq, Causal.Flat.deriv_isom_comp, hV.deriv, Causal.Flat.minkQ_isom_linear, hQ,
+    Real.sqrt_sq (norm_nonneg _)]
+
+
+/-- The `z`-reading of a point of `𝐌³` through the frame `g` and the inverse development. -/
+noncomputable def pastSliceRead (g : Causal.Flat.isom 2) (p : Causal.Minkowski 2) : ℂ :=
+  (E0.unlift (E0Surgery.chartNull g p)).2
+
+theorem contDiffAt_pastSliceRead (g : Causal.Flat.isom 2) {p : Causal.Minkowski 2}
+    (hp : (E0Surgery.chartNull g p).2.1 ≠ 0) : ContDiffAt ℝ 1 (pastSliceRead g) p := by
+  have hU : ContDiffAt ℝ 1 (fun R : ℝ × ℝ × ℝ =>
+      ((R.2.1 : ℂ) * Complex.exp (((-(R.2.2 / R.2.1) : ℝ) : ℂ) * Complex.I)))
+      (E0Surgery.chartNull g p) := by
+    have h1 : ContDiffAt ℝ 1 (fun R : ℝ × ℝ × ℝ => ((R.2.1 : ℂ))) (E0Surgery.chartNull g p) :=
+      (Complex.ofRealCLM.contDiff.comp (contDiff_fst.comp contDiff_snd)).contDiffAt
+    have h2 : ContDiffAt ℝ 1 (fun R : ℝ × ℝ × ℝ => (-(R.2.2 / R.2.1) : ℝ))
+        (E0Surgery.chartNull g p) :=
+      ((contDiff_snd.comp contDiff_snd).contDiffAt.div
+        (contDiff_fst.comp contDiff_snd).contDiffAt hp).neg
+    have h3 : ContDiffAt ℝ 1 (fun R : ℝ × ℝ × ℝ => (((-(R.2.2 / R.2.1) : ℝ) : ℂ) * Complex.I))
+        (E0Surgery.chartNull g p) :=
+      (Complex.ofRealCLM.contDiff.contDiffAt.comp _ h2).mul contDiffAt_const
+    exact h1.mul h3.cexp
+  exact hU.comp p (E0Surgery.contDiff_chartNull g).contDiffAt
+
+/-- **`z` is Lipschitz near a regular time** of a curve Lipschitz in the length charts. -/
+theorem lipschitz_pastSliceZ_near {c : ℝ → e0PastHalfSlice} {t : ℝ} (hc : ContinuousAt c t)
+    (ht : pastSliceZ (c t) ≠ 0) (hL : Causal.Flat.LocLipAt (e0SliceSys e0PastHalfSlice) c t) :
+    ∃ δ > (0 : ℝ), ∃ K : ℝ≥0, LipschitzOnWith K (fun s => pastSliceZ (c s)) (Icc (t - δ) (t + δ)) := by
+  obtain ⟨g, hg⟩ := e0SliceSys_pastSlice_eventually ht
+  set x : E0 := ((-1 : ℝ), pastSliceZ (c t)) with hxdef
+  have hx : x.2 ≠ 0 := ht
+  set F := fun s => e0SliceSys e0PastHalfSlice (c t) (c s) with hF
+  obtain ⟨ε, hε, K, hK⟩ := hL
+  have hev : ∀ᶠ s in 𝓝 t, F s = g • E0.chartMap x ((-1 : ℝ), pastSliceZ (c s)) := hc.eventually hg
+  have hΘ : ∀ s, F s = g • E0.chartMap x ((-1 : ℝ), pastSliceZ (c s)) →
+      pastSliceZ (c s) = pastSliceRead g (F s) := by
+    intro s hs
+    rw [hs, pastSliceRead, E0Surgery.chartNull, inv_smul_smul, E0.unlift_symm_chartMap hx]
+  have hFt : F t = g • E0.chartMap x x := hev.self_of_nhds
+  have hR0 : (E0Surgery.chartNull g (F t)).2.1 ≠ 0 := by
+    rw [hFt, E0Surgery.chartNull, inv_smul_smul]
+    show (nullToMink.symm (nullToMink (E0.locLift x x))).2.1 ≠ 0
+    rw [LinearEquiv.symm_apply_apply]
+    exact (E0.rad_pos.2 hx).ne'
+  obtain ⟨K', U, hU, hΘU⟩ := (contDiffAt_pastSliceRead g hR0).exists_lipschitzOnWith
+  have hFc : ContinuousAt F t :=
+    hK.continuousOn.continuousAt (Icc_mem_nhds (by linarith) (by linarith))
+  obtain ⟨δ, hδ, hδP⟩ := Causal.Flat.exists_Icc_subset_of_eventually
+    ((show ∀ᶠ s in 𝓝 t, F s ∈ U from hFc.preimage_mem_nhds hU).and hev)
+  refine ⟨min δ ε, lt_min hδ hε, K' * K, ?_⟩
+  have hsub : Icc (t - min δ ε) (t + min δ ε) ⊆ Icc (t - δ) (t + δ) :=
+    Icc_subset_Icc (by linarith [min_le_left δ ε]) (by linarith [min_le_left δ ε])
+  have hsub' : Icc (t - min δ ε) (t + min δ ε) ⊆ Icc (t - ε) (t + ε) :=
+    Icc_subset_Icc (by linarith [min_le_right δ ε]) (by linarith [min_le_right δ ε])
+  have hcomp : LipschitzOnWith (K' * K) (fun s => pastSliceRead g (F s))
+      (Icc (t - min δ ε) (t + min δ ε)) :=
+    hΘU.comp (hK.mono hsub') fun s hs => (hδP s (hsub hs)).1
+  exact Causal.Flat.lipschitzOnWith_congr_of_eqOn
+    (fun s hs => ((hΘ s (hδP s (hsub hs)).2)).symm) hcomp
+
+/-- **The fundamental theorem of calculus, as an inequality, for Lipschitz curves of `ℂ`**
+(`Causal.Flat.norm_sub_le_integral_norm_deriv` read in `ℂ`). -/
+theorem norm_sub_le_integral_norm_deriv_complex {X : ℝ → ℂ} {K : ℝ≥0}
+    (hX : LipschitzWith K X) {a b : ℝ} (hab : a ≤ b) :
+    ‖X b - X a‖ ≤ ∫ s in a..b, ‖deriv X s‖ := by
+  set w := X b - X a
+  set u : ℝ → ℝ := fun s => inner ℝ w (X s)
+  have h1 : LipschitzWith ‖w‖₊ fun x : ℂ => inner ℝ w x :=
+    LipschitzWith.of_dist_le_mul fun x y => by
+      rw [Real.dist_eq, dist_eq_norm, ← inner_sub_right, coe_nnnorm]
+      exact abs_real_inner_le_norm _ _
+  have hu : LipschitzWith (‖w‖₊ * K) u := h1.comp hX
+  have hFTC : ∫ s in a..b, deriv u s = u b - u a :=
+    (hu.lipschitzOnWith.absolutelyContinuousOnInterval).integral_deriv_eq_sub
+  have hub : u b - u a = ‖w‖ ^ 2 := by
+    simp only [u, ← inner_sub_right, real_inner_self_eq_norm_sq, w]
+  have hdu : ∀ᵐ s, deriv u s = inner ℝ w (deriv X s) := by
+    filter_upwards [hX.ae_differentiableAt_real] with s hs
+    exact ((innerSL ℝ w).hasFDerivAt.comp_hasDerivAt s hs.hasDerivAt).deriv
+  have hbd : ∀ s, ‖deriv X s‖ ≤ K := fun s => norm_deriv_le_of_lipschitz hX
+  have hint1 : IntervalIntegrable (fun s => inner ℝ w (deriv X s)) MeasureTheory.volume a b :=
+    Causal.Flat.intervalIntegrable_of_bound ((continuous_const.inner continuous_id).measurable.comp
+      (measurable_deriv X)) (‖w‖ * K) (fun s => by
+        rw [Real.norm_eq_abs]
+        exact (abs_real_inner_le_norm _ _).trans
+          (mul_le_mul_of_nonneg_left (hbd s) (norm_nonneg _))) a b
+  have hint2 : IntervalIntegrable (fun s => ‖w‖ * ‖deriv X s‖) MeasureTheory.volume a b :=
+    Causal.Flat.intervalIntegrable_of_bound (measurable_const.mul (measurable_deriv X).norm)
+      (‖w‖ * K) (fun s => by
+        rw [Real.norm_eq_abs, abs_of_nonneg (by positivity)]
+        exact mul_le_mul_of_nonneg_left (hbd s) (norm_nonneg _)) a b
+  have hle : ‖w‖ ^ 2 ≤ ‖w‖ * ∫ s in a..b, ‖deriv X s‖ := by
+    rw [← hub, ← hFTC, intervalIntegral.integral_congr_ae (hdu.mono fun s hs _ => hs),
+      ← intervalIntegral.integral_const_mul]
+    exact intervalIntegral.integral_mono_ae hab hint1 hint2
+      (Filter.Eventually.of_forall fun s => real_inner_le_norm _ _)
+  have hI : 0 ≤ ∫ s in a..b, ‖deriv X s‖ :=
+    intervalIntegral.integral_nonneg hab fun _ _ => norm_nonneg _
+  rcases (norm_nonneg w).eq_or_lt with h0 | hpos
+  · rw [← h0]; exact hI
+  · nlinarith
+
+/-- The same on an interval, for a curve Lipschitz there, with the lower integral. -/
+theorem ofReal_norm_sub_le_lintegral_of_lipschitzOnWith {f : ℝ → ℂ} {K : ℝ≥0} {u v : ℝ}
+    (huv : u ≤ v) (hf : LipschitzOnWith K f (Icc u v)) :
+    ENNReal.ofReal ‖f v - f u‖ ≤ ∫⁻ s in Ioc u v, ENNReal.ofReal ‖deriv f s‖ := by
+  set h : ℝ → ℂ := fun s => f (projIcc u v huv s) with hh
+  have hhL : LipschitzWith K h := by
+    refine LipschitzWith.of_dist_le_mul fun a b => ?_
+    have := hf.dist_le_mul (projIcc u v huv a) (projIcc u v huv a).2
+      (projIcc u v huv b) (projIcc u v huv b).2
+    refine this.trans (mul_le_mul_of_nonneg_left ?_ K.2)
+    rw [Real.dist_eq, Real.dist_eq]
+    exact abs_projIcc_sub_projIcc huv
+  have hu : h u = f u := by simp [hh, projIcc_left]
+  have hv : h v = f v := by simp [hh, projIcc_right]
+  have h1 := norm_sub_le_integral_norm_deriv_complex hhL huv
+  rw [hu, hv, intervalIntegral.integral_of_le huv] at h1
+  have hbd : ∀ s, ‖deriv h s‖ ≤ K := fun s => norm_deriv_le_of_lipschitz hhL
+  have hint : MeasureTheory.IntegrableOn (fun s => ‖deriv h s‖) (Ioc u v) :=
+    MeasureTheory.Measure.integrableOn_of_bounded (by simp) (measurable_deriv h).norm.aestronglyMeasurable
+      (Filter.Eventually.of_forall fun s => by rw [norm_norm]; exact hbd s)
+  have h2 := ENNReal.ofReal_le_ofReal h1
+  rw [MeasureTheory.ofReal_integral_eq_lintegral_ofReal hint
+    (Filter.Eventually.of_forall fun _ => norm_nonneg _)] at h2
+  refine h2.trans (le_of_eq ?_)
+  rw [MeasureTheory.setLIntegral_congr MeasureTheory.Ioo_ae_eq_Ioc.symm,
+    MeasureTheory.setLIntegral_congr MeasureTheory.Ioo_ae_eq_Ioc.symm]
+  refine MeasureTheory.setLIntegral_congr_fun measurableSet_Ioo fun s hs => ?_
+  have : h =ᶠ[𝓝 s] f := by
+    filter_upwards [Ioo_mem_nhds hs.1 hs.2] with r hr
+    simp [hh, projIcc_of_mem huv ⟨hr.1.le, hr.2.le⟩]
+  simp only [this.deriv_eq]
+
+
+/-- **Crossing the zeros**: for a continuous curve `f` of `ℂ`, if the displacement over every
+zero-free subinterval of `[a, b]` is bounded by the integral of `ρ`, so is `‖f b − f a‖` — across
+the zero set the displacement is at most `‖f a‖ + ‖f b‖`, each bounded on the zero-free end pieces
+`(a, s₀]` and `(s₁, b]` (`s₀`, `s₁` the first and last zeros), by continuity at `s₀`, `s₁`. -/
+theorem ofReal_norm_sub_le_of_zeroFree {f : ℝ → ℂ} (hf : Continuous f) {ρ : ℝ → ℝ≥0∞}
+    {a b : ℝ} (hab : a ≤ b)
+    (H : ∀ u v, a ≤ u → u ≤ v → v ≤ b → (∀ s ∈ Icc u v, f s ≠ 0) →
+      ENNReal.ofReal ‖f v - f u‖ ≤ ∫⁻ s in Ioc u v, ρ s) :
+    ENNReal.ofReal ‖f b - f a‖ ≤ ∫⁻ s in Ioc a b, ρ s := by
+  by_cases hz : ∃ s ∈ Icc a b, f s = 0
+  swap
+  · push Not at hz
+    exact H a b le_rfl hab le_rfl hz
+  set Zr : Set ℝ := Icc a b ∩ {s | f s = 0} with hZr
+  have hZc : IsCompact Zr := isCompact_Icc.inter_right (isClosed_eq hf continuous_const)
+  have hZn : Zr.Nonempty := let ⟨s, hs, h0⟩ := hz; ⟨s, hs, h0⟩
+  set s₀ := sInf Zr
+  set s₁ := sSup Zr
+  have hs₀ : s₀ ∈ Zr := hZc.sInf_mem hZn
+  have hs₁ : s₁ ∈ Zr := hZc.sSup_mem hZn
+  have hlow : ∀ s ∈ Zr, s₀ ≤ s := fun s hs => csInf_le hZc.bddBelow hs
+  have hupp : ∀ s ∈ Zr, s ≤ s₁ := fun s hs => le_csSup hZc.bddAbove hs
+  have h01 : s₀ ≤ s₁ := hlow _ hs₁
+  -- the first piece
+  have hA : ENNReal.ofReal ‖f a‖ ≤ ∫⁻ s in Ioc a s₀, ρ s := by
+    rcases hs₀.1.1.eq_or_lt with h | h
+    · rw [← h] at hs₀; rw [hs₀.2, norm_zero, ENNReal.ofReal_zero]; exact zero_le
+    have hlim : Tendsto (fun u => ENNReal.ofReal ‖f u - f a‖) (𝓝[<] s₀)
+        (𝓝 (ENNReal.ofReal ‖f s₀ - f a‖)) :=
+      ((ENNReal.continuous_ofReal.comp ((hf.sub continuous_const).norm)).tendsto s₀).mono_left
+        nhdsWithin_le_nhds
+    have hev : ∀ᶠ u in 𝓝[<] s₀, ENNReal.ofReal ‖f u - f a‖ ≤ ∫⁻ s in Ioc a s₀, ρ s := by
+      filter_upwards [Ioo_mem_nhdsLT h] with u hu
+      refine (H a u le_rfl hu.1.le (hu.2.le.trans hs₀.1.2) fun s hs h0 => ?_).trans
+        (MeasureTheory.lintegral_mono_set (Ioc_subset_Ioc_right hu.2.le))
+      have := hlow s ⟨⟨hs.1, hs.2.trans (hu.2.le.trans hs₀.1.2)⟩, h0⟩
+      linarith [hs.2, hu.2]
+    have := le_of_tendsto hlim hev
+    rwa [hs₀.2, zero_sub, norm_neg] at this
+  -- the last piece
+  have hB : ENNReal.ofReal ‖f b‖ ≤ ∫⁻ s in Ioc s₁ b, ρ s := by
+    rcases hs₁.1.2.eq_or_lt with h | h
+    · rw [h] at hs₁; rw [hs₁.2, norm_zero, ENNReal.ofReal_zero]; exact zero_le
+    have hlim : Tendsto (fun v => ENNReal.ofReal ‖f b - f v‖) (𝓝[>] s₁)
+        (𝓝 (ENNReal.ofReal ‖f b - f s₁‖)) :=
+      ((ENNReal.continuous_ofReal.comp ((continuous_const.sub hf).norm)).tendsto s₁).mono_left
+        nhdsWithin_le_nhds
+    have hev : ∀ᶠ v in 𝓝[>] s₁, ENNReal.ofReal ‖f b - f v‖ ≤ ∫⁻ s in Ioc s₁ b, ρ s := by
+      filter_upwards [Ioo_mem_nhdsGT h] with v hv
+      refine (H v b (hs₁.1.1.trans hv.1.le) hv.2.le le_rfl fun s hs h0 => ?_).trans
+        (MeasureTheory.lintegral_mono_set (Ioc_subset_Ioc_left hv.1.le))
+      have := hupp s ⟨⟨(hs₁.1.1.trans hv.1.le).trans hs.1, hs.2⟩, h0⟩
+      linarith [hs.1, hv.1]
+    have := le_of_tendsto hlim hev
+    rwa [hs₁.2, sub_zero] at this
+  calc ENNReal.ofReal ‖f b - f a‖ ≤ ENNReal.ofReal (‖f a‖ + ‖f b‖) :=
+        ENNReal.ofReal_le_ofReal ((norm_sub_le _ _).trans_eq (add_comm _ _))
+    _ = ENNReal.ofReal ‖f a‖ + ENNReal.ofReal ‖f b‖ :=
+        ENNReal.ofReal_add (norm_nonneg _) (norm_nonneg _)
+    _ ≤ (∫⁻ s in Ioc a s₀, ρ s) + ∫⁻ s in Ioc s₁ b, ρ s := add_le_add hA hB
+    _ = ∫⁻ s in Ioc a s₀ ∪ Ioc s₁ b, ρ s :=
+        (MeasureTheory.lintegral_union measurableSet_Ioc
+          (Set.disjoint_left.2 fun s h1 h2 => by linarith [h1.2, h2.1])).symm
+    _ ≤ ∫⁻ s in Ioc a b, ρ s := MeasureTheory.lintegral_mono_set
+        (union_subset (Ioc_subset_Ioc_right hs₀.1.2) (Ioc_subset_Ioc_left hs₁.1.1))
+
+/-- **The lower bound**: every path of the slice from `a` to `b` is at least `‖z_b − z_a‖` long
+for the length chart system (`IsE0CauchyComplete`'s, BTZ times contributing `0`). -/
+theorem ofReal_norm_pastSliceZ_sub_le_pathLength {a b : e0PastHalfSlice} (γ : Path a b) :
+    ENNReal.ofReal ‖pastSliceZ b - pastSliceZ a‖ ≤
+      Causal.Flat.pathLength (e0SliceSys e0PastHalfSlice) γ := by
+  by_cases hL : Causal.Flat.IsLocLip (e0SliceSys e0PastHalfSlice) γ.extend
+  swap; · rw [Causal.Flat.pathLength_of_not_isLocLip _ hL]; exact le_top
+  rw [Causal.Flat.pathLength_of_isLocLip _ hL]
+  set c := γ.extend with hcdef
+  have hc : Continuous c := γ.continuous_extend
+  set f : ℝ → ℂ := fun s => pastSliceZ (c s) with hfdef
+  have hfc : Continuous f := continuous_pastSliceZ.comp hc
+  set ρ : ℝ → ℝ≥0∞ := fun s => if f s ≠ 0 then ENNReal.ofReal ‖deriv f s‖ else 0 with hρdef
+  have hρle : ∀ s, ρ s ≤ Causal.Flat.localDensity (e0SliceSys e0PastHalfSlice) c s := by
+    intro s
+    by_cases h0 : f s ≠ 0
+    · by_cases hd : DifferentiableAt ℝ f s
+      · rw [hρdef]; simp only [h0, if_true, ne_eq, not_false_eq_true]
+        rw [localDensity_pastSlice_eq hc.continuousAt h0 hd]
+      · rw [hρdef]
+        simp only [h0, if_true, ne_eq, not_false_eq_true, deriv_zero_of_not_differentiableAt hd,
+          norm_zero, ENNReal.ofReal_zero]
+        exact zero_le
+    · rw [hρdef]; simp only [h0, if_false]; exact zero_le
+  have hf0 : f 0 = pastSliceZ a := by simp [hfdef, hcdef]
+  have hf1 : f 1 = pastSliceZ b := by simp [hfdef, hcdef]
+  have key : ENNReal.ofReal ‖f 1 - f 0‖ ≤ ∫⁻ s in Ioc 0 1, ρ s := by
+    refine ofReal_norm_sub_le_of_zeroFree hfc zero_le_one fun u v hu huv hv hz => ?_
+    have hloc : LocallyLipschitzOn (Icc u v) f := fun s hs => by
+      obtain ⟨δ, hδ, K, hK⟩ := lipschitz_pastSliceZ_near hc.continuousAt (hz s hs) (hL s)
+      exact ⟨K, Icc (s - δ) (s + δ),
+        mem_nhdsWithin_of_mem_nhds (Icc_mem_nhds (by linarith) (by linarith)), hK⟩
+    obtain ⟨K, hK⟩ := hloc.exists_lipschitzOnWith_of_compact isCompact_Icc
+    refine (ofReal_norm_sub_le_lintegral_of_lipschitzOnWith huv hK).trans (le_of_eq ?_)
+    refine MeasureTheory.setLIntegral_congr_fun measurableSet_Ioc fun s hs => ?_
+    have : f s ≠ 0 := hz s ⟨hs.1.le, hs.2⟩
+    simp only [hρdef, this, ne_eq, not_false_eq_true, if_true]
+  rw [hf0, hf1] at key
+  exact key.trans (MeasureTheory.lintegral_mono hρle)
+
+
+/-- The sector chart along the slice is `C¹` off the cut. -/
+theorem contDiffAt_chartMap_slice {x : E0} {w₀ : ℂ} (hslit : w₀ / x.2 ∈ Complex.slitPlane) :
+    ContDiffAt ℝ 1 (fun w : ℂ => E0.chartMap x ((-1 : ℝ), w)) w₀ := by
+  have hx : x.2 ≠ 0 := by
+    intro h; rw [h, div_zero] at hslit; exact Complex.slitPlane_ne_zero hslit rfl
+  have hw0 : w₀ ≠ 0 := by
+    intro h; rw [h, zero_div] at hslit; exact Complex.slitPlane_ne_zero hslit rfl
+  have hr : ContDiffAt ℝ 1 (fun w : ℂ => ‖w‖) w₀ := contDiffAt_norm (𝕜 := ℝ) hw0
+  have ha : ContDiffAt ℝ 1 (fun w : ℂ => Complex.arg (w / x.2)) w₀ := by
+    have hlog : ContDiffAt ℝ 1 Complex.log (w₀ / x.2) :=
+      (Complex.contDiffAt_log hslit).restrict_scalars ℝ
+    have hdiv : ContDiffAt ℝ 1 (fun w : ℂ => w / x.2) w₀ :=
+      (contDiff_id.div_const x.2).contDiffAt
+    have := Complex.imCLM.contDiff.contDiffAt.comp w₀ (hlog.comp w₀ hdiv)
+    simpa [Function.comp_def, Complex.log_im] using this
+  have hθ : ContDiffAt ℝ 1 (fun w : ℂ => Complex.arg x.2 + Complex.arg (w / x.2)) w₀ :=
+    contDiffAt_const.add ha
+  have hN : ContDiffAt ℝ 1 (fun w : ℂ => btzPaperNull ((-1 : ℝ), ‖w‖,
+      Complex.arg x.2 + Complex.arg (w / x.2))) w₀ := by
+    simp only [btzPaperNull]
+    exact ((contDiffAt_const.add (hr.mul (hθ.pow 2))).sub hr).prodMk (hr.prodMk (hr.mul hθ).neg)
+  exact (LinearMap.toContinuousLinearMap
+    (nullToMink : (ℝ × ℝ × ℝ) →ₗ[ℝ] Causal.Minkowski 2)).contDiff.contDiffAt.comp w₀ hN
+
+/-- The straight segment of the slice, `t ↦ (−1, z_a + t (z_b − z_a))`. -/
+noncomputable def pastSliceSegment (a b : e0PastHalfSlice) : Path a b where
+  toFun t := pastSlicePt (pastSliceZ a + (t : ℝ) • (pastSliceZ b - pastSliceZ a))
+  continuous_toFun := continuous_pastSlicePt.comp (by fun_prop)
+  source' := by simp [pastSlicePt_pastSliceZ]
+  target' := by simp [pastSlicePt_pastSliceZ]
+
+theorem pastSliceZ_pastSliceSegment_extend (a b : e0PastHalfSlice) (s : ℝ) :
+    pastSliceZ ((pastSliceSegment a b).extend s) =
+      pastSliceZ a + ((projIcc (0 : ℝ) 1 zero_le_one s : ℝ) : ℂ) * (pastSliceZ b - pastSliceZ a) := by
+  show pastSliceZ (pastSlicePt _) = _
+  rw [pastSliceZ_pastSlicePt, Complex.real_smul]
+
+/-- **The upper bound**: the segment is at most `‖z_b − z_a‖` long. -/
+theorem pathLength_pastSliceSegment_le (a b : e0PastHalfSlice) :
+    Causal.Flat.pathLength (e0SliceSys e0PastHalfSlice) (pastSliceSegment a b) ≤
+      ENNReal.ofReal ‖pastSliceZ b - pastSliceZ a‖ := by
+  set c := (pastSliceSegment a b).extend with hcdef
+  have hc : Continuous c := (pastSliceSegment a b).continuous_extend
+  set f : ℝ → ℂ := fun s => pastSliceZ (c s) with hfdef
+  set Δ := pastSliceZ b - pastSliceZ a with hΔ
+  have hfeq : ∀ s, f s = pastSliceZ a + ((projIcc (0 : ℝ) 1 zero_le_one s : ℝ) : ℂ) * Δ :=
+    pastSliceZ_pastSliceSegment_extend a b
+  have hfL : LipschitzWith ‖Δ‖₊ f := by
+    refine LipschitzWith.of_dist_le_mul fun u v => ?_
+    rw [hfeq, hfeq, dist_add_left, dist_eq_norm, ← sub_mul, norm_mul, coe_nnnorm, mul_comm,
+      ← Complex.ofReal_sub, Complex.norm_real, Real.norm_eq_abs, Real.dist_eq]
+    exact mul_le_mul_of_nonneg_left (abs_projIcc_sub_projIcc _) (norm_nonneg _)
+  have hL : Causal.Flat.IsLocLip (e0SliceSys e0PastHalfSlice) c := by
+    intro t
+    by_cases h0 : f t = 0
+    · refine ⟨1, one_pos, 0, ?_⟩
+      have : (fun s => e0SliceSys e0PastHalfSlice (c t) (c s)) = fun _ => 0 := by
+        funext s
+        exact e0SliceSys_of_not_mem (fun h => ((pastSliceReg_iff _).1 h) h0) _
+      rw [this]; exact (LipschitzWith.const _).lipschitzOnWith
+    obtain ⟨g, hg⟩ := e0SliceSys_pastSlice_eventually h0
+    set x : E0 := ((-1 : ℝ), pastSliceZ (c t))
+    have hev : ∀ᶠ s in 𝓝 t, e0SliceSys e0PastHalfSlice (c t) (c s) =
+        g • E0.chartMap x ((-1 : ℝ), f s) := hc.continuousAt.eventually hg
+    obtain ⟨K₁, U, hU, hΨ⟩ := (contDiffAt_chartMap_slice (x := x) (w₀ := f t) (by
+      show f t / f t ∈ Complex.slitPlane
+      rw [div_self h0]; exact Complex.one_mem_slitPlane)).exists_lipschitzOnWith
+    obtain ⟨Kg, hKg⟩ := Causal.Flat.isom_lipschitzWith g
+    obtain ⟨δ, hδ, hδP⟩ := Causal.Flat.exists_Icc_subset_of_eventually
+      ((show ∀ᶠ s in 𝓝 t, f s ∈ U from hfL.continuous.continuousAt.preimage_mem_nhds hU).and hev)
+    refine ⟨δ, hδ, Kg * (K₁ * ‖Δ‖₊), ?_⟩
+    have h1 : LipschitzOnWith (Kg * (K₁ * ‖Δ‖₊)) (fun s => g • E0.chartMap x ((-1 : ℝ), f s))
+        (Icc (t - δ) (t + δ)) :=
+      hKg.comp_lipschitzOnWith (hΨ.comp hfL.lipschitzOnWith fun s hs => (hδP s hs).1)
+    exact Causal.Flat.lipschitzOnWith_congr_of_eqOn (fun s hs => ((hδP s hs).2).symm) h1
+  rw [Causal.Flat.pathLength_of_isLocLip _ hL]
+  unfold Causal.Flat.localLength
+  rw [MeasureTheory.setLIntegral_congr MeasureTheory.Ioo_ae_eq_Ioc.symm]
+  calc ∫⁻ s in Ioo 0 1, Causal.Flat.localDensity (e0SliceSys e0PastHalfSlice) c s
+      ≤ ∫⁻ _ in Ioo (0 : ℝ) 1, ENNReal.ofReal ‖Δ‖ := by
+        refine MeasureTheory.setLIntegral_mono measurable_const fun s hs => ?_
+        by_cases h0 : f s = 0
+        · rw [localDensity_e0SliceSys_of_not_mem (fun h => ((pastSliceReg_iff _).1 h) h0)]
+          exact zero_le
+        · have hd : HasDerivAt f Δ s := by
+            have h2 : HasDerivAt (fun r : ℝ => pastSliceZ a + (r : ℂ) * Δ) Δ s := by
+              simpa using ((Complex.ofRealCLM.hasDerivAt (x := s)).mul_const Δ).const_add
+                (pastSliceZ a)
+            refine h2.congr_of_eventuallyEq ?_
+            filter_upwards [Ioo_mem_nhds hs.1 hs.2] with r hr
+            rw [hfeq, projIcc_of_mem _ ⟨hr.1.le, hr.2.le⟩]
+          rw [localDensity_pastSlice_eq hc.continuousAt h0 hd.differentiableAt, hd.deriv]
+    _ = ENNReal.ofReal ‖Δ‖ := by simp
+
+
+/-- **The length metric of the slice is the Euclidean metric of `ℂ`** in the coordinate `z`. -/
+theorem edist_e0SliceSys_pastSlice (a b : Causal.Flat.LocalLengthSpace (e0SliceSys e0PastHalfSlice)) :
+    edist (pastSliceZ (Causal.Flat.LocalLengthSpace.toSpace a))
+      (pastSliceZ (Causal.Flat.LocalLengthSpace.toSpace b)) = edist a b := by
+  rw [Causal.Flat.LocalLengthSpace.edist_def, edist_dist, dist_eq_norm, ← norm_neg, neg_sub]
+  refine le_antisymm (le_iInf fun γ => ofReal_norm_pastSliceZ_sub_le_pathLength γ) ?_
+  exact (iInf_le _ (pastSliceSegment _ _)).trans (pathLength_pastSliceSegment_le _ _)
+
+/-- The slice, as `ℂ`. -/
+noncomputable def pastSliceEquiv : e0PastHalfSlice ≃ ℂ where
+  toFun := pastSliceZ
+  invFun := pastSlicePt
+  left_inv := pastSlicePt_pastSliceZ
+  right_inv := pastSliceZ_pastSlicePt
+
+end SliceCauchy
+
 /-- **`{τ<0}` is Cauchy-complete in DEC-31's sense** — the printed hypothesis of
 `prop:globally_hyperbolic_cauchy_complete_manifolds`, on the counterexample: the slice
 `{τ = −1}` is a Cauchy surface, spacelike in the flat charts, and its induced length metric is
 `dr² + r²dθ²` (`btzPaperDev`'s pullback at `dτ = 0`), the Euclidean metric of `ℂ` in the
 coordinate `x.2`, hence complete. -/
-theorem e0PastHalf_isE0CauchyComplete : IsE0CauchyComplete e0PastHalf :=
-  ⟨e0PastHalfSlice, sorry⟩ -- SORRY(prop:globally_hyperbolic_cauchy_complete_manifolds): three
-  -- unbuilt pieces, none in the scaffold or in lean-causal. (i) Cauchy: `{τ = −1}` meets every
-  -- inextensible causal curve of `{τ<0}` — needs `T = τ − 1/τ` to be a Cauchy time function
-  -- (`E0Spear.isCauchySurface_level`), i.e. `τ → 0⁻` along every future-inextensible causal curve
-  -- and `τ → −∞` along every past-inextensible one (a confinement argument: `f = τ − r/2` and
-  -- `h = τ + r` monotone bound `r`, and the angular part must converge — the analogue of
-  -- `E0.futureExtensible_sliceDom` on the unbounded domain `{τ<0}`). (ii) Spacelike Lipschitz:
-  -- the developed slice `btzPaperDev({−1} × (0,∞) × ℝ)` (`T = −1 + Y²/(2(T−X))`) is, in each flat
-  -- chart of `Reg {τ<0}` (locally `g • chartMap`, `pastHalf_aeChart_eventually`), a graph of a
-  -- `c`-Lipschitz function, `c < 1`, in some frame (`Causal.Flat.IsSpacelikeLipschitzIn`).
-  -- (iii) Completeness and continuity: the density of a curve `c` of the slice is
-  -- `√(minkQ (d/dt btzPaperDev(−1, r, θ))) = |ż|`, `z = (c ·).2 ∈ ℂ`, at regular times and `0` at
-  -- the BTZ point (`localDensity_e0SliceSys_of_not_mem`); so `|z(1) − z(0)| ≤ length` (FTC on the
-  -- regular intervals, `Causal.Flat.norm_sub_le_integral_norm_deriv`, with `z = 0` at BTZ times)
-  -- and straight segments realise `|z₁ − z₀|` (needs the derivative of the local angle lift
-  -- `E0.angle y`), so `edist = ‖z₁ − z₀‖` and the length space is isometric to `ℂ`.
+theorem e0PastHalf_isE0CauchyComplete : IsE0CauchyComplete e0PastHalf := by
+  set e : Causal.Flat.LocalLengthSpace (e0SliceSys e0PastHalfSlice) ≃ᵢ ℂ :=
+    { toEquiv := Causal.Flat.LocalLengthSpace.toSpace.trans pastSliceEquiv
+      isometry_toFun := fun a b => edist_e0SliceSys_pastSlice a b }
+  refine ⟨e0PastHalfSlice, e0PastHalfSlice_isCauchySurface,
+    e0PastHalfSlice_isSpacelikeLipschitz, e.completeSpace, ?_⟩
+  have h : (fun x : Causal.Flat.LocalLengthSpace (e0SliceSys e0PastHalfSlice) =>
+      ((Causal.Flat.LocalLengthSpace.toSpace x : e0PastHalfSlice) : e0PastHalf)) =
+      fun x => ((pastSlicePt (e x) : e0PastHalfSlice) : e0PastHalf) := by
+    funext x
+    show _ = ((pastSlicePt (pastSliceZ (Causal.Flat.LocalLengthSpace.toSpace x)) : e0PastHalfSlice) :
+      e0PastHalf)
+    rw [pastSlicePt_pastSliceZ]
+  rw [h]
+  exact continuous_subtype_val.comp (continuous_pastSlicePt.comp e.continuous)
 
 /-- **D-11's counterexample with the printed hypothesis** (DEC-27, DEC-31, DEC-77): `{τ<0} ⊂ 𝔼₀` is
 globally hyperbolic, Cauchy-complete in DEC-31's sense, has BTZ points, and its regular part is
@@ -1708,41 +3837,204 @@ theorem e0PastHalf_counterexample_DEC31 :
             (Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat e0PastHalf) x₀)) D :=
   ⟨e0PastHalf_counterexample.1, e0PastHalf_isE0CauchyComplete, e0PastHalf_counterexample.2⟩
 
+/-! #### D-11 in DEC-118 (a)'s reading: `{τ<0}~` is not future complete
+
+The conclusion of `prop:globally_hyperbolic_cauchy_complete_manifolds` in its ruled reading is
+`BTZTildeData.IsBTZFutureComplete` (for the chart-generated causality of `M̃`). It fails for EVERY
+`\widetilde{\{τ<0\}}`-datum: on `reg M̃` the developing map reads `r = a ∘ D` with `a` affine
+(through `E0Bridge.regTildeHomeo` and `pastHalf_rad_locally`); at a regular `x`, every `w ≫ x` has
+`r(w) ≥ r(x) > 0` (so is regular) and `r(w) ≤ r(x) − 2τ(x)` (`E0.Le.closed`, `τ < 0`), so `a` is
+bounded on the open cone `I⁺(D x) = D(I⁺(x))`, hence constant there (affine along rays), hence
+constant — while `r` takes the values `1` and `2` on `Reg {τ<0}`. -/
+
+/-- `Reg {τ<0}` is path connected. -/
+theorem e0PastHalf_regFlat_pathConnected : PathConnectedSpace (e0RegMFlat e0PastHalf) := by
+  haveI := ChartedSpace.locPathConnectedSpace (Causal.Minkowski 2) (e0RegMFlat e0PastHalf)
+  exact pathConnectedSpace_iff_connectedSpace.2 inferInstance
+
+/-- The regular point of `{τ<0}` with paper coordinates `(−1, c)`, `c ≠ 0`. -/
+noncomputable def pastHalfRegPt (c : ℂ) (hc : c ≠ 0) : e0RegMFlat e0PastHalf :=
+  ⟨⟨E0.paperInY ((-1 : ℝ), c), ⟨_, by norm_num, rfl⟩⟩, by
+    rw [mem_e0RegM_pastHalf_iff]; simpa using hc⟩
+
+attribute [local instance] btzE0Structure in
+/-- **`{τ<0}~` is not future complete in DEC-118 (a)'s reading**: for the bridge structure of
+`{τ<0}`, every base point, every presentation `Φ` and EVERY datum `d` (chartwise or not),
+`¬ BTZTildeData.IsBTZFutureComplete {τ<0} d`. -/
+theorem e0PastHalf_not_isBTZFutureComplete :
+    letI := E0Bridge.e0SingularGXStructure e0PastHalf
+    haveI := ChartedSpace.locPathConnectedSpace E0Y e0PastHalf
+    ∀ {y₀ : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) e0PastHalf)ᶜ : Set e0PastHalf)}
+      {yN : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)ᶜ : Set BTZE0)}
+      {Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN ≃ₜ
+        DInfty × ℝ} (d : BTZTildeData e0PastHalf y₀ Φ),
+      ¬ BTZTildeData.IsBTZFutureComplete e0PastHalf d := by
+  letI := E0Bridge.e0SingularGXStructure e0PastHalf
+  haveI := ChartedSpace.locPathConnectedSpace E0Y e0PastHalf
+  intro y₀ yN Φ d hfc
+  obtain ⟨ρ, hpair⟩ := E0Bridge.exists_isDevelopingPair_devOnCover y₀ d
+  letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat e0PastHalf) (E0Bridge.regPtF y₀)
+  haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat e0PastHalf) (E0Bridge.regPtF y₀)
+  have hDl : Causal.Flat.IsLocalIsometry 2 (E0Bridge.devOnCover y₀ d.D) :=
+    Causal.Flat.isLocalIsometry_iff_eventually.2 ⟨hpair.gx.1, hpair.gx.2⟩
+  obtain ⟨a, ha⟩ := exists_affine_eq_of_locally hDl.isOpenMap (pastHalf_rad_locally hpair)
+  have hreg : ∀ e : MaxBranchedCover (E0Bridge.sing e0PastHalf) y₀, e ∈ E0Bridge.regTilde y₀ →
+      E0.rad (E0.paperOfY (e.base : E0Y)) = a (d.D e) := by
+    intro e he
+    have h1 := ha (E0Bridge.regTildeHomeo y₀ ⟨e, he⟩)
+    have h2 := E0Bridge.proj_regTildeHomeo y₀ ⟨e, he⟩
+    have h3 : E0Bridge.devOnCover y₀ d.D (E0Bridge.regTildeHomeo y₀ ⟨e, he⟩) = d.D e := by
+      simp only [E0Bridge.devOnCover, Homeomorph.symm_apply_apply]
+    rw [h3] at h1
+    rw [← h1]
+    simp only [pastHalfPaper]
+    rw [← h2]
+  have hregIff : ∀ e : MaxBranchedCover (E0Bridge.sing e0PastHalf) y₀,
+      e ∈ E0Bridge.regTilde y₀ ↔ 0 < E0.rad (E0.paperOfY (e.base : E0Y)) := by
+    intro e
+    show e.base ∈ (E0Bridge.sing e0PastHalf)ᶜ ↔ _
+    have h := E0Bridge.compl_sing_eq (M := e0PastHalf)
+    have : e.base ∈ (E0Bridge.sing e0PastHalf)ᶜ ↔ e.base ∈ (E0LM.e0RegM e0PastHalf : Set e0PastHalf) :=
+      Set.ext_iff.1 h e.base
+    rw [this, SetLike.mem_coe, mem_e0RegM_pastHalf_iff, E0.rad, norm_pos_iff]
+  set x : MaxBranchedCover (E0Bridge.sing e0PastHalf) y₀ :=
+    ((E0Bridge.regTildeHomeo y₀).symm (Causal.UniversalCover.base _) : E0Bridge.regTilde y₀).1
+    with hxdef
+  have hx : x ∈ E0Bridge.regTilde y₀ :=
+    ((E0Bridge.regTildeHomeo y₀).symm (Causal.UniversalCover.base _) : E0Bridge.regTilde y₀).2
+  set p := d.D x with hp
+  set τx := (E0.paperOfY (x.base : E0Y)).1 with hτx
+  have hτneg : τx < 0 := (mem_e0PastHalf_iff.1 x.base.2).2
+  have hbound : ∀ v : Causal.Minkowski 2, (Causal.minkowski 2).lt ⊤ p v →
+      a p ≤ a v ∧ a v ≤ a p - 2 * τx := by
+    intro v hv
+    have hv' : v ∈ (Causal.minkowski 2).Iplus ⊤ {d.D x} :=
+      Causal.Precausality.mem_Iplus_singleton.2 hv
+    rw [← (hfc x).2] at hv'
+    obtain ⟨w, hw, hwv⟩ := hv'
+    have hle := d.causality.le_of_lt (Causal.Precausality.mem_Iplus_singleton.1 hw)
+    have hM := d.proj_le E0Bridge.isBTZSingModelled_e0 hle
+    rw [E0Bridge.e0ManifoldCausality_eq_chartedCausality] at hM
+    have hLe := (pastHalf_le_iff (d.proj x)).1 hM
+    obtain ⟨hτ, hr, hq⟩ := hLe.closed
+    have hτw : (E0.paperOfY ((d.proj w : e0PastHalf) : E0Y)).1 < 0 :=
+      (mem_e0PastHalf_iff.1 (d.proj w).2).2
+    have hrx := (hregIff x).1 hx
+    have hw' : (w : MaxBranchedCover (E0Bridge.sing e0PastHalf) y₀) ∈ E0Bridge.regTilde y₀ :=
+      (hregIff w).2 (lt_of_lt_of_le hrx hr)
+    have hax := hreg x hx
+    have haw := hreg w hw'
+    rw [hwv] at haw
+    have hd : E0.rad (E0.paperOfY ((d.proj w : e0PastHalf) : E0Y)) -
+        E0.rad (E0.paperOfY ((d.proj x : e0PastHalf) : E0Y)) ≤
+        2 * ((E0.paperOfY ((d.proj w : e0PastHalf) : E0Y)).1 -
+          (E0.paperOfY ((d.proj x : e0PastHalf) : E0Y)).1) := by
+      rcases (sub_nonneg.2 hr).lt_or_eq with h' | h'
+      · have := E0.nonneg_of_mul_nonneg' h' hq
+        linarith
+      · rw [← h']; linarith
+    have e1 : E0.rad (E0.paperOfY ((d.proj x : e0PastHalf) : E0Y)) = a p := hax
+    have e2 : E0.rad (E0.paperOfY ((d.proj w : e0PastHalf) : E0Y)) = a v := haw
+    have e3 : (E0.paperOfY ((d.proj x : e0PastHalf) : E0Y)).1 = τx := rfl
+    rw [e1, e2, e3] at hd
+    rw [e1, e2] at hr
+    exact ⟨hr, by linarith⟩
+  -- `a` is constant on the open cone `I⁺(p)`: it is bounded there and affine along rays
+  set U : Set (Causal.Minkowski 2) := {q | ‖q.2 - p.2‖ < q.1 - p.1} with hU
+  have hUlt : ∀ q ∈ U, (Causal.minkowski 2).lt ⊤ p q := fun q hq =>
+    Causal.minkowski_lt_top_iff.2 hq
+  have hconst : Set.EqOn a (AffineMap.const ℝ (Causal.Minkowski 2) (a p)) U := by
+    intro q hq
+    simp only [AffineMap.const_apply]
+    have hs : ∀ s : ℝ, 0 < s → a p ≤ a (p + s • (q - p)) ∧ a (p + s • (q - p)) ≤ a p - 2 * τx := by
+      intro s hs
+      refine hbound _ (hUlt _ ?_)
+      have hq' : ‖q.2 - p.2‖ < q.1 - p.1 := hq
+      show ‖(p + s • (q - p)).2 - p.2‖ < (p + s • (q - p)).1 - p.1
+      simp only [Prod.fst_add, Prod.snd_add, Prod.smul_fst, Prod.smul_snd, Prod.fst_sub,
+        Prod.snd_sub, add_sub_cancel_left, smul_eq_mul, norm_smul, Real.norm_eq_abs,
+        abs_of_pos hs]
+      exact mul_lt_mul_of_pos_left hq' hs
+    have hlin : ∀ s : ℝ, a (p + s • (q - p)) = a p + s * a.linear (q - p) := by
+      intro s
+      rw [add_comm p, ← vadd_eq_add, a.map_vadd, vadd_eq_add, a.linear.map_smul, smul_eq_mul,
+        add_comm]
+    have h0 : 0 ≤ a.linear (q - p) := by
+      have := (hs 1 one_pos).1; rw [hlin] at this; linarith
+    have hle0 : a.linear (q - p) ≤ 0 := by
+      by_contra hpos
+      rw [not_le] at hpos
+      have := (hs (-2 * τx / a.linear (q - p) + 1) (by
+        have : 0 < -2 * τx / a.linear (q - p) := div_pos (by linarith) hpos
+        linarith)).2
+      rw [hlin, add_mul, div_mul_cancel₀ _ hpos.ne'] at this
+      linarith
+    have hz : a.linear (q - p) = 0 := le_antisymm hle0 h0
+    have := hlin 1
+    rw [one_smul, add_sub_cancel, hz, mul_zero, add_zero] at this
+    exact this
+  have hUo : IsOpen U := isOpen_lt (continuous_norm.comp (continuous_snd.sub continuous_const))
+    (continuous_fst.sub continuous_const)
+  have hUne : U.Nonempty := ⟨p + ((1 : ℝ), 0), by simp [hU]⟩
+  have haeq := AffineMap.ext_on (hUo.affineSpan_eq_top hUne) hconst
+  have hlin0 : a.linear = 0 := by rw [haeq]; rfl
+  haveI := e0PastHalf_regFlat_pathConnected
+  obtain ⟨w1, hw1⟩ := Causal.UniversalCover.proj_surjective (y₀ := E0Bridge.regPtF y₀)
+    (pastHalfRegPt 1 one_ne_zero)
+  obtain ⟨w2, hw2⟩ := Causal.UniversalCover.proj_surjective (y₀ := E0Bridge.regPtF y₀)
+    (pastHalfRegPt 2 two_ne_zero)
+  have h1 : E0.rad (pastHalfPaper w1) = 1 := by
+    simp [pastHalfPaper, hw1, pastHalfRegPt, E0.rad]
+  have h2 : E0.rad (pastHalfPaper w2) = 2 := by
+    simp [pastHalfPaper, hw2, pastHalfRegPt, E0.rad]
+  have hcst : ∀ u v : Causal.Minkowski 2, a u = a v := by
+    intro u v
+    have := a.linearMap_vsub u v
+    rw [hlin0] at this
+    simp at this
+    linarith
+  have := hcst (E0Bridge.devOnCover y₀ d.D w1) (E0Bridge.devOnCover y₀ d.D w2)
+  rw [← ha, ← ha, h1, h2] at this
+  norm_num at this
+
+
+attribute [local instance] btzE0Structure in
+/-- **D-11's counterexample in the ruled readings** (DEC-27, DEC-31/119, DEC-77, DEC-118 (a)): the
+past half `{τ<0}` of `𝔼₀` satisfies the PRINTED hypotheses of
+`prop:globally_hyperbolic_cauchy_complete_manifolds` — globally hyperbolic, Cauchy-complete in
+DEC-31's sense (`IsE0CauchyComplete`), with BTZ points — and its conclusion « `M` future
+complete », read as `BTZTildeData.IsBTZFutureComplete` (DEC-118 (a)), fails for every
+`\widetilde{\{τ<0\}}`-datum — and such data EXIST (last conjunct: a presentation `Φ` of
+`\widetilde{𝔼₀}` and a datum over it, so the refutation is not vacuous); the regular-part
+reading fails too (`e0PastHalf_counterexample_DEC31`). -/
+theorem e0PastHalf_counterexample_DEC118 :
+    (CE e0PastHalf).GloballyHyperbolic ∧ IsE0CauchyComplete e0PastHalf ∧
+      (Causal.CBG.chartedSing e0SingY e0PastHalf 0).Nonempty ∧
+      (letI := E0Bridge.e0SingularGXStructure e0PastHalf
+      haveI := ChartedSpace.locPathConnectedSpace E0Y e0PastHalf
+      ∀ {y₀ : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) e0PastHalf)ᶜ : Set e0PastHalf)}
+        {yN : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)ᶜ : Set BTZE0)}
+        {Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN ≃ₜ
+          DInfty × ℝ} (d : BTZTildeData e0PastHalf y₀ Φ),
+        ¬ BTZTildeData.IsBTZFutureComplete e0PastHalf d) ∧
+      (letI := E0Bridge.e0SingularGXStructure e0PastHalf
+      haveI := ChartedSpace.locPathConnectedSpace E0Y e0PastHalf
+      ∃ (y₀ : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) e0PastHalf)ᶜ : Set e0PastHalf))
+        (yN : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)ᶜ : Set BTZE0))
+        (Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN ≃ₜ
+          DInfty × ℝ), (∀ e, orbitMk (GammaA (2 * Real.pi)) (Φ e) = e.base) ∧
+          Nonempty (BTZTildeData e0PastHalf y₀ Φ)) := by
+  refine ⟨e0PastHalf_counterexample.1, e0PastHalf_isE0CauchyComplete,
+    e0PastHalf_counterexample.2.1, e0PastHalf_not_isBTZFutureComplete, ?_⟩
+  letI := E0Bridge.e0SingularGXStructure e0PastHalf
+  haveI := ChartedSpace.locPathConnectedSpace E0Y e0PastHalf
+  obtain ⟨yN, Φ, hΦ⟩ := btz_exists_presentation
+  exact ⟨E0Bridge.basePt (pastHalfRegPt 1 one_ne_zero), yN, Φ, hΦ,
+    BTZTildeData.nonempty E0Bridge.isBTZSingModelled_e0 hΦ⟩
+
 end PastHalfRad
 
 end PastHalf
 
-/-! ## §5 `M̃` with `T_BTZ`: the injectivity step on the maximal branched covering -/
-
-section TildeM
-
-universe v
-
-attribute [local instance] btzE0Structure
-
-variable {M : Type v} [TopologicalSpace M] [T2Space M] [LocPathConnectedSpace M]
-  [FirstCountableTopology M] [ConnectedSpace M]
-  [SingularGXStructure (Causal.Flat.isom 2) (Causal.Minkowski 2) M]
-  {y₀ : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) M)ᶜ : Set M)}
-  {yN : ((Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0)ᶜ : Set BTZE0)}
-  {Φ : MaxBranchedCover (Sing (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) yN ≃ₜ DInfty × ℝ}
-
-/-- **`𝒟` is injective on `M̃`** (the headline's first bullet, the step l.2392–2394 on the maximal
-branched covering; DEC-106: the charts and their `≪` from `T_BTZ`, `M`'s GH in `M`): if `M` is
-globally hyperbolic, `M̃` future complete for the chart-generated `≪`
-(`def:manifold_future_complete_all` read as `IsBTZFutureComplete`, the conclusion of
-`prop:globally_hyperbolic_cauchy_complete_manifolds`), `𝒟` injective on `reg M̃` (Barbot) and every
-`I⁺(x)` regular (B21: a BTZ point is not in the chronological future of anything), then `𝒟` is
-injective on `M̃`. Future distinguishing is `BTZTildeData.isFutureDistinguishing_of_base`. -/
-theorem BTZTildeData.injective_D_of_isBTZFutureComplete (d : BTZTildeData M y₀ Φ)
-    (hM : IsBTZSingModelled M) (hG : (e0ManifoldCausality M hM).GloballyHyperbolic)
-    (hfc : BTZTildeData.IsBTZFutureComplete M d)
-    (hreg : InjOn d.D {e | e.base ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M})
-    (hI : ∀ x : d.Space, d.causality.Iplus ⊤ {x} ⊆
-      {e | e.base ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) M}) :
-    Injective d.D :=
-  injective_of_isFutureComplete (N := d.Space) hfc hreg hI (d.isFutureDistinguishing_of_base hM hG)
-
-end TildeM
 
 end GX

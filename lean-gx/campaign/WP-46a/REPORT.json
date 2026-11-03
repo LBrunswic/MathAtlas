@@ -1,0 +1,757 @@
+{
+ "package": "WP-46a",
+ "files": [
+  "GX/Singular/Quotient.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "prop:aeGXquotient",
+   "tex_lines": [
+    642,
+    659
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.aeGXQuotient",
+    "GX.existsUnique_aeGXQuotient",
+    "GX.quotientSingularGXStructure",
+    "GX.isAEMorphism_orbitMk",
+    "GX.orbits_topology",
+    "GX.IsAEMorphismOf.eq_of_isMaximalAEAtlas_right",
+    "GX.IsAEMorphismOf.maximalAEAtlas_right",
+    "GX.hasDecks_orbitMk_reg",
+    "GX.pushAtlas",
+    "GX.support_pushAtlas",
+    "GX.isRegularOn_pushAtlas",
+    "GX.isGXAtlas_pushAtlas"
+   ],
+   "hypotheses": [
+    {
+     "paper": "unique a.e. (G,X)-structure",
+     "here": "carried",
+     "note": "DEC-42 identification (an a.e. structure = its maximal atlas, l.471): existence of an a.e. atlas, any two have the same maximal atlas (SameAEStructure), the maximal one unique (ExistsUnique)"
+    },
+    {
+     "paper": "Gamma acts properly discontinuously",
+     "here": "weakened",
+     "note": "only: every x has U in nhds x with gamma U meeting U only if gamma x = x; implied by mathlib's ProperlyDiscontinuousSMul on locally compact T2 (IsProperlyDiscontinuous.of_properlyDiscontinuousSMul) and by the classical finite-translates definition on T2 (exists_nhds_of_finite)"
+    },
+    {
+     "paper": "U Gamma-invariant",
+     "here": "weakened",
+     "note": "not used (the free locus is invariant anyway)"
+    },
+    {
+     "paper": "Gamma acts by a.e. (G,X)-morphisms",
+     "here": "carried",
+     "note": "IsAEMorphism of each gamma (continuity of the action derived from it)"
+    },
+    {
+     "paper": "M a singular manifold: locally connected",
+     "here": "carried",
+     "note": "LocallyConnectedSpace M, for pi(U) portly"
+    },
+    {
+     "paper": "M Hausdorff, second countable",
+     "here": "weakened",
+     "note": "not used for the structure; the proof's claims (Gamma\\M Hausdorff, locally connected, second countable) are GX.orbits_topology, under the full reading IsProperlyDiscontinuous"
+    },
+    {
+     "paper": "(G,X) analytical (DEC-39)",
+     "here": "weakened",
+     "note": "IsRigidAction, LocallyConnectedSpace X, T2Space X, ContinuousConstSMul"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.647 'By assumption, the quotient is Hausdorff': Hausdorffness of Gamma\\M does not follow from the neighbourhood form of proper discontinuity alone (free wandering actions with non-Hausdorff quotients exist); it needs the separating form (IsProperlyDiscontinuous.separates, or local compactness with mathlib's definition). The structure itself needs neither Hausdorffness nor invariance of U."
+   ],
+   "questions": [
+    "'properly discontinuous' is not defined in the paper; reading taken: GX.IsProperlyDiscontinuous (nbhd meeting translates only through the stabiliser + distinct orbits separated); only its first half is used for the structure, and it is implied by the two standard definitions (proved)."
+   ]
+  },
+  {
+   "label": "prop:GXquotient",
+   "tex_lines": [
+    639,
+    640
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.gxQuotient",
+    "GX.maximalAtlas_eq_of_isGXMorphism",
+    "GX.mem_maximalAtlas_of_comp",
+    "GX.pushChartedSpace",
+    "GX.hasGroupoid_pushChartedSpace",
+    "GX.hasDecks_orbitMk",
+    "GX.isLocalHomeomorphOn_orbitMk",
+    "GX.gxQuotient_counterexample",
+    "GX.swapScale",
+    "GX.swapScaleAction"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Gamma acts by (G,X)-morphisms (absent in l.639)",
+     "here": "carried",
+     "note": "DEC-51: read in from l.618's 'acting via (G,X)-morphisms'; necessary: GX.gxQuotient_counterexample"
+    },
+    {
+     "paper": "Gamma acts freely, properly discontinuously",
+     "here": "weakened",
+     "note": "freeness + the neighbourhood half of IsProperlyDiscontinuous; the counterexample satisfies the full reading (both halves), and M = ℝ ⊕ ℝ is certified a (G,X)-manifold (HasGroupoid, T2, second countable) in its statement"
+    },
+    {
+     "paper": "unique (G,X)-structure",
+     "here": "carried",
+     "note": "unique maximal atlas (DEC-16)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.639 is false as written: a free, properly discontinuous action by homeomorphisms that are not (G,X)-morphisms admits NO structure on the quotient making the projection a (G,X)-morphism. Counterexample GX.gxQuotient_counterexample: Z/2 acting on the (translations of R)-manifold R ⊕ R by inl x ↦ inr 2x, inr x ↦ inl x/2 (free, properly discontinuous in the full reading IsProperlyDiscontinuous, continuous; ℝ ⊕ ℝ a (G,X)-manifold, all certified as conjuncts); no charted structure at all on the quotient makes the projection a (G,X)-morphism. Corrected form GX.gxQuotient adds 'by (G,X)-morphisms' (which prop:aeGXquotient does state). DEC-51 rules the reading; the row closes under it, the missing hypothesis recorded."
+   ],
+   "questions": []
+  },
+  {
+   "label": "ex:quotient_base",
+   "tex_lines": [
+    660,
+    683
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.quotientBase_ruled",
+    "GX.misner_variations_ruled",
+    "GX.nullB_ne_zero_of_timelike",
+    "GX.DInfty",
+    "GX.DInfty.gens",
+    "GX.DInfty.instTopologicalSpace",
+    "GX.DInfty.hasBasis_nhds_apex",
+    "GX.DInfty.isOpenEmbedding_posEmb",
+    "GX.DInfty.isPortly_pos",
+    "GX.devAtlas",
+    "GX.isAEAtlas_devAtlas",
+    "GX.devStructure",
+    "GX.subset_support_devStructure",
+    "GX.isAEMorphismOf_devStructure",
+    "GX.GammaA",
+    "GX.DInfty.rot",
+    "GX.DInfty.free_pos",
+    "GX.DInfty.disc_prod",
+    "GX.quotientBase",
+    "GX.quotientBase_topology",
+    "GX.quotientBase_sing_subset",
+    "GX.quotientBase_support_eq_univ",
+    "GX.cylHomeomorph",
+    "GX.Disc",
+    "GX.discQuot",
+    "GX.discHomeomorph",
+    "GX.DInfty.cplx",
+    "GX.DInfty.cplx_eq_iff",
+    "GX.quotientBase_counterexample",
+    "GX.homeomorphOfOrbits",
+    "GX.DInfty.disc",
+    "GX.DInfty.free",
+    "GX.isCoveringMapOn_discQuot",
+    "GX.discHomeomorph_image_pos",
+    "GX.LorentzIsom0",
+    "GX.minkQ",
+    "GX.MinkIsom0",
+    "GX.screw",
+    "GX.screw_mem",
+    "GX.massiveDev",
+    "GX.isLocalHomeomorphOn_massiveDev",
+    "GX.massiveDev_smul",
+    "GX.massive_particle",
+    "GX.massive_particle_isom0",
+    "GX.nullQ",
+    "GX.NullIsom0",
+    "GX.parab",
+    "GX.parabAff",
+    "GX.parabAff_zpow",
+    "GX.parab_mem",
+    "GX.btzDev",
+    "GX.btzCoord",
+    "GX.isLocalHomeomorphOn_btzDev",
+    "GX.btzDev_smul",
+    "GX.btz_whitehole",
+    "GX.btz_isom0",
+    "GX.timeFlip",
+    "GX.timeFlip_smul",
+    "GX.btzDevBlack",
+    "GX.isLocalHomeomorphOn_btzDevBlack",
+    "GX.btzDevBlack_smul",
+    "GX.btz_blackhole",
+    "GX.orbitsHomeomorph",
+    "GX.isAEMorphismOf_quotientBase",
+    "GX.quotientBase_chart_eq",
+    "GX.btz_blackhole_iso_whitehole",
+    "GX.btz_blackhole_isom0",
+    "GX.boost",
+    "GX.boostAff",
+    "GX.boostAff_zpow",
+    "GX.boost_mem",
+    "GX.nullS",
+    "GX.misnerDev",
+    "GX.isLocalHomeomorphOn_misnerDev",
+    "GX.misnerDev_smul",
+    "GX.timelike_ab_ne_zero",
+    "GX.misnerDev_spacelike_counterexample",
+    "GX.misner_btz",
+    "GX.misner_isom0",
+    "GX.nullB",
+    "GX.nullB_map",
+    "GX.parab'",
+    "GX.parab'_mem",
+    "GX.exists_isom0_nullU",
+    "GX.parabConj",
+    "GX.parabConj_fix",
+    "GX.btzDevGen",
+    "GX.btzDevGen_eq",
+    "GX.devAtlas_smul",
+    "GX.btz_whitehole_general",
+    "GX.btz_whitehole_isom0",
+    "GX.massive_particle_intended",
+    "GX.btzDevPast",
+    "GX.btz_blackhole_past_isom0",
+    "GX.btzDevGen_smul",
+    "GX.nullB_btzDevGen_sub",
+    "GX.btzDevGen_future_side",
+    "GX.nullB_neg_of_future",
+    "GX.nullB_add_smul_left",
+    "GX.nullB_neg_right",
+    "GX.nullB_self",
+    "GX.pointRefl",
+    "GX.btzDev_eq_pointRefl",
+    "GX.isLocalHomeomorphOn_btzDev_of_neg",
+    "GX.quotientBase_of_holonomy",
+    "GX.nullQ_smul",
+    "GX.nullB_smul_right",
+    "GX.exists_isom0_nullS",
+    "GX.boostConj",
+    "GX.boostConj_fix",
+    "GX.cylScale",
+    "GX.cylScale_apply",
+    "GX.misnerDevGen",
+    "GX.misnerDevGen_eq",
+    "GX.misner_general",
+    "GX.misner_isom0_general",
+    "GX.tachyon_isom0",
+    "GX.photon_isom0",
+    "GX.ThetaLiftQuotient",
+    "GX.thetaLiftQuotient_of_frame",
+    "GX.tachyon_conj_theta",
+    "GX.photon_conj_theta",
+    "GX.thetaDev",
+    "GX.thetaDev_eq",
+    "GX.exists_rayLiftLog_curve",
+    "GX.exists_turning_curve",
+    "GX.exists_equivariant_curve",
+    "GX.rayAngleLift",
+    "GX.strictMono_rayAngleLift",
+    "GX.rayLiftLog",
+    "GX.IsProperlyDiscontinuous.of_t2Space_orbits",
+    "GX.rayLiftQuotient_tachyon_not_t1",
+    "GX.rayLiftQuotient_photon_not_t2",
+    "GX.not_t1Space_rayLift_of_eigen",
+    "GX.eq_boostAff_of_fix",
+    "GX.eq_parabAff_of_fix",
+    "GX.IsHyperbolicPlaneMap",
+    "GX.IsParabolicPlaneMap",
+    "GX.RayAdmissible",
+    "GX.rayShift",
+    "GX.rayShift_polar"
+   ],
+   "hypotheses": [
+    {
+     "paper": "cyl{n} = D_inf × R^n",
+     "here": "weakened",
+     "note": "D_inf × Z for any locally connected Z (T2 for the topology claims)"
+    },
+    {
+     "paper": "D : {r>0} -> X a local homeomorphism",
+     "here": "carried",
+     "note": "IsLocalHomeomorphOn D {r>0}"
+    },
+    {
+     "paper": "assume Gamma_alpha acts via a.e. (G,X)-morphisms",
+     "here": "carried",
+     "note": "hΓ; isAEMorphismOf_devStructure derives it from an equivariance of D"
+    },
+    {
+     "paper": "alpha > 0",
+     "here": "weakened",
+     "note": "alpha ≠ 0"
+    },
+    {
+     "paper": "G = Isom_0(Minkowski)",
+     "here": "weakened",
+     "note": "any rigid G containing the holonomy (screw motion / parabolic P_alpha); instantiated with Isom_0 read as affine maps whose linear part preserves Q, has det > 0 and maps the future cone into itself (GX.LorentzIsom0; MinkIsom0 in (t,w) coordinates, NullIsom0 in null coordinates)"
+    },
+    {
+     "paper": "BTZ: u future lightlike, <v|u> < 0, x0 arbitrary",
+     "here": "carried",
+     "note": "every x0, every future lightlike u (Q(u)=0, τ(u)>0), every v with <v|u> < 0 (GX.btz_whitehole_isom0): Isom_0 is transitive on (base point, future lightlike vector) (GX.exists_isom0_nullU), and P_θ is a parabolic one-parameter family in Isom_0 fixing x0+Ru pointwise (GX.parabConj, GX.parabConj_fix); the coordinate case u=(1,0,0) is GX.btz_whitehole / GX.btz_isom0"
+    },
+    {
+     "paper": "massive particle: D = (z+σθ/α, r cos(θ/α), r sin(θ/α)), mass 1−α/2π",
+     "here": "carried",
+     "note": "DEC-47 reading D = (z+σθ/α, r cos θ, r sin θ): GX.massive_particle_intended (formula on {r>0}, local homeomorphism, holonomy the screw motion of angle α and pitch σ, which is in Isom_0, unique quotient structure); mass read as 1 − angle/2π (literature convention)"
+    },
+    {
+     "paper": "extreme BTZ black hole: D'(r,θ,t) = D(r,θ,−t)",
+     "here": "carried",
+     "note": "DEC-47 reading: u past lightlike — GX.btz_blackhole_past_isom0 for every x0, every u with Q(u)=0, τ(u)<0, every v with <v|u> < 0, G = Isom_0: parabolic family P_θ ∈ Isom_0 fixing x0+Ru pointwise, D = P_θ(x0+rv+tu) a local homeomorphism on {r>0} with holonomy P_α, developing {r>0} into the past side <y−x0|−u> > 0 of the null plane through the singular line (the white hole develops into the future side, GX.btzDevGen_future_side; sign convention GX.nullB_neg_of_future), unique quotient structure"
+    },
+    {
+     "paper": "variations: u spacelike, v spacelike or future/past timelike",
+     "here": "carried",
+     "note": "DEC-52 corrected form: every x0, every spacelike u, every v with <v|w> != 0 for every nonzero null w orthogonal to u (GX.misner_variations_ruled, the hypothesis verbatim); timelike v satisfy it (GX.nullB_ne_zero_of_timelike, reverse Cauchy-Schwarz), spacelike v must be asked for it (GX.misnerDev_spacelike_counterexample)"
+    },
+    {
+     "paper": "sing(M) = {r=0}",
+     "here": "carried",
+     "note": "DEC-52 corrected form sing(M) ⊆ π{r=0}, together with existence/uniqueness of the maximal a.e. structure and M ≅ ℂ × Z in one statement GX.quotientBase_ruled; the printed equality refuted by GX.quotientBase_counterexample"
+    },
+    {
+     "paper": "tachyon: 'a hyperbolic action of Γ = ℤ on θ'",
+     "here": "carried, generalised",
+     "note": "every x₀, every spacelike v, every g ∈ Isom₀ ∖ {1} fixing x₀ + ℝv pointwise (proved to be a boost, eq_boostAff_of_fix), every m ≠ 0; g acts on P = v^⊥ by a hyperbolic A (IsHyperbolicPlaneMap)"
+    },
+    {
+     "paper": "photon: 'a parabolic action of Γ = ℤ on θ'",
+     "here": "carried, generalised",
+     "note": "every x₀, every non-zero null v, every g ∈ Isom₀ ∖ {1} fixing x₀ + ℝv pointwise (proved to be a null rotation, eq_parabAff_of_fix), every m ≠ 0; g acts on P ≅ E^{1,2}/ℝv by a parabolic A (IsParabolicPlaneMap), ℝv-component κ"
+    },
+    {
+     "paper": "'action of Γ = ℤ on the coordinate θ', 'with the identification D_∞ = ℝ₊* × \\widetilde{RP¹} ∪ {(0,0)}', 'variations of the above example'",
+     "here": "reading (literal), ruled by DEC-116 (a)",
+     "note": "Γ = GammaA (2π) acts on θ ALONE ((r,θ,z) ↦ (r,θ+2π,z), r and z fixed), as the Γ_α of the example; the identification of θ with \\widetilde{RP¹} is a homeomorphism ψ : ℝ ≃ₜ ℝ conjugating the generator to the lift rayAngleLift A m : θ ↦ θ + rayShift A θ + 2πm of the action of A on the rays of P (ThetaLiftQuotient.lift), so the action on θ is the hyperbolic (parabolic) one; the developing map sends (r,θ,z) to the ray of angle ψθ (ThetaLiftQuotient.dev_eq). DEC-116 (a) (2026-11-03, the author: 'Accept') accepts this reading, so the row closes under it. The first-dispatched Euclidean-radius reading (rayLiftHomeo, rescaling r) is NOT this and its quotient is not Hausdorff (findings)."
+    },
+    {
+     "paper": "l.668 / def l.474: the quotient 'is naturally a singular (G,X)-manifold' (Hausdorff, second countable, locally connected, maximal a.e. structure)",
+     "here": "carried",
+     "note": "ThetaLiftQuotient: T2Space, SecondCountableTopology, LocallyConnectedSpace of Γ\\(D_∞ × ℝ), homeomorphic to ℂ × ℝ, IsProperlyDiscontinuous in FULL (both halves, via IsProperlyDiscontinuous.of_t2Space_orbits), free on {r>0}, unique maximal a.e. (Isom₀, E^{1,2})-structure making the projection an a.e. morphism, sing ⊆ π{r=0}"
+    },
+    {
+     "paper": "G = Isom₀(E^{1,2})",
+     "here": "carried",
+     "note": "NullIsom0"
+    },
+    {
+     "paper": "(previous round) 'the action is free and properly discontinuous' for the Euclidean-radius lift",
+     "here": "withdrawn / disclosed",
+     "note": "RayLiftQuotient.disc (and IsTurning.disc, homeoZ_quotient) is only the NEIGHBOURHOOD half of IsProperlyDiscontinuous; orbit separation fails at the axis for that action (tachyon: off-axis orbits accumulate at axis points; photon: distinct axis points are inseparable) — proved: rayLiftQuotient_tachyon_not_t1, rayLiftQuotient_photon_not_t2. These decls are kept, documented as the defect record, and no longer appear in the headline statements."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.667 'Its singular locus is sing(M) = {r=0}' is false in general: GX.quotientBase_counterexample (alpha = 2π, X = C, G = translations, D(r,θ) = r e^{iθ}, every hypothesis of the example) has EMPTY singular locus while {r=0} is the apex. True: sing(M) ⊆ π{r=0} (GX.quotientBase_sing_subset).",
+    "l.664–667 dimension slip: cyl{n} := D_inf × R^n is (n+2)-dimensional and is said to have a local homeomorphism {r>0} → X ⊆ R^n and a quotient homeomorphic to R^n; read cyl{n} = D_inf × R^{n-2} (the Minkowski case uses (r,θ,z), z ∈ R, X = R^3), or the quotient as R^{n+2}. Formalized for D_inf × Z, with M ≅ C × Z (GX.cylHomeomorph).",
+    "l.673 (massive particle), printed slip (DEC-47): with D(r,θ,z) = (z+σθ/α, r cos(θ/α), r sin(θ/α)) the deck generator θ ↦ θ+α of Γ_α acts by D ↦ (time translation by σ) ∘ (rotation of angle 1 radian), whatever α (GX.massiveDev_smul with c = 1/α). The cone angle is therefore 1 and the mass 1 − 1/2π, not m = 1 − α/2π, unless α = 1. The intended D = (z+σθ/α, r cos θ, r sin θ) (DEC-47) is GX.massive_particle_intended: angle α.",
+    "l.674–678 (extreme BTZ white hole): formalized in the paper's generality (GX.btz_whitehole_isom0: every x0, future lightlike u, <v|u> < 0, G = Isom_0); D is even a homeomorphism of {r>0} onto a half-space, holonomy P_α.",
+    "l.678, printed slip (DEC-47): 'Choosing D'(r,θ,t) = D(r,θ,−t) gives an extreme BTZ blackhole instead' — D' = D ∘ T with T(r,θ,t) = (r,θ,−t) a Γ_α-equivariant homeomorphism of the cylinder, so the printed black hole is isomorphic, as a singular (G,X)-manifold, to the white hole (GX.btz_blackhole_iso_whitehole, GX.btz_blackhole_isom0). The intended black hole takes u past lightlike (DEC-47): GX.btz_blackhole_past_isom0, which develops {r>0} into the past side of the null plane through the singular line, where the white hole develops into the future side (GX.btzDevGen_future_side).",
+    "l.679 (Misner/BTZ variations, u spacelike): 'v spacelike' does not suffice: for u = (0,0,1) and the spacelike v = (1,0,1) (null coordinates, Q(v) = 1) the image of D lies in a plane, so D is not a local homeomorphism (GX.misnerDev_spacelike_counterexample). Needed: v not in the plane spanned by u and one null eigendirection of the boosts (v_a v_b ≠ 0), automatic for timelike v. Formalized with that condition (GX.misner_btz, GX.misner_isom0).",
+    "l.679 (variations): the condition on v, stated intrinsically, is: ⟨v|w⟩ ≠ 0 for every nonzero null w ⊥ u (v off the two null planes spanned by u and a null eigenline of the boosts); automatic for timelike v (GX.misner_isom0_general, first disjunct), and 'v spacelike' alone allows a degenerate D (GX.misnerDev_spacelike_counterexample).",
+    "STATUS: closed under DEC-52 (sing(M) ⊆ π{r=0}; <v|w> != 0 for every nonzero null w ⊥ u) and DEC-47 (massive particle (r cos θ, r sin θ); past lightlike u for the black hole); the printed forms stay recorded as findings with their counterexamples. The dimension slip (cyl{n} = D_inf × R^n homeomorphic to R^n) is absorbed by the generality in Z (M ≅ ℂ × Z, GX.cylHomeomorph).",
+    "l.682 (tachyons, photons) and l.684 (polyhedral gluings) are informal remarks, not formalized (SCOPE (c)): no developing map, no element of PSL(2,R) nor which lift to the universal cover of RP^1 generates Γ (a lift fixing a lift of a fixed point acts on {r>0} with fixed points, the other lifts freely, so the choice decides freeness), 'tachyon'/'photon' undefined in the paper; no polyhedra or gluing maps given for l.684.",
+    "l.682 holds as written, read literally: with Γ = ℤ acting on θ alone (r and z fixed), as a variation of the action Γ_α of the example, and θ identified with \\widetilde{RP¹} by a homeomorphism ψ conjugating the generator to the lift of A, the quotient is a singular (Isom₀, E^{1,2})-manifold (Hausdorff, locally connected, second countable, ≅ ℂ × ℝ) with holonomy g (tachyon_isom0, photon_isom0, ThetaLiftQuotient). The developing map is then not Euclidean-polar in θ: D(r,θ,z) = x₀ + (z + r b(θ)) c v + r R(θ) w(e^{iψθ}), R > 0, built from a fundamental-domain curve extended equivariantly.",
+    "Feed-back to BBS (papers/bbs/REVIEW.md §H.2, POSTWAVE5/BBS-NOTES.md (3)): the construction there — 1·(r,θ,z) = (r‖g w(θ)‖/‖w(ĝθ+2πm)‖, ĝθ+2πm, z) with w a 2π-periodic Euclidean parametrisation — does not give a Hausdorff quotient, because the action rescales the Euclidean radius while 𝔻_∞'s apex neighbourhoods are {r < ε}: for the tachyon the quotient is not even T₁ (a point of the contracted eigen-ray lies in every neighbourhood of an axis point, GX.rayLiftQuotient_tachyon_not_t1, every β ≠ 0, every m), for the photon it is not T₂ (p_n = (−1/(s²n²), 1/(sn), 0) → (apex, 0) while φⁿp_n = (−1/(s²n²), 0, 1) → (apex, 1), GX.rayLiftQuotient_photon_not_t2, every s ≠ 0, every m). §H.2 checks only the neighbourhood half (hdisc) of proper discontinuity, which holds. The fix is to make the action preserve r: choose w equivariant (w(ĝθ + 2πm) = g w(θ), defined on a fundamental domain and extended), equivalently act on θ alone.",
+    "For the photon no complement of ℝv is invariant under a null rotation, so in the Euclidean-radius reading the action must also shift z ((r,θ,z) ↦ (r‖Ae^{iθ}‖, θ + rayShift A θ + 2πm, z + r κ(e^{iθ}))); BBS H.2's z-preserving formula holds only for the tachyon. In the corrected reading the drift is absorbed in the developing map (the term r b(θ) c v).",
+    "Every element of Isom₀ fixing a spacelike (resp. null) line pointwise is a boost (resp. a null rotation): the orientation-reversing candidates (exchange of the two null lines of v^⊥; γ = −1 for the null case) are excluded only by the determinant condition of Isom₀.",
+    "l.682 names no lift of the PSL(2,ℝ) element to \\widetilde{RP¹}: the lift is a choice m ∈ ℤ of sheets. Every m ≠ 0 is certified (m = ±1 the tachyon/photon proper); m = 0 (the lift fixing the eigen-rays) is not claimed.",
+    "Defect record (kept, not certifying the row): the Euclidean-radius tachyon/photon construction GX.RayLiftQuotient, GX.rayLiftQuotient_of_frame, GX.homeoZ_quotient, GX.IsTurning, GX.isTurning_rayLiftHomeo, GX.rayLiftHomeo, GX.HomeoZ, GX.tachyon_conj, GX.photon_conj, GX.rayLift, GX.rayDev, GX.rayDev_axis — its quotient is not Hausdorff, proved by GX.rayLiftQuotient_tachyon_not_t1, GX.rayLiftQuotient_photon_not_t2, GX.not_t1Space_rayLift_of_eigen. The docstrings of GX.tachyon_conj / GX.photon_conj now say so and point to the certified GX.tachyon_conj_theta / GX.photon_conj_theta (WP-46a)."
+   ],
+   "questions": [
+    "SETTLED by DEC-116 (a): 'tachyon'/'photon' and 'a hyperbolic (resp. parabolic) action of Γ = ℤ on θ' are read literally, Γ acting on θ alone (r, z fixed); the Euclidean-radius action is proved non-Hausdorff.",
+    "The orientation of w (BBS l.1229–1233) is not pinned: the paper makes no positivity claim. That the axis is actually singular and BBS's degree 2|m| are not asserted by the paper and not formalized."
+   ]
+  },
+  {
+   "label": "ex:conical",
+   "tex_lines": [
+    347,
+    351
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.conicalDev",
+    "GX.conicalDev_smul",
+    "GX.isLocalHomeomorphOn_conicalDev",
+    "GX.conicalAtlas",
+    "GX.conical",
+    "GX.conical_circle",
+    "GX.isRigidAction_circle",
+    "GX.exists_smul_eq_on_of_isLocalHomeomorphOn",
+    "GX.Cone",
+    "GX.ConePoint",
+    "GX.coneE",
+    "GX.angDist",
+    "GX.Cone.instProperSpace",
+    "GX.Cone.isGeodesic",
+    "GX.Cone.coneTwoPiIsoComplex",
+    "GX.Cone.apex_not_euclidean",
+    "GX.coneOf",
+    "GX.coneOf_smul",
+    "GX.dist_coneOf",
+    "GX.conical_locally_euclidean",
+    "GX.conical_metric",
+    "GX.ConicalSpace",
+    "GX.conicalMetricHomeo",
+    "GX.conicalMetricHomeo_apply",
+    "GX.coneHomeo",
+    "GX.coneOfCplx",
+    "GX.continuous_coneOf",
+    "GX.isProperMap_coneOfCplx",
+    "GX.dist_toLp_two",
+    "GX.conical_locally_euclidean_prod",
+    "GX.conical_printed_metric",
+    "GX.conical_printed_metric_two_pi",
+    "GX.conical_isomPlus",
+    "GX.conical_holonomy_eq_one_iff",
+    "GX.previous_examples_universalCover",
+    "GX.conical_fundamentalGroup",
+    "GX.fundamentalGroup_cylPos",
+    "GX.fundamentalGroup_cylPos_int",
+    "GX.cylPosDeck",
+    "GX.cylPosDeck_bijective",
+    "GX.cylPosDeck_apply",
+    "GX.CylPosE",
+    "GX.cylPosSmulHomeo",
+    "GX.deckCongrOfComp",
+    "GX.deckCongrOfComp_apply",
+    "GX.conical_holonomy",
+    "GX.conicalRot",
+    "GX.conicalRot_smul",
+    "GX.conicalRot_eq_one_iff",
+    "GX.conical_zpow_smul"
+   ],
+   "hypotheses": [
+    {
+     "paper": "alpha > 0, n ≥ 2",
+     "here": "carried",
+     "note": "0 < α; R^{n-2} read as any locally connected T2 nonempty Z (a finite-dimensional Euclidean E for G = Isom+)"
+    },
+    {
+     "paper": "(E^n, R^n ⋊ SO(n))",
+     "here": "carried",
+     "note": "G = Isom+(E^n) = GX.IsomPlus E for every α > 0 and every n (GX.conical_isomPlus); the general theorem GX.conical holds for any rigid (G, C × Z) containing ρ_α"
+    },
+    {
+     "paper": "metric dz^2+dr^2+α r^2 dθ^2, θ ∈ R/Z",
+     "here": "carried",
+     "note": "DEC-47: read with cone angle α — E^n_α = GX.ConicalSpace α E = C_α × E with the ℓ² metric, C_α the flat cone of angle α by its distance formula; homeomorphic to the quotient Γ_1\\(D_inf × E) (GX.conicalMetricHomeo), locally Euclidean along the developing map on {r>0} (GX.conical_locally_euclidean_prod)"
+    },
+    {
+     "paper": "pi_1({r>0}) = Z",
+     "here": "carried",
+     "note": "proved, not read (round 1 fix): FundamentalGroup (π{r>0}) y₀ ≃* Multiplicative ℤ at every base point (GX.conical_fundamentalGroup, any α ≠ 0 via GX.fundamentalGroup_cylPos_int), by the isomorphism GX.fundamentalGroup_cylPos = UniversalCover.deckEquiv, transported through the homeomorphism Φ of previous_examples_universalCover (GX.deckCongrOfComp), then Deck ≃* Γ_1 (GX.cylPosDeck_bijective: injective by freeness on {r>0}, surjective by uniqueness of lifts on the connected — contractible — total space); χ conjugates each loop's deck transformation to the action of χ(g) ∈ Γ_1, so the holonomy ρ: π₁ = ℤ → G sends the generator to ρ_α (conicalDev_smul)"
+    },
+    {
+     "paper": "holonomy ρ : π₁({r>0}) = ℤ → R^n ⋊ SO(n), ρ(1) the rotation of angle α, non-trivial when α ∉ 2πN*",
+     "here": "carried",
+     "note": "one homomorphism ρ : π₁(π{r>0}, y₀) →* Isom⁺(𝔼^n) with the developing map ρ-equivariant, ρ = ρ_α^χ for χ : π₁ ≃* ℤ, ρ(1) = ρ_α, and ρ(1) = 1 in G iff α ∈ 2πN* (GX.conical_holonomy, GX.conicalRot_eq_one_iff)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.347, printed slip (DEC-47 reads angle α): with θ ∈ R/Z the metric dz²+dr²+α r² dθ² has cone angle √α (a circle r = r0 has length √α·r0), not α. Lean witness: read as the cone C_{√α}, its apex is Euclidean iff α = 4π² and NOT Euclidean at the paper's α = 2π (GX.conical_printed_metric, GX.conical_printed_metric_two_pi), against 'cannot be extended … except for α = 2π'. The rest of the example (holonomy = rotation of angle α) and ex:consider_identifying need angle α, i.e. α² r² dθ² on R/Z (or r² dθ² on R/αZ). The corrected object is built: E^n_α = C_α × R^{n-2} (GX.ConicalSpace, ℓ²), C_α ported from lean-causal, proper and geodesic, C_2π ≅ ℂ, apex not Euclidean for α ≠ 2π; its metric topology is the quotient topology of Γ_1\\(D_inf × R^{n-2}) (GX.conicalMetricHomeo) and it is Euclidean along the developing map on {r>0} (GX.conical_locally_euclidean_prod).",
+    "l.350–351: the holonomy is offered by the paper only as 'an obstruction', and it is one only for α ∉ 2πN*: for α ∈ 2πN*, α ≠ 2π, the holonomy is trivial and does not obstruct, so the argument as written does not cover those angles. The claim itself is true there as well (the developing map is k-to-1 around the axis, so no chart covers it): GX.conical proves support = univ ↔ α = 2π, and the whole axis singular for α ≠ 2π. The metric side agrees: Cone.apex_not_euclidean for every α ≠ 2π (GX.conical_metric)."
+   ],
+   "questions": [
+    "Informational (no change of status): the Riemannian metric dz²+dr²+α r²dθ² is represented by the distance of the flat cone C_α × R^{n-2} (ℓ²; lean-causal kb/0021), not by mathlib's IsRiemannianManifold; 'locally Euclidean on {r>0}' is proved as a local isometry with the Euclidean distance through the developing map (GX.conical_locally_euclidean_prod)."
+   ],
+   "notes_on_representation": [
+    "'cannot be extended to the whole R^n' is formalized as: the unique maximal a.e. atlas of E_α = Γ_1\\(D_inf × Z) has support univ iff α = 2π (GX.conical); this is the paper's notion of the structure extending, not a reading.",
+    "The Riemannian metric is represented by its distance (flat cone C_α, ℓ²-product with R^{n-2}; DEC-47's cone angle α), the library having no Riemannian metrics; locally Euclidean along the developing map on {r>0} (GX.conical_locally_euclidean_prod)."
+   ]
+  },
+  {
+   "label": "ex:consider_identifying_point_wise_stabilizer",
+   "tex_lines": [
+    629,
+    638
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.quotient_finite_model_analytical",
+    "GX.finiteQuotient_of_t2",
+    "GX.IsProperlyDiscontinuous.of_finite",
+    "GX.quotient_rotations",
+    "GX.isPortly_ne_zero",
+    "GX.isPreconnected_ball_diff_zero",
+    "GX.finiteQuotient",
+    "GX.quotient_rotations_rootsOfUnity",
+    "GX.affineEquivMulAction",
+    "GX.isRigidAction_affineEquiv",
+    "GX.IsRigidAction.subgroup",
+    "GX.euclidQ",
+    "GX.IsomPlus",
+    "GX.rotAff",
+    "GX.rotAff_mem",
+    "GX.rotMulAction",
+    "GX.quotient_rotations_isomPlus",
+    "GX.ptStab",
+    "GX.rotStab",
+    "GX.rotStab_bijective",
+    "GX.ptStabEquiv",
+    "GX.conicalRoots",
+    "GX.conicalRoots_fib",
+    "GX.conicalRootsHomeo",
+    "GX.conical_quotient_rotations",
+    "GX.conical_quotient_rotations_isomPlus",
+    "GX.coneOfPlane",
+    "GX.dist_coneOfPlane",
+    "GX.coneOfPlane_smul",
+    "GX.coneOfPlane_eq_iff",
+    "GX.coneOfPlane_surjective",
+    "GX.ptStabUnits",
+    "GX.ptStabUnits_injective",
+    "GX.ptStab_subgroup_eq_rootsOfUnity",
+    "GX.coneProdOfPlane",
+    "GX.dist_coneProdOfPlane",
+    "GX.continuous_coneProdOfPlane",
+    "GX.isOpenMap_coneProdOfPlane",
+    "GX.coneProdOfPlane_surjective",
+    "GX.coneProdOfPlane_eq_iff",
+    "GX.rotationsMetricHomeo",
+    "GX.rotations_metric",
+    "GX.conicalMetricHomeo_eq_rotations",
+    "GX.conical_quotient_rotations_isometry",
+    "GX.quotient_rotations_sphere",
+    "GX.quotient_rotations_hyperbolic",
+    "GX.quotient_rotations_model",
+    "GX.quotient_finite_model",
+    "GX.IsRadialNormalization",
+    "GX.IsRadialNormalization.toFun",
+    "GX.IsRadialNormalization.apply_self",
+    "GX.IsRadialNormalization.isOpenQuotientMap",
+    "GX.IsRadialNormalization.locallyConnectedSpace",
+    "GX.IsRadialNormalization.isPortly",
+    "GX.IsRadialNormalization.isRigidAction",
+    "GX.isRadialNormalization_level",
+    "GX.LinIsomPlus",
+    "GX.LinIsomPlus.smul_coe",
+    "GX.rotLinIsom",
+    "GX.rotLinIsom_apply",
+    "GX.rotSubgroup",
+    "GX.sphereModel",
+    "GX.sphereModel_rot",
+    "GX.isRadialNormalization_sphereModel",
+    "GX.isClosed_sphereModel",
+    "GX.euclidQ_smul",
+    "GX.continuous_euclidQ",
+    "GX.euclidQ_rot",
+    "GX.lorentzQ",
+    "GX.lorentzQ_smul",
+    "GX.continuous_lorentzQ",
+    "GX.lorentzQ_rot",
+    "GX.hyperbolicModel",
+    "GX.hyperbolicModel_rot",
+    "GX.isRadialNormalization_hyperbolicModel",
+    "GX.isClosed_hyperbolicModel",
+    "GX.quotient_rotations_ptStab",
+    "GX.ptStabRoot",
+    "GX.ptStabRoot_smul",
+    "GX.ptStabRoot_bijective",
+    "GX.ptStab_orbit_iff",
+    "GX.ptStabMetricHomeo",
+    "GX.ptStab_metric",
+    "GX.quotient_rotations_sphere_ptStab",
+    "GX.quotient_rotations_hyperbolic_ptStab",
+    "GX.linPtStab",
+    "GX.linPtStab_rot",
+    "GX.rotLinPtStab",
+    "GX.rotLinPtStab_bijective",
+    "GX.linPtStab_subgroup_eq_rotSubgroup",
+    "GX.quotient_rotations_model_ptStab",
+    "GX.euclidQ_split",
+    "GX.lorentzQ_split",
+    "GX.norm_sq_nondeg",
+    "GX.lorentz_nondeg",
+    "GX.span_sphereModel_axis",
+    "GX.span_hyperbolicModel_axis"
+   ],
+   "hypotheses": [
+    {
+     "paper": "X = M = E^n, G = Isom+(E^n)",
+     "here": "carried",
+     "note": "E^n = ℂ × E, E finite-dimensional Euclidean (R^{n-2}); Isom+ read as GX.IsomPlus E (affine maps whose linear part preserves |w|^2+|z|^2 with det > 0; Mazur–Ulam); rigid by IsRigidAction.subgroup of the affine group. The general theorem quotient_rotations also holds for any rigid G"
+    },
+    {
+     "paper": "Γ ⊂ Stab(S) finite of order p",
+     "here": "carried",
+     "note": "every subgroup Γ ≤ Stab(S) with Nat.card Γ = p, acting as a subgroup of Isom+(E^n) (round 1): structure GX.quotient_rotations_ptStab, metric GX.ptStabMetricHomeo / GX.ptStab_metric (Γ\\E^n ≅ E^n_{2π/p}, the quotient distance min_{γ∈Γ}|γx−y|); Γ is μ_p (GX.ptStab_subgroup_eq_rootsOfUnity, GX.ptStabRoot_bijective), so the μ_p statements are the same ones"
+    },
+    {
+     "paper": "variations X = H^n, S^n",
+     "here": "carried",
+     "note": "S^n = {|w|²+|z|² = 1} ⊆ ℂ × E, H^n the upper sheet {|w|²+|z|²−s² = −1, s > 0} ⊆ ℂ × ℝ × E, M = X, G = Isom+ read as the linear isometries of positive determinant preserving X (GX.LinIsomPlus: SO(n+1), SO+(n,1)), rigid; S = {w = 0} (S^{n-2}, H^{n-2}); Γ ≅ μ_p its rotations (GX.rotSubgroup); free on the portly X ∖ S, natural singular structure (GX.quotient_rotations_sphere, GX.quotient_rotations_hyperbolic)"
+    },
+    {
+     "paper": "variations X = M = H^n, S^n with Γ ⊂ Stab(S) of order p",
+     "here": "carried",
+     "note": "every subgroup of order p of the point-wise stabilizer of S = X ∩ {w = 0} in Isom⁺(X) (LinIsomPlus) is the rotation group μ_p (GX.linPtStab_subgroup_eq_rotSubgroup; the point-wise stabilizer is SO(2), GX.rotLinPtStab_bijective), acts freely on the portly X ∖ S, and Γ\\X has the natural singular structure (GX.quotient_rotations_sphere_ptStab, GX.quotient_rotations_hyperbolic_ptStab)"
+    },
+    {
+     "paper": "variations X ⊆ KP^n, G ⊆ PGL(n;K)",
+     "here": "carried",
+     "note": "DEC-54(a) reading: the construction for every analytical (G,X) and every finite Γ ⊆ G acting freely on a portly subset — GX.quotient_finite_model_analytical (X locally connected, T2, rigid action; no local compactness, unlike quotient_finite_model, via IsProperlyDiscontinuous.of_finite); also Γ\\X Hausdorff and locally connected"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.635 'as a metric space Γ\\M ≅ E^n_{2π/p}' holds with the cone angle of ex:conical read as α (DEC-47; with the printed metric the angle would be √(2π/p) and the claim false); proved for every n.",
+    "l.637 read as ruled by DEC-54(a); the row closes under it."
+   ],
+   "questions": [
+    "'The metric on reg(Γ\\M) extends continuously to Γ\\M' is read as: the quotient distance min_γ |γx − y| of μ_p\\E^n is carried by a homeomorphism (GX.rotationsMetricHomeo) to the metric of E^n_{2π/p} (GX.rotations_metric), hence a metric on the whole quotient inducing its topology; the singular isomorphism is that isometry (GX.conical_quotient_rotations_isometry)."
+   ]
+  },
+  {
+   "label": "rem:previous_examples_instances_developing",
+   "tex_lines": [
+    684,
+    686
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.previous_examples_developing",
+    "GX.isCoveringMapOn_orbitMk_cylPos",
+    "GX.cylPosHomeo",
+    "GX.contractibleSpace_cylPos",
+    "GX.preimage_image_cylPos",
+    "GX.previous_examples_universalCover",
+    "GX.isLocalHomeomorphOn_of_subtype",
+    "GX.cylPosDeck_bijective",
+    "GX.fundamentalGroup_cylPos",
+    "GX.quotientBase_sing_subset",
+    "GX.quotientBase_ruled"
+   ],
+   "hypotheses": [
+    {
+     "paper": "universal covering",
+     "here": "carried",
+     "note": "for Z a real normed space (R^{n-2}): {r>0} ≅ ℂ × Z contractible, the projection a covering over π{r>0}, which is semilocally simply connected, and the covering is isomorphic over it to UniversalCover (GX.Topology.UniversalCover); Γ_α is the whole deck group of that covering (GX.cylPosDeck_bijective) and π₁(π{r>0}) ≅ Γ_α ≅ ℤ by the deck isomorphism (GX.fundamentalGroup_cylPos)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.685 'branched over its singular locus': the branching locus of D_inf × Z → M is π{r=0}, which can strictly contain sing(M) (GX.quotientBase_counterexample: α = 2π, sing(M) = ∅ while the cover branches at the apex). DEC-52 rules the corrected form: branched over π{r=0} ⊇ sing(M) (GX.quotientBase_sing_subset).",
+    "STATUS (stays partial in this package): the only remaining part is that D_inf × Z → M is the maximal (Fox-universal) covering of M branched over π{r=0} (prop:universality), which belongs to GX.Branched.Universality (it imports this module); left, per dispatch, to the next package."
+   ],
+   "questions": [
+    "Read as: the cylinder is a covering over π{r>0}, branched over π{r=0} ⊇ sing(M) (DEC-52), it is the universal covering of π{r>0} (GX.previous_examples_universalCover), and D induces a (G,X)-morphism on {r>0} (GX.previous_examples_developing)."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "GX.DInfty.cplx_twoPi_eq",
+  "GX.DInfty.eq_of_cplx_eq",
+  "GX.GammaA.ofInt_add_one",
+  "GX.HomeoZ",
+  "GX.HomeoZ.eq_one_of_toInt_eq_zero",
+  "GX.HomeoZ.instMulAction",
+  "GX.HomeoZ.ofInt",
+  "GX.HomeoZ.ofInt_one_smul",
+  "GX.HomeoZ.smul_def",
+  "GX.HomeoZ.toInt",
+  "GX.IsProperlyDiscontinuous.of_finite",
+  "GX.IsProperlyDiscontinuous.of_t2Space_orbits",
+  "GX.IsTurning",
+  "GX.IsTurning.disc",
+  "GX.IsTurning.free",
+  "GX.IsTurning.le_abs_zpow",
+  "GX.IsTurning.pow_turn",
+  "GX.IsTurning.symm_mapsTo",
+  "GX.IsTurning.zpow_mapsTo",
+  "GX.RayAdmissible.of_eigen",
+  "GX.RayAdmissible.symm",
+  "GX.RayLiftQuotient",
+  "GX.add_pi_le_rayAngleLift",
+  "GX.bijective_frame",
+  "GX.bijective_photFrame",
+  "GX.bijective_tachFrame",
+  "GX.boostAff_zero_linear",
+  "GX.boostAff_zero_zero",
+  "GX.boostConj_linear_frame",
+  "GX.conj_fix_of_fix",
+  "GX.conj_linear_apply",
+  "GX.continuous_rayLift",
+  "GX.continuous_rayShift",
+  "GX.cylPosHomeo_fst",
+  "GX.cylPosHomeo_snd",
+  "GX.cylPosHomeo_symm_r",
+  "GX.cylPosHomeo_symm_snd",
+  "GX.cylPosHomeo_symm_θ",
+  "GX.det_eq_of_coord",
+  "GX.exists_equivariant_curve",
+  "GX.finiteQuotient_of_t2",
+  "GX.homeoZ_quotient",
+  "GX.inv_mem_slitPlane_of_mem",
+  "GX.isHyperbolicPlaneMap_tachA",
+  "GX.isLocalHomeomorphOn_cplxProd",
+  "GX.isParabolicPlaneMap_photA",
+  "GX.isTurning_rayLiftHomeo",
+  "GX.isom0_decomp",
+  "GX.linear_coord",
+  "GX.neg_pi_lt_rayShift",
+  "GX.not_t1Space_rayLift_of_eigen",
+  "GX.nullB_ne_zero_of_timelike",
+  "GX.nullB_nullS",
+  "GX.nullCoordFin3",
+  "GX.nullτ_ne_zero_of_null",
+  "GX.parabAff_zero_linear",
+  "GX.parabAff_zero_zero",
+  "GX.parabConj_linear_frame",
+  "GX.photA",
+  "GX.photA_apply",
+  "GX.photEmb",
+  "GX.photon_conj",
+  "GX.photκ",
+  "GX.photκ_apply",
+  "GX.r_rayLift",
+  "GX.rayAdmissible_photA",
+  "GX.rayAdmissible_tachA",
+  "GX.rayAngleLift_add_two_pi",
+  "GX.rayDev",
+  "GX.rayDev_axis",
+  "GX.rayDev_of_pos",
+  "GX.rayLift",
+  "GX.rayLiftHomeo",
+  "GX.rayLiftHomeo_apply",
+  "GX.rayLiftHomeo_zpow_axis",
+  "GX.rayLiftLog_im",
+  "GX.rayLiftLog_symm_im",
+  "GX.rayLiftLog_symm_val",
+  "GX.rayLiftLog_val",
+  "GX.rayLiftQuotient_of_frame",
+  "GX.rayLiftQuotient_photon_not_t2",
+  "GX.rayLiftQuotient_tachyon_not_t1",
+  "GX.rayLift_of_not_pos",
+  "GX.rayLift_of_pos",
+  "GX.rayLift_pos_aux",
+  "GX.rayLift_pos_iff",
+  "GX.rayLift_rayLift",
+  "GX.rayShift_add_two_pi",
+  "GX.rayShift_lt_pi",
+  "GX.strictMono_of_strictMonoOn_pieces",
+  "GX.tachA",
+  "GX.tachA_apply",
+  "GX.tachEmb",
+  "GX.tachyon_conj",
+  "GX.tendsto_apex_of_r"
+ ],
+ "kb_proposals": [
+  "A construction kept only as a proved defect record must say so in its own docstring and point to the certified replacement; listing it among a closed label's decls makes an auditor read it as certifying (WP-44a AUDIT-2 minor)."
+ ],
+ "notes": "WP-46a: strict edit of GX/Singular/Quotient.lean, docstrings only (backup campaign/WP-46a/Quotient.lean.pre.bak). (1) DEC-116 (a) recorded: the module-docstring ex:quotient_base bullet, the checklist row 'tachyons / photons' (now '✓ reading ruled by DEC-116 (a)') and SCOPE (c)(i) (the literal reading — Γ = ℤ acting on θ alone — is the reading ruled by DEC-116 (a), the row closes under it; the Euclidean-radius construction is named as the defect record with its decls). (2) WP-44a AUDIT-2 minors: tachyon_conj / photon_conj docstrings reworded as the Euclidean-radius (non-Hausdorff) defect record, pointing to rayLiftQuotient_tachyon_not_t1 / rayLiftQuotient_photon_not_t2 and to the certified tachyon_conj_theta / photon_conj_theta; the defect decls are removed from every label's decls and listed in extra_decls and in an ex:quotient_base finding; REPORT is now file-complete (all six labels: prop:aeGXquotient, prop:GXquotient, ex:quotient_base, ex:conical, ex:consider_identifying_point_wise_stabilizer from WP-27b with statuses unchanged, ex:quotient_base merged with WP-44a's tachyon/photon decls; rem:previous_examples_instances_developing partial here, closed in GX.Branched.Universality per WP-27c). No statement, declaration name or proof changed. Every listed decl (403) resolves by #check against the built module. taskset -c 0-11 lake env lean -DwarningAsError=true GX/Singular/Quotient.lean: exit 0, no output; 0 sorry. taskset -c 0-11 lake build GX: Build completed successfully (8743 jobs), no Causal.* recompiled (campaign/WP-46a/build.log). Mark offsets in the module docstring: prop:aeGXquotient 157, prop:GXquotient 403, ex:quotient_base 706, ex:conical ~1610, ex:consider_identifying_point_wise_stabilizer 2078 (all < 4000); the unmarked (partial) rem:previous_examples_instances_developing first appears at 4381. Not done (optional AUDIT-2 minor): a corollary stating the structure for the Γ-action through F = rayAngleLift A m itself (transport along id × ψ × id); it would add Lean beyond 'docstrings only'."
+}

@@ -1,120 +1,91 @@
-import GXScaffold.BTZ.Surgery
+import GX.BTZ.Surgery
 import Causal.LemmaKLocal
 
 /-!
 # `GXScaffold.BTZ.AbsMax` — absolute maximality of `Reg M` (B21 Lemmas 2.12–2.15, Props 2.16–2.17, Cor 2.18)
 
-Packages WP-41k, WP-43c, WP-44f (WAVE5-PLAN.md, WP-39k). `brunswic2021cauchy` (**B21**,
+Packages WP-41k, WP-43c, WP-44f, WP-46f. `brunswic2021cauchy` (**B21**,
 `papers/gx/sources/2108.12631/src/BTZ_1.tex`), §2.3–2.4 (l.936–1117), the input of DEC-28's
-headline (`AbsMax (fun _ => True) (Reg M)` in the Cauchy-compact case). No gx ledger label is
-certified and nothing is marked: these are cited results built here (DEC-23). Rows (B21 labels):
+headline. No gx ledger label; these are cited results built here (DEC-23). Rows (B21 labels):
 
-* `brunswic2021cauchy:Remark 1` — `BTZ_1.tex:994–996` (partial, a reading): open-set form
-  (kb/0001); `GX.E0AbsMax.globallyHyperbolicOn_of_causallyConvexIn` (any causality, hypothesis
-  `CausallyArcConnected`), unconditional for `𝔼₀`-manifolds:
-  `GX.E0AbsMax.globallyHyperbolic_opens_of_causallyConvexIn`.
-* `brunswic2021cauchy:lem:BTZext_caus_conv` (Lemma 2.13) — `BTZ_1.tex:999–1023` (partial): (a)
-  `GX.E0AbsMax.btzExt_causallyConvexIn_iff`, (b) `…_of_globallyHyperbolicOn` under
-  `SingularFlatAxioms` (massive cones included); for `𝔼₀`-manifolds with NO model-fact
-  hypothesis (WP-43c): `btzExt_causallyConvexIn_iff_e0`, `btzExt_causallyConvexIn_of_globallyHyperbolicOn_e0`.
-* `brunswic2021cauchy:Lemma 2.14` — `BTZ_1.tex:1026–1037` (partial): `𝔼₀` form
-  `GX.E0AbsMax.btzExt_isCausal_of_stronglyCausalOn_e0`, resting on the tagged `sorry`
-  `sing_eq_of_le_of_le_of_stronglyCausalOn_e0` (the closed BTZ loop, l.1035–1036, the tube); abstract
-  form `btzExt_isCausal_of_stronglyCausalOn` sorry-free with the loop exclusion `NoCausalLoopIn C
-  sing₀` an explicit hypothesis; the loop's order-theoretic content proved
-  (`exists_nhds_diff_sing_subset_Iplus_self_of_loop`, WP-44f).
-* `brunswic2021cauchy:cor:GH_causal` (Cor 2.15) — `BTZ_1.tex:1038–1039` (partial): `𝔼₀` form
-  `GX.E0AbsMax.cor_GH_causal_e0` (through the Lemma 2.14 loop `sorry`); abstract `cor_GH_causal`
-  sorry-free with `NoCausalLoopIn C Aᶜ` explicit; the instance Prop 2.17 uses is sorry-free with no
-  hypothesis, `isCausal_of_twoOpens`.
-* `brunswic2021cauchy:lem:extension_hausdorff` (Lemma 2.12) — `BTZ_1.tex:941–991` (partial, the
-  case Prop 2.17 uses): `GX.E0AbsMax.lem_extension_hausdorff`, sorry-free.
-* `brunswic2021cauchy:prop:cauchy_abs_max` (Prop 2.16) — `BTZ_1.tex:1048–1075` (partial), through
-  lemma K: `GX.E0AbsMax.prop_cauchy_abs_max_e0` ((ii)⇒(i) sorry-free; (i)⇒(ii) rests on the
-  intrinsic `exists_small_cauchyChart`, to which `isLocallyCauchy_image` is reduced sorry-free,
-  WP-44f); printed form `prop_cauchy_abs_max_of_cauchyCompact_e0`, DEC-107 form `prop_cauchy_abs_max_C1`.
+* `brunswic2021cauchy:Remark 1` — `BTZ_1.tex:994–996` (partial, sorry-free: the `𝔼_{≥0}` reading
+  awaits a ruling — DEC-116 (e) names Lemma 2.14 / Cor 2.15 only):
+  `GX.E0AbsMax.globallyHyperbolicOn_of_causallyConvexIn` (open-set form, any causally
+  arc-connected causality); literal embedding form for `𝔼₀`-manifolds
+  `GX.E0AbsMax.globallyHyperbolic_of_isE0Mor_of_causallyConvexIn` (WP-46f).
+* `brunswic2021cauchy:lem:BTZext_caus_conv` (Lemma 2.13) — `BTZ_1.tex:999–1023` (partial,
+  sorry-free, same pending ruling): (a) `GX.E0AbsMax.btzExt_causallyConvexIn_iff`, (b) `…_of_globallyHyperbolicOn`
+  (`SingularFlatAxioms`); `𝔼₀` forms `btzExt_causallyConvexIn_iff_e0`, `…_of_globallyHyperbolicOn_e0`.
+* **`brunswic2021cauchy:Lemma 2.14`** — `BTZ_1.tex:1026–1037` (closed, DEC-116 (e)): the abstract
+  `GX.E0AbsMax.btzExt_isCausal_of_stronglyCausalOn` with `NoCausalLoopIn` (sorry-free). Its `𝔼₀`
+  form `btzExt_isCausal_of_stronglyCausalOn_e0` rests on the tagged loop `sorry`
+  `sing_eq_of_le_of_le_of_stronglyCausalOn_e0` (the tube, l.1035–1036).
+* **`brunswic2021cauchy:cor:GH_causal`** (Cor 2.15) — `BTZ_1.tex:1038–1039` (closed, DEC-116 (e)):
+  `GX.E0AbsMax.cor_GH_causal` (sorry-free); the instance Prop 2.17 uses, `isCausal_of_twoOpens`,
+  has no extra hypothesis; `𝔼₀` form `cor_GH_causal_e0` through the loop `sorry`.
+* `brunswic2021cauchy:lem:extension_hausdorff` (Lemma 2.12) — `BTZ_1.tex:941–991` (partial, the case
+  Prop 2.17 uses): `GX.E0AbsMax.lem_extension_hausdorff`, sorry-free.
+* `brunswic2021cauchy:prop:cauchy_abs_max` (Prop 2.16) — `BTZ_1.tex:1048–1075` (partial: `A = {0}`,
+  targets connected — finding; **now sorry-free**, WP-46f): `GX.E0AbsMax.prop_cauchy_abs_max_C1`
+  (DEC-107), `prop_cauchy_abs_max_e0`; the small local Cauchy charts `exists_small_cauchyChart` are
+  proved model-free (§1b, `exists_small_cauchyChart_abstract`).
 * `brunswic2021cauchy:prop:abs_max` (Prop 2.17, `A = {0}`) — `BTZ_1.tex:1078–1082`, proof
-  l.1088–1119 (partial): `GX.E0AbsMax.prop_abs_max_e0`; `Reg M` GH sorry-free (`gh_e0RegMFlat_e0`);
-  the push-out `E0Pushout` built (`exists_e0Pushout`), its GH modulo the mixed diamonds
-  (`E0Pushout.isCompact_diamond_mixed`); **form of record (DEC-107) `prop_abs_max_C1`**, Cauchy-complete
-  by `E0Surgery.regM_isCauchyComplete_of_C1` (no (G0) smoothing).
-* `brunswic2021cauchy:cor:abs_max` (Cor 2.18) — `BTZ_1.tex:1083–1086` (partial):
-  **form of record (DEC-107) `GX.E0AbsMax.cor_abs_max_C1`** (`AbsMax (fun _ => True) (Reg M)`,
-  Cauchy-compact = a compact `C¹` spacelike Cauchy surface `E0Surgery.IsE0C1SpacelikeCauchy`);
-  `cor_abs_max_e0` (topological `E0CauchyCompact`, DEC-28's input as called downstream).
+  l.1088–1119 (partial): form of record `GX.E0AbsMax.prop_abs_max_C1` (DEC-107/117); its one leaf is
+  the mixed diamonds `E0Pushout.isCompact_diamond_mixed`.
+* `brunswic2021cauchy:cor:abs_max` (Cor 2.18) — `BTZ_1.tex:1083–1086` (partial): form of record
+  `GX.E0AbsMax.cor_abs_max_C1` (DEC-117), through the same leaf.
 
-The `_e0` declarations carry NO model-fact hypothesis; the `hLine`-forms (same names without
-`_e0`) are kept for `GXScaffold.BTZ.Uniformization`, and `hLine := e0_hLine` turns one into the
-other.
+DEC-117: the topological route (`prop_abs_max`, `cor_abs_max`, `prop_abs_max_e0`, `cor_abs_max_e0`,
+through the deleted `E0Surgery.regM_isCauchyComplete` and its (G0)) is **deleted**.
 
 > Let $M_0\xrightarrow{\iota} M_1$ be a BTZ-extension of $\mass{\geq0}$-manifolds. (a) $\iota(M_0)$
 > is causally convex in $M_1$ iff $\forall x\in \sing_0(M_0), \sing_0[J^+(\iota(x))] \subset
 > \iota(M_0)$. (b) If $M_0$ is globally hyperbolic then $\iota(M_0)$ is causally convex. (l.999–1006)
 >
-> If $M_2$ is globally hyperbolic and $\sing_0(M_2)=j(\sing_0(M_0))$, then $M_3$ is a
-> $\mass{\geq0}$-manifold. (l.954) Let $M$ be a globally hyperbolic Cauchy-compact $\mass{0}$-manifold.
-> If $M$ is Cauchy-maximal then $\Reg(M)$ is globally hyperbolic Cauchy-complete and absolutely
-> maximal in the sense of Barbot. (l.1081–1084)
+> If $M_0$ is strongly causal then $M_1$ is causal. (l.1026–1027) Let $M$ be a globally hyperbolic
+> Cauchy-compact $\mass{0}$-manifold. If $M$ is Cauchy-maximal then $\Reg(M)$ is globally
+> hyperbolic Cauchy-complete and absolutely maximal in the sense of Barbot. (l.1084–1086)
 
 ## What is proved (0 `sorry` unless named)
 
 * §1 model-free: Remark 1; diamonds inside an open set; transport of GH onto an image; a compact
   acausal Cauchy surface of a connected GH spacetime is connected (no splitting).
+* §1b model-free (WP-46f): **small local Cauchy domains** `cauchyDomain C S U` — the points whose
+  causal past and future down to the Cauchy surface `S` stay in the open `U`: open (R1, closedness
+  of `≤`, tube lemma), causally convex, saturated, and `S ∩ W` Cauchy in them (Levin's
+  time-parametrised extension, Spear's `extensible_of_timeGraph_future/past`).
 * §2 under `SingularFlatAxioms`: Lemma 2.13 (a), (b); Reg causally convex; GH ⇒ strongly causal;
-  the two-open causality and diamond lemmas of Prop 2.17; (WP-43c) `exists_nhds_diff_sing_subset_Iplus`
-  (regular points near `z > p` on a BTZ line are in `I⁺(p)`), `lt_reg_of_lt`.
-* §3–§6 `𝔼₀`-manifolds. **WP-43c: (O2) is discharged** — `e0_sfa_of_globalBTZ`, `e0_hLine`
-  (`E0LM.e0_globalBTZ`, sorry-free since WP-43d); the `hLine`-forms are kept for their callers.
-  **Lemma 2.12 (§4a)**: for `(p, q)` in the closure of the graph of `f`, a BTZ `p` is refuted by a
-  decreasing chronological sequence `bₙ → p`, the cluster point `q'` of `f(bₙ)`, the diamonds
-  `J(q', f bₙ)` shrinking into a chart ball `O ∋ q'`, a BTZ `z > p` with a neighbourhood whose
-  regular part lies in `I⁺(p) ∩ I⁻(bₙ)` — and the **holonomy step** `exists_nhds_not_mapsTo`:
-  `f` read in a chart of `M` at `z` and (after a translation) a chart of the maximal a.e. atlas of
-  `𝔼₀` is an injective local `G`-structomorphism on the regular part of a connected neighbourhood of
-  the singular `κ z`, which `GX.e0_localUnique_sing` (B21 `prop:isom_strong`) extends by an element
-  of `G` sending `κ z` into the compact regular closure of the image: impossible. **The push-out
-  atlas (§4b)**: `FlatE0 N` (`N` with charts `· ≫ inl`, `HasGroupoid` by `inlConj_mem`),
-  `flatE0_rel_iff` (its charted causality is `flatCausality N`), `f` and `f⁻¹` `𝔼₀`-morphisms
-  (`isE0Mor_regExt`, `isE0Mor_regInv`), `Causal.CBG.gluedChartedSpace` on `Causal.Gluing val f`.
-  Earlier: Prop 2.16 through lemma K; `E0Pushout.globallyHyperbolic` modulo the mixed diamonds;
-  `ce_opens_eq`, `flatCausality_e0RegM_eq`, `gh_e0RegMFlat`. Lemma 2.14 / Cor 2.15 for
-  `𝔼₀`-manifolds (`_e0`, §3), the loop lemma their one `sorry`.
-* §7 the unconditional (`hLine`-free) forms of Props 2.16, 2.17 and Cor 2.18; §8 (WP-44f) their
-  DEC-107 forms of record, `C¹` Cauchy-compact.
+  the abstract Lemma 2.14 / Cor 2.15; the two-open causality and diamond lemmas of Prop 2.17;
+  `exists_nhds_diff_sing_subset_Iplus`, `lt_reg_of_lt`, the loop's order content.
+* §3–§5 `𝔼₀`-manifolds: SFA unconditionally (`e0_sfa_of_globalBTZ`); Remark 1 (embedding form);
+  Prop 2.16 through lemma K, now with no `sorry`; `Reg M` GH; Lemma 2.12 (§4a); the push-out atlas
+  (§4b); `E0Pushout.globallyHyperbolic` modulo the mixed diamonds.
+* §7–§8 the unconditional (`hLine`-free) forms and the DEC-107 forms of record.
 
 ## Hypothesis checklist
 
 | paper | here |
 |---|---|
-| `𝔼_{≥0}`-manifolds (Lemmas 2.13–2.15) | ⚠ abstract forms: any causality with `SingularFlatAxioms`, a NAMED model-fact hypothesis for massive cones (kb/0012; those rows partial); Lemmas 2.14/2.15 abstractly also take the loop exclusion `NoCausalLoopIn` (explicit). `𝔼₀`-manifolds (M1): unconditional — Lemma 2.13 `_e0` sorry-free; Lemmas 2.14/2.15 `_e0` through the tagged loop `sorry`; open-set form (kb/0001) |
+| `𝔼_{≥0}`-manifolds (Remark 1, Lemmas 2.13–2.15) | ✓ read (DEC-116 (e) for 2.14/2.15; the same reading for Remark 1 / 2.13 awaits a ruling): abstract forms over any causality with `SingularFlatAxioms` (resp. causal arc-connectedness), BTZ-extension in open-set form (kb/0001); Lemmas 2.14/2.15 with `NoCausalLoopIn` explicit. `𝔼₀` forms unconditional (2.13, Remark 1) or through the loop `sorry` (2.14/2.15 `_e0`) |
 | `𝔼_A`-manifolds (Props 2.16–2.17, Cor 2.18) | ⚠ `A = {0}` (harmless for gx, DEC-77(c)): `ChartedSpace E0Y`, `HasGroupoid e0Groupoid`, T2, connected, second countable (DEC-66) |
-| `SingularFlatAxioms` of `𝔼₀`-manifolds | ✓ **discharged** (WP-43c): `e0_sfa_of_globalBTZ`; the `hLine` of the non-`_e0` statements is `e0_hLine`, and every Prop 2.16 / 2.17 / Cor 2.18 row has an `hLine`-free `_e0` declaration (§7) |
-| Cauchy-compact / Cauchy-maximal | ✓ DEC-107: `E0Surgery.IsE0C1SpacelikeCauchy` (§8, forms of record; acausality derived, `isAcausal_of_isCauchySurface_e0`); topological `E0CauchyCompact` kept for callers; `E0Spear.IsE0CauchyMaximal` (DEC-77(c)) |
+| Cauchy-compact / Cauchy-maximal | ✓ DEC-107/117: `E0Surgery.IsE0C1SpacelikeCauchy` (forms of record; acausality derived); `E0Spear.IsE0CauchyMaximal` (DEC-77(c)) |
 | `𝔼_A`-maximal | ⚠ `IsE0Maximal`, targets `N` **connected** (finding: unrestricted, no `M` is maximal) |
 | absolutely maximal (Barbot) | ✓ `Causal.Flat.AbsMax (fun _ => True)` over `FlatSpacetime.{0} 2` |
-| Prop 2.16: smooth splitting, O'Neill Lemma 45, intersection theory | ⚠ replaced by lemma K; its local input `isLocallyCauchy_image` reduced (sorry-free) to the intrinsic `exists_small_cauchyChart`, a tagged `sorry` |
+| Prop 2.16: smooth splitting, O'Neill Lemma 45, intersection theory | ✓ replaced by lemma K and §1b's local Cauchy domains (no `sorry`) |
 | Lemma 2.12: general `M₀ → M₁`, `M₂` | ⚠ the case Prop 2.17 uses: `M₀ = Reg M`, `M₂ = N` flat GH (sing₀ = ∅); proved |
 
-## SCOPE (disclosed; three tagged `sorry`s)
+## SCOPE (disclosed; two tagged `sorry`s)
 
-**WP-44f.** `isLocallyCauchy_image` is now sorry-free, reduced to the intrinsic
-`exists_small_cauchyChart` (small local Cauchy charts of `S` in `M`: a domain-of-dependence
-theory); §8 adds the DEC-107 forms of record (`prop_cauchy_abs_max_C1`, `prop_abs_max_C1`,
-`cor_abs_max_C1`, through `E0Surgery.regM_isCauchyComplete_of_C1`, so the (G0) smoothing is no
-longer on their path) and `isAcausal_of_isCauchySurface_e0` (acausality of a Cauchy surface is
-derived, not assumed); `exists_nhds_diff_sing_subset_Iplus_self_of_loop` proves what the abstract
-data give of a closed BTZ loop. The mixed-diamond tag names the two steps still missing after
-Spear's `lem_tube_e0` became parameter-free (compactness of the exit set in `M̄`, the curve-exit
-argument). Remaining `sorry`s, as of WP-44f:
-`sing_eq_of_le_of_le_of_stronglyCausalOn_e0` (Lemma 2.14's BTZ loop in an `𝔼₀`-manifold: the tube
-of B21 l.1035–1036; WP-43c fixer: the abstract `SingularFlatAxioms` form, possibly unprovable, is
-removed, and the abstract Lemma 2.14 / Cor 2.15 take the loop exclusion `NoCausalLoopIn` as an
-explicit hypothesis, sorry-free),
-`exists_small_cauchyChart` (Prop 2.16's local Cauchy-domain theory, intrinsic to `M`),
-`E0Pushout.isCompact_diamond_mixed` (Prop 2.17's spear case; Spear is now sorry-free).
-Upstream: `regM_isCauchyComplete_of_C1` ((G3)–(G5) of `GXScaffold.BTZ.Surgery`); the legacy
-`regM_isCauchyComplete` also carries the not-owed (G0). Closed by WP-43c:
-`lem_extension_hausdorff`, `exists_e0Pushout`. Each remaining `sorry` names its obstruction.
+**WP-46f.** `exists_small_cauchyChart` is **closed** (§1b), so Prop 2.16 has no `sorry`; Remark 1
+gains its literal embedding form; the topological route is deleted (DEC-117). Remaining:
+`sing_eq_of_le_of_le_of_stronglyCausalOn_e0` (the `𝔼₀` loop; off the headline path, the rows
+close on the abstract forms by DEC-116 (e)) and `E0Pushout.isCompact_diamond_mixed` (Prop 2.17's
+mixed diamonds; the headline's one leaf in this file). Each tag names its obstruction.
+
+**WP-46f fixer (round 1, AUDIT-1).** Remark 1 and Lemma 2.13 are sorry-free but **unmarked**
+(partial): DEC-116 (e) accepts the abstract readings for Lemma 2.14 / Cor 2.15 by name, and no
+ruling yet extends them to Remark 1 / 2.13 (kb/0006, DEC-27). The marks return if the master
+records that one-line ruling; no Lean change is needed either way.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; lean-causal `ca2ad78`
 (`lake-manifest.json`; imports strict `Causal.LemmaKLocal`, DEC-33).
@@ -389,6 +360,253 @@ theorem isConnected_of_isCauchySurface_abstract [T2Space X] [ConnectedSpace X] (
       hS₁ hS₂ hSS hdisj ha' hb' h1 h2
 
 end Abstract
+
+/-! ### §1b Model-free: small local Cauchy domains of a Cauchy surface (WP-46f)
+
+The intrinsic content of B21 Prop 2.16's « spacelike » input (`exists_small_cauchyChart`, lemma K's
+`IsLocallyCauchy`), with no graph theory: for a Cauchy surface `S` and an open `U`, the
+**local Cauchy domain** `cauchyDomain C S U` is the set of points whose causal past down to `S`
+(`J⁻(x) ∩ J⁺(S)`) and causal future down to `S` (`J⁺(x) ∩ J⁻(S)`) lie in `U`. It is inside `U`,
+contains `S ∩ U`, is causally convex, is open (R1 compactness, closedness of `≤`, the tube lemma),
+and `S` meets it in a Cauchy surface of it: an inextensible curve of the domain avoiding `S` lies
+on Levin's time-parametrised inextensible curve of `X` (`exists_inextensible_of_timeFunction`),
+whose arc down (or up) to its point of `S` stays in the domain by the saturation of the domain
+along `J^∓` (`cauchyDomain_of_le_of_mem_Jplus`, `…_Jminus`), so the curve extends
+(`E0Spear.extensible_of_timeGraph_future`, `…_past`, the technique of `isCauchySurfaceOn_of_isPast`). -/
+
+section SmallCauchy
+
+variable {X : Type} [TopologicalSpace X] {C : Causal.Causality X} {S U : Set X}
+
+/-- **The local Cauchy domain** of a Cauchy surface `S` cut by `U` (WP-46f): the points whose causal
+past down to `S` and whose causal future down to `S` stay in `U`. -/
+def cauchyDomain (C : Causal.Causality X) (S U : Set X) : Set X :=
+  {x | C.Jminus ⊤ {x} ∩ C.Jplus ⊤ S ⊆ U ∧ C.Jplus ⊤ {x} ∩ C.Jminus ⊤ S ⊆ U}
+
+/-- In a causal spacetime, above an acausal `S` and below it at once is a single point:
+`y ∈ J⁺(S)`, `y ≤ z`, `z ∈ J⁻(S)` force `z = y`. -/
+theorem eq_of_mem_Jplus_of_le_of_mem_Jminus (hcaus : C.IsCausal) (hac : C.IsAcausal S)
+    {y z : X} (hy : y ∈ C.Jplus ⊤ S) (hyz : C.le ⊤ y z) (hz : z ∈ C.Jminus ⊤ S) : z = y := by
+  obtain ⟨σ, hσ, hσy⟩ := hy
+  obtain ⟨σ', hσ', hzσ'⟩ := hz
+  have e : σ = σ' := hac σ hσ σ' hσ' (C.le_trans hσy (C.le_trans hyz hzσ'))
+  subst e
+  have hyσ : C.le ⊤ y σ := C.le_trans hyz hzσ'
+  have h1 : y = σ := hcaus hyσ hσy
+  have hzy : C.le ⊤ z y := by rw [h1]; exact hzσ'
+  exact hcaus hzy hyz
+
+/-- The local Cauchy domain lies in `U` (every point is above or below `S`). -/
+theorem cauchyDomain_subset (hcov : ∀ x, x ∈ C.Jplus ⊤ S ∪ C.Jminus ⊤ S) :
+    cauchyDomain C S U ⊆ U := by
+  intro x hx
+  rcases hcov x with h | h
+  · exact hx.1 ⟨Causal.Precausality.mem_Jminus_singleton.2 (C.le_refl trivial), h⟩
+  · exact hx.2 ⟨Causal.Precausality.mem_Jplus_singleton.2 (C.le_refl trivial), h⟩
+
+/-- A point of `S ∩ U` is in the local Cauchy domain (`J^∓(s) ∩ J^±(S) = {s}`). -/
+theorem mem_cauchyDomain (hcaus : C.IsCausal) (hac : C.IsAcausal S) {s : X} (hs : s ∈ S)
+    (hsU : s ∈ U) : s ∈ cauchyDomain C S U := by
+  refine ⟨fun z hz => ?_, fun z hz => ?_⟩
+  · have := eq_of_mem_Jplus_of_le_of_mem_Jminus hcaus hac hz.2
+      (Causal.Precausality.mem_Jminus_singleton.1 hz.1) ⟨s, hs, C.le_refl trivial⟩
+    rw [← this]; exact hsU
+  · have := eq_of_mem_Jplus_of_le_of_mem_Jminus hcaus hac ⟨s, hs, C.le_refl trivial⟩
+      (Causal.Precausality.mem_Jplus_singleton.1 hz.1) hz.2
+    rw [this]; exact hsU
+
+/-- **Past saturation above `S`**: a point of `J⁺(S)` below a point of the domain is in it. -/
+theorem cauchyDomain_of_le_of_mem_Jplus (hcaus : C.IsCausal) (hac : C.IsAcausal S) {x y : X}
+    (hx : x ∈ cauchyDomain C S U) (hyx : C.le ⊤ y x) (hy : y ∈ C.Jplus ⊤ S) :
+    y ∈ cauchyDomain C S U := by
+  refine ⟨fun z hz => hx.1 ⟨Causal.Precausality.mem_Jminus_singleton.2
+    (C.le_trans (Causal.Precausality.mem_Jminus_singleton.1 hz.1) hyx), hz.2⟩, fun z hz => ?_⟩
+  have := eq_of_mem_Jplus_of_le_of_mem_Jminus hcaus hac hy
+    (Causal.Precausality.mem_Jplus_singleton.1 hz.1) hz.2
+  rw [this]
+  exact hx.1 ⟨Causal.Precausality.mem_Jminus_singleton.2 hyx, hy⟩
+
+/-- **Future saturation below `S`**: a point of `J⁻(S)` above a point of the domain is in it. -/
+theorem cauchyDomain_of_le_of_mem_Jminus (hcaus : C.IsCausal) (hac : C.IsAcausal S) {x y : X}
+    (hx : x ∈ cauchyDomain C S U) (hxy : C.le ⊤ x y) (hy : y ∈ C.Jminus ⊤ S) :
+    y ∈ cauchyDomain C S U := by
+  refine ⟨fun z hz => ?_, fun z hz => hx.2 ⟨Causal.Precausality.mem_Jplus_singleton.2
+    (C.le_trans hxy (Causal.Precausality.mem_Jplus_singleton.1 hz.1)), hz.2⟩⟩
+  have := eq_of_mem_Jplus_of_le_of_mem_Jminus hcaus hac hz.2
+    (Causal.Precausality.mem_Jminus_singleton.1 hz.1) hy
+  rw [← this]
+  exact hx.2 ⟨Causal.Precausality.mem_Jplus_singleton.2 hxy, hy⟩
+
+/-- **The local Cauchy domain is causally convex.** -/
+theorem causallyConvexIn_cauchyDomain : C.CausallyConvexIn (cauchyDomain C S U) ⊤ := by
+  refine ⟨subset_univ _, fun p hp q hq z hz => ?_⟩
+  obtain ⟨hpz, hzq⟩ := Causal.Causality.mem_diamond.1 hz
+  exact ⟨fun w hw => hq.1 ⟨Causal.Precausality.mem_Jminus_singleton.2
+      (C.le_trans (Causal.Precausality.mem_Jminus_singleton.1 hw.1) hzq), hw.2⟩,
+    fun w hw => hp.2 ⟨Causal.Precausality.mem_Jplus_singleton.2
+      (C.le_trans hpz (Causal.Precausality.mem_Jplus_singleton.1 hw.1)), hw.2⟩⟩
+
+/-- **The local Cauchy domain of an open `U` is open**, given R1 (`J⁺(S) ∩ J⁻(q)` and
+`J⁻(S) ∩ J⁺(q)` compact): near `x`, inside a tarentin diamond `J(a, b)`, the pasts down to `S` lie
+in the compact `J⁺(S) ∩ J⁻(b)`, whose part outside `U` is not below `x`; closedness of `≤` and the
+tube lemma keep it not below the points near `x` (dually for the futures). -/
+theorem isOpen_cauchyDomain [T2Space X] (hT : C.Tarentin) (hG : C.GloballyHyperbolic)
+    (hcP : ∀ q, IsCompact (C.Jplus ⊤ S ∩ C.Jminus ⊤ {q}))
+    (hcM : ∀ q, IsCompact (C.Jminus ⊤ S ∩ C.Jplus ⊤ {q})) (hU : IsOpen U) :
+    IsOpen (cauchyDomain C S U) := by
+  have hle := hG.isClosed_le hT
+  refine isOpen_iff_mem_nhds.2 fun x hx => ?_
+  obtain ⟨a, -, b, -, hab⟩ := hT x univ univ_mem
+  set Fp := (C.Jplus ⊤ S ∩ C.Jminus ⊤ {b}) ∩ Uᶜ with hFp
+  have hFpc : IsCompact Fp := (hcP b).inter_right hU.isClosed_compl
+  have hFpx : Fp ×ˢ ({x} : Set X) ⊆ {z : X × X | C.le ⊤ z.1 z.2}ᶜ := by
+    rintro ⟨y, x'⟩ ⟨hy, hx'⟩ hyx
+    rw [mem_singleton_iff] at hx'
+    subst hx'
+    exact hy.2 (hx.1 ⟨Causal.Precausality.mem_Jminus_singleton.2 hyx, hy.1.1⟩)
+  obtain ⟨u₁, v₁, -, hv₁, hFu₁, hxv₁, huv₁⟩ :=
+    generalized_tube_lemma hFpc isCompact_singleton hle.isOpen_compl hFpx
+  set Fm := (C.Jminus ⊤ S ∩ C.Jplus ⊤ {a}) ∩ Uᶜ with hFm
+  have hFmc : IsCompact Fm := (hcM a).inter_right hU.isClosed_compl
+  have hxFm : ({x} : Set X) ×ˢ Fm ⊆ {z : X × X | C.le ⊤ z.1 z.2}ᶜ := by
+    rintro ⟨x', y⟩ ⟨hx', hy⟩ hxy
+    rw [mem_singleton_iff] at hx'
+    subst hx'
+    exact hy.2 (hx.2 ⟨Causal.Precausality.mem_Jplus_singleton.2 hxy, hy.1.1⟩)
+  obtain ⟨u₂, v₂, hu₂, -, hxu₂, hFv₂, huv₂⟩ :=
+    generalized_tube_lemma isCompact_singleton hFmc hle.isOpen_compl hxFm
+  have hnb : C.openDiamond ⊤ a b ∩ v₁ ∩ u₂ ∈ 𝓝 x :=
+    ((Causal.Causality.isOpen_openDiamond.inter hv₁).inter hu₂).mem_nhds
+      ⟨⟨hab, hxv₁ (mem_singleton x)⟩, hxu₂ (mem_singleton x)⟩
+  refine mem_of_superset hnb fun x' hx' => ⟨fun z hz => ?_, fun z hz => ?_⟩
+  · obtain ⟨⟨hx'D, hx'v⟩, -⟩ := hx'
+    have hzx' := Causal.Precausality.mem_Jminus_singleton.1 hz.1
+    have hx'b := (Causal.Causality.mem_diamond.1
+      (Causal.Causality.openDiamond_subset_diamond hx'D)).2
+    by_contra hzU
+    have hzF : z ∈ Fp := ⟨⟨hz.2, Causal.Precausality.mem_Jminus_singleton.2
+      (C.le_trans hzx' hx'b)⟩, hzU⟩
+    exact huv₁ (show (z, x') ∈ u₁ ×ˢ v₁ from ⟨hFu₁ hzF, hx'v⟩) hzx'
+  · obtain ⟨⟨hx'D, -⟩, hx'u⟩ := hx'
+    have hx'z := Causal.Precausality.mem_Jplus_singleton.1 hz.1
+    have hax' := (Causal.Causality.mem_diamond.1
+      (Causal.Causality.openDiamond_subset_diamond hx'D)).1
+    by_contra hzU
+    have hzF : z ∈ Fm := ⟨⟨hz.2, Causal.Precausality.mem_Jplus_singleton.2
+      (C.le_trans hax' hx'z)⟩, hzU⟩
+    exact huv₂ (show (x', z) ∈ u₂ ×ˢ v₂ from ⟨hx'u, hFv₂ hzF⟩) hx'z
+
+/-- **`S` meets its local Cauchy domain in a Cauchy surface of it** (given a continuous function
+strictly increasing along `≤`): an inextensible curve `c` of the domain `W` lies on an inextensible
+time-parametrised curve `γ` of `X`, which meets `S` at time `tS`; if `c` avoided `S`, its times
+would all be below `tS` (or all above, intermediate value theorem), and the arc of `γ` from `c` up
+to (or down from) `S` stays in `W` by saturation, so `c` would extend in `W`. -/
+theorem isCauchySurfaceOn_cauchyDomain (hC : C.CausallyArcConnected) (hcaus : C.IsCausal)
+    {T : X → ℝ} (hTc : Continuous T) (hT : ∀ x y, C.le ⊤ x y → x ≠ y → T x < T y)
+    (hS : C.IsCauchySurface S) {W : Opens X} (hW : (W : Set X) = cauchyDomain C S U) :
+    C.IsCauchySurfaceOn W (S ∩ W) := by
+  have hac : C.IsAcausal S := hS.isAcausal_of_timeFunction hC hTc hT
+  intro I c hc
+  have hcT := hc.1.mono_opens le_top
+  obtain ⟨J, γ, hγ, hsub, hTγ⟩ := Causal.Causality.exists_inextensible_of_timeFunction hTc hT hcT
+  obtain ⟨_, ⟨⟨tS, htS, rfl⟩, hγS⟩, -⟩ := hS J γ hγ
+  have hcγ : ∀ t ∈ I, T (c t) ∈ J ∧ γ (T (c t)) = c t := by
+    intro t ht
+    obtain ⟨u, hu, hcu⟩ := hsub ⟨t, ht, rfl⟩
+    rw [← hcu, hTγ u hu]; exact ⟨hu, rfl⟩
+  have hcW : ∀ t ∈ I, c t ∈ cauchyDomain C S U := fun t ht => by
+    rw [← hW]; exact hc.1.mem ht
+  have hex : ∃ t ∈ I, c t ∈ S := by
+    by_contra hno
+    push Not at hno
+    have hne : ∀ t ∈ I, T (c t) ≠ tS := fun t ht e =>
+      hno t ht (by rw [← (hcγ t ht).2, e]; exact hγS)
+    obtain ⟨t₀, ht₀⟩ := hc.1.nonempty
+    by_cases hall : ∀ t ∈ I, T (c t) < tS
+    · -- the future case: the arc of `γ` from `c` up to `S` is in `W` (below `S`)
+      set J' : Set ℝ := {u | u ∈ J ∧ u ≤ tS ∧ ∃ t ∈ I, T (c t) ≤ u} with hJ'
+      have hJ'mem : ∀ u ∈ J', γ u ∈ W := by
+        rintro u ⟨hu, hutS, t, ht, htu⟩
+        have h1 := hγ.1.le_of_le (hcγ t ht).1 hu htu
+        rw [(hcγ t ht).2] at h1
+        have h2 := hγ.1.le_of_le hu htS hutS
+        rw [SetLike.mem_coe.symm, hW]
+        exact cauchyDomain_of_le_of_mem_Jminus hcaus hac (hcW t ht) h1 ⟨γ tS, hγS, h2⟩
+      have hJ'oc : J'.OrdConnected := ⟨fun x hx y hy z hz => by
+        refine ⟨hγ.1.ordConnected.out hx.1 hy.1 hz, hz.2.trans hy.2.1, ?_⟩
+        obtain ⟨t, ht, h⟩ := hx.2.2
+        exact ⟨t, ht, h.trans hz.1⟩⟩
+      have htS' : tS ∈ J' := ⟨htS, le_rfl, t₀, ht₀, (hall t₀ ht₀).le⟩
+      have hγ' : C.CausalCurveIn W J' γ := ⟨⟨tS, htS'⟩, hJ'oc, fun a ha b hb =>
+        Causal.CurveOn.restrict (hγ.1.curve a ha.1 b hb.1) le_rfl le_rfl le_top
+          fun u hu => hJ'mem u (hJ'oc.out ha hb hu)⟩
+      have hcγ' : ∀ t ∈ I, T (c t) ∈ J' ∧ γ (T (c t)) = c t := fun t ht =>
+        ⟨⟨(hcγ t ht).1, (hall t ht).le, t, ht, le_rfl⟩, (hcγ t ht).2⟩
+      have hTγ' : ∀ τ ∈ J', T (γ τ) = τ := fun τ hτ => hTγ τ hτ.1
+      exact hc.2 (E0Spear.extensible_of_timeGraph_future hC hcaus hTc hT hγ' hTγ' hc.1 hcγ'
+        htS' hall)
+    · push Not at hall
+      obtain ⟨t₁, ht₁, h₁⟩ := hall
+      have hgt : ∀ t ∈ I, tS < T (c t) := by
+        intro t ht
+        by_contra h
+        push Not at h
+        have hsub' : uIcc t t₁ ⊆ I := hc.1.ordConnected.uIcc_subset ht ht₁
+        have hcont : ContinuousOn (T ∘ c) (uIcc t t₁) :=
+          hTc.comp_continuousOn ((E0Spear.continuousOn_of_causalCurveIn hc.1).mono hsub')
+        obtain ⟨s, hs, hse⟩ := intermediate_value_uIcc hcont (Set.mem_uIcc_of_le h h₁)
+        exact hne s (hsub' hs) hse
+      -- the past case: the arc of `γ` from `S` up to `c` is in `W` (above `S`)
+      set J' : Set ℝ := {u | u ∈ J ∧ tS ≤ u ∧ ∃ t ∈ I, u ≤ T (c t)} with hJ'
+      have hJ'mem : ∀ u ∈ J', γ u ∈ W := by
+        rintro u ⟨hu, htSu, t, ht, hut⟩
+        have h1 := hγ.1.le_of_le hu (hcγ t ht).1 hut
+        rw [(hcγ t ht).2] at h1
+        have h2 := hγ.1.le_of_le htS hu htSu
+        rw [SetLike.mem_coe.symm, hW]
+        exact cauchyDomain_of_le_of_mem_Jplus hcaus hac (hcW t ht) h1 ⟨γ tS, hγS, h2⟩
+      have hJ'oc : J'.OrdConnected := ⟨fun x hx y hy z hz => by
+        refine ⟨hγ.1.ordConnected.out hx.1 hy.1 hz, hx.2.1.trans hz.1, ?_⟩
+        obtain ⟨t, ht, h⟩ := hy.2.2
+        exact ⟨t, ht, hz.2.trans h⟩⟩
+      have htS' : tS ∈ J' := ⟨htS, le_rfl, t₀, ht₀, (hgt t₀ ht₀).le⟩
+      have hγ' : C.CausalCurveIn W J' γ := ⟨⟨tS, htS'⟩, hJ'oc, fun a ha b hb =>
+        Causal.CurveOn.restrict (hγ.1.curve a ha.1 b hb.1) le_rfl le_rfl le_top
+          fun u hu => hJ'mem u (hJ'oc.out ha hb hu)⟩
+      have hcγ' : ∀ t ∈ I, T (c t) ∈ J' ∧ γ (T (c t)) = c t := fun t ht =>
+        ⟨⟨(hcγ t ht).1, (hgt t ht).le, t, ht, le_rfl⟩, (hcγ t ht).2⟩
+      have hTγ' : ∀ τ ∈ J', T (γ τ) = τ := fun τ hτ => hTγ τ hτ.1
+      exact hc.2 (E0Spear.extensible_of_timeGraph_past hC hcaus hTc hT hγ' hTγ' hc.1 hcγ'
+        htS' hgt)
+  obtain ⟨t, ht, hcS⟩ := hex
+  refine ⟨c t, ⟨mem_image_of_mem c ht, hcS, hc.1.mem ht⟩, ?_⟩
+  rintro _ ⟨⟨s, hs, rfl⟩, hsS, -⟩
+  rcases le_total s t with h | h
+  · exact hac _ hsS _ hcS ((hc.1.mono_opens le_top).le_of_le hs ht h)
+  · exact (hac _ hcS _ hsS ((hc.1.mono_opens le_top).le_of_le ht hs h)).symm
+
+/-- **Small local Cauchy charts of a Cauchy surface, model-free** (WP-46f): in a Hausdorff tarentin
+globally hyperbolic causally arc-connected spacetime with a continuous function strictly
+increasing along `≤` and R1, every point `s` of a Cauchy surface `S` and every neighbourhood `O`
+of `s` admit an open `W ∋ s` inside `O`, causally convex, in which `S ∩ W` is a Cauchy surface:
+`W = cauchyDomain C S (interior O)`. -/
+theorem exists_small_cauchyChart_abstract [T2Space X] (hT : C.Tarentin) (hG : C.GloballyHyperbolic)
+    (hC : C.CausallyArcConnected) {Tf : X → ℝ} (hTc : Continuous Tf)
+    (hTf : ∀ x y, C.le ⊤ x y → x ≠ y → Tf x < Tf y)
+    (hcP : ∀ q, IsCompact (C.Jplus ⊤ S ∩ C.Jminus ⊤ {q}))
+    (hcM : ∀ q, IsCompact (C.Jminus ⊤ S ∩ C.Jplus ⊤ {q})) (hS : C.IsCauchySurface S) {s : X}
+    (hs : s ∈ S) {O : Set X} (hO : O ∈ 𝓝 s) :
+    ∃ W : Opens X, s ∈ W ∧ (W : Set X) ⊆ O ∧ C.CausallyConvexIn (W : Set X) ⊤ ∧
+      C.IsCauchySurfaceOn W (S ∩ W) := by
+  have hext := Causal.Causality.curvesExtend_of_timeFunction hTc hTf
+  have hac : C.IsAcausal S := hS.isAcausal_of_timeFunction hC hTc hTf
+  let W : Opens X := ⟨cauchyDomain C S (interior O), isOpen_cauchyDomain hT hG hcP hcM isOpen_interior⟩
+  refine ⟨W, mem_cauchyDomain hG.1 hac hs (mem_interior_iff_mem_nhds.2 hO),
+    (cauchyDomain_subset (Causal.Causality.mem_Jplus_union_Jminus_of_isCauchySurface hext hS)).trans
+      interior_subset, causallyConvexIn_cauchyDomain,
+    isCauchySurfaceOn_cauchyDomain hC hG.1 hTc hTf hS rfl⟩
+
+end SmallCauchy
 
 /-! ### §2 Under `SingularFlatAxioms`: BTZ-extensions in open-set form (B21 Lemmas 2.13–2.15) -/
 
@@ -820,7 +1038,7 @@ future causal curve lies in `sing₀(M)`. -/
 theorem sing_eq_of_le_of_le_of_stronglyCausalOn_e0 {A : Opens M} (_hA : (A : Set M)ᶜ ⊆ S0 M)
     (_hSC : StronglyCausalOn (CE M) A) {x y : M} (_hx : x ∈ S0 M) (_hy : y ∈ S0 M)
     (_hxy : (CE M).le ⊤ x y) (_hyx : (CE M).le ⊤ y x) : x = y := by
-  sorry -- SORRY(brunswic2021cauchy:Lemma 2.14): the closed BTZ loop x ≤ y ≤ x, x ≠ y, of an 𝔼₀-manifold whose BTZ-extended open A is strongly causal. B21 l.1035–1036 needs the TUBE: from a finite cover of the loop by 𝔼₀ charts (E0Spear.exists_cyl_chart) and Prop 1.3 (chart changes at BTZ points are rotation-translations, GX.e0_localUnique_sing), a neighbourhood of the loop is ⟨γ⟩\{r < r*}, γ(τ,r,θ) = (τ+τ₀, r, θ+θ₀), τ₀ > 0, so the vertical null curve t ↦ (t, r₁, θ₁) of Reg M ⊆ A returns to radius r₁ EXACTLY, arbitrarily close to its start (θ₀ irrational) or to its start (θ₀ ∈ ℚπ), against strong causality of A. What the abstract data give is proved (WP-44f): exists_nhds_diff_sing_subset_Iplus_self_of_loop — a neighbourhood of x has all its regular points in I⁺(x). It does not suffice, and no argument from SingularFlatAxioms + 𝔼₀ chart monotonicity can: along future causal curves r and τ are nondecreasing in a chart (−2dτdr + dr² + r²dθ² ≤ 0 ⇒ dr ≥ 0, dτ ≥ dr/2), so for a regular w at radius ρ near the axis I⁻(w) contains only a radius-< ρ tube around the loop — in the true tube geometry there is NO causal loop through a regular point (only near-returns at radius r₁, which need the radius to be preserved exactly by the return, i.e. the holonomy). Missing: the holonomy of the loop through a chain of 𝔼₀ charts (composition of the rotation-translation chart changes along a compact curve, Lebesgue number of the cover) and the identification of its neighbourhood with the tube quotient
+  sorry -- SORRY(brunswic2021cauchy:Lemma 2.14): the closed BTZ loop x ≤ y ≤ x, x ≠ y, of an 𝔼₀-manifold whose BTZ-extended open A is strongly causal (OFF the headline path: the Lemma 2.14 / Cor 2.15 rows close on the abstract forms with NoCausalLoopIn, DEC-116 (e)). B21 l.1035–1036 needs the TUBE, and E0Spear.lem_tube_e0 does not supply it here: it assumes M globally hyperbolic and Cauchy-maximal, which a BTZ-extension of a strongly causal A is not (its causality is what is being proved). What is needed: (1) B21 Prop 1.3 at α = 0 in EXPLICIT form — a chart change between two 𝔼₀ charts at a BTZ point is, near it, the rotation-translation (τ, z) ↦ (τ + a, e^{ib} z) in paper coordinates (GX.e0_localUnique_sing / GX.btzE0_localUnique_core give only an element of G, or a lift ψ with btzDevM ∘ ψ = g • btzDevM; the explicit form is built only for the massive cones, GX.mass_to_mass via isom_eq_of_timeAxis, not for the parabolic E₀ case: the centraliser of the parabolic holonomy in Isom(𝐌³) must be computed); (2) the chaining of these along the compact BTZ curve x → y → x (Lebesgue number of a cover by cylinder charts), which carries the vertical null line t ↦ (t, r₁, θ) of one chart to the vertical null line at the SAME radius r₁ of the next, so that the return map at x is (τ_x, r₁, θ) ↦ (τ_x, r₁, θ + Θ) with κ⁻¹(τ_x, r₁, θ) ≤ κ⁻¹(τ_x, r₁, θ + Θ) through Reg M ⊆ A; (3) then Dirichlet (nΘ within δ of 0 mod 2π) and the cheap radial-and-angular move in the chart contradict strong causality of A at a regular point κ⁻¹(τ_x, r₁, θ) (the loop's shadow leaves every small neighbourhood). WP-44f's order-theoretic content (exists_nhds_diff_sing_subset_Iplus_self_of_loop), with chart monotonicity of τ, would only reach loops through a point of A (not built; never needed downstream), and no loop of sing₀ ⊆ Aᶜ (the case Cor 2.15 needs, e.g. A = Reg M) is reached without the holonomy
 
 /-- **B21 Lemma 2.14 for `𝔼₀`-manifolds** (`BTZ_1.tex:1026–1037`; open-set form, no model-fact
 hypothesis): a BTZ-extension `A ↪ M` of a strongly causal `A` is causal. -/
@@ -874,17 +1092,54 @@ theorem le_iff_of_isE0Mor {Z : Type} [TopologicalSpace Z] [ChartedSpace E0Y Z]
       E0.absolutelyMinimalOn_YBTZ) ⊤ U hU' x y).1 h, fun h => ?_⟩
   exact hE.map_le ⊤ U le_rfl (fun z _ => by rw [hU]; exact ⟨z, rfl⟩) h
 
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] in
+/-- **B21 Remark 1 in its literal embedding form, for `𝔼₀`-manifolds** (`BTZ_1.tex:994–996`,
+WP-46f): if `ι : M → N` is an injective `𝔼₀`-morphism (an embedding of `𝔼₀`-manifolds) into a
+globally hyperbolic `N` with `ι(M)` causally convex, then `M` is globally hyperbolic. Causality and
+diamonds pull back along `le_iff_of_isE0Mor` and causal convexity of the open image (an injective
+`𝔼₀`-morphism is an open embedding). -/
+theorem globallyHyperbolic_of_isE0Mor_of_causallyConvexIn {N : Type} [TopologicalSpace N]
+    [ChartedSpace E0Y N] [HasGroupoid N e0Groupoid] {ι : M → N} (hι : IsE0Mor ι univ)
+    (hinj : Injective ι) (hG : (CE N).GloballyHyperbolic)
+    (hconv : (CE N).CausallyConvexIn (range ι) ⊤) : (CE M).GloballyHyperbolic := by
+  have hE := isEMorphismOn_of_isE0Mor (W := ⊤) hι
+  have hopen : IsOpenMap ι := fun V hV => by
+    have := hE.isOpen_image ⟨V, hV⟩ le_top
+    simpa using this
+  have hemb : IsOpenEmbedding ι :=
+    IsOpenEmbedding.of_continuous_injective_isOpenMap (continuous_of_isE0Mor hι) hinj hopen
+  let R : Opens N := ⟨range ι, hemb.isOpen_range⟩
+  have hR : (CE N).CausallyConvexIn (R : Set N) ⊤ := hconv
+  have hle : ∀ x y, (CE N).le ⊤ (ι x) (ι y) ↔ (CE M).le ⊤ x y := fun x y => by
+    rw [← le_iff_of_isE0Mor hι hinj (U := R) rfl x y]
+    exact (Causal.Causality.le_iff_of_causallyConvexIn E0LM.e0_causallyArcConnected hR
+      (show ι y ∈ R from ⟨y, rfl⟩) (show ι x ∈ R from ⟨x, rfl⟩)).symm
+  refine ⟨fun {x y} hxy hyx => hinj (hG.1 ((hle x y).2 hxy) ((hle y x).2 hyx)), fun x y => ?_⟩
+  have hD : (CE M).diamond ⊤ x y = ι ⁻¹' (CE N).diamond ⊤ (ι x) (ι y) := by
+    ext z
+    simp only [mem_preimage, Causal.Causality.mem_diamond, hle]
+  have hsub : (CE N).diamond ⊤ (ι x) (ι y) ⊆ range ι := hconv.2 _ ⟨x, rfl⟩ _ ⟨y, rfl⟩
+  rw [hD]
+  exact (hemb.isInducing.isCompact_preimage_iff hsub).2 (hG.2 _ _)
+
 /-- **Small local Cauchy charts of a Cauchy surface** (the intrinsic content of
-`isLocallyCauchy_image`, WP-44f): in a globally hyperbolic `𝔼₀`-manifold, an acausal Cauchy surface
-`S` is locally Cauchy with ARBITRARILY SMALL charts — every `s ∈ S` and every neighbourhood `O` of
-`s` admit an open `W ∋ s` inside `O`, causally convex in `M`, in which `S ∩ W` is a Cauchy surface
-(`Causal.Causality.IsCauchySurface.isLocallyCauchy` gives only `W = M`). -/
-theorem exists_small_cauchyChart (_hGH : (CE M).GloballyHyperbolic) {S : Set M}
-    (_hS : (CE M).IsCauchySurface S) (_hSac : (CE M).IsAcausal S) {s : M} (_hs : s ∈ S)
-    {O : Set M} (_hO : O ∈ 𝓝 s) :
+`isLocallyCauchy_image`; **proved**, WP-46f): in a globally hyperbolic `𝔼₀`-manifold, a Cauchy
+surface `S` is locally Cauchy with ARBITRARILY SMALL charts — every `s ∈ S` and every neighbourhood
+`O` of `s` admit an open `W ∋ s` inside `O`, causally convex in `M`, in which `S ∩ W` is a Cauchy
+surface. `W` is §1b's local Cauchy domain `cauchyDomain (CE M) S (interior O)`
+(`exists_small_cauchyChart_abstract`: SFA's tarentin and causal arc-connectedness, Levin's time
+function `E0LM.e0_timeFunction`, R1 `E0LM.sfa_isCompact_Jplus_inter_Jminus` and its past form).
+Acausality of `S` is not used (it is derived). -/
+theorem exists_small_cauchyChart (hGH : (CE M).GloballyHyperbolic) {S : Set M}
+    (hS : (CE M).IsCauchySurface S) (_hSac : (CE M).IsAcausal S) {s : M} (hs : s ∈ S)
+    {O : Set M} (hO : O ∈ 𝓝 s) :
     ∃ W : Opens M, s ∈ W ∧ (W : Set M) ⊆ O ∧ (CE M).CausallyConvexIn (W : Set M) ⊤ ∧
       (CE M).IsCauchySurfaceOn W (S ∩ W) := by
-  sorry -- SORRY(brunswic2021cauchy:prop:cauchy_abs_max): small local Cauchy charts of an acausal Cauchy surface S of a GH 𝔼₀-manifold (all that is left of Prop 2.16 (i)⇒(ii): isLocallyCauchy_image reduces to it, sorry-free, WP-44f). Diamonds I(p, q), p ≪ s ≪ q, do NOT do: a timelike curve from inside the diamond to its waist corner is inextensible there and misses S (already in 𝐌³ with S = {t = 0}). The right W is the interior of the domain of dependence of a small piece S ∩ O′, cut by two Cauchy time levels S⁻ < S < S⁺ (exists_isCauchySurface_of_globalBTZ, isCauchySurface_level): its openness, causal convexity, the Cauchy property of S ∩ W in W, and smallness (D(S ∩ O′) ∩ J(S⁻, S⁺) shrinks to {s} as O′ does, by compactness of J(S⁻, S⁺) ∩ J^±(compact)) — a domain-of-dependence theory not in lean-causal for ETT/𝔼₀ causalities. The flat analogue (Causal.Flat.Cla.isLocallyCauchyTwoSided_image_of_isIsometricEmbedding, ≈700 lines) uses local Lipschitz graphs over Minkowski charts instead; at a BTZ point of S the chart is an 𝔼₀ chart, whose vertical lines are null, and no graph theory exists there
+  have h := e0_sfa_of_globalBTZ M
+  obtain ⟨T, hTc, hT⟩ := E0LM.e0_timeFunction hGH
+  exact exists_small_cauchyChart_abstract h.tarentin hGH h.causallyArcConnected hTc hT
+    (E0LM.sfa_isCompact_Jplus_inter_Jminus h hGH hTc hT hS)
+    (E0LM.sfa_isCompact_Jminus_inter_Jplus h hGH hTc hT hS) hS hs hO
 
 /-- **The image of an acausal Cauchy surface is locally Cauchy** — the "spacelike hypersurface"
 input of lemma K, for an injective `𝔼₀`-morphism between globally hyperbolic `𝔼₀`-manifolds: every
@@ -1981,7 +2236,7 @@ theorem E0Pushout.isCompact_diamond_mixed (_hGH : (CE M).GloballyHyperbolic)
     (_hmax : IsE0CauchyMaximal M) {N : Causal.Flat.FlatSpacetime.{0} 2} (_hN : Causal.Flat.GH N)
     {f : e0RegMFlat M → N} (P : E0Pushout M N f) {p q : P.carrier} (_hp : p ∈ S0 P.carrier)
     (_hq : q ∉ S0 P.carrier) : IsCompact ((CE P.carrier).diamond ⊤ p q) := by
-  sorry -- SORRY(brunswic2021cauchy:prop:abs_max): B21 l.1104–1117, the mixed diamonds J(p, q), p BTZ, q regular. The spear is now available with no parameter (E0Spear.lem_tube_e0, WP-44d: Spear 0 sorry, hLine/hSC discharged by E0LM.e0_globalBTZ / E0LM.e0_secondCountable_of_cauchy): a spear 𝒮 = ψ(spear v R) of vertex p, its rim 𝒞 compact regular, its frontier head ∪ shaft (E0Spear.frontier_spear), shaft ⊆ J⁺(𝒞) (vertical null lines, le_vertical); K = J⁺(𝒞) ∩ J⁻(q) is compact (a diamond of the GH flat ι₂ N: regular-to-regular curves avoid sing₀ ⊇ (ι₂ N)ᶜ). B21 then sets K' = K ∩ ∂𝒮 and J(p, q) ⊆ [J⁻(q) ∩ J⁺(K')] ∪ [J⁻_M(K') ∩ J⁺_M(p)]. Two steps are missing. (i) COMPACTNESS OF K' IN M̄: ∂𝒮 is closed in M but ι₁(∂𝒮) is not known closed in M̄ — shaft points ψ(τₙ, R, θₙ), τₙ → ∞, diverge in M yet may converge in the compact K to a point of ι₂(N ∖ f(Reg M)) (the BTZ points ψ(τₙ, 0) below them then lie in J(p, q), diverging); excluding it needs a Lemma 2.12-type holonomy argument along the BTZ ray (the τ-translates of a fixed regular chart region of the spear mapped isometrically near one point of N; the boosts of the isometries are not a priori bounded), not in the library; (ii) the curve-exit argument: a past causal curve from q to p meets ∂𝒮 last at a shaft point (no past causal curve enters 𝒮 through its head), i.e. the first-exit theory of causal curves from a closed chart region of M̄, which Spear's §4a′ provides only for time-parametrised curves
+  sorry -- SORRY(brunswic2021cauchy:prop:abs_max): B21 l.1104–1117, the mixed diamonds J(p, q), p BTZ, q regular. WP-46f analysis. The spear is available (E0Spear.lem_tube_e0, parameter-free). B21's K' = J⁺(𝒞) ∩ J⁻(q) ∩ ∂𝒮 is NOT known compact in M̄ (ι₁(∂𝒮) need not be closed: shaft points ψ(τₙ, R, θₙ), τₙ → ∞, may converge in ι₂ N). The repair: truncate at a lid τ = T. Once (*) holds — the BTZ points of J(p, q) are BOUNDED on the ray, i.e. a full future BTZ ray of M is not bounded above in M̄ by a regular point — a future causal curve from p cannot leave 𝒮_T = ψ(spear v R ∩ {τ ≤ T}) through its head (f = τ − r/2 is non-decreasing in the chart, E0Spear.mem_spear_of_le) nor its lid (a lid point is above an axis point beyond the bound), so it leaves through E = shaft ∩ {τ ≤ T} ∩ J⁻(q), compact in M (J⁻_N(q) closed), and J(p, q) = [J⁺_M(p) ∩ J⁻_M(E)] ∪ [J⁺_N(E) ∩ J⁻_N(q)], both compact (GH of M, GH of N). The missing core is (*). Its negation gives, by closedness of J⁻_N(q) and compactness of the circle, for every radius ρ ∈ (0, R] a whole vertical null line ℓ_ρ of the spear below q in N, whose image increases to a limit outside f(Reg M) (the line diverges in M). No order/topology argument concludes: a contradiction needs a Lorentz-invariant size — the disjoint τ-translates of a fixed annular box between two such lines map isometrically into the one compact J_N(f ℓ_ρ(t₀), q), so a Lorentzian VOLUME on the flat spacetime N (or finiteness of the time separation on compacts of a GH N; chart-Euclidean sizes fail: the boosts of the isometries are unbounded) — neither exists in lean-causal or gx. That volume measure (Lebesgue measure transported by the flat atlas, invariant under Isom(𝐌³)) and the curve-exit step above are what is left
 
 include hLine in
 /-- **The push-out is globally hyperbolic** (B21 Prop 2.17, `BTZ_1.tex:1098–1116`): causal by the
@@ -2023,33 +2278,12 @@ theorem absMax_e0RegM (hGH : (CE M).GloballyHyperbolic) {S : Set M}
   obtain ⟨w, -, hw⟩ := P.glue x y hx
   exact ⟨w, hw⟩
 
-/-! ### §6 B21 Prop 2.17 and Cor 2.18 -/
+/-! ### §6 (deleted, DEC-117)
 
-include hLine in
-/-- **B21 Prop 2.17** (`prop:abs_max`, `BTZ_1.tex:1078–1082`, proof l.1088–1119) for `A = {0}`
-(`A* = ∅`, so `E_{A*}`-maximality is Barbot's absolute maximality among flat spacetimes): for `M`
-a globally hyperbolic Cauchy-maximal `𝔼₀`-manifold with a compact acausal Cauchy
-surface, `Reg M` is globally hyperbolic (`gh_e0RegMFlat`), Cauchy-complete
-(`GX.E0Surgery.regM_isCauchyComplete`, WP-41j) and absolutely maximal (`absMax_e0RegM`). -/
-theorem prop_abs_max (hGH : (CE M).GloballyHyperbolic) {S : Set M}
-    (hS : (CE M).IsCauchySurface S) (hSc : IsCompact S) (hSac : (CE M).IsAcausal S)
-    (hmax : IsE0CauchyMaximal M) :
-    Causal.Flat.GH (e0RegMFlat M) ∧ Causal.Flat.IsCauchyComplete 2 (e0RegMFlat M) ∧
-      Causal.Flat.AbsMax (fun _ => True) (e0RegMFlat M) :=
-  ⟨gh_e0RegMFlat hLine hGH, E0Surgery.regM_isCauchyComplete M hGH ⟨S, hS, hSc⟩ hmax,
-    absMax_e0RegM hLine hGH hS hSc hSac hmax⟩
-
-include hLine in
-/-- **B21 Cor 2.18** (`cor:abs_max`, `BTZ_1.tex:1083–1086`; DEC-28's input to the headline): for `M`
-a globally hyperbolic Cauchy-compact Cauchy-maximal `𝔼₀`-manifold, `Reg(M)` is globally hyperbolic,
-Cauchy-complete and absolutely maximal in the sense of Barbot. Cauchy-compact as printed
-(`E0CauchyCompact`); connectedness of the Cauchy surface proved (`isConnected_of_isCauchySurface`). -/
-theorem cor_abs_max (hGH : (CE M).GloballyHyperbolic) (hCC : E0CauchyCompact M)
-    (hmax : IsE0CauchyMaximal M) :
-    Causal.Flat.GH (e0RegMFlat M) ∧ Causal.Flat.IsCauchyComplete 2 (e0RegMFlat M) ∧
-      Causal.Flat.AbsMax (fun _ => True) (e0RegMFlat M) := by
-  obtain ⟨S, hS, hSc, hSac⟩ := hCC
-  exact prop_abs_max hLine hGH hS hSc hSac hmax
+The topological forms `prop_abs_max` / `cor_abs_max` (a compact acausal Cauchy surface, Cauchy
+completeness through the legacy `E0Surgery.regM_isCauchyComplete` and its (G0) smoothing) are
+**deleted** with that route (DEC-117, DEC-107): the forms of record are §8's `prop_abs_max_C1`,
+`cor_abs_max_C1`. -/
 
 /-! ### §7 The unconditional forms (no `hLine`: (O2) is `e0_hLine`)
 
@@ -2089,24 +2323,6 @@ theorem absMax_e0RegM_e0 (hGH : (CE M).GloballyHyperbolic) {S : Set M}
     (hS : (CE M).IsCauchySurface S) (hSc : IsCompact S) (hSac : (CE M).IsAcausal S)
     (hmax : IsE0CauchyMaximal M) : Causal.Flat.AbsMax (fun _ => True) (e0RegMFlat M) :=
   absMax_e0RegM e0_hLine hGH hS hSc hSac hmax
-
-/-- **B21 Prop 2.17** (`prop:abs_max`, `BTZ_1.tex:1078–1082`, proof l.1088–1119) for `A = {0}`,
-unconditional: `Reg M` globally hyperbolic, Cauchy-complete and absolutely maximal. -/
-theorem prop_abs_max_e0 (hGH : (CE M).GloballyHyperbolic) {S : Set M}
-    (hS : (CE M).IsCauchySurface S) (hSc : IsCompact S) (hSac : (CE M).IsAcausal S)
-    (hmax : IsE0CauchyMaximal M) :
-    Causal.Flat.GH (e0RegMFlat M) ∧ Causal.Flat.IsCauchyComplete 2 (e0RegMFlat M) ∧
-      Causal.Flat.AbsMax (fun _ => True) (e0RegMFlat M) :=
-  prop_abs_max e0_hLine hGH hS hSc hSac hmax
-
-/-- **B21 Cor 2.18** (`cor:abs_max`, `BTZ_1.tex:1083–1086`; DEC-28's input to the headline),
-unconditional: for `M` a globally hyperbolic Cauchy-compact Cauchy-maximal `𝔼₀`-manifold,
-`Reg(M)` is globally hyperbolic, Cauchy-complete and absolutely maximal in Barbot's sense. -/
-theorem cor_abs_max_e0 (hGH : (CE M).GloballyHyperbolic) (hCC : E0CauchyCompact M)
-    (hmax : IsE0CauchyMaximal M) :
-    Causal.Flat.GH (e0RegMFlat M) ∧ Causal.Flat.IsCauchyComplete 2 (e0RegMFlat M) ∧
-      Causal.Flat.AbsMax (fun _ => True) (e0RegMFlat M) :=
-  cor_abs_max e0_hLine hGH hCC hmax
 
 /-! ### §8 DEC-107: « Cauchy-compact » read as B21 l.227 (a compact `C¹` spacelike Cauchy surface)
 

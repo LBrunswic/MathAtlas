@@ -1,0 +1,108 @@
+{
+ "package": "WP-46g",
+ "files": [
+  "scaffold/GXScaffold/BTZ/HeadlineBridge.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [],
+ "bridge": {
+  "ruling": "DEC-119 (bridge package)",
+  "items": [
+   {
+    "item": "(1) SingularGXStructure from the E0 atlas, Reg/Sing matching, every singular point the centre of an E0-chart",
+    "status": "closed",
+    "decls": [
+     "GX.E0Bridge.flatCharts",
+     "GX.E0Bridge.isAEAtlas_flatCharts",
+     "GX.E0Bridge.isPortly_e0RegM",
+     "GX.E0Bridge.e0SingularGXStructure",
+     "GX.E0Bridge.source_subset_e0RegM",
+     "GX.E0Bridge.reg_e0SingularGXStructure",
+     "GX.E0Bridge.sing_e0SingularGXStructure",
+     "GX.E0Bridge.isBTZSingModelled_e0"
+    ]
+   },
+   {
+    "item": "(2) reg M~ homeomorphic to the universal cover of Reg M (gx's and lean-causal's), over M and on base points",
+    "status": "closed",
+    "decls": [
+     "GX.E0Bridge.regTildeHomeoGX",
+     "GX.E0Bridge.regTildeHomeo",
+     "GX.E0Bridge.proj_regTildeHomeo",
+     "GX.E0Bridge.regTildeHomeo_symm_base",
+     "GX.E0Bridge.basePt",
+     "GX.E0Bridge.regPtF_basePt"
+    ]
+   },
+   {
+    "item": "(3) the developing map of Reg M~ (any developing pair of Reg M) extended T_BTZ-continuously to the BTZ points",
+    "status": "closed",
+    "decls": [
+     "GX.E0Bridge.exists_dev_extension",
+     "GX.E0Bridge.exists_btzTildeData_extending",
+     "GX.E0Bridge.exists_btzTildeData_of_isDevelopingPair",
+     "GX.E0Bridge.isGXMorphism_devOnCover",
+     "GX.E0Bridge.exists_isDevelopingPair_devOnCover"
+    ]
+   },
+   {
+    "item": "(extra) e0ManifoldCausality of the bridge structure = the charted causality chartedCausality E0LM.D M (GH transfer)",
+    "status": "closed",
+    "decls": [
+     "GX.E0Bridge.chartAtlasCausality_eq_chartedCausality",
+     "GX.E0Bridge.e0ManifoldCausality_eq_chartedCausality",
+     "GX.E0Bridge.globallyHyperbolic_e0ManifoldCausality_iff"
+    ]
+   }
+  ],
+  "hypotheses": [
+   {
+    "paper": "M an E0-manifold",
+    "here": "ChartedSpace E0Y M, HasGroupoid M e0Groupoid (the only hypotheses of (1) and of the causality identification)"
+   },
+   {
+    "paper": "M~ the maximal covering branched over sing M",
+    "here": "(2)/(3) carry T2Space M, FirstCountableTopology M, ConnectedSpace M (maxBranched_basic's); LocPathConnectedSpace M is derived from the charts"
+   },
+   {
+    "paper": "D extended continuously to the BTZ points",
+    "here": "continuous for T_BTZ (BTZTildeData.T', DEC-106); for the natural topology only on reg M~ (continuousAt_dev)"
+   }
+  ]
+ },
+ "extra_decls": [
+  "GX.E0Bridge.univCoverCongr",
+  "GX.E0Bridge.proj_univCoverCongr",
+  "GX.E0Bridge.univCoverCongr_base",
+  "GX.E0Bridge.isRegDevelopingOnReg_smul",
+  "GX.E0Bridge.btzTildeDataSmul",
+  "GX.E0Bridge.btzTildeDataSmul_D",
+  "GX.E0Bridge.btzTildeDataSmul_T'",
+  "GX.E0Bridge.eventually_dev_eq_smul",
+  "GX.E0Bridge.continuousAt_dev",
+  "GX.E0Bridge.pullback_spec",
+  "GX.E0Bridge.agreeOn_chartedCausality_of_compatible",
+  "GX.E0Bridge.chartAtlasCausality_eq_chartedCausality",
+  "GX.E0Bridge.IsFlatCompat",
+  "GX.E0Bridge.symm_trans_mem_e0Groupoid_of_isFlatCompat",
+  "GX.E0Bridge.isFlatCompat_chartAt",
+  "GX.E0Bridge.isFlatCompat_regChartToE0Y",
+  "GX.E0Bridge.isFlatCompat_xaChartToE0Y",
+  "GX.E0Bridge.xaChartToE0Y_apply_mk",
+  "GX.E0Bridge.xaHomeo",
+  "GX.E0Bridge.isAEMorphism_xaHomeo",
+  "GX.E0Bridge.flatCharts_eventually",
+  "GX.E0Bridge.support_flatCharts",
+  "GX.E0Bridge.isGXAtlas_flatCharts",
+  "GX.E0Bridge.flatCharts_subset_aeAtlas"
+ ],
+ "kb_proposals": [
+  "An E0-manifold's SingularGXStructure is GX.E0Bridge.e0SingularGXStructure (a reducible def, use letI): Reg = E0LM.e0RegM M, Sing = chartedSing e0SingY M 0, IsBTZSingModelled by isBTZSingModelled_e0; so BTZTildeData exists over any ChartedSpace E0Y M.",
+  "Causal.UniversalCover (e0RegMFlat M) x0 vs a subtype over ↑↑(e0RegM M): the types are defeq but rw fails; state results with (e0RegMFlat M) and a base point of type e0RegMFlat M (E0Bridge.regPtF), and read points of M through E0Bridge.flatVal.",
+  "To compare two chart-generated causalities, prove the charts G-compatible and use E0Bridge.chartAtlasCausality_eq_chartedCausality (agreement on chart sources + absolute minimality of chartedCausality); no curve argument is needed.",
+  "GX.xaChartToE0Y_apply carries TildeM's section instances (T2, LocPathConnected, FirstCountable, Connected); E0Bridge.xaChartToE0Y_apply_mk is the hypothesis-free form.",
+  "Inside a `letI := e0SingularGXStructure M` statement, a body starting with `(` on the next line parses as an application argument; write `letI := ...;`."
+ ],
+ "notes": "No ledger label is certified or marked (DEC-119 asks for infrastructure). 0 sorry, standard axioms only (campaign/WP-46g/axioms.out); lake build GXScaffold.BTZ.HeadlineBridge rebuilt nothing upstream (build.log). The headline (GXScaffold.BTZ.Uniformization, SCOPE (b)) can now: (i) instantiate GX.BTZ.Manifolds on its ChartedSpace E0Y M via letI := E0Bridge.e0SingularGXStructure M; (ii) feed its GH hypothesis (chartedCausality E0LM.D M) to BTZTildeData.isFutureDistinguishing_of_base / injective_D_of_isBTZFutureComplete through globallyHyperbolic_e0ManifoldCausality_iff; (iii) take its given developing pair (D, rho) of e0RegMFlat M at x0 = regPtF (basePt x0) and get a BTZTildeData whose D equals D on reg M~ (exists_btzTildeData_of_isDevelopingPair), so injectivity of D on reg M~ (Barbot) transfers to the hreg hypothesis of injective_D_of_isBTZFutureComplete via regTildeHomeo. Not done: uniqueness of the extension (T_BTZ-density of reg M~ is not among BTZTildeData's fields); FirstCountableTopology M is carried, not derived (E0Y has no FirstCountableTopology instance at this pin). Upstream files were not edited."
+}

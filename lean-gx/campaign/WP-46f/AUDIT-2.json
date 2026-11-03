@@ -1,0 +1,54 @@
+{
+ "package": "WP-46f",
+ "round": 2,
+ "auditor": "read-only auditor, round 2",
+ "file": "scaffold/GXScaffold/BTZ/AbsMax.lean",
+ "host": "node1",
+ "builds": true,
+ "build_command": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/AbsMax.lean: exit 0, 8.6 s, nothing recompiled. Exactly two 'declaration uses sorry' warnings, at l.1038 (sing_eq_of_le_of_le_of_stronglyCausalOn_e0) and l.2235 (E0Pushout.isCompact_diamond_mixed). Both are the round-1 lines (1032 and 2229) shifted by the +6-line fixer docstring paragraph. The olean (13:19:14) postdates the source (13:18:51), and campaign/WP-46f/build.fixer1.log records a green lake build (8733 jobs). Independent axiom sweep (/tmp/wp46f_a2_axioms.lean) over 90 names: every REPORT decl, extra_decl and sorry decl, plus the _e0 forms of 2.14/2.15 and E0Surgery.regM_isCauchyComplete_of_C1. All 90 resolve. sorryAx appears in exactly 10: the 2 leaves; btzExt_isCausal_of_stronglyCausalOn_e0 and cor_GH_causal_e0 (via the loop leaf); E0Pushout.globallyHyperbolic(_e0), absMax_e0RegM(_e0), prop_abs_max_C1 and cor_abs_max_C1 (via the mixed-diamond leaf). Everything else is on standard axioms. This is identical to round 1.",
+ "sorry_count": 2,
+ "round1_issues": {
+  "M1": "RESOLVED by option (b). The docstring now bold-marks only Lemma 2.14 and cor:GH_causal. Remark 1 and lem:BTZext_caus_conv are plain backticks with '(partial, sorry-free: ... awaits a ruling)', and the SCOPE paragraph explains why. REPORT.json sets both rows to partial / marked=false and keeps the questions. A diff of REPORT.round0.json against REPORT.json shows only these status, marked, question and notes changes. registers/DECISIONS.md was checked through its last row, DEC-121: no ruling extends DEC-116 (e) to Remark 1 or 2.13, so unmarking is the correct outcome.",
+  "m1": "STILL PRESENT, outside the write set and routed. scaffold/GXScaffold/BTZ/Uniformization.lean l.945 and l.987 still call the deleted cor_abs_max_e0, while its C1 forms (l.1099, l.1104) already use cor_abs_max_C1. GXScaffold.lean imports Uniformization, so make check stays red until a follow-up deletes or repoints those two declarations."
+ },
+ "checks": {
+  "builds_and_sorry_count": "pass. 2 tagged sorries, each isolated in its own declaration, matching REPORT.sorry_count. The sweep confirms the reported dependants.",
+  "statement_fidelity": "pass. Re-read: Lemma 2.13 (a)/(b) are verbatim in open-set form, and their _e0 forms carry no hypothesis. Remark 1 has its literal E0 embedding form: an injective E0-morphism into a GH E0-manifold with causally convex range gives GH, proved as an open embedding. The abstract Lemma 2.14 (SFA, A^c in sing0, StronglyCausalOn A with nhds rather than open sets, i.e. a weaker hypothesis, plus NoCausalLoopIn (sing 0)) and Cor 2.15 (GloballyHyperbolicOn A, NoCausalLoopIn A^c) are exactly the forms DEC-116 (e) accepts. The loop hypothesis carries the paper's BTZ-loop case (l.1035-1036) by ruling, which is disclosed. prop_cauchy_abs_max_C1, prop_abs_max_C1 and cor_abs_max_C1 assume GH + IsE0C1SpacelikeCauchy (DEC-107) + Cauchy-maximal only, with acausality derived, and conclude GH ∧ IsCauchyComplete (DEC-31, of the regular flat spacetime Reg M) ∧ AbsMax (fun _ => True). The topological forms are deleted per DEC-117. IsE0Maximal restricts targets to connected N, which is disclosed as a finding: the literal definition is vacuous. DEC-55 is not relevant.",
+  "docstring_contract": "pass. Bold label marks: exactly Lemma 2.14 (char 1139) and cor:GH_causal (char 1487). All 8 labels appear within the first 2600 characters. The other bold spans (**B21**, **now sorry-free**, **deleted**, **small local Cauchy domains**, **unmarked**) are not label marks.",
+  "report_honest_complete": "pass, with a minor stale wording (m2). All 8 B21 labels of the file are listed. Status and marked agree with the docstring: 2 closed+marked, 6 partial+unmarked. The decls, sorries and findings agree with the source and the sweep.",
+  "missing_labels_or_parts": "pass. Lemma 2.13 has (a) and (b). Prop 2.16 has both directions. Prop 2.17 / Cor 2.18 have all three conclusions. Lemma 2.12 is disclosed as the special case only.",
+  "cited_results": "pass. Lemma K, E0LM.e0_globalBTZ, R1 compactness, E0Spear extensibility and E0Surgery.regM_isCauchyComplete_of_C1 are all built and sorry-free per the sweep.",
+  "name_clashes": "pass. The fixer changed no Lean declarations. The round-1 clash check stands.",
+  "sorries_genuine": "pass. (1) Loop: GX/BTZ/Spear.lean:4973 confirms lem_tube_e0 takes (hGH : (CE M).GloballyHyperbolic) (hmax : IsE0CauchyMaximal M), so it cannot supply the tube for Lemma 2.14's not-yet-causal M1. No neighbourhood of a closed causal loop is GH, so no local application helps either. The leaf is off every certifying path. (2) Mixed diamonds: re-read B21 l.1104-1117. K' = J+(C) ∩ J-(q) ∩ ∂S is compact only if the image of ∂S is closed in M̄, and the shaft is unbounded in τ, so the paper's step is a genuine gap, as the finding says. After truncation, the bound (*) on BTZ points of J(p,q) reduces to an Isom(M^3)-invariant volume (Lebesgue in flat charts, consistent because Lorentz transformations have |det| = 1) bounding disjoint isometric translates inside one compact J_N. The nearest existing infrastructure, Causal.Flat.exists_chart_measure (Flat/Geroch/ChartMeasure.lean), is finite with weights 2^-i and is NOT invariant, so it cannot give the uniform lower bound. Building the volume, plus the curve-exit and lid-truncation steps, is substantial new infrastructure. Accepted as a genuine obstruction after a serious attempt."
+ },
+ "issues": [
+  {
+   "id": "m1",
+   "severity": "minor",
+   "where": "scaffold/GXScaffold/BTZ/Uniformization.lean l.945, l.987 (outside the write set)",
+   "problem": "Downstream calls to the deleted cor_abs_max_e0 remain (carried over from round 1). make check stays red until they are repaired.",
+   "fix": "A follow-up package deletes btz_uniformization_reg and its omegaMinus variant (topological route, DEC-117), or repoints them to cor_abs_max_C1."
+  },
+  {
+   "id": "m2",
+   "severity": "minor",
+   "where": "campaign/WP-46f/REPORT.json: lem:BTZext_caus_conv row 'notes'; top-level 'notes'",
+   "problem": "Stale wording. The 2.13 row's notes begin 'WP-46f: closed on DEC-116 (e)'s readings' although the row is partial. The top-level notes still say 'Remark 1, Lemma 2.13, Lemma 2.14, Cor 2.15 CLOSED and marked' before the FIXER paragraph that reverses it. Fields and docstring are correct; only the prose is stale.",
+   "fix": "Drop the 'closed on DEC-116 (e)'s readings' phrase from the 2.13 row, and restate the top-level rows sentence as 'Lemma 2.14, Cor 2.15 CLOSED and marked; Remark 1, Lemma 2.13 partial pending a ruling'."
+  },
+  {
+   "id": "m3",
+   "severity": "minor",
+   "where": "AbsMax.lean l.2239, SORRY tag of E0Pushout.isCompact_diamond_mixed",
+   "problem": "The tag says the needed Lorentzian volume exists in neither lean-causal nor gx. That is true of an invariant volume. But lean-causal does have a finite, non-invariant chart measure (Causal.Flat.exists_chart_measure), and a successor should know it is not the needed object.",
+   "fix": "Optionally name Causal.Flat.exists_chart_measure in the tag as the nearest piece, and say why it fails: no uniform lower bound on isometric translates."
+  }
+ ],
+ "verdict": "clean",
+ "questions_for_master": [
+  "Remark 1 and Lemma 2.13 are sorry-free and stay partial only on the abstract E>=0 / open-set readings (their E0 forms are literal and unconditional). A one-line ruling extending DEC-116 (e) to them would close and mark both with no Lean change.",
+  "Prop 2.16 is sorry-free and partial only on A = {0} and the connected-targets reading of E_A-maximality. A ruling on those two readings would close it.",
+  "Carried from round 1, q1: E0Pushout.isCompact_diamond_mixed omits Prop 2.17's Cauchy-compactness. The volume route does not need it, but if a successor's route does, it is available at the only caller (absMax_e0RegM: hS, hSc) and can be threaded through without weakening any row."
+ ],
+ "summary": "Round 2: the round-1 major (M1) is resolved. Remark 1 and Lemma 2.13 are unmarked and partial pending a ruling, and no DEC through DEC-121 extends DEC-116 (e) to them. The file builds with exactly 2 tagged sorries. An independent 90-name axiom sweep matches round 1: 10 sorryAx dependants, all on the two leaves. Lemma 2.14 and Cor 2.15 are correctly closed and marked under DEC-116 (e). The C1 forms of record (DEC-107/117) carry no extra hypothesis. Both remaining sorries are genuine: lem_tube_e0 requires GH + Cauchy-maximal, and the mixed diamonds need an Isom-invariant volume on flat N that is not in the libraries. Only minor issues remain: the routed Uniformization break, stale REPORT prose, and a tag pointer."
+}

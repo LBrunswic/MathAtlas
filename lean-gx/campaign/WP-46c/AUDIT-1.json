@@ -1,0 +1,105 @@
+{
+ "package": "WP-46c",
+ "round": 1,
+ "auditor": "read-only auditor, round 1",
+ "file": "GX/BTZ/Manifolds.lean",
+ "verdict": "clean",
+ "builds": true,
+ "build_check": "taskset -c 0-11 lake env lean -DwarningAsError=true GX/BTZ/Manifolds.lean: no diagnostics, EXIT=0, 29.7 s wall. Real sorry count 0: 'sorry' occurs only in docstrings, with no admit, axiom or native_decide. taskset -c 0-11 lake build GX: 'Build completed successfully (8743 jobs)', EXIT=0, nothing rebuilt (no Causal.* module). The auditor's scratch file /tmp/wp46c_audit/Check.lean is outside the repo and imports GX.BTZ.Manifolds. #print axioms gives [propext, Classical.choice, Quot.sound] for natGloballyHyperbolic_iff, isFutureDistinguishing_of_natGloballyHyperbolic, isFutureDistinguishing_of_base, natIsCausallyConnected, natIncreasing, btzJ0_isFutureDistinguishing, BTZTildeData.nonempty and e0SingManifold_isFutureDistinguishing. This agrees with campaign/WP-46c/axioms.out. The only importer, scaffold/GXScaffold/BTZ/Uniformization.lean, still typechecks with no error. DEC-33 gate: the file imports Causal.{StrongCausality,GlobalHyperbolicity,Generated,GXStructure} from under GX/BTZ/. It never imports the root Causal or CausalScaffold, and has no 'open Causal'.",
+ "statement_preservation": "Diff against campaign/WP-46c/Manifolds.pre-WP-46c.lean.bak (166 diff lines): the only code added is theorem GX.BTZTildeData.natGloballyHyperbolic_iff. Every other change is to docstrings and comments. No existing signature changed and no declaration was renamed, so REPORT's 'No statement or declaration name changed' holds.",
+ "name_clashes": "None. Every decl named in REPORT (label decls plus extra_decls) is declared in this file. The one new name, natGloballyHyperbolic_iff, appears nowhere else under GX/ or scaffold/. IsFutureDistinguishing, IsCausallyConnected and IsFutureComplete are defined only here.",
+ "docstring_contract": "The bold **label** marks for all 8 labels sit at characters 577–1879 of the module docstring, inside 4000: def:manifolds_future_distinguishing_map, def:manifolds_future_distinguishing_map_2, def:singular_manifold_endowed_causal, lem:globally_hyperbolic_manifolds_manifolds, lem:manifolds_manifolds_causally_connected, lem:increasing_map, def:manifold_future_complete_all, lem:globally_hyperbolic_manifolds_maximal. They match REPORT's 8 closed rows exactly. No other paper label of §4.5 (l.2313–2361) belongs to this file; prop:globally_hyperbolic_cauchy_complete_manifolds is another file's. The stale phrases ('not ruled', 'pending a ruling', 'reading (A)', 'Partial') are gone. DEC-118 (a)(b)(c) are cited at each ruled decl. The DEC-27 counterexamples stay on record as corrections.",
+ "labels": [
+  {
+   "label": "def:manifolds_future_distinguishing_map",
+   "report_status": "closed",
+   "audit": "agree",
+   "note": "Literal definition: Injective (x ↦ C.Iplus ⊤ {x}) for any causality. DEC-118 (a) applies it to M̃ through BTZTildeData.causality."
+  },
+  {
+   "label": "def:manifolds_future_distinguishing_map_2",
+   "report_status": "closed",
+   "audit": "agree",
+   "note": "Verbatim repeat of l.2317 (D-8), same decl."
+  },
+  {
+   "label": "def:singular_manifold_endowed_causal",
+   "report_status": "closed",
+   "audit": "agree",
+   "note": "Literal definition, unchanged. CausallyArcConnected implies it."
+  },
+  {
+   "label": "lem:globally_hyperbolic_manifolds_manifolds",
+   "report_status": "closed",
+   "audit": "agree, with a recorded judgement call (minor 1)",
+   "note": "BTZ half: charted form (e0Manifold_isFutureDistinguishing) and SingularGXStructure form (e0SingManifold_isFutureDistinguishing), with [T2Space M] (DEC-66 (a)). BTZ~ half: isFutureDistinguishing_of_natGloballyHyperbolic takes as hypothesis d.natCausality.GloballyHyperbolic, which is GH in the natural topology (DEC-106). It concludes IsFutureDistinguishing d.causality, i.e. FD for the chart-generated ≪ (DEC-118 (a)). That is exactly the implication of l.2325 under the rulings, with no added hypothesis. The proof was read in full. It goes through the tarentin-free le_of_Iplus_eq_of_isCompact_image_diamond, applied with ι = toNat, which is continuous because T' ≤ natural, and uses natCausality_diamond. It is sound. natGloballyHyperbolic_iff is proved both ways, and it shows natural GH is exactly natural compactness of the chart-generated diamonds, so the hypothesis does not hide the conclusion. The general coarse-topology theorem behind it is non-vacuous with a BTZ line: in the model J⁺(Δ₀) the diamonds are compact in 𝐌³ (btzJ0_isCompact_val_image_diamond), which gives btzJ0_isFutureDistinguishing. A witness for the ruled hypothesis itself (natural GH with sing M ≠ ∅) is not built. That witness is DEC-118 (b) / WP-46d's deliverable. The auditor found no argument that it is unsatisfiable. Informally: at a BTZ point a natural neighbourhood contains the whole component (all θ), and the diamonds are D-bounded and τ-bounded. So the T_BTZ failure mode (x_ε escaping the BTZ neighbourhood) does not obviously recur. The gap is disclosed in the docstring, SCOPE (f) and REPORT. The previous auditor's question (WP-44c AUDIT-2) said that a ruling for reading (A) 'lets the three partial rows be marked', and DEC-118 (a) is that ruling."
+  },
+  {
+   "label": "lem:manifolds_manifolds_causally_connected",
+   "report_status": "closed",
+   "audit": "agree",
+   "note": "BTZ half: e0Manifold_isCausallyConnected (charted form), with no hypothesis. BTZ~ half: natIsCausallyConnected for every BTZTildeData in the natural topology. It works because a T'-causal curve is a natural causal curve (natCausality_causalCurveOn). The file also proves the result for every atlas into J⁺(Δ₀). The chartwise M̃ is accepted by DEC-118 (c). Minor 4 (no SingularGXStructure form) is carried over from WP-44c."
+  },
+  {
+   "label": "lem:increasing_map",
+   "report_status": "closed",
+   "audit": "agree",
+   "note": "natIncreasing: natCausality.le ⊤ x y and x ≠ y imply D x ≤ D y and D x ≠ D y. This is l.2193's <, for all x, y ∈ M̃ (D-10, accepted by DEC-118 (c)). natIncreasing_lt is the ≪ form. It is quantified over every BTZTildeData, and BTZTildeData.nonempty guarantees one exists."
+  },
+  {
+   "label": "def:manifold_future_complete_all",
+   "report_status": "closed",
+   "audit": "agree",
+   "note": "IsFutureComplete C D is literal. For a BTZ-manifold, IsBTZFutureComplete d := IsFutureComplete d.causality d.D, the chart-generated I^±/J^± ruled by DEC-118 (a). It is non-trivial: btzJ0_isFutureComplete holds for the model, while the natural-causality reading is never satisfied (not_isFutureComplete_natCausality, kept as a correction). Its dependence on the data (y₀, Φ, T') is disclosed in SCOPE (g), and D ↦ g·D invariance is proved (minor 3)."
+  },
+  {
+   "label": "lem:globally_hyperbolic_manifolds_maximal",
+   "report_status": "closed",
+   "audit": "agree",
+   "note": "isFutureDistinguishing_of_base proves, from (e0ManifoldCausality M hM).GloballyHyperbolic (the paper's hypothesis, nothing added), IsFutureDistinguishing d.causality. That is the full statement of l.2359 under DEC-118 (a). The proof was read in full and is substantive: the projection is causal, D x = D y and p x = p y follow from I⁺(x) = I⁺(y), and the sheet is injective under a causally convex V. The statement does not assert 'M̃ GH'. That is only the paper's proof route (l.2361), and DEC-118 (b) assigns it to WP-46d. So the dispatch's 'leave the GH-of-M̃ part to WP-46d' takes no assertion away from this row. The T_BTZ counterexample (btzJ0Tilde_not_globallyHyperbolic) and the natural-causality counterexample stay as findings."
+  }
+ ],
+ "dispatch_check": "Dispatch: (1) certify and mark def:manifolds_future_distinguishing_map(_2) and def:manifold_future_complete_all under DEC-118 (a); (2) certify and mark lem:increasing_map and lem:manifolds_manifolds_causally_connected under DEC-118 (c); (3) leave the GH-of-M̃ part of lem:globally_hyperbolic_manifolds_manifolds / _maximal to WP-46d and state precisely what remains. All three were delivered. For (3), what remains is stated as a Lean target: natGloballyHyperbolic_iff, whose right-hand side is ∀ p q, IsCompact (d.toNat '' d.causality.diamond ⊤ p q). The statement also names the two sub-obstructions: the finite-sheet lemma for infinite fibres, and the BTZ-sheet limit step. The agent then also marked these two rows. For _maximal this is fully justified, since the statement is proved without M̃ GH. For _manifolds it is a judgement call, which REPORT flags to the master (minor 1). 0 sorry, warning-free, no Causal rebuild, only the dispatched file and the report directory written.",
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "lem:globally_hyperbolic_manifolds_manifolds, BTZ~ half (GX.BTZTildeData.isFutureDistinguishing_of_natGloballyHyperbolic); REPORT 'questions'",
+   "problem": "The row is marked closed, but no instance of its hypothesis has been built: natural GH of M̃ with sing M ≠ ∅, or with sing M = ∅. Non-vacuity therefore rests on WP-46d. The implication is exactly the paper's under DEC-106 + DEC-118 (a), and the auditor found no sign the hypothesis is unsatisfiable. The coarse-topology theorem it specialises has a witnessed instance with a BTZ line, the model J⁺(Δ₀) in the 𝐌³ topology. REPORT discloses the gap and offers to hold the mark.",
+   "fix": "None required. If the master wants marks to imply non-vacuity, hold the mark ('partial (vacuity pending)') until WP-46d proves natGloballyHyperbolic_iff's right-hand side from M GH."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT row lem:globally_hyperbolic_manifolds_manifolds, decls GX.btzTildeAtlas_isFutureDistinguishing",
+   "problem": "This decl reads GH in the atlas's own T_BTZ topology. The model shows that this fails at BTZ points (btzJ0_not_isCompact_diamond / btzJ0_not_globallyHyperbolic), so its hypothesis is likely never satisfied once the atlas has a BTZ point. It is a harmless extra form and not the certifying decl. Listing it as certifying the row may still mislead.",
+   "fix": "Optional: drop it from the row's decls or annotate it as 'the T_BTZ-GH form, vacuous at BTZ points (DEC-106 reads GH naturally)'."
+  },
+  {
+   "severity": "minor",
+   "where": "GX.BTZTildeData.IsBTZFutureComplete; SCOPE (g)",
+   "problem": "The paper defines future completeness as a property of M. Here it is a property of the data d = (y₀, Φ, T', D). Invariance under D ↦ g·D is proved, but independence of y₀, Φ and T' is not. This matters for any downstream 'M future complete' used as a hypothesis or conclusion (prop:globally_hyperbolic_cauchy_complete_manifolds), which must pick ∀ d or ∃ d. It is disclosed.",
+   "fix": "Optional: prove independence or state downstream uses for every d."
+  },
+  {
+   "severity": "minor",
+   "where": "lem:manifolds_manifolds_causally_connected, BTZ half",
+   "problem": "Carried over from WP-44c AUDIT-2: causal connectedness is stated only for the charted form, chartedCausality. The SingularGXStructure form e0ManifoldCausality M hM, which M̃ is built from, has FD (e0SingManifold_isFutureDistinguishing) but no causal-connectedness theorem. The charted reading is legitimate, so fidelity is not affected.",
+   "fix": "Optional: add e0SingManifold_isCausallyConnected."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json, closed rows lem:globally_hyperbolic_manifolds_manifolds and lem:globally_hyperbolic_manifolds_maximal, 'sorries'",
+   "problem": "Two rows with status 'closed' carry a 'sorries' entry with decl '(none — WP-46d scope)'. There is no sorry, and tooling that counts sorries per row could misread these entries.",
+   "fix": "Optional: move the WP-46d text to 'notes' or 'findings' and leave 'sorries': []."
+  },
+  {
+   "severity": "minor",
+   "where": "module docstring SCOPE list",
+   "problem": "Style: the SCOPE items run (a), (b), (c), (d), (g), (e), (f), so (g) is out of order.",
+   "fix": "Optional: move (g) after (f)."
+  }
+ ],
+ "questions_for_author": [
+  "lem:globally_hyperbolic_manifolds_manifolds (BTZ~ half) is marked before any instance of natural GH of M̃ exists. Should the mark wait for WP-46d (non-vacuity), or is the proved implication under DEC-106 + DEC-118 (a) enough?"
+ ],
+ "summary": "Clean. The file builds warning-free with 0 real sorry. lake build GX succeeds (8743 jobs) with no Causal rebuild, and the importer Uniformization still typechecks. The only code change is natGloballyHyperbolic_iff, a correct two-way proof of WP-46d's precise target. All 8 labels are marked in the first 4000 characters and match REPORT's closed rows. Each statement equals the paper's under DEC-106 + DEC-118 (a)(c), with no added hypothesis, and the DEC-27 counterexamples are kept as corrections. _maximal is proved directly from M GH, so the GH-of-M̃ deferral takes no assertion from it. Six minors; the main one is that the _manifolds BTZ~ half is marked before WP-46d supplies a natural-GH instance. REPORT discloses this and leaves it to the master."
+}

@@ -1,0 +1,27 @@
+import GXScaffold.BTZ.LiftGH
+#print axioms GX.LiftGH.isCompact_of_liftLocalData
+#print axioms GX.LiftGH.exists_nodup_labelChain
+#print axioms GX.LiftGH.finite_length_le
+#print axioms GX.LiftGH.mem_connectedComponentIn_of_le_nhds
+#print axioms GX.LiftGH.exists_chart_of_descent
+#print axioms GX.BTZTildeData.locPathConnectedSpace_maxBranched
+#print axioms GX.BTZTildeData.isCompact_natDiamond_of_liftLocalData
+#print axioms GX.BTZTildeData.exists_smul_eq_dev_on
+#print axioms GX.BTZTildeData.liftLocalData_reg
+#print axioms GX.BTZTildeData.exists_isChartwise
+#print axioms GX.BTZTildeData.exists_liftedChart_of_isChartwise
+#print axioms GX.BTZTildeData.liftLocalData_sing_of_isChartwise
+#print axioms GX.BTZTildeData.isCompact_natDiamond_of_base_of_subset_reg
+#print axioms GX.BTZTildeData.natGloballyHyperbolic_of_base_of_sing_eq_empty
+#print axioms GX.btzDevM_le_iff
+#print axioms GX.BtzDevLe.thetaFree
+#print axioms GX.btzDevLe_apex_of
+#print axioms GX.isClosed_btzDevLe
+#print axioms GX.isCompact_btzBox
+#print axioms GX.BTZTildeData.natGloballyHyperbolic_of_base
+#print axioms GX.BTZTildeData.isFutureDistinguishing_of_base_viaNatGH
+#print axioms GX.exists_btzTildeData_natGloballyHyperbolic
+#print axioms GX.BTZTildeData.isFutureDistinguishing_of_base
+#print axioms GX.e0SingManifold_isFutureDistinguishing
+#print axioms GX.e0Manifold_isFutureDistinguishing
+#print axioms GX.BTZTildeData.isFutureDistinguishing_of_natGloballyHyperbolic

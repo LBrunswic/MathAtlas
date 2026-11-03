@@ -55,6 +55,10 @@ PKGS = [
     ("WP-44c", "GX/BTZ/Manifolds.lean"), ("WP-44d", "GX/BTZ/Spear.lean"),
     ("WP-44e", "scaffold/GXScaffold/BTZ/Surgery.lean"), ("WP-44f", "scaffold/GXScaffold/BTZ/AbsMax.lean"),
     ("WP-44g", "scaffold/GXScaffold/BTZ/Uniformization.lean"),
+    ("WP-46a", "GX/Singular/Quotient.lean"), ("WP-46b", "GX/BTZ/Spear.lean"),
+    ("WP-46c", "GX/BTZ/Manifolds.lean"), ("WP-46d", "GX/BTZ/LiftGH.lean"),
+    ("WP-46e", "GX/BTZ/Surgery.lean"), ("WP-46f", "scaffold/GXScaffold/BTZ/AbsMax.lean"),
+    ("WP-46g", "GX/BTZ/HeadlineBridge.lean"), ("WP-46h", "scaffold/GXScaffold/BTZ/Uniformization.lean"),
 ]
 FILE_OVERRIDE = {"ex:following_example_skeletal_itemize": "GX/Topology/PortlyExamples.lean"}  # graduated paths are resolved below
 RENAMES = {  # (file, old) -> new, applied at graduation to resolve name clashes

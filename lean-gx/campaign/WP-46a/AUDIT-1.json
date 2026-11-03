@@ -1,0 +1,56 @@
+{
+  "package": "WP-46a",
+  "round": 1,
+  "auditor": "read-only auditor, round 1",
+  "file": "GX/Singular/Quotient.lean",
+  "verdict": "clean",
+  "builds": true,
+  "checks": {
+    "lean_warningAsError": "taskset -c 0-11 lake env lean -DwarningAsError=true GX/Singular/Quotient.lean: exit 0, no output (48 s wall)",
+    "sorry_count": "0 (grep for sorry/admit and for top-level axiom: no hits)",
+    "lake_build_GX": "taskset -c 0-11 lake build GX: 'Build completed successfully (8743 jobs).', exit 0; no Causal.* rebuilt",
+    "axioms": "GX.tachyon_isom0, GX.photon_isom0, GX.tachyon_conj_theta, GX.photon_conj_theta: [propext, Classical.choice, Quot.sound]",
+    "diff": "diff campaign/WP-46a/Quotient.lean.pre.bak against GX/Singular/Quotient.lean (the backup is byte-identical to HEAD): 6 hunks. They change the module docstring (the ex:quotient_base bullet, checklist row l.121, SCOPE (c)(i)) and the docstrings of tachyon_conj and photon_conj. No statement, proof or declaration name changed, so the dispatch's 'docstrings only' holds. WP-44a AUDIT-2's content verdict on the statements carries over unchanged.",
+    "report_decls_resolve": "all 403 decls in REPORT.json (labels' decls plus extra_decls) resolve with #check against the built GX.Singular.Quotient. The check ran from a scratch file in /tmp, deleted afterwards; 0 errors.",
+    "name_clashes": "none possible: no declaration was added or renamed",
+    "docstring_marks": "character offsets in the module docstring: prop:aeGXquotient 155, prop:GXquotient 401, ex:quotient_base 704, ex:conical 1610, ex:consider_identifying_point_wise_stabilizer 2078. All are under 4000. rem:previous_examples_instances_developing appears unmarked (first at 4384), which is consistent with its 'partial' status here (it is certified across GX.Branched.Universality)",
+    "ruling": "DEC-116 (a) is in registers/DECISIONS.md l.127, dated 2026-11-03, AUTHOR, answer 'Accept (a)–(e)': Γ = ℤ acts on θ alone. It is recorded verbatim in SCOPE (c)(i), in the checklist row and in REPORT hypotheses/questions ('SETTLED by DEC-116 (a)'). AUDIT-2's first minor (a closed row resting on an unruled reading) is therefore discharged."
+  },
+  "dispatch_items": {
+    "DEC-116 (a) recorded in SCOPE": "done (SCOPE (c)(i), checklist row 121, module-docstring ex:quotient_base bullet)",
+    "tachyon_conj / photon_conj docstrings reworded as the Euclidean-radius (non-Hausdorff) defect record": "done. Both docstrings open 'Defect record, not the tachyon/photon'. They say the theorem concludes only RayLiftQuotient (the neighbourhood half of proper discontinuity), name the failure (not T1, rayLiftQuotient_tachyon_not_t1; not T2, rayLiftQuotient_photon_not_t2), and point to tachyon_conj_theta / photon_conj_theta. Each named decl exists.",
+    "defect decls under findings/extra_decls": "done. RayLiftQuotient, rayLiftQuotient_of_frame, homeoZ_quotient, IsTurning, isTurning_rayLiftHomeo, rayLiftHomeo, HomeoZ, tachyon_conj and photon_conj appear in no label's decls (checked programmatically). All nine are in extra_decls and in the ex:quotient_base 'Defect record' finding.",
+    "all labels of the file listed with decls": "done. Six labels: prop:aeGXquotient, prop:GXquotient, ex:quotient_base, ex:conical and ex:consider_identifying_point_wise_stabilizer are closed and marked; rem:previous_examples_instances_developing is partial and unmarked. These are exactly the tex labels l.629–686 and l.347 whose blocks the file formalizes. cex:proposition_prop_branched_covering and prop:universality are mentioned only as consumers or ingredients, and are certified in GX.Branched.Universality."
+  },
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[ex:quotient_base].findings[8] ('l.682 (tachyons, photons) and l.684 (polyhedral gluings) are informal remarks, not formalized (SCOPE (c)): no developing map, … tachyon/photon undefined …')",
+      "problem": "This WP-26b-era finding is stale. It says l.682 is not formalized, and the very next finding says l.682 holds as written under the literal reading (tachyon_isom0, photon_isom0), now ruled by DEC-116 (a). Only its l.684 half (polyhedral gluings) is still true. A reader of the report sees two contradictory statements about l.682.",
+      "fix": "Cut the finding down to its l.684 half: 'l.684 (\"all these examples can also be obtained via gluings of polyedra\") is an informal remark, not formalized: no polyhedra, gluing maps or isomorphism are given (SCOPE (c)(ii))'. This is a report-only change."
+    },
+    {
+      "severity": "minor",
+      "where": "Quotient.lean module docstring, SCOPE (c), the paragraph '**Informal sentence, not formalized, with the reason.** (ii) l.684 … Both sentences are remarks pointing at the literature'",
+      "problem": "Since WP-44a only one informal sentence (ii) remains, but the text still says 'Both sentences'. This is residue from when (i), the tachyons/photons, was also informal.",
+      "fix": "Change it to 'The sentence is a remark pointing at the literature'. This is docstring-only."
+    },
+    {
+      "severity": "minor",
+      "where": "ex:quotient_base status 'closed' together with the unformalized l.684 sentence (RamcovGX.tex l.684, 'All these examples can also be obtained via gluings of polyedra')",
+      "problem": "The row is marked and closed while one sentence inside the \\begin{ex}…\\end{ex} block (l.684, before \\end{ex}) is not formalized, and no DEC rules it an informal remark. WP-26b AUDIT-1 asked for 'a ruling that these sentences are informal remarks' if the row was to close. DEC-116 (a) now covers l.682 but not l.684. WP-44a AUDIT-2 accepted the disclosure as sufficient, and the sentence has no precise content: no polyhedra or gluing maps are given, and gluings are described only informally at l.624. So this is recorded as a minor for the master session rather than a major against this docstring-only package.",
+      "fix": "No Lean change. The master session should either obtain or record a ruling that l.684 is an informal remark, a one-line addition to the next DEC batch, or note in the ledger that the strict graduation already took this view."
+    }
+  ],
+  "verified_ok": [
+    "The file builds with -DwarningAsError=true, has 0 sorry and standard axioms only; lake build GX is green (8743 jobs).",
+    "The change is docstrings-only, exactly as dispatched. No statement was weakened, so statement fidelity is as certified by WP-44a AUDIT-2. ThetaLiftQuotient still asserts T2, locally connected, second countable, ≃ₜ ℂ × ℝ, full IsProperlyDiscontinuous, holonomy, freeness on {r>0}, a unique maximal a.e. structure and sing ⊆ π{r=0}. tachyon_isom0 / photon_isom0 are universal in x₀, v, g ∈ Isom₀ ∖ {1} fixing x₀ + ℝv, and m ≠ 0.",
+    "DEC-116 (a) exists, is the author's 'Accept', and is applied correctly: the literal reading (Γ acting on θ alone) is the certified one, and the Euclidean-radius construction is kept only as a proved defect record (rayLiftQuotient_tachyon_not_t1, rayLiftQuotient_photon_not_t2).",
+    "The REPORT is honest. sorry_count 0, builds true, every listed decl resolves, the defect decls are separated from the certifying decls, the hypotheses table records the DEC-116 (a) reading and the withdrawn 'properly discontinuous' claim, and the remaining optional AUDIT-2 minor (the transport corollary along id × ψ × id) is disclosed in notes as not done.",
+    "Docstring contract: the five marks fall within the first 4000 characters, and the partial rem:previous_examples_instances_developing is unmarked."
+  ],
+  "questions_for_author": [
+    "l.684 ('All these examples can also be obtained via gluings of polyedra'): is it an informal remark outside the certified content of ex:quotient_base, as the file and the strict graduation already treat it? A one-line ruling would make the row's 'closed' rest on a DEC, as l.682 now does."
+  ],
+  "summary": "WP-46a is a docstrings-only edit, and it does what the dispatch asked. DEC-116 (a) is recorded in SCOPE (c)(i), the checklist row and the report. tachyon_conj and photon_conj are now documented as the Euclidean-radius (non-Hausdorff) defect record, pointing to the non-T1/non-T2 proofs and to tachyon_conj_theta / photon_conj_theta. The defect decls have moved out of every label's decls into extra_decls and a finding. REPORT.json now lists all six labels of the file, and all 403 of its decls resolve. The file builds with warnings as errors, 0 sorry and standard axioms, lake build GX is green, and the marks sit at 155–2078. Three minors remain: a stale WP-26b finding in the report that still calls l.682 unformalized, a residual 'Both sentences' in SCOPE (c)(ii), and the l.684 polyhedra sentence, which has no explicit ruling (pre-existing, accepted by WP-44a AUDIT-2). Verdict: clean."
+}

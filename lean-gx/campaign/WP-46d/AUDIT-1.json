@@ -1,0 +1,64 @@
+{
+ "package": "WP-46d",
+ "round": 1,
+ "auditor": "read-only auditor, round 1",
+ "file": "scaffold/GXScaffold/BTZ/LiftGH.lean",
+ "verdict": "issues",
+ "builds": true,
+ "build_check": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/LiftGH.lean: EXIT 0, 9.2 s wall, one diagnostic, 'declaration uses sorry' at l.924 (GX.BTZTildeData.liftLocalData_sing). Real sorry count is 1, which matches REPORT. Every other 'sorry' in the file is in docstrings. campaign/WP-46d/axioms.out: sorryAx occurs exactly in liftLocalData_sing and its three consumers, natGloballyHyperbolic_of_base, isFutureDistinguishing_of_base_viaNatGH and exists_btzTildeData_natGloballyHyperbolic. The certifying decls of both labels have only propext/Classical.choice/Quot.sound: isFutureDistinguishing_of_base, isFutureDistinguishing_of_natGloballyHyperbolic, e0SingManifold_isFutureDistinguishing. So do isCompact_of_liftLocalData, liftLocalData_reg, natGloballyHyperbolic_of_base_of_sing_eq_empty, isClosed_btzDevLe and isCompact_btzBox. DEC-33: the file imports only GX.BTZ.Manifolds, has no 'open Causal', and qualifies Causal.* names fully. Its location is scaffold/GXScaffold/BTZ/. lake build was not re-run because the auditor writes nothing.",
+ "name_clashes": "None. I grepped all 23 new declaration names (LabelChain … isCompact_btzBox, BtzDevLe, thetaFree, the BTZTildeData.* lemmas, exists_btzTildeData_natGloballyHyperbolic) over GX/ and scaffold/. Each occurs only in LiftGH.lean, and no other file references LiftGH.",
+ "docstring_contract": "Bold marks for both labels sit at characters 527 and 1174, inside the first 4000. Title, quote block, hypothesis checklist, SCOPE and Provenance are present. The marks do not match the dispatch's closing condition for the _manifolds row (see the issues below).",
+ "labels": [
+  {
+   "label": "lem:globally_hyperbolic_manifolds_maximal",
+   "report_status": "closed",
+   "audit": "agree on the statement, with one tag inconsistency (minor)",
+   "note": "Certified by GX.BTZTildeData.isFutureDistinguishing_of_base (GX.BTZ.Manifolds, 0 sorry, audited clean at WP-46c). It takes the paper's hypothesis (M GH, e0ManifoldCausality) and gives the paper's conclusion (FD of M̃, DEC-118 (a) reading), with nothing added. The paper's proof route at l.2361 (M̃ GH ⇒ FD) is not an assertion of the statement. Here that route is isFutureDistinguishing_of_base_viaNatGH, which rests on the sorry and is correctly kept out of the certificate. This file adds nothing to the certificate. But its only sorry is tagged SORRY(lem:globally_hyperbolic_manifolds_maximal), the row's REPORT 'sorries' is [], and the row is marked."
+  },
+  {
+   "label": "lem:globally_hyperbolic_manifolds_manifolds",
+   "report_status": "closed",
+   "audit": "disagree with 'closed' as the dispatch defined it (major); implication sound",
+   "note": "The BTZ half (e0SingManifold_/e0Manifold_isFutureDistinguishing) is fine. The BTZ~ half, isFutureDistinguishing_of_natGloballyHyperbolic, is the ruled implication (natural GH ⇒ FD for d.causality), and it was proved at WP-46c. WP-46c's audit and REPORT held one question for WP-46d: does the hypothesis 'M̃ naturally GH' have an instance with BTZ points? The dispatch says the certificates 'span GX.BTZ.Manifolds and this file'. WP-46d gives an instance only when sing M = ∅. That is a conditional theorem (natGloballyHyperbolic_of_base_of_sing_eq_empty), and no concrete M is built. In that case M̃ has no BTZ point, so the BTZ~-specific content is not exercised. Every instance with sing M ≠ ∅, including exists_btzTildeData_natGloballyHyperbolic, goes through the tagged sorry. The hypothesis is not shown unsatisfiable: the model content isClosed_btzDevLe/isCompact_btzBox makes it plausible. So the issue is not vacuity. The row's closing condition is simply unmet. REPORT discloses this and asks the master."
+  }
+ ],
+ "dispatch_check": "The dispatch asked for DEC-118 (b), 'M GH ⇒ M̃ GH' in the natural topology, via a finite-sheet lemma and a BTZ-sheet limit step, and then full certification of both rows. Delivered with 0 sorry: (i) the abstract lifting theorem isCompact_of_liftLocalData. I read it in full. It is sound: centres label the chain steps, two steps over one centre merge by causal convexity, shapes are finite, and fixed-shape chains pass to the limit by ultrafilters. It needs no finite-sheet count, which is a genuine improvement on the dispatched route. (ii) Its instantiation to M̃ (isCompact_natDiamond_of_liftLocalData). (iii) Local data over reg M for every J (liftLocalData_reg). (iv) The model half of the BTZ-sheet limit step (isClosed_btzDevLe, isCompact_btzBox, BtzDevLe.thetaFree). Not delivered: the BTZ-sheet transfer liftLocalData_sing (tagged sorry), and with it the headline natGloballyHyperbolic_of_base.",
+ "issues": [
+  {
+   "severity": "major",
+   "where": "GX.BTZTildeData.liftLocalData_sing (l.924), and the consumers natGloballyHyperbolic_of_base, exists_btzTildeData_natGloballyHyperbolic",
+   "problem": "The package's headline theorem, DEC-118 (b) 'M GH ⇒ M̃ naturally GH', rests on a tagged sorry. For an ARBITRARY BTZTildeData the obstruction in SCOPE (c) is credible. IsLocallyBTZTilde (VirtTame l.1310) pins T' at each lift e of a singular m only through an existential chart, one per lift, so no single W lies in all of them. The non-vacuity theorem exists_btzTildeData_natGloballyHyperbolic does not need arbitrary data, though. It needs one datum, and BTZTildeData.nonempty builds that datum from btz_manifold_exists_chartwise_tamifying_reg, whose T' is chartwise for every descending chart (hch). SCOPE (c) itself says that for such a datum 'the uniform charts are T'-charts'. It lists the remaining glue (an 𝔼₀-box whose causal hull lies in the chart, isCompact_btzBox, isClosed_btzDevLe, the segment link) and says 'Not done here'. The model parts of that glue are already proved. So the sorry on the existential, which is what the _manifolds row needs, is avoidable and was not seriously attempted.",
+   "fix": "State and prove liftLocalData_sing, and so natGloballyHyperbolic_of_base, for the chartwise datum. Either take hch as a hypothesis or add a BTZTildeData.chartwise variant of nonempty that returns it. Then exists_btzTildeData_natGloballyHyperbolic closes with 0 sorry. Keep the arbitrary-datum version as a tagged sorry with the SCOPE (c) obstruction, or drop it."
+  },
+  {
+   "severity": "major",
+   "where": "Docstring l.11–17 mark **`lem:globally_hyperbolic_manifolds_manifolds`**; REPORT row status 'closed'",
+   "problem": "The dispatch made closure of this row depend on this file ('certificates span GX.BTZ.Manifolds and this file'). WP-46c's audit left the mark pending a natural-GH instance with BTZ points. That instance is not delivered: every instance with sing M ≠ ∅ goes through the sorry. The sing M = ∅ case is a conditional theorem with no concrete M, and it has no BTZ point, so it reduces the BTZ~ half to the Lorentzian covering case. Marking the row closed claims what the dispatch asked this file to supply. REPORT's own 'questions' admits it is undecided.",
+   "fix": "Until the major above is fixed, write the label without the ** mark and report the row as 'partial (non-vacuity with sing M ≠ ∅ pending: liftLocalData_sing)'. Or obtain a master ruling that the WP-46c implication alone closes it. Do not count the sing M = ∅ implication as the instance."
+  },
+  {
+   "severity": "minor",
+   "where": "l.931 sorry tag; REPORT labels[*].sorries",
+   "problem": "The only sorry is tagged SORRY(lem:globally_hyperbolic_manifolds_maximal), a label this file marks as certified, and both rows report 'sorries': []. The tooling reads axioms per decl (tools/leanlink/leanlink/status.py), so no certified decl is affected. But the tag implies a sorry beneath a marked label, and REPORT lists the sorry under no label.",
+   "fix": "Retag the sorry to the obligation it blocks, e.g. SORRY(lem:globally_hyperbolic_manifolds_manifolds) or a DEC-118(b) non-vacuity tag, and list it in that row's 'sorries' with the SCOPE (c) obstruction."
+  },
+  {
+   "severity": "minor",
+   "where": "Docstring l.13–15 ('this file adds instances … with no sorry when sing M = ∅'); REPORT findings[0] ('instances … are now built with 0 sorry when sing M = ∅')",
+   "problem": "No instance is built. natGloballyHyperbolic_of_base_of_sing_eq_empty is an implication from a GH 𝔼₀-manifold with sing M = ∅. Neither this file nor GX/ builds a concrete such M (e.g. an open GH subset of 𝐌³ as a SingularGXStructure) together with a presentation Φ.",
+   "fix": "Say 'an implication for sing M = ∅' rather than 'instances'. Or build a concrete witness (Minkowski space, or a GH domain of it, with IsBTZSingModelled vacuous) if non-vacuity is to be claimed."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT row lem:globally_hyperbolic_manifolds_manifolds, decls",
+   "problem": "The row lists natGloballyHyperbolic_of_base_of_sing_eq_empty, isCompact_natDiamond_of_base_of_subset_reg, liftLocalData_reg and isCompact_of_liftLocalData as certifying decls. They certify no assertion of l.2325: they are partial instances of the hypothesis. Listing them as certifying decls makes the row look more complete than its certificate is.",
+   "fix": "Keep the certifying decls (the Manifolds three) in 'decls' and move the four to extra_decls or to a 'non-vacuity (partial)' note."
+  }
+ ],
+ "statement_fidelity": "Every Lean statement here takes the paper's or ruled hypotheses only: IsBTZSingModelled M plus GH of e0ManifoldCausality (DEC-33), and natural GH under DEC-106/DEC-118. Nothing is added. LiftLocalData is not trivialising: it asks for ultrafilter convergence and closedness of ≤ on every component of p⁻¹(W). liftLocalData_reg discharges it substantively, through sheets of an evenly covered ψ⁻¹(ball), D = g·ψ∘p, and segment links. The hypotheses of isCompact_of_liftLocalData (strong causality, compact base diamond, monotone paths, continuity of p) are all discharged in isCompact_natDiamond_of_liftLocalData from existing library facts, with no hidden conclusion. BtzDevLe is exactly btzJ_le_iff transported (btzDevM_le_iff), and isClosed_btzDevLe is proved in the natural product topology of 𝔻∞×ℝ, where btzDevM is discontinuous at the apex. DEC-55 does not apply here. No circular use: no certifying decl depends on sorryAx.",
+ "questions_for_author": [
+  "lem:globally_hyperbolic_manifolds_manifolds: is the WP-46c implication (natural GH ⇒ FD) enough to close the row, or must a natural-GH instance with sing M ≠ ∅ exist first (DEC-118 (b))? If the latter, the row stays partial until liftLocalData_sing is proved, at least for the chartwise datum.",
+  "Is DEC-118 (b) meant for every BTZTildeData (any T' satisfying the structure's fields) or only for the M̃ actually constructed (the chartwise T' of btz_manifold_exists_chartwise_tamifying_reg)? SCOPE (c) shows the general form meets a definitional obstruction that the chartwise form avoids. No proof or counterexample establishes that the general statement is true."
+ ],
+ "summary": "Builds, with 1 real sorry (liftLocalData_sing), and no name clashes or DEC-33 violations. The abstract lifting theorem, the regular-sheet local data and the model limit facts are all proved with 0 sorry and are sound. The centres-as-labels argument is a real improvement on the dispatched finite-sheet lemma. _maximal is correctly certified by Manifolds' direct proof. The dispatch's headline, M GH ⇒ M̃ naturally GH, is not delivered: it rests on the tagged sorry. Proving it for the chartwise datum would close the non-vacuity existential, and SCOPE (c) says that is reachable but did not attempt it (major). _manifolds is marked closed even though its dispatch-defined closing condition, a natural-GH instance with BTZ points, is unmet (major, disclosed in REPORT's questions). Three minors: the sorry is tagged with a marked label, 'instances' is used for a conditional theorem, and the row's decl list is inflated."
+}

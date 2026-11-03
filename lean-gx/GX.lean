@@ -35,5 +35,8 @@ import GX.Suspension.Conic
 import GX.Suspension.Celestial
 import GX.Suspension.Affine
 import GX.BTZ.Spear
+import GX.BTZ.Surgery
+import GX.BTZ.LiftGH
+import GX.BTZ.HeadlineBridge
 
 /-! The strict library of the paper `gx` (`papers/gx`). Every module is imported here. -/

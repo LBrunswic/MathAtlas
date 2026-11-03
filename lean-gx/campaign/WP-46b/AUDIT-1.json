@@ -1,0 +1,73 @@
+{
+  "package": "WP-46b",
+  "round": 1,
+  "auditor": "read-only auditor (round 1)",
+  "file": "GX/BTZ/Spear.lean",
+  "module": "GX.BTZ.Spear",
+  "verdict": "issues",
+  "builds": true,
+  "build_check": "Host node1. `taskset -c 0-11 lake env lean -DwarningAsError=true GX/BTZ/Spear.lean` exited 0 in 9.2 s with no diagnostics. `taskset -c 0-11 lake build --no-build GX` printed 'All targets up-to-date (8743 jobs)', exit 0; the GX/BTZ/Spear.olean (09:54:13) is newer than the source (09:53:15). No Causal.* module was rebuilt. The code after the module docstring is byte-identical to campaign/WP-46b/Spear.lean.pre.bak (checked by diff): this round changed the docstring only, as the REPORT says. Real sorry count, using the ledger's strip_lean_comments rule: 0. admit, axiom, opaque, native_decide, implemented_by, set_option, #exit and unsafe also occur 0 times in the code. Imports are GX.BTZ.CBG, Causal.SingularGeroch, Causal.LevinUtility and Causal.LemmaKLocal, in a file under GX/BTZ/, which DEC-33 permits. There is no root `import Causal`, no CausalScaffold and no `open Causal`.",
+  "sorry_count": 0,
+  "sorry_count_matches_report": true,
+  "axioms_check": "#print axioms ran from /tmp/wp46b_audit/Ax.lean, with a false sentinel `example : (1:Nat) = 2 := rfl` that did report its error. Twelve declarations were checked: lem_tube_e0, exists_fullFutureBTZRay_e0, lem_add_BTZ_param_line_e0, lem_add_BTZ_param_of_cauchyMaximal_e0, frontier_spear, IsSpearNbhd.exists_ray_mem_nhds, IsFullFutureBTZRay.exists_eq_of_line, IsFullFutureBTZRay.not_tendsto, isE0CauchyMaximal_iff_isETTMaximal, CylChartData.globallyHyperbolic_glued, CylChartData.isCauchySurface_glued and exists_spearNbhd_below. All twelve depend only on [propext, Classical.choice, Quot.sound]. A second scratch file ran `#check @` on all 180 distinct names in REPORT.json (labels' decls plus extra_decls), and every one resolves.",
+  "issues": [
+    {
+      "severity": "major",
+      "where": "GX/BTZ/Spear.lean module docstring, mark **`brunswic2021cauchy:Def 2.1`** (char 2201) and its quoted paper block; REPORT.json label 'brunswic2021cauchy:Def 2.1' (status closed, marked true) and the lem:tube finding 'U = φ⁻¹(V) is closed, not open'",
+      "problem": "Def 2.1 is now marked closed, but one of its assertions is proved only in the model. BTZ_1.tex:617 says 'The boundary of U is the union of the light cone φ⁻¹(...) and a half-tube φ⁻¹(...)', where U ⊆ M. The docstring quotes that sentence. The file proves only frontier_spear (frontier of the model spear in 𝔼₀ = head ∪ shaft). Nothing in the file, or anywhere in GX/ or scaffold/, proves frontier_M (ψ '' spearY v R) = ψ '' (head ∪ shaft): grep finds no frontier or closedness statement for ψ '' spearY. The inclusion ⊇ is easy, because ψ is an open embedding on W. The inclusion ⊆ needs U closed in M. The REPORT's finding asserts 'U = φ⁻¹(V) is closed' without proof. In GH M closedness is true and the file's own tools nearly give it: if ψ(y_n) → x with τ(y_n) → ∞, the axis points ψ(τ(y_n) − R/2, 0) ≤ ψ(y_n) put the ray in a compact diamond, which contradicts axis_noLimit / exists_tendsto_of_monotone. For a general 𝔼₀-manifold, the generality of Def 2.1, it is unproved either way. The WP-44d round-1 audit flagged this exact gap (its second minor issue). It was minor then only because the row was partial. Marking the row closed without proving the assertion, or disclosing it, makes it a missing, unreported assertion under a full-certification mark (kb/0006). DEC-116 (c) rules the free vertex and the corrected head and shaft formulas. It does not rule a model-only reading of 'the boundary of U'.",
+      "fix": "Pick one. (a) Prove the M-level statement for GH M, the setting of every use (Lemmas 2.3 and 2.4): IsSpearNbhd p R U → (CE M).GloballyHyperbolic → frontier U = ψ '' paperInY '' (spearHead v R ∪ spearShaft v R), with closedness of U via the escape argument above. This is a Lean change, so it is outside a docstring-only round. Then report the GH restriction, or a counterexample without GH, under DEC-27. (b) Ask for a ruling that reads 'the boundary of U' as φ⁻¹(∂V), the boundary of U as a closed domain of the chart, which frontier_spear certifies. Until (a) or (b) lands, unmark Def 2.1 (write it as `brunswic2021cauchy:Def 2.1` without **), set status 'partial', add a SCOPE line, and delete the unproved 'U ... is closed' from the finding or mark it 'in the model'."
+    },
+    {
+      "severity": "minor",
+      "where": "module docstring mark **`full future BTZ rays (RamcovGX.tex:2352)`**; REPORT.json label 'full future BTZ rays', hypotheses[1]",
+      "problem": "The paper never defines 'full future BTZ ray', and no ruling names the IsFullFutureBTZRay reading. kb/0006 says a label 'in a reading the paper does not settle' is written without the mark. DEC-116 covers Lemmas 2.3/2.4 and Def 2.1, not this step. Against that, the chosen definition is strong. It is the image of the whole model ray [v, +∞[ under an injective 𝔼₀-morphism on a neighbourhood. Its proved consequences (mem_S0, injOn, continuousOn, le, not_tendsto; exists_eq_of_line covers the future half of the BTZ line in GH M) imply every natural reading. The hypotheses (GH + Cauchy-maximal) are a subset of DEC-77 (c)'s corrected ones. So this is a conclusion-side strengthening, not a weakening. The mark is defensible, but nothing in the record says so. The mark is also not a label at all: it is a free-text step inside the gx row prop:globally_hyperbolic_cauchy_complete_manifolds.",
+      "fix": "In REPORT hypotheses[1], state that the definition implies each natural reading (in sing₀, injective, continuous, future directed, future inextensible, and covering the future half of Δ in GH M), so no weakening occurs. Have the master confirm the mark, or get a one-line ruling, and decide whether a free-text mark is acceptable."
+    },
+    {
+      "severity": "minor",
+      "where": "Hypothesis checklist row '« neighbourhood of ]p,+∞[ » ✓ IsSpearNbhd.exists_ray_mem_nhds'; IsSpearNbhd (Spear.lean:370)",
+      "problem": "IsSpearNbhd does not require 'neighbourhood of ]p,+∞['. exists_ray_mem_nhds proves that U is a neighbourhood of the ψ-ray ψ(v+t, 0), t > 0, not of the BTZ line's ]p,+∞[. The two agree in GH M only by IsFullFutureBTZRay.exists_eq_of_line, with the line from E0LM.e0_globalBTZ. No single theorem states 'U ∈ 𝓝 x for every x on Δ strictly after p'. The combination is immediate, and every use is GH, so nothing is false. The checklist cites half of the argument.",
+      "fix": "Cite exists_eq_of_line beside exists_ray_mem_nhds in the checklist row. Optionally add the one-line corollary for GH M."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json lem:add_BTZ_param findings[1] ('B21 Lemma 2.4's proof (l.746–757)'); docstring of spear_shaft_vertical ('the second half of its proof, l.735–758')",
+      "problem": "Wrong B21 line numbers. Lemma 2.4's proof is BTZ_1.tex:719–742 (transversality l.729, the broken curves c_{θ0,r0} l.733–738, \\end{proof} l.742). l.746–757 are the opening of Lemma 2.5 (lem:surface_causal) and its proof.",
+      "fix": "Replace the two ranges with l.727–741 (the second half of the proof)."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json lem:add_BTZ_param (partial): smoothness counterexample",
+      "problem": "This is disclosed, the row is partial, and the question to the master is legitimate, so it is not an overclaim. DEC-27 asks for a counterexample where the printed statement is false. The kinked Σ = {τ = |Re z|/4} ⊂ 𝔼₀ is given at paper level only. I re-derived it: |dz| ≤ 2dτ along future causal curves for the metric −2dτdr + dr² + r²dθ², so T = τ − |Re z|/4 has dT ≥ dτ/2. Spacelikeness holds via B21 lem:surface_causal: 1 − 2∂_rτ − (∂_θτ/r)² ≥ 1 − 1/2 − 1/16 > 0. By prop:isom_strong, every spear chart at an axis vertex is a rotation-translation, so τ_Σ(z) = |Re(e^{iα}z)|/4 − a is not differentiable at 0. The counterexample is correct. Also: B21's own context, l.673 and l.729, reads Σ as smooth spacelike. A 'strongest true form' would add the smooth statement for a smooth spacelike Σ beside the C⁰ one. The worker was right not to mark the row although the dispatch listed it: DEC-116 does not accept the C⁰ τ_Σ.",
+      "fix": "No change this round. The master settles the REPORT's question: accept the C⁰ form under DEC-27, or schedule the formal counterexample."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json Def 2.1 hypotheses",
+      "problem": "Def 2.1 is stated for 𝔼_{≥0}-manifolds (l.611). DEC-116 (b) names only Lemmas 2.3/2.4 as E₀-only. The Def 2.1 entry has no hypothesis row for the E₀-only restriction. The restriction is harmless, since the definition is only used by those lemmas, but it is unrecorded.",
+      "fix": "Add a hypothesis row to Def 2.1: 'E≥0-manifold → E0 only, by DEC-116 (b) (the definition serves Lemmas 2.3/2.4 only)'."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[*].decls vs extra_decls",
+      "problem": "13 names are still listed twice: exists_isCauchySurface_of_globalBTZ, chartOpen, chart_le_iff, CylChartData.exists_closed_cauchy_subset_W0, globallyHyperbolic_gluePY, pastExtensible_gluePaper, IsFullFutureBTZRay.exists_eq_of_line, exists_spearNbhd_below, CylChartData.exists_spear_below, le_iff_of_mem_e0Groupoid, isE0Mor_of_mem_e0Groupoid, D_le_rangeInr_iff and paperOfY_paperInY. The WP-44d audit flagged this and it was not fixed.",
+      "fix": "Deduplicate. This is cosmetic only."
+    }
+  ],
+  "checked_clean": [
+    "(1) The file elaborates under -DwarningAsError=true. The strict library GX is up to date (8743 jobs). The real sorry count is 0, matching REPORT.json. The axioms are standard, the sentinel fires, and all REPORT names resolve.",
+    "(2) lem:tube (lem_tube_e0): GH + IsE0CauchyMaximal + p ∈ S0 M ⊢ ∃ R U, IsSpearNbhd p R U, with no added hypothesis. hLine/hSC are discharged by the strict E0LM.e0_globalBTZ and E0LM.e0_secondCountable_of_cauchy. IsE0CauchyMaximal ranges over T2, connected, second countable 𝔼₀-targets, and isE0CauchyMaximal_iff_isETTMaximal proves it equal to Dev.IsETTMaximal (DEC-77 (c)). The 𝔼₀-only restriction is the one DEC-116 (b) rules. With the WP-44d round's code unchanged, GH of M₂ and Σ Cauchy in M₂ are proved (DEC-108). The closed status and the mark are justified, modulo the Def 2.1 issue that its conclusion inherits through IsSpearNbhd.",
+    "(2) Def 2.1's corrected head/shaft formulas: I re-derived them. In B21's own proof, the future cone of an axis point is τ − r/2 = const (the curves c(s) = ((s−R)/2, s, θ)), so at vertex (−2R, 0) the head is r = 2(τ + 2R) with its rim at τ = −3R/2. The printed r = 2(τ − R) and τ ≥ 0 do not fit. The file's {f = v, r ≤ R} and {r = R, τ ≥ v + R/2} are right. IsSpearNbhd is satisfiable (isSpearNbhd_model) and non-trivial: ψ is an injective 𝔼₀-morphism on an open W ⊇ spear, hence an open embedding, so U ≅ V. spear = J⁺(vertex) ∩ {r ≤ R} is proved (spear_eq_Jplus_inter).",
+    "(2) lem:add_BTZ_param (lem_add_BTZ_param_line_e0): the paper's hypothesis is taken literally (a spear of any vertex q, p ∈ connectedComponentIn (S0 M) q ∩ I⁻(Σ)), and both cases are proved. The conclusion encodes 'Σ ∩ S is the graph of τ_Σ over the closed disc, in the shaft' as ∀ x ∈ spear v R′, ψ(x) ∈ Σ ↔ x.1 = τS x.2 with τS > v + R′/2. That is DEC-116 (c)'s reading, and it matches the paper's normalisation Φ(p) = (−R/2, 0, 0), where the shaft starts at τ = 0. The only gap is C⁰ in place of smooth, which is disclosed, and the row is correctly left partial and unmarked.",
+    "(2) Full future BTZ rays (exists_fullFutureBTZRay_e0): the hypotheses (GH + Cauchy-maximal) are weaker than DEC-77 (c)'s corrected proposition, so the statement is stronger. The citation correction 'Lemma 2.4 → Lemma 2.3' (RamcovGX.tex:2352) is right: B21 l.630 notes that {τ < 0} has no spear neighbourhood, and Lemma 2.4 presupposes one.",
+    "(3) Docstring: all three ** marks are inside the first 4000 characters (chars 902, 1804, 2201). The ledger's own regex (prefixes theo|thm|lem|prop|cor|def|defi|rem|assum|conj|ex|fact|claim, anchored right after **`) matches nothing in the head, so no phantom gx row is registered, as the REPORT says. lem:add_BTZ_param is correctly unmarked. The hypothesis checklist and SCOPE are consistent with the marks, except for the Def 2.1 issue.",
+    "(4)/(5) REPORT.json lists all four rows the file speaks to (lem:tube, Def 2.1, lem:add_BTZ_param, the RamcovGX.tex:2352 step). LEDGER.md:548/571 cite exists_fullFutureBTZRay_e0 as a step of gx rows and are consistent with it. No other label is certified in the file.",
+    "(6) The cited results are built, by the axiom sweep: CBG (e0_cbg), Sbierski Lemma 3.3, Geroch (i)⇒(iii), Levin's time function and the E0LM line and second-countability lemmas.",
+    "(7) Names: namespace GX.E0Spear is opened only in GX/BTZ/Spear.lean. scaffold/GXScaffold/BTZ/ no longer holds a Spear.lean (graduated), so there is no duplicate module. The only importer is scaffold/GXScaffold/BTZ/Surgery.lean, which is unaffected by a docstring-only change. The stale SORRY cross-references in Surgery.lean:114–115 are correctly reported as not this package's to edit."
+  ],
+  "questions_for_master": [
+    "Def 2.1's 'The boundary of U is head ∪ shaft' (BTZ_1.tex:617): prove it in M for GH M (a short Lean package: closedness of ψ '' spear via the escape argument), or rule that 'boundary' reads as φ⁻¹(∂V), the boundary of the chart domain, which frontier_spear certifies? Until then Def 2.1 should be unmarked and partial, and lem:tube's conclusion inherits the same caveat only through the definition.",
+    "Is the free-text mark **`full future BTZ rays (RamcovGX.tex:2352)`** acceptable under kb/0006, and is the IsFullFutureBTZRay reading accepted without a ruling, given that it implies every natural reading?",
+    "lem:add_BTZ_param: the REPORT's standing question (accept the C⁰ τ_Σ for topological Σ as the strongest true form under DEC-27, or require the formal counterexample Σ = {τ = |Re z|/4}) is still open. The dispatch listed this row for marking, but DEC-116 does not cover smoothness, so the worker was right to leave it unmarked."
+  ]
+}

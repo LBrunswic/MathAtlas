@@ -30,7 +30,8 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
   `GX.quotientBase`, `GX.quotientBase_topology`, `GX.cylHomeomorph`, `GX.quotientBase_sing_subset`;
   in `Isom₀(𝔼^{1,2})`: `GX.massive_particle_intended`, `GX.btz_whitehole_isom0`,
   `GX.btz_blackhole_past_isom0`, `GX.misner_isom0_general`; the tachyons and photons (l.682,
-  WP-44a) `GX.tachyon_isom0`, `GX.photon_isom0` (`Γ = ℤ` on `θ` alone, `GX.ThetaLiftQuotient`;
+  WP-44a; DEC-116 (a)) `GX.tachyon_isom0`, `GX.photon_isom0` (`Γ = ℤ` on `θ` alone,
+  `GX.ThetaLiftQuotient`;
   the Euclidean-radius reading is not Hausdorff, `GX.rayLiftQuotient_tachyon_not_t1`,
   `GX.rayLiftQuotient_photon_not_t2`). All names: SCOPE (c).
 * **`ex:conical`** — `RamcovGX.tex:347`, read with the cone angle `α` (DEC-47): `GX.conical`
@@ -117,7 +118,7 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
 | `ex:conical`: the holonomy `ρ : π₁ = ℤ → ℝ^n ⋊ SO(n)`, `ρ(1)` the rotation of angle `α` | ✓ proved: one homomorphism `π₁ →* Isom⁺(𝔼^n)`, the developing map equivariant, `ρ(1) = ρ_α`, trivial iff `α ∈ 2πℕ*` (`conical_holonomy`) |
 | `ex:quotient_base`, massive particle: `D = (z + σθ/α, r cos(θ/α), r sin(θ/α))` | ✓ ruled reading (DEC-47): `D = (z + σθ/α, r cos θ, r sin θ)` (`massive_particle_intended`); the printed map has angle `1` (a finding) |
 | `ex:quotient_base`, BTZ black hole: `D'(r,θ,t) = D(r,θ,−t)` | ✓ ruled reading (DEC-47): `D` with a past lightlike `u` (`btz_blackhole_past_isom0`); the printed `D'` gives the white hole again (a finding) |
-| `ex:quotient_base`, tachyons / photons: "a hyperbolic (resp. parabolic) action of `Γ = ℤ` on `θ`, `𝔻_∞ = ℝ₊* × \widetilde{ℝP¹} ∪ {(0,0)}`" | ✓ reading (SCOPE (c)(i)): `Γ = ℤ` acts on `θ` alone, and the identification `ψ : ℝ ≃ₜ \widetilde{ℝP¹}` conjugates it to the lift of `A` (`ThetaLiftQuotient.lift`); every `x₀`, every spacelike (resp. non-zero null) `v`, every `g ∈ Isom₀ ∖ {1}` fixing `x₀ + ℝv` pointwise, every `m ≠ 0` (`tachyon_isom0`, `photon_isom0`); `g` is then a boost (resp. a null rotation), proved (`eq_boostAff_of_fix`, `eq_parabAff_of_fix`) |
+| `ex:quotient_base`, tachyons / photons: "a hyperbolic (resp. parabolic) action of `Γ = ℤ` on `θ`, `𝔻_∞ = ℝ₊* × \widetilde{ℝP¹} ∪ {(0,0)}`" | ✓ reading ruled by DEC-116 (a) (SCOPE (c)(i)): `Γ = ℤ` acts on `θ` alone, and the identification `ψ : ℝ ≃ₜ \widetilde{ℝP¹}` conjugates it to the lift of `A` (`ThetaLiftQuotient.lift`); every `x₀`, every spacelike (resp. non-zero null) `v`, every `g ∈ Isom₀ ∖ {1}` fixing `x₀ + ℝv` pointwise, every `m ≠ 0` (`tachyon_isom0`, `photon_isom0`); `g` is then a boost (resp. a null rotation), proved (`eq_boostAff_of_fix`, `eq_parabAff_of_fix`) |
 | `ex:quotient_base`, tachyons / photons: "naturally a singular `(G,X)`-manifold" (l.668, def l.474: Hausdorff, second countable, locally connected) | ✓ carried: `T2Space`, `SecondCountableTopology`, `LocallyConnectedSpace` of the quotient, `≅ ℂ × ℝ`, `Γ` properly discontinuous in the full sense (`IsProperlyDiscontinuous`, `ThetaLiftQuotient`); the Euclidean-radius action is not (`rayLiftQuotient_tachyon_not_t1`, `rayLiftQuotient_photon_not_t2`) |
 
 ## SCOPE (disclosed)
@@ -199,8 +200,10 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
   (`strictMono_rayAngleLift`), `m ∈ ℤ` the choice of lift (every `m ≠ 0` is certified; `m = ±1` is
   the tachyon/photon proper; `m = 0` fixes the eigen-rays and is not claimed). (i) "A hyperbolic
   (resp. parabolic) action of `Γ = ℤ` on the coordinate `θ` with `𝔻_∞ = ℝ₊* × \widetilde{ℝP¹} ∪
-  {(0,0)}`" is read literally, as a variation of the action `Γ_α` above: `Γ = GammaA (2π)` acts on
-  `θ` alone (`(r, θ, z) ↦ (r, θ + 2π, z)`), and the identification of `θ` with `\widetilde{ℝP¹}`
+  {(0,0)}`" is read literally, as a variation of the action `Γ_α` above — **the reading ruled by
+  DEC-116 (a)** (2026-11-03, the author: "Accept"; the row closes under it):
+  `Γ = GammaA (2π)` acts on `θ` alone (`(r, θ, z) ↦ (r, θ + 2π, z)`), and the identification of
+  `θ` with `\widetilde{ℝP¹}`
   is a homeomorphism `ψ : ℝ ≃ₜ ℝ` conjugating the generator to `rayAngleLift A m`
   (`ThetaLiftQuotient.lift`: `ψ(θ + 2π) = ψ θ + rayShift A (ψ θ) + 2πm`), so that the action on
   `θ` *is* the hyperbolic (parabolic) one. The developing map (`thetaDev`) is
@@ -222,7 +225,11 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
   a.e. structure), yet the orbit space is not `T₁` for the tachyon (the contracted eigen-ray
   accumulates at the axis, `rayLiftQuotient_tachyon_not_t1`) and not `T₂` for the photon (the
   null rotation shears orbits onto the fixed line, `rayLiftQuotient_photon_not_t2`), so it is not a
-  singular manifold. The orientation of `w` is not pinned: the paper makes no positivity claim.
+  singular manifold; this construction is kept only as the defect record (`RayLiftQuotient`,
+  `rayLiftQuotient_of_frame`, `homeoZ_quotient`, `IsTurning`, `isTurning_rayLiftHomeo`,
+  `rayLiftHomeo`, `HomeoZ`, `tachyon_conj`, `photon_conj`), the certified objects being
+  `tachyon_conj_theta`, `photon_conj_theta`. The orientation of `w` is not pinned: the paper
+  makes no positivity claim.
   That the axis is actually singular, and BBS's degree, are not asserted by the paper and not
   formalized.
   **Informal sentence, not formalized, with the reason.** (ii) l.684, "all these examples can also be obtained via gluings of
@@ -8743,8 +8750,13 @@ theorem parabConj_linear_frame (h : NullIsom0) (s : ℝ) (ζ : ℂ) (z : ℝ) :
   ext <;> simp [parab_apply, photEmb_apply, photA_apply, photκ_apply, nullU]
   ring
 
-/-- **The tachyon of the boost `B_β` fixing `h(0) + ℝ h(0,0,1)` pointwise**, for every `m ≠ 0`:
-the plane of rays is `h((0,0,1)^⊥)`, on which `B_β` is `tachA β` (hyperbolic for `β ≠ 0`). -/
+/-- **Defect record, not the tachyon**: the Euclidean-radius (non-Hausdorff) tachyon construction
+of the boost `B_β` fixing `h(0) + ℝ h(0,0,1)` pointwise, for every `m ≠ 0` — the plane of rays is
+`h((0,0,1)^⊥)`, on which `B_β` is `tachA β` (hyperbolic for `β ≠ 0`), and `Γ = ℤ` acts by
+`rayLiftHomeo`, rescaling the Euclidean radius. It concludes only `RayLiftQuotient` (the
+neighbourhood half of proper discontinuity); its orbit space is not even `T₁`
+(`rayLiftQuotient_tachyon_not_t1`), so it is not a singular manifold. The certified tachyon
+(`Γ = ℤ` acting on `θ` alone, DEC-116 (a)) is `tachyon_conj_theta`. -/
 theorem tachyon_conj (h : NullIsom0) {β : ℝ} {m : ℤ} (hm : m ≠ 0) :
     RayLiftQuotient ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) 0)
       ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear nullS)
@@ -8758,9 +8770,14 @@ theorem tachyon_conj (h : NullIsom0) {β : ℝ} {m : ℤ} (hm : m ≠ 0) :
       LinearMap.zero_apply, add_zero]
     exact boostConj_linear_frame h β ζ z
 
-/-- **The photon of the null rotation `P_s` fixing `h(0) + ℝ h(1,0,0)` pointwise**, for every
-`m ≠ 0`: the plane of rays is `h({a = 0})`, on which `P_s` acts modulo `ℝ h(1,0,0)` by `photA s`
-(parabolic for `s ≠ 0`), with `(1,0,0)`-component `photκ s`. -/
+/-- **Defect record, not the photon**: the Euclidean-radius (non-Hausdorff) photon construction
+of the null rotation `P_s` fixing `h(0) + ℝ h(1,0,0)` pointwise, for every `m ≠ 0` — the plane of
+rays is `h({a = 0})`, on which `P_s` acts modulo `ℝ h(1,0,0)` by `photA s` (parabolic for
+`s ≠ 0`), with `(1,0,0)`-component `photκ s`, and `Γ = ℤ` acts by `rayLiftHomeo`, rescaling the
+Euclidean radius. It concludes only `RayLiftQuotient` (the neighbourhood half of proper
+discontinuity); its orbit space is not `T₂` (`rayLiftQuotient_photon_not_t2`), so it is not a
+singular manifold. The certified photon (`Γ = ℤ` acting on `θ` alone, DEC-116 (a)) is
+`photon_conj_theta`. -/
 theorem photon_conj (h : NullIsom0) {s : ℝ} {m : ℤ} (hm : m ≠ 0) :
     RayLiftQuotient ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)) 0)
       ((h : (ℝ × ℝ × ℝ) ≃ᵃ[ℝ] (ℝ × ℝ × ℝ)).linear nullU)
