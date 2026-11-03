@@ -14,13 +14,17 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
   `s(]M, M'[)`; « le choix de $M$ et $M'$ est indifférent »: `closedSeg_mk`, `openSeg_mk` (for any
   representatives); for non-antipodal points `[M, M']` avoids `O` (`zero_notMem_segment`); why
   antipodal pairs are excluded: `closedSeg_neg_self` (the "segment" would be `{m, -m}`).
-* `bzdef:c1s1d8_partie_convexe` — `benzecri1960_ch1.tex:246` (Déf. 8, l.246–253, p. 235). **Not
-  marked: OQ-24 is OPEN.** Its first form is wave 1's `Sphere.IsConvexPart` (« $F(k)+\{O\}$ » read
-  `F(k) ∪ {O}`), reused; its second form is `Sphere.IsSegConvex`; the two are proved EQUAL in the
-  `∪` reading (`isConvexPart_iff_isSegConvex`), and proved DIFFERENT in the Minkowski reading
-  (`IsConvexPartMinkowski`: `isSegConvex_univ` against `not_isConvexPartMinkowski_univ`).
+* **`bzdef:c1s1d8_partie_convexe`** — `benzecri1960_ch1.tex:246` (Déf. 8, l.246–253, p. 235),
+  under DEC-120's ruling of OQ-24 (« $F(k)+\{O\}$ » is `F(k) ∪ {O}`, the period's `+` for a
+  disjoint union): its first form is wave 1's `Sphere.IsConvexPart` (`F(k) ∪ {O}` convex), reused;
+  its second form is `Sphere.IsSegConvex`; the two are proved EQUAL (`isConvexPart_iff_isSegConvex`),
+  so the two sentences of Déf. 8 define one class. Remarks supporting the ruling: under the
+  Minkowski reading (`IsConvexPartMinkowski`) the two sentences disagree (`isSegConvex_univ` against
+  `not_isConvexPartMinkowski_univ`) and no part containing a nonzero linear subvariety is convex
+  (`not_isConvexPartMinkowski_of_linearSubvariety_subset`), which would empty Déf. 10.
 * **`bzdef:c1s1d9_convexe_strict`** — `benzecri1960_ch1.tex:255` (Déf. 9, l.255–258, p. 235):
-  `Sphere.IsStrictConvexPart`. It does NOT depend on OQ-24: it is « `F(k)` convex »
+  `Sphere.IsStrictConvexPart`. It does not depend on the reading of OQ-24 (now ruled, DEC-120): it is
+  « `F(k)` convex »
   (`isStrictConvexPart_iff_convex_F`), the same notion over the segment form
   (`isStrictConvexPart_iff_isSegConvex`) and over the Minkowski reading
   (`isStrictConvexPart_iff_minkowski`); and it is the salience of the cone `F(k) ∪ {O}`
@@ -30,8 +34,8 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
   independent of OQ-24: `isCorpsConvexeS_iff`), the sets `EA n`, `ES n` (the paper's `E(n)`),
   `CA n`; `mem_EA_iff_convexBody` (Mathlib's `ConvexBody` lacks the interior condition).
 * The prose of pp. 235–236 (`benzecri1960_ch1.tex:269–272`, no label): `K(E)`, `C(E)`
-  (`Sphere.KE`, `Sphere.CE`) and `K(S(E))`, `C(S(E))` (`Sphere.KS`, `Sphere.CS`, over the `∪`
-  reading of Déf. 8, so pending OQ-24).
+  (`Sphere.KE`, `Sphere.CE`) and `K(S(E))`, `C(S(E))` (`Sphere.KS`, `Sphere.CS`, over Déf. 8 in
+  DEC-120's `∪` reading).
 
 > **Déf. 7.** Soient $m$, $m'$ deux points *non diamétralement opposés* de $S(E)$, nous allons
 > définir le segment de droite fermé $(m, m')$.
@@ -56,27 +60,36 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
 
 | paper hypothesis | here |
 |---|---|
-| Déf. 7: `m, m'` not diametrically opposite | ⚠ weakened: `closedSeg` is defined for every pair and the independence of the representatives holds for every pair; non-antipodality is used only where the paper uses it (`zero_notMem_segment`), and `closedSeg_neg_self` shows what the excluded case gives |
-| Déf. 8: « $F(k)+\{O\}$ » | ⚠ OPEN (OQ-24): both readings formalized, the `∪` one as `IsConvexPart` (wave 1), the Minkowski one as `IsConvexPartMinkowski`; Déf. 8 unmarked |
+| Déf. 7: `m, m'` not diametrically opposite | generalised: `closedSeg` is defined for every pair and the independence of the representatives holds for every pair; non-antipodality is used only where the paper uses it (`zero_notMem_segment`), and `closedSeg_neg_self` shows what the excluded case gives |
+| Déf. 8: « $F(k)+\{O\}$ » | reading (OQ-24 RULED, DEC-120): `F(k) ∪ {O}`, `IsConvexPart` (wave 1); the Minkowski reading `IsConvexPartMinkowski` is kept only for the remarks |
+| Déf. 7: « segment de droite » | ✓ carried: `closedSeg_subset_linearSubvariety_span` |
 | Déf. 9: a convex part (Déf. 8) | ✓ carried over the `∪` reading, and proved equivalent to the same condition over the segment form and over the Minkowski reading, so no reading is needed |
 | Déf. 11: `ℝⁿ` and `S(n)` with their topologies | ✓ carried: the product topology of `Fin n → ℝ`, the quotient topology of `S n` |
 | `E` a real vector space | ✓ carried, any dimension, no topology (Déf. 7–9) |
 
 ## SCOPE (disclosed)
 
-* **Déf. 8 is not marked** (OQ-24 open). What is proved bears on OQ-24 and is reported to the author:
-  Déf. 8's second sentence (the segment form) is unambiguous and is equivalent to the `∪` reading of
-  the first (`isConvexPart_iff_isSegConvex`), while the Minkowski reading contradicts it on `S(E)`
-  itself (`not_isConvexPartMinkowski_univ`) and on every nonzero linear subvariety
-  (`not_isConvexPartMinkowski_linearSubvariety`, against `isConvexPart_linearSubvariety`).
+* **Déf. 8 is marked** under DEC-120 (OQ-24 ruled: `+` is `∪`), with no code change: the `∪`
+  reading of the first sentence is equivalent to the unambiguous second sentence
+  (`isConvexPart_iff_isSegConvex`). The Minkowski reading is kept as remarks only: it contradicts the
+  segment form on `S(E)` itself (`not_isConvexPartMinkowski_univ`) and on every nonzero linear
+  subvariety (`not_isConvexPartMinkowski_linearSubvariety`, against `isConvexPart_linearSubvariety`),
+  and makes Déf. 10's « convexes contenant $l$ » empty
+  (`not_isConvexPartMinkowski_of_linearSubvariety_subset`). On the scan (PDF p. 8 = journal p. 235)
+  the same page prints « F(h) ∪ {O} » with the `∪` glyph ten lines above Déf. 8's `+`, so `+` is
+  the printed symbol: the period's notation for a union of disjoint sets (`O ∉ F(k)`), or a misprint.
 * **Déf. 9 and Déf. 11 are marked** although they say « partie convexe » / « convexe strict »:
   strictness collapses both readings to « `F(k)` convex » (`isStrictConvexPart_iff_convex_F`,
-  `isStrictConvexPart_iff_minkowski`), so their content does not depend on OQ-24. Should the author
-  prefer to hold them with Déf. 8, the statements need no change.
+  `isStrictConvexPart_iff_minkowski`), so their content does not depend on OQ-24 (DEC-120 accepts the
+  marks as independent of it).
 * `E(n)` is named `ES n` (an identifier `E` is the ambient space everywhere else).
-* `K(S(E))`, `C(S(E))` are over the `∪` reading, pending OQ-24; they are unlabelled prose.
-* Déf. 7's « segment de droite »: that `(m, m')` lies on the line through `m, m'` (Déf. 4's `IsLine`)
-  is not stated.
+* `K(S(E))`, `C(S(E))` are over Déf. 8 (`∪` reading, DEC-120); they are unlabelled prose.
+* Déf. 7's « segment de droite »: `(m, m')` lies on the linear subvariety spanned by `M, M'`
+  (`closedSeg_subset_linearSubvariety_span`), a line of `S(E)` (Déf. 4's `IsLine`) when `M, M'` are
+  independent.
+* General Sphere/Subvariety facts proved here (`ofCone_subset_of_forall`, `mk_someVector`,
+  `exists_pos_someVector`, `isConvexPart_linearSubvariety`) move upstream at graduation (REPORT
+  `upstream_moves`).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -189,6 +202,14 @@ theorem openSeg_mk {M M' : E} (hM : M ≠ 0) (hM' : M' ≠ 0) :
   obtain ⟨a, ha, h⟩ := exists_pos_someVector hM
   obtain ⟨b, hb, h'⟩ := exists_pos_someVector hM'
   rw [openSeg, h, h', openSegOf_smul_smul _ _ ha hb]
+
+/-- **« segment de droite »**: the segment `(m, m')` lies on the line through `m` and `m'`, the
+linear subvariety `s(span{M, M'} - {O})` (Déf. 4; a line of `S(E)` when `M, M'` are independent). -/
+theorem closedSeg_subset_linearSubvariety_span {M M' : E} (hM : M ≠ 0) (hM' : M' ≠ 0) :
+    closedSeg (mk M hM) (mk M' hM') ⊆ linearSubvariety (Submodule.span ℝ {M, M'}) := by
+  rw [closedSeg_mk]
+  exact ofCone_subset_ofCone ((Submodule.span ℝ {M, M'}).convex.segment_subset
+    (Submodule.subset_span (mem_insert _ _)) (Submodule.subset_span (mem_insert_of_mem _ rfl)))
 
 /-- For `m, m'` not diametrically opposite, the segment `[M, M']` avoids `O`: every point of it is
 a point of `(m, m')`. -/
@@ -312,7 +333,7 @@ theorem closedSeg_neg_self (m : Sphere E) : closedSeg m (-m) = {m, -m} := by
     · exact mk_mem_ofCone hM (left_mem_segment ℝ M (-M))
     · exact mk_mem_ofCone _ (right_mem_segment ℝ M (-M))
 
-/-! #### The Minkowski reading of « $F(k)+\{O\}$ » (OQ-24) -/
+/-! #### The Minkowski reading of « $F(k)+\{O\}$ » (OQ-24, ruled against by DEC-120: a remark) -/
 
 /-- **Déf. 8, first printed form, read as a Minkowski sum** (the alternative of OQ-24):
 `F(k) + {O}` convex. Since `F(k) + {O} = F(k)`, this is `F(k)` convex. Recorded to show what the
@@ -342,9 +363,9 @@ theorem IsConvexPartMinkowski.neg_notMem {k : Set (Sphere E)} (hk : IsConvexPart
 theorem isSegConvex_univ : IsSegConvex (univ : Set (Sphere E)) := fun _ _ _ _ _ => subset_univ _
 
 /-- **Déf. 8's two printed forms disagree under the Minkowski reading**: `S(E)` itself satisfies
-the segment form but not « `F(k) + {O}` convex » read as a Minkowski sum (`E ≠ 0`). This is
+the segment form but not « `F(k) + {O}` convex » read as a Minkowski sum (`E ≠ 0`). This was
 evidence on OQ-24 for the `∪` reading, under which the two forms agree
-(`isConvexPart_iff_isSegConvex`). -/
+(`isConvexPart_iff_isSegConvex`); DEC-120 adopts it. -/
 theorem not_isConvexPartMinkowski_univ [Nontrivial E] :
     ¬ IsConvexPartMinkowski (univ : Set (Sphere E)) := by
   intro h
@@ -367,6 +388,17 @@ theorem not_isConvexPartMinkowski_linearSubvariety {L : Submodule ℝ E} (hL : L
   obtain ⟨v, hvL, hv⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hL
   exact h.neg_notMem ((mk_mem_linearSubvariety hv).2 hvL) (neg_mem_linearSubvariety
     ((mk_mem_linearSubvariety hv).2 hvL))
+
+/-- **Under the Minkowski reading, NO part containing a nonzero linear subvariety is convex**
+(the WP-45g audit's lemma, a remark supporting DEC-120's ruling of OQ-24): Déf. 10's « les
+convexes de $S(E)$ contenant $l$ » would be the empty family for every `l ≠ ∅`, contradicting
+DEC-114's ruling that Déf. 10's sphere statement holds as printed. -/
+theorem not_isConvexPartMinkowski_of_linearSubvariety_subset {L : Submodule ℝ E} (hL : L ≠ ⊥)
+    {k : Set (Sphere E)} (hk : linearSubvariety L ⊆ k) : ¬ IsConvexPartMinkowski k := by
+  intro h
+  obtain ⟨v, hvL, hv⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hL
+  have hm := (mk_mem_linearSubvariety hv).2 hvL
+  exact h.neg_notMem (hk hm) (hk (neg_mem_linearSubvariety hm))
 
 /-! ### Déf. 9 — strict convex parts -/
 
@@ -485,11 +517,11 @@ variable (E) in
 def CE [TopologicalSpace E] : Set (Set E) := {C | Convex ℝ C ∧ IsClosed C}
 
 variable (E) in
-/-- `K(S(E))`: the convex parts of `S(E)` (Déf. 8, `∪` reading, OQ-24). -/
+/-- `K(S(E))`: the convex parts of `S(E)` (Déf. 8, `∪` reading, DEC-120). -/
 def KS : Set (Set (Sphere E)) := {k | IsConvexPart k}
 
 variable (E) in
-/-- `C(S(E))`: the closed convex parts of `S(E)` (Déf. 8, `∪` reading, OQ-24). -/
+/-- `C(S(E))`: the closed convex parts of `S(E)` (Déf. 8, `∪` reading, DEC-120). -/
 def CS [TopologicalSpace E] : Set (Set (Sphere E)) := {k | IsConvexPart k ∧ IsClosed k}
 
 end Sphere

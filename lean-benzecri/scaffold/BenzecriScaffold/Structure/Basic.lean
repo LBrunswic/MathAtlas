@@ -17,36 +17,41 @@ A locally projective (resp. affine) `n`-manifold is `[ChartedSpace (S n) V]
 proved for an arbitrary `(G, X)`; the paper's two cases are the instances.
 
 * `bzdef:c1s1d12_variete_localement_projective` — `benzecri1960_ch1.tex:304` (Déf. 12, l.304–317,
-  p. 236). **Not marked** (partial): jets are pairs (point, `Filter.Germ`) (`Benzecri.Jet`, plan F3);
-  `Benzecri.IsJetStructure` is Déf. 12's « ensemble ouvert $J(V)$ de jets d'isomorphismes » with 1°
-  and 2°; **the jets `J(V)` of a structure form one** (`isJetStructure_jets`), **every jet structure
-  is the `J(V)` of a structure** (`exists_hasGroupoid_jets_eq_iff`), and **the structure is determined
-  by `J(V)`** (`maximalAtlas_eq_of_jets_eq`). Of « $J(V)$ … est un revêtement de $V$ » only the fibre
-  and the local triviality as sets are proved (`eq_one_of_jetSMul_eq`,
-  `mem_jets_iff_existsUnique`): the étalé topology on `J(V)` is not built (SCOPE).
-* `bzrem:c1s1r1_affine_vers_projective` — `benzecri1960_ch1.tex:319` (Remarque, l.319–330,
-  pp. 236–237). **Not marked** (partial): proved for every `j` that is an open embedding equivariant
-  through a hom `GA(n) → GS(n)` (`hasGroupoid_transport`, `jets_transport`: `J''(V) = GS ∘ j ∘ J(V)`),
-  and instantiated for the standard hemisphere chart `y ↦ s(y, 1)`
-  (`hasGroupoid_projGroupoid_of_affine`; it is an affine isomorphism onto `H₀`,
-  `Sphere.isAffine_hemiChartH`); that EVERY « isomorphisme compatible avec la structure affine » onto
-  a hemisphere is such a `j` is not proved.
+  p. 236). Certified in full together with `Structure/Jets` (WP-45j), which carries the mark: jets
+  are pairs (point, `Filter.Germ`) (`Benzecri.Jet`, plan F3); `Benzecri.IsJetStructure` is Déf. 12's
+  « ensemble ouvert $J(V)$ de jets d'isomorphismes » with 1° and 2°; **the jets `J(V)` of a structure
+  form one** (`isJetStructure_jets`), **every jet structure is the `J(V)` of a structure**
+  (`exists_hasGroupoid_jets_eq_iff`), and **the structure is determined by `J(V)`**
+  (`maximalAtlas_eq_of_jets_eq`). « ouvert » and « revêtement » are topological and are in
+  `Structure/Jets`: the étalé topology, `IsEtaleOpen ↔ IsOpen` (`isOpen_iff_isEtaleOpen`) and
+  `IsCoveringMap` for `J(V) → V` (`isCoveringMap_jets`), resting on the set-level facts proved here
+  (`eq_one_of_jetSMul_eq`, `mem_jets_iff_existsUnique`).
+* **`bzrem:c1s1r1_affine_vers_projective`** — `benzecri1960_ch1.tex:319` (Remarque, l.319–329,
+  pp. 236–237): `remarque_affine_vers_projective`. For EVERY affine injection `j` of `ℝⁿ` into an
+  open hemisphere of `S(n)` (« un isomorphisme, compatible avec la structure affine de $\R^n$ sur un
+  hémisphère »), `j` is an open embedding, the charts `j ∘ φ` define a locally projective structure
+  whose jets are `J''(V) = GS ∘ j ∘ J(V)` (`jets_transport`), and **it does not depend on `j`**
+  (« canoniquement associée »): it has the maximal atlas of the standard chart `y ↦ s(y, 1)`
+  (`exists_eq_smul_hemiChart`: `j = σ ∘ s(·, 1)`, `σ ∈ GS(n)`; `maximalAtlas_transport_eq_of_smul`);
+  hence two choices `j`, `j'` give the same structure (`maximalAtlas_transport_indep`).
 * **`bzdef:c1s1d13_carte_compatible`** — `benzecri1960_ch1.tex:331` (Déf. 13, l.331–338, p. 237):
   `Benzecri.IsCompatibleChart` (all jets in `J(V)`), equivalent to membership in the maximal atlas
   (`isCompatibleChart_iff`).
-* `bzprop:c1s1p1_cartes_compatibles` — `benzecri1960_ch1.tex:340` (Prop. 1, l.340–355, p. 237).
-  **Not marked** (partial, FINDING): both 1° and the uniqueness of 2° are FALSE for a disconnected
-  `U` (`not_prop1_of_disconnected`, in `ℝ¹` with `U = {y < 1} ∪ {y > 2}`); proved for `U` connected
-  (`existsUnique_smul_eq_of_isPreconnected`, `existsUnique_compatibleChart_jet`), and 2°'s existence
-  for every `U` (`exists_compatibleChart_jet`).
+* **`bzprop:c1s1p1_cartes_compatibles`** — `benzecri1960_ch1.tex:340` (Prop. 1, l.340–355, p. 237),
+  in the reading of DEC-120: « ouvert $U$ » is a connected (nonempty) open set, consistent with
+  « variété » connected. 1°: `existsUnique_smul_eq_of_isPreconnected`; 2°:
+  `existsUnique_compatibleChart_jet` (existence for every `U`: `exists_compatibleChart_jet`).
+  **Remark** (not a finding, DEC-120): for a disconnected `U` both 1° and the uniqueness of 2° fail
+  (`not_prop1_of_disconnected`, in `ℝ¹` with `U = {y < 1} ∪ {y > 2}`), and for `U = ∅` the
+  uniqueness of `g` in 1° fails as soon as `G ≠ 1` (`not_existsUnique_smul_eq_of_empty`).
 * **`bzprop:c1s1p3_atlas`** — `benzecri1960_ch1.tex:371` (Prop. 3, l.371–379, p. 237):
   `existsUnique_structure_of_atlas` (transitions only locally in `G`, the strongest form) and
   `existsUnique_structure_of_atlas_printed` (one `g_ij` on each nonempty `U_i ∩ U_j`, as printed).
 
-Also: the action of `GA(n)` on `ℝⁿ` and its rigidity (`affineEquivApplyMulAction`,
-`GAR.eq_one_of_eqOn`, `IsAnalyticAction (GAR n) (Fin n → ℝ)`); the maximal atlas pointwise, ported
-from `lean-gx/GX/Structure/Basic.lean:277–322` at lean-gx `4a577c5`
-(`mem_maximalAtlas_iff_eventually`, with `chartedSpaceOfAtlas` from l.476 and
+Also: the action of `GA(n)` on `ℝⁿ` and its rigidity (`affineEquivApplyMulAction`, a SCOPED
+instance as in lean-gx, `GAR.eq_one_of_eqOn`, `IsAnalyticAction (GAR n) (Fin n → ℝ)`); the maximal
+atlas pointwise, ported from `lean-gx/GX/Structure/Basic.lean:277–322` at lean-gx `4a577c5`
+(`mem_maximalAtlas_iff_eventually`, with `chartedSpaceOfAtlas` from l.479 and
 `exists_smul_eq_on_connectedComponentIn` from l.405); the `HasGroupoid` form of monotonicity along
 an open embedding of models (`hasGroupoid_transport`, deferred from wave 1) and in `G`
 (`hasGroupoid_mono`).
@@ -88,33 +93,39 @@ an open embedding of models (`hasGroupoid_transport`, deferred from wave 1) and 
 
 | paper hypothesis | here |
 |---|---|
-| `V` a variété « convexe » (`[sic]`, read « connexe »), Hausdorff, second countable (plan F6) | ⚠ weakened: none is used; `V` is any topological space |
-| `J(V)` an OPEN set of jets of isomorphisms | ✓ carried: `IsEtaleOpen` (the étalé topology's basic opens) and `IsIsoJet` |
+| `V` a variété « convexe » (`[sic]`, read « connexe »), Hausdorff, second countable (plan F6) | generalised: none is used; `V` is any topological space |
+| `J(V)` an OPEN set of jets of isomorphisms | ✓ carried: `IsEtaleOpen`, proved equivalent to openness in the étalé topology in `Structure/Jets` (`isOpen_iff_isEtaleOpen`), and `IsIsoJet` |
+| « $J(V)$ … est un revêtement de $V$ » | ✓ carried in `Structure/Jets` (`isCoveringMap_jets`, `IsJetStructure.isCoveringMap`) |
 | 2° « opère transitivement sur chaque fibre » | ✓ carried as two fields: `G` preserves the fibres (`smul_mem`) and is transitive on them (`transitive`) |
 | « isomorphisme » = homeomorphism (plan F3) | ✓ carried: germs of `OpenPartialHomeomorph` |
-| Remarque: `j` an isomorphism « compatible avec la structure affine » onto a hemisphere | ⚠ replaced by: `j` an open embedding with an equivariant hom `GA(n) → GS(n)`; satisfied by the standard chart |
-| Prop. 1: `U` an open set | ✗ FINDING: `U` must be CONNECTED (and nonempty, for the uniqueness of `g`); counterexample `not_prop1_of_disconnected` |
+| Remarque: `j` an isomorphism « compatible avec la structure affine » onto a hemisphere | generalised: `j` any affine injection of `ℝⁿ` into an open hemisphere of `S(n)` (`IsAffine` for Déf. 6's structure); that it is an open embedding equivariant through `GA(n) → GS(n)` is derived |
+| Remarque: « canoniquement associée » | ✓ carried: independence of `j` (`maximalAtlas_transport_indep`) |
+| Prop. 1: « $U$ un ouvert de $V$ » | reading (DEC-120): `U` connected and nonempty (`IsPreconnected`, `Nonempty`); the disconnected and empty cases are remarks (`not_prop1_of_disconnected`, `not_existsUnique_smul_eq_of_empty`) |
 | Prop. 1: rigidity of `GA`/`GS` | ✓ carried: `IsAnalyticAction G X` (instances for `GSR n`, wave 1, and `GAR n`, here) |
-| Prop. 3: `f_i = g_ij ∘ f_j` on all of `U_i ∩ U_j` | ⚠ weakened: near each point of `U_i ∩ U_j` suffices; the printed form is the corollary |
+| Prop. 3: `f_i = g_ij ∘ f_j` on all of `U_i ∩ U_j` | generalised: near each point of `U_i ∩ U_j` suffices; the printed form is the corollary |
 
 ## SCOPE (disclosed)
 
-* **Déf. 12, partial.** The jet definition is proved equivalent to the atlas one (both directions,
-  and uniqueness). « $J(V)$ … est un revêtement de $V$ » is proved only set-theoretically (free
-  transitive fibres, `mem_jets_iff_existsUnique`); Mathlib has no étalé topology on germs (plan F3),
-  and it is not built. « convexe » (`[sic]`) is read « connexe » and is not needed.
-* **Remarque, partial.** See the checklist; « canoniquement associée » is proved in the sense that the
-  structure is determined by its jets `GS ∘ j ∘ J(V)` (`jets_transport`, `maximalAtlas_eq_of_jets_eq`);
-  its independence of the choice of `j` is not proved.
-* **Prop. 1, partial (finding).** `U` connected is added; the counterexample is in the paper's own
-  setting (a locally affine manifold, `ℝ¹`, which is connected, Hausdorff and second countable).
-  The uniqueness in 2° is up to `OpenPartialHomeomorph.EqOnSource` (equal on `U`), since an
-  `OpenPartialHomeomorph` carries values outside its source.
-* The jets `J(V)`, Déf. 13 and Prop. 1 are stated with `[HasGroupoid]` for an arbitrary `(G, X)`;
-  `affineEquivApplyMulAction` (the action of `P ≃ᵃ[k] P` on `P`) is an instance on Mathlib types,
-  recorded in REPORT `upstream_moves` for `Projective/Groups`.
-* The counterexample's auxiliary names `cxA`, `cxB`, `cxv`, `cxId`, `cxTrans`, `cxChart` are
-  declarations of `namespace Benzecri` with no further use.
+* **Déf. 12.** The jet definition is proved equivalent to the atlas one (both directions, and
+  uniqueness) here; the étalé topology, « ouvert » and « revêtement » are in `Structure/Jets`, which
+  imports this file and carries the mark. « convexe » (`[sic]`) is read « connexe » and is not needed.
+* **Remarque, marked.** « canoniquement associée » is proved in its strongest form, independence of
+  the choice of `j`: every admissible `j` is `σ ∘ s(·, 1)` with `σ ∈ GS(n)`
+  (`Sphere.exists_eq_smul_hemiChart`), and transporting along `σ ∘ ι` or `ι` gives the same maximal
+  atlas (`maximalAtlas_transport_eq_of_smul`). The structure is also determined by its jets
+  `GS ∘ j ∘ J(V)` (`jets_transport`, `maximalAtlas_eq_of_jets_eq`). `j` is only assumed injective
+  and affine; « isomorphisme » (onto the hemisphere) is not needed.
+* **Prop. 1, marked under DEC-120's reading** (`U` connected, nonempty). The counterexample for a
+  disconnected `U` is in the paper's own setting (`ℝ¹`), kept as a remark; its auxiliary names live in
+  `namespace Benzecri.Prop1Counterexample`. The uniqueness in 2° is up to
+  `OpenPartialHomeomorph.EqOnSource` (equal on `U`), since an `OpenPartialHomeomorph` carries values
+  outside its source.
+* The jets `J(V)`, Déf. 13 and Prop. 1 are stated with `[HasGroupoid]` for an arbitrary `(G, X)`.
+* `affineEquivApplyMulAction` (the action of `P ≃ᵃ[k] P` on `P`) and its `FaithfulSMul` are SCOPED
+  instances of `namespace Benzecri` (active in every file of the package, which all open it; outside,
+  `open scoped Benzecri`), exactly as lean-gx scopes the identical action
+  (`GX.affineEquivMulAction`, `lean-gx/GX/Singular/Quotient.lean:2420`, `open scoped GX`); recorded in
+  REPORT `upstream_moves` for `Projective/Groups`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -134,15 +145,18 @@ section AffineAction
 variable {k V P : Type*} [Ring k] [AddCommGroup V] [Module k V] [AddTorsor V P]
 
 /-- The natural action of the affine automorphisms of `P` on `P`, `f • p = f p`. (Mathlib has the
-group `P ≃ᵃ[k] P` and no action of it; candidate for `Projective/Groups`.) -/
-instance affineEquivApplyMulAction : MulAction (P ≃ᵃ[k] P) P where
+group `P ≃ᵃ[k] P` and no action of it; candidate for `Projective/Groups`.) A SCOPED instance, as
+lean-gx scopes the identical `GX.affineEquivMulAction` (`lean-gx/GX/Singular/Quotient.lean:2420`):
+active inside `namespace Benzecri`, elsewhere after `open scoped Benzecri`. -/
+scoped instance affineEquivApplyMulAction : MulAction (P ≃ᵃ[k] P) P where
   smul f p := f p
   one_smul _ := rfl
   mul_smul _ _ _ := rfl
 
 @[simp] theorem affineEquiv_smul_def (f : P ≃ᵃ[k] P) (p : P) : f • p = f p := rfl
 
-instance : FaithfulSMul (P ≃ᵃ[k] P) P := ⟨fun h => AffineEquiv.ext h⟩
+/-- The action of `P ≃ᵃ[k] P` on `P` is faithful (scoped, with the action). -/
+scoped instance affineEquivFaithfulSMul : FaithfulSMul (P ≃ᵃ[k] P) P := ⟨fun h => AffineEquiv.ext h⟩
 
 end AffineAction
 
@@ -455,7 +469,7 @@ variable {M : Type u} [TopologicalSpace M] {X : Type v} [TopologicalSpace X]
   {G : Type w} [Group G] [MulAction G X] [ContinuousConstSMul G X]
 
 /-- The charted space of an atlas covering `M`, the preferred chart at `x` chosen among those
-whose source contains `x`. Port of `GX.chartedSpaceOfAtlas` (`lean-gx/GX/Structure/Basic.lean:476`). -/
+whose source contains `x`. Port of `GX.chartedSpaceOfAtlas` (`lean-gx/GX/Structure/Basic.lean:479`). -/
 @[reducible] def chartedSpaceOfAtlas (A : Set (OpenPartialHomeomorph M X))
     (hA : ∀ x : M, ∃ e ∈ A, x ∈ e.source) : ChartedSpace X M where
   atlas := A
@@ -639,9 +653,10 @@ theorem exists_smul_eq_on_connectedComponentIn [IsRigidAction G X]
 
 variable [ChartedSpace X M] [HasGroupoid M (gxGroupoid G X)]
 
-/-- **Prop. 1, 1°, in its true form**: two compatible charts `φ₁, φ₂` of a CONNECTED nonempty open
+/-- **Prop. 1, 1°** (`bzprop:c1s1p1_cartes_compatibles`, « ouvert $U$ » read connected and nonempty,
+DEC-120): two compatible charts `φ₁, φ₂` of a CONNECTED nonempty open
 set `U` differ by a unique `g ∈ G`: `φ₁ = g ∘ φ₂` on `U` (analytic action). The paper does not say
-« connexe » (finding; `not_prop1_of_disconnected` is the counterexample). -/
+« connexe »; DEC-120 reads it so (`not_prop1_of_disconnected` is the remark for a disconnected `U`). -/
 theorem existsUnique_smul_eq_of_isPreconnected [IsAnalyticAction G X] {U : Set M}
     (hU : IsPreconnected U) (hne : U.Nonempty) {φ₁ φ₂ : OpenPartialHomeomorph M X}
     (h₁ : IsCompatibleChart G φ₁) (h₂ : IsCompatibleChart G φ₂) (hs₁ : φ₁.source = U)
@@ -678,7 +693,7 @@ theorem exists_compatibleChart_jet {φ₁ : OpenPartialHomeomorph M X} (h₁ : I
   rw [hg, Germ.map_coe]
   rfl
 
-/-- **Prop. 1, 2°, in its true form**: on a CONNECTED open set `U`, the compatible chart of `U` with
+/-- **Prop. 1, 2°** (« ouvert $U$ » read connected, DEC-120): on a CONNECTED open set `U`, the compatible chart of `U` with
 a given jet at `x` is unique (up to `EqOnSource`: equal on `U`). -/
 theorem existsUnique_compatibleChart_jet [IsAnalyticAction G X] {U : Set M} (hU : IsPreconnected U)
     {φ₁ : OpenPartialHomeomorph M X} (h₁ : IsCompatibleChart G φ₁) (hs₁ : φ₁.source = U)
@@ -874,16 +889,115 @@ theorem jets_transport [HasGroupoid M (gxGroupoid G' X')] (hι : IsOpenEmbedding
       exact ⟨hx, by simp [IsOpenEmbedding.toOpenPartialHomeomorph_source]⟩
     · rfl
 
-/-- **The Remarque** (`bzrem:c1s1r1_affine_vers_projective`), for the standard hemisphere chart
+/-- The Remarque (`bzrem:c1s1r1_affine_vers_projective`) for the standard hemisphere chart
 `j : ℝⁿ → S(n)`, `y ↦ s(y, 1)` (an affine isomorphism onto `H₀`, `isAffine_hemiChartH`): a locally
 affine `n`-manifold is a locally projective one, with charts `j ∘ φ` and jets `GS(n) ∘ j ∘ J(V)`
-(`jets_transport`). -/
+(`jets_transport`). Every other `j` gives the same structure: `remarque_affine_vers_projective`. -/
 theorem hasGroupoid_projGroupoid_of_affine {n : ℕ} {V : Type u} [TopologicalSpace V]
     [ChartedSpace (Fin n → ℝ) V] [HasGroupoid V (affGroupoid n)] :
     @HasGroupoid (S n) _ V _ (transportChartedSpace (Sphere.isOpenEmbedding_hemiChart (n := n)) V)
       (projGroupoid n) :=
   hasGroupoid_transport Sphere.isOpenEmbedding_hemiChart Sphere.affToGS fun f y =>
     Sphere.hemiChart_apply_eq_smul f y
+
+omit [Nonempty X'] [ContinuousConstSMul G' X'] in
+/-- Two `(G,X)`-structures on `M` whose preferred charts differ, near every point, by an element of
+`G` have the same maximal atlas. -/
+theorem maximalAtlas_eq_of_eventually_smul (cs cs' : ChartedSpace X M)
+    [h : @HasGroupoid X _ M _ cs (gxGroupoid G X)] [h' : @HasGroupoid X _ M _ cs' (gxGroupoid G X)]
+    (hc : ∀ x, ∃ g : G, ∀ᶠ z in 𝓝 x, @chartAt X _ M _ cs' x z = g • @chartAt X _ M _ cs x z) :
+    @StructureGroupoid.maximalAtlas X M _ _ cs (gxGroupoid G X) =
+      @StructureGroupoid.maximalAtlas X M _ _ cs' (gxGroupoid G X) := by
+  ext e
+  rw [@mem_maximalAtlas_iff_eventually G X _ _ _ _ M _ cs h e,
+    @mem_maximalAtlas_iff_eventually G X _ _ _ _ M _ cs' h' e]
+  constructor
+  · intro H x hx
+    obtain ⟨g, hg⟩ := H x hx
+    obtain ⟨k, hk⟩ := hc x
+    refine ⟨g * k⁻¹, ?_⟩
+    filter_upwards [hg, hk] with z h1 h2
+    rw [h1, h2, mul_smul, inv_smul_smul]
+  · intro H x hx
+    obtain ⟨g, hg⟩ := H x hx
+    obtain ⟨k, hk⟩ := hc x
+    refine ⟨g * k, ?_⟩
+    filter_upwards [hg, hk] with z h1 h2
+    rw [h1, h2, mul_smul]
+
+/-- **The transported structure depends on the embedding only up to `G`**: if `ι' = σ • ι` for one
+`σ ∈ G` (`ι` an open embedding equivariant through `φ : G' →* G`), the structures transported along
+`ι` and `ι'` have the same maximal atlas (and `ι'` is equivariant through `σ φ σ⁻¹`). -/
+theorem maximalAtlas_transport_eq_of_smul [HasGroupoid M (gxGroupoid G' X')]
+    (hι : IsOpenEmbedding ι) (φ : G' →* G) (hφ : ∀ (g : G') (p : X'), ι (g • p) = φ g • ι p)
+    {ι' : X' → X} (hι' : IsOpenEmbedding ι') (σ : G) (hσ : ∀ p, ι' p = σ • ι p) :
+    @StructureGroupoid.maximalAtlas X M _ _ (transportChartedSpace hι' M) (gxGroupoid G X) =
+      @StructureGroupoid.maximalAtlas X M _ _ (transportChartedSpace hι M) (gxGroupoid G X) := by
+  have hφ' : ∀ (g : G') (p : X'), ι' (g • p) = (MulAut.conj σ).toMonoidHom.comp φ g • ι' p := by
+    intro g p
+    simp only [MonoidHom.coe_comp, MulEquiv.coe_toMonoidHom, Function.comp_apply,
+      MulAut.conj_apply, hσ, hφ, mul_smul, inv_smul_smul]
+  haveI := hasGroupoid_transport (G := G) (M := M) hι φ hφ
+  haveI := hasGroupoid_transport (G := G) (M := M) hι' _ hφ'
+  refine maximalAtlas_eq_of_eventually_smul (transportChartedSpace hι' M)
+    (transportChartedSpace hι M) fun x => ⟨σ⁻¹, Eventually.of_forall fun z => ?_⟩
+  rw [transport_chartAt, transport_chartAt]
+  simp only [OpenPartialHomeomorph.coe_trans, Function.comp_apply,
+    IsOpenEmbedding.toOpenPartialHomeomorph_apply, hσ, inv_smul_smul]
+
+/-- **The Remarque** (`bzrem:c1s1r1_affine_vers_projective`, l.319–329), in its strongest form. Let
+`j : ℝⁿ → H̊` be « un isomorphisme, compatible avec la structure affine de $\R^n$ sur un hémisphère
+$\mathring{H}$ de $S(n)$ » — here any affine injection into the open hemisphere `H̊` of equation
+`l ≠ 0`, for its structure of Déf. 6 — and `V` a locally affine manifold with jets `J(V)`. Then `j`
+is an open embedding of `ℝⁿ` into `S(n)` equivariant through an embedding `GA(n) →* GS(n)`; the
+charts `j ∘ φ` define on `V` a locally projective structure (`HasGroupoid`); its jets are
+`J''(V) = {g ∘ j ∘ γ | g ∈ GS(n), γ ∈ J(V)}` (« obtenus en composant un automorphisme de
+$GS(n, \R)$ et un jet de $J'(V)$ », `J'(V) = j ∘ J(V)`); and it is **canonical**: it has the same
+maximal atlas as for the standard chart `y ↦ s(y, 1)`, whatever `j` (`maximalAtlas_transport_indep`
+for two choices). -/
+theorem remarque_affine_vers_projective {n : ℕ} {l : Module.Dual ℝ (Fin (n + 1) → ℝ)}
+    [Fact (l ≠ 0)] {j : (Fin n → ℝ) → Sphere.openHemisphere l} (hj : IsAffine ℝ j)
+    (hinj : Function.Injective j) (V : Type u) [TopologicalSpace V] [ChartedSpace (Fin n → ℝ) V]
+    [HasGroupoid V (affGroupoid n)] :
+    ∃ (hι : IsOpenEmbedding fun y => (j y : S n)) (φ : GAR n →* GSR n),
+      (∀ (f : GAR n) (y : Fin n → ℝ), (j (f y) : S n) = φ f • (j y : S n)) ∧
+      @HasGroupoid (S n) _ V _ (transportChartedSpace hι V) (projGroupoid n) ∧
+      @jets (GSR n) (S n) V _ _ _ _ _ (transportChartedSpace hι V) =
+        {J | ∃ (g : GSR n) (x : V) (γ : Germ (𝓝 x) (Fin n → ℝ)),
+          (⟨x, γ⟩ : Jet V (Fin n → ℝ)) ∈ jets (GAR n) (Fin n → ℝ) V ∧
+          J = jetSMul g ⟨x, γ.map fun y => (j y : S n)⟩} ∧
+      @StructureGroupoid.maximalAtlas (S n) V _ _ (transportChartedSpace hι V) (projGroupoid n) =
+        @StructureGroupoid.maximalAtlas (S n) V _ _
+          (transportChartedSpace (Sphere.isOpenEmbedding_hemiChart (n := n)) V) (projGroupoid n) := by
+  obtain ⟨σ, hσ⟩ := Sphere.exists_eq_smul_hemiChart hj hinj
+  have hfun : (fun y => (j y : S n)) = (Homeomorph.smul σ) ∘ Sphere.hemiChart n := funext hσ
+  have hι : IsOpenEmbedding fun y => (j y : S n) := by
+    rw [hfun]
+    exact (Homeomorph.smul σ).isOpenEmbedding.comp Sphere.isOpenEmbedding_hemiChart
+  let φ : GAR n →* GSR n := (MulAut.conj σ).toMonoidHom.comp Sphere.affToGS
+  have hφ : ∀ (f : GAR n) (y : Fin n → ℝ), (j (f y) : S n) = φ f • (j y : S n) := by
+    intro f y
+    simp only [φ, MonoidHom.coe_comp, MulEquiv.coe_toMonoidHom, Function.comp_apply,
+      MulAut.conj_apply, hσ, Sphere.hemiChart_apply_eq_smul, mul_smul, inv_smul_smul]
+  exact ⟨hι, φ, hφ, hasGroupoid_transport hι φ hφ, jets_transport hι φ hφ,
+    maximalAtlas_transport_eq_of_smul Sphere.isOpenEmbedding_hemiChart Sphere.affToGS
+      (fun f y => Sphere.hemiChart_apply_eq_smul f y) hι σ hσ⟩
+
+/-- **« canoniquement associée »**: two choices `j`, `j'` in the Remarque (affine injections of `ℝⁿ`
+into open hemispheres of `S(n)`, possibly different ones) induce the same locally projective
+structure on a locally affine manifold `V`. -/
+theorem maximalAtlas_transport_indep {n : ℕ} {l l' : Module.Dual ℝ (Fin (n + 1) → ℝ)}
+    [Fact (l ≠ 0)] [Fact (l' ≠ 0)] {j : (Fin n → ℝ) → Sphere.openHemisphere l}
+    {j' : (Fin n → ℝ) → Sphere.openHemisphere l'} (V : Type u) [TopologicalSpace V]
+    [ChartedSpace (Fin n → ℝ) V] [HasGroupoid V (affGroupoid n)]
+    (hι : IsOpenEmbedding fun y => (j y : S n)) (hι' : IsOpenEmbedding fun y => (j' y : S n))
+    (hj : IsAffine ℝ j) (hinj : Function.Injective j) (hj' : IsAffine ℝ j')
+    (hinj' : Function.Injective j') :
+    @StructureGroupoid.maximalAtlas (S n) V _ _ (transportChartedSpace hι V) (projGroupoid n) =
+      @StructureGroupoid.maximalAtlas (S n) V _ _ (transportChartedSpace hι' V) (projGroupoid n) := by
+  obtain ⟨_, _, _, _, _, h⟩ := remarque_affine_vers_projective hj hinj V
+  obtain ⟨_, _, _, _, _, h'⟩ := remarque_affine_vers_projective hj' hinj' V
+  exact h.trans h'.symm
 
 /-- **Monotonicity in `G`, `HasGroupoid` form**: a `(G, X)`-structure is a `(G'', X)`-structure
 when every element of `G` acts as some element of `G''` (e.g. a subgroup). -/
@@ -894,9 +1008,23 @@ theorem hasGroupoid_mono {G'' : Type*} [Group G''] [MulAction G'' X] [Continuous
 
 end Transport
 
-/-! ### Prop. 1 fails on a disconnected open set (finding) -/
+/-! ### Remarks: Prop. 1 read literally fails on a disconnected or empty open set (DEC-120) -/
 
 section Counterexample
+
+/-- **Prop. 1, 1°, for `U = ∅` (remark)**: the uniqueness of `g` fails on the empty open set as soon
+as `G` is nontrivial (every `g` works). Hence DEC-120's reading « ouvert $U$ » nonempty. -/
+theorem not_existsUnique_smul_eq_of_empty {M : Type u} {X : Type v} {G : Type w} [Group G]
+    [MulAction G X] [Nontrivial G] (φ₁ φ₂ : M → X) :
+    ¬ ∃! g : G, ∀ y ∈ (∅ : Set M), φ₁ y = g • φ₂ y := by
+  obtain ⟨a, b, hab⟩ := exists_pair_ne G
+  rintro ⟨g, -, hg⟩
+  exact hab ((hg a fun _ h => h.elim).trans (hg b fun _ h => h.elim).symm)
+
+/-! The auxiliary objects of the disconnected counterexample to the literal Prop. 1 (a remark under
+DEC-120), kept out of `namespace Benzecri`. -/
+
+namespace Prop1Counterexample
 
 /-- `{y | y₀ < 1}` in `ℝ¹`. -/
 def cxA : Set (Fin 1 → ℝ) := {y | y 0 < 1}
@@ -950,11 +1078,16 @@ theorem cx_disjoint : Disjoint cxA cxB := by
   simp only [cxA, cxB, mem_setOf_eq] at h1 h2
   linarith
 
-/-- **Prop. 1 is false on a disconnected open set** (finding): in the locally affine manifold `ℝ¹`
+end Prop1Counterexample
+
+open Prop1Counterexample in
+/-- **Remark (DEC-120): Prop. 1 read literally fails on a disconnected open set**; DEC-120 reads
+« ouvert $U$ » connected, so this is not a finding. In the locally affine manifold `ℝ¹`
 itself (connected, Hausdorff, second countable), the open set `U = {y < 1} ∪ {y > 2}` carries two
 compatible charts — the identity, and the chart equal to the identity on `{y < 1}` and to the
 translation by `10` on `{y > 2}` — which (1°) differ by no single `g ∈ GA(1, ℝ)`, and (2°) have the
-same jet at `0 ∈ U` without being equal on `U`. So both parts of Prop. 1 need `U` connected. -/
+same jet at `0 ∈ U` without being equal on `U`. So both parts of Prop. 1 need `U` connected (and
+1° needs `U ≠ ∅`: `not_existsUnique_smul_eq_of_empty`). -/
 theorem not_prop1_of_disconnected :
     ∃ (U : Set (Fin 1 → ℝ)) (φ₁ φ₂ : OpenPartialHomeomorph (Fin 1 → ℝ) (Fin 1 → ℝ)),
       IsOpen U ∧ IsCompatibleChart (GAR 1) φ₁ ∧ IsCompatibleChart (GAR 1) φ₂ ∧

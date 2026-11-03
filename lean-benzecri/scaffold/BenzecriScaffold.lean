@@ -8,3 +8,4 @@ import BenzecriScaffold.Projective.Hemisphere
 import BenzecriScaffold.Projective.Convex
 import BenzecriScaffold.Structure.Basic
 import BenzecriScaffold.Structure.Quotient
+import BenzecriScaffold.Structure.Jets

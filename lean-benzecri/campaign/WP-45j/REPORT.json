@@ -1,0 +1,91 @@
+{
+  "package": "WP-45j",
+  "files": [
+    "scaffold/BenzecriScaffold/Structure/Jets.lean"
+  ],
+  "import_line": "import BenzecriScaffold.Structure.Jets",
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bzdef:c1s1d12_variete_localement_projective",
+      "tex_lines": [
+        304,
+        317
+      ],
+      "status": "closed",
+      "marked": true,
+      "shared_with": "WP-45h (Structure/Basic.lean): the jet ⟺ atlas equivalence, 1°, 2°, the set-level fibres; this file adds the topology and the covering and carries the bold mark",
+      "decls": [
+        "Benzecri.etaleBasis",
+        "Benzecri.etaleTopology",
+        "Benzecri.isOpen_etaleBasic",
+        "Benzecri.continuous_jet",
+        "Benzecri.isOpen_iff_isEtaleOpen",
+        "Benzecri.continuous_jetSource",
+        "Benzecri.IsJetStructure.isOpen",
+        "Benzecri.isOpen_jets",
+        "Benzecri.sheetIndex",
+        "Benzecri.jetsTrivialization",
+        "Benzecri.isCoveringMap_jets",
+        "Benzecri.IsJetStructure.isCoveringMap",
+        "Benzecri.isCoveringMap_jets_proj",
+        "Benzecri.isCoveringMap_jets_aff",
+        "Benzecri.IsJetStructure",
+        "Benzecri.exists_hasGroupoid_jets_eq_iff",
+        "Benzecri.maximalAtlas_eq_of_jets_eq",
+        "Benzecri.isJetStructure_jets"
+      ],
+      "hypotheses": [
+        {
+          "paper": "V a variété « convexe » ([sic] connexe), T2, second countable",
+          "here": "generalised",
+          "note": "none used; V any topological space"
+        },
+        {
+          "paper": "« ensemble ouvert J(V) »",
+          "here": "carried",
+          "note": "IsOpen for the étalé topology etaleTopology := generateFrom {jet y f | y ∈ W, W open}; equivalent to Basic's IsEtaleOpen for every set of jets (isOpen_iff_isEtaleOpen)"
+        },
+        {
+          "paper": "« J(V), muni de la projection source sur V est un revêtement de V »",
+          "here": "carried",
+          "note": "Mathlib's IsCoveringMap for (fun j : J(V) => j.1.1), subspace topology; fibre G with the discrete topology chosen inside the proof (no hypothesis on G's topology); trivialisation over every chart domain (y, g) ↦ g • jet y e (jetsTrivialization), sheets disjoint by mem_jets_iff_existsUnique"
+        },
+        {
+          "paper": "GS(n, ℝ), GA(n, ℝ) (rigid)",
+          "here": "carried",
+          "note": "IsAnalyticAction G X, instances for GSR n on S n and GAR n on ℝⁿ; corollaries isCoveringMap_jets_proj, isCoveringMap_jets_aff"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "Déf. 12 prints « convexe »; read « connexe » ([sic]); not needed."
+      ],
+      "rests_on": [
+        "DEC-120 (Déf. 12 certified by the étalé topology and the covering)"
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.exists_jet_eq",
+    "Benzecri.jet_mem_image_jet_iff",
+    "Benzecri.exists_sheetIndex",
+    "Benzecri.sheetIndex_spec",
+    "Benzecri.sheetIndex_eq",
+    "Benzecri.val_eq_jetSMul_sheetIndex",
+    "Benzecri.sheetIndex_eq_of_val_eq",
+    "Benzecri.jetSMul_jet_mem_jets",
+    "Benzecri.jetsTrivInv",
+    "Benzecri.jetsTrivInv_of_mem"
+  ],
+  "upstream_moves": [],
+  "build": "taskset -c 0-11 lake build BenzecriScaffold.Structure.Jets: success; lake env lean -DwarningAsError=true: clean; Lean.collectAxioms over every non-internal constant of the six touched modules (426): all ⊆ [propext, Classical.choice, Quot.sound]; #print axioms Benzecri.isCoveringMap_jets = the three",
+  "kb_proposals": [
+    "The étalé topology on Jet M X = Σ x, Germ (𝓝 x) X is a SCOPED instance (Benzecri.etaleTopology): Mathlib has no topology on Filter.Germ, and a global one would be an orphan on a Mathlib type. Inside namespace Benzecri it is active; use continuous_jet (y ↦ jet y g continuous for EVERY g) and isOpen_etaleBasic; IsOpen ↔ IsEtaleOpen is isOpen_iff_isEtaleOpen.",
+    "IsCoveringMap at this pin is ∀ x, IsEvenlyCovered f x (f ⁻¹' {x}); build it with IsCoveringMap.mk _ (fun _ => G) trivialisations (fibre G with ⊥ topology introduced by letI inside the proof); Trivialization is Bundle.Trivialization (open Bundle).",
+    "Variables made explicit with `variable (G X M) in` keep their DECLARATION order (M X G here), not the order written in the `variable` command."
+  ],
+  "notes": "New module (DEC-120 item 3), 327 lines, imports BenzecriScaffold.Structure.Basic and Mathlib.Topology.Covering.Basic. The root BenzecriScaffold.lean is NOT wired (main session): add `import BenzecriScaffold.Structure.Jets`. Prop. 2 (developing map, wave 3) can use isCoveringMap_jets and continuous_jet directly."
+}

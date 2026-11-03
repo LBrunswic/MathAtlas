@@ -15,20 +15,25 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
   the representative `M ∈ F(m)` (`hvadd_mk`, `mk_transl_eq_of_mk_eq`, `coe_vadd_eq`), the action on
   `H` (`instAddActionHemi`), simply transitive on EVERY open hemisphere (`isSimplyTransitive_hemi`,
   Déf. 1 as printed), an affine space in DEC-114's reading of Déf. 1 iff `H ≠ ∅`
-  (`isAffineSpace_hemi_iff`), Mathlib's `AddTorsor` (`instAddTorsorHemi`). Its translation space
-  depends only on `H` (`ker_eq_of_openHemisphere_eq`).
+  (`isAffineSpace_hemi_iff`), Mathlib's `AddTorsor` (`instAddTorsorHemi`). The structure depends
+  only on `H`, not on the equation `l`: same kernel (`ker_eq_of_openHemisphere_eq`), and a linear
+  isomorphism `L(E/N, N) ≃ L(E/N', N')` intertwining the two actions (`hemiTransEquiv`,
+  `coe_vadd_hemiTransEquiv`, `hemi_vadd_indep`).
 * The sentence of p. 236, `benzecri1960_ch1.tex:280` (no label, « Un hémisphère ouvert de $S(n)$ est
   muni d'une structure affine isomorphe à celle de $\R^n$ (cf. déf. 6) »): the chart
   `hemiEquivLevelOne : H ≃ᵃ[ℝ] {l = 1}` onto the affine hyperplane `l = 1` (an `AffineSubspace` of
   direction `N`), and `nonempty_hemi_affineEquiv : Nonempty (H ≃ᵃ[ℝ] ℝⁿ)` for `dim E = n + 1`.
 * Groundwork for the Remarque `bzrem:c1s1r1_affine_vers_projective` (`benzecri1960_ch1.tex:319`,
-  formalized partially in `Structure/Basic`, not marked): the elements of `GS(E)` preserving `H`
+  certified and marked in `Structure/Basic`): the elements of `GS(E)` preserving `H`
   act on it by affine maps (`isAffine_hemiMap`, `isAffine_gse_restrict`, after `mapsTo_smul_openHemisphere_iff`:
   `g` preserves `H` iff `l ∘ g = c l`, `c > 0`); the standard chart `j : ℝⁿ → S(n)`,
   `y ↦ s(y, 1)` (`hemiChart`), an open embedding onto `H₀ = {x_{n+1} > 0}`
   (`isOpenEmbedding_hemiChart`, `range_hemiChart`) and an affine bijection `ℝⁿ → H₀`
   (`isAffine_hemiChartH`, `bijective_hemiChartH`); the injective hom `φ : GA(n) →* GS(n)`
-  (`affToGS`, `affToGS_injective`) with `j(f y) = φ(f) • j(y)` (`hemiChart_apply_eq_smul`).
+  (`affToGS`, `affToGS_injective`) with `j(f y) = φ(f) • j(y)` (`hemiChart_apply_eq_smul`); and
+  **every affine injection `j : ℝⁿ → H` into ANY open hemisphere of `S(n)` is `σ • hemiChart` for
+  some `σ ∈ GS(n)`** (`exists_eq_smul_hemiChart`), which is what makes the Remarque's structure
+  independent of `j` (`Structure/Basic`).
 
 > **Déf. 6.** Sur tout hémisphère ouvert $H$ de $S(E)$, nous allons définir une structure d'espace
 > affin.
@@ -52,30 +57,36 @@ is `(E ⧸ ker l) →ₗ[ℝ] ker l`; `q` is `(ker l).mkQ` (`hq l`); `l̄ : E/N 
 |---|---|
 | `H` an open hemisphere of `S(E)`, `l` an equation of `H` | ✓ carried: `H = openHemisphere l` for `l : Module.Dual ℝ E` (Déf. 5's `F(H) = l⁻¹(ℝ⁺)` is `F_openHemisphere`); the openness of `H` is never used, so no topology is assumed |
 | `E` a real vector space | ✓ carried, any dimension, for Déf. 6; `dim E = n + 1` only for the p. 236 sentence |
-| « structure d'espace affin » (Déf. 1) | ✓ carried in both forms: as printed (`IsSimplyTransitive`, every `l`) and in DEC-114's reading (`IsAffineSpace`, nonempty), the latter iff `l ≠ 0`, Déf. 5's reading (DEC-114) |
+| « structure d'espace affin » (Déf. 1) | reading (DEC-114/DEC-120, ruled): as printed (`IsSimplyTransitive`, every `l`) and in DEC-114's reading (`IsAffineSpace`, nonempty), the latter iff `l ≠ 0`, Déf. 5's reading (DEC-114, accepted by DEC-120) |
+| independence of the equation `l` (« Soient $l$ une équation de $H$ ») | ✓ carried: `hemi_vadd_indep` |
 | `M ∈ F(m)` arbitrary | ✓ carried: the formula holds for every representative (`coe_vadd_eq`) |
 
 ## SCOPE (disclosed)
 
-* **Mark.** Déf. 6 is marked: the action is defined by the printed formula, proved independent of
-  the representative, and simply transitive on every open hemisphere with no hypothesis (Déf. 1 as
-  printed); in DEC-114's reading of Déf. 1 (an affine space is nonempty) it is an affine space
-  exactly when `l ≠ 0`, which is DEC-114's reading of Déf. 5 (« l'hyperplan fermé $h$ » forces
-  `l ≠ 0`). The two readings are the author's rulings and agree here, so no hypothesis is added to
-  Déf. 6.
+* **Mark (rests on DEC-114/DEC-120).** Déf. 6 is marked: the action is defined by the printed
+  formula, proved independent of the representative and of the equation, and simply transitive on
+  every open hemisphere with no hypothesis (Déf. 1 as printed); in DEC-114's reading of Déf. 1 (an
+  affine space is nonempty) it is an affine space exactly when `l ≠ 0`, which is DEC-114's reading
+  of Déf. 5 (« l'hyperplan fermé $h$ » forces `l ≠ 0`). The two readings are the author's rulings
+  and agree here, so no hypothesis is added to Déf. 6; DEC-120 accepts the mark on that basis.
 * **`[sic]`, not a finding.** « indépendante du choix de $m$ » is read « de $M$ », as the
   transcription's comment says.
 * `HemiTrans l` is indexed by the equation `l`, not by `H`: two equations of the same `H` are
   positive multiples (`openHemisphere_eq_iff`) and have the same kernel
-  (`ker_eq_of_openHemisphere_eq`), so the translation space and the formula are those of `H`; the
-  types `HemiTrans l` and `HemiTrans (c • l)` are equal only propositionally.
+  (`ker_eq_of_openHemisphere_eq`); the types `HemiTrans l` and `HemiTrans (c • l)` are not
+  definitionally equal, and the independence of the equation is the linear isomorphism
+  `hemiTransEquiv`, which leaves the formula `M ↦ M + u(q M)` unchanged (`transl_hemiTransEquiv`,
+  by `rfl`) and intertwines the actions (`coe_vadd_hemiTransEquiv`).
 * Outside `H`, `hvadd` is extended by the same formula (and by the identity where
   `M + u(q M) = 0`, which never happens on `H`); only its restriction to `H` is Déf. 6.
 * The topology of `H` and continuity of the action are not used by Déf. 6; the standard chart
   `hemiChart` is proved an open embedding, which `Structure/Basic` uses for the Remarque.
-* Not proved here: that every affine automorphism of `H` comes from `GS(E)` (the converse of
-  `isAffine_hemiMap`, i.e. `GA(n) ≅ Stab_{GS(n)}(H₀)`); only the injectivity of `affToGS` and its
-  equivariance are, which is what the Remarque uses.
+* The converse of `isAffine_hemiMap` is proved in the form the Remarque uses: an affine injection
+  `ℝⁿ → H` is the restriction of an element of `GS(n)` composed with the standard chart
+  (`exists_eq_smul_hemiChart`); the group isomorphism `GA(n) ≅ Stab_{GS(n)}(H₀)` is not stated.
+* Generic helpers (`mk_eq_mk_of_eq`, the `Fin.snoc`/`Fin.init` lemmas, `GAR.apply_eq`) are
+  `private`; `affLin`, `affToGL`, `affToGS` belong to `Projective/Groups` at graduation (REPORT
+  `upstream_moves`).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -89,6 +100,10 @@ namespace Benzecri
 namespace Sphere
 
 variable {E : Type*} [AddCommGroup E] [Module ℝ E]
+
+/-- Two representatives that are equal give the same point (a cast helper). -/
+private theorem mk_eq_mk_of_eq {v w : E} (hv : v ≠ 0) (h : v = w) : mk v hv = mk w (h ▸ hv) := by
+  subst h; rfl
 
 section Def6
 
@@ -323,6 +338,40 @@ theorem ker_eq_of_openHemisphere_eq {l' : Module.Dual ℝ E} (h : openHemisphere
   obtain ⟨c, hc, rfl⟩ := (openHemisphere_eq_iff l l').1 h
   exact (LinearMap.ker_smul l c hc.ne').symm
 
+/-- **The translation space does not depend on the equation** (« Soient $l$ une équation de $H$ … le
+groupe des translations de $H$ »): for two equations `l`, `l'` of the same open hemisphere,
+`L(E/N, N) ≃ L(E/N', N')` (`N = N'`, `ker_eq_of_openHemisphere_eq`), `u ↦ u` read through `N = N'`. -/
+def hemiTransEquiv {l' : Module.Dual ℝ E} (h : openHemisphere l = openHemisphere l') :
+    HemiTrans l ≃ₗ[ℝ] HemiTrans l' :=
+  LinearEquiv.arrowCongr (Submodule.quotEquivOfEq _ _ (ker_eq_of_openHemisphere_eq h))
+    (LinearEquiv.ofEq _ _ (ker_eq_of_openHemisphere_eq h))
+
+/-- `hemiTransEquiv` does not change the vector formula `M ↦ M + u(q M)`. -/
+theorem transl_hemiTransEquiv {l' : Module.Dual ℝ E} (h : openHemisphere l = openHemisphere l')
+    (u : HemiTrans l) (M : E) : transl (hemiTransEquiv h u) M = transl u M :=
+  rfl
+
+/-- **The affine structure of Déf. 6 does not depend on the equation `l`**: for two equations `l`,
+`l'` of the same open hemisphere `H`, the linear isomorphism `hemiTransEquiv` of the translation
+spaces intertwines the two actions on `H`. -/
+theorem coe_vadd_hemiTransEquiv {l' : Module.Dual ℝ E} (h : openHemisphere l = openHemisphere l')
+    (u : HemiTrans l) (m : openHemisphere l) :
+    ((hemiTransEquiv h u +ᵥ (⟨m, h ▸ m.2⟩ : openHemisphere l') : openHemisphere l') : Sphere E) =
+      ((u +ᵥ m : openHemisphere l) : Sphere E) := by
+  obtain ⟨x, hx⟩ := m
+  induction x using ind with
+  | h v hv =>
+    rw [coe_vadd_eq _ _ hv rfl, coe_vadd_eq _ _ hv rfl]
+    exact mk_eq_mk_of_eq _ (transl_hemiTransEquiv h u v)
+
+/-- **Déf. 6 is independent of the equation** (the form asked by the WP-45f audit): two equations of
+the same open hemisphere give linearly isomorphic translation spaces acting identically on `H`. -/
+theorem hemi_vadd_indep {l' : Module.Dual ℝ E} (h : openHemisphere l = openHemisphere l') :
+    ∃ e : HemiTrans l ≃ₗ[ℝ] HemiTrans l', ∀ (u : HemiTrans l) (m : openHemisphere l),
+      ((e u +ᵥ (⟨m, h ▸ m.2⟩ : openHemisphere l') : openHemisphere l') : Sphere E) =
+        ((u +ᵥ m : openHemisphere l) : Sphere E) :=
+  ⟨hemiTransEquiv h, coe_vadd_hemiTransEquiv h⟩
+
 /-! #### The chart: the affine hyperplane `l = 1`, and `ℝⁿ` -/
 
 /-- **`L(E/N, N) ≃ N`**, evaluation at the class of a vector `v₁` with `l(v₁) = 1` (the class is
@@ -520,23 +569,20 @@ section Standard
 
 variable {n : ℕ}
 
-theorem mk_eq_mk_of_eq {v w : E} (hv : v ≠ 0) (h : v = w) : mk v hv = mk w (h ▸ hv) := by
-  subst h; rfl
-
-theorem snoc_add_snoc (a b : Fin n → ℝ) (s t : ℝ) :
+private theorem snoc_add_snoc (a b : Fin n → ℝ) (s t : ℝ) :
     (Fin.snoc a s : Fin (n + 1) → ℝ) + Fin.snoc b t = Fin.snoc (a + b) (s + t) := by
   ext i
   refine Fin.lastCases ?_ (fun i => ?_) i <;> simp
 
-theorem smul_snoc (c : ℝ) (a : Fin n → ℝ) (s : ℝ) :
+private theorem smul_snoc (c : ℝ) (a : Fin n → ℝ) (s : ℝ) :
     c • (Fin.snoc a s : Fin (n + 1) → ℝ) = Fin.snoc (c • a) (c * s) := by
   ext i
   refine Fin.lastCases ?_ (fun i => ?_) i <;> simp
 
-theorem init_add (v w : Fin (n + 1) → ℝ) :
+private theorem init_add (v w : Fin (n + 1) → ℝ) :
     (Fin.init (v + w) : Fin n → ℝ) = Fin.init v + Fin.init w := rfl
 
-theorem init_smul (c : ℝ) (v : Fin (n + 1) → ℝ) :
+private theorem init_smul (c : ℝ) (v : Fin (n + 1) → ℝ) :
     (Fin.init (c • v) : Fin n → ℝ) = c • Fin.init v := rfl
 
 variable (n) in
@@ -574,7 +620,7 @@ theorem hemiChart_injective : Function.Injective (hemiChart n) := by
   have := congrArg (fun x => (Fin.init (nrep (lastForm n) x) : Fin n → ℝ)) h
   simpa [nrep_hemiChart] using this
 
-theorem snoc_init_smul_eq (v : Fin (n + 1) → ℝ) (hv : v (Fin.last n) ≠ 0) :
+private theorem snoc_init_smul_eq (v : Fin (n + 1) → ℝ) (hv : v (Fin.last n) ≠ 0) :
     (Fin.snoc ((v (Fin.last n))⁻¹ • Fin.init v) 1 : Fin (n + 1) → ℝ) = (v (Fin.last n))⁻¹ • v := by
   ext i
   refine Fin.lastCases ?_ (fun i => ?_) i
@@ -596,7 +642,7 @@ theorem continuous_hemiChart : Continuous (hemiChart n) := by
     Continuous.finSnoc (A := fun _ => ℝ) continuous_id continuous_const
   exact continuous_mk_comp this snoc_one_ne_zero
 
-theorem continuous_init : Continuous (Fin.init : (Fin (n + 1) → ℝ) → (Fin n → ℝ)) :=
+private theorem continuous_init : Continuous (Fin.init : (Fin (n + 1) → ℝ) → (Fin n → ℝ)) :=
   continuous_pi fun _ => continuous_apply _
 
 theorem isOpenMap_hemiChart : IsOpenMap (hemiChart n) := by
@@ -686,7 +732,7 @@ theorem affLin_snoc (f : GAR n) (y : Fin n → ℝ) (t : ℝ) :
     affLin f (Fin.snoc y t) = Fin.snoc (f.linear y + t • f 0) t := by
   simp [affLin]
 
-theorem GAR.apply_eq (f : GAR n) (y : Fin n → ℝ) : f y = f.linear y + f 0 := by
+private theorem GAR.apply_eq (f : GAR n) (y : Fin n → ℝ) : f y = f.linear y + f 0 := by
   have := f.map_vadd 0 y
   simpa [vadd_eq_add] using this
 
@@ -752,6 +798,48 @@ theorem affToGS_injective : Function.Injective (affToGS (n := n)) := by
   simp only [Fin.init_snoc] at this
   rw [GAR.apply_eq, this]
   rfl
+
+/-- **Every affine injection of `ℝⁿ` into an open hemisphere is the standard chart followed by an
+element of `GS(n)`** (the Remarque's `j`, `bzrem:c1s1r1_affine_vers_projective`): if
+`j : ℝⁿ → H` is injective and affine for the structure of Déf. 6 on the open hemisphere `H` of
+equation `l ≠ 0` of `S(n)`, then `j(y) = σ • s(y, 1)` for some `σ ∈ GS(n)`. (`σ` is the class of
+`(y, t) ↦ j̃'(y) + t j̃(0)`, `j̃ = M / l(M)` the lift of `j` to the affine hyperplane `l = 1`.) -/
+theorem exists_eq_smul_hemiChart {l : Module.Dual ℝ (Fin (n + 1) → ℝ)} [Fact (l ≠ 0)]
+    {j : (Fin n → ℝ) → openHemisphere l} (hj : IsAffine ℝ j) (hinj : Function.Injective j) :
+    ∃ σ : GSR n, ∀ y, (j y : S n) = σ • hemiChart n y := by
+  obtain ⟨v₁, hv₁⟩ := exists_l_eq_one (Fact.out : l ≠ 0)
+  obtain ⟨f, hf⟩ := (isAffine_iff ℝ j).1 hj
+  let a : (Fin n → ℝ) →ᵃ[ℝ] (Fin (n + 1) → ℝ) :=
+    (levelOne hv₁).subtype.comp ((hemiEquivLevelOne hv₁).toAffineMap.comp f)
+  have ha : ∀ y, a y = nrep l (j y) := fun y => by rw [← hf]; rfl
+  have hl1 : ∀ y, l (a y) = 1 := fun y => by rw [ha]; exact l_nrep (j y).2
+  have hlin : ∀ v, a.linear v = a v - a 0 := fun v => by
+    have := a.linearMap_vsub v 0
+    rwa [vsub_eq_sub, sub_zero, vsub_eq_sub] at this
+  have hl0 : ∀ v, l (a.linear v) = 0 := fun v => by rw [hlin, map_sub, hl1, hl1, sub_self]
+  have hlinj : ∀ v, a.linear v = 0 → v = 0 := fun v hv => by
+    rw [hlin, sub_eq_zero, ha, ha] at hv
+    exact hinj (openHemisphere_ext hv)
+  let L : (Fin (n + 1) → ℝ) →ₗ[ℝ] (Fin (n + 1) → ℝ) :=
+    a.linear ∘ₗ LinearMap.funLeft ℝ ℝ Fin.castSucc + (LinearMap.proj (Fin.last n)).smulRight (a 0)
+  have hL : ∀ w, L w = a.linear (Fin.init w) + w (Fin.last n) • a 0 := fun w => rfl
+  have hLinj : Function.Injective L := by
+    rw [← LinearMap.ker_eq_bot, LinearMap.ker_eq_bot']
+    intro w hw
+    rw [hL] at hw
+    have h1 : w (Fin.last n) = 0 := by
+      have := congrArg l hw
+      rwa [map_add, map_smul, hl0, hl1, smul_eq_mul, mul_one, zero_add, map_zero] at this
+    rw [h1, zero_smul, add_zero] at hw
+    have h2 := hlinj _ hw
+    rw [← Fin.snoc_init_self w, h2, h1]
+    ext i
+    refine Fin.lastCases ?_ (fun i => ?_) i <;> simp
+  refine ⟨QuotientGroup.mk (LinearEquiv.ofInjectiveEndo L hLinj), fun y => ?_⟩
+  rw [GSE.mk_smul, hemiChart, smul_mk, ← mk_nrep (j y).2]
+  apply mk_eq_mk_of_eq
+  show nrep l (j y) = L (Fin.snoc y 1)
+  rw [hL, Fin.init_snoc, Fin.snoc_last, one_smul, hlin, ← ha, sub_add_cancel]
 
 end Standard
 

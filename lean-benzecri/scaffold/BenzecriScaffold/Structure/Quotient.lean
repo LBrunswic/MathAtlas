@@ -16,22 +16,25 @@ No ledger label: the prose of p. 238 carries none, so nothing is marked; it is g
 What is proved, for an arbitrary `(G, X)` (the paper's two cases are `(GSR n, S n)` and
 `(GAR n, Fin n → ℝ)`):
 * **Morphisms** (`benzecri1960_ch1.tex:390–396`): `Benzecri.IsGXMorphism` (continuous, and in charts
-  locally an element of `G`; ported from `lean-gx/GX/Structure/Basic.lean:512–660` at lean-gx
+  locally an element of `G`; ported from `lean-gx/GX/Structure/Basic.lean:512–663` at lean-gx
   `4a577c5`), identity, composition, chart independence, and a morphism is a local homeomorphism
   (`IsGXMorphism.isLocalHomeomorph`, the paper's « isomorphisme local »). **The paper's definition
   by jets, « $J(V_2)\circ f\subset J(V_1)$ », is equivalent** for continuous `f`
   (`isGXMorphism_iff_jets`).
 * **The category** (`:390`): bundled objects `Benzecri.GXCat G X` (`carrier : Type`, with its
   topology, charted space and groupoid as instance fields; plan F5), the instance
-  `GXCat.category` (morphisms the `IsGXMorphism` maps), `LocProj n`, `LocAff n`.
+  `GXCat.category` (morphisms the `IsGXMorphism` maps, extensional: `GXCat.hom_ext`), `LocProj n`,
+  `LocAff n`.
 * **The quotient `V/G`** (`:398–401`): for a group `Γ` of automorphisms (each `γ • ·` a morphism),
   properly discontinuous (`ProperlyDiscontinuousSMul`) and free (`IsCancelSMul`, « sans point
   fixe »), `V` Hausdorff and locally compact, Mathlib's charted space on
   `MulAction.orbitRel.Quotient Γ V` is a `(G,X)`-structure (`hasGroupoid_quotient`), the projection
   is a morphism (`isGXMorphism_quotientMk`), and it is the only such structure
-  (`maximalAtlas_quotient_unique`). In general: the push-forward along a surjective local
-  homeomorphism whose deck transformations are `(G,X)`-maps (`IsGXDeck`,
-  `existsUnique_pushforward`).
+  (`maximalAtlas_quotient_unique`); « proprement discontinu » is Mathlib's sense by DEC-120, so `V/Γ`
+  is Hausdorff. Remark: under the weaker « wandering » sense (`IsQuotientCoveringMap`) the structure
+  exists and is unique too, with no Hausdorffness (`existsUnique_quotient_of_isQuotientCoveringMap`).
+  In general: the push-forward along a surjective local homeomorphism whose deck transformations are
+  `(G,X)`-maps (`IsGXDeck`, `existsUnique_pushforward`).
 * **The étalé pull-back** (`:401–405`): along a local homeomorphism `p : E → V` (an « ouvert étalé »)
   there is a unique structure making `p` a morphism (`existsUnique_pullback`, ported from
   `lean-gx/GX/Structure/Basic.lean:761–880`); in particular on every covering
@@ -61,7 +64,8 @@ What is proved, for an arbitrary `(G, X)` (the paper's two cases are `(GSR n, S 
 |---|---|
 | `f : V₁ → V₂` « une application » | ⚠ reading: continuous (the composite of a jet of `f` with a jet of `J(V₂)` is a germ only if `f` maps a neighbourhood into the chart's domain); `isGXMorphism_iff_jets` takes `Continuous f` |
 | `V₁`, `V₂` of the same dimension | ✓ carried: one model `X` for both |
-| `G` « proprement discontinu » | ✓ carried as Mathlib's `ProperlyDiscontinuousSMul` (compact sets meet finitely many translates) |
+| `G` « proprement discontinu » | ✓ carried as Mathlib's `ProperlyDiscontinuousSMul` (compact sets meet finitely many translates), the author's ruling (DEC-120); the weaker wandering sense is the remark `existsUnique_quotient_of_isQuotientCoveringMap` |
+| `G` acting by homeomorphisms (Mathlib's `ContinuousConstSMul`, required by its charted space on `V/Γ`) | not a hypothesis: derived from « d'automorphismes » (`continuousConstSMul_of_isGXMorphism`) |
 | « sans point fixe » | ✓ carried as `IsCancelSMul Γ V` (free action) |
 | « d'automorphismes de la structure » | ✓ carried: every `γ • ·` is a morphism (its inverse `γ⁻¹ • ·` is one too) |
 | `V` a variété (Hausdorff; plan F6) | ✓ carried where used: `[T2Space V] [LocallyCompactSpace V]` for the quotient only (Mathlib's covering lemma); locally compact holds for every `V` charted on `S(n)` or `ℝⁿ` (`ChartedSpace.locallyCompactSpace`) |
@@ -71,7 +75,11 @@ What is proved, for an arbitrary `(G, X)` (the paper's two cases are `(GSR n, S 
 
 * No label, so nothing is marked; the category is groundwork for § 2's functor (DEC-113).
 * The objects `GXCat G X` carry no connectedness, Hausdorffness or countability (plan F6: carried
-  where used); `carrier : Type` (universe 0, plan F5).
+  where used); `carrier : Type` (universe 0, plan F5). **§ 2's « isomorphisme fonctoriel »
+  (DEC-113) will use the FULL SUBCATEGORY of connected Hausdorff (second countable) objects**, e.g.
+  `CategoryTheory.FullSubcategory fun V : GXCat G X => ConnectedSpace V ∧ T2Space V`, the paper's
+  « variétés » (plan F6): an equivalence built on all of `GXCat` would be a different, more general
+  statement, and the cone side may fail for non-Hausdorff objects.
 * Not formalized: « si $R$ est galoisien, $V$ est le quotient de $R$ par un groupe d'automorphismes »,
   and the universal covering's developing map (Prop. 2, wave 3). Automorphisms are not given a name
   (`CategoryTheory.Aut` applies to `GXCat`).
@@ -89,7 +97,7 @@ namespace Benzecri
 
 universe u v w y
 
-/-! ### Morphisms: local `(G,X)`-isomorphisms (port of `lean-gx/GX/Structure/Basic.lean:512–660`) -/
+/-! ### Morphisms: local `(G,X)`-isomorphisms (port of `lean-gx/GX/Structure/Basic.lean:512–663`) -/
 
 section Morphism
 
@@ -253,6 +261,10 @@ example (n : ℕ) : CategoryTheory.Category (LocProj n) := inferInstance
 example (n : ℕ) : CategoryTheory.Category (LocAff n) := inferInstance
 
 variable {G X}
+
+/-- **Morphisms are determined by their underlying maps** (`@[ext]`, for § 2's functors). -/
+@[ext] theorem GXCat.hom_ext {V W : GXCat G X} {f g : V ⟶ W} (h : f.1 = g.1) : f = g :=
+  Subtype.ext h
 
 /-- Every morphism of the category is a local homeomorphism. -/
 theorem GXCat.isLocalHomeomorph_hom {V W : GXCat G X} (f : V ⟶ W) : IsLocalHomeomorph f.1 :=
@@ -537,8 +549,37 @@ theorem isGXDeck_quotientMk (hΓ : ∀ γ : Γ, IsGXMorphism G X fun v : V => γ
     have hx : γ⁻¹ • x = x' := by rw [← hγ, inv_smul_smul]
     exact ⟨g, by rw [← hx]; exact hg⟩
 
-variable [ProperlyDiscontinuousSMul Γ V] [ContinuousConstSMul Γ V] [IsCancelSMul Γ V]
-  [T2Space V] [LocallyCompactSpace V]
+omit [ContinuousConstSMul G X] [HasGroupoid V (gxGroupoid G X)] in
+/-- **A group of automorphisms acts by homeomorphisms**: each `γ • ·` is a morphism, hence
+continuous, so Mathlib's `ContinuousConstSMul` (required by its charted space on `V/Γ`) is not a
+hypothesis of the paper's statement but a consequence of « d'automorphismes ». -/
+theorem continuousConstSMul_of_isGXMorphism (hΓ : ∀ γ : Γ, IsGXMorphism G X fun v : V => γ • v) :
+    ContinuousConstSMul Γ V :=
+  ⟨fun γ => (hΓ γ).continuous⟩
+
+omit [HasGroupoid V (gxGroupoid G X)] in
+/-- **Remark (DEC-120): the weaker sense of « proprement discontinu »**. If `V → V/Γ` is a quotient
+covering map for `Γ` (Mathlib's `IsQuotientCoveringMap`: every point has a neighbourhood `U` with
+`γU ∩ U = ∅` for `γ ≠ 1`, the « wandering » sense), `V/Γ` already carries a unique `(G,X)`-structure
+making the projection a morphism, with NO Hausdorffness or local compactness; `V/Γ` may then fail to
+be Hausdorff. DEC-120 rules « proprement discontinu » in Mathlib's sense
+(`ProperlyDiscontinuousSMul`), under which `V/Γ` is Hausdorff (`hasGroupoid_quotient`); this
+statement is kept as a remark. -/
+theorem existsUnique_quotient_of_isQuotientCoveringMap [HasGroupoid V (gxGroupoid G X)]
+    (hq : IsQuotientCoveringMap (Quotient.mk (MulAction.orbitRel Γ V)) Γ)
+    (hΓ : ∀ γ : Γ, IsGXMorphism G X fun v : V => γ • v) :
+    ∃ cs : ChartedSpace X (MulAction.orbitRel.Quotient Γ V),
+      ∃ _ : @HasGroupoid X _ _ _ cs (gxGroupoid G X),
+      @IsGXMorphism G X _ _ _ V _ _ _ _ cs (Quotient.mk (MulAction.orbitRel Γ V)) ∧
+      ∀ cs' : ChartedSpace X (MulAction.orbitRel.Quotient Γ V),
+        ∀ _ : @HasGroupoid X _ _ _ cs' (gxGroupoid G X),
+        @IsGXMorphism G X _ _ _ V _ _ _ _ cs' (Quotient.mk (MulAction.orbitRel Γ V)) →
+        @StructureGroupoid.maximalAtlas X _ _ _ cs' (gxGroupoid G X) =
+          @StructureGroupoid.maximalAtlas X _ _ _ cs (gxGroupoid G X) :=
+  existsUnique_pushforward (hq.isCoveringMap.isLocalHomeomorph) Quotient.mk_surjective
+    (isGXDeck_quotientMk hΓ)
+
+variable [ProperlyDiscontinuousSMul Γ V] [IsCancelSMul Γ V] [T2Space V] [LocallyCompactSpace V]
 
 /-- **The quotient `V/Γ` is a `(G,X)`-manifold** (p. 238, « Soit $G$ un groupe proprement
 discontinu sans point fixe, d'automorphismes de la structure localement projective de $V$ :
@@ -547,7 +588,9 @@ Mathlib's charted space on the quotient (`MulAction.instChartedSpaceQuotient`). 
 `Γ` here; « sans point fixe » is `IsCancelSMul`, « proprement discontinu »
 `ProperlyDiscontinuousSMul`; `V` Hausdorff and locally compact (implicit in « variété »). -/
 theorem hasGroupoid_quotient (hΓ : ∀ γ : Γ, IsGXMorphism G X fun v : V => γ • v) :
+    haveI := continuousConstSMul_of_isGXMorphism hΓ
     HasGroupoid (MulAction.orbitRel.Quotient Γ V) (gxGroupoid G X) :=
+  haveI := continuousConstSMul_of_isGXMorphism hΓ
   hasGroupoid_chartedSpaceOfRightInverse
     ((isQuotientCoveringMap_quotientMk_of_properlyDiscontinuousSMul (G := Γ)
       (E := V)).isCoveringMap.isLocalHomeomorph)
@@ -557,7 +600,9 @@ theorem hasGroupoid_quotient (hΓ : ∀ γ : Γ, IsGXMorphism G X fun v : V => �
 omit [ContinuousConstSMul G X] [HasGroupoid V (gxGroupoid G X)] in
 /-- The projection `V → V/Γ` is a morphism. -/
 theorem isGXMorphism_quotientMk (hΓ : ∀ γ : Γ, IsGXMorphism G X fun v : V => γ • v) :
+    haveI := continuousConstSMul_of_isGXMorphism hΓ
     IsGXMorphism G X (Quotient.mk (MulAction.orbitRel Γ V)) :=
+  haveI := continuousConstSMul_of_isGXMorphism hΓ
   isGXMorphism_chartedSpaceOfRightInverse
     ((isQuotientCoveringMap_quotientMk_of_properlyDiscontinuousSMul (G := Γ)
       (E := V)).isCoveringMap.isLocalHomeomorph)
@@ -568,12 +613,14 @@ theorem isGXMorphism_quotientMk (hΓ : ∀ γ : Γ, IsGXMorphism G X fun v : V =
 any `(G,X)`-structure on `V/Γ` making the projection a morphism has the maximal atlas of Mathlib's
 charted space on the quotient (`hasGroupoid_quotient`). -/
 theorem maximalAtlas_quotient_unique (hΓ : ∀ γ : Γ, IsGXMorphism G X fun v : V => γ • v) :
+    haveI := continuousConstSMul_of_isGXMorphism hΓ
     ∀ (cs' : ChartedSpace X (MulAction.orbitRel.Quotient Γ V)),
       @HasGroupoid X _ _ _ cs' (gxGroupoid G X) →
       @IsGXMorphism G X _ _ _ V _ _ _ _ cs' (Quotient.mk (MulAction.orbitRel Γ V)) →
       @StructureGroupoid.maximalAtlas X _ _ _ cs' (gxGroupoid G X) =
         @StructureGroupoid.maximalAtlas X _ _ _
           (MulAction.instChartedSpaceQuotient (G := Γ) (M := V) (H := X)) (gxGroupoid G X) := by
+  haveI := continuousConstSMul_of_isGXMorphism hΓ
   intro cs' hcs' hp'
   have h1 := @IsGXMorphism.maximalAtlas_eq_of_surjective G X _ _ _ _ V _ _ _ _ _ cs' hcs' _ hp'
     Quotient.mk_surjective

@@ -12,8 +12,8 @@
         304,
         317
       ],
-      "status": "partial",
-      "marked": false,
+      "status": "closed",
+      "marked": true,
       "decls": [
         "Benzecri.projGroupoid",
         "Benzecri.affGroupoid",
@@ -33,40 +33,51 @@
         "Benzecri.maximalAtlas_chartedSpaceOfJets",
         "Benzecri.jets_chartedSpaceOfJets",
         "Benzecri.eq_one_of_jetSMul_eq",
-        "Benzecri.mem_jets_iff_existsUnique"
+        "Benzecri.mem_jets_iff_existsUnique",
+        "Benzecri.etaleTopology",
+        "Benzecri.isOpen_iff_isEtaleOpen",
+        "Benzecri.IsJetStructure.isOpen",
+        "Benzecri.isCoveringMap_jets",
+        "Benzecri.IsJetStructure.isCoveringMap",
+        "Benzecri.isCoveringMap_jets_proj",
+        "Benzecri.isCoveringMap_jets_aff",
+        "Benzecri.jetsTrivialization"
       ],
       "hypotheses": [
         {
           "paper": "V a variété « convexe » ([sic] connexe), T2, second countable",
-          "here": "weakened",
+          "here": "generalised",
           "note": "none used; V any topological space"
         },
         {
           "paper": "J(V) an open set of jets of isomorphisms",
           "here": "carried",
-          "note": "IsEtaleOpen (basic opens of the étalé topology) + IsIsoJet (germs of OpenPartialHomeomorph)"
+          "note": "IsEtaleOpen ⟺ IsOpen in the étalé topology (Structure/Jets: isOpen_iff_isEtaleOpen) + IsIsoJet (germs of OpenPartialHomeomorph)"
         },
         {
           "paper": "« J(V) … est un revêtement de V »",
-          "here": "weakened",
-          "note": "only set-theoretically: free transitive fibres and local triviality over chart domains (eq_one_of_jetSMul_eq, mem_jets_iff_existsUnique); no topology on J(V)"
+          "here": "carried",
+          "note": "Structure/Jets: isCoveringMap_jets (Mathlib's IsCoveringMap of the source projection, fibres G discrete, trivial over every chart domain), IsJetStructure.isCoveringMap for every J satisfying Déf. 12; analytic action (instances for GS(n), GA(n))"
         }
       ],
       "sorries": [],
       "findings": [],
       "questions": [
-        "Déf. 12 prints « convexe »; read « connexe » ([sic]); not needed by anything proved.",
-        "To mark Déf. 12, should the étalé topology on Jet M X be built and J(V) → V proved an IsCoveringMap (G discrete)? Everything else of Déf. 12 is certified (both directions of the jet ⟺ atlas equivalence, and uniqueness)."
+        "Déf. 12 prints « convexe »; read « connexe » ([sic]); not needed by anything proved."
+      ],
+      "mark_location": "the bold mark is in scaffold/BenzecriScaffold/Structure/Jets.lean (WP-45j), which imports this file and completes the row; Basic.lean cites the label unbolded and points there",
+      "rests_on": [
+        "DEC-120 (« Déf. 12 is to be certified by building the étalé topology … and proving J(V) → V a covering map »): done in Structure/Jets"
       ]
     },
     {
       "label": "bzrem:c1s1r1_affine_vers_projective",
       "tex_lines": [
         319,
-        330
+        329
       ],
-      "status": "partial",
-      "marked": false,
+      "status": "closed",
+      "marked": true,
       "decls": [
         "Benzecri.transportChartedSpace",
         "Benzecri.hasGroupoid_transport",
@@ -74,20 +85,34 @@
         "Benzecri.jets_transport",
         "Benzecri.hasGroupoid_projGroupoid_of_affine",
         "Benzecri.Sphere.isAffine_hemiChartH",
-        "Benzecri.Sphere.affToGS"
+        "Benzecri.Sphere.affToGS",
+        "Benzecri.maximalAtlas_eq_of_eventually_smul",
+        "Benzecri.maximalAtlas_transport_eq_of_smul",
+        "Benzecri.remarque_affine_vers_projective",
+        "Benzecri.maximalAtlas_transport_indep",
+        "Benzecri.Sphere.exists_eq_smul_hemiChart"
       ],
       "hypotheses": [
         {
           "paper": "j an isomorphism « compatible avec la structure affine de ℝⁿ » onto a hemisphere",
-          "here": "weakened",
-          "note": "replaced by: j an open embedding equivariant through a hom GA(n) →* GS(n); proved for the standard chart y ↦ s(y,1), which is an affine isomorphism onto H₀"
+          "here": "generalised",
+          "note": "j any injective map ℝⁿ → H̊ affine for Déf. 6's structure (IsAffine), H̊ any open hemisphere of S(n) (equation l ≠ 0); that j is an open embedding equivariant through an embedding GA(n) →* GS(n) is DERIVED (exists_eq_smul_hemiChart: j = σ • s(·,1))"
+        },
+        {
+          "paper": "« J''(V) définit sur V une structure de variété localement projective »",
+          "here": "carried",
+          "note": "HasGroupoid for the transported charts j ∘ φ, and jets = {g ∘ j ∘ γ | g ∈ GS(n), γ ∈ J(V)} (jets_transport)"
+        },
+        {
+          "paper": "« canoniquement associée »",
+          "here": "carried",
+          "note": "strongest form: independence of the choice of j — the structure has the maximal atlas of the standard chart for every j (remarque_affine_vers_projective), so two choices agree (maximalAtlas_transport_indep); also determined by its jets (maximalAtlas_eq_of_jets_eq)"
         }
       ],
       "sorries": [],
       "findings": [],
-      "questions": [
-        "« canoniquement associée »: proved in the sense that the structure is the one with jets GS ∘ j ∘ J(V) (jets_transport + maximalAtlas_eq_of_jets_eq); its independence of j, and that every affine isomorphism onto a hemisphere is an equivariant open embedding, are not proved. Is that the intended content?"
-      ]
+      "questions": [],
+      "notes": "DEC-120 (item 5): the strongest true form (independence of j) covers the printed claim, so the row is marked."
     },
     {
       "label": "bzdef:c1s1d13_carte_compatible",
@@ -112,21 +137,22 @@
         340,
         355
       ],
-      "status": "partial",
-      "marked": false,
+      "status": "closed",
+      "marked": true,
       "decls": [
         "Benzecri.existsUnique_smul_eq_of_isPreconnected",
         "Benzecri.exists_compatibleChart_jet",
         "Benzecri.existsUnique_compatibleChart_jet",
         "Benzecri.not_prop1_of_disconnected",
         "Benzecri.exists_smul_eq_on_connectedComponentIn",
-        "Benzecri.IsCompatibleChart.transHomeomorph_smul"
+        "Benzecri.IsCompatibleChart.transHomeomorph_smul",
+        "Benzecri.not_existsUnique_smul_eq_of_empty"
       ],
       "hypotheses": [
         {
-          "paper": "U an open set of V",
-          "here": "added",
-          "note": "U CONNECTED (IsPreconnected) for 1° and for the uniqueness in 2°; U nonempty for the uniqueness of g"
+          "paper": "« soit U un ouvert de V »",
+          "here": "reading (DEC-120, ruled)",
+          "note": "U connected (IsPreconnected) and nonempty, consistent with « variété » connected; for 1° and the uniqueness in 2°; 2°'s existence holds for every U (exists_compatibleChart_jet)"
         },
         {
           "paper": "rigidity of GA / GS",
@@ -135,11 +161,15 @@
         }
       ],
       "sorries": [],
-      "findings": [
-        "Prop. 1 (benzecri1960_ch1.tex:340–350) is false as printed for a disconnected open U: in the locally affine manifold ℝ¹ (connected, T2, second countable), U = {y < 1} ∪ {y > 2} carries two compatible charts — the identity, and the identity on {y < 1} glued to the translation by 10 on {y > 2} — which differ by no single g ∈ GA(1, ℝ) (1° fails) and have the same jet at 0 without being equal on U (uniqueness in 2° fails): not_prop1_of_disconnected. True with U connected (existsUnique_smul_eq_of_isPreconnected, existsUnique_compatibleChart_jet); 2°'s existence holds for every U (exists_compatibleChart_jet). The proof « résulte facilement du 2° de la définition 12 » uses connectedness implicitly."
-      ],
+      "findings": [],
       "questions": [
         "Uniqueness in 2° is up to OpenPartialHomeomorph.EqOnSource (equal on U), since an OpenPartialHomeomorph carries values outside its source."
+      ],
+      "remarks": [
+        "Not a finding (DEC-120 reads « ouvert U » connected and nonempty). Read literally, Prop. 1 (benzecri1960_ch1.tex:340–350) fails for a disconnected open U: in the locally affine manifold ℝ¹, U = {y < 1} ∪ {y > 2} carries two compatible charts — the identity, and the identity on {y < 1} glued to the translation by 10 on {y > 2} — which differ by no single g ∈ GA(1, ℝ) (1° fails) and have the same jet at 0 without being equal on U (uniqueness in 2° fails): not_prop1_of_disconnected (auxiliary objects in namespace Benzecri.Prop1Counterexample). And for U = ∅ the uniqueness of g in 1° fails as soon as G ≠ 1: not_existsUnique_smul_eq_of_empty."
+      ],
+      "rests_on": [
+        "DEC-120 (Prop. 1 with U read connected)"
       ]
     },
     {
@@ -159,7 +189,7 @@
       "hypotheses": [
         {
           "paper": "f_i = g_ij ∘ f_j on all of U_i ∩ U_j",
-          "here": "weakened",
+          "here": "generalised",
           "note": "near each point of U_i ∩ U_j suffices; the printed form is the corollary existsUnique_structure_of_atlas_printed"
         }
       ],
@@ -169,7 +199,7 @@
     }
   ],
   "extra_decls": [
-    "Benzecri.affineEquivApplyMulAction",
+    "Benzecri.affineEquivApplyMulAction (scoped instance)",
     "Benzecri.affineEquiv_smul_def",
     "Benzecri.GAR.eq_one_of_eqOn",
     "instance Benzecri.(ContinuousConstSMul (GAR n) (Fin n → ℝ))",
@@ -181,24 +211,28 @@
     "Benzecri.hasGroupoid_mono",
     "Benzecri.goodCharts",
     "Benzecri.exists_goodChart_of_mem",
-    "Benzecri.cxA",
-    "Benzecri.cxB",
-    "Benzecri.cxv",
-    "Benzecri.cxId",
-    "Benzecri.cxTrans",
-    "Benzecri.cxChart",
-    "Benzecri.cxChart_apply",
-    "Benzecri.cxChart_source"
+    "Benzecri.affineEquivFaithfulSMul"
   ],
   "upstream_moves": [
-    "Benzecri.affineEquivApplyMulAction (MulAction (P ≃ᵃ[k] P) P, an instance on Mathlib types: Mathlib has none), the ContinuousConstSMul (GAR n) ℝⁿ and IsAnalyticAction (GAR n) ℝⁿ instances, Benzecri.GAR.eq_one_of_eqOn: belong to Projective/Groups (plan L0 'rigidity of GS/GA/GU')",
-    "Benzecri.eventually_smul_eq_of_eventually_smul_eq, eventually_smul_eq_of_mem_maximalAtlas, mem_maximalAtlas_iff_eventually, exists_smul_eq_on_connectedComponentIn, chartedSpaceOfAtlas (ports of lean-gx/GX/Structure/Basic.lean l.284, 294, 305, 405, 476): belong to Structure/Groupoid with the other gx ports",
-    "Benzecri.hasGroupoid_transport is the HasGroupoid form of monotonicity along an open X' ⊆ X deferred from wave 1 (Groupoid's transport_mem_gxGroupoid is the groupoid-level lemma); it could move to Structure/Groupoid"
+    "Benzecri.affineEquivApplyMulAction and affineEquivFaithfulSMul (MulAction / FaithfulSMul of P ≃ᵃ[k] P on P, now SCOPED instances of namespace Benzecri, as lean-gx scopes GX.affineEquivMulAction at GX/Singular/Quotient.lean:2420), the ContinuousConstSMul (GAR n) ℝⁿ and IsAnalyticAction (GAR n) ℝⁿ instances, Benzecri.GAR.eq_one_of_eqOn: belong to Projective/Groups (plan L0 'rigidity of GS/GA/GU'); GAR.eq_one_of_eqOn could reuse gx's 3-line proof (AffineMap.ext_on with IsOpen.affineSpan_eq_top)",
+    "Benzecri.eventually_smul_eq_of_eventually_smul_eq, eventually_smul_eq_of_mem_maximalAtlas, mem_maximalAtlas_iff_eventually, exists_smul_eq_on_connectedComponentIn, chartedSpaceOfAtlas (ports of lean-gx/GX/Structure/Basic.lean l.284, 294, 305, 405, 479): belong to Structure/Groupoid with the other gx ports",
+    "Benzecri.hasGroupoid_transport is the HasGroupoid form of monotonicity along an open X' ⊆ X deferred from wave 1 (Groupoid's transport_mem_gxGroupoid is the groupoid-level lemma); it could move to Structure/Groupoid",
+    "Benzecri.maximalAtlas_eq_of_eventually_smul and maximalAtlas_transport_eq_of_smul (general (G,X) facts) could move to Structure/Groupoid with hasGroupoid_transport"
   ],
   "build": "lake build of the module under taskset -c 0-11: success; lake env lean -DwarningAsError=true: clean; #print axioms on every main declaration: [propext, Classical.choice, Quot.sound]",
   "kb_proposals": [
     "Jets (plan F3): Jet M X := Σ x, Filter.Germ (𝓝 x) X; state fibre conditions as ⟨x, γ⟩ ∈ J to avoid Sigma HEq; after obtaining ⟨e, he, hx, hγ⟩ from membership in jets, `simp only at hx hγ` (reduces ⟨x,γ⟩.1) before `subst`.",
-    "Two ChartedSpace instances on one type: state with @-explicit instances and prove maximal-atlas equalities via a pointwise characterisation (mem_maximalAtlas_iff_eventually_of_cover / mem_maximalAtlas_iff_jets) applied with explicit instance arguments."
+    "Two ChartedSpace instances on one type: state with @-explicit instances and prove maximal-atlas equalities via a pointwise characterisation (mem_maximalAtlas_iff_eventually_of_cover / mem_maximalAtlas_iff_jets) applied with explicit instance arguments.",
+    "Orphan instances on Mathlib types (MulAction (P ≃ᵃ[k] P) P; TopologicalSpace on Σ x, Germ (𝓝 x) X): declare them `scoped instance` in namespace Benzecri; every package file is inside `namespace Benzecri`, which activates them, and a bridge module opening lean-gx's scope then holds two defeq instances, harmless."
   ],
-  "notes": "Lines: 1007. Plan F2/F3 followed: the atlas form is the definition, Déf. 12's jet form is the theorem exists_hasGroupoid_jets_eq_iff. The Prop. 1 counterexample's auxiliary declarations (cx*) are in namespace Benzecri."
+  "notes": "Lines: 1140. Fix round 2026-11-03 (DEC-120, AUDIT-1). Marks: Déf. 12 closed (bold mark carried by Structure/Jets.lean, WP-45j), Remarque closed (independence of j), Déf. 13 and Prop. 3 unchanged, Prop. 1 closed under DEC-120's reading (U connected, nonempty). Audit fixes: minor 1 (étalé topology + covering) in Structure/Jets; minor 2 affineEquivApplyMulAction and its FaithfulSMul are scoped instances; minor 3 counterexample helpers in namespace Benzecri.Prop1Counterexample, only not_prop1_of_disconnected public in Benzecri; nits: chartedSpaceOfAtlas cited at lean-gx l.479, Remarque tex l.319–329, the empty-U case added (not_existsUnique_smul_eq_of_empty), 'weakened' replaced by 'generalised' / 'reading'.",
+  "audit_round_1_fixes": [
+    "minor 1: étalé topology, isOpen_iff_isEtaleOpen, isCoveringMap_jets — Structure/Jets.lean (WP-45j)",
+    "minor 2: affineEquivApplyMulAction / affineEquivFaithfulSMul scoped",
+    "minor 3: cx* in namespace Benzecri.Prop1Counterexample; dropped from extra_decls",
+    "nit: lean-gx chartedSpaceOfAtlas l.479",
+    "nit: Remarque tex_lines [319, 329]",
+    "nit: empty-U case in the Prop. 1 remark (not_existsUnique_smul_eq_of_empty)",
+    "nit: 'weakened' vocabulary replaced"
+  ]
 }

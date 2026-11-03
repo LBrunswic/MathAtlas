@@ -11,8 +11,8 @@
     "proved": [
       "morphisms: Benzecri.IsGXMorphism (port of GX.IsGXMorphism, lean-gx/GX/Structure/Basic.lean:524), isGXMorphism_id, IsGXMorphism.comp, IsGXMorphism.exists_smul_eq_of_mem_maximalAtlas, IsGXMorphism.isLocalHomeomorph (« isomorphisme local »), isGXMorphism_iff_model",
       "the paper's definition « J(V₂) ∘ f ⊆ J(V₁) » is equivalent for continuous f: Benzecri.isGXMorphism_iff_jets",
-      "the category: Benzecri.GXCat G X (bundled, carrier : Type), instance GXCat.category, LocProj n, LocAff n, GXCat.isLocalHomeomorph_hom",
-      "V/Γ: hasGroupoid_quotient (Mathlib's MulAction.instChartedSpaceQuotient is a (G,X)-structure), isGXMorphism_quotientMk, maximalAtlas_quotient_unique (the only structure making the projection a morphism); in general IsGXDeck, hasGroupoid_chartedSpaceOfRightInverse, isGXMorphism_chartedSpaceOfRightInverse, IsGXMorphism.maximalAtlas_eq_of_surjective, existsUnique_pushforward",
+      "the category: Benzecri.GXCat G X (bundled, carrier : Type), instance GXCat.category, GXCat.hom_ext (@[ext]), LocProj n, LocAff n, GXCat.isLocalHomeomorph_hom",
+      "V/Γ: hasGroupoid_quotient (Mathlib's MulAction.instChartedSpaceQuotient is a (G,X)-structure), isGXMorphism_quotientMk, maximalAtlas_quotient_unique (the only structure making the projection a morphism); in general IsGXDeck, hasGroupoid_chartedSpaceOfRightInverse, isGXMorphism_chartedSpaceOfRightInverse, IsGXMorphism.maximalAtlas_eq_of_surjective, existsUnique_pushforward; ContinuousConstSMul Γ V derived from « d'automorphismes » (continuousConstSMul_of_isGXMorphism), no longer a hypothesis; remark: under the weaker wandering sense (IsQuotientCoveringMap) the structure exists and is unique with no Hausdorffness (existsUnique_quotient_of_isQuotientCoveringMap)",
       "étalé pull-back: gxPullbackAtlas, pullbackChartedSpace, hasGroupoid_pullback, isGXMorphism_pullback, IsGXMorphism.maximalAtlas_eq, existsUnique_pullback; coverings: existsUnique_pullback_of_isCoveringMap (ports of lean-gx l.761–880, with Mathlib's IsLocalHomeomorph.localInverseAt in place of gx's localHomeomorphAt)"
     ],
     "not_proved": [
@@ -29,7 +29,7 @@
     {
       "paper": "G proprement discontinu sans point fixe, d'automorphismes",
       "here": "carried",
-      "note": "ProperlyDiscontinuousSMul, IsCancelSMul (free), each γ • · an IsGXMorphism"
+      "note": "ProperlyDiscontinuousSMul (Mathlib's sense, DEC-120: V/G Hausdorff), IsCancelSMul (free), each γ • · an IsGXMorphism; ContinuousConstSMul derived; the weaker sense is the remark existsUnique_quotient_of_isQuotientCoveringMap"
     },
     {
       "paper": "V a variété (Hausdorff)",
@@ -39,12 +39,14 @@
   ],
   "findings": [],
   "questions": [
-    "« Soit G un groupe proprement discontinu »: read as Mathlib's ProperlyDiscontinuousSMul (compact sets meet finitely many translates) with V Hausdorff and locally compact; the 1960 « proprement discontinu » may be the weaker « each point has a neighbourhood U with gU ∩ U = ∅ for g ≠ 1 », under which V/G need not be Hausdorff. Which does the author intend?",
     "[sic] « J(V₂), J(V₂) » read « J(V₁), J(V₂) », « lacalement » read « localement »: not findings."
   ],
   "extra_decls": [
     "Benzecri.eventually_eq_of_comp_eventually_eq",
-    "Benzecri.isGXDeck_quotientMk"
+    "Benzecri.isGXDeck_quotientMk",
+    "Benzecri.GXCat.hom_ext",
+    "Benzecri.continuousConstSMul_of_isGXMorphism",
+    "Benzecri.existsUnique_quotient_of_isQuotientCoveringMap"
   ],
   "upstream_moves": [],
   "build": "lake build of the module under taskset -c 0-11: success; lake env lean -DwarningAsError=true: clean; #print axioms on every main declaration: [propext, Classical.choice, Quot.sound]",
@@ -52,5 +54,18 @@
     "Mathlib already has MulAction.instChartedSpaceQuotient (Geometry/Manifold/Instances/Quotient.lean), a global instance on orbitRel.Quotient built by IsLocalHomeomorph.chartedSpace; prove HasGroupoid for it (hasGroupoid_chartedSpaceOfRightInverse with the covering's isLocalHomeomorph and Quotient.mk_surjective.hasRightInverse.choose_spec) rather than building a second charted space.",
     "`h.isCoveringMap |>.isLocalHomeomorph` inside an application argument parses wrongly; parenthesise."
   ],
-  "notes": "Lines: 587. No ledger label, nothing marked. Groundwork for the § 2 functor (DEC-113, CategoryTheory.Equivalence): objects bundled with carrier : Type (plan F5)."
+  "notes": "Lines: 634. No ledger label, nothing marked. Fix round 2026-11-03 (DEC-120, AUDIT-1): minor 1 — existsUnique_quotient_of_isQuotientCoveringMap (weaker sense, a remark); minor 2 — SCOPE records that § 2 will use the full subcategory of connected Hausdorff objects; nits — gx morphism section cited l.512–663, GXCat.hom_ext added, [ContinuousConstSMul Γ V] removed (derived inside the statements by continuousConstSMul_of_isGXMorphism; ContinuousConstSMul is a Prop-class, so the statements unify with any user instance). Groundwork for the § 2 functor (DEC-113, CategoryTheory.Equivalence): objects bundled with carrier : Type (plan F5).",
+  "rulings": [
+    "DEC-120: « proprement discontinu » is Mathlib's ProperlyDiscontinuousSMul, so V/G is Hausdorff; hypotheses kept; the weaker-sense statement added as a remark."
+  ],
+  "scope_additions": [
+    "§ 2's « isomorphisme fonctoriel » (DEC-113) will use the full subcategory of GXCat on connected Hausdorff (second countable) objects, e.g. CategoryTheory.FullSubcategory fun V : GXCat G X => ConnectedSpace V ∧ T2Space V"
+  ],
+  "audit_round_1_fixes": [
+    "minor: weaker-sense remark existsUnique_quotient_of_isQuotientCoveringMap",
+    "minor: SCOPE — § 2 on the full subcategory of connected T2 objects",
+    "nit: l.512–663",
+    "nit: GXCat.hom_ext",
+    "nit: redundant ContinuousConstSMul Γ V removed"
+  ]
 }

@@ -63,8 +63,8 @@
         202,
         220
       ],
-      "status": "partial",
-      "marked": false,
+      "status": "closed",
+      "marked": true,
       "decls": [
         "Benzecri.Sphere.IsOpenHemisphere",
         "Benzecri.Sphere.openHemisphere",
@@ -127,9 +127,14 @@
       "findings": [],
       "questions": [],
       "readings": [
-        "DEC-114: Déf. 5 needs l ≠ 0 (forced by « l'hyperplan fermé h »; equivalently H ≠ ∅). Not a finding: the literal first sentence admits l = 0 and H = ∅ (isOpenHemisphere_empty, frontier_openHemisphere_zero, kept as remarks)."
+        "DEC-114: Déf. 5 needs l ≠ 0 (forced by « l'hyperplan fermé h »; equivalently H ≠ ∅). Not a finding: the literal first sentence admits l = 0 and H = ∅ (isOpenHemisphere_empty, frontier_openHemisphere_zero, kept as remarks).",
+        "DEC-120: the mark resting on DEC-114's reading l ≠ 0 is accepted; marked closed in the fix round 2026-11-03 (DEC-120)."
       ],
-      "note": "Every printed assertion of Déf. 5 and of the converse paragraph is now proved for H itself, with no added hypothesis beyond the DEC-114 reading l ≠ 0. Left unmarked because the campaign protocol makes a reading 'partial'; the master may mark it if a ruled reading counts as closing (as Déf. 1's nonempty reading did not need to, being a generalisation)."
+      "note": "Every printed assertion of Déf. 5 and of the converse paragraph is now proved for H itself, with no added hypothesis beyond the DEC-114 reading l ≠ 0. Left unmarked because the campaign protocol makes a reading 'partial'; the master may mark it if a ruled reading counts as closing (as Déf. 1's nonempty reading did not need to, being a generalisation).",
+      "rests_on": [
+        "DEC-114 (reading l ≠ 0)",
+        "DEC-120 (marks resting on ruled readings accepted)"
+      ]
     },
     {
       "label": "bzdef:c1s1d10_quotient",
@@ -137,8 +142,8 @@
         260,
         266
       ],
-      "status": "partial",
-      "marked": false,
+      "status": "closed",
+      "marked": true,
       "decls": [
         "Benzecri.Sphere.quotient",
         "Benzecri.Sphere.IsConvexPart",
@@ -160,7 +165,7 @@
         {
           "paper": "« convexes » of S(E) (Déf. 8)",
           "here": "reading",
-          "note": "OPEN under OQ-24: Déf. 8's « F(k) + {O} » read F(k) ∪ {O}, Sphere.IsConvexPart k := Convex ℝ (insert 0 (F k)), pending the author"
+          "note": "OQ-24 RULED by DEC-120: Déf. 8's « F(k) + {O} » is F(k) ∪ {O}, Sphere.IsConvexPart k := Convex ℝ (insert 0 (F k)); the convex parts of S(E) containing l correspond to those of S(E)/l as printed (convexQuotientEquiv)"
         },
         {
           "paper": "« De même que » analogy for convex sets of E containing L",
@@ -171,11 +176,15 @@
       "sorries": [],
       "findings": [],
       "questions": [
-        "Déf. 8 (OQ-24, OPEN): is « F(k) + {O} » F(k) ∪ {O} (the wave-1 Sphere.IsConvexPart, a convex cone with apex O)? Under the Minkowski reading Déf. 9 is vacuous and no convex part contains l for L ≠ 0. Déf. 8 and Déf. 10 stay unmarked until it is ruled.",
         "S(E)/l is defined as the type S(E/L) only; its topology (E ⧸ L carries Mathlib's quotient topology) and the partial projection S(E) − l → S(E)/l are not built. Needed by Ch. 1?"
       ],
       "readings": [
-        "DEC-114: the « De même que » analogy is read for L-saturated convex sets of E; the sphere statement holds as printed."
+        "DEC-114: the « De même que » analogy is read for L-saturated convex sets of E; the sphere statement holds as printed.",
+        "DEC-120: OQ-24 ruled (∪); under the Minkowski reading the family « convexes de S(E) contenant l » would be empty for l ≠ ∅ (Projective/Convex: not_isConvexPartMinkowski_of_linearSubvariety_subset), so DEC-114's ruling that the sphere statement holds as printed is non-vacuous only in the ∪ reading. Everything printed is covered: S(E)/l := S(E/L) (quotient), the S(E) identification (convexQuotientEquiv, an order isomorphism, no hypothesis), the analogy in DEC-114's saturated reading (convexSaturatedEquiv). Marked closed in the fix round 2026-11-03 (DEC-120)."
+      ],
+      "rests_on": [
+        "DEC-114 (the « De même que » analogy read for L-saturated convex sets of E; the sphere statement holds as printed)",
+        "DEC-120 (OQ-24: « F(k) + {O} » = F(k) ∪ {O})"
       ]
     }
   ],
@@ -198,7 +207,7 @@
     "Closure/frontier in S(E): s is open and continuous, so IsOpenMap.preimage_closure_eq_closure_preimage moves closures between S(E) and E − {O}; the same lemma for Subtype.val (open embedding of {0}ᶜ) moves them into E (pattern of closure_openHemisphere).",
     "Benzecri.Sphere.IsConvexPart (Subvariety) is Déf. 8's first form; the Projective/Convex module (wave 2) should reuse it or prove its own definition equal to it, not introduce a third notion."
   ],
-  "notes": "Fix round 1 (DEC-114, AUDIT-1): Déf. 4 stays MARKED with tex_lines [186, 200], the Exemples' half-lines now formalized (halfLine, IsLine.diff_eq_halfLines). Déf. 5: the l = 0 case is a reading, not a finding; closure/frontier restated for H itself with continuity derived from H open and nonempty, closedHemisphere_eq_union added (« La fermeture H ∪ h »), and the converse paragraph's continuous l derived from h closed (closedHyperplane_converse, continuous_of_F_union_eq) — '✓ carried' is now earned. Déf. 10: the analogy finding reworded as the DEC-114 reading (L-saturated convex sets); not marked, pending OQ-24 (Déf. 8). Sphere.IsConvexPart's docstring says it is the reading under OQ-24, pending the author. No sorry; axioms ⊆ {propext, Classical.choice, Quot.sound}; clean under -DwarningAsError=true. All declarations live in namespace Benzecri.Sphere; uses Sphere.neg_ne_self (now protected).",
+  "notes": "Fix round 1 (DEC-114, AUDIT-1): Déf. 4 stays MARKED with tex_lines [186, 200], the Exemples' half-lines now formalized (halfLine, IsLine.diff_eq_halfLines). Déf. 5: the l = 0 case is a reading, not a finding; closure/frontier restated for H itself with continuity derived from H open and nonempty, closedHemisphere_eq_union added (« La fermeture H ∪ h »), and the converse paragraph's continuous l derived from h closed (closedHyperplane_converse, continuous_of_F_union_eq) — '✓ carried' is now earned. Déf. 10: the analogy finding reworded as the DEC-114 reading (L-saturated convex sets); not marked, pending OQ-24 (Déf. 8). Sphere.IsConvexPart's docstring says it is the reading under OQ-24, pending the author. No sorry; axioms ⊆ {propext, Classical.choice, Quot.sound}; clean under -DwarningAsError=true. All declarations live in namespace Benzecri.Sphere; uses Sphere.neg_ne_self (now protected). Fix round 2026-11-03 (DEC-120): Déf. 5 MARKED closed (reading l ≠ 0, DEC-114, accepted by DEC-120); Déf. 10 MARKED closed (rests on DEC-114's saturated reading and DEC-120's ruling of OQ-24); only the docstring mark/status text of Subvariety.lean changed (no code).",
   "audit_round_1_fixes": [
     "Déf. 4: half-lines formalized, tex_lines [186, 200] kept and earned",
     "Déf. 5 finding → reading (l ≠ 0)",
@@ -207,5 +216,10 @@
     "Déf. 10 finding → reading (L-saturated)",
     "closedHemisphere_eq_union",
     "IsConvexPart docstring: reading under OQ-24"
+  ],
+  "fix_round_dec120": [
+    "Déf. 5: marked closed (DEC-114 reading l ≠ 0, accepted by DEC-120)",
+    "Déf. 10: marked closed (DEC-114 + DEC-120); its dependence on both is recorded in rests_on",
+    "Subvariety.lean: docstring mark/status lines for Déf. 5, 8 and 10 only"
   ]
 }

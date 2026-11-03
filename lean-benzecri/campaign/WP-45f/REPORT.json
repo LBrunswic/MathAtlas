@@ -33,7 +33,11 @@
         "Benzecri.Sphere.ker_eq_of_openHemisphere_eq",
         "Benzecri.Sphere.nrep",
         "Benzecri.Sphere.nrep_vadd",
-        "Benzecri.Sphere.eq_smulRight"
+        "Benzecri.Sphere.eq_smulRight",
+        "Benzecri.Sphere.hemiTransEquiv",
+        "Benzecri.Sphere.transl_hemiTransEquiv",
+        "Benzecri.Sphere.coe_vadd_hemiTransEquiv",
+        "Benzecri.Sphere.hemi_vadd_indep"
       ],
       "hypotheses": [
         {
@@ -43,20 +47,28 @@
         },
         {
           "paper": "« structure d'espace affin » (Déf. 1)",
-          "here": "carried",
-          "note": "as printed (IsSimplyTransitive) for every l; in DEC-114's reading (IsAffineSpace, nonempty) iff l ≠ 0, which is DEC-114's reading of Déf. 5"
+          "here": "reading (DEC-114, ruled)",
+          "note": "as printed (IsSimplyTransitive) for every l; in DEC-114's reading (IsAffineSpace, nonempty) iff l ≠ 0, which is DEC-114's reading of Déf. 5; both rulings agree, mark accepted by DEC-120"
         },
         {
           "paper": "M ∈ F(m) arbitrary",
           "here": "carried",
           "note": "coe_vadd_eq holds for every representative"
+        },
+        {
+          "paper": "« Soient l une équation de H … le groupe des translations de H » (independence of the equation)",
+          "here": "carried",
+          "note": "hemiTransEquiv : HemiTrans l ≃ₗ HemiTrans l' for openHemisphere l = openHemisphere l', leaving M ↦ M + u(q M) unchanged (transl_hemiTransEquiv, rfl) and intertwining the actions (coe_vadd_hemiTransEquiv, hemi_vadd_indep)"
         }
       ],
       "sorries": [],
       "findings": [],
       "questions": [
-        "The mark rests on DEC-114's two readings agreeing: as printed (Déf. 1 without nonemptiness, Déf. 5 with l = 0 allowed) Déf. 6 holds for every l with no hypothesis; in the DEC-114 readings (affine space nonempty, l ≠ 0) it holds as well. Does the author accept the mark on that basis?",
         "« indépendante du choix de m » is the transcription's [sic], read « de M »; formalized as such (hvadd_mk, mk_transl_eq_of_mk_eq), not a finding."
+      ],
+      "rests_on": [
+        "DEC-114 (Déf. 1 nonempty; Déf. 5 l ≠ 0)",
+        "DEC-120 (mark accepted: both readings agree)"
       ]
     }
   ],
@@ -68,12 +80,13 @@
     ]
   },
   "groundwork_for": {
-    "label": "bzrem:c1s1r1_affine_vers_projective (benzecri1960_ch1.tex:319), not marked here or anywhere",
+    "label": "bzrem:c1s1r1_affine_vers_projective (benzecri1960_ch1.tex:319), marked in Structure/Basic (WP-45h)",
     "proved": [
       "GL elements preserving H: mapsTo_smul_openHemisphere_iff (g(H) ⊆ H ⟺ l ∘ g = c l, c > 0, given l ≠ 0), via openHemisphere_subset_iff",
       "they act on H by affine maps of Déf. 6: isAffine_hemiMap (linear part u ↦ g ∘ u ∘ ḡ⁻¹, hemiMapLinear), and for GS(E): isAffine_gse_restrict",
       "standard chart j : ℝⁿ → S(n), y ↦ s(y, 1): hemiChart, range_hemiChart (= {x_{n+1} > 0}), isOpenEmbedding_hemiChart, isAffine_hemiChartH + bijective_hemiChartH (an affine isomorphism ℝⁿ ≃ H₀)",
-      "φ : GA(n) →* GS(n): affToGL, affToGS, affToGS_injective, equivariance hemiChart_apply_eq_smul : j(f y) = φ(f) • j(y)"
+      "φ : GA(n) →* GS(n): affToGL, affToGS, affToGS_injective, equivariance hemiChart_apply_eq_smul : j(f y) = φ(f) • j(y)",
+      "every affine injection j : ℝⁿ → H into any open hemisphere of S(n) is σ • hemiChart, σ ∈ GS(n): exists_eq_smul_hemiChart (the Remarque's independence of j)"
     ]
   },
   "extra_decls": [
@@ -85,9 +98,6 @@
     "Benzecri.Sphere.levelOne",
     "Benzecri.Sphere.mem_levelOne",
     "Benzecri.Sphere.direction_levelOne",
-    "Benzecri.Sphere.mk_eq_mk_of_eq",
-    "Benzecri.Sphere.snoc_add_snoc",
-    "Benzecri.Sphere.smul_snoc",
     "Benzecri.Sphere.lastForm",
     "Benzecri.Sphere.hemiChart",
     "Benzecri.Sphere.snocZero",
@@ -95,19 +105,33 @@
     "Benzecri.Sphere.hemiChartH",
     "Benzecri.Sphere.affLin",
     "Benzecri.Sphere.affLin_mul",
-    "Benzecri.Sphere.GAR.apply_eq",
     "Benzecri.Sphere.affToGL",
-    "Benzecri.Sphere.affToGS"
+    "Benzecri.Sphere.affToGS",
+    "Benzecri.Sphere.exists_eq_smul_hemiChart"
   ],
   "upstream_moves": [
     "Benzecri.Sphere.openHemisphere_subset_iff, smul_mem_openHemisphere_iff, mapsTo_smul_openHemisphere_iff, exists_l_eq_one: belong to Projective/Subvariety (Déf. 5 facts)",
-    "Benzecri.Sphere.mk_eq_mk_of_eq (proof-irrelevant congruence of Sphere.mk): belongs to Projective/Sphere",
-    "Benzecri.Sphere.GAR.apply_eq, affLin, affToGL, affToGS (GA(n) ↪ GL(n+1) → GS(n)): could live in Projective/Groups; GAR.apply_eq landed in namespace Benzecri.Sphere (as Sphere.GAR.apply_eq) and would read better directly under the GAR namespace"
+    "Benzecri.Sphere.affLin, affToGL, affToGS (GA(n) ↪ GL(n+1) → GS(n)) and the now-private GAR.apply_eq: belong to Projective/Groups (namespace Benzecri.GAR); mk_eq_mk_of_eq (private here) to Projective/Sphere; the private Fin.snoc/Fin.init helpers stay private"
   ],
   "build": "lake build of the module under taskset -c 0-11: success; lake env lean -DwarningAsError=true: clean; #print axioms on every main declaration: [propext, Classical.choice, Quot.sound]",
   "kb_proposals": [
     "Déf. 6's translation space is indexed by the equation l (HemiTrans l = (E ⧸ ker l) →ₗ ker l); nrep l x = (l M)⁻¹ • M is the normalised representative, and openHemisphere_ext (nrep equal ⇒ points equal) is the workhorse for every torsor identity.",
     "A dependent Sphere.mk with a rewritten vector: use mk_eq_mk_of_eq (hv) (h : v = w) : mk v hv = mk w (h ▸ hv); rw fails on the motive."
   ],
-  "notes": "Lines: 761. The Remarque's label is cited unmarked in the docstring as groundwork only (the Remarque itself is partially formalized in Structure/Basic, WP-45h, and unmarked there too). Not proved: GA(n) ≅ Stab_{GS(n)}(H₀) (only injectivity and equivariance of affToGS)."
+  "notes": "Lines: 849. Fix round 2026-11-03 (DEC-120, AUDIT-1): minor — independence of the equation l proved (hemiTransEquiv, hemi_vadd_indep); nits — generic helpers made private, the Déf. 6 'structure d'espace affin' row now reads 'reading (DEC-114, ruled)'. Also added for the Remarque: exists_eq_smul_hemiChart. Not stated: the group isomorphism GA(n) ≅ Stab_{GS(n)}(H₀).",
+  "private_helpers": [
+    "mk_eq_mk_of_eq",
+    "snoc_add_snoc",
+    "smul_snoc",
+    "init_add",
+    "init_smul",
+    "snoc_init_smul_eq",
+    "continuous_init",
+    "GAR.apply_eq (all private in Hemisphere.lean, audit nit)"
+  ],
+  "audit_round_1_fixes": [
+    "minor: hemi_vadd_indep / hemiTransEquiv (independence of l at the level of the action)",
+    "nit: generic helpers private; upstream_moves updated",
+    "nit: Déf. 6 hypothesis row 'here' = 'reading (DEC-114, ruled)'"
+  ]
 }

@@ -21,10 +21,11 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
   half-lines and is not connected (`Benzecri.Sphere.IsLine.diff_eq_halfLines`, finite dimension;
   `linearSubvariety_pair_diff`, `disjoint_halfLine_neg`, `isConnected_halfLine`,
   `not_isPreconnected_linearSubvariety_pair_diff` in any real topological vector space).
-* `bzdef:c1s1d5_hemisphere` — `benzecri1960_ch1.tex:202` (Déf. 5, l.202–212, p. 234), and the
-  converse paragraph after it (l.215–220, p. 235). **Not marked**: every printed assertion is proved,
-  under the reading of DEC-114 that the equation is nonzero (`l ≠ 0`, forced by « l'hyperplan fermé
-  $h$ »; equivalently `H ≠ ∅`) — a reading, not a finding; see SCOPE. `Benzecri.Sphere.IsOpenHemisphere`
+* **`bzdef:c1s1d5_hemisphere`** — `benzecri1960_ch1.tex:202` (Déf. 5, l.202–212, p. 234), and the
+  converse paragraph after it (l.215–220, p. 235). **Marked under DEC-120** (marks resting on ruled
+  readings are accepted): every printed assertion is proved, under the reading of DEC-114 that the
+  equation is nonzero (`l ≠ 0`, forced by « l'hyperplan fermé $h$ »; equivalently `H ≠ ∅`) — a
+  reading, not a finding; see SCOPE. `Benzecri.Sphere.IsOpenHemisphere`
   (as printed), `Benzecri.Sphere.openHemisphere l`; the equation is unique up to `ℝ⁺`
   (`openHemisphere_eq_iff`, every `l`, `l'`); **for `H` itself**, open with `F(H) = l⁻¹(ℝ⁺)` and
   `l ≠ 0`: `l` is continuous (`continuous_of_isOpen_of_F_eq`), the frontier of `H` is the closed
@@ -33,8 +34,9 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
   continuous equation and its complement is the union of the two disjoint open hemispheres of
   equations `l`, `-l`, of frontier `h` (`closedHyperplane_converse`, `continuous_of_F_union_eq`), the
   equation being defined up to a nonzero factor (`hyperplane_eq_iff`).
-* `bzdef:c1s1d10_quotient` — `benzecri1960_ch1.tex:260` (Déf. 10, l.260–266, p. 235).
-  **Not marked**: it rests on Déf. 8's convex parts, whose « F(k) + {O} » is open (OQ-24).
+* **`bzdef:c1s1d10_quotient`** — `benzecri1960_ch1.tex:260` (Déf. 10, l.260–266, p. 235).
+  **Marked under DEC-114 and DEC-120**: it rests on Déf. 8's convex parts, whose « F(k) + {O} » is
+  ruled `F(k) ∪ {O}` (OQ-24, DEC-120), and on DEC-114's saturated reading of the analogy.
   `Benzecri.Sphere.quotient L := Sphere (E ⧸ L)`; **the convex parts of `S(E)` containing `l`
   correspond bijectively to the convex parts of `S(E)/l`** (`Benzecri.Sphere.convexQuotientEquiv`, an
   order isomorphism, no hypothesis on `E` or `L`), in the `∪` reading of Déf. 8
@@ -71,7 +73,7 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
 | Déf. 5, uniqueness of the equation | ✓ carried, no hypothesis (`l = 0` included) |
 | converse: `h` a closed hyperplane, `l` continuous with `F(h) ∪ {O} = l⁻¹(O)` | ✓ carried: a continuous `l ≠ 0` is derived from `h` closed (`closedHyperplane_converse`), and every such `l` is continuous (`continuous_of_F_union_eq`) |
 | Déf. 10: `L` any subspace, `E` any vector space | ✓ carried |
-| Déf. 10: « convexes » of `S(E)` | ⚠ reading, OPEN (OQ-24): Déf. 8's first form `Convex ℝ (F(k) ∪ {O})` (printed « F(k) + {O} »), `Sphere.IsConvexPart` |
+| Déf. 10: « convexes » of `S(E)` | reading (OQ-24 RULED, DEC-120): Déf. 8's first form `Convex ℝ (F(k) ∪ {O})` (printed « F(k) + {O} »), `Sphere.IsConvexPart` |
 
 ## SCOPE (disclosed)
 
@@ -79,8 +81,8 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
   l'hyperplan fermé $h$ » presupposes `l ≠ 0` (a hyperplane is `s(L - {O})` with `L` of codimension
   1, which `l⁻¹(O)` is iff `l ≠ 0`). The literal first sentence admits `l = 0` and `H = ∅`
   (`isOpenHemisphere_empty`, `frontier_openHemisphere_zero` record it). With the reading, every
-  printed assertion of Déf. 5 and of the converse paragraph is proved; the row stays unmarked because
-  a reading makes it `partial` under the campaign protocol.
+  printed assertion of Déf. 5 and of the converse paragraph is proved; the row is marked because
+  DEC-120 accepts marks resting on ruled readings (Déf. 5 under `l ≠ 0`).
 * **Reading (Déf. 10, DEC-114), not a finding.** The « De même que » analogy « les convexes de $E$
   contenant $L$ s'identifient aux convexes de $E/L$ » is read for the `L`-saturated convex sets of `E`
   (`C + L ⊆ C`: the open, the closed and the conical ones), for which it holds
@@ -88,11 +90,12 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
   (`not_injective_convex_image_quotient`, a remark). The statement about `S(E)` holds as printed for
   every convex part (`convexQuotientEquiv`), because `F(k) ∪ {O}` is a convex cone and a convex cone
   containing `L` is `L`-saturated.
-* **Déf. 8 is OPEN (OQ-24).** « $F(k)+\{O\}$ » is read `F(k) ∪ {O}` here, pending the author; under
-  the Minkowski reading `F(k) + {O} = F(k)` no convex part could contain an antipodal pair, so Déf. 9
-  would be vacuous and no convex part would contain `l` for `L ≠ 0`. `Sphere.IsConvexPart` is that
-  first form only; the segment form of Déf. 8 is the `Projective/Convex` module's (wave 2). Déf. 10
-  is not marked until OQ-24 is ruled.
+* **Déf. 8: OQ-24 is RULED (DEC-120).** « $F(k)+\{O\}$ » is `F(k) ∪ {O}`; under the Minkowski
+  reading `F(k) + {O} = F(k)` no convex part could contain an antipodal pair, so Déf. 9 would be
+  vacuous and no convex part would contain `l` for `L ≠ 0`. `Sphere.IsConvexPart` is that first
+  form only; the segment form of Déf. 8, and Déf. 8's mark, are the `Projective/Convex` module's
+  (wave 2). Déf. 10 is marked, resting on DEC-114 (saturated reading of the analogy) and DEC-120
+  (OQ-24).
 * The topology of `S(E)/l` and the partial map `S(E) - l → S(E)/l` are not built.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
@@ -900,9 +903,9 @@ theorem IsLine.diff_eq_halfLines {E : Type*} [AddCommGroup E] [Module ℝ E] [To
 
 /-- **Déf. 8, first printed form, in the reading `F(k) ∪ {O}`** (« On appelle partie convexe
 $k\subset S(E)$ une partie $k$ telle que $F(k)+\{O\}$ soit un convexe de $E$ »). This is the reading
-under **OQ-24, which is OPEN, pending the author**: the `+` is read as a union (a convex cone with
-apex `O`), not as a Minkowski sum (which would make Déf. 9 vacuous). Not certified here; the segment
-form of Déf. 8 is the `Projective/Convex` module's (wave 2); used to state Déf. 10. -/
+under **OQ-24, RULED by DEC-120**: the `+` is a union (a convex cone with apex `O`), not a Minkowski
+sum (which would make Déf. 9 vacuous). Déf. 8 is certified in `Projective/Convex` (wave 2), with the
+segment form; used here to state Déf. 10. -/
 def IsConvexPart (k : Set (Sphere E)) : Prop := Convex ℝ (insert 0 (F k))
 
 /-- **`S(E)/l`** (Déf. 10, `bzdef:c1s1d10_quotient`, p. 235): the sphere `S(E/L)`. -/
@@ -1028,8 +1031,8 @@ theorem quotientPreimage_mono (L : Submodule ℝ E) {k₁ k₂ : Set (quotient L
 /-- **Déf. 10 — the convex parts of `S(E)` containing `l` are identified with the convex parts of
 `S(E)/l`** (« les convexes de $S(E)$ contenant $l$ s'identifient aux convexes de $S(E)/l$ »): an
 order isomorphism `k ↦ s(q(F(k)) - {O})`, with inverse `k' ↦ s(q⁻¹(F(k') ∪ {O}) - {O})`, for every
-real vector space `E` and subspace `L`. (Convexity in the reading `F(k) ∪ {O}` of Déf. 8, OPEN
-under OQ-24.) -/
+real vector space `E` and subspace `L`. (Convexity in the reading `F(k) ∪ {O}` of Déf. 8, ruled by
+DEC-120 on OQ-24.) -/
 def convexQuotientEquiv (L : Submodule ℝ E) :
     {k : Set (Sphere E) // IsConvexPart k ∧ linearSubvariety L ⊆ k} ≃o
       {k' : Set (quotient L) // IsConvexPart k'} :=
