@@ -1,0 +1,66 @@
+{
+ "package": "WP-45a",
+ "round": 1,
+ "file": "scaffold/BenzecriScaffold/Projective/Sphere.lean",
+ "module": "BenzecriScaffold.Projective.Sphere",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor; files as on disk (uncommitted, wave 1), mathlib fabf563a",
+ "summary": "Build, axioms of every declaration, name shadowing, fidelity of the (unmarked) Déf. 3 formalization to the transcription l.167–184 and to the scan (PDF p. 7 = journal p. 234), the DEC-113 model, homeomorphUnitSphere and the T2/compact instances. No blocker or major issue. The decision not to mark bzdef:c1s1d3_sphere is correct; the reasons given for it are incomplete (P(E)'s topology), and half of the author's question can be settled by a 3-line lemma.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Projective/Sphere.lean`: EXIT=0, no output (3 s; the .olean is newer than the source)",
+  "sorry_axioms": "`#print axioms` / `Lean.collectAxioms` over EVERY non-internal constant of the five wave-1 modules (264 constants, all REPORT decls among them, 158 named, 0 missing), from a /tmp scratch file via `lake env lean`: 230 use [propext, Classical.choice, Quot.sound], the rest a subset (26 none). No sorryAx, no non-standard axiom. No `sorry`, `admit`, `axiom`, `native_decide`, `implemented_by`, `extern` or `set_option` token in the file",
+  "imports": "every import is `Mathlib.*` or `BenzecriScaffold.*` (DEC-112 layering): no GX.*, no Causal.*, no new [[require]]",
+  "dec113_model": "Sphere E := Module.Ray ℝ E as a `def` synonym (so no orphan topology lands on Module.Ray); topology = coinduced by s from the subspace {v // v ≠ 0} (instTopologicalSpace, isQuotientMap_s): exactly « topologie quotient » of Déf. 3 for whatever topology E carries. mk_eq_mk_iff_exists_pos is « quotient de E−{O} par R⁺ ». F is the preimage correspondence, valued in Set E with F A ⊆ {0}ᶜ. Faithful",
+  "homeomorphUnitSphere": "Correct for every real normed space, as claimed: v ↦ ‖v‖⁻¹v is continuous on {v ≠ 0}, SameRay-invariant (SameRay.inv_norm_smul_eq), descends by the quotient property (continuous_lift), and its inverse u ↦ s(u) is continuous. No finite dimension is used, so DEC-113's 'in finite dimension' is strengthened, not contradicted. The homeomorphism is for the norm topology, which is the topology the instance sees for a normed E; for infinite-dimensional E that is NOT the paper's default topology, which the docstring says",
+  "instances": "T2Space (Sphere E) for normed E and CompactSpace (Sphere E) for finite-dimensional normed E are transported along homeomorphUnitSphere: correct (the unit sphere of an infinite-dimensional normed space is not compact, so the finite-dimension hypothesis is needed there and only there). `example : CompactSpace (S n)` / `T2Space (S n)` elaborate, so the Pi topology on Fin (n+1) → ℝ and the sup-norm topology agree by instances",
+  "finest_locally_convex": "The reading is sound for Ch. 1 and can be a THEOREM rather than a reading at S(n): I checked in a scratch file that for any t : TopologicalSpace (Fin n → ℝ) with IsTopologicalAddGroup and ContinuousSMul ℝ, `Pi.topologicalSpace ≤ t` (proof: `rw [← continuous_id_iff_le]; exact @LinearMap.continuous_on_pi (Fin n) ℝ (Fin n → ℝ) _ _ _ _ _ t h1.toContinuousAdd h2 LinearMap.id`), and `LocallyConvexSpace ℝ (Fin n → ℝ)` is inferred. So the product topology is the finest vector-space topology on ℝⁿ, a fortiori the finest locally convex one. The checklist's justification ('every Hausdorff TVS topology is the usual one') is correct but needs the extra remark that the finest l.c. topology is Hausdorff",
+  "name_shadowing": "Benzecri.Sphere.map_neg shadows root `map_neg`, Benzecri.Sphere.normalize shadows root `normalize` (NormalizationMonoid), Benzecri.Sphere.neg_ne_self shadows root `neg_ne_self`, Benzecri.Sphere.continuous_neg shadows the root alias `continuous_neg` (export of ContinuousNeg.continuous_neg; l.388 `continuous_toFun := continuous_neg` already resolves to the local one). No clash ('environment already contains') with Mathlib",
+  "marks": "No **`label`** mark, which is right (see issues); bzdef:c1s1d3_sphere is cited at :167 correctly",
+  "report_honesty": "builds, sorry_count 0, axioms and -DwarningAsError claims confirmed; every REPORT decl and extra_decl exists. The kb_proposal that Mathlib's global `GL` notation captures the identifier is confirmed (Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Defs.lean:47, unscoped `notation \"GL\"`)"
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "Sphere.lean:15-18 and :73-75 (SCOPE: 'This is the one reason the label is not marked'); REPORT questions",
+   "problem": "Déf. 3 also prints « S(E) [resp. P(E)] sera muni de la topologie quotient ». P(E) is only the bare type ℙ ℝ E with no topology (SCOPE l.76-77 says so), so there are TWO unmet assertions, not one. As written, a reader who accepts the finite-dimension reading would wrongly conclude the label can be marked",
+   "fix": "Either build P(E)'s quotient topology (coinduced from {v // v ≠ 0} by Projectivization.mk, a few lines, plus continuity of toProjectivization) or name it in the module docstring bullet, in SCOPE as a second reason, and in the REPORT question"
+  },
+  {
+   "severity": "minor",
+   "where": "Sphere.lean:68 (checklist row 'by default, the finest locally convex topology') and REPORT question 1",
+   "problem": "The finite-dimensional half of the default-topology question is decidable in Lean now and is left as a reading",
+   "fix": "Add `theorem pi_le_of_isTopologicalAddGroup (n) (t : TopologicalSpace (Fin n → ℝ)) [@IsTopologicalAddGroup _ t _] [@ContinuousSMul ℝ _ _ _ t] : Pi.topologicalSpace ≤ t` (proof verified in the audit, see checks.finest_locally_convex) with the docstring 'the topology of ℝⁿ⁺¹ is the finest locally convex (indeed vector-space) topology', and narrow the question to the author to infinite-dimensional E only"
+  },
+  {
+   "severity": "minor",
+   "where": "Sphere.lean:354 (neg_ne_self), :356 (F_neg's neighbour map_neg at :443), :372 (continuous_neg), :495 (normalize)",
+   "problem": "Four declarations in namespace Benzecri.Sphere shadow root names (map_neg, neg_ne_self, normalize, and the exported continuous_neg). Every file in namespace Benzecri.Sphere — already Subvariety.lean, and the wave-2 Hemisphere/Convex modules the plan puts there — silently gets the Sphere version of a bare `map_neg`/`neg_ne_self` in `simp [...]` or term mode",
+   "fix": "Declare the four `protected` (or rename: Sphere.map_neg_eq, Sphere.neg_ne_self' → ne_neg_self, Sphere.normalizeVec, Sphere.continuous_antipode)"
+  },
+  {
+   "severity": "nit",
+   "where": "Sphere.lean:37",
+   "problem": "« S(R^n) sera appelée la sphère projective de dimension (n−1) » is cited as benzecri1960_ch1.tex:279; it is on line 278 (279 is blank)",
+   "fix": "Cite :278"
+  },
+  {
+   "severity": "nit",
+   "where": "Sphere.lean:352-353 (docstring of neg_ne_self)",
+   "problem": "The docstring says 'Two points are diametrically opposite … iff they are x, −x'; the theorem only proves −x ≠ x. The 'iff' is Subvariety.lean's linearSubvariety_span_singleton",
+   "fix": "Reword to 'No point is its own antipode (diametrically opposite points are x, −x: see Subvariety.linearSubvariety_span_singleton)'"
+  },
+  {
+   "severity": "nit",
+   "where": "Sphere.lean:318 (Sphere.homothety) vs Groups.lean:92 (Benzecri.homothety)",
+   "problem": "Two different declarations with the same short name, one on {v // v ≠ 0}, one ℝˣ →* GL(E); inside namespace Benzecri.Sphere the first wins",
+   "fix": "Rename one (e.g. Sphere.homothetyNZ) or make it protected"
+  }
+ ],
+ "fidelity_summary": "Déf. 3 is formalized faithfully for an arbitrary topological vector space structure: the type is the quotient of E − {O} by the positive homotheties (Module.Ray), s is the quotient map of the subspace topology, F is the preimage correspondence, and the antipodal map, the action of continuous linear equivalences and the 2-to-1 map to P(E) are honest extras. Not marking the label is correct: the default topology of an infinite-dimensional E is not built, and neither is P(E)'s topology. Nothing is vacuous or definitional; homeomorphUnitSphere and the instances are correct as claimed.",
+ "questions_for_author": [
+  "Déf. 3's default topology: with the finite-dimensional lemma added (issue 2), is S(n) = Sphere (Fin (n+1) → ℝ) with the product topology enough to MARK bzdef:c1s1d3_sphere (Ch. 1 never uses an infinite-dimensional E), or must the finest locally convex topology be built for arbitrary E?",
+  "P(E): build its quotient topology now (cheap), or leave it named only?"
+ ]
+}

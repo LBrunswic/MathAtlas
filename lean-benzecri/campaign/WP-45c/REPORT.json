@@ -1,0 +1,40 @@
+{
+  "package": "WP-45c",
+  "files": [
+    "scaffold/BenzecriScaffold/Structure/Groupoid.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [],
+  "extra_decls": [
+    "Benzecri.IsRigidAction",
+    "Benzecri.IsAnalyticAction",
+    "Benzecri.isRigidAction_iff_eqOn_id",
+    "Benzecri.eq_of_eqOn",
+    "Benzecri.IsAnalyticAction.of_eq_of_eqOn",
+    "Benzecri.isAnalyticAction_iff",
+    "Benzecri.IsRigidAction.of_comp",
+    "Benzecri.gxPregroupoid",
+    "Benzecri.gxGroupoid",
+    "Benzecri.mem_gxGroupoid_iff",
+    "Benzecri.exists_smul_eq_of_mem_gxGroupoid",
+    "Benzecri.eventually_smul_eq_of_mem_gxGroupoid",
+    "Benzecri.symm_trans_mem_gxGroupoid",
+    "Benzecri.symm_trans_mem_gxGroupoid_iff",
+    "Benzecri.closedUnderRestriction_gxGroupoid",
+    "Benzecri.gxGroupoid_mono",
+    "Benzecri.gxGroupoid_subgroup_le",
+    "Benzecri.smul_mem_gxGroupoid",
+    "Benzecri.transport_mem_gxGroupoid"
+  ],
+  "kb_proposals": [
+    "Benzecri.gxGroupoid is a verbatim port of GX.gxGroupoid (lean-gx/GX/Structure/Basic.lean:189 at lean-gx 4a577c5), so the later bridge Benzecri.gxGroupoid G X = GX.gxGroupoid G X should be rfl; the maximal-atlas/atlas/morphism sections (gx l.277–911) are not ported yet — Structure/Basic (wave 2) ports what it needs.",
+    "gxGroupoid_subgroup_le takes [ContinuousConstSMul H X] as an argument: Mathlib has no instance for a subgroup's action, and none was added (it would be an orphan on Mathlib types)."
+  ],
+  "notes": "Infrastructure (plan F2): no ledger label is certified, so labels is empty and nothing is marked; the docstring names Déf. 12/13 and Prop. 1 as the consumers, unmarked. Every port cites its gx original by file:line (lean-gx commit 4a577c5). No sorry; axioms ⊆ {propext, Classical.choice, Quot.sound}; clean under -DwarningAsError=true. No name clashes with Mathlib (grep: no IsRigidAction/gxGroupoid in Mathlib). Fix round 1 (AUDIT-1): module docstring names IsRigidAction.of_comp (not of_injective) and lists GX.IsAnalyticAction.of_eq_of_eqOn (l.138); plan F2's « monotonicity in an open X' ⊆ X » is PORTED in its groupoid-map form, transport_mem_gxGroupoid (along an open embedding ι : X' → X equivariant through φ : G' →* G, ι ∘ f ∘ ι⁻¹ ∈ gxGroupoid G X for f ∈ gxGroupoid G' X'); the HasGroupoid/ChartedSpace.comp form is disclosed in SCOPE as Structure/Basic's.",
+  "audit_round_1_fixes": [
+    "of_injective → of_comp in the docstring",
+    "of_eq_of_eqOn added to the port list",
+    "monotonicity in an open X' ⊆ X: transport_mem_gxGroupoid (groupoid-map form) + SCOPE bullet for the HasGroupoid form"
+  ]
+}

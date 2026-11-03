@@ -1,0 +1,114 @@
+{
+  "package": "WP-45b",
+  "files": [
+    "scaffold/BenzecriScaffold/Affine/Basic.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bzdef:c1s1d1_espace_affin",
+      "tex_lines": [
+        132,
+        147
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.IsSimplyTransitive",
+        "Benzecri.isSimplyTransitive_iff",
+        "Benzecri.isSimplyTransitive_of_addTorsor",
+        "Benzecri.addTorsorOfIsSimplyTransitive",
+        "Benzecri.exists_addTorsor_iff",
+        "Benzecri.IsAffineSpace",
+        "Benzecri.isAffineSpace_iff_exists_addTorsor",
+        "Benzecri.vec",
+        "Benzecri.vec_vadd",
+        "Benzecri.eq_vec_iff",
+        "Benzecri.vec_eq_sub"
+      ],
+      "hypotheses": [
+        {
+          "paper": "T(A) a vector space acting simply and transitively, as an abelian group",
+          "here": "weakened",
+          "note": "IsSimplyTransitive V P needs only [AddGroup V] [AddAction V P]"
+        },
+        {
+          "paper": "A nonempty (reading, DEC-114)",
+          "here": "carried",
+          "note": "IsAffineSpace V P := Nonempty P ∧ IsSimplyTransitive V P, which is Mathlib's AddTorsor (isAffineSpace_iff_exists_addTorsor); IsSimplyTransitive alone also admits A = ∅"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [],
+      "readings": [
+        "DEC-114: an affine space (Déf. 1) is nonempty."
+      ]
+    },
+    {
+      "label": "bzdef:c1s1d2_application_affine",
+      "tex_lines": [
+        149,
+        165
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.IsAffine",
+        "Benzecri.isAffine_iff",
+        "Benzecri.isAffine_of_affineMap",
+        "Benzecri.affineFunction_iff",
+        "Benzecri.affineFunction_iff_isAffine",
+        "Benzecri.IsAffinePrinted",
+        "Benzecri.IsAffine.isAffinePrinted",
+        "Benzecri.IsAffinePrinted.linear_unique",
+        "Benzecri.additive_of_isAffinePrinted",
+        "Benzecri.IsAffinePrinted.exists_addMonoidHom",
+        "Benzecri.isAffinePrinted_of_affineMap",
+        "Benzecri.isAffinePrinted_and_continuous_iff",
+        "Benzecri.isAffinePrinted_and_continuous_iff_of_finiteDimensional",
+        "Benzecri.not_isAffinePrinted_imp_affine"
+      ],
+      "hypotheses": [
+        {
+          "paper": "l' linear T(A) → T(B) (« linéaire » restored: an evident slip, DEC-114)",
+          "here": "carried",
+          "note": "IsAffine k l := ∃ l' : V₁ →ₗ[k] V₂, l(M + m) = l(M) + l'(m); isAffine_iff: ⟺ Mathlib's AffineMap"
+        },
+        {
+          "paper": "T(A), T(B) over the same field",
+          "here": "weakened",
+          "note": "one scalar ring k for both (Module k V₁, Module k V₂), any ring"
+        },
+        {
+          "paper": "Exemple: l' in the dual of T(A), over ℝ",
+          "here": "weakened",
+          "note": "affineFunction_iff / affineFunction_iff_isAffine over any commutative ring"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [],
+      "readings": [
+        "DEC-114: Déf. 2's missing « linéaire » before « application l' » is an evident slip (« sur un même corps », l.150, and the Exemple's « élément l' du dual », l.162); Déf. 2 is IsAffine k."
+      ],
+      "remarks": [
+        "Literal reading (not a finding against the paper, DEC-114): with l' any map, l' is unique and additive (IsAffinePrinted.linear_unique, IsAffinePrinted.exists_addMonoidHom); printed + continuity ⟺ continuous affine (isAffinePrinted_and_continuous_iff), hence ⟺ affine in finite dimension; without continuity not_isAffinePrinted_imp_affine exhibits a non-affine l : ℝ → ℝ (ℚ-linear, l 1 = 0, l √2 ≠ 0), a witness that needs the axiom of choice (no measurable or locally bounded one exists)."
+      ]
+    }
+  ],
+  "extra_decls": [],
+  "kb_proposals": [
+    "Benzécri writes M + m and MN; Mathlib writes m +ᵥ M and N -ᵥ M. Benzecri.vec M N := N -ᵥ M with vec_vadd : vec M N +ᵥ M = N."
+  ],
+  "notes": "Fix round 1 (DEC-114, AUDIT-1): Déf. 2 MARKED and closed with IsAffine k (l' linear over the common scalars), proved equivalent to AffineMap, the Exemple covered (affineFunction_iff_isAffine); the literal reading kept as a remark. Déf. 1's nonempty reading added (IsAffineSpace). Hygiene: AddTorsor.isSimplyTransitive → isSimplyTransitive_of_addTorsor (no Benzecri.AddTorsor.* prefix), the Déf. 1 citation is l.132–147, the finite-dimensional bullet names isAffinePrinted_and_continuous_iff_of_finiteDimensional. No sorry; axioms ⊆ {propext, Classical.choice, Quot.sound}; clean under -DwarningAsError=true. addTorsorOfIsSimplyTransitive is @[reducible] (a def of class type).",
+  "audit_round_1_fixes": [
+    "finding reworded as a reading (« linéaire » an evident slip) + remark on the literal reading",
+    "IsAffine k + isAffine_iff (+ isAffine_of_affineMap, IsAffine.isAffinePrinted, affineFunction_iff_isAffine)",
+    "docstring: finite-dimensional lemma named correctly",
+    "rename AddTorsor.isSimplyTransitive → isSimplyTransitive_of_addTorsor",
+    "Déf. 1 citation l.132–147",
+    "IsAffineSpace (Déf. 1 nonempty, DEC-114)"
+  ]
+}

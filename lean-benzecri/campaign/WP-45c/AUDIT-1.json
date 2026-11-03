@@ -1,0 +1,43 @@
+{
+ "package": "WP-45c",
+ "round": 1,
+ "file": "scaffold/BenzecriScaffold/Structure/Groupoid.lean",
+ "module": "BenzecriScaffold.Structure.Groupoid",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor; files as on disk (uncommitted, wave 1), mathlib fabf563a",
+ "summary": "Build, axioms, the port against lean-gx GX/Structure/Basic.lean at 4a577c5 (diff, line citations, and the claimed rfl bridge, executed), imports (DEC-112), names. Infrastructure, no label: nothing is marked and nothing should be. The port is verbatim and the rfl bridge holds. Two docstring defects, and one plan item neither delivered nor disclosed.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Structure/Groupoid.lean`: EXIT=0, no output (2 s; the .olean is newer than the source)",
+  "sorry_axioms": "`#print axioms` / `Lean.collectAxioms` over EVERY non-internal constant of the five wave-1 modules (264 constants, all REPORT decls among them, 158 named, 0 missing), from a /tmp scratch file via `lake env lean`: 230 use [propext, Classical.choice, Quot.sound], the rest a subset (26 none). No sorryAx, no non-standard axiom. No `sorry`, `admit`, `axiom`, `native_decide`, `implemented_by`, `extern` or `set_option` token in the file",
+  "imports": "Mathlib.Geometry.Manifold.HasGroupoid and Mathlib.Topology.Algebra.ConstMulAction only: no GX, no Causal (DEC-112)",
+  "port_fidelity": "Compared with `git show 4a577c5:lean-gx/GX/Structure/Basic.lean`: IsRigidAction, IsAnalyticAction, eq_of_eqOn, IsAnalyticAction.of_eq_of_eqOn, isAnalyticAction_iff, gxPregroupoid, gxGroupoid, mem_gxGroupoid_iff, exists_smul_eq_of_mem_gxGroupoid, eventually_smul_eq_of_mem_gxGroupoid, symm_trans_mem_gxGroupoid(_iff), closedUnderRestriction_gxGroupoid are statement- and proof-identical (only docstrings and the universe name y→w' differ). All 12 cited line numbers (113, 118, 132, 138, 145, 162, 189, 191, 199, 220, 228, 254, 264) are exact at 4a577c5 and unchanged in the current lean-gx file (`git diff 4a577c5 -- lean-gx/GX/Structure/Basic.lean` is empty)",
+  "rfl_bridge": "Executed, not just inferred: in lean-gx's environment (`lake env lean /tmp/…/bridge.lean`, importing GX.Structure.Basic, with this file's body pasted into a scratch namespace), `example : BzPort.gxGroupoid G X = GX.gxGroupoid G X := rfl` and the field-wise iff BzPort.IsAnalyticAction ↔ GX.IsAnalyticAction typecheck, EXIT=0. The kb_proposal 'the bridge should be rfl' is confirmed",
+  "new_decls": "isRigidAction_iff_eqOn_id, IsRigidAction.of_comp, gxGroupoid_mono, gxGroupoid_subgroup_le, smul_mem_gxGroupoid: correct and honestly stated. The kb_proposal that Mathlib has no ContinuousConstSMul instance for a subgroup's action is confirmed (`inferInstance` fails at the pin)",
+  "name_shadowing": "none (scripted check of every suffix against root constants); no IsRigidAction/gxGroupoid in Mathlib",
+  "report_honesty": "builds, sorry_count, axioms confirmed; labels = [] is correct; all 18 extra_decls exist"
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "Groupoid.lean:32-33 (module docstring, 'New here: … `Benzecri.IsRigidAction.of_injective` (rigidity of a sub-action)')",
+   "problem": "No declaration Benzecri.IsRigidAction.of_injective exists; the file's (and REPORT's) declaration is IsRigidAction.of_comp, which takes a hom φ : G' →* G with g • p = φ g • p and needs no injectivity",
+   "fix": "Replace with `Benzecri.IsRigidAction.of_comp` (rigidity of an action through a hom)"
+  },
+  {
+   "severity": "minor",
+   "where": "Groupoid.lean SCOPE (l.42-46) against CH1-PLAN.md F2",
+   "problem": "F2 asks the port to include 'monotonicity … in an open X' ⊆ X' (needed for bzrem:c1s1r1_affine_vers_projective: an affine structure through a hemisphere chart ℝⁿ ≃ H ⊂ S(n), i.e. HasGroupoid monotone along an inclusion of models). It is neither ported nor listed as omitted",
+   "fix": "Either add the lemma (a (G,X')-structure with X' open in X and G' ≤ stabiliser acting compatibly gives a (G,X)-structure, or the groupoid-map form) or add a SCOPE bullet deferring it to Structure/Basic"
+  },
+  {
+   "severity": "nit",
+   "where": "Groupoid.lean:23-30 (list of ports)",
+   "problem": "The list omits GX.IsAnalyticAction.of_eq_of_eqOn (l.138), which the declaration's own docstring cites",
+   "fix": "Add it to the list"
+  }
+ ],
+ "fidelity_summary": "No paper statement is certified. The groupoid of a (G,X)-structure and the rigidity classes are a faithful, verbatim port of lean-gx, cited by exact file:line at 4a577c5, and the definitional bridge to GX.gxGroupoid is rfl as claimed. Hypotheses (ContinuousConstSMul for the groupoid, IsRigidAction only where used) are the right ones.",
+ "questions_for_author": []
+}

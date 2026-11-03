@@ -1,0 +1,67 @@
+{
+ "package": "WP-45e",
+ "round": 1,
+ "file": "scaffold/BenzecriScaffold/Projective/Subvariety.lean",
+ "module": "BenzecriScaffold.Projective.Subvariety",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor; files as on disk (uncommitted, wave 1), mathlib fabf563a",
+ "summary": "Build, axioms, fidelity of Déf. 4 (marked closed), Déf. 5 and its converse paragraph (unmarked) and Déf. 10 (unmarked) to the transcription l.186–267 and the scan (PDF pp. 7–8 = journal pp. 234–235), and the two findings. No blocker or major issue. The Déf. 4 mark is earned for the ledger statement (l.186–189), but the REPORT's line range claims the Exemples, whose half-line sentence is not formalized. Both findings are literally true and kernel-checked. The Déf. 5 finding dissolves under the paper's own word « hyperplan ». The Déf. 10 finding concerns the motivating analogy, not the asserted statement, which is proved without hypothesis. One added hypothesis (continuity of l) is derivable from the paper's, and one converse step is not proved.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Projective/Subvariety.lean`: EXIT=0, no output (3 s; the .olean is newer than the source)",
+  "sorry_axioms": "`#print axioms` / `Lean.collectAxioms` over EVERY non-internal constant of the five wave-1 modules (264 constants, all REPORT decls among them, 158 named, 0 missing), from a /tmp scratch file via `lake env lean`: 230 use [propext, Classical.choice, Quot.sound], the rest a subset (26 none). No sorryAx, no non-standard axiom. No `sorry`, `admit`, `axiom`, `native_decide`, `implemented_by`, `extern` or `set_option` token in the file",
+  "imports": "every import is `Mathlib.*` or `BenzecriScaffold.*` (DEC-112 layering): no GX.*, no Causal.*, no new [[require]]",
+  "def4_mark": "**`bzdef:c1s1d4_sous_variete_lineaire`** at offset 581. The ledger statement is the defin environment l.186–189 (the transcription's convention: `exemple` blocks carry no label and are not ledger statements), and linearSubvariety L := s(L − {O}) with F_linearSubvariety is all of it, so the mark is legitimate. The Exemples (l.191–200): dimension 1 → two diametrically opposite points (linearSubvariety_span_singleton, mk_ne_neg_mk) proved; « droite » (IsLine, finrank L = 2) and « hyperplan » (IsHyperplane, finrank (E ⧸ L) = 1, S(T) read S(E) per [sic]) defined correctly; « Deux points diamétralement opposés divisent une droite en deux demi-droites » (an assertion plus the definition of demi-droite) NOT formalized (disclosed in SCOPE l.79-80)",
+  "def5": "IsOpenHemisphere is Déf. 5 as printed (H open, l algebraic dual, F(H) = l⁻¹(R⁺) with R⁺ = Ioi 0, scan confirms « l ∈ E* », « l⁻¹(R⁺) »). openHemisphere_eq_iff (equation unique up to a positive factor, all l including 0), closure_openHemisphere (closure = closed hemisphere), frontier_openHemisphere / F_frontier_openHemisphere (F(∂H) ∪ {O} = l⁻¹(O)), isClosed_linearSubvariety_ker and isHyperplane_linearSubvariety_ker (∂H is a closed hyperplane) are correct, for a continuous l ≠ 0 on a real TVS with {0} closed. Converse: compl_hyperplane, disjoint_openHemisphere_neg, frontier_openHemisphere_neg, hyperplane_eq_iff (equation up to a nonzero factor) are correct",
+  "def5_finding": "Genuine on the literal text and kernel-checked: with l = 0, F(H) = ∅ so H = ∅ satisfies the definition (isOpenHemisphere_empty), and the frontier ∅ is not the h with F(h) ∪ {O} = 0⁻¹(O) = E, which is all of S(E) (frontier_openHemisphere_zero, E ≠ 0). But a charitable reading dissolves it, and the paper itself supplies the reading: the frontier sentence says « la frontière de H est L'HYPERPLAN fermé h défini par F(h) ∪ {O} = l⁻¹(O) », and a hyperplane is by the Exemples (l.198) s(L − {O}) with L of codimension 1, which l⁻¹(O) is iff l ≠ 0. So Déf. 5 presupposes l ≠ 0 (equivalently H ≠ ∅); calling ∅ a hemisphere is not a reading anyone would take. Note also that Benzécri's star notation (R* = R − {O}, Déf. 3) does not make « E* » mean nonzero forms: E* is the dual (« forme linéaire l ∈ E* »)",
+  "def10_finding": "Genuine on the literal text and kernel-checked: not_injective_convex_image_quotient (ℝ², L = {x = 0}, the strip 0 ≤ x ≤ 1 and the strip with the line x = 1 cut to (1, 0): both convex, both contain L, same image in E/L, distinct). But (a) the false clause is the motivating analogy « De même que les convexes de E contenant L s'identifient aux convexes de E/L »; the asserted statement, « les convexes de S(E) contenant l s'identifient aux convexes de S(E)/l », is TRUE with no hypothesis on E or L (convexQuotientEquiv, an order isomorphism, because F(k) ∪ {O} is a convex cone and a convex cone containing L is L-saturated: add_mem_F_of_isConvexPart). (b) The analogy is true for the L-saturated convex sets (convexSaturatedEquiv), which include every open or closed convex set containing L (C(E) is the class Benzécri names next) and every convex cone, the only kind the sentence applies it to. So a charitable reading ('the convex sets of E/L are identified with the L-saturated convexes, e.g. the cones') dissolves it; it does not touch the definition",
+  "def8_reading": "Sphere.IsConvexPart k := Convex ℝ (insert 0 (F k)) reads the printed « F(k) + {O} » (scan p. 235 confirms the +) as F(k) ∪ {O}. The argument against the Minkowski reading is correct (0 ∉ F(k), so an antipodal pair, or l with L ≠ 0, would force 0 into a convex F(k)). It is plausibly not even a misprint: '+' for the union of disjoint sets was current French usage of the period, and F(k) ∩ {O} = ∅. The ∪ reading is equivalent to Déf. 8's segment form (positive combinations of non-opposite rays), which Projective/Convex must certify",
+  "name_shadowing": "none from this file against Mathlib roots; the file lives in namespace Benzecri.Sphere and so inherits the four shadows of WP-45a (it already relies on Sphere.neg_ne_self at l.162)",
+  "report_honesty": "builds, sorry_count, axioms confirmed; all 35 decls/extra_decls exist; marks match statuses except the Déf. 4 tex_lines (issue 1)"
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "REPORT bzdef:c1s1d4_sous_variete_lineaire: tex_lines [186, 200], status closed",
+   "problem": "The range 186–200 claims the Exemples block, which contains an assertion that is not formalized (« Deux points diamétralement opposés divisent une droite en deux demi-droites »). 'closed' over that range is an overclaim. The docstring (l.14) correctly scopes the mark to l.186–189",
+   "fix": "Set tex_lines to [186, 189] and keep the mark (the ledger row is the defin environment), recording the Exemples' coverage under notes. Or formalize the half-lines: for IsLine (linearSubvariety L), v ∈ L − {O}, and l with ker l ⊓ L = ℝ∙v, linearSubvariety L \\ {mk v, −mk v} = (linearSubvariety L ∩ openHemisphere l) ∪ (… ∩ openHemisphere (−l)), disjoint, each nonempty and connected"
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT findings (bzdef:c1s1d5_hemisphere); Subvariety.lean:19, :62-66, :283-289",
+   "problem": "The l = 0 case is reported as a finding against the paper. The frontier sentence calls l⁻¹(O) « l'hyperplan fermé h », which presupposes l ≠ 0, so the hypothesis is in the text: an implicit hypothesis carried by a word, not an error",
+   "fix": "Move it from findings to questions/hypotheses as 'reading: l ≠ 0 (H ≠ ∅), forced by « l'hyperplan » at l.209'. Keep isOpenHemisphere_empty and frontier_openHemisphere_zero as the evidence that the literal first sentence admits ∅"
+  },
+  {
+   "severity": "minor",
+   "where": "Subvariety.lean:54 (checklist: 'l continuous (automatic in finite dimension …)'); closure_openHemisphere :349, frontier_openHemisphere :373",
+   "problem": "The closure/frontier theorems take l : E →L[ℝ] ℝ, an added hypothesis described as automatic only in finite dimension. It is automatic in general from the paper's own hypothesis: if H is open (so F(H) = {l > 0} is open in a T1 TVS, Sphere.isOpen_iff_F) and nonempty, then l is continuous (|l| < 1 on a balanced neighbourhood V with u + V ⊆ {l > 0}, l u = 1). As stated, the theorems are not about 'an open hemisphere H' but about a continuous form",
+   "fix": "Prove `IsOpenHemisphere H → F H = l ⁻¹' Ioi 0 → H.Nonempty → Continuous l` and restate closure/frontier for H (the paper's statement); correct the checklist row"
+  },
+  {
+   "severity": "minor",
+   "where": "Subvariety.lean:56 (checklist row 'converse: h a closed hyperplane … ✓ carried'); compl_hyperplane :421",
+   "problem": "The converse paragraph starts from « h un hyperplan fermé de S(E) » and asserts that a CONTINUOUS l with F(h) ∪ {O} = l⁻¹(O) exists. The file takes h = s(ker l − {O}) as given; exists_dual_ker_eq yields only an algebraic l, and continuity of l from closedness of h is not proved. '✓ carried' overstates it, and without continuity the two « hémisphères ouverts » are not known to be open",
+   "fix": "Prove: IsHyperplane h ∧ IsClosed h → ∃ l : E →L[ℝ] ℝ, l ≠ 0 ∧ h = linearSubvariety (ker l). ker l − {O} is relatively closed in E − {O}, so ker l is closed; then LinearMap.continuous_iff_isClosed_ker. Or mark the row ⚠ and say so in SCOPE"
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT findings (bzdef:c1s1d10_quotient); Subvariety.lean:26-27, :67-73, :644-647",
+   "problem": "'the vector-space premise of Déf. 10 is false as printed' is true of the « De même que » analogy only, and is dissolved by the charitable reading (L-saturated convexes, which include the open, the closed and the conical ones, the case the paper applies it to). The definition and its asserted identification on S(E) are proved without hypothesis. As phrased, the finding suggests a defect in Déf. 10",
+   "fix": "Rephrase as a remark on the analogy: 'literally false for arbitrary convex sets of E (not_injective_convex_image_quotient), true for L-saturated ones (convexSaturatedEquiv), which is the class the analogy needs; the S(E) statement holds for every convex part (convexQuotientEquiv)'. Then the row's remaining gap is only the Déf. 8 reading, to be closed when Projective/Convex certifies IsConvexPart"
+  },
+  {
+   "severity": "nit",
+   "where": "closure_openHemisphere (:349)",
+   "problem": "The paper names the closure « H ∪ h »; the file proves closure H = closedHemisphere l but never states closedHemisphere l = openHemisphere l ∪ h",
+   "fix": "Add the one-line lemma closedHemisphere_eq_union : closedHemisphere l = openHemisphere l ∪ linearSubvariety (ker l)"
+  }
+ ],
+ "fidelity_summary": "Déf. 4 is exactly the paper's definition, and the mark stands for the ledger statement. Déf. 5 is formalized literally, with all its assertions and the converse paragraph proved for a continuous nonzero form. Two gaps (continuity derivable from openness; continuity from closedness in the converse) leave the strongest true form for H itself unstated. Déf. 10's identification on S(E) is proved in full generality in the F(k) ∪ {O} reading of Déf. 8. Both findings are mathematically correct and kernel-checked; both are better recorded as readings or remarks than as errors of the paper.",
+ "questions_for_author": [
+  "Déf. 4: are the Exemples part of the row (then the half-lines are owed, and closed must become partial until they land), or is the row the defin environment alone (then tex_lines → [186, 189])?",
+  "Déf. 5: accept l ≠ 0 as the reading forced by « l'hyperplan », rather than as a finding?",
+  "Déf. 8: confirm « F(k) + {O} » = F(k) ∪ {O} (possibly period notation for a disjoint union rather than a misprint); Déf. 10 can then be marked once Projective/Convex certifies the same IsConvexPart"
+ ]
+}

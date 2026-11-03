@@ -1,0 +1,58 @@
+{
+ "package": "WP-45b",
+ "round": 1,
+ "file": "scaffold/BenzecriScaffold/Affine/Basic.lean",
+ "module": "BenzecriScaffold.Affine.Basic",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor; files as on disk (uncommitted, wave 1), mathlib fabf563a",
+ "summary": "Build, axioms, fidelity of Déf. 1 (marked closed) and Déf. 2 (unmarked, partial) to the transcription l.132–165 and the scan (PDF pp. 6–7 = journal pp. 233–234), and the Déf. 2 finding. The mark on Déf. 1 is earned. The Déf. 2 counterexample is genuine and kernel-checked, but the finding should be framed as an omitted « linéaire » that the paper's own text makes evident, not as a defect of the definition.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Affine/Basic.lean`: EXIT=0, no output (2 s; the .olean is newer than the source)",
+  "sorry_axioms": "`#print axioms` / `Lean.collectAxioms` over EVERY non-internal constant of the five wave-1 modules (264 constants, all REPORT decls among them, 158 named, 0 missing), from a /tmp scratch file via `lake env lean`: 230 use [propext, Classical.choice, Quot.sound], the rest a subset (26 none). No sorryAx, no non-standard axiom. No `sorry`, `admit`, `axiom`, `native_decide`, `implemented_by`, `extern` or `set_option` token in the file. not_isAffinePrinted_imp_affine uses Classical.choice essentially (a Hamel-type ℚ-linear form from Submodule.exists_le_ker_of_notMem)",
+  "imports": "every import is `Mathlib.*` or `BenzecriScaffold.*` (DEC-112 layering): no GX.*, no Causal.*, no new [[require]]",
+  "def1_mark": "**`bzdef:c1s1d1_espace_affin`** at offset 693 (< 4000). Every part of l.132–147 is covered: IsSimplyTransitive is « opère simplement et transitivement » as printed (∃! v, v +ᵥ M = N, admitting A = ∅), isSimplyTransitive_iff splits it into transitive ∧ free, exists_addTorsor_iff bridges to Mathlib's AddTorsor for nonempty A, vec/vec_vadd/eq_vec_iff are « MN l'unique élément … tel que M+MN=N », and the Exemple (E acting on itself) is Mathlib's instance addGroupIsAddTorsor with vec_eq_sub. Dropping « espace vectoriel » / « abélien » to [AddGroup V] is a generalisation. Closed is right",
+  "def2_finding": "Verified against the scan (journal p. 233 last line / p. 234 first line): « s'il existe une application l' de T(A) dans T(B) telle que … l(M+m)=l(M)+l'(m) ». The literal reading admits l' merely additive, and not_isAffinePrinted_imp_affine exhibits l : ℝ → ℝ (ℚ-linear, l 1 = 0, l √2 ≠ 0) satisfying the printed definition with ¬∃ f : ℝ →ᵃ[ℝ] ℝ, ⇑f = l. The proof is sound (hlin derives l x = x·l 1 from f.linear's ℝ-linearity). isAffinePrinted_and_continuous_iff (continuity forces ℝ-linearity via AddMonoidHom.toRealLinearMap) and the finite-dimensional variant are correct and stated at the right generality (real normed affine spaces). affineFunction_iff covers the Exemple (l' in the dual) over any commutative ring",
+  "charitable_reading": "The finding DISSOLVES under a charitable reading, and the paper supplies it: (1) Déf. 2 opens « T(A) et T(B) les espaces vectoriels définis sur un même corps » — the common field matters only if l' is linear; for an arbitrary map it is idle; (2) the Exemple right after asks « un élément l' du dual de T(A) », i.e. linear; (3) GA(n, R) (p. 236) is the group of automorphisms of the affine structure, which every later use (Groups.lean's GAR = AffineEquiv) reads as affine-linear. The counterexample also needs the axiom of choice: every measurable, or locally bounded, solution is affine, so no explicit l exists. The literal statement is genuinely broader, so the counterexample is worth keeping; but it is an omitted word, of the [sic] kind, not a mathematical error",
+  "name_shadowing": "none against Mathlib roots (scripted check). Benzecri.AddTorsor.isSimplyTransitive creates a Benzecri.AddTorsor.* prefix mirroring the root structure name (see nit)",
+  "report_honesty": "builds, sorry_count, axioms, -DwarningAsError confirmed; all decls exist; Déf. 1 closed/marked and Déf. 2 partial/unmarked match the docstring"
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "REPORT findings (bzdef:c1s1d2_application_affine); Affine/Basic.lean:21-23, :65-73, :254-256",
+   "problem": "The finding is presented as the paper being wrong ('strictly weaker than an affine map'). The paper's own wording (« sur un même corps », and the Exemple's « élément du dual ») shows l' is meant linear; the literal reading is an omitted « linéaire », and the counterexample is necessarily non-constructive (choice; no measurable or locally bounded witness exists). Presented as is, a reader may think Benzécri's affine geometry is unsound",
+   "fix": "Reword the finding: 'Déf. 2 omits « linéaire » before « application l' »; the intent is evident from « sur un même corps » (l.150) and the Exemple (l.161–162). Literally read, the definition admits non-affine (non-measurable, choice-dependent) maps: not_isAffinePrinted_imp_affine.' Keep the theorem. Add to questions whether the author treats this as a [sic]-level slip (then the evident reading governs)"
+  },
+  {
+   "severity": "minor",
+   "where": "Affine/Basic.lean, Déf. 2 section",
+   "problem": "If the author rules the linear reading evident, there is no declaration stating Déf. 2 in that reading over the common field k: IsAffinePrinted has no field at all, and the AffineMap bridges are over ℝ (normed) or k-valued (Exemple)",
+   "fix": "Add `def IsAffine (k) [Ring k] [Module k V₁] [Module k V₂] (l : P₁ → P₂) : Prop := ∃ l' : V₁ →ₗ[k] V₂, ∀ M m, l (m +ᵥ M) = l' m +ᵥ l M` and `isAffine_iff : IsAffine k l ↔ ∃ f : P₁ →ᵃ[k] P₂, ⇑f = l`, so the row can be closed under the ruling"
+  },
+  {
+   "severity": "nit",
+   "where": "Affine/Basic.lean:25",
+   "problem": "'hence ⟺ affine in finite dimension (`isAffinePrinted_of_affineMap` for the easy half)' names the wrong lemma for the finite-dimensional statement",
+   "fix": "Cite isAffinePrinted_and_continuous_iff_of_finiteDimensional there (isAffinePrinted_of_affineMap is 'affine ⇒ printed', any ring)"
+  },
+  {
+   "severity": "nit",
+   "where": "Affine/Basic.lean:120 (Benzecri.AddTorsor.isSimplyTransitive)",
+   "problem": "The name opens a Benzecri.AddTorsor.* prefix that mirrors Mathlib's root AddTorsor; inside namespace Benzecri a future `AddTorsor.foo` is looked up there first, and dot notation on an AddTorsor never finds it",
+   "fix": "Rename to Benzecri.isSimplyTransitive_of_addTorsor"
+  },
+  {
+   "severity": "nit",
+   "where": "Affine/Basic.lean:16",
+   "problem": "Déf. 1 is cited 'l.132–143'; the defin environment is l.132–142 and the Exemple, also covered by the mark, l.144–147 (REPORT says 132–147)",
+   "fix": "Write l.132–147 (Déf. 1 l.132–142, Exemple l.144–147)"
+  }
+ ],
+ "fidelity_summary": "Déf. 1 is the paper's definition, as printed (empty A included), with a two-way bridge to Mathlib's AddTorsor; the mark is earned. Déf. 2 is formalized literally, the gap between the literal and the intended notion is proved both ways (counterexample without continuity, equivalence with continuity), and the Exemple is exactly Mathlib's AffineMap to the scalars. No vacuous hypothesis, no definitional trivialisation.",
+ "questions_for_author": [
+  "Déf. 2: is the missing « linéaire » an evident slip (formalize AffineMap as Déf. 2 and keep not_isAffinePrinted_imp_affine as a remark on the literal text), or a finding (row stays partial)?",
+  "Déf. 1: is ∅ an affine space for Benzécri (the printed definition admits it; Mathlib's AddTorsor does not)?"
+ ]
+}

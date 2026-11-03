@@ -1,0 +1,56 @@
+{
+ "package": "WP-45d",
+ "round": 1,
+ "file": "scaffold/BenzecriScaffold/Projective/Groups.lean",
+ "module": "BenzecriScaffold.Projective.Groups",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor; files as on disk (uncommitted, wave 1), mathlib fabf563a",
+ "summary": "Build, axioms, fidelity of every proved item to the unlabelled prose of p. 236 (transcription l.274–276, l.294–302; scan PDF p. 9), the isomorphism i, the rigidity theorem and its hypotheses. No label, nothing marked, correctly. All mathematics is right; hypotheses are needed or harmless. Docstring citation off by two lines; a few clarifications.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Projective/Groups.lean`: EXIT=0, no output (3 s; the .olean is newer than the source)",
+  "sorry_axioms": "`#print axioms` / `Lean.collectAxioms` over EVERY non-internal constant of the five wave-1 modules (264 constants, all REPORT decls among them, 158 named, 0 missing), from a /tmp scratch file via `lake env lean`: 230 use [propext, Classical.choice, Quot.sound], the rest a subset (26 none). No sorryAx, no non-standard axiom. No `sorry`, `admit`, `axiom`, `native_decide`, `implemented_by`, `extern` or `set_option` token in the file",
+  "imports": "every import is `Mathlib.*` or `BenzecriScaffold.*` (DEC-112 layering): no GX.*, no Causal.*, no new [[require]]",
+  "isoGU": "isoGU : GSE E ≃* GU E is QuotientGroup.quotientKerEquivOfSurjective of unitPartHom g = |det g|^{-1/n} g, after ker_unitPartHom = posHomotheties. isoGU_mk gives i(ḡ) = |det g|^{-1/n} g and isoGU_symm_apply proves i⁻¹ = the projection GL → GS restricted to GU, which is exactly « la projection de GL(n,R) sur son quotient GS(n−1,R) définit donc un isomorphisme (noté i) de GS(n−1,R) sur GU(n,R) ». glEquivProd : GL ≃* ℝ⁺ × GU with inverse (c,u) ↦ c·u and posHomothetiesEquiv : ℝ⁺ ≃* posHomotheties are « produit direct du sous-groupe, isomorphe à R⁺, … et du sous-groupe GU ». isoGUR m : GSR m ≃* GUR (m+1) is the paper's index (GS(n−1) ≅ GU(n)). Hypotheses: FiniteDimensional is NEEDED — in infinite dimension LinearEquiv.det is the junk value 1, so GU E = ⊤ and GSE E ≃* GU E would be false; Nontrivial is needed for glEquivProd (GL(0) is trivial, not ℝ⁺ × GU(0)) but NOT for isoGU (both sides trivial at E = 0)",
+  "rigidity": "exists_forall_eq_smul_of_isOpen (a linear g for which every z of an open O ∋ x, x ≠ 0, is an eigenvector is c·id) is proved by two points x + t₁y, x + t₂y of the line through x and LinearIndependent.eq_of_pair: correct; x ≠ 0 is needed (with x = 0 the conclusion fixes c from g 0 = c·0, arbitrary). mem_posHomotheties_of_eqOn, the IsAnalyticAction (GSE E) (Sphere E) instance (faithful + rigid) and IsRigidAction (GL E) (Sphere E) follow. Hypotheses [ContinuousAdd E] [ContinuousSMul ℝ E] are needed (with the discrete topology on E, S(E) is discrete and rigidity fails); [T1Space E] is used only through Sphere.isOpen_iff_F and is not needed mathematically (s⁻¹(U) relatively open in E − {O} already contains a segment of the line x + t·y, which avoids 0). `example : IsAnalyticAction (GSR m) (S m)` and ContinuousConstSMul (GSR m) (S m) elaborate, ready for gxGroupoid (GSR n) (S n)",
+  "GA": "GAR n = (Fin n → ℝ) ≃ᵃ[ℝ] (Fin n → ℝ) (« automorphismes de la structure d'espace affin »), GAR.eq_translation_mul_linear and closure_linear_union_translations (« engendré par GL(n,R) et par le groupe des translations ») are correct",
+  "not_stated": "« c'est le groupe des automorphismes de la structure projective de S(n−1) » and GP(n−1)/P(n−1) are disclosed in SCOPE as not formalized; correct, since the projective structure is wave 2",
+  "name_shadowing": "none against Mathlib roots; Benzecri.homothety duplicates the short name Sphere.homothety (see WP-45a nit)",
+  "report_honesty": "builds, sorry_count, axioms confirmed; all 37 extra_decls exist; labels = [] correct; the 'prose' block and the n ≥ 1 question are accurate"
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "Groups.lean:15 and :33 ('`:296–302`', '(l.296–302)')",
+   "problem": "The quoted block starts « Le quotient GS(n−1,R) … », which is benzecri1960_ch1.tex:294; l.296 is mid-sentence (« le quotient GP(n−1,R) … »). The REPORT's prose.where correctly says 294–302",
+   "fix": "Cite :294–302 in both places"
+  },
+  {
+   "severity": "nit",
+   "where": "Groups.lean:312-314 (GU) and :47-50",
+   "problem": "GU E is defined for every real vector space, but LinearEquiv.det is the junk value 1 outside finite dimension, so there GU E = ⊤. The docstring ('the automorphisms whose determinant has absolute value 1') does not say so",
+   "fix": "Add 'meaningful for finite-dimensional E (LinearEquiv.det is 1 otherwise, so GU E = ⊤)'"
+  },
+  {
+   "severity": "nit",
+   "where": "Groups.lean:64 (checklist) and section Decomposition (:378)",
+   "problem": "[Nontrivial E] is section-wide; it is needed for glEquivProd but not for isoGU, which holds at E = 0 trivially. The checklist row attributes n ≥ 1 to the whole decomposition",
+   "fix": "Optional: state isoGU without [Nontrivial E] (case on Subsingleton E), or note in the row that only the product decomposition needs n ≥ 1"
+  },
+  {
+   "severity": "nit",
+   "where": "Groups.lean:228-229 (section Rigidity variables)",
+   "problem": "[T1Space E] is stronger than rigidity needs (see checks.rigidity); harmless for every space Ch. 1 uses",
+   "fix": "None needed; optionally note it in the docstring of mem_posHomotheties_of_eqOn"
+  },
+  {
+   "severity": "nit",
+   "where": "Groups.lean:502-503 (GAR)",
+   "problem": "GAR = AffineEquiv presupposes the linear reading of Déf. 2, which WP-45b leaves as an open question to the author (under the printed Déf. 2, the « automorphismes de la structure d'espace affin » would include ℚ-affine bijections)",
+   "fix": "Add a one-line cross-reference to WP-45b's Déf. 2 question in GAR's docstring or SCOPE"
+  }
+ ],
+ "fidelity_summary": "Every sentence of the p. 236 prose that is formalized says what Benzécri says, at his indices: GS = GL/ℝ⁺ acting on S, GL = ℝ⁺ × GU, i : GS ≃* GU with the paper's description of i⁻¹, GA generated by GL and translations. The rigidity theorem is real (faithful + rigid on any T1 real TVS), not obtained from a hypothesis. Its hypotheses are the needed ones, with T1 and, for isoGU, Nontrivial slightly more than needed.",
+ "questions_for_author": []
+}
