@@ -1,0 +1,55 @@
+{
+ "package": "WP-43a",
+ "round": 1,
+ "auditor": "read-only auditor (round 1)",
+ "file": "scaffold/GXScaffold/BTZ/Spear.lean",
+ "module": "GXScaffold.BTZ.Spear",
+ "verdict": "clean",
+ "builds": true,
+ "build_check": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/Spear.lean: EXIT 0 in 6.1 s, nothing recompiled. The only diagnostics are three 'declaration uses sorry' warnings: l.2299 CylChartData.globallyHyperbolic_glued, l.2307 CylChartData.isCauchySurface_glued, l.3184 lem_add_BTZ_param_line (future case, l.3211). taskset -c 0-11 lake build --no-build GXScaffold.BTZ.Spear: 'All targets up-to-date (8730 jobs)', so nothing upstream moved and no Causal.* module rebuilt. grep finds no axiom, opaque, native_decide, implemented_by or admit.",
+ "sorry_count": 3,
+ "sorry_count_matches_report": true,
+ "axioms_check": "#print axioms ran on all 127 declarations REPORT.json names (labels' decls, sorries, extra_decls) from a scratch file in /tmp, deleted afterwards. All 127 exist. sorryAx is in exactly 7 of them: the three tagged ones, plus exists_spearDevelopment, lem_tube, exists_fullFutureBTZRay and lem_add_BTZ_param_of_cauchyMaximal, which reach it through those. Every other declaration uses only [propext, Classical.choice, Quot.sound]. That includes the two WP-43a closures (CylChartData.connectedSpace_W0, CylChartData.isCauchySurfaceOn_W0), isCauchyEmbedding_val (now sorry-free), all of §4a′/§4a″, and lem_add_BTZ_param. This agrees with campaign/WP-43a/axioms.out.",
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "REPORT.json, label lem:add_BTZ_param, sorries[0].obstruction ('WP-43a: not attempted beyond analysis')",
+   "problem": "The dispatch asked for the future case of Lemma 2.4 to be closed, and to leave a tagged sorry only after a serious attempt. The report says plainly that only an analysis was done. The obstruction it names is real: B21 l.725–733 needs a finite cover of γ([s,0]) by axis charts, the transitions normalised to global isometries of E0 on connected overlaps, and injectivity of the glued chart, and none of that exists in the library or the file. So the sorry is not shown to be avoidable. It was simply not attacked in this round, and the report discloses this honestly.",
+   "fix": "A later round should attempt the continuation route the tag describes (inf of the parameters that are spear vertices; rigidity on a connected overlap; injectivity near a compact segment). Alternatively, the master session can answer the REPORT's question on whether gx needs this case: gx reaches Lemma 2.4 only through lem_add_BTZ_param_of_cauchyMaximal, which places the vertex at p."
+  },
+  {
+   "severity": "minor",
+   "where": "Spear.lean module docstring, Provenance line (l.~135)",
+   "problem": "It still reads 'imports Causal.SingularGeroch, strict, DEC-33', but WP-43a also imports Causal.LevinUtility and Causal.LemmaKLocal. Both are strict, both sit under the DEC-33-permitted path scaffold/GXScaffold/BTZ/, and both are used: exists_timeFunction_of_secondCountable and exists_nhds_subset_Jplus_of_isCauchySurfaceOn at l.1559. There is no `open Causal` and no CausalScaffold import. Only the prose is stale.",
+   "fix": "List the three Causal imports in the Provenance line."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json, label lem:tube, findings[5]",
+   "problem": "The finding says M₀'s connectedness 'is true for every connected GH E₀-manifold'. The Lean proof (connectedSpace_W0) also uses hLM : E0GlobalBTZ, the O2 line field, which is open in WP-41f, and SecondCountableTopology M. Both are available at the call site (hLine M; the CBG carriers are second countable, DEC-66), so no statement is weakened. But the finding claims more than the formal proof certifies.",
+   "fix": "Add 'under hLM (O2) and second countability, as the formal proof uses' or similar."
+  },
+  {
+   "severity": "minor",
+   "where": "Spear.lean l.2201 CylChartData.exists_closed_cauchy_subset_W0",
+   "problem": "It repeats exists_cauchy_subset_W0's proof verbatim and only adds IsClosed. That is duplication, not a defect.",
+   "fix": "Derive one from the other, or have exists_cauchy_subset_W0 return closedness."
+  }
+ ],
+ "checked_clean": [
+  "Sorry count 5 → 3, as the REPORT says. connectedSpace_W0 and isCauchySurfaceOn_W0 are closed with 0 sorry, and as a consequence CylChartData.isCauchyEmbedding_val is sorry-free.",
+  "Statement fidelity of the two closures. connectedSpace_W0 keeps its round-2 signature exactly ([ConnectedSpace M] [SecondCountableTopology M] (hLM)). isCauchySurfaceOn_W0 gains [SecondCountableTopology M] for Levin's time function. That is not a weakening relative to the paper: the class of manifolds Lemma 2.3 is stated for already includes second countability (DEC-66, disclosed in the hypothesis checklist and REPORT lem:tube hypotheses[0]), and both callers (isCauchyEmbedding_val, exists_spearDevelopment) are in a section with SecondCountableTopology M. REPORT notes record the new instance. No other file uses either lemma; Surgery.lean mentions them only in a SORRY comment that is now stale, which REPORT notes disclose.",
+  "The new general lemmas are honest and non-vacuous. isCauchySurfaceOn_of_isPast: (causally arc-connected, causal, continuous T strictly increasing along ≤, W an open past set, S ⊆ W Cauchy in X) ⇒ S Cauchy in W. This is true, the hypotheses are all satisfied in the application (Levin's τ, mem_W0_of_le), and it is B21's c₀ fact. isClosed_Jplus_of_subset_cauchy and not_le_of_le_of_isCauchySurface_closed take R1 (J⁺(S) ∩ J⁻(q) compact) instead of compactness of S. R1 is discharged in the application by E0LM.sfa_isCompact_Jplus_inter_Jminus / _Jminus_inter_Jplus, which are proved. isConnected_of_isCauchySurface_closed (a closed acausal Cauchy surface of a connected GH spacetime is connected, given R1) is a true statement with no hidden conclusion. The curve-extension lemmas (causalCurveIn_comp_monotoneOn, extensible_of_timeGraph_{openEnd,future,past}) have satisfiable hypotheses that are used as stated.",
+  "B21 l.646–674 against the proof structure. M₀ = M ∖ J⁺(κ⁻¹Π), a Cauchy surface below Π (a level of a Cauchy time function, lower than min T on the compact κ⁻¹Π), S Cauchy in M₀ (the c₀ part), M₀ connected (implicit in B21, reported as a finding), M₀ → M a Cauchy embedding. All are now formal. The two remaining leaves (M₂ GH; Σ Cauchy in M₂, the c = c₀ ∪ c₁ argument) are what is left of l.663–672.",
+  "The remaining obstructions are genuine at the pin ca2ad78. lean-causal has no 'Cauchy surface ⇒ GH' (SingularGeroch has only i⇒ii, i⇒iii and the split). Causal.CBG.TwoPiece's mixed-diamond lemma needs a Cauchy surface common to both pieces, which the tube 𝒫 does not have. The rewritten tags describe the TwoPiece route accurately and do not overclaim: they say the transfer lemmas are not built and that the mixed diamonds are the real gap.",
+  "Docstring contract (kb/0006). There is no **`label`** mark anywhere in the file; the only bold-backtick span is the prose '**`p ∈ M₀`**'. Every row is written unmarked with its status (lem:tube stated, full future rays stated, lem:add_BTZ_param partial, Def 2.1 partial), and SCOPE lists exactly the three tagged sorries. Statuses follow CAMPAIGN.md: lem_tube rests on a sorry, so 'stated'. Def 2.1 is a DEC-27 correction of the head/shaft formulas without a ruling, so 'partial'. Lemma 2.4 has the past case and the vertex-at-p case proved and the future case open, so 'partial'.",
+  "REPORT completeness. All four labels the file touches are listed (lem:tube, lem:add_BTZ_param, full future BTZ rays RamcovGX.tex:2352, Def 2.1). Every sorry is attributed, including the three that only propagate. The 15 new declarations are in extra_decls, and the questions (free vertex, E0-only, 'in the shaft', whether gx needs the future case) carry over.",
+  "DEC-33 import gate. The file is under scaffold/GXScaffold/BTZ/, imports only strict Causal.<Module> (SingularGeroch, LevinUtility, LemmaKLocal), never the root `Causal` and never CausalScaffold.*, and the file never opens Causal: Causal names are fully qualified.",
+  "Name clashes. None of the 12 new short names (causalCurveOn_comp_monotoneOn, causalCurveIn_comp_monotoneOn, continuousOn_of_causalCurveIn, extensible_of_timeGraph_{openEnd,future,past}, isCauchySurfaceOn_of_isPast, isClosed_J{plus,minus}_of_subset_cauchy, not_le_of_le_of_isCauchySurface_closed, isConnected_of_isCauchySurface_closed, CylChartData.exists_closed_cauchy_subset_W0) is declared in GX/, in another scaffold file, or in the pinned Causal sources. All are in namespace GX.E0Spear.",
+  "Statements unchanged since WP-41i audit round 3 (verdict clean). Outside the two closures and the added §4a′/§4a″, the diff against campaign/WP-43a/Spear.before.lean.bak touches only docstrings and SORRY texts. lem_tube, IsSpearNbhd, IsFullFutureBTZRay, lem_add_BTZ_param(_line), CylChartData and its convex field are untouched, so round 3's fidelity verdict carries over."
+ ],
+ "questions_for_master": [
+  "Does gx need the 'q in the future of p' case of B21 Lemma 2.4? Its only route into gx is lem_add_BTZ_param_of_cauchyMaximal, where the vertex is placed at p through Lemma 2.3. If gx does not need it, the row could be scoped by a ruling rather than built.",
+  "The REPORT's two standing questions are still unruled: the free vertex v / head-shaft correction for Def 2.1, and the E0-only restriction for Lemmas 2.3/2.4."
+ ]
+}

@@ -1,7 +1,7 @@
-import GXScaffold.BTZ.Rigid
+import GX.BTZ.Rigid
 
 /-!
-# `GXScaffold.BTZ.VirtTame` — the analytic family `(𝔼_θ)`, virtual tameness of `𝔼₀`-manifolds
+# `GX.BTZ.VirtTame` — the analytic family `(𝔼_θ)`, virtual tameness of `𝔼₀`-manifolds
 
 Package WP-41d (WAVE5-PLAN.md, WP-39d, enlarged by DEC-74; round 2 after AUDIT-1). `papers/gx`,
 `RamcovGX.tex:1927`, `2262`, `2308`. **0 `sorry`.** `G = Isom(𝐌³) = Causal.Flat.isom 2`,

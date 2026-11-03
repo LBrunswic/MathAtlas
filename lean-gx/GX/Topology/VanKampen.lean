@@ -5,7 +5,7 @@ import Mathlib.GroupTheory.PushoutI
 # A topological Seifert–van Kampen theorem: gluing and injectivity
 
 Package WP-41r (wave 4d, DEC-85). mathlib has no van Kampen theorem; this file builds the two
-consequences Antoine's lemma needs (`GXScaffold.Branched.GaloisExamples`), in full generality and
+consequences Antoine's lemma needs (`GX.Branched.GaloisExamples`), in full generality and
 sorry-free.
 
 * `GX.VanKampen.Data.exists_extension` — **the gluing half of SvK**: for an open cover `U ∪ V` of a

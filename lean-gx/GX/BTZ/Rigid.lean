@@ -1,7 +1,7 @@
-import GXScaffold.BTZ.Model
+import GX.BTZ.Model
 
 /-!
-# `GXScaffold.BTZ.Rigid` — the rigidity fields of the local model `𝕄 ⊕ 𝔼₀`
+# `GX.BTZ.Rigid` — the rigidity fields of the local model `𝕄 ⊕ 𝔼₀`
 
 Package WP-41c (WAVE5-PLAN.md, WP-39c). The model data of the CBG local model
 (`Causal.CBG.LocalModel`, `lean-causal` pinned `731ed99`, `Causal/CBG/Geometry.lean`) for gx's
@@ -38,7 +38,7 @@ B21 `lem:liouville` (`BTZ_1.tex:361`), B21 `prop:isom_strong` (`BTZ_1.tex:468–
 * `localUnique_sing_adherent` — stated verbatim as `GX.E0LocalUniqueSingAdherent C` over a causality
   `C` of `Y` (SCOPE (b)) and reduced, for every `C`, to a property of `C`'s diamonds alone
   (`GX.e0_localUniqueSingAdherent_of_region`); that property is discharged for the model causality
-  by WP-41f (`GX.E0LM.e0_localUniqueSingAdherent`, `GXScaffold.BTZ.LocalModel` §6b).
+  by WP-41f (`GX.E0LM.e0_localUniqueSingAdherent`, `GX.BTZ.LocalModel` §6b).
 * `typeAgreement` — stated verbatim as `GX.E0TypeAgreement C`. **Finding: false for `𝕄 ⊕ 𝔼₀` at
   the regular points of `𝔼₀`** (SCOPE (c); DEC-27 counterexample **proved**:
   `GX.e0_not_typeAgreement_of`, for every `C` with two hypotheses on `C` alone, discharged for the
@@ -48,7 +48,7 @@ B21 `lem:liouville` (`BTZ_1.tex:361`), B21 `prop:isom_strong` (`BTZ_1.tex:468–
   **proved** for every `C` in which straight timelike segments of the two chart maps are
   chronological (`GX.e0_typeAgreementTendsto_of`, hypotheses `GX.E0TASegLt`); the two segment
   hypotheses for `GX.E0.causalityYBTZ` are proved in `campaign/WP-41c/TypeAgreementD.lean`
-  (`GXScaffold.BTZ.Causality` imports this file, so they cannot be proved here). **At the tips in
+  (`GX.BTZ.Causality` imports this file, so they cannot be proved here). **At the tips in
   `𝕄` the field holds verbatim** (`MapClusterPt`): `GX.E0TypeAgreementInl C`, the field restricted to
   `y₀ = inl m` (`GX.E0TypeAgreement.inl`), is proved for every `C` with the `𝕄` segment hypothesis
   (`GX.e0_typeAgreement_inl_of`): a connected `U ⊆ 𝕄` carries no holonomy, so `f` has one global
@@ -100,7 +100,7 @@ cone with `[L u'] = [L u]`, against injectivity (`GX.e0TA_absurd`).
   homeomorphism of the sum `Y`; the bridge would need `Y`'s a.e. atlas as a singular structure on
   each source, which is longer than the direct proof.
 * (b) `typeAgreement` and `localUnique_sing_adherent` mention the model causality `causalityY`,
-  WP-41e's `GX.E0.causalityYBTZ` (`GXScaffold.BTZ.Causality`), which now imports this file; so they
+  WP-41e's `GX.E0.causalityYBTZ` (`GX.BTZ.Causality`), which now imports this file; so they
   are stated as propositions over a causality `C`, and every argument that needs `C` is isolated in
   a named hypothesis on `C` alone: `hdiam` of `GX.e0_localUniqueSingAdherent_of_region` (discharged
   by WP-41f) and `GX.E0TASegLt` (discharged in `campaign/WP-41c/TypeAgreementD.lean`). For a
@@ -1846,7 +1846,7 @@ def E0TypeAgreementTendsto (C : Causal.Causality E0Y) : Prop :=
 /-! #### The open future cone in null coordinates -/
 
 /-- The open future timelike cone of `(ℝ³, nullQ)`: `b > 0`, `c² < ab` (the same body as
-`GX.e0TACone` of `GXScaffold.BTZ.Causality`). -/
+`GX.e0TACone` of `GX.BTZ.Causality`). -/
 def e0TACone (V : ℝ × ℝ × ℝ) : Prop := 0 < V.2.1 ∧ V.2.2 ^ 2 < V.1 * V.2.1
 
 theorem e0TACone.fst_pos {V : ℝ × ℝ × ℝ} (h : e0TACone V) : 0 < V.1 := by

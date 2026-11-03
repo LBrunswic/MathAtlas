@@ -1,11 +1,11 @@
-import GXScaffold.BTZ.LocalModel
+import GX.BTZ.LocalModel
 import Causal.Flat.Loxodromic
 import Causal.Flat.Nonloxodromic
 import Causal.Flat.Classification
 import Mathlib.GroupTheory.Commutator.Basic
 
 /-!
-# `GXScaffold.BTZ.Holonomy` — the holonomy of `Reg M`: faithful, discrete, torsion-free, loxodromic
+# `GX.BTZ.Holonomy` — the holonomy of `Reg M`: faithful, discrete, torsion-free, loxodromic
 
 Package WP-41m (WAVE5-PLAN.md, WP-39m). `papers/gx`, §4.6, the Barbot step of the proof of the
 main theorem (`RamcovGX.tex:2378–2380`), and §4.3's uniformization prose (l.2228–2232).

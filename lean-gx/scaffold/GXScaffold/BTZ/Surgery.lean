@@ -1,40 +1,58 @@
 import GXScaffold.BTZ.Spear
-import GXScaffold.BTZ.Holonomy
+import GX.BTZ.Holonomy
 import Causal.Flat.CauchyComplete
 
 /-!
 # `GXScaffold.BTZ.Surgery` — Cauchy-surface surgery in spear neighbourhoods (B21 Lemmas 2.6–2.11)
 
-Package WP-41j (WAVE5-PLAN.md, WP-39j). `brunswic2021cauchy` (**B21**,
-`papers/gx/sources/2108.12631/src/BTZ_1.tex`) §2.1: Lemma 2.6 `lem:curve_extension` (l.704),
-Lemma 2.7 `lem:surface_causal` (l.749), Lemma 2.8 `lem:surface_complete` (l.781), Lemmas 2.9/2.10
-`lem:intersect_number_compact` / `lem:intersect_number_complete` (l.885/897), Cor 2.11
-`cor:intersect` (l.910), cut by SCOPE's K-3 (monotonicity + IVT in place of intersection numbers),
-and the output Section 4 consumes, B21 Prop 2.17's first assertion `prop:abs_max` (l.1078).
-**No label is marked**: these are cited results built here (DEC-23), not gx ledger rows. Rows:
+Package WP-41j (WAVE5-PLAN.md, WP-39j); WP-43b (Lemma 2.6(i), Lemma 2.9, Cor 2.11 added; fixer
+round 1: the global part of Prop 2.17 split into one declaration per obstruction, §5; fixer
+round 2: `IsE0C1SpacelikeCauchy.rim` repaired — it lacked the shaft antecedent and was
+contradictory whenever a spear datum exists, AUDIT-2 B1).
+`brunswic2021cauchy` (**B21**, `papers/gx/sources/2108.12631/src/BTZ_1.tex`) §2.1: Lemma 2.6
+`lem:curve_extension` (l.704), Lemma 2.7 `lem:surface_causal` (l.749), Lemma 2.8
+`lem:surface_complete` (l.781), Lemmas 2.9/2.10 `lem:intersect_number_compact` /
+`lem:intersect_number_complete` (l.885/897), Cor 2.11 `cor:intersect` (l.910), cut by SCOPE's K-3
+(monotonicity + IVT in place of intersection numbers), and the output Section 4 consumes, B21
+Prop 2.17's first assertion `prop:abs_max` (l.1078). **No label is marked**: these are cited
+results built here (DEC-23), not gx ledger rows. Rows:
 
 * `lem:surface_causal` (Lemma 2.7) — **partial**, 0 `sorry` (pointwise reading):
   `GX.E0Surgery.lem_surface_causal`; the printed identity is `GX.E0Surgery.graphQuad_eq`.
-* `lem:curve_extension` (Lemma 2.6) — **partial**: item (ii) **in full**, 0 `sorry`,
-  `GX.E0Surgery.lem_curve_extension_ii_complete` (spacelike, complete, `C^n`, positive, periodic,
-  `+∞` at the axis; complete by Lemma 2.8(1) with `C = 1`), from the formula printed as the proof of
-  **(i)** (finding: the two proofs are swapped). Item (i) not attempted.
+* `lem:curve_extension` (Lemma 2.6) — **partial**, both items 0 `sorry` (finding: the two printed
+  proofs are swapped). (ii) `GX.E0Surgery.lem_curve_extension_ii_complete` (spacelike, complete,
+  `C^n`, positive, periodic, `+∞` at the axis). (i) `GX.E0Surgery.lem_curve_extension_i` (two
+  pieces, the slice `M/R` and a `C^n` piece, each spacelike by Lemma 2.7; positive, continuous;
+  the graph spacelike over the closed disc in integrated form, `IsSpacelikeDiscGraph`; compact).
 * `lem:surface_complete` (Lemma 2.8) — **partial**, both items **proved**, 0 `sorry`, under the
   reading « piecewise smooth » = `C¹` on the strip (one piece, ⚠ strengthened hypothesis) and
   « complete » = completeness of the pulled length over the strip `(0, R] × ℝ`:
   (1) `GX.E0Surgery.lem_surface_complete_one` — spacelike **and** complete under `δ ≥ C²/r²`;
   (2) `GX.E0Surgery.lem_surface_complete_two` — spacelike `C¹` and complete ⇒ `τ → +∞` at the axis.
 * `lem:intersect_number_complete` (Lemma 2.10) — **partial**, 0 `sorry` (K-3 reading of the curve
-  hypotheses): `GX.E0Surgery.lem_intersect_number_complete` —
-  `|c* ∩ Σ*| = 1` if `sup c* ∈ J⁺(C*) ∪ {+∞}`, `0` otherwise, for an arc with past end in `[p]`
-  (a point below `Σ*`, or the axis via `lim τ = +∞`) and future end `+∞` or on the rim; non-vacuity
+  hypotheses): `GX.E0Surgery.lem_intersect_number_complete`; non-vacuity
   `GX.E0Surgery.lem_intersect_number_complete_vertical`.
-* `lem:intersect_number_compact` (Lemma 2.9) — **not attempted** (curves through the axis).
-* `cor:intersect` (Cor 2.11, `|c ∩ Σ| = |c* ∩ Σ*|`) — **not attempted**: it compares with
-  Lemma 2.9. (`GX.E0Surgery.cor_intersect` is the K-3 arc lemma both rest on, not Cor 2.11.)
+* `lem:intersect_number_compact` (Lemma 2.9) — **partial**, 0 `sorry` (K-3 reading; curves may run
+  along or cross the axis): `GX.E0Surgery.lem_intersect_number_compact`; non-vacuity
+  `GX.E0Surgery.lem_intersect_number_compact_axis` (the BTZ axis itself).
+* `cor:intersect` (Cor 2.11, `|c ∩ Σ| = |c* ∩ Σ*|`) — **partial**, 0 `sorry` (K-3):
+  `GX.E0Surgery.cor_intersect_number` (`c* = c` on `{t | r(c t) > 0}`, same rim); non-vacuity
+  `GX.E0Surgery.cor_intersect_number_vertical`. (`GX.E0Surgery.cor_intersect` is the K-3 arc lemma.)
+* `rem:curve_spear` (Remark 2.12, l.913) — **stated** `GX.E0Surgery.rem_curve_spear` (the
+  components of an inextensible causal curve of `Reg M` in a spear are spear arcs,
+  `SpearSurgeryDatum.IsSpearArc`; one tagged `sorry`); their count, `IsSpearArc.ncard`, 0 `sorry`.
 * `prop:abs_max` (Prop 2.17, first assertion: `Σ*` Cauchy in `Reg M`, `Reg M` Cauchy-complete) —
-  **stated** `GX.E0Surgery.regM_isCauchyComplete` (one tagged `sorry`, three named obstructions,
-  SCOPE (c)); its spear-local half is proved, `GX.E0Surgery.spear_surgery_local`.
+  **stated** `GX.E0Surgery.regM_isCauchyComplete`, now a composition with no `sorry` of its own
+  (WP-43b round 1): (G0) smoothing `exists_isE0C1SpacelikeCauchy`, then
+  `regM_isCauchyComplete_of_C1` (B21 l.227's « Cauchy-compact », `IsE0C1SpacelikeCauchy`, its
+  `rim` well-posed by `eqOn_closedBall_of_rim_antecedent` since round 2), from
+  (G1) `exists_surgeryData`, (G2) Remark 2.12 `rem_curve_spear`, (G3)
+  `SurgeryData.isCauchySurface_sigmaStar`, (G4a) `SurgeryData.isSpacelikeLipschitzAt_cusp`, (G5)
+  `SurgeryData.completeSpace_sigmaStar` — six tagged `sorry`s, one obstruction each. Proved:
+  `Σ*` (`SurgeryData.sigmaStar`) is `Σ` off the spears and the cusp in each, lies in `Reg M`; one
+  spear datum at every BTZ point of `I⁻(Σ)` (`exists_spearSurgeryDatum`), thinnable; (G4) off the
+  spears; the topology field. Prop 2.17's maximality assertion is `GXScaffold.BTZ.AbsMax`'s
+  `absMax_e0RegM`.
 
 > \begin{lemou} Let $\mathcal S$ be a spear of vertex $(-2R,0,0)$ and radius $R$ in $\mass{0}$
 > and let $\tau_{\Sigma}^R: \partial \mathbb D_R \rightarrow \R_+$ be a smooth positive function.
@@ -56,6 +74,10 @@ and the output Section 4 consumes, B21 Prop 2.17's first assertion `prop:abs_max
 > defined. 2. If $\Sigma$ is spacelike and complete then, $\lim_{(\r,\theta) \rightarrow
 > 0}\tau_\Sigma(\r,\theta) = +\infty$ \end{lemou} (l.781–792)
 >
+> Lemma 2.9 (l.885–896): for a spear $\S = \{\r\le R\}\cap J^+(p)$, $\Sigma$ a spacelike graph
+> over $\mathbb D_R$ in the shaft and $c$ a future causal curve of $\S$, closed, inextendible in
+> $\mathrm{Int}(\S)$: $|c\cap\Sigma| = 1$ if $\sup(c)\in J^+(\C)\cup\{+\infty\}$, $0$ otherwise.
+>
 > Lemma 2.10 (l.897–908): for a blunt spear $\S^*$, $\Sigma^*$ a spacelike graph over
 > $\mathbb D_R^*$ with $\lim \tau = +\infty$ and $c^*$ a future causal curve of $\S^*$, closed,
 > inextendible in $\mathrm{Int}(\S^*)$: $|c^*\cap\Sigma^*| = 1$ if
@@ -74,22 +96,31 @@ and the output Section 4 consumes, B21 Prop 2.17's first assertion `prop:abs_max
 | `τ^R` smooth positive (Lemma 2.6) | ⚠ weakened: `C^n`, `1 ≤ n`, periodic, positive |
 | Lemma 2.10: `c*` future causal, closed in `S*`, inextendible in `Int S*` | ⚠ read (K-3): `c` continuous on an interval `I`, `≼`-increasing, in `{0 < r ≤ R}`; past end in `[p]` = a point with `F < 0`, or `inf r = 0`; future end `τ` unbounded (`sup = +∞`) or a last point on the rim |
 | Lemma 2.10: `sup(c*) ∈ J⁺(C*)` | ✓ for a last point on the rim, `∃ y ∈ C*, y ≼ c(b)` (`height_nonneg_iff_mem_Jplus_rim`) |
+| Lemma 2.6(i): « piecewise smooth », « spacelike », « compact » | ⚠ read: two pieces (`r ≤ R/2`, `r ≥ R/2`), each `IsSpacelikeGraph` (Lemma 2.7 pointwise, `r > 0`); the graph over the closed disc `IsSpacelikeDiscGraph` (height continuous on `{r ≤ R}` and strictly increasing along `≼`, axis included); `IsCompact (discGraphSet τ R)` |
+| Lemma 2.9: `Σ` spacelike graph over `𝔻_R` | ⚠ read: `IsSpacelikeDiscGraph g R` (the integrated Lemma 2.7, which is what the proof uses; at the axis no derivative criterion exists) |
+| Lemma 2.9: `c` closed in `S`, inextendible in `Int S` | ⚠ read (K-3), as Lemma 2.10: an arc of `{r ≤ R}` with a point below `Σ` (the head), and future end `τ` unbounded or a last point on the shaft |
+| Cor 2.11: `reg(c) = c*`, `reg(S) = S*`, `C = C*` | ✓ `c* = c` on `I* = {t ∈ I | r(c t) > 0}`; `C = C*` as `τ_Σ = τ_{Σ*}` on `r = R`; the hypotheses of 2.9 for `c` and of 2.10 for `c*` |
 | Prop 2.17: `E_A`-manifold, `A ⊆ ℝ₊` | ⚠ strengthened: `𝔼₀`-manifolds only (`A = {0}`), T2, connected, second countable |
 | Prop 2.17: Cauchy-maximal | ⚠ read (DEC-77(c)): `E0Spear.IsE0CauchyMaximal` |
-| Prop 2.17: Cauchy-compact | ⚠ read: a compact Cauchy surface (B21 l.227 asks a *smooth spacelike* one, Bernal–Sánchez) |
+| Prop 2.17: Cauchy-compact | ⚠ read: a compact Cauchy surface in `regM_isCauchyComplete` (B21 l.227 asks a *smooth spacelike* one, Bernal–Sánchez: the gap is (G0)); in `regM_isCauchyComplete_of_C1` as l.227 does, `IsE0C1SpacelikeCauchy` (Cauchy, compact, spacelike Lipschitz in `Reg M`'s flat charts, `C¹` trace on the shaft circle of every spear chart in which `S` is the graph of a continuous `τ_Σ > v + R/2` over the closed disc) |
 | Prop 2.17: Cauchy-complete | ⚠ read (DEC-31): `Causal.Flat.IsCauchyComplete 2 (e0RegMFlat M)` |
 
 ## SCOPE (disclosed)
 
-* (a) Lemma 2.6(i), Lemma 2.9 and Cor 2.11 are not formalized; `Σ*` lives in `Reg M`.
-* (b) `regM_isCauchyComplete`: one tagged `sorry`. Beyond the upstream Lemma 2.3/2.4 sorries
-  (`GXScaffold.BTZ.Spear`) three obstructions are genuine: the rim datum of Lemma 2.4 is only `C⁰`
-  there while Lemma 2.6(ii)/2.8 need `C¹` (a smooth spacelike Cauchy surface, l.227); Remark 2.12's
-  decomposition of an inextensible curve of `Reg M` into spear arcs needs the relative
-  curve-extension theory absent from lean-causal (as Spear's `isCauchySurface_glued`); and the
-  gluing of the induced length of `Σ*` across the spears (`Causal.Flat.InducedLengthSpace`).
+* (a) The local machinery is complete in both directions (WP-43b): Lemma 2.6(i)/(ii), 2.7, 2.8,
+  2.9, 2.10 and Cor 2.11 are proved in their readings, 0 `sorry`.
+* (b) The global part (§5d) is split, one tagged `sorry` per obstruction, and
+  `regM_isCauchyComplete` is their composition. Besides the upstream sorries of
+  `GXScaffold.BTZ.Spear` (Lemma 2.3: `CylChartData.globallyHyperbolic_glued`,
+  `CylChartData.isCauchySurface_glued`; Lemma 2.4's future case, `lem_add_BTZ_param_line`) — whose
+  CBG inputs `hLine`/`hSC` are now LocalModel's proved (O2) `E0LM.e0_globalBTZ` and (O4′)
+  `E0LM.e0_secondCountable_of_cauchy` (WP-43d, 0 `sorry`), instantiated in
+  `exists_spearSurgeryDatum` — the six are: (G0) smoothing (a cited theorem: Bernal–Sánchez /
+  Bernard–Suhr); (G1) finitely many disjoint closed spears; (G2) Remark 2.12 (relative curve
+  extension in a spear); (G3) the counting argument from Remark 2.12 and Cor 2.11; (G4a) the cusp
+  and the rim corner spacelike Lipschitz in flat charts; (G5) the gluing of completeness.
 
-Provenance: mathlib `fabf563a` (tag `v4.31.0`); lean-causal `731ed99` (imports strict
+Provenance: mathlib `fabf563a` (tag `v4.31.0`); lean-causal `ca2ad78` (imports strict
 `Causal.Flat.CauchyComplete`, DEC-33).
 -/
 
@@ -493,8 +524,8 @@ theorem continuousAt_height (hg : IsSpacelikeGraph g R) {x : E0} (hx : 0 < rad x
     filter_upwards [(isOpen_lt continuous_const continuous_rad).mem_nhds hx] with y hy
     exact heightAt_eq_height hg.periodic (polar_neg_arg y) hy
 
-/-- **The K-3 arc lemma** (the monotonicity + IVT core of B21 Lemmas 2.9–2.10, SCOPE K-3; *not*
-Cor 2.11, which is not formalized): a continuous `≼`-increasing arc `c : [a, b] → 𝔼₀` of the region
+/-- **The K-3 arc lemma** (the monotonicity + IVT core of B21 Lemmas 2.9–2.10, SCOPE K-3; the
+name is historical — B21 Cor 2.11 itself is `cor_intersect_number`): a continuous `≼`-increasing arc `c : [a, b] → 𝔼₀` of the region
 `0 < r ≤ R` meets the spacelike graph `Σ*` in at most one point, and meets it iff the height changes
 sign along it, `F(c a) ≤ 0 ≤ F(c b)`. The count of Lemma 2.10 is
 `lem_intersect_number_complete`. -/
@@ -1813,7 +1844,7 @@ theorem lem_intersect_number_complete_vertical (hg : IsSpacelikeGraph g R) (hR :
   rw [h, if_pos (Or.inl hinf)]
 
 open Classical in
-/-- **The spear-local surgery** (B21 Prop 2.17's proof, l.1092–1096, inside one blunt spear): rim
+/-- **The spear-local surgery** (B21 Prop 2.17's proof, l.1090, inside one blunt spear): rim
 data `τ^R` (`C^n`, `n ≥ 1`, positive, `2π`-periodic) extends to a spacelike graph `Σ*` over the
 strip which is complete (Lemma 2.6(ii) + Lemma 2.8(1)) and meets every future causal arc of the
 blunt spear with past end in `[p]` and future end at `+∞` or on the rim exactly as Lemma 2.10
@@ -1839,25 +1870,1105 @@ theorem spear_surgery_local {τR : ℝ → ℝ} {n : WithTop ℕ∞} (hn : 1 ≤
 end SurfaceComplete
 
 
+/-! ### §4b Lemma 2.6(i), Lemma 2.9, Cor 2.11 — the compact disc (K-3) -/
+
+section Disc
+
+variable {g : ℝ × ℝ → ℝ} {R : ℝ}
+
+/-- `x ↦ h(r, θ)` read with the principal angle is continuous at a point off the axis where `h` is
+continuous at every angle (`h` `2π`-periodic). -/
+theorem continuousAt_polarEval {h : ℝ × ℝ → ℝ} (hper : ∀ r θ, h (r, θ + 2 * π) = h (r, θ))
+    {x : E0} (hx : 0 < rad x) (hc : ∀ θ, ContinuousAt h (rad x, θ)) :
+    ContinuousAt (fun y : E0 => h (rad y, Complex.arg y.2)) x := by
+  by_cases hs : x.2 ∈ Complex.slitPlane
+  · have hpair : ContinuousAt (fun y : E0 => (rad y, Complex.arg y.2)) x :=
+      continuous_rad.continuousAt.prodMk ((Complex.continuousAt_arg hs).comp
+        continuous_snd.continuousAt)
+    exact (hc (Complex.arg x.2)).comp_of_eq hpair rfl
+  · have hx0 : x.2 ≠ 0 := fun h => by
+      have := rad_pos.1 hx; exact this h
+    have hs' : -x.2 ∈ Complex.slitPlane := by
+      rw [Complex.mem_slitPlane_iff] at hs ⊢
+      push Not at hs
+      left
+      have hre : x.2.re ≠ 0 := fun h => hx0 (Complex.ext h hs.2)
+      simp only [Complex.neg_re]
+      exact neg_pos.2 (lt_of_le_of_ne hs.1 hre)
+    have hpair : ContinuousAt (fun y : E0 => (rad y, Complex.arg (-y.2) + π)) x :=
+      continuous_rad.continuousAt.prodMk
+        (((Complex.continuousAt_arg hs').comp_of_eq continuous_snd.continuousAt.neg rfl).add
+          continuousAt_const)
+    have hk : ContinuousAt (fun y : E0 => h (rad y, Complex.arg (-y.2) + π)) x :=
+      (hc (Complex.arg (-x.2) + π)).comp_of_eq hpair rfl
+    refine hk.congr ?_
+    filter_upwards [(isOpen_lt continuous_const continuous_rad).mem_nhds hx] with y hy
+    have := heightAt_eq_height hper (polar_neg_arg y) hy
+    simp only [heightAt, height] at this
+    linarith
+
+/-- Along `≼`, `τ` increases strictly between distinct points (`Le.norm_sub_le`). -/
+theorem fst_lt_of_le_of_ne {x y : E0} (h : Le x y) (hne : x ≠ y) : x.1 < y.1 := by
+  rcases (fst_le_of_le h).lt_or_eq with h' | h'
+  · exact h'
+  · exfalso
+    have hn := h.norm_sub_le
+    rw [h', sub_self, mul_zero] at hn
+    have h2 : y.2 = x.2 := sub_eq_zero.1 (norm_le_zero_iff.1 hn)
+    exact hne (Prod.ext h' h2.symm)
+
+/-- **A spacelike graph over the closed disc `𝔻_R`** (the `Σ` of B21 Lemma 2.9), read by the
+integrated form of Lemma 2.7 (B21 l.759–777): `g` periodic in `θ`, the height `F = τ − τ_Σ`
+continuous on the solid cylinder `{r ≤ R}` (axis included), and strictly increasing along `≼`
+there. For a smooth graph off the axis this is `height_lt_of_le`; at the axis it is not a
+derivative condition (the coordinates degenerate), so it is asked in integrated form. -/
+structure IsSpacelikeDiscGraph (g : ℝ × ℝ → ℝ) (R : ℝ) : Prop where
+  periodic : ∀ r θ, g (r, θ + 2 * π) = g (r, θ)
+  continuousOn : ContinuousOn (height g) {x : E0 | rad x ≤ R}
+  height_lt : ∀ x y : E0, Le x y → rad y ≤ R → x ≠ y → height g x < height g y
+
+/-- **The graph `Σ`** over the closed disc `𝔻_R` (axis included). -/
+def discGraphSet (g : ℝ × ℝ → ℝ) (R : ℝ) : Set E0 := {x | rad x ≤ R ∧ height g x = 0}
+
+theorem IsSpacelikeDiscGraph.height_le (hg : IsSpacelikeDiscGraph g R) {x y : E0} (hxy : Le x y)
+    (hy : rad y ≤ R) : height g x ≤ height g y := by
+  rcases eq_or_ne x y with h | h
+  · rw [h]
+  · exact (hg.height_lt x y hxy hy h).le
+
+/-- **A spacelike disc graph is acausal.** -/
+theorem IsSpacelikeDiscGraph.acausal (hg : IsSpacelikeDiscGraph g R) {x y : E0}
+    (hx : x ∈ discGraphSet g R) (hy : y ∈ discGraphSet g R) (hxy : Le x y) : x = y := by
+  by_contra hne
+  have := hg.height_lt x y hxy hy.1 hne
+  rw [hx.2, hy.2] at this
+  exact lt_irrefl _ this
+
+/-- **The graph over the closed disc is compact** (the « compact » of Lemma 2.6(i)): it is the image
+of the closed disc `‖z‖ ≤ R` under `z ↦ (τ_Σ(z), z)`. -/
+theorem IsSpacelikeDiscGraph.isCompact (hg : IsSpacelikeDiscGraph g R) :
+    IsCompact (discGraphSet g R) := by
+  set G : ℂ → ℝ := fun z => -height g ((0 : ℝ), z) with hG
+  have hGc : ContinuousOn G (Metric.closedBall 0 R) := by
+    refine (hg.continuousOn.comp (Continuous.continuousOn (by fun_prop)) ?_).neg
+    intro z hz
+    change ‖z‖ ≤ R
+    simpa using hz
+  have hcomp := (isCompact_closedBall (0 : ℂ) R).image_of_continuousOn
+    ((hGc.prodMk continuousOn_id) : ContinuousOn (fun z => (G z, z)) _)
+  convert hcomp using 1
+  ext x
+  simp only [discGraphSet, mem_setOf_eq, mem_image, Metric.mem_closedBall, dist_zero_right]
+  constructor
+  · rintro ⟨hr, hh⟩
+    refine ⟨x.2, hr, Prod.ext ?_ rfl⟩
+    simp only [hG, height, heightAt, rad] at hh ⊢
+    linarith
+  · rintro ⟨z, hz, rfl⟩
+    refine ⟨hz, ?_⟩
+    simp only [hG, height, heightAt, rad]
+    ring
+
+/-- `g` is bounded on the closed disc (read through the height). -/
+theorem IsSpacelikeDiscGraph.exists_bound (hg : IsSpacelikeDiscGraph g R) :
+    ∃ S : ℝ, ∀ x : E0, rad x ≤ R → x.1 - height g x ≤ S := by
+  set G : ℂ → ℝ := fun z => -height g ((0 : ℝ), z) with hG
+  have hGc : ContinuousOn G (Metric.closedBall 0 R) := by
+    refine (hg.continuousOn.comp (Continuous.continuousOn (by fun_prop)) ?_).neg
+    intro z hz
+    change ‖z‖ ≤ R
+    simpa using hz
+  obtain ⟨S, hS⟩ := (isCompact_closedBall (0 : ℂ) R).exists_bound_of_continuousOn hGc
+  refine ⟨S, fun x hx => ?_⟩
+  have h := hS x.2 (by simpa [rad] using hx)
+  rw [Real.norm_eq_abs] at h
+  have e : x.1 - height g x = G x.2 := by simp only [hG, height, heightAt, rad]; ring
+  rw [e]
+  exact (le_abs_self _).trans h
+
+/-- **Spacelike disc graphs from a slice and a spacelike graph** (the piecewise-smooth surfaces of
+Lemma 2.6(i)): if `g = c` on the axis and `g = min(c, f)` on `0 < r ≤ R` with `f` a spacelike graph
+(Lemma 2.7, `δ > 0`), the height of `g` is strictly increasing along `≼` on `{r ≤ R}`: it is
+`τ − c` near the axis and `max(τ − c, F_f)` off it, a maximum of two increasing functions. -/
+theorem isSpacelikeDiscGraph_of_min {f : ℝ × ℝ → ℝ} {c : ℝ} (hf : IsSpacelikeGraph f R)
+    (hper : ∀ r θ, g (r, θ + 2 * π) = g (r, θ))
+    (hcont : ContinuousOn (height g) {x : E0 | rad x ≤ R}) (hg0 : ∀ θ, g (0, θ) = c)
+    (hgmin : ∀ p : ℝ × ℝ, 0 < p.1 → p.1 ≤ R → g p = min c (f p)) :
+    IsSpacelikeDiscGraph g R := by
+  refine ⟨hper, hcont, fun x y hxy hy hne => ?_⟩
+  have hτ := fst_lt_of_le_of_ne hxy hne
+  have hry := rad_le_of_le hxy
+  -- `height g y ≥ τ(y) − c`
+  have hy1 : y.1 - c ≤ height g y := by
+    unfold height heightAt
+    rcases (rad_nonneg y).lt_or_eq with h | h
+    · rw [hgmin _ h hy]; linarith [min_le_left c (f (rad y, Complex.arg y.2))]
+    · rw [← h, hg0]
+  rcases (rad_nonneg x).lt_or_eq with hx | hx
+  · have hy0 : 0 < rad y := hx.trans_le hry
+    have ex : height g x = max (x.1 - c) (height f x) := by
+      unfold height heightAt
+      rw [hgmin _ hx (hry.trans hy)]
+      rw [← max_sub_sub_left]
+    have ey : height g y = max (y.1 - c) (height f y) := by
+      unfold height heightAt
+      rw [hgmin _ hy0 hy]
+      rw [← max_sub_sub_left]
+    rw [ex, ey]
+    have hfl := height_lt_of_le hf hxy hx hy hne
+    exact max_lt (lt_max_of_lt_left (by linarith)) (lt_max_of_lt_right hfl)
+  · have ex : height g x = x.1 - c := by
+      unfold height heightAt
+      rw [← hx, hg0]
+    rw [ex]
+    linarith
+
+/-- A horizontal slice `τ = c` is a spacelike graph (`δ = 1`, Lemma 2.7). -/
+theorem isSpacelikeGraph_const (c R : ℝ) : IsSpacelikeGraph (fun _ => c) R :=
+  ⟨fun _ _ => rfl, fun p _ _ => ⟨0, hasFDerivAt_const c p, by simp [spacelikeDelta]⟩⟩
+
+/-- **The outer piece of the compact disc** (B21 l.872–877, printed as the proof of **(ii)**: the
+proofs of (i) and (ii) are swapped): `((2r − R)/R)² τ^R(θ) + M(1/r − 1/R)`. -/
+noncomputable def discPiece (τR : ℝ → ℝ) (R M : ℝ) (p : ℝ × ℝ) : ℝ :=
+  ((2 * p.1 - R) / R) ^ 2 * τR p.2 + M * (1 / p.1 - 1 / R)
+
+/-- **The compact-disc extension** of B21 Lemma 2.6(i): `M/R` on `r ≤ R/2`, `discPiece` on
+`r ≥ R/2` (written with `max r (R/2)`, which makes it globally continuous). -/
+noncomputable def discExt (τR : ℝ → ℝ) (R M : ℝ) (p : ℝ × ℝ) : ℝ :=
+  ((2 * max p.1 (R / 2) - R) / R) ^ 2 * τR p.2 + M * (1 / max p.1 (R / 2) - 1 / R)
+
+theorem discExt_of_le {τR : ℝ → ℝ} {R M : ℝ} (hR : 0 < R) {p : ℝ × ℝ} (hp : p.1 ≤ R / 2) :
+    discExt τR R M p = M / R := by
+  simp only [discExt, max_eq_right hp]
+  field_simp
+  ring
+
+theorem discExt_of_ge {τR : ℝ → ℝ} {R M : ℝ} {p : ℝ × ℝ} (hp : R / 2 ≤ p.1) :
+    discExt τR R M p = discPiece τR R M p := by
+  simp only [discExt, discPiece, max_eq_left hp]
+
+theorem continuous_discExt {τR : ℝ → ℝ} (hτ : Continuous τR) {R : ℝ} (hR : 0 < R) (M : ℝ) :
+    Continuous (discExt τR R M) := by
+  have hm : Continuous fun p : ℝ × ℝ => max p.1 (R / 2) := continuous_fst.max continuous_const
+  have hm0 : ∀ p : ℝ × ℝ, max p.1 (R / 2) ≠ 0 := fun p =>
+    ((by positivity : (0 : ℝ) < R / 2).trans_le (le_max_right _ _)).ne'
+  unfold discExt
+  refine Continuous.add (Continuous.mul ?_ (hτ.comp continuous_snd))
+    (continuous_const.mul ((continuous_const.div hm hm0).sub continuous_const))
+  exact ((continuous_const.mul hm).sub continuous_const).div_const R |>.pow 2
+
+theorem hasFDerivAt_discPiece {τR : ℝ → ℝ} {R M : ℝ} {p : ℝ × ℝ} (hp : p.1 ≠ 0)
+    (hτ : DifferentiableAt ℝ τR p.2) :
+    ∃ L : ℝ × ℝ →L[ℝ] ℝ, HasFDerivAt (discPiece τR R M) L p ∧
+      L (1, 0) = 4 * (2 * p.1 - R) / R ^ 2 * τR p.2 - M / p.1 ^ 2 ∧
+      L (0, 1) = ((2 * p.1 - R) / R) ^ 2 * deriv τR p.2 := by
+  have hu : HasDerivAt (fun r : ℝ => ((2 * r - R) / R) ^ 2)
+      (2 * ((2 * p.1 - R) / R) * (2 / R)) p.1 := by
+    have h1 : HasDerivAt (fun r : ℝ => (2 * r - R) / R) (2 / R) p.1 := by
+      simpa using (((hasDerivAt_id p.1).const_mul 2).sub_const R).div_const R
+    refine (h1.fun_pow 2).congr_deriv ?_
+    push_cast
+    ring
+  have hU := hu.hasFDerivAt.comp p hasFDerivAt_fst
+  have hT := hτ.hasDerivAt.hasFDerivAt.comp p hasFDerivAt_snd
+  have h1 : HasFDerivAt (fun q : ℝ × ℝ => q.1⁻¹)
+      ((ContinuousLinearMap.smulRight (1 : ℝ →L[ℝ] ℝ) (-(p.1 ^ 2)⁻¹)).comp
+        (ContinuousLinearMap.fst ℝ ℝ ℝ)) p :=
+    (hasDerivAt_inv hp).hasFDerivAt.comp p hasFDerivAt_fst
+  have H := (hU.mul hT).add ((h1.sub_const (1 / R)).const_mul M)
+  have he : discPiece τR R M =
+      (fun q : ℝ × ℝ => ((2 * q.1 - R) / R) ^ 2 * τR q.2) + fun y => M * (y.1⁻¹ - 1 / R) := by
+    funext q; simp [discPiece, one_div]
+  refine ⟨_, he ▸ H, ?_, ?_⟩
+  · simp
+    field_simp
+    ring
+  · simp
+
+/-- **B21 Lemma 2.6(i)** (`lem:curve_extension` (i), l.704–712; the construction printed as the
+proof of **(ii)**, l.872–877): a `C^n` (`n ≥ 1`) positive `2π`-periodic `τ^R` on the rim `r = R`
+extends to a positive continuous `τ` on the closed disc `𝔻_R` which is **piecewise smooth** — the
+constant `M/R` on `r ≤ R/2` (`δ = 1`) and a `C^n` spacelike piece on `r ≥ R/2` (`δ > 0` on all of
+`0 < r ≤ R`, Lemma 2.7) — whose graph is **spacelike** over the closed disc (axis included,
+`IsSpacelikeDiscGraph`: `τ = min(M/R, piece)`) and **compact**. -/
+theorem lem_curve_extension_i {τR : ℝ → ℝ} {n : WithTop ℕ∞} (hn : 1 ≤ n)
+    (hτ : ContDiff ℝ n τR) (hper : Periodic τR (2 * π)) (hpos : ∀ θ, 0 < τR θ) {R : ℝ}
+    (hR : 0 < R) :
+    ∃ τ : ℝ × ℝ → ℝ, (∀ θ, τ (R, θ) = τR θ) ∧
+      (∀ p : ℝ × ℝ, 0 ≤ p.1 → p.1 ≤ R → 0 < τ p) ∧ Continuous τ ∧
+      (∃ (c : ℝ) (f : ℝ × ℝ → ℝ), IsSpacelikeGraph (fun _ => c) R ∧
+        ContDiffOn ℝ n f {p | 0 < p.1} ∧ IsSpacelikeGraph f R ∧
+        (∀ p : ℝ × ℝ, p.1 ≤ R / 2 → τ p = c) ∧ (∀ p : ℝ × ℝ, R / 2 ≤ p.1 → τ p = f p)) ∧
+      IsSpacelikeDiscGraph τ R ∧ IsCompact (discGraphSet τ R) := by
+  have hn0 : n ≠ 0 := by intro h; rw [h] at hn; exact absurd hn (by decide)
+  have hdiff : Differentiable ℝ τR := hτ.differentiable hn0
+  have hdper : Periodic (deriv τR) (2 * π) := by
+    intro θ
+    have hf : (fun x => τR (x + 2 * π)) = τR := funext hper
+    rw [← deriv_comp_add_const, hf]
+  obtain ⟨B, hB⟩ := isBounded_iff_forall_norm_le.1
+    (hdper.isBounded_of_continuous (by positivity) (hτ.continuous_deriv hn))
+  obtain ⟨T, hT⟩ := isBounded_iff_forall_norm_le.1
+    (hper.isBounded_of_continuous (by positivity) hτ.continuous)
+  have hT' : ∀ θ, τR θ ≤ T := fun θ => by
+    have h := hT _ (mem_range_self θ); rw [Real.norm_eq_abs] at h
+    exact (le_abs_self _).trans h
+  have hT0 : 0 ≤ T := (hpos 0).le.trans (hT' 0)
+  have hB' : ∀ θ, (deriv τR θ) ^ 2 ≤ B ^ 2 := fun θ => by
+    have h := hB _ (mem_range_self θ)
+    rw [Real.norm_eq_abs] at h
+    have h0 : 0 ≤ B := (abs_nonneg _).trans h
+    exact sq_le_sq' (by linarith [neg_abs_le (deriv τR θ)]) (h.trans' (le_abs_self _))
+  set M : ℝ := 1 + B ^ 2 + 5 * T * R with hM
+  have hM0 : 0 < M := by positivity
+  have hMR : T ≤ M / R := by rw [le_div_iff₀ hR]; nlinarith
+  -- the outer piece is a spacelike graph over `0 < r ≤ R`
+  have hpiece : IsSpacelikeGraph (discPiece τR R M) R := by
+    refine ⟨fun r θ => by simp only [discPiece, hper θ], fun p hp hpR => ?_⟩
+    obtain ⟨L, hL, hL1, hL2⟩ := hasFDerivAt_discPiece (R := R) (M := M) hp.ne' (hdiff p.2)
+    refine ⟨L, hL, ?_⟩
+    rw [hL1, hL2]
+    set s := (2 * p.1 - R) / R with hs
+    have hs1 : s ≤ 1 := by rw [hs, div_le_one hR]; linarith
+    have hs1' : -1 ≤ s := by rw [hs, le_div_iff₀ hR]; linarith
+    have hs2 : s ^ 2 ≤ 1 := by nlinarith
+    have hs4 : s ^ 4 ≤ 1 := by nlinarith [sq_nonneg s]
+    have hsT : s * τR p.2 ≤ T := by
+      have := hpos p.2; have := hT' p.2
+      rcases le_total 0 s with h | h <;> nlinarith
+    have e : spacelikeDelta (4 * (2 * p.1 - R) / R ^ 2 * τR p.2 - M / p.1 ^ 2)
+        (s ^ 2 * deriv τR p.2) p.1 =
+        1 - 8 * (s * τR p.2) / R + (2 * M - s ^ 4 * (deriv τR p.2) ^ 2) * (1 / p.1 ^ 2) := by
+      unfold spacelikeDelta; rw [hs]; field_simp; ring
+    rw [e]
+    have hD : 8 * T * R ≤ 2 * M - s ^ 4 * (deriv τR p.2) ^ 2 := by
+      have := hB' p.2
+      have : s ^ 4 * (deriv τR p.2) ^ 2 ≤ B ^ 2 := by
+        nlinarith [sq_nonneg (deriv τR p.2)]
+      rw [hM]; nlinarith
+    have hr2 : 1 / R ^ 2 ≤ 1 / p.1 ^ 2 :=
+      one_div_le_one_div_of_le (by positivity) (pow_le_pow_left₀ hp.le hpR 2)
+    have h8 : 8 * T / R ≤ (2 * M - s ^ 4 * (deriv τR p.2) ^ 2) * (1 / p.1 ^ 2) := by
+      have h0 : 0 ≤ 2 * M - s ^ 4 * (deriv τR p.2) ^ 2 := le_trans (by positivity) hD
+      calc 8 * T / R = (8 * T * R) * (1 / R ^ 2) := by field_simp
+        _ ≤ (2 * M - s ^ 4 * (deriv τR p.2) ^ 2) * (1 / R ^ 2) :=
+          mul_le_mul_of_nonneg_right hD (by positivity)
+        _ ≤ _ := mul_le_mul_of_nonneg_left hr2 h0
+    have h8' : 8 * (s * τR p.2) / R ≤ 8 * T / R := by
+      apply div_le_div_of_nonneg_right _ hR.le; linarith
+    linarith
+  have hcont := continuous_discExt hτ.continuous hR M
+  -- the min representation on `0 < r ≤ R`
+  have hmin : ∀ p : ℝ × ℝ, 0 < p.1 → p.1 ≤ R →
+      discExt τR R M p = min (M / R) (discPiece τR R M p) := by
+    intro p hp hpR
+    rcases le_total p.1 (R / 2) with h | h
+    · rw [discExt_of_le hR h, min_eq_left]
+      have h2 : 2 / R ≤ 1 / p.1 := by
+        rw [div_le_div_iff₀ hR hp]; linarith
+      have := hpos p.2
+      simp only [discPiece]
+      have : M / R = M * (2 / R - 1 / R) := by field_simp; ring
+      rw [this]
+      nlinarith [sq_nonneg ((2 * p.1 - R) / R)]
+    · rw [discExt_of_ge h, min_eq_right]
+      set s := (2 * p.1 - R) / R with hs
+      have hs0 : 0 ≤ s := div_nonneg (by linarith) hR.le
+      have hs1 : s ≤ 1 := by rw [hs, div_le_one hR]; linarith
+      have e : M / R - discPiece τR R M p = s * (M / p.1 - s * τR p.2) := by
+        simp only [discPiece]; rw [hs]; field_simp; ring
+      have hMr : M / R ≤ M / p.1 := div_le_div_of_nonneg_left hM0.le hp hpR
+      have := hpos p.2; have := hT' p.2
+      have : s * τR p.2 ≤ M / p.1 := by nlinarith
+      have : 0 ≤ s * (M / p.1 - s * τR p.2) := mul_nonneg hs0 (by linarith)
+      linarith
+  have hperE : ∀ r θ, discExt τR R M (r, θ + 2 * π) = discExt τR R M (r, θ) := fun r θ => by
+    simp only [discExt, hper θ]
+  -- the height is continuous everywhere
+  have hhc : Continuous (height (discExt τR R M)) := by
+    refine continuous_iff_continuousAt.2 fun x => ?_
+    rcases (rad_nonneg x).lt_or_eq with hx | hx
+    · exact continuous_fst.continuousAt.sub
+        (continuousAt_polarEval hperE hx fun θ => hcont.continuousAt)
+    · have hev : ∀ᶠ y in 𝓝 x, height (discExt τR R M) y = y.1 - M / R := by
+        filter_upwards [(isOpen_lt continuous_rad continuous_const).mem_nhds
+          (show rad x < R / 2 by rw [← hx]; positivity)] with y hy
+        simp only [height, heightAt]
+        rw [discExt_of_le hR (le_of_lt hy)]
+      exact (continuous_fst.continuousAt.sub continuousAt_const).congr
+        (Filter.EventuallyEq.symm hev)
+  have hdisc : IsSpacelikeDiscGraph (discExt τR R M) R :=
+    isSpacelikeDiscGraph_of_min hpiece hperE hhc.continuousOn
+      (fun θ => discExt_of_le hR (by simp; positivity)) hmin
+  refine ⟨discExt τR R M, fun θ => ?_, fun p hp hpR => ?_, hcont,
+    ⟨M / R, discPiece τR R M, isSpacelikeGraph_const (M / R) R, ?_, hpiece,
+      fun p hp => discExt_of_le hR hp,
+      fun p hp => discExt_of_ge hp⟩, hdisc, hdisc.isCompact⟩
+  · rw [discExt_of_ge (by linarith)]
+    simp [discPiece]
+    field_simp
+    norm_num
+  · rcases le_total p.1 (R / 2) with h | h
+    · rw [discExt_of_le hR h]; positivity
+    · rw [discExt_of_ge h]
+      simp only [discPiece]
+      have := hpos p.2
+      rcases hpR.lt_or_eq with h' | h'
+      · have : 1 / R < 1 / p.1 := one_div_lt_one_div_of_lt (by linarith) h'
+        have : 0 < M * (1 / p.1 - 1 / R) := mul_pos hM0 (by linarith)
+        nlinarith [sq_nonneg ((2 * p.1 - R) / R)]
+      · rw [h']
+        field_simp
+        nlinarith
+  · have h1 : ContDiffOn ℝ n (fun p : ℝ × ℝ => τR p.2) {p | 0 < p.1} :=
+      (hτ.comp contDiff_snd).contDiffOn
+    have h2 : ContDiffOn ℝ n (fun p : ℝ × ℝ => 1 / p.1) {p | 0 < p.1} :=
+      contDiffOn_const.div contDiffOn_fst (fun p hp => ne_of_gt hp)
+    have h3 : ContDiffOn ℝ n (fun p : ℝ × ℝ => ((2 * p.1 - R) / R) ^ 2) {p | 0 < p.1} :=
+      (((contDiffOn_const.mul contDiffOn_fst).sub contDiffOn_const).div_const R).pow 2
+    exact (h3.mul h1).add (contDiffOn_const.mul (h2.sub contDiffOn_const))
+
+/-- **On the rim, `J⁺(C)` is « on or above the graph »** for a disc graph (`C = Σ ∩ ∂S`). -/
+theorem IsSpacelikeDiscGraph.height_nonneg_iff_rim (hg : IsSpacelikeDiscGraph g R) {x : E0}
+    (hx : rad x = R) : 0 ≤ height g x ↔ ∃ y ∈ discGraphSet g R, rad y = R ∧ Le y x := by
+  constructor
+  · intro h
+    set y : E0 := (g (rad x, Complex.arg x.2), x.2)
+    have hry : rad y = rad x := rfl
+    refine ⟨y, ⟨by rw [hry, hx], ?_⟩, by rw [hry, hx], ?_⟩
+    · change y.1 - g (rad y, Complex.arg y.2) = 0
+      rw [hry]; exact sub_self _
+    · have h' : y.1 ≤ x.1 := by
+        change 0 ≤ x.1 - g (rad x, Complex.arg x.2) at h
+        change g (rad x, Complex.arg x.2) ≤ x.1
+        linarith
+      exact le_of_le (E0Spear.le_vertical_top (z := x.2) h')
+  · rintro ⟨y, hy, -, hyx⟩
+    rw [← hy.2]
+    exact hg.height_le hyx hx.le
+
+/-- **A causal arc of the solid cylinder `{r ≤ R}`** (axis included) meets the spacelike disc graph
+in at most one point, and meets it iff the height takes a value `≤ 0` and a value `≥ 0` along it
+(monotonicity + IVT, SCOPE K-3). -/
+theorem IsSpacelikeDiscGraph.arc_meets_iff (hg : IsSpacelikeDiscGraph g R) {c : ℝ → E0}
+    {I : Set ℝ} (hI : I.OrdConnected) (hc : ContinuousOn c I)
+    (hmono : ∀ s ∈ I, ∀ t ∈ I, s ≤ t → Le (c s) (c t)) (hreg : ∀ s ∈ I, rad (c s) ≤ R) :
+    (c '' I ∩ discGraphSet g R).Subsingleton ∧
+      ((∃ s ∈ I, c s ∈ discGraphSet g R) ↔
+        (∃ t ∈ I, height g (c t) ≤ 0) ∧ ∃ t ∈ I, 0 ≤ height g (c t)) := by
+  refine ⟨?_, ⟨fun ⟨s, hs, hcs⟩ => ⟨⟨s, hs, hcs.2.le⟩, ⟨s, hs, hcs.2.ge⟩⟩, ?_⟩⟩
+  · rintro _ ⟨⟨s, hs, rfl⟩, hps⟩ _ ⟨⟨t, ht, rfl⟩, hpt⟩
+    rcases le_total s t with hst | hts
+    · exact hg.acausal hps hpt (hmono s hs t ht hst)
+    · exact (hg.acausal hpt hps (hmono t ht s hs hts)).symm
+  · rintro ⟨⟨t₁, ht₁, h₁⟩, ⟨t₂, ht₂, h₂⟩⟩
+    rcases le_total t₁ t₂ with h12 | h21
+    · have hsub : Icc t₁ t₂ ⊆ I := hI.out ht₁ ht₂
+      have hcont : ContinuousOn (fun s => height g (c s)) (Icc t₁ t₂) :=
+        hg.continuousOn.comp (hc.mono hsub) (fun s hs => hreg s (hsub hs))
+      obtain ⟨s, hs, hs0⟩ := intermediate_value_Icc h12 hcont ⟨h₁, h₂⟩
+      exact ⟨s, hsub hs, hreg s (hsub hs), hs0⟩
+    · have hle := hg.height_le (hmono t₂ ht₂ t₁ ht₁ h21) (hreg t₁ ht₁)
+      exact ⟨t₂, ht₂, hreg t₂ ht₂, le_antisymm (hle.trans h₁) h₂⟩
+
+open Classical in
+/-- **B21 Lemma 2.9** (`lem:intersect_number_compact`, l.885–896), cut by K-3: for a spacelike
+graph `Σ` over the closed disc of a spear `S = {r ≤ R} ∩ J⁺(p)` and a future causal arc `c` of
+`{r ≤ R}` (axis included) over an interval `I`, whose past end is in the component `[p]` of the
+complement of `Σ` (read: a point strictly below `Σ`, e.g. in the head) and whose future end is
+`sup c = +∞` or a last point on the shaft `r = R` (read for « closed in `S`, inextendible in
+`Int S` »): `|c ∩ Σ| = 1` if `sup c ∈ J⁺(C) ∪ {+∞}`, `0` otherwise. -/
+theorem lem_intersect_number_compact (hg : IsSpacelikeDiscGraph g R)
+    {c : ℝ → E0} {I : Set ℝ} (hI : I.OrdConnected) (hc : ContinuousOn c I)
+    (hmono : ∀ s ∈ I, ∀ t ∈ I, s ≤ t → Le (c s) (c t))
+    (hreg : ∀ s ∈ I, rad (c s) ≤ R)
+    (hpast : ∃ t ∈ I, height g (c t) < 0)
+    (hfut : (∀ M : ℝ, ∃ t ∈ I, M ≤ (c t).1) ∨ ∃ b ∈ I, (∀ t ∈ I, t ≤ b) ∧ rad (c b) = R) :
+    (c '' I ∩ discGraphSet g R).ncard =
+      if (∀ M : ℝ, ∃ t ∈ I, M ≤ (c t).1) ∨
+          ∃ b ∈ I, (∀ t ∈ I, t ≤ b) ∧ ∃ y ∈ discGraphSet g R, rad y = R ∧ Le y (c b)
+        then 1 else 0 := by
+  obtain ⟨hsub, hiff⟩ := hg.arc_meets_iff hI hc hmono hreg
+  split_ifs with hcond
+  · obtain ⟨t₁, ht₁, h₁⟩ := hpast
+    have h₂ : ∃ t ∈ I, 0 ≤ height g (c t) := by
+      rcases hcond with h | ⟨b, hb, -, y, hy, -, hyb⟩
+      · obtain ⟨S, hS⟩ := hg.exists_bound
+        obtain ⟨t, ht, hSt⟩ := h S
+        exact ⟨t, ht, by linarith [hS (c t) (hreg t ht)]⟩
+      · exact ⟨b, hb, hy.2 ▸ hg.height_le hyb (hreg b hb)⟩
+    obtain ⟨s, hs, hcs⟩ := hiff.2 ⟨⟨t₁, ht₁, h₁.le⟩, h₂⟩
+    rw [Set.ncard_eq_one]
+    exact ⟨c s, hsub.eq_singleton_of_mem ⟨⟨s, hs, rfl⟩, hcs⟩⟩
+  · rw [Set.ncard_eq_zero hsub.finite]
+    refine Set.eq_empty_of_forall_notMem ?_
+    rintro _ ⟨⟨s, hs, rfl⟩, hcs⟩
+    apply hcond
+    rcases hfut with h | ⟨b, hb, hmax, hrim⟩
+    · exact Or.inl h
+    · refine Or.inr ⟨b, hb, hmax, (hg.height_nonneg_iff_rim hrim).1 ?_⟩
+      rw [← hcs.2]
+      exact hg.height_le (hmono s hs b hb (hmax s hs)) (hreg b hb)
+
+/-- **Non-vacuity of `lem_intersect_number_compact`** (kb/0011): the future ray up the BTZ axis
+from below the graph meets it exactly once (`sup = +∞`). -/
+theorem lem_intersect_number_compact_axis (hg : IsSpacelikeDiscGraph g R) (hR : 0 ≤ R) :
+    ((fun t : ℝ => ((t, (0 : ℂ)) : E0)) '' Ici (g (0, 0) - 1) ∩ discGraphSet g R).ncard = 1 := by
+  set τ₀ := g (0, 0)
+  have hh : ∀ t : ℝ, height g ((t, (0 : ℂ)) : E0) = t - τ₀ := fun t => by
+    simp [height, heightAt, rad, τ₀]
+  have hinf : ∀ M : ℝ, ∃ t ∈ Ici (τ₀ - 1), M ≤ ((fun t : ℝ => ((t, (0 : ℂ)) : E0)) t).1 :=
+    fun M => ⟨max M (τ₀ - 1), mem_Ici.2 (le_max_right _ _), le_max_left _ _⟩
+  have h := lem_intersect_number_compact hg (c := fun t : ℝ => ((t, (0 : ℂ)) : E0))
+    (I := Ici (τ₀ - 1)) ordConnected_Ici (Continuous.continuousOn (by fun_prop))
+    (fun s _ t _ hst => le_of_le (E0Spear.le_vertical_top (z := 0) hst))
+    (fun _ _ => by simpa [rad] using hR)
+    ⟨τ₀ - 1, self_mem_Ici, by rw [hh]; linarith⟩ (Or.inl hinf)
+  rw [h, if_pos (Or.inl hinf)]
+
+open Classical in
+/-- **B21 Cor 2.11** (`cor:intersect`, l.910–912), cut by K-3: under the hypotheses of Lemmas 2.9
+(`c`, `Σ` over the closed disc) and 2.10 (`c* = reg c`, `Σ*` over the punctured disc,
+`lim τ = +∞`), with the same rim circle `C = C*` (`τ_Σ = τ_{Σ*}` on `r = R`):
+`|c ∩ Σ| = |c* ∩ Σ*|`. Here `c* = c` on `I* = {t ∈ I | r(c t) > 0}` (`reg(c) = c*`; the parameter
+set `I*` is a final segment of `I`, `r` being non-decreasing along `c`). -/
+theorem cor_intersect_number {gc gs : ℝ × ℝ → ℝ} (hgc : IsSpacelikeDiscGraph gc R)
+    (hgs : IsSpacelikeGraph gs R) (hR : 0 < R)
+    (hlim : Tendsto gs (comap Prod.fst (𝓝[>] 0)) atTop) (hrim : ∀ θ, gc (R, θ) = gs (R, θ))
+    {c : ℝ → E0} {I : Set ℝ} (hI : I.OrdConnected) (hc : ContinuousOn c I)
+    (hmono : ∀ s ∈ I, ∀ t ∈ I, s ≤ t → Le (c s) (c t))
+    (hreg : ∀ s ∈ I, rad (c s) ≤ R)
+    (hpast : ∃ t ∈ I, height gc (c t) < 0)
+    (hpast' : (∃ t ∈ {t ∈ I | 0 < rad (c t)}, height gs (c t) < 0) ∨
+      ∀ ε > 0, ∃ t ∈ {t ∈ I | 0 < rad (c t)}, rad (c t) < ε)
+    (hfut : (∀ M : ℝ, ∃ t ∈ I, M ≤ (c t).1) ∨ ∃ b ∈ I, (∀ t ∈ I, t ≤ b) ∧ rad (c b) = R) :
+    (c '' I ∩ discGraphSet gc R).ncard =
+      (c '' {t ∈ I | 0 < rad (c t)} ∩ graphSet gs R).ncard := by
+  set I' := {t ∈ I | 0 < rad (c t)} with hI'
+  -- `I*` is non-empty, a final segment of `I`
+  obtain ⟨t₀, ht₀⟩ : I'.Nonempty := by
+    rcases hpast' with ⟨t, ht, -⟩ | h
+    · exact ⟨t, ht⟩
+    · obtain ⟨t, ht, -⟩ := h 1 one_pos; exact ⟨t, ht⟩
+  have hfin : ∀ s ∈ I', ∀ t ∈ I, s ≤ t → t ∈ I' := fun s hs t ht hst =>
+    ⟨ht, hs.2.trans_le (rad_le_of_le (hmono s hs.1 t ht hst))⟩
+  have hI'o : I'.OrdConnected := ⟨fun s hs u hu t ht =>
+    hfin s hs t (hI.out hs.1 hu.1 ht) ht.1⟩
+  have hfut' : (∀ M : ℝ, ∃ t ∈ I', M ≤ (c t).1) ∨
+      ∃ b ∈ I', (∀ t ∈ I', t ≤ b) ∧ rad (c b) = R := by
+    rcases hfut with h | ⟨b, hb, hmax, hrb⟩
+    · left; intro M
+      obtain ⟨t, ht, hMt⟩ := h M
+      have hmem : max t t₀ ∈ I := by
+        rcases le_total t t₀ with h' | h'
+        · rw [max_eq_right h']; exact ht₀.1
+        · rw [max_eq_left h']; exact ht
+      exact ⟨max t t₀, hfin t₀ ht₀ _ hmem (le_max_right _ _),
+        hMt.trans (fst_le_of_le (hmono t ht _ hmem (le_max_left _ _)))⟩
+    · right
+      exact ⟨b, ⟨hb, hrb ▸ hR⟩, fun t ht => hmax t ht.1, hrb⟩
+  have hc' := lem_intersect_number_complete hgs hR hlim hI'o (hc.mono fun t ht => ht.1)
+    (fun s hs t ht => hmono s hs.1 t ht.1) (fun s hs => ⟨hs.2, hreg s hs.1⟩) hpast' hfut'
+  rw [lem_intersect_number_compact hgc hI hc hmono hreg hpast hfut, hc']
+  -- the two conditions agree
+  have hrimset : ∀ y : E0, rad y = R → (y ∈ discGraphSet gc R ↔ y ∈ graphSet gs R) := by
+    intro y hy
+    have e : height gc y = height gs y := by
+      simp only [height, heightAt, hy, hrim]
+    simp only [discGraphSet, graphSet, mem_setOf_eq, hy, e, le_refl, true_and]
+    exact ⟨fun h => ⟨hR, h⟩, fun h => h.2⟩
+  congr 1
+  apply propext
+  constructor
+  · rintro (h | ⟨b, hb, hmax, y, hy, hyR, hyb⟩)
+    · rcases hfut' with h' | ⟨b, hb, hmax, hrb⟩
+      · exact Or.inl h'
+      · -- `τ` unbounded along `c` but bounded by the last point: impossible
+        exfalso
+        obtain ⟨t, ht, hlt⟩ := h ((c b).1 + 1)
+        have := fst_le_of_le (hmono t ht b hb.1 (hmax t (hfin t₀ ht₀ t ht ?_)))
+        · linarith
+        · by_contra hlt'
+          push Not at hlt'
+          have := fst_le_of_le (hmono t ht t₀ ht₀.1 hlt'.le)
+          have := fst_le_of_le (hmono t₀ ht₀.1 b hb.1 (hmax t₀ ht₀))
+          linarith
+    · have hRb : R ≤ rad (c b) := hyR ▸ rad_le_of_le hyb
+      have hb' : b ∈ I' := ⟨hb, hR.trans_le hRb⟩
+      exact Or.inr ⟨b, hb', fun t ht => hmax t ht.1, y, (hrimset y hyR).1 hy, hyR, hyb⟩
+  · rintro (h | ⟨b, hb, hmax, y, hy, hyR, hyb⟩)
+    · left; intro M
+      obtain ⟨t, ht, hMt⟩ := h M
+      exact ⟨t, ht.1, hMt⟩
+    · refine Or.inr ⟨b, hb.1, fun t ht => ?_, y, (hrimset y hyR).2 hy, hyR, hyb⟩
+      by_contra hlt
+      push Not at hlt
+      exact absurd (hmax t (hfin b hb t ht hlt.le)) (not_le.2 hlt)
+
+/-- **Non-vacuity of `cor_intersect_number`** (kb/0011): the hypotheses are jointly inhabited —
+for `R > 0` and `τ^R ≡ 1`, Lemma 2.6(i)'s disc and Lemma 2.6(ii)'s cusp share their rim — and
+a vertical future ray off the axis, started below both graphs, meets each exactly once. -/
+theorem cor_intersect_number_vertical {R : ℝ} (hR : 0 < R) {z₀ : ℂ} (hz : 0 < ‖z₀‖)
+    (hzR : ‖z₀‖ ≤ R) :
+    ∃ gc gs : ℝ × ℝ → ℝ, IsSpacelikeDiscGraph gc R ∧ IsSpacelikeGraph gs R ∧
+      Tendsto gs (comap Prod.fst (𝓝[>] 0)) atTop ∧ (∀ θ, gc (R, θ) = gs (R, θ)) ∧
+      ∃ t₀ : ℝ,
+        ((fun t : ℝ => ((t, z₀) : E0)) '' Ici t₀ ∩ discGraphSet gc R).ncard = 1 ∧
+        ((fun t : ℝ => ((t, z₀) : E0)) '' {t ∈ Ici t₀ | 0 < rad ((t, z₀) : E0)} ∩
+          graphSet gs R).ncard = 1 := by
+  have h1 : ContDiff ℝ ⊤ (fun _ : ℝ => (1 : ℝ)) := contDiff_const
+  have hper : Periodic (fun _ : ℝ => (1 : ℝ)) (2 * π) := fun _ => rfl
+  obtain ⟨gc, hrc, -, -, -, hgc, -⟩ :=
+    lem_curve_extension_i (n := ⊤) le_top h1 hper (fun _ => one_pos) hR
+  obtain ⟨gs, hrs, hgs, -, -, -, hlim⟩ :=
+    lem_curve_extension_ii_complete (n := ⊤) le_top h1 hper (fun _ => one_pos) hR
+  have hrim : ∀ θ, gc (R, θ) = gs (R, θ) := fun θ => by rw [hrc, hrs]
+  set c : ℝ → E0 := fun t => ((t, z₀) : E0)
+  set t₀ := min (gc (‖z₀‖, Complex.arg z₀)) (gs (‖z₀‖, Complex.arg z₀)) - 1
+  have hhc : ∀ t, height gc (c t) = t - gc (‖z₀‖, Complex.arg z₀) := fun t => rfl
+  have hhs : ∀ t, height gs (c t) = t - gs (‖z₀‖, Complex.arg z₀) := fun t => rfl
+  have hmono : ∀ s ∈ Ici t₀, ∀ t ∈ Ici t₀, s ≤ t → Le (c s) (c t) :=
+    fun s _ t _ hst => le_of_le (E0Spear.le_vertical_top (z := z₀) hst)
+  have hinf : ∀ M : ℝ, ∃ t ∈ Ici t₀, M ≤ (c t).1 :=
+    fun M => ⟨max M t₀, mem_Ici.2 (le_max_right _ _), le_max_left _ _⟩
+  have hm1 : t₀ < gc (‖z₀‖, Complex.arg z₀) := by
+    have := min_le_left (gc (‖z₀‖, Complex.arg z₀)) (gs (‖z₀‖, Complex.arg z₀)); linarith
+  have hm2 : t₀ < gs (‖z₀‖, Complex.arg z₀) := by
+    have := min_le_right (gc (‖z₀‖, Complex.arg z₀)) (gs (‖z₀‖, Complex.arg z₀)); linarith
+  have hpast : ∃ t ∈ Ici t₀, height gc (c t) < 0 :=
+    ⟨t₀, self_mem_Ici, by rw [hhc]; linarith⟩
+  have hpast' : (∃ t ∈ {t ∈ Ici t₀ | 0 < rad (c t)}, height gs (c t) < 0) ∨
+      ∀ ε > 0, ∃ t ∈ {t ∈ Ici t₀ | 0 < rad (c t)}, rad (c t) < ε :=
+    Or.inl ⟨t₀, ⟨self_mem_Ici, hz⟩, by rw [hhs]; linarith⟩
+  have hcd := lem_intersect_number_compact hgc (c := c) (I := Ici t₀) ordConnected_Ici
+    (Continuous.continuousOn (by fun_prop)) hmono (fun _ _ => hzR) hpast (Or.inl hinf)
+  rw [if_pos (Or.inl hinf)] at hcd
+  have hcor := cor_intersect_number hgc hgs hR hlim hrim (c := c) (I := Ici t₀) ordConnected_Ici
+    (Continuous.continuousOn (by fun_prop)) hmono (fun _ _ => hzR) hpast hpast' (Or.inl hinf)
+  exact ⟨gc, gs, hgc, hgs, hlim, hrim, t₀, hcd, hcor ▸ hcd⟩
+
+end Disc
+
+
 /-! ### §5 The output: `Σ*` a Cauchy surface of `Reg M`, `Reg M` Cauchy-complete -/
 
-section RegM
+/-! ### §5a Lemma 2.6(ii) with an arbitrary lower bound on the rim -/
+
+/-- **Lemma 2.6(ii) shifted** (the form the surgery consumes): for a `C^n` periodic rim
+`τ^R > c₀` (not necessarily positive), a spacelike complete graph over the blunt spear,
+`C^n` off the axis, `> c₀` on `0 < r ≤ R`, `τ → +∞` at the axis. The paper's « positive » is a
+normalisation of the vertex (`τ ↦ τ − c₀`, an isometry of `𝔼₀`). -/
+theorem lem_curve_extension_ii_shift {τR : ℝ → ℝ} {n : WithTop ℕ∞} (hn : 1 ≤ n)
+    (hτ : ContDiff ℝ n τR) (hper : Periodic τR (2 * π)) {c₀ : ℝ} (hpos : ∀ θ, c₀ < τR θ)
+    {R : ℝ} (hR : 0 < R) :
+    ∃ G : ℝ × ℝ → ℝ, (∀ θ, G (R, θ) = τR θ) ∧ IsSpacelikeGraph G R ∧
+      (∀ p : ℝ × ℝ, 0 < p.1 → p.1 ≤ R → c₀ < G p) ∧ ContDiffOn ℝ n G {p | 0 < p.1} ∧
+      CompleteSpace (Causal.Flat.PulledLength (graphDev G R)) ∧
+      Tendsto G (comap Prod.fst (𝓝[>] 0)) atTop := by
+  obtain ⟨τ, hrim, hp, hpos', hC, hδ, hlim⟩ :=
+    lem_curve_extension_ii (τR := fun θ => τR θ - c₀) hn (hτ.sub contDiff_const)
+      (fun θ => by simp only [hper θ]) (fun θ => sub_pos.2 (hpos θ)) (R := R)
+  set G : ℝ × ℝ → ℝ := fun p => τ p + c₀ with hGdef
+  have hGp : ∀ r θ, G (r, θ + 2 * π) = G (r, θ) := fun r θ => by simp only [G, hp r θ]
+  have hδG : ∀ p : ℝ × ℝ, 0 < p.1 → ∃ L : ℝ × ℝ →L[ℝ] ℝ, HasFDerivAt G L p ∧
+      1 / p.1 ^ 2 ≤ spacelikeDelta (L (1, 0)) (L (0, 1)) p.1 := fun p hp0 => by
+    obtain ⟨L, hL, h⟩ := hδ p hp0
+    exact ⟨L, hL.add_const c₀, h⟩
+  have hδ1 : ∀ p : ℝ × ℝ, 0 < p.1 → p.1 ≤ R → ∃ L : ℝ × ℝ →L[ℝ] ℝ, HasFDerivAt G L p ∧
+      (1 : ℝ) ^ 2 / p.1 ^ 2 ≤ spacelikeDelta (L (1, 0)) (L (0, 1)) p.1 := fun p hp0 _ => by
+    obtain ⟨L, hL, h⟩ := hδG p hp0
+    exact ⟨L, hL, by simpa using h⟩
+  have hCG : ContDiffOn ℝ n G {p | 0 < p.1} := hC.add contDiffOn_const
+  have hC1 : ContDiffOn ℝ 1 G (stripSet R) := (hCG.of_le hn).mono fun p hp => hp.1
+  refine ⟨G, fun θ => by simp [G, hrim θ], ⟨hGp, fun p hp0 _ => ?_⟩, fun p hp0 hpR => ?_, hCG,
+    (lem_surface_complete_one hR one_pos hGp hC1 hδ1).2,
+    tendsto_atTop_add_const_right _ c₀ hlim⟩
+  · obtain ⟨L, hL, h⟩ := hδG p hp0
+    exact ⟨L, hL, (by positivity : (0 : ℝ) < 1 / p.1 ^ 2).trans_le h⟩
+  · have := hpos' p hp0 hpR
+    simp only [G]; linarith
+
+/-- **The rim circle** `θ ↦ τ_Σ(R e^{iθ})` of a graph function `τ_Σ : ℂ → ℝ` over the disc. -/
+noncomputable def rimFun (τS : ℂ → ℝ) (R θ : ℝ) : ℝ :=
+  τS ((R : ℂ) * Complex.exp ((θ : ℂ) * Complex.I))
+
+theorem rimFun_periodic (τS : ℂ → ℝ) (R : ℝ) : Periodic (rimFun τS R) (2 * π) := fun θ => by
+  simp only [rimFun]
+  congr 1
+  push_cast
+  rw [add_mul, Complex.exp_add, Complex.exp_two_pi_mul_I, mul_one]
+
+theorem norm_rimPoint {R : ℝ} (hR : 0 ≤ R) (θ : ℝ) :
+    ‖(R : ℂ) * Complex.exp ((θ : ℂ) * Complex.I)‖ = R := by
+  rw [norm_mul, Complex.norm_exp_ofReal_mul_I, mul_one, Complex.norm_real, Real.norm_of_nonneg hR]
+
+/-- On the rim `r = R`, the angle-free value of a graph whose rim is `rimFun τS R` is `τ_Σ`. -/
+theorem rim_value {G : ℝ × ℝ → ℝ} {τS : ℂ → ℝ} {R : ℝ} (hrim : ∀ θ, G (R, θ) = rimFun τS R θ)
+    {x : E0} (hx : rad x = R) : G (rad x, Complex.arg x.2) = τS x.2 := by
+  rw [hx, hrim, rimFun, ← hx]
+  congr 1
+  exact Complex.norm_mul_exp_arg_mul_I x.2
+
+/-- **`C = C*`** (B21 Cor 2.11's hypothesis, l.910): on the rim `r = R`, the graph `Σ*` of `G`
+and the graph `τ = τ_Σ` coincide. -/
+theorem mem_graphSet_iff_of_rim {G : ℝ × ℝ → ℝ} {τS : ℂ → ℝ} {R : ℝ} (hR : 0 < R)
+    (hrim : ∀ θ, G (R, θ) = rimFun τS R θ) {x : E0} (hx : rad x = R) :
+    x ∈ graphSet G R ↔ x.1 = τS x.2 := by
+  have h := rim_value hrim hx
+  rw [hx] at h
+  simp only [graphSet, mem_setOf_eq, height, heightAt, hx, hR, le_refl, true_and, sub_eq_zero, h]
+
+
+/-! ### §5c Spacelike Lipschitz is a local property -/
+
+section Local
+
+variable {X : Type*} [TopologicalSpace X] [ChartedSpace (Causal.Minkowski 2) X]
+
+/-- **`IsSpacelikeLipschitz` at one point** (the body of `Causal.Flat.IsSpacelikeLipschitz`). -/
+def IsSpacelikeLipschitzAt (T : Set X) (x : X) : Prop :=
+  ∃ V : TopologicalSpace.Opens (Causal.Minkowski 2), chartAt (Causal.Minkowski 2) x x ∈ V ∧
+    (V : Set (Causal.Minkowski 2)) ⊆ (chartAt (Causal.Minkowski 2) x).target ∧
+    Causal.Flat.IsSpacelikeLipschitzIn V
+      ((chartAt (Causal.Minkowski 2) x) '' (T ∩ (chartAt (Causal.Minkowski 2) x).source) ∩
+        (V : Set (Causal.Minkowski 2)))
+
+theorem isSpacelikeLipschitz_iff_at {T : Set X} :
+    Causal.Flat.IsSpacelikeLipschitz 2 T ↔ ∀ x ∈ T, IsSpacelikeLipschitzAt T x := Iff.rfl
+
+/-- **Locality**: if `T` agrees with `T'` near `x` and `T'` is spacelike Lipschitz at `x`, so is
+`T`. -/
+theorem IsSpacelikeLipschitzAt.congr {T T' : Set X} {x : X} (h : IsSpacelikeLipschitzAt T' x)
+    {O : Set X} (hO : IsOpen O) (hxO : x ∈ O) (hTO : T ∩ O = T' ∩ O) :
+    IsSpacelikeLipschitzAt T x := by
+  obtain ⟨V₀, hxV₀, hV₀t, hL⟩ := h
+  set e := chartAt (Causal.Minkowski 2) x
+  let V₁ : TopologicalSpace.Opens (Causal.Minkowski 2) :=
+    ⟨e.target ∩ e.symm ⁻¹' O, e.isOpen_inter_preimage_symm hO⟩
+  have hxs : x ∈ e.source := mem_chart_source _ _
+  refine ⟨V₀ ⊓ V₁, ⟨hxV₀, e.map_source hxs, by
+    show e.symm (e x) ∈ O; rw [e.left_inv hxs]; exact hxO⟩,
+    fun z hz => hz.2.1, ?_⟩
+  have hR := hL.restrict (V' := V₀ ⊓ V₁) inf_le_left
+  convert hR using 1
+  ext z
+  simp only [TopologicalSpace.Opens.coe_inf, mem_inter_iff, mem_image]
+  constructor
+  · rintro ⟨⟨y, ⟨hyT, hys⟩, rfl⟩, hzV₀, hzV₁⟩
+    have hyO : y ∈ O := by
+      have h := hzV₁.2
+      rwa [mem_preimage, e.left_inv hys] at h
+    have hyT' : y ∈ T' := ((Set.ext_iff.1 hTO y).1 ⟨hyT, hyO⟩).1
+    exact ⟨⟨⟨y, ⟨hyT', hys⟩, rfl⟩, hzV₀⟩, hzV₀, hzV₁⟩
+  · rintro ⟨⟨⟨y, ⟨hyT', hys⟩, rfl⟩, -⟩, hzV₀, hzV₁⟩
+    have hyO : y ∈ O := by
+      have h := hzV₁.2
+      rwa [mem_preimage, e.left_inv hys] at h
+    have hyT : y ∈ T := ((Set.ext_iff.1 hTO y).2 ⟨hyT', hyO⟩).1
+    exact ⟨⟨y, ⟨hyT, hys⟩, rfl⟩, hzV₀, hzV₁⟩
+
+end Local
+
+/-! ### §5b The data of the surgery -/
+
+section SurgeryData
 
 variable (M : Type) [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M]
   [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid]
 
-/-- **`Reg M` is Cauchy-complete** (B21 Prop 2.17's first assertion, l.1078–1081, proof l.1089–1093,
-through Lemmas 2.3, 2.4, 2.6(ii), 2.8, 2.10/2.11): for `M` a globally hyperbolic, Cauchy-compact, Cauchy-maximal
-`𝔼₀`-manifold, the surgery `Σ*` of a compact Cauchy surface `Σ` along spears around its finitely
-many BTZ lines is a Cauchy surface of `Reg M`, spacelike Lipschitz, with complete induced length
-(`Causal.Flat.IsCauchyComplete`, DEC-31). -/
+/-- The point of `M` under a point of `Reg M` (the carrier of `e0RegMFlat M` is `E0LM.e0RegM M`). -/
+def regVal (y : e0RegMFlat M) : M := (show E0LM.e0RegM M from y).1
+
+/-- A subset of `M`, read in `Reg M`. -/
+def regSet (S : Set M) : Set (e0RegMFlat M) := {y | regVal M y ∈ S}
+
+/-- **A `C¹` spacelike compact Cauchy surface of an `𝔼₀`-manifold** (B21 l.227's « Cauchy-compact »:
+« a smooth spacelike Cauchy-surface which is compact », read as what the surgery consumes): a
+compact Cauchy surface `S` of `M`, spacelike Lipschitz in the flat charts of `Reg M`, whose trace
+on the shaft of every spear chart meeting it along a graph `τ = τ_Σ(z)` over the closed disc, in
+the shaft (`τ_Σ > v + R/2` on `‖z‖ ≤ R`) and continuous there, is a `C¹` circle.
+
+The shaft and continuity antecedents of `rim` are the WP-43b round-2 repair (AUDIT-2, blocker):
+without the shaft condition `τ_Σ` was unconstrained wherever the spear misses `S` (raise the
+vertex above `sup τ_Σ`), so a discontinuous `τ_Σ` satisfied the antecedent and `rim` was
+contradictory. With it, `τ_Σ` is determined on the closed disc by `S`
+(`eqOn_closedBall_of_rim_antecedent`), so the rim circle is a property of `S` alone
+(`rimFun_eq_of_rim_antecedent`). -/
+structure IsE0C1SpacelikeCauchy (S : Set M) : Prop where
+  cauchy : (E0CBG.CE M).IsCauchySurface S
+  compact : IsCompact S
+  reg : Causal.Flat.IsSpacelikeLipschitz 2 (regSet M S)
+  rim : ∀ (R v : ℝ) (W : Set E0Y) (ψ : E0Y → M) (τS : ℂ → ℝ), 0 < R → IsOpen W →
+    E0Spear.spearY v R ⊆ W → E0Spear.IsE0Mor ψ W → InjOn ψ W →
+    ContinuousOn τS (Metric.closedBall 0 R) →
+    (∀ z : ℂ, ‖z‖ ≤ R → v + R / 2 < τS z) →
+    (∀ x ∈ E0Spear.spear v R, (ψ (paperInY x) ∈ S ↔ x.1 = τS x.2)) →
+    ContDiff ℝ 1 (rimFun τS R)
+
+omit [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M]
+  [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid] in
+/-- **Well-posedness of `IsE0C1SpacelikeCauchy.rim`** (the round-2 repair): two graph functions
+of the trace of `S` on a spear, one of them in the shaft, agree on the closed disc. -/
+theorem eqOn_closedBall_of_rim_antecedent {S : Set M} {R v : ℝ} {ψ : E0Y → M} {τS τS' : ℂ → ℝ}
+    (h : ∀ x ∈ E0Spear.spear v R, (ψ (paperInY x) ∈ S ↔ x.1 = τS x.2))
+    (h' : ∀ x ∈ E0Spear.spear v R, (ψ (paperInY x) ∈ S ↔ x.1 = τS' x.2))
+    (hs' : ∀ z : ℂ, ‖z‖ ≤ R → v + R / 2 < τS' z) {z : ℂ} (hz : ‖z‖ ≤ R) : τS z = τS' z := by
+  have hx : ((τS' z, z) : E0) ∈ E0Spear.spear v R := by
+    refine ⟨?_, hz⟩
+    have := hs' z hz
+    simp only [fcoord, rad]
+    linarith
+  exact ((h _ hx).1 ((h' _ hx).2 rfl)).symm
+
+omit [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M]
+  [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid] in
+/-- Under `rim`'s antecedents the rim circle depends on `S` only. -/
+theorem rimFun_eq_of_rim_antecedent {S : Set M} {R v : ℝ} {ψ : E0Y → M} {τS τS' : ℂ → ℝ}
+    (hR : 0 ≤ R)
+    (h : ∀ x ∈ E0Spear.spear v R, (ψ (paperInY x) ∈ S ↔ x.1 = τS x.2))
+    (h' : ∀ x ∈ E0Spear.spear v R, (ψ (paperInY x) ∈ S ↔ x.1 = τS' x.2))
+    (hs' : ∀ z : ℂ, ‖z‖ ≤ R → v + R / 2 < τS' z) : rimFun τS R = rimFun τS' R := by
+  funext θ
+  exact eqOn_closedBall_of_rim_antecedent M h h' hs' (norm_rimPoint hR θ).le
+
+/-- **One spear of the surgery** (B21 Prop 2.17's proof, l.1090): a spear chart `ψ` of vertex
+`p ∈ sing₀(M) ∩ I⁻(S)` (Lemmas 2.3, 2.4), meeting `S` exactly along the graph of `τ_Σ` over the
+closed disc, in the shaft, and the complete spacelike graph `G` of Lemma 2.6(ii) over the blunt
+spear with the same rim. -/
+structure SpearSurgeryDatum (S : Set M) where
+  p : M
+  R : ℝ
+  v : ℝ
+  W : Set E0Y
+  ψ : E0Y → M
+  τS : ℂ → ℝ
+  G : ℝ × ℝ → ℝ
+  p_mem : p ∈ E0CBG.S0 M
+  p_past : p ∈ (E0CBG.CE M).Iminus ⊤ S
+  pos : 0 < R
+  isOpen : IsOpen W
+  spear_sub : E0Spear.spearY v R ⊆ W
+  mor : E0Spear.IsE0Mor ψ W
+  inj : InjOn ψ W
+  vertex : ψ (E0Spear.yVertex v) = p
+  continuousOn : ContinuousOn τS (Metric.closedBall 0 R)
+  shaft : ∀ z : ℂ, ‖z‖ ≤ R → v + R / 2 < τS z
+  graph : ∀ x ∈ E0Spear.spear v R, (ψ (paperInY x) ∈ S ↔ x.1 = τS x.2)
+  rim : ∀ θ, G (R, θ) = rimFun τS R θ
+  spacelike : IsSpacelikeGraph G R
+  above : ∀ q : ℝ × ℝ, 0 < q.1 → q.1 ≤ R → v + R / 2 < G q
+  smooth : ContDiffOn ℝ 1 G {q | 0 < q.1}
+  complete : CompleteSpace (Causal.Flat.PulledLength (graphDev G R))
+  lim : Tendsto G (comap Prod.fst (𝓝[>] 0)) atTop
+
+variable {M}
+
+namespace SpearSurgeryDatum
+
+variable {S : Set M} (D : SpearSurgeryDatum M S)
+
+/-- The spear `𝒮_Δ = ψ(spear)` in `M`. -/
+def spearSet : Set M := D.ψ '' E0Spear.spearY D.v D.R
+
+/-- The cusp `Σ*_Δ = ψ(graph of G)` in `M`. -/
+def cusp : Set M := D.ψ '' (paperInY '' graphSet D.G D.R)
+
+/-- The coordinates `x ∈ spear` of a point `ψ(x)` of the spear. -/
+noncomputable def coord (y : M) : E0 :=
+  Function.invFunOn (fun x : E0 => D.ψ (paperInY x)) (E0Spear.spear D.v D.R) y
+
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
+theorem graphSet_subset_spear : graphSet D.G D.R ⊆ E0Spear.spear D.v D.R := by
+  intro x hx
+  obtain ⟨h0, hR, hh⟩ := hx
+  have h1 : x.1 = D.G (rad x, Complex.arg x.2) := by
+    simp only [height, heightAt] at hh; linarith
+  have h2 := D.above (rad x, Complex.arg x.2) h0 hR
+  refine ⟨?_, hR⟩
+  simp only [fcoord]
+  rw [h1]; linarith
+
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
+theorem cusp_subset_spearSet : D.cusp ⊆ D.spearSet := by
+  rintro _ ⟨_, ⟨x, hx, rfl⟩, rfl⟩
+  exact ⟨paperInY x, ⟨x, D.graphSet_subset_spear hx, rfl⟩, rfl⟩
+
+theorem paperInY_mem_e0SingY_iff (x : E0) : paperInY x ∈ e0SingY 0 ↔ rad x = 0 := by
+  rw [paperInY_apply, E0LM.inr_mem_e0SingY_zero_iff, Homeomorph.apply_symm_apply]
+  show x.2 = 0 ↔ ‖x.2‖ = 0
+  rw [norm_eq_zero]
+
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
+/-- A point `ψ(x)` of the spear is BTZ iff `x` is on the axis (morphisms preserve the type). -/
+theorem mem_S0_iff {x : E0} (hx : x ∈ E0Spear.spear D.v D.R) :
+    D.ψ (paperInY x) ∈ E0CBG.S0 M ↔ rad x = 0 := by
+  rw [← paperInY_mem_e0SingY_iff,
+    ← Causal.CBG.mem_chartedSing_iff_of_liftPropOn e0_sing_mem D.isOpen D.mor
+      (D.spear_sub ⟨x, hx, rfl⟩) le_rfl]
+  show chartAt E0Y (paperInY x) (paperInY x) ∈ e0SingY 0 ↔ _
+  rw [chartAt_self_eq]
+  rfl
+
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
+/-- **The cusp lies in `Reg M`.** -/
+theorem cusp_inter_S0 : D.cusp ∩ E0CBG.S0 M = ∅ := by
+  refine eq_empty_of_forall_notMem ?_
+  rintro _ ⟨⟨_, ⟨x, hx, rfl⟩, rfl⟩, hS⟩
+  have := (D.mem_S0_iff (D.graphSet_subset_spear hx)).1 hS
+  exact absurd hx.1 (by rw [this]; exact lt_irrefl 0)
+
+/-- **The K-3 hypotheses of Lemma 2.10 for an arc of the blunt spear of `D`** (what Remark 2.12
+asserts of the components of an inextensible causal curve of `Reg M` in a spear): `c` over an
+interval `J`, continuous, `≼`-increasing, in `0 < r ≤ R`; past end below `Σ*` (e.g. on the head)
+or at the axis; future end `τ → +∞` or a last point on the shaft. -/
+def IsSpearArc (c : ℝ → E0) (J : Set ℝ) : Prop :=
+  J.OrdConnected ∧ ContinuousOn c J ∧ (∀ s ∈ J, ∀ t ∈ J, s ≤ t → Le (c s) (c t)) ∧
+    (∀ s ∈ J, 0 < rad (c s) ∧ rad (c s) ≤ D.R) ∧
+    ((∃ t ∈ J, height D.G (c t) < 0) ∨ ∀ ε > 0, ∃ t ∈ J, rad (c t) < ε) ∧
+    ((∀ M : ℝ, ∃ t ∈ J, M ≤ (c t).1) ∨ ∃ b ∈ J, (∀ t ∈ J, t ≤ b) ∧ rad (c b) = D.R)
+
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
+open Classical in
+/-- **Lemma 2.10 on a spear arc**: a spear arc meets the cusp `Σ*_Δ` once if its future end is
+`+∞` or in `J⁺(C*)`, and not at all otherwise (`lem_intersect_number_complete`). -/
+theorem IsSpearArc.ncard {c : ℝ → E0} {J : Set ℝ} (h : D.IsSpearArc c J) :
+    (c '' J ∩ graphSet D.G D.R).ncard =
+      if (∀ M : ℝ, ∃ t ∈ J, M ≤ (c t).1) ∨
+          ∃ b ∈ J, (∀ t ∈ J, t ≤ b) ∧ ∃ y ∈ graphSet D.G D.R, rad y = D.R ∧ Le y (c b)
+        then 1 else 0 :=
+  lem_intersect_number_complete D.spacelike D.pos D.lim h.1 h.2.1 h.2.2.1 h.2.2.2.1 h.2.2.2.2.1
+    h.2.2.2.2.2
+
+end SpearSurgeryDatum
+
+/-- **One spear of the surgery exists at every BTZ point in the past of `S`** (B21 Prop 2.17's
+proof, l.1090: « Lemma 2.3 … Lemma 2.4 … and finally the point (ii) of Lemma 2.6 »): Lemma 2.3
+(`E0Spear.lem_tube`) and Lemma 2.4 (`E0Spear.lem_add_BTZ_param_of_cauchyMaximal`), with their CBG
+inputs `hLine`/`hSC` discharged by `E0LM.e0_globalBTZ` ((O2)) and
+`E0LM.e0_secondCountable_of_cauchy` ((O4′)), give a spear chart of vertex `p` meeting `S` along
+the graph of `τ_Σ` in the shaft; its rim is `C¹` (`IsE0C1SpacelikeCauchy.rim`), and Lemma 2.6(ii)
+(`lem_curve_extension_ii_shift`, with Lemma 2.8(1)) extends it to a complete spacelike graph. -/
+theorem exists_spearSurgeryDatum (hGH : (E0CBG.CE M).GloballyHyperbolic) {S : Set M}
+    (hS : IsE0C1SpacelikeCauchy M S) (hmax : E0Spear.IsE0CauchyMaximal M) {p : M}
+    (hp : p ∈ E0CBG.S0 M) (hpS : p ∈ (E0CBG.CE M).Iminus ⊤ S) :
+    ∃ D : SpearSurgeryDatum M S, D.p = p := by
+  obtain ⟨R, v, W, ψ, hR, hW, hsub, hψ, hinj, hpv, τS, h0, h1, h2⟩ :=
+    E0Spear.lem_add_BTZ_param_of_cauchyMaximal E0LM.e0_globalBTZ
+      (fun {_} _ _ _ _ _ => E0LM.e0_secondCountable_of_cauchy) hGH hS.cauchy hmax hp hpS
+  have hC1 := hS.rim R v W ψ τS hR hW hsub hψ hinj h0 h1 h2
+  obtain ⟨G, hrim, hsl, habove, hC, hcomp, hlim⟩ :=
+    lem_curve_extension_ii_shift (n := 1) le_rfl hC1 (rimFun_periodic τS R) (c₀ := v + R / 2)
+      (fun θ => h1 _ (norm_rimPoint hR.le θ).le) hR
+  exact ⟨⟨p, R, v, W, ψ, τS, G, hp, hpS, hR, hW, hsub, hψ, hinj, hpv, h0, h1, h2, hrim, hsl,
+    habove, hC, hcomp, hlim⟩, rfl⟩
+
+
+omit [SecondCountableTopology M] in
+/-- **A spear of the surgery can be thinned** (the tool of B21's « one can take the spear
+neighbourhoods disjoint », l.1091): for every `0 < R' ≤ R` the same chart, restricted to the spear
+of radius `R'`, carries a datum (the rim at `R'` is again `C¹`, and Lemma 2.6(ii) is re-applied). -/
+theorem SpearSurgeryDatum.exists_shrink {S : Set M} (hS : IsE0C1SpacelikeCauchy M S)
+    (D : SpearSurgeryDatum M S) {R' : ℝ} (hR' : 0 < R') (hle : R' ≤ D.R) :
+    ∃ D' : SpearSurgeryDatum M S, D'.p = D.p ∧ D'.ψ = D.ψ ∧ D'.v = D.v ∧ D'.R = R' := by
+  have hsub : E0Spear.spear D.v R' ⊆ E0Spear.spear D.v D.R :=
+    E0Spear.spear_mono le_rfl hle
+  have hsubY : E0Spear.spearY D.v R' ⊆ D.W :=
+    (image_mono hsub).trans D.spear_sub
+  have hgraph : ∀ x ∈ E0Spear.spear D.v R', (D.ψ (paperInY x) ∈ S ↔ x.1 = D.τS x.2) :=
+    fun x hx => D.graph x (hsub hx)
+  have hshaft : ∀ z : ℂ, ‖z‖ ≤ R' → D.v + R' / 2 < D.τS z := fun z hz => by
+    have := D.shaft z (hz.trans hle); linarith
+  have hC1 := hS.rim R' D.v D.W D.ψ D.τS hR' D.isOpen hsubY D.mor D.inj
+    (D.continuousOn.mono (Metric.closedBall_subset_closedBall hle)) hshaft hgraph
+  obtain ⟨G, hrim, hsl, habove, hC, hcomp, hlim⟩ :=
+    lem_curve_extension_ii_shift (n := 1) le_rfl hC1 (rimFun_periodic D.τS R')
+      (c₀ := D.v + R' / 2) (fun θ => hshaft _ (norm_rimPoint hR'.le θ).le) hR'
+  exact ⟨⟨D.p, R', D.v, D.W, D.ψ, D.τS, G, D.p_mem, D.p_past, hR', D.isOpen, hsubY, D.mor, D.inj,
+    D.vertex, D.continuousOn.mono (Metric.closedBall_subset_closedBall hle), hshaft, hgraph, hrim,
+    hsl, habove, hC, hcomp, hlim⟩, rfl, rfl, rfl, rfl⟩
+
+variable (M) in
+/-- **The data of the surgery** (B21 Prop 2.17's proof, l.1091): finitely many spears, one
+around each BTZ line, pairwise disjoint, closed (B21 Def 2.1: the boundary of a spear
+neighbourhood is its head and its shaft), covering `S ∩ sing₀(M)`. -/
+structure SurgeryData (S : Set M) where
+  ι : Type
+  finite : Finite ι
+  D : ι → SpearSurgeryDatum M S
+  disjoint : Pairwise fun i j => Disjoint (D i).spearSet (D j).spearSet
+  isClosed : ∀ i, IsClosed (D i).spearSet
+  covers : S ∩ E0CBG.S0 M ⊆ ⋃ i, (D i).spearSet
+
+namespace SurgeryData
+
+variable {S : Set M} (Dat : SurgeryData M S)
+
+/-- **The surgery `Σ*`** (B21 l.1091): « equal to `Σ` outside the spear neighbourhoods and
+equal to the graph obtained by the point (ii) of Lemma 2.6 inside each ». -/
+def sigmaStar : Set M := (S \ ⋃ i, (Dat.D i).spearSet) ∪ ⋃ i, (Dat.D i).cusp
+
+/-- `Σ*` read in `Reg M`. -/
+def sigmaStarReg : Set (e0RegMFlat M) := regSet M Dat.sigmaStar
+
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
+/-- `Σ*` is `Σ` outside the spears. -/
+theorem sigmaStar_diff : Dat.sigmaStar \ ⋃ i, (Dat.D i).spearSet = S \ ⋃ i, (Dat.D i).spearSet := by
+  ext y
+  simp only [sigmaStar, Set.mem_sdiff, mem_union, mem_iUnion]
+  constructor
+  · rintro ⟨h | ⟨i, hi⟩, hn⟩
+    · exact h
+    · exact absurd ⟨i, (Dat.D i).cusp_subset_spearSet hi⟩ hn
+  · rintro ⟨h, hn⟩
+    exact ⟨Or.inl ⟨h, hn⟩, hn⟩
+
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
+/-- `Σ*` is the cusp inside each spear. -/
+theorem sigmaStar_inter_spearSet (i : Dat.ι) :
+    Dat.sigmaStar ∩ (Dat.D i).spearSet = (Dat.D i).cusp := by
+  ext y
+  simp only [sigmaStar, mem_inter_iff, mem_union, Set.mem_sdiff, mem_iUnion]
+  constructor
+  · rintro ⟨⟨-, hn⟩ | ⟨j, hj⟩, hi⟩
+    · exact absurd ⟨i, hi⟩ hn
+    · rcases eq_or_ne j i with rfl | hji
+      · exact hj
+      · exact absurd hi (Set.disjoint_left.1 (Dat.disjoint hji) ((Dat.D j).cusp_subset_spearSet hj))
+  · intro hy
+    exact ⟨Or.inr ⟨i, hy⟩, (Dat.D i).cusp_subset_spearSet hy⟩
+
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] in
+/-- **`Σ*` lies in `Reg M`.** -/
+theorem sigmaStar_subset_regM : Dat.sigmaStar ⊆ (E0LM.e0RegM M : Set M) := by
+  intro y hy hS0
+  rcases hy with ⟨hyS, hn⟩ | hy
+  · exact hn (Dat.covers ⟨hyS, hS0⟩)
+  · obtain ⟨i, hi⟩ := mem_iUnion.1 hy
+    have := (Dat.D i).cusp_inter_S0
+    exact (Set.eq_empty_iff_forall_notMem.1 this) y ⟨hi, hS0⟩
+
+end SurgeryData
+
+
+/-! ### §5d The global part of the surgery, one obstruction per declaration -/
+
+/-- **(G1) The surgery data exist** (B21 l.1091: « Since `M` is Cauchy-compact, it admits
+finitely many BTZ-lines and one can take the spear neighborhoods `𝒮_Δ` disjoint »). Each spear is
+`exists_spearSurgeryDatum` (proved, through Lemmas 2.3/2.4 upstream) and can be thinned
+(`SpearSurgeryDatum.exists_shrink`, proved). -/
+theorem exists_surgeryData (hGH : (E0CBG.CE M).GloballyHyperbolic) {S : Set M}
+    (hS : IsE0C1SpacelikeCauchy M S) (hmax : E0Spear.IsE0CauchyMaximal M) :
+    Nonempty (SurgeryData M S) := by
+  sorry -- SORRY(prop:abs_max): (G1) the finite disjoint family of spears; three steps are unbuilt. (i) FINITENESS: S ∩ sing₀(M) is compact (sing₀ closed) and must be shown discrete, i.e. each BTZ point has a neighbourhood meeting sing₀ in one arc of its line which meets the acausal S once (the local structure of sing₀ in a chart is the axis, Rigid/LocalModel, but its transversality to S is not stated anywhere). (ii) VERTICES: for each q ∈ S ∩ sing₀ a point p of q's BTZ line in I⁻(S) (the line below q is in J⁻(q); that its points are in I⁻(S), the hypothesis of Lemma 2.4, is not proved). (iii) DISJOINT AND CLOSED SPEARS: B21 asserts both without proof; thinning (exists_shrink) separates the compact parts ψ({τ ≤ T} ∩ spear), but the spears are non-compact (rays to +∞), and neither the uniform separation along the two rays nor the closedness of ψ(spear) in M (B21 Def 2.1: frontier = head ∪ shaft) is built
+
+/-- **(G2) Remark 2.12** (`rem:curve_spear`, B21 l.913–915): the component through `t₀` of the
+trace of an inextensible causal curve of `Reg M` on a spear of the surgery is, in the spear's
+coordinates, a spear arc (the K-3 hypotheses of Lemma 2.10). -/
+theorem rem_curve_spear (hGH : (E0CBG.CE M).GloballyHyperbolic) {S : Set M}
+    (hS : IsE0C1SpacelikeCauchy M S) (Dat : SurgeryData M S) {I : Set ℝ}
+    {c : ℝ → e0RegMFlat M}
+    (hc : (Causal.Flat.flatCausality 2 (e0RegMFlat M)).Inextensible ⊤ I c) (i : Dat.ι) {t₀ : ℝ}
+    (ht₀ : t₀ ∈ I) (hin : regVal M (c t₀) ∈ (Dat.D i).spearSet) :
+    (Dat.D i).IsSpearArc (fun t => (Dat.D i).coord (regVal M (c t)))
+      (connectedComponentIn {t ∈ I | regVal M (c t) ∈ (Dat.D i).spearSet} t₀) := by
+  sorry -- SORRY(prop:abs_max): (G2) Remark 2.12 needs the relative curve theory of a spear of M, absent: (i) coordinates — ψ is an injective E0-morphism on the open W, hence an open embedding there, so coord ∘ c is continuous and ≼-increasing on the component (causal curves of Reg M are causal curves of M through flatCausality_e0RegM_eq / the inclusion, then read in the chart: le_of_isE0Mor); (ii) past end — at the first point of the component the chart point is on the head (r non-decreasing along future curves, rad_le_of_le), where height < 0; if the component is open at the left, the curve is past-inextensible inside the compact {v ≤ τ ≤ τ(c t), r ≤ R} and either tends to the axis or converges in Reg M, against inextensibility (no limit-extension lemma for flatCausality curves of Reg M is stated); (iii) future end — symmetric, on the shaft r = R (ψ(spear) closed, SurgeryData.isClosed) or τ unbounded. Spear's isCauchySurface_glued (ii) has the same gap
+
+/-- **(G3) `Σ*` is a Cauchy surface of `Reg M`, modulo Remark 2.12** (B21 l.1093: « by
+Remark 2.12 and Corollary 2.11 applied in each spear neighborhood, a Cauchy-surface of `M*` »). -/
+theorem SurgeryData.isCauchySurface_sigmaStar (hGH : (E0CBG.CE M).GloballyHyperbolic) {S : Set M}
+    (hS : IsE0C1SpacelikeCauchy M S) (Dat : SurgeryData M S)
+    (hrem : ∀ (I : Set ℝ) (c : ℝ → e0RegMFlat M),
+      (Causal.Flat.flatCausality 2 (e0RegMFlat M)).Inextensible ⊤ I c → ∀ (i : Dat.ι) (t₀ : ℝ),
+      t₀ ∈ I → regVal M (c t₀) ∈ (Dat.D i).spearSet →
+      (Dat.D i).IsSpearArc (fun t => (Dat.D i).coord (regVal M (c t)))
+        (connectedComponentIn {t ∈ I | regVal M (c t) ∈ (Dat.D i).spearSet} t₀)) :
+    (Causal.Flat.flatCausality 2 (e0RegMFlat M)).IsCauchySurface Dat.sigmaStarReg := by
+  sorry -- SORRY(prop:abs_max): (G3) the counting argument, with Remark 2.12 (hrem) and Lemma 2.10 (SpearSurgeryDatum.IsSpearArc.ncard) given. Unbuilt: (i) TRANSFER — an inextensible causal curve c of Reg M is a causal curve of M (flatCausality_e0RegM_eq, AbsMax) which may be extensible in M only at ends in sing₀; its extension c̄ (E0LM.e0_curvesExtend) meets S exactly once (hS.cauchy); (ii) DECOMPOSITION — c(I) ∩ Σ* splits as c(I) ∩ (S ∖ spears) (sigmaStar_diff) plus, for each spear and each component J, c(J) ∩ cusp (sigmaStar_inter_spearSet); finiteness of the components meeting a spear needs ψ(spear) closed and r monotone (a curve leaving through the shaft does not re-enter in the chart, but may re-enter ψ(spear) after leaving ψ(W): not excluded); (iii) MATCHING — on each component, |c(J) ∩ Σ*_Δ| = |c̄(J̄) ∩ S| by Cor 2.11, which needs S ∩ spear (graph of the continuous τ_Σ, SpearSurgeryDatum.graph) to be an IsSpacelikeDiscGraph; from the acausality of S one gets height_lt only along ≼ of 𝔼₀ inside ψ(W), and the identification of the two orders (le_of_isE0Mor in one direction) and the continuity of the height of τ_Σ across the axis are not stated
+
+/-- **(G4a) `Σ*` is spacelike Lipschitz at the points of the cusps** (Lemma 2.7, read in the flat
+charts of `Reg M`). -/
+theorem SurgeryData.isSpacelikeLipschitzAt_cusp {S : Set M} (hS : IsE0C1SpacelikeCauchy M S)
+    (Dat : SurgeryData M S) (i : Dat.ι) {y : e0RegMFlat M}
+    (hy : regVal M y ∈ (Dat.D i).cusp) : IsSpacelikeLipschitzAt Dat.sigmaStarReg y := by
+  sorry -- SORRY(prop:abs_max): (G4a) at y = ψ(x), x ∈ graphSet G R. (i) INTERIOR, r(x) < R: near y, Σ* is the cusp (sigmaStar_inter_spearSet, the open ψ(paperInY '' {fcoord > v, r < R})); Lemma 2.7 (lem_surface_causal / lem_surface_complete_one (1)) gives a C¹ immersion graphMap G with positive-definite pullback of btzPaperDev, and the flat chart of Reg M at y is btzPaperDev ∘ ψ⁻¹ up to Isom(𝐌³) (E0.chartIso_e0Atlas, regChart_subtypeRestr_eq) — the step « C¹ spacelike immersion ⇒ locally a Lipschitz graph of slope < 1 in a frame » (implicit function theorem, IsSpacelikeLipschitzIn.locGraph) is not in lean-gx or lean-causal; (ii) RIM, r(x) = R: Σ* is S outside and the cusp inside, a corner along the C¹ circle C = C* (mem_graphSet_iff_of_rim); both pieces are spacelike, and the union is spacelike Lipschitz by the cone-increasing zero-set criterion (Causal.Flat.Cla.isSpacelikeLipschitz_of_locally_coneIncreasing, applied to max/min of the two height functions) — the two height functions in one flat chart are not built
+
+/-- **(G4) `Σ*` is spacelike Lipschitz** in the flat charts of `Reg M`: outside the (closed)
+spears it is `S` near the point (`IsSpacelikeLipschitzAt.congr`, `sigmaStar_diff`); inside a
+spear it is the cusp (`isSpacelikeLipschitzAt_cusp`). -/
+theorem SurgeryData.isSpacelikeLipschitz_sigmaStar {S : Set M} (hS : IsE0C1SpacelikeCauchy M S)
+    (Dat : SurgeryData M S) : Causal.Flat.IsSpacelikeLipschitz 2 Dat.sigmaStarReg := by
+  intro y hy
+  by_cases hin : regVal M y ∈ ⋃ i, (Dat.D i).spearSet
+  · obtain ⟨i, hi⟩ := mem_iUnion.1 hin
+    have hc : regVal M y ∈ (Dat.D i).cusp := by
+      rw [← Dat.sigmaStar_inter_spearSet i]; exact ⟨hy, hi⟩
+    exact Dat.isSpacelikeLipschitzAt_cusp hS i hc
+  · have hcl : IsClosed (⋃ i, (Dat.D i).spearSet) := by
+      haveI := Dat.finite
+      exact isClosed_iUnion_of_finite Dat.isClosed
+    set O : Set (e0RegMFlat M) := regSet M (⋃ i, (Dat.D i).spearSet)ᶜ
+    have hO : IsOpen O := hcl.isOpen_compl.preimage continuous_subtype_val
+    have hyS : y ∈ regSet M S := by
+      have h : regVal M y ∈ Dat.sigmaStar \ ⋃ i, (Dat.D i).spearSet := ⟨hy, hin⟩
+      rw [Dat.sigmaStar_diff] at h
+      exact h.1
+    refine IsSpacelikeLipschitzAt.congr (hS.reg y hyS) hO hin ?_
+    ext z
+    simp only [SurgeryData.sigmaStarReg, regSet, O, mem_inter_iff, mem_setOf_eq]
+    constructor
+    · rintro ⟨hz, hzO⟩
+      have h : regVal M z ∈ Dat.sigmaStar \ ⋃ i, (Dat.D i).spearSet := ⟨hz, hzO⟩
+      rw [Dat.sigmaStar_diff] at h
+      exact ⟨h.1, hzO⟩
+    · rintro ⟨hz, hzO⟩
+      have h : regVal M z ∈ S \ ⋃ i, (Dat.D i).spearSet := ⟨hz, hzO⟩
+      rw [← Dat.sigmaStar_diff] at h
+      exact ⟨h.1, hzO⟩
+
+/-- **(G5) `Σ*` is complete for its induced length** (B21 l.1093: « The surface `Σ*` is
+metrically complete », no proof printed; DEC-31). -/
+theorem SurgeryData.completeSpace_sigmaStar {S : Set M} (hS : IsE0C1SpacelikeCauchy M S)
+    (Dat : SurgeryData M S) :
+    CompleteSpace (Causal.Flat.InducedLengthSpace 2 Dat.sigmaStarReg) := by
+  sorry -- SORRY(prop:abs_max): (G5) the gluing of completeness. Available: each cusp's development is complete over the strip (SpearSurgeryDatum.complete, Lemma 2.8(1)); the chart comparison of the glued length with chart lengths (Causal.Flat.Cla.edist_le_edist_chart, edist_chart_le_pathLength, localLength_chartSys_eq_lorentzLength); compact pieces are complete (Causal.Flat.Cla.completeSpace_inducedLengthSpace_of_isCompact). Unbuilt: (i) PATH LIFTING — a path of Σ* inside ψ(spear) lifts to the strip (0, R] × ℝ, the universal cover of the punctured disc, with the same length (the flat charts of Reg M there are btzPaperDev ∘ ψ⁻¹ up to Isom(𝐌³), locally), so that strip edist ≤ glued edist; (ii) the Cauchy-sequence argument: a Cauchy sequence of Σ* either has a subsequence in the compact part S ∖ ⋃ ψ(interior spears) ∪ rims (compact as S is), or eventually in one cusp, where (i) and the strip's completeness give a limit, and the limit is a point of Σ* (not on the axis, by the log r estimate of Lemma 2.8, log_le_edist)
+
+/-- **`Reg M` is Cauchy-complete, from a `C¹` spacelike compact Cauchy surface** (B21 Prop 2.17's
+first assertion with B21 l.227's « Cauchy-compact »): the composition of (G1)–(G5) and Remark
+2.12; the topology field of `IsCauchyComplete` is
+`Causal.Flat.Cla.continuous_inducedLengthSpace_toSubtype` (proved, from (G4)). -/
+theorem regM_isCauchyComplete_of_C1 (hGH : (E0CBG.CE M).GloballyHyperbolic) {S : Set M}
+    (hS : IsE0C1SpacelikeCauchy M S) (hmax : E0Spear.IsE0CauchyMaximal M) :
+    Causal.Flat.IsCauchyComplete 2 (e0RegMFlat M) := by
+  obtain ⟨Dat⟩ := exists_surgeryData hGH hS hmax
+  have hL := Dat.isSpacelikeLipschitz_sigmaStar hS
+  exact ⟨Dat.sigmaStarReg,
+    Dat.isCauchySurface_sigmaStar hGH hS fun _ _ hc i _ ht₀ hin => rem_curve_spear hGH hS Dat hc i ht₀ hin,
+    hL, Dat.completeSpace_sigmaStar hS, Causal.Flat.Cla.continuous_inducedLengthSpace_toSubtype hL⟩
+
+/-- **(G0) Smoothing** (B21 l.227, `sanchez_smooth` for Lorentzian manifolds, Bernard–Suhr for
+closed cone fields, B21 l.568–570): a globally hyperbolic `𝔼₀`-manifold with a compact Cauchy
+surface has a `C¹` spacelike compact one. -/
+theorem exists_isE0C1SpacelikeCauchy (hGH : (E0CBG.CE M).GloballyHyperbolic)
+    (hCC : ∃ S : Set M, (E0CBG.CE M).IsCauchySurface S ∧ IsCompact S) :
+    ∃ S : Set M, IsE0C1SpacelikeCauchy M S := by
+  sorry -- SORRY(prop:abs_max): (G0) a CITED theorem, not built in lean-gx or lean-causal: Bernal–Sánchez smoothing (B21 l.227) for 𝔼₀-manifolds, i.e. Bernard–Suhr for closed cone fields (B21 l.568–570), with the regularity read as IsE0C1SpacelikeCauchy (spacelike Lipschitz in the flat charts of Reg M, C¹ trace on every spear shaft). lean-causal's Causal.Flat.Cla.exists_isSpacelikeLipschitz_of_isCompact_cauchy (the cap envelope K ∖ I⁻(K)) does the flat, Lipschitz, Cauchy-compact case only: it applies neither across sing₀ nor with the C¹ rim Lemma 2.6(ii) needs, and Reg M is not Cauchy-compact
+
+variable (M) in
+/-- **`Reg M` is Cauchy-complete** (B21 Prop 2.17's first assertion, l.1078–1081, proof
+l.1088–1093, through Lemmas 2.3, 2.4, 2.6(ii), 2.8, 2.10/2.11 and Remark 2.12): for `M` a globally
+hyperbolic, Cauchy-compact, Cauchy-maximal `𝔼₀`-manifold, the surgery `Σ*` of a compact Cauchy
+surface along spears around its finitely many BTZ lines is a Cauchy surface of `Reg M`, spacelike
+Lipschitz, with complete induced length (`Causal.Flat.IsCauchyComplete`, DEC-31). The composition
+of (G0) smoothing and `regM_isCauchyComplete_of_C1` ((G1)–(G5), Remark 2.12); no `sorry` of its
+own. -/
 theorem regM_isCauchyComplete (hGH : (E0CBG.CE M).GloballyHyperbolic)
     (hCC : ∃ S : Set M, (E0CBG.CE M).IsCauchySurface S ∧ IsCompact S)
     (hmax : E0Spear.IsE0CauchyMaximal M) :
     Causal.Flat.IsCauchyComplete 2 (e0RegMFlat M) := by
-  sorry -- SORRY(prop:abs_max): the spear-local surgery is proved (spear_surgery_local: Lemma 2.6(ii) + 2.8(1) + 2.10, 0 sorry); what remains is global, and besides the UPSTREAM sorries (Lemma 2.3 = GXScaffold.BTZ.Spear's connectedSpace_W0 / isCauchySurfaceOn_W0 / globallyHyperbolic_glued / isCauchySurface_glued, Lemma 2.4's future case) it meets three GENUINE obstructions: (1) REGULARITY — Spear's lem_add_BTZ_param_line gives the rim datum τ_Σ only C⁰ (Σ is a topological Cauchy surface), while spear_surgery_local needs a C¹ rim (the δ-criterion of Lemma 2.8(1) is a derivative bound); B21 l.227 assumes a smooth spacelike Cauchy surface (Bernal–Sánchez), no smoothing theorem for E₀-manifolds exists in the library; (2) CURVES — Remark 2.12 (each component of an inextensible causal curve of Reg M meeting a blunt spear is an arc with past end in [p] and future end +∞ or on the rim, the hypotheses of lem_intersect_number_complete) needs the curve-extension theory of an open subset over an interval, absent from lean-causal (the same gap as Spear's isCauchySurface_glued item (ii)); (3) LENGTH — IsSpacelikeLipschitz 2 Σ* in Reg M's flat charts and completeness of Causal.Flat.InducedLengthSpace 2 Σ* glued from the strip's pulled length (lem_surface_complete_one) in each spear and compactness of Σ outside them: the chart comparison is only the density identity Causal.Flat.localDensity_chartSys_eq, the edist comparison on chart domains and the passage strip (universal cover) → Σ* ∩ spear are not in the library
+  obtain ⟨S, hS⟩ := exists_isE0C1SpacelikeCauchy hGH hCC
+  exact regM_isCauchyComplete_of_C1 hGH hS hmax
 
-end RegM
+end SurgeryData
 
 end E0Surgery
 

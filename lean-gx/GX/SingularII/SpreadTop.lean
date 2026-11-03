@@ -1,10 +1,10 @@
-import GXScaffold.SingularII.Models
+import GX.SingularII.Models
 
 /-!
 # Singular `(G,X)`-manifolds (II): the strong pull-back topology and the closing remarks of §2.5
 
 Packages WP-27k, WP-35g, WP-40d, WP-41q. `papers/gx`, `RamcovGX.tex:1984–2162`, on
-`GXScaffold.SingularII.Models` (which defines `GX.strongPullTop`).
+`GX.SingularII.Models` (which defines `GX.strongPullTop`).
 
 Certified here (each under the ruling named; no `sorry` in this file):
 
@@ -185,7 +185,7 @@ Certified here (each under the ruling named; no `sorry` in this file):
   `GX.not_isGreatest_strongPullTop_unrestricted`); these are kept as the record of the reading.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Builds on
-`GXScaffold.SingularII.Models`, `GX.SingularII.Tame`, `GX.SingularII.Unloopable`,
+`GX.SingularII.Models`, `GX.SingularII.Tame`, `GX.SingularII.Unloopable`,
 `GX.Singular.Quotient` (the massive particle, `𝔻_∞`), `GX.Branched.Universality`,
 `GX.Branched.Galois`, `GX.Branched.Basic`, `GX.Topology.Portly`.
 -/
@@ -2092,7 +2092,7 @@ theorem induced_offAxis_halfCutTop :
 
 
 /-- The printed statement of `lem:spread_top` (`RamcovGX.tex:1990`), as formalized (with a tagged
-`sorry`) by the former `GX.spread_top` of `GXScaffold.SingularII.Models` (removed by WP-35f). It
+`sorry`) by the former `GX.spread_top` of `GX.SingularII.Models` (removed by WP-35f). It
 is FALSE
 (`not_spreadTopPrinted`). -/
 def SpreadTopPrinted : Prop :=

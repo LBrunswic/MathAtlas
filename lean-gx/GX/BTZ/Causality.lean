@@ -1,5 +1,5 @@
-import GXScaffold.BTZ.Model
-import GXScaffold.BTZ.Rigid
+import GX.BTZ.Model
+import GX.BTZ.Rigid
 import Causal.ArcConnected
 import Causal.SingularFlat
 import Causal.Static
@@ -13,7 +13,7 @@ import Causal.GXSingular
 import Causal.Flat.IsomCausal
 
 /-!
-# `GXScaffold.BTZ.Causality` — the causality of `𝔼₀` and of `Y = 𝕄 ⊕ 𝔼₀`, from causal curves
+# `GX.BTZ.Causality` — the causality of `𝔼₀` and of `Y = 𝕄 ⊕ 𝔼₀`, from causal curves
 
 Package WP-41e (WAVE5-PLAN.md, WP-39e; round 2 after `AUDIT-2.json`: `chartIso_mem` closed). `papers/gx`,
 §4.2–4.3 (`RamcovGX.tex:2193–2246`, the orders of `𝐄^{1,2}` and "future causal or chronological
@@ -95,14 +95,14 @@ unmarked: `lem:manifolds_manifolds_causally_connected` (l.2329) for the model `�
   `GX.BTZE0` by `toPaper`; `btzE0Structure` is not used; Rigid's `e0SingY 0 = toPaperY ⁻¹' singY0`
   and the identification with Model's structure are WP-39f's assembly lemmas.
 * (b) `chartIso_mem` is proved for Rigid's `e0Groupoid` (this file imports
-  `GXScaffold.BTZ.Rigid`, round 2); it uses no rigidity (`localUnique_sing`): continuity, the
+  `GX.BTZ.Rigid`, round 2); it uses no rigidity (`localUnique_sing`): continuity, the
   axis-to-axis property of `G` and its regular charts suffice. `LocalModel`'s (O1) is this theorem.
 * (c) Massive cones `𝔼_α` (DEC-74) are not part of `Y` here.
 * (d) **Push-up in every open set** (`SingularFlatAxioms.pushUp`) and **`CausallyOpenFuture`**
   (`J⁺_U(V)` open for `V ⊆ U`, `U ≠ ⊤`) are not proved: both need a chain argument along a causal
   curve of `U` (local push-up off the axis through the sector charts, `Iplus_of_lt` read in `U` at
   the axis). Push-up holds globally (`Lt.trans_le`, `Le.trans_lt`); `CausallyOpenFuture` follows
-  from local push-up and local `Iplus_of_lt`. Local push-up is proved in `GXScaffold.BTZ.LocalModel`
+  from local push-up and local `Iplus_of_lt`. Local push-up is proved in `GX.BTZ.LocalModel`
   (`GX.E0LM.e0_pushUp`), which imports this file.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; lean-causal `731ed99`.
@@ -236,7 +236,7 @@ theorem isOpen_nullConeLt : IsOpen {V : ℝ × ℝ × ℝ | NullConeLt V} := by
 
 /-- **The null coordinates of the development of `x` with angle `θ`**: `btzPaperNull (τ, r, θ) =
 (2τ + rθ² − r, r, −rθ)`, i.e. `nullToMink.symm` of the paper's `D(τ, r, θ)` (`btzPaperDev`,
-`GXScaffold.BTZ.Model`). -/
+`GX.BTZ.Model`). -/
 noncomputable def lift (x : E0) (θ : ℝ) : ℝ × ℝ × ℝ := btzPaperNull (x.1, rad x, θ)
 
 /-- `θ` is an angle of `x`: `z = r e^{iθ}` (every `θ` on the axis). -/
@@ -3492,7 +3492,7 @@ theorem toPaper_apex (τ : ℝ) : toPaper (orbitMk (GammaA (2 * π)) (DInfty.ape
 /-- **The causality of Model's `𝔼₀`** (`GX.BTZE0`), through `toPaper`. -/
 noncomputable def causalityBTZE0 : Causal.Causality BTZE0 := transportCausality toPaper causality
 
-/-- **`Y = 𝕄 ⊕ BTZE0`** (the carrier of `GXScaffold.BTZ.Rigid`'s `E0Y`) and its homeomorphism
+/-- **`Y = 𝕄 ⊕ BTZE0`** (the carrier of `GX.BTZ.Rigid`'s `E0Y`) and its homeomorphism
 with `ModelY`. -/
 noncomputable def toPaperY : (Causal.Minkowski 2 ⊕ BTZE0) ≃ₜ ModelY :=
   Homeomorph.sumCongr (Homeomorph.refl _) toPaper

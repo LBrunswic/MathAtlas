@@ -1,0 +1,75 @@
+{
+ "package": "WP-43c",
+ "round": 1,
+ "auditor": "read-only auditor, round 1",
+ "file": "scaffold/GXScaffold/BTZ/AbsMax.lean",
+ "host": "node1",
+ "builds": true,
+ "build_command": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/AbsMax.lean: exit 0, 8.0 s wall, nothing in Causal.* or GX.* recompiled. Three warnings 'declaration uses sorry' at l.504, 771, 1840. The olean (03:38:58) is newer than the source (03:38:31), which fits the reported lake build. The auditor did not re-run lake build (read-only). Axiom sweep re-run: campaign/WP-43c/Axioms.lean, 86 #print axioms against the file's 86 declarations. Output identical to campaign/WP-43c/axioms.out: 74 declarations use only propext/Classical.choice/Quot.sound and 12 depend on sorryAx. lem_extension_hausdorff and exists_e0Pushout are confirmed sorry-free.",
+ "sorry_count": 3,
+ "sorries": [
+  "GX.E0AbsMax.sing_eq_of_le_of_le_of_stronglyCausalOn (l.504-507), SORRY(brunswic2021cauchy:Lemma 2.14): the closed BTZ loop / tube of B21 l.1034-1036",
+  "GX.E0AbsMax.isLocallyCauchy_image (l.771-776), SORRY(brunswic2021cauchy:prop:cauchy_abs_max): local Cauchy charts of f(S) in an E0-charted N",
+  "GX.E0AbsMax.E0Pushout.isCompact_diamond_mixed (l.1840-1844), SORRY(brunswic2021cauchy:prop:abs_max): the spear case of B21 l.1104-1117",
+  "upstream, not in this file: GX.E0Surgery.regM_isCauchyComplete (WP-41j), which prop_abs_max and cor_abs_max inherit. Also upstream: GXScaffold.BTZ.Spear lem_tube (tagged sorries at Spear l.2301, l.2311), which the mixed-diamond route needs"
+ ],
+ "verdict": "issues",
+ "dispatch_outcome": "2 of the 5 tagged sorries are closed: lem_extension_hausdorff (B21 Lemma 2.12, the case Prop 2.17 uses) and exists_e0Pushout (the E0-atlas of (M u N)/Reg M). Both are sorry-free on standard axioms, and the statements are byte-identical to the pre-edit copy campaign/WP-43c/AbsMax.before.lean.bak, as is the E0Pushout structure. 3 remain. None of the five labels the dispatch asked to certify (Remark 1, lem:BTZext_caus_conv, cor:GH_causal, prop:abs_max, cor:abs_max) is certified. Remark 1 and Lemma 2.13 wait on a ruling about a reading. Cor 2.15 waits on Lemma 2.14's sorry. Prop 2.17 and Cor 2.18 wait on two local sorries and one upstream sorry. REPORT.json states all of this honestly.",
+ "checks": {
+  "builds_and_sorry_count": "pass. The file builds with 3 tagged sorries, each isolated in its own declaration, matching REPORT.sorry_count = 3. The 12 sorryAx dependants are the 3 leaves plus btzExt_isCausal_of_stronglyCausalOn, cor_GH_causal, isE0Maximal_of_isE0CauchyMaximal, prop_cauchy_abs_max, prop_cauchy_abs_max_of_cauchyCompact, E0Pushout.globallyHyperbolic, absMax_e0RegM, prop_abs_max and cor_abs_max, as REPORT.notes says. Upstream: Spear's lem_tube still carries tagged sorries (Spear.lean l.2301, l.2311) and Surgery's regM_isCauchyComplete carries G0-G5. So the mixed-diamond obstruction, 'Lemma 2.3 not sorry-free', is current and not stale.",
+  "statement_fidelity": "pass on the two newly closed declarations. lem_extension_hausdorff concludes T2Space (Causal.Gluing Subtype.val f). Causal.Gluing is Quot (GlueRel j1 j2), the topological push-out, as in B21 l.946, for f an isometric embedding of Reg M into a GH flat spacetime of universe 0. That is exactly the instance l.1094-1096 uses: sing0(N) is empty and equals j(sing0 Reg M). The paper's general Lemma 2.12 (any M0, any BTZ-extension i, M2 an E>=0-manifold with sing0(M2) = j(sing0 M0)) is not built, and the row is honestly 'partial, SPECIAL CASE ONLY'. exists_e0Pushout gives Nonempty (E0Pushout M N f). Every field holds for the genuine push-out and none carries Prop 2.17's conclusion: surjectivity of iota1 still comes from IsE0Maximal applied in absMax_e0RegM. Because the proof is now sorry-free, the structure is shown satisfiable for every isometric embedding f into a GH N, which removes the earlier risk that a sorried existence hid an unsatisfiable field. The three remaining sorried statements are unchanged. isCompact_diamond_mixed is true by B21's argument, and an unrelated (p, q) gives an empty, hence compact, diamond. isLocallyCauchy_image is a plausible local statement and does not need S compact. sing_eq_of_le_of_le_of_stronglyCausalOn: see M1. DEC-55 is not relevant to this file. DEC-77(c): A = {0} is disclosed as harmless. Universe-0 targets for AbsMax were disclosed in earlier rounds.",
+  "docstring_contract": "pass. A regex for **`label`** over the first 4000 characters finds no mark. The bold spans ('**sorry-free (WP-43c)**', '**built**', '**B21**') are not label marks. All eight rows sit within the first 2,420 characters: Remark 1 at 557 … cor:abs_max at 2408. The SCOPE section names the three remaining sorries and the upstream one. 'What is proved (0 sorry unless named)' names isLocallyCauchy_image and the mixed diamonds. The WP-41k round-2 nit n1 still stands: the checklist row 'E>=0-manifolds (Lemmas 2.13-2.15)' reads a check mark while the rows built on SingularFlatAxioms are partial (m3).",
+  "report_honest_complete": "pass, with minors. There is one row per B21 row of the file: Remark 1, Lemmas 2.12-2.14, Cor 2.15, Props 2.16-2.17, Cor 2.18. Statuses are all partial, none marked, sorries and upstream dependences listed, and the axiom-sweep claims re-derive exactly. Minor defects: some tex_lines are off (m2), the prop:abs_max label string is still stale (m4), and the 'DISCHARGED' wording for hLine is not reflected in the statements (m1).",
+  "missing_labels_or_parts": "issue M1. Lemma 2.14 and Cor 2.15 exist only in an abstract SingularFlatAxioms form. Its leaf sorry is, by its own docstring, possibly unprovable at that generality. The chart-based E0 form, which is what B21 asserts and what the dispatch prescribed proving ('finite chart cover and Prop 1.3'), is not stated anywhere. Lemma 2.13 does get E0 forms (_e0) this round. The general Lemma 2.12 and general A in Props 2.16-2.17 are absent but disclosed.",
+  "cited_results": "pass. Used and verified sorry-free in the axiom output: lemma K (via LemmaKLocal), E0LM.e0_globalBTZ (through e0_sfa_of_globalBTZ / e0_hLine), Causal.Gluing.t2Space_iff, Causal.CBG.gluedChartedSpace, and GX.e0_localUnique_sing (B21 prop:isom_strong, in exists_nhds_not_mapsTo). Upstream sorried: regM_isCauchyComplete (WP-41j), which REPORT discloses.",
+  "name_clashes": "pass. namespace GX.E0AbsMax occurs only in this file, and none of the 35 new names (FlatE0, regExt, regInv, pushPiece, pushEmb, GraphCluster, exists_nhds_not_mapsTo, e0_hLine, …) is declared under GX/, another scaffold file or lean-causal. The only similar names are Causal.Causality.exists_seq_lt_tendsto_of_mem_Z{minus,plus}, which have different names and a different namespace. DEC-33: imports GXScaffold.BTZ.Surgery and strict Causal.LemmaKLocal, from a file under scaffold/GXScaffold/BTZ/. No root import, no CausalScaffold, no 'open Causal'. Downstream Uniformization opens E0AbsMax."
+ },
+ "issues": [
+  {
+   "id": "M1",
+   "severity": "major",
+   "where": "GX.E0AbsMax.sing_eq_of_le_of_le_of_stronglyCausalOn (l.499-507), btzExt_isCausal_of_stronglyCausalOn (l.513), cor_GH_causal (l.578); REPORT rows Lemma 2.14 / cor:GH_causal",
+   "problem": "The one sorry under Lemma 2.14 and Cor 2.15 sits on an abstract statement: any causality C with SingularFlatAxioms, x <= y <= x in sing 0 implies x = y. The declaration's own docstring and SORRY text say that at this generality it 'may be UNPROVABLE', because SFA carries neither E0 charts nor Prop 1.3's tube, and that 'the chart-based form for E0-manifolds (C = CE M, sing = chartedSing e0SingY M) is the one owed'. That form is still not stated. A tagged sorry should mark a true statement blocked by a missing construction, not a statement its author suspects may be false: if it is false, btzExt_isCausal_of_stronglyCausalOn and cor_GH_causal are false sorried theorems, and no E0 version of Lemma 2.14 / Cor 2.15 exists to fall back on. The fix costs nothing now. WP-43c made SFA unconditional for E0-manifolds (e0_sfa_of_globalBTZ) and used exactly that to give Lemma 2.13 its _e0 forms, but did not do the same for 2.14/2.15. The dispatch asked for this lemma by the chart route (finite chart cover + Prop 1.3), which only makes sense in the E0 form.",
+   "fix": "Move the sorry to an E0 statement and leave the abstract layer sorry-free. (i) Add sing_eq_of_le_of_le_of_stronglyCausalOn_e0 for an E0-manifold M: C = CE M, sing = chartedSing e0SingY M, A open with A-complement in S0 M, StronglyCausalOn (CE M) A. Put the tagged SORRY(Lemma 2.14) on it, with the tube obstruction. (ii) Give btzExt_isCausal_of_stronglyCausalOn and cor_GH_causal the loop exclusion as an explicit named hypothesis, so they become sorry-free (the regular case is already proved). (iii) Derive btzExt_isCausal_of_stronglyCausalOn_e0 and cor_GH_causal_e0 from (i). (iv) Delete the abstract sorried lemma, or keep it as an explicitly open generalisation that nothing depends on. Then update the REPORT rows' decls and sorries."
+  },
+  {
+   "id": "m1",
+   "severity": "minor",
+   "where": "variable hLine (l.703-706) with `include hLine in` on e0_sfa, isE0Maximal_of_isE0CauchyMaximal, prop_cauchy_abs_max(_of_cauchyCompact), gh_e0RegMFlat, E0Pushout.globallyHyperbolic, absMax_e0RegM, prop_abs_max, cor_abs_max; checklist row 'SingularFlatAxioms of E0-manifolds: discharged'",
+   "problem": "The checklist and the REPORT say (O2) is 'DISCHARGED' for E0-manifolds. Yet every Prop 2.16 / 2.17 / Cor 2.18 statement still takes the explicit hypothesis hLine : forall M …, E0LM.E0GlobalBTZ …. It is trivially satisfiable by e0_hLine, so this is not a weakening. But the statements as printed carry an extra hypothesis, and no hLine-free form of the headline (the DEC-28 input) exists for a consumer to cite.",
+   "fix": "Either drop the hLine variable and use e0_sfa_of_globalBTZ inside, or add unconditional wrappers (e.g. cor_abs_max_e0 := cor_abs_max e0_hLine, and likewise for prop_abs_max and prop_cauchy_abs_max_of_cauchyCompact) and list those as the rows' primary decls."
+  },
+  {
+   "id": "m2",
+   "severity": "minor",
+   "where": "REPORT tex_lines and docstring line citations",
+   "problem": "Several B21 line ranges are off against papers/gx/sources/2108.12631/src/BTZ_1.tex. Remark 1 is l.994-996, not 995-998. Lemma 2.13 is l.999-1023 (statement 999-1006, proof 1007-1023), not 999-1033, which overlaps Lemma 2.14's l.1026-1037. Cor 2.18 is l.1083-1086, not 1082-1085. The Lemma 2.13 finding cites '(b)'s proof (l.1019-1031)' when item (b) is l.1017-1019.",
+   "fix": "Correct the ranges in REPORT.json and in the docstrings at l.12, 16, 138 and 866."
+  },
+  {
+   "id": "m3",
+   "severity": "minor",
+   "where": "module docstring, Hypothesis checklist, row 'E>=0-manifolds (Lemmas 2.13-2.15)'",
+   "problem": "This is WP-41k round-2 nit n1, still open. The row reads a check mark ('abstract: any causality with SingularFlatAxioms'), although SFA is a named model-fact hypothesis for massive cones (kb/0012) and the rows on it are partial. Lemmas 2.14/2.15 also have no unconditional E0 form (M1).",
+   "fix": "Change the row to a warning mark: 'named model-fact hypothesis SingularFlatAxioms for E>=0 (massive cones); E0: Lemma 2.13 unconditional, Lemmas 2.14/2.15 see M1'."
+  },
+  {
+   "id": "m4",
+   "severity": "minor",
+   "where": "REPORT.json label 'brunswic2021cauchy:prop:abs_max (Prop 2.17; second assertion and GH part of the first)'",
+   "problem": "This is WP-41k round-2 nit n2, still open. prop_abs_max asserts all three conclusions (GH, Cauchy-complete, absolutely maximal), so the parenthetical is stale.",
+   "fix": "Rename the label 'brunswic2021cauchy:prop:abs_max (Prop 2.17, A = {0})'."
+  },
+  {
+   "id": "m5",
+   "severity": "minor",
+   "where": "GX.E0AbsMax.E0Pushout.isCompact_diamond_mixed (l.1840-1844)",
+   "problem": "The obstruction is genuine: Spear's lem_tube still rests on tagged sorries, and the curve-exit argument at the spear's frontier is unbuilt. But the sorry bundles two things: (a) the existence of a spear neighbourhood of vertex p avoiding q, which is available, if sorried upstream, as GX.E0Spear.lem_tube (with its hLine and hSC parameters); and (b) the local curve-exit / compactness argument. The sorry text explains why a cylinder chart does not work, but does not say whether (b) was attempted given lem_tube.",
+   "fix": "Optional: call lem_tube (shrinking R so that q is outside the spear) and leave the tagged sorry on a separately stated curve-exit lemma, J(p, q) contained in [J-_N(q) ∩ J+_N(K')] ∪ [J-_M(K') ∩ J+_M(p)]. The obstruction is then located exactly, and the upstream dependence shows in the axiom sweep."
+  }
+ ],
+ "questions_for_author": [
+  "Carried from WP-41k and still open, since no ruling covers them (DEC-74…99 checked): (1) is the open-set reading of 'embedding' / 'BTZ-extension' (kb/0001) accepted for Remark 1 and Lemma 2.13? Under it the E0 forms are now unconditional, and E>=0 (massive cones) rests on SingularFlatAxioms. (2) Should E_A-maximality (B21 l.1043-1046) quantify over connected targets? The literal definition is unsatisfiable by any nonempty M (M -> M u M'), and IsE0Maximal assumes connected targets."
+ ],
+ "notes": "Verdict 'issues' for one major (M1), whose fix is a cheap restructure: move the Lemma 2.14 sorry from the possibly-false abstract SFA statement onto the E0 statement B21 actually makes, and make the abstract layer sorry-free under an explicit hypothesis. The new mathematics this round (Lemma 2.12's special case with the holonomy step done without loops via e0_localUnique_sing; the FlatE0 reading of N; the push-out atlas via Causal.CBG.gluedChartedSpace; the WP-43d discharge of (O2)) is sorry-free on standard axioms, its statements are unchanged from the pre-edit file, and its REPORT findings on B21 l.964, l.975-979 and l.980 are accurate readings of the source. The three remaining sorries are genuine obstructions: the tube classification along a BTZ loop, local graph / Cauchy-domain theory in E0, and the spear curve-exit argument together with Lemma 2.3 being sorried upstream. None of the dispatch's five certification targets can be marked yet, and REPORT says so."
+}

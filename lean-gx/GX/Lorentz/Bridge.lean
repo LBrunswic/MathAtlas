@@ -4,7 +4,7 @@ import GX.Singular.Quotient
 import GX.Structure.Developing
 
 /-!
-# `GXScaffold.Lorentz.Bridge` — gx's Minkowski space and `(G,X)`-vocabulary, bridged to `lean-causal`
+# `GX.Lorentz.Bridge` — gx's Minkowski space and `(G,X)`-vocabulary, bridged to `lean-causal`
 
 Package WP-41a (WAVE5-PLAN.md, WP-39a). **Infrastructure for Section 4: no ledger label is
 certified here, so nothing is marked.** It makes gx's null-coordinate model of `𝔼^{1,2}`

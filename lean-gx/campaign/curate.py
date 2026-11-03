@@ -47,8 +47,12 @@ PKGS = [
     ("WP-41k", "scaffold/GXScaffold/BTZ/AbsMax.lean"), ("WP-41n", "scaffold/GXScaffold/BTZ/Uniformization.lean"),
     ("WP-41o", "GX/Hyperbolic/Plane.lean"), ("WP-41p", "scaffold/GXScaffold/SingularII/Models.lean"),
     ("WP-41q", "scaffold/GXScaffold/SingularII/SpreadTop.lean"), ("WP-41r", "scaffold/GXScaffold/Branched/GaloisExamples.lean"),
+    ("WP-43a", "scaffold/GXScaffold/BTZ/Spear.lean"), ("WP-43b", "scaffold/GXScaffold/BTZ/Surgery.lean"),
+    ("WP-43c", "scaffold/GXScaffold/BTZ/AbsMax.lean"), ("WP-43d", "scaffold/GXScaffold/BTZ/LocalModel.lean"),
+    ("WP-43e", "scaffold/GXScaffold/BTZ/Manifolds.lean"), ("WP-43f", "scaffold/GXScaffold/BTZ/Uniformization.lean"),
+    ("WP-43g", "scaffold/GXScaffold/SingularII/Models.lean"),
 ]
-FILE_OVERRIDE = {"ex:following_example_skeletal_itemize": "GX/Topology/PortlyExamples.lean"}
+FILE_OVERRIDE = {"ex:following_example_skeletal_itemize": "GX/Topology/PortlyExamples.lean"}  # graduated paths are resolved below
 RENAMES = {  # (file, old) -> new, applied at graduation to resolve name clashes
     ("GX/Spread/Completion.lean", "GX.isPreconnected_ball_diff_countable"): "GX.isPreconnected_ball_diff_countable_complex",
     ("GX/Branched/Universality.lean", "GX.isSkeletal_of_countable"): "GX.isSkeletal_of_countable_complex",
@@ -74,6 +78,8 @@ def main():
         if not os.path.exists(rp):
             continue
         r = json.load(open(rp, encoding="utf-8"))
+        if file.startswith("scaffold/GXScaffold/") and not os.path.exists(os.path.join(HUB, "lean-gx", file)):
+            file = "GX/" + file[len("scaffold/GXScaffold/"):]
         for l in r["labels"]:
             lab = l["label"]
             if lab not in led:

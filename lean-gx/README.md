@@ -53,6 +53,13 @@ is ported, with its origin cited. Graduation into `lean/` is two `git mv`s.
 | `GX.SingularII.Developing` | §2.5.1 | **the singular developing theorem** `GX.singular_developing_theorem` (`prop:branched_devmap`), holonomy, descent |
 | `GX.SingularII.Tame` | §2.5.2 | tame singularities, `theo:local_tame` |
 | `GX.Hyperbolic.Plane` | — | ℍ², Isom⁺(ℍ²) analytic, complete hyperbolic structures, cusps (DEC-71); `ex:take_closed_unit_disc` partial (reading of 'finite volume complete hyperbolic metric') |
-| `GXScaffold.SingularII.Models` | §2.5.3–4 | analytic families, X_A-atlases, virtually tame models; `theo:local_virt_tame` (2 tagged `sorry`s) |
-| `GXScaffold.SingularII.SpreadTop` | §2.5 close | `lem:spread_top`, the spread topology (scaffold because it imports Models) |
-| `GXScaffold.Branched.GaloisExamples` | — | the closing examples; Antoine's necklace explicit (DEC-58/68), Antoine's theorem a tagged `sorry` |
+| `GX.SingularII.Models` | §2.5.3–4 | analytic families, X_A-atlases, virtually tame models; `theo:local_virt_tame` (2 tagged `sorry`s) |
+| `GX.SingularII.SpreadTop` | §2.5 close | `lem:spread_top`, the spread topology (scaffold because it imports Models) |
+| `GX.Branched.GaloisExamples` | — | the closing examples; Antoine's necklace explicit (DEC-58/68), Antoine's theorem a tagged `sorry` |
+| `GX.Topology.VanKampen` | — | the van Kampen / covering argument behind Antoine's lemma (DEC-85) |
+| `GX.Lorentz.Bridge` | — | gx ↔ lean-causal: (ℝ³, nullQ) ≃ Minkowski 2, NullIsom0 ≃* isom 2, analytic actions, groupoids, universal covers, developing pairs |
+| `GX.BTZ.Model`, `.Rigid`, `.Causality`, `.Topology`, `.VirtTame` | §4.4 | the BTZ model E₀, its rigidity, causal structure (J^±(V) open at BTZ points), the BTZ topology, the analytic family (E_θ), θ ≠ 2π (DEC-74) |
+| `GX.BTZ.LocalModel`, `.CBG` | — | the CBG local model on 𝕄 ⊕ E₀ (timeFunction by Levin) and **Choquet-Bruhat–Geroch for E₀-manifolds** (DEC-29) |
+| `GX.BTZ.Holonomy`, `.Manifolds` | §4.5 | holonomy (a loxodromic element proved in 2+1, DEC-75), the l.2317–2359 lemmas |
+| `GXScaffold.BTZ.{Spear,Surgery,AbsMax,Uniformization}` | §4.5 | brunswic2021cauchy Lemma 2.3 (3 sorrys), the surgery (6), Prop 2.16–Cor 2.18 (3), the headline `GX.btz_uniformization` (0 local) |
+

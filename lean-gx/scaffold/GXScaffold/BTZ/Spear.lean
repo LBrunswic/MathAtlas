@@ -1,10 +1,12 @@
-import GXScaffold.BTZ.CBG
+import GX.BTZ.CBG
 import Causal.SingularGeroch
+import Causal.LevinUtility
+import Causal.LemmaKLocal
 
 /-!
 # `GXScaffold.BTZ.Spear` — spear neighbourhoods and full future BTZ rays (B21 Lemmas 2.3, 2.4)
 
-Package WP-41i (WAVE5-PLAN.md, WP-39i), fixer round 2. `brunswic2021cauchy` (**B21**,
+Package WP-41i (WAVE5-PLAN.md, WP-39i), fixer round 2; WP-43a (two of its five `sorry`s closed). `brunswic2021cauchy` (**B21**,
 `papers/gx/sources/2108.12631/src/BTZ_1.tex`) Def 2.1 (l.611), Lemma 2.3 `lem:tube` (l.635),
 Lemma 2.4 `lem:add_BTZ_param` (l.685), cited by `papers/gx` at `RamcovGX.tex:2352` (proof of
 `prop:globally_hyperbolic_cauchy_complete_manifolds`, l.2348) as « Lemma 2.4 » — **the right
@@ -20,12 +22,15 @@ here (DEC-23), not rows of the gx ledger. Rows touched, unmarked:
   (`CylChartData.mem_U10_iff`); `M₂` the `Causal.CBG.FamilyGlueData` gluing of `M₀` and the spear piece `𝒫`
   (`CylChartData.glueData`) with the atlas `FamilyGlueData.chartedSpace`
   (= `Causal.CBG.gluedChartedSpace`, `glueCS`), transitions in the groupoid (`glue_hasGroupoid`),
-  **Hausdorff** (`t2Space_glued`, closed graph of `κ⁻¹`), second countable, connected given `M₀` is;
+  **Hausdorff** (`t2Space_glued`, closed graph of `κ⁻¹`), second countable, connected;
   the spear chart of `M₂` (`ψN`, vertex `p`), `M₀ → M` a Cauchy embedding
   (`isCauchyEmbedding_val`); the CBG step `IsE0CauchyMaximal.isSpearNbhd_of_spearDevelopment`.
-  Four isolated tagged `sorry`s: `CylChartData.connectedSpace_W0`,
-  `CylChartData.isCauchySurfaceOn_W0`, `CylChartData.globallyHyperbolic_glued` (the genuine
-  one) and `CylChartData.isCauchySurface_glued`, all under that normalisation. Conditional on `hLine`, `hSC` (CBG, WP-41f/g).
+  `M₀` connected (`CylChartData.connectedSpace_W0`, WP-43a: a closed Cauchy surface of a
+  connected GH `𝔼₀`-manifold is connected, `isConnected_of_isCauchySurface_closed`) and the level
+  set Cauchy in `M₀` (`CylChartData.isCauchySurfaceOn_W0`, WP-43a: relative curve extension,
+  `isCauchySurfaceOn_of_isPast`) are **proved**. Two isolated tagged `sorry`s:
+  `CylChartData.globallyHyperbolic_glued` (the genuine one) and
+  `CylChartData.isCauchySurface_glued`, both under that normalisation. Conditional on `hLine`, `hSC` (CBG, WP-41f/g).
 * full future BTZ rays (`RamcovGX.tex:2352`) — **stated** (`GX.E0Spear.exists_fullFutureBTZRay`,
   from `lem_tube`). A spear gives a full ray (`IsSpearNbhd.exists_ray`, `…exists_ray_mem_nhds`);
   full rays lie in `sing₀`, are injective, continuous, future directed and future inextensible
@@ -77,6 +82,15 @@ here (DEC-23), not rows of the gx ledger. Rows touched, unmarked:
   acausal (`eq_of_le_of_fst_eq`).
 * **§3 Cauchy-maximality** (`IsE0CauchyMaximal`; DEC-77(c): `isE0CauchyMaximal_iff_isETTMaximal`)
   and universality over Cauchy sub-developments (`IsE0CauchyMaximal.exists_morphism_of_dev`).
+* **§4a′ relative curve extension (WP-43a)**: a causal curve of an open `W` lying on a
+  time-parametrised curve of `W` that reaches further in time is extensible, constant pieces
+  allowed (`causalCurveIn_comp_monotoneOn`, `extensible_of_timeGraph_openEnd`,
+  `extensible_of_timeGraph_future`, `extensible_of_timeGraph_past`); a Cauchy surface inside an
+  open past set is Cauchy there (`isCauchySurfaceOn_of_isPast`).
+* **§4a″ connected Cauchy surfaces without compactness (WP-43a)**: futures of closed pieces of a
+  Cauchy surface are closed under R1 (`isClosed_Jplus_of_subset_cauchy`), and a closed acausal
+  Cauchy surface of a connected GH spacetime is connected (`isConnected_of_isCauchySurface_closed`,
+  the non-compact form of WP-41k's `E0AbsMax.isConnected_of_isCauchySurface_abstract`).
 * **§4a–§4b the gluing of Lemma 2.3** (above), **§4 Lemma 2.3** (`SpearDevelopment`, `lem_tube`,
   `exists_fullFutureBTZRay`, `exists_isCauchySurface_of_globalBTZ`: a GH `𝔼₀`-manifold has a Cauchy
   surface, strict `geroch_sing_i_imp_iii`), level sets of Cauchy time functions are Cauchy
@@ -102,17 +116,19 @@ here (DEC-23), not rows of the gx ledger. Rows touched, unmarked:
 | Lemma 2.4: `τ_Σ` « smooth positive » | ⚠ `C⁰`: `ContinuousOn τ_Σ (closedBall 0 R′)` (smoothness needs `Σ` smooth spacelike; `Σ` is a topological Cauchy surface here); « positive » read as `τ_Σ > v + R′/2` |
 | Lemma 2.4: « in the shaft » | ⚠ read: the open region `τ > v + R′/2` above the rim of the head (Def 2.1's shaft is the boundary half-tube; B21 Prop 2.17, PDF l.1983, uses the conclusion as « a circle in the shaft ») |
 
-## SCOPE (disclosed; five tagged `sorry`s)
+## SCOPE (disclosed; three tagged `sorry`s)
 
-* Lemma 2.3, four isolated facts of the gluing, each stated under B21's normalisation (causally
-  convex chart cylinder, overlap `𝒫 ∩ cyl ∩ {τ < v + ε/2}`): `connectedSpace_W0` (needs a
-  splitting of `𝔼₀`-manifolds: connected Cauchy surfaces), `isCauchySurfaceOn_W0` (the relative
-  curve-extension theory for an open past set), `globallyHyperbolic_glued` (the genuine
-  obstruction: no « Cauchy ⇒ GH » for `𝔼₀`-manifolds, and the mixed diamonds need the curve
-  analysis across `Π`), and `isCauchySurface_glued` (B21's `c₀ ∪ c₁` argument at curve level:
-  the past endpoint on `Π` of a curve of `𝒫` outside the overlap, and `isCauchySurfaceOn_W0`;
-  the glued-vs-piece causality comparison is available through `Geometry.causality_restrict`
-  and is not the obstruction).
+* Lemma 2.3, two isolated facts of the gluing `M₂`, each stated under B21's normalisation
+  (causally convex chart cylinder, overlap `𝒫 ∩ cyl ∩ {τ < v + ε/2}`):
+  `globallyHyperbolic_glued` (the genuine obstruction: compactness of the mixed diamonds
+  `J(x, y)`, `x ∈ M₀`, `y ∈ 𝒫` above `Π`, whose limit points may switch pieces across `Π`; no
+  common Cauchy surface of the two pieces exists, so `Causal.CBG.TwoPiece.globallyHyperbolic` does
+  not apply) and `isCauchySurface_glued` (B21's `c₀ ∪ c₁` argument: needs the causality of
+  `M₂` — `TwoPiece.isCausal`, once the gluing is put in `TwoPiece` form, including
+  `AbsolutelyMinimalOn ⊤` of the glued charted causality — and the past end of a curve of
+  `𝒫 ∖ overlap`, which converges in the model and is adjoined in the spacetime `𝒫`; the `c₀`
+  part is now `isCauchySurfaceOn_W0`). WP-43a closed `connectedSpace_W0` and
+  `isCauchySurfaceOn_W0`.
 * Lemma 2.4, the case « `q` in the future of `p` » (charts glued along `[p, q]`).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; lean-causal `ca2ad78`
@@ -1110,6 +1126,566 @@ theorem CylChartData.mem_W0_iff {x : E0} (hxP : x ∈ gluePaper d.v d.ε)
 
 end GluePieces
 
+/-! ### §4a′ Relative curve extension (WP-43a): curves of an open past set
+
+The relative extension theory B21's `c₀` argument needs, model-free: a causal curve `c` of an
+open `W` lying on a curve `γ` of `W` parametrised by a continuous time function `T`
+(`T ∘ γ = id`), with `γ` reaching strictly further in time, is **extensible** in `W`
+(`extensible_of_timeGraph_future`, `extensible_of_timeGraph_past`) — constant pieces of `c`
+allowed: the extension is `γ ∘ h` with `h` continuous non-decreasing
+(`causalCurveIn_comp_monotoneOn`), after an `arctan` reparametrisation making the open end
+bounded (`extensible_of_timeGraph_openEnd`). Consequence: **a Cauchy surface of `X` inside an
+open past set `W` is a Cauchy surface of `W`** (`isCauchySurfaceOn_of_isPast`; the time function
+is Levin's `Causal.Causality.exists_timeFunction_of_secondCountable`, the extension of `c` to an
+inextensible curve of `X` is `Causal.Causality.exists_inextensible_of_timeFunction`). -/
+
+section CurveExt
+
+variable {X : Type} [TopologicalSpace X] {C : Causal.Causality X} {W : Opens X}
+
+/-- A causal curve read through a continuous non-decreasing change of parameter is a causal
+curve (constant pieces allowed: `≤_N` is reflexive). -/
+theorem causalCurveOn_comp_monotoneOn {γ : ℝ → X} {h : ℝ → ℝ} {a b : ℝ} (hab : a ≤ b)
+    (hγ : C.CausalCurveOn W γ (h a) (h b)) (hh : MonotoneOn h (Icc a b))
+    (hhc : ContinuousOn h (Icc a b)) : C.CausalCurveOn W (γ ∘ h) a b := by
+  have hmaps : ∀ s ∈ Icc a b, h s ∈ Icc (h a) (h b) := fun s hs =>
+    ⟨hh ⟨le_rfl, hab⟩ hs hs.1, hh hs ⟨hab, le_rfl⟩ hs.2⟩
+  refine ⟨fun t ht => hγ.mem _ (hmaps t ht), fun t ht N hN htN => ?_⟩
+  obtain ⟨l, u, hl, hu, hrel⟩ := hγ.rel (h t) (hmaps t ht) N hN htN
+  have hpre : h ⁻¹' Ioo l u ∈ 𝓝[Icc a b] t := hhc t ht (Ioo_mem_nhds hl hu)
+  obtain ⟨δ, hδ, hball⟩ := Metric.mem_nhdsWithin_iff.1 hpre
+  have hin : ∀ s ∈ Icc a b, t - δ < s → s < t + δ → h s ∈ Ioo l u := fun s hs h1 h2 =>
+    hball ⟨by rw [Metric.mem_ball, Real.dist_eq, abs_lt]; constructor <;> linarith, hs⟩
+  -- every value of `γ ∘ h` in the window lies in `N`
+  have hmemN : ∀ s ∈ Icc a b, t - δ < s → s < t + δ → γ (h s) ∈ N := by
+    intro s hs h1 h2
+    obtain ⟨hl', hu'⟩ := hin s hs h1 h2
+    rcases lt_trichotomy (h s) (h t) with e | e | e
+    · exact C.isRelFamily_le.mem_left (hrel _ (hmaps s hs) _ (hmaps t ht) hl' e hu)
+    · rw [e]; exact htN
+    · exact C.isRelFamily_le.mem_right (hrel _ (hmaps t ht) _ (hmaps s hs) hl e hu')
+  refine ⟨t - δ, t + δ, by linarith, by linarith, fun s hs s' hs' h1 h2 h3 => ?_⟩
+  have e := hh hs hs' h2.le
+  rcases e.lt_or_eq with e | e
+  · exact hrel _ (hmaps s hs) _ (hmaps s' hs') (hin s hs h1 (h2.trans h3)).1 e
+      (hin s' hs' (h1.trans h2) h3).2
+  · show C.le N (γ (h s)) (γ (h s'))
+    rw [← e]
+    exact C.le_refl (hmemN s hs h1 (h2.trans h3))
+
+/-- The interval form of `causalCurveOn_comp_monotoneOn`. -/
+theorem causalCurveIn_comp_monotoneOn {γ : ℝ → X} {h : ℝ → ℝ} {J I' : Set ℝ}
+    (hγ : C.CausalCurveIn W J γ) (hne : I'.Nonempty) (hoc : I'.OrdConnected)
+    (hh : MonotoneOn h I') (hhc : ContinuousOn h I') (hmaps : MapsTo h I' J) :
+    C.CausalCurveIn W I' (γ ∘ h) := by
+  refine ⟨hne, hoc, fun a ha b hb => ?_⟩
+  rcases le_or_gt a b with hab | hab
+  · have hsub : Icc a b ⊆ I' := hoc.out ha hb
+    exact causalCurveOn_comp_monotoneOn hab (hγ.curve _ (hmaps ha) _ (hmaps hb)) (hh.mono hsub)
+      (hhc.mono hsub)
+  · exact Causal.CurveOn.of_lt hab
+
+/-- A causal curve over an interval is continuous on it. -/
+theorem continuousOn_of_causalCurveIn {I : Set ℝ} {c : ℝ → X} (hc : C.CausalCurveIn W I c) :
+    ContinuousOn c I := by
+  intro s hs
+  by_cases hleft : ∃ j ∈ I, j < s
+  · obtain ⟨j, hj, hjs⟩ := hleft
+    by_cases hright : ∃ i ∈ I, s < i
+    · obtain ⟨i, hi, hsi⟩ := hright
+      have hmem : Icc j i ∈ 𝓝[I] s :=
+        nhdsWithin_le_nhds (Icc_mem_nhds hjs hsi)
+      exact ((hc.continuousOn_Icc hj hi) s ⟨hjs.le, hsi.le⟩).mono_of_mem_nhdsWithin hmem
+    · push Not at hright
+      have hmem : Icc j s ∈ 𝓝[I] s := by
+        refine mem_nhdsWithin.2 ⟨Ioi j, isOpen_Ioi, hjs, fun x hx => ⟨hx.1.le, hright x hx.2⟩⟩
+      exact ((hc.continuousOn_Icc hj hs) s ⟨hjs.le, le_rfl⟩).mono_of_mem_nhdsWithin hmem
+  · push Not at hleft
+    by_cases hright : ∃ i ∈ I, s < i
+    · obtain ⟨i, hi, hsi⟩ := hright
+      have hmem : Icc s i ∈ 𝓝[I] s := by
+        refine mem_nhdsWithin.2 ⟨Iio i, isOpen_Iio, hsi, fun x hx => ⟨hleft x hx.2, hx.1.le⟩⟩
+      exact ((hc.continuousOn_Icc hs hi) s ⟨le_rfl, hsi.le⟩).mono_of_mem_nhdsWithin hmem
+    · push Not at hright
+      have hI : I ⊆ {s} := fun x hx => le_antisymm (hright x hx) (hleft x hx)
+      exact (continuousWithinAt_singleton (f := c) (x := s)).mono hI
+
+variable {T : X → ℝ} {J I : Set ℝ} {γ c : ℝ → X}
+
+/-- **Extension at an open, bounded future end along a time-parametrised curve.** -/
+theorem extensible_of_timeGraph_openEnd (hγ : C.CausalCurveIn W J γ)
+    (hTγ : ∀ τ ∈ J, T (γ τ) = τ) (hc : C.CausalCurveIn W I c)
+    (hcγ : ∀ t ∈ I, T (c t) ∈ J ∧ γ (T (c t)) = c t) (hmono : MonotoneOn (T ∘ c) I)
+    (hTcont : ContinuousOn (T ∘ c) I) (hbdd : BddAbove I) (hnomax : ∀ t ∈ I, ∃ s ∈ I, t < s)
+    {t' : ℝ} (ht' : t' ∈ J) (hlt : ∀ t ∈ I, T (c t) < t') : C.Extensible W I c := by
+  have hne := hc.nonempty
+  set b := sSup I with hb
+  have hltb : ∀ t ∈ I, t < b := fun t ht => by
+    obtain ⟨s, hs, hts⟩ := hnomax t ht
+    exact hts.trans_le (le_csSup hbdd hs)
+  have hTbdd : BddAbove ((T ∘ c) '' I) := ⟨t', by rintro _ ⟨t, ht, rfl⟩; exact (hlt t ht).le⟩
+  have hTne : ((T ∘ c) '' I).Nonempty := hne.image _
+  set k := sSup ((T ∘ c) '' I) with hk
+  have hTk : ∀ t ∈ I, T (c t) ≤ k := fun t ht => le_csSup hTbdd ⟨t, ht, rfl⟩
+  have hkt' : k ≤ t' := csSup_le hTne (by rintro _ ⟨t, ht, rfl⟩; exact (hlt t ht).le)
+  obtain ⟨t₀, ht₀⟩ := hne
+  set L := t' - k with hL
+  set I' : Set ℝ := I ∪ Icc b (b + L) with hI'
+  set hfun : ℝ → ℝ := fun s => if s < b then T (c s) else k + (s - b) with hhfun
+  have hlow : ∀ s ∈ I', s < b → s ∈ I := by
+    rintro s (hs | hs) hsb
+    · exact hs
+    · exact absurd hs.1 (not_le.2 hsb)
+  have hoc : I'.OrdConnected := by
+    refine ⟨fun x hx y hy z hz => ?_⟩
+    rcases lt_or_ge z b with hzb | hzb
+    · have hxI : x ∈ I := hlow x hx (hz.1.trans_lt hzb)
+      obtain ⟨i, hi, hzi⟩ := exists_lt_of_lt_csSup ⟨t₀, ht₀⟩ hzb
+      exact Or.inl (hc.ordConnected.out hxI hi ⟨hz.1, hzi.le⟩)
+    · rcases hy with hy | hy
+      · exact absurd (hltb y hy) (not_lt.2 (hzb.trans hz.2))
+      · exact Or.inr ⟨hzb, hz.2.trans hy.2⟩
+  have hTJ : ∀ s ∈ I', hfun s ∈ J := by
+    intro s hs
+    rcases lt_or_ge s b with hsb | hsb
+    · simp only [hhfun, if_pos hsb]; exact (hcγ s (hlow s hs hsb)).1
+    · simp only [hhfun, if_neg (not_lt.2 hsb)]
+      have hs' : s ∈ Icc b (b + L) := by
+        rcases hs with hs | hs
+        · exact absurd (hltb s hs) (not_lt.2 hsb)
+        · exact hs
+      refine hγ.ordConnected.out (hcγ t₀ ht₀).1 ht' ⟨?_, ?_⟩
+      · linarith [hTk t₀ ht₀, hs'.1]
+      · linarith [hs'.2]
+  have hmonoh : MonotoneOn hfun I' := by
+    intro x hx y hy hxy
+    rcases lt_or_ge y b with hyb | hyb
+    · have hxb : x < b := hxy.trans_lt hyb
+      simp only [hhfun, if_pos hxb, if_pos hyb]
+      exact hmono (hlow x hx hxb) (hlow y hy hyb) hxy
+    · simp only [hhfun, if_neg (not_lt.2 hyb)]
+      rcases lt_or_ge x b with hxb | hxb
+      · simp only [if_pos hxb]; linarith [hTk x (hlow x hx hxb)]
+      · simp only [if_neg (not_lt.2 hxb)]; linarith
+  have hcont : ContinuousOn hfun I' := by
+    intro s hs
+    rcases lt_trichotomy s b with hsb | hsb | hsb
+    · -- below `b`, `hfun = T ∘ c`
+      have hsI : s ∈ I := hlow s hs hsb
+      have hmem : I ∈ 𝓝[I'] s := mem_nhdsWithin.2 ⟨Iio b, isOpen_Iio, hsb,
+        fun x hx => hlow x hx.2 hx.1⟩
+      have h1 : ContinuousWithinAt hfun I s := by
+        refine (hTcont s hsI).congr (fun x hx => ?_) ?_
+        · simp only [hhfun, if_pos (hltb x hx)]; rfl
+        · simp only [hhfun, if_pos hsb]; rfl
+      exact h1.mono_of_mem_nhdsWithin hmem
+    · -- at `b`
+      rw [hsb]
+      have hb' : hfun b = k := by
+        simp only [hhfun, lt_irrefl, if_false, sub_self, add_zero]
+      refine ContinuousWithinAt.union ?_ ?_
+      · rw [ContinuousWithinAt, hb', Metric.tendsto_nhdsWithin_nhds]
+        intro ε hε
+        obtain ⟨_, ⟨i, hi, rfl⟩, hki⟩ := exists_lt_of_lt_csSup hTne (show k - ε < k by linarith)
+        refine ⟨b - i, by linarith [hltb i hi], fun x hx hxd => ?_⟩
+        have hxb := hltb x hx
+        rw [Real.dist_eq, abs_lt] at hxd
+        have hix : i ≤ x := by linarith [hxd.1]
+        have hfx : hfun x = T (c x) := by simp only [hhfun, if_pos hxb]
+        rw [hfx, Real.dist_eq, abs_lt]
+        have := hmono hi hx hix
+        simp only [Function.comp] at this hki
+        constructor <;> linarith [hTk x hx]
+      · have : ContinuousOn (fun s => k + (s - b)) (Icc b (b + L)) := by
+          fun_prop
+        refine (this _ ⟨le_rfl, by linarith⟩).congr (fun x hx => ?_) ?_
+        · rcases hx.1.lt_or_eq with hx' | hx'
+          · simp only [hhfun, if_neg (not_lt.2 hx'.le)]
+          · simp only [hhfun, ← hx', lt_irrefl, if_false]
+        · rw [hb']; ring
+    · -- above `b`, affine
+      have hmem : Ioi b ∈ 𝓝[I'] s := nhdsWithin_le_nhds (Ioi_mem_nhds hsb)
+      have h1 : ContinuousWithinAt (fun s => k + (s - b)) I' s :=
+        (by fun_prop : Continuous (fun s : ℝ => k + (s - b))).continuousWithinAt
+      refine h1.congr_of_eventuallyEq ?_ ?_
+      · filter_upwards [nhdsWithin_le_nhds (Ioi_mem_nhds hsb)] with x hx
+        simp [hhfun, not_lt.2 (le_of_lt (show b < x from hx))]
+      · simp [hhfun, not_lt.2 hsb.le]
+  have hL0 : 0 ≤ L := by rw [hL]; linarith
+  have hcurve : C.CausalCurveIn W I' (γ ∘ hfun) :=
+    causalCurveIn_comp_monotoneOn hγ ⟨t₀, Or.inl ht₀⟩ hoc hmonoh hcont hTJ
+  refine ⟨I', γ ∘ hfun, hcurve, ⟨id, strictMonoOn_id, fun t ht => Or.inl ht,
+    by rw [image_id]; exact hc.ordConnected, fun t ht => ?_⟩,
+    ⟨b + L, Or.inr ⟨by linarith, le_rfl⟩, fun t ht heq => ?_⟩⟩
+  · show γ (hfun t) = c t
+    simp only [hhfun, if_pos (hltb t ht)]
+    exact (hcγ t ht).2
+  · have h1 : hfun (b + L) = t' := by
+      simp only [hhfun, if_neg (not_lt.2 (show b ≤ b + L by linarith))]
+      rw [hL]; ring
+    have h2 : T ((γ ∘ hfun) (b + L)) = t' := by
+      simp only [Function.comp, h1]; exact hTγ t' ht'
+    rw [heq] at h2
+    linarith [hlt t ht]
+
+/-- **A causal curve lying on a time-parametrised curve `γ` that goes further to the future is
+extensible** (constant pieces of `c` allowed). -/
+theorem extensible_of_timeGraph_future (hC : C.CausallyArcConnected) (hcaus : C.IsCausal)
+    (hTc : Continuous T) (hT : ∀ x y, C.le ⊤ x y → x ≠ y → T x < T y)
+    (hγ : C.CausalCurveIn W J γ) (hTγ : ∀ τ ∈ J, T (γ τ) = τ) (hc : C.CausalCurveIn W I c)
+    (hcγ : ∀ t ∈ I, T (c t) ∈ J ∧ γ (T (c t)) = c t)
+    {t' : ℝ} (ht' : t' ∈ J) (hlt : ∀ t ∈ I, T (c t) < t') : C.Extensible W I c := by
+  by_cases hmax : ∃ b, IsGreatest I b
+  · obtain ⟨b, hb⟩ := hmax
+    refine Causal.Causality.extensible_of_isGreatest hC hcaus hc hb fun heq => ?_
+    have hmem : γ t' ∈ C.Jplus W {c b} := by
+      refine ⟨c b, rfl, ?_⟩
+      have := hγ.le_of_le (hcγ b hb.1).1 ht' (hlt b hb.1).le
+      rwa [(hcγ b hb.1).2] at this
+    rw [heq, mem_singleton_iff] at hmem
+    have h2 := hTγ t' ht'
+    rw [hmem] at h2
+    linarith [hlt b hb.1]
+  · push Not at hmax
+    have hnomax : ∀ t ∈ I, ∃ s ∈ I, t < s := fun t ht => by
+      by_contra h
+      push Not at h
+      exact hmax t ⟨ht, h⟩
+    have htan : ∀ t, Real.tan (Real.arctan t) = t := Real.tan_arctan
+    set I₁ := Real.arctan '' I with hI₁
+    set d : ℝ → X := c ∘ Real.tan with hd
+    have hsub : I₁ ⊆ Ioo (-(Real.pi / 2)) (Real.pi / 2) := by
+      rintro _ ⟨t, -, rfl⟩
+      exact ⟨Real.neg_pi_div_two_lt_arctan t, Real.arctan_lt_pi_div_two t⟩
+    have hmaps : MapsTo Real.tan I₁ I := by
+      rintro _ ⟨t, ht, rfl⟩; rw [htan]; exact ht
+    have hdc : C.CausalCurveIn W I₁ d :=
+      hc.comp (hc.nonempty.image _)
+        (isPreconnected_iff_ordConnected.1
+          (hc.ordConnected.isPreconnected.image _ Real.continuous_arctan.continuousOn))
+        (Real.strictMonoOn_tan.mono hsub) (Real.continuousOn_tan_Ioo.mono hsub) hmaps
+    have hdγ : ∀ s ∈ I₁, T (d s) ∈ J ∧ γ (T (d s)) = d s := by
+      rintro _ ⟨t, ht, rfl⟩
+      simp only [hd, Function.comp, htan]
+      exact hcγ t ht
+    have hdext : C.Extensible W I₁ d := by
+      refine extensible_of_timeGraph_openEnd hγ hTγ hdc hdγ
+        (fun x hx y hy hxy => Causal.Causality.CausalCurveIn.time_mono hT hdc hx hy hxy)
+        (hTc.comp_continuousOn (continuousOn_of_causalCurveIn hdc))
+        ⟨Real.pi / 2, fun x hx => (hsub hx).2.le⟩ ?_ ht' ?_
+      · rintro _ ⟨t, ht, rfl⟩
+        obtain ⟨u, hu, htu⟩ := hnomax t ht
+        exact ⟨Real.arctan u, ⟨u, hu, rfl⟩, Real.arctan_strictMono htu⟩
+      · rintro _ ⟨t, ht, rfl⟩
+        simp only [hd, Function.comp, htan]
+        exact hlt t ht
+    exact hdext.of_comp (ψ := Real.arctan) (Real.arctan_strictMono.strictMonoOn _)
+      (mapsTo_image _ _) (surjOn_image _ _) fun t _ => by simp only [hd, Function.comp, htan]
+
+/-- The past form of `extensible_of_timeGraph_future` (reversed causality). -/
+theorem extensible_of_timeGraph_past (hC : C.CausallyArcConnected) (hcaus : C.IsCausal)
+    (hTc : Continuous T) (hT : ∀ x y, C.le ⊤ x y → x ≠ y → T x < T y)
+    (hγ : C.CausalCurveIn W J γ) (hTγ : ∀ τ ∈ J, T (γ τ) = τ) (hc : C.CausalCurveIn W I c)
+    (hcγ : ∀ t ∈ I, T (c t) ∈ J ∧ γ (T (c t)) = c t)
+    {t' : ℝ} (ht' : t' ∈ J) (hgt : ∀ t ∈ I, t' < T (c t)) : C.Extensible W I c := by
+  apply Causal.Causality.Extensible.of_dual_reverse
+  refine extensible_of_timeGraph_future (C := C.dual) (T := fun x => -T x) (J := -J)
+    (γ := fun τ => γ (-τ)) (Causal.Causality.dual_causallyArcConnectedOn.2 hC)
+    (Causal.Causality.dual_isCausal.2 hcaus) hTc.neg ?_ hγ.reverse ?_ hc.reverse ?_
+    (t' := -t') (by simpa using ht') ?_
+  · intro x y hxy hne
+    have := hT y x hxy (Ne.symm hne)
+    linarith
+  · intro τ hτ
+    have := hTγ (-τ) hτ
+    simp only [this, neg_neg]
+  · intro t ht
+    obtain ⟨h1, h2⟩ := hcγ (-t) ht
+    refine ⟨by simpa using h1, ?_⟩
+    simp only [neg_neg]; exact h2
+  · intro t ht
+    have := hgt (-t) ht
+    linarith
+
+/-- **A Cauchy surface of `X` inside an open past set `W` is a Cauchy surface of `W`**, given a
+continuous function strictly increasing along `≤`. -/
+theorem isCauchySurfaceOn_of_isPast (hC : C.CausallyArcConnected) (hcaus : C.IsCausal)
+    (hTc : Continuous T) (hT : ∀ x y, C.le ⊤ x y → x ≠ y → T x < T y)
+    (hW : ∀ x y, x ∈ W → C.le ⊤ y x → y ∈ W) {S : Set X} (hSW : S ⊆ W)
+    (hS : C.IsCauchySurface S) : C.IsCauchySurfaceOn W S := by
+  intro I c hc
+  have hcT := hc.1.mono_opens le_top
+  obtain ⟨J, γ, hγ, hsub, hTγ⟩ := Causal.Causality.exists_inextensible_of_timeFunction hTc hT hcT
+  obtain ⟨_, ⟨⟨tS, htS, rfl⟩, hγS⟩, -⟩ := hS J γ hγ
+  have hcγ : ∀ t ∈ I, T (c t) ∈ J ∧ γ (T (c t)) = c t := by
+    intro t ht
+    obtain ⟨u, hu, hcu⟩ := hsub ⟨t, ht, rfl⟩
+    rw [← hcu, hTγ u hu]; exact ⟨hu, rfl⟩
+  have hac : C.IsAcausal S := hS.isAcausal_of_timeFunction hC hTc hT
+  have hex : ∃ t ∈ I, c t ∈ S := by
+    by_contra hno
+    push Not at hno
+    have hne : ∀ t ∈ I, T (c t) ≠ tS := fun t ht e =>
+      hno t ht (by rw [← (hcγ t ht).2, e]; exact hγS)
+    set J' : Set ℝ := {u | u ∈ J ∧ (u ≤ tS ∨ ∃ t ∈ I, u ≤ T (c t))} with hJ'
+    have hJ'mem : ∀ u ∈ J', γ u ∈ W := by
+      rintro u ⟨hu, hu' | ⟨t, ht, hut⟩⟩
+      · exact hW _ _ (hSW hγS) (hγ.1.le_of_le hu htS hu')
+      · have h1 := hγ.1.le_of_le hu (hcγ t ht).1 hut
+        rw [(hcγ t ht).2] at h1
+        exact hW _ _ (hc.1.mem ht) h1
+    have hJ'oc : J'.OrdConnected := ⟨fun x hx y hy z hz => by
+      refine ⟨hγ.1.ordConnected.out hx.1 hy.1 hz, ?_⟩
+      rcases hy.2 with h | ⟨t, ht, h⟩
+      · exact Or.inl (hz.2.trans h)
+      · exact Or.inr ⟨t, ht, hz.2.trans h⟩⟩
+    have htS' : tS ∈ J' := ⟨htS, Or.inl le_rfl⟩
+    have hγ' : C.CausalCurveIn W J' γ := ⟨⟨tS, htS'⟩, hJ'oc, fun a ha b hb =>
+      Causal.CurveOn.restrict (hγ.1.curve a ha.1 b hb.1) le_rfl le_rfl le_top
+        fun u hu => hJ'mem u (hJ'oc.out ha hb hu)⟩
+    have hcγ' : ∀ t ∈ I, T (c t) ∈ J' ∧ γ (T (c t)) = c t := fun t ht =>
+      ⟨⟨(hcγ t ht).1, Or.inr ⟨t, ht, le_rfl⟩⟩, (hcγ t ht).2⟩
+    have hTγ' : ∀ τ ∈ J', T (γ τ) = τ := fun τ hτ => hTγ τ hτ.1
+    by_cases hall : ∀ t ∈ I, T (c t) < tS
+    · exact hc.2 (extensible_of_timeGraph_future hC hcaus hTc hT hγ' hTγ' hc.1 hcγ' htS' hall)
+    · push Not at hall
+      obtain ⟨t₁, ht₁, h₁⟩ := hall
+      have hgt : ∀ t ∈ I, tS < T (c t) := by
+        intro t ht
+        by_contra h
+        push Not at h
+        have hsub' : uIcc t t₁ ⊆ I := hc.1.ordConnected.uIcc_subset ht ht₁
+        have hcont : ContinuousOn (T ∘ c) (uIcc t t₁) :=
+          hTc.comp_continuousOn ((continuousOn_of_causalCurveIn hc.1).mono hsub')
+        obtain ⟨s, hs, hse⟩ := intermediate_value_uIcc hcont (Set.mem_uIcc_of_le h h₁)
+        exact hne s (hsub' hs) hse
+      exact hc.2 (extensible_of_timeGraph_past hC hcaus hTc hT hγ' hTγ' hc.1 hcγ' htS' hgt)
+  obtain ⟨t, ht, hcS⟩ := hex
+  refine ⟨c t, ⟨mem_image_of_mem c ht, hcS⟩, ?_⟩
+  rintro _ ⟨⟨s, hs, rfl⟩, hsS⟩
+  rcases le_total s t with h | h
+  · exact hac _ hsS _ hcS ((hc.1.mono_opens le_top).le_of_le hs ht h)
+  · exact (hac _ hcS _ hsS ((hc.1.mono_opens le_top).le_of_le ht hs h)).symm
+
+end CurveExt
+
+/-! ### §4a″ Connected Cauchy surfaces without compactness (WP-43a)
+
+`GX.E0AbsMax.isConnected_of_isCauchySurface_abstract` (WP-41k) proves a **compact** acausal
+Cauchy surface of a connected globally hyperbolic spacetime connected. Lemma 2.3's `M₀` needs the
+non-compact case (the level set `T = a` of a Cauchy time function of an arbitrary GH
+`𝔼₀`-manifold): compactness of `S` is replaced by R1 (`J⁺(S) ∩ J⁻(q)` and `J⁻(S) ∩ J⁺(q)`
+compact, `E0LM.sfa_isCompact_Jplus_inter_Jminus`), which makes the futures and pasts of the
+closed pieces of `S` closed (`isClosed_Jplus_of_subset_cauchy`, `isClosed_Jminus_of_subset_cauchy`),
+and the minimal-point argument goes through unchanged (`not_le_of_le_of_isCauchySurface_closed`,
+`isConnected_of_isCauchySurface_closed`). -/
+
+section CauchyConnected
+
+variable {X : Type} [TopologicalSpace X] {C : Causal.Causality X}
+
+/-- **The causal future of a closed piece `A` of a Cauchy surface `S` is closed**, when the
+`J⁺(S) ∩ J⁻(q)` are compact (R1): near `y`, inside a tarentin diamond `J(p, q)`, `J⁺(A)` is the
+causal future of the compact `A ∩ J⁻(q)`. -/
+theorem isClosed_Jplus_of_subset_cauchy [T2Space X] (hT : C.Tarentin) (hG : C.GloballyHyperbolic)
+    {S A : Set X} (hcomp : ∀ q : X, IsCompact (C.Jplus ⊤ S ∩ C.Jminus ⊤ {q}))
+    (hAS : A ⊆ S) (hA : IsClosed A) : IsClosed (C.Jplus ⊤ A) := by
+  have hle := hG.isClosed_le hT
+  refine isClosed_of_closure_subset fun y hy => ?_
+  obtain ⟨p, -, q, -, hσ⟩ := hT y univ univ_mem
+  set N := C.openDiamond ⊤ p q with hN
+  have hNq : ∀ z ∈ N, C.le ⊤ z q := fun z hz =>
+    (Causal.Causality.mem_diamond.1 (Causal.Causality.openDiamond_subset_diamond hz)).2
+  set A' := A ∩ C.Jminus ⊤ {q} with hA'
+  have hA'c : IsCompact A' := by
+    refine (hcomp q).of_isClosed_subset (hA.inter (hG.isClosed_Jminus_singleton hT q)) ?_
+    rintro z ⟨hzA, hzq⟩
+    exact ⟨⟨z, hAS hzA, C.le_refl trivial⟩, hzq⟩
+  have hcl := Causal.Causality.isClosed_Jplus_of_isCompact hle hA'c
+  have hsub : N ∩ C.Jplus ⊤ A ⊆ C.Jplus ⊤ A' := by
+    rintro z ⟨hzN, a, ha, haz⟩
+    exact ⟨a, ⟨ha, Causal.Precausality.mem_Jminus_singleton.2 (C.le_trans haz (hNq z hzN))⟩, haz⟩
+  have hy' : y ∈ closure (N ∩ C.Jplus ⊤ A) :=
+    Causal.Causality.isOpen_openDiamond.inter_closure ⟨hσ, hy⟩
+  have h2 := closure_mono hsub hy'
+  rw [hcl.closure_eq] at h2
+  obtain ⟨a, ha, haz⟩ := h2
+  exact ⟨a, ha.1, haz⟩
+
+/-- The past form of `isClosed_Jplus_of_subset_cauchy` (reversed causality). -/
+theorem isClosed_Jminus_of_subset_cauchy [T2Space X] (hT : C.Tarentin)
+    (hG : C.GloballyHyperbolic) {S A : Set X}
+    (hcomp : ∀ q : X, IsCompact (C.Jminus ⊤ S ∩ C.Jplus ⊤ {q}))
+    (hAS : A ⊆ S) (hA : IsClosed A) : IsClosed (C.Jminus ⊤ A) :=
+  isClosed_Jplus_of_subset_cauchy (C := C.dual) (Causal.Causality.dual_tarentin.2 hT)
+    (Causal.Causality.dual_globallyHyperbolic.2 hG) hcomp hAS hA
+
+/-- The core of `isConnected_of_isCauchySurface_closed` (the argument of
+`GX.E0AbsMax.not_le_of_le_of_isCauchySurface`, WP-41k, for a **closed, not necessarily compact**
+Cauchy surface: compactness of `S` is replaced by R1, `J⁺(S) ∩ J⁻(x)` compact, and the closedness
+of the futures of the two pieces). -/
+theorem not_le_of_le_of_isCauchySurface_closed [T2Space X] (hT : C.Tarentin) (hG : C.GloballyHyperbolic)
+    (hC : C.CausallyArcConnected) (hext : C.CurvesExtend) {S S₁ S₂ : Set X}
+    (hS : C.IsCauchySurface S) (hSac : C.IsAcausal S) (hScl : IsClosed S)
+    (hcomp : ∀ q : X, IsCompact (C.Jplus ⊤ S ∩ C.Jminus ⊤ {q}))
+    (hS₁ : IsClosed (C.Jplus ⊤ S₁)) (hS₂ : IsClosed (C.Jplus ⊤ S₂))
+    (hSS : S = S₁ ∪ S₂) (hdisj : Disjoint S₁ S₂) {x a b : X} (ha : a ∈ S₁) (hb : b ∈ S₂)
+    (hax : C.le ⊤ a x) (hbx : C.le ⊤ b x) : False := by
+  have hle := hG.isClosed_le hT
+  set K : Set X := C.Jminus ⊤ {x} ∩ C.Jplus ⊤ S₁ ∩ C.Jplus ⊤ S₂ with hKdef
+  have hKcl : IsClosed K :=
+    ((hG.isClosed_Jminus_singleton hT x).inter hS₁).inter hS₂
+  have hKsub : K ⊆ C.Jplus ⊤ S ∩ C.Jminus ⊤ {x} := by
+    rintro z ⟨⟨hzx, σ', hσ', hσ'z⟩, -⟩
+    exact ⟨⟨σ', hSS ▸ Or.inl hσ', hσ'z⟩, hzx⟩
+  have hKc : IsCompact K := (hcomp x).of_isClosed_subset hKcl hKsub
+  have hxK : x ∈ K := ⟨⟨Causal.Precausality.mem_Jminus_singleton.2 (C.le_refl trivial),
+    a, ha, hax⟩, b, hb, hbx⟩
+  obtain ⟨y₀, hy₀K, hmin⟩ := Causal.Causality.exists_minimal_of_isCompact hG.1
+    (fun z => hG.isClosed_Jminus_singleton hT z) hKc ⟨x, hxK⟩
+  obtain ⟨⟨hy₀x, a', ha', ha'y⟩, b', hb', hb'y⟩ := hy₀K
+  have hy₀x' : C.le ⊤ y₀ x := Causal.Precausality.mem_Jminus_singleton.1 hy₀x
+  have hSa' : a' ∈ S := hSS ▸ Or.inl ha'
+  have hSb' : b' ∈ S := hSS ▸ Or.inr hb'
+  -- `y₀ ∉ S`
+  have hy₀S : y₀ ∉ S := by
+    intro hy
+    have e1 := hSac a' hSa' y₀ hy ha'y
+    have e2 := hSac b' hSb' y₀ hy hb'y
+    exact Set.disjoint_left.1 hdisj ha' (e1.trans e2.symm ▸ hb')
+  have hSU : C.IsCauchySurfaceOn ⊤ (S ∩ (⊤ : Opens X)) := by
+    rw [Opens.coe_top, inter_univ]; exact hS
+  obtain ⟨s, ⟨hsS, -⟩, N, hN, -, hNs⟩ :=
+    Causal.Causality.exists_nhds_subset_Jplus_of_isCauchySurfaceOn hT hG hC hext
+      Causal.Causality.causallyConvexIn_top hScl hSU ⟨hSa', trivial⟩ trivial hy₀S ha'y
+  -- the curve from the other piece's point `e ≤ y₀` meets `N ∖ {y₀}` just before `y₀`
+  have hclose : ∀ e, e ∈ S → C.le ⊤ e y₀ →
+      ∃ z ∈ N, C.le ⊤ e z ∧ C.le ⊤ z y₀ ∧ z ≠ y₀ := by
+    intro e heS hey
+    obtain ⟨c, hc, hc0, hc1⟩ := (hC ⊤ le_rfl e y₀).1.1 hey
+    have hcont : ContinuousOn c (Icc 0 1) := hc.continuousOn C.isRelFamily_le
+    set T : Set ℝ := {t | t ∈ Icc (0 : ℝ) 1 ∧ c t = y₀} with hTdef
+    have h1T : (1 : ℝ) ∈ T := ⟨right_mem_Icc.2 zero_le_one, hc1⟩
+    have hTbdd : BddBelow T := ⟨0, fun t ht => ht.1.1⟩
+    have hTcl : IsClosed T := by
+      have : T = Icc 0 1 ∩ c ⁻¹' {y₀} := rfl
+      rw [this]
+      exact hcont.preimage_isClosed_of_isClosed isClosed_Icc isClosed_singleton
+    have hτ : sInf T ∈ T := hTcl.csInf_mem ⟨1, h1T⟩ hTbdd
+    have hτ0 : 0 < sInf T := by
+      rcases hτ.1.1.eq_or_lt with h | h
+      · exfalso
+        have : c 0 = y₀ := by rw [h]; exact hτ.2
+        rw [hc0] at this
+        exact hy₀S (this ▸ heS)
+      · exact h
+    -- points just before `sInf T`
+    have hpre : c ⁻¹' N ∈ 𝓝[Icc 0 1] (sInf T) :=
+      (hcont _ hτ.1).preimage_mem_nhdsWithin (by rw [hτ.2]; exact hN)
+    obtain ⟨ε, hε, hball⟩ := Metric.mem_nhdsWithin_iff.1 hpre
+    set t := max (sInf T - ε / 2) (sInf T / 2) with htdef
+    have ht0 : 0 ≤ t := le_max_of_le_right (by linarith)
+    have htlt : t < sInf T := max_lt (by linarith) (by linarith)
+    have ht1 : t ≤ 1 := htlt.le.trans hτ.1.2
+    have htN : c t ∈ N := by
+      refine hball ⟨?_, ht0, ht1⟩
+      rw [Metric.mem_ball, Real.dist_eq, abs_lt]
+      constructor <;> linarith [le_max_left (sInf T - ε / 2) (sInf T / 2)]
+    refine ⟨c t, htN, ?_, ?_, ?_⟩
+    · have := hc.le_of_le le_rfl ht0 ht1; rwa [hc0] at this
+    · have := hc.le_of_le ht0 htlt.le hτ.1.2; rwa [hτ.2] at this
+    · intro he
+      exact absurd (csInf_le hTbdd ⟨⟨ht0, ht1⟩, he⟩) (not_le.2 htlt)
+  have hsS' : s ∈ S₁ ∪ S₂ := hSS ▸ hsS
+  rcases hsS' with hs1 | hs2
+  · obtain ⟨z, hzN, hb'z, hzy, hne⟩ := hclose b' hSb' hb'y
+    exact hne (hmin z ⟨⟨Causal.Precausality.mem_Jminus_singleton.2 (C.le_trans hzy hy₀x'),
+      s, hs1, hNs z hzN⟩, b', hb', hb'z⟩ hzy)
+  · obtain ⟨z, hzN, ha'z, hzy, hne⟩ := hclose a' hSa' ha'y
+    exact hne (hmin z ⟨⟨Causal.Precausality.mem_Jminus_singleton.2 (C.le_trans hzy hy₀x'),
+      a', ha', ha'z⟩, s, hs2, hNs z hzN⟩ hzy)
+
+/-- **A closed acausal Cauchy surface of a connected globally hyperbolic spacetime is connected**,
+given R1 (`J⁺(S) ∩ J⁻(q)`, `J⁻(S) ∩ J⁺(q)` compact) — the non-compact form of
+`GX.E0AbsMax.isConnected_of_isCauchySurface_abstract` (WP-41k), whose proof is followed. -/
+theorem isConnected_of_isCauchySurface_closed [T2Space X] [ConnectedSpace X] (hT : C.Tarentin)
+    (hG : C.GloballyHyperbolic) (hC : C.CausallyArcConnected) (hext : C.CurvesExtend)
+    {S : Set X} (hS : C.IsCauchySurface S) (hScl : IsClosed S) (hSac : C.IsAcausal S)
+    (hcomp : ∀ q : X, IsCompact (C.Jplus ⊤ S ∩ C.Jminus ⊤ {q}))
+    (hcomp' : ∀ q : X, IsCompact (C.Jminus ⊤ S ∩ C.Jplus ⊤ {q})) :
+    IsConnected S := by
+  have hle := hG.isClosed_le hT
+  -- every point is causally related to a point of `S`
+  have hrel : ∀ x : X, ∃ σ ∈ S, C.le ⊤ σ x ∨ C.le ⊤ x σ := by
+    intro x
+    obtain ⟨I, c, hc, hsub⟩ := hext _ 0 1 zero_le_one
+      (Causal.Causality.causalCurveOn_const (p := x) (W := ⊤) trivial)
+    obtain ⟨v, hv, hcv⟩ := hsub ⟨0, ⟨le_rfl, zero_le_one⟩, rfl⟩
+    have hcv' : c v = x := hcv
+    obtain ⟨σ, ⟨⟨u, hu, rfl⟩, hσ⟩, -⟩ := hS I c hc
+    refine ⟨c u, hσ, ?_⟩
+    rcases le_total u v with h | h
+    · exact Or.inl (hcv' ▸ hc.1.le_of_le hu hv h)
+    · exact Or.inr (hcv' ▸ hc.1.le_of_le hv hu h)
+  obtain ⟨x₀⟩ := (inferInstance : Nonempty X)
+  obtain ⟨σ₀, hσ₀, -⟩ := hrel x₀
+  refine ⟨⟨σ₀, hσ₀⟩, ?_⟩
+  rw [isPreconnected_closed_iff]
+  intro t t' ht ht' hSt hne hne'
+  by_contra hempty
+  have hdisj : Disjoint (S ∩ t) (S ∩ t') := Set.disjoint_left.2 fun z h1 h2 =>
+    hempty ⟨z, h1.1, h1.2, h2.2⟩
+  have hS₁c : IsClosed (S ∩ t) := hScl.inter ht
+  have hS₂c : IsClosed (S ∩ t') := hScl.inter ht'
+  have hJp₁ := isClosed_Jplus_of_subset_cauchy hT hG hcomp inter_subset_left hS₁c
+  have hJp₂ := isClosed_Jplus_of_subset_cauchy hT hG hcomp inter_subset_left hS₂c
+  have hJm₁ := isClosed_Jminus_of_subset_cauchy hT hG hcomp' inter_subset_left hS₁c
+  have hJm₂ := isClosed_Jminus_of_subset_cauchy hT hG hcomp' inter_subset_left hS₂c
+  have hSS : S = S ∩ t ∪ S ∩ t' := by
+    ext z
+    constructor
+    · intro hz
+      rcases hSt hz with h | h
+      · exact Or.inl ⟨hz, h⟩
+      · exact Or.inr ⟨hz, h⟩
+    · rintro (h | h) <;> exact h.1
+  set U₁ := C.Jplus ⊤ (S ∩ t) ∪ C.Jminus ⊤ (S ∩ t) with hU₁
+  set U₂ := C.Jplus ⊤ (S ∩ t') ∪ C.Jminus ⊤ (S ∩ t') with hU₂
+  have hU₁c : IsClosed U₁ := hJp₁.union hJm₁
+  have hU₂c : IsClosed U₂ := hJp₂.union hJm₂
+  have hcover : (univ : Set X) ⊆ U₁ ∪ U₂ := by
+    intro x _
+    obtain ⟨σ, hσ, h⟩ := hrel x
+    rcases hSt hσ with hσt | hσt'
+    · rcases h with h | h
+      · exact Or.inl (Or.inl ⟨σ, ⟨hσ, hσt⟩, h⟩)
+      · exact Or.inl (Or.inr ⟨σ, ⟨hσ, hσt⟩, h⟩)
+    · rcases h with h | h
+      · exact Or.inr (Or.inl ⟨σ, ⟨hσ, hσt'⟩, h⟩)
+      · exact Or.inr (Or.inr ⟨σ, ⟨hσ, hσt'⟩, h⟩)
+  obtain ⟨a, ha⟩ := hne
+  obtain ⟨b, hb⟩ := hne'
+  obtain ⟨x, -, hx₁, hx₂⟩ := (isPreconnected_closed_iff.1 isPreconnected_univ) U₁ U₂ hU₁c hU₂c
+    hcover ⟨a, trivial, Or.inl ⟨a, ha, C.le_refl trivial⟩⟩
+    ⟨b, trivial, Or.inl ⟨b, hb, C.le_refl trivial⟩⟩
+  have hacS : ∀ {a' b'}, a' ∈ S ∩ t → b' ∈ S ∩ t' → C.le ⊤ a' b' → False := fun ha' hb' h =>
+    Set.disjoint_left.1 hdisj ha' (hSac _ ha'.1 _ hb'.1 h ▸ hb')
+  have hacS' : ∀ {a' b'}, a' ∈ S ∩ t → b' ∈ S ∩ t' → C.le ⊤ b' a' → False := fun ha' hb' h =>
+    Set.disjoint_left.1 hdisj ha' ((hSac _ hb'.1 _ ha'.1 h).symm ▸ hb')
+  rcases hx₁ with ⟨a', ha', h1⟩ | ⟨a', ha', h1⟩ <;> rcases hx₂ with ⟨b', hb', h2⟩ | ⟨b', hb', h2⟩
+  · exact not_le_of_le_of_isCauchySurface_closed hT hG hC hext hS hSac hScl hcomp hJp₁ hJp₂ hSS hdisj
+      ha' hb' h1 h2
+  · exact hacS ha' hb' (C.le_trans h1 h2)
+  · exact hacS' ha' hb' (C.le_trans h2 h1)
+  · exact not_le_of_le_of_isCauchySurface_closed (C := C.dual)
+      (Causal.Causality.dual_tarentin.2 hT) (Causal.Causality.dual_globallyHyperbolic.2 hG)
+      (Causal.Causality.dual_causallyArcConnectedOn.2 hC) hext.dual
+      (Causal.Causality.dual_isCauchySurfaceOn.2 hS) (Causal.Causality.dual_isAcausal.2 hSac) hScl
+      hcomp' hJm₁ hJm₂ hSS hdisj ha' hb' h1 h2
+
+
+end CauchyConnected
+
 /-! ### §4b The glue data of Lemma 2.3 (`Causal.CBG.FamilyGlueData`, two pieces) -/
 
 section GlueData
@@ -1619,7 +2195,35 @@ theorem CylChartData.exists_cauchy_subset_W0 [SecondCountableTopology M]
     · exact (hstrict _ _ hkx hkx').le
   linarith
 
-/-! #### The four facts of Lemma 2.3 not proved here (each a tagged `sorry`, isolated)
+include hGH in
+/-- `exists_cauchy_subset_W0` with the Cauchy surface **closed** (a level set of a continuous
+function). -/
+theorem CylChartData.exists_closed_cauchy_subset_W0 [SecondCountableTopology M]
+    (hLM : E0LM.E0GlobalBTZ (CE M) (S0 M)) :
+    ∃ S : Set M, S ⊆ d.W0 ∧ (CE M).IsCauchySurface S ∧ IsClosed S := by
+  letI : MeasurableSpace M := borel M
+  haveI : BorelSpace M := ⟨rfl⟩
+  have hA := E0LM.e0_singularFlatAxioms_of E0.chartIso_mem_e0Groupoid hLM
+  obtain ⟨T, hT, hstrict⟩ := hA.geroch_sing_i_imp_ii (E0LM.e0_modelMeasures M hGH) hGH
+  have hd0 : ((d.v + d.ε / 2, (0 : ℂ)) : E0) ∈ glueDisc d.v d.ε := by
+    refine ⟨rfl, ?_⟩
+    show ‖(0 : ℂ)‖ ≤ d.ε / 4
+    rw [norm_zero]; linarith [d.pos]
+  have hKne : d.K.Nonempty := ⟨_, _, ⟨_, hd0, rfl⟩, rfl⟩
+  obtain ⟨k₀, hk₀, hmin⟩ := d.isCompact_K.exists_isMinOn hKne hT.1.continuous.continuousOn
+  refine ⟨T ⁻¹' {T k₀ - 1}, ?_, isCauchySurface_level E0LM.e0_causallyArcConnected hGH.1
+    hA.Jminus_ne_singleton hA.Jplus_ne_singleton hT hstrict _,
+    isClosed_singleton.preimage hT.1.continuous⟩
+  rintro x hx ⟨k, hk, hkx⟩
+  have hx' : T x = T k₀ - 1 := hx
+  have h1 : T k₀ ≤ T k := hmin hk
+  have h2 : T k ≤ T x := by
+    by_cases hkx' : k = x
+    · rw [hkx']
+    · exact (hstrict _ _ hkx hkx').le
+  linarith
+
+/-! #### Four facts of Lemma 2.3: two proved (WP-43a), two isolated tagged `sorry`s
 
 All four are stated for a `CylChartData`, i.e. **under B21's normalisation** (`BTZ_1.tex:647`):
 the chart cylinder is causally convex in `M` (`CylChartData.convex`, obtained from strong
@@ -1632,26 +2236,69 @@ from `M₀`, and they stay as extra points of `𝒫`), and the two glued leaves 
 from that argument (audit round 2). -/
 
 /-- **`M₀ = M ∖ J⁺(κ⁻¹Π)` is connected** (needed: CBG's `M₀` is a connected development
-carrier). True: every point of `M₀` is joined inside `M₀` (a past set) by a past causal curve to
-the Cauchy surface `T = a` below `κ⁻¹Π`, and `{T < a} ≅ Σ × ]−∞, a[` is connected. -/
+carrier; B21 leaves it implicit). Proved (WP-43a): every point of `M₀` is joined inside `M₀` (a
+past set) to the closed Cauchy surface `S = {T = a}` below `κ⁻¹Π` along the segment of an
+inextensible curve through it (`E0LM.e0_curvesExtend`), and `S` is connected
+(`isConnected_of_isCauchySurface_closed`: R1 from `E0LM.sfa_isCompact_Jplus_inter_Jminus`,
+no splitting and no compactness of `S`). -/
 theorem CylChartData.connectedSpace_W0 [ConnectedSpace M] [SecondCountableTopology M]
     (hLM : E0LM.E0GlobalBTZ (CE M) (S0 M)) : ConnectedSpace (d.W0o hGH) := by
-  sorry -- SORRY(lem:tube): connectedness of M₀ = M ∖ J⁺(κ⁻¹Π). The reduction to a Cauchy surface is available (`Causal.Causality.mem_connectedComponentIn_inf_of_subsingleton`: every point of M₀ is joined inside M₀ to the level set T = a of `exists_cauchy_subset_W0`, once that level set is Cauchy for M₀ — `isCauchySurfaceOn_W0`), but the level set itself must be connected, i.e. the splitting M ≅ Σ × ℝ of a connected GH 𝔼₀-manifold; the strict `geroch_sing_split` needs a `VecteurFlow` (a continuous causal flow), not built for 𝔼₀-manifolds, and the connectedness lemmas of lean-causal for Cauchy surfaces (`connectedSpace_preimage_cauchy`, `isConnected_of_isCauchySurface`) are for flat spacetimes only
+  letI : MeasurableSpace M := borel M
+  haveI : BorelSpace M := ⟨rfl⟩
+  have hA := E0LM.e0_singularFlatAxioms_of E0.chartIso_mem_e0Groupoid hLM
+  obtain ⟨S, hSW, hS, hScl⟩ := d.exists_closed_cauchy_subset_W0 hGH hLM
+  obtain ⟨T, hTc, hTs⟩ := E0LM.e0_timeFunction hGH
+  have hext := E0LM.e0_curvesExtend hGH
+  have hC : (CE M).CausallyArcConnected := E0LM.e0_causallyArcConnected
+  have hac : (CE M).IsAcausal S := hS.isAcausal hC hext
+  have hSconn : IsConnected S := isConnected_of_isCauchySurface_closed E0LM.e0_tarentin hGH hC
+    hext hS hScl hac (fun q => E0LM.sfa_isCompact_Jplus_inter_Jminus hA hGH hTc hTs hS q)
+    (fun q => E0LM.sfa_isCompact_Jminus_inter_Jplus hA hGH hTc hTs hS q)
+  -- every point of `M₀` is joined inside `M₀` to `S`, along an inextensible curve through it
+  have hjoin : ∀ y ∈ d.W0, ∃ t ⊆ d.W0, y ∈ t ∧ (t ∩ S).Nonempty ∧ IsPreconnected t := by
+    intro y hy
+    obtain ⟨I, c, hc, hsub⟩ := hext _ 0 1 zero_le_one
+      (Causal.Causality.causalCurveOn_const (p := y) (W := ⊤) trivial)
+    obtain ⟨v, hv, hcv⟩ := hsub ⟨0, ⟨le_rfl, zero_le_one⟩, rfl⟩
+    have hcv' : c v = y := hcv
+    obtain ⟨_, ⟨⟨u, hu, rfl⟩, hσ⟩, -⟩ := hS I c hc
+    refine ⟨c '' uIcc v u, ?_, ⟨v, left_mem_uIcc, hcv'⟩, ⟨c u, ⟨u, right_mem_uIcc, rfl⟩, hσ⟩,
+      isPreconnected_uIcc.image _ ((continuousOn_of_causalCurveIn hc.1).mono
+        (hc.1.ordConnected.uIcc_subset hv hu))⟩
+    rintro _ ⟨w, hw, rfl⟩
+    have hwI : w ∈ I := hc.1.ordConnected.uIcc_subset hv hu hw
+    rcases le_total v u with h | h
+    · rw [uIcc_of_le h] at hw
+      exact d.mem_W0_of_le (hSW hσ) (hc.1.le_of_le hwI hu hw.2)
+    · rw [uIcc_of_ge h] at hw
+      exact d.mem_W0_of_le hy (hcv' ▸ hc.1.le_of_le hwI hv hw.2)
+  have hW0 : IsConnected d.W0 := by
+    obtain ⟨s₀, hs₀⟩ := hSconn.nonempty
+    refine ⟨⟨s₀, hSW hs₀⟩, isPreconnected_of_forall s₀ fun y hy => ?_⟩
+    obtain ⟨t, htW, hyt, ⟨z, hzt, hzS⟩, htc⟩ := hjoin y hy
+    exact ⟨t ∪ S, union_subset htW hSW, Or.inr hs₀, Or.inl hyt,
+      IsPreconnected.union z hzt hzS htc hSconn.isPreconnected⟩
+  exact isConnected_iff_connectedSpace.1 hW0
 
 /-- **A Cauchy surface of `M` inside the past set `M₀` is a Cauchy surface of `M₀`.** True: the
 maximal extension `c′` in `M` of an inextensible curve `c` of `M₀` meets `M₀` in an initial
 segment (`M₀` is a past set), which is `c` by inextensibility; it contains the point of `c′` on
-`S ⊆ M₀`. -/
-theorem CylChartData.isCauchySurfaceOn_W0 {S : Set M} (hSW : S ⊆ d.W0)
+`S ⊆ M₀`. Proved (WP-43a): Levin's time function and `isCauchySurfaceOn_of_isPast` (the
+relative extension lemmas of §4a′ handle the constant pieces and unbounded parameters that
+blocked round 2). -/
+theorem CylChartData.isCauchySurfaceOn_W0 [SecondCountableTopology M] {S : Set M} (hSW : S ⊆ d.W0)
     (hS : (CE M).IsCauchySurface S) : (CE M).IsCauchySurfaceOn (d.W0o hGH) S := by
-  sorry -- SORRY(lem:tube): every inextensible causal curve c of the open past set M₀ meets S. Uniqueness is free (`hS.inter_subsingleton`). For existence the pieces that exist are: an inextensible curve γ of M carrying c, parametrised by a time function (`Causal.Causality.exists_inextensible_of_secondCountable`, any open W, any interval), which meets S at some γ t₀ with γ([.., t₀]) ⊆ M₀ (M₀ a past set), and the relative end-extension lemmas for an open W (`Causal.Causality.futureExtensible_of_tendsto_opens`, `pastExtensible_of_tendsto_opens`, Flat/Cosmological, generic in the causality). Missing: the passage « c misses γ t₀ ⇒ c is extensible in M₀ »: c may be constant on a terminal parameter subinterval, or have an unbounded parameter interval while τ ∘ c is bounded, and the end-extension lemmas need a bounded parameter end with a limit; lean-causal has no reparametrisation lemma for (In)extensible over an open W ≠ ⊤ (the ⊤ forms `Inextensible.reparam`, `futureExtensible_of_forall_ge` do not transfer), and `inextensible_ordConnectedComponent` goes the other way (M ⇒ W)
+  obtain ⟨τ, hτ, -, hτs⟩ :=
+    Causal.Causality.exists_timeFunction_of_secondCountable E0LM.e0_tarentin hGH
+  exact isCauchySurfaceOn_of_isPast E0LM.e0_causallyArcConnected hGH.1 hτ hτs
+    (fun _ _ hx hyx => d.mem_W0_of_le hx hyx) hSW hS
 
 /-- **`M₂` is globally hyperbolic** — the genuine obstruction of Lemma 2.3 (B21 does not argue
 it: it shows `Σ` Cauchy in `M₂` and concludes). Stated under the normalisation of
 `CylChartData` (causally convex chart cylinder). -/
 theorem CylChartData.globallyHyperbolic_glued :
     (@CE (d.glueData hGH).Glued _ (d.glueCS hGH)).GloballyHyperbolic := by
-  sorry -- SORRY(lem:tube): global hyperbolicity of the gluing M₂ = M₀ ∪_κ 𝒫 (under the normalisation: overlap 𝒫 ∩ cyl ∩ {τ < v + ε/2}, κ⁻¹Π acausal): causality of M₂ and compactness of the mixed diamonds J(x, y), x ∈ M₀, y ∈ 𝒫 above Π. Not a bookkeeping gap: the causalities of the open images ι(M₀), ι(𝒫) ARE the restrictions (`Causal.CBG.Geometry.causality_restrict`) and transfer along the injective local isomorphisms ι, but the library has no « Cauchy surface ⇒ globally hyperbolic » for 𝔼₀-manifolds (singular Geroch (iii)⇒(i) is scaffold, DEC-78), and `Causal.Causality.TwoPiece.isCompact_diamond_mixed` needs a Cauchy surface common to both pieces, which 𝒫 does not share with M₀; a direct proof needs the curve-level analysis of a mixed causal curve crossing the frontier Π (its past end in 𝒫 ∖ overlap has an endpoint on Π: the curve-extension theory, as in item (ii) of `isCauchySurface_glued`)
+  sorry -- SORRY(lem:tube): global hyperbolicity of the gluing M₂ = M₀ ∪_κ 𝒫 (overlap 𝒫 ∩ {τ < v + ε/2}). Route and what is missing: put the gluing in `Causal.CBG.TwoPiece` form (A = ι₀(M₀), B = ι₁(𝒫); cover; `AbsolutelyMinimalOn ⊤` of the glued charted causality; the overlap causally convex in each piece — in 𝒫 by `calculus_le` (τ non-decreasing) and `mem_cyl_of_le`, in M₀ by `CylChartData.convex`; agreement of the relations on the overlap by `CylChartData.le_model` and `Causal.CBG.Geometry.causality_restrict`) — none of these transfers is built here; then causality is `TwoPiece.isCausal` and the unmixed diamonds are `PieceChart.isCompact_diamond` (𝒫 is causally convex in 𝔼₀: f non-decreasing, r non-decreasing). The genuine gap is the mixed diamond J(x, y), x ∈ M₀, y ∈ 𝒫 ∖ overlap: `TwoPiece.isCompact_diamond_mixed` needs a Cauchy surface common to both pieces, and 𝒫 (a tube, entered sideways by causal curves) has none; a direct proof writes J(x, y) = ι₀(D₀) ∪ ι₁(D₁) with D₁ ⊆ {v + ε/2 ≤ τ ≤ τ(y), r ≤ r(y)} (compact in 𝒫, since r is non-decreasing along future curves, `calculus_le`) and D₀ ⊆ J⁺_M(x) ∩ J⁻_M(κ⁻¹Q), Q = {f ≥ v − ε/2, τ ≤ v + ε/2, r ≤ r(y)}, but the closedness of D₀, D₁ is not available (limit points of ι₀-points may be ι₁-points of Π, and the closedness of ≤ on M₂ is what GH would give)
 
 /-- **`Σ` is a Cauchy surface of `M₂`** (B21 l.663–672: a past-inextensible causal curve of `M₂`
 splits as `c₀ = c ∩ M₀`, `c₁ = c ∖ M₀`, `c₁` reaching `Π` and never `Σ`, `c₀` meeting `Σ` once).
@@ -1661,7 +2308,7 @@ theorem CylChartData.isCauchySurface_glued {S : Set M} (hSW : S ⊆ d.W0)
     (hS : (CE M).IsCauchySurface S) :
     (@CE (d.glueData hGH).Glued _ (d.glueCS hGH)).IsCauchySurface
       ((d.glueData hGH).ι false '' (Subtype.val ⁻¹' S : Set (d.W0o hGH))) := by
-  sorry -- SORRY(lem:tube): B21's c = c₀ ∪ c₁ argument in M₂ (under the normalisation: the frontier of ι(M₀) in M₂ is Π, `mem_U10_iff`), at the level of lean-causal's inextensible causal curves over intervals of the glued charted causality. The comparison of the glued and the piece causalities is NOT the obstruction (`Causal.CBG.Geometry.causality_restrict` gives the causalities of the open images ι(M₀), ι(𝒫) as restrictions, and transport along the injective local isomorphisms ι is the same mechanism). Blocking: (ii) that a past-directed causal curve of 𝒫 ∖ (overlap) has a past endpoint on Π (`calculus_le` gives monotonicity of τ and r; the endpoint is the curve-extension theory for curves of an open subset over an interval, absent from lean-causal), and (iii) `isCauchySurfaceOn_W0` for the c₀ part (same relative extension theory)
+  sorry -- SORRY(lem:tube): B21's c = c₀ ∪ c₁ argument in M₂ (frontier of ι(M₀) in M₂ is Π, `mem_U10_iff`). The c₀ part is now available: S is Cauchy in M₀ (`isCauchySurfaceOn_W0`, WP-43a), transported to ι₀(M₀) by `IsEMorphismOn.isCauchySurfaceOn_image_iff`. Missing: (i) the causality of M₂, needed for `inextensible_ordConnectedComponent_of_le` in M₂ and for uniqueness (`TwoPiece.isCausal`/`TwoPiece.le_of_le_top`, once the gluing is in `Causal.CBG.TwoPiece` form — see `globallyHyperbolic_glued`; the TwoPiece transfer lemmas for this FamilyGlueData are not built); (ii) an inextensible curve of M₂ inside ι₁(𝒫 ∖ overlap) is impossible: its past end has τ, r monotone and bounded (`calculus_le`, τ ≥ v + ε/2, r ≤ r(c t₀) < ε/4), hence lies in a compact of 𝒫 and converges (no imprisonment in a GH model), and is adjoined in the spacetime 𝒫 (`pastExtensible_of_tendsto` for the subtype 𝒫, GH as a causally convex open set of 𝔼₀) — the model GH of 𝒫, the convergence and the transfer back to M₂ are not built here
 
 end GlueData
 
@@ -1783,9 +2430,9 @@ globally hyperbolic `𝔼₀`-manifold there is a `SpearDevelopment`. Built: `M�
 `𝒫` along `κ` (`CylChartData.glueData`), its atlas `FamilyGlueData.chartedSpace`
 (`Causal.CBG.gluedChartedSpace`) with transitions in the groupoid (`glue_hasGroupoid`), Hausdorff
 (`t2Space_glued`, closed graph), second countable, connected, `M₀ → M` a Cauchy embedding
-(`isCauchyEmbedding_val`), the spear chart `ψN` of vertex `p`. Four facts are isolated tagged
-`sorry`s: `connectedSpace_W0`, `isCauchySurfaceOn_W0`, `globallyHyperbolic_glued`,
-`isCauchySurface_glued`. -/
+(`isCauchyEmbedding_val`), the spear chart `ψN` of vertex `p`, `M₀` connected
+(`connectedSpace_W0`) and the level set Cauchy in `M₀` (`isCauchySurfaceOn_W0`). Two facts are
+isolated tagged `sorry`s: `globallyHyperbolic_glued`, `isCauchySurface_glued`. -/
 theorem exists_spearDevelopment (hGH : (CE M).GloballyHyperbolic) {p : M} (hp : p ∈ S0 M) :
     Nonempty (SpearDevelopment M p) := by
   obtain ⟨d⟩ := exists_cylChartData hGH hp

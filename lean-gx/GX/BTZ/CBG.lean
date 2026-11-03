@@ -1,8 +1,8 @@
-import GXScaffold.BTZ.LocalModel
+import GX.BTZ.LocalModel
 import Causal.CBG.Maximal
 
 /-!
-# `GXScaffold.BTZ.CBG` — the BTZ residuals of `Geometry.ofLocalModelOfBTZ`, and CBG for `𝔼₀`-manifolds
+# `GX.BTZ.CBG` — the BTZ residuals of `Geometry.ofLocalModelOfBTZ`, and CBG for `𝔼₀`-manifolds
 
 L. Brunswic, *On branched coverings of singular (G,X)-manifolds*, §4 (`papers/gx`), with the
 thesis (`papers/gx/sources/thesis/these.tex`) and Sbierski (`papers/gx/sources/1309.7591`).

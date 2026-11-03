@@ -1,0 +1,186 @@
+{
+ "package": "WP-43f",
+ "files": [
+  "scaffold/GXScaffold/BTZ/Uniformization.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "theo:globally_hyperbolic_cauchy_complete_cauchy_maximal",
+   "tex_lines": [
+    2363,
+    2396
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.btz_uniformization",
+    "GX.btz_uniformization_reg",
+    "GX.e0RegM_range_not_subset_omegaMinus",
+    "GX.false_of_sing_of_pastComplete",
+    "GX.dev_eventually_chartMap_sector",
+    "GX.aeChart_eventually_chartMap_sector",
+    "GX.exists_isom_eq_of_locally",
+    "GX.regCoverBase",
+    "GX.continuous_regCoverBase",
+    "GX.btzPaperDev_ray",
+    "GX.uniformization_of_absMax",
+    "GX.uniformization_range_eq_of_absMax",
+    "GX.uniformization_quotient_aux",
+    "GX.exists_isometry_quotient_of_absMax",
+    "GX.isFutureComplete_of_range_eq_omegaPlus",
+    "GX.injective_of_isFutureComplete",
+    "GX.BTZTildeData.injective_D_of_isBTZFutureComplete"
+   ],
+   "hypotheses": [
+    {
+     "paper": "M globally hyperbolic",
+     "here": "carried",
+     "note": "(CE M).GloballyHyperbolic, ETT's GH of the charted causality"
+    },
+    {
+     "paper": "Cauchy-complete",
+     "here": "strengthened",
+     "note": "Cauchy-compact (E0CauchyCompact M), DEC-28: Barbot's equality needs absolute maximality, given by B21 Cor 2.18 only in the Cauchy-compact case"
+    },
+    {
+     "paper": "Cauchy-maximal",
+     "here": "carried",
+     "note": "IsE0CauchyMaximal M (DEC-77 (c))"
+    },
+    {
+     "paper": "finite type: pi1(Sigma minus sing) non-abelian, s >= 1 (DEC-76)",
+     "here": "strengthened",
+     "note": "pi1(Reg M) (deck group of Reg M's universal cover) NOT METABELIAN (WP-41m's finding GX.exists_nonabelian_subgroup_noLox refutes non-abelian algebraically); s >= 1 carried as (chartedSing e0SingY M 0).Nonempty"
+    },
+    {
+     "paper": "up to time reversal",
+     "here": "dropped",
+     "note": "dropped per DEC-77 (a): the future case is concluded and now PROVED (WP-43f): GX.e0RegM_range_not_subset_omegaMinus has no local sorry; GX.btz_uniformization_reg remains the disjunctive form"
+    },
+    {
+     "paper": "(implicit) M second countable",
+     "here": "strengthened",
+     "note": "SecondCountableTopology M carried (implicit in 'manifold'; Cor 2.18's form, as in GXScaffold.BTZ.AbsMax). The (O2) hypothesis hLine of WP-41n is REMOVED: discharged by GX.E0AbsMax.cor_abs_max_e0 (E0AbsMax.e0_hLine = E0LM.e0_globalBTZ, sorry-free)"
+    },
+    {
+     "paper": "the given developing pair (D, rho)",
+     "here": "carried",
+     "note": "every developing pair of Reg M is a hypothesis (hpair), not an existential"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "GX.E0AbsMax.cor_abs_max_e0",
+     "obstruction": "UPSTREAM only, through GX.E0AbsMax.cor_abs_max_e0 (B21 Cor 2.18): the three open leaves of GXScaffold.BTZ.AbsMax (GX.E0AbsMax.sing_eq_of_le_of_le_of_stronglyCausalOn_e0, GX.E0AbsMax.isLocallyCauchy_image, GX.E0AbsMax.E0Pushout.isCompact_diamond_mixed) and GX.E0Surgery.regM_isCauchyComplete (GXScaffold.BTZ.Surgery, its six (G0)-(G5) sorries). The dispatch's premise 'Cor 2.18 (AbsMax) closed' does not hold on disk (AbsMax.lean has 3 tagged sorries, Surgery.lean 6, as of 2026-11-03 03:54Z)."
+    }
+   ],
+   "findings": [
+    "The headline as printed (l.2363) is supported only in DEC-28's Cauchy-compact form: Barbot's equality D(reg M~) = Omega needs absolute maximality of Reg M (Barbot Rem 8.13 / Sec. 11.3), obtained here from B21 Cor 2.18; with Cauchy-maximality alone Barbot gives only D(reg M~) inside Omega (WP-41m's package).",
+    "The display l.2369 'D(M~) = bigcap_i J+(Delta_i) cup bigcap_{j in I} I+(Pi_j)' is wrong (D-12 (c)); the proof (l.2386-2388) establishes (bigcup_i Delta_i) cup bigcap_{j in J} I+(Pi_j); the regular half is certified here as D(Reg M~) = Omega+(Lambda) = bigcap_{w in Lambda} I+(Pi_w), with equality.",
+    "'Up to time reversal' (l.2365) is replaced by the future case (DEC-77 (a)): the formal statement concludes Omega+ and proves the selection in GX.e0RegM_range_not_subset_omegaMinus; the paper's proof never argues it (D-11 (d)).",
+    "DEC-76's 'pi1 non-abelian' does not suffice algebraically for the loxodromic element (WP-41m's counterexample GX.exists_nonabelian_subgroup_noLox); the statement uses 'pi1(Reg M) not metabelian', which agrees with non-abelian for the free pi1 of a punctured surface (not formalized).",
+    "Barbot's GH of the quotient Gamma\\Omega^- in the past case is obtained without Benoist (Causal.Flat.Lox.bcor_loxo_proper_both from the loxodromic element), so the equality of the regular part holds in both time orientations.",
+    "The future-case selection (DEC-77 (a), never argued in the paper, D-11 (d)) has a short proof that needs neither the developing map extended to sing M~ nor the parabolic holonomy of the loop around a BTZ line: in the past case D(Reg M~) = Omega^-(Lambda) is past complete; along the radial segment c(s) = (tau_1 + s, s), s -> 0+, into a BTZ point x (paper coordinates of the chart at x), D = g . chartMap on the lifted sector, so the lifts develop to g.(tau_1+s, tau_1, 0) -> p = g.(tau_1, tau_1, 0) in J^-(D z~) inside Omega^- = D(Reg M~); D being an open embedding, the lifts converge in Reg M~, so x would be regular. Formalized as GX.false_of_sing_of_pastComplete (0 sorry, standard axioms, no GH/Cauchy hypothesis)."
+   ],
+   "questions": [
+    "The BTZ half (D on sing M~, the rays Delta_i in the boundary of Omega, M = rho\\D(M~) for the BTZ topology) needs a bridge between the two presentations of an E0-manifold in the scaffold: ChartedSpace E0Y M (where Cauchy-compactness, Cauchy-maximality and AbsMax of Reg M live: AbsMax, Surgery, Holonomy) and SingularGXStructure + MaxBranchedCover (where M~, T_BTZ and D live: VirtTame, Manifolds), plus reg M~ = universal cover of Reg M. Should a package build that bridge, or should the headline be re-read on Reg M only (as certified here)?",
+    "DEC-76 reads 'pi1(Sigma minus sing) non-abelian'. The formal hypothesis is 'pi1(Reg M) (the deck group of Reg M's universal cover) NOT METABELIAN', because non-abelian does not give a loxodromic element algebraically (WP-41m's GX.exists_nonabelian_subgroup_noLox). Geometrically the two agree (pi1 of a punctured closed surface is free, and a non-abelian free group is not metabelian), but that equivalence is not formalized. Ruling requested: (a) accept 'pi1(Reg M) not metabelian' as the formal reading of DEC-76, or (b) require the equivalence to be built (pi1(Reg M) free, from the surface classification of a Cauchy surface of Reg M), so that 'non-abelian' is the hypothesis."
+   ]
+  },
+  {
+   "label": "prop:globally_hyperbolic_cauchy_complete_manifolds",
+   "tex_lines": [
+    2348,
+    2353
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.btz_reg_isFutureComplete",
+    "GX.isFutureComplete_of_range_eq_omegaPlus",
+    "GX.e0RegM_range_not_subset_omegaMinus",
+    "GX.false_of_sing_of_pastComplete",
+    "GX.e0PastHalf_counterexample",
+    "GX.e0PastHalf",
+    "GX.e0PastHalf_globallyHyperbolic",
+    "GX.e0PastHalf_sing_nonempty",
+    "GX.e0PastHalf_not_isFutureComplete",
+    "GX.pastHalf_rad_locally",
+    "GX.pastHalf_cover_lt"
+   ],
+   "hypotheses": [
+    {
+     "paper": "globally hyperbolic",
+     "here": "carried",
+     "note": "(CE M).GloballyHyperbolic"
+    },
+    {
+     "paper": "Cauchy-complete",
+     "here": "strengthened",
+     "note": "Cauchy-compact + Cauchy-maximal + pi1(Reg M) not metabelian + a BTZ point: DEC-77's corrected form (Cauchy-compact read per DEC-28), the BTZ point selecting the future case; the BTZ point is consumed by the (now proved) selection GX.e0RegM_range_not_subset_omegaMinus"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "GX.E0AbsMax.cor_abs_max_e0",
+     "obstruction": "UPSTREAM only, through GX.E0AbsMax.cor_abs_max_e0 (B21 Cor 2.18): the three open leaves of GXScaffold.BTZ.AbsMax (GX.E0AbsMax.sing_eq_of_le_of_le_of_stronglyCausalOn_e0, GX.E0AbsMax.isLocallyCauchy_image, GX.E0AbsMax.E0Pushout.isCompact_diamond_mixed) and GX.E0Surgery.regM_isCauchyComplete (GXScaffold.BTZ.Surgery, its six (G0)-(G5) sorries). The dispatch's premise 'Cor 2.18 (AbsMax) closed' does not hold on disk (AbsMax.lean has 3 tagged sorries, Surgery.lean 6, as of 2026-11-03 03:54Z). The local future-case selection is closed (WP-43f); the counterexample decls carry no sorry."
+    }
+   ],
+   "findings": [
+    "As printed the proposition is false (D-11, DEC-77). The counterexample is BUILT, 0 sorry, standard axioms only: GX.e0PastHalf_counterexample. The past half {tau<0} of E0 (GX.e0PastHalf, an open subset of Y = M + E0, hence an E0-manifold) is globally hyperbolic (GX.e0PastHalf_globallyHyperbolic: its charted causality is E0's restricted to {tau<0}, diamonds are closed and bounded by dist <= 3 Delta tau) and has BTZ points (GX.e0PastHalf_sing_nonempty); for EVERY developing pair (D, rho) of Reg {tau<0} and EVERY z, D(I+(z)) != I+(D z) (GX.e0PastHalf_not_isFutureComplete), so Reg {tau<0}~ is not future complete. Proof: r = t - x read through D is globally affine on the universal cover (GX.pastHalf_rad_locally + GX.exists_affine_eq_of_locally); along I+(z) r increases strictly and stays below r(z) - 2 tau(z) because tau < 0 (E0.calculus_lt), while an affine function is unbounded on the timelike ray D z + t e0. The printed Cauchy-completeness hypothesis of {tau<0} (the plane {tau = -1} with dr^2 + r^2 dtheta^2, DEC-31) is NOT stated in Lean: the scaffold has no DEC-31 predicate for E0-manifolds (the induced length structure across BTZ lines is GXScaffold.BTZ.Surgery's obstruction (3)). Causal.Flat.IsCauchyComplete of Reg {tau<0} is not the paper's hypothesis, and we expect it to FAIL (no cusp surgery below tau = 0), which is consistent with B21 Thm 3 needing Cauchy-maximality (GX.E0Surgery.regM_isCauchyComplete carries hmax). {tau<0} is also not Cauchy-maximal ({tau<0} into E0 is a Cauchy embedding) and pi1(Reg {tau<0}) = Z is abelian (both not formalized).",
+    "The conclusion is certified for the regular part only (a restriction of the CONCLUSION, not a hypothesis): for every developing pair of Reg M and every z in the universal cover of Reg M, D(J+(z)) = J+(D z) and D(I+(z)) = I+(D z) (the proof's first step, l.2350); future completeness at the BTZ points of M~ (def:manifold_future_complete_all over M~ with T_BTZ) is not formalized.",
+    "The proof cites 'Lemma 2.4 of brunswic2021cauchy' for the full future BTZ rays (l.2352); the result is B21 Lemma 2.3 (D-11 (b)); this step (future completeness at the BTZ points) is not formalized here.",
+    "The proof's 'from Theorem 3 ... the regular part is globally hyperbolic and Cauchy-complete. Barbot ... implies future completeness of the regular part' (l.2350) omits that Barbot's future completeness needs equality D(reg M~) = Omega+, i.e. absolute maximality (Cauchy-maximality and Cauchy-compactness, B21 Cor 2.18) and the future case."
+   ],
+   "questions": [
+    "The printed hypothesis 'Cauchy-complete' (DEC-31: the Cauchy surface complete for its induced length metric, extended across the BTZ lines) has no Lean predicate for E0-manifolds in the scaffold, so the counterexample's Cauchy-completeness is stated in prose only. Should a package define the DEC-31 predicate for E0-manifolds (and prove it for {tau<0}), or is the counterexample accepted with GH + BTZ points + failure of the conclusion?"
+   ]
+  }
+ ],
+ "extra_decls": [
+  "GX.false_of_sing_of_pastComplete",
+  "GX.dev_eventually_chartMap_sector",
+  "GX.aeChart_eventually_chartMap_sector",
+  "GX.exists_isom_eq_of_locally",
+  "GX.regCoverBase",
+  "GX.continuous_regCoverBase",
+  "GX.btzPaperDev_ray",
+  "GX.uniformization_range_eq_of_absMax",
+  "GX.exists_isometry_quotient_of_absMax",
+  "GX.uniformization_quotient_aux",
+  "GX.uniformization_of_absMax",
+  "GX.isFutureComplete_of_range_eq_omegaPlus",
+  "GX.injective_of_isFutureComplete",
+  "GX.exists_affine_eq_of_locally",
+  "GX.pastHalf_aeChart_eventually",
+  "GX.e0_le_of_le_top_of_fst_neg",
+  "GX.minkTMinusX",
+  "GX.minkTMinusX_btzPaperDev",
+  "GX.minkTMinusX_chartMap",
+  "GX.mem_e0PastHalf_iff",
+  "GX.pastHalf_le_iff",
+  "GX.pastHalf_lt_paper",
+  "GX.pastHalfPaper",
+  "GX.pastHalfPaper_fst_neg",
+  "GX.chartSource_paperChart_pastHalf",
+  "GX.mem_chartImage_paperChart_pastHalf",
+  "GX.pastHalf_paperOfY_paperInY",
+  "GX.pastHalf_paperInY_paperOfY",
+  "GX.e0PastHalf_connectedSpace"
+ ],
+ "kb_proposals": [
+  "Barbot's equality for ANY absolutely maximal flat spacetime with (CC') and a loxodromic element, in both time orientations and with the quotient isometry M = rho(Gamma)\\Omega, is GX.uniformization_of_absMax (0 sorry): Causal.Flat.Lox.bcor_loxo_proper_both supplies the GH presentation B of Gamma\\Omega(S~) and range_eq_omegaS_of_absMax the equality; no Benoist needed.",
+  "Causal.Flat.Lox.PastProper is not in the import closure of Classification/Loxodromic: import it explicitly for bcor_loxo_proper_both.",
+  "DiscreteTopology rho.range needs `open scoped Causal.Flat` (the isomTopology instance), allowed under DEC-33.",
+  "An open subset of Y = M + E0 contained in the inr part is an E0-manifold whose paperChart has source univ (GX.chartSource_paperChart_pastHalf); then GX.E0CBG.chartIso_paperChart with U = top makes its charted causality E0's restricted relation, and E0's curve-defined le on an open set containing {tau < tau(y)} is the global one (GX.e0_le_of_le_top_of_fst_neg).",
+  "The functional t - x of Minkowski reads r off the paper's developing map (GX.minkTMinusX_btzPaperDev); since every BTZE0 a.e.-atlas chart is locally g . chartMap (GX.pastHalf_aeChart_eventually), r is locally affine in any developing map of a regular part, and GX.exists_affine_eq_of_locally globalises it on the (preconnected) universal cover. This affine-invariant trick avoids building the developing map explicitly.",
+  "The scaffold has two presentations of an E0-manifold (ChartedSpace E0Y vs SingularGXStructure/MaxBranchedCover) with no bridge: the BTZ half of the gx headline (D on sing M~, rays Delta_i, M = rho\\D(M~)) is still blocked on it; the future-case selection is NOT (WP-43f).",
+  "To read the developing map of Reg M~ near a BTZ point: GX.dev_eventually_chartMap_sector (locally D = g . chartMap y0 . paperOfY . chartAt E0Y x, for any fixed sector base y0) + GX.exists_isom_eq_of_locally (one g on a preconnected open set, D open) on the connected component of the lifted sector; lifts of a segment come from IsCoveringMap.liftPath (Causal.Flat.isCoveringMap_flatCover_proj) and IsPreconnected.subset_connectedComponentIn.",
+  "GX.false_of_sing_of_pastComplete: a BTZ point forbids any injective developing map of Reg M~ with past-complete image; the limit-point argument (open embedding D + Hausdorff M) replaces 'D-hat(x) fixed by the parabolic holonomy'.",
+  "GX.E0AbsMax.cor_abs_max_e0 (no hLine) is the form to consume; hLine is sorry-free (E0LM.e0_globalBTZ)."
+ ],
+ "notes": "WP-43f edit of scaffold/GXScaffold/BTZ/Uniformization.lean (WP-41n's file; pre-edit copy campaign/WP-43f/Uniformization.before.lean.bak). Everything WP-41n proved is kept. CLOSED the one local tagged sorry, GX.e0RegM_range_not_subset_omegaMinus (the future-case selection, DEC-77 (a)): statement unchanged except that the hLine hypothesis is gone. New §3b (sections FutureSelectionTools / FutureSelection, before §4): aeChart_eventually_chartMap_sector, exists_isom_eq_of_locally, regCoverBase, continuous_regCoverBase, dev_eventually_chartMap_sector, btzPaperDev_ray, false_of_sing_of_pastComplete (names grepped against GX/ and scaffold/: no clash), all 0 sorry and [propext, Classical.choice, Quot.sound]. Signature change: the section-variable hypothesis hLine (O2) is REMOVED from btz_uniformization_reg, e0RegM_range_not_subset_omegaMinus, btz_uniformization, btz_reg_isFutureComplete (they call GX.E0AbsMax.cor_abs_max_e0, i.e. e0_hLine = E0LM.e0_globalBTZ, sorry-free); no other file references these declarations (campaign/WP-41n/Axioms.lean is superseded by campaign/WP-43f/Axioms.lean). The file now has 0 sorry. Neither row can be MARKED: (1) the headline's and the prop's declarations still carry sorryAx, ONLY through GX.E0AbsMax.cor_abs_max_e0 (B21 Cor 2.18: AbsMax's 3 open leaves and E0Surgery.regM_isCauchyComplete) - the dispatch's premise that Cor 2.18 is closed is false on disk (AbsMax.lean 3 sorries, Surgery.lean 6); (2) the BTZ half of the headline (SCOPE (b)) and the full future BTZ rays of the prop (SCOPE (c)) remain unformalized, blocked on the ChartedSpace E0Y / SingularGXStructure bridge (open question, unruled). Both rows stay partial, unmarked. Axiom sweep campaign/WP-43f/Axioms.lean -> axioms.out (105 lines): every local declaration, every consumed Causal declaration (the previous list plus isCoveringMap_flatCover_proj, locPathConnectedSpace_of_flat, isom_le_top_iff, minkowski_le_top_iff, Jminus_omegaMinus_subset, disjoint_omegaPlus_omegaMinus, exists_two_loxRepSet, loxRepSet_subset_limitSetJ, UniversalCover.proj_surjective) and the consumed GX scaffold declarations (e0_hLine, e0_globalBTZ, regChart_subtypeRestr_eq, e0_flat_transition_aux, mem_e0SingY_zero_iff, mem_e0RegM_iff, inr_mem_e0Reg_iff_toPaper, e0InrChart_mem_e0Atlas, btz_chart_eq_smul_btzPaperDev, toPaper_symm_eq_orbitMk, ...) are [propext, Classical.choice, Quot.sound]; sorryAx appears ONLY in btz_uniformization_reg, e0RegM_range_not_subset_omegaMinus, btz_uniformization, btz_reg_isFutureComplete, all via E0AbsMax.cor_abs_max(_e0). BTZTildeData.injective_D_of_isBTZFutureComplete is now sorry-free (WP-43e). DEC-33 gate: file under scaffold/GXScaffold/BTZ/; imports unchanged (GXScaffold.BTZ.AbsMax, GXScaffold.BTZ.Manifolds, Causal.Flat.Lox.PastProper); no Causal root, no CausalScaffold, no `open Causal`; Causal.* names fully qualified. `taskset -c 0-11 lake build GXScaffold.BTZ.Uniformization`: success, 8738 jobs, only this module built (Causal.*, GX.* and the other scaffold modules replayed).",
+ "round": 3
+}

@@ -17,5 +17,19 @@ import GX.SingularII.Unloopable
 import GX.SingularII.Developing
 import GX.SingularII.Tame
 import GX.Hyperbolic.Plane
+import GX.Lorentz.Bridge
+import GX.SingularII.Models
+import GX.SingularII.SpreadTop
+import GX.Topology.VanKampen
+import GX.Branched.GaloisExamples
+import GX.BTZ.Model
+import GX.BTZ.Rigid
+import GX.BTZ.Causality
+import GX.BTZ.Topology
+import GX.BTZ.VirtTame
+import GX.BTZ.LocalModel
+import GX.BTZ.CBG
+import GX.BTZ.Holonomy
+import GX.BTZ.Manifolds
 
 /-! The strict library of the paper `gx` (`papers/gx`). Every module is imported here. -/

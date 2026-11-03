@@ -1,7 +1,7 @@
-import GXScaffold.BTZ.Model
+import GX.BTZ.Model
 
 /-!
-# `GXScaffold.BTZ.Topology` — the BTZ topology on `J⁺(Δ)` and the quotient chart `D̄ : 𝔼₀ ≅ Γ\J⁺(Δ)`
+# `GX.BTZ.Topology` — the BTZ topology on `J⁺(Δ)` and the quotient chart `D̄ : 𝔼₀ ≅ Γ\J⁺(Δ)`
 
 Package WP-41h (WAVE5-PLAN.md, WP-39h). `papers/gx`, §4.4 (`RamcovGX.tex:2268–2294`).
 

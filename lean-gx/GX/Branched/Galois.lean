@@ -10,7 +10,7 @@ notion `GX.AlmostTrivialCC` of `GX.Branched.Paths`, and semi-local simple connec
 a portly `O`; `prop:Galoisian_fiber` uses a basis of open connected neighbourhoods;
 `rem:simple_cases` reads a codimension-`≥ 2` submanifold as locally flat and a simplicial complex
 as a locally finite geometric one, facets = closed faces. (The names `GX.IsSLSCAt`, `GX.IsSLSCIn`
-keep the HOMOTOPY form, which `GXScaffold.Branched.GaloisExamples` consumes; the paper's notions
+keep the HOMOTOPY form, which `GX.Branched.GaloisExamples` consumes; the paper's notions
 are the `…CC` declarations.)
 
 * **`def:automorphisms_spread`** — `RamcovGX.tex:1420`: `Γ(X/Y)` is `GX.deckGroup` (strict

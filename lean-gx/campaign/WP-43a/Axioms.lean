@@ -1,0 +1,22 @@
+import GXScaffold.BTZ.Spear
+#print axioms GX.E0Spear.causalCurveOn_comp_monotoneOn
+#print axioms GX.E0Spear.causalCurveIn_comp_monotoneOn
+#print axioms GX.E0Spear.continuousOn_of_causalCurveIn
+#print axioms GX.E0Spear.extensible_of_timeGraph_openEnd
+#print axioms GX.E0Spear.extensible_of_timeGraph_future
+#print axioms GX.E0Spear.extensible_of_timeGraph_past
+#print axioms GX.E0Spear.isCauchySurfaceOn_of_isPast
+#print axioms GX.E0Spear.isClosed_Jplus_of_subset_cauchy
+#print axioms GX.E0Spear.isClosed_Jminus_of_subset_cauchy
+#print axioms GX.E0Spear.not_le_of_le_of_isCauchySurface_closed
+#print axioms GX.E0Spear.isConnected_of_isCauchySurface_closed
+#print axioms GX.E0Spear.CylChartData.exists_closed_cauchy_subset_W0
+#print axioms GX.E0Spear.CylChartData.isCauchySurfaceOn_W0
+#print axioms GX.E0Spear.CylChartData.connectedSpace_W0
+#print axioms GX.E0Spear.CylChartData.isCauchyEmbedding_val
+#print axioms GX.E0Spear.CylChartData.globallyHyperbolic_glued
+#print axioms GX.E0Spear.CylChartData.isCauchySurface_glued
+#print axioms GX.E0Spear.exists_spearDevelopment
+#print axioms GX.E0Spear.lem_tube
+#print axioms GX.E0Spear.lem_add_BTZ_param
+#print axioms GX.E0Spear.lem_add_BTZ_param_line

@@ -1,0 +1,404 @@
+{
+ "package": "WP-43e",
+ "files": [
+  "scaffold/GXScaffold/BTZ/Manifolds.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "def:manifolds_future_distinguishing_map",
+   "tex_lines": [
+    2317,
+    2318
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.IsFutureDistinguishing"
+   ],
+   "hypotheses": [
+    {
+     "paper": "A BTZ~-manifold M",
+     "here": "weakened",
+     "note": "defined for every Causal.Causality (x ↦ C.Iplus ⊤ {x} injective); applied to BTZ~-manifolds through their generated causality"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.2317 and l.2356 state the same definition (D-8): one Lean definition certifies both labels."
+   ],
+   "questions": []
+  },
+  {
+   "label": "def:manifolds_future_distinguishing_map_2",
+   "tex_lines": [
+    2356,
+    2357
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.IsFutureDistinguishing"
+   ],
+   "hypotheses": [
+    {
+     "paper": "A BTZ~-manifold M",
+     "here": "weakened",
+     "note": "same definition as def:manifolds_future_distinguishing_map (D-8)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "verbatim repeat of def:manifolds_future_distinguishing_map (l.2317), D-8"
+   ],
+   "questions": []
+  },
+  {
+   "label": "def:singular_manifold_endowed_causal",
+   "tex_lines": [
+    2319,
+    2322
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.IsCausallyConnected",
+    "GX.isCausallyConnected_of_causallyArcConnected"
+   ],
+   "hypotheses": [
+    {
+     "paper": "a singular E-manifold endowed with some causal pre-order ≤ extending the one on reg(M)",
+     "here": "weakened",
+     "note": "defined for every Causal.Causality; 'future causal path' = C.CausalCurveOn ⊤ c 0 1 (curve locally increasing for ≤, Causal.Curves)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "the literal definition is formalized; WP-41e/WP-41f's stronger reading CausallyArcConnected implies it (GX.isCausallyConnected_of_causallyArcConnected), so their question on the reading is moot for this row"
+   ],
+   "questions": []
+  },
+  {
+   "label": "def:manifold_future_complete_all",
+   "tex_lines": [
+    2343,
+    2346
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.IsFutureComplete",
+    "GX.BTZTildeData.IsBTZFutureComplete",
+    "GX.btzJ0_isFutureComplete",
+    "GX.BTZTildeData.isBTZFutureComplete_iff_of_smul",
+    "GX.isFutureComplete_smul_iff",
+    "GX.btzTildeCausality_smul"
+   ],
+   "hypotheses": [
+    {
+     "paper": "for all x ∈ M~, D(J⁺(x)) = J⁺(D x) and D(I⁺(x)) = I⁺(D x)",
+     "here": "carried",
+     "note": "IsFutureComplete C D for a causality C on M~ and D; for a BTZ-manifold M, BTZTildeData.IsBTZFutureComplete uses M~ with T_BTZ, its developing map and its generated causality (DEC-77 (b), l.2312); non-vacuous: the model J⁺(Δ₀) ≅ BTZ~ is future complete (GX.btzJ0_isFutureComplete); invariant under D ↦ g·D (same T_BTZ): GX.BTZTildeData.isBTZFutureComplete_iff_of_smul. Independence of the base point y0 and of the presentation Φ is not proved."
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "lem:globally_hyperbolic_manifolds_manifolds",
+   "tex_lines": [
+    2325,
+    2327
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.e0Manifold_isFutureDistinguishing",
+    "GX.btzTildeAtlas_isFutureDistinguishing",
+    "GX.BTZTildeData.isFutureDistinguishing",
+    "GX.isFutureDistinguishing_of_globallyHyperbolic",
+    "GX.btzTildeAtlas_tarentin",
+    "GX.btzTildeAtlas_mem_Zplus",
+    "GX.e0SingManifold_isFutureDistinguishing",
+    "GX.e0ManifoldCausality_tarentin",
+    "GX.e0ManifoldCausality_mem_Zplus"
+   ],
+   "hypotheses": [
+    {
+     "paper": "globally hyperbolic BTZ-manifolds",
+     "here": "carried",
+     "note": "LocalModel's charted form (ChartedSpace E0Y M, HasGroupoid M e0Groupoid, chartedCausality E0LM.D M), [T2Space M] (DEC-66 (a)), ETT's GloballyHyperbolic; also the SingularGXStructure form: [T2Space M], IsBTZSingModelled M, causality GX.e0ManifoldCausality M (GX.e0SingManifold_isFutureDistinguishing)"
+    },
+    {
+     "paper": "globally hyperbolic BTZ~-manifolds",
+     "here": "read",
+     "note": "Hausdorff space with any atlas into J⁺(Δ₀) (BTZ topology), generated causality; and M~ with T_BTZ (BTZTildeData, Hausdorff proved)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "the proof (omitted in the paper, l.2323) is GH ⇒ strongly causal (tarentin) and prop:FZenon_injectif on Z⁺; at BTZ points I⁻ is empty but Z⁺ is the whole space, which is all FZenon_injectif needs",
+    "For BTZ~-manifolds with a BTZ point the hypothesis 'globally hyperbolic' is never satisfied for T_BTZ in the model (GX.btzJ0Tilde_not_globallyHyperbolic): the BTZ~ half of l.2325 is true but vacuous at the model; for M~ the paper needs (and WP-43e proves) l.2359 without it."
+   ],
+   "questions": [
+    "`\\widetilde{BTZ}`-manifold is never defined in the paper (WP-41d's question on l.2310). Reading taken: a Hausdorff space with an atlas of charts into J⁺(Δ₀) with the BTZ topology (≅ \\widetilde{E_0} with T_BTZ, WP-41h), its causality generated by the charts (DEC-33); the theorems hold for every such atlas (no chart compatibility used), and for \\widetilde M with T_BTZ (BTZTildeData). With this reading accepted, this row closes."
+   ]
+  },
+  {
+   "label": "lem:manifolds_manifolds_causally_connected",
+   "tex_lines": [
+    2329,
+    2331
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.e0Manifold_isCausallyConnected",
+    "GX.btzTildeAtlas_isCausallyConnected",
+    "GX.BTZTildeData.isCausallyConnected",
+    "GX.btzTildeAtlas_exists_curve_of_link",
+    "GX.btzTildeAtlas_causalCurveOn_of_model"
+   ],
+   "hypotheses": [
+    {
+     "paper": "BTZ-manifolds",
+     "here": "carried",
+     "note": "charted form, via WP-41f's E0LM.e0_causallyArcConnected; no hypothesis"
+    },
+    {
+     "paper": "BTZ~-manifolds",
+     "here": "read",
+     "note": "every atlas into J⁺(Δ₀): each generating link is a model curve, read through the chart it is a future causal curve, and chains concatenate; M~ with T_BTZ as an instance"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "WP-41e/WP-41f left the BTZ~ half open; it is proved here for every atlas into J⁺(Δ₀) and for M~ with T_BTZ"
+   ],
+   "questions": [
+    "`\\widetilde{BTZ}`-manifold is never defined in the paper (WP-41d's question on l.2310). Reading taken: a Hausdorff space with an atlas of charts into J⁺(Δ₀) with the BTZ topology (≅ \\widetilde{E_0} with T_BTZ, WP-41h), its causality generated by the charts (DEC-33); the theorems hold for every such atlas (no chart compatibility used), and for \\widetilde M with T_BTZ (BTZTildeData). With this reading accepted, this row closes."
+   ]
+  },
+  {
+   "label": "lem:increasing_map",
+   "tex_lines": [
+    2334,
+    2340
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.BTZTildeData.increasing",
+    "GX.BTZTildeData.increasing_lt",
+    "GX.btzTilde_strict_dev",
+    "GX.btzTilde_le_dev",
+    "GX.btzTilde_lt_dev",
+    "GX.BTZTildeData.isCausal"
+   ],
+   "hypotheses": [
+    {
+     "paper": "∀ x,y ∈ M",
+     "here": "weakened",
+     "note": "corrected (D-10): ∀ x, y ∈ M~, where D lives"
+    },
+    {
+     "paper": "x < y ⇒ D(x) < D(y)",
+     "here": "carried",
+     "note": "< read as the paper's l.2193 order (causal and later): x ≤ y, x ≠ y ⇒ D x ≤ D y, D x ≠ D y; the chronological form x ≪ y ⇒ D x ≪ D y too"
+    },
+    {
+     "paper": "D a developing map of M~ (for T_BTZ, l.2312)",
+     "here": "read",
+     "note": "BTZTildeData: WP-41d's chartwise-T_BTZ tamifying topology (natural over reg M), T'-continuous D, IsLocallyBTZTilde; causality generated by the charts developed by D (DEC-33, DEC-77 (b))"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.2334: the statement quantifies x,y ∈ M while D is defined on M~ (D-10): formalized for x, y ∈ M~",
+    "l.2338: 'since M is connected, it is causally connected therefore D is increasing' — the argument needs causal connectedness of M~, not connectedness of M; in the formalization each generating link of the causality of M~ is an increasing model curve read by D = g·val∘κ, which gives the global statement directly",
+    "the strict form (D x ≠ D y) also holds, so M~ is causal (GX.BTZTildeData.isCausal)"
+   ],
+   "questions": [
+    "With WP-41d's two readings of prop:manifold_admits_galoisian_maximal (chartwise T_BTZ; local BTZ~) and D-10 accepted, and the causality of M~ read as the one generated by its charts developed by D, does this row close?"
+   ]
+  },
+  {
+   "label": "lem:globally_hyperbolic_manifolds_maximal",
+   "tex_lines": [
+    2359,
+    2361
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.BTZTildeData.isFutureDistinguishing_of_base",
+    "GX.BTZTildeData.proj_le",
+    "GX.BTZTildeData.proj_le_of_link",
+    "GX.BTZTildeData.proj_localMono",
+    "GX.BTZTildeData.proj_localMono_reg",
+    "GX.BTZTildeData.proj_localMono_sing",
+    "GX.BTZTildeData.proj_le_of_Iplus_eq",
+    "GX.BTZTildeData.dev_eq_of_Iplus_eq",
+    "GX.BTZTildeData.exists_injective_sheet",
+    "GX.BTZTildeData.mem_connectedComponentIn_of_le",
+    "GX.e0Le_of_btzDevM_le",
+    "GX.e0ManifoldCausality",
+    "GX.btzJ0_not_isCompact_diamond",
+    "GX.btzJ0_not_globallyHyperbolic",
+    "GX.btzJ0Tilde_not_globallyHyperbolic"
+   ],
+   "hypotheses": [
+    {
+     "paper": "M a globally hyperbolic BTZ-manifold",
+     "here": "carried",
+     "note": "M an E0-manifold in the SingularGXStructure form (IsBTZSingModelled M; T2, locally path-connected, first countable, connected, DEC-66 (a)), GH for its chart-generated causality GX.e0ManifoldCausality M (DEC-33)"
+    },
+    {
+     "paper": "its maximal branched covering M~",
+     "here": "read",
+     "note": "DEC-77 (b): M~ with T_BTZ and its chart-generated causality (BTZTildeData). WP-43e added the field BTZTildeData.isPresentation: the presentation Phi of E0~ lifts the projection (orbitMk o Phi = base), which every construction already assumed (BTZTildeData.nonempty, btz_isTamifyingTopology take it); it ties the lifted charts Psi of IsLocallyBTZTilde to the causality of E0. No hypothesis on M is added."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.2361 'the proof of this Lemma is not different from the proof of the similar statement for Lorentzian manifolds' (i.e. M GH => M~ GH => M~ future distinguishing): with T_BTZ (DEC-77 (b)) the middle step is FALSE. The model J+(Delta_0) = E0~ with T_BTZ is not globally hyperbolic (GX.btzJ0Tilde_not_globallyHyperbolic, GX.btzJ0_not_globallyHyperbolic): in null coordinates the diamond J+(p0) cap J-(q), p0 = 0 (BTZ point), q = (2,1,0), contains x_eps = (1, eps^2, eps), on the null cone of p0, which tend in Minkowski space to the BTZ point x = (1,0,0) but never enter its BTZ neighbourhood I+(p) cup ]p,+inf[, p = (1/2,0,0); no subsequence converges for T_BTZ (GX.btzJ0_not_isCompact_diamond). The same configuration sits in a chart of M~ at every BTZ point, so M~ (T_BTZ) is not GH as soon as sing M is non-empty (argued; formalized in the model only). Consequently WP-41l's tagged transfer 'M GH => M~ GH' (GX.BTZTildeData.globallyHyperbolic_of_base) was false and is REMOVED; its counterexample instance M = {tau<0} subset E0 (GH, GX.e0PastHalf_globallyHyperbolic in the charted form) is argued, not formalized (its M~ is the corresponding part of J+(Delta_0)).",
+    "The lemma itself (l.2359) is TRUE and proved by a different route: the projection M~ -> M is causal (GX.BTZTildeData.proj_le; over reg M by IsRegDevelopingOnReg.eventually_eq_smul_chart, over sing M by the lifted charts and E0.Le being winding free), I+(x) = I+(y) forces D x = D y and p x = p y (J+ closed in Minkowski space and in the GH M), and a causal chain from y to a point z >> x near x stays over a causally convex V (strong causality of M) inside a sheet on which (p, D) is injective (evenly covered over reg M, the lifted chart over sing M).",
+    "theo:globally_hyperbolic_cauchy_complete_cauchy_maximal l.2390 'Since M~ is globally hyperbolic, it is future distinguishing': the premise is false with T_BTZ whenever sing M is non-empty (previous finding); the conclusion it is used for is GX.BTZTildeData.isFutureDistinguishing_of_base, which Uniformization's injective_D_of_isBTZFutureComplete already calls (now sorry-free)."
+   ],
+   "questions": []
+  }
+ ],
+ "extra_decls": [
+  "GX.isFutureDistinguishing_of_globallyHyperbolic",
+  "GX.BTZJ0",
+  "GX.btzTildeAtlasCausality",
+  "GX.btzTilde_link_le_iff",
+  "GX.btzTilde_link_lt_iff",
+  "GX.btzTildeAtlasCausality_le_iff",
+  "GX.btzTildeAtlasCausality_lt_iff",
+  "GX.btzTildeAtlasCausality_le_of_link",
+  "GX.btzTildeAtlasCausality_lt_of_link",
+  "GX.btzJ0_exists_lt_mem",
+  "GX.btzJ0_exists_diamond",
+  "GX.btzTilde_target_le_chartImage",
+  "GX.btzTildeAtlas_mem_Zplus",
+  "GX.btzTildeAtlas_tarentin",
+  "GX.btzTildeAtlas_causalCurveOn_of_model",
+  "GX.btzTildeAtlas_exists_curve_of_link",
+  "GX.btzTildeDevAtlas",
+  "GX.IsBTZTildeDev",
+  "GX.btzTildeDevAtlas_transition",
+  "GX.btzTildeCausality",
+  "GX.btzTilde_link_dev",
+  "GX.btzTilde_link_dev_lt",
+  "GX.btzTilde_isCausal",
+  "GX.btzJ0HalfSpace",
+  "GX.isOpen_btzJ0HalfSpace",
+  "GX.btzJ0HalfSpace_subset",
+  "GX.btzJ0Pt",
+  "GX.btzJ0Pt_mem",
+  "GX.btzJ0RegInv",
+  "GX.btzJ0RegInv_of_mem",
+  "GX.btzJ0RegInv_val",
+  "GX.btzJ0RegIncl",
+  "GX.exists_mem_btzTildeDevAtlas_of_chart",
+  "GX.exists_mem_btzTildeDevAtlas_of_descent",
+  "GX.WithWrappedTop",
+  "GX.instTopologicalSpaceWithWrappedTop",
+  "GX.OpenPartialHomeomorph.retopBTZ",
+  "GX.isBTZTildeDev_of_isLocallyBTZTilde",
+  "GX.btz_manifold_exists_chartwise_tamifying_reg",
+  "GX.isLocallyBTZTilde_of_chartwise",
+  "GX.btz_manifold_tilde_isBTZTildeDev",
+  "GX.BTZTildeData",
+  "GX.BTZTildeData.nonempty",
+  "GX.BTZTildeData.Space",
+  "GX.BTZTildeData.isBTZTildeDev",
+  "GX.BTZTildeData.causality",
+  "GX.BTZTildeData.t2Space",
+  "GX.BTZTildeData.isCausal",
+  "GX.refl_mem_btzTildeDevAtlas",
+  "GX.btzJ0_isBTZTildeDev",
+  "GX.btzJ0_le_top_iff",
+  "GX.btzJ0_lt_top_iff",
+  "GX.chartAtlasCausality",
+  "GX.btzTildeAtlasCausality_eq_chartAtlasCausality",
+  "GX.chartAtlasCausality_le_of_chart",
+  "GX.chartAtlasCausality_lt_of_chart",
+  "GX.chartAtlasCausality_mem_Zplus",
+  "GX.chartAtlasCausality_tarentin",
+  "GX.regChartToE0Y",
+  "GX.xaChartToE0Y",
+  "GX.mem_xaChartToE0Y_source",
+  "GX.e0ManifoldAtlas",
+  "GX.e0ManifoldAtlas_covers",
+  "GX.e0ManifoldCausality",
+  "GX.e0ManifoldCausality_tarentin",
+  "GX.e0ManifoldCausality_mem_Zplus",
+  "GX.e0SingManifold_isFutureDistinguishing",
+  "GX.btzTildeAtlasCausality_congr",
+  "GX.btzTildeDevAtlas_smul",
+  "GX.isBTZTildeDev_smul_iff",
+  "GX.btzTildeCausality_smul",
+  "GX.minkowski_Jplus_smul",
+  "GX.minkowski_Iplus_smul",
+  "GX.isFutureComplete_smul_iff",
+  "GX.isFutureComplete_btzTildeCausality_smul_iff",
+  "GX.btzDevM_eq_lift",
+  "GX.e0Le_of_btzDevM_le",
+  "GX.regChartToE0Y_apply",
+  "GX.mem_regChartToE0Y_source",
+  "GX.xaChartToE0Y_apply",
+  "GX.mem_xaChartToE0Y_source'",
+  "GX.BTZTildeData.isPresentation",
+  "GX.BTZTildeData.toNat",
+  "GX.BTZTildeData.proj",
+  "GX.BTZTildeData.dev",
+  "GX.BTZTildeData.continuous_dev",
+  "GX.BTZTildeData.continuous_toNat",
+  "GX.BTZTildeData.continuous_proj",
+  "GX.BTZTildeData.dev_le_of_Iplus_eq",
+  "GX.BTZTildeData.dev_eq_of_Iplus_eq",
+  "GX.BTZTildeData.le_of_link_curve",
+  "GX.BTZTildeData.continuousOn_link_curve",
+  "GX.BTZTildeData.mem_connectedComponentIn_of_le",
+  "GX.BTZTildeData.proj_localMono_reg",
+  "GX.BTZTildeData.proj_localMono_sing",
+  "GX.BTZTildeData.proj_localMono",
+  "GX.BTZTildeData.proj_le_of_link",
+  "GX.BTZTildeData.proj_le",
+  "GX.BTZTildeData.proj_le_of_Iplus_eq",
+  "GX.BTZTildeData.exists_injective_sheet",
+  "GX.btzJ0Cex_mem_jplus",
+  "GX.btzJ0Cex_mem_seq",
+  "GX.btzJ0CexSeq",
+  "GX.btzJ0CexP",
+  "GX.btzJ0CexQ",
+  "GX.btzJ0Cex_le_seq",
+  "GX.btzJ0Cex_seq_le",
+  "GX.btzJ0CexMid",
+  "GX.btzJ0CexMid_mem",
+  "GX.btzJ0Cex_seq_not_mem",
+  "GX.btzJ0Cex_lim_mem",
+  "GX.btzJ0Cex_tendsto",
+  "GX.btzJ0_not_isCompact_diamond",
+  "GX.btzJ0_not_globallyHyperbolic",
+  "GX.btzJ0Tilde_not_globallyHyperbolic"
+ ],
+ "kb_proposals": [
+  "Causal.Causality.generated over an atlas (index = the atlas as a subtype, source opens chartSource, transported model causalities chartTransport) is the cheapest causality on a space with charts: ≪ is open for free, and a link unfolds by Causal.LocalCausality.extend_le_iff inf_le_right (GX.btzTildeAtlasCausality, GX.btzTilde_link_le_iff).",
+  "One model for regular and BTZ points of BTZ~-manifolds: GX.btzJ0RegIncl (J⁺(Δ₀)∖Δ₀ ↪ 𝕄 as OpenPartialHomeomorph) plus a translation turns every Minkowski chart into a chart into J⁺(Δ₀) (GX.exists_mem_btzTildeDevAtlas_of_chart).",
+  "WP-41d's glued tamifying topology on M~ is natural over reg M (hN none in its proof) but the exported theorem drops that clause; any chart at a regular point of (M~, T') needs it: use GX.btz_manifold_exists_chartwise_tamifying_reg.",
+  "A local variable of class type (t t' : TopologicalSpace α) is a local instance inside a def body: to read a partial homeomorphism for a second topology, wrap it (WrappedTop) and use a type synonym carrying it as instance (GX.WithWrappedTop, GX.OpenPartialHomeomorph.retopBTZ).",
+  "When a goal quantifies over a type synonym (WithWrappedTop T'), `intro (e : UnderlyingType)` fixes the local's type, otherwise membership/connectedComponentIn lemmas of the underlying type fail with 'synthesized instance not defeq'.",
+  "The causality of an E0-manifold in the SingularGXStructure form is GX.e0ManifoldCausality M hM (generated by regular a.e.-atlas charts into 𝕄 and def:atlas E0-charts into 𝔼₀, inside Y = 𝕄 ⊕ 𝔼₀ with E0LM.D); GX.chartAtlasCausality gives tarentin and Z⁺ for any atlas from LocTarentin/LocZplus of the model, no groupoid needed.",
+  "T_BTZ (the BTZ topology of J+(Delta)) is not locally compact at the BTZ line and its diamonds with a BTZ vertex are not compact: points of the null cone of a BTZ point p0 converging in Minkowski space to a later BTZ point x never enter I+(p) cup ]p,+inf[ for p between p0 and x (GX.btzJ0_not_isCompact_diamond). Never try to prove GH of a T_BTZ spacetime with BTZ points.",
+  "To compare the causality of M~ (charts into J+(Delta_0)) with that of M (charts into M + E0): prove local monotonicity of the projection in terms of D (D p <= D q => p p <= p q near each point) and integrate it along chart-link curves with Causal.CurveOn.rel_of_lt on the relation family (C.le top, membership in N); this avoids identifying the charts (GX.BTZTildeData.proj_localMono, proj_le_of_link).",
+  "E0.Le is winding free, so a Minkowski-causal pair of developments btzDevM 0 btzV0 of the cylinder projects to an E0.Le pair (GX.e0Le_of_btzDevM_le via GX.btzDevM_eq_lift); inside a causally convex set of E0 (E0.stronglyCausal) the relation is realised by E0.cle_of_seg + E0.le_seg_ends.",
+  "Future distinguishing without GH: Z+, D continuous and increasing give D x = D y from I+(x) = I+(y); the base projection and closed J+ of a GH base give p x = p y; strong causality of the base plus a sheet on which (p, D) is injective finish (GX.BTZTildeData.isFutureDistinguishing_of_base).",
+  "On d.Space = WithWrappedTop d.T', state lemmas through d.toNat / d.proj / d.dev (functions typed on d.Space) and ascribe connectedComponentIn sets explicitly to MaxBranchedCover: otherwise elaboration picks the T' instance and 'synthesized instance not defeq' errors appear."
+ ],
+ "notes": "WP-43e (dispatch: close the tagged sorry of WP-41l). The tagged statement GX.BTZTildeData.globallyHyperbolic_of_base ('M GH => M~ with T_BTZ GH') is FALSE in the model and was REMOVED (DEC-27): GX.btzJ0Tilde_not_globallyHyperbolic / btzJ0_not_globallyHyperbolic / btzJ0_not_isCompact_diamond. The paper's l.2359 (M GH => M~ future distinguishing) is proved with 0 sorry by a new route, GX.BTZTildeData.isFutureDistinguishing_of_base, SAME SIGNATURE as before (hM hG), so Uniformization's BTZTildeData.injective_D_of_isBTZFutureComplete compiles unchanged and is now sorry-free on this input (checked with lake env lean on Uniformization.lean: no error). STRUCTURE CHANGE: BTZTildeData gained a last field isPresentation : forall e, orbitMk (GammaA (2*pi)) (Phi e) = e.base; BTZTildeData.nonempty supplies it from its existing hypothesis hPhi; no other file constructs BTZTildeData (grep). Uniformization.lean's module docstring (SCOPE (d), l.103) still lists GX.BTZTildeData.globallyHyperbolic_of_base as an inherited sorry: that declaration no longer exists; the docstring is stale (not in my write set). The three other partial rows are unchanged in content and stay partial on their pending reading questions (no ruling found in registers/DECISIONS.md for the BTZ~-manifold reading or WP-41d's readings); lem:globally_hyperbolic_manifolds_manifolds gains a finding. Build: taskset -c 0-11 lake env lean and lake build GXScaffold.BTZ.Manifolds succeed, no warning, no sorry; #print axioms (campaign/WP-43e/Axioms.lean, axioms.out): standard axioms only for every listed decl. Imports unchanged (DEC-33 gate: Causal.{StrongCausality,GlobalHyperbolicity,Generated,GXStructure}; no open Causal). New names grepped against GX/ and scaffold/: no clash. Scratch files campaign/WP-43e/Scratch.lean, Scratch2.lean are development copies (not modules); Manifolds.before.lean.bak is the WP-41l state."
+}

@@ -1,0 +1,38 @@
+{
+  "package": "WP-43g",
+  "round": "2 (read-only audit, node1, 2026-11-03; source mtime 02:55:28Z, olean 02:56:12Z, REPORT 02:56:21Z)",
+  "file": "scaffold/GXScaffold/SingularII/Models.lean",
+  "verdict": "clean",
+  "builds": true,
+  "sorry_count_measured": 0,
+  "summary": "BUILD: `taskset -c 0-11 lake env lean scaffold/GXScaffold/SingularII/Models.lean` exits 0 in about 22 s wall and prints nothing: no warning, no error, no sorry. Every 'sorry' in the file is inside a docstring. The importer SpreadTop.lean also typechecks against the new module, with no output. AXIOMS (#print axioms on the fresh olean): GX.not_localVirtTameStatement, GX.ThinCex.not_forall_hasLocalTamifyingCharts_VV, GX.ThinCex.local_virt_tame_counterexample, GX.local_virt_tame_descending, GX.local_virt_tame_of_charts, GX.isVirtuallyTame_of_hasMaximalLifts, GX.isVirtuallyTame_of_isXAManifold_of_hasFiniteLocalDegree, GX.forall_isTame_iff_printed and GX.existsUnique_hasXAType depend only on propext, Classical.choice and Quot.sound. ROUND-1 MAJOR FIXED: GX.LocalVirtTameStatement (l.8538) now carries [ConnectedSpace X] [LocPathConnectedSpace X] (l.341/DEC-39, l.293), and SecondCountableTopology on the models and on the quantified N (l.474). The refutation goes through with the same proof term. I checked every instance the counterexample needs by inferInstance: ConnectedSpace XS, LocPathConnectedSpace XS, SecondCountableTopology XA and VV, ConnectedSpace VV. XS and XA are subtypes of C^2 / R x R x C with the subspace topology. DIRECTION OF STRENGTH (refutation): each Lean hypothesis is at least the paper's. The family analytic, the models locally Galoisian (literal DEC-55 IsSLSCInCC over every open, strict GX), and HasAutContinuousTamifying (DEC-87 (b)) are the marked or ruled notions. The extra hypotheses on X, on the models and on the quantified N (T2, LPC, first countable, connected, second countable) only weaken the refuted statement. IsXAManifold (DEC-67 (e)) is stronger than the printed notion, so (i) is weaker. The negated conclusion is the marked IsVirtuallyTame, an existential over base points and topologies, so its negation is total, and the same notion is satisfied by the model (ii). So not_localVirtTameStatement really refutes l.1974 under the ruled readings, and also under the printed reading of X_A-manifold. The hypotheses are not vacuous: local_virt_tame_counterexample proves all of them for ThinCex. The definitions the statement is built from are unchanged from the WP-41p-audited copy. ROUND-1 MINORS FIXED: (1) the stale sentences in the module docstring (l.81-83), SCOPE (b) and SCOPE (d) are reworded or marked superseded, and so is REPORT rem:theorem_theo_local_tame findings[1]. (2) The new corollary GX.ThinCex.not_forall_hasLocalTamifyingCharts_VV (l.8518) formalizes 'piece (2) fails', is cited in the docstring of HasLocalTamifyingCharts and in REPORT, and has standard axioms. REPORT: honest and complete. builds true and sorry_count 0 are right. All 12 labels of the file are present, and all 480 names of decls ∪ extra_decls exist, including the new corollary. theo:local_virt_tame is partial with the counterexample, the corrected forms proved and the author asked (DEC-27/DEC-86). The hypotheses note records X connected and second countability. The conditional forms (isVirtuallyTame_of_isXAManifold with hcharts, local_virt_tame_of_charts) are reported as conditional, not as the theorem. MARKS: 9 bold labels in the module docstring, all within its first 1520 characters, equal to REPORT's 9 closed rows. The 3 partial rows (cex:start_singular_manifold_homeomorphic, theo:local_virt_tame, lem:spread_top) are unmarked, and all 12 labels fall inside the 4000-character window. LABEL COVERAGE l.1889-2005: ex:follows_proposition_brunswic_cauchy (l.1927) is certified elsewhere (BTZ/VirtTame.lean, WP-27j/WP-41d), and lem:spread_top in SpreadTop.lean. CLASHES: LocalVirtTameStatement, not_localVirtTameStatement, HasLocalTamifyingCharts, local_virt_tame_forward/_of_charts and the GX.ThinCex namespace (incl. not_forall_hasLocalTamifyingCharts_VV) occur in no other file of GX/, scaffold/ or the pinned Causal sources. No other file uses the removed names (exists_isLocalTamifying_charts, local_virt_tame) or the changed signature of isVirtuallyTame_of_isXAManifold in code. Only minor stale docstring references remain (below).",
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "Models.lean docstrings at l.3796 (local_virt_tame_liftable: 'as in `local_virt_tame`'), l.5012 (local_virt_tame_descending: 'as in `local_virt_tame`') and l.5028 (section TamifyingNecessary header: 'The tagged `sorry` of `exists_isLocalTamifying_charts` concerns ...')",
+      "problem": "These docstrings refer to declarations that WP-43g removed (GX.local_virt_tame, GX.exists_isLocalTamifying_charts) as if they still exist, the third even as a live tagged sorry. The module docstring and the docstring of HasLocalTamifyingCharts are already corrected. These three were missed.",
+      "fix": "Replace 'as in `local_virt_tame`' with 'as in `local_virt_tame_forward`'. Reword l.5028 as 'Piece (2) of the paper's proof (the topologies T_{U,V,φ}, `HasLocalTamifyingCharts`; formerly the tagged-sorry `exists_isLocalTamifying_charts`, removed at WP-43g) concerns ...'."
+    },
+    {
+      "severity": "minor",
+      "where": "Models.lean SCOPE (b) and REPORT rem:theorem_theo_local_tame findings[1] ('GX.ThinCex.VV … not virtually tame, hence not tame')",
+      "problem": "'VV is not tame' is asserted, but no declaration certifies it. It is a one-line consequence of IsTame.isVirtuallyTame with isLocallyUnloopable_XS and not_isVirtuallyTame_VV, so it is true; it is just not stated as a theorem.",
+      "fix": "Optionally add `ThinCex.not_isTame_VV` and cite it, or leave as is (it is prose, not a marked claim)."
+    }
+  ],
+  "checks": {
+    "build": "taskset -c 0-11 lake env lean …/Models.lean: EXIT 0, no output; SpreadTop.lean (importer) EXIT 0, no output",
+    "axioms": "propext / Classical.choice / Quot.sound only, on the refutation, the new corollary, the counterexample conjunction, the corrected forms and the marked rows' headline decls",
+    "round1_major": "fixed: X connected + LPC, second countability on models and N, in LocalVirtTameStatement; same proof term; instances verified by inferInstance",
+    "round1_minors": "fixed: stale wording reworded or marked superseded; not_forall_hasLocalTamifyingCharts_VV added and cited",
+    "refutation_strength": "every Lean hypothesis at least the paper's (ruled readings); extra hypotheses only on the side that weakens the refuted statement; negated conclusion is the marked IsVirtuallyTame",
+    "report_coverage": "12/12 labels; 480 reported names, incl. the new corollary",
+    "marks_in_window": "9 marks = 9 closed rows, inside the first 1520 chars; 3 partial rows unmarked",
+    "name_clashes": "none",
+    "downstream": "no code use of removed or changed names outside the module; SpreadTop typechecks"
+  },
+  "questions_for_author": [
+    "theo:local_virt_tame is refuted with a model geometry X that is not a manifold at 0 (allowed by l.341/l.1660). Is the theorem intended for X a manifold (e.g. (Isom(E^{1,2}), E^{1,2})), and is a counterexample known there? (REPORT's question; endorsed.)",
+    "Which corrected form should be certified: descending charts (proved), a hypothesis on the models (maximal lifts / finite local degree, proved), or a restriction on X? (REPORT's question; endorsed.)"
+  ]
+}

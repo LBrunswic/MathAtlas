@@ -1,11 +1,11 @@
 import GXScaffold.BTZ.AbsMax
-import GXScaffold.BTZ.Manifolds
+import GX.BTZ.Manifolds
 import Causal.Flat.Lox.PastProper
 
 /-!
 # `GXScaffold.BTZ.Uniformization` — uniformization of GH Cauchy-compact Cauchy-maximal `𝔼₀`-manifolds
 
-Package WP-41n (WAVE5-PLAN.md, WP-39n). `papers/gx`, §4.6 (`RamcovGX.tex:2348–2396`), DEC-28's
+Packages WP-41n and WP-43f (WAVE5-PLAN.md, WP-39n). `papers/gx`, §4.6 (`RamcovGX.tex:2348–2396`), DEC-28's
 Cauchy-compact form (`brunswic2021cauchy` Prop 2.17 / Cor 2.18), DEC-75/76/77.
 **No ledger label is certified in full here, so nothing is marked.** Two rows, both partial:
 
@@ -16,8 +16,10 @@ Cauchy-compact form (`brunswic2021cauchy` Prop 2.17 / Cor 2.18), DEC-75/76/77.
   `ρ(Γ)` (DEC-75); the `Γ`-invariant family of lightlike planes `(Π_w)_{w ∈ Λ(Γ)}`;
   `𝒟(Reg M̃) = ⋂_w I⁺(Π_w)` (an equality, future case, DEC-77 (a)); `Γ` free and properly
   discontinuous; `Reg M̃` future complete; `𝒟` induces an isometry `Reg M ≅ ρ(Γ)\Ω⁺`. The future
-  case rests on ONE tagged `sorry` (`GX.e0RegM_range_not_subset_omegaMinus`); without it,
-  `GX.btz_uniformization_reg` (0 `sorry` of its own) is the time-reversal disjunction. The BTZ
+  case is PROVED (WP-43f, 0 `sorry` in this file): `GX.e0RegM_range_not_subset_omegaMinus`, from
+  `GX.false_of_sing_of_pastComplete` (a BTZ point forbids an injective past-complete developed
+  `Reg M̃`; standard axioms only). The (O2) hypothesis `hLine` of WP-41n is discharged
+  (`GX.E0AbsMax.cor_abs_max_e0`). The `sorry`s left beneath the row are upstream only (SCOPE (d)). The BTZ
   half (`𝒟` on `sing M̃`, the rays `Δ_i`, `T_BTZ` near them) is not formalized (SCOPE (b)), except
   the injectivity step `GX.BTZTildeData.injective_D_of_isBTZFutureComplete` (l.2392–2394).
 * `prop:globally_hyperbolic_cauchy_complete_manifolds` — `RamcovGX.tex:2348`, partial, corrected
@@ -38,6 +40,12 @@ Proved here, of general use (0 `sorry`, standard axioms only):
 * `GX.injective_of_isFutureComplete`: the injectivity step of l.2392–2394, for any causality.
 * `GX.exists_affine_eq_of_locally`: a function locally affine through an open map is globally
   affine on a preconnected space; `GX.pastHalf_rad_locally`: `r` is affine in `𝒟` near every point.
+* `GX.false_of_sing_of_pastComplete` (WP-43f): an `𝔼₀`-manifold with a BTZ point has no developing
+  map of `Reg M̃` that is injective with a past-complete image — the radial segment into the BTZ
+  point lifts into one component of the lifted sector, where `𝒟 = g • chartMap`
+  (`GX.dev_eventually_chartMap_sector`, `GX.exists_isom_eq_of_locally`), so its development
+  converges to a point of `J⁻(𝒟 z̃)`; past completeness and the open embedding `𝒟` would make the
+  BTZ point regular.
 
 > \begin{prop} Globally hyperbolic Cauchy-complete $\BTZ$-manifolds are future complete.
 > \end{prop} \begin{proof} From Theorem 3 of \cite{brunswic2021cauchy} the regular par of $M$ is
@@ -65,8 +73,8 @@ Proved here, of general use (0 `sorry`, standard axioms only):
 | Cauchy-complete (l.2363) | ⚠ strengthened: **Cauchy-compact** `E0CauchyCompact M` (DEC-28; Barbot's equality needs absolute maximality, which B21 gives only via Cor 2.18) |
 | Cauchy-maximal (l.2363) | ✓ carried: `IsE0CauchyMaximal M` (DEC-77 (c), `Dev.IsETTMaximal` among `𝔼₀`-manifolds) |
 | finite type, `π₁(Σ∖sing)` non-abelian, `s ≥ 1` (DEC-76) | ⚠ strengthened: `π₁(Reg M)` **not metabelian** (Holonomy's finding: non-abelian is refuted algebraically); `s ≥ 1` ✓ as `(chartedSing e0SingY M 0).Nonempty` |
-| "up to time reversal" (dropped, DEC-77 (a)) | ✓ the future case is concluded; it rests on the tagged `sorry` `e0RegM_range_not_subset_omegaMinus` |
-| `M` second countable; (O2) `hLine` | ⚠ strengthened: carried, as in `GXScaffold.BTZ.AbsMax` (Cor 2.18's form) |
+| "up to time reversal" (dropped, DEC-77 (a)) | ✓ the future case is concluded and PROVED (`e0RegM_range_not_subset_omegaMinus`, WP-43f) |
+| `M` second countable | ⚠ carried, as in `GXScaffold.BTZ.AbsMax` (Cor 2.18's form; implicit in "manifold"); (O2) `hLine` is no longer a hypothesis (`E0AbsMax.e0_hLine`) |
 | the given pair `(𝒟, ρ)` (l.2365) | ✓ every developing pair of `Reg M` is a hypothesis, not an `∃` |
 | `𝒟` injective | ⚠ on `Reg M̃` ✓; on `M̃`: the step l.2392–2394 proved, its inputs carried |
 | `ρ` faithful, discrete, torsion-free | ✓ |
@@ -75,13 +83,13 @@ Proved here, of general use (0 `sorry`, standard axioms only):
 
 ## SCOPE (disclosed)
 
-* (a) **The future-case selection** (DEC-77 (a)) is the one tagged `sorry` of this file,
-  `GX.e0RegM_range_not_subset_omegaMinus`: D-11 (d)'s argument needs `𝒟` extended to the BTZ
-  points and the parabolic holonomy of the loop around a BTZ line, read through the regular charts
-  of `Reg M` (the obstruction is in the `SORRY` text).
+* (a) **The future-case selection** (DEC-77 (a)) is PROVED (WP-43f), by a route that needs neither
+  `𝒟` extended to the BTZ points nor the parabolic holonomy of the loop around a line: in the past
+  case `𝒟(Reg M̃) = Ω⁻(Λ)` is past complete, and `GX.false_of_sing_of_pastComplete` refutes that.
+  The future case `Ω⁺ ⊆ Ω⁻` is excluded by `Ω⁺ ∩ Ω⁻ = ∅` (`Λ ≠ ∅`, the loxodromic).
 * (b) **The BTZ half of the headline is not formalized**: `𝒟` on `sing M̃`, the rays
   `Δ_i = 𝒟(S_x)` in `∂Ω`, the image `(⋃Δ_i) ∪ Ω`, and `M ≅ ρ\𝒟(M̃)` for the BTZ topology. They live
-  on the maximal branched covering `BTZTildeData` (GXScaffold.BTZ.Manifolds), built over the
+  on the maximal branched covering `BTZTildeData` (GX.BTZ.Manifolds), built over the
   `SingularGXStructure` presentation of `M`, while Cauchy-compactness, Cauchy-maximality and
   absolute maximality of `Reg M` are stated for `ChartedSpace E0Y M` (GXScaffold.BTZ.AbsMax). No
   bridge identifies the two presentations, nor `reg M̃` with the universal cover of `Reg M`. The
@@ -98,9 +106,11 @@ Proved here, of general use (0 `sorry`, standard axioms only):
   `𝔼₀`-manifolds (the induced length structure across the BTZ lines is Surgery's obstruction
   (3)), and `Causal.Flat.IsCauchyComplete` of `Reg {τ<0}` is not the paper's hypothesis (we expect
   it to fail: no cusp surgery is available below `τ = 0`).
-* (d) Upstream `sorry`s inherited (`#print axioms`, `campaign/WP-41n/axioms.out`): the five leaves
-  of `GXScaffold.BTZ.AbsMax` (through `absMax_e0RegM`), `GX.E0Surgery.regM_isCauchyComplete`, and,
-  for the `M̃` step only, `GX.BTZTildeData.globallyHyperbolic_of_base`.
+* (d) Upstream `sorry`s inherited (`#print axioms`, `campaign/WP-43f/axioms.out`), all through
+  `GX.E0AbsMax.cor_abs_max_e0` (B21 Cor 2.18): the three open leaves of `GXScaffold.BTZ.AbsMax`
+  and `GX.E0Surgery.regM_isCauchyComplete` (`GXScaffold.BTZ.Surgery`). Everything proved in this
+  file, the `M̃` injectivity step included (WP-43e removed its upstream input), is on standard
+  axioms; the headline row cannot be marked until those upstream rows close.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; lean-causal `ca2ad78`
 (`lake-manifest.json`).
@@ -350,6 +360,409 @@ theorem injective_of_isFutureComplete {C : Causal.Causality N} {D : N → Causal
 
 end InjectivityStep
 
+/-! ## §3b The future-case selection: a BTZ point forbids a past-complete `Reg M̃` (DEC-77 (a)) -/
+
+section FutureSelectionTools
+
+open Filter Topology
+
+open scoped Real
+attribute [local instance] btzE0Structure
+
+/-- Near a point of its source lying in the sector of `y₀`, a chart of `BTZE0`'s maximal a.e.
+atlas is `g •` the sector chart `chartMap y₀` of the fixed base `y₀` (the angle branch of `y₀`). -/
+theorem aeChart_eventually_chartMap_sector {c : OpenPartialHomeomorph BTZE0 (Causal.Minkowski 2)}
+    (hc : c ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0) {x : BTZE0}
+    (hx : x ∈ c.source) {y₀ : E0} (hy₀ : y₀.2 ≠ 0) (hxs : E0.toPaper x ∈ E0.sector y₀) :
+    ∃ g : Causal.Flat.isom 2, ∀ᶠ z in 𝓝 x,
+      c z = g • E0.chartMap y₀ (E0.toPaper z) := by
+  set y := E0.toPaper x
+  have hyax : y ∉ E0.axis := E0.not_mem_axis_of_mem_sector hxs
+  set p : ℝ × ℝ × ℝ := (y.1, E0.rad y, E0.angle y₀ y)
+  have hpx : orbitMk (GammaA (2 * π)) (btzPaperCyl p) = x := by
+    rw [← E0.toPaper_symm_eq_orbitMk hyax (E0.polar_angle hy₀ y), Homeomorph.symm_apply_apply]
+  obtain ⟨g, hg⟩ := btz_chart_eq_smul_btzPaperDev isBTZStructure_btzE0 hc
+    (p := p) (E0.rad_pos.2 hyax) (by rw [hpx]; exact hx)
+  set φ : BTZE0 → ℝ × ℝ × ℝ := fun z =>
+    ((E0.toPaper z).1, E0.rad (E0.toPaper z), E0.angle y₀ (E0.toPaper z))
+  have hφ : ContinuousAt φ x := by
+    have hang : ContinuousAt (E0.angle y₀) y :=
+      (E0.continuousOn_angle y₀).continuousAt ((E0.isOpen_sector y₀).mem_nhds hxs)
+    have h3 : ContinuousAt (fun z => E0.angle y₀ (E0.toPaper z)) x :=
+      ContinuousAt.comp (g := E0.angle y₀) (f := E0.toPaper) hang E0.toPaper.continuous.continuousAt
+    exact (continuous_fst.comp E0.toPaper.continuous).continuousAt.prodMk
+      ((E0.continuous_rad.comp E0.toPaper.continuous).continuousAt.prodMk h3)
+  have h1 : ∀ᶠ z in 𝓝 x, c (orbitMk (GammaA (2 * π)) (btzPaperCyl (φ z))) =
+      g • btzPaperDev (φ z) := hφ.eventually hg
+  have h2 : ∀ᶠ z in 𝓝 x, E0.toPaper z ∈ E0.sector y₀ :=
+    E0.toPaper.continuous.continuousAt.preimage_mem_nhds
+      ((E0.isOpen_sector y₀).mem_nhds hxs)
+  refine ⟨g, ?_⟩
+  filter_upwards [h1, h2] with z hz1 hz2
+  have hzax : E0.toPaper z ∉ E0.axis := E0.not_mem_axis_of_mem_sector hz2
+  have hz : orbitMk (GammaA (2 * π)) (btzPaperCyl (φ z)) = z := by
+    rw [← E0.toPaper_symm_eq_orbitMk hzax (E0.polar_angle hy₀ (E0.toPaper z)),
+      Homeomorph.symm_apply_apply]
+  rw [hz] at hz1
+  rw [hz1, E0.chartMap_eq]
+
+/-- **A locally isometric reading through an open map is globally one isometry** on a
+preconnected space: if near every point `D = g • F` for some `g ∈ Isom(𝐌³)`, one `g` works
+everywhere (two isometries agreeing on the non-empty open `D(t)` are equal). -/
+theorem exists_isom_eq_of_locally {X : Type*} [TopologicalSpace X] [PreconnectedSpace X]
+    [Nonempty X] {D F : X → Causal.Minkowski 2} (hD : IsOpenMap D)
+    (h : ∀ x, ∃ g : Causal.Flat.isom 2, ∀ᶠ y in 𝓝 x, D y = g • F y) :
+    ∃ g : Causal.Flat.isom 2, ∀ y, D y = g • F y := by
+  have huniq : ∀ (x : X) (g g' : Causal.Flat.isom 2), (∀ᶠ y in 𝓝 x, D y = g • F y) →
+      (∀ᶠ y in 𝓝 x, D y = g' • F y) → g = g' := by
+    intro x g g' h1 h2
+    obtain ⟨t, ht, hto, hxt⟩ := eventually_nhds_iff.1 (h1.and h2)
+    have hA : ((g⁻¹ : Causal.Flat.isom 2) : Causal.Minkowski 2 ≃ᵃ[ℝ] Causal.Minkowski 2).toAffineMap =
+        ((g'⁻¹ : Causal.Flat.isom 2) : Causal.Minkowski 2 ≃ᵃ[ℝ] Causal.Minkowski 2).toAffineMap := by
+      refine AffineMap.ext_on ((hD t hto).affineSpan_eq_top ⟨D x, x, hxt, rfl⟩) ?_
+      rintro _ ⟨y, hy, rfl⟩
+      show ((g⁻¹ : Causal.Flat.isom 2) : Causal.Minkowski 2 ≃ᵃ[ℝ] Causal.Minkowski 2) (D y) =
+        ((g'⁻¹ : Causal.Flat.isom 2) : Causal.Minkowski 2 ≃ᵃ[ℝ] Causal.Minkowski 2) (D y)
+      rw [← Causal.Flat.isom_smul_def, ← Causal.Flat.isom_smul_def]
+      conv_lhs => rw [(ht y hy).1, inv_smul_smul]
+      rw [(ht y hy).2, inv_smul_smul]
+    have : (g⁻¹ : Causal.Flat.isom 2) = g'⁻¹ :=
+      Subtype.ext (AffineEquiv.toAffineMap_injective hA)
+    exact inv_injective this
+  choose A hA using h
+  have hlc : IsLocallyConstant A := by
+    rw [IsLocallyConstant.iff_eventually_eq]
+    intro x
+    filter_upwards [(hA x).eventually_nhds] with y hy
+    exact huniq y _ _ (hA y) hy
+  obtain ⟨x₀⟩ := ‹Nonempty X›
+  refine ⟨A x₀, fun y => ?_⟩
+  rw [← hlc.apply_eq_of_preconnectedSpace y x₀]
+  exact (hA y).self_of_nhds
+
+end FutureSelectionTools
+
+section FutureSelection
+
+open Filter Topology TopologicalSpace E0CBG E0Spear E0AbsMax
+open scoped Causal.Flat
+attribute [local instance] btzE0Structure
+
+variable {M : Type} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
+  [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid]
+
+/-- The base point in `M` of a point of `Reg M̃` (the universal cover of `Reg M`). -/
+noncomputable def regCoverBase {x₀ : e0RegMFlat M}
+    (w : Causal.UniversalCover (e0RegMFlat M) x₀) : M :=
+  (show E0LM.e0RegM M from Causal.UniversalCover.proj (e0RegMFlat M) x₀ w).1
+
+theorem continuous_regCoverBase {x₀ : e0RegMFlat M} :
+    Continuous (regCoverBase (M := M) (x₀ := x₀)) :=
+  continuous_subtype_val.comp (Causal.Flat.isCoveringMap_flatCover_proj 2 (e0RegMFlat M) x₀).continuous
+
+/-- **Near a regular point read in a BTZ chart, the developing map is `g •` the sector chart**:
+if `w ∈ Reg M̃` lies over a point of the source of the chart `chartAt E0Y x` of `M`, read in the
+`𝔼₀` part in the sector of `y₀`, then near `w`, `𝒟 = g • chartMap y₀ ∘ paperOfY ∘ chartAt E0Y x`
+for some `g ∈ Isom(𝐌³)` (the developing map, the cover's charts, the flat chart of `Reg M`, and the
+transition to the chart at `x`, each locally an isometry). -/
+theorem dev_eventually_chartMap_sector {x₀ : e0RegMFlat M}
+    {D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2}
+    {ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2}
+    (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ) (x : M) {y₀ : E0} (hy₀ : y₀.2 ≠ 0)
+    (w : Causal.UniversalCover (e0RegMFlat M) x₀)
+    (hw : regCoverBase w ∈ (chartAt E0Y x).source)
+    (hwr : chartAt E0Y x (regCoverBase w) ∈ range Sum.inr)
+    (hws : E0.paperOfY (chartAt E0Y x (regCoverBase w)) ∈ E0.sector y₀) :
+    ∃ g : Causal.Flat.isom 2, ∀ᶠ w' in 𝓝 w,
+      D w' = g • E0.chartMap y₀ (E0.paperOfY (chartAt E0Y x (regCoverBase w'))) := by
+  letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat M) x₀
+  haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat M) x₀
+  have hDl : Causal.Flat.IsLocalIsometry 2 D :=
+    Causal.Flat.isLocalIsometry_iff_eventually.2 ⟨hpair.gx.1, hpair.gx.2⟩
+  obtain ⟨g2, hg2⟩ := (Causal.Flat.isLocalIsometry_iff_eventually.1 hDl).2 w
+  have hpl := Causal.Flat.isLocalIsometry_flatCover_proj (d := 2) (M := e0RegMFlat M) x₀
+  obtain ⟨g1, hg1⟩ := (Causal.Flat.isLocalIsometry_iff_eventually.1 hpl).2 w
+  set q := Causal.UniversalCover.proj (e0RegMFlat M) x₀ with hq
+  set y : E0LM.e0RegM M := q w with hy
+  have hyw : (y : M) = regCoverBase w := rfl
+  set e := chartAt E0Y x with he
+  set em := chartAt E0Y (y : M) with hem
+  rw [← hyw] at hw hwr hws
+  obtain ⟨u, hu⟩ := hwr
+  have hus : E0.toPaper u ∈ E0.sector y₀ := by rw [← E0.paperOfY_inr, hu]; exact hws
+  have hureg : u ∈ Reg (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0 :=
+    (E0.mem_reg_iff_toPaper u).2 (E0.not_mem_axis_of_mem_sector hus)
+  obtain ⟨c'', hc'', hu''⟩ := mem_support.1 hureg
+  obtain ⟨g3, hg3⟩ := aeChart_eventually_chartMap_sector hc'' hu'' hy₀ hus
+  set c₂ := e0Inr.symm.trans c'' with hc₂def
+  have hc₂ : c₂ ∈ e0Atlas := e0InrChart_mem_e0Atlas hc''
+  set R := E0LM.regAtlasChart y with hR
+  have ht : e.symm.trans em ∈ e0Groupoid :=
+    HasGroupoid.compatible (chart_mem_atlas E0Y x) (chart_mem_atlas E0Y (y : M))
+  have hyem : (y : M) ∈ em.source := mem_chart_source E0Y (y : M)
+  have hc₂src : e (y : M) ∈ c₂.source := by
+    rw [← hu]; exact mem_e0InrChart_source.2 ⟨u, hu'', rfl⟩
+  have hvsrc : c₂ (e y) ∈ (c₂.symm.trans ((e.symm.trans em).trans R)).source := by
+    simp only [OpenPartialHomeomorph.trans_source, mem_inter_iff, mem_preimage,
+      OpenPartialHomeomorph.symm_source, OpenPartialHomeomorph.coe_trans, comp_apply,
+      c₂.left_inv hc₂src, e.left_inv hw]
+    exact ⟨c₂.map_source hc₂src, ⟨e.map_source hw, hyem⟩, E0LM.mem_regAtlasChart_source y⟩
+  obtain ⟨g4, hg4⟩ := E0LM.e0_flat_transition_aux ht hc₂ (E0LM.regAtlasChart_mem y) _ hvsrc
+  have hcont : ContinuousAt (fun m => c₂ (e m)) (y : M) :=
+    (c₂.continuousAt hc₂src).comp (e.continuousAt hw)
+  have hM : ∀ᶠ m in 𝓝 (y : M), R (em m) = (g4 * g3) • E0.chartMap y₀ (E0.paperOfY (e m)) := by
+    have hA := hcont.eventually hg4
+    have hB : ∀ᶠ m in 𝓝 (y : M), e m ∈ c₂.source :=
+      (e.continuousAt hw).preimage_mem_nhds (c₂.open_source.mem_nhds hc₂src)
+    have hC : ∀ᶠ m in 𝓝 (y : M), m ∈ e.source := e.open_source.mem_nhds hw
+    have hval : e0Inr.symm (e (y : M)) = u := by rw [← hu, e0Inr_symm_inr]
+    have hT : Tendsto (fun m => e0Inr.symm (e m)) (𝓝 (y : M)) (𝓝 u) := by
+      have h0 : ContinuousAt (fun m => e0Inr.symm (e m)) (y : M) :=
+        (e0Inr.symm.continuousAt (by rw [e0Inr_symm_source]; exact ⟨u, hu⟩)).comp
+          (e.continuousAt hw)
+      have h1 := h0.tendsto
+      rwa [hval] at h1
+    have hD' := hT.eventually hg3
+    filter_upwards [hA, hB, hC, hD'] with m hA hB hC hD'
+    simp only [OpenPartialHomeomorph.coe_trans, comp_apply] at hA
+    rw [c₂.left_inv hB, e.left_inv hC] at hA
+    rw [hA, mul_smul]
+    congr 1
+  have hbc : ContinuousAt (fun w' => regCoverBase w') w := continuous_regCoverBase.continuousAt
+  have hM' := hbc.eventually hM
+  refine ⟨g2 * g1⁻¹ * (g4 * g3), ?_⟩
+  filter_upwards [hg2, hg1, hM'] with w' h2 h1 h0
+  have hchart : (chartAt (Causal.Minkowski 2) (q w)) (q w') = R (em (regCoverBase w')) := by
+    show ((E0LM.regChartM y).subtypeRestr ⟨y⟩) (q w') = _
+    rw [regChart_subtypeRestr_eq]
+    rfl
+  rw [chartAt_self_eq, OpenPartialHomeomorph.refl_apply, id] at h2
+  rw [hchart, h0] at h1
+  have h1' : (chartAt (Causal.Minkowski 2) w) w' =
+      g1⁻¹ • (g4 * g3) • E0.chartMap y₀ (E0.paperOfY (e (regCoverBase w'))) := by
+    rw [h1, inv_smul_smul]
+  rw [h2, h1', ← mul_smul, ← mul_smul]
+
+/-- `btzPaperDev (τ₁ + s, s, 0) = (τ₁ + s, (τ₁, 0))`: the radial ray at angle `0`. -/
+theorem btzPaperDev_ray (τ₁ s : ℝ) :
+    btzPaperDev (τ₁ + s, s, 0) =
+      ((τ₁ + s, WithLp.toLp 2 ![τ₁, 0]) : Causal.Minkowski 2) := by
+  simp only [btzPaperDev]
+  refine Prod.ext (by simp) ?_
+  ext i; fin_cases i <;> simp
+
+/-- **A BTZ point forbids a past-complete developed regular part** (the future-case selection,
+DEC-77 (a); D-11 (d)'s mechanism without extending `𝒟`): if `M` has a BTZ point `x`, no developing
+map of `Reg M̃` is injective with a past-complete image (`p ≤ 𝒟 z ⇒ p ∈ 𝒟(Reg M̃)`). Proof: in the
+chart at `x` (paper coordinates, `x ↦ (τ₁, 0)`), the radial segment `c(s) = (τ₁ + s, s)`, `s ↓ 0`,
+runs in `Reg M` towards `x`; on the component `X` of the lifted sector containing a lift `z̃` of
+`c(δ)`, `𝒟 = g • chartMap` (`dev_eventually_chartMap_sector`, `exists_isom_eq_of_locally`), so the
+lifts `c̃(s) ∈ X` develop to `g • (τ₁ + s, τ₁, 0) → p := g • (τ₁, τ₁, 0) ≤ 𝒟 z̃`. Past completeness
+gives `p = 𝒟 w̃`; `𝒟` is an open embedding, so `c̃(s) → w̃`, and the base points `c(s)` converge
+both to the regular point `w̃`'s base and to the BTZ point `x` in the Hausdorff `M`. -/
+theorem false_of_sing_of_pastComplete (hsing : (Causal.CBG.chartedSing e0SingY M 0).Nonempty)
+    {x₀ : e0RegMFlat M}
+    {D : Causal.UniversalCover (e0RegMFlat M) x₀ → Causal.Minkowski 2}
+    {ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2}
+    (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ) (hinj : Injective D)
+    (hpast : ∀ (p : Causal.Minkowski 2) (z : Causal.UniversalCover (e0RegMFlat M) x₀),
+      (Causal.minkowski 2).le ⊤ p (D z) → p ∈ range D) : False := by
+  letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat M) x₀
+  haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat M) x₀
+  haveI := Causal.Flat.locPathConnectedSpace_of_flat 2 (Causal.UniversalCover (e0RegMFlat M) x₀)
+  haveI := Causal.Flat.locPathConnectedSpace_of_flat 2 (e0RegMFlat M)
+  haveI : PathConnectedSpace (e0RegMFlat M) := pathConnectedSpace_iff_connectedSpace.2 inferInstance
+  have hcov := Causal.Flat.isCoveringMap_flatCover_proj 2 (e0RegMFlat M) x₀
+  have hDl : Causal.Flat.IsLocalIsometry 2 D :=
+    Causal.Flat.isLocalIsometry_iff_eventually.2 ⟨hpair.gx.1, hpair.gx.2⟩
+  set q := Causal.UniversalCover.proj (e0RegMFlat M) x₀ with hq
+  obtain ⟨x, hx⟩ := hsing
+  set e := chartAt E0Y x with he
+  obtain ⟨b, hb, hbax⟩ := E0LM.mem_e0SingY_zero_iff.1 (show e x ∈ e0SingY 0 from hx)
+  set a := E0.toPaper b with ha
+  have ha2 : a.2 = 0 := hbax
+  set Φ := e.trans E0.paperOfY with hΦ
+  have hxΦ : x ∈ Φ.source := by
+    rw [OpenPartialHomeomorph.trans_source]
+    refine ⟨mem_chart_source E0Y x, ?_⟩
+    show e x ∈ E0.paperOfY.source
+    rw [E0.paperOfY_source, hb]; exact ⟨b, rfl⟩
+  have hΦx : Φ x = a := by
+    show E0.paperOfY (e x) = a
+    rw [hb, E0.paperOfY_inr]
+  have hat : a ∈ Φ.target := hΦx ▸ Φ.map_source hxΦ
+  obtain ⟨ε, hε, hball⟩ := Metric.isOpen_iff.1 Φ.open_target a hat
+  set y₀ : E0 := (a.1, 1) with hy₀def
+  have hy₀ : y₀.2 ≠ 0 := one_ne_zero
+  set V : Set E0 := Metric.ball a ε ∩ E0.sector y₀ with hV
+  have hVo : IsOpen V := Metric.isOpen_ball.inter (E0.isOpen_sector y₀)
+  set c : ℝ → E0 := fun s => (a.1 + s, (s : ℂ)) with hcdef
+  have hcc : Continuous c := (continuous_const.add continuous_id).prodMk Complex.continuous_ofReal
+  have hc0 : c 0 = a := Prod.ext (by simp [c]) (by simp [c, ha2])
+  have hcV : ∀ s, 0 < s → s < ε → c s ∈ V := by
+    intro s hs hsε
+    refine ⟨?_, ?_⟩
+    · rw [Metric.mem_ball, Prod.dist_eq]
+      have h1 : dist (a.1 + s) a.1 = s := by
+        rw [Real.dist_eq, add_sub_cancel_left, abs_of_pos hs]
+      have h2 : dist (s : ℂ) a.2 = s := by
+        rw [ha2, dist_zero_right, Complex.norm_real, Real.norm_of_nonneg hs.le]
+      show max (dist (a.1 + s) a.1) (dist (s : ℂ) a.2) < ε
+      rw [h1, h2, max_self]; exact hsε
+    · show (s : ℂ) / 1 ∈ Complex.slitPlane
+      rw [div_one]; exact Complex.ofReal_mem_slitPlane.2 hs
+  have hctgt : ∀ s, 0 < s → s < ε → c s ∈ Φ.target := fun s hs hsε => hball (hcV s hs hsε).1
+  set κ : ℝ → M := fun s => Φ.symm (c s) with hκdef
+  have hκsrc : ∀ s, 0 < s → s < ε → κ s ∈ Φ.source := fun s hs hsε => Φ.map_target (hctgt s hs hsε)
+  have hΦκ : ∀ s, 0 < s → s < ε → Φ (κ s) = c s := fun s hs hsε => Φ.right_inv (hctgt s hs hsε)
+  have hκW : ∀ s, 0 < s → s < ε → κ s ∈ Φ.source ∩ Φ ⁻¹' V := fun s hs hsε =>
+    ⟨hκsrc s hs hsε, by rw [mem_preimage, hΦκ s hs hsε]; exact hcV s hs hsε⟩
+  -- the points of `Φ.source ∩ Φ⁻¹ V` are regular
+  have hWreg : ∀ m ∈ Φ.source ∩ Φ ⁻¹' V, m ∈ E0LM.e0RegM M := by
+    rintro m ⟨hm, hmV⟩
+    rw [OpenPartialHomeomorph.trans_source] at hm
+    obtain ⟨hm1, hm2⟩ := hm
+    rw [E0LM.mem_e0RegM_iff hm1]
+    rw [mem_preimage, E0.paperOfY_source] at hm2
+    obtain ⟨u, hu⟩ := hm2
+    rw [← hu, E0.inr_mem_e0Reg_iff_toPaper]
+    have : E0.toPaper u = Φ m := by
+      show E0.toPaper u = E0.paperOfY (e m); rw [← hu, E0.paperOfY_inr]
+    rw [this]; exact E0.not_mem_axis_of_mem_sector hmV.2
+  -- `κ s → x` as `s ↓ 0`
+  have hκt : Tendsto κ (𝓝[>] 0) (𝓝 x) := by
+    have h1 : Tendsto c (𝓝 0) (𝓝 a) := by rw [← hc0]; exact hcc.tendsto 0
+    have h2 : Tendsto Φ.symm (𝓝 a) (𝓝 x) := by
+      have := Φ.continuousAt_symm hat
+      rw [ContinuousAt, ← hΦx, Φ.left_inv hxΦ, hΦx] at this
+      exact this
+    exact (h2.comp h1).mono_left nhdsWithin_le_nhds
+  set δ : ℝ := ε / 2 with hδdef
+  have hδ : 0 < δ := half_pos hε
+  have hδε : δ < ε := half_lt_self hε
+  -- the base lift
+  obtain ⟨z₁, hz₁⟩ := Causal.UniversalCover.proj_surjective (Y := e0RegMFlat M) (y₀ := x₀)
+    (show e0RegMFlat M from ⟨κ δ, hWreg _ (hκW δ hδ hδε)⟩)
+  have hz₁b : regCoverBase z₁ = κ δ := by
+    show (show E0LM.e0RegM M from q z₁).1 = κ δ
+    rw [show q z₁ = _ from hz₁]
+  set X0 : Set (Causal.UniversalCover (e0RegMFlat M) x₀) :=
+    regCoverBase ⁻¹' (Φ.source ∩ Φ ⁻¹' V) with hX0
+  have hX0o : IsOpen X0 := (Φ.isOpen_inter_preimage hVo).preimage continuous_regCoverBase
+  have hz₁X0 : z₁ ∈ X0 := by rw [hX0, mem_preimage, hz₁b]; exact hκW δ hδ hδε
+  set X := connectedComponentIn X0 z₁ with hXdef
+  have hXo : IsOpen X := hX0o.connectedComponentIn
+  have hXX0 : X ⊆ X0 := connectedComponentIn_subset _ _
+  have hz₁X : z₁ ∈ X := mem_connectedComponentIn hz₁X0
+  -- on `X`, `𝒟 = g • chartMap y₀ ∘ Φ`
+  haveI : PreconnectedSpace X := Subtype.preconnectedSpace isPreconnected_connectedComponentIn
+  haveI : Nonempty X := ⟨⟨z₁, hz₁X⟩⟩
+  obtain ⟨g, hg⟩ := exists_isom_eq_of_locally (X := X) (D := fun w => D w.1)
+    (F := fun w => E0.chartMap y₀ (E0.paperOfY (e (regCoverBase w.1))))
+    (hDl.isOpenMap.comp hXo.isOpenMap_subtype_val) (fun w => by
+      have hw := hXX0 w.2
+      rw [hX0, mem_preimage] at hw
+      obtain ⟨hw1, hw2⟩ := hw
+      rw [OpenPartialHomeomorph.trans_source] at hw1
+      obtain ⟨g', hg'⟩ := dev_eventually_chartMap_sector hpair x hy₀ w.1 hw1.1
+        (by rw [← E0.paperOfY_source]; exact hw1.2) hw2.2
+      exact ⟨g', (continuous_subtype_val.tendsto w).eventually hg'⟩)
+  have hgX : ∀ w ∈ X, D w = g • E0.chartMap y₀ (Φ (regCoverBase w)) := fun w hw => hg ⟨w, hw⟩
+  -- lifts of the segment
+  have hlift : ∀ s, 0 < s → s ≤ δ → ∃ w ∈ X, regCoverBase w = κ s := by
+    intro s hs hsδ
+    set σ : unitInterval → ℝ := fun t => δ + (t : ℝ) * (s - δ) with hσ
+    have hσc : Continuous σ := continuous_const.add (continuous_subtype_val.mul continuous_const)
+    have hσlo : ∀ t, s ≤ σ t := fun t => by
+      have h1 : (t : ℝ) ≤ 1 := t.2.2
+      have : (t : ℝ) * (s - δ) ≥ 1 * (s - δ) := mul_le_mul_of_nonpos_right h1 (by linarith)
+      simp only [σ]; linarith
+    have hσhi : ∀ t, σ t ≤ δ := fun t => by
+      have h0 : 0 ≤ (t : ℝ) := t.2.1
+      have : (t : ℝ) * (s - δ) ≤ 0 := mul_nonpos_of_nonneg_of_nonpos h0 (by linarith)
+      simp only [σ]; linarith
+    have hσpos : ∀ t, 0 < σ t := fun t => hs.trans_le (hσlo t)
+    have hσε : ∀ t, σ t < ε := fun t => (hσhi t).trans_lt hδε
+    have hκσ : Continuous fun t => κ (σ t) :=
+      Φ.continuousOn_symm.comp_continuous (hcc.comp hσc) fun t => hctgt _ (hσpos t) (hσε t)
+    let γ : C(unitInterval, e0RegMFlat M) :=
+      ⟨fun t => (show e0RegMFlat M from ⟨κ (σ t), hWreg _ (hκW _ (hσpos t) (hσε t))⟩),
+        hκσ.subtype_mk _⟩
+    have hγ0 : γ 0 = q z₁ := by
+      rw [show q z₁ = _ from hz₁]; apply Subtype.ext
+      show κ (σ 0) = κ δ
+      simp [σ]
+    set Γ := hcov.liftPath γ z₁ hγ0 with hΓ
+    have hΓq : ∀ t, regCoverBase (Γ t) = κ (σ t) := fun t => by
+      have := congrFun (hcov.liftPath_lifts γ z₁ hγ0) t
+      show (show E0LM.e0RegM M from q (Γ t)).1 = _
+      rw [show q (Γ t) = γ t from this]
+      rfl
+    have hsub : range Γ ⊆ X0 := by
+      rintro _ ⟨t, rfl⟩
+      rw [hX0, mem_preimage, hΓq]; exact hκW _ (hσpos t) (hσε t)
+    have hΓX : range Γ ⊆ X := (isPreconnected_range Γ.continuous).subset_connectedComponentIn
+      ⟨0, hcov.liftPath_zero γ z₁ hγ0⟩ hsub
+    refine ⟨Γ 1, hΓX ⟨1, rfl⟩, ?_⟩
+    rw [hΓq]; simp [σ]
+  have hlift' : ∀ s : ℝ, ∃ w, 0 < s → s ≤ δ → w ∈ X ∧ regCoverBase w = κ s := by
+    intro s
+    by_cases h : 0 < s ∧ s ≤ δ
+    · obtain ⟨w, hw, hw'⟩ := hlift s h.1 h.2
+      exact ⟨w, fun _ _ => ⟨hw, hw'⟩⟩
+    · exact ⟨z₁, fun h1 h2 => absurd ⟨h1, h2⟩ h⟩
+  choose C hC using hlift'
+  -- the developed lifts
+  set v : EuclideanSpace ℝ (Fin 2) := WithLp.toLp 2 ![a.1, 0] with hv
+  have hDc : ∀ s, 0 < s → s ≤ δ → D (C s) = g • ((a.1 + s, v) : Causal.Minkowski 2) := by
+    intro s hs hsδ
+    obtain ⟨hCX, hCb⟩ := hC s hs hsδ
+    rw [hgX _ hCX, hCb, hΦκ s hs (hsδ.trans_lt hδε), E0.chartMap_eq]
+    have hrad : E0.rad (c s) = s := by
+      simp only [E0.rad, c, Complex.norm_real, Real.norm_of_nonneg hs.le]
+    have hang : E0.angle y₀ (c s) = 0 := by
+      simp only [E0.angle, y₀, c, Complex.arg_one, div_one, zero_add]
+      exact Complex.arg_ofReal_of_nonneg hs.le
+    rw [hrad, hang]
+    exact congrArg _ (btzPaperDev_ray a.1 s)
+  have hDz₁ : D z₁ = g • ((a.1 + δ, v) : Causal.Minkowski 2) := by
+    have hC1 := hC δ hδ le_rfl
+    rw [hgX _ hz₁X, hz₁b, ← hC1.2, ← hgX _ hC1.1]
+    exact hDc δ hδ le_rfl
+  set p : Causal.Minkowski 2 := g • ((a.1, v) : Causal.Minkowski 2) with hp
+  have hle : (Causal.minkowski 2).le ⊤ p (D z₁) := by
+    rw [hDz₁, hp, Causal.Flat.isom_le_top_iff, Causal.minkowski_le_top_iff]
+    simp only [sub_self, norm_zero, add_sub_cancel_left]
+    exact hδ.le
+  obtain ⟨w₁, hw₁⟩ := hpast p z₁ hle
+  have hev : ∀ᶠ s in 𝓝[>] (0 : ℝ), s ∈ Ioo 0 δ := Ioo_mem_nhdsGT hδ
+  have hDt : Tendsto (D ∘ C) (𝓝[>] 0) (𝓝 (D w₁)) := by
+    rw [hw₁]
+    have h1 : Tendsto (fun s : ℝ => g • ((a.1 + s, v) : Causal.Minkowski 2)) (𝓝[>] 0) (𝓝 p) := by
+      have hcont : Continuous fun s : ℝ => g • ((a.1 + s, v) : Causal.Minkowski 2) :=
+        (continuous_const_smul g).comp ((continuous_const.add continuous_id).prodMk continuous_const)
+      have := hcont.tendsto 0
+      simp only [add_zero] at this
+      exact this.mono_left nhdsWithin_le_nhds
+    refine h1.congr' ?_
+    filter_upwards [hev] with s hs
+    exact (hDc s hs.1 hs.2.le).symm
+  have hemb : IsOpenEmbedding D :=
+    .of_continuous_injective_isOpenMap hDl.continuous hinj hDl.isOpenMap
+  have hCt : Tendsto C (𝓝[>] 0) (𝓝 w₁) := hemb.isEmbedding.tendsto_nhds_iff.2 hDt
+  have hbt : Tendsto (regCoverBase ∘ C) (𝓝[>] 0) (𝓝 (regCoverBase w₁)) :=
+    (continuous_regCoverBase.tendsto _).comp hCt
+  have hbx : Tendsto (regCoverBase ∘ C) (𝓝[>] 0) (𝓝 x) := by
+    refine hκt.congr' ?_
+    filter_upwards [hev] with s hs
+    exact ((hC s hs.1 hs.2.le).2).symm
+  have hxw : regCoverBase w₁ = x := tendsto_nhds_unique hbt hbx
+  have hreg : regCoverBase w₁ ∈ E0LM.e0RegM M := (show E0LM.e0RegM M from q w₁).2
+  rw [hxw] at hreg
+  exact hreg hx
+
+end FutureSelection
+
 /-! ## §4 The `𝔼₀` case: `Reg M` of a GH Cauchy-compact Cauchy-maximal `𝔼₀`-manifold -/
 
 section E0
@@ -357,15 +770,9 @@ section E0
 open E0CBG E0Spear E0AbsMax
 open scoped Causal.Flat
 
-variable
-  (hLine : ∀ (M : Type) [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
-    [SecondCountableTopology M] [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid],
-    E0LM.E0GlobalBTZ (Causal.CBG.chartedCausality E0LM.D M) (Causal.CBG.chartedSing e0SingY M 0))
-
 variable {M : Type} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M]
   [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid]
 
-include hLine in
 /-- **The uniformization of `Reg M`** (gx l.2377–2381 and l.2400–2403 on the regular part, in
 DEC-28's Cauchy-compact form): for `M` a globally hyperbolic, Cauchy-compact, Cauchy-maximal
 `𝔼₀`-manifold whose `π₁(Reg M)` is not metabelian, and **every** developing pair `(𝒟, ρ)` of
@@ -418,7 +825,7 @@ theorem btz_uniformization_reg (hGH : (CE M).GloballyHyperbolic) (hCC : E0Cauchy
             ∃ f : e0RegMFlat M ≃ₜ B, Causal.Flat.IsLocalIsometry 2 f ∧
               ∀ z (hz : D z ∈ Causal.Flat.limitOpensMinus ρ.range),
                 f (Causal.UniversalCover.proj (e0RegMFlat M) x₀ z) = π ⟨D z, hz⟩)) := by
-  obtain ⟨hGH', hCC', hAM⟩ := cor_abs_max hLine hGH hCC hmax
+  obtain ⟨hGH', hCC', hAM⟩ := cor_abs_max_e0 hGH hCC hmax
   obtain ⟨hlox, hD, hρ, hdisc, htf, hinv, -⟩ := e0RegM_holonomy M hGH' hCC' x₀ hnm D ρ hpair
   obtain ⟨S, hS⟩ := Causal.Flat.exists_developsCC_of_isCauchyComplete' (e0RegMFlat M) hGH' hCC' hpair
   obtain ⟨-, hcase⟩ := uniformization_of_absMax (e0RegMFlat M) hpair hGH'.1 hS hlox hAM
@@ -428,9 +835,10 @@ theorem btz_uniformization_reg (hGH : (CE M).GloballyHyperbolic) (hCC : E0Cauchy
       isFutureComplete_of_range_eq_omegaPlus (e0RegMFlat M) hpair hD hr, hB⟩
   · exact Or.inr ⟨hP, hr, omegaMinus_eq_iInter_Iminus _, hfp, hB⟩
 
-include hLine in
 /-- **The future case is forced by a BTZ line** (DEC-77 (a); SCOPE D-11 (d)): if `M` has a BTZ
-point, the developed regular part does not lie in a past regular domain. -/
+point, the developed regular part does not lie in a past regular domain. By Barbot's equality
+(`btz_uniformization_reg`) `𝒟(Reg M̃) = Ω⁺(Λ)` or `Ω⁻(Λ)`; the first is disjoint from `Ω⁻(Λ)`
+(`Λ ≠ ∅`), the second is past complete, which `false_of_sing_of_pastComplete` refutes. -/
 theorem e0RegM_range_not_subset_omegaMinus (hGH : (CE M).GloballyHyperbolic)
     (hCC : E0CauchyCompact M) (hmax : IsE0CauchyMaximal M)
     (hsing : (Causal.CBG.chartedSing e0SingY M 0).Nonempty) (x₀ : e0RegMFlat M)
@@ -439,9 +847,23 @@ theorem e0RegM_range_not_subset_omegaMinus (hGH : (CE M).GloballyHyperbolic)
     (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* Causal.Flat.isom 2)
     (hpair : Causal.Flat.IsDevelopingPair x₀ D ρ) :
     ¬ range D ⊆ Causal.Flat.omegaMinus (Causal.Flat.limitSetJ ρ.range) := by
-  sorry -- SORRY(theo:globally_hyperbolic_cauchy_complete_cauchy_maximal): FUTURE CASE SELECTION. D-11 (d)'s argument — a BTZ point x has a nontrivial stabiliser (the loop around its line, parabolic holonomy ρ(γ_x) ≠ 1 fixing D̂(x)), so D̂(x) ∉ Ω (free action), while y ∈ I⁺(x) regular gives D̂(x) ∈ J⁻(D ỹ) ⊆ Ω⁻ in the past case — needs the developing map EXTENDED to the BTZ points (D̂ on M̃) and its identification, near a BTZ line, with the E₀ model's developing map read through the Reg M charts `E0LM.regChartM` (a chain of flat charts along a curve of Reg M converging to x); neither the extension of D across sing₀(M) from the universal cover of Reg M nor the loop γ_x ∈ π₁(Reg M) with its parabolic holonomy is built (the BTZTildeData of GXScaffold.BTZ.Manifolds lives over the SingularGXStructure presentation, with no bridge to ChartedSpace E0Y M, where E0CauchyCompact / IsE0CauchyMaximal / AbsMax live). A causal-only route fails: a past-inextensible causal curve of Reg M ending at x develops to a past causal curve of Ω⁻ whose convergence (finite length near the line) is again an E₀-chart computation. A second route avoids D̂ but is not built either: along a full future BTZ ray at x (B21 Lemma 2.3, `GX.E0Spear.exists_fullFutureBTZRay`, itself resting on the upstream `lem_tube` and needing the extra hypothesis hSC), the regular points at fixed r, θ develop (one sector chart, `GX.pastHalf_aeChart_eventually`) to h•(τ·(1,1,0) + O(1)) as τ → ∞, which leaves every I⁻(Π_w) whose null direction is not h•(1,1,0); Λ(ρΓ) has two distinct points (the loxodromic). It needs the lift of that curve to the universal cover of Reg M with 𝒟 = h•chartMap along it (the interval analogue of `GX.exists_affine_eq_of_locally`) and the half-space form of I⁻(Π_w).
+  intro hsub
+  obtain ⟨hlox, hD, -, -, -, -, hcase⟩ :=
+    btz_uniformization_reg hGH hCC hmax x₀ hnm D ρ hpair
+  rcases hcase with ⟨-, hr, -⟩ | ⟨-, hr, -⟩
+  · -- future case: `Ω⁺(Λ) ⊆ Ω⁻(Λ)` is impossible, `Λ ≠ ∅` (the loxodromic's fixed points)
+    obtain ⟨γ, hγ, hl⟩ := hlox
+    obtain ⟨w, hw, -⟩ := Causal.Flat.exists_two_loxRepSet hγ hl
+    have hΛ : (Causal.Flat.limitSetJ ρ.range).Nonempty :=
+      ⟨w, Causal.Flat.loxRepSet_subset_limitSetJ _ hw⟩
+    set z := Causal.UniversalCover.base x₀
+    exact Set.disjoint_left.1 (Causal.Flat.disjoint_omegaPlus_omegaMinus hΛ)
+      (hr ▸ mem_range_self z) (hsub (mem_range_self z))
+  · -- past case: `𝒟(Reg M̃) = Ω⁻(Λ)` is past complete, which a BTZ point forbids
+    exact false_of_sing_of_pastComplete hsing hpair hD fun p z hpz => by
+      rw [hr]
+      exact Causal.Flat.Jminus_omegaMinus_subset _ ⟨D z, hr ▸ mem_range_self z, hpz⟩
 
-include hLine in
 /-- **THE HEADLINE on the regular part, future case** (`theo:globally_hyperbolic_cauchy_complete_cauchy_maximal`,
 gx l.2363, in DEC-28's Cauchy-compact form with DEC-76/77): for `M` a globally hyperbolic,
 Cauchy-compact, Cauchy-maximal `𝔼₀`-manifold with at least one BTZ point and `π₁(Reg M)` not
@@ -481,13 +903,12 @@ theorem btz_uniformization (hGH : (CE M).GloballyHyperbolic) (hCC : E0CauchyComp
           ∀ z (hz : D z ∈ Causal.Flat.limitOpensPlus ρ.range),
             f (Causal.UniversalCover.proj (e0RegMFlat M) x₀ z) = π ⟨D z, hz⟩ := by
   obtain ⟨hlox, hD, hρ, hdisc, htf, hinv, hcase⟩ :=
-    btz_uniformization_reg hLine hGH hCC hmax x₀ hnm D ρ hpair
+    btz_uniformization_reg hGH hCC hmax x₀ hnm D ρ hpair
   rcases hcase with ⟨hF, hr, hI, hfp, hfc, hB⟩ | ⟨-, hr, -⟩
   · exact ⟨hlox, hD, hρ, hdisc, htf, hinv, hF, hr, hI, hfp, hfc, hB⟩
   · exact absurd hr.subset
-      (e0RegM_range_not_subset_omegaMinus hLine hGH hCC hmax hsing x₀ hnm D ρ hpair)
+      (e0RegM_range_not_subset_omegaMinus hGH hCC hmax hsing x₀ hnm D ρ hpair)
 
-include hLine in
 /-- **`prop:globally_hyperbolic_cauchy_complete_manifolds` (l.2348), corrected (DEC-77), on the regular
 part**: a globally hyperbolic, Cauchy-compact, Cauchy-maximal `𝔼₀`-manifold with a BTZ point and
 `π₁(Reg M)` not metabelian has its regular part future complete: for every developing pair of
@@ -503,7 +924,7 @@ theorem btz_reg_isFutureComplete (hGH : (CE M).GloballyHyperbolic) (hCC : E0Cauc
     letI := Causal.Flat.flatCoverChartedSpace 2 (e0RegMFlat M) x₀
     haveI := Causal.Flat.hasGroupoid_flatCover (d := 2) (e0RegMFlat M) x₀
     IsFutureComplete (Causal.Flat.flatCausality 2 (Causal.UniversalCover (e0RegMFlat M) x₀)) D :=
-  (btz_uniformization hLine hGH hCC hmax hsing x₀ hnm D ρ hpair).2.2.2.2.2.2.2.2.2.2.1
+  (btz_uniformization hGH hCC hmax hsing x₀ hnm D ρ hpair).2.2.2.2.2.2.2.2.2.2.1
 
 end E0
 

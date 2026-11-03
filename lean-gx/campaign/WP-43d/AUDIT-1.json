@@ -1,0 +1,51 @@
+{
+ "package": "WP-43d",
+ "round": 1,
+ "auditor": "read-only auditor, round 1 (audit of source 02:14:44Z, olean 02:15:07Z, REPORT.json 02:16:26Z, 2026-11-03)",
+ "file": "scaffold/GXScaffold/BTZ/LocalModel.lean",
+ "module": "GXScaffold.BTZ.LocalModel",
+ "verdict": "clean",
+ "builds": true,
+ "build_check": "`taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/LocalModel.lean` exits 0 in 7.5 s with no output, so there is no warning and no 'declaration uses sorry'. `taskset -c 0-11 lake build --no-build GXScaffold.BTZ.LocalModel` reports 'All targets up-to-date (8727 jobs)', so nothing in Causal.* or GX.* needs a rebuild. Causal is pinned at ca2ad78f (packages/Causal HEAD). I re-ran campaign/WP-43d/Axioms.lean (44 #print axioms) plus E0GlobalBTZ, charted_causallyArcConnected, e0_causallyArcConnected and e0_lineStep_of_cauchy in a copy under /tmp. Every declaration depends only on [propext, Classical.choice, Quot.sound], with no sorryAx; that includes e0_globalBTZ, e0_lineStep_of_cauchy, e0_secondCountable_of_cauchy, e0LocalModelOf and e0LocalModel_of_typeAgreement. scripts/sorry_count.py does not list the file. The only sorry in the build graph is the upstream scaffold/GXScaffold/SingularII/Models.lean:3503, and no audited declaration reaches it. scripts/causal_import_gate.py prints 'ok (DEC-33)'.",
+ "sorry_count": 0,
+ "sorry_count_matches_report": true,
+ "checks": {
+  "1_build_and_sorries": "PASS. 0 real sorries, as reported. Every textual 'sorry' (l.20, 34, 61, 90, 5017) sits in a docstring that says sorry-free.",
+  "2_statement_fidelity": "PASS. (a) The statements are fixed by the interface. e0LocalModelOf typechecks against Causal.CBG.LocalModel (Geometry.lean l.579 singularFlatAxioms: T2, Connected, SC, ChartedSpace, HasGroupoid; l.624 secondCountable_of_cauchy: T2, Connected, GH, Cauchy surface S, SC S implies SC M). e0LocalModel_of_typeAgreement feeds it e0_globalBTZ and e0_secondCountable_of_cauchy directly, so the two closed obligations have exactly the field types, with no added hypothesis. Their signatures are byte-identical to round 0 (campaign/WP-43d/LocalModel.round0.lean.bak), apart from the binder rename _hGH to hGH. (b) E0GlobalBTZ.line (l.1609) is verbatim Causal.SingularFlat.lean:168's `line`: gamma 0 = p, a closed embedding under IsCausal, Inextensible top univ, range = connectedComponentIn S0 p. It is genuine content, not a trivialised notion. (c) The generic construction carries no hidden conclusion. LineHyp (closed; atomless; positive on relatively open subsets; a LineChart at every point) and FutureVolumeHyp (tarentin, GH, push-up, Z+, mu positive off S, no point of S in a chronological future, frontier of I+ null) are each discharged in full for the E0 instance by earlier sorry-free lemmas: exists_line_measure[_of_isLindelof], e0_nonempty_lineChart_component, e0_tarentin, charted_pushUp, charted_mem_Zplus, charted_Iminus_eq_empty, volume_chart_frontier_Iplus_null_of_chartIso. The hypotheses are satisfiable, because the E0 instance satisfies them. The mathematics is sound. Unit nu-speed curves are locally unique and exist locally, and their union is one maximal curve. Its image is clopen in the connected component, it has no end limits, and it is reparametrised by R with Causal.Flat.inextensible_univ_of_not_tendsto (CauchyComplete.lean:2412, strict). Injectivity follows from causality plus atomlessness, and a closed map plus injectivity gives a closed embedding. The future volume is strictly antitone by closed J+ under GH and positivity of mu on I+(x) minus J+(y), which is not contained in sing0 because I-(BTZ) is empty. It is continuous by measure continuity along monotone intersections and the null frontier. A strictly monotone continuous function along the charts is a local homeomorphism into R, which gives strict Causal.secondCountableTopology_of_isLocalHomeomorph. (d) The dispatch's suggested Levin route cannot be used, as the report says. The singularFlatAxioms field has no GH hypothesis, and exists_timeFunction_of_secondCountable needs SC of M, which O4 must prove. The replacements are disclosed in the docstring SCOPE and in REPORT notes. (e) The label row lem:manifolds_manifolds_causally_connected (RamcovGX.tex:2329; def l.2318-2320) is unchanged from WP-41f. e0_causallyArcConnected is hypothesis-free and stronger than the paper. The BTZ~ half is not covered and is disclosed, so the row is partial. Its reading of 'BTZ-manifold' as an M^3+E_0-manifold follows l.2302. (f) typeAgreement is still honestly refuted (e0_not_typeAgreement, sorry-free) and the instance is conditional on hTA. The docstrings say no LocalModel with this data exists, which is DEC-27's handling. DEC-64: Iplus_of_lt is proved (charted_Iplus_of_lt). DEC-55 does not apply.",
+  "3_docstring_contract": "PASS. The first 4000 characters contain no **`label`** bold mark. The one touched label sits in backticks at about character 700, with the paper quote and 'No ledger label is marked'. Its partial status is explained. The What-is-built list, the hypothesis checklist (singularFlatAxioms 19/19, secondCountable_of_cauchy closed, typeAgreement false) and SCOPE (0 sorry) match the code. One stale docstring is a minor issue (see issues).",
+  "4_report_honesty": "PASS. REPORT.json is valid JSON. builds=true and sorry_count=0 are correct. The label row is partial and unmarked, with its decls present. dispatch_fields (O2) closed and (O4) closed hold: their decls exist and are axiom-clean. typeAgreement is correctly marked refuted. The note's claims verify: only LocalModel was rebuilt (no-build check up-to-date), there are no clashes, the imports are unchanged, and the axioms reproduce. extra_decls is not exhaustive (about 50 round-0 helper lemmas such as the sum_loc*, transport_loc* and charted_*_nhds families are absent), but the protocol asks only for 'lemmas of general use', so this is not a defect. Five reported names are instances or dotted names that my grep of theorem/def lines did not catch.",
+  "5_missing_labels_or_parts": "Only lem:manifolds_manifolds_causally_connected is touched; its BTZ~ half is disclosed (ledger LEDGER.md l.754: open, partial, consistent). The O2/O4 obligations are CBG-interface fields, not gx ledger rows; no other label is certified by this file.",
+  "6_cited_results_proved": "PASS. Every strict Causal result used (inextensible_univ_of_not_tendsto, secondCountableTopology_of_isLocalHomeomorph, flat_secondCountableTopology via e0RegM_secondCountable, the Levin time function) is axiom-clean through the transitive #print axioms. Nothing cited is assumed.",
+  "7_name_clashes": "PASS. None of the new §6e/§7 names (LineChart, GoodAt, LineHyp, maxCurve, maxDom, goodFrom, FutureVolumeHyp, secondCountable_of_lineCharts, exists_strictMono_range_eq, Jplus_subset_closure_Iplus, causalCurveIn_continuousOn, isClosed_connectedComponentIn_of_isClosed, E0LineStep, …) is declared anywhere else in GX/ or scaffold/. There are no duplicate declarations within the file, and everything sits in namespace GX.E0LM. The file compiles against its imports Rigid and Causality, which also open GX.E0LM, so no collision exists. The importers (CBG.lean, Manifolds.lean, Holonomy.lean) see unchanged signatures."
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "LocalModel.lean:1605 (docstring of E0GlobalBTZ)",
+   "problem": "Stale: it still reads 'The global BTZ fact of an E0-manifold not proved here', but e0_globalBTZ (l.4881) now proves it.",
+   "fix": "Reword to 'proved in §7 (e0_globalBTZ)'."
+  },
+  {
+   "severity": "minor",
+   "where": "LocalModel.lean:4970-4975 (e0_lineStep_of_cauchy)",
+   "problem": "_hS and _hSS (the Cauchy surface and its second countability) are unused, and the docstring says so. kb/0007 asks for the weakest sufficient hypotheses on an intermediate lemma.",
+   "fix": "Optionally drop S, _hS and _hSS from the line step and pass only hGH from e0_secondCountable_of_cauchy. The statement becomes stronger and no fidelity issue arises."
+  },
+  {
+   "severity": "minor",
+   "where": "LocalModel.lean:2171, 2180, 2206",
+   "problem": "`open Causal.Precausality in` inside namespace GX opens a Causal sub-namespace under GX. It predates this package (it is in round 0, and WP-41f's two audits and the DEC-33 gate passed it). It is scoped to one declaration and is not `open Causal`.",
+   "fix": "None required. For strict DEC-33 hygiene, qualify Causal.Precausality.* in those three declarations."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json extra_decls",
+   "problem": "The list is not exhaustive: about 50 round-0 helper lemmas (sum_loc*, transport_loc*, charted_exists_below/future_nhds/past_nhds, emb*, wOf*) are not listed.",
+   "fix": "Optional, since the protocol asks only for lemmas of general use."
+  }
+ ],
+ "questions_for_author": [
+  "Unchanged from WP-43d's report: should Causal.CBG.LocalModel.typeAgreement be restated in its convergence (Tendsto) form? e0_typeAgreementTendsto proves that form for the E0 model, and with it e0LocalModel_of_typeAgreement becomes an unconditional LocalModel."
+ ],
+ "summary": "Clean. The file builds with 0 sorry and no warnings, and the module is up-to-date without rebuilding Causal or GX. All closed decls are axiom-clean on re-run. (O2) e0_globalBTZ and (O4) e0_secondCountable_of_cauchy / e0_lineStep_of_cauchy are genuine proofs: a maximal nu-unit-speed curve construction, and the future volume as a local homeomorphism of each component into R. Their types are exactly the CBG interface fields, with no added or vacuous hypothesis. The label row is unchanged and correctly partial and unmarked. The report is honest. There are only minor issues: a stale docstring at l.1605, unused hypotheses on the line step, a pre-existing scoped `open Causal.Precausality in`, and a non-exhaustive extra_decls."
+}

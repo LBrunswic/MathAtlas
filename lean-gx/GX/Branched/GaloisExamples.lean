@@ -1,5 +1,5 @@
 import GX.Branched.Galois
-import GXScaffold.Topology.VanKampen
+import GX.Topology.VanKampen
 import Mathlib.Geometry.Manifold.Instances.Sphere
 
 /-!
