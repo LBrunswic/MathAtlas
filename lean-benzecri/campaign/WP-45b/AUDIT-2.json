@@ -1,0 +1,39 @@
+{
+ "package": "WP-45b",
+ "round": 2,
+ "file": "scaffold/BenzecriScaffold/Affine/Basic.lean",
+ "module": "BenzecriScaffold.Affine.Basic",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor, round 2; hub commit 8dd5161 (lean-benzecri working tree byte-identical to it, no untracked files), mathlib fabf563a",
+ "summary": "Round 2 after the DEC-114 fixes. All five AUDIT-1 issues are fixed and both author questions are implemented as ruled. Déf. 2 is IsAffine k (l' k-linear over the common scalars), proved equivalent to Mathlib's AffineMap (isAffine_iff), and the Exemple is covered (affineFunction_iff, affineFunction_iff_isAffine). The literal reading is worded as a remark, not a finding, and the non-affine witness is kept with its choice dependence stated. Déf. 1's nonempty reading is IsAffineSpace ≃ AddTorsor. Marks on Déf. 1 and Déf. 2 are earned. One nit. Ready to graduate.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Affine/Basic.lean`: EXIT=0, no output (.olean newer than the source; no `lake build` run)",
+  "sorry_axioms": "`Lean.collectAxioms` over EVERY constant of the five wave-1 modules (464 constants, enumerated by module index from a /tmp scratch file via `lake env lean`): 357 use [propext, Classical.choice, Quot.sound], the rest a subset (34 none, 54 propext, 10 propext+Quot.sound, 5 Classical.choice, 4 Quot.sound). No sorryAx, no non-standard axiom. No `sorry`, `admit`, `axiom`, `native_decide`, `implemented_by`, `extern` or `set_option` token (grep hits are the word 'admits' in prose). Every decl named in the five REPORTs (217 names) exists in the environment. not_isAffinePrinted_imp_affine uses Classical.choice essentially, as its docstring says; isAffine_iff uses only Quot.sound",
+  "imports": "every import is `Mathlib.*` or `BenzecriScaffold.*` (DEC-112 layering): no GX.*, no Causal.*, no new [[require]]",
+  "round1_fixes": {
+   "minor finding framed as a defect": "FIXED: module docstring (l.22–32), SCOPE (l.71–79), IsAffinePrinted and not_isAffinePrinted_imp_affine docstrings and REPORT (findings [] / readings / remarks) all present the missing « linéaire » as an evident slip ruled by DEC-114, citing « sur un même corps » (l.150) and « élément l' du dual » (l.162), both verified against the transcription",
+   "minor no declaration for the linear reading": "FIXED: IsAffine k l := ∃ l' : V₁ →ₗ[k] V₂, ∀ M m, l (m +ᵥ M) = l' m +ᵥ l M; isAffine_iff : IsAffine k l ↔ ∃ f : P₁ →ᵃ[k] P₂, ⇑f = l (both directions genuine: ⟨l, l', h⟩ and f.map_vadd); plus isAffine_of_affineMap, IsAffine.isAffinePrinted, affineFunction_iff_isAffine",
+   "nit finite-dimensional lemma name": "FIXED: l.30–31 cite isAffinePrinted_and_continuous_iff_of_finiteDimensional",
+   "nit AddTorsor prefix": "FIXED: isSimplyTransitive_of_addTorsor",
+   "nit Déf. 1 lines": "FIXED: l.132–147 (definition l.132–142, Exemple l.144–147), verified",
+   "question Déf. 1 nonempty": "IMPLEMENTED per DEC-114: IsAffineSpace V P := Nonempty P ∧ IsSimplyTransitive V P, isAffineSpace_iff_exists_addTorsor; IsSimplyTransitive keeps the printed definition (∅ admitted)"
+  },
+  "dec114_def2": "IsAffine matches the printed formula with « linéaire » restored: Benzécri's M + m and l(M) + l'(m) are Mathlib's m +ᵥ M and l' m +ᵥ l M. k is any Ring (weakened from a common field, disclosed). The Exemple: ∃ l' : Module.Dual k V₁, ∀ M N, l N − l M = l' (vec M N), with vec M N = N −ᵥ M = Benzécri's MN, ⟺ AffineMap to k ⟺ IsAffine k l, over any commutative ring (ℝ an instance). The remark keeps IsAffinePrinted, its additivity/uniqueness, the continuity equivalence and the choice-dependent counterexample, as DEC-114 asks",
+  "dec114_def1": "The printed definition (IsSimplyTransitive) is certified as printed, and the mark does not rest on the nonempty reading, which is a separate declaration (IsAffineSpace). So 'closed' with a recorded reading is consistent with CAMPAIGN.md: no printed assertion depends on the reading",
+  "name_shadowing": "scripted over all 464 constants: every proper suffix of each name checked against the environment, and every Benzecri.X.y against Benzecri.y. Only hits: Benzecri.Sphere.{map_neg, normalize, neg_ne_self} vs root Mathlib names, all three now `protected`; Sphere.continuous_neg is protected too, and inside `namespace Benzecri.Sphere` a bare `neg_ne_self`/`map_neg`/`continuous_neg`/`normalize` now resolves to the Mathlib root (checked with #check). No sibling clash in namespace Benzecri",
+  "marks": "**`bzdef:c1s1d1_espace_affin`** at offset 693 and **`bzdef:c1s1d2_application_affine`** at offset 1233 (< 4000), each followed by its ` — `benzecri1960_ch1.tex:LINE`` (132, 149: verified). REPORT: both closed and marked, tex_lines [132, 147] and [149, 165]: consistent with DEC-114 (« an IsAffine predicate equivalent to AffineMap closes the row »)",
+  "report_honesty": "builds, sorry_count, axioms, -DwarningAsError confirmed; all decls exist; audit_round_1_fixes matches the file"
+ },
+ "issues": [
+  {
+   "severity": "nit",
+   "where": "Affine/Basic.lean:215 (IsAffinePrinted.linear_unique)",
+   "problem": "The name is in the IsAffinePrinted namespace but the theorem takes no IsAffinePrinted hypothesis (two raw identities), so dot notation on `hl : IsAffinePrinted V₁ V₂ l` cannot reach it; and under the printed reading l' is not linear",
+   "fix": "Optional, before graduation: rename to `IsAffinePrinted.map_unique` / `eq_of_isAffinePrinted` (or restate it as `IsAffinePrinted V₁ V₂ l → ∃! l', …`); update the REPORT decls and the SCOPE mention at l.76"
+  }
+ ],
+ "fidelity_summary": "Déf. 1 is the printed definition (∅ admitted) with the DEC-114 nonempty reading as IsAffineSpace = Mathlib's AddTorsor, and the Exemple is Mathlib's instance with MN = N − M. Déf. 2 is IsAffine k, Mathlib's AffineMap exactly, with the Exemple covered; the literal text is a remark, not a finding. No vacuous hypothesis, no definitional trivialisation. Both marks earned. Ready to graduate.",
+ "questions_for_author": []
+}

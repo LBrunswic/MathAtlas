@@ -687,3 +687,27 @@ necessary.
 
 **References to archive:** Benzécri 1960 (numdam), the relevant chapter of Goldman's *Geometric
 structures on manifolds*, and Choi's work on radiant affine manifolds.
+
+---
+
+## N8 (2026-11-03) — correction from gx: radial cocycles and Hausdorff quotients
+
+gx proved at 78d83f7 that REVIEW §H.2's tachyon and photon quotient, built with the Euclidean-radius
+action, is **not Hausdorff**:
+- `GX.rayLiftQuotient_tachyon_not_t1`;
+- `GX.rayLiftQuotient_photon_not_t2`.
+
+The repair, certified in gx, is `GX.ThetaLiftQuotient`: ℤ acts on θ alone, and an equivariant
+developing map is built from a fundamental-domain curve.
+
+**The lesson for the Benzécri radiant cone (B1) [r].** Quotients are where the radial cocycle
+c(h,σ) matters.
+- Let ⟨g⟩ act on the cone with a non-trivial cocycle along an orbit, as a boost does. The product
+  ∏ c(g, g^k σ) tends to 0 or ∞ along the orbit, so the orbits accumulate at the apex (or at
+  infinity), and the quotient fails to be Hausdorff near the apex.
+- Benzécri's own suspension (Ch.1 §3) quotients the cone by a **homothety** λ. That is a constant
+  cocycle acting freely on each ray, and it gives the compact V × S¹. It is the clean case.
+- For singular lines, the quotient must be taken **away from the apex**: the line model × ℝ, as in
+  gx's ThetaLift, quotienting the angular variable only.
+- So `RadiantCone` should state the Hausdorff criterion for a quotient explicitly. The cocycle's
+  growth along orbits decides it.

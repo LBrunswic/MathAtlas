@@ -1,0 +1,42 @@
+{
+ "package": "WP-45c",
+ "round": 2,
+ "file": "scaffold/BenzecriScaffold/Structure/Groupoid.lean",
+ "module": "BenzecriScaffold.Structure.Groupoid",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor, round 2; hub commit 8dd5161 (lean-benzecri working tree byte-identical to it, no untracked files), mathlib fabf563a",
+ "summary": "Round 2. All three AUDIT-1 issues are fixed. The new transport_mem_gxGroupoid is correct, non-vacuous and exactly the groupoid-map form that plan F2's item and bzrem:c1s1r1_affine_vers_projective need. The HasGroupoid/ChartedSpace form is disclosed in SCOPE as Structure/Basic's. No label is certified and nothing is marked, correctly. Two nits. Ready to graduate.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Structure/Groupoid.lean`: EXIT=0, no output (.olean newer than the source; no `lake build` run)",
+  "sorry_axioms": "`Lean.collectAxioms` over EVERY constant of the five wave-1 modules (464 constants, enumerated by module index from a /tmp scratch file via `lake env lean`): 357 use [propext, Classical.choice, Quot.sound], the rest a subset (34 none, 54 propext, 10 propext+Quot.sound, 5 Classical.choice, 4 Quot.sound). No sorryAx, no non-standard axiom. No `sorry`, `admit`, `axiom`, `native_decide`, `implemented_by`, `extern` or `set_option` token (grep hits are the word 'admits' in prose). Every decl named in the five REPORTs (217 names) exists in the environment",
+  "imports": "Mathlib.Geometry.Manifold.HasGroupoid and Mathlib.Topology.Algebra.ConstMulAction only (DEC-112)",
+  "round1_fixes": {
+   "minor of_injective": "FIXED: l.36 names IsRigidAction.of_comp (rigidity of an action through a hom)",
+   "minor F2 monotonicity in an open X' ⊆ X": "FIXED: transport_mem_gxGroupoid (groupoid-map form) + SCOPE bullet (l.51–54) deferring the HasGroupoid form to Structure/Basic",
+   "nit port list": "FIXED: l.26 lists GX.IsAnalyticAction.of_eq_of_eqOn (l.138)"
+  },
+  "transport_mem_gxGroupoid": "Statement: for an open embedding ι : X' → X ([Nonempty X'], needed by IsOpenEmbedding.toOpenPartialHomeomorph), a hom φ : G' →* G with ι (g • p) = φ g • ι p, and f ∈ gxGroupoid G' X', the transported (ι⁻¹ ≫ f) ≫ ι lies in gxGroupoid G X. Mathematically right: near x ∈ ι(X'), f = g • · near ι⁻¹ x gives ι ∘ f ∘ ι⁻¹ = φ g • · near x, and the symm half is the same argument for f.symm after trans_symm_eq_symm_trans_symm. It is the form needed: the transition maps of a charted space over X' composed with ι are ι⁻¹ ≫ (e.symm ≫ e') ≫ ι. Non-vacuous: instantiated in a scratch file with ι = id, φ = MonoidHom.id G (typechecks). No injectivity of φ assumed, none needed. Docstring matches the statement",
+  "port_fidelity": "unchanged since AUDIT-1: the ported definitions are verbatim; the cited lean-gx lines (113…264 at 4a577c5) re-verified with `git show 4a577c5:lean-gx/GX/Structure/Basic.lean`; Déf. 12 at l.304, « 2° GS(n,R) … » at l.313, Déf. 13 at l.331, Prop. 1 at l.340 verified in the transcription",
+  "name_shadowing": "scripted over all 464 constants: every proper suffix of each name checked against the environment, and every Benzecri.X.y against Benzecri.y. Only hits: Benzecri.Sphere.{map_neg, normalize, neg_ne_self} vs root Mathlib names, all three now `protected`; Sphere.continuous_neg is protected too, and inside `namespace Benzecri.Sphere` a bare `neg_ne_self`/`map_neg`/`continuous_neg`/`normalize` now resolves to the Mathlib root (checked with #check). No sibling clash in namespace Benzecri",
+  "marks": "no **`label`** mark; the labels Déf. 12/13, Prop. 1 and bzrem:c1s1r1_affine_vers_projective (transcription l.319) are cited unmarked, as the docstring says. REPORT labels = []",
+  "report_honesty": "builds, sorry_count, axioms confirmed; all extra_decls exist; audit_round_1_fixes matches the file"
+ },
+ "issues": [
+  {
+   "severity": "nit",
+   "where": "Groupoid.lean:31–37 (module docstring, 'New here:')",
+   "problem": "The list of new declarations omits gxGroupoid_subgroup_le and smul_mem_gxGroupoid, which are new here too (not in the gx original)",
+   "fix": "Add both to the 'New here' list"
+  },
+  {
+   "severity": "nit",
+   "where": "Groupoid.lean:26 (132 chars), :36 (105), :272 (110, code: gxGroupoid_subgroup_le's signature)",
+   "problem": "Over the 100-character convention; no gate enforces it",
+   "fix": "Optional: rewrap"
+  }
+ ],
+ "fidelity_summary": "No paper statement is certified. The groupoid of a (G,X)-structure is a verbatim port of lean-gx with exact file:line citations, the rfl bridge stands, and the new monotonicity lemmas (in G, and along an equivariant open embedding of models) are correct and stated at the right generality. Ready to graduate.",
+ "questions_for_author": []
+}

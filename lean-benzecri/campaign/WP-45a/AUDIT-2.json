@@ -1,0 +1,52 @@
+{
+ "package": "WP-45a",
+ "round": 2,
+ "file": "scaffold/BenzecriScaffold/Projective/Sphere.lean",
+ "module": "BenzecriScaffold.Projective.Sphere",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor, round 2; hub commit 8dd5161 (lean-benzecri working tree byte-identical to it, no untracked files), mathlib fabf563a",
+ "summary": "Round 2 after the DEC-114 fixes. All six AUDIT-1 issues are fixed. DEC-114 on Déf. 3 is implemented faithfully: the finest-topology lemmas (pi_le_of_isTopologicalAddGroup, isLeast_pi_vectorSpaceTopology, isLeast_pi_locallyConvexTopology, le_of_t2_of_finiteDimensional) are correct and non-vacuous, P(E) carries its quotient topology through the synonym ProjSpace, and the agreement through S(E) is a real coinduced_compose argument. The mark on bzdef:c1s1d3_sphere is earned under the ruling. No blocker, major or minor issue; two nits. Ready to graduate.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Projective/Sphere.lean`: EXIT=0, no output (.olean newer than the source; no `lake build` run)",
+  "sorry_axioms": "`Lean.collectAxioms` over EVERY constant of the five wave-1 modules (464 constants, enumerated by module index from a /tmp scratch file via `lake env lean`): 357 use [propext, Classical.choice, Quot.sound], the rest a subset (34 none, 54 propext, 10 propext+Quot.sound, 5 Classical.choice, 4 Quot.sound). No sorryAx, no non-standard axiom. No `sorry`, `admit`, `axiom`, `native_decide`, `implemented_by`, `extern` or `set_option` token (grep hits are the word 'admits' in prose). Every decl named in the five REPORTs (217 names) exists in the environment",
+  "imports": "every import is `Mathlib.*` or `BenzecriScaffold.*` (DEC-112 layering): no GX.*, no Causal.*, no new [[require]]",
+  "round1_fixes": {
+   "minor P(E) topology": "FIXED: ProjSpace E := Projectivization ℝ E as a def synonym, instTopologicalSpace coinduced by p from {v // v ≠ 0}, isQuotientMap_p, p_eq_p_iff (quotient by ℝ*), coinduced_toProjectivization, isQuotientMap_toProjectivization, continuous_toProjectivization; module docstring, checklist row and SCOPE updated",
+   "minor finite-dimensional default lemma": "FIXED: pi_le_of_isTopologicalAddGroup (the audit's proof), plus isLeast_pi_vectorSpaceTopology, isLeast_pi_locallyConvexTopology and le_of_t2_of_finiteDimensional",
+   "minor four root shadows": "FIXED: map_neg, neg_ne_self, continuous_neg, normalize are protected (verified with isProtected and by name resolution inside the namespace)",
+   "nit :279": "FIXED: cites benzecri1960_ch1.tex:278 (verified: l.278 is « S(R^n) sera appelée la sphère projective… »)",
+   "nit neg_ne_self docstring": "FIXED: 'No point is its own antipode', with the pointer to linearSubvariety_span_singleton",
+   "nit two homotheties": "FIXED: Sphere.homothety → Sphere.homothetyNZ; no Benzecri-level sibling clash remains"
+  },
+  "dec114_def3": "isLeast_pi_locallyConvexTopology n : IsLeast {t | IsTopologicalAddGroup[t] ∧ ContinuousSMul ℝ[t] ∧ LocallyConvexSpace ℝ[t]} Pi.topologicalSpace. Checked in a scratch file that the three conditions are about `t` (the `_` slots cannot absorb it) and that Mathlib's order is t₁ ≤ t₂ ⟺ every t₂-open set is t₁-open (TopologicalSpace.le_def), so IsLeast = FINEST, as the docstring says. Membership of Pi is by inferInstance (non-vacuous); minimality is pi_le_of_isTopologicalAddGroup, which is stronger (finest vector-space topology). S.topology_eq is `rfl` (the instance of S n unfolds to the quotient of the Pi topology); it is a restatement whose content is carried by isLeast_pi_locallyConvexTopology, as its docstring says. The infinite-dimensional default is not constructed and SCOPE says so; DEC-114 certifies the row on ℝⁿ",
+  "dec114_projective": "ProjSpace is a def (not reducible) synonym, so no orphan topology lands on ℙ ℝ E. coinduced_toProjectivization: coinduced toProjectivization (coinduced s sub) = coinduced (toProjectivization ∘ s) sub = coinduced p sub, via coinduced_compose and toProjectivization_comp_s (rfl): this is exactly « P(E) muni de la topologie quotient » and its agreement with the quotient of S(E) by the antipodal map (toProjectivization_eq_iff). Correct, and the docstring matches",
+  "fidelity_vs_scan": "Déf. 3 re-read against the transcription l.167–184 and the scan's text layer (PDF pp. 6–9): « le quotient de E−{O} par R+ (resp. R*) », « topologie localement convexe la plus fine », « S(E) [resp. P(E)] sera muni de la topologie quotient » all match",
+  "name_shadowing": "scripted over all 464 constants: every proper suffix of each name checked against the environment, and every Benzecri.X.y against Benzecri.y. Only hits: Benzecri.Sphere.{map_neg, normalize, neg_ne_self} vs root Mathlib names, all three now `protected`; Sphere.continuous_neg is protected too, and inside `namespace Benzecri.Sphere` a bare `neg_ne_self`/`map_neg`/`continuous_neg`/`normalize` now resolves to the Mathlib root (checked with #check). No sibling clash in namespace Benzecri",
+  "marks": "**`bzdef:c1s1d3_sphere`** at char offset 679 (< 4000), followed by ` — `benzecri1960_ch1.tex:167``. REPORT: status closed, marked true, tex_lines [167, 184]: consistent with DEC-114",
+  "report_honesty": "builds, sorry_count 0, axioms and -DwarningAsError claims confirmed; every decl and extra_decl exists; audit_round_1_fixes list matches the file"
+ },
+ "issues": [
+  {
+   "severity": "nit",
+   "where": "Sphere.lean:626 (Sphere.toProjectivization) and its lemmas :632–685 (toProjectivization_mk, _comp_s, _surjective, _eq_iff, _neg, coinduced_/isQuotientMap_/continuous_toProjectivization); REPORT decls and kb",
+   "problem": "toProjectivization now lands in Benzecri.ProjSpace E, not in Mathlib's Projectivization; the name points at the type the synonym exists to keep apart. Names freeze once the file is in the strict library",
+   "fix": "Optional, before graduation: rename to Sphere.toProjSpace with its lemmas, or keep the name and add one line to its docstring saying the codomain is the synonym ProjSpace E"
+  },
+  {
+   "severity": "nit",
+   "where": "campaign/WP-45a/REPORT.json extra_decls",
+   "problem": "Three entries are not declaration names: 'Benzecri.Sphere.map_neg (protected)', '… normalize (protected)', '… continuous_neg (protected)'. A ledger tool reading extra_decls as names will not find them",
+   "fix": "Write the bare names and record protection in notes (already said there)"
+  },
+  {
+   "severity": "nit",
+   "where": "Sphere.lean:724 (docstring of le_of_t2_of_finiteDimensional, 114 chars) and several module-docstring lines of 101–102 chars",
+   "problem": "Over the 100-character line convention of the hub's Lean files; no gate enforces it (the strict library sets only warningAsError)",
+   "fix": "Optional: rewrap"
+  }
+ ],
+ "fidelity_summary": "Déf. 3 is formalized faithfully for any topology on E: S(E) and P(E) are the quotients of E − {O} by ℝ⁺ and ℝ*, both with their quotient topologies, s and F as printed, and the two topologies of P(E) agree. The default topology is certified on ℝⁿ by a genuine theorem (the product topology is the least, i.e. finest, locally convex and indeed vector-space topology), which is the DEC-114 ruling; the infinite-dimensional default is disclosed as not constructed. The mark is earned. Ready to graduate.",
+ "questions_for_author": []
+}

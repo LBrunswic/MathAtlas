@@ -1,0 +1,45 @@
+{
+ "package": "WP-45d",
+ "round": 2,
+ "file": "scaffold/BenzecriScaffold/Projective/Groups.lean",
+ "module": "BenzecriScaffold.Projective.Groups",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor, round 2; hub commit 8dd5161 (lean-benzecri working tree byte-identical to it, no untracked files), mathlib fabf563a",
+ "summary": "Round 2. All five AUDIT-1 items are fixed, or declined as allowed: the optional isoGU-without-Nontrivial nit is declined and the checklist says so. The new GAR.isAffine and GAR.exists_eq_of_isAffine tie GA(n, ℝ) to Déf. 2 in DEC-114's linear reading, and are correct. No label, nothing marked, correctly. Two nits. Ready to graduate, after Sphere, Groupoid and Affine/Basic, which it imports.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Projective/Groups.lean`: EXIT=0, no output (.olean newer than the source; no `lake build` run)",
+  "sorry_axioms": "`Lean.collectAxioms` over EVERY constant of the five wave-1 modules (464 constants, enumerated by module index from a /tmp scratch file via `lake env lean`): 357 use [propext, Classical.choice, Quot.sound], the rest a subset (34 none, 54 propext, 10 propext+Quot.sound, 5 Classical.choice, 4 Quot.sound). No sorryAx, no non-standard axiom. No `sorry`, `admit`, `axiom`, `native_decide`, `implemented_by`, `extern` or `set_option` token (grep hits are the word 'admits' in prose). Every decl named in the five REPORTs (217 names) exists in the environment",
+  "imports": "every import is `Mathlib.*` or `BenzecriScaffold.*` (DEC-112 layering): no GX.*, no Causal.*, no new [[require]] (BenzecriScaffold.Projective.Sphere, .Structure.Groupoid, .Affine.Basic)",
+  "round1_fixes": {
+   "minor citation :296–302": "FIXED: :274–276 and :294–302 (l.16, l.24, l.34), verified against the transcription",
+   "nit GU docstring": "FIXED: 'Meaningful for finite-dimensional E: outside finite dimension LinearEquiv.det is the junk value 1, so there GU E = ⊤'",
+   "nit Nontrivial on isoGU": "DECLINED, justifiably (the audit's fix was optional): the checklist row l.66 now says only glEquivProd needs n ≥ 1 and that isoGU carries [Nontrivial E] from its section harmlessly",
+   "nit T1Space": "FIXED: noted in mem_posHomotheties_of_eqOn's docstring",
+   "nit GAR vs Déf. 2": "FIXED: GAR's docstring cites IsAffine and DEC-114; GAR.isAffine (every element of GA(n) is IsAffine ℝ) and GAR.exists_eq_of_isAffine (an IsAffine bijection is an element of GA(n), by AffineEquiv.ofBijective) together make GA(n, ℝ) exactly the bijections affine in the sense of Déf. 2",
+   "duplicate homothety": "FIXED on the Sphere side (Sphere.homothetyNZ)"
+  },
+  "new_decls": "GAR.isAffine and GAR.exists_eq_of_isAffine are correct and honestly named; « automorphismes de la structure d'espace affin » needs the inverse affine too, which AffineEquiv.ofBijective supplies. Docstrings match, except GAR.continuous (nit below)",
+  "unchanged_mathematics": "isoGU, glEquivProd, posHomothetiesEquiv, the rigidity theorem and the instances IsAnalyticAction (GSR m) (S m), ContinuousConstSMul (GSR m) (S m) are unchanged in substance since AUDIT-1 and still elaborate",
+  "name_shadowing": "scripted over all 464 constants: every proper suffix of each name checked against the environment, and every Benzecri.X.y against Benzecri.y. Only hits: Benzecri.Sphere.{map_neg, normalize, neg_ne_self} vs root Mathlib names, all three now `protected`; Sphere.continuous_neg is protected too, and inside `namespace Benzecri.Sphere` a bare `neg_ne_self`/`map_neg`/`continuous_neg`/`normalize` now resolves to the Mathlib root (checked with #check). No sibling clash in namespace Benzecri",
+  "marks": "none; the prose carries no ledger label; REPORT labels = [], prose.where = :274–276 and :294–302",
+  "report_honesty": "builds, sorry_count, axioms confirmed; all extra_decls exist; audit_round_1_fixes matches the file"
+ },
+ "issues": [
+  {
+   "severity": "nit",
+   "where": "Groups.lean:562–564 (GAR.continuous)",
+   "problem": "The docstring says each element 'acts on ℝⁿ by a homeomorphism (it is continuous, as is its inverse)'; the theorem states only `Continuous f`. The inverse's continuity is the same lemma applied to f.symm, but it is not stated",
+   "fix": "Reword to 'is continuous (so is its inverse, GAR.continuous f.symm)', or add `def GAR.toHomeomorph (f : GAR n) : (Fin n → ℝ) ≃ₜ (Fin n → ℝ)`"
+  },
+  {
+   "severity": "nit",
+   "where": "Groups.lean:456 (104 chars, code in ker_unitPartHom)",
+   "problem": "Over the 100-character convention; no gate enforces it",
+   "fix": "Optional: rewrap the simp only list"
+  }
+ ],
+ "fidelity_summary": "Every formalized sentence of the p. 236 prose says what Benzécri says, at his indices. GA(n, ℝ) is now provably the group of bijections affine in the sense of Déf. 2, as ruled by DEC-114. The rigidity of GS on S(E) is a real theorem. Ready to graduate.",
+ "questions_for_author": []
+}

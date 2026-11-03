@@ -501,6 +501,32 @@ So the DEC-69 external shrinks from (T) + (S) + (F) to (T) plus the two automorp
 
 ### H.2 The tachyon and photon statement (draft for a gx package, or for `Suspension/Affine`)
 
+> **CORRECTION (2026-11-03, from gx, proved at gx commit 78d83f7). The statement below is WRONG as
+> written: its quotient is not Hausdorff.**
+> - `GX.rayLiftQuotient_tachyon_not_t1`: the tachyon quotient of the Euclidean-radius action is not
+>   T1, for every boost parameter β ≠ 0 and every m.
+> - `GX.rayLiftQuotient_photon_not_t2`: the photon quotient is not T2, for every s ≠ 0 and every m.
+> - Cause: the "hdisc" check below covers only the neighbourhood half of proper discontinuity, not
+>   the separation of orbits. Under iterates, the radial factor ‖g w(θ)‖/‖w(·)‖ drives orbits
+>   towards the axis {r = 0}, so they accumulate there.
+> - **The certified construction is gx's `GX.ThetaLiftQuotient` / `GX.thetaLiftQuotient_of_frame`**
+>   (strict `GX.Singular.Quotient`, with `tachyon_isom0` and `photon_isom0` retargeted to it):
+>   - Γ = ℤ acts on θ **alone**, by θ ↦ θ + 2π.
+>   - A homeomorphism ψ : ℝ ≃ₜ ℝ (the universal cover of ℝP¹) conjugates the generator to the lift
+>     of the holonomy on rays.
+>   - The developing map is D = x₀ + (z + r b(θ)) c v + r R(θ) w(e^{iψθ}), with R > 0, built
+>     equivariantly from a fundamental-domain curve.
+>   - The quotient is Hausdorff, locally connected, second countable, homeomorphic to ℂ × ℝ, and
+>     fully properly discontinuous.
+> - An equivalent repair of the form below: take w **equivariant**, w(ĝθ + 2πm) = g·w(θ), so the
+>   radial factor is 1. Or, as gx does, act on θ alone.
+> - The degree, positivity and m = 0 classification statements are unaffected; only the action and
+>   the developing map change.
+> - Nothing in `lean-benzecri` or in `GX.Suspension.Affine` (radius-preserving) uses the
+>   Euclidean-radius form.
+> - It is a **design caution for the Benzécri radiant cone** (NOTES-3+1 N8): a quotient by an action
+>   whose radial cocycle is non-trivial along the orbit (a boost) accumulates at the apex.
+
 The setting is flat 2+1, x₀ ∈ E^{1,2}, and there is no AdS pair (c, c₊).
 
 - **Tachyon:** v spacelike, and g ∈ Isom₀ a boost fixing x₀ + ℝv pointwise.
