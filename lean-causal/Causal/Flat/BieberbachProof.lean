@@ -48,7 +48,9 @@ bundle without its Bieberbach component, `barbotExternals_iff_noBieb`, and `barb
 * Nothing open: the four step modules and this one are sorry-free and axiom-free.
 * The remaining externals of Theorems A/B are `BenoistNoLox`, `AuslanderCarriereDalbo`,
   `MaxUnipotentSubspace` (the reduced bundle) and, for B, `SelbergLemma` (and Lemma K's data for
-  `barbot_B_noBieb`).
+  `barbot_B_noBieb`). Since DEC-111 `BenoistNoLox` is proved too (`benoistNoLox`,
+  `Flat/GromovProof`, which also gives `BarbotExternalsMin.toNoBieb`): downstream, only
+  `AuslanderCarriereDalbo`, `MaxUnipotentSubspace` and, for B, `SelbergLemma` remain.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Barbot campaign,
 DEC-110 (integrator of WP-Bieb-1…4). Line numbers are those of

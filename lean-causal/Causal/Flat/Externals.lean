@@ -18,7 +18,9 @@ all unmarked:
   `exists_invariant_maxUnipotent` (with `bthm:unip`).
 * `bthm:unip` — `GHFspace.tex:1710` (Thm 5.2): `MaxUnipotentSubspace`.
 * `bprop:sanloxo` — `GHFspace.tex:2573` (Prop 9.1): `BenoistNoLox` (its whole conclusion is the
-  honest unit, SCOPE); consumer `exists_finiteIndex_fixes_of_noLox`.
+  honest unit, SCOPE); consumer `exists_finiteIndex_fixes_of_noLox`. Not proved here, and since
+  DEC-111 (2026-11-03) **proved** as `benoistNoLox d` in `Flat/GromovProof`, every `d`, by
+  Gromov's classification on `ℍᵈ` (no Zariski closure, no discreteness, no finite index).
 * `bprop:admlox` — `GHFspace.tex:1230` (Prop 4.17), its input: `LimitSetMinimal`; consumer
   `limitSet_invariant_and_minimal` (the half of 4.17 on `𝒮`). Finding: "nonempty" is needed.
 * Selberg's lemma (DEC-44, [10.G], finding F2): `SelbergLemma`; consumer
@@ -107,7 +109,9 @@ that of `End × 𝐌ⁿ` (linear part, translation part). `linClosureIdentityCom
 * 5.1 is cited for `Aff(n)` and the closure in `GL(n)`; `SO₀(1, d)` is closed in `GL`, so the
   closure and its identity component agree — not proved here, and not needed by the consumer.
 * `BenoistNoLox` states 9.1's conclusion, not Benoist's theorem: the latter is about Zariski
-  closures, absent from mathlib, and 9.1's proof is not decomposable without them. "Fixes" is
+  closures, absent from mathlib, and 9.1's proof is not decomposable without them. The conclusion
+  itself needs neither: it is proved in `Flat/GromovProof` (`benoistNoLox`, DEC-111) by Gromov's
+  bounded/unbounded-orbit dichotomy on `ℍᵈ`, so `BenoistNoLox` is no longer an open external. "Fixes" is
   stronger than the printed "stabilizes (a direction)", and true: an element of `SO₀` scaling a null
   vector by `λ ≠ 1` is loxodromic — through `lorentz_trichotomy`, which is not used here.
 * `LimitSetMinimal` is stated on `𝒮` (the paper's proof reduces 4.17 to `𝒮` through `δ`,
@@ -515,7 +519,8 @@ def FixesTimelikeOrNull (H : Subgroup (lorentz d)) : Prop :=
     ∃ v : Minkowski d, v ≠ 0 ∧ minkQ v = 0 ∧ ∀ A ∈ H, (A : Minkowski d ≃ₗ[ℝ] Minkowski d) v = v
 
 variable (d) in
-/-- **Prop 9.1 as an external** (`bprop:sanloxo`, l.2574–2577; DEC-36): a subgroup of
+/-- **Prop 9.1 as an external** (`bprop:sanloxo`, l.2574–2577; DEC-36; not proved in this
+module, now proved as `benoistNoLox` in `Flat/GromovProof`, DEC-111): a subgroup of
 `SO₀(1, d)` with no loxodromic element has a finite-index subgroup fixing a timelike or a
 nonzero null vector. Its proof (l.2580–2597) runs through the Zariski closure: Benoist's theorem
 (`benoist`, l.2581–2582: no loxodromic element in `Γ` ⇒ none in its Zariski closure `G`), the

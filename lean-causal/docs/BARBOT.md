@@ -116,6 +116,17 @@ Classes: **T** causal / order-topological / affine in Minkowski space; **D** met
 
 ### §9 The nonloxodromic case (l.2532–3093)
 - `bprop:sanloxo` 9.1 — G/E (Benoist).
+  **Its external `BenoistNoLox` is proved** (DEC-111, 2026-11-03): `benoistNoLox d` in
+  `Flat/GromovProof`, every `d`, by Gromov's classification on `ℍᵈ` rather than Benoist and the
+  Zariski closure — a bounded orbit of `o` gives a fixed timelike vector (`Flat/GromovBounded`: the
+  maximiser of `−Q` on the closed convex hull of the orbit), an unbounded one a fixed nonzero null
+  vector (`Flat/GromovUnbounded`: a limit point `ξ` of the orbit on the Penrose sphere, fixed by
+  every element through a one-element estimate `‖orbitPt A − orbitPt A⁻¹‖² ≤ 8 / cosh d(o, Ao)`).
+  No discreteness, no finite generation, and no finite index (`H = G`), so it discharges both
+  uses in `Flat/Classification` (an indiscrete `L(Γ)`, and family (b)'s loxodromic element).
+  `bprop_sanloxo_proved` is Prop 9.1 without the external; `barbot_A_min`, `barbot_B_min`,
+  `barbot_B_geroch_min` take only `AuslanderCarriereDalbo` and `MaxUnipotentSubspace`
+  (`BarbotExternalsMin`) and, for B, `SelbergLemma`.
 - [9.E] the elliptic subcase, [9.P] the parabolic set-up, [9.b] `b ≡ 0`, [9.U] the purely unipotent
   case — G+T.
 - `bprop:limites` 9.3, `bprop:extension` 9.5 — T (linear algebra).

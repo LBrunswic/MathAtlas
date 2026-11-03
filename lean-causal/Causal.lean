@@ -166,6 +166,10 @@ import Causal.Flat.BieberbachAbelian
 import Causal.Flat.BieberbachMinSet
 import Causal.Flat.BieberbachEffective
 import Causal.Flat.BieberbachProof
+import Causal.Flat.GromovBase
+import Causal.Flat.GromovBounded
+import Causal.Flat.GromovUnbounded
+import Causal.Flat.GromovProof
 
 /-!
 # Causal — topological spacetimes
@@ -185,7 +189,9 @@ Since 2026-11-02 it also holds the Barbot campaign (*Globally hyperbolic flat sp
 `Causal.Flat.LaoucapulseVolume` (DEC-102), `Causal.Flat.QuoFull`, `Causal.Flat.Semicomplete`
 (DEC-103) and `Causal.Flat.SplittingFull` (DEC-100); the proof of Bieberbach I through virtual
 abelianity (DEC-110: `Causal.Flat.BieberbachZassenhaus`, `…Abelian`, `…MinSet`, `…Effective`,
-`Causal.Flat.BieberbachProof`); and, graduated the same day, the CBG work
+`Causal.Flat.BieberbachProof`); the proof of Barbot's Prop 9.1 external `BenoistNoLox` by Gromov's
+classification on `ℍᵈ`, without Zariski closure (DEC-111: `Causal.Flat.GromovBase`, `…Bounded`,
+`…Unbounded`, `Causal.Flat.GromovProof`); and, graduated the same day, the CBG work
 (`Causal.CBG.*`, `Causal.Flat.CBG`, `Causal.Flat.CBGGerm`, `Causal.Flat.CBGSlice`,
 `docs/CBG-DESIGN.md`).
 -/
