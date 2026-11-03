@@ -81,6 +81,11 @@ Classes: **T** causal / order-topological / affine in Minkowski space; **D** met
 ### §5 Around Bieberbach (l.1667–1822)
 - `bthm:ausl` 5.1, `bthm:unip` 5.2 — E (cited).
 - [5.B] Bieberbach — G; the light part is proved (DEC-36).
+  **Bieberbach I is proved** (DEC-110, 2026-11-03): `bieberbachI` in `Flat/BieberbachProof`, every
+  finite dimension, through virtual abelianity (`Flat/BieberbachZassenhaus`, `…Abelian`, `…MinSet`,
+  `…Effective`); the named external `BieberbachI` stays a `Prop`, now discharged, and
+  `barbot_A_noBieb`, `barbot_B_noBieb`, `barbot_B_geroch_noBieb` take the bundle without it
+  (`BarbotExternalsNoBieb`).
 - [5.S] suspensions and twisted products, Rem 5.3, Rem 5.4 — T/G.
 - `blem:suspendre` 5.5 — T.
 

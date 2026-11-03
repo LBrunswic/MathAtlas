@@ -89,7 +89,7 @@ applied to a spacelike subspace of `𝐌ⁿ = Minkowski d`, Barbot's `n` is `d +
   (`Γ' ≅ ℤᵏ`, `k = dim span` of its translation vectors, inside `U`'s direction),
   `virtuallyFree_le_finrank_direction` (`k ≤ dim U`), `virtuallyFree_of_bieberbachConclusion`,
   `virtuallyFree_of_bieberbachI` (Barbot's "version of Bieberbach's Theorem", l.1723–1725,
-  conditional), `virtuallyFree_of_bieberbachCocompactConclusion` (`Γ' ≅ ℤ^{dim U}`),
+  conditional here; unconditional with `bieberbachI` of `Flat/BieberbachProof`, DEC-110), `virtuallyFree_of_bieberbachCocompactConclusion` (`Γ' ≅ ℤ^{dim U}`),
   `virtuallyFree_of_isOpDiscrete_linearParts` (the first case of the proof, unconditional);
   `linearIsometry_apply_eq_self_of_unipotent`, `linearIsometryEquiv_eq_one_of_unipotent`,
   `mem_euclTranslations_of_unipotent`, `actsByTranslationsOn_of_unipotent` (the closing
@@ -112,10 +112,12 @@ because mathlib puts no topology on `E ≃ᵃⁱ[ℝ] E`.
 | `L(Γ)` finite ⇒ translations of finite index | ⚠ weakened: discreteness is not used |
 
 ## SCOPE (disclosed)
-* **`BieberbachI` is NOT proved.** It is the `Prop` the downstream files take as a hypothesis
-  (DEC-36). It is proved when the linear parts are finite, hence in dimension `≤ 1`; it is NOT
-  reduced to the finite-linear-parts case in general: a screw motion of `ℝ³` by an irrational
-  angle generates a discrete `Γ` with infinite `L(Γ)` (not formalized).
+* **`BieberbachI` is not proved in this module**; since DEC-110 it is **proved** in
+  `Flat/BieberbachProof` (`bieberbachI`, every finite dimension, through virtual abelianity).
+  It stays the `Prop` the downstream files take as a hypothesis (DEC-36). Here it is proved when
+  the linear parts are finite, hence in dimension `≤ 1`; it is NOT reduced to the
+  finite-linear-parts case in general: a screw motion of `ℝ³` by an irrational angle generates a
+  discrete `Γ` with infinite `L(Γ)` (not formalized).
 * The maximal and cocompact forms are proved FROM `BieberbachConclusion` (no further external
   input); their content beyond it is elementary (normal core; translation vectors are
   well-defined, `eq_of_pow_apply`; the barycentre of a finite orbit modulo `W`).
@@ -680,8 +682,9 @@ def BieberbachConclusion (Γ : Subgroup (E ≃ᵃⁱ[ℝ] E)) : Prop :=
       ActsByTranslationsOn Γ' U ∧ ActsEffectivelyOn Γ' U
 
 variable (E) in
-/-- **Bieberbach's first theorem** (external, DEC-36; NOT proved here): every discrete subgroup
-of `Isom(E)` satisfies `BieberbachConclusion`. -/
+/-- **Bieberbach's first theorem** (the named external of DEC-36; not proved in this module, now
+proved as `bieberbachI` in `Flat/BieberbachProof`, DEC-110): every discrete subgroup of `Isom(E)`
+satisfies `BieberbachConclusion`. -/
 def BieberbachI [FiniteDimensional ℝ E] : Prop :=
   ∀ Γ : Subgroup (E ≃ᵃⁱ[ℝ] E), IsDiscreteEucl Γ → BieberbachConclusion Γ
 

@@ -161,6 +161,11 @@ import Causal.Flat.LaoucapulseVolume
 import Causal.Flat.QuoFull
 import Causal.Flat.Semicomplete
 import Causal.Flat.SplittingFull
+import Causal.Flat.BieberbachZassenhaus
+import Causal.Flat.BieberbachAbelian
+import Causal.Flat.BieberbachMinSet
+import Causal.Flat.BieberbachEffective
+import Causal.Flat.BieberbachProof
 
 /-!
 # Causal — topological spacetimes
@@ -178,7 +183,9 @@ Since 2026-11-02 it also holds the Barbot campaign (*Globally hyperbolic flat sp
 `Causal.LemmaKSCLocal`) and Lemma K's statement of record in ETT's setting (DEC-93,
 `Causal.LemmaK`: causally open, second countable); the 2026-11-02 proof-gap round's
 `Causal.Flat.LaoucapulseVolume` (DEC-102), `Causal.Flat.QuoFull`, `Causal.Flat.Semicomplete`
-(DEC-103) and `Causal.Flat.SplittingFull` (DEC-100); and, graduated the same day, the CBG work
+(DEC-103) and `Causal.Flat.SplittingFull` (DEC-100); the proof of Bieberbach I through virtual
+abelianity (DEC-110: `Causal.Flat.BieberbachZassenhaus`, `…Abelian`, `…MinSet`, `…Effective`,
+`Causal.Flat.BieberbachProof`); and, graduated the same day, the CBG work
 (`Causal.CBG.*`, `Causal.Flat.CBG`, `Causal.Flat.CBGGerm`, `Causal.Flat.CBGSlice`,
 `docs/CBG-DESIGN.md`).
 -/
