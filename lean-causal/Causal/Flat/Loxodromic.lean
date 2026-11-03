@@ -181,7 +181,7 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
 | 10.4: `U` nonempty and `Γ`-invariant ("being unique", l.3343–3344) | ✓ derived (`exists_invariant_maxUnipotent` and the uniqueness of `MaxUnipotentSubspace`) |
 | [10.M]: "up to finite index" `L(Γ)` fixes `Δ₀` (l.3236–3238) | ⚠ conclusion for a finite-index `Γ' ≤ Γ` (DEC-43's R1): the paper's conclusion for `Γ` itself (l.3326–3330) is false (finding) |
 | [10.M]: "an appropriate use of Bieberbach's theorem" (l.3327) | ⚠ strengthened: a cited external, as `BarbotExternals` (`hBieb : ∀ k ≤ d' + 1 + 1, BieberbachI (EuclideanSpace ℝ (Fin k))`, the form of `BarbotExternals.bieberbach` and of `nonloxodromic_*`; added 2026-11-01 by master ruling: the conclusion implies Bieberbach I, finding). Used at `k = d'` by `Lox.fix_second_null` and at `k = d' + 1` by `Lox.misner_bieberbach` (the euclidean model of `Γ₁` on `ℝ × ℝ^{d'}`) |
-| [10.M]: "the action on `π_P⁻¹(0)` is free and properly discontinuous" (l.3320–3321), Bieberbach for it (l.3322) | ⚠ replaced: false for `Γ` (finding F3); Bieberbach is applied to `Γ₁`'s euclidean model `(s, z) ↦ (s + a, Az + u)`, discrete by properness on the tube, and `𝒲 ∋ e_s` (`Lox.misner_bieberbach`) |
+| [10.M]: "the action on `π_P⁻¹(0)` is free and properly discontinuous" (l.3326–3327), Bieberbach for it (l.3322) | ⚠ replaced: false for `Γ` (finding F3); Bieberbach is applied to `Γ₁`'s euclidean model `(s, z) ↦ (s + a, Az + u)`, discrete by properness on the tube, and `𝒲 ∋ e_s` (`Lox.misner_bieberbach`) |
 | [10.M]: the setting `hcaus` (`M` causal) | ⚠ weakened: carried, unused by `loxo_elementary_misner` |
 | [10.M]: `α(Γ₀)` discrete, the conjugation argument for `v(γ') = 0` (l.3260–3270) | ⚠ replaced: discreteness of the slice actions of `Γ₀` and translation lengths (`Flat.Lox.SecondNullFix`); the paper's formula omits the screw part of `α(γ)` (finding F4) |
 | Def 4.18 / family (b): `L(Γ)` without global fixed point (l.1212–1214) | ⚠ reading: Def 4.18's condition, weaker than `docs/BARBOT-THEOREMS.md` §1's "discrete nonelementary" (an infinite dihedral group with a loxodromic is elementary and has none) |
@@ -289,7 +289,7 @@ dimensions: Barbot's `n` is `d + 1` (the Misner branch works in `Minkowski (d' +
   is elementary; but the direction of `U` contains the `(x, y)`-plane, so `Γ_U` is non-abelian, and
   no presentation as an LTP over a Misner spacetime (an abelian group) exists. `loxo_elementary_misner`
   is stated for a finite-index `Γ'` (DEC-43's R1).
-* **[10.M] l.3320–3321: "the action on `π_P^{-1}(0)` is free and properly discontinuous" is false
+* **[10.M] l.3326–3327: "the action on `π_P^{-1}(0)` is free and properly discontinuous" is false
   for `Γ`** (true for `Γ₀ = ker a`). In `𝐌⁴` (form `xy + |z|²`, `z ∈ ℝ²`) let
   `γ₀(x, z, y) = (e⁻¹x, R_θ z, e y)`, `θ/π` irrational, and `Γ = ⟨γ₀⟩`: `Γ` is elementary (it fixes
   both null axes), loxodromic, acts freely and properly on `Ω = {x > 0, y < 0} × ℝ²` and on the

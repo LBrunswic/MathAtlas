@@ -271,7 +271,7 @@ dimensions: Barbot's `n` is `d + 1`. The Misner and unipotent families live in
   Lipschitz hypersurface (`Cla.exists_capEnvelope_of_isCompact_cauchy`, SmoothCap; the gluing
   `Cla.isLocallyConeZeroSetAt_of_capData`, SmoothGlue), one component of which is connected
   (CCComponent) and Cauchy by lemma K; only per-point constants, no uniform net. (13) [10.M]
-  (Loxodromic's SCOPE, `docs/BARBOT.md` F3, F4): l.3320–3321 "the action on `π_P⁻¹(0)` is free
+  (Loxodromic's SCOPE, `docs/BARBOT.md` F3, F4): l.3326–3327 "the action on `π_P⁻¹(0)` is free
   and properly discontinuous" is false for `Γ` (true for `Γ₀ = ker a`; Bieberbach is run on
   `Γ₁`'s euclidean model, `Lox.misner_bieberbach`), and l.3264–3269's conjugation formula holds
   only if `α(γ)` fixes the origin of `Q₀` (a screw part breaks the accumulation argument); the
