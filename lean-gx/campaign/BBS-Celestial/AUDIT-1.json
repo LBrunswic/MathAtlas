@@ -1,0 +1,48 @@
+{
+  "package": "BBS-Celestial",
+  "round": 1,
+  "auditor": "read-only auditor, node1, 2026-11-03",
+  "file": "scaffold/GXScaffold/Suspension/Celestial.lean",
+  "report": "campaign/BBS-Celestial/REPORT.json",
+  "verdict": "needs-fixes",
+  "builds": true,
+  "sorry_count": 1,
+  "checks": {
+    "build": "taskset -c 0-11 lake env lean …/Celestial.lean: EXIT 0. Its one warning is 'declaration uses sorry' at :294 (mk_mem_sing). With -DwarningAsError=true that warning is the only error, and no other warning exists.",
+    "sorry_axioms": "Exactly one sorry, at Celestial.lean:300, tagged SORRY(celestial_sing_ray). #print axioms: isAEAtlas_celestialAtlas, celestialStructure, mk_mem_reg, apex_mem_reg_model, celestial_counterexample, celestial_counterexample_hypotheses and tautologicalSuspension depend on [propext, Classical.choice, Quot.sound]. mk_mem_sing adds sorryAx. Nothing else rests on it.",
+    "fidelity": "coneChart = posChart e ≫ φ.symm is φ_p⁻¹ ∘ susp*(φ_i) (these.tex:3639). celestialAtlas is taken over Σ's MAXIMAL a.e. atlas (a disclosed reading). celestialStructure is maximalAEAtlas, the 'brouillard opaque plus épais' reading, DEC-25/42. eventually_coneChart_eq_smul is the computation of l.3665–3673. It correctly needs map_smul_of_isFull, because the thesis computes on the whole cone. Its support is susp*(Reg Σ), portly by isPortly_image_mk as at l.3653. LocallyConnectedSpace X and T2Space X are the standing hypotheses of GX's IsAEAtlas.isMaximalAEAtlas_maximalAEAtlas (Atlas.lean:510).",
+    "F1": "celestial_counterexample is CORRECT and refutes these.tex:3645 under the thesis's own definition. Take X = susp(Bool) ≅ R and G = Perm Bool acting radially (the reflection). Analytic: faithful plus rigid, proved in celestial_counterexample_hypotheses. G = G_p is also proved there. φ = boolScale, (b,r) ↦ (b, ρ'(b)r), is full and ray-compatible. The third conjunct shows that its induced action is the coercion action, which Σ = Unit's structure uses, so Σ is a (G_p,X_p)-manifold for the INDUCED action, as the thesis requires. The cone charts of unitChart true/false reach radii 1 and 2 at ((),1), and G preserves radii, so the preatlas is not a (G,X)-atlas. Since no 'brouillard plus épais' exists over a non-préatlas, the proposition is false. The finding is robust in two ways. (i) {unitChart true, unitChart false} is itself a (Perm Bool, Bool)-atlas, so it does not depend on the maximal-atlas reading. (ii) The link Bool is compact, so it also holds in the thesis's quotient topology.",
+    "minimal_fix": "Radius preservation is SUFFICIENT, not NECESSARY, and not the minimal fix. Counterexample to necessity: X = R, G = R ≃ᵃ[ℝ] R (analytic), p = 0, H = G_p (all x ↦ ax), phi = (sphereSusp σ₀).symm with V = R (S(R) = {±1}), Sigma = a point with both charts to ±1 (a (G_p, X_p)-atlas, since a<0 swaps ±1). The two cone charts are r ↦ r and r ↦ -r. Their chart change is -id ∈ G, so the cone preatlas IS a (G,X)-atlas and the thesis's proposition HOLDS. But no ConicStructure exists for H = G_p: x ↦ x/2 is a contraction (GX.not_conicStructure_of_contraction, V = R, c = 1/2). The proof at these.tex:3667 needs only this: for each h ∈ H there is g_h ∈ G with phi(g_h·x) = susp(h·)(phi x), i.e. the link action lifts radially into G. Radius preservation is the special case g_h = h. When G ⊆ Isom (Euclidean or Poincaré), any such g_h is linear and induces h's ray map, so g_h = h and the two conditions coincide.",
+    "sorry_closable": "Yes, and NOT by invariance of domain. Suppose (x,t) ∈ Reg. Take a box W = mk(B × ]t-δ,t+δ[) in ψ's source, with B a connected open neighbourhood of x; since Reg Σ is portly, B ∩ Reg is connected. Continue along B ∩ Reg to get one g₀ ∈ G with f := φ ∘ g₀⁻¹ ∘ ψ = susp(e) locally on (B∩Reg) × I, for charts e of Σ's maximal atlas related by H. By density and continuity, f preserves r and f(y,s) = (e'(y), s), with e'(y) independent of s (T2Space L). So f(W) = mk(e'(B) × I), and its openness gives e'(B) open. e' is injective and continuous with continuous inverse, so it is a chart of Σ at x, compatible by the insertion trick of apex_mem_reg_model. Hence x ∈ Reg. The one genuine gap is the tag's 'g⁻¹ψ lands only in closure U'. It is closed by [CompactSpace L]: φ⁻¹ of L × [t/2, 2t] is compact, hence closed in T2 X, and lies in U. All intended links are compact (S^n, HS² ≅ S²). Estimate 250–400 lines. The general non-compact statement as written is unproved, possibly false.",
+    "names": "Name clashes: a probe importing GX (all 33 strict modules), GXScaffold (root) and GXScaffold.Suspension.Affine loads without an 'environment already contains' error, so none of the 154 public declarations of GXScaffold.Suspension.* clashes with GX or the built scaffold. A second probe found no GX.<n> whose suffix <n> names an existing root constant (kb 0016 shadowing): 0 hits.",
+    "import_gate": "python3 scripts/causal_import_gate.py: 'ok (DEC-33)'. Imports: Conic <- GX.Singular.Suspension; Celestial <- GXScaffold.Suspension.Conic; Affine <- GXScaffold.Suspension.Celestial. No Causal import."
+  },
+  "issues": [
+    {
+      "severity": "major",
+      "where": "Celestial.lean checklist row 'a conic structure at p' ('Necessary: the ray-only version is refuted…'); REPORT these:prop_suspension_celeste hypothesis note ('necessary: GX.celestial_counterexample')",
+      "problem": "The counterexample shows that the ray condition is INSUFFICIENT. It does not show that radius preservation is NECESSARY, and that is false: see checks.minimal_fix (the (Aff(R),R) example, where the proposition holds but no ConicStructure exists for H = G_p). This is the finding routed to the author through REVIEW §I (F1), so it must not overstate.",
+      "fix": "Reword to 'sufficient; the ray-only version is refuted by celestial_counterexample'. Report the weaker condition 'φ ∘ g_h = susp(h·) ∘ φ for some g_h ∈ G' as the candidate minimal correction, and note that it coincides with radius preservation for G ⊆ Isom. Optionally prove the R example. It is about 60 lines with affineConic's pieces."
+    },
+    {
+      "severity": "minor",
+      "where": "SORRY(celestial_sing_ray) tag and REPORT obstruction",
+      "problem": "The tag names 'an invariance-of-domain-type step with no tool here' as the obstruction. Radius preservation plus density makes f a product e' × id on a box, so openness is free. The real obstruction is only g⁻¹ψ landing in U, which [CompactSpace L] closes. See checks.sorry_closable.",
+      "fix": "Retag the obstruction. Either add [CompactSpace L] and close it, or state the non-compact case as open."
+    },
+    {
+      "severity": "minor",
+      "where": "Celestial.lean checklist row '(G,X) analytic' and REPORT",
+      "problem": "LocallyConnectedSpace X and T2Space X are listed as '⚠ weakened'. They are not part of « structure analytique » (these.tex:1185): they are ADDED, inherited from GX's cor:maximal_atlas.",
+      "fix": "List them as '⚠ strengthened (standing hypotheses of GX.IsAEAtlas.isMaximalAEAtlas_maximalAEAtlas)'."
+    },
+    {
+      "severity": "minor",
+      "where": "Celestial.lean:26, 53–57, 545",
+      "problem": "Lines over 100 characters (code line 545 at 108).",
+      "fix": "Re-wrap."
+    }
+  ],
+  "graduation": "Cannot graduate as is: mk_mem_sing's sorry fails warningAsError. Either move mk_mem_sing to a scaffold file (nothing depends on it, and Affine does not use it), or close it as above. The remainder is sorry-free and strict-clean. It then graduates as GX/Suspension/Celestial.lean, with its import changed from GXScaffold.Suspension.Conic to GX.Suspension.Conic. scaffold/GXScaffold.lean (the root AxiomSweep imports) does not import the three Suspension modules, so make check builds them (glob) but the axiom sweep does not see them. At graduation the master must add them to GX.lean (or, while they stay in the scaffold, to GXScaffold.lean).",
+  "summary": "The build is green, with exactly one tagged sorry (celestial_sing_ray). The counterexample celestial_counterexample (F1) is sound, its hypotheses are satisfiable and checked (celestial_counterexample_hypotheses), and it is robust to the atlas and topology readings: the thesis's proposition l.3645 is false under its own definition. Major: the file and REPORT call radius preservation 'necessary'. It is only sufficient: on (Aff(R),R) at 0 the proposition holds while no ConicStructure exists. The minimal fix is the existence of a radial lift g_h ∈ G of each link action, which equals radius preservation for G ⊆ Isom. The sorry is closable without invariance of domain under [CompactSpace L]."
+}

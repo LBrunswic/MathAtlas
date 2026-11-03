@@ -1,0 +1,53 @@
+{
+  "package": "BBS-Conic",
+  "round": 1,
+  "auditor": "read-only auditor, node1, 2026-11-03",
+  "file": "scaffold/GXScaffold/Suspension/Conic.lean",
+  "report": "campaign/BBS-Conic/REPORT.json",
+  "verdict": "needs-fixes",
+  "builds": true,
+  "sorry_count": 0,
+  "checks": {
+    "build": "taskset -c 0-11 lake env lean scaffold/GXScaffold/Suspension/Conic.lean: EXIT 0, no output (4.1 s). With -DwarningAsError=true: no output, so the file is strict-clean.",
+    "sorry_axioms": "No sorry, admit, axiom, native_decide, implemented_by or extern. #print axioms via lake env lean --stdin, on linkAction, linkAction_unique, isAnalyticAction, continuousConstSMul, map_smul_of_isFull, eq_of_tendsto_pow, toConicStructure and tautological: [propext, Classical.choice, Quot.sound] for each.",
+    "fidelity": "IsRayCompatible (Conic.lean:216) is these.tex:3574 verbatim. The 'x, y ≠ p' implicit in π's domain is guarded by φ x, φ y ∉ O. φ(h·x) ∉ O follows from h fixing p (smul_ne_of_mem_stabilizer). ConicChart asks φ p ∈ O and U open with φ onto an open neighbourhood of O. That is a generalisation, and IsFull is the thesis's literal 'onto'. The checklist's justification is correct: φ maps the X-interior of U, which is open in U, onto an open set. linkAction is the propri (these.tex:3581) under ContinuousConstSMul, which is part of « agissant par homéomorphisme », these.tex:1185. Uniqueness and the mul_smul step follow the thesis's proof l.3593. ConicStructure (map_smul) is a STRENGTHENED definition, disclosed as such. isAnalyticAction and isRigidAction are proved for it, not for the thesis's notion.",
+    "witness": "ConicStructure.tautological (the apex of susp L, H = ⊤, the identity chart) inhabits the predicate. GX.affineConic (Affine.lean) gives a second, geometric witness.",
+    "names": "Name clashes: a probe importing GX (all 33 strict modules), GXScaffold (root) and GXScaffold.Suspension.Affine loads without an 'environment already contains' error, so none of the 154 public declarations of GXScaffold.Suspension.* clashes with GX or the built scaffold. A second probe found no GX.<n> whose suffix <n> names an existing root constant (kb 0016 shadowing): 0 hits.",
+    "import_gate": "python3 scripts/causal_import_gate.py: 'ok (DEC-33)'. Imports: Conic <- GX.Singular.Suspension; Celestial <- GXScaffold.Suspension.Conic; Affine <- GXScaffold.Suspension.Celestial. No Causal import.",
+    "docstring": "kb 0006 order respected: title, rows, quote block, checklist, SCOPE, Provenance. No ** mark, which is correct: the thesis is not a ledger source. SCOPE is at offset 4706 and Provenance at 5352. No mark needs the 4000 window."
+  },
+  "issues": [
+    {
+      "severity": "major",
+      "where": "REPORT.json these:lem_analytique; Conic.lean module docstring (the lem_analytique bullet, 'Findings')",
+      "problem": "these:lem_analytique (these.tex:3606) is FALSE as written, already for the model example, and no counterexample is given as DEC-27 requires. Take (G,X) = (V ≃ᵃ[ℝ] V, V), which is analytic, p = 0, G_p = GL(V), and φ = (GX.sphereSusp σ₀).symm. Linear maps send rays to rays, so this is ray-compatible. The induced action is the normalised one, GX.raySphereAction. The homothety 2·id ∈ G_p acts trivially on S(V) and is not 1, so (G_p, X_p) is not faithful and hence not analytic. The REPORT says only that the lemma's proof 'needs the radial form'. The author would read that as a gap in the proof, but the statement itself is false.",
+      "fix": "Prove the counterexample. It costs about 40 lines in Affine.lean, which imports Conic: IsRayCompatible for affineConic's chart with H = stabilizer, then dir_smul_linkAction shows 2·id acts as 1. Then record it under findings, keep the row partial, and reword the docstring bullet."
+    },
+    {
+      "severity": "minor",
+      "where": "Conic.lean docstring ('the strongest true form', twice) and REPORT finding 1",
+      "problem": "ConicStructure is called 'the strongest true form' and 'the definition should ask φ_p ∘ g = susp(g|X_p) ∘ φ_p'. As shown in BBS-Celestial's major issue, that condition is sufficient but not necessary for these.tex:3645. The weaker condition 'for each h ∃ g_h ∈ G with φ ∘ g_h = susp(h·) ∘ φ' also suffices.",
+      "fix": "Call it 'a sufficient corrected form' and name the weaker condition as the candidate minimal correction, for the author."
+    },
+    {
+      "severity": "minor",
+      "where": "Conic.lean SCOPE",
+      "problem": "The thesis's susp carries the QUOTIENT topology (these.tex:3685–3687, 'X×R+/∼'). The file uses RamcovGX's topology (GX.Susp, l.710). This is not disclosed. The two agree for compact links (GX.Susp.eq_quotTop_of_compactSpace), which covers F1's Bool and the spheres, but not in general.",
+      "fix": "Add one SCOPE line."
+    },
+    {
+      "severity": "minor",
+      "where": "Conic.lean:241 (linkAction docstring) against the checklist row",
+      "problem": "The docstring says 'under the added ContinuousConstSMul G X', while the checklist says '✓ carried'. The checklist is right.",
+      "fix": "Drop 'added'."
+    },
+    {
+      "severity": "minor",
+      "where": "Conic.lean:24, 54–58, 214",
+      "problem": "Lines over 100 characters (one code line, 214, at 101).",
+      "fix": "Re-wrap. Style only."
+    }
+  ],
+  "graduation": "The Lean is fit to graduate as GX/Suspension/Conic.lean: sorry-free, strict-clean, no clash, and its import (GX.Singular.Suspension) is already strict. Hold it until the major is fixed. That fix is docstring and REPORT work, plus a counterexample that can live in Affine. scaffold/GXScaffold.lean (the root AxiomSweep imports) does not import the three Suspension modules, so make check builds them (glob) but the axiom sweep does not see them. At graduation the master must add them to GX.lean (or, while they stay in the scaffold, to GXScaffold.lean).",
+  "summary": "Lean is correct, strict-clean and axiom-clean. The ray condition is verbatim. The induced action, its uniqueness and continuity, and the rigidity transfer are all proved. One major: the thesis's analyticity lemma is false as written, because homotheties act trivially on S(V) for (Aff(V),V) at 0. The file and REPORT call it only a proof gap and give no DEC-27 counterexample. Minors: the 'strongest true form' wording, the topology disclosure, one 'added' that should be 'carried', and long lines."
+}

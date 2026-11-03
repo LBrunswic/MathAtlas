@@ -1,0 +1,41 @@
+{
+  "package": "BBS-Affine",
+  "round": 1,
+  "auditor": "read-only auditor, node1, 2026-11-03",
+  "file": "scaffold/GXScaffold/Suspension/Affine.lean",
+  "report": "campaign/BBS-Affine/REPORT.json",
+  "verdict": "needs-fixes",
+  "builds": true,
+  "sorry_count": 0,
+  "checks": {
+    "build": "taskset -c 0-11 lake env lean …/Affine.lean: EXIT 0, no output (4.1 s). With -DwarningAsError=true: no output.",
+    "sorry_axioms": "No sorry in the file, and none inherited: mk_mem_sing is not used. #print axioms: sphereSusp (through affineConic), affineConic, not_conicStructure_of_contraction, not_conicStructure_nullBoost, affine_coneChart_linear, affineSuspension, affine_apex_mem_reg and locallyConnectedSpace_raySphere depend on [propext, Classical.choice, Quot.sound].",
+    "F2": "not_conicStructure_of_contraction (Affine.lean:290) is CORRECT. It takes x = (δ/2‖v‖)·v in a ball inside φ.source. Then hⁿx = cⁿx stays in the ball and tends to 0, so ConicStructure.eq_of_tendsto_pow gives x = 0, a contradiction. It is NON-VACUOUS. nullBoost (2a, b/2) fixes 0, preserves ab, so lies in SO₀(1,1), and has eigenvalue 1/2 on (0,1). Any H ∋ nullBoost, e.g. ⊤, satisfies the hypotheses. The predicate is not empty in general, since affineConic inhabits it for H = linIsom. Scope of what is proved: it refutes the RADIUS-PRESERVING ConicStructure, for any G, because G plays no role in the proof. It says nothing about the weaker minimal correction (see BBS-Celestial checks.minimal_fix). For BBS's actual G = Isom₀(E^{1,2}) the two corrections coincide, so the BBS conclusion is true but is not instantiated: the witness is SO₀(1,1) on R², not SO₀(1,2).",
+    "affineConic": "affineConic is correct (sphereConeInv_smul: linear isometries preserve ‖·‖ and commute with normalisation). affine_coneChart_linear and affine_apex_mem_reg are thin wrappers over Celestial, and they are correct.",
+    "reuse": "GX already has the Lorentz stabilisers: LorentzIsom0 (Quotient.lean:2676), MinkIsom0 (:2721) and NullIsom0 (:2945, on R³ with nullQ = x² − ab). The BBS claim should be instantiated there rather than on the new ad hoc nullBoost on R². RaySphere, sphereSusp and raySphereAction have no GX counterpart, so they are not redefinitions.",
+    "names": "Name clashes: a probe importing GX (all 33 strict modules), GXScaffold (root) and GXScaffold.Suspension.Affine loads without an 'environment already contains' error, so none of the 154 public declarations of GXScaffold.Suspension.* clashes with GX or the built scaffold. A second probe found no GX.<n> whose suffix <n> names an existing root constant (kb 0016 shadowing): 0 hits.",
+    "import_gate": "python3 scripts/causal_import_gate.py: 'ok (DEC-33)'. Imports: Conic <- GX.Singular.Suspension; Celestial <- GXScaffold.Suspension.Conic; Affine <- GXScaffold.Suspension.Celestial. No Causal import."
+  },
+  "issues": [
+    {
+      "severity": "major",
+      "where": "Affine.lean module docstring ('So BBS's HS²-link … is out of reach of the thesis's suspension'), nullBoost/not_conicStructure_nullBoost docstrings ('the thesis's suspension cannot produce the flat Lorentzian cone singularities of BBS'), the checklist ('necessary for the thesis's construction'), REPORT bbs:L1_conic_at_0",
+      "problem": "The overclaim has two parts. (i) What is proved refutes the radius-preserving ConicStructure, the auditor's corrected notion and not the thesis's. Radius preservation is not necessary for the construction (BBS-Celestial checks.minimal_fix), so 'necessary for the thesis's construction' is false as stated. (ii) The BBS group SO₀(1,2) is never instantiated: the witness is SO₀(1,1) on R², under G = Aff(V), which contains homotheties. For that G the weaker correction is not excluded by this theorem.",
+      "fix": "Reword: 'no RADIUS-PRESERVING conic structure …'. Instantiate the BBS case with GX.NullIsom0, (a,b,x) ↦ (2a, b/2, x), and for G = Isom₀ note in prose that any radial lift g_h is linear with h's ray map, hence g_h = h, so the obstruction holds for the minimal correction too. Proving that is optional, about 80 lines."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT bbs:L1_ray_space and bbs:L1_linear_chart_changes, status 'closed'",
+      "problem": "The first rests on a reading (the unit sphere for (V∖0)/R₊*, the homeomorphism not formalized). The second has a strengthened hypothesis (H = linIsom). By CAMPAIGN.md 'What you report' both are 'partial'.",
+      "fix": "Set status partial."
+    },
+    {
+      "severity": "minor",
+      "where": "Affine.lean:41–42, 104, 123, 139, 190, 252, 260, 265",
+      "problem": "Lines over 100 characters (code lines up to 110).",
+      "fix": "Re-wrap."
+    }
+  ],
+  "graduation": "Sorry-free and strict-clean, but it imports GXScaffold.Suspension.Celestial, which carries the sorry. It graduates only after Celestial does, minus mk_mem_sing or with it closed, and with its import changed to GX.Suspension.Celestial. It needs the major fixed first; that fix is docstring and REPORT wording plus an optional NullIsom0 instance. scaffold/GXScaffold.lean (the root AxiomSweep imports) does not import the three Suspension modules, so make check builds them (glob) but the axiom sweep does not see them. At graduation the master must add them to GX.lean (or, while they stay in the scaffold, to GXScaffold.lean).",
+  "summary": "The build is green, there are 0 sorry, and the axioms are the standard three. F2 (not_conicStructure_of_contraction) is correct and non-vacuous: nullBoost satisfies it, and affineConic shows the predicate is inhabited. Major: the file claims the THESIS's suspension cannot reach BBS. Two things are actually proved: no radius-preserving conic structure exists for an H containing a contraction, and the witness is SO₀(1,1) on R², not BBS's SO₀(1,2). GX's NullIsom0 should be reused to instantiate the BBS claim. Minors: two REPORT statuses should be partial, and there are long lines."
+}
