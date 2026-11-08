@@ -134,7 +134,7 @@
   "Benzecri.exists_isCompact_forall_exists_smul_mem → Benzecri/Structure/Classes.lean (it is the core of IsDivisible.isBalayable, which could then use it)",
   "Benzecri.isLocalHomeomorph_prodMap → a generic topology helper (not in Mathlib at this pin)",
   "rposLog/rposExp/rposLogHomeomorph → Benzecri/Cone/Basic.lean (RPos API)",
-  "FCone.map_congr, FCone.locallyCompactSpace, FCone.baseProjHomeomorph, FCone.autMap_inv_smul_autMap_smul → scaffold Cone/Lift or Cone/Functor (after their audit)"
+  "FCone.map_congr_fun, FCone.locallyCompactSpace, FCone.baseProjHomeomorph, FCone.autMap_inv_smul_autMap_smul → scaffold Cone/Lift or Cone/Functor (after their audit)"
  ],
  "kb_proposals": [
   "To give a quotient-like space a (G,X)-structure, push forward along a surjective local homeomorphism with (G,X) deck transformations (existsUnique_pushforward, Structure/Quotient): it avoids building an orbit quotient and proving proper discontinuity (used for B × S¹ and for B₁ × … × S¹^{p−1}).",
@@ -142,5 +142,15 @@
   "Two ChartedSpace instances on one type with DIFFERENT models are safe (the model is an explicit non-outParam argument; `chartAt _ x` is stuck, never a silent pick); never add a generic instance producing one of them for a whole class of types — use the abbrev with letI."
  ],
  "notes": "FCone gets a GLOBAL instance ChartedSpace (Fin (n+1) → ℝ) (FCone n B) (and HasGroupoid affGroupoid), kept global by DEC-128. It is safe because Mathlib's `ChartedSpace H M` takes the model H as an explicit, non-outParam argument (several models per space are intended), so every use names its model and `chartAt _ x` is stuck rather than ambiguous; only Prop-valued instances derive from either. Never generalise it to all affine conical manifolds (use affineChartedSpace with letI). Mathlib import added: Mathlib.Analysis.SpecialFunctions.Complex.Circle, Mathlib.GroupTheory.NoncommCoprod. 0 sorry; axioms of all 72 constants ⊆ {propext, Classical.choice, Quot.sound}.",
- "wave5b": "Audit WP-45t AUDIT-1 nits fixed: (1) instChartedSpaceAff docstring and SCOPE give the real reason (explicit non-outParam model) and the 'never generalise' rule; (2) « a covering F(B) → B × S¹ » reworded to a surjective local homeomorphism (IsCoveringMap not stated); (3) FCone.map_congr renamed FCone.map_congr_fun (no clash with root map_congr after `open Benzecri.FCone`); (4) REPORT: duplicate FCone.baseProjHomeomorph dropped from extra_decls; the non-paracompact question replaced by the DEC-128 REMARK (also in SCOPE). Marks unchanged."
+ "wave5b": "Audit WP-45t AUDIT-1 nits fixed: (1) instChartedSpaceAff docstring and SCOPE give the real reason (explicit non-outParam model) and the 'never generalise' rule; (2) « a covering F(B) → B × S¹ » reworded to a surjective local homeomorphism (IsCoveringMap not stated); (3) FCone.map_congr renamed FCone.map_congr_fun (no clash with root map_congr after `open Benzecri.FCone`); (4) REPORT: duplicate FCone.baseProjHomeomorph dropped from extra_decls; the non-paracompact question replaced by the DEC-128 REMARK (also in SCOPE). Marks unchanged.",
+ "fix_round": {
+  "round": 2,
+  "audit": "campaign/WP-45t/AUDIT-2.json",
+  "fixes": [
+   {
+    "issue": "nit (REPORT upstream_moves[4] named the old FCone.map_congr)",
+    "fix": "now FCone.map_congr_fun; no code change"
+   }
+  ]
+ }
 }

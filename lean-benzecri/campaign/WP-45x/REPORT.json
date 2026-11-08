@@ -52,7 +52,8 @@
     "Benzecri.prod_pow_eq_one_of_isGXMorphism_piSMul",
     "Benzecri.isGXMorphism_piSMul_iff",
     "Benzecri.pdim",
-    "Benzecri.sum_succ_eq_pdim"
+    "Benzecri.sum_succ_eq_pdim",
+    "Benzecri.det_piCongrRight"
    ],
    "hypotheses": [
     {
@@ -117,7 +118,10 @@
     "Benzecri.piLift",
     "Benzecri.existsUnique_piLift",
     "Benzecri.not_isGXMorphism_piSMul_of_ne",
-    "Benzecri.isGXMorphism_piSMul_of_prod_eq_one"
+    "Benzecri.isGXMorphism_piSMul_of_prod_eq_one",
+    "Benzecri.t2Space_piBase",
+    "Benzecri.continuous_piTorusAut_smul",
+    "Benzecri.torusCoordHomeomorph"
    ],
    "hypotheses": [
     {
@@ -133,7 +137,12 @@
     {
      "paper": "« structure d'espace fibré principal de base (B_1 × … × B_p) »",
      "here": "carried",
-     "note": "free, orbits = fibres of the continuous surjection piBaseProj, equivariant local Trivialization (fibre ℝ₊*^{p−1} ≅ PiTorus via torusCoordEquiv) at every point of ∏ Bᵢ (any Hausdorff factors); global triviality under [∀ i, ParacompactSpace (B i)]"
+     "note": "free, orbits = fibres of the continuous surjection piBaseProj, equivariant local Trivialization (fibre ℝ₊*^{p−1} ≅ PiTorus via torusCoordHomeomorph, a homeomorphism and group isomorphism) at every point of ∏ Bᵢ (any Hausdorff factors); the torus action jointly continuous (continuous_piTorusAut_smul); global triviality under [∀ i, ParacompactSpace (B i)]"
+    },
+    {
+     "paper": "« cette variété localement projective »",
+     "here": "carried",
+     "note": "Hausdorff: t2Space_piBase, a global instance on the package's PiBase n B (Hausdorff factors only, no paracompactness), and a conjunct of prop2_fibre_produit_pi"
     }
    ],
    "sorries": [],
@@ -163,7 +172,9 @@
     "Benzecri.latticeHom",
     "Benzecri.commute_piAut_piTorusAut",
     "Benzecri.finite_setOf_lattice_inter_nonempty",
-    "Benzecri.exists_piBase_homeomorph_lattice"
+    "Benzecri.exists_piBase_homeomorph_lattice",
+    "Benzecri.paracompactSpace_of_isDivisible",
+    "Benzecri.paracompactSpace_of_properlyDiscontinuousSMul"
    ],
    "hypotheses": [
     {
@@ -178,8 +189,8 @@
     },
     {
      "paper": "« variété »: second countable",
-     "here": "weakened",
-     "note": "[∀ i, ParacompactSpace (B i)] in the divisible case only (the global radial coordinates); implied by second countability — the same « variété » reading DEC-128 certifies for the circle corollary"
+     "here": "dropped",
+     "note": "not needed: a divisible factor is paracompact (paracompactSpace_of_isDivisible, from paracompactSpace_of_properlyDiscontinuousSMul: a locally compact space with a properly discontinuous cocompact action is paracompact, no Hausdorffness needed), so prop3_produit_homogene_pi carries no paracompactness binder and uses no reading of « variété » beyond Hausdorff"
     },
     {
      "paper": "H ⊂ R^{+p}/R^+ discrete with compact quotient ≅ S₁^{(p−1)} (printed « R^{+p}/R^p », [sic])",
@@ -190,7 +201,7 @@
    "sorries": [],
    "findings": [],
    "questions": [
-    "Prop. 3 is marked with paracompactness read into « variété » for the divisible case (implied by second countability); DEC-128 names the reading for the circle corollary — please confirm it extends here. Route: FLAT (the general construction), not induction through the § 2 unit — the three audit lemmas were not needed.",
+    "Route DEVIATION (recorded for acknowledgement): DEC-128 suggested Prop. 3 « by induction through the § 2 unit »; it is proved FLAT, on the printed object F⁻¹(F(B₁) × … × F(B_p)) with the printed group F⁻¹(∏ Fᵢ(Gᵢ)) × λ^{ℤ^{p−1}}. The statement is unchanged; the induction was not needed.",
     "The printed proof announces the sweepable case and argues the divisible one (flagged in the transcription): all three cases are proved."
    ]
   }
@@ -203,17 +214,52 @@
   "Benzecri.coneTrivialization_symm_mk",
   "Benzecri.paracompactSpace_of_sigmaCompact",
   "Benzecri.piBaseProjHomeomorph",
-  "Benzecri.map_continuous_piRatio"
+  "Benzecri.map_continuous_piRatio",
+  "Benzecri.det_piCongrRight_finIdx",
+  "Benzecri.torusCoordHomeomorph_apply",
+  "Benzecri.torusCoordHomeomorph_toEquiv"
  ],
  "upstream_moves": [
-  "Benzecri.det_piCongrRight_fin → generic (Mathlib has LinearMap.det_pi only for blocks of one size, and no det_blockDiagonal' for blocks of different sizes)",
+  "Benzecri.det_piCongrRight → generic, already in upstream form (any Fintype ι, any CommRing R, heterogeneous finite free modules M i: det (piCongrRight g) = ∏ det (g i); proved by reindexing to Fin (LinearEquiv.piCongrLeft) and induction det_piCongrRight_finIdx via Fin.consLinearEquiv / LinearMap.det_prodMap, not through Matrix.BlockTriangular.det_fintype as the audit sketched); det_piCongrRight_fin is its ℝ corollary",
   "Benzecri.trivializationPi / trivializationCompHomeomorph / piProdHomeomorph → generic fibre-bundle API (Mathlib's Trivialization.prod is for Bundle.TotalSpace only)",
-  "Benzecri.coneTrivialization_symm_mk → Benzecri/Cone/Base.lean beside coneTrivialization"
+  "Benzecri.coneTrivialization_symm_mk → Benzecri/Cone/Base.lean beside coneTrivialization",
+  "Benzecri.paracompactSpace_of_properlyDiscontinuousSMul → generic topology (Mathlib/Topology/Algebra/ConstMulAction or Compactness/Paracompact)"
  ],
  "kb_proposals": [
   "Products of p Benzecri cones: use the flat block construction (ProductsGeneral: piBlockIdx via finSigmaFinEquiv, dimension pdim n + 1 = Σ (nᵢ+1)); instances are SCOPED (`open scoped Benzecri.PiCone`), and PiBase n B is an abbrev that carries them.",
   "A function on a ConeBase defined only on an open saturated set: take f ∘ Quotient.out; continuity at mk x follows from ConeBase.mk_image_mem_nhds (mk is open), no quotient-lift needed (exists_trivialization_piBasePr).",
   "Dependent families over Fin p with a permutation σ: σ⁻¹ needs a cast F(B_{σ σ⁻¹ i}) ≃ₜ F(B_i) (piFConeCast); prove its lemmas with `subst`/`cases` on the index equality inside a generic statement."
  ],
- "notes": "Wave 5b (DEC-128), general p, FLAT. 0 sorry; axioms of all 157 module constants ⊆ {propext, Classical.choice, Quot.sound}. Instances: three SCOPED instances in Benzecri.PiCone on the Mathlib type ∀ i, V i; one global `instance : (piDiag q).Normal` keyed on the package's own subgroup piDiag (needed for the group structure of PiTorus q downstream; it cannot overlap anything). kb/0002: no statement quantifies over a class-typed binder; the affine-morphism clause names both charted spaces with `@` (both affineChartedSpace). The binary Products file is unchanged in code; its p = 2 rows stay partial there and point here."
+ "notes": "Wave 5b (DEC-128), general p, FLAT. 0 sorry; axioms of all 166 module constants ⊆ {propext, Classical.choice, Quot.sound}. Instances: three SCOPED instances in Benzecri.PiCone on the Mathlib type ∀ i, V i; one GLOBAL instance t2Space_piBase : T2Space (PiBase n B), keyed on the package's own abbrev (ConeBase of a product of FCones) and Prop-valued. The former global `instance : (piDiag q).Normal` is REMOVED: it was redundant with Mathlib's Subgroup.normal_of_isMulCommutative (the earlier note « needed for the group structure of PiTorus q downstream » was inaccurate), and every module builds without it. kb/0002: no statement quantifies over a class-typed binder; the affine-morphism clause names both charted spaces with `@` (both affineChartedSpace). The binary Products file is unchanged in code; its p = 2 rows stay partial there and point here.",
+ "fix_round": {
+  "round": 1,
+  "audit": "campaign/WP-45x/AUDIT-1.json",
+  "ruling": "DEC-128",
+  "fixes": [
+   {
+    "issue": "minor 1 (Prop. 3 divisible carried [∀ i, ParacompactSpace (B i)])",
+    "fix": "paracompactSpace_of_properlyDiscontinuousSMul (locally compact + properly discontinuous + compact orbit space ⇒ paracompact; no T2 needed: a compact K meeting every orbit, a compact C with K ⊆ interior C, the locally finite translates g • interior C, refined by the cover's own index type) and paracompactSpace_of_isDivisible; isDivisible_piDivHom derives paracompactness of each Bᵢ from its own hypotheses (omit + haveI), and the binder is DROPPED from prop3_produit_homogene_pi. The checklist row now reads « ONLY for global triviality (Déf. 1, Prop. 2) »; no reading of « variété » remains in Prop. 3, and REPORT question 1 is withdrawn"
+   },
+   {
+    "issue": "minor 2 (PiBase n B never shown Hausdorff)",
+    "fix": "instance t2Space_piBase : T2Space (PiBase n B) (the auditor's /tmp/bzaud45xy/t2.lean), and T2Space (PiBase n B) is the first conjunct of prop2_fibre_produit_pi (« cette variété »)"
+   },
+   {
+    "issue": "nit 3 (joint continuity of the torus action not stated)",
+    "fix": "both: torusCoordHomeomorph : PiTorus q ≃ₜ (Fin q → RPos) (underlying equivalence torusCoordEquiv), and continuous_piTorusAut_smul, the joint continuity of (t, p) ↦ piTorusAut t • p, the second conjunct of prop2_fibre_produit_pi"
+   },
+   {
+    "issue": "nit 4 (the global (piDiag q).Normal instance)",
+    "fix": "removed (redundant with Mathlib's Subgroup.normal_of_isMulCommutative); nothing broke; the REPORT note is corrected"
+   },
+   {
+    "issue": "nit 5 (route deviation recorded only in a question)",
+    "fix": "recorded in SCOPE (« Prop. 3, route ») and in REPORT labels[2].questions[0]: Prop. 3 is proved FLAT rather than by DEC-128's suggested induction through the § 2 unit; a route deviation, statement unchanged"
+   },
+   {
+    "issue": "nit 6 (det_piCongrRight_fin Fin-indexed and ℝ-specific)",
+    "fix": "generalised: det_piCongrRight (any Fintype index, any CommRing, heterogeneous finite free modules) with det_piCongrRight_finIdx its Fin step; det_piCongrRight_fin kept as the ℝ corollary"
+   }
+  ]
+ }
 }

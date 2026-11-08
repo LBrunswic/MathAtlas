@@ -20,19 +20,20 @@ Package WP-45x (wave 5b, DEC-128: general `p`, flat block construction). `p = q 
   every `(λᵢ)` is an affine automorphism, a conical one iff `∏ λᵢ^{dim F(Bᵢ)} = 1`.
 * **`bzprop:c1s3p2_fibre_produit`** — `benzecri1960_ch1.tex:741` (l.741–759, p. 244). **MARKED**
   (DEC-128: the finding below is against a remark of the proof and does not block the mark).
-  `Benzecri.prop2_fibre_produit_pi`: `ℝ^{+p}/ℝ^+` (`PiTorus q`) acts on `F⁻¹(∏ F(Bᵢ))` (`PiBase n B`)
-  by projective automorphisms (`piTorusAut`), freely, with orbits the fibres of `piBaseProj` onto
-  `∏ Bᵢ`, locally trivially and equivariantly (fibre `ℝ₊*^{p−1}` through `torusCoordEquiv`),
-  globally trivially for paracompact factors. **FINDING against the proof's remark** (« On peut
+  `Benzecri.prop2_fibre_produit_pi`: `ℝ^{+p}/ℝ^+` (`PiTorus q`) acts on `F⁻¹(∏ F(Bᵢ))` (`PiBase n B`,
+  Hausdorff: `t2Space_piBase`) by projective automorphisms (`piTorusAut`), jointly continuously
+  (`continuous_piTorusAut_smul`), freely, with orbits the fibres of `piBaseProj` onto `∏ Bᵢ`, locally
+  trivially and equivariantly (fibre `ℝ₊*^{p−1}` through `torusCoordHomeomorph`, a homeomorphism and
+  group isomorphism), globally trivially for paracompact factors. **FINDING against the proof's remark** (« On peut
   encore remarquer que $\R^{+p}/\R^+$ se relève suivant le sous-groupe … dont le produit est égal à
   1 »): `not_isGXMorphism_piSMul_of_ne` — when two factors have different dimensions some `(λᵢ)` with
   `∏ λᵢ = 1` is not conical; the corrected lift is `∏ λᵢ^{dim F(Bᵢ)} = 1` (`piLift`, a complement of
   the diagonal, `existsUnique_piLift`), and the printed one is right iff all `F(Bᵢ)` have one
   dimension (`isGXMorphism_piSMul_of_prod_eq_one`). The statement holds as printed.
 * **`bzprop:c1s3p3_produit_homogene`** — `benzecri1960_ch1.tex:761` (l.761–795, pp. 244–245).
-  **MARKED.** `Benzecri.prop3_produit_homogene_pi`: homogeneous, sweepable, and (paracompact
-  factors) divisible, the last with the printed group `F⁻¹(F₁(G₁) × … × F_p(G_p)) × H`,
-  `H = λ^{ℤ^{p−1}}` (`piDivHom`).
+  **MARKED.** `Benzecri.prop3_produit_homogene_pi`: homogeneous, sweepable and divisible, Hausdorff
+  factors only (a divisible factor is paracompact, `paracompactSpace_of_isDivisible`), the last with
+  the printed group `F⁻¹(F₁(G₁) × … × F_p(G_p)) × H`, `H = λ^{ℤ^{p−1}}` (`piDivHom`).
 
 > **Définition 1.** Soient $p$ variétés localement projectives $B_1$, …, $B_p$; et soit
 > $F(B_1)\times\ldots\times F(B_p)$ le cône affin produit des cônes affins de bases les $B_i$. Nous
@@ -60,9 +61,10 @@ Package WP-45x (wave 5b, DEC-128: general `p`, flat block construction). `p = q 
 |---|---|
 | `p` locally projective manifolds, any dimensions | ✓ `p = q + 1 ≥ 1` (`Fin (q + 1)`), dimensions `n i` unconstrained |
 | « variété »: Hausdorff | ✓ carried (`[∀ i, T2Space (B i)]`; Déf. 3's homotheties need it) |
-| « variété »: second countable | as `[∀ i, ParacompactSpace (B i)]` (implied, strictly weaker), ONLY for global triviality (Déf. 1, Prop. 2) and the divisible case of Prop. 3; σ-compact suffices (`paracompactSpace_of_sigmaCompact`) |
+| « variété »: second countable | as `[∀ i, ParacompactSpace (B i)]` (implied, strictly weaker), ONLY for global triviality (Déf. 1, Prop. 2), an extra not printed; σ-compact suffices (`paracompactSpace_of_sigmaCompact`). Prop. 3 needs none: a divisible factor is paracompact (`paracompactSpace_of_isDivisible`) |
 | « variété »: nonempty (DEC-128) | only for « conical iff `∏ λᵢ^{dim F(Bᵢ)} = 1` » (an empty factor makes every map conical) |
-| « espace fibré principal » | free action, orbits = fibres, equivariant Mathlib `Trivialization` at every base point |
+| « espace fibré principal » | free action, orbits = fibres, equivariant Mathlib `Trivialization` at every base point; the torus action jointly continuous (`continuous_piTorusAut_smul`) |
+| « cette variété localement projective » (Prop. 2) | ✓ Hausdorff (`t2Space_piBase`, a global instance on the package's `PiBase`), Hausdorff factors only |
 | `ℝ^{+p}/ℝ^+` | `PiTorus q := (Fin (q+1) → ℝ₊*) ⧸ piDiag q`, `≃* ℝ₊*^{p−1}` (`torusCoordEquiv`) |
 | `H` discrete, `(ℝ^{+p}/ℝ^+)/H ≅ S₁^{(p−1)}` (printed « $\R^{+p}/\R^p$ », `[sic]`, read `/\R^+`) | `H = λ^{ℤ^{p−1}}` in torus coordinates (`latticeHom`), any `λ ≠ 1` |
 
@@ -77,17 +79,27 @@ Package WP-45x (wave 5b, DEC-128: general `p`, flat block construction). `p = q 
 * **The torus action on the base** is `piBaseMap c` (`[m] ↦ [(λᵢmᵢ)]`), a projective morphism through
   the unimodular representative of `c` in `piLift` (`piBaseMap_eq_map`); it factors through
   `PiTorus q` (`piTorusAut`, a homomorphism to the projective automorphisms).
+* **Prop. 3, route.** DEC-128 suggested Prop. 3 « by induction through the § 2 unit »; it is
+  proved FLAT instead, on the printed object `F⁻¹(F(B₁) × … × F(B_p))` with the printed group, so
+  the induction was not needed. A route deviation, recorded for acknowledgement; the statement is
+  unchanged.
 * **Prop. 3, divisible.** Proper discontinuity and the compact quotient use the global radial
-  coordinates `exists_piBase_homeomorph` (paracompact factors). That `H` is discrete with compact
+  coordinates `exists_piBase_homeomorph`, which need paracompact factors; these are DERIVED, not
+  assumed: a locally compact space with a properly discontinuous cocompact action is paracompact
+  (`paracompactSpace_of_properlyDiscontinuousSMul`, `paracompactSpace_of_isDivisible`). That `H` is discrete with compact
   quotient `≅ S₁^{(p−1)}` is the proof's device and is used, not stated separately
   (`finite_setOf_lattice_inter_nonempty` is its discreteness on compacta). The printed proof
   announces the sweepable case and argues the divisible one (flagged in the transcription); all three
   are proved.
 * **Readings, not findings**: « $m\in F(B_i)$ » and « rapport $\lambda$ » read `mᵢ`, `λᵢ` (transcription
   comment); `nᵢ` in a product formula of the earlier wave means `dim F(Bᵢ)` (here `nᵢ = dim Bᵢ`).
-* Generic lemmas (upstream candidates): `det_piCongrRight_fin` (determinant of a block-diagonal map,
-  blocks of different sizes), `piProdHomeomorph`, `trivializationPi`, `trivializationCompHomeomorph`,
-  `coneTrivialization_symm_mk`, `paracompactSpace_of_sigmaCompact`.
+* Generic lemmas (upstream candidates): `det_piCongrRight` (determinant of a block-diagonal
+  automorphism over any commutative ring, any finite index, heterogeneous finite free modules;
+  `det_piCongrRight_fin` is its real corollary used here), `piProdHomeomorph`, `trivializationPi`,
+  `trivializationCompHomeomorph`, `coneTrivialization_symm_mk`, `paracompactSpace_of_sigmaCompact`,
+  `paracompactSpace_of_properlyDiscontinuousSMul`.
+* `PiTorus q` is a group through Mathlib's `Subgroup.normal_of_isMulCommutative`; the package
+  declares no `Normal` instance.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -105,17 +117,20 @@ attribute [local instance] t2Space_RnO
 
 /-! ### The determinant of a block-diagonal map, any number of blocks -/
 
-/-- **`det diag(g₀, …, g_{p−1}) = ∏ det gᵢ`**, blocks of arbitrary sizes `k i` (by induction on `p`,
-splitting off the first block with `Fin.consLinearEquiv` and `LinearMap.det_prodMap`). -/
-theorem det_piCongrRight_fin : ∀ {p : ℕ} {k : Fin p → ℕ}
-    (g : ∀ i, (Fin (k i) → ℝ) ≃ₗ[ℝ] (Fin (k i) → ℝ)),
-    ((LinearEquiv.det (LinearEquiv.piCongrRight g) : ℝˣ) : ℝ) =
-      ∏ i, ((LinearEquiv.det (g i) : ℝˣ) : ℝ)
-  | 0, k, g => by
-    rw [LinearEquiv.coe_det, LinearMap.det_eq_one_of_subsingleton, Finset.univ_eq_empty,
-      Finset.prod_empty]
-  | p + 1, k, g => by
-    set e := Fin.consLinearEquiv ℝ (fun i => Fin (k i) → ℝ)
+/-- **`det diag(g₀, …, g_{p−1}) = ∏ det gᵢ`** over a commutative ring, for `Fin p` blocks that are
+arbitrary (heterogeneous) finite free modules (by induction on `p`, splitting off the first block
+with `Fin.consLinearEquiv` and `LinearMap.det_prodMap`). The `Fin`-indexed step of
+`det_piCongrRight`. -/
+theorem det_piCongrRight_finIdx {R : Type*} [CommRing R] : ∀ {p : ℕ} {M : Fin p → Type*}
+    [∀ i, AddCommGroup (M i)] [∀ i, Module R (M i)] [∀ i, Module.Free R (M i)]
+    [∀ i, Module.Finite R (M i)] (g : ∀ i, M i ≃ₗ[R] M i),
+    LinearEquiv.det (LinearEquiv.piCongrRight g) = ∏ i, LinearEquiv.det (g i)
+  | 0, M, _, _, _, _, g => by
+    rw [Finset.univ_eq_empty, Finset.prod_empty]
+    ext
+    rw [LinearEquiv.coe_det, LinearMap.det_eq_one_of_subsingleton, Units.val_one]
+  | p + 1, M, _, _, _, _, g => by
+    set e := Fin.consLinearEquiv R M
     set f := (g 0).prodCongr (LinearEquiv.piCongrRight fun i : Fin p => g (Fin.succ i))
     have key : (e.symm.trans f).trans e = LinearEquiv.piCongrRight g := by
       refine LinearEquiv.ext fun x => funext fun i => ?_
@@ -125,8 +140,38 @@ theorem det_piCongrRight_fin : ∀ {p : ℕ} {k : Fin p → ℕ}
         rfl
     have hf : f.toLinearMap = LinearMap.prodMap (g 0).toLinearMap
         (LinearEquiv.piCongrRight fun i : Fin p => g (Fin.succ i)).toLinearMap := rfl
-    rw [← key, LinearEquiv.det_conj, LinearEquiv.coe_det, hf, LinearMap.det_prodMap, ← LinearEquiv.coe_det, ← LinearEquiv.coe_det,
-      det_piCongrRight_fin (fun i : Fin p => g (Fin.succ i)), Fin.prod_univ_succ]
+    ext
+    rw [← key, LinearEquiv.det_conj, LinearEquiv.coe_det, hf, LinearMap.det_prodMap,
+      ← LinearEquiv.coe_det, ← LinearEquiv.coe_det,
+      det_piCongrRight_finIdx (fun i : Fin p => g (Fin.succ i)), Fin.prod_univ_succ, Units.val_mul]
+
+/-- **The determinant of a block-diagonal automorphism is the product of the blocks'
+determinants**, in upstream form: any finite index type, any commutative ring, heterogeneous finite
+free modules (Mathlib's `LinearMap.det_pi` is for blocks of one module). Reindexed to `Fin` through
+`Fintype.equivFin` and `LinearEquiv.piCongrLeft`, then `det_piCongrRight_finIdx`. -/
+theorem det_piCongrRight {R : Type*} [CommRing R] {ι : Type*} [Fintype ι] {M : ι → Type*}
+    [∀ i, AddCommGroup (M i)] [∀ i, Module R (M i)] [∀ i, Module.Free R (M i)]
+    [∀ i, Module.Finite R (M i)] (g : ∀ i, M i ≃ₗ[R] M i) :
+    LinearEquiv.det (LinearEquiv.piCongrRight g) = ∏ i, LinearEquiv.det (g i) := by
+  set e : Fin (Fintype.card ι) ≃ ι := (Fintype.equivFin ι).symm
+  set P := LinearEquiv.piCongrLeft R M e
+  have key : (P.symm.trans (LinearEquiv.piCongrRight fun j => g (e j))).trans P =
+      LinearEquiv.piCongrRight g := by
+    refine LinearEquiv.ext fun x => funext fun i => ?_
+    obtain ⟨j, rfl⟩ := e.surjective i
+    show Equiv.piCongrLeft M e (fun j => g (e j) ((Equiv.piCongrLeft M e).symm x j)) (e j) = _
+    rw [Equiv.piCongrLeft_apply_apply, Equiv.piCongrLeft_symm_apply]
+    rfl
+  rw [← key, LinearEquiv.det_conj, det_piCongrRight_finIdx,
+    e.prod_comp (fun i => LinearEquiv.det (g i))]
+
+/-- **`det diag(g₀, …, g_{p−1}) = ∏ det gᵢ`**, real blocks `ℝ^{k i}` of arbitrary sizes (the form
+used here; a corollary of `det_piCongrRight`). -/
+theorem det_piCongrRight_fin {p : ℕ} {k : Fin p → ℕ}
+    (g : ∀ i, (Fin (k i) → ℝ) ≃ₗ[ℝ] (Fin (k i) → ℝ)) :
+    ((LinearEquiv.det (LinearEquiv.piCongrRight g) : ℝˣ) : ℝ) =
+      ∏ i, ((LinearEquiv.det (g i) : ℝˣ) : ℝ) := by
+  rw [det_piCongrRight, Units.coe_prod]
 
 /-! ### Blocks: `∏ ℝ^{nᵢ+1} ≃ ℝ^{Σ(nᵢ+1)}` and `∏ GU(nᵢ+1) ↪ GU(Σ(nᵢ+1))` -/
 
@@ -928,9 +973,9 @@ def piDiag (q : ℕ) : Subgroup (Fin (q + 1) → RPos) where
   one_mem' _ := rfl
   inv_mem' {c} hc i := by simp only [Pi.inv_apply, hc i]
 
-instance (q : ℕ) : (piDiag q).Normal := Subgroup.normal_of_isMulCommutative _
-
-/-- **`ℝ^{+p}/ℝ^+`**, the quotient of `ℝ₊*^p` by its diagonal. -/
+/-- **`ℝ^{+p}/ℝ^+`**, the quotient of `ℝ₊*^p` by its diagonal (a group through Mathlib's
+`Subgroup.normal_of_isMulCommutative`: `piDiag q` is normal because `ℝ₊*^p` is commutative; no
+instance of the package is needed, nor declared). -/
 abbrev PiTorus (q : ℕ) : Type := (Fin (q + 1) → RPos) ⧸ piDiag q
 
 /-- The ratios `(λ_{j+1}/λ₀)_j`, `ℝ₊*^p → ℝ₊*^{p−1}`. -/
@@ -982,6 +1027,25 @@ def torusCoordEquiv (q : ℕ) : PiTorus q ≃* (Fin q → RPos) :=
       show ((Fin.cons 1 t : Fin (q + 1) → RPos) j.succ) * ((Fin.cons 1 t : Fin (q + 1) → RPos) 0)⁻¹
         = t j
       simp }
+
+/-- **`ℝ^{+p}/ℝ^+ ≃ₜ ℝ₊*^{p−1}`**: the torus coordinates are a homeomorphism for the quotient
+topology (Prop. 2's structure group as a topological group; `torusCoord` is continuous as the lift
+of the continuous `piRatioHom`, `torusOfCoord` as `mk ∘ Fin.cons 1`). Its underlying equivalence
+is `torusCoordEquiv`. -/
+def torusCoordHomeomorph (q : ℕ) : PiTorus q ≃ₜ (Fin q → RPos) where
+  toEquiv := (torusCoordEquiv q).toEquiv
+  continuous_toFun := by
+    show Continuous (torusCoord q)
+    exact continuous_quot_lift _ (map_continuous_piRatio q)
+  continuous_invFun := by
+    show Continuous fun t : Fin q → RPos => ((Fin.cons 1 t : Fin (q + 1) → RPos) : PiTorus q)
+    exact continuous_quot_mk.comp (continuous_const.finCons continuous_id)
+
+@[simp] theorem torusCoordHomeomorph_apply (q : ℕ) (t : PiTorus q) :
+    torusCoordHomeomorph q t = torusCoord q t := rfl
+
+theorem torusCoordHomeomorph_toEquiv (q : ℕ) :
+    (torusCoordHomeomorph q).toEquiv = (torusCoordEquiv q).toEquiv := rfl
 
 section PiBase
 
@@ -1074,6 +1138,18 @@ def piTorusAut : PiTorus q →* GXAut (GSR (pdim n)) (S (pdim n)) (ConeBase (pdi
 @[simp] theorem piTorusAut_mk_smul (c : Fin (q + 1) → RPos) (x : ∀ i, V i) :
     piTorusAut n V (c : PiTorus q) • (ConeBase.mk x : ConeBase (pdim n) (∀ i, V i)) =
       ConeBase.mk (piSMul n c x) := rfl
+
+/-- **The action of `ℝ^{+p}/ℝ^+` on `F⁻¹(V₀ × … × V_q)` is jointly continuous** (Prop. 2's
+« espace fibré principal » with its topological structure group): `PiTorus q × ConeBase` is a
+quotient of `ℝ₊*^p × ∏ Vᵢ` (a product of open quotient maps), on which the action is
+`(c, x) ↦ [piSMul c x]`. -/
+theorem continuous_piTorusAut_smul :
+    Continuous fun tp : PiTorus q × ConeBase (pdim n) (∀ i, V i) => piTorusAut n V tp.1 • tp.2 := by
+  have hq : IsQuotientMap (Prod.map (QuotientGroup.mk : (Fin (q + 1) → RPos) → PiTorus q)
+      (ConeBase.mk : (∀ i, V i) → ConeBase (pdim n) (∀ i, V i))) :=
+    (QuotientGroup.isOpenQuotientMap_mk.prodMap ConeBase.isOpenQuotientMap_mk).isQuotientMap
+  rw [hq.continuous_iff]
+  exact ConeBase.continuous_mk.comp continuous_piSMul
 
 variable (n V) in
 /-- **The projection of the base of the product cone onto the product of the bases**,
@@ -1394,6 +1470,25 @@ theorem exists_trivialization_piBaseProj (b : ∀ i, B i) :
     refine ⟨h1, ?_⟩
     erw [trivializationCompHomeomorph_apply, trivializationCompHomeomorph_apply, h2]
 
+/-- **`F⁻¹(F(B₀) × … × F(B_q))` is Hausdorff** for Hausdorff factors, with no paracompactness
+(Prop. 2's « cette variété localement projective »; after DEC-122/124 the Hausdorffness of a cone
+base is exactly what can fail): two points with distinct images in `∏ Bᵢ` are separated through the
+continuous `piBaseProj`, two points of one fibre inside a local trivialisation. Equivalently the
+`ℝ₊*`-action on the product cone is proper (`ConeBase.t2Space_iff_properSMul`). -/
+instance t2Space_piBase : T2Space (PiBase n B) := by
+  refine ⟨fun p p' hne => ?_⟩
+  by_cases h : piBaseProj n B p = piBaseProj n B p'
+  · obtain ⟨T, hb, -⟩ := exists_trivialization_piBaseProj (n := n) (B := B) (piBaseProj n B p)
+    have hp : p ∈ T.source := T.mem_source.2 hb
+    have hp' : p' ∈ T.source := T.mem_source.2 (h ▸ hb)
+    have hne' : T p ≠ T p' := fun he => hne (T.toOpenPartialHomeomorph.injOn hp hp' he)
+    obtain ⟨u, v, hu, hv, hpu, hpv, huv⟩ := t2_separation hne'
+    refine ⟨T.source ∩ T ⁻¹' u, T.source ∩ T ⁻¹' v,
+      T.toOpenPartialHomeomorph.isOpen_inter_preimage hu,
+      T.toOpenPartialHomeomorph.isOpen_inter_preimage hv, ⟨hp, hpu⟩, ⟨hp', hpv⟩, ?_⟩
+    exact Set.disjoint_left.2 fun z hz hz' => Set.disjoint_left.1 huv hz.2 hz'.2
+  · exact separated_by_continuous continuous_piBaseProj h
+
 /-- **Prop. 2, global triviality for paracompact factors**: `F⁻¹(∏ F(Bᵢ)) ≃ₜ (∏ Bᵢ) × ℝ₊*^{p−1}`
 over the base, `(λᵢ)` acting on the fibre by `(λ_{j+1}/λ₀)_j`. -/
 theorem exists_piBase_homeomorph [∀ i, ParacompactSpace (B i)] :
@@ -1446,11 +1541,16 @@ theorem exists_piBase_homeomorph [∀ i, ParacompactSpace (B i)] :
 $\R^{+p}/\R^+$ opère sur $F^{-1}(F(B_1)\times\ldots\times F(B_p))$ et définit sur cette variété
 localement projective une structure d'espace fibré principal de base
 $(B_1\times\ldots\times B_p)$ ». `PiTorus q = ℝ₊*^p/diagonal` acts on `PiBase n B` by projective
-automorphisms (`piTorusAut`, the class of `(λᵢ)` acting by `[m] ↦ [(λᵢmᵢ)]`), freely, with orbits
+automorphisms (`piTorusAut`, the class of `(λᵢ)` acting by `[m] ↦ [(λᵢmᵢ)]`), jointly continuously
+(`continuous_piTorusAut_smul`, for the quotient topology of `PiTorus q`), freely, with orbits
 the fibres of the continuous surjection `piBaseProj` onto `∏ Bᵢ`, locally trivially and
-equivariantly (fibre coordinates `torusCoord`, an isomorphism `ℝ^{+p}/ℝ^+ ≃* ℝ₊*^{p−1}`,
-`torusCoordEquiv`), and globally trivially for paracompact factors. -/
+equivariantly (fibre coordinates `torusCoord`, a homeomorphism and isomorphism
+`ℝ^{+p}/ℝ^+ ≃ₜ ℝ₊*^{p−1}`, `torusCoordHomeomorph` / `torusCoordEquiv`), and globally trivially for
+paracompact factors; « cette variété localement projective » is Hausdorff (`t2Space_piBase`). -/
 theorem prop2_fibre_produit_pi :
+    T2Space (PiBase n B) ∧
+    Continuous (fun tp : PiTorus q × PiBase n B =>
+      piTorusAut n (fun i => FCone (n i) (B i)) tp.1 • tp.2) ∧
     (∀ (c : Fin (q + 1) → RPos) (x : ∀ i, FCone (n i) (B i)),
       piTorusAut n (fun i => FCone (n i) (B i)) (c : PiTorus q) • (ConeBase.mk x : PiBase n B) =
         ConeBase.mk (piSMul n c x)) ∧
@@ -1467,7 +1567,8 @@ theorem prop2_fibre_produit_pi :
       (∀ p, (H p).1 = piBaseProj n B p) ∧
       ∀ (t : PiTorus q) (p : PiBase n B), H (piTorusAut n (fun i => FCone (n i) (B i)) t • p) =
         ((H p).1, torusCoord q t * (H p).2)) := by
-  refine ⟨fun c x => rfl, fun t p h => eq_one_of_piTorusAut_smul_eq h, continuous_piBaseProj,
+  refine ⟨t2Space_piBase, continuous_piTorusAut_smul, fun c x => rfl,
+    fun t p h => eq_one_of_piTorusAut_smul_eq h, continuous_piBaseProj,
     piBaseProj_surjective, fun _ _ => piBaseProj_eq_iff, fun b => ?_, fun {_} => ?_⟩
   · obtain ⟨T, hb, hT⟩ := exists_trivialization_piBaseProj (n := n) (B := B) b
     refine ⟨T, hb, fun p hp t => ?_⟩
@@ -1485,6 +1586,63 @@ theorem paracompactSpace_of_sigmaCompact {k : ℕ} (M : Type*) [TopologicalSpace
     [ChartedSpace (S k) M] [T2Space M] [SigmaCompactSpace M] : ParacompactSpace M := by
   haveI := ChartedSpace.locallyCompactSpace (S k) M
   infer_instance
+
+/-- **A locally compact space with a properly discontinuous, cocompact group action is
+paracompact** (no Hausdorffness needed). Take a compact `K` meeting every orbit
+(`exists_isCompact_forall_exists_smul_mem`) and a compact `C` with `K ⊆ U := interior C`; the
+translates `g • U` cover and are locally finite (a compact neighbourhood meets `g • C` for finitely
+many `g`, proper discontinuity); given an open cover `(s a)`, each `g • C` is covered by finitely
+many `s a` (`a ∈ F g`), and `t a := ⋃_{a ∈ F g} (g • U ∩ s a)` is a locally finite open refinement
+indexed by the cover's own index type. -/
+theorem paracompactSpace_of_properlyDiscontinuousSMul {Γ : Type*} [Group Γ] {M : Type*}
+    [TopologicalSpace M] [LocallyCompactSpace M] [MulAction Γ M] [ContinuousConstSMul Γ M]
+    [ProperlyDiscontinuousSMul Γ M] (hQ : CompactSpace (MulAction.orbitRel.Quotient Γ M)) :
+    ParacompactSpace M := by
+  classical
+  obtain ⟨K, hK, hKm⟩ := exists_isCompact_forall_exists_smul_mem (Γ := Γ) (M := M) hQ
+  obtain ⟨C, hC, hKC⟩ := exists_compact_superset hK
+  set U := interior C
+  have hgC : ∀ g : Γ, IsCompact (g • C) := fun g => by
+    rw [← Set.image_smul]; exact hC.image (continuous_const_smul g)
+  have hcov : ∀ x : M, ∃ g : Γ, x ∈ g • U := fun x => by
+    obtain ⟨γ, hγ⟩ := hKm x
+    exact ⟨γ⁻¹, Set.mem_smul_set.2 ⟨γ • x, hKC hγ, inv_smul_smul γ x⟩⟩
+  have hlf : ∀ x : M, ∃ N ∈ 𝓝 x, {g : Γ | (g • U ∩ N).Nonempty}.Finite := fun x => by
+    obtain ⟨N, hNc, hN⟩ := exists_compact_mem_nhds x
+    refine ⟨N, hN, (ProperlyDiscontinuousSMul.finite_disjoint_inter_image hC hNc).subset
+      fun g hg => ?_⟩
+    obtain ⟨y, hyU, hyN⟩ := hg
+    obtain ⟨z, hz, rfl⟩ := Set.mem_smul_set.1 hyU
+    exact ⟨g • z, ⟨z, interior_subset hz, rfl⟩, hyN⟩
+  refine ⟨fun α s hso hsU => ?_⟩
+  have hfin : ∀ g : Γ, ∃ F : Finset α, g • C ⊆ ⋃ a ∈ F, s a := fun g =>
+    (hgC g).elim_finite_subcover s hso (hsU ▸ subset_univ _)
+  choose F hF using hfin
+  refine ⟨α, fun a => ⋃ (g : Γ) (_ : a ∈ F g), g • U ∩ s a, fun a => ?_, ?_, ?_, fun a =>
+    ⟨a, iUnion₂_subset fun _ _ => inter_subset_right⟩⟩
+  · exact isOpen_iUnion fun g => isOpen_iUnion fun _ => (isOpen_interior.smul g).inter (hso a)
+  · refine eq_univ_of_forall fun x => ?_
+    obtain ⟨g, hg⟩ := hcov x
+    have hxC : x ∈ g • C := Set.smul_set_mono interior_subset hg
+    obtain ⟨a, ha, hxa⟩ := mem_iUnion₂.1 (hF g hxC)
+    exact mem_iUnion.2 ⟨a, mem_iUnion₂.2 ⟨g, ha, hg, hxa⟩⟩
+  · intro x
+    obtain ⟨N, hN, hNf⟩ := hlf x
+    refine ⟨N, hN, (hNf.biUnion fun g _ => (F g).finite_toSet).subset fun a ha => ?_⟩
+    obtain ⟨y, hy, hyN⟩ := ha
+    obtain ⟨g, ha, hyU, -⟩ := by simpa only [mem_iUnion, exists_prop] using hy
+    exact mem_iUnion₂.2 ⟨g, ⟨y, hyU, hyN⟩, ha⟩
+
+/-- **A divisible locally projective manifold is paracompact** (Déf. 15): its dividing group acts
+properly discontinuously with compact quotient, and a manifold is locally compact. So Prop. 3's
+divisible case needs no paracompactness hypothesis (`prop3_produit_homogene_pi`). -/
+theorem paracompactSpace_of_isDivisible {k : ℕ} (M : Type*) [TopologicalSpace M]
+    [ChartedSpace (S k) M] (h : IsDivisible (GSR k) (S k) M) : ParacompactSpace M := by
+  obtain ⟨G, hG, -, hQ⟩ := h
+  haveI := ChartedSpace.locallyCompactSpace (S k) M
+  haveI : ContinuousConstSMul G M :=
+    ⟨fun g => continuous_const_smul (g : GXAut (GSR k) (S k) M)⟩
+  exact paracompactSpace_of_properlyDiscontinuousSMul hQ
 
 section Def1Pi
 
@@ -1748,9 +1906,12 @@ theorem finite_setOf_lattice_inter_nonempty {lam : RPos} (hlam : lam ≠ 1)
     exact_mod_cast this
   exact abs_le.1 hk''
 
+omit [∀ i, ParacompactSpace (B i)] in
 /-- **Prop. 3, divisible**, for every `p` (the proof printed): the group
 `F⁻¹(F₀(G₀) × … × F_q(G_q)) × λ^{ℤ^{p−1}}` is properly discontinuous, free, and has compact
-quotient (« Le quotient … est une variété localement projective compacte »). -/
+quotient (« Le quotient … est une variété localement projective compacte »). No paracompactness
+is assumed: each `Bᵢ` is paracompact because `Gᵢ` divides it
+(`paracompactSpace_of_isDivisible`), which is what the global radial coordinates use. -/
 theorem isDivisible_piDivHom (G : ∀ i, Subgroup (GXAut (GSR (n i)) (S (n i)) (B i)))
     (h₁ : ∀ i, ProperlyDiscontinuousSMul (G i) (B i)) (h₂ : ∀ i, IsCancelSMul (G i) (B i))
     (h₃ : ∀ i, CompactSpace (MulAction.orbitRel.Quotient (G i) (B i))) {lam : RPos}
@@ -1758,6 +1919,8 @@ theorem isDivisible_piDivHom (G : ∀ i, Subgroup (GXAut (GSR (n i)) (S (n i)) (
     ProperlyDiscontinuousSMul (piDivHom G lam).range (PiBase n B) ∧
       IsCancelSMul (piDivHom G lam).range (PiBase n B) ∧
       CompactSpace (MulAction.orbitRel.Quotient (piDivHom G lam).range (PiBase n B)) := by
+  haveI : ∀ i, ParacompactSpace (B i) := fun i =>
+    paracompactSpace_of_isDivisible (B i) ⟨G i, h₁ i, h₂ i, h₃ i⟩
   refine ⟨⟨fun {K L} hK hL => ?_⟩, ?_, ?_⟩
   · -- proper discontinuity
     set A : ∀ i, Set (G i) := fun i => {φ : G i | ((φ • ·) '' ((fun p => piBaseProj n B p i) '' K) ∩
@@ -1876,17 +2039,18 @@ variable {q : ℕ} {n : Fin (q + 1) → ℕ} {B : Fin (q + 1) → Type u} [∀ i
 /-- **§ 3 Prop. 3 for general `p`** (`bzprop:c1s3p3_produit_homogene`): « Soient $B_1, \ldots,
 B_p$ des variétés localement projectives homogènes (resp. balayables, resp. divisibles); la variété
 localement projective $F^{-1}(F(B_1)\times\ldots\times F(B_p))$ est homogène (resp. balayable,
-resp. divisible) », the « variété » factors Hausdorff, and paracompact (implied by second
-countability) in the divisible case, where the group is the printed
-`F⁻¹(F₁(G₁) × … × F_p(G_p)) × H`, `H = λ^{ℤ^{p−1}}` (`piDivHom`, any `λ ≠ 1`). -/
+resp. divisible) », the « variété » factors Hausdorff and nothing more: in the divisible case
+each factor is paracompact because it is divisible (`paracompactSpace_of_isDivisible`), so no
+reading of « variété » is used; the group is the printed `F⁻¹(F₁(G₁) × … × F_p(G_p)) × H`,
+`H = λ^{ℤ^{p−1}}` (`piDivHom`, any `λ ≠ 1`). -/
 theorem prop3_produit_homogene_pi :
     ((∀ i, IsHomogeneous (GSR (n i)) (S (n i)) (B i)) →
       IsHomogeneous (GSR (pdim n)) (S (pdim n)) (PiBase n B)) ∧
     ((∀ i, IsBalayable (GSR (n i)) (S (n i)) (B i)) →
       IsBalayable (GSR (pdim n)) (S (pdim n)) (PiBase n B)) ∧
-    (∀ [∀ i, ParacompactSpace (B i)], (∀ i, IsDivisible (GSR (n i)) (S (n i)) (B i)) →
+    ((∀ i, IsDivisible (GSR (n i)) (S (n i)) (B i)) →
       IsDivisible (GSR (pdim n)) (S (pdim n)) (PiBase n B)) := by
-  refine ⟨isHomogeneous_piBase, isBalayable_piBase, fun {_} h => ?_⟩
+  refine ⟨isHomogeneous_piBase, isBalayable_piBase, fun h => ?_⟩
   choose G hG₁ hG₂ hG₃ using h
   exact ⟨_, isDivisible_piDivHom G hG₁ hG₂ hG₃ rposExp_one_ne_one⟩
 

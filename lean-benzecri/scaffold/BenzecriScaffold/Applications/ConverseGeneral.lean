@@ -16,9 +16,14 @@ Package WP-45y (wave 5b, DEC-128: general `p`, unequal dimensions), over the fla
   `dim B_{σ(i)} = dim Bᵢ`) and `t ∈ ℝ^{+p}/ℝ^+`. The compatible automorphisms form a GROUP
   (`compatibleSubgroup`; `isCompatibleAssocPi_one`, `IsCompatibleAssocPi.mul` — associated with
   `τ * σ` —, `.inv` — with `σ⁻¹`), `G_I` (`compatibleIdSubgroup`) is a subgroup of index `≤ p!`
-  (`relIndex_compatibleIdSubgroup_le`: finite and `≤ (q+1)!`), and for factors with two points the
-  permutation is unique (`IsCompatibleAssocPi.perm_unique`), `f ↦ σ_f⁻¹` is a homomorphism
-  `compatiblePerm : G →* Perm (Fin p)` with kernel `G_I` (`ker_compatiblePerm`).
+  (`relIndex_compatibleIdSubgroup_le`: finite and `≤ (q+1)!`). The clause « si l'on définit un
+  automorphisme φ de la structure conique affine du produit par la formule » is proved: the permuted
+  map `(mᵢ) ↦ (φᵢ m_{σ(i)})` is a conical automorphism of the product cone
+  (`isGXMorphism_piPermMap`: a block permutation of equal-size blocks after `diag(gᵢ)`, `|det| = 1`),
+  so every printed `(σ, φ, t)` gives a compatible automorphism (`exists_isCompatibleAssocPi`). For
+  nonempty factors the permutation is determined by `f` (`IsCompatibleAssocPi.perm_unique`, through the
+  free torus action), `f ↦ σ_f⁻¹` is a homomorphism `compatiblePerm : G →* Perm (Fin p)` with kernel
+  `G_I` (`ker_compatiblePerm`).
 * **`bzprop:c1s3p4_reciproque`** — `benzecri1960_ch1.tex:823` (l.823–868, pp. 245–246).
   **MARKED.** `Benzecri.prop4_reciproque_pi`: both assertions, the hypotheses stated for the group
   `G` with Déf. 15's predicates (`MulAction.IsPretransitive G _`, `IsBalayableFor _ _ _ G`), for
@@ -48,7 +53,8 @@ Package WP-45y (wave 5b, DEC-128: general `p`, unequal dimensions), over the fla
 |---|---|
 | `p` locally projective manifolds | ✓ `p = q + 1 ≥ 1`, dimensions `n i` arbitrary and unequal |
 | « variété »: Hausdorff | ✓ carried (`[∀ i, T2Space (B i)]`) |
-| « variété »: nonempty | reading (DEC-128, as DEC-114): `[∀ i, Nonempty (B i)]` for Prop. 4 only |
+| « variété »: nonempty | reading (DEC-128, as DEC-114): `[∀ i, Nonempty (B i)]` for Prop. 4 and for the extras `perm_unique` / `compatiblePerm` / `ker_compatiblePerm` only |
+| « si l'on définit un automorphisme φ … par la formule » | ✓ `isGXMorphism_piPermMap`, `exists_isCompatibleAssocPi` |
 | « isomorphismes coniques affins entre $F(B_{\sigma(i)})$ et $F(B_i)$ » | `IsConeIso`: homeomorphisms with `dim` equality and the conical-morphism property (inverse conical too) |
 | « le groupe des automorphismes compatibles » | ✓ `compatibleSubgroup`, proved closed under `*`, `⁻¹` |
 | « $G_I$ … d'indice fini au plus égal à $p\,!$ » | ✓ `relIndex ≠ 0 ∧ relIndex ≤ (q+1)!` |
@@ -58,14 +64,17 @@ Package WP-45y (wave 5b, DEC-128: general `p`, unequal dimensions), over the fla
 * **Dimensions.** A conical (resp. projective) isomorphism between structures of different
   dimensions does not exist; `IsConeIso k k' φ` / `IsProjIso k k' θ` carry `k = k'` and the morphism
   property after identification. So `σ` permutes only factors of equal dimension, by construction.
-* **The permutation of `f`** is not determined by `f` when equal-dimensional factors are single points
-  (then every such permutation represents the same automorphisms); the index bound is proved without
-  it (cosets of `G_I` inject into `Perm (Fin p)`), the homomorphism to `Perm` and its kernel under
-  `[∀ i, Nontrivial (B i)]`.
+* **The permutation of `f`** is determined by `f` for nonempty factors (`perm_unique`): `f` conjugates
+  the torus element `[c]` to `[c ∘ σ]` (`smul_torus`) and the torus acts freely. The index bound is
+  proved without it (cosets of `G_I` inject into `Perm (Fin p)`); the homomorphism to `Perm` and its
+  kernel are stated for nonempty factors (DEC-128's reading of « variété »).
 * **The second assertion** is proved directly with finitely many fixed isomorphisms `B_j ≅ B_{i₀}`
   (one per index class), which is the content of « balayable par $G$ entraîne balayable par $G_I$ »;
   the index bound is proved separately as Déf. 2/Prop. 4's printed device.
-* `piFConeCast`: `F(B_j) ≃ₜ F(B_i)` along `j = i` (dependent-type bookkeeping for `σ⁻¹`).
+* `piFConeCast`: `F(B_j) ≃ₜ F(B_i)` along `j = i` (dependent-type bookkeeping for `σ⁻¹`); `castRnO`:
+  `ℝ^{k+1} − {O} → ℝ^{k'+1} − {O}` along `k = k'` (the same for the charts of `IsConeIso`).
+* Generic lemma (upstream candidate): `abs_det_funCongrLeft`, a permutation of coordinates has
+  `|det| = 1`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -165,7 +174,138 @@ theorem IsConeIso.exists_base {k k' : ℕ} {X Y : Type u} [TopologicalSpace X]
   exact ⟨coneBaseHomeomorph φ h, ⟨rfl, isGXMorphism_coneBaseMap h⟩, fun x =>
     coneBaseMap_proj h x⟩
 
+/-- `ℝ^{k+1} − {O} → ℝ^{k'+1} − {O}` along `k = k'` (dependent-type bookkeeping). -/
+def castRnO {k k' : ℕ} (h : k = k') (v : RnO (k + 1)) : RnO (k' + 1) := h ▸ v
+
+@[simp] theorem castRnO_rfl {k : ℕ} (v : RnO (k + 1)) : castRnO rfl v = v := rfl
+
+theorem val_castRnO {k k' : ℕ} (h : k = k') (v : RnO (k + 1)) (a : Fin (k' + 1)) :
+    (castRnO h v).val a = v.val (Fin.cast (congrArg (· + 1) h).symm a) := by
+  subst h
+  rfl
+
+/-- **A conical isomorphism read in charts**, the dimensions identified: near every point it is an
+element of `GU` after `castRnO`. -/
+theorem IsConeIso.exists_smul_eq {k k' : ℕ} {V W : Type*} [TopologicalSpace V]
+    [ChartedSpace (RnO (k + 1)) V] [TopologicalSpace W] [ChartedSpace (RnO (k' + 1)) W]
+    {φ : V ≃ₜ W} (h : IsConeIso k k' φ) (x : V) :
+    ∃ hk : k = k', ∃ g : GUR (k' + 1), ∀ᶠ y in 𝓝 x,
+      chartAt (RnO (k' + 1)) (φ x) (φ y) = g • castRnO hk (chartAt (RnO (k + 1)) x y) := by
+  obtain ⟨rfl, h⟩ := h
+  obtain ⟨g, hg⟩ := h.exists_smul_eq x
+  exact ⟨rfl, g, hg⟩
+
 end Cast
+
+/-! ### Block permutations of equal-size blocks (Déf. 2's « automorphisme φ ») -/
+
+section PermBlock
+
+/-- **A permutation of coordinates has `|det| = 1`** (`det^m = 1` for `m` the order of the
+permutation). -/
+theorem abs_det_funCongrLeft {ι : Type*} [Fintype ι] [DecidableEq ι] (e : Equiv.Perm ι) :
+    |((LinearEquiv.det (LinearEquiv.funCongrLeft ℝ ℝ e) : ℝˣ) : ℝ)| = 1 := by
+  have hpow : ∀ k : ℕ, LinearEquiv.funCongrLeft ℝ ℝ e ^ k =
+      LinearEquiv.funCongrLeft ℝ ℝ (e ^ k) := by
+    intro k
+    induction k with
+    | zero => exact LinearEquiv.ext fun v => rfl
+    | succ k ih =>
+      rw [pow_succ', ih, pow_succ]
+      exact LinearEquiv.ext fun v => rfl
+  have h1 : ((LinearEquiv.det (LinearEquiv.funCongrLeft ℝ ℝ e) : ℝˣ) : ℝ) ^ orderOf e = 1 := by
+    rw [← Units.val_pow_eq_pow_val, ← map_pow, hpow, pow_orderOf_eq_one]
+    have : LinearEquiv.funCongrLeft ℝ ℝ (1 : Equiv.Perm ι) = 1 := LinearEquiv.ext fun v => rfl
+    rw [this, map_one, Units.val_one]
+  have h2 : |((LinearEquiv.det (LinearEquiv.funCongrLeft ℝ ℝ e) : ℝˣ) : ℝ)| ^ orderOf e = 1 := by
+    rw [← abs_pow, h1, abs_one]
+  exact (pow_eq_one_iff_of_nonneg (abs_nonneg _) (orderOf_pos e).ne').1 h2
+
+variable {q : ℕ} {n : Fin (q + 1) → ℕ}
+
+theorem piBlockEquiv_apply (v : ∀ i, Fin (n i + 1) → ℝ) (k : Fin (pdim n + 1)) :
+    piBlockEquiv n v k = v (piBlockIdx n k).1 (piBlockIdx n k).2 := rfl
+
+/-- **The block permutation of coordinates** `⟨i, a⟩ ↦ ⟨σ i, a⟩` of `ℝ^{Σ(nᵢ+1)}`, for a
+permutation `σ` of factors of equal dimensions (`n (σ i) = n i`). -/
+def piBlockPerm (σ : Equiv.Perm (Fin (q + 1))) (hn : ∀ i, n (σ i) = n i) :
+    Equiv.Perm (Fin (pdim n + 1)) :=
+  (piBlockIdx n).trans (((Equiv.sigmaCongrRight fun i =>
+      finCongr (congrArg (· + 1) (hn i)).symm).trans
+    (Equiv.sigmaCongrLeft (β := fun j => Fin (n j + 1)) σ)).trans (piBlockIdx n).symm)
+
+/-- **The block permutation matrix** `(vᵢ) ↦ (v_{σ(i)})`, an element of `GU(Σ(nᵢ+1))`
+(`|det| = 1`, `abs_det_funCongrLeft`). -/
+def piPermGU (σ : Equiv.Perm (Fin (q + 1))) (hn : ∀ i, n (σ i) = n i) : GUR (pdim n + 1) :=
+  ⟨LinearEquiv.funCongrLeft ℝ ℝ (piBlockPerm σ hn), by
+    rw [mem_GU]; exact abs_det_funCongrLeft _⟩
+
+theorem piPermGU_apply (σ : Equiv.Perm (Fin (q + 1))) (hn : ∀ i, n (σ i) = n i)
+    (v : ∀ i, Fin (n i + 1) → ℝ) :
+    (piPermGU σ hn : GLR (pdim n + 1)) (piBlockEquiv n v) =
+      piBlockEquiv n fun i a => v (σ i) (Fin.cast (congrArg (· + 1) (hn i)).symm a) := by
+  funext k
+  show piBlockEquiv n v (piBlockPerm σ hn k) = _
+  rw [piBlockEquiv_apply, piBlockEquiv_apply]
+  simp only [piBlockPerm, Equiv.trans_apply]
+  erw [Equiv.apply_symm_apply]
+  generalize piBlockIdx n k = s
+  obtain ⟨i, a⟩ := s
+  rfl
+
+/-- `piBlockPt` intertwines the block permutation: `P • (wᵢ) = (w_{σ(i)})`. -/
+theorem piBlockPt_perm (σ : Equiv.Perm (Fin (q + 1))) (hn : ∀ i, n (σ i) = n i)
+    (w : ∀ i, RnO (n i + 1)) :
+    piPermGU σ hn • piBlockPt w = piBlockPt fun i => castRnO (hn i) (w (σ i)) := by
+  refine Punctured.val_injective ?_
+  rw [Punctured.val_smul_sub, val_piBlockPt, val_piBlockPt, piPermGU_apply]
+  congr 1
+  funext i a
+  rw [val_castRnO]
+
+end PermBlock
+
+section PermMap
+
+open PiCone
+
+variable {q : ℕ} {n : Fin (q + 1) → ℕ} {V : Fin (q + 1) → Type u} [∀ i, TopologicalSpace (V i)]
+  [∀ i, ChartedSpace (RnO (n i + 1)) (V i)]
+
+/-- **Déf. 2, « si l'on définit un automorphisme φ de la structure conique affine du produit par
+la formule $m'_i=\varphi_i m_{\sigma(i)}$ »**: for conical isomorphisms `φᵢ : V_{σ(i)} ≅ Vᵢ` the
+permuted map `(mᵢ) ↦ (φᵢ m_{σ(i)})` is a conical morphism of the product cone. In product charts it
+is the block permutation `piPermGU σ` (equal-size blocks, `n (σ i) = n i`) followed by
+`diag(gᵢ)` (`piBlockGU`), of `|det| = 1`. -/
+theorem isGXMorphism_piPermMap {σ : Equiv.Perm (Fin (q + 1))} {φ : ∀ i, V (σ i) ≃ₜ V i}
+    (hφ : ∀ i, IsConeIso (n (σ i)) (n i) (φ i)) :
+    IsGXMorphism (GUR (pdim n + 1)) (RnO (pdim n + 1))
+      (fun x : ∀ i, V i => fun i => φ i (x (σ i))) := by
+  refine ⟨continuous_pi fun i => (φ i).continuous.comp (continuous_apply (σ i)), fun x => ?_⟩
+  have key := fun i => (hφ i).exists_smul_eq (x (σ i))
+  choose hn g hg using key
+  refine ⟨piBlockGU g * piPermGU σ hn, ?_⟩
+  filter_upwards [Filter.eventually_all.2 fun i =>
+    (continuous_apply (σ i)).continuousAt.eventually (hg i)] with y hy
+  rw [chartAt_eq, chartAt_eq, piChart_apply, piChart_apply, mul_smul, piBlockPt_perm,
+    ← piBlockPt_smul_GU]
+  exact congrArg piBlockPt (funext hy)
+
+/-- The permuted map `(mᵢ) ↦ (φᵢ m_{σ(i)})` is bijective. -/
+theorem bijective_piPermMap (σ : Equiv.Perm (Fin (q + 1))) (φ : ∀ i, V (σ i) ≃ₜ V i) :
+    Bijective (fun x : ∀ i, V i => fun i => φ i (x (σ i))) := by
+  refine ⟨fun x x' h => funext fun j => ?_, fun y => ?_⟩
+  · have h1 := (φ (σ.symm j)).injective (congrFun h (σ.symm j))
+    rwa [σ.apply_symm_apply] at h1
+  · have key : ∀ (i k : Fin (q + 1)) (hk : k = i) (h : σ k = σ i),
+        φ i (h ▸ (φ k).symm (y k)) = y i := by
+      intro i k hk h
+      subst hk
+      exact (φ k).apply_symm_apply (y k)
+    exact ⟨fun j => σ.apply_symm_apply j ▸ (φ (σ.symm j)).symm (y (σ.symm j)), funext fun i =>
+      key i (σ.symm (σ i)) (σ.symm_apply_apply i) (σ.apply_symm_apply (σ i))⟩
+
+end PermMap
 
 /-! ### Déf. 2 — compatible automorphisms, for general `p` and arbitrary dimensions -/
 
@@ -225,6 +365,41 @@ theorem isCompatibleAssocPi_one : IsCompatibleAssocPi (n := n) (B := B) 1 1 :=
   ⟨fun i => Homeomorph.refl _, fun _ => IsConeIso.refl, 1, fun x => by
     rw [map_one, one_smul, one_smul]
     rfl⟩
+
+/-- **Every printed `(σ, φ, t)` is a compatible automorphism** (Déf. 2's « si l'on définit un
+automorphisme φ … par la formule … on ait $f\in\{F^{-1}(\varphi)\}\times(\R^{+p}/\R^+)$ »): the
+permuted map is a conical automorphism of the product cone (`isGXMorphism_piPermMap`), its base
+`F⁻¹(φ)` a projective automorphism of `F⁻¹(∏ F(Bᵢ))`, and `t ∘ F⁻¹(φ)` is compatible, associated
+with `σ`. -/
+theorem exists_isCompatibleAssocPi (σ : Equiv.Perm (Fin (q + 1)))
+    {φ : ∀ i, FCone (n (σ i)) (B (σ i)) ≃ₜ FCone (n i) (B i)}
+    (hφ : ∀ i, IsConeIso (n (σ i)) (n i) (φ i)) (t : PiTorus q) :
+    ∃ f : GXAut (GSR (pdim n)) (S (pdim n)) (PiBase n B), IsCompatibleAssocPi σ f ∧
+      ∀ x : ∀ i, FCone (n i) (B i), f • (ConeBase.mk x : PiBase n B) =
+        piTorusAut n (fun i => FCone (n i) (B i)) t • ConeBase.mk fun i => φ i (x (σ i)) := by
+  have hΦ := isGXMorphism_piPermMap (V := fun i => FCone (n i) (B i)) hφ
+  let e : (∀ i, FCone (n i) (B i)) ≃ₜ ∀ i, FCone (n i) (B i) :=
+    (Equiv.ofBijective (fun x : ∀ i, FCone (n i) (B i) => fun i => φ i (x (σ i)))
+      (bijective_piPermMap (V := fun i => FCone (n i) (B i)) σ φ)).toHomeomorphOfContinuousOpen
+      hΦ.continuous hΦ.isLocalHomeomorph.isOpenMap
+  have he : IsGXMorphism (GUR (pdim n + 1)) (RnO (pdim n + 1)) e := hΦ
+  have he' := IsGXMorphism.homeomorph_symm (e := e) he
+  have hb : Bijective
+      (ConeBase.map (V := ∀ i, FCone (n i) (B i)) (W := ∀ i, FCone (n i) (B i)) hΦ) := by
+    refine bijective_iff_has_inverse.2 ⟨ConeBase.map he', fun p => ?_, fun p => ?_⟩
+    · obtain ⟨x, rfl⟩ := ConeBase.mk_surjective p
+      rw [ConeBase.map_mk, ConeBase.map_mk]
+      exact congrArg ConeBase.mk (e.symm_apply_apply x)
+    · obtain ⟨x, rfl⟩ := ConeBase.mk_surjective p
+      rw [ConeBase.map_mk, ConeBase.map_mk]
+      exact congrArg ConeBase.mk (e.apply_symm_apply x)
+  set F₀ : GXAut (GSR (pdim n)) (S (pdim n)) (PiBase n B) :=
+    GXAut.ofBijective (ConeBase.isGXMorphism_map hΦ) hb
+  have hF : ∀ x : ∀ i, FCone (n i) (B i), (piTorusAut n (fun i => FCone (n i) (B i)) t * F₀) •
+      (ConeBase.mk x : PiBase n B) = piTorusAut n (fun i => FCone (n i) (B i)) t •
+        ConeBase.mk fun i => φ i (x (σ i)) := fun x => by
+    rw [mul_smul]; rfl
+  exact ⟨_, ⟨φ, hφ, t, hF⟩, hF⟩
 
 /-- **Compatible automorphisms compose**: `f` (with `σ`) after `g` (with `τ`) is associated with
 `τ * σ` (`i ↦ τ (σ i)`). -/
@@ -340,31 +515,47 @@ theorem IsCompatibleAssocPi.exists_base {σ : Equiv.Perm (Fin (q + 1))}
   rw [h1, piBaseProj_mk, piBaseProj_mk]
   exact (hθp i (x (σ i))).symm
 
-/-- **The permutation of a compatible automorphism is unique when every factor has two points**
-(for one-point factors it is not: every permutation of equal-dimensional one-point factors
-represents the same automorphisms). -/
-theorem IsCompatibleAssocPi.perm_unique [∀ i, Nontrivial (B i)] {σ σ' : Equiv.Perm (Fin (q + 1))}
+/-- **The permutation of a compatible automorphism is determined by it**, for nonempty factors (no
+other hypothesis): `f` conjugates the torus element `[c]` to `[c ∘ σ]` and to `[c ∘ σ']`
+(`smul_torus`), the torus acts freely (`eq_one_of_piTorusAut_smul_eq`), so `(c ∘ σ')⁻¹ (c ∘ σ)` is
+diagonal for every `c`; with `c = 2` at `σ i` and `1` elsewhere, `σ i ≠ σ' i` makes it `2` at `i` and
+`1/2` at `σ'⁻¹(σ i) ≠ i`. -/
+theorem IsCompatibleAssocPi.perm_unique [∀ i, Nonempty (B i)] {σ σ' : Equiv.Perm (Fin (q + 1))}
     {f : GXAut (GSR (pdim n)) (S (pdim n)) (PiBase n B)} (hf : IsCompatibleAssocPi σ f)
     (hf' : IsCompatibleAssocPi σ' f) : σ = σ' := by
   classical
-  obtain ⟨θ, hθ, hθp⟩ := hf.exists_base
-  obtain ⟨θ', -, hθp'⟩ := hf'.exists_base
+  obtain ⟨p, -⟩ := piBaseProj_surjective (n := n) (B := B) (fun i => Classical.arbitrary _)
   refine Equiv.ext fun i => ?_
   by_contra hne
-  obtain ⟨y₁, y₂, hy⟩ := exists_pair_ne (B (σ i))
-  let c : ∀ j, B j := fun j => Classical.arbitrary (B j)
-  obtain ⟨p₁, hp₁⟩ := piBaseProj_surjective (n := n) (B := B) (Function.update c (σ i) y₁)
-  obtain ⟨p₂, hp₂⟩ := piBaseProj_surjective (n := n) (B := B) (Function.update c (σ i) y₂)
-  have h1 := (hθp p₁ i).symm.trans (hθp' p₁ i)
-  have h2 := (hθp p₂ i).symm.trans (hθp' p₂ i)
-  rw [hp₁, Function.update_self, Function.update_of_ne (Ne.symm hne)] at h1
-  rw [hp₂, Function.update_self, Function.update_of_ne (Ne.symm hne)] at h2
-  exact hy ((θ i).injective (h1.trans h2.symm))
+  set two : RPos := Punctured.posUnit 2 two_pos
+  set c : Fin (q + 1) → RPos := Pi.mulSingle (σ i) two
+  have h1 := hf.smul_torus c (f⁻¹ • p)
+  have h2 := hf'.smul_torus c (f⁻¹ • p)
+  rw [smul_inv_smul] at h1 h2
+  have h3 : piTorusAut n (fun i => FCone (n i) (B i))
+      (((c ∘ σ' : Fin (q + 1) → RPos) : PiTorus q)⁻¹ * ((c ∘ σ : Fin (q + 1) → RPos) : PiTorus q))
+      • p = p := by
+    rw [map_mul, mul_smul, ← h1, h2, ← mul_smul, ← map_mul, inv_mul_cancel, map_one, one_smul]
+  have h4 := eq_one_of_piTorusAut_smul_eq h3
+  rw [← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul, QuotientGroup.eq_one_iff] at h4
+  set j := σ'.symm (σ i)
+  have hji : j ≠ i := fun h => hne ((Equiv.symm_apply_eq σ').1 h)
+  have hi := h4 i
+  have hj := h4 j
+  have e1 : (((c ∘ σ')⁻¹ * (c ∘ σ)) i) = two := by
+    simp [c, Pi.mulSingle_eq_of_ne (Ne.symm hne)]
+  have e2 : (((c ∘ σ')⁻¹ * (c ∘ σ)) j) = two⁻¹ := by
+    have : σ j ≠ σ i := fun h => hji (σ.injective h)
+    simp [c, j, Pi.mulSingle_eq_of_ne this]
+  rw [e1, ← hj, e2] at hi
+  have := congrArg (fun x : RPos => ((x : ℝˣ) : ℝ)) hi
+  simp [two] at this
+  norm_num at this
 
 variable (n B) in
-/-- **The homomorphism `G → Perm(1, …, p)`**, `f ↦ σ_f⁻¹` (factors with two points, so that `σ_f`
-is defined; `σ_{f∘g} = σ_g σ_f`). -/
-def compatiblePerm [∀ i, Nontrivial (B i)] :
+/-- **The homomorphism `G → Perm(1, …, p)`**, `f ↦ σ_f⁻¹` (nonempty factors, so that `σ_f` is
+determined by `f`, `perm_unique`; `σ_{f∘g} = σ_g σ_f`). -/
+def compatiblePerm [∀ i, Nonempty (B i)] :
     compatibleSubgroup n B →* Equiv.Perm (Fin (q + 1)) where
   toFun f := (Classical.choose f.2)⁻¹
   map_one' := by
@@ -378,8 +569,8 @@ def compatiblePerm [∀ i, Nontrivial (B i)] :
     have hfg := Classical.choose_spec (f * g).2
     rw [IsCompatibleAssocPi.perm_unique hfg (hf.mul hg), mul_inv_rev]
 
-/-- **`G_I` is the kernel of `G → Perm(1, …, p)`** (factors with two points). -/
-theorem ker_compatiblePerm [∀ i, Nontrivial (B i)] :
+/-- **`G_I` is the kernel of `G → Perm(1, …, p)`** (nonempty factors). -/
+theorem ker_compatiblePerm [∀ i, Nonempty (B i)] :
     (compatiblePerm n B).ker = (compatibleIdSubgroup n B).subgroupOf (compatibleSubgroup n B) := by
   ext f
   rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]

@@ -32,7 +32,13 @@
     "Benzecri.IsCompatibleAssocPi.perm_unique",
     "Benzecri.compatiblePerm",
     "Benzecri.ker_compatiblePerm",
-    "Benzecri.IsCompatibleAssocPi.exists_base"
+    "Benzecri.IsCompatibleAssocPi.exists_base",
+    "Benzecri.exists_isCompatibleAssocPi",
+    "Benzecri.isGXMorphism_piPermMap",
+    "Benzecri.bijective_piPermMap",
+    "Benzecri.piPermGU",
+    "Benzecri.piBlockPerm",
+    "Benzecri.piBlockPt_perm"
    ],
    "hypotheses": [
     {
@@ -49,12 +55,21 @@
      "paper": "« f ∈ {F⁻¹(φ)} × (R^{+p}/R^+) »",
      "here": "carried",
      "note": "f • [m] = t • [(φᵢ m_{σ(i)})ᵢ], t ∈ PiTorus q"
+    },
+    {
+     "paper": "« si l'on définit un automorphisme φ de la structure conique affine du produit par la formule (m) ↦ (m'), m'ᵢ = φᵢ m_{σ(i)} »",
+     "here": "carried",
+     "note": "proved: isGXMorphism_piPermMap (the permuted map is conical: in product charts the block permutation piPermGU σ of equal-size blocks, |det| = 1, then diag(gᵢ) = piBlockGU g), bijective_piPermMap, and exists_isCompatibleAssocPi σ φ hφ t: every printed (σ, φ, t) gives a compatible automorphism t ∘ F⁻¹(φ), so G contains all the printed elements"
+    },
+    {
+     "paper": "« variété »: nonempty",
+     "here": "reading",
+     "note": "[∀ i, Nonempty (B i)] (DEC-128) ONLY for the extras IsCompatibleAssocPi.perm_unique, compatiblePerm, ker_compatiblePerm; the definition, the group and the index bound need none"
     }
    ],
    "sorries": [],
    "findings": [],
    "questions": [
-    "The permutation of a compatible f is unique when every factor has two points (perm_unique); with one-point factors of equal dimension it is not (any such permutation represents the same automorphisms). So the homomorphism G → Perm(Fin p) (f ↦ σ_f⁻¹, compatiblePerm) with kernel G_I is stated under [∀ i, Nontrivial (B i)]; the printed index bound [G : G_I] ≤ p! is proved unconditionally (cosets of G_I inject into Perm). Reading, not finding: nothing printed depends on uniqueness.",
     "σ_{f∘g} = σ_g σ_f with the printed convention m'ᵢ = φᵢ m_{σ(i)} (IsCompatibleAssocPi.mul: f with σ after g with τ is associated with τ * σ), hence f ↦ σ_f⁻¹ is the homomorphism."
    ]
   },
@@ -112,13 +127,36 @@
   "Benzecri.IsConeIso.map_posSMul",
   "Benzecri.IsConeIso.exists_base",
   "Benzecri.piFConeCast",
-  "Benzecri.isConeIso_piFConeCast"
+  "Benzecri.isConeIso_piFConeCast",
+  "Benzecri.castRnO",
+  "Benzecri.castRnO_rfl",
+  "Benzecri.val_castRnO",
+  "Benzecri.IsConeIso.exists_smul_eq",
+  "Benzecri.abs_det_funCongrLeft",
+  "Benzecri.piBlockEquiv_apply",
+  "Benzecri.piPermGU_apply"
  ],
  "upstream_moves": [
-  "Benzecri.IsConeIso / IsProjIso (isomorphisms between structures indexed by possibly different dimensions) → Benzecri/Structure/Classes.lean"
+  "Benzecri.IsConeIso / IsProjIso (isomorphisms between structures indexed by possibly different dimensions) → Benzecri/Structure/Classes.lean",
+  "Benzecri.abs_det_funCongrLeft (|det| of a permutation of coordinates is 1) → generic (Mathlib has Matrix.det_permutation for permMatrix, nothing for LinearEquiv.funCongrLeft)"
  ],
  "kb_proposals": [
   "To state an isomorphism between (G_k, X_k)- and (G_k', X_k')-structures, carry the index equality inside the notion (IsProjIso k k' θ := ∃ h : k = k', IsGXMorphism … (h ▸ cX) cY θ) and make k k' EXPLICIT arguments: instance resolution cannot infer them (`ChartedSpace (S ?k) X` is stuck)."
  ],
- "notes": "Wave 5b (DEC-128), general p and unequal dimensions, over ProductsGeneral's flat cone. 0 sorry; axioms of all 32 module constants ⊆ {propext, Classical.choice, Quot.sound}; no instance declared. kb/0002: IsConeIso/IsProjIso name both charted spaces explicitly (h ▸ cV, cW); no uniqueness statement over a class-typed binder. Converse (p = 2) unchanged in code; its rows stay partial there and point here."
+ "notes": "Wave 5b (DEC-128), general p and unequal dimensions, over ProductsGeneral's flat cone. 0 sorry; axioms of all 46 module constants ⊆ {propext, Classical.choice, Quot.sound}; no instance declared. kb/0002: IsConeIso/IsProjIso name both charted spaces explicitly (h ▸ cV, cW); no uniqueness statement over a class-typed binder. Converse (p = 2) unchanged in code; its rows stay partial there and point here.",
+ "fix_round": {
+  "round": 1,
+  "audit": "campaign/WP-45y/AUDIT-1.json",
+  "ruling": "DEC-128",
+  "fixes": [
+   {
+    "issue": "MAJOR (a false claim of the formalizer, recorded in SCOPE, two docstrings and REPORT question 1)",
+    "fix": "The claim « σ is not determined by f when equal-dimensional factors are single points » was FALSE: f conjugates [c] to [c∘σ] (smul_torus) and the torus acts freely (eq_one_of_piTorusAut_smul_eq), so σ is unique for any nonempty factors. It was the formalizer's error, caught by the audit and corrected; it is NOT a paper finding (nothing printed is affected). IsCompatibleAssocPi.perm_unique is now the auditor's perm_unique_of_nonempty (/tmp/bzaud45xy/perm.lean) under [∀ i, Nonempty (B i)]; compatiblePerm and ker_compatiblePerm are restated under [∀ i, Nonempty (B i)] instead of [∀ i, Nontrivial (B i)] (they now cover connected 0-dimensional factors); the false sentences are deleted from SCOPE, the module docstring and both docstrings; REPORT question 1 is WITHDRAWN"
+   },
+   {
+    "issue": "minor (Déf. 2's « si l'on définit un automorphisme φ … par la formule » neither proved nor disclosed)",
+    "fix": "Proved: castRnO / IsConeIso.exists_smul_eq (a conical iso read in charts after identifying the dimensions), piBlockPerm / piPermGU (the block permutation ⟨i, a⟩ ↦ ⟨σ i, a⟩ of ℝ^{Σ(nᵢ+1)}, in GU by abs_det_funCongrLeft), piBlockPt_perm, isGXMorphism_piPermMap (the permuted map (mᵢ) ↦ (φᵢ m_{σ(i)}) is a conical morphism of the product cone: piBlockGU g * piPermGU σ in product charts), bijective_piPermMap, and the existence lemma exists_isCompatibleAssocPi. Déf. 2's mark is kept and now earned in full"
+   }
+  ]
+ }
 }

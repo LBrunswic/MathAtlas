@@ -95,7 +95,9 @@ Package WP-45u (wave 5).
   `ProductsGeneral` writes `nᵢ = dim Bᵢ` and the exponent `nᵢ + 1`.
 * **Prop. 3, divisible.** The group is `F⁻¹(F(G₁) × F(G₂)) × H`, `H = λ^ℤ` (`divProdHom`), as
   printed; proper discontinuity uses the radial coordinate of `exists_prodBase_homeomorph`, hence
-  paracompact factors. The printed proof announces the sweepable case and argues the divisible one
+  paracompact factors, assumed HERE. The general-`p` row of record
+  (`ProductsGeneral.prop3_produit_homogene_pi`, every `p`, hence `p = 2`) assumes none: a divisible
+  factor is paracompact (`ProductsGeneral.paracompactSpace_of_isDivisible`). The printed proof announces the sweepable case and argues the divisible one
   (flagged in the transcription); both are proved, with the homogeneous case.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
