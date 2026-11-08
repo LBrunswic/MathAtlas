@@ -13,7 +13,7 @@ Package WP-45r (wave 4). Indexing: the base `B` has dimension `n` (model `S n = 
 `GUR (n + 1)`), i.e. Benzécri's `n − 1` and `n`.
 
 * `bzthm:c1s2_isomorphisme_fonctoriel` — `benzecri1960_ch1.tex:554` (Énoncé, l.554–558, p. 241;
-  proof l.560–649, pp. 241–242). Not marked here: the label is MARKED in `Cone/Functor`, in its
+  proof l.560–650, pp. 241–242). Not marked here: the label is MARKED in `Cone/Functor`, in its
   corrected form (DEC-127), where the equivalence, its status and its finding are; this file is the
   construction of the proof (the functor `F` on objects and on morphisms). What this file proves,
   sentence by sentence of the proof:
@@ -46,7 +46,7 @@ Package WP-45r (wave 4). Indexing: the base `B` has dimension `n` (model `S n = 
     when `B` is (`FCone.secondCountableTopology`); its base injects into `B`
     (`baseProj`, `baseProj_injective`, `baseProj_surjective`).
   - « Soient $(j_1, m)$ dans $FJ(B_1)$ … on peut trouver un jet et un seul $j_2$ de $J(B_2)$ tel que
-    $\varphi\circ j_2=j_1$. Nous poserons $\varphi'(j_1, m)=(j_2, m)$ » (l.639–643; the printed
+    $\varphi\circ j_2=j_1$. Nous poserons $\varphi'(j_1, m)=(j_2, m)$ » (l.639–644; the printed
     « $\varphi\circ j_2=j_1$ » is a misprint for `j₂ ∘ φ = j₁`, flagged `[sic]`, DEC-127): composition
     of jets `JetCompEq` (`j₂ ∘ φ = j₁`, independent of representatives, `JetCompEq.jet_comp`), « un
     jet et un seul » `existsUnique_pushJet` (the `j₂` is `pushJet`, characterised by `pushJet_eq`;

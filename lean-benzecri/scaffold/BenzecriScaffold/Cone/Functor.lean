@@ -12,7 +12,7 @@ Package WP-45r (wave 4). Indexing: cones of dimension `n + 1` (`ConeCat (n + 1)`
 dimension `n` (`ProjCat n`), i.e. Benzécri's `n` and `n − 1`.
 
 * **`bzthm:c1s2_isomorphisme_fonctoriel`** — `benzecri1960_ch1.tex:554` (Énoncé, l.554–558, p. 241;
-  proof l.560–649, pp. 241–242; « Dans ce qui suit, nous noterons $F^{-1}$ … » l.651–652).
+  proof l.560–650, pp. 241–242; « Dans ce qui suit, nous noterons $F^{-1}$ … » l.652–653).
   **MARKED in its corrected form (DEC-127; the correction is DEC-122's, the objects DEC-124's), the
   finding recorded.** Proved in full, with no `sorry`, under the reading DEC-113 rules (plan F5: an
   equivalence of categories, not an isomorphism). The corrected form is the formalization of
@@ -93,8 +93,9 @@ Also: a bijective morphism of `(G,X)`-manifolds is an isomorphism (`GXCat.isoOfB
   the printed Énoncé over that larger category in which `F` is the inverse and the projective side
   is made of « variétés » (Hausdorff, plan F6). It is § 2 Prop. 2's finding carried over (DEC-127):
   the base functor does not land in Hausdorff manifolds (`Cone/Base`, `Cone/Counterexample`), while
-  `F` itself is an inverse up to isomorphism over ANY base, Hausdorff or not
-  (`ConeCex.isoFConeBase`).
+  every Hausdorff cone is `F` of its own base, Hausdorff or not (`unitMap_bijective`,
+  `isGXMorphism_unitMap`; `ConeCex.isoFConeBase`); the counit half and `F(B)` Hausdorff need
+  `[T2Space B]`.
 * `t2Space_RnO` is a local instance; `gsOf`, `isoGUR_gsOf`, `toSphere_smul_GU`,
   `baseChart_eventually_eq` are small `ConeBase` helpers (REPORT `upstream_moves`).
 
