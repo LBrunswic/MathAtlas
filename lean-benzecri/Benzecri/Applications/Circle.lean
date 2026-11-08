@@ -4,7 +4,7 @@ import Mathlib.Analysis.SpecialFunctions.Complex.Circle
 import Mathlib.GroupTheory.NoncommCoprod
 
 /-!
-# `BenzecriScaffold.Applications.Circle` — § 3 Prop. 1 and its corollary: `F(B)` and `B × S¹`
+# `Benzecri.Applications.Circle` — § 3 Prop. 1 and its corollary: `F(B)` and `B × S¹`
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 3, journal pp. 242–243; transcription

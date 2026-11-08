@@ -1,7 +1,7 @@
-import BenzecriScaffold.Applications.Products
+import Benzecri.Applications.Products
 
 /-!
-# `BenzecriScaffold.Applications.ProductsGeneral` — § 3 Déf. 1, Props. 2–3 for general `p`
+# `Benzecri.Applications.ProductsGeneral` — § 3 Déf. 1, Props. 2–3 for general `p`
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 3, journal pp. 243–245; transcription

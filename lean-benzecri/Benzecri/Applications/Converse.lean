@@ -1,7 +1,7 @@
-import BenzecriScaffold.Applications.Products
+import Benzecri.Applications.Products
 
 /-!
-# `BenzecriScaffold.Applications.Converse` — § 3 Déf. 2 and Prop. 4: the partial converse
+# `Benzecri.Applications.Converse` — § 3 Déf. 2 and Prop. 4: the partial converse
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 3, journal pp. 245–246; transcription

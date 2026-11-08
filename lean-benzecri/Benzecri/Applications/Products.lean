@@ -1,7 +1,7 @@
-import BenzecriScaffold.Applications.Circle
+import Benzecri.Applications.Circle
 
 /-!
-# `BenzecriScaffold.Applications.Products` — § 3 Déf. 1, Props. 2–3 and the corollary: products
+# `Benzecri.Applications.Products` — § 3 Déf. 1, Props. 2–3 and the corollary: products
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 3, journal pp. 243–245; transcription

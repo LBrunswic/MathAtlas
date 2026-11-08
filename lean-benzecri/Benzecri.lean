@@ -18,3 +18,9 @@ import Benzecri.Cone.Counterexample
 import Benzecri.Cone.LowDim
 import Benzecri.Cone.Lift
 import Benzecri.Cone.Functor
+import Benzecri.Applications.Circle
+import Benzecri.Applications.Products
+import Benzecri.Applications.ProductsGeneral
+import Benzecri.Applications.Converse
+import Benzecri.Applications.ConverseGeneral
+import Benzecri.Applications.TheoremA

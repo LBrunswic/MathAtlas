@@ -1,7 +1,7 @@
-import BenzecriScaffold.Applications.Products
+import Benzecri.Applications.Products
 
 /-!
-# `BenzecriScaffold.Applications.TheoremA` — the introduction's result A
+# `Benzecri.Applications.TheoremA` — the introduction's result A
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Introduction, § 1 « Les résultats », journal p. 230; transcription
