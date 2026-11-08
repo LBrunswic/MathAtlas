@@ -1,0 +1,26 @@
+{
+ "package": "WP-45u",
+ "round": 2,
+ "file": "scaffold/BenzecriScaffold/Applications/Products.lean",
+ "module": "BenzecriScaffold.Applications.Products",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-08, node1, read-only auditor; hub commit 213304a (git status clean under lean-benzecri; the only dirty paths are lean-gx's), mathlib fabf563a; scratch files /tmp/bzaud45xy/*.lean (scan.lean, clash.lean, names.lean, inst.lean, inst2.lean, perm.lean, t2.lean, PGBroken.lean); scan page /tmp/bzaud45tw/pg-018.png (journal p. 245); no `lake build`, no git write, no .lean or REPORT edited (round 2 for WP-45u)",
+ "summary": "Round 2. AUDIT-1's minor (Déf. 1's principal-bundle structure not formalized at p = 2) is answered both ways: the docstring and REPORT now say so explicitly (« blockHom is a bare map family here »), and ProductsGeneral proves the action laws, freeness, orbits = fibres, local and global triviality and « automorphisme affin » for every p, hence p = 2. The two nits are fixed: « ∏ λᵢ^{dim F(Bᵢ)} (dim F(Bᵢ) = dim Bᵢ + 1) » with the statement-true / proof-remark sentence (DEC-128) in docstring and REPORT, a Notation bullet for nᵢ, and local triviality marked « carried under [ParacompactSpace Bᵢ] » with a pointer to exists_trivialization_piBasePr. The three p = 2 rows (Déf. 1, Props 2–3) are correctly left PARTIAL and unmarked here, each pointing to its general-p row of record in ProductsGeneral; the corollary `produit_projectif` keeps its MARK (code unchanged). One nit. Ready to graduate.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Applications/{ProductsGeneral,ConverseGeneral,Circle,Products,Converse,TheoremA}.lean`: all six EXIT=0, no output (11 s / 2 s / 3 s / 7 s / 2 s / 1 s; every .olean is newer than its source). A /tmp copy of ProductsGeneral with `two⁻¹` replaced by `two` in not_isGXMorphism_piSMul_of_ne (PGBroken.lean) fails at l.894 with unsolved goals, so the runs are genuine elaborations",
+  "sorry_axioms": "`Lean.collectAxioms` over EVERY non-internal constant, by module index (scan.lean): ProductsGeneral 158, ConverseGeneral 32, Circle 72, Products 101 (100 the three, 1 [propext, Quot.sound]), Converse 20, TheoremA 3 — all ⊆ [propext, Classical.choice, Quot.sound], no sorryAx. No `sorry`, `axiom`, `native_decide` or `set_option` token in any of the six files (the one `admit` hit is the prose word « admitting », ConverseGeneral l.468). One constant outside `Benzecri`: `OpenPartialHomeomorph.pi.congr_simp`, an auto-generated (reserved-name) congruence lemma realised by a `simp` call in ProductsGeneral — not a declaration of the package",
+  "names": "every `Benzecri.*` string of the six REPORTs t–y (labels, extra_decls, upstream_moves, prose; 225 strings) was resolved jointly in one environment importing ConverseGeneral and TheoremA (names.lean): 223 resolve, all with axioms ⊆ the standard three; the 2 that do not, `Benzecri.PiCone` and `Benzecri.ProdCone`, are scoping namespaces named in kb_proposals, not claims",
+  "fixes": "Products.lean diff vs 8ae627b: docstring/SCOPE only (labels unmarked « HERE » with pointers, Notation bullet, local-triviality bullet, finding wording); no code change; marks: only bzcor:c1s3p3c_produit_projectif marked (char 431)"
+ },
+ "issues": [
+  {
+   "severity": "nit",
+   "where": "REPORT labels[2].hypotheses[1] (« variété »: second countable — `carried`)",
+   "problem": "Filed `carried` for [ParacompactSpace Bᵢ], while ProductsGeneral's REPORT files the same reading `weakened`; if WP-45x's minor 1 is taken (divisible ⇒ paracompact), the binary case could drop it too",
+   "fix": "Align the tag (`weakened` / reading); optionally reuse WP-45x's paracompactSpace_of_isDivisible here"
+  }
+ ],
+ "graduation": "ready — the nit is a REPORT tag"
+}

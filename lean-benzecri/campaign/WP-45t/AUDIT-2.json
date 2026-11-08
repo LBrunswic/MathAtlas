@@ -1,0 +1,26 @@
+{
+ "package": "WP-45t",
+ "round": 2,
+ "file": "scaffold/BenzecriScaffold/Applications/Circle.lean",
+ "module": "BenzecriScaffold.Applications.Circle",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-08, node1, read-only auditor; hub commit 213304a (git status clean under lean-benzecri; the only dirty paths are lean-gx's), mathlib fabf563a; scratch files /tmp/bzaud45xy/*.lean (scan.lean, clash.lean, names.lean, inst.lean, inst2.lean, perm.lean, t2.lean, PGBroken.lean); scan page /tmp/bzaud45tw/pg-018.png (journal p. 245); no `lake build`, no git write, no .lean or REPORT edited (round 2 for WP-45t)",
+ "summary": "Round 2. All four AUDIT-1 nits are fixed (git diff 8ae627b..213304a, docstrings/rename only): (1) the instChartedSpaceAff docstring and SCOPE give the real reason two charted spaces coexist (explicit, non-outParam model in Mathlib's ChartedSpace) and the « never generalise; use affineChartedSpace with letI » rule, the instance kept global per DEC-128; (2) « a covering » reworded to a surjective local homeomorphism, IsCoveringMap not claimed; (3) FCone.map_congr renamed FCone.map_congr_fun (both call sites updated; clash scan clean); (4) the duplicate baseProjHomeomorph dropped from extra_decls, and the non-paracompact case recorded as DEC-128's REMARK in SCOPE and REPORT (long-ray argument, Prüfer-type case open), with « variété » read paracompact citing DEC-128. Statements and marks unchanged; both MARKS still earned. One nit left in the REPORT. Ready to graduate.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Applications/{ProductsGeneral,ConverseGeneral,Circle,Products,Converse,TheoremA}.lean`: all six EXIT=0, no output (11 s / 2 s / 3 s / 7 s / 2 s / 1 s; every .olean is newer than its source). A /tmp copy of ProductsGeneral with `two⁻¹` replaced by `two` in not_isGXMorphism_piSMul_of_ne (PGBroken.lean) fails at l.894 with unsolved goals, so the runs are genuine elaborations",
+  "sorry_axioms": "`Lean.collectAxioms` over EVERY non-internal constant, by module index (scan.lean): ProductsGeneral 158, ConverseGeneral 32, Circle 72, Products 101 (100 the three, 1 [propext, Quot.sound]), Converse 20, TheoremA 3 — all ⊆ [propext, Classical.choice, Quot.sound], no sorryAx. No `sorry`, `axiom`, `native_decide` or `set_option` token in any of the six files (the one `admit` hit is the prose word « admitting », ConverseGeneral l.468). One constant outside `Benzecri`: `OpenPartialHomeomorph.pi.congr_simp`, an auto-generated (reserved-name) congruence lemma realised by a `simp` call in ProductsGeneral — not a declaration of the package",
+  "names": "every `Benzecri.*` string of the six REPORTs t–y (labels, extra_decls, upstream_moves, prose; 225 strings) was resolved jointly in one environment importing ConverseGeneral and TheoremA (names.lean): 223 resolve, all with axioms ⊆ the standard three; the 2 that do not, `Benzecri.PiCone` and `Benzecri.ProdCone`, are scoping namespaces named in kb_proposals, not claims",
+  "fixes": "Circle.lean l.23–30, 55–108, 219–257 (diff vs 8ae627b): docstring/SCOPE/remark edits and the rename only; `#check @FCone.prop1_F_homogene` and `@produit_cercle` unchanged; the two global instances on FCone unchanged (scan.lean), still the only ones"
+ },
+ "issues": [
+  {
+   "severity": "nit",
+   "where": "REPORT upstream_moves[4]",
+   "problem": "Still names the old `FCone.map_congr`",
+   "fix": "Write `FCone.map_congr_fun`"
+  }
+ ],
+ "graduation": "ready — the nit is a one-word REPORT edit"
+}
