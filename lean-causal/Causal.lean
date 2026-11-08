@@ -185,6 +185,13 @@ import Causal.Flat.ACDNull
 import Causal.Flat.ACDLoxodromic
 import Causal.Flat.ACDProof
 import Causal.Flat.BarbotUnconditional
+import Causal.Flat.AffUnipFitting
+import Causal.Flat.AffUnipCocycle
+import Causal.Flat.AffUnipProof
+import Causal.Flat.AffACDBase
+import Causal.Flat.AffACDTriang
+import Causal.Flat.AffACDLocal
+import Causal.Flat.AffACDProof
 
 /-!
 # Causal — topological spacetimes
@@ -215,5 +222,9 @@ finite-dimensional real `V` by congruence subgroups (DEC-115: `Causal.Flat.Selbe
 `…Fitting`, `Causal.Flat.MaxUnipProof`) and `AuslanderCarriereDalbo` (a Lorentz
 Zassenhaus–Frobenius argument: `Causal.Flat.ACDReduction`, `…Hall`, `…Null`, `…Loxodromic`,
 `Causal.Flat.ACDProof`), are proved too (DEC-121), and `Causal.Flat.BarbotUnconditional` states
-Theorems A and B with no external hypothesis.
+Theorems A and B with no external hypothesis. Since 2026-11-08 both are proved in the PRINTED
+generality of `Aff(n, ℝ)` (DEC-123), the Isom forms becoming corollaries: Prop 5.2 for every
+nilpotent group of affine transformations (`Causal.Flat.AffUnipFitting`, `…Cocycle`,
+`Causal.Flat.AffUnipProof`) and Thm 5.1 for every discrete subgroup of `Aff(n, ℝ)`
+(`Causal.Flat.AffACDBase`, `…Triang`, `…Local`, `Causal.Flat.AffACDProof`).
 -/
