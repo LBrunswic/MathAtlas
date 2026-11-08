@@ -1,0 +1,33 @@
+{
+ "package": "WP-45l",
+ "round": 2,
+ "file": "scaffold/BenzecriScaffold/Structure/Classes.lean",
+ "module": "BenzecriScaffold.Structure.Classes",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor (round 2); hub commit bbf81c4 (git status clean under lean-benzecri, no untracked files), mathlib fabf563a; scratch files /tmp/bzaudit2/*.lean (names.lean, scan.lean, scan2.lean, ppx.lean, nonvac.lean, cexdef2.lean); no `lake build`, no git write",
+ "summary": "Round 2. The AUDIT-1 minor is fixed in SCOPE and REPORT (dropping second countability ENLARGES the class of U; the argument that the two definitions agree for second countable V is stated correctly; isMaximal_iff_secondCountable was optional and is not proved). The two line-number nits are fixed and the new numbers match the transcription after the DEC-122 enonce wrapper. Both open questions are ruled by DEC-122 and recorded: Déf. 16 read with U Hausdorff, and the p. 238 universal-cover sentence moved to its own ledger row (bzthm:c1s1_revetement_universel_divisible, l.431–434). The three marks are still earned. One new nit. Ready to graduate.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Structure/Classes.lean`: EXIT=0, no output (3 s; .olean newer than the source). A deliberately broken /tmp copy of Cone/Counterexample fails with errors, so the fast runs are genuine elaborations",
+  "sorry_axioms": "`Lean.collectAxioms` over EVERY non-internal constant of the seven wave-3 modules (scan2.lean, by module index): Developing 34 (31 [propext, Classical.choice, Quot.sound], 3 [propext, Quot.sound]); Classes 42 (26 / 16 [propext, Quot.sound]); Cone/Basic 129 (115 / 14 [propext]); Cone/Base 66 (65 / 1 [propext]); Cone/Section 29 (all three); Cone/Counterexample 110 (all three); Cone/LowDim 42 (41 / 1 [propext]). No sorryAx and no other axiom; no constant outside namespace `Benzecri`. No `sorry`, `admit`, `axiom`, `native_decide` or `set_option maxHeartbeats` token in the seven files",
+  "names": "every `Benzecri.*` string in the seven REPORTs (k–q; labels, extra_decls, prose, cross_references, findings, fix_round) was fed to `#print axioms` (names.lean, importing all seven modules jointly, which also rules out a clash between them): 227 strings, 222 resolve, all ⊆ [propext, Classical.choice, Quot.sound]. The 5 that do not are not claims: `Benzecri.Projective.Sphere` and `Benzecri.Structure.Basic` (module paths in upstream_moves) and `Benzecri.jetValue`, `Benzecri.radius`, `Benzecri.unitRep` (old names quoted in fix_round as renamed)",
+  "name_clashes": "scripted (scan2.lean): every constant stripped of Benzecri / Benzecri.{ConeBase, ConeCex, LowDim, Sphere, Punctured} and looked up at the root and in the opened namespaces Set, Filter, Topology, Function, Bundle. Hits are only the usual namespaced short names (Punctured.ext/ext_iff/mk, ConeBase.mk/map/map_id, ConeBase.locallyCompactSpace), which resolve to the local one inside their namespace and are never ambiguous; no real clash. The seven modules import jointly without error",
+  "instances": "instances registered (scan.lean, `instanceExtension`): Developing none; Classes 4, all on `Benzecri.GXAut` (own type); Cone/Basic 11, all on `Benzecri.Punctured` (own type) or `IsAnalyticAction` (own class); Cone/Base 3 on `ConeBase` (own type); Cone/Section none; Cone/Counterexample 18, all on `ConeCex.Dom` / `ConeCex.V` (own types); Cone/LowDim none — `uniqueFinZeroAddOne : Unique (Fin (0 + 1))` is an `abbrev` made a LOCAL instance by `attribute [local instance]` and is absent from the global instance table. No global instance on a Mathlib type",
+  "round1_minor": "FIXED. SCOPE (docstring l.86–96) and REPORT labels[2].hypotheses now say: no second countability on U ENLARGES the class (IsMaximal a priori stronger than F6), V's universe restriction makes it a priori weaker, and for second countable V they agree: f(V) is open (isOpenEmbedding_of_injective), not closed (U connected), u ∈ closure f(V) ∖ f(V), B' a connected chart ball at u; U' = f(V) ∪ B' is open, connected, Hausdorff, second countable, f : V → U' injective and not onto; |U'| ≤ |V| + 𝔠 so U' is small. The argument is correct. Not formalized: acceptable (AUDIT-1 called it optional)",
+  "round1_nits": "FIXED. Verified against the transcription at bbf81c4: Déf. 14 l.410–417, Déf. 15 l.419–427, enonce l.431–434 (the universal-cover sentence l.432–433), « Il est clair … balayable » l.436, Déf. 16 l.472–476, « Une variété compacte est évidemment maximale » l.478. Docstring labels at the right lines (bzdef:c1s1d14 → :410, d15 → :419, d16 → :472)",
+  "rulings": "DEC-122 « Déf. 16's compact ⇒ maximal is read with U Hausdorff » is in the checklist (l.72) and SCOPE (l.81); the hypothesis row reads 'carried (reading ruled)'. The p. 238 prose is its own row (bzthm:c1s1_revetement_universel_divisible, ledger.json l.776) and is correctly left out of this package",
+  "marks": "Déf. 14, 15, 16 marked; statements unchanged since round 1 (fix_round: 'statements_changed: none'); Déf. 16's mark now rests on a RULED reading (DEC-122), as DEC-120 accepted for Déf. 5. Earned"
+ },
+ "issues": [
+  {
+   "severity": "nit",
+   "where": "REPORT fix_round.fixed[0] (« as DEC-122 item 6 allows »)",
+   "problem": "DEC-122's register row (registers/DECISIONS.md l.133) has no numbered items and no sentence about stating, rather than formalizing, the second-countability argument. The citation points at the fix dispatch, not at the ruling.",
+   "fix": "Cite the dispatch, or drop the parenthesis: AUDIT-1 already called the formal proof optional."
+  }
+ ],
+ "fidelity_summary": "Déf. 14 verbatim (closed segment, scan-checked in round 1); Déf. 15 verbatim under DEC-120; Déf. 16 verbatim under the ruled reading U Hausdorff (DEC-122), with the second-countability and universe choices now correctly justified. Both prose claims proved with honest hypotheses. All three marks earned. Ready to graduate.",
+ "graduation": "ready",
+ "questions_for_author": []
+}

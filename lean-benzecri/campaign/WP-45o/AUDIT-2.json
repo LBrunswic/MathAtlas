@@ -1,0 +1,48 @@
+{
+ "package": "WP-45o",
+ "round": 2,
+ "file": "scaffold/BenzecriScaffold/Cone/Section.lean",
+ "module": "BenzecriScaffold.Cone.Section",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count_measured": 0,
+ "audited_at": "2026-11-03, node1, read-only auditor (round 2); hub commit bbf81c4 (git status clean under lean-benzecri, no untracked files), mathlib fabf563a; scratch files /tmp/bzaudit2/*.lean (names.lean, scan.lean, scan2.lean, ppx.lean, nonvac.lean, cexdef2.lean); no `lake build`, no git write",
+ "summary": "Round 2. The AUDIT-1 minor is fixed: the p. 241 inference and Déf. 3's « topologiquement trivial » are recorded as DEC-122 findings, refuted in Lean (Cone/Counterexample), and corrected here: exists_section_of_properSMul, exists_trivialization_of_properSMul, and the equivalences exists_section_iff_properSMul (V second countable) and t2Space_of_homeomorph. The nit (a paracompact variant) is declined with a valid reason. Déf. 3 is marked here in its corrected form; the p. 241 prose is closed in corrected form. Each corrected form is the printed statement plus « the action is proper », with V second countable (part of « variété », F6). One minor (mark confirmation, shared with WP-45n) and two nits. Ready to graduate once the author confirms the mark.",
+ "checks": {
+  "build": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Cone/Section.lean`: EXIT=0, no output (2 s; .olean newer than the source). A deliberately broken /tmp copy of Cone/Counterexample fails with errors, so the fast runs are genuine elaborations",
+  "sorry_axioms": "`Lean.collectAxioms` over EVERY non-internal constant of the seven wave-3 modules (scan2.lean, by module index): Developing 34 (31 [propext, Classical.choice, Quot.sound], 3 [propext, Quot.sound]); Classes 42 (26 / 16 [propext, Quot.sound]); Cone/Basic 129 (115 / 14 [propext]); Cone/Base 66 (65 / 1 [propext]); Cone/Section 29 (all three); Cone/Counterexample 110 (all three); Cone/LowDim 42 (41 / 1 [propext]). No sorryAx and no other axiom; no constant outside namespace `Benzecri`. No `sorry`, `admit`, `axiom`, `native_decide` or `set_option maxHeartbeats` token in the seven files",
+  "names": "every `Benzecri.*` string in the seven REPORTs (k–q; labels, extra_decls, prose, cross_references, findings, fix_round) was fed to `#print axioms` (names.lean, importing all seven modules jointly, which also rules out a clash between them): 227 strings, 222 resolve, all ⊆ [propext, Classical.choice, Quot.sound]. The 5 that do not are not claims: `Benzecri.Projective.Sphere` and `Benzecri.Structure.Basic` (module paths in upstream_moves) and `Benzecri.jetValue`, `Benzecri.radius`, `Benzecri.unitRep` (old names quoted in fix_round as renamed)",
+  "name_clashes": "scripted (scan2.lean): every constant stripped of Benzecri / Benzecri.{ConeBase, ConeCex, LowDim, Sphere, Punctured} and looked up at the root and in the opened namespaces Set, Filter, Topology, Function, Bundle. Hits are only the usual namespaced short names (Punctured.ext/ext_iff/mk, ConeBase.mk/map/map_id, ConeBase.locallyCompactSpace), which resolve to the local one inside their namespace and are never ambiguous; no real clash. The seven modules import jointly without error",
+  "instances": "instances registered (scan.lean, `instanceExtension`): Developing none; Classes 4, all on `Benzecri.GXAut` (own type); Cone/Basic 11, all on `Benzecri.Punctured` (own type) or `IsAnalyticAction` (own class); Cone/Base 3 on `ConeBase` (own type); Cone/Section none; Cone/Counterexample 18, all on `ConeCex.Dom` / `ConeCex.V` (own types); Cone/LowDim none — `uniqueFinZeroAddOne : Unique (Fin (0 + 1))` is an `abbrev` made a LOCAL instance by `attribute [local instance]` and is absent from the global instance table. No global instance on a Mathlib type",
+  "round1_minor": "FIXED. REPORT labels[0].findings and prose.finding carry the DEC-122 finding (ConeCex.not_p241SectionAsPrinted, ConeCex.not_def3TrivialAsPrinted, ConeCex.isEmpty_homeomorph); SCOPE no longer calls « V Hausdorff ⇒ B Hausdorff » open",
+  "round1_nit": "DECLINED, justifiably. Mathlib at fabf563a has no « connected + paracompact + locally compact ⇒ σ-compact » (grep of Mathlib/Topology/Compactness/: Paracompact.lean only derives paracompactness FROM σ-compactness), and under plan F6 V is second countable anyway, which makes the printed « V para-compact » automatic. Recorded in SCOPE",
+  "statements": "exists_section_of_properSMul [SecondCountableTopology V] (h : ProperSMul): ∃ σ continuous with mk ∘ σ = id. exists_trivialization_of_properSMul: ∃ T : V ≃ₜ B × ℝ₊*, (T m).1 = mk m ∧ T(λm) = ((T m).1, λ (T m).2) (equivariant, over B). exists_section_iff_properSMul [SecondCountableTopology V]: section ⇔ ProperSMul (⇒ by t2Space_of_section + properSMul_of_t2Space; ⇐ by the homogeneous norm). exists_trivialization (B T2, paracompact) and t2Space_of_homeomorph (any V ≃ₜ B × ℝ₊* forces B T2). All correct, standing variables [ChartedSpace] [HasConeCharts] [T2Space V], no kb/0002 binder (no class-typed ∀)",
+  "corrected_forms": "Déf. 3 (« cet espace fibré est topologiquement trivial »): printed hypotheses (V a cône affin, « variété »: T2, second countable) + ProperSMul. p. 241: printed « V para-compact » replaced by « V second countable » (F6; paracompactness then follows) + ProperSMul. Neither is weaker than « printed statement + proper action » under the F6 reading; the only departure is SC for paracompact, disclosed in SCOPE and the REPORT's prose.reading",
+  "marks": "**`bzdef:c1s2d3_homotheties_positives`** at Section.lean docstring pos. 506 → benzecri1960_ch1.tex:526 (Déf. 3, l.526–538: matches). All of Déf. 3's assertions are proved across Cone/Basic (action, chart-independence for V T2, freeness, continuity, affine-not-conical), Cone/Base (principal bundle) and here (triviality, corrected). The p. 241 prose (l.549–552) has no label; 'closed in corrected form' is the right status"
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "Module docstring (** mark on Déf. 3, « closed in its corrected form (DEC-122) »); REPORT labels[0] status 'closed', marked true; prose status",
+   "problem": "Marks on corrected forms (DEC-122): kb/0022 (house rule) makes the ruled, strengthened theorem the declaration the label names, and barbot marks such forms (DEC-95 `bprop:regular_iff_bounded`, DEC-98 `blem:paranongh`, DEC-101 `bcor:abel`, DEC-104 `bprop:laoucapulse`: corrected form = formalization of record, MARKED, bucket A; the printed form refuted and kept in paper_findings and a findings_triage one_line). But every one of those barbot rows records the word MARKED in its DEC entry (answers « Mark corrected form », « Mark the corrected form », « Mark, n = 2 conformal »), while DEC-122's register row says « FINDING … whose corrected form adds the hypothesis that the ℝ₊* action is proper » (answer « Finding; fix = proper action ») and never says MARKED. CAMPAIGN.md's own rule (« Such a row is partial, never closed ») is overridden only by such a ruling. Please confirm in one word that § 2 Prop. 2 and Déf. 3 are MARKED in their corrected forms (as the REPORTs and the dispatch assume).",
+   "fix": "As WP-45n AUDIT-2 minor 1: author confirms 'MARKED (DEC-122)'; master's curation note names exists_trivialization_of_properSMul as the formalization of record for « topologiquement trivial », with the printed forms (ConeCex.not_def3TrivialAsPrinted, ConeCex.not_p241SectionAsPrinted) as paper_findings. No Lean change."
+  },
+  {
+   "severity": "nit",
+   "where": "REPORT fix_round.fixed[1] (« which DEC-122 item 4 allows (« V paracompact (or second countable) ») »)",
+   "problem": "The quoted phrase is not in DEC-122's register row (registers/DECISIONS.md l.133), which has no numbered items. The SC replacement is justified anyway, by plan F6.",
+   "fix": "Cite plan F6 (« variété » second countable) or the fix dispatch, not DEC-122."
+  },
+  {
+   "severity": "nit",
+   "where": "REPORT labels[0].hypotheses[0] (« added (ruled, DEC-122) »); docstring checklist (« ⚠ added, ruled »)",
+   "problem": "kb/0022: after a ruling the hypothesis row reads 'carried'.",
+   "fix": "Write 'carried (ruled, DEC-122: not printed)'."
+  }
+ ],
+ "fidelity_summary": "Déf. 3's « topologiquement trivial » and the p. 241 section are proved under the ruled correction (proper ℝ₊*-action) for V a « variété »; for V second countable, section ⇔ B Hausdorff ⇔ proper action, so the hypothesis is necessary; the printed forms are refuted by the paracompact counterexample V. The Déf. 3 mark and the prose's 'closed in corrected form' are consistent with DEC-122, kb/0022 and barbot's practice, pending the author's one-word confirmation. Ready to graduate on that confirmation.",
+ "graduation": "ready, conditional on the author's confirmation of the mark (minor); the nits are REPORT edits",
+ "questions_for_author": [
+  "Confirm: Déf. 3 (bzdef:c1s2d3_homotheties_positives) is MARKED in its corrected form, and the p. 241 prose closed in corrected form (exists_section_of_properSMul, V second countable in place of the printed « para-compact »)."
+ ]
+}
