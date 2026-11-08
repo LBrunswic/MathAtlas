@@ -3,7 +3,7 @@ import Benzecri.Structure.Jets
 import Benzecri.Structure.Developing
 
 /-!
-# `BenzecriScaffold.Cone.Lift` — Benzécri's cone `F(B) = FJ(B)/ℛ` over a locally projective manifold (§ 2)
+# `Benzecri.Cone.Lift` — Benzécri's cone `F(B) = FJ(B)/ℛ` over a locally projective manifold (§ 2)
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 2, journal pp. 241–242; transcription

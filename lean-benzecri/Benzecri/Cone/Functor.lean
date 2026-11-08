@@ -1,9 +1,9 @@
-import BenzecriScaffold.Cone.Lift
+import Benzecri.Cone.Lift
 import Benzecri.Cone.Counterexample
 import Benzecri.Cone.LowDim
 
 /-!
-# `BenzecriScaffold.Cone.Functor` — the « isomorphisme fonctoriel » of § 2: affine conical manifolds ≌ locally projective manifolds
+# `Benzecri.Cone.Functor` — the « isomorphisme fonctoriel » of § 2: affine conical manifolds ≌ locally projective manifolds
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 2, journal pp. 241–242; transcription

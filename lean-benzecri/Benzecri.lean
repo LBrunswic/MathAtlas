@@ -16,3 +16,5 @@ import Benzecri.Cone.Base
 import Benzecri.Cone.Section
 import Benzecri.Cone.Counterexample
 import Benzecri.Cone.LowDim
+import Benzecri.Cone.Lift
+import Benzecri.Cone.Functor

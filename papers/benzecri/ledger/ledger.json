@@ -9,7 +9,7 @@
   },
   "lean": {
     "root": "/home/maxbrain/Dropbox/LeanArticles/lean-benzecri",
-    "git_commit": "5366555"
+    "git_commit": "5a7cee1"
   },
   "statements": [
     {
@@ -37,12 +37,15 @@
       "nl_status_auto": "open",
       "statement_sha256": "862068459eb6e8dd679638ab81c2027fb3dc483a1b62a1816f025e802dd2c306",
       "statement_sha256_current": "862068459eb6e8dd679638ab81c2027fb3dc483a1b62a1816f025e802dd2c306",
-      "lean_files": [],
+      "lean_files": [
+        "scaffold/BenzecriScaffold/Applications/TheoremA.lean"
+      ],
       "decls": [],
-      "lean_stated": "none",
+      "lean_stated": "scaffold",
       "lean_proved": "none",
       "bucket": "",
-      "scope_notes": "",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**TheoremA.lean**\n\n## SCOPE (disclosed)\n\n* « peut être munie d'une structure » is an existential over charted spaces with `HasGroupoid`\n  (DEC-112 conventions); the structures produced are the quotient structures of § 3 (see\n  `FCone.exists_affine_prod_circle`, `exists_proj_prod_circle`).\n* `p ≥ 1` (`p = q + 1`).",
+      "scope_from_lean": true,
       "nl_status_override": "proved",
       "nl_reason": "proved in Ch. 1 § 3: it restates, for compact manifolds, the corollary of Prop. 1 (bzcor:c1s3p1c_produit_cercle, benzecri1960_ch1.tex:695) and the corollary of Prop. 3 (bzcor:c1s3p3c_produit_projectif, :791)",
       "in_lean_scope": true,
@@ -1048,13 +1051,17 @@
       "statement_sha256": "2050428c506c4394821ededeb8e6b7943dd7e4b4c12813423e2e7a626d4ad190",
       "statement_sha256_current": "2050428c506c4394821ededeb8e6b7943dd7e4b4c12813423e2e7a626d4ad190",
       "lean_files": [
-        "scaffold/BenzecriScaffold/Cone/Functor.lean"
+        "Benzecri/Cone/Functor.lean"
       ],
       "decls": [],
-      "lean_stated": "scaffold",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "MARKED in corrected form (DEC-127): Benzecri/Cone/Functor.lean carries the mark on coneEquivalence : ConeCat (n+1) ≌ ProjCat n (and baseFunctor_isEquivalence) — V ↦ V/ℝ₊* between connected Hausdorff affine conical manifolds with a proper ℝ₊* action and connected Hausdorff locally projective manifolds, inverse F(B) = FJ(B)/ℛ (Benzecri/Cone/Lift.lean); the in-proof identification « FJ(B) s'identifie avec J₁(F(B)) » is FCone.fjJetHomeomorph (natural in B); l.640 « φ∘j₂ = j₁ » read j₂∘φ = j₁ (misprint, DEC-127).",
+      "notes": "MARKED in corrected form (DEC-127): Benzecri/Cone/Functor.lean carries the mark on coneEquivalence : ConeCat (n+1) ≌ ProjCat n (and baseFunctor_isEquivalence) — V ↦ V/ℝ₊* between connected Hausdorff affine conical manifolds with a proper ℝ₊* action and connected Hausdorff locally projective manifolds, inverse F(B) = FJ(B)/ℛ (Benzecri/Cone/Lift.lean); the in-proof identification « FJ(B) s'identifie avec J₁(F(B)) » is FCone.fjJetHomeomorph (natural in B); l.640 « φ∘j₂ = j₁ » read j₂∘φ = j₁ (misprint, DEC-127).",
+      "paper_findings": [
+        "§ 2 Prop. 2's finding (DEC-122) carried over to the Énoncé: read over all Hausdorff connected cones the printed isomorphism fails for every n ≥ 3 (not_essSurjAsPrinted_dim; true for n ≤ 2, essSurjAsPrinted_of_le_one) because the base of a Hausdorff cone need not be a « variété »; F itself does not fail — every Hausdorff cone is F of its own base (ConeCex.isoFConeBase, iso_FCone_coneBase_and_not_t2Space); the essential image of F is exactly the proper cones (exists_iso_coneObj_iff)"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -1085,12 +1092,15 @@
       "nl_status_auto": "proved",
       "statement_sha256": "6154ddadab888a80297f70e904d528b9bd169dd1e59023acfeab9c7d8efbfa07",
       "statement_sha256_current": "6154ddadab888a80297f70e904d528b9bd169dd1e59023acfeab9c7d8efbfa07",
-      "lean_files": [],
+      "lean_files": [
+        "scaffold/BenzecriScaffold/Applications/Circle.lean"
+      ],
       "decls": [],
-      "lean_stated": "none",
+      "lean_stated": "scaffold",
       "lean_proved": "none",
       "bucket": "",
-      "scope_notes": "",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Circle.lean**\n\n## SCOPE (disclosed)\n\n* **`F(B)` as a locally affine manifold** is the canonical affine charted space of the affine\n  conical manifold `F(B)` (`Cone/Basic`'s `affineChartedSpace`, charts `ι ∘ e`), made an instance\n  on `FCone` (`instChartedSpaceAff`; the cone and affine models differ, so there is no overlap).\n  « Automorphisme » is `GXAut` of that structure. `IsGXMorphism.affine_of_cone`: a conical morphism\n  is an affine one.\n* **Sweepable.** The printed « compact section $K_1$ au-dessus de $K$ » is used in the form the\n  argument needs, a compact `K₁` with `π(K₁) ⊇ K` (`exists_isCompact_subset_proj_image`, from the\n  openness of `π`); no global section is needed. The cross-reference « § 1, déf. 2 » is read\n  Déf. 15 (`[sic]`, DEC-113).\n* **Divisible.** `F(G₁) × λ^ℤ` is realised as the range of `divHom G₁ λ`\n  (`MonoidHom.noncommCoprod`; the factors commute, `commute_autMap_homAut`); proper\n  discontinuity uses the properness of the `ℝ₊*`-action on `F(B)` (`FCone.properSMul`,\n  DEC-122/124), compactness of the quotient a compact fundamental set of `G₁` lifted to `F(B)`.\n* **The corollary.** `B × S¹` is reached by Mathlib's push-forward of a structure along a\n  surjective local homeomorphism with `(G, X)` deck transformations (`existsUnique_pushforward`),\n  `Φ(x) = (π(x), θ_λ(N(x)))`, `N` the homogeneous norm of `Cone/Section` (`exists_trivialization`,\n  which needs `F(B)/ℝ₊* ≅ B` paracompact). Whether the corollary holds for a non-paracompact `B`\n  is not settled (REPORT `questions`).\n* The literal quotient `F(B)/λ^ℤ` (Mathlib's quotient charted space) is a locally affine manifold\n  and is homeomorphic to `B × S¹` over `B`; that this homeomorphism is an affine isomorphism (it\n  is, by `maximalAtlas_quotient_unique` and the uniqueness clause of\n  `exists_affine_prod_circle`) is not stated separately.\n* Generic lemmas proved here (REPORT `upstream_moves`): `rposLog`/`rposExp`/`rposLogHomeomorph`,\n  `IsGXMorphism.affine_of_cone`, `exists_isCompact_forall_exists_smul_mem`,\n  `isLocalHomeomorph_prodMap`, `FCone.map_congr`, `FCone.locallyCompactSpace`,\n  `FCone.baseProjHomeomorph`.",
+      "scope_from_lean": true,
       "in_lean_scope": true,
       "stale": false
     },
@@ -1116,12 +1126,15 @@
       "nl_status_auto": "open",
       "statement_sha256": "bb8b6218e5f7f8d4c44f2a7c3f148d0785857684d34a377b12a23c0f36d3bf64",
       "statement_sha256_current": "bb8b6218e5f7f8d4c44f2a7c3f148d0785857684d34a377b12a23c0f36d3bf64",
-      "lean_files": [],
+      "lean_files": [
+        "scaffold/BenzecriScaffold/Applications/Circle.lean"
+      ],
       "decls": [],
-      "lean_stated": "none",
+      "lean_stated": "scaffold",
       "lean_proved": "none",
       "bucket": "",
-      "scope_notes": "",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Circle.lean**\n\n## SCOPE (disclosed)\n\n* **`F(B)` as a locally affine manifold** is the canonical affine charted space of the affine\n  conical manifold `F(B)` (`Cone/Basic`'s `affineChartedSpace`, charts `ι ∘ e`), made an instance\n  on `FCone` (`instChartedSpaceAff`; the cone and affine models differ, so there is no overlap).\n  « Automorphisme » is `GXAut` of that structure. `IsGXMorphism.affine_of_cone`: a conical morphism\n  is an affine one.\n* **Sweepable.** The printed « compact section $K_1$ au-dessus de $K$ » is used in the form the\n  argument needs, a compact `K₁` with `π(K₁) ⊇ K` (`exists_isCompact_subset_proj_image`, from the\n  openness of `π`); no global section is needed. The cross-reference « § 1, déf. 2 » is read\n  Déf. 15 (`[sic]`, DEC-113).\n* **Divisible.** `F(G₁) × λ^ℤ` is realised as the range of `divHom G₁ λ`\n  (`MonoidHom.noncommCoprod`; the factors commute, `commute_autMap_homAut`); proper\n  discontinuity uses the properness of the `ℝ₊*`-action on `F(B)` (`FCone.properSMul`,\n  DEC-122/124), compactness of the quotient a compact fundamental set of `G₁` lifted to `F(B)`.\n* **The corollary.** `B × S¹` is reached by Mathlib's push-forward of a structure along a\n  surjective local homeomorphism with `(G, X)` deck transformations (`existsUnique_pushforward`),\n  `Φ(x) = (π(x), θ_λ(N(x)))`, `N` the homogeneous norm of `Cone/Section` (`exists_trivialization`,\n  which needs `F(B)/ℝ₊* ≅ B` paracompact). Whether the corollary holds for a non-paracompact `B`\n  is not settled (REPORT `questions`).\n* The literal quotient `F(B)/λ^ℤ` (Mathlib's quotient charted space) is a locally affine manifold\n  and is homeomorphic to `B × S¹` over `B`; that this homeomorphism is an affine isomorphism (it\n  is, by `maximalAtlas_quotient_unique` and the uniqueness clause of\n  `exists_affine_prod_circle`) is not stated separately.\n* Generic lemmas proved here (REPORT `upstream_moves`): `rposLog`/`rposExp`/`rposLogHomeomorph`,\n  `IsGXMorphism.affine_of_cone`, `exists_isCompact_forall_exists_smul_mem`,\n  `isLocalHomeomorph_prodMap`, `FCone.map_congr`, `FCone.locallyCompactSpace`,\n  `FCone.baseProjHomeomorph`.",
+      "scope_from_lean": true,
       "nl_status_override": "proved",
       "nl_reason": "proved by the last paragraph of the proof of § 3 Prop. 1 (benzecri1960_ch1.tex:659): F(B) modulo an infinite discrete subgroup of R+ is B x S_1",
       "in_lean_scope": true,
@@ -1248,12 +1261,15 @@
       "nl_status_auto": "open",
       "statement_sha256": "7a569d3f629b6436c9d491aa9f9051dd01cd6e2b2e1b791f8bf3d3310f862b9d",
       "statement_sha256_current": "7a569d3f629b6436c9d491aa9f9051dd01cd6e2b2e1b791f8bf3d3310f862b9d",
-      "lean_files": [],
+      "lean_files": [
+        "scaffold/BenzecriScaffold/Applications/Products.lean"
+      ],
       "decls": [],
-      "lean_stated": "none",
+      "lean_stated": "scaffold",
       "lean_proved": "none",
       "bucket": "",
-      "scope_notes": "",
+      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**Products.lean**\n\n## SCOPE (disclosed)\n\n* **Two factors.** Déf. 1 and Props. 2–3 are formalized for `p = 2`, for factors of arbitrary\n  (possibly different) dimensions; the `p`-fold product cone `∏ (ℝ^{nᵢ} − {O}) ⊂ ℝ^{Σnᵢ} − {O}` is\n  not built. The corollary is proved for every `p` by iterating the two-factor case, which needs\n  only `B₁ × … × B_{q+2} × (S¹)^{q+1} ≅ (B₁ × … × B_{q+1} × (S¹)^q) × B_{q+2} × S¹`\n  (`homeomorphInsertNth`) and the transport of a structure along a homeomorphism\n  (`exists_hasGroupoid_of_homeomorph`). Props. 2–3 for general `p` would follow the same pattern\n  only after identifying `F⁻¹` of an iterated product with `F⁻¹(∏ F(Bᵢ))`, not done.\n* **The product cone's structure is scoped** (`open scoped Benzecri.ProdCone`): `V × W` is a\n  Mathlib type, so no global instance is declared on it.\n* **The torus.** `ℝ₊*²/ℝ₊* ≅ ℝ₊*` through `μ ↦ [(1, μ)]`; its action on the base is the base map of\n  the unimodular block homothety `torusPair μ` (Prop. 2's lift, corrected).\n* **Prop. 3, divisible.** The group is `F⁻¹(F(G₁) × F(G₂)) × H`, `H = λ^ℤ` (`divProdHom`), as\n  printed; proper discontinuity uses the radial coordinate of `exists_prodBase_homeomorph`, hence\n  paracompact factors. The printed proof announces the sweepable case and argues the divisible one\n  (flagged in the transcription); both are proved, with the homogeneous case.",
+      "scope_from_lean": true,
       "nl_status_override": "proved",
       "nl_reason": "proved by the second half of the proof of § 3 Prop. 3 (benzecri1960_ch1.tex:762): the quotient by F^-1(F_1(G_1) x ... x F_p(G_p)) x H",
       "in_lean_scope": true,

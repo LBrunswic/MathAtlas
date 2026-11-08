@@ -1,3 +1,5 @@
 import BenzecriScaffold.Basic
-import BenzecriScaffold.Cone.Lift
-import BenzecriScaffold.Cone.Functor
+import BenzecriScaffold.Applications.Circle
+import BenzecriScaffold.Applications.Products
+import BenzecriScaffold.Applications.Converse
+import BenzecriScaffold.Applications.TheoremA
