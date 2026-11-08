@@ -7,14 +7,14 @@ import Causal.LemmaKLocal
 # `GX.BTZ.Spear` — spear neighbourhoods and full future BTZ rays (B21 Lemmas 2.3, 2.4)
 
 Package WP-41i (WAVE5-PLAN.md, WP-39i), fixer round 2; WP-43a; **WP-44d (DEC-108): 0 `sorry`**;
-WP-46b (DEC-116 (b)(c): marks; fixer round 2: Def 2.1's boundary sentence is the field
-`IsSpearNbhd.isClosed`). `brunswic2021cauchy` (**B21**,
-`papers/gx/sources/2108.12631/src/BTZ_1.tex`) Def 2.1 (l.611), Lemma 2.3 `lem:tube` (l.635),
-Lemma 2.4 `lem:add_BTZ_param` (l.685), cited by `papers/gx` at `RamcovGX.tex:2352` (proof of
-`prop:globally_hyperbolic_cauchy_complete_manifolds`, l.2348) as « Lemma 2.4 » — **the right
-citation is Lemma 2.3** (finding). These are cited results built here (DEC-23), not rows of the gx
-ledger, so they are marked with their source prefix `brunswic2021cauchy:` (no gx label is
-claimed). For `𝔼₀`-manifolds only, by DEC-116 (b) (gx §4 is `𝔼₀`, DEC-77 (c)):
+WP-46b (DEC-116 (b)(c); Def 2.1's boundary sentence is the field `IsSpearNbhd.isClosed`); WP-47b
+(DEC-125 (a)(b)(c): the last three readings ruled, all four rows closed and marked).
+`brunswic2021cauchy` (**B21**, `papers/gx/sources/2108.12631/src/BTZ_1.tex`) Def 2.1 (l.611),
+Lemma 2.3 `lem:tube` (l.635), Lemma 2.4 `lem:add_BTZ_param` (l.685), cited by `papers/gx` at
+`RamcovGX.tex:2352` (proof of `prop:globally_hyperbolic_cauchy_complete_manifolds`, l.2348) as
+« Lemma 2.4 » — **the right citation is Lemma 2.3** (finding). Cited results built here (DEC-23),
+not gx ledger rows: marked with their source prefix `brunswic2021cauchy:`. For `𝔼₀`-manifolds
+only, by DEC-116 (b) and DEC-125 (a) (gx §4 is `𝔼₀`, DEC-77 (c)):
 
 * **`brunswic2021cauchy:lem:tube`** (B21 Lemma 2.3, l.635) — **closed, 0 `sorry`**
   (`GX.E0Spear.lem_tube`, CBG parameters `hLine`, `hSC`; **parameter-free**
@@ -26,29 +26,23 @@ claimed). For `𝔼₀`-manifolds only, by DEC-116 (b) (gx §4 is `𝔼₀`, DEC
   `𝔼₀`-manifold, Hausdorff, second countable, connected; **`M₂` globally hyperbolic** (DEC-108,
   `CylChartData.globallyHyperbolic_glued`: a `Causal.Causality.TwoPiece`, mixed diamonds
   `CylChartData.isCompact_diamond_mixed`); **`Σ` Cauchy in `M₂`** (`CylChartData.isCauchySurface_glued`).
-* `full future BTZ rays (RamcovGX.tex:2352)` — **closed, unmarked until the reading is confirmed**
-  (`GX.E0Spear.exists_fullFutureBTZRay`,
-  parameter-free `exists_fullFutureBTZRay_e0`), under DEC-77 (c)'s corrected hypotheses (GH +
-  Cauchy-maximal, counterexample `{τ < 0}`); `IsFullFutureBTZRay` is a **strengthening** of every
-  natural reading of « full future ray » (in `sing₀`, injective, continuous, future causal,
-  without future endpoint, and covering the whole future half `[p, +∞[` of the BTZ line `Δ`), each
-  proved (`IsFullFutureBTZRay.{mem_S0, injOn, continuousOn, le, not_tendsto, exists_eq_of_line}`).
-  The reading is not ruled (question in the REPORT; the paper has no label, kb/0006: no mark).
+* **`full future BTZ rays (RamcovGX.tex:2352)`** — **closed** under DEC-125 (b) (the reading
+  `IsFullFutureBTZRay`) and DEC-77 (c) (GH + Cauchy-maximal, counterexample `{τ < 0}`):
+  `GX.E0Spear.exists_fullFutureBTZRay`, parameter-free `exists_fullFutureBTZRay_e0`; the reading
+  implies every natural one, each proved (`IsFullFutureBTZRay.{mem_S0, injOn, continuousOn, le,
+  not_tendsto, exists_eq_of_line}`). No gx label (not registered by the ledger).
 * **`brunswic2021cauchy:Def 2.1`** (spear neighbourhood, l.611) — **closed** under DEC-116 (c)
-  (`𝔼₀` only: read, extension of DEC-116 (b), question): free vertex `(v, 0)`, head
-  `{f = v, r ≤ R}`, shaft `{r = R, τ ≥ v + R/2}` (`spear`, `spearHead`, `spearShaft`,
-  `IsSpearNbhd`); « the boundary of `𝒰` is head ∪ shaft » (l.617) read as part of the definition,
-  the field `IsSpearNbhd.isClosed`, **equivalent** to the sentence in every `𝔼₀`-manifold
-  (`frontier_spearImage_eq_iff_isClosed`; `IsSpearNbhd.frontier_eq`, no global hypothesis; model
-  `frontier_spear`) and **automatic** for GH `M` (`isClosed_spearImage`, `IsSpearNbhd.of_chart`,
-  `isSpearNbhd_iff_chart`); « neighbourhood of `]p,+∞[` » (`IsSpearNbhd.exists_ray_mem_nhds`, on
-  `Δ` itself `IsSpearNbhd.mem_nhds_of_line`).
-* `brunswic2021cauchy:lem:add_BTZ_param` (B21 Lemma 2.4, l.685) — **partial, unmarked**: both
-  cases proved, 0 `sorry` (`lem_add_BTZ_param_line(_e0)`, `lem_add_BTZ_param_of_cauchyMaximal(_e0)`;
-  « `q` in the future of `p` » by `exists_spearNbhd_below`, DEC-108), « in the shaft » ruled
-  (DEC-116 (c)); but `τ_Σ` is **continuous**, not smooth (`continuousOn_tauS`): for B21's
-  topological Cauchy surfaces (l.224) smoothness is false (finding, `Σ = {τ = |Re z|/4}` in `𝔼₀`);
-  no ruling accepts the `C⁰` form yet (question).
+  and DEC-125 (a) (`𝔼₀` only; the boundary sentence l.617 = the field `IsSpearNbhd.isClosed`,
+  **equivalent** to it in every `𝔼₀`-manifold, `frontier_spearImage_eq_iff_isClosed`,
+  `IsSpearNbhd.frontier_eq`, model `frontier_spear`; automatic for GH `M`, `isClosed_spearImage`,
+  `IsSpearNbhd.of_chart`, `isSpearNbhd_iff_chart`): free vertex `(v, 0)`, head `{f = v, r ≤ R}`,
+  shaft `{r = R, τ ≥ v + R/2}` (`spear`, `spearHead`, `spearShaft`, `IsSpearNbhd`); « neighbourhood
+  of `]p,+∞[` » (`IsSpearNbhd.exists_ray_mem_nhds`; on `Δ` itself `IsSpearNbhd.mem_nhds_of_line`).
+* **`brunswic2021cauchy:lem:add_BTZ_param`** (B21 Lemma 2.4, l.685) — **closed** under DEC-116
+  (b)(c) and DEC-125 (c) (`τ_Σ` continuous, `continuousOn_tauS`): both cases, 0 `sorry`
+  (`lem_add_BTZ_param_line(_e0)`, `lem_add_BTZ_param_of_cauchyMaximal(_e0)`; « `q` in the
+  future of `p` » by `exists_spearNbhd_below`, DEC-108). Smoothness is false for B21's
+  topological Cauchy surfaces (l.224) (finding, `Σ = {τ = |Re z|/4}` in `𝔼₀`).
 
 > \begin{defou}[Spear neighborhood] Let $M$ be a $\mass{\geq0}$-manifold and let $\Delta$ be a
 > BTZ-line. A spear neighborhood around $\Delta$ of vertex $p\in \Delta$ and radius $R>0$ is a
@@ -127,14 +121,15 @@ claimed). For `𝔼₀`-manifolds only, by DEC-116 (b) (gx §4 is `𝔼₀`, DEC
 | `𝔼_{≥0}`-manifold (Lemmas 2.3, 2.4) | ✓ ruled (DEC-116 (b), DEC-77 (c)): `𝔼₀`-manifolds only, `ChartedSpace E0Y M`, `HasGroupoid M e0Groupoid` (`Y = 𝕄 ⊕ 𝔼₀`; massive cones not in `Y`, as WP-41e/f), Hausdorff, second countable, connected (DEC-66) |
 | globally hyperbolic | ✓ `(CE M).GloballyHyperbolic`; the Cauchy surface is **derived** (`exists_isCauchySurface_of_globalBTZ`, `CylChartData.exists_cauchy_subset_W0`), not assumed |
 | Cauchy-maximal | ✓ read (DEC-77(c)): `IsE0CauchyMaximal` = `Dev.IsETTMaximal` |
+| « full future BTZ rays » (`RamcovGX.tex:2352`) | ✓ ruled (DEC-125 (b)): `IsFullFutureBTZRay`, implying every natural reading, each proved (in `sing₀`, injective, continuous, future causal, no future endpoint, covering `[p,+∞[ ⊆ Δ` for GH `M`); hypotheses GH + Cauchy-maximal (DEC-77 (c), counterexample `{τ < 0}`), Cauchy-completeness unused |
 | spear neighbourhood, `φ(p) = (−2R,0,0)` | ✓ ruled (DEC-116 (c)): `ψ = φ⁻¹` an injective `𝔼₀`-morphism on an open `W ⊇ 𝒮`, vertex `(v,0)`, `v` free; head `{f = v, r ≤ R}`, shaft `{r = R, τ ≥ v + R/2}` (`frontier_spear`; the printed formulas fit neither the printed vertex nor each other, finding) |
-| Def 2.1: `𝔼_{≥0}`-manifold | ✓ read (extension of DEC-116 (b), question): `𝔼₀`-manifolds only (B21 uses spear neighbourhoods only in Lemmas 2.3/2.4 and §2.2, all `𝔼₀`) |
-| Def 2.1: « the boundary of `𝒰` is the head ∪ the shaft » (l.617) | ✓ read as part of the definition (audit option (a)): the field `IsSpearNbhd.isClosed`, equivalent for every spear chart in every `𝔼₀`-manifold to `∂𝒰 = ψ(head ∪ shaft)` (`frontier_spearImage_eq_iff_isClosed`, via `interior_spearImage`); hence `IsSpearNbhd.frontier_eq` with no global hypothesis; in `𝔼₀` `frontier_spear`. For GH `M` (Lemmas 2.3/2.4) the field is automatic: `isClosed_spearImage` (`axis_noLimit` + `exists_tendsto_of_monotone`), `IsSpearNbhd.of_chart`, `isSpearNbhd_iff_chart` — so Lemmas 2.3/2.4 are unchanged in content |
+| Def 2.1: `𝔼_{≥0}`-manifold | ✓ ruled (DEC-125 (a), extending DEC-116 (b)): `𝔼₀`-manifolds only (B21 uses spear neighbourhoods only in Lemmas 2.3/2.4 and §2.2, all `𝔼₀`) |
+| Def 2.1: « the boundary of `𝒰` is the head ∪ the shaft » (l.617) | ✓ ruled (DEC-125 (a)), read as part of the definition (audit option (a)): the field `IsSpearNbhd.isClosed`, equivalent for every spear chart in every `𝔼₀`-manifold to `∂𝒰 = ψ(head ∪ shaft)` (`frontier_spearImage_eq_iff_isClosed`, via `interior_spearImage`); hence `IsSpearNbhd.frontier_eq` with no global hypothesis; in `𝔼₀` `frontier_spear`. For GH `M` (Lemmas 2.3/2.4) the field is automatic: `isClosed_spearImage` (`axis_noLimit` + `exists_tendsto_of_monotone`), `IsSpearNbhd.of_chart`, `isSpearNbhd_iff_chart` — so Lemmas 2.3/2.4 are unchanged in content |
 | « neighbourhood of `]p,+∞[` » | ✓ of the chart ray `ψ(]v,+∞[)`: `IsSpearNbhd.exists_ray_mem_nhds`; of `]p,+∞[ ⊆ Δ` itself for GH `M`: `IsSpearNbhd.mem_nhds_of_line` (via `IsFullFutureBTZRay.exists_eq_of_line`, the chart ray covers `[p,+∞[`) |
 | CBG (hidden in « `M₂` embeds into `M` ») | ✓ `E0CBG.e0_cbg`; `hLine` (O2), `hSC` (O4) discharged in the `_e0` forms (`E0LM.e0_globalBTZ`, `E0LM.e0_secondCountable_of_cauchy`) |
 | Lemma 2.4: `M` GH | ✓ `hLM` (the BTZ lines of `M`) discharged by `E0LM.e0_globalBTZ` in `lem_add_BTZ_param_line_e0` (`M` connected, DEC-66) |
 | Lemma 2.4: « `Δ` admitting a spear neighbourhood », `p ∈ Δ ∩ I⁻(Σ)` | ✓ `lem_add_BTZ_param_line`: spear of vertex `q`, `p ∈ connectedComponentIn (S0 M) q` (`Δ` = component of `sing₀`); both cases proved |
-| Lemma 2.4: `τ_Σ` « smooth positive » | ⚠ `C⁰`, the strongest true form for B21's topological Cauchy surfaces (l.224): `ContinuousOn τ_Σ (closedBall 0 R′)`; smoothness is false without `Σ` smooth (paper counterexample `Σ = {τ = |Re z|/4}` in `𝔼₀`, every spear chart of the axis being a rotation-translation, B21 `prop:isom_strong`: `τ_Σ` is not differentiable at `0`; not formalized); « positive » read as `τ_Σ > v + R′/2` (DEC-116 (c)). Unruled: the row stays partial |
+| Lemma 2.4: `τ_Σ` « smooth positive » | ✓ ruled (DEC-125 (c)): `C⁰`, the strongest true form for B21's topological Cauchy surfaces (l.224): `ContinuousOn τ_Σ (closedBall 0 R′)`; smoothness is false without `Σ` smooth (paper counterexample `Σ = {τ = |Re z|/4}` in `𝔼₀`, every spear chart of the axis being a rotation-translation, B21 `prop:isom_strong`: `τ_Σ` is not differentiable at `0`; not formalized); « positive » read as `τ_Σ > v + R′/2` (DEC-116 (c)). The row closes (DEC-27 with DEC-125 (c)) |
 | Lemma 2.4: « in the shaft » | ✓ ruled (DEC-116 (c)): the open region `τ > v + R′/2` above the rim of the head (B21 Prop 2.17, PDF l.1983, uses the conclusion as « a circle in the shaft ») |
 
 ## SCOPE (disclosed; 0 `sorry`)
@@ -152,7 +147,11 @@ claimed). For `𝔼₀`-manifolds only, by DEC-116 (b) (gx §4 is `𝔼₀`, DEC
   `CylChartData.exists_spear_below` and `IsE0CauchyMaximal.isSpearNbhd_of_spearDevelopment` gain
   `hGH` (both internal, GH callers only); `IsSpearNbhd.frontier_eq` loses its `hGH`/`T2Space`
   (strengthened); §4 (`lem:tube`) moved after §5 so that it can use `isClosed_spearImage`.
-* What remains partial: Lemma 2.4's `τ_Σ` is continuous, not smooth. B21's Cauchy surfaces are
+* WP-47b (DEC-125 (a)(b)(c), docstrings only, no declaration changed): Def 2.1 for `𝔼₀` only with
+  its boundary sentence = `IsSpearNbhd.isClosed` (a), « full future BTZ rays » = `IsFullFutureBTZRay`
+  (b) and Lemma 2.4 with `τ_Σ` continuous (c) are ruled; the full rays and Lemma 2.4 close and are
+  marked, Def 2.1's mark now rests on a ruling. Nothing remains partial.
+* Lemma 2.4's `τ_Σ` is continuous, not smooth (ruled, DEC-125 (c)). B21's Cauchy surfaces are
   topological (l.224) and its proof's transversality (l.729) uses `Σ` smooth spacelike; for a
   topological (even piecewise-smooth spacelike) `Σ` the smooth conclusion is false (the kinked
   `Σ = {τ = |Re z|/4}` of `𝔼₀`). The `C¹` path of gx §4 (DEC-107, DEC-117) takes the `C¹`-ness of
@@ -400,10 +399,11 @@ structure IsSpearNbhd (p : M) (R : ℝ) (U : Set M) : Prop where
   chart : ∃ (v : ℝ) (W : Set E0Y) (ψ : E0Y → M), IsOpen W ∧ spearY v R ⊆ W ∧ IsE0Mor ψ W ∧
     InjOn ψ W ∧ ψ (yVertex v) = p ∧ U = ψ '' spearY v R
 
-/-- **A full future BTZ ray from `p`** (`RamcovGX.tex:2350`, « the singular locus contains full
+/-- **A full future BTZ ray from `p`** (`RamcovGX.tex:2352`, « the singular locus contains full
 future BTZ rays »): `γ(t) = ψ(v + t, 0)` for an injective `𝔼₀`-morphism `ψ` defined on an open
 neighbourhood of the **whole** model ray `{(v + t, 0) : t ≥ 0}` — the ray is complete for the
-affine parameter of the BTZ line, which the morphism preserves. `γ 0 = p`. -/
+affine parameter of the BTZ line, which the morphism preserves. `γ 0 = p`. The paper's
+undefined « full future BTZ ray » is read so by DEC-125 (b) (`RamcovGX.tex:2352`). -/
 def IsFullFutureBTZRay (p : M) (γ : ℝ → M) : Prop :=
   ∃ (v : ℝ) (W : Set E0Y) (ψ : E0Y → M), IsOpen W ∧ (∀ t, 0 ≤ t → yAxis v t ∈ W) ∧
     IsE0Mor ψ W ∧ InjOn ψ W ∧ ψ (yVertex v) = p ∧ ∀ t, γ t = ψ (yAxis v t)
@@ -3827,7 +3827,8 @@ paper's hypothesis « `Δ` admits a spear neighbourhood » with the vertex moved
 along the graph of a **continuous** function `τ_Σ` over the closed disc `D_{R′}`
 (`continuousOn_tauS`), and that graph lies in the shaft `τ > v + R′/2` (the paper's « positive »
 after its normalisation `Φ(p) = (−R/2, 0, 0)`). Smoothness of `τ_Σ` is not claimed: `Σ` is a
-topological Cauchy surface here (the paper's transversality argument uses `Σ` spacelike smooth). -/
+topological Cauchy surface here (the paper's transversality argument uses `Σ` spacelike smooth);
+the `C⁰` form is the ruled reading (DEC-125 (c)). -/
 theorem lem_add_BTZ_param [HasGroupoid M e0Groupoid] [T2Space M] [SecondCountableTopology M]
     (hLM : E0LM.E0GlobalBTZ (CE M) (S0 M)) (hGH : (CE M).GloballyHyperbolic) {Sig : Set M}
     (hSig : (CE M).IsCauchySurface Sig) {p : M} {R : ℝ} {U : Set M} (hU : IsSpearNbhd p R U)
@@ -4907,9 +4908,10 @@ theorem lem_tube (hGH : (CE M).GloballyHyperbolic) (hmax : IsE0CauchyMaximal M) 
     (exists_spearDevelopment hLine hSC hGH hp).some
 
 include hLine hSC in
-/-- **Full future BTZ rays** (`RamcovGX.tex:2350`'s « the singular locus contains full future BTZ
+/-- **Full future BTZ rays** (`RamcovGX.tex:2352`'s « the singular locus contains full future BTZ
 rays », correctly cited as B21 Lemma 2.3, not « Lemma 2.4 »: finding): in a globally hyperbolic
-Cauchy-maximal `𝔼₀`-manifold, from every BTZ point starts a full future BTZ ray. -/
+Cauchy-maximal `𝔼₀`-manifold, from every BTZ point starts a full future BTZ ray (the reading
+`IsFullFutureBTZRay`, ruled by DEC-125 (b)). -/
 theorem exists_fullFutureBTZRay (hGH : (CE M).GloballyHyperbolic) (hmax : IsE0CauchyMaximal M)
     {p : M} (hp : p ∈ S0 M) : ∃ γ : ℝ → M, IsFullFutureBTZRay p γ := by
   obtain ⟨R, U, h⟩ := lem_tube hLine hSC hGH hmax hp

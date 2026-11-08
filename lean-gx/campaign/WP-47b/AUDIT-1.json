@@ -1,0 +1,40 @@
+{
+ "package": "WP-47b",
+ "round": 1,
+ "auditor": "read-only auditor, round 1",
+ "file": "GX/BTZ/Spear.lean",
+ "verdict": "clean",
+ "builds": true,
+ "checks": {
+  "build_file": "taskset -c 0-11 lake env lean -DwarningAsError=true GX/BTZ/Spear.lean: exit 0, no output (re-run by the auditor).",
+  "build_library": "taskset -c 0-11 lake build GX: Build completed successfully (8746 jobs), exit 0 (re-run by the auditor); no Causal.* module was rebuilt.",
+  "sorry_count": "0. With comments and strings stripped, the file has 0 sorry tokens, 0 admit tokens, and no axiom or opaque declarations. Every 'sorry' grep hit is docstring prose.",
+  "docstring_only": "With comments stripped (a nested /- -/ and -- stripper), GX/BTZ/Spear.lean is IDENTICAL to campaign/WP-47b/Spear.lean.pre.bak. pre.bak is byte-identical to git HEAD:lean-gx/GX/BTZ/Spear.lean (commit 4c1840b). So no statement or proof changed after WP-46b, whose AUDIT-3 was clean. The textual diff touches only the module docstring and the docstrings of IsFullFutureBTZRay, lem_add_BTZ_param and exists_fullFutureBTZRay.",
+  "rulings": "DEC-125 (a), (b) and (c) read 'Accept (a)-(g)' by AUTHOR (registers/DECISIONS.md:136). (a) Def 2.1 for E0 only, with the boundary sentence = IsSpearNbhd.isClosed: the structure has the field isClosed, and frontier_spearImage_eq_iff_isClosed (no global hypothesis) proves the field equivalent to the sentence. (b) The full future BTZ rays = IsFullFutureBTZRay (l.407): the definition is not trivial, since it asks for an injective E0-morphism on an open set containing the whole model ray. exists_fullFutureBTZRay and exists_fullFutureBTZRay_e0 hold under GH + IsE0CauchyMaximal (DEC-77 (c)). (c) Lemma 2.4 with tau_Sigma continuous: lem_add_BTZ_param, lem_add_BTZ_param_line(_e0) and lem_add_BTZ_param_of_cauchyMaximal(_e0) conclude ContinuousOn tauS (closedBall 0 R'), tauS > v + R'/2 on the disc, and the graph iff over the spear. The paper's 'S' subset of S' is not in the paper's statement (BTZ_1.tex:685-691), so nothing is missing. Each ruling is applied as worded.",
+  "marks": "Four ** marks sit in the first 4000 characters, at str.find offsets: brunswic2021cauchy:lem:tube 1014, 'full future BTZ rays (RamcovGX.tex:2352)' 1916, brunswic2021cauchy:Def 2.1 2371, brunswic2021cauchy:lem:add_BTZ_param 3040. tools/ledger.py's docstring_label_re needs a configured gx prefix right after **`, so none of the four registers a phantom gx row. Each mark now rests on a ruling (kb/0006: a reading the paper does not settle is unmarked unless ruled).",
+  "report": "REPORT.json lists all four rows of the file: lem:tube, the full rays, Def 2.1 and lem:add_BTZ_param. All are closed and marked, with decls, hypotheses, findings and rulings. The notes state honestly that the package is docstring-only. No label of the file is missing. Blunt spear neighbourhoods (Def 2.2, Lemma 2.5) are outside this file's scope and are not claimed.",
+  "names": "Only GX/BTZ/Spear.lean uses the namespace GX.E0Spear (grep over GX/ and scaffold/), and the package added no declaration. No clash; lake build GX succeeds with the root GX.lean importing GX.BTZ.Spear."
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "campaign/WP-47b/REPORT.json notes (mark offsets)",
+   "problem": "The REPORT gives the mark offsets as 1017/1919/2374/3043 'check with str.find'. Python str.find on the file returns 1014/1916/2371/3040. Every mark is still far below 4000, so this changes nothing.",
+   "fix": "Restate the offsets as str.find returns them."
+  },
+  {
+   "severity": "minor",
+   "where": "GX/BTZ/Spear.lean lem_add_BTZ_param / lem_add_BTZ_param_line(_e0) docstrings",
+   "problem": "These docstrings still cite 'BTZ_1.tex:685-695' for the statement. The statement is l.685-691, and lem:blunt_spear_neighborhood starts at l.693. WP-46b AUDIT-3 already flagged this. A docstring-only package could have fixed it.",
+   "fix": "Change the range to l.685-691, with the proof at l.719-742 if it is cited."
+  },
+  {
+   "severity": "minor",
+   "where": "GX/BTZ/Spear.lean lem_add_BTZ_param* conclusions",
+   "problem": "This is carried over from WP-46b AUDIT-3. The conclusion 'there exists a spear neighbourhood of vertex p' is stated as raw chart data (R', v, W, psi, ...), not as IsSpearNbhd p R' (psi '' spearY v R'). It is equivalent under the lemma's own hypothesis hGH, through IsSpearNbhd.of_chart / isSpearNbhd_iff_chart. It is not weaker, only less direct.",
+   "fix": "Optionally add a corollary that packages the conclusion as IsSpearNbhd through IsSpearNbhd.of_chart hGH."
+  }
+ ],
+ "questions_for_author": [],
+ "summary": "Clean. The WP-47b edit is docstring/REPORT only: with comments stripped, the code is identical to git HEAD, and the file builds with -DwarningAsError=true. The strict library also builds, with 0 sorry. The rows already closed in content at WP-46b are now marked, and the marks apply DEC-125 (a), (b) and (c) as worded. REPORT.json is complete and honest. There are three minor issues: the offsets, stale line numbers, and Lemma 2.4's conclusion not packaged as IsSpearNbhd."
+}

@@ -9,8 +9,8 @@ Package WP-46g. Infrastructure for the headline of `papers/gx` §4.6
 **DEC-119** (2026-11-03, "Bridge"). **No ledger label is certified here, so nothing is marked**:
 the headline's two halves live on two presentations of an `𝔼₀`-manifold `M` — the charted one
 (`ChartedSpace E0Y M`, `HasGroupoid M e0Groupoid`, on which Cauchy-compactness, Cauchy-maximality
-and the developing pairs `(𝒟, ρ)` of `Reg M = e0RegMFlat M` are stated, `GXScaffold.BTZ.AbsMax`,
-`GXScaffold.BTZ.Uniformization`) and the singular one (`SingularGXStructure`, DEC-25, on which the
+and the developing pairs `(𝒟, ρ)` of `Reg M = e0RegMFlat M` are stated, `GX.BTZ.AbsMax`,
+`GX.BTZ.Uniformization`) and the singular one (`SingularGXStructure`, DEC-25, on which the
 maximal branched covering `M̃` and its BTZ data `GX.BTZTildeData` are built, `GX.BTZ.Manifolds`).
 This file builds the three bridges DEC-119 asks for, **0 `sorry`**:
 

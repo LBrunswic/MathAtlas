@@ -1,0 +1,100 @@
+{
+ "package": "WP-47e",
+ "files": [
+  "scaffold/GXScaffold/BTZ/FutureRay.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "prop:globally_hyperbolic_cauchy_complete_manifolds",
+   "tex_lines": [
+    2348,
+    2353
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.futureRay_null_supset",
+    "GX.futureRay_Jplus_supset",
+    "GX.futureRay_halfLine"
+   ],
+   "hypotheses": [
+    {
+     "paper": "singular locus contains full future BTZ rays (B21 Lemma 2.3/2.4)",
+     "here": "carried",
+     "note": "hrays : ∀ p ∈ S0 M, ∃ γ, E0Spear.IsFullFutureBTZRay p γ (DEC-125 (b)), the same hypothesis GX.btzTilde_null_supset carries"
+    },
+    {
+     "paper": "Reg M~ future complete (Barbot, step (1))",
+     "here": "carried",
+     "note": "as hreg: J+(D y) ⊆ D(J+ y) at regular y, which is the first half of GX.btzTilde_supset_of_reg (Uniformization imports this file, so the regular case enters as a hypothesis)"
+    },
+    {
+     "paper": "M~ (DEC-106/118 (c))",
+     "here": "carried",
+     "note": "any chartwise datum d.IsChartwise"
+    },
+    {
+     "paper": "M globally hyperbolic, Cauchy-complete, Cauchy-maximal",
+     "here": "dropped",
+     "note": "not used by this step"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "The prop's proof (l.2350-2352) ends on 'the singular locus contains full future BTZ rays' and leaves implicit how this gives D(J+(x)) = J+(D x) at a BTZ point x along the developed BTZ line. The step needs the ray LIFTED to M~ and D of the lift to be a WHOLE future half-line; the latter holds because the ray is complete for an affine parameter fixed by ONE E0-morphism psi (DEC-125 (b)'s reading): the stabiliser of the axis in Isom(E0) contains boosts rescaling the axis parameter (GX.IsAxisAff, r -> r/lambda, t -> lambda t + ...), so a chain of charts each with its own parameter could a priori develop onto a bounded segment. The proof pins the scale by comparing the chart over gamma([0,T]) with the chart over gamma([0,1]) on their common BTZ fibre, which is one point (Gamma fixes the axis)."
+   ],
+   "questions": []
+  },
+  {
+   "label": "theo:globally_hyperbolic_cauchy_complete_cauchy_maximal",
+   "tex_lines": [
+    2363,
+    2396
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.futureRay_halfLine"
+   ],
+   "hypotheses": [
+    {
+     "paper": "globally hyperbolic Cauchy-complete Cauchy-maximal E0-manifold",
+     "here": "weakened",
+     "note": "only full future BTZ rays (hrays) and a chartwise M~ are used for this assertion"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Certified here: the paper's 'S_x is a totally ordered relatively open future half line, so is its image' in its future half from a BTZ point x: a full future BTZ ray gamma of M from p(x) lifts to M~ from x (z over gamma(lambda/2), x <= z) and D maps the lift ONTO D x + R_+ u, u future null nonzero. Not attempted (outside this package): Delta_x ⊂ ∂Omega, the image formula, M ≅ rho\\D(M~)."
+   ],
+   "questions": []
+  }
+ ],
+ "extra_decls": [
+  "GX.futureRay_eq_apex_of_orbitMk",
+  "GX.futureRay_btzDevM_apex",
+  "GX.futureRay_nullToMink_affine",
+  "GX.futureRay_isom_axis",
+  "GX.BTZTildeData.futureRay_chartStep",
+  "GX.BTZTildeData.futureRay_lift",
+  "GX.futureRay_isFlatCompat",
+  "GX.futureRayU",
+  "GX.futureRay_exists_inr",
+  "GX.futureRayHomeo",
+  "GX.futureRayHomeo_apply",
+  "GX.futureRay_isAEMorphism",
+  "GX.futureRay_yAxis_eq",
+  "GX.futureRay_yVertex_eq",
+  "GX.futureRay_exists_box",
+  "GX.futureRay_exists_chart"
+ ],
+ "kb_proposals": [
+  "An injective E0-morphism psi on an open W of Y, restricted to a box and inverted, is a flat-compatible chart (GX.futureRay_isFlatCompat) and hence an E0-chart of def:atlas for the bridge structure (GX.futureRayHomeo / GX.futureRay_isAEMorphism, the chartAt-free form of E0Bridge.xaHomeo); with a box image it descends (hasMaximalLifts_btzBox).",
+  "The BTZ fibre of a lifted descending chart is one point (GX.futureRay_eq_apex_of_orbitMk): two lifted charts through the same x agree there, which is how two charts of a chain are compared without a uniqueness theorem for descents.",
+  "In BTZTildeData code, an element of d.D '' d.causality.Jplus ⊤ {x} must be given as ⟨d.toNat z, (h : d.fromNat (d.toNat z) ∈ ...), _⟩: a bare z : d.Space trips the WithWrappedTop / SpreadEnd topology instance check.",
+  "Rewriting p or Sing inside a goal whose XAChart / MaxBranchedCover depends on it fails (motive): use congrArg (· ∈ c.U), Set.ext_iff.1, or rewrite the hypothesis on the other side."
+ ],
+ "notes": "Wiring (for the master session; Uniformization is outside this write set): add `import GXScaffold.BTZ.FutureRay` to scaffold/GXScaffold/BTZ/Uniformization.lean and replace the body of GX.btzTilde_null_supset by `letI := E0Bridge.e0SingularGXStructure M; haveI := ChartedSpace.locPathConnectedSpace E0Y M; intro yN Φ _hΦ d hch hd x hxs m hm hmI; exact futureRay_null_supset _hrays d hch (fun y hy => (btzTilde_supset_of_reg x₀ D ρ hpair hfc d hd y hy).1) x hxs m hm hmI` (the hypothesis names _hch/_hrays become used). This exact statement is checked, with no sorry and standard axioms only, in campaign/WP-47e/Wiring.lean (not a module) against the built Uniformization olean of 2026-11-03 (axioms.out). That removes Uniformization's only local tagged sorry; btz_injective_dev_C1 and the prop's DEC-118 (a) form then rest only on the upstream mixed-diamond leaf. The module builds alone (lake build GXScaffold.BTZ.FutureRay, no GX.* or Causal.* rebuild); it imports only GX.BTZ.{LiftGH,HeadlineBridge,Spear} (DEC-33 gate respected, no Causal import, no `open Causal`). Names all prefixed futureRay (grep: no clash)."
+}

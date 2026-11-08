@@ -29,11 +29,18 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
   "`sing(M) = {r=0}`" refuted (`GX.quotientBase_counterexample`, a finding); `GX.DInfty`,
   `GX.quotientBase`, `GX.quotientBase_topology`, `GX.cylHomeomorph`, `GX.quotientBase_sing_subset`;
   in `Isom₀(𝔼^{1,2})`: `GX.massive_particle_intended`, `GX.btz_whitehole_isom0`,
-  `GX.btz_blackhole_past_isom0`, `GX.misner_isom0_general`; the tachyons and photons (l.682,
+  `GX.btz_blackhole_past_isom0`, `GX.misner_isom0_general`; the tachyons and photons (l.679,
   WP-44a; DEC-116 (a)) `GX.tachyon_isom0`, `GX.photon_isom0` (`Γ = ℤ` on `θ` alone,
   `GX.ThetaLiftQuotient`;
   the Euclidean-radius reading is not Hausdorff, `GX.rayLiftQuotient_tachyon_not_t1`,
-  `GX.rayLiftQuotient_photon_not_t2`). All names: SCOPE (c).
+  `GX.rayLiftQuotient_photon_not_t2`); "obtained via gluings of polyedra" (l.681) is an informal
+  remark (DEC-125 (g)). All names: SCOPE (c).
+* **`rem:previous_examples_instances_developing`** — `RamcovGX.tex:684` — closed in the
+  corrected form ruled by DEC-52 ("branched over `π{r=0} ⊇ sing(M)`"), its certificate spanning
+  this module and `GX.Branched.Universality` (which imports it): here `GX.quotientBase_ruled`,
+  `GX.quotientBase_sing_subset`, `GX.previous_examples_developing`,
+  `GX.previous_examples_universalCover`; there the Fox-universality and the assembled statement
+  `GX.previous_examples_instances_developing_ruled`. SCOPE (f).
 * **`ex:conical`** — `RamcovGX.tex:347`, read with the cone angle `α` (DEC-47): `GX.conical`
   (holonomy `ρ_α`, the structure, "extends to the whole space iff `α = 2π`"),
   `GX.conical_holonomy_eq_one_iff`, `GX.conical_holonomy` (`ρ : π₁({r > 0}) → Isom⁺(𝔼^n)`),
@@ -66,12 +73,6 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
   `GX.linPtStab_subgroup_eq_rotSubgroup`, `GX.quotient_rotations_model_ptStab`); and the general
   principle for any analytical `(G, X)` (`GX.quotient_finite_model_analytical`, DEC-54(a); the
   locally compact form `GX.quotient_finite_model`).
-* `rem:previous_examples_instances_developing` — `RamcovGX.tex:684` — partial here: the
-  corrected form of DEC-52 ("branched over `π{r=0} ⊇ sing(M)`": `GX.quotientBase_sing_subset`,
-  `GX.quotientBase_ruled`), `GX.previous_examples_developing`,
-  `GX.previous_examples_universalCover` (the cover over the regular part is the universal cover;
-  `{r > 0}` contractible); its Fox-universality part belongs to `GX.Branched.Universality`
-  (SCOPE (f)).
 
 > Let $\alpha>0$ and $n\geq 2$, define $\mathbb E_\alpha^n = \RR^{n-2}\times \RR^2$ endowed with
 > cylindrical coordinates $(z,r,\theta) \in \RR^{n-2}\times \RR_+\times \RR/\ZZ$ and the Riemannian
@@ -120,6 +121,8 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
 | `ex:quotient_base`, BTZ black hole: `D'(r,θ,t) = D(r,θ,−t)` | ✓ ruled reading (DEC-47): `D` with a past lightlike `u` (`btz_blackhole_past_isom0`); the printed `D'` gives the white hole again (a finding) |
 | `ex:quotient_base`, tachyons / photons: "a hyperbolic (resp. parabolic) action of `Γ = ℤ` on `θ`, `𝔻_∞ = ℝ₊* × \widetilde{ℝP¹} ∪ {(0,0)}`" | ✓ reading ruled by DEC-116 (a) (SCOPE (c)(i)): `Γ = ℤ` acts on `θ` alone, and the identification `ψ : ℝ ≃ₜ \widetilde{ℝP¹}` conjugates it to the lift of `A` (`ThetaLiftQuotient.lift`); every `x₀`, every spacelike (resp. non-zero null) `v`, every `g ∈ Isom₀ ∖ {1}` fixing `x₀ + ℝv` pointwise, every `m ≠ 0` (`tachyon_isom0`, `photon_isom0`); `g` is then a boost (resp. a null rotation), proved (`eq_boostAff_of_fix`, `eq_parabAff_of_fix`) |
 | `ex:quotient_base`, tachyons / photons: "naturally a singular `(G,X)`-manifold" (l.668, def l.474: Hausdorff, second countable, locally connected) | ✓ carried: `T2Space`, `SecondCountableTopology`, `LocallyConnectedSpace` of the quotient, `≅ ℂ × ℝ`, `Γ` properly discontinuous in the full sense (`IsProperlyDiscontinuous`, `ThetaLiftQuotient`); the Euclidean-radius action is not (`rayLiftQuotient_tachyon_not_t1`, `rayLiftQuotient_photon_not_t2`) |
+| `ex:quotient_base`: "all these examples can also be obtained via gluings of polyedra" (l.681) | ✓ ruled informal remark (DEC-125 (g)): no polyhedra, gluings nor isomorphism are given; not formalized (SCOPE (c)(ii)) |
+| `rem:previous_examples_instances_developing`: "branched over its singular locus" | ✓ ruled corrected form (DEC-52): branched over `π{r=0} ⊇ sing(M)` (`quotientBase_sing_subset`); the maximal branched covering in `GX.Branched.Universality` (`previous_examples_instances_developing_ruled`, SCOPE (f)) |
 
 ## SCOPE (disclosed)
 
@@ -156,7 +159,7 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
   non-degenerate spacelike) `v` `GX.misner_isom0_general` (through the `Isom₀`-transitivity
   `GX.exists_isom0_nullS`, `GX.misner_general`) ("`v` spacelike" insufficient:
   `GX.misnerDev_spacelike_counterexample`); the
-  descent lemma `GX.isAEMorphismOf_quotientBase`; the tachyons and photons (l.682)
+  descent lemma `GX.isAEMorphismOf_quotientBase`; the tachyons and photons (l.679)
   `GX.tachyon_isom0`, `GX.photon_isom0` through `GX.thetaLiftQuotient_of_frame`,
   `GX.tachyon_conj_theta`, `GX.photon_conj_theta` (below, (i)).
   The reading: `cyl{n} = 𝔻_∞ × Z` for any locally connected `Z` (the paper's
@@ -186,8 +189,8 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
   non-zero null `w ⊥ u` (`misner_variations_ruled`; "`v` spacelike" alone is insufficient,
   `misnerDev_spacelike_counterexample`, a finding). The dimension slip (`cyl{n} = 𝔻_∞ × ℝ^n`
   said homeomorphic to `ℝ^n`) is absorbed by the generality in `Z`: `M ≅ ℂ × Z` for every `Z`.
-  **The tachyons and photons** (l.682, WP-44a). "Tachyon" and "photon" are not defined in the
-  paper; they are read, as in the literature it cites (`Particules_1`, `barbot2012particles`), as
+  **The tachyons and photons** (l.679, cited as l.682 in DEC-116 (a); WP-44a). "Tachyon" and
+  "photon" are not defined in the paper; they are read, as in the literature it cites (`Particules_1`, `barbot2012particles`), as
   the variations whose holonomy is an element `g ≠ 1` of `Isom₀` fixing pointwise a spacelike
   (resp. null) line `x₀ + ℝv`. Such a `g` is a boost (resp. a null rotation), proved:
   `eq_boostAff_of_fix`, `eq_parabAff_of_fix` (the orientation reversing candidates are excluded by
@@ -232,10 +235,12 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
   makes no positivity claim.
   That the axis is actually singular, and BBS's degree, are not asserted by the paper and not
   formalized.
-  **Informal sentence, not formalized, with the reason.** (ii) l.684, "all these examples can also be obtained via gluings of
-  polyedra": no polyhedra, gluing maps nor isomorphism are given, and gluings of polyhedra are
-  described only informally (l.624). Both sentences are remarks pointing at the literature; the
-  precise assertions of the example are certified above.
+  **Informal sentence, not formalized, with the reason.** (ii) l.681 (cited as l.684 in
+  DEC-125 (g)), "all these examples can also be obtained via gluings of polyedra": no polyhedra,
+  gluing maps nor isomorphism are given, and gluings of polyhedra are described only informally
+  (l.624). The sentence is a remark pointing at the literature, **ruled an informal remark by
+  DEC-125 (g)** (2026-11-08, the author: "Accept (a)–(g)"); the precise assertions of the example
+  are certified above, and the row closes.
 * **(d)** `ex:conical`. The declarations: `GX.conical`
   (holonomy `ρ_α`, the structure, "extends to the whole space iff `α = 2π`", the whole axis
   singular otherwise), `GX.conicalDev_smul` (`ρ(1)` the rotation of angle `α`),
@@ -298,18 +303,31 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
   `G ⊆ PGL`" names no `Γ` nor `S`, and is read as the general principle
   `quotient_finite_model_analytical` (every analytical `(G, X)`, every finite `Γ ⊆ G` free on a
   portly set; no local compactness), the reading ruled by DEC-54(a), under which the row closes.
-* **(f)** `rem:previous_examples_instances_developing`: read as — the cylinder is a covering over
-  the image of `{r > 0}`, branched over the image of `{r = 0}` (which contains the singular
-  locus, strictly when `α = 2π`), this covering is the universal cover of the regular part
-  (`previous_examples_universalCover`, `Z` a real normed space), and `D` induces a
-  `(G,X)`-morphism on `{r > 0}`; `ex:consider_identifying` is the case `α = 2π/p` of `ex:conical`
-  (`conical_quotient_rotations`). **Not formalized here**: that the cylinder `𝔻_∞ × Z → M` is
-  the maximal (Fox-universal) covering of `M` branched over `π{r = 0}` — `prop:universality`,
-  which lives in `GX.Branched.Universality`, a module importing this one; and "branched over its
-  singular locus" is false as written (the branching locus `π{r = 0}` strictly contains
-  `sing(M)` in `quotientBase_counterexample`); DEC-52 rules the corrected form "branched over
-  `π{r = 0} ⊇ sing(M)`" (`quotientBase_sing_subset`), so the row's remaining part is the
-  Fox-universality alone, which is left to the package editing `GX.Branched.Universality`.
+* **(f)** `rem:previous_examples_instances_developing` — **closed in the corrected form ruled by
+  DEC-52**, its certificate spanning this module and `GX.Branched.Universality`. Read as — the
+  cylinder is a covering over the image of `{r > 0}`, branched over the image of `{r = 0}` (which
+  contains the singular locus, strictly when `α = 2π`), this covering is the universal cover of
+  the regular part (`previous_examples_universalCover`, `Z` a real normed space), `D` induces a
+  `(G,X)`-morphism on `{r > 0}` (`previous_examples_developing`), and the cylinder `𝔻_∞ × Z → M`
+  is the maximal (Fox-universal) covering of `M` possibly branched over `π{r = 0}`;
+  `ex:consider_identifying` is the case `α = 2π/p` of `ex:conical` (`conical_quotient_rotations`),
+  `ex:conical` and the tachyons / photons (`Γ = GammaA (2π)` on `θ` alone, developed by
+  `thetaDev`) are instances of the cylinder of `ex:quotient_base` for particular `α` and `D`.
+  "Branched over its singular locus" is false as written (the branching locus `π{r = 0}`
+  strictly contains `sing(M)` in `quotientBase_counterexample`, a finding); DEC-52 rules the
+  corrected form "branched over `π{r = 0} ⊇ sing(M)`" (`quotientBase_sing_subset`). **Where each
+  part is proved**: this module carries `sing(M) ⊆ π{r=0}` (`quotientBase_ruled`,
+  `quotientBase_sing_subset`), the developing map (`previous_examples_developing`) and the
+  universal covering of the regular part (`previous_examples_universalCover`); the
+  Fox-universality (`prop:universality`) cannot be proved here, since it lives in
+  `GX.Branched.Universality`, a module importing this one, and is certified there (WP-27c) by
+  `GX.branchingLocus_orbitMk_cyl` (branching locus exactly `π{r = 0}`),
+  `GX.previous_examples_foxCompletion` and the assembled statement
+  `GX.previous_examples_instances_developing_ruled` (`IsMaximalPossiblyBranched`, the Fox
+  completion of the universal covering of `π{r > 0}`, isomorphic over `M` to
+  `\widetilde M^{π{r=0}}`). The polyhedral sentence l.681 is outside the remark's content
+  (DEC-125 (g), SCOPE (c)(ii)). The mark here records the row closed across the two modules,
+  both in the strict library and fully proved.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Builds on
 `GX.Singular.Atlas`, `GX.Structure.Basic`, `GX.Topology.Portly`, `GX.Topology.UniversalCover`.
@@ -7457,7 +7475,7 @@ theorem quotientBase_ruled {G X : Type*} [TopologicalSpace X] [Group G] [MulActi
   exact ⟨⟨B, ⟨hB, hπ, quotientBase_sing_subset hα hD hB hπ⟩,
     fun B' hB' => huniq B' ⟨hB'.1, hB'.2.1⟩⟩, ⟨cylHomeomorph hα Z⟩⟩
 
-/-! ## WP-44a: the tachyons and photons of `ex:quotient_base` (`RamcovGX.tex:682`)
+/-! ## WP-44a: the tachyons and photons of `ex:quotient_base` (`RamcovGX.tex:679`)
 
 `Γ = ℤ` acting on the infinite angle cylinder through the lift of the action of `g ∈ Isom₀` on the
 rays of a plane complementing its fixed line (the construction of `papers/bbs/REVIEW.md` §H.2),
@@ -7705,7 +7723,7 @@ theorem rayLiftHomeo_apply (hA : RayAdmissible A) (x : DInfty × ℝ) :
 /-! ### `Γ = ℤ` acting through the powers of a homeomorphism -/
 
 /-- **`Γ = ℤ` acting through the powers of a homeomorphism `φ`** (the group of the tachyon and
-photon variations of `ex:quotient_base`, `RamcovGX.tex:682`). A type synonym of `Multiplicative ℤ`
+photon variations of `ex:quotient_base`, `RamcovGX.tex:679`). A type synonym of `Multiplicative ℤ`
 carrying `φ`. -/
 def HomeoZ {M : Type*} [TopologicalSpace M] (_φ : M ≃ₜ M) : Type := Multiplicative ℤ
 
@@ -8400,7 +8418,7 @@ theorem GammaA.ofInt_add_one {α : ℝ} (k : ℤ) :
   rw [← GammaA.ofInt_toInt (GammaA.ofInt 1 * GammaA.ofInt k : GammaA α), GammaA.toInt_mul,
     GammaA.toInt_ofInt, GammaA.toInt_ofInt, add_comm]
 
-/-- **The corrected tachyon / photon** (`ex:quotient_base`, `RamcovGX.tex:682`): `Γ = ℤ` acts on
+/-- **The corrected tachyon / photon** (`ex:quotient_base`, `RamcovGX.tex:679`): `Γ = ℤ` acts on
 the coordinate `θ` of `𝔻_∞ × ℝ` (r and z fixed, the generator `θ ↦ θ + 2π`, `Γ = GammaA (2π)`),
 and the identification `ψ : ℝ ≃ₜ ℝ = \widetilde{ℝP¹}` of `θ` with the lifted rays of `P`
 (`D(r, θ, z)` lies on the ray `ℝ₊ w(e^{iψ θ})` modulo `ℝu`, `dev_eq`) conjugates the generator to
@@ -9173,7 +9191,7 @@ theorem eq_parabAff_of_fix (g : NullIsom0) (hg : ∀ t : ℝ, g • (t • nullU
   rw [hdec, hLy, parabAff_apply, parab_apply, hδ, hα, hγ1, sub_zero, zero_add]
   ext <;> simp <;> ring
 
-/-! ### `ex:quotient_base`, l.682: tachyons and photons -/
+/-! ### `ex:quotient_base`, l.679: tachyons and photons -/
 
 /-- The conjugate `h⁻¹ g h` of an element `g` fixing `x₀ + ℝu` pointwise, where `h(0) = x₀` and
 `h_lin(u₀) = u`, fixes `ℝu₀` pointwise. -/
@@ -9193,7 +9211,7 @@ theorem boostAff_zero_zero : boostAff 0 0 = 1 :=
 theorem parabAff_zero_zero : parabAff 0 0 = 1 :=
   AffineEquiv.ext fun y => by rw [parabAff_apply, parab_zero]; simp
 
-/-- **`ex:quotient_base`, the tachyons** (`RamcovGX.tex:682`), in `G = Isom₀(𝔼^{1,2})`: for every
+/-- **`ex:quotient_base`, the tachyons** (`RamcovGX.tex:679`), in `G = Isom₀(𝔼^{1,2})`: for every
 base point `x₀`, every spacelike `v` (`Q(v) > 0`), every `g ∈ Isom₀`, `g ≠ 1`, fixing the spacelike
 line `x₀ + ℝv` pointwise (necessarily a boost, `eq_boostAff_of_fix`) and every number of turns
 `m ≠ 0` (`m = ±1`: the tachyon itself), with `w` a parametrisation of the plane `P = v^⊥`
@@ -9253,7 +9271,7 @@ theorem nullτ_ne_zero_of_null {v : ℝ × ℝ × ℝ} (hv0 : v ≠ 0) (hv : nul
   have h2 : v.2.1 = 0 := by nlinarith [sq_nonneg v.2.2, sq_nonneg v.2.1]
   exact hv0 (Prod.ext (by rw [ha, h2]; simp) (Prod.ext h2 h1))
 
-/-- **`ex:quotient_base`, the photons** (`RamcovGX.tex:682`), in `G = Isom₀(𝔼^{1,2})`: for every
+/-- **`ex:quotient_base`, the photons** (`RamcovGX.tex:679`), in `G = Isom₀(𝔼^{1,2})`: for every
 base point `x₀`, every non-zero null `v`, every `g ∈ Isom₀`, `g ≠ 1`, fixing the null line
 `x₀ + ℝv` pointwise (necessarily a null rotation, `eq_parabAff_of_fix`) and every `m ≠ 0`
 (`m = ±1`: the photon itself), with `w` a parametrisation of a plane `P` complementing `ℝv`: the

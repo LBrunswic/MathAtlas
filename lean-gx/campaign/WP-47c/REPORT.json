@@ -1,0 +1,815 @@
+{
+ "package": "WP-47c",
+ "round": "DEC-125 (d)(e) application on the strict file (docstrings and REPORT only)",
+ "files": [
+  "GX/BTZ/Surgery.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "brunswic2021cauchy:lem:surface_causal (B21 Lemma 2.7)",
+   "tex_lines": [
+    749,
+    777
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.E0Surgery.lem_surface_causal",
+    "GX.E0Surgery.spacelikeDelta",
+    "GX.E0Surgery.graphQuad",
+    "GX.E0Surgery.graphQuad_eq",
+    "GX.E0Surgery.graphQuad_pos_iff",
+    "GX.E0Surgery.graphMap",
+    "GX.E0Surgery.hasFDerivAt_graphMap",
+    "GX.E0Surgery.minkQ_fderiv_graph"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Sigma a piecewise smooth graph over D in {tau = 0}",
+     "here": "read",
+     "note": "pointwise: g : R x R -> R in (r, theta), HasFDerivAt at the point, r > 0; the piecewise case is the union of its pieces [accepted: DEC-117 (readings accepted: spacelike pointwise; C^1 on the strip; the strip as the domain of completeness; the K-3 curve hypotheses)]"
+    },
+    {
+     "paper": "spacelike",
+     "here": "as printed",
+     "note": "positive definiteness of the pulled-back Minkowski metric of the paper's D (btzPaperDev, GX.btzPaperDev_pullback) on the tangent plane of the graph immersion"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "B21 l.757's identity ds^2 = delta dr^2 + ((1/r) d_theta tau dr - r dtheta)^2 is correct (graphQuad_eq); B21's commented-out proof of acausality (l.759-776) is correct and is formalized, integrated, as height_lt_of_le",
+    "WP-46e: the reading this row rested on is accepted (DEC-117); the row is closed and marked."
+   ],
+   "questions": []
+  },
+  {
+   "label": "brunswic2021cauchy:lem:curve_extension (ii) (B21 Lemma 2.6(ii))",
+   "tex_lines": [
+    704,
+    712
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.E0Surgery.lem_curve_extension_ii_complete",
+    "GX.E0Surgery.lem_curve_extension_ii",
+    "GX.E0Surgery.cuspExt",
+    "GX.E0Surgery.cuspExt_rim",
+    "GX.E0Surgery.hasFDerivAt_cuspExt",
+    "GX.E0Surgery.exists_cusp_isSpacelikeGraph"
+   ],
+   "hypotheses": [
+    {
+     "paper": "tau^R smooth positive on the circle",
+     "here": "weakened",
+     "note": "C^n with 1 <= n, 2pi-periodic, positive"
+    },
+    {
+     "paper": "spear of vertex (-2R,0,0), radius R",
+     "here": "read",
+     "note": "R > 0; the spear plays no role in (ii): the graph lives over the strip (0,R] x R [accepted: DEC-117 (readings accepted: spacelike pointwise; C^1 on the strip; the strip as the domain of completeness; the K-3 curve hypotheses)]"
+    },
+    {
+     "paper": "piecewise smooth tau_Sigma on D_R^*",
+     "here": "as printed",
+     "note": "proved C^n on {r > 0} (one piece), positive on 0 < r <= R, periodic, extends tau^R"
+    },
+    {
+     "paper": "graph spacelike and complete",
+     "here": "read",
+     "note": "spacelike: IsSpacelikeGraph (delta >= 1/r^2 > 0, Lemma 2.7); complete: CompleteSpace (Causal.Flat.PulledLength (graphDev tau R)) by lem_surface_complete_one with C = 1 (the strip reading of Lemma 2.8); also proved: tau -> +infinity at the axis (Lemma 2.10's hypothesis) [accepted: DEC-117 (readings accepted: spacelike pointwise; C^1 on the strip; the strip as the domain of completeness; the K-3 curve hypotheses)]"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "B21 Lemma 2.6: the proofs of (i) and (ii) are swapped (proof of the lemma l.856-881): the formula tau^R(theta) + M(1/r - 1/R) given as the proof of (i) (l.858-870) is the complete cusp of (ii), and the formula given as the proof of (ii) (l.872-878) is the compact disc of (i).",
+    "B21 l.865: the displayed delta = 1 - (-M/r^2) - ... drops the factor 2 of -2 d_r tau; correctly delta = 1 + 2M/r^2 - (d_theta tau^R)^2/r^2. The conclusion delta > 1/r^2 survives (it is >= 1 + (2M - B^2)/r^2 >= 1/r^2 with M = 1 + B^2).",
+    "WP-46e: the reading this row rested on is accepted (DEC-117); the row is closed and marked."
+   ],
+   "questions": []
+  },
+  {
+   "label": "brunswic2021cauchy:lem:curve_extension (i) (B21 Lemma 2.6(i))",
+   "tex_lines": [
+    704,
+    712
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.E0Surgery.lem_curve_extension_i",
+    "GX.E0Surgery.discExt",
+    "GX.E0Surgery.discPiece",
+    "GX.E0Surgery.discExt_of_le",
+    "GX.E0Surgery.discExt_of_ge",
+    "GX.E0Surgery.continuous_discExt",
+    "GX.E0Surgery.hasFDerivAt_discPiece",
+    "GX.E0Surgery.isSpacelikeGraph_const",
+    "GX.E0Surgery.IsSpacelikeDiscGraph",
+    "GX.E0Surgery.discGraphSet",
+    "GX.E0Surgery.isSpacelikeDiscGraph_of_min",
+    "GX.E0Surgery.IsSpacelikeDiscGraph.isCompact"
+   ],
+   "hypotheses": [
+    {
+     "paper": "tau^R smooth positive on the circle",
+     "here": "weakened",
+     "note": "C^n with 1 <= n, 2pi-periodic, positive"
+    },
+    {
+     "paper": "spear of vertex (-2R,0,0), radius R",
+     "here": "read",
+     "note": "R > 0; the spear enters only through the region r <= R [accepted: DEC-117 (readings accepted: spacelike pointwise; C^1 on the strip; the strip as the domain of completeness; the K-3 curve hypotheses)]"
+    },
+    {
+     "paper": "piecewise smooth tau_Sigma : D_R -> R_+ extending tau^R",
+     "here": "as printed",
+     "note": "two pieces: the slice M/R on r <= R/2 and the C^n piece ((2r-R)/R)^2 tau^R + M(1/r - 1/R) on r >= R/2 (globally continuous, written with max r (R/2)); positive on the closed disc 0 <= r <= R; equals tau^R on r = R"
+    },
+    {
+     "paper": "graph spacelike",
+     "here": "read",
+     "note": "read pointwise on each smooth domain (DEC-117 'spacelike pointwise', as Lemma 2.7 states for a piecewise smooth graph): each of the two pieces is IsSpacelikeGraph (delta > 0 at every 0 < r <= R; delta = 1 for the slice, delta >= 1 for the outer piece with M = 1 + B^2 + 5TR) [accepted: DEC-117 (spacelike pointwise)]. PROVED IN ADDITION (a stronger conclusion, not a reading): over the closed disc, axis included, the integrated form IsSpacelikeDiscGraph (height continuous on {r <= R}, strictly increasing along the causal order), obtained as tau = min(M/R, piece) (isSpacelikeDiscGraph_of_min). For a single pointwise-spacelike piece the integrated form follows from the pointwise one (isSpacelikeDiscGraph_of_isSpacelikeGraph); for the min of two pieces it is isSpacelikeDiscGraph_of_min."
+    },
+    {
+     "paper": "graph compact",
+     "here": "as printed",
+     "note": "IsCompact (discGraphSet tau R): the image of the closed disc under z -> (tau_Sigma(z), z)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "B21 Lemma 2.6: the formula printed as the proof of (ii) (l.872-877) is the compact disc of (i) (proofs swapped, as recorded for (ii)). Its 'M big enough so that delta > 0 on [R/2, R]' is right: delta = 1 - 8 s tau^R / R + (2M - s^4 (tau^R')^2)/r^2 with s = (2r-R)/R, and M = 1 + B^2 + 5TR (T = max tau^R, B = max |tau^R'|) gives delta >= 1 on all of 0 < r <= R; with M >= TR the outer piece is <= M/R on [R/2, R] and >= M/R on (0, R/2], so the printed tau is min(M/R, piece), which is what makes the kink at r = R/2 harmless for acausality.",
+    "B21 l.877: 'spacelike ... by Lemma 2.7' covers the two smooth pieces only at r > 0; across the BTZ axis (where the (r, theta) coordinates degenerate) Lemma 2.7 says nothing. The formalization proves the integrated statement (the height is strictly increasing along the causal order of E0 on {r <= R}, axis included), which is what Lemma 2.9 uses.",
+    "WP-46e: the reading this row rested on is accepted (DEC-117); the row is closed and marked.",
+    "WP-46e fixer (AUDIT-1 m1): the DEC-117 tag is reworded: the hypothesis/conclusion read under DEC-117 is 'spacelike pointwise on each piece'; the integrated disc form is an additional proved conclusion."
+   ],
+   "questions": []
+  },
+  {
+   "label": "brunswic2021cauchy:lem:surface_complete (B21 Lemma 2.8)",
+   "tex_lines": [
+    781,
+    851
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.E0Surgery.lem_surface_complete_one",
+    "GX.E0Surgery.lem_surface_complete_two",
+    "GX.E0Surgery.graphDev",
+    "GX.E0Surgery.stripSet",
+    "GX.E0Surgery.Strip",
+    "GX.E0Surgery.log_rad_le_length",
+    "GX.E0Surgery.log_le_localLength",
+    "GX.E0Surgery.theta_le_pathLength",
+    "GX.E0Surgery.rad_ge_of_pathLength",
+    "GX.E0Surgery.log_le_edist",
+    "GX.E0Surgery.theta_le_edist",
+    "GX.E0Surgery.edist_le_of_segment",
+    "GX.E0Surgery.clamp_le_edist",
+    "GX.E0Surgery.edist_le_seg",
+    "GX.E0Surgery.sqrt_graphQuad_le_seg",
+    "GX.E0Surgery.exists_delta_pos_annulus",
+    "GX.E0Surgery.exists_bound_dtheta",
+    "GX.E0Surgery.le_localLength_of_lipschitzOnWith",
+    "GX.E0Surgery.localDensity_graphDev",
+    "GX.E0Surgery.path_coords"
+   ],
+   "hypotheses": [
+    {
+     "paper": "piecewise smooth map tau_Sigma on D_R^*",
+     "here": "strengthened",
+     "note": "ContDiffOn R 1 g on the strip {0 < r <= R} (one piece) and HasFDerivAt at its points (from the delta hypothesis in (1), from IsSpacelikeGraph in (2)), g 2pi-periodic. The printed proof of (1) uses sup over a compact annulus of |d_theta tau| (l.812), and (2) needs the broken line to be rectifiable and delta bounded below on annuli: both need C^1 (a merely differentiable g can have d_theta g unbounded on compacts). The multi-piece case is not formalized. [accepted: DEC-117 (readings accepted: spacelike pointwise; C^1 on the strip; the strip as the domain of completeness; the K-3 curve hypotheses)]"
+    },
+    {
+     "paper": "complete",
+     "here": "read",
+     "note": "CompleteSpace of the library's Causal.Flat.PulledLength of the development graphDev g R over the strip (0, R] x R (the universal cover of D_R^*: a single development of the graph exists only there) [accepted: DEC-117 (readings accepted: spacelike pointwise; C^1 on the strip; the strip as the domain of completeness; the K-3 curve hypotheses)]"
+    },
+    {
+     "paper": "(1) spacelike",
+     "here": "as printed",
+     "note": "the conclusion of (1) is conjoined: at every point of the strip the pulled-back metric is positive definite on the tangent plane (Lemma 2.7)"
+    },
+    {
+     "paper": "delta >= C^2/r^2 wherever well defined, C > 0",
+     "here": "as printed",
+     "note": "at every point of the strip, for the derivative L of g"
+    },
+    {
+     "paper": "(2) Sigma spacelike",
+     "here": "as printed",
+     "note": "IsSpacelikeGraph g R (delta > 0 at every point)"
+    },
+    {
+     "paper": "lim_{(r,theta)->0} tau = +infinity",
+     "here": "as printed",
+     "note": "Tendsto g (comap Prod.fst (nhdsWithin 0 (Ioi 0))) atTop"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Both items are proved by the printed arguments, made metric: (1) a Cauchy sequence has log r Cauchy (l.799-806), hence stays in an annulus, hence theta Cauchy (l.808-821), and the coordinate limit is reached along segments; (2) by contraposition, the broken line through (r_n, theta_n) has finite length by l.838-848's bound and telescoping, so it is Cauchy and converges, which is impossible at the axis since delta is bounded below on annuli (clamp_le_edist).",
+    "B21 l.835: the interval ]r_n, r_{n+1}[ should read ]r_{n+1}, r_n[ (r_{n+1} < r_n/2).",
+    "B21 l.838-840: with the stated slope |theta'| <= 2pi/r_n one has r^2 theta'^2 <= 4pi^2, so the bound is sqrt(1 + 4pi^2 - 2 tau'), not sqrt(5 - 2 tau') (and tau' <= (1+4pi^2)/2, not 5/2). Harmless: any constant works; the formalization realigns the angles so |theta_{n+1} - theta_n| <= pi and bounds each straight piece by (1 + 2pi^2) dr - d tau (sqrt_graphQuad_le_seg).",
+    "B21 l.842 'By completeness of Sigma, the length of gamma is infinite' uses that the induced metric does not let a finite-length inextendible curve escape; for the strip this is clamp_le_edist (delta >= delta_0 > 0 on each annulus, from C^1 and periodicity).",
+    "WP-46e: the reading this row rested on is accepted (DEC-117); the row is closed and marked."
+   ],
+   "questions": []
+  },
+  {
+   "label": "brunswic2021cauchy:lem:intersect_number_complete (B21 Lemma 2.10)",
+   "tex_lines": [
+    897,
+    908
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.E0Surgery.lem_intersect_number_complete",
+    "GX.E0Surgery.lem_intersect_number_complete_vertical",
+    "GX.E0Surgery.arc_meets_graph_iff",
+    "GX.E0Surgery.cor_intersect",
+    "GX.E0Surgery.exists_height_neg_of_axis",
+    "GX.E0Surgery.exists_height_nonneg_of_unbounded",
+    "GX.E0Surgery.height_nonneg_iff_mem_Jplus_rim",
+    "GX.E0Surgery.height_lt_of_le",
+    "GX.E0Surgery.height_le_of_le",
+    "GX.E0Surgery.graph_acausal",
+    "GX.E0Surgery.continuousAt_height",
+    "GX.E0Surgery.IsSpacelikeGraph",
+    "GX.E0Surgery.IsSpacelikeGraph.continuousOn",
+    "GX.E0Surgery.height",
+    "GX.E0Surgery.heightAt",
+    "GX.E0Surgery.heightAt_eq_height",
+    "GX.E0Surgery.graphSet",
+    "GX.E0Surgery.segHeight",
+    "GX.E0Surgery.hasDerivAt_segHeight_pos",
+    "GX.E0Surgery.fst_le_of_le",
+    "GX.E0Surgery.rad_le_of_le",
+    "GX.E0Surgery.le_of_curveOn",
+    "GX.E0Surgery.vertical_meets_graph"
+   ],
+   "hypotheses": [
+    {
+     "paper": "proof by oriented intersection numbers (MR2680546)",
+     "here": "read (SCOPE K-3)",
+     "note": "monotonicity + IVT: the height F = tau - tau_Sigma(r, theta) is strictly increasing along <= in 0 < r <= R (height_lt_of_le), continuous; a causal arc meets Sigma^* at most once, and once iff F takes a value <= 0 and a value >= 0 along it (arc_meets_graph_iff) [accepted: DEC-117 (readings accepted: spacelike pointwise; C^1 on the strip; the strip as the domain of completeness; the K-3 curve hypotheses)]"
+    },
+    {
+     "paper": "c^* future causal curve in S^*",
+     "here": "read",
+     "note": "c : R -> E0 continuous on an interval I (OrdConnected), <=-increasing in parameter order (the library's CurveOn curves are, le_of_curveOn), in the region 0 < rad <= R [accepted: DEC-117 (readings accepted: spacelike pointwise; C^1 on the strip; the strip as the domain of completeness; the K-3 curve hypotheses)]"
+    },
+    {
+     "paper": "c^* a closed subset of S^*, restriction to Int(S^*) non-empty and inextendible",
+     "here": "read",
+     "note": "past end in the component [p]: a point with F < 0 (e.g. in the head), or inf rad = 0 (the axis; then F < 0 somewhere by lim tau = +infinity, exists_height_neg_of_axis, B21 l.930-931); future end: tau unbounded along c (sup = +infinity) or a last point b of I on the rim rad = R [accepted: DEC-117 (readings accepted: spacelike pointwise; C^1 on the strip; the strip as the domain of completeness; the K-3 curve hypotheses)]"
+    },
+    {
+     "paper": "lim tau = +infinity",
+     "here": "as printed",
+     "note": "Tendsto g (comap Prod.fst (nhdsWithin 0 (Ioi 0))) atTop"
+    },
+    {
+     "paper": "|c^* cap Sigma^*| = 1 if sup(c^*) in J^+(C^*) cup {+infinity}, 0 otherwise",
+     "here": "as printed",
+     "note": "Set.ncard (c '' I cap graphSet g R) = if (tau unbounded) or (last point c b with some y in C^* = graphSet cap {rad = R}, y <= c b) then 1 else 0; J^+(C^*) on the rim is 'F >= 0' (height_nonneg_iff_mem_Jplus_rim)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "B21 Lemmas 2.9/2.10 are proved by intersection theory; the order-theoretic monotonicity argument (B21's own commented-out l.759-776) suffices for the blunt spear, with no homotopy or orientation theory, and gives the full count.",
+    "WP-46e: the reading this row rested on is accepted (DEC-117); the row is closed and marked."
+   ],
+   "questions": []
+  },
+  {
+   "label": "brunswic2021cauchy:lem:intersect_number_compact (B21 Lemma 2.9)",
+   "tex_lines": [
+    885,
+    896
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.E0Surgery.lem_intersect_number_compact",
+    "GX.E0Surgery.lem_intersect_number_compact_axis",
+    "GX.E0Surgery.IsSpacelikeDiscGraph",
+    "GX.E0Surgery.discGraphSet",
+    "GX.E0Surgery.IsSpacelikeDiscGraph.height_le",
+    "GX.E0Surgery.IsSpacelikeDiscGraph.acausal",
+    "GX.E0Surgery.IsSpacelikeDiscGraph.arc_meets_iff",
+    "GX.E0Surgery.IsSpacelikeDiscGraph.height_nonneg_iff_rim",
+    "GX.E0Surgery.IsSpacelikeDiscGraph.exists_bound",
+    "GX.E0Surgery.fst_lt_of_le_of_ne",
+    "GX.E0Surgery.continuousAt_polarEval",
+    "GX.E0Surgery.isSpacelikeDiscGraph_of_isSpacelikeGraph",
+    "GX.E0Surgery.lem_intersect_number_compact_pointwise"
+   ],
+   "hypotheses": [
+    {
+     "paper": "proof by oriented intersection numbers (MR2680546)",
+     "here": "read (SCOPE K-3)",
+     "note": "monotonicity + IVT: the height is strictly increasing along the causal order on {r <= R} (axis included) and continuous there; a causal arc meets Sigma at most once, and once iff the height takes a value <= 0 and a value >= 0 [accepted: DEC-117 (readings accepted: spacelike pointwise; C^1 on the strip; the strip as the domain of completeness; the K-3 curve hypotheses)]"
+    },
+    {
+     "paper": "Sigma a spacelike surface in S, graph of tau_Sigma over D_R in the shaft",
+     "here": "read",
+     "note": "read POINTWISE (DEC-117 'spacelike pointwise'): IsSpacelikeGraph g R (Lemma 2.7 at every point 0 < r <= R) with the height continuous on the closed solid cylinder {r <= R} (Sigma the graph of a continuous tau_Sigma over the closed disc): GX.E0Surgery.lem_intersect_number_compact_pointwise. The integrated form IsSpacelikeDiscGraph g R (height strictly increasing along the causal order on {r <= R}, axis included), which lem_intersect_number_compact takes, is IMPLIED by the pointwise one: GX.E0Surgery.isSpacelikeDiscGraph_of_isSpacelikeGraph (WP-46e fixer, AUDIT-1 m1: off the axis height_lt_of_le; from an axis point, Lemma 2.7 integrated along the straight segment of the development, which leaves the axis at once, its endpoint by continuity of the height). Inhabited by Lemma 2.6(i)'s disc (lem_curve_extension_i). [accepted: DEC-117 (spacelike pointwise)]"
+    },
+    {
+     "paper": "c future causal curve in S, closed in S, restriction to Int(S) non-empty and inextendible",
+     "here": "read (K-3)",
+     "note": "c continuous on an interval I, increasing for the causal order, in {r <= R} (the axis allowed); past end in [p]: a point strictly below Sigma (the head); future end: tau unbounded (sup = +infinity) or a last point on the shaft r = R [accepted: DEC-117 (readings accepted: spacelike pointwise; C^1 on the strip; the strip as the domain of completeness; the K-3 curve hypotheses)]"
+    },
+    {
+     "paper": "|c cap Sigma| = 1 if sup(c) in J^+(C) cup {+infinity}, 0 otherwise",
+     "here": "as printed",
+     "note": "Set.ncard (c '' I cap discGraphSet g R) = if (tau unbounded) or (last point c b with y <= c b for some y in C = discGraphSet cap {r = R}) then 1 else 0"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "B21 Lemmas 2.9/2.10 are proved by intersection theory; the order-theoretic argument (height increasing along the causal order) suffices for the compact spear too, including curves running along or crossing the BTZ axis, once Sigma is spacelike across the axis in the integrated sense.",
+    "WP-46e: the reading this row rested on is accepted (DEC-117); the row is closed and marked.",
+    "WP-46e fixer (AUDIT-1 m1): the bridge pointwise => integrated is PROVED (isSpacelikeDiscGraph_of_isSpacelikeGraph: IsSpacelikeGraph + height continuous on {r <= R} => IsSpacelikeDiscGraph; no axis hypothesis is needed, the height on the axis being tau - g(0,0)), and Lemma 2.9 is stated in the pointwise reading as lem_intersect_number_compact_pointwise. The DEC-117 tag now attaches to the pointwise reading itself."
+   ],
+   "questions": []
+  },
+  {
+   "label": "brunswic2021cauchy:cor:intersect (B21 Cor 2.11)",
+   "tex_lines": [
+    910,
+    912
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.E0Surgery.cor_intersect_number",
+    "GX.E0Surgery.cor_intersect_number_vertical"
+   ],
+   "hypotheses": [
+    {
+     "paper": "under the hypotheses of Lemmas 2.9 and 2.10",
+     "here": "read (K-3)",
+     "note": "Lemma 2.9's for (c, I, Sigma = disc graph gc) and Lemma 2.10's for (c*, I*, Sigma* = graph gs with lim tau = +infinity), in the K-3 readings of both [accepted: DEC-117 (readings accepted: spacelike pointwise; C^1 on the strip; the strip as the domain of completeness; the K-3 curve hypotheses)]"
+    },
+    {
+     "paper": "reg(c) = c*, reg(S) = S*",
+     "here": "as printed",
+     "note": "c* is c restricted to I* = {t in I | r(c t) > 0}, a final segment of I (r non-decreasing along the causal order); the regions are {r <= R} and {0 < r <= R}"
+    },
+    {
+     "paper": "C = C*",
+     "here": "as printed",
+     "note": "gc = gs on the rim r = R"
+    },
+    {
+     "paper": "|c cap Sigma| = |c* cap Sigma*|",
+     "here": "as printed",
+     "note": "Set.ncard equality"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Cor 2.11 follows from the two counts once (i) tau unbounded along c iff along c*, (ii) a last point on the shaft is in I*, and (iii) J^+(C) = J^+(C*) on the shaft: the past-end hypotheses of the two lemmas are independent and must both be assumed (a point below Sigma need not be below Sigma*).",
+    "WP-46e: the reading this row rested on is accepted (DEC-117); the row is closed and marked."
+   ],
+   "questions": []
+  },
+  {
+   "label": "brunswic2021cauchy:prop:abs_max (B21 Prop 2.17, first assertion: Sigma* Cauchy in Reg M, Reg M Cauchy-complete)",
+   "tex_lines": [
+    1078,
+    1093
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.E0Surgery.regM_isCauchyComplete_of_C1",
+    "GX.E0Surgery.IsE0C1SpacelikeCauchy",
+    "GX.E0Surgery.eqOn_closedBall_of_rim_antecedent",
+    "GX.E0Surgery.rimFun_eq_of_rim_antecedent",
+    "GX.E0Surgery.SpearSurgeryDatum",
+    "GX.E0Surgery.exists_spearSurgeryDatum",
+    "GX.E0Surgery.SpearSurgeryDatum.exists_shrink",
+    "GX.E0Surgery.SpearSurgeryDatum.spearSet",
+    "GX.E0Surgery.SpearSurgeryDatum.cusp",
+    "GX.E0Surgery.SpearSurgeryDatum.graphSet_subset_spear",
+    "GX.E0Surgery.SpearSurgeryDatum.cusp_subset_spearSet",
+    "GX.E0Surgery.SpearSurgeryDatum.mem_S0_iff",
+    "GX.E0Surgery.SpearSurgeryDatum.cusp_inter_S0",
+    "GX.E0Surgery.SurgeryData",
+    "GX.E0Surgery.exists_surgeryData",
+    "GX.E0Surgery.SurgeryData.sigmaStar",
+    "GX.E0Surgery.SurgeryData.sigmaStarReg",
+    "GX.E0Surgery.SurgeryData.sigmaStar_diff",
+    "GX.E0Surgery.SurgeryData.sigmaStar_inter_spearSet",
+    "GX.E0Surgery.SurgeryData.sigmaStar_subset_regM",
+    "GX.E0Surgery.SurgeryData.isCauchySurface_sigmaStar",
+    "GX.E0Surgery.SurgeryData.isSpacelikeLipschitzAt_cusp",
+    "GX.E0Surgery.SurgeryData.isSpacelikeLipschitz_sigmaStar",
+    "GX.E0Surgery.SurgeryData.completeSpace_sigmaStar",
+    "GX.E0Surgery.lem_curve_extension_ii_shift",
+    "GX.E0Surgery.mem_graphSet_iff_of_rim",
+    "GX.E0Surgery.spear_surgery_local",
+    "GX.E0Surgery.finite_inter_S0",
+    "GX.E0Surgery.exists_spearSurgeryDatum_cover",
+    "GX.E0Surgery.isClosed_image_spearY",
+    "GX.E0Surgery.SpearSurgeryDatum.disjoint_of_head",
+    "GX.E0Surgery.mem_Iminus_of_le_of_mem",
+    "GX.E0Surgery.rem_curve_spear",
+    "GX.E0Surgery.SpearSurgeryDatum.isSpearArc_of_inextensible",
+    "GX.E0Surgery.SurgeryData.isSpacelikeLipschitzAt_cusp",
+    "GX.E0Surgery.SurgeryData.isSpacelikeLipschitzAt_cusp_interior",
+    "GX.E0Surgery.SurgeryData.isSpacelikeLipschitzAt_cusp_rim",
+    "GX.E0Surgery.SpearSurgeryDatum.eventually_regChart",
+    "GX.E0Surgery.SpearSurgeryDatum.eventually_atlasChart",
+    "GX.E0Surgery.isSpacelikeLipschitzAt_of_coneZeroSet",
+    "GX.E0Surgery.isSpacelikeLipschitzAt_of_coneZeroSet'",
+    "GX.E0Surgery.exists_ball_isConeIncreasingOn",
+    "GX.E0Surgery.fderiv_chartHeight_pos",
+    "GX.E0Surgery.fderiv_nullHeight_pos",
+    "GX.E0Surgery.exists_nullShift",
+    "GX.E0Surgery.isConeIncreasingOn_nullShift",
+    "GX.E0Surgery.continuousOn_nullShift",
+    "GX.E0Surgery.nullShift_unique",
+    "GX.E0Surgery.SurgeryData.completeSpace_sigmaStar",
+    "GX.E0Surgery.SurgeryData.completeSpace_sigmaStar_of_delta",
+    "GX.E0Surgery.SurgeryData.ofReal_abs_logRad_sub_le_edist",
+    "GX.E0Surgery.SurgeryData.logRad",
+    "GX.E0Surgery.SurgeryData.abs_deriv_logRad_le",
+    "GX.E0Surgery.SurgeryData.exists_lipschitzOnWith_logRad",
+    "GX.E0Surgery.sq_le_minkQ_of_tangent",
+    "GX.E0Surgery.sq_div_le_nullQ_of_tangent",
+    "GX.E0Surgery.SpearSurgeryDatum.delta",
+    "GX.E0Surgery.ae_of_local",
+    "GX.E0Surgery.SurgeryData.cuspUp",
+    "GX.E0Surgery.SurgeryData.cuspDown",
+    "GX.E0Surgery.SurgeryData.futSide",
+    "GX.E0Surgery.SurgeryData.pastSide",
+    "GX.E0Surgery.SurgeryData.cuspUp_subset",
+    "GX.E0Surgery.SurgeryData.cuspDown_subset",
+    "GX.E0Surgery.SurgeryData.eq_of_mem_spearSet",
+    "GX.E0Surgery.SurgeryData.sigmaStar_subset_sides",
+    "GX.E0Surgery.SurgeryData.mem_sigmaStar_of_sides",
+    "GX.E0Surgery.SurgeryData.mem_sides_of_notMem_S0",
+    "GX.E0Surgery.SurgeryData.closure_futSide_subset",
+    "GX.E0Surgery.SurgeryData.closure_pastSide_subset",
+    "GX.E0Surgery.SurgeryData.eventually_other",
+    "GX.E0Surgery.SurgeryData.eventually_futSide",
+    "GX.E0Surgery.SurgeryData.eventually_pastSide",
+    "GX.E0Surgery.SurgeryData.eventually_eq_of_sigmaStar",
+    "GX.E0Surgery.SurgeryData.exists_pastSide",
+    "GX.E0Surgery.SurgeryData.exists_futSide",
+    "GX.E0Surgery.SurgeryData.isClosed_preimage_futSide",
+    "GX.E0Surgery.SurgeryData.isClosed_preimage_pastSide",
+    "GX.E0Surgery.SurgeryData.futSide_of_le",
+    "GX.E0Surgery.SurgeryData.pastSide_of_le",
+    "GX.E0Surgery.SurgeryData.eq_of_forall_mem_sigmaStar",
+    "GX.E0Surgery.SpearSurgeryDatum.le_vert",
+    "GX.E0Surgery.SpearSurgeryDatum.graphPt_mem",
+    "GX.E0Surgery.SpearSurgeryDatum.mem_Jminus_of_le_τS",
+    "GX.E0Surgery.SpearSurgeryDatum.mem_Jplus_of_τS_le",
+    "GX.E0Surgery.SpearSurgeryDatum.v_lt_fcoord_of_mem_graphSet",
+    "GX.E0Surgery.SpearSurgeryDatum.eventually_le_coord",
+    "GX.E0Surgery.SpearSurgeryDatum.mem_spearSet_iff",
+    "GX.E0Surgery.SpearSurgeryDatum.paperOfY_ginv",
+    "GX.E0Surgery.SpearSurgeryDatum.continuousAt_height_ginv",
+    "GX.E0Surgery.SpearSurgeryDatum.not_interior_of_mem_closure",
+    "GX.E0Surgery.SpearSurgeryDatum.exists_bound_G_annulus",
+    "GX.E0Surgery.SpearSurgeryDatum.exists_lt_G_near_axis",
+    "GX.E0Surgery.cauchy_facts",
+    "GX.E0Surgery.exists_open_of_BTZ"
+   ],
+   "hypotheses": [
+    {
+     "paper": "globally hyperbolic",
+     "here": "as printed",
+     "note": "(E0CBG.CE M).GloballyHyperbolic"
+    },
+    {
+     "paper": "Cauchy-compact",
+     "here": "read (DEC-107, DEC-117)",
+     "note": "of record: regM_isCauchyComplete_of_C1 with IsE0C1SpacelikeCauchy (B21 l.227: a compact C^1 spacelike Cauchy surface). The topological regM_isCauchyComplete and the smoothing (G0) exists_isE0C1SpacelikeCauchy are DELETED (DEC-117)."
+    },
+    {
+     "paper": "Cauchy-maximal",
+     "here": "read (DEC-77(c))",
+     "note": "E0Spear.IsE0CauchyMaximal"
+    },
+    {
+     "paper": "E_A-manifold, A subset R_+",
+     "here": "read",
+     "note": "E0-manifolds only (A = {0}), T2, connected, second countable. This is the only hypothesis not covered by a ruling: the row is partial for it alone (0 sorry). gx uses Prop 2.17 / Cor 2.18 for E0-manifolds only (DEC-28, SCOPE B-16); DEC-116 (b) ruled the analogous E0-only scope for Lemmas 2.3/2.4. [accepted: DEC-125 (e) (Prop 2.16 and Prop 2.17's first assertion for E0 only, A = {0})]"
+    },
+    {
+     "paper": "Cauchy-complete",
+     "here": "read (DEC-31)",
+     "note": "Causal.Flat.IsCauchyComplete 2 (e0RegMFlat M), i.e. the induced length"
+    },
+    {
+     "paper": "Sigma* equal to Sigma outside the spears and to the graph of Lemma 2.6(ii) inside each (l.1091)",
+     "here": "as printed",
+     "note": "SurgeryData.sigmaStar; sigmaStar_diff and sigmaStar_inter_spearSet prove the two halves of the description, sigmaStar_subset_regM that Sigma* lies in Reg M (all 0 sorry)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Prop 2.17's proof (l.1089-1093) needs Sigma cap S_Delta to be a smooth (C^1) spacelike circle, which comes from the smooth spacelike Cauchy surface of the definition of Cauchy-compact (l.227), not from a topological one.",
+    "As stated with a topological compact Cauchy surface, Prop 2.17's first assertion is true only through a smoothing theorem (Bernard-Suhr, cited at B21 l.568-570): the Cauchy surface Sigma* of the conclusion must be spacelike (Lipschitz), and B21's proof (l.1089-1093) builds it from a smooth spacelike Sigma by local surgery. The topological hypothesis therefore makes the smoothing theorem a hidden cited result.",
+    "B21 l.1091 asserts without proof that the spear neighbourhoods can be taken disjoint, and Def 2.1 (frontier = head + shaft) implicitly that they are closed; both are used by the gluing (Sigma* is S near points off the spears only if the union of spears is closed) and are now explicit fields of SurgeryData, produced by (G1).",
+    "DEFECT IN THE ROUND-1 FORMALIZATION (not in the paper), found by AUDIT-2 B1 and REPAIRED in round 2: IsE0C1SpacelikeCauchy.rim, as written in round 1, required ContDiff R 1 (rimFun tau_S R) for every tau_S satisfying only the graph condition (forall x in spear v R, psi(paperInY x) in S <-> x.1 = tau_S x.2), with no shaft bound. Raising the vertex of any spear datum above sup tau_S makes the spear miss S, so any tau_S' below the vertex satisfies the iff, including a discontinuous one; the auditor proved (sorry-free) audit_C1_vacuous : SpearSurgeryDatum M S -> IsE0C1SpacelikeCauchy M S -> False. Consequences in round 1: the predicate was contradictory whenever a BTZ point lies in I^-(S); regM_isCauchyComplete_of_C1 was vacuous exactly in the BTZ case; (G0) exists_isE0C1SpacelikeCauchy was FALSE there although regM_isCauchyComplete was composed through it. Round 1's REPORT did not disclose this. REPAIR: rim's antecedent now also has ContinuousOn tau_S (closedBall 0 R) and (forall z, ||z|| <= R -> v + R/2 < tau_S z); the two call sites (exists_spearSurgeryDatum: h0 h1 from Lemma 2.4; SpearSurgeryDatum.exists_shrink: the restricted continuity and hshaft) pass them. Regression: campaign/WP-43b/RimRegression.lean proves (axioms propext/choice/Quot.sound) that at a raised vertex no tau_S' meets both the shaft bound and the graph condition, so the auditor's attack no longer reaches rim; the auditor's own script (AUDIT-2 counterexample_lean) now fails to typecheck at hS.rim. Re-check of the other fields: cauchy/compact/reg are standard; with the shaft bound, rim asks only that the trace of S on circles r = R > 0 (inside Reg M) be C^1, which holds for every C^1 spacelike S (S is transverse to the null direction d_tau, hence a C^1 graph over z near the circle, coinciding with tau_S on the disc), so (G0) is no longer refuted by the BTZ case. SpearSurgeryDatum's fields are all produced by exists_spearSurgeryDatum (Lemma 2.4 upstream + Lemma 2.6(ii), 0 local sorry); its rim C^1 is now the rim field applied to the datum's own tau_S, which the datum determines.",
+    "DEC-107 adopted: the formalization of record of Prop 2.17's first assertion is regM_isCauchyComplete_of_C1 (C^1 spacelike compact Cauchy surface, IsE0C1SpacelikeCauchy). Its composition has no sorry of its own; of its five pieces, (G1) exists_surgeryData and (G2) rem_curve_spear are now PROVED (0 sorry, axioms propext/choice/Quot.sound; their upstream, Spear's Lemmas 2.3/2.4, is sorry-free since WP-44d), and (G3), (G4a), (G5) remain, one tagged sorry each.",
+    "B21 l.1091 'Since M is Cauchy-compact, it admits finitely many BTZ-lines and one can take the spear neighborhoods disjoint' is PROVED, with the argument B21 omits: S ∩ sing0(M) is finite (compact and discrete: the BTZ points of a spear lie on one causal ray, which the acausal S meets once); the vertex of each spear is taken on the BTZ line strictly below its point of S, which is in I^-(S) (J^-(S) minus S = I^-(S) in a GH E0-manifold, mem_Iminus_of_le_of_mem); spears are closed in M (isClosed_image_spearY: a climbing sequence would put a vertical null ray in a compact diamond); and two spears are disjoint as soon as each ray misses the other spear and one head misses the other spear (disjoint_of_head: follow the radial null segment to the ray and read its last entry into the other spear in that spear's chart), which thinning each spear (heads shrink to the vertex) achieves for finitely many spears.",
+    "B21 Def 2.1's implicit 'a spear neighbourhood is closed' (its frontier is head ∪ shaft) holds for every spear of an injective E0-chart in a GH E0-manifold (isClosed_image_spearY); B21 does not argue it.",
+    "WP-46e: (G4a) PROVED. Interior (r < R): the flat chart of Reg M read in a spear chart is g • (sector chart of E0) near the point (SpearSurgeryDatum.eventually_regChart: psi is locally a groupoid element, e0_flat_transition_aux, and an a.e.-atlas chart is g • a sector chart, btz_chart_eq_smul_btzPaperDev), so the chart picture of Sigma* is the zero set of the height chartHeight G g, C^1 with derivative positive on the closed future cone at the point (Lemma 2.7 in null coordinates: on the graph tau = G(r, theta), ds^2(w) = graphQuad(u) - 2 lambda w_r for w = lambda d_tau + u, fderiv_nullHeight_pos), hence c-cone-increasing on a ball for some c < 1 (exists_ball_isConeIncreasingOn: Riesz and the mean value theorem), and Causal.Flat.Cla.exists_isSpacelikeLipschitzIn_zeroSet concludes. Rim (r = R): in the frame g1 in which S is locally the graph of a c1-Lipschitz u (hS.reg), the function equal to the cusp height on {r <= R} and to the null-shift height sigma of S along the developed d_tau on {r > R} (exists_nullShift, by the intermediate value theorem; cone-increasing and Lipschitz) is continuous, because the two agree on the cylinder r = R (shifting along d_tau stays on the cylinder, where the cusp and S meet each tau-line at the same point, C = C*), and cone-increasing (a segment crossing the cylinder is cut at a crossing point); its zero set is Sigma* (the cusp inside the spear, S outside all spears). No implicit function theorem is needed.",
+    "WP-46e: (G5) PROVED, by B21 Lemma 2.8's log r estimate (l.799-806) transported to the glued surface: for each spear the clamped log-radius log(min(r, R/2)) is 1-Lipschitz for the induced length of Sigma* (SurgeryData.ofReal_abs_logRad_sub_le_edist: along a path Lipschitz in charts, a.e. |d/dt log r| <= density, by Rademacher in a chart near each time, and on the cusp below R/2 the tangent bound ds^2 >= (dr/r)^2 from delta >= 1/r^2, sq_le_minkQ_of_tangent; where the clamp is active the function is locally constant or has a local maximum). A Cauchy sequence therefore stays in T = (S minus spears) union the graphs of the G_i over rho_i <= r <= R_i, which is compact (closed: a limit point of S minus spears on a spear is on the rim, an interior point having an open neighbourhood inside the spear); a subsequence converges in M, hence in Sigma* with its subspace topology, hence for the induced length (Causal.Flat.Cla.continuous_inducedLengthSpace_toSubtype_symm). No path lifting to the strip is needed.",
+    "WP-46e: SpearSurgeryDatum gains the field delta (delta >= 1/r^2 for the cusp on {r > 0}, Lemma 2.8(1)'s hypothesis with C = 1), which lem_curve_extension_ii's construction already had; lem_curve_extension_ii_shift now exports it (one more conjunct at the end) and exists_spearSurgeryDatum / exists_shrink pass it. Nothing outside this file uses either.",
+    "WP-46e fixer: (G3) PROVED, SurgeryData.isCauchySurface_sigmaStar, 0 sorry (new §5g). B21 l.1093's 'by Remark 2.12 and Corollary 2.11 applied in each spear neighborhood' is made precise without intersection numbers: Sigma* cuts Reg M into a future side futSide = (J^+(S) minus the spears) union {height G_i >= 0 in spear i} and a past side pastSide = (J^-(S) minus the spears) union {height G_i <= 0}. (i) They cover Reg M and meet exactly along Sigma* (S acausal; J^+(S) cap J^-(S) = S). (ii) Both are closed in Reg M: a point of a spear in the closure of the outside is on the head or on the shaft (the open {f > v, r < R} lies in the spear); the head lies strictly below S (tau <= v + R/2 < tau_S), and a shaft point of J^+(S) is above C (else it would be in J^-(S) cap J^+(S) = S), i.e. has height G >= 0 by C = C*; limits inside a spear by continuity of the height read through the chart inverse. (iii) Along a causal curve of Reg M the future side propagates forward and the past side backward (the chart reading of the curve near a point, eventually_le_coord, with Lemma 2.7's monotone height; a curve leaves a spear forward only through the shaft, where the point is in J^+(S), and backward only through the head, which is in J^-(S)); with (ii), futSide is a future set and pastSide a past set along the curve (IsClosed.Icc_subset_of_forall_mem_nhdsWithin). (iv) Every inextensible causal curve of Reg M (reparametrised over R) meets both sides: by Remark 2.12 (hrem) every spear component has a point below the cusp (its past end is on the head or at the axis, where G -> +infinity uniformly while tau is bounded above); a spear component missing futSide ends on the shaft below C, in J^-(S), because a component with tau unbounded climbs above the cusp, bounded on the annulus r >= r(start). A curve missing futSide therefore lies in J^-(S), its future tail lies in the compact diamond J^+(d 0) cap J^-(s) (s a cluster point in compact S), converges, to a point of Reg M (BTZ points precede), against inextensibility. A curve missing the spears and pastSide lies in J^+(S), its past tail converges to q; q in Reg M contradicts inextensibility, and a BTZ q in J^+(S) is inside a spear (exists_open_of_BTZ: the BTZ line through q meets S in a BTZ point s <= q, on the ray of the spear covering s; q != vertex since the vertex is in I^-(S)), against the curve missing the spears. (v) Existence by connectedness of R, uniqueness: two points of the curve on Sigma* bound a segment on both sides, hence in Sigma*, along which the curve is locally constant (S acausal outside the spears; inside, the height is strictly monotone in the chart and the rim point is on S).",
+    "WP-46e fixer: with (G3), Prop 2.17's first assertion of record, regM_isCauchyComplete_of_C1, has NO sorry beneath it (axiom sweep: every one of the 298 declarations of the file is on [propext, Classical.choice, Quot.sound]). Corollary 2.11's counting is not used by the proof: the sides argument replaces it (Cor 2.11 itself is proved separately as cor_intersect_number).",
+    "WP-46e: DEC-117 executed: the topological GX.E0Surgery.regM_isCauchyComplete and the not-owed smoothing GX.E0Surgery.exists_isE0C1SpacelikeCauchy (G0) are DELETED. GXScaffold.BTZ.AbsMax.prop_abs_max (AbsMax.lean l.2039) still calls the former and no longer typechecks (re-confirmed by the fixer against the new olean: the single error of lake env lean on AbsMax.lean). TRANSITIVELY, everything importing AbsMax does not build until it is repointed: GXScaffold.BTZ.Uniformization (the headline) and the GXScaffold root (scaffold/GXScaffold.lean). The fix is outside this package's write set and is a one-line change: retire AbsMax.prop_abs_max, or repoint it to E0Surgery.regM_isCauchyComplete_of_C1 / cor_abs_max_C1 (which AbsMax already has, and which Uniformization's proofs use). The master must sequence this before any make check (WP-46e AUDIT-1 m2).",
+    "WP-47c: the reading this row rested on is accepted by DEC-125 (e) (Prop 2.16 and Prop 2.17's first assertion for E0 only, A = {0}); the row is closed and marked, docstrings only (no code change; 0 sorry; axioms propext/Classical.choice/Quot.sound, campaign/WP-47c/axioms.out)."
+   ],
+   "questions": []
+  },
+  {
+   "label": "brunswic2021cauchy:rem:curve_spear (B21 Remark 2.12)",
+   "tex_lines": [
+    913,
+    915
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.E0Surgery.rem_curve_spear",
+    "GX.E0Surgery.SpearSurgeryDatum.IsSpearArc",
+    "GX.E0Surgery.SpearSurgeryDatum.IsSpearArc.ncard",
+    "GX.E0Surgery.SpearSurgeryDatum.coord",
+    "GX.E0Surgery.SpearSurgeryDatum.isSpearArc_of_inextensible",
+    "GX.E0Surgery.SpearSurgeryDatum.pastEnd",
+    "GX.E0Surgery.SpearSurgeryDatum.futureEnd",
+    "GX.E0Surgery.SpearSurgeryDatum.le_of_causalCurve"
+   ],
+   "hypotheses": [
+    {
+     "paper": "connected components of the intersection of an inextendible causal curve of M with a (blunt) spear neighbourhood",
+     "here": "read",
+     "note": "for the spears of the surgery, an inextensible causal curve c of Reg M (flatCausality), the component connectedComponentIn {t in I | c t in psi(spear)} t0, read in the spear's coordinates (SpearSurgeryDatum.coord = invFunOn of psi o paperInY) [accepted: DEC-116 (d)]"
+    },
+    {
+     "paper": "satisfy the hypotheses of Lemmas 2.9/2.10",
+     "here": "read (K-3)",
+     "note": "IsSpearArc: the K-3 hypotheses of lem_intersect_number_complete; IsSpearArc.ncard (0 sorry) gives the Lemma 2.10 count from them [accepted: DEC-116 (d)]"
+    },
+    {
+     "paper": "an inextendible causal curve of any E_{>=0}-manifold M, any (blunt) spear neighbourhood",
+     "here": "read",
+     "note": "M globally hyperbolic (used for the closedness of the spear in M, isClosed_image_spearY, and for Reg M's limit facts, regM_facts: closed J^{+-}, strong causality, compact diamonds in exists_tendsto_of_monotone / exists_tendsto_atBot_of_monotone, against Inextensible.not_tendsto_atTop/atBot); the spears are those of a SpearSurgeryDatum (the K-3 past end 'below Sigma*' is read against its cusp G). DEC-116 (d) accepts the K-3 reading of the curve hypotheses; it does not mention global hyperbolicity of M (WP-44e AUDIT-1 m1, WP-46e AUDIT-1 M1). The remark is used only inside Prop 2.17's proof, where M is GH. [accepted: DEC-125 (d) (Remark 2.12 with the added hypothesis M globally hyperbolic)]"
+    },
+    {
+     "paper": "(none)",
+     "here": "removed",
+     "note": "the unused hypothesis _hS : IsE0C1SpacelikeCauchy M S of rem_curve_spear is DROPPED (WP-46e fixer; its one caller, regM_isCauchyComplete_of_C1, is updated). rem_curve_spear now takes hGH and the surgery data only."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Remark 2.12 is the only bridge between Lemmas 2.9-2.11 (statements about arcs of the model E0) and curves of M; it is used at l.1093 and carries no proof. For the blunt spear, its truth needs the spear to be closed in M (an arc leaving through the shaft must not have its past end at a frontier point of psi(spear) outside psi(spear)).",
+    "Remark 2.12 is PROVED (WP-44e, 0 sorry) for the blunt spears of the surgery and inextensible causal curves of Reg M: the component is a spear arc (K-3 hypotheses of Lemma 2.10). The past end is on the head (the first point of a component has f = v, since just before it the curve is outside the closed spear, and read in the chart it is Le-below the entry point, with r below R) or at the axis (otherwise a bounded past end would be a limit in Reg M); the future end is on the shaft or at tau = +infinity. The remark's Lemma 2.9 half (curves of M through compact spears, crossing the axis) is not formalized: the surgery only uses Lemma 2.10's.",
+    "WP-46e: the reading this row rested on is accepted (DEC-116 (d)); the row is closed and marked.",
+    "WP-46e fixer (AUDIT-1 M1): the row returns to PARTIAL and UNMARKED. rem_curve_spear carries the added hypothesis 'M globally hyperbolic', which the proof genuinely uses; without it the spear need not be closed in M (B21 Def 2.1's frontier condition) and an inextensible curve of a non-strongly-causal Reg M need not avoid limits, so the GH-free statement is not a corollary of this proof. It closes if the master confirms that DEC-116 (d) covers GH M (the remark's only use, B21 l.1093, is inside Prop 2.17 where M is GH).",
+    "WP-47c: the reading this row rested on is accepted by DEC-125 (d) (Remark 2.12 with the added hypothesis M globally hyperbolic); the row is closed and marked, docstrings only (no code change; 0 sorry; axioms propext/Classical.choice/Quot.sound, campaign/WP-47c/axioms.out)."
+   ],
+   "questions": []
+  }
+ ],
+ "extra_decls": [
+  "GX.E0Surgery.le_localLength_of_lipschitzOnWith",
+  "GX.E0Surgery.path_coords",
+  "GX.E0Surgery.localDensity_graphDev",
+  "GX.E0Surgery.mul_abs_le_sqrt_graphQuad",
+  "GX.E0Surgery.sub_le_sqrt_graphQuad",
+  "GX.E0Surgery.stripSegment",
+  "GX.E0Surgery.stripSegment_mem",
+  "GX.E0Surgery.stripSegment_extend_coe",
+  "GX.E0Surgery.stripSegment_extend_mem",
+  "GX.E0Surgery.lipschitzWith_stripSegment",
+  "GX.E0Surgery.le_edist_of_forall_path",
+  "GX.E0Surgery.edist_le_of_segment",
+  "GX.E0Surgery.convex_stripSet",
+  "GX.E0Surgery.uniqueDiffOn_stripSet",
+  "GX.E0Surgery.rCoordL",
+  "GX.E0Surgery.yCoordL",
+  "GX.E0Surgery.rCoordL_btzPaperDev",
+  "GX.E0Surgery.yCoordL_btzPaperDev",
+  "GX.E0Surgery.contDiff_btzPaperDev",
+  "GX.E0Surgery.differentiableAt_btzPaperDev",
+  "GX.E0Surgery.periodic_int",
+  "GX.E0Surgery.fderiv_periodic",
+  "GX.E0Surgery.exists_int_sub_mem_Icc",
+  "GX.E0Surgery.exists_bound_annulus",
+  "GX.E0Surgery.exists_pos_le_annulus",
+  "GX.E0Surgery.continuousOn_fderiv_strip",
+  "GX.E0Surgery.continuousOn_delta",
+  "GX.E0Surgery.exists_lipschitzOnWith_dev",
+  "GX.E0Surgery.le_of_abs_log_sub_le",
+  "GX.E0Surgery.polar_neg_arg",
+  "GX.E0Surgery.clm_apply_pair",
+  "GX.E0Surgery.continuousAt_height",
+  "GX.E0Surgery.continuousAt_polarEval",
+  "GX.E0Surgery.fst_lt_of_le_of_ne",
+  "GX.E0Surgery.isSpacelikeGraph_const",
+  "GX.E0Surgery.isSpacelikeDiscGraph_of_min",
+  "GX.E0Surgery.IsSpacelikeDiscGraph.exists_bound",
+  "GX.E0Surgery.IsSpacelikeDiscGraph.isCompact",
+  "GX.E0Surgery.lem_curve_extension_ii_shift",
+  "GX.E0Surgery.rimFun",
+  "GX.E0Surgery.rimFun_periodic",
+  "GX.E0Surgery.norm_rimPoint",
+  "GX.E0Surgery.rim_value",
+  "GX.E0Surgery.mem_graphSet_iff_of_rim",
+  "GX.E0Surgery.IsSpacelikeLipschitzAt",
+  "GX.E0Surgery.isSpacelikeLipschitz_iff_at",
+  "GX.E0Surgery.IsSpacelikeLipschitzAt.congr",
+  "GX.E0Surgery.regVal",
+  "GX.E0Surgery.regSet",
+  "GX.E0Surgery.SpearSurgeryDatum.paperInY_mem_e0SingY_iff",
+  "GX.E0Surgery.eqOn_closedBall_of_rim_antecedent",
+  "GX.E0Surgery.rimFun_eq_of_rim_antecedent",
+  "GX.E0Surgery.isClosed_image_spearY",
+  "GX.E0Surgery.mem_Iminus_of_le_of_mem",
+  "GX.E0Surgery.isClosed_S0",
+  "GX.E0Surgery.SpearSurgeryDatum.ray",
+  "GX.E0Surgery.SpearSurgeryDatum.ray_mem_component",
+  "GX.E0Surgery.SpearSurgeryDatum.eq_ray_of_mem_S0",
+  "GX.E0Surgery.SpearSurgeryDatum.spearSet_inter_S0_subset",
+  "GX.E0Surgery.SpearSurgeryDatum.eq_of_mem_S0_of_mem",
+  "GX.E0Surgery.exists_spearSurgeryDatum_cover",
+  "GX.E0Surgery.finite_inter_S0",
+  "GX.E0Surgery.radialSeg",
+  "GX.E0Surgery.rad_radialSeg",
+  "GX.E0Surgery.fcoord_radialSeg",
+  "GX.E0Surgery.continuous_radialSeg",
+  "GX.E0Surgery.radialSeg_one",
+  "GX.E0Surgery.radialSeg_zero",
+  "GX.E0Surgery.le_radialSeg",
+  "GX.E0Surgery.SpearSurgeryDatum.disjoint_of_head",
+  "GX.E0Surgery.eq_of_mem_component",
+  "GX.E0Surgery.exists_pos_le_of_finite",
+  "GX.E0Surgery.SpearSurgeryDatum.exists_head_avoid",
+  "GX.E0Surgery.surgery_ce_opens_eq",
+  "GX.E0Surgery.surgery_regChart_subtypeRestr_eq",
+  "GX.E0Surgery.surgery_flatCausality_e0RegM_eq",
+  "GX.E0Surgery.causallyConvexIn_regM",
+  "GX.E0Surgery.regM_le_iff",
+  "GX.E0Surgery.regM_globallyHyperbolic",
+  "GX.E0Surgery.regM_Jminus_ne",
+  "GX.E0Surgery.regM_Jplus_ne",
+  "GX.E0Surgery.exists_tendsto_atBot_of_monotone",
+  "GX.E0Surgery.SpearSurgeryDatum.ginv",
+  "GX.E0Surgery.SpearSurgeryDatum.ginv_apply",
+  "GX.E0Surgery.SpearSurgeryDatum.isOpen_image",
+  "GX.E0Surgery.SpearSurgeryDatum.coord_apply",
+  "GX.E0Surgery.SpearSurgeryDatum.coord_eq_ginv",
+  "GX.E0Surgery.SpearSurgeryDatum.le_of_causalCurve",
+  "GX.E0Surgery.exists_notMem_of_isGreatest_component",
+  "GX.E0Surgery.exists_notMem_of_isLeast_component",
+  "GX.E0Surgery.component_unbounded_below",
+  "GX.E0Surgery.component_unbounded_above",
+  "GX.E0Surgery.SpearSurgeryDatum.coord_mem",
+  "GX.E0Surgery.SpearSurgeryDatum.rad_coord_pos",
+  "GX.E0Surgery.SpearSurgeryDatum.le_coord_of_curve",
+  "GX.E0Surgery.regM_facts",
+  "GX.E0Surgery.SpearSurgeryDatum.pastEnd",
+  "GX.E0Surgery.SpearSurgeryDatum.futureEnd",
+  "GX.E0Surgery.SpearSurgeryDatum.isSpearArc_of_inextensible",
+  "GX.E0Surgery.SurgeryData.isSpacelikeLipschitzAt_cusp",
+  "GX.E0Surgery.SurgeryData.isSpacelikeLipschitzAt_cusp_interior",
+  "GX.E0Surgery.SurgeryData.isSpacelikeLipschitzAt_cusp_rim",
+  "GX.E0Surgery.SpearSurgeryDatum.eventually_regChart",
+  "GX.E0Surgery.SpearSurgeryDatum.eventually_atlasChart",
+  "GX.E0Surgery.isSpacelikeLipschitzAt_of_coneZeroSet",
+  "GX.E0Surgery.isSpacelikeLipschitzAt_of_coneZeroSet'",
+  "GX.E0Surgery.exists_ball_isConeIncreasingOn",
+  "GX.E0Surgery.fderiv_chartHeight_pos",
+  "GX.E0Surgery.fderiv_nullHeight_pos",
+  "GX.E0Surgery.exists_nullShift",
+  "GX.E0Surgery.isConeIncreasingOn_nullShift",
+  "GX.E0Surgery.continuousOn_nullShift",
+  "GX.E0Surgery.nullShift_unique",
+  "GX.E0Surgery.SurgeryData.completeSpace_sigmaStar",
+  "GX.E0Surgery.SurgeryData.completeSpace_sigmaStar_of_delta",
+  "GX.E0Surgery.SurgeryData.ofReal_abs_logRad_sub_le_edist",
+  "GX.E0Surgery.SurgeryData.logRad",
+  "GX.E0Surgery.SurgeryData.abs_deriv_logRad_le",
+  "GX.E0Surgery.SurgeryData.exists_lipschitzOnWith_logRad",
+  "GX.E0Surgery.sq_le_minkQ_of_tangent",
+  "GX.E0Surgery.sq_div_le_nullQ_of_tangent",
+  "GX.E0Surgery.SpearSurgeryDatum.delta",
+  "GX.E0Surgery.ae_of_local",
+  "GX.E0Surgery.norm_comp_inr_lt_of_pos",
+  "GX.E0Surgery.apply_ge_of_split",
+  "GX.E0Surgery.nullHeight",
+  "GX.E0Surgery.nullHeightExpl",
+  "GX.E0Surgery.nullHeight_eq",
+  "GX.E0Surgery.contDiffOn_nullHeight",
+  "GX.E0Surgery.covector_pos",
+  "GX.E0Surgery.surgery_aeChart_eventually_chartMap",
+  "GX.E0Surgery.isom_smul_eq_add",
+  "GX.E0Surgery.hasFDerivAt_isom_act",
+  "GX.E0Surgery.contDiff_isom_smul",
+  "GX.E0Surgery.chartHeight",
+  "GX.E0Surgery.chartNull",
+  "GX.E0Surgery.hasFDerivAt_chartHeight",
+  "GX.E0Surgery.hasFDerivAt_chartNull_rad",
+  "GX.E0Surgery.lipschitzWith_chartNull_rad",
+  "GX.E0Surgery.tauDir",
+  "GX.E0Surgery.chartMap_shift",
+  "GX.E0Surgery.lorentz_apply_pos",
+  "GX.E0Surgery.abs_log_sub_log_le",
+  "GX.E0Surgery.SpearSurgeryDatum.mem_S0_iff'",
+  "GX.E0Surgery.SpearSurgeryDatum.coord_mem_graphSet",
+  "GX.E0Surgery.SpearSurgeryDatum.continuousAt_ginv_comp",
+  "GX.E0Surgery.SurgeryData.logRad_le",
+  "GX.E0Surgery.SurgeryData.eventually_logRad_const",
+  "GX.E0Surgery.SurgeryData.eventually_logRad_formula",
+  "GX.E0Surgery.SpearSurgeryDatum.isCompact_annulusGraph",
+  "GX.E0Surgery.regChart_apply_eq",
+  "GX.E0Surgery.mem_regChart_source_iff",
+  "GX.E0Surgery.isSpacelikeDiscGraph_of_isSpacelikeGraph",
+  "GX.E0Surgery.lem_intersect_number_compact_pointwise",
+  "GX.E0Surgery.SurgeryData.isCauchySurface_sigmaStar",
+  "GX.E0Surgery.SurgeryData.cuspUp",
+  "GX.E0Surgery.SurgeryData.cuspDown",
+  "GX.E0Surgery.SurgeryData.futSide",
+  "GX.E0Surgery.SurgeryData.pastSide",
+  "GX.E0Surgery.SurgeryData.cuspUp_subset",
+  "GX.E0Surgery.SurgeryData.cuspDown_subset",
+  "GX.E0Surgery.SurgeryData.eq_of_mem_spearSet",
+  "GX.E0Surgery.SurgeryData.sigmaStar_subset_sides",
+  "GX.E0Surgery.SurgeryData.mem_sigmaStar_of_sides",
+  "GX.E0Surgery.SurgeryData.mem_sides_of_notMem_S0",
+  "GX.E0Surgery.SurgeryData.closure_futSide_subset",
+  "GX.E0Surgery.SurgeryData.closure_pastSide_subset",
+  "GX.E0Surgery.SurgeryData.eventually_other",
+  "GX.E0Surgery.SurgeryData.eventually_futSide",
+  "GX.E0Surgery.SurgeryData.eventually_pastSide",
+  "GX.E0Surgery.SurgeryData.eventually_eq_of_sigmaStar",
+  "GX.E0Surgery.SurgeryData.exists_pastSide",
+  "GX.E0Surgery.SurgeryData.exists_futSide",
+  "GX.E0Surgery.SurgeryData.isClosed_preimage_futSide",
+  "GX.E0Surgery.SurgeryData.isClosed_preimage_pastSide",
+  "GX.E0Surgery.SurgeryData.futSide_of_le",
+  "GX.E0Surgery.SurgeryData.pastSide_of_le",
+  "GX.E0Surgery.SurgeryData.eq_of_forall_mem_sigmaStar",
+  "GX.E0Surgery.SpearSurgeryDatum.le_vert",
+  "GX.E0Surgery.SpearSurgeryDatum.graphPt_mem",
+  "GX.E0Surgery.SpearSurgeryDatum.mem_Jminus_of_le_τS",
+  "GX.E0Surgery.SpearSurgeryDatum.mem_Jplus_of_τS_le",
+  "GX.E0Surgery.SpearSurgeryDatum.v_lt_fcoord_of_mem_graphSet",
+  "GX.E0Surgery.SpearSurgeryDatum.eventually_le_coord",
+  "GX.E0Surgery.SpearSurgeryDatum.mem_spearSet_iff",
+  "GX.E0Surgery.SpearSurgeryDatum.paperOfY_ginv",
+  "GX.E0Surgery.SpearSurgeryDatum.continuousAt_height_ginv",
+  "GX.E0Surgery.SpearSurgeryDatum.not_interior_of_mem_closure",
+  "GX.E0Surgery.SpearSurgeryDatum.exists_bound_G_annulus",
+  "GX.E0Surgery.SpearSurgeryDatum.exists_lt_G_near_axis",
+  "GX.E0Surgery.cauchy_facts",
+  "GX.E0Surgery.exists_open_of_BTZ"
+ ],
+ "kb_proposals": [
+  "FTC for a length: a Lipschitz f on [a,b] with k|f'| <= localDensity a.e. gives k|f(b)-f(a)| <= localLength (LipschitzOnWith.absolutelyContinuousOnInterval + AbsolutelyContinuousOnInterval.integral_deriv_eq_sub; GX.E0Surgery.le_localLength_of_lipschitzOnWith). Combined with LipschitzWith.ae_differentiableAt_real it turns every pointwise density bound into a PulledLength edist bound.",
+  "A path Lipschitz in charts for a single developing map F has F o gamma.extend globally Lipschitz (Causal.Flat.isLocLip_pulled_iff); read coordinates back through continuous linear functionals of Minkowski 2 and ContDiffOn.exists_lipschitzOnWith on a compact box (GX.E0Surgery.path_coords).",
+  "A clamped coordinate max(r, rho) is Lipschitz with derivative r' above rho and 0 elsewhere (IsLocalMin.deriv_eq_zero at r = rho): it gives 'leaving an annulus costs length' with no first-exit-time argument (GX.E0Surgery.clamp_le_edist).",
+  "In E0, Le x y gives x.1 <= y.1 (Le.norm_sub_le) and rad x <= rad y (Le.closed.2.1): along a causal arc both tau and r are monotone, which turns the end conditions of B21 Lemma 2.10 into order-theoretic ones.",
+  "A piecewise graph tau = min(c, f) (slice + spacelike graph) is acausal across the BTZ axis with no derivative criterion there: its height is max(tau - c, F_f), a max of two functions strictly increasing along the causal order (GX.E0Surgery.isSpacelikeDiscGraph_of_min; tau strictly increases along E0's Le between distinct points by Le.norm_sub_le, fst_lt_of_le_of_ne).",
+  "Write a piecewise radial function with max r (R/2) in place of r (GX.E0Surgery.discExt): it is globally continuous and equals each piece on its side, so continuity and compactness of its graph need no case analysis.",
+  "For HasDerivAt of (fun r => (f r)^2) use HasDerivAt.fun_pow (HasDerivAt.pow is for f^n as a Pi power and its instance path does not unify with Real's Semiring.toModule).",
+  "IsSpacelikeLipschitz is pointwise, hence local: if T = T' on an open O around x and T' is spacelike Lipschitz at x, so is T (GX.E0Surgery.IsSpacelikeLipschitzAt.congr, via IsSpacelikeLipschitzIn.restrict to V meet (e.target cap e.symm^-1 O)).",
+  "The topology field of Causal.Flat.IsCauchyComplete is free once the surface is spacelike Lipschitz: Causal.Flat.Cla.continuous_inducedLengthSpace_toSubtype (T2 M); and a compact spacelike Lipschitz set is complete (completeSpace_inducedLengthSpace_of_isCompact). Both live in Causal.Flat.Cla.CompactComplete, already in the closure of Causal.Flat.Classification.",
+  "LocalModel's (O2)/(O4') are proved (WP-43d): Spear's section variables hLine/hSC instantiate as E0LM.e0_globalBTZ and (fun {_} _ _ _ _ _ => E0LM.e0_secondCountable_of_cauchy).",
+  "An E0-morphism psi preserves the BTZ type: psi(paperInY x) in sing0 iff x is on the axis (Causal.CBG.mem_chartedSing_iff_of_liftPropOn e0_sing_mem + chartAt_self_eq; GX.E0Surgery.SpearSurgeryDatum.mem_S0_iff).",
+  "A Prop-valued regularity predicate of the form 'for every chart and every function g with (property of g relative to S), P(g)' must constrain g enough to be determined by S, or it is contradictory: here a spear graph function tau_S was free wherever the spear misses S (AUDIT-2 B1). Guard: prove a uniqueness lemma for g from the antecedents (GX.E0Surgery.eqOn_closedBall_of_rim_antecedent) and try to derive False from the predicate plus one datum before building on it.",
+  "A spear psi(spear v R) of an injective E0-chart is closed in a GH E0-manifold (GX.E0Surgery.isClosed_image_spearY): bounded-tau sequences have convergent subsequences in the chart; a climbing sequence puts the vertical line over its limit below the limit point (GloballyHyperbolic.isClosed_le), a monotone curve in a compact diamond, against E0Spear.spear_vertical_noLimit.",
+  "In a GH E0-manifold, J^-(S) minus S is I^-(S) for a Cauchy surface S (GX.E0Surgery.mem_Iminus_of_le_of_mem): p is in the closure of I^+(p) (E0LM.Jplus_subset_closure_Iplus with SingularFlatAxioms.mem_Zplus), J^+(S) is closed, and push-up. This gives Lemma 2.4's hypothesis p in I^-(S) for every BTZ point strictly below S on its line.",
+  "Two spears are disjoint as soon as each ray misses the other spear and one head misses the other spear (GX.E0Surgery.SpearSurgeryDatum.disjoint_of_head): follow the radial null segment from the ray to a common point, take the last entry into the closed second spear, and read the segment in the second chart through invFunOn (Causal.CBG.liftPropOn_invFunOn is an E0-morphism; IsEMorphismOn.map_le twice) - the entry is on the head. Heads shrink to the vertex, so thinning each spear against the finitely many others makes the family disjoint.",
+  "A causal curve of M inside the image of an injective E0-chart reads as a Le-increasing curve of E0 (GX.E0Surgery.SpearSurgeryDatum.le_of_causalCurve): Causal.IsEMorphismOn.causalCurveIn_invComp with invFunOn as left inverse, then E0Spear.ceY_le_iff, D.le_mono into range Sum.inr, E0Spear.D_le_rangeInr_iff, E0.le_top_iff.",
+  "To analyse the ends of an inextensible curve over a general interval I, reparametrise over R (Causal.Causality.Inextensible.reparam) and transport components (phi '' J_d = J by preconnectedness both ways); a bounded end in a compact part of a chart is then a limit at atBot/atTop, refuted by Inextensible.not_tendsto_atBot/atTop (Causal.Static). Reg M's hypotheses for these (closed J, strong causality, J(p) != {p}) come from M by causal convexity of Reg M (GX.E0Surgery.regM_facts, regM_Jminus_ne).",
+  "A spacelike graph is spacelike Lipschitz without any implicit function theorem: its height F (C^1, dF positive on the closed future cone at p0) is c-cone-increasing on a ball for c = (|dF o inr| + dF(1,0))/(2 dF(1,0)) < 1 (Riesz for |dF o inr| < dF(1,0), then the mean value theorem on segments), and Causal.Flat.Cla.exists_isSpacelikeLipschitzIn_zeroSet makes its zero set a Lipschitz graph (GX.E0Surgery.exists_ball_isConeIncreasingOn).",
+  "IsSpacelikeLipschitzIn admits a frame: prove cone-increase of F o g^-1 on g • W in whatever frame g is convenient (e.g. the frame of another surface's Lipschitz graph), then move back with IsSpacelikeLipschitzIn.smul isom_strongMorphism (GX.E0Surgery.isSpacelikeLipschitzAt_of_coneZeroSet').",
+  "Gluing two spacelike hypersurfaces along a cylinder ruled by null lines: use heights measured ALONG that null direction (the null-shift height of a Lipschitz graph, GX.E0Surgery.exists_nullShift, is cone-increasing and Lipschitz with no regularity), so they agree on the cylinder and the piecewise height is continuous and cone-increasing (cut segments at a crossing point).",
+  "In E0, d_tau develops to a constant null vector: btzPaperDev (tau - s, r, theta) = btzPaperDev (tau, r, theta) - s • nullToMink (2, 0, 0) (GX.E0Surgery.chartMap_shift), so tau-shifts are translations in every flat chart.",
+  "Completeness of an induced length by a Lipschitz exhaustion: if a function F on S is 1-Lipschitz for edist (prove it pathwise with le_localLength_of_lipschitzOnWith: Rademacher in ONE chart near each time, localDensity_chartSys_eq to read the density there, ae_of_local to globalise) and its sublevel sets are compact, Cauchy sequences converge (Causal.Flat.Cla.continuous_inducedLengthSpace_toSubtype_symm turns subspace convergence into length convergence). Clamp log r at R/2 so the function is locally constant near rims (GX.E0Surgery.SurgeryData.logRad).",
+  "A non-compact Cauchy surface by two closed sides: if F, P are closed in the spacetime, cover it, meet exactly along Sigma, F propagates forward and P backward along causal curves (local chart statements + IsClosed.Icc_subset_of_forall_mem_nhdsWithin), and every inextensible curve meets both, then Sigma is Cauchy once a causal curve inside Sigma is locally constant (GX.E0Surgery.SurgeryData.isCauchySurface_sigmaStar, §5g of GXScaffold.BTZ.Surgery). No compactness of Sigma and no intersection numbers are needed.",
+  "Reading a causal curve of M in an injective E0-chart near one of its points: GX.E0Surgery.SpearSurgeryDatum.eventually_le_coord gives, for s near t, e s = psi(u) with u in a prescribed open V and x <= u after t, u <= x before (le_of_causalCurve on the segment). With E0.calculus_le (r and f = tau - r/2 are nondecreasing along <=) a curve can leave a spear forward only through the shaft and backward only through the head.",
+  "A BTZ point q with s <= q for some s in a set S: s is BTZ and in the S0-component of q (SingularFlatAxioms.Jminus_subset_component); combine with IsFullFutureBTZRay.exists_eq_of_line to put q on a spear ray (GX.E0Surgery.exists_open_of_BTZ).",
+  "Pointwise spacelike (Lemma 2.7 off the axis) + height continuous on the closed cylinder already implies the integrated 'height strictly increasing along <= on {r <= R}, axis included' (GX.E0Surgery.isSpacelikeDiscGraph_of_isSpacelikeGraph): integrate along the straight segment of the development from the axis point, which has r = s r(y) > 0 for s > 0."
+ ],
+ "notes": "WP-47c edits the STRICT file GX/BTZ/Surgery.lean (module GX.BTZ.Surgery), docstrings only; backup campaign/WP-47c/Surgery.pre.lean.bak; report generator make_report.py (applied on top of campaign/WP-46e/REPORT.json). Under DEC-125 (d) brunswic2021cauchy:rem:curve_spear (GX.E0Surgery.rem_curve_spear, M globally hyperbolic) and under DEC-125 (e) brunswic2021cauchy:prop:abs_max, first assertion (GX.E0Surgery.regM_isCauchyComplete_of_C1, E0 only, A = {0}) move partial -> CLOSED and are MARKED in the module docstring; their hypothesis-checklist rows now read 'read (DEC-125 ...)'; the two declarations' docstrings cite the ruling. SCOPE (e)'s stale sentence (AbsMax/Uniformization/GXScaffold not building because AbsMax.prop_abs_max named the deleted regM_isCauchyComplete) is replaced: AbsMax has retired its topological route (prop_abs_max_C1 / cor_abs_max_C1); new SCOPE (f) records WP-47c. All 8 label strings are marked and in the first 4000 characters of the module docstring (offsets 1564..3384). No declaration, signature or proof changed; no name added. Checks: taskset -c 0-11 lake env lean -DwarningAsError=true GX/BTZ/Surgery.lean — clean, no output; taskset -c 0-11 lake build GX — success (8746 jobs, only GX.BTZ.Surgery and the GX root rebuilt; no Causal.* rebuilt). Axioms: campaign/WP-47c/Axioms.lean -> axioms.out, both certified decls on [propext, Classical.choice, Quot.sound]. PREVIOUS (WP-46e): WP-46e FIXER ROUND 1 (after AUDIT-1). Backup of the pre-fixer file: campaign/WP-46e/Surgery.fixer1.pre.lean.bak. Report generator: make_report_fixer1.py (applied on top of the WP-46e REPORT). CLOSED: (G3) SurgeryData.isCauchySurface_sigmaStar (new §5g, the two closed sides of Sigma* in Reg M; 0 sorry). The file now has 0 sorry; regM_isCauchyComplete_of_C1 (Prop 2.17's first assertion of record) is sorry-free. AUDIT-1 M1 (major): rem_curve_spear's unused _hS is dropped (signature change; its only caller is in this file), its added hypothesis 'M globally hyperbolic' (+ the spears of a surgery datum) is listed as 'strengthened', and the row returns to PARTIAL/UNMARKED with a question asking whether DEC-116 (d) covers GH M. AUDIT-1 m1: the bridge isSpacelikeDiscGraph_of_isSpacelikeGraph (pointwise IsSpacelikeGraph + height continuous on {r <= R} => IsSpacelikeDiscGraph) is PROVED, and Lemma 2.9 is restated in the pointwise reading as lem_intersect_number_compact_pointwise; Lemma 2.6(i)'s tag is reworded (pointwise per piece is the reading; the disc form is an extra conclusion). AUDIT-1 m2: DOWNSTREAM BREAK, stated in full: AbsMax.lean l.2039 (AbsMax.prop_abs_max calls the deleted E0Surgery.regM_isCauchyComplete) fails, and therefore GXScaffold.BTZ.Uniformization (headline) and the GXScaffold root do not build until AbsMax.prop_abs_max is retired or repointed to regM_isCauchyComplete_of_C1 / cor_abs_max_C1. The master must fix AbsMax before any make check. No other file uses rem_curve_spear or isCauchySurface_sigmaStar (grepped). AUDIT-1 m3: `omit [SecondCountableTopology M] in` added before isSpacelikeLipschitz_sigmaStar; both ContinuousLinearMap.sub_apply uses replaced by sub_apply. lake env lean on the file now prints NO warning at all. prop:abs_max moves stated -> PARTIAL (0 sorry): its only uncovered hypothesis is the E0-only scope (A = {0}); question to the master. Build: taskset -c 0-11 lake build GXScaffold.BTZ.Surgery — success (8732 jobs), only Surgery rebuilt (40 s). Axiom sweep regenerated: campaign/WP-46e/Axioms.lean -> axioms.out, 298 declarations, every one on [propext, Classical.choice, Quot.sound] (one has no axiom), no sorryAx anywhere. Imports unchanged (DEC-33: only Causal.Flat.CauchyComplete; no open Causal; Causal.* names fully qualified). New names grepped against GX/ and scaffold/: the annulus bound was renamed exists_bound_G_annulus to avoid sharing the short name of E0Surgery.exists_bound_annulus; no other clash. All eight label strings are in the first 4000 characters of the module docstring; six are marked (Lemma 2.6, 2.7, 2.8, 2.9, 2.10, Cor 2.11). PREVIOUS (WP-46e): WP-46e edits scaffold/GXScaffold/BTZ/Surgery.lean (backup of the pre-package file: campaign/WP-46e/Surgery.pre.lean.bak; report generator make_report.py). CLOSED: (G4a) SurgeryData.isSpacelikeLipschitzAt_cusp (new §5f: interior and rim cases), (G5) SurgeryData.completeSpace_sigmaStar (new §5f: the clamped log-radius estimate and the compact exhaustion). DELETED (DEC-117): the topological regM_isCauchyComplete and (G0) exists_isE0C1SpacelikeCauchy. OPEN: (G3) SurgeryData.isCauchySurface_sigmaStar, one tagged sorry, re-described in its tag (the sides of Sigma* in Reg M). Rows: Lemmas 2.6 (i)(ii), 2.7, 2.8, 2.9, 2.10, Cor 2.11 and Remark 2.12 move partial -> CLOSED and are MARKED (their readings are accepted by DEC-117 / DEC-116 (d)); prop:abs_max's first assertion stays 'stated' (only G3 left). Structure change: SpearSurgeryDatum gains the field delta (delta >= 1/r^2 on the cusp); lem_curve_extension_ii_shift gains a final conjunct exporting it; no other file uses either (grepped). No other existing statement changed. DOWNSTREAM BREAK (expected under DEC-117): GXScaffold.BTZ.AbsMax.prop_abs_max (AbsMax.lean:2039) calls the deleted E0Surgery.regM_isCauchyComplete; lake env lean AbsMax.lean reports that single error. The package owning AbsMax must retire prop_abs_max (its C^1 replacement cor_abs_max_C1 already exists and Uniformization uses only that). Build: taskset -c 0-11 lake build GXScaffold.BTZ.Surgery — success (8732 jobs), only Surgery rebuilt. lake env lean on the file: 1 'declaration uses sorry' (G3); remaining warnings are linter-only (two deprecated ContinuousLinearMap.sub_apply uses; unused section variables, e.g. SecondCountableTopology now unused by the pre-existing isSpacelikeLipschitz_sigmaStar, whose signature was left unchanged). Axiom sweep: campaign/WP-46e/Axioms.lean -> axioms.out (every declaration of the file, 259): sorryAx only in SurgeryData.isCauchySurface_sigmaStar and the composition regM_isCauchyComplete_of_C1; (G4a), (G5), Remark 2.12 and all the Lemma rows are on [propext, Classical.choice, Quot.sound]. Imports unchanged (DEC-33: Causal.* names fully qualified, no open Causal). New names grepped against GX/ and scaffold/: GX.hasFDerivAt_isom_smul exists in GX/BTZ/Model.lean, so the new lemma is named hasFDerivAt_isom_act; no other clash. All eight label strings are in the first 4000 characters of the module docstring. PREVIOUS (WP-44e): WP-44e edits scaffold/GXScaffold/BTZ/Surgery.lean (backup of the pre-package file: campaign/WP-44e/Surgery.before.lean.bak); everything WP-41j/WP-43b proved is kept, no existing statement changed (rem_curve_spear's unused binder hS renamed _hS; exists_surgeryData's sorry replaced by a proof under the same name and signature). DEC-107: regM_isCauchyComplete_of_C1 (IsE0C1SpacelikeCauchy) is the formalization of record of B21 Prop 2.17's first assertion; (G0) exists_isE0C1SpacelikeCauchy (smoothing) is retagged NOT OWED and kept only because GXScaffold.BTZ.AbsMax.prop_abs_max still calls the topological regM_isCauchyComplete (signature unchanged; AbsMax typechecks against the new Surgery olean). CLOSED: (G1) exists_surgeryData (new §5e: isClosed_image_spearY, mem_Iminus_of_le_of_mem, exists_spearSurgeryDatum_cover, finite_inter_S0, radialSeg/le_radialSeg, SpearSurgeryDatum.disjoint_of_head, exists_head_avoid, eq_of_mem_component) and (G2) rem_curve_spear (SpearSurgeryDatum.isSpearArc_of_inextensible, with pastEnd/futureEnd over R, the chart reading le_of_causalCurve/le_coord_of_curve, the Reg M causality copies surgery_ce_opens_eq / surgery_flatCausality_e0RegM_eq of AbsMax §5 — renamed, AbsMax imports this file — regM_le_iff, regM_globallyHyperbolic, regM_Jminus_ne/Jplus_ne, regM_facts, exists_tendsto_atBot_of_monotone, and component lemmas). Both on [propext, Classical.choice, Quot.sound]. OPEN (4 tagged sorries): (G3) SurgeryData.isCauchySurface_sigmaStar, (G4a) SurgeryData.isSpacelikeLipschitzAt_cusp, (G5) SurgeryData.completeSpace_sigmaStar — genuine obstructions, each re-described in its SORRY tag with what is now available — and (G0), not owed. The rows of Lemmas 2.6–2.11 are unchanged (0 sorry, partial on their reading questions, which no ruling has answered); rem:curve_spear moves stated -> partial (0 sorry; K-3 reading, blunt spears only). Build: taskset -c 0-11 lake build GXScaffold.BTZ.Surgery, 8732 jobs, success, only Surgery rebuilt (no GX.* or Causal.* module recompiled); lake env lean on the file: 4 'declaration uses sorry' warnings, no other warning. Axiom sweep: campaign/WP-44e/Axioms.lean -> axioms.out (66 declarations; sorryAx only in the four tagged lemmas and the compositions isSpacelikeLipschitz_sigmaStar, regM_isCauchyComplete_of_C1, regM_isCauchyComplete). Imports unchanged (DEC-33: Causal.* names fully qualified, no open Causal). New names grepped against GX/ and scaffold/: the copies of AbsMax §5 carry a surgery_ prefix; no clash. Labels: all nine label strings within the first 4000 characters of the module docstring (rem:curve_spear at 2913, prop:abs_max bullet at 3160). PREVIOUS (WP-43b): Fixer round 2 of WP-43b, applying AUDIT-2. BLOCKER B1 fixed: GX.E0Surgery.IsE0C1SpacelikeCauchy.rim gains the antecedents ContinuousOn tau_S (closedBall 0 R) and (forall z, ||z|| <= R -> v + R/2 < tau_S z) (the shaft bound), exactly as the audit prescribed; call sites exists_spearSurgeryDatum (passes h0 h1 of Lemma 2.4) and SpearSurgeryDatum.exists_shrink (passes the restricted continuity and hshaft) updated. New, 0 sorry: eqOn_closedBall_of_rim_antecedent (tau_S is determined on the closed disc by S under rim's antecedents) and rimFun_eq_of_rim_antecedent (the rim circle depends on S only). Regression campaign/WP-43b/RimRegression.lean (not a module; lake env lean) proves the auditor's raised-vertex attack is blocked; the auditor's counterexample script fails at hS.rim. The defect and its repair are disclosed in the prop:abs_max row's findings. No statement weakened: rim's added antecedents make the predicate weaker only by excluding the ill-posed instances, and every consumer already had them; regM_isCauchyComplete's signature is unchanged (GXScaffold.BTZ.AbsMax.prop_abs_max unaffected). The six tagged sorries (G0)-(G5) are unchanged and, after the repair, are re-judged as genuine obstructions (none is now refuted by the BTZ case); not closed in this round. Module docstring updated (round-2 line, the Cauchy-compact checklist row); all eight labels within the first 4000 characters (rem:curve_spear at 3010). Axiom sweep re-run: campaign/WP-43b/Axioms.lean, axioms.out (two new declarations, both [propext, Classical.choice, Quot.sound]; sorryAx only where round 1 had it). Build: taskset -c 0-11 lake build GXScaffold.BTZ.Surgery, 8732 jobs, success; it rebuilt the scaffold chain SingularII.Models -> SpreadTop, BTZ.Model ... Spear because scaffold/GXScaffold/SingularII/Models.lean was modified at 02:43 by another package; no GX.* or Causal.* module recompiled. Round-1 file kept at campaign/WP-43b/Surgery.lean.round1.bak. Earlier rows unchanged. Fixer round 1 of WP-43b, applying AUDIT-1. MAJOR: the global part of Prop 2.17 is split as the audit asked: regM_isCauchyComplete (signature unchanged, consumed by GXScaffold.BTZ.AbsMax.prop_abs_max, which still typechecks) is now a composition with no sorry of its own: (G0) exists_isE0C1SpacelikeCauchy (smoothing, cited) then regM_isCauchyComplete_of_C1 (the C^1 variant, B21 l.227), itself the composition of (G1) exists_surgeryData, (G2) rem_curve_spear (Remark 2.12), (G3) SurgeryData.isCauchySurface_sigmaStar (Sigma* Cauchy modulo Remark 2.12, taken as hypothesis hrem), (G4) isSpacelikeLipschitz_sigmaStar (proved off the spears; (G4a) isSpacelikeLipschitzAt_cusp tagged), (G5) completeSpace_sigmaStar, and the topology field (Causal.Flat.Cla.continuous_inducedLengthSpace_toSubtype, proved). Sigma* is constructed (SurgeryData.sigmaStar) and its description proved. Six tagged sorries (was one), one obstruction each. Proved new, 0 local sorry: lem_curve_extension_ii_shift, exists_spearSurgeryDatum (one spear per BTZ point of I^-(S): Lemmas 2.3/2.4 with hLine/hSC instantiated by LocalModel's proved (O2)/(O4'), C^1 rim, Lemma 2.6(ii); its sorryAx is upstream Spear's), exists_shrink (0 sorryAx), sigmaStar_diff, sigmaStar_inter_spearSet, sigmaStar_subset_regM, IsSpearArc.ncard, mem_graphSet_iff_of_rim (C = C*), IsSpacelikeLipschitzAt.congr. MINORS: cor_intersect's docstring reworded (name kept: no other file uses it, renaming optional); Prop 2.17's maximality pointer (absMax_e0RegM) added to the prop:abs_max row; upstream list now names LocalModel's (O2)/(O4') — PROVED since WP-43d, so they are no longer sorry dependencies, and Spear's Lemma 2.3 (globallyHyperbolic_glued, isCauchySurface_glued) and Lemma 2.4 future case (lem_add_BTZ_param_line) remain. New row rem:curve_spear (stated). Earlier rows unchanged (their statuses rest on unanswered reading questions). Axiom sweep: campaign/WP-43b/Axioms.lean, axioms.out (148 declarations; sorryAx only in the six tagged lemmas, the three compositions, exists_spearSurgeryDatum (upstream Spear), and isSpacelikeLipschitz_sigmaStar (via G4a)). Build: taskset -c 0-11 lake build GXScaffold.BTZ.Surgery, 8732 jobs, success; it rebuilt the scaffold modules LocalModel, CBG, Holonomy, Spear because LocalModel.lean was modified at 02:14 by another package after the previous build — no GX.* or Causal.* module recompiled. Imports unchanged (DEC-33 respected; Causal.* names fully qualified, no open Causal). New names grepped against GX/ and scaffold/: no clash.",
+ "previous": "campaign/WP-46e/"
+}

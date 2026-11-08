@@ -10,7 +10,8 @@ part of Prop 2.17 split one declaration per obstruction; `IsE0C1SpacelikeCauchy.
 WP-44e (DEC-107: (G1) proved, the C¹ form of record); **WP-46e** (DEC-116 (d), DEC-117: the
 readings accepted, the rows marked; (G4a) and (G5) **proved**, §5f; the topological route and its
 smoothing step (G0) **deleted**); WP-46e fixer round 1 (**(G3) proved**, §5g: 0 `sorry` in the file;
-the pointwise-to-integrated bridge for Lemma 2.9).
+the pointwise-to-integrated bridge for Lemma 2.9); **WP-47c** (DEC-125 (d)(e): Remark 2.12 and
+Prop 2.17's first assertion **closed and marked**, docstrings only).
 `brunswic2021cauchy` (**B21**, `papers/gx/sources/2108.12631/src/BTZ_1.tex`) §2.1: Lemma 2.6
 `lem:curve_extension` (l.704), Lemma 2.7 `lem:surface_causal` (l.749), Lemma 2.8
 `lem:surface_complete` (l.781), Lemmas 2.9/2.10 `lem:intersect_number_compact` /
@@ -39,17 +40,17 @@ and DEC-116 (d):
   `Σ` (DEC-117): `…_pointwise`, via `isSpacelikeDiscGraph_of_isSpacelikeGraph`.
 * **`brunswic2021cauchy:cor:intersect`** (Cor 2.11, `|c ∩ Σ| = |c* ∩ Σ*|`) — **closed**, 0 `sorry`
   (K-3): `GX.E0Surgery.cor_intersect_number` (`c* = c` on `{t | r(c t) > 0}`, same rim).
-* `brunswic2021cauchy:rem:curve_spear` (Remark 2.12) — **partial**, 0 `sorry` (DEC-116 (d), and
-  **strengthened**: `M` globally hyperbolic, the spears those of a surgery datum; question to the
-  master): `GX.E0Surgery.rem_curve_spear`, from `SpearSurgeryDatum.isSpearArc_of_inextensible`.
-* `brunswic2021cauchy:prop:abs_max` (Prop 2.17, first assertion: `Σ*` Cauchy in `Reg M`, `Reg M`
-  Cauchy-complete) — **partial**, 0 `sorry` (strengthened: `𝔼₀`-manifolds only, `A = {0}`;
-  question to the master). Of record (DEC-107/117: a compact `C¹` spacelike Cauchy surface,
+* **`brunswic2021cauchy:rem:curve_spear`** (Remark 2.12) — **closed**, 0 `sorry` (DEC-116 (d),
+  DEC-125 (d): `M` globally hyperbolic, the spears those of a surgery datum):
+  `GX.E0Surgery.rem_curve_spear`, from `SpearSurgeryDatum.isSpearArc_of_inextensible`.
+* **`brunswic2021cauchy:prop:abs_max`** (Prop 2.17, first assertion: `Σ*` Cauchy in `Reg M`,
+  `Reg M` Cauchy-complete) — **closed**, 0 `sorry` (DEC-125 (e): `𝔼₀`-manifolds only, `A = {0}`).
+  Of record (DEC-107/117: a compact `C¹` spacelike Cauchy surface,
   `IsE0C1SpacelikeCauchy`): `GX.E0Surgery.regM_isCauchyComplete_of_C1`, the composition of (G1)
   `exists_surgeryData`, (G2) `rem_curve_spear`, (G3) `SurgeryData.isCauchySurface_sigmaStar`
   (**proved**, WP-46e fixer), (G4) `SurgeryData.isSpacelikeLipschitz_sigmaStar` with (G4a)
   `SurgeryData.isSpacelikeLipschitzAt_cusp` and (G5) `SurgeryData.completeSpace_sigmaStar`, all
-  proved. The maximality assertion is `GXScaffold.BTZ.AbsMax`'s `absMax_e0RegM`.
+  proved. The maximality assertion is `GX.BTZ.AbsMax`'s `absMax_e0RegM`.
 
 > \begin{lemou} Let $\mathcal S$ be a spear of vertex $(-2R,0,0)$ and radius $R$ in $\mass{0}$
 > and let $\tau_{\Sigma}^R: \partial \mathbb D_R \rightarrow \R_+$ be a smooth positive function.
@@ -97,8 +98,8 @@ and DEC-116 (d):
 | Lemma 2.9: `Σ` spacelike graph over `𝔻_R` | ⚠ read pointwise (DEC-117): `IsSpacelikeGraph g R` off the axis with the height continuous on `{r ≤ R}` (`lem_intersect_number_compact_pointwise`); it implies the integrated `IsSpacelikeDiscGraph g R` (`isSpacelikeDiscGraph_of_isSpacelikeGraph`), the form `lem_intersect_number_compact` takes |
 | Lemma 2.9: `c` closed in `S`, inextendible in `Int S` | ⚠ read (K-3), as Lemma 2.10: an arc of `{r ≤ R}` with a point below `Σ` (the head), and future end `τ` unbounded or a last point on the shaft |
 | Cor 2.11: `reg(c) = c*`, `reg(S) = S*`, `C = C*` | ✓ `c* = c` on `I* = {t ∈ I | r(c t) > 0}`; `C = C*` as `τ_Σ = τ_{Σ*}` on `r = R`; the hypotheses of 2.9 for `c` and of 2.10 for `c*` |
-| Remark 2.12: an inextendible causal curve of any `𝔼_{≥0}`-manifold, any (blunt) spear | ⚠ strengthened: `M` globally hyperbolic (closedness of the spear, `isClosed_image_spearY`; limits in compact parts, `regM_facts`); the spears of a surgery datum (the K-3 past end is read against its cusp `G`) |
-| Prop 2.17: `E_A`-manifold, `A ⊆ ℝ₊` | ⚠ strengthened: `𝔼₀`-manifolds only (`A = {0}`), T2, connected, second countable |
+| Remark 2.12: an inextendible causal curve of any `𝔼_{≥0}`-manifold, any (blunt) spear | ⚠ read (DEC-125 (d), DEC-116 (d)): `M` globally hyperbolic (closedness of the spear, `isClosed_image_spearY`; limits in compact parts, `regM_facts`); the spears of a surgery datum (the K-3 past end is read against its cusp `G`) |
+| Prop 2.17: `E_A`-manifold, `A ⊆ ℝ₊` | ⚠ read (DEC-125 (e)): `𝔼₀`-manifolds only (`A = {0}`), T2, connected, second countable |
 | Prop 2.17: Cauchy-maximal | ⚠ read (DEC-77(c)): `E0Spear.IsE0CauchyMaximal` |
 | Prop 2.17: Cauchy-compact | ⚠ read (DEC-107/117, B21 l.227): `IsE0C1SpacelikeCauchy` in `regM_isCauchyComplete_of_C1` (Cauchy, compact, spacelike Lipschitz in `Reg M`'s flat charts, `C¹` trace on the shaft circle of every spear chart in which `S` is the graph of a continuous `τ_Σ > v + R/2` over the closed disc) |
 | Prop 2.17: Cauchy-complete | ⚠ read (DEC-31): `Causal.Flat.IsCauchyComplete 2 (e0RegMFlat M)` |
@@ -130,9 +131,11 @@ and DEC-116 (d):
 * (e) (G3) is proved (§5g, WP-46e fixer) by the two closed sides of `Σ*` in `Reg M` (B21's
   « Remark 2.12 and Corollary 2.11 applied in each spear neighborhood », read through the
   monotone height of Lemma 2.7 instead of a count). (G0), smoothing, and the topological
-  `regM_isCauchyComplete` are **deleted** (DEC-117); `GXScaffold.BTZ.AbsMax.prop_abs_max` still
-  names the latter and must be retired with it (outside this package's write set): until then
-  `AbsMax`, `Uniformization` and the `GXScaffold` root do not build.
+  `regM_isCauchyComplete` are **deleted** (DEC-117); `GX.BTZ.AbsMax` has since retired
+  its topological route (`prop_abs_max_C1` / `cor_abs_max_C1` are its forms of record).
+* (f) WP-47c (DEC-125 (d)(e)): the two remaining rows, Remark 2.12 (with `M` globally hyperbolic)
+  and Prop 2.17's first assertion (`𝔼₀` only, `A = {0}`), close under the author's readings with
+  no code change; both were already 0 `sorry`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`); lean-causal `ca2ad78` (imports strict
 `Causal.Flat.CauchyComplete`, DEC-33).
@@ -3569,7 +3572,7 @@ theorem exists_surgeryData (hGH : (E0CBG.CE M).GloballyHyperbolic) {S : Set M}
     exact ⟨_, E0Spear.yAxis_mem_spearY (hR'pos _).le (ht ⟨y, hy⟩).le, hq.symm⟩
 
 
-/-! #### The causality of `Reg M` read in `M` (copies of `GXScaffold.BTZ.AbsMax` §5, which imports
+/-! #### The causality of `Reg M` read in `M` (copies of `GX.BTZ.AbsMax` §5, which imports
 this file: `ce_opens_eq`, `regChart_subtypeRestr_eq`, `flatCausality_e0RegM_eq`) -/
 
 omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] in
@@ -4776,7 +4779,7 @@ open TopologicalSpace
 attribute [local instance] btzE0Structure
 
 /-- Near a point of its source in the sector of `y₀`, a chart of `BTZE0`'s maximal a.e. atlas is
-`g •` the sector chart `chartMap y₀` (a copy of `GXScaffold.BTZ.Uniformization`'s
+`g •` the sector chart `chartMap y₀` (a copy of `GX.BTZ.Uniformization`'s
 `aeChart_eventually_chartMap_sector`, which imports this file). -/
 theorem surgery_aeChart_eventually_chartMap
     {c : OpenPartialHomeomorph BTZE0 (Causal.Minkowski 2)}
@@ -7372,7 +7375,8 @@ end CauchyG3
 
 /-- **(G2) Remark 2.12** (`rem:curve_spear`, B21 l.913–915): the component through `t₀` of the
 trace of an inextensible causal curve of `Reg M` on a spear of the surgery is, in the spear's
-coordinates, a spear arc (the K-3 hypotheses of Lemma 2.10). **Proved** (WP-44e):
+coordinates, a spear arc (the K-3 hypotheses of Lemma 2.10), `M` globally hyperbolic (DEC-125
+(d)). **Proved** (WP-44e):
 `SpearSurgeryDatum.isSpearArc_of_inextensible`, read through `surgery_flatCausality_e0RegM_eq`. -/
 theorem rem_curve_spear (hGH : (E0CBG.CE M).GloballyHyperbolic) {S : Set M}
     (Dat : SurgeryData M S) {I : Set ℝ}
@@ -7499,8 +7503,8 @@ theorem SurgeryData.completeSpace_sigmaStar {S : Set M} (hS : IsE0C1SpacelikeCau
     (Dat.isSpacelikeLipschitz_sigmaStar hS)
 
 /-- **`Reg M` is Cauchy-complete, from a `C¹` spacelike compact Cauchy surface** (B21 Prop 2.17's
-first assertion with B21 l.227's « Cauchy-compact »): the composition of (G1)–(G5) and Remark
-2.12; the topology field of `IsCauchyComplete` is
+first assertion with B21 l.227's « Cauchy-compact », `𝔼₀` only, `A = {0}`, DEC-125 (e)): the
+composition of (G1)–(G5) and Remark 2.12; the topology field of `IsCauchyComplete` is
 `Causal.Flat.Cla.continuous_inducedLengthSpace_toSubtype` (proved, from (G4)). -/
 theorem regM_isCauchyComplete_of_C1 (hGH : (E0CBG.CE M).GloballyHyperbolic) {S : Set M}
     (hS : IsE0C1SpacelikeCauchy M S) (hmax : E0Spear.IsE0CauchyMaximal M) :

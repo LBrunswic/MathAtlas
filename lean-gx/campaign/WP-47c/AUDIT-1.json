@@ -1,0 +1,65 @@
+{
+ "package": "WP-47c",
+ "round": 1,
+ "auditor": "read-only auditor, round 1",
+ "host": "node1",
+ "file": "GX/BTZ/Surgery.lean",
+ "module": "GX.BTZ.Surgery",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count": 0,
+ "sorries": [],
+ "build_command": "taskset -c 0-11 lake env lean -DwarningAsError=true GX/BTZ/Surgery.lean: exit 0, no output (34.7 s wall). taskset -c 0-11 lake build GX: 'Build completed successfully (8746 jobs)', EXIT=0, nothing rebuilt (olean 14:06 postdates the source 14:04); no Causal.* module recompiled. Independent check through lake env lean --stdin (writes nothing): rem_curve_spear, regM_isCauchyComplete_of_C1 and regM_globallyHyperbolic are all on [propext, Classical.choice, Quot.sound], matching campaign/WP-47c/axioms.out. No sorry/admit/axiom token in code.",
+ "checks": {
+  "builds_and_sorry_count": "pass. 0 real sorry, matching REPORT.sorry_count = 0. The diff against campaign/WP-47c/Surgery.pre.lean.bak touches only the module docstring (round line, the two bullets, the two checklist rows, SCOPE (e)/(f)) and the docstrings of rem_curve_spear and regM_isCauchyComplete_of_C1. No declaration, signature or proof changed, and no name was added, so there is no new clash surface.",
+  "statement_fidelity": "pass, under the ruled readings. Remark 2.12 (B21 l.913-915) is rem_curve_spear. For M a globally hyperbolic E0-manifold (DEC-125 (d)), an inextensible causal curve of Reg M, and a spear of a surgery datum, the component through t0 of {t in I | c t in spear} read in the spear's coordinates is IsSpearArc, i.e. the K-3 hypotheses of Lemma 2.10 (DEC-116 (d), DEC-117). IsSpearArc.ncard turns that into the Lemma 2.10 count. Remark 2.12's Lemma 2.9 half (curves of M through full spears) is outside DEC-116 (d)'s reading and is disclosed. The surgery-datum restriction is harmless: the datum supplies Sigma*'s cusp G, against which the K-3 past end is read, and the proof puts the past end on the head or at the axis, which is below every admissible G. Prop 2.17's first assertion (B21 l.1078-1082 with A = {0}, A* = empty set; proof l.1088-1093) is regM_isCauchyComplete_of_C1. It takes hGH (as printed), IsE0C1SpacelikeCauchy (Cauchy-compact, DEC-107/117), IsE0CauchyMaximal (DEC-77 (c)) and the library's E0-manifold conventions (T2, connected, second countable, as in Spear.lean). It concludes Causal.Flat.IsCauchyComplete 2 (e0RegMFlat M) (DEC-31), witnessed by Sigma* = Dat.sigmaStarReg with Cauchy, spacelike-Lipschitz, complete and topology fields, each proved: (G1)-(G5) are sorry-free. The 'globally hyperbolic' half of 'Reg M is globally hyperbolic and Cauchy-complete' is proved in this file as regM_globallyHyperbolic, and in AbsMax as gh_e0RegMFlat_e0 / prop_abs_max_C1 (see m1). There is no hidden carrier of the conclusion: SurgeryData is produced, not assumed (exists_surgeryData), and hrem in G3 is discharged by rem_curve_spear. Non-vacuity: the hypotheses of rem_curve_spear are inhabited whenever a datum exists, and exists_spearSurgeryDatum builds one at every BTZ point of I^-(S). For regM_isCauchyComplete_of_C1 there is still no Lean witness that IsE0C1SpacelikeCauchy holds with a BTZ point (WP-46e AUDIT-2's optional question). The repaired rim field (shaft and continuity antecedents, eqOn_closedBall_of_rim_antecedent) is what a genuine C^1 spacelike compact Cauchy surface satisfies (transversality to the timelike cylinder r = R), so I see no contradiction.",
+  "rulings": "DEC-125 (d) 'Remark 2.12 with the added hypothesis M globally hyperbolic' and DEC-125 (e) 'Prop 2.17's first assertion for E0 only (A = {0})' are exactly the two hypotheses that kept these rows partial in WP-46e (AUDIT-2 questions 1 and 2). Both now read 'read (DEC-125 ...)' in the checklist and the REPORT. DEC-116 (d) and DEC-117 (K-3 reading, blunt spears of Reg M), DEC-107/117 (Cauchy-compact = IsE0C1SpacelikeCauchy, C^1 route) and DEC-31 (induced length) are applied as before.",
+  "docstring_contract": "pass. All 8 label strings are marked **`brunswic2021cauchy:...`** within the first 4000 characters (offsets 1564..3384 of a 12,531-character docstring). rem:curve_spear and prop:abs_max are newly marked, with their readings stated in the bullet. These cited-result marks use the brunswic2021cauchy: prefix, which the gx ledger regex (label_prefixes in papers/gx/ledger/ledger.toml) does not read, so no gx ledger row is affected. See m3 on the scope of the prop:abs_max mark.",
+  "report": "pass with minors. 9 rows cover the 8 labels (Lemma 2.6 split into (i)/(ii)), all closed and marked, with sorry_count 0 and decls that exist. Both rows' new findings cite DEC-125 and the axiom file. Stale text is listed in m2.",
+  "missing_labels_or_parts": "none blocking. Prop 2.17's GH half is proved but not listed in the row (m1). Its maximality assertion is AbsMax's row (absMax_e0RegM / prop_abs_max_C1), outside this file.",
+  "cited_results": "pass. Lemmas 2.3/2.4 (Spear) and the Causal Flat CLA results are sorry-free upstream, per the axiom check.",
+  "name_clashes": "pass. No declaration was added in WP-47c."
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "id": "m1",
+   "where": "REPORT row brunswic2021cauchy:prop:abs_max, 'label' and 'decls'",
+   "problem": "B21 Prop 2.17 states 'Reg_{>0}(M) is globally hyperbolic [A*-maximal] and Cauchy-complete'. The now-closed and marked row names only 'Sigma* Cauchy in Reg M, Reg M Cauchy-complete'. Its 95 decls omit GX.E0Surgery.regM_globallyHyperbolic, which is proved in this file and listed only in extra_decls. This is WP-46e AUDIT-2 m1, carried over and unaddressed.",
+   "fix": "Add GX.E0Surgery.regM_globallyHyperbolic to the row's decls, and 'Reg M globally hyperbolic' to the label text or to a finding (it is also AbsMax.gh_e0RegMFlat_e0 inside prop_abs_max_C1)."
+  },
+  {
+   "severity": "minor",
+   "id": "m2",
+   "where": "REPORT rows prop:abs_max (hypothesis 'E_A-manifold, A subset R_+') and rem:curve_spear (WP-46e fixer finding)",
+   "problem": "Stale text contradicts the new status. The prop:abs_max note still says 'This is the only hypothesis not covered by a ruling: the row is partial for it alone (0 sorry)', and only then appends '[accepted: DEC-125 (e)]'. The rem:curve_spear finding and note still justify GH partly by 'without it the spear need not be closed in M (B21 Def 2.1's frontier condition)'. WP-46e AUDIT-2 m2 showed that is inaccurate for the paper's objects: a Def 2.1 spear is closed by definition, and the irreducible use of GH is Inextensible.not_tendsto_atTop/atBot (closed J^+-, strong causality).",
+   "fix": "Reword the E_A note to 'read (DEC-125 (e))' without the 'partial' sentence, and apply AUDIT-2 m2's rewording to the rem:curve_spear note and finding."
+  },
+  {
+   "severity": "minor",
+   "id": "m3",
+   "where": "GX/BTZ/Surgery.lean module docstring, the prop:abs_max bullet (offset 3384); kb/0006",
+   "problem": "The mark **`brunswic2021cauchy:prop:abs_max`** names the whole proposition, but this file certifies only its first assertion. The full Prop 2.17 lives in scaffold/GXScaffold/BTZ/AbsMax.lean (unmarked there), and the mixed-diamonds step of its maximality assertion still has a sorry (AbsMax l.2239). The bullet text qualifies the mark ('Prop 2.17, first assertion'), the dispatch asked for exactly this mark, and the gx ledger does not read brunswic2021cauchy: marks. So nothing is overclaimed in a counted place, but read literally under kb/0006 ('the mark is a claim of full certification') it is broader than the certificate.",
+   "fix": "Optional: give the row a distinct mark (e.g. a 'prop:abs_max.first' sub-label), or add one sentence to the bullet saying that the maximality assertion is AbsMax's row and is not certified here."
+  },
+  {
+   "severity": "minor",
+   "id": "m4",
+   "where": "GX/BTZ/Surgery.lean module docstring, quote block",
+   "problem": "kb/0006 item 3 asks for the paper's sentences of each certified label. The '>' block quotes Lemmas 2.6-2.11 but not Remark 2.12 (l.913-915) or Prop 2.17 (l.1078-1082), the two rows marked in this package.",
+   "fix": "Add the two verbatim quotes, as a docstring-only change."
+  },
+  {
+   "severity": "minor",
+   "id": "m5",
+   "where": "REPORT row rem:curve_spear, hypothesis 'any E_{>=0}-manifold M, any (blunt) spear neighbourhood'",
+   "problem": "The tag reads '[accepted: DEC-125 (d) (Remark 2.12 with the added hypothesis M globally hyperbolic)]'. The question put to the master covered both GH M and 'the spears being those of a surgery datum', but DEC-125 (d)'s recorded text names only GH. The datum restriction is substantively harmless (see statement_fidelity), but its acceptance should be attributed accurately.",
+   "fix": "Attribute the datum restriction to DEC-116 (d) + DEC-117 (the K-3 reading, whose past end is read against Sigma*), and say in a finding that every spear chart with a BTZ vertex carries a datum (exists_spearSurgeryDatum's construction, or a constant rim with Lemma 2.6(ii))."
+  }
+ ],
+ "questions_for_master": [
+  "Carried over (kb/0011, optional): there is still no Lean witness that IsE0C1SpacelikeCauchy M S ∧ IsE0CauchyMaximal M ∧ GH holds for an M with a BTZ point. Now that prop:abs_max is closed and marked, is a non-vacuity witness owed, for example a model quotient with a compact C^1 Cauchy surface?",
+  "Is the brunswic2021cauchy:prop:abs_max mark in Surgery.lean (first assertion only) acceptable alongside the unmarked full Prop 2.17 in AbsMax, or should first-assertion rows carry a distinct sub-label?"
+ ],
+ "summary": "WP-47c is a docstring- and REPORT-only change, and it is accurate. The file builds with -DwarningAsError=true with no output and 0 sorry. lake build GX succeeds with nothing rebuilt. Both newly certified declarations are on the standard axioms. Remark 2.12 (rem_curve_spear: GH M, Reg M curves, blunt spears of a surgery datum, K-3 arc conclusion) and Prop 2.17's first assertion (regM_isCauchyComplete_of_C1: E0, A = {0}, C^1 Cauchy-compact, Cauchy-complete via Sigma*) are faithful under DEC-116 (d), DEC-117, DEC-107, DEC-31 and DEC-125 (d)(e), which accept exactly the two hypotheses that kept the rows partial. Closing and marking them is correct. Five minors, none blocking: the GH half of Prop 2.17 is missing from the row's decls (carried AUDIT-2 m1); stale 'partial' and GH-rationale text remains in the REPORT; the prop:abs_max mark is broader than the first-assertion certificate; quotes for the two new rows are missing; and the surgery-datum restriction is attributed to DEC-125 (d), which records only GH."
+}

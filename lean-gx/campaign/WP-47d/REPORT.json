@@ -1,0 +1,123 @@
+{
+ "package": "WP-47d",
+ "files": [
+  "scaffold/GXScaffold/BTZ/MixedDiamond.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "brunswic2021cauchy:prop:abs_max (Prop 2.17, A = {0})",
+   "tex_lines": [
+    1078,
+    1117
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.E0MixedDiamond.isCompact_diamond_mixed",
+    "GX.E0MixedDiamond.globallyHyperbolic_pushout",
+    "GX.E0MixedDiamond.absMax_e0RegM_spear",
+    "GX.E0MixedDiamond.prop_abs_max_C1_spear",
+    "GX.E0MixedDiamond.exists_bound_axis",
+    "GX.E0MixedDiamond.circle_trick",
+    "GX.E0MixedDiamond.vertical_noLimit",
+    "GX.E0MixedDiamond.affine_noLimit",
+    "GX.E0MixedDiamond.SpearChart.exit",
+    "GX.E0MixedDiamond.SpearChart.exists_locIso",
+    "GX.E0MixedDiamond.exists_spearChart",
+    "GX.E0MixedDiamond.le_top_ι₂_iff"
+   ],
+   "hypotheses": [
+    {
+     "paper": "E_A-manifolds, A ⊂ ℝ₊",
+     "here": "read (DEC-125 (e))",
+     "note": "A = {0}; E_{A*}-maximal = Causal.Flat.AbsMax (fun _ => True) over connected GH flat targets (universe 0), as in GXScaffold.BTZ.AbsMax"
+    },
+    {
+     "paper": "Cauchy-compact",
+     "here": "read (DEC-107/117)",
+     "note": "a compact C¹ spacelike Cauchy surface (E0Surgery.IsE0C1SpacelikeCauchy); the mixed diamonds themselves use only GH + Cauchy-maximal"
+    },
+    {
+     "paper": "Cauchy-maximal",
+     "here": "read (DEC-77 (c))",
+     "note": "IsE0CauchyMaximal"
+    },
+    {
+     "paper": "spear neighbourhood of vertex p with q ∉ 𝒮 (l.1106–1107)",
+     "here": "carried",
+     "note": "E0Spear.lem_tube_e0 pushed by ι₁ (exists_spearChart); the radius avoiding q is exists_radius_avoiding"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "B21 l.1110–1112: 'K' := K ∩ ∂S ⊂ M, since ∂S is closed, then K' is compact' — ∂S is closed in M, not in the push-out M̄ (shaft points with τ → ∞ may converge in M̄ to a point of N ∖ f(Reg M)), so K' is not known compact. Equivalently the printed argument never excludes that the whole future BTZ ray of p lies below q. Repaired here: (i) no vertical null line of an E₀-morphism converges to a regular point (its chart reading is locally k • D(σ, r, θ), D the developing map, affine in σ with a nonzero null velocity — the affine parameter is the Lorentz-invariant size; no volume or time separation is needed, contrary to WP-46f's analysis); (ii) hence the BTZ ray of p is bounded below q (circle trick: annulus compactness + closedness of J⁻_N(q')); (iii) the spear is truncated at a lid above the bound, which no curve to q can cross, and J(p, q) = Φ(𝒬 ∩ J⁻(E)) ∪ ι₂(J⁺_N(E) ∩ J⁻_N(q)) with E the compact set of wall points below q.",
+    "B21 l.1113: 'let t₀ = max c⁻¹(K')' — the exit point must be the LAST point of the FIRST stretch inside the (truncated) spear, reached from p inside the chart; proved by real induction along the curve with the chart's local isomorphism (SpearChart.exit), the head being excluded because f = τ − r/2 is non-decreasing.",
+    "The mixed diamonds do not use Cauchy-compactness of M (only GH + Cauchy-maximal, through Lemma 2.3)."
+   ],
+   "questions": [],
+   "notes": "The statement of the AbsMax leaf GX.E0AbsMax.E0Pushout.isCompact_diamond_mixed is proved verbatim (same binders) as GX.E0MixedDiamond.isCompact_diamond_mixed; checked in campaign/WP-47d/Discharge.lean. Prop 2.17's form of record AbsMax.prop_abs_max_C1 is restated verbatim as prop_abs_max_C1_spear with no sorry beneath."
+  },
+  {
+   "label": "brunswic2021cauchy:cor:abs_max (Cor 2.18)",
+   "tex_lines": [
+    1083,
+    1086
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.E0MixedDiamond.cor_abs_max_C1_spear",
+    "GX.E0MixedDiamond.prop_abs_max_C1_spear",
+    "GX.E0MixedDiamond.isCompact_diamond_mixed"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Cauchy-compact",
+     "here": "read (DEC-107/117)",
+     "note": "∃ S, E0Surgery.IsE0C1SpacelikeCauchy M S — AbsMax.cor_abs_max_C1's statement verbatim"
+    },
+    {
+     "paper": "absolutely maximal in the sense of Barbot",
+     "here": "read",
+     "note": "Causal.Flat.AbsMax (fun _ => True) (e0RegMFlat M), as in AbsMax"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "notes": "Standard axioms only (campaign/WP-47d/axioms.out). DEC-28's input to the headline: Uniformization's btz_uniformization_of_mixed takes E0MixedDiamondsCompact M, whose body (under GH + Cauchy-maximal, which its consumers carry) is discharged in Discharge.lean."
+  }
+ ],
+ "extra_decls": [
+  "GX.E0MixedDiamond.affine_noLimit",
+  "GX.E0MixedDiamond.vertical_noLimit",
+  "GX.E0MixedDiamond.btzPaperDev_vertical",
+  "GX.E0MixedDiamond.vertU",
+  "GX.E0MixedDiamond.vertU_ne_zero",
+  "GX.E0MixedDiamond.SpearChart",
+  "GX.E0MixedDiamond.SpearChart.Φ",
+  "GX.E0MixedDiamond.SpearChart.O",
+  "GX.E0MixedDiamond.SpearChart.exists_locIso",
+  "GX.E0MixedDiamond.SpearChart.le_of_curve",
+  "GX.E0MixedDiamond.SpearChart.exit",
+  "GX.E0MixedDiamond.SpearChart.exists_radius_avoiding",
+  "GX.E0MixedDiamond.SpearChart.exists_regular_le",
+  "GX.E0MixedDiamond.SpearChart.mem_S0_iff",
+  "GX.E0MixedDiamond.SpearChart.le_of_le",
+  "GX.E0MixedDiamond.SpearChart.isOpen_image",
+  "GX.E0MixedDiamond.isCompact_Jplus_inter_Jminus_singleton",
+  "GX.E0MixedDiamond.exists_tendsto_of_monotone_gh",
+  "GX.E0MixedDiamond.toN",
+  "GX.E0MixedDiamond.ι₂_toN",
+  "GX.E0MixedDiamond.continuousOn_toN",
+  "GX.E0MixedDiamond.isOpen_axis_compl"
+ ],
+ "kb_proposals": [
+  "A null geodesic's affine parameter is the cheapest Lorentz-invariant size: in a regular E₀ chart a vertical null line reads k • btzPaperDev(σ, r, θ), affine in σ (btzPaperDev_vertical), so it has no regular endpoint (vertical_noLimit via affine_noLimit) — no volume or time separation needed.",
+  "Curve exits from a truncated spear: SpearChart.exit (real induction IsClosed.Icc_subset_of_forall_exists_gt + the local isomorphism exists_locIso from IsEMorphismOn.locally) — reusable for any compact chart region of an E₀-manifold.",
+  "A whole vertical line below a regular point from a sequence of points at large height and radius bounded below: the circle trick (annulus compactness, closedness of J⁻ in the GH piece)."
+ ],
+ "notes": "New file scaffold/GXScaffold/BTZ/MixedDiamond.lean (987 lines, 0 sorry, standard axioms). It imports GXScaffold.BTZ.AbsMax (E0Pushout, Lemma 2.13(b), Prop 2.16 _e0 forms), so AbsMax cannot import it. Graduation options: (a) move §0–§4 into AbsMax just above E0Pushout.isCompact_diamond_mixed (they use only AbsMax declarations stated before it, plus strict GX.BTZ.*) and replace the leaf's sorry by `E0MixedDiamond.isCompact_diamond_mixed _hGH _hmax _hN P _hp _hq`; §5 then becomes redundant; or (b) keep this file and point GXScaffold.BTZ.Uniformization's E0MixedDiamondsCompact consumers at it. Both discharges typecheck in campaign/WP-47d/Discharge.lean (not a module). taskset -c 0-11 lake build GXScaffold.BTZ.MixedDiamond: green; it rebuilt (first run) / replayed GXScaffold.BTZ.AbsMax only — nothing in GX.*, Causal.* or Mathlib was rebuilt (build.log). New names live in the fresh namespace GX.E0MixedDiamond (no clash; exists_tendsto_of_monotone_gh named to avoid ambiguity with E0Spear.exists_tendsto_of_monotone under `open`). Lemma 2.14's E₀ loop form (the other AbsMax sorry, l.1038) is NOT addressed by this package."
+}

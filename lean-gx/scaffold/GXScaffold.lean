@@ -1,5 +1,3 @@
 import GXScaffold.Basic
-import GXScaffold.BTZ.AbsMax
-import GXScaffold.BTZ.Uniformization
 
-/-! The scaffold library of the paper `gx`. Modules here may carry tagged `sorry`s. -/
+/-! The scaffold library of the paper `gx`. Modules here may carry tagged `sorry`s; every module has now graduated to `GX`. -/

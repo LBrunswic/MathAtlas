@@ -61,6 +61,8 @@ is ported, with its origin cited. Graduation into `lean/` is two `git mv`s.
 | `GX.BTZ.Model`, `.Rigid`, `.Causality`, `.Topology`, `.VirtTame` | §4.4 | the BTZ model E₀, its rigidity, causal structure (J^±(V) open at BTZ points), the BTZ topology, the analytic family (E_θ), θ ≠ 2π (DEC-74) |
 | `GX.BTZ.LocalModel`, `.CBG` | — | the CBG local model on 𝕄 ⊕ E₀ (timeFunction by Levin) and **Choquet-Bruhat–Geroch for E₀-manifolds** (DEC-29) |
 | `GX.BTZ.Holonomy`, `.Manifolds` | §4.5 | holonomy (a loxodromic element proved in 2+1, DEC-75), the l.2317–2359 lemmas |
-| `GXScaffold.BTZ.{Spear,Surgery,AbsMax,Uniformization}` | §4.5 | brunswic2021cauchy Lemma 2.3 (3 sorrys), the surgery (6), Prop 2.16–Cor 2.18 (3), the headline `GX.btz_uniformization` (0 local) |
+| `GX.BTZ.{Spear,Surgery,MixedDiamond,AbsMax,LiftGH,HeadlineBridge,FutureRay,Uniformization}` | §4.5 | brunswic2021cauchy Lemmas 2.3–2.18 (spears, the C¹ surgery, mixed diamonds, absolute maximality of Reg M); M̃ GH in the natural topology; **the headline `GX.btz_uniformization`** (DEC-28 form), standard axioms only |
 | `GX.Suspension.Conic`, `.Celestial`, `.Affine` | — (author's ruling via the BBS session: the general theory of suspensions, L0/L1) | conic structures and the celestial (G,X)-suspension as a singular (G,X)-manifold (radius-preserving `ConicStructure`; compact links for the singular rays), links in locally affine spaces; built from draft material commented out in these.tex l.3560–3677 (not part of the thesis), whose counterexamples are kept as design notes; authored by the BBS session, audited twice |
 
+
+**State (2026-11-08):** every module is strict — 45 modules, 11,824 declarations, 0 `sorry`, standard axioms only (`make check`). The scaffold is empty.

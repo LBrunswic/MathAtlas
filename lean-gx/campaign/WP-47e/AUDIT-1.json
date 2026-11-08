@@ -1,0 +1,40 @@
+{
+ "package": "WP-47e",
+ "round": 1,
+ "auditor": "read-only auditor, round 1",
+ "host": "node1",
+ "file": "scaffold/GXScaffold/BTZ/FutureRay.lean",
+ "module": "GXScaffold.BTZ.FutureRay",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count": 0,
+ "sorries": [],
+ "build_command": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/FutureRay.lean: exit 0, no output (14.8 s wall). The olean (2026-11-08 14:39:15) postdates the source (14:38:38), matching build.log 'Built GXScaffold.BTZ.FutureRay', with no GX.* or Causal.* rebuild. I re-ran campaign/WP-47e/Wiring.lean with taskset -c 0-11 lake env lean, which writes nothing. btzTilde_null_supset_wired, futureRay_halfLine and futureRay_null_supset all depend only on [propext, Classical.choice, Quot.sound], matching axioms.out. The code has no sorry, admit, axiom or native_decide token. The two 'sorry' occurrences are prose in docstrings.",
+ "checks": {
+  "builds_and_sorry_count": "pass. 0 real sorry, matching REPORT.sorry_count = 0. Imports: GX.BTZ.{LiftGH,HeadlineBridge,Spear} only. There is no Causal import, no 'open Causal', and Causal.* names are fully qualified, so the DEC-33 gate is respected.",
+  "statement_fidelity": "pass. (1) futureRay_null_supset matches the conclusion of Uniformization's btzTilde_null_supset (l.2203-2245, whose body carries the file's one tagged sorry) verbatim. It takes the same hrays (DEC-125 (b)) and a chartwise d. The only addition is hreg, the reverse inclusion J+(D y) ⊆ D(J+ y) at regular y. hreg is the first half of the PROVED btzTilde_supset_of_reg and is supplied by it in Wiring.lean, which typechecks against the built Uniformization olean with section variables matching Uniformization l.1256 (T2, connected, second countable, ChartedSpace E0Y, HasGroupoid). It is a disclosed import-order artifact, not a gap. The wired theorem discharges the sorry's statement exactly. (2) futureRay_halfLine concludes the following: there exist a full future BTZ ray γ from p(x) and u future causal, minkQ u = 0, u ≠ 0, such that for every λ ≥ 0 some z ≥ x lies over γ(λ/2) with D z = D x + λu, and every m ≥ D x is on that half-line or is reached from a regular y ≥ x with D y ≤ m. So D(lift) is the WHOLE future half-line D x + ℝ₊u, as DEC-126 asks. The factor 1/2 is the correct parameter bookkeeping: yAxis v t is the paper point (v+t,0), which is the axis point [apex, 2(v+t)] (futureRay_yAxis_eq). (3) The scale problem is handled correctly. A boost in the parabolic stabiliser could rescale the parameter, so a chain of charts could a priori develop onto a bounded segment. The proof avoids this by comparing the chart for each T ≥ 1 with the chart for T = 1 at two axis points, 2v and 2v+1. This is the substantive step. The comparison works because the lift for T stays in the T=1 component (a preconnected image), and the BTZ fibre of that component is one point (futureRay_eq_apex_of_orbitMk: Γ fixes the axis). The isometries' linear parts therefore agree on nullToMink nullU (futureRay_isom_axis). (4) Non-vacuity. The hypotheses (T2, connected, first countable E0-manifold; a chartwise BTZTildeData; hrays) are those already carried by Uniformization's headline chain. hrays is proved for GH Cauchy-maximal M upstream (Spear.exists_fullFutureBTZRay). futureRay_lift's hypotheses hr/hra are produced by futureRay_exists_chart, so they are inhabited. IsFullFutureBTZRay is the DEC-125 (b) definition from GX.BTZ.Spear, not redefined or trivialised here. No hypothesis carries the conclusion. The future-null property of u is proved through Lorentz invariance, not assumed. (5) Rulings. DEC-126 (a separate package for the future half-line, built rather than assumed), DEC-125 (b), DEC-118 (a)/(c) (chart-generated BTZTildeData.causality, chartwise M̃), DEC-119 (bridge structure E0Bridge.e0SingularGXStructure) and DEC-106 (the natural topology: continuity is proved for d.toNat ∘ z) are all applied as ruled. DEC-55 is not relevant here.",
+  "docstring_contract": "pass with minors. No label carries a ** mark, and the docstring says so ('neither row is closed by this file alone'). This is correct, because both rows are partial. Both label names appear within the first 4000 characters (the docstring ends at character 4177). See m1 for the kb/0006 layout items.",
+  "report": "pass. Two rows, both 'partial', 'marked': false, with tex lines that check against RamcovGX.tex: prop at l.2348, 'full future BTZ rays' at l.2352, thm at l.2363, 'S_x is a totally ordered relatively open future half line' at l.2382. The decls exist, and extra_decls lists every other declaration of the file (19 declarations in total). hreg is disclosed as carried and the GH/Cauchy hypotheses as dropped. The theo row says plainly what is NOT attempted: Δx ⊂ ∂Ω, the image formula, and M ≅ ρ\\D(M̃). The wiring note is accurate and was re-verified.",
+  "missing_labels_or_parts": "none for this package's scope. The file certifies the future half-line from x and the null inclusion at BTZ points. It does not certify that S_x (the whole component of sing M̃) is a half-line, and it does not prove the remaining assertions of the theorem. Both rows correctly stay partial for that reason.",
+  "cited_results": "pass. The file cites the following, all sorry-free per the axiom check of futureRay_halfLine: exists_liftedChart_of_isChartwise, LiftGH.exists_chart_of_descent, hasMaximalLifts_btzBox, isDescendingChartMap_of_homeomorph, btz_sing, isMaximalAEAtlas_aeAtlas, and B21 Lemma 2.3 in the form of IsFullFutureBTZRay. B21 Lemma 2.3 enters only as the carried hrays, exactly as in Uniformization.",
+  "name_clashes": "pass. All 19 declarations are prefixed futureRay / futureRayU / futureRayHomeo, in namespace GX, with two under GX.BTZTildeData. Running grep -rlw over GX/ and scaffold/ (*.lean) finds each name only in FutureRay.lean."
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "id": "m1",
+   "where": "module docstring (kb/0006 items 3, 4 and 6)",
+   "problem": "There is no '>' block quoting the paper's sentences (l.2350-2352, l.2382); they are paraphrased inline in « ». The Provenance line (mathlib fabf563a / lean-causal ca2ad78) is missing. In the hypothesis checklist, the row 'M GH, Cauchy-complete, Cauchy-maximal | not used' should read '⚠ weakened', and 'the regular case | carried as hreg' is not a paper hypothesis. It should be marked as an added (import-order) hypothesis, '⚠ strengthened, discharged by btzTilde_supset_of_reg on wiring'.",
+   "fix": "Docstring-only change: add the quote block and the Provenance line, and relabel the two checklist rows."
+  },
+  {
+   "severity": "minor",
+   "id": "m2",
+   "where": "GX.futureRay_halfLine (conclusion) and REPORT theo row finding ('a full future BTZ ray ... lifts to M~ from x')",
+   "problem": "The 'lifted ray' is exported pointwise: for each λ ≥ 0 SOME z exists. It is not one continuous lift [0,∞) → M̃ of γ, and nothing says the z for different λ lie on one lift. The proof in fact builds a continuous lift on each [0,T] (futureRay_lift's ContinuousOn), but discards it. Consistency across T is not stated either. This is exactly the form Uniformization needs, and the image claim (D onto the half-line) is fully proved, so nothing is overclaimed in a counted place. The prose word 'lifts' is stronger than the Lean statement.",
+   "fix": "Optional: either say 'for every λ some z over γ(λ/2)' in the REPORT finding, or export the per-T continuous lift (z : ℝ → d.Space with ContinuousOn (d.toNat ∘ z) on [0, T], z 0 = x), which is already available from futureRay_lift."
+  }
+ ],
+ "questions_for_master": [],
+ "notes": "Wiring is for the master session: add 'import GXScaffold.BTZ.FutureRay' to Uniformization and replace btzTilde_null_supset's body with the four lines in REPORT.notes. I re-checked them in campaign/WP-47e/Wiring.lean: no sorry, standard axioms. This removes Uniformization's only local tagged sorry, so the headline then rests only on the upstream mixed-diamond leaf (DEC-126's other package)."
+}

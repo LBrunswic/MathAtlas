@@ -38,5 +38,9 @@ import GX.BTZ.Spear
 import GX.BTZ.Surgery
 import GX.BTZ.LiftGH
 import GX.BTZ.HeadlineBridge
+import GX.BTZ.MixedDiamond
+import GX.BTZ.FutureRay
+import GX.BTZ.AbsMax
+import GX.BTZ.Uniformization
 
 /-! The strict library of the paper `gx` (`papers/gx`). Every module is imported here. -/

@@ -1,0 +1,57 @@
+{
+ "package": "WP-47f",
+ "round": 1,
+ "auditor": "read-only auditor, round 1",
+ "file": "scaffold/GXScaffold/BTZ/AbsMax.lean",
+ "host": "node1",
+ "verdict": "issues",
+ "builds": true,
+ "build_command": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/AbsMax.lean: exit 0 in 10.8 s, nothing recompiled. It gives exactly one 'declaration uses sorry' warning, at l.1036 (GX.E0AbsMax.sing_eq_of_le_of_le_of_stronglyCausalOn_e0). The olean (14:55) postdates the source (14:54). campaign/WP-47f/build.log ends 'Built GXScaffold.BTZ.AbsMax ... Build completed successfully (8733 jobs)' and built only that module. GXScaffold.BTZ.MixedDiamond, which imports AbsMax, still typechecks with no output. Independent axiom sweep (lake env lean --stdin, no file written) over every REPORT decl and extra_decl, plus the loop leaf, cor_GH_causal_e0, btzExt_isCausal_of_stronglyCausalOn_e0, E0Pushout.isCompact_diamond_mixed and E0Surgery.regM_isCauchyComplete_of_C1: every name resolves. sorryAx appears in exactly 3 of them, the loop leaf and its two _e0 dependants. Every other name, including prop_abs_max_C1, cor_abs_max_C1, prop_cauchy_abs_max_C1, E0Pushout.globallyHyperbolic(_e0), absMax_e0RegM(_e0) and E0Pushout.isCompact_diamond_mixed, is on [propext, Classical.choice, Quot.sound] or a subset.",
+ "sorry_count": 1,
+ "checks": {
+  "builds_and_sorry_count": "pass. There is 1 tagged sorry, matching REPORT.sorry_count = 1, and it is isolated in its own declaration. The mixed-diamond leaf is closed. Its proof is Mixed.isCompact_diamond_mixed _hGH _hmax _hN P _hp _hq, and the leaf statement is unchanged against campaign/WP-47f/AbsMax.pre.lean.bak.",
+  "graduated_copy": "pass. §4c (AbsMax l.2247–3090) is a byte-for-byte copy of MixedDiamond.lean l.81–923 (§0–§4), apart from one blank line; diff confirms this. Only the namespace differs: GX.E0AbsMax.Mixed against GX.E0MixedDiamond. WP-47d's AUDIT-1 on that proof is 'clean' (3 minors, all style or reporting). The dispatch's 'import GXScaffold.BTZ.MixedDiamond' is impossible because MixedDiamond imports AbsMax, so the in-file copy is the correct workaround, and it is disclosed.",
+  "statement_fidelity": "pass for the certified rows. Against the backup, the diff touches no statement. It changes only the docstring, the loop tag text, the inserted §4c and the leaf proof, so the round-2 WP-46f fidelity findings on Remark 1, Lemma 2.13 (a)/(b), the abstract Lemma 2.14 / Cor 2.15, Prop 2.16 (IsE0Maximal with connected targets), Prop 2.17 and Cor 2.18 (GH ∧ Causal.Flat.IsCauchyComplete ∧ AbsMax (fun _ => True), under IsE0C1SpacelikeCauchy + IsE0CauchyMaximal) still stand. Each is re-read against B21 l.941–1117. The marks now rest on rulings that exist: DEC-125 (f) covers Remark 1 and Lemma 2.13 (abstract SFA / CausallyArcConnected reading), DEC-116 (e) covers Lemma 2.14 / Cor 2.15 (NoCausalLoopIn explicit), DEC-125 (e) covers Prop 2.16 / Prop 2.17 (A = {0}, connected targets), and DEC-107/117 cover the C1 forms of record. NoCausalLoopIn was tried for satisfiability: it is the plain antisymmetry of ≤ on sing 0 (resp. Aᶜ). It is not vacuous and it does not imply the conclusion by itself, because the regular and mixed loop cases are genuinely proved. DEC-55 is not relevant to this file.",
+  "docstring_contract": "pass. The bold label marks fall at characters 432, 736, 1027, 1416, 1886, 2159 and 2435, all below 4000. They mark Remark 1, Lemma 2.13, Lemma 2.14, Cor 2.15, Prop 2.16, Prop 2.17 and Cor 2.18. Lemma 2.12 is written in plain backticks and labelled partial. The SCOPE paragraph names the one remaining sorry and states that it is off every certified row.",
+  "report_honest_complete": "pass with a minor (m1). All 8 B21 labels of the file are listed. Seven are closed and marked and one (Lemma 2.12) is partial and unmarked, which agrees with the docstring. The decls, the findings, the build claim and the axiom claim all agree with the source and with the independent sweep.",
+  "missing_labels_or_parts": "pass, apart from the disclosed partial Lemma 2.12 (m2). Lemma 2.13 has both (a) and (b), Prop 2.16 has both directions, and Prop 2.17 / Cor 2.18 have all three conclusions.",
+  "cited_results": "pass. Lemma K, E0LM.e0_globalBTZ, E0Spear extensibility, E0Surgery.regM_isCauchyComplete_of_C1 and the §4c mixed-diamond chain are all built and sorry-free according to the sweep.",
+  "name_clashes": "pass. Grepping GX/ and scaffold/ finds the namespace GX.E0AbsMax.Mixed only in AbsMax.lean. The §4c copies live in a different namespace from MixedDiamond's GX.E0MixedDiamond, so the two files coexist under GXScaffold.lean. §4c's only attribute is a local instance (l.2626).",
+  "dispatch_items": "The dispatch named two sorries to close. Mixed diamonds: done. Lemma 2.14's E0 closed-BTZ-loop form, which DEC-126 asks to be proved: NOT done, with analysis only (M1). It also asked to certify lem:extension_hausdorff: left partial, with a question to the author (m2)."
+ },
+ "issues": [
+  {
+   "id": "M1",
+   "severity": "major",
+   "where": "scaffold/GXScaffold/BTZ/AbsMax.lean l.1036–1039, GX.E0AbsMax.sing_eq_of_le_of_le_of_stronglyCausalOn_e0 (and its dependants btzExt_isCausal_of_stronglyCausalOn_e0 and cor_GH_causal_e0)",
+   "problem": "DEC-126 rules that Lemma 2.14's E0 closed-BTZ-loop form 'is proved too', and the dispatch lists it as one of the two sorries to close. The sorry remains. The package's work on it is a rewritten tag giving a three-step plan and an estimate of '≥ 1500 lines'. Nothing toward the plan was built. Its steps are: (1) explicit Aut(E0) at the axis with lam = 1; (2) a chart-chain tube along the compact BTZ curve with its return map; (3) a Dirichlet argument plus the quotient-model interval contradicting strong causality. The tag's diagnosis checks out: E0Spear.lem_tube_e0 (GX/BTZ/Spear.lean:4975) assumes GH + IsE0CauchyMaximal and so cannot supply the tube, and IsAxisAff / btzConj_smul / btzConj_winding (GX/BTZ/Rigid.lean:655, 906, 1157) exist without any lam = 1 lemma. But a size estimate is not a mathematical obstruction, and step (1) at least is a self-contained algebraic lemma. Under IsAxisAff, F·P = P^k·F with |k| = 1 from the winding argument, and conjugating the parabolic by the axis boost scales it, which forces lam = 1. That lemma could have been proved and exported. The certified rows are unaffected: Lemma 2.14 and Cor 2.15 close on the abstract forms by DEC-116 (e), and the headline path is sorry-free. So this is not a blocker. It is an unfulfilled ruling-mandated proof, an avoidable sorry under the dispatch's 'close every statement'.",
+   "fix": "A follow-up round builds the loop form along the tag's plan. (1) A lemma IsAxisAff F lam s₀ ∧ F * btzParab = btzParab ^ k * F ∧ |k| = 1 ⇒ lam = 1 ∧ F is a rotation-translation or its reflection in paper coordinates, plus an export of F from btzE0_localUnique_core_of_region. (2) The cylinder-chart chain along a compact BTZ curve, giving the return map (τ+τ₀, r, ±θ+θ₀) and the shadow causal curves in Reg M ⊆ A. (3) The Dirichlet and interval contradiction. If the master judges the cost disproportionate for an off-headline result, an explicit author ruling relieving DEC-126's 'prove 2.14 too' is needed. Until then, keep the tag."
+  },
+  {
+   "id": "m1",
+   "severity": "minor",
+   "where": "campaign/WP-47f/REPORT.json, label 'brunswic2021cauchy:Lemma 2.14'",
+   "problem": "The row's 'sorries' array is empty. The file's one sorry is tagged SORRY(brunswic2021cauchy:Lemma 2.14), and DEC-126 attaches it to this row's E0 form, but the decl and its obstruction appear only in the free-text 'notes' and the top-level notes. The CAMPAIGN.md schema puts such entries in 'sorries' as {decl, obstruction}. It is disclosed, so this is not dishonest, only mis-filed.",
+   "fix": "Add {\"decl\": \"GX.E0AbsMax.sing_eq_of_le_of_le_of_stronglyCausalOn_e0\", \"obstruction\": \"…\"} to the Lemma 2.14 row's sorries, noting that it is outside the certified decls (closure by DEC-116 (e))."
+  },
+  {
+   "id": "m2",
+   "severity": "minor",
+   "where": "REPORT.json / docstring, brunswic2021cauchy:lem:extension_hausdorff (Lemma 2.12)",
+   "problem": "The dispatch asked to certify Lemma 2.12. It stays partial: only the case Prop 2.17 uses is proved (M₀ = Reg M, M₂ = N a flat GH spacetime), and no ruling accepts that case. This is honestly reported, unmarked, and carries a well-formed question to the author. The general E0 form is not attempted: any BTZ-extension i, any GH M₂ with sing₀ M₂ = j(sing₀ M₀), and the second branch q′ BTZ ⇒ p ∈ i(M₀).",
+   "fix": "Route the REPORT's question to the author. If it is not accepted, a separate package builds the general E0 push-out and the second branch."
+  },
+  {
+   "id": "m3",
+   "severity": "minor",
+   "where": "scaffold/GXScaffold/BTZ/AbsMax.lean §4c and scaffold/GXScaffold/BTZ/MixedDiamond.lean §0–§4",
+   "problem": "About 845 lines are now duplicated across two namespaces, GX.E0AbsMax.Mixed and GX.E0MixedDiamond. This is harmless for the build and disclosed in the notes, but it is graduation debt.",
+   "fix": "At graduation, delete MixedDiamond's §0–§4 and repoint its §5 (and Uniformization's E0MixedDiamondsCompact) to GX.E0AbsMax.Mixed or to the now sorry-free AbsMax forms, as REPORT.notes proposes."
+  }
+ ],
+ "questions_for_author": [
+  "DEC-126 asks that Lemma 2.14's E0 closed-BTZ-loop form be proved even though it is off the headline path. The package estimates ≥ 1500 lines (explicit Aut(E0) at the axis with lam = 1, a chart-chain tube, and a Dirichlet argument). Should a dedicated package build it, or does the author relieve that clause, leaving the Lemma 2.14 / Cor 2.15 rows closed on the abstract NoCausalLoopIn forms (DEC-116 (e))?",
+  "Is Lemma 2.12 accepted in the case Prop 2.17 uses (M₀ = Reg M, M₂ a flat GH spacetime, conclusion: the push-out is T2 and carries an E0 atlas) as its formalization of record?"
+ ],
+ "summary": "The file builds with one tagged sorry: the E0 closed-BTZ-loop form of Lemma 2.14, which is off every certified row and off the headline. The mixed-diamond leaf is genuinely closed by a verbatim, audited-clean copy of WP-47d's proof in §4c. Prop 2.16, Prop 2.17 and Cor 2.18 (C1 forms of record) are on standard axioms, as an independent sweep confirms. The seven marks rest on existing rulings: DEC-116 (e), DEC-125 (e)(f) and DEC-107/117. One major: DEC-126's mandated E0 loop proof was not built, and the tag's ≥ 1500-line estimate is a size estimate, not an obstruction; at least its lam = 1 step is self-contained. Minors: the loop sorry is not listed in the Lemma 2.14 row's 'sorries'; Lemma 2.12 stays partial pending a ruling; §4c duplicates MixedDiamond's proof until graduation."
+}

@@ -59,8 +59,14 @@ PKGS = [
     ("WP-46c", "GX/BTZ/Manifolds.lean"), ("WP-46d", "GX/BTZ/LiftGH.lean"),
     ("WP-46e", "GX/BTZ/Surgery.lean"), ("WP-46f", "scaffold/GXScaffold/BTZ/AbsMax.lean"),
     ("WP-46g", "GX/BTZ/HeadlineBridge.lean"), ("WP-46h", "scaffold/GXScaffold/BTZ/Uniformization.lean"),
+    ("WP-47a", "GX/Singular/Quotient.lean"), ("WP-47b", "GX/BTZ/Spear.lean"), ("WP-47c", "GX/BTZ/Surgery.lean"),
+    ("WP-47d", "GX/BTZ/MixedDiamond.lean"), ("WP-47e", "GX/BTZ/FutureRay.lean"),
+    ("WP-47f", "GX/BTZ/AbsMax.lean"), ("WP-47g", "GX/BTZ/Uniformization.lean"),
 ]
 FILE_OVERRIDE = {"ex:following_example_skeletal_itemize": "GX/Topology/PortlyExamples.lean"}  # graduated paths are resolved below
+# A label certified in one module but also mentioned (partially) in a later package's report of
+# another module: take the certifying package's entry.
+PREFER = {"lem:spread_top": "WP-41q"}
 RENAMES = {  # (file, old) -> new, applied at graduation to resolve name clashes
     ("GX/Spread/Completion.lean", "GX.isPreconnected_ball_diff_countable"): "GX.isPreconnected_ball_diff_countable_complex",
     ("GX/Branched/Universality.lean", "GX.isSkeletal_of_countable"): "GX.isSkeletal_of_countable_complex",
@@ -91,6 +97,8 @@ def main():
         for l in r["labels"]:
             lab = l["label"]
             if lab not in led:
+                continue
+            if lab in PREFER and pkg != PREFER[lab]:
                 continue
             f = FILE_OVERRIDE.get(lab, file)
             decls = [RENAMES.get((f, d), d) for d in l.get("decls", [])]

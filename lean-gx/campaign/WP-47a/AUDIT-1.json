@@ -1,0 +1,55 @@
+{
+ "package": "WP-47a",
+ "round": 1,
+ "auditor": "read-only auditor, round 1",
+ "date": "2026-11-08",
+ "host": "node1",
+ "file": "GX/Singular/Quotient.lean",
+ "verdict": "clean",
+ "builds": true,
+ "checks": {
+  "lean_warningAsError": "taskset -c 0-11 lake env lean -DwarningAsError=true GX/Singular/Quotient.lean: exit 0, no output (47.8 s wall)",
+  "sorry_count": "0. The words sorry and admit do not occur in the file, and there is no top-level axiom. GX/Branched/Universality.lean also has 0 sorry.",
+  "lake_build_GX": "taskset -c 0-11 lake build GX: 'Build completed successfully (8746 jobs).', exit 0. No Causal.* module appears in the build log.",
+  "axioms": "#print axioms GX.previous_examples_instances_developing_ruled: [propext, Classical.choice, Quot.sound]",
+  "diff": "campaign/WP-47a/Quotient.lean.pre.bak is byte-identical to HEAD:lean-gx/GX/Singular/Quotient.lean (cmp). diff backup..working: 14 hunks, all inside doc comments or /-! -/ section headers. No statement, proof or declaration name changed, so the dispatch's 'docstrings/REPORT only' holds, and the content verdicts of WP-27b/WP-27c/WP-44a/WP-46a carry over.",
+  "report_decls_resolve": "All 406 distinct names in REPORT.json (every label's decls plus extra_decls) resolve with #check against GX.Singular.Quotient + GX.Branched.Universality, 0 errors. This includes the three Universality decls newly listed under rem:previous_examples_instances_developing. Scratch file in /tmp, not in the repo.",
+  "mark_offsets": "Whole-file character offsets of the **`label`** marks (the ledger reads text[:4000], tools/ledger.py:300): prop:aeGXquotient 694, prop:GXquotient 940, ex:quotient_base 1243, rem:previous_examples_instances_developing 2231, ex:conical 2738, ex:consider_identifying_point_wise_stabilizer 3206. All are under 4000, and they match REPORT.notes exactly. The file has no other bold label marks.",
+  "labels_complete": "The six labels in REPORT are exactly the six bold-marked labels. The other labels mentioned in the file (cex:proposition_prop_branched_covering, prop:universality, lem:GX_sing_homeo_reg, ex:consider_identifying as a short form) appear only as consumers or ingredients, and are certified elsewhere."
+ },
+ "dispatch_items": {
+  "DEC-125 (g) recorded in SCOPE": "Done. The ruling is in registers/DECISIONS.md l.136 (2026-11-08, AUTHOR, 'Accept (a)–(g)'), and it quotes the sentence 'All these examples can also be obtained via gluings of polyedra'. In papers/gx/legacy/labeled/RamcovGX.tex that sentence is at l.681. l.682 is \\end{ex} and l.684 is \\begin{rem}, so the ruling's 'l.684' is the pre-snapshot number, and the file's 'l.681 (cited as l.684 in DEC-125 (g))' is the correct identification. It is recorded in SCOPE (c)(ii), in a new checklist row, in the ex:quotient_base module bullet, and in REPORT as a hypothesis 'not formalized' with the ruling plus a finding. Closing ex:quotient_base under this ruling, together with DEC-52/DEC-47/DEC-116 (a), is legitimate under DEC-27.",
+  "ex:quotient_base closes": "Status closed, marked at 1243. tex_lines are corrected to [660, 682], which is \\begin{ex}..\\end{ex}.",
+  "rem:previous_examples_instances_developing closes, mark moved earlier": "Done. The bullet now sits right after ex:quotient_base's and is marked at 2231. The remark (l.684–686) reads: 'instances of developing maps defined on the universal covering of some singular space branched over its singular locus'. Under DEC-52's corrected form ('branched over π{r=0} ⊇ sing(M)'), the certificate is GX.previous_examples_instances_developing_ruled in GX.Branched.Universality, which is strict, sorry-free and imports this module. For every α ≠ 0, every local homeomorphism D on {r>0} and every Γ_α acting by a.e. morphisms, it proves: the unique maximal a.e. structure with sing ⊆ π{r=0}; D regular on {r>0}; π{r=0} skeletal; the branching locus exactly π{r=0}; IsMaximalPossiblyBranched; and, for every base point, the Fox completion of the universal cover of π{r>0} plus the isomorphism with MaxBranchedCover. That is at least as strong as the remark under DEC-52. I checked SCOPE (f)'s instance claim for the tachyons/photons by instantiating the statement: obtain ⟨D, ψ, hT⟩ := tachyon_conj_theta h hm, then previous_examples_instances_developing_ruled.{0} (G := NullIsom0) (V := ℝ) (α := 2π) _ hT.isLocalHomeomorphOn hT.isAEMorphism typechecks. Spreading the certificate over two modules is honest: the Fox-universality cannot live in Quotient.lean (an import cycle), and SCOPE (f), the bullet and REPORT all say where each part is proved.",
+  "WP-46a AUDIT-1 minors": "Both fixed. (1) The stale finding is cut to its polyhedral half (now l.681 with the DEC-125 (g) ruling). It no longer contradicts the next finding, which says l.679 holds as written. (2) 'Both sentences are remarks' now reads 'The sentence is a remark'. WP-46a's third minor (no ruling for the polyhedral sentence) is discharged by DEC-125 (g)."
+ },
+ "fidelity": "There is no Lean change, so no statement can have weakened. The closures rest on rulings that exist and are quoted correctly: DEC-52, DEC-47, DEC-116 (a) and DEC-125 (g). REPORT discloses every weakening already listed by earlier rounds. No hypothesis is vacuous: the instantiation above satisfies the remark's hypotheses with a concrete D (the tachyon developing map).",
+ "name_clashes": "None possible: no declaration was added or renamed. The previous_examples_* and branchingLocus_orbitMk_cyl names are each defined once (grep over GX/ and scaffold/).",
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "Quotient.lean declaration docstrings at file l.4869, 5000, 5027, 6710, 6798, 6846, 7431 (`RamcovGX.tex:679` / `679`–`680` for the Misner/BTZ 'variations'), next to the renumbered tachyon references at l.7478, 7726, 8421, 9194, 9214, 9274 and in the module docstring (`RamcovGX.tex:679` for the tachyons/photons)",
+   "problem": "Some references were renumbered and others were not, so `RamcovGX.tex:679` now names two different sentences in the same file. The new references use it for the tachyon/photon sentence, which is correct (labeled tex l.679). The old references use it for the 'Variations allow to construct Misner particles' item, which is labeled tex l.675. Other pre-snapshot references are still off by about 2–4 lines: l.667 (Γ_α, actually l.665), l.671–673 (massive particle, actually l.667–669), l.674–678 (BTZ, actually l.670–674), l.668 in the checklist ('naturally a singular manifold', actually l.665), l.618 (DEC-51's 'acting via (G,X)-morphisms', actually l.620), and l.624 (polyhedra described informally, actually l.625). REPORT.notes discloses part of this and leaves it to the master session.",
+   "fix": "Docstring-only, for the master session or the next package: renumber the remaining ex:quotient_base references against papers/gx/legacy/labeled/RamcovGX.tex (variations → l.675, BTZ → l.670–674, massive particle → l.669, Γ_α/sing(M) → l.665, the list item → l.620, the polyhedra paragraph → l.625). At least fix the seven 'variations' sites, so that l.679 means one sentence."
+  },
+  {
+   "severity": "minor",
+   "where": "GX/Branched/Universality.lean module docstring: the **`rem:previous_examples_instances_developing`** mark at character 4172",
+   "problem": "The decisive certificate (the Fox-universality and the assembled statement) is in Universality.lean, but that file's mark is outside the ledger's 4000-character window. The ledger therefore attributes the label only to Quotient.lean, whose own declarations do not contain the Fox-universality. The closure is still correct, since Universality imports Quotient and both are strict and sorry-free, but the ledger's file list for the label is incomplete. REPORT records this as a kb_proposal.",
+   "fix": "Outside this package's write set: a later package editing Universality.lean should move its mark under 4000 characters, so the ledger lists both files."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json labels[].tex_lines for prop:aeGXquotient [642, 659], ex:consider_identifying_point_wise_stabilizer [629, 638] and ex:conical [347, 351]",
+   "problem": "The end lines run past the environments. prop:aeGXquotient's proof ends at l.656 (\\qed\\end{proof}), ex:consider_identifying ends at l.636 (\\end{ex}), and ex:conical ends at l.350 (\\end{ex}). ex:quotient_base [660, 682] and rem [684, 686] are exact. These are cosmetic and do not affect any status.",
+   "fix": "Set the end lines to 656, 636 and 350."
+  },
+  {
+   "severity": "minor",
+   "where": "Quotient.lean module docstring, the `>` quotation block",
+   "problem": "kb/0006 step 3 asks for the paper's own sentences to be quoted. The block quotes ex:conical, prop:GXquotient and prop:aeGXquotient, but not the three other marked labels: ex:quotient_base, ex:consider_identifying_point_wise_stabilizer and rem:previous_examples_instances_developing. This predates WP-47a, and the remark is short (l.685).",
+   "fix": "Optionally append a quote of at least rem:previous_examples_instances_developing (l.685) after the marks. It does not need to be within 4000 characters."
+  }
+ ],
+ "summary": "Clean. Both builds pass: the file with -DwarningAsError=true (exit 0, no output, 0 sorry) and lake build GX (8746 jobs, no Causal.* rebuilt). The diff against the HEAD-identical backup is docstrings only. DEC-125 (g) is recorded correctly, including the mapping from the ruling's l.684 to the labeled tex's l.681. ex:quotient_base and rem:previous_examples_instances_developing close legitimately. The latter's certificate, previous_examples_instances_developing_ruled in the strict, sorry-free GX.Branched.Universality, is at least as strong as the remark under DEC-52, and the tachyon instance claim typechecks. All six marks are under 4000 characters, and all 406 REPORT decls resolve. Both WP-46a minors are fixed. Four minors, all documentation: the l.679 collision and other stale line references, Universality's out-of-window mark, three loose tex_lines end points, and the quote block lacking the remark."
+}

@@ -1,0 +1,48 @@
+{
+ "package": "WP-47d",
+ "round": 1,
+ "auditor": "read-only auditor, round 1",
+ "host": "node1",
+ "file": "scaffold/GXScaffold/BTZ/MixedDiamond.lean",
+ "module": "GXScaffold.BTZ.MixedDiamond",
+ "verdict": "clean",
+ "builds": true,
+ "sorry_count": 0,
+ "sorries": [],
+ "build_command": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/MixedDiamond.lean: exit 0, no output at all (4.9 s wall). The olean (2026-11-08 14:42:58) postdates the source (14:42:38), which matches build.log ('Built GXScaffold.BTZ.MixedDiamond'; only GXScaffold.BTZ.AbsMax was replayed, with no GX.*, Causal.* or Mathlib rebuild). I re-ran campaign/WP-47d/Discharge.lean with taskset -c 0-11 lake env lean, which writes nothing. It typechecks, and all ten #print axioms give [propext, Classical.choice, Quot.sound], matching axioms.out. In particular prop_abs_max_C1_spear and cor_abs_max_C1_spear do not reach either of AbsMax's two tagged sorries (l.1038, the Lemma 2.14 loop; l.2235, the leaf). The code has no sorry, admit, axiom, native_decide or implemented_by token. Every 'sorry' in the file is prose in docstrings.",
+ "checks": {
+  "builds_and_sorry_count": "pass. 0 real sorry, matching REPORT.sorry_count = 0. The only import is GXScaffold.BTZ.AbsMax. There is no Causal import and no 'open Causal'. Causal.* names are fully qualified. The DEC-33 gate is respected.",
+  "statement_fidelity": "pass. (1) isCompact_diamond_mixed has exactly the binders and conclusion of the AbsMax leaf E0Pushout.isCompact_diamond_mixed (AbsMax l.2235-2238: hGH, hmax, N : FlatSpacetime.{0} 2, hN, f, P, p ∈ S0, q ∉ S0 ⊢ IsCompact (diamond ⊤ p q)). The section variables (T2, Connected, SecondCountable, ChartedSpace E0Y, HasGroupoid) are the same. Discharge.lean's first example confirms this by elaboration. (2) The leaf's hypotheses are not decorative. hGH and hmax feed exists_spearChart through E0Spear.lem_tube_e0, which is B21 Lemma 2.3 exactly as the paper uses it at l.1104. hN feeds causal convexity of ι₂(N) (le_top_ι₂_iff, Lemma 2.13(b)) and the compactness of J⁺_N(K)∩J⁻_N(q). Nothing beyond the leaf is assumed. Cauchy-compactness is not used, and the REPORT discloses that. (3) The statements of globallyHyperbolic_pushout, absMax_e0RegM_spear, prop_abs_max_C1_spear and cor_abs_max_C1_spear match AbsMax's E0Pushout.globallyHyperbolic_e0, absMax_e0RegM_e0, prop_abs_max_C1 and cor_abs_max_C1 (l.2314-2378) symbol for symbol. The only difference is that their proofs call the proved mixed-diamond lemma. (4) Readings: A = {0}, E_{A*}-maximal = Causal.Flat.AbsMax (fun _ => True) over connected universe-0 targets (DEC-125 (e), under which the rows CLOSE). Cauchy-compact = a compact C¹ spacelike Cauchy surface (DEC-107/117). Cauchy-complete = Causal.Flat.IsCauchyComplete on the flat Reg M (DEC-31/119; Reg M carries no BTZ point). Cauchy-maximal = IsE0CauchyMaximal (DEC-77 (c)). All are applied as ruled. DEC-55 is not relevant. (5) Non-vacuity and no circularity. SpearChart is a plain data structure (an injective E0-morphism on an open W ⊇ spearY v R with the vertex at p). It is not a notion redefined to trivialise anything, and exists_spearChart inhabits it from lem_tube_e0. exists_bound_axis, the substantive missing step (*) of AbsMax's tagged sorry, is proved rather than assumed. It goes by contradiction through circle_trick and vertical_noLimit. vertical_noLimit is genuine: near each σ the chart reading is k • btzPaperDev(σ, |z|, arg z), btzPaperDev is affine in σ with velocity vertU ≠ 0 (btzPaperDev_vertical), and affine_noLimit is an elementary mean-value argument. The exit lemma (SpearChart.exit) is a real-induction argument along a causal curve from E0LM.e0_causallyArcConnected, and it uses the chart's local isomorphism from IsEMorphismOn.locally. (6) Route choice. DEC-126 offered a volume, a time separation or a direct proof through the spear tube. The file takes the direct route and uses the null affine parameter as the invariant size. The route is sound, and it is cheaper than either option DEC-126 named.",
+  "docstring_contract": "pass with minors. **`brunswic2021cauchy:prop:abs_max`** is at character 782 and **`brunswic2021cauchy:cor:abs_max`** at 1213, both well inside the first 4000 characters (the docstring ends at 5090). Each is followed by its BTZ_1.tex lines. Both marks are earned: no sorry beneath, no added hypothesis beyond the DEC-107/117/125(e) readings. There is a '>' quote of B21 l.1104-1115 and a Provenance line. See m1 and m2.",
+  "report": "pass with a minor. The REPORT has two rows, both 'closed' and 'marked': true, with tex_lines 1078-1117 and 1083-1086, which I checked against BTZ_1.tex: the Prop is at l.1077-1081, the Cor at l.1082-1085 and the proof runs to l.1117. Every listed decl exists. The hypotheses entries match the readings. The notes on graduation and on the Uniformization E0MixedDiamondsCompact discharge are accurate: that proposition drops GH and Cauchy-maximality, so it is discharged only under those premises, which its consumers carry, as stated. See m3 for missing extra_decls.",
+  "missing_labels_or_parts": "none. Prop 2.17 has three assertions under the ruled reading: Reg M GH (gh_e0RegMFlat_e0), Cauchy-complete (E0Surgery.regM_isCauchyComplete_of_C1) and absolutely maximal (absMax_e0RegM_spear). All three are in prop_abs_max_C1_spear. All three of Cor 2.18's assertions are in cor_abs_max_C1_spear. The proof's sub-cases (p ∈ N; both endpoints BTZ) were already handled in AbsMax's isCompact_diamond_of_twoOpens, and the mixed case is proved here.",
+  "cited_results": "pass. The file cites lem_tube_e0 (B21 Lemma 2.3, strict GX.BTZ), btzExt_causallyConvexIn_of_globallyHyperbolicOn (Lemma 2.13(b)), isE0Maximal_of_isE0CauchyMaximal_e0 (Prop 2.16), exists_e0Pushout (Lemma 2.12), globallyHyperbolic_of_twoOpens, regM_isCauchyComplete_of_C1, btz_chart_eq_smul_btzPaperDev and e0_sfa_of_globalBTZ. All of them sit under the standard-axioms #print of prop_abs_max_C1_spear, so all are proved (DEC-23).",
+  "name_clashes": "pass. Every declaration is in the fresh namespace GX.E0MixedDiamond. grep over GX/ and scaffold/ (*.lean) finds no other 'namespace E0MixedDiamond' and no other SpearChart, vertU, circle_trick, affine_noLimit, vertical_noLimit or btzPaperDev_vertical. The similarly named GX.E0MixedDiamondsCompact (Uniformization) is a different identifier."
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "id": "m1",
+   "where": "module docstring, '## Hypothesis checklist'",
+   "problem": "kb/0006 item 4 asks for '✓ carried' / '⚠ weakened' / '⚠ strengthened' marks. The rows are narrative instead. 'Cauchy-compact' should read '⚠ weakened for the mixed diamonds (not used), ✓ read (DEC-107) for Prop 2.17 / Cor 2.18'. 'A ⊂ ℝ₊' should read 'read, A = {0} (DEC-125 (e))'.",
+   "fix": "Docstring-only change: add the marks."
+  },
+  {
+   "severity": "minor",
+   "id": "m2",
+   "where": "module docstring SCOPE vs REPORT.notes",
+   "problem": "The SCOPE says graduation moves '§1–§4' into AbsMax, but §0 (affine_noLimit) is also needed, since vertical_noLimit uses it. REPORT.notes correctly says '§0–§4'.",
+   "fix": "Change '§1–§4' to '§0–§4' in the SCOPE."
+  },
+  {
+   "severity": "minor",
+   "id": "m3",
+   "where": "REPORT.json extra_decls",
+   "problem": "Seven declarations of the file appear in neither labels[].decls nor extra_decls: SpearChart.isOpen_O, SpearChart.OO, SpearChart.spear_subset_O, SpearChart.continuousOn_φ, SpearChart.continuousOn, SpearChart.injOn and SpearChart.Φ_vertex.",
+   "fix": "Append them to extra_decls."
+  }
+ ],
+ "findings_assessment": "The REPORT's finding on B21 l.1110-1112 is well founded. K = J⁺_N(𝒞)∩J⁻_N(q) is compact in N, but ∂𝒮 is closed only in M. The shaft wall is unbounded in τ, so its image can accumulate in N ∖ f(Reg M), and K ∩ ∂𝒮 is not known closed in K. The printed argument never bounds the BTZ ray below q. The file proves that bound (exists_bound_axis) and truncates the spear. The finding on 'max c⁻¹(K′)' (l.1113) is also correct: the exit point must be the last point of the first stretch inside the spear. Both are findings for the author, not defects of the file.",
+ "questions_for_master": [],
+ "notes": "Graduation is for the master session. Either close AbsMax l.2235's leaf with 'E0MixedDiamond.isCompact_diamond_mixed _hGH _hmax _hN P _hp _hq' after moving §0–§4 above it, or keep this file and wire Uniformization's consumers through Discharge.lean's second example. Both were re-verified by elaboration. AbsMax's own docstring still lists prop:abs_max / cor:abs_max (and Prop 2.16) as partial. That is stale under DEC-125 (e) and this package, but it is outside this package's write set."
+}

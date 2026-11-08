@@ -1,0 +1,48 @@
+{
+ "package": "WP-47g",
+ "round": 3,
+ "auditor": "read-only auditor, round 3",
+ "file": "scaffold/GXScaffold/BTZ/Uniformization.lean",
+ "host": "node1",
+ "builds": true,
+ "build_command": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/Uniformization.lean ran with EXIT=0 in 29.8 s wall and printed nothing: no warning, no sorry. The source (16:38:47) is byte-identical to campaign/WP-47g/Uniformization.round2.lean.bak. The olean (16:39:31) is newer than the source, and build.log reads 'Build completed successfully'. Every independent check went through `lake env lean --stdin`. One transient /tmp scratch file holding #check lines was created and then deleted. Nothing was written in the hub except this file.",
+ "sorry_count": 0,
+ "sorries": [],
+ "axioms": "Re-checked independently with #print axioms. GX.btz_uniformization, GX.btz_uniformization_btzRays, GX.btz_isBTZFutureComplete_C1, GX.btzTilde_quotient_aeIso, GX.btz_aeIso_of_homeomorph_comp and GX.e0PastHalf_counterexample_DEC118 each depend on exactly [propext, Classical.choice, Quot.sound]. campaign/WP-47g/axioms.out has 152 entries (152 #print axioms in Axioms.lean) and none mentions sorryAx. The dispatch's criterion '#print axioms GX.btz_uniformization: standard axioms only' is MET.",
+ "verdict": "clean",
+ "round2_followup": {
+  "major_isomorphism_of_singular_manifolds": "RESOLVED. GX.btz_aeIso_of_homeomorph_comp (generic) and GX.btzTilde_quotient_aeIso prove the a.e.-isomorphism form. The quotient ρ(Γ)\\D(M̃) has the btzRangeTop quotient topology. p^*B_M is maximal on M̃. h^*B_M is a maximal a.e. atlas on the quotient. h and h.symm are a.e. (Isom 𝐌³, 𝐌³)-morphisms. e ↦ [D e] is an a.e. morphism. And h^*B_M is the UNIQUE maximal a.e. atlas making that projection an a.e. morphism. This has the same shape, and the same proof pattern, as the library's accepted twin GX.tamely_singular_manifold_admits_aeIso (GX/SingularII/Tame.lean:726). All of it is a conjunct of GX.btz_uniformization's third block, and no hypothesis was added. The false sentence 'ρ\\D(M̃) carries no singular (G,X)-structure in the library' is withdrawn from SCOPE (b)(ii) and from the REPORT."
+ },
+ "checks": {
+  "1_build_and_sorry": "PASS. The file builds with no output and has 0 sorry. The only 'sorry' strings are in docstrings: l.13, 44, 49, 142, 164, 1965, 2716, 3015, 3199. There is no admit, axiom, native_decide or implemented_by.",
+  "2_statement_fidelity": "PASS under the rulings. Prop GX.btz_isBTZFutureComplete_C1 has these hypotheses: GH; ∃ S, IsE0C1SpacelikeCauchy (DEC-28/107); IsE0CauchyMaximal (DEC-77 c); s ≥ 1 (DEC-76; needed, because DEC-77 (a) drops time reversal only on sing ≠ ∅); and ¬metabelian, which is weaker than DEC-119's free ∧ non-abelian. Its conclusion is DEC-118 (a)'s IsBTZFutureComplete for EVERY chartwise datum extending D, and the statement also proves such a datum exists. The printed form is refuted by e0PastHalf_counterexample_DEC118. That counterexample has the printed hypothesis (IsE0CauchyComplete, proved), the ruled conclusion, and an explicit witness that a presentation and a datum exist, so it is not vacuous. Headline GX.btz_uniformization has exactly the DEC-28/76/107/119 hypotheses, and none is vacuous. The presentation premise is satisfiable (GX.btz_exists_presentation). hray, injectivity and the tamifying datum are derived, not assumed. Every bullet of l.2363–2375 is present in the DEC-28 form: D injective on M̃; ρ faithful, discrete and torsion-free; the invariant planes and rays with D(M̃) = (⋃Δₓ) ∪ ⋂I⁺(Π_w); and the quotient isomorphism, with defi:BTZtop near the rays (btzRangeTop, proved equal to devImageTop) and the a.e. structure. DEC-106 is applied correctly (natural topology for GH and causality, T_BTZ only for the homeomorphism).",
+  "3_docstring_contract": "PASS. The only **`label`** mark is on prop:globally_hyperbolic_cauchy_complete_manifolds, at docstring offset 528 (< 4000), and that row is CLOSED. The theo label is present but unmarked, which is correct for a partial row.",
+  "4_report_honesty": "PASS. builds=true and sorry_count=0 match. All 124 distinct names in labels[].decls and extra_decls resolve: #check @name on each, 0 errors. The axiom claim re-verifies. The theo row is partial and unmarked, solely by DEC-28's own clause ('the row is partial with findings', DEC-27), and the REPORT poses that as the remaining question to the author. No ruling up to DEC-128 accepts the DEC-28 form as closing the row, so partial is the correct status. The prop is closed and marked under DEC-77's accepted corrected form.",
+  "5_missing_labels_or_parts": "None. The file certifies exactly the two rows, and both are reported. The other labels in the file (def:manifold_future_complete_all, defi:BTZtop, lem:increasing_map, prop:aeGXquotient, prop:quotient_chart, prop:singular_manifold_branched_covering, rem:tamely_singular_manifold_admits) are cross-references to rows certified elsewhere. No part of the DEC-28 form is missing.",
+  "6_cited_results": "PASS. All of these are built, not assumed, and on standard axioms: Barbot's uniformization (uniformization_range_eq_of_absMax, exists_isometry_quotient_of_absMax), B21 Thm 3 / Cor 2.18 on the C¹ path with the WP-47f mixed-diamond leaf (cor_abs_max_C1_of_mixed, e0MixedDiamondsCompact_of_record), B21 Lemma 2.3 (full future BTZ rays), the DEC-119 bridge, LiftGH, GX.quotient_virtually_tame with btz_manifold_isGaloisian, FutureRay (futureRay_null_supset), and the library's a.e. machinery (aePullback_spec_of_isAELocalHomeomorph, IsAEMorphismOf.symm_of_homeomorph, singular_manifold_branched_covering, IsAEMorphismOf.eq_of_isMaximalAEAtlas_right).",
+  "7_name_clashes_and_DEC33": "PASS. The two new names, btz_aeIso_of_homeomorph_comp and btzTilde_quotient_aeIso, were grepped across GX/, scaffold/ and the pinned Causal sources, and they occur only in this file. Imports are unchanged: Causal.Flat.Lox.PastProper is the only Causal import, there is no root `import Causal` and no CausalScaffold, and the file is under scaffold/GXScaffold/BTZ/."
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "GX.btzTilde_quotient_aeIso / GX.btz_uniformization, the a.e. structure on ρ(Γ)\\D(M̃)",
+   "problem": "The quotient structure is characterised from M̃: it is the unique maximal a.e. atlas making e ↦ [D e] an a.e. morphism for p^*B_M. Nothing states that the 𝐌³-inclusion charts of D(M̃) (local sections of D(M̃) → ρ\\D(M̃) at regular points, followed by the inclusion in 𝐌³) belong to h^*B_M. The paper's wording ('endowing D(M̃) with …') reads most literally as that descended 𝐌³-structure. The two agree mathematically, because D is a developing map, and the rendering is exactly the one the library accepted for rem:tamely_singular_manifold_admits (GX.tamely_singular_manifold_admits_aeIso) and the one the round-2 audit prescribed. So this is not a weakening.",
+   "fix": "Optional: add a conjunct saying that for every regular e, the chart of 𝐌³ given by a local inverse of the quotient map composed with the inclusion D(M̃) ⊆ 𝐌³ near D e is in h^*B_M."
+  },
+  {
+   "severity": "minor",
+   "where": "set_option maxHeartbeats 1000000 in btz_uniformization_btzRays (l.3552)",
+   "problem": "The statement's size needs a raised heartbeat budget. This is style only, and it is disclosed in the REPORT notes.",
+   "fix": "None required. Optionally abbreviate the repeated sing-set and atlas expressions with local notation or a def."
+  }
+ ],
+ "verified_findings": [
+  "The dispatch is met. The headline's last tagged sorry is gone: btzTilde_null_supset runs through GX.futureRay_null_supset. GX.btz_uniformization and GX.btz_isBTZFutureComplete_C1 are on standard axioms. Every WP-46h audit issue is resolved: the upstream leaf is built, the local sorry is removed, the missing assertions are added, and the 'verbatim' wording is corrected.",
+  "Every assertion of the theo's DEC-28 form is now proved. That includes defi:BTZtop on D(M̃) (btzRangeTop_eq_devImageTop) and the 'isomorphism of singular manifolds' (btzTilde_quotient_aeIso). The row stays partial only because DEC-28 itself rules it partial under DEC-27. That is a ruling matter, not an avoidable gap, and the REPORT poses it as its single question.",
+  "The prop row is correctly CLOSED and marked under DEC-77's accepted corrected form, with DEC-107's C¹ Cauchy-compact, DEC-118 (a)'s conclusion, and s ≥ 1 reported. Its refutation of the printed form is sound and non-vacuous."
+ ],
+ "questions_for_author": [
+  "DEC-28 rules theo:globally_hyperbolic_cauchy_complete_cauchy_maximal partial ('Cauchy-complete' strengthened to 'Cauchy-compact'). Every assertion of the DEC-28 form, under DEC-107 (C¹), DEC-119 (π₁ free non-abelian) and DEC-76 (s ≥ 1), is now proved in GX.btz_uniformization on standard axioms. Does the author accept the DEC-28 form as the corrected statement in DEC-27's sense, so that the row CLOSES and is marked? Or does DEC-28's 'partial with findings' stand?"
+ ],
+ "notes": "Round 2's major is FIXED and verified. The file builds with 0 sorry, all 152 declarations are on standard axioms, the REPORT is honest and complete (124 names resolve), the docstring marks are correct, and there are no name clashes or DEC-33 violations. The verdict is clean: no blocker and no major remain. The theo row's partial status is mandated by DEC-28 and needs an author ruling, not more formalization. Two minors are optional."
+}
