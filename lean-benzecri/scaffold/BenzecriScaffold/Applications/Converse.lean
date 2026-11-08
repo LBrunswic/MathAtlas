@@ -9,11 +9,13 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
 Package WP-45v (wave 5).
 
 * `bzdef:c1s3d2_automorphisme_compatible` — `benzecri1960_ch1.tex:806` (l.806–821, p. 245). Not
-  marked (`partial`: `p = 2`, factors of the same dimension). `IsCompatibleAssoc σ f`, `IsCompatible
+  marked HERE (`p = 2`, factors of the same dimension); the general-`p`, unequal-dimension
+  formalization of record, with the GROUP of compatible automorphisms and `G_I` of index `≤ p!`, is
+  `ConverseGeneral` (`IsCompatibleAssocPi`, `compatibleSubgroup`, `relIndex_compatibleIdSubgroup_le`). `IsCompatibleAssoc σ f`, `IsCompatible
   f`: `f = μ ∘ F⁻¹(φ)` with `φ(m₁, m₂) = (φ₁ m_{σ(1)}, φ₂ m_{σ(2)})`, `φᵢ : F(B_{σ(i)}) ≅ F(B_i)`
   conical isomorphisms, `μ` in the torus; `σ ∈ Equiv.Perm (Fin 2)` (`perm_fin_two`).
 * `bzprop:c1s3p4_reciproque` — `benzecri1960_ch1.tex:823` (l.823–868, pp. 245–246). Not marked
-  (`partial`: `p = 2`, same dimension, nonempty factors). `homogeneous_of_compatible` (first
+  HERE (`p = 2`, same dimension); general `p`: `ConverseGeneral.prop4_reciproque_pi`. `homogeneous_of_compatible` (first
   assertion: the composite along the cycle of `1`, here `θ₁ ∘ θ₂` for the transposition) and
   `balayable_of_compatible` (second assertion: `G_I` of index `≤ p! = 2`, made concrete as one
   transposition-type element `f₀` enlarging the generating domain by `θ₂⁰⁻¹(K₂)`).
@@ -40,7 +42,7 @@ Package WP-45v (wave 5).
 |---|---|
 | `p` locally projective manifolds | `p = 2`, `B₁`, `B₂` of the same dimension `a` (SCOPE) |
 | « variété »: Hausdorff | ✓ carried (`[T2Space Bᵢ]`) |
-| « variété »: nonempty | added (`[Nonempty Bᵢ]`): with one factor empty the product is empty and the hypotheses are vacuous (a reading of « variété », REPORT `questions`) |
+| « variété »: nonempty | reading (`[Nonempty Bᵢ]`, ruled by DEC-128 as DEC-114 for an affine space): with one factor empty the product is empty and the hypotheses are vacuous |
 | « le groupe des automorphismes compatibles opère transitivement » | `∀ p p', ∃ f compatible, f • p = p'` |
 | « balayable par le groupe de ces automorphismes compatibles » | `∃ K compact, ∀ p, ∃ f compatible, ∃ k ∈ K, f • k = p` |
 | `φᵢ` « isomorphismes coniques affins » | homeomorphisms `F(B_{σ(i)}) ≃ₜ F(B_i)` which are conical morphisms (their inverses are, `IsGXMorphism.homeomorph_symm`) |
@@ -51,11 +53,15 @@ Package WP-45v (wave 5).
   dim B_i`, so for two factors of different dimensions only `σ = id` is possible; this file treats
   two factors of one dimension `a`, where both permutations occur. Not formalized: general `p`,
   and the unequal-dimension `p = 2` case (where Prop. 4 reduces to its `G_I` part).
-* **The group of compatible automorphisms.** Prop. 4 is stated with « the compatible automorphisms »
-  as a set: transitivity / sweeping by compatible automorphisms. That they form a group (and that
-  `G_I` is a subgroup of index `≤ p!`) is the printed proof's device, not its conclusion; it is not
-  formalized, and the sweeping argument is carried out directly (one transposition-type element
-  suffices), which is the content of the index bound.
+* **The group of compatible automorphisms.** Prop. 4 is stated HERE with « the compatible
+  automorphisms » as a set: transitivity / sweeping by compatible automorphisms. The set is a group
+  (closed under composition and inverse) — proved for every `p` in `ConverseGeneral`
+  (`compatibleSubgroup`, `IsCompatibleAssocPi.mul`, `.inv`), where Prop. 4's hypotheses are stated
+  for that subgroup with Déf. 15's own predicates, so the two readings coincide. Here the sweeping
+  argument is carried out directly (one transposition-type element suffices), which is the content
+  of the index bound.
+* **The permutation.** `IsCompatibleAssoc σ` is written per case for `p = 2`; the general form
+  `m'ᵢ = φᵢ m_{σ(i)}` through `σ` is `ConverseGeneral.IsCompatibleAssocPi`.
 * **`F⁻¹(φ)` on the factors.** `coneBaseMap`, `coneBaseAut`, `coneBaseHomeomorph`: the base map of a
   conical morphism `F(B) → F(B')`, read on `B → B'` through `F(B)/ℝ₊* ≅ B`.
 

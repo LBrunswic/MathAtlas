@@ -23,8 +23,9 @@ dimension `n + 1` (model `RnO (n + 1)` for the cone, `Fin (n + 1) → ℝ` for t
   proof's last paragraph, l.692–696). **MARKED.** `Benzecri.produit_cercle`: if a Hausdorff
   paracompact `B` carries a locally projective structure, `B × S¹` carries a locally affine one
   (`S¹` = Mathlib's `Circle`); no compactness is printed and none is used. The proof's sentence is
-  formalized in full: `FCone.exists_affine_prod_circle` (a covering `F(B) → B × S¹` over `B` whose
-  fibres are the `λ^ℤ`-orbits, with the unique quotient structure making it a morphism),
+  formalized in full: `FCone.exists_affine_prod_circle` (a surjective local homeomorphism
+  `F(B) → B × S¹` over `B` whose fibres are the `λ^ℤ`-orbits — `IsCoveringMap` is not stated —
+  with the unique quotient structure making it a morphism),
   `FCone.hasGroupoid_quotient_lamHom` (`F(B)/λ^ℤ` is locally affine, Mathlib's quotient charts) and
   `FCone.exists_quotient_lamHom_homeomorph` (`F(B)/λ^ℤ ≃ₜ B × S¹` over `B`).
 
@@ -54,7 +55,7 @@ dimension `n + 1` (model `RnO (n + 1)` for the cone, `Fin (n + 1) → ℝ` for t
 |---|---|
 | `B` a locally projective manifold | ✓ carried: `[ChartedSpace (S n) B] [HasGroupoid B (projGroupoid n)]` |
 | « variété »: Hausdorff | ✓ carried (`[T2Space B]`: `F(B)` Hausdorff, Déf. 3's homotheties) |
-| « variété »: second countable | weakened to `[ParacompactSpace B]`, and only for the corollary (the section of `F(B) → B`); Prop. 1 needs none |
+| « variété »: second countable | weakened to `[ParacompactSpace B]` (implied by second countability; the reading DEC-128 certifies), and only for the corollary (the section of `F(B) → B`); Prop. 1 needs none |
 | « variété »: connected | not needed anywhere |
 | homogeneous / sweepable / divisible (Déf. 15) | ✓ carried: `IsHomogeneous`, `IsBalayable`, `IsDivisible` of `Structure/Classes` |
 | `B` compact (the proof's last paragraph) | dropped: not needed (the corollary prints none) |
@@ -64,10 +65,16 @@ dimension `n + 1` (model `RnO (n + 1)` for the cone, `Fin (n + 1) → ℝ` for t
 ## SCOPE (disclosed)
 
 * **`F(B)` as a locally affine manifold** is the canonical affine charted space of the affine
-  conical manifold `F(B)` (`Cone/Basic`'s `affineChartedSpace`, charts `ι ∘ e`), made an instance
-  on `FCone` (`instChartedSpaceAff`; the cone and affine models differ, so there is no overlap).
-  « Automorphisme » is `GXAut` of that structure. `IsGXMorphism.affine_of_cone`: a conical morphism
-  is an affine one.
+  conical manifold `F(B)` (`Cone/Basic`'s `affineChartedSpace`, charts `ι ∘ e`), made a GLOBAL
+  instance on the package's own type `FCone` (`instChartedSpaceAff`; kept global by DEC-128). Two
+  charted spaces on one type are safe here because Mathlib's `ChartedSpace H M` takes the model `H`
+  as an explicit, non-`outParam` argument (several models per space are intended,
+  `Mathlib/Geometry/Manifold/ChartedSpace.lean`), so every use names its model and `chartAt _ x` is
+  stuck rather than ambiguous; only Prop-valued instances derive from either. **Never generalise
+  this instance to all affine conical manifolds** (a generic `[HasConeCharts n V] → ChartedSpace
+  (Fin n → ℝ) V` would duplicate it along a second instance path): use `affineChartedSpace` with
+  `letI` there, as the strict library does. « Automorphisme » is `GXAut` of that structure.
+  `IsGXMorphism.affine_of_cone`: a conical morphism is an affine one.
 * **Sweepable.** The printed « compact section $K_1$ au-dessus de $K$ » is used in the form the
   argument needs, a compact `K₁` with `π(K₁) ⊇ K` (`exists_isCompact_subset_proj_image`, from the
   openness of `π`); no global section is needed. The cross-reference « § 1, déf. 2 » is read
@@ -79,15 +86,25 @@ dimension `n + 1` (model `RnO (n + 1)` for the cone, `Fin (n + 1) → ℝ` for t
 * **The corollary.** `B × S¹` is reached by Mathlib's push-forward of a structure along a
   surjective local homeomorphism with `(G, X)` deck transformations (`existsUnique_pushforward`),
   `Φ(x) = (π(x), θ_λ(N(x)))`, `N` the homogeneous norm of `Cone/Section` (`exists_trivialization`,
-  which needs `F(B)/ℝ₊* ≅ B` paracompact). Whether the corollary holds for a non-paracompact `B`
-  is not settled (REPORT `questions`).
+  which needs `F(B)/ℝ₊* ≅ B` paracompact). « Variété » is read paracompact (implied by second
+  countability; DEC-128).
+* **REMARK (DEC-128), the non-paracompact case** — outside the paper, not a finding. The bundle
+  route genuinely uses paracompactness (a principal `ℝ₊*`-bundle over a non-paracompact Hausdorff
+  manifold need not be trivial). But a Hausdorff manifold containing an embedded long ray carries
+  no locally projective (nor locally affine) structure at all: every continuous map from a long ray
+  to the compact metric `Sⁿ` is eventually constant, so no developing map (a local homeomorphism on
+  the universal cover, which still contains a lifted long ray) can exist. A counterexample would
+  therefore have to be non-paracompact without long rays (Prüfer/Moore-type surfaces), with
+  `F(B) → B` non-trivial and `B × S¹` admitting no affine structure by any other construction
+  (`F(B)/λ^ℤ` is still locally affine, a principal `S¹`-bundle over `B`). That case is open; none of
+  this is formalized.
 * The literal quotient `F(B)/λ^ℤ` (Mathlib's quotient charted space) is a locally affine manifold
   and is homeomorphic to `B × S¹` over `B`; that this homeomorphism is an affine isomorphism (it
   is, by `maximalAtlas_quotient_unique` and the uniqueness clause of
   `exists_affine_prod_circle`) is not stated separately.
 * Generic lemmas proved here (REPORT `upstream_moves`): `rposLog`/`rposExp`/`rposLogHomeomorph`,
   `IsGXMorphism.affine_of_cone`, `exists_isCompact_forall_exists_smul_mem`,
-  `isLocalHomeomorph_prodMap`, `FCone.map_congr`, `FCone.locallyCompactSpace`,
+  `isLocalHomeomorph_prodMap`, `FCone.map_congr_fun`, `FCone.locallyCompactSpace`,
   `FCone.baseProjHomeomorph`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
@@ -202,8 +219,11 @@ variable {n : ℕ} {B : Type u} [TopologicalSpace B] [ChartedSpace (S n) B]
 
 /-- **`F(B)` considered as a locally affine manifold** (« $F(B)$ considérée comme variété localement
 affine »): the canonical affine charted space of an affine conical manifold (`Cone/Basic`,
-`affineChartedSpace`), as an instance on `F(B)` (the cone charts and the affine charts have
-different models, so the two instances do not overlap). -/
+`affineChartedSpace`), as a global instance on the package's own type `F(B)` (DEC-128). It coexists
+with the cone charted space `FCone.chartedSpace` because Mathlib's `ChartedSpace H M` takes the
+model `H` as an explicit, non-`outParam` argument: every use names its model, so `chartAt _ x` is
+stuck, never a silent pick. Do not generalise it to all affine conical manifolds (use
+`affineChartedSpace` with `letI` there). -/
 instance instChartedSpaceAff : ChartedSpace (Fin (n + 1) → ℝ) (FCone n B) :=
   affineChartedSpace (n + 1) (FCone n B)
 
@@ -214,8 +234,9 @@ instance instHasGroupoidAff : HasGroupoid (FCone n B) (affGroupoid (n + 1)) :=
 theorem locallyCompactSpace : LocallyCompactSpace (FCone n B) :=
   ChartedSpace.locallyCompactSpace (Fin (n + 1) → ℝ) _
 
-/-- `F(φ)` depends on `φ` only. -/
-theorem map_congr {B₂ : Type v} [TopologicalSpace B₂] [ChartedSpace (S n) B₂]
+/-- `F(φ)` depends on `φ` only (named `map_congr_fun`, not `map_congr`, which would shadow the
+root `map_congr` after `open Benzecri.FCone`). -/
+theorem map_congr_fun {B₂ : Type v} [TopologicalSpace B₂] [ChartedSpace (S n) B₂]
     [HasGroupoid B₂ (projGroupoid n)] {φ ψ : B → B₂} (h : φ = ψ)
     (hφ : IsGXMorphism (GSR n) (S n) φ) (hψ : IsGXMorphism (GSR n) (S n) ψ) :
     map hφ = map hψ := by
@@ -230,10 +251,10 @@ theorem isGXMorphism_aff_map {B₂ : Type v} [TopologicalSpace B₂] [ChartedSpa
 theorem map_aut_mul (φ ψ : GXAut (GSR n) (S n) B) :
     map (φ * ψ).isGXMorphism = map φ.isGXMorphism ∘ map ψ.isGXMorphism := by
   rw [← map_comp]
-  exact map_congr (funext fun x => mul_smul φ ψ x) _ _
+  exact map_congr_fun (funext fun x => mul_smul φ ψ x) _ _
 
 theorem map_aut_one : map (1 : GXAut (GSR n) (S n) B).isGXMorphism = id :=
-  (map_congr (funext fun x => one_smul _ x) _ isGXMorphism_id).trans map_id
+  (map_congr_fun (funext fun x => one_smul _ x) _ isGXMorphism_id).trans map_id
 
 theorem map_aut_bijective (φ : GXAut (GSR n) (S n) B) : Bijective (map φ.isGXMorphism) := by
   refine bijective_iff_has_inverse.2 ⟨map φ⁻¹.isGXMorphism, fun x => ?_, fun x => ?_⟩

@@ -1,0 +1,124 @@
+{
+ "package": "WP-45y",
+ "files": [
+  "scaffold/BenzecriScaffold/Applications/ConverseGeneral.lean"
+ ],
+ "module": "BenzecriScaffold.Applications.ConverseGeneral",
+ "import_line": "import BenzecriScaffold.Applications.ConverseGeneral",
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "bzdef:c1s3d2_automorphisme_compatible",
+   "tex_lines": [
+    806,
+    821
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Benzecri.IsCompatibleAssocPi",
+    "Benzecri.IsCompatiblePi",
+    "Benzecri.IsConeIso",
+    "Benzecri.IsProjIso",
+    "Benzecri.compatibleSubgroup",
+    "Benzecri.compatibleIdSubgroup",
+    "Benzecri.compatibleIdSubgroup_le",
+    "Benzecri.isCompatibleAssocPi_one",
+    "Benzecri.IsCompatibleAssocPi.mul",
+    "Benzecri.IsCompatibleAssocPi.inv",
+    "Benzecri.IsCompatibleAssocPi.smul_torus",
+    "Benzecri.relIndex_compatibleIdSubgroup_le",
+    "Benzecri.IsCompatibleAssocPi.perm_unique",
+    "Benzecri.compatiblePerm",
+    "Benzecri.ker_compatiblePerm",
+    "Benzecri.IsCompatibleAssocPi.exists_base"
+   ],
+   "hypotheses": [
+    {
+     "paper": "p variétés localement projectives",
+     "here": "carried",
+     "note": "every p = q + 1, arbitrary and unequal dimensions"
+    },
+    {
+     "paper": "« p isomorphismes coniques affins entre F(B_σ(i)) et F(B_i) »",
+     "here": "carried",
+     "note": "IsConeIso (n (σ i)) (n i) (φ i): a homeomorphism, the dimension equality, and the conical-morphism property after identification (the inverse is then conical). A conical isomorphism between cones of different dimension does not exist, so σ permutes only factors of one dimension (DEC-128)"
+    },
+    {
+     "paper": "« f ∈ {F⁻¹(φ)} × (R^{+p}/R^+) »",
+     "here": "carried",
+     "note": "f • [m] = t • [(φᵢ m_{σ(i)})ᵢ], t ∈ PiTorus q"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "The permutation of a compatible f is unique when every factor has two points (perm_unique); with one-point factors of equal dimension it is not (any such permutation represents the same automorphisms). So the homomorphism G → Perm(Fin p) (f ↦ σ_f⁻¹, compatiblePerm) with kernel G_I is stated under [∀ i, Nontrivial (B i)]; the printed index bound [G : G_I] ≤ p! is proved unconditionally (cosets of G_I inject into Perm). Reading, not finding: nothing printed depends on uniqueness.",
+    "σ_{f∘g} = σ_g σ_f with the printed convention m'ᵢ = φᵢ m_{σ(i)} (IsCompatibleAssocPi.mul: f with σ after g with τ is associated with τ * σ), hence f ↦ σ_f⁻¹ is the homomorphism."
+   ]
+  },
+  {
+   "label": "bzprop:c1s3p4_reciproque",
+   "tex_lines": [
+    823,
+    868
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Benzecri.prop4_reciproque_pi",
+    "Benzecri.homogeneous_of_compatible_pi",
+    "Benzecri.balayable_of_compatible_pi"
+   ],
+   "hypotheses": [
+    {
+     "paper": "p factors",
+     "here": "carried",
+     "note": "every p, unequal dimensions"
+    },
+    {
+     "paper": "« variété »: nonempty",
+     "here": "reading",
+     "note": "[∀ i, Nonempty (B i)] (DEC-128, as DEC-114)"
+    },
+    {
+     "paper": "« le groupe des automorphismes compatibles opère transitivement »",
+     "here": "carried",
+     "note": "MulAction.IsPretransitive (compatibleSubgroup n B) (PiBase n B) — the group, proved a subgroup"
+    },
+    {
+     "paper": "« balayable par le groupe de ces automorphismes compatibles »",
+     "here": "carried",
+     "note": "IsBalayableFor _ _ _ (compatibleSubgroup n B) — Déf. 15's own predicate"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "First assertion: the printed composite along the cycle of i₀ (h = least positive period of σ at i₀), by induction on the cycle, transported along σ^h i₀ = i₀.",
+    "Second assertion: proved directly with one fixed projective isomorphism B_j ≅ B_{i₀} per index j admitting one (finitely many) — the content of « balayable par G ⇒ balayable par G_I »; the index bound itself is the Déf. 2 row's relIndex_compatibleIdSubgroup_le."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Benzecri.IsProjIso.refl",
+  "Benzecri.IsProjIso.trans",
+  "Benzecri.IsProjIso.symm",
+  "Benzecri.IsProjIso.toAut",
+  "Benzecri.IsConeIso.refl",
+  "Benzecri.IsConeIso.trans",
+  "Benzecri.IsConeIso.symm",
+  "Benzecri.IsConeIso.map_posSMul",
+  "Benzecri.IsConeIso.exists_base",
+  "Benzecri.piFConeCast",
+  "Benzecri.isConeIso_piFConeCast"
+ ],
+ "upstream_moves": [
+  "Benzecri.IsConeIso / IsProjIso (isomorphisms between structures indexed by possibly different dimensions) → Benzecri/Structure/Classes.lean"
+ ],
+ "kb_proposals": [
+  "To state an isomorphism between (G_k, X_k)- and (G_k', X_k')-structures, carry the index equality inside the notion (IsProjIso k k' θ := ∃ h : k = k', IsGXMorphism … (h ▸ cX) cY θ) and make k k' EXPLICIT arguments: instance resolution cannot infer them (`ChartedSpace (S ?k) X` is stuck)."
+ ],
+ "notes": "Wave 5b (DEC-128), general p and unequal dimensions, over ProductsGeneral's flat cone. 0 sorry; axioms of all 32 module constants ⊆ {propext, Classical.choice, Quot.sound}; no instance declared. kb/0002: IsConeIso/IsProjIso name both charted spaces explicitly (h ▸ cV, cW); no uniqueness statement over a class-typed binder. Converse (p = 2) unchanged in code; its rows stay partial there and point here."
+}

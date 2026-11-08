@@ -14,24 +14,33 @@ Package WP-45u (wave 5).
   `(∀ i, B i) × (Fin q → S¹)` carries a locally projective structure, of dimension `Σ n i + q`.
   By induction on `q` from the two-factor case `produit_projectif_two` /
   `exists_proj_prod_circle` (the quotient of `F⁻¹(F(B₁) × F(B₂))` by a lattice `λ^ℤ` of the torus).
-* `bzdef:c1s3d1_produit_cones` — `benzecri1960_ch1.tex:727` (l.727–739, p. 244). Not marked
-  (`partial`: two factors). The product of two affine conical manifolds `V × W` of dimensions
-  `a + 1`, `b + 1` is an affine conical manifold of dimension `a + b + 2`, charted on
-  `(ℝ^{a+1} − {O}) × (ℝ^{b+1} − {O}) ⊂ ℝ^{a+b+2} − {O}` (`blockPt`, an open embedding;
+* `bzdef:c1s3d1_produit_cones` — `benzecri1960_ch1.tex:727` (l.727–739, p. 244). Not marked HERE
+  (two factors); the general-`p` formalization of record, with the principal-bundle structure, is
+  `ProductsGeneral` (`def1_produit_cones_pi`). Here: the product of two affine conical manifolds
+  `V × W` of dimensions `a + 1`, `b + 1` is an affine conical manifold of dimension `a + b + 2`,
+  charted on `(ℝ^{a+1} − {O}) × (ℝ^{b+1} − {O}) ⊂ ℝ^{a+b+2} − {O}` (`blockPt`, an open embedding;
   `prodConeChartedSpace`, scoped instances `ProdCone.instChartedSpace`, `instHasGroupoid`,
   `instHasConeCharts`), with `GU(a+1) × GU(b+1) ↪ GU(a+b+2)` block-diagonally (`blockGU`,
-  `det_blockGL`); the `ℝ₊*²`-action `blockHom`; its diagonal is Déf. 3's (`posSMul_prod`).
-* `bzprop:c1s3p2_fibre_produit` — `benzecri1960_ch1.tex:741` (l.741–759, p. 244). Not marked
-  (`partial`: two factors; a FINDING against the proof). `prop2_fibre_produit`: `ℝ₊*²/ℝ₊*`
-  (`torusMap`, the class of `(1, μ)`) acts on the base `F⁻¹(V × W)` by projective automorphisms,
-  freely, with orbits the fibres of `basePr` onto the product of the bases; for `F(B₁) × F(B₂)`
-  with paracompact `Bᵢ` the bundle is trivial (`exists_prodBase_homeomorph`).
-  **Finding**: the printed lift « le sous-groupe … dont le produit est égal à 1 » consists of
-  conical automorphisms only when the factors have equal dimension
-  (`not_isGXMorphism_blockHom_of_ne`, `det_eq_one_of_isGXMorphism_blockHom`); the corrected lift is
-  `λ₁^{a+1} λ₂^{b+1} = 1` (`torusPair`).
+  `det_blockGL`); the maps `blockHom c₁ c₂`; their diagonal is Déf. 3's (`posSMul_prod`). The
+  sentence that makes Déf. 1 a definition of a STRUCTURE (« Nous munirons ce produit d'une
+  structure d'espace fibré $\R^{+p}$ principal ») is NOT formalized in this file — `blockHom` is a
+  bare map family here; the action laws, freeness, orbits = fibres, local and global triviality
+  and « automorphisme affin » are proved for every `p` (hence for `p = 2`) in `ProductsGeneral`.
+* `bzprop:c1s3p2_fibre_produit` — `benzecri1960_ch1.tex:741` (l.741–759, p. 244). Not marked HERE
+  (two factors; general `p`: `ProductsGeneral.prop2_fibre_produit_pi`). `prop2_fibre_produit`:
+  `ℝ₊*²/ℝ₊*` (`torusMap`, the class of `(1, μ)`) acts on the base `F⁻¹(V × W)` by projective
+  automorphisms, freely, with orbits the fibres of `basePr` onto the product of the bases; for
+  `F(B₁) × F(B₂)` with paracompact `Bᵢ` the bundle is trivial (`exists_prodBase_homeomorph`).
+  **Finding (DEC-128), against a remark of the PROOF, not against the statement**: the printed
+  lift « le sous-groupe … dont le produit est égal à 1 » consists of conical automorphisms only
+  when the factors have equal dimension (`not_isGXMorphism_blockHom_of_ne`,
+  `det_eq_one_of_isGXMorphism_blockHom`); the corrected lift is `∏ λᵢ^{dim F(Bᵢ)} = 1`
+  (`dim F(Bᵢ) = dim Bᵢ + 1`), here `λ₁^{a+1} λ₂^{b+1} = 1` (`torusPair`). The statement of Prop. 2
+  is true as printed; the error is in the proof's side remark (« On peut encore remarquer … »), and
+  the printed lift is right iff all `F(Bᵢ)` have one dimension.
 * `bzprop:c1s3p3_produit_homogene` — `benzecri1960_ch1.tex:761` (l.761–795, pp. 244–245). Not
-  marked (`partial`: two factors; divisible for paracompact factors). `prop3_produit_homogene`.
+  marked HERE (two factors; general `p`: `ProductsGeneral.prop3_produit_homogene_pi`).
+  `prop3_produit_homogene`.
 
 > **Définition 1.** Soient $p$ variétés localement projectives $B_1$, …, $B_p$; et soit
 > $F(B_1)\times\ldots\times F(B_p)$ le cône affin produit des cônes affins de bases les $B_i$. Nous
@@ -67,17 +76,23 @@ Package WP-45u (wave 5).
 
 ## SCOPE (disclosed)
 
-* **Two factors.** Déf. 1 and Props. 2–3 are formalized for `p = 2`, for factors of arbitrary
-  (possibly different) dimensions; the `p`-fold product cone `∏ (ℝ^{nᵢ} − {O}) ⊂ ℝ^{Σnᵢ} − {O}` is
-  not built. The corollary is proved for every `p` by iterating the two-factor case, which needs
+* **Two factors.** Déf. 1 and Props. 2–3 are formalized HERE for `p = 2`, for factors of arbitrary
+  (possibly different) dimensions; the `p`-fold product cone `∏ (ℝ^{nᵢ+1} − {O}) ⊂ ℝ^{Σ(nᵢ+1)} − {O}`
+  is built in `ProductsGeneral` (wave 5b, DEC-128), which carries the general-`p` rows. The
+  corollary is proved for every `p` by iterating the two-factor case, which needs
   only `B₁ × … × B_{q+2} × (S¹)^{q+1} ≅ (B₁ × … × B_{q+1} × (S¹)^q) × B_{q+2} × S¹`
   (`homeomorphInsertNth`) and the transport of a structure along a homeomorphism
-  (`exists_hasGroupoid_of_homeomorph`). Props. 2–3 for general `p` would follow the same pattern
-  only after identifying `F⁻¹` of an iterated product with `F⁻¹(∏ F(Bᵢ))`, not done.
+  (`exists_hasGroupoid_of_homeomorph`).
 * **The product cone's structure is scoped** (`open scoped Benzecri.ProdCone`): `V × W` is a
   Mathlib type, so no global instance is declared on it.
 * **The torus.** `ℝ₊*²/ℝ₊* ≅ ℝ₊*` through `μ ↦ [(1, μ)]`; its action on the base is the base map of
   the unimodular block homothety `torusPair μ` (Prop. 2's lift, corrected).
+* **Local triviality** of `F⁻¹(V × W) → V/ℝ₊* × W/ℝ₊*` is NOT proved here for generic `V`, `W`; it is
+  carried only under `[ParacompactSpace Bᵢ]`, globally, for `F(B₁) × F(B₂)`
+  (`exists_prodBase_homeomorph`). `ProductsGeneral.exists_trivialization_piBasePr` proves it for
+  every `p` and any cones.
+* **Notation.** `nᵢ` in a product formula means `dim F(Bᵢ) = dim Bᵢ + 1` (`a + 1`, `b + 1` here);
+  `ProductsGeneral` writes `nᵢ = dim Bᵢ` and the exponent `nᵢ + 1`.
 * **Prop. 3, divisible.** The group is `F⁻¹(F(G₁) × F(G₂)) × H`, `H = λ^ℤ` (`divProdHom`), as
   printed; proper discontinuity uses the radial coordinate of `exists_prodBase_homeomorph`, hence
   paracompact factors. The printed proof announces the sweepable case and argues the divisible one

@@ -3,3 +3,5 @@ import BenzecriScaffold.Applications.Circle
 import BenzecriScaffold.Applications.Products
 import BenzecriScaffold.Applications.Converse
 import BenzecriScaffold.Applications.TheoremA
+import BenzecriScaffold.Applications.ProductsGeneral
+import BenzecriScaffold.Applications.ConverseGeneral
