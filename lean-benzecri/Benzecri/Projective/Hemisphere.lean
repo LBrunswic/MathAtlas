@@ -388,8 +388,12 @@ def evalTrans {v₁ : E} (hv₁ : l v₁ = 1) : HemiTrans l ≃ₗ[ℝ] LinearMa
 @[simp] theorem evalTrans_apply {v₁ : E} (hv₁ : l v₁ = 1) (u : HemiTrans l) :
     evalTrans hv₁ u = u (hq l v₁) := rfl
 
-/-- **The affine hyperplane `l = 1`** of `E`, through a point `v₁` of it, with direction `N`. -/
-def levelOne {v₁ : E} (_hv₁ : l v₁ = 1) : AffineSubspace ℝ E := AffineSubspace.mk' v₁ (LinearMap.ker l)
+/-- **The affine hyperplane `l = 1`** of `E`, through a point `v₁` of it, with direction `N`.
+The proof `l v₁ = 1` is unused by the definition on purpose: it indexes the hyperplane by a witness
+that `v₁` lies on it, which `mem_levelOne` uses. -/
+@[nolint unusedArguments]
+def levelOne {v₁ : E} (_hv₁ : l v₁ = 1) : AffineSubspace ℝ E :=
+  AffineSubspace.mk' v₁ (LinearMap.ker l)
 
 theorem mem_levelOne {v₁ : E} (hv₁ : l v₁ = 1) {v : E} : v ∈ levelOne hv₁ ↔ l v = 1 := by
   rw [levelOne, AffineSubspace.mem_mk', vsub_eq_sub, LinearMap.mem_ker, map_sub, hv₁, sub_eq_zero]

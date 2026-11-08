@@ -24,7 +24,9 @@ proving J(V) → V a covering map »).
   jets satisfying Déf. 12), instantiated for the paper's two cases (`isCoveringMap_jets_proj`,
   `isCoveringMap_jets_aff`). Over the source of a chart `e` of the maximal atlas the trivialisation
   is `(y, g) ↦ g • jet y e` (`jetsTrivialization`), its sheets the basic opens
-  `{jet y (g • e) | y ∈ e.source}`, disjoint by `mem_jets_iff_existsUnique`.
+  `{jet y (g • e) | y ∈ e.source}`, disjoint by `mem_jets_iff_existsUnique`; the covering is onto
+  (`surjective_jetSource`, 1°). The étalé space of all germs is a local homeomorphism over `V`
+  (`isLocalHomeomorph_jetSource`).
 
 > **Déf. 12.** Sur une variété $V$, convexe, de dimension $n$, on définit une structure de *variété
 > localement projective* (resp. *affine*), par la donnée d'un ensemble ouvert $J(V)$ de jets
@@ -43,7 +45,7 @@ proving J(V) → V a covering map »).
 | « ensemble ouvert $J(V)$ » | ✓ carried: `IsOpen` for the étalé topology `etaleTopology`, equivalent to `IsEtaleOpen` (`isOpen_iff_isEtaleOpen`) |
 | « jets d'isomorphismes » | ✓ carried: germs of `OpenPartialHomeomorph` (`IsIsoJet`, Basic) |
 | 1°, 2° | ✓ carried (`IsJetStructure`, Basic) |
-| « revêtement » | ✓ carried: Mathlib's `IsCoveringMap` of the source projection `J(V) → V` (subspace topology of the étalé topology) |
+| « revêtement » | ✓ carried: covering = Mathlib's `IsCoveringMap` of the source projection `J(V) → V` (subspace topology of the étalé topology; it admits empty fibres) + surjective (1°, `surjective_jetSource`) |
 | `GS(n, ℝ)`, `GA(n, ℝ)` and their rigidity | ✓ carried: `IsAnalyticAction G X`, an instance for both (`GSR n` on `S n`, wave 1; `GAR n` on `ℝⁿ`, Basic); the fibres are discrete by construction (the trivialisation's fibre is `G` with the discrete topology, chosen inside the proof, no hypothesis on `G`) |
 
 ## SCOPE (disclosed)
@@ -54,8 +56,13 @@ proving J(V) → V a covering map »).
 * The covering is proved for an arbitrary `(G, X)` with `G` acting analytically; rigidity is what
   makes the sheets `{jet y (g • e)}` over a chart disjoint (without it `J(V)` can be non-Hausdorff
   and is not a covering). The paper's two cases are corollaries.
-* Not proved here (not asserted by Déf. 12): `J(V)` Hausdorff, the étalé space of ALL germs being a
-  covering (it is only a local homeomorphism over `V`: `continuous_jet`, `isOpen_etaleBasic`).
+* `Jet M X` is reducible (an `abbrev`) to a `Sigma`, so Mathlib's `instTopologicalSpaceSigma` would
+  be a second candidate for its topology as soon as anything put a topology on `Filter.Germ`: never
+  put a topology on `Filter.Germ` in this package, and always `open scoped Benzecri` before talking
+  about the topology of jets (inside the scope the étalé instance is the one found).
+* Not proved here (not asserted by Déf. 12): `J(V)` Hausdorff. The étalé space of ALL germs is a
+  local homeomorphism over `V` (`isLocalHomeomorph_jetSource`, its sheets `jetSheet f`); it is not
+  claimed to be a covering.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -119,7 +126,7 @@ theorem continuous_jet (g : M → X) : Continuous fun y => jet y g := by
 
 /-- **« ensemble ouvert » of Déf. 12**: a set of jets is open in the étalé topology iff with a jet
 `jet x f` it contains `jet y f` for every `y` near `x` (Basic's `IsEtaleOpen`). -/
-theorem isOpen_iff_isEtaleOpen [TopologicalSpace X] {J : Set (Jet M X)} : IsOpen J ↔ IsEtaleOpen J := by
+theorem isOpen_iff_isEtaleOpen {J : Set (Jet M X)} : IsOpen J ↔ IsEtaleOpen J := by
   constructor
   · intro hJ x f hx
     exact (continuous_jet f).continuousAt.preimage_mem_nhds (hJ.mem_nhds hx)
@@ -135,9 +142,32 @@ theorem isOpen_iff_isEtaleOpen [TopologicalSpace X] {J : Set (Jet M X)} : IsOpen
 
 /-- **The source projection `J(M, X) → M` is continuous.** -/
 theorem continuous_jetSource : Continuous fun j : Jet M X => j.1 := by
-  letI : TopologicalSpace X := ⊥
   refine continuous_def.2 fun W hW => isOpen_iff_isEtaleOpen.2 fun x f hx => ?_
   filter_upwards [hW.mem_nhds hx] with y hy using hy
+
+/-- **The sheet of a map `f`**: the source projection restricted to the basic open
+`{jet y f | y ∈ M}`, an open partial homeomorphism onto `M` with inverse `y ↦ jet y f`. -/
+def jetSheet (f : M → X) : OpenPartialHomeomorph (Jet M X) M where
+  toFun j := j.1
+  invFun y := jet y f
+  source := range fun y => jet y f
+  target := univ
+  map_source' _ _ := mem_univ _
+  map_target' y _ := mem_range_self y
+  left_inv' := by rintro _ ⟨y, rfl⟩; rfl
+  right_inv' _ _ := rfl
+  open_source := by rw [← image_univ]; exact isOpen_etaleBasic f isOpen_univ
+  open_target := isOpen_univ
+  continuousOn_toFun := continuous_jetSource.continuousOn
+  continuousOn_invFun := (continuous_jet f).continuousOn
+
+/-- **The étalé space of all germs is a local homeomorphism over `M`**: the source projection
+`J(M, X) → M` is `IsLocalHomeomorph`, a jet `jet x f` lying in the sheet `jetSheet f`. (It is not
+claimed to be a covering; Déf. 12's covering is `J(V)`'s, `isCoveringMap_jets`.) -/
+theorem isLocalHomeomorph_jetSource : IsLocalHomeomorph fun j : Jet M X => j.1 := by
+  refine IsLocalHomeomorph.mk _ fun j => ?_
+  obtain ⟨f, hf⟩ := exists_jet_eq j
+  exact ⟨jetSheet f, ⟨j.1, hf⟩, fun _ _ => rfl⟩
 
 /-- A jet structure (Déf. 12) is an open set of jets for the étalé topology. -/
 theorem IsJetStructure.isOpen [TopologicalSpace X] {G : Type w} [Group G] [MulAction G X] {J : Set (Jet M X)}
@@ -299,6 +329,14 @@ theorem isCoveringMap_jets : IsCoveringMap fun j : jets G X M => j.1.1 := by
   exact IsCoveringMap.mk _ (fun _ => G)
     (fun x => jetsTrivialization ((gxGroupoid G X).chart_mem_maximalAtlas x))
     (fun x => mem_chart_source X x)
+
+omit [IsAnalyticAction G X] in
+variable (G X M) in
+/-- **1° for `J(V)`: the source projection `J(V) → V` is onto.** With `isCoveringMap_jets` this is
+Bourbaki's surjective « revêtement »: Mathlib's `IsCoveringMap` admits empty fibres. -/
+theorem surjective_jetSource : Function.Surjective fun j : jets G X M => j.1.1 := fun x => by
+  obtain ⟨j, hj, rfl⟩ := (isJetStructure_jets (G := G) (X := X) (M := M)).source_surjective x
+  exact ⟨⟨j, hj⟩, rfl⟩
 
 end Covering
 

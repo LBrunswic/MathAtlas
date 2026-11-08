@@ -128,28 +128,33 @@
       "hypotheses": [
         {
           "paper": "V un cône affin (variété)",
-          "here": "reading (kept by DEC-122)",
+          "here": "reading (plan F6, « variété »; presupposed by DEC-122)",
           "note": "[T2Space V], necessary for the independence of the chart (doubled point of ]0,∞[, SCOPE)"
         },
         {
           "paper": "cet espace fibré est topologiquement trivial",
-          "here": "added (ruled, DEC-122)",
-          "note": "the action of ℝ₊* is proper (equivalently B Hausdorff, ConeBase.t2Space_iff_properSMul), with V second countable (« variété »); proved in Cone/Section"
+          "here": "carried (ruled, DEC-122)",
+          "note": "the action of ℝ₊* is proper (equivalently B Hausdorff, ConeBase.t2Space_iff_properSMul), with V second countable (« variété »); proved in Cone/Section (the printed statement omits it)"
         }
       ],
       "sorries": [],
       "findings": [
-        "DEC-122 FINDING (l.532–535): « V est ainsi munie d'une structure d'espace fibré ℝ⁺-principal : cet espace fibré est topologiquement trivial » is false for Benzécri's n = 3 without a hypothesis the paper does not print. W = {(x,y,z) : z > 0, (x,y) ≠ 0} ⊂ ℝ³∖0 modulo A = diag(4, 1/8, 2) is a Hausdorff, second countable, connected, paracompact affine conical 3-manifold whose base B = V/ℝ⁺ is not Hausdorff ([(1,0)] and [(0,1)] inseparable), so V is homeomorphic to B × ℝ₊* by no homeomorphism (Benzecri.ConeCex.isEmpty_homeomorph, Benzecri.ConeCex.not_def3TrivialAsPrinted, Cone/Counterexample). The corrected statement adds that ℝ₊* acts properly, equivalently B Hausdorff (ConeBase.t2Space_iff_properSMul); it holds with no extra hypothesis for n ≤ 2 (Cone/LowDim)."
+        "DEC-122 FINDING (l.532–535): « V est ainsi munie d'une structure d'espace fibré ℝ⁺-principal : cet espace fibré est topologiquement trivial » is false, in every Benzécri dimension n ≥ 3 (DEC-124), without a hypothesis the paper does not print. W = {v : v₂ > 0, (v₀,v₁) ≠ 0} ⊂ ℝⁿ∖0 modulo A = diag(4, 1/8, 2, 1, …, 1) is a Hausdorff, second countable, connected, paracompact affine conical n-manifold whose base B = V/ℝ⁺ is not Hausdorff ([(1,0,…)] and [(0,1,…)] inseparable), so V is homeomorphic to B × ℝ₊* by no homeomorphism (Benzecri.ConeCex.isEmpty_homeomorph_dim, Benzecri.ConeCex.not_def3TrivialAsPrinted_dim; n = 3: Benzecri.ConeCex.isEmpty_homeomorph, Benzecri.ConeCex.not_def3TrivialAsPrinted; Cone/Counterexample). The corrected statement adds that ℝ₊* acts properly, equivalently B Hausdorff (ConeBase.t2Space_iff_properSMul); it holds with no extra hypothesis for n ≤ 2 (Cone/LowDim)."
       ],
       "questions": [
-        "Déf. 3 requires V Hausdorff (« variété », plan F6), kept by DEC-122: without it « Cette définition est indépendante de la carte f choisie » fails — on ]0,∞[ with the point 1 doubled (n = 1, GU(1) = {±1}), the identity charts of the two copies are cone charts with transition id and ½·2 is 1 in one chart, 1' in the other (described, not formalized)."
+        "Déf. 3 requires V Hausdorff (« variété », plan F6; presupposed by DEC-122): without it « Cette définition est indépendante de la carte f choisie » fails — on ]0,∞[ with the point 1 doubled (n = 1, GU(1) = {±1}), the identity charts of the two copies are cone charts with transition id and ½·2 is 1 in one chart, 1' in the other (described, not formalized)."
       ],
       "marked_in": "scaffold/BenzecriScaffold/Cone/Section.lean (WP-45o), where the label is completed in its corrected form",
-      "correction": "DEC-122: closed for the corrected statement (the action of ℝ₊* is proper), finding recorded",
+      "correction": "DEC-124: MARKED in its corrected form (DEC-122's correction: the action of ℝ₊* is proper), in Cone/Section; the corrected form Benzecri.ConeBase.exists_trivialization_of_properSMul is the formalization of record, the printed form stays refuted (Benzecri.ConeCex.not_def3TrivialAsPrinted_dim) as the paper finding.",
       "cross_references": [
         "Benzecri.ConeBase.coneTrivialization (Cone/Base, WP-45n: the principal bundle)",
-        "Benzecri.ConeBase.exists_trivialization_of_properSMul (Cone/Section, WP-45o: « topologiquement trivial », corrected form)",
-        "Benzecri.ConeCex.not_def3TrivialAsPrinted (Cone/Counterexample, WP-45p: the printed form refuted)"
+        "Benzecri.ConeBase.exists_trivialization_of_properSMul (Cone/Section, WP-45o: « topologiquement trivial », corrected form, the formalization of record)",
+        "Benzecri.ConeCex.not_def3TrivialAsPrinted_dim (Cone/Counterexample, WP-45p: the printed form refuted, every n ≥ 3)"
+      ],
+      "paper_findings": [
+        "Benzecri.ConeCex.not_def3TrivialAsPrinted_dim",
+        "Benzecri.ConeCex.not_def3TrivialAsPrinted",
+        "Benzecri.ConeCex.isEmpty_homeomorph_dim"
       ]
     }
   ],
@@ -198,5 +203,15 @@
     ],
     "statements_changed": "ConeCat n (objects: IsProperConeObject instead of IsConeObject); no theorem statement changed",
     "build": "lake build BenzecriScaffold.Cone.Basic OK; lake env lean -DwarningAsError=true clean; 0 sorry; every constant: [propext, Classical.choice, Quot.sound]"
+  },
+  "pregraduation_2026-11-08": {
+    "audit": "WP-45m/AUDIT-2.json (clean; one minor, one nit) and DEC-124",
+    "fixed": [
+      "minor (wave-4 objects): DEC-124 « connected on both sides » — IsProperConeObject gains the field connectedSpace : ConnectedSpace V (charts, T2, proper ℝ₊* action, connected); ConeCat is the full subcategory on it (unchanged definition, new objects). SCOPE records the choice: connectedness on both sides, second countability carried where used (plan F6). The bridge (the base of an object is connected and T2, second countable when V is) is in Cone/Base (IsProperConeObject.connectedSpace_and_t2Space_coneBase).",
+      "nit (« reading (kept by DEC-122) »): labels[3].hypotheses[0] now reads « reading (plan F6, « variété »; presupposed by DEC-122) », and the question likewise.",
+      "kb/0022: labels[3].hypotheses[1] « added (ruled, DEC-122) » → « carried (ruled, DEC-122) »; paper_findings cite ConeCex.not_def3TrivialAsPrinted(_dim); the finding is now stated for every n ≥ 3 (DEC-124); module docstring updated."
+    ],
+    "statements_changed": "IsProperConeObject: one field added (ConnectedSpace V), DEC-124; nothing else",
+    "build": "lake build BenzecriScaffold.Cone.Basic OK; 0 sorry"
   }
 }

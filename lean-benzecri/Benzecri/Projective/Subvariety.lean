@@ -68,7 +68,7 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
 | Déf. 4: `L` a subspace of `E` | ✓ carried (`Submodule ℝ E`, any `E`) |
 | Déf. 4, Exemples: half-lines of a line | ✓ carried; the division into two connected half-lines needs a continuous form vanishing at `m` and not on the line, automatic in finite dimension (`IsLine.diff_eq_halfLines`; in general `not_isPreconnected_linearSubvariety_pair_diff` takes the form) |
 | Déf. 5: `H` open, `l ∈ E^*` | ✓ carried as printed in `IsOpenHemisphere` (`l : Module.Dual ℝ E`) |
-| Déf. 5: `l ≠ 0` (reading, DEC-114, forced by « l'hyperplan fermé $h$ ») | ⚠ reading: carried as `l ≠ 0` (⟺ `H ≠ ∅`, `openHemisphere_nonempty_iff`) in the frontier and closure statements |
+| Déf. 5: `l ≠ 0` (reading, DEC-114, forced by « l'hyperplan fermé $h$ ») | reading (DEC-114, accepted by DEC-120): carried as `l ≠ 0` (⟺ `H ≠ ∅`, `openHemisphere_nonempty_iff`) in the frontier and closure statements |
 | Déf. 5, frontier and closure | ✓ carried for `H` itself: `l` continuous is DERIVED from `H` open and `l ≠ 0` (`continuous_of_isOpen_of_F_eq`), for `E` a real topological vector space with `{O}` closed |
 | Déf. 5, uniqueness of the equation | ✓ carried, no hypothesis (`l = 0` included) |
 | converse: `h` a closed hyperplane, `l` continuous with `F(h) ∪ {O} = l⁻¹(O)` | ✓ carried: a continuous `l ≠ 0` is derived from `h` closed (`closedHyperplane_converse`), and every such `l` is continuous (`continuous_of_F_union_eq`) |
@@ -84,9 +84,10 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
   printed assertion of Déf. 5 and of the converse paragraph is proved; the row is marked because
   DEC-120 accepts marks resting on ruled readings (Déf. 5 under `l ≠ 0`).
 * **Reading (Déf. 10, DEC-114), not a finding.** The « De même que » analogy « les convexes de $E$
-  contenant $L$ s'identifient aux convexes de $E/L$ » is read for the `L`-saturated convex sets of `E`
-  (`C + L ⊆ C`: the open, the closed and the conical ones), for which it holds
-  (`convexSaturatedEquiv`); literally, for arbitrary convex sets, it fails
+  contenant $L$ s'identifient aux convexes de $E/L$ » is read for the `L`-saturated convex sets of
+  `E` (`C + L ⊆ C`: e.g. the open, the closed or the conical convex sets containing `L`), for which
+  it holds (`convexSaturatedEquiv`; no containment of `L` is asked, and under the equivalence
+  `C ⊇ L` iff `O ∈ q(C)`); literally, for arbitrary convex sets, it fails
   (`not_injective_convex_image_quotient`, a remark). The statement about `S(E)` holds as printed for
   every convex part (`convexQuotientEquiv`), because `F(k) ∪ {O}` is a convex cone and a convex cone
   containing `L` is `L`-saturated.
@@ -1052,8 +1053,9 @@ def convexQuotientEquiv (L : Submodule ℝ E) :
 
 /-- **The « De même que » analogy of Déf. 10, in the reading of DEC-114**: « les convexes de $E$
 contenant $L$ s'identifient aux convexes de $E/L$ », read for the `L`-saturated convex sets of `E`
-(`C + L ⊆ C`: the open, the closed, the conical ones), which correspond to the convex sets of
-`E/L` by `C ↦ q(C)` and `D ↦ q⁻¹(D)`. -/
+(`C + L ⊆ C`: e.g. the open, the closed or the conical convex sets containing `L`), which
+correspond to the convex sets of `E/L` by `C ↦ q(C)` and `D ↦ q⁻¹(D)`. No containment of `L` is
+asked; under the equivalence, `C ⊇ L` iff `O ∈ q(C)`. -/
 def convexSaturatedEquiv (L : Submodule ℝ E) :
     {C : Set E // Convex ℝ C ∧ ∀ v ∈ C, ∀ m ∈ L, v + m ∈ C} ≃ {D : Set (E ⧸ L) // Convex ℝ D} where
   toFun C := ⟨L.mkQ '' C.1, C.2.1.linear_image _⟩

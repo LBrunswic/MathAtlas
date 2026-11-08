@@ -14,9 +14,9 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
 `papers/benzecri/legacy/labeled/benzecri1960_ch1.tex`. Package WP-45a (wave 1, layer L0).
 
 * **`bzdef:c1s1d3_sphere`** — `benzecri1960_ch1.tex:167` (Déf. 3, l.167–184, p. 234). Certified
-  under DEC-114: `S(E)` and `P(E)` as the quotients of `E - {O}` by `ℝ⁺` and `ℝ*`, the projection `s`,
-  the correspondence `F`, and the quotient topologies of both, for every topological vector space
-  structure on `E`; the default topology (« la topologie localement convexe la plus fine ») is
+  under DEC-114: `S(E)` and `P(E)` as the quotients of `E - {O}` by `ℝ⁺` and `ℝ*`, the projection
+  `s`, the correspondence `F`, and the quotient topologies of both, for every topological vector
+  space structure on `E`; the default topology (« la topologie localement convexe la plus fine ») is
   certified on `ℝⁿ`, where it is the product topology
   (`Benzecri.isLeast_pi_locallyConvexTopology`), the one `S(n)` is built from
   (`Benzecri.S.topology_eq`). See SCOPE for the infinite-dimensional default.
@@ -46,8 +46,8 @@ $S(n-1)$. » (`benzecri1960_ch1.tex:278`).
 modulo the positive homotheties (`Sphere.mk_eq_mk_iff_exists_pos`) — as a type synonym carrying
 the **quotient topology** of `{v : E // v ≠ 0}` (`Sphere.isQuotientMap_s`). It is never Mathlib's
 `Projectivization` (`ℙ ℝ E`, Benzécri's `P(E)`, here the synonym `Benzecri.ProjSpace E`); the
-2-to-1 map `Sphere.toProjectivization` identifies exactly antipodal rays
-(`Sphere.toProjectivization_eq_iff`).
+2-to-1 map `Sphere.toProjSpace` identifies exactly antipodal rays
+(`Sphere.toProjSpace_eq_iff`).
 
 Main declarations:
 * `Sphere.s` (the projection `s`), `Sphere.F` (the correspondence `F`), with `F` injective and
@@ -61,20 +61,20 @@ Main declarations:
 * **`Sphere.homeomorphUnitSphere : Sphere E ≃ₜ Metric.sphere (0 : E) 1`** for every real normed
   space `E` (no finite dimension needed), `x ↦ ‖v‖⁻¹ • v`;
 * `T2Space (Sphere E)` for normed `E`, `CompactSpace (Sphere E)` for finite-dimensional normed `E`;
-* **`P(E)`**: `Benzecri.ProjSpace E`, Mathlib's `Projectivization ℝ E` as a type synonym carrying the
-  quotient topology of `E - {O}` (`ProjSpace.isQuotientMap_p`, `ProjSpace.p_eq_p_iff`: the quotient by
-  `ℝ*`); the 2-to-1 map `Sphere.toProjectivization` identifies exactly antipodal rays
-  (`Sphere.toProjectivization_eq_iff`), and **the two quotient topologies agree**: the one from
+* **`P(E)`**: `Benzecri.ProjSpace E`, Mathlib's `Projectivization ℝ E` as a type synonym carrying
+  the quotient topology of `E - {O}` (`ProjSpace.isQuotientMap_p`, `ProjSpace.p_eq_p_iff`: the
+  quotient by `ℝ*`); the 2-to-1 map `Sphere.toProjSpace` identifies exactly antipodal rays
+  (`Sphere.toProjSpace_eq_iff`), and **the two quotient topologies agree**: the one from
   `E - {O}` is the one from `S(E)` through the antipodal quotient
-  (`Sphere.coinduced_toProjectivization`, `Sphere.isQuotientMap_toProjectivization`);
+  (`Sphere.coinduced_toProjSpace`, `Sphere.isQuotientMap_toProjSpace`);
 * **the default topology**: `Benzecri.isLeast_pi_locallyConvexTopology` (the product topology of
   `ℝⁿ` is the finest locally convex topology), `Benzecri.isLeast_pi_vectorSpaceTopology` (indeed the
   finest vector-space topology), `Benzecri.pi_le_of_isTopologicalAddGroup`, and for any
   finite-dimensional `E`, `Benzecri.le_of_t2_of_finiteDimensional` (a Hausdorff vector-space
   topology is the finest vector-space topology);
 * the index convention `Benzecri.S n = Sphere (Fin (n + 1) → ℝ)` (Benzécri's `S(n) = S(ℝⁿ⁺¹)`),
-  compact, Hausdorff, nonempty, homeomorphic to the Euclidean unit sphere of `ℝⁿ⁺¹`, and carrying the
-  quotient topology of the default topology of `ℝⁿ⁺¹` (`Benzecri.S.topology_eq`).
+  compact, Hausdorff, nonempty, homeomorphic to the Euclidean unit sphere of `ℝⁿ⁺¹`, and carrying
+  the quotient topology of the default topology of `ℝⁿ⁺¹` (`Benzecri.S.topology_eq`).
 
 ## Hypothesis checklist
 
@@ -88,10 +88,10 @@ Main declarations:
 
 ## SCOPE (disclosed)
 
-* The mark rests on DEC-114: Déf. 3 is certified with the lemma that the product topology on `ℝⁿ` is
-  the finest locally convex one. For an infinite-dimensional `E` the finest locally convex topology is
-  not constructed (Mathlib has none); every statement here is for the topology `E` is given, and
-  Chapter 1 equips only `ℝⁿ` with the default.
+* The mark rests on DEC-114: Déf. 3 is certified with the lemma that the product topology on `ℝⁿ`
+  is the finest locally convex one. For an infinite-dimensional `E` the finest locally convex
+  topology is not constructed (Mathlib has none); every statement here is for the topology `E` is
+  given, and Chapter 1 equips only `ℝⁿ` with the default.
 * `P(E)` is `ProjSpace E`, a synonym of Mathlib's `ℙ ℝ E` (as `Sphere E` is of `Module.Ray ℝ E`), so
   the quotient topology is not an orphan instance on a Mathlib type.
 * The action of a linear automorphism is continuous for every continuous linear equivalence
@@ -622,29 +622,31 @@ namespace Sphere
 
 variable {E : Type*} [AddCommGroup E] [Module ℝ E]
 
-/-- The 2-to-1 map `S(E) → P(E)`. -/
-def toProjectivization : Sphere E → ProjSpace E :=
+/-- The 2-to-1 map `S(E) → P(E)`; its codomain is the synonym `ProjSpace E` of Mathlib's
+`Projectivization ℝ E` (which carries the quotient topology of Déf. 3). Renamed from
+`toProjectivization`, which named the type the synonym exists to keep apart. -/
+def toProjSpace : Sphere E → ProjSpace E :=
   lift (fun v => Projectivization.mk ℝ v.1 v.2) fun v w h => by
     obtain ⟨c, hc, hcw⟩ := h.exists_pos_left v.2 w.2
     exact (Projectivization.mk_eq_mk_iff' ℝ _ _ v.2 w.2).2 ⟨c⁻¹, by
       rw [← hcw, smul_smul, inv_mul_cancel₀ hc.ne', one_smul]⟩
 
-@[simp] theorem toProjectivization_mk (v : E) (hv : v ≠ 0) :
-    toProjectivization (mk v hv) = (Projectivization.mk ℝ v hv : ProjSpace E) := rfl
+@[simp] theorem toProjSpace_mk (v : E) (hv : v ≠ 0) :
+    toProjSpace (mk v hv) = (Projectivization.mk ℝ v hv : ProjSpace E) := rfl
 
 /-- The projection `E - {O} → P(E)` factors through `S(E)`. -/
-theorem toProjectivization_comp_s :
-    toProjectivization ∘ s = (ProjSpace.p : {v : E // v ≠ 0} → ProjSpace E) := rfl
+theorem toProjSpace_comp_s :
+    toProjSpace ∘ s = (ProjSpace.p : {v : E // v ≠ 0} → ProjSpace E) := rfl
 
-theorem toProjectivization_surjective : Function.Surjective (toProjectivization (E := E)) := by
+theorem toProjSpace_surjective : Function.Surjective (toProjSpace (E := E)) := by
   intro p
   induction p using Projectivization.ind with
   | h v hv => exact ⟨mk v hv, rfl⟩
 
 /-- Two points of `S(E)` have the same image in `P(E)` iff they are equal or diametrically
 opposite: `P(E)` is the quotient of `S(E)` by the antipodal map. -/
-theorem toProjectivization_eq_iff (x y : Sphere E) :
-    toProjectivization x = toProjectivization y ↔ y = x ∨ y = -x := by
+theorem toProjSpace_eq_iff (x y : Sphere E) :
+    toProjSpace x = toProjSpace y ↔ y = x ∨ y = -x := by
   induction x using ind with
   | h v hv =>
   induction y using ind with
@@ -663,8 +665,8 @@ theorem toProjectivization_eq_iff (x y : Sphere E) :
     · exact ⟨-c, by rw [neg_smul, h, neg_neg]⟩
 
 /-- The antipodal map does not move the image in `P(E)`. -/
-theorem toProjectivization_neg (x : Sphere E) : toProjectivization (-x) = toProjectivization x :=
-  ((toProjectivization_eq_iff x (-x)).2 (Or.inr rfl)).symm
+theorem toProjSpace_neg (x : Sphere E) : toProjSpace (-x) = toProjSpace x :=
+  ((toProjSpace_eq_iff x (-x)).2 (Or.inr rfl)).symm
 
 section Topology
 
@@ -672,20 +674,34 @@ variable [TopologicalSpace E]
 
 /-- **The two quotient topologies of `P(E)` agree**: the topology coinduced from `E - {O}` (Déf. 3)
 is the topology coinduced from `S(E)` by the antipodal quotient `S(E) → P(E)`. -/
-theorem coinduced_toProjectivization :
-    TopologicalSpace.coinduced (toProjectivization (E := E)) inferInstance =
+theorem coinduced_toProjSpace :
+    TopologicalSpace.coinduced (toProjSpace (E := E)) inferInstance =
       ProjSpace.instTopologicalSpace := by
-  rw [instTopologicalSpace, coinduced_compose, toProjectivization_comp_s]
+  rw [instTopologicalSpace, coinduced_compose, toProjSpace_comp_s]
   rfl
 
 /-- `S(E) → P(E)`, the quotient by the antipodal map, is a quotient map. -/
-theorem isQuotientMap_toProjectivization : IsQuotientMap (toProjectivization (E := E)) :=
-  ⟨⟨coinduced_toProjectivization.symm⟩, toProjectivization_surjective⟩
+theorem isQuotientMap_toProjSpace : IsQuotientMap (toProjSpace (E := E)) :=
+  ⟨⟨coinduced_toProjSpace.symm⟩, toProjSpace_surjective⟩
 
-theorem continuous_toProjectivization : Continuous (toProjectivization (E := E)) :=
-  isQuotientMap_toProjectivization.continuous
+theorem continuous_toProjSpace : Continuous (toProjSpace (E := E)) :=
+  isQuotientMap_toProjSpace.continuous
 
 end Topology
+
+@[deprecated (since := "2026-11-08")] alias toProjectivization := toProjSpace
+@[deprecated (since := "2026-11-08")] alias toProjectivization_mk := toProjSpace_mk
+@[deprecated (since := "2026-11-08")] alias toProjectivization_comp_s := toProjSpace_comp_s
+@[deprecated (since := "2026-11-08")] alias toProjectivization_surjective :=
+  toProjSpace_surjective
+@[deprecated (since := "2026-11-08")] alias toProjectivization_eq_iff := toProjSpace_eq_iff
+@[deprecated (since := "2026-11-08")] alias toProjectivization_neg := toProjSpace_neg
+@[deprecated (since := "2026-11-08")] alias coinduced_toProjectivization :=
+  coinduced_toProjSpace
+@[deprecated (since := "2026-11-08")] alias isQuotientMap_toProjectivization :=
+  isQuotientMap_toProjSpace
+@[deprecated (since := "2026-11-08")] alias continuous_toProjectivization :=
+  continuous_toProjSpace
 
 end Sphere
 
@@ -721,7 +737,8 @@ theorem pi_le_of_isTopologicalAddGroup {n : ℕ} (t : TopologicalSpace (Fin n �
 /-- **In finite dimension, a Hausdorff vector-space topology is the finest vector-space
 topology**: if `t₀` makes the finite-dimensional real vector space `E` a Hausdorff topological
 vector space, then `t₀` is finer than every topology `t` making `E` a topological vector space
-(every linear map out of `(E, t₀)` is continuous). The form of Déf. 3's default for any finite-dimensional `E`. -/
+(every linear map out of `(E, t₀)` is continuous). The form of Déf. 3's default for any
+finite-dimensional `E`. -/
 theorem le_of_t2_of_finiteDimensional {E : Type*} [AddCommGroup E] [Module ℝ E]
     [FiniteDimensional ℝ E] (t₀ t : TopologicalSpace E) [h₀ : @IsTopologicalAddGroup E t₀ _]
     [h₀' : @ContinuousSMul ℝ E _ _ t₀] [h₀'' : @T2Space E t₀] [h : @IsTopologicalAddGroup E t _]

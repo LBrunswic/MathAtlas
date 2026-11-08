@@ -2,7 +2,7 @@ import Benzecri.Structure.Quotient
 import Benzecri.Projective.Convex
 
 /-!
-# `BenzecriScaffold.Structure.Classes` — segments, homogeneous, sweepable, divisible and maximal manifolds (Déf. 14, 15, 16)
+# `Benzecri.Structure.Classes` — segments, homogeneous, sweepable, divisible and maximal manifolds (Déf. 14, 15, 16)
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 1, journal pp. 238–239; transcription

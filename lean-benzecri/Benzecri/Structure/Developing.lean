@@ -4,7 +4,7 @@ import Mathlib.Topology.Homotopy.Lifting
 import Mathlib.Topology.Germ
 
 /-!
-# `BenzecriScaffold.Structure.Developing` — the developing map of a simply connected manifold (Prop. 2)
+# `Benzecri.Structure.Developing` — the developing map of a simply connected manifold (Prop. 2)
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 1, journal p. 237; transcription

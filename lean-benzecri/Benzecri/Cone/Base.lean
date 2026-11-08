@@ -1,9 +1,9 @@
-import BenzecriScaffold.Cone.Basic
+import Benzecri.Cone.Basic
 import Mathlib.Topology.Algebra.ProperAction.Basic
 import Mathlib.Topology.FiberBundle.Trivialization
 
 /-!
-# `BenzecriScaffold.Cone.Base` — the base `B = V/ℝ⁺` of an affine conical manifold (§ 2, Prop. 2)
+# `Benzecri.Cone.Base` — the base `B = V/ℝ⁺` of an affine conical manifold (§ 2, Prop. 2)
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 2, journal p. 240; transcription
@@ -13,7 +13,8 @@ dimension `n + 1` (model `RnO (n + 1) = ℝⁿ⁺¹ − {O}`, group `GU(n+1, ℝ
 (model `S n = S(ℝⁿ⁺¹)`, group `GSR n`), i.e. Benzécri's `n` and `n − 1`.
 
 * **`bzprop:c1s2p2_base_cone`** — `benzecri1960_ch1.tex:540` (Prop. 2, l.540–546, p. 240),
-  **closed in its corrected form (DEC-122), the finding recorded**. The formalization of record is
+  **MARKED in its corrected form (DEC-124; the correction is DEC-122's), the finding recorded**.
+  The formalization of record is
   `ConeBase.existsUnique_baseStructure_of_properSMul`: if the action of `ℝ₊*` on `V` is proper, the
   base `B = V/ℝ⁺` (`Benzecri.ConeBase n V`, the orbit quotient of Déf. 3's action, quotient
   topology) is a HAUSDORFF locally projective manifold, whose structure is the unique one in which
@@ -23,10 +24,14 @@ dimension `n + 1` (model `RnO (n + 1) = ℝⁿ⁺¹ − {O}`, group `GU(n+1, ℝ
   structure (`ConeBase.chartedSpace`, `ConeBase.hasGroupoid`); the jet `p(j)` « par passage au
   quotient » is `ConeBase.pJet` (well defined: `jet_baseChart_eq`), and the uniqueness is
   `ConeBase.existsUnique_baseStructure` (chart form `existsUnique_baseStructure_charts`), which
-  holds with no hypothesis on `B`. **The finding**: read with a « variété » base (plan F6, Déf. 12),
-  Prop. 2 is false — for Benzécri's `n = 3` there is a Hausdorff, second countable, connected
-  affine conical `V` whose base is not Hausdorff (`Cone/Counterexample`,
-  `Benzecri.ConeCex.not_prop2HausdorffBaseAsRead`); the hypothesis the printed statement omits is
+  holds with no hypothesis on `B`; the other « variété » clauses of `B` follow from those of `V`
+  (`ConeBase.connectedSpace`, `ConeBase.secondCountableTopology`; all three clauses at once:
+  `ConeBase.variete_of_properSMul`). **The finding**: read with a « variété » base (plan F6,
+  Déf. 12), Prop. 2 is false — for every Benzécri dimension `n ≥ 3` there is a Hausdorff, second
+  countable, connected affine conical `V` whose base is not Hausdorff (`Cone/Counterexample`,
+  `Benzecri.ConeCex.not_prop2HausdorffBaseAsRead_dim`; `n = 3`:
+  `Benzecri.ConeCex.not_prop2HausdorffBaseAsRead`); the printed form stays refuted as the paper
+  finding (DEC-124); the hypothesis the printed statement omits is
   the properness of the `ℝ₊*`-action, equivalently `B` Hausdorff (**the characterisation**
   `ConeBase.t2Space_iff_properSMul`, both directions proved here); for `n ≤ 2` it is automatic
   (`Cone/LowDim`).
@@ -40,7 +45,11 @@ dimension `n + 1` (model `RnO (n + 1) = ℝⁿ⁺¹ − {O}`, group `GU(n+1, ℝ
 
 Also (groundwork for wave 4's `F⁻¹`): the projection is an open quotient map
 (`isOpenQuotientMap_mk`); the base of a connected (second countable) `V` is connected (second
-countable) (`ConeBase.connectedSpace`, `ConeBase.secondCountableTopology`); the base of a conical
+countable) (`ConeBase.connectedSpace`, `ConeBase.secondCountableTopology`); **the bridge
+(DEC-124)**: the base of an object of `ConeCat (n + 1)` is connected and Hausdorff
+(`IsProperConeObject.connectedSpace_and_t2Space_coneBase`, with `t2Space_coneBase`,
+`connectedSpace_coneBase`, and `secondCountableTopology_coneBase` when `V` is second countable);
+the base of a conical
 morphism `ConeBase.map` is a projective morphism (`isGXMorphism_map`), functorially (`map_id`,
 `map_comp`). The proper-action criterion `ConeBase.properSMul_of_tendsto` and the chart-ratio lemma
 `ConeBase.tendsto_fst_of_tendsto_radius` are shared with `Cone/LowDim`.
@@ -59,14 +68,16 @@ morphism `ConeBase.map` is a projective morphism (`isGXMorphism_map`), functoria
 |---|---|
 | `V` an affine conical manifold (Déf. 2) | ✓ carried: `[ChartedSpace (RnO (n+1)) V] [HasConeCharts (n+1) V]`, and `[HasGroupoid V (coneGroupoid (n+1))]` where the jets `J₁(V)` are used |
 | `V` a « variété »: Hausdorff | ✓ carried: `[T2Space V]`, needed by Déf. 3's action (`Cone/Basic`, SCOPE) |
-| « structure localement projective » on `B`, read on a « variété » (plan F6, Déf. 12) | ✓ in the corrected form: `B` Hausdorff (`T2Space`), with `ChartedSpace (S n)` and `HasGroupoid (projGroupoid n)` |
-| (not printed) the action of `ℝ₊*` on `V` is proper | ⚠ **added, ruled (DEC-122)**: the finding's correction; equivalent to `B` Hausdorff (`t2Space_iff_properSMul`); automatic for `n ≤ 2` (`Cone/LowDim`), not for `n = 3` (`Cone/Counterexample`) |
+| « structure localement projective » on `B`, read on a « variété » (plan F6, Déf. 12) | ✓ in the corrected form: `B` Hausdorff (`T2Space`), with `ChartedSpace (S n)` and `HasGroupoid (projGroupoid n)`; `B` connected / second countable when `V` is (`connectedSpace`, `secondCountableTopology`; the three clauses: `variete_of_properSMul`) |
+| (not printed) the action of `ℝ₊*` on `V` is proper | ✓ **carried (ruled, DEC-122: the printed statement omits it)**: the finding's correction; equivalent to `B` Hausdorff (`t2Space_iff_properSMul`); automatic for `n ≤ 2` (`Cone/LowDim`), not for any `n ≥ 3` (`Cone/Counterexample`) |
 | « l'unique structure » | ✓ carried: any `(GS(n), S(n))`-structure in which every `p(j)` is a projective jet has the same maximal atlas (the competitor `cs` is named on both sides, kb/0002) |
 
 ## SCOPE (disclosed)
 
 * **The finding (DEC-122).** For Benzécri's `n ≥ 3`, `V` Hausdorff does not force `B` Hausdorff;
-  the counterexample (`n = 3`) is `Cone/Counterexample`. `existsUnique_baseStructure` (no
+  the counterexample, for every `n ≥ 3` (DEC-124), is `Cone/Counterexample`. The corrected form is
+  the formalization of record and is MARKED (DEC-124); the printed form stays refuted
+  (`ConeCex.not_prop2HausdorffBaseAsRead_dim`). `existsUnique_baseStructure` (no
   properness) is kept: it is the statement for a possibly non-Hausdorff `B`.
 * **The characterisation**: (⇐) is Mathlib's `t2Space_quotient_mulAction_of_properSMul`; (⇒) is
   proved by Mathlib's ultrafilter criterion: if `(λ_i m_i, m_i) → (m', m)`, `B` Hausdorff gives
@@ -537,13 +548,14 @@ theorem existsUnique_baseStructure :
     baseChart_mem_maximalAtlas he, fun cs hcs h => ?_⟩
   exact existsUnique_baseStructure_charts.2 cs hcs ((forall_pJet_mem_iff cs hcs).1 h)
 
-/-- **Prop. 2, corrected form (DEC-122)** (`bzprop:c1s2p2_base_cone`, the formalization of record):
-if the action of `ℝ₊*` on `V` is proper, the base `B = V/ℝ⁺` is a **Hausdorff** locally projective
-manifold — `B` is Hausdorff, every `p(j)` is a projective jet, and the structure is the unique one
-with this property. The printed statement, read with « variété » for `B`, is false without the
-properness hypothesis (`Cone/Counterexample`, `Benzecri.ConeCex.not_prop2HausdorffBaseAsRead`); the
-hypothesis is equivalent to `B` Hausdorff (`t2Space_iff_properSMul`). For `V` connected and second
-countable, so is `B` (`connectedSpace`, `secondCountableTopology`). -/
+/-- **Prop. 2, corrected form (DEC-122)** (`bzprop:c1s2p2_base_cone`, the formalization of record,
+MARKED by DEC-124): if the action of `ℝ₊*` on `V` is proper, the base `B = V/ℝ⁺` is a
+**Hausdorff** locally projective manifold — `B` is Hausdorff, every `p(j)` is a projective jet, and
+the structure is the unique one with this property. The printed statement, read with « variété »
+for `B`, is false without the properness hypothesis in every dimension `n ≥ 3`
+(`Cone/Counterexample`, `Benzecri.ConeCex.not_prop2HausdorffBaseAsRead_dim`); the hypothesis is
+equivalent to `B` Hausdorff (`t2Space_iff_properSMul`). For `V` connected and second countable, so
+is `B` (`connectedSpace`, `secondCountableTopology`; all three clauses: `variete_of_properSMul`). -/
 theorem existsUnique_baseStructure_of_properSMul
     (h : @ProperSMul RPos V _ _ _ (coneMulAction (n + 1) V)) :
     T2Space (ConeBase n V) ∧
@@ -553,6 +565,17 @@ theorem existsUnique_baseStructure_of_properSMul
       @StructureGroupoid.maximalAtlas _ _ _ _ cs (projGroupoid n) =
         @StructureGroupoid.maximalAtlas _ _ _ _ chartedSpace (projGroupoid n) :=
   ⟨t2Space_of_properSMul h, existsUnique_baseStructure⟩
+
+omit [HasGroupoid V (coneGroupoid (n + 1))] in
+/-- **Prop. 2, corrected form, the « variété » clauses** (plan F6: connected, Hausdorff, second
+countable): if `V` is connected and second countable and the action of `ℝ₊*` is proper, the base
+`B = V/ℝ⁺` is Hausdorff, connected and second countable, i.e. a « variété », on which
+`existsUnique_baseStructure_of_properSMul` puts the unique locally projective structure. -/
+theorem variete_of_properSMul [ConnectedSpace V] [SecondCountableTopology V]
+    (h : @ProperSMul RPos V _ _ _ (coneMulAction (n + 1) V)) :
+    T2Space (ConeBase n V) ∧ ConnectedSpace (ConeBase n V) ∧
+      SecondCountableTopology (ConeBase n V) :=
+  ⟨t2Space_of_properSMul h, connectedSpace, secondCountableTopology⟩
 
 end ConeBase
 
@@ -714,5 +737,44 @@ theorem map_comp {U : Type*} [TopologicalSpace U] [ChartedSpace (RnO (n + 1)) U]
   rfl
 
 end ConeBase
+
+/-! ### The objects of wave 4: the base of a proper cone object (DEC-124) -/
+
+namespace IsProperConeObject
+
+variable {n : ℕ} {V : GXCat (GUR (n + 1)) (RnO (n + 1))}
+
+/-- **The base of an object of `ConeCat (n + 1)` is Hausdorff** (DEC-122: the action of `ℝ₊*` is
+proper, `ConeBase.t2Space_of_properSMul`). The instances on `V` are the object's own fields. -/
+theorem t2Space_coneBase (h : IsProperConeObject (n + 1) V) :
+    letI := h.hasConeCharts; letI := h.t2Space; T2Space (ConeBase n V) := by
+  letI := h.hasConeCharts; letI := h.t2Space
+  exact ConeBase.t2Space_of_properSMul h.properSMul
+
+/-- **The base of an object of `ConeCat (n + 1)` is connected** (DEC-124: the object is
+connected, `ConeBase.connectedSpace`). -/
+theorem connectedSpace_coneBase (h : IsProperConeObject (n + 1) V) :
+    letI := h.hasConeCharts; letI := h.t2Space; ConnectedSpace (ConeBase n V) := by
+  letI := h.hasConeCharts; letI := h.t2Space; haveI := h.connectedSpace
+  exact ConeBase.connectedSpace
+
+/-- **The base of a second countable object of `ConeCat (n + 1)` is second countable**
+(`ConeBase.secondCountableTopology`; second countability is carried where used, plan F6). -/
+theorem secondCountableTopology_coneBase [SecondCountableTopology V]
+    (h : IsProperConeObject (n + 1) V) :
+    letI := h.hasConeCharts; letI := h.t2Space; SecondCountableTopology (ConeBase n V) := by
+  letI := h.hasConeCharts; letI := h.t2Space
+  exact ConeBase.secondCountableTopology
+
+/-- **The bridge wave 4 needs (DEC-124)**: for `V` an object of `ConeCat (n + 1)` (cone charts,
+Hausdorff, a proper `ℝ₊*`-action, connected), the base `B = V/ℝ⁺` is connected and Hausdorff — an
+object of the projective side's `ConnectedSpace ∧ T2Space` subcategory once it carries
+`ConeBase.chartedSpace` and `ConeBase.hasGroupoid` (`Benzecri/Structure/Quotient`, SCOPE). -/
+theorem connectedSpace_and_t2Space_coneBase (h : IsProperConeObject (n + 1) V) :
+    letI := h.hasConeCharts; letI := h.t2Space
+    ConnectedSpace (ConeBase n V) ∧ T2Space (ConeBase n V) :=
+  ⟨h.connectedSpace_coneBase, h.t2Space_coneBase⟩
+
+end IsProperConeObject
 
 end Benzecri

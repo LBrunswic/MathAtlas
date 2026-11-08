@@ -9,3 +9,10 @@ import Benzecri.Projective.Convex
 import Benzecri.Structure.Basic
 import Benzecri.Structure.Quotient
 import Benzecri.Structure.Jets
+import Benzecri.Structure.Developing
+import Benzecri.Structure.Classes
+import Benzecri.Cone.Basic
+import Benzecri.Cone.Base
+import Benzecri.Cone.Section
+import Benzecri.Cone.Counterexample
+import Benzecri.Cone.LowDim

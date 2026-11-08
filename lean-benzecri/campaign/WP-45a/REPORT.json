@@ -34,8 +34,8 @@
         "Benzecri.Sphere.mapEquiv",
         "Benzecri.Sphere.continuous_smul_linearEquiv",
         "Benzecri.Sphere.homeomorphUnitSphere",
-        "Benzecri.Sphere.toProjectivization",
-        "Benzecri.Sphere.toProjectivization_eq_iff",
+        "Benzecri.Sphere.toProjSpace",
+        "Benzecri.Sphere.toProjSpace_eq_iff",
         "Benzecri.S",
         "Benzecri.S.homeomorphEuclideanSphere",
         "Benzecri.pi_le_of_isTopologicalAddGroup",
@@ -48,9 +48,9 @@
         "Benzecri.ProjSpace.p_eq_p_iff",
         "Benzecri.ProjSpace.instTopologicalSpace",
         "Benzecri.ProjSpace.isQuotientMap_p",
-        "Benzecri.Sphere.coinduced_toProjectivization",
-        "Benzecri.Sphere.isQuotientMap_toProjectivization",
-        "Benzecri.Sphere.continuous_toProjectivization"
+        "Benzecri.Sphere.coinduced_toProjSpace",
+        "Benzecri.Sphere.isQuotientMap_toProjSpace",
+        "Benzecri.Sphere.continuous_toProjSpace"
       ],
       "hypotheses": [
         {
@@ -71,7 +71,7 @@
         {
           "paper": "P(E) with the quotient topology",
           "here": "carried",
-          "note": "ProjSpace E, a type synonym of Mathlib's Projectivization ℝ E with the topology coinduced from E − {O}; equal to the topology coinduced from S(E) through the antipodal quotient (coinduced_toProjectivization)"
+          "note": "ProjSpace E, a type synonym of Mathlib's Projectivization ℝ E with the topology coinduced from E − {O}; equal to the topology coinduced from S(E) through the antipodal quotient (coinduced_toProjSpace)"
         },
         {
           "paper": "S(E) ≃ unit sphere in finite dimension (DEC-113)",
@@ -104,13 +104,13 @@
     "Benzecri.Sphere.map_symm",
     "Benzecri.Sphere.smul_mk",
     "Benzecri.Sphere.homeomorphUnitSphere_mk",
-    "Benzecri.Sphere.map_neg (protected)",
-    "Benzecri.Sphere.normalize (protected)",
-    "Benzecri.Sphere.continuous_neg (protected)",
+    "Benzecri.Sphere.map_neg",
+    "Benzecri.Sphere.normalize",
+    "Benzecri.Sphere.continuous_neg",
     "Benzecri.Sphere.homothetyNZ",
     "Benzecri.Sphere.continuous_homothetyNZ",
-    "Benzecri.Sphere.toProjectivization_comp_s",
-    "Benzecri.Sphere.toProjectivization_neg",
+    "Benzecri.Sphere.toProjSpace_comp_s",
+    "Benzecri.Sphere.toProjSpace_neg",
     "Benzecri.ProjSpace.p_surjective",
     "Benzecri.ProjSpace.continuous_p"
   ],
@@ -118,16 +118,25 @@
     "Benzecri.Sphere E is a `def` synonym of Module.Ray ℝ E (so no orphan topology lands on Module.Ray); work through Sphere.mk / Sphere.ind / Sphere.lift, and Sphere.ofCone C for 's(C - {O})' with F_ofCone / mk_mem_ofCone_iff for cones.",
     "Sphere.homeomorphUnitSphere holds for every real normed space (no finite dimension); T2Space and (finite-dim) CompactSpace instances on Sphere E come from it.",
     "Mathlib's global notation `GL` (Matrix.GeneralLinearGroup) captures the identifier GL: the group names are GLR/GAR/GSR/GUR (WP-45d).",
-    "P(E) is Benzecri.ProjSpace E, a def synonym of Projectivization ℝ E carrying the quotient topology (no orphan instance on ℙ ℝ E); toProjectivization : Sphere E → ProjSpace E is a quotient map and the two quotient topologies agree by coinduced_compose.",
+    "P(E) is Benzecri.ProjSpace E, a def synonym of Projectivization ℝ E carrying the quotient topology (no orphan instance on ℙ ℝ E); toProjSpace : Sphere E → ProjSpace E is a quotient map and the two quotient topologies agree by coinduced_compose.",
     "Four Benzecri.Sphere names are protected (map_neg, neg_ne_self, continuous_neg, normalize): write Sphere.neg_ne_self etc. inside namespace Benzecri.Sphere; the homothety on E − {O} is Sphere.homothetyNZ."
   ],
   "notes": "Fix round 1 (DEC-114, AUDIT-1): Déf. 3 MARKED and closed — the finite-dimensional default-topology lemma (audit's 3-line proof via LinearMap.continuous_on_pi) and P(E)'s quotient topology are built, the two quotient topologies of P(E) shown equal. Hygiene: the four root-shadowing names are protected, Sphere.homothety renamed homothetyNZ (Benzecri.homothety of Projective/Groups is the ℝˣ →* GL(E) one), the S(n−1) citation is l.278, neg_ne_self's docstring reworded. No sorry; axioms ⊆ {propext, Classical.choice, Quot.sound}; clean under -DwarningAsError=true.",
   "audit_round_1_fixes": [
-    "P(E) topology built (ProjSpace, isQuotientMap_p, coinduced_toProjectivization)",
+    "P(E) topology built (ProjSpace, isQuotientMap_p, coinduced_toProjSpace)",
     "finest locally convex topology lemma (pi_le_of_isTopologicalAddGroup, isLeast_pi_locallyConvexTopology, isLeast_pi_vectorSpaceTopology, le_of_t2_of_finiteDimensional)",
     "protected map_neg / neg_ne_self / continuous_neg / normalize",
     "citation :279 → :278",
     "neg_ne_self docstring",
     "Sphere.homothety → Sphere.homothetyNZ"
-  ]
+  ],
+  "pregraduation_2026-11-08": {
+    "audit": "WP-45a/AUDIT-2.json (clean; three nits)",
+    "fixed": [
+      "nit 1: Sphere.toProjectivization → Sphere.toProjSpace (its codomain is the synonym ProjSpace E), with the lemmas toProjSpace_mk, _comp_s, _surjective, _eq_iff, _neg, coinduced_/isQuotientMap_/continuous_toProjSpace; every old name kept as a @[deprecated (since := \"2026-11-08\")] alias; docstring says the codomain is ProjSpace E. Names in this REPORT updated.",
+      "nit 2: extra_decls carry bare names (map_neg, normalize, continuous_neg); their protection is recorded in kb_proposals.",
+      "nit 3: the over-100-character docstring lines rewrapped (table rows excepted)."
+    ],
+    "statements_changed": "renames with deprecated aliases; no statement changed"
+  }
 }

@@ -3,7 +3,7 @@ import Mathlib.CategoryTheory.ObjectProperty.FullSubcategory
 import Mathlib.Topology.Algebra.ProperAction.Basic
 
 /-!
-# `BenzecriScaffold.Cone.Basic` — open cones, affine conical manifolds, positive homotheties (§ 2, Déf. 1–3, Prop. 1)
+# `Benzecri.Cone.Basic` — open cones, affine conical manifolds, positive homotheties (§ 2, Déf. 1–3, Prop. 1)
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 2, journal pp. 239–240; transcription
@@ -27,7 +27,7 @@ Package WP-45m (wave 3, layer L4; fix round after AUDIT-1 and DEC-122).
   and `existsUnique_coneStructure_of_atlas_printed` (`{V_i}` read `{U_i}`, `f_i = g_ij ∘ f_i` read
   `f_i = g_ij ∘ f_j`, the transcription's `[sic]`).
 * `bzdef:c1s2d3_homotheties_positives` — `benzecri1960_ch1.tex:526` (Déf. 3, l.526–538, p. 240),
-  **not marked here** (marked in `Cone/Section`, closed in its corrected form, DEC-122): this file
+  **not marked here** (MARKED in `Cone/Section` in its corrected form, DEC-124, DEC-122): this file
   proves the action and its stated properties —
   `posSMul` (`λm = f⁻¹(λ f(m))`), **independence of the chart** (`IsConeChart.symm_smul_eq`,
   `posSMul_eq`, for `V` Hausdorff), the action law (`coneMulAction`, `posSMul_mul`), continuity
@@ -36,16 +36,16 @@ Package WP-45m (wave 3, layer L4; fix round after AUDIT-1 and DEC-122).
   affine » (`not_isGXMorphism_cone_smul`); the principal bundle is `Cone/Base`
   (`ConeBase.coneTrivialization`), the section and the triviality `Cone/Section`. **Finding
   (DEC-122)**: « cet espace fibré est topologiquement trivial » is false without a hypothesis the
-  paper does not print — the counterexample of `Cone/Counterexample` (`n = 3`) is a Hausdorff,
-  second countable affine conical manifold whose base is not Hausdorff, so that `V` is homeomorphic
-  to `B × ℝ₊*` by no homeomorphism; the corrected form adds that the action of `ℝ₊*` is proper
-  (equivalently `B` Hausdorff, `ConeBase.t2Space_iff_properSMul`), automatic for `n ≤ 2`
+  paper does not print — the counterexample of `Cone/Counterexample` (every `n ≥ 3`, DEC-124) is
+  a Hausdorff, second countable affine conical manifold whose base is not Hausdorff, so that `V` is
+  homeomorphic to `B × ℝ₊*` by no homeomorphism; the corrected form adds that the action of `ℝ₊*`
+  is proper (equivalently `B` Hausdorff, `ConeBase.t2Space_iff_properSMul`), automatic for `n ≤ 2`
   (`Cone/LowDim`).
 * Unlabelled prose (l.518–524, p. 240): **the canonical locally affine structure**
   (`affineChartedSpace`, `hasGroupoid_affineChartedSpace`, `jetVal_mem_jets_affine`) is « l'unique
   structure affine dont l'ensemble $J(V)$ des jets affins contienne $J_1(V)$ »
   (`maximalAtlas_affine_unique`); **the category** `ConeCat n` (objects `IsProperConeObject`:
-  cone charts, Hausdorff, a proper `ℝ₊*`-action, DEC-122; morphisms the
+  cone charts, Hausdorff, a proper `ℝ₊*`-action (DEC-122) and connected (DEC-124); morphisms the
   `(GU(n), ℝⁿ − {O})`-morphisms, which are the maps with `J₁(V₂) ∘ f ⊆ J₁(V₁)` by
   `isGXMorphism_iff_jets`); conical morphisms commute with the homotheties
   (`IsGXMorphism.map_posSMul`, for wave 4's `F⁻¹`).
@@ -106,12 +106,17 @@ Package WP-45m (wave 3, layer L4; fix round after AUDIT-1 and DEC-122).
 * The action is a reducible `def` (`coneMulAction`), not an instance: the model `RnO n` cannot be
   inferred from `V`, so a `MulAction RPos V` instance has no synthesis order. Statements use
   `posSMul n c m`; `Cone/Base` uses `letI := coneMulAction n V` locally.
-* **The objects of `ConeCat n` carry a proper `ℝ₊*`-action (DEC-122)**: `IsProperConeObject`
-  (cone charts, Hausdorff, `ProperSMul` for Déf. 3's action), so that wave 4's base functor lands in
-  Hausdorff locally projective manifolds (`ConeBase.existsUnique_baseStructure_of_properSMul`).
-  `IsConeObject` (`HasConeCharts n V ∧ T2Space V`, Déf. 2 with « variété » Hausdorff) is kept and
-  admits the non-Hausdorff bases of `Cone/Counterexample`; `IsProperConeObject.isConeObject`.
-  Connectedness is not imposed (plan F6, carried where used).
+* **The objects of `ConeCat n` carry a proper `ℝ₊*`-action (DEC-122) and are connected
+  (DEC-124)**: `IsProperConeObject` (cone charts, Hausdorff, `ProperSMul` for Déf. 3's action,
+  `ConnectedSpace`), so that wave 4's base functor lands in Hausdorff connected locally projective
+  manifolds (`ConeBase.existsUnique_baseStructure_of_properSMul`; the bridge is
+  `IsProperConeObject.t2Space_coneBase`, `connectedSpace_coneBase` and
+  `secondCountableTopology_coneBase` in `Cone/Base`). DEC-124 pairs connected objects on both
+  sides of § 2's equivalence, matching the projective side's `ConnectedSpace V ∧ T2Space V`
+  (`Benzecri/Structure/Quotient`, SCOPE); second countability is carried where used (plan F6), on
+  both sides. `IsConeObject` (`HasConeCharts n V ∧ T2Space V`, Déf. 2 with « variété » Hausdorff)
+  is kept and admits the non-Hausdorff bases of `Cone/Counterexample`;
+  `IsProperConeObject.isConeObject`.
 * The canonical affine structure is stated for `[NeZero n]` (the strict library's transport assumes
   a nonempty model); for `n = 0`, `ℝ⁰ − {O}` is empty and so is every conical manifold.
 * Instances added are on this file's own type `Punctured E` (actions of `E ≃ₗ[ℝ] E`, its subgroups
@@ -1041,10 +1046,11 @@ This class admits non-Hausdorff bases (`Cone/Counterexample`); the objects of `C
 `IsProperConeObject`. -/
 def IsConeObject (V : GXCat (GUR n) (RnO n)) : Prop := HasConeCharts n V ∧ T2Space V
 
-/-- **The objects of wave 4's category (DEC-122)**: affine conical `n`-manifolds (cone charts,
-Hausdorff) on which the action of `ℝ₊*` of Déf. 3 is proper (Bourbaki), equivalently whose base
-`V/ℝ⁺` is Hausdorff (`ConeBase.t2Space_iff_properSMul`). DEC-122: « wave 4's affine conical objects
-(the § 2 equivalence, DEC-113) carry a proper ℝ₊* action ». -/
+/-- **The objects of wave 4's category (DEC-122, DEC-124)**: connected affine conical
+`n`-manifolds (cone charts, Hausdorff) on which the action of `ℝ₊*` of Déf. 3 is proper (Bourbaki),
+equivalently whose base `V/ℝ⁺` is Hausdorff (`ConeBase.t2Space_iff_properSMul`). DEC-122: « wave
+4's affine conical objects (the § 2 equivalence, DEC-113) carry a proper ℝ₊* action »; DEC-124:
+« affine conical manifolds with charts, Hausdorff, a proper ℝ₊* action and connected ». -/
 structure IsProperConeObject (V : GXCat (GUR n) (RnO n)) : Prop where
   /-- Déf. 2, 3°. -/
   hasConeCharts : HasConeCharts n V
@@ -1052,6 +1058,8 @@ structure IsProperConeObject (V : GXCat (GUR n) (RnO n)) : Prop where
   t2Space : T2Space V
   /-- The positive homotheties act properly (DEC-122). -/
   properSMul : @ProperSMul RPos V _ _ _ (@coneMulAction n V _ _ hasConeCharts t2Space)
+  /-- « variété »: connected (DEC-124, both sides of § 2's equivalence). -/
+  connectedSpace : ConnectedSpace V
 
 theorem IsProperConeObject.isConeObject {V : GXCat (GUR n) (RnO n)} (h : IsProperConeObject n V) :
     IsConeObject n V :=
@@ -1061,9 +1069,10 @@ theorem IsProperConeObject.isConeObject {V : GXCat (GUR n) (RnO n)} (h : IsPrope
 $n$ sont les objets d'une catégorie, dont les morphismes sont les applications $f$ … telles que
 $J_1(V_2)\circ f\subset J_1(V_1)$ »): the full subcategory of `GXCat (GUR n) (RnO n)` on
 `IsProperConeObject` (DEC-122: a proper action of `ℝ₊*`, so that wave 4's base functor lands in
-Hausdorff locally projective manifolds); its morphisms are the `(GU(n), ℝⁿ − {O})`-morphisms,
-which are exactly the maps with `J₁(V₂) ∘ f ⊆ J₁(V₁)` (`isGXMorphism_iff_jets`), and they commute
-with the homotheties (`IsGXMorphism.map_posSMul`). -/
+Hausdorff locally projective manifolds; DEC-124: connected, as on the projective side); its
+morphisms are the `(GU(n), ℝⁿ − {O})`-morphisms, which are exactly the maps with
+`J₁(V₂) ∘ f ⊆ J₁(V₁)` (`isGXMorphism_iff_jets`), and they commute with the homotheties
+(`IsGXMorphism.map_posSMul`). -/
 abbrev ConeCat : Type 1 := CategoryTheory.ObjectProperty.FullSubcategory (IsProperConeObject n)
 
 example : CategoryTheory.Category (ConeCat n) := inferInstance

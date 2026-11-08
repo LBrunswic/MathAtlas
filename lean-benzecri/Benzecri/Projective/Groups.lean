@@ -453,7 +453,8 @@ theorem ker_unitPartHom : (unitPartHom E).ker = posHomotheties E := by
   · intro h
     refine ⟨homRatio g, homRatio_pos g, fun v => ?_⟩
     have := LinearEquiv.congr_fun (congrArg Subtype.val h) v
-    simp only [coe_unitPartHom, unitPart_apply, OneMemClass.coe_one, LinearEquiv.coe_one, id_eq] at this
+    simp only [coe_unitPartHom, unitPart_apply, OneMemClass.coe_one, LinearEquiv.coe_one,
+      id_eq] at this
     conv_rhs => rw [← this]
     rw [smul_smul, mul_inv_cancel₀ (homRatio_pos g).ne', one_smul]
   · rintro ⟨c, hc, hg⟩
@@ -559,9 +560,17 @@ theorem GAR.exists_eq_of_isAffine {f : (Fin n → ℝ) → (Fin n → ℝ)} (hf 
   obtain ⟨φ, rfl⟩ := (isAffine_iff ℝ f).1 hf
   exact ⟨AffineEquiv.ofBijective hb, rfl⟩
 
-/-- Every element of `GA(n, ℝ)` acts on `ℝⁿ` by a homeomorphism (it is continuous, as is its
-inverse). -/
+/-- Every element of `GA(n, ℝ)` acts continuously on `ℝⁿ` (so does its inverse,
+`GAR.continuous f.symm`; the homeomorphism is `GAR.toHomeomorph`). -/
 theorem GAR.continuous (f : GAR n) : Continuous f := f.continuous_of_finiteDimensional
+
+/-- Every element of `GA(n, ℝ)` acts on `ℝⁿ` by a homeomorphism. -/
+def GAR.toHomeomorph (f : GAR n) : (Fin n → ℝ) ≃ₜ (Fin n → ℝ) where
+  toEquiv := f.toEquiv
+  continuous_toFun := GAR.continuous f
+  continuous_invFun := GAR.continuous f.symm
+
+@[simp] theorem GAR.coe_toHomeomorph (f : GAR n) : ⇑(GAR.toHomeomorph f) = f := rfl
 
 end Indexing
 

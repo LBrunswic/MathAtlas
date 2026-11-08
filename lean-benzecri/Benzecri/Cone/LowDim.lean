@@ -1,7 +1,7 @@
-import BenzecriScaffold.Cone.Base
+import Benzecri.Cone.Base
 
 /-!
-# `BenzecriScaffold.Cone.LowDim` — in dimension `n ≤ 2` the base of an affine conical manifold is Hausdorff (DEC-122)
+# `Benzecri.Cone.LowDim` — in dimension `n ≤ 2` the base of an affine conical manifold is Hausdorff (DEC-122)
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 1 § 2, journal p. 240; transcription
@@ -15,7 +15,7 @@ criterion of `Cone/Base`.
   the corrected form needs no extra hypothesis. **The `n ≤ 2` theorem**:
   `LowDim.properSMul_of_le_one` — for a Hausdorff affine conical manifold of dimension `n ≤ 2`
   (Lean's base index `n ≤ 1`, `V` charted on `RnO (n + 1)`), the action of `ℝ₊*` is proper — and
-  `LowDim.t2Space_coneBase_of_le_one` — its base `B = V/ℝ⁺` is Hausdorff. It fails for `n = 3`
+  `LowDim.t2Space_coneBase_of_le_one` — its base `B = V/ℝ⁺` is Hausdorff. It fails for every `n ≥ 3`
   (`Cone/Counterexample`).
 
 The proof, dimension by dimension (Mathlib's ultrafilter criterion for properness,
@@ -728,7 +728,8 @@ theorem properSMul_of_le_one {n : ℕ} (hn : n ≤ 1) {V : Type u} [TopologicalS
   · exact properSMul_dim_two
 
 /-- **DEC-122, the `n ≤ 2` theorem: for an affine conical manifold of dimension `n ≤ 2`, `V`
-Hausdorff implies the base `B = V/ℝ⁺` Hausdorff.** False for `n = 3` (`Cone/Counterexample`). -/
+Hausdorff implies the base `B = V/ℝ⁺` Hausdorff.** False for every `n ≥ 3`
+(`Cone/Counterexample`). -/
 theorem t2Space_coneBase_of_le_one {n : ℕ} (hn : n ≤ 1) {V : Type u} [TopologicalSpace V]
     [ChartedSpace (RnO (n + 1)) V] [HasGroupoid V (coneGroupoid (n + 1))]
     [HasConeCharts (n + 1) V] [T2Space V] : T2Space (ConeBase n V) :=

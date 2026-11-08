@@ -68,14 +68,15 @@ is abelian, so nothing is lost). His `MN` is Mathlib's `N -ᵥ M`, named `Benzec
 
 ## SCOPE (disclosed)
 
-* **Reading (Déf. 2, l.149–157, DEC-114).** The printed text says « une application $l'$ », without
-  « linéaire »; the intent is evident from « sur un même corps » (l.150), idle unless `l'` is linear,
-  and from the Exemple's « élément $l'$ du dual » (l.162). Déf. 2 is therefore `IsAffine k`, which is
-  Mathlib's `AffineMap` (`isAffine_iff`). **Remark on the literal reading** (not a finding): with `l'`
-  any map, the identity forces `l'` additive (`IsAffinePrinted.exists_addMonoidHom`) and unique
-  (`IsAffinePrinted.linear_unique`), not `ℝ`-linear: `not_isAffinePrinted_imp_affine` exhibits a
-  `ℚ`-linear, non-`ℝ`-linear `l : ℝ → ℝ`; that witness needs the axiom of choice (every measurable or
-  locally bounded solution is affine), and under continuity the two readings agree
+* **Reading (Déf. 2, l.149–157, DEC-114).** The printed text says « une application $l'$ »,
+  without « linéaire »; the intent is evident from « sur un même corps » (l.150), idle unless `l'`
+  is linear, and from the Exemple's « élément $l'$ du dual » (l.162). Déf. 2 is therefore
+  `IsAffine k`, which is Mathlib's `AffineMap` (`isAffine_iff`). **Remark on the literal reading**
+  (not a finding): with `l'` any map, the identity forces `l'` additive
+  (`IsAffinePrinted.exists_addMonoidHom`) and unique (`map_unique_of_isAffinePrinted`,
+  `IsAffinePrinted.existsUnique`), not `ℝ`-linear: `not_isAffinePrinted_imp_affine` exhibits a
+  `ℚ`-linear, non-`ℝ`-linear `l : ℝ → ℝ`; that witness needs the axiom of choice (every measurable
+  or locally bounded solution is affine), and under continuity the two readings agree
   (`isAffinePrinted_and_continuous_iff`).
 * **Reading (Déf. 1, DEC-114).** An affine space is nonempty: `IsAffineSpace`. The printed
   definition does not exclude `A = ∅` (`IsSimplyTransitive` admits it); Mathlib's `AddTorsor` does.
@@ -211,13 +212,24 @@ literal text admits (`not_isAffinePrinted_imp_affine`); Déf. 2 itself is `IsAff
 def IsAffinePrinted (l : P₁ → P₂) : Prop :=
   ∃ l' : V₁ → V₂, ∀ (M : P₁) (m : V₁), l (m +ᵥ M) = l' m +ᵥ l M
 
-/-- The map `l'` of Déf. 2 is unique: `l'(m) = l(M + m) - l(M)` for any `M`. -/
-theorem IsAffinePrinted.linear_unique {l : P₁ → P₂} {l' l'' : V₁ → V₂}
+/-- The map `l'` of Déf. 2 is unique: `l'(m) = l(M + m) - l(M)` for any `M`. (Renamed from
+`IsAffinePrinted.linear_unique`: it takes the two identities, not an `IsAffinePrinted` hypothesis,
+and under the printed reading `l'` is not linear.) -/
+theorem map_unique_of_isAffinePrinted {l : P₁ → P₂} {l' l'' : V₁ → V₂}
     (h' : ∀ (M : P₁) (m : V₁), l (m +ᵥ M) = l' m +ᵥ l M)
     (h'' : ∀ (M : P₁) (m : V₁), l (m +ᵥ M) = l'' m +ᵥ l M) : l' = l'' := by
   obtain ⟨M⟩ := AddTorsor.nonempty (G := V₁) (P := P₁)
   funext m
   exact vadd_right_cancel (l M) ((h' M m).symm.trans (h'' M m))
+
+@[deprecated (since := "2026-11-08")] alias IsAffinePrinted.linear_unique :=
+  map_unique_of_isAffinePrinted
+
+/-- Under the printed Déf. 2, the map `l'` exists and is unique. -/
+theorem IsAffinePrinted.existsUnique {l : P₁ → P₂} (hl : IsAffinePrinted V₁ V₂ l) :
+    ∃! l' : V₁ → V₂, ∀ (M : P₁) (m : V₁), l (m +ᵥ M) = l' m +ᵥ l M := by
+  obtain ⟨l', h⟩ := hl
+  exact ⟨l', h, fun l'' h'' => map_unique_of_isAffinePrinted h'' h⟩
 
 /-- The map `l'` of the printed Déf. 2 is automatically **additive**. -/
 theorem additive_of_isAffinePrinted {l : P₁ → P₂} {l' : V₁ → V₂}

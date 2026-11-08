@@ -7,8 +7,9 @@ import Mathlib.Topology.Algebra.ConstMulAction
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332. Package WP-45c (wave 1, layer L0). No ledger label is certified here: this module
 is the infrastructure (plan `campaign/WP-45-plan/CH1-PLAN.md`, F2) through which the paper's
-locally projective (resp. affine) manifolds of Déf. 12 (`bzdef:c1s1d12_variete_localement_projective`,
-`benzecri1960_ch1.tex:304`, p. 236) and the compatible charts of Déf. 13
+locally projective (resp. affine) manifolds of Déf. 12
+(`bzdef:c1s1d12_variete_localement_projective`, `benzecri1960_ch1.tex:304`, p. 236) and the
+compatible charts of Déf. 13
 (`bzdef:c1s1d13_carte_compatible`, `benzecri1960_ch1.tex:331`, p. 237) will be defined, as a
 `ChartedSpace X V` with `HasGroupoid V (gxGroupoid G X)` for `(G, X) = (GS(n, ℝ), S(n))` (resp.
 `(GA(n, ℝ), ℝⁿ)`). Neither label is marked or even cited as certified: that is wave 2's
@@ -23,8 +24,9 @@ charts of a connected open set differ by a unique element of the group) needs of
 **Ported, not imported (DEC-112).** Everything here is a minimal local copy of
 `lean-gx/GX/Structure/Basic.lean` at lean-gx commit `4a577c5`:
 `GX.IsRigidAction` (l.113), `GX.IsAnalyticAction` (l.118), `GX.eq_of_eqOn` (l.132),
-`GX.IsAnalyticAction.of_eq_of_eqOn` (l.138), `GX.isAnalyticAction_iff` (l.145), `GX.gxPregroupoid` (l.162), `GX.gxGroupoid` (l.189),
-`GX.mem_gxGroupoid_iff` (l.191), `GX.exists_smul_eq_of_mem_gxGroupoid` (l.199),
+`GX.IsAnalyticAction.of_eq_of_eqOn` (l.138), `GX.isAnalyticAction_iff` (l.145),
+`GX.gxPregroupoid` (l.162), `GX.gxGroupoid` (l.189), `GX.mem_gxGroupoid_iff` (l.191),
+`GX.exists_smul_eq_of_mem_gxGroupoid` (l.199),
 `GX.eventually_smul_eq_of_mem_gxGroupoid` (l.220), `GX.symm_trans_mem_gxGroupoid` (l.228),
 `GX.symm_trans_mem_gxGroupoid_iff` (l.254), `GX.closedUnderRestriction_gxGroupoid` (l.264) —
 themselves ported from `lean-causal/Causal/GXStructure.lean`. The definitions are verbatim, so the
@@ -33,8 +35,11 @@ later bridge `Benzecri.gxGroupoid G X = GX.gxGroupoid G X` is `rfl`. New here:
 (monotonicity in an open `X' ⊆ X`: along an open embedding `ι : X' → X` equivariant through
 `φ : G' →* G`, an element of `gxGroupoid G' X'` transports into `gxGroupoid G X` — the groupoid-map
 form of plan F2's item, needed by `bzrem:c1s1r1_affine_vers_projective`),
-`Benzecri.isRigidAction_iff_eqOn_id` (the one-element form of rigidity), `Benzecri.IsRigidAction.of_comp`
-(rigidity of an action through a hom).
+`Benzecri.isRigidAction_iff_eqOn_id` (the one-element form of rigidity),
+`Benzecri.IsRigidAction.of_comp` (rigidity of an action through a hom),
+`Benzecri.gxGroupoid_subgroup_le` (monotonicity in `G` for a subgroup) and
+`Benzecri.smul_mem_gxGroupoid` (every element of `G`, as a homeomorphism of `X`, is in
+`gxGroupoid G X`).
 
 ## Hypothesis checklist
 
@@ -269,7 +274,8 @@ theorem gxGroupoid_mono {G' : Type w'} [Group G'] [MulAction G' X] [ContinuousCo
     exact ⟨g', hg.trans (Eventually.of_forall fun y => hg' y)⟩
 
 /-- Monotonicity in `G` for a subgroup. -/
-theorem gxGroupoid_subgroup_le (H : Subgroup G) [ContinuousConstSMul H X] : gxGroupoid H X ≤ gxGroupoid G X :=
+theorem gxGroupoid_subgroup_le (H : Subgroup G) [ContinuousConstSMul H X] :
+    gxGroupoid H X ≤ gxGroupoid G X :=
   gxGroupoid_mono fun g => ⟨g, fun _ => rfl⟩
 
 /-- **Monotonicity in an open `X' ⊆ X`** (plan F2): let `ι : X' → X` be an open embedding (e.g.

@@ -27,21 +27,26 @@
       "hypotheses": [
         {
           "paper": "cet espace fibré est topologiquement trivial",
-          "here": "added (ruled, DEC-122)",
-          "note": "the action of ℝ₊* is proper (equivalently B Hausdorff); V second countable (« variété », plan F6); then B is Hausdorff, locally compact, second countable, hence paracompact, and the homogeneous norm gives V ≃ₜ B × ℝ₊* equivariantly over B"
+          "here": "carried (ruled, DEC-122)",
+          "note": "not printed; the action of ℝ₊* is proper (equivalently B Hausdorff); V second countable (« variété », plan F6); then B is Hausdorff, locally compact, second countable, hence paracompact, and the homogeneous norm gives V ≃ₜ B × ℝ₊* equivariantly over B"
         },
         {
           "paper": "V un cône affin (variété)",
-          "here": "reading (kept by DEC-122)",
+          "here": "reading (plan F6, « variété »; presupposed by DEC-122)",
           "note": "[T2Space V], [SecondCountableTopology V]"
         }
       ],
       "sorries": [],
       "findings": [
-        "DEC-122 FINDING: « cet espace fibré est topologiquement trivial » (l.532–535) is false without properness: the counterexample V of Cone/Counterexample (n = 3) is homeomorphic to B × ℝ₊* by no homeomorphism (Benzecri.ConeCex.isEmpty_homeomorph, Benzecri.ConeCex.not_def3TrivialAsPrinted). Any homeomorphism V ≃ₜ B × ℝ₊* forces B Hausdorff (ConeBase.t2Space_of_homeomorph)."
+        "DEC-122 FINDING: « cet espace fibré est topologiquement trivial » (l.532–535) is false without properness, in every Benzécri dimension n ≥ 3 (DEC-124): the counterexample V of Cone/Counterexample is homeomorphic to B × ℝ₊* by no homeomorphism (Benzecri.ConeCex.isEmpty_homeomorph_dim, Benzecri.ConeCex.not_def3TrivialAsPrinted_dim; n = 3: Benzecri.ConeCex.isEmpty_homeomorph, Benzecri.ConeCex.not_def3TrivialAsPrinted). Any homeomorphism V ≃ₜ B × ℝ₊* forces B Hausdorff (ConeBase.t2Space_of_homeomorph)."
       ],
       "questions": [],
-      "correction": "DEC-122: closed for the corrected statement (the action of ℝ₊* is proper), finding recorded. Formalization of record for « topologiquement trivial »: Benzecri.ConeBase.exists_trivialization_of_properSMul; the rest of Déf. 3 in Cone/Basic and Cone/Base."
+      "correction": "DEC-124: MARKED in its corrected form (DEC-122's correction: the action of ℝ₊* is proper), finding recorded. The formalization of record for « topologiquement trivial » is Benzecri.ConeBase.exists_trivialization_of_properSMul; the rest of Déf. 3 in Cone/Basic and Cone/Base; the printed form stays refuted (Benzecri.ConeCex.not_def3TrivialAsPrinted_dim) as the paper finding.",
+      "paper_findings": [
+        "Benzecri.ConeCex.not_def3TrivialAsPrinted_dim",
+        "Benzecri.ConeCex.not_def3TrivialAsPrinted",
+        "Benzecri.ConeCex.isEmpty_homeomorph_dim"
+      ]
     }
   ],
   "extra_decls": [
@@ -63,30 +68,62 @@
     ],
     "label": null,
     "statement": "« si V est supposé para-compact, on peut donc construire une section de V au-dessus de B »",
-    "status": "closed in corrected form (DEC-122), finding recorded",
+    "status": "closed in corrected form (DEC-124; correction DEC-122), finding recorded",
     "decls": [
       "Benzecri.ConeBase.exists_section_of_properSMul",
       "Benzecri.ConeBase.exists_section_iff_properSMul",
       "Benzecri.ConeBase.exists_section",
       "Benzecri.ConeBase.exists_section_of_secondCountable"
     ],
-    "finding": "DEC-122 FINDING: the inference is false — the counterexample V (Cone/Counterexample) is Hausdorff, second countable, connected and paracompact, and V → B has no continuous section (Benzecri.ConeCex.not_exists_section, Benzecri.ConeCex.not_p241SectionAsPrinted): the cited theorem needs the base normal, which paracompactness of V does not give. Corrected form: V second countable with a proper ℝ₊*-action (exists_section_of_properSMul); for V second countable, a section exists ⇔ B Hausdorff ⇔ the action is proper (exists_section_iff_properSMul, t2Space_iff_properSMul).",
-    "reading": "« V para-compact » replaced by V second countable (« variété », plan F6) plus the ruled properness; the cited general theorem on bundles with contractible fibre is bypassed by a homogeneous norm glued with a partition of unity (plan's route)."
+    "finding": "DEC-122 FINDING: the inference is false in every Benzécri dimension n ≥ 3 (DEC-124) — the counterexample V (Cone/Counterexample) is Hausdorff, second countable, connected and paracompact, and V → B has no continuous section (Benzecri.ConeCex.not_exists_section_dim, Benzecri.ConeCex.not_p241SectionAsPrinted_dim; n = 3: Benzecri.ConeCex.not_exists_section, Benzecri.ConeCex.not_p241SectionAsPrinted): the cited theorem needs the base normal, which paracompactness of V does not give. Corrected form, the formalization of record: V second countable with a proper ℝ₊*-action (exists_section_of_properSMul); for V second countable, a section exists ⇔ B Hausdorff ⇔ the action is proper (exists_section_iff_properSMul, t2Space_iff_properSMul).",
+    "reading": "« V para-compact » replaced by V second countable (« variété », plan F6) plus the properness ruled by DEC-122 (carried); the cited general theorem on bundles with contractible fibre is bypassed by a homogeneous norm glued with a partition of unity (plan's route).",
+    "paper_findings": [
+      "Benzecri.ConeCex.not_p241SectionAsPrinted_dim",
+      "Benzecri.ConeCex.not_p241SectionAsPrinted",
+      "Benzecri.ConeCex.not_exists_section_dim"
+    ]
   },
   "upstream_moves": [],
   "kb_proposals": [
     "A homogeneous norm N(λm) = λN(m) is a finsum Σ φ_x(p(m))·‖f_x(m)‖ over a partition of unity of the base; the term is continuous on all of V because p⁻¹(tsupport φ_x) ⊆ f_x.source (saturation), and mul_finsum needs no finiteness."
   ],
-  "notes": "Import: `import BenzecriScaffold.Cone.Section` (unchanged). Déf. 3 (bzdef:c1s2d3_homotheties_positives) is MARKED in this file: closed in its corrected form (DEC-122), finding recorded; its proof spans Cone/Basic (action, independence for V Hausdorff, freeness, continuity, affine-not-conical), Cone/Base (principal bundle) and this file (triviality under properness). The p. 241 prose is closed in corrected form. Wave 4/§ 3 hooks: exists_trivialization_of_properSMul, sectionOfNorm.",
+  "notes": "Import: `import BenzecriScaffold.Cone.Section` (unchanged). Déf. 3 (bzdef:c1s2d3_homotheties_positives) is MARKED in this file in its corrected form (DEC-124; correction DEC-122), the formalization of record, finding recorded; its proof spans Cone/Basic (action, independence for V Hausdorff, freeness, continuity, affine-not-conical), Cone/Base (principal bundle) and this file (triviality under properness). The p. 241 prose is closed in the same corrected form (DEC-124). Wave 4/§ 3 hooks: exists_trivialization_of_properSMul, sectionOfNorm.",
   "fix_round": {
     "audit": "WP-45o/AUDIT-1.json (verdict clean; one minor, one nit) and DEC-122",
     "fixed": [
       "minor (the reading is a finding): recorded under labels[0].findings and prose.finding (DEC-122); SCOPE bullet 3 answers the former open question. Déf. 3 is closed in its corrected form and MARKED here (this file completes it); the p. 241 prose is closed in corrected form.",
-      "nit (paracompact variant exists_section_of_paracompact with [ParacompactSpace V] [ConnectedSpace V]): NOT done — Mathlib has no « connected + paracompact + locally compact ⇒ σ-compact » at this pin; recorded in SCOPE. The corrected form uses V second countable, which DEC-122 item 4 allows (« V paracompact (or second countable) »).",
+      "nit (paracompact variant exists_section_of_paracompact with [ParacompactSpace V] [ConnectedSpace V]): NOT done — Mathlib has no « connected + paracompact + locally compact ⇒ σ-compact » at this pin; recorded in SCOPE. The corrected form uses V second countable, part of « variété » (plan F6).",
       "added: exists_section_of_properSMul, exists_trivialization_of_properSMul, exists_section_iff_properSMul, t2Space_of_homeomorph.",
       "ConeBase.secondCountableTopology moved to Cone/Base (same name)."
     ],
     "statements_changed": "none (additions; one theorem moved)",
     "build": "lake build BenzecriScaffold.Cone.Section OK; lake env lean -DwarningAsError=true clean; 0 sorry; every constant: [propext, Classical.choice, Quot.sound]"
+  },
+  "findings_triage": [
+    {
+      "label": "bzdef:c1s2d3_homotheties_positives",
+      "kind": "sentence",
+      "one_line": "Déf. 3's « cet espace fibré est topologiquement trivial » is false as printed for every n ≥ 3 (ConeCex.not_def3TrivialAsPrinted_dim: V ≅ B × ℝ₊* by no homeomorphism); the corrected form (the ℝ₊* action proper, DEC-122) is the formalization of record (DEC-124), marked"
+    },
+    {
+      "label": null,
+      "tex_lines": [
+        549,
+        552
+      ],
+      "kind": "sentence",
+      "one_line": "p. 241: « V para-compact ⇒ a section of V → B » is false for every n ≥ 3 (ConeCex.not_p241SectionAsPrinted_dim); closed in the corrected form (V second countable, the ℝ₊* action proper; DEC-122, DEC-124)"
+    }
+  ],
+  "pregraduation_2026-11-08": {
+    "audit": "WP-45o/AUDIT-2.json (clean; one minor, two nits) and DEC-124",
+    "fixed": [
+      "minor (the word MARKED): DEC-124 « Yes, MARKED corrected » — Déf. 3 MARKED in its corrected form, the p. 241 prose closed in the same corrected form; module docstring, labels[0].correction, prose.status say so; paper_findings and findings_triage added.",
+      "nit (a numbered-item citation of DEC-122 for second countability): DEC-122 has no numbered items; fix_round.fixed[1] and the SCOPE cite plan F6 (« variété » second countable).",
+      "nit (kb/0022): hypotheses[0].here = « carried (ruled, DEC-122) », the docstring row « carried (ruled, DEC-122: not printed) »; hypotheses[1] cites plan F6 (presupposed by DEC-122).",
+      "the findings are stated for every n ≥ 3 (Cone/Counterexample generalised, DEC-124)."
+    ],
+    "statements_changed": "none (docstrings only)",
+    "build": "lake build BenzecriScaffold.Cone.Section OK; 0 sorry"
   }
 }

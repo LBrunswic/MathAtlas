@@ -34,7 +34,10 @@
         "Benzecri.IsJetStructure",
         "Benzecri.exists_hasGroupoid_jets_eq_iff",
         "Benzecri.maximalAtlas_eq_of_jets_eq",
-        "Benzecri.isJetStructure_jets"
+        "Benzecri.isJetStructure_jets",
+        "Benzecri.jetSheet",
+        "Benzecri.isLocalHomeomorph_jetSource",
+        "Benzecri.surjective_jetSource"
       ],
       "hypotheses": [
         {
@@ -87,5 +90,16 @@
     "IsCoveringMap at this pin is ∀ x, IsEvenlyCovered f x (f ⁻¹' {x}); build it with IsCoveringMap.mk _ (fun _ => G) trivialisations (fibre G with ⊥ topology introduced by letI inside the proof); Trivialization is Bundle.Trivialization (open Bundle).",
     "Variables made explicit with `variable (G X M) in` keep their DECLARATION order (M X G here), not the order written in the `variable` command."
   ],
-  "notes": "New module (DEC-120 item 3), 327 lines, imports BenzecriScaffold.Structure.Basic and Mathlib.Topology.Covering.Basic. The root BenzecriScaffold.lean is NOT wired (main session): add `import BenzecriScaffold.Structure.Jets`. Prop. 2 (developing map, wave 3) can use isCoveringMap_jets and continuous_jet directly."
+  "notes": "New module (DEC-120: « Déf. 12 is to be certified by building the étalé topology on the jet space J(V) and proving J(V) → V a covering map »), imports Structure.Basic and Mathlib.Topology.Covering.Basic. Graduated to Benzecri/Structure/Jets.lean and wired in the root (Benzecri.lean: `import Benzecri.Structure.Jets`). Prop. 2 (developing map, wave 3) uses isCoveringMap_jets and continuous_jet directly.",
+  "pregraduation_2026-11-08": {
+    "audit": "WP-45j/AUDIT-1.json (clean; five nits)",
+    "fixed": [
+      "nit 1: isOpen_iff_isEtaleOpen drops its unused [TopologicalSpace X]; continuous_jetSource no longer manufactures `letI : TopologicalSpace X := ⊥`.",
+      "nit 2: SCOPE sentence: Jet is reducible to a Sigma; never put a topology on Filter.Germ in this package, and always `open scoped Benzecri` before talking about the topology of jets. (Jet stays an abbrev: making it a def would touch every file.)",
+      "nit 3: surjective_jetSource : Function.Surjective fun j : jets G X M => j.1.1 (1°), and the checklist row « covering = IsCoveringMap (Mathlib, possibly empty fibres) + surjective (1°) ».",
+      "nit 4: the SCOPE's local-homeomorphism claim is now PROVED: jetSheet f (the source projection on the basic open {jet y f}, an OpenPartialHomeomorph onto M) and isLocalHomeomorph_jetSource : IsLocalHomeomorph fun j : Jet M X => j.1; the covering claim for all germs is no longer made.",
+      "nit 5: the stale « root NOT wired » note replaced; the numbered-item citation of DEC-120 replaced by a quotation of DEC-120."
+    ],
+    "statements_changed": "isOpen_iff_isEtaleOpen loses an unused instance binder (weaker hypotheses); additions only otherwise"
+  }
 }

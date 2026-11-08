@@ -122,10 +122,13 @@ an open embedding of models (`hasGroupoid_transport`, deferred from wave 1) and 
   outside its source.
 * The jets `J(V)`, Déf. 13 and Prop. 1 are stated with `[HasGroupoid]` for an arbitrary `(G, X)`.
 * `affineEquivApplyMulAction` (the action of `P ≃ᵃ[k] P` on `P`) and its `FaithfulSMul` are SCOPED
-  instances of `namespace Benzecri` (active in every file of the package, which all open it; outside,
-  `open scoped Benzecri`), exactly as lean-gx scopes the identical action
-  (`GX.affineEquivMulAction`, `lean-gx/GX/Singular/Quotient.lean:2420`, `open scoped GX`); recorded in
-  REPORT `upstream_moves` for `Projective/Groups`.
+  instances of `namespace Benzecri` (active in every file of the package, which all open it;
+  outside, `open scoped Benzecri`), and so are the two instances about it on `GA(n, ℝ)`
+  (`instContinuousConstSMulGAR`, `instIsAnalyticActionGAR`; not dotted names, which would scope
+  them to `Benzecri.GAR`), so that no global instance is keyed on a scoped action; exactly as
+  lean-gx scopes the identical action (`GX.affineEquivMulAction`,
+  `lean-gx/GX/Singular/Quotient.lean:2420`, `open scoped GX`); recorded in REPORT `upstream_moves`
+  for `Projective/Groups`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -162,8 +165,10 @@ end AffineAction
 
 variable {n : ℕ}
 
-/-- `GA(n, ℝ)` acts on `ℝⁿ` by homeomorphisms. -/
-instance : ContinuousConstSMul (GAR n) (Fin n → ℝ) := ⟨fun f => GAR.continuous f⟩
+/-- `GA(n, ℝ)` acts on `ℝⁿ` by homeomorphisms. Scoped, as the action it is about
+(`affineEquivApplyMulAction`). -/
+scoped instance instContinuousConstSMulGAR : ContinuousConstSMul (GAR n) (Fin n → ℝ) :=
+  ⟨fun f => GAR.continuous f⟩
 
 /-- **Rigidity of `GA(n, ℝ)`**: an affine map of `ℝⁿ` fixing every point of a nonempty open set
 is the identity. -/
@@ -192,8 +197,9 @@ theorem GAR.eq_one_of_eqOn {f : GAR n} {U : Set (Fin n → ℝ)} (hU : IsOpen U)
   rw [hlin, vadd_eq_add, vadd_eq_add, sub_add_cancel, h0, sub_add_cancel] at this
   exact this
 
-/-- `GA(n, ℝ)` acts analytically (faithfully and rigidly) on `ℝⁿ`. -/
-instance : IsAnalyticAction (GAR n) (Fin n → ℝ) where
+/-- `GA(n, ℝ)` acts analytically (faithfully and rigidly) on `ℝⁿ`. Scoped, as the action it is
+about (`affineEquivApplyMulAction`). -/
+scoped instance instIsAnalyticActionGAR : IsAnalyticAction (GAR n) (Fin n → ℝ) where
   toFaithfulSMul := inferInstance
   smul_eq_of_eqOn {f g U} hU hne heq p := by
     have : g⁻¹ * f = 1 := GAR.eq_one_of_eqOn hU hne fun x hx => by
@@ -438,7 +444,8 @@ theorem eq_one_of_jetSMul_eq [IsAnalyticAction G X] {j : Jet M X} (hj : j ∈ je
 /-- **Local triviality of `J(V) → V`, set-theoretically**: over the source of a maximal-atlas chart
 `e`, the jets of `J(V)` at `y` are exactly the `g • jet y e`, each for a unique `g` (analytic
 action). With `G` discrete this is the trivialisation `π⁻¹(U) ≃ U × G` of the covering of Déf. 12
-(the topology of `J(V)` itself is not built, SCOPE). -/
+(the topology is the étalé one of `Structure/Jets`; this is the set-level form of
+`jetsTrivialization`). -/
 theorem mem_jets_iff_existsUnique [IsAnalyticAction G X] {e : OpenPartialHomeomorph M X}
     (he : e ∈ (gxGroupoid G X).maximalAtlas M) {y : M} (hy : y ∈ e.source)
     (γ : Germ (𝓝 y) X) :
@@ -1033,7 +1040,7 @@ def cxA : Set (Fin 1 → ℝ) := {y | y 0 < 1}
 def cxB : Set (Fin 1 → ℝ) := {y | 2 < y 0}
 
 /-- The translation vector `10`. -/
-def cxv : Fin 1 → ℝ := fun _ => 10
+def cxv : Fin 1 → ℝ := Function.const _ 10
 
 theorem isOpen_cxA : IsOpen cxA := isOpen_lt (continuous_apply 0) continuous_const
 
