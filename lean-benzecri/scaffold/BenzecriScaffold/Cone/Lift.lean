@@ -13,9 +13,10 @@ Package WP-45r (wave 4). Indexing: the base `B` has dimension `n` (model `S n = 
 `GUR (n + 1)`), i.e. Benzécri's `n − 1` and `n`.
 
 * `bzthm:c1s2_isomorphisme_fonctoriel` — `benzecri1960_ch1.tex:554` (Énoncé, l.554–558, p. 241;
-  proof l.560–649, pp. 241–242). NOT MARKED here: this file is the construction of the proof (the
-  functor `F` on objects and on morphisms); the equivalence, its status and its finding are in
-  `Cone/Functor` (WP-45r). What this file proves, sentence by sentence of the proof:
+  proof l.560–649, pp. 241–242). Not marked here: the label is MARKED in `Cone/Functor`, in its
+  corrected form (DEC-127), where the equivalence, its status and its finding are; this file is the
+  construction of the proof (the functor `F` on objects and on morphisms). What this file proves,
+  sentence by sentence of the proof:
   - « Désignons par $FJ(B)$ l'ensemble des couples $(j, m)$ … muni de la topologie induite par
     celle du produit $J(B)\times\R^n$ » (l.564–568): `Benzecri.FJ`, a subtype of
     `jets (GSR n) (S n) B × RnO (n + 1)`, the jets carrying the étalé topology of `Structure/Jets`.
@@ -34,18 +35,35 @@ Package WP-45r (wave 4). Indexing: the base `B` has dimension `n` (model `S n = 
     transformation de $GU(n, \R)$ » (l.618–626): `coneChart_eventually_eq`; hence `F(B)` is an
     affine conical manifold (`FCone.chartedSpace`, `FCone.hasGroupoid`, `FCone.hasConeCharts`).
   - « $\lambda(j, m)=(j, \lambda m)$ » and « espace fibré principal de base $B$ et de groupe
-    structural $\R^+$ » (l.579–590): Déf. 3's action on `F(B)` is `posSMul_mk`, and the fibres of `π`
-    are the `ℝ₊*`-orbits (`exists_posSMul_eq_of_proj_eq`).
+    structural $\R^+$ » (l.579–590): Déf. 3's action on `F(B)` is `posSMul_mk`; the fibres of `π`
+    are the `ℝ₊*`-orbits (`exists_posSMul_eq_of_proj_eq`); the action is free (`Cone/Basic`'s
+    `eq_one_of_posSMul_eq`, `F(B)` being Hausdorff with cone charts) and `F(B) → F(B)/ℝ₊*` is locally
+    trivial, equivariantly, over every base chart (`Cone/Base`'s `ConeBase.coneTrivialization`,
+    `ConeBase.exists_coneTrivialization`); and its base `F(B)/ℝ₊*` is `B` (`baseProj`, a bijection
+    here, an isomorphism of locally projective manifolds in `Cone/Functor`'s `counitApp`).
   - DEC-124's object conditions: `F(B)` is Hausdorff (`FCone.t2Space`), connected
     (`FCone.connectedSpace`), its `ℝ₊*`-action is proper (`FCone.properSMul`), and second countable
     when `B` is (`FCone.secondCountableTopology`); its base injects into `B`
     (`baseProj`, `baseProj_injective`, `baseProj_surjective`).
   - « Soient $(j_1, m)$ dans $FJ(B_1)$ … on peut trouver un jet et un seul $j_2$ de $J(B_2)$ tel que
-    $\varphi\circ j_2=j_1$. Nous poserons $\varphi'(j_1, m)=(j_2, m)$ » (l.639–643): `pushJet`,
-    characterised by `pushJet_eq` (« et un seul »: the fibres of `J(B₁)` are free orbits,
-    `eq_of_jetSMul_eq`); `FCone.map` is `F(φ)` (« compatible avec la relation ℛ »), a morphism of
-    affine conical manifolds (`isGXMorphism_map`; in cone charts it reads as `i(g)` where `φ` reads
-    as `g`, `map_eventually_eq_of_mem`), functorially (`map_id`, `map_comp`).
+    $\varphi\circ j_2=j_1$. Nous poserons $\varphi'(j_1, m)=(j_2, m)$ » (l.639–643; the printed
+    « $\varphi\circ j_2=j_1$ » is a misprint for `j₂ ∘ φ = j₁`, flagged `[sic]`, DEC-127): composition
+    of jets `JetCompEq` (`j₂ ∘ φ = j₁`, independent of representatives, `JetCompEq.jet_comp`), « un
+    jet et un seul » `existsUnique_pushJet` (the `j₂` is `pushJet`, characterised by `pushJet_eq`;
+    uniqueness: the fibres of `J(B₁)` are free orbits, `eq_of_jetSMul_eq`); `φ'` is `pushFJ`;
+    `FCone.map` is `F(φ)` (« compatible avec la relation ℛ », `map_q`), a morphism of affine conical
+    manifolds (`isGXMorphism_map`; in cone charts it reads as `i(g)` where `φ` reads as `g`,
+    `map_eventually_eq_of_eventually_eq`, `map_eventually_eq_of_mem`), functorially (`map_id`,
+    `map_comp`).
+  - « $FJ(B)$ s'identifiera avec $J_1(F(B))$ » (l.568) / « on peut trouver une carte compatible et
+    une seule d'un voisinage convenable de $p$ qui soit composée d'un relèvement de ce voisinage sur
+    un voisinage de $(j, m)$ et de la projection … $FJ(B)$ s'identifie donc avec l'espace des jets de
+    cartes compatibles de $F(B)$ » (l.598–604): `FCone.fjJetHomeomorph : FJ n B ≃ₜ J₁(F(B))`
+    (`jets (GUR (n + 1)) (RnO (n + 1)) (FCone n B)`, étalé topology), `(j, m) ↦` the jet at `[(j, m)]`
+    of the compatible chart through `(j, m)` (`fjJet`, chart-independent: `fjJet_eq`); it lies over
+    `q` (`fjJet_fst`), has value `m` (`value_fjJet`), carries ℛ to `GU(n+1, ℝ)` acting through `i`
+    (`fjJet_smul`), and is natural in `B`: under it `φ'` is composition with `F(φ)`, « $J_1(F(B_2))
+    \circ F(\varphi)\subset J_1(F(B_1))$ » (l.635, `jetCompEq_fjJet_pushFJ`).
 
 > **Énoncé.** Nous nous proposons de montrer que la correspondance établie entre une variété conique
 > affine et sa base, définit un isomorphisme fonctoriel entre la catégorie des variétés coniques
@@ -64,7 +82,11 @@ Package WP-45r (wave 4). Indexing: the base `B` has dimension `n` (model `S n = 
 > $\lambda(j, m)=(j, \lambda m)$ […]. Le quotient $F(B)$ de $FJ(B)$ par ℛ est un espace fibré
 > principal de base $B$ et de groupe structural $\R^+$. […] On appellera carte compatible d'un
 > ouvert $u$ de $F(B)$ dans $\R^n-\{O\}$ une application composée d'un relèvement de $u$ dans
-> $FJ(B)$ et de la projection $(j, m)\to m$ de $FJ(B)$ sur $\R^n-\{O\}$. […] De plus, deux cartes
+> $FJ(B)$ et de la projection $(j, m)\to m$ de $FJ(B)$ sur $\R^n-\{O\}$. Étant donnés $(j, m)$ dans
+> $FJ(B)$, $p$ le projeté de $(j, m)$ dans $F(B)=FJ(B)/ℛ$, on peut trouver une carte compatible et
+> une seule d'un voisinage convenable de $p$ qui soit composée d'un relèvement de ce voisinage sur un
+> voisnage de $(j, m)$ et de la projection sur $\R^n-\{O\}$. $FJ(B)$ s'identifie donc avec l'espace
+> des jets de cartes compatibles de $F(B)$. […] De plus, deux cartes
 > compatibles d'un même ouvert de $F(B)$ diffèrent l'une de l'autre par une transformation de
 > $GU(n, \R)$. […] Soit $\varphi$ un morphisme de variété projective de source $B_1$, de but
 > $B_2$. […] Soient $(j_1, m)$ dans $FJ(B_1)$, $s_1$ la source de $j_1$ dans $B_1$, on peut trouver
@@ -91,14 +113,19 @@ Package WP-45r (wave 4). Indexing: the base `B` has dimension `n` (model `S n = 
   `g ∈ GS(n, ℝ)` is the orbit relation of `g • (j, m) = (g ∘ j, i(g) m)`; this is the associated
   bundle `J(B) ×_{GS} (ℝⁿ⁺¹ − {O})` cut down to the pairs with `s(m) = j(source)` (the condition is
   `GS`-invariant: `toSphere_isoGUR_smul`). Formalized as printed, through Mathlib's orbit quotient.
-* **Jets as germs.** A jet is a pair (point, germ) (`Benzecri.Jet`, plan F3); « $\varphi\circ j_2$ »
-  is read as the jet of `f₂ ∘ φ` for `j₂ = jet_{φ(y)} f₂` (Benzécri composes left to right here, as
-  in « $J(V_2)\circ f$ », p. 238).
-* **Not formalized here**: « $FJ(B)$ s'identifiera avec $J_1(F(B))$ » / « $FJ(B)$ s'identifie donc
-  avec l'espace des jets de cartes compatibles de $F(B)$ » (l.568, l.604), a remark inside the
-  proof, not part of the Énoncé; the cone charts used here are exactly the « cartes compatibles »
-  that sentence describes, and `ConeBase.unitMap` (`Cone/Functor`) is its global form for
-  `B = V/ℝ₊*`.
+* **Jets as germs; l.640 is a misprint of order (DEC-127).** A jet is a pair (point, germ)
+  (`Benzecri.Jet`, plan F3). The printed « $\varphi\circ j_2=j_1$ » (l.640, p. 242, confirmed on the
+  scan) is a misprint for `j₂ ∘ φ = j₁`, flagged `[sic]` in the transcription: with `φ : B₁ → B₂` and
+  `j₂` a jet of `B₂` into `S(n−1)` no other composite is well typed, and every other composition of
+  Ch. 1 is written right to left — `φ₁ = g∘φ₂` (l.345), `f_i = g_ij∘f_j` (l.375), « $J(V_2)\circ f$ »
+  (p. 238, l.393: the jets `j ∘ f`), `j = g∘j₁` (l.574, l.623), « $J_1(F(B_2))\circ F(\varphi)$ »
+  (l.635). By CAMPAIGN.md's rule it is formalized in its evident reading, not as a finding:
+  `JetCompEq φ j₂ j₁` is `j₂ = jet_{φ(y)} f`, `j₁ = jet_y (f ∘ φ)`.
+* **« s'identifie »** (l.568, l.604) is formalized as a homeomorphism, the strongest form the
+  sentences support (`FJ(B)` carries « la topologie induite », `J₁(F(B))` the étalé topology of
+  Déf. 12), with its compatibilities (source, value, ℛ, naturality in `B`); it is in-proof material
+  with no label of its own, recorded under the Énoncé's row. `ConeBase.unitMap` (`Cone/Functor`) is
+  its global counterpart for `B = V/ℝ₊*` (`V ≅ F(V/ℝ₊*)`).
 * `t2Space_RnO` (`ℝᵏ − {O}` Hausdorff) is a LOCAL instance of this file and of `Cone/Functor`.
 * Generic jet lemmas proved here for an arbitrary `(G, X)` (they belong upstream, REPORT
   `upstream_moves`): `jetSMul_one`, `jetSMul_mul`, `value_jetSMul`, `continuous_jetSMul`,
@@ -833,6 +860,32 @@ end FCone
 
 /-! ### `F(φ)`: the image of a morphism -/
 
+section JetComp
+
+variable {M₁ : Type u} [TopologicalSpace M₁] {M₂ : Type v} [TopologicalSpace M₂] {X : Type w}
+
+/-- **`j₂ ∘ φ = j₁` for jets** (§ 2, p. 242, the printed « $\varphi\circ j_2=j_1$ », l.640, a misprint
+of order flagged `[sic]`, read `j₂ ∘ φ = j₁`, DEC-127): `j₂` is the jet at `φ(y)` of a map `f` and
+`j₁` the jet at `y` of `f ∘ φ`, `y` the source of `j₁`. For `φ` continuous at `y` the composite does
+not depend on the map `f` representing `j₂` (`JetCompEq.jet_comp`). -/
+def JetCompEq (φ : M₁ → M₂) (j₂ : Jet M₂ X) (j₁ : Jet M₁ X) : Prop :=
+  ∃ f : M₂ → X, j₂ = jet (φ j₁.1) f ∧ j₁ = jet j₁.1 (f ∘ φ)
+
+/-- The jet at `y` of `f ∘ φ` depends only on the jet of `f` at `φ(y)`. -/
+theorem jet_comp_congr {φ : M₁ → M₂} {y : M₁} (hφ : ContinuousAt φ y) {f f' : M₂ → X}
+    (h : jet (φ y) f = jet (φ y) f') : jet y (f ∘ φ) = jet y (f' ∘ φ) :=
+  jet_eq_jet_iff.2 ((jet_eq_jet_iff.1 h).comp_tendsto hφ)
+
+/-- **`j₂ ∘ φ = j₁` does not depend on the representative of `j₂`**: if `j₂ ∘ φ = j₁`, every map `f`
+with `jet_{φ(y)} f = j₂` has `jet_y (f ∘ φ) = j₁`. -/
+theorem JetCompEq.jet_comp {φ : M₁ → M₂} {j₂ : Jet M₂ X} {j₁ : Jet M₁ X} (h : JetCompEq φ j₂ j₁)
+    (hφ : ContinuousAt φ j₁.1) {f : M₂ → X} (hf : j₂ = jet (φ j₁.1) f) :
+    j₁ = jet j₁.1 (f ∘ φ) := by
+  obtain ⟨f₀, h₀, h₁⟩ := h
+  exact h₁.trans (jet_comp_congr hφ (h₀.symm.trans hf))
+
+end JetComp
+
 section JetExists
 
 variable {M : Type u} [TopologicalSpace M] {X : Type v} [TopologicalSpace X]
@@ -875,8 +928,9 @@ theorem pushIndex_spec (hφ : IsGXMorphism (GSR n) (S n) φ) (j : jets (GSR n) (
   (exists_eq_jetSMul_of_mem j.2 (jet_comp_mem hφ (jet_chartAt_mem (φ j.1.1)))).choose_spec
 
 /-- **The push-forward of a jet along a local isomorphism** (« on peut trouver un jet et un seul
-$j_2$ de $J(B_2)$ tel que $\varphi\circ j_2=j_1$ »): for `j₁ = g ∘ jet_y (c ∘ φ)`,
-`j₂ = g ∘ jet_{φ(y)} c`. -/
+$j_2$ de $J(B_2)$ tel que $\varphi\circ j_2=j_1$ », l.639–640; the printed « $\varphi\circ j_2$ » is a
+misprint of order flagged `[sic]`, read `j₂ ∘ φ = j₁`, DEC-127): for `j₁ = g ∘ jet_y (c ∘ φ)`,
+`j₂ = g ∘ jet_{φ(y)} c`, the unique `j₂ ∈ J(B₂)` with `j₂ ∘ φ = j₁` (`existsUnique_pushJet`). -/
 def pushJet (hφ : IsGXMorphism (GSR n) (S n) φ) (j : jets (GSR n) (S n) B₁) : Jet B₂ (S n) :=
   jetSMul (pushIndex hφ j) (jet (φ j.1.1) (chartAt (S n) (φ j.1.1)))
 
@@ -903,6 +957,22 @@ theorem pushJet_eq (hφ : IsGXMorphism (GSR n) (S n) φ) {j : jets (GSR n) (S n)
     rw [← pushIndex_spec hφ j, hj, h2, jetSMul_mul]
   have h4 := eq_of_jetSMul_eq (jet_comp_mem hφ (jet_chartAt_mem (φ y))) h3
   rw [pushJet, h4, jetSMul_mul, ← h1]
+
+/-- `pushJet hφ j₁ ∘ φ = j₁`. -/
+theorem jetCompEq_pushJet (hφ : IsGXMorphism (GSR n) (S n) φ) (j : jets (GSR n) (S n) B₁) :
+    JetCompEq φ (pushJet hφ j) j.1 :=
+  ⟨fun z => pushIndex hφ j • chartAt (S n) (φ j.1.1) z, jetSMul_jet _ _ _,
+    (pushIndex_spec hφ j).trans (jetSMul_jet _ _ _)⟩
+
+/-- **« on peut trouver un jet et un seul $j_2$ de $J(B_2)$ tel que $\varphi\circ j_2=j_1$ »**
+(l.639–640, read `j₂ ∘ φ = j₁`, DEC-127): for every `j₁ ∈ J(B₁)` there is exactly one jet
+`j₂ ∈ J(B₂)` with `j₂ ∘ φ = j₁` (`JetCompEq`), namely `pushJet hφ j₁`. -/
+theorem existsUnique_pushJet (hφ : IsGXMorphism (GSR n) (S n) φ) (j : jets (GSR n) (S n) B₁) :
+    ∃! j₂ : Jet B₂ (S n), j₂ ∈ jets (GSR n) (S n) B₂ ∧ JetCompEq φ j₂ j.1 := by
+  refine ⟨pushJet hφ j, ⟨pushJet_mem hφ j, jetCompEq_pushJet hφ j⟩, ?_⟩
+  rintro j₂ ⟨hm, f, h₁, h₂⟩
+  rw [h₁] at hm ⊢
+  rw [pushJet_eq hφ (j := j) hm (g := 1) (by rw [jetSMul_one]; exact h₂), jetSMul_one]
 
 theorem value_pushJet (hφ : IsGXMorphism (GSR n) (S n) φ) (j : jets (GSR n) (S n) B₁) :
     Jet.value (pushJet hφ j) = Jet.value j.1 := by
@@ -951,17 +1021,15 @@ theorem map_mk_of_eq (hφ : IsGXMorphism (GSR n) (S n) φ) {j : Jet B₁ (S n)} 
   induction x using FCone.ind with
   | h j hj m hm => rfl
 
-/-- **`F(φ)` read in cone charts is an element of `GU(n+1, ℝ)`**: if `φ` reads as `g ∈ GS(n, ℝ)` in
-charts `e₁` at `π(x)`, `e₂` at `φ(π(x))` of the maximal atlases, then `F(φ)` reads as `i(g)` in the
-cone charts over them. -/
-theorem map_eventually_eq_of_mem (hφ : IsGXMorphism (GSR n) (S n) φ)
+/-- **`F(φ)` read in cone charts is `i(g)` where `φ` reads as `g`**: if `e₂ ∘ φ = g • e₁` near `π(x)`
+(`e₁`, `e₂` charts of the maximal atlases), then `f_{e₂} ∘ F(φ) = i(g) • f_{e₁}` near `x`. -/
+theorem map_eventually_eq_of_eventually_eq (hφ : IsGXMorphism (GSR n) (S n) φ)
     {e₁ : OpenPartialHomeomorph B₁ (S n)} {e₂ : OpenPartialHomeomorph B₂ (S n)}
     (he₁ : e₁ ∈ (projGroupoid n).maximalAtlas B₁) (he₂ : e₂ ∈ (projGroupoid n).maximalAtlas B₂)
-    {x : FCone n B₁} (hx : proj x ∈ e₁.source) (hx₂ : φ (proj x) ∈ e₂.source) :
-    ∃ g : GSR n, ∀ᶠ x' in 𝓝 x, map hφ x' ∈ (coneChart he₂).source ∧
+    {x : FCone n B₁} (hx : proj x ∈ e₁.source) (hx₂ : φ (proj x) ∈ e₂.source) {g : GSR n}
+    (hg : ∀ᶠ z in 𝓝 (proj x), e₂ (φ z) = g • e₁ z) :
+    ∀ᶠ x' in 𝓝 x, map hφ x' ∈ (coneChart he₂).source ∧
       coneChart he₂ (map hφ x') = isoGUR n g • coneChart he₁ x' := by
-  obtain ⟨g, hg⟩ := hφ.exists_smul_eq_of_mem_maximalAtlas he₁ he₂ hx hx₂
-  refine ⟨g, ?_⟩
   have h1 : ∀ᶠ y in 𝓝 (proj x), y ∈ e₁.source ∧ φ y ∈ e₂.source ∧
       ∀ᶠ z in 𝓝 y, e₂ (φ z) = g • e₁ z :=
     Filter.Eventually.and (e₁.open_source.mem_nhds hx)
@@ -987,6 +1055,18 @@ theorem map_eventually_eq_of_mem (hφ : IsGXMorphism (GSR n) (S n) φ)
     rw [map_mk_of_eq hφ hj hm (jet_mem_jets he₂ hy2') hjf, coneChart_apply, coneChart_apply,
       coneFun_mk_jetSMul he₂ hy2', coneFun_mk he₁ hj hm hy1', map_mul, map_inv, mul_inv_rev,
       inv_inv, mul_smul]
+
+/-- **`F(φ)` read in cone charts is an element of `GU(n+1, ℝ)`**: if `φ` reads as `g ∈ GS(n, ℝ)` in
+charts `e₁` at `π(x)`, `e₂` at `φ(π(x))` of the maximal atlases, then `F(φ)` reads as `i(g)` in the
+cone charts over them. -/
+theorem map_eventually_eq_of_mem (hφ : IsGXMorphism (GSR n) (S n) φ)
+    {e₁ : OpenPartialHomeomorph B₁ (S n)} {e₂ : OpenPartialHomeomorph B₂ (S n)}
+    (he₁ : e₁ ∈ (projGroupoid n).maximalAtlas B₁) (he₂ : e₂ ∈ (projGroupoid n).maximalAtlas B₂)
+    {x : FCone n B₁} (hx : proj x ∈ e₁.source) (hx₂ : φ (proj x) ∈ e₂.source) :
+    ∃ g : GSR n, ∀ᶠ x' in 𝓝 x, map hφ x' ∈ (coneChart he₂).source ∧
+      coneChart he₂ (map hφ x') = isoGUR n g • coneChart he₁ x' := by
+  obtain ⟨g, hg⟩ := hφ.exists_smul_eq_of_mem_maximalAtlas he₁ he₂ hx hx₂
+  exact ⟨g, map_eventually_eq_of_eventually_eq hφ he₁ he₂ hx hx₂ hg⟩
 
 /-- `F(φ)` in the preferred cone charts. -/
 theorem map_eventually_eq (hφ : IsGXMorphism (GSR n) (S n) φ) (x : FCone n B₁) :
@@ -1051,6 +1131,247 @@ theorem map_comp {B₃ : Type w} [TopologicalSpace B₃] [ChartedSpace (S n) B�
     rw [Function.comp_apply, map_mk_of_eq _ hj hm hc hg, map_mk_of_eq hφ hj hm hc' hg,
       map_mk_of_eq hψ _ _ hc rfl]
     rfl
+
+end FCone
+
+/-! ### « $FJ(B)$ s'identifie avec $J_1(F(B))$ » (l.568, l.604) -/
+
+namespace FCone
+
+variable {n : ℕ} {B : Type u} [TopologicalSpace B] [ChartedSpace (S n) B]
+  [HasGroupoid B (projGroupoid n)] {e : OpenPartialHomeomorph B (S n)}
+
+/-- **The jet of `F(B)` carried by a point of `FJ(B)`** (§ 2, p. 241, « On appellera carte compatible
+… une application composée d'un relèvement de $u$ dans $FJ(B)$ et de la projection $(j, m)\to m$ »;
+« on peut trouver une carte compatible et une seule d'un voisinage convenable de $p$ qui soit
+composée d'un relèvement de ce voisinage sur un voisinage de $(j, m)$ et de la projection »): the
+jet at `[(j, m)]` of the compatible chart through `(j, m)`. Over a chart `e` of `B` with
+`j = g ∘ jet_y e`, the lift through `(j, m)` is `x' ↦ (g ∘ jet_{π(x')} e, i(g) f_e(x'))`, so that chart
+is `i(g) • f_e` (`f_e = coneChart`), and `fjJet (j, m) = i(g) ∘ jet_{[(j, m)]} f_e`; it does not depend
+on `e` (`fjJet_eq`). -/
+def fjJet (p : FJ n B) : Jet (FCone n B) (RnO (n + 1)) :=
+  jetSMul (isoGUR n (sheetIndex (chartAt_mem (q p)) p.1.1)) (jet (q p) (coneChart (chartAt_mem (q p))))
+
+/-- **`fjJet` does not depend on the chart of `B`**: for every chart `e` of the maximal atlas at the
+source `y` of `(j, m)`, `fjJet (j, m) = i(g) ∘ jet_{[(j,m)]} f_e`, `g` the sheet of `j` over `e`. -/
+theorem fjJet_eq (he : e ∈ (projGroupoid n).maximalAtlas B) {p : FJ n B} (hp : p.src ∈ e.source) :
+    fjJet p = jetSMul (isoGUR n (sheetIndex he p.1.1)) (jet (q p) (coneChart he)) := by
+  have he₀ := chartAt_mem (q p)
+  have hp₀ : proj (q p) ∈ (chartAt (S n) (proj (q p))).source := mem_chart_source (S n) _
+  obtain ⟨g, hg, hc⟩ := coneChart_eventually_eq he₀ he (x := q p) hp₀ hp
+  have hs : sheetIndex he p.1.1 = sheetIndex he₀ p.1.1 * g⁻¹ :=
+    sheetIndex_of_eventually_eq he₀ he (j := p.1.1) hp₀ hp hg
+  have hj : jet (q p) (coneChart he) = jetSMul (isoGUR n g) (jet (q p) (coneChart he₀)) := by
+    rw [jetSMul_jet, jet_eq_jet_iff]
+    exact hc
+  rw [hs, hj, ← jetSMul_mul, map_mul, map_inv, inv_mul_cancel_right]
+  rfl
+
+/-- `fjJet (j, m)` is a jet of `J₁(F(B))`: the jet of a cone chart of `F(B)`, composed with `i(g)`. -/
+theorem fjJet_mem (p : FJ n B) : fjJet p ∈ jets (GUR (n + 1)) (RnO (n + 1)) (FCone n B) :=
+  jetSMul_jet_mem_jets (coneChart_mem_maximalAtlas (chartAt_mem (q p)))
+    (mem_chart_source (S n) (proj (q p))) _
+
+/-- The source of `fjJet (j, m)` is the class `[(j, m)]`. -/
+@[simp] theorem fjJet_fst (p : FJ n B) : (fjJet p).1 = q p := rfl
+
+/-- The value of `fjJet (j, m)` is `m`: « la projection $(j, m)\to m$ ». -/
+theorem value_fjJet (p : FJ n B) : Jet.value (fjJet p) = p.pt := by
+  have h : coneFun (chartAt_mem (q p)) (q p) =
+      (isoGUR n (sheetIndex (chartAt_mem (q p)) p.1.1))⁻¹ • p.pt :=
+    coneFun_mk (chartAt_mem (q p)) p.mem_jets p.toSphere_pt (mem_chart_source (S n) p.src)
+  rw [fjJet, value_jetSMul, Jet.value_jet, coneChart_apply, h, smul_inv_smul]
+
+/-- **Equivariance**: the relation ℛ on `FJ(B)` is carried to post-composition by `GU(n+1, ℝ)` on
+`J₁(F(B))`, through `i`: `fjJet (g ∘ j, i(g) m) = i(g) ∘ fjJet (j, m)`. -/
+theorem fjJet_smul (g : GSR n) (p : FJ n B) : fjJet (g • p) = jetSMul (isoGUR n g) (fjJet p) := by
+  have he := chartAt_mem (q p)
+  have hp : p.src ∈ (chartAt (S n) (proj (q p))).source := mem_chart_source (S n) _
+  rw [fjJet_eq he (p := g • p) hp, fjJet_eq he hp, q_smul]
+  rw [show sheetIndex he (g • p).1.1 = g * sheetIndex he p.1.1 from
+    sheetIndex_jetSMul he hp g _, map_mul, jetSMul_mul]
+
+/-- `fjJet` is injective: two points with the same jet are ℛ-equivalent, `(j, m) = g • (j', m')`,
+and then `i(g)` fixes a jet of `J₁(F(B))`, so `g = 1` (the fibres of `J₁(F(B))` are free orbits). -/
+theorem fjJet_injective : Function.Injective (fjJet : FJ n B → Jet (FCone n B) (RnO (n + 1))) := by
+  intro p p' h
+  have hq : q p = q p' := congrArg Sigma.fst h
+  obtain ⟨g, rfl⟩ := q_eq_q_iff.1 hq
+  rw [fjJet_smul] at h
+  have h1 : isoGUR n g = 1 := eq_one_of_jetSMul_eq (fjJet_mem p') h
+  rw [(isoGUR n).map_eq_one_iff.1 h1, one_smul]
+
+
+/-- The inverse construction over a chart `e` of `B`: a jet `J = h ∘ jet_x f_e` of `J₁(F(B))`
+(`h` its sheet over the cone chart `f_e`) gives `(i⁻¹(h) ∘ jet_{π(x)} e, h f_e(x)) ∈ FJ(B)`. -/
+def fjOfJetAt (he : e ∈ (projGroupoid n).maximalAtlas B)
+    (J : jets (GUR (n + 1)) (RnO (n + 1)) (FCone n B)) (hx : proj J.1.1 ∈ e.source) : FJ n B :=
+  ⟨(⟨jetSMul ((isoGUR n).symm (sheetIndex (coneChart_mem_maximalAtlas he) J))
+      (jet (proj J.1.1) e), jetSMul_jet_mem_jets he hx _⟩,
+    sheetIndex (coneChart_mem_maximalAtlas he) J • coneChart he J.1.1), by
+    show Punctured.toSphere (sheetIndex (coneChart_mem_maximalAtlas he) J • coneChart he J.1.1) =
+      Jet.value (jetSMul ((isoGUR n).symm (sheetIndex (coneChart_mem_maximalAtlas he) J))
+        (jet (proj J.1.1) e))
+    conv_lhs => rw [← (isoGUR n).apply_symm_apply (sheetIndex (coneChart_mem_maximalAtlas he) J)]
+    rw [toSphere_isoGUR_smul, coneChart_apply, toSphere_coneFun he hx, value_jetSMul,
+      Jet.value_jet]⟩
+
+/-- `fjOfJetAt` is a right inverse of `fjJet`. -/
+theorem fjJet_fjOfJetAt (he : e ∈ (projGroupoid n).maximalAtlas B)
+    (J : jets (GUR (n + 1)) (RnO (n + 1)) (FCone n B)) (hx : proj J.1.1 ∈ e.source) :
+    fjJet (fjOfJetAt he J hx) = J.1 := by
+  have hc := coneChart_mem_maximalAtlas he
+  set h := sheetIndex hc J
+  set g := (isoGUR n).symm h
+  have hgh : isoGUR n g = h := (isoGUR n).apply_symm_apply h
+  set p := fjOfJetAt he J hx
+  have hp : p.src ∈ e.source := hx
+  have hs : sheetIndex he p.1.1 = g := sheetIndex_jetSMul_jet he hx g _
+  have hq : q p = J.1.1 := by
+    have h1 : coneChart he (q p) = coneChart he J.1.1 := by
+      rw [coneChart_apply, q_eq_mk]
+      rw [show coneFun he (mk p.jet p.mem_jets p.pt p.toSphere_pt) = (isoGUR n g)⁻¹ • p.pt from
+        coneFun_mk_jetSMul he hx g _ _, hgh]
+      exact inv_smul_smul h _
+    exact (coneChart he).injOn (show q p ∈ (coneChart he).source from hp) hx h1
+  rw [fjJet_eq he hp, hs, hgh, hq]
+  exact (val_eq_jetSMul_sheetIndex hc (j := J) hx).symm
+
+/-- **The inverse of `fjJet`**: a jet `J = h ∘ jet_x f_e` of `J₁(F(B))` (`f_e` the cone chart over
+the preferred chart `e` of `B` at `π(x)`) comes from `(i⁻¹(h) ∘ jet_{π(x)} e, h f_e(x))`. -/
+def fjOfJet (J : jets (GUR (n + 1)) (RnO (n + 1)) (FCone n B)) : FJ n B :=
+  fjOfJetAt (chartAt_mem J.1.1) J (mem_chart_source (S n) (proj J.1.1))
+
+/-- `fjOfJet` is a right inverse of `fjJet`. -/
+theorem fjJet_fjOfJet (J : jets (GUR (n + 1)) (RnO (n + 1)) (FCone n B)) :
+    fjJet (fjOfJet J) = J.1 :=
+  fjJet_fjOfJetAt _ J _
+
+/-- `fjOfJet` does not depend on the chart of `B`. -/
+theorem fjOfJet_eq (he : e ∈ (projGroupoid n).maximalAtlas B)
+    (J : jets (GUR (n + 1)) (RnO (n + 1)) (FCone n B)) (hx : proj J.1.1 ∈ e.source) :
+    fjOfJet J = fjOfJetAt he J hx :=
+  fjJet_injective (by rw [fjJet_fjOfJet, fjJet_fjOfJetAt])
+
+/-- `fjJet` is onto `J₁(F(B))`. -/
+theorem fjJet_surjective (J : Jet (FCone n B) (RnO (n + 1)))
+    (hJ : J ∈ jets (GUR (n + 1)) (RnO (n + 1)) (FCone n B)) : ∃ p : FJ n B, fjJet p = J :=
+  ⟨fjOfJet ⟨J, hJ⟩, fjJet_fjOfJet _⟩
+
+/-- `fjJet` is continuous for the étalé topology on the jets of `F(B)` (on a neighbourhood of
+`(j, m)` it is `p' ↦ jet_{q(p')} (i(g) • f_e)`, the sheet `g` being locally constant). -/
+theorem continuous_fjJet : Continuous (fjJet : FJ n B → Jet (FCone n B) (RnO (n + 1))) := by
+  refine continuous_iff_continuousAt.2 fun p => ?_
+  have he := chartAt_mem (q p)
+  have hp : p.src ∈ (chartAt (S n) (proj (q p))).source := mem_chart_source (S n) _
+  have hs := sheetIndex_eventually_eq he (j := p.1.1) hp
+  refine ((continuous_jet fun z => isoGUR n (sheetIndex he p.1.1) • coneChart he z).comp
+    continuous_q).continuousAt.congr ?_
+  filter_upwards [FJ.continuous_jetSub.continuousAt.eventually hs] with p' hp'
+  rw [fjJet_eq he hp'.1, hp'.2, jetSMul_jet]
+  rfl
+
+omit [HasGroupoid B (projGroupoid n)] in
+/-- The topology of `FJ(B)` is induced by `(j, m) ↦ (j, m) ∈ Jet B (S n) × RnO (n + 1)`. -/
+theorem isInducing_jet_pt :
+    Topology.IsInducing fun p : FJ n B => (p.jet, p.pt) :=
+  (Topology.IsInducing.prodMap Topology.IsInducing.subtypeVal Topology.IsInducing.id).comp
+    Topology.IsInducing.subtypeVal
+
+/-- `fjOfJet` is continuous (on a neighbourhood of `J₀` it is `J ↦ (i⁻¹(h) ∘ jet_{π(x)} e, h f_e(x))`,
+`x` the source of `J`, the sheet `h` being locally constant). -/
+theorem continuous_fjOfJet : Continuous (fjOfJet : jets (GUR (n + 1)) (RnO (n + 1)) (FCone n B) →
+    FJ n B) := by
+  refine continuous_iff_continuousAt.2 fun J₀ => ?_
+  have he := chartAt_mem J₀.1.1
+  have hc := coneChart_mem_maximalAtlas he
+  have hx₀ : J₀.1.1 ∈ (coneChart he).source := mem_chart_source (S n) (proj J₀.1.1)
+  have hs := sheetIndex_eventually_eq hc (j := J₀) hx₀
+  have hsrc : Continuous fun J : jets (GUR (n + 1)) (RnO (n + 1)) (FCone n B) => J.1.1 :=
+    continuous_jetSource.comp continuous_subtype_val
+  rw [isInducing_jet_pt.continuousAt_iff]
+  refine ContinuousAt.congr (f := fun J : jets (GUR (n + 1)) (RnO (n + 1)) (FCone n B) =>
+      (jet (proj J.1.1) fun z => (isoGUR n).symm (sheetIndex hc J₀) • chartAt (S n) (proj J₀.1.1) z,
+        sheetIndex hc J₀ • coneChart he J.1.1)) ?_ ?_
+  · refine ContinuousAt.prodMk ?_ ?_
+    · exact ((continuous_jet _).comp (continuous_proj.comp hsrc)).continuousAt
+    · exact (continuous_const_smul _).continuousAt.comp
+        (ContinuousAt.comp (g := coneChart he)
+          (f := fun J : jets (GUR (n + 1)) (RnO (n + 1)) (FCone n B) => J.1.1)
+          ((coneChart he).continuousAt hx₀) hsrc.continuousAt)
+  · filter_upwards [hs] with J hJ
+    rw [Function.comp_apply, fjOfJet_eq he J hJ.1]
+    simp only [fjOfJetAt, FJ.jet, FJ.pt, hJ.2, jetSMul_jet]
+
+variable (n B) in
+/-- **« $FJ(B)$ s'identifiera avec $J_1(F(B))$ »** (§ 2, p. 241, l.568) **/ « $FJ(B)$ s'identifie
+donc avec l'espace des jets de cartes compatibles de $F(B)$ »** (l.604): `FJ(B)` with the topology
+induced by `J(B) × ℝⁿ⁺¹` is homeomorphic to `J₁(F(B))`, the jets of the affine conical structure of
+`F(B)` (`jets` for `coneGroupoid`, the étalé topology), by `(j, m) ↦` the jet at `[(j, m)]` of the
+compatible chart through `(j, m)` (`fjJet`). It lies over `q` (`fjJet_fst`), has value `m`
+(`value_fjJet`), carries ℛ's `g • (j, m)` to `i(g) ∘ ·` (`fjJet_smul`), and is natural in `B`
+(`jetCompEq_fjJet_pushFJ`). -/
+def fjJetHomeomorph : FJ n B ≃ₜ jets (GUR (n + 1)) (RnO (n + 1)) (FCone n B) where
+  toFun p := ⟨fjJet p, fjJet_mem p⟩
+  invFun := fjOfJet
+  left_inv p := fjJet_injective (fjJet_fjOfJet ⟨fjJet p, fjJet_mem p⟩)
+  right_inv J := Subtype.ext (fjJet_fjOfJet J)
+  continuous_toFun := continuous_induced_rng.2 continuous_fjJet
+  continuous_invFun := continuous_fjOfJet
+
+
+section Natural
+
+variable {B₁ : Type u} [TopologicalSpace B₁] [ChartedSpace (S n) B₁]
+  [HasGroupoid B₁ (projGroupoid n)] {B₂ : Type v} [TopologicalSpace B₂] [ChartedSpace (S n) B₂]
+  [HasGroupoid B₂ (projGroupoid n)] {φ : B₁ → B₂}
+
+/-- **Benzécri's `φ'`** (§ 2, p. 242, « Nous poserons $\varphi'(j_1, m)=(j_2, m)$ »): `FJ(B₁) → FJ(B₂)`,
+`(j₁, m) ↦ (j₂, m)`, `j₂` the unique jet of `J(B₂)` with `j₂ ∘ φ = j₁` (`existsUnique_pushJet`). -/
+def pushFJ (hφ : IsGXMorphism (GSR n) (S n) φ) (p : FJ n B₁) : FJ n B₂ :=
+  ⟨(⟨pushJet hφ p.1.1, pushJet_mem hφ _⟩, p.pt), by rw [value_pushJet]; exact p.toSphere_pt⟩
+
+/-- `F(φ)` is induced by `φ'`: `F(φ)[(j₁, m)] = [φ'(j₁, m)]`. -/
+theorem map_q (hφ : IsGXMorphism (GSR n) (S n) φ) (p : FJ n B₁) :
+    map hφ (q p) = q (pushFJ hφ p) := rfl
+
+/-- **The identification `FJ(B) ≅ J₁(F(B))` is natural in `B`** (« $J_1(F(B_2))\circ F(\varphi)\subset
+J_1(F(B_1))$ », l.635): the jet of `φ'(j₁, m)` composed with `F(φ)` is the jet of `(j₁, m)`, i.e.
+`fjJet (φ'(p)) ∘ F(φ) = fjJet p`. -/
+theorem jetCompEq_fjJet_pushFJ (hφ : IsGXMorphism (GSR n) (S n) φ) (p : FJ n B₁) :
+    JetCompEq (map hφ) (fjJet (pushFJ hφ p)) (fjJet p) := by
+  have he₁ : chartAt (S n) p.src ∈ (projGroupoid n).maximalAtlas B₁ :=
+    (projGroupoid n).chart_mem_maximalAtlas p.src
+  have he₂ : chartAt (S n) (φ p.src) ∈ (projGroupoid n).maximalAtlas B₂ :=
+    (projGroupoid n).chart_mem_maximalAtlas (φ p.src)
+  have hy : p.src ∈ (chartAt (S n) p.src).source := mem_chart_source (S n) p.src
+  have hy₂ : φ p.src ∈ (chartAt (S n) (φ p.src)).source := mem_chart_source (S n) (φ p.src)
+  obtain ⟨g, hg⟩ := hφ.exists_smul_eq_of_mem_maximalAtlas he₁ he₂ hy hy₂
+  set s₁ := sheetIndex he₁ p.1.1
+  have hjf : p.1.1.1 = jetSMul (s₁ * g⁻¹) (jet p.src (chartAt (S n) (φ p.src) ∘ φ)) := by
+    refine (val_eq_jetSMul_sheetIndex he₁ (j := p.1.1) hy).trans ?_
+    rw [jetSMul_mul, jetSMul_jet g⁻¹]
+    congr 1
+    show jet p.src (chartAt (S n) p.src) = _
+    rw [jet_eq_jet_iff]
+    filter_upwards [hg] with z hz
+    simp only [Function.comp_apply, hz, inv_smul_smul]
+  have hpush : pushJet hφ p.1.1 = jetSMul (s₁ * g⁻¹) (jet (φ p.src) (chartAt (S n) (φ p.src))) :=
+    pushJet_eq hφ (jet_mem_jets he₂ hy₂) hjf
+  have hs₂ : sheetIndex he₂ (pushFJ hφ p).1.1 = s₁ * g⁻¹ :=
+    sheetIndex_eq_of_val_eq he₂ hy₂ (by
+      show pushJet hφ p.1.1 = _
+      rw [hpush, jetSMul_jet])
+  have hcone := map_eventually_eq_of_eventually_eq hφ he₁ he₂ (x := q p) hy hy₂ hg
+  refine ⟨fun z => isoGUR n (s₁ * g⁻¹) • coneChart he₂ z, ?_, ?_⟩
+  · rw [fjJet_eq he₂ (p := pushFJ hφ p) hy₂, hs₂, jetSMul_jet]
+    rfl
+  · show fjJet p = jet (q p) _
+    rw [fjJet_eq he₁ hy, jetSMul_jet, jet_eq_jet_iff]
+    filter_upwards [hcone] with x' hx'
+    rw [Function.comp_apply, hx'.2, map_mul, map_inv, mul_smul, inv_smul_smul]
+
+end Natural
 
 end FCone
 

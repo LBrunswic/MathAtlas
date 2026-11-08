@@ -9,9 +9,12 @@
   "labels": [
     {
       "label": "bzthm:c1s2_isomorphisme_fonctoriel",
-      "tex_lines": [554, 652],
-      "status": "partial",
-      "marked": false,
+      "tex_lines": [
+        554,
+        652
+      ],
+      "status": "closed",
+      "marked": true,
       "decls": [
         "Benzecri.coneEquivalence",
         "Benzecri.coneEquivalence_functor",
@@ -54,24 +57,115 @@
         "Benzecri.exists_iso_coneObj_iff",
         "Benzecri.EssSurjAsPrintedDim",
         "Benzecri.not_essSurjAsPrinted_dim",
-        "Benzecri.essSurjAsPrinted_of_le_one"
+        "Benzecri.essSurjAsPrinted_of_le_one",
+        "Benzecri.coneEquivalence_unitIso",
+        "Benzecri.coneEquivalence_counitIso",
+        "Benzecri.FCone.fjJetHomeomorph",
+        "Benzecri.FCone.fjJet",
+        "Benzecri.FCone.fjJet_eq",
+        "Benzecri.FCone.fjJet_mem",
+        "Benzecri.FCone.fjJet_fst",
+        "Benzecri.FCone.value_fjJet",
+        "Benzecri.FCone.fjJet_smul",
+        "Benzecri.FCone.fjJet_injective",
+        "Benzecri.FCone.fjJet_surjective",
+        "Benzecri.FCone.fjOfJet",
+        "Benzecri.FCone.continuous_fjJet",
+        "Benzecri.FCone.continuous_fjOfJet",
+        "Benzecri.FCone.pushFJ",
+        "Benzecri.FCone.map_q",
+        "Benzecri.FCone.jetCompEq_fjJet_pushFJ",
+        "Benzecri.JetCompEq",
+        "Benzecri.JetCompEq.jet_comp",
+        "Benzecri.FCone.jetCompEq_pushJet",
+        "Benzecri.FCone.existsUnique_pushJet",
+        "Benzecri.ConeCex.isoFConeBase",
+        "Benzecri.ConeCex.iso_FCone_coneBase_and_not_t2Space"
       ],
       "hypotheses": [
-        {"paper": "« isomorphisme fonctoriel »", "here": "reading", "note": "CategoryTheory.Equivalence (DEC-113, plan F5); canonical natural isos F⁻¹∘F ≅ 𝟭 (F(B)/ℝ₊* ≅ B by the source projection) and 𝟭 ≅ F∘F⁻¹ (V ≅ F(V/ℝ₊*) by m ↦ [(p(jet_m f), f(m))]); functor and inverse are the base functor and Benzécri's F on the nose (rfl)"},
-        {"paper": "variétés coniques affines de dimension n (Déf. 2), « variété »", "here": "carried (DEC-124)", "note": "ConeCat (n+1): cone charts, Hausdorff, connected, proper ℝ₊*-action; properness is DEC-122's added hypothesis, shown NECESSARY (not_essSurjAsPrinted_dim) and equal to the essential image of F (exists_iso_coneObj_iff)"},
-        {"paper": "variétés localement projectives de dimension n−1, « variété »", "here": "carried (DEC-124)", "note": "ProjCat n: full subcategory of LocProj n on T2Space ∧ ConnectedSpace"},
-        {"paper": "« variété »: second countable (plan F6)", "here": "generalised", "note": "not needed on either side; both functors preserve it (ConeBase.secondCountableTopology, FCone.secondCountableTopology), so the equivalence restricts to second-countable objects"},
-        {"paper": "J(B) « l'espace des jets projectifs », FJ(B) « muni de la topologie induite », F(B) = FJ(B)/ℛ", "here": "carried", "note": "the étalé topology on jets (Structure/Jets), subspace topology, Mathlib orbit quotient of the GS-action g•(j,m) = (g∘j, i(g)m) — literally the printed relation ℛ"}
+        {
+          "paper": "« isomorphisme fonctoriel »",
+          "here": "reading (DEC-113)",
+          "note": "CategoryTheory.Equivalence (plan F5), built directly from the canonical natural isos, which are its unit and counit on the nose (coneEquivalence_unitIso, coneEquivalence_counitIso, rfl; the triangle identity holds by rfl on representatives): F⁻¹∘F ≅ 𝟭 (F(B)/ℝ₊* ≅ B by the source projection) and 𝟭 ≅ F∘F⁻¹ (V ≅ F(V/ℝ₊*) by m ↦ [(p(jet_m f), f(m))]); functor and inverse are the base functor and Benzécri's F (rfl)"
+        },
+        {
+          "paper": "variétés coniques affines de dimension n (Déf. 2), « variété »",
+          "here": "carried (DEC-124)",
+          "note": "ConeCat (n+1): cone charts, Hausdorff, connected, proper ℝ₊*-action (DEC-124's objects)"
+        },
+        {
+          "paper": "(not printed) the ℝ₊*-action is proper",
+          "here": "carried (ruled, DEC-122/124)",
+          "note": "DEC-122's correction, marked by DEC-127; NECESSARY for B Hausdorff (not_essSurjAsPrinted_dim) and exactly the essential image of F on Hausdorff bases (exists_iso_coneObj_iff); without it the cone is F of a NON-Hausdorff base (ConeCex.iso_FCone_coneBase_and_not_t2Space) — § 2 Prop. 2's finding, not a failure of F"
+        },
+        {
+          "paper": "variétés localement projectives de dimension n−1, « variété »",
+          "here": "carried (DEC-124)",
+          "note": "ProjCat n: full subcategory of LocProj n on T2Space ∧ ConnectedSpace (« variété » ⇒ Hausdorff, plan F6)"
+        },
+        {
+          "paper": "« variété »: second countable (plan F6)",
+          "here": "generalised",
+          "note": "not needed on either side; both functors preserve it (ConeBase.secondCountableTopology, FCone.secondCountableTopology), so the equivalence restricts to second-countable objects"
+        },
+        {
+          "paper": "J(B) « l'espace des jets projectifs », FJ(B) « muni de la topologie induite », F(B) = FJ(B)/ℛ",
+          "here": "carried",
+          "note": "the étalé topology on jets (Structure/Jets), subspace topology, Mathlib orbit quotient of the GS-action g•(j,m) = (g∘j, i(g)m) — literally the printed relation ℛ"
+        },
+        {
+          "paper": "« φ∘j₂ = j₁ » (l.640)",
+          "here": "misprint read (DEC-127, flagged [sic] in the transcription)",
+          "note": "read j₂∘φ = j₁ (JetCompEq φ j₂ j₁: j₂ = jet_{φ(y)} f, j₁ = jet_y (f∘φ)); the only well-typed reading, and every other composition of Ch. 1 is written right to left (l.345, l.375, « J(V₂)∘f » l.393 p. 238, l.524, l.574, l.623, « J₁(F(B₂))∘F(φ) » l.635); not a finding (CAMPAIGN.md)"
+        }
       ],
       "sorries": [],
       "findings": [
-        "DEC-122 propagated to the Énoncé (l.554–558, p. 241): read over all Hausdorff connected affine conical manifolds of Benzécri dimension n ≥ 3, the « isomorphisme fonctoriel » is false whatever the reading of « isomorphisme », because the essential image of F is exactly the cones with a proper ℝ₊*-action: Cone/Counterexample's ConeCex.VDim m (Hausdorff, second countable, connected) is isomorphic to no F(B) with B Hausdorff (Benzecri.not_essSurjAsPrinted_dim, against the Prop EssSurjAsPrintedDim). In dimension n ≤ 2 the printed form holds (essSurjAsPrinted_of_le_one).",
+        "§ 2 Prop. 2's finding (DEC-122) CARRIED OVER to the Énoncé (DEC-127), not a failure of F: the printed Énoncé (l.554–558, p. 241), read over all Hausdorff connected affine conical manifolds with « variétés » (Hausdorff, plan F6) on the projective side, is false in every Benzécri dimension n ≥ 3 whatever the reading of « isomorphisme », because among those cones the essential image of F on Hausdorff bases is exactly the cones with a proper ℝ₊*-action (Benzecri.exists_iso_coneObj_iff): Cone/Counterexample's ConeCex.VDim m (Hausdorff, second countable, connected) is isomorphic to no F(B) with B Hausdorff (Benzecri.not_essSurjAsPrinted_dim, against the Prop Benzecri.EssSurjAsPrintedDim). It IS F of its own base (Benzecri.ConeCex.isoFConeBase: V ≅ F(V/ℝ₊*) holds for every Hausdorff cone, no Hausdorff base needed), and that base is not Hausdorff (Benzecri.ConeCex.not_t2Space_coneBase_dim); both at once: Benzecri.ConeCex.iso_FCone_coneBase_and_not_t2Space. In dimension n ≤ 2 the printed form holds (Benzecri.essSurjAsPrinted_of_le_one).",
         "F(B) always has a proper ℝ₊*-action and a Hausdorff base (FCone.properSMul, FCone.t2Space_coneBase): the construction of the proof (l.560–649) never produces a cone outside DEC-122's corrected category, so the correction loses nothing on the projective side."
       ],
-      "questions": [
-        "Marking: the equivalence is proved with 0 sorry over DEC-124's objects (proper cones), but that is an added hypothesis relative to the printed Énoncé; may it be MARKED in its corrected form as DEC-124 did for § 2 Prop. 2? (Left unmarked, status partial.)",
-        "« φ ∘ j₂ = j₁ » (l.640, p. 242) is read as composition in diagrammatic order (j₁ = j₂ ∘ germ φ), as in « J(V₂)∘f » (p. 238); confirm.",
-        "« FJ(B) s'identifie avec J₁(F(B)) » (l.568, l.604) is a remark inside the proof and is not formalized as a bijection FJ(B) ≃ J₁(F(B)); its global form for B = V/ℝ₊* is ConeBase.unitMap (V ≅ F(V/ℝ₊*)). Is a separate formalization wanted?"
+      "questions": [],
+      "correction": "DEC-127: MARKED in its corrected form (DEC-122's correction: the ℝ₊*-action on the cone is proper; DEC-124's objects: connected Hausdorff affine conical manifolds with a proper ℝ₊*-action against connected Hausdorff locally projective manifolds). The formalization of record is Benzecri.coneEquivalence : ConeCat (n+1) ≌ ProjCat n (Prop form Benzecri.baseFunctor_isEquivalence), functor V ↦ V/ℝ₊*, inverse Benzécri's F(B) = FJ(B)/ℛ, unit/counit the canonical unitIso/counitIso; the printed form, read over all Hausdorff connected cones, stays refuted for n ≥ 3 (Benzecri.not_essSurjAsPrinted_dim) as § 2 Prop. 2's finding carried over.",
+      "paper_findings": [
+        "Benzecri.not_essSurjAsPrinted_dim",
+        "Benzecri.EssSurjAsPrintedDim",
+        "Benzecri.ConeCex.iso_FCone_coneBase_and_not_t2Space",
+        "Benzecri.ConeCex.isoFConeBase",
+        "Benzecri.essSurjAsPrinted_of_le_one"
+      ],
+      "in_proof": [
+        {
+          "sentence": "« Nous allons définir F(B) comme un quotient de FJ(B), et FJ(B) s'identifiera avec J₁(F(B)) » (l.568); « on peut trouver une carte compatible et une seule d'un voisinage convenable de p qui soit composée d'un relèvement de ce voisinage sur un voisinage de (j, m) et de la projection … FJ(B) s'identifie donc avec l'espace des jets de cartes compatibles de F(B) » (l.598–604)",
+          "ruling": "DEC-127: to be formalized as its own bijection",
+          "decls": [
+            "Benzecri.FCone.fjJetHomeomorph",
+            "Benzecri.FCone.fjJet",
+            "Benzecri.FCone.fjJet_eq",
+            "Benzecri.FCone.fjJet_fst",
+            "Benzecri.FCone.value_fjJet",
+            "Benzecri.FCone.fjJet_smul",
+            "Benzecri.FCone.jetCompEq_fjJet_pushFJ"
+          ],
+          "statement": "FCone.fjJetHomeomorph n B : FJ n B ≃ₜ jets (GUR (n+1)) (RnO (n+1)) (FCone n B) — FJ(B) with the topology induced by J(B) × (ℝⁿ⁺¹ − {O}) is homeomorphic to J₁(F(B)) (the jets of F(B)'s affine conical structure, étalé topology), by (j, m) ↦ the jet at [(j, m)] of the compatible chart through (j, m) (fjJet; over a chart e of B with j = g∘jet_y e it is i(g)∘jet f_e, chart-independent by fjJet_eq). Compatibilities: source [(j, m)] (fjJet_fst), value m (value_fjJet), ℛ's g•(j, m) goes to i(g)∘· (fjJet_smul), and natural in B: under it φ' is composition with F(φ), fjJet(φ'(p)) ∘ F(φ) = fjJet(p) (jetCompEq_fjJet_pushFJ, « J₁(F(B₂))∘F(φ) ⊂ J₁(F(B₁)) », l.635). No Hausdorff, connectedness or countability hypothesis on B. A homeomorphism is the strongest form the sentences support (both sides carry their printed topologies)."
+        },
+        {
+          "sentence": "« on peut trouver un jet et un seul j₂ de J(B₂) tel que φ∘j₂ = j₁ » (l.639–640; [sic], read j₂∘φ = j₁, DEC-127)",
+          "decls": [
+            "Benzecri.FCone.existsUnique_pushJet",
+            "Benzecri.JetCompEq",
+            "Benzecri.JetCompEq.jet_comp",
+            "Benzecri.FCone.jetCompEq_pushJet",
+            "Benzecri.FCone.pushFJ",
+            "Benzecri.FCone.map_q"
+          ],
+          "statement": "existsUnique_pushJet hφ j₁ : ∃! j₂ : Jet B₂ (S n), j₂ ∈ J(B₂) ∧ JetCompEq φ j₂ j₁ (j₂ ∘ φ = j₁), the j₂ being pushJet hφ j₁; JetCompEq is independent of the representative of j₂ (JetCompEq.jet_comp); φ'(j₁, m) = (j₂, m) is pushFJ, and F(φ)[(j₁,m)] = [φ'(j₁,m)] (map_q, rfl)."
+        }
+      ],
+      "rulings": [
+        "DEC-127 (2026-11-08): MARKED in the corrected form (coneEquivalence, baseFunctor_isEquivalence); hypothesis rows read « carried (ruled, DEC-122/124) ».",
+        "DEC-127: l.640 « φ∘j₂ = j₁ » is a misprint for j₂∘φ = j₁, flagged [sic] in the transcription (l.641 comment); every other composition of Ch. 1, including p. 238's « J(V₂)∘f » and l.635, is written right to left. The round-0 wording (« Benzécri composes left to right here, as in J(V₂)∘f ») is withdrawn.",
+        "DEC-127: the refutation of the printed form is § 2 Prop. 2's finding (DEC-122) carried over to the Énoncé, not a failure of F (ConeCex.iso_FCone_coneBase_and_not_t2Space).",
+        "DEC-127: « FJ(B) s'identifie avec J₁(F(B)) » formalized as its own bijection (FCone.fjJetHomeomorph, a homeomorphism, natural in B)."
       ]
     }
   ],
@@ -97,7 +191,14 @@
     "Benzecri.ConeBase.gsOf",
     "Benzecri.ConeBase.isoGUR_gsOf",
     "Benzecri.ConeBase.toSphere_smul_GU",
-    "Benzecri.ConeBase.baseChart_eventually_eq"
+    "Benzecri.ConeBase.baseChart_eventually_eq",
+    "Benzecri.jet_comp_congr",
+    "Benzecri.FCone.map_eventually_eq_of_eventually_eq",
+    "Benzecri.FCone.fjOfJetAt",
+    "Benzecri.FCone.fjJet_fjOfJetAt",
+    "Benzecri.FCone.fjJet_fjOfJet",
+    "Benzecri.FCone.fjOfJet_eq",
+    "Benzecri.FCone.isInducing_jet_pt"
   ],
   "upstream_moves": [
     "Structure/Basic (Jets section): jetSMul_one, jetSMul_mul, eq_of_jetSMul_eq, exists_eventually_smul_of_jet_mem, exists_eq_jetSMul_of_mem (generic (G,X) jet algebra)",
@@ -105,7 +206,8 @@
     "Structure/Jets: continuous_jetSMul, sheetIndex_eventually_eq, sheetIndex_jetSMul, sheetIndex_jetSMul_jet, sheetIndex_of_eventually_eq",
     "Structure/Quotient: IsGXMorphism.of_rightInverse, GXCat.isoOfBijective (any bijective (G,X)-morphism is an iso)",
     "Cone/Basic: t2Space_RnO (as a theorem or an instance on the package's own RnO), t2Space_of_fibre_charts (or Mathlib-style general topology)",
-    "Cone/Base: ConeBase.map_injective, gsOf / isoGUR_gsOf / toSphere_smul_GU (GU ↔ GS through i), baseChart_eventually_eq (generalises the step inside baseChart_symm_trans_mem and isGXMorphism_map)"
+    "Cone/Base: ConeBase.map_injective, gsOf / isoGUR_gsOf / toSphere_smul_GU (GU ↔ GS through i), baseChart_eventually_eq (generalises the step inside baseChart_symm_trans_mem and isGXMorphism_map)",
+    "Structure/Basic or Structure/Quotient: JetCompEq, jet_comp_congr, JetCompEq.jet_comp (composition of a jet with a map, independent of representatives)"
   ],
   "kb_proposals": [
     "With `open CategoryTheory`, `Equivalence.mk` resolves to the root `Equivalence` (a Prop structure), not `CategoryTheory.Equivalence.mk`: write the full name.",
@@ -113,5 +215,32 @@
     "On FJ-style nested subtypes (`{p : jets × RnO // …}`), state the smart constructor `FCone.mk j hj m hm` and a `mk_congr` lemma; rewriting under dependent proof fields fails, `exact (mk_congr h1 h2).trans …` up to defeq works.",
     "`ℝᵏ − {O}` (`RnO k`) has no T2Space instance in the strict library; derive it from `Punctured.isEmbedding_val.t2Space` (local instance)."
   ],
-  "notes": "0 sorry; both modules build with `lake build BenzecriScaffold.Cone.{Lift,Functor}` (no upstream rebuild) and are clean under `lake env lean -DwarningAsError=true`; axioms of every main decl: propext, Classical.choice, Quot.sound. Functor imports Benzecri.Cone.Counterexample and Benzecri.Cone.LowDim (for the finding and the n ≤ 2 positive form). No global instance on a Mathlib type: the instances declared are on the package's own types FJ, FCone (MulAction, ContinuousConstSMul, TopologicalSpace, ChartedSpace, HasGroupoid, HasConeCharts, T2Space); t2Space_RnO is a local instance. No uniqueness/comparison statement quantifies over a class-typed binder (kb/0002 not triggered). Roots not edited: add `import BenzecriScaffold.Cone.Lift` and `import BenzecriScaffold.Cone.Functor` to scaffold/BenzecriScaffold.lean."
+  "notes": "Fix round 1 (AUDIT-1 + DEC-127), node1. 0 sorry; `taskset -c 0-11 lake build BenzecriScaffold.Cone.Lift BenzecriScaffold.Cone.Functor` succeeds (Lift 5.6 s, Functor 2.6 s; no upstream rebuild) and both files are clean under `lake env lean -DwarningAsError=true`; `#print axioms` of coneEquivalence, coneEquivalence_unitIso/counitIso, baseFunctor_isEquivalence, not_essSurjAsPrinted_dim, FCone.fjJetHomeomorph, FCone.jetCompEq_fjJet_pushFJ, FCone.existsUnique_pushJet, FCone.fjJet_smul, FCone.value_fjJet, ConeCex.isoFConeBase, ConeCex.iso_FCone_coneBase_and_not_t2Space: [propext, Classical.choice, Quot.sound] (JetCompEq.jet_comp: [propext, Quot.sound]). kb/0002: none of the new statements (fjJetHomeomorph, existsUnique_pushJet, jetCompEq_fjJet_pushFJ, ConeCex.iso_FCone_coneBase_and_not_t2Space) quantifies over a class-typed binder; printed with pp.explicit, the codomain of fjJetHomeomorph is the subtype of Jet (FCone n B) (RnO (n+1)) with instTopologicalSpaceSubtype over the scoped etaleTopology, and its jets are taken for FCone.chartedSpace. Functor imports Benzecri.Cone.Counterexample and Benzecri.Cone.LowDim (for the finding and the n ≤ 2 positive form). No global instance on a Mathlib type: the instances declared are on the package's own types FJ, FCone; t2Space_RnO is a local instance. The identification FJ(B) ≃ₜ J₁(F(B)) is in Lift.lean (no new module, no new import line); the roots already import both modules. Renamed/moved: none (map_eventually_eq_of_mem now delegates to the new map_eventually_eq_of_eventually_eq, same statement).",
+  "fix_round": {
+    "round": 1,
+    "audit": "campaign/WP-45r/AUDIT-1.json",
+    "ruling": "DEC-127",
+    "fixes": [
+      {
+        "issue": "minor 1 (l.640 reading justified backwards)",
+        "fix": "Lift.lean SCOPE « Jets as germs; l.640 is a misprint of order (DEC-127) » rewritten: « φ∘j₂ = j₁ » is read j₂∘φ = j₁, a misprint of order flagged [sic]; every other composition of Ch. 1 (l.345, l.375, l.393/p. 238 « J(V₂)∘f », l.524, l.574, l.623, l.635) is right to left. pushJet docstring and module bullet updated; REPORT question replaced by the DEC-127 ruling and a hypothesis row"
+      },
+      {
+        "issue": "minor 2 (« isomorphic to no F(B) » without « B Hausdorff »)",
+        "fix": "Functor.lean module docstring (finding bullet) and not_essSurjAsPrinted_dim docstring now say « with B Hausdorff (an object of ProjCat n) » and that VDim m IS F of its own non-Hausdorff base; new ConeCex.isoFConeBase (the audit's one-line cexIso) and ConeCex.iso_FCone_coneBase_and_not_t2Space make « not a failure of F » a theorem; REPORT finding reworded (« given « variété » ⇒ Hausdorff on the projective side »)"
+      },
+      {
+        "issue": "nit 1 (Equivalence.mk adjusts the unit)",
+        "fix": "coneEquivalence built directly with unitIso n / counitIso n, functor_unitIso_comp by ext + rfl; new rfl lemmas coneEquivalence_unitIso, coneEquivalence_counitIso; SCOPE sentence replaced"
+      },
+      {
+        "issue": "nit 2 (dead letI at Functor.lean:430)",
+        "fix": "deleted"
+      },
+      {
+        "issue": "nit 3 (« un jet et un seul » not stated; « espace fibré principal » under-cited)",
+        "fix": "(a) JetCompEq + existsUnique_pushJet : ∃! j₂ ∈ J(B₂), j₂ ∘ φ = j₁, with jetCompEq_pushJet and JetCompEq.jet_comp; (b) Lift.lean module bullet now cites freeness (Cone/Basic eq_one_of_posSMul_eq), equivariant local triviality (Cone/Base ConeBase.coneTrivialization, exists_coneTrivialization) and base = B (baseProj, Cone/Functor counitApp) beside exists_posSMul_eq_of_proj_eq"
+      }
+    ]
+  }
 }

@@ -11,33 +11,43 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
 Package WP-45r (wave 4). Indexing: cones of dimension `n + 1` (`ConeCat (n + 1)`), bases of
 dimension `n` (`ProjCat n`), i.e. Benzécri's `n` and `n − 1`.
 
-* `bzthm:c1s2_isomorphisme_fonctoriel` — `benzecri1960_ch1.tex:554` (Énoncé, l.554–558, p. 241;
+* **`bzthm:c1s2_isomorphisme_fonctoriel`** — `benzecri1960_ch1.tex:554` (Énoncé, l.554–558, p. 241;
   proof l.560–649, pp. 241–242; « Dans ce qui suit, nous noterons $F^{-1}$ … » l.651–652).
-  **Proved in full, with no `sorry`, in the corrected form DEC-122/DEC-124 rule** and under the
-  reading DEC-113 rules (plan F5: an equivalence of categories, not an isomorphism); NOT MARKED,
-  because the corrected form adds DEC-122's hypothesis (see the finding below), pending the author's
-  ruling as for Prop. 2 (DEC-124). The formalization of record:
+  **MARKED in its corrected form (DEC-127; the correction is DEC-122's, the objects DEC-124's), the
+  finding recorded.** Proved in full, with no `sorry`, under the reading DEC-113 rules (plan F5: an
+  equivalence of categories, not an isomorphism). The corrected form is the formalization of
+  record:
   - `Benzecri.coneEquivalence n : ConeCat (n + 1) ≌ ProjCat n`, whose functor is the base functor
     `baseFunctor n`, `V ↦ V/ℝ₊*` (`coneEquivalence_functor`), and whose inverse is Benzécri's
     `F = coneFunctor n`, `B ↦ FJ(B)/ℛ` (`coneEquivalence_inverse`); `Prop` form:
     `baseFunctor_isEquivalence`.
-  - the natural isomorphisms: `counitIso n : F ⋙ F⁻¹ ≅ 𝟭`, canonically `F(B)/ℝ₊* ≅ B` through the
-    source projection (« une variété conique affine $F(B)$ … dont la base soit $B$ »;
-    `FCone.isGXMorphism_baseProj`, `FCone.baseProj_bijective`), and `unitIso n : 𝟭 ≅ F⁻¹ ⋙ F`,
-    canonically `V ≅ F(V/ℝ₊*)`, `m ↦ [(p(jet_m f), f(m))]` for a cone chart `f` at `m` (« $FJ(B)$
-    s'identifie donc avec l'espace des jets de cartes compatibles »; `ConeBase.unitMap`,
-    independent of `f`: `unitMap_eq`; in charts the identity: `coneChart_unitMap`; natural:
-    `unitMap_naturality`).
+  - the natural isomorphisms, which ARE the equivalence's unit and counit (built directly, the
+    triangle identity holding by `rfl`: `coneEquivalence_unitIso`, `coneEquivalence_counitIso`):
+    `counitIso n : F ⋙ F⁻¹ ≅ 𝟭`, canonically `F(B)/ℝ₊* ≅ B` through the source projection (« une
+    variété conique affine $F(B)$ … dont la base soit $B$ »; `FCone.isGXMorphism_baseProj`,
+    `FCone.baseProj_bijective`), and `unitIso n : 𝟭 ≅ F⁻¹ ⋙ F`, canonically `V ≅ F(V/ℝ₊*)`,
+    `m ↦ [(p(jet_m f), f(m))]` for a cone chart `f` at `m` (`ConeBase.unitMap`, independent of `f`:
+    `unitMap_eq`; in charts the identity: `coneChart_unitMap`; natural: `unitMap_naturality`), the
+    global counterpart for `B = V/ℝ₊*` of the in-proof « $FJ(B)$ s'identifie donc avec l'espace des
+    jets de cartes compatibles de $F(B)$ », itself formalized in `Cone/Lift` as the homeomorphism
+    `FCone.fjJetHomeomorph : FJ(B) ≃ₜ J₁(F(B))` (DEC-127).
   - the objects (DEC-124): `ConeCat (n + 1)` = connected Hausdorff affine conical manifolds with a
     proper `ℝ₊*`-action (`Cone/Basic`); `ProjCat n` = connected Hausdorff locally projective
     manifolds (`IsProjObject`); the functors land in them (`Cone/Base`'s bridge lemmas;
     `Cone/Lift`'s `FCone.t2Space`, `connectedSpace`, `properSMul`).
-  - **the finding** (DEC-122, propagated to the Énoncé): read over all Hausdorff connected affine
-    conical manifolds, the Énoncé is FALSE in every Benzécri dimension `n + 1 ≥ 3`: the essential
-    image of `F` is exactly the cones with a proper action (`exists_iso_coneObj_iff`,
+  - **the finding — § 2 Prop. 2's finding (DEC-122) carried over to the Énoncé (DEC-127), not a
+    failure of `F`**: read over all Hausdorff connected affine conical manifolds, the printed Énoncé
+    is FALSE in every Benzécri dimension `n + 1 ≥ 3`: among them the essential image of `F` on
+    Hausdorff bases is exactly the cones with a proper action (`exists_iso_coneObj_iff`,
     `properSMul_of_iso`), and `Cone/Counterexample`'s `ConeCex.VDim m` is isomorphic to no `F(B)`
-    (`not_essSurjAsPrinted_dim`, against the `Prop` `EssSurjAsPrintedDim`); in dimension
-    `n + 1 ≤ 2` the printed form holds (`essSurjAsPrinted_of_le_one`).
+    with `B` Hausdorff (an object of `ProjCat n`; `not_essSurjAsPrinted_dim`, against the `Prop`
+    `EssSurjAsPrintedDim`). It IS `F` of its own base, `V ≅ F(V/ℝ₊*)` holding for every Hausdorff
+    cone (`ConeCex.isoFConeBase`, from `ConeBase.unitMap_bijective` and `isGXMorphism_unitMap`, which
+    need no Hausdorff base); what fails is that this base is not Hausdorff
+    (`ConeCex.not_t2Space_coneBase_dim`), i.e. not a « variété » — both at once:
+    `ConeCex.iso_FCone_coneBase_and_not_t2Space`. So the finding rests on reading « variété
+    localement projective » as Hausdorff (plan F6) and is Prop. 2's. In dimension `n + 1 ≤ 2` the
+    printed form holds (`essSurjAsPrinted_of_le_one`).
 
 Also: a bijective morphism of `(G,X)`-manifolds is an isomorphism (`GXCat.isoOfBijective`, from
 `IsGXMorphism.of_rightInverse`); the base of an injective conical morphism is injective
@@ -65,7 +75,7 @@ Also: a bijective morphism of `(G,X)`-manifolds is an isomorphism (`GXCat.isoOfB
 |---|---|
 | « isomorphisme fonctoriel » | reading (DEC-113, plan F5): `CategoryTheory.Equivalence`, with canonical natural isomorphisms `F⁻¹ ∘ F ≅ 𝟭`, `𝟭 ≅ F ∘ F⁻¹`; on the nose `F⁻¹(F(B)) = B` is not expected (`F(B)/ℝ₊*` is another type) |
 | « variétés coniques affines de dimension $n$ » (Déf. 2), « variété »: Hausdorff, connected | ✓ carried: `ConeCat (n + 1)` (cone charts, `T2Space`, `ConnectedSpace`) |
-| (not printed) the `ℝ₊*`-action is proper | ✓ **carried (ruled, DEC-122/DEC-124)**: a field of `IsProperConeObject`; NECESSARY (`not_essSurjAsPrinted_dim`), and exactly the essential image of `F` (`exists_iso_coneObj_iff`) |
+| (not printed) the `ℝ₊*`-action is proper | ✓ **carried (ruled, DEC-122/DEC-124; marked, DEC-127)**: a field of `IsProperConeObject`; NECESSARY for `B` Hausdorff (`not_essSurjAsPrinted_dim`), and exactly the essential image of `F` on Hausdorff bases (`exists_iso_coneObj_iff`); without it the cone is `F` of a non-Hausdorff base (`ConeCex.iso_FCone_coneBase_and_not_t2Space`), Prop. 2's finding |
 | « variétés localement projectives de dimension $n-1$ », « variété »: Hausdorff, connected | ✓ carried: `ProjCat n` (`IsProjObject`: `T2Space ∧ ConnectedSpace`) |
 | « variété »: second countable (plan F6) | generalised: not needed on either side; both functors preserve it (`ConeBase.secondCountableTopology`, `FCone.secondCountableTopology`), so the equivalence restricts to second countable objects |
 | the morphisms: `J_1(V_2)∘f ⊂ J_1(V_1)`, resp. `J(V_2)∘f ⊂ J(V_1)` (p. 238, p. 240) | ✓ carried: `IsGXMorphism` (`isGXMorphism_iff_jets`), full subcategories of `GXCat` |
@@ -75,13 +85,16 @@ Also: a bijective morphism of `(G,X)`-manifolds is an isomorphism (`GXCat.isoOfB
 * The objects are bundled in universe `0` (`GXCat`, plan F5); `ConeCat` and `ProjCat` are full
   subcategories (`ObjectProperty.FullSubcategory`) of `GXCat (GUR (n + 1)) (RnO (n + 1))` and of
   `LocProj n = GXCat (GSR n) (S n)`.
-* The equivalence is built with `CategoryTheory.Equivalence.mk`, which adjusts the unit to satisfy
-  the triangle identities; its functor and inverse are `baseFunctor n` and `coneFunctor n` on the
-  nose (`rfl`), its counit is `counitIso n`.
+* The equivalence is built directly from `unitIso n` and `counitIso n` (the triangle identity
+  `functor_unitIso_comp` holds by `rfl` on representatives), so its functor, inverse, unit and
+  counit are `baseFunctor n`, `coneFunctor n`, `unitIso n`, `counitIso n` on the nose (`rfl`).
 * The finding is stated against the weakest printed-form consequence (`EssSurjAsPrintedDim`:
-  every Hausdorff connected cone is some `F(B)`), so it refutes every reading of the printed Énoncé
-  over that larger category in which `F` is the inverse; that the base functor itself does not
-  land in Hausdorff manifolds is Prop. 2's finding (`Cone/Base`, `Cone/Counterexample`).
+  every Hausdorff connected cone is some `F(B)` with `B` Hausdorff), so it refutes every reading of
+  the printed Énoncé over that larger category in which `F` is the inverse and the projective side
+  is made of « variétés » (Hausdorff, plan F6). It is § 2 Prop. 2's finding carried over (DEC-127):
+  the base functor does not land in Hausdorff manifolds (`Cone/Base`, `Cone/Counterexample`), while
+  `F` itself is an inverse up to isomorphism over ANY base, Hausdorff or not
+  (`ConeCex.isoFConeBase`).
 * `t2Space_RnO` is a local instance; `gsOf`, `isoGUR_gsOf`, `toSphere_smul_GU`,
   `baseChart_eventually_eq` are small `ConeBase` helpers (REPORT `upstream_moves`).
 
@@ -213,9 +226,10 @@ theorem toSphere_eq_value_baseChart {e : OpenPartialHomeomorph V (RnO (n + 1))}
     Punctured.toSphere (e m) = Jet.value (jet (mk (n := n) m) (baseChart he)) := by
   rw [Jet.value_jet, baseChart_mk he hm]
 
-/-- **The canonical map `V → F(V/ℝ₊*)`** (« $FJ(B)$ s'identifie donc avec l'espace des jets de cartes
-compatibles »): `m ↦ [(p(jet_m f), f(m))]`, `f` a cone chart at `m` (the chosen one; any other gives
-the same point, `unitMap_eq`). -/
+/-- **The canonical map `V → F(V/ℝ₊*)`** (the global counterpart of « $FJ(B)$ s'identifie donc avec
+l'espace des jets de cartes compatibles », whose own form is `Cone/Lift`'s `FCone.fjJetHomeomorph`):
+`m ↦ [(p(jet_m f), f(m))]`, `f` a cone chart at `m` (the chosen one; any other gives the same point,
+`unitMap_eq`). No Hausdorff hypothesis on the base `V/ℝ₊*`. -/
 def unitMap (m : V) : FCone n (ConeBase n V) :=
   FCone.mk (jet (mk m) (baseChart (isConeChart_coneChartAt (n := n + 1) m)))
     (jet_baseChart_mem _ (mem_coneChartAt_source m)) (coneChartAt (n + 1) m m)
@@ -427,7 +441,6 @@ def baseFunctor : ConeCat (n + 1) ⥤ ProjCat n where
   map_comp f g := by
     refine ObjectProperty.hom_ext _ (GXCat.hom_ext ?_)
     funext b
-    letI := ‹ConeCat (n + 1)›
     obtain ⟨m, rfl⟩ := Quotient.mk_surjective b
     rfl
 
@@ -492,13 +505,30 @@ variable (n) in
 /-- **§ 2, the « isomorphisme fonctoriel »** (`bzthm:c1s2_isomorphisme_fonctoriel`): the base functor
 `V ↦ V/ℝ₊*` is an equivalence between the category of (connected, Hausdorff, proper) affine conical
 `(n+1)`-manifolds and that of (connected, Hausdorff) locally projective `n`-manifolds, with inverse
-Benzécri's `F`. -/
-def coneEquivalence : ConeCat (n + 1) ≌ ProjCat n :=
-  CategoryTheory.Equivalence.mk (baseFunctor n) (coneFunctor n) (unitIso n) (counitIso n)
+Benzécri's `F`; its unit and counit are the canonical `unitIso n` (`V ≅ F(V/ℝ₊*)`) and `counitIso n`
+(`F(B)/ℝ₊* ≅ B`). MARKED in this corrected form (DEC-127): the printed form, read over all
+Hausdorff connected cones, is refuted for `n + 1 ≥ 3` (`not_essSurjAsPrinted_dim`), § 2 Prop. 2's
+finding carried over. -/
+def coneEquivalence : ConeCat (n + 1) ≌ ProjCat n where
+  functor := baseFunctor n
+  inverse := coneFunctor n
+  unitIso := unitIso n
+  counitIso := counitIso n
+  functor_unitIso_comp V := by
+    letI := V.property.hasConeCharts
+    letI := V.property.t2Space
+    refine ObjectProperty.hom_ext _ (GXCat.hom_ext ?_)
+    funext b
+    obtain ⟨m, rfl⟩ := Quotient.mk_surjective b
+    rfl
 
 theorem coneEquivalence_functor : (coneEquivalence n).functor = baseFunctor n := rfl
 
 theorem coneEquivalence_inverse : (coneEquivalence n).inverse = coneFunctor n := rfl
+
+theorem coneEquivalence_unitIso : (coneEquivalence n).unitIso = unitIso n := rfl
+
+theorem coneEquivalence_counitIso : (coneEquivalence n).counitIso = counitIso n := rfl
 
 variable (n) in
 /-- **The base functor is an equivalence of categories** (`bzthm:c1s2_isomorphisme_fonctoriel`, the
@@ -566,15 +596,37 @@ def EssSurjAsPrintedDim (n : ℕ) : Prop :=
   ∀ (V : GXCat (GUR (n + 1)) (RnO (n + 1))) [HasConeCharts (n + 1) V] [T2Space V]
     [ConnectedSpace V], ∃ B : ProjCat n, Nonempty (V ≅ (coneObj B).obj)
 
-/-- **FINDING (DEC-122, propagated to the Énoncé)**: in every Benzécri dimension `n + 1 ≥ 3`, the
-Hausdorff, second countable, connected affine conical manifold `ConeCex.VDim` of
-`Cone/Counterexample` is isomorphic to no `F(B)`: without the properness of the `ℝ₊*`-action the
-« isomorphisme fonctoriel » fails, whatever the functor in the other direction. -/
+/-- **FINDING (§ 2 Prop. 2's finding, DEC-122, carried over to the Énoncé, DEC-127)**: in every
+Benzécri dimension `n + 1 ≥ 3`, the Hausdorff, second countable, connected affine conical manifold
+`ConeCex.VDim` of `Cone/Counterexample` is isomorphic to no `F(B)` with `B` Hausdorff (an object of
+`ProjCat n`): without the properness of the `ℝ₊*`-action the printed « isomorphisme fonctoriel »,
+with « variétés » (Hausdorff, plan F6) on the projective side, fails whatever the functor in the
+other direction. It is not a failure of `F`: `VDim m` IS `F` of its own base
+(`ConeCex.isoFConeBase`, `V ≅ F(V/ℝ₊*)` holding for every Hausdorff cone), and what fails is that this
+base is not Hausdorff (`ConeCex.not_t2Space_coneBase_dim`). -/
 theorem not_essSurjAsPrinted_dim {n : ℕ} (hn : 2 ≤ n) : ¬ EssSurjAsPrintedDim n := by
   obtain ⟨m, rfl⟩ := Nat.exists_eq_add_of_le' hn
   intro h
   obtain ⟨B, ⟨ψ⟩⟩ := h ⟨ConeCex.VDim m⟩
   exact ConeCex.not_properSMul_dim m (properSMul_of_iso B ψ)
+
+/-- **The counterexample is `F` of its own base** (DEC-127: the finding is not a failure of `F`):
+`ConeCex.VDim m ≅ F(VDim m/ℝ₊*)` as affine conical manifolds, through the canonical
+`V → F(V/ℝ₊*)`, `m ↦ [(p(jet_m f), f(m))]` (`ConeBase.unitMap`), which needs no Hausdorff base. -/
+def ConeCex.isoFConeBase (m : ℕ) :
+    (⟨ConeCex.VDim m⟩ : GXCat (GUR (m + 2 + 1)) (RnO (m + 2 + 1))) ≅
+      ⟨FCone (m + 2) (ConeBase (m + 2) (ConeCex.VDim m))⟩ :=
+  GXCat.isoOfBijective _ _ ⟨ConeBase.unitMap, ConeBase.isGXMorphism_unitMap⟩
+    ConeBase.unitMap_bijective
+
+/-- **The finding, located** (DEC-127): `ConeCex.VDim m` is isomorphic to `F(B₀)` for its own base
+`B₀ = VDim m/ℝ₊*`, and `B₀` is not Hausdorff, hence not an object of `ProjCat (m + 2)`: what the
+printed Énoncé misses is § 2 Prop. 2's « variété » for the base, not the construction `F`. -/
+theorem ConeCex.iso_FCone_coneBase_and_not_t2Space (m : ℕ) :
+    Nonempty ((⟨ConeCex.VDim m⟩ : GXCat (GUR (m + 2 + 1)) (RnO (m + 2 + 1))) ≅
+      ⟨FCone (m + 2) (ConeBase (m + 2) (ConeCex.VDim m))⟩) ∧
+      ¬ T2Space (ConeBase (m + 2) (ConeCex.VDim m)) :=
+  ⟨⟨ConeCex.isoFConeBase m⟩, ConeCex.not_t2Space_coneBase_dim m⟩
 
 /-- **In Benzécri's dimension `n + 1 ≤ 2` the Énoncé holds as printed**: every Hausdorff connected
 affine conical `(n+1)`-manifold is some `F(B)` (the action is automatically proper, `Cone/LowDim`). -/
