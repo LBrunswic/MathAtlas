@@ -1,0 +1,117 @@
+{
+  "package": "WP-45r",
+  "files": [
+    "scaffold/BenzecriScaffold/Cone/Lift.lean",
+    "scaffold/BenzecriScaffold/Cone/Functor.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bzthm:c1s2_isomorphisme_fonctoriel",
+      "tex_lines": [554, 652],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.coneEquivalence",
+        "Benzecri.coneEquivalence_functor",
+        "Benzecri.coneEquivalence_inverse",
+        "Benzecri.baseFunctor_isEquivalence",
+        "Benzecri.baseFunctor",
+        "Benzecri.coneFunctor",
+        "Benzecri.unitIso",
+        "Benzecri.counitIso",
+        "Benzecri.ProjCat",
+        "Benzecri.IsProjObject",
+        "Benzecri.FJ",
+        "Benzecri.FCone",
+        "Benzecri.FCone.coneChart",
+        "Benzecri.FCone.coneChart_eventually_eq",
+        "Benzecri.FCone.chartedSpace",
+        "Benzecri.FCone.hasGroupoid",
+        "Benzecri.FCone.hasConeCharts",
+        "Benzecri.FCone.t2Space",
+        "Benzecri.FCone.connectedSpace",
+        "Benzecri.FCone.properSMul",
+        "Benzecri.FCone.secondCountableTopology",
+        "Benzecri.FCone.posSMul_mk",
+        "Benzecri.FCone.exists_posSMul_eq_of_proj_eq",
+        "Benzecri.FCone.pushJet",
+        "Benzecri.FCone.pushJet_eq",
+        "Benzecri.FCone.map",
+        "Benzecri.FCone.isGXMorphism_map",
+        "Benzecri.FCone.map_id",
+        "Benzecri.FCone.map_comp",
+        "Benzecri.FCone.baseProj",
+        "Benzecri.FCone.isGXMorphism_baseProj",
+        "Benzecri.FCone.baseProj_bijective",
+        "Benzecri.ConeBase.unitMap",
+        "Benzecri.ConeBase.unitMap_eq",
+        "Benzecri.ConeBase.isGXMorphism_unitMap",
+        "Benzecri.ConeBase.unitMap_bijective",
+        "Benzecri.ConeBase.unitMap_naturality",
+        "Benzecri.properSMul_of_iso",
+        "Benzecri.exists_iso_coneObj_iff",
+        "Benzecri.EssSurjAsPrintedDim",
+        "Benzecri.not_essSurjAsPrinted_dim",
+        "Benzecri.essSurjAsPrinted_of_le_one"
+      ],
+      "hypotheses": [
+        {"paper": "« isomorphisme fonctoriel »", "here": "reading", "note": "CategoryTheory.Equivalence (DEC-113, plan F5); canonical natural isos F⁻¹∘F ≅ 𝟭 (F(B)/ℝ₊* ≅ B by the source projection) and 𝟭 ≅ F∘F⁻¹ (V ≅ F(V/ℝ₊*) by m ↦ [(p(jet_m f), f(m))]); functor and inverse are the base functor and Benzécri's F on the nose (rfl)"},
+        {"paper": "variétés coniques affines de dimension n (Déf. 2), « variété »", "here": "carried (DEC-124)", "note": "ConeCat (n+1): cone charts, Hausdorff, connected, proper ℝ₊*-action; properness is DEC-122's added hypothesis, shown NECESSARY (not_essSurjAsPrinted_dim) and equal to the essential image of F (exists_iso_coneObj_iff)"},
+        {"paper": "variétés localement projectives de dimension n−1, « variété »", "here": "carried (DEC-124)", "note": "ProjCat n: full subcategory of LocProj n on T2Space ∧ ConnectedSpace"},
+        {"paper": "« variété »: second countable (plan F6)", "here": "generalised", "note": "not needed on either side; both functors preserve it (ConeBase.secondCountableTopology, FCone.secondCountableTopology), so the equivalence restricts to second-countable objects"},
+        {"paper": "J(B) « l'espace des jets projectifs », FJ(B) « muni de la topologie induite », F(B) = FJ(B)/ℛ", "here": "carried", "note": "the étalé topology on jets (Structure/Jets), subspace topology, Mathlib orbit quotient of the GS-action g•(j,m) = (g∘j, i(g)m) — literally the printed relation ℛ"}
+      ],
+      "sorries": [],
+      "findings": [
+        "DEC-122 propagated to the Énoncé (l.554–558, p. 241): read over all Hausdorff connected affine conical manifolds of Benzécri dimension n ≥ 3, the « isomorphisme fonctoriel » is false whatever the reading of « isomorphisme », because the essential image of F is exactly the cones with a proper ℝ₊*-action: Cone/Counterexample's ConeCex.VDim m (Hausdorff, second countable, connected) is isomorphic to no F(B) with B Hausdorff (Benzecri.not_essSurjAsPrinted_dim, against the Prop EssSurjAsPrintedDim). In dimension n ≤ 2 the printed form holds (essSurjAsPrinted_of_le_one).",
+        "F(B) always has a proper ℝ₊*-action and a Hausdorff base (FCone.properSMul, FCone.t2Space_coneBase): the construction of the proof (l.560–649) never produces a cone outside DEC-122's corrected category, so the correction loses nothing on the projective side."
+      ],
+      "questions": [
+        "Marking: the equivalence is proved with 0 sorry over DEC-124's objects (proper cones), but that is an added hypothesis relative to the printed Énoncé; may it be MARKED in its corrected form as DEC-124 did for § 2 Prop. 2? (Left unmarked, status partial.)",
+        "« φ ∘ j₂ = j₁ » (l.640, p. 242) is read as composition in diagrammatic order (j₁ = j₂ ∘ germ φ), as in « J(V₂)∘f » (p. 238); confirm.",
+        "« FJ(B) s'identifie avec J₁(F(B)) » (l.568, l.604) is a remark inside the proof and is not formalized as a bijection FJ(B) ≃ J₁(F(B)); its global form for B = V/ℝ₊* is ConeBase.unitMap (V ≅ F(V/ℝ₊*)). Is a separate formalization wanted?"
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.GXCat.isoOfBijective",
+    "Benzecri.IsGXMorphism.of_rightInverse",
+    "Benzecri.ConeBase.map_injective",
+    "Benzecri.t2Space_of_fibre_charts",
+    "Benzecri.t2Space_RnO",
+    "Benzecri.jetSMul_one",
+    "Benzecri.jetSMul_mul",
+    "Benzecri.value_jetSMul",
+    "Benzecri.continuous_jetSMul",
+    "Benzecri.eq_of_jetSMul_eq",
+    "Benzecri.exists_eventually_smul_of_jet_mem",
+    "Benzecri.exists_eq_jetSMul_of_mem",
+    "Benzecri.sheetIndex_eventually_eq",
+    "Benzecri.sheetIndex_jetSMul",
+    "Benzecri.sheetIndex_jetSMul_jet",
+    "Benzecri.sheetIndex_of_eventually_eq",
+    "Benzecri.FCone.isOpenMap_proj",
+    "Benzecri.FCone.isOpenQuotientMap_proj",
+    "Benzecri.ConeBase.gsOf",
+    "Benzecri.ConeBase.isoGUR_gsOf",
+    "Benzecri.ConeBase.toSphere_smul_GU",
+    "Benzecri.ConeBase.baseChart_eventually_eq"
+  ],
+  "upstream_moves": [
+    "Structure/Basic (Jets section): jetSMul_one, jetSMul_mul, eq_of_jetSMul_eq, exists_eventually_smul_of_jet_mem, exists_eq_jetSMul_of_mem (generic (G,X) jet algebra)",
+    "Structure/Developing: value_jetSMul (next to Jet.value)",
+    "Structure/Jets: continuous_jetSMul, sheetIndex_eventually_eq, sheetIndex_jetSMul, sheetIndex_jetSMul_jet, sheetIndex_of_eventually_eq",
+    "Structure/Quotient: IsGXMorphism.of_rightInverse, GXCat.isoOfBijective (any bijective (G,X)-morphism is an iso)",
+    "Cone/Basic: t2Space_RnO (as a theorem or an instance on the package's own RnO), t2Space_of_fibre_charts (or Mathlib-style general topology)",
+    "Cone/Base: ConeBase.map_injective, gsOf / isoGUR_gsOf / toSphere_smul_GU (GU ↔ GS through i), baseChart_eventually_eq (generalises the step inside baseChart_symm_trans_mem and isGXMorphism_map)"
+  ],
+  "kb_proposals": [
+    "With `open CategoryTheory`, `Equivalence.mk` resolves to the root `Equivalence` (a Prop structure), not `CategoryTheory.Equivalence.mk`: write the full name.",
+    "Instances of a full-subcategory object are not found through `(coneObj B).obj.carrier`: take them from the object's property (`(coneObj B).property.hasConeCharts`, `.t2Space`, `.t2Space_coneBase`) with letI.",
+    "On FJ-style nested subtypes (`{p : jets × RnO // …}`), state the smart constructor `FCone.mk j hj m hm` and a `mk_congr` lemma; rewriting under dependent proof fields fails, `exact (mk_congr h1 h2).trans …` up to defeq works.",
+    "`ℝᵏ − {O}` (`RnO k`) has no T2Space instance in the strict library; derive it from `Punctured.isEmbedding_val.t2Space` (local instance)."
+  ],
+  "notes": "0 sorry; both modules build with `lake build BenzecriScaffold.Cone.{Lift,Functor}` (no upstream rebuild) and are clean under `lake env lean -DwarningAsError=true`; axioms of every main decl: propext, Classical.choice, Quot.sound. Functor imports Benzecri.Cone.Counterexample and Benzecri.Cone.LowDim (for the finding and the n ≤ 2 positive form). No global instance on a Mathlib type: the instances declared are on the package's own types FJ, FCone (MulAction, ContinuousConstSMul, TopologicalSpace, ChartedSpace, HasGroupoid, HasConeCharts, T2Space); t2Space_RnO is a local instance. No uniqueness/comparison statement quantifies over a class-typed binder (kb/0002 not triggered). Roots not edited: add `import BenzecriScaffold.Cone.Lift` and `import BenzecriScaffold.Cone.Functor` to scaffold/BenzecriScaffold.lean."
+}
