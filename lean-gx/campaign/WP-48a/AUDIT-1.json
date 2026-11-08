@@ -1,0 +1,49 @@
+{
+ "package": "WP-48a",
+ "round": 1,
+ "auditor": "read-only auditor, round 1",
+ "file": "GX/BTZ/Uniformization.lean",
+ "host": "node1",
+ "builds": true,
+ "build_command": "taskset -c 0-11 lake env lean -DwarningAsError=true GX/BTZ/Uniformization.lean: EXIT=0, 29.2 s wall, no output (no warning, no sorry). taskset -c 0-11 lake build GX: 'Build completed successfully (8751 jobs)'. No Causal.* module recompiled.",
+ "sorry_count": 0,
+ "sorries": [],
+ "axioms": "Re-checked independently with #print axioms on the moved file (GX.BTZ.Uniformization). GX.btz_uniformization, GX.btz_isBTZFutureComplete_C1 and GX.e0PastHalf_counterexample_DEC118 each depend on [propext, Classical.choice, Quot.sound]. This matches campaign/WP-47g/axioms.out, which the docstring cites.",
+ "verdict": "clean",
+ "checks": {
+  "1_build_and_sorry": "PASS. The file builds warning-free under -DwarningAsError=true, and the strict library GX builds green. The file contains no sorry, admit, native_decide, implemented_by or axiom. The token hits at l.14, 46, 51, 144-145, 166, 2718, 3017 and 3201-3202 are all docstring text ('0 `sorry`', 'tamely_singular_manifold_admits').",
+  "2_statement_fidelity": "PASS. git diff HEAD on GX/BTZ/Uniformization.lean changes only the module docstring: header l.11-13, the theo bullet l.27-31, and checklist row l.109. No declaration, statement or proof changed. The statements are therefore the ones WP-47g round 3 audited clean, and I re-read them against l.2348-2396. GX.btz_uniformization has exactly the DEC-28/76/107/119 hypotheses: GH; ∃ S, IsE0C1SpacelikeCauchy M S; IsE0CauchyMaximal; s ≥ 1 via chartedSing nonempty; IsFreeGroup with a non-commuting pair; and every developing pair. Every bullet of DEC-28's form is a conjunct: D injective on all of M̃; ρ faithful, discrete and torsion-free; the invariant null planes; range d.D = (⋃Δₓ) ∪ Ω⁺ with Ω⁺ = ⋂ I⁺(Π_w); the rays relatively open, lightlike, future, in ∂Ω⁺ and ρ(Γ)-invariant; btzRangeTop = devImageTop; and h : ρ(Γ)\\D(M̃) ≃ₜ M together with the a.e.-isomorphism and uniqueness conjuncts. That covers DEC-129's 'M ≅ ρ\\D(M̃) as an a.e.-isomorphism'. DEC-106 is applied correctly: the natural topology for GH and causality, T_BTZ/btzRangeTop only for the homeomorphism. GX.btz_isBTZFutureComplete_C1 is DEC-77's corrected form. Its ¬IsMetabelianGroup hypothesis is weaker than DEC-119's 'free and non-abelian'. Its conclusion is DEC-118 (a)'s IsBTZFutureComplete for EVERY chartwise datum, and the statement also proves such a datum exists. The printed form is refuted non-vacuously: GX.e0PastHalf_counterexample_DEC118 proves the printed hypotheses, refutes the ruled conclusion for every datum, and exhibits a datum.",
+  "3_docstring_contract": "PASS. The module docstring is 14,561 characters. There are exactly two **`label`** marks, both inside the first 4,000 characters: prop:globally_hyperbolic_cauchy_complete_manifolds at offset 521 and theo:globally_hyperbolic_cauchy_complete_cauchy_maximal at offset 1364. Both rows are certified in full under the rulings. The theo row is closed by DEC-129 in its ruled DEC-28 form, and the docstring keeps the Cauchy-complete → Cauchy-compact correction as a FINDING, as DEC-129 requires. No docstring sentence still calls the theo row partial; the only remaining occurrence of 'partial' quotes DEC-28's superseded wording.",
+  "4_report_honesty": "PASS with one minor point (issue 1). builds=true and sorry_count=0 match. All 125 distinct names in labels[].decls and extra_decls resolve: #check @name on each, plus GX.futureRay_null_supset, GX.exists_affine_eq_of_locally and GX.isBTZFutureComplete_of_regFuture, gives 0 errors. Both rows are status 'closed', marked=true. Each hypothesis row is accurate: 'Cauchy-complete' is reported as 'strengthened' and DEC-129's acceptance is noted. The notes' claim that only the docstring changed is verified by git diff. The axiom claim re-verifies.",
+  "5_missing_labels_or_parts": "None. The file certifies exactly these two rows, and papers/gx/certificate/curation.toml maps exactly these two to GX/BTZ/Uniformization.lean. The other labels the file mentions are cross-references to rows certified in GX/BTZ/Manifolds.lean or elsewhere: def:manifold_future_complete_all, lem:increasing_map, defi:BTZtop, prop:aeGXquotient, prop:quotient_chart, prop:singular_manifold_branched_covering and rem:tamely_singular_manifold_admits. No part of the DEC-28 form is missing.",
+  "6_cited_results": "PASS (unchanged since WP-47g round 3, proofs untouched). Each cited result is built and is on standard axioms: Barbot's uniformization (uniformization_range_eq_of_absMax), B21 Cor 2.18 on the C¹ path (cor_abs_max_C1_of_mixed with e0MixedDiamondsCompact_of_record, the WP-47f leaf), B21 Lemma 2.3 (full future BTZ rays), the DEC-119 bridge, LiftGH, quotient_virtually_tame with btz_manifold_isGaloisian, and FutureRay.futureRay_null_supset.",
+  "7_name_clashes_and_DEC33": "PASS. GX.lean imports GX.BTZ.Uniformization, and lake build GX is green, so there is no clash inside GX/. scaffold/ now holds only GXScaffold/Basic.lean. The file is under GX/BTZ/, and its only Causal import is Causal.Flat.Lox.PastProper. There is no root `import Causal`, no CausalScaffold, and no `open Causal`."
+ },
+ "issues": [
+  {
+   "severity": "minor",
+   "where": "campaign/WP-48a/REPORT.json, theo row, findings[-1] (the 'WP-47g fixer round 2' finding)",
+   "problem": "This finding was carried over from WP-47g and still ends 'the row stays partial only because DEC-28 itself rules it partial (Cauchy-complete strengthened to Cauchy-compact, DEC-27)'. The same row now has status 'closed', marked=true, and findings[0] cites DEC-129. Inside one row, the REPORT says both closed and partial, and this finding list is what flows into curation.toml paper_findings.",
+   "fix": "Drop the last clause, or rewrite it as '...; DEC-129 then closed the row in this ruled form, the correction kept as a finding (findings[0])'."
+  },
+  {
+   "severity": "minor",
+   "where": "GX/BTZ/Uniformization.lean module docstring, SCOPE (b) heading (~l.131): 'The BTZ half (WP-47g), and the one reading the headline row rests on.'",
+   "problem": "The heading is stale. Its body says (i) and (ii) are PROVED and (iii) is 'not a reading', and the theo bullet says 'no reading left open'. Nothing in (b) is still a reading the row rests on. This is cosmetic: the heading sits outside the first 4,000 characters and makes no claim on status.",
+   "fix": "Rename the heading to e.g. 'The BTZ half (WP-47g fixer, rounds 1–2)'. This is a docstring-only edit."
+  },
+  {
+   "severity": "minor",
+   "where": "papers/gx/certificate/curation.toml, theo row (outside this package's write set)",
+   "problem": "This file is outside this package's write set and is the master session's to update, so this is a note rather than a defect of WP-48a. The curation row still carries lean_proved_override = \"partial\", and its notes end with the DEC-28-vs-close question that DEC-129 has now answered. If it is not updated when this package is graduated, the ledger will keep the row partial although the module marks it closed.",
+   "fix": "On graduation, remove lean_proved_override (or set it to closed), replace the question in notes with a DEC-129 reference, and take paper_findings from the corrected REPORT."
+  }
+ ],
+ "verified_findings": [
+  "The dispatch is met. DEC-129 is applied as ruled: theo:globally_hyperbolic_cauchy_complete_cauchy_maximal is marked and reads CLOSED in its DEC-28 form (GX.btz_uniformization), and the Cauchy-complete → Cauchy-compact correction is kept as a finding in the docstring and in REPORT findings[0].",
+  "prop:globally_hyperbolic_cauchy_complete_manifolds is certified in full in DEC-77's corrected form by GX.btz_isBTZFutureComplete_C1, with the printed form refuted non-vacuously by GX.e0PastHalf_counterexample_DEC118. It stays closed and marked.",
+  "The edit is docstring-only (git diff HEAD), the file builds warning-free, lake build GX is green, there are 0 sorry, and the axioms are standard."
+ ],
+ "questions_for_author": [],
+ "notes": "Round 1 of WP-48a: clean, with three minor points (one stale REPORT clause, one stale docstring heading, and a graduation note for curation.toml). The file moved from scaffold/GXScaffold/BTZ/ to GX/BTZ/ since WP-47g. Its statements and proofs are byte-for-byte those audited clean in WP-47g round 3, apart from the import path change and the docstring edits; I re-verified them here by build, #check on every reported name, and #print axioms."
+}

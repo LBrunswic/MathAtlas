@@ -1,0 +1,50 @@
+{
+  "package": "WP-48b",
+  "round": 1,
+  "auditor": "read-only auditor, round 1 (host node1)",
+  "file": "GX/BTZ/TildeStructure.lean",
+  "module": "GX.BTZ.TildeStructure",
+  "verdict": "clean",
+  "builds": true,
+  "checks": {
+    "build_file": "taskset -c 0-11 lake env lean -DwarningAsError=true GX/BTZ/TildeStructure.lean: no output, no errors or warnings (11 s)",
+    "sorry_count": "0. A grep for sorry/admit/axiom/opaque/implemented_by/native_decide finds only docstring text. #print axioms on btz_manifold_galoisian_maximal_full and BTZTildeData.hasXAType_of_mem_sing gives [propext, Classical.choice, Quot.sound]",
+    "build_GX": "taskset -c 0-11 lake build GX: Build completed successfully (8752 jobs). The lakefile globs GX.*, so .lake/build/lib/lean/GX/BTZ/TildeStructure.olean is produced although GX.lean does not import the module yet (the master adds the import)",
+    "imports_DEC33": "sole import GX.BTZ.Manifolds; no `import Causal`, no `open Causal`; Causal.* names fully qualified; the file is under GX/BTZ/",
+    "name_clashes": "none. Every theorem/def/abbrev/instance name of the file, BTZTildeData.* included, was grepped against GX/, scaffold/ and the pinned Causal sources. No other SingularGXStructure instance on BTZTildeData.Space exists in GX/BTZ or GX/Lorentz",
+    "non_vacuity": "checked by `lake env lean --stdin` (no file written): IsBTZSingModelled BTZE0 holds via modelChartSelf, and btz_manifold_galoisian_maximal_full instantiates at M = BTZE0. btzTildeModel is a concrete BTZTildeData, and btzTildeFamS_nonempty shows the model family has singular points. reg_space makes Sing(M~) = p^-1(sing M), so IsBTZTildeSingModelled is not vacuously true"
+  },
+  "statement_fidelity": [
+    "Clause 1 (Galoisian maximal covering, exactly branched over sing M): btz_manifold_galoisian_maximal_full gives this for EVERY base point y0, via VirtTame's btz_manifold_galoisian_maximal; branchingLocus = Sing is an equality. At least as strong as l.2308.",
+    "Clause 2 (a developing map continuous for T_BTZ): for every y0 and every presentation Phi (one exists: conjunct 2, btz_exists_presentation) there is a datum d. Its T' is tamifying, chartwise Phi^*hornTop at every lifted descending E_0-chart (DEC-118 (c)), and natural over reg M, which fixes the neighbourhood filter at every point. Its D is T'-continuous, a developing map on p^-1(reg M), and an a.e. (G,X)-morphism into M^3 (isAEMorphismOf_dev). The reading is ruled; no hidden assumption carries the conclusion: d is built from btz_manifold_exists_chartwise_tamifying_reg, not assumed.",
+    "Clause 3 (M~ is a BTZ~-manifold, DEC-130 'full structure'): the instance BTZTildeData.singularGXStructure is a genuine maximal a.e. atlas (DEC-25) on (M~, T') — the pullback p^*B along the a.e. local homeomorphism p. That p is one is PROVED: isPortly_regSpace and isLocalHomeomorphOn_proj through retopBTZ. aeAtlas_space is rfl, and isAEMorphism_proj holds. reg_space (Reg = p^-1(reg M)) is a real theorem: rigidity on a preconnected lifted chart, then btzDevM_range_notMem_nhds. It is not a definitional identity. Each singular point gets a genuine XAChart: a homeomorphism U ≃ V onto a connected T_BTZ-open of E_0~, an a.e. morphism by isAEMorphism_of_developsCharts, centred in S = Sing(E_0~). The model E_0~ carries the same pullback structure (btzTildeModel), so the definition is not trivialised. The standing instances (T2 from Manifolds, LPC, first countable, connected) are proved.",
+    "Hypothesis: IsBTZSingModelled M is the library's graduated reading of l.2300. It is weaker than IsXAManifold, which is covered by the corollary btz_xaManifold_galoisian_maximal_full. It is correctly reported as 'weakened'. No added hypothesis."
+  ],
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "IsBTZTildeSingModelled; btz_xaManifold_galoisian_maximal_full; SCOPE (a)",
+      "problem": "'BTZ~-manifold' is read through only the hasType clause of IsXAManifold (DEC-67 (e)): every singular point is the centre of an E_0~-chart. The atlas clause is not proved for M~, and the IsXAManifold corollary concludes only the hasType form for M~. This matches the paper's own gloss (l.2300, 'singular locus locally modelled on E_0'), the library's reading of the hypothesis, and the dispatch ('singular points modelled on E_0~'). It is disclosed in SCOPE (a) and raised as a question. DEC-130 does not explicitly settle it.",
+      "fix": "None required for this round. If the master or author wants IsXAManifold for M~ (from IsXAManifold M), it is a separate small extension: the components of p^-1(U) for a chart U centred at a singular point contain a lift of the centre. Keep the question for the author."
+    },
+    {
+      "severity": "minor",
+      "where": "module docstring hypothesis checklist and REPORT.json hypotheses[2], hypotheses[3]",
+      "problem": "Line citations are off by one. The developing-map phrase is on l.2308 (cited l.2309), and 'Furthermore, M~ is a BTZ~-manifold' is on l.2309 (cited l.2310). The environment spans l.2308-2310, so tex_lines [2308, 2310] is correct.",
+      "fix": "Cite l.2308 and l.2309 at graduation."
+    },
+    {
+      "severity": "minor",
+      "where": "GX/BTZ/VirtTame.lean docstring",
+      "problem": "VirtTame still lists prop:manifold_admits_galoisian_maximal unbolded (partial, local reading), while this file bolds it. This is consistent as disclosed (the certificate of record is here), but the ledger will see two files naming the label with different marks.",
+      "fix": "When graduating, the master updates VirtTame's docstring to point to GX.BTZ.TildeStructure, as REPORT.notes says."
+    }
+  ],
+  "report_honesty": "REPORT.json is honest and complete. The only ledger label the file certifies is prop:manifold_admits_galoisian_maximal, status closed, marked, with decls spanning VirtTame, Manifolds and this file. The other labels the docstring names (lem:aepullback, def:atlas, def:family_singular_manifolds_endowed) are unbolded references to results the file uses, not claims. sorry_count 0, the build claims and the axiom claims were all reproduced. The finding about singular points staying singular under T_BTZ, and the hasType-versus-atlas question, are correctly placed.",
+  "docstring_contract": "Satisfied. The single **label** mark is at line 10, inside the first 4000 characters. The paper is quoted in a > block. The checklist and SCOPE are present, and the mark is justified under DEC-130 and DEC-118 (c) with 0 sorry.",
+  "cited_results": "Every cited lemma is a proved declaration in strict GX/ (btz_manifold_galoisian_maximal, btz_exists_presentation, btz_manifold_exists_chartwise_tamifying_reg, isLocallyBTZTilde_of_chartwise, aePullback_spec_of_isAELocalHomeomorph, exists_smul_eq_on_of_isPreconnected, btz_isTamifyingTopology). None is a hypothesis or a stub.",
+  "questions_for_author": [
+    "DEC-130: is 'M~ is a BTZ~-manifold' meant only in the hasType sense (every singular point of (M~, T_BTZ) is the centre of an E_0~-chart, the same reading as l.2300 for E_0)? Or is the X_A atlas clause of DEC-67 (e) also meant (every point in the domain of an E_0~-chart), which would be proved from IsXAManifold M?"
+  ],
+  "summary": "Builds warning-free with 0 sorry, and the strict library builds (8752 jobs). DEC-130 is met by a genuine maximal a.e. atlas on (M~, T') equal to p^*B, with Reg = p^-1(reg M) proved, a developing map that is an a.e. morphism, and true XAChart isomorphisms onto E_0~ at every singular point. The hypotheses are non-vacuous (checked at M = E_0) and there are no name clashes. Only minor items remain: the hasType-only reading of 'BTZ~-manifold' (disclosed, raised as a question), line citations off by one, and VirtTame's docstring to update at graduation. Verdict: clean."
+}

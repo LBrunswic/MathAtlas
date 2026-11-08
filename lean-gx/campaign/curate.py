@@ -62,11 +62,12 @@ PKGS = [
     ("WP-47a", "GX/Singular/Quotient.lean"), ("WP-47b", "GX/BTZ/Spear.lean"), ("WP-47c", "GX/BTZ/Surgery.lean"),
     ("WP-47d", "GX/BTZ/MixedDiamond.lean"), ("WP-47e", "GX/BTZ/FutureRay.lean"),
     ("WP-47f", "GX/BTZ/AbsMax.lean"), ("WP-47g", "GX/BTZ/Uniformization.lean"),
+    ("WP-48a", "GX/BTZ/Uniformization.lean"), ("WP-48b", "GX/BTZ/TildeStructure.lean"),
 ]
 FILE_OVERRIDE = {"ex:following_example_skeletal_itemize": "GX/Topology/PortlyExamples.lean"}  # graduated paths are resolved below
 # A label certified in one module but also mentioned (partially) in a later package's report of
 # another module: take the certifying package's entry.
-PREFER = {"lem:spread_top": "WP-41q"}
+PREFER = {"lem:spread_top": "WP-41q", "prop:manifold_admits_galoisian_maximal": "WP-48b"}
 RENAMES = {  # (file, old) -> new, applied at graduation to resolve name clashes
     ("GX/Spread/Completion.lean", "GX.isPreconnected_ball_diff_countable"): "GX.isPreconnected_ball_diff_countable_complex",
     ("GX/Branched/Universality.lean", "GX.isSkeletal_of_countable"): "GX.isSkeletal_of_countable_complex",

@@ -42,5 +42,6 @@ import GX.BTZ.MixedDiamond
 import GX.BTZ.FutureRay
 import GX.BTZ.AbsMax
 import GX.BTZ.Uniformization
+import GX.BTZ.TildeStructure
 
 /-! The strict library of the paper `gx` (`papers/gx`). Every module is imported here. -/

@@ -8,8 +8,9 @@ import Causal.Flat.Lox.PastProper
 /-!
 # `GX.BTZ.Uniformization` — uniformization of GH Cauchy-compact Cauchy-maximal `𝔼₀`-manifolds
 
-Packages WP-41n, WP-43f, WP-44g, WP-46h, WP-47g. `papers/gx` §4.6 (`RamcovGX.tex:2348–2396`);
-rulings DEC-28, DEC-31/119, DEC-75/76/77, DEC-106, DEC-107/117, DEC-118, DEC-119, DEC-126.
+Packages WP-41n, WP-43f, WP-44g, WP-46h, WP-47g, WP-48a. `papers/gx` §4.6
+(`RamcovGX.tex:2348–2396`); rulings DEC-28, DEC-31/119, DEC-75/76/77, DEC-106, DEC-107/117,
+DEC-118, DEC-119, DEC-126, DEC-129.
 **0 `sorry`; every declaration on standard axioms** (`campaign/WP-47g/axioms.out`; the upstream
 mixed-diamond leaf is proved in `GX.BTZ.AbsMax`, WP-47f, and the developed BTZ half-line
 in `GX.BTZ.FutureRay`, WP-47e).
@@ -23,10 +24,11 @@ in `GX.BTZ.FutureRay`, WP-47e).
   `J⁺` and `I⁺` at every point, BTZ points included; the developed BTZ line by
   `GX.futureRay_null_supset`). The printed statement is refuted with its printed hypothesis
   (DEC-31 = `GX.IsE0CauchyComplete`) and its ruled conclusion: `GX.e0PastHalf_counterexample_DEC118`.
-* `theo:globally_hyperbolic_cauchy_complete_cauchy_maximal` — `RamcovGX.tex:2363`, partial by
-  DEC-28 ALONE (the Cauchy-compact strengthening, which DEC-28 rules partial under DEC-27); EVERY
-  assertion of the DEC-28 form proved, `defi:BTZtop` on `𝒟(M̃)` and « isomorphism » of singular
-  manifolds included (WP-47g fixer, rounds 1–2), no reading left open. Form of record
+* **`theo:globally_hyperbolic_cauchy_complete_cauchy_maximal`** — `RamcovGX.tex:2363`, CLOSED in
+  its ruled DEC-28 form (DEC-129, refining DEC-28's « partial with findings »), marked; the
+  Cauchy-complete → Cauchy-compact correction stays a FINDING. EVERY assertion of the DEC-28 form
+  proved, `defi:BTZtop` on `𝒟(M̃)` and « isomorphism » of singular manifolds included (WP-47g
+  fixer, rounds 1–2), no reading left open. Form of record
   `GX.btz_uniformization`: for `M` GH, Cauchy-maximal, with a compact `C¹` spacelike Cauchy surface,
   a BTZ point, `π₁(Reg M)` free and non-abelian (DEC-76/119), and every developing pair `(𝒟, ρ)`:
   a loxodromic (DEC-75); `ρ` faithful, discrete, torsion-free; the `ρ(Γ)`-invariant null planes
@@ -104,7 +106,7 @@ Proved here, of general use (0 `sorry`, standard axioms only):
 | paper / ruling | here |
 |---|---|
 | `M` globally hyperbolic (l.2363) | ✓ carried: `(CE M).GloballyHyperbolic` (ETT's, the charted causality of `M`; it is the bridge structure's, `E0Bridge.globallyHyperbolic_e0ManifoldCausality_iff`) |
-| Cauchy-complete (l.2363) | ⚠ strengthened (DEC-28): Cauchy-compact, read per DEC-107 as `∃ S, E0Surgery.IsE0C1SpacelikeCauchy M S` (B21 l.227; no smoothing, DEC-117) |
+| Cauchy-complete (l.2363) | ⚠ strengthened (DEC-28; accepted as the statement of record by DEC-129, the correction kept as a finding): Cauchy-compact, read per DEC-107 as `∃ S, E0Surgery.IsE0C1SpacelikeCauchy M S` (B21 l.227; no smoothing, DEC-117) |
 | Cauchy-maximal (l.2363) | ✓ carried: `IsE0CauchyMaximal M` (DEC-77 (c)) |
 | finite type, `π₁(Σ∖sing)` non-abelian, `s ≥ 1` (DEC-76) | ✓ read (DEC-119): `π₁(Reg M)` free (`IsFreeGroup`) and non-abelian; `s ≥ 1` ✓ `(chartedSing e0SingY M 0).Nonempty`. (The prop's form takes « not metabelian », which free non-abelian implies) |
 | "up to time reversal" (dropped, DEC-77 (a)) | ✓ the future case is concluded and PROVED |
