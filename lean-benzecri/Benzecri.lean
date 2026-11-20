@@ -26,3 +26,4 @@ import Benzecri.Applications.ConverseGeneral
 import Benzecri.Applications.TheoremA
 import Benzecri.Port.UniversalCover
 import Benzecri.UniversalCoverRow
+import Benzecri.Chapter2.Poches

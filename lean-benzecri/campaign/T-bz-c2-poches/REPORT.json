@@ -1,0 +1,369 @@
+{
+  "package": "T-bz-c2-poches",
+  "target": "T-bz-c2-poches",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter2/Poches.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bzdef:c2s1d1_poche_affine",
+      "tex_lines": [
+        95,
+        117
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.IsPocheAff",
+        "Benzecri.IsAffSegment.forall_chart_iff_exists",
+        "Benzecri.isPocheAff_model",
+        "Benzecri.exemple_poche_affine",
+        "Benzecri.exists_isCoqueStricteAff_demiDroite"
+      ],
+      "hypotheses": [
+        {
+          "paper": "V une variété localement affine de dimension n",
+          "here": "weakened",
+          "note": "any ChartedSpace (Fin n → ℝ) V; connected/Hausdorff/countable (plan F6) never used; HasGroupoid only in the theorems that use it"
+        },
+        {
+          "paper": "un ouvert connexe P de V",
+          "here": "carried",
+          "note": "fields isOpen, isConnected (Mathlib's IsConnected is nonempty; nonemptiness is forced anyway by condition a's IsGLB)"
+        },
+        {
+          "paper": "une carte φ de P dans ℝⁿ compatible avec la structure affine",
+          "here": "carried",
+          "note": "φ : OpenPartialHomeomorph with φ.source = P and IsCompatibleChart (GAR n) φ (Ch. 1, Déf. 13); reading « carte » = injective, see questions"
+        },
+        {
+          "paper": "une fonction linéaire z sur ℝⁿ appelée cote",
+          "here": "carried",
+          "note": "reading: z : (Fin n → ℝ) →ᵃ[ℝ] ℝ, an affine function (Ch. 1, Déf. 2, Exemple), see questions"
+        },
+        {
+          "paper": "a. sur φ(P), z a pour borne inférieure 0 et est majorée par 1",
+          "here": "carried",
+          "note": "IsGLB (z '' (φ '' P)) 0 and z (φ x) ≤ 1 for x ∈ P"
+        },
+        {
+          "paper": "b. (M, N) un segment de V, M ∈ P; φ̃ une carte compatible d'un voisinage de (M, N) ayant en M même germe que φ; si z(φ̃(N)) < 1, N ∈ P",
+          "here": "carried",
+          "note": "for EVERY such φ̃ (IsAffSegment = Ch. 1, Déf. 14; Sg ⊆ φ̃.source; φ̃ =ᶠ[𝓝 M] φ); proved equivalent to « for SOME such φ̃ », and such φ̃ always exist (IsAffSegment.forall_chart_iff_exists)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "About the two UNLABELLED examples (l.155–179), not about the definitions: with « carte » an injective chart (the paper's convention: l.559–562, l.723, l.552, l.572–573; Ch. 1, Déf. 13), the conclusion « le triple (P, p, z) définit une poche de W » (l.160, resp. l.176–178) needs p injective on P, which the examples do not assume. Counterexample (affine case, n = 2; argued, NOT formalized): W = ℝ × ]1/10, 1/2[ with the affine structure pulled back by p(θ, r) = (1/2 + r cos θ, r sin θ) (the universal cover of the annulus 1/10 < |q − (1/2, 0)| < 1/2), z(x, y) = x; then p(W) is the annulus, 0 < z < 1 on it with infimum 0, so P = p⁻¹(z < 1) = W is connected and meets every hypothesis of the example, but p is not injective on P. Formalized with the injectivity added: Benzecri.exemple_poche_affine, Benzecri.exemple_poche_projective. Question for the author, on these unlabelled examples only: add « p injective sur P » (as formalized), or read them as describing the univalent situation that § 3, Théorème shows is always the case for a sweepable V?"
+      ],
+      "questions": [
+        "« fonction linéaire z sur ℝⁿ » (l.104) is read as an AFFINE function ℝⁿ → ℝ (`(Fin n → ℝ) →ᵃ[ℝ] ℝ`), the paper's own term (Ch. 1, Déf. 2, Exemple: « application affine de A dans ℝ, ou fonction linéaire sur A »), as it must be on H̊ in Déf. 1′. The homogeneous reading (z(0) = 0) gives the same pockets up to a translation of the chart φ; the affine reading is the more general.",
+        "Constant cotes are not excluded by the text: (P, φ, 0) is a pocket iff P = V (for V connected), e.g. (ℝⁿ, id, 0) (Benzecri.isPocheAff_model). Kept; a non-degenerate pocket (indeed a strict shell) is Benzecri.exists_isCoqueStricteAff_demiDroite.",
+        "« carte » = injective chart (OpenPartialHomeomorph) is the PAPER'S CONVENTION, not an open reading: Benzécri refuses the name « carte compatible » to a local homeomorphism with all its jets in J(V) until it is shown to be a global homeomorphism (l.559–562, p. 254: « φ̃ est un homéomorphisme local : il faut montrer que φ̃ est un homéomorphisme global »); § 3, Prop. 2 concludes « p est une carte de V » for a projection already compatible with the structure (l.723); Ch. 1, Prop. 2 calls the developing map « une application »; the proof of § 3, Théorème uses the injectivity (l.552, l.572–573); and Ch. 1's marked Déf. 13 and 14 are on OpenPartialHomeomorph. The mark does not rest on an unruled reading. (The only author-facing point it raises concerns the unlabelled examples: see findings.)"
+      ]
+    },
+    {
+      "label": "bzdef:c2s1d1prime_poche_projective",
+      "tex_lines": [
+        119,
+        145
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.IsPocheProj",
+        "Benzecri.IsProjSegment.forall_chart_iff_exists",
+        "Benzecri.IsPocheProj.of_maximalAtlas_eq",
+        "Benzecri.exists_isPocheProj_model",
+        "Benzecri.exemple_poche_projective",
+        "Benzecri.demiEspace",
+        "Benzecri.isOpen_demiEspace",
+        "Benzecri.exists_isCoqueStricteProj_demiDroite"
+      ],
+      "hypotheses": [
+        {
+          "paper": "V une variété localement projective de dimension n",
+          "here": "weakened",
+          "note": "any ChartedSpace (S n) V"
+        },
+        {
+          "paper": "un ouvert connexe P de V",
+          "here": "carried",
+          "note": "isOpen, isConnected"
+        },
+        {
+          "paper": "un hémisphère ouvert H̊ de S(n)",
+          "here": "carried",
+          "note": "given by its equation l : Module.Dual ℝ (Fin (n+1) → ℝ) with [Fact (l ≠ 0)] (Déf. 5 under DEC-114; H̊ ≠ ∅ is forced by φ(P) ⊆ H̊, P ≠ ∅); every open hemisphere is openHemisphere l (isOpenHemisphere_iff_exists_eq)"
+        },
+        {
+          "paper": "une carte φ de P dans S(n) compatible avec la structure projective, φ(P) ⊂ H̊",
+          "here": "carried",
+          "note": "φ.source = P, IsCompatibleChart (GSR n) φ, field image_subset"
+        },
+        {
+          "paper": "une fonction linéaire z sur H̊ considéré comme espace affin (Déf. 6)",
+          "here": "carried",
+          "note": "z : openHemisphere l →ᵃ[ℝ] ℝ for the AddTorsor (HemiTrans l) of Déf. 6 (Hemisphere.lean)"
+        },
+        {
+          "paper": "a. sur φ(P), borne inférieure 0, majorée par 1",
+          "here": "carried",
+          "note": "on φ(P) read in H̊: IsGLB (z '' ((↑) ⁻¹' (φ '' P))) 0, z ≤ 1"
+        },
+        {
+          "paper": "b. … Alors φ̃(M, N) ⊂ H̊ et, si z(φ̃(N)) < 1, N ∈ P",
+          "here": "carried",
+          "note": "for EVERY φ̃ (equivalent to SOME, IsProjSegment.forall_chart_iff_exists); IsProjSegment = Ch. 1, Déf. 14 (closed segment of Déf. 7)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "The projective example (l.172–179) has the same gap as the affine one: p must be injective on P for (P, H̊, p, z) to be a pocket in the chart reading (see the finding on bzdef:c2s1d1_poche_affine); formalized with that hypothesis as Benzecri.exemple_poche_projective."
+      ],
+      "questions": [
+        "[sic] l.134 (flagged l.135): « (Le système P, H̊, φ, z) » read « Le système (P, H̊, φ, z) », as the transcription's comment says; not a finding.",
+        "H̊ is carried by its equation l (unique up to a positive factor, Déf. 5) rather than as a set: for another equation c·l of the same hemisphere the cote z transports along Ch. 1's hemiTransEquiv (the affine structure of Déf. 6 does not depend on the equation); this transport is not stated here.",
+        "« fonction linéaire z, appelée cote, sur H̊ considéré comme espace affin » (l.131) is read as an AFFINE function on the affine space H̊ of Déf. 6 (`openHemisphere l →ᵃ[ℝ] ℝ`), the paper's own term (Ch. 1, Déf. 2, Exemple: « application affine de A dans ℝ, ou fonction linéaire sur A »); on an affine space no other reading exists.",
+        "« carte » = injective chart (OpenPartialHomeomorph) is the PAPER'S CONVENTION, not an open reading: Benzécri refuses the name « carte compatible » to a local homeomorphism with all its jets in J(V) until it is shown to be a global homeomorphism (l.559–562, p. 254: « φ̃ est un homéomorphisme local : il faut montrer que φ̃ est un homéomorphisme global »); § 3, Prop. 2 concludes « p est une carte de V » for a projection already compatible with the structure (l.723); Ch. 1, Prop. 2 calls the developing map « une application »; the proof of § 3, Théorème uses the injectivity (l.552, l.572–573); and Ch. 1's marked Déf. 13 and 14 are on OpenPartialHomeomorph. The mark does not rest on an unruled reading. (The only author-facing point it raises concerns the unlabelled examples: see findings.)"
+      ]
+    },
+    {
+      "label": "bzrem:c2s1r0_poche_affine_vers_projective",
+      "tex_lines": [
+        147,
+        153
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.IsPocheAff.toPocheProj",
+        "Benzecri.IsPocheAff.toPocheProj_transport",
+        "Benzecri.projOfAff",
+        "Benzecri.hasGroupoid_projOfAff",
+        "Benzecri.eventually_eq_affineEquiv_of_isPreconnected",
+        "Benzecri.isOpenEmbedding_coe_affineEquiv",
+        "Benzecri.coe_preimage_image_trans",
+        "Benzecri.IsCoqueAff.toCoqueProj",
+        "Benzecri.IsCoqueStricteAff.toCoqueStricteProj"
+      ],
+      "hypotheses": [
+        {
+          "paper": "V une variété localement affine de dimension n",
+          "here": "carried",
+          "note": "[ChartedSpace (Fin n → ℝ) V] [HasGroupoid V (affGroupoid n)]; « variété » (plan F6) not used"
+        },
+        {
+          "paper": "(P, φ, z) une poche de V",
+          "here": "carried",
+          "note": "IsPocheAff P φ z"
+        },
+        {
+          "paper": "j un isomorphisme compatible avec la structure affine de ℝⁿ sur un hémisphère ouvert H̊ de S(n)",
+          "here": "carried",
+          "note": "j : (Fin n → ℝ) ≃ᵃ[ℝ] openHemisphere l, ANY open hemisphere (l ≠ 0); j ∘ φ is φ.trans of the open embedding y ↦ j y (isOpenEmbedding_coe_affineEquiv), z ∘ j⁻¹ is z.comp j.symm"
+        },
+        {
+          "paper": "V considérée comme variété localement projective (Ch. 1, Déf. 12, Remarque)",
+          "here": "carried",
+          "note": "the canonical structure projOfAff (charts hemiChart ∘ ψ) AND the structure built from j itself (transportChartedSpace along j, IsPocheAff.toPocheProj_transport); they have the same maximal atlas (Ch. 1, remarque_affine_vers_projective) and pockets depend only on it (IsPocheProj.of_maximalAtlas_eq)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "The proof is not printed (« Remarque »). The formalized proof needs one non-obvious step: a projective chart φ̃ of a neighbourhood of a projective segment from M ∈ P, equal to j ∘ φ near M, is j ∘ χ along the whole segment for an affine chart χ (the hemisphere j(ℝⁿ) is locally constant along a connected set: eventually_eq_affineEquiv_of_isPreconnected); so projective segments from P are affine segments and condition b transfers. No reading involved."
+      ]
+    },
+    {
+      "label": "bzdef:c2s1d2_coque",
+      "tex_lines": [
+        188,
+        191
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.IsCoqueAff",
+        "Benzecri.IsCoqueProj",
+        "Benzecri.isCoqueProj_iff_isAffConvex",
+        "Benzecri.Sphere.isConvexPart_iff_isAffConvex",
+        "Benzecri.IsAffConvex",
+        "Benzecri.isAffConvex_iff_convex"
+      ],
+      "hypotheses": [
+        {
+          "paper": "φ(P) est un convexe (cas affin)",
+          "here": "carried",
+          "note": "Convex ℝ (φ '' P) in ℝⁿ"
+        },
+        {
+          "paper": "φ(P) est un convexe (cas projectif)",
+          "here": "carried",
+          "note": "Sphere.IsConvexPart (φ '' P), Déf. 8 in DEC-120's reading; proved equivalent to convexity in the affine space H̊ of Déf. 6 (isCoqueProj_iff_isAffConvex), since the affine segments of H̊ are the segments of S(n) (Sphere.coe_image_affineSegment)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "« φ(P) est un convexe » in the projective case: convex part of S(n) (Déf. 8) or convex of the affine space H̊? Proved equivalent for every part of H̊ (Sphere.isConvexPart_iff_isAffConvex), so the reading is immaterial; Déf. 8 is the one stated."
+      ]
+    },
+    {
+      "label": "bzdef:c2s1d3_coque_stricte",
+      "tex_lines": [
+        193,
+        198
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.IsCoqueStricteAff",
+        "Benzecri.IsCoqueStricteProj",
+        "Benzecri.IsAffLine",
+        "Benzecri.ContainsAffLine",
+        "Benzecri.exists_isCoqueStricteAff_demiDroite",
+        "Benzecri.demiDroiteOuverte",
+        "Benzecri.isDeveloping_val_demiDroiteOuverte",
+        "Benzecri.exists_isCoqueStricteProj_demiDroite"
+      ],
+      "hypotheses": [
+        {
+          "paper": "le convexe φ(P) de ℝⁿ ne contient pas de droite",
+          "here": "carried",
+          "note": "¬ ContainsAffLine (Fin n → ℝ) (φ '' P); a line is {p + t w | t ∈ ℝ}, w ≠ 0 (IsAffLine)"
+        },
+        {
+          "paper": "φ(P) considéré comme convexe de l'espace affin H̊ ne contient pas de droite",
+          "here": "carried",
+          "note": "¬ ContainsAffLine (HemiTrans l) of φ(P) read in H̊ (lines of the affine space of Déf. 6, not of S(n): Remarque 1)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "« droite » of ℝⁿ and of H̊ read as an affine line {p + t w | t ∈ ℝ}, w ≠ 0 (IsAffLine, any real affine space); equivalent to a 1-dimensional AffineSubspace (not stated)."
+      ]
+    },
+    {
+      "label": "bzrem:c2s1r1_droite_hemisphere",
+      "tex_lines": [
+        200,
+        204
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.isAffLine_hemi_iff",
+        "Benzecri.IsAffLine.exists_halfLine_hemi",
+        "Benzecri.Sphere.coe_image_range_smul_vadd",
+        "Benzecri.Sphere.halfLine_eq_range",
+        "Benzecri.Sphere.coe_smul_vadd"
+      ],
+      "hypotheses": [
+        {
+          "paper": "H̊ an open hemisphere of S(n), an affine space (Déf. 6)",
+          "here": "weakened",
+          "note": "any real vector space E (S(E)), equation l ≠ 0"
+        },
+        {
+          "paper": "une droite de H̊ est une demi-droite de S(n)",
+          "here": "carried",
+          "note": "isAffLine_hemi_iff: a part A of H̊ is a line of H̊ IFF its image in S(E) is a half-line s({a v + b w | b > 0}), v, w independent (the converse is proved too)"
+        },
+        {
+          "paper": "ou portion de droite comprise entre deux points diamétralement opposés",
+          "here": "carried",
+          "note": "IsAffLine.exists_halfLine_hemi: the half-line lies on the line D = s(span{v, w} − {O}) (IsLine), and D − {s(v), −s(v)} is the union of it and the opposite half-line (Ch. 1, Déf. 4, Exemples)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "bzrem:c2s1r2_coque_stricte_corps_convexe",
+      "tex_lines": [
+        206,
+        209
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.IsCoqueProj.isCoqueStricte_iff",
+        "Benzecri.Sphere.F_closure",
+        "Benzecri.Sphere.mk_smul_mem_closure_halfLine"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(P, H̊, φ, z) une coque",
+          "here": "carried",
+          "note": "IsCoqueProj P l φ z"
+        },
+        {
+          "paper": "V localement projective",
+          "here": "weakened",
+          "note": "no HasGroupoid needed"
+        },
+        {
+          "paper": "φ(P)‾ un corps convexe de S(n) (Ch. 1, Déf. 11)",
+          "here": "carried",
+          "note": "IsCorpsConvexeS n (closure (φ '' P)), closure in S(n) (overline checked on the scan, p. 248: it covers φ(P))"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "No proof is printed. Formalized: ⇐ a line of H̊ in φ(P) is a half-line whose closure holds s(v) and −s(v) (does not use convexity); ⇒ F(closure φ(P)) = closure F(φ(P)) − {O} (Sphere.F_closure) is convex because ±x in the closed cone would give, through an interior point, a whole line of H̊ in φ(P). Compactness is that of S(n), the interior contains the open φ(P) ≠ ∅."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.eqOn_of_eventually_smul",
+    "Benzecri.eqOn_of_germ_eq",
+    "Benzecri.eqOn_of_germ_eq_isDeveloping",
+    "Benzecri.exists_compatibleChart_germ",
+    "Benzecri.IsGXSegment.isPreconnected",
+    "Benzecri.IsGXSegment.image_eq",
+    "Benzecri.IsGXSegment.forall_chart_iff_exists",
+    "Benzecri.IsAffSegment.isPreconnected",
+    "Benzecri.IsProjSegment.isPreconnected",
+    "Benzecri.IsAffSegment.image_eq",
+    "Benzecri.IsProjSegment.image_eq",
+    "Benzecri.Sphere.mk_eq_mk_of_eq'",
+    "Benzecri.Sphere.GSE.smul_neg",
+    "Benzecri.Sphere.image_smul_ofCone",
+    "Benzecri.Sphere.GSE.image_smul_closedSeg",
+    "Benzecri.Sphere.isPreconnected_closedSeg",
+    "Benzecri.Sphere.ne_neg_of_mem_openHemisphere",
+    "Benzecri.Sphere.nrep_lineMap",
+    "Benzecri.Sphere.coe_image_affineSegment",
+    "Benzecri.Sphere.isConvexPart_iff_isAffConvex",
+    "Benzecri.isAffConvex_iff_convex",
+    "Benzecri.Sphere.smul_add_ne_zero",
+    "Benzecri.Sphere.halfLine_eq_range",
+    "Benzecri.Sphere.halfLine_smul_right",
+    "Benzecri.Sphere.l_smul_add_nrep",
+    "Benzecri.Sphere.coe_smul_vadd",
+    "Benzecri.Sphere.coe_apply_hq_nrep_ne_zero",
+    "Benzecri.Sphere.linearIndependent_apply_hq_nrep",
+    "Benzecri.Sphere.coe_image_range_smul_vadd",
+    "Benzecri.Sphere.F_closure",
+    "Benzecri.Sphere.smul_add_smul_ne_zero",
+    "Benzecri.Sphere.mk_smul_mem_closure_halfLine",
+    "Benzecri.hasGroupoid_projOfAff",
+    "Benzecri.coe_preimage_image_trans",
+    "Benzecri.isOpen_demiEspace",
+    "Benzecri.demiDroiteOuverte",
+    "Benzecri.isDeveloping_val_demiDroiteOuverte"
+  ],
+  "kb_proposals": [
+    "A segment of a manifold is a segment in EVERY compatible chart around it (IsGXSegment.image_eq; IsAffSegment.image_eq: ψ(M,N) = [ψM, ψN]; IsProjSegment.image_eq: ψ(M,N) = (ψM, ψN), ψN ≠ −ψM), and two compatible charts (or a chart and a developing map) with the same germ at one point agree along any connected set (eqOn_of_germ_eq, eqOn_of_germ_eq_isDeveloping): the tools for Chapter 2's « carte compatible d'un voisinage de (M, N) ayant en M même germe que φ » (Chapter2/Poches).",
+    "The canonical projective structure of a locally affine manifold is Benzecri.projOfAff; use `attribute [local instance] projOfAff hasGroupoid_projOfAff` in a section. A projective chart equal to j ∘ (affine chart) near one point is so along any connected set (eventually_eq_affineEquiv_of_isPreconnected); pocket predicates depend only on the maximal atlas (IsPocheProj.of_maximalAtlas_eq).",
+    "Open hemisphere H̊ (Déf. 6) vs S(n): affine segments of H̊ = segments of S(n) (Sphere.coe_image_affineSegment); Déf. 8 convexity = convexity in H̊ (Sphere.isConvexPart_iff_isAffConvex); lines of H̊ = half-lines of S(n) (isAffLine_hemi_iff); F(closure A) = closure F(A) − {O} (Sphere.F_closure); GS(E) carries closed segments to closed segments (Sphere.GSE.image_smul_closedSeg).",
+    "An open subset of ℝⁿ is a locally affine manifold through Mathlib's Opens.instChartedSpace / instHasGroupoid (gxGroupoid is ClosedUnderRestriction), and its inclusion is IsDeveloping by `rfl` (isDeveloping_val_demiDroiteOuverte): a cheap source of non-degenerate examples."
+  ],
+  "notes": "New directory scaffold/BenzecriScaffold/Chapter2/: the master must add `import BenzecriScaffold.Chapter2.Poches` to the scaffold root (kb lean-causal/0025) and, at graduation, move the file to Benzecri/Chapter2/Poches.lean. `lake build BenzecriScaffold.Chapter2.Poches` succeeds with NO warning (only this module rebuilt), so it is strict-ready; 0 sorry; #print axioms of the 14 principal decls: propext, Classical.choice, Quot.sound only. Generic helpers (IsGXSegment.image_eq, eqOn_of_germ_eq, the Sphere.* lemmas) are candidates to move upstream (Structure/Classes, Projective/Convex, Projective/Hemisphere) at graduation. The file proves, beyond the seven rows, the two unlabelled examples with p injective on P (finding on bzdef:c2s1d1_poche_affine) and the Remarque for shells and strict shells. Property 7° of the pseudo-length and § 3's theorems (T-bz-c2-proprietes, T-bz-c2-poche-balayable-type targets) can use IsPocheProj, IsProjSegment.image_eq and IsProjSegment.forall_chart_iff_exists. Independent of T-bz-c2-mesure (no shared file). Fix round 1 (AUDIT-1, minor): SCOPE now states « carte » = injective as the paper's convention (l.559–562, l.723, Ch. 1 Déf. 13/14), the open question kept only for the unlabelled examples; added Benzecri.exists_isCoqueStricteProj_demiDroite, a non-degenerate projective strict shell. No existing statement or proof changed; `lake env lean -DwarningAsError=true` exit 0; lake build of the module OK."
+}

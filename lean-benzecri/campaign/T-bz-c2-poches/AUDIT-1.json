@@ -1,0 +1,82 @@
+{
+  "target": "T-bz-c2-poches",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bzdef:c2s1d1_poche_affine",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "MARKED, correctly. Benzecri.IsPocheAff (Poches.lean:538) was read field by field against l.95-117 and the scan (p. 246-247). P is open and connected. Mathlib's IsConnected adds nonemptiness, which condition a's IsGLB forces anyway. φ is an OpenPartialHomeomorph with source P and IsCompatibleChart (GAR n), which is the strict library's MARKED Ch. 1 Déf. 13. Condition a is IsGLB (z '' φ(P)) 0 together with z ∘ φ ≤ 1 on P. Condition b quantifies over every IsAffSegment (the MARKED Déf. 14), with M ∈ P, and over every compatible ψ whose open source contains the segment and with ψ =ᶠ[𝓝 M] φ; then z(ψ N) < 1 → N ∈ P. Nothing is added: V is any ChartedSpace, so it is weakened. The 'every φ̃' form is not vacuous, and IsAffSegment.forall_chart_iff_exists proves it equivalent to 'some φ̃'. That theorem builds the chart g • φ₀ and propagates agreement along the preconnected segment by rigidity. READINGS. (2) « carte » = injective is FORCED BY THE PAPER and is not an open reading. At p. 254, l.559-562 says: « L'application définie en a … est une carte compatible. φ̃ est un homéomorphisme local : il faut montrer que φ̃ est un homéomorphisme global, c'est-à-dire que deux points distincts … ont … des images distinctes ». That is a local homeomorphism with all its jets in J(V) which Benzécri does NOT yet call a carte. § 3 Prop. 2 (l.718-724) concludes « p est une carte de V » for a projection p already compatible with the structure, and l.552 and l.572-573 use injectivity. In Ch. 1, Prop. 2 calls the non-injective developing map « une application p … dont tous les jets appartiennent à J(V) », not a carte. Ch. 1 Déf. 13 and Déf. 14 are both MARKED in the strict library on OpenPartialHomeomorph. Déf. 1 does use « carte » in its data, so the definition would depend on the reading if the reading were open. It is not: it is the paper's own usage (see minor finding 1 about how the REPORT frames it). (1) « fonction linéaire z sur ℝⁿ » = affine function is the paper's own term: Ch. 1, Déf. 2, Exemple defines « fonction linéaire sur A » for an affine space A, and Déf. 1, Exemple makes ℝⁿ an affine space. Benzécri also writes « forme linéaire sur H̊ muni de sa structure affine » in the projective example (l.174), so 'linéaire' on an affine space means affine throughout. The reading is also content-neutral. A constant z must be 0 by condition a. A non-constant z = z₀ + c, with z₀ linear, gives a pocket (P, φ, z) iff (P, τ_a ∘ φ, z₀) is one, where z₀(a) = c and τ_a ∈ GA(n). This was checked by hand; it is not in Lean, and it is not needed. (4) Constant cotes are not a reading: the text admits them. (6) has no bearing on Déf. 1. Non-vacuity holds: isPocheAff_model is degenerate (z = 0), and exists_isCoqueStricteAff_demiDroite (P = ]0,1[ in ]0,∞[ ⊂ ℝ¹, z = x₀) exercises condition b. An audit probe proved that ]0,1[ with the identity chart and z = x₀ is NOT a pocket of ℝ¹, using the segment [1/2, -1]. So condition b has content."
+    },
+    {
+      "label": "bzdef:c2s1d1prime_poche_projective",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "MARKED, correctly. Benzecri.IsPocheProj (Poches.lean:576) was read against l.119-145 and the scan (p. 247). H̊ is openHemisphere l with [Fact (l ≠ 0)], and every open hemisphere is of that form (isOpenHemisphere_iff_exists_eq). l ≠ 0 is DEC-114's ruled reading of Déf. 5. The fields: φ.source = P, compatible (GSR n), and image_subset φ(P) ⊆ H̊. z : openHemisphere l →ᵃ[ℝ] ℝ, where the AddTorsor is Ch. 1's instAddTorsorHemi (HemiTrans l = L(E/N, N)). That is the MARKED Déf. 6 (DEC-120), and on an affine space it is the only possible meaning of « fonction linéaire ». Condition a is read on φ(P) as a subset of H̊. Condition b gives ψ '' Sg ⊆ H̊ for every compatible ψ around a projective segment (Déf. 14, endpoints not antipodal) with the germ of φ at M, and z(ψ N) < 1 → N ∈ P. The ∀ hN in the second conjunct is not vacuous, because N ∈ Sg. 'Every' ⇔ 'some' is IsProjSegment.forall_chart_iff_exists. Reading (2) is forced as for Déf. 1. Reading (3), H̊ carried by its equation, is Ch. 1's convention for Déf. 5/6: the affine structure does not depend on l (hemi_vadd_indep, hemiTransEquiv). Every field of IsPocheProj reads only the values of z at points of H̊, so replacing l by c·l (c > 0) changes nothing. The transport is not stated, which the REPORT discloses; it is content-neutral. The [sic] at l.134-135 (misplaced parenthesis) was seen on the scan and is not a finding. Non-vacuity: exists_isPocheProj_model is degenerate. An audit probe derived a non-degenerate projective STRICT shell in 4 lines (minor finding 2)."
+    },
+    {
+      "label": "bzrem:c2s1r0_poche_affine_vers_projective",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "MARKED, correctly. IsPocheAff.toPocheProj assumes only [HasGroupoid V (affGroupoid n)] (V locally affine) and IsPocheAff P φ z. j is ANY j : (Fin n → ℝ) ≃ᵃ[ℝ] openHemisphere l, for any l ≠ 0, which is exactly « un isomorphisme compatible avec la structure affine de ℝⁿ sur un hémisphère ouvert H̊ ». The conclusion is IsPocheProj under projOfAff with chart φ.trans (j as an open embedding), i.e. j ∘ φ with source P, and cote z.comp j.symm, i.e. z ∘ j⁻¹. That is the paper's system (P, H̊, j∘φ, z∘j⁻¹), not something weaker. The projective structure is the canonical one of Ch. 1's Remarque, built with the standard chart. IsPocheAff.toPocheProj_transport covers the structure built from j itself, through Ch. 1's remarque_affine_vers_projective (same maximal atlas) and IsPocheProj.of_maximalAtlas_eq. The proof's key step, eventually_eq_affineEquiv_of_isPreconnected, was read: the set where the projective chart ψ is locally j ∘ (affine chart) is open and closed in the component of ψ.source. Closure is shown by comparing σ = g · affToGS(b) on an open set. So projective segments from P are affine segments, ψ(Sg) ⊆ j(ℝⁿ) = H̊, and condition b transfers. The extras IsCoqueAff.toCoqueProj and IsCoqueStricteAff.toCoqueStricteProj go beyond the printed Remarque."
+    },
+    {
+      "label": "bzdef:c2s1d2_coque",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "MARKED, correctly. IsCoqueAff = IsPocheAff ∧ Convex ℝ (φ '' P). IsCoqueProj = IsPocheProj ∧ Sphere.IsConvexPart (φ '' P), which is Déf. 8 as ruled by DEC-120: F(k) ∪ {O} convex. isCoqueProj_iff_isAffConvex, via Sphere.isConvexPart_iff_isAffConvex and coe_image_affineSegment (the affine segments of H̊ are Déf. 7's segments of S(n)), proves this the same as convexity in the affine space H̊. Reading (5) is therefore immaterial and proved so. Lines and scan (p. 248) agree."
+    },
+    {
+      "label": "bzdef:c2s1d3_coque_stricte",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "MARKED, correctly. IsCoqueStricteAff = IsCoqueAff ∧ ¬ ContainsAffLine (Fin n → ℝ) (φ '' P). IsCoqueStricteProj = IsCoqueProj ∧ ¬ ContainsAffLine (HemiTrans l) (φ(P) read in H̊). The lines are those of the affine space H̊ of Déf. 6, as the bracket « considéré comme convexe de l'espace affin H̊ » requires, not lines of S(n). Reading (6), IsAffLine := ∃ p w, w ≠ 0 ∧ A = {t • w +ᵥ p}, is the standard and only meaning of a line of a real affine space. The paper gives no other, and Remarque 1 relies on it. It is not load-bearing beyond that. Non-vacuity: exists_isCoqueStricteAff_demiDroite (affine), plus the audit's 4-line projective derivation (minor finding 2)."
+    },
+    {
+      "label": "bzrem:c2s1r1_droite_hemisphere",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "MARKED, correctly. isAffLine_hemi_iff states, for ANY real vector space E, l ≠ 0 and A ⊆ H̊: A is a line of the affine space H̊ iff Subtype.val '' A = Sphere.halfLine v w for some independent v, w. That is the paper's direction plus its converse, so Lean ≥ paper. Sphere.halfLine is Ch. 1's « demi-droite » (Déf. 4, Exemples, formalized under DEC-114): the open half {a v + b w | b > 0} of the line s(span{v, w} − O), bounded by s(v) and s(−v). IsAffLine.exists_halfLine_hemi gives the second clause, « ou portion de droite comprise entre deux points diamétralement opposés ». The half-line lies in the line D = s(span{v, w} − O) (Sphere.IsLine), and D ∖ {s(v), −s(v)} = halfLine v w ∪ halfLine v (−w). Proved, not assumed."
+    },
+    {
+      "label": "bzrem:c2s1r2_coque_stricte_corps_convexe",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "MARKED, correctly. IsCoqueProj.isCoqueStricte_iff: (h : IsCoqueProj P l φ z) → (IsCoqueStricteProj P l φ z ↔ IsCorpsConvexeS n (closure (φ '' P))). The closure is taken in S(n); the scan (p. 248) prints the overline over the whole φ(P). IsCorpsConvexeS is Ch. 1's Déf. 11: strict convex part (Déf. 9), compact, nonempty interior. No HasGroupoid is assumed (weakened). Both directions are genuinely proved; the proof was read. (⇐) A line of H̊ in φ(P) is a half-line, whose closure contains s(v) and s(−v), contradicting strictness (Sphere.mk_smul_mem_closure_halfLine). (⇒) F(closure k) = closure F(k) ∖ {0} (Sphere.F_closure). The closed cone C is convex and closed under positive scaling and addition, and lies in {l ≥ 0}. If x ≠ 0 with ±x ∈ C, then l x = 0, and the open-segment-through-an-interior-point lemma puts p + t·x in F(k) for all t, i.e. a line of H̊ in φ(P). Compactness comes from S(n), and the interior contains the open, nonempty φ(P) (open because φ(P) = φ.target)."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Chapter2/Poches.lean` (7.4 s): exit 0, no output. `lake build --no-build BenzecriScaffold.Chapter2.Poches`: 'All targets up-to-date (2530 jobs)'. The closer's olean (19:55:00) postdates the source (19:54:26), and nothing upstream needs a rebuild. No lake build was running when checked. grep finds sorry 0 times, and no admit, axiom, unsafe, implemented_by, extern, native_decide or set_option. Imports are Benzecri.Structure.Classes, Benzecri.Structure.Developing and Mathlib.Analysis.Convex.Between: Mathlib-only plus the strict library. A #print axioms probe covered 66 names: every name in REPORT decls ∪ extra_decls, plus IsCoqueAff/Proj, IsCoqueStricteAff/Proj, their toCoque* transfers, isOpenEmbedding_coe_affineEquiv and projOfAff. That is all 66 top-level declarations of the file. All resolve, and all depend on exactly [propext, Classical.choice, Quot.sound]. The probe imported Benzecri (strict root), BenzecriScaffold.Chapter2.Poches, .Mesure and .CrossRatio together and elaborated with no error, so there is no name clash with the strict library or the parallel T-bz-c2-mesure modules. A second probe proved two things: a non-degenerate projective strict shell (via toCoqueStricteProj), and that condition b of IsPocheAff is not trivially satisfied. Both probes were written under campaign/T-bz-c2-poches/ and deleted; `lake env lean` writes no olean."
+  },
+  "scope": {
+    "git_status": [
+      "?? lean-benzecri/campaign/T-bz-c2-mesure/",
+      "?? lean-benzecri/campaign/T-bz-c2-poches/",
+      "?? lean-benzecri/scaffold/BenzecriScaffold/Chapter2/"
+    ],
+    "note": "Within lean-benzecri/ and papers/benzecri/, only the three untracked paths above appear. Chapter2/ holds this target's Poches.lean and the parallel target's Mesure.lean and CrossRatio.lean; campaign/T-bz-c2-mesure/ is the parallel target's. The following are untouched: the strict library Benzecri/, lakefile.toml, the scaffold root BenzecriScaffold.lean (the closer correctly leaves the root import to the master), the transcription and the ledger. The rest of the hub's git status belongs to concurrent targets that the master session was committing during the audit: papers/gx, papers/syracuse, the programme and roadmap tomls, lean-egf, lean-yamabe, and the binder.toml files. None is attributable to this closer."
+  },
+  "docstring_contract": "The contract (lean-causal kb 0006) is met. Title: yes. All seven labels are written ``**`label`**`` — `benzecri1960_ch2.tex:LINE`, with lines 95, 119, 147, 188, 193, 200 and 206, each verified against the \\label lines. All are within the first 4000 characters, the last mark at character 2207. A French > quote block of all seven statements matches the transcription, with marked […] elisions in Déf. 1′ and Déf. 3. A Hypothesis checklist with ✓/⚠ rows is true as checked. SCOPE (disclosed) is present, and the Provenance line is present. One SCOPE sentence is loosely worded: 'Readings …, none changes a statement's content' (l.92). The alternative reading of « carte » WOULD change Déf. 1/1′. The sentence is true only because the paper itself settles that reading (minor finding 1).",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "REPORT.json questions of bzdef:c2s1d1_poche_affine and bzdef:c2s1d1prime_poche_projective ('Which one?'); Poches.lean:92-96 (SCOPE, Readings)",
+      "what": "Reading (2), « carte » = injective chart, is put to the author as an open question, while SCOPE says that no reading changes a statement's content. Both framings are off. Déf. 1/1′ use « carte » in their defining data, so an open reading there would be load-bearing. But the paper settles it. At l.559-562 (p. 254, checked on the scan), Benzécri refuses to call a local homeomorphism with all jets in J(V) a « carte compatible » until he has shown it is a global homeomorphism: « φ̃ est un homéomorphisme local : il faut montrer que φ̃ est un homéomorphisme global ». § 3 Prop. 2 (l.718-724) concludes « p est une carte » for a projection already compatible with the structure. Ch. 1 Prop. 2 calls the developing map an « application », not a carte. The MARKED Ch. 1 anchors of Déf. 13 and Déf. 14 are on OpenPartialHomeomorph. The marks therefore do not rest on an unruled reading. The REPORT under-cites its own best evidence: it gives l.552 and l.572-573, but not l.559-562 or l.723.",
+      "fix": "In REPORT and SCOPE, state (2) as the paper's convention, citing l.559-562 and l.723 together with the marked Ch. 1 Déf. 13/14 anchors. Drop 'Which one?' from the two definition rows. Keep the author-facing point only as the finding on the unlabelled examples."
+    },
+    {
+      "severity": "minor",
+      "where": "Poches.lean:1280-1310 (non-vacuity section) and the module docstring l.34-36",
+      "what": "Non-vacuity of the projective Déf. 1′/2/3 is witnessed only by exists_isPocheProj_model, a degenerate pocket (P = ℝⁿ, cote 0). No projective shell or strict shell with a non-constant cote is stated. One follows in 4 lines, which the audit verified. Take exists_isCoqueStricteAff_demiDroite, obtain e from Sphere.nonempty_hemi_affineEquiv (l := lastForm 1), and apply h.toCoqueStricteProj e.symm. That gives @IsCoqueStricteProj 1 demiDroiteOuverte _ (projOfAff 1 _) P (lastForm 1) _ _ _.",
+      "fix": "Add the example as a named theorem (e.g. exists_isCoqueStricteProj_demiDroite) and cite it in the docstring next to the affine witness."
+    }
+  ],
+  "paper_finding_checked": {
+    "claim": "Unlabelled examples l.155-179: with « carte » injective, (P, p, z) is a pocket only if p is injective on P. Counterexample: W = ℝ × ]1/10, 1/2[, p(θ, r) = (1/2 + r cos θ, r sin θ), z = x.",
+    "verdict": "TRUE, and the reading under which it holds is the paper's own (finding 1). The arithmetic was checked. p is a local homeomorphism (r > 0), so W is an ouvert étalé over ℝ² with the pulled-back affine structure. p(W) is the annulus centred at (1/2, 0) with radii 1/10 < r < 1/2, on which 0 < x < 1. So p⁻¹(z < 1) = W is connected, P = W, and inf z(p(P)) = 0 (not attained, at θ = π, r → 1/2). Every hypothesis of the example holds, and p(θ) = p(θ + 2π). The failure is not a matter of choosing a different chart. On the connected W, any compatible chart equals g ∘ p for a single g ∈ GA(2) (rigidity, Ch. 1 Prop. 1), so W admits no compatible chart at all. The projective example fails the same way, with the annulus placed inside an open hemisphere. The counterexample is argued, not formalized, which the REPORT discloses. It is a note on unlabelled text, not a row. The formalized versions exemple_poche_affine and exemple_poche_projective add InjOn p P, and their remaining hypotheses are the printed ones."
+  }
+}
