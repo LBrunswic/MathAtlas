@@ -69,7 +69,7 @@ the max metric):
   in every open set, so there is no maximal causal chain (`not_isMaximalChain`).
 * `K^±(A) = I^±(A)`, `J^±(A) \ K^±(A) ⊂ ∂I^±(A)`, and `J^-(q) \ J^-(p)` contains a non-empty
   open set for `p < q`: the two conditions of `defi:mesure_dieckmann` reduced to measure theory
-  (used by `CausalScaffold.MinkowskiMeasure`).
+  (used by `Causal.MinkowskiMeasure`).
 
 ## Hypothesis checklist
 

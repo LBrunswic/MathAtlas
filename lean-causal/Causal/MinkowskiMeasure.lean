@@ -7,10 +7,11 @@ import Mathlib.Analysis.Normed.Lp.MeasurableSpace
 # Admissible measures on Minkowski space
 
 `prop:mesure_dieckmann_Lorentz` — `ETT.tex:1054`, for Minkowski space only (the library has no
-Lorentzian manifolds). Sorry-free since 2026-11-20: the measure-theoretic fact it was reduced to
-is `Causal.Flat.minkowski_frontier_null_measure` (the Barbot campaign's offer, DEC-65). Kept in the
-scaffold until the ETT campaign graduates it; the instance-only scope below is why the row stays
-partial.
+Lorentzian manifolds). No `sorry`: the measure-theoretic input is
+`Causal.Flat.minkowski_frontier_null_measure` (DEC-65). The row is partial because the statement is
+an instance. Graduated from the scaffold on 2026-11-20 (T-ett-minkowski-graduate, audited);
+`Causal.Flat.minkowski_admissible_pair` has the identical statement, and this module is ETT's
+anchor for it.
 
 > Let $M$ be a strongly causal Lorentzian manifold. Then $M$ admits a measure which is admissible
 > both in the past and in the future.
@@ -18,6 +19,14 @@ partial.
 > Since $M$ is strongly causal and Lorentzian, the Alexandrov topology is the manifold topology of
 > $M$ and diamonds always have non-empty interior. One then checks easily that conditions $3.$ and
 > $4.$ hold for a measure admissible in the sense of Dieckmann.
+
+## Hypothesis checklist
+
+| paper hypothesis | here |
+|---|---|
+| `M` a strongly causal Lorentzian manifold | ⚠ strengthened: `M = ℝ^{1,n}` (`Minkowski n`, `minkowski n`), every `n`; strongly causal there (`minkowski_stronglyCausal`) |
+| one measure admissible in the past and in the future (`defi:mesure_dieckmann` 1.–4.) | ✓ carried: `AdmissiblePast μ ∧ AdmissibleFuture μ` for one `μ`, Borel σ-algebra, condition 4 for every `A` (outer measure, `rem:mesure_bord`) |
+| — 3. `p < q` | ✓ carried: `p ≤ q`, `p ≠ q` |
 
 ## What is proved
 
@@ -32,13 +41,12 @@ partial.
 
 ## SCOPE (disclosed)
 
-* **The former `sorry`** (`minkowski_exists_measure`, closed 2026-11-20 by
-  `Causal.Flat.minkowski_frontier_null_measure`): a measure as above exists, e.g. a Gaussian on
-  `ℝ^{1+n}`. Finiteness, regularity and positivity are standard; what is missing is the
-  nullity of `∂I^±(A)` for an **arbitrary** `A`: `I^-(A) = {(t, x) : t < f(x)}` with
-  `f(x) = sup_{a ∈ A} (a.1 − ‖x − a.2‖)` 1-Lipschitz (or `±∞`), so `∂I^-(A)` lies in the graph
-  of `f`, which is Lebesgue-null by Fubini; `Causal/Flat/GerochFlat.lean` proves it. The
-  statement is true for every `n`, `n = 0` included, so the `sorry` is not vacuous.
+* **The measure** (`minkowski_exists_measure` = `Causal.Flat.minkowski_frontier_null_measure`; a
+  tagged `sorry` until 2026-11-20): finite, regular, positive on non-empty open sets, and null on
+  `∂I^±(A)` for every `A`. The nullity is proved in `Causal/Flat/Geroch/ConeNull.lean` by vertical
+  sections (each vertical line meets `∂I^∓(A)` in at most one point; Fubini–Tonelli), carried to a
+  chart measure by `Geroch/ChartNull`, `Geroch/ChartMeasure`. The statement holds for every `n`,
+  `n = 0` included.
 * **What the paper's "checks easily" rests on.** Condition 4 for an arbitrary `A` is the
   classical theorem that an achronal boundary is a Lipschitz hypersurface (Hawking–Ellis,
   Prop. 6.3.1), hence null for a measure absolutely continuous with respect to Lebesgue; the

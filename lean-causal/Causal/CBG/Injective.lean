@@ -45,8 +45,8 @@ in full, with no `sorry` and no rigidity:
   theorem on `𝐌^{1,d}`, the identity, `{t = 0}`), `minkowski_sbierski_lemma_3_3`;
   `timelikeLine_injective_of_globallyHyperbolic` (every hypothesis of the globally hyperbolic
   form on the timelike line `𝐌^{1,0}`, with the Gaussian measure; on `𝐌^{1,d}` the admissible
-  measure rests on the open item `prop:mesure_dieckmann_Lorentz` (`minkowski_exists_measure`),
-  so that witness is not used).
+  measure `minkowski_mesure_dieckmann` is sorry-free since 2026-11-20 (`Causal.MinkowskiMeasure`),
+  but that witness is not added here).
 
 ## The proof: lifts of curves for geodesics
 
@@ -645,9 +645,8 @@ theorem minkowski_sbierski_lemma_3_3 (d : ℕ) :
 /-- **The globally hyperbolic form is non-vacuous** (kb/0011): on the timelike line `𝐌^{1,0}`
 with the standard Gaussian measure (`timelikeLine_admissible_past_and_future`), every hypothesis
 of `injective_of_globallyHyperbolic` holds for the identity and the Cauchy surface `{0}`, and it
-applies. (On `𝐌^{1,d}` the admissible measure is `minkowski_mesure_dieckmann`, which rests
-on the open item `prop:mesure_dieckmann_Lorentz` (`minkowski_exists_measure`); it is
-deliberately not used here.) -/
+applies. (On `𝐌^{1,d}` the admissible measure is `minkowski_mesure_dieckmann`, sorry-free since
+2026-11-20 in `Causal.MinkowskiMeasure`; that witness is not added here.) -/
 theorem timelikeLine_injective_of_globallyHyperbolic :
     (timelikeLine.AdmissibleFuture (ProbabilityTheory.gaussianReal 0 1) ∧
       timelikeLine.AdmissiblePast (ProbabilityTheory.gaussianReal 0 1) ∧ timelikeLine.Tarentin ∧

@@ -91,7 +91,7 @@ earlier here).
   (iii)⇒(i) of `CausalScaffold.GerochEquiv` (a `sorry`), not imported. **Non-vacuity**
   (kb/0011/0012): on `𝐌ⁿ` the hypotheses are `minkowski_tarentin` (`Causal/Minkowski.lean`),
   `minkowski_causallyArcConnected`, `J^±(p) ≠ {p}` (elementary) and `minkowski_mesure_dieckmann`
-  (`CausalScaffold.MinkowskiMeasure`, resting on one tagged `sorry`, so not imported); the
+  (`Causal.MinkowskiMeasure`, sorry-free since 2026-11-20, not imported here); the
   library's sorry-free joint witness is the timelike line (`Causal/Geroch.lean`,
   `timelikeLine_admissible_past_and_future`), which is not a flat spacetime. The conclusion for
   `𝐌ⁿ` is proved directly (`barbotGH_minkowskiSpace`), so nothing here is used vacuously.

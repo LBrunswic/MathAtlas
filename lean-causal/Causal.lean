@@ -200,6 +200,7 @@ import Causal.LimitCurves
 import Causal.Port.E0Model
 import Causal.Port.E0Causality
 import Causal.Port.E0Axioms
+import Causal.MinkowskiMeasure
 
 /-!
 # Causal — topological spacetimes

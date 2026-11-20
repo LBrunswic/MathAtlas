@@ -56,7 +56,7 @@ theorems.
 * The causality is defined by curves in every open set, as `defi:causal_Ealpha` does; it is not
   produced by a Lorentzian metric (the library has none). `minkowski_le_top_iff_sq` is the bridge
   to the quadratic form `−dt² + ‖dx‖²`.
-* `prop:mesure_dieckmann_Lorentz` is not attempted here; see `CausalScaffold.MinkowskiMeasure`.
+* `prop:mesure_dieckmann_Lorentz` is not attempted here; see `Causal.MinkowskiMeasure`.
 * The counterexamples are built with the **local** causality of curves, not with
   `Causality.ofRelation` (kb/0014, kb/0019): they refute statements about this absolutely
   minimal causality.

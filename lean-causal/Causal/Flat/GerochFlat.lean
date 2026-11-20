@@ -23,11 +23,10 @@ rests on the named externals `BarbotExternals`, `SelbergLemma`.
 * `barbot_B_geroch`: `barbot_B` with its `hK` discharged (`forall_flatLemmaKData_iff`);
   `barbot_B_zero_geroch`: at `d = 0`, with every input discharged.
 * `exists_frontier_null_measure`, `minkowski_frontier_null_measure`, `minkowski_admissible_pair`:
-  the Minkowski instance. `minkowski_frontier_null_measure` is **the statement of ETT's `sorry`
-  `minkowski_exists_measure`** (`CausalScaffold/MinkowskiMeasure.lean`,
-  `SORRY(prop:mesure_dieckmann_Lorentz)`), proved here sorry-free, and `minkowski_admissible_pair`
-  is that of `minkowski_mesure_dieckmann`: both are offered to the ETT campaign (DEC-65), which
-  owns that file; it is not edited from here.
+  the Minkowski instance. `minkowski_frontier_null_measure` is the statement of ETT's
+  `minkowski_exists_measure`, and `minkowski_admissible_pair` that of ETT's anchor
+  `Causal.minkowski_mesure_dieckmann` (`Causal.MinkowskiMeasure`), which uses
+  `minkowski_frontier_null_measure` (DEC-65; the former ETT `sorry`, closed 2026-11-20).
 
 > 3. for all $p,q\in M$, if $p<q$ then $\mu(J^-(q)\setminus J^-(p))>0$ [...] 4. for every
 > $A \subset M$, $\mu(J^-(A)\setminus K^-(A))=0$ (ETT.tex, `defi:mesure_dieckmann`)
@@ -161,9 +160,8 @@ theorem barbot_B_zero_geroch (M : FlatSpacetime.{u} 0) (hGH : GH M) (hC : Cauchy
 /-! ## §3 Minkowski space (offered to the ETT campaign) -/
 
 /-- **The statement of ETT's `minkowski_exists_measure`, proved** (`prop:mesure_dieckmann_Lorentz`
-on `ℝ^{1,n}`, `CausalScaffold/MinkowskiMeasure.lean`'s `sorry`): a finite regular measure on
-`Minkowski n`, positive on non-empty open sets, charging the frontier of no `I^±(A)`. Offered to
-the ETT campaign (DEC-65); `MinkowskiMeasure.lean` is not edited from here. -/
+on `ℝ^{1,n}`, used by `Causal.MinkowskiMeasure`): a finite regular measure on `Minkowski n`,
+positive on non-empty open sets, charging the frontier of no `I^±(A)` (DEC-65). -/
 theorem minkowski_frontier_null_measure (n : ℕ) :
     ∃ μ : Measure (Minkowski n), μ.Regular ∧ μ univ < ⊤ ∧
       (∀ O : Set (Minkowski n), IsOpen O → O.Nonempty → 0 < μ O) ∧
@@ -179,7 +177,7 @@ theorem minkowski_frontier_null_measure (n : ℕ) :
 
 /-- **An admissible pair on Minkowski space** (`prop:mesure_dieckmann_Lorentz` on `ℝ^{1,n}`): one
 measure admissible in the past and in the future for `minkowski n` — the statement of ETT's
-`minkowski_mesure_dieckmann`, here sorry-free. Offered to the ETT campaign (DEC-65). -/
+anchor `Causal.minkowski_mesure_dieckmann` (`Causal.MinkowskiMeasure`), DEC-65. -/
 theorem minkowski_admissible_pair (n : ℕ) :
     ∃ μ : Measure (Minkowski n), (minkowski n).AdmissiblePast μ ∧
       (minkowski n).AdmissibleFuture μ := by

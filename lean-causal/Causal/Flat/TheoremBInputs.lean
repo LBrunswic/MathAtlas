@@ -67,9 +67,8 @@ dimensions: Barbot's `n` is `d + 1`.
   (`flatGerochGH_of_admissible`), and every other hypothesis of `geroch_i_imp_iii` is proved here
   for every flat spacetime (tarentin, arc-connectedness, `J^±(p) ≠ {p}`, first countability).
   Admissible measures are not constructed in this file; GerochFlat constructs them on every GH
-  flat spacetime (`flatAdmissibleMeasures`, sorry-free; ETT's own `minkowski_exists_measure`,
-  `CausalScaffold/MinkowskiMeasure.lean`, is still a tagged `sorry` in that file; GerochFlat's
-  `minkowski_frontier_null_measure` proves its statement, offered to the ETT campaign, DEC-65).
+  flat spacetime (`flatAdmissibleMeasures`, sorry-free; ETT's own `minkowski_exists_measure`, in
+  `Causal/MinkowskiMeasure.lean`, is GerochFlat's `minkowski_frontier_null_measure`, DEC-65).
   So `barbot_B_of_externals` here carries `FlatGerochGH d` in place of `hK`, and GerochFlat
   discharges it; its instances on the models are also proved here (`flatLemmaKData_torusSpace`,
   Classification's `flatLemmaKData_minkowskiSpace`).
