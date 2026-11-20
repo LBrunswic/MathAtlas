@@ -5,7 +5,7 @@
 #
 # status  planned       proposed, not yet ready (a dependency is not done, or it is not specified enough)
 #         ready         can be dispatched now
-#         active        an iteration is working on it (at most one at a time)
+#         active        a wave is working on it (at most MAX_PARALLEL at a time, tools/roadmap.py)
 #         needs-ruling  waits for the author: `question` says what to decide; the loop never decides it
 #         blocked       waits on an OPEN question of registers/DECISIONS.md, named in `oq`
 #         done          closed; `evidence` names the commit
@@ -16,6 +16,16 @@
 #         research  new mathematics (3+1 notes); scaffold-only, marked [r] until proved
 #         tooling   the atlas, the ledgers, the gates
 #         author    something only the author can do (shown on the roadmap, never dispatched)
+# fields  required: id, title, stream, kind, status, owner, priority (lower runs first), evidence,
+#         added, proposed_by. `paper` + `labels`: the ledger rows (a close target names them).
+#         `depends`: ids that must be done first (a ready target's are all done). `question`
+#         (needs-ruling), `oq` (blocked), `commit` (done).
+#         `package`: the Lean package the target writes in, read by `roadmap.py wave` (at most
+#         MAX_PER_PACKAGE per wave). Default: the paper's (PACKAGE_OF) for closer and master
+#         targets. "none" for a master target that writes no Lean (curation, tools), so that it
+#         does not take a closer's place in the paper's package.
+#         `exclusive = true`: alone in its package for the wave (a port, a strict-library
+#         refactor, a root file).
 
 [gates]
 # Hub gates already red at the team's start (2026-11-20). An iteration may not add a failure;
@@ -71,7 +81,7 @@ oq = "OQ-32"
 
 [[target]]
 id = "T-ett-subextension"
-title = "Close the two SubExtension sorrys: lem:C_ext_connexe and prop:Cauchy_pgcd"
+title = "Anchor lem:C_ext_connexe and prop:Cauchy_pgcd to the CBG geometry (DEC-60), and settle the abstract SubExtension forms"
 stream = "ett"
 kind = "close"
 paper = "ett"
@@ -79,25 +89,25 @@ labels = ["lem:C_ext_connexe", "prop:Cauchy_pgcd"]
 status = "ready"
 owner = "closer"
 priority = 4
-evidence = "CausalScaffold.SubExtension: exists_mem_image_inf and cauchy_pgcd are tagged sorrys (bucket C)."
+evidence = "Re-scoped 2026-11-20 by the planner. Both rows are bucket C on tagged sorrys of scaffold CausalScaffold.SubExtension (l.86 exists_mem_image_inf: 'in this abstract setting the statement may be false'; l.124 cauchy_pgcd). The strict Causal/CBG/Pgcd.lean already proves both over a Geometry and cites them unmarked: cauchy_pgcd_geometry ('prop:Cauchy_pgcd over the geometry, in ETT's form') and IsCauchyEmbedding.c_ext_connexe_of_connectedSpace. Its SCOPE calls SubExtension.cauchy_pgcd (causal IsRigid) 'believed false (design §2, DEC-60), not refuted here' (witness causal_pgcd_not_unique). So: write ETT-form anchors over the Geometry, as T-ett-cbg-anchor (8e7e7ee) did for ten §4 rows, and refute the abstract forms in a new file if possible; do not try to prove the two sorrys. The rows stay partial until the E₀ instance (T-ett-cbg-e0)."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
 
 [[target]]
 id = "T-ett-singular-instance"
-title = "Discharge SingularFlatAxioms / BTZAxioms with the ported E₀ model, lifting ETT's bucket-D singular rows"
+title = "Discharge SingularFlatAxioms for every E≥0-manifold (DEC-25 atlas over E_α and the ported E₀): cor:massA_causalite, cor:massA_cac, cor:pushup_sing"
 stream = "ett"
 kind = "close"
 paper = "ett"
-labels = ["def:singular_spacetime", "defi:causal_E0", "prop:K_calcul", "prop:K_densite_sing", "cor:K_ordre", "theo:geroch_sing"]
+labels = ["cor:massA_causalite", "cor:massA_cac", "cor:pushup_sing"]
 status = "planned"
 owner = "closer"
 priority = 5
 question = "lean-gx imports lean-causal, so the E₀ instance can only live in lean-gx. May ETT ledger rows be anchored to lean-gx declarations, or should the E₀ model be ported into lean-causal (as Causal.Port did for the universal cover)?"
-evidence = "DEC-134: the E₀ model is ported into lean-causal, so the ETT ledger keeps one Lean root; 32 ETT rows are bucket D under named model hypotheses."
+evidence = "DEC-134 answers the question above: the E₀ model is ported into lean-causal and SingularFlatAxioms/BTZAxioms are discharged there. Re-scoped 2026-11-20 by the planner. Causal/SingularFlat.lean: 'None is marked: each is a statement about E≥0-manifolds, which the library does not define'. The three rows are proved in Causal/Remarks/MassiveManifold for the abstracted atlas given the model facts; hreg for E_κ is an assumed model fact (T-ett-unanchored AUDIT-1). The E₀ facts come from T-ett-port-e0-sfa, the atlas from T-ett-gxsingular-dec25. Split off: defi:causal_E0 (T-ett-port-e0), def:singular_spacetime (T-ett-port-e0-sfa), the consumers (T-ett-singular-rows). Left out: prop:K_calcul, whose mark also waits on OQ-16 (plainness or push-up), and theo:geroch_sing, blocked on OQ-32/OQ-33."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
-depends = ["T-ett-port-e0"]
+depends = ["T-ett-port-e0-sfa", "T-ett-gxsingular-dec25"]
 
 [[target]]
 id = "T-ett-minkowski-graduate"
@@ -112,6 +122,155 @@ priority = 6
 evidence = "Closed by Causal.Flat.minkowski_frontier_null_measure in 18d8c16; still in the scaffold; the row stays partial (Minkowski instance only)."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-ett-ruled-rows"
+title = "Apply DEC-7 and DEC-8 to the three ETT rows they rule closed, which the curation still blocks on OQ-8/OQ-9"
+stream = "ett"
+kind = "tooling"
+paper = "ett"
+package = "none"
+labels = ["prop:GH_fortement_causal", "prop:tarentin_topological_spacetime_causality", "def:strongly_causal_spacetime"]
+status = "ready"
+owner = "master"
+priority = 3
+evidence = "DEC-7 rules OQ-8: 'StronglyCausal is the definition, and prop:GH_fortement_causal is closed as proved, the full diamond being the neighbourhood'. DEC-8 rules OQ-9: 'CausallyOpen is the definition, and prop:tarentin_topological_spacetime_causality is closed as stated'. papers/ett/certificate/curation.toml still gives these three rows lean_proved_override = \"partial\", bucket B and blocked_on = 'OQ-8: …' / 'OQ-9: …' (written 05703e3). The strict modules carry the marks: Causal/GlobalHyperbolicity.lean:8 (citing DEC-7), Causal/StrongCausality.lean:8, Causal/Properties.lean:13. Curate them, keeping the open-diamond finding of prop:GH_fortement_causal as a finding, then make ledgers. If a row should stay partial for another reason, write that reason into its notes."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-ett-curation-decls"
+title = "Fix the 37 ETT curation decls that carry a prose prefix (def:causally_complete 28, rem:causal_completeness_slightly_weaker 9), and make ledger.py refuse such a decl"
+stream = "ett"
+kind = "tooling"
+paper = "ett"
+package = "none"
+labels = ["def:causally_complete", "rem:causal_completeness_slightly_weaker"]
+status = "ready"
+owner = "master"
+priority = 8
+evidence = "Finding of T-atlas-lean-dag (journal 2026-11-20 15:26): decls '(related, curve reading (b), CausalScaffold.ChainsCurves) Causal.…' resolve to nothing. Checked 2026-11-20: all 37 names are declared in the strict lean-causal/Causal/ChainsCurves.lean, which has graduated, so the prefix's scaffold path is stale. Under DEC-20/DEC-21 the curve reading is 'related': strip the prefix, then keep each name as a decl or move it into notes. A gate refusing a decl that is not a Lean name (with a fixture under tools/fixtures/ledger/) stops the next one."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-ett-port-e0-sfa"
+title = "Port the rest of E₀'s causal facts and prove SingularFlatAxioms for E₀: the first witness of def:singular_spacetime with sing₀ ≠ ∅"
+stream = "ett"
+kind = "close"
+paper = "ett"
+labels = ["def:singular_spacetime"]
+status = "planned"
+owner = "closer"
+priority = 4
+exclusive = true
+depends = ["T-ett-port-e0"]
+evidence = "DEC-134. lean-gx/GX/BTZ/Causality.lean l.1814–3347, without the Y = 𝕄 ⊕ E₀ sections: strong causality, closed J^±, diamonds a basis, chart isomorphisms of the isometries, and GX.E0.singularFlatAxioms_of_pushUp ('every field but pushUp'). lean-gx/GX/BTZ/LocalModel.lean l.536–684: GX.E0LM.e0_pushUp. The ledger's def:singular_spacetime notes say 'witnessed on the timelike line; no witness with sing_0 ≠ ∅'. A port, so exclusive in lean-causal."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-ett-e0-model-rows"
+title = "The BTZ sentences of rem:relation_not_assumed_reflexive and rem:K_neq_I, at the ported E₀"
+stream = "ett"
+kind = "close"
+paper = "ett"
+labels = ["rem:relation_not_assumed_reflexive", "rem:K_neq_I"]
+status = "planned"
+owner = "closer"
+priority = 5
+depends = ["T-ett-port-e0"]
+evidence = "Ledger notes. rem:relation_not_assumed_reflexive: the BTZ point is 'strengthened (a point of S₀ under BTZAxioms …; the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0))'. rem:K_neq_I: 'the BTZ sentence needs E_0' (I⁻(p) = ∅, K⁻(p) = J⁻(p) ∖ {p} at a BTZ point; gx proves GX.E0.Iminus_axis). These are statements about the model itself, so the E₀ instance is not narrower than the paper. rem:K_neq_I's bubble sentence stays open whatever this target does."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-ett-singular-rows"
+title = "Close the singular-flat rows proved under SingularFlatAxioms, once every E≥0-manifold satisfies them"
+stream = "ett"
+kind = "close"
+paper = "ett"
+labels = ["lem:past_BTZ", "cor:K_injectif", "prop:K_densite_sing", "cor:K_ordre", "lem:cup_cap_BTZ", "rem:btz_pas_tarentin", "rem:mesure_unilaterale"]
+status = "planned"
+owner = "closer"
+priority = 6
+depends = ["T-ett-singular-instance"]
+evidence = "Causal/SingularFlat.lean proves lem:past_BTZ, cor:K_injectif, prop:K_densite_sing, cor:K_ordre and lem:cup_cap_BTZ (DEC-19) from SingularFlatAxioms, and marks none: 'each is a statement about E≥0-manifolds, which the library does not define'. rem:btz_pas_tarentin's BTZ half is the SFA field mem_Zminus_iff; rem:mesure_unilaterale is stated under SFA with IsCausal (Remarks/BTZPoints). Once T-ett-singular-instance holds, each is a composition."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-ett-gxsingular-dec25"
+title = "Reconcile Causal.GXSingular with DEC-25: port gx's a.e. (G,X)-atlases and restate prop:GX_sing_espace_temps_topo and rem:hypotheses_proposition_prop_gx on them"
+stream = "ett"
+kind = "close"
+paper = "ett"
+labels = ["prop:GX_sing_espace_temps_topo", "rem:hypotheses_proposition_prop_gx"]
+status = "ready"
+owner = "closer"
+priority = 7
+exclusive = true
+evidence = "DEC-25 rules OQ-19: 'a singular (G,X)-manifold carries a maximal almost-everywhere (G,X)-atlas … a morphism is an almost-everywhere morphism … ETT's GXSingular is reconciled against them later'. Causal/GXSingular.lean: 'Its reconciliation with gx's DEC-25 (a.e. morphisms of singular (G,X)-manifolds) is a follow-up, not done here'. The curation still blocks both rows on the ruled OQ-19. Source: lean-gx GX.Singular.Atlas (1,812 lines) and GX.Topology.Portly (646). Their third input, GX.Structure.Basic, is already ported as Causal.Port.GXBasic (WP-32a). Uniqueness stays among absolutely minimal causalities while OQ-18 is open, and Baire stays unused (OQ-10). A port, so exclusive in lean-causal."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-ett-k-borelien"
+title = "rem:K_borelien: is K⁻(p) Borel in a tarentin spacetime without assuming J⁻(p) Borel? Prove it, or give a counterexample"
+stream = "ett"
+kind = "close"
+paper = "ett"
+labels = ["rem:K_borelien"]
+status = "ready"
+owner = "closer"
+priority = 6
+evidence = "Bucket C. The ledger notes say 'K^-(p) = J^-(p) ∩ O with O open: Borel whenever J^-(p) is (⚠ strengthened), and outright for a tarentin, globally hyperbolic, Hausdorff spacetime' (Causal.Causality.measurableSet_Kminus, Kminus_eq_inter_isOpen). The curation's findings_triage says '\"hence Borel\" needs J^-(p) Borel'. The remark (ETT.tex:829) claims it from tarentin alone. Either outcome settles the row; no reading is involved."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-ett-deux-pushup"
+title = "rem:deux_pushup: exhibit a causally plain spacetime without push-up, the converse independence the remark argues"
+stream = "ett"
+kind = "close"
+paper = "ett"
+labels = ["rem:deux_pushup"]
+status = "ready"
+owner = "closer"
+priority = 6
+evidence = "Bucket B. The ledger notes say 'First half: the lightlike line has the push-up property and is not causally plain (Causal.lightlikeLine_pushUp, lightlikeLine_not_causallyPlain). The converse independence is argued in the remark, not exhibited.' ETT.tex:318–320 argues that causal plainness 'is silent at a point whose causal future or past has empty interior'. Exhibit the example, or report where the argument fails."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-ett-cbg-typeagreement"
+title = "Restate Causal.CBG.LocalModel.typeAgreement in the convergence form that holds for E₀, so that Geometry.ofLocalModelOfBTZ can be instantiated for E₀"
+stream = "ett"
+kind = "close"
+paper = "ett"
+labels = ["cor:ext_continue"]
+status = "planned"
+owner = "closer"
+priority = 8
+exclusive = true
+evidence = "lean-gx/GX/BTZ/CBG.lean, SCOPE 'Why a port': the field hTA (lean-causal's typeAgreement, MapClusterPt form) is refuted for E₀ (GX.E0LM.e0_not_typeAgreement), so Geometry.ofLocalModelOfBTZ cannot be instantiated for E₀. gx therefore carries a verbatim port (TLocalModel) with typeAgreement in Tendsto form, 'to be deleted once lean-causal restates the field'. Its only consumer, germ_ext_nonBTZ (Causal/CBG/FromModel.lean), has the Tendsto in scope. That is A3, germ extension, which cor:ext_continue uses (T-ett-cbg-anchor findings on rem:CBG_analytique). This is a strict-library refactor of lean-causal, so it is exclusive. It also changes what lean-gx bridges to by definitional unfolding. Planned: it serves T-ett-cbg-e0 only."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-ett-cbg-e0"
+title = "Port gx's CBG geometry of E₀-manifolds (e0Geometry) into lean-causal and lift ETT §4 over it"
+stream = "ett"
+kind = "close"
+paper = "ett"
+labels = ["theo:CBG", "rem:CBG_analytique", "cor:ext_continue", "prop:Cauchy_non_max", "prop:C_connexe", "rem:CBG_manquant", "lem:corresponding_K", "prop:Cauchy_point_min", "cor:model_corresponding", "prop:ppcm_Cauchy"]
+status = "planned"
+owner = "closer"
+priority = 9
+depends = ["T-ett-port-e0-sfa", "T-ett-gxsingular-dec25", "T-ett-cbg-typeagreement"]
+evidence = "The §4 rows read 'certified over an abstract CBG Geometry; partial until the E₀ instance (T-ett-port-e0, DEC-134); for rows using A3/A4 also gx's GermExtFutureBTZ, GermExtPastBTZ, SliceFutureBTZ'. T-ett-cbg-anchor AUDIT-1: lem:corresponding_K and prop:Cauchy_point_min need A2 only. gx has the instance, GX.E0CBG.e0Geometry with e0_cbg, e0_sliceFutureBTZ and e0_germExtFutureBTZ (GX/BTZ/CBG.lean). Its (O2)/(O4) inputs are now theorems (GX/BTZ/LocalModel.lean:4881 e0_globalBTZ, :5007 e0_secondCountable_of_cauchy). Size: Rigid 3.5k + LocalModel 5.0k + CBG 3.5k lines over GX.BTZ.Model (1.6k), whose gx import cone is ≈52k lines. This is a campaign: scope which part of Model's cone Rigid needs, then split, before any dispatch. The marks of cor:model_corresponding and prop:ppcm_Cauchy also wait on OQ-25 and OQ-26."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
 
 # ------------------------------------------------------------------ gx
 [[target]]
@@ -130,17 +289,47 @@ proposed_by = "atlas-team seed"
 
 [[target]]
 id = "T-gx-troyanov"
-title = "Prove Troyanov's theorem (cone metrics on surfaces) and discharge GX.TroyanovSuspensionTheorem"
+title = "Troyanov's existence theorem for spherical cone metrics on S² under the angle condition (MR1005085), discharging GX.TroyanovSuspensionTheorem"
+stream = "gx"
+kind = "close"
+paper = "gx"
+labels = ["cex:start_singular_manifold_homeomorphic"]
+status = "planned"
+owner = "closer"
+priority = 8
+depends = ["T-gx-spherical-cone", "T-gx-troyanov-suspension"]
+evidence = "DEC-136: prove it in full, do not shrink it; DEC-69 made it a named external. Re-scoped 2026-11-20 by the planner and moved from ready to planned, because it is not one dispatch. The Prop (GX/SingularII/Models.lean:944) quantifies over every s ≥ 3 and every θ with TroyanovAngleCondition (Σ(θ_i − 2π) + 4π in ]0, min(4π, θ_i)]). That is an existence theorem for cone metrics with prescribed angles, and the library has neither spherical cone surfaces nor (SO(4), 𝕊³). Split: T-gx-spherical-cone (objects, and the Prop tied to θ), T-gx-troyanov-suspension (the suspension and its facts), then this target, the existence theorem. Its proof route and size are to be scoped before dispatch."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-gx-spherical-cone"
+title = "Spherical cone surfaces and the (SO(4), 𝕊³) model in lean-gx; state TroyanovSuspensionTheorem tied to the cone angles θ"
 stream = "gx"
 kind = "close"
 paper = "gx"
 labels = ["cex:start_singular_manifold_homeomorphic"]
 status = "ready"
 owner = "closer"
-priority = 8
-evidence = "DEC-136: prove it in full, do not shrink it; DEC-69 made it a named external."
+priority = 5
+evidence = "Docstring of GX.TroyanovSuspensionTheorem (GX/SingularII/Models.lean:928–943): 'Not tied to θ … SuspensionCexFacts mentions no cone angle (the library has none) … Its angle-dependent content lives only at the paper's (SO(4), 𝕊³), which cannot be stated here'. gx ledger row cex:start_singular_manifold_homeomorphic (bucket C): 'restating it at (SO(4),𝕊³) needs spherical cone surfaces and a rigid SO(4)-action on 𝕊³'. First step of DEC-136. The row stays partial until T-gx-troyanov."
 added = "2026-11-20"
-proposed_by = "atlas-team seed"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-gx-troyanov-suspension"
+title = "The Thurston suspension of a spherical cone surface is a singular (SO(4), 𝕊³)-manifold with the facts of SuspensionCexFacts"
+stream = "gx"
+kind = "close"
+paper = "gx"
+labels = ["cex:start_singular_manifold_homeomorphic"]
+status = "planned"
+owner = "closer"
+priority = 8
+depends = ["T-gx-spherical-cone"]
+evidence = "RamcovGX.tex:1933–1937 (the cex): the suspension M is a singular (SO(4),𝕊³)-manifold 'by Proposition prop:susp_portly or directly'; Aut(Σ) → Aut(M) is an isomorphism, and (M, S) is analytic iff S = {O}. prop:susp_portly is closed (GX.Susp.susp_portly). The abstract consequences already exist (GX.SuspensionCexFacts, isAnalyticModelFamily_unit_iff_eq_singleton). What is missing is the concrete suspension over a spherical cone surface (T-gx-spherical-cone)."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
 
 # ------------------------------------------------------------------ Benzécri
 [[target]]
@@ -183,6 +372,20 @@ priority = 9
 evidence = "DEC-137: transcribe and ledger Chapter 2 (result B); bzthm:intro_B is terminal today."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-bz-curation-decls"
+title = "Map Benzécri's 35 closed rows to their declarations (decls), so the Lean overlay and the double DAG can read them"
+stream = "benzecri"
+kind = "tooling"
+paper = "benzecri"
+package = "none"
+status = "ready"
+owner = "master"
+priority = 8
+evidence = "Finding of T-atlas-lean-dag (journal 2026-11-20 15:26): 'Benzécri's ledger maps no label to a declaration (names only in scope_notes)'. papers/benzecri/ledger/ledger.json, checked 2026-11-20: decls = [] on all 38 rows, while the 35 closed ones have lean_files and name their declarations in notes or in their modules' docstrings, e.g. bzthm:intro_A 'theoremA (theoremA_affine, theoremA_projective)'. papers/benzecri/certificate/curation.toml (its header still says 'STUB … Nothing is formalized yet') takes the decls, then make ledgers."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
 
 # ------------------------------------------------------------------ BBS and 3+1
 [[target]]
@@ -251,6 +454,36 @@ priority = 7
 evidence = "NOTES-3+1.md N2/N5: eight references 'not yet archived'."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-bbs-triage"
+title = "Triage the bbs ledger: bucket its 71 rows against REVIEW.md's layers and waves, and record what GX.Suspension already carries"
+stream = "bbs"
+kind = "tooling"
+paper = "bbs"
+package = "none"
+status = "planned"
+owner = "master"
+priority = 6
+depends = ["T-ledger-secondary-labels"]
+evidence = "papers/bbs/ledger/ledger.json, checked 2026-11-20: 71 rows, none Lean-stated, bucket '' (untriaged) on all, and no edges. The curation header: 'at wave 0 … no row has a Lean anchor and none is marked'. REVIEW.md §B gives the layers L0–L3 and §E the waves W0–W5. §I (update 2026-11-20): GX.Suspension.{Conic,Celestial,Affine} graduated, sorry-free. Depends on T-ledger-secondary-labels, so that the triage sees the authors' \\ref edges. Close targets for bbs come after this triage (and BBS-Q1, T-bbs-layer-home)."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-bbs-layer-home"
+title = "BBS-Q1: do the L2–L3 layers (links by signature; the singular lines of bbsprop:classising and bbsdef:Hcausal) live in lean-gx or in a new lean-bbs?"
+stream = "bbs"
+kind = "close"
+paper = "bbs"
+labels = ["bbsprop:classising", "bbsdef:Hcausal"]
+status = "needs-ruling"
+owner = "closer"
+priority = 7
+question = "BBS-Q1 (papers/bbs/REVIEW.md §F): the L2–L3 layers (links by signature, then the Riemannian and Lorentzian branches) carry bbsprop:classising and bbsdef:Hcausal. Do they go into lean-gx (the bbs ledger's root), or into a new package lean-bbs that requires lean-gx?"
+evidence = "REVIEW.md §F, BBS-Q1, still unruled: 'The ruling puts L0–L1 in lean-gx. L2–L3 could also go into lean-gx, which already requires lean-causal, or into a downstream package (lean-bbs requiring lean-gx)'. L0–L1 graduated (REVIEW.md §I, update 2026-11-20). STORY.md S-bbs-1 names bbsprop:classising and bbsdef:Hcausal as the model-independent part that the suspension layers rebuild (waves W2–W3, 'pure formalisation of material whose mathematics is settled'). A new package is the author's to decide."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
 
 # ------------------------------------------------------------------ the ledger-only papers
 [[target]]
@@ -334,15 +567,16 @@ commit = "8afcced"
 
 [[target]]
 id = "T-ett-port-e0"
-title = "Port the E₀ model (BTZ model, its causality and topology) from lean-gx into lean-causal (Causal.Port)"
+title = "Port E₀ = ℝ × ℂ and its curve causality from lean-gx into lean-causal: E₀'s causality, its calculus and BTZAxioms (defi:causal_E0)"
 stream = "ett"
 kind = "close"
 paper = "ett"
-labels = ["defi:causal_E0", "def:singular_spacetime"]
+labels = ["defi:causal_E0"]
 status = "ready"
 owner = "closer"
-priority = 4
-evidence = "DEC-134; the precedent is Causal.Port.UniversalCover/Developing (WP-32a); the E₀ facts are proved in GX.BTZ.Model, .Rigid, .Causality, .Topology."
+priority = 3
+exclusive = true
+evidence = "DEC-134; the precedent is Causal.Port.UniversalCover/Developing (WP-32a, 2.5k lines). Re-scoped 2026-11-20 by the planner: gx's whole E₀ (GX.BTZ.Model, .Rigid, .Causality, .Topology) is 11.8k lines over a ≈52k-line gx import cone, so it is not one dispatch. This first piece is lean-gx/GX/BTZ/Causality.lean l.116–1647. That part builds E₀ on ℝ × ℂ in the paper's (τ, z) 'from the developing map alone' (only btzPaperNull from GX.BTZ.Model, to restate), and proves the local relations, the curve causality, the calculus, absolute minimality, strong tarentinity and GX.E0.btzAxioms in DEC-64's Iplus_of_lt form. The product topology is the natural one (GX.E0.toPaper is a homeomorphism to gx's BTZE0), so GX.BTZ.Topology is not needed. def:singular_spacetime moves to T-ett-port-e0-sfa. A port, so exclusive in lean-causal."
 added = "2026-11-20"
 proposed_by = "atlas-team (DEC-134)"
 
@@ -360,3 +594,73 @@ depends = ["T-egf-package"]
 evidence = "papers/egf/STORY.md S-egf-1 names these labels and the anchor EGF.main_universality (DEC-133)."
 added = "2026-11-20"
 proposed_by = "atlas-team (DEC-133)"
+
+[[target]]
+id = "T-egf-backward-policy"
+title = "EGF's explicit backward policy (theo:backward_policy) in lean-egf"
+stream = "gfn"
+kind = "close"
+paper = "egf"
+labels = ["theo:backward_policy"]
+status = "planned"
+owner = "closer"
+priority = 4
+depends = ["T-egf-package"]
+evidence = "papers/egf/STORY.md S-egf-4: 'For a finite family of diffeomorphisms the backward star policy has a closed form', resting on theo:backward_policy (ledger: proved, main.tex:733). papers/egf/ledger/ledger.toml roadmap_intro: 'The library namespace is EGF, reusing GFNBounds.Core (kernels, mixing sums, the sampling theorem)'. GFNBounds.Core.UniversalityBody (lean/ submodule) defines IsEGFPolicy and egfKernel. Whether lean-egf requires or ports GFNBounds is T-egf-package's set-up (DEC-133, OQ-1)."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-egf-sampling"
+title = "EGF's quantitative sampling theorem and its loss controls (S-egf-3, anchor EGF.main_quantitative_sampling)"
+stream = "gfn"
+kind = "close"
+paper = "egf"
+labels = ["theo:sampling_theorem", "theo:negative_control", "theo:negative_control_appendix", "cor:sampling_error_control", "cor:pinsker_negative_control"]
+status = "planned"
+owner = "closer"
+priority = 5
+depends = ["T-egf-headline", "T-egf-backward-policy"]
+evidence = "papers/egf/STORY.md S-egf-3 names these five labels and the anchor EGF.main_quantitative_sampling. Its dependency sketch says 'S-egf-1, S-egf-4 → S-egf-3 (the error bound needs the explicit inflow)'. GFNBounds.Core.NegativeControl and .SamplingGeneralBounds (lean/ submodule) formalize theo:negative_control 'quoted from brunswicEGF'. S-egf-2 (tori and sphere families, resting on cited spectral-gap theorems) is not planned: whether those citations become named externals or proofs is for the author."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-ledger-secondary-labels"
+title = "tools/texgraph.py: resolve a \\ref to a statement's secondary \\label (bbs and Barbot have no statement edges)"
+stream = "hub"
+kind = "tooling"
+status = "ready"
+owner = "master"
+priority = 4
+evidence = "tools/texgraph.py keys a statement on its first \\label (LABEL.search on the body, relabel) and resolves a \\ref only against those keys, so a \\ref to any other label of the statement becomes a 'dangling' edge. This is recorded in papers/bbs/certificate/curation.toml (Edges) and in T-bbs-ledger's evidence. Measured 2026-11-20 on legacy/labeled/ within the ledgers' tex_spans (secondary labels / \\refs to them): barbot 29/70, bbs 33/40, yamabe 17/16, egf 4/6 (equation labels inside statements), ett 1/1 (theo:causalite_engendre ← prop:union_causalite), dyniso 17/0, gx, benzecri and syracuse 0/0. So the fix adds edges to barbot, bbs, yamabe and egf and one to ett, and moves no bucket or closure. Decide whether an \\eqref to an equation inside a statement counts. Add a test under tests/, run make ledgers and make -C reports/atlas."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-gfn-doubledag-refresh"
+title = "The committed GFN Bounds double DAG no longer matches its inputs: regenerate it, or pin the draft it was built from"
+stream = "gfn"
+kind = "tooling"
+status = "needs-ruling"
+owner = "master"
+priority = 6
+question = "reports/doubledag/gfnbounds (0775118, 2026-09-20) no longer matches its inputs, because the GFN Bounds draft's formalization-ledger.json changed on 2026-09-25. Regenerate it from the current draft (this re-measures the 55%/66% figures CLAUDE.md quotes and leaves OQ-6's nine proposals keyed to the old edges), or keep the 2026-09-20 artifacts as a dated measurement and pin the draft ledger they were built from?"
+evidence = "Run 2026-11-20: python3 tools/doubledag.py check --ledger '~/Dropbox/GFN Bounds/formalization-ledger.json' --facts lean/docs/lean-facts.json --map lean/paper-map.json → 'FAIL doubledag.json is not what build would write' and the same for DOUBLEDAG.md. Neither the lean/ submodule pin (dd67f92, 2026-09-19) nor tools/doubledag.py (0775118) has moved since; the draft ledger's mtime is 2026-09-25. Finding of T-atlas-lean-dag: 1,879 vs 2,344 mapped declarations. No gate checks this pair: papers_check only checks papers/*/doubledag. tests/test_reconcile.py replays cassettes against this doubledag.json."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-barbot-terminal"
+title = "Barbot's five terminal rows (off the spine of Theorems A and B): formalize them in lean-causal, or keep them terminal?"
+stream = "ett"
+kind = "close"
+paper = "barbot"
+labels = ["blem:admissible_cone", "bprop:tri", "bdef:geometrically_finite", "bthm:convex_cocompact", "bthm:cmc"]
+status = "needs-ruling"
+owner = "closer"
+priority = 10
+question = "Barbot's ledger is closed but for five rows the campaign plan left terminal as off the spine of Theorems A and B: blem:admissible_cone, bprop:tri, bdef:geometrically_finite, bthm:convex_cocompact (which rests on Sullivan's structural stability) and bthm:cmc (§12, CMC foliations). Should they leave bucket T and be formalized in lean-causal?"
+evidence = "papers/barbot/ledger/ledger.json terminal_reason fields: 'used only by bthm:convex_cocompact and Rem 4.21, off the spine'; 'off the spine of Theorems A and B: an explicit computation for the thrice-punctured-sphere group (plan, wave 5: not attempted)'; 'rests on Sullivan's structural stability (plan, wave 5: not attempted)'; 'Section 12, CMC foliations: not needed for Theorems A and B (plan: not attempted)'. These were the plan's choices, and no DEC row rules them. The other 39 rows are closed A."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
