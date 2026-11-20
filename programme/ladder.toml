@@ -3,7 +3,8 @@
 # Checked by `python3 tools/ladder.py check`; Lean automation generated from it by
 # `python3 tools/ladder.py emit-lean` (Causal/Ladder/Rules.lean, the `causal_ladder` tactic's rules).
 #
-# [[property]]  id, lean (the Causal definition), label (ETT ledger label, if any), what (one line)
+# [[property]]  id, lean (the Causal definition), label (ETT ledger label, if any), what (one line),
+#               sort (optional: "geometry"; absent means "causality", see below)
 # [[implies]]   from (list of ids, read as a conjunction), to (id), witness (Lean theorem),
 #               under (side conditions that are not ladder nodes, in words), status seed|checked
 # [[fails]]     from, to, witness (a Lean counterexample: a space with `from` and not `to`), status
@@ -17,14 +18,45 @@
 # Names are written fully qualified (`Causal.Causality.…`, `Causal.Precausality.…`), as the ETT ledger
 # lists its declarations; each was resolved by the Lean elaborator (`#check`) on 2026-11-20.
 #
-# `under` is NOT read by tools/ladder.py: the closure chains an edge with `under` as if it were
-# unconditional. Two kinds of side condition occur below. (1) Separation (T1, Hausdorff): ETT's
-# topological spacetimes are second countable Hausdorff (def:category_topological_spacetimes,
-# ETT.tex:255), so these are standing assumptions of the paper; a non-Hausdorff counterexample
-# (branching spaces) must not be read against such an edge. (2) Localisation hypotheses (local
-# push-up, local causal openness, chronal neighbours in every open set): these are substantive, and
-# the closure through them overstates what is proved until they are ladder nodes with Lean
-# definitions (see the comments at those edges).
+# `under` is NOT read by the closure (`check`, `matrix`): it chains an edge with `under` as if it were
+# unconditional; emit-lean reads `under` only to skip such an edge (no rule). Two kinds of side
+# condition occur below. (1) Separation (T1, Hausdorff): ETT's topological spacetimes are second
+# countable Hausdorff (def:category_topological_spacetimes, ETT.tex:255), so these are standing
+# assumptions of the paper; a non-Hausdorff counterexample (branching spaces) must not be read against
+# such an edge. (2) Localisation hypotheses (local push-up, local causal openness, chronal neighbours
+# in every open set): these are substantive, and the closure through them overstates what is proved
+# until they are ladder nodes with Lean definitions (see the comments at those edges).
+#
+# Two sorts of property (T-lad-cbg-geometry-nodes, 2026-11-20). A property of sort `causality` (the
+# default: no `sort` field) has a Lean definition that is a predicate on one causality C on a
+# topological space M; implications, counterexamples, `open` entries and the matrix are about these.
+# A property of sort `geometry` (`sort = "geometry"`) has a Lean definition that is a predicate on the
+# structures and morphisms of a geometry, Causal.CBG.Geometry (Level A) or Causal.CBG.LocalModel
+# (Level B), not on one causality: `rigid` (A1: a predicate on a class of morphisms), `germ_extension`
+# (A3) and `cauchy_slice` (A4), the localisation properties of Sbierski's MGHD argument
+# (lean-causal/docs/CBG-DESIGN.md §2). They are [[property]] entries because tools/binder.py takes the
+# ids a binder may name from [[property]] only.
+# * `check` and `matrix` do not read `sort` (they ignore keys they do not know); emit-lean does (last
+#   item). `matrix` therefore lists every pair joining the two sorts as `unknown`: such a pair is
+#   ill-typed (neither implication is a statement), it is neither open nor a gap. Read the matrix
+#   within one sort; `check`'s "k of n ordered pairs classified" counts n over all ordered pairs, the
+#   ill-typed ones included.
+# * No [[implies]], [[fails]] or [[open]] entry joins two sorts. A geometry property enters an edge
+#   or a consequence of the causality sort only through `under`, in words.
+# * Within the geometry sort a pair is read at Level B (a local model 𝔐; `rigid` then means
+#   IsRigidFor (𝔐.IsMor s t) for all structures s, t with Hausdorff target). At Level A all three
+#   are fields of Causal.CBG.Geometry and hold outright.
+# * A consequence at a geometry property is a theorem over a Causal.CBG.Geometry, whose fields carry
+#   all three (and the A2 causal facts); it is listed at the property whose field its proof consumes.
+# * No geometry-sort [[implies]] is recorded. At Level B, `germ_extension` ⇒ `rigid` and
+#   `cauchy_slice` ⇒ `rigid` hold with the premise unused: every local model is rigid
+#   (Causal.CBG.eqOn_of_liftPropOn, from the field LocalModel.rigid). A premise-free fact is not an
+#   edge, so these two pairs stay `unknown`. emit-lean reads `sort`: an edge joining a property not of
+#   the sort `causality` is never a CausalLadder rule (the rules are about one causality), only a
+#   skipped-edge comment line in Rules.lean.
+#
+# The names added on 2026-11-20 by T-lad-cbg-geometry-nodes were resolved by `#check` against the
+# library as built that day (lake env lean, no build).
 
 [[property]]
 id = "is_causal"
@@ -91,6 +123,65 @@ id = "tarentin"
 lean = "Causal.Causality.Tarentin"
 label = "def:tarentin_spacetime"
 what = "every neighbourhood of every x contains p, q with x ∈ Int J_M(p,q)"
+
+# Defined in Causal/CBG/Pgcd.lean (the hypothesis form of curvesExtend_of_timeFunction and of
+# Sbierski Lemma 3.3), so downstream of CBG modules that import models (T-abs-hoist-cbg-cores).
+# No ETT label: ETT's time function (defi:fonction_temps) is Causal.Causality.IsTimeFunction, a
+# morphism to the timelike line, open under DEC-10 — stronger, and not this node.
+[[property]]
+id = "time_function"
+lean = "Causal.Causality.HasTimeFunction"
+what = "there is a continuous T : M → ℝ with T x < T y whenever x ≤_M y and x ≠ y (Sbierski Lemma 3.3's hypothesis; not ETT's defi:fonction_temps, which asks a morphism to the timelike line)"
+
+# A named model fact (kb/0012, Causal/CauchyExtension.lean); no ETT label.
+[[property]]
+id = "curves_extend"
+lean = "Causal.Causality.CurvesExtend"
+what = "every causal curve of M over a segment [a, b] lies on an inextensible causal curve of M (over some interval)"
+
+# ------------------------------------------------------------------ properties of a geometry
+# Sort `geometry` (header): Sbierski 1309.7591's A1, A3, A4 in lean-causal's CBG interface, the fields
+# `rigid`, `germExt_future`/`germExt_past`, `slice_future`/`slice_past` of Causal.CBG.Geometry
+# (Causal/CBG/Geometry.lean); their Level B forms in Causal/CBG/FromModel.lean.
+
+# A1. Not the causal rigidity Causal.IsRigid C D (abstract 𝕄≥0-morphisms, Causal/SubExtension.lean),
+# false on the timelike line (Causal.timelikeLine_not_isRigid) and the wrong hypothesis for CBG
+# (CBG-DESIGN §2). IsRigidFor fails into a non-Hausdorff target (Causal.CBG.not_isRigidFor_branchingLine),
+# whence the Hausdorff target. At Level B every local model is rigid: Causal.CBG.eqOn_of_liftPropOn
+# derives A1 from the field B1 (LocalModel.rigid, rigidity of the groupoid G) and local connectedness
+# of the model space. rem:CBG_analytique asserts it for 𝕄≥0-morphisms; the ETT ledger's finding: it
+# holds for structure morphisms with Hausdorff target only.
+[[property]]
+id = "rigid"
+lean = "Causal.CBG.IsRigidFor"
+label = "rem:CBG_analytique"
+sort = "geometry"
+what = "A1: for structures s, t with Hausdorff target, IsRigidFor (IsMor s t): two morphisms on a connected open V agreeing on a non-empty open O ⊆ V agree on V (Sbierski Lemma 3.1, Cor 3.2)"
+
+# A3, one id for both time directions (no time reversal: the reverse of an E₀-manifold is not one,
+# CBG-DESIGN §2); `lean` names the future form, the past form is Causal.CBG.LocalModel.GermExtPast.
+# At Level B both are derived off the BTZ locus (Causal.CBG.LocalModel.germExtFuture_of,
+# germExtPast_of): the residual is LocalModel.GermExtFutureBTZ and GermExtPastBTZ, owed by gx for E₀
+# and vacuous without BTZ points (germExtFutureBTZ_of_singY_zero, germExtPastBTZ_of_singY_zero). Flat
+# model: Causal.CBG.flatModelOf_germExtFuture, flatModelOf_germExtPast. ETT reaches it through
+# cor:ext_continue (consequence below), whose printed proof the ETT ledger flags; no label.
+[[property]]
+id = "germ_extension"
+lean = "Causal.CBG.LocalModel.GermExtFuture"
+sort = "geometry"
+what = "A3, both time directions (with Causal.CBG.LocalModel.GermExtPast): ψ an injective morphism on a common Cauchy sub-development U (M, N, U, ψ(U) globally hyperbolic; Σ ⊆ U Cauchy in M and U, ψ(Σ) in N and ψ(U)); for p ∈ ∂U ∩ J⁺(Σ) (resp. J⁻(Σ)) at which ψ clusters at q along U, there are an open O ∋ p and a morphism φ on O with φ p = q and φ = ψ on O ∩ U; M, N Hausdorff, connected, second countable (Sbierski Lemma 3.8)"
+
+# A4, one id for both time directions; `lean` names the future form, the past form is
+# Causal.CBG.LocalModel.SlicePast. At Level B SlicePast holds for every local model
+# (Causal.CBG.LocalModel.slicePast, from the cone-slice field) and SliceFuture off the BTZ locus
+# (LocalModel.sliceFuture_of): the residual is LocalModel.SliceFutureBTZ, owed by gx for E₀. Flat
+# model: Causal.CBG.flatModelOf_sliceFuture, flatModelOf_slicePast. ETT uses it in
+# prop:Cauchy_non_max (consequence below); no label.
+[[property]]
+id = "cauchy_slice"
+lean = "Causal.CBG.LocalModel.SliceFuture"
+sort = "geometry"
+what = "A4, both time directions (with Causal.CBG.LocalModel.SlicePast): U globally hyperbolic with Σ ⊆ U a Cauchy surface of M and of U, p ∈ ∂U ∩ J⁺(Σ) with J⁻(p) ∩ ∂U ∩ J⁺(Σ) = {p} (resp. the past form): inside every open O ∋ p, U enlarges to a globally hyperbolic open U' ⊆ U ∪ O of which Σ is a Cauchy surface (Sbierski Thm 3.6's slice, Lemma 3.11)"
 
 # ------------------------------------------------------------------ implications
 
@@ -180,6 +271,59 @@ to = "causally_open_future"
 witness = "Causal.Causality.CausallyOpen.future"
 status = "checked"
 
+# The statement is model-free (Zorn on time graphs), but the witness lives in Causal/CurvesExtend.lean,
+# which imports Causal.Minkowski, so emit-lean skips this edge (layer rule) until it is hoisted
+# (T-abs-hoist-model-free / T-abs-hoist-cbg-cores). The witness takes the two components of
+# HasTimeFunction's existential (Continuous T; x ≤ y, x ≠ y ⇒ T x < T y) and nothing else: no
+# separation, no countability, no causality. Its hypotheses are unpacked rather than the predicate:
+# a wrapper Causality.HasTimeFunction.curvesExtend is proposed for emit-lean.
+[[implies]]
+from = ["time_function"]
+to = "curves_extend"
+witness = "Causal.Causality.curvesExtend_of_timeFunction"
+status = "checked"
+
+# Levin's theorem (Causal/LevinUtility.lean), no measure. The witness's conclusion is HasTimeFunction's
+# body with monotonicity along ≤ added. Composed with the edge above it is
+# Causal.Causality.curvesExtend_of_secondCountable (not recorded separately). The Geroch route,
+# Causal.Causality.geroch_i_imp_ii (a Cauchy time function, under causal arc-connectedness,
+# admissible measures, J±(p) ≠ {p}, first countability), asks more and is not recorded.
+[[implies]]
+from = ["globally_hyperbolic", "tarentin"]
+to = "time_function"
+witness = "Causal.Causality.exists_timeFunction_of_secondCountable"
+under = "M Hausdorff and second countable ([T2Space M] [SecondCountableTopology M]); ETT's spacetimes are both (ETT.tex:255)"
+status = "checked"
+
+# ------------------------------------------------------------------ counterexamples
+
+# The gated line (Causal.gateLine, Causal/CBG/CausalConvex.lean): the timelike line plus an isolated
+# point ⋆, with a ≤ ⋆ for a ≤ 10 in every open set containing a, ⋆ and the gate 5; Hausdorff and
+# second countable (ℝ ⊕ Unit). The witness conjoins IsCausal, CurvesExtend, ¬ CausallyArcConnected
+# and ¬ AbsolutelyMinimalOn ⊤, which is ¬ AbsolutelyMinimal by
+# Causal.Precausality.absolutelyMinimal_iff. Through the closure (causally_arc_connected ⇒
+# absolutely_minimal) each entry also refutes `from` ⇒ causally_arc_connected.
+[[fails]]
+from = "curves_extend"
+to = "absolutely_minimal"
+witness = "Causal.gateLine_cauchyInclusion_not_causallyConvex"
+status = "checked"
+
+[[fails]]
+from = "is_causal"
+to = "absolutely_minimal"
+witness = "Causal.gateLine_cauchyInclusion_not_causallyConvex"
+status = "checked"
+
+# The gated line is also globally hyperbolic: Causal.gateLine_globallyHyperbolicOn at U = ⊤
+# (`Or.inl rfl`), which is GloballyHyperbolic by Causal.Causality.globallyHyperbolicOn_top (Iff.rfl).
+# The witness below is the other half: not absolutely minimal.
+[[fails]]
+from = "globally_hyperbolic"
+to = "absolutely_minimal"
+witness = "Causal.gateLine_not_absolutelyMinimalOn"
+status = "checked"
+
 # ------------------------------------------------------------------ consequences
 
 # prop:GH_Jferme, first step. Fixed 2026-11-20 (T-lad-seed-check): the seed's statement claimed
@@ -259,3 +403,151 @@ at = "causally_open"
 statement = "every open diamond Int J_U(p,q) is causally convex in U"
 witness = "Causal.Causality.CausallyOpen.causallyConvexIn_openDiamond"
 status = "checked"
+
+# The relative form behind the edge time_function ⇒ curves_extend (Causal/CurvesExtend.lean).
+[[consequence]]
+at = "time_function"
+statement = "every causal curve of any open W over any interval lies on an inextensible causal curve γ of W over an interval J, with T ∘ γ = id on J"
+witness = "Causal.Causality.exists_inextensible_of_timeFunction"
+status = "checked"
+
+# Sbierski Lemma 3.3, principal form (Causal/CBG/Injective.lean): no rigidity, no global hyperbolicity
+# beyond the time function. Over a geometry it makes MCGHD morphisms injective (Causal.CBG.mcghdInjective).
+[[consequence]]
+at = "time_function"
+statement = "Sbierski Lemma 3.3: an abstract 𝕄≥0-morphism φ on an open U, injective on a Cauchy surface Σ of U and mapping Σ onto an acausal set, is injective on U"
+witness = "Causal.CBG.injOn_of_injOn_cauchy"
+under = "time_function of the source M; the target N causal (is_causal, of N); M, N Hausdorff"
+status = "checked"
+
+[[consequence]]
+at = "curves_extend"
+statement = "every Cauchy surface is acausal"
+witness = "Causal.Causality.IsCauchySurface.isAcausal"
+under = "causally_arc_connected (ladder node)"
+status = "checked"
+
+[[consequence]]
+at = "curves_extend"
+statement = "M = J⁺(Σ) ∪ J⁻(Σ) for every Cauchy surface Σ"
+witness = "Causal.Causality.mem_Jplus_union_Jminus_of_isCauchySurface"
+status = "checked"
+
+# The witness's `hext` is CurvesExtend's body written out (definitionally the predicate).
+[[consequence]]
+at = "curves_extend"
+statement = "every p ≤_M q lies on one inextensible causal curve, p before q (causal connectedness, CausallyConnectedCurves)"
+witness = "Causal.Causality.causallyConnectedCurves_of_curvesExtend"
+under = "causally_arc_connected, is_causal (ladder nodes)"
+status = "checked"
+
+# lem:C_ext_connexe re-routed (Causal/CBG/CausalConvex.lean): curves_extend is asked of the target N.
+[[consequence]]
+at = "curves_extend"
+statement = "lem:C_ext_connexe: for a Cauchy extension φ : M → N of a connected M and opens A, B of N into which φ(M) is Cauchy-included, A ∩ B is connected"
+witness = "Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace"
+under = "curves_extend of N; N Hausdorff; M connected"
+status = "checked"
+
+# Lemma K with CurvesExtend in place of second countability (Causal/LemmaK.lean; DEC-93).
+[[consequence]]
+at = "curves_extend"
+statement = "Lemma K: a compact connected locally Cauchy set is a Cauchy surface"
+witness = "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_causallyOpen_of_curvesExtend"
+under = "globally_hyperbolic, tarentin, causally_arc_connected, causally_open (ladder nodes); M Hausdorff, connected; J⁺(p) ≠ {p} and J⁻(p) ≠ {p} for every p"
+status = "checked"
+
+# ---- consequences at geometry properties: theorems over a Causal.CBG.Geometry 𝔊 (header).
+
+# Sbierski Cor 3.2 (ETT.tex:1956–1960): consumes 𝔊.rigid (A1), with lem:C_ext_connexe for the
+# connectedness of W ∩ W' (curves_extend of developments, the A2 field).
+[[consequence]]
+at = "rigid"
+statement = "Sbierski Cor 3.2: two common Cauchy developments (W, f), (W', f') of N₁, N₂ agree on W ∩ W'"
+witness = "Causal.CBG.IsCGHD.eqOn"
+under = "a Causal.CBG.Geometry (rigid is its field A1; curves_extend on globally hyperbolic admissible spacetimes its field A2); M₀ connected"
+status = "checked"
+
+# theo:CBG, universal reading (DEC-59), Sbierski Thm 2.8. Listed here once; it consumes every field.
+[[consequence]]
+at = "rigid"
+statement = "CBG: a globally hyperbolic admissible M₀ (Hausdorff, connected, second countable) with a Cauchy surface has a universal Cauchy development"
+witness = "Causal.CBG.cbg"
+under = "a Causal.CBG.Geometry: rigid, germ_extension, cauchy_slice (geometry ladder nodes: fields A1, A3, A4) and the A2 causal facts (absolutely minimal on every open; curves_extend and time_function on globally hyperbolic admissible spacetimes; compact J⁺(Σ) ∩ J⁻(p); second countability from a Cauchy surface)"
+status = "checked"
+
+# Level B ⇒ Level A (Causal/CBG/FromModel.lean): every field but A3, A4 is derived from the local
+# model, so germ_extension and cauchy_slice are its only hypotheses. The witness is a definition.
+[[consequence]]
+at = "germ_extension"
+statement = "a local model with germ_extension and cauchy_slice (both time directions) defines a Causal.CBG.Geometry, to which CBG applies"
+witness = "Causal.CBG.Geometry.ofLocalModelOfGermSlice"
+under = "cauchy_slice (geometry ladder node); read at Level B"
+status = "checked"
+
+# cor:ext_continue via A3 (Causal/CBG/Corresponding.lean), both time directions; the A2 field
+# curves_extend places p in J⁺(Σ) or J⁻(Σ).
+[[consequence]]
+at = "germ_extension"
+statement = "cor:ext_continue: at a corresponding boundary point p of a common Cauchy sub-development U, ψ extends to a morphism φ near p with φ p = q, and ψ(x) → q as x → p in U"
+witness = "Causal.CBG.CGHDData.ext_continue"
+under = "a Causal.CBG.Geometry (germ_extension its field A3, curves_extend its field A2); M Hausdorff, connected, second countable; N Hausdorff, connected, second countable"
+status = "checked"
+
+[[consequence]]
+at = "germ_extension"
+statement = "Sbierski Lemma 3.8, first assertion: the set of corresponding boundary points of U is open in ∂U"
+witness = "Causal.CBG.CGHDData.isOpen_correspondingSet"
+under = "a Causal.CBG.Geometry (germ_extension its field A3); M Hausdorff, connected, second countable; N Hausdorff, connected, second countable"
+status = "checked"
+
+# Sbierski Thm 3.6, local form = prop:Cauchy_non_max with C read as Cdist (the ETT ledger's finding):
+# Lemma 3.9 picks p, A3 the germ (ext_continue), A4 the slice.
+[[consequence]]
+at = "cauchy_slice"
+statement = "Sbierski Thm 3.6: if U has a corresponding boundary point, U enlarges to an open U' > U with a morphism ψ' extending ψ, globally hyperbolic, with Σ as Cauchy surface"
+witness = "Causal.CBG.CGHDData.exists_extension"
+under = "a Causal.CBG.Geometry (cauchy_slice its field A4, germ_extension its field A3); M Hausdorff, connected, second countable; N Hausdorff, connected, second countable"
+status = "checked"
+
+# ------------------------------------------------------------------ open pairs
+
+[[open]]
+from = "time_function"
+to = "is_causal"
+note = "True in one line (x ≤ y ≤ x, x ≠ y give T x < T y < T x), not named in Lean: wants Causality.HasTimeFunction.isCausal"
+
+[[open]]
+from = "globally_hyperbolic"
+to = "time_function"
+note = "Proved with tarentin (Levin, the edge above; Hausdorff, second countable). Without tarentin open: Levin's proof takes local compactness, σ-compactness and the closedness of ≤ (prop:GH_Jferme) from it, and no Lean model is globally hyperbolic, not tarentin and without a time function"
+
+[[open]]
+from = "globally_hyperbolic"
+to = "curves_extend"
+note = "Proved with tarentin through time_function (Causal.Causality.curvesExtend_of_secondCountable). Without tarentin open, as for time_function; the long ray (globally hyperbolic, tarentin, not second countable, no inextensible curve) is a conjectured counterexample outside ETT's spacetimes, not formalised (Causal/CurvesExtend.lean SCOPE)"
+
+[[open]]
+from = "curves_extend"
+to = "time_function"
+note = "Wants a model with curves extending and a closed causal loop (then no time function): the flat cylinder ℤe₀\\𝐌ⁿ is not causal (Causal.Flat.FlatQuotient.not_isCausal_timeGroup) and every flat spacetime has CurvesExtend (Causal.CBG.flat_curvesExtend, Hausdorff and second countable), but its second countability and the combination are not in Lean, nor time_function ⇒ is_causal"
+
+[[open]]
+from = "germ_extension"
+to = "cauchy_slice"
+note = "Geometry sort, Level B: A3 and A4 are independent fields of Causal.CBG.Geometry; every local model has both off the BTZ locus, and the residuals (GermExtFutureBTZ, GermExtPastBTZ against SliceFutureBTZ) are owed separately by gx for E₀; no local model with one and not the other is in Lean"
+
+[[open]]
+from = "cauchy_slice"
+to = "germ_extension"
+note = "Geometry sort, Level B: as for the converse pair; Sbierski's own route proves A3 (Lemma 3.8) from Prop 3.7 (ii), not from the slice (T-abs-sbierski-prop-3-7)"
+
+[[open]]
+from = "rigid"
+to = "germ_extension"
+note = "Geometry sort, Level B: every local model is rigid (Causal.CBG.eqOn_of_liftPropOn), so this asks whether every local model has A3, i.e. its BTZ residuals GermExtFutureBTZ and GermExtPastBTZ, owed by gx for E₀; no local model without A3 is in Lean"
+
+[[open]]
+from = "rigid"
+to = "cauchy_slice"
+note = "Geometry sort, Level B: every local model is rigid (Causal.CBG.eqOn_of_liftPropOn) and has SlicePast (Causal.CBG.LocalModel.slicePast), so this asks whether every local model has the BTZ residual SliceFutureBTZ, owed by gx for E₀"
