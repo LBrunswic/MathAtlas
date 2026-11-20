@@ -193,6 +193,14 @@ def git_commit(path):
                                       text=True, stderr=subprocess.DEVNULL).strip()
         if top == os.path.expanduser("~"):
             return "unknown"   # the $HOME repository is not the draft's
+        if os.path.realpath(path) != os.path.realpath(top):
+            # A directory inside a larger repository (lean-causal/ in the hub): the last commit that
+            # touched it. HEAD would name the commit that records this very ledger, which moves
+            # with every commit and could never be committed in agreement with `build`.
+            sha = subprocess.check_output(["git", "-C", path, "log", "-1", "--format=%h", "--", "."],
+                                          text=True, stderr=subprocess.DEVNULL).strip()
+            if sha:
+                return sha
         return subprocess.check_output(
             ["git", "-C", path, "rev-parse", "--short", "HEAD"],
             text=True, stderr=subprocess.DEVNULL).strip()

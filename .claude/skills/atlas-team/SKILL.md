@@ -134,8 +134,13 @@ If a gate fails because of this iteration's work:
 
 ## 5. Commit and push
 
-One commit for the work (files, curation, ledgers, registers, kb, atlas) and, if the target
-closed, a second one:
+**Ledgers come after the Lean commit.** A ledger records the last commit that touched its Lean
+package (`tools/ledger.py`, `git_commit`), so the order is fixed:
+1. commit the work: Lean, curation, registers, kb;
+2. `make ledgers` and `make -C reports/atlas`, then commit the regenerated ledgers and atlas.
+   That commit touches no Lean, so it leaves the ledgers current, and `papers-check` stays green.
+
+If the target closed, add a last commit:
 
 ```
 python3 tools/roadmap.py set <id> done --commit <sha of the first commit> --evidence "<what closed>"
