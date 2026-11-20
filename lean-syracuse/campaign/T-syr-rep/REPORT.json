@@ -1,0 +1,207 @@
+{
+ "package": "T-syr-rep",
+ "target": "T-syr-rep",
+ "files": [
+  "scaffold/SyracuseScaffold/Rep.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "theo:rep",
+   "tex_lines": [
+    88,
+    95
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Syracuse.theo_rep",
+    "Syracuse.repInv_image",
+    "Syracuse.rep_printed_false",
+    "Syracuse.neg_inv3_not_mem_image",
+    "Syracuse.neg_third_preimage",
+    "Syracuse.rep",
+    "Syracuse.repInv",
+    "Syracuse.RepSeq",
+    "Syracuse.RepDomain",
+    "Syracuse.inv3",
+    "Syracuse.rep_mapsTo",
+    "Syracuse.rep_injOn",
+    "Syracuse.repInv_mapsTo",
+    "Syracuse.rep_repInv",
+    "Syracuse.repInv_rep",
+    "Syracuse.T_repInv",
+    "Syracuse.repSeries",
+    "Syracuse.repSeries_eq",
+    "Syracuse.eq_of_p_eq"
+   ],
+   "hypotheses": [
+    {
+     "paper": "x ∈ 2A_2+1, A_2 the 2-completion of a Z/2Z-ring, claimed ≅ Z_2 at l.52",
+     "here": "carried",
+     "note": "a reading: stated over Z_2 = PadicInt 2 directly, as the dispatch fixes; the map A → Z_2 and A_2 ≅ Z_2 are T-syr-completion's"
+    },
+    {
+     "paper": "x ∈ 2A_2+1 (all odd 2-adic integers)",
+     "here": "strengthened",
+     "note": "theo_rep is on RepDomain = {x odd | ∀ k, 3T^k(x)+1 ≠ 0}, i.e. 2Z_2+1 minus the backward T-orbit of -1/3; the printed form is false there (Finding 1). In Z every odd x is in RepDomain (Syracuse.three_mul_add_one_ne_zero)"
+    },
+    {
+     "paper": "p_0 = 0 and (p_n) ↗↗",
+     "here": "carried",
+     "note": "RepSeq = {q | q 0 = 0 ∧ StrictMono q}; ↗↗ read as strictly increasing, as in T-syr-base"
+    },
+    {
+     "paper": "φ^{-1}(p) = -(1/3) Σ 2^{p_n}/3^n",
+     "here": "carried",
+     "note": "repInv q = -inv3 * ∑' n, 2^(q n) * inv3^n, inv3 the inverse of the unit 3 of Z_2; the series converges (terms of norm ≤ 2^{-n}, Syracuse.summable_rep)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "syracuse.tex:88–90 — false as printed on 2A_2+1 = 2Z_2+1: x0 = -1/3 is odd but not in the image of the printed inverse φ^{-1} (Syracuse.neg_inv3_not_mem_image), nor is any y_k = -(2^k+3)/9, k ≥ 1, which satisfies T(y_k) = -1/3 with ν_2(3y_k+1) = k (Syracuse.neg_third_preimage). Hence no map φ from 2Z_2+1 to {p | p_0 = 0, p ↗↗} has the printed φ^{-1} as a left inverse, whatever values are given to the undefined p_n on the backward orbit of -1/3 (Syracuse.rep_printed_false). Strongest true form proved (Syracuse.theo_rep): φ: x ↦ (p_n(x)) is a bijection from RepDomain (odd x whose T-orbit avoids -1/3) onto the strictly increasing sequences from 0, its inverse is the printed formula, and the image of the formula is exactly RepDomain (Syracuse.repInv_image). This is the theorem-level form of OQ-42 (d).",
+    "syracuse.tex:92–95 — the proof establishes only φ^{-1} ∘ φ = id (x = -(1/3)Σ 2^{p_k(x)}/3^k, i.e. injectivity of φ); that every strictly increasing p with p_0 = 0 is some φ(x) (surjectivity, and that the printed formula lands in the domain) is not argued. It is proved here: S(q) = Σ 2^{q_n}/3^n satisfies S(q) = 1 + (1/3)2^{q_1}S(q') with q'_n = q_{n+1} - q_1 (Syracuse.repSeries_eq), so 3φ^{-1}(q)+1 = 2^{q_1}φ^{-1}(q') with φ^{-1}(q') odd, whence T(φ^{-1}q) = φ^{-1}q' and a_0(φ^{-1}q) = q_1 (Syracuse.T_repInv) and p_n(φ^{-1}q) = q_n (Syracuse.rep_repInv). The proof's displayed identity (l.93) also writes x ∈ 2A+1 where 2A_2+1 is meant, and holds only on orbits avoiding -1/3."
+   ],
+   "questions": [
+    "theo:rep is stated for A_2, the completion of an unnamed Z/2Z-ring A, and l.52 claims A_2 ≅ Z_2 (false for A = Z/2Z, T-syr-base). Reading taken (fixed by the dispatch): Z_2 itself. Whether theo:rep should be read in A_2 for each A, or in Z_2 once and for all, is for the author; the injectivity half is proved in every Z/2Z-ring A without completion (Syracuse.rep_injOn, Syracuse.eq_of_p_eq).",
+    "Which corrected domain does the author intend for φ: 2A_2+1 minus the backward T-orbit of -1/3 (the form proved), or a domain change in def:ring_define (OQ-42 (d))? The mark waits on that ruling; a corrected form is not marked."
+   ]
+  },
+  {
+   "label": "cor:ring_following_equivalent_enumerate",
+   "tex_lines": [
+    96,
+    106
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Syracuse.periodic_a_iff_periodic_T",
+    "Syracuse.eventually_periodic_a_iff_periodic_T",
+    "Syracuse.minimal_period_a_iff_minimal_period_T",
+    "Syracuse.cycle_avoids_neg_third",
+    "Syracuse.eq_of_p_eq",
+    "Syracuse.one_le_p_of_periodic",
+    "Syracuse.p_mul_of_periodic",
+    "Syracuse.one_le_a_one_of_a_zero"
+   ],
+   "hypotheses": [
+    {
+     "paper": "A a Z/2Z-ring",
+     "here": "carried",
+     "note": "IsZ2Ring A only; in particular 2 ≠ 0 is NOT needed (the planner expected it): the proof works in Z/2Z too, splitting on 2 = 0 in Syracuse.two_pow_dvd_of_dvd_three_pow_mul"
+    },
+    {
+     "paper": "x ∈ A (while T_A, a_n are defined on 2A+1, l.55, l.62)",
+     "here": "carried",
+     "note": "every x ∈ A, for the total T, a (junk value at -1/3, OQ-42 (d)); with 2 ≠ 0 either side for n ≥ 1 forces x odd and its orbit to avoid -1/3 (Syracuse.cycle_avoids_neg_third), where T, a are the paper's T_A, a_n"
+    },
+    {
+     "paper": "'periodic of period n'",
+     "here": "carried",
+     "note": "proved in every reading: n is a period (periodic_a_iff_periodic_T), n is a period from some index K on (eventually_periodic_a_iff_periodic_T), n is the least positive period (minimal_period_a_iff_minimal_period_T)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "The statement is proved with no added hypothesis (all x ∈ A, all n, every Z/2Z-ring, no 2 ≠ 0), but about the total maps T, a of T-syr-base, whose values at -1/3 are junk (OQ-42 (d), open). Reading taken: the total maps; left unmarked because the rows it rests on (def:ring_define, def:ring_define_2) are unmarked pending OQ-42 (d). When 2 ≠ 0 the junk is never reached on either side (cycle_avoids_neg_third), so the author may rule the row closed without a corrected statement.",
+    "'periodic of period n' (l.98–99) is not defined: n a period, n the least period, or eventually periodic. No reading chosen: all three are proved."
+   ]
+  },
+  {
+   "label": "cor:ring_periodic_minimal_period",
+   "tex_lines": [
+    107,
+    109
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Syracuse.Aun_sub_ne_zero",
+    "Syracuse.AunAlt_sub_ne_zero",
+    "Syracuse.AunAlt",
+    "Syracuse.Aun_cast_eq",
+    "Syracuse.AunAlt_cast_eq",
+    "Syracuse.Aun_cast_of_cycle",
+    "Syracuse.iterate_ne_of_minimal",
+    "Syracuse.two_pow_p_sub_three_pow_ne_zero",
+    "Syracuse.cor_ring_periodic_minimal_period_printed_false",
+    "Syracuse.cycle_neg_five"
+   ],
+   "hypotheses": [
+    {
+     "paper": "A a Z/2Z-ring, x ∈ A",
+     "here": "carried",
+     "note": "IsZ2Ring A; no 2 ≠ 0"
+    },
+    {
+     "paper": "(T^k(x)) n-periodic, n the minimal period",
+     "here": "carried",
+     "note": "Function.IsPeriodicPt T n x, 0 < n, and no m with 0 < m < n is a period"
+    },
+    {
+     "paper": "∀ i, j ∈ ⟦1, n⟧",
+     "here": "strengthened",
+     "note": "i ≠ j added: at i = j the difference is 0 (Finding)"
+    },
+    {
+     "paper": "a(x) ∈ (N*)^Z",
+     "here": "weakened",
+     "note": "any α : ℤ → ℕ with α k = a_k(x) for k ∈ ℕ; only indices in ⟦1, 2n-1⟧ enter A_i^n for i ∈ ⟦1, n⟧"
+    },
+    {
+     "paper": "A_u^n of def:define_n__n_ (product to n-1-k, OQ-43)",
+     "here": "carried",
+     "note": "Syracuse.Aun as printed (Aun_sub_ne_zero); the reading 'product to n-2-k' is proved too (AunAlt_sub_ne_zero)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "syracuse.tex:108 — false as printed: '∀ i, j ∈ ⟦1, n⟧' includes i = j, where A_i^n(a(x)) - A_j^n(a(x)) = 0, on every cycle; e.g. the cycle (1) of Z, n = 1, i = j = 1 (Syracuse.cor_ring_periodic_minimal_period_printed_false). For i ≠ j it holds in every Z/2Z-ring, with no 2 ≠ 0 (Syracuse.Aun_sub_ne_zero), for the printed A_u^n and for the off-by-one reading of OQ-43 (Syracuse.AunAlt_sub_ne_zero). Proof (the paper prints none): with x_u = T^u(x), on any orbit A_u^n(a(x)) = 2^{p_n(x_u)}(3x_{u+n}+1) - 3^n(3x_u+1) (Syracuse.Aun_cast_eq, from lem:base at n+1), so on a cycle A_u^n = (2^{p_n} - 3^n)(3x_u+1) as printed and (2^{p_n} - 3^n)x_u with the product to n-2-k (Syracuse.Aun_cast_of_cycle); 2^{p_n} - 3^n is odd since p_n ≥ 1 on a cycle, and x_1, ..., x_n are distinct by minimality. The corrected form is not vacuous: the cycle (-5, -7) of Z has least period 2 (Syracuse.cycle_neg_five)."
+   ],
+   "questions": [
+    "Is 'i ≠ j' intended (l.108)? Reading taken: the corrected form with i ≠ j is proved, unmarked; the printed form is refuted.",
+    "OQ-43 (product of A_u^n to n-1-k as printed, or n-2-k): not resolved; the corollary is proved under both. On a cycle the printed A_u^n is (2^{p_n} - 3^n)(3x_u+1) (Syracuse.Aun_cast_of_cycle), which confirms the T-syr-base audit's computation behind OQ-43 (gcd at least 2|2^{p_n} - 3^n|)."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Syracuse.a_iterate",
+  "Syracuse.p_add",
+  "Syracuse.three_pow_mul_sub_eq",
+  "Syracuse.odd_three",
+  "Syracuse.three_ne_zero_of_isZ2Ring",
+  "Syracuse.prime_two_of_ne_zero",
+  "Syracuse.two_pow_dvd_of_dvd_three_pow_mul",
+  "Syracuse.le_p_of_orbit",
+  "Syracuse.prod_alpha",
+  "Syracuse.three_mul_inv3",
+  "Syracuse.norm_inv3",
+  "Syracuse.norm_two_padicInt",
+  "Syracuse.odd_inv3",
+  "Syracuse.repInv_eq",
+  "Syracuse.repShift",
+  "Syracuse.repShiftN",
+  "Syracuse.summable_rep",
+  "Syracuse.le_of_mem_repSeq",
+  "Syracuse.repShift_mem",
+  "Syracuse.repInv_odd",
+  "Syracuse.three_mul_repInv_add_one",
+  "Syracuse.T_repInv_aux",
+  "Syracuse.repShiftN_zero",
+  "Syracuse.repShiftN_succ",
+  "Syracuse.repShiftN_mem",
+  "Syracuse.T_iterate_repInv",
+  "Syracuse.a_repInv",
+  "Syracuse.p_repInv"
+ ],
+ "kb_proposals": [
+  "Injectivity of x ↦ (p_n(x)) needs no completion: lem:base twice gives 3^n(x-y) = 2^{p_n}(T^n x - T^n y) (Syracuse.three_pow_mul_sub_eq), 2^j | 3^m z → 2^j | z holds in every ℤ/2ℤ-ring (Syracuse.two_pow_dvd_of_dvd_three_pow_mul, split on 2 = 0, else Prime 2), and Krull (IsZ2Ring.not_pow_succ_v2_dvd) closes: Syracuse.eq_of_p_eq (T-syr-rep).",
+  "Series in ℤ_[2]: Summable.of_norm_bounded summable_geometric_two with PadicInt.norm_units (‖unit‖ = 1) and simpa using PadicInt.norm_p (p := 2) (‖2‖ = 2⁻¹); split the first term with Summable.tsum_eq_zero_add and pull a factor with Summable.tsum_mul_left. 1/3 is ↑(isUnit_three_padicInt.unit⁻¹), with IsUnit.mul_val_inv (T-syr-rep).",
+  "On a cycle the total T never meets the junk when 2 ≠ 0: T(-1/3) = 0, T 0 = 1, T 1 = 1 ≠ -1/3 (Syracuse.cycle_avoids_neg_third); compute T on ℤ with T_unique, e.g. T(-5) = -7 (T-syr-rep).",
+  "omit [IsZ2Ring A] in must precede the docstring of the declaration it applies to, not follow it (parse error otherwise); push_neg is deprecated at this pin (warning, so an error in the strict lib): use rw [not_or] or push Not."
+ ],
+ "notes": "Rep.lean is sorry-free and warning-free (lake env lean -DwarningAsError=true passes); `lake build SyracuseScaffold.Rep` built only that module (nothing upstream). It imports Syracuse.Base and six Mathlib modules (Normed.Group.InfiniteSum, SpecificLimits.Basic, InfiniteSum.NatInt, InfiniteSum.Ring, Dynamics.PeriodicPts.Defs, Data.Nat.Periodic). #print axioms of every principal decl (theo_rep, repInv_image, rep_printed_false, neg_inv3_not_mem_image, neg_third_preimage, rep_injOn, eq_of_p_eq, the three periodic_* / minimal_period_* theorems, cycle_avoids_neg_third, Aun_sub_ne_zero, AunAlt_sub_ne_zero, Aun_cast_of_cycle, cor_ring_periodic_minimal_period_printed_false, cycle_neg_five): [propext, Classical.choice, Quot.sound]. No label is marked: the docstring has no **`label`** anywhere (checked against the ledger regex); the three labels appear plain, with line references, within the first 4000 characters. The scaffold root SyracuseScaffold.lean was not edited (not in the dispatch): per lean-causal kb 0025 the master imports SyracuseScaffold.Rep there. Name clash avoided: the concurrent IntegerBounds.lean defines Syracuse.T_one_int, so Rep.lean defines none (T 1 = 1 is a local have); no other name of Rep.lean occurs in IntegerBounds.lean or the strict library. Marks: theo:rep waits on OQ-42 (d) (and the A_2 reading); cor:ring_following_equivalent_enumerate needs no 2 ≠ 0 and no OQ-43, only OQ-42 (d)'s total-map reading; cor:ring_periodic_minimal_period is false as printed (i = j) and is proved for i ≠ j under both OQ-43 readings. cor:corollary (l.110, empty) was not touched."
+}
