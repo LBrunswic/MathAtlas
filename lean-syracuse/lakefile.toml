@@ -1,0 +1,25 @@
+name = "Syracuse"
+defaultTargets = ["Syracuse"]
+
+# The library of the paper `syracuse` (the author's paper on non-trivial cycles of the 3x+1 (Syracuse) problem), formalized in a package of its own
+# at the hub's pin (DEC-138, as DEC-112 for Benzécri and DEC-133 for EGF). Scope: the whole paper.
+# Wave 0 imports Mathlib ONLY; the library never imports another hub package unless a ruling says so.
+#
+# Mathlib at the hub's pin (hub.toml): tag v4.31.0, frozen by lake-manifest.json to fabf563a7c95.
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "v4.31.0"
+
+# The STRICT library. `sorry` is a compile error here: warningAsError.
+[[lean_lib]]
+name = "Syracuse"
+globs = ["Syracuse.*"]
+leanOptions = { warningAsError = true }
+
+# The SCAFFOLD library. `sorry` is permitted and tagged `SORRY(<label>): <obstruction>`. Not a
+# default target, and never imported by `Syracuse`: graduation is a file move.
+[[lean_lib]]
+name = "SyracuseScaffold"
+srcDir = "scaffold"
+globs = ["SyracuseScaffold.*"]
