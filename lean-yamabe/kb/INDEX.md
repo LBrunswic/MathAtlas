@@ -7,3 +7,5 @@ older entries (the docstring contract is its `0006`; weakest hypotheses `0007`; 
 | id | kind | entry |
 |---|---|---|
 | [0001](entries/0001-wave-0.md) | convention | Wave 0: Mathlib only |
+| [0002](entries/0002-measured-frame-model.md) | pattern | The abstract measured-frame model of (Σ, ⊔B_j), with a two-point witness |
+| [0003](entries/0003-matrix-and-lp-pitfalls.md) | pitfall | Positive definite factorisation, squared L^q norms, dominated derivatives at this pin |

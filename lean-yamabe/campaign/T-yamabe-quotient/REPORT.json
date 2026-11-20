@@ -1,0 +1,263 @@
+{
+  "package": "T-yamabe-quotient",
+  "target": "T-yamabe-quotient",
+  "files": [
+    "scaffold/YamabeScaffold/Quotient.lean",
+    "scaffold/YamabeScaffold/Stability.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "lem:stability",
+      "tex_lines": [
+        697,
+        713
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.stability",
+        "Yamabe.MeasuredModel.stability_ratio",
+        "Yamabe.MeasuredModel.tendsto_infF",
+        "Yamabe.MeasuredModel.tendsto_infF_of_uniformlyClose",
+        "Yamabe.MeasuredModel.infF_le",
+        "Yamabe.MeasuredModel.le_infF",
+        "Yamabe.MeasuredModel.adm_iff",
+        "Yamabe.MeasuredModel.dirichlet_le",
+        "Yamabe.MeasuredModel.normSq_bvol_le",
+        "Yamabe.MeasuredModel.normSq_vol_ge",
+        "Yamabe.MeasuredModel.gradSq_le",
+        "Yamabe.MeasuredModel.volDensity_le",
+        "Yamabe.MeasuredModel.volDensity_ge",
+        "Yamabe.MeasuredModel.bvolDensity_le",
+        "Yamabe.MeasuredModel.vol_le",
+        "Yamabe.MeasuredModel.bvol_le",
+        "Yamabe.MeasuredModel.Comparable",
+        "Yamabe.MeasuredModel.Comparable.symm",
+        "Yamabe.MeasuredModel.UniformlyClose",
+        "Yamabe.MeasuredModel.comparable_of_uniformlyClose",
+        "Yamabe.traceSobolevQuot_le_of_densities",
+        "Yamabe.normSq_le_of_le_smul",
+        "Yamabe.QFormComparable",
+        "Yamabe.QFormComparable.symm",
+        "Yamabe.QFormComparable.congr",
+        "Yamabe.dual_le",
+        "Yamabe.det_le",
+        "Yamabe.sqrt_det_le",
+        "Yamabe.sqrt_det_ge",
+        "Yamabe.toyMetricScaled",
+        "Yamabe.toy_comparable",
+        "Yamabe.toy_stability",
+        "Yamabe.toy_F_zero_one"
+      ],
+      "hypotheses": [
+        {
+          "paper": "g, g' metrics on Σ (compact, with boundary ⊔ B_j)",
+          "here": "reading",
+          "note": "two FrameMetric (Gram matrices in a measurable frame, positive definite) on one MeasuredModel; vol_g = √det G · μ, bvol_g = √det(Pᵀ G P) · μb_j, |∇u|²_g = du·G⁻¹du are the model's definitions. The passage from a Riemannian manifold to the model waits on T-yamabe-scope."
+        },
+        {
+          "paper": "(1+ε)^{-1} g ≤ g' ≤ (1+ε) g as quadratic forms",
+          "here": "carried",
+          "note": "Comparable ε g g' := ∀ x, QFormComparable (1+ε) (G x) (G' x), the two quadratic-form inequalities at every point; the boundary comparison is derived (QFormComparable.congr), not assumed"
+        },
+        {
+          "paper": "ε ≥ 0",
+          "here": "carried",
+          "note": ""
+        },
+        {
+          "paper": "u ∈ W^{1,2}(Σ) ∖ {0}",
+          "here": "weakened",
+          "note": "stability (product form) holds for every u : D; stability_ratio (printed ratio) assumes F^(β)_g(u) ≠ 0"
+        },
+        {
+          "paper": "β_j ≥ 0",
+          "here": "carried",
+          "note": ""
+        },
+        {
+          "paper": "N ≥ 3 (l.605)",
+          "here": "carried",
+          "note": "bvolDensity_le / bvol_le need only 1 ≤ N"
+        },
+        {
+          "paper": "g' → g uniformly (the 'Consequently')",
+          "here": "reading",
+          "note": "UniformlyClose η g g': |g'(v,v) − g(v,v)| ≤ η g(v,v) everywhere, η → 0 (tendsto_infF_of_uniformlyClose); tendsto_infF takes any family whose comparability constants tend to 0 (eventually)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Minor (l.699–701): the printed conclusion is a ratio F^(β)_{g'}(u)/F^(β)_g(u), which is 0/0 when F^(β)_g(u) = 0; 'all β_j ≥ 0' allows β = 0, and then u = 1 gives F^(0)_g(1) = 0 (Lean witness Yamabe.toy_F_zero_one). The product form (1+ε)^{-N} F_g ≤ F_{g'} ≤ (1+ε)^N F_g holds for every u (stability). Harmless for the paper: the lemma is used at l.728 with β_j = c_N > 0."
+      ],
+      "questions": [
+        "The Riemannian metric is read through a measurable frame (Gram matrix G, frame measures μ, μb_j, boundary frame P). Whether this abstract model is the formalization of record for §6, and how it is instantiated from Mathlib's manifolds, is T-yamabe-scope's ruling; nothing is marked here.",
+        "'g' → g uniformly' (l.703) read as uniform convergence in the norm of g itself (sup_x |g' − g|_g → 0), which on a compact manifold is C⁰ convergence of the tensor; the formal statement tendsto_infF_of_uniformlyClose, and the more general tendsto_infF (comparability constants → 0).",
+        "inf over W^{1,2}∖{0} read as inf over u with 0 < ‖u‖²_{L^{p*}} < ∞ (Adm); with the Sobolev embedding this is u ≠ 0.",
+        "The same finite-energy restriction on D applies to the anchoring of lem:stability's 'consequently' (inf F); stability itself is two-sided, so infinite energies or norms are infinite for both metrics and create no spurious bound."
+      ]
+    },
+    {
+      "label": "rem:sign",
+      "tex_lines": [
+        507,
+        510
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.rem_sign",
+        "Yamabe.MeasuredModel.F_one",
+        "Yamabe.MeasuredModel.Fq_one_round",
+        "Yamabe.MeasuredModel.Fq_one_round_three",
+        "Yamabe.hasDerivAt_normSq_one_add",
+        "Yamabe.MeasuredModel.hasDerivAt_F_one_add",
+        "Yamabe.MeasuredModel.firstVariation_neg",
+        "Yamabe.MeasuredModel.exists_F_lt_F_one",
+        "Yamabe.MeasuredModel.infF_lt_F_one",
+        "Yamabe.MeasuredModel.exists_direction",
+        "Yamabe.MeasuredModel.infF_lt_Fq_one",
+        "Yamabe.MeasuredModel.Fq_one_pos",
+        "Yamabe.MeasuredModel.kappa_lt_one",
+        "Yamabe.MeasuredModel",
+        "Yamabe.FrameMetric",
+        "Yamabe.MeasuredModel.vol",
+        "Yamabe.MeasuredModel.bvol",
+        "Yamabe.MeasuredModel.gradSq",
+        "Yamabe.MeasuredModel.dirichlet",
+        "Yamabe.MeasuredModel.F",
+        "Yamabe.MeasuredModel.Fq",
+        "Yamabe.MeasuredModel.Adm",
+        "Yamabe.MeasuredModel.infF",
+        "Yamabe.traceSobolevQuot",
+        "Yamabe.normSq",
+        "Yamabe.aN",
+        "Yamabe.pStar",
+        "Yamabe.pSharp",
+        "Yamabe.sphereArea",
+        "Yamabe.cN",
+        "Yamabe.roundMass",
+        "Yamabe.sphereArea_three",
+        "Yamabe.cN_three",
+        "Yamabe.hoelder_interior",
+        "Yamabe.hoelder_boundary",
+        "Yamabe.hoelder_boundary_eq_one",
+        "Yamabe.hoelder_boundary_printed_false",
+        "Yamabe.hoelder_boundary_printed_false_of_lt_one",
+        "Yamabe.toyModel",
+        "Yamabe.toyMetric",
+        "Yamabe.toy_infF_lt_Fq_one"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(Σ, g) compact Riemannian N-manifold with boundary ⊔ B_j, N ≥ 3 (l.465, l.605)",
+          "here": "reading",
+          "note": "the abstract MeasuredModel + FrameMetric (see lem:stability); N ≥ 3 carried; compactness carried as IsFiniteMeasure (vol_g), IsFiniteMeasure (bvol_g j); nonemptiness as vol_g ≠ 0 and ∃ j, bvol_g j ≠ 0"
+        },
+        {
+          "paper": "g Schwarzschild-like: each (B_j, g) a round sphere of radius r_j (eq:F1-torus, l.467)",
+          "here": "weakened",
+          "note": "only Vol(B_j, g) = ω_{N-1} r_j^{N-1} is used (Fq_one_round); constant scalar curvature and minimal boundary are not used by rem:sign's assertions"
+        },
+        {
+          "paper": "g of constant scalar curvature, ∂Σ minimal (H_g ≡ 0) (Schwarzschild-like, l.467)",
+          "here": "weakened",
+          "note": "not used by any assertion of rem:sign; now also rows of the module's hypothesis checklist"
+        },
+        {
+          "paper": "M = −∫ H_ref bvol = ω_{N-1} Σ r_j^{N-2} (l.467)",
+          "here": "reading",
+          "note": "M taken as its round-sphere value roundMass N r; the identity with −∫ H_ref is §4 geometry, not in scope"
+        },
+        {
+          "paper": "φ smooth (l.732)",
+          "here": "weakened",
+          "note": "val φ, tr φ bounded and a.e.-strongly measurable"
+        },
+        {
+          "paper": "∫_Σ φ vol = 0, φ ≤ 0 and φ ≢ 0 on ∂Σ (l.509)",
+          "here": "carried",
+          "note": "∫ val φ d(vol_g) = 0; tr φ ≤ 0 bvol_j-a.e. for all j; ∃ j, ¬ tr φ =ᵐ[bvol_j] 0"
+        },
+        {
+          "paper": "'Such φ exist (take φ = −1 near ∂Σ and positive in the interior with zero mean)' (l.741)",
+          "here": "reading",
+          "note": "exists_direction builds φ = (∫χ/Vol Σ)·1 − χ from a cutoff χ ∈ D with tr χ = 1 on ∂Σ and ∫χ < Vol(Σ); on a manifold χ is a smooth collar cutoff, whose existence is the manifold-level part (waits on T-yamabe-scope). The toy model exhibits such χ (toy_infF_lt_Fq_one)."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "eq:hoelder (l.609; not a ledger row, in this target's scope; the curation may attach it to lem:positivity, whose proof uses it at l.720): on any B_j with Vol(B_j) < 1 the constant u = 1 (in W^{1,2}(Σ), trace 1) violates the printed boundary line ‖u‖²_{L²(B_j)} ≤ Vol(B_j)^{2/(N−1)} ‖u‖²_{L^{p♯}(B_j)} (Lean: Yamabe.hoelder_boundary_printed_false_of_lt_one, for every measure of mass in (0,1), e.g. a round B_j of radius r_j < ω_{N−1}^{−1/(N−1)}, r_j < 1/√(4π) for N = 3; and Yamabe.hoelder_boundary_printed_false, a point mass 1/2). The exponent is 1/(N−1) = 1 − 2/p♯ (Yamabe.hoelder_boundary), sharp: equality on constants for every mass (Yamabe.hoelder_boundary_eq_one). Of the two citations of eq:hoelder at l.720 only the second, ‖u_k‖_{L²(B_j)} ≤ Vol(B_j)^{1/(N−1)} ‖u_k‖_{L^{p♯}(B_j)} → 0, uses the boundary line; its factor should be Vol(B_j)^{1/(2(N−1))}, and the step survives since only → 0 is used. The first citation at l.720 ('bounded in W^{1,2}') and l.627 (lem:kobayashi) use the interior line l.607, which is correct (Yamabe.hoelder_interior)."
+      ],
+      "questions": [
+        "rem:sign's first sentence is stated for the Schwarzschild-like metric (round B_j); formalized with only the areas of the B_j (Fq_one_round, Fq_one_round_three for N = 3: F_g(1) = 4M/Vol^{1/3}, M = Σ 4π r_j).",
+        "ω_{N-1} is defined as the total mass of Mathlib's sphere measure volume.toSphere on the unit sphere of ℝ^N (= N·|B^N|, sphereArea_eq), not as a Hausdorff measure; sphereArea_three checks ω_2 = 4π and cN_three checks c_3 = 4√(4π) (eq:cN).",
+        "'Theorem thm:upper-bound therefore yields δ > 0 but no size' is commentary and is not formalized; 'inf F_g < F_g(1)' and 'κ < 1' are (infF_lt_Fq_one, kappa_lt_one, assembled in rem_sign).",
+        "dirichlet (like normSq) is 0 when infinite. The Riemannian instance (T-yamabe-scope) must take D among finite-energy, finite-norm functions (C^∞(Σ), or W^{1,2}(Σ) by density), where F and inf F are the paper's; an abstract D containing a function of infinite energy or boundary norm would give a Lean inf F below the paper's. Disclosed in the SCOPE of Quotient.lean."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Yamabe.dual_le",
+    "Yamabe.det_le",
+    "Yamabe.sqrt_det_le",
+    "Yamabe.sqrt_det_ge",
+    "Yamabe.QFormComparable.congr",
+    "Yamabe.dotProduct_transpose_mul_mul_mulVec",
+    "Yamabe.dotProduct_mulVec_symm",
+    "Yamabe.transpose_eq_of_posDef",
+    "Yamabe.mulVec_inv_mulVec",
+    "Yamabe.dotProduct_mulVec_nonneg_of_posDef",
+    "Yamabe.toReal_le_of_le_mul",
+    "Yamabe.lintegral_le_of_le_smul",
+    "Yamabe.normSq_le_of_le_smul",
+    "Yamabe.eLpNorm_two_sq_le",
+    "Yamabe.normSq_two_le",
+    "Yamabe.normSq_one",
+    "Yamabe.normSq_nonneg",
+    "Yamabe.hasDerivAt_normSq_one_add",
+    "Yamabe.normSq_one_add_eq",
+    "Yamabe.rpow_le_bound",
+    "Yamabe.sphereArea_eq",
+    "Yamabe.sphereArea_pos",
+    "Yamabe.sphereArea_three",
+    "Yamabe.cN_pos",
+    "Yamabe.cN_three",
+    "Yamabe.aN_pos",
+    "Yamabe.pStar_pos",
+    "Yamabe.pSharp_pos",
+    "Yamabe.two_le_pStar",
+    "Yamabe.two_le_pSharp",
+    "Yamabe.two_div_pStar",
+    "Yamabe.two_div_pSharp",
+    "Yamabe.natCast_div_pStar",
+    "Yamabe.sub_one_div_pSharp",
+    "Yamabe.three_le_cast",
+    "Yamabe.MeasuredModel.gradSq_nonneg",
+    "Yamabe.MeasuredModel.gradSq_smul",
+    "Yamabe.MeasuredModel.dirichlet_nonneg",
+    "Yamabe.MeasuredModel.dirichlet_one",
+    "Yamabe.MeasuredModel.dirichlet_one_add_smul",
+    "Yamabe.MeasuredModel.F_nonneg",
+    "Yamabe.MeasuredModel.val_one_add_smul",
+    "Yamabe.MeasuredModel.tr_one_add_smul",
+    "Yamabe.MeasuredModel.F_one_add_smul",
+    "Yamabe.toyP",
+    "Yamabe.toyP_transpose_mul",
+    "Yamabe.toyP_injective",
+    "Yamabe.toyD",
+    "Yamabe.toy_vol",
+    "Yamabe.toy_bvol"
+  ],
+  "kb_proposals": [
+    "A real positive definite matrix factors at this pin as A = star R * R via CStarAlgebra.nonneg_iff_eq_star_mul_self.mp hA.posSemidef.nonneg (needs `open scoped MatrixOrder`); with IsHermitian.mulVec_eigenvectorBasis and det_eq_prod_eigenvalues this proves Loewner-type determinant bounds (Yamabe.det_le), without CFC.sqrt.",
+    "Squared real L^q norms are best taken as (eLpNorm f q ν).toReal^2 and compared at the level of measures (eLpNorm_mono_measure, eLpNorm_smul_measure_of_ne_top, withDensity_mono, withDensity_smul'); with a two-sided domination infinite norms are infinite together (Yamabe.toReal_le_of_le_mul), and no measurability is needed.",
+    "hasDerivAt_integral_of_dominated_loc_of_deriv_le gets stuck on instances unless (μ := …) (F := …) (F' := …) are named.",
+    "A negative first variation gives a strict decrease: by contradiction IsLocalMin.hasDerivAt_eq_zero yields ∃ᶠ ε in 𝓝 0, f ε < f 0; combine with an eventual side condition by Filter.Frequently.and_eventually (Yamabe.MeasuredModel.exists_F_lt_F_one).",
+    "lean-yamabe has an abstract measured model of (Σ, ⊔B_j) (YamabeScaffold.Quotient: MeasuredModel, FrameMetric, vol, bvol, gradSq, F) with a two-point witness toyModel/toyMetric (N = 3); later §6 statements can reuse both.",
+    "The yamabe scaffold root (YamabeScaffold.lean) imports only Basic: new scaffold modules are invisible to the axiom sweep until imported there (lean-causal kb 0025)."
+  ],
+  "notes": "Both modules are sorry-free, warning-free and built with `taskset -c 0-11 lake build YamabeScaffold.Quotient YamabeScaffold.Stability` (only these two modules were rebuilt). Every principal declaration's #print axioms is [propext, Classical.choice, Quot.sound]. Quotient imports Mathlib only; Stability imports YamabeScaffold.Quotient. The scaffold root YamabeScaffold.lean was NOT edited (dispatch): the master session should add `import YamabeScaffold.Quotient` and `import YamabeScaffold.Stability` there so the axiom sweep sees them. Nothing is marked: both rows are partial by design (abstract layer; the Riemannian anchoring and the existence of a smooth collar cutoff wait on T-yamabe-scope). The one finding with a Lean counterexample concerns eq:hoelder (l.609, used at l.720 in lem:positivity), filed under rem:sign because eq:hoelder is not a ledger row. Assembly theorems for anchoring later: Yamabe.MeasuredModel.rem_sign and Yamabe.MeasuredModel.stability (+ tendsto_infF_of_uniformlyClose). Fix round 1 (AUDIT-1, minor): docstring cuts marked [...]; checklist rows for constant scalar curvature and minimal boundary (not used); SCOPE line on dirichlet = 0 when infinite (finite-energy D for the anchoring); new lemma Yamabe.hoelder_boundary_printed_false_of_lt_one (every mass in (0,1)); the l.720 note now separates its two citations. No existing statement or proof changed. Both files re-typechecked with -DwarningAsError=true and rebuilt (lake build YamabeScaffold.Quotient YamabeScaffold.Stability)."
+}
