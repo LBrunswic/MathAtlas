@@ -6,7 +6,8 @@ import Mathlib.Topology.Semicontinuity.Basic
 /-!
 # The two forms of push-up: plainness without push-up, and why the witness cannot be local
 
-Target `T-ett-deux-pushup` (2026-11-20). Cited, **unmarked** (SCOPE: the witness of the converse
+Target `T-ett-deux-pushup` (2026-11-20); graduated from the scaffold the same day
+(`T-ett-deux-pushup-graduate`, no statement changed). Cited, **unmarked** (SCOPE: the witness of the converse
 is not absolutely minimal, and cannot be): `rem:deux_pushup` — `ETT.tex:314`. It opposes
 `defi:causalement_plat` — `ETT.tex:283` (`Causality.CausallyPlain`) to `defi:pushup` —
 `ETT.tex:307` (`Causality.PushUp`). "Push-up" in this file is always the relational property of
