@@ -1,0 +1,25 @@
+name = "Yamabe"
+defaultTargets = ["Yamabe"]
+
+# The library of the paper `yamabe` (the author's paper on the Yamabe gap), formalized in a package of its own
+# at the hub's pin (DEC-139, as DEC-112 for Benzécri and DEC-133 for EGF). Scope: §6 first: the punctured-flat-torus bounds and their proofs (DEC-139).
+# Wave 0 imports Mathlib ONLY; the library never imports another hub package unless a ruling says so.
+#
+# Mathlib at the hub's pin (hub.toml): tag v4.31.0, frozen by lake-manifest.json to fabf563a7c95.
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "v4.31.0"
+
+# The STRICT library. `sorry` is a compile error here: warningAsError.
+[[lean_lib]]
+name = "Yamabe"
+globs = ["Yamabe.*"]
+leanOptions = { warningAsError = true }
+
+# The SCAFFOLD library. `sorry` is permitted and tagged `SORRY(<label>): <obstruction>`. Not a
+# default target, and never imported by `Yamabe`: graduation is a file move.
+[[lean_lib]]
+name = "YamabeScaffold"
+srcDir = "scaffold"
+globs = ["YamabeScaffold.*"]
