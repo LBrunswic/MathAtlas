@@ -26,7 +26,7 @@ The DAG's edges are **references**, not always logical dependencies: a statement
 
 **In scope: 71 statements**, of which 0 are closed in Lean and 0 partial. Out of scope: 0.
 
-### Behind an obstruction — 0 statements, in scope
+### Behind an obstruction — 71 statements, in scope
 
 `C` is attempted-and-blocked, `D` is deferred; each row's `notes` field in `ledger.json` names the obstruction.
 
@@ -40,77 +40,77 @@ The DAG's edges are **references**, not always logical dependencies: a statement
 
 | lvl | statement | natural language | Lean stated | Lean proved | bucket |
 |---:|---|---|---|---|---|
-| 0 | **Remark**<br>`bbsrem:photon` — [`colI_v1.tex:1457`](colI_v1.tex#L1457) | informal | — | — | — |
-| 1 | **Proposition**<br>`bbsprop:classising` — [`colI_v1.tex:531`](colI_v1.tex#L531) | proved — a summary stated at the head of §3 (l.531); the classification it lists is carried out in §3.3-3.5 (the (Gamma_p, l(p))-circles through RP1-circles, l.673 onward), with no proof environment | — | — | — |
-| 0 | **Definition**<br>`bbsdef:hs_surface_topological_surface_endowed` — [`colI_v1.tex:615`](colI_v1.tex#L615) | def | — | — | — |
-| 0 | **Definition**<br>`bbsdef:circle_data_point_structure` — [`colI_v1.tex:766`](colI_v1.tex#L766) | def | — | — | — |
-| 0 | **Definition**<br>`bbsdef:lies_denote_respectively_set` — [`colI_v1.tex:819`](colI_v1.tex#L819) | def | — | — | — |
-| 0 | **Definition**<br>`bbsdef:lies_domain_respectively_set` — [`colI_v1.tex:828`](colI_v1.tex#L828) | def | — | — | — |
-| 0 | **Definition**<br>`bbsdef:circle_developing_map_preimages` — [`colI_v1.tex:842`](colI_v1.tex#L842) | def | — | — | — |
-| 0 | **Remark**<br>`bbsrem:previous_section_observed_only` — [`colI_v1.tex:926`](colI_v1.tex#L926) | informal | — | — | — |
-| 0 | **Remark**<br>`bbsrem:p_p` — [`colI_v1.tex:934`](colI_v1.tex#L934) | informal | — | — | — |
-| 0 | **Definition**<br>`bbsdef:singular_hs_surface_oriented_surface` — [`colI_v1.tex:948`](colI_v1.tex#L948) | def | — | — | — |
-| 0 | **Definition**<br>`bbsdef:singular_ads_spacetime_manifold` — [`colI_v1.tex:957`](colI_v1.tex#L957) | def | — | — | — |
-| 0 | **Definition**<br>`bbsdef:singline` — [`colI_v1.tex:969`](colI_v1.tex#L969) | def | — | — | — |
-| 0 | **Lemma**<br>`bbslem:CTC` — [`colI_v1.tex:1066`](colI_v1.tex#L1066) | proved — [`colI_v1.tex:1073`](colI_v1.tex#L1073) | — | — | — |
-| 0 | **Definition**<br>`bbsdef:Hcausal` — [`colI_v1.tex:1114`](colI_v1.tex#L1114) | def | — | — | — |
-| 0 | **Remark**<br>`bbsrem:masspositive` — [`colI_v1.tex:1166`](colI_v1.tex#L1166) | informal | — | — | — |
-| 0 | **Remark**<br>`bbsrem:positive_negative` — [`colI_v1.tex:1240`](colI_v1.tex#L1240) | informal | — | — | — |
-| 0 | **Remark**<br>`bbsrem:cuttachyon2` — [`colI_v1.tex:1299`](colI_v1.tex#L1299) | informal | — | — | — |
-| 0 | **Remark**<br>`bbsrem:far_know_kind_singular` — [`colI_v1.tex:1323`](colI_v1.tex#L1323) | informal | — | — | — |
-| 0 | **Remark**<br>`bbsrem:degk` — [`colI_v1.tex:1332`](colI_v1.tex#L1332) | informal | — | — | — |
-| 0 | **Remark**<br>`bbsrem:open_domain_intersection_future` — [`colI_v1.tex:1379`](colI_v1.tex#L1379) | informal | — | — | — |
-| 1 | **Remark**<br>`bbsrem:kind_singularity_appears_several` — [`colI_v1.tex:1393`](colI_v1.tex#L1393) | informal | — | — | — |
-| 1 | **Remark**<br>`bbsrem:case_tachyons_see_remark` — [`colI_v1.tex:1466`](colI_v1.tex#L1466) | informal | — | — | — |
-| 1 | **Remark**<br>`bbsrem:positive_negative2` — [`colI_v1.tex:1474`](colI_v1.tex#L1474) | informal | — | — | — |
-| 0 | **Remark**<br>`bbsrem:however_no_positive_negative` — [`colI_v1.tex:1480`](colI_v1.tex#L1480) | informal | — | — | — |
-| 0 | **Remark**<br>`bbsrem:now_allow_ourselves_qualify` — [`colI_v1.tex:1485`](colI_v1.tex#L1485) | informal | — | — | — |
-| 0 | **Remark**<br>`bbsrem:cheminsing` — [`colI_v1.tex:1493`](colI_v1.tex#L1493) | informal | — | — | — |
-| 0 | **Definition**<br>`bbsdef:hs_surface_interaction_singular_line` — [`colI_v1.tex:1508`](colI_v1.tex#L1508) | def | — | — | — |
-| 0 | **Remark**<br>`bbsrem:singular_ads_manifold_cone` — [`colI_v1.tex:1797`](colI_v1.tex#L1797) | proved — [`colI_v1.tex:1804`](colI_v1.tex#L1804) | — | — | — |
-| 0 | **Definition**<br>`bbsdef:has_positive_mass_simple` — [`colI_v1.tex:1821`](colI_v1.tex#L1821) | def | — | — | — |
-| 0 | **Theorem**<br>`bbsthm:converse` — [`colI_v1.tex:1832`](colI_v1.tex#L1832) | proved — [`colI_v1.tex:1844`](colI_v1.tex#L1844) | — | — | — |
-| 0 | **Proposition**<br>`bbsprop:hypdegree0` — [`colI_v1.tex:1938`](colI_v1.tex#L1938) | proved — [`colI_v1.tex:1946`](colI_v1.tex#L1946) | — | — | — |
-| 0 | **Corollary**<br>`bbscor:de_sitter_region_homeomorphic` — [`colI_v1.tex:2035`](colI_v1.tex#L2035) | proved — argued in the paragraph before it (l.2025-2033): the isotropic foliations of a de Sitter region and the Poincare-Hopf index formula | — | — | — |
-| 0 | **Corollary**<br>`bbscor:Lclosed` — [`colI_v1.tex:2046`](colI_v1.tex#L2046) | proved — argued in the paragraph before it (l.2041-2044): no closed causal curve in T and the Poincare-Bendixson theorem | — | — | — |
-| 1 | **Proposition**<br>`bbsprop:hyphyp` — [`colI_v1.tex:2056`](colI_v1.tex#L2056) | proved — [`colI_v1.tex:2065`](colI_v1.tex#L2065) | — | — | — |
-| 2 | **Remark**<br>`bbsrem:pospos` — [`colI_v1.tex:2160`](colI_v1.tex#L2160) | informal | — | — | — |
-| 0 | **Theorem**<br>`bbsthm:thierry` — [`colI_v1.tex:2175`](colI_v1.tex#L2175) | proved — its proof is the proof environment at l.2212, after the remark bbsrem:theorem_despite_terminology_inspired | — | — | — |
-| 2 | **Remark**<br>`bbsrem:theorem_despite_terminology_inspired` — [`colI_v1.tex:2198`](colI_v1.tex#L2198) | proved — [`colI_v1.tex:2214`](colI_v1.tex#L2214) | — | — | — |
-| 0 | **Remark**<br>`bbsrem:easy_construct_singular_hyperbolic` — [`colI_v1.tex:2231`](colI_v1.tex#L2231) | informal | — | — | — |
-| 0 | **Definition**<br>`bbsdef:subset_achronal_resp_acausal` — [`colI_v1.tex:2318`](colI_v1.tex#L2318) | def | — | — | — |
-| 0 | **Definition**<br>`bbsdef:locally_achronal_subset_edgeless` — [`colI_v1.tex:2331`](colI_v1.tex#L2331) | def | — | — | — |
-| 0 | **Lemma**<br>`bbslem:closure_closed_edgeless_achronal` — [`colI_v1.tex:2362`](colI_v1.tex#L2362) | open | — | — | — |
-| 0 | **Definition**<br>`bbsdef:space_like_surface_closed_edgeless` — [`colI_v1.tex:2367`](colI_v1.tex#L2367) | def | — | — | — |
-| 0 | **Definition**<br>`bbsdef:two_lorentzian_metrics_same` — [`colI_v1.tex:2379`](colI_v1.tex#L2379) | def | — | — | — |
-| 0 | **Definition**<br>`bbsdef:lorentzian_metric_stably_causal` — [`colI_v1.tex:2387`](colI_v1.tex#L2387) | def | — | — | — |
-| 0 | **Theorem** — See [beem]<br>`bbsthm:stabletime` — [`colI_v1.tex:2394`](colI_v1.tex#L2394) | cited — `beem` | — | — | — |
-| 1 | **Remark**<br>`bbsrem:stablecausal` — [`colI_v1.tex:2402`](colI_v1.tex#L2402) | informal | — | — | — |
-| 0 | **Lemma**<br>`bbslem:singstable` — [`colI_v1.tex:2422`](colI_v1.tex#L2422) | proved — [`colI_v1.tex:2429`](colI_v1.tex#L2429) | — | — | — |
-| 0 | **Definition**<br>`bbsdef:space_like_surface_cauchy_surface` — [`colI_v1.tex:2450`](colI_v1.tex#L2450) | def | — | — | — |
-| 0 | **Remark**<br>`bbsrem:ghnongh` — [`colI_v1.tex:2457`](colI_v1.tex#L2457) | informal | — | — | — |
-| 0 | **Definition**<br>`bbsdef:singular_ads_spacetime_globally` — [`colI_v1.tex:2464`](colI_v1.tex#L2464) | def | — | — | — |
-| 0 | **Remark**<br>`bbsrem:defined_cauchy_surfaces_smooth` — [`colI_v1.tex:2469`](colI_v1.tex#L2469) | informal | — | — | — |
-| 1 | **Proposition**<br>`bbsprop:ghtime` — [`colI_v1.tex:2476`](colI_v1.tex#L2476) | proved — [`colI_v1.tex:2487`](colI_v1.tex#L2487) | — | — | — |
-| 2 | **Corollary**<br>`bbscor:splitting` — [`colI_v1.tex:2552`](colI_v1.tex#L2552) | proved — [`colI_v1.tex:2559`](colI_v1.tex#L2559) | — | — | — |
-| 0 | **Definition**<br>`bbsdef:isometric_embedding_cauchy_embedding` — [`colI_v1.tex:2582`](colI_v1.tex#L2582) | def | — | — | — |
-| 0 | **Remark**<br>`bbsrem:cauchy_embedding_image_cauchy` — [`colI_v1.tex:2586`](colI_v1.tex#L2586) | informal | — | — | — |
-| 0 | **Lemma**<br>`bbslem:coincide` — [`colI_v1.tex:2598`](colI_v1.tex#L2598) | proved — [`colI_v1.tex:2604`](colI_v1.tex#L2604) | — | — | — |
-| 0 | **Lemma**<br>`bbslem:causalconvex` — [`colI_v1.tex:2620`](colI_v1.tex#L2620) | proved — [`colI_v1.tex:2628`](colI_v1.tex#L2628) | — | — | — |
-| 0 | **Corollary**<br>`bbscor:bordgh` — [`colI_v1.tex:2635`](colI_v1.tex#L2635) | proved — [`colI_v1.tex:2644`](colI_v1.tex#L2644) | — | — | — |
-| 0 | **Definition**<br>`bbsdef:maximal_cauchy_embedding_singular` — [`colI_v1.tex:2650`](colI_v1.tex#L2650) | def | — | — | — |
-| 1 | **Proposition**<br>`bbsprop:extension1` — [`colI_v1.tex:2654`](colI_v1.tex#L2654) | proved — [`colI_v1.tex:2659`](colI_v1.tex#L2659) | — | — | — |
-| 0 | **Remark**<br>`bbsrem:proof_above_sketchy_example` — [`colI_v1.tex:2679`](colI_v1.tex#L2679) | informal | — | — | — |
-| 1 | **Proposition**<br>`bbsprop:extension2` — [`colI_v1.tex:2686`](colI_v1.tex#L2686) | proved — [`colI_v1.tex:2690`](colI_v1.tex#L2690) | — | — | — |
-| 0 | **Remark**<br>`bbsrem:uniqueness_maximal_globally_hyperbolic` — [`colI_v1.tex:2766`](colI_v1.tex#L2766) | informal | — | — | — |
-| 0 | **Lemma**<br>`bbslem:spacetime_particle_corresponding_singular` — [`colI_v1.tex:2803`](colI_v1.tex#L2803) | proved — [`colI_v1.tex:2809`](colI_v1.tex#L2809) | — | — | — |
-| 0 | **Lemma**<br>`bbslem:surgery_key` — [`colI_v1.tex:2950`](colI_v1.tex#L2950) | proved — [`colI_v1.tex:2958`](colI_v1.tex#L2958) | — | — | — |
-| 0 | **Remark**<br>`bbsrem:causally_regular_hs_sphere_containing` — [`colI_v1.tex:3013`](colI_v1.tex#L3013) | informal | — | — | — |
-| 0 | **Definition**<br>`bbsdef:singular_spacetime_homeomorphic_neighborhood` — [`colI_v1.tex:3019`](colI_v1.tex#L3019) | def | — | — | — |
-| 0 | **Remark**<br>`bbsrem:itemize_spacelike_slice_through` — [`colI_v1.tex:3031`](colI_v1.tex#L3031) | informal | — | — | — |
-| 1 | **Corollary**<br>`bbscor:hs_sphere_lemma_surgery_key_spacetime` — [`colI_v1.tex:3042`](colI_v1.tex#L3042) | open | — | — | — |
-| 1 | **Proposition**<br>`bbsprop:example` — [`colI_v1.tex:3063`](colI_v1.tex#L3063) | proved — [`colI_v1.tex:3073`](colI_v1.tex#L3073) | — | — | — |
-| 0 | **Proposition**<br>`bbsprop:pp` — [`colI_v1.tex:3243`](colI_v1.tex#L3243) | proved — [`colI_v1.tex:3251`](colI_v1.tex#L3251) | — | — | — |
+| 0 | **Remark**<br>`bbsrem:photon` — [`colI_v1.tex:1457`](colI_v1.tex#L1457) | informal | — | — | D |
+| 1 | **Proposition**<br>`bbsprop:classising` — [`colI_v1.tex:531`](colI_v1.tex#L531) | proved — a summary stated at the head of §3 (l.531); the classification it lists is carried out in §3.3-3.5 (the (Gamma_p, l(p))-circles through RP1-circles, l.673 onward), with no proof environment | — | — | D |
+| 0 | **Definition**<br>`bbsdef:hs_surface_topological_surface_endowed` — [`colI_v1.tex:615`](colI_v1.tex#L615) | def | — | — | D |
+| 0 | **Definition**<br>`bbsdef:circle_data_point_structure` — [`colI_v1.tex:766`](colI_v1.tex#L766) | def | — | — | D |
+| 0 | **Definition**<br>`bbsdef:lies_denote_respectively_set` — [`colI_v1.tex:819`](colI_v1.tex#L819) | def | — | — | D |
+| 0 | **Definition**<br>`bbsdef:lies_domain_respectively_set` — [`colI_v1.tex:828`](colI_v1.tex#L828) | def | — | — | D |
+| 0 | **Definition**<br>`bbsdef:circle_developing_map_preimages` — [`colI_v1.tex:842`](colI_v1.tex#L842) | def | — | — | D |
+| 0 | **Remark**<br>`bbsrem:previous_section_observed_only` — [`colI_v1.tex:926`](colI_v1.tex#L926) | informal | — | — | D |
+| 0 | **Remark**<br>`bbsrem:p_p` — [`colI_v1.tex:934`](colI_v1.tex#L934) | informal | — | — | D |
+| 0 | **Definition**<br>`bbsdef:singular_hs_surface_oriented_surface` — [`colI_v1.tex:948`](colI_v1.tex#L948) | def | — | — | D |
+| 0 | **Definition**<br>`bbsdef:singular_ads_spacetime_manifold` — [`colI_v1.tex:957`](colI_v1.tex#L957) | def | — | — | D |
+| 0 | **Definition**<br>`bbsdef:singline` — [`colI_v1.tex:969`](colI_v1.tex#L969) | def | — | — | D |
+| 0 | **Lemma**<br>`bbslem:CTC` — [`colI_v1.tex:1066`](colI_v1.tex#L1066) | proved — [`colI_v1.tex:1073`](colI_v1.tex#L1073) | — | — | D |
+| 0 | **Definition**<br>`bbsdef:Hcausal` — [`colI_v1.tex:1114`](colI_v1.tex#L1114) | def | — | — | D |
+| 0 | **Remark**<br>`bbsrem:masspositive` — [`colI_v1.tex:1166`](colI_v1.tex#L1166) | informal | — | — | D |
+| 0 | **Remark**<br>`bbsrem:positive_negative` — [`colI_v1.tex:1240`](colI_v1.tex#L1240) | informal | — | — | D |
+| 0 | **Remark**<br>`bbsrem:cuttachyon2` — [`colI_v1.tex:1299`](colI_v1.tex#L1299) | informal | — | — | D |
+| 0 | **Remark**<br>`bbsrem:far_know_kind_singular` — [`colI_v1.tex:1323`](colI_v1.tex#L1323) | informal | — | — | D |
+| 0 | **Remark**<br>`bbsrem:degk` — [`colI_v1.tex:1332`](colI_v1.tex#L1332) | informal | — | — | D |
+| 0 | **Remark**<br>`bbsrem:open_domain_intersection_future` — [`colI_v1.tex:1379`](colI_v1.tex#L1379) | informal | — | — | D |
+| 1 | **Remark**<br>`bbsrem:kind_singularity_appears_several` — [`colI_v1.tex:1393`](colI_v1.tex#L1393) | informal | — | — | D |
+| 1 | **Remark**<br>`bbsrem:case_tachyons_see_remark` — [`colI_v1.tex:1466`](colI_v1.tex#L1466) | informal | — | — | D |
+| 1 | **Remark**<br>`bbsrem:positive_negative2` — [`colI_v1.tex:1474`](colI_v1.tex#L1474) | informal | — | — | D |
+| 0 | **Remark**<br>`bbsrem:however_no_positive_negative` — [`colI_v1.tex:1480`](colI_v1.tex#L1480) | informal | — | — | D |
+| 0 | **Remark**<br>`bbsrem:now_allow_ourselves_qualify` — [`colI_v1.tex:1485`](colI_v1.tex#L1485) | informal | — | — | D |
+| 0 | **Remark**<br>`bbsrem:cheminsing` — [`colI_v1.tex:1493`](colI_v1.tex#L1493) | informal | — | — | D |
+| 0 | **Definition**<br>`bbsdef:hs_surface_interaction_singular_line` — [`colI_v1.tex:1508`](colI_v1.tex#L1508) | def | — | — | D |
+| 0 | **Remark**<br>`bbsrem:singular_ads_manifold_cone` — [`colI_v1.tex:1797`](colI_v1.tex#L1797) | proved — [`colI_v1.tex:1804`](colI_v1.tex#L1804) | — | — | D |
+| 0 | **Definition**<br>`bbsdef:has_positive_mass_simple` — [`colI_v1.tex:1821`](colI_v1.tex#L1821) | def | — | — | D |
+| 0 | **Theorem**<br>`bbsthm:converse` — [`colI_v1.tex:1832`](colI_v1.tex#L1832) | proved — [`colI_v1.tex:1844`](colI_v1.tex#L1844) | — | — | D |
+| 0 | **Proposition**<br>`bbsprop:hypdegree0` — [`colI_v1.tex:1938`](colI_v1.tex#L1938) | proved — [`colI_v1.tex:1946`](colI_v1.tex#L1946) | — | — | D |
+| 0 | **Corollary**<br>`bbscor:de_sitter_region_homeomorphic` — [`colI_v1.tex:2035`](colI_v1.tex#L2035) | proved — argued in the paragraph before it (l.2025-2033): the isotropic foliations of a de Sitter region and the Poincare-Hopf index formula | — | — | D |
+| 0 | **Corollary**<br>`bbscor:Lclosed` — [`colI_v1.tex:2046`](colI_v1.tex#L2046) | proved — argued in the paragraph before it (l.2041-2044): no closed causal curve in T and the Poincare-Bendixson theorem | — | — | D |
+| 1 | **Proposition**<br>`bbsprop:hyphyp` — [`colI_v1.tex:2056`](colI_v1.tex#L2056) | proved — [`colI_v1.tex:2065`](colI_v1.tex#L2065) | — | — | D |
+| 2 | **Remark**<br>`bbsrem:pospos` — [`colI_v1.tex:2160`](colI_v1.tex#L2160) | informal | — | — | D |
+| 0 | **Theorem**<br>`bbsthm:thierry` — [`colI_v1.tex:2175`](colI_v1.tex#L2175) | proved — its proof is the proof environment at l.2212, after the remark bbsrem:theorem_despite_terminology_inspired | — | — | D |
+| 2 | **Remark**<br>`bbsrem:theorem_despite_terminology_inspired` — [`colI_v1.tex:2198`](colI_v1.tex#L2198) | proved — [`colI_v1.tex:2214`](colI_v1.tex#L2214) | — | — | D |
+| 0 | **Remark**<br>`bbsrem:easy_construct_singular_hyperbolic` — [`colI_v1.tex:2231`](colI_v1.tex#L2231) | informal | — | — | D |
+| 0 | **Definition**<br>`bbsdef:subset_achronal_resp_acausal` — [`colI_v1.tex:2318`](colI_v1.tex#L2318) | def | — | — | D |
+| 0 | **Definition**<br>`bbsdef:locally_achronal_subset_edgeless` — [`colI_v1.tex:2331`](colI_v1.tex#L2331) | def | — | — | D |
+| 0 | **Lemma**<br>`bbslem:closure_closed_edgeless_achronal` — [`colI_v1.tex:2362`](colI_v1.tex#L2362) | open | — | — | D |
+| 0 | **Definition**<br>`bbsdef:space_like_surface_closed_edgeless` — [`colI_v1.tex:2367`](colI_v1.tex#L2367) | def | — | — | D |
+| 0 | **Definition**<br>`bbsdef:two_lorentzian_metrics_same` — [`colI_v1.tex:2379`](colI_v1.tex#L2379) | def | — | — | D |
+| 0 | **Definition**<br>`bbsdef:lorentzian_metric_stably_causal` — [`colI_v1.tex:2387`](colI_v1.tex#L2387) | def | — | — | D |
+| 0 | **Theorem** — See [beem]<br>`bbsthm:stabletime` — [`colI_v1.tex:2394`](colI_v1.tex#L2394) | cited — `beem` | — | — | D |
+| 1 | **Remark**<br>`bbsrem:stablecausal` — [`colI_v1.tex:2402`](colI_v1.tex#L2402) | informal | — | — | D |
+| 0 | **Lemma**<br>`bbslem:singstable` — [`colI_v1.tex:2422`](colI_v1.tex#L2422) | proved — [`colI_v1.tex:2429`](colI_v1.tex#L2429) | — | — | D |
+| 0 | **Definition**<br>`bbsdef:space_like_surface_cauchy_surface` — [`colI_v1.tex:2450`](colI_v1.tex#L2450) | def | — | — | D |
+| 0 | **Remark**<br>`bbsrem:ghnongh` — [`colI_v1.tex:2457`](colI_v1.tex#L2457) | informal | — | — | D |
+| 0 | **Definition**<br>`bbsdef:singular_ads_spacetime_globally` — [`colI_v1.tex:2464`](colI_v1.tex#L2464) | def | — | — | D |
+| 0 | **Remark**<br>`bbsrem:defined_cauchy_surfaces_smooth` — [`colI_v1.tex:2469`](colI_v1.tex#L2469) | informal | — | — | D |
+| 1 | **Proposition**<br>`bbsprop:ghtime` — [`colI_v1.tex:2476`](colI_v1.tex#L2476) | proved — [`colI_v1.tex:2487`](colI_v1.tex#L2487) | — | — | D |
+| 2 | **Corollary**<br>`bbscor:splitting` — [`colI_v1.tex:2552`](colI_v1.tex#L2552) | proved — [`colI_v1.tex:2559`](colI_v1.tex#L2559) | — | — | D |
+| 0 | **Definition**<br>`bbsdef:isometric_embedding_cauchy_embedding` — [`colI_v1.tex:2582`](colI_v1.tex#L2582) | def | — | — | D |
+| 0 | **Remark**<br>`bbsrem:cauchy_embedding_image_cauchy` — [`colI_v1.tex:2586`](colI_v1.tex#L2586) | informal | — | — | D |
+| 0 | **Lemma**<br>`bbslem:coincide` — [`colI_v1.tex:2598`](colI_v1.tex#L2598) | proved — [`colI_v1.tex:2604`](colI_v1.tex#L2604) | — | — | D |
+| 0 | **Lemma**<br>`bbslem:causalconvex` — [`colI_v1.tex:2620`](colI_v1.tex#L2620) | proved — [`colI_v1.tex:2628`](colI_v1.tex#L2628) | — | — | D |
+| 0 | **Corollary**<br>`bbscor:bordgh` — [`colI_v1.tex:2635`](colI_v1.tex#L2635) | proved — [`colI_v1.tex:2644`](colI_v1.tex#L2644) | — | — | D |
+| 0 | **Definition**<br>`bbsdef:maximal_cauchy_embedding_singular` — [`colI_v1.tex:2650`](colI_v1.tex#L2650) | def | — | — | D |
+| 1 | **Proposition**<br>`bbsprop:extension1` — [`colI_v1.tex:2654`](colI_v1.tex#L2654) | proved — [`colI_v1.tex:2659`](colI_v1.tex#L2659) | — | — | D |
+| 0 | **Remark**<br>`bbsrem:proof_above_sketchy_example` — [`colI_v1.tex:2679`](colI_v1.tex#L2679) | informal | — | — | D |
+| 1 | **Proposition**<br>`bbsprop:extension2` — [`colI_v1.tex:2686`](colI_v1.tex#L2686) | proved — [`colI_v1.tex:2690`](colI_v1.tex#L2690) | — | — | D |
+| 0 | **Remark**<br>`bbsrem:uniqueness_maximal_globally_hyperbolic` — [`colI_v1.tex:2766`](colI_v1.tex#L2766) | informal | — | — | D |
+| 0 | **Lemma**<br>`bbslem:spacetime_particle_corresponding_singular` — [`colI_v1.tex:2803`](colI_v1.tex#L2803) | proved — [`colI_v1.tex:2809`](colI_v1.tex#L2809) | — | — | D |
+| 0 | **Lemma**<br>`bbslem:surgery_key` — [`colI_v1.tex:2950`](colI_v1.tex#L2950) | proved — [`colI_v1.tex:2958`](colI_v1.tex#L2958) | — | — | D |
+| 0 | **Remark**<br>`bbsrem:causally_regular_hs_sphere_containing` — [`colI_v1.tex:3013`](colI_v1.tex#L3013) | informal | — | — | D |
+| 0 | **Definition**<br>`bbsdef:singular_spacetime_homeomorphic_neighborhood` — [`colI_v1.tex:3019`](colI_v1.tex#L3019) | def | — | — | D |
+| 0 | **Remark**<br>`bbsrem:itemize_spacelike_slice_through` — [`colI_v1.tex:3031`](colI_v1.tex#L3031) | informal | — | — | D |
+| 1 | **Corollary**<br>`bbscor:hs_sphere_lemma_surgery_key_spacetime` — [`colI_v1.tex:3042`](colI_v1.tex#L3042) | open | — | — | D |
+| 1 | **Proposition**<br>`bbsprop:example` — [`colI_v1.tex:3063`](colI_v1.tex#L3063) | proved — [`colI_v1.tex:3073`](colI_v1.tex#L3073) | — | — | D |
+| 0 | **Proposition**<br>`bbsprop:pp` — [`colI_v1.tex:3243`](colI_v1.tex#L3243) | proved — [`colI_v1.tex:3251`](colI_v1.tex#L3251) | — | — | D |
 
 <details><summary>dependency graph — Collisions of particles in locally AdS spacetimes I (one file)</summary>
 
