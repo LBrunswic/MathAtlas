@@ -1,0 +1,390 @@
+# Binder of papers/ers-predictability (Eperon–Reall–Sbierski, "Predictability of subluminal and
+# superluminal wave equations", arXiv 1802.03020): every row split into its ETT theorem (layer 1), its
+# localisation properties (layer 2, programme/ladder.toml ids) and its geometric lemma per model class
+# (layer 3). Format: tools/binder.py's docstring. Written by the programme-planner, 2026-11-20
+# (T-bind-ers-predictability). It records how the argument factors, not what Lean has closed.
+#
+# How the paper factors (SYNTHESIS Q3; KB note eperon2018predictability). A GHD u : U → ℝ of a
+# quasilinear equation on the FIXED background ℝ^{d+1} carries two causalities: C_g of g(u, du) and
+# C_m of Minkowski. Sub-/superluminality is a NESTING of causalities (Causal.NestedCausalities):
+# subluminal = CurveNestedOn C_g C_m (4.72); (4.62) = InextensibleNestedOn Cτ C_g for the causality Cτ
+# of the integral curves of T (4.70). The global arguments of §4 are causal-topological
+# (T-abs-nested-causalities, done, readings in OQ-41); their analytic inputs are local uniqueness
+# (Prop 4.63), local existence (Thm 4.75) and the slice restart (Steps 3–5 of Thm 4.64), the same
+# `local_uniqueness` and `cauchy_slice` as Sbierski's CBG (papers/sbierski-mghd), but WITHOUT A3: on a
+# fixed background the identity identifies the slice in both developments, and the extension of u₁
+# across a boundary point is false in general.
+#
+# Models. `quasilinear` is the paper's class (smooth g(u, du) on open subsets of ℝ^{d+1}): nothing of
+# it is in Lean (T-pkg-smooth-lorentz asks how smooth Lorentzian metrics enter). The Born–Infeld
+# scalar of §3 is a quasilinear model whose solutions are causally flat: (U, g) is the transport of
+# 1+1 Minkowski (V, m̂) by the hodograph map Ψ (Lemmas 3.27, 3.31). `minkowski` is the background m,
+# in Lean (Causal.minkowski_*).
+#
+# Findings of this binder (reported to the master):
+# * The layer-1 skeletons of 4.70, 4.72, 4.77, 4.82 are in Lean (Causal.Causality.ers_*), each with
+#   its layer-3 inputs as named hypotheses; Thm 4.64 itself (the fixed-background global uniqueness
+#   on a connected overlap, used by 4.68, 4.69, 4.71, 4.73, 4.75, 4.80) is NOT: only its Step 2
+#   (exists_spacelike_boundary_point) is, and Steps 3–5 + Prop 4.63 are 4.82's `hstep`.
+#   T-abs-ers-thm-4-64.
+# * The nesting nodes are what OQ-41 (b) asks about: InextensibleNestedOn is not implied by
+#   ≤-nesting (cutLine 1) and holds on M from `no_causal_endpoint` (J^±(x) ≠ {x}) + GH + tarentin +
+#   causal arc-connectedness (GloballyHyperbolic.inextensibleNestedOn_top). Rows 4.70, 4.71, 4.77
+#   depend on that ruling (T-lad-nested-inextensible, blocked on OQ-41).
+# * ERS §3's non-uniqueness (Thm 3.45) is, causally, two flat 1+1 developments whose developing maps
+#   Ψ_a, Ψ_b overlap on a disconnected set — the fixed-background failure of the Einstein gluing
+#   (§4.2; Sbierski Cor 3.2 needs U₁ ∩ U₂ connected). T-abs-ers-etale-mghd states it.
+# * Rows not bound: Remarks 3.55 and 3.57 (observations, no argument), Remark 3.58 (modification of
+#   the principal symbol outside the solution's range: PDE, no causal content), Conjecture 4.81 (open
+#   by nature, nothing to factor).
+
+# ------------------------------------------------------------------ proposed localisation ids
+[[proposed]]
+id = "curve_nested"
+lean = "Causal.Causality.CurveNestedOn"
+target = "T-lad-nested-nodes"
+what = "the causal curves of W for C are causal curves for C' (subluminality, ERS 4.72; the cone of g(u, du) inside m's); implied by Causal.Causality.LeNested"
+
+[[proposed]]
+id = "le_nested"
+lean = "Causal.Causality.LeNested"
+target = "T-lad-nested-nodes"
+what = "≤_U of C inside ≤_U of C' on every open U (Reall: the effective-metric cone inside the causal cone)"
+
+[[proposed]]
+id = "inextensible_nested"
+lean = "Causal.Causality.InextensibleNestedOn"
+target = "T-lad-nested-inextensible"
+what = "inextensible causal curves of W for C are inextensible for C' ((4.62) for Cτ ⊆ C_g, ERS 4.70); OQ-41 (b): this, or no_causal_endpoint, is the node"
+
+[[proposed]]
+id = "no_causal_endpoint"
+lean = "none yet (T-abs-ladder-local-defs defines it)"
+target = "T-lad-nested-inextensible"
+what = "J⁻(x) ≠ {x} and J⁺(x) ≠ {x} for every x: with GH, tarentin and causal arc-connectedness it gives inextensible_nested on M (Causal.Causality.GloballyHyperbolic.inextensibleNestedOn_top); also the hypothesis of Lemma K and of ChainsCurves"
+
+[[proposed]]
+id = "local_uniqueness"
+lean = "none yet (T-abs-cbg-initial-data defines it)"
+target = "T-lad-development-nodes"
+what = "two developments of the same data have a common GH development (ERS Prop 4.63; Sbierski Thm 2.6)"
+
+[[proposed]]
+id = "cauchy_slice"
+lean = "Causal.CBG.LocalModel.SliceFuture"
+target = "T-lad-cbg-geometry-nodes"
+what = "a local Cauchy slice through a spacelike boundary point (Steps 3–4 of Thm 4.64: the τ_q level set, acausal in a small V, with its domain of dependence)"
+
+[[proposed]]
+id = "one_sided_boundary"
+lean = "none yet (T-abs-ladder-local-defs defines it)"
+target = "T-lad-development-nodes"
+what = "the topological content of (4.83): every boundary point p ∉ closure S has arbitrarily small V with V ∩ U₁ preconnected (the `honesided` of Causal.Causality.ers_theorem_4_82)"
+
+[[proposed]]
+id = "curves_extend"
+lean = "Causal.Causality.CurvesExtend"
+target = "T-lad-cbg-geometry-nodes"
+what = "every causal curve over a segment lies on an inextensible one (Minkowski: Causal.minkowski_curvesExtend)"
+
+# ------------------------------------------------------------------ §3 the Born–Infeld scalar (layer 3, with the ETT theorem each supplies)
+[[bind]]
+label = "ersthm:diffeo_theorem"
+ett = ["T-abs-ers-etale-mghd"]
+localisation = []
+note = "Thm 3.22 (ghd_02_19.tex:298), cited (Barbashov–Chernikov hodograph). A layer-3 fact of the Born–Infeld model: a diffeomorphism Ψ : V → U gives a solution on U. Its ETT role: Ψ is the developing map of a flat 1+1 development (V, m̂), the object of T-abs-ers-etale-mghd."
+[[bind.geometric]]
+model = "quasilinear"
+proves = []
+by = ["T-loc-born-infeld-causal"]
+
+[[bind]]
+label = "erslem:nec_cond"
+ett = ["T-abs-ers-etale-mghd"]
+localisation = []
+note = "Lemma 3.23 (ghd_02_19.tex:304). The Jacobian 1 − Φ₁'²Φ₂'² of Ψ: Ψ is a local homeomorphism exactly where it does not vanish (the étale condition of T-abs-ers-etale-mghd). Layer 3 computation."
+[[bind.geometric]]
+model = "quasilinear"
+proves = []
+by = ["T-loc-born-infeld-causal"]
+
+[[bind]]
+label = "erslem:lemma_sing"
+ett = ["T-abs-ers-etale-mghd"]
+localisation = []
+note = "Lemma 3.25 (ghd_02_19.tex:319). Gradient blow-up where Φ₁'Φ₂' → 1: the singular part of the MGHD's boundary (no extension as a solution). Layer 3 computation; the boundary it describes is the 'one side' of 4.82 in the superluminal picture."
+[[bind.geometric]]
+model = "quasilinear"
+proves = []
+by = ["T-loc-born-infeld-causal"]
+
+[[bind]]
+label = "erslem:grhosigma"
+ett = ["T-abs-causal-iso-invariance"]
+localisation = []
+note = "Lemma 3.27 (ghd_02_19.tex:335). g = c(1 + Φ₁'Φ₂')² dρ dσ: conformal to the flat m̂ = c dρ dσ, so Ψ carries the causality of (V, m̂) onto that of (U, g) (layer 3: a conformal factor does not change the causality); the ETT theorem is the transport of causal properties along a causal isomorphism."
+[[bind.geometric]]
+model = "quasilinear"
+proves = []
+by = ["T-loc-born-infeld-causal"]
+
+[[bind]]
+label = "erslem:lemma_orientation"
+ett = ["T-abs-causal-iso-invariance"]
+localisation = ["is_causal"]
+note = "Lemma 3.29 (ghd_02_19.tex:349). Time orientation of ∂_ρ, ∂_σ and stable causality through the time functions x⁰ (subluminal) and ±(ρ + σ) (superluminal). ETT: a continuous function strictly increasing along ≤ makes the causality causal (Causal.Causality.HasTimeFunction ⇒ is_causal, in T-abs-causal-iso-invariance)."
+[[bind.geometric]]
+model = "quasilinear"
+proves = ["is_causal"]
+by = ["T-loc-born-infeld-causal"]
+
+[[bind]]
+label = "erslem:glob_hyp_lemma"
+ett = ["T-abs-causal-iso-invariance"]
+localisation = ["globally_hyperbolic"]
+note = "Lemma 3.31 (ghd_02_19.tex:367). (U, g) GH with Cauchy surface S iff (V, m̂) is with Cauchy surface Ψ⁻¹(S): GH and Cauchy surfaces are invariant under the causal isomorphism Ψ (layer 1); 'causally equivalent metrics' is the layer-3 input (Lemma 3.27)."
+[[bind.geometric]]
+model = "quasilinear"
+proves = ["globally_hyperbolic"]
+by = ["T-loc-born-infeld-causal"]
+
+[[bind]]
+label = "erslem:sep_lemma"
+ett = ["T-abs-ers-etale-mghd"]
+localisation = []
+open_localisation = ["curve_nested"]
+open_reason = "The sub/superluminal dichotomy is a nesting (T-lad-nested-nodes)."
+note = "Lemma 3.32 (ghd_02_19.tex:380). Two Ψ-preimages of one point are m̂-spacelike separated (subluminal) or timelike separated (superluminal). This is the mechanism: a GH development of (V, m̂) can contain two preimages only in the subluminal case, so the developing map of an MGHD is injective in the superluminal case (T-abs-ers-etale-mghd). Layer 3 computation."
+[[bind.geometric]]
+model = "quasilinear"
+proves = []
+by = ["T-loc-born-infeld-causal"]
+
+[[bind]]
+label = "ersthm:global_theorem"
+ett = ["T-abs-ers-etale-mghd"]
+localisation = []
+note = "Thm 3.35 (ghd_02_19.tex:401). Ψ : ℝ² → ℝ² is a global diffeomorphism when Φ₁'²Φ₂'² < 1 everywhere: the developing map is injective, the solution global. Layer 3 (monotonicity of F(·; η))."
+[[bind.geometric]]
+model = "quasilinear"
+proves = []
+by = ["T-loc-born-infeld-causal"]
+
+[[bind]]
+label = "erslem:solution_theorem_global_theorem"
+ett = ["T-abs-causal-iso-invariance"]
+localisation = ["globally_hyperbolic"]
+note = "Lemma 3.39 (ghd_02_19.tex:426). The global solution is GH: (ℝ², m̂) is 1+1 Minkowski (a model fact) and GH transports along Ψ (Lemma 3.31)."
+[[bind.geometric]]
+model = "minkowski"
+proves = ["globally_hyperbolic"]
+by = ["Causal.minkowski_globallyHyperbolic"]
+[[bind.geometric]]
+model = "quasilinear"
+proves = ["globally_hyperbolic"]
+by = ["T-loc-born-infeld-causal"]
+
+[[bind]]
+label = "ersthm:ThmNonUniqueness"
+ett = ["T-abs-ers-etale-mghd"]
+localisation = []
+open_localisation = ["curve_nested"]
+open_reason = "Subluminality is a nesting (T-lad-nested-nodes); the theorem is the counterexample showing that subluminal nesting alone gives neither connected overlaps nor global uniqueness."
+note = "Thm 3.45 (ghd_02_19.tex:560, proof 564–724). Layer 4 (classification): two GHDs of one datum with a disconnected overlap on which they differ — the criterion separating 4.70 (superluminal: inextensible nesting of Cτ) and 4.72 (m-GH) from the general subluminal case. Causally: two flat 1+1 developments with overlapping developing maps (T-abs-ers-etale-mghd)."
+[[bind.geometric]]
+model = "quasilinear"
+proves = []
+by = ["T-loc-born-infeld-causal"]
+
+[[bind]]
+label = "ersrem:note_two_ghds_constructed"
+ett = ["T-abs-maximal-zorn"]
+localisation = []
+note = "Remark 3.56 (ghd_02_19.tex:731). Zorn gives an MGHD containing each of the two GHDs, and they are distinct: maximal developments exist without uniqueness (Chruściel Thm 2.2's abstract existence, T-abs-maximal-zorn); the 'infinitely many' claim is left to the reader in the paper."
+
+# ------------------------------------------------------------------ §4.2 uniqueness for general quasilinear equations
+[[bind]]
+label = "ersprop:PropLocUniqueness"
+ett = ["T-abs-ers-unions", "Causal.isCauchyInclusion_iSup"]
+localisation = []
+open_localisation = ["local_uniqueness"]
+open_reason = "Local uniqueness is the PDE input (Sogge, energy estimates), not a ladder node (T-lad-development-nodes)."
+note = "Prop 4.63 (ghd_02_19.tex:836). The PDE gives agreement on small DS_p; the ETT part is that V = ⋃ DS_p is GH with Cauchy surface S (a union of local Cauchy developments of the pieces S_p, T-abs-ers-unions)."
+[[bind.geometric]]
+model = "quasilinear"
+proves = []
+by = ["T-loc-quasilinear-slice"]
+
+[[bind]]
+label = "ersthm:ThmUnique"
+ett = ["T-abs-ers-thm-4-64", "Causal.Causality.exists_spacelike_boundary_point"]
+localisation = ["globally_hyperbolic", "tarentin"]
+open_localisation = ["local_uniqueness", "cauchy_slice"]
+open_reason = "Steps 3–5 + Prop 4.63 are the slice restart and local uniqueness (T-lad-cbg-geometry-nodes, T-lad-development-nodes); no A3 is needed on a fixed background."
+note = "Thm 4.64 (ghd_02_19.tex:858, proof 865–912). Step 1 the MCGHD V₀ as a union; Step 2 a boundary point with J⁻(p) ∩ ∂V₀ ∩ J⁺(S) = {p} (null geodesics replaced by a minimal point of a compact set, exists_spacelike_boundary_point); Step 3 is Sbierski's Lemma 3.11 (open-set form owed); Steps 4–5 the τ_q slice and Prop 4.63. The skeleton with Steps 3–5 named is T-abs-ers-thm-4-64."
+[[bind.geometric]]
+model = "quasilinear"
+proves = ["globally_hyperbolic", "tarentin"]
+by = ["T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice"]
+
+[[bind]]
+label = "ersrem:RemTime"
+ett = ["T-abs-ers-thm-4-64"]
+localisation = ["globally_hyperbolic"]
+note = "Remark 4.67 (ghd_02_19.tex:914). Under 4.64, U₁ ∩ U₂ is the MCGHD and a point to the future of S in U₁ is to its future in U₂: the `hpair` of Causal.Causality.ers_theorem_4_77."
+[[bind.geometric]]
+model = "quasilinear"
+proves = ["globally_hyperbolic"]
+by = ["T-loc-quasilinear-causal-ladder"]
+
+[[bind]]
+label = "erscor:CorDisCon"
+ett = ["T-abs-ers-thm-4-64"]
+localisation = []
+note = "Cor 4.68 (ghd_02_19.tex:921): the contrapositive of 4.64 — disagreement forces a disconnected overlap (the only mechanism of non-uniqueness, cf. Thm 3.45)."
+
+[[bind]]
+label = "erscor:globally_defined_globally_hyperbolic"
+ett = ["T-abs-ers-thm-4-64", "Causal.isConnected_of_curves"]
+localisation = []
+note = "Cor 4.69 (ghd_02_19.tex:926): U₁ = ℝ^{d+1} makes U₁ ∩ U₂ = U₂, connected (every point on an inextensible curve meeting the connected S)."
+
+# ------------------------------------------------------------------ §4.3 superluminal, §4.4 subluminal
+[[bind]]
+label = "erslem:LemConnected"
+ett = ["Causal.Causality.ers_lemma_4_70", "Causal.Causality.ers_lemma_4_70_isConnected", "Causal.Causality.ers_lemma_4_70_core"]
+localisation = ["is_causal"]
+open_localisation = ["inextensible_nested"]
+open_reason = "(4.62) is read as InextensibleNestedOn Cτ C_i (OQ-41 (b), T-lad-nested-inextensible, blocked); is_causal is Cτ's (no closed orbit of T)."
+note = "Lemma 4.70 (ghd_02_19.tex:939). The integral curve of T through x, inextensible in each U_i, meets S once: its segment to S lies in U₁ ∩ U₂, which is connected through S."
+[[bind.geometric]]
+model = "quasilinear"
+proves = ["is_causal"]
+by = ["T-loc-quasilinear-nesting"]
+
+[[bind]]
+label = "erscor:CorSupLum"
+ett = ["Causal.Causality.ers_lemma_4_70", "T-abs-ers-thm-4-64"]
+localisation = ["is_causal", "globally_hyperbolic", "tarentin"]
+open_localisation = ["inextensible_nested", "local_uniqueness", "cauchy_slice"]
+open_reason = "As 4.70 and 4.64."
+note = "Cor 4.71 (ghd_02_19.tex:959): 4.70 + 4.64, global uniqueness for superluminal equations."
+[[bind.geometric]]
+model = "quasilinear"
+proves = ["is_causal", "globally_hyperbolic", "tarentin"]
+by = ["T-loc-quasilinear-nesting", "T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice"]
+
+[[bind]]
+label = "erslem:two_ghds_subluminal_quasilinear"
+ett = ["Causal.Causality.ers_lemma_4_72", "Causal.Causality.ers_lemma_4_72_isConnected"]
+localisation = ["is_causal"]
+open_localisation = ["curve_nested", "curves_extend"]
+open_reason = "Subluminality is CurveNestedOn C₂ C_m (T-lad-nested-nodes); CurvesExtend of Minkowski is in Lean but not a node (T-lad-cbg-geometry-nodes). OQ-41 (c): S is taken m-acausal where ERS print m-achronal."
+note = "Lemma 4.72 (ghd_02_19.tex:976). A g(u₂)-causal curve is m-causal, so it cannot leave the m-GH U₁ before meeting S. is_causal is Minkowski's."
+[[bind.geometric]]
+model = "minkowski"
+proves = ["is_causal"]
+by = ["Causal.minkowski_isCausal", "Causal.minkowski_curvesExtend"]
+[[bind.geometric]]
+model = "quasilinear"
+proves = []
+by = ["T-loc-quasilinear-nesting"]
+
+[[bind]]
+label = "erscor:CorUniqueSub"
+ett = ["Causal.Causality.ers_lemma_4_72", "T-abs-ers-thm-4-64"]
+localisation = ["is_causal", "globally_hyperbolic", "tarentin"]
+open_localisation = ["curve_nested", "curves_extend", "local_uniqueness", "cauchy_slice"]
+open_reason = "As 4.72 and 4.64."
+note = "Cor 4.73 (ghd_02_19.tex:988): 4.72 + 4.64, every m-GHD is a UGHD."
+[[bind.geometric]]
+model = "minkowski"
+proves = ["is_causal"]
+by = ["Causal.minkowski_isCausal", "Causal.minkowski_curvesExtend"]
+[[bind.geometric]]
+model = "quasilinear"
+proves = ["globally_hyperbolic", "tarentin"]
+by = ["T-loc-quasilinear-nesting", "T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice"]
+
+[[bind]]
+label = "ersrem:us_remark_better_bounds"
+ett = ["Causal.Causality.LeNested.trans", "Causal.Causality.ers_lemma_4_72"]
+localisation = []
+open_localisation = ["curve_nested"]
+open_reason = "A nesting (T-lad-nested-nodes)."
+note = "Remark 4.74 (ghd_02_19.tex:993). A better a-priori cone bound is a narrower wider causality C_g ≤ C_b ≤ C_m: 4.72 applied with C_b gives more UGHDs (nesting is transitive)."
+
+# ------------------------------------------------------------------ §4.5–4.8 existence, MGHD, MUGHD, one-sided boundaries
+[[bind]]
+label = "ersthm:ThmEx"
+ett = ["T-abs-ers-unions"]
+localisation = []
+open_localisation = ["local_uniqueness"]
+open_reason = "Local existence on {t = 0} patches (Sogge) and 4.64 on the components (T-lad-development-nodes)."
+note = "Thm 4.75 (ghd_02_19.tex:1001). Patching: each component A of DS_p ∩ DS_q meets S_p ∩ S_q along integral curves of the normal N, the two local developments agree on A by 4.64 and a boundary argument, and the union is GH with Cauchy S."
+[[bind.geometric]]
+model = "quasilinear"
+proves = []
+by = ["T-loc-quasilinear-slice"]
+
+[[bind]]
+label = "ersthm:ThmUMGHD"
+ett = ["Causal.Causality.ers_theorem_4_77", "Causal.Causality.ers_theorem_4_77_greatest"]
+localisation = ["is_causal"]
+open_localisation = ["inextensible_nested"]
+open_reason = "Through Cor 4.71 (OQ-41 (b)). OQ-41 (d): the Lean skeleton adds 'the union is causal' and concludes 'S is a Cauchy surface', not GH (Geroch (iii) ⇒ (i) unproved)."
+note = "Thm 4.77 (ghd_02_19.tex:1031): the union of all GHDs is the unique MGHD; its Cauchy property by ERS's open–closed argument along a curve (the `step` of ers_theorem_4_77)."
+[[bind.geometric]]
+model = "quasilinear"
+proves = ["is_causal"]
+by = ["T-loc-quasilinear-nesting"]
+
+[[bind]]
+label = "ersrem:RemMGHD"
+ett = ["Causal.Causality.ers_theorem_4_77_greatest"]
+localisation = []
+note = "Remark 4.78 (ghd_02_19.tex:1047): the union construction works whenever global uniqueness holds — ers_theorem_4_77_greatest takes the agreement on pairwise intersections as hypothesis."
+
+[[bind]]
+label = "ersthm:ThmMUGHD"
+ett = ["T-abs-ers-unions"]
+localisation = []
+open_localisation = ["curve_nested"]
+open_reason = "Through Cor 4.73 (T-lad-nested-nodes)."
+note = "Thm 4.79 (ghd_02_19.tex:1055). The union of all UGHDs is the MUGHD; non-empty because D_m(S) ∩ U₁ is an m-GHD (O'Neill 14.38, 14.43), hence a UGHD by 4.73. The m-MGHD is contained in it, in general strictly."
+[[bind.geometric]]
+model = "minkowski"
+proves = []
+by = ["Causal.minkowski_curvesExtend"]
+
+[[bind]]
+label = "ersthm:consider_subluminal_quasilinear_wave"
+ett = ["T-abs-ers-unions", "Causal.Causality.ers_theorem_4_77_greatest"]
+localisation = []
+open_localisation = ["curve_nested"]
+open_reason = "Through Cor 4.73 (T-lad-nested-nodes)."
+note = "Thm 4.80 (ghd_02_19.tex:1066): the unique m-MGHD, by Remark 4.78's union over the m-GHDs with 4.73 as global uniqueness."
+
+[[bind]]
+label = "ersthm:ThmNotBlocking"
+ett = ["Causal.Causality.ers_theorem_4_82", "Causal.Causality.frontier_connectedComponentIn_inter", "Causal.Causality.exists_spacelike_boundary_point"]
+localisation = ["globally_hyperbolic", "tarentin"]
+open_localisation = ["one_sided_boundary", "cauchy_slice", "local_uniqueness"]
+open_reason = "(4.83) enters through its topological content `honesided` (T-lad-development-nodes); `hstep` is Steps 3–5 of 4.64 + Prop 4.63 (T-lad-cbg-geometry-nodes, T-lad-development-nodes). OQ-41 (e): ∂S read as closure(S) ∖ S."
+note = "Thm 4.82 (ghd_02_19.tex:1100, proof 1114–1139). The component A of U₁ ∩ U₂ through S has boundary points in U₂ on ∂U₁ (4.84); a spacelike one (4.85) without null geodesics; one-sidedness puts a neighbourhood's trace on U₁ inside A; the restart extends the MGHD: contradiction."
+[[bind.geometric]]
+model = "quasilinear"
+proves = ["globally_hyperbolic", "tarentin"]
+by = ["T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice", "T-loc-quasilinear-one-sided"]
+
+[[bind]]
+label = "erslem:PropertyTimelike"
+ett = ["Causal.Causality.ers_theorem_4_82"]
+localisation = []
+open_localisation = ["one_sided_boundary", "curve_nested"]
+open_reason = "(4.87) is a nesting of the slope-δ cone causality in C_g (T-lad-nested-nodes); its output (4.83) is one_sided_boundary (T-lad-development-nodes)."
+note = "Lemma 4.86 (ghd_02_19.tex:1143, proof 1159–1169). A layer-3 lemma (coordinates of ℝ^{d+1}): if the cone of slope δ around ∂₀ is g-timelike, a C_δ-past-inextensible curve from a point above the graph would miss S, so ∂U₁ is the graph of the continuous f⁺; it supplies (4.83) to 4.82. Its proof is causal once the narrow cone is a nested Minkowski-type causality: T-loc-quasilinear-one-sided."
+[[bind.geometric]]
+model = "quasilinear"
+proves = []
+by = ["T-loc-quasilinear-one-sided"]
