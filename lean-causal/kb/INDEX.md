@@ -53,3 +53,4 @@ rediscover. One fact per entry.
 | [0045](entries/0045-inextensibility-not-monotone-under-nesting.md) | pitfall | Inextensibility is not monotone under nesting |
 | [0046](entries/0046-cutline-counterexample.md) | pattern | A cheap local counterexample for nesting questions: the cut line |
 | [0047](entries/0047-model-free-lemmas-stranded.md) | pitfall | Model-free lemmas stranded in model-importing modules |
+| [0048](entries/0048-causal-ladder-tactic.md) | pattern | The `causal_ladder` tactic, and regenerating its rules |

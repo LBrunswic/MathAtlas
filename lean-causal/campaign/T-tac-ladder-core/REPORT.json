@@ -1,0 +1,67 @@
+{
+ "package": "lean-causal",
+ "target": "T-tac-ladder-core",
+ "files": [
+  "Causal/Ladder/Basic.lean",
+  "Causal/Ladder/Rules.lean",
+  "Causal/Ladder/Test.lean",
+  "../tools/ladder.py (emit_lean and what it needs; the emit-lean command)",
+  "../tests/test_programme.py (new class LadderEmit, 14 tests)"
+ ],
+ "builds": true,
+ "build_command": "lake build Causal.Ladder.Basic Causal.Ladder.Rules Causal.Ladder.Test (strict library, warningAsError): success, only these three modules rebuilt; Test elaborates 137 examples in about 2 s",
+ "sorry_count": 0,
+ "labels": [],
+ "tactic": {
+  "basic": "Causal/Ladder/Basic.lean imports only Aesop: declare_aesop_rule_sets [CausalLadder] and `macro \"causal_ladder\" : tactic` = aesop (rule_sets := [-default, CausalLadder]) (config := { terminal := true, enableSimp := false, enableUnfold := false, maxRuleApplications := 200 }). Fails fast: it closes the goal or fails, never leaves a goal; mathlib's global @[aesop] rules are off, the builtin set (assumption, splitting a conjunction or an existential, subst) is kept; no simp, so no ladder property is unfolded or rewritten.",
+  "rule_shape": "Every rule is `aesop safe forward`, not `safe apply` as the old emit_lean wrote. A forward rule matches a conjunctive premise as it stands (all premises from the context), a cycle (strongly_causal ⇔ strongly_causal_open on a tarentin causally open spacetime) terminates because aesop adds no hypothesis whose type is already present, and a safe rule never commits the search to a branch that cannot close. A safe apply rule on the conjunctive witness would commit to an unprovable branch; an unsafe one would explore the cycle up to the limits before failing.",
+  "checked_usage": "Verified in scratch files (not shipped): as a term argument `(by causal_ladder)`, with a conjunctive hypothesis, with a conjunctive goal, on `C.dual`, through `∃ D, D.CausallyOpen ∧ D = C`, and saturating 40 forward steps over 20 subjects."
+ },
+ "emit_lean": {
+  "change": "tools/ladder.py emit-lean now writes Rules.lean AND Test.lean. A checked edge becomes a rule only if it (1) has a premise, (2) has an empty `under` (every `under` is skipped, the T1-only one of StronglyCausal.isCausal included, as the target asks), (3) joins properties of the sort `causality` only (a `sort = \"geometry\"` property, which the ladder-keeper is introducing right now, never becomes a rule: the keeper's header says geometry edges are withheld until emit-lean can keep them out, and now it does), (4) has a witness found in lean-causal/Causal, and (5) has a witness whose module imports no model, directly or transitively (MODEL_LAYER = Causal.Minkowski, Causal.Static, Causal.SingularFlat, Causal.Flat.*, Causal.Model.*, Causal.Port.*). Each skipped checked edge is a `-- skipped <witness> (<edge>): <reason>` line in Rules.lean; for the layer reason the line gives the shortest import chain to a model. Rules.lean imports Causal.Ladder.Basic plus the witnesses' modules. Seed edges are ignored, as before.",
+  "lean_index": "New stdlib-only reader of the sources (no Lean run), used only by emit-lean: comments stripped, namespaces and sections tracked, so every declaration has its fully qualified name and module; module headers give the import graph; every def/abbrev has its explicit binders and type. It resolves all 54 names of the current ladder exactly. It finds 7861 declarations; the only names the existing lax `lean_names` finds and it does not are 21 English words in docstrings. Its import closure agrees with the dispatch: 40 of 210 modules are ETT-layer, and the only CBG ones are CBG.FamilyGluing and CBG.SubExtensionAbstract; LemmaK, ChainsOrder, CurvesExtend and MinkowskiMeasure reach Causal.Minkowski. `check`, `matrix` and `resolves` are untouched (T-tool-ladder-py's).",
+  "tests": "14 new tests in tests/test_programme.py (class LadderEmit; 27/27 pass): an edge with `under` is skipped and commented; a conjunctive edge is one forward rule; only the emitted witnesses' modules are imported; a witness whose module reaches a model (through an intermediate module) is skipped with the chain; is_model/model_path (Causal.MinkowskiMeasure is not a model module by name, only by imports); geometry sort and witnesses that are not found are skipped; seed edges are ignored; Test derives exactly the closure of the emitted edges (an `under` edge is not chained); each premise of a 3-premise rule is dropped; a refuted pair is a not-derived example; only predicates on one causality get examples (Precausality via C.toPrecausality; a binary def, a model-layer def and a geometry property get none); lean_index on a hand-built tree (namespaces, sections, _root_, attributes with nested brackets, a declaration in a comment that must not count, multi-line binders); the shipped index resolves the ladder; and the shipped Rules.lean and Test.lean equal emit-lean's output. Mutation-checked: switching off the under, sort or layer guard, or dropping the premise-drop negatives, turns at least one new test red."
+ },
+ "rules_generated": [
+  "strongly_causal ∧ tarentin ∧ causally_open ⇒ strongly_causal_open: Causal.Causality.StronglyCausal.stronglyCausalOpen (Causal.GlobalHyperbolicity)",
+  "strongly_causal_open ⇒ strongly_causal: Causal.Causality.StronglyCausalOpen.stronglyCausal (Causal.Properties)",
+  "causally_arc_connected ⇒ absolutely_minimal: Causal.Causality.CausallyArcConnected.absolutelyMinimal (Causal.ArcConnected)",
+  "causally_open ⇒ causally_open_future: Causal.Causality.CausallyOpen.future (Causal.Properties)"
+ ],
+ "skipped_edges": {
+  "under": [
+   "Causal.Causality.StronglyCausal.isCausal (strongly_causal ⇒ is_causal): [T1Space M]",
+   "Causal.Causality.GloballyHyperbolic.stronglyCausal (globally_hyperbolic ∧ tarentin ⇒ strongly_causal): [T2Space M]",
+   "Causal.Causality.CausallyArcConnected.pushUp (causally_arc_connected ⇒ push_up): local push-up",
+   "Causal.Causality.causallyOpen_of_pushUp (push_up ⇒ causally_open): chronal neighbours in every open set",
+   "Causal.Causality.AbsolutelyMinimal.causallyOpenFuture (absolutely_minimal ⇒ causally_open_future): local causal openness in the future",
+   "Causal.Causality.AbsolutelyMinimal.causallyOpen (absolutely_minimal ⇒ causally_open): two-sided local causal openness",
+   "Causal.Causality.exists_timeFunction_of_secondCountable (globally_hyperbolic ∧ tarentin ⇒ time_function): [T2Space M] [SecondCountableTopology M] (an edge the ladder-keeper added during this run)"
+  ],
+  "layer": [
+   "Causal.Causality.curvesExtend_of_timeFunction (time_function ⇒ curves_extend): lives in Causal.CurvesExtend, which imports Causal.Minkowski directly (an edge the ladder-keeper added during this run)"
+  ],
+  "sort": [],
+  "not_found": []
+ },
+ "closure_pairs": {
+  "derived": "5 examples: 3 pairs of single properties (strongly_causal_open ⇒ strongly_causal, causally_open ⇒ causally_open_future, causally_arc_connected ⇒ absolutely_minimal) and 2 from the premises of the conjunctive rule (strongly_causal ∧ tarentin ∧ causally_open ⇒ strongly_causal_open, and ⇒ causally_open_future). This is the whole closure of the 4 emitted edges.",
+  "not_derived": "132 examples, each `fail_if_success`: every other ordered pair of the 12 properties written (12×11 − 3 = 129) and the 3 premise drops of the conjunctive rule. Of the 129, 9 are pairs the matrix calls `implied` only through a skipped `under` edge (e.g. strongly_causal ⇏ is_causal, absolutely_minimal ⇏ causally_open, causally_arc_connected ⇏ push_up), 6 are refuted by the keeper's 3 new counterexamples (is_causal, globally_hyperbolic and curves_extend ⇏ absolutely_minimal and causally_arc_connected), 1 is open and 113 are unknown.",
+  "not_written": "time_function (its def, Causal.Causality.HasTimeFunction, is in Causal.CBG.Pgcd, which imports a model) and the three geometry-sort properties rigid, germ_extension and cauchy_slice (not predicates on one causality). Each is a `-- no example for` line in Test.lean.",
+  "layer_guard": "Test.lean begins with a `run_cmd` that throws if any module of MODEL_LAYER is in its environment's imports, so the ETT-layer rule is also checked by Lean at build time, not only by the Python reader. Checked to fire on a module that is imported."
+ },
+ "aesop_could_not": [
+  "Hypotheses under a binder: from `h : ∀ U, (C.restrict U).P` the rules do not instantiate U. The rules are forward, so they read only hypotheses of the form `P t`. Backward rules were not added, for the commitment and cycle reasons given in tactic.rule_shape.",
+  "Time reversal: `C.CausallyOpen ⊢ C.dual.CausallyOpenFuture` is true (causallyOpen_iff) but is not a ladder edge, so it is not derived (checked). The library has `dual_X : C.dual.X ↔ C.X` for is_causal, strongly_causal(_open), tarentin, globally_hyperbolic, causally_open, push_up and absolutely_minimal. As rules they need care: forward `.mpr` would loop (C.dual.dual.…), while forward `.mp` together with apply `.mpr` shrinks the term and terminates. This needs a ladder field naming each property's dual lemma.",
+  "Definitional implications: `globally_hyperbolic ⇒ is_causal` is `hG.1` (GloballyHyperbolic := IsCausal ∧ …) and `causally_open ⇒ causally_open_future` is `h.1`. The tactic does not unfold definitions (reducible transparency, no simp), on purpose, so the second is derived only because the ladder names CausallyOpen.future, and the first is not derived at all: there is no named witness and no ladder edge (verified by a not-derived example: globally_hyperbolic ⇏ is_causal, matrix unknown).",
+  "Side conditions as rules: a forward rule is in fact harmless for a conditional edge, because it fires only when the side hypothesis is literally in the context. Checked in scratch: StronglyCausal.isCausal fires with [T1Space M] and does not without it; AbsolutelyMinimal.causallyOpenFuture fires once `hloc` is a hypothesis. The danger the roadmap names (unprovable side goals, metavariables in pushUp) belongs to apply rules. They stay skipped as the target asks; T-tool-ladder-py may emit the separation-only edges as forward rules once standing hypotheses have a field of their own."
+ ],
+ "patterns_mined": "None. This dispatch's files are the three Ladder modules, emit_lean and new tests; Causal/Tactic/ was not in scope.",
+ "extra_decls": [],
+ "kb_proposals": [
+  "causal_ladder (import Causal.Ladder.Rules) closes a ladder property of a term from the ladder properties in the context; it uses no hypothesis under a binder, does not reason across C.dual, and never unfolds a definition.",
+  "Causal/Ladder/Rules.lean and Test.lean are generated: after any change to programme/ladder.toml, or to the imports of a witness's module, run `python3 tools/ladder.py emit-lean` and rebuild Causal.Ladder.Rules and Causal.Ladder.Test; tests/test_programme.py fails on a stale or hand-edited copy.",
+  "Aesop forward rules suit implication graphs: conjunctive premises are free, cycles terminate by deduplication, and conditional edges never fire without their side hypothesis."
+ ],
+ "notes": "For the master: (1) the files on disk were generated from programme/ladder.toml as it stood at the end of this run, including the ladder-keeper's uncommitted edits (16 properties, 12 implications, 3 counterexamples). Re-run `python3 tools/ladder.py emit-lean` at integration, then `lake build Causal.Ladder.Rules Causal.Ladder.Test`. The new test `test_shipped_rules_and_tests_are_generated` fails until emit-lean is re-run after any later change to the ladder, by design: this is the nohand rule for these two files. (2) Add Causal.Ladder.Basic, Causal.Ladder.Rules and Causal.Ladder.Test to Causal.lean; the lakefile glob already builds them with `lake build Causal`. (3) The ladder.toml header (keeper's, uncommitted) says that tools/ladder.py does not read `sort` and that emit-lean turns every checked single-premise edge into a rule. Both are now false for emit-lean, which reads `sort` and emits forward rules, conjunctions included, only for unconditional ETT-layer edges, so the keeper may update those lines; `matrix` and `check` still ignore `sort` and `under`. (4) Suggested for T-lad-classify-core: a one-line lemma Causal.Causality.GloballyHyperbolic.isCausal (hG.1) would make globally_hyperbolic ⇒ is_causal an unconditional edge, and so a rule. (5) lean-causal/README.md has no row yet for Causal.Ladder.*; it is not my file to edit. (6) No git command was run; scratch experiments are in /tmp/ladder-scratch and /tmp/ladder-mut, outside the repository."
+}
