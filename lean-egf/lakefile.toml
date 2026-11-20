@@ -1,0 +1,30 @@
+name = "EGF"
+defaultTargets = ["EGF"]
+
+# The library of the paper `egf`: Ergodic Generative Flows (Brunswic et al., ICML 2025), formalized
+# in a package of its own at the hub's pin (DEC-133, as DEC-112 did for Benzécri), without waiting
+# for OQ-1 (whether GFNBoundsLean is absorbed in-tree). The headline anchor is EGF.main_universality.
+#
+# Layout: wave 0 imports Mathlib ONLY. Reusing GFNBounds.Core (kernels, mixing sums, the sampling
+# theorem), which the EGF ledger's roadmap intro names, would `require` GFNBoundsLean, the read-only
+# `lean/` submodule; that choice belongs to the first EGF target (T-egf-headline) and, past it, to
+# OQ-1. GFNBoundsLean never imports this package.
+#
+# Mathlib at the hub's pin (hub.toml): tag v4.31.0, frozen by lake-manifest.json to fabf563a7c95.
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "v4.31.0"
+
+# The STRICT library. `sorry` is a compile error here: warningAsError.
+[[lean_lib]]
+name = "EGF"
+globs = ["EGF.*"]
+leanOptions = { warningAsError = true }
+
+# The SCAFFOLD library. `sorry` is permitted and tagged `SORRY(<label>): <obstruction>`. Not a
+# default target, and never imported by `EGF`: graduation is a file move.
+[[lean_lib]]
+name = "EGFScaffold"
+srcDir = "scaffold"
+globs = ["EGFScaffold.*"]
