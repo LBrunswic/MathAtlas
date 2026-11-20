@@ -1,3 +1,16 @@
 # The /ett-programme journal
 
 One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKILL.md`).
+
+## 2026-11-20 19:45 · wave of 5 · T-lad-seed-check, T-pkg-sbierski-mghd, T-pkg-ers-predictability, T-abs-gluing-hausdorff, T-abs-nested-causalities
+- T-lad-seed-check (ladder): the 7 seeded edges and the consequence read against their witnesses' signatures; `from` corrected on 2 edges (tarentin), a localisation `under` on 3, the consequence split (J⁺ and J⁻); 3 implications and 9 consequences added; checked by `ladder.py check`. emit-lean NOT run: Rules.lean imports Causal.Ladder.Basic (T-tac-ladder-core creates it), and emit-lean would make conditional edges aesop safe rules; recorded in T-tac-ladder-core. The keeper proposes T-lad-local-nodes (LocallyPushUp, LocallyCausallyOpenFuture, chronal neighbours) and T-lad-gh-causal (GH ⇒ causal without tarentin; a causally_compact node), and four ladder.py changes (closure that skips localisation `under`, namespace resolution, conjunctive `at`, label check): for the planner
+- T-pkg-sbierski-mghd (package): papers/sbierski-mghd, 19 statements, 20 edges; two texgraph gaps fixed with tests (proof titles through secondary labels; digits in env names), story_lint accepts hyphenated slugs; no other ledger moved
+- T-pkg-ers-predictability (package): papers/ers-predictability, 32 statements, 34 edges
+- T-abs-gluing-hausdorff (abstract, layer 1): Causal.GluingHausdorff; assertions 1–2 marked, assertion 3 false as topology (Chruściel's "H is closed"), true forms proved; Sbierski's uniqueness and openness of C not topology; audit major (REPORT: a pdftotext artefact read as a typo in Sbierski) → minor (round 2); OQ-40
+- T-abs-nested-causalities (abstract, layer 1): Causal.NestedCausalities, nothing marked; wider GH ⇒ narrower GH iff narrower diamonds closed; nested domains under InextensibleNestedOn; ERS19 4.70/4.72/4.77/4.82 with named layer-3 inputs; audit major (REPORT: a claimed gap in ERS 4.70 that (4.62) excludes) → minor (round 2); OQ-41
+- ladder: 12/110 pairs classified (7 only under a localisation hypothesis), 10 checked edges, 10 consequences
+- binders: 0 binder(s) (T-bind-sbierski-mghd and T-bind-ers-predictability now unblocked, planner-owned)
+- gates: lean-causal ✓ (208 strict files, 0 sorry), ladder ✓, binder ✓, roadmaps ✓, tests ✓; hub: papers-check red on papers/egf and papers/syracuse only, their ledgers stale under /atlas-team's in-flight closers in lean-egf and lean-syracuse (paths it holds; not reverted), gate-tests red through papers-check; nothing of this wave red
+- commits: 685b84a 377fd99 6148937 89d49b8 b070c95 b03614f ca07081 c4d6baf
+- shared checkout: /atlas-team's push 2e8c12e carried the first three; lean-causal handed back to it for T-ett-deux-pushup-graduate
+- next: a planning run (rule 2: two papers set up since the planner last ran; the binder targets and the keeper's proposals); then wave: T-tac-ladder-core, T-abs-locate-extension, T-pub-blueprint, T-loc-ealpha-cauchy
