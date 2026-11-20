@@ -246,6 +246,9 @@ def docstring_label_re():
         re.escape(p) for p in CFG.label_prefixes))
 
 
+#: A curated decl: a dotted Lean name, no whitespace, brackets or punctuation of prose.
+LEAN_NAME = re.compile(r"^[^\s()\[\],;:]+$")
+
 DECL = re.compile(
     r"^\s*(?:@\[[^\]]*\]\s*)?(?:private\s+|protected\s+|noncomputable\s+)*"
     r"(theorem|lemma|def|structure|inductive|abbrev|instance|example)\s+"
@@ -1081,6 +1084,12 @@ def check():
             if f not in src:
                 fail.append("%s: listed Lean file %s does not exist" % (s["label"], f))
         for d in s["decls"]:
+            # A decl is a bare Lean name: prose ("(related, …) Causal.foo") is found by its last
+            # component below and would pass, while resolving to nothing in the environment.
+            if not LEAN_NAME.match(d):
+                fail.append("%s: decl %r is not a Lean name (prose belongs in notes)"
+                            % (s["label"], d))
+                continue
             f, ln = decl_line(src, s["lean_files"], d)
             if f is None:
                 fail.append("%s: declaration %s not found in its listed files"
