@@ -208,6 +208,7 @@ import Causal.GluingHausdorff
 import Causal.NestedCausalities
 import Causal.DeuxPushup
 import Causal.LocateExtension
+import Causal.LadderLocal
 import Causal.Ladder.Basic
 import Causal.Ladder.Rules
 import Causal.Ladder.Test

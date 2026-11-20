@@ -1,0 +1,68 @@
+{
+ "target": "T-abs-ladder-local-defs",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "T-abs-ladder-local-defs/locally-push-up",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "LocallyPushUp (∀ x, ∃ W : Opens M, x ∈ W ∧ C.PushUpOn W) is the inline hypothesis (hcover, hO) of CausallyArcConnected.pushUp (ArcConnected.lean:343-344, ι : Type v, O : ι → Opens M) up to the existential over the cover: an auditor probe proves LocallyPushUp ↔ ∃ (ι : Type u) (O : ι → Opens M), cover ∧ ∀ i, PushUpOn (O i), and locallyPushUp_of_cover takes ι : Sort*, so every universe of the original is covered. CausallyArcConnected.pushUp_of_locallyPushUp is choose + the original, no hypothesis added. Paper sentence (lem:pushup_local, ETT.tex:557-559) quoted verbatim in the docstring. PushUp.locallyPushUp, locallyPushUp_iff_nhds, PushUpOn.mono, dual_locallyPushUp proved."
+  },
+  {
+   "label": "T-abs-ladder-local-defs/locally-causally-open-future",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "LocallyCausallyOpenFuture is hloc of AbsolutelyMinimal.causallyOpenFuture (Minimal.lean:90-91) verbatim: probe `Iff.rfl` against the inline ∀ p, ∃ W : Opens M, p ∈ W ∧ C.CausallyOpenFutureOn W passes. The restated witness is the original applied, nothing added. Neighbourhood taken open is the existing library's reading of prop:topological_spacetime_absolutely_minimal (ETT.tex:698-701, quoted verbatim), not this target's."
+  },
+  {
+   "label": "T-abs-ladder-local-defs/locally-causally-open",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "LocallyCausallyOpen := LocallyCausallyOpenFuture ∧ C.dual.LocallyCausallyOpenFuture is (hloc, hloc') of AbsolutelyMinimal.causallyOpen (Minimal.lean:124-126): `Iff.rfl` probe passes. Restated witness = original applied to hloc.1 hloc.2. locallyCausallyOpen_iff (one neighbourhood for both sides) proved; CausallyOpen.locallyCausallyOpen, LocallyCausallyOpen.future, dual lemma proved. Two-sidedness is the DEC-8 ruling, not a closer reading."
+  },
+  {
+   "label": "T-abs-ladder-local-defs/chronal-neighbours",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "ChronalNeighbours := ChronalPastNeighbours ∧ C.dual.ChronalPastNeighbours is (hZm, hZp) of causallyOpen_of_pushUp (LemmaK.lean:93-98) definitionally (`Iff.rfl` probe against the two inline ∀ V, ∀ v ∈ V, ∃ p ∈ V, … forms passes), and matches the ladder `under` (ladder.toml, edge push_up ⇒ causally_open). The re-proof PushUp.causallyOpen_of_chronalNeighbours has exactly the strength of the LemmaK statement (probe: it yields CausallyOpen from PushUp, hZm, hZp) and is the same proof; LemmaK is model-importing (its closure reaches Causal.Minkowski, Causal.Static, Causal.Model.*, Causal.Flat.*), so the re-proof is what the dispatch asked. Separation lightlikeLine_separates_chronalNeighbours states PushUp ∧ CausallyOpen ∧ GloballyHyperbolic ∧ NoCausalEndpoint ∧ ¬ ChronalNeighbours, as reported. AbsolutelyMinimal.chronalPastNeighbours_iff [T1Space M] states what the finding says. Past as base direction is disclosed (question), compatible with kb/0002 (which fixes no base). See finding 1 on the wording of the second REPORT finding."
+  },
+  {
+   "label": "T-abs-ladder-local-defs/no-causal-endpoint",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "NoCausalEndpoint := NoPastEndpoint ∧ C.dual.NoPastEndpoint is (hpast, hfut) of inextensibleNestedOn_top / GloballyHyperbolic.inextensibleNestedOn_top (NestedCausalities.lean:433-436, 450-452) and (hJm, hJp) of ChainsCurves.lean:366-367 definitionally (`Iff.rfl` probe against ∀ x, C.Jminus ⊤ {x} ≠ {x} ∧ ∀ x, C.Jplus ⊤ {x} ≠ {x} passes); the paper's J^±(p) ≠ {p} (theo:geroch, ETT.tex:1258-1259, quoted verbatim) read as both signs. Both restated witnesses pass the original's arguments in order (no added hypothesis). ChainsCurves and LemmaK witnesses not restated: they import Causal.Minkowski / models (checked), disclosed in SCOPE and REPORT. Separation spacelikeLine_separates_noCausalEndpoint states PushUp ∧ CausallyOpen ∧ GloballyHyperbolic ∧ ¬ NoCausalEndpoint, as reported; its non-tarentin caveat is disclosed and correct (≪ empty, singletons have empty interior)."
+  },
+  {
+   "label": "T-abs-ladder-local-defs/one-sided-boundary",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "OneSidedBoundary (dom i₁) (closure S) is honesided of ers_theorem_4_82 (NestedCausalities.lean:1405-1406) verbatim (`Iff.rfl` probe passes); ers_theorem_4_82_of_oneSidedBoundary passes every argument of the original in order. Non-vacuity: oneSidedBoundary_Ioi_zero and not_oneSidedBoundary_compl_zero. The docstring's claim that ERS (4.83) gives OneSidedAt at each p ∈ ∂U₁ ∖ ∂S is mathematically correct (shrink the box: base ball B with f(B) ⊂ (f(x₀)−η, f(x₀)+η); the part below the graph has non-empty interval fibres, hence is connected), and is disclosed as unformalised (layer 3); it makes the Lean hypothesis weaker, so Lean ≥ (4.83). The ∂S finding is correct: S ⊆ U₁ open misses frontier U₁, so frontier U₁ ∖ closure S = frontier U₁ ∖ (closure S ∖ S); under any reading with ∂S ⊆ closure S the Lean hypothesis is implied by ERS's. ERS text (eperon2018predictability.txt:2029-2033) quoted faithfully. No causality argument: disclosed as a question for the keeper."
+  },
+  {
+   "label": "T-abs-ladder-local-defs/gh-causal",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "GloballyHyperbolic is IsCausal ∧ ∀ p q, IsCompact (diamond ⊤ p q) and CausallyCompact the second conjunct (Properties.lean:84, :144): GloballyHyperbolic.isCausal = h.1, .causallyCompact = h.2, globallyHyperbolic_iff = Iff.rfl, IsCausal.globallyHyperbolic = ⟨h, hK⟩, no tarentin. def:globally_hyperbolic (ETT.tex:995-996) and def:causally_compact (ETT.tex:350-351) quoted verbatim. dual_causallyCompact proved. Finding (GH ⇒ causal needs no tarentin) is true."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "details": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/LadderLocal.lean`: exit 0, no output. No `sorry`, `admit`, `axiom`, `native_decide` in the file. #print axioms on all 48 theorems (a copy of the file under /tmp, deleted): 41 depend on [propext, Classical.choice, Quot.sound], 7 on [propext, Quot.sound]; every REPORT-named declaration exists (58 names, none missing, none unlisted). Transitive Causal import closure: 23 modules, none of Causal.Minkowski, Causal.Static, Causal.Flat.*, Causal.Model.*, Causal.Port.*, Causal.SingularFlat; no Lorentzian or spacetime metric (Metric.ball / Real.dist_eq appear only as the topology of ℝ in the line witnesses). Name clashes: none — the file body elaborates after `import Causal` (all 209 strict modules) + Causal.Ladder.{Basic,Rules,Test}, and after `import CausalScaffold.LocateExtension` (olean 21:10:53, newer than its source 21:10:41); a source grep over Causal/ and scaffold/ (Causal/Ladder/Basic.lean is newer than its olean) finds no declaration of any of the 57 names elsewhere. Scope: `git status --short lean-causal` shows only the two dispatched paths and the legitimate in-flight siblings; no tracked lean-causal file modified; the modified programme/, roadmap/, tests/, tools/ files do not mention the new definitions (master/keeper/T-tac-ladder-core work)."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-causal/campaign/T-abs-ladder-local-defs/REPORT.json:191 (labels[chronal-neighbours].findings[1])",
+   "what": "\"So the converse of push_up ∧ chronal_neighbours ⇒ causally_open fails, and the side condition of that edge is genuine\" does not follow from the cited witness if 'genuine' is read as 'needed': the lightlike line is itself causally open, so it shows only that chronal neighbours are not a consequence of push-up (and of causal openness, GH, no causal endpoint), not that push-up alone fails to give causal openness. The stronger statement is true, but by another example: the auditor checked in Lean (probe under /tmp, deleted; standard axioms) a causality on ℝ with ≪ = ∅ and ≤_U the diagonal plus the single pair 0 ≤ 1 (0, 1 ∈ U), which has push-up (vacuously) while J^+_ℝ((−1,1)) = (−1,1] is not open.",
+   "fix": "Reword to \"chronal neighbours are not a consequence of push-up\", or add the example above as a `fails` entry push_up ⇏ causally_open_future (it is ~40 lines on ℝ, layer 1) if the keeper wants the side condition shown necessary."
+  }
+ ],
+ "notes_for_master": [
+  "Graduation (kb/0015): the module is not imported by scaffold/CausalScaffold.lean (outside the dispatched paths, so correctly untouched), so scripts/AxiomSweep.lean does not see it until it moves to Causal/ and Causal.lean imports it; no scaffold import inside it, so graduation is a file move.",
+  "In-flight sibling T-abs-locate-extension: no clash today (joint elaboration passes). Both files add lightlikeLine_* facts (there: lightlikeLine_causallyArcConnected, lightlikeLine_tarentin; here: lightlikeLine_causallyOpen, lightlikeLine_globallyHyperbolic, lightlikeLine_noCausalEndpoint, lightlikeLine_not_chronalNeighbours): rerun a joint elaboration if LocateExtension changes before both graduate.",
+  "The checklist header is `| inline hypothesis | here |` rather than kb/0006's `| paper hypothesis | here |`: the right adaptation for pseudo-labels whose source is an inline hypothesis; SCOPE and Provenance present and true; all seven marks within the first 4000 characters (last at char 2093)."
+ ]
+}

@@ -1,0 +1,568 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-ladder-local-defs",
+ "files": [
+  "scaffold/CausalScaffold/LadderLocal.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "T-abs-ladder-local-defs/locally-push-up",
+   "source": [
+    {
+     "paper": "programme/ladder.toml",
+     "statement": "under of the edge causally_arc_connected ⇒ push_up (witness Causal.Causality.CausallyArcConnected.pushUp): 'M is covered by open sets O i each having push-up as a spacetime'",
+     "text_lines": "programme/ladder.toml:236"
+    },
+    {
+     "paper": "lean-causal",
+     "statement": "hcover, hO of Causal.Causality.CausallyArcConnected.pushUp",
+     "text_lines": "lean-causal/Causal/ArcConnected.lean:343-344"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "lem:pushup_local",
+     "text_lines": "ETT.tex:557-559"
+    }
+   ],
+   "tex_lines": [
+    557,
+    559
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.Causality.LocallyPushUp",
+    "Causal.Causality.PushUpOn.mono",
+    "Causal.Causality.dual_locallyPushUp",
+    "Causal.Causality.locallyPushUp_of_cover",
+    "Causal.Causality.locallyPushUp_iff_nhds",
+    "Causal.Causality.PushUp.locallyPushUp",
+    "Causal.Causality.CausallyArcConnected.pushUp_of_locallyPushUp",
+    "Causal.timelikeLine_locallyPushUp"
+   ],
+   "hypotheses": [
+    {
+     "paper": "a cover (U_i) of M by open subsets each having push-up",
+     "here": "carried",
+     "note": "LocallyPushUp: every point has an open W with PushUpOn W; the cover is this up to choose (locallyPushUp_of_cover one way, choose in pushUp_of_locallyPushUp the other); equivalent to the arbitrarily-small-neighbourhood form (locallyPushUp_iff_nhds), PushUpOn being hereditary (PushUpOn.mono)"
+    },
+    {
+     "paper": "M causally arc-connected",
+     "here": "carried",
+     "note": ""
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-ladder-local-defs/locally-causally-open-future",
+   "source": [
+    {
+     "paper": "programme/ladder.toml",
+     "statement": "under of the edge absolutely_minimal ⇒ causally_open_future (witness Causal.Causality.AbsolutelyMinimal.causallyOpenFuture)",
+     "text_lines": "programme/ladder.toml:255"
+    },
+    {
+     "paper": "lean-causal",
+     "statement": "hloc of Causal.Causality.AbsolutelyMinimal.causallyOpenFuture",
+     "text_lines": "lean-causal/Causal/Minimal.lean:90-91"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "prop:topological_spacetime_absolutely_minimal, 'there exists a neighbourhood U of p whose causality is open'",
+     "text_lines": "ETT.tex:698-701"
+    }
+   ],
+   "tex_lines": [
+    698,
+    701
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.Causality.LocallyCausallyOpenFuture",
+    "Causal.Causality.CausallyOpenFutureOn.mono",
+    "Causal.Causality.locallyCausallyOpenFuture_iff_nhds",
+    "Causal.Causality.CausallyOpenFuture.locallyCausallyOpenFuture",
+    "Causal.Causality.AbsolutelyMinimal.causallyOpenFuture_of_locallyCausallyOpenFuture"
+   ],
+   "hypotheses": [
+    {
+     "paper": "every p has a neighbourhood whose causality is open (J^+ only, as printed)",
+     "here": "carried",
+     "note": "LocallyCausallyOpenFuture, definitionally the hloc of the existing witness (neighbourhood taken open, as Causal.Minimal already does)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-ladder-local-defs/locally-causally-open",
+   "source": [
+    {
+     "paper": "programme/ladder.toml",
+     "statement": "under of the edge absolutely_minimal ⇒ causally_open (witness Causal.Causality.AbsolutelyMinimal.causallyOpen)",
+     "text_lines": "programme/ladder.toml:263"
+    },
+    {
+     "paper": "lean-causal",
+     "statement": "hloc, hloc' of Causal.Causality.AbsolutelyMinimal.causallyOpen",
+     "text_lines": "lean-causal/Causal/Minimal.lean:124-126"
+    }
+   ],
+   "tex_lines": [
+    698,
+    701
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.Causality.LocallyCausallyOpen",
+    "Causal.Causality.dual_locallyCausallyOpen",
+    "Causal.Causality.LocallyCausallyOpen.future",
+    "Causal.Causality.locallyCausallyOpen_iff",
+    "Causal.Causality.CausallyOpen.locallyCausallyOpen",
+    "Causal.Causality.AbsolutelyMinimal.causallyOpen_of_locallyCausallyOpen",
+    "Causal.timelikeLine_locallyCausallyOpen"
+   ],
+   "hypotheses": [
+    {
+     "paper": "local causal openness, two-sided (DEC-8 reading)",
+     "here": "carried",
+     "note": "LocallyCausallyOpen := LocallyCausallyOpenFuture ∧ dual.LocallyCausallyOpenFuture, definitionally hloc, hloc'; one neighbourhood serving both sides is equivalent (locallyCausallyOpen_iff)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-ladder-local-defs/chronal-neighbours",
+   "source": [
+    {
+     "paper": "programme/ladder.toml",
+     "statement": "under of the edge push_up ⇒ causally_open (witness Causal.Causality.causallyOpen_of_pushUp): 'for every open V and v ∈ V there are p, p' ∈ V with p ≪_V v and v ≪_V p''",
+     "text_lines": "programme/ladder.toml:246"
+    },
+    {
+     "paper": "lean-causal",
+     "statement": "hZm, hZp of Causal.Causality.causallyOpen_of_pushUp (Causal.LemmaK, model-importing)",
+     "text_lines": "lean-causal/Causal/LemmaK.lean:93-98"
+    }
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.Causality.ChronalPastNeighbours",
+    "Causal.Causality.ChronalNeighbours",
+    "Causal.Causality.dual_chronalNeighbours",
+    "Causal.Causality.ChronalPastNeighbours.mem_Zminus",
+    "Causal.Causality.ChronalNeighbours.mem_Zplus",
+    "Causal.Causality.AbsolutelyMinimal.chronalPastNeighbours_iff",
+    "Causal.Causality.PushUp.causallyOpenFuture_of_chronalPastNeighbours",
+    "Causal.Causality.PushUp.causallyOpen_of_chronalNeighbours",
+    "Causal.timelikeLine_chronalNeighbours",
+    "Causal.timelikeLine_causallyOpen_of_chronalNeighbours",
+    "Causal.lightlikeLine_not_chronalNeighbours",
+    "Causal.lightlikeLine_causallyOpen",
+    "Causal.lightlikeLine_globallyHyperbolic",
+    "Causal.lightlikeLine_separates_chronalNeighbours"
+   ],
+   "hypotheses": [
+    {
+     "paper": "hZm: ∀ V, ∀ v ∈ V, ∃ p ∈ V, p ≪_V v; hZp: the same to the future",
+     "here": "carried",
+     "note": "ChronalNeighbours := ChronalPastNeighbours ∧ dual.ChronalPastNeighbours, definitionally (hZm, hZp)"
+    },
+    {
+     "paper": "push-up",
+     "here": "carried",
+     "note": ""
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "causallyOpen_of_pushUp (Causal/LemmaK.lean:93) and causallyOpenFuture_of_pushUp (:82) are model-free but sit in a model-importing module; they are re-proved here (same four-line proof) as PushUp.causallyOpenFuture_of_chronalPastNeighbours / PushUp.causallyOpen_of_chronalNeighbours: a duplicate for T-abs-hoist-model-free (kb/0047's list should gain them).",
+    "Chronal neighbours are not implied by push-up, causal openness, global hyperbolicity and no causal endpoint together: the lightlike line has all four and an empty chronology (Causal.lightlikeLine_separates_chronalNeighbours). So the converse of push_up ∧ chronal_neighbours ⇒ causally_open fails, and the side condition of that edge is genuine.",
+    "Under absolute minimality on a T1 space, ChronalPastNeighbours is exactly 'I⁻(x) ≠ ∅ for every x' (AbsolutelyMinimal.chronalPastNeighbours_iff); with ChronalNeighbours every point is strongly tarentin (in Z⁺ and Z⁻) with no hypothesis."
+   ],
+   "questions": [
+    "Base direction of the one-sided notion: the library's convention puts the future as base (CausallyOpenFuture). I took the past as base (ChronalPastNeighbours; the future form is C.dual.ChronalPastNeighbours), because the witnesses take hZm first and past neighbours are what give FUTURE causal openness, so the future theorem stays the base one (kb/0002). Renaming before graduation is cheap if the author or keeper prefers ChronalFutureNeighbours.",
+    "Not to be merged with HasChronalNeighbour of the in-flight CausalScaffold.LocateExtension (one point, either side, chronology in M): ChronalNeighbours is both sides, at every point of every open V, chronology in V."
+   ]
+  },
+  {
+   "label": "T-abs-ladder-local-defs/no-causal-endpoint",
+   "source": [
+    {
+     "paper": "lean-causal",
+     "statement": "hpast, hfut of Causal.Causality.inextensibleNestedOn_top and Causal.Causality.GloballyHyperbolic.inextensibleNestedOn_top",
+     "text_lines": "lean-causal/Causal/NestedCausalities.lean:433-436, 450-452"
+    },
+    {
+     "paper": "lean-causal",
+     "statement": "hJm, hJp of Causal.Causality.Inextensible.not_forall_le_of_causallyCompact and its siblings (Causal.ChainsCurves, model-importing: not restated)",
+     "text_lines": "lean-causal/Causal/ChainsCurves.lean:366-367"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "theo:geroch, 'J^±(p) ≠ {p} for every p ∈ M'",
+     "text_lines": "ETT.tex:1258-1259"
+    },
+    {
+     "paper": "programme/ladder.toml",
+     "statement": "under of the Lemma K consequences ('J⁺(p) ≠ {p} and J⁻(p) ≠ {p} for every p')",
+     "text_lines": "programme/ladder.toml:358"
+    }
+   ],
+   "tex_lines": [
+    1258,
+    1259
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.Causality.NoPastEndpoint",
+    "Causal.Causality.NoCausalEndpoint",
+    "Causal.Causality.noPastEndpoint_iff",
+    "Causal.Causality.dual_noCausalEndpoint",
+    "Causal.Causality.inextensibleNestedOn_top_of_noCausalEndpoint",
+    "Causal.Causality.GloballyHyperbolic.inextensibleNestedOn_top_of_noCausalEndpoint",
+    "Causal.timelikeLine_noCausalEndpoint",
+    "Causal.timelikeLine_inextensibleNestedOn_top_of_noCausalEndpoint",
+    "Causal.lightlikeLine_noCausalEndpoint",
+    "Causal.spacelikeLine_globallyHyperbolic",
+    "Causal.spacelikeLine_causallyOpen",
+    "Causal.spacelikeLine_not_noCausalEndpoint",
+    "Causal.spacelikeLine_separates_noCausalEndpoint"
+   ],
+   "hypotheses": [
+    {
+     "paper": "J^-(x) ≠ {x} and J^+(x) ≠ {x} for every x (hpast, hfut)",
+     "here": "carried",
+     "note": "NoCausalEndpoint := NoPastEndpoint ∧ dual.NoPastEndpoint, definitionally (.1 past, .2 future); noPastEndpoint_iff: every point has a causal past point other than itself"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "No causal endpoint is not implied by push-up, causal openness and global hyperbolicity together: the spacelike line (≤ the diagonal) has all three and J^±(x) = {x} everywhere (Causal.spacelikeLine_separates_noCausalEndpoint). It is not tarentin, so this does not separate no_causal_endpoint from GH ∧ tarentin ∧ causally arc-connected, the hypotheses of the nesting theorem.",
+    "The witnesses with hJm/hJp in model-importing modules (Lemma K in Causal.LemmaK; Inextensible.not_forall_le_of_causallyCompact, not_forall_ge_…, causallyCompleteCurves_of_causallyCompact in Causal.ChainsCurves) cannot be restated in layer 1; they take NoCausalEndpoint's two components verbatim, so restating them after a hoist is one line each."
+   ],
+   "questions": [
+    "Base direction: past (NoPastEndpoint; the future form is C.dual.NoPastEndpoint), for the same reason as ChronalPastNeighbours (the witnesses take hpast/hJm first; Geroch's lt_ne uses J⁻ alone). Whether the keeper wants a one-sided node no_past_endpoint as well is open; only the two-sided one was asked."
+   ]
+  },
+  {
+   "label": "T-abs-ladder-local-defs/one-sided-boundary",
+   "source": [
+    {
+     "paper": "lean-causal",
+     "statement": "honesided of Causal.Causality.ers_theorem_4_82",
+     "text_lines": "lean-causal/Causal/NestedCausalities.lean:1405-1406"
+    },
+    {
+     "paper": "references/sbierski/text/eperon2018predictability.txt",
+     "statement": "ERS 1802.03020 Theorem 4.82, condition (4.83)",
+     "text_lines": "references/sbierski/text/eperon2018predictability.txt:2029-2035"
+    },
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-lad-development-nodes: one_sided_boundary (ERS (4.83)'s topological content)"
+    }
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.Causality.OneSidedAt",
+    "Causal.Causality.OneSidedBoundary",
+    "Causal.Causality.ers_theorem_4_82_of_oneSidedBoundary",
+    "Causal.oneSidedBoundary_Ioi_zero",
+    "Causal.not_oneSidedBoundary_compl_zero"
+   ],
+   "hypotheses": [
+    {
+     "paper": "honesided: ∀ p ∈ frontier U₁ \\ closure S, ∀ N ∈ 𝓝 p, ∃ V ∈ 𝓝 p, V ⊆ N ∧ IsPreconnected (V ∩ U₁)",
+     "here": "carried",
+     "note": "OneSidedBoundary (dom i₁) (closure S), definitionally; OneSidedBoundary U B takes the excluded set B as a parameter"
+    },
+    {
+     "paper": "ERS (4.83): a chart in which ∂U₁ is the graph of a continuous f, U₁ below, the complement above",
+     "here": "weakened",
+     "note": "as in the existing ers_theorem_4_82: only its topological content. (4.83) ⇒ OneSidedAt U₁ p by shrinking the box so that each vertical fibre of V ∩ U₁ is a non-empty interval; that step needs the chart and is not formalised (layer 3)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "ERS write ∂U₁ \\ ∂S (eperon2018predictability.txt:2029). Both readings of ∂S, the frontier of the hypersurface S in R^{d+1} (= closure S) and its edge (closure S \\ S), give the same set of boundary points, since S ⊆ U₁ misses frontier U₁ (U₁ open); the Lean form frontier U₁ \\ closure S is therefore not a choice."
+   ],
+   "questions": [
+    "OneSidedBoundary is not a property of a causality: it is a predicate on an open set U and an excluded set B (pure topology). It fits neither sort of programme/ladder.toml (causality: a predicate on one C; geometry: on a CBG geometry). Reading taken: defined in namespace Causal.Causality as the dispatch asks, with no C argument; the keeper must decide whether one_sided_boundary becomes a node of a new sort or stays an `under` in words naming Causal.Causality.OneSidedBoundary.",
+    "Reading taken for the node one_sided_boundary of T-lad-development-nodes: the topological content (OneSidedAt at each boundary point off closure S), not the chart condition (4.83) itself, which needs a manifold structure and is layer 3."
+   ]
+  },
+  {
+   "label": "T-abs-ladder-local-defs/gh-causal",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-lad-gh-causal: GH ⇒ causal without tarentin, and a causally_compact node; globally_hyperbolic ⇔ is_causal ∧ causally_compact as three checked edges"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "def:globally_hyperbolic; def:causally_compact",
+     "text_lines": "ETT.tex:995-996; ETT.tex:350-351"
+    }
+   ],
+   "tex_lines": [
+    995,
+    996
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.Causality.GloballyHyperbolic.isCausal",
+    "Causal.Causality.GloballyHyperbolic.causallyCompact",
+    "Causal.Causality.globallyHyperbolic_iff",
+    "Causal.Causality.IsCausal.globallyHyperbolic",
+    "Causal.Causality.dual_causallyCompact"
+   ],
+   "hypotheses": [
+    {
+     "paper": "GH := causal and every J_M(p,q) compact",
+     "here": "carried",
+     "note": "Causal.Causality.GloballyHyperbolic is IsCausal ∧ ∀ p q, IsCompact (diamond ⊤ p q) and CausallyCompact is the second conjunct verbatim, so all three are definitional (h.1, h.2, Iff.rfl)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "GH ⇒ causal needs no tarentin hypothesis (the ladder reaches is_causal from globally_hyperbolic only through tarentin and strongly_causal today): GloballyHyperbolic.isCausal is h.1."
+   ],
+   "questions": []
+  }
+ ],
+ "for_keeper": {
+  "definitions": [
+   {
+    "ladder_id": "locally_push_up",
+    "lean": "Causal.Causality.LocallyPushUp",
+    "what": "every point has an open neighbourhood W with PushUpOn W"
+   },
+   {
+    "ladder_id": "locally_causally_open_future",
+    "lean": "Causal.Causality.LocallyCausallyOpenFuture",
+    "what": "every point has an open neighbourhood W with CausallyOpenFutureOn W"
+   },
+   {
+    "ladder_id": "locally_causally_open",
+    "lean": "Causal.Causality.LocallyCausallyOpen",
+    "what": "LocallyCausallyOpenFuture of C and of C.dual (equivalently one neighbourhood for both, locallyCausallyOpen_iff)"
+   },
+   {
+    "ladder_id": "chronal_neighbours",
+    "lean": "Causal.Causality.ChronalNeighbours",
+    "what": "every v of every open V has p, p' ∈ V with p ≪_V v ≪_V p'"
+   },
+   {
+    "ladder_id": "chronal_past_neighbours (optional, one-sided)",
+    "lean": "Causal.Causality.ChronalPastNeighbours",
+    "what": "every v of every open V has p ∈ V with p ≪_V v"
+   },
+   {
+    "ladder_id": "no_causal_endpoint",
+    "lean": "Causal.Causality.NoCausalEndpoint",
+    "label": "theo:geroch (a hypothesis, no label of its own)",
+    "what": "J^±(x) ≠ {x} for every x"
+   },
+   {
+    "ladder_id": "no_past_endpoint (optional, one-sided)",
+    "lean": "Causal.Causality.NoPastEndpoint",
+    "what": "J^-(x) ≠ {x} for every x"
+   },
+   {
+    "ladder_id": "causally_compact",
+    "lean": "Causal.Causality.CausallyCompact",
+    "label": "def:causally_compact",
+    "what": "existing definition (Causal/Properties.lean:84); every diamond J(p,q) compact"
+   },
+   {
+    "ladder_id": "one_sided_boundary",
+    "lean": "Causal.Causality.OneSidedBoundary",
+    "what": "NOT a causality-sort property: a predicate on an open U and an excluded set B (U meets small neighbourhoods of each boundary point off B in a preconnected set); see the question"
+   }
+  ],
+  "implies": [
+   {
+    "from": [
+     "causally_arc_connected",
+     "locally_push_up"
+    ],
+    "to": "push_up",
+    "witness": "Causal.Causality.CausallyArcConnected.pushUp_of_locallyPushUp",
+    "under": "",
+    "replaces": "Causal.Causality.CausallyArcConnected.pushUp with its `under`"
+   },
+   {
+    "from": [
+     "push_up"
+    ],
+    "to": "locally_push_up",
+    "witness": "Causal.Causality.PushUp.locallyPushUp",
+    "under": ""
+   },
+   {
+    "from": [
+     "absolutely_minimal",
+     "locally_causally_open_future"
+    ],
+    "to": "causally_open_future",
+    "witness": "Causal.Causality.AbsolutelyMinimal.causallyOpenFuture_of_locallyCausallyOpenFuture",
+    "under": "",
+    "replaces": "Causal.Causality.AbsolutelyMinimal.causallyOpenFuture with its `under`"
+   },
+   {
+    "from": [
+     "absolutely_minimal",
+     "locally_causally_open"
+    ],
+    "to": "causally_open",
+    "witness": "Causal.Causality.AbsolutelyMinimal.causallyOpen_of_locallyCausallyOpen",
+    "under": "",
+    "replaces": "Causal.Causality.AbsolutelyMinimal.causallyOpen with its `under`"
+   },
+   {
+    "from": [
+     "causally_open_future"
+    ],
+    "to": "locally_causally_open_future",
+    "witness": "Causal.Causality.CausallyOpenFuture.locallyCausallyOpenFuture",
+    "under": ""
+   },
+   {
+    "from": [
+     "causally_open"
+    ],
+    "to": "locally_causally_open",
+    "witness": "Causal.Causality.CausallyOpen.locallyCausallyOpen",
+    "under": ""
+   },
+   {
+    "from": [
+     "locally_causally_open"
+    ],
+    "to": "locally_causally_open_future",
+    "witness": "Causal.Causality.LocallyCausallyOpen.future",
+    "under": ""
+   },
+   {
+    "from": [
+     "push_up",
+     "chronal_neighbours"
+    ],
+    "to": "causally_open",
+    "witness": "Causal.Causality.PushUp.causallyOpen_of_chronalNeighbours",
+    "under": "",
+    "replaces": "Causal.Causality.causallyOpen_of_pushUp (Causal.LemmaK, model-importing) with its `under`"
+   },
+   {
+    "from": [
+     "push_up",
+     "chronal_past_neighbours"
+    ],
+    "to": "causally_open_future",
+    "witness": "Causal.Causality.PushUp.causallyOpenFuture_of_chronalPastNeighbours",
+    "under": "",
+    "note": "only if the one-sided node is added"
+   },
+   {
+    "from": [
+     "globally_hyperbolic"
+    ],
+    "to": "is_causal",
+    "witness": "Causal.Causality.GloballyHyperbolic.isCausal",
+    "under": ""
+   },
+   {
+    "from": [
+     "globally_hyperbolic"
+    ],
+    "to": "causally_compact",
+    "witness": "Causal.Causality.GloballyHyperbolic.causallyCompact",
+    "under": ""
+   },
+   {
+    "from": [
+     "is_causal",
+     "causally_compact"
+    ],
+    "to": "globally_hyperbolic",
+    "witness": "Causal.Causality.IsCausal.globallyHyperbolic",
+    "under": "",
+    "note": "the iff is globallyHyperbolic_iff (Iff.rfl)"
+   }
+  ],
+  "fails": [
+   {
+    "from": "push_up (also causally_open, globally_hyperbolic, no_causal_endpoint, their conjunction)",
+    "to": "chronal_neighbours",
+    "witness": "Causal.lightlikeLine_separates_chronalNeighbours",
+    "note": "the lightlike line (≤ the timelike one, ≪ empty)"
+   },
+   {
+    "from": "push_up (also causally_open, globally_hyperbolic, is_causal, their conjunction)",
+    "to": "no_causal_endpoint",
+    "witness": "Causal.spacelikeLine_separates_noCausalEndpoint",
+    "note": "the spacelike line (≤ the diagonal); not tarentin"
+   }
+  ],
+  "consequences": [
+   {
+    "at": "chronal_neighbours",
+    "statement": "every point is strongly tarentin in the past and in the future (Z⁻(M) = Z⁺(M) = M)",
+    "witness": [
+     "Causal.Causality.ChronalPastNeighbours.mem_Zminus",
+     "Causal.Causality.ChronalNeighbours.mem_Zplus"
+    ],
+    "under": ""
+   },
+   {
+    "at": "absolutely_minimal",
+    "statement": "chronal past neighbours in every open set iff I⁻(x) ≠ ∅ for every x",
+    "witness": "Causal.Causality.AbsolutelyMinimal.chronalPastNeighbours_iff",
+    "under": "M T1"
+   },
+   {
+    "at": "no_causal_endpoint",
+    "statement": "inextensibility is nested on M: every C-inextensible causal curve is C'-inextensible, when C's causal curves are C' curves",
+    "witness": "Causal.Causality.GloballyHyperbolic.inextensibleNestedOn_top_of_noCausalEndpoint",
+    "under": "globally_hyperbolic, tarentin, causally_arc_connected (ladder nodes) of C; M Hausdorff; CurveNestedOn C C' ⊤ (a relation between two causalities, for T-lad-nested-inextensible)"
+   },
+   {
+    "at": "no_causal_endpoint",
+    "statement": "the same, the GH-free form",
+    "witness": "Causal.Causality.inextensibleNestedOn_top_of_noCausalEndpoint",
+    "under": "causally_arc_connected, is_causal, strongly_causal; J^±(x) closed; CurveNestedOn C C' ⊤"
+   }
+  ],
+  "not_restated": [
+   "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_causallyOpen and _of_curvesExtend (Lemma K, Causal.LemmaK): hJm, hJp are NoCausalEndpoint, the module imports a model",
+   "Causal.Causality.Inextensible.not_forall_le_of_causallyCompact, not_forall_ge_of_causallyCompact, causallyCompleteCurves_of_causallyCompact (Causal.ChainsCurves, ChainsCurves.lean:366-390): the same",
+   "Causal.Causality.HasTimeFunction.isCausal: HasTimeFunction is defined in Causal/CBG/Pgcd.lean:133, which reaches a model; not importable in layer 1, skipped (the ladder's [[open]] time_function ⇒ is_causal stays open)"
+  ],
+  "graduation_note": "The witnesses are in a scaffold module: emit-lean (Causal/Ladder/Rules.lean imports strict ETT-layer modules only) can emit them as rules only after CausalScaffold.LadderLocal graduates into Causal/."
+ },
+ "extra_decls": [
+  "Causal.Causality.PushUpOn.mono",
+  "Causal.Causality.CausallyOpenFutureOn.mono",
+  "Causal.Causality.dual_causallyCompact"
+ ],
+ "kb_proposals": [
+  "Two causalities with the same ≤ share J^±, diamonds, causal openness and global hyperbolicity definitionally: Causal.lightlikeLine_globallyHyperbolic := timelikeLine_globallyHyperbolic and lightlikeLine_causallyOpen := (a timelike proof) typecheck by defeq; a cheap way to get separating examples for properties that read ≪ (CausalScaffold.LadderLocal).",
+  "The localisation side conditions of the ladder are named in CausalScaffold.LadderLocal (LocallyPushUp, LocallyCausallyOpenFuture/LocallyCausallyOpen, ChronalNeighbours, NoCausalEndpoint, OneSidedBoundary); state a new theorem with them rather than with the inline ∀-forms, so it is a forward rule of causal_ladder after graduation."
+ ],
+ "notes": "One file, sorry-free, no warning under -DwarningAsError=true; lake build CausalScaffold.LadderLocal built only that module (3085 jobs, nothing upstream rebuilt). #print axioms on all 48 theorems: propext, Quot.sound, Classical.choice only, no sorryAx. Imports (Causal.ArcConnected, Causal.Minimal, Causal.PushUp, Causal.LinesCurves, Causal.LinesReachable, Causal.NestedCausalities) reach 23 Causal modules transitively, all in the ETT layer list of the dispatch. Names checked against Causal/ and scaffold/ (including the in-flight LocateExtension and Causal/Ladder): no collision; LocateExtension's lightlikeLine_causallyArcConnected/lightlikeLine_tarentin and HasChronalNeighbour are avoided. Graduation is a file move (no scaffold import). No existing file edited."
+}

@@ -57,3 +57,5 @@ rediscover. One fact per entry.
 | [0049](entries/0049-locating-an-extension.md) | pattern | Locating an extension is a characterisation, and needs a chronal neighbour |
 | [0050](entries/0050-isolated-line.md) | pattern | A cheap plain, causally open, arc-connected line with a chronologically isolated point |
 | [0051](entries/0051-closed-half-line.md) | pattern | A model-free BTZ-like point: the endpoint of the closed half-line |
+| [0052](entries/0052-same-le-defeq.md) | pattern | Two causalities with the same ≤ share J, diamonds, causal openness and GH by defeq |
+| [0053](entries/0053-named-side-conditions.md) | house-rule | State new theorems with the named ladder side conditions |
