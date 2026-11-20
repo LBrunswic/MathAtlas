@@ -1,0 +1,119 @@
+{
+  "package": "T-gx-troyanov-triangle",
+  "target": "T-gx-troyanov-triangle",
+  "files": [
+    "scaffold/GXScaffold/Spherical/TroyanovTriangle.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "cex:start_singular_manifold_homeomorphic",
+      "tex_lines": [
+        1930,
+        1930
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.troyanovTheorem_three",
+        "GX.troyanovTheorem_of_four_le",
+        "GX.troyanovAngleCondition_three_iff",
+        "GX.TroyanovAngleCondition.three_half",
+        "GX.SphTriangle",
+        "GX.exists_sphTriangle",
+        "GX.SphTriangle.TriDouble",
+        "GX.SphTriangle.fold",
+        "GX.SphTriangle.Φ",
+        "GX.SphTriangle.atlas",
+        "GX.SphTriangle.isGXAtlas_atlas",
+        "GX.SphTriangle.isAEAtlas_atlas",
+        "GX.SphTriangle.singularGXStructure",
+        "GX.SphTriangle.vertex",
+        "GX.SphTriangle.coneXAChart",
+        "GX.SphTriangle.isConePoint_vertex",
+        "GX.SphTriangle.sing_subset_range_vertex",
+        "GX.SphTriangle.isConeSphere",
+        "GX.exists_isConeSphere_not_troyanovAngleCondition"
+      ],
+      "hypotheses": [
+        {
+          "paper": "s >= 3 conical singularities (l.1930)",
+          "here": "s = 3 only",
+          "note": "Fin 3; the obligation GX.troyanovTheorem (scaffold TroyanovAngles) for s >= 4 is T-gx-troyanov; GX.troyanovTheorem_of_four_le reduces the full statement to s >= 4"
+        },
+        {
+          "paper": "Troyanov's condition 0 < sum(theta_i - 2pi) + 4pi <= min(4pi, theta_i) (l.1930)",
+          "here": "carried",
+          "note": "GX.TroyanovAngleCondition, verbatim (DEC-69's); not narrowed: the hypothesis of GX.troyanovTheorem_three is exactly TroyanovAngleCondition θ for θ : Fin 3 → ℝ"
+        },
+        {
+          "paper": "Sigma a singular S^2-manifold homeomorphic to a sphere with conical singularities of angles theta_i (l.1930)",
+          "here": "carried",
+          "note": "GX.IsConeSphere M θ p, the library's reading (GX.Spherical.ConeSurface SCOPE (a), OQ-37 (b)); M : Type, as in GX.TroyanovTheorem"
+        },
+        {
+          "paper": "Troyanov's theorem MR1005085 (cited)",
+          "here": "proved for s = 3, not assumed",
+          "note": "DEC-136: the surface is the double of the spherical triangle with angles theta_i/2; no named hypothesis"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Not a defect (l.1930): for s = 3 the printed condition is sufficient but not necessary — the double of the spherical triangle with angles (7π/10, 7π/10, π/2) is a cone sphere with angles (7π/5, 7π/5, π), and ∑(θ_i − 2π) + 4π = 9π/5 > π = θ_2 (GX.exists_isConeSphere_not_troyanovAngleCondition, 0 sorry). The paper only claims sufficiency ('as long as').",
+        "For s = 3 the condition of l.1930 is equivalent to α_0 + α_1 + α_2 > π and α_i + α_j ≤ π with α_i = θ_i/2 (GX.troyanovAngleCondition_three_iff, the planner's [r] arithmetic, now checked); in particular every θ_i < 2π, so for s = 3 the three cone points are genuine (no marked regular point θ_i = 2π, unlike s = 4, GX.troyanovAngleCondition_two_pi)."
+      ],
+      "questions": [
+        "The cited theorem is read in the shape of GX.TroyanovTheorem (existence of a GX.IsConeSphere with these angles; cone points as X_θ-charts onto the spherical cone C_θ, the library's reading OQ-37 (b); no Riemannian metric). Reading taken: that one, as fixed by T-gx-spherical-cone; nothing new is decided here."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.isOpenMap_restrict_of_isCompact",
+    "GX.symm_trans_mem_aeAtlas_of_opens",
+    "GX.isPortly_compl_singleton_sph2",
+    "GX.toR3",
+    "GX.vec",
+    "GX.ofVec",
+    "GX.vec_stereoInv",
+    "GX.matSO3",
+    "GX.vec_matSO3_smul",
+    "GX.frameMat",
+    "GX.frameSO3",
+    "GX.vec_frameSO3_smul",
+    "GX.reflSph",
+    "GX.conjIsom",
+    "GX.conjSph",
+    "GX.conjSph_stereoInv",
+    "GX.conjSO3",
+    "GX.conjSph_smul",
+    "GX.gfun",
+    "GX.dot_vec_stereoInv",
+    "GX.foldAngle",
+    "GX.polarFold",
+    "GX.polarFold_eq_iff",
+    "GX.exists_polarFold_eq",
+    "GX.exists_polarFold_eq_neg",
+    "GX.eq_norm_mul_exp_arccos",
+    "GX.SphTriangle.R",
+    "GX.SphTriangle.R_σ_add_two",
+    "GX.SphTriangle.R_σ_add_one_stereoInv",
+    "GX.SphTriangle.K",
+    "GX.SphTriangle.convex_K",
+    "GX.SphTriangle.eK",
+    "GX.SphTriangle.chartPH",
+    "GX.SphTriangle.eventually_chart_eq",
+    "GX.SphTriangle.loc_up",
+    "GX.SphTriangle.loc_down",
+    "GX.SphTriangle.loc_edge",
+    "GX.SphTriangle.isAEMorphism_Φ"
+  ],
+  "kb_proposals": [
+    "Elements of SO(3) from matrices: GX.matSO3 (orthogonal, det 1) and GX.frameSO3 (an orthonormal pair (v, w) of Fin 3 → ℝ gives the rotation with rows v × w, v, w; det by triple_product_eq_det), with coordinates GX.toR3 / GX.vec on ℝ ⊕ ℂ — use them instead of hand-built LinearIsometryEquivs.",
+    "A chart need not come with a continuous inverse: GX.isOpenMap_restrict_of_isCompact (f injective on an open V, continuous on a compact K ⊇ V, f(V) open, f(K ∖ V) disjoint from f(V)) gives the OpenPartialHomeomorph through ofContinuousOpenRestrict.",
+    "X_θ-charts onto a proper open subset of the model: push the open subset's charts to the model (GX.symm_trans_mem_aeAtlas_of_opens), then isAEMorphismOf_maximalAEAtlas_of_forall gives IsAEMorphism of the map on the subtype, and IsAEMorphism.symm_of_homeomorph the chart (GX.SphTriangle.coneXAChart).",
+    "A doubled convex body is 𝕊²: read (s, w) ∈ 𝕊² as w ∈ closed disc on the sheet sign s, and the disc as a convex K ⊂ ℂ via mathlib's exists_homeomorph_image_interior_closure_frontier_eq_unitBall (GX.SphTriangle.TriDouble, fold); a spherical polygon is convex in the stereographic chart at a vertex when its angles are < π.",
+    "Comparing cone charts through the developing map: lift h ≠ 0 to the half-plane at (|h|, arg h / 2π), use sphCone_chart_dev there and transport along the open map q ↦ Φ(polar q) (GX.SphTriangle.eventually_chart_eq); then compare every chart with one reference map per point (fold / ρ ∘ fold / refEdge k)."
+  ],
+  "notes": "0 sorry, standard axioms only (#print axioms GX.troyanovTheorem_three: propext, Classical.choice, Quot.sound, checked through a /tmp probe, deleted). lake env lean -DwarningAsError=true passes; lake build GXScaffold.Spherical.TroyanovTriangle passes and rebuilt nothing upstream. The module imports only GX.Spherical.Football (strict) and Mathlib (LinearAlgebra.CrossProduct, Analysis.Convex.GaugeRescale), not GXScaffold.Spherical.TroyanovAngles, so it can graduate as GX/Spherical/TroyanovTriangle.lean unchanged. It is not imported by the scaffold root GXScaffold.lean (per dispatch): add the import at graduation, or the axiom sweep does not see it (lean-causal kb 0025). Suggestion for the master (not done, file outside dispatch): GX.troyanovTheorem in TroyanovAngles can become troyanovTheorem_of_four_le applied to a tagged sorry for s >= 4 once this module is imported there, so that its sorry carries only the s >= 4 case. The one docstring line over 100 characters is the hypothesis table row (as in Football). The label row stays partial and unmarked: Troyanov for s >= 4 (T-gx-troyanov) and GX.thurstonSuspensionFacts (T-gx-troyanov-suspension, OQ-37) remain. The construction needs no named hypothesis: the triangle comes from the polar Gram matrix (GX.exists_sphTriangle), the topology of the double from mathlib's gauge rescaling, the charts at the vertices from the polar fold (GX.polarFold)."
+}

@@ -47,5 +47,6 @@ import GX.Topology.SLSCCompact
 import GX.Spherical.S3Model
 import GX.Spherical.ConeSurface
 import GX.Spherical.Football
+import GX.Spherical.TroyanovTriangle
 
 /-! The strict library of the paper `gx` (`papers/gx`). Every module is imported here. -/

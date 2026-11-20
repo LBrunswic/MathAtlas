@@ -19,3 +19,8 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0009](entries/0009-van-kampen-chained.md) | pattern | A glued van Kampen invariant can be glued again: one gluing per bad point |
 | [0010](entries/0010-infinitesimal-loops.md) | pattern | Detect an infinitesimal non-null loop with an invariant valued in a quotient group |
 | [0011](entries/0011-maximal-atlas-morphism-tools.md) | pattern | Two tools for building cone spheres from charts of models (the football) |
+| [0012](entries/0012-so3-from-frames.md) | pattern | Elements of SO(3) from matrices and orthonormal frames |
+| [0013](entries/0013-chart-without-inverse.md) | pattern | A chart need not come with a continuous inverse: compactness gives it |
+| [0014](entries/0014-xtheta-chart-on-open.md) | pattern | X_θ-charts onto a proper open subset of the model |
+| [0015](entries/0015-doubled-convex-body.md) | pattern | A doubled convex body is 𝕊², through the gauge rescale |
+| [0016](entries/0016-cone-charts-via-developing.md) | pattern | Comparing cone charts through the developing map |
