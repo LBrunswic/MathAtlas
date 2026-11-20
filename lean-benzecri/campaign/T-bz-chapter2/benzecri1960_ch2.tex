@@ -1,0 +1,804 @@
+% ============================================================================================
+% J.-P. Benzécri, « Sur les variétés localement affines et localement projectives »,
+% Bulletin de la S. M. F. 88 (1960), p. 229-332 (thèse Sc. math., Paris, 1960).
+% DOI 10.24033/bsmf.1551 ; Numdam BSMF_1960__88__229_0.
+%
+% TRANSCRIPTION, not the author's source. Transcribed on 2026-11-20 by a Claude session
+% (T-bz-chapter2, DEC-137) from the Numdam scan papers/benzecri/sources/bsmf-1960-88-229/benzecri1960.pdf
+% (sha256 77e0b535382fa33109b7615fb9fa336151a86723ab8210b92b91c01b0e306306), reading the page
+% images, with the scan's OCR text layer as a help only. TO BE CHECKED BY THE AUTHOR.
+%
+% Scope: Chapter 2 « Convexité de certaines variétés balayables » complete, journal pp. 246-259
+% (PDF page = journal page - 227): from its title (p. 246, where Chapter 1 ends) to just before
+% the title of Chapter 3 (p. 259).
+%
+% Conventions of the transcription (those of benzecri1960_ch1.tex).
+%  * The French text is the printed text, misprints included; each misprint we noticed is kept and
+%    flagged by a comment `% [sic] ...` giving the evident intended reading. Words cut at a line
+%    end are rejoined. Nothing illegible was met; `[illisible]` would mark it.
+%  * `% --- p. NNN ---` marks the start of journal page NNN.
+%  * Each numbered statement is in its environment, the printed number as the optional argument
+%    (with its prime, `1$'$`, and with the parenthesis printed after it, « (dans le cas affin) »).
+%    Where a statement ends is not printed (the scan marks only where it begins): the end of each
+%    environment is an editorial choice, made at the first paragraph that is commentary or
+%    notation rather than part of the statement. Proofs (printed without a heading, usually
+%    « En effet, ... », once « DÉMONSTRATION. — ») are in `proof` environments, idem.
+%  * Unnumbered THÉORÈME, COROLLAIRE and REMARQUE blocks are `theoreme`, `corollaire` and
+%    `remarque` environments without argument; the numbered REMARQUE 1 and 2 of § 1 are
+%    `remarque` environments with the number as argument. Unnumbered EXEMPLE blocks are `exemple`
+%    environments, which carry no label (they are not statements of the ledger).
+%  * The list of properties 1°-7° of the pseudo-longueur (§ 2, p. 249), printed without a number
+%    and cited throughout the chapter (« la septième propriété de la pseudo-longueur »,
+%    « cf. 3°, 5° »), is an `enonce` environment: editorial, as the DEC-122 enonce of Chapter 1.
+%    Its verification is printed after Déf. 3 and is interrupted by Prop. 2: two `proof`
+%    environments, each preceded by a comment and carrying its target as an optional argument
+%    `[Proof of \ref{...}]`, editorial and not printed (the only \ref outside a \bzcf).
+%  * \bzcf{printed text}{\ref{...}} marks an explicit cross-reference the source makes to a
+%    statement (« cf. chap. 1, § 1, déf. 14 », « la proposition 6 », « la septième propriété de la
+%    pseudo-longueur »): it prints the printed text only; the \ref names the statement the PRINTED
+%    text designates, even where that is a misprint (flagged [sic]). Chapter 1 statements are
+%    named by their labels in legacy/labeled/benzecri1960_ch1.tex; Chapter 2 statements by the
+%    labels of the scheme bz<kind>:c2s<section><initial><number>_<slug> listed in NOTES.md (the
+%    \label's themselves are not in this file). A reference of a proof to its own statement is
+%    not marked.
+%  * $\R$ is the printed bold R (the reals); $\mathring{H}$ the printed H with a ring (an open
+%    hemisphere); $\tilde{\varphi}$ the printed phi with a tilde; $M^0$, $N^0$ the printed M, N
+%    with a raised circle; $)f, g($ the printed open interval.
+% ============================================================================================
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{amsmath,amssymb}
+\newcommand{\R}{\boldsymbol{R}}
+\newcommand{\Rc}{\mathcal{R}}
+\newcommand{\bzcf}[2]{#1}
+% \bznum{n} prints " n" and nothing for an empty argument (unnumbered THÉORÈME, REMARQUE).
+\newcommand{\bznum}[1]{\if\relax\detokenize{#1}\relax\else\ #1\fi}
+\newenvironment{resume}[1][]{\par\medskip\noindent #1. }{\par\medskip}
+\newenvironment{defin}[1][]{\par\medskip\noindent\textsc{Définition #1.} --- }{\par\medskip}
+\newenvironment{prop}[1][]{\par\medskip\noindent\textsc{Proposition #1.} --- \itshape}{\par\medskip}
+\newenvironment{theoreme}[1][]{\par\medskip\noindent\textsc{Théorème\bznum{#1}.} --- \itshape}{\par\medskip}
+\newenvironment{lemme}[1][]{\par\medskip\noindent\textsc{Lemme #1.} --- \itshape}{\par\medskip}
+\newenvironment{corollaire}{\par\medskip\noindent\textsc{Corollaire.} --- \itshape}{\par\medskip}
+\newenvironment{remarque}[1][]{\par\medskip\noindent\textsc{Remarque\bznum{#1}.} --- }{\par\medskip}
+\newenvironment{exemple}[1][Exemple]{\par\medskip\noindent\textsc{#1.} --- }{\par\medskip}
+\newenvironment{enonce}{\par\medskip\noindent\itshape}{\par\medskip}
+% The optional argument of `proof` is accepted and not printed (room for a ledger target).
+\newenvironment{proof}[1][]{\par}{\par}
+
+\begin{document}
+
+% --- p. 246 ---
+% (Chapter 1 ends at the top of p. 246; see benzecri1960_ch1.tex.)
+\section*{Chapitre 2. Convexité de certaines variétés balayables.}
+
+Voici le plan de ce chapitre :
+
+On définit au paragraphe 1 la notion de poche pour les variétés localement projectives (resp.
+affines).
+
+Au paragraphe 2, on définit, sur l'ensemble des segments d'une variété localement projective, un
+invariant projectif, positif ou nul, appelé pseudo-longueur.
+
+Cet invariant est utilisé au paragraphe 3 pour démontrer le \bzcf{théorème
+1}{\ref{bzthm:c2s3t1_poche_balayable}} sur les variétés balayables possédant une poche; deux
+autres résultats, où la notion de poche n'intervient pas, sont ensuite démontrés (\bzcf{prop.
+1}{\ref{bzprop:c2s3p1_projection_non_bornee}} et
+\bzcf{2}{\ref{bzprop:c2s3p2_hemisphere_corps_convexe}}).
+% « théorème 1 » as printed: the theorem of § 3 is itself printed without a number (« THÉORÈME. »).
+
+\subsection*{1. Coques et poches.}
+
+Nous distinguerons, pour plus de clarté, le cas affin du cas projectif.
+
+\begin{defin}[1 (dans le cas affin)]
+Soit $V$ une variété localement affine de dimension $n$ : on définit une \textit{poche} de $V$
+par la donnée :
+
+--- d'un ouvert connexe $P$ de $V$;
+
+% --- p. 247 ---
+--- d'une carte $\varphi$ de $P$ dans $\R^n$ compatible avec la structure affine de $P$;
+
+--- d'une fonction linéaire $z$ sur $\R^n$ appelée cote.
+
+Le triple $(P, \varphi, z)$ doit satisfaire aux deux conditions suivantes :
+
+\textit{a}. Sur l'image $\varphi(P)$ la cote $z$ a pour borne inférieure $0$ et est majorée par
+$1$;
+
+\textit{b}. Soit $(M, N)$ un segment de $V$ dont l'extrémité $M$ appartienne à $P$. Soit
+$\tilde{\varphi}$ une carte compatible d'un voisinage de $(M, N)$ dans $\R^n$ (\bzcf{\textit{cf.}
+chap. 1, \S\,1, déf. 14}{\ref{bzdef:c1s1d14_segment_variete}}) ayant en $M$ même germe que
+$\varphi$ (\bzcf{\textit{cf.} chap. 1, \S\,1, prop. 1,
+2\textsuperscript{o}}{\ref{bzprop:c1s1p1_cartes_compatibles}}). Alors, si $z(\tilde{\varphi}(N))$
+est inférieur à $1$, $N$ appartient à $P$.
+\end{defin}
+
+\begin{defin}[1$'$ (dans le cas projectif)]
+Soit $V$ une variété localement projective de dimension $n$ : on définit une \textit{poche} de
+$V$ par la donnée :
+
+--- d'un ouvert connexe $P$ de $V$;
+
+--- d'un hémisphère ouvert $\mathring{H}$ de $S(n)$;
+
+--- d'une carte $\varphi$ de $P$ dans $S(n)$ compatible avec la structure projective, et telle
+que
+\[ \varphi(P)\subset\mathring{H}; \]
+
+--- d'une fonction linéaire $z$, appelée cote, sur $\mathring{H}$ considéré comme espace affin
+(\bzcf{\textit{cf.} chap. 1, \S\,1, déf. 6}{\ref{bzdef:c1s1d6_structure_affine_hemisphere}}).
+
+(Le système $P, \mathring{H}, \varphi, z)$ doit satisfaire aux deux conditions suivantes :
+% [sic] « (Le système P, H, φ, z) » : lire « Le système (P, H, φ, z) » (misplaced parenthesis).
+
+\textit{a}. Sur l'image $\varphi(P)$, la cote $z$ a pour borne inférieure $0$ et est majorée par
+$1$;
+
+\textit{b}. Soit $(M, N)$ un segment de $V$ dont l'extrémité $M$ appartienne à $P$. Soit
+$\tilde{\varphi}$ une carte compatible d'un voisinage de $(M, N)$ dans $S(n)$ ayant en $M$ même
+germe que $\varphi$. Alors,
+\[ \tilde{\varphi}(M, N)\subset\mathring{H} \]
+et, si $z(\tilde{\varphi}(N))$ est inférieur à $1$, $N$ appartient à $P$.
+\end{defin}
+
+\begin{remarque}
+Soient $V$ une variété localement affine de dimension $n$, $(P, \varphi, z)$ une poche de $V$, $j$
+un isomorphisme compatible avec la structure affine de $\R^n$ sur un hémisphère ouvert
+$\mathring{H}$ de $S(n)$ : le système $(P, \mathring{H}, j\circ\varphi, z\circ j^{-1})$ définit
+une poche de $V$ considérée comme variété localement projective (\bzcf{\textit{cf.} chap. 1,
+\S\,1, déf. 12, remarque}{\ref{bzrem:c1s1r1_affine_vers_projective}}).
+\end{remarque}
+
+\begin{exemple}[Exemple dans le cas affin]
+Soient $W$ un ouvert étalé au-dessus de $\R^n$ et $p$ la projection de $W$ sur $\R^n$; soit $z$
+une forme linéaire sur $\R^n$; soit $P$ une composante connexe de l'image réciproque par $p$ du
+demi-espace ouvert : $z<1$.
+
+Si, sur $p(P)$, $z$ a pour borne inférieure $0$, le triple $(P, p, z)$ définit une poche de $W$.
+
+Il suffit de vérifier qu'est satisfaite la condition $b$. Soient $M\in P$ et $(M, N)$ un segment
+de $W$; supposons $z(p(N))<1$. Démontrons que $N$ appartient
+% --- p. 248 ---
+à $P$; $p(M, N)$ est inclus dans le demi-espace ouvert $z<1$, donc $(M, N)$ est inclus dans une
+composante connexe de l'image réciproque par $p$ de ce demi-espace ouvert, donc dans $P$,
+composante connexe de $M$.
+\end{exemple}
+
+\begin{exemple}[Exemple dans le cas projectif]
+Soient $W$ un ouvert étalé au-dessus de $S(n)$, $p$ la projection de $W$ sur $S(n)$,
+$\mathring{H}$ un hémisphère ouvert de $S(n)$, $z$ une forme linéaire sur $\mathring{H}$ muni de
+sa structure affine et $P$ une composante connexe dans $W$ de l'image réciproque par $p$ du
+demi-espace ouvert $z<1$.
+
+Si, sur $p(P)$, $z$ a pour borne inférieure $0$, et si, de plus, pour tout segment $(M, N)$ de
+$W$ d'origine $M$ dans $P$, on a $p(MN)\subset\mathring{H}$, le système $(P, \mathring{H}, p, z)$
+définit une poche de $W$. On vérifie, dans le cas affin, qu'est satisfaite la condition $b$.
+\end{exemple}
+
+Nous verrons (\bzcf{\S\,3, théorème}{\ref{bzthm:c2s3t1_poche_balayable}}) que, si $V$ est une
+variété localement projective (resp. affine) connexe balayable, possédant une poche
+$(P, \mathring{H}, \varphi, z)$ [resp. $(P, \varphi, z)$], on est toujours dans la situation
+considérée en exemple. $\varphi$ se prolonge en une application projective (resp. affine) de $V$
+sur $S(n)$ (resp. $\R^n$) et $P$ n'est autre qu'une composante connexe de l'image réciproque par
+$\varphi$ du demi-espace ouvert de $\mathring{H}$ (resp. $\R^n$) d'équation $z<1$.
+
+\begin{defin}[2]
+Une poche $(P, \mathring{H}, \varphi, z)$ [resp. $(P, \varphi, z)$] est appelée \textit{coque} si
+$\varphi(P)$ est un convexe.
+\end{defin}
+
+\begin{defin}[3]
+Une coque $(P, \varphi, z)$ [resp. $(P, \mathring{H}, \varphi, z)$] d'une variété localement
+affine (resp. projective) est appelée une \textit{coque stricte} si le convexe $\varphi(P)$ de
+$\R^n$ [resp. si $\varphi(P)$ considéré comme convexe de l'espace affin $\mathring{H}$] ne contient
+pas de droite.
+\end{defin}
+
+\begin{remarque}[1]
+Il importe de distinguer entre droite de $\mathring{H}$, espace affin, et droite de $S(n)$ : une
+droite de $\mathring{H}$ est une demi-droite de $S(n)$, ou portion de droite comprise entre deux
+points diamétralement opposés.
+\end{remarque}
+
+\begin{remarque}[2]
+Dire que la coque $(P, \mathring{H}, \varphi, z)$ est une coque stricte équivaut à dire que
+$\overline{\varphi(P)}$ est un corps convexe de $S(n)$.
+\end{remarque}
+
+\subsection*{2. La pseudo-longueur.}
+
+On définit sur l'ensemble des segments d'une variété localement projective un invariant projectif
+appelé \textit{pseudo-longueur}. Nous avons vu (\bzcf{chap. 1, \S\,1, déf. 12,
+remarque}{\ref{bzrem:c1s1r1_affine_vers_projective}}) que toute variété localement affine est munie
+canoniquement d'une structure localement projective. La pseudo-longueur est ainsi définie pour les
+variétés localement affines : c'est un invariant affin.
+
+Nous allons énoncer les principales propriétés de la pseudo-longueur avant d'en donner la
+définition.
+
+% --- p. 249 ---
+La pseudo-longueur d'un segment $(M, N)$ relativement à la variété localement projective $V$ est
+notée :
+\[ l_V(M, N). \]
+
+% Wrapped in an enonce environment (editorial, as the DEC-122 enonce of Chapter 1): the list
+% 1°-7° is printed without a number and is cited throughout the chapter.
+\begin{enonce}
+$l_V(M, N)$ possède les propriétés suivantes :
+
+1\textsuperscript{o} \qquad $l_V(M, N)\geqq 0$; \qquad $l_V(M, M)=0$;
+
+2\textsuperscript{o} Soit $g$ un automorphisme projectif de $V$, on a
+\[ l_V(gM, gN)=l_V(M, N); \]
+
+3\textsuperscript{o} Soit $(M, N)\subset(M', N')$, on a
+\[ l_V(M, N)\leqq l_V(M', N'); \]
+
+4\textsuperscript{o} Soit $V'$ un ouvert de $V$ considéré comme variété localement projective, on
+a
+\[ l_V(M, N)\leqq l_{V'}(M, N) \]
+pour tout segment $(M, N)$ inclus dans $V'$;
+
+5\textsuperscript{o} La pseudo-longueur est une fonction semi-continue supérieurement du segment,
+c'est-à-dire que, si un segment $(M_i, N_i)$ tend vers $(M, N)$, on a
+\[ \overline{\lim}\, l_V(M_i, N_i)\leqq l_V(M, N); \]
+
+6\textsuperscript{o} Si $V$ est l'intérieur d'un corps convexe, $l_V(M, N)$ est une fonction
+continue en $M$ et $N$ sur le produit $V\times V$; $l_V(M, N)$ est nulle si et seulement si
+$M=N$;
+
+7\textsuperscript{o} Soit $(P, \mathring{H}, \varphi, z)$ une poche de $V$; soit $M\in P$ un point
+de $V$ tel que $z(\varphi(M))<\dfrac{1}{K}$ (où $K$ désigne un nombre réel supérieur à $1$); soit
+$(M, N)$ un segment de $V$ dont la pseudo-longueur $l_V(M, N)$ soit inférieure à $\log K$; alors,
+$N\in P$ et $z\,\varphi(N)<K\,z(\varphi(M))$.
+% « z φ(N) » as printed (read: z(φ(N))).
+\end{enonce}
+
+La définition de la pseudo-longueur utilise la
+
+\begin{defin}[1]
+Soient $A$, $A'$, $B'$, $B$ quatre points d'un segment $(AB)$ de $S(n)$ écrits comme ils se
+rencontrent si l'on ordonne de $A$ vers $B$ : on appelle \textit{mesure projective} de $A'B'$
+\textit{relativement} à $AB$ le logarithme du rapport anharmonique $(A', B', B, A)$. Ce rapport
+anharmonique est une quantité supérieure ou égale à l'unité; la notion de mesure projective est
+invariante par les automorphismes de $GS(n, \R)$.
+\end{defin}
+
+\begin{prop}[1]
+La mesure projective décroît si l'on remplace le segment $(A', B')$ par un segment contenu dans
+$(A', B')$; elle décroît encore si l'on remplace le segment $AB$ par un segment le contenant.
+\end{prop}
+% (No proof of Prop. 1 is printed.)
+
+% --- p. 250 ---
+\begin{defin}[2]
+Soit $(A', B')$ un segment d'une variété localement projective $V$; on dit que $(A', B')$ est
+\textit{majoré par $k$ dans $V$} s'il existe un segment $(A, B)$ de $V$ contenant $(A', B')$ tel
+que, si $\varphi$ est une carte compatible d'un voisinage de $(A, B)$ sur un ouvert de $S(n)$, on
+ait : mesure projective de $\varphi(A', B')$ relativement à $\varphi(A, B)<k$.
+\end{defin}
+
+\begin{defin}[3]
+La \textit{pseudo-longueur} $l_V(M, N)$ d'un segment $(M, N)$ d'une variété localement projective
+est la borne inférieure des nombres $k$ qui majorent $(M, N)$ dans $V$.
+\end{defin}
+
+% Proof of the properties 1°-7° (the enonce of p. 249), first part; NOT a proof of Déf. 3.
+% It is interrupted by Prop. 2 and resumes after the proof of Prop. 2. The optional argument
+% (editorial, not printed) names the target for the ledger, which would otherwise attach this
+% proof to the statement just above.
+\begin{proof}[Proof of \ref{bzthm:c2s2_proprietes_pseudo_longueur}]
+Nous allons vérifier que la pseudo-longueur ainsi définie possède les propriétés
+1\textsuperscript{o} à 7\textsuperscript{o}.
+
+Les propriétés 1\textsuperscript{o} et 2\textsuperscript{o} résultent trivialement de la
+définition.
+
+Les propriétés 3\textsuperscript{o} et 4\textsuperscript{o} résultent de \bzcf{la proposition
+1}{\ref{bzprop:c2s2p1_mesure_projective_monotone}}.
+
+La propriété 6\textsuperscript{o} résulte de la
+\end{proof}
+
+\begin{prop}[2]
+Soient $\overline{V}$ un corps convexe de $S(n)$ d'intérieur $V$; $A$, $B$ deux points de $V$;
+$F$, $F'$ les points d'intersection de la droite $AB$ avec la frontière de $\overline{V}$ :
+
+$l_V(A, B)$ n'est autre que la mesure projective de $AB$ relativement à $FF'$;
+
+$l_V(A, B)$ est une fonction continue sur $V\times V$ qui ne s'annule que sur la diagonale.
+\end{prop}
+
+\begin{proof}
+La proposition résulte de ce que $F$, $F'$ dépendent continûment de $A$, $B$.
+\end{proof}
+
+% Proof of the properties 1°-7° (the enonce of p. 249), second part (5° and 7°); NOT a proof of
+% Prop. 2 nor of Déf. 2. Optional argument editorial and not printed, as above.
+\begin{proof}[Proof of \ref{bzthm:c2s2_proprietes_pseudo_longueur}]
+Pour démontrer 5\textsuperscript{o}, nous démontrerons que, si $MN$ est un segment borné par $k$
+dans $V$, il en est de même de tout segment assez voisin de $MN$. Soient $(A, B)$
+(\bzcf{\textit{cf.} déf. 2}{\ref{bzdef:c2s2d2_segment_majore}}) un segment de $V$ et $\varphi$ une
+carte compatible d'un voisinage $U$ de $(A, B)$ sur l'intérieur d'un corps convexe de $S(n)$ tels
+que la mesure projective de $\varphi(M, N)$ relativement à $\varphi(A, B)$ soit inférieure à $k$.
+Il suffit de montrer, d'après 4\textsuperscript{o}, que la pseudo-longueur $l_U$ de tout segment
+suffisamment voisin de $MN$ est inférieure à $k$. Or, cela résulte aisément de \bzcf{la
+proposition 2}{\ref{bzprop:c2s2p2_pseudo_longueur_corps_convexe}}.
+
+Pour démontrer 7\textsuperscript{o}, nous calculerons en considérant la structure affine de
+$\mathring{H}$.
+
+Soient $F$, $F'$ les points extrémités d'un segment contenant $(A, B)$ tel que
+\[ 1<(\varphi(A), \varphi(B), \varphi(F'), \varphi(F))<K, \]
+où $\varphi$ désigne l'extension à un voisinage de $(F, F')$ de la carte $\varphi$ de $P$. Posons
+\[ \varphi(A)=a, \qquad \varphi(B)=b, \qquad \varphi(F)=f, \qquad \varphi(F')=f'. \]
+% As printed, the proof of 7° writes (A, B) for the segment (M, N) of 7°.
+Considérons dans l'espace affin de $\mathring{H}$ le rapport de mesures algébriques de segments
+\[ 1<\frac{af'\times bf}{af\times ff'}<K; \]
+% [sic] « af × ff' » : lire « af × bf' » (the cross-ratio (a, b, f', f) = (af'/bf')(bf/af), as the
+% two quotients af'/bf' and bf/af used just below show).
+les quatre points $a$, $b$, $f$, $f'$ ont une cote $z$ positive.
+
+% --- p. 251 ---
+Si la cote de $b$ est inférieure ou égale à la cote de $a$, d'après la propriété $b$ de \bzcf{la
+définition d'une poche}{\ref{bzdef:c2s1d1prime_poche_projective}}, $B\in P$, et la propriété
+7\textsuperscript{o} est démontrée.
+
+Si la cote de $b$ est supérieure à celle de $a$, on a les inégalités
+\[ 0<z(f)<z(a)<z(b)<z(f'). \]
+On en déduit que $\dfrac{af'}{bf'}$ est supérieur à l'unité, en sorte que le quotient
+$\dfrac{bf}{af}$ est inférieur à $K$; d'où résulte l'inégalité
+\[ z(b)<K\times z(a)<1 \]
+et, d'après la propriété $b$ de \bzcf{la définition 1$'$ du paragraphe
+1}{\ref{bzdef:c2s1d1prime_poche_projective}}, on a $B\in P$.
+\end{proof}
+
+\begin{defin}[4]
+Soit $C$ une partie d'une variété localement projective $V$ : on dit que $C$ est majoré par $k$
+dans $V$, si deux points quelconques de $C$ peuvent être joints par un segment qui est inclus dans
+$C$ et est majoré par $k$ dans $V$.
+\end{defin}
+
+\begin{prop}[3]
+Soit $V$ une variété localement projective, $k$ un nombre réel strictement positif. Tout point $M$
+de $V$ possède un voisinage qui est majoré par $k$.
+\end{prop}
+
+\begin{proof}
+Si $V$ est l'intérieur d'un corps convexe, la propriété est une conséquence facile de \bzcf{la
+sixième propriété de la pseudo-longueur}{\ref{bzthm:c2s2_proprietes_pseudo_longueur}}.
+
+Si $V$ n'est pas l'intérieur d'un corps convexe, choisissons un voisinage $U$ de $M$ dont il
+existe une carte compatible dans l'intérieur d'un corps convexe. On peut, d'après ce qui précède,
+trouver un voisinage $W$ de $M$, borné par $k$ dans $U$. D'après \bzcf{la quatrième propriété de
+la pseudo-longueur}{\ref{bzthm:c2s2_proprietes_pseudo_longueur}}, $W$ est \textit{a fortiori}
+majoré par $k$ dans $V$.
+\end{proof}
+
+\begin{defin}[5]
+Soit $E$ une partie compacte d'une variété localement projective $V$; soit $k$ un nombre réel
+strictement positif. On désigne par $n(E, k)$ le plus petit entier $n$, tel qu'il existe un
+recouvrement de $E$, formé de $n$ ouverts majorés par $k$.
+\end{defin}
+
+\begin{prop}[4]
+Soit $E$ une partie compacte connexe d'une variété localement projective $V$. Deux points $M$ et
+$N$ quelconques de $E$ peuvent être joints par une ligne brisée formée d'au plus $n(E, k)$
+segments majorés par $k$ dans $V$.
+\end{prop}
+
+\begin{proof}
+Pour $n(E, k)=1$, la proposition 4 est équivalente à la définition : nous allons démontrer la
+proposition par récurrence sur $n(E, k)$. Supposons la démonstration faite pour $n(E, k)<p$, et
+supposons $n(E, k)=p$. Soient $O_1$, \ldots, $O_i$, \ldots, $O_p$, $p$ ouverts majorés par $k$
+dont la réunion contienne $E$. Soit $M\in O_j$; $N\in O_k$; soit $O_Q=\bigcup_{i\in Q} O_i$, la
+composante connexe contenant $N$, de la réunion des ouverts $O$ d'indice différent de $j$ : $O_Q$
+est recouvert à
+% --- p. 252 ---
+l'aide d'au plus $p-1$ ouverts bornés par $k$; donc deux points quelconques de $O_Q$ peuvent être
+joints par une ligne brisée formée d'au plus $p-1$ segments majorés par $k$ (hypothèse de
+récurrence). D'autre part, puisque $O_a$ est composante connexe de la réunion des $O$ d'indice
+différent de $j$, un tel ouvert est inclus dans $O_Q$, ou a avec $O_Q$ une intersection vide. $E$
+étant connexe, il en résulte que $O_Q\cap O_j$ n'est pas vide; il suffira donc de joindre $M$ à un
+point de cette intersection, puis ce point à $N$, pour relier $M$ à $N$ par une ligne brisée d'au
+plus $p$ segments majorés par $k$.
+% [sic] « O_a » : lire « O_Q ».
+\end{proof}
+
+\begin{defin}[6]
+Soient $V$ une variété localement projective, $M\in V$, $r$ un nombre réel positif. On appelle
+pseudo-boule de centre $M$ et de rayon $r$ l'ensemble des points $N$ de $V$ tels qu'il existe au
+moins un segment fermé d'extrémités $M$, $N$, majoré par $r$.
+\end{defin}
+
+La pseudo-boule de centre $M$ et de rayon $r$, est un ouvert connexe (\bzcf{\textit{cf.}
+3\textsuperscript{o}, 5\textsuperscript{o}}{\ref{bzthm:c2s2_proprietes_pseudo_longueur}}).
+
+Si $V$ est l'intérieur d'un corps convexe, il résulte \bzcf{du
+6\textsuperscript{o}}{\ref{bzthm:c2s2_proprietes_pseudo_longueur}} que lcs pseudo-boules de centre
+$M$ et de rayon quelconque forment une base de voisinages de $M$.
+% [sic] « lcs » : lire « les ».
+
+\begin{prop}[5]
+Soient $V$ une variété localement projective connexe, $U$ un ouvert non vide de $V$ et $r$ un
+nombre réel, tels que, quel que soit $M\in U$, la pseudo-boule de centre $M$ et de rayon $r$ soit
+incluse dans $U$. Alors $U=V$.
+\end{prop}
+
+\begin{proof}
+Soit $M\in U$; $N\in V$ : nous allons montrer que $N\in U$. En effet, $M$ et $N$ peuvent être
+joints par une ligne brisée formée de segments tous majorés par $r$ : on démontre de proche en
+proche à partir de $M$ que tous les sommets de cette ligne appartiennent à $U$.
+\end{proof}
+
+\begin{prop}[6]
+Soit $V$ une variété localement projective, possédant une poche $(P, \mathring{H}, \varphi, z)$.
+Soient $A$ et $B$ deux points de $V$, $L$ une ligne brisée joignant $A$ à $B$, et formée de $p$
+segments tous majorés dans $V$ par $k=\log K$. Supposons que $A\in P$; $z(\varphi(A))<1/K^p$ :
+alors $B$ est aussi dans $P$, ainsi que $L$, et l'on a
+\[ z(\varphi(B))<K^p\,z(\varphi(A)). \]
+\end{prop}
+
+\begin{proof}
+La proposition se démontre par récurrence sur $p$ : pour $p=1$, c'est \bzcf{la septième propriété
+de la pseudo-longueur}{\ref{bzthm:c2s2_proprietes_pseudo_longueur}}, le passage de $p$ à $p+1$ est
+immédiat.
+\end{proof}
+
+\begin{prop}[7]
+Soit $V$ une variété localement projective connexe et balayable pour un groupe $G$
+d'automorphismes projectifs (\bzcf{\textit{cf.} chap. 1, \S\,1, déf.
+15}{\ref{bzdef:c1s1d15_homogene_balayable_divisible}}). Soit $(P, \mathring{H}, \varphi, z)$ une
+poche de $V$. Soit $E$ un compact de $V$. Il existe un automorphisme projectif $g\in G$, tel que
+$gE\subset P$.
+\end{prop}
+
+\begin{proof}
+\textsc{Démonstration.} --- Nous allons d'abord montrer que tout compact $E$ de $V$ est inclus
+dans un domaine générateur connexe (pour le groupe $G$); nous
+% --- p. 253 ---
+démontrerons alors la proposition en supposant que $E$ est un domaine générateur compact connexe.
+Soit $K$ un domaine générateur compact. $E\cup K$ est aussi un domaine générateur compact; puisque
+$V$ est localement compact et localement connexe, on peut recouvrir $E\cup K$ au moyen d'un nombre
+fini de compacts connexes; soit $E'$, la réunion de ces compacts : puisque $V$ est connexe, $E'$
+est inclus dans un compact connexe $E''$; il suffit, pour obtenir $E''$, d'ajouter à $E'$ un
+nombre fini de lignes brisées reliant les composantes connexes de $E'$.
+
+Soit donc $E$ un domaine générateur compact connexe. Soit $k$ un nombre strictement positif
+($k=\log K$). Soit $M^0$ un point de $P$ de cote $z\,\varphi(M^0)$ inférieure à $1/K^{n(E, k)}$.
+Puisque $E$ est un domaine générateur pour $G$, il existe $g\in G$ automorphisme projectif de $V$
+et $N^0\in E$, tels que $gN^0=M^0$. Soit $N$ un point quelconque de $E$ : nous allons montrer que
+$gN\in P$.
+% « Soit K un domaine générateur compact » and « k = log K » as printed: K names both.
+
+En effet (\bzcf{prop. 4}{\ref{bzprop:c2s2p4_ligne_brisee}}), il existe une ligne brisée $L$
+reliant $N^0$ à $N$, et formée d'au plus $n(E, k)$ segments tous bornés par $k$. Il résulte de
+\bzcf{la proposition 6}{\ref{bzprop:c2s2p6_ligne_brisee_poche}} que $gN\in P$.
+\end{proof}
+
+\begin{corollaire}
+Soit $V$ une variété localement projective, connexe balayable pour un groupe $G$
+d'automorphismes projectifs; soit $(P, \mathring{H}, \varphi, z)$ une poche de $V$; soient $M$ et
+$N$ deux points de $V$. Il existe un automorphisme projectif $g\in G$ de $V$ tel que $gM\in P$;
+$gN\in P$.
+\end{corollaire}
+
+\begin{proof}
+En effet, $\{M, N\}$ est une partie compacte de $V$.
+\end{proof}
+
+\begin{remarque}
+Soit $V$ une variété localement affine balayable pour un groupe $G$ d'automorphismes affins.
+Supposons que $V$ possède une poche $(P, \varphi, z)$. Pour la structure localement projective de
+$V$ (\bzcf{\textit{cf.} chap. 1, \S\,1, déf. 12,
+remarque}{\ref{bzrem:c1s1r1_affine_vers_projective}}), $G$ est un groupe d'automorphismes
+projectifs; de plus (\bzcf{\textit{cf.} chap. 2, \S\,1, déf. 1$'$,
+remarque}{\ref{bzrem:c2s1r0_poche_affine_vers_projective}}), si $j$ désigne un homéomorphisme de
+$\R^n$ sur un hémisphère $\mathring{H}$ de $S(n)$ ($j$ compatible avec les structures affines),
+$(P, \mathring{H}, j\circ\varphi, z\circ j^{-1})$ est une poche de la variété localement
+projective de $V$. \bzcf{La proposition 7}{\ref{bzprop:c2s2p7_compact_dans_poche}} et \bzcf{son
+corollaire}{\ref{bzcor:c2s2p7c_deux_points_dans_poche}} sont donc vrais aussi dans le cas affin :
+on a l'énoncé :
+\end{remarque}
+
+\begin{prop}[7$'$]
+Soit $V$ une variété localement affine, connexe et balayable pour un groupe $G$ d'automorphismes
+affins; soit $(P, \varphi, z)$ une poche de $V$. Soit $E$ un compact de $V$. Il existe $g\in G$
+tel que $gE\subset P$. Si $M$ et $N$ sont deux points de $V$, il existe $g\in G$ tel que :
+$gM\in P$; $gN\in P$.
+\end{prop}
+% (No proof of Prop. 7' is printed: the REMARQUE just above is its justification.)
+
+\subsection*{3. Applications.}
+
+\begin{theoreme}
+Soit $V$ une variété localement projective connexe balayable. Soit $(P, \mathring{H}, \varphi, z)$
+une poche de $V$.
+
+% --- p. 254 ---
+1\textsuperscript{o} Il existe une carte compatible $\tilde{\varphi}$ de $V$ sur un ouvert de
+$S(n)$, induisant $\varphi$ sur $P$. $P$ n'est autre que l'image réciproque par $\tilde{\varphi}$
+de l'ensemble des points de $\mathring{H}$ où $z<1$.
+
+2\textsuperscript{o} Si $P$ est simplement connexe, il en est de même de $V$.
+
+3\textsuperscript{o} Si $\varphi(P)$ est convexe (\textit{i.~e.} si $(P, \mathring{H}, \varphi,
+z)$ est une coque), $\tilde{\varphi}(V)$ est un convexe.
+
+4\textsuperscript{o} Si $(P, \mathring{H}, \varphi, z)$ est une coque stricte,
+$\tilde{\varphi}(V)$ est l'intérieur d'un corps convexe.
+\end{theoreme}
+
+\begin{proof}
+La démonstration du 1\textsuperscript{o} va se décomposer en trois points.
+
+\textit{a}. Il existe une application $\tilde{\varphi}$ de $V$ sur $S(n)$, coïncidant avec
+$\varphi$ sur $P$, et dont le germe en tout point de $V$ appartient à $J(V)$ (\bzcf{\textit{cf.}
+chap. 1, \S\,1, déf. 12}{\ref{bzdef:c1s1d12_variete_localement_projective}}).
+
+Il faut montrer que le revêtement $J(V)$ de $V$ est isomorphe à un produit : $\tilde{\varphi}$ a
+pour germes la composante connexe dans $J(V)$ des germes de $\varphi$.
+
+Soit $[j, j']$ un chemin de $J(V)$, dont la projection sur $V$ par l'application source soit un
+lacet $[M, M]$. Nous allons montrer que $j=j'$. D'après \bzcf{la proposition 7 du paragraphe
+2}{\ref{bzprop:c2s2p7_compact_dans_poche}}, il existe un automorphisme projectif $g$ de $V$, tel
+que l'image par $g$ du lacet $[M, M]$ soit dans $P$,
+\[ g[M, M]\subset P. \]
+Considérons maintenant le lacet de $J(V)$ obtenu à partir du lacet $[j, j']$ et composant chaque
+jet avec l'automorphisme $g^{-1}$ : on obtient un lacet de $J(V)$ se projetant par l'application
+source sur le lacet $g[M, M]$, inclus dans $P$. Mais $P$ est isomorphe par $\varphi$ à un ouvert
+de $S(n)$ : donc la restriction à $P$ de $J(V)$ est un produit, et tout chemin de $J(V)$ se
+projetant sur le lacet $g[M, M]\subset P$ est fermé. Le chemin $[j, j']$ dont l'image par
+l'automorphisme $g^{-1}$ de $J(V)$ est fermé est donc fermé. L'assertation $a$ en résulte
+immédiatement.
+% [sic] « assertation » : lire « assertion ».
+
+\textit{b}. L'application définie en $a$ de $V$ sur $S(n)$ est une carte compatible.
+
+$\tilde{\varphi}$ est un homéomorphisme local : il faut montrer que $\tilde{\varphi}$ est un
+homéomorphisme global, c'est-à-dire que deux points distincts $M$ et $N$ de $V$ ont par
+$\tilde{\varphi}$ des images distinctes.
+
+Soit $g$ un automorphisme projectif de $V$ : nous désignerons par $\gamma$ l'automorphisme de
+$S(n)$ ($\gamma\in GS(n, \R)$) tel que
+\[ \tilde{\varphi}\circ g=\gamma\circ\tilde{\varphi} \]
+[l'ensemble des jets de $\tilde{\varphi}\circ g$ est une section de $J(V)$ au-dessus de $V$ :
+puisque $GS(n, \R)$ opère transitivement sur la fibre des jets de même source, il existe $\gamma$
+transformant $\tilde{\varphi}$ en la section $\tilde{\varphi}\circ g$].
+
+Choisissons $g$ tel que $gM\in P$; $gN\in P$. Puisque $M\neq N$, on a $gM\neq gN$; et, puisque la
+restriction de $\tilde{\varphi}$ à $P$ est un homéomorphisme, on a
+\[ \tilde{\varphi}\circ gM\neq\tilde{\varphi}\circ gN. \]
+% --- p. 255 ---
+Mais il en résulte que
+\[ \gamma\circ\tilde{\varphi}M\neq\gamma\circ\tilde{\varphi}N \]
+et donc que
+\[ \tilde{\varphi}M\neq\tilde{\varphi}N. \]
+ce que nous voulions démontrer.
+
+\textit{c}. $P$ est l'image réciproque par $\tilde{\varphi}$ de l'ensemble $D$ des points de
+$\mathring{H}$, où $z<1$.
+
+Montrons que
+\[ P=\tilde{\varphi}^{-1}(D\cap\tilde{\varphi}(V)). \]
+Soit $M\in\tilde{\varphi}^{-1}(D\cap\tilde{\varphi}(V))$ nous : allons montrer que $M\in P$. Soit
+$N\in P$; on peut construire dans $D\cap\tilde{\varphi}(V)$ une ligne brisée allant de
+$\tilde{\varphi}(M)$ à $\tilde{\varphi}(N)$. De la condition $b$ de \bzcf{la définition des
+poches}{\ref{bzdef:c2s1d1prime_poche_projective}}, il résulte que $M$ appartient à $P$.
+% [sic] « nous : allons montrer » : lire « nous allons montrer » (misplaced colon).
+
+Dans la suite, nous supposerons, pour simplifier les notations, que $\tilde{\varphi}$ est
+l'identité, et donc que $P$ et $V$ sont des parties de $S(n)$.
+
+\textit{Démontrons} 2\textsuperscript{o}. --- Soit $L$ un lacet de $V$ : il faut montrer que $L$
+est homotope à un point. Or il existe un automorphisme de $V$ qui envoie le compact $L$ dans $P$ :
+comme $P$ est simplement connexe, $L$ est homotope à un point.
+
+\textit{Démontrons} 3\textsuperscript{o}. --- Soit $M$ et $N$ deux points de $V$ : il faut
+montrer que, dans $V$, il existe un segment fermé d'extrémités $M$, $N$. Or, soit $g$ un
+automorphisme projectif tel que $gM\in P$, $gN\in P$ : il existe un segment $(gM, gN)$ puisque
+$\varphi(P)$ est convexe; donc il existe un segment $(M, N)$.
+
+\textit{Démontrons} 4\textsuperscript{o}. --- Si $V$ n'est pas l'intérieur d'un corps convexe, on
+peut trouver dans $V$ une demi-droite $L$, c'est-à-dire une portion de droite limitée à deux
+points diamétralement opposés de la frontière de $V$.
+
+Soit $g$ un automorphisme projectif de $V$ qui envoie dans $P$ un point $M$ de $L$ : il résulte de
+la condition $b$ de \bzcf{la définition des poches}{\ref{bzdef:c2s1d1prime_poche_projective}} que
+$gL$ est une demi-droite incluse dans $\mathring{H}$, c'est-à-dire une droite de la géométrie
+affine de $\mathring{H}$ : nous allons montrer que cette inclusion est incompatible avec
+l'hypothèse faite que $P$ ne contient pas de droite de $\mathring{H}$.
+
+En effet (\bzcf{\S\,1, déf. 1$'$, \textit{b}}{\ref{bzdef:c2s1d1prime_poche_projective}}), tout
+point de $gL$ de cote $z$ inférieure à $1$ appartient à $P$ : donc tous les points de $gL$ ont une
+cote supérieure ou égale à $0$, puisque la borne inférieure de $z$ sur $P$ est $0$. Mais alors,
+$gL$ est une droite (pour la géométrie affine de $\mathring{H}$) de cote constante égale à $z(M)$
+et $gL$ est incluse dans $P$, ce qui contredit l'hypothèse faite sur $P$.
+% [sic] « z(M) » : lire « z(gM) » (M is the point of L sent into P by g).
+
+La démonstration du théorème est achevée.
+\end{proof}
+
+Dans le cas affin, on a le
+
+\begin{theoreme}
+Soit $V$ une variété localement affine connexe balayable. Soit $(P, \varphi, z)$ une poche de $V$.
+
+% --- p. 256 ---
+1\textsuperscript{o} Il existe une carte compatible $\tilde{\varphi}$ de $V$ sur un ouvert de
+$\R^n$. $P$ n'est autre que l'image réciproque par $\tilde{\varphi}$ de l'ensemble des points où
+$z<1$.
+
+2\textsuperscript{o} Si $P$ est simplement connexe, il en est de même de $V$.
+
+3\textsuperscript{o} Si $(P, \varphi, z)$ est une coque, $\tilde{\varphi}(V)$ est un convexe.
+
+4\textsuperscript{o} Si $(P, \varphi, z)$ est une coque stricte, $\tilde{\varphi}(V)$ ne contient
+pas de droite.
+\end{theoreme}
+
+\begin{proof}
+Le théorème se démontre \bzcf{comme le précédent}{\ref{bzthm:c2s3t1_poche_balayable}} : il suffit
+de remplacer projectif par affin, et $S(n)$ ou $\mathring{H}$ par $\R^n$.
+\end{proof}
+
+\begin{prop}[1]
+Soit $V$ une variété localement affine balayable munie d'une projection $p$ sur $\R^n$ compatible
+avec la structure affine ($V$ est un ouvert étalé au-dessus de $\R^n$). Soit $E$ un domaine
+générateur compact de $V$; soit $K$ un compact de $\R^n$. Il existe un segment $(M, N)$ de $V$,
+tel que
+\[ M\in E, \qquad p(N)\notin K. \]
+\end{prop}
+
+\begin{proof}
+\textit{a}. La proposition est évidente si $V$ contient un fermé $L$ homéomorphe par $p$ à une
+droite de $\R^n$.
+
+En effet, il existe un automorphisme affin $g$ de $V$ tel que $gL\cap E\neq\emptyset$. On a
+évidemment $p\circ gL\cap\complement K\neq\emptyset$. Il suffit de prendre
+\[ M\in gL, \qquad p(N)\in p\circ gL\cap\complement K. \]
+
+\textit{b}. Supposons maintenant que $V$ ne contienne pas de fermé $L$ homéomorphe par $p$ à une
+droite de $\R^n$.
+
+Nous décomposerons la démonstration de la proposition en une suite de points.
+
+1\textsuperscript{o} Soit $k$ un nombre réel positif. Il existe un segment $(A, B)$ de $V$
+jouissant de la propriété suivante :
+
+Soit $(M, B)$ un segment de $V$ tel que
+\[ (A, B)\subset(M, B). \]
+Alors on a
+\[ \frac{\overline{ma}}{\overline{ab}}<k, \]
+où $m=p(M)$; $a=p(A)$; $b=p(B)$.
+
+\textit{Démonstration} du 1\textsuperscript{o}. --- Soit $l$ une droite de $\R^n$ telle que
+$p(V)\cap l\neq\emptyset$. Une composante connexe $S$ de $p^{-1}(l)$ se projette suivant un ouvert
+connexe de $l$ qui pourra être un segment ouvert $)f, g($ ou une demi-droite $)f, \infty($.
+
+Soit $(a, b)$ un segment fermé de $l$ tel que
+\[ \frac{\overline{fa}}{\overline{fb}}<k. \]
+% --- p. 257 ---
+L'image réciproque par $p$ dans $S$ du segment $(a, b)$ est un segment $(A, B)$ de $V$ qui possède
+les propriétés demandées.
+
+2\textsuperscript{o} Supposons désormais $\R^n$ muni d'une métrique euclidienne. Il existe un
+nombre $r$ positif tel que tout point de $E$ admette un voisinage $U$, tel que la restriction de
+$p$ à $U$ définisse une carte sur une boule fermée de rayon $r$.
+
+L'assertion résulte de la compacité de $E$.
+
+3\textsuperscript{o} Il existe un segment $(A', B')$ de $V$ dont l'origine $A'$ appartient à $E$
+et qui se projette par $p$ sur un segment de longueur supérieure à $r/k$.
+
+Soit $g$ un automorphisme affin de $V$ tel que $gA=A'\in E$. Le segment $(gA, gB)=(A', B')$ de
+$V$ possède la propriété 1\textsuperscript{o} de $(A, B)$. D'autre part, d'après
+2\textsuperscript{o}, il existe un segment $(M, B')$ de $V$ tel que
+\[ (A', B')\subset(M, B'); \qquad |p(M), p(A')|=r. \]
+Posons
+\[ p(M)=m; \qquad p(A')=a'; \qquad p(B')=b', \]
+on a
+\[ \frac{\overline{ma'}}{\overline{a'b'}}<k, \]
+d'où
+\[ \frac{r}{k}<|a'b'|. \]
+
+4\textsuperscript{o} La démonstration va pouvoir s'achever. Soit $R$ le diamètre du compact
+$p(E)\cup K$ de $\R^n$.
+
+Choisissons $k$ tel que $\dfrac{r}{k}>R$.
+
+Le segment $(A', B')$ construit dans 3\textsuperscript{o} vérifie la propriété
+\[ A'\in E; \qquad p(B')\notin K. \]
+D'où la proposition.
+\end{proof}
+
+\begin{prop}[2]
+Soit $V$ une variété localement projective connexe balayable munie d'une projection $p$ sur
+$S(n)$ compatible avec la structure projective [$V$ est un ouvert étalé sur $S(n)$]. Supposons de
+plus qu'il existe un hémisphère ouvert $\mathring{H}$ de $S(n)$ tel que
+\[ \overline{p(V)}\subset\mathring{H}. \]
+Alors $p$ est une carte de $V$ sur l'intérieur d'un corps convexe de $S(n)$.
+\end{prop}
+
+\begin{proof}
+L'enveloppe convexe de $p(V)$ [i.~e. le plus petit convexe de $\mathring{H}$ contenant $p(V)$] est
+un convexe $W$, intérieur d'un corps convexe : nous allons montrer que $p$ est une carte de $V$
+sur $W$.
+
+% --- p. 258 ---
+La démonstation se décompose en cinq points.
+% [sic] « démonstation » : lire « démonstration ».
+
+1\textsuperscript{o} Soit $g$ un automorphisme projectif de $V$, il existe un élément unique
+$\gamma\in GS(n, \R)$ tel que
+\[ p\circ g=\gamma\circ p. \]
+$\gamma$ est un automorphisme projectif de $W$.
+
+L'élément $\gamma$ a déjà été considéré \bzcf{en $b$ dans la démonstration du
+théorème}{\ref{bzthm:c2s3t1_poche_balayable}}; que $\gamma$ soit un automorphisme de $W$ résulte
+immédiatement de ce que $\gamma$ est un automorphisme de $p(V)$ dont $W$ est l'enveloppe convexe.
+
+2\textsuperscript{o} Tout point $M\in V$ possède un voisinage $O_M$ tel que la restriction de $p$
+à $O_M$ soit une carte sur une pseudo-boule (\bzcf{\textit{cf.} \S\,2, déf.
+5}{\ref{bzdef:c2s2d5_nombre_recouvrement}}) de centre $p(M)$ et de rayon $r$ convenable. $O_M$ est
+le lieu des points $N$ de $V$ tels qu'il existe un segment $(M, N)$ et que la pseudo-longueur du
+segment $(p(M), p(N))$ dans $W$ soit inférieure à $r$. Par abus de langage, $O_M$ sera appelé une
+pseudo-boule de centre $M$ et de rayon $r$.
+% [sic] « § 2, déf. 5 » : lire « § 2, déf. 6 » (the pseudo-boule); the \ref names the printed
+% déf. 5 (n(E, k)), per the convention of the header.
+
+L'existence de $O_M$ résulte de ce que les pseudo-boules de centre $p(M)=m$ forment une base de
+voisinage de $m$. Il est clair que tout point $N$ de $O_M$ possède la propriété énoncée;
+réciproquement, si $n=p(N)$ appartient à la pseudo-boule de centre $m$ et que $N$ peut être joint
+à $M$ par un segment de $V$, ce segment n'est autre que le relevé de $(m, n)$ dans $O_M$.
+
+3\textsuperscript{o} Il existe un nombre $r$ positif, tel que tout point $M$ de $V$ possède un
+voisinage $O_M$ pseudo-boule de centre $M$ et de rayon $r$.
+
+Remarquons d'abord que, si $E$ est un compact de $V$, il existe $r(E)$ tel que tout point de $E$
+soit centre d'une pseudo-boule de rayon $r(E)$ : cela résulte de 2\textsuperscript{o}, de la
+continuité de la pseudo-longueur sur $W$, et de la compacité de $E$.
+
+Soit $E$ un domaine générateur compact de $V$ : nous allons montrer que tout point de $V$ est
+centre d'une pseudo-boule de rayon $r(E)$.
+
+Soit $M\in V$ : il existe un automorphisme projectif $g$ de $V$ tel que $gM\in E$; soit $O'$ la
+pseudo-boule de centre $gM$ et de rayon $r(E)$ : il résulte de 1\textsuperscript{o} que
+$g^{-1}O'$ est une pseudo-boule $O$ de centre $M$ et de rayon $r(E)$.
+
+4\textsuperscript{o} $p(V)=W$.
+
+En effet, $p(V)$ est un ouvert de $W$ tel que, si $m\in p(V)$, la pseudo-boule de centre $m$ et de
+rayon $r$ est incluse dans $p(V)$. Donc $p(V)=W$ (\bzcf{\textit{cf.} \S\,2, prop.
+5}{\ref{bzprop:c2s2p5_ouvert_plein}}).
+
+5\textsuperscript{o} $V$ est un revêtement de $W$.
+
+Soit $m\in W$ : nous allons montrer que l'image réciproque par $p$ de la pseudo-boule $O$ de
+centre $m$ et de rayon $r$ n'est autre que la réunion des pseudo-boules de rayon $r$ centrées aux
+points de $p^{-1}(m)$, et que ces pseudo-boules sont deux à deux disjointes.
+
+Que les pseudo-boules soient deux à deux disjointes résulte d'un résultat
+% --- p. 259 ---
+général de la théorie des ouverts étalés : deux sections d'un ouvert étalé (ici $V$) au-dessus
+d'une même partie connexe de la base (ici la pseudo-boule de centre $m$ et de rayon $r$) sont
+identiques ou d'intersection vide.
+
+Soit $N\in p^{-1}(O)$ : nous allons montrer qu'il existe $M\in p^{-1}(m)$ tel que $N$ soit inclus
+dans la pseudo-boule de centre $M$ et de rayon $r$.
+
+En effet, soit $O'$ la pseudo-boule de centre $N$ et de rayon $r$ (une telle pseudo-boule existe
+dans $V$ d'après 4\textsuperscript{o}) : on a $m\in p(O')$ : donc $O'$ contient un point $M$ de
+$p^{-1}(m)$ : il est clair que $N$ est inclus dans la pseudo-boule de centre $M$ et de rayon $r$.
+% [sic] « d'après 4° » : lire « d'après 3° » (point 3° gives the pseudo-boules of radius r).
+
+Le point 5\textsuperscript{o} une fois établi, la proposition résulte trivialement de ce que $V$
+est connexe, et $W$ simplement connexe.
+\end{proof}
+
+% (Chapter 3 « Compléments sur les convexes » begins on p. 259; not transcribed in this file.)
+
+\end{document}
