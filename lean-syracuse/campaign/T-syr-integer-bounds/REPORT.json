@@ -1,0 +1,206 @@
+{
+ "package": "T-syr-integer-bounds",
+ "target": "T-syr-integer-bounds",
+ "files": [
+  "scaffold/SyracuseScaffold/IntegerBounds.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "lem:one_has",
+   "tex_lines": [
+    114,
+    126
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Syracuse.one_has",
+    "Syracuse.one_has_of_le",
+    "Syracuse.one_has_sharp",
+    "Syracuse.one_has_proof_l119_false",
+    "Syracuse.one_has_proof_l124_false"
+   ],
+   "hypotheses": [
+    {
+     "paper": "x ∈ Z* (l.114)",
+     "here": "carried",
+     "note": "x : ℤ, x ≠ 0"
+    },
+    {
+     "paper": "∀ n ∈ N, |T^n(x)| ≥ |x|",
+     "here": "carried",
+     "note": "carried in one_has; one_has_of_le and one_has_sharp need it only for k ≤ n"
+    },
+    {
+     "paper": "T = T_Z defined on 2Z+1 (def:ring_define, l.55), while x ranges over Z*",
+     "here": "weakened",
+     "note": "Syracuse.T is total (T x = 3x+1 for even x, a_0(x) = 0); the statement is proved for every x ∈ Z*, which contains the 2Z+1 reading. Over Z, T, a, p are the paper's everywhere (not_isUnit_three_int, Syracuse.base_of_not_isUnit_three)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "syracuse.tex:114 — the statement holds as printed (Syracuse.one_has), and in the sharper form p_n(x) log 2 − n log 3 ≤ n log(1 + 1/(3|x|)) for every x ∈ Z*, either sign (Syracuse.one_has_sharp); the hypothesis is needed only for k ≤ n (Syracuse.one_has_of_le). The proof used is the product form of lem:base, 2^{p_n(x)} T^n(x) = 3^n x Π_{k<n}(1 + 1/(3T^k(x))) (Syracuse.pow_p_mul_T_iterate_eq_prod), in place of the Grönwall step.",
+    "syracuse.tex:119 — the displayed equation drops the factor 1/3 that dividing lem:base by 3^n produces (the right side should be (1/3) Σ_{k<n} e^{p_k log 2 − k log 3}); as printed it is false at x = 1, n = 1, where the left side is 4/3 − 1 = 1/3 and the right side is 1 (Syracuse.one_has_proof_l119_false). Harmless: dropping 1/3 only weakens the inequality of l.121.",
+    "syracuse.tex:123 — u_k is defined as exp(log(2) p_k(x) − n log(3)); k log(3) is meant.",
+    "syracuse.tex:124 — the bound (1 + 1/x)^n should read (1 + 1/|x|)^n, as in the statement: as printed it is false at x = −1, n = 1, which satisfies the hypothesis (T(−1) = −1) and has e^{p_1 log 2 − log 3} = 2/3 > 0 = 1 + 1/(−1) (Syracuse.one_has_proof_l124_false)."
+   ],
+   "questions": [
+    "The paper's T_Z is defined on 2Z+1 (l.55) but the lemma takes x ∈ Z*. Reading taken: T extended to Z by the same formula, as in T-syr-base (Syracuse.T); the statement is proved for all x ∈ Z* and so contains the odd-x reading. Same reading for lem:itemize_furthermore_itemize (x ∈ N*), cor:corollary_2 and cor:bounds (x ∈ N); every counterexample in this file is odd (x = 1, x = −1)."
+   ]
+  },
+  {
+   "label": "lem:itemize_furthermore_itemize",
+   "tex_lines": [
+    127,
+    139
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Syracuse.itemize_first",
+    "Syracuse.itemize_second",
+    "Syracuse.itemize_second_sharp",
+    "Syracuse.itemize_first_fails_at_zero",
+    "Syracuse.itemize_first_printed_false",
+    "Syracuse.itemize_second_fails_at_one",
+    "Syracuse.itemize_second_printed_false",
+    "Syracuse.T_one_int",
+    "Syracuse.a_one_int",
+    "Syracuse.p_one_int",
+    "Syracuse.T_iterate_one_int"
+   ],
+   "hypotheses": [
+    {
+     "paper": "x ∈ N*",
+     "here": "carried",
+     "note": "x : ℤ, 0 < x"
+    },
+    {
+     "paper": "n ∈ N with T^n(x) ≤ x (first bullet)",
+     "here": "strengthened",
+     "note": "itemize_first assumes 1 ≤ n: the printed bullet is false at n = 0 (a finding)"
+    },
+    {
+     "paper": "∀ n ∈ N, T^n(x) ≤ x (second bullet)",
+     "here": "weakened",
+     "note": "itemize_second needs it only for k ≤ n; its conclusion is the corrected bound n log(1 + 1/(3x)) (a finding)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "syracuse.tex:130–131 — the first bullet is false at n = 0 for every x ∈ N*: T^0(x) = x ≤ x and it asks p_0(x) log 2 − 0 = 0 > 0 (Syracuse.itemize_first_fails_at_zero, Syracuse.itemize_first_printed_false). It holds for every n ≥ 1 (Syracuse.itemize_first).",
+    "syracuse.tex:132 — the second bullet is false at x = 1 for every n ≥ 1: T(1) = 1, a_k(1) = 2, p_n(1) = 2n (Syracuse.T_one_int, Syracuse.a_one_int, Syracuse.p_one_int), so p_n(1) log 2 − n log 3 = n log(4/3) < n log 2 = n log(1 + 1/1) (Syracuse.itemize_second_fails_at_one, Syracuse.itemize_second_printed_false). The true bound is n log(1 + 1/(3x)) (Syracuse.itemize_second, hypothesis needed only for k ≤ n), attained at x = 1 for every n (Syracuse.itemize_second_sharp), so the constant 1/3 is sharp. 'Proceed the same way' (l.138): the same product identity gives it, with the inequalities reversed.",
+    "syracuse.tex:132 — whether the printed bound n log(1 + 1/x) holds for every x ≥ 2 is not decided here (it bears on hypothetical positive cycles)."
+   ],
+   "questions": [
+    "Which second bullet is intended: the corrected n log(1 + 1/(3x)) (what the product form gives, sharp at x = 1), or the printed n log(1 + 1/x) restricted to x ≥ 2? Reading taken: neither is marked; the corrected form is proved unmarked, the printed one refuted at x = 1.",
+    "First bullet: is n ∈ N meant as n ∈ N* (the paper writes N* elsewhere when 0 is excluded)? Reading taken: N contains 0, as printed; the bullet is refuted at n = 0 and proved for n ≥ 1."
+   ]
+  },
+  {
+   "label": "cor:corollary_2",
+   "tex_lines": [
+    140,
+    141
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Syracuse.corollary_2",
+    "Syracuse.corollary_2_eventually",
+    "Syracuse.ne_zero_of_tendsto_T_iterate"
+   ],
+   "hypotheses": [
+    {
+     "paper": "x ∈ N",
+     "here": "weakened",
+     "note": "x : ℤ, any sign (a negative orbit stays negative, so it never tends to +∞)"
+    },
+    {
+     "paper": "T^n(x) → +∞",
+     "here": "carried",
+     "note": "Tendsto (fun n => T^[n] x) atTop atTop, in ℤ"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "syracuse.tex:140 — the corollary has no printed proof; it holds as printed (Syracuse.corollary_2). Proof: by the product form, p_n(x) log 2 − n log 3 = log|x| − log|T^n x| + Σ_{k<n} log(1 + 1/(3T^k x)); the first difference is eventually ≤ 0, and the Cesàro mean of log(1 + 1/(3T^k x)) ≤ 1/(3T^k x) → 0 tends to 0 (Syracuse.corollary_2_eventually)."
+   ],
+   "questions": []
+  },
+  {
+   "label": "cor:bounds",
+   "tex_lines": [
+    142,
+    143
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Syracuse.bounds",
+    "Syracuse.cycle_mean",
+    "Syracuse.cycle_log_identity",
+    "Syracuse.exists_isLeast_isGreatest_of_cycle",
+    "Syracuse.ne_zero_of_T_cycle_int",
+    "Syracuse.bounds_printed_false",
+    "Syracuse.bounds_printed_lower_false"
+   ],
+   "hypotheses": [
+    {
+     "paper": "x ∈ N",
+     "here": "weakened",
+     "note": "x : ℤ: every cycle of Z, positive or negative; x ≠ 0 is derived (ne_zero_of_T_cycle_int)"
+    },
+    {
+     "paper": "n ∈ N*, T^n(x) = x",
+     "here": "carried",
+     "note": "1 ≤ n, T^[n] x = x; n need not be the minimal period"
+    },
+    {
+     "paper": "min_k T^k(x), max_k T^k(x)",
+     "here": "carried",
+     "note": "IsLeast / IsGreatest of Set.range (fun k => T^[k] x); they exist (exists_isLeast_isGreatest_of_cycle)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "syracuse.tex:142 — false as printed: at x = 1, n = 1 (min = max = 1, p_1(1) = 2) it asks log_2 2 = 1 ≤ 2 − log_2 3 ≈ 0.415 (Syracuse.bounds_printed_false). More: its lower bound log_2(1 + 1/min) fails on every positive cycle (Syracuse.bounds_printed_lower_false), and its two bounds are in decreasing order (1/min ≥ 1/max), so the printed chain could only hold on a fixed point.",
+    "syracuse.tex:142 — the true form (no printed proof): on every cycle of Z* (either sign), p_n/n − log_2 3 = (1/n) Σ_{k<n} log_2(1 + 1/(3T^k x)) (Syracuse.cycle_mean), hence log_2(1 + 1/(3 max)) ≤ p_n/n − log_2 3 ≤ log_2(1 + 1/(3 min)) (Syracuse.bounds): the printed bounds are swapped and lack the factor 3. On a negative cycle both bounds are negative."
+   ],
+   "questions": [
+    "Is the intended statement log_2(1 + 1/(3 max)) ≤ p_n/n − log_2 3 ≤ log_2(1 + 1/(3 min)) (swapped and with the factor 3, what the product form gives)? Reading taken: none marked; the corrected form is proved unmarked, the printed one refuted.",
+    "'for such a n' (l.142) read as: every n ∈ N* with T^n(x) = x, not only the minimal period."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Syracuse.pow_p_mul_T_iterate_eq_prod",
+  "Syracuse.log_identity_int",
+  "Syracuse.two_pow_a_mul_T_iterate_succ",
+  "Syracuse.not_isUnit_three_int",
+  "Syracuse.T_ne_zero_int",
+  "Syracuse.T_iterate_ne_zero_int",
+  "Syracuse.T_pos_of_nonneg_int",
+  "Syracuse.T_neg_of_neg_int",
+  "Syracuse.T_iterate_pos_int",
+  "Syracuse.T_iterate_neg_int",
+  "Syracuse.one_add_one_div_three_mul_pos",
+  "Syracuse.one_add_one_div_three_mul_le",
+  "Syracuse.T_zero_int",
+  "Syracuse.T_neg_one_int",
+  "Syracuse.T_iterate_neg_one_int",
+  "Syracuse.a_neg_one_int",
+  "Syracuse.p_neg_one_int",
+  "Syracuse.T_iterate_zero_succ_int"
+ ],
+ "kb_proposals": [
+  "Over ℤ, the product form of lem:base (Syracuse.pow_p_mul_T_iterate_eq_prod: 2^{p_n(x)} T^n(x) = 3^n x Π_{k<n}(1 + 1/(3T^k x)) for x ≠ 0) and its log form (Syracuse.log_identity_int) turn every bound on p_n(x) log 2 − n log 3 into a sum of log(1 + 1/(3T^k x)); the orbit never meets 0 (T_iterate_ne_zero_int) and keeps its sign (T_iterate_pos_int, T_iterate_neg_int) (T-syr-integer-bounds).",
+  "Pitfall: with x : ℤ, `(T^[n] x : ℝ)` elaborates as `T^[n] (↑x : ℝ)`, the map over ℝ (T needs only CommRing), and silently changes the statement; write `((T^[n] x : ℤ) : ℝ)`.",
+  "Concrete values of T, a, p over ℤ come from T_unique with an explicit odd t and exponent k (T_one_int, T_neg_one_int, T_zero_int); v2 is Mathlib's multiplicity and decide/simp do not compute it.",
+  "A limsup in ℝ is a junk value when the sequence is unbounded above: state IsBoundedUnder (· ≤ ·) beside `limsup … ≤ L`, and prove it by limsup_le_of_le + isCoboundedUnder_le_of_le + le_of_forall_pos_le_add from an ε-eventually form; Filter.Tendsto.cesaro gives Cesàro means.",
+  "Scaffold modules of one wave do not see each other, so a name clash surfaces only at graduation: suffix ℤ-specific helpers (`_int`) rather than taking the short generic name."
+ ],
+ "notes": "One file, sorry-free and warning-free; `lake build SyracuseScaffold.IntegerBounds` built only this module (2183 jobs, nothing upstream rebuilt). Imports: Syracuse.Base and two Mathlib modules (Analysis.SpecialFunctions.Log.Base, Analysis.Asymptotics.SpecificAsymptotics). All 44 theorems depend only on propext, Classical.choice, Quot.sound (#print axioms via a /tmp probe, deleted). The ledger regex finds exactly lem:one_has and cor:corollary_2 marked in the first 4000 characters; lem:itemize_furthermore_itemize and cor:bounds are named plain. The scaffold root SyracuseScaffold.lean was not edited (not in the dispatch): per lean-causal kb 0025 the master session must import the module there for the axiom sweep. Planner's [r] claims, each checked in Lean: the product formula (holds for every x ∈ Z*, not only odd x); the dropped 1/3 at l.119 (one_has_proof_l119_false); the sharper (1 + 1/(3|x|))^n (holds for every x ∈ Z*, not only x > 0: one_has_sharp); T(1) = 1, a_k(1) = 2, p_n(1) = 2n; the second bullet false for every n ≥ 1 with lower bound n log(1 + 1/(3x)), equality at x = 1; the first bullet false at n = 0 only; cor:bounds' log_2 2 ≤ 2 − log_2 3 failure and the cycle mean between log_2(1 + 1/(3 max)) and log_2(1 + 1/(3 min)) (also for negative cycles); cor:corollary_2 via e^{o(n)}. One [r] claim was imprecise: l.124's (1 + 1/x)^n is not just a typo for |x|, it is false at x = −1 (one_has_proof_l124_false). The hypothesis of cor:corollary_2 (a divergent orbit) is not known to be satisfiable; the statement is the paper's. For prop:proposition (l.194–206, from cor:bounds): the usable upper bound is p_n/n − log_2 3 ≤ log_2(1 + 1/(3 min_k T^k x)), with the minimum over the cycle, not the given x, and in log_2, not the natural log of l.202; on a negative cycle p_n/n − log_2 3 < 0, and the lower bound on a/n follows directly."
+}

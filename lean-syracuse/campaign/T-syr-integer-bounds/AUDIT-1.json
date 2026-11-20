@@ -1,0 +1,60 @@
+{
+  "target": "T-syr-integer-bounds",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "lem:one_has",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "MARK CHECKED, CORRECT. The elaborated statement is: Syracuse.one_has : ∀ {x : ℤ}, x ≠ 0 → (∀ n : ℕ, |x| ≤ |T^[n] x|) → ∀ n : ℕ, ↑(p n x) * Real.log 2 − ↑n * Real.log 3 ≤ ↑n * Real.log (1 + 1/|↑x|). Against l.114, hypothesis by hypothesis: x ∈ ℤ* is x ≠ 0, and the orbit hypothesis is the printed ∀ n ∈ ℕ, |Tⁿ(x)| ≥ |x|, stated in ℤ with T at ℤ. The conclusion is the printed one for every n, with log the natural log. Even the reading ℤ* = ℤˣ = {±1} is a special case of x ≠ 0. DOMAIN. T_ℤ, a_n and p_n are printed on 2ℤ+1 only (l.55, l.62–63), so at even x the printed statement has no content. Syracuse.T is the printed formula (3x+1)/2^{ν₂(3x+1)} on all of ℤ, with no junk value since 3 ∉ ℤˣ (three_mul_add_one_ne_zero, not_isUnit_three_int). On odd x the Lean statement is literally the paper's, because T keeps 2ℤ+1 and no term is junk. So the extension widens the statement (Lean ≥ paper) and changes nothing at odd x. It is also the extension the paper itself forces: lem:base is printed for x ∈ A (l.67), and at n = 1 it reads 2^{ν₂(3x+1)}T(x) = 3x+1. NON-VACUOUS: x = 1 and x = −1 satisfy the hypothesis. The sharper one_has_sharp, with n·log(1 + 1/(3|x|)) and the hypothesis only for k ≤ n, and one_has_of_le state what the REPORT says. The slips in the printed proof are verified in the findings section."
+    },
+    {
+      "label": "lem:itemize_furthermore_itemize",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked and partial, correctly. The label appears plain in the head (`lem:itemize_furthermore_itemize`) and bold only without backticks in the quote block (**lem:itemize_furthermore_itemize.**), which docstring_label_re does not match. The docstrings of itemize_first and itemize_second are not bold. FIRST BULLET. itemize_first_printed_false is the printed bullet verbatim: ¬ ∀ x : ℕ, 0 < x → ∀ n : ℕ, T^[n] ↑x ≤ ↑x → 0 < ↑(p n ↑x)·log 2 − ↑n·log 3. The n = 0 counterexample is genuine because ℕ ∋ 0 is this paper's printed convention: l.46 indexes (u_n)_{n∈ℕ} from u_0, ℕ* is written explicitly where 0 is excluded (l.80, l.127, l.142), and p_0 = 0 ∈ ℕ in the domains of l.84 and theo:rep. itemize_first (n ≥ 1) is the printed bullet minus its only failure, so it is the strongest true form. SECOND BULLET. itemize_second_printed_false is the printed bullet: the universal hypothesis subsumes the first bullet's 'furthermore'. The counterexample x = 1 is genuine and odd. T(1) = 4/2² = 1 and a_k(1) = 2. The inequality n(2 log 2 − log 3) ≥ n log 2 fails for every n ≥ 1 and every log base. It also does not depend on the a_0/a_1 index slip of l.71–75, because a_k(1) = 2 for every k. itemize_second (n·log(1 + 1/(3x)), hypothesis only for k ≤ n) is true and sharp at x = 1 (itemize_second_sharp). The REPORT correctly leaves open whether the printed bound holds for x ≥ 2. That bears on hypothetical positive cycles, and the closer does not overclaim."
+    },
+    {
+      "label": "cor:corollary_2",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "MARK CHECKED, CORRECT. The elaborated statement is: Syracuse.corollary_2 : ∀ {x : ℤ}, Tendsto (fun n => T^[n] x) atTop atTop → IsBoundedUnder (· ≤ ·) atTop (fun n => ↑(p n x)/↑n) ∧ limsup (fun n => ↑(p n x)/↑n) atTop ≤ Real.logb 2 3. The hypothesis is Tⁿ(x) → +∞ in ℤ, with T at ℤ (meta-checked, see build). x ∈ ℕ is widened to x ∈ ℤ, which includes the odd naturals where the printed T lives. LIMSUP. In ℝ, limsup of a sequence unbounded above is a junk value (sInf ∅ = 0), so 'limsup ≤ log₂ 3' alone would be weaker than the paper's. The added conjunct IsBoundedUnder only strengthens the conclusion. Since p_n/n ≥ 0 (cobounded), 'bounded above ∧ ℝ-limsup ≤ log₂ 3' is exactly the extended-real limsup ≤ log₂ 3 the paper states, i.e. ∀ε>0, eventually p_n/n ≤ log₂ 3 + ε (corollary_2_eventually). The value at n = 0 (0/0 = 0) does not affect a limsup. Whether any orbit of ℤ diverges is open, so the hypothesis is not known to be satisfiable. That is the paper's hypothesis, not a formalization artifact, and the REPORT discloses it."
+    },
+    {
+      "label": "cor:bounds",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked and partial, correctly. Plain in the head, bold without backticks in the quote, and the docstring of bounds is not bold. bounds_printed_false is the printed corollary. It quantifies over x ∈ ℕ, every n ≥ 1 with Tⁿx = x, and every m, M that are IsLeast/IsGreatest of {T^k x | k ∈ ℕ}, which is the unique min/max since they exist (exists_isLeast_isGreatest_of_cycle). Its conclusion is the printed two-sided chain with log₂. The counterexample x = 1, n = 1 (min = max = 1, p_1 = 2) is genuine under any reading of 'for such a n': there it asks 1 ≤ 2 − log₂ 3 ≈ 0.415. The lower bound fails on every positive cycle and every such n (bounds_printed_lower_false), and the two printed bounds decrease (1/min ≥ 1/max), so the defect is not specific to the trivial cycle. The true form bounds (log₂(1 + 1/(3M)) ≤ p_n/n − log₂ 3 ≤ log₂(1 + 1/(3m)), any cycle of ℤ) and cycle_mean are correctly stated, with equality on the cycle of 1."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "From lean-syracuse/: `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/SyracuseScaffold/IntegerBounds.lean` exits 0 with no output. lake build was not run, as dispatched; the other closer was running `lake env lean` on /tmp/syrrep/Rep.lean at the time. The token sorry occurs 0 times in the file, prose included. admit, axiom, unsafe, implemented_by, native_decide, extern, opaque and set_option occur 0 times. Imports are Syracuse.Base (strict) and two Mathlib modules. The file has 44 theorems and no def; they are exactly the REPORT's decls ∪ extra_decls (cross-checked by script). AXIOMS. The file plus 44 `#print axioms Syracuse.<name>` lines was fed to `lake env lean --stdin`, so no probe source was written. Its output went to /tmp/ib_probe_out.txt, which was deleted afterwards. All 44 depend on [propext, Classical.choice, Quot.sound]. PITFALL. I confirmed that `(T^[n] x : ℝ)` with x : ℤ elaborates to `@Nat.iterate ℝ (@T ℝ Real.commRing) n ↑x`. The same stdin run walked the type of every declaration of the file for applications of Syracuse.T/a/p/v2. Every instance is at ℤ, except two_pow_a_mul_T_iterate_succ, which is deliberately generic over a CommRing A. So no statement suffers the pitfall. The #check output of one_has, corollary_2, the three *_printed_false lemmas, the two l.119/l.124 lemmas, itemize_first, itemize_second and bounds is as quoted in the label notes. No declaration name of the file clashes with Syracuse/*.lean, scaffold Basic.lean, or the current Rep.lean."
+  },
+  "scope": {
+    "git_status": [
+      " M programme/roadmap.toml",
+      " M roadmap/roadmap.toml",
+      "?? lean-benzecri/scaffold/BenzecriScaffold/Chapter2/",
+      "?? lean-causal/scaffold/CausalScaffold/ErsUniqueness.lean",
+      "?? lean-egf/scaffold/EGFScaffold/BackwardPolicy.lean",
+      "?? lean-syracuse/campaign/T-syr-integer-bounds/",
+      "?? lean-syracuse/campaign/T-syr-rep/",
+      "?? lean-syracuse/scaffold/SyracuseScaffold/IntegerBounds.lean",
+      "?? lean-syracuse/scaffold/SyracuseScaffold/Rep.lean"
+    ],
+    "note": "Under lean-syracuse/ and papers/syracuse/, this target's footprint is only IntegerBounds.lean and its campaign directory. Rep.lean and campaign/T-syr-rep/ belong to the T-syr-rep closer. The roadmap diffs are the loops' bookkeeping, and the benzecri, causal and egf entries belong to parallel loops. The strict library, the scaffold root (SyracuseScaffold.lean, which imports only SyracuseScaffold.Basic), the paper and the ledger are unmodified."
+  },
+  "docstring_contract": "The file has a title. Both marks are in the contract form, **`lem:one_has`** — `syracuse.tex:114` and **`cor:corollary_2`** — `syracuse.tex:140`, and the plain citations of l.127 and l.142 are correct. The ledger's docstring_label_re (tools/ledger.py:246), run on the first 4000 characters, returns exactly ['lem:one_has', 'cor:corollary_2']. The bold-without-backticks headings in the quote block do not match it. The quoted sentences (l.113, 114, 127–132, 140, 142) are verbatim up to whitespace and the itemize environment. The Hypothesis checklist is present and correct. SCOPE (disclosed) is present, and every claim in it is backed by a declaration I checked, except one imprecise phrase (minor finding 1). The provenance line is present. The finding line references l.119, 121, 123, 124, 130–131, 132, 138, 140 and 142 all point at the right lines.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "scaffold/SyracuseScaffold/IntegerBounds.lean:77–78 (SCOPE, last sentence of the 'Reading' bullet); REPORT lem:one_has hypotheses[2].note",
+      "what": "'Over ℤ, T, a, p are the paper's everywhere' is imprecise. The paper defines T_ℤ, a_n and p_n on 2ℤ+1 only (l.55, l.62–63), so at even x there is no paper map for Syracuse.T to agree with. What not_isUnit_three_int and base_of_not_isUnit_three show is that over ℤ there is no junk value: 3x+1 ≠ 0. So on 2ℤ+1 they are the paper's maps, and at even x they are the printed formula. The preceding sentence of the same bullet states the even-x behaviour correctly, so nothing is misstated about the statements. But SCOPE is read into the ledger, and this sentence reads as if the paper defined T on even integers.",
+      "fix": "Replace it with: 'Over ℤ there is no junk value (3x+1 ≠ 0: not_isUnit_three_int), so on 2ℤ+1 T, a, p are the paper's maps (Syracuse.base_of_not_isUnit_three); on even x they are the printed formula, which is also what lem:base, printed for x ∈ A (l.67), forces at n = 1.' Make the same edit in the REPORT note."
+    }
+  ]
+}
