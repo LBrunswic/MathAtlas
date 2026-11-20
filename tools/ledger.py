@@ -417,7 +417,7 @@ def build(write=True):
             if holder is None:
                 continue
             for r in holder["refs"]:
-                t = r["target"]
+                t = r.get("to", r["target"])   # a secondary \label resolves to its statement
                 if t in labels and t != lab and t not in deps:
                     deps.append(t)
         cites = list(n["cites"]) + (list(proof["cites"]) if proof else [])

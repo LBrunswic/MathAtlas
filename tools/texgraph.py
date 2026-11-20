@@ -300,9 +300,13 @@ def scan(g, fname, text, line0):
                 flush_free_into(node, text[free_start:m.start()])
                 body = ''.join(node.pop('_buf'))
                 g.finish(node, body)
-                lm = LABEL.search(body)
-                if lm and not node['label']:
-                    relabel(g, node, lm.group(1))
+                labs = LABEL.findall(body)
+                if labs and not node['label']:
+                    relabel(g, node, labs[0])
+                # A statement's further \label's are aliases of its key: external papers carry
+                # the hub's label first and the authors' after it, and the authors \ref their own.
+                if node['kind'] == 'statement' and node['label']:
+                    node['aliases'] = [l for l in labs if l != node['label']]
                 free_start = m.end()
             elif stack and stack[-1][0] == env:
                 stack.pop()
@@ -479,12 +483,21 @@ def link(g):
 
     # reference and citation edges
     labels = {n['label'] for n in nodes if n['label']}
+    alias = {}
+    for n in nodes:
+        for a in n.pop('aliases', ()):
+            if a not in labels:
+                alias.setdefault(a, n['label'])
     for n in nodes:
         n.pop('opt', None)
         for r in n['refs']:
             kind = 'eqref' if r['kind'] == 'eqref' else r['kind']
             if r['target'] in labels:
                 g.edges.append((n['id'], r['target'], kind))
+            elif r['target'] in alias:
+                r['to'] = alias[r['target']]          # what tools/ledger.py resolves it to
+                if alias[r['target']] != n['id']:
+                    g.edges.append((n['id'], alias[r['target']], kind))
             else:
                 g.edges.append((n['id'], f"?{r['target']}", 'dangling'))
         for c in n['cites']:
