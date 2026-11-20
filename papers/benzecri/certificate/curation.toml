@@ -1,15 +1,18 @@
-# STUB (2026-11-03, WP-45 wave 0): the curation source of the benzecri ledger, written into
-# papers/benzecri/ledger/ledger.json by tools/ledger_curate.py --paper papers/benzecri.
+# The curation source of the benzecri ledger, written into papers/benzecri/ledger/ledger.json by
+# tools/ledger_curate.py --paper papers/benzecri.
 # Authored. The curated fields of the benzecri ledger (DEC-112).
 #
-# Nothing is formalized yet: no row carries decls, extra_lean_files, a bucket A/B/C/D or a Lean
-# override, and no row is closed. What is curated at wave 0 is only what the parser cannot read off
-# the transcription:
-#   * the natural-language status of the statements Benzécri proves in running prose, or states
-#     without proof (the ledger reads `open` for every statement with no `proof` environment);
-#   * the two results of the introduction that belong to later chapters (B: Ch. 2 § 3; C: Ch. 5 § 3),
-#     terminal for THIS ledger because their proofs are not in the transcription (Ch. 1 only). When a
-#     later chapter is transcribed and its statements labelled, the row leaves bucket T.
+# History. Wave 0 (2026-11-03, WP-45): a stub curating only what the parser cannot read off the
+# transcription — the natural-language status of statements proved in running prose or stated
+# without proof, and the two results of the introduction that belong to later chapters (B: Ch. 2
+# § 3; C: Ch. 5 § 3), terminal for this ledger while their proofs are not transcribed. Chapter 1 has
+# since been formalized in lean-benzecri (35 rows closed and marked by 2026-11-08; the p. 238 row by
+# T-bz-universal-cover, 2026-11-20).
+# T-bz-curation-decls (2026-11-20): every closed row now names its declarations (decls), read off the
+# declaration docstrings that cite the label in backticks and, for the six rows whose declarations do
+# not, off the label's bullet in the module docstring; every name checked against the compiled
+# environment (the Lean overlay's facts, reports/atlas/lean/facts-lean-benzecri.json). The closures
+# and marks are unchanged: the ledger computes them from the marks.
 # Line numbers are those of papers/benzecri/legacy/labeled/benzecri1960_ch1.tex.
 #
 # Bucket rules: barbot's (kb/0006, kb/0011, kb/0015 of lean-causal); A = marked ``**`label`**`` in a
@@ -26,7 +29,7 @@ nl_status_override = "proved"
 nl_reason = "proved in Ch. 1 § 3: it restates, for compact manifolds, the corollary of Prop. 1 (bzcor:c1s3p1c_produit_cercle, benzecri1960_ch1.tex:701) and the corollary of Prop. 3 (bzcor:c1s3p3c_produit_projectif, :797)"
 bucket = "A"
 notes = "MARKED: Benzecri/Applications/TheoremA.lean (WP-45w), theoremA (theoremA_affine, theoremA_projective); S₁^{(p−1)} as printed (DEC-128)."
-
+decls = ["Benzecri.theoremA_affine", "Benzecri.theoremA_projective", "Benzecri.theoremA"]
 [[row]]
 label = "bzthm:intro_B"
 nl_status_override = "proved"
@@ -46,14 +49,14 @@ label = "bzprop:c1s1p3_atlas"
 nl_status_override = "cited"
 nl_reason = "stated without proof as well known: 'Cette deuxième définition, à l'aide de cartes, ... est bien connue' (benzecri1960_ch1.tex:381)"
 bucket = "A"
-
+decls = ["Benzecri.existsUnique_structure_of_atlas"]
 [[row]]
 label = "bzprop:c1s2p1_atlas_conique"
 nl_status_override = "informal"
 nl_reason = "stated without proof, as the conical analogue of § 1 Prop. 3 (the sentence before it, benzecri1960_ch1.tex:501)"
 bucket = "A"
 notes = "MARKED: Benzecri/Cone/Basic.lean (WP-45m); printed {V_i}, f_i read {U_i}, f_j."
-
+decls = ["Benzecri.existsUnique_coneStructure_of_atlas"]
 [[row]]
 label = "bzprop:c1s2p2_base_cone"
 nl_status_override = "informal"
@@ -61,14 +64,14 @@ nl_reason = "stated without proof; the statement carries its own construction (t
 bucket = "A"
 notes = "MARKED in corrected form (DEC-124; correction DEC-122): Benzecri/Cone/Base.lean carries the mark on ConeBase.existsUnique_baseStructure_of_properSMul (and ConeBase.variete_of_properSMul: B Hausdorff, connected, second countable) — the base is a locally projective manifold under the added hypothesis that the ℝ₊* action is proper; the printed form (B a variété) is refuted (ConeCex.not_t2Space_coneBase_dim)."
 paper_findings = ["V = {z > 0, (x,y) ≠ 0} × ℝ^{n-3} / ⟨diag(4, 1/8, 2, 1, …, 1)⟩ is a Hausdorff, second-countable, paracompact affine conical manifold whose base V/ℝ₊* is not Hausdorff, for every n ≥ 3 (Benzecri.ConeCex.not_t2Space_coneBase_dim, not_properSMul_dim, not_exists_section_dim, isEmpty_homeomorph_dim); for n ≤ 2 the base is always Hausdorff (Benzecri.LowDim.t2Space_coneBase_of_le_one); in general B is Hausdorff iff the ℝ₊* action is proper (Benzecri.ConeBase.t2Space_iff_properSMul)"]
-
+decls = ["Benzecri.ConeBase.existsUnique_baseStructure_charts", "Benzecri.ConeBase.existsUnique_baseStructure", "Benzecri.ConeBase.existsUnique_baseStructure_of_properSMul"]
 [[row]]
 label = "bzcor:c1s3p1c_produit_cercle"
 nl_status_override = "proved"
 nl_reason = "proved by the last paragraph of the proof of § 3 Prop. 1 (benzecri1960_ch1.tex:659): F(B) modulo an infinite discrete subgroup of R+ is B x S_1"
 bucket = "A"
 notes = "MARKED: Benzecri/Applications/Circle.lean (WP-45t), produit_cercle; paracompactness read into « variété » (DEC-128); no compactness needed; the non-paracompact case a remark (DEC-128)."
-
+decls = ["Benzecri.produit_cercle"]
 [[row]]
 label = "bzcor:c1s3p3c_produit_projectif"
 nl_status_override = "proved"
@@ -80,67 +83,68 @@ nl_reason = "proved by the second half of the proof of § 3 Prop. 3 (benzecri196
 # ruled readings: DEC-113, DEC-114, DEC-120.
 bucket = "A"
 notes = "MARKED: Benzecri/Applications/Products.lean (WP-45u), produit_projectif for every p (Hausdorff, σ-compact factors)."
-
+decls = ["Benzecri.produit_projectif"]
 [[row]]
 label = "bzdef:c1s1d1_espace_affin"
 bucket = "A"
-
+decls = ["Benzecri.IsSimplyTransitive", "Benzecri.IsAffineSpace"]
 [[row]]
 label = "bzdef:c1s1d2_application_affine"
 bucket = "A"
-
+decls = ["Benzecri.IsAffine"]
 [[row]]
 label = "bzdef:c1s1d3_sphere"
 bucket = "A"
-
+decls = ["Benzecri.Sphere"]
 [[row]]
 label = "bzdef:c1s1d4_sous_variete_lineaire"
 bucket = "A"
-
+decls = ["Benzecri.Sphere.linearSubvariety"]
 [[row]]
 label = "bzdef:c1s1d5_hemisphere"
 bucket = "A"
-
+decls = ["Benzecri.Sphere.IsOpenHemisphere"]
 [[row]]
 label = "bzdef:c1s1d6_structure_affine_hemisphere"
 bucket = "A"
-
+decls = ["Benzecri.Sphere.hvadd", "Benzecri.Sphere.hvadd_mk", "Benzecri.Sphere.mk_transl_eq_of_mk_eq", "Benzecri.Sphere.coe_vadd_eq", "Benzecri.Sphere.instAddActionHemi", "Benzecri.Sphere.isSimplyTransitive_hemi", "Benzecri.Sphere.isAffineSpace_hemi_iff", "Benzecri.Sphere.instAddTorsorHemi", "Benzecri.Sphere.ker_eq_of_openHemisphere_eq", "Benzecri.Sphere.hemiTransEquiv", "Benzecri.Sphere.coe_vadd_hemiTransEquiv", "Benzecri.Sphere.hemi_vadd_indep"]
 [[row]]
 label = "bzdef:c1s1d7_segment"
 bucket = "A"
-
+decls = ["Benzecri.Sphere.closedSeg"]
 [[row]]
 label = "bzdef:c1s1d8_partie_convexe"
 bucket = "A"
-
+decls = ["Benzecri.Sphere.IsConvexPart", "Benzecri.Sphere.IsSegConvex", "Benzecri.Sphere.isConvexPart_iff_isSegConvex", "Benzecri.Sphere.IsConvexPartMinkowski", "Benzecri.Sphere.isSegConvex_univ", "Benzecri.Sphere.not_isConvexPartMinkowski_univ", "Benzecri.Sphere.not_isConvexPartMinkowski_of_linearSubvariety_subset"]
 [[row]]
 label = "bzdef:c1s1d9_convexe_strict"
 bucket = "A"
-
+decls = ["Benzecri.Sphere.IsStrictConvexPart"]
 [[row]]
 label = "bzdef:c1s1d10_quotient"
 bucket = "A"
-
+decls = ["Benzecri.Sphere.quotient"]
 [[row]]
 label = "bzdef:c1s1d11_corps_convexe"
 bucket = "A"
-
+decls = ["Benzecri.IsCorpsConvexe"]
 [[row]]
 label = "bzdef:c1s1d12_variete_localement_projective"
 bucket = "A"
-
+decls = ["Benzecri.IsEtaleOpen", "Benzecri.isOpen_iff_isEtaleOpen", "Benzecri.IsJetStructure", "Benzecri.IsJetStructure.isOpen", "Benzecri.exists_hasGroupoid_jets_eq_iff", "Benzecri.maximalAtlas_eq_of_jets_eq", "Benzecri.isCoveringMap_jets", "Benzecri.IsJetStructure.isCoveringMap", "Benzecri.isCoveringMap_jets_proj", "Benzecri.isCoveringMap_jets_aff", "Benzecri.jetsTrivialization", "Benzecri.mem_jets_iff_existsUnique", "Benzecri.surjective_jetSource", "Benzecri.isLocalHomeomorph_jetSource"]
+extra_lean_files = ["Benzecri/Structure/Basic.lean"]
 [[row]]
 label = "bzrem:c1s1r1_affine_vers_projective"
 bucket = "A"
-
+decls = ["Benzecri.hasGroupoid_projGroupoid_of_affine", "Benzecri.remarque_affine_vers_projective"]
 [[row]]
 label = "bzdef:c1s1d13_carte_compatible"
 bucket = "A"
-
+decls = ["Benzecri.IsCompatibleChart"]
 [[row]]
 label = "bzprop:c1s1p1_cartes_compatibles"
 bucket = "A"
-
+decls = ["Benzecri.existsUnique_smul_eq_of_isPreconnected"]
 [[row]]
 label = "bzthm:c1s1_revetement_universel_divisible"
 nl_status_override = "informal"
@@ -153,32 +157,32 @@ notes = "T-bz-universal-cover (atlas-team, 2026-11-20), audit AUDIT-1 minor (pro
 label = "bzprop:c1s1p2_developpement"
 bucket = "A"
 notes = "MARKED: Benzecri/Structure/Developing.lean (WP-45k), Benzécri's route through the jet covering (isCoveringMap_jets + IsCoveringMap.existsUnique_continuousMap_lifts); needs only SimplyConnectedSpace V. Graduated 2026-11-08."
-
+decls = ["Benzecri.prop2_developpement", "Benzecri.prop2_developpement_proj", "Benzecri.prop2_developpement_aff"]
 [[row]]
 label = "bzdef:c1s1d14_segment_variete"
 bucket = "A"
 notes = "MARKED: Benzecri/Structure/Classes.lean (WP-45l); the scan prints Déf. 7's closed segment."
-
+decls = ["Benzecri.IsProjSegment"]
 [[row]]
 label = "bzdef:c1s1d15_homogene_balayable_divisible"
 bucket = "A"
 notes = "MARKED: Benzecri/Structure/Classes.lean (WP-45l); divisible ⇒ balayable for V locally compact (supplied in both cases)."
-
+decls = ["Benzecri.GXAut.ofBijective", "Benzecri.IsHomogeneous", "Benzecri.IsBalayableFor", "Benzecri.IsBalayable", "Benzecri.IsDivisible", "Benzecri.IsHomogeneous.isBalayable", "Benzecri.IsDivisible.isBalayable", "Benzecri.IsDivisible.isBalayable_proj"]
 [[row]]
 label = "bzdef:c1s1d16_maximale"
 bucket = "A"
 notes = "MARKED: Benzecri/Structure/Classes.lean (WP-45l); compact ⇒ maximal read with U Hausdorff (DEC-122)."
-
+decls = ["Benzecri.IsMaximal", "Benzecri.isMaximal_iff", "Benzecri.exists_opens_iso_iff", "Benzecri.isMaximal_of_compactSpace"]
 [[row]]
 label = "bzdef:c1s2d1_cone_ouvert"
 bucket = "A"
 notes = "MARKED: Benzecri/Cone/Basic.lean (WP-45m)."
-
+decls = ["Benzecri.IsOpenCone"]
 [[row]]
 label = "bzdef:c1s2d2_variete_conique_affine"
 bucket = "A"
 notes = "MARKED: Benzecri/Cone/Basic.lean (WP-45m); jet form ⇔ atlas form (def2_iff); « définition 2 » read as Déf. 13 (DEC-113)."
-
+decls = ["Benzecri.IsConeJetStructure"]
 [[row]]
 label = "bzdef:c1s2d3_homotheties_positives"
 bucket = "A"
@@ -188,7 +192,8 @@ paper_findings = ["V = {z > 0, (x,y) ≠ 0} × ℝ^{n-3} / ⟨diag(4, 1/8, 2, 1,
 
 # 2026-11-08: graduation of wave 4 (the § 2 Énoncé) to the strict library; MARKED in corrected form
 # (DEC-127; correction DEC-122/124); audits WP-45r AUDIT-1/2.
-
+decls = ["Benzecri.ConeBase.exists_trivialization_of_properSMul", "Benzecri.ConeBase.trivialization", "Benzecri.posSMul", "Benzecri.ConeBase.coneTrivialization", "Benzecri.ConeCex.not_def3TrivialAsPrinted_dim", "Benzecri.ConeCex.not_def3TrivialAsPrinted"]
+extra_lean_files = ["Benzecri/Cone/Basic.lean", "Benzecri/Cone/Base.lean", "Benzecri/Cone/Counterexample.lean"]
 [[row]]
 label = "bzthm:c1s2_isomorphisme_fonctoriel"
 bucket = "A"
@@ -196,34 +201,35 @@ notes = "MARKED in corrected form (DEC-127): Benzecri/Cone/Functor.lean carries 
 paper_findings = ["§ 2 Prop. 2's finding (DEC-122) carried over to the Énoncé: read over all Hausdorff connected cones the printed isomorphism fails for every n ≥ 3 (not_essSurjAsPrinted_dim; true for n ≤ 2, essSurjAsPrinted_of_le_one) because the base of a Hausdorff cone need not be a « variété »; F itself does not fail — every Hausdorff cone is F of its own base (ConeCex.isoFConeBase, iso_FCone_coneBase_and_not_t2Space); the essential image of F is exactly the proper cones (exists_iso_coneObj_iff)"]
 
 # 2026-11-08: graduation of wave 5 (§ 3 and Theorem A, general p; DEC-128); audits WP-45t..y.
-
+decls = ["Benzecri.coneEquivalence", "Benzecri.baseFunctor_isEquivalence"]
 [[row]]
 label = "bzprop:c1s3p1_F_homogene"
 bucket = "A"
 notes = "MARKED: Benzecri/Applications/Circle.lean (WP-45t), FCone.prop1_F_homogene; B Hausdorff (plan F6)."
-
+decls = ["Benzecri.FCone.prop1_F_homogene"]
 [[row]]
 label = "bzdef:c1s3d1_produit_cones"
 bucket = "A"
 notes = "MARKED for general p: Benzecri/Applications/ProductsGeneral.lean (WP-45x), def1_produit_cones_pi (flat block construction; free, orbits = fibres, equivariantly locally trivial)."
-
+decls = ["Benzecri.def1_produit_cones_pi"]
 [[row]]
 label = "bzprop:c1s3p2_fibre_produit"
 bucket = "A"
 notes = "MARKED for general p: Benzecri/Applications/ProductsGeneral.lean (WP-45x), prop2_fibre_produit_pi (PiTorus acting at once by projective automorphisms, free, orbits = fibres; base Hausdorff; joint continuity)."
 paper_findings = ["Proof remark of § 3 Prop. 2 (p. 244, « On peut encore remarquer »): the product-1 lift of ℝ^{+p}/ℝ^+ is not conical when the factors' dimensions differ (not_isGXMorphism_piSMul_of_ne; converse prod_pow_eq_one_of_isGXMorphism_piSMul); the corrected lift is ∏ λᵢ^{dim F(Bᵢ)} = 1 (piLift, existsUnique_piLift); the statement of Prop. 2 holds (DEC-128)"]
-
+decls = ["Benzecri.prop2_fibre_produit_pi"]
 [[row]]
 label = "bzprop:c1s3p3_produit_homogene"
 bucket = "A"
 notes = "MARKED for general p: Benzecri/Applications/ProductsGeneral.lean (WP-45x), prop3_produit_homogene_pi; no paracompactness needed (paracompactSpace_of_properlyDiscontinuousSMul); proved flat rather than by DEC-128's suggested induction."
-
+decls = ["Benzecri.prop3_produit_homogene_pi"]
 [[row]]
 label = "bzdef:c1s3d2_automorphisme_compatible"
 bucket = "A"
 notes = "MARKED for general p and unequal dimensions: Benzecri/Applications/ConverseGeneral.lean (WP-45y): compatibleSubgroup, exists_isCompatibleAssocPi (the « automorphisme φ » clause), σ only between equal dimensions."
-
+decls = ["Benzecri.IsCompatibleAssocPi"]
 [[row]]
 label = "bzprop:c1s3p4_reciproque"
 bucket = "A"
 notes = "MARKED for general p: Benzecri/Applications/ConverseGeneral.lean (WP-45y), prop4_reciproque_pi; G_I of index ≤ p! (relIndex_compatibleIdSubgroup_le), compatiblePerm with kernel G_I; nonempty factors (DEC-128)."
+decls = ["Benzecri.homogeneous_of_compatible_pi", "Benzecri.prop4_reciproque_pi"]
