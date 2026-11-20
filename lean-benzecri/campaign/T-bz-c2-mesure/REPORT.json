@@ -1,0 +1,247 @@
+{
+  "package": "T-bz-c2-mesure",
+  "target": "T-bz-c2-mesure",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter2/CrossRatio.lean",
+    "scaffold/BenzecriScaffold/Chapter2/Mesure.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bzdef:c2s2d1_mesure_projective",
+      "tex_lines": [
+        262,
+        268
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.Sphere.IsCrossRatio",
+        "Benzecri.Sphere.projMeasure",
+        "Benzecri.Sphere.IsCrossRatio.unique",
+        "Benzecri.Sphere.IsCrossRatio.one_le",
+        "Benzecri.Sphere.exists_isCrossRatio",
+        "Benzecri.Sphere.projMeasure_eq_log",
+        "Benzecri.Sphere.projMeasure_smul",
+        "Benzecri.Sphere.isCrossRatio_affine",
+        "Benzecri.crossRatio"
+      ],
+      "hypotheses": [
+        {
+          "paper": "S(n), GS(n, R)",
+          "here": "weakened",
+          "note": "S(E) and GSE E for any real vector space E (S n is E = R^(n+1))"
+        },
+        {
+          "paper": "A, A', B', B four points of a segment (AB), met in this order from A to B",
+          "here": "carried",
+          "note": "projMeasure_eq_log assumes B ≠ A, B ≠ -A, A', B' in the open segment and B' ∈ (A', B); the definition itself is total (⊤ outside its domain, see questions)"
+        },
+        {
+          "paper": "« rapport anharmonique »",
+          "here": "carried",
+          "note": "IsCrossRatio is a relation (odds form); isCrossRatio_affine shows it is the classical ratio of algebraic measures (pr/qr)(qs/ps) on any affine line, the formula of p. 250 with the transcription's [sic] read"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "Déf. 1 (l.262–268) leaves two kinds of degenerate configuration, and the measure is ⊤ in both. (i) A' = A with B' ≠ A, or B' = B with A' ≠ B: the printed formula (pr/qr)(qs/ps) has a zero denominator and a nonzero numerator, so the cross-ratio is infinite. Here ⊤ = log ∞ is the printed value extended, not a reading. (ii) Coincident points: A' = B' = A or A' = B' = B, where the formula is 0/0, or A = B, four equal points. Here the paper defines no cross-ratio, and ⊤ is a convention (projMeasure_left_eq_top, _right_eq_top, _same_eq_top). Case (ii) changes nothing for n ≥ 1, because a point M is interior to a segment of a chart, so IsMajoreSeg n k {M} M M ↔ 0 < k under either convention. It matters only in dimension 0; see the question under bzdef:c2s2d3_pseudo_longueur. Déf. 1's own printed claims (≥ 1, GS-invariance, measure = log of the cross-ratio) never reach these configurations, so Déf. 1's mark does not depend on either case.",
+        "Déf. 2 (l.277–282) applies the measure to φ(A', B') ⊂ φ(A, B) without saying which inner point plays A'. Reading taken: the measure is |log (A', B', B, A)|, which is log (A', B', B, A) ≥ 0 in the printed order (projMeasure_eq_log) and does not depend on the naming of the inner points (projMeasure_swap) nor on the direction of (A, B) (projMeasure_reverse)."
+      ]
+    },
+    {
+      "label": "bzprop:c2s2p1_mesure_projective_monotone",
+      "tex_lines": [
+        270,
+        273
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.Sphere.projMeasure_antitone",
+        "Benzecri.Sphere.projMeasure_le_inner",
+        "Benzecri.Sphere.projMeasure_le_outer"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(A'', B'') contenu dans (A', B'); AB remplacé par un segment le contenant",
+          "here": "weakened",
+          "note": "projMeasure_le_inner only needs A'', B'' ∈ (A', B'), projMeasure_le_outer only A, B ∈ (A₁, B₁), with no order or position hypothesis on A', B'; projMeasure_antitone states the printed inclusions"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Prop. 1 (l.270–273) has no printed proof (l.274). It is true and proved here in a stronger form. The proof: the cross-ratio (A', B', B, A) is odds(B')/odds(A') in coordinates on (A, B), and every point of (A', B') has odds between those of A' and B'. Hence |log (v/u)| ≤ |log r| for u, v between 1 and r."
+      ],
+      "questions": []
+    },
+    {
+      "label": "bzdef:c2s2d2_segment_majore",
+      "tex_lines": [
+        277,
+        282
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.IsMajoreSeg",
+        "Benzecri.isMajoreSeg_iff_exists_chart",
+        "Benzecri.isMajoreSeg_of_chart"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(A', B') un segment d'une variété localement projective V",
+          "here": "carried",
+          "note": "IsProjSegment n Sg' A' B' is the first conjunct; V is [ChartedSpace (S n) V], with [HasGroupoid V (projGroupoid n)] in the theorems"
+        },
+        {
+          "paper": "« si φ est une carte compatible d'un voisinage de (A, B) sur un ouvert de S(n), on ait »",
+          "here": "carried",
+          "note": "every compatible chart φ with Sg ⊆ φ.source is quantified, as printed; this is equivalent to the existential reading (isMajoreSeg_iff_exists_chart), by Ch. 1 Prop. 1's chart change on the connected segment and the GS-invariance of the measure, so no reading is needed"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "bzdef:c2s2d3_pseudo_longueur",
+      "tex_lines": [
+        284,
+        287
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.pseudoLength",
+        "Benzecri.pseudoLength_lt_top",
+        "Benzecri.pseudoLength_le"
+      ],
+      "hypotheses": [
+        {
+          "paper": "« la borne inférieure des nombres k »",
+          "here": "carried",
+          "note": "an infimum over real k in EReal (⊤ for an empty set); for n ≥ 1 the set is nonempty for every segment (pseudoLength_lt_top)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "Déf. 3 (l.284–287) defines l_V(M, N) for « un segment (M, N) ». In a manifold two points can be joined by several segments, so the notation is read as a function of the segment (the set together with its two endpoints), not of the pair of points: pseudoLength n Sg M N.",
+        "Dimension 0, a question with three choices for the author, not a finding as such. Property 1° of the enonce (l.232, « l_V(M, M) = 0 ») is not literally true for n = 0. The reason is that Déf. 1 assigns no measure to coincident points, and in dimension 0 that is the only configuration. S(0) has two diametrically opposite points (S0_eq_or_eq_neg), so every segment is a point, and its only majorising candidate is itself (A = B). Hence no k majorises (M, M), and l(M, M) = +∞ (pseudoLength_self_eq_top_dim_zero, stated on V = S(0); the same proof works on every V charted on S(0), a single point included). 1° holds for n ≥ 1 (pseudoLength_self), and it would hold in every dimension if a point were given measure 0. The paper never says n ≥ 1, and Ch. 1 even names S(0) (ch1 l.192). The three choices: (a) n ≥ 1 is implied; (b) a point has measure 0, so 1° holds for every n; (c) a finding as printed. The Lean follows the literal text, giving ⊤. Prop. 3 (T-bz-c2-hilbert) inherits the same question: with this convention a point of a 0-manifold has no majorised neighbourhood. The question concerns the row bzthm:c2s2_proprietes_pseudo_longueur (T-bz-c2-proprietes) and Prop. 3."
+      ]
+    },
+    {
+      "label": "bzdef:c2s2d4_partie_majoree",
+      "tex_lines": [
+        359,
+        363
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.IsMajorePart",
+        "Benzecri.isMajorePart_singleton",
+        "Benzecri.IsMajorePart.mono"
+      ],
+      "hypotheses": [
+        {
+          "paper": "deux points quelconques de C joints par un segment inclus dans C et majoré par k dans V",
+          "here": "carried",
+          "note": ""
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.wavg_mem_uIcc",
+    "Benzecri.pos_of_mem_uIcc",
+    "Benzecri.log_mem_uIcc",
+    "Benzecri.abs_log_div_le",
+    "Benzecri.Sphere.IsRep",
+    "Benzecri.Sphere.isRep_mk",
+    "Benzecri.Sphere.IsRep.ne_zero",
+    "Benzecri.Sphere.exists_isRep",
+    "Benzecri.Sphere.IsRep.smul",
+    "Benzecri.Sphere.IsRep.exists_pos",
+    "Benzecri.Sphere.IsRep.eq",
+    "Benzecri.Sphere.IsRep.neg",
+    "Benzecri.Sphere.IsRep.linearEquiv",
+    "Benzecri.Sphere.coeffs_eq",
+    "Benzecri.Sphere.linearIndependent_pair_smul",
+    "Benzecri.Sphere.not_linearIndependent_of_isRep",
+    "Benzecri.Sphere.not_linearIndependent_of_isRep_neg",
+    "Benzecri.Sphere.linearIndependent_of_ne",
+    "Benzecri.Sphere.coeff_sums_pos",
+    "Benzecri.Sphere.mem_closedSeg_iff",
+    "Benzecri.Sphere.mem_openSeg_iff",
+    "Benzecri.Sphere.closedSeg_self",
+    "Benzecri.Sphere.linearIndependent_of_mem_closedSeg",
+    "Benzecri.Sphere.IsCrossRatio.pos",
+    "Benzecri.Sphere.isCrossRatio_of_coords",
+    "Benzecri.Sphere.IsCrossRatio.linearEquiv",
+    "Benzecri.Sphere.IsCrossRatio.smul",
+    "Benzecri.Sphere.isCrossRatio_smul_iff",
+    "Benzecri.Sphere.IsCrossRatio.swap",
+    "Benzecri.Sphere.IsCrossRatio.reverse",
+    "Benzecri.Sphere.projMeasure_eq",
+    "Benzecri.Sphere.projMeasure_eq_top",
+    "Benzecri.Sphere.projMeasure_nonneg",
+    "Benzecri.Sphere.projMeasure_lt_top_iff",
+    "Benzecri.Sphere.projMeasure_left_eq_top",
+    "Benzecri.Sphere.projMeasure_right_eq_top",
+    "Benzecri.Sphere.projMeasure_same_eq_top",
+    "Benzecri.Sphere.projMeasure_swap",
+    "Benzecri.Sphere.projMeasure_reverse",
+    "Benzecri.Sphere.projMeasure_self",
+    "Benzecri.Sphere.exists_coords_of_mem_closedSeg",
+    "Benzecri.Sphere.openSeg_subset_closedSeg",
+    "Benzecri.Sphere.closedSeg_subset_closedSeg",
+    "Benzecri.Sphere.ne_of_linearIndependent",
+    "Benzecri.Sphere.linearEquiv_image_closedSeg_subset",
+    "Benzecri.Sphere.gse_image_closedSeg_subset",
+    "Benzecri.Sphere.gse_image_closedSeg",
+    "Benzecri.Sphere.gse_smul_neg",
+    "Benzecri.Sphere.isPreconnected_closedSeg_of_ne_neg",
+    "Benzecri.IsProjSegment.isPreconnected_seg",
+    "Benzecri.isProjSegment_of_chart",
+    "Benzecri.IsProjSegment.eq_singleton",
+    "Benzecri.exists_smul_eq_on_of_isPreconnected",
+    "Benzecri.IsProjSegment.image_eq_closedSeg",
+    "Benzecri.isProjSegment_singleton",
+    "Benzecri.IsCompatibleChart.trans_aut",
+    "Benzecri.IsCompatibleChart.subtypeRestr",
+    "Benzecri.IsCompatibleChart.lift_openEmbedding",
+    "Benzecri.IsMajoreSeg.isProjSegment",
+    "Benzecri.IsMajoreSeg.mono",
+    "Benzecri.pseudoLength_nonneg",
+    "Benzecri.exists_closedSeg_extend",
+    "Benzecri.exists_closedSeg_subset",
+    "Benzecri.isMajoreSeg_singleton",
+    "Benzecri.pseudoLength_self",
+    "Benzecri.IsProjSegment.smul",
+    "Benzecri.IsMajoreSeg.smul",
+    "Benzecri.pseudoLength_smul",
+    "Benzecri.IsMajoreSeg.of_subset",
+    "Benzecri.pseudoLength_mono",
+    "Benzecri.IsProjSegment.lift",
+    "Benzecri.IsMajoreSeg.lift",
+    "Benzecri.pseudoLength_le_opens",
+    "Benzecri.pseudoLength_le_opens'",
+    "Benzecri.S0_eq_or_eq_neg",
+    "Benzecri.pseudoLength_self_eq_top_dim_zero"
+  ],
+  "kb_proposals": [
+    "The cross-ratio and projective measure of S(E) are in BenzecriScaffold.Chapter2.CrossRatio (Mathlib has none). IsCrossRatio A' B' B A r is the odds form: there are representatives a, b with a+b representing A' and a+r•b representing B'. Compute it with isCrossRatio_of_coords (r = odds(B')/odds(A')) or isCrossRatio_affine (the classical (pr/qr)(qs/ps)). projMeasure is EReal-valued and ⊤ on degenerate quadruples.",
+    "Points and segments of S(E) in coordinates: Sphere.IsRep v x (v ∈ F(x)). mem_closedSeg_iff and mem_openSeg_iff turn segment membership into nonnegative (resp. positive) combinations of representatives. B ≠ A ∧ B ≠ -A iff the representatives are independent (linearIndependent_of_ne, ne_of_linearIndependent).",
+    "Chart change on a segment of a locally projective manifold: exists_smul_eq_on_of_isPreconnected (two compatible charts differ by one g ∈ GS on a connected set in both sources) with IsProjSegment.isPreconnected_seg. IsProjSegment.image_eq_closedSeg says every compatible chart maps a segment onto the segment of its endpoints. T-bz-c2-poches proved the same lemmas through IsGXSegment, so dedupe at graduation.",
+    "Building majorised segments: isMajoreSeg_of_chart needs one chart φ with (a', b') ⊆ (a, b) ⊆ φ.target and measure < k. exists_closedSeg_extend extends a segment of S(n) lying in an open set beyond both endpoints, using the tube lemma on (ε, t).",
+    "Pitfall: `rintro _ rfl` on `x ∈ {M}` eliminates the variable M (not x) and breaks later references to M. Rewrite with mem_singleton_iff and `rw [hx]` instead."
+  ],
+  "notes": "Two new modules, a chain: Mesure imports CrossRatio. I typechecked them with the kb/0034 recipe (/tmp oleans, since deleted). At the end I ran `lake build BenzecriScaffold.Chapter2.CrossRatio BenzecriScaffold.Chapter2.Mesure` after checking that no other build was running. Only these two modules were compiled; nothing upstream was rebuilt. There is no sorry, and #print axioms gives {propext, Classical.choice, Quot.sound} for every principal declaration. The scaffold root BenzecriScaffold.lean was not edited, so the new modules are invisible to the axiom sweep until the root imports them (lean-causal kb/0025). Properties 1°–4° of the enonce bzthm:c2s2_proprietes_pseudo_longueur are proved as UNMARKED lemmas, for T-bz-c2-proprietes (OQ-38(a)). 1° is pseudoLength_nonneg (no hypothesis) and pseudoLength_self (n ≥ 1), with the counterexample pseudoLength_self_eq_top_dim_zero for n = 0. 2° is pseudoLength_smul, for g : GXAut (GSR n) (S n) V. 3° is pseudoLength_mono, which uses Prop. 1's first assertion. 4° is pseudoLength_le_opens for a segment of V' and pseudoLength_le_opens' for a segment of V included in V'; it is proved directly, not through Prop. 1. NAME COLLISION AVOIDED: the parallel T-bz-c2-poches file declares Sphere.isPreconnected_closedSeg, IsProjSegment.isPreconnected and IsProjSegment.image_eq. Mine had the same full names and are renamed isPreconnected_closedSeg_of_ne_neg, isPreconnected_seg and image_eq_closedSeg, so both modules can be imported together. The content is duplicated, as is gse_image_closedSeg / gse_smul_neg against Poches' Sphere.GSE.image_smul_closedSeg / Sphere.GSE.smul_neg. Keep one copy at graduation. MARKS: the five labels are marked, and AUDIT-1 (minor) confirms them. The only convention with consequences is the coincident-point case (Déf. 1, case (ii): ⊤ for A' = B' at an endpoint, or A = B). It acts through IsMajoreSeg. If the author rules it a reading, then Déf. 2, Déf. 3 and Déf. 4 become partial, in dimension 0 only. Déf. 1 and Prop. 1 are unaffected. The case A' = A with B' ≠ A (or B' = B with A' ≠ B) is the printed ∞ and binds no label. The orientation-free |log| is absorbed by the existential over the naming of (A, B) in Déf. 2. PASS ON: the n = 0 question (three choices: n ≥ 1 implied / a point has measure 0 / a finding as printed) must reach the T-bz-c2-proprietes dispatch (property 1°) and the T-bz-c2-hilbert dispatch (Prop. 3, which fails at n = 0 under the same convention). FIX ROUND 1 (after AUDIT-1, no statement or proof changed): the n = 0 finding is reworded as a question with three choices, in the Mesure docstring (checklist, SCOPE « Dimension 0 », the docstrings of pseudoLength_self and pseudoLength_self_eq_top_dim_zero) and here. The fallback above is corrected. CrossRatio's SCOPE and the docstrings of projMeasure, projMeasure_left_eq_top, projMeasure_right_eq_top and projMeasure_same_eq_top now separate the infinite case from the 0/0 case. Upstream candidates (general S(E) facts): IsRep and its API, mem_closedSeg_iff, mem_openSeg_iff, closedSeg_self, closedSeg_subset_closedSeg, linearIndependent_of_ne, isPreconnected_closedSeg_of_ne_neg, gse_image_closedSeg."
+}

@@ -27,3 +27,5 @@ import Benzecri.Applications.TheoremA
 import Benzecri.Port.UniversalCover
 import Benzecri.UniversalCoverRow
 import Benzecri.Chapter2.Poches
+import Benzecri.Chapter2.CrossRatio
+import Benzecri.Chapter2.Mesure
