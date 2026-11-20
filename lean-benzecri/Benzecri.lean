@@ -30,3 +30,4 @@ import Benzecri.Chapter2.Poches
 import Benzecri.Chapter2.CrossRatio
 import Benzecri.Chapter2.Mesure
 import Benzecri.Chapter2.Projection
+import Benzecri.Chapter2.Hilbert

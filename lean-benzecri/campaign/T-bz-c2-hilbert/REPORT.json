@@ -1,0 +1,205 @@
+{
+  "package": "T-bz-c2-hilbert",
+  "target": "T-bz-c2-hilbert",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter2/Hilbert.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bzprop:c2s2p2_pseudo_longueur_corps_convexe",
+      "tex_lines": [
+        306,
+        313
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.pseudo_longueur_corps_convexe",
+        "Benzecri.pseudoLength_eq_projMeasure",
+        "Benzecri.exists_frontier_pair",
+        "Benzecri.continuous_hilbertLength",
+        "Benzecri.continuous_hilbertLength_toReal",
+        "Benzecri.hilbertLength_ne_zero",
+        "Benzecri.hilbertLength_eq_zero_iff",
+        "Benzecri.hilbertLength_lt_top",
+        "Benzecri.hilbertLength",
+        "Benzecri.corpsInterior",
+        "Benzecri.isProjSegment_corpsInterior_iff",
+        "Benzecri.Sphere.lineThrough",
+        "Benzecri.Sphere.isLine_lineThrough",
+        "Benzecri.PseudoLongueurCorpsConvexePrinted",
+        "Benzecri.pseudoLongueurCorpsConvexePrinted_iff",
+        "Benzecri.hilbertLength_self_dim_zero",
+        "Benzecri.isCorpsConvexeS_singleton_S0"
+      ],
+      "hypotheses": [
+        {
+          "paper": "V̄ un corps convexe de S(n)",
+          "here": "carried",
+          "note": "IsCorpsConvexeS n K (Déf. 11: strict convex part, compact, nonempty interior)"
+        },
+        {
+          "paper": "d'intérieur V (a locally projective manifold)",
+          "here": "carried",
+          "note": "corpsInterior K = TopologicalSpace.Opens.interior K with Mathlib's charted structure on an open set and its HasGroupoid instance, as Mesure's 4° treats open subsets"
+        },
+        {
+          "paper": "l_V(A, B)",
+          "here": "carried",
+          "note": "pseudoLength n Sg A B for every segment Sg of V from A to B; the segment is unique (isProjSegment_corpsInterior_iff), so l_V is the function hilbertLength K of the pair of points"
+        },
+        {
+          "paper": "A, B deux points de V; la droite AB",
+          "here": "carried",
+          "note": "A B : corpsInterior K; the line is Sphere.lineThrough A B, a line of Déf. 4 when A ≠ B (isLine_lineThrough). For A = B the line is {A, −A}, which misses the frontier, so the first assertion is vacuous there (question)"
+        },
+        {
+          "paper": "F, F′ les points d'intersection de la droite AB avec la frontière de V̄",
+          "here": "carried",
+          "note": "any F ≠ F' with lineThrough A B ∩ frontier K = {F, F'}; such a pair exists for A ≠ B (exists_frontier_pair), with A, B in the open segment )F, F'("
+        },
+        {
+          "paper": "l_V(A, B) est une fonction continue sur V × V",
+          "here": "carried",
+          "note": "continuous_hilbertLength (V × V → EReal, any dimension); continuous_hilbertLength_toReal (finite and real-continuous for n ≥ 1)"
+        },
+        {
+          "paper": "qui ne s'annule que sur la diagonale",
+          "here": "carried",
+          "note": "read as « = 0 ↔ A = B », as 6° says (question). « → » holds in every dimension (hilbertLength_ne_zero); « ← » needs n ≥ 1"
+        },
+        {
+          "paper": "the dimension n",
+          "here": "added",
+          "note": "[NeZero n] in pseudo_longueur_corps_convexe: for n = 0 the printed form fails (pseudoLongueurCorpsConvexePrinted_iff), through Déf. 1's convention only (OQ-45)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Prop. 2 (l.306–313) fails as printed in dimension 0, if « ne s'annule que sur la diagonale » is read « vanishes exactly on the diagonal » (as 6°, l.250–251, says « nulle si et seulement si »). A point {x} of S(0) is a convex body (isCorpsConvexeS_singleton_S0), its interior is {x}, and l_V(x, x) = +∞ (hilbertLength_self_dim_zero), because Déf. 1 gives coincident points no measure. PseudoLongueurCorpsConvexePrinted n holds iff 0 < n (pseudoLongueurCorpsConvexePrinted_iff). The other assertions hold in every dimension. This is OQ-45: under (b), a point given measure 0, the statement would hold for n = 0.",
+        "The printed proof of Prop. 2 (l.316, « La proposition résulte de ce que F, F′ dépendent continûment de A, B ») does not reach the diagonal. There the line AB, hence F and F′, is not defined, and continuity at (A, A), that is l_V(A′, B′) → 0, needs a separate estimate. The formalization uses an affine-ball estimate (exists_nhds_projMeasure_lt). The statement is unaffected. The formalized proof uses two semicontinuities rather than the continuity of F, F′."
+      ],
+      "questions": [
+        "OQ-45, dimension 0. Reading taken: n ≥ 1, as [NeZero n] on the principal theorem pseudo_longueur_corps_convexe. The label is left unmarked. Routing: under OQ-45 (a) the mark goes on Benzecri.pseudo_longueur_corps_convexe with no Lean change. Under (b) or (c) the row stays partial.",
+        "« A, B deux points de V » includes A = B, where « la droite AB » is not determined. Reading taken: the first assertion is about A ≠ B. For A = B the hypothesis « line ∩ frontier = {F, F′} » cannot hold, so the Lean statement is vacuous there, and l_V(A, A) = 0 for n ≥ 1 anyway.",
+        "« ne s'annule que sur la diagonale ». Reading taken: l_V(A, B) = 0 ↔ A = B, as in 6°. The literal reading (zeros only on the diagonal) holds in every dimension (hilbertLength_ne_zero), including n = 0, where l_V never vanishes."
+      ]
+    },
+    {
+      "label": "bzprop:c2s2p3_voisinage_majore",
+      "tex_lines": [
+        365,
+        368
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.voisinage_majore",
+        "Benzecri.exists_isOpen_isMajorePart",
+        "Benzecri.VoisinageMajorePrinted",
+        "Benzecri.voisinageMajorePrinted_iff",
+        "Benzecri.not_isMajorePart_dim_zero"
+      ],
+      "hypotheses": [
+        {
+          "paper": "V une variété localement projective",
+          "here": "weakened",
+          "note": "[ChartedSpace (S n) V] [HasGroupoid V (projGroupoid n)] only: Hausdorff, connected and second countable are never used"
+        },
+        {
+          "paper": "k un nombre réel strictement positif",
+          "here": "carried",
+          "note": "k : ℝ, 0 < k"
+        },
+        {
+          "paper": "Tout point M de V possède un voisinage qui est majoré par k",
+          "here": "carried",
+          "note": "∃ W ∈ 𝓝 M, IsMajorePart n k W (Déf. 4, Mesure); with an open W: exists_isOpen_isMajorePart"
+        },
+        {
+          "paper": "the dimension n",
+          "here": "added",
+          "note": "[NeZero n] in voisinage_majore: for n = 0 no part containing a point is majorised (not_isMajorePart_dim_zero), so the printed form fails (voisinageMajorePrinted_iff), through Déf. 1's convention only (OQ-45)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Prop. 3 (l.365–368) fails as printed in dimension 0. On every V charted on S(0) every pseudo-length is +∞ (pseudoLength_eq_top_dim_zero), so no part containing a point is majorised (not_isMajorePart_dim_zero). The witness is already the one-point open set {x} of S(0), which is Hausdorff and connected. VoisinageMajorePrinted n (Hausdorff and connected V : Type) holds iff 0 < n (voisinageMajorePrinted_iff). This is the question Mesure's SCOPE already announced for this row (OQ-45). Under (b), a point given measure 0, it would hold for n = 0.",
+        "In the printed proof of Prop. 3 (l.371–372), « une conséquence facile de la sixième propriété » leaves one step implicit. 6° makes l_V small near (M, M), but Déf. 4 also needs the joining segments to lie inside the neighbourhood W, so W must be convex in a chart, for instance a small ball of an affine chart. The statement is unaffected. The formalized proof works in one chart with such a ball (exists_nhds_projMeasure_lt), and needs neither a chart onto the interior of a convex body nor 6° and 4°."
+      ],
+      "questions": [
+        "OQ-45, dimension 0. Reading taken: n ≥ 1, as [NeZero n] on voisinage_majore. The label is left unmarked. Routing: under OQ-45 (a) the mark goes on Benzecri.voisinage_majore with no Lean change. Under (b) or (c) the row stays partial."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.Sphere.IsCrossRatio.mem_openSeg",
+    "Benzecri.Sphere.mem_openSeg_of_mem_closedSeg",
+    "Benzecri.Sphere.closedSeg_subset_of_convex",
+    "Benzecri.Sphere.mem_lineThrough_iff",
+    "Benzecri.Sphere.mem_lineThrough_of_mem_closedSeg",
+    "Benzecri.Sphere.lineThrough_self_subset",
+    "Benzecri.Sphere.F_interior",
+    "Benzecri.one_le_of_ne_of_ne_neg",
+    "Benzecri.isOpen_singleton_S0",
+    "Benzecri.not_isMajoreSeg_dim_zero",
+    "Benzecri.pseudoLength_eq_top_dim_zero",
+    "Benzecri.ne_neg_of_map_pos",
+    "Benzecri.linearIndependent_of_map_eq",
+    "Benzecri.exists_nhds_projMeasure_lt",
+    "Benzecri.isCompatibleChart_subtypeCoe",
+    "Benzecri.isProjSegment_opens_iff",
+    "Benzecri.pseudoLength_le_projMeasure_opens",
+    "Benzecri.projMeasure_le_pseudoLength_opens",
+    "Benzecri.IsCorpsConvexeS.isClosed",
+    "Benzecri.IsCorpsConvexeS.convex_F",
+    "Benzecri.IsCorpsConvexeS.neg_notMem",
+    "Benzecri.IsCorpsConvexeS.isClosed_insert_zero_F",
+    "Benzecri.IsCorpsConvexeS.convex_F_interior",
+    "Benzecri.IsCorpsConvexeS.exists_forall_pos",
+    "Benzecri.IsCorpsConvexeS.exists_mul_norm_le",
+    "Benzecri.paramSet",
+    "Benzecri.map_param",
+    "Benzecri.param_ne_zero",
+    "Benzecri.convex_paramSet",
+    "Benzecri.isClosed_paramSet",
+    "Benzecri.paramSet_subset_Icc",
+    "Benzecri.eventually_mem_interior_param",
+    "Benzecri.paramSet_eq_Icc",
+    "Benzecri.mem_interior_param_of_mem_openSegment",
+    "Benzecri.mem_interior_of_mem_Ioo",
+    "Benzecri.notMem_interior_of_extreme",
+    "Benzecri.isCrossRatio_param",
+    "Benzecri.exists_param_of_mem_lineThrough",
+    "Benzecri.mem_closedSeg_of_paramSet_subset",
+    "Benzecri.one_lt_crossRatio",
+    "Benzecri.continuousAt_log_crossRatio",
+    "Benzecri.exists_inner_param",
+    "Benzecri.exists_outer_param",
+    "Benzecri.closedSeg_subset_interior",
+    "Benzecri.isProjSegment_hilbert",
+    "Benzecri.pseudoLength_eq_hilbertLength",
+    "Benzecri.exists_isRep_map_eq_one",
+    "Benzecri.mem_interior_F_of_isRep",
+    "Benzecri.pseudoLength_eq_param",
+    "Benzecri.lineThrough_inter_frontier",
+    "Benzecri.nrm",
+    "Benzecri.isRep_homeomorphUnitSphere",
+    "Benzecri.nrm_spec",
+    "Benzecri.continuous_nrm_corpsInterior",
+    "Benzecri.propriete_six",
+    "Benzecri.Sphere.closedSeg_subset_of_forall",
+    "Benzecri.eventually_exists_projMeasure_lt",
+    "Benzecri.propriete_cinq",
+    "Benzecri.propriete_cinq_limsup"
+  ],
+  "kb_proposals": [
+    "A convex body of S(n) lies in an open hemisphere: IsCorpsConvexeS.exists_forall_pos gives ℓ > 0 on F(K) (Hahn–Banach separates the opposite ray from the closed cone F(K) ∪ {O} at each point, then a finite subcover and a sum). IsCorpsConvexeS.exists_mul_norm_le adds c‖v‖ ≤ ℓ v on F(K). On ℓ = 1 a line through two points of K is t ↦ a + t (b − a) (paramSet_eq_Icc).",
+    "The segments of an open set U of S(n) are the segments of S(n) inside U (isProjSegment_opens_iff). Its inclusion chart is U.openPartialHomeomorphSubtypeCoe, compatible by isCompatibleChart_subtypeCoe. Two-sided bounds of l_U by projective measures: pseudoLength_le_projMeasure_opens and projMeasure_le_pseudoLength_opens.",
+    "Semicontinuity of pseudo-lengths by a constant cross-ratio. Move four collinear points by the same parameters (a + t(b − a), or the representatives solved from the two inner points), so the cross-ratio is unchanged, and keep the outer segment in the open set by the tube lemma IsCompact.eventually_forall_of_forall_eventually. See eventually_exists_projMeasure_lt and continuous_hilbertLength. On the diagonal use the affine-ball estimate exists_nhds_projMeasure_lt.",
+    "In long continuity proofs do not abbreviate a function with set (set N := fun P => …): it made elaboration time out. Write the expressions out. And interior_subset ht against an expected type t ∈ T elaborates interior T: write interior_subset (s := …) ht."
+  ],
+  "notes": "Sorry-free, and both labels are unmarked on purpose: the only obstacle is dimension 0 (OQ-45). Under OQ-45 (a) the marks go on Benzecri.pseudo_longueur_corps_convexe and Benzecri.voisinage_majore as they stand. The file imports only Benzecri.Chapter2.Mesure, Benzecri.Chapter2.Poches (for Sphere.F_closure) and Mathlib.Analysis.LocallyConvex.SeparatingDual. It compiles under -DwarningAsError=true with no warning. lake build BenzecriScaffold.Chapter2.Hilbert was green and rebuilt nothing upstream. #print axioms of the label theorems, of 5° and 6° and of the main tools gives propext, Classical.choice and Quot.sound only. A probe importing Benzecri, BenzecriScaffold and this module together compiles, so there are no name clashes; the probe was deleted. The scaffold root BenzecriScaffold.lean was not edited, so the master adds the import (lean-causal kb/0025). Properties 5° and 6° are lemmas here, unmarked, for T-bz-c2-proprietes. 5° is propriete_cinq (the printed proof's « tout segment assez voisin » form) and propriete_cinq_limsup (the limsup form, in any dimension), under the reading that « (M_i, N_i) tend vers (M, N) » means the endpoints converge and the segments eventually lie in every open neighbourhood of (M, N). Endpoints alone would not do in a manifold where several segments join two points. 6° is propriete_six (n ≥ 1). None of the formalized proofs follows the printed one exactly: Prop. 2 is proved by two semicontinuities, and Prop. 3 and 5° in one chart, without a chart onto the interior of a convex body. The transcription of Prop. 2 and Prop. 3 was checked against the scan (journal pp. 250–251, PDF pp. 23–24) and matches. T-bz-c2-dedupe was not anticipated: the file uses only Mesure's names (isMajoreSeg_of_chart, exists_closedSeg_subset, IsProjSegment.image_eq_closedSeg, IsCompatibleChart.subtypeRestr, IsProjSegment.lift), which that target keeps."
+}
