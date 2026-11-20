@@ -15,7 +15,8 @@ to j ∘ (affine chart) near one point is so along any connected set
 (`eventually_eq_affineEquiv_of_isPreconnected`). Pocket predicates depend only on the maximal atlas
 (`IsPocheProj.of_maximalAtlas_eq`).
 
-**Duplicate to remove.** `Benzecri.Chapter2.Mesure` proves the same chart-change facts for
-projective segments on its own (`exists_smul_eq_on_of_isPreconnected` with
-`IsProjSegment.isPreconnected_seg`; `IsProjSegment.image_eq_closedSeg`). The two files were written
-in parallel; a later target should keep one statement and derive the other.
+**Duplicates removed (T-bz-c2-dedupe, 2026-11-21).** `Benzecri.Chapter2.Mesure` had proved five
+of these facts on its own. It now imports Poches and keeps its names (`Sphere.gse_image_closedSeg`,
+`Sphere.gse_smul_neg`, `Sphere.isPreconnected_closedSeg_of_ne_neg`,
+`IsProjSegment.isPreconnected_seg`, `IsProjSegment.image_eq_closedSeg`) as one-line derivations
+from Poches's statements. `exists_smul_eq_on_of_isPreconnected` (Mesure) has no twin and stays.

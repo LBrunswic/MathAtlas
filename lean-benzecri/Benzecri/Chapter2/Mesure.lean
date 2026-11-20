@@ -1,4 +1,5 @@
 import Benzecri.Chapter2.CrossRatio
+import Benzecri.Chapter2.Poches
 import Benzecri.Structure.Classes
 
 /-!
@@ -89,6 +90,13 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
   `IsMajorePart.mono`, `pseudoLength_le`; and `IsCompatibleChart.trans_aut`, `.subtypeRestr`,
   `.lift_openEmbedding`, `Sphere.gse_image_closedSeg`, `Sphere.isPreconnected_closedSeg_of_ne_neg`,
   `Sphere.closedSeg_subset_closedSeg` (candidates to move upstream at graduation).
+* Five of these segment facts were also proved in `Benzecri.Chapter2.Poches`, written in parallel.
+  Since T-bz-c2-dedupe (2026-11-21) this module imports Poches and keeps its own names as one-line
+  derivations: `Sphere.gse_image_closedSeg` (`Sphere.GSE.image_smul_closedSeg`), `Sphere.gse_smul_neg`
+  (`Sphere.GSE.smul_neg`), `Sphere.isPreconnected_closedSeg_of_ne_neg`
+  (`Sphere.isPreconnected_closedSeg`), `IsProjSegment.isPreconnected_seg`
+  (`IsProjSegment.isPreconnected`) and `IsProjSegment.image_eq_closedSeg` (`IsProjSegment.image_eq`,
+  its conjuncts swapped). No statement changed.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -151,35 +159,16 @@ theorem gse_image_closedSeg_subset (g : GSE E) (A B : Sphere E) :
 
 /-- **`GS(E)` maps segments onto segments**: `g (A, B) = (gA, gB)`. -/
 theorem gse_image_closedSeg (g : GSE E) (A B : Sphere E) :
-    (g • ·) '' closedSeg A B = closedSeg (g • A) (g • B) := by
-  refine Subset.antisymm (gse_image_closedSeg_subset g A B) fun X hX => ?_
-  refine ⟨g⁻¹ • X, ?_, smul_inv_smul g X⟩
-  have := gse_image_closedSeg_subset g⁻¹ (g • A) (g • B) ⟨X, hX, rfl⟩
-  rwa [inv_smul_smul, inv_smul_smul] at this
+    (g • ·) '' closedSeg A B = closedSeg (g • A) (g • B) :=
+  GSE.image_smul_closedSeg g A B
 
-theorem gse_smul_neg (g : GSE E) (x : Sphere E) : g • (-x) = -(g • x) := by
-  induction g using QuotientGroup.induction_on with
-  | H f => simp only [GSE.mk_smul, smul_eq_mapEquiv, mapEquiv_neg]
+theorem gse_smul_neg (g : GSE E) (x : Sphere E) : g • (-x) = -(g • x) :=
+  GSE.smul_neg g x
 
 /-- **A segment of `S(E)` is connected** (its endpoints not diametrically opposite). -/
 theorem isPreconnected_closedSeg_of_ne_neg [TopologicalSpace E] [IsTopologicalAddGroup E]
-    [ContinuousSMul ℝ E] {A B : Sphere E} (h : B ≠ -A) : IsPreconnected (closedSeg A B) := by
-  obtain ⟨v, hv, rfl⟩ := exists_isRep A
-  obtain ⟨w, hw, rfl⟩ := exists_isRep B
-  have h0 : (0 : E) ∉ segment ℝ v w := zero_notMem_segment hv hw h
-  rw [closedSeg_mk, segOf, ofCone]
-  refine IsPreconnected.image ?_ _ continuous_s.continuousOn
-  have him : (Subtype.val : {v : E // v ≠ 0} → E) '' (Subtype.val ⁻¹' segment ℝ v w) =
-      segment ℝ v w := by
-    ext x
-    constructor
-    · rintro ⟨y, hy, rfl⟩
-      exact hy
-    · intro hx
-      exact ⟨⟨x, fun h' => h0 (h' ▸ hx)⟩, hx, rfl⟩
-  have hpc : IsPreconnected (segment ℝ v w) := (convex_segment v w).isPreconnected
-  rw [← him] at hpc
-  exact Topology.IsInducing.subtypeVal.isPreconnected_image.1 hpc
+    [ContinuousSMul ℝ E] {A B : Sphere E} (h : B ≠ -A) : IsPreconnected (closedSeg A B) :=
+  isPreconnected_closedSeg h
 
 end Sphere
 
@@ -191,13 +180,8 @@ variable {n : ℕ} {V : Type u} [TopologicalSpace V] [ChartedSpace (S n) V]
 
 /-- A segment of `V` is connected. -/
 theorem IsProjSegment.isPreconnected_seg {Sg : Set V} {A B : V} (h : IsProjSegment n Sg A B) :
-    IsPreconnected Sg := by
-  obtain ⟨φ, -, hS, -, -, hadm, himg⟩ := h
-  have hT : φ '' Sg ⊆ φ.target := image_subset_iff.2 fun x hx => φ.map_source (hS hx)
-  rw [← φ.symm_image_image_of_subset_source hS]
-  refine IsPreconnected.image ?_ _ (φ.continuousOn_symm.mono hT)
-  have h2 : IsPreconnected (φ '' Sg) := himg ▸ Sphere.isPreconnected_closedSeg_of_ne_neg hadm
-  exact h2
+    IsPreconnected Sg :=
+  h.isPreconnected
 
 /-- **A segment of `S(n)` inside the target of a compatible chart is the image of a segment of
 `V`.** -/
@@ -243,17 +227,8 @@ theorem exists_smul_eq_on_of_isPreconnected {φ ψ : OpenPartialHomeomorph V (S 
 (the chart of Déf. 14 is any compatible chart). -/
 theorem IsProjSegment.image_eq_closedSeg {Sg : Set V} {A B : V} (h : IsProjSegment n Sg A B)
     {ψ : OpenPartialHomeomorph V (S n)} (hψ : IsCompatibleChart (GSR n) ψ) (hS : Sg ⊆ ψ.source) :
-    ψ '' Sg = Sphere.closedSeg (ψ A) (ψ B) ∧ ψ B ≠ -ψ A := by
-  have hA := h.left_mem
-  have hB := h.right_mem
-  have hc := h.isPreconnected_seg
-  obtain ⟨φ, hφ, hSφ, -, -, hadm, himg⟩ := h
-  obtain ⟨g, hg⟩ := exists_smul_eq_on_of_isPreconnected hφ hψ hc ⟨A, hA⟩ hSφ hS
-  refine ⟨?_, ?_⟩
-  · rw [hg A hA, hg B hB, ← Sphere.gse_image_closedSeg, ← himg, image_image]
-    exact image_congr fun y hy => hg y hy
-  · rw [hg A hA, hg B hB, ← Sphere.gse_smul_neg]
-    exact fun h' => hadm (smul_left_cancel g h')
+    ψ '' Sg = Sphere.closedSeg (ψ A) (ψ B) ∧ ψ B ≠ -ψ A :=
+  ⟨(h.image_eq hψ hS).2, (h.image_eq hψ hS).1⟩
 
 /-- A segment with endpoints `M`, `M` exists: `{M}`. -/
 theorem isProjSegment_singleton (M : V) : IsProjSegment n {M} M M :=
