@@ -1,0 +1,146 @@
+{
+  "target": "T-ett-unanchored",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "rem:relation_not_assumed_reflexive",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial. relation_not_assumed_reflexive states the Minkowski half for every n through the library's Flat.minkowski_not_lt_self (the paper has E^{1,n}, n ≥ 1, so Lean ≥ paper). The BTZ half is the field BTZAxioms.Iminus_eq_empty plus not_lt_self, a one-line consequence of it. The stand-in is disclosed (DEC-134)."
+    },
+    {
+      "label": "rem:pas_plat",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial. IsCausalBubble matches l.293 (U = ⊤, A = {p}), and not_causallyPlain holds for every open U and every A. The witness lightlikeLine_isCausalBubble is valid: ]0,∞[ is open, lies in J^+(0) = [0,∞), and I^+(0) = ∅. Bubbles of the cited C⁰ metrics are not built, which is disclosed. btz_past adds IsCausal. The REPORT says 'causal', but the module checklist does not (minor finding 4). FINDINGS CHECKED, BOTH TRUE. (a) The remark's own words (l.294) and defi:causal_E0 put J^-(p) inside sing_0, which has empty interior (prop:GX_sing_dec). So Int J^-_U(A) = ∅ ⊂ closure I^-_U(A) for A ⊂ sing_0, and rem:deux_pushup l.318-320 itself says plainness is silent there. OQ-16 records that plainness is never established for E≥0-manifolds, so 'it fails in the two families' (l.290) is supported for (i) only. (b) l.290 calls defi:causalement_plat 'the push-up property', yet cor:pushup_sing asserts defi:pushup for E≥0-manifolds. The Lean backing (interior_Jminus_eq_empty) uses only the fields mem_sing_zero_of_le and interior_sing."
+    },
+    {
+      "label": "rem:terminology_borrowed_archytas_tarentum",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not-attempted; no declaration. The reason is right: an etymology plus an interpretive gloss of def:tarentin_spacetime, and the ledger's nl_status is 'informal'. The strong reading (J^-(x) ≠ {x} and J^+(x) ≠ {x}) is indeed not implied by tarentin. However, the cited witness no_past_not_enough is non-local, and the REPORT's parenthesis 'non-locality does not matter for this point' is wrong (minor finding 1). The conclusion still holds for local causalities, by the planar witness given there."
+    },
+    {
+      "label": "rem:tarentin_exemples",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial. tarentin_exemples assembles four parts: Minkowski for every n (instance only, as disclosed, since there are no Lorentzian manifolds); E_α, α > 0 (library massive_tarentin); the field SingularFlatAxioms.tarentin for E≥0, which is disclosed and rests on rem:sing_tarentin (partial); and the Misner mechanism not_tarentin_of_Jminus_eq, with the extra hypothesis J^+(x) ∉ 𝓝 x disclosed. Nothing narrower is presented as an anchor."
+    },
+    {
+      "label": "rem:lorentz_tarentin",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial. Zplus_Zminus_eq_univ is an honest abstract core: absolutely minimal + T1 + I^±(p) ≠ ∅ give Z^± = M through the library's rem:absolutely_minimal_topological_spacetime. minkowski_Z_eq_univ instantiates it for every n. The second sentence (SingularFlatAxioms.Z_eq) only restates the fields mem_Zplus and mem_Zminus_iff. That is circular, but it is disclosed as resting on rem:btz_pas_tarentin, which is partial."
+    },
+    {
+      "label": "cor:K_lorentzien",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial. K_lorentzien assumes FirstCountable, T1, absolutely minimal, causally plain, and I^±(p) ≠ ∅ for all p. For smooth time-oriented Lorentzian manifolds all of these are classical. The conclusion (K^± = I^± at every p) is the paper's. K_eq_I_of_pushUp has the push-up variant. minkowski_K_lorentzien is an instance and is disclosed as such. FINDING CHECKED, TRUE: the proof (l.889-891) never establishes causal plainness, which prop:tarentin_fort_K assumes (l.851). Two wording points for the author-facing text, not defects. First, 'tarentin and absolute minimality, which prop:tarentin_fort_K does not use' is true of its library proof: Kminus_eq_Iminus_of_mem_Zminus takes only FirstCountable, CausallyPlain and p ∈ Z^-, and this is already a ledger paper_finding on prop:tarentin_fort_K. The printed proposition does assume them, so say 'assumes but does not need'. Second, 'below Lipschitz regularity it fails' should read 'it can fail'."
+    },
+    {
+      "label": "rem:manifolds_specialises_brunswic_cauchy",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial. SingularFlatAxioms.FZenon_injectif gives Z^+ = M and Z^- = M ∖ sing_0 (from the fields), and injectivity of I^+ on M and of I^- on M ∖ sing_0. The injectivity comes from the library's Iplus_injOn_Zplus and Iminus_injOn_Zminus, under StronglyCausal and the field t2. Strong causality is prop:FZenon_injectif's own hypothesis, carried. The question to the author is legitimate: the ledger has nl_status 'informal', and auto 'proved' only because the proof environment at l.901 follows the remark. That Brunswic's Prop. 1.10 was not read is disclosed."
+    },
+    {
+      "label": "theo:geroch_mr",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not-attempted; no declaration, and no GerochMR.lean was written. The reason is right: it is a cited theorem about Lorentzian manifolds. Its topological analogues already anchor other rows: theo:geroch (Causal.Geroch + CausalScaffold.GerochEquiv) and, for the splitting clause, geroch_sing_split under the named hypothesis VecteurFlow (Causal.SingularGeroch). Neither discharges Lorentzian input. The paper itself (l.1309-1316) notes that topological splitting fails for general topological spacetimes. The REPORT names only theo:geroch as the abstract counterpart; mentioning geroch_sing_split would be more complete, but this is not a defect."
+    },
+    {
+      "label": "rem:recursion_these",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial. thesisRecursion transcribes l.1142-1143 exactly; as printed, U₁ is used at steps 0 and 1. recursion_these is the printed claim. It uses the reading K^-_U(A) = K^-_U(A ∩ U), which is the library's convention (le_mem_right) and is raised in questions. thesisRecursion_eq_empty (A ∩ U₁ = ∅ suffices) is strictly stronger. Witness checked: U k = ]-∞,0[ for k ≠ 5, U 5 = ℝ, A = {1}; both printed hypotheses hold, and 0 ∈ K^-(1) = I^-(1) by push-up. The finding is true: the extra hypotheses are not needed for the emptiness, which is all it claims. Note that A ⊂ U₅ is what makes the mis-seeding visible."
+    },
+    {
+      "label": "rem:proof_uses_neither_causal",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial: it is a sentence about a proof. Signature verified: Causality.isClosed_le asks only Tarentin and closed J^±(x), with no countability, curve, I^± or plainness hypothesis, as the REPORT says. lightlikeLine_relation_fermee checks that the lightlike line satisfies these hypotheses while I^+(q) = ∅ for every q. This matches 'I^+(q) may be empty' (l.1175)."
+    },
+    {
+      "label": "cexemple:misner_tarentin",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial. The Misner construction is not built, and that is disclosed. not_tarentin_of_no_past is correct: no past forces p = x, so x ∈ Int J(x,q) ⊂ J^+(x), and the added hypothesis J^+(x) ∉ 𝓝 x is disclosed as strengthened. FINDING CHECKED, TRUE: 'no past, hence not tarentin' (l.1370-1371) is incomplete without J^+(x) ∉ 𝓝 x. However, the Lean witness radialLine is tarentin at 0 only because it is non-local (minor finding 1), so it does not refute the inference for the paper's sheaf causalities. A local planar witness does, and the finding should rest on that or be scoped. Optionally, the hypotheses of not_tarentin_of_no_past could be witnessed: ℝ with y ≤ z iff y = z ∨ 0 ≤ y < z, and y ≪ z iff 0 < y < z, at x = 0."
+    },
+    {
+      "label": "cor:massA_causalite",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial. massA_causalite repackages the library's existsUnique_causality_singularGX: it adds no hypothesis and drops none. It gives existence plus uniqueness among absolutely minimal causalities, which is the disclosed reading of 'natural' (OQ-18). Baire is not used, which is backed by the Lean. FINDING CHECKED, TRUE: l.1400-1405 cite the conclusion of cor:model_minimal (absolute minimality), but prop:GX_sing_espace_temps_topo (a)(b) asks for causal arc-connectedness, which only cor:model_minimal's proof (l.1390-1392) supplies. The second half of (b) is never checked. Caveat: the claim 'E_κ, κ > 0, discharged' overstates (minor finding 2), because hreg, the second half of (b) for E_κ, is assumed."
+    },
+    {
+      "label": "cor:massA_cac",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial. massA_cac derives C.CausallyArcConnected from four inputs: the chart cover, causal arc-connectedness of the models, ChartIso charts, and absolute minimality (IsAtlasCausality, from prop:GX_sing). The route is lem:precausalite_restriction_minimale, equivalent to the paper's prop:cac_engendre. The transport lemmas ChartIso.curveOn_symm and causallyArcConnectedOn are sound. For E₀, hb is the named hypothesis. 'For E_{>0} no model hypothesis remains' overstates, because of hreg (minor finding 2)."
+    },
+    {
+      "label": "cor:pushup_sing",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial. pushup_sing follows the paper's proof: causal arc-connectedness (massA_cac), push-up of each chart domain transported from the model (ChartIso.pushUpOn), then the library's CausallyArcConnected.pushUp (lem:pushup_local). For E₀, hpY is the named hypothesis. The same hreg caveat applies (minor finding 2)."
+    },
+    {
+      "label": "prop:GX_sing_dec",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not-attempted; no declaration. The reason holds: the statement is cited and smooth, and the library has no smooth structure on a singular (G,X)-manifold. Its topological consequences are SingularFlatAxioms fields, which is accurate. However, the sentence 'the charts into E_α are not smoothly compatible with the regular charts; the cited smooth structure needs a smoothing along the singular lines' is unsupported (minor finding 3). A topological core (M locally homeomorphic to ℝ³ through the charts) could be stated, but the dispatch does not require it."
+    },
+    {
+      "label": "rem:mesure_unilaterale",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial. Jminus_diff_eq_segment computes J^-(q) ∖ J^-(p) = γ(]t₀,0]) from the field line, Jminus_eq_image and causality, as at l.1717-1718. not_admissible_both_of_le goes through the library's not_admissiblePast_and_admissibleFuture_of_pushUp, using K^+(p) = I^+(p) from push-up and p ∈ Z^+, which is the paper's 'r ∉ I^+(p) = K^+(p)'. Its hypothesis is p ≤ q, p ≠ q, q BTZ: weaker than 'p < q two BTZ points of one line', as disclosed. mesure_unilaterale needs only sing_0 ≠ ∅ (it builds q = γ 1). There is no witness with a BTZ point, which is disclosed library-wide (Causal.SingularFlat SCOPE)."
+    },
+    {
+      "label": "lem:vecteur",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not-attempted; no declaration. The reason is right: a C¹ vector field needs a differentiable structure and tangent vectors, which the library lacks. What theo:geroch_sing uses of it is the named hypothesis VecteurFlow (Causal.SingularGeroch, verified present)."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "`lake env lean -DwarningAsError=true` on each of BTZPoints, Tarentin and MassiveManifold: exit 0, no output. `lake build --no-build` of the three modules reports 'All targets up-to-date (3108 jobs)', so the closer's oleans match the sources and nothing upstream moved. `sorry` appears 3 times, all in docstring prose ('no `sorry` in this file'). There are no sorry tactics and no admit, axiom, unsafe, implemented_by, native_decide, extern or set_option. A #print axioms probe on all 57 names in REPORT decls ∪ extra_decls: every name resolves; 53 depend on exactly [propext, Classical.choice, Quot.sound] and 4 (thesisRecursion, Kminus_eq_empty_of_inter_eq_empty, thesisRecursion_eq_empty, recursion_these) on [propext, Quot.sound]. The probe was written under campaign/T-ett-unanchored/ and deleted. A second probe imports Causal, CausalScaffold (root) and the three modules together: no name clash. No declaration name contains 'Scaffold'; all are in namespace Causal."
+  },
+  "scope": {
+    "git_status": [" M roadmap/roadmap.toml", "?? lean-causal/campaign/T-ett-unanchored/", "?? lean-causal/scaffold/CausalScaffold/Remarks/"],
+    "note": "roadmap/roadmap.toml has a one-line diff, status ready -> active, for this target. Its mtime is 12:43:01, before the closer's first file (Tarentin.lean, 13:02:54): it is the loop's dispatch bookkeeping. A find for files newer than it (excluding .lake, .git and the lean submodule) returns only the three Remarks files and REPORT.json. lean-causal/build.log (ignored, 12:37) predates the dispatch. GerochMR.lean was allowed but not written, consistent with theo:geroch_mr being not-attempted."
+  },
+  "docstring_contract": "All three files have a title, cite every label unmarked with the correct ETT.tex line (all 17 verified), and place the citations within the first 4000 characters. No ``**`label`**`` occurs anywhere. Each file has quoted blocks, a Hypothesis checklist, a SCOPE (disclosed) section and the Provenance line, and the SCOPE claims are true. Small defects are in minor finding 4: the BTZPoints checklist omits btz_past's IsCausal; two quotes silently drop a parenthetical reference; one quote has a bracket typo.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/Remarks/Tarentin.lean:80-86, 94-97, 259-262; REPORT rows rem:terminology_borrowed_archytas_tarentum and cexemple:misner_tarentin",
+      "what": "The witness no_past_not_enough (radialLine) is tarentin at 0 only because it is non-local. Its relation -s ≤ t for |s| < |t| crosses the origin, and no curve in ℝ realises it. The natural local version of the same line (≤ generated by curves along which |·| increases) has J^-(t) = [0,t] for t > 0, and it is not tarentin at 0. So the REPORT's 'def:tarentin_spacetime reads only the relations of M itself, so non-locality does not matter for this point' is wrong. The witness is not a topological spacetime in the paper's sheaf sense, and kb/0019 asks such a refutation to be scoped to non-local causalities. Both findings that cite it are nevertheless TRUE for local causalities. Take ℝ² with x ≤_U y iff x = y or some curve in U along which |·| strictly increases joins them, and the same for ≪_U. This causality is causally arc-connected, hence absolutely minimal. It is causal and tarentin: at 0 take p = 0 and |q| = ε/2, so that J(0,q) contains the open disc of radius ε/2; at x ≠ 0 take p = (1-t)x and q = (1+t)x. And J^-(0) = {0}, J^+(0) = ℝ².",
+      "fix": "Delete the sentence 'non-locality does not matter'. Either scope the Lean evidence to non-local causalities (kb/0019) and add the planar argument as the reason the finding holds for the paper's causalities, or build the planar witness."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/Remarks/MassiveManifold.lean:15-17 and 318-322 (massA_positive docstring); REPORT rows cor:massA_causalite ('E_κ, κ > 0 discharged'), cor:massA_cac ('for E_{>0} no model hypothesis remains'), cor:pushup_sing",
+      "what": "massA_positive assumes hreg : ∀ κ k, ChartIso (massiveOf κ) (minkowski 2) (r κ k). That is the second half of prop:GX_sing_espace_temps_topo (b) for E_κ: the causality of E_κ extends that of reg(E_κ). It is a fact about the model, the library's GXSingular checklist line 35 treats it as one (as a reading), and the library builds no regular chart of E_κ, as massA_positive_minkowski's docstring concedes. 'With no BTZ model the three corollaries hold with no model hypothesis at all' and 'only the atlas (hreg, …) is assumed' therefore overstate what is discharged. The truth is visible in the signature and in checklist line 57, so nothing is over-certified.",
+      "fix": "Say that for E_κ, κ > 0, causal arc-connectedness and push-up are discharged, and that (b)'s second half (hreg, the regular charts of E_κ being isomorphisms) is assumed. Make the REPORT notes for the three massA rows say the same."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT prop:GX_sing_dec findings[0]; scaffold/CausalScaffold/Remarks/MassiveManifold.lean:77-80",
+      "what": "'the charts into E_α are not smoothly compatible with the regular charts; the cited smooth structure needs a smoothing along the singular lines' is unsupported and probably false. Give E_α ≅ ℝ³ the smooth structure of the coordinates (t, r cos(2πθ/α), r sin(2πθ/α)). The regular charts (local isometries into E^{1,2}, defined where r > 0) are then smooth in these coordinates, so they are compatible on every overlap, and the singular line is a smooth 1-submanifold. Brunswic2021cauchy Cor. 1.7 was not read. The sentence sits in a findings array and could be curated into the ledger as a statement about the cited construction.",
+      "fix": "Drop the sentence. 'The library has no smooth structure on a singular (G,X)-manifold, and no submanifolds' is a sufficient reason for not-attempted."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/Remarks/BTZPoints.lean:59 (checklist) vs :157 (btz_past hc); BTZPoints.lean:25; MassiveManifold.lean:34; Tarentin.lean:33",
+      "what": "Docstring contract (kb/0006). (1) btz_past (rem:pas_plat (ii)) adds IsCausal, which the paper's 'BTZ point of an E≥0-manifold' does not assume. The REPORT and the declaration docstring say 'causal', but the module checklist and SCOPE do not. (2) The quotes silently drop '(Definition \\ref{defi:causal_E0})' after 'below $p$' (l.294) and '(Corollary \\ref{cor:massA_causalite})' after 'model spaces' (l.1424). (3) The quote at Tarentin.lean:33 reads '{brunswic2021cauchy]' where the source has '{brunswic2021cauchy}'.",
+      "fix": "Add the row '`rem:pas_plat` (ii): M causal | ⚠ strengthened (the BTZ line a closed embedding)' to the BTZPoints checklist. Restore the two parentheticals or mark them with [...], and fix the bracket."
+    }
+  ]
+}

@@ -32,3 +32,6 @@ rediscover. One fact per entry.
 | [0024](entries/0024-two-papers-one-library.md) | house-rule | Two papers in one library: Barbot labels are `bthm:`/`bprop:`/…, modules under `Flat/` |
 | [0025](entries/0025-scaffold-root-and-axiom-sweep.md) | pitfall | A scaffold module not imported by the scaffold root is invisible to the axiom sweep |
 | [0026](entries/0026-ett-section4-on-cbg.md) | pattern | ETT §4 is stated through the CBG library, via `CommonSubDev` |
+| [0027](entries/0027-chart-iso-transport.md) | pattern | Transport curves, causal arc-connectedness and push-up through a `ChartIso` |
+| [0028](entries/0028-minkowski-facts-under-flat.md) | pitfall | Minkowski facts may already exist under `Causal.Flat`: grep `Flat/` first |
+| [0029](entries/0029-btz-points-and-plainness.md) | pitfall | A BTZ point never witnesses a failure of causal plainness |

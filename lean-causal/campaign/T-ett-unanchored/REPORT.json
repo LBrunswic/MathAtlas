@@ -1,0 +1,519 @@
+{
+  "package": "T-ett-unanchored",
+  "target": "T-ett-unanchored",
+  "files": [
+    "scaffold/CausalScaffold/Remarks/BTZPoints.lean",
+    "scaffold/CausalScaffold/Remarks/Tarentin.lean",
+    "scaffold/CausalScaffold/Remarks/MassiveManifold.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "rem:relation_not_assumed_reflexive",
+      "tex_lines": [
+        235,
+        236
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.relation_not_assumed_reflexive",
+        "Causal.Causality.BTZAxioms.not_lt_self",
+        "Causal.Flat.minkowski_not_lt_self"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Minkowski space",
+          "here": "carried",
+          "note": "minkowski n, every n (existing Causal.Flat.minkowski_not_lt_self, reused)"
+        },
+        {
+          "paper": "a BTZ point (defi:causal_E0)",
+          "here": "strengthened",
+          "note": "a point of S₀ under BTZAxioms C S₀; I^-(p) = ∅ is the field Iminus_eq_empty, standing for defi:causal_E0 at E₀ (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0))"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "rem:pas_plat",
+      "tex_lines": [
+        289,
+        298
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.IsCausalBubble",
+        "Causal.Causality.IsCausalBubble.not_causallyPlain",
+        "Causal.Causality.IsCausalBubble.not_causallyPlain_past",
+        "Causal.lightlikeLine_isCausalBubble",
+        "Causal.Causality.SingularFlatAxioms.btz_past",
+        "Causal.Causality.SingularFlatAxioms.interior_Jminus_eq_empty",
+        "Causal.Causality.SingularFlatAxioms.btz_causallyPlain_past"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(i) causal bubbles of low-regularity metrics (Chruściel–Grant, Sämann)",
+          "here": "weakened",
+          "note": "no metric: an abstract causal bubble (IsCausalBubble, any open U and any A) is proved to violate defi:causalement_plat; witnessed on the lightlike line. The bubbles of the cited C⁰ metrics are not built."
+        },
+        {
+          "paper": "(ii) a BTZ point of an E≥0-manifold",
+          "here": "strengthened",
+          "note": "SingularFlatAxioms C sing, causal; I^-(p) = ∅ (field Iminus_eq_empty) and J^-(p) = γ(]-∞,0]) (field line + Jminus_eq_image), standing for defi:causal_E0 (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0))"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:290 and 294-295: the BTZ defect of (ii) is not a violation of defi:causalement_plat. J^-(p) ⊂ sing_0 (lem:past_BTZ) and sing_0 has empty interior (prop:GX_sing_dec), so Int J^-(p) = ∅ ⊂ closure I^-(p); more generally Int J^-_U(A) = ∅ for every open U and every A ⊂ sing_0 (Lean: SingularFlatAxioms.interior_Jminus_eq_empty, btz_causallyPlain_past). rem:deux_pushup (ETT.tex:318-320) says the same thing ('silent at a point whose causal future or past has empty interior'). Nothing in the paper shows an E≥0-manifold is not causally plain (cf. OQ-16), so 'it fails in the two families' (l.290) is supported for (i) only.",
+        "ETT.tex:290 opens with 'This is the push-up property', naming defi:causalement_plat; the relational push-up of defi:pushup does hold on E≥0-manifolds (cor:pushup_sing). Suggested wording: 'This is the topological form of push-up'."
+      ],
+      "questions": []
+    },
+    {
+      "label": "rem:terminology_borrowed_archytas_tarentum",
+      "tex_lines": [
+        681,
+        686
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:684-685: read weakly (p ≤ x ≤ q with p, q in any neighbourhood, p = x allowed) the gloss 'has a future and a past' is the definition; read as J^-(x) ≠ {x} and J^+(x) ≠ {x} it does not follow from tarentin. Lean evidence for non-local causalities only (kb/0014, kb/0019): Causal.no_past_not_enough (radialLine on ℝ, built with Causality.ofRelation; it is tarentin at 0 only because its relation crosses the origin). For the paper's local causalities the finding rests on a planar argument (the auditor's, by hand, not formalized): on ℝ² let x ≤_U y iff x = y or a curve in U along which |·| strictly increases joins them, and x ≪_U y iff such a curve does; it is causally arc-connected, hence absolutely minimal, causal, and tarentin (at 0 take p = 0, |q| = ε/2, so J(0,q) contains the open disc of radius ε/2; at x ≠ 0 take p = (1-t)x, q = (1+t)x), with J^-(0) = {0} and J^+(0) = ℝ²."
+      ],
+      "questions": [
+        "Which reading of 'has a future and a past' is meant? Taken: none is formalized; the strong reading is shown not to follow from tarentin (Lean for non-local causalities, a planar argument by hand for local ones)."
+      ],
+      "notes": "No mathematical assertion: etymology (Archytas) and a gloss of def:tarentin_spacetime; no declaration of its own."
+    },
+    {
+      "label": "rem:tarentin_exemples",
+      "tex_lines": [
+        688,
+        692
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.tarentin_exemples",
+        "Causal.minkowski_tarentin",
+        "Causal.massive_tarentin",
+        "Causal.Causality.not_tarentin_of_Jminus_eq"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Lorentzian manifolds",
+          "here": "strengthened",
+          "note": "instance only: minkowski n (no Lorentzian manifolds in the library)"
+        },
+        {
+          "paper": "every E≥0-manifold (rem:sing_tarentin)",
+          "here": "strengthened",
+          "note": "the field tarentin of SingularFlatAxioms (rem:sing_tarentin is itself partial; the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)); E_α, α > 0, proved (massive_tarentin)"
+        },
+        {
+          "paper": "Misner singularity",
+          "here": "strengthened",
+          "note": "the mechanism of cexemple:misner_tarentin, with its added hypothesis (see that row)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "rem:lorentz_tarentin",
+      "tex_lines": [
+        783,
+        788
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.lorentz_tarentin",
+        "Causal.Causality.Zplus_Zminus_eq_univ",
+        "Causal.minkowski_Z_eq_univ",
+        "Causal.Causality.SingularFlatAxioms.Z_eq"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Lorentzian manifold",
+          "here": "strengthened",
+          "note": "an absolutely minimal T1 spacetime in which every I^±(p) is non-empty (Zplus_Zminus_eq_univ, via rem:absolutely_minimal_topological_spacetime); instance minkowski n"
+        },
+        {
+          "paper": "E≥0-manifold: non-strongly-tarentin-in-the-past points = BTZ points",
+          "here": "strengthened",
+          "note": "fields mem_Zplus, mem_Zminus_iff of SingularFlatAxioms (rem:btz_pas_tarentin, partial; the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0))"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "cor:K_lorentzien",
+      "tex_lines": [
+        884,
+        892
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.K_lorentzien",
+        "Causal.Causality.K_eq_I_of_pushUp",
+        "Causal.minkowski_K_lorentzien"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M a Lorentzian manifold",
+          "here": "strengthened",
+          "note": "abstract core of the proof: absolutely minimal, T1, first countable, I^±(p) ≠ ∅ for every p, and causally plain (K_lorentzien) or push-up (K_eq_I_of_pushUp); instance minkowski n (all points). No Lorentzian manifold in the library."
+        },
+        {
+          "paper": "tarentin (named in the proof)",
+          "here": "weakened",
+          "note": "not used (prop:tarentin_fort_K does not use it)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:889-891: the proof checks tarentin and absolute minimality, which prop:tarentin_fort_K assumes but does not need, and omits causal plainness, which it needs (l.851). For a smooth (or C^{1,1}) Lorentzian manifold plainness/push-up is classical and should be cited; below Lipschitz regularity it can fail (rem:pas_plat (i), rem:K_neq_I), so 'Lorentzian manifold' must be read with at least that regularity."
+      ],
+      "questions": [
+        "Regularity of 'Lorentzian manifold' in cor:K_lorentzien (and ex:causalities_lines item 5): smooth? Taken: whatever regularity gives causal plainness (or push-up); stated abstractly with that hypothesis."
+      ]
+    },
+    {
+      "label": "rem:manifolds_specialises_brunswic_cauchy",
+      "tex_lines": [
+        898,
+        900
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.SingularFlatAxioms.FZenon_injectif"
+      ],
+      "hypotheses": [
+        {
+          "paper": "E≥0-manifold",
+          "here": "strengthened",
+          "note": "SingularFlatAxioms C sing (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)); Z^+ = M and Z^- = M ∖ sing_0 are the fields mem_Zplus, mem_Zminus_iff"
+        },
+        {
+          "paper": "(prop:FZenon_injectif) strongly causal",
+          "here": "carried",
+          "note": "the specialisation carries prop:FZenon_injectif's hypothesis; Prop. 1.10 of brunswic2021cauchy is not in the repository and was not read"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "Curated informal (the proof environment after it proves prop:FZenon_injectif). Its assertion is checked anyway: does the author want it anchored to SingularFlatAxioms.FZenon_injectif, or kept informal?"
+      ]
+    },
+    {
+      "label": "theo:geroch_mr",
+      "tex_lines": [
+        1002,
+        1008
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [],
+      "notes": "Not attempted: a cited theorem about smooth Lorentzian manifolds (Geroch 1970) with no abstract core beyond what theo:geroch (Causal.Geroch, CausalScaffold.GerochEquiv) already carries. Missing infrastructure: smooth Lorentzian manifolds (metric, time orientation, metric causal curves), Cauchy hypersurfaces as topological hypersurfaces, and Geroch's volume-function / limit-curve argument. A Minkowski instance would be narrower than the paper and is not an anchor; none is written (no GerochMR.lean). Its topological analogues anchor other rows: theo:geroch (Causal.Geroch, CausalScaffold.GerochEquiv) and, for the splitting clause, geroch_sing_split under VecteurFlow (Causal.SingularGeroch)."
+    },
+    {
+      "label": "rem:recursion_these",
+      "tex_lines": [
+        1140,
+        1146
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.thesisRecursion",
+        "Causal.Causality.Kminus_eq_empty_of_inter_eq_empty",
+        "Causal.Causality.thesisRecursion_eq_empty",
+        "Causal.Causality.recursion_these",
+        "Causal.recursion_these_misseeded"
+      ],
+      "hypotheses": [
+        {
+          "paper": "A ⊂ U₅ and A ∩ (U₁ ∪ ⋯ ∪ U₄) = ∅",
+          "here": "weakened",
+          "note": "A ∩ U₁ = ∅ suffices (thesisRecursion_eq_empty); the printed form is recursion_these"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1144: the hypotheses 'A ⊂ U₅' and 'A ∩ (U₂ ∪ U₃ ∪ U₄) = ∅' are not needed: A ∩ U₁ = ∅ alone empties every K^{-,(n)}(A), as the remark's own reason ('A enters only through U₁') says. Mis-seeding is witnessed: on the timelike line with U₁ = ⋯ = U₄ = ]-∞,0[, U₅ = ℝ, A = {1}, every K^{-,(n)}(A) is empty while 0 ∈ K^-(A) (recursion_these_misseeded)."
+      ],
+      "questions": [
+        "K^-_{U₁}(A) for A ⊄ U₁ (defi:futur_continue defines K_U on subsets of U): read as K^-_{U₁}(A ∩ U₁), the reading the remark's 'A enters the recursion only through U₁' takes, and the Lean definition's convention (a point outside U has empty past in U)."
+      ],
+      "notes": "The first sentence (l.1141-1143) is about the paper's proof of prop:mesure_dieckmann_topo; the library's mesure_dieckmann_topo_past (Causal.MeasureLocal, closed) is indeed proved without the recursion or the thesis's hypothesis. A sentence about a proof is not certified by a declaration, hence partial."
+    },
+    {
+      "label": "rem:proof_uses_neither_causal",
+      "tex_lines": [
+        1171,
+        1176
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.lightlikeLine_relation_fermee",
+        "Causal.lightlikeLine_tarentin",
+        "Causal.lightlikeLine_Jplus_top",
+        "Causal.lightlikeLine_Jminus_top",
+        "Causal.Causality.isClosed_le"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [],
+      "notes": "A statement about the proof of prop:relation_fermee. Its formal counterpart: the library's Causality.isClosed_le (prop:relation_fermee, closed) asks only tarentin and J^±(x) closed (no curve, no I^±, no plainness, no countability), and the lightlike line satisfies these hypotheses while I^+(q) = ∅ for every q, so the classical q ∈ closure I^+(q) fails everywhere (lightlikeLine_relation_fermee). Partial only because a sentence about a proof is not certified by a declaration; the master may curate it informal with these decls as evidence."
+    },
+    {
+      "label": "cexemple:misner_tarentin",
+      "tex_lines": [
+        1368,
+        1372
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.not_tarentin_of_no_past",
+        "Causal.Causality.not_tarentin_of_Jminus_eq",
+        "Causal.sourceLine",
+        "Causal.sourceLine_le_top",
+        "Causal.sourceLine_no_past",
+        "Causal.no_past_not_enough",
+        "Causal.radialLine",
+        "Causal.radialLine_tarentin",
+        "Causal.radialLine_isCausal",
+        "Causal.radialLine_Jminus_zero",
+        "Causal.radialLine_Jplus_zero",
+        "Causal.radialLine_le_top"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M a singular E-manifold with a Misner singularity (constructed in [thesis])",
+          "here": "strengthened",
+          "note": "not constructed (no Misner singularity, no singular E-manifolds in the library); the mechanism is stated for any topological spacetime with a point x"
+        },
+        {
+          "paper": "'a singular point has no past'",
+          "here": "carried",
+          "note": "no past near x (∃ N ∈ 𝓝 x, p ∈ N, p ≤ x ⇒ p = x), or J^-(x) = {x}"
+        },
+        {
+          "paper": "(not in the paper's argument)",
+          "here": "strengthened",
+          "note": "J^+(x) is not a neighbourhood of x: needed, see findings"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1370-1371: 'a singular point has no past. Hence M is not tarentin' is not a valid inference by itself. Tarentin at x gives p ≤ x ≤ q near x with x ∈ Int J(p,q); with no past p = x, so only J^+(x) ∈ 𝓝 x follows, a contradiction only if the causal future of the Misner singular point is not a neighbourhood of it, which the paper does not say. Lean: not_tarentin_of_no_past (with that hypothesis; its hypotheses witnessed by sourceLine_no_past, non-local). That 'no past' alone does not exclude tarentin is proved in Lean for non-local causalities only: no_past_not_enough (radialLine on ℝ, y ≤ z ⇔ y = z ∨ |y| < |z|, Causality.ofRelation; tarentin at 0 only because its relation crosses the origin, kb/0019). For the paper's local causalities the finding rests on a planar argument (the auditor's, by hand, not formalized): on ℝ² let x ≤_U y iff x = y or a curve in U along which |·| strictly increases joins them, and x ≪_U y iff such a curve does; it is causally arc-connected, hence absolutely minimal, causal, and tarentin (at 0 take p = 0, |q| = ε/2, so J(0,q) contains the open disc of radius ε/2; at x ≠ 0 take p = (1-t)x, q = (1+t)x), with J^-(0) = {0} and J^+(0) = ℝ². It refutes the inference, not the counter-example."
+      ],
+      "questions": [
+        "Does the causal future of a Misner singular point (thesis construction) fail to be a neighbourhood of it? The counter-example needs it; taken as the explicit hypothesis of not_tarentin_of_no_past."
+      ]
+    },
+    {
+      "label": "cor:massA_causalite",
+      "tex_lines": [
+        1396,
+        1406
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.massA_causalite",
+        "Causal.IsAtlasCausality",
+        "Causal.massA_singular",
+        "Causal.massA_positive",
+        "Causal.massA_positive_minkowski",
+        "Causal.minkowski_model_facts",
+        "Causal.massive_model_facts",
+        "Causal.massiveOf"
+      ],
+      "hypotheses": [
+        {
+          "paper": "E≥0-manifold",
+          "here": "strengthened",
+          "note": "the abstracted singular (G,X)-atlas of Causal.existsUnique_causality_singularGX (prop:GX_sing_espace_temps_topo; OQ-19, ruled by DEC-25 in gx's terms, not yet reconciled)"
+        },
+        {
+          "paper": "model spaces E_κ, κ ≥ 0 (cor:model_minimal)",
+          "here": "strengthened",
+          "note": "E^{1,2} and Isom(E^{1,2}) discharged (minkowski_model_facts); E₀: causal arc-connectedness is the hypothesis hb at the BTZ model (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)). For E_κ, κ > 0: causal arc-connectedness and push-up are discharged (massive_model_facts); the second half of (b) of prop:GX_sing_espace_temps_topo — the regular charts of E_κ are isomorphisms onto E^{1,2}, hreg — is a model fact that is ASSUMED (the library builds no regular chart of E_κ). massA_positive (no BTZ model) assumes hreg and the atlas (hXX, hXY, hYY) only."
+        },
+        {
+          "paper": "Baire",
+          "here": "weakened",
+          "note": "not used (OQ-10)"
+        },
+        {
+          "paper": "'natural'",
+          "here": "carried",
+          "note": "read: every chart an isomorphism, and the unique absolutely minimal such causality (OQ-18 form of uniqueness)"
+        },
+        {
+          "paper": "(b) second half of prop:GX_sing_espace_temps_topo: the causality of X_α extends that of reg(X_α)",
+          "here": "strengthened",
+          "note": "hreg: every regular chart of each model is a ChartIso (reading of Causal.GXSingular); assumed for every model, E_κ (κ > 0) included"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1400-1405: the proof checks absolute minimality of the models (cor:model_minimal) and Baire, but prop:GX_sing_espace_temps_topo asks causal arc-connectedness of X and of each X_α ((a), (b)) — the premise of cor:model_minimal, not its conclusion — and the second half of (b) (the causality of X_α extends that of reg(X_α)), which the proof does not check. Baire is not needed (OQ-10)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "cor:massA_cac",
+      "tex_lines": [
+        1408,
+        1417
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.massA_cac",
+        "Causal.ChartIso.causallyArcConnectedOn",
+        "Causal.ChartIso.curveOn_symm",
+        "Causal.massA_singular",
+        "Causal.massA_positive"
+      ],
+      "hypotheses": [
+        {
+          "paper": "E≥0-manifold",
+          "here": "strengthened",
+          "note": "IsAtlasCausality for the abstracted atlas (OQ-19 / DEC-25), models causally arc-connected; E₀'s causal arc-connectedness is the named hypothesis hb (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)). For E_κ, κ > 0: causal arc-connectedness and push-up are discharged (massive_model_facts); the second half of (b) of prop:GX_sing_espace_temps_topo — the regular charts of E_κ are isomorphisms onto E^{1,2}, hreg — is a model fact that is ASSUMED (the library builds no regular chart of E_κ). massA_positive (no BTZ model) assumes hreg and the atlas (hXX, hXY, hYY) only."
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "cor:pushup_sing",
+      "tex_lines": [
+        1419,
+        1428
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.pushup_sing",
+        "Causal.ChartIso.pushUpOn",
+        "Causal.Causality.PushUp.pushUpOn",
+        "Causal.massA_singular",
+        "Causal.massA_positive"
+      ],
+      "hypotheses": [
+        {
+          "paper": "E≥0-manifold",
+          "here": "strengthened",
+          "note": "IsAtlasCausality for the abstracted atlas (OQ-19 / DEC-25); models causally arc-connected and with push-up (rem:pushup); E₀'s push-up is the named hypothesis hpY (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)); E^{1,2} discharged. For E_κ, κ > 0: causal arc-connectedness and push-up are discharged (massive_model_facts); the second half of (b) of prop:GX_sing_espace_temps_topo — the regular charts of E_κ are isomorphisms onto E^{1,2}, hreg — is a model fact that is ASSUMED (the library builds no regular chart of E_κ). massA_positive (no BTZ model) assumes hreg and the atlas (hXX, hXY, hYY) only."
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "prop:GX_sing_dec",
+      "tex_lines": [
+        1435,
+        1439
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [],
+      "notes": "Not attempted: cited (Cor. 1.7 of brunswic2021cauchy), a smooth statement; the library has no smooth structure on a singular (G,X)-manifold, and no submanifolds. Its topological consequences stand in as the fields t2, secondCountable, metrizable, locallyCompact, noIsolated, isClosed_sing, interior_sing of SingularFlatAxioms (Causal.SingularFlat)."
+    },
+    {
+      "label": "rem:mesure_unilaterale",
+      "tex_lines": [
+        1713,
+        1724
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.SingularFlatAxioms.mesure_unilaterale",
+        "Causal.Causality.SingularFlatAxioms.not_admissible_both_of_le",
+        "Causal.Causality.SingularFlatAxioms.Jminus_diff_eq_segment"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M a causal E≥0-manifold",
+          "here": "strengthened",
+          "note": "SingularFlatAxioms C sing with IsCausal; the fields used are line, Iminus_eq_empty, pushUp, mem_Zplus, secondCountable, causallyArcConnected, past_local, isClosed_sing (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0))"
+        },
+        {
+          "paper": "p < q two BTZ points of one singular line",
+          "here": "weakened",
+          "note": "p ≤ q, p ≠ q, q BTZ (p is then BTZ and on q's line); or only sing_0 ≠ ∅ (mesure_unilaterale)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [],
+      "notes": "No witness with a BTZ point: SingularFlatAxioms with sing_0 ≠ ∅ has no model in the library (Causal.SingularFlat, SCOPE). The step it rests on, not_admissiblePast_and_admissibleFuture_of_pushUp (Causal.MeasureRemarks), has no witness either; the general obstruction not_admissiblePast_and_admissibleFuture is witnessed (pointedLineMR_not_admissible). The remark's computation is otherwise the paper's: J^-(q) ∖ J^-(p) = ]p,q] (Jminus_diff_eq_segment), r ∉ I^+(p) = K^+(p)."
+    },
+    {
+      "label": "lem:vecteur",
+      "tex_lines": [
+        1751,
+        1769
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [],
+      "notes": "Not attempted: a C¹ non-singular future causal vector field parallel to the singular lines, built by a partition of unity (O'Neill Lemma 32). Missing infrastructure: a differentiable structure on singular flat spacetimes, tangent vectors and their causal character, flows. What theo:geroch_sing uses of it is already the named hypothesis Causal.Causality.VecteurFlow (Causal.SingularGeroch, kb/0022)."
+    }
+  ],
+  "extra_decls": [
+    "Causal.ChartIso.curveOn_symm",
+    "Causal.ChartIso.causallyArcConnectedOn",
+    "Causal.ChartIso.pushUpOn",
+    "Causal.Causality.PushUp.pushUpOn",
+    "Causal.Causality.IsCausalBubble.not_causallyPlain",
+    "Causal.Causality.Zplus_Zminus_eq_univ",
+    "Causal.Causality.Kminus_eq_empty_of_inter_eq_empty",
+    "Causal.lightlikeLine_tarentin",
+    "Causal.lightlikeLine_Jplus_top",
+    "Causal.lightlikeLine_Jminus_top"
+  ],
+  "kb_proposals": [
+    "Transport through a chart which is an isomorphism (ChartIso): curves (ChartIso.curveOn_symm), causal arc-connectedness (.causallyArcConnectedOn), push-up (.pushUpOn), in scaffold Remarks/MassiveManifold; with GXSingular this makes cor:massA_cac and cor:pushup_sing one-liners from the atlas.",
+    "Causal.Flat.minkowski_not_lt_self (Flat/Achronal) already exists under the Flat namespace: grep Flat/ before proving a Minkowski fact.",
+    "A BTZ point never witnesses a failure of causal plainness: Int J^-_U(A) = ∅ for A ⊂ sing_0 under SingularFlatAxioms (interior_Jminus_eq_empty)."
+  ],
+  "notes": "Three new scaffold modules, all sorry-free, built with lake build (only the module itself rebuilt), clean under -DwarningAsError=true, axioms propext/Classical.choice/Quot.sound; they compile imported together (no name clash). No label is marked (no ``**`label`**`` anywhere in the files). Imports: BTZPoints ← Causal.SingularFlat, Causal.MeasureRemarks, Causal.Flat.Achronal; Tarentin ← Causal.SingularFlat, Causal.Model.Massive, Causal.LinesReachable; MassiveManifold ← Causal.GXSingular, Causal.ArcConnected, Causal.Model.Massive, Causal.Flat.IsomCausal. The modules are independent of each other. GerochMR.lean was not written (theo:geroch_mr not attempted). The scaffold root must import CausalScaffold.Remarks.{BTZPoints,Tarentin,MassiveManifold} (kb/0025). Every row is partial or not-attempted; partial rows need extra_lean_files + lean_proved_override = \"partial\" in curation (kb/0015). rem:manifolds_specialises_brunswic_cauchy is curated informal today; its assertion is nevertheless proved under the structure (SingularFlatAxioms.FZenon_injectif). Fix round 1 (AUDIT-1, minor): radialLine/no_past_not_enough scoped to non-local causalities with the auditor's planar argument (unproved) for local ones; sourceLine_no_past added (witness of not_tarentin_of_Jminus_eq's hypotheses); hreg stated as an assumed model fact for E_κ, κ > 0 (MassiveManifold docstrings, REPORT); the unsupported smoothing sentence on prop:GX_sing_dec removed; BTZPoints checklist row for btz_past's IsCausal; two dropped parentheticals restored in quotes; the brunswic2021cauchy bracket fixed; K_lorentzien wording softened. Not-attempted reasons and statements about the formalization moved from `findings` to a per-label `notes`."
+}

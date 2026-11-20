@@ -193,6 +193,9 @@ import Causal.Flat.AffACDBase
 import Causal.Flat.AffACDTriang
 import Causal.Flat.AffACDLocal
 import Causal.Flat.AffACDProof
+import Causal.Remarks.BTZPoints
+import Causal.Remarks.Tarentin
+import Causal.Remarks.MassiveManifold
 
 /-!
 # Causal — topological spacetimes
