@@ -1,0 +1,272 @@
+{
+ "package": "T-egf-headline",
+ "target": "T-egf-headline",
+ "files": [
+  "scaffold/EGFScaffold/Defs.lean",
+  "scaffold/EGFScaffold/Universality.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "theo:universality_true",
+   "tex_lines": [
+    775,
+    804
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "EGF.main_universality"
+   ],
+   "hypotheses": [
+    {
+     "paper": "(S, lambda) a measured Polish space",
+     "here": "weakened",
+     "note": "any MeasurableSpace S; the Polish structure is not used"
+    },
+    {
+     "paper": "lambda finite (standing assumption, main.tex:155, :161)",
+     "here": "carried",
+     "note": "[IsFiniteMeasure lam]; the paper's proof uses it too (adding eta*lambda, main.tex:793)"
+    },
+    {
+     "paper": "pi a Markov kernel",
+     "here": "carried",
+     "note": "[IsMarkovKernel pi]"
+    },
+    {
+     "paper": "pi ergodic on (S, lambda)",
+     "here": "weakened",
+     "note": "not assumed: the Lean proof never uses it. Read in Walters' sense, as the paper uses the word (main.tex:211, :819), it includes the invariance lambda*pi = lambda, which is what the Lean theorem genuinely drops; ergodicity of (pi, lambda-hat) itself follows from gamma_0 < infinity and gamma_n -> 0 (not formalized)."
+    },
+    {
+     "paper": "summable L2-mixing coefficients",
+     "here": "carried",
+     "note": "IsSummablyL2Mixing pi lam (def:summably_mixing); the proof only uses gamma_0 < infinity and gamma_n -> 0, stated as EGF.main_universality_of_tendsto, from which EGF.main_universality is derived"
+    },
+    {
+     "paper": "F_init, F_term probability distributions, << lambda",
+     "here": "carried",
+     "note": "IsProbabilityMeasure, absolute continuity"
+    },
+    {
+     "paper": "densities of F_init, F_term in L2(lambda)",
+     "here": "weakened",
+     "note": "not assumed: any probability measures << lambda"
+    },
+    {
+     "paper": "conclusion: f_out in L2(lambda) with deltaF_init(S) + deltaF_term(S) < eps",
+     "here": "carried",
+     "note": "and more: f_out >= 0 (an outflow is a non-negative measure, main.tex:161) and bounded; F_out = f_out * lambda; eps : ENNReal, any eps > 0"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "main.tex:775: the theorem holds without the Polish structure and without the L2 densities of F_init and F_term; f_out can be taken bounded; and summability of (gamma_n) can be weakened to gamma_n -> 0 with gamma_0 < infinity (EGF.main_universality_of_tendsto). Ergodicity proper is not an extra assumption: gamma_0 < infinity and gamma_n -> 0 already force (pi, lambda-hat) to be ergodic (sketch, not formalized: an invariant set A with 0 < lambda-hat(A) < lambda-hat(S) gives phi = (1_A - c) d lambda-hat/d lambda with phi pi^n = phi, and gamma_0 < infinity makes d lambda-hat/d lambda essentially bounded, so phi is in L2(lambda)). What the Lean theorem genuinely drops is the invariance of lambda (next finding).",
+    "main.tex:793 uses lambda*pi = lambda ('H(nu_inf + eta*lambda) = H(nu_inf) + eta*lambda*pi = nu_inf + eta*lambda'), and main.tex:779 uses that pi maps L2(lambda) densities to L2(lambda) densities. If 'pi is ergodic on (S, lambda)' is read in Walters' sense, as the paper uses the word (main.tex:211: 0-flows are measures for which pi is ergodic, i.e. invariant ones; main.tex:819 applies the theorem right after noting that each Phi_i keeps lambda invariant), it includes lambda*pi = lambda and both steps follow from the theorem's own hypothesis (main.tex:779 by Jensen). If it is not, they are gaps, since def:summably_mixing (main.tex:262) only provides an invariant lambda-hat equivalent to lambda. Either way the Lean theorem does not assume lambda invariant: it lifts by the invariant lambda-hat, and shows lambda-hat is finite unless lambda is trivial (EGF.trivial_of_lamHat_univ_eq_top).",
+    "main.tex:789: 'sum_t int (d eps_t/d lambda)^2 d lambda < +infinity. Therefore nu_T converges' does not follow as written: summable squared L2 norms do not by themselves make sum_t eps_t converge in L2 (it would follow from sum_t ||d eps_t/d lambda||_2 < infinity), and the bound |nu_inf|_2 <= sum_t int (d eps_t/d lambda)^2 mixes norms and squared norms. The argument fails as written, not the conclusion: with lambda-hat = lambda invariant, gamma_n is the squared norm of T^n on the mean-zero subspace H_0 (T the transfer, a contraction of L2(lambda) preserving H_0), so sum gamma_n < infinity gives ||T^N on H_0|| <= 1/2 for some N, hence geometric decay and absolute convergence. The genuine gap is lambda-hat != lambda: the step integrates against lambda where gamma_n integrates against lambda-hat. The Lean proof avoids the series altogether (truncated Neumann series, EGF.tvMass_construction, plus TV-mixing from gamma_n -> 0, EGF.exists_tvMass_pushIter_lt_of_tendsto).",
+    "main.tex:790: 'nu_inf = nu_inf pi* - R + F_init': R stands for F_term.",
+    "main.tex:774: 'The following theorem implies Theorem theo:universality' does not follow for def:universal_family as printed (main.tex:249-252), which asks a flow that is exactly flow matching; theo:universality_true gives only deltaF_init(S) + deltaF_term(S) < eps."
+   ],
+   "questions": []
+  },
+  {
+   "label": "def:summably_mixing",
+   "tex_lines": [
+    262,
+    269
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "EGF.IsSummablyL2Mixing",
+    "EGF.mixingCoeff",
+    "EGF.unitMeanZero",
+    "EGF.transfer",
+    "EGF.pushIter"
+   ],
+   "hypotheses": [
+    {
+     "paper": "pi a Markov kernel admitting an invariant measure lambda-hat equivalent to lambda",
+     "here": "carried",
+     "note": "lamHat.bind pi = lamHat, lamHat << lam, lam << lamHat; lambda-hat any measure, as printed (not assumed finite)"
+    },
+    {
+     "paper": "phi pi^n",
+     "here": "carried",
+     "note": "d((phi lambda) pi^n)/d lambda, the Koopman operator phi -> d((phi lambda) pi)/d lambda of main.tex:273, iterated; through phi+ and phi-"
+    },
+    {
+     "paper": "H = {phi in L2(lambda) : ||phi||_2 = 1, int phi = 0}",
+     "here": "carried",
+     "note": "MemLp phi 2 lam, eLpNorm phi 2 lam = 1, integral of phi against lam = 0 (the mean-zero subspace of main.tex:273)"
+    },
+    {
+     "paper": "sum_n gamma_n < +infinity",
+     "here": "carried",
+     "note": "gamma_n a supremum in [0, infinity], tsum != infinity"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "main.tex:267: the condition 'int_{s in S} phi(s) = 0' names no measure; main.tex:273 ('the subspace {phi | int phi d lambda = 0}') and the proof of theo:universality_true (main.tex:788: eps_t(S) = 0) fix it as lambda, which is what is formalized.",
+    "main.tex:264-267 integrates (phi pi^n)^2 against lambda-hat while H normalizes in L2(lambda); the proof of theo:universality_true (main.tex:789) integrates against lambda, i.e. treats lambda-hat = lambda.",
+    "The definition is inhabited: on any probability space the resampling kernel pi(x) = lambda is summably L2-mixing with lambda-hat = lambda (EGF.isSummablyL2Mixing_const), so EGF.main_universality is not vacuous (EGF.main_universality_const)."
+   ],
+   "questions": [
+    "def:summably_mixing (main.tex:262-269, main.tex:273), confirmation for lambda-hat != lambda: phi pi^n is read as the operator of main.tex:273, d((phi lambda) pi^n)/d lambda, with H normalized in L2(lambda) and mean zero against lambda (taken), rather than the transfer of L2(lambda-hat), d((phi lambda-hat) pi^n)/d lambda-hat with mean zero against lambda-hat. The paper only ever works with lambda-hat = lambda, where the two (and the Markov operator on functions) give the same gamma_n; when lambda-hat != lambda they differ and neither summability implies the other. Both marks (def:summably_mixing, and theo:universality_true through it) rest on the reading taken; if the lambda-hat version is ruled, both are to be re-proved."
+   ]
+  },
+  {
+   "label": "def:egf",
+   "tex_lines": [
+    216,
+    222
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "EGF.IsEGF",
+    "EGF.IsEGFPolicy",
+    "EGF.IsTopologicallyErgodic",
+    "EGF.egfKernel",
+    "EGF.GenerativeFlow"
+   ],
+   "hypotheses": [
+    {
+     "paper": "S a Riemannian manifold endowed with its volume measure lambda",
+     "here": "weakened",
+     "note": "a topological space with a sigma-algebra; IsEGF does not read lambda (the roadmap evidence: a measure-space generalisation is Lean >= paper)"
+    },
+    {
+     "paper": "Phi_i diffeomorphisms of S",
+     "here": "weakened",
+     "note": "homeomorphisms S =~ S, measurable (Diffeomorph.toHomeomorph; Borel sigma-algebra)"
+    },
+    {
+     "paper": "policy alpha : S -> [0,1]^p",
+     "here": "carried",
+     "note": "alpha_i >= 0 and sum_i alpha_i = 1, forced by 'an EGF is a generative flow' (pi a Markov kernel, main.tex:161); measurability of alpha is a mild added condition, not forced (Phi_1 = Phi_2 = id with a non-measurable split of the weights gives the measurable identity kernel); harmless: on a standard Borel space a measurable alpha giving the same pi exists, and the paper's alpha is a softmax head (main.tex:288, :386)"
+    },
+    {
+     "paper": "the group generated by the Phi_i topologically ergodic, 'That is ... x Phi_i1 ... Phi_it in U'",
+     "here": "carried",
+     "note": "the 'that is' clause verbatim: forward words, any length t >= 0 (t >= 1 is equivalent when p >= 1, EGF.isTopologicallyErgodic_iff_pos); see the question"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "main.tex:219-221: the sentence says the GROUP generated by the Phi_i is topologically ergodic, but its 'That is' clause uses only words in the Phi_i (no inverses). The clause is strictly stronger: on Z (a 0-manifold) the translation by 1 generates a group whose orbits are all of Z, while its forward words never decrease (EGF.shiftZ_group_not_forward). The same can happen for translations of R^d, a state space the paper names (main.tex:155): +1 and +sqrt 2 on R have dense group orbits and forward orbits in [x, infinity), though not every family does (+1, -sqrt 2 has dense forward orbits). Z and R^d carry infinite volume, outside the standing finite lambda of main.tex:161, but the clause compared is purely topological.",
+    "main.tex:219: alpha is declared S -> [0,1]^p; that its coordinates sum to 1 is not written but is forced by pi being a Markov kernel. Measurability of alpha is not forced (a non-measurable split of the weights between two identical maps gives a measurable kernel); IsEGF assumes it, a mild condition, without loss of generality on standard Borel spaces.",
+    "Whether the empty word (t = 0) is allowed is immaterial as soon as p >= 1 (EGF.isTopologicallyErgodic_iff_pos)."
+   ],
+   "questions": [
+    "def:egf (main.tex:219-221): is topological ergodicity that of the group generated by the Phi_i (words in Phi_i and Phi_i^{-1}: EGF.IsTopologicallyErgodicGroup) or the printed 'that is' clause (forward words only: EGF.IsTopologicallyErgodic)? They differ on non-compact spaces (EGF.shiftZ_group_not_forward). Reading taken: the printed clause; EGF.IsTopologicallyErgodic.group shows it implies the group version."
+   ]
+  },
+  {
+   "label": "def:universal_family",
+   "tex_lines": [
+    249,
+    252
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "EGF.IsUniversalFamily",
+    "EGF.GenerativeFlow",
+    "EGF.IsFlowMatching"
+   ],
+   "hypotheses": [
+    {
+     "paper": "any two distributions mu, nu << lambda",
+     "here": "carried",
+     "note": "read as probability measures (the question)"
+    },
+    {
+     "paper": "with bounded density",
+     "here": "carried",
+     "note": "exists C, d mu/d lambda <= C lambda-a.e."
+    },
+    {
+     "paper": "a flow in the family flow matching for F_init = nu, F_term = mu",
+     "here": "carried",
+     "note": "exact flow matching F_init + F_out pi = F_term + F_out (main.tex:183)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "main.tex:250: read with unnormalized distributions (the paper's other use of the word, main.tex:163 and :180), the definition is never satisfied on a finite non-zero lambda: flow matching forces F_init(S) = F_term(S) (EGF.not_isUniversalFamilyUnnormalized).",
+    "main.tex:251 asks exact flow matching, while the master theorem (main.tex:775) only gives deltaF_init(S) + deltaF_term(S) < eps, and theo:universality (main.tex:277) assumes the set of f_out only dense; so 'The following theorem implies Theorem theo:universality' (main.tex:774) does not hold with this definition as printed; an eps-version of universality is what is proved.",
+    "main.tex:277 (theo:universality, not this target): 'the set of f_out is dense in L2(S, lambda)' cannot hold for non-negative outflows, which are not dense in L2; presumably dense in the non-negative cone."
+   ],
+   "questions": [
+    "def:universal_family (main.tex:250): 'any two distributions mu, nu << lambda' -- probability measures, or finite measures of equal mass? Reading taken: probability measures (as theo:universality_true says, main.tex:775). The unnormalized reading is excluded by EGF.not_isUniversalFamilyUnnormalized; the equal-mass reading differs for a family not closed under scaling the outflow.",
+    "def:universal_family (main.tex:251) asks exact flow matching; the master theorem gives eps-flow matching. Is universality meant up to eps (in which case theo:universality follows from theo:universality_true), or exactly (in which case main.tex:774 needs another argument)? Reading taken: exact, as printed."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "EGF.trivial_of_lamHat_univ_eq_top_of_ne_top",
+  "EGF.exists_tvMass_pushIter_lt_of_tendsto",
+  "EGF.main_universality_of_tendsto",
+  "EGF.main_universality_const",
+  "EGF.isSummablyL2Mixing_const",
+  "EGF.pushIter_const_succ",
+  "EGF.inflow",
+  "EGF.IsFlowMatching",
+  "EGF.initialError",
+  "EGF.terminalError",
+  "EGF.initialError_eq_negPart",
+  "EGF.terminalError_eq_posPart",
+  "EGF.GenerativeFlow.IsFlowMatching",
+  "EGF.isEGFPolicy_egfKernel",
+  "EGF.IsEGFPolicy.isMarkovKernel",
+  "EGF.IsTopologicallyErgodicPos",
+  "EGF.isTopologicallyErgodic_iff_pos",
+  "EGF.IsTopologicallyErgodicGroup",
+  "EGF.IsTopologicallyErgodic.group",
+  "EGF.shiftZ",
+  "EGF.shiftZ_group_not_forward",
+  "EGF.IsUniversalFamilyUnnormalized",
+  "EGF.not_isUniversalFamilyUnnormalized",
+  "EGF.bind_univ",
+  "EGF.isFiniteMeasure_bind",
+  "EGF.isFiniteMeasure_inflow",
+  "EGF.bind_add_measure",
+  "EGF.bind_mono",
+  "EGF.bind_finset_sum",
+  "EGF.tvMass",
+  "EGF.errors_eq_tvMass",
+  "EGF.tvMass_comm",
+  "EGF.tvMass_triangle",
+  "EGF.tvMass_add_right_le",
+  "EGF.tvMass_add_left_le",
+  "EGF.tvMass_le_add_right",
+  "EGF.tvMass_bind_le",
+  "EGF.tvMass_of_le",
+  "EGF.tvMass_withDensity_le",
+  "EGF.pushIter_add",
+  "EGF.pushIter_smul",
+  "EGF.pushIter_mono",
+  "EGF.pushIter_univ",
+  "EGF.pushIter_of_bind_eq",
+  "EGF.isFiniteMeasure_pushIter",
+  "EGF.tvMass_construction",
+  "EGF.transfer_zero_ae",
+  "EGF.lintegral_transfer_sq_le",
+  "EGF.trivial_of_lamHat_univ_eq_top",
+  "EGF.eq_of_trivial",
+  "EGF.exists_truncation",
+  "EGF.exists_tvMass_pushIter_lt"
+ ],
+ "kb_proposals": [
+  "Defects of generative flows are Mathlib's truncated differences of finite measures: Measure.sub_le_iff_le_add, Measure.le_of_add_le_add_left and Measure.toJordanDecomposition_toSignedMeasure_sub (JordanSub) give the whole total-variation calculus without SignedMeasure (EGF.tvMass, EGF.initialError_eq_negPart).",
+  "To turn L2(lambda-hat) decay of d((phi lambda)pi^n)/d lambda into total-variation decay without comparing lambda and lambda-hat, first truncate densities to min(f, K, K d lambda-hat/d lambda) (EGF.exists_truncation, EGF.exists_tvMass_pushIter_lt).",
+  "`abel` fails on measure expressions containing a truncated difference R - B; `set D := R - B` first.",
+  "`h.trans_eq` on a Tendsto resolves to LE.le.trans_eq (Tendsto is a map-le); rewrite a limit with `simpa using` instead.",
+  "`lambda` is a keyword: the background measure is `lam`, the invariant one `lamHat`; `mu pi^n` is `EGF.pushIter pi n mu`."
+ ],
+ "notes": "Both files compile (lake build EGFScaffold.Defs EGFScaffold.Universality, 2504 jobs, no rebuild of mathlib); scripts/sorry_count.py: 0 in the scaffold; #print axioms of EGF.main_universality and every principal decl: propext, Classical.choice, Quot.sound only. The scaffold root scaffold/EGFScaffold.lean was not edited (outside the dispatch), so it does not import the two new modules and the axiom sweep cannot see them (lean-causal kb/0025): the master session should add `import EGFScaffold.Defs` and `import EGFScaffold.Universality` there (or to EGF.lean at graduation). Universality.lean also imports Mathlib.MeasureTheory.Integral.Bochner.Set; Defs.lean imports a handful of Mathlib modules (no `import Mathlib`). Layering: Mathlib only, no [[require]]; GFNBounds.Core was used as a template (IsEGFPolicy, egfKernel, densityAction, bind_absolutelyContinuous_bind, bind_add_measure), cited in docstrings. A [[require]] would not have paid for this target: GFNBounds' universality is operator-theoretic in L^p with an invariant nu and operator-norm mixing beta_n = ||P^n - Pi||, a different hypothesis from def:summably_mixing (sup over H, lambda vs lambda-hat); no OQ is asked. The proof of theo:universality_true is not the paper's (see findings); the anchor's statement is the paper's with three hypotheses dropped and a stronger conclusion. Temporary oleans were written only under /tmp/egf_hl (removed). Fix round 1 (AUDIT-1, minor): added EGF.main_universality_of_tendsto (the general form, gamma_0 < infinity and gamma_n -> 0 in place of the sum) with the two helpers generalized the same way (EGF.trivial_of_lamHat_univ_eq_top_of_ne_top, EGF.exists_tvMass_pushIter_lt_of_tendsto); main_universality, trivial_of_lamHat_univ_eq_top and exists_tvMass_pushIter_lt keep their statements and are now derived from them. Findings 1-3 of theo:universality_true and the def:egf wording reworded; a confirmation question added to def:summably_mixing; marks unchanged."
+}

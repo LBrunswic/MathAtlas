@@ -1,0 +1,66 @@
+{
+ "target": "T-egf-headline",
+ "auditor_round": 2,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "theo:universality_true",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "MARKED, and the mark still holds. #check on the olean (built 20:09:15, after the 20:08:28 source) prints EGF.main_universality with the same binders and conclusion as in round 1: any MeasurableSpace S, [IsFiniteMeasure lam], [IsMarkovKernel pi], IsSummablyL2Mixing pi lam, probability Finit, Fterm << lam, eps : ENNReal with 0 < eps; there exists fout >= 0, bounded, MemLp fout 2 lam, with initialError + terminalError at univ < eps. So it is still at least main.tex:775, clause by clause, as AUDIT-1 found. Its proof is now 3 lines (Universality.lean:953-956). It unpacks IsSummablyL2Mixing and calls main_universality_of_tendsto, with gamma_0 != infinity from ENNReal.le_tsum 0 and gamma_n -> 0 from ENNReal.tendsto_atTop_zero_of_tsum_ne_top. The general form (Universality.lean:787) takes lamHat explicitly with hinv, hac, hac', hgamma0 and hgamma, and its conclusion is literally the same. A probe example derived all five hypotheses from IsSummablyL2Mixing, and it typechecks. So the new form is a genuine generalisation in the logical sense, and it is not vacuous: main_universality_const instantiates it through main_universality. It has not been shown to be strictly more general: in the paper's regime it is equivalent (finding 2). The three old names keep their statements: trivial_of_lamHat_univ_eq_top and exists_tvMass_pushIter_lt still take hsum, and each is a one-line derivation from its _of_ne_top or _of_tendsto form. AUDIT-1 findings 2, 3 and 4 were addressed as asked. Finding 2 is now conditional on the Walters reading. Finding 1 says what is genuinely dropped is the invariance of lambda. The hypothesis note reads 'the Lean proof never uses it'. In finding 3, 'it would follow from' replaces 'that needs', and the submultiplicativity repair is added. The weakened theorem is now a Lean declaration. I checked each reworded finding against main.tex: l.211 (0-flows, Walters), l.779, l.789, l.793, l.819 and l.836 (rotations, volume invariant). Each is true. My ergodicity sketch: an invariant A gives phi = (1_A - c) dlamHat/dlam fixed by the transfer, and gamma_0 < infinity forces dlamHat/dlam essentially bounded, so gamma_n does not tend to 0. This checks out. One wording point remains (finding 1): finding 3's 'genuine gap lamHat != lambda' does not carry finding 2's condition."
+  },
+  {
+   "label": "def:summably_mixing",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "MARKED, unchanged in Lean: pushIter, transfer, unitMeanZero, mixingCoeff and IsSummablyL2Mixing are as in round 1 (Defs.lean:340-362). AUDIT-1 finding 1 is addressed. The REPORT row now has the confirmation question: lamHat != lambda, the lambda-transfer of l.273 (taken) against the transfer in L2(lamHat). The question says both marks rest on the answer. Defs.lean SCOPE l.92-95 says the same. The row stays closed and marked, as AUDIT-1 advised. The definitions are the printed text: the operator and the measure of the mean-zero condition come from l.273. One sub-claim in the question is only half supported: 'neither summability implies the other' (finding 3). The question itself, and the marks, stand."
+  },
+  {
+   "label": "def:egf",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked, partial, Lean unchanged. AUDIT-1 finding 5 is addressed in three places: the checklist (Defs.lean:81), the REPORT hypothesis row 'policy alpha' and REPORT findings[1]. (a) They now say that measurability of alpha is a mild added condition, not forced, citing the identity-split example and the standard-Borel remark. That remark is true: alpha'_i(s) = pi(s)({Phi_i(s)}) / #{j : Phi_j(s) = Phi_i(s)} is measurable, because the diagonal is measurable. The softmax head (l.288) is also cited. (b) The R^d remark now reads 'can happen'. +1 and +sqrt 2 on R have dense group orbits while the forward orbits lie in [x, infinity). The forward semigroup of +1 and -sqrt 2 is dense. The infinite-volume caveat is stated. All of this is correct. The group-versus-forward question and shiftZ_group_not_forward are unchanged and still valid."
+  },
+  {
+   "label": "def:universal_family",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked, partial. Neither the Lean nor the REPORT row changed. The round-1 assessment stands: IsUniversalFamily is the printed definition with 'distributions' read as probability measures, not_isUniversalFamilyUnnormalized is valid, and the l.774 and l.277 findings are true."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "details": "No lake build was run. From lean-egf/, `taskset -c 0-11 lake env lean -DwarningAsError=true` exits 0 with no output on both files: scaffold/EGFScaffold/Defs.lean and scaffold/EGFScaffold/Universality.lean. A copy of Universality.lean with an appended deliberate error, run in /tmp, was rejected at the appended line, so the file really is elaborated from source. scripts/sorry_count.py reports 0 in EGF/ and 0 in scaffold/EGFScaffold/ (3 files). The only 'sorry' token is docstring prose (Universality.lean:48). There is no admit, axiom, native_decide, implemented_by, extern, unsafe or set_option. Axioms were probed in /tmp/egf_audit2, outside the package, and the directory was deleted afterwards. #print axioms on the source copy covered main_universality, main_universality_of_tendsto, the two trivial_* lemmas, the two exists_tvMass_pushIter_lt* lemmas, main_universality_const and isSummablyL2Mixing_const: all [propext, Classical.choice, Quot.sound]. A sweep importing the oleans covered all 64 names in REPORT decls and extra_decls (61 in round 1, plus the 3 new). Every name resolves. 59 use exactly [propext, Classical.choice, Quot.sound]. The other 5 use only [propext, Quot.sound]: IsTopologicallyErgodic, IsTopologicallyErgodicPos, isTopologicallyErgodic_iff_pos, IsTopologicallyErgodicGroup and IsTopologicallyErgodic.group. The oleans (20:09:12 and 20:09:15) are newer than the sources (20:08:35 and 20:08:28). As before, scaffold/EGFScaffold.lean does not import the two modules (kb/0025), so the master must add them."
+ },
+ "scope": {
+  "git_status": [
+   "?? lean-egf/campaign/T-egf-headline/",
+   "?? lean-egf/scaffold/EGFScaffold/Defs.lean",
+   "?? lean-egf/scaffold/EGFScaffold/Universality.lean"
+  ],
+  "note": "`git status --short lean-egf papers/egf` shows only the dispatched files and the campaign directory. The package files the closer must not touch are unchanged since 15:44-15:45, the package's creation: the scaffold root, EGF.lean, lakefile.toml and kb/. Elsewhere in the hub the only change is roadmap/roadmap.toml. That is the master's status flip (T-egf-headline ready -> active) and a yamabe entry, not the closer's. The /tmp probe is gone. My lake env lean runs wrote nothing in the package."
+ },
+ "docstring_contract": "Both files still follow kb/0006 (lean-causal/kb/entries/0006). Character offsets: in Defs.lean the mark **`def:summably_mixing`** is at 482, the unmarked `def:egf` at 526 and `def:universal_family` at 679, the Hypothesis checklist at 4425, SCOPE (disclosed) at 5617 and Provenance at 7391. In Universality.lean the mark **`theo:universality_true`** is at 142, the checklist at 2392, SCOPE at 3466 and Provenance at 6406. Each file has exactly one ** mark, on the closed row. The > quotations are unchanged. The new rows are true: the 'What is proved' table lists main_universality_of_tendsto and the generalized helpers, and the checklist rows say ergodicity is 'what is genuinely dropped'. So is the reworded Defs checklist line 81, 'mild added condition'. SCOPE is true, including the new sentence on lamHat != lambda (Defs.lean:92-95) and 'only gamma_n -> 0 (plus gamma_0 < infinity) is used' (Universality.lean:57-58). The wording points below apply to the Findings block, which mirrors the REPORT.",
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "REPORT theo:universality_true findings[2], last two sentences; scaffold/EGFScaffold/Universality.lean:82-83 (Finding 3)",
+   "what": "Finding 3 now ends without a condition: 'The genuine gap is lambda-hat != lambda: the proof integrates against lambda where gamma_n integrates against lambda-hat'. Finding 2 (findings[1]) grants the Walters reading. Under that reading lambda is pi-invariant and ergodic. lamHat is invariant, << lambda, and finite: gamma_0 < infinity makes dlamHat/dlam essentially bounded, unless lambda is trivial (trivial_of_lamHat_univ_eq_top). Then h = dlamHat/dlam is fixed by the lambda-transfer T. For every t, positivity and mass conservation give T(h-t)+ = (h-t)+. So the level sets {h > t} are pi-invariant sets, ergodicity makes h constant, and lamHat = c lambda. The integrals against lambda and lamHat then differ only by the factor c, and the step at l.789 is repaired completely by the submultiplicativity argument the finding already gives. The lamHat-vs-lambda mismatch is therefore a gap only if 'ergodic' does not include lambda pi = lambda. That is the same condition as finding 2. Sent as it stands, it repeats AUDIT-1's finding-2 problem: it reports a gap the author can close by pointing at 'ergodic'. (AUDIT-1 asked to keep this clause as the real gap; this is a refinement of that advice, not a failure to follow it.)",
+   "fix": "Make the last sentence conditional. Suggested: 'If \"ergodic\" includes lambda pi = lambda (finding 2), then lamHat is a constant multiple of lambda (an ergodic invariant lambda admits no other finite invariant measure << lambda up to scale) and the step is fully repaired. Otherwise the genuine gap is lamHat != lambda: ...'. Make the same edit in Universality.lean:82-83. No Lean change."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT theo:universality_true findings[0] ('summability of (gamma_n) can be weakened to gamma_n -> 0 with gamma_0 < infinity') and the hypotheses row 'summable L2-mixing coefficients'; Universality.lean:23, :41, :57-58, :68-69, :784-786",
+   "what": "The claim is true, and it is now the Lean statement main_universality_of_tendsto. But in the regime where the paper uses the theorem it is no weakening. Every application in the paper keeps lambda invariant: tori, l.819, and rotations on spheres, l.836. The Walters reading assumes it too, and then lamHat = c lambda (finding 1). In that regime gamma_n = ||T^n on H_0||^2 <= 1, with T a contraction preserving H_0. So gamma_n -> 0 gives gamma_N <= 1/4 for some N, hence gamma_{kN+r} <= 4^-k, and the sum is finite. This is the submultiplicativity argument finding 3 itself uses. The two hypotheses are therefore equivalent there. The weakening can only be strict when lambda is not invariant, and the REPORT gives no example. The general form is a correct generalisation, but as worded the finding suggests to the author a strictly weaker hypothesis that is weaker only outside his setting.",
+   "fix": "Add one clause to findings[0], and to Finding 1 in Universality.lean:68-69: 'when lambda is invariant (the paper's applications, and Walters' reading) gamma_n -> 0 already implies summability by submultiplicativity (finding 3), so the weakening matters only for a non-invariant lambda, where its strictness is not shown'. No Lean change."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT def:summably_mixing questions[0] ('when lambda-hat != lambda they differ and neither summability implies the other')",
+   "what": "Only one direction of 'neither implies the other' is supported (the wording comes from AUDIT-1). The alternative also needs stating exactly: it does not say whether H stays normalized in L2(lambda), as printed at l.267. Take the fully L2(lamHat) version, with H normalized in L2(lamHat) and mean zero against lamHat. Then one direction has a witness. Let S = (0,1], lambda = Lebesgue, lamHat = s^(-1/2) ds, and pi(x) = lamHat/lamHat(S). lamHat is invariant and the lamHat-transfer kills mean-zero functions, so the coefficients are 1, 0, 0, ...: summable. The Lean coefficient gamma_0 = sup over H of the integral of phi^2 (dlamHat/dlam) dlambda is infinite, because dlamHat/dlam is unbounded. Invariant measures of this kernel are multiples of lamHat, so pi is not IsSummablyL2Mixing. The converse (lambda-summable but not lamHat-summable) is plausible, with slow mixing where dlamHat/dlam is small, but no example is given. When dlamHat/dlam is bounded above and below, the two are summable together. In the hybrid that keeps H normalized in L2(lambda), gamma_0 is the same for both readings, and the witness above does not separate them.",
+   "fix": "Name the alternative exactly (H in L2(lamHat) or in L2(lambda)). Replace 'neither summability implies the other' with 'they are not equivalent (e.g. the resampling kernel to lamHat with unbounded dlamHat/dlam is summable for the L2(lamHat) transfer but not here); the converse is not established'. The question's substance and the marks are unaffected."
+  }
+ ]
+}
