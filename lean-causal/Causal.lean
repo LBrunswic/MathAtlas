@@ -202,6 +202,8 @@ import Causal.Port.E0Causality
 import Causal.Port.E0Axioms
 import Causal.MinkowskiMeasure
 import Causal.KBorelien
+import Causal.CBG.ETTSubExtension
+import Causal.CBG.SubExtensionAbstract
 
 /-!
 # Causal — topological spacetimes

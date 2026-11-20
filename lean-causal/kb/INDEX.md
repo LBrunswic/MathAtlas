@@ -43,3 +43,6 @@ rediscover. One fact per entry.
 | [0035](entries/0035-verbatim-ports.md) | pattern | A gx → Causal port compiles verbatim; check it by a line-set comparison |
 | [0036](entries/0036-non-borel-real.md) | pattern | A subset of ℝ that is not Borel: `exists_not_measurableSet_real` |
 | [0037](entries/0037-spokes-local-counterexample.md) | pattern | A cheap local counterexample with ≤ neither closed nor plain: spokes in an achronal slice |
+| [0038](entries/0038-non-local-relations-and-curves.md) | pitfall | Non-local relations leave causal curves, inextensibility and Cauchy surfaces unchanged |
+| [0039](entries/0039-isrigid-satisfiable.md) | pitfall | The causal `IsRigid` is satisfiable on a connected, non-trivial base |
+| [0040](entries/0040-equivalent-is-directional.md) | pitfall | `CommonSubExtension.Equivalent` is directional: fix the reading before refuting uniqueness |
