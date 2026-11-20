@@ -407,13 +407,14 @@ stream = "gx"
 kind = "close"
 paper = "gx"
 labels = ["cex:start_singular_manifold_homeomorphic"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 6
 depends = ["T-gx-troyanov-triangle"]
-evidence = "Route note (1) of T-gx-troyanov, split off 2026-11-20 by the planner. Troyanov's condition admits an angle 2π (GX.troyanovAngleCondition_two_pi, scaffold Spherical/TroyanovAngles.lean:106: (9π/10, 19π/20, π, 2π)) and forces at least three angles ≠ 2π (TroyanovAngleCondition.three_le_card_ne_two_pi, l.127). GX.TroyanovAngleCondition (GX/SingularII/Models.lean:897) is unchanged when an index with θ_k = 2π is deleted, since its term θ_k − 2π vanishes and the bounds χ' ≤ θ_j for j ≠ k stay; three_le_card_ne_two_pi keeps s − 1 ≥ 3. So TroyanovTheorem at s follows from TroyanovTheorem at s − 1 once a cone sphere (GX.IsConeSphere, GX/Spherical/ConeSurface.lean:958) can be given one more cone point of angle 2π. The library has one direction: a cone point of angle 2π is regular (IsConePoint.mem_reg, ConeSurface.lean:897). This target proves the converse, that every regular point of a singular (SO(3), 𝕊²)-manifold has an X_{2π}-chart onto C_{2π} (GX.IsConePoint, l.872). [r] (planner, unchecked) C_{2π} develops onto 𝕊² minus the antipode of the apex (ConeSurface SCOPE (b)), so a regular chart rotated to send the point to the apex should be such a chart. The new point is any point outside range p, which exists since M ≃ 𝕊² is infinite, and is regular since Sing ⊆ range p. Expected statements: TroyanovTheorem from its restriction to angles all ≠ 2π, and, with troyanovTheorem_of_four_le (TroyanovTriangle.lean:2442) and troyanovAngleCondition_three_iff (l.102: at s = 3 every θ_i < 2π), from its restriction to s ≥ 4 angles all ≠ 2π. The row stays partial. This is one dispatch, a new scaffold file. It shares its only label with every Troyanov target, so the wave runs one of them at a time."
+evidence = "GX/Spherical/TroyanovTwoPi.lean: a regular point is a cone point of angle 2π; TroyanovTheorem ⇔ its case s ≥ 4 with all θ_i ≠ 2π; cex row stays partial; audit clean"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "d206dd5"
 
 [[target]]
 id = "T-gx-troyanov-polygon"
@@ -555,13 +556,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzprop:c2s2p2_pseudo_longueur_corps_convexe", "bzprop:c2s2p3_voisinage_majore"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 5
 depends = ["T-bz-c2-mesure"]
-evidence = "DEC-137. benzecri1960_ch2.tex l.306–317 (Prop. 2: 'résulte de ce que F, F′ dépendent continûment de A, B'), l.321–332 (5°, upper semicontinuity, from Prop. 2 and 4°) and l.365–379 (Prop. 3, from 6° and 4°). It needs the pseudo-length of T-bz-c2-mesure. Convex bodies of S(n) are Benzecri.IsCorpsConvexeS (Projective/Convex.lean:542). 5° and 6° are lemmas here, unmarked (their row is T-bz-c2-proprietes). Promoted 2026-11-20 by the planner: T-bz-c2-mesure is done (245693e), with the pseudo-length Benzecri.pseudoLength, IsMajoreSeg and IsMajorePart (Chapter2/Mesure.lean:317–329). OQ-45 (open) bears on both rows. Prop. 3 and the 'ne s'annule que sur la diagonale' of Prop. 2 contain property 1° (l_V(M, M) = 0), which fails in dimension 0 (Mesure.lean:730, pseudoLength_self_eq_top_dim_zero). Mesure's SCOPE (l.83–84): 'Prop. 3 (T-bz-c2-hilbert) inherits the same question: with the convention here, a point of a 0-manifold has no majorised neighbourhood'. So prove both rows for n ≥ 1 ([NeZero n]) and record what holds at n = 0, as T-bz-c2-projection did (6d457b8). Its AUDIT-1 gives the routing: marked under OQ-45 (a) with no Lean change; partial under (b) or (c). The marks wait on OQ-45. Tools named for this target in Mesure's SCOPE (l.86–88): isProjSegment_of_chart, isMajoreSeg_of_chart (l.396), exists_closedSeg_extend (l.412), IsMajoreSeg.mono. The cross-ratio is in Chapter2/CrossRatio (lean-benzecri kb/0008). Use Mesure's names for the chart change on a segment; T-bz-c2-dedupe keeps them, so they stay valid."
+evidence = "Benzecri/Chapter2/Hilbert.lean: Props. 2 and 3 proved for n ≥ 1, unmarked (OQ-45; Prop. 2's reading OQ-56); 5°, 6° as lemmas; audit minor"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "e6fbc28"
 
 [[target]]
 id = "T-bz-c2-dedupe"
@@ -923,13 +925,14 @@ stream = "other"
 kind = "close"
 paper = "syracuse"
 labels = ["theo:rep", "cor:ring_following_equivalent_enumerate", "cor:ring_periodic_minimal_period"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 6
 depends = ["T-syr-base"]
-evidence = "syracuse.tex l.88–109 (theo:rep, with inverse −(1/3)Σ 2^{p_n}/3^n in A₂, from lem:base, and the two corollaries). The text claims A₂ ≅ ℤ₂ for every ℤ/2ℤ-ring (l.50–52, unlabelled); since the split below that claim is T-syr-completion's, and this target states theo:rep on ℤ_[2] (PadicInt). cor:ring_periodic_minimal_period has no printed proof. cor:corollary (l.110) is an empty environment and is left to the curation. [r] (planner, unchecked) The −1/3 caveat of T-syr-base applies in ℤ₂: φ is undefined on the backward T-orbit of −1/3, and −1/3 is not in the image of the printed inverse. So the bijection presumably holds off that countable set: a likely finding. Promoted and split 2026-11-20 by the planner: T-syr-base is done (895d501), strict as lean-syracuse/Syracuse/{Valuation,Base}.lean: IsZ2Ring (Valuation.lean:78) with instances ℤ, ℤ_[2], ZMod 2 (l.317–350); T, a, p (Base.lean:116, 193, 196); lem:base as Syracuse.base and base_of_orbit (l.237, 267). prop:ring_both_continuous_extends and the identification A_2 ≅ ℤ_2 (l.52) moved to T-syr-completion. This target works in ℤ_[2] directly (the printed φ has domain 2A_2 + 1, with A_2 ≅ ℤ_2 claimed at l.52) and does not build A → ℤ_2. The −1/3 caveat is now T-syr-base's finding: Syracuse.T_undefined_padicInt (Base.lean:185) and base_printed_fails_padicInt (l.276), OQ-42 (d), open. So the mark of theo:rep waits on OQ-42 (d). [r] −1/3 is outside the image of the printed inverse: the series has p_0 = 0 and a tail of 2-adic valuation p_1 < ∞, so Σ 2^{p_n}/3^n ≠ 1. The two corollaries are stated for x in a general ℤ/2ℤ-ring A. [r] (planner, unchecked) Route without A_2: two points with the same a-sequence have the same p_n, and lem:base gives 2^{p_n}(T^n x − T^n y) = 3^n (x − y), so x − y ∈ ⋂_k 2^k A = 0 by Krull (A a noetherian domain, 2 not a unit). OQ-43 (open) asks whether A_u^n's product stops at n−1−k (as printed) or n−2−k, and names cor:ring_periodic_minimal_period. [r] On a cycle, either reading makes A_i^n − A_j^n a non-zero multiple of x_i − x_j: the factor is 3(2^{p_n} − 3^n) as printed (from the T-syr-base REPORT's computation A_u^n = (3x_u + 1)(2^{p_n} − 3^n)) and 2^{p_n} − 3^n otherwise, and 2^{p_n} − 3^n ∈ 2A + 1 is non-zero. So the corollary holds for i ≠ j under both readings. As printed, '∀ i, j ∈ ⟦1, n⟧' includes i = j, where the difference is 0: a likely finding. The marks of both corollaries follow OQ-42 (b) (2 ≠ 0) and OQ-43."
+evidence = "Syracuse/Rep.lean: theo:rep proved on RepDomain over ℤ_[2] (false as printed at −1/3's backward orbit); both corollaries proved, unmarked (OQ-42 (a)/(d), OQ-53, OQ-43); audit minor"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "5ff0a6b"
 
 [[target]]
 id = "T-syr-integer-bounds"
@@ -938,13 +941,14 @@ stream = "other"
 kind = "close"
 paper = "syracuse"
 labels = ["lem:one_has", "lem:itemize_furthermore_itemize", "cor:corollary_2", "cor:bounds"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 6
 depends = ["T-syr-base"]
-evidence = "syracuse.tex l.114–144 (A = ℤ). lem:one_has follows from lem:base by a discrete Grönwall step (l.116–125). As printed, u_k carries n where k is meant, and the bound reads (1 + 1/x)^n where the statement has |x|. lem:itemize_furthermore_itemize is proved 'the same way'. cor:corollary_2 and cor:bounds have no printed proof. These bounds feed prop:proposition (l.194, from cor:bounds), the start of § 2. Promoted 2026-11-20 by the planner: T-syr-base is done (895d501). Over ℤ every orbit is good (Syracuse.base_of_not_isUnit_three and three_mul_add_one_ne_zero, lean-syracuse/Syracuse/Base.lean:259, 123), so OQ-42 (d) does not bear here. [r] (planner, unchecked; the closer checks each claim in Lean) Dividing lem:base by 3^n and telescoping T^{k+1}x · 2^{a_k(x)} = 3T^k x + 1 gives, for x odd and the orbit non-zero, 2^{p_n(x)}/3^n = (x / T^n x) · Π_{k<n} (1 + 1/(3T^k x)). This replaces the Grönwall step. The printed first line of l.116–125 drops lem:base's factor 1/3, which only weakens the right side, so lem:one_has stands, and for x > 0 the sharper bound (1 + 1/(3|x|))^n holds. Checks at x = 1, where T(1) = 1, a_k(1) = 2 and p_n(1) = 2n. lem:itemize_furthermore_itemize, second bullet: it asks 2n log 2 − n log 3 ≥ n log 2, false for every n ≥ 1; the product gives the lower bound n log(1 + 1/(3x)), with equality at x = 1. Its first bullet asks 0 > 0 at n = 0, and holds for n ≥ 1. cor:bounds: it asks log_2 2 ≤ 2 − log_2 3 (≈ 0.415), which is false. Its two printed bounds are also in decreasing order, since 1/min ≥ 1/max. On a cycle the product gives p_n/n − log_2 3 = (1/n) Σ_k log_2(1 + 1/(3T^k x)), between log_2(1 + 1/(3 max)) and log_2(1 + 1/(3 min)). That is presumably the intended form, but marking a corrected form is the author's, so these rows are expected partial with findings. cor:corollary_2: (2^{p_n}/3^n) T^n x = x Π_{k<n}(1 + 1/(3T^k x)) is e^{o(n)} when T^k x → ∞, so p_n log 2 − n log 3 ≤ o(n)."
+evidence = "Syracuse/IntegerBounds.lean: lem:one_has, cor:corollary_2 closed as printed; lem:itemize_furthermore_itemize, cor:bounds false as printed, true forms proved (OQ-54); audit minor"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "7b5c4d5"
 
 [[target]]
 id = "T-syr-completion"
@@ -1071,13 +1075,14 @@ stream = "gfn"
 kind = "close"
 paper = "egf"
 labels = ["theo:backward_policy"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 4
 depends = ["T-egf-headline"]
-evidence = "Re-scoped 2026-11-20 by the planner. It depends on T-egf-headline, not on the package alone: both need the generative-flow vocabulary (star outflow, star inflow, backward policy as a Radon–Nikodym derivative, main.tex l.161 and l.733–741), and two closers defining it at once in lean-egf would collide. The lean-egf layering is settled (Mathlib only, lean-egf/docs/CAMPAIGN.md). The proof is a change of variables with |det J Φ_i⁻¹| (main.tex l.742–770); Mathlib has it on ℝⁿ (integral_image_eq_integral_abs_det_fderiv_smul). papers/egf/STORY.md S-egf-4: 'For a finite family of diffeomorphisms the backward star policy has a closed form', resting on theo:backward_policy (ledger: proved, main.tex:733). papers/egf/ledger/ledger.toml roadmap_intro: 'The library namespace is EGF, reusing GFNBounds.Core (kernels, mixing sums, the sampling theorem)'. GFNBounds.Core.UniversalityBody (lean/ submodule) defines IsEGFPolicy and egfKernel. Whether lean-egf requires or ports GFNBounds is T-egf-package's set-up (DEC-133, OQ-1). Promoted 2026-11-20 by the planner: T-egf-headline is done (742a9c5). The vocabulary is strict in lean-egf/EGF/Defs.lean: GenerativeFlow (l.123), inflow F_out π (l.135), IsEGFPolicy and egfKernel (l.191, l.201), rewritten locally from GFNBounds.Core (its REPORT: 'Layering: Mathlib only, no [[require]]'). The backward star policy is not defined yet. The appendix proof takes it from brunswic2024theory (main.tex l.741–746: B*(s → X) = d(F*_in ⊗ B*(· → X))/dF*_in, with F*_in ⊗ B*(Y → X) = F*_out ⊗ π*(X → Y)), so the closer defines it there. Open questions: OQ-47–50 concern def:summably_mixing, def:egf and def:universal_family. theo:backward_policy uses none of them. It takes 'an EGF as above' to be F_out = f λ with π* = Σ α_i δ_{Φ_i} (main.tex l.731–732), with no ergodicity. So OQ-48 does not bear if it is stated for egfKernel without IsEGF's ergodicity clause [r]. [r] (planner, unchecked) 'Differential manifold, λ ≪ Lebesgue, |J_s Φ_i⁻¹|': a general form takes measurable bijections with (Φ_i⁻¹)_*λ ≪ λ and the Radon–Nikodym derivative in place of the Jacobian. Instantiated on ℝⁿ by the change of variables, it is at least the paper's statement (Lean ≥ paper) without a manifold measure, which Mathlib lacks. Whether a chart-wise manifold instance is also wanted is the closer's to report, not to decide."
+evidence = "EGF/BackwardPolicy.lean: the backward star policy defined; theo:backward_policy false as printed in its setting, corrected forms proved (OQ-55); audit minor"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "b2446d2"
 
 [[target]]
 id = "T-egf-sampling"
