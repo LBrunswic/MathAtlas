@@ -41,3 +41,5 @@ rediscover. One fact per entry.
 | [0033](entries/0033-e0-model.md) | pattern | E₀ is `Causal.E0 = ℝ × ℂ`, with its `BTZAxioms` instance `E0.btzAxioms` |
 | [0034](entries/0034-typecheck-module-chains.md) | pattern | Typechecking a chain of new scaffold modules without `lake build` |
 | [0035](entries/0035-verbatim-ports.md) | pattern | A gx → Causal port compiles verbatim; check it by a line-set comparison |
+| [0036](entries/0036-non-borel-real.md) | pattern | A subset of ℝ that is not Borel: `exists_not_measurableSet_real` |
+| [0037](entries/0037-spokes-local-counterexample.md) | pattern | A cheap local counterexample with ≤ neither closed nor plain: spokes in an achronal slice |

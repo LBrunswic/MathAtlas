@@ -201,6 +201,7 @@ import Causal.Port.E0Model
 import Causal.Port.E0Causality
 import Causal.Port.E0Axioms
 import Causal.MinkowskiMeasure
+import Causal.KBorelien
 
 /-!
 # Causal — topological spacetimes

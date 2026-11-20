@@ -1,0 +1,88 @@
+{
+ "package": "T-ett-k-borelien",
+ "target": "T-ett-k-borelien",
+ "files": [
+  "scaffold/CausalScaffold/KBorelien.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "rem:K_borelien",
+   "tex_lines": [
+    829,
+    835
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.KBorelienAsPrinted",
+    "Causal.not_kBorelienAsPrinted",
+    "Causal.KBorelienPlusAsPrinted",
+    "Causal.not_kBorelienPlusAsPrinted",
+    "Causal.spokes_counterexample",
+    "Causal.spokes_counterexample_future",
+    "Causal.Causality.measurableSet_Kminus_of_causallyPlain",
+    "Causal.Causality.measurableSet_Kminus_of_pushUp"
+   ],
+   "hypotheses": [
+    {
+     "paper": "M a topological spacetime (ETT.tex:254): second countable, Hausdorff, a causality with open chronological relation",
+     "here": "carried",
+     "note": "the counterexample is R x C (= R^3) with the chronological relation of Minkowski space; KBorelienAsPrinted quantifies over SecondCountableTopology, T2Space, BorelSpace"
+    },
+    {
+     "paper": "M tarentin",
+     "here": "carried",
+     "note": "the counterexample is tarentin (spokes_tarentin)"
+    },
+    {
+     "paper": "(not in the remark) a local causality",
+     "here": "carried",
+     "note": "the past witness is absolutely minimal (spokes_absolutelyMinimal) and causal (spokes_isCausal), recorded in spokes_counterexample; the future (time-reversed) witness likewise, in spokes_counterexample_future. Neither is an artefact of the missing gluing axiom (kb/0014, kb/0019)"
+    },
+    {
+     "paper": "conclusion: K^-(p) is a Borel subset of M",
+     "here": "refuted",
+     "note": "not_kBorelienAsPrinted; K^+ likewise by time reversal (not_kBorelienPlusAsPrinted). True when J^-(p) is Borel (existing Causal.Causality.measurableSet_Kminus), or with causal plainness or push-up at p in Z^-(M) (measurableSet_Kminus_of_causallyPlain, measurableSet_Kminus_of_pushUp)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "ETT.tex:833-834, 'a countable union of sets open in J^±(p), hence a Borel subset of M': false. There is a tarentin topological spacetime, with a local (absolutely minimal) and causal causality, in which K^-(p) is not Borel (not_kBorelienAsPrinted, with locality recorded in spokes_counterexample). The future form is refuted the same way (not_kBorelienPlusAsPrinted): the time-reversed witness is tarentin, causal and absolutely minimal, and K^+(p) is not Borel (spokes_counterexample_future). Both printed-form Props quantify over every library causality, so the claim that the refutation holds for local causal spacetimes rests on these two companion theorems. The witness is 'Minkowski space with spokes' on R x C: ≪ is Minkowski's, and ≤ adds, in the slice t = 0, the spacelike radial steps (0,z) ≤ (0,cz) for z in a cone A and c in [0,1]. At p = (1,0), K^-(p) restricted to the slice outside the unit ball is exactly A (spokes_Kminus_slice); with A the cone over {x + i : x ∈ T} for a non-Borel T ⊆ R, neither K^-(p) nor J^-(p) is Borel (spokes_counterexample).",
+    "The remark's argument holds up to its last step: K^-(p) is a countable union of sets open in J^-(p), and in fact K^-(p) = J^-(p) ∩ O with O open (existing Kminus_eq_inter_isOpen). 'Hence Borel' needs J^-(p) Borel, which the witness lacks.",
+    "Strongest true forms: K^-(p) is Borel whenever J^-(p) is (existing measurableSet_Kminus), which covers prop:cont_ext_cont, the one place the remark is used (ETT.tex:1219: tarentin and globally hyperbolic, so J^-(p) is closed; existing measurableSet_K_of_globallyHyperbolic). With no hypothesis on J^-(p), K^-(p) is Borel when M is causally plain or has push-up and p ∈ Z^-(M), because K^-(p) = I^-(p) is then open (measurableSet_Kminus_of_causallyPlain, measurableSet_Kminus_of_pushUp, new). The witness is necessarily neither causally plain nor push-up, and this is proved in spokes_counterexample. A repair the author may consider: '... hence Borel as soon as J^-(p) is, for instance when M is globally hyperbolic (Proposition prop:GH_Jferme)'.",
+    "ETT.tex:834: 'open in J^±(p)' should read 'open in J^-(p)' (already recorded in the ledger)."
+   ],
+   "questions": [
+    "No reading of the remark itself is involved. One standing reading, unchanged: a causality is the library's 'equivalently' form of defi:causalite (ETT.tex:237), with no gluing axiom. The finding does not depend on it, because the witness is absolutely minimal (every relation is a chain of relations localised in the members of any open cover), the strongest form of locality the library expresses."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Causal.exists_not_measurableSet_real",
+  "Causal.spokesCausality",
+  "Causal.spokesP",
+  "Causal.Spokes.base",
+  "Causal.Spokes.rel",
+  "Causal.Spokes.le",
+  "Causal.coneOver",
+  "Causal.coneOver_smul",
+  "Causal.spokes_tarentin",
+  "Causal.spokes_isCausal",
+  "Causal.spokes_absolutelyMinimal",
+  "Causal.spokes_mem_Zminus",
+  "Causal.spokes_le_origin",
+  "Causal.spokes_origin_lt",
+  "Causal.spokes_le_origin_of_le",
+  "Causal.spokes_not_le",
+  "Causal.spokes_mem_Kminus",
+  "Causal.spokes_Kminus_slice",
+  "Causal.spokes_measurableSet_of_measurableSet_Kminus"
+ ],
+ "kb_proposals": [
+  "A subset of R that is not Borel: Causal.exists_not_measurableSet_real (CausalScaffold.KBorelien), proved by cardinality (Real.borel_eq_generateFrom_Ioo_rat, MeasurableSpace.cardinal_measurableSet_le_continuum, Cardinal.cantor). Mathlib has no such lemma at this pin.",
+  "A cheap LOCAL counterexample with ≤ neither closed nor plain: Minkowski's ≪ plus extra spacelike relations ('spokes') inside an achronal slice (spokesCausality). ≤_U = base ∨ base∘spoke∘base is transitive because base relates two points of one slice only when they are equal. Absolute minimality follows from exists_subdivision_Icc along each spoke. Put an uncountable family of extra relations in an achronal set: elsewhere the openness of ≪ absorbs all but countably many of them."
+ ],
+ "notes": "The file is sorry-free and has no warnings under lake env lean. It imports only strict Causal.* modules (MeasureRemarks, Minkowski, Subdivision) and mathlib, so it could graduate to Causal/ unchanged. `lake build CausalScaffold.KBorelien` built this module alone (3086 jobs, 1 built, no warnings). Fix round 1 (AUDIT-1, minor) added spokes_counterexample_future, a statement and proof only; no existing statement changed. #print axioms of not_kBorelienAsPrinted, not_kBorelienPlusAsPrinted, spokes_counterexample, spokes_absolutelyMinimal and spokes_Kminus_slice gives propext, Classical.choice and Quot.sound only. The scaffold root must import the module for the axiom sweep (kb/0025); I did not edit it. The row stays partial: the claim is false as printed. Its decls can gain Causal.not_kBorelienAsPrinted and the two new true forms; blocked_on ('whether K^-(p) is Borel when J^-(p) is not') is answered: not in general. A prose remark, not formalized: off the slice t = 0, the witness's J^-(p) is (I^-(p) ∪ I^-({0} × A)) ∪ {p}, which is Borel. The non-Borel part therefore lies in a Lebesgue-null slice, and the witness says nothing about measurability for the completion of a measure that does not charge that slice."
+}
