@@ -1,0 +1,63 @@
+{
+  "target": "T-syr-base",
+  "auditor_round": 2,
+  "verdict": "clean",
+  "labels": [
+    {
+      "label": "def:ring_define",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial, as in round 1. The statements match AUDIT-1's description: IsZ2Ring = IsDomain + IsNoetherianRing + Nonempty (A ⧸ span{2} ≃+* ZMod 2) (Valuation.lean:78), nu2 = emultiplicity, nu2_eq_coe_iff is the printed max, f, T, printed_f_not_definable and the five-conjunct T_undefined_of_isUnit_three. Minor fix 3 is in place: the '4 ≠ 0' remark is hedged at Valuation.lean:60–62 ('if \"such a ring\" … means any ℤ/2ℤ-ring (it may mean only the rings named just before it)'), and the REPORT's findings[2] says the same. The integrality question (REPORT questions[0], Valuation.lean:51–56) now cites rhs_zmod6_not_injOn. Valuation.lean has no ``**`label`**`` anywhere in the file."
+    },
+    {
+      "label": "def:ring_define_2",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial. a, p, a_eq_nu2, a_succ, p_zero, p_succ, p_succ', one_le_a and T_iterate_odd are as AUDIT-1 described them (Base.lean:193–230). Their round-1 axiom profiles are unchanged. Not marked anywhere."
+    },
+    {
+      "label": "lem:base",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "MAJOR FINDING 1 OF AUDIT-1 IS RESOLVED. The SCOPE bullet now reads '* `lem:base` is proved for every `x ∈ A` …' (Base.lean:57), with no bold. The docstring of Syracuse.base opens '/-- `lem:base` (`syracuse.tex:67`), for the total maps …' (Base.lean:234). The docstrings of base_of_not_isUnit_three (:258), base_of_orbit (:264) and base_printed_fails_padicInt (:274) cite the label plain. tools/ledger.py docstring_label_re, rebuilt with label_prefixes from papers/syracuse/ledger/ledger.toml, returns ['def:define_n__n_'] on Base.lean[:4000] and ['def:define_n__n_', 'def:define_n__n_'] on the whole file (chars 256 and 14025, lines 7 and 286). The statements of base, base_of_orbit, base_of_not_isUnit_three and base_printed_fails_padicInt are those AUDIT-1 checked (Base.lean:237–282). Three bold SCOPE phrases contain a backticked label inside a longer phrase: '**Finding 1 (`def:ring_define`, l.55): …**' at :42, Finding 2 at :46, Finding 3 at :64. The regex requires the label to fill the whole bold span, so none of them matches. They were already present in round 1."
+    },
+    {
+      "label": "def:define_n__n_",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "This is the only mark, and AUDIT-1 confirmed it. It appears in the module docstring at Base.lean:7, followed by — `syracuse.tex:80`, and in Aun's docstring at :286. Aun, Aun_one and Aun_two are unchanged (Base.lean:287–296). AUDIT-1 minor finding 5 (the printed A_u^n looks off by one against l.284) is recorded in REPORT.notes as informational for T-syr-rep and as a question for the author. T-syr-rep covers cor:ring_periodic_minimal_period. The other consumer named in AUDIT-1, lem:syracuse_cycle (l.283), has no roadmap target yet, so the master session should carry the note into the OQ it raises."
+    },
+    {
+      "label": "lem:ring_maps_rhs_n_",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial. Minor fix 2 is in place. Integrality is listed as '⚠ strengthened in `ring_maps_rhs` via `IsZ2Ring`' in the Base.lean checklist (:36) and as a 'strengthened' hypothesis row in the REPORT. NEW THEOREM CHECKED. rhs_zmod6_not_injOn (Base.lean:412–421) elaborates to IsNoetherianRing (ZMod 6) ∧ Nonempty (ZMod 6 ⧸ Ideal.span {2} ≃+* ZMod 2) ∧ (2 : ZMod 6) ≠ 0 ∧ ¬ Set.InjOn (RHS (ZMod 6) 2) (RHSDomain 2). That is exactly what the REPORT and the docstring claim: ZMod 6 meets the printed definition at l.52 (a noetherian commutative unitary ring with A/2A ≅ ℤ/2ℤ) and has 2 ≠ 0, and RHS₂ is not injective. The hypotheses are conjuncts proved by the kernel, not assumptions: the first three come from zmod6_witness (noetherian by inferInstance; the quotient from quotient_two_of_parity with decided parity; 2 ≠ 0 by decide). The collision uses ![0,1] and ![0,3], both in RHSDomain 2 (q 0 = 0 and strictly increasing). An independent stdin probe gives RHS (ZMod 6) 2 ![0,1] = 5 = RHS (ZMod 6) 2 ![0,3] (3+2 = 5 ≡ 3+8 = 11 mod 6) by decide. NO CONTRADICTION WITH ring_maps_rhs. The same probe proves ¬ IsDomain (ZMod 6) (2·3 = 0) and ¬ Nonempty (IsZ2Ring (ZMod 6)), and ring_maps_rhs requires [IsZ2Ring A] ⊇ IsDomain. The docstring's 'not integral' is true, though it is not a conjunct of the theorem. Minor fix 4(2) is in place: 'RHS_n is not injective (in fact constant, `= 3^{n-1} = 1`)' at Base.lean:65–66, the rhs_zmod2_not_injOn docstring at :374–375 ('only the non-injectivity is proved') and the REPORT finding. ring_maps_rhs, rhs_injOn_strictMono, ring_maps_rhs_printed_false, rhs_zmod2_not_injOn and ring_maps_rhs_printed_statement_false are unchanged from AUDIT-1's description."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "pgrep showed no lake process in lean-syracuse; only lean-egf and lean-yamabe jobs from other loops were running. `taskset -c 0-11 lake env lean -DwarningAsError=true` on scaffold/SyracuseScaffold/Valuation.lean and on Base.lean exited 0 with no output, and wrote nothing. `lake build --no-build SyracuseScaffold.Valuation SyracuseScaffold.Base` reports 'All targets up-to-date (2010 jobs)'. The closer's oleans (19:48:03–04) postdate the sources (19:47:48), and Basic.olean was untouched (18:10). In both files, sorry, admit, axiom, unsafe, native_decide, implemented_by, extern, opaque, set_option, 'decide := true' and ofReduceBool occur 0 times, prose included. The imports are unchanged: six Mathlib modules in Valuation, and SyracuseScaffold.Valuation only in Base. Every declaration in the two files (75, extracted with the ledger's DECL regex) is in REPORT decls ∪ extra_decls, and vice versa: AUDIT-1's 74 plus rhs_zmod6_not_injOn. The #print axioms probe on all 75 was fed through `lake env lean --stdin`, so no probe file was written in the repository. 71 depend on [propext, Classical.choice, Quot.sound], including rhs_zmod6_not_injOn. three_mul_add_one_ne_zero, not_two_dvd_of_odd and mem_span_two_pow_iff depend on [propext, Quot.sound], and RHSDomain on [propext]. Sorted, this output is line-for-line identical to the round-1 probe output (/tmp/syr_axioms_stdout.txt, 19:40), apart from the one added line for rhs_zmod6_not_injOn."
+  },
+  "unchanged_check": "The two files are untracked, and the oleans were rebuilt after the fix, so no byte-level pre-fix copy exists. Reading the closer's session transcripts was refused by the permission layer. Check (4) therefore rests on three things. First, every statement and proof was read against AUDIT-1's per-declaration description (signatures, conjunct counts, hypotheses, the Aun index ranges, the RHSDomain shape), and all agree. Second, the declaration set is exactly AUDIT-1's 74 plus the new theorem. Third, the axiom profile of the 74 is identical to round 1. The visible edits are all docstring or prose: the de-bolded lem:base at :57, :234 and :274, the backticked line references at Base.lean:6–8 and Valuation.lean:11–13, the new checklist row at Base.lean:36, the ZMod 6 sentences at Base.lean:69–71 and Valuation.lean:55–56, the '4 ≠ 0' hedge at Valuation.lean:60–62, and the 'not injective (in fact constant)' wording. The only new code is rhs_zmod6_not_injOn (Base.lean:408–421), which uses only zmod6_witness, RHS and RHSDomain, whose statements are unchanged.",
+  "scope": {
+    "git_status": [
+      " M roadmap/roadmap.toml",
+      "?? lean-benzecri/campaign/T-bz-c2-mesure/",
+      "?? lean-benzecri/scaffold/BenzecriScaffold/Chapter2/",
+      "?? lean-egf/scaffold/EGFScaffold/Defs.lean",
+      "?? lean-egf/scaffold/EGFScaffold/Universality.lean",
+      "?? lean-gx/campaign/T-gx-cone-football/",
+      "?? lean-gx/scaffold/GXScaffold/Spherical/Football.lean",
+      "?? lean-syracuse/campaign/T-syr-base/",
+      "?? lean-syracuse/scaffold/SyracuseScaffold/Base.lean",
+      "?? lean-syracuse/scaffold/SyracuseScaffold/Valuation.lean",
+      "?? lean-yamabe/scaffold/YamabeScaffold/Quotient.lean",
+      "?? lean-yamabe/scaffold/YamabeScaffold/Stability.lean"
+    ],
+    "note": "This target's footprint is still only its two scaffold files and the campaign directory. The roadmap.toml diff flips ready → active for T-syr-base and five other targets: the loop's dispatch bookkeeping. lean-benzecri/campaign/T-bz-c2-mesure/ is new since round 1 and belongs to a parallel loop. Under lean-syracuse/ and papers/syracuse/ (excluding .lake), the only files modified since 19:46 are Base.lean, Valuation.lean, REPORT.json and AUDIT-1.json. The tracked SyracuseScaffold root, Basic.lean, the kb and the ledger are clean against HEAD."
+  },
+  "docstring_contract": "Both files keep the title, the label citations within the first 4000 characters (now in the backticked form `syracuse.tex:LINE`; lines 54, 61, 67, 80 and 84 rechecked against papers/syracuse/legacy/labeled/syracuse.tex), the quoted '>' blocks, the Hypothesis checklist, the SCOPE (disclosed) section and the Provenance line. tools/ledger.py's SCOPE_BLOCK regex finds the SCOPE within the first 8000 characters of each file (Base.lean ends at char 5056, Valuation.lean at 4244). The header sentence 'Only `def:define_n__n_` is marked' (Base.lean:8) is now true of the file as the ledger reads it. The SCOPE statements I re-read are true, including the new integrality bullet text and the hedged '4 ≠ 0' text.",
+  "findings": []
+}

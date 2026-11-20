@@ -1,0 +1,92 @@
+{
+  "target": "T-syr-base",
+  "auditor_round": 1,
+  "verdict": "major",
+  "labels": [
+    {
+      "label": "def:ring_define",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial. IsZ2Ring = IsDomain + IsNoetherianRing + Nonempty (A ⧸ span{2} ≃+* ZMod 2). That is l.52's definition plus l.50's 'integral', and the integrality is disclosed as a reading and raised as a question. The instances ℤ, ℤ_[2] and ZMod 2 show the class is not vacuous. nu2 = emultiplicity 2 is the printed max: nu2_eq_coe_iff states ν₂ x = n ↔ IsGreatest {m | x ∈ span{2^m}} n. exists_isGreatest gives the max for x ≠ 0 through Mathlib's Krull intersection theorem for noetherian domains (Ideal.iInf_pow_eq_bot_of_isDomain, Filtration.lean:467, I ≠ ⊤ from A/2A ≠ 0). That use is correct, and integrality is exactly what Krull needs: in ZMod 6, ⋂(2A)^n = 2A ≠ 0, which zmod6_witness shows as ν₂(2) = ⊤. So l.51's appeal to Krull also fails without integrality. FINDING 1 CHECKED, TRUE. \\fonctiondeux{#1}{#2}{#3}{#4}{#5}{#6}{#7} typesets #4 ↦ #5 and #6 ↦ #7, so l.55 reads x ∈ 2A ↦ 3x+1 and x ∉ 2A ↦ x/2, the reverse of l.46–48. printed_f_not_definable encodes 'x/2' as any g x with 2·g x = x, which every reading of x/2 in A must satisfy. At x = 1 ∉ 2A no such value exists. This is the printed form, not a strawman. FINDING 2 CHECKED, TRUE. If 3 ∈ Aˣ, put x₀ = −3⁻¹. Then 3x₀+1 = 0, and x₀ ≡ 3x₀ = −1 ≡ 1 mod 2A, so x₀ ∈ 2A+1. {n | 0 ∈ 2ⁿA} = ℕ has no max, so ν₂(3x₀+1), and with it T_A(x₀), is undefined. T_undefined_of_isUnit_three states exactly this; its fourth conjunct is the printed max. It adds the stronger fact that, when 2 ≠ 0, no odd t and k ∈ ℕ give 2ᵏt = 3x₀+1. The hypotheses hold in ℤ_[2] and ZMod 2 (both formalized) and in ℤ_(2) and ℤ[1/3] (not formalized). three_mul_add_one_ne_zero shows this is the only defect. f and T are total with junk values. Where 3x+1 ≠ 0, T is the paper's map (T_odd, pow_v2_mul_T, T_unique, nu2_three_mul_add_one)."
+    },
+    {
+      "label": "def:ring_define_2",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial. a n x = v2(3·T^[n] x + 1) and p n x = Σ_{k<n} a k x transcribe l.62–63 literally. a_eq_nu2 bridges to the printed max under 3Tⁿx+1 ≠ 0. The inherited finding is true: on the backward T-orbit of x₀ = −1/3, 3Tⁿx+1 = 0 and a_n(x) is not a natural number. a_succ, p_succ and p_succ' are the recursions the proof of lem:base needs. one_le_a holds for every odd Tⁿx; at 3Tⁿx+1 = 0 it holds only through the junk value multiplicity 2 0 = 1 (Multiplicity.lean:492), which the kb proposal discloses."
+    },
+    {
+      "label": "lem:base",
+      "faithful": true,
+      "marked_correctly": false,
+      "notes": "The statements are right, but the mark is wrong (major finding 1). The REPORT and the header (Base.lean:6–8) call the label partial and unmarked, yet the module docstring bolds it at Base.lean:56, inside the ledger's 4000-character window. STATEMENTS. base proves the identity for every x ∈ A, every n and any CommRing, for the total T, a and p, and in the printed form: 2^{p n x}·T^[n] x − 3ⁿx = Σ_{k<n} 2^{p k x}·3^{n−1−k}. base_of_orbit says that on an orbit avoiding −1/3 every term is the paper's: a_k = ν₂(3Tᵏx+1) and T^{k+1}x is odd. base_of_not_isUnit_three covers all x when 3 ∉ Aˣ (e.g. ℤ). Together they are the strongest true form, and no weaker than the REPORT claims. The question 'x ∈ A (l.67) vs 2A+1 (l.71, 73)' is legitimate. For even x the extended T gives 3x+1, the printed formula with ν₂ = 0. base_printed_fails_padicInt is a faithful refutation at x₀. Its n = 1 right-hand side is 2^{p_0}·3^0 = 1, so it says that no odd t and no k ∈ ℕ have 2ᵏt = 3x₀+1 = 0. 't odd' is the printed codomain 2A+1 (without it, t = 0 would work), and 'k ∈ ℕ' is the printed codomain of p_1. FINDING 4 CHECKED, TRUE. By l.62–63, p_1 = a_0 = ν₂(3x+1), so 'a_1(x)' at l.71 and at l.75 (twice) should read a_0(x). Since 2^{a_0}·Σ_{k<n} 2^{p_k(Tx)}3^{n−1−k} = Σ_{k=1}^{n} 2^{p_k(x)}3^{n−k}, the sum at l.75–76, Σ_{k=1}^{n} 2^{p_{k+1}}3^{n−1−k}, is shifted (its exponent is −1 at k = n). The sum at l.77 should read Σ_{k=0}^{n} 2^{p_k}3^{n−k}. The statement itself is unaffected."
+    },
+    {
+      "label": "def:define_n__n_",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "MARK CHECKED, CORRECT. Aun n u a = Σ_{k ∈ range n} 3^k·∏_{i ∈ range (n−k)} 2^{a(u+i)}. range(n−k) is i = 0, …, n−1−k, exactly the printed ∏_{i=0}^{n−1−k}. u : ℤ, and u + i casts i to ℤ. The value lies in ℕ, where the printed sum of naturals lives. The larger domain (n = 0, and a : ℤ → ℕ, which allows zeros) is a total extension: on n ∈ ℕ*, a ∈ (ℕ*)^ℤ it is the printed sum literally and changes no value. A theorem that needs a_i ≥ 1 must carry that hypothesis itself, which is the theorem's concern, not the definition's. Aun_one and Aun_two agree with the hand expansion. The hub marks definitions (lean-causal Causal/Properties.lean:8–12). An observation outside this target, which does not affect the mark, is in minor finding 5: the printed index convention looks off by one against l.284."
+    },
+    {
+      "label": "lem:ring_maps_rhs_n_",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial. RHS is the printed sum Σ_{k<n} 2^{p_k}3^{n−1−k}. RHSDomain is {q : Fin n → ℕ | q 0 = 0 (n > 0) ∧ StrictMono q}, and the reading ↗↗ = strictly increasing is disclosed and raised as a question. FINDING 3 CHECKED, TRUE. l.50 asserts 'in such a ring, 2 ≠ 0'. ZMod 2 is integral and noetherian, and A/2A = A ≅ ℤ/2ℤ, so it is a ℤ/2ℤ-ring under l.52 with or without the integrality reading. In it, RHS_2(0,1) = 3+2 = 1 = 3+4 = RHS_2(0,2). The refutation does not depend on the ↗↗ reading: both points are also non-decreasing, and a larger domain only makes injectivity harder. ring_maps_rhs_printed_statement_false is the printed universal claim, and ZMod 2 satisfies IsZ2Ring. two_eq_zero_iff shows ZMod 2 is the only exception. The positive forms are correct. ring_maps_rhs is the printed statement plus 2 ≠ 0. rhs_injOn_strictMono drops p_0 = 0: by induction, RHS_{n+1}(p) = 2^{p_0}·(odd), then pow_two_mul_odd_inj. But ring_maps_rhs also uses integrality, through IsZ2Ring (the 2^a cancellation), and the row does not list it. Without integrality the lemma fails even when 2 ≠ 0 (minor finding 2)."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "No lake build was running, checked with pgrep. Both scaffold/SyracuseScaffold/Valuation.lean and Base.lean pass `taskset -c 0-11 lake env lean -DwarningAsError=true` with exit 0 and no output. Base.lean was elaborated a second time from stdin with #check lines appended, and its signatures are as reported. `lake build --no-build SyracuseScaffold.Valuation SyracuseScaffold.Base` reports 'All targets up-to-date (2010 jobs)'. In either file, sorry, admit, axiom, unsafe, implemented_by, native_decide, extern, opaque and set_option occur 0 times, prose included. Imports: Valuation imports six Mathlib modules (Filtration, Multiplicity, Padics.RingHoms, DiscreteValuationRing.Basic, LinearCombination, FinCases), and Base imports only SyracuseScaffold.Valuation. All declarations are in namespace Syracuse, and none has 'Scaffold' in its name. The strict library (Syracuse/Basic.lean, packageName only) has no clash. The #print axioms probe covered the 74 names in REPORT decls ∪ extra_decls. It was fed through `lake env lean --stdin` because writing a probe file under the campaign directory was refused by the permission layer, so no file was written. Every name resolves. 70 depend on [propext, Classical.choice, Quot.sound]; three_mul_add_one_ne_zero, not_two_dvd_of_odd and mem_span_two_pow_iff on [propext, Quot.sound]; RHSDomain on [propext]."
+  },
+  "scope": {
+    "git_status": [
+      " M roadmap/roadmap.toml",
+      "?? lean-benzecri/scaffold/BenzecriScaffold/Chapter2/",
+      "?? lean-egf/scaffold/EGFScaffold/Defs.lean",
+      "?? lean-egf/scaffold/EGFScaffold/Universality.lean",
+      "?? lean-gx/campaign/T-gx-cone-football/",
+      "?? lean-gx/scaffold/GXScaffold/Spherical/Football.lean",
+      "?? lean-syracuse/campaign/T-syr-base/",
+      "?? lean-syracuse/scaffold/SyracuseScaffold/Base.lean",
+      "?? lean-syracuse/scaffold/SyracuseScaffold/Valuation.lean",
+      "?? lean-yamabe/scaffold/YamabeScaffold/Quotient.lean",
+      "?? lean-yamabe/scaffold/YamabeScaffold/Stability.lean"
+    ],
+    "note": "This target's footprint is only its two new scaffold files and the campaign directory. The roadmap.toml diff flips status ready → active for this target and three others, which is the loop's dispatch bookkeeping. The benzecri, egf, gx and yamabe entries belong to parallel loops. Under lean-syracuse/ and papers/syracuse/, the only files newer than lean-syracuse/build.log (ignored, 18:10) that git sees as changed are Base.lean, Valuation.lean and REPORT.json (19:29–19:37). The newer ledger files under papers/syracuse/ledger/ are clean against HEAD. The scaffold root SyracuseScaffold/Basic.lean was not edited, as the REPORT says."
+  },
+  "docstring_contract": "Both files have a title. Every label is cited with its correct syracuse.tex line (54, 61, 67, 80, 84, all verified) within the first 4000 characters. Each file quotes the printed sentences, which I checked against l.50–52, 54–55, 61–63, 67–68, 80–82 and 84–86 (verbatim up to whitespace). Each has a Hypothesis checklist, a SCOPE (disclosed) section and the Provenance line. SCOPE is true except for the points below. The intended single mark (def:define_n__n_, Base.lean:7) is correct. However, a second mark-shaped string, **`lem:base`**, sits in the SCOPE at Base.lean:56 (character 3351). The ledger's regex reads it as a certification (major finding 1). Small format points are in minor finding 4.",
+  "findings": [
+    {
+      "severity": "major",
+      "where": "scaffold/SyracuseScaffold/Base.lean:56 (module docstring, SCOPE); also Base.lean:231 (declaration docstring of Syracuse.base)",
+      "what": "lem:base is marked although it is partial. Line 56 reads '* **`lem:base`** is proved for every `x ∈ A` and `n` (`base`), …'. It sits at character 3351, inside the 4000-character head that tools/ledger.py lean_index scans with docstring_label_re, i.e. \\*\\*`((?:theo|lem|…):…)`\\*\\*. On Base.lean's head that regex returns ['def:define_n__n_', 'lem:base'], so the ledger would record lem:base as certified by Base.lean, with no sorry, and as certified once the file is graduated to strict. lem:base is partial: its printed statement fails at x₀ = −1/3 in ℤ₂ (base_printed_fails_padicInt). The REPORT says marked: false and 'Base.lean marks only def:define_n__n_'. Line 231 opens the declaration docstring '/-- **`lem:base`** (syracuse.tex:67): …', the hub's form for a certified declaration (cf. lean-causal Causal/Reachable.lean:200). It lies outside the ledger window but makes the same claim.",
+      "fix": "Remove the bold from the label at Base.lean:56 (e.g. '* `lem:base` is proved for every …', or bold a phrase that does not contain the backticked label). Do the same at Base.lean:231 (e.g. '/-- `lem:base` (syracuse.tex:67), for the total maps: …'). Then confirm that the ledger regex finds only def:define_n__n_ in the first 4000 characters of Base.lean."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT row lem:ring_maps_rhs_n_ (hypotheses); Base.lean:32–37 (checklist); REPORT def:ring_define questions[0]",
+      "what": "ring_maps_rhs uses integrality through IsZ2Ring: pow_two_mul_odd_inj cancels 2^a in a domain. Integrality is part of the l.50 reading but not of the printed definition at l.52, yet the row lists only '2 ≠ 0' as strengthened. Under the printed definition the lemma fails even when 2 ≠ 0. Take ZMod 6: it is noetherian, A/2A ≅ ℤ/2ℤ (quotient_two_of_parity, as in zmod6_witness) and 2 ≠ 0. There 2³ = 2, so RHS_2(0,1) = 3+2 = 5 = 3+8 = RHS_2(0,3), and both points lie in RHSDomain 2. I checked this with decide in a stdin probe.",
+      "fix": "Add the hypothesis row 'A integral (l.50 reading; not in l.52) | strengthened via IsZ2Ring' to the lem:ring_maps_rhs_n_ row and to the Base.lean checklist. Optionally prove the ZMod 6 collision and cite it in the integrality question: without integrality, lem:ring_maps_rhs_n_ is false as well."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/SyracuseScaffold/Valuation.lean:58–59; REPORT def:ring_define findings[2] (\"'4 ≠ 0' (l.50) also fails\")",
+      "what": "'In such a ring, 4 ≠ 0, thus (1,4,2) is a cycle' (l.50) follows directly after 'In particular, if A is an algebraic integer ring fully ramified above 2 or even the 2-adic completion of A, …'. It may therefore refer to those rings, which have characteristic 0, so 4 ≠ 0 holds there. The 2 ≠ 0 finding is unaffected, but 'also fails' asserts one reading of 'such a ring' as fact.",
+      "fix": "Hedge it: 'if \"such a ring\" in l.50's last sentence means any ℤ/2ℤ-ring, \"4 ≠ 0\" fails for ℤ/2ℤ too'."
+    },
+    {
+      "severity": "minor",
+      "where": "Base.lean:6–8 and Valuation.lean:11 (label citations); Base.lean:64–65 (SCOPE)",
+      "what": "There are two docstring-contract format points (kb 0006). (1) Labels are cited as '— syracuse.tex:80', but the contract's form is '— `syracuse.tex:LINE`', with backticks. The ledger does not parse the line, so this is cosmetic. (2) 'RHS_n is constant (rhs_zmod2_not_injOn)': the Lean proves only non-injectivity. Constancy is true, since p_k ≥ 1 for k ≥ 1 kills every term but 3^{n−1}, but it is not stated in Lean.",
+      "fix": "Put the line references in backticks, and write 'RHS_n is not injective (in fact constant, = 3^{n−1} = 1) (rhs_zmod2_not_injOn)'."
+    },
+    {
+      "severity": "minor",
+      "where": "papers/syracuse/legacy/labeled/syracuse.tex:81–82 vs :284 (informational, outside this target's labels; does not affect the mark of def:define_n__n_)",
+      "what": "The printed A_u^n appears to be off by one against its later use. Reindex j = n−1−k: A_u^n(a) = Σ_j 3^{n−1−j}·2^{a_u+⋯+a_{u+j}}, with j+1 exponents. On a T-cycle (x_u) with a = a(x), this equals (3x_u+1)(2^{p_n}−3^n). I checked this numerically on the cycles of 1, −1, −5 and −17. Since every 3x_u+1 is even, GCD(A_i) ≥ 2|2^{p_n}−3^n|. So if A_i at l.284 is A_i^n(a), the claim 'm = GCD(A_i) = 2^{p_n}−3^n' fails for the printed definition. For the cycle of −17, GCD = 278 = 2·139 while 2^{p_n}−3^n = −139. The product ∏_{i=0}^{n−2−k} gives A_u = x_u(2^{p_n}−3^n), the lem:base form; l.277's 2^{a_i+⋯+a_{i+k−1}} against 3^{n−1−k} is the same convention. Its GCD is |2^{p_n}−3^n|, because the elements of a cycle are coprime. The closer could not see this from l.40–90.",
+      "fix": "No change to Aun or its mark: Aun is the printed definition. Record this for the downstream target (cor:ring_periodic_minimal_period, lem:syracuse_cycle) and as a question to the author. If the author rules that the upper limit is n−2−k, the mark follows the ruling."
+    }
+  ]
+}

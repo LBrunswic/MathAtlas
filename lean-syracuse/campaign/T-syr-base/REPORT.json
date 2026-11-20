@@ -1,0 +1,276 @@
+{
+ "package": "T-syr-base",
+ "target": "T-syr-base",
+ "files": [
+  "scaffold/SyracuseScaffold/Valuation.lean",
+  "scaffold/SyracuseScaffold/Base.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "def:ring_define",
+   "tex_lines": [
+    54,
+    56
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Syracuse.IsZ2Ring",
+    "Syracuse.nu2",
+    "Syracuse.v2",
+    "Syracuse.divPow2",
+    "Syracuse.f",
+    "Syracuse.T",
+    "Syracuse.nu2_eq_coe_iff",
+    "Syracuse.IsZ2Ring.exists_isGreatest",
+    "Syracuse.IsZ2Ring.nu2_eq_top_iff",
+    "Syracuse.two_mul_f_of_two_dvd",
+    "Syracuse.f_of_not_two_dvd",
+    "Syracuse.f_eq_of_two_mul",
+    "Syracuse.pow_v2_mul_T",
+    "Syracuse.T_odd",
+    "Syracuse.T_unique",
+    "Syracuse.nu2_three_mul_add_one",
+    "Syracuse.three_mul_add_one_ne_zero",
+    "Syracuse.printed_f_not_definable",
+    "Syracuse.T_undefined_of_isUnit_three",
+    "Syracuse.T_undefined_padicInt"
+   ],
+   "hypotheses": [
+    {
+     "paper": "A a Z/2Z-ring (l.52: noetherian, A/2A = Z/2Z)",
+     "here": "carried",
+     "note": "IsZ2Ring = IsDomain + IsNoetherianRing + Nonempty (A ⧸ span{2} ≃+* ZMod 2); integrality is taken from l.50 (a reading, see questions)"
+    },
+    {
+     "paper": "T_A defined on 2A+1",
+     "here": "weakened",
+     "note": "T is defined on all of A by the same formula (T x = 3x+1 for even x); it maps into 2A+1 wherever 3x+1 ≠ 0 (T_odd)"
+    },
+    {
+     "paper": "(implicit) nu_2(3x+1) is a natural number, i.e. 3x+1 ≠ 0",
+     "here": "strengthened",
+     "note": "T_odd, T_unique, nu2_three_mul_add_one assume 3x+1 ≠ 0; it fails exactly at x = -1/3 when 3 is a unit (Finding 2)"
+    },
+    {
+     "paper": "x/2 unique 'since the ring is integral' (l.50)",
+     "here": "strengthened",
+     "note": "f_eq_of_two_mul and divPow2_unique assume 2 ≠ 0, false in the Z/2Z-ring Z/2Z (Finding 3)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "syracuse.tex:55 — the two cases of f_A are swapped: as printed f_A(x) = 3x+1 for x ∈ 2A and x/2 for x ∉ 2A, but x/2 does not exist for x ∉ 2A, so no such map exists in any Z/2Z-ring (Syracuse.printed_f_not_definable, at x = 1). The formalized f halves on 2A and sends x ↦ 3x+1 off 2A, as in the integer definition l.46–48.",
+    "syracuse.tex:55 — T_A(x) = (3x+1)/2^{nu_2(3x+1)} is undefined at x0 = -1/3 whenever 3 is a unit of A (Z_2 = the 2-adic integers, also Z/2Z; Z_(2) and Z[1/3] are further examples, not formalized here): x0 ∈ 2A+1, 3x0+1 = 0, {n | 0 ∈ 2^n A} has no max, and (when 2 ≠ 0) no odd t and k ∈ N satisfy 2^k t = 3x0+1 (Syracuse.T_undefined_of_isUnit_three; in Z_2: Syracuse.T_undefined_padicInt). It is the only defect: 3x+1 = 0 forces 3 ∈ A^× (Syracuse.three_mul_add_one_ne_zero), so over Z every point is good. Where 3x+1 ≠ 0, T x is odd, 2^{nu_2(3x+1)} T x = 3x+1, and it is the unique such odd element (T_odd, pow_v2_mul_T, T_unique).",
+    "syracuse.tex:50 — 'in such a ring, 2 ≠ 0' is false for A = Z/2Z itself, which is integral, noetherian and has A/2A = A ≅ Z/2Z (Syracuse.instIsZ2RingZMod2, Syracuse.two_eq_zero_zmod2). It is the only exception: in a Z/2Z-ring, 2 = 0 iff A ≅ Z/2Z (Syracuse.IsZ2Ring.two_eq_zero_iff). There halves are not unique; and if 'such a ring' in the last sentence of l.50 means any Z/2Z-ring (it may mean only the rings named just before it, which have characteristic 0), '4 ≠ 0' fails for Z/2Z too; with 2 ≠ 0 the ring has characteristic 0 (Syracuse.IsZ2Ring.charZero_of_two_ne_zero). The claim A_2 ≅ Z_2 (l.52) also fails for Z/2Z (not formalized here; it belongs to T-syr-rep)."
+   ],
+   "questions": [
+    "Is integrality part of the definition of a Z/2Z-ring? l.50 says 'interal [integral] commutative unitary ring', the definition l.52 only 'noetherian ring'. Reading taken: integral (IsDomain). Without it the paper's claims fail: Z/6Z is noetherian with A/2A ≅ Z/2Z, but 2·3 = 2·0 (halves not unique), the nonzero 2 has nu_2(2) = ∞ (Syracuse.zmod6_witness), and lem:ring_maps_rhs_n_ fails although 2 ≠ 0: RHS_2(0,1) = 5 = 11 = RHS_2(0,3) (Syracuse.rhs_zmod6_not_injOn).",
+    "Should a Z/2Z-ring exclude Z/2Z (require 2 ≠ 0, equivalently characteristic 0)? l.50 asserts 2 ≠ 0, which the definition does not imply. Reading taken: the definition as printed (Z/2Z is a Z/2Z-ring); 2 ≠ 0 is added as a hypothesis exactly where it is used.",
+    "f_A: reading taken is the swap of the printed cases (halve the even, 3x+1 the odd), from l.46–48.",
+    "T_A at -1/3: is the intended domain 2A+1 minus the backward T-orbit of -1/3, or should 3 ∉ A^× be part of the hypotheses? Reading taken: none chosen; T is total (junk value at -1/3) and every statement that needs the paper's meaning carries 3T^k(x)+1 ≠ 0 or ¬IsUnit 3 explicitly. A ruling is needed before a corrected form is marked."
+   ]
+  },
+  {
+   "label": "def:ring_define_2",
+   "tex_lines": [
+    61,
+    65
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Syracuse.a",
+    "Syracuse.p",
+    "Syracuse.a_eq_nu2",
+    "Syracuse.a_succ",
+    "Syracuse.p_zero",
+    "Syracuse.p_succ",
+    "Syracuse.p_succ'",
+    "Syracuse.one_le_a",
+    "Syracuse.T_iterate_odd"
+   ],
+   "hypotheses": [
+    {
+     "paper": "A a Z/2Z-ring; a_n, p_n defined on 2A+1",
+     "here": "weakened",
+     "note": "a and p are defined on all of A for any commutative ring; a_eq_nu2 (IsZ2Ring, 3T^n x+1 ≠ 0) says a n x is the paper's nu_2(3T^n(x)+1)"
+    },
+    {
+     "paper": "(implicit) a_n(x) ∈ N, i.e. 3T^n(x)+1 ≠ 0",
+     "here": "strengthened",
+     "note": "a_eq_nu2 assumes it (inherited from Finding 2 of def:ring_define)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "syracuse.tex:62 — a_n : 2A+1 → N is not N-valued on the backward T-orbit of x0 = -1/3 when 3 ∈ A^× (inherits the T_A finding of def:ring_define): there 3T^n(x)+1 = 0 and nu_2(0) is no natural number. Elsewhere a_n(x) = nu_2(3T^n(x)+1) (Syracuse.a_eq_nu2) and a_n(x) ≥ 1 for T^n(x) odd (Syracuse.one_le_a)."
+   ],
+   "questions": []
+  },
+  {
+   "label": "lem:base",
+   "tex_lines": [
+    67,
+    79
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Syracuse.base",
+    "Syracuse.base_of_orbit",
+    "Syracuse.base_of_not_isUnit_three",
+    "Syracuse.base_printed_fails_padicInt"
+   ],
+   "hypotheses": [
+    {
+     "paper": "A a Z/2Z-ring",
+     "here": "weakened",
+     "note": "Syracuse.base holds in any commutative ring, for the total T, a, p"
+    },
+    {
+     "paper": "x ∈ A",
+     "here": "carried",
+     "note": "all x ∈ A, with T extended to A by the same formula (see questions)"
+    },
+    {
+     "paper": "(implicit) T^k(x), a_k(x) defined, i.e. 3T^k(x)+1 ≠ 0 for k < n",
+     "here": "strengthened",
+     "note": "base_of_orbit carries it to certify that every term of the identity is the paper's; automatic when 3 ∉ A^× (base_of_not_isUnit_three, e.g. A = Z)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "syracuse.tex:67–68 — as printed the lemma covers x0 = -1/3 when 3 ∈ A^×, where T_A(x0) and p_1(x0) do not exist; no assignment of an odd value t to T_A(x0) and of k ∈ N to p_1(x0) satisfies the n = 1 instance 2^k t - 3x0 = 1 (Syracuse.base_printed_fails_padicInt, in Z_2). The strongest true form is proved: the identity holds for every x ∈ A and n for the total maps (Syracuse.base), and on every orbit avoiding -1/3 all its terms are the paper's (Syracuse.base_of_orbit), hence for all x when 3 ∉ A^×, in particular in Z (Syracuse.base_of_not_isUnit_three).",
+    "syracuse.tex:71 and 75 — the proof writes a_1(x) for nu_2(3x+1); by def:ring_define_2 (l.62–63) this is a_0(x) = p_1(x), and p_{n+1}(x) = a_0(x) + p_n(T_A x).",
+    "syracuse.tex:75–77 — the last sums of the proof have shifted indices: Σ_{k=1}^{n} 2^{p_{k+1}(x)} 3^{n-1-k} should read Σ_{k=1}^{n} 2^{p_k(x)} 3^{n-k} (the exponent n-1-k is negative at k = n), and the final Σ_{k=0}^{n} 2^{p_{k+1}(x)} 3^{n-1-k} should read Σ_{k=0}^{n} 2^{p_k(x)} 3^{n-k}, the statement at n+1. The statement itself is correct."
+   ],
+   "questions": [
+    "The statement says 'let x ∈ A' (l.67) while T_A, a_n, p_n are defined on 2A+1 and the proof says 'for all x ∈ 2A+1' (l.71, 73). Reading taken: the stronger one — T is extended to A by the same formula (T(x) = 3x+1 for even x) and the identity is proved for every x ∈ A; it contains the 2A+1 reading."
+   ]
+  },
+  {
+   "label": "def:define_n__n_",
+   "tex_lines": [
+    80,
+    83
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Syracuse.Aun",
+    "Syracuse.Aun_one",
+    "Syracuse.Aun_two"
+   ],
+   "hypotheses": [
+    {
+     "paper": "n ∈ N*",
+     "here": "weakened",
+     "note": "n : ℕ (Aun 0 = 0, the empty sum)"
+    },
+    {
+     "paper": "a ∈ (N*)^Z",
+     "here": "weakened",
+     "note": "a : ℤ → ℕ; on the paper's domain the definition is the paper's sum literally"
+    },
+    {
+     "paper": "u (unquantified; forced in Z by a ∈ (N*)^Z)",
+     "here": "carried",
+     "note": "u : ℤ, which contains any narrower reading"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "lem:ring_maps_rhs_n_",
+   "tex_lines": [
+    84,
+    87
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Syracuse.RHS",
+    "Syracuse.RHSDomain",
+    "Syracuse.ring_maps_rhs",
+    "Syracuse.rhs_injOn_strictMono",
+    "Syracuse.rhs_succ",
+    "Syracuse.rhs_succ_eq_pow_mul_odd",
+    "Syracuse.ring_maps_rhs_printed_false",
+    "Syracuse.rhs_zmod2_not_injOn",
+    "Syracuse.ring_maps_rhs_printed_statement_false",
+    "Syracuse.rhs_zmod6_not_injOn"
+   ],
+   "hypotheses": [
+    {
+     "paper": "A a Z/2Z-ring",
+     "here": "strengthened",
+     "note": "ring_maps_rhs adds (2 : A) ≠ 0, the claim of l.50, false only for A ≅ Z/2Z: a finding"
+    },
+    {
+     "paper": "A integral (l.50 reading; not in the definition l.52)",
+     "here": "strengthened",
+     "note": "ring_maps_rhs uses it through IsZ2Ring (cancelling 2^a in pow_two_mul_odd_inj). Without it the lemma fails even when 2 ≠ 0: in ZMod 6 (noetherian, A/2A ≅ Z/2Z, 2 ≠ 0) RHS_2(0,1) = 3+2 = 5 = 3+8 = RHS_2(0,3) (Syracuse.rhs_zmod6_not_injOn)"
+    },
+    {
+     "paper": "p_0 = 0",
+     "here": "weakened",
+     "note": "not used: rhs_injOn_strictMono is injectivity on all strictly increasing p, in any domain with 2 ≠ 0 and 2 ∤ 1"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "syracuse.tex:84–86 — false as printed: in the Z/2Z-ring Z/2Z, RHS_2(0,1) = 3+2 = 1 = 3+4 = RHS_2(0,2) (Syracuse.ring_maps_rhs_printed_false); RHS_n is not injective for every n ≥ 2 (Syracuse.rhs_zmod2_not_injOn; it is in fact constant, = 3^{n-1} = 1, but only non-injectivity is proved); the printed universal statement is refuted (Syracuse.ring_maps_rhs_printed_statement_false). It holds whenever 2 ≠ 0 (Syracuse.ring_maps_rhs), i.e. for every Z/2Z-ring other than Z/2Z, and then without p_0 = 0 (Syracuse.rhs_injOn_strictMono). The paper prints no proof; the one here peels off the 2-adic valuation p_0 of RHS_n(p) = 2^{p_0}·(odd) and inducts on n. Under the printed definition (l.52, without the integrality of l.50) it also fails for rings with 2 ≠ 0: ZMod 6, RHS_2(0,1) = 5 = 11 = RHS_2(0,3) (Syracuse.rhs_zmod6_not_injOn)."
+   ],
+   "questions": [
+    "'p_n ↗↗' (l.85) read as: the sequence (p_0, …, p_{n-1}) is strictly increasing."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Syracuse.quotient_two_of_parity",
+  "Syracuse.not_two_dvd_of_odd",
+  "Syracuse.mem_span_two_pow_iff",
+  "Syracuse.nu2_zero",
+  "Syracuse.pow_v2_dvd",
+  "Syracuse.pow_mul_divPow2",
+  "Syracuse.divPow2_unique",
+  "Syracuse.pow_two_mul_odd_inj",
+  "Syracuse.IsZ2Ring.not_two_dvd_one",
+  "Syracuse.IsZ2Ring.not_isUnit_two",
+  "Syracuse.IsZ2Ring.span_two_ne_top",
+  "Syracuse.IsZ2Ring.two_dvd_or_two_dvd_sub_one",
+  "Syracuse.IsZ2Ring.odd_iff_not_two_dvd",
+  "Syracuse.IsZ2Ring.two_dvd_or_odd",
+  "Syracuse.IsZ2Ring.two_dvd_three_mul_add_one",
+  "Syracuse.IsZ2Ring.iInf_span_two_pow_eq_bot",
+  "Syracuse.IsZ2Ring.finiteMultiplicity_two",
+  "Syracuse.IsZ2Ring.v2_eq_nu2",
+  "Syracuse.IsZ2Ring.not_pow_succ_v2_dvd",
+  "Syracuse.IsZ2Ring.le_v2_of_pow_dvd",
+  "Syracuse.IsZ2Ring.two_eq_zero_iff",
+  "Syracuse.IsZ2Ring.charZero_of_two_ne_zero",
+  "Syracuse.IsZ2Ring.of_parity",
+  "Syracuse.instIsZ2RingInt",
+  "Syracuse.instIsZ2RingPadicInt",
+  "Syracuse.instIsZ2RingZMod2",
+  "Syracuse.isUnit_three_padicInt",
+  "Syracuse.two_eq_zero_zmod2",
+  "Syracuse.zmod6_witness"
+ ],
+ "kb_proposals": [
+  "lean-syracuse API (SyracuseScaffold.Valuation): IsZ2Ring A = IsDomain + IsNoetherianRing + Nonempty (A ⧸ span{2} ≃+* ZMod 2), instances ℤ, ℤ_[2], ZMod 2; build new ones with IsZ2Ring.of_parity (¬ 2 ∣ 1 and ∀ x, 2 ∣ x ∨ 2 ∣ x - 1). nu2 : A → ℕ∞ is emultiplicity 2 (nu2_eq_coe_iff is the paper's max), v2 : A → ℕ is multiplicity 2.",
+  "Syracuse.T, a, p (SyracuseScaffold.Base) are total on A with a junk value where 3x+1 = 0 (x = -1/3, possible only when 3 ∈ Aˣ, e.g. ℤ_[2]); base holds unconditionally; state things in the paper's terms with base_of_orbit / three_mul_add_one_ne_zero (over ℤ every orbit is good).",
+  "ZMod 2 is a ℤ/2ℤ-ring under the printed definition and has 2 = 0: assume (2 : A) ≠ 0 where halves must be unique or RHS_n injective; it gives CharZero A (IsZ2Ring.charZero_of_two_ne_zero).",
+  "Mathlib's ℕ-valued multiplicity a 0 = 1 (multiplicity_zero), not 0: v2 0 = 1 is the junk value.",
+  "The short names Syracuse.T, f, a, p mirror the paper; a local variable a or p inside namespace Syracuse shadows them.",
+  "kb 0034's /tmp olean chain works verbatim in lean-syracuse (lake env lean -R scaffold -o /tmp/X/SyracuseScaffold/Valuation.olean …).",
+  "decide closes small identities in ZMod n (Finset sums over Fin 2, ∃ over ZMod 6); Dvd on ZMod n has no decidable instance, so state ∃ c, x = 2 * c, which is the same proposition definitionally.",
+  "The ledger regex reads any **`label`** in the first 4000 characters as a certification mark, prose included (SCOPE bullets, quoted headings): never bold a backticked label that is not certified; write `label` plain."
+ ],
+ "notes": "Both files are sorry-free and warning-free; `lake build SyracuseScaffold.Valuation SyracuseScaffold.Base` built only these two modules (nothing upstream). Imports are specific Mathlib modules (Filtration, Multiplicity, Padics.RingHoms, DiscreteValuationRing.Basic, two tactics). Every listed decl depends only on propext, Classical.choice, Quot.sound. The scaffold root SyracuseScaffold.lean was not edited (not in the dispatch): per lean-causal kb 0025 the master session must import the two modules there for the axiom sweep. Valuation.lean carries no marked label (it names def:ring_define unmarked, as its hypothesis); Base.lean marks only def:define_n__n_. Three readings need a ruling before a corrected form is marked: f_A's swapped cases, T_A at -1/3 when 3 ∈ Aˣ, and whether a ℤ/2ℤ-ring excludes ℤ/2ℤ (2 ≠ 0). Downstream (T-syr-rep): the -1/3 caveat also bears on theo:rep in ℤ_2, and ZMod 2 is a counterexample to A_2 ≅ ℤ_2 (l.52) under the printed definition. Fix round 1 (AUDIT-1): removed the accidental bold **`lem:base`** in the SCOPE (Base.lean, in the ledger's 4000-character window) and in the docstring of Syracuse.base; the ledger regex (label_prefixes of papers/syracuse/ledger/ledger.toml) now finds only def:define_n__n_ in the head of Base.lean and nothing in Valuation.lean. Added Syracuse.rhs_zmod6_not_injOn (integrality needed for lem:ring_maps_rhs_n_), hedged the '4 ≠ 0' remark, backticked line references, reworded 'constant' to the proved non-injectivity. No other statement or proof changed. For T-syr-rep (informational, not a finding of this target; from the audit): the printed A_u^n (l.81–82) looks off by one against its use at l.284. Reindexing j = n-1-k gives A_u^n(a) = Σ_j 3^{n-1-j}·2^{a_u+…+a_{u+j}} with j+1 exponents; on a T-cycle (x_u) with a = a(x) this equals (3x_u+1)(2^{p_n}-3^n), so GCD(A_i) ≥ 2|2^{p_n}-3^n|, and the claim m = GCD(A_i) = 2^{p_n}-3^n fails for the printed definition (cycle of -17: GCD = 278 = 2·139 while 2^{p_n}-3^n = -139). With the product up to n-2-k one gets A_u = x_u(2^{p_n}-3^n), the lem:base form, whose GCD is |2^{p_n}-3^n|. Syracuse.Aun is the printed definition and keeps its mark; if the author rules that the upper limit is n-2-k, the mark follows the ruling. A question for the author."
+}
