@@ -348,45 +348,45 @@ Formalizing is a proof-reading pass with a machine holding the pen. These are th
 | 0 | **Proposition**<br>`bprop:laoucapulse` — [`GHFspace.tex:854`](GHFspace.tex#L854) | informal — proved in the prose before the statement, from the formula for a(g,v) (GHFspace.tex:800-850) | strict (LaoucapulseVolume.lean, Penrose.lean, Laoucapulse.lean) +1 | **yes** | A |
 | 0 | **Definition**<br>`bdef:omega_lambda` — [`GHFspace.tex:892`](GHFspace.tex#L892) | def | strict (Penrose.lean) | **yes** | A |
 | 0 | **Definition**<br>`bdef:regular_domain` — [`GHFspace.tex:913`](GHFspace.tex#L913) | def | strict (Penrose.lean) | **yes** | A |
-| 0 | **Lemma**<br>`blem:fermons` — [`GHFspace.tex:926`](GHFspace.tex#L926) | proved — its proof is the \preua block at GHFspace.tex:934 | strict (Penrose.lean) | **yes** | A |
-| 0 | **Corollary**<br>`bcor:closeregular` — [`GHFspace.tex:950`](GHFspace.tex#L950) | proved — its proof is the \preua block at GHFspace.tex:957 | strict (Penrose.lean) | **yes** | A |
-| 0 | **Lemma**<br>`blem:closecool` — [`GHFspace.tex:962`](GHFspace.tex#L962) | proved — its proof is the \preua block at GHFspace.tex:969 | strict (Penrose.lean) | **yes** | A |
-| 0 | **Lemma**<br>`blem:fermonsbis` — [`GHFspace.tex:986`](GHFspace.tex#L986) | proved — its proof is the \preua block at GHFspace.tex:994 | strict (Penrose.lean) | **yes** | A |
-| 0 | **Proposition**<br>`bprop:regular_iff_bounded` — [`GHFspace.tex:1007`](GHFspace.tex#L1007) | proved — its proof is the \preua block at GHFspace.tex:1016 | strict (Penrose.lean) | **yes** | A |
+| 0 | **Lemma**<br>`blem:fermons` — [`GHFspace.tex:926`](GHFspace.tex#L926) | proved — [`GHFspace.tex:934`](GHFspace.tex#L934) | strict (Penrose.lean) | **yes** | A |
+| 1 | **Corollary**<br>`bcor:closeregular` — [`GHFspace.tex:950`](GHFspace.tex#L950) | proved — [`GHFspace.tex:957`](GHFspace.tex#L957) | strict (Penrose.lean) | **yes** | A |
+| 0 | **Lemma**<br>`blem:closecool` — [`GHFspace.tex:962`](GHFspace.tex#L962) | proved — [`GHFspace.tex:969`](GHFspace.tex#L969) | strict (Penrose.lean) | **yes** | A |
+| 1 | **Lemma**<br>`blem:fermonsbis` — [`GHFspace.tex:986`](GHFspace.tex#L986) | proved — [`GHFspace.tex:994`](GHFspace.tex#L994) | strict (Penrose.lean) | **yes** | A |
+| 0 | **Proposition**<br>`bprop:regular_iff_bounded` — [`GHFspace.tex:1007`](GHFspace.tex#L1007) | proved — [`GHFspace.tex:1016`](GHFspace.tex#L1016) | strict (Penrose.lean) | **yes** | A |
 | 0 | **Corollary**<br>`bcor:futetpast` — [`GHFspace.tex:1035`](GHFspace.tex#L1035) | informal — closed by \fin: immediate from bprop:regular_iff_bounded | strict (Penrose.lean) | **yes** | A |
-| 0 | **Proposition**<br>`bprop:lip` — [`GHFspace.tex:1073`](GHFspace.tex#L1073) | proved — its proof is the \preua block at GHFspace.tex:1081 | strict (LipLength.lean, Cosmological.lean) | **yes** | A |
-| 0 | **Corollary**<br>`bcor:level_sets_complete` — [`GHFspace.tex:1108`](GHFspace.tex#L1108) | proved — its proof is the \preua block at GHFspace.tex:1113 | strict (LevelComplete.lean, RegularComplete.lean, Cosmological.lean) | **yes** | A |
+| 0 | **Proposition**<br>`bprop:lip` — [`GHFspace.tex:1073`](GHFspace.tex#L1073) | proved — [`GHFspace.tex:1081`](GHFspace.tex#L1081) | strict (LipLength.lean, Cosmological.lean) | **yes** | A |
+| 1 | **Corollary**<br>`bcor:level_sets_complete` — [`GHFspace.tex:1108`](GHFspace.tex#L1108) | proved — [`GHFspace.tex:1113`](GHFspace.tex#L1113) | strict (LevelComplete.lean, RegularComplete.lean, Cosmological.lean) | **yes** | A |
 | 0 | **Proposition**<br>`bprop:regular_cauchy_complete` — [`GHFspace.tex:1147`](GHFspace.tex#L1147) | cited — closed by \fin: Bonsante (Lemma 4.9 of [bonsante]) for the Cauchy property, and bcor:level_sets_complete | strict (Cosmological.lean, RegularComplete.lean, LevelComplete.lean) | **yes** | A |
-| 0 | **Proposition**<br>`bprop:agissons` — [`GHFspace.tex:1173`](GHFspace.tex#L1173) | proved — its proof is the \preua block at GHFspace.tex:1183 | strict (Semicomplete.lean, Cosmological.lean, QuotientComplete.lean) +2 | **yes** | A |
-| 0 | **Proposition**<br>`bprop:admlox` — [`GHFspace.tex:1229`](GHFspace.tex#L1229) | proved — its proof is the \preua block at GHFspace.tex:1240 | strict (Loxodromic.lean, Externals.lean, Laoucapulse.lean) | **yes** | A |
+| 0 | **Proposition**<br>`bprop:agissons` — [`GHFspace.tex:1173`](GHFspace.tex#L1173) | proved — [`GHFspace.tex:1183`](GHFspace.tex#L1183) | strict (Semicomplete.lean, Cosmological.lean, QuotientComplete.lean) +2 | **yes** | A |
+| 0 | **Proposition**<br>`bprop:admlox` — [`GHFspace.tex:1229`](GHFspace.tex#L1229) | proved — [`GHFspace.tex:1240`](GHFspace.tex#L1240) | strict (Loxodromic.lean, Externals.lean, Laoucapulse.lean) | **yes** | A |
 | 0 | **Definition**<br>`bdef:definitioncauchyhyp` — [`GHFspace.tex:1276`](GHFspace.tex#L1276) | def | strict (Loxodromic.lean) | **yes** | A |
-| 0 | **Lemma**<br>`blem:admissible_cone` — [`GHFspace.tex:1354`](GHFspace.tex#L1354) | proved — its proof is the \preua block at GHFspace.tex:1359 | — | — | T |
-| 0 | **Proposition**<br>`bprop:tri` — [`GHFspace.tex:1420`](GHFspace.tex#L1420) | proved — its proof is the \preua block at GHFspace.tex:1427 | — | — | T |
+| 0 | **Lemma**<br>`blem:admissible_cone` — [`GHFspace.tex:1354`](GHFspace.tex#L1354) | proved — [`GHFspace.tex:1359`](GHFspace.tex#L1359) | — | — | T |
+| 0 | **Proposition**<br>`bprop:tri` — [`GHFspace.tex:1420`](GHFspace.tex#L1420) | proved — [`GHFspace.tex:1427`](GHFspace.tex#L1427) | — | — | T |
 | 0 | **Definition**<br>`bdef:geometrically_finite` — [`GHFspace.tex:1610`](GHFspace.tex#L1610) | def | — | — | T |
 | 0 | **Theorem**<br>`bthm:convex_cocompact` — [`GHFspace.tex:1680`](GHFspace.tex#L1680) | informal — the argument is the prose before it, through Sullivan [sullivan] section 9 and Theorem II | — | — | T |
 | 0 | **Theorem**<br>`bthm:ausl` — [`GHFspace.tex:1696`](GHFspace.tex#L1696) | cited — Auslander's theorem in Carrière--Dal'bo's form [cardal, Thm 1.2.1], stated without proof | strict (AffACDProof.lean, AffACDBase.lean, AffACDTriang.lean) +7 | **yes** | A |
 | 0 | **Theorem**<br>`bthm:unip` — [`GHFspace.tex:1709`](GHFspace.tex#L1709) | cited — [cardal, Prop 1.2.2], stated without proof | strict (AffUnipProof.lean, AffUnipFitting.lean, AffUnipCocycle.lean) +5 | **yes** | A |
 | 0 | **Lemma**<br>`blem:suspendre` — [`GHFspace.tex:1833`](GHFspace.tex#L1833) | informal — closed by \fin: called obvious | strict (TwistedProduct.lean) | **yes** | A |
-| 0 | **Lemma**<br>`blem:paranongh` — [`GHFspace.tex:2173`](GHFspace.tex#L2173) | proved — its proof is the \preua block at GHFspace.tex:2182 | strict (AchronalDomains.lean) | **yes** | A |
-| 0 | **Proposition**<br>`bprop:project` — [`GHFspace.tex:2232`](GHFspace.tex#L2232) | proved — its proof is the \preua block at GHFspace.tex:2243 | strict (CauchyComplete.lean) | **yes** | A |
+| 0 | **Lemma**<br>`blem:paranongh` — [`GHFspace.tex:2173`](GHFspace.tex#L2173) | proved — [`GHFspace.tex:2182`](GHFspace.tex#L2182) | strict (AchronalDomains.lean) | **yes** | A |
+| 0 | **Proposition**<br>`bprop:project` — [`GHFspace.tex:2232`](GHFspace.tex#L2232) | proved — [`GHFspace.tex:2243`](GHFspace.tex#L2243) | strict (CauchyComplete.lean) | **yes** | A |
 | 0 | **Corollary**<br>`bcor:quo` — [`GHFspace.tex:2263`](GHFspace.tex#L2263) | informal — closed by \fin: immediate from bprop:project | strict (QuoFull.lean, Achronal.lean, CauchyComplete.lean) +2 | **yes** | A |
-| 0 | **Corollary**<br>`bcor:quoiso` — [`GHFspace.tex:2277`](GHFspace.tex#L2277) | proved — its proof is the \preua block at GHFspace.tex:2287 | strict (CauchyComplete.lean) | **yes** | A |
-| 0 | **Corollary**<br>`bcor:abel` — [`GHFspace.tex:2292`](GHFspace.tex#L2292) | proved — its proof is the \preua block at GHFspace.tex:2299 | strict (Abel.lean) | **yes** | A |
+| 1 | **Corollary**<br>`bcor:quoiso` — [`GHFspace.tex:2277`](GHFspace.tex#L2277) | proved — [`GHFspace.tex:2287`](GHFspace.tex#L2287) | strict (CauchyComplete.lean) | **yes** | A |
+| 1 | **Corollary**<br>`bcor:abel` — [`GHFspace.tex:2292`](GHFspace.tex#L2292) | proved — [`GHFspace.tex:2299`](GHFspace.tex#L2299) | strict (Abel.lean) | **yes** | A |
 | 0 | **Definition**<br>`bdef:U_g` — [`GHFspace.tex:2332`](GHFspace.tex#L2332) | def | strict (Develop.lean) | **yes** | A |
-| 0 | **Lemma**<br>`blem:SdanU` — [`GHFspace.tex:2353`](GHFspace.tex#L2353) | proved — its proof is the \preua block at GHFspace.tex:2360 | strict (Develop.lean) | **yes** | A |
+| 2 | **Lemma**<br>`blem:SdanU` — [`GHFspace.tex:2353`](GHFspace.tex#L2353) | proved — [`GHFspace.tex:2360`](GHFspace.tex#L2360) | strict (Develop.lean) | **yes** | A |
 | 0 | **Definition**<br>`bdef:omega_gamma` — [`GHFspace.tex:2394`](GHFspace.tex#L2394) | def | strict (Develop.lean) | **yes** | A |
-| 0 | **Proposition**<br>`bprop:ghyp` — [`GHFspace.tex:2420`](GHFspace.tex#L2420) | proved — its proof is the \preua block at GHFspace.tex:2429 | strict (Develop.lean) | **yes** | A |
-| 0 | **Proposition**<br>`bprop:splitting` — [`GHFspace.tex:2459`](GHFspace.tex#L2459) | proved — its proof is the \preua block at GHFspace.tex:2466 | strict (SplittingFull.lean, Develop.lean, Splitting.lean) | **yes** | A |
-| 0 | **Proposition**<br>`bprop:danom` — [`GHFspace.tex:2469`](GHFspace.tex#L2469) | proved — its proof is the \preua block at GHFspace.tex:2475 | strict (Develop.lean, LipschitzGraph.lean) | **yes** | A |
-| 0 | **Proposition**<br>`bprop:sanloxo` — [`GHFspace.tex:2572`](GHFspace.tex#L2572) | proved — its proof is the \preua block at GHFspace.tex:2580 | strict (Nonloxodromic.lean, Externals.lean, TitsNull.lean) +4 | **yes** | A |
-| 0 | **Proposition**<br>`bprop:limites` — [`GHFspace.tex:2940`](GHFspace.tex#L2940) | proved — its proof is the \preua block at GHFspace.tex:2965 | strict (LimitesGeneral.lean, Nonloxodromic.lean) | **yes** | A |
-| 0 | **Proposition**<br>`bprop:extension` — [`GHFspace.tex:2992`](GHFspace.tex#L2992) | proved — its proof is the \preua block at GHFspace.tex:3018 | strict (Nonloxodromic.lean) | **yes** | A |
-| 0 | **Lemma**<br>`blem:sanlox` — [`GHFspace.tex:3140`](GHFspace.tex#L3140) | proved — its proof is the \preua block at GHFspace.tex:3147 | strict (Loxodromic.lean) | **yes** | A |
-| 0 | **Lemma**<br>`blem:loxregular` — [`GHFspace.tex:3169`](GHFspace.tex#L3169) | proved — its proof is the \preua block at GHFspace.tex:3175 | strict (Loxodromic.lean) | **yes** | A |
-| 0 | **Corollary**<br>`bcor:loxo_proper` — [`GHFspace.tex:3213`](GHFspace.tex#L3213) | proved — its proof is the \preua block at GHFspace.tex:3221 | strict (Loxodromic.lean, PastProper.lean, QuotientComplete.lean) +1 | **yes** | A |
-| 0 | **Proposition**<br>`bprop:U_timelike` — [`GHFspace.tex:3346`](GHFspace.tex#L3346) | proved — its proof is the \preua block at GHFspace.tex:3351 | strict (Loxodromic.lean, Externals.lean, NilpotentFix.lean) +2 | **yes** | A |
-| 0 | **Proposition**<br>`bprop:LU_discrete` — [`GHFspace.tex:3367`](GHFspace.tex#L3367) | proved — its proof is the \preua block at GHFspace.tex:3372 | strict (Loxodromic.lean, ClosedSubgroupNhds.lean, UnipotentCentre.lean) +2 | **yes** | A |
-| 0 | **Theorem**<br>`bthm:cmc` — [`GHFspace.tex:3702`](GHFspace.tex#L3702) | proved — its proof is the \preua block at GHFspace.tex:3716 | — | — | T |
+| 0 | **Proposition**<br>`bprop:ghyp` — [`GHFspace.tex:2420`](GHFspace.tex#L2420) | proved — [`GHFspace.tex:2429`](GHFspace.tex#L2429) | strict (Develop.lean) | **yes** | A |
+| 0 | **Proposition**<br>`bprop:splitting` — [`GHFspace.tex:2459`](GHFspace.tex#L2459) | proved — [`GHFspace.tex:2466`](GHFspace.tex#L2466) | strict (SplittingFull.lean, Develop.lean, Splitting.lean) | **yes** | A |
+| 1 | **Proposition**<br>`bprop:danom` — [`GHFspace.tex:2469`](GHFspace.tex#L2469) | proved — [`GHFspace.tex:2475`](GHFspace.tex#L2475) | strict (Develop.lean, LipschitzGraph.lean) | **yes** | A |
+| 0 | **Proposition**<br>`bprop:sanloxo` — [`GHFspace.tex:2572`](GHFspace.tex#L2572) | proved — [`GHFspace.tex:2580`](GHFspace.tex#L2580) | strict (Nonloxodromic.lean, Externals.lean, TitsNull.lean) +4 | **yes** | A |
+| 0 | **Proposition**<br>`bprop:limites` — [`GHFspace.tex:2940`](GHFspace.tex#L2940) | proved — [`GHFspace.tex:2965`](GHFspace.tex#L2965) | strict (LimitesGeneral.lean, Nonloxodromic.lean) | **yes** | A |
+| 0 | **Proposition**<br>`bprop:extension` — [`GHFspace.tex:2992`](GHFspace.tex#L2992) | proved — [`GHFspace.tex:3018`](GHFspace.tex#L3018) | strict (Nonloxodromic.lean) | **yes** | A |
+| 0 | **Lemma**<br>`blem:sanlox` — [`GHFspace.tex:3140`](GHFspace.tex#L3140) | proved — [`GHFspace.tex:3147`](GHFspace.tex#L3147) | strict (Loxodromic.lean) | **yes** | A |
+| 2 | **Lemma**<br>`blem:loxregular` — [`GHFspace.tex:3169`](GHFspace.tex#L3169) | proved — [`GHFspace.tex:3175`](GHFspace.tex#L3175) | strict (Loxodromic.lean) | **yes** | A |
+| 3 | **Corollary**<br>`bcor:loxo_proper` — [`GHFspace.tex:3213`](GHFspace.tex#L3213) | proved — [`GHFspace.tex:3221`](GHFspace.tex#L3221) | strict (Loxodromic.lean, PastProper.lean, QuotientComplete.lean) +1 | **yes** | A |
+| 2 | **Proposition**<br>`bprop:U_timelike` — [`GHFspace.tex:3346`](GHFspace.tex#L3346) | proved — [`GHFspace.tex:3351`](GHFspace.tex#L3351) | strict (Loxodromic.lean, Externals.lean, NilpotentFix.lean) +2 | **yes** | A |
+| 0 | **Proposition**<br>`bprop:LU_discrete` — [`GHFspace.tex:3367`](GHFspace.tex#L3367) | proved — [`GHFspace.tex:3372`](GHFspace.tex#L3372) | strict (Loxodromic.lean, ClosedSubgroupNhds.lean, UnipotentCentre.lean) +2 | **yes** | A |
+| 0 | **Theorem**<br>`bthm:cmc` — [`GHFspace.tex:3702`](GHFspace.tex#L3702) | proved — [`GHFspace.tex:3716`](GHFspace.tex#L3716) | — | — | T |
 
 <details><summary>dependency graph — P</summary>
 
@@ -475,6 +475,23 @@ graph BT
   n42["bprop:LU_discrete LU discrete"]
   class n42 done;
   n43["bthm:cmc cmc"]
+  n6 --> n5
+  n8 --> n5
+  n8 --> n7
+  n12 --> n11
+  n27 --> n25
+  n28 --> n25
+  n30 --> n27
+  n30 --> n26
+  n34 --> n26
+  n34 --> n25
+  n39 --> n26
+  n39 --> n5
+  n39 --> n7
+  n39 --> n8
+  n40 --> n39
+  n40 --> n14
+  n41 --> n28
   classDef done fill:#b7e4c7,stroke:#2d6a4f;
   classDef part fill:#ffe08a,stroke:#b07d00;
   classDef scaf fill:#ffd6a5,stroke:#b35c00;

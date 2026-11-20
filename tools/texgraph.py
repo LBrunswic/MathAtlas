@@ -31,6 +31,8 @@ TWINS = {}          # body label -> full-form label
 MAIN = 'main.tex'   # the document's main file, relative to the root
 NOTATION_FILES = ('notation.tex',)
 AUX = None          # the .aux of the last build, relative to the root; None = no numbers
+PROOF_MACROS = ()   # a paper's proof macros, read as proof environments: (open, close[, title])
+PROOF_MACROS_USED = {}  # open macro -> number of proofs it opened since configure()
 
 COMMENT = re.compile(r'(?<!\\)%.*')
 INPUT = re.compile(r'\\(?:input|include)\{([^}]*)\}')
@@ -51,15 +53,17 @@ def _rebuild_token():
 
 
 def configure(main='main.tex', notation=('notation.tex',), aux=None, env_alias=None,
-              twins=None, statement_envs=None):
+              twins=None, statement_envs=None, proof_macros=None):
     """Set the per-paper parameters. Called once per ledger build."""
-    global MAIN, NOTATION_FILES, AUX, ALIAS, TWINS, STATEMENT_ENVS
+    global MAIN, NOTATION_FILES, AUX, ALIAS, TWINS, STATEMENT_ENVS, PROOF_MACROS
     MAIN = main
     NOTATION_FILES = tuple(notation)
     AUX = aux
     ALIAS = dict(env_alias or {})
     TWINS = dict(twins or {})
     STATEMENT_ENVS = set(statement_envs) if statement_envs else set(CANONICAL_STATEMENT_ENVS)
+    PROOF_MACROS = tuple(tuple(m) for m in (proof_macros or ()))
+    PROOF_MACROS_USED.clear()
     NOTATION.clear()
     _rebuild_token()
 
@@ -241,7 +245,61 @@ def expand(main, root, _seen=None):
         yield main, seg, line
 
 
+def proof_macros_to_env(text):
+    """Rewrite a paper's proof macros as proof environments, so that `scan` sees its proofs.
+
+    Barbot writes `\\preua … \\fin` (an open and a close macro, no environment). A macro proof ends
+    at its close macro, or else at the next proof macro, statement `\\begin`/`\\end`, section or
+    `\\end{document}`, whichever comes first, so that a missing close cannot swallow the statements
+    after it. A close macro outside a proof (a QED box ending a statement) is left as text, so the
+    statement's text, and its digest, are unchanged. A third entry
+    is a title template: the macro takes one braced argument, substituted for #1 (`\\preuda{x}`,
+    "Proof of \\ref{x}", which `link` resolves to x). No newline is added or removed, so line
+    numbers are unchanged."""
+    if not PROOF_MACROS:
+        return text
+    opens = {m[0]: (m[2] if len(m) > 2 else None) for m in PROOF_MACROS}
+    names = sorted(set(opens) | {m[1] for m in PROOF_MACROS}, key=len, reverse=True)
+    tok = re.compile(r'(%s)(?![A-Za-z])|\\(begin|end)\{([A-Za-z][A-Za-z0-9]*\*?)\}'
+                     r'|\\(?:subsubsection|subsection|section|appendix)\b'
+                     % '|'.join(re.escape(n) for n in names))
+    out, pos, inside = [], 0, False
+    for m in tok.finditer(text):
+        out.append(text[pos:m.start()])
+        pos = m.end()
+        mac = m.group(1)
+        if mac is None and m.group(2) and not canonical(m.group(3)) and m.group(3) != 'document':
+            out.append(m.group(0))                      # any other environment passes through
+            continue
+        if mac is not None and mac not in opens and not inside:
+            out.append(m.group(0))                      # a QED box outside a proof: kept as text
+            continue
+        if inside:
+            out.append(r'\end{proof}')
+            inside = False
+        if mac is None:
+            out.append(m.group(0))
+        elif mac in opens:
+            title = ''
+            if opens[mac] is not None:
+                j = pos
+                while j < len(text) and text[j] in ' \t':
+                    j += 1
+                if j < len(text) and text[j] == '{':
+                    arg, pos = read_braced(text, j)
+                    title = '[' + opens[mac].replace('#1', arg) + ']'
+            out.append(r'\begin{proof}' + title)
+            inside = True
+            PROOF_MACROS_USED[mac] = PROOF_MACROS_USED.get(mac, 0) + 1
+    out.append(text[pos:])
+    if inside:
+        out.append(r'\end{proof}')
+    return ''.join(out)
+
+
 def scan(g, fname, text, line0):
+    text = proof_macros_to_env(text)
+
     def lineno(i):
         return line0 + text.count('\n', 0, i)
 
@@ -299,6 +357,8 @@ def scan(g, fname, text, line0):
                 blocks.pop()
                 flush_free_into(node, text[free_start:m.start()])
                 body = ''.join(node.pop('_buf'))
+                if PROOF_MACROS and node['kind'] == 'proof':
+                    node['end_line'] = lineno(m.start())    # a macro proof has no \end in the file
                 g.finish(node, body)
                 labs = LABEL.findall(body)
                 if labs and not node['label']:

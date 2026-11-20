@@ -75,6 +75,7 @@ class Config:
         self.coverage_recursive = bool(p.get("coverage_recursive", False))
         self.statement_envs = p.get("statement_envs")
         self.env_alias = dict(p.get("env_alias", {}))
+        self.proof_macros = [list(m) for m in p.get("proof_macros", [])]
         self.label_prefixes = list(p.get("label_prefixes",
                                          ["theo", "thm", "lem", "prop", "cor", "def", "defi",
                                           "rem", "assum", "conj", "ex", "fact", "claim"]))
@@ -154,7 +155,8 @@ BUCKETS = {
 def build_graph():
     """Parse the whole document, including the appendices the current mainfile comments out."""
     pg.configure(main=CFG.document, notation=CFG.notation, aux=CFG.aux,
-                 env_alias=CFG.env_alias, twins=CFG.twins, statement_envs=CFG.statement_envs)
+                 env_alias=CFG.env_alias, twins=CFG.twins, statement_envs=CFG.statement_envs,
+                 proof_macros=CFG.proof_macros)
     pg.load_notation(CFG.root, (CFG.document,))
     g = pg.Graph("paper")
     for fname, where, _sig in CFG.files_or_expand():
@@ -452,8 +454,9 @@ def build(write=True):
         row["line"] = n["line"]
         row["tex_span"] = span
         row["proof"] = ("%s:%d" % (proof["file"], proof["line"])) if proof else None
-        row["proof_span"] = (env_span(proof["file"], proof["line"], proof.get("env", "proof"))
-                             if proof else None)
+        row["proof_span"] = (None if not proof else
+                             [proof["line"], proof["end_line"]] if "end_line" in proof else
+                             env_span(proof["file"], proof["line"], proof.get("env", "proof")))
         row["twin_of"] = n.get("twin_of")
         row["twin"] = n.get("twin")
         row["cites"] = cites
@@ -1094,6 +1097,11 @@ def check():
             if f is None:
                 fail.append("%s: declaration %s not found in its listed files"
                             % (s["label"], d))
+    # A configured proof macro that opens no proof is a typo or a stale config: its proofs, and
+    # their edges, would be silently missing.
+    for m in CFG.proof_macros:
+        if not pg.PROOF_MACROS_USED.get(m[0]):
+            fail.append("[paper] proof_macros: %s opens no proof in the document" % m[0])
     known = {s["label"] for s in led["statements"]}
     for s in led["statements"]:
         for d in s["deps"]:
