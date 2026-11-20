@@ -1,0 +1,87 @@
+{
+ "target": "T-abs-nested-causalities",
+ "auditor_round": 1,
+ "verdict": "major",
+ "labels": [
+  {
+   "label": "T-abs-nested-causalities/1-gh",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "The iff is sharp. globallyHyperbolic_iff_of_nested (T2, x <=_M y => x <='_M y, C' GH) says C is GH iff every narrower diamond J_C(p,q) is closed. (=>) holds because compact sets are closed in a T2 space. (<=) holds because J_C(p,q) is a closed subset of the compact J_C'(p,q), and causality of C comes from C'. So the added hypothesis is necessary as well as sufficient, and nothing beyond it is assumed. It is close to a tautology, though: it is the compactness clause of GH, relativised to the wider diamonds. The mathematical content is the counterexample plus a one-line compactness argument. The counterexample is genuine. cutLine 0 is a Causality, LeNested in timelikeLine on every open set (cutLine_leNested), and causal. timelikeLine is GH (library). The cutLine diamond J(-1,1) = [-1,1] \\ {0} is not closed. My probe also checked that cutLine a is <<-nested (LtNested), so the counterexample does not hinge on nesting <= only. The bare 'wider GH => narrower GH' is false (not_globallyHyperbolic_of_nested_bare). Mark: under the pseudo-label as dispatched ('with exactly the extra hypotheses needed') the iff plus the refutation answer the target in full, so the mark is defensible and Lean >= target. But the module's own checklist row (NestedCausalities.lean:61) classes the hypothesis as '⚠ strengthened', and kb/0011 says a strengthened row is not marked. That inconsistency is minor finding 2. The closedness hypothesis is not a ladder node (layer-1 rule). The sufficient variant of_nested_of_isClosed_J uses closed J^± of points, which is a ladder consequence of GH + tarentin + T2. The author should rule on keeping the mark (the closer's own question)."
+  },
+  {
+   "label": "T-abs-nested-causalities/2-dod",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Marked partial and unmarked, correctly. D_C'(S) ⊆ D_C(S) and 'C'-Cauchy => C-Cauchy' hold under InextensibleNestedOn C C' W, which is a declared localisation (nesting) hypothesis. Both proofs are one line from it. The substantive part is the discharge on M, inextensibleNestedOn_top / GloballyHyperbolic.inextensibleNestedOn_top. It needs CurveNestedOn, causally arc-connected, causal, strongly causal, closed J^± and J^±(x) != {x}. The last is not a ladder node (disclosed; it is already a side condition of the ladder's Lemma K consequence). The witness timelikeLine_inextensibleNestedOn_top shows the discharge hypotheses are satisfiable. The counterexample is genuine. On cutLine 1, id over [1,+∞) is inextensible (nothing lies strictly below 1), {0} is timelikeLine-Cauchy and is missed, and 1 ∈ D_tl({0}) \\ D_cut({0}). My probe proved explicitly that ¬ InextensibleNestedOn (cutLine 1) timelikeLine ⊤, via IsCauchySurfaceOn.of_nested. So LeNested does not imply InextensibleNestedOn. The REPORT calls InextensibleNestedOn 'the weakest form that works'; that is not proved (minor finding 5)."
+  },
+  {
+   "label": "T-abs-nested-causalities/3-ers-4.70",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Partial and unmarked. ers_lemma_4_70 concludes that U1 ∩ U2 is preconnected (connected in the _isConnected form). It takes S preconnected, S Cᵢ-Cauchy in Uᵢ, Cτ causal, hthrough, honce (point-wise) and InextensibleNestedOn Cτ Cᵢ Uᵢ. Each hypothesis is separate and named. None contains the conclusion. The witness timelikeLine_ers_lemma_4_70 is degenerate (U1 = U2 = ℝ) but valid. The REPORT's finding about ERS's proof is wrong. Under ERS's own (4.62), integral curves of T are injective, so the two readings of 'at most once' coincide (major finding 1). For the same reason, hτ (Cτ causal) is a layer-3 consequence of (4.62), not a strengthening of ERS. The quote matches the LaTeX (erslem:LemConnected)."
+  },
+  {
+   "label": "T-abs-nested-causalities/3-ers-4.72",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Partial and unmarked. S m-achronal (ERS) is strengthened to m-acausal (IsAcausal). This is disclosed in the checklist and the REPORT, with the reason (DEC-14 causal-curve Cauchy surfaces). 'ERS assume acausal themselves in 4.79-4.80' is true: the LaTeX terminology paragraph and Theorems ersthm:ThmMUGHD and consider_subluminal_quasilinear_wave say 'acausal', and they are 4.79 and 4.80 in the arXiv numbering. Subluminality is CurveNestedOn C₂ Cm U₂. Cm.CurvesExtend, Cm.IsCausal and hthrough are named model facts. The finding that the first step of ERS's proof (lines 1811-1819, which uses u1 g(u1)-GH) is not needed with S acausal is true of the Lean proof (image_uIcc_subset_of_isCauchySurfaceOn). The witness timelikeLine_ers_lemma_4_72 is valid. The quote matches the LaTeX."
+  },
+  {
+   "label": "T-abs-nested-causalities/3-ers-4.77",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Partial and unmarked. The conclusion is 'S is a Cauchy surface of the union' (and that union is the greatest such open set), not 'Umax globally hyperbolic'. This is disclosed: Geroch (iii)=>(i) is the cited sorry of CausalScaffold.GerochEquiv, which I checked. hpair is S Cauchy in each pairwise intersection, supplied by Lemma 4.70 + Thm 4.64 / Remark 4.67, which says the intersection is the MCGHD under connectedness (checked in the LaTeX, ersrem:RemTime). hpair is about intersections, so it is not the conclusion (which is about the union) in disguise. hcaus (the union causal) is an addition ERS do not have. It is flagged openly as '⚠ strengthened' in the checklist (NestedCausalities.lean:70) and in the REPORT, not hidden. 'One causality on M agreeing with g(uα) on each Uα' is an interpretation carried by isCauchySurfaceOn_of_agree, with Cor 4.71 as supplier. The witness timelikeLine_ers_theorem_4_77 is valid (ι = Unit)."
+  },
+  {
+   "label": "T-abs-nested-causalities/3-ers-4.82",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Partial and unmarked. hstep is not the conclusion in disguise. It is ERS's Steps 3-5 at a single boundary point: given p ∈ ∂A ∩ U₂ with (4.85) and a neighbourhood V ⊆ U₂ with V ∩ U₁ ⊆ A, some GHD strictly contains U₁. The Lean proves the rest: (4.84) for locally connected M, the (4.85) point by compactness and Zorn, p ∉ closure S, and the use of the one-sidedness. hstep still carries the larger part of ERS's proof, including 'u3 is a GHD'. This is disclosed. hstep is consistent with ERS: the chart of (4.83) is applied at a point q of Σ ∩ ∂A inside an arbitrarily small convex neighbourhood of p (Step 4 of Thm 4.64), so a layer-3 lemma assuming (4.83) can supply it. honesided is genuinely weaker than (4.83): shrink the base of the box by continuity of f so that every vertical fibre below the graph is a nonempty interval. The two readings of ∂S agree on ∂U₁ \\ closure S, as the closer says. The finding 'no nesting in Thm 4.82; the cone condition enters only in Lemma 4.86 via (4.87)' is true to the LaTeX (ersthm:ThmNotBlocking, erslem:PropertyTimelike). ERS state (4.87) with Σ|δᵢ| < δ; the REPORT writes |δ| < δ₀, which is fine. The file has no witness for 4.82 (disclosed). My probe checked that a trivial instance satisfies every hypothesis (ι = Unit, dom = ⊤, cau = timelikeLine, S = {0}, s₀ = 0), so the hypotheses are jointly satisfiable."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "details": "`lake env lean -DwarningAsError=true scaffold/CausalScaffold/NestedCausalities.lean` exits 0 with no output. `grep -c sorry` gives 0, and the file has no set_option, admit or axiom. A probe (a copy of the file plus #print axioms, under /tmp, since deleted) covered the 35 main declarations: every one uses only [propext, Classical.choice, Quot.sound]. Layer-1 rule: the transitive Causal.* import closure is {ArcConnected, Cauchy, CauchyExtension, Causality, Curves, Generated, Geroch, GlobalHyperbolicity, Inextensible, Lines, LinesCurves, Local, Measure, MeasureRemarks, Minimal, Morphism, Properties, PushUp, Reachable, StrongCausality, Subdivision}. It reaches no Minkowski, Static, Flat.*, Model.*, Port.* or SingularFlat module. No statement mentions a metric, curve length, geodesic or PDE. Name clashes: a namespace-aware scan of the 68 full names against Causal/ and scaffold/CausalScaffold/ (GluingHausdorff.lean included) finds none, and exists_minimal_of_isCompact_on avoids Causal.CBG.NoCorresponding's name. Every declaration the REPORT names exists, and the file declares no other. Docstring contract (kb/0006): title, labels (all before character 1500), LaTeX-checked quotes, checklist, SCOPE and provenance are all present, and namespace is Causal. I checked the SCOPE claims: dependenceDomainOn is the same term as Flat.LipschitzGraph's dependenceDomain; CBG.NoCorresponding and Flat.LipschitzGraph do import Minkowski and Static; inextensible_ordConnectedComponent exists at CauchyExtension:688. Scope: `git status --short lean-causal` shows only this target's two paths and GluingHausdorff's two paths. The root-level changes (programme/roadmap.toml, the master's status flip; roadmap/roadmap.toml and reports/atlas/atlas.html, modified at 19:11, after this REPORT at 19:09, by the concurrent /atlas-team loop) are not the closer's."
+ },
+ "findings": [
+  {
+   "severity": "major",
+   "where": "campaign/T-abs-nested-causalities/REPORT.json:176 (finding), :149 (hypothesis row '(no closed orbit of T)': 'strengthened'), :180 (question)",
+   "what": "The finding says a gap in ERS Lemma 4.70's proof depends on the reading. It claims that, read set-wise, 'a periodic integral curve of T (possible for a non-vanishing field on R^{d+1}, d >= 2)' defeats the step at lines 1769-1771. That is false under ERS's hypotheses. In (4.61) g = g(u, du) has no x-dependence (LaTeX §4.1, theorems_intro; the same in §2, label general). So (4.62), 'T timelike w.r.t. g(u, du) for all u, du', makes T(x) timelike for the fixed constant Lorentz metric h = g(0,0) at every x (any value with g Lorentzian will do). T is continuous and never null on the connected R^{d+1}, so it stays in one time cone K of h. With e ∈ K, the linear map ℓ = -h(e, ·) is > 0 on K. Hence ℓ strictly increases along every integral curve of T. Integral curves are injective, T has no closed orbit, and the set-wise and parameter-wise readings of 'at most once' coincide. ERS's step follows under either reading. The REPORT would send the author a proof gap that does not exist.",
+   "fix": "Retract the finding. Replace it with: 'Under (4.62), T lies in one time cone of the constant metric g(0,0), so a linear function increases strictly along its integral curves. T has no closed orbit and both readings of at most once agree.' Reclassify the hypothesis row as 'named: a layer-3 consequence of (4.62)' instead of 'strengthened'. Answer the 4.70 question as moot. The Lean file needs no change; optionally add the reason to the checklist row at NestedCausalities.lean:63."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/NestedCausalities.lean:12-15, :61; REPORT.json label 1-gh",
+   "what": "1-gh is marked (**) while its checklist row reads '⚠ strengthened'. Under kb/0011 and kb/0006, a strengthened row means no mark. The mark is defensible under the dispatched wording, since the iff shows the added hypothesis is exactly the one needed. But the file contradicts itself. The added hypothesis (closed narrower diamonds) is not a ladder node, and with the wider GH it is equivalent to the conclusion's compactness clause.",
+   "fix": "This needs the author's ruling (the closer already asks). Either keep the mark and reword row 61 as '✓ the target's \"extra hypothesis needed\", exact by globallyHyperbolic_iff_of_nested', or drop the mark and set status partial."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/NestedCausalities.lean:983-986 (ers_lemma_4_70), :1044-1045 (ers_lemma_4_72), :1084-1086 (ers_theorem_4_77), :1335 (ers_theorem_4_82)",
+   "what": "The dispatch asked for named layer-3 hypotheses 'whose docstrings say which layer-3 lemma supplies them'. The suppliers appear only in REPORT.json and, in part, in the module checklist. The theorem docstrings do not name them. ers_theorem_4_82's docstring is the title alone: it says nothing about hstep (Steps 3-5 of Thm 4.64 + Prop 4.63), honesided ((4.83) / Lemma 4.86), or hsplit/hJm/hJp/hKm/hKp/hcaus/hSclosed/hconn. ers_theorem_4_77 is silent on hpair and hcaus, and ers_lemma_4_72 on hmext and hthrough. In the strict library, the REPORT notes will no longer sit next to the code.",
+   "fix": "Add a hypothesis -> supplier list to each ERS theorem docstring, copying the REPORT's notes."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/NestedCausalities.lean:1401-1442",
+   "what": "The file has no satisfiability witness for ers_theorem_4_82 (kb/0011; the REPORT discloses this). The hypotheses are jointly satisfiable: I checked the trivial instance ι = Unit, dom = ⊤, cau = timelikeLine, S = {0}, s₀ = 0 in a probe. hsplit holds by le_total. hJm and hJp follow from GloballyHyperbolic.isClosed_J*_singleton with tarentin. hKm and hKp are compact diamonds. hSclosed is closure_singleton. honesided and hstep hold vacuously because the frontiers are empty.",
+   "fix": "Optionally add a theorem timelikeLine_ers_theorem_4_82 at graduation."
+  },
+  {
+   "severity": "minor",
+   "where": "campaign/T-abs-nested-causalities/REPORT.json:95, :290",
+   "what": "Two REPORT claims overstate. (a) 2-dod calls InextensibleNestedOn 'the weakest form that works'. That is not proved: for instance, 'every C-inextensible curve of W has the image of some C'-inextensible curve of W' also gives both results. (b) 4.77 says hcaus is 'used only by inextensible_ordConnectedComponent_on'. It is also used through hcausi in eq_of_mem_uIcc_of_eq (NestedCausalities.lean:1098, :1120).",
+   "fix": "Reword: 'the weakest of the three nesting notions defined here', and 'used by the component lemma and the constancy step'."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/NestedCausalities.lean:106, :891",
+   "what": "This is a graduation note, not a clash. Causal.Causality.curveOn_of_rel_imp (Causal/CBG/CausalConvex.lean:148, slightly more general) and Causal.Causality.inextensible_ordConnectedComponent_of_le (CausalConvex.lean:245) state the same results as CurveOn.of_rel_imp and inextensible_ordConnectedComponent_on. CBG.CausalConvex imports Minkowski and Static, so the closer could not reuse them. The full names differ.",
+   "fix": "None needed now. Add both to the closer's hoisting kb proposal (model-free lemmas stranded in model-importing CBG modules)."
+  }
+ ]
+}

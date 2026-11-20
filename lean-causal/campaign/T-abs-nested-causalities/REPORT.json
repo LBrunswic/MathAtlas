@@ -1,0 +1,396 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-nested-causalities",
+ "files": [
+  "scaffold/CausalScaffold/NestedCausalities.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "T-abs-nested-causalities/1-gh",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-nested-causalities item 1: wider GH => narrower GH, with exactly the extra hypotheses needed"
+    },
+    {
+     "paper": "references/sbierski/SYNTHESIS.md",
+     "statement": "Q4 #3",
+     "text_lines": "references/sbierski/SYNTHESIS.md:99"
+    }
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.globallyHyperbolicOn_of_nested",
+    "Causal.Causality.GloballyHyperbolic.of_nested",
+    "Causal.Causality.GloballyHyperbolic.of_nested_of_isClosed",
+    "Causal.Causality.GloballyHyperbolic.of_nested_of_isClosed_J",
+    "Causal.Causality.globallyHyperbolic_iff_of_nested",
+    "Causal.Causality.isCausal_of_le_top",
+    "Causal.Causality.diamond_subset_of_le",
+    "Causal.cutLine",
+    "Causal.cutLine_leNested",
+    "Causal.cutLine_isCausal",
+    "Causal.cutLine_not_globallyHyperbolic",
+    "Causal.not_globallyHyperbolic_of_nested_bare"
+   ],
+   "hypotheses": [
+    {
+     "paper": "C <= C' nested",
+     "here": "weakened",
+     "note": "only x <=_M y => x <=' _M y (at U = M), or at the open W for GloballyHyperbolicOn; LeNested (every U) is not needed"
+    },
+    {
+     "paper": "C' globally hyperbolic",
+     "here": "carried",
+     "note": "GloballyHyperbolic / GloballyHyperbolicOn W"
+    },
+    {
+     "paper": "(the extra hypothesis the target asks to find)",
+     "here": "strengthened",
+     "note": "each narrower diamond closed in the wider one: closure(J_C(p,q)) ∩ J_C'(p,q) ⊆ J_C(p,q). In a Hausdorff space this is exactly 'J_C(p,q) closed', and it is necessary and sufficient (globallyHyperbolic_iff_of_nested). Sufficient variants: closed diamonds; closed J^±_C(x)."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "The bare implication 'wider GH => narrower GH' is false, even for local causalities on a line: the line cut at 0 (cutLine 0: x <= y iff x = y, or x < y, y != 0 and [x,y] ⊆ U) is causal, nested (LeNested) in the globally hyperbolic timelike line, and its diamond from -1 to 1 is [-1,1] \\ {0}, not compact (not_globallyHyperbolic_of_nested_bare). The point 0 has no causal past other than itself."
+   ],
+   "questions": [
+    "Marking (ruled for this wave: unmarked): the closedness of the narrower diamonds is the hypothesis the target text asks to find, and it is sharp (globallyHyperbolic_iff_of_nested: in a Hausdorff space, with the wider causality GH, the narrower one is GH iff its diamonds are closed); the bare title is false (cutLine 0). Does the author want this label marked on the target's wording ('with exactly the extra hypotheses needed'), or kept partial because the hypothesis is neither nesting nor a ladder property?"
+   ]
+  },
+  {
+   "label": "T-abs-nested-causalities/2-dod",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-nested-causalities item 2: nested domains of dependence; a C'-Cauchy surface is C-Cauchy"
+    }
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.dependenceDomainOn",
+    "Causal.Causality.dependenceDomainOn_subset_of_nested",
+    "Causal.Causality.IsCauchySurfaceOn.of_nested",
+    "Causal.Causality.InextensibleNestedOn",
+    "Causal.Causality.inextensibleNestedOn_top",
+    "Causal.Causality.GloballyHyperbolic.inextensibleNestedOn_top",
+    "Causal.Causality.GloballyHyperbolic.isCauchySurface_of_nested",
+    "Causal.Causality.GloballyHyperbolic.dependenceDomainOn_subset_of_nested",
+    "Causal.Causality.globallyHyperbolic_isCauchySurface_of_nested",
+    "Causal.Causality.extensible_of_strictlyExtendsPast",
+    "Causal.Causality.causalCurveIn_image_of_comp",
+    "Causal.cutLine_inextensible_Ici",
+    "Causal.not_isCauchySurface_of_nested_bare",
+    "Causal.not_dependenceDomain_nested_bare",
+    "Causal.timelikeLine_inextensibleNestedOn_top"
+   ],
+   "hypotheses": [
+    {
+     "paper": "C <= C' nested",
+     "here": "named",
+     "note": "InextensibleNestedOn C C' W: every C-inextensible causal curve of W is C'-inextensible. It is the weakest of the three nesting notions defined here (LeNested, CurveNestedOn, InextensibleNestedOn) under which item 2 holds; that it is the weakest hypothesis that works is not proved (e.g. 'every C-inextensible curve of W has the image of some C'-inextensible curve of W' also gives both results). It does NOT follow from LeNested (counterexample). Supplier, layer 3: in Lorentzian geometry (smooth or C^0 cones g <= g') a causal curve is inextendible iff it has no endpoint, a metric-free notion; layer 1, on M: GloballyHyperbolic.inextensibleNestedOn_top."
+    },
+    {
+     "paper": "(discharge on M)",
+     "here": "named",
+     "note": "inextensibleNestedOn_top: CurveNestedOn C C' M + C causally arc-connected, causal, strongly causal, J^±_C(x) closed, and J^±_C(x) != {x} for every x (no point without causal past or future); the GH form takes Hausdorff + tarentin + globally hyperbolic + arc-connected + J^±(x) != {x}. The last condition is not a ladder node."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "With nesting of the causal relations on every open set (LeNested), neither inclusion holds in ETT: on the line cut at 1, the identity over [1, +∞[ is an inextensible causal curve (no causal past at 1) missing {0}, while {0} is a Cauchy surface of the timelike line, in which the cut line is nested: so {0} is C'-Cauchy and not C-Cauchy (not_isCauchySurface_of_nested_bare), and 1 ∈ D_{C'}({0}) \\ D_C({0}) (not_dependenceDomain_nested_bare). ETT's inextensibility is extension-defined, so it depends on the causality; Lorentzian inextendibility is endpoint-defined and does not. The correct statement is D_{C'}(S) ⊆ D_C(S) (the wider causality has the smaller domain), under the nesting of inextensibility, which the narrower causality's ladder properties supply on M."
+   ],
+   "questions": [
+    "Is the nesting of inextensible curves (InextensibleNestedOn) acceptable as 'the nesting' for item 2, or should the condition 'no point without causal past or future' (J^±(x) != {x}, used by the discharge on M) become a ladder node?",
+    "D^± (future/past domains of dependence) are not treated: dependenceDomainOn is two-sided, as the library's Causal.dependenceDomain (Flat.LipschitzGraph, definitionally equal). Reading: the two-sided domain, every inextensible curve through p."
+   ]
+  },
+  {
+   "label": "T-abs-nested-causalities/3-ers-4.70",
+   "source": [
+    {
+     "paper": "Eperon-Reall-Sbierski, arXiv 1802.03020",
+     "statement": "Lemma 4.70 and its proof",
+     "text_lines": "references/sbierski/text/eperon2018predictability.txt:1761-1777"
+    },
+    {
+     "paper": "Eperon-Reall-Sbierski, arXiv 1802.03020",
+     "statement": "(4.62), GHD definition",
+     "text_lines": "references/sbierski/text/eperon2018predictability.txt:1478-1484, 1500-1505"
+    }
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.ers_lemma_4_70_core",
+    "Causal.Causality.ers_lemma_4_70",
+    "Causal.Causality.ers_lemma_4_70_isConnected",
+    "Causal.Causality.isPreconnected_of_segments",
+    "Causal.Causality.eq_of_mem_uIcc_of_eq",
+    "Causal.Causality.CausalCurveIn.continuousOn_uIcc",
+    "Causal.timelikeLine_ers_lemma_4_70"
+   ],
+   "hypotheses": [
+    {
+     "paper": "T timelike with respect to g(u,du) for all u, du (4.62)",
+     "here": "named",
+     "note": "InextensibleNestedOn Cτ Cᵢ Uᵢ (i = 1, 2): Cτ is the causality of T (its inextensible curves of M = maximal integral curves of T), nested in the causality Cᵢ of g(uᵢ,duᵢ) on Uᵢ. Supplier, layer 3: an integral curve of T in Uᵢ is g(uᵢ)-timelike, and a maximal one has no endpoint in Uᵢ (ODE), hence is g(uᵢ)-inextendible there."
+    },
+    {
+     "paper": "(maximal integral curves of T exist)",
+     "here": "named",
+     "note": "hthrough: through every x ∈ U₁ ∩ U₂ an inextensible Cτ-curve of M. Supplier: Picard-Lindelöf."
+    },
+    {
+     "paper": "(no closed orbit of T)",
+     "here": "named",
+     "note": "Cτ.IsCausal: a layer-3 consequence of (4.62). In (4.61) g = g(u, du) does not depend on x, so (4.62) makes T timelike for the constant Lorentz metric h = g(0,0) at every point; T, continuous and never null on the connected R^{d+1}, lies in one time cone K of h; for e ∈ K the linear form ℓ = -h(e, ·) is positive on K, so ℓ increases strictly along every integral curve of T. Hence T has no closed orbit. Used for the components (inextensible_ordConnectedComponent) and to pass from 'at most once' on the image to the reading of the core; ers_lemma_4_70_core does without it."
+    },
+    {
+     "paper": "every maximal integral curve of T intersects S at most once",
+     "here": "carried",
+     "note": "honce, on the image (point-wise). Integral curves of T being injective under (4.62), counting points and counting parameters agree. The core reads it as: between two parameters on S the curve stays on S."
+    },
+    {
+     "paper": "u1, u2 GHDs with Cauchy hypersurface S",
+     "here": "weakened",
+     "note": "only S a Cauchy surface of Uᵢ for Cᵢ (IsCauchySurfaceOn), S ⊆ Uᵢ; global hyperbolicity of Uᵢ not used"
+    },
+    {
+     "paper": "S connected",
+     "here": "carried",
+     "note": "IsPreconnected S (IsConnected for the 'connected' conclusion)"
+    },
+    {
+     "paper": "(R^{d+1})",
+     "here": "weakened",
+     "note": "any Hausdorff space (T2Space), used by the component lemma"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Under (4.62), T lies in one time cone of the constant metric g(0,0), so a linear function increases strictly along its integral curves: T has no closed orbit, its integral curves are injective, and the two readings of 'at most once' (points, parameters) agree. ERS's step at text lines 1769-1771 follows under either reading. (A finding of the first report claiming a gap under the set-wise reading was wrong and is retracted.)",
+    "Global hyperbolicity of U₁, U₂ is used only through 'S is a Cauchy surface of Uᵢ'."
+   ],
+   "questions": []
+  },
+  {
+   "label": "T-abs-nested-causalities/3-ers-4.72",
+   "source": [
+    {
+     "paper": "Eperon-Reall-Sbierski, arXiv 1802.03020",
+     "statement": "Lemma 4.72 and its proof; subluminal and m-GHD definitions",
+     "text_lines": "references/sbierski/text/eperon2018predictability.txt:1796-1829"
+    }
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.ers_lemma_4_72",
+    "Causal.Causality.ers_lemma_4_72_isConnected",
+    "Causal.Causality.image_Icc_subset_of_curvesExtend",
+    "Causal.Causality.image_uIcc_subset_of_isCauchySurfaceOn",
+    "Causal.Causality.mem_image_uIcc_of_between",
+    "Causal.Causality.CurveNestedOn",
+    "Causal.Causality.LeNested.curveNestedOn",
+    "Causal.timelikeLine_ers_lemma_4_72"
+   ],
+   "hypotheses": [
+    {
+     "paper": "subluminal: the causal cone of g(u,du) inside that of m",
+     "here": "named",
+     "note": "CurveNestedOn C₂ Cm U₂ (causal curves of U₂ for g(u₂) are causal curves for m); implied by LeNested C₂ Cm. Supplier, layer 3: the cone inclusion."
+    },
+    {
+     "paper": "S achronal with respect to m",
+     "here": "strengthened",
+     "note": "Cm.IsAcausal S. The library's Cauchy surfaces and inextensibility are for causal curves (DEC-14), so a causal curve along a null piece of an achronal S would meet it twice. ERS assume acausal themselves in 4.79-4.80."
+    },
+    {
+     "paper": "u1 is an m-GHD",
+     "here": "carried",
+     "note": "Cm.IsCauchySurfaceOn U₁ S, S ⊆ U₁"
+    },
+    {
+     "paper": "u1 is a GHD (w.r.t. g(u1))",
+     "here": "weakened",
+     "note": "not used at all"
+    },
+    {
+     "paper": "u2 is a GHD",
+     "here": "weakened",
+     "note": "only C₂.IsCauchySurfaceOn U₂ S, S ⊆ U₂"
+    },
+    {
+     "paper": "(m causal; curves of m extend; through every point an inextendible g(u2)-causal curve)",
+     "here": "named",
+     "note": "Cm.IsCausal, Cm.CurvesExtend (Minkowski: Causal.CurvesExtend / timelike line witness), hthrough (integral curves of a g(u₂)-timelike field). ERS use them implicitly ('γ cannot leave U1 without first intersecting S', line 1826)."
+    },
+    {
+     "paper": "S connected",
+     "here": "carried",
+     "note": "IsPreconnected S"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "With S m-acausal, the first step of ERS's proof (x ∈ I⁺_{g1}(S,U1) => x ∈ I⁺_{g2}(S,U2), lines 1811-1819, which uses that u1 is a g(u1)-GHD) is not needed: the curve from x to S in U₂ stays in U₁ whichever way it runs, because U₁ is m-GH with acausal Cauchy surface S (image_uIcc_subset_of_isCauchySurfaceOn). The hypothesis 'u1 is a GHD' is then unused for the connectedness of U₁ ∩ U₂.",
+    "Lemma 4.72 prints 'achronal'; the ETT skeleton needs 'acausal' (as ERS assume at 4.79-4.80)."
+   ],
+   "questions": [
+    "Is m-acausality of S acceptable for Lemma 4.72 (ERS print m-achronal, with timelike curves in the proof)? Under achronality the ETT statement would need chronal-curve Cauchy surfaces, which the library does not define."
+   ]
+  },
+  {
+   "label": "T-abs-nested-causalities/3-ers-4.77",
+   "source": [
+    {
+     "paper": "Eperon-Reall-Sbierski, arXiv 1802.03020",
+     "statement": "Theorem 4.77 and its proof; Remark 4.67; Corollary 4.71; Theorem 4.75",
+     "text_lines": "references/sbierski/text/eperon2018predictability.txt:1906-1941, 1719-1726, 1784-1790, 1850"
+    }
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.ers_theorem_4_77",
+    "Causal.Causality.ers_theorem_4_77_greatest",
+    "Causal.Causality.inextensible_ordConnectedComponent_on",
+    "Causal.Causality.not_futureExtensible_of_component_on",
+    "Causal.Causality.futureExtensible_of_final_on",
+    "Causal.Causality.isCauchySurfaceOn_of_agree",
+    "Causal.Causality.inextensible_of_agree",
+    "Causal.timelikeLine_ers_theorem_4_77"
+   ],
+   "hypotheses": [
+    {
+     "paper": "umax well defined (Corollary 4.71 = Lemma 4.70 + Theorem 4.64)",
+     "here": "named",
+     "note": "one causality C on M whose relations on the open subsets of each Uα are those of g(uα) (isCauchySurfaceOn_of_agree transports Cauchy surfaces between C and each Cα). Supplier: Lemma 4.70 (here) + Theorem 4.64 (PDE uniqueness on connected overlaps)."
+    },
+    {
+     "paper": "Remark 4.67: the intersection of two GHDs is a GHD with Cauchy hypersurface S",
+     "here": "named",
+     "note": "hpair: S is a C-Cauchy surface of Uα ∩ Uβ. Supplier: Lemma 4.70 + Theorem 4.64 (its proof, Remark 4.67)."
+    },
+    {
+     "paper": "the set of GHDs is non-empty (Theorem 4.75)",
+     "here": "named",
+     "note": "hex, in ers_theorem_4_77_greatest"
+    },
+    {
+     "paper": "(the union is causal)",
+     "here": "strengthened",
+     "note": "hcaus: C causal on the union (relation level). Not in ERS, who obtain global hyperbolicity of Umax a posteriori. Used by the component lemma inextensible_ordConnectedComponent_on (splicing an extension in Uα into one in the union needs the new value to be new for the whole curve) and, restricted to Uα, by the constancy step eq_of_mem_uIcc_of_eq (through hcausi)."
+    },
+    {
+     "paper": "R^{d+1}",
+     "here": "weakened",
+     "note": "Hausdorff"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "ERS's 'J is closed' step (lines 1926-1932) rests on Remark 4.67 for every pair of developments; it is the hypothesis hpair, from which the open-and-closed argument goes through on a Lebesgue subdivision of the parameter segment (exists_subdivision_Icc). The conclusion proved is that S is a Cauchy surface of the union; ERS's 'globally hyperbolic' from it is Geroch's (iii)=>(i), the cited unproved step of CausalScaffold.GerochEquiv, not invoked."
+   ],
+   "questions": [
+    "Can the causality of the union (hcaus) be dropped? It is needed by ETT's extension-defined inextensibility only; in ERS it is a consequence of the theorem."
+   ]
+  },
+  {
+   "label": "T-abs-nested-causalities/3-ers-4.82",
+   "source": [
+    {
+     "paper": "Eperon-Reall-Sbierski, arXiv 1802.03020",
+     "statement": "Theorem 4.82 and its proof; Steps 2-5 of Theorem 4.64",
+     "text_lines": "references/sbierski/text/eperon2018predictability.txt:2027-2117, 1603-1716"
+    }
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.frontier_connectedComponentIn_inter",
+    "Causal.Causality.inter_subset_connectedComponentIn",
+    "Causal.Causality.exists_minimal_of_isCompact_on",
+    "Causal.Causality.exists_spacelike_boundary_point",
+    "Causal.Causality.ers_theorem_4_82"
+   ],
+   "hypotheses": [
+    {
+     "paper": "(4.83): near p ∈ ∂U1 \\ ∂S, a chart with ∂U1 a graph, U1 below, the complement above",
+     "here": "weakened",
+     "note": "honesided: p has arbitrarily small neighbourhoods V with V ∩ U₁ preconnected, the topological content used to put V ∩ U₁ inside the component A (inter_subset_connectedComponentIn). (4.83) => honesided is the standard chart argument, not formalized. The 'room above the graph' half enters hstep."
+    },
+    {
+     "paper": "Steps 3-5 of Thm 4.64 (time separation τ_q, spacelike level set Σ, its acausality, D(Σ_V)), Prop 4.63, and 'u3 is a GHD' (line 2114)",
+     "here": "named",
+     "note": "hstep: at a boundary point p ∈ ∂A ∩ U₂ with (4.65) and a neighbourhood V ⊆ U₂ with V ∩ U₁ ⊆ A, some GHD strictly contains U₁. Supplier: Lorentzian geometry and PDE (layer 3)."
+    },
+    {
+     "paper": "u1 MGHD",
+     "here": "carried",
+     "note": "hmax"
+    },
+    {
+     "paper": "GHD domains connected; U₂ = J⁺(S) ∪ J⁻(S); J^±(x) closed in U₂; J^∓(q) ∩ J^±(S) compact; U₂ causal",
+     "here": "named",
+     "note": "hconn (from S connected: Causal.SubExtension.isConnected_of_curves), hsplit, hJm/hJp, hKm/hKp, hcaus: consequences of 'U₂ globally hyperbolic with Cauchy hypersurface S' in Lorentzian geometry"
+    },
+    {
+     "paper": "(q ∉ ∂S for the boundary point used)",
+     "here": "named",
+     "note": "hSclosed: S closed in each development (a Cauchy hypersurface is closed); ERS do not say why the point of ∂A ∩ U₂ avoids ∂S"
+    },
+    {
+     "paper": "R^{d+1}",
+     "here": "weakened",
+     "note": "Hausdorff and locally connected"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Theorem 4.82 involves no nesting of causalities: it is stated for general quasilinear equations (§4.8); the nesting appears only in Lemma 4.86, which supplies (4.83) from a cone condition ((4.87): ∂₀ + δ timelike for |δ| < δ₀).",
+    "Step 2 (4.65)/(4.85) is causal-topological without null geodesics: a ≤-minimal point of the compact ∂A ∩ J⁻(q) ∩ J⁺(S), by Zorn (exists_spacelike_boundary_point). ERS's argument ('the past directed causal curve connecting q with r is a null geodesic', line 2092-2093, and Step 2 of 4.64 at lines 1606-1648) is Lorentzian.",
+    "Steps 3-5 are not causal-topological: the time separation τ_q and its smoothness via exp_q (lines 1680-1695), the spacelike level set Σ = τ_q⁻¹(τ₀) (O'Neill Ch.5 Cor 3), acausality of Σ_W (O'Neill 14.46), domains of dependence of Σ_V, PDE local uniqueness (Prop 4.63) and 'u3 is a GHD' (line 2114, 'easy to see')—the last is a causal statement (S Cauchy in U₁ ∪ D(Σ_V)) left inside hstep.",
+    "(4.84): the inclusion ∂A ∩ U₂ ⊆ ∂U₁ needs M locally connected (components of open sets open); proved for any locally connected space (frontier_connectedComponentIn_inter)."
+   ],
+   "questions": [
+    "In (4.83), '∂S': I read it as the closure of S minus S (equivalently its frontier, as S ⊆ U₁ open); both readings give ∂U₁ \\ closure(S). Confirm."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Causal.CurveOn.of_rel_imp",
+  "Causal.Causality.LeNested",
+  "Causal.Causality.LtNested",
+  "Causal.Causality.CurveNestedOn",
+  "Causal.Causality.LeNested.refl",
+  "Causal.Causality.LeNested.trans",
+  "Causal.Causality.dual_leNested_iff",
+  "Causal.Causality.CurveNestedOn.causalCurveIn",
+  "Causal.Causality.CurveNestedOn.mono",
+  "Causal.Causality.dependenceDomainOn_subset",
+  "Causal.Causality.subset_dependenceDomainOn",
+  "Causal.Causality.dependenceDomainOn_eq_of_isCauchySurfaceOn",
+  "Causal.Causality.causalCurveOn_of_agree",
+  "Causal.Causality.causalCurveIn_of_agree",
+  "Causal.Causality.futureExtensible_of_final_on",
+  "Causal.Causality.not_futureExtensible_of_component_on",
+  "Causal.Causality.inextensible_ordConnectedComponent_on",
+  "Causal.Causality.exists_minimal_of_isCompact_on",
+  "Causal.Causality.isPreconnected_of_segments",
+  "Causal.Causality.eq_of_mem_uIcc_of_eq"
+ ],
+ "kb_proposals": [
+  "Inextensibility is not monotone under nesting: LeNested C C' does not make C-inextensible curves C'-inextensible (a point with no C-past ends a C-inextensible curve); ask InextensibleNestedOn, or derive it on M with Causality.inextensibleNestedOn_top (any continuous extension of a curve is undone by adjoin-then-prepend when C is arc-connected, causal, strongly causal, with closed J^± and no endpoints).",
+  "inextensible_ordConnectedComponent exists for an ambient open W in CausalScaffold.NestedCausalities (…_on); the strict W = ⊤ version could be replaced by it at graduation.",
+  "The model-free part of Causal.CBG.NoCorresponding (exists_minimal_of_isCompact, Sbierski Lemma 3.9) and Causal.dependenceDomain (Flat.LipschitzGraph) sit in modules that import models; an ETT-layer closer cannot import them. Hoisting them into an ETT-layer module would avoid the re-proofs here (exists_minimal_of_isCompact_on, dependenceDomainOn).",
+  "Cheap local counterexample for nesting questions: Causal.cutLine a (the timelike line in which a has no causal past), nested in timelikeLine; it refutes 'wider GH => narrower GH' (a = 0) and 'wider Cauchy => narrower Cauchy' (a = 1, S = {0}).",
+  "Causal.Causality.curveOn_of_rel_imp and Causal.Causality.inextensible_ordConnectedComponent_of_le in Causal/CBG/CausalConvex.lean (which imports Minkowski and Static) state the same results as CurveOn.of_rel_imp and inextensible_ordConnectedComponent_on of CausalScaffold.NestedCausalities: model-free lemmas stranded in a model-importing CBG module, candidates for hoisting into an ETT-layer module (with exists_minimal_of_isCompact of CBG.NoCorresponding and dependenceDomain of Flat.LipschitzGraph)."
+ ],
+ "notes": "One file, sorry-free, no warnings, built alone (lake build CausalScaffold.NestedCausalities rebuilt nothing upstream); axioms propext, Classical.choice, Quot.sound only. Import closure (computed): Causal.{ArcConnected, Cauchy, CauchyExtension, Causality, Curves, Generated, Geroch, GlobalHyperbolicity, Inextensible, Lines, LinesCurves, Local, Measure, MeasureRemarks, Minimal, Morphism, Properties, PushUp, Reachable, StrongCausality, Subdivision} and mathlib: all in the clean list, no model. Name collision avoided: Causal.Causality.exists_minimal_of_isCompact exists in Causal.CBG.NoCorresponding, so mine is exists_minimal_of_isCompact_on. Marks: none (fix round 1: 1-gh unmarked per the master's ruling; the iff is sharp, the question stays for the author). Fix round 1 also retracted the 4.70 closed-orbit finding (T has no closed orbit under (4.62)) and added hypothesis-to-supplier lists to the ERS theorem docstrings. The ERS items are causal-topological skeletons, every layer-3 input a named hypothesis with its supplier, each with a timelike-line witness that the hypotheses are jointly satisfiable (4.70, 4.72, 4.77; none for 4.82). The module is not imported by the scaffold root (kb/0025): adding it there is the master's."
+}

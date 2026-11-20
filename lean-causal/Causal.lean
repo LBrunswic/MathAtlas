@@ -205,6 +205,7 @@ import Causal.KBorelien
 import Causal.CBG.ETTSubExtension
 import Causal.CBG.SubExtensionAbstract
 import Causal.GluingHausdorff
+import Causal.NestedCausalities
 
 /-!
 # Causal — topological spacetimes

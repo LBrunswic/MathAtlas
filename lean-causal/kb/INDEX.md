@@ -50,3 +50,6 @@ rediscover. One fact per entry.
 | [0042](entries/0042-cheap-open-relation-on-R.md) | pattern | A cheap open transitive relation on ℝ from two semicontinuous functions |
 | [0043](entries/0043-corresponding-boundary-points.md) | pitfall | Corresponding boundary points in layer 1 are `Gluing.IsCorrespondingBoundaryPair`, not `CBG.Corresponds` |
 | [0044](entries/0044-gluing-closedness-not-topology.md) | pitfall | Closed H, open C and a unique corresponding point are not topology |
+| [0045](entries/0045-inextensibility-not-monotone-under-nesting.md) | pitfall | Inextensibility is not monotone under nesting |
+| [0046](entries/0046-cutline-counterexample.md) | pattern | A cheap local counterexample for nesting questions: the cut line |
+| [0047](entries/0047-model-free-lemmas-stranded.md) | pitfall | Model-free lemmas stranded in model-importing modules |

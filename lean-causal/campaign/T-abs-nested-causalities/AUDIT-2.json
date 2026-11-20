@@ -1,0 +1,47 @@
+{
+ "target": "T-abs-nested-causalities",
+ "auditor_round": 2,
+ "verdict": "minor",
+ "audit_1_findings": [
+  {"n": 1, "severity": "major", "status": "fixed", "notes": "The 4.70 finding is retracted and replaced by the (4.62) argument: T lies in one time cone of the constant metric g(0,0), so -h(e,·) increases strictly along integral curves. The hypothesis row '(no closed orbit of T)' is now 'named: a layer-3 consequence of (4.62)'. The 4.70 question is dropped (the label's questions list is empty). The same argument now appears in the module checklist (rows at lines 63-64) and in the ers_lemma_4_70 docstring. The argument is correct."},
+  {"n": 2, "severity": "minor", "status": "fixed", "notes": "1-gh is unmarked: the docstring now writes it as a plain `label` and says 'No assertion is marked (1-gh: see SCOPE)'. REPORT has status partial and marked false. SCOPE states that the bare title is false (cutLine 0) and that the hypothesis is sharp (globallyHyperbolic_iff_of_nested). The checklist row '⚠ strengthened … hence unmarked' is now consistent with kb/0011. The question for the author is kept."},
+  {"n": 3, "severity": "minor", "status": "fixed, with two nits (findings 1-2 below)", "notes": "ers_lemma_4_70_core, ers_lemma_4_70, ers_lemma_4_72, ers_theorem_4_77, ers_theorem_4_77_greatest and ers_theorem_4_82 now each list, per named hypothesis, the layer-3 source. hstep is spelled out."},
+  {"n": 4, "severity": "minor", "status": "open (optional, at graduation)", "notes": "There is still no timelikeLine witness for ers_theorem_4_82. The REPORT notes disclose this ('none for 4.82'). The trivial instance checked in AUDIT-1 still applies, since no statement changed."},
+  {"n": 5, "severity": "minor", "status": "fixed", "notes": "2-dod now reads 'the weakest of the three nesting notions defined here … that it is the weakest hypothesis that works is not proved', with the image-based example. The 4.77 hcaus note now names both uses, inextensible_ordConnectedComponent_on and eq_of_mem_uIcc_of_eq through hcausi. Both are true to the code (NestedCausalities.lean:1098, :1120 in the original numbering)."},
+  {"n": 6, "severity": "minor", "status": "fixed", "notes": "A kb proposal is added: it names curveOn_of_rel_imp and inextensible_ordConnectedComponent_of_le (CBG/CausalConvex) as hoisting candidates, together with exists_minimal_of_isCompact and dependenceDomain."}
+ ],
+ "labels": [
+  {"label": "T-abs-nested-causalities/1-gh", "faithful": true, "marked_correctly": true, "notes": "Now unmarked and partial, by the master's ruling. Statements are unchanged (type hashes identical). SCOPE is true: the cutLine 0 refutation and the Hausdorff iff."},
+  {"label": "T-abs-nested-causalities/2-dod", "faithful": true, "marked_correctly": true, "notes": "Unchanged statements, unmarked, partial. The corrected 'weakest' claim is now true."},
+  {"label": "T-abs-nested-causalities/3-ers-4.70", "faithful": true, "marked_correctly": true, "notes": "The new docstring sources are true to ERS. (4.61) has g = g(u, du) with no x (LaTeX theorems_intro). (4.62) is quantified over all values. Taking h = g(0,0), which is Lorentzian because g is Lorentz-valued in §4.1, is legitimate. A maximal integral curve's component in Uᵢ has no endpoint in Uᵢ (escape lemma). Picard–Lindelöf supplies hthrough."},
+  {"label": "T-abs-nested-causalities/3-ers-4.72", "faithful": true, "marked_correctly": true, "notes": "Sources checked. Subluminal is ERS's definition: the causal cone of g(u,du) inside the cone of m (LaTeX SecUniquenessSub). Causal.CurvesExtend does import Causal.Minkowski, a model module, as the docstring says. The acausal strengthening is restated."},
+  {"label": "T-abs-nested-causalities/3-ers-4.77", "faithful": true, "marked_correctly": true, "notes": "Sources checked against the LaTeX. Cor 4.71's proof is 'Lemma 4.70 and Theorem 4.64'. Remark 4.67 (ersrem:RemTime) makes U1 ∩ U2 the MCGHD under Theorem 4.64's assumptions, so it is GH with Cauchy hypersurface S. Theorem 4.75 makes the set of GHDs non-empty (ThmUMGHD's proof). hcaus is restated as an addition."},
+  {"label": "T-abs-nested-causalities/3-ers-4.82", "faithful": true, "marked_correctly": true, "notes": "hstep's source list matches the LaTeX of Thm 4.64 Steps 3-5 and the end of 4.82's proof: a convex neighbourhood W and q ∈ I⁺(p,W); τ_q via exp_q (O'Neill Ch. 5 Prop. 34); Σ spacelike (O'Neill Ch. 5 Cor. 3); Σ_V acausal (O'Neill 14.46); D(Σ_V) in V ⊆ U₂; 'D(Σ_V) contains points above the graph'; 'u₃ is a GHD' at text line 2114, which I checked. Prop 4.63 enters only indirectly, through 'A is the MCGHD (a variation of Remark 4.67)', on which the well-definedness of u₃ rests. The list is over-inclusive but not false. Finding 2 below is a nit on the honesided sentence, and finding 1 is a wrong declaration name in the hconn source."}
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "details": "`lake env lean -DwarningAsError=true scaffold/CausalScaffold/NestedCausalities.lean` exits 0 with no output. `grep -c sorry` gives 0, and there is no set_option, admit or axiom. #print axioms on all 68 declarations of the revised file: 62 use [propext, Classical.choice, Quot.sound] and 6 use [propext, Quot.sound]. The imports are unchanged, so the layer-1 import closure is unchanged. No declaration changed: I compared the built olean (.lake/build/lib/lean/CausalScaffold/NestedCausalities.olean, 19:06:59, before the fix; source edited 19:24:35) with the revised source. All 68 names are identical, and so are Expr.hash of every type and of every def's value (LeNested, LtNested, CurveNestedOn, InextensibleNestedOn, cutLine, dependenceDomainOn). Printed lengths differ only by hygienic module names. Docstrings: I diffed the olean's stored docstrings against the revised source. The only changes are the module docstring (1-gh mark removed, SCOPE item added, nesting wording, checklist rows 61/63/64) and appended 'Suppliers' paragraphs on the six ERS theorems. The olean is now stale, so the master rebuilds at graduation. Cosmetic: line 53 is prose of 119 characters (table rows were long already, and no lint enforces a limit). Scope: `git status --short lean-causal` shows only this target's two paths and GluingHausdorff's. lean-gx/campaign/T-gx-cone-football/ is another loop's, outside lean-causal. Probes were written under /tmp/nc_audit2 and deleted."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/NestedCausalities.lean:1386 (ers_theorem_4_82 docstring, hconn source); campaign/T-abs-nested-causalities/REPORT.json:341",
+   "what": "The cited name `Causal.SubExtension.isConnected_of_curves` does not exist: `#check` fails with unknown identifier. The lemma is `Causal.isConnected_of_curves`, in the module Causal.SubExtension (Causal/SubExtension.lean:307, under section SubExtension, not a namespace). The REPORT already had this wrong in round 1; I missed it in AUDIT-1. It now graduates inside a docstring.",
+   "fix": "Write `Causal.isConnected_of_curves` (module `Causal.SubExtension`) in both places."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/NestedCausalities.lean:1382-1383 (ers_theorem_4_82 docstring, honesided source)",
+   "what": "The text says 'shrink the base of the box so that each vertical fibre below the graph is an interval'. Those fibres are always intervals, possibly empty. Shrinking the base, by continuity of f, is what makes every fibre non-empty, each containing a common segment below f(p). That is what makes V ∩ U₁ preconnected. As written, the stated condition does not give the conclusion.",
+   "fix": "Write '… is a non-empty interval' (or '… contains a common segment below the graph')."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/NestedCausalities.lean:1456-1499 (witness section)",
+   "what": "Carried over from AUDIT-1 finding 4: there is still no satisfiability witness for ers_theorem_4_82 (kb/0011). The gap is disclosed, and the hypotheses are satisfiable: the trivial instance was checked in round 1, and the statement is unchanged.",
+   "fix": "Optional, at graduation: add timelikeLine_ers_theorem_4_82."
+  }
+ ]
+}
