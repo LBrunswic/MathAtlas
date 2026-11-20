@@ -1,0 +1,337 @@
+# The roadmap: planned targets beyond what the ledgers already record as closed.
+#
+# Validated by `python3 tools/roadmap.py check`; drawn by the atlas (reports/atlas). Written by the
+# roadmap-planner agent (proposals) and the /atlas-team loop (status changes); ruled by the author.
+#
+# status  planned       proposed, not yet ready (a dependency is not done, or it is not specified enough)
+#         ready         can be dispatched now
+#         active        an iteration is working on it (at most one at a time)
+#         needs-ruling  waits for the author: `question` says what to decide; the loop never decides it
+#         blocked       waits on an OPEN question of registers/DECISIONS.md, named in `oq`
+#         done          closed; `evidence` names the commit
+#         dropped       abandoned; `evidence` says why
+# owner   closer | planner | builder | author
+# kind    close     formalize/prove ledger rows (labels must exist in the paper's ledger)
+#         package   create a Lean package or a ledger for a paper
+#         research  new mathematics (3+1 notes); scaffold-only, marked [r] until proved
+#         tooling   the atlas, the ledgers, the gates
+#         author    something only the author can do (shown on the roadmap, never dispatched)
+
+[gates]
+# Hub gates already red at the team's start (2026-11-20). An iteration may not add a failure;
+# it is not asked to fix these, which need rulings (see T-hub-freeze, T-bbs-ledger).
+known_red = [
+  "gate-tests: tests/test_no_model_in_gates.py runs the gate under FREEZE=1, rejected since the freeze expired 2026-09-25",
+  "papers-check: papers/bbs has no ledger/ledger.toml",
+]
+
+# ------------------------------------------------------------------ ETT
+[[target]]
+id = "T-ett-cbg-anchor"
+title = "Anchor the sorry-free CBG development to ETT §4: theo:CBG and its lemmas"
+stream = "ett"
+kind = "close"
+paper = "ett"
+labels = ["theo:CBG", "rem:CBG_analytique", "lem:corresponding_K", "cor:ext_continue", "cor:model_corresponding", "prop:Cauchy_non_max", "prop:C_connexe", "prop:Cauchy_point_min", "prop:ppcm_Cauchy", "rem:CBG_manquant"]
+status = "ready"
+owner = "closer"
+priority = 1
+evidence = "Causal.CBG.* is sorry-free (cbg, cbg_ett); lean-causal/docs/CBG-DESIGN.md leaves marking to the ETT campaign; these rows have no Lean anchor in papers/ett/ledger."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-ett-unanchored"
+title = "State the ETT rows that have no Lean yet (remarks, corollaries of §2-§3)"
+stream = "ett"
+kind = "close"
+paper = "ett"
+labels = ["rem:relation_not_assumed_reflexive", "rem:pas_plat", "rem:terminology_borrowed_archytas_tarentum", "rem:tarentin_exemples", "rem:lorentz_tarentin", "cor:K_lorentzien", "rem:manifolds_specialises_brunswic_cauchy", "theo:geroch_mr", "rem:recursion_these", "rem:proof_uses_neither_causal", "cexemple:misner_tarentin", "cor:massA_causalite", "cor:massA_cac", "cor:pushup_sing", "prop:GX_sing_dec", "rem:mesure_unilaterale", "lem:vecteur"]
+status = "ready"
+owner = "closer"
+priority = 2
+evidence = "27 ETT rows have no Lean declaration (papers/ett/ledger, bucket empty); the CBG ones are T-ett-cbg-anchor."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-ett-geroch-iii-i"
+title = "Prove Geroch (iii)⇒(i), cited by ETT from O'Neill (scaffold GerochEquiv)"
+stream = "ett"
+kind = "close"
+paper = "ett"
+labels = ["theo:geroch", "theo:geroch_sing"]
+status = "ready"
+owner = "closer"
+priority = 3
+evidence = "CausalScaffold.GerochEquiv holds the one sorry; theo:geroch and theo:geroch_sing are partial because of it (papers/ett/ledger)."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-ett-subextension"
+title = "Close the two SubExtension sorrys: lem:C_ext_connexe and prop:Cauchy_pgcd"
+stream = "ett"
+kind = "close"
+paper = "ett"
+labels = ["lem:C_ext_connexe", "prop:Cauchy_pgcd"]
+status = "ready"
+owner = "closer"
+priority = 4
+evidence = "CausalScaffold.SubExtension: exists_mem_image_inf and cauchy_pgcd are tagged sorrys (bucket C)."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-ett-singular-instance"
+title = "Discharge SingularFlatAxioms / BTZAxioms with gx's E₀ model, lifting ETT's bucket-D singular rows"
+stream = "ett"
+kind = "close"
+paper = "ett"
+labels = ["def:singular_spacetime", "defi:causal_E0", "prop:K_calcul", "prop:K_densite_sing", "cor:K_ordre", "theo:geroch_sing"]
+status = "needs-ruling"
+owner = "closer"
+priority = 5
+question = "lean-gx imports lean-causal, so the E₀ instance can only live in lean-gx. May ETT ledger rows be anchored to lean-gx declarations, or should the E₀ model be ported into lean-causal (as Causal.Port did for the universal cover)?"
+evidence = "32 ETT rows are bucket D 'under named model hypotheses' (SingularFlatAxioms, BTZAxioms); GX.BTZ.Model/Causality prove the E₀ facts."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-ett-minkowski-graduate"
+title = "Graduate CausalScaffold.MinkowskiMeasure (sorry-free since 18d8c16) to the strict library"
+stream = "ett"
+kind = "close"
+paper = "ett"
+labels = ["prop:mesure_dieckmann_Lorentz"]
+status = "ready"
+owner = "closer"
+priority = 6
+evidence = "Closed by Causal.Flat.minkowski_frontier_null_measure in 18d8c16; still in the scaffold; the row stays partial (Minkowski instance only)."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+# ------------------------------------------------------------------ gx
+[[target]]
+id = "T-gx-slsc-compact"
+title = "A compact counterexample to the 'iff' of rem:definition_semi_locally_simply_connected"
+stream = "gx"
+kind = "close"
+paper = "gx"
+labels = ["rem:definition_semi_locally_simply_connected"]
+status = "needs-ruling"
+owner = "closer"
+priority = 7
+question = "The non-compact harmonic archipelago already refutes the 'iff'. Is a compact counterexample wanted?"
+evidence = "Ledger note of the row (WP-35b): 'Is the non-compact archipelago enough?'"
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-gx-troyanov"
+title = "Shrink or discharge the Troyanov named external (GX.TroyanovSuspensionTheorem)"
+stream = "gx"
+kind = "close"
+paper = "gx"
+labels = ["cex:start_singular_manifold_homeomorphic"]
+status = "needs-ruling"
+owner = "closer"
+priority = 8
+question = "lean-gx/campaign/POSTWAVE5/BBS-NOTES.md proposes shrinking the Troyanov external; proceed, and to which form?"
+evidence = "DEC-69 made Troyanov a named external; the plan waits for the author."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+# ------------------------------------------------------------------ Benzécri
+[[target]]
+id = "T-bz-universal-cover"
+title = "Port the universal cover into lean-benzecri and close the p. 238 row"
+stream = "benzecri"
+kind = "close"
+paper = "benzecri"
+labels = ["bzthm:c1s1_revetement_universel_divisible"]
+status = "ready"
+owner = "closer"
+priority = 3
+evidence = "The only open row (bucket D) needs a universal cover; GX.Topology.UniversalCover exists and was already ported once (Causal.Port.UniversalCover, WP-32a), which keeps lean-benzecri mathlib-only (DEC-112)."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-bz-transcription-check"
+title = "Check the Chapter 1 transcription against the Numdam scan"
+stream = "benzecri"
+kind = "author"
+paper = "benzecri"
+status = "needs-ruling"
+owner = "author"
+priority = 2
+question = "legacy/MANIFEST.json: the author has to check the transcription before its certifications are cited."
+evidence = "papers/benzecri/legacy/MANIFEST.json"
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-bz-chapter2"
+title = "Transcribe and ledger Chapter 2 (result B) of the thesis"
+stream = "benzecri"
+kind = "package"
+paper = "benzecri"
+status = "needs-ruling"
+owner = "planner"
+priority = 9
+question = "Extend the Benzécri campaign beyond Chapter 1 (results B, C are terminal today)?"
+evidence = "bzthm:intro_B (Ch. 2) and bzthm:intro_C (Ch. 5) are terminal: not transcribed."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+# ------------------------------------------------------------------ BBS and 3+1
+[[target]]
+id = "T-bbs-ledger"
+title = "Ledger Barbot–Bonsante–Schlenker, Collisions I (arXiv 1010.3602), as an external paper"
+stream = "bbs"
+kind = "package"
+paper = "bbs"
+status = "needs-ruling"
+owner = "planner"
+priority = 2
+question = "Make papers/bbs a counted external paper (labelled snapshot of colI_v1.tex, ledger, reading map, as DEC-34 did for Barbot)? It would also turn papers-check green."
+evidence = "papers_check fails papers/bbs (no ledger); REVIEW.md maps BBS onto gx."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-3p1-theorem-m"
+title = "Theorem M (momentum and energy conservation at a 2+1 interaction) stated and proved in gx"
+stream = "bbs"
+kind = "research"
+paper = "bbs"
+status = "ready"
+owner = "closer"
+priority = 4
+evidence = "papers/bbs/NOTES-3+1.md N4 states M1-M3 on paper [r]; needs π₁ of a punctured disc as a free group and the holonomy product (gx)."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-3p1-funnel-lemma"
+title = "Write out the funnel lemma (Lemma F) in full, checking the angle < π step"
+stream = "bbs"
+kind = "research"
+paper = "bbs"
+status = "ready"
+owner = "planner"
+priority = 6
+evidence = "NOTES-3+1.md N5: Lemma F is a sketch; Theorem G rests on it and on Theorem M."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-3p1-theorem-g"
+title = "Theorem G (spacelike total momentum forms a black hole), from G0 + F + M"
+stream = "bbs"
+kind = "research"
+paper = "bbs"
+status = "planned"
+owner = "closer"
+priority = 8
+depends = ["T-3p1-theorem-m", "T-3p1-funnel-lemma"]
+evidence = "NOTES-3+1.md N5 [r]."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-bbs-archive"
+title = "Archive the physics literature the 3+1 notes cite (Gott; Carroll–Farhi–Guth; Deser–Jackiw–'t Hooft; Matschull) with verbatim quotes"
+stream = "bbs"
+kind = "research"
+paper = "bbs"
+status = "ready"
+owner = "planner"
+priority = 7
+evidence = "NOTES-3+1.md N2/N5: eight references 'not yet archived'."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+# ------------------------------------------------------------------ the ledger-only papers
+[[target]]
+id = "T-egf-package"
+title = "Create the EGF Lean package and state the headline EGF.main_universality"
+stream = "gfn"
+kind = "package"
+paper = "egf"
+status = "needs-ruling"
+owner = "closer"
+priority = 3
+question = "Create lean-egf as a package of its own (as DEC-112 did for Benzécri), or wait for the GFN library to be absorbed into lean/ (OQ-1)?"
+evidence = "EGF is first in the author's priority (DEC-4); STORY.md names EGF.main_universality, which does not exist."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-syracuse-package"
+title = "Create a Lean package for Syracuse and state theo:rep, theo:mr"
+stream = "other"
+kind = "package"
+paper = "syracuse"
+status = "needs-ruling"
+owner = "closer"
+priority = 9
+question = "Start formalizing Syracuse (new package)? It is fourth in DEC-4's order."
+evidence = "papers/syracuse/ledger: 29 rows, 0 stated."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-yamabe-package"
+title = "Create a Lean package for the Yamabe gap"
+stream = "other"
+kind = "package"
+paper = "yamabe"
+status = "needs-ruling"
+owner = "closer"
+priority = 10
+question = "Start formalizing the Yamabe gap? Mathlib's Riemannian geometry is thin at this pin: scope to the punctured-torus bounds first?"
+evidence = "papers/yamabe/ledger: 25 rows, 0 stated."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-dyniso-package"
+title = "Create a Lean package for dyniso (free probability)"
+stream = "other"
+kind = "package"
+paper = "dyniso"
+status = "needs-ruling"
+owner = "closer"
+priority = 10
+question = "Start formalizing dyniso? Free probability is absent from mathlib: scope?"
+evidence = "papers/dyniso/ledger: 18 rows, 0 stated."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+# ------------------------------------------------------------------ hub and tooling
+[[target]]
+id = "T-hub-freeze"
+title = "Retire the expired freeze (DEC-2) so the hub gate can go green"
+stream = "hub"
+kind = "author"
+status = "needs-ruling"
+owner = "author"
+priority = 1
+question = "Retire the freeze (hub.toml [freeze], CLAUDE.md, DEC-2, R-1, the FREEZE=1 test) and rule OQ-1 (absorb GFNBoundsLean)?"
+evidence = "make check fails gate-tests since 2026-09-25 (reports/status-2026-11, §Open items)."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-atlas-lean-dag"
+title = "Atlas: overlay the Lean dependency edges (uses_type / uses_value between principals) on the statement DAG"
+stream = "hub"
+kind = "tooling"
+status = "ready"
+owner = "builder"
+priority = 3
+evidence = "The ledgers carry only 286 \\ref edges; tools/doubledag.py computes Lean edges with witnesses, so far only for GFN Bounds."
+added = "2026-11-20"
+proposed_by = "atlas-team seed"

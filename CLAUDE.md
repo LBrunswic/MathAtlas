@@ -92,6 +92,17 @@ every ask refused).
   answer naming a label or a declaration that does not exist is refused, not returned.
 - `pipefail` in every Makefile; never `cmd | tail` without it; assert every programmatic edit.
 
+## The completion team (`/atlas-team`)
+
+`roadmap/roadmap.toml` lists the targets beyond what the ledgers record as closed (schema in its
+header; `python3 tools/roadmap.py check|status|next|set|gates`). The skill
+`.claude/skills/atlas-team/SKILL.md` runs one iteration: pick one action, dispatch the agent
+(`.claude/agents/`: `roadmap-planner`, `atlas-builder`, `target-closer`, then `target-auditor`),
+graduate what the audit passes, curate, gate, commit and push, journal (`roadmap/JOURNAL.md`).
+Run it once with `/atlas-team` or unattended with `/loop /atlas-team`. It never rules: a reading
+becomes an OQ row and the target waits; a `needs-ruling` target moves only on a DEC row. The
+atlas (`reports/atlas/`, `make -C reports/atlas`) draws the ledgers with the roadmap overlaid.
+
 ## Governance (light, DEC-1)
 
 `registers/DECISIONS.md` is the authority for the author's rulings (append-only, `DEC-n`).

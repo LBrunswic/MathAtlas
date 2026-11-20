@@ -34,6 +34,19 @@ h1{font-family:var(--f-display);font-weight:600;font-size:1.35rem;margin:0;lette
 .crumbs button:hover,.crumbs button:focus-visible{background:var(--accent-soft);outline:none}
 .crumbs .here{color:var(--ink);font-weight:600;cursor:default}
 .crumbs .sep{color:var(--ink-3)}
+.roadbtn{font:inherit;font-size:.82rem;font-weight:600;padding:6px 11px;border-radius:6px;border:1px solid var(--accent);background:var(--card);color:var(--accent);cursor:pointer}
+.roadbtn[aria-pressed="true"],.roadbtn:hover{background:var(--accent);color:var(--card)}
+.roadbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tgt{border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;background:var(--canvas)}
+.tgt b{font-weight:600;line-height:1.35}
+.tgt .meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.74rem;color:var(--ink-3)}
+.tgt .q{font-size:.82rem;color:var(--ink-2);line-height:1.45}
+.tgt button.go{all:unset;cursor:pointer;color:var(--accent);font-size:.78rem}
+.chip.s-ready{border-color:var(--accent);color:var(--accent)}
+.chip.s-active{background:var(--accent);border-color:var(--accent);color:var(--card)}
+.chip.s-needs-ruling{border-color:var(--partial);color:var(--partial);font-weight:600}
+.chip.s-blocked{border-style:dashed}
+.node .flag{fill:var(--accent);stroke:var(--card);stroke-width:1.5}
 .search{display:flex;gap:6px;align-items:center}
 .search input{font:inherit;font-family:var(--f-mono);font-size:.82rem;padding:6px 9px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);width:15rem;max-width:52vw}
 .search input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
@@ -109,6 +122,7 @@ svg#g:active{cursor:grabbing}
 <header>
   <h1>Dependency Atlas</h1>
   <nav class="crumbs" id="crumbs" aria-label="Level"></nav>
+  <button id="roadbtn" class="roadbtn" aria-pressed="false">Roadmap <span id="roadn"></span></button>
   <div class="search">
     <label for="q" class="t-dim" style="font-size:.78rem;color:var(--ink-3)">Find</label>
     <input id="q" list="labels" placeholder="label, e.g. theo:Galois_cor" autocomplete="off">
@@ -145,6 +159,12 @@ window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$
 <script>
 const DATA = __DATA__;
 const HUB = __HUB__;
+const ROAD = __ROAD__;
+const OPEN_ST = new Set(["planned","ready","active","needs-ruling","blocked"]);
+const openTargets = ROAD.targets.filter(t=>OPEN_ST.has(t.status));
+const targetsForPaper = p => openTargets.filter(t=>t.paper===p);
+const targetsForLabel = (p,id) => openTargets.filter(t=>t.paper===p && (t.labels||[]).includes(id));
+const ST_LABEL = {planned:"planned",ready:"ready",active:"in progress","needs-ruling":"needs your ruling",blocked:"blocked",done:"done",dropped:"dropped"};
 
 /* ---------- helpers ---------- */
 const $ = s => document.querySelector(s);
@@ -339,6 +359,8 @@ const drawNode={
     else el.append("text").attr("class","t-dim").attr("x",14).attr("y",N.h-15).attr("font-size",11).text(pp.badge||"");
     if (N.target!=null) el.append("text").attr("x",N.w-14).attr("y",N.h-14).attr("text-anchor","end").attr("class","t-mono").attr("font-size",13).attr("font-weight",500).text(N.closed+"/"+N.target);
     if (N.drill) el.append("text").attr("x",N.w-14).attr("y",24).attr("text-anchor","end").attr("class","t-dim").attr("font-size",15).text("⊕");
+    const nt=targetsForPaper(N.id).length;
+    if (nt){ el.append("path").attr("class","flag").attr("d",`M${N.w-44},16l5,-5l5,5l-5,5z`); el.append("text").attr("x",N.w-34).attr("y",20).attr("class","t-mono").attr("font-size",10.5).attr("fill","var(--accent)").text(nt); }
   },
   lib(el,N){
     const L=N.lib;
@@ -352,11 +374,15 @@ const drawNode={
     wrap(shortBlock(N.b.title),30,2).forEach((l,i)=>el.append("text").attr("class","t-display").attr("x",14).attr("y",(sec?40:30)+i*17).attr("font-size",14.5).text(l));
     bar(el,N.c,14,N.h-20,N.w-80,8);
     el.append("text").attr("class","t-mono").attr("x",N.w-14).attr("y",N.h-11).attr("text-anchor","end").attr("font-size",11.5).text(N.c.closed+"/"+N.n);
+    const labs=new Set(DATA[state.p].nodes.filter(m=>m.block===N.id).map(m=>m.id));
+    const nt=targetsForPaper(state.p).filter(t=>(t.labels||[]).some(l=>labs.has(l))).length;
+    if (nt){ el.append("path").attr("class","flag").attr("d",`M${N.w-22},14l5,-5l5,5l-5,5z`); el.append("text").attr("x",N.w-26).attr("y",18).attr("text-anchor","end").attr("class","t-mono").attr("font-size",10.5).attr("fill","var(--accent)").text(nt); }
   },
   stmt(el,N){
     const lab=N.n.id.length>27?N.n.id.slice(0,26)+"…":N.n.id;
     el.append("text").attr("class","t-mono").attr("x",10).attr("y",21).attr("font-size",11.5).text(lab);
     el.append("text").attr("x",10).attr("y",39).attr("font-size",11).attr("opacity",.85).text(kindLabel(N.n)+(N.n.title?" · "+N.n.title.slice(0,22):""));
+    if (targetsForLabel(state.p,N.n.id).length) el.append("path").attr("class","flag").attr("d",`M${N.w-8},0l6,6l-6,6l-6,-6z`);
   },
   ghost(el,N){
     const lab=N.n.id.length>27?N.n.id.slice(0,26)+"…":N.n.id;
@@ -428,7 +454,9 @@ function showPaperInfo(p){
     <p>${esc(pp.summary)}</p>
     ${pp.headline?.length?`<div><h3>Headline Lean</h3><div class="mono">${pp.headline.map(esc).join("<br>")}</div></div>`:""}
     ${pp.open?`<div><h3>What remains</h3><p>${esc(pp.open)}</p></div>`:""}
+    ${targetsForPaper(p).length?`<div><h3>On the roadmap (${targetsForPaper(p).length})</h3><div style="display:flex;flex-direction:column;gap:8px">${targetsForPaper(p).map(t=>tgtHTML(t,true)).join("")}</div></div>`:""}
     ${d&&state.level==="hub"?`<p><button class="chip" id="openp" style="cursor:pointer;color:var(--accent)">Open this paper</button></p>`:""}`;
+  wireTargets();
   const b=$("#openp"); if(b) b.onclick=()=>go({level:"paper",p},p,"down");
 }
 function showLib(id){ const L=HUB.libs[id];
@@ -445,7 +473,8 @@ function showStmt(p,n){
    ${n.deps.length?`<div><h3>Uses</h3><div class="linklist">${n.deps.map(x=>`<button data-l="${esc(x)}">${esc(x)}</button>`).join("")}</div></div>`:""}
    ${users.length?`<div><h3>Used by</h3><div class="linklist">${users.map(x=>`<button data-l="${esc(x)}">${esc(x)}</button>`).join("")}</div></div>`:""}
    ${n.findings.length?`<div><h3>What formalizing found (${n.findings.length})</h3><ul>${n.findings.map(f=>`<li>${esc(f)}</li>`).join("")}</ul></div>`:""}
-   ${n.notes?`<div><h3>Notes</h3><p>${esc(n.notes)}</p></div>`:""}`;
+   ${n.notes?`<div><h3>Notes</h3><p>${esc(n.notes)}</p></div>`:""}
+   ${targetsForLabel(p,n.id).length?`<div><h3>On the roadmap</h3><div style="display:flex;flex-direction:column;gap:8px">${targetsForLabel(p,n.id).map(t=>tgtHTML(t,false)).join("")}</div></div>`:""}`;
   P.querySelectorAll("[data-l]").forEach(bt=>bt.onclick=()=>openStatement(p,bt.dataset.l));
   P.scrollTop=0; typeset(p);
 }
@@ -465,10 +494,30 @@ function typeset(p){
   }catch(e){}
 }
 
+function tgtHTML(t,withGo){
+  const first=(t.labels||[])[0];
+  const go=withGo&&t.paper&&DATA[t.paper]?`<button class="go" data-tp="${esc(t.paper)}" data-tl="${esc(first||"")}">${first?"Show "+esc(first)+" →":"Open "+esc(HUB.papers[t.paper]?.short||t.paper)+" →"}</button>`:"";
+  return `<div class="tgt"><div class="meta"><span class="chip s-${t.status}">${ST_LABEL[t.status]||t.status}</span><span class="mono">${esc(t.id)}</span><span>p${t.priority}</span><span>${esc(t.owner)}</span></div>
+    <b>${esc(t.title)}</b>${t.question?`<div class="q"><strong>Question:</strong> ${esc(t.question)}</div>`:""}
+    ${t.labels?.length?`<div class="meta">${t.labels.length} row${t.labels.length>1?"s":""}${t.depends?.length?" · after "+t.depends.map(esc).join(", "):""}</div>`:t.depends?.length?`<div class="meta">after ${t.depends.map(esc).join(", ")}</div>`:""}${go}</div>`;
+}
+function wireTargets(){ P.querySelectorAll("button.go").forEach(b=>b.onclick=()=>{ const p=b.dataset.tp,l=b.dataset.tl; if(l) openStatement(p,l); else go({level:"paper",p},null,"down"); }); }
+function showRoadmap(){
+  const order=["active","ready","needs-ruling","blocked","planned","done","dropped"];
+  const groups=order.map(st=>[st,ROAD.targets.filter(t=>t.status===st).sort((a,b)=>a.priority-b.priority)]).filter(g=>g[1].length);
+  P.innerHTML=`<div><h3>Roadmap</h3><h2>What the team works on next</h2></div>
+   <p>Targets come from <span class="mono">roadmap/roadmap.toml</span>. The loop takes the first ready target, works it, has it audited, and commits. A target that needs your ruling waits until a DEC row decides it.</p>
+   <div class="stat">${["ready","needs-ruling","done"].map(k=>`<div><b>${ROAD.targets.filter(t=>t.status===k).length}</b><span>${ST_LABEL[k]}</span></div>`).join("")}</div>
+   ${groups.map(([st,ts])=>`<div><h3>${ST_LABEL[st]} (${ts.length})</h3><div style="display:flex;flex-direction:column;gap:8px">${ts.map(t=>tgtHTML(t,true)).join("")}</div></div>`).join("")}
+   ${ROAD.known_red.length?`<div><h3>Hub gates already red</h3><ul>${ROAD.known_red.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`:""}`;
+  wireTargets(); P.scrollTop=0;
+}
+const RB=$("#roadbtn"); $("#roadn").textContent="("+openTargets.length+")";
+RB.onclick=()=>{ const on=RB.getAttribute("aria-pressed")!=="true"; RB.setAttribute("aria-pressed",on); if(on) showRoadmap(); else panelForLevel(); };
 function legend(){
   const L=$("#legend");
-  if (state.level==="block") L.innerHTML=`<span><i style="background:var(--closed);border-color:var(--closed)"></i>closed in Lean</span><span><i style="background:var(--partial);border-color:var(--partial)"></i>partial</span><span><i style="background:url(#);background:repeating-linear-gradient(45deg,var(--terminal) 0 3px,var(--card) 3px 6px)"></i>terminal</span><span><i style="border-style:dashed;border-color:var(--stated)"></i>not formalized</span><span><i style="border-style:dashed;background:none"></i>in another block</span>`;
-  else L.innerHTML=`<span><i style="background:var(--closed);border-color:var(--closed)"></i>closed</span><span><i style="background:var(--partial);border-color:var(--partial)"></i>partial</span><span><i style="background:repeating-linear-gradient(45deg,var(--terminal) 0 3px,var(--card) 3px 6px)"></i>terminal</span><span><i style="background:var(--grid)"></i>no Lean yet</span>${state.level==="paper"?"<span>arrow width = statement dependencies</span>":"<span>arrow: used by</span>"}`;
+  if (state.level==="block") L.innerHTML=`<span><i style="background:var(--closed);border-color:var(--closed)"></i>closed in Lean</span><span><i style="background:var(--partial);border-color:var(--partial)"></i>partial</span><span><i style="background:url(#);background:repeating-linear-gradient(45deg,var(--terminal) 0 3px,var(--card) 3px 6px)"></i>terminal</span><span><i style="border-style:dashed;border-color:var(--stated)"></i>not formalized</span><span><i style="border-style:dashed;background:none"></i>in another block</span><span><i style="background:var(--accent);border-color:var(--accent);transform:rotate(45deg) scale(.7)"></i>on the roadmap</span>`;
+  else L.innerHTML=`<span><i style="background:var(--closed);border-color:var(--closed)"></i>closed</span><span><i style="background:var(--partial);border-color:var(--partial)"></i>partial</span><span><i style="background:repeating-linear-gradient(45deg,var(--terminal) 0 3px,var(--card) 3px 6px)"></i>terminal</span><span><i style="background:var(--grid)"></i>no Lean yet</span>${state.level==="paper"?"<span>arrow width = statement dependencies</span>":"<span>arrow: used by</span>"}<span><i style="background:var(--accent);border-color:var(--accent);transform:rotate(45deg) scale(.7)"></i>on the roadmap</span>`;
 }
 
 /* ---------- boot ---------- */
