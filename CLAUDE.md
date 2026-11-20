@@ -101,6 +101,20 @@ Run it once with `/atlas-team` or unattended with `/loop /atlas-team`. It never 
 becomes an OQ row and the target waits; a `needs-ruling` target moves only on a DEC row. The
 atlas (`reports/atlas/`, `make -C reports/atlas`) draws the ledgers with the roadmap overlaid.
 
+## The ETT programme (`/ett-programme`)
+
+ETT is a reasoning system for causality (the author, 2026-11-20). Every result is factored into a
+causal-topological argument, the localisation properties it needs, geometric lemmas per model
+proving them, and classification criteria (`programme/README.md`). The programme's roadmap is
+`programme/roadmap.toml`, its causality ladder `programme/ladder.toml` (`tools/ladder.py`; the
+`causal_ladder` tactic is generated from it), and each ledgered Sbierski paper has a binder
+`papers/<slug>/certificate/binder.toml` (`tools/binder.py`). The loop is
+`.claude/skills/ett-programme/SKILL.md` with the agents programme-planner, ladder-keeper,
+tactics-builder, publisher (and target-closer/target-auditor for layers 1 and 3). It shares this
+checkout with `/atlas-team` through leases (`tools/lease.py`): each loop takes the paths it works on,
+commits with `git commit --only` its own paths, and rebuilds only the ledgers whose Lean root it
+committed into.
+
 ## Governance (light, DEC-1)
 
 `registers/DECISIONS.md` is the authority for the author's rulings (append-only, `DEC-n`).

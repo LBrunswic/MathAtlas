@@ -24,9 +24,11 @@ Arguments:
    running: stop. Otherwise write the pid of this Claude session's own process (not `$$`, which
    is a short-lived shell), the date and the session id to it. Remove it at the end, on every
    path out.
-4. `git status --short` is clean, or shows only the campaign and scaffold files of `active`
-   targets from an interrupted wave, which you then resume. Anything else means a human or another session
-   is working: stop and say so.
+4. **Leases** (`tools/lease.py`; the checkout is shared with `/ett-programme`). Take the base lease
+   `python3 tools/lease.py take atlas <the session process pid> roadmap reports/atlas`. Then
+   `python3 tools/lease.py tree atlas` must pass: every changed path is held by you (an interrupted
+   wave's files, which you resume) or by another live loop. A change nobody holds means a human is
+   working: stop and say so.
 5. `git pull --ff-only origin main`. If it is not a fast-forward, stop.
 6. `python3 tools/roadmap.py check` passes.
 
@@ -71,7 +73,11 @@ applies:
 
 ## 3. Act
 
-Set every target of the wave `active` first (`python3 tools/roadmap.py set <id> active`), then:
+Set every target of the wave `active` first (`python3 tools/roadmap.py set <id> active`). Lease each
+target's paths before dispatching (`tools/lease.py take atlas <pid> <paths>`): its new files and
+campaign directory for a closer, `papers/<slug>` and `lean-<slug>` for a set-up. A refused lease, held
+by `/ett-programme`, drops the target from this wave. Lease a package's root file (`Causal.lean`,
+`GX.lean`, …) and a paper's `curation.toml` only for the moment you edit them. Then:
 
 1. **Dispatch every agent at once.** Send one Agent call per closer and per builder, all in the
    same message and all in the background. Do the `master` set-ups yourself while they run.
@@ -200,6 +206,18 @@ If a gate fails because of this iteration's work:
 
 ## 5. Commit and push
 
+**Commit only what you hold:** `git commit --only $(python3 tools/lease.py mine atlas) …`, never
+`-a`, so that `/ett-programme`'s work in progress never lands in your commits. Drop the per-target
+leases after the push, and the base lease at the end of step 6.
+
+**Ledgers in a shared checkout.** `make ledgers` rewrites every paper's ledger, and a ledger moves
+whenever its Lean root gets a commit, from either loop. So do not run `make ledgers`. For each
+paper whose Lean root you committed into (lean-causal: ett, barbot and the Sbierski papers; lean-gx:
+gx, bbs; lean-benzecri: benzecri), take `tools/lease.py take atlas <pid> papers/<p>/ledger` for the
+moment, rebuild with `python3 tools/ledger.py -c papers/<p>/ledger/ledger.toml build`, commit
+`--only` those files, and drop that lease. Lease `registers/DECISIONS.md` the same way while you
+append an OQ row.
+
 **Ledgers come after the Lean commit.** A ledger records the last commit that touched its Lean
 package (`tools/ledger.py`, `git_commit`), so the order is fixed:
 1. commit the work, **one commit per target** (Lean, curation, registers and kb for that target),
@@ -212,7 +230,7 @@ Then one last commit for the wave's roadmap statuses:
 ```
 python3 tools/roadmap.py set <id> done --commit <sha of that target's commit> --evidence "<what closed>"   # per target
 make -C reports/atlas
-git commit -am "roadmap: wave of <date>: <ids> done"
+git commit --only roadmap reports/atlas -m "roadmap: wave of <date>: <ids> done"
 ```
 
 Messages follow the repository's style:

@@ -21,9 +21,15 @@ import tomllib
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FILE = os.path.join(ROOT, "roadmap", "roadmap.toml")
+# `--file programme/roadmap.toml` (anywhere on the command line) selects the ETT programme's roadmap.
+LADDER = os.path.join(ROOT, "programme", "ladder.toml")
 STATUS = ["planned", "ready", "active", "needs-ruling", "blocked", "done", "dropped"]
-OWNER = ["closer", "planner", "builder", "master", "author"]
-KIND = ["close", "package", "research", "tooling", "author"]
+OWNER = ["closer", "planner", "builder", "master", "author",
+         "keeper", "tactician", "publisher"]          # the last three: /ett-programme (programme/README.md)
+KIND = ["close", "package", "research", "tooling", "author",
+        # /ett-programme: layer 1 (causal-topological theorem), layer 3 (geometric lemma for one model),
+        # the ladder, a paper's binder, Lean automation, a publication
+        "abstract", "localisation", "ladder", "binder", "tactic", "publish"]
 # The wave: how many targets one /atlas-team iteration may run at once, and how many of them may
 # share one Lean package (node1: 32 threads, 94 GB; lake builds run under taskset -c 0-11, and each
 # closer/auditor elaborates one module at a time). The skill reads these; change them here only.
@@ -33,6 +39,10 @@ MAX_PER_PACKAGE = 3
 PACKAGE_OF = {"ett": "lean-causal", "barbot": "lean-causal", "gx": "lean-gx", "bbs": "lean-gx",
               "benzecri": "lean-benzecri", "egf": "lean-egf", "syracuse": "lean-syracuse",
               "yamabe": "lean-yamabe"}
+# ledgered Sbierski papers (programme): their ETT layers live in lean-causal
+PACKAGE_OF.update({s: "lean-causal" for s in ("sbierski-mghd", "ers-predictability", "sbierski-schwarzschild",
+                                               "sbierski-boundary", "sbierski-flrw", "sbierski-extensions",
+                                               "sbierski-holonomy", "gls-timelike")})
 REQUIRED = ["id", "title", "stream", "kind", "status", "owner", "priority", "evidence", "added", "proposed_by"]
 
 
@@ -93,8 +103,10 @@ def check(data, root=ROOT):
         paper = t.get("paper")
         labels = t.get("labels", [])
         if paper:
-            if not os.path.isdir(os.path.join(root, "papers", paper)):
-                bad(tid, "paper %r has no directory under papers/" % paper)
+            waits_setup = t.get("status") in ("planned", "needs-ruling", "blocked") and any(
+                x.get("id") in t.get("depends", []) and x.get("kind") == "package" for x in targets)
+            if not os.path.isdir(os.path.join(root, "papers", paper)) and not waits_setup:
+                bad(tid, "paper %r has no directory under papers/ (allowed only while it waits on a package target)" % paper)
             have = ledger_labels(root, paper)
             if have is not None:
                 for lab in labels:
@@ -104,6 +116,17 @@ def check(data, root=ROOT):
                 bad(tid, "labels given but papers/%s has no ledger" % paper)
         if t.get("kind") == "close" and not labels:
             bad(tid, "a close target names its ledger labels")
+        if t.get("kind") in ("abstract", "localisation"):
+            lad = ladder_ids(root)
+            need = "uses" if t["kind"] == "abstract" else "provides"
+            if need not in t:
+                bad(tid, "an %s target lists the ladder properties it %s (`%s = [...]`, empty for pure topology)"
+                    % (t["kind"], need, need))
+            for p in t.get(need, []) + (t.get("uses", []) if need == "provides" else []):
+                if lad is not None and p not in lad:
+                    bad(tid, "%r is not a property of programme/ladder.toml" % p)
+            if t["kind"] == "localisation" and not t.get("model"):
+                bad(tid, "a localisation target names its model class (`model`)")
         for d in t.get("depends", []):
             if d not in known:
                 bad(tid, "depends on unknown %s" % d)
@@ -144,6 +167,14 @@ def check(data, root=ROOT):
     return errs
 
 
+def ladder_ids(root=ROOT):
+    p = os.path.join(root, "programme", "ladder.toml")
+    if not os.path.exists(p):
+        return None
+    with open(p, "rb") as fh:
+        return {x["id"] for x in tomllib.load(fh).get("property", [])}
+
+
 def next_target(data, owner=None):
     done = {t["id"] for t in data.get("target", []) if t.get("status") == "done"}
     cands = [t for t in data.get("target", [])
@@ -155,12 +186,12 @@ def next_target(data, owner=None):
 
 def package_of(t):
     """The Lean package a target writes in; None for targets that write no Lean (builder, planner)."""
-    if t.get("owner") in ("builder", "planner", "author"):
+    if t.get("owner") in ("builder", "planner", "author", "keeper", "publisher"):
         return None
     return t.get("package") or PACKAGE_OF.get(t.get("paper", ""))
 
 
-def wave(data, owners=("closer", "master", "builder"), limit=MAX_PARALLEL, per_package=MAX_PER_PACKAGE):
+def wave(data, owners=("closer", "master", "builder", "tactician", "keeper", "publisher"), limit=MAX_PARALLEL, per_package=MAX_PER_PACKAGE):
     """The next wave: ready targets in priority order whose dependencies are done, pairwise
     independent -- no shared label, no dependency between them, at most `per_package` per Lean
     package, an `exclusive` target alone in its package, at most one builder (it owns
@@ -184,7 +215,8 @@ def wave(data, owners=("closer", "master", "builder"), limit=MAX_PARALLEL, per_p
         labs = {(t.get("paper"), l) for l in t.get("labels", [])}
         if labs & labels:
             continue
-        if t.get("owner") == "builder" and any(c.get("owner") == "builder" for c in chosen + active):
+        solo = ("builder", "keeper", "publisher", "tactician")   # each owns one area: one at a time
+        if t.get("owner") in solo and any(c.get("owner") == t.get("owner") for c in chosen + active):
             continue
         p = package_of(t)
         if p:
@@ -252,10 +284,15 @@ def new_red(data, log_text):
 
 
 def main(argv):
+    global FILE
+    if "--file" in argv:
+        i = argv.index("--file")
+        FILE = os.path.join(ROOT, argv[i + 1]) if not os.path.isabs(argv[i + 1]) else argv[i + 1]
+        argv = argv[:i] + argv[i + 2:]
     if not argv:
         sys.exit(__doc__)
     cmd = argv[0]
-    data = load()
+    data = load(FILE)
     if cmd == "check":
         errs = check(data)
         for e in errs:

@@ -1,0 +1,253 @@
+# The ETT programme's roadmap. Schema: the header of roadmap/roadmap.toml, plus the programme kinds
+# (programme/README.md): abstract (layer 1: `uses` = ladder ids, empty for pure topology),
+# localisation (layer 3: `model`, `provides` = ladder ids), ladder, binder, tactic, publish, package.
+# Owners: closer, master, planner, keeper (ladder-keeper), tactician (tactics-builder), publisher.
+# Checked by `python3 tools/roadmap.py --file programme/roadmap.toml check`.
+
+[gates]
+known_red = []
+
+# ------------------------------------------------------------------ the ladder (ETT's organisation)
+[[target]]
+id = "T-lad-seed-check"
+title = "Read the side conditions of the 7 seeded ladder edges and the seeded consequence; mark them checked or fix `under`"
+stream = "ladder"
+kind = "ladder"
+status = "ready"
+owner = "keeper"
+priority = 1
+evidence = "programme/ladder.toml was seeded 2026-11-20 from Lean names that exist (tools/ladder.py check), without reading their hypotheses."
+added = "2026-11-20"
+proposed_by = "programme seed"
+
+[[target]]
+id = "T-lad-classify-core"
+title = "Classify the core pairs of the ladder: an implication with a Lean witness, a counterexample, or an `open` entry, for every pair among the 11 seeded properties"
+stream = "ladder"
+kind = "ladder"
+status = "planned"
+owner = "keeper"
+priority = 2
+depends = ["T-lad-seed-check"]
+evidence = "tools/ladder.py matrix: 99 of 110 ordered pairs unknown. Counterexamples exist in Lean (the timelike/lightlike/half-chrono lines, Galileo, the kink, branching spaces) and in the ETT ledger's findings."
+added = "2026-11-20"
+proposed_by = "programme seed"
+
+[[target]]
+id = "T-lad-consequences"
+title = "Consequences at every level: for each property, the ETT theorems that hold from it on (closed J, Geroch splitting, Levin time functions, CBG, Lemma K, …), with witnesses"
+stream = "ladder"
+kind = "ladder"
+status = "planned"
+owner = "keeper"
+priority = 3
+depends = ["T-lad-seed-check"]
+evidence = "The author's framing (programme/README.md): consequences at every level. lean-causal proves these theorems under scattered hypotheses."
+added = "2026-11-20"
+proposed_by = "programme seed"
+
+[[target]]
+id = "T-lad-programme-properties"
+title = "Add the localisation properties the programme needs as ladder nodes (future one-connectedness, nested causalities, rigidity of a geometry, local boundary charts), with their Lean definitions"
+stream = "ladder"
+kind = "ladder"
+status = "planned"
+owner = "keeper"
+priority = 4
+depends = ["T-lad-seed-check"]
+evidence = "references/sbierski/SYNTHESIS.md Q4: these are the localisation properties of Sbierski's arguments; they are not yet ladder nodes."
+added = "2026-11-20"
+proposed_by = "programme seed"
+
+# ------------------------------------------------------------------ Lean automation
+[[target]]
+id = "T-tac-ladder-core"
+title = "The `causal_ladder` tactic: an aesop rule set CausalLadder (Causal/Ladder/Basic.lean) fed by the generated Causal/Ladder/Rules.lean, with tests"
+stream = "tactics"
+kind = "tactic"
+package = "lean-causal"
+status = "ready"
+owner = "tactician"
+priority = 2
+evidence = "The author's choice 2026-11-20: ladder automation. tools/ladder.py emit-lean writes Rules.lean from the checked edges."
+added = "2026-11-20"
+proposed_by = "programme seed"
+
+# ------------------------------------------------------------------ layer 1: causal-topological theorems
+[[target]]
+id = "T-abs-gluing-hausdorff"
+title = "Gluing along an open embedding is Hausdorff iff no corresponding boundary pair; family version; the non-Hausdorff points form a closed subset of ∂O"
+stream = "abstract"
+kind = "abstract"
+uses = []
+package = "lean-causal"
+status = "ready"
+owner = "closer"
+priority = 1
+evidence = "Sbierski 1309.7591 Thm 2.7-2.8, Chruściel 1112.5779 Lemma 3.3, Graf-Ling 2307.11034: the crux of every maximal-development proof (SYNTHESIS Q4 #1). Pure topology. Compare Causal.Gluing.t2Space_iff_frontier, which may cover part of it."
+added = "2026-11-20"
+proposed_by = "programme seed"
+
+[[target]]
+id = "T-abs-locate-extension"
+title = "Locating an extension, one-sided: an open proper embedding into a connected, causally arc-connected spacetime with I⁺ open has a chronal curve leaving the image (covers BTZ points where I⁻ = ∅)"
+stream = "abstract"
+kind = "abstract"
+uses = ["causally_open_future", "causally_arc_connected"]
+package = "lean-causal"
+status = "ready"
+owner = "closer"
+priority = 2
+evidence = "Sbierski 1507.00601 Lemma 2.17; Grant-Kunzinger-Sämann 1804.10423 Lemma 3.8 (one side suffices); SYNTHESIS Q4 #2."
+added = "2026-11-20"
+proposed_by = "programme seed"
+
+[[target]]
+id = "T-abs-nested-causalities"
+title = "Two nested causalities on one space: wider GH ⇒ narrower GH, nested domains of dependence, and ERS19's Lemmas 4.70/4.72, Thm 4.77, 4.82 with the nesting as hypothesis"
+stream = "abstract"
+kind = "abstract"
+uses = ["globally_hyperbolic"]
+package = "lean-causal"
+status = "ready"
+owner = "closer"
+priority = 1
+evidence = "Eperon-Reall-Sbierski 1802.03020 (several characteristic cones); Reall 2101.11623 (Horndeski: nested sheets, nesting with g only 'close', so a hypothesis); SYNTHESIS Q3/Q4 #3. The author's 'generalized Einstein equations'."
+added = "2026-11-20"
+proposed_by = "programme seed"
+
+[[target]]
+id = "T-abs-maximal-zorn"
+title = "Abstract maximal development with Zorn (Chruściel Thm 2.2: extension preorder, rigidity, size bound, directed unions), next to the Zorn-free CBG"
+stream = "abstract"
+kind = "abstract"
+uses = []
+package = "lean-causal"
+status = "ready"
+owner = "closer"
+priority = 5
+evidence = "Chruściel 1112.5779 Thm 2.2; lean-causal's Causal.CBG is the Zorn-free form; SYNTHESIS Q4 #5."
+added = "2026-11-20"
+proposed_by = "programme seed"
+
+[[target]]
+id = "T-abs-flrw-type"
+title = "Abstract FLRW-type past inextendibility: future one-connected, GH, (A) I⁺ of every past-inextendible chronal curve is everything, (B) every I⁻(x) contains a Cauchy surface ⇒ no past extension with a boundary chart"
+stream = "abstract"
+kind = "abstract"
+uses = ["globally_hyperbolic"]
+package = "lean-causal"
+status = "planned"
+owner = "closer"
+priority = 6
+depends = ["T-lad-programme-properties"]
+evidence = "Sbierski 2312.07443 §4.1, Prop 3.6 (SYNTHESIS Q4 #6); needs future one-connectedness and the boundary chart as ladder properties first."
+added = "2026-11-20"
+proposed_by = "programme seed"
+
+# ------------------------------------------------------------------ layer 3: geometric localisation lemmas
+[[target]]
+id = "T-loc-ealpha-cauchy"
+title = "E_α × ℝ (α > 0): {t = 0} is a Cauchy surface with the axis kept, and is not with the axis removed; J⁻(x) ∩ {t=0} through axis points"
+stream = "localisation"
+kind = "localisation"
+model = "E_alpha"
+provides = ["globally_hyperbolic"]
+package = "lean-causal"
+status = "ready"
+owner = "closer"
+priority = 3
+evidence = "Hörmann 1501.00672 (Cauchy slice with the axis), Ellis-Schmidt (none without), Vickers-Wilson gr-qc/9907105 (non-sharp Green's function through the axis); Causal.Model.Massive builds E_α; SYNTHESIS Q4 #4."
+added = "2026-11-20"
+proposed_by = "programme seed"
+
+# ------------------------------------------------------------------ Sbierski's papers, ledgered and bound
+[[target]]
+id = "T-pkg-sbierski-mghd"
+title = "Ledger Sbierski, Maximal Cauchy development, a dezornification (arXiv 1309.7591) as external paper papers/sbierski-mghd, Lean root lean-causal"
+stream = "binders"
+kind = "package"
+status = "ready"
+owner = "master"
+priority = 1
+evidence = "The author's choice 2026-11-20: full ledgered papers. The source is already archived at papers/gx/sources/1309.7591/; precedent: papers/barbot (DEC-34), papers/bbs (DEC-132)."
+added = "2026-11-20"
+proposed_by = "programme seed"
+
+[[target]]
+id = "T-pkg-ers-predictability"
+title = "Ledger Eperon-Reall-Sbierski, Predictability of subluminal and superluminal wave equations (arXiv 1802.03020) as papers/ers-predictability"
+stream = "binders"
+kind = "package"
+status = "ready"
+owner = "master"
+priority = 2
+evidence = "The programme's 'generalized equations' axis (SYNTHESIS Q3); full ledgered papers per the author."
+added = "2026-11-20"
+proposed_by = "programme seed"
+
+[[target]]
+id = "T-pkg-sbierski-schwarzschild"
+title = "Ledger Sbierski, C⁰-inextendibility of Schwarzschild and the spacelike diameter (arXiv 1507.00601) as papers/sbierski-schwarzschild"
+stream = "binders"
+kind = "package"
+status = "planned"
+owner = "master"
+priority = 4
+evidence = "The founding C⁰-inextendibility paper (T1); its locating and boundary steps are layer 1 (SYNTHESIS Q2)."
+added = "2026-11-20"
+proposed_by = "programme seed"
+
+[[target]]
+id = "T-bind-sbierski-mghd"
+title = "Binder of papers/sbierski-mghd: every row split into its ETT theorem, localisation properties and geometric lemma (smooth vacuum), with new abstract/localisation targets for the missing parts"
+stream = "binders"
+kind = "binder"
+paper = "sbierski-mghd"
+status = "planned"
+owner = "planner"
+priority = 2
+depends = ["T-pkg-sbierski-mghd"]
+evidence = "lean-causal's Causal.CBG follows this paper's order (docs/CBG-DESIGN.md); the binder makes the correspondence row by row."
+added = "2026-11-20"
+proposed_by = "programme seed"
+
+[[target]]
+id = "T-bind-ers-predictability"
+title = "Binder of papers/ers-predictability: the nested-causalities factorisation of every row"
+stream = "binders"
+kind = "binder"
+paper = "ers-predictability"
+status = "planned"
+owner = "planner"
+priority = 3
+depends = ["T-pkg-ers-predictability"]
+evidence = "SYNTHESIS Q3: ERS19's results are statements about two nested causalities."
+added = "2026-11-20"
+proposed_by = "programme seed"
+
+# ------------------------------------------------------------------ publishers
+[[target]]
+id = "T-pub-blueprint"
+title = "The programme blueprint site (reports/blueprint/): the ladder DAG with witnesses, each binder's three layers, the programme roadmap; generated, reproducible"
+stream = "publish"
+kind = "publish"
+status = "ready"
+owner = "publisher"
+priority = 2
+evidence = "The author's choice 2026-11-20: a blueprint site; the atlas (reports/atlas) is /atlas-team's and is not edited from here."
+added = "2026-11-20"
+proposed_by = "programme seed"
+
+[[target]]
+id = "T-pub-progress"
+title = "Progress report of the programme (LaTeX, generated numbers): ladder classification, binders' coverage, targets closed, open questions"
+stream = "publish"
+kind = "publish"
+status = "planned"
+owner = "publisher"
+priority = 6
+depends = ["T-lad-seed-check"]
+evidence = "The author's choice 2026-11-20: progress reports, like reports/status-2026-11."
+added = "2026-11-20"
+proposed_by = "programme seed"
