@@ -1,0 +1,159 @@
+{
+ "package": "T-egf-backward-policy",
+ "target": "T-egf-backward-policy",
+ "files": [
+  "scaffold/EGFScaffold/BackwardPolicy.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "theo:backward_policy",
+   "tex_lines": [
+    731,
+    766
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "EGF.backward_policy",
+    "EGF.backward_policy_of_map_eq",
+    "EGF.backward_policy_rnDeriv",
+    "EGF.backward_policy_addHaar",
+    "EGF.backward_policy_diffeomorph",
+    "EGF.backward_policy_equiv_addHaar",
+    "EGF.IsBackwardPolicy",
+    "EGF.inflowDensity",
+    "EGF.backwardWeight",
+    "EGF.backwardKernel",
+    "EGF.coordJac",
+    "EGF.printed_backward_policy_false",
+    "EGF.printed_inflow_not_ac"
+   ],
+   "hypotheses": [
+    {
+     "paper": "S a differential manifold (main.tex:731)",
+     "here": "weakened",
+     "note": "any measurable space (EGF.backward_policy); on R^d any finite-dimensional real normed space with a Haar measure (EGF.backward_policy_addHaar)"
+    },
+    {
+     "paper": "lambda absolutely continuous with respect to Lebesgue measure (main.tex:731)",
+     "here": "strengthened",
+     "note": "replaced by the change-of-variables hypothesis Phi_i_* lambda = J_i lambda, which needs Phi_i_* lambda << lambda (lambda quasi-invariant under the Phi_i). The proof uses it (main.tex:754) and without it the statement is false for every reading of the Jacobian (EGF.printed_inflow_not_ac). No Lebesgue measure is needed. On R^d it is implied by lambda equivalent to Lebesgue (EGF.map_ac_of_equiv_addHaar) and holds for lambda Lebesgue/Haar with the coordinate Jacobian (EGF.map_eq_withDensity_abs_det)"
+    },
+    {
+     "paper": "Phi_i diffeomorphisms of S (main.tex:732)",
+     "here": "weakened",
+     "note": "measurable bijections with measurable inverse (S =~m S); on R^d, with a differentiable inverse; EGF.backward_policy_diffeomorph takes C^n diffeomorphisms (n >= 1) literally"
+    },
+    {
+     "paper": "|J_s Phi_i^{-1}|, J_s 'the Jacobian matrix at s' (main.tex:230, :736-737)",
+     "here": "reading",
+     "note": "a factor J_i with Phi_i_* lambda = J_i lambda, i.e. the Jacobian of Phi_i^{-1} relative to lambda; it equals d(Phi_i_* lambda)/d lambda (EGF.backward_policy_rnDeriv) and, for lambda Lebesgue/Haar, the coordinate |det J_s Phi_i^{-1}| (EGF.coordJac). The coordinate reading with lambda not Lebesgue is refuted (EGF.printed_backward_policy_false). See the questions"
+    },
+    {
+     "paper": "pi*(s -> .) = sum_i alpha^i(s) delta_{Phi_i(s)} (main.tex:732)",
+     "here": "carried",
+     "note": "IsEGFPolicy (EGF.Defs): alpha measurable with values in the simplex, as for def:egf; IsEGF's ergodicity clause is not assumed (the appendix's definition at main.tex:731-732 has none), so OQ-48 does not bear"
+    },
+    {
+     "paper": "F_out = f_out lambda (main.tex:732)",
+     "here": "carried",
+     "note": "f_out : S -> [0, infinity] measurable, F_out finite (the outflow of a GenerativeFlow, main.tex:161); lambda any measure (sigma-finite in the Radon-Nikodym form)"
+    },
+    {
+     "paper": "conclusion: backward star policy B*(s) = sum_i beta^i(s) delta_{Phi_i^{-1}(s)}, beta^i = (alpha^i f_out)(Phi_i^{-1} s)|J_s Phi_i^{-1}| / f_in(s), f_in = sum_j ... (main.tex:733-739)",
+     "here": "carried",
+     "note": "and more: F_in = f_in lambda; the printed B* is a backward star policy in the sense of main.tex:745 (equivalently main.tex:744, EGF.isBackwardPolicy_iff_ae_eq_rnDeriv); its weights sum to 1 F_in-a.e.; every backward policy agrees with it setwise F_in-a.e. (on a standard Borel space, it is F_in-a.e. Mathlib's posterior). beta^i is set to 0 where f_in is 0 or infinite, an F_in-null set where the printed quotient is undefined"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "main.tex:731-732 (the setting of theo:backward_policy): 'a background measure lambda absolutely continuous with respect to Lebesgue measure' does not make F_in = F_out pi* absolutely continuous with respect to lambda, so f_in = dF_in/d lambda (main.tex:196, :737) need not exist, whatever |J_s Phi_i^{-1}| means. On R with the finite lambda = 1_[0,1) Lebesgue, Phi(x) = x + 1, alpha = 1, f_out = 1, F_in = 1_[1,2) Lebesgue is singular to lambda (EGF.printed_inflow_not_ac). The change of variables of the proof (main.tex:754, d lambda(s) -> |J_u Phi_i^{-1}| d lambda(u)) needs Phi_i_* lambda = |J Phi_i^{-1}| lambda, in particular Phi_i_* lambda << lambda. That holds when lambda is equivalent to Lebesgue (a positive density, EGF.map_ac_of_equiv_addHaar) and for the Riemannian volume of def:egf (main.tex:217).",
+    "main.tex:735-737 with main.tex:230 ('J_s denotes the Jacobian matrix at s'): with |J_s Phi_i^{-1}| the coordinate Jacobian determinant, the formulas for f_in and beta^i are false for a background measure other than Lebesgue, even a finite one equivalent to Lebesgue. On R take lambda with density 1 on [-1,0), 2 on [0,1) and exp(-x^2) elsewhere, Phi_0 = id, Phi_1 = x -> x + 1, alpha = (1/2, 1/2), f_out = 1_[-1,1). Then the printed f_in is not dF_in/d lambda and the printed kernel is not a backward policy (EGF.printed_backward_policy_false): on [0,1) the true weights are (2/3, 1/3) and the printed ones (1/2, 1/2). The formulas hold with |J_s Phi_i^{-1}| read as the Jacobian of Phi_i^{-1} relative to lambda, d(Phi_i_* lambda)/d lambda (s), which for lambda = rho Lebesgue is rho(Phi_i^{-1} s)|det J_s Phi_i^{-1}|/rho(s) (EGF.backward_policy_rnDeriv, EGF.backward_policy_equiv_addHaar; on this example EGF.cx_rnDeriv_reading). They also hold with the coordinate Jacobian when lambda is Lebesgue (or Haar) measure, the body's setting at main.tex:225 (EGF.backward_policy_addHaar, EGF.backward_policy_diffeomorph; on this example EGF.cx_lebesgue). Every application in the paper takes lambda Lebesgue, Haar or a Riemannian volume, where the two readings agree.",
+    "The two counterexamples use translations of R, which are not topologically ergodic. The appendix's definition of an EGF (main.tex:731-732) does not ask for ergodicity, so they meet it. An ergodic counterexample to the coordinate reading exists and is not formalized: on the circle, Phi_0 = id and Phi_1 an irrational rotation (dense forward orbits), lambda with a positive non-constant density, alpha = (1/2, 1/2), f_out = 1. The printed weights are (1/2, 1/2), the true ones rho(s)/(rho(s) + rho(s - theta)) and its complement, and these differ on a set of positive measure unless rho is rotation-invariant, hence constant.",
+    "main.tex:736-737 and main.tex:754-764 write |J_s Phi_i^{-1}| for what main.tex:233 writes |det J_s Phi_i^{-1}|, the absolute value of the Jacobian determinant. It is formalized as the determinant (EGF.coordJac).",
+    "main.tex:758: the proof environment closes before the deduction that yields the formula (main.tex:759-766, 'Since this formula is true for any Y ... The result follows.'). The ledger's proof span [740, 758] misses that deduction.",
+    "main.tex:736: beta^i(s) divides by f_in(s), which is undefined where f_in(s) = 0 (and where f_in(s) is infinite). Both sets are F_in-null, and a backward policy is only defined F_in-a.e., since main.tex:744 is a Radon-Nikodym derivative. The formalization sets the quotient to 0 there. The resulting kernel is Markov F_in-a.e. and is the unique backward policy up to F_in-null sets (EGF.backward_policy, conclusions 3-4)."
+   ],
+   "questions": [
+    "theo:backward_policy (main.tex:731-737, :230): which form is of record? (a) |J_s Phi_i^{-1}| read as the Jacobian relative to lambda, d(Phi_i_* lambda)/d lambda, for lambda quasi-invariant under the Phi_i (EGF.backward_policy_rnDeriv; on R^d with lambda equivalent to Lebesgue, EGF.backward_policy_equiv_addHaar). (b) The body's setting (main.tex:225): lambda Lebesgue (Haar) on R^d with the coordinate Jacobian (EGF.backward_policy_addHaar, EGF.backward_policy_diffeomorph). (c) The measurable-space form with the change-of-variables hypothesis Phi_i_* lambda = J_i lambda (EGF.backward_policy), which contains (a) and (b). Reading taken: none. All three are proved sorry-free and the label is left unmarked, because the printed setting (lambda << Lebesgue, coordinate Jacobian) is refuted.",
+    "'lambda absolutely continuous with respect to Lebesgue measure' (main.tex:731): does this mean << only, or equivalent to Lebesgue (a positive density)? With << only the statement fails for every reading of the Jacobian (EGF.printed_inflow_not_ac). With 'equivalent' it holds under the Jacobian-relative-to-lambda reading (EGF.backward_policy_equiv_addHaar). Reading taken: none; the principal theorem assumes Phi_i_* lambda = J_i lambda directly.",
+    "Manifold instance (asked by the roadmap): is one wanted? The appendix's 'Differential manifold' carries no canonical Lebesgue measure, only Lebesgue-null sets, and a coordinate Jacobian there depends on the chart. def:egf (main.tex:217) instead takes a Riemannian manifold with its volume measure. There |det J_s Phi_i^{-1}| in orthonormal frames is d(Phi_i_* vol)/d vol, and EGF.backward_policy_rnDeriv applies as soon as a volume measure exists. Mathlib at fabf563a has no Riemannian volume measure on manifolds, so a chart-wise or Riemannian instance would first have to build one. Reading taken: none. The measurable-space theorem is stated, and any manifold instance would specialize it."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "EGF.setLIntegral_eq_bind_restrict",
+  "EGF.bind_restrict_le_inflow",
+  "EGF.isBackwardPolicy_iff_ae_eq_rnDeriv",
+  "EGF.isBackwardPolicy_iff_compProd",
+  "EGF.isBackwardPolicy_posterior",
+  "EGF.IsBackwardPolicy.ae_eq_posterior",
+  "EGF.IsBackwardPolicy.ae_eq_apply",
+  "EGF.IsBackwardPolicy.ae_apply_univ",
+  "EGF.inflowTerm",
+  "EGF.measurable_inflowTerm",
+  "EGF.measurable_inflowDensity",
+  "EGF.measurable_backwardWeight",
+  "EGF.egfKernel_apply_set",
+  "EGF.IsEGFPolicy.apply_set",
+  "EGF.lintegral_mul_jacobian",
+  "EGF.setLIntegral_egf_eq",
+  "EGF.inflow_eq_withDensity",
+  "EGF.inflowDensity_mul_backwardWeight",
+  "EGF.sum_backwardWeight",
+  "EGF.backwardKernel_apply_set",
+  "EGF.ae_inflowDensity_lt_top",
+  "EGF.isBackwardPolicy_backwardKernel",
+  "EGF.measurable_coordJac",
+  "EGF.map_eq_withDensity_abs_det",
+  "EGF.map_ac_of_equiv_addHaar",
+  "EGF.diffeoEquiv",
+  "EGF.cxMap",
+  "EGF.cxWeight",
+  "EGF.cxOut",
+  "EGF.cxPolicy",
+  "EGF.cxFlow",
+  "EGF.cxFlowLeb",
+  "EGF.lamCx",
+  "EGF.measurable_cxOut",
+  "EGF.measurable_cxWeight",
+  "EGF.isEGFPolicy_cxPolicy",
+  "EGF.cxMap_symm_apply",
+  "EGF.differentiable_cxMap_symm",
+  "EGF.coordJac_cxMap",
+  "EGF.ofReal_cxWeight",
+  "EGF.cxPolicy_Ico",
+  "EGF.cxOut_measure",
+  "EGF.cx_arith",
+  "EGF.cx_inflow_Ico",
+  "EGF.cx_inflowTerm",
+  "EGF.cx_inflowDensity",
+  "EGF.cx_backwardKernel_Ico",
+  "EGF.cx_withDensity_Ico",
+  "EGF.cx_printed_formula_false",
+  "EGF.lamCx_apply_of_subset",
+  "EGF.lamCx_Ico_zero_one",
+  "EGF.lamCx_Ico_neg_one_zero",
+  "EGF.isFiniteMeasure_lamCx",
+  "EGF.lamCx_ac_volume",
+  "EGF.volume_ac_lamCx",
+  "EGF.map_cxMap_ac",
+  "EGF.cx_rnDeriv_reading",
+  "EGF.cx_lebesgue",
+  "EGF.lamAc",
+  "EGF.acMap",
+  "EGF.acWeight",
+  "EGF.acPolicy",
+  "EGF.isEGFPolicy_acPolicy"
+ ],
+ "kb_proposals": [
+  "Mathlib's posterior kappa-dagger-mu (Mathlib.Probability.Kernel.Posterior) is the backward policy of brunswic2024theory: compProd_posterior_eq_map_swap gives existence and ae_eq_posterior_of_compProd_eq uniqueness on standard Borel spaces (EGF.isBackwardPolicy_posterior, EGF.IsBackwardPolicy.ae_eq_posterior); setwise uniqueness needs no topology (EGF.IsBackwardPolicy.ae_eq_apply).",
+  "Change of variables for a measurable bijection Phi of R^n with differentiable inverse, as an equality of measures: map_withDensity_abs_det_fderiv_eq_addHaar with s = univ and f = Phi.symm, then MeasurableEquiv.map_map_symm (EGF.map_eq_withDensity_abs_det); with a hypothesis Phi_* lam = lam.withDensity J the same computation runs on any measurable space (EGF.lintegral_mul_jacobian).",
+  "At this pin `zero_le` takes no explicit argument, `lintegral_finset_sum` is deprecated for `lintegral_finsetSum`, and rewriting with `lintegral_finsetSum _ h` fails unless `h` is a `have` stated with the exact summand.",
+  "`open scoped ContDiff` makes `∞` ambiguous with `ℝ≥0∞` in measure-theoretic files: write the smoothness index of a Diffeomorph as `WithTop ℕ∞` and open only `Manifold` (for 𝓘).",
+  "Cheap counterexamples on R: translations are MeasurableEquiv.addRight (symm_addRight, coe_addRight, map_add_right_eq_self), coordinate Jacobian 1 by simp; a finite measure equivalent to Lebesgue with prescribed values on bounded sets is a sum of restricted Lebesgue measures plus (volume.restrict C^c).withDensity (ofReal (exp (-1 * x^2))) (integrable_exp_neg_mul_sq, withDensity_absolutelyContinuous')."
+ ],
+ "notes": "One file, scaffold/EGFScaffold/BackwardPolicy.lean, sorry-free. It imports only EGF.Defs and Mathlib (MeasureTheory.Function.Jacobian, Probability.Kernel.Posterior, Analysis.Calculus.FDeriv.Measurable, Geometry.Manifold.Diffeomorph, Analysis.SpecialFunctions.Gaussian.GaussianIntegral; no `import Mathlib`), so it can graduate as EGF/BackwardPolicy.lean by a file move. `lake env lean` prints no warning, so it should pass warningAsError. `lake build EGFScaffold.BackwardPolicy` ran at the end, 3054 jobs, without rebuilding EGF.* or mathlib. It ran a second time after a docstring-only edit, so the olean matches the final file. #print axioms through a /tmp probe (deleted) gives propext, Classical.choice and Quot.sound for each principal decl: backward_policy, backward_policy_of_map_eq, _rnDeriv, _addHaar, _diffeomorph, _equiv_addHaar, the IsBackwardPolicy API, printed_backward_policy_false, printed_inflow_not_ac, cx_rnDeriv_reading, cx_lebesgue. The scaffold root scaffold/EGFScaffold.lean was not edited (outside the dispatch), so the axiom sweep cannot see the module (lean-causal kb/0025): the master session should add `import EGFScaffold.BackwardPolicy` there, or to EGF.lean at graduation. The label is unmarked, status partial: the printed setting is refuted twice (findings 1-2); three corrected forms are proved; the choice of record is the questions'. Cited results: the brunswic2024theory facts the proof quotes (main.tex:743-745) are formalized, not assumed. inflow is F_in(Y) = F_out x pi*(S -> Y). IsBackwardPolicy is main.tex:745, its Radon-Nikodym form main.tex:744 is EGF.isBackwardPolicy_iff_ae_eq_rnDeriv, and existence is Mathlib's posterior. For T-egf-sampling, which needs the explicit inflow: EGF.inflow_eq_withDensity gives F_in = f_in lambda under Phi_i_* lambda = J_i lambda. Correction to the roadmap's [r] remark: the condition needed is Phi_i_* lambda << lambda, i.e. lambda(Phi_i^{-1}(A)) = 0 whenever lambda(A) = 0, the push-forward by Phi_i itself; the remark wrote (Phi_i^{-1})_* lambda << lambda, the other direction (both hold for diffeomorphisms and lambda equivalent to Lebesgue). GFNBounds was not used and no [[require]] was added."
+}

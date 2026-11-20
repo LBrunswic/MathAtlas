@@ -13,3 +13,7 @@ docstring contract is its `0006`; weakest hypotheses `0007`; no quiet weakening 
 | [0004](entries/0004-abel-truncated-difference.md) | pitfall | `abel` fails on measure expressions containing a truncated difference |
 | [0005](entries/0005-tendsto-trans-eq.md) | pitfall | `h.trans_eq` on a Tendsto resolves to LE.le.trans_eq |
 | [0006](entries/0006-lambda-names.md) | convention | Names: `lam` is λ, `lamHat` is λ̂, `pushIter π n μ` is μπⁿ |
+| [0007](entries/0007-posterior-is-backward-policy.md) | pattern | Mathlib's posterior is the backward policy |
+| [0008](entries/0008-change-of-variables-as-measures.md) | pattern | Change of variables on ℝⁿ as an equality of measures |
+| [0009](entries/0009-pin-api-and-infty.md) | pitfall | At this pin: lintegral_finsetSum, zero_le, and the ∞ of open scoped ContDiff |
+| [0010](entries/0010-cheap-counterexamples-on-r.md) | pattern | Cheap measure counterexamples on ℝ: translations and restricted Lebesgue |
