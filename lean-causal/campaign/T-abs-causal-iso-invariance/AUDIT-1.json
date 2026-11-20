@@ -1,0 +1,87 @@
+{
+ "target": "T-abs-causal-iso-invariance",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "T-abs-causal-iso-invariance/iso",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "IsCausalIso (l.171) is a structure with exactly two fields, StrongMorphism C D e and StrongMorphism D C e.symm. StrongMorphism (Causal/Morphism.lean:152) means continuous, open, and mapping ≤_V and ≪_V into ≤_U and ≪_U for V = φ⁻¹U, which is DEC-10's definition, so this is the target's title word for word. The equivalences are proved, not assumed. isCausalIso_iff (relational form on every open set) goes both ways. eq_transport and isCausalIso_transport give isCausalIso_iff_eq_transport. isCausalIso_iff_nonempty_iso is an iff with ≅ in the Spacetime category, building the homeomorphism from f.hom/f.inv. refl, symm, trans, dual and isEMorphism (through isEMorphism_iff) are all proved. Causality.transport (l.177) is a genuine construction: each of the 14 fields of Causality is discharged from C's own field through e.symm.opensCongr and mem_opensCongr. The relations are C's, pulled back, not a trivial instance. The claim that LeTopIso is weaker is verified. timelikeLine.le and lightlikeLine.le are both `x ≤ y ∧ Icc x y ⊆ U` (Lines.lean:131, :137), so the Iff.rfl witness is definitional. lightlikeLine.lt is False (Lines.lean:140) while timelikeLine.lt ⊤ 0 1 holds, so the identity is not a causal iso. ERS Lemma 3.27 itself (a metric formula) is layer 3. The docstring's wording 'ERS Lemma 3.27, its layer-1 content' stands for the form in which 3.27 is consumed. The 'How the rows factor' section discloses this. The ERS ledger reads no mark from here (the label prefix is the target's)."
+  },
+  {
+   "label": "T-abs-causal-iso-invariance/causal",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "IsCausalIso.isCausal_iff and LeTopIso.isCausal_iff give C.IsCausal ↔ D.IsCausal. IsCausal (Properties.lean:95) reads only ≤_⊤, so LeTopIso legitimately suffices. This is a weaker hypothesis, i.e. a stronger theorem. It serves :375 and the 'causal' part of 3.29 and 3.31."
+  },
+  {
+   "label": "T-abs-causal-iso-invariance/gh",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "globallyHyperbolic_iff and causallyCompact_iff are proved under LeTopIso. GloballyHyperbolic (Properties.lean:144) is IsCausal plus compact diamonds at ⊤, which needs only ≤_⊤ and the homeomorphism (diamond_image, e.isCompact_image). globallyHyperbolicOn_iff covers any open W. 3.39 needs the global hyperbolicity of (ℝ², m̂), which is carried as a layer-3 input and disclosed. The part claims the transport, not 3.39 itself."
+  },
+  {
+   "label": "T-abs-causal-iso-invariance/strongly-causal",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "StronglyCausal and StronglyCausalOpen (Properties.lean:105, :109) read ≤_⊤ through CausallyConvexIn V ⊤ and through neighbourhoods. The proof carries neighbourhoods by e.isOpenMap and e.continuous and convexity by causallyConvexIn_image_iff. LeTopIso suffices, as claimed."
+  },
+  {
+   "label": "T-abs-causal-iso-invariance/cauchy",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "isCauchySurfaceOn_image_iff covers any open W in both directions, using inextensible_iff through IsEMorphismOn.inextensible_iff_comp and h.isEMorphism. The ⊤ and preimage forms follow. globallyHyperbolic_and_isCauchySurface_iff (S : Set N) states 'D.GH ∧ D.IsCauchySurface S ↔ C.GH ∧ C.IsCauchySurface (e⁻¹' S)', which is ERS Lemma 3.31 as printed (ghd_02_19.tex:367–369), with no added hypothesis. The SCOPE claim that IsEMorphism.isCauchySurface_image would need more is true: it needs [T2Space N], D.IsCausal and a second Cauchy surface (CauchyExtension.lean:809)."
+  },
+  {
+   "label": "T-abs-causal-iso-invariance/ladder",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "I checked this against programme/ladder.toml. All 13 property nodes without a sort are covered: is_causal, strongly_causal, strongly_causal_open, globally_hyperbolic, push_up, causally_open, causally_open_future, absolutely_minimal, causally_arc_connected, causally_plain, tarentin, curves_extend, and time_function, which is covered through its body (exists_timeFunction_iff). HasTimeFunction is spelled verbatim at Causal/CBG/Pgcd.lean:133–134. Its module does reach models: Pgcd's closure contains Causal.Minkowski, Static, Flat.*, SingularFlat, so not naming HasTimeFunction is forced and is disclosed. Of the side conditions in Causal.LadderLocal, every one is transported except OneSidedBoundary, which is pure topology (LadderLocal.lean:189) and disclosed in SCOPE. The …On forms, J/I/Z images and causal/chronal curves are also transported."
+  },
+  {
+   "label": "T-abs-causal-iso-invariance/time-function",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "isTimeFunction_comp_iff covers ETT's IsTimeFunction (= StrongMorphism C timelikeLine T, Morphism.lean:832, defi:fonction_temps ETT.tex:1028). isTimeFunctionOrder_comp_iff covers reading (b). isCauchyTimeFunction_comp_iff carries the Cauchy time function, including its tendsto condition along inextensible curves over ℝ. strictMono_le_comp_iff and exists_timeFunction_iff (under LeTopIso) carry the ladder body. All are both ways, with no added hypothesis."
+  },
+  {
+   "label": "T-abs-causal-iso-invariance/strict-causal",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Causality.isCausal_of_timeFunction takes T : M → α for any Preorder α with x ≤_⊤ y, x ≠ y ⇒ T x < T y, and concludes IsCausal. Continuity and ℝ are dropped. This is a genuine weakening of hypotheses (a stronger theorem) and is recorded as such. isCausal_of_exists_timeFunction takes HasTimeFunction's body verbatim, with Continuous kept, which is the target's statement exactly. IsCausalIso.isCausal_of_timeFunction is the ERS 3.29 ρ+σ route. The part's conclusion, IsCausal, is the target's ('makes the causality causal'). Relative to ERS 3.29 ('stably causal') it is narrower. The docstring calls this a '⚠ reading', but REPORT.json mislabels it as 'weakened' (see the second finding). No ERS label is marked, so this is not major."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "details": "On node1, `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/CausalIsoInvariance.lean` exits 0 with no output. I checked that elaboration is real by appending a deliberately false theorem to a copy, which was rejected. I ran `#print axioms` on all 110 declarations named in REPORT.json (labels plus extra_decls), appended to a verbatim copy under /tmp, since deleted. Every one shows a subset of {propext, Classical.choice, Quot.sound}. There is no sorry, admit, axiom, native_decide or unsafe in the file. Layer-1 rule: the transitive Causal closure is 28 modules (Causality … NestedCausalities, LadderLocal, CauchyExtension, Geroch, Measure …), with no Causal.Minkowski, Static, Flat.*, Model.*, Port.*, SingularFlat or CBG.*. The only non-Causal import is Mathlib.CategoryTheory.Iso. The only oleans built since 22:30 are the three wave scaffold modules, so nothing upstream was rebuilt. Graduation probes: a file importing `Causal` (the root, all 217 modules), CausalScaffold.CausalIsoInvariance and CausalScaffold.ErsUniqueness elaborates, so there are no full-name clashes. The current EAlphaCauchy.lean source (newer than its olean) elaborates with `import CausalScaffold.CausalIsoInvariance` prepended, so there are no clashes there either. There is no Causal/CausalIsoInvariance.lean to collide with on the file move. Namespace Causal throughout. Docstring contract (kb/0006): title, 8 marks all within the first 4000 characters (the last at char 2691), quoted ERS sentences checked against ghd_02_19.tex:335/349/354/360/367/372/375/426/430, the hypothesis checklist, SCOPE and the provenance line are all present and true. Scope: git status shows nothing from this closer outside scaffold/CausalScaffold/CausalIsoInvariance.lean and campaign/T-abs-causal-iso-invariance/ (REPORT.json only). The M on programme/roadmap.toml and roadmap/roadmap.toml is the master's ready→active status flips."
+ },
+ "paper_findings_checked": [
+  {
+   "finding": "An ETT time function does not make the causality causal (exists_isTimeFunction_not_isCausal, the doubled line)",
+   "verdict": "correct",
+   "notes": "doubledLine (l.865) is a genuine Causality on ℝ × Bool. It is a preorder, monotone, with empty ≪, which is trivially open and contained in ≤. ℝ × Bool is Hausdorff and second countable. Prod.fst is continuous and open, maps ≤_V (V = fst⁻¹O) to `x ≤ y ∧ Icc x y ⊆ O`, and has nothing to map for ≪. So it is a StrongMorphism to timelikeLine, i.e. ETT's (ℝ, ≤, <), and an IsTimeFunction in the sense of defi:fonction_temps (ETT.tex:1028). The relations (0,false) ≤_⊤ (0,true) ≤_⊤ (0,false) break antisymmetry. The relation is local (it holds already in (−ε, ε) × Bool), so it does not exploit the missing gluing axiom (kb/0014). The finding is framed fairly, as a constraint on the reading and not as an error of ETT or ERS."
+  },
+  {
+   "finding": "ERS 3.39 proof (ghd_02_19.tex:430): 'level sets of a global time function are Cauchy' fails in general; Minkowski T = t − √(1+x²)",
+   "verdict": "correct",
+   "notes": "Checked by hand. dT = dt − x(1+x²)^{-1/2} dx, and its inverse-metric norm on 1+1 Minkowski is −1 + x²/(1+x²) = −1/(1+x²) < 0, so dT is timelike. For a future causal v ≠ 0, dT(v) ≥ v_t − |v_x|·|x|/√(1+x²) > 0, so T is a time function. Its level set T = 0 is t = √(1+x²), i.e. t² − x² = 1 with t > 0. The inextensible null line t = x has t² − x² = 0 and never meets it. Minkowski is globally hyperbolic, which makes the example sharper. The finding correctly says the lemma's statement survives. In the subluminal case x⁰ is a Cauchy time function, because g-causal vectors are m-causal (ghd_02_19.tex:91ff). In the superluminal case, m̂ = −dρdσ = −dt² + dx² with t = (ρ+σ)/2, so ρ+σ is Minkowski time on (ℝ², m̂). Fair to the LaTeX."
+  }
+ ],
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/CausalIsoInvariance.lean:171 (IsCausalIso), :177 (Causality.transport), :100–103 (SCOPE 'Not done')",
+   "what": "IsCausalIso is not a new notion. It is the global case of the strict library's ChartIso (Causal/GXStructure.lean:82; kb/0018, kb/0027), which chartIso_iff_strongMorphism (GXStructure.lean:1031) already identifies with 'both directions strong morphisms'. The auditor proved `IsCausalIso C D e ↔ ChartIso C D e.toOpenPartialHomeomorph` in a 20-line probe, with standard axioms, through isCausalIso_iff, chartImage = e.opensCongr and the mem lemmas. Likewise Causality.transport is the global push-forward counterpart of Causality.chartTransport (GXStructure.lean:173), and curveOn_comp overlaps ChartIso.curveOn_symm. SCOPE gives the missing bridge's reason as 'Causal.GXStructure, not imported'. That makes it sound like a layer constraint, which it is not: GXStructure's Causal closure (15 modules) reaches no model, so it is admissible at layer 1.",
+   "fix": "At graduation, or as a one-lemma follow-up, import Causal.GXStructure and add `IsCausalIso.iff_chartIso` (or `isCausalIso_iff_chartIso`). Reword the SCOPE sentence to say the bridge was simply not written. Add a pointer from IsCausalIso's docstring and the kb proposal to ChartIso/chartTransport, so the two notions are found together."
+  },
+  {
+   "severity": "minor",
+   "where": "campaign/T-abs-causal-iso-invariance/REPORT.json:475–477 (strict-causal, hypothesis '3.29: stably causal')",
+   "what": "Concluding IsCausal where ERS 3.29 concludes 'stably causal' is a narrower conclusion, a reading. REPORT.json records it as `\"here\": \"weakened\"`, the tag for a hypothesis the Lean assumes less of. The docstring (l.85) correctly calls it '⚠ reading'. The mark is still right, because the target part's own statement is 'makes the causality causal'. But if a curator copies the JSON row into the binder or ledger, it would present a narrower conclusion as a strengthening.",
+   "fix": "In REPORT.json, record that row as `\"here\": \"reading\"` (narrower conclusion; ETT has no stable causality, ETT.tex:1017–1018), matching the docstring."
+  }
+ ]
+}

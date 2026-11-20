@@ -216,6 +216,7 @@ import Causal.CompactMinimal
 import Causal.CurveComponents
 import Causal.DependenceDomain
 import Causal.ErsUniqueness
+import Causal.CausalIsoInvariance
 
 /-!
 # Causal — topological spacetimes

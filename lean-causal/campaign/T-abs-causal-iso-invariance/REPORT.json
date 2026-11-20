@@ -1,0 +1,511 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-causal-iso-invariance",
+ "files": [
+  "scaffold/CausalScaffold/CausalIsoInvariance.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "T-abs-causal-iso-invariance/iso",
+   "source": [
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "Lemma 3.27 (erslem:grhosigma): g = c(1+Φ₁'Φ₂')² dρ dσ, so Ψ carries the causality of (V, m̂) onto that of (U, g)",
+     "text_lines": "ghd_02_19.tex:335"
+    },
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "proof of Lemma 3.31: g and m̂ define causally equivalent metrics on V (g pulled back by Ψ)",
+     "text_lines": "ghd_02_19.tex:372"
+    }
+   ],
+   "tex_lines": [
+    335,
+    372
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.IsCausalIso",
+    "Causal.isCausalIso_iff",
+    "Causal.Causality.transport",
+    "Causal.isCausalIso_transport",
+    "Causal.IsCausalIso.eq_transport",
+    "Causal.isCausalIso_iff_eq_transport",
+    "Causal.isCausalIso_iff_nonempty_iso",
+    "Causal.IsCausalIso.le_iff",
+    "Causal.IsCausalIso.lt_iff",
+    "Causal.IsCausalIso.le_top_iff",
+    "Causal.IsCausalIso.lt_top_iff",
+    "Causal.IsCausalIso.refl",
+    "Causal.IsCausalIso.symm",
+    "Causal.IsCausalIso.trans",
+    "Causal.IsCausalIso.dual",
+    "Causal.IsCausalIso.isEMorphism",
+    "Causal.LeTopIso",
+    "Causal.IsCausalIso.leTopIso",
+    "Causal.LeTopIso.symm",
+    "Causal.timelikeLine_isCausalIso_addRight",
+    "Causal.timelikeLine_leTopIso_lightlikeLine",
+    "Causal.not_isCausalIso_timelikeLine_lightlikeLine",
+    "Causal.isCausalIso_iff_chartIso",
+    "Causal.chartTransport_toOpenPartialHomeomorph",
+    "Causal.chartImage_toOpenPartialHomeomorph"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Psi : V -> U a diffeomorphism",
+     "here": "weakened",
+     "note": "a homeomorphism e : M ≃ₜ N; no smooth structure"
+    },
+    {
+     "paper": "Lorentzian, time-oriented, second countable, Hausdorff",
+     "here": "weakened",
+     "note": "topological spacetimes with any causality; no separation or countability used"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "Lemma 3.27 itself is layer 3 (a metric computation); its layer-1 content is taken as 'Ψ is a causal isomorphism (V, m̂) → (U, g)', i.e. the causality of (U, g) is the transport of m̂'s (isCausalIso_iff_eq_transport). Whether (U, g)'s causality is derived from g or defined as this transport is T-pkg-smooth-lorentz's ruling; nothing here depends on the choice."
+   ]
+  },
+  {
+   "label": "T-abs-causal-iso-invariance/causal",
+   "source": [
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "Lemma 3.29: (U, g) is stably causal (its causal part)",
+     "text_lines": "ghd_02_19.tex:349"
+    },
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "Lemma 3.31",
+     "text_lines": "ghd_02_19.tex:367"
+    },
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "the causal properties of (U, g) are the same as those of the flat spacetime (V, m̂)",
+     "text_lines": "ghd_02_19.tex:375"
+    }
+   ],
+   "tex_lines": [
+    349,
+    367,
+    375
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.IsCausalIso.isCausal_iff",
+    "Causal.LeTopIso.isCausal_iff"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Psi : V -> U a diffeomorphism",
+     "here": "weakened",
+     "note": "a homeomorphism e : M ≃ₜ N; no smooth structure"
+    },
+    {
+     "paper": "g and m-hat causally equivalent (ghd_02_19.tex:372)",
+     "here": "carried",
+     "note": "IsCausalIso C D e: e and e⁻¹ strong morphisms (DEC-10), equivalently ≤_U, ≪_U ↔ ≤_{e(U)}, ≪_{e(U)} on every open U, equivalently D = C.transport e; the layer-3 input (a conformal factor keeps the cones)"
+    },
+    {
+     "paper": "Lorentzian, time-oriented, second countable, Hausdorff",
+     "here": "weakened",
+     "note": "topological spacetimes with any causality; no separation or countability used"
+    },
+    {
+     "paper": "(none beyond the isomorphism)",
+     "here": "weakened",
+     "note": "LeTopIso (≤_M carried onto ≤_N) suffices"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-causal-iso-invariance/gh",
+   "source": [
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "Lemma 3.31: (U, g) GH iff (V, m̂) GH",
+     "text_lines": "ghd_02_19.tex:367"
+    },
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "Lemma 3.39: the global solution is GH, from 3.31 and (V, m̂) = (ℝ², m̂)",
+     "text_lines": "ghd_02_19.tex:426"
+    }
+   ],
+   "tex_lines": [
+    367,
+    426
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.IsCausalIso.globallyHyperbolic_iff",
+    "Causal.LeTopIso.globallyHyperbolic_iff",
+    "Causal.IsCausalIso.causallyCompact_iff",
+    "Causal.LeTopIso.causallyCompact_iff",
+    "Causal.IsCausalIso.globallyHyperbolicOn_iff",
+    "Causal.IsCausalIso.diamond_image",
+    "Causal.LeTopIso.diamond_image",
+    "Causal.IsCausalIso.openDiamond_image",
+    "Causal.LeTopIso.openDiamond_image"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Psi : V -> U a diffeomorphism",
+     "here": "weakened",
+     "note": "a homeomorphism e : M ≃ₜ N; no smooth structure"
+    },
+    {
+     "paper": "g and m-hat causally equivalent (ghd_02_19.tex:372)",
+     "here": "carried",
+     "note": "IsCausalIso C D e: e and e⁻¹ strong morphisms (DEC-10), equivalently ≤_U, ≪_U ↔ ≤_{e(U)}, ≪_{e(U)} on every open U, equivalently D = C.transport e; the layer-3 input (a conformal factor keeps the cones)"
+    },
+    {
+     "paper": "Lorentzian, time-oriented, second countable, Hausdorff",
+     "here": "weakened",
+     "note": "topological spacetimes with any causality; no separation or countability used"
+    },
+    {
+     "paper": "3.39: (ℝ², m̂) globally hyperbolic",
+     "here": "carried",
+     "note": "an input (model fact, layer 3); the transport is globallyHyperbolic_iff"
+    },
+    {
+     "paper": "(none beyond the isomorphism)",
+     "here": "weakened",
+     "note": "GH reads only ≤_M: LeTopIso suffices (LeTopIso.globallyHyperbolic_iff)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "ERS Lemma 3.39, proof (ghd_02_19.tex:430): 'surfaces of constant x⁰ are Cauchy because x⁰ is a global time function' (and the same for ρ+σ) infers Cauchy level sets from a time function. The inference is not valid in general: on 1+1 Minkowski, T = t − √(1+x²) is a time function (dT timelike) whose level set T = 0, the branch t² − x² = 1, t > 0, is missed by the null line t = x. It holds here because x⁰ (subluminal, cones of g inside those of m) and ρ+σ (on (ℝ², m̂)) are Cauchy time functions. The lemma's statement (GH) is unaffected; it follows from its first sentence. Not formalized (the witness is Minkowski, layer 3); the ETT form is IsCauchyTimeFunction.isCauchySurface (Causal.Geroch), and isCauchyTimeFunction_comp_iff carries a Cauchy time function across Ψ."
+   ],
+   "questions": []
+  },
+  {
+   "label": "T-abs-causal-iso-invariance/strongly-causal",
+   "source": [
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "the causal properties of (U, g) are the same as those of (V, m̂)",
+     "text_lines": "ghd_02_19.tex:375"
+    }
+   ],
+   "tex_lines": [
+    375
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.IsCausalIso.stronglyCausal_iff",
+    "Causal.IsCausalIso.stronglyCausalOpen_iff",
+    "Causal.IsCausalIso.causallyConvexIn_image_iff",
+    "Causal.LeTopIso.stronglyCausal",
+    "Causal.LeTopIso.stronglyCausal_iff",
+    "Causal.LeTopIso.stronglyCausalOpen",
+    "Causal.LeTopIso.stronglyCausalOpen_iff",
+    "Causal.LeTopIso.causallyConvexIn_image_iff"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Psi : V -> U a diffeomorphism",
+     "here": "weakened",
+     "note": "a homeomorphism e : M ≃ₜ N; no smooth structure"
+    },
+    {
+     "paper": "g and m-hat causally equivalent (ghd_02_19.tex:372)",
+     "here": "carried",
+     "note": "IsCausalIso C D e: e and e⁻¹ strong morphisms (DEC-10), equivalently ≤_U, ≪_U ↔ ≤_{e(U)}, ≪_{e(U)} on every open U, equivalently D = C.transport e; the layer-3 input (a conformal factor keeps the cones)"
+    },
+    {
+     "paper": "Lorentzian, time-oriented, second countable, Hausdorff",
+     "here": "weakened",
+     "note": "topological spacetimes with any causality; no separation or countability used"
+    },
+    {
+     "paper": "(none beyond the isomorphism)",
+     "here": "weakened",
+     "note": "LeTopIso suffices"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-causal-iso-invariance/cauchy",
+   "source": [
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "Lemma 3.31: (U, g) GH with Cauchy surface S iff (V, m̂) GH with Cauchy surface Σ = Ψ⁻¹(S)",
+     "text_lines": "ghd_02_19.tex:367"
+    }
+   ],
+   "tex_lines": [
+    367,
+    372
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.IsCausalIso.isCauchySurfaceOn_image",
+    "Causal.IsCausalIso.isCauchySurfaceOn_image_iff",
+    "Causal.IsCausalIso.isCauchySurface_image_iff",
+    "Causal.IsCausalIso.isCauchySurface_preimage_iff",
+    "Causal.IsCausalIso.globallyHyperbolic_and_isCauchySurface_iff",
+    "Causal.IsCausalIso.inextensible_iff",
+    "Causal.IsCausalIso.causalCurveIn_iff",
+    "Causal.IsCausalIso.isAcausal_image_iff",
+    "Causal.LeTopIso.isAcausal_image_iff"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Psi : V -> U a diffeomorphism",
+     "here": "weakened",
+     "note": "a homeomorphism e : M ≃ₜ N; no smooth structure"
+    },
+    {
+     "paper": "g and m-hat causally equivalent (ghd_02_19.tex:372)",
+     "here": "carried",
+     "note": "IsCausalIso C D e: e and e⁻¹ strong morphisms (DEC-10), equivalently ≤_U, ≪_U ↔ ≤_{e(U)}, ≪_{e(U)} on every open U, equivalently D = C.transport e; the layer-3 input (a conformal factor keeps the cones)"
+    },
+    {
+     "paper": "Lorentzian, time-oriented, second countable, Hausdorff",
+     "here": "weakened",
+     "note": "topological spacetimes with any causality; no separation or countability used"
+    },
+    {
+     "paper": "Cauchy surface (Lorentzian)",
+     "here": "carried",
+     "note": "IsCauchySurface (DEC-14): every inextensible causal curve meets S once; both directions, any open W (IsCauchySurfaceOn)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-causal-iso-invariance/ladder",
+   "source": [
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "More generally, the causal properties of (U, g) are the same as those of the flat spacetime (V, m̂)",
+     "text_lines": "ghd_02_19.tex:375"
+    }
+   ],
+   "tex_lines": [
+    375
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.IsCausalIso.tarentin_iff",
+    "Causal.LeTopIso.tarentin",
+    "Causal.LeTopIso.tarentin_iff",
+    "Causal.IsCausalIso.causallyPlain",
+    "Causal.IsCausalIso.causallyPlain_iff",
+    "Causal.IsCausalIso.pushUpOn",
+    "Causal.IsCausalIso.pushUpOn_iff",
+    "Causal.IsCausalIso.pushUp_iff",
+    "Causal.IsCausalIso.causallyOpenFutureOn_iff",
+    "Causal.IsCausalIso.causallyOpenFuture_iff",
+    "Causal.IsCausalIso.causallyOpen_iff",
+    "Causal.IsCausalIso.absolutelyMinimalOn",
+    "Causal.IsCausalIso.absolutelyMinimalOn_iff",
+    "Causal.IsCausalIso.absolutelyMinimal_iff",
+    "Causal.IsCausalIso.causalCurveOn_iff",
+    "Causal.IsCausalIso.chronalCurveOn_iff",
+    "Causal.curveOn_comp",
+    "Causal.IsCausalIso.causallyArcConnectedOn",
+    "Causal.IsCausalIso.causallyArcConnectedOn_iff",
+    "Causal.IsCausalIso.causallyArcConnected_iff",
+    "Causal.IsCausalIso.locallyCausallyArcConnected",
+    "Causal.IsCausalIso.locallyCausallyArcConnected_iff",
+    "Causal.IsCausalIso.locallyPushUp",
+    "Causal.IsCausalIso.locallyPushUp_iff",
+    "Causal.IsCausalIso.locallyCausallyOpenFuture",
+    "Causal.IsCausalIso.locallyCausallyOpenFuture_iff",
+    "Causal.IsCausalIso.locallyCausallyOpen_iff",
+    "Causal.IsCausalIso.chronalPastNeighbours",
+    "Causal.IsCausalIso.chronalPastNeighbours_iff",
+    "Causal.IsCausalIso.chronalNeighbours_iff",
+    "Causal.IsCausalIso.noPastEndpoint_iff",
+    "Causal.IsCausalIso.noCausalEndpoint_iff",
+    "Causal.IsCausalIso.curvesExtend",
+    "Causal.IsCausalIso.curvesExtend_iff",
+    "Causal.IsCausalIso.Jplus_image",
+    "Causal.IsCausalIso.Jminus_image",
+    "Causal.IsCausalIso.Iplus_image",
+    "Causal.IsCausalIso.Iminus_image",
+    "Causal.IsCausalIso.Zplus_image",
+    "Causal.IsCausalIso.Zminus_image"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Psi : V -> U a diffeomorphism",
+     "here": "weakened",
+     "note": "a homeomorphism e : M ≃ₜ N; no smooth structure"
+    },
+    {
+     "paper": "g and m-hat causally equivalent (ghd_02_19.tex:372)",
+     "here": "carried",
+     "note": "IsCausalIso C D e: e and e⁻¹ strong morphisms (DEC-10), equivalently ≤_U, ≪_U ↔ ≤_{e(U)}, ≪_{e(U)} on every open U, equivalently D = C.transport e; the layer-3 input (a conformal factor keeps the cones)"
+    },
+    {
+     "paper": "Lorentzian, time-oriented, second countable, Hausdorff",
+     "here": "weakened",
+     "note": "topological spacetimes with any causality; no separation or countability used"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-causal-iso-invariance/time-function",
+   "source": [
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "Lemma 3.29: x⁰, ±(ρ+σ) global time functions of (U, g)",
+     "text_lines": "ghd_02_19.tex:349"
+    },
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "proof of 3.29: ρ+σ is a global time function for (U, g)",
+     "text_lines": "ghd_02_19.tex:360"
+    },
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "proof of 3.39: surfaces of constant x⁰, ρ+σ are Cauchy",
+     "text_lines": "ghd_02_19.tex:430"
+    }
+   ],
+   "tex_lines": [
+    349,
+    354,
+    360,
+    430
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.IsCausalIso.isTimeFunction_comp_iff",
+    "Causal.IsCausalIso.isTimeFunctionOrder_comp_iff",
+    "Causal.IsCausalIso.isCauchyTimeFunction_comp_iff",
+    "Causal.IsCausalIso.strictMono_le_comp_iff",
+    "Causal.LeTopIso.strictMono_le_comp_iff",
+    "Causal.IsCausalIso.exists_timeFunction_iff",
+    "Causal.LeTopIso.exists_timeFunction_iff"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Psi : V -> U a diffeomorphism",
+     "here": "weakened",
+     "note": "a homeomorphism e : M ≃ₜ N; no smooth structure"
+    },
+    {
+     "paper": "g and m-hat causally equivalent (ghd_02_19.tex:372)",
+     "here": "carried",
+     "note": "IsCausalIso C D e: e and e⁻¹ strong morphisms (DEC-10), equivalently ≤_U, ≪_U ↔ ≤_{e(U)}, ≪_{e(U)} on every open U, equivalently D = C.transport e; the layer-3 input (a conformal factor keeps the cones)"
+    },
+    {
+     "paper": "Lorentzian, time-oriented, second countable, Hausdorff",
+     "here": "weakened",
+     "note": "topological spacetimes with any causality; no separation or countability used"
+    },
+    {
+     "paper": "time function",
+     "here": "carried",
+     "note": "both ETT's defi:fonction_temps (IsTimeFunction, strong morphism to the timelike line, and the order reading IsTimeFunctionOrder), the Cauchy time function, and the ladder node time_function's body (continuous, strictly increasing along ≤_M; ⚠ HasTimeFunction itself is not named: it lives in Causal.CBG.Pgcd, which reaches a model)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-causal-iso-invariance/strict-causal",
+   "source": [
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "Lemma 3.29: in either case (U, g) is stably causal",
+     "text_lines": "ghd_02_19.tex:349"
+    },
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "x⁰ is a global time function for (U, g) so this spacetime is stably causal",
+     "text_lines": "ghd_02_19.tex:354"
+    }
+   ],
+   "tex_lines": [
+    349,
+    354,
+    360
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.Causality.isCausal_of_timeFunction",
+    "Causal.Causality.isCausal_of_exists_timeFunction",
+    "Causal.IsCausalIso.isCausal_of_timeFunction",
+    "Causal.doubledLine",
+    "Causal.doubledLine_isTimeFunction_fst",
+    "Causal.doubledLine_not_isCausal",
+    "Causal.exists_isTimeFunction_not_isCausal"
+   ],
+   "hypotheses": [
+    {
+     "paper": "T continuous",
+     "here": "weakened",
+     "note": "not used; nor is ℝ: any preorder codomain (isCausal_of_timeFunction); the existential form isCausal_of_exists_timeFunction keeps Continuous to match HasTimeFunction's body verbatim"
+    },
+    {
+     "paper": "3.29: 'global time function'",
+     "here": "carried",
+     "note": "read as strictly increasing along ≤_M (x ≤ y, x ≠ y ⇒ T x < T y), the Lorentzian sense; ETT's defi:fonction_temps does not suffice (exists_isTimeFunction_not_isCausal)"
+    },
+    {
+     "paper": "3.29: 'stably causal'",
+     "here": "reading",
+     "note": "narrower conclusion: IsCausal where ERS 3.29 concludes 'stably causal'; ETT defines no stable causality (ETT.tex:1017–1018). The target part's own statement ('makes the causality causal') is proved in full."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Not a defect of ERS or ETT, a constraint on the reading: a time function in ETT's sense (defi:fonction_temps, ETT.tex:1028, a strong morphism to (ℝ, ≤, <)) does not make the causality causal, because it is only non-decreasing along ≤. Witness: the doubled line ℝ × Bool, p ≤_U q iff p = q ∈ U or p.1 ≤ q.1 with both fibres over [p.1, q.1] in U, no chronology; Prod.fst is a time function and (0, false) ≤ (0, true) ≤ (0, false) (exists_isTimeFunction_not_isCausal). So ERS 3.29's 'global time function ⇒ stably causal' (ghd_02_19.tex:354, :360) binds to the ladder node time_function (strict increase along ≤_M), as the binder already says, not to ETT's time function."
+   ],
+   "questions": [
+    "ERS 3.29 concludes 'stably causal' (ghd_02_19.tex:349). ETT has no stable causality (ETT.tex:1017–1018). Reading taken: stable causality is witnessed, as in ERS's proof (Hawking), by a function strictly increasing along ≤_M (the body of the ladder node time_function), and its layer-1 consequence is IsCausal. Should the binder row erslem:lemma_orientation name time_function as a localisation property, with is_causal derived from it?"
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Causal.coe_opensCongr",
+  "Causal.mem_opensCongr",
+  "Causal.opensCongr_top",
+  "Causal.symm_opensCongr_opensCongr",
+  "Causal.opensCongr_symm_opensCongr",
+  "Causal.homeomorph_symm_image_image",
+  "Causal.curveOn_comp",
+  "Causal.Causality.transport",
+  "Causal.LeTopIso",
+  "Causal.chartImage_toOpenPartialHomeomorph"
+ ],
+ "kb_proposals": [
+  "A causal isomorphism (CausalScaffold.CausalIsoInvariance, IsCausalIso: a homeomorphism with e, e⁻¹ strong morphisms) is the strict ChartIso (Causal.GXStructure, kb/0018, kb/0027) for a chart defined on all of M (isCausalIso_iff_chartIso), and Causality.transport e is Causality.chartTransport along e⁻¹ (chartTransport_toOpenPartialHomeomorph). It transports every causality-sort ladder node, the LadderLocal side conditions, Cauchy surfaces, inextensible curves and time functions; GH, causal, strongly causal, tarentin need only LeTopIso (≤_M carried onto ≤_N). Grep it, and ChartIso, before transporting a property along a homeomorphism.",
+  "Prove the transport in one direction for every isomorphism and get the iff from h.symm, then rewrite the round trip with symm_opensCongr_opensCongr / homeomorph_symm_image_image: simp does NOT see through e.opensCongr, because the simps lemma Homeomorph.opensCongr_apply first turns it into Opens.comap ↑e.symm, so lemmas about opensCongr must be used with rw.",
+  "An auxiliary lemma in a `where` clause shares the universe parameters of its parent: applied to h.symm (universes of M and N swapped) it fails to unify. Make the one-direction helper a top-level theorem.",
+  "ETT's IsTimeFunction (defi:fonction_temps) does not imply IsCausal (doubledLine, exists_isTimeFunction_not_isCausal); strict increase along ≤_M does (Causality.isCausal_of_timeFunction). A cheap non-causal space with a time function: ℝ × Bool with the fibres over a segment related."
+ ],
+ "notes": "Layer-1 rule: imports Causal.CauchyExtension, Causal.LadderLocal, Causal.GXStructure (ETT layer, reaches no model) and Mathlib.CategoryTheory.Iso only; the Causal closure was checked (no Minkowski/Static/Flat.*/Model/Port/SingularFlat/LemmaK/ChainsCurves/CurvesExtend/Remarks/CBG module). No metric notion. lake build CausalScaffold.CausalIsoInvariance rebuilt only this module; #print axioms on the principal theorems: propext, Classical.choice, Quot.sound. No sorry, no warning (graduation-ready under warningAsError). The ladder's [[open]] time_function → is_causal (programme/ladder.toml:679) can become an [[implies]] with witness Causal.Causality.isCausal_of_exists_timeFunction, whose hypothesis is Causality.HasTimeFunction's body verbatim (definitionally equal); a named HasTimeFunction.isCausal needs HasTimeFunction hoisted out of Causal.CBG.Pgcd. The binder rows erslem:grhosigma, lemma_orientation, glob_hyp_lemma, solution_theorem_global_theorem can cite, respectively, isCausalIso_iff_eq_transport, Causality.isCausal_of_timeFunction / IsCausalIso.isCausal_of_timeFunction, IsCausalIso.globallyHyperbolic_and_isCauchySurface_iff, IsCausalIso.globallyHyperbolic_iff. Not done: K^± transport, OneSidedBoundary (pure topology). Audit round 1 (AUDIT-1.json, minor) addressed: the ChartIso bridge (isCausalIso_iff_chartIso) and chartTransport_toOpenPartialHomeomorph added; the 'stably causal' row recorded as a reading."
+}
