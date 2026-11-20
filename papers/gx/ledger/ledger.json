@@ -9,7 +9,7 @@
   },
   "lean": {
     "root": "/home/maxbrain/Dropbox/LeanArticles/lean-gx",
-    "git_commit": "24d9429"
+    "git_commit": "f382449"
   },
   "statements": [
     {
@@ -7171,7 +7171,8 @@
         "GX/SingularII/Models.lean",
         "GX/Spherical/S3Model.lean",
         "GX/Spherical/ConeSurface.lean",
-        "scaffold/GXScaffold/Spherical/TroyanovAngles.lean"
+        "scaffold/GXScaffold/Spherical/TroyanovAngles.lean",
+        "GX/Spherical/Football.lean"
       ],
       "decls": [
         "GX.TroyanovSuspensionTheorem",
@@ -7224,13 +7225,23 @@
         "GX.isLocallyUnloopable_sph3",
         "GX.thurstonAtlas",
         "GX.isAEAtlas_thurstonAtlas",
-        "GX.thurstonStructure"
+        "GX.thurstonStructure",
+        "GX.Football",
+        "GX.footballSingularGXStructure",
+        "GX.footballAtlas",
+        "GX.isAEAtlas_footballAtlas",
+        "GX.isConeSphere_football",
+        "GX.football_sing_eq",
+        "GX.exists_isConeSphere_two",
+        "GX.isConePoint_football_north",
+        "GX.isConePoint_football_south",
+        "GX.footballFlip_mem_singularAut"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "C",
-      "scope_notes": "WP-44b, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: DEC-69 is applied as ruled: Troyanov's theorem (MR1005085) with the suspension is the named external Prop GX.TroyanovSuspensionTheorem, an explicit hypothesis of GX.cex_start_singular_manifold_homeomorphic, with non-vacuity witnesses (GX.troyanovAngleCondition_witness; GX.exists_suspensionCexFacts, the Joukowski structure; GX.troyanovSuspensionTheorem_of_subsingleton, the Prop holds for a trivial group on ℂ); row partial. Disclosed: the Prop is not tied to θ (no cone angles in the library); restating it at (SO(4),𝕊³) needs spherical cone surfaces and a rigid SO(4)-action on 𝕊³. T-gx-spherical-cone (atlas-team, 2026-11-20), audit AUDIT-1 minor (line numbers, an overstated clause, an analyticity sentence, fixed in round 1): the (SO(4), 𝕊³) and (SO(3), 𝕊²) models (GX.SpecialOrth on GX.RaySphere, rigid, analytic, locally unloopable), Thurston's suspension 𝕊ⁿ → 𝕊ⁿ⁺¹ (GX.thurstonStructure), the spherical cones C_θ (GX.polarCone; apex singular iff θ ≠ 2π), cone points and the invariance of the cone angle (GX.IsConePoint.angle_eq), cone spheres (GX.IsConeSphere), sorry-free in the strict GX.Spherical.S3Model / ConeSurface; the angle-tied statement GX.TroyanovSuspensionTheoremS3 = TroyanovTheorem + ThurstonSuspensionFacts (two tagged sorrys, scaffold GXScaffold.Spherical.TroyanovAngles) implies GX.TroyanovSuspensionTheorem SO4 Sph3 and the cex's conclusion at (SO(4), 𝕊³).",
-      "notes": "WP-44b, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: DEC-69 is applied as ruled: Troyanov's theorem (MR1005085) with the suspension is the named external Prop GX.TroyanovSuspensionTheorem, an explicit hypothesis of GX.cex_start_singular_manifold_homeomorphic, with non-vacuity witnesses (GX.troyanovAngleCondition_witness; GX.exists_suspensionCexFacts, the Joukowski structure; GX.troyanovSuspensionTheorem_of_subsingleton, the Prop holds for a trivial group on ℂ); row partial. Disclosed: the Prop is not tied to θ (no cone angles in the library); restating it at (SO(4),𝕊³) needs spherical cone surfaces and a rigid SO(4)-action on 𝕊³. T-gx-spherical-cone (atlas-team, 2026-11-20), audit AUDIT-1 minor (line numbers, an overstated clause, an analyticity sentence, fixed in round 1): the (SO(4), 𝕊³) and (SO(3), 𝕊²) models (GX.SpecialOrth on GX.RaySphere, rigid, analytic, locally unloopable), Thurston's suspension 𝕊ⁿ → 𝕊ⁿ⁺¹ (GX.thurstonStructure), the spherical cones C_θ (GX.polarCone; apex singular iff θ ≠ 2π), cone points and the invariance of the cone angle (GX.IsConePoint.angle_eq), cone spheres (GX.IsConeSphere), sorry-free in the strict GX.Spherical.S3Model / ConeSurface; the angle-tied statement GX.TroyanovSuspensionTheoremS3 = TroyanovTheorem + ThurstonSuspensionFacts (two tagged sorrys, scaffold GXScaffold.Spherical.TroyanovAngles) implies GX.TroyanovSuspensionTheorem SO4 Sph3 and the cex's conclusion at (SO(4), 𝕊³).",
+      "scope_notes": "WP-44b, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: DEC-69 is applied as ruled: Troyanov's theorem (MR1005085) with the suspension is the named external Prop GX.TroyanovSuspensionTheorem, an explicit hypothesis of GX.cex_start_singular_manifold_homeomorphic, with non-vacuity witnesses (GX.troyanovAngleCondition_witness; GX.exists_suspensionCexFacts, the Joukowski structure; GX.troyanovSuspensionTheorem_of_subsingleton, the Prop holds for a trivial group on ℂ); row partial. Disclosed: the Prop is not tied to θ (no cone angles in the library); restating it at (SO(4),𝕊³) needs spherical cone surfaces and a rigid SO(4)-action on 𝕊³. T-gx-spherical-cone (atlas-team, 2026-11-20), audit AUDIT-1 minor (line numbers, an overstated clause, an analyticity sentence, fixed in round 1): the (SO(4), 𝕊³) and (SO(3), 𝕊²) models (GX.SpecialOrth on GX.RaySphere, rigid, analytic, locally unloopable), Thurston's suspension 𝕊ⁿ → 𝕊ⁿ⁺¹ (GX.thurstonStructure), the spherical cones C_θ (GX.polarCone; apex singular iff θ ≠ 2π), cone points and the invariance of the cone angle (GX.IsConePoint.angle_eq), cone spheres (GX.IsConeSphere), sorry-free in the strict GX.Spherical.S3Model / ConeSurface; the angle-tied statement GX.TroyanovSuspensionTheoremS3 = TroyanovTheorem + ThurstonSuspensionFacts (two tagged sorrys, scaffold GXScaffold.Spherical.TroyanovAngles) implies GX.TroyanovSuspensionTheorem SO4 Sph3 and the cex's conclusion at (SO(4), 𝕊³). T-gx-cone-football (atlas-team, 2026-11-20), audit AUDIT-1 minor (two sentences, fixed at graduation): the football F_θ (strict GX.Spherical.Football), for every θ > 0 a cone sphere with exactly two cone points of angle θ (GX.isConeSphere_football; sing = {N, S} for θ ≠ 2π, GX.football_sing_eq; the round sphere at θ = 2π), the first IsConeSphere with genuine cone points — a non-vacuity witness of the cex's objects (s = 2 < 3), not an instance of the cex. Its two-centre shape supports OQ-37 (a).",
+      "notes": "WP-44b, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: DEC-69 is applied as ruled: Troyanov's theorem (MR1005085) with the suspension is the named external Prop GX.TroyanovSuspensionTheorem, an explicit hypothesis of GX.cex_start_singular_manifold_homeomorphic, with non-vacuity witnesses (GX.troyanovAngleCondition_witness; GX.exists_suspensionCexFacts, the Joukowski structure; GX.troyanovSuspensionTheorem_of_subsingleton, the Prop holds for a trivial group on ℂ); row partial. Disclosed: the Prop is not tied to θ (no cone angles in the library); restating it at (SO(4),𝕊³) needs spherical cone surfaces and a rigid SO(4)-action on 𝕊³. T-gx-spherical-cone (atlas-team, 2026-11-20), audit AUDIT-1 minor (line numbers, an overstated clause, an analyticity sentence, fixed in round 1): the (SO(4), 𝕊³) and (SO(3), 𝕊²) models (GX.SpecialOrth on GX.RaySphere, rigid, analytic, locally unloopable), Thurston's suspension 𝕊ⁿ → 𝕊ⁿ⁺¹ (GX.thurstonStructure), the spherical cones C_θ (GX.polarCone; apex singular iff θ ≠ 2π), cone points and the invariance of the cone angle (GX.IsConePoint.angle_eq), cone spheres (GX.IsConeSphere), sorry-free in the strict GX.Spherical.S3Model / ConeSurface; the angle-tied statement GX.TroyanovSuspensionTheoremS3 = TroyanovTheorem + ThurstonSuspensionFacts (two tagged sorrys, scaffold GXScaffold.Spherical.TroyanovAngles) implies GX.TroyanovSuspensionTheorem SO4 Sph3 and the cex's conclusion at (SO(4), 𝕊³). T-gx-cone-football (atlas-team, 2026-11-20), audit AUDIT-1 minor (two sentences, fixed at graduation): the football F_θ (strict GX.Spherical.Football), for every θ > 0 a cone sphere with exactly two cone points of angle θ (GX.isConeSphere_football; sing = {N, S} for θ ≠ 2π, GX.football_sing_eq; the round sphere at θ = 2π), the first IsConeSphere with genuine cone points — a non-vacuity witness of the cex's objects (s = 2 < 3), not an instance of the cex. Its two-centre shape supports OQ-37 (a).",
       "blocked_on": "T-gx-troyanov (Troyanov's theorem, DEC-136) and T-gx-troyanov-suspension (ThurstonSuspensionFacts); readings OQ-37",
       "lean_proved_override": "partial",
       "paper_findings": [
@@ -7244,7 +7255,8 @@
         "GX/SingularII/Models.lean",
         "GX/Spherical/S3Model.lean",
         "GX/Spherical/ConeSurface.lean",
-        "scaffold/GXScaffold/Spherical/TroyanovAngles.lean"
+        "scaffold/GXScaffold/Spherical/TroyanovAngles.lean",
+        "GX/Spherical/Football.lean"
       ],
       "in_lean_scope": true,
       "stale": false
