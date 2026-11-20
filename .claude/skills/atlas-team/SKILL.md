@@ -121,7 +121,9 @@ Dispatch **atlas-builder** with the target block. Verify the result yourself:
 - `make -C reports/atlas`, which rebuilds the atlas from the new ledgers and roadmap.
 - `make -k check 2>&1 | tee /tmp/atlas-team-gate.log`, then
   `python3 tools/roadmap.py gates /tmp/atlas-team-gate.log`. This fails if any hub gate fails
-  that `[gates] known_red` does not list.
+  that `[gates] known_red` does not list. `lib-check` runs GFNBoundsLean's own gate, which
+  regenerates `docs/` and `paper-map.json` inside the read-only `lean/` submodule. Restore it
+  every time, with `git -C lean checkout -- .`. The submodule is never committed from here.
 
 If a gate fails because of this iteration's work:
 - revert this iteration's changes to tracked files (`git checkout -- <files>`; `git mv` back
