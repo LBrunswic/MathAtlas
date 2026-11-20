@@ -1,0 +1,78 @@
+{
+  "package": "T-gx-slsc-compact",
+  "target": "T-gx-slsc-compact",
+  "files": ["scaffold/GXScaffold/Topology/SLSCCompact.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "rem:definition_semi_locally_simply_connected",
+      "tex_lines": [1455, 1457],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.griffiths_counterexample",
+        "GX.not_semilocallySimplyConnected_of_isSLSCInCC_univ_compact",
+        "GX.GriffithsSpace",
+        "GX.griffiths_isSLSCIn",
+        "GX.griffiths_isSLSCInCC",
+        "GX.griffiths_not_semilocallySimplyConnected",
+        "GX.griffiths_omega_not_homotopic",
+        "GX.grif_isSLSCAt_x0",
+        "GX.grif_isSLSCAt_of_ne",
+        "GX.grifColl",
+        "GX.grifR",
+        "GX.grifOmegaK",
+        "GX.grifZ",
+        "GX.grifZ_trans",
+        "GX.grifZ_homotopic",
+        "GX.grifTheta",
+        "GX.grifTheta_omega_ne_one",
+        "GX.grif_not_mem_FR",
+        "GX.grifD1",
+        "GX.grifD2"
+      ],
+      "hypotheses": [
+        {
+          "paper": "def:semi_locally_simple_connectedness (l.1451): X Hausdorff, connected, locally path-connected",
+          "here": "carried",
+          "note": "the witness satisfies all three and is moreover compact and metrizable (a Peano continuum); the refutation statement quantifies over T2, connected, locally path-connected, compact X"
+        },
+        {
+          "paper": "semi-locally simply connected in itself",
+          "here": "carried",
+          "note": "both the literal DEC-55 form GX.IsSLSCInCC univ and the homotopy form GX.IsSLSCIn univ are proved for the witness"
+        },
+        {
+          "paper": "semi-locally simply connected (the usual notion)",
+          "here": "carried",
+          "note": "GX.SemilocallySimplyConnected (DEC-41), the notion the archipelago counterexample of GX.Branched.Galois refutes"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "RamcovGX.tex:1455-1457: the printed 'iff' fails even among compact metrizable spaces. The Griffiths twin cone (the cones over two Hawaiian earrings, apexes (±1/2, 1), wedged at the earrings' common point; GX.GriffithsSpace in ℂ × ℝ = ℝ³) is compact, Hausdorff, path-connected, locally path-connected, semi-locally simply connected in itself in the literal DEC-55 sense and in the homotopy sense, and not semi-locally simply connected (GX.griffiths_counterexample; the refuted statement with compactness added is GX.not_semilocallySimplyConnected_of_isSLSCInCC_univ_compact). No compactness hypothesis rescues the converse; only slsc ⇒ slsc in itself holds (GX.isSLSCInCC_univ_of_semilocallySimplyConnected, GX.Branched.Galois).",
+        "Why it is slsc in itself: off 0 a point has a star-shaped neighbourhood inside one cone; at 0 a loop below the apexes slides down the cone lines onto the double earring, and the finitely many circles of index < N contract through their cones (GX.grifColl), so every such loop is homotopic rel endpoints into the 2/N-ball. Why it is not slsc: the loops ∏_{n≥N} a_n b_n lie in the 2/N-ball and are not null-homotopic. The proof is self-contained, not Griffiths' original. It uses the linking matrix Z_ij of a loop of the double earring (GX.grifZ, a homotopy-invariant crossed homomorphism). Modulo the integer matrices of finite rank, Z is a homomorphism (GX.grifTheta) that vanishes on each earring and equals the infinite unitriangular matrix on ∏ a_n b_n. Two Seifert–van Kampen gluings of GX.VanKampen.Data, one per apex, extend it to all loops.",
+        "Mathematical remark, NOT formalized: a counterexample to the converse cannot be homotopically Hausdorff at the bad point. If every loop of V at x is homotopic into every neighbourhood of x, and only null-homotopic loops are, then every loop of V is null-homotopic. Conversely, slsc implies homotopically Hausdorff. So in the homotopy reading, 'X slsc ⇔ X slsc in itself and homotopically Hausdorff' would be a true corrected form of the remark. This is offered to the author, not proved here."
+      ],
+      "questions": [
+        "DEC-135 asked for a compact counterexample besides the harmonic archipelago. The Griffiths twin cone is one, and a Peano continuum. Both witnesses refute the same direction. Reading taken: both are kept, the archipelago in GX.Branched.Galois and the twin cone here; the row stays partial (DEC-27). Which one anchors the row's finding is the author's choice."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.VanKampen.Data.Φ_trans",
+    "GX.grifMkData",
+    "GX.continuous_grifPow",
+    "GX.grif_norm_zpow_sub_one_le",
+    "GX.continuous_grifBlock",
+    "GX.grifRP",
+    "GX.grifRP_conj"
+  ],
+  "kb_proposals": [
+    "pitfall: `rw` fails ('motive is not type correct' at instances transparency) when path endpoints are defeq but not syntactic (`D.x₀` vs a named point, `↑⟨q, h⟩` vs `q`). State restrictions with syntactic endpoints (a dedicated restriction def, cf. `GX.grifSub`), chain equalities with `Eq.trans`/`refine` instead of `rw`, and push `Subtype.val` through `Path.trans_apply` with `apply_dite Subtype.val` before `split_ifs` (T-gx-slsc-compact).",
+    "pattern: `GX.VanKampen.Data.Φ` is multiplicative (`GX.VanKampen.Data.Φ_trans`), so a glued invariant can be glued again: one gluing per bad point, the base point moved by conjugation along a tether (`GX.grifD1`, `GX.grifD2`); `GX.grifMkData` builds the data from three path-connected opens and an invariant on `U` that is trivial on `U ∩ V`.",
+    "pattern: an infinitesimal non-null loop (homotopic into every neighbourhood, as in Griffiths-type spaces) is invisible to every continuous invariant valued in a homotopically Hausdorff target. Detect it with a homotopy invariant valued in a quotient group, e.g. the linking matrix modulo finite rank (`GX.grifTheta`), built from exp-lifts and winding numbers (`GX.cWinding`)."
+  ],
+  "notes": "0 sorry; `lake env lean` gives no error and no warning; `#print axioms` on GX.griffiths_counterexample, GX.not_semilocallySimplyConnected_of_isSLSCInCC_univ_compact and GX.VanKampen.Data.Φ_trans: propext, Classical.choice, Quot.sound only. Built with `lake build GXScaffold.Topology.SLSCCompact`, which rebuilt nothing upstream. The module is NOT imported by scaffold/GXScaffold.lean: my dispatch did not allow editing it, and kb/0025 says the axiom sweep only sees modules the scaffold root imports. The master should add `import GXScaffold.Topology.SLSCCompact` there, or graduate the file. The file has about 2960 lines and 349 declarations, all in namespace GX and prefixed grif/griffiths except GX.VanKampen.Data.Φ_trans and its two helpers grif_trans_extend_le/ge; a grep of GX, scaffold and mathlib found no clash. It imports only GX.Branched.Galois and GX.Topology.VanKampen, and is warning-free, so it can graduate as is. GX.VanKampen.Data.Φ_trans is a general lemma that belongs in GX.Topology.VanKampen at graduation. Suggested ledger decls for the row, besides the archipelago's: GX.griffiths_counterexample and GX.not_semilocallySimplyConnected_of_isSLSCInCC_univ_compact as principals."
+}

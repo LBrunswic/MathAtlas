@@ -43,8 +43,8 @@ import GX.BTZ.FutureRay
 import GX.BTZ.AbsMax
 import GX.BTZ.Uniformization
 import GX.BTZ.TildeStructure
-
-/-! The strict library of the paper `gx` (`papers/gx`). Every module is imported here. -/
-
+import GX.Topology.SLSCCompact
 import GX.Spherical.S3Model
 import GX.Spherical.ConeSurface
+
+/-! The strict library of the paper `gx` (`papers/gx`). Every module is imported here. -/

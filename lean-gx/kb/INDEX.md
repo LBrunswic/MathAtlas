@@ -15,3 +15,6 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0005](entries/0005-cone-angle-invariance.md) | pattern | The cone angle of a conical model is an invariant of the apex |
 | [0006](entries/0006-spherical-models.md) | pattern | The spherical models (`RaySphere`, `SpecialOrth`) and the Thurston suspension |
 | [0007](entries/0007-thurston-atlas-transport.md) | pattern | Reusing `ConicStructure.mk_mem_sing` for the Thurston atlas: transport along `liftSO` |
+| [0008](entries/0008-rw-motive-defeq-endpoints.md) | pitfall | `rw` fails on paths whose endpoints are defeq but not syntactic |
+| [0009](entries/0009-van-kampen-chained.md) | pattern | A glued van Kampen invariant can be glued again: one gluing per bad point |
+| [0010](entries/0010-infinitesimal-loops.md) | pattern | Detect an infinitesimal non-null loop with an invariant valued in a quotient group |
