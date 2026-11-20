@@ -45,3 +45,6 @@ import GX.BTZ.Uniformization
 import GX.BTZ.TildeStructure
 
 /-! The strict library of the paper `gx` (`papers/gx`). Every module is imported here. -/
+
+import GX.Spherical.S3Model
+import GX.Spherical.ConeSurface
