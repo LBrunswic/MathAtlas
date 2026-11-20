@@ -14,3 +14,14 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - commits: 685b84a 377fd99 6148937 89d49b8 b070c95 b03614f ca07081 c4d6baf
 - shared checkout: /atlas-team's push 2e8c12e carried the first three; lean-causal handed back to it for T-ett-deux-pushup-graduate
 - next: a planning run (rule 2: two papers set up since the planner last ran; the binder targets and the keeper's proposals); then wave: T-tac-ladder-core, T-abs-locate-extension, T-pub-blueprint, T-loc-ealpha-cauchy
+
+## 2026-11-20 20:05 · plan · programme-planner (rule 2: two papers set up)
+- T-bind-sbierski-mghd (binder): 19 rows bound; layer 1 in Lean 15 (Causal.CBG, Causal.GluingHausdorff), layer 3 in Lean 0 (smooth-vacuum all targets; flat-gx entries are Lean names); A1/A3/A4 and local uniqueness in open_localisation pending ladder nodes. Findings: Lean's CBG starts from a GH spacetime, Sbierski from initial data (Thm 2.6 needed: T-abs-cbg-initial-data); Lean proves Prop 3.7 (ii) from A3, Sbierski A3 from 3.7 (ii) (T-abs-sbierski-prop-3-7); in the causal CBG setting uniqueness of the corresponding point and openness of C are proved, which bears on OQ-40; model-free CBG theorems sit in model-importing modules
+- T-bind-ers-predictability (binder): 28 of 32 rows bound; layer 1 in Lean 7, layer 3 in Lean 1. Findings: ERS Thm 4.64 (used by 7 rows) not in Lean beyond Step 2; §3's non-uniqueness is a developing-map phenomenon (T-abs-ers-etale-mghd); the OQ-41 readings recorded as taken
+- roadmap 18 → 45 targets: 7 ladder (2 blocked on OQ-40/OQ-41), 1 tooling (T-tool-ladder-py, master), 9 layer 1, 10 layer 3 and package; T-pkg-smooth-lorentz needs-ruling (where smooth Lorentzian metrics live in Lean), and eight smooth-vacuum/quasilinear targets wait on it; T-tac-ladder-core now fixes emit-lean first
+- planner's readings, not recorded as OQ (no target has taken them yet; the closer will report them): Sbierski's "initial data" as a fixed Cauchy surface plus the class of its developments closed under common sub-developments (T-abs-cbg-initial-data); ERS §3 computational rows bound with `ett` = the layer-1 theorem they feed
+- ladder: 12/110 pairs, 10 checked edges, 10 consequences (unchanged)
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 7, layer 3 in Lean 1; sbierski-mghd 19 rows bound, layer 1 in Lean 15, layer 3 in Lean 0
+- gates: ladder ✓, binder ✓, roadmaps ✓, tests ✓; hub: papers-check red on bbs, benzecri, egf, gx, syracuse, yamabe only, ledgers stale under /atlas-team's six in-flight closers in lean-gx, lean-benzecri, lean-egf, lean-syracuse, lean-yamabe (its paths, not reverted); gate-tests red through papers-check; lean-causal papers green
+- commits: 400e67c 8d905eb c149d7f
+- next: wave: T-tac-ladder-core, T-abs-locate-extension, T-abs-ladder-local-defs (lean-causal ×3), T-pub-blueprint, T-lad-cbg-geometry-nodes — the lean-causal three after /atlas-team's T-ett-deux-pushup-graduate frees lean-causal
