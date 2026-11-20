@@ -137,7 +137,7 @@ def check(data, root=ROOT):
 def next_target(data, owner=None):
     done = {t["id"] for t in data.get("target", []) if t.get("status") == "done"}
     cands = [t for t in data.get("target", [])
-             if t.get("status") == "ready" and (owner is None or t.get("owner") == owner)
+             if t.get("status") == "ready" and (owner is None or t.get("owner") in owner.split(","))
              and all(d in done for d in t.get("depends", []))]
     cands.sort(key=lambda t: (t.get("priority", 99), data["target"].index(t)))
     return cands[0]["id"] if cands else None

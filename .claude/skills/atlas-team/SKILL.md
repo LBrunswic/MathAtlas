@@ -48,7 +48,8 @@ Take the first rule that applies:
    ago: **plan**.
 3. `python3 tools/roadmap.py next --owner builder` gives a target, and the last builder run was
    three or more iterations ago: **build**.
-4. `python3 tools/roadmap.py next --owner closer` gives a target: **close** it.
+4. `python3 tools/roadmap.py next --owner closer,master` gives a target: **close** it if the
+   owner is `closer`, **set up** if the owner is `master`.
 5. `python3 tools/roadmap.py next --owner planner` gives a target: **plan** (research).
 6. Otherwise nothing is dispatchable: write the journal entry "idle: waiting on rulings" with
    the list of `needs-ruling` questions, then stop the loop.
@@ -113,6 +114,31 @@ Dispatch **atlas-builder** with the target block. Verify the result yourself:
    A corrected form is marked only if a DEC row already rules it. Then run `make ledgers`.
 6. **The REPORT's `kb_proposals`** go into the package's `kb/` as new entries, following its
    `INDEX.md` format.
+
+### set up (owner `master`: packages, ledgers, transcriptions)
+
+You do this yourself; no agent writes a package or a ledger. Follow the precedent's wave-0
+commit to the letter: Barbot's `papers/barbot/` (DEC-34) for an external paper, and Benzécri's
+`4d24ddf` (DEC-112) for a new package together with its paper. The pieces:
+
+- **paper:**
+  - `papers/<slug>/paper.toml`;
+  - `legacy/orig/` (snapshot), `legacy/labeled/` (labels added, `tools/autolabel.py`) and
+    `MANIFEST.json`;
+  - `ledger/ledger.toml`, then `python3 tools/ledger.py -c papers/<slug>/ledger/ledger.toml build`;
+  - `certificate/curation.toml`;
+  - a reading-map `STORY.md` for an external paper, or the skeleton for the author's own.
+- **package:**
+  - `lean-<slug>/` with `lakefile.toml` at the hub's pin, the strict and scaffold libraries, and
+    `scripts/` (copy `sorry_count.py` and `AxiomSweep.lean`);
+  - `Makefile` with `check`, `docs/CAMPAIGN.md` and `README.md`;
+  - `python3 tools/dropbox_ignore.py` before the first build;
+  - `lean-<slug>/.lake` added to `hub.toml`'s `dropbox_ignored`;
+  - `lake exe cache get`;
+  - `make -C lean-<slug> check` green on the empty library.
+
+Then point the paper's `ledger.toml` `[lean] root` at the package. A transcription from a scan
+records in `MANIFEST.json` that the author has to check it. Close with the gates, as for close.
 
 ## 4. Gates: an iteration may not make anything redder
 
