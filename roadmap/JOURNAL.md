@@ -132,3 +132,15 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: (this one)
 - wall time: 23:15–23:40 (Paris); agents: 1 (planner, alone)
 - next: wave: T-egf-backward-policy, T-bz-c2-hilbert, T-gx-troyanov-two-pi, T-syr-rep, T-syr-integer-bounds (5 slots: /ett-programme has 1 lean-causal closer)
+
+## 2026-11-21 00:25 · wave of 5 · T-egf-backward-policy, T-bz-c2-hilbert, T-gx-troyanov-two-pi, T-syr-rep, T-syr-integer-bounds
+- T-gx-troyanov-two-pi: a regular point is a cone point of angle 2π (GX.IsConePoint.of_mem_reg); TroyanovTheorem ⇔ its case s ≥ 4 with every θ_i ≠ 2π; cex row stays partial; audit clean
+- T-syr-integer-bounds: lem:one_has and cor:corollary_2 closed as printed; lem:itemize_furthermore_itemize and cor:bounds false as printed (x = 1, n = 0), true forms proved unmarked (OQ-54); audit minor
+- T-syr-rep: theo:rep proved on RepDomain over ℤ_[2] (false as printed on −1/3's backward orbit, OQ-42 (d)); the first corollary needs integrality (OQ-42 (a): fails in ℤ × ℤ/3ℤ); the second true for i ≠ j (OQ-53); all three partial; audit minor
+- T-egf-backward-policy: the backward star policy defined; theo:backward_policy false as printed in the appendix's setting (non-ergodic formal counterexamples, ergodic ones by hand), corrected forms proved (OQ-55); audit minor
+- T-bz-c2-hilbert: Props. 2 and 3 proved for n ≥ 1, unmarked (OQ-45; Prop. 2's literal reading holds in every dimension, OQ-56); 5°, 6° as lemmas; audit minor
+- gates: lean-gx ✓, lean-syracuse ✓, lean-egf ✓, lean-benzecri ✓, roadmap ✓, atlas ✓ (overlay refreshed for five packages), hub make -k check all green
+- commits: d206dd5 dcfcf8c 5ff0a6b 7b5c4d5 56301de b2446d2 eb9357f e6fbc28 30ad559 0c4987c
+- wall time: 23:42–00:25 (Paris); agents in parallel: 5 closers (+1 /ett-programme closer, shared cap 6), 5 audits; each target integrated as soon as its audit returned (its package had no other closer)
+- coordination: OQ ids raced twice with /ett-programme (OQ-55, OQ-56 taken mid-wave, its next free announced each time)
+- next: wave: T-bz-c2-dedupe (master, exclusive), T-yamabe-kobayashi, T-ett-port-e0-sfa (lean-causal: share per-package 3 with /ett-programme), T-gx-troyanov-polygon, T-syr-completion, T-gx-troyanov-source (master)
