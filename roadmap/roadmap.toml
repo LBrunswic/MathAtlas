@@ -326,7 +326,7 @@ commit = "24d9429"
 
 [[target]]
 id = "T-gx-troyanov"
-title = "Troyanov's existence theorem for s ≥ 4 cone points (after the s = 3 case), discharging GX.troyanovTheorem"
+title = "Troyanov's existence theorem, the case left after s = 3, the angles 2π and the polygons: s ≥ 4 angles, none equal to 2π, at least one above 2π; then GX.troyanovTheorem assembled and discharged"
 stream = "gx"
 kind = "close"
 paper = "gx"
@@ -334,8 +334,8 @@ labels = ["cex:start_singular_manifold_homeomorphic"]
 status = "planned"
 owner = "closer"
 priority = 8
-depends = ["T-gx-spherical-cone", "T-gx-troyanov-triangle"]
-evidence = "DEC-136: prove it in full, do not shrink it; DEC-69 made it a named external. Re-scoped 2026-11-20 by the planner and moved from ready to planned, because it is not one dispatch. The Prop (GX/SingularII/Models.lean:944) quantifies over every s ≥ 3 and every θ with TroyanovAngleCondition (Σ(θ_i − 2π) + 4π in ]0, min(4π, θ_i)]). That is an existence theorem for cone metrics with prescribed angles. Re-scoped again 2026-11-20 by the planner, after T-gx-spherical-cone (7d7d6fa). The objects exist: GX.IsConeSphere, GX.SphCone, the angle-tied GX.TroyanovTheorem, whose proof is the tagged sorry GX.troyanovTheorem (scaffold Spherical/TroyanovAngles.lean:322). The s = 3 case is T-gx-troyanov-triangle; this target is s ≥ 4. It no longer depends on T-gx-troyanov-suspension: GX.TroyanovTheorem does not use the suspension facts, and the row's mark needs both obligations whichever closes last. [r] (planner, unchecked) Route notes, to be scoped before dispatch. (1) An angle 2π is a marked regular point: dropping it leaves the sum unchanged and keeps s ≥ 3 (GX.TroyanovAngleCondition.three_le_card_ne_two_pi), so it reduces to s − 1 points. (2) Angles above 2π occur once s ≥ 4: (5π/2, 3π/5, 3π/5, 3π/5) satisfies the condition (sum term 3π/10 ≤ 3π/5). So doubling a convex spherical polygon is not enough, and a reflex vertex or another construction is needed. MR1005085 is not archived under papers/gx/sources (T-gx-spherical-cone REPORT: the condition's subcritical form was recalled from it, unchecked)."
+depends = ["T-gx-spherical-cone", "T-gx-troyanov-triangle", "T-gx-troyanov-two-pi", "T-gx-troyanov-polygon", "T-gx-troyanov-source"]
+evidence = "DEC-136: prove it in full, do not shrink it; DEC-69 made it a named external. Re-scoped 2026-11-20 by the planner and moved from ready to planned, because it is not one dispatch. The Prop (GX/SingularII/Models.lean:944) quantifies over every s ≥ 3 and every θ with TroyanovAngleCondition (Σ(θ_i − 2π) + 4π in ]0, min(4π, θ_i)]). That is an existence theorem for cone metrics with prescribed angles. Re-scoped again 2026-11-20 by the planner, after T-gx-spherical-cone (7d7d6fa). The objects exist: GX.IsConeSphere, GX.SphCone, the angle-tied GX.TroyanovTheorem, whose proof is the tagged sorry GX.troyanovTheorem (scaffold Spherical/TroyanovAngles.lean:322). The s = 3 case is T-gx-troyanov-triangle; this target is s ≥ 4. It no longer depends on T-gx-troyanov-suspension: GX.TroyanovTheorem does not use the suspension facts, and the row's mark needs both obligations whichever closes last. [r] (planner, unchecked) Route notes, to be scoped before dispatch. (1) An angle 2π is a marked regular point: dropping it leaves the sum unchanged and keeps s ≥ 3 (GX.TroyanovAngleCondition.three_le_card_ne_two_pi), so it reduces to s − 1 points. (2) Angles above 2π occur once s ≥ 4: (5π/2, 3π/5, 3π/5, 3π/5) satisfies the condition (sum term 3π/10 ≤ 3π/5). So doubling a convex spherical polygon is not enough, and a reflex vertex or another construction is needed. MR1005085 is not archived under papers/gx/sources (T-gx-spherical-cone REPORT: the condition's subcritical form was recalled from it, unchecked). Updated and split 2026-11-20 by the planner, after T-gx-troyanov-triangle (6195fbb). s = 3 is proved: GX.troyanovTheorem_three (GX/Spherical/TroyanovTriangle.lean:2426), exactly TroyanovTheorem at s = 3 (AUDIT-1 CHECKED (1)). GX.troyanovTheorem_of_four_le (l.2442) reduces TroyanovTheorem to s ≥ 4, and the reduction is an equivalence (AUDIT-1 CHECKED (2)). The scaffold sorry (TroyanovAngles.lean:322) still covers every s. The REPORT suggests that the master re-route it through troyanovTheorem_of_four_le so that it carries only s ≥ 4. Route note (1) is now T-gx-troyanov-two-pi (drop the angles 2π). The all-below-2π part of (2) is T-gx-troyanov-polygon (double a convex spherical s-gon). What remains here is s ≥ 4, every θ_i ≠ 2π, some θ_i > 2π. The case occurs: (5π/2, 3π/5, 3π/5, 3π/5) gives χ' = 3π/10. At s = 3 it does not, since every θ_i < 2π there (troyanovAngleCondition_three_iff, l.102). Then the assembly: GX.troyanovTheorem from the four cases. No construction for an angle above 2π is in the library or the notes, and MR1005085's own proof is variational. So this target needs a scoping pass before any dispatch, starting from what T-gx-troyanov-source quotes. Hence planned, with the source as a dependency. T-gx-troyanov-triangle AUDIT-1 owes the check of l.1930's bound against the source (it suspects θ_i where Troyanov has 2θ_i). That check is T-gx-troyanov-source's, and it goes to the author only once checked."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
 
@@ -399,6 +399,50 @@ evidence = "GX/Spherical/TroyanovTriangle.lean: GX.troyanovTheorem_three (Troyan
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
 commit = "6195fbb"
+
+[[target]]
+id = "T-gx-troyanov-two-pi"
+title = "Troyanov: a regular point is a cone point of angle 2π, so GX.TroyanovTheorem reduces to angles all ≠ 2π (and, with troyanovTheorem_of_four_le, to s ≥ 4 such angles)"
+stream = "gx"
+kind = "close"
+paper = "gx"
+labels = ["cex:start_singular_manifold_homeomorphic"]
+status = "ready"
+owner = "closer"
+priority = 6
+depends = ["T-gx-troyanov-triangle"]
+evidence = "Route note (1) of T-gx-troyanov, split off 2026-11-20 by the planner. Troyanov's condition admits an angle 2π (GX.troyanovAngleCondition_two_pi, scaffold Spherical/TroyanovAngles.lean:106: (9π/10, 19π/20, π, 2π)) and forces at least three angles ≠ 2π (TroyanovAngleCondition.three_le_card_ne_two_pi, l.127). GX.TroyanovAngleCondition (GX/SingularII/Models.lean:897) is unchanged when an index with θ_k = 2π is deleted, since its term θ_k − 2π vanishes and the bounds χ' ≤ θ_j for j ≠ k stay; three_le_card_ne_two_pi keeps s − 1 ≥ 3. So TroyanovTheorem at s follows from TroyanovTheorem at s − 1 once a cone sphere (GX.IsConeSphere, GX/Spherical/ConeSurface.lean:958) can be given one more cone point of angle 2π. The library has one direction: a cone point of angle 2π is regular (IsConePoint.mem_reg, ConeSurface.lean:897). This target proves the converse, that every regular point of a singular (SO(3), 𝕊²)-manifold has an X_{2π}-chart onto C_{2π} (GX.IsConePoint, l.872). [r] (planner, unchecked) C_{2π} develops onto 𝕊² minus the antipode of the apex (ConeSurface SCOPE (b)), so a regular chart rotated to send the point to the apex should be such a chart. The new point is any point outside range p, which exists since M ≃ 𝕊² is infinite, and is regular since Sing ⊆ range p. Expected statements: TroyanovTheorem from its restriction to angles all ≠ 2π, and, with troyanovTheorem_of_four_le (TroyanovTriangle.lean:2442) and troyanovAngleCondition_three_iff (l.102: at s = 3 every θ_i < 2π), from its restriction to s ≥ 4 angles all ≠ 2π. The row stays partial. This is one dispatch, a new scaffold file. It shares its only label with every Troyanov target, so the wave runs one of them at a time."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-gx-troyanov-polygon"
+title = "Troyanov for s ≥ 4 angles all in ]0, 2π[: the double of a convex spherical s-gon with angles θ_i/2 is a cone sphere with angles θ_i"
+stream = "gx"
+kind = "close"
+paper = "gx"
+labels = ["cex:start_singular_manifold_homeomorphic"]
+status = "ready"
+owner = "closer"
+priority = 7
+depends = ["T-gx-troyanov-triangle"]
+evidence = "Route note (2) of T-gx-troyanov, its all-below-2π part, split off 2026-11-20 by the planner. T-gx-troyanov-triangle (6195fbb) did s = 3 by doubling the spherical triangle with angles θ_i/2 (GX.exists_sphTriangle, GX/Spherical/TroyanovTriangle.lean:558, from the polar Gram matrix; the double GX.SphTriangle.TriDouble, l.1137; the cone charts through GX.polarFold). Its REPORT kb_proposals: 'A doubled convex body is 𝕊² … a spherical polygon is convex in the stereographic chart at a vertex when its angles are < π'. Its AUDIT-1: the triangle realises exactly the subcritical hypothesis at s = 3 (χ' < 2θ_k with Σα > π). TroyanovAngleCondition.subcritical (scaffold Spherical/TroyanovAngles.lean:159) derives 0 < χ' < 4π and χ' < 2θ_j from the printed condition, where χ' = Σ(θ_i − 2π) + 4π. [r] (planner, unchecked; the closer checks) With α_i = θ_i/2 ∈ ]0, π[, a convex spherical polygon with angles α_i exists iff its polar polygon exists, the one with sides π − α_i. That holds iff Σ(π − α_i) < 2π (that is, χ' > 0) and π − α_k < Σ_{j≠k}(π − α_j) for each k (that is, χ' < 2θ_k). So it is again the subcritical form, implied by the printed condition. The polar polygon can be built inscribed in a circle, by continuity in the radius. Its double has cone angles 2α_i = θ_i < 2π, so these are genuine cone points. Expected statement: TroyanovTheorem restricted to s ≥ 4 angles all < 2π. The row stays partial. The triangle took one dispatch (2,477 lines). If the s-gon needs two (the polygon, then the double), the closer says so in its REPORT. It does not depend on T-gx-troyanov-two-pi, but it shares that target's label, so the wave runs them one after the other."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-gx-troyanov-source"
+title = "Archive Troyanov, Prescribing curvature on compact surfaces with conical singularities (Trans. AMS 324, 1991; MR1005085) under papers/gx/sources with verbatim quotes, and check RamcovGX.tex l.1930's bound against it"
+stream = "gx"
+kind = "research"
+paper = "gx"
+package = "none"
+status = "ready"
+owner = "master"
+priority = 8
+evidence = "Owed by T-gx-troyanov-triangle (journal 2026-11-20 23:10: 'owed to T-gx-troyanov: l.1930's bound against MR1005085'). Its AUDIT-1 (minor finding 1): the library's recollection GX.TroyanovAngleCondition.subcritical (scaffold Spherical/TroyanovAngles.lean:159–167, 'NOT checked against the source, which is not in papers/gx/sources') reads Troyanov's hypothesis as 0 < χ' < min(4π, 2θ_i). The printed l.1930 bounds χ' by θ_i, so it 'supports, but does not establish, a context finding for the author: l.1930 bounds χ' by θ_i where Troyanov has 2θ_i … it must first be checked against MR1005085 … Until then it is a recollection, not a finding.' Bib: papers/gx/legacy/labeled/note.bib:450 (DOI 10.2307/2001742). papers/gx/sources/README.md lists the archived sources (PDF plus a note), and MR1005085 is not among them. Output: the PDF and a NOTE.md quoting the existence theorem's hypotheses verbatim, with page numbers. Then either a confirmed context finding, which the master records as an OQ row for the author, or the recollection corrected in a later scaffold edit. It writes no Lean (package none). T-gx-troyanov needs the quoted theorem for its scoping."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
 
 # ------------------------------------------------------------------ Benzécri
 [[target]]
@@ -511,11 +555,26 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzprop:c2s2p2_pseudo_longueur_corps_convexe", "bzprop:c2s2p3_voisinage_majore"]
-status = "planned"
+status = "ready"
 owner = "closer"
 priority = 5
 depends = ["T-bz-c2-mesure"]
-evidence = "DEC-137. benzecri1960_ch2.tex l.306–317 (Prop. 2: 'résulte de ce que F, F′ dépendent continûment de A, B'), l.321–332 (5°, upper semicontinuity, from Prop. 2 and 4°) and l.365–379 (Prop. 3, from 6° and 4°). It needs the pseudo-length of T-bz-c2-mesure. Convex bodies of S(n) are Benzecri.IsCorpsConvexeS (Projective/Convex.lean:542). 5° and 6° are lemmas here, unmarked (their row is T-bz-c2-proprietes)."
+evidence = "DEC-137. benzecri1960_ch2.tex l.306–317 (Prop. 2: 'résulte de ce que F, F′ dépendent continûment de A, B'), l.321–332 (5°, upper semicontinuity, from Prop. 2 and 4°) and l.365–379 (Prop. 3, from 6° and 4°). It needs the pseudo-length of T-bz-c2-mesure. Convex bodies of S(n) are Benzecri.IsCorpsConvexeS (Projective/Convex.lean:542). 5° and 6° are lemmas here, unmarked (their row is T-bz-c2-proprietes). Promoted 2026-11-20 by the planner: T-bz-c2-mesure is done (245693e), with the pseudo-length Benzecri.pseudoLength, IsMajoreSeg and IsMajorePart (Chapter2/Mesure.lean:317–329). OQ-45 (open) bears on both rows. Prop. 3 and the 'ne s'annule que sur la diagonale' of Prop. 2 contain property 1° (l_V(M, M) = 0), which fails in dimension 0 (Mesure.lean:730, pseudoLength_self_eq_top_dim_zero). Mesure's SCOPE (l.83–84): 'Prop. 3 (T-bz-c2-hilbert) inherits the same question: with the convention here, a point of a 0-manifold has no majorised neighbourhood'. So prove both rows for n ≥ 1 ([NeZero n]) and record what holds at n = 0, as T-bz-c2-projection did (6d457b8). Its AUDIT-1 gives the routing: marked under OQ-45 (a) with no Lean change; partial under (b) or (c). The marks wait on OQ-45. Tools named for this target in Mesure's SCOPE (l.86–88): isProjSegment_of_chart, isMajoreSeg_of_chart (l.396), exists_closedSeg_extend (l.412), IsMajoreSeg.mono. The cross-ratio is in Chapter2/CrossRatio (lean-benzecri kb/0008). Use Mesure's names for the chart change on a segment; T-bz-c2-dedupe keeps them, so they stay valid."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-bz-c2-dedupe"
+title = "lean-benzecri: keep one copy of the segment facts that Chapter2/Poches and Chapter2/Mesure both prove (GS(E) on segments and antipodes, connectedness of segments, a segment's image in a compatible chart)"
+stream = "benzecri"
+kind = "tooling"
+paper = "benzecri"
+package = "lean-benzecri"
+exclusive = true
+status = "ready"
+owner = "master"
+priority = 5
+evidence = "lean-benzecri/kb/0006 ('Duplicate to remove … a later target should keep one statement and derive the other'), T-bz-c2-mesure REPORT kb_proposals[2] ('T-bz-c2-poches proved the same lemmas through IsGXSegment, so dedupe at graduation'), journal 2026-11-20 21:25 ('owed … keep one copy in a later target'). The pairs, read off the strict files on 2026-11-20 (the two files import neither other: Mesure imports CrossRatio and Structure.Classes, Poches imports Structure.Classes and Developing). Sphere.GSE.smul_neg (Poches.lean:327) and Sphere.gse_smul_neg (Mesure.lean:160). Sphere.GSE.image_smul_closedSeg (Poches:351) and Sphere.gse_image_closedSeg (Mesure:153). Sphere.isPreconnected_closedSeg (Poches:366) and Sphere.isPreconnected_closedSeg_of_ne_neg (Mesure:165). IsProjSegment.isPreconnected (Poches:481) and IsProjSegment.isPreconnected_seg (Mesure:193). IsProjSegment.image_eq (Poches:497) and IsProjSegment.image_eq_closedSeg (Mesure:244), the same two conjuncts in the other order. Mesure's exists_smul_eq_on_of_isPreconnected (l.232) has no twin and stays. Scope: Mesure imports Poches, and each Mesure twin becomes a one-line derivation from Poches's statement under its current name, so that T-bz-c2-hilbert and later Chapter 2 files keep compiling. No statement changes, and no ledger row's decls name any of the ten (checked against papers/benzecri/ledger/ledger.json). Exclusive because it edits two strict files that every later Chapter 2 closer imports (the schema's 'strict-library refactor'). Priority 5, after T-bz-c2-hilbert in this file, so it takes lean-benzecri in the wave after Hilbert and before T-bz-c2-lignes."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
 
@@ -530,7 +589,7 @@ status = "planned"
 owner = "closer"
 priority = 6
 depends = ["T-bz-c2-poches", "T-bz-c2-hilbert"]
-evidence = "DEC-137. benzecri1960_ch2.tex l.381–449 (pp. 251–252). n(E, k) needs finitely many k-majorised opens covering a compact E, which is Prop. 3 (T-bz-c2-hilbert). Prop. 4 is an induction on n(E, k) ([sic] l.408: « O_a » read O_Q). Prop. 5 joins M to N by a broken line of r-majorised segments. Prop. 6 is an induction on p from 7° (l.445–449). 7° is about pockets (T-bz-c2-poches): stated in the enonce (l.253–256) and proved at l.334–357, with the [sic] at l.341 ('af × ff′' for af × bf′). It is proved here as a lemma, unmarked, since its row is T-bz-c2-proprietes. The unlabelled sentences after Déf. 6 (l.417–423) go in as lemmas, because § 3 Prop. 2 uses them: pseudo-balls are open and connected by 3° and 5°, and form a neighbourhood basis in a convex body by 6°."
+evidence = "DEC-137. benzecri1960_ch2.tex l.381–449 (pp. 251–252). n(E, k) needs finitely many k-majorised opens covering a compact E, which is Prop. 3 (T-bz-c2-hilbert). Prop. 4 is an induction on n(E, k) ([sic] l.408: « O_a » read O_Q). Prop. 5 joins M to N by a broken line of r-majorised segments. Prop. 6 is an induction on p from 7° (l.445–449). 7° is about pockets (T-bz-c2-poches): stated in the enonce (l.253–256) and proved at l.334–357, with the [sic] at l.341 ('af × ff′' for af × bf′). It is proved here as a lemma, unmarked, since its row is T-bz-c2-proprietes. The unlabelled sentences after Déf. 6 (l.417–423) go in as lemmas, because § 3 Prop. 2 uses them: pseudo-balls are open and connected by 3° and 5°, and form a neighbourhood basis in a convex body by 6°. Updated 2026-11-20 by the planner: n(E, k) rests on Prop. 3, and Prop. 3 inherits OQ-45 (see T-bz-c2-hilbert). In dimension 0 no point has a majorised neighbourhood, so n(E, k) is undefined for a non-empty E there. [r] The rows are therefore expected for n ≥ 1, with the marks waiting on OQ-45, like T-bz-c2-hilbert's."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
 
@@ -546,7 +605,7 @@ oq = "OQ-38"
 owner = "closer"
 priority = 7
 depends = ["T-bz-c2-hilbert", "T-bz-c2-lignes"]
-evidence = "The row exists only through the editorial wrap of OQ-38(a): an unnumbered list wrapped as an enonce, its two proof parts tagged [Proof of …] (lean-benzecri/campaign/T-bz-chapter2/NOTES.md, 'Editorial choices' 1). The seven properties are proved as lemmas by T-bz-c2-mesure (1°–4°), T-bz-c2-hilbert (5°, 6°) and T-bz-c2-lignes (7°). This target is their assembly theorem and anchor. If the author keeps the wrap, it moves to ready. If the author undoes it, the label leaves the ledger, this target is dropped, and the lemmas stay where they are."
+evidence = "The row exists only through the editorial wrap of OQ-38(a): an unnumbered list wrapped as an enonce, its two proof parts tagged [Proof of …] (lean-benzecri/campaign/T-bz-chapter2/NOTES.md, 'Editorial choices' 1). The seven properties are proved as lemmas by T-bz-c2-mesure (1°–4°), T-bz-c2-hilbert (5°, 6°) and T-bz-c2-lignes (7°). This target is their assembly theorem and anchor. If the author keeps the wrap, it moves to ready. If the author undoes it, the label leaves the ledger, this target is dropped, and the lemmas stay where they are. Updated 2026-11-20 by the planner: OQ-45 also names this row. Property 1° (l_V(M, M) = 0) fails in dimension 0 (lean-benzecri Chapter2/Mesure.lean:730, pseudoLength_self_eq_top_dim_zero). So even with the wrap kept, the assembly is marked only under OQ-45 (a) or (b), and stays partial under (c)."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
 
@@ -576,7 +635,7 @@ status = "planned"
 owner = "closer"
 priority = 7
 depends = ["T-bz-c2-compact"]
-evidence = "DEC-137. benzecri1960_ch2.tex l.517–646 (pp. 253–256). The proof of 1° runs through the jet covering J(V) → V (Chapter 1: Benzecri.isCoveringMap_jets_proj, Structure/Jets.lean:355; the developing theorem prop2_developpement_proj). 1°a: J(V) is a product, since every loop can be moved into P (Prop. 7). 1°b: injectivity, through the γ ∈ GS(n, ℝ) with φ̃ ∘ g = γ ∘ φ̃ and Prop. 7's corollary. 1°c: P = φ̃⁻¹(D). 2°–4° use the corollary and condition b of a pocket ([sic] l.620: z(M) read z(gM)). The affine theorem is proved 'comme le précédent'. This is result B's core (bzthm:intro_B: 'cf. chap. 2, § 3, théorème'). It may take two dispatches, projective and then affine; if so, the closer says so in its REPORT."
+evidence = "DEC-137. benzecri1960_ch2.tex l.517–646 (pp. 253–256). The proof of 1° runs through the jet covering J(V) → V (Chapter 1: Benzecri.isCoveringMap_jets_proj, Structure/Jets.lean:355; the developing theorem prop2_developpement_proj). 1°a: J(V) is a product, since every loop can be moved into P (Prop. 7). 1°b: injectivity, through the γ ∈ GS(n, ℝ) with φ̃ ∘ g = γ ∘ φ̃ and Prop. 7's corollary. 1°c: P = φ̃⁻¹(D). 2°–4° use the corollary and condition b of a pocket ([sic] l.620: z(M) read z(gM)). The affine theorem is proved 'comme le précédent'. This is result B's core (bzthm:intro_B: 'cf. chap. 2, § 3, théorème'). It may take two dispatches, projective and then affine; if so, the closer says so in its REPORT. Updated 2026-11-20 by the planner. OQ-46 (open): the § 1 examples (Chapter2/Poches.lean, exemple_poche_affine) claim a pocket without p injective on P. 1°b's injectivity is the alternative OQ-46 offers ('the one-to-one case that § 3's Théorème shows always holds'), so the closer states 1°b so that it answers that reading, and decides nothing. The Theorem inherits OQ-45 through Prop. 7 → Props. 4, 6 → n(E, k) → Prop. 3 (T-bz-c2-lignes)."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
 
@@ -606,7 +665,7 @@ status = "planned"
 owner = "closer"
 priority = 8
 depends = ["T-bz-c2-theoreme", "T-bz-c2-projection", "T-bz-c2-hemisphere"]
-evidence = "benzecri1960_ch1.tex l.86–99 (résumé B), curated 'proved … no longer terminal' (papers/benzecri/certificate/curation.toml, T-bz-chapter2). Its three sentences cite § 3's theorem, its Prop. 2, and its Prop. 1 ('énonce un résultat plus fort'). The universal cover of a compact manifold is divisible, hence sweepable, by bzthm:c1s1_revetement_universel_divisible (T-bz-universal-cover, 2ed332b; divisible ⇒ balayable for V locally compact). So this is an assembly theorem: the Benzécri headline next to Benzecri.theoremA."
+evidence = "benzecri1960_ch1.tex l.86–99 (résumé B), curated 'proved … no longer terminal' (papers/benzecri/certificate/curation.toml, T-bz-chapter2). Its three sentences cite § 3's theorem, its Prop. 2, and its Prop. 1 ('énonce un résultat plus fort'). The universal cover of a compact manifold is divisible, hence sweepable, by bzthm:c1s1_revetement_universel_divisible (T-bz-universal-cover, 2ed332b; divisible ⇒ balayable for V locally compact). So this is an assembly theorem: the Benzécri headline next to Benzecri.theoremA. Updated 2026-11-20 by the planner: T-bz-c2-projection (6d457b8) gives the « projection non bornée » of result B as Benzecri.not_isBounded_range_of_isBalayable (Chapter2/Projection.lean:498), for n ≥ 1 ([NeZero n]). Its row bzprop:c2s3p1_projection_non_bornee is partial on OQ-45 (a), so the dimension in which result B is assembled follows that ruling."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
 
@@ -696,6 +755,20 @@ proposed_by = "roadmap-planner"
 commit = "a06acc2"
 
 [[target]]
+id = "T-bbs-q1"
+title = "BBS-Q1, the gate the bbs layer targets wait on: do the L2–L3 layers live in lean-gx or in a new lean-bbs? (the question of T-bbs-layer-home; one DEC row answers both)"
+stream = "bbs"
+kind = "author"
+paper = "bbs"
+status = "needs-ruling"
+owner = "author"
+priority = 7
+question = "BBS-Q1 (papers/bbs/REVIEW.md §F), the same question as T-bbs-layer-home: the L2–L3 layers (links by signature, then the Riemannian and Lorentzian branches) carry bbsprop:classising and bbsdef:Hcausal. Do they go into lean-gx (the bbs ledger's root), or into a new package lean-bbs that requires lean-gx?"
+evidence = "Added 2026-11-20 by the planner, so that the bbs layer targets can wait on BBS-Q1 through depends. T-bbs-layer-home holds the same question, but it is also the close target for bbsprop:classising and bbsdef:Hcausal, which need the layers first. The layers therefore cannot depend on it without a cycle. REVIEW.md §F: BBS-Q1…Q8 'get OQ- ids only when ruled', so there is no OQ row to block on. T-bbs-triage (a06acc2): all 71 bbs rows are bucket D, and 'no row needs only L0–L1, so nothing can be dispatched before BBS-Q1 (T-bbs-layer-home)'. The ledger's blocked_on fields name it 'BBS-Q1 (T-bbs-layer-home: …)'. One DEC row answering BBS-Q1 settles this target and moves T-bbs-layer-home to planned. A new package is the author's to decide."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+
+[[target]]
 id = "T-bbs-layer-home"
 title = "BBS-Q1: do the L2–L3 layers (links by signature; the singular lines of bbsprop:classising and bbsdef:Hcausal) live in lean-gx or in a new lean-bbs?"
 stream = "bbs"
@@ -705,8 +778,9 @@ labels = ["bbsprop:classising", "bbsdef:Hcausal"]
 status = "needs-ruling"
 owner = "closer"
 priority = 7
+depends = ["T-bbs-hs-model", "T-bbs-rp1-circles"]
 question = "BBS-Q1 (papers/bbs/REVIEW.md §F): the L2–L3 layers (links by signature, then the Riemannian and Lorentzian branches) carry bbsprop:classising and bbsdef:Hcausal. Do they go into lean-gx (the bbs ledger's root), or into a new package lean-bbs that requires lean-gx?"
-evidence = "REVIEW.md §F, BBS-Q1, still unruled: 'The ruling puts L0–L1 in lean-gx. L2–L3 could also go into lean-gx, which already requires lean-causal, or into a downstream package (lean-bbs requiring lean-gx)'. L0–L1 graduated (REVIEW.md §I, update 2026-11-20). STORY.md S-bbs-1 names bbsprop:classising and bbsdef:Hcausal as the model-independent part that the suspension layers rebuild (waves W2–W3, 'pure formalisation of material whose mathematics is settled'). A new package is the author's to decide."
+evidence = "REVIEW.md §F, BBS-Q1, still unruled: 'The ruling puts L0–L1 in lean-gx. L2–L3 could also go into lean-gx, which already requires lean-causal, or into a downstream package (lean-bbs requiring lean-gx)'. L0–L1 graduated (REVIEW.md §I, update 2026-11-20). STORY.md S-bbs-1 names bbsprop:classising and bbsdef:Hcausal as the model-independent part that the suspension layers rebuild (waves W2–W3, 'pure formalisation of material whose mathematics is settled'). A new package is the author's to decide. Updated 2026-11-20 by the planner, after T-bbs-triage (a06acc2). Once ruled, this target closes its two rows on the layers, so it now depends on them. The ruling then moves it to planned, not ready. The layers wait on the same ruling through T-bbs-q1. Ledger notes: bbsprop:classising is 'REVIEW §A row 1; link (types), flat (causal behaviour); layer L2 + L3b; wave W2–W3'; bbsdef:Hcausal is 'REVIEW §A row 22; link; layer L2; wave W3'. Wave W3 (REVIEW §E: 'causality of e(Σ): local future = e(ℍ⁺), Lemma 3.12 …, through ETT', 2–4k lines) has no target yet. It is to be scoped once T-bbs-rp1-circles (W2) is done, and may add a dependency here."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
 
@@ -720,8 +794,8 @@ labels = ["bbsdef:hs_surface_topological_surface_endowed"]
 status = "planned"
 owner = "closer"
 priority = 7
-depends = ["T-bbs-triage"]
-evidence = "REVIEW.md §B L2, 'Gaps: HS^n is not a type anywhere. Only its null part exists, as PenroseSphere'; §E wave W0 (2–4k lines, over lean-causal's Form and Penrose). colI_v1.tex l.615 (bbsdef:hs_surface_topological_surface_endowed: 'a topological surface endowed with a (SO₀(1,2), HS²)-structure'). Planned, not ready, because its package is BBS-Q1 (T-bbs-layer-home, needs-ruling): lean-gx (the bbs root) or a new lean-bbs. Once that is ruled, the package is set and the target promoted. It does not depend on T-bbs-layer-home itself, which is a close target for bbsprop:classising and bbsdef:Hcausal that needs this layer first. BBS-Q3 (the representation) was answered in REVIEW.md §I (2026-11-03): the unit-sphere model GX.RaySphere stays 'until someone objects'. This is the first layer that T-3p1-theorem-m's open Θ-half needs (its REPORT, N4:M3 not_stated: 'HS^2 as a (SO0(1,2), HS^2) model with its analytic action')."
+depends = ["T-bbs-triage", "T-bbs-q1"]
+evidence = "REVIEW.md §B L2, 'Gaps: HS^n is not a type anywhere. Only its null part exists, as PenroseSphere'; §E wave W0 (2–4k lines, over lean-causal's Form and Penrose). colI_v1.tex l.615 (bbsdef:hs_surface_topological_surface_endowed: 'a topological surface endowed with a (SO₀(1,2), HS²)-structure'). Planned, not ready, because its package is BBS-Q1 (T-bbs-layer-home, needs-ruling): lean-gx (the bbs root) or a new lean-bbs. Once that is ruled, the package is set and the target promoted. It does not depend on T-bbs-layer-home itself, which is a close target for bbsprop:classising and bbsdef:Hcausal that needs this layer first. BBS-Q3 (the representation) was answered in REVIEW.md §I (2026-11-03): the unit-sphere model GX.RaySphere stays 'until someone objects'. This is the first layer that T-3p1-theorem-m's open Θ-half needs (its REPORT, N4:M3 not_stated: 'HS^2 as a (SO0(1,2), HS^2) model with its analytic action'). Updated 2026-11-20 by the planner. The wait on BBS-Q1 is now a dependency on T-bbs-q1, the author gate that asks T-bbs-layer-home's question again so that the layers can depend on it without a cycle. T-bbs-triage (a06acc2) confirms the wait: the row's notes read 'layer L2; wave W0', blocked_on 'BBS-Q1 … wave W0 not built'. When BBS-Q1 is ruled, the planner sets `package` from the ruling and promotes this target."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
 
@@ -735,8 +809,8 @@ labels = ["bbsdef:circle_data_point_structure"]
 status = "planned"
 owner = "closer"
 priority = 8
-depends = ["T-bbs-hs-model"]
-evidence = "colI_v1.tex l.766 (bbsdef:circle_data_point_structure) and the sentence after it ('ℓ(p) admits a natural ℝP¹-structure'). REVIEW.md §E wave W2 covers ℝP¹-circles (row 6) and (Γ_p, ℓ(p))-circles. The T-3p1-theorem-m REPORT (N4:M3 not_stated) lists what the Θ-half needs: 'their RP1-structures from the hyperbolic side, the universal cover G~ of PSL(2,R) acting on RP1~, and the real angle of an elliptic RP1-circle'. Mathlib has no G̃. Its package waits on BBS-Q1, like T-bbs-hs-model's."
+depends = ["T-bbs-hs-model", "T-bbs-q1"]
+evidence = "colI_v1.tex l.766 (bbsdef:circle_data_point_structure) and the sentence after it ('ℓ(p) admits a natural ℝP¹-structure'). REVIEW.md §E wave W2 covers ℝP¹-circles (row 6) and (Γ_p, ℓ(p))-circles. The T-3p1-theorem-m REPORT (N4:M3 not_stated) lists what the Θ-half needs: 'their RP1-structures from the hyperbolic side, the universal cover G~ of PSL(2,R) acting on RP1~, and the real angle of an elliptic RP1-circle'. Mathlib has no G̃. Its package waits on BBS-Q1, like T-bbs-hs-model's. Updated 2026-11-20 by the planner: that wait is now the dependency on T-bbs-q1 (BBS-Q1 as an author gate). T-bbs-triage (a06acc2) gives the row 'layer L2; wave W2', blocked_on BBS-Q1."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
 
@@ -823,7 +897,7 @@ owner = "closer"
 priority = 6
 depends = ["T-egf-headline"]
 question = "EGF's S-egf-2 rests on two cited theorems: theo:spectral_gap_tori (main.tex l.811, Theorem 5 of bekka2015spectral) and theo:spectral_gap_sphere (l.831, a reformulation of Theorem 1 of bourgain2012spectral). Are they formalized as named external Props, as DEC-69 first did for Troyanov, with theo:universality_tori and theo:universality_sphere proved from them? Or are they to be proved, as DEC-136 now asks for Troyanov?"
-evidence = "papers/egf/STORY.md S-egf-2: 'by the spectral-gap theorems of the literature'. The ledger curates both theorems as nl_status 'cited'. T-egf-sampling's evidence already left S-egf-2 to the author. The body theorems state only 'provided mild technical assumptions on the (Φ_i)' (l.291) and 'provided technical assumptions' (l.305). The closer reads those assumptions off the cited theorems (l.811–818, l.831–833), which is formalization, not a ruling. Proving Bourgain–Gamburd's spectral gap for algebraic rotations would be a campaign of its own."
+evidence = "papers/egf/STORY.md S-egf-2: 'by the spectral-gap theorems of the literature'. The ledger curates both theorems as nl_status 'cited'. T-egf-sampling's evidence already left S-egf-2 to the author. The body theorems state only 'provided mild technical assumptions on the (Φ_i)' (l.291) and 'provided technical assumptions' (l.305). The closer reads those assumptions off the cited theorems (l.811–818, l.831–833), which is formalization, not a ruling. Proving Bourgain–Gamburd's spectral gap for algebraic rotations would be a campaign of its own. Updated 2026-11-20 by the planner, after T-egf-headline (742a9c5). Once ruled, the marks of theo:universality_tori and theo:universality_sphere also follow readings open since that target: what 'universal EGF family' means (def:universal_family: OQ-49 probability measures, OQ-50 exact or up to ε), what an EGF requires (def:egf: OQ-48 forward words or the generated group), and the confirmation OQ-47 on def:summably_mixing, which both theorems use through theo:universality_true."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
 
@@ -844,16 +918,16 @@ commit = "895d501"
 
 [[target]]
 id = "T-syr-rep"
-title = "Syracuse § 1: the 2-adic representation x ↦ (p_n(x)), a bijection onto strictly increasing sequences from 0 (theo:rep), its corollaries, and the continuity of f_A, T_A"
+title = "Syracuse § 1: the 2-adic representation x ↦ (p_n(x)), a bijection onto strictly increasing sequences from 0 (theo:rep, over ℤ_[2]), and its two corollaries on periodic orbits"
 stream = "other"
 kind = "close"
 paper = "syracuse"
-labels = ["theo:rep", "cor:ring_following_equivalent_enumerate", "cor:ring_periodic_minimal_period", "prop:ring_both_continuous_extends"]
-status = "planned"
+labels = ["theo:rep", "cor:ring_following_equivalent_enumerate", "cor:ring_periodic_minimal_period"]
+status = "ready"
 owner = "closer"
 priority = 6
 depends = ["T-syr-base"]
-evidence = "syracuse.tex l.58–60 (prop:ring_both_continuous_extends, 'left to the reader') and l.88–109 (theo:rep, with inverse −(1/3)Σ 2^{p_n}/3^n in A₂, from lem:base, and the two corollaries). The text claims A₂ ≅ ℤ₂ for every ℤ/2ℤ-ring (l.50–52, unlabelled), and this target needs it. Mathlib has ℤ_[2] (PadicInt). cor:ring_periodic_minimal_period has no printed proof. cor:corollary (l.110) is an empty environment and is left to the curation. [r] (planner, unchecked) The −1/3 caveat of T-syr-base applies in ℤ₂: φ is undefined on the backward T-orbit of −1/3, and −1/3 is not in the image of the printed inverse. So the bijection presumably holds off that countable set: a likely finding."
+evidence = "syracuse.tex l.88–109 (theo:rep, with inverse −(1/3)Σ 2^{p_n}/3^n in A₂, from lem:base, and the two corollaries). The text claims A₂ ≅ ℤ₂ for every ℤ/2ℤ-ring (l.50–52, unlabelled); since the split below that claim is T-syr-completion's, and this target states theo:rep on ℤ_[2] (PadicInt). cor:ring_periodic_minimal_period has no printed proof. cor:corollary (l.110) is an empty environment and is left to the curation. [r] (planner, unchecked) The −1/3 caveat of T-syr-base applies in ℤ₂: φ is undefined on the backward T-orbit of −1/3, and −1/3 is not in the image of the printed inverse. So the bijection presumably holds off that countable set: a likely finding. Promoted and split 2026-11-20 by the planner: T-syr-base is done (895d501), strict as lean-syracuse/Syracuse/{Valuation,Base}.lean: IsZ2Ring (Valuation.lean:78) with instances ℤ, ℤ_[2], ZMod 2 (l.317–350); T, a, p (Base.lean:116, 193, 196); lem:base as Syracuse.base and base_of_orbit (l.237, 267). prop:ring_both_continuous_extends and the identification A_2 ≅ ℤ_2 (l.52) moved to T-syr-completion. This target works in ℤ_[2] directly (the printed φ has domain 2A_2 + 1, with A_2 ≅ ℤ_2 claimed at l.52) and does not build A → ℤ_2. The −1/3 caveat is now T-syr-base's finding: Syracuse.T_undefined_padicInt (Base.lean:185) and base_printed_fails_padicInt (l.276), OQ-42 (d), open. So the mark of theo:rep waits on OQ-42 (d). [r] −1/3 is outside the image of the printed inverse: the series has p_0 = 0 and a tail of 2-adic valuation p_1 < ∞, so Σ 2^{p_n}/3^n ≠ 1. The two corollaries are stated for x in a general ℤ/2ℤ-ring A. [r] (planner, unchecked) Route without A_2: two points with the same a-sequence have the same p_n, and lem:base gives 2^{p_n}(T^n x − T^n y) = 3^n (x − y), so x − y ∈ ⋂_k 2^k A = 0 by Krull (A a noetherian domain, 2 not a unit). OQ-43 (open) asks whether A_u^n's product stops at n−1−k (as printed) or n−2−k, and names cor:ring_periodic_minimal_period. [r] On a cycle, either reading makes A_i^n − A_j^n a non-zero multiple of x_i − x_j: the factor is 3(2^{p_n} − 3^n) as printed (from the T-syr-base REPORT's computation A_u^n = (3x_u + 1)(2^{p_n} − 3^n)) and 2^{p_n} − 3^n otherwise, and 2^{p_n} − 3^n ∈ 2A + 1 is non-zero. So the corollary holds for i ≠ j under both readings. As printed, '∀ i, j ∈ ⟦1, n⟧' includes i = j, where the difference is 0: a likely finding. The marks of both corollaries follow OQ-42 (b) (2 ≠ 0) and OQ-43."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
 
@@ -864,11 +938,26 @@ stream = "other"
 kind = "close"
 paper = "syracuse"
 labels = ["lem:one_has", "lem:itemize_furthermore_itemize", "cor:corollary_2", "cor:bounds"]
-status = "planned"
+status = "ready"
 owner = "closer"
 priority = 6
 depends = ["T-syr-base"]
-evidence = "syracuse.tex l.114–144 (A = ℤ). lem:one_has follows from lem:base by a discrete Grönwall step (l.116–125). As printed, u_k carries n where k is meant, and the bound reads (1 + 1/x)^n where the statement has |x|. lem:itemize_furthermore_itemize is proved 'the same way'. cor:corollary_2 and cor:bounds have no printed proof. These bounds feed prop:proposition (l.194, from cor:bounds), the start of § 2."
+evidence = "syracuse.tex l.114–144 (A = ℤ). lem:one_has follows from lem:base by a discrete Grönwall step (l.116–125). As printed, u_k carries n where k is meant, and the bound reads (1 + 1/x)^n where the statement has |x|. lem:itemize_furthermore_itemize is proved 'the same way'. cor:corollary_2 and cor:bounds have no printed proof. These bounds feed prop:proposition (l.194, from cor:bounds), the start of § 2. Promoted 2026-11-20 by the planner: T-syr-base is done (895d501). Over ℤ every orbit is good (Syracuse.base_of_not_isUnit_three and three_mul_add_one_ne_zero, lean-syracuse/Syracuse/Base.lean:259, 123), so OQ-42 (d) does not bear here. [r] (planner, unchecked; the closer checks each claim in Lean) Dividing lem:base by 3^n and telescoping T^{k+1}x · 2^{a_k(x)} = 3T^k x + 1 gives, for x odd and the orbit non-zero, 2^{p_n(x)}/3^n = (x / T^n x) · Π_{k<n} (1 + 1/(3T^k x)). This replaces the Grönwall step. The printed first line of l.116–125 drops lem:base's factor 1/3, which only weakens the right side, so lem:one_has stands, and for x > 0 the sharper bound (1 + 1/(3|x|))^n holds. Checks at x = 1, where T(1) = 1, a_k(1) = 2 and p_n(1) = 2n. lem:itemize_furthermore_itemize, second bullet: it asks 2n log 2 − n log 3 ≥ n log 2, false for every n ≥ 1; the product gives the lower bound n log(1 + 1/(3x)), with equality at x = 1. Its first bullet asks 0 > 0 at n = 0, and holds for n ≥ 1. cor:bounds: it asks log_2 2 ≤ 2 − log_2 3 (≈ 0.415), which is false. Its two printed bounds are also in decreasing order, since 1/min ≥ 1/max. On a cycle the product gives p_n/n − log_2 3 = (1/n) Σ_k log_2(1 + 1/(3T^k x)), between log_2(1 + 1/(3 max)) and log_2(1 + 1/(3 min)). That is presumably the intended form, but marking a corrected form is the author's, so these rows are expected partial with findings. cor:corollary_2: (2^{p_n}/3^n) T^n x = x Π_{k<n}(1 + 1/(3T^k x)) is e^{o(n)} when T^k x → ∞, so p_n log 2 − n log 3 ≤ o(n)."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-syr-completion"
+title = "Syracuse § 1: the 2-adic completion of a ℤ/2ℤ-ring is ℤ_2 (l.52), and f_A, T_A are continuous and extend to f_{A_2}, T_{A_2} (prop:ring_both_continuous_extends)"
+stream = "other"
+kind = "close"
+paper = "syracuse"
+labels = ["prop:ring_both_continuous_extends"]
+status = "ready"
+owner = "closer"
+priority = 7
+depends = ["T-syr-base"]
+evidence = "Split off T-syr-rep 2026-11-20 by the planner. syracuse.tex l.52 (unlabelled): 'one can show that for any ℤ/2ℤ-ring A, A_2 is naturally isomorphic to the ring of 2-adic integers ℤ_2'. l.57–60, prop:ring_both_continuous_extends: 'both f_A and T_A are continuous and extends continuously to A_2. Furthermore, their extension is f_{A_2} and T_{A_2} respectively', with the proof 'left to the reader' (l.57). T-syr-base (895d501) REPORT notes: 'ZMod 2 is a counterexample to A_2 ≅ ℤ_2 (l.52) under the printed definition' (OQ-42 (b), open: 2 ≠ 0 is added where it is used). T_A is undefined at −1/3 when 3 is a unit, as in ℤ_2 (Syracuse.T_undefined_padicInt, lean-syracuse/Syracuse/Base.lean:185; OQ-42 (d), open). The tools are strict: IsZ2Ring with the instance ℤ_[2] (Valuation.lean:78, 321), nu2 and v2 (REPORT kb_proposals[0]), and f and T (Base.lean). [r] (planner, unchecked) For 2 ≠ 0, multiplication by 2^k gives A/2A ≅ 2^kA/2^{k+1}A, so |A/2^nA| = 2^n. 1 has additive order 2^n there (2^{n−1} ∈ 2^nA would put 1 in 2A), so ℤ/2^n ≅ A/2^nA and A_2 = lim A/2^nA ≅ ℤ_2. Krull's intersection theorem (A a noetherian domain) makes A → A_2 injective. Mathlib has PadicInt and AdicCompletion. Likely finding [r]: T_{A_2} is undefined at −1/3 ∈ 2ℤ_2 + 1, and the odd part of 3x + 1 has no limit as x → −1/3. So T_ℤ, though continuous on 2ℤ + 1, does not extend continuously to all of ℤ_2, and 'extends continuously to A_2' presumably holds only off −1/3: a finding under OQ-42 (d). It runs beside T-syr-rep, which works in ℤ_[2] and builds no map A → ℤ_2; that map is this target's."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
 
@@ -882,7 +971,7 @@ status = "needs-ruling"
 owner = "author"
 priority = 4
 question = "Section 6 of the Yamabe paper (Yamabegap.tex l.461–552; proofs from l.601) rests on cited analysis that Mathlib lacks at this pin: the Yamabe theorem (thm:yamabe, MR125546); Akutagawa–Botvinnik's approximation and gluing theorems (MR1957657, in prop:nonpositive and lem:gluing); Gromov–Lawson enlargeability (MR569070); Escobar's facts (i)–(iv) for manifolds with boundary (l.~320–340, used in thm:upper-bound); and the Sobolev, trace and Rellich theorems on compact manifolds with boundary (Hebey1996, in lem:kobayashi and lem:positivity). Are these formalized as named external Props (as DEC-69 first did for Troyanov), with every step of the paper's own proofs formalized from them over Mathlib's manifolds? Answer yes, or name the ones to prove."
-evidence = "DEC-139 scopes lean-yamabe to §6 first. lean-yamabe/Yamabe has only the wave-0 Basic.lean (979b864). The ledger curates thm:yamabe and thm:extremal as cited. Mathlib at v4.31.0 has manifolds with boundary and Riemannian metrics (Mathlib/Geometry/Manifold/Riemannian/Basic.lean, VectorBundle/Riemannian.lean). It has no Riemannian volume measure, no scalar or mean curvature, and no Sobolev or trace theorem on manifolds. Without this answer no §6 row can be anchored (Lean ≥ paper). T-yamabe-quotient is the part that does not wait on it."
+evidence = "DEC-139 scopes lean-yamabe to §6 first. lean-yamabe/Yamabe has only the wave-0 Basic.lean (979b864). The ledger curates thm:yamabe and thm:extremal as cited. Mathlib at v4.31.0 has manifolds with boundary and Riemannian metrics (Mathlib/Geometry/Manifold/Riemannian/Basic.lean, VectorBundle/Riemannian.lean). It has no Riemannian volume measure, no scalar or mean curvature, and no Sobolev or trace theorem on manifolds. Without this answer no §6 row can be anchored (Lean ≥ paper). T-yamabe-quotient is the part that does not wait on it. Updated 2026-11-20 by the planner. T-yamabe-quotient (e4e12c0) proved lem:stability and rem:sign over an abstract measured model, both partial pending this ruling and OQ-44 (whether that model is the formalization of record). T-yamabe-kobayashi is the next part that does not wait on it: lem:kobayashi (a) over the same model. Its (b), the Sobolev embedding (Hebey1996), does wait."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
 
@@ -902,6 +991,21 @@ proposed_by = "roadmap-planner"
 commit = "e4e12c0"
 
 # ------------------------------------------------------------------ hub and tooling
+[[target]]
+id = "T-yamabe-kobayashi"
+title = "Yamabe §6: lem:kobayashi (a) over the measured model: the conformal energy is at least a_N‖∇u‖²/‖u‖²_{p*} + m Vol^{2/N}, hence Y ≥ m Vol^{2/N}, with equality E(g) = Y for constant R_g ≤ 0"
+stream = "other"
+kind = "close"
+paper = "yamabe"
+labels = ["lem:kobayashi"]
+status = "ready"
+owner = "closer"
+priority = 6
+depends = ["T-yamabe-quotient"]
+evidence = "Yamabegap.tex l.613–638, lem:kobayashi and its proof. Part (a) is eq:conformal-energy-bdry (l.326) with H_g ≡ 0, plus the interior Hölder line (l.607) and m ≤ 0. Then 'Taking the infimum gives Y_[g](Σ) ≥ m Vol(Σ)^{2/N}', and 'If R_g ≡ m ≤ 0 is constant, then EH(Σ, g) = m Vol(Σ)^{2/N}, so that EH ≤ Y ≤ EH'. Part (b) uses 'the Sobolev embedding W^{1,2}(Σ) ↪ L^{p*}(Σ) on compact manifolds with boundary [Hebey1996]', one of the cited theorems T-yamabe-scope asks about, so (b) is out of this target. T-yamabe-quotient (e4e12c0) built the abstract measured model of (Σ, ⊔B_j), now strict: lean-yamabe/Yamabe/Quotient.lean (MeasuredModel l.472, FrameMetric l.495, F l.522, the toy witness toyModel l.975). Its REPORT kb_proposals: 'later §6 statements can reuse both'. It also proved the interior Hölder line (Yamabe.hoelder_interior, l.275). Its AUDIT-1: 'The first [citation at l.720] … and l.627 (lem:kobayashi) use the interior line, which is correct', unlike eq:hoelder's boundary line (OQ-44). Scope: add the scalar curvature to the model as a bounded measurable function. The conformal energy of u is the right side of eq:conformal-energy-bdry (H ≡ 0) over ‖u‖²_{L^{p*}}. Its identification with EH(Σ, u^{4/(N−2)} g) is the cited conformal law (MR1152225, MR1173925, l.326), so it belongs to the anchoring that T-yamabe-scope rules. The model's readings are OQ-44's. So the row stays partial, as lem:stability's did, and nothing is marked. Prove (a), its 'in particular' and the constant-curvature sentence over the model, with the toy model as a non-vacuity witness. Later users: the proof of prop:nonpositive (l.640), lem:gluing-estimate (eq:glue-lower, l.660) and the proof of thm:upper-bound (l.723)."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+
 [[target]]
 id = "T-hub-freeze"
 title = "Retire the expired freeze (DEC-2) so the hub gate can go green"
@@ -967,11 +1071,11 @@ stream = "gfn"
 kind = "close"
 paper = "egf"
 labels = ["theo:backward_policy"]
-status = "planned"
+status = "ready"
 owner = "closer"
 priority = 4
 depends = ["T-egf-headline"]
-evidence = "Re-scoped 2026-11-20 by the planner. It depends on T-egf-headline, not on the package alone: both need the generative-flow vocabulary (star outflow, star inflow, backward policy as a Radon–Nikodym derivative, main.tex l.161 and l.733–741), and two closers defining it at once in lean-egf would collide. The lean-egf layering is settled (Mathlib only, lean-egf/docs/CAMPAIGN.md). The proof is a change of variables with |det J Φ_i⁻¹| (main.tex l.742–770); Mathlib has it on ℝⁿ (integral_image_eq_integral_abs_det_fderiv_smul). papers/egf/STORY.md S-egf-4: 'For a finite family of diffeomorphisms the backward star policy has a closed form', resting on theo:backward_policy (ledger: proved, main.tex:733). papers/egf/ledger/ledger.toml roadmap_intro: 'The library namespace is EGF, reusing GFNBounds.Core (kernels, mixing sums, the sampling theorem)'. GFNBounds.Core.UniversalityBody (lean/ submodule) defines IsEGFPolicy and egfKernel. Whether lean-egf requires or ports GFNBounds is T-egf-package's set-up (DEC-133, OQ-1)."
+evidence = "Re-scoped 2026-11-20 by the planner. It depends on T-egf-headline, not on the package alone: both need the generative-flow vocabulary (star outflow, star inflow, backward policy as a Radon–Nikodym derivative, main.tex l.161 and l.733–741), and two closers defining it at once in lean-egf would collide. The lean-egf layering is settled (Mathlib only, lean-egf/docs/CAMPAIGN.md). The proof is a change of variables with |det J Φ_i⁻¹| (main.tex l.742–770); Mathlib has it on ℝⁿ (integral_image_eq_integral_abs_det_fderiv_smul). papers/egf/STORY.md S-egf-4: 'For a finite family of diffeomorphisms the backward star policy has a closed form', resting on theo:backward_policy (ledger: proved, main.tex:733). papers/egf/ledger/ledger.toml roadmap_intro: 'The library namespace is EGF, reusing GFNBounds.Core (kernels, mixing sums, the sampling theorem)'. GFNBounds.Core.UniversalityBody (lean/ submodule) defines IsEGFPolicy and egfKernel. Whether lean-egf requires or ports GFNBounds is T-egf-package's set-up (DEC-133, OQ-1). Promoted 2026-11-20 by the planner: T-egf-headline is done (742a9c5). The vocabulary is strict in lean-egf/EGF/Defs.lean: GenerativeFlow (l.123), inflow F_out π (l.135), IsEGFPolicy and egfKernel (l.191, l.201), rewritten locally from GFNBounds.Core (its REPORT: 'Layering: Mathlib only, no [[require]]'). The backward star policy is not defined yet. The appendix proof takes it from brunswic2024theory (main.tex l.741–746: B*(s → X) = d(F*_in ⊗ B*(· → X))/dF*_in, with F*_in ⊗ B*(Y → X) = F*_out ⊗ π*(X → Y)), so the closer defines it there. Open questions: OQ-47–50 concern def:summably_mixing, def:egf and def:universal_family. theo:backward_policy uses none of them. It takes 'an EGF as above' to be F_out = f λ with π* = Σ α_i δ_{Φ_i} (main.tex l.731–732), with no ergodicity. So OQ-48 does not bear if it is stated for egfKernel without IsEGF's ergodicity clause [r]. [r] (planner, unchecked) 'Differential manifold, λ ≪ Lebesgue, |J_s Φ_i⁻¹|': a general form takes measurable bijections with (Φ_i⁻¹)_*λ ≪ λ and the Radon–Nikodym derivative in place of the Jacobian. Instantiated on ℝⁿ by the change of variables, it is at least the paper's statement (Lean ≥ paper) without a manifold measure, which Mathlib lacks. Whether a chart-wise manifold instance is also wanted is the closer's to report, not to decide."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
 
@@ -986,9 +1090,25 @@ status = "planned"
 owner = "closer"
 priority = 5
 depends = ["T-egf-headline", "T-egf-backward-policy"]
-evidence = "2026-11-20, planner: def:virtual_flows (main.tex l.316, the initial and terminal errors δ, read by theo:negative_control at l.321) added, since no target named it. papers/egf/STORY.md S-egf-3 names these five labels and the anchor EGF.main_quantitative_sampling. Its dependency sketch says 'S-egf-1, S-egf-4 → S-egf-3 (the error bound needs the explicit inflow)'. GFNBounds.Core.NegativeControl and .SamplingGeneralBounds (lean/ submodule) formalize theo:negative_control 'quoted from brunswicEGF'. S-egf-2 (tori and sphere families, resting on cited spectral-gap theorems) is not planned: whether those citations become named externals or proofs is for the author."
+evidence = "2026-11-20, planner: def:virtual_flows (main.tex l.316, the initial and terminal errors δ, read by theo:negative_control at l.321) added, since no target named it. papers/egf/STORY.md S-egf-3 names these five labels and the anchor EGF.main_quantitative_sampling. Its dependency sketch says 'S-egf-1, S-egf-4 → S-egf-3 (the error bound needs the explicit inflow)'. GFNBounds.Core.NegativeControl and .SamplingGeneralBounds (lean/ submodule) formalize theo:negative_control 'quoted from brunswicEGF'. S-egf-2 (tori and sphere families, resting on cited spectral-gap theorems) is not planned: whether those citations become named externals or proofs is for the author. Updated 2026-11-20 by the planner. S-egf-2's question is now T-egf-families. T-egf-headline (742a9c5) already made the δ's of def:virtual_flows strict: EGF.initialError and EGF.terminalError (lean-egf/EGF/Defs.lean:145, :149), with initialError_eq_negPart and terminalError_eq_posPart (l.168–180) and the total-variation calculus EGF.tvMass (EGF/Universality.lean; its REPORT kb_proposals[0]). The chain is T-egf-backward-policy (ready) and then this target."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-egf-universality"
+title = "EGF's body universality theorem (theo:universality) from theo:universality_true, once OQ-50 (and OQ-49) say what 'universal' and 'dense' mean"
+stream = "gfn"
+kind = "close"
+paper = "egf"
+labels = ["theo:universality"]
+status = "blocked"
+owner = "closer"
+priority = 7
+depends = ["T-egf-headline"]
+evidence = "theo:universality's statement depends on OQ-50 (exact or ε flow matching) and OQ-49 (probability or equal-mass distributions); set blocked by the master after the 2026-11-20 23:15 planning run"
+added = "2026-11-20"
+proposed_by = "roadmap-planner"
+oq = "OQ-50"
 
 [[target]]
 id = "T-ledger-secondary-labels"
@@ -1058,3 +1178,16 @@ evidence = "hub.toml current (benzecri Ch. 1–2, bbs edges and triage, egf/syra
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
 commit = "dbccb84"
+
+[[target]]
+id = "T-atlas-sweep-refresh"
+title = "Atlas: refresh reports/atlas/sweep.json from every package's check log (it still holds the seed commit's counts, and lean-egf, lean-syracuse, lean-yamabe have none)"
+stream = "hub"
+kind = "tooling"
+package = "none"
+status = "ready"
+owner = "master"
+priority = 9
+evidence = "reports/atlas/sweep.json holds three packages only: lean-benzecri 2447 declarations / 27 modules, lean-causal 11851 / 195, lean-gx 11887 / 46. It was last written by the seed commit 3814d45 (git log -- reports/atlas/sweep.json), before every wave of 2026-11-20. lean-egf, lean-syracuse and lean-yamabe have no entry, so their lib cards are drawn 'not swept' (build.py l.47–62: 'a package it does not hold yet is drawn as not swept rather than given a number'). Refresh with make -C reports/atlas LOGS=<dir> (Makefile l.2–4). It reads check-<pkg>.log for every package of hub.toml's lib table and asserts each log's line 'axiom sweep (strict): N declarations in M modules' plus the clean-sweep line (build.py l.53–58). So it needs one fresh make -C <pkg> check log per package, all six. lean-causal's must come from a run when /ett-programme's lease leaves the package free, as the master's wave gates already do. The output is generated and the master commits it. Journal 2026-11-20 23:10 lists it as owed."
+added = "2026-11-20"
+proposed_by = "roadmap-planner"

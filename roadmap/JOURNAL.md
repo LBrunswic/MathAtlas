@@ -123,3 +123,12 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 21:23–23:10 (Paris); agents in parallel: 2 closers + 1 builder, 2 audits; 4 master targets
 - coordination: shared cap 6 with /ett-programme (3 + 3, then 1 + 5); OQ-id race caught before it landed (the programme's rows renumbered OQ-51, OQ-52)
 - next: plan — the only ready closers are in lean-causal (T-ett-port-e0-sfa, T-ett-e0-model-rows, T-ett-gxsingular-dec25), which /ett-programme holds exclusively; planned targets whose dependencies are now all done (T-bz-c2-hilbert, T-syr-rep, T-syr-integer-bounds, T-egf-backward-policy) await promotion; T-bz-c2-lignes, -compact, -theoreme and T-egf-sampling follow in chain
+
+## 2026-11-20 23:40 · plan · —
+- why: the only ready closers were in lean-causal, which /ett-programme held exclusively; four planned targets had every dependency done
+- result: 69 -> 78 targets (17 ready, 15 planned, 7 needs-ruling, 4 blocked after the master set T-egf-universality blocked on OQ-50); promoted T-bz-c2-hilbert (carries OQ-45), T-egf-backward-policy, T-syr-rep, T-syr-integer-bounds; added T-bz-c2-dedupe (master, exclusive), T-gx-troyanov-two-pi, T-gx-troyanov-polygon, T-gx-troyanov-source (archive MR1005085, check l.1930's bound), T-syr-completion, T-yamabe-kobayashi (part a), T-egf-universality, T-bbs-q1 (needs-ruling: BBS-Q1 as a gate), T-atlas-sweep-refresh; T-gx-troyanov retitled to s ≥ 4; bbs layers now depend on T-bbs-q1
+- [r] findings handed to closers, not the author: Syracuse at x = 1 (lem:itemize_furthermore_itemize's second bullet, cor:bounds), −1/3 for the continuous extension, i = j in theo:rep's corollary
+- gates: roadmap ✓, atlas ✓
+- commits: (this one)
+- wall time: 23:15–23:40 (Paris); agents: 1 (planner, alone)
+- next: wave: T-egf-backward-policy, T-bz-c2-hilbert, T-gx-troyanov-two-pi, T-syr-rep, T-syr-integer-bounds (5 slots: /ett-programme has 1 lean-causal closer)
