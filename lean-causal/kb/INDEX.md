@@ -46,3 +46,5 @@ rediscover. One fact per entry.
 | [0038](entries/0038-non-local-relations-and-curves.md) | pitfall | Non-local relations leave causal curves, inextensibility and Cauchy surfaces unchanged |
 | [0039](entries/0039-isrigid-satisfiable.md) | pitfall | The causal `IsRigid` is satisfiable on a connected, non-trivial base |
 | [0040](entries/0040-equivalent-is-directional.md) | pitfall | `CommonSubExtension.Equivalent` is directional: fix the reading before refuting uniqueness |
+| [0041](entries/0041-plain-minimal-pushup.md) | pitfall | Plainness plus absolute minimality on a T1 space gives push-up: no local witness otherwise |
+| [0042](entries/0042-cheap-open-relation-on-R.md) | pattern | A cheap open transitive relation on ℝ from two semicontinuous functions |
