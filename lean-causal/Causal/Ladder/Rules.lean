@@ -33,3 +33,4 @@ attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.Ca
 -- skipped Causal.Causality.AbsolutelyMinimal.causallyOpen (absolutely_minimal ⇒ causally_open): under: every point has an open neighbourhood W with C.CausallyOpenFutureOn W, and one with C.dual.CausallyOpenFutureOn W: two-sided causal openness holds locally
 -- skipped Causal.Causality.curvesExtend_of_timeFunction (time_function ⇒ curves_extend): layer: Causal.Causality.curvesExtend_of_timeFunction lives in Causal.CurvesExtend, which imports a model (Causal.CurvesExtend → Causal.Minkowski)
 -- skipped Causal.Causality.exists_timeFunction_of_secondCountable (globally_hyperbolic ∧ tarentin ⇒ time_function): under: M Hausdorff and second countable ([T2Space M] [SecondCountableTopology M]); ETT's spacetimes are both (ETT.tex:255)
+-- skipped Causal.Causality.LeNested.curveNestedOn (le_nested ⇒ curve_nested): sort: joins a property not of the sort causality

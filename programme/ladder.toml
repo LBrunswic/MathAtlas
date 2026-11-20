@@ -4,7 +4,7 @@
 # `python3 tools/ladder.py emit-lean` (Causal/Ladder/Rules.lean, the `causal_ladder` tactic's rules).
 #
 # [[property]]  id, lean (the Causal definition), label (ETT ledger label, if any), what (one line),
-#               sort (optional: "geometry"; absent means "causality", see below)
+#               sort (optional: "geometry" or "pair"; absent means "causality", see below)
 # [[implies]]   from (list of ids, read as a conjunction), to (id), witness (Lean theorem),
 #               under (side conditions that are not ladder nodes, in words), status seed|checked
 # [[fails]]     from, to, witness (a Lean counterexample: a space with `from` and not `to`), status
@@ -27,9 +27,11 @@
 # in every open set): these are substantive, and the closure through them overstates what is proved
 # until they are ladder nodes with Lean definitions (see the comments at those edges).
 #
-# Two sorts of property (T-lad-cbg-geometry-nodes, 2026-11-20). A property of sort `causality` (the
-# default: no `sort` field) has a Lean definition that is a predicate on one causality C on a
-# topological space M; implications, counterexamples, `open` entries and the matrix are about these.
+# Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
+# described after `geometry`, and what is said here of two sorts holds of any two. A property of sort
+# `causality` (the default: no `sort` field) has a Lean definition that is a predicate on one
+# causality C on a topological space M; implications, counterexamples, `open` entries and the matrix
+# are about these.
 # A property of sort `geometry` (`sort = "geometry"`) has a Lean definition that is a predicate on the
 # structures and morphisms of a geometry, Causal.CBG.Geometry (Level A) or Causal.CBG.LocalModel
 # (Level B), not on one causality: `rigid` (A1: a predicate on a class of morphisms), `germ_extension`
@@ -41,8 +43,8 @@
 #   ill-typed (neither implication is a statement), it is neither open nor a gap. Read the matrix
 #   within one sort; `check`'s "k of n ordered pairs classified" counts n over all ordered pairs, the
 #   ill-typed ones included.
-# * No [[implies]], [[fails]] or [[open]] entry joins two sorts. A geometry property enters an edge
-#   or a consequence of the causality sort only through `under`, in words.
+# * No [[implies]], [[fails]] or [[open]] entry joins two sorts. A property of one sort enters an
+#   edge or a consequence of another only through `under`, in words.
 # * Within the geometry sort a pair is read at Level B (a local model 𝔐; `rigid` then means
 #   IsRigidFor (𝔐.IsMor s t) for all structures s, t with Hausdorff target). At Level A all three
 #   are fields of Causal.CBG.Geometry and hold outright.
@@ -55,8 +57,35 @@
 #   the sort `causality` is never a CausalLadder rule (the rules are about one causality), only a
 #   skipped-edge comment line in Rules.lean.
 #
-# The names added on 2026-11-20 by T-lad-cbg-geometry-nodes were resolved by `#check` against the
-# library as built that day (lake env lean, no build).
+# A property of sort `pair` (`sort = "pair"`, T-lad-nested-nodes) has a Lean definition that is a
+# predicate on TWO causalities C, C' of one topological space M, a nesting: "C is nested in C'", C the
+# narrower causality, C' the wider (Causal/NestedCausalities.lean). Sub- and superluminality are
+# nestings (ERS 1802.03020 §4: the cone of g(u, du) inside Minkowski's, or T timelike for every
+# g(u, du)); so is Reall 2101.11623's effective-metric cone inside the causal cone. A nesting is a
+# relation between two spacetime structures on M, the localisation property programme/README.md calls
+# "a nesting of two causalities", and a predicate on neither one causality nor a geometry.
+# * `le_nested` is Causal.Causality.LeNested C C' (≤_U of C inside ≤_U of C', every open U).
+#   `curve_nested` is Causal.Causality.CurveNestedOn C C' W, read at the open W its entry names (W = M
+#   when none is named); it passes to every open V ⊆ W (consequence Causal.Causality.CurveNestedOn.mono),
+#   so at W = M it is curve nesting on every open.
+# * Within the pair sort an entry keeps C and C' fixed: `le_nested ⇒ curve_nested` reads
+#   LeNested C C' ⇒ CurveNestedOn C C' W for every open W.
+# * A causality-sort property in a pair-sort entry is asked of ONE of the two causalities, and `under`
+#   says which ("of C", the narrower; "of C'", the wider). What a nesting does is transfer: a
+#   consequence at a pair property takes causality-sort properties of one causality to the other,
+#   typically from the wider C' to the narrower C. When the transfer is sharp (it fails without its
+#   extra hypothesis) the counterexample cannot be a [[fails]] entry, which would join two sorts: it is
+#   named in the comment above the consequence.
+# * emit-lean makes no CausalLadder rule of a pair-sort edge (emitted() skips any edge with a property
+#   not of the sort `causality`; a skipped-edge comment line in Rules.lean), and asks `lean_form` of no
+#   pair property (emit_test keeps the sort `causality` only; LeNested's binder `C C' : Causality M`
+#   would otherwise be misread as one causality).
+# * Not nodes: Causal.Causality.LtNested (≪-nesting; no theorem of the library uses it) and
+#   Causal.Causality.InextensibleNestedOn, whose node waits on OQ-41 (b) (T-lad-nested-inextensible);
+#   the latter appears below in words only, as the conclusion of a consequence at `curve_nested`.
+#
+# The names added on 2026-11-20 by T-lad-cbg-geometry-nodes and by T-lad-nested-nodes were resolved by
+# `#check` against the library as built that day (lake env lean, no build).
 
 [[property]]
 id = "is_causal"
@@ -183,6 +212,29 @@ lean = "Causal.CBG.LocalModel.SliceFuture"
 sort = "geometry"
 what = "A4, both time directions (with Causal.CBG.LocalModel.SlicePast): U globally hyperbolic with Σ ⊆ U a Cauchy surface of M and of U, p ∈ ∂U ∩ J⁺(Σ) with J⁻(p) ∩ ∂U ∩ J⁺(Σ) = {p} (resp. the past form): inside every open O ∋ p, U enlarges to a globally hyperbolic open U' ⊆ U ∪ O of which Σ is a Cauchy surface (Sbierski Thm 3.6's slice, Lemma 3.11)"
 
+# ------------------------------------------------------------------ properties of a pair of causalities
+# Sort `pair` (header): C nested in C' on one space M, Causal/NestedCausalities.lean (layer 1, no
+# model imported). No ETT label: ETT has one causality per space; the sources are ERS 1802.03020 §4
+# and Reall 2101.11623. The ERS binder (papers/ers-predictability/certificate/binder.toml) proposed
+# both ids (T-lad-nested-nodes).
+
+# The basic notion: what Reall's "effective-metric cone inside the causal cone" gives, and what makes
+# C' a better a-priori bound in ERS Remark 4.74 (transitivity, consequence below).
+[[property]]
+id = "le_nested"
+lean = "Causal.Causality.LeNested"
+sort = "pair"
+what = "C is ≤-nested in C': for every open U, x ≤_U y for C implies x ≤_U y for C' (C the narrower causality, C' the wider)"
+
+# Subluminality as ERS's Lemma 4.72 uses it (CurveNestedOn C₂ C_m U₂: the cone of g(u₂, du₂) inside
+# Minkowski's, on the development's domain U₂), and (4.87) of Lemma 4.86 (the slope-δ cone inside
+# g's). Implied by le_nested; the converse is open (below).
+[[property]]
+id = "curve_nested"
+lean = "Causal.Causality.CurveNestedOn"
+sort = "pair"
+what = "C is curve-nested in C' on an open W: every future causal curve of W for C, over a segment, is one for C' (W = M unless an entry names W; at M it holds on every open)"
+
 # ------------------------------------------------------------------ implications
 
 # rem:topological_spacetime_strongly_causal. Side condition: T1 (the paper has Hausdorff).
@@ -293,6 +345,16 @@ from = ["globally_hyperbolic", "tarentin"]
 to = "time_function"
 witness = "Causal.Causality.exists_timeFunction_of_secondCountable"
 under = "M Hausdorff and second countable ([T2Space M] [SecondCountableTopology M]); ETT's spacetimes are both (ETT.tex:255)"
+status = "checked"
+
+# ---- implications of the pair sort (header): C and C' fixed.
+
+# LeNested C C' → ∀ W, CurveNestedOn C C' W (a curve's local ≤-steps are carried over one by one).
+# No side condition, no separation. Not a CausalLadder rule: sort `pair` (emit-lean skips it).
+[[implies]]
+from = ["le_nested"]
+to = "curve_nested"
+witness = "Causal.Causality.LeNested.curveNestedOn"
 status = "checked"
 
 # ------------------------------------------------------------------ counterexamples
@@ -510,6 +572,107 @@ witness = "Causal.CBG.CGHDData.exists_extension"
 under = "a Causal.CBG.Geometry (cauchy_slice its field A4, germ_extension its field A3); M Hausdorff, connected, second countable; N Hausdorff, connected, second countable"
 status = "checked"
 
+# ---- consequences at pair properties: theorems about C nested in C' (header). Transfers, from the
+# wider C' to the narrower C, of the causality-sort properties the library has studied: is_causal
+# (outright), globally_hyperbolic (exactly when C's diamonds are closed), Cauchy surfaces and
+# inextensibility (under C's own global hyperbolicity, tarentin, causal arc-connectedness, no causal
+# endpoint). No other transfer along a nesting is in the library: LeNested and CurveNestedOn are used
+# by Causal.NestedCausalities and Causal.LadderLocal only.
+
+# Every causality is nested in itself (Causal.Causality.LeNested.refl), so with transitivity ≤-nesting
+# is a preorder on the causalities of M. ERS Remark 4.74: a better a-priori cone bound C_g ≤ C_b ≤ C_m
+# is a narrower wider causality, to which Lemma 4.72 applies.
+[[consequence]]
+at = "le_nested"
+statement = "≤-nesting is transitive: C nested in C' nested in C'' gives C nested in C''"
+witness = "Causal.Causality.LeNested.trans"
+status = "checked"
+
+# How the past forms are got from the future ones.
+[[consequence]]
+at = "le_nested"
+statement = "≤-nesting is invariant under time reversal: C.dual is nested in C'.dual iff C is nested in C'"
+witness = "Causal.Causality.dual_leNested_iff"
+status = "checked"
+
+[[consequence]]
+at = "le_nested"
+statement = "on every open W, each diamond J_W(p, q) of C lies in the diamond J_W(p, q) of C'"
+witness = "Causal.Causality.diamond_subset_of_le"
+under = "the witness asks ≤-nesting on W only (∀ x y, C.le W x y → C'.le W x y)"
+status = "checked"
+
+[[consequence]]
+at = "le_nested"
+statement = "the narrower C is causal when the wider C' is"
+witness = "Causal.Causality.isCausal_of_le_top"
+under = "is_causal of C' (ladder node); the witness asks ≤-nesting at M only (∀ x y, C.le ⊤ x y → C'.le ⊤ x y)"
+status = "checked"
+
+# T-abs-nested-causalities/1-gh, OQ-41 (a). Sharp: the closedness of C's diamonds cannot be dropped,
+# Causal.not_globallyHyperbolic_of_nested_bare (the line cut at 0, Causal.cutLine 0, is ≤-nested in the
+# globally hyperbolic timelike line, Causal.cutLine_leNested, and its diamond J(-1, 1) = [-1, 1] ∖ {0}
+# is not closed). Without separation: Causal.Causality.GloballyHyperbolic.of_nested (each diamond of C
+# closed inside the diamond of C'), .of_nested_of_isClosed, .of_nested_of_isClosed_J (J±_C(x) closed).
+[[consequence]]
+at = "le_nested"
+statement = "wider globally hyperbolic ⇒ narrower globally hyperbolic, exactly when the narrower diamonds are closed: with C' globally hyperbolic, C is globally hyperbolic iff every J_C(p, q) is closed"
+witness = "Causal.Causality.globallyHyperbolic_iff_of_nested"
+under = "globally_hyperbolic of C' (ladder node); M Hausdorff; the witness asks ≤-nesting at M only (∀ x y, C.le ⊤ x y → C'.le ⊤ x y)"
+status = "checked"
+
+# T-abs-nested-causalities items 1 and 2 together. The bare transfer of Cauchy surfaces fails:
+# Causal.not_isCauchySurface_of_nested_bare ({0} is a Cauchy surface of the timelike line, not of the
+# line cut at 1, whose identity over [1, ∞) is inextensible: Causal.cutLine_inextensible_Ici).
+[[consequence]]
+at = "le_nested"
+statement = "a Cauchy surface S of a globally hyperbolic wider C' is a Cauchy surface of the narrower C, which is globally hyperbolic, when C's diamonds are closed"
+witness = "Causal.Causality.globallyHyperbolic_isCauchySurface_of_nested"
+under = "globally_hyperbolic of C'; tarentin and causally_arc_connected of C (ladder nodes); every J_C(p, q) closed; J⁻(x) ≠ {x} and J⁺(x) ≠ {x} for C (Causal.Causality.NoCausalEndpoint, written out); M Hausdorff"
+status = "checked"
+
+# What makes the reading "curve_nested at M = on every open" (header).
+[[consequence]]
+at = "curve_nested"
+statement = "curve nesting on an open W gives curve nesting on every open V ⊆ W"
+witness = "Causal.Causality.CurveNestedOn.mono"
+status = "checked"
+
+# The inextensible nesting on M, InextensibleNestedOn C C' ⊤, which ERS Lemma 4.70 and the transfer of
+# Cauchy surfaces need; whether it or no_causal_endpoint becomes a node is OQ-41 (b)
+# (T-lad-nested-inextensible). Corollary, with NoCausalEndpoint named (Causal.LadderLocal), of
+# Causal.Causality.GloballyHyperbolic.inextensibleNestedOn_top. ≤-nesting alone does not give it: the
+# line cut at 1 is ≤-nested in the timelike line and not globally hyperbolic, and its identity over
+# [1, ∞) is inextensible (Causal.cutLine_inextensible_Ici) though it extends in the timelike line;
+# whence Causal.not_isCauchySurface_of_nested_bare.
+[[consequence]]
+at = "curve_nested"
+statement = "every inextensible causal curve of M for C is an inextensible causal curve of M for C' (InextensibleNestedOn C C' ⊤)"
+witness = "Causal.Causality.GloballyHyperbolic.inextensibleNestedOn_top_of_noCausalEndpoint"
+under = "curve nesting at M; globally_hyperbolic, tarentin and causally_arc_connected of C (ladder nodes); C has no causal endpoint (Causal.Causality.NoCausalEndpoint: J⁻(x) ≠ {x} and J⁺(x) ≠ {x}); M Hausdorff"
+status = "checked"
+
+# T-abs-nested-causalities/2-dod. Bare form refuted by Causal.not_isCauchySurface_of_nested_bare (as
+# above). The domain-of-dependence form, D_{C'}(S) ⊆ D_C(S), is proved under the same hypotheses in
+# the same module; not cited, as its name follows the hoist of dependenceDomain (T-abs-hoist-model-free).
+[[consequence]]
+at = "curve_nested"
+statement = "every Cauchy surface of the wider C' is a Cauchy surface of the narrower C"
+witness = "Causal.Causality.GloballyHyperbolic.isCauchySurface_of_nested"
+under = "curve nesting at M; globally_hyperbolic, tarentin and causally_arc_connected of C (ladder nodes); J⁻(x) ≠ {x} and J⁺(x) ≠ {x} for C (Causal.Causality.NoCausalEndpoint, written out); M Hausdorff"
+status = "checked"
+
+# ERS Lemma 4.72 (ghd_02_19.tex:976), causal-topological skeleton; C is C₂ of g(u₂, du₂), C' is
+# Minkowski's C_m. As printed ("connected", S non-empty): Causal.Causality.ers_lemma_4_72_isConnected.
+# OQ-41 (c): S is taken C'-acausal where ERS print m-achronal. The hypotheses are jointly satisfiable
+# (Causal.timelikeLine_ers_lemma_4_72).
+[[consequence]]
+at = "curve_nested"
+statement = "ERS Lemma 4.72: for opens U₁, U₂ containing a preconnected S that is a Cauchy surface of U₁ for C' and of U₂ for C, U₁ ∩ U₂ is preconnected"
+witness = "Causal.Causality.ers_lemma_4_72"
+under = "curve nesting on W = U₂; is_causal and curves_extend of C' (ladder nodes); S acausal for C'; through every point of U₁ ∩ U₂ an inextensible causal curve of U₂ for C; M Hausdorff"
+status = "checked"
+
 # ------------------------------------------------------------------ open pairs
 
 [[open]]
@@ -551,3 +714,8 @@ note = "Geometry sort, Level B: every local model is rigid (Causal.CBG.eqOn_of_l
 from = "rigid"
 to = "cauchy_slice"
 note = "Geometry sort, Level B: every local model is rigid (Causal.CBG.eqOn_of_liftPropOn) and has SlicePast (Causal.CBG.LocalModel.slicePast), so this asks whether every local model has the BTZ residual SliceFutureBTZ, owed by gx for E₀"
+
+[[open]]
+from = "curve_nested"
+to = "le_nested"
+note = "Pair sort, at M (so on every open). False in general, argued, not in Lean: the pointed line (Causal.pointedLine, 0 ≤ y for y > 0) and the spacelike line (Causal.spacelikeLine, ≤ the diagonal) have only constant causal curves, so the first is curve-nested in the second, while 0 ≤ 1 holds in the first only. True when C is causally arc-connected (x ≤_U y of C lies on a C-causal curve of U, which is C'-causal by curve nesting on U, so x ≤_U y for C'), not in Lean either"
