@@ -24,3 +24,5 @@ import Benzecri.Applications.ProductsGeneral
 import Benzecri.Applications.Converse
 import Benzecri.Applications.ConverseGeneral
 import Benzecri.Applications.TheoremA
+import Benzecri.Port.UniversalCover
+import Benzecri.UniversalCoverRow

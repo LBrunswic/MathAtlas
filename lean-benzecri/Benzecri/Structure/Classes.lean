@@ -96,8 +96,8 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
   of non-maximality in either sense gives one in the other.
 * **Not formalized** (prose): « Si $V$ est une variété localement projective et compacte, son
   revêtement universel est divisible » (l.432–433) — now its own ledger row
-  `bzthm:c1s1_revetement_universel_divisible` (DEC-122), bucket D, out of scope here (needs the
-  universal covering and its deck group, absent from Mathlib at this pin); the conditions necessary
+  `bzthm:c1s1_revetement_universel_divisible` (DEC-122), certified in `Benzecri.UniversalCoverRow`
+  over the universal cover of `Benzecri.Port.UniversalCover` (T-bz-universal-cover); the conditions necessary
   for sweepability announced for later; the examples of p. 239 (the parabola, homogeneous not
   divisible; the plane minus the integer lattice; the classification in dimension 2).
 * The identification of `GXAut G X V` with `CategoryTheory.Aut` of the bundled object of `GXCat`

@@ -53,8 +53,9 @@ original; the bridge to gx's version is a later module of the generalisation lay
 ## Modules
 
 Chapter 1 and result A of the introduction, all strict, 0 `sorry`, standard axioms only (2026-11-08:
-27 files, ledger closure 35/36; the open row `bzthm:c1s1_revetement_universel_divisible` needs the
-universal cover, built in `lean-gx` but not in Mathlib at the pin). The scaffold is empty.
+27 files, ledger closure 35/36). 2026-11-20 (T-bz-universal-cover): the universal cover, ported
+Mathlib-only from lean-causal (`Benzecri.Port.UniversalCover`), and the last open row
+`bzthm:c1s1_revetement_universel_divisible` (`Benzecri.UniversalCoverRow`). The scaffold is empty.
 The original split is in `campaign/WP-45-plan/CH1-PLAN.md`.
 
 | module | contents |

@@ -1,0 +1,113 @@
+{
+  "package": "T-bz-universal-cover",
+  "target": "T-bz-universal-cover",
+  "files": [
+    "scaffold/BenzecriScaffold/Port/UniversalCover.lean",
+    "scaffold/BenzecriScaffold/UniversalCoverRow.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bzthm:c1s1_revetement_universel_divisible",
+      "tex_lines": [
+        431,
+        434
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.revetement_universel_divisible_proj",
+        "Benzecri.revetement_universel_divisible_aff",
+        "Benzecri.isDivisible_of_isCoveringMap_proj",
+        "Benzecri.isDivisible_of_isCoveringMap_aff",
+        "Benzecri.isDivisible_of_isCoveringMap",
+        "Benzecri.UniversalCover.isDivisible",
+        "Benzecri.UniversalCover.instChartedSpaceProj",
+        "Benzecri.UniversalCover.instHasGroupoidProj",
+        "Benzecri.UniversalCover.isGXMorphism_proj_proj",
+        "Benzecri.deckAut"
+      ],
+      "hypotheses": [
+        {
+          "paper": "V « localement projective »",
+          "here": "carried",
+          "note": "[ChartedSpace (S n) V] [HasGroupoid V (projGroupoid n)] (README conventions); the bare IsDivisible forms for an arbitrary simply connected covering (isDivisible_of_isCoveringMap_proj) do not use HasGroupoid"
+        },
+        {
+          "paper": "V « compacte »",
+          "here": "carried",
+          "note": "[CompactSpace V]"
+        },
+        {
+          "paper": "« variété »: Hausdorff (plan F6)",
+          "here": "carried",
+          "note": "[T2Space V]; used to separate two distinct fibres in the proper-discontinuity step (exists_nhds_eq_of_comp_eq) and for local compactness of V (compact set meeting every fibre)"
+        },
+        {
+          "paper": "« variété »: connected (plan F6)",
+          "here": "weakened",
+          "note": "not assumed; UniversalCover V v₀ is then the universal cover of the path component of v₀ and is still divisible (the quotient is compact because the range of a covering is closed, isClosed_range_of_isCoveringMap)"
+        },
+        {
+          "paper": "« variété »: second countable (plan F6)",
+          "here": "weakened",
+          "note": "not used"
+        },
+        {
+          "paper": "« son revêtement universel »",
+          "here": "carried",
+          "note": "UniversalCover V v₀ (ported construction) with the pulled-back charts, the unique structure making the projection a morphism (existsUnique_pullback); the statement also asserts it is a covering, simply connected, locally projective and that the projection is a projective morphism; every simply connected covering (homeomorphic to it over V, exists_homeomorph_of_simplyConnected) is divisible as well (isDivisible_of_isCoveringMap_proj)"
+        },
+        {
+          "paper": "« divisible » (Déf. 15)",
+          "here": "carried",
+          "note": "the strict library's IsDivisible (subgroup of GXAut, Mathlib ProperlyDiscontinuousSMul per DEC-120, IsCancelSMul, CompactSpace of the orbit quotient), witnessed by the deck group deckAut (GSR n) (S n) (UniversalCover.proj V v₀)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "« variété » (l.432) read connected, Hausdorff, second countable (plan F6); only Hausdorff is used (proper discontinuity and local compactness of V). Same reading as the marked § 3 / Theorem A rows (WP-45t/u/w/x).",
+        "« son revêtement universel » read as the universal cover at a base point v₀ (homotopy classes of paths from v₀) with the pulled-back projective structure; the choice of v₀ is immaterial up to isomorphism over a connected V, and every simply connected covering is certified too.",
+        "The paper gives no proof (running prose, p. 238); the formalized proof takes G₁ = the deck group. Its identification with π₁(V, v₀) is available only for the underlying homeomorphisms (UniversalCover.deckEquiv), not stated for deckAut."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.SemilocallySimplyConnected",
+    "Benzecri.UniversalCover",
+    "Benzecri.UniversalCover.isCoveringMap_proj",
+    "Benzecri.UniversalCover.simplyConnectedSpace",
+    "Benzecri.UniversalCover.existsUnique_lift",
+    "Benzecri.UniversalCover.exists_homeomorph_of_simplyConnected",
+    "Benzecri.UniversalCover.deckEquiv",
+    "Benzecri.semilocallySimplyConnected_iff_exists_simplyConnected_cover",
+    "Benzecri.locPathConnectedSpace_of_isLocalHomeomorph",
+    "Benzecri.isClosed_range_of_isCoveringMap",
+    "Benzecri.exists_isCompact_forall_exists_eq",
+    "Benzecri.exists_homeomorph_comp_eq_of_simplyConnected",
+    "Benzecri.exists_nhds_eq_of_comp_eq",
+    "Benzecri.semilocallySimplyConnected_of_forall_openPartialHomeomorph",
+    "Benzecri.semilocallySimplyConnected_of_proj",
+    "Benzecri.semilocallySimplyConnected_of_aff",
+    "Benzecri.IsGXMorphism.of_comp_eq",
+    "Benzecri.deckAut.ofHomeomorph",
+    "Benzecri.deckAut.eq_of_smul_eq",
+    "Benzecri.deckAut.isCancelSMul",
+    "Benzecri.deckAut.properlyDiscontinuousSMul",
+    "Benzecri.deckAut.comp_eq_iff",
+    "Benzecri.deckAut.compactSpace_quotient",
+    "Benzecri.UniversalCover.gxChartedSpace",
+    "Benzecri.UniversalCover.instChartedSpaceAff",
+    "Benzecri.UniversalCover.instHasGroupoidAff",
+    "Benzecri.UniversalCover.isGXMorphism_proj_aff"
+  ],
+  "kb_proposals": [
+    "lean-benzecri has the universal cover (BenzecriScaffold.Port.UniversalCover, a mechanical port of lean-causal's Causal/Port/UniversalCover.lean at 82ee40f, itself gx's at e5a1d46): grep Benzecri.UniversalCover before porting it again.",
+    "Deck groups as automorphism groups: deckAut G X π (a Subgroup of GXAut) with properlyDiscontinuousSMul / isCancelSMul / compactSpace_quotient; isDivisible_of_isCoveringMap turns any simply connected covering of a compact Hausdorff (G,X)-manifold into a divisible one.",
+    "A manifold charted on S(n) or ℝⁿ is semilocally simply connected: semilocallySimplyConnected_of_proj / _aff (S.homeomorphEuclideanSphere + Mathlib's sphere charts, Mathlib.Geometry.Manifold.Instances.Sphere); Mathlib's isSimplyConnected_iff_exists_homotopy_refl_forall_mem turns a simply connected subset into null-homotopies of its loops.",
+    "Syntax pitfall: in `{ a := x, b := y,\\n  c := z }` the continuation line must start at or right of the first field's column (sepByIndent), else 'unexpected identifier; expected }'; and `omit [...] in` goes BEFORE the docstring."
+  ],
+  "notes": "Both files are new, build (`lake build BenzecriScaffold.Port.UniversalCover BenzecriScaffold.UniversalCoverRow`, nothing upstream rebuilt), have 0 sorry, pass `lake env lean -DwarningAsError=true`, and every certifying decl prints only [propext, Classical.choice, Quot.sound]. The port is mechanical (namespace Causal -> Benzecri; source lines 93-931; countability of π₁ and composites of coverings not ported) and imports Mathlib only (DEC-112). The row file imports BenzecriScaffold.Port.UniversalCover, Benzecri.Structure.Classes, Benzecri.Structure.Developing and Mathlib.Geometry.Manifold.Instances.Sphere (a new mathlib import for the package). For the master: (1) the scaffold root scaffold/BenzecriScaffold.lean must import both modules (kb/0025), I did not edit it; (2) on graduation rewrite `import BenzecriScaffold.Port.UniversalCover` to the strict name; (3) two GLOBAL instances are added on the package's own type UniversalCover: instChartedSpaceProj and instChartedSpaceAff (plus the HasGroupoid ones), as DEC-128 kept FCone's affine instance global; (4) now stale, outside my files: the ledger curation of the row (bucket D, blocked_on), README's 'open row needs the universal cover', Classes.lean's SCOPE bullet 'Not formalized ... bucket D' and Developing.lean's SCOPE 'The universal covering itself is not constructed'; (5) transcription l.431-434 checked against the scan (journal p. 238, PDF p. 11): it matches; the row's statement is the scan's sentence. No finding against the paper."
+}

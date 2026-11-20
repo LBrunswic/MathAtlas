@@ -72,8 +72,9 @@ of a jet at its source is `Benzecri.Jet.value` (Mathlib's `Filter.Germ.value` of
 * « $J(V)$ … est topologiquement isomorphe au produit $V \times G$ » (the proof, not the statement) is
   formalized as the bijection `(x, g) ↦ g • jet x p` (`IsDeveloping.existsUnique_jetSMul_eq`); the
   homeomorphism with `M × G` (`G` discrete) is not built — the statement does not need it.
-* The universal covering itself is not constructed (Mathlib has none at this pin): the p. 238
-  sentence is proved for any simply connected, locally path-connected covering.
+* The universal covering is not constructed in this module: the p. 238 sentence is proved here
+  for any simply connected, locally path-connected covering, and the universal cover itself is
+  `Benzecri.Port.UniversalCover` (a Mathlib-only port, T-bz-universal-cover, 2026-11-20).
 * The étalé topology on jets is the strict library's SCOPED instance `Benzecri.etaleTopology`,
   active in `namespace Benzecri`.
 
