@@ -24,3 +24,6 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0014](entries/0014-xtheta-chart-on-open.md) | pattern | X_θ-charts onto a proper open subset of the model |
 | [0015](entries/0015-doubled-convex-body.md) | pattern | A doubled convex body is 𝕊², through the gauge rescale |
 | [0016](entries/0016-cone-charts-via-developing.md) | pattern | Comparing cone charts through the developing map |
+| [0017](entries/0017-regular-is-cone-2pi.md) | pattern | A regular point is a cone point of angle 2π: rotate a chart onto the apex of C_{2π} |
+| [0018](entries/0018-so-transitive-reflections.md) | pattern | SO(V) is transitive on the unit sphere (dim ≥ 2): compose two reflections |
+| [0019](entries/0019-insertnth-removenth.md) | pitfall | Adding or removing a marked point: Fin.insertNth / Fin.removeNth, and one rfl per index |

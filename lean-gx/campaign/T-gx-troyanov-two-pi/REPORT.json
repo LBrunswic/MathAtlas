@@ -1,0 +1,68 @@
+{
+  "package": "T-gx-troyanov-two-pi",
+  "target": "T-gx-troyanov-two-pi",
+  "files": [
+    "scaffold/GXScaffold/Spherical/TroyanovTwoPi.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "cex:start_singular_manifold_homeomorphic",
+      "tex_lines": [
+        1930,
+        1930
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.IsConePoint.of_mem_reg",
+        "GX.isConePoint_iff_mem_reg",
+        "GX.IsConeSphere.insertNth",
+        "GX.IsConeSphere.removeNth",
+        "GX.TroyanovAngleCondition.removeNth",
+        "GX.TroyanovAngleCondition.three_le_card_filter_ne_two_pi",
+        "GX.TroyanovAngleCondition.three_lt_two_pi",
+        "GX.troyanovTheorem_of_ne_two_pi",
+        "GX.troyanovTheorem_of_four_le_of_ne_two_pi",
+        "GX.troyanovTheorem_iff_four_le_ne_two_pi"
+      ],
+      "hypotheses": [
+        {
+          "paper": "s >= 3 conical singularities of angles theta_i (l.1930)",
+          "here": "carried",
+          "note": "GX.IsConeSphere M θ p (the library's reading); an angle 2π is a marked regular point (ConeSurface SCOPE (c)), and now exactly that: IsConePoint ⟨2π⟩ x ↔ x ∈ Reg (GX.isConePoint_iff_mem_reg)"
+        },
+        {
+          "paper": "Troyanov's condition 0 < sum(theta_i - 2pi) + 4pi <= min(4pi, theta_i) (l.1930)",
+          "here": "carried",
+          "note": "GX.TroyanovAngleCondition, verbatim (DEC-69's); deleting an angle 2π preserves it (GX.TroyanovAngleCondition.removeNth, including s - 1 >= 3)"
+        },
+        {
+          "paper": "Troyanov's theorem MR1005085 (cited)",
+          "here": "reduced, not proved",
+          "note": "the body of GX.TroyanovTheorem (restated inline; the scaffold TroyanovAngles is not imported) follows from its restriction to angles all ≠ 2π (GX.troyanovTheorem_of_ne_two_pi), hence, with GX.troyanovTheorem_three, from its restriction to s >= 4 angles all ≠ 2π (GX.troyanovTheorem_of_four_le_of_ne_two_pi); the reduction is an equivalence (GX.troyanovTheorem_iff_four_le_ne_two_pi). No named hypothesis."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Not a defect; it settles the consequence of the recorded finding that l.1930's condition admits θ_i = 2π (GX.troyanovAngleCondition_two_pi): a point of a singular (SO(3), 𝕊²)-manifold is a cone point of angle 2π iff it is regular (GX.isConePoint_iff_mem_reg, 0 sorry), so a 2π angle is a marked regular point and costs nothing. Deleting it keeps the condition (its term θ_k − 2π vanishes, s − 1 >= 3 since at least three angles are ≠ 2π), and any point off the other cone points of the resulting cone sphere is added back as a cone point of angle 2π. So Troyanov's theorem as cited at l.1930 is equivalent to its case s >= 4 with every θ_i ≠ 2π (GX.troyanovTheorem_iff_four_le_ne_two_pi). If the author writes 'θ_i ≠ 2π' in the cex, the formal statement loses nothing."
+      ],
+      "questions": [
+        "No new reading. 'Conical singularity of angle θ' is read as the library reads it (GX.IsConePoint: an X_θ-chart of def:atlas onto a connected open neighbourhood of the apex of C_θ; GX.Spherical.ConeSurface SCOPE (a), OQ-37 (b)). An angle 2π is a marked regular point (ConeSurface SCOPE (c)), and that reading is now a theorem (GX.isConePoint_iff_mem_reg), not a convention. Nothing is decided here."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.isAEMorphism_of_chart_eq",
+    "GX.det_reflection_orthogonal_singleton",
+    "GX.exists_specialOrth_smul_eq",
+    "GX.IsConeSphere.exists_notMem_range"
+  ],
+  "kb_proposals": [
+    "A regular point is a cone point of angle 2π (GX.IsConePoint.of_mem_reg). Take a chart e at x and a chart a of C_{2π} at its apex, which is regular (SphCone.sing_eq_empty), and a rotation g with g • e x = a apex. Then a⁻¹ ∘ g ∘ e, restricted to the preimage of the connected component of the apex (restrOpen of the symm, then symm), is the X_{2π}-chart. Its a.e.-morphism property comes from GX.isAEMorphism_of_chart_eq: a map out of an open U ⊆ e.source with a ∘ f = g • e is a.e., through the regular locus of the inclusion U → M (IsAEMorphismOf.regLocusOf_eq) and IsRegularOn.of_exists.",
+    "SO(V) is transitive on RaySphere V when dim V >= 2 (GX.exists_specialOrth_smul_eq). Compose two mathlib reflections: Submodule.reflection_sub sends y to z, and a reflection in (ℝ ∙ w)ᗮ with w ⊥ z fixes z. Each has det −1 (GX.det_reflection_orthogonal_singleton, from Submodule.det_reflection and orthogonal_orthogonal). This is cheaper than building frames.",
+    "To add or remove a marked point of a tuple, use Fin.insertNth (α := fun _ => M) k q p and Fin.removeNth k with Fin.eq_self_or_eq_succAbove. Do not `rcases … with rfl` twice on the same k: the first rfl eliminates k. Instead `rw [hi, hj] at hij ⊢`. The cone-sphere versions are GX.IsConeSphere.insertNth and GX.IsConeSphere.removeNth."
+  ],
+  "notes": "0 sorry. The /tmp probes reported standard axioms only: #print axioms gave propext, Classical.choice and Quot.sound for every principal; the probes were deleted. lake env lean -DwarningAsError=true passes. lake build GXScaffold.Spherical.TroyanovTwoPi passes and built only this module (8583 jobs, 1 built). The module imports only GX.Spherical.TroyanovTriangle (strict). So it can graduate unchanged as GX/Spherical/TroyanovTwoPi.lean. It is not imported by the scaffold root GXScaffold.lean, because the dispatch forbade editing it: add the import at graduation, or the axiom sweep does not see the module (lean-causal kb 0025). A /tmp probe imported both GXScaffold.Spherical.TroyanovAngles and this module. It confirmed that no name clashes, and that troyanovTheorem_of_four_le_of_ne_two_pi h4 typechecks as GX.TroyanovTheorem, so the inline body is the Prop definitionally. Duplication to resolve when TroyanovAngles graduates: GX.TroyanovAngleCondition.three_le_card_filter_ne_two_pi re-proves the scaffold's GX.TroyanovAngleCondition.three_le_card_ne_two_pi under its own name, because the scaffold cannot be imported. A suggestion for the master, not done because the file is outside the dispatch: GX.troyanovTheorem in TroyanovAngles can become troyanovTheorem_of_four_le_of_ne_two_pi applied to a tagged sorry. That sorry would then carry only s >= 4 with all θ_i ≠ 2π; after T-gx-troyanov-polygon, only the case with some θ_i > 2π. The roadmap title's 'an X_{2π}-chart onto C_{2π}' is read as def:atlas's chart onto a connected open neighbourhood of the apex of C_{2π}, which is what GX.IsConePoint asks. The planner's [r] (C_{2π} develops onto 𝕊² minus the antipode of the apex) was not used and is not checked. The proof needs only that the apex of C_{2π} is regular and that SO(3) is transitive on 𝕊². GX.IsConePoint.of_mem_reg assumes nothing about M beyond its singular (SO(3), 𝕊²)-structure. The label row stays partial and unmarked. What remains: Troyanov for s >= 4 with all θ_i ≠ 2π (T-gx-troyanov-polygon for all θ_i < 2π, T-gx-troyanov for some θ_i > 2π) and GX.thurstonSuspensionFacts (T-gx-troyanov-suspension, OQ-37)."
+}

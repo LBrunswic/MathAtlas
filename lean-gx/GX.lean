@@ -48,5 +48,6 @@ import GX.Spherical.S3Model
 import GX.Spherical.ConeSurface
 import GX.Spherical.Football
 import GX.Spherical.TroyanovTriangle
+import GX.Spherical.TroyanovTwoPi
 
 /-! The strict library of the paper `gx` (`papers/gx`). Every module is imported here. -/
