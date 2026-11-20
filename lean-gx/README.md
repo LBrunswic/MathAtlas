@@ -9,9 +9,10 @@ source is the accepted version, DEC-24), **together with the classical developin
     lake build GXScaffold.Topology.Portly  # one module — the iteration loop
     make check                           # strict build, scaffold build, sorry count, axiom sweep
 
-A package of its own (DEC-23): `lean/` is the read-only GFNBoundsLean submodule (OQ-1), and gx
-does not depend on `lean-causal` — the (G,X)-groupoid of `lean-causal/Causal/GXStructure.lean`
-is ported, with its origin cited. Graduation into `lean/` is two `git mv`s.
+A package of its own (DEC-23): `lean/` is the read-only GFNBoundsLean submodule (OQ-1). Sections
+1–3 do not depend on `lean-causal` — the (G,X)-groupoid of `lean-causal/Causal/GXStructure.lean`
+is ported, with its origin cited; Section 4 (`GX/BTZ/`, `GX/Lorentz/`) imports `Causal.*` (DEC-33,
+pinned in `lakefile.toml`, enforced by `scripts/causal_import_gate.py`). Graduation into `lean/` is two `git mv`s.
 
 ## The two libraries
 
@@ -53,9 +54,9 @@ is ported, with its origin cited. Graduation into `lean/` is two `git mv`s.
 | `GX.SingularII.Developing` | §2.5.1 | **the singular developing theorem** `GX.singular_developing_theorem` (`prop:branched_devmap`), holonomy, descent |
 | `GX.SingularII.Tame` | §2.5.2 | tame singularities, `theo:local_tame` |
 | `GX.Hyperbolic.Plane` | — | ℍ², Isom⁺(ℍ²) analytic, complete hyperbolic structures, cusps (DEC-71); `ex:take_closed_unit_disc` partial (reading of 'finite volume complete hyperbolic metric') |
-| `GX.SingularII.Models` | §2.5.3–4 | analytic families, X_A-atlases, virtually tame models; `theo:local_virt_tame` (2 tagged `sorry`s) |
-| `GX.SingularII.SpreadTop` | §2.5 close | `lem:spread_top`, the spread topology (scaffold because it imports Models) |
-| `GX.Branched.GaloisExamples` | — | the closing examples; Antoine's necklace explicit (DEC-58/68), Antoine's theorem a tagged `sorry` |
+| `GX.SingularII.Models` | §2.5.3–4 | analytic families, X_A-atlases, virtually tame models; `theo:local_virt_tame` in its descending-chart form (false as printed: `GX.ThinCex`, DEC-109) |
+| `GX.SingularII.SpreadTop` | §2.5 close | `lem:spread_top`, the spread topology |
+| `GX.Branched.GaloisExamples` | — | the closing examples; Antoine's necklace explicit (DEC-58/68), its wildness and Antoine's lemma proved (DEC-82/85) |
 | `GX.Topology.VanKampen` | — | the van Kampen / covering argument behind Antoine's lemma (DEC-85) |
 | `GX.Lorentz.Bridge` | — | gx ↔ lean-causal: (ℝ³, nullQ) ≃ Minkowski 2, NullIsom0 ≃* isom 2, analytic actions, groupoids, universal covers, developing pairs |
 | `GX.BTZ.Model`, `.Rigid`, `.Causality`, `.Topology`, `.VirtTame` | §4.4 | the BTZ model E₀, its rigidity, causal structure (J^±(V) open at BTZ points), the BTZ topology, the analytic family (E_θ), θ ≠ 2π (DEC-74) |

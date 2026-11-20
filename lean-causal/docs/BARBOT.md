@@ -1,7 +1,7 @@
 # The Barbot campaign — *Globally hyperbolic flat space-times* on the ETT library
 
 T. Barbot, *Globally hyperbolic flat space-times*, J. Geom. Phys. 53 (2005) 123–165, arXiv
-math/0402257 (`barbot_globally_2004`). Rulings: DEC-34 … DEC-38, DEC-72, DEC-83, DEC-88 … DEC-93; open questions OQ-21 … OQ-23;
+math/0402257 (`barbot_globally_2004`). Rulings: DEC-34 … DEC-38, DEC-72, DEC-83, DEC-88 … DEC-93, DEC-110, DEC-111, DEC-115, DEC-121, DEC-123; open questions OQ-21 … OQ-23;
 work packages WP-29 … WP-34. Read `docs/CAMPAIGN.md` (the protocol) and `kb/INDEX.md` first —
 **kb/0024** in particular — then this file.
 
@@ -81,8 +81,10 @@ Classes: **T** causal / order-topological / affine in Minkowski space; **D** met
 ### §5 Around Bieberbach (l.1667–1822)
 - `bthm:ausl` 5.1, `bthm:unip` 5.2 — E (cited).
   **Both are proved** (DEC-121, 2026-11-03), along the routes of `docs/CARRIERE-DALBO-SURVEY.md`,
-  for `Isom(𝐌ⁿ)` (the form Barbot uses; narrower than the printed `Aff(n, ℝ)`, so neither label is
-  marked, kb/0011). `maxUnipotentSubspace d` (`Flat/MaxUnipProof`): Fried–Goldman–Hirsch's Fitting
+  for `Isom(𝐌ⁿ)` (the form Barbot uses), then **in the printed generality** (DEC-123, 2026-11-08):
+  `affAuslanderCarriereDalbo` (`Flat/AffACDProof`, every discrete `Γ ≤ Aff(n, ℝ)`) and
+  `affMaxUnipotent` (`Flat/AffUnipProof`, every nilpotent group of affine maps, any field), the
+  `Isom(𝐌ⁿ)` forms now corollaries; **both labels are marked**, closure 39/39. `maxUnipotentSubspace d` (`Flat/MaxUnipProof`): Fried–Goldman–Hirsch's Fitting
   subspace `x₀ + V₁` is the greatest unipotent-invariant subspace (`Flat/MaxUnipFitting`, any `N`),
   and `x₀` exists by `H¹(N; 𝐌ⁿ/V₁) = 0` (`Flat/MaxUnipCocycle`), Hirsch's vanishing for nilpotent
   `N` by centre induction (`Flat/MaxUnipHirsch`). `auslanderCarriereDalbo d` (`Flat/ACDProof`): a

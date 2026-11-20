@@ -52,5 +52,35 @@ original; the bridge to gx's version is a later module of the generalisation lay
 
 ## Modules
 
-None yet (wave 0: the package root and placeholders `Benzecri.Basic`, `BenzecriScaffold.Basic`).
-The proposed Chapter 1 split, sizes and dependency order are in `campaign/WP-45-plan/CH1-PLAN.md`.
+Chapter 1 and result A of the introduction, all strict, 0 `sorry`, standard axioms only (2026-11-08:
+27 files, ledger closure 35/36; the open row `bzthm:c1s1_revetement_universel_divisible` needs the
+universal cover, built in `lean-gx` but not in Mathlib at the pin). The scaffold is empty.
+The original split is in `campaign/WP-45-plan/CH1-PLAN.md`.
+
+| module | contents |
+|---|---|
+| `Benzecri.Affine.Basic` | affine spaces and affine maps (Ch. 1 § 1, Déf. 1–2) |
+| `Benzecri.Applications.Circle` | § 3 Prop. 1 and its corollary: `F(B)` and `B × S¹` |
+| `Benzecri.Applications.Converse` | § 3 Déf. 2 and Prop. 4: the partial converse |
+| `Benzecri.Applications.ConverseGeneral` | § 3 Déf. 2 and Prop. 4 for general `p` |
+| `Benzecri.Applications.Products` | § 3 Déf. 1, Props. 2–3 and the corollary: products |
+| `Benzecri.Applications.ProductsGeneral` | § 3 Déf. 1, Props. 2–3 for general `p` |
+| `Benzecri.Applications.TheoremA` | the introduction's result A |
+| `Benzecri.Cone.Base` | the base `B = V/ℝ⁺` of an affine conical manifold (§ 2, Prop. 2) |
+| `Benzecri.Cone.Basic` | open cones, affine conical manifolds, positive homotheties (§ 2, Déf. 1–3, Prop. 1) |
+| `Benzecri.Cone.Counterexample` | affine conical manifolds whose base is not Hausdorff, in every dimension `n ≥ 3` (DEC-122, DEC-124) |
+| `Benzecri.Cone.Functor` | the « isomorphisme fonctoriel » of § 2: affine conical manifolds ≌ locally projective manifolds |
+| `Benzecri.Cone.Lift` | Benzécri's cone `F(B) = FJ(B)/ℛ` over a locally projective manifold (§ 2) |
+| `Benzecri.Cone.LowDim` | in dimension `n ≤ 2` the base of an affine conical manifold is Hausdorff (DEC-122) |
+| `Benzecri.Cone.Section` | a section of `V → B`, `V ≅ B × ℝ₊*` (§ 2, p. 241; Déf. 3) |
+| `Benzecri.Projective.Convex` | segments, convex parts, strict convex parts, convex bodies (Déf. 7, 8, 9, 11) |
+| `Benzecri.Projective.Groups` | `GL`, `GA`, `GS`, `GU` and the isomorphism `i` (p. 236) |
+| `Benzecri.Projective.Hemisphere` | the affine structure of an open hemisphere (Déf. 6) |
+| `Benzecri.Projective.Sphere` | the projective sphere `S(E)` (Ch. 1 § 1, Déf. 3) |
+| `Benzecri.Projective.Subvariety` | linear subvarieties, hemispheres, `S(E)/l` (Déf. 4, 5, 10) |
+| `Benzecri.Structure.Basic` | locally projective and locally affine manifolds (Déf. 12, 13, Remarque, Prop. 1, 3) |
+| `Benzecri.Structure.Classes` | segments, homogeneous, sweepable, divisible and maximal manifolds (Déf. 14, 15, 16) |
+| `Benzecri.Structure.Developing` | the developing map of a simply connected manifold (Prop. 2) |
+| `Benzecri.Structure.Groupoid` | the groupoid of a group action (plan F2) |
+| `Benzecri.Structure.Jets` | the étalé topology on jets; `J(V)` is a covering of `V` (Déf. 12) |
+| `Benzecri.Structure.Quotient` | morphisms, the category, quotients `V/G`, étalé pull-backs (p. 238) |

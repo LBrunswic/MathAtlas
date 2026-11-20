@@ -40,7 +40,8 @@ dimensions, so Barbot's `n` is `d + 1`.
   disclosed there; nothing is re-read here.
 * `barbot_B_unconditional` carries `hK : ∀ N, GH N → FlatLemmaKData N` (lemma K's data), as
   `barbot_B` does; `barbot_B_geroch_unconditional` is the form without it.
-* The externals are proved for `Isom(𝐌ⁿ)` only (the form Barbot uses), not for `Aff(n, ℝ)`.
+* The externals are consumed in their `Isom(𝐌ⁿ)` form (the form Barbot uses); they are also proved
+  in the printed `Aff(n, ℝ)` generality (`Flat/AffACDProof`, `Flat/AffUnipProof`, DEC-123).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Barbot campaign,
 DEC-121.

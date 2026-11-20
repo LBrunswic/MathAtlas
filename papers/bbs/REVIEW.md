@@ -617,6 +617,10 @@ gx recorded both answers in `lean-gx/campaign/POSTWAVE5/BBS-NOTES.md`.
 
 ## I. Lean status: L0/L1 first pass (2026-11-03)
 
+*Update 2026-11-20: all three modules were audited twice and graduated to the strict library as
+`GX.Suspension.{Conic,Celestial,Affine}` (`lean-gx/GX/Suspension/`); `celestial_sing_ray` no longer
+exists and lean-gx carries no `sorry`. The table below is the state of 2026-11-03.*
+
 Three new scaffold modules, untracked and handed to gx for audit and graduation:
 
 | file | lines | contents |

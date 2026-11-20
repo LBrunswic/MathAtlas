@@ -1,13 +1,16 @@
 import Causal.Minkowski
 import Causal.Measure
+import Causal.Flat.GerochFlat
 import Mathlib.Analysis.Normed.Lp.MeasurableSpace
 
 /-!
 # Admissible measures on Minkowski space
 
 `prop:mesure_dieckmann_Lorentz` — `ETT.tex:1054`, for Minkowski space only (the library has no
-Lorentzian manifolds). Not certified: the statement rests on one tagged `sorry`, a fact of
-measure theory, and is reduced to it.
+Lorentzian manifolds). Sorry-free since 2026-11-20: the measure-theoretic fact it was reduced to
+is `Causal.Flat.minkowski_frontier_null_measure` (the Barbot campaign's offer, DEC-65). Kept in the
+scaffold until the ETT campaign graduates it; the instance-only scope below is why the row stays
+partial.
 
 > Let $M$ be a strongly causal Lorentzian manifold. Then $M$ admits a measure which is admissible
 > both in the past and in the future.
@@ -25,15 +28,16 @@ measure theory, and is reduced to it.
   4. because `K^±(A) = I^±(A)` and `J^±(A) \ I^±(A) ⊂ ∂I^±(A)`
   (`Jminus_diff_Kminus_subset_frontier`): "checks easily" made explicit.
 * `prop:mesure_dieckmann_Lorentz` for `ℝ^{1,n}` (`minkowski_mesure_dieckmann`), from the measure
-  of `minkowski_exists_measure`, which is the `sorry`.
+  of `minkowski_exists_measure`, which is `Causal.Flat.minkowski_frontier_null_measure`.
 
 ## SCOPE (disclosed)
 
-* **The `sorry`** (`minkowski_exists_measure`): a measure as above exists, e.g. a Gaussian on
+* **The former `sorry`** (`minkowski_exists_measure`, closed 2026-11-20 by
+  `Causal.Flat.minkowski_frontier_null_measure`): a measure as above exists, e.g. a Gaussian on
   `ℝ^{1+n}`. Finiteness, regularity and positivity are standard; what is missing is the
   nullity of `∂I^±(A)` for an **arbitrary** `A`: `I^-(A) = {(t, x) : t < f(x)}` with
   `f(x) = sup_{a ∈ A} (a.1 − ‖x − a.2‖)` 1-Lipschitz (or `±∞`), so `∂I^-(A)` lies in the graph
-  of `f`, which is Lebesgue-null by Fubini. Neither step is in mathlib at this pin. The
+  of `f`, which is Lebesgue-null by Fubini; `Causal/Flat/GerochFlat.lean` proves it. The
   statement is true for every `n`, `n = 0` included, so the `sorry` is not vacuous.
 * **What the paper's "checks easily" rests on.** Condition 4 for an arbitrary `A` is the
   classical theorem that an achronal boundary is a Lipschitz hypersurface (Hawking–Ellis,
@@ -74,8 +78,8 @@ theorem minkowski_exists_measure (n : ℕ) :
     ∃ μ : Measure (Minkowski n), μ.Regular ∧ μ univ < ⊤ ∧
       (∀ O : Set (Minkowski n), IsOpen O → O.Nonempty → 0 < μ O) ∧
       ∀ A : Set (Minkowski n), μ (frontier ((minkowski n).Iminus ⊤ A)) = 0 ∧
-        μ (frontier ((minkowski n).Iplus ⊤ A)) = 0 := by
-  sorry -- SORRY(prop:mesure_dieckmann_Lorentz): the frontier of I^-(A), for an arbitrary A, lies in the graph of the 1-Lipschitz x ↦ sup_{a ∈ A} (a.1 - ‖x - a.2‖), which is Lebesgue-null by Fubini; neither the graph description nor the nullity is in mathlib at this pin
+        μ (frontier ((minkowski n).Iplus ⊤ A)) = 0 :=
+  Causal.Flat.minkowski_frontier_null_measure n
 
 /-- `prop:mesure_dieckmann_Lorentz` for Minkowski space `ℝ^{1,n}`: a measure admissible both in
 the past and in the future. Rests on `minkowski_exists_measure`. -/
