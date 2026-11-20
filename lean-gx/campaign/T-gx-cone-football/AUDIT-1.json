@@ -1,0 +1,50 @@
+{
+ "target": "T-gx-cone-football",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "cex:start_singular_manifold_homeomorphic",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked and partial, as the dispatch asks: the football is a non-vacuity witness for the objects of l.1930, not an anchor. It has s = 2, and Troyanov's condition fails: with s = 2 and equal angles it reads 0 < 2θ ≤ min(4π, θ), which is impossible, and in general three_le_card_ne_two_pi forces three angles ≠ 2π. This is disclosed in SCOPE (a) and in the REPORT hypotheses. CHECKED (1), IsConeSphere is genuinely satisfied. Its five fields (ConeSurface.lean:958-963) are all proved from the construction, and none is assumed. (i) homeomorphic: Football θ is a def equal to Sph2, with Sph2's topology, and homeoSph2 is the identity. (ii) injective: by Football.north_ne_south, which comes from southPole_fst = -1. (iii) pos: θ.2. (iv) isConePoint: real XAChart witnesses (the library's HasXAType). For N the chart has U = range footballEmb = 𝕊² ∖ {S} and V = ⊤ ⊆ C_θ, φ the inverse of the open embedding, and φ(N) = apex ∈ sphConeS θ = {apex}. For S the chart is the same one through footballFlip ∘ footballEmb. The a.e.-morphism field comes from isAEMorphism_footballEmb, which is proved through isAEMorphismOf_maximalAEAtlas_of_forall against the maximal atlas of C_θ. (v) sing_subset: from compl_poles_subset_support, since every point off the poles has polar coordinates and lies in a regular chart of C_θ. The atlas is an a.e. atlas in the library's sense (IsAEAtlas = IsGXAtlas ∧ IsPortly support). Within one copy, the chart changes are those of C_θ. Across the copies, footballAtlas_cross gives k'·halfTurn·k⁻¹ from sphConeDev on both sides and halfTurn_smul_sphConeDev. The eventuality is pushed from 𝓝 q to 𝓝(footballPolar q) by IsOpenMap.nhds_le, which is correct because footballPolar is open. The support contains 𝕊² ∖ {N, S}, which is portly by isPortly_compl_singleton_of_chart and its image under the flip. halfTurn_smul_stereoInv is right. I checked it by hand: stereoInv v = ((1-|v|²)/(1+|v|²), 2v/(1+|v|²)) is sent by (t, w) ↦ (−t, w̄) to ((|v|²-1)/(1+|v|²), 2v̄/(1+|v|²)) = stereoInv(1/v). det_flipIsom = (−1)·det(conj) = (−1)(−1) = 1, so halfTurn ∈ SO(3): it is the half-turn about the real equatorial axis. The planner's [r] claim is therefore true. football_sing_eq (θ ≠ 2π) is exactly {N, S}. The ⊆ direction is football_sing_subset. The ⊇ direction is IsConePoint.mem_sing, which transports the strict SphCone.apex_mem_sing_iff through the XAChart. A probe confirmed N ∈ Sing for θ = π. CHECKED (2): the θ = 2π claims are consistent. football_sing_eq_empty uses IsConePoint.mem_reg. football_two_pi_round puts the identity chart into the maximal atlas by mem_of_compatible: a chart at N exists because the apex of C_{2π} is regular, and footballAtlas₁_eventually_eq_smul handles N by rigidity on a punctured disc plus EqOn.of_subset_closure. In football_two_pi_isAEMorphism_round, a pp.explicit probe shows that the Football side carries footballSingularGXStructure θ and the Sph2 side carries SingularGXStructure.ofHasGroupoid; the letI does not leak onto Football θ, because Football is a non-reducible def. None of this conflicts with (1), since football_sing_eq assumes θ ≠ 2π. CHECKED (3): the tools are general. isAEMorphismOf_maximalAEAtlas_of_forall assumes only that A and B are a.e. atlases, that Φ is continuous, and the chart-reading condition, plus the library's standing instances on (G, X). XAChart.ofIsOpenEmbedding asks for exactly the instances of the library's Family section, plus ConnectedSpace (Xα a), which V = ⊤ needs for isConnected_V. Neither hides a hypothesis. CHECKED (4): the remarks are true. In the developed charts, the point (r, φ) of copy 1 is (1/r, −φ) of copy 2, at distances 2 arctan r and π − 2 arctan r from N and S, so F_θ is the two-centre suspension of the circle of length θ and has two singular points for θ ≠ 2π. That a two-centre reading yields two singular points supports OQ-37 (a), the one-centre reading for a local model, and the ledger finding at l.698-700. The REPORT's findings array is empty, so no new claim about the paper is made. The 'very particular Σ' sentence is loose (minor finding 1). exists_isConeSphere_two: θ > 0 is arbitrary, and the existential's instances are the football's."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "details": "No lake build was running (pgrep). `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/GXScaffold/Spherical/Football.lean`: exit 0, no output. `lake build --no-build GXScaffold.Spherical.Football` reports 'All targets up-to-date (8581 jobs)', so the closer's olean (19:40:33) matches the source (19:40:07) and nothing upstream moved. 'sorry' appears once, in docstring prose ('0 `sorry`'). There is no admit, axiom, unsafe, implemented_by, native_decide, extern or opaque. The only set_option is linter.unusedSectionVars false, the same as in ConeSurface.lean. The only import is GX.Spherical.ConeSurface. A #print axioms probe on all 74 names in REPORT decls ∪ extra_decls, importing GX, GXScaffold and GXScaffold.Spherical.Football together: every name resolves, there is no clash, and every name depends on exactly [propext, Classical.choice, Quot.sound]. GX.lean imports every GX module, and GXScaffold.lean imports every scaffold module except Football, so the clash check covers both libraries. A grep of GX/ and scaffold/ for the new names (southPole, halfTurn, flipIsom, Football, range_stereoInv, PolarHalfPlane, ofIsOpenEmbedding, …) finds no other definition. No name contains 'Scaffold', and all are in namespace GX. A second probe checked that the instance on Football θ is footballSingularGXStructure θ (rfl) and that the instances in football_two_pi_isAEMorphism_round are as above. It also proved footballFlip θ ≠ Homeomorph.refl, that N ∈ Sing (Football ⟨π, _⟩), and that an IsConePoint θ' at S forces θ' = θ. Both probes were written under campaign/T-gx-cone-football/ and deleted."
+ },
+ "scope": {
+  "git_status": [
+   " M roadmap/roadmap.toml",
+   "?? lean-benzecri/scaffold/BenzecriScaffold/Chapter2/",
+   "?? lean-egf/scaffold/EGFScaffold/Defs.lean",
+   "?? lean-egf/scaffold/EGFScaffold/Universality.lean",
+   "?? lean-gx/campaign/T-gx-cone-football/",
+   "?? lean-gx/scaffold/GXScaffold/Spherical/Football.lean",
+   "?? lean-syracuse/campaign/T-syr-base/",
+   "?? lean-syracuse/scaffold/SyracuseScaffold/Base.lean",
+   "?? lean-syracuse/scaffold/SyracuseScaffold/Valuation.lean",
+   "?? lean-yamabe/scaffold/YamabeScaffold/Quotient.lean",
+   "?? lean-yamabe/scaffold/YamabeScaffold/Stability.lean"
+  ],
+  "note": "Within lean-gx, only the dispatched file and the campaign directory are new. A find for files newer than roadmap.toml (excluding .lake) returns only Football.lean and REPORT.json. The scaffold root GXScaffold.lean (18:00) and build.log (18:01) predate the dispatch. roadmap/roadmap.toml (19:16, before Football.lean) carries status ready -> active for this target and three others: that is the loop's bookkeeping. The other untracked paths belong to concurrent packages (benzecri, egf, syracuse, yamabe), not to this closer."
+ },
+ "docstring_contract": "Present and in order: the title; the label `cex:start_singular_manifold_homeomorphic` — `RamcovGX.tex:1930`, unmarked and within the first 4000 characters (no ``**`label`**`` anywhere); three quoted blocks, verbatim up to line wrapping (l.1930, l.700, l.1933; the line numbers are verified); a Hypothesis checklist; SCOPE (disclosed) (a)-(d); and the Provenance line. The checklist uses '✗ not an instance' for s ≥ 3, which is outside the ✓/⚠ vocabulary of kb 0006 but accurate for a witness. The SCOPE claims are true. (a): Troyanov's condition fails. (b): θ = 2π gives marked regular points and sing = ∅. (c): the metric is not formalized, and the two-centre identification is correct. (d): the [r] claim is checked by halfTurn_smul_stereoInv and det_flipIsom. Two wording points are in the findings.",
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "scaffold/GXScaffold/Spherical/Football.lean:67-68 (SCOPE (a)); REPORT.json notes, last sentence",
+   "what": "'Aut(F_θ) is not trivial ... it is one of the \"very particular Σ\" of l.1933' is loose. The Σ of l.1930-1933 are the cex's surfaces, with s ≥ 3 and Troyanov's condition. F_θ has s = 2 and fails the condition, as the same SCOPE item says, so it is not one of them. What is true and proved is that Aut(F_θ) is non-trivial, as l.1933 allows for particular Σ. Non-triviality also needs footballFlip ≠ id. That is not stated as a lemma, though it follows at once from footballFlip_north and Football.north_ne_south: the audit probe proves it in four lines. (Aut(F_θ) is in fact larger: the rotations about the polar axis act too. They are not needed here.)",
+   "fix": "Phrase it as an analogy: 'Aut(F_θ) is not trivial (the half-turn, footballFlip_mem_singularAut, which exchanges N and S), as l.1933 allows for very particular Σ; F_θ itself (s = 2) is not a Σ of the cex.' Use the same wording in the REPORT notes before curation. Optionally add footballFlip_ne_refl."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/GXScaffold/Spherical/Football.lean:11-13 (module docstring, label bullet)",
+   "what": "'exist with genuine cone points, for every angle' overstates. For θ = 2π, N and S are cone points of angle 2π, which are regular points (football_sing_eq_empty, IsConePoint.mem_reg), not genuine conical singularities. SCOPE (b) and the theorem docstrings say this correctly, so nothing is over-certified.",
+   "fix": "'exist for every angle θ > 0, with two genuine (singular) cone points when θ ≠ 2π (football_sing_eq)'."
+  }
+ ]
+}

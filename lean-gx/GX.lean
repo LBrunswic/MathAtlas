@@ -46,5 +46,6 @@ import GX.BTZ.TildeStructure
 import GX.Topology.SLSCCompact
 import GX.Spherical.S3Model
 import GX.Spherical.ConeSurface
+import GX.Spherical.Football
 
 /-! The strict library of the paper `gx` (`papers/gx`). Every module is imported here. -/
