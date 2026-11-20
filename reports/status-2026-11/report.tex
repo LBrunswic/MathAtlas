@@ -1,0 +1,829 @@
+% report.tex -- compile with: latexmk -lualatex report.tex
+% Every figure in the prose is a macro of generated/numbers.tex (tools/status_report.py);
+% rerun `python3 tools/status_report.py reports/status-2026-11 --logs <dir of check logs>`.
+\input{preamble}
+\input{generated/numbers}
+\usepackage{xcolor}
+\newenvironment{leancode}{\VerbatimEnvironment\begin{Verbatim}[fontsize=\small,frame=single,framesep=2mm]}{\end{Verbatim}}
+\newcommand{\unv}{\textsuperscript{\textcolor{red!60!black}{[r]}}}
+\newcommand{\oq}[1]{OQ-#1}
+
+\title{The LeanArticles formalizations: status report\\[2pt]
+\large Lean libraries, ideas explored and literature formalized}
+\author{Technical report on the \texttt{LeanArticles} hub\\
+\small host \texttt{node1}; Lean v4.31.0, mathlib \texttt{fabf563a}}
+\date{20 November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The \texttt{LeanArticles} hub formalizes L.~Brunswic's papers, together with the papers they rest
+on, in Lean~4. Between 19 September and 8 November 2026 a series of agent sessions, each under the
+author's rulings, built three Lean libraries:
+\begin{itemize}
+\item \texttt{lean-causal}: topological spacetimes and flat Lorentzian geometry,
+  \numPkgCausalDecls{} strict declarations;
+\item \texttt{lean-gx}: singular and branched $(G,X)$-manifolds and BTZ geometry,
+  \numPkgGxDecls{} strict declarations;
+\item \texttt{lean-benzecri}: locally affine and projective manifolds,
+  \numPkgBenzecriDecls{} strict declarations.
+\end{itemize}
+Every strict declaration rests only on Lean's three standard axioms. The strict libraries contain
+no \texttt{sorry}, and the only scaffold left holds \numPkgCausalSorryscaffold{} tagged
+\texttt{sorry}s.
+
+On these libraries:
+\begin{itemize}
+\item T.~Barbot's \emph{Globally hyperbolic flat space-times} is closed in full
+  (\numBarbotClosed/\numBarbotTarget). Theorems A and B are proved with no hypothesis beyond the
+  paper's. The five group-theoretic results the paper cites (Benoist, Bieberbach~I,
+  Auslander--Carrière--Dal'bo, Carrière--Dal'bo and Selberg) were proved along the way.
+\item Brunswic's \emph{Branched coverings of singular $(G,X)$-manifolds} is closed at
+  \numGxClosed/\numGxTarget, including the BTZ uniformization theorem in its ruled form.
+\item Brunswic's \emph{Topological spacetimes (I)} stands at \numEttClosed/\numEttTarget.
+\item Chapter~1 of Benzécri's thesis stands at \numBenzecriClosed/\numBenzecriTarget.
+\end{itemize}
+The GFN Bounds library is a frozen external dependency (\numGfnClosed/\numGfnStatements). Four
+further papers have ledgers but no Lean yet.
+
+The formalization found many statements false or incomplete as printed. Each is recorded with a
+counterexample or a corrected form, and every corrected form was ruled by the author before it
+was certified. Exploratory research toward $3+1$ singular spacetimes (the Barbot--Bonsante--Schlenker
+review and the \emph{3+1 notes}) is reported separately. It is marked \unv{} wherever it is not
+yet proved.
+\end{abstract}
+
+\tableofcontents
+
+%======================================================================
+\section{Overview}
+%======================================================================
+
+\subsection{The hub and its method}
+
+The hub holds two things: a Lean library and the papers rebuilt from it. Each paper goes through
+the same four stages.
+\begin{enumerate}
+\item The paper's statements are extracted into a \emph{ledger} (\texttt{tools/ledger.py}). It
+  has one row per \verb|\label|, with the statement's dependencies and its natural-language
+  status.
+\item Lean declarations are anchored to the rows.
+\item A row's \emph{certification status} is computed from the Lean closure, never typed by hand.
+\item The paper's story is rewritten fresh in \texttt{STORY.md}. No twelve-word run may be shared
+  with the legacy draft.
+\end{enumerate}
+
+Four rules hold throughout, and the gates enforce each of them.
+\begin{itemize}
+\item \textbf{Lean $\ge$ paper.} A declaration narrower than the paper's statement is never its
+  anchor. A statement that is false as printed is certified only in a corrected form, and only
+  after the author rules that form to be the formalization of record. The form so ruled is
+  \emph{marked}; the printed form stays refuted in Lean, usually by an explicit counterexample.
+\item \textbf{Strict and scaffold.} Each package has a strict library (\texttt{warningAsError},
+  so a \texttt{sorry} fails the build) and a scaffold library, where tagged \texttt{sorry}s are
+  allowed. A label counts only if it is closed in the strict library. Every package also runs an
+  axiom sweep (\texttt{scripts/AxiomSweep.lean}) over every declaration.
+\item \textbf{Buckets.} An open row is classified as one of:
+  \begin{itemize}
+  \item \texttt{B}: routine;
+  \item \texttt{C}: blocked by a named obstruction;
+  \item \texttt{D}: deferred, because it needs a layer not yet built;
+  \item \texttt{T}: terminal, outside the target, with a reason.
+  \end{itemize}
+  The closure figure is the number of rows closed in bucket \texttt{A}, over the in-scope rows
+  less the terminal ones.
+\item \textbf{The model proposes, the author disposes.} Every reading of an ambiguous sentence,
+  and every decision to mark a corrected form, is an author's ruling (\texttt{DEC-n} in
+  \texttt{registers/DECISIONS.md}). The sessions wrote, proved and audited; each package was
+  audited read-only by a session that did not write it before it graduated to strict.
+\end{itemize}
+
+\subsection{Closure of every paper of the hub}
+
+Table~\ref{tab:closure} is generated from the ledgers. The GFN Bounds row comes from
+\texttt{lean/docs/COVERAGE.md}.
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{6.2cm}lrrrrr@{}}
+\toprule
+paper & Lean home & rows & terminal & stated & partial & closure\\
+\midrule
+\csname @@input\endcsname generated/closure-table 
+\bottomrule
+\end{tabular}
+\caption{Ledger closure per paper (2026-11-20). ``Stated'' counts rows with a Lean anchor;
+``partial'' counts those anchored by a disclosed weakening, a corrected form not yet ruled, or a
+proper subset of a multi-part statement. Closure is rows closed in bucket A over the
+non-terminal rows. For GFN Bounds the four open rows are terminal remarks.}
+\label{tab:closure}
+\end{table}
+
+\subsection{What changed since the 2 November report}
+
+The previous report (\texttt{reports/barbot-gx/report.pdf}) stood at Barbot 37/39 with five
+named externals, gx 108/149 with Section~4 unstated, and no Benzécri. Since then:
+\begin{itemize}
+\item \textbf{Barbot's theorems became unconditional.} Every cited external was proved:
+  \begin{itemize}
+  \item Benoist's result, through Gromov's classification on $\mathbb H^d$ (\dec{111});
+  \item Bieberbach~I (\dec{110});
+  \item Selberg's lemma (\dec{115});
+  \item Auslander--Carrière--Dal'bo and Carrière--Dal'bo, for $\Isom(\Mink^n)$ (\dec{121}) and
+    then in the printed $\mathrm{Aff}(n,\R)$ generality (\dec{123}).
+  \end{itemize}
+  This took the closure to \numBarbotClosed/\numBarbotTarget.
+\item \textbf{gx's Section~4 was closed.} The brunswic2021cauchy chain (spears, the $C^1$
+  surgery, mixed diamonds, absolute maximality of $\reg M$) and the headline
+  \lean{GX.btz_uniformization} were proved (\dec{125}, \dec{126}, \dec{129}), as was a full
+  singular $(G,X)$-structure on $\widetilde M$ (\dec{130}). \texttt{lean-gx} is entirely
+  strict.
+\item \textbf{The Benzécri campaign started} (\dec{112}) and brought Chapter~1 to
+  \numBenzecriClosed/\numBenzecriTarget.
+\item \textbf{The BBS review and the 3+1 research notes} were written (\S\ref{sec:research}).
+\end{itemize}
+
+\subsection{Housekeeping done for this report}
+
+Commit \texttt{18d8c16} made the following changes.
+\begin{itemize}
+\item The ETT scaffold's \lean{minkowski_exists_measure} \texttt{sorry} is closed by the
+  identical, already-proved \lean{Causal.Flat.minkowski_frontier_null_measure} (the \dec{65}
+  offer).
+\item Stale documentation was brought up to date: \texttt{BARBOT.md}, three package READMEs and
+  the BBS review.
+\item The ledgers were regenerated. The ETT ledger now reads the current Lean.
+\item The work register was reconciled with what the commits show was executed, and no ruling
+  was taken.
+\item Uncommitted, regenerated docs in the read-only \texttt{lean/} submodule were discarded.
+\end{itemize}
+\S\ref{sec:open} lists what was deliberately \emph{not} done because it needs a ruling.
+
+%======================================================================
+\section{The Lean libraries}\label{sec:libs}
+%======================================================================
+
+All packages pin Lean v4.31.0 and mathlib \texttt{fabf563a} (\texttt{hub.toml}). They are built
+on \texttt{node1} only, and their \texttt{.lake} directories are kept out of Dropbox. The
+figures below come from each package's \texttt{make check} on 2026-11-20.
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}lrrrrrl@{}}
+\toprule
+package & strict modules & declarations & lines & strict \texttt{sorry} & scaffold \texttt{sorry} & axioms\\
+\midrule
+\texttt{lean-causal} (\lean{Causal}) & \numPkgCausalModules & \numPkgCausalDecls & \numPkgCausalLines & \numPkgCausalSorrystrict & \numPkgCausalSorryscaffold & standard\\
+\texttt{lean-gx} (\lean{GX}) & \numPkgGxModules & \numPkgGxDecls & \numPkgGxLines & \numPkgGxSorrystrict & \numPkgGxSorryscaffold & standard\\
+\texttt{lean-benzecri} (\lean{Benzecri}) & \numPkgBenzecriModules & \numPkgBenzecriDecls & \numPkgBenzecriLines & \numPkgBenzecriSorrystrict & \numPkgBenzecriSorryscaffold & standard\\
+\bottomrule
+\end{tabular}
+\caption{The three libraries. Declarations are the axiom sweep's count, which includes
+auxiliary constants. ``Standard'' means \texttt{propext}, \texttt{Classical.choice} and
+\texttt{Quot.sound} only. No package declares an \texttt{axiom}.}
+\end{table}
+
+\paragraph{Dependencies.}
+\begin{itemize}
+\item \texttt{lean-causal} depends on mathlib only.
+\item \texttt{lean-gx} pins \texttt{lean-causal}. Only \lean{GX.BTZ} and \lean{GX.Lorentz} may
+  import \lean{Causal} (\dec{33}, enforced by \texttt{scripts/causal\_import\_gate.py}): gx's
+  Section~4 consumes Barbot's classification (\dec{34}).
+\item \texttt{lean-benzecri} depends on mathlib only, by design (\dec{112}); a generalization
+  layer is planned.
+\item Each package is laid out so that moving it into \texttt{lean/} is a \texttt{git mv}. That
+  move waits on \oq{1} and \oq{11}.
+\end{itemize}
+
+\subsection{\texttt{lean-causal}: topological spacetimes and flat Lorentzian geometry}
+
+\paragraph{The ETT layer} (\lean{Causal.*}) is the theory of \emph{topological} spacetimes:
+spaces with a causality, and no metric.
+\begin{itemize}
+\item Causal relations $J^\pm$, $I^\pm$, $K^\pm$; push-up; strong causality; global
+  hyperbolicity; the generated causality and absolute minimality.
+\item Causal curves and causal arc-connectedness; admissible (Dieckmann) measures.
+\item Morphisms and time functions; gluings; chains; inextensibility; Cauchy surfaces.
+\item Geroch's theorem, (i)$\Rightarrow$(ii)$\Rightarrow$(iii) (\lean{geroch_i_imp_ii},
+  \lean{geroch_ii_imp_iii}).
+\item $(G,X)$-structures; static spacetimes; Minkowski space; the cone models $E_\alpha$;
+  singular flat spacetimes under named model hypotheses.
+\item \textbf{Levin's theorem.} A continuous time function exists on every second countable
+  spacetime with a closed preorder (\lean{Causal.LevinUtility}, proved from mathlib's Urysohn
+  machinery). It discharges the model fact \lean{CurvesExtend}.
+\item \textbf{Lemma~K.} A compact connected locally Cauchy set of a causally open, second
+  countable GH spacetime is a Cauchy surface
+  (\lean{isCauchySurface_of_isLocallyCauchy_of_causallyOpen}, \dec{93}).
+\item \textbf{Choquet-Bruhat--Geroch.} The universal maximal Cauchy development over any rigid
+  singular $(G,X)$-geometry, in Sbierski's order of proof (\lean{Causal.CBG.cbg},
+  \lean{cbg_ett}), with the flat instance \lean{Causal.Flat.flat_cbg}.
+\end{itemize}
+
+\paragraph{The flat layer} (\lean{Causal.Flat.*}, about two thirds of the package) formalizes
+Barbot:
+\begin{itemize}
+\item Minkowski space $\Mink^n$ and $\Isom(\Mink^n)$; the Penrose boundary and regular domains;
+  flat spacetimes as $(\Isom,\Mink)$-manifolds; the developing map; Cauchy-completeness;
+  the cosmological time.
+\item The nonloxodromic case (\lean{Flat.Nonlox}, 10 modules), the loxodromic case
+  (\lean{Flat.Lox}, 26 modules) and the classification (\lean{Flat.Cla}, 19 modules).
+\item Five group-theory sub-libraries, each a complete proof of a result Barbot cites
+  (\S\ref{sec:lit}): \lean{Flat.Gromov*}, \lean{Flat.Bieberbach*}, \lean{Flat.Selberg*},
+  \lean{Flat.ACD*}/\lean{Flat.AffACD*} and \lean{Flat.MaxUnip*}/\lean{Flat.AffUnip*}.
+\item The flat Geroch theorem (\lean{flatGerochGH}): every GH flat spacetime carries admissible
+  measures.
+\end{itemize}
+
+\paragraph{The scaffold} holds \numPkgCausalSorryscaffold{} tagged \texttt{sorry}s, and nothing
+in the strict library depends on them:
+\begin{itemize}
+\item \lean{GerochEquiv}: Geroch (iii)$\Rightarrow$(i), cited by ETT from O'Neill.
+\item \lean{SubExtension}, two \texttt{sorry}s: \lean{exists_mem_image_inf}, which feeds
+  \lbl{lem:C_ext_connexe}, and \lean{cauchy_pgcd} (\lbl{prop:Cauchy_pgcd}).
+\item \lean{CompactCauchy}: Lemma~K in its bare form, without causal openness.
+\item \lean{LemmaKSCOpen}: the same with second countability. This is an open generalization the
+  paper does not need (\dec{93}).
+\end{itemize}
+
+\subsection{\texttt{lean-gx}: singular and branched $(G,X)$-manifolds, BTZ geometry}
+
+\begin{itemize}
+\item \textbf{Topology.} Portly and skeletal sets with their dimension theory
+  (\lean{GX.Topology.Portly*}); the universal cover; van Kampen (\lean{GX.Topology.VanKampen}).
+\item \textbf{Structures.} $(G,X)$-structures and the classical developing theorem
+  (\lean{GX.developing_theorem}, \lean{GX.developing_unique}). The bare-map uniqueness the paper
+  writes at l.344 is refuted by \lean{developing_unique_fails_for_bare_maps}.
+\item \textbf{Spreads and Fox completion} (\lean{GX.Spread.*}); \textbf{singular manifolds},
+  almost-everywhere atlases, quotients and suspensions (\lean{GX.Singular.*}).
+\item \textbf{Branched coverings} (\lean{GX.Branched.*}): universality, almost-homotopy classes
+  of paths, the Galois correspondence (\lean{GX.galois_correspondence}), and the closing
+  examples. Antoine's necklace is built explicitly, and its wildness and Antoine's lemma are
+  proved through van Kampen.
+\item \textbf{Singular II} (\lean{GX.SingularII.*}): unloopable models, the singular developing
+  theorem (\lean{GX.singular_developing_theorem}), tame and virtually tame singularities, and
+  the spread topology.
+\item \textbf{BTZ} (\lean{GX.BTZ.*}, 18 modules):
+  \begin{itemize}
+  \item the model $E_0$, its rigidity, its causality and the BTZ topology;
+  \item CBG for $E_0$-manifolds (\lean{GX.e0_cbg});
+  \item holonomy, including a loxodromic element in $2+1$ (\dec{75});
+  \item the brunswic2021cauchy chain (spears, surgery, mixed diamonds, absolute maximality);
+  \item global hyperbolicity of $\widetilde M$;
+  \item the headline \lean{GX.btz_uniformization} and the full structure on $\widetilde M$
+    (\lean{GX.btz_manifold_galoisian_maximal_full}).
+  \end{itemize}
+\item \textbf{The Lorentz bridge} (\lean{GX.Lorentz.Bridge}) identifies gx's
+  $(\R^3,\mathrm{null}Q)$ with \lean{Causal.Minkowski 2}.
+\item \textbf{Suspensions} (\lean{GX.Suspension.{Conic,Celestial,Affine}}) is the first layer
+  of the 3+1 programme (\S\ref{sec:research}).
+\end{itemize}
+
+\subsection{\texttt{lean-benzecri}: locally affine and projective manifolds}
+
+\begin{itemize}
+\item The projective sphere $S(E)$; its groups $\mathrm{GL},\mathrm{GA},\mathrm{GS},\mathrm{GU}$;
+  hemispheres; convexity.
+\item Locally projective and locally affine manifolds as charted spaces over a groupoid; jets
+  with the étalé topology; quotients; the developing map; the classes of Déf.~14--16.
+\item \textbf{Affine cones} (\lean{Benzecri.Cone.*}): the base $V/\R_+^*$, sections, Benzécri's
+  cone $F(B)$, and the functorial equivalence
+  \lean{coneEquivalence}${}:{}$ \lean{ConeCat (n+1)} $\simeq$ \lean{ProjCat n}.
+\item The counterexample module \lean{ConeCex}, for every $n\ge3$.
+\item \textbf{Applications}: $B\times S^1$ (\lean{produit_cercle}); products, for two factors
+  and for general $p$; the converse; and \textbf{Theorem~A} (\lean{theoremA}).
+\end{itemize}
+
+\subsection{\texttt{lean}: GFN Bounds (read-only)}
+
+\texttt{lean/} is the GFNBoundsLean submodule. It formalizes the proofs of Appendices~A, B and H
+of \emph{Universality and Convergence of Generative Flows}: universality, the stable bounds, the
+Silva et al.\ comparison, and the doubling-graph counterexample.
+\begin{itemize}
+\item \numGfnClosed{} of \numGfnStatements{} rows are closed. The \numGfnOpen{} open rows are
+  terminal remarks.
+\item The submodule is pinned at \texttt{2e9865c} (2026-09-19) and is not written from this
+  hub (\dec{2}).
+\end{itemize}
+
+%======================================================================
+\section{Barbot, \emph{Globally hyperbolic flat space-times}}\label{sec:barbot}
+%======================================================================
+
+T.~Barbot, J.\ Geom.\ Phys.\ 53 (2005) 123--165, arXiv math/0402257. The labelled copy is
+\lean{papers/barbot/legacy/labeled/GHFspace.tex}. The campaign document is
+\texttt{lean-causal/docs/BARBOT.md}.
+
+\subsection{Result}
+
+The ledger has \numBarbotStatements{} rows, \numBarbotTerminal{} of them terminal, and
+\numBarbotClosed{} of \numBarbotTarget{} are closed. Both classification theorems are proved
+with no hypothesis beyond the paper's. In Lean, Barbot's $\Mink^n$ is \lean{Minkowski d} with
+$n=d+1$.
+
+\begin{leancode}
+theorem barbot_A_unconditional (M : FlatSpacetime.{u} d) (hGH : GH M)
+    (hCC : IsCauchyComplete d M) :
+    ∃ (M' : FlatSpacetime.{0} d) (p : M' → M), IsFiniteCover d p ∧
+      ∃ (d₁ : ℕ) (_ : d₁ ≤ d) (M₁ : FlatSpacetime.{0} d₁) (B : FlatSpacetime.{0} d),
+        AMGH (CauchyCompleteClass d₁) M₁ ∧
+        (IsTranslationSpacetime M₁ ∨ IsMisnerFamily d₁ M₁ ∨ IsUnipotentFamily d₁ M₁ ∨
+          IsCHCentralExtension M₁) ∧
+        IsLTPOver B M₁ ∧ ∃ f : M' → B, IsTameEmbedding d f
+
+theorem barbot_B_geroch_unconditional (M : FlatSpacetime.{u} d) (hGH : GH M)
+    (hC : CauchyCompact M) (hM : MGH M) :
+    ∃ (M₁ : FlatSpacetime.{0} d) (p : M₁ → M), IsFiniteCover d p ∧
+      AMGH (CauchyCompleteClass d) M₁ ∧
+      (IsTranslationSpacetime M₁ ∨ IsMisnerFamily d M₁ ∨
+        (IsCHTorusProduct M₁ ∧ CauchyCompact M₁))
+\end{leancode}
+
+\begin{itemize}
+\item \textbf{Theorem~A} (\lbl{bthm:caucomp}): a finite cover of a Cauchy-complete GH flat
+  spacetime tamely embeds into a linear twisted product over an absolutely maximal model. The
+  model is a translation, Misner, unipotent or central-extension Cauchy-hyperbolic spacetime, of
+  dimension at most~$n$.
+\item \textbf{Theorem~B} (\lbl{bthm:cauclo}): a finite cover of a maximal Cauchy-compact GH flat
+  spacetime is absolutely maximal, and is a translation spacetime, a Misner spacetime, or a
+  Cauchy-compact Cauchy-hyperbolic $\times$ torus product.
+\end{itemize}
+Both read Cauchy-completeness through the bridge (CC$'$) of \dec{35}. Theorem~A is under reading
+R1 (\dec{43}).
+
+\subsection{The route}
+
+The proof follows the paper's spine:
+\begin{enumerate}
+\item the developing map and holonomy;
+\item the elementary models (§3) and twisted products (§5);
+\item the regular domains and cosmological time of §4;
+\item the dichotomy between nonloxodromic holonomy (§9) and loxodromic holonomy (§10);
+\item the assembly of §11.
+\end{enumerate}
+
+The Lean development departs from the paper in four places.
+\begin{itemize}
+\item \textbf{Torsion.} Barbot's argument silently assumes the holonomy is torsion-free. The
+  formalization supplies Selberg's lemma to pass to a finite-index torsion-free subgroup (findings
+  F1--F4, \dec{44}). This is why both theorems are stated ``up to a finite cover''.
+\item \textbf{Lemma~K.} The sentence ``every closed spacelike hypersurface of a GH spacetime is a
+  Cauchy surface'' (Rem.~2.3, §11) is never proved in the paper. It became Lemma~K, proved in
+  ETT's setting through Levin's theorem.
+\item \textbf{The flat Geroch theorem} is proved (\dec{65}). With it, Theorem~B's Geroch form
+  carries no lemma-K data.
+\item \textbf{The externals.} Each cited result was first entered as a named \texttt{Prop}
+  hypothesis (\dec{36}), never as an axiom, and later proved (\S\ref{sec:lit}). The chain of
+  forms is \lean{barbot_A} $\to$ \lean{_noBieb} $\to$ \lean{_min} $\to$ \lean{_unconditional}.
+  Each step removes one bundle.
+\end{itemize}
+
+\subsection{What the formalization found in the paper}
+
+The ledger carries \numBarbotFindings{} findings on \numBarbotFindingrows{} rows. The ones that
+change a statement are:
+\begin{itemize}
+\item \textbf{Prop.~4.2} is false in the metric reading. It is marked in a two-case form: a volume
+  reading for $n\ge3$, a conformal one for $n=2$ (\dec{102}, \dec{104}).
+\item \textbf{Prop.~4.10}: a sign typo (\dec{95}).
+\item \textbf{Lemma~5.5} is false for $n\ge3$ (\dec{99}).
+\item \textbf{Lemma~7.1} is false for $n\ge4$; it is used in its class-by-class form (\dec{98}).
+\item \textbf{Cor.~8.4} is false. A unified repair is proved, and the printed form has a
+  counterexample (\dec{101}).
+\item \textbf{Prop.~8.12} needs $M$ Hausdorff. The counterexample is two copies of $\Mink^n$
+  glued along $\{t<0\}$.
+\item \textbf{Prop.~9.1} has a gap that needs discreteness (\dec{97}).
+\item \textbf{Rem.~2.3} is false as written (\dec{44}).
+\item \textbf{The torsion gap} in Theorem~A and in §10.M (F1--F4, the conjugation formula at
+  l.3264), fixed with Selberg's lemma.
+\item \textbf{Def.~4.4} read literally admits degenerate domains with infinite cosmological time.
+  The witness \lean{not_cosmoBoundedAsPrinted} is kept, and the intended \emph{regular} domain
+  is used (\dec{88}).
+\end{itemize}
+None of these defeats the paper's main theorems. All are repaired, and each repair was ruled.
+
+\subsection{What remains}
+
+The \numBarbotTerminal{} terminal rows are off the spine of Theorems A and B, and were not
+attempted:
+\begin{itemize}
+\item \lbl{bthm:convex_cocompact}, which needs Sullivan's structural stability, together with
+  \lbl{bdef:geometrically_finite} and \lbl{blem:admissible_cone}, which serve only it;
+\item \lbl{bprop:tri}, an explicit thrice-punctured-sphere computation;
+\item \lbl{bthm:cmc}, the CMC foliations of §12.
+\end{itemize}
+\lean{LimitSetMinimal} (Ratcliffe §12) remains a named hypothesis of \lbl{bprop:admlox}, which
+Theorems A and B do not reach.
+
+%======================================================================
+\section{Brunswic, \emph{Topological spacetimes (I)}}\label{sec:ett}
+%======================================================================
+
+\emph{From scratch to Geroch's and Choquet-Bruhat--Geroch's theorems.} The paper builds causal
+theory on topological spaces with a causality and no smooth structure, so that singular
+spacetimes (cones $E_\alpha$, BTZ lines) are covered as first-class objects.
+
+\subsection{Status}
+
+The ledger has \numEttStatements{} rows. Of these, \numEttStated{} are anchored in Lean and
+\numEttClosed{} are closed, so the closure is \numEttClosed/\numEttTarget. A further
+\numEttPartial{} rows are partial. Their gaps fall into three groups.
+\begin{itemize}
+\item \textbf{Proved under named model hypotheses (bucket D).} The singular material of §3--§4
+  is proved under \lean{SingularFlatAxioms} or \lean{BTZAxioms}, but the singular instance has
+  not yet been supplied from gx. The CBG results (\lbl{theo:CBG} and its §4 lemmas) are
+  sorry-free in \lean{Causal.CBG} but are not yet anchored to their rows; \texttt{CBG-DESIGN.md}
+  assigns that marking to the ETT campaign.
+\item \textbf{Cited or open (bucket C).}
+  \begin{itemize}
+  \item \lbl{theo:geroch}: (iii)$\Rightarrow$(i) is cited.
+  \item \lbl{lem:C_ext_connexe}, \lbl{prop:Cauchy_pgcd}: scaffold \texttt{sorry}s.
+  \item \lbl{prop:mesure_dieckmann_Lorentz}: sorry-free since this report's cleanup, but proved
+    on Minkowski space only, where the paper states it for strongly causal Lorentzian manifolds.
+  \item Three remarks: \lbl{rem:minimalite_non_hereditaire}, \lbl{rem:K_borelien} and
+    \lbl{rem:hypotheses_proposition_prop_gx}.
+  \end{itemize}
+\item \textbf{Readings awaiting rulings.} The open questions \oq{10}, \oq{13}, \oq{14},
+  \oq{15}, \oq{16}, \oq{18} and \oq{20} each name the sentence they read.
+\end{itemize}
+\texttt{STORY.md} is still a skeleton: the words are the author's to write.
+
+\subsection{Findings}
+
+The ledger carries \numEttFindings{} findings on \numEttFindingrows{} rows. The notable ones:
+\begin{itemize}
+\item \lean{BTZAxioms.Iplus_eq} (ETT.tex l.1351) is false in $E_0$. It is replaced by
+  \lean{Iplus_of_lt} (\dec{64}).
+\item The order of quantifiers in Cauchy surfaces and Geroch's (ii) (\dec{14}, \dec{15}).
+\item Maximal chains do not exist in Minkowski space as defined; \lbl{def:maximal_chain} is
+  superseded by causal completeness through inextensible curves (\dec{20}--\dec{22}).
+\item The Baire hypothesis of \lbl{theo:causalite_engendre} is not used (\oq{10}).
+\end{itemize}
+
+%======================================================================
+\section{Brunswic, \emph{Branched coverings of singular $(G,X)$-manifolds}}\label{sec:gx}
+%======================================================================
+
+arXiv 2010.10610, Geom.\ Dedicata 2024. The ledger reads the accepted version of 2023
+(\dec{24}); the 2021 pre-referee draft is kept in \texttt{legacy-2021/}.
+
+\subsection{Status}
+
+The ledger has \numGxStatements{} rows, \numGxTerminal{} of them terminal: these come after
+\verb|\end{document}| (weak morphisms, \dec{24}). Of the rest, \numGxClosed{} of
+\numGxTarget{} are closed, and the \numGxPartial{} remaining rows are partial \emph{by ruling}:
+\begin{itemize}
+\item \lbl{ex:following_example_skeletal_itemize}: item~3 is false (the bow-tie); its corrected
+  form is proved (\dec{27}).
+\item \lbl{theo:Fox_completion_functor}: proved on a locally connected Hausdorff base. Existence
+  and full faithfulness are false as printed (\dec{48}).
+\item \lbl{prop:spread_fiber}: ``injective open'' is read as an embedding; the open-map reading
+  is false (a comb, \dec{48}).
+\item \lbl{prop:branched_covering_composition}: needs finite fibres or slsc. The counterexample
+  is on $D_\infty$ (\dec{48}).
+\item \lbl{rem:definition_semi_locally_simply_connected}: the ``iff'' is false (the harmonic
+  archipelago). Whether a compact counterexample is wanted is an open question.
+\item \lbl{cex:start_singular_manifold_homeomorphic}: Troyanov's theorem is a named external
+  (\lean{GX.TroyanovSuspensionTheorem}) with non-vacuity witnesses (\dec{69}).
+\end{itemize}
+
+\subsection{The headline: uniformization of BTZ-manifolds}
+
+\lbl{theo:globally_hyperbolic_cauchy_complete_cauchy_maximal} closes in the form ruled by
+\dec{28}, \dec{107}, \dec{119} and \dec{129}. Let $M$ be a GH, Cauchy-maximal $E_0$-manifold,
+and let $(D,\rho)$ be its developing pair. Suppose:
+\begin{itemize}
+\item $M$ is Cauchy-\emph{compact}, in the $C^1$ sense;
+\item $\pi_1$ of the regular part is free and non-abelian.
+\end{itemize}
+Then:
+\begin{itemize}
+\item $D$ is injective, and $\rho$ is faithful, discrete and torsion-free;
+\item the image of $D$ is $(\bigcup_i\Delta_i)\cup\bigcap_jI^+(\Pi_j)$;
+\item $M\cong\rho\backslash D(\widetilde M)$ as an almost-everywhere isomorphism.
+\end{itemize}
+The Lean statement is \lean{GX.btz_uniformization} (\texttt{GX/BTZ/Uniformization.lean}). The
+paper's ``Cauchy-complete'' is recorded as a finding: Barbot's equality needs absolute
+maximality, which brunswic2021cauchy provides only in the Cauchy-compact case.
+
+The route runs through the regular part:
+\begin{enumerate}
+\item $\reg M$ is flat, GH and absolutely maximal, by brunswic2021cauchy Prop.~2.16--Cor.~2.18,
+  proved through spears, the $C^1$ surgery and mixed diamonds.
+\item Barbot's Theorem~A, imported from \texttt{lean-causal}, then classifies $\reg M$.
+\item The BTZ lines are added back through the BTZ half-line package.
+\end{enumerate}
+In the natural topology the lifted $\widetilde M$ is globally hyperbolic. With $T_{\mathrm{BTZ}}$
+it is not: \lean{btzJ0_not_isCompact_diamond} (\dec{106}, reversing \dec{77}b).
+
+\subsection{Findings against the paper}
+
+The ledger carries \numGxFindings{} findings on \numGxFindingrows{} rows. Those that change a
+statement:
+\begin{itemize}
+\item \lbl{ex:conical}: the printed metric has cone angle $\sqrt\alpha$, not $\alpha$
+  (\dec{47}).
+\item \lbl{theo:ramified_covering_path} and \lbl{theo:Galois_cor} need the added hypothesis
+  ``$Y\setminus S$ semilocally simply connected'' (\dec{70}).
+\item \lbl{theo:local_virt_tame} is false in the paper's generality. The counterexample is
+  \lean{GX.ThinCex}, a cone over $T^2$. The row is certified in the descending-chart form
+  (\dec{109}).
+\item \lbl{ex:consider_denote_absolute_galois}: the absolute Galois group is $\Gamma_2'$, the
+  kernel of the windings mod~2 (\dec{69}).
+\item \lbl{cex:proposition_prop_branched_covering} must use $S\cup\{\text{apex}\}$
+  (\dec{53}).
+\item \lbl{ex:quotient_base}: the tachyon and photon quotients under the radial action are not
+  Hausdorff. The repair is \lean{GX.ThetaLiftQuotient} (\dec{116}).
+\item \lean{E0TypeAgreement} is false for $\Mink\oplus E_0$.
+\item brunswic2021cauchy: the gluing of Lemma~2.3 is proved globally hyperbolic (\dec{108}). The
+  paper's citation of ``Lemma~2.4'' points at the wrong lemma.
+\end{itemize}
+Proved here rather than cited:
+\begin{itemize}
+\item the loxodromic element of the holonomy in $2+1$ (\dec{75});
+\item Antoine's lemma and the wildness of Antoine's necklace (\dec{82}, \dec{85});
+\item the mixed diamonds of Prop.~2.17 (\dec{126}).
+\end{itemize}
+
+%======================================================================
+\section{Benzécri, \emph{Sur les variétés localement affines et localement projectives}}\label{sec:benzecri}
+%======================================================================
+
+J.-P.~Benzécri's thesis, Bull.\ SMF 88 (1960) 229--332. No \TeX{} source exists. The ledger reads a
+transcription of the introduction's results and Chapter~1, made on 2026-11-03 from the Numdam scan
+(\texttt{papers/benzecri/legacy/labeled/benzecri1960\_ch1.tex}). The author has still to check the
+transcription. The campaign is the seed of the generalization layer that the BBS programme needs
+(\S\ref{sec:research}, N7).
+
+\subsection{Status}
+
+The ledger has \numBenzecriStatements{} rows, \numBenzecriTerminal{} of them terminal
+(results~B and~C belong to Chapters~2 and~5, which are not transcribed). \numBenzecriClosed{}
+of \numBenzecriTarget{} are closed.
+\begin{itemize}
+\item \textbf{Theorem~A} (\lean{theoremA}). If $V$ is a compact Hausdorff locally projective
+  $n$-manifold, then $V\times S^1$ is locally affine. Moreover, a product of $q+1$ such manifolds
+  with a $q$-torus is locally projective of dimension $\sum n_i+q$.
+\item \textbf{The \S2 functorial isomorphism} is \lean{coneEquivalence}, an equivalence of
+  categories between affine conical manifolds and locally projective manifolds.
+\item \textbf{The one open row} is \lbl{bzthm:c1s1_revetement_universel_divisible} (p.~238): the
+  deck group of a compact $V$'s universal cover acts properly discontinuously and cocompactly.
+  It needs the universal cover, which is not in mathlib at the pin. \texttt{lean-gx} builds one,
+  but \texttt{lean-benzecri} is mathlib-only until the generalization layer exists.
+\end{itemize}
+
+\subsection{Findings}
+
+\begin{itemize}
+\item \textbf{The base of an affine cone need not be Hausdorff.} The counterexample is
+  $V=\{z>0,(x,y)\ne0\}\times\R^{n-3}/\langle\mathrm{diag}(4,1/8,2,1,\dots)\rangle$, for every
+  $n\ge3$. The base is Hausdorff iff the $\R_+^*$ action is proper, and always for $n\le2$.
+  §2 Prop.~2, Déf.~3 and the functorial isomorphism are marked with that hypothesis added
+  (\dec{122}, \dec{124}, \dec{127}).
+\item l.640 has a misprint: ``$\varphi\circ j_2=j_1$'' should be $j_2\circ\varphi=j_1$
+  (\dec{127}).
+\item \textbf{§3 Prop.~2, proof remark.} The product-one lift is not conical when the factors'
+  dimensions differ. The corrected lift is $\prod\lambda_i^{\dim F(B_i)}=1$; the statement itself
+  holds (\dec{128}).
+\end{itemize}
+
+%======================================================================
+\section{The other papers of the hub}\label{sec:others}
+%======================================================================
+
+The papers below have a frozen legacy snapshot and a generated ledger with its DAG. None has Lean
+yet, and their \texttt{STORY.md} headlines are the author's to write.
+
+\begin{itemize}
+\item \textbf{EGF}, \emph{Ergodic Generative Flows} (ICML 2025). \numEgfStatements{} rows,
+  \numEgfNlproved{} of them proved or definitional in the paper. \texttt{STORY.md} names the
+  anchor \lean{EGF.main_universality}, which does not exist yet. EGF is the author's first
+  priority (\dec{4}).
+\item \textbf{Syracuse}, \emph{On non-trivial cycles of the $3x+1$ problem}: an extension of
+  Terras's method. \numSyracuseStatements{} rows.
+\item \textbf{dyniso}, \emph{Orthogonal hyper-connections}: why the Birkhoff polytope breaks
+  dynamical isometry. \numDynisoStatements{} rows.
+\item \textbf{Yamabe}, \emph{The Yamabe gap}: inhomogeneity and cosmic expansion.
+  \numYamabeStatements{} rows.
+\item \textbf{nonacyclic}, \emph{Non-acyclic GFlowNets}. Blocked: the \TeX{} source has not been
+  located (\oq{3}). Only a PDF and a \texttt{ledger.toml} exist.
+\end{itemize}
+
+%======================================================================
+\section{Ideas explored and ongoing research}\label{sec:research}
+%======================================================================
+
+This section reports work that is \emph{not} certified. Claims marked \unv{} are a session's own
+reasoning, which nobody has proved.
+
+\subsection{The BBS review and a roadmap to $3+1$}
+
+\lean{papers/bbs/REVIEW.md} (2 November) reads Barbot--Bonsante--Schlenker, \emph{Collisions of
+particles in locally AdS spacetimes~I} (arXiv 1010.3602), against the gx library.
+
+In BBS, a neighbourhood of a singular point is the suspension of its link, a singular
+$\mathrm{HS}^2$-sphere. The review proposes a layered architecture:
+\begin{itemize}
+\item \textbf{L0}: a general theory of suspensions;
+\item \textbf{L1}: links in locally affine spaces;
+\item \textbf{L2}: links by signature;
+\item \textbf{L3}: a Riemannian branch and a Lorentzian branch, the latter inheriting ETT's
+  causal structure.
+\end{itemize}
+It also proposes waves W0--W5 and questions BBS-Q1--Q8.
+
+The author's rulings so far:
+\begin{itemize}
+\item flat first;
+\item the full $3+1$ stratification is in scope, in codimensions 2, 3 and 4;
+\item stabilisers are pointwise;
+\item the Lorentzian suspension is a cocycle on \lean{Susp L}.
+\end{itemize}
+
+\textbf{Lean so far.} L0/L1 are built as \lean{GX.Suspension.{Conic,Celestial,Affine}}, audited
+twice and graduated. Two results there shaped the definitions:
+\begin{itemize}
+\item \lean{GX.celestial_counterexample}: the suspension proposition of the thesis draft's
+  commented-out material fails when the stabiliser does not preserve the radius. This is a design
+  motivation, not a finding against the thesis.
+\item \lean{GX.not_conicStructure_of_contraction}: radius preservation is incompatible with
+  boosts.
+\end{itemize}
+A codimension-2 interface for 3+1 would change the ETT and gx interfaces, and needs the author's
+ruling (BBS-Q7).
+
+\subsection{The 3+1 notes}
+
+\lean{papers/bbs/NOTES-3+1.md} is an append-only log of entries N1--N8 (2--3 November). In each
+entry the author proposes an intuition and the session answers with what the flat $(G,X)$ setting
+forces.
+\begin{itemize}
+\item \textbf{N1: knotted string traces.} The manifold stays standard; the pair $(M,S)$ is what a
+  knot spoils. A minimal surface could replace the cone\unv.
+\item \textbf{N2: two competing theories} (conical singularities versus a Ricci-flat sector),
+  physical selection principles, and a conjectured bridge\unv. Eight literature references are
+  not yet archived.
+\item \textbf{N3--N4, Theorem~M} (momentum and energy conservation at a $2+1$ interaction)\unv.
+  The holonomy of the incoming circle $C_-$ is the ordered product of the particles' momenta.
+  Total energy is conserved \emph{as a real number} on the universal cover $\widetilde G$, not
+  just mod $2\pi$. Positivity of the total mass is BBS's Def.~4.2. N4 also gives a $2\to2$
+  outcome law.
+\item \textbf{N5, Theorem~G}\unv. In a positive causal interaction, the type of the total
+  incoming momentum decides the outcome:
+  \begin{itemize}
+  \item timelike: scattering is possible;
+  \item spacelike (a Gott pair): the system collapses to a single BTZ-like singularity, a black
+    hole;
+  \item parabolic: the extreme case.
+  \end{itemize}
+  This rests on a re-hypothesised BBS Prop.~\texttt{pro.hyphyp} and on a ``funnel lemma'' that is
+  still to be written. N5 also gives a $2\to3$ outcome law.
+\item \textbf{N6--N7}: what Seppi's work gives the cocycle suspension, and Benzécri's cones as
+  the systematic framework for suspensions. N7 motivated the Benzécri campaign.
+\item \textbf{N8}: a correction from gx: radial cocycles and Hausdorff quotients.
+\end{itemize}
+The next steps the notes name are:
+\begin{itemize}
+\item write out Theorem~M in $2+1$ from BBS §5.1/§7.2, then formalize it in gx (holonomy of a
+  punctured $\mathrm{HS}$-sphere);
+\item write out the funnel lemma;
+\item archive the cited physics literature (Gott; Carroll--Farhi--Guth; Deser--Jackiw--'t~Hooft;
+  Matschull).
+\end{itemize}
+\lean{papers/bbs/SEPPI-READING.md} holds quoted reading notes on seven of Seppi's papers.
+
+\subsection{Other directions}
+
+\begin{itemize}
+\item \textbf{The double DAG} (\texttt{reports/doubledag/gfnbounds/}) compares the statement DAG
+  and the Lean DAG of GFN Bounds edge by edge. Projecting through \emph{principals} removes 55\%
+  of the Lean-only edges and keeps 66\% of the agreements. It is not yet run on the geometry
+  papers.
+\item \textbf{Shrinking Troyanov's external}: a plan in
+  \lean{lean-gx/campaign/POSTWAVE5/BBS-NOTES.md}, waiting for the author.
+\end{itemize}
+
+%======================================================================
+\section{Literature formalized}\label{sec:lit}
+%======================================================================
+
+Table~\ref{tab:lit} lists external results that were proved in full in the strict libraries, and
+says where. ``Proved'' means sorry-free with standard axioms.
+
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{4.6cm}>{\raggedright\arraybackslash}p{4.4cm}>{\raggedright\arraybackslash}p{5.6cm}@{}}
+\caption{External results formalized.}\label{tab:lit}\\
+\toprule
+result & reference & Lean\\
+\midrule\endfirsthead
+\toprule result & reference & Lean\\ \midrule\endhead
+Auslander's theorem, Carrière--Dal'bo form (Barbot Thm~5.1), printed $\mathrm{Aff}(n,\R)$ generality
+  & Carrière--Dal'bo; Auslander; via Zassenhaus and Hall's lemma
+  & \lean{affAuslanderCarriereDalbo}, \lean{auslanderCarriereDalbo} (\dec{121}, \dec{123})\\
+Maximal unipotent subspace (Barbot Prop.~5.2), any field
+  & Fried--Goldman--Hirsch (Fitting submodule); Hirsch's $H^1(N;V)=0$ for nilpotent $N$
+  & \lean{affMaxUnipotent}, \lean{maxUnipotentSubspace}\\
+Selberg's lemma, every finite-dimensional real $V$
+  & Selberg; congruence subgroups, $\Z$ Jacobson (proved)
+  & \lean{selbergLemma} (\dec{115})\\
+Bieberbach's first theorem
+  & Bieberbach; virtual abelianity via Zassenhaus
+  & \lean{bieberbachI} (\dec{110})\\
+Discrete subgroups of $\mathrm{SO}_0(1,d)$ without loxodromics fix a timelike or null vector (in place of Benoist)
+  & Gromov's classification of isometries of $\mathbb H^d$
+  & \lean{benoistNoLox}, \lean{bprop_sanloxo_proved} (\dec{111})\\
+Continuous utility for closed preorders
+  & Levin
+  & \lean{Causal.LevinUtility}\\
+Geroch's splitting, flat case; (i)$\Rightarrow$(ii)$\Rightarrow$(iii) in general
+  & Geroch
+  & \lean{flatGerochGH}, \lean{geroch_i_imp_ii}, \lean{geroch_ii_imp_iii}\\
+Universal maximal Cauchy development
+  & Choquet-Bruhat--Geroch, in Sbierski's form (arXiv 1309.7591)
+  & \lean{Causal.CBG.cbg}, \lean{flat_cbg}, \lean{GX.e0_cbg}\\
+Classical developing theorem for $(G,X)$-manifolds
+  & Thurston; Goldman
+  & \lean{GX.developing_theorem}\\
+Fox completion of spreads (corrected)
+  & Fox 1957
+  & \lean{GX.Spread.Completion}\\
+Antoine's lemma; wildness of Antoine's necklace
+  & Antoine; van Kampen
+  & \lean{GX.Branched.GaloisExamples}, \lean{GX.Topology.VanKampen}\\
+brunswic2021cauchy, Lemmas 2.3--2.18
+  & Brunswic, arXiv 2108.12631
+  & \lean{GX.BTZ.{Spear,Surgery,MixedDiamond,AbsMax}}\\
+Barbot, Theorems A and B
+  & Barbot 2005
+  & \lean{barbot_A_unconditional}, \lean{barbot_B_geroch_unconditional}\\
+Benzécri, Chapter~1 and Theorem~A
+  & Benzécri 1960
+  & \lean{Benzecri.theoremA}, \lean{coneEquivalence}\\
+\bottomrule
+\end{longtable}
+
+\paragraph{Still cited, not proved.}
+\begin{itemize}
+\item Troyanov's theorem on cone metrics (\lean{GX.TroyanovSuspensionTheorem}, a named
+  hypothesis, \dec{69}).
+\item Geroch (iii)$\Rightarrow$(i), from O'Neill (an ETT scaffold \texttt{sorry}).
+\item \lean{LimitSetMinimal}, from Ratcliffe §12 (a named hypothesis off Barbot's spine).
+\item Sullivan's structural stability, for Barbot's terminal \lbl{bthm:convex_cocompact}.
+\end{itemize}
+
+\paragraph{Read but not formalized.}
+\begin{itemize}
+\item BBS~I (arXiv 1010.3602) and BBS~II (1202.5753);
+\item seven papers by Seppi (\lean{papers/bbs/sources/seppi/});
+\item arXiv 1605.05530 (BTZ extensions);
+\item Brunswic's thesis.
+\end{itemize}
+
+%======================================================================
+\section{Open items for the author}\label{sec:open}
+%======================================================================
+
+These items need a ruling or the author's own words. None was acted on here.
+
+\begin{enumerate}
+\item \textbf{The freeze has expired, but is still in place.} \texttt{hub.toml [freeze].until}
+  is 2026-09-25. \texttt{CLAUDE.md}, \dec{2}, and risk R-1 (the ICLR deadline) all still describe
+  it. Consequently \texttt{tests/test\_no\_model\_in\_gates.py}, which runs the gate with
+  \texttt{FREEZE=1}, now fails \texttt{gate-registers}, so \textbf{the hub's \texttt{make check}
+  is red}. Retiring the freeze, together with \oq{1} (absorbing GFNBoundsLean in-tree), is a
+  ruling.
+\item \textbf{\lean{papers/bbs} fails \texttt{papers\_check}} because it has no ledger. It needs
+  either a ledger over BBS~I or a ruling that a review directory is not a paper. This, too, keeps
+  \texttt{make check} red. The per-package gates of \texttt{lean-causal}, \texttt{lean-gx} and
+  \texttt{lean-benzecri} are green.
+\item \textbf{\texttt{hub.toml [papers].order}} (\dec{4}) omits \texttt{barbot},
+  \texttt{benzecri} and \texttt{bbs}. They are appended silently.
+\item \textbf{Work packages awaiting review.} Most of the work from 26 September onward is
+  \texttt{IN-REVIEW} in \texttt{registers/WORK.md}:
+  \begin{itemize}
+  \item ETT: WP-15, 18, 20--22;
+  \item gx: WP-24--28, 38--41, 43, 44, 46--48;
+  \item Barbot: WP-29--34;
+  \item Benzécri: WP-45.
+  \end{itemize}
+  WP-19 and WP-36 are still \texttt{IN-PROGRESS}. \texttt{registers/QA.md} has no rows: no
+  evaluation has been recorded.
+\item \textbf{ETT open questions} \oq{10}, \oq{11}, \oq{13}--\oq{16}, \oq{18} and \oq{20}.
+  \oq{11} asks whether \texttt{lean-causal} remains a package of its own.
+\item \textbf{The CBG marking.} Anchoring \lean{Causal.CBG} to \lbl{theo:CBG} and its §4 lemmas
+  would lift a block of ETT rows.
+\item \textbf{The Benzécri transcription} has to be checked against the scan before its
+  certifications are cited.
+\item \textbf{The \texttt{STORY.md} headlines} of ETT, gx, Syracuse, dyniso and Yamabe are
+  skeletons. EGF has no Lean.
+\item \textbf{nonacyclic}: the source has to be located (\oq{3}).
+\item \textbf{The 3+1 programme.} The open questions BBS-Q1--Q8 and N1-Q, N2-Q, together with
+  Theorem~M's formalization, are the natural next campaign. BBS-Q7 (codimension-2 strata) is an
+  interface ruling.
+\end{enumerate}
+
+\paragraph{Provenance.} The figures come from \texttt{generated/numbers.tex}, written by
+\texttt{tools/status\_report.py} from the ledgers, \texttt{lean/docs/COVERAGE.md}, each package's
+\texttt{scripts/sorry\_count.py}, and the axiom sweeps of the \texttt{make -C <pkg> check} runs of
+2026-11-20 on \texttt{node1}. Rulings are quoted by number from \texttt{registers/DECISIONS.md}.
+
+\end{document}

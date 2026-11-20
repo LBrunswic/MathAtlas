@@ -1,0 +1,69 @@
+% report.tex -- compile with: latexmk -lualatex report.tex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\setmainfont{STIX Two Text}
+\setmathfont{STIX Two Math}
+\setmonofont{DejaVu Sans Mono}[Scale=0.80]
+\usepackage{booktabs,longtable,array}
+\usepackage{fancyvrb}
+\usepackage{luacode}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\setlist{itemsep=1pt,topsep=3pt}
+\setlength{\emergencystretch}{3em}
+
+% ---------------------------------------------------------------- Lean names
+% \lean{name}: typeset a Lean identifier verbatim in monospace, with break
+% points after '_' and '.', so long names do not overflow table cells.
+\begin{luacode*}
+-- break after '_' '.' ':' freely; at a lower->upper camelCase boundary with a small penalty
+function leanname(s)
+  local buf = ""
+  local prev = ""
+  for _, c in utf8.codes(s) do
+    local ch = utf8.char(c)
+    if prev:match("^%l$") and ch:match("^%u$") then
+      tex.sprint(-2, buf); buf = ""
+      tex.sprint("\\penalty100\\hskip0pt\\relax{}")
+    end
+    buf = buf .. ch
+    if ch == "_" or ch == "." or ch == ":" or ch == "/" then
+      tex.sprint(-2, buf); buf = ""
+      tex.sprint("\\allowbreak{}")
+    end
+    prev = ch
+  end
+  tex.sprint(-2, buf)
+end
+\end{luacode*}
+\newcommand{\lean}[1]{\texttt{\directlua{leanname("\luaescapestring{\detokenize{#1}}")}}}
+\newcommand{\lbl}[1]{\lean{#1}}   % paper labels (b-prefixed for Barbot)
+\newcommand{\dec}[1]{DEC-#1}
+
+% ---------------------------------------------------------------- maths
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Mink}{\mathbf{M}}
+\newcommand{\Dev}{\mathcal{D}}
+\newcommand{\Sc}{\widetilde{S}}
+\newcommand{\Isom}{\operatorname{Isom}}
+\newcommand{\SOo}{\mathrm{SO}_0}
+\newcommand{\sing}{\operatorname{sing}}
+\newcommand{\reg}{\operatorname{reg}}
+\newcommand{\inter}{\operatorname{int}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{reading}[theorem]{Reading}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
