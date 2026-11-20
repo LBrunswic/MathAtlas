@@ -1,0 +1,330 @@
+{
+  "package": "T-abs-locate-extension",
+  "target": "T-abs-locate-extension",
+  "files": [
+    "scaffold/CausalScaffold/LocateExtension.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "T-abs-locate-extension/0-characterisation",
+      "source": [
+        {
+          "paper": "Sbierski, arXiv 1507.00601",
+          "statement": "Lemma 2.17 (statement and proof)",
+          "text_lines": "references/sbierski/text/sbierski2015c.txt:654-671"
+        },
+        {
+          "paper": "Grant-Kunzinger-Saemann, arXiv 1804.10423",
+          "statement": "Definition 3.7 (future/past boundary)",
+          "text_lines": "references/sbierski/text/grant2018inextendibility.txt:407-413"
+        },
+        {
+          "paper": "Sbierski, arXiv 1507.00601",
+          "statement": "Lemma 2.17, proof, case 1 (the first exit s0 := sup{s | gamma([0,s)) in iota(M)})",
+          "text_lines": "references/sbierski/text/sbierski2015c.txt:663-667"
+        }
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.Causality.futureBoundary",
+        "Causal.Causality.pastBoundary",
+        "Causal.Causality.HasChronalNeighbour",
+        "Causal.Causality.futureBoundary_nonempty_iff",
+        "Causal.Causality.pastBoundary_nonempty_iff",
+        "Causal.Causality.futureBoundary_union_pastBoundary_nonempty_iff",
+        "Causal.Causality.futureBoundary_subset_frontier",
+        "Causal.Causality.pastBoundary_subset_frontier",
+        "Causal.Causality.hasChronalNeighbour_of_mem_boundary",
+        "Causal.Causality.ChronalCurveOn.exists_firstExit",
+        "Causal.Causality.dual_futureBoundary",
+        "Causal.Causality.dual_pastBoundary",
+        "Causal.Causality.dual_hasChronalNeighbour"
+      ],
+      "hypotheses": [
+        {
+          "paper": "timelike curves realise the chronological relation (both sources define it by curves)",
+          "here": "carried",
+          "note": "C.CausallyArcConnected, the target's uses entry causally_arc_connected"
+        },
+        {
+          "paper": "iota(M) open",
+          "here": "carried",
+          "note": "IsOpen O"
+        },
+        {
+          "paper": "M-tilde connected; iota(M) proper",
+          "here": "weakened",
+          "note": "not used: the characterisation holds for every open O of every topological space"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "New with respect to both sources, and the sharp form of the lemma: in a causally arc-connected spacetime a future (past) chronal curve leaves the open set O iff I+(O) is not contained in O (I-(O) not contained in O), and some chronal curve leaves O iff some point of the boundary of O is chronologically related to some point (futureBoundary_union_pastBoundary_nonempty_iff). The curve's endpoint lies on the boundary (futureBoundary_subset_frontier), which Sbierski states only as 'not in iota(M)' (sbierski2015c.txt:657)."
+      ],
+      "questions": [
+        "Reading of GKS's future/past boundary (Def 3.7, grant2018inextendibility.txt:407-413): the points p outside O reached by a future (past) chronal curve gamma of M over [0,1] with gamma([0,1)) in O and gamma(1) = p; for O open this is GKS's 'p in boundary of iota(X)' (proved, not assumed)."
+      ]
+    },
+    {
+      "label": "T-abs-locate-extension/1-locate",
+      "source": [
+        {
+          "paper": "programme/roadmap.toml",
+          "statement": "target T-abs-locate-extension, title (the form to be formalized)",
+          "text_lines": "programme/roadmap.toml:200-212"
+        },
+        {
+          "paper": "Sbierski, arXiv 1507.00601",
+          "statement": "Lemma 2.17 (statement and proof)",
+          "text_lines": "references/sbierski/text/sbierski2015c.txt:654-671"
+        },
+        {
+          "paper": "Grant-Kunzinger-Saemann, arXiv 1804.10423",
+          "statement": "Lemma 3.8 (statement and proof)",
+          "text_lines": "references/sbierski/text/grant2018inextendibility.txt:418-440"
+        },
+        {
+          "paper": "references/sbierski/SYNTHESIS.md",
+          "statement": "Q2 (locating an extension listed as purely causal or topological) and Q4 #2",
+          "text_lines": "references/sbierski/SYNTHESIS.md:50, 98"
+        }
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.exists_leaving",
+        "Causal.Causality.exists_leaving_of_local",
+        "Causal.Causality.futureBoundary_union_pastBoundary_nonempty",
+        "Causal.Causality.exists_leaving_of_isOpenEmbedding",
+        "Causal.Causality.ChronalCurveOn.chronalCurveOn_inf_of_mem",
+        "Causal.not_exists_leaving_bare",
+        "Causal.isolatedLine",
+        "Causal.isolatedLine_lt",
+        "Causal.puncturedLine",
+        "Causal.isolatedLine_causallyArcConnected",
+        "Causal.isolatedLine_causallyOpen",
+        "Causal.isolatedLine_causallyPlain",
+        "Causal.isolatedLine_not_hasChronalNeighbour_zero",
+        "Causal.isolatedLine_futureBoundary_Ioi",
+        "Causal.isolatedLine_pastBoundary_Ioi",
+        "Causal.exists_Ioo_subset_compl_zero",
+        "Causal.timelikeLine_hasChronalNeighbour",
+        "Causal.timelikeLine_futureBoundary_Ioi",
+        "Causal.timelikeLine_pastBoundary_Ioi_nonempty",
+        "Causal.Ioi_zero_ne_univ"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(M, g) time-oriented Lorentzian with smooth metric; iota a C^k isometric embedding into a Lorentzian manifold of the same dimension",
+          "here": "weakened",
+          "note": "iota : N -> M an open embedding (IsOpenEmbedding) of a non-empty topological space; only the openness of range iota is used. Before its endpoint the curve is a chronal curve of the open set range iota on every [0, s], s < 1 (the ETT shadow of 'iota^-1 o gamma is a timelike curve of M', sbierski2015c.txt:709-710)"
+        },
+        {
+          "paper": "iota(M) a proper subset; all manifolds connected (tacit, sbierski2015c.txt:628)",
+          "here": "carried",
+          "note": "range iota != univ, [PreconnectedSpace M], [Nonempty N]"
+        },
+        {
+          "paper": "I+(q, U) open (Sbierski Prop 2.6); GKS: I+(q) cap Omega a neighbourhood of p; target title 'with I+ open', uses entry causally_open_future",
+          "here": "weakened",
+          "note": "not a hypothesis: the openness of I+_U(x) and I-_U(x) is an axiom of an ETT causality (Causality.isOpen_lt_right/left). causally_open_future (J+_U(V) open for open V) is not used by any proof, and would not help: isolatedLine is causally open in both directions"
+        },
+        {
+          "paper": "timelike curves realise the chronological relation (by definition in both sources)",
+          "here": "carried",
+          "note": "C.CausallyArcConnected (exists_leaving); exists_leaving_of_local asks it only of a neighbourhood W of each boundary point"
+        },
+        {
+          "paper": "'Let q in I-(p, U)' (Sbierski, time-oriented neighbourhood, sbierski2015c.txt:661); GKS: I+-(p) cap Omega nonempty (localising neighbourhood, grant2018inextendibility.txt:427)",
+          "here": "named",
+          "note": "HasChronalNeighbour p for every p in the boundary of O: (I+(p)).Nonempty or (I-(p)).Nonempty, one-sided. Necessary: not_exists_leaving_bare; at one boundary point necessary and sufficient: futureBoundary_union_pastBoundary_nonempty_iff. Supplier, layer 3: C0 time-oriented Lorentzian manifolds, every point, both sides (the coordinate line of a chart in which d/dx0 is timelike, as in the proof of Sbierski Prop 2.6, sbierski2015c.txt:450-466); Lorentzian length spaces, every point of a localising neighbourhood, both sides (Kunzinger-Saemann Def 3.16 (ii), kunzinger2018lorentzian.txt:1296-1299); E>=0-manifolds, the future side (rem:btz_pas_tarentin, ETT.tex:1358; the field SingularFlatAxioms.mem_Zplus of Causal.SingularFlat, with BTZAxioms.Iminus_eq_empty at BTZ points; not imported, layer-1 rule). Under arc-connectedness it is p in Z+ or Z- with no separation (CausallyArcConnected.hasChronalNeighbour_iff)."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "The target's printed form (programme/roadmap.toml:202: an open proper embedding into a connected, causally arc-connected spacetime with I+ open has a chronal curve leaving the image) is false in ETT. not_exists_leaving_bare: on R, isolatedLine (the timelike line of R minus {0}, with 0 related to itself only) is causally arc-connected, causally open for J+ and J-, and causally plain; O = (0, oo) is a connected, proper, non-empty open set (the image of the inclusion); no chronal curve, future or past, leaves it, because its only boundary point 0 has no chronological future or past. What both Lorentzian proofs take from the metric is a chronological neighbour of the boundary point ('Let q in I-(p, U)', sbierski2015c.txt:661; 'I+-(p) cap Omega nonempty', grant2018inextendibility.txt:427); in ETT it is a hypothesis, and it is exactly what is needed (futureBoundary_union_pastBoundary_nonempty_iff).",
+        "'I+ open' costs nothing in ETT, and the target's uses entry causally_open_future is not what Sbierski's Prop 2.6 provides: the openness of I+-(q) for points is an axiom of a causality, while causally_open_future is the openness of J+_U(V) for open V. No proof here uses it.",
+        "The pairing in the target's title ('with I+ open' and 'covers BTZ points where I- = empty') does not match the proofs. With only I+ of points open (GKS's case 2, grant2018inextendibility.txt:437-438; Sbierski's case 2, sbierski2015c.txt:669-671) the argument needs q in I-(p), which a BTZ point lacks; covering a BTZ point with q in I+(p) uses the openness of I-(q). ETT has both, so the one-sided point is the chronal neighbour, past or future (label 2-one-sided).",
+        "The future alternative alone is false even when every hypothesis holds: timelikeLine_futureBoundary_Ioi ((0, oo) is a chronological future set of the timelike line), while timelikeLine_pastBoundary_Ioi_nonempty. Sbierski's 'without loss of generality future directed (otherwise reverse the time orientation)' (sbierski2015c.txt:710-711) is the passage to C.dual.",
+        "Neither source is wrong in its own setting: in a C0 Lorentzian manifold, and in a Lorentzian length space (localising neighbourhoods), every point has a chronological past and future in every neighbourhood."
+      ],
+      "questions": [
+        "'timelike curve' (Sbierski) and 'timelike curve' with gamma([0,1)) in iota(X) (GKS) read as future- or past-directed: stated as C.ChronalCurveOn top gamma 0 1 or C.dual.ChronalCurveOn top gamma 0 1, which is what both proofs produce (case 1 a future curve, case 2 a past one) and what GKS's 'boundary+ union boundary- nonempty' says; for the embedding form, one orientation D in {C, C.dual} is fixed for the whole curve and its restrictions.",
+        "'leaving the image' read as Sbierski's gamma([0,1)) in iota(M) and gamma(1) not in iota(M), strengthened to gamma(1) in the boundary of iota(M); 'proper' as range iota != univ; N non-empty (Sbierski's manifolds are tacitly connected, hence non-empty).",
+        "Should HasChronalNeighbour become a ladder node (e.g. 'every point has a chronal neighbour', one-sided)? The ladder already names the two-sided local form 'chronal neighbours in every open set' as the side condition of causallyOpen_of_pushUp (programme/ladder.toml:239-247); under arc-connectedness the pointwise one-sided form gives the one-sided local form in every open W containing p (CausallyArcConnectedOn.Iplus_nonempty_of_le).",
+        "The target's uses should read [causally_arc_connected] plus the named HasChronalNeighbour; causally_open_future is unused."
+      ]
+    },
+    {
+      "label": "T-abs-locate-extension/2-one-sided",
+      "source": [
+        {
+          "paper": "Sbierski, arXiv 1507.00601",
+          "statement": "Lemma 2.17 (statement and proof)",
+          "text_lines": "references/sbierski/text/sbierski2015c.txt:654-671"
+        },
+        {
+          "paper": "Grant-Kunzinger-Saemann, arXiv 1804.10423",
+          "statement": "Lemma 3.8 (statement and proof)",
+          "text_lines": "references/sbierski/text/grant2018inextendibility.txt:418-440"
+        },
+        {
+          "paper": "ETT (papers/ett)",
+          "statement": "rem:btz_pas_tarentin (every point of an E>=0-manifold is strongly tarentin in the future; BTZ points are not in the past)",
+          "text_lines": "papers/ett/legacy/labeled/ETT.tex:1358-1362"
+        },
+        {
+          "paper": "Kunzinger-Saemann, arXiv 1711.08990",
+          "statement": "Definition 3.16 (ii), the non-triviality condition of localising neighbourhoods",
+          "text_lines": "references/sbierski/text/kunzinger2018lorentzian.txt:1296-1299; restated in grant2018inextendibility.txt:169-174"
+        }
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.exists_leaving_of_Iplus_nonempty",
+        "Causal.Causality.exists_leaving_of_Iminus_nonempty",
+        "Causal.Causality.exists_leaving_of_frontier_subset_Zplus",
+        "Causal.ClosedHalfLine",
+        "Causal.ClosedHalfLine.zero",
+        "Causal.closedHalfLine",
+        "Causal.closedHalfLine_between_iff",
+        "Causal.closedHalfLine_isOpen_right",
+        "Causal.closedHalfLine_isOpen_left",
+        "Causal.closedHalfLine_causallyArcConnected",
+        "Causal.closedHalfLinePos",
+        "Causal.isOpen_closedHalfLinePos",
+        "Causal.closedHalfLine_zero_mem_frontier",
+        "Causal.closedHalfLine_Iminus_zero",
+        "Causal.closedHalfLine_hasChronalNeighbour",
+        "Causal.closedHalfLine_oneSided"
+      ],
+      "hypotheses": [
+        {
+          "paper": "'Let q in I-(p, U)' (a chronological past of the boundary point in a small neighbourhood)",
+          "here": "named",
+          "note": "(C.Iplus W {p}).Nonempty alone (exists_leaving_of_Iplus_nonempty), or (C.Iminus W {p}).Nonempty alone; nothing of the other side. Witness that the one-sided hypothesis is genuinely weaker: closedHalfLine_oneSided (the closed half-line [0, oo) with the timelike causality; its endpoint has I- empty and I+ non-empty, and a chronal curve leaves (0, oo)). Supplier, layer 3: C0 time-oriented Lorentzian manifolds, every point, both sides (the coordinate line of a chart in which d/dx0 is timelike, as in the proof of Sbierski Prop 2.6, sbierski2015c.txt:450-466); Lorentzian length spaces, every point of a localising neighbourhood, both sides (Kunzinger-Saemann Def 3.16 (ii), kunzinger2018lorentzian.txt:1296-1299); E>=0-manifolds, the future side (rem:btz_pas_tarentin, ETT.tex:1358; the field SingularFlatAxioms.mem_Zplus of Causal.SingularFlat, with BTZAxioms.Iminus_eq_empty at BTZ points; not imported, layer-1 rule). Under arc-connectedness it is p in Z+ or Z- with no separation (CausallyArcConnected.hasChronalNeighbour_iff)."
+        },
+        {
+          "paper": "U a small time-oriented neighbourhood of p; the timelike curves lie in U",
+          "here": "carried",
+          "note": "W any open set, causally arc-connected (CausallyArcConnectedOn W); the curve is a chronal curve of W"
+        },
+        {
+          "paper": "E>=0-manifold form: every boundary point strongly tarentin in the future",
+          "here": "named",
+          "note": "exists_leaving_of_frontier_subset_Zplus: frontier O in Z+(M); supplier rem:btz_pas_tarentin (ETT.tex:1358), SingularFlatAxioms.mem_Zplus"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Sbierski's and GKS's proofs use only a chronological past of the boundary point (sbierski2015c.txt:661; grant2018inextendibility.txt:427), and GKS's localising neighbourhoods give both sides; a chronological future serves equally, the case q not in O then using the openness of I-(q) instead of I+(q). This covers the BTZ points of E>=0-manifolds (rem:btz_pas_tarentin, ETT.tex:1358), where I- is empty; a model-free instance is closedHalfLine_oneSided."
+      ],
+      "questions": []
+    },
+    {
+      "label": "T-abs-locate-extension/3-ladder-form",
+      "source": [
+        {
+          "paper": "references/sbierski/SYNTHESIS.md",
+          "statement": "Q2 (locating an extension listed as purely causal or topological) and Q4 #2",
+          "text_lines": "references/sbierski/SYNTHESIS.md:50, 98"
+        },
+        {
+          "paper": "Sbierski, arXiv 1507.00601",
+          "statement": "Lemma 2.17 (statement and proof)",
+          "text_lines": "references/sbierski/text/sbierski2015c.txt:654-671"
+        }
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.futureBoundary_union_pastBoundary_nonempty_of_tarentin",
+        "Causal.tarentin_and_plain_needed",
+        "Causal.lightlikeLine_causallyArcConnected",
+        "Causal.lightlikeLine_tarentin",
+        "Causal.lightlikeLine_futureBoundary",
+        "Causal.lightlikeLine_pastBoundary",
+        "Causal.closure_Ioi_zero_ne_univ"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(SYNTHESIS Q2: locating an extension is purely causal or topological)",
+          "here": "strengthened",
+          "note": "tarentin and causally_plain (ladder nodes beyond the target's uses), causally_arc_connected, M connected, O open non-empty and not dense (closure O != univ); no localisation hypothesis. Neither tarentin nor plainness can be dropped: tarentin_and_plain_needed (the lightlike line is arc-connected and tarentin, not plain; isolatedLine is arc-connected and plain, not tarentin; neither lets a chronal curve leave (0, oo), which is not dense; the two negations are themselves derived from the theorem)."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "SYNTHESIS.md:50 lists 'locating an extension (some timelike curve leaves M)' among the purely causal or topological steps. In ETT it is so only with a localisation hypothesis (a chronal neighbour at some boundary point), or, with ladder nodes alone, for an image which is not dense, under tarentin and causal plainness."
+      ],
+      "questions": [
+        "The dense case is open: do tarentin, causal plainness and causal arc-connectedness (possibly with push-up) give a chronal neighbour to some boundary point of a dense open set, e.g. M-tilde minus a point? By futureBoundary_union_pastBoundary_nonempty_iff this is the whole question; for dense O it amounts to excluding a point with I+ and I- empty. Reading taken: none; the theorem is stated for closure O != univ only."
+      ]
+    },
+    {
+      "label": "T-abs-locate-extension/4-density",
+      "source": [
+        {
+          "paper": "Sbierski, arXiv 1507.00601",
+          "statement": "Lemma 2.17 (statement and proof)",
+          "text_lines": "references/sbierski/text/sbierski2015c.txt:654-671"
+        },
+        {
+          "paper": "Grant-Kunzinger-Saemann, arXiv 1804.10423",
+          "statement": "Definition 3.7 (future/past boundary)",
+          "text_lines": "references/sbierski/text/grant2018inextendibility.txt:407-413"
+        }
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.frontier_subset_closure_boundary",
+        "Causal.Causality.mem_closure_boundary_of_hasChronalNeighbour",
+        "Causal.Causality.CausallyArcConnectedOn.Iplus_nonempty_of_le",
+        "Causal.Causality.CausallyArcConnectedOn.Iminus_nonempty_of_le",
+        "Causal.Causality.CausallyArcConnected.mem_Zplus_iff",
+        "Causal.Causality.CausallyArcConnected.mem_Zminus_iff",
+        "Causal.Causality.CausallyArcConnected.hasChronalNeighbour_iff"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(Sbierski's proof works in an arbitrary small neighbourhood U of any boundary point, sbierski2015c.txt:661-671)",
+          "here": "named",
+          "note": "HasChronalNeighbour at the boundary points; C.CausallyArcConnected. Conclusion: every boundary point with a chronal neighbour is a limit of endpoints of leaving curves, each curve inside the given neighbourhood"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Implicit in Sbierski's proof (the curve stays in any small neighbourhood of any boundary point) and not stated by either source: the future and past boundaries are dense in the boundary of iota(M) when every boundary point has a chronal neighbour."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.ChronalCurveOn.exists_firstExit",
+    "Causal.Causality.CausallyArcConnectedOn.Iplus_nonempty_of_le",
+    "Causal.Causality.CausallyArcConnectedOn.Iminus_nonempty_of_le",
+    "Causal.Causality.CausallyArcConnected.mem_Zplus_iff",
+    "Causal.Causality.CausallyArcConnected.mem_Zminus_iff",
+    "Causal.isolatedLine",
+    "Causal.isolatedLine_causallyArcConnected",
+    "Causal.isolatedLine_causallyOpen",
+    "Causal.isolatedLine_causallyPlain",
+    "Causal.lightlikeLine_causallyArcConnected",
+    "Causal.lightlikeLine_tarentin",
+    "Causal.closedHalfLine",
+    "Causal.closedHalfLine_causallyArcConnected"
+  ],
+  "kb_proposals": [
+    "Locating an extension is a characterisation, not a construction: under causal arc-connectedness a chronal curve leaves an open O iff some point of the boundary of O has a chronal neighbour (Causality.futureBoundary_union_pastBoundary_nonempty_iff), and a future one iff I+(O) is not contained in O (futureBoundary_nonempty_iff); the first exit is ChronalCurveOn.exists_firstExit (T-abs-locate-extension).",
+    "A cheap local, plain, causally open, arc-connected line with a chronologically isolated point: Causal.isolatedLine (the timelike line of R minus {0}, 0 related to itself only). It refutes any claim that plainness, causal openness or arc-connectedness give chronology at every point (T-abs-locate-extension).",
+    "The lightlike line is causally arc-connected and tarentin (lightlikeLine_causallyArcConnected; lightlikeLine_tarentin := timelikeLine_tarentin, by defeq: the two lines have the same causal relation) (T-abs-locate-extension).",
+    "A model-free arc-connected point with I- empty and I+ non-empty (a BTZ-like point without E0): the endpoint of Causal.closedHalfLine on Ici (0 : R); its relations are written with 'every point between x and y lies in U', converted to an interval of R by closedHalfLine_between_iff (T-abs-locate-extension).",
+    "Under causal arc-connectedness p in Z+ iff I+(p) is non-empty with no separation axiom (Causality.CausallyArcConnected.mem_Zplus_iff); the library's AbsolutelyMinimal.mem_Zplus_iff asks T1 (T-abs-locate-extension)."
+  ],
+  "notes": "One new file, scaffold/CausalScaffold/LocateExtension.lean, sorry-free and warning-free under lake env lean; it imports only Causal.ArcConnected and Causal.LinesCurves (transitive closure checked: Causality, Properties, Curves, Subdivision, Generated, Reachable, ArcConnected, Minimal, GlobalHyperbolicity, StrongCausality, Lines, LinesCurves; no model). It is not imported by the scaffold root CausalScaffold.lean, which this agent may not edit: the axiom sweep cannot see it until the master adds the import or graduates it (kb/0025). Graduation to Causal/ needs no change of content (no sorry, no warning; the docstring tables exceed 100 characters as other modules' do). The target's uses entry should drop causally_open_future (unused). Only 0-characterisation is marked; 1-locate is partial because the target's printed form is false (counterexample proved) and the true form adds the named localisation hypothesis HasChronalNeighbour, which is shown sharp. The programme may want HasChronalNeighbour (one-sided) as a ladder node or a localisation property in programme/ladder.toml, with the suppliers listed in the 1-locate hypotheses."
+}

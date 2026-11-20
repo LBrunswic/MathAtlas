@@ -54,3 +54,6 @@ rediscover. One fact per entry.
 | [0046](entries/0046-cutline-counterexample.md) | pattern | A cheap local counterexample for nesting questions: the cut line |
 | [0047](entries/0047-model-free-lemmas-stranded.md) | pitfall | Model-free lemmas stranded in model-importing modules |
 | [0048](entries/0048-causal-ladder-tactic.md) | pattern | The `causal_ladder` tactic, and regenerating its rules |
+| [0049](entries/0049-locating-an-extension.md) | pattern | Locating an extension is a characterisation, and needs a chronal neighbour |
+| [0050](entries/0050-isolated-line.md) | pattern | A cheap plain, causally open, arc-connected line with a chronologically isolated point |
+| [0051](entries/0051-closed-half-line.md) | pattern | A model-free BTZ-like point: the endpoint of the closed half-line |

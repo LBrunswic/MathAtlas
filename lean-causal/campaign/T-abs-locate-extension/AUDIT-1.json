@@ -1,0 +1,63 @@
+{
+ "target": "T-abs-locate-extension",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "T-abs-locate-extension/0-characterisation",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "The mark is defensible. futureBoundary (l.117) is GKS Def 3.7 (checked against the PDF, p.10) with 'p not in O' in place of 'p in the boundary of iota(X)'. For open O the two agree: futureBoundary_subset_frontier gives one inclusion, and the other is immediate. pastBoundary is C.dual.futureBoundary. futureBoundary_nonempty_iff, pastBoundary_nonempty_iff and futureBoundary_union_pastBoundary_nonempty_iff assume only C.CausallyArcConnected (in uses) and IsOpen O (topology). In the sharp form HasChronalNeighbour sits on the right of the iff, not among the hypotheses. Each statement is exactly what the docstring (l.13-17) claims. The forward directions are direct. The backward directions go through ChronalCurveOn.exists_firstExit (Sbierski's s0, sbierski2015c.txt:663-667) and through Iplus_nonempty_of_le, which localises a chronal neighbour under arc-connectedness. The marked assertion is the closer's characterisation, not Lemma 2.17 itself; the docstring says so plainly and leaves 1-locate unmarked."
+  },
+  {
+   "label": "T-abs-locate-extension/1-locate",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Partial and unmarked, correctly. The counterexample is genuine. isolatedLine (l.512) is a kernel-checked instance of Causal.Causality: membership, preorder, transitivity of lt, monotonicity, le_of_lt, and openness of I+-_U(x) from isOpen_setOf_lt_and_Icc_subset_*. It is causally arc-connected and causally plain, and CausallyOpen in both J+ and J- (so also the ladder's causally_open_future: my probe has isolatedLine_causallyOpen.1 : CausallyOpenFuture). R is connected, T2 and second countable, so it is an ETT topological spacetime (def:category_topological_spacetimes, ETT.tex:254). (0,oo) is open, connected and proper, and it is the range of the open embedding Subtype.val (probe). The refutation holds under every reading, not only Sbierski's gamma([0,1)) in O. My probe shows that for every future or past chronal curve c of isolatedLine, 0 < c 0 iff 0 < c 1. So no chronal curve meets both (0,oo) and its complement. Causal curves cannot cross 0 either: a causal curve through 0 is constant. not_exists_leaving_bare refutes a version with more hypotheses (CausallyOpen, CausallyPlain, IsConnected O), so the target falls a fortiori. 'I+- of points open by the axioms' is true: Causality.isOpen_lt_right/isOpen_lt_left (Causal/Causality.lean:81-84), for every U. HasChronalNeighbour (l.138) is honest. It is a pointwise property of the spacetime that does not depend on O. It is one-sided, and weaker than what both proofs take from the metric: 'Let q in I-(p,U)' (Sbierski, PDF p.12) and the localising neighbourhood's I+-(p) cap Omega nonempty (GKS p.10; KS Def 3.16(ii), kunzinger2018lorentzian.txt:1296-1299). It is satisfiable (timelikeLine_hasChronalNeighbour, closedHalfLine_hasChronalNeighbour). The joint hypotheses of exists_leaving are satisfiable (timelikeLine_pastBoundary_Ioi_nonempty). exists_leaving_of_isOpenEmbedding is Sbierski's conclusion plus the named hypothesis, with the ETT shadow of 'iota^-1 o gamma timelike' on each [0,s], s<1. The findings hold. (a) The target's printed form is false. (b) causally_open_future is unused by every positive theorem (grep). (c) The pairing 'I+ open' with 'covers BTZ points' does not match the proofs: with q in I-(p), case 2 needs I+(q) open (Sbierski PDF p.12, case 2; GKS p.11, 'I+(q) cap Omega is a neighbourhood of p'), and a BTZ point has no such q. The future-side variant needs I-(q) open. (d) The future alternative alone fails on the timeline (timelikeLine_futureBoundary_Ioi). The SYNTHESIS.md:50 remark is fair. GKS's synthetic proof gets the chronal neighbour from localisability, and in bare ETT nothing supplies it."
+  },
+  {
+   "label": "T-abs-locate-extension/2-one-sided",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Partial and unmarked, correctly: it adds a named localisation hypothesis. exists_leaving_of_Iplus_nonempty assumes only CausallyArcConnectedOn W, IsOpen O, p in closure O minus O, and I+_W(p) nonempty. Its two cases are Sbierski's with the time sides swapped: q in O gives a reversed curve, and q not in O uses I-_W(q) open. closedHalfLine (l.760) is a kernel-checked causality on Ici (0:R). It is arc-connected, and 0 lies in the frontier of (0,oo). I-(0) is empty, HasChronalNeighbour 0 holds, and a chronal curve leaves (0,oo). So the one-sided hypothesis is strictly weaker than the two proofs' 'q in I-(p)'. The cited suppliers exist: SingularFlatAxioms.mem_Zplus (Causal/SingularFlat.lean:184), BTZAxioms.Iminus_eq_empty (:155) and rem:btz_pas_tarentin (ETT.tex:1358). They are cited, not imported."
+  },
+  {
+   "label": "T-abs-locate-extension/3-ladder-form",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Partial and unmarked, correctly. The added hypotheses tarentin, causally_plain and causally_arc_connected are ladder nodes (programme/ladder.toml [[property]] ids, at HEAD and in the working tree). The rest is topology: PreconnectedSpace M, O open and non-empty, and closure O != univ. That last one is a disclosed special case: the dense case is left open in SCOPE. I re-derived the proof by hand. Tarentin at a point of frontier(closure O) and plainness of J-(q) give a point of I-(q) on the needed side of O; both cases check. The hypotheses are jointly satisfiable: my probe applies the theorem to timelikeLine (tarentin, plain, arc-connected) with O = (0,oo). tarentin_and_plain_needed shows what it says. lightlikeLine is arc-connected and tarentin, not plain. isolatedLine is arc-connected and plain, not tarentin. Both live on the connected R, (0,oo) is not dense, and both boundaries are empty. So neither tarentin nor plainness can be dropped given the others."
+  },
+  {
+   "label": "T-abs-locate-extension/4-density",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Partial and unmarked, correctly: it rests on the named HasChronalNeighbour. frontier_subset_closure_boundary assumes CausallyArcConnected, IsOpen O and a chronal neighbour at every frontier point. It concludes frontier O in the closure of the union of the future and past boundaries, which (for O open) lie in frontier O, so the union is dense in it. The docstring summary line (l.35-36) omits arc-connectedness, but the theorem states it. The claim 'not stated by either source' is true of Sbierski L2.17 and GKS L3.8."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "notes": "taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/LocateExtension.lean exits 0 with no output. 'sorry' occurs only twice, in docstring prose (l.59, l.97). I ran #print axioms on all 63 declarations named in REPORT decls and extra_decls (a /tmp copy of the file plus the prints): each depends on [propext, Classical.choice, Quot.sound] at most. Layer-1 rule: the transitive import closure is Causality, Properties, Curves, Subdivision, Generated, Reachable, ArcConnected, Minimal, GlobalHyperbolicity, StrongCausality, Lines and LinesCurves. It contains no Minkowski, Static, Flat.*, Model.*, Port.* or SingularFlat module. Lorentzian and metric notions appear only in docstrings. Scope: the closer wrote only scaffold/CausalScaffold/LocateExtension.lean and campaign/T-abs-locate-extension/REPORT.json, plus the permitted .lake build artifacts of its own module. The other entries in git status belong to concurrent targets and loops (ladder keeper, tactician, T-abs-ladder-local-defs, lean-gx, master status flips in roadmap.toml). Namespace: Causal throughout."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-causal/scaffold/CausalScaffold/LocateExtension.lean:669",
+   "what": "Full-name clash with the strict library. Causal.lightlikeLine_tarentin : lightlikeLine.Tarentin is already declared at Causal/Remarks/Tarentin.lean:416, with the same statement, and Causal.lean:197 imports that module. It is the only clash. Checked textually against every Causal/ and scaffold/ file, and by env.contains under 'import Causal'. There is none with LadderLocal.lean or Causal/Ladder/*.lean. It does not block the build. Lean v4.31 merges two imported theorems of identical name, type and universe parameters (subsumesInfo, Lean/Environment.lean:2203), and 'import Causal' + 'import CausalScaffold.LocateExtension' compiles (checked). But after graduation the strict library would hold two textual declarations of one full name. Name-to-module tools (ledger decls, doubledag's label -> declarations map) then resolve it to whichever module is imported first. The REPORT's note 'Graduation to Causal/ needs no change of content' and kb_proposal 3 (presenting lightlikeLine_tarentin as a new fact) overlook the existing lemma.",
+   "fix": "Before graduation, delete l.669 and write (timelikeLine_tarentin : lightlikeLine.Tarentin) at its two uses (l.701, l.705), or rename it (e.g. lightlikeLine_tarentin_of_timelike). Importing Causal.Remarks.Tarentin is not an option: it imports Causal.SingularFlat and Causal.Model.Massive (layer-1 rule). Drop or reword kb_proposal 3."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/scaffold/CausalScaffold/LocateExtension.lean:138 (vs scaffold/CausalScaffold/LadderLocal.lean:157,162)",
+   "what": "Graduation note, not a clash. HasChronalNeighbour (pointwise, one-sided, global I+-) graduates in the same wave as LadderLocal's ChronalPastNeighbours / ChronalNeighbours (every point of every open V, chronology in V). C.dual.ChronalPastNeighbours (chronal future neighbours) and ChronalNeighbours each imply 'forall p, C.HasChronalNeighbour p'. No lemma links them, so the ladder node chronal_neighbours does not yet feed exists_leaving. The REPORT's question 3 anticipates this.",
+   "fix": "At graduation (or in a follow-up), add a one-line bridge ChronalNeighbours.hasChronalNeighbour (and the one-sided ChronalPastNeighbours form) in whichever module imports both."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/campaign/T-abs-locate-extension/REPORT.json (1-locate questions)",
+   "what": "The line reference programme/ladder.toml:239-247 points into the uncommitted working tree, which another agent is editing concurrently (+301 lines). At HEAD the same comment and edge sit at :150-156. The reference will be wrong once either version moves.",
+   "fix": "Cite the edge by content (the [[implies]] push_up -> causally_open with witness Causal.Causality.causallyOpen_of_pushUp) rather than by line when curating."
+  }
+ ]
+}
