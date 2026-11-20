@@ -250,8 +250,8 @@ def docstring_label_re():
 LEAN_NAME = re.compile(r"^[^\s()\[\],;:]+$")
 
 DECL = re.compile(
-    r"^\s*(?:@\[[^\]]*\]\s*)?(?:private\s+|protected\s+|noncomputable\s+)*"
-    r"(theorem|lemma|def|structure|inductive|abbrev|instance|example)\s+"
+    r"^\s*(?:@\[[^\]]*\]\s*)?(?:private\s+|protected\s+|noncomputable\s+|scoped\s+)*"
+    r"(theorem|lemma|def|structure|class|inductive|abbrev|instance|example)\s+"
     r"([A-Za-z_][\w.'!?]*)", re.M)
 
 
@@ -360,8 +360,8 @@ def read_paper_map():
 
 def decl_line(src, files, decl):
     short = decl.split(".")[-1]
-    pat = re.compile(r"^\s*(?:@\[[^\]]*\]\s*)?(?:private\s+|protected\s+|noncomputable\s+)*"
-                     r"(?:theorem|lemma|def|structure|inductive|abbrev|instance)\s+"
+    pat = re.compile(r"^\s*(?:@\[[^\]]*\]\s*)?(?:private\s+|protected\s+|noncomputable\s+|scoped\s+)*"
+                     r"(?:theorem|lemma|def|structure|class|inductive|abbrev|instance)\s+"
                      r"(?:[A-Za-z_][\w.']*\.)?%s(?![\w'])" % re.escape(short), re.M)
     for f in files:
         if f not in src:
