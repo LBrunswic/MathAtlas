@@ -1,0 +1,118 @@
+{
+  "package": "T-ett-port-e0",
+  "target": "T-ett-port-e0",
+  "files": [
+    "scaffold/CausalScaffold/Port/E0Model.lean",
+    "scaffold/CausalScaffold/Port/E0Causality.lean",
+    "scaffold/CausalScaffold/Port/E0Axioms.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "defi:causal_E0",
+      "tex_lines": [
+        1344,
+        1356
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.E0.causal_E0",
+        "Causal.E0.btzAxioms",
+        "Causal.E0.causality",
+        "Causal.E0.Iminus_axis",
+        "Causal.E0.Jminus_axis",
+        "Causal.E0.mem_Zplus_not_mem_Zminus",
+        "Causal.E0.axis_causalCurveOn",
+        "Causal.E0.not_chronalCurveOn_axisLine",
+        "Causal.E0.not_pastDistinguishing",
+        "Causal.Causality.SingularFlatAxioms.not_pastDistinguishing",
+        "Causal.E0.Iplus_ne_Jplus_diff",
+        "Causal.E0.not_btzIplusAsPrinted",
+        "Causal.E0.Iplus_axis_eq_interior_diff",
+        "Causal.E0.Jplus_axis",
+        "Causal.E0.Iplus_axis"
+      ],
+      "hypotheses": [
+        {
+          "paper": "E_0 with metric -dτ² + dr² + r²dθ² (l.1330)",
+          "here": "read",
+          "note": "the model is gx's E_0 = R × C with the flat extreme-BTZ metric -2dτdr + dr² + r²dθ², entered through the paper-side developing map D (Causal.E0.btzPaperDev, btzPaperDev_eq_nullToMink); the printed metric makes {r = 0} timelike (recorded finding). No hypothesis is added: every true assertion is a theorem about this model, unconditionally."
+        },
+        {
+          "paper": "≤_U, ≪_U by future causal / chronological curves in U (defi:causal_Ealpha, l.1336-1339)",
+          "here": "read",
+          "note": "Causal.E0.CLe / CLt: Causal.CurveOn for the local relation Le (some developments causally related in Causal.minkowski 2: Causal.E0.le_iff_btzPaperDev), as gx reads DEC-33"
+        },
+        {
+          "paper": "the singular line is lightlike: locally causal, not locally chronal (l.1345)",
+          "here": "read",
+          "note": "every segment of the axis inside an open W is a future causal curve of W (axis_causalCurveOn); no non-degenerate segment is a chronal curve of any open set (not_chronalCurveOn_axisLine); nothing is ≪_U below a BTZ point (not_lt_of_mem_axis)"
+        },
+        {
+          "paper": "I^-(p) = ∅, J^-(p) = {r = 0, τ ≤ τ(p)} (l.1347)",
+          "here": "carried",
+          "note": "I^-_U(p) = ∅ in every open U (stronger than printed); J^- read globally (U = E_0)"
+        },
+        {
+          "paper": "a BTZ point is strongly tarentin in the future but not in the past (l.1348-1349)",
+          "here": "carried",
+          "note": "Z^+ and Z^- of def:strongly_tarentin_point"
+        },
+        {
+          "paper": "an E_{≥0}-manifold with at least one extreme BTZ white hole is not past distinguishing (l.1349-1350)",
+          "here": "read",
+          "note": "past distinguishing read as I^-(x) = I^-(y) ⇒ x = y (Causal.Causality.PastDistinguishing, ETT never defines it); proved for E_0 itself (a manifold with a BTZ line) and abstractly for any causality with SingularFlatAxioms and sing_0 ≠ ∅ (white hole read as BTZ point); the abstract form has no inhabitant with a BTZ point in lean-causal yet (SingularFlatAxioms with sing_0 ≠ ∅ has no witness in the library; the E_0 instance comes with T-ett-port-e0-sfa, gx has it through GX.E0.singularFlatAxioms_of_pushUp and GX.E0LM.e0_pushUp), so until then the evidence is the model case Causal.E0.not_pastDistinguishing"
+        },
+        {
+          "paper": "I^+(p) = reg(J^+(p)) = J^+(p) \\ sing_0 (l.1353-1355, flagged l.1352)",
+          "here": "refuted",
+          "note": "false at every BTZ point of E_0 (Iplus_ne_Jplus_diff, not_btzIplusAsPrinted); strongest true form I^+(p) = Int(J^+(p)) \\ sing_0 (Iplus_axis_eq_interior_diff); DEC-64's Iplus_of_lt holds (btzAxioms)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1353-1355 (flagged at l.1352 '[editorial] quoted from \\cite{thesis}, where it is asserted without proof -- verify'): DEC-64's finding, already in the row's ledger paper_findings (f84b69e, 'by hand, not formalized'), and witnessed in gx (GX.E0.Iplus_ne_Jplus_diff at c48aa45): I^+(p) = reg(J^+(p)) = J^+(p) \\ sing_0 is false at every BTZ point of E_0. NEW here: (i) the witness inside the ETT library, Causal.E0.Iplus_ne_Jplus_diff and Causal.E0.not_btzIplusAsPrinted (the printed form kept as the Prop Causal.Causality.BTZIplusAsPrinted, kb/0022); (ii) the exact repair at the BTZ model, I^+(p) = Int(J^+(p)) \\ sing_0 with Int J^+(p) = {f > τ_p} (Causal.E0.Iplus_axis_eq_interior_diff, interior_Jplus_axis). Which half fails: the inclusion 'J^+(p) \\ sing_0 is contained in I^+(p)' (every non-BTZ point of the causal future of p lies in its chronological future) is FALSE — the point (τ_p + 1/2, r = 1) of the radial null ray has f = τ − r/2 = τ_p, so it lies in J^+(p) \\ sing_0 = {f ≥ τ_p, r > 0} but not in I^+(p) = {r > 0, f > τ_p}; the inclusion 'I^+(p) is contained in J^+(p) \\ sing_0' is TRUE (Causal.E0.Iplus_axis_subset_diff). The refutation does not depend on the metric reading: under the printed metric (l.1330, Minkowski 3-space in cylindrical coordinates) J^+(p) \\ {r = 0} also contains the null cone of p, which is not in I^+(p). The repair is specific to the BTZ model: in Minkowski 3-space Int(J^+(p)) \\ {r = 0} drops the points of the timelike line above p, which are in I^+(p). DEC-64's form (p < p' on the line ⇒ J^+(p') \\ sing_0 ⊆ I^+(p)) is the field Iplus_of_lt of Causal.E0.btzAxioms. A repair of the sentence at the BTZ model: 'every non-BTZ point of the interior of the causal future of p lies in its chronological future'.",
+        "ETT.tex:1348-1349: 'In particular a BTZ point is strongly tarentin in the future' does not follow from the displayed facts, which are about the past (I^-(p) = ∅, J^-(p) the half-line). It needs I^+(p) ∩ U ≠ ∅ for every neighbourhood U, i.e. the shape of the future cone of p ({r > 0, f > τ_p}, Causal.E0.Iplus_axis), which the definition only states afterwards (l.1353-1355), and wrongly. The claim itself is true (Causal.E0.mem_Zplus); only 'in particular' overstates the derivation for the future half.",
+        "ETT.tex:1330-1331 (already recorded in the curation): the printed metric −dτ² + dr² + r²dθ² makes {r = 0} timelike, not lightlike. The Lean model is the flat extreme-BTZ metric −2dτdr + dr² + r²dθ² of gx (RamcovGX.tex:1944), through the developing map D(τ, r, θ) = (τ + ½rθ², (τ + ½rθ² − r, −rθ)) (Causal.E0.btzPaperDev); with it every causal assertion of the label that is not l.1353-1355 holds."
+      ],
+      "questions": [
+        "'past distinguishing' (l.1350) is not defined in ETT. Reading taken: the usual one, I^-(x) = I^-(y) (global chronological pasts) implies x = y (Causal.Causality.PastDistinguishing). Under it E_0 is not past distinguishing (any two BTZ points have I^- = ∅).",
+        "'extreme BTZ white hole' (l.1350) is not defined in ETT. Reading taken: a BTZ point / a component of sing_0 (E_0's BTZ line has empty chronological past, so it is the white-hole orientation); the abstract statement is SingularFlatAxioms with sing_0 ≠ ∅ (Causal.Causality.SingularFlatAxioms.not_pastDistinguishing).",
+        "'lightlike: locally causal, but not locally chronal' (l.1345) has no metric to be read against here. Reading taken: every segment of the singular line inside an open set W is a future causal curve of W, and no non-degenerate segment is a chronal curve of any open set (equivalently, no two points of the line are ≪_U-related, since I^-_U(p) = ∅).",
+        "Which E_0: the printed metric (l.1330, timelike singular line) or the flat extreme-BTZ metric −2dτdr + dr² + r²dθ² (gx, DEC-64's argument)? Reading taken: the latter, entered through the developing map D; what a 'future causal curve' of E_0 is (defi:causal_Ealpha does not say) is read as gx reads DEC-33: locally, later points have developments in the closed future cone of earlier ones in Minkowski 3-space, the winding being free."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.E0.le_iff_btzPaperDev",
+    "Causal.E0.lt_iff_btzPaperDev",
+    "Causal.E0.nullCone_sub_iff_le",
+    "Causal.E0.nullConeLt_sub_iff_lt",
+    "Causal.E0.nullCone_iff_isFutureCausal",
+    "Causal.E0.nullConeLt_iff_isFutureTimelike",
+    "Causal.E0.btzPaperDev_eq_nullToMink",
+    "Causal.E0.calculus_le",
+    "Causal.E0.calculus_lt",
+    "Causal.E0.causallyArcConnected",
+    "Causal.E0.absolutelyMinimalOn",
+    "Causal.E0.tarentin",
+    "Causal.E0.mem_Zplus",
+    "Causal.E0.mem_Zminus_iff",
+    "Causal.E0.isOpen_CLt_right",
+    "Causal.E0.isOpen_CLt_left",
+    "Causal.E0.isOpen_Jplus",
+    "Causal.E0.isOpen_Jminus",
+    "Causal.E0.Iplus_ball_axis",
+    "Causal.E0.interior_Jplus_axis",
+    "Causal.Causality.PastDistinguishing",
+    "Causal.Causality.BTZIplusAsPrinted"
+  ],
+  "kb_proposals": [
+    "E_0 is Causal.E0 = ℝ × ℂ (scaffold CausalScaffold.Port.E0Model/E0Causality/E0Axioms, ported verbatim from gx c48aa45): E0.causality is curve-defined, E0.btzAxioms is the BTZAxioms instance at the paper's model E_0 (3-dimensional, BTZ points with non-empty chronological future; the lightlike line, lightlikeLine_btzAxioms, already has a non-empty BTZ locus but I^+ = ∅), and E0.le_iff_btzPaperDev says the local relation is 'some developments are causally related in minkowski 2'. Instantiate BTZ branches there when they need I^+ ≠ ∅ at BTZ points.",
+    "Typechecking a chain of new scaffold modules without lake build: `lake env lean -R scaffold -o /tmp/X/CausalScaffold/Port/A.olean scaffold/.../A.lean`, then `lake env bash -c 'LEAN_PATH=/tmp/X:$LEAN_PATH lean scaffold/.../B.lean'` (writes nothing in .lake).",
+    "A gx → Causal port compiles verbatim: 1530 lines of GX.E0 moved under `namespace Causal` with no shadowing; check faithfulness by a line-set comparison of the gx range against the port (every gx line present verbatim) rather than by eye."
+  ],
+  "notes": "lake build CausalScaffold.Port.E0Model CausalScaffold.Port.E0Causality CausalScaffold.Port.E0Axioms: green, only these three modules built (jobs 2371-2373; every Causal.* and mathlib olean up to date, checked first with lake build --no-build). 0 sorry; every file also passes lake env lean -DwarningAsError=true (graduation-ready, kb/0015 step 1); #print axioms of causal_E0, btzAxioms, absolutelyMinimalOn, tarentin, not_btzIplusAsPrinted, SingularFlatAxioms.not_pastDistinguishing, isOpen_Jplus, le_iff_btzPaperDev: propext, Classical.choice, Quot.sound only. Faithfulness: all 160 declarations of lean-gx/GX/BTZ/Causality.lean l.116-1646 (commit c48aa45) are present as Causal.E0.<same name>, and every line of that range occurs verbatim in the port (checked by a line-set comparison); 25 declarations are new (the Minkowski bridge, restated btzPaperNull/btzPaperDev/nullToMink from GX.BTZ.Model and GX.Lorentz.Bridge at c48aa45, and the defi:causal_E0 section). For the master: (1) the three modules are not yet imported by scaffold/CausalScaffold.lean (kb/0025; I may not edit it); (2) the row's curated decl Causal.Causality.BTZAxioms can now cite its instance Causal.E0.btzAxioms; the row stays partial (unmarked): l.1353-1355 is false, now a theorem; (3) other rows touched at the model, unmarked, not mine: cor:model_minimal for κ = 0 (E0.absolutelyMinimalOn), rem:btz_pas_tarentin and rem:sing_tarentin at E_0 (E0.mem_Zplus, E0.mem_Zminus_iff, E0.tarentin), defi:causal_Ealpha at α = 0 (E0.causality, I^±_U open: isOpen_CLt_right/left), rem:pushup at E_0 globally only (Lt.trans_le, Le.trans_lt; local push-up is T-ett-port-e0-sfa); (4) two general definitions are introduced in Causal.Causality: PastDistinguishing (a reading) and BTZIplusAsPrinted (the printed false form, kb/0022); (5) gx does not 'open Causal' anywhere today, so GX.E0 and Causal.E0 coexist; if gx ever imports Causal.Port.E0* and opens Causal, `E0` becomes ambiguous; (6) gx's docstring of NullCone cites a nullCone_iff_minkowski that gx lacks (a gx defect, not the paper's); its content is Causal.E0.nullCone_iff_isFutureCausal here. Scratch oleans for the intermediate typechecks were written to /tmp/e0port (outside the repository) and deleted. AUDIT-1 (minor) fix round: (1) btzAxioms is no longer called 'the first instance with a non-empty BTZ locus' (false: Causal.lightlikeLine_btzAxioms) — module docstring, btzAxioms docstring (a corrected gx docstring, recorded in the port's change list) and kb proposal now say: the first instance at the paper's model E_0, whose BTZ points have non-empty I^+; (2) the l.1353-1355 finding credits DEC-64 and states what is new and which inclusion fails; (3) the curve reading (E0Causality checklist, two rows) and 'locally causal, not locally chronal', the metric and the curve causality (E0Axioms checklist) are marked ⚠ read; (4) SingularFlatAxioms.not_pastDistinguishing: docstring, SCOPE (c) and the REPORT say it has no inhabitant with a BTZ point in lean-causal until T-ett-port-e0-sfa. No statement or proof changed."
+}

@@ -197,6 +197,9 @@ import Causal.Remarks.BTZPoints
 import Causal.Remarks.Tarentin
 import Causal.Remarks.MassiveManifold
 import Causal.LimitCurves
+import Causal.Port.E0Model
+import Causal.Port.E0Causality
+import Causal.Port.E0Axioms
 
 /-!
 # Causal — topological spacetimes

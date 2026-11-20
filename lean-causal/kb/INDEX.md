@@ -38,3 +38,6 @@ rediscover. One fact per entry.
 | [0030](entries/0030-causal-relations-need-not-be-closed.md) | pitfall | A causal relation need not be closed, even locally: test against `chronoMinkowski` |
 | [0031](entries/0031-limit-adjoining-with-le.md) | pattern | Adjoining a curve's limit point needs only `p ≤ c t`: the `*_of_le` lemmas |
 | [0032](entries/0032-closed-le-gives-strict-function.md) | pattern | With `≤` closed, an admissible past measure gives a strictly increasing continuous function |
+| [0033](entries/0033-e0-model.md) | pattern | E₀ is `Causal.E0 = ℝ × ℂ`, with its `BTZAxioms` instance `E0.btzAxioms` |
+| [0034](entries/0034-typecheck-module-chains.md) | pattern | Typechecking a chain of new scaffold modules without `lake build` |
+| [0035](entries/0035-verbatim-ports.md) | pattern | A gx → Causal port compiles verbatim; check it by a line-set comparison |
