@@ -31,3 +31,4 @@ rediscover. One fact per entry.
 | [0023](entries/0023-maximal-chains-of-the-order.md) | pattern | Maximal chains of the causal order, and abstract Section 4 |
 | [0024](entries/0024-two-papers-one-library.md) | house-rule | Two papers in one library: Barbot labels are `bthm:`/`bprop:`/…, modules under `Flat/` |
 | [0025](entries/0025-scaffold-root-and-axiom-sweep.md) | pitfall | A scaffold module not imported by the scaffold root is invisible to the axiom sweep |
+| [0026](entries/0026-ett-section4-on-cbg.md) | pattern | ETT §4 is stated through the CBG library, via `CommonSubDev` |

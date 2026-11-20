@@ -1,0 +1,472 @@
+{
+  "package": "lean-causal",
+  "target": "T-ett-cbg-anchor",
+  "files": [
+    "scaffold/CausalScaffold/CBG/ETTSection4.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "theo:CBG",
+      "tex_lines": [
+        1884,
+        1887
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.theo_CBG",
+        "Causal.CBG.theo_CBG_of_modelMeasures",
+        "Causal.CBG.Dev.IsCEMaximal",
+        "Causal.CBG.Dev.isCEMaximal_iff",
+        "Causal.CBG.Dev.IsMorphism.injective",
+        "Causal.CBG.cbg",
+        "Causal.CBG.cbg_ett",
+        "Causal.CBG.cbg_isETTMaximal",
+        "Causal.CBG.isETTMaximal_iff_isUniversal",
+        "Causal.CBG.Dev.IsUniversal.existsUnique_iso",
+        "Causal.CBG.Dev.IsUniversal.unique",
+        "Causal.CBG.Dev.IsUniversal.isETTMaximal",
+        "Causal.CBG.Dev.IsETTMaximal.isUniversal",
+        "Causal.CBG.Dev",
+        "Causal.CBG.Dev.IsMorphism",
+        "Causal.CBG.Dev.IsUniversal",
+        "Causal.CBG.Dev.IsETTMaximal",
+        "Causal.CBG.maxDev",
+        "Causal.CBG.maxDev_isUniversal",
+        "Causal.CBG.maxSpace_t2",
+        "Causal.Causality.SingularFlatAxioms.geroch_sing_i_imp_iii",
+        "Causal.CBG.flat_cbg",
+        "Causal.CBG.flat_cbg_ett"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M₀ a globally hyperbolic singular flat spacetime",
+          "here": "strengthened",
+          "note": "M₀ an admissible spacetime of an abstract Geometry (DEC-60): the singular E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0); over it, gx's GermExtFutureBTZ, GermExtPastBTZ, SliceFutureBTZ of Causal.CBG.Geometry.ofLocalModelOfBTZ remain owed. The regular flat case (no singular line) is unconditional: Causal.CBG.flat_cbg, flat_cbg_ett."
+        },
+        {
+          "paper": "M₀ globally hyperbolic",
+          "here": "strengthened",
+          "note": "theo_CBG also asks a Cauchy surface S of M₀; theo_CBG_of_modelMeasures replaces it by the named model fact ModelMeasures (the hypothesis theo:geroch_sing / prop:mesure_admissible carry), deriving S by geroch_sing_i_imp_iii from the geometry's SingularFlatAxioms. Over an abstract geometry GH alone gives no Cauchy surface."
+        },
+        {
+          "paper": "maximal Cauchy extension, unique up to isomorphism",
+          "here": "carried",
+          "note": "ETT never defines 'maximal'; all three readings (every Cauchy embedding out bijective = IsCEMaximal, every morphism out bijective = IsETTMaximal, universal = DEC-59) are proved and equivalent (Dev.isCEMaximal_iff uses Dev.IsMorphism.injective: every morphism of extensions is injective, by the time function of A2). Uniqueness: by a unique morphism whose inverse is a morphism."
+        },
+        {
+          "paper": "M₀ T2, connected, second countable (ETT spacetimes)",
+          "here": "carried",
+          "note": ""
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:2336-2340 (proof of theo:CBG): 'the family of Cauchy extensions is directed, hence admits an inductive limit in the category of Hausdorff spaces endowed with a 𝕄≥0-structure; the limit is maximal' is not argued: a directed colimit of Hausdorff spaces need not be Hausdorff, the family is a proper class (rem:CBG_manquant (ii)), and the compatibility (cocycle) of the pairwise common over-extensions is not shown. The library replaces it by Sbierski's gluing of all small developments along their pairwise MCGHDs (maxGlueData, mcghd_cocycle, maxSpace_t2 from pairs, maxStr_globallyHyperbolic) — consistent with CBG-DESIGN §1 'ETT gaps filled'.",
+        "ETT.tex:1885: 'M₀ globally hyperbolic' gives a Cauchy surface only through theo:geroch_sing (i)⇒(iii), which rests on the model measures (DEC-18, the theo:geroch_sing row): the theorem's proof fixes a Cauchy surface Σ₀ (l.2008) without saying where it comes from."
+      ],
+      "questions": [
+        "'maximal Cauchy extension' (l.1885) is never defined. Readings: (a) every Cauchy embedding out of it commuting with M₀ is bijective (by analogy with def:common_sub_extension, l.1928-1929), (b) every morphism out of it is bijective, (c) universal (DEC-59). Taken: all three; they are proved equivalent here (no choice made)."
+      ]
+    },
+    {
+      "label": "rem:CBG_analytique",
+      "tex_lines": [
+        1903,
+        1910
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.Geometry.rigid_univ",
+        "Causal.CBG.Geometry.rigid",
+        "Causal.CBG.IsRigidFor",
+        "Causal.CBG.LocalModel.rigid",
+        "Causal.CBG.flat_rigid",
+        "Causal.CBG.not_isRigidFor_branchingLine",
+        "Causal.timelikeLine_not_isRigid",
+        "Causal.CBG.not_exists_isUniversal_halfLineDev",
+        "Causal.CBG.causal_pgcd_not_unique",
+        "Causal.CBG.IsCGHD.eqOn",
+        "Causal.CBG.Dev.IsMorphism.eq_id",
+        "Causal.CBG.ppcmDev_desc",
+        "Causal.CBG.t2Space_gluing_mcghd"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(Isom(𝕄), 𝕄, 𝕄≥0) analytic [thesis Prop 2.3.14]; two morphisms on a connected manifold agreeing on a non-empty open set agree [thesis Prop 1.2.11]",
+          "here": "strengthened",
+          "note": "Claim 2 is the field Geometry.rigid (A1), stated in the remark's words as Geometry.rigid_univ (target Hausdorff); proved for the regular flat model (flat_rigid, B1) and transported Level B → A by FromModel; for E₀ it is gx's lem:liouville, not in lean-causal. Claim 1 (analyticity) is cited and not formalized. The claim 'Hausdorffness follows from rigidity' is certified only as: over a geometry with A1 + A3 + A4, the gluing along the MCGHD is T2 (t2Space_gluing_mcghd)."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1904-1907 says the Hausdorffness of the glued object follows from rigidity alone ('there is no unreasonable morphism'). The formal proof needs, besides rigidity (A1), the germ extension at corresponding boundary points (A3, Sbierski Lemma 3.8, used by cor:ext_continue) and the slice (A4, Sbierski Thm 3.6, used by prop:Cauchy_non_max); ETT gets them from the chart argument of prop:Cauchy_non_max, which at BTZ points is open (gx's GermExtFutureBTZ/GermExtPastBTZ/SliceFutureBTZ, CBG-DESIGN §6). Rigidity of the abstract 𝕄≥0-morphisms (IsEMorphism) is false (timelikeLine_not_isRigid), and rigidity fails into a non-Hausdorff target (not_isRigidFor_branchingLine): the remark's sentence holds for the structure morphisms with Hausdorff target only."
+      ],
+      "questions": []
+    },
+    {
+      "label": "lem:corresponding_K",
+      "tex_lines": [
+        2100,
+        2108
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.ett_corresponding_K",
+        "Causal.CBG.ett_corresponding_K_past",
+        "Causal.CBG.CommonSubDev.instNonempty",
+        "Causal.CBG.CommonSubDev.U",
+        "Causal.CBG.CommonSubDev.coe_U",
+        "Causal.CBG.CommonSubDev.f",
+        "Causal.CBG.CommonSubDev.f_b",
+        "Causal.CBG.CommonSubDev.image_f_U",
+        "Causal.CBG.CommonSubDev.image_f_cauchy",
+        "Causal.CBG.CommonSubDev.isOpenEmbedding_b",
+        "Causal.CBG.CommonSubDev.isOpenEmbedding_c",
+        "Causal.CBG.CommonSubDev.isMor_f",
+        "Causal.CBG.CommonSubDev.continuousOn_f",
+        "Causal.CBG.CommonSubDev.cghdData",
+        "Causal.CBG.CommonSubDev.mem_C_iff",
+        "Causal.CBG.CommonSubDev.mem_Cdist_iff",
+        "Causal.CBG.CGHDData.corresponding_K",
+        "Causal.CBG.CGHDData.corresponding_K_bijOn",
+        "Causal.CBG.CGHDData.corresponding_K_past",
+        "Causal.CBG.CGHDData.corresponding_K_past_bijOn",
+        "Causal.CBG.IsCorrPair.corresponding_K",
+        "Causal.CBG.IsCorrPair.corresponding_K_bijOn",
+        "Causal.CBG.kSide_future",
+        "Causal.CBG.kSide_past",
+        "Causal.CBG.Corresponds",
+        "Causal.CBG.IsCorrPair.corresponds_iff_mem_gluingC",
+        "Causal.CBG.IsCGHD.cghdData",
+        "Causal.CBG.isCGHD_of_isMorphism",
+        "Causal.Gluing.C",
+        "Causal.Gluing.C_eq_closure"
+      ],
+      "hypotheses": [
+        {
+          "paper": "singular flat spacetimes, the K⁻-calculus (prop:K_calcul, prop:K_densite_sing, lem:Sigma_separe)",
+          "here": "strengthened",
+          "note": "over an abstract Geometry (DEC-60): the singular E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0); over it, gx's GermExtFutureBTZ, GermExtPastBTZ, SliceFutureBTZ of Causal.CBG.Geometry.ofLocalModelOfBTZ remain owed; the K-calculus is derived from A2 (the library's SingularFlatAxioms with Iplus_of_lt, DEC-64), lem:Sigma_separe from A2 without a splitting. A3/A4 are NOT used: this row needs only the E₀ instance of A2."
+        },
+        {
+          "paper": "(p,q) ∈ C (literal), f induces a bijection",
+          "here": "carried",
+          "note": "literal C = Gluing.C j₁ j₂ (mem_C_iff); (ii) as '⊆ j₁(N) and BijOn f'. Past twin (K⁺, J⁻(Σ)) added."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "The statement is proved as printed, with the literal C (no Cdist needed: p ∈ ∂j₁(N) excludes graph pairs). The past-side form (K⁺(p) ∩ J⁻(Σ₁) → K⁺(q) ∩ J⁻(Σ₂)) is not printed but is what the proof of cor:ext_continue needs at points below Σ₁ (ETT.tex:2148-2156); proved here (ett_corresponding_K_past). The paper's proof via lem:cup_cap_sing / lem:cup_cap_BTZ is replaced by Sbierski's interpolation argument (Corresponding SCOPE)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "cor:ext_continue",
+      "tex_lines": [
+        2144,
+        2146
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.ett_ext_continue",
+        "Causal.CBG.ett_ext_germ",
+        "Causal.CBG.CommonSubDev.mem_C_iff",
+        "Causal.CBG.CommonSubDev.cghdData",
+        "Causal.CBG.CGHDData.ext_continue",
+        "Causal.CBG.CGHDData.continuousWithinAt_update",
+        "Causal.CBG.CGHDData.continuousWithinAt_update_of_corresponds",
+        "Causal.CBG.CGHDData.tendsto_comp",
+        "Causal.CBG.Geometry.germExt_future",
+        "Causal.CBG.Geometry.germExt_past"
+      ],
+      "hypotheses": [
+        {
+          "paper": "singular flat spacetimes",
+          "here": "strengthened",
+          "note": "over an abstract Geometry (DEC-60): the singular E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0); over it, gx's GermExtFutureBTZ, GermExtPastBTZ, SliceFutureBTZ of Causal.CBG.Geometry.ofLocalModelOfBTZ remain owed; the proof goes through A3 (germExt_future/past, Sbierski Lemma 3.8 as a field), whose BTZ-point cases are exactly gx's GermExtFutureBTZ/GermExtPastBTZ."
+        },
+        {
+          "paper": "(p,q) ∈ C",
+          "here": "carried",
+          "note": "literal C, graph pairs included (ett_ext_continue); the germ form (ett_ext_germ, a structure morphism φ near p with φ(p)=q extending f) for p ∈ ∂j₁(N)."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:2148-2156 (editorial proof, flagged 'verify'): it applies lem:corresponding_K, which assumes p ∈ J⁺(Σ₁) and the accumulation point q'' ∈ J⁺(Σ₂), though the corollary assumes neither (a point below Σ₁ needs the K⁺ form, ett_corresponding_K_past); and 'it eventually lies in a compact diamond of M₂ by Lemma image_diamant' is unsupported (the x_m → p are not shown to lie below one point of j₁(N)). Same finding as Causal/CBG/Corresponding.lean SCOPE; the statement is proved by another route (A3)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "cor:model_corresponding",
+      "tex_lines": [
+        2158,
+        2161
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.ett_model_corresponding",
+        "Causal.CBG.CommonSubDev.mem_C_iff",
+        "Causal.CBG.CGHDData.eq_of_corresponds",
+        "Causal.CBG.CGHDData.mem_sing_iff",
+        "Causal.CBG.Geometry.isMor_sing",
+        "Causal.CBG.IsCorrPair.eq_of_corresponds"
+      ],
+      "hypotheses": [
+        {
+          "paper": "singular flat spacetimes; cone angle a local invariant constant along singular components (lem:past_BTZ)",
+          "here": "strengthened",
+          "note": "over an abstract Geometry (DEC-60): the singular E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0); over it, gx's GermExtFutureBTZ, GermExtPastBTZ, SliceFutureBTZ of Causal.CBG.Geometry.ofLocalModelOfBTZ remain owed; uniqueness via A3; the type statement via A3 and the field isMor_sing (morphisms preserve sing_α), at the instance from LocalModel.typeAgreement."
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "sing_α is read for α ≥ 0 with Geometry.sing (the convention 'α = 2π if p is regular' of l.2185 is not used: regular points are those in no sing_α)."
+      ]
+    },
+    {
+      "label": "prop:Cauchy_non_max",
+      "tex_lines": [
+        2178,
+        2181
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.ett_cauchy_non_max",
+        "Causal.CBG.ett_cauchy_non_max_literal_false",
+        "Causal.CBG.ett_cauchy_non_max_literal_false_flat",
+        "Causal.CBG.CommonSubDev.mem_correspondingSet_of_mem_Cdist",
+        "Causal.CBG.CommonSubDev.mem_Cdist_iff",
+        "Causal.CBG.IsCGHD.exists_lt",
+        "Causal.CBG.CGHDData.exists_extension",
+        "Causal.CBG.correspondingSet_mcghd_eq_empty",
+        "Causal.CBG.mcghd_factor",
+        "Causal.CBG.CommonSubDev.IsMaximal.bijective_toMcghd",
+        "Causal.CBG.mcghdSubDev_isMaximal",
+        "Causal.CBG.Geometry.slice_future",
+        "Causal.CBG.Geometry.slice_past"
+      ],
+      "hypotheses": [
+        {
+          "paper": "singular flat spacetimes",
+          "here": "strengthened",
+          "note": "over an abstract Geometry (DEC-60): the singular E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0); over it, gx's GermExtFutureBTZ, GermExtPastBTZ, SliceFutureBTZ of Causal.CBG.Geometry.ofLocalModelOfBTZ remain owed; uses A3 and A4 (slice_future/slice_past, Sbierski Thm 3.6), whose BTZ cases are gx's."
+        },
+        {
+          "paper": "(p,q) ∈ C with J(Σ₁,p) ∖ {p} ⊂ j₁(N)",
+          "here": "weakened",
+          "note": "read with C = Cdist (p ∉ j₁(N)); the diamond hypothesis is dropped (Lemma 3.9 supplies a point with it)."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:2179-2180 is FALSE as printed with C as defined at l.2011-2012: a graph pair (j₁(x), j₂(x)) lies in C (Gluing.graph_subset_C) and satisfies J(Σ₁,p) ∖ {p} ⊂ j₁(N) (j₁(N) is causally convex in M₁), while N = pgcd is maximal. ett_cauchy_non_max_literal_false proves this for every pair of developments of a non-empty connected M₀ over any geometry; ett_cauchy_non_max_literal_false_flat inhabits it (flat geometry, M₀ = 𝕄^{1,d}). With C read as the pairs with distinct images (Cdist, equivalently p ∉ j₁(N)), the proposition holds and its diamond hypothesis is superfluous (ett_cauchy_non_max). Consistent with the rem:non_separe_cas finding (curation): suggest 'C := pairs with π(p) ≠ π(q)' or 'with p ∉ j₁(N)'."
+      ],
+      "questions": []
+    },
+    {
+      "label": "prop:C_connexe",
+      "tex_lines": [
+        2240,
+        2243
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.ett_C_connexe",
+        "Causal.CBG.CommonSubDev.mem_C_iff",
+        "Causal.CBG.CGHDData.isOpen_correspondingSet",
+        "Causal.CBG.CGHDData.exists_nhds_correspondingSet",
+        "Causal.CBG.isClosed_setOf_corresponds_frontier",
+        "Causal.CBG.isClosed_setOf_corresponds",
+        "Causal.CBG.correspondingSet",
+        "Causal.Gluing.C_eq_closure"
+      ],
+      "hypotheses": [
+        {
+          "paper": "singular flat spacetimes, charts (U_i, 𝕄_α, V_i, φ_i)",
+          "here": "strengthened",
+          "note": "over an abstract Geometry (DEC-60): the singular E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0); over it, gx's GermExtFutureBTZ, GermExtPastBTZ, SliceFutureBTZ of Causal.CBG.Geometry.ofLocalModelOfBTZ remain owed; openness of C₁ uses A3 (germ extension) in place of the chart/rigidity argument; closedness uses nothing."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:2242 'C is closed in ∂j₁(N) × ∂j₂(N)': with the literal C (l.2011-2012) C is the closure of the graph of f (Gluing.C_eq_closure), so it is closed in M₁ × M₂ and the proof at l.2264-2267 is not needed.",
+        "ETT.tex:2303 (proof of prop:Cauchy_point_min) uses prop:C_connexe to conclude that the connected curve c_n ⊂ ∂j₁(N) lies in C₁; that needs C₁ ∩ c_n closed in c_n, which does not follow from 'C closed in ∂j₁(N) × ∂j₂(N)' without keeping the partners q in a compact set (projection of a closed set). The conclusion is true by another route: a boundary point q ≤ p₀ with p₀ ∈ C₁ is in C₁ (IsCorrPair.exists_corresponds_of_le, with the compact J⁺(Σ₂) ∩ J⁻(q₀))."
+      ],
+      "questions": []
+    },
+    {
+      "label": "prop:Cauchy_point_min",
+      "tex_lines": [
+        2270,
+        2273
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.ett_cauchy_point_min",
+        "Causal.CBG.ett_cauchy_point_min_symm",
+        "Causal.CBG.ett_cauchy_point_min_literal",
+        "Causal.CBG.CommonSubDev.mem_Cdist_of_mem_correspondingSet",
+        "Causal.CBG.CommonSubDev.mem_correspondingSet_of_mem_Cdist",
+        "Causal.CBG.CGHDData.exists_diamond_subset_of_nonempty",
+        "Causal.CBG.CGHDData.exists_diamond_subset_symm",
+        "Causal.CBG.CGHDData.exists_diamond_subset",
+        "Causal.CBG.CGHDData.exists_diamond_subset_past",
+        "Causal.CBG.CGHDData.exists_spacelike",
+        "Causal.CBG.CGHDData.exists_spacelike_corresponding",
+        "Causal.CBG.CGHDData.exists_spacelike_corresponding_past",
+        "Causal.Causality.spacelike_iff"
+      ],
+      "hypotheses": [
+        {
+          "paper": "singular flat spacetimes, lightlike geodesics, discreteness of Σ₁ ∩ sing",
+          "here": "strengthened",
+          "note": "over an abstract Geometry (DEC-60): the singular E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0); over it, gx's GermExtFutureBTZ, GermExtPastBTZ, SliceFutureBTZ of Causal.CBG.Geometry.ofLocalModelOfBTZ remain owed; the geodesic procedure is replaced by a ≤-minimal point of the compact ∂U ∩ J⁺(Σ) ∩ J⁻(p₀) (Zorn) and the K⁻ cluster argument; uses A2 and A3."
+        },
+        {
+          "paper": "C ≠ ∅",
+          "here": "carried",
+          "note": "literal form proved but empty (ett_cauchy_point_min_literal); intended form with Cdist ≠ ∅ proved (ett_cauchy_point_min, and the time-symmetric ett_cauchy_point_min_symm)."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:2271-2272 with the literal C is true but carries no information: every graph pair (j₁(x), j₂(x)) is in C and satisfies the conclusion (ett_cauchy_point_min_literal), so the proposition can return such a pair, which is useless to prop:Cauchy_non_max. The intended statement (C read as Cdist, the distinct pairs) is proved. Consistent with the rem:non_separe_cas finding (the hypothesis C ≠ ∅ is not the intended one)."
+      ],
+      "questions": [
+        "J_{M₁}(Σ₁,p') (l.2272) is defined only for p' ∈ J⁺(Σ₁) (lem:image_diamant). Readings at a past point: J⁺(Σ₁) ∩ J⁻(p') (ett_cauchy_point_min; vacuous at past points) or J⁻(Σ₁) ∩ J⁺(p') (ett_cauchy_point_min_symm). Both proved; same question as in Causal/CBG/NoCorresponding.lean."
+      ]
+    },
+    {
+      "label": "prop:ppcm_Cauchy",
+      "tex_lines": [
+        1994,
+        1998
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.ett_ppcm_Cauchy",
+        "Causal.CBG.CommonOverDev",
+        "Causal.CBG.CommonOverDev.IsMorphism",
+        "Causal.CBG.CommonOverDev.Equivalent",
+        "Causal.CBG.CommonOverDev.IsMinimal",
+        "Causal.CBG.CommonOverDev.IsMorphism.toDev",
+        "Causal.CBG.CommonOverDev.IsMorphism.comp",
+        "Causal.CBG.CommonOverDev.IsMinimal.equivalent",
+        "Causal.CBG.ppcmOver",
+        "Causal.CBG.exists_ppcm",
+        "Causal.CBG.ppcmDev",
+        "Causal.CBG.PpcmSpace",
+        "Causal.CBG.ppcmDev_desc",
+        "Causal.CBG.ppcmDev_desc_injective",
+        "Causal.CBG.ppcmDev_unique",
+        "Causal.CBG.t2Space_gluing_mcghd",
+        "Causal.CBG.ppcm_globallyHyperbolic",
+        "Causal.CBG.ppcm_isCauchySurface",
+        "Causal.CBG.ppcm_secondCountable",
+        "Causal.CBG.exists_common_extension",
+        "Causal.CBG.cauchy_pgcd_geometry"
+      ],
+      "hypotheses": [
+        {
+          "paper": "singular flat spacetimes",
+          "here": "strengthened",
+          "note": "over an abstract Geometry (DEC-60): the singular E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0); over it, gx's GermExtFutureBTZ, GermExtPastBTZ, SliceFutureBTZ of Causal.CBG.Geometry.ofLocalModelOfBTZ remain owed; the Hausdorff step uses A3 and A4 (Thm 3.13), the structure the field glue, minimality A1."
+        },
+        {
+          "paper": "M₀ connected",
+          "here": "carried",
+          "note": "ConnectedSpace M₀ (lem:C_ext_connexe)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:2324 'and it is a singular flat spacetime': global hyperbolicity of ppcm with ι(Σ₀) Cauchy is not argued in ETT; proved in the library (ppcm_globallyHyperbolic, ppcm_isCauchySurface; same finding as Causal/CBG/Ppcm.lean checklist)."
+      ],
+      "questions": [
+        "defi:ppcm glues along 'pgcd', defined only up to equivalence (prop:Cauchy_pgcd). Reading: the MCGHD (mcghdOpens, mcghdMap), the canonical maximal common sub-extension; any other is equivalent to it (cauchy_pgcd_geometry), with the same image and the same f on it."
+      ]
+    },
+    {
+      "label": "rem:CBG_manquant",
+      "tex_lines": [
+        2343,
+        2356
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.CBG.Dev.card_le_continuum",
+        "Causal.CBG.ett_maximal_secondCountable",
+        "Causal.CBG.maxSpace_secondCountable",
+        "Causal.CBG.Geometry.secondCountable_of_cauchy",
+        "Causal.CBG.SmallDev",
+        "Causal.CBG.SmallDev.ofDev",
+        "Causal.CBG.SmallDev.exists_iso",
+        "Causal.CBG.Dev.isUniversal_of_small",
+        "Causal.CBG.exists_injective_setNat",
+        "Causal.CBG.maxDev"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(i) second countability of M̄ 'should follow Geroch's argument'",
+          "here": "strengthened",
+          "note": "proved over a geometry (maxSpace_secondCountable) from the field secondCountable_of_cauchy (GH + SC Cauchy surface ⇒ SC), discharged for the regular flat model (DEC-49), owed for E₀ (gx (vi))."
+        },
+        {
+          "paper": "(ii) small skeleton; 'all such manifolds have the cardinality of the continuum'",
+          "here": "weakened",
+          "note": "the skeleton is SmallDev (carriers in Set ℕ), the universal property transfers (Dev.isUniversal_of_small); cardinality ≤ 𝔠 proved for every Cauchy extension of any geometry (Dev.card_le_continuum, model-free: SC + T0 ⇒ inject into Set ℕ); equality is not needed and not proved."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Both gaps the remark lists are closed in the library over a geometry: (ii) by SmallDev / Sbierski's gluing instead of a categorical inductive limit, (i) by maxSpace_secondCountable after global hyperbolicity of M̄ (maxStr_globallyHyperbolic), whose remaining input for E₀ is the geometry field secondCountable_of_cauchy. The remark could be updated once the E₀ instance exists."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.CBG.Dev.IsMorphism.injective",
+    "Causal.CBG.Geometry.rigid_univ",
+    "Causal.CBG.Dev.card_le_continuum",
+    "Causal.CBG.Dev.IsCEMaximal",
+    "Causal.CBG.Dev.isCEMaximal_iff",
+    "Causal.CBG.CommonSubDev.instNonempty",
+    "Causal.CBG.CommonSubDev.U",
+    "Causal.CBG.CommonSubDev.coe_U",
+    "Causal.CBG.CommonSubDev.f",
+    "Causal.CBG.CommonSubDev.f_b",
+    "Causal.CBG.CommonSubDev.image_f_U",
+    "Causal.CBG.CommonSubDev.image_f_cauchy",
+    "Causal.CBG.CommonSubDev.isOpenEmbedding_b",
+    "Causal.CBG.CommonSubDev.isOpenEmbedding_c",
+    "Causal.CBG.CommonSubDev.isMor_f",
+    "Causal.CBG.CommonSubDev.continuousOn_f",
+    "Causal.CBG.CommonSubDev.cghdData",
+    "Causal.CBG.CommonSubDev.mem_C_iff",
+    "Causal.CBG.CommonSubDev.mem_Cdist_iff",
+    "Causal.CBG.CommonSubDev.mem_Cdist_of_mem_correspondingSet",
+    "Causal.CBG.CommonSubDev.mem_correspondingSet_of_mem_Cdist",
+    "Causal.CBG.CommonOverDev",
+    "Causal.CBG.CommonOverDev.IsMinimal.equivalent",
+    "Causal.CBG.ppcmOver"
+  ],
+  "kb_proposals": [
+    "ETT §4's setting (N, j₁, j₂, f, literal C) maps onto Sbierski's CGHD setting by CommonSubDev.cghdData and CommonSubDev.mem_C_iff (literal C = Corresponds); state any further §4 bridge through them.",
+    "Every morphism of CBG developments is injective (Dev.IsMorphism.injective, from Geometry.timeFunction), so 'maximal' against Cauchy embeddings and against all morphisms coincide."
+  ],
+  "notes": "Sorry-free, warning-free, axioms [propext, Classical.choice, Quot.sound] for every declaration (checked with #print axioms). `lake build CausalScaffold.CBG.ETTSection4` green, rebuilt nothing upstream. The module is not yet imported by scaffold/CausalScaffold.lean (the master adds it; kb/0025). It imports Causal.Flat.CBG only for ett_cauchy_non_max_literal_false_flat; drop that theorem to keep the file free of the Barbot flat chain. No label is marked: every row is partial per DEC-134 (abstract Geometry until T-ett-port-e0 and gx's three BTZ obligations); lem:corresponding_K is the closest to closable (it uses A2 only: an E₀ instance of SingularFlatAxioms + compactness fields suffices). Being sorry-free, the file could graduate to Causal/CBG/ETTSection4.lean as is. New names live in Causal.CBG (ett_* prefix, CommonOverDev, ppcmOver); no collision in Causal/ or scaffold/."
+}

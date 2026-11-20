@@ -141,6 +141,7 @@ import Causal.GXSingular
 import Causal.SingularGeroch
 import Causal.CBG.CausalConvex
 import Causal.CBG.Geometry
+import Causal.CBG.ETTSection4
 import Causal.CBG.Injective
 import Causal.CBG.FamilyGluing
 import Causal.CBG.Bound
