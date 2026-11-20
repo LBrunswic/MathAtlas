@@ -9,7 +9,7 @@
   },
   "lean": {
     "root": "/home/maxbrain/Dropbox/LeanArticles/lean-gx",
-    "git_commit": "7a47172"
+    "git_commit": "24d9429"
   },
   "statements": [
     {
@@ -4253,7 +4253,8 @@
       "statement_sha256": "5592dcfccbd972015218128cd6fe776ce83d1fdf69b8566596bb560e41242ed9",
       "statement_sha256_current": "5592dcfccbd972015218128cd6fe776ce83d1fdf69b8566596bb560e41242ed9",
       "lean_files": [
-        "GX/Branched/Galois.lean"
+        "GX/Branched/Galois.lean",
+        "GX/Topology/SLSCCompact.lean"
       ],
       "decls": [
         "GX.isSLSCInCC_univ_of_semilocallySimplyConnected",
@@ -4272,21 +4273,44 @@
         "GX.archF",
         "GX.continuousOn_archF",
         "GX.isOpenEmbedding_archPt",
-        "GX.arch_compact_bound"
+        "GX.arch_compact_bound",
+        "GX.griffiths_counterexample",
+        "GX.not_semilocallySimplyConnected_of_isSLSCInCC_univ_compact",
+        "GX.GriffithsSpace",
+        "GX.griffiths_isSLSCIn",
+        "GX.griffiths_isSLSCInCC",
+        "GX.griffiths_not_semilocallySimplyConnected",
+        "GX.griffiths_omega_not_homotopic",
+        "GX.grif_isSLSCAt_x0",
+        "GX.grif_isSLSCAt_of_ne",
+        "GX.grifColl",
+        "GX.grifR",
+        "GX.grifOmegaK",
+        "GX.grifZ",
+        "GX.grifZ_trans",
+        "GX.grifZ_homotopic",
+        "GX.grifTheta",
+        "GX.grifTheta_omega_ne_one",
+        "GX.grif_not_mem_FR",
+        "GX.grifD1",
+        "GX.grifD2"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "C",
-      "scope_notes": "WP-35b, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Is the non-compact archipelago acceptable as the recorded counterexample, or is a compact (Peano continuum) one wanted? The remark's standing hypotheses do not ask for compactness.",
-      "notes": "WP-35b, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: Is the non-compact archipelago acceptable as the recorded counterexample, or is a compact (Peano continuum) one wanted? The remark's standing hypotheses do not ask for compactness.",
+      "scope_notes": "WP-35b, audited clean. Partial: paper statement corrected (DEC-27) DEC-135 asked for a compact counterexample in addition to the archipelago: done by T-gx-slsc-compact (atlas-team, 2026-11-20), audit AUDIT-1 minor (an unformalized remark's scope, worded here). The Griffiths twin cone (GX.GriffithsSpace ⊂ ℂ × ℝ: the cones over two mirror Hawaiian earrings wedged at 0) is a compact metrizable Peano continuum, slsc in itself in the literal DEC-55 form and the homotopy form, and not slsc (GX.griffiths_counterexample); the refutation with compactness added, GX.not_semilocallySimplyConnected_of_isSLSCInCC_univ_compact, is strictly stronger than the archipelago's. Its non-null-homotopy is self-contained (a linking matrix modulo finite rank, GX.grifTheta, glued by two van Kampen steps, GX.VanKampen.Data.Φ_trans). Both witnesses are kept: the archipelago in GX.Branched.Galois, the twin cone in the strict GX.Topology.SLSCCompact.",
+      "notes": "WP-35b, audited clean. Partial: paper statement corrected (DEC-27) DEC-135 asked for a compact counterexample in addition to the archipelago: done by T-gx-slsc-compact (atlas-team, 2026-11-20), audit AUDIT-1 minor (an unformalized remark's scope, worded here). The Griffiths twin cone (GX.GriffithsSpace ⊂ ℂ × ℝ: the cones over two mirror Hawaiian earrings wedged at 0) is a compact metrizable Peano continuum, slsc in itself in the literal DEC-55 form and the homotopy form, and not slsc (GX.griffiths_counterexample); the refutation with compactness added, GX.not_semilocallySimplyConnected_of_isSLSCInCC_univ_compact, is strictly stronger than the archipelago's. Its non-null-homotopy is self-contained (a linking matrix modulo finite rank, GX.grifTheta, glued by two van Kampen steps, GX.VanKampen.Data.Φ_trans). Both witnesses are kept: the archipelago in GX.Branched.Galois, the twin cone in the strict GX.Topology.SLSCCompact.",
       "lean_proved_override": "partial",
       "paper_findings": [
         "RamcovGX.tex:1455-1457: 'X is semi-locally simply connected iff it is semi-locally simply connected in itself' holds only in the direction slsc ⇒ slsc in itself (GX.isSLSCInCC_univ_of_semilocallySimplyConnected, literal DEC-55 form; the corrected statement). The converse is false, now FORMALIZED (DEC-27): GX.not_semilocallySimplyConnected_of_isSLSCInCC_univ refutes the printed 'iff' over all Hausdorff, connected, locally path-connected X, with witness GX.harmonicArchipelago_counterexample.",
         "The harmonic archipelago is built as the graph over the open half-plane Re z > 0 (coordinate w = 1/z; the Hawaiian-earring circles Re w = k/2 pass through the base point 0) of h(w) = sin²(2π Re w)/(1 + (Im w)²), plus the base point. Slsc in itself: every loop at the base point is homotopic rel ends into any neighbourhood (GX.archPush pushes the hills Re w < n onto the circle Re w = n; a compact loop climbs no far hill, GX.arch_compact_bound); off the base point the space is a surface (radial contraction through the chart GX.isOpenEmbedding_archPt). Not slsc: the loops Re w = N/2 (GX.archLoop, inside the 2/N-ball) are not null-homotopic (GX.archLoop_not_homotopic): a null-homotopy has compact image, misses the summit (1/c, 1), c = M/2 + 1/4, of a far hill, and off that summit GX.archF : 𝔸 → ℂ ∖ {0} is continuous and carries the loop to a loop of winding number 1 (GX.cWinding of GX.Branched.Paths).",
-        "The space formalized is NOT compact (the summits accumulate at the missing point (0,1)), so it is not a 'Peano continuum' as WP-27e's report and the WP-35b dispatch call it; compactness is not needed for the counterexample, and the remark's hypotheses (Hausdorff, connected, locally path-connected) are all proved. No compact variant is formalized. The row stays partial as a corrected statement (no ruling accepts the one-directional form)."
+        "The space formalized is NOT compact (the summits accumulate at the missing point (0,1)), so it is not a 'Peano continuum' as WP-27e's report and the WP-35b dispatch call it; compactness is not needed for the counterexample, and the remark's hypotheses (Hausdorff, connected, locally path-connected) are all proved. No compact variant is formalized. The row stays partial as a corrected statement (no ruling accepts the one-directional form).",
+        "RamcovGX.tex:1455-1457: the printed 'iff' fails even among compact metrizable spaces. The Griffiths twin cone (the cones over two Hawaiian earrings, apexes (±1/2, 1), wedged at the earrings' common point; GX.GriffithsSpace in ℂ × ℝ = ℝ³) is compact, Hausdorff, path-connected, locally path-connected, semi-locally simply connected in itself in the literal DEC-55 sense and in the homotopy sense, and not semi-locally simply connected (GX.griffiths_counterexample; the refuted statement with compactness added is GX.not_semilocallySimplyConnected_of_isSLSCInCC_univ_compact). No compactness hypothesis rescues the converse; only slsc ⇒ slsc in itself holds (GX.isSLSCInCC_univ_of_semilocallySimplyConnected, GX.Branched.Galois).",
+        "Offered to the author, NOT formalized (T-gx-slsc-compact): in the homotopy reading of almost-trivial loops, a counterexample to the converse cannot be homotopically Hausdorff at the bad point, and slsc implies homotopically Hausdorff; so 'X slsc ⇔ X slsc in itself and homotopically Hausdorff' would be a true corrected form of the remark in that reading. Under DEC-55's literal (compact-open) form the argument does not carry over (components of the loop space need not be homotopy classes)."
       ],
       "extra_lean_files": [
-        "GX/Branched/Galois.lean"
+        "GX/Branched/Galois.lean",
+        "GX/Topology/SLSCCompact.lean"
       ],
       "in_lean_scope": true,
       "stale": false
@@ -7144,7 +7168,10 @@
       "statement_sha256": "3ef8a7bf87e41f882a05ac6c15e69a596e83a0d315fbfc31207f34770d498749",
       "statement_sha256_current": "3ef8a7bf87e41f882a05ac6c15e69a596e83a0d315fbfc31207f34770d498749",
       "lean_files": [
-        "GX/SingularII/Models.lean"
+        "GX/SingularII/Models.lean",
+        "GX/Spherical/S3Model.lean",
+        "GX/Spherical/ConeSurface.lean",
+        "scaffold/GXScaffold/Spherical/TroyanovAngles.lean"
       ],
       "decls": [
         "GX.TroyanovSuspensionTheorem",
@@ -7162,21 +7189,62 @@
         "GX.joukowski_eq_of_isAEMorphism",
         "GX.joukowskiFlip",
         "GX.isAEMorphism_joukowskiFlip",
-        "GX.eq_of_isAEMorphism_of_subsingleton"
+        "GX.eq_of_isAEMorphism_of_subsingleton",
+        "GX.TroyanovSuspensionTheoremS3",
+        "GX.TroyanovTheorem",
+        "GX.ThurstonSuspensionFacts",
+        "GX.ThurstonCexFacts",
+        "GX.thurstonSuspension",
+        "GX.troyanovSuspensionTheoremS3_of",
+        "GX.TroyanovSuspensionTheoremS3.troyanovSuspensionTheorem",
+        "GX.cex_start_singular_manifold_homeomorphic_S3",
+        "GX.troyanovTheorem",
+        "GX.thurstonSuspensionFacts",
+        "GX.troyanovSuspensionTheoremS3",
+        "GX.troyanovAngleCondition_two_pi",
+        "GX.TroyanovAngleCondition.three_le_card_ne_two_pi",
+        "GX.IsConeSphere",
+        "GX.IsSphericalConeSurface",
+        "GX.IsConePoint",
+        "GX.IsConePoint.angle_eq",
+        "GX.SphCone",
+        "GX.SphCone.apex_mem_sing_iff",
+        "GX.SphCone.sing_eq",
+        "GX.SphCone.sing_eq_empty",
+        "GX.sphCone_eq_of_iso",
+        "GX.sphCone_exists_int_mul",
+        "GX.IsConeSphere.isConePoint_iff",
+        "GX.TroyanovAngleCondition.subcritical",
+        "GX.polarCone",
+        "GX.SO4",
+        "GX.Sph3",
+        "GX.SO3",
+        "GX.Sph2",
+        "GX.analyticStructure_SO4",
+        "GX.isLocallyUnloopable_sph3",
+        "GX.thurstonAtlas",
+        "GX.isAEAtlas_thurstonAtlas",
+        "GX.thurstonStructure"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "C",
-      "scope_notes": "WP-44b, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: DEC-69 is applied as ruled: Troyanov's theorem (MR1005085) with the suspension is the named external Prop GX.TroyanovSuspensionTheorem, an explicit hypothesis of GX.cex_start_singular_manifold_homeomorphic, with non-vacuity witnesses (GX.troyanovAngleCondition_witness; GX.exists_suspensionCexFacts, the Joukowski structure; GX.troyanovSuspensionTheorem_of_subsingleton, the Prop holds for a trivial group on ℂ); row partial. Disclosed: the Prop is not tied to θ (no cone angles in the library); restating it at (SO(4),𝕊³) needs spherical cone surfaces and a rigid SO(4)-action on 𝕊³.",
-      "notes": "WP-44b, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: DEC-69 is applied as ruled: Troyanov's theorem (MR1005085) with the suspension is the named external Prop GX.TroyanovSuspensionTheorem, an explicit hypothesis of GX.cex_start_singular_manifold_homeomorphic, with non-vacuity witnesses (GX.troyanovAngleCondition_witness; GX.exists_suspensionCexFacts, the Joukowski structure; GX.troyanovSuspensionTheorem_of_subsingleton, the Prop holds for a trivial group on ℂ); row partial. Disclosed: the Prop is not tied to θ (no cone angles in the library); restating it at (SO(4),𝕊³) needs spherical cone surfaces and a rigid SO(4)-action on 𝕊³.",
+      "scope_notes": "WP-44b, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: DEC-69 is applied as ruled: Troyanov's theorem (MR1005085) with the suspension is the named external Prop GX.TroyanovSuspensionTheorem, an explicit hypothesis of GX.cex_start_singular_manifold_homeomorphic, with non-vacuity witnesses (GX.troyanovAngleCondition_witness; GX.exists_suspensionCexFacts, the Joukowski structure; GX.troyanovSuspensionTheorem_of_subsingleton, the Prop holds for a trivial group on ℂ); row partial. Disclosed: the Prop is not tied to θ (no cone angles in the library); restating it at (SO(4),𝕊³) needs spherical cone surfaces and a rigid SO(4)-action on 𝕊³. T-gx-spherical-cone (atlas-team, 2026-11-20), audit AUDIT-1 minor (line numbers, an overstated clause, an analyticity sentence, fixed in round 1): the (SO(4), 𝕊³) and (SO(3), 𝕊²) models (GX.SpecialOrth on GX.RaySphere, rigid, analytic, locally unloopable), Thurston's suspension 𝕊ⁿ → 𝕊ⁿ⁺¹ (GX.thurstonStructure), the spherical cones C_θ (GX.polarCone; apex singular iff θ ≠ 2π), cone points and the invariance of the cone angle (GX.IsConePoint.angle_eq), cone spheres (GX.IsConeSphere), sorry-free in the strict GX.Spherical.S3Model / ConeSurface; the angle-tied statement GX.TroyanovSuspensionTheoremS3 = TroyanovTheorem + ThurstonSuspensionFacts (two tagged sorrys, scaffold GXScaffold.Spherical.TroyanovAngles) implies GX.TroyanovSuspensionTheorem SO4 Sph3 and the cex's conclusion at (SO(4), 𝕊³).",
+      "notes": "WP-44b, audited clean. Partial: paper statement corrected (DEC-27) Readings/questions: DEC-69 is applied as ruled: Troyanov's theorem (MR1005085) with the suspension is the named external Prop GX.TroyanovSuspensionTheorem, an explicit hypothesis of GX.cex_start_singular_manifold_homeomorphic, with non-vacuity witnesses (GX.troyanovAngleCondition_witness; GX.exists_suspensionCexFacts, the Joukowski structure; GX.troyanovSuspensionTheorem_of_subsingleton, the Prop holds for a trivial group on ℂ); row partial. Disclosed: the Prop is not tied to θ (no cone angles in the library); restating it at (SO(4),𝕊³) needs spherical cone surfaces and a rigid SO(4)-action on 𝕊³. T-gx-spherical-cone (atlas-team, 2026-11-20), audit AUDIT-1 minor (line numbers, an overstated clause, an analyticity sentence, fixed in round 1): the (SO(4), 𝕊³) and (SO(3), 𝕊²) models (GX.SpecialOrth on GX.RaySphere, rigid, analytic, locally unloopable), Thurston's suspension 𝕊ⁿ → 𝕊ⁿ⁺¹ (GX.thurstonStructure), the spherical cones C_θ (GX.polarCone; apex singular iff θ ≠ 2π), cone points and the invariance of the cone angle (GX.IsConePoint.angle_eq), cone spheres (GX.IsConeSphere), sorry-free in the strict GX.Spherical.S3Model / ConeSurface; the angle-tied statement GX.TroyanovSuspensionTheoremS3 = TroyanovTheorem + ThurstonSuspensionFacts (two tagged sorrys, scaffold GXScaffold.Spherical.TroyanovAngles) implies GX.TroyanovSuspensionTheorem SO4 Sph3 and the cex's conclusion at (SO(4), 𝕊³).",
+      "blocked_on": "T-gx-troyanov (Troyanov's theorem, DEC-136) and T-gx-troyanov-suspension (ThurstonSuspensionFacts); readings OQ-37",
       "lean_proved_override": "partial",
       "paper_findings": [
         "Proved from the named external result (DEC-69): for every s ≥ 3 pairwise distinct angles satisfying Troyanov's condition there is a connected singular (G,X)-manifold M with O ∈ sing M and some other singular point, such that for S ⊆ sing M, (M,S) is analytic iff S = {O}, and (M, sing M) is not analytic (GX.cex_start_singular_manifold_homeomorphic), 0 sorry.",
         "Round-4 audit major 1 fixed by option (a) at its 'at least' level: SuspensionCexFacts gains exists_ne (∃ s ∈ sing M, s ≠ O) and connected, so the sphere (sing = {O}) no longer witnesses it and the cex conclusion is informative. Re-witnessed with every field exercised (GX.exists_suspensionCexFacts): ℂ with the a.e. structure pulled back by the Joukowski map z ↦ z + z⁻¹ on ℂ ∖ {0, ±1}, G trivial; sing = {0, 1, −1} (0 a pole, ±1 branch points, GX.sing_joukowskiStructure); O = 0 rigid (GX.joukowski_eq_of_isAEMorphism: z + z⁻¹ unbounded and injective near 0, then the identity theorem IsAEMorphism.eq_of_eqOn); at ±1 the flip z ↦ z⁻¹ of B(±1,1/2) is an a.e. isomorphism (GX.isAEMorphism_joukowskiFlip) which no automorphism extends, since every automorphism is the identity by rigidity at 0. The old sphere witness GX.suspensionCexFacts_sphere is removed (it does not satisfy exists_ne).",
-        "Disclosed (round-4 audit major 1, option (b) part, which (a) cannot remove): the named Prop is not tied to θ — SuspensionCexFacts mentions no cone angle (the library has none) — so over a general (G,X) it asserts only the existence of a manifold carrying the facts, and for a trivial group acting on ℂ it holds outright for every θ (GX.troyanovSuspensionTheorem_of_subsingleton, proved). The angle-dependent content (the s singular rays, Aut(Σ) ≅ Aut(M), the (SO(4),S³)-structure) is the paper's instance, not stated here. Not built: spherical cone surfaces, the (SO(4),S³)-structure of the Thurston suspension (GX.Singular.Suspension is topological), Aut(Σ) ≅ Aut(M)."
+        "Disclosed (round-4 audit major 1, option (b) part, which (a) cannot remove): the named Prop is not tied to θ — SuspensionCexFacts mentions no cone angle (the library has none) — so over a general (G,X) it asserts only the existence of a manifold carrying the facts, and for a trivial group acting on ℂ it holds outright for every θ (GX.troyanovSuspensionTheorem_of_subsingleton, proved). The angle-dependent content (the s singular rays, Aut(Σ) ≅ Aut(M), the (SO(4),S³)-structure) is the paper's instance, not stated here. Not built: spherical cone surfaces, the (SO(4),S³)-structure of the Thurston suspension (GX.Singular.Suspension is topological), Aut(Σ) ≅ Aut(M).",
+        "Troyanov's condition as printed at l.1930 admits an angle theta_i = 2pi, which is not a conical singularity: (9pi/10, 19pi/20, pi, 2pi) satisfies it with pairwise distinct angles (GX.troyanovAngleCondition_two_pi, proved; it is DEC-69's witness with 2pi appended, which leaves the sum unchanged). The cex's 's >= 3 conical singularities of respective angles theta_i' must then read 's cone points, a 2pi one a marked regular point'. Harmless for the cex: the condition forces at least three angles != 2pi (GX.TroyanovAngleCondition.three_le_card_ne_two_pi, proved), so Sigma always has >= 3 genuine conical singularities. The author may want 'theta_i != 2pi' or 'theta_i in ]0, 2pi[ ∪ ]2pi, +inf[' in the cex.",
+        "The suspension of sec:susp (l.698-700), (M x R_+)/~ with metric dr^2 + sin(r)^2 g: with r over all of R_+, the metric degenerates at r = pi (and at every k*pi; it is locally spherical again on each band between), so (M x R_+)/~ with it is not a Riemannian (cone-)manifold; the intended model is r in [0, pi) (one centre) or [0, pi] with both ends collapsed (two centres). The cex (l.1931-1933: one centre O, singular locus 'homeomorphic to a line except at O') fits the open ball r < pi. Formalized: the open ball, parametrised by r' = tan(rho/2) in [0, inf) on GX.Susp (S3Model SCOPE (b))."
       ],
       "extra_lean_files": [
-        "GX/SingularII/Models.lean"
+        "GX/SingularII/Models.lean",
+        "GX/Spherical/S3Model.lean",
+        "GX/Spherical/ConeSurface.lean",
+        "scaffold/GXScaffold/Spherical/TroyanovAngles.lean"
       ],
       "in_lean_scope": true,
       "stale": false
