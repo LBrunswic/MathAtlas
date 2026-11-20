@@ -1,0 +1,66 @@
+{
+  "target": "T-abs-gluing-hausdorff",
+  "auditor_round": 2,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "T-abs-gluing-hausdorff/1-pushout-iff",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unchanged mathematics, so AUDIT-1's assessment stands: IsCorrespondingBoundaryPair is exactly Sbierski's Def 3.5 with both boundary memberships, and the iff (and its hypothesis-free form) is at least the title. The fix round touches only the REPORT prose. labels[0].findings[0] no longer claims an ill-typed Def 3.5 formula; it keeps only the genuine 'V′ of p′' slip for the point q (Maximal_GHD2.tex:751 is correct; the text-file line is :1076, not :1077, see the minor finding). questions[0] now quotes the condition as ψ⁻¹(V′ ∩ ψ(U)) ∩ V ≠ ∅, citing Maximal_GHD2.tex:531, which is the printed formula. The source rows now also cite the LaTeX: Maximal_GHD2.tex:529-531, where 529 is the statement, 530 the equation environment and 531 the formula; and :751. Both are correct."
+    },
+    {
+      "label": "T-abs-gluing-hausdorff/2-family",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unchanged: the REPORT entry is identical to round 1, and the declarations hash-identical (see build). AUDIT-1's assessment stands."
+    },
+    {
+      "label": "T-abs-gluing-hausdorff/3-closed-nonhausdorff",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unchanged: still unmarked and partial, and the REPORT entry is identical to round 1. The counterexample, the true forms and the shear findings verified in AUDIT-1 are unaffected."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/GluingHausdorff.lean`: exit 0, no output, with 0 occurrences of `sorry`. The imports are unchanged (Causal.Pushout, Causal.CBG.FamilyGluing, Mathlib.Analysis.SpecialFunctions.Log.Basic), so the layer-1 closure verified in AUDIT-1 is unchanged. NOTHING BUT THE DOCSTRING CHANGED. This was checked in two independent ways. (1) The closer's olean (.lake/build/lib/lean/CausalScaffold/GluingHausdorff.olean, 18:46:43) was built from the source AUDIT-1 read (mtime 18:46:37) and has not been rebuilt since. A probe importing that olean was compared with the current source (18:55:26) elaborated with an appended listing. The comparison covered the type hash and the value hash of every constant the module defines: 76 constants, auxiliaries included, all identical. The probe was run under /tmp/audit_gh2 and deleted afterwards. (2) The file grew by exactly 98 bytes (35363 → 35461) and 2 lines (644 → 646). That is accounted for exactly by the docstring edits: four parentheses, and the two new citation lines `Maximal_GHD2.tex:529–531` (68 bytes) and `Maximal_GHD2.tex:751` (26 bytes). No declaration changed, so the round-1 axiom result (32 names, each [propext, Classical.choice, Quot.sound]) carries over. Per the dispatch, the axiom probe was not rerun."
+  },
+  "scope": {
+    "git_status": [
+      " M programme/roadmap.toml",
+      "?? lean-causal/campaign/T-abs-gluing-hausdorff/",
+      "?? lean-causal/scaffold/CausalScaffold/GluingHausdorff.lean",
+      "?? lean-causal/scaffold/CausalScaffold/NestedCausalities.lean"
+    ],
+    "note": "Same as round 1. The fix round wrote only GluingHausdorff.lean (18:55:26) and REPORT.json (18:55:39). AUDIT-1.json is kept. NestedCausalities.lean is the other closer's file. No tracked file in lean-causal is modified."
+  },
+  "round1_findings": [
+    {
+      "finding": "major: REPORT labels[0].findings[0] falsely claimed the Def 3.5 formula is ill-typed",
+      "fixed": true,
+      "notes": "The formula claim is gone, both from findings and from questions, which now quotes ψ⁻¹(V′ ∩ ψ(U)) ∩ V ≠ ∅ (Maximal_GHD2.tex:531). Only the genuine 'V′ of p′' slip remains. Its text-file line carries the off-by-one below, which AUDIT-1's fix text itself repeated."
+    },
+    {
+      "finding": "minor: docstring quotes dropped the parentheses (GluingHausdorff.lean:33, :37)",
+      "fixed": true,
+      "notes": "Now at :33 and :38 as ψ⁻¹(V′ ∩ ψ(U)) ∩ V ≠ ∅, with Maximal_GHD2.tex:529–531 (:34) and :751 (:40) cited. The rest of the quote is verbatim, including the paper's own 'V′ of p′' (:37), which is correct for a quote. Marks still at :11 and :16, within 4000 characters; label 3 still unmarked (:22). The Hypothesis checklist, SCOPE and Provenance are unchanged."
+    },
+    {
+      "finding": "minor: kb_proposals[0] called Corresponds 'the same notion'",
+      "fixed": true,
+      "notes": "It now says that Corresponds is only the neighbourhood condition, without the boundary memberships, so graph points (p, ψ p) satisfy it. That is true: for p ∈ U take x = p in Corresponding.lean:264-265. It also says IsCorrespondingBoundaryPair is the neighbourhood condition together with both memberships, and that the Corresponding module reaches models. Both are true; the second was verified in AUDIT-1."
+    }
+  ],
+  "docstring_contract": "Still satisfied: title; ``**`label`**`` marks for labels 1 and 2 within the first 4000 characters; label 3 unmarked; quotes now verbatim against the printed paper (PDF p. 15, Maximal_GHD2.tex:531, :751) and against chrusciel2013maximal.txt:877-880; Hypothesis checklist; SCOPE; Provenance.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "campaign/T-abs-gluing-hausdorff/REPORT.json labels[0].findings[0]",
+      "what": "The 'V′ of p′' slip is cited as sbierski2013existence.txt:1077. In the text file it is on line 1076 ('… For all neighbourhoods V of p and V 0 of p0 ,'). Line 1077 is blank. The LaTeX citation Maximal_GHD2.tex:751 is correct. This off-by-one came from round 1's REPORT and was repeated in AUDIT-1's own fix text. Nothing else in the REPORT became false in the fix round: labels 2 and 3, extra_decls, kb_proposals[1] and notes are unchanged from round 1.",
+      "fix": "Write sbierski2013existence.txt:1076 in that finding. This does not block graduation."
+    }
+  ]
+}

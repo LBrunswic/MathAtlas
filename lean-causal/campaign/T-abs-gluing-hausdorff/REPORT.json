@@ -1,0 +1,209 @@
+{
+  "package": "T-abs-gluing-hausdorff",
+  "target": "T-abs-gluing-hausdorff",
+  "files": [
+    "scaffold/CausalScaffold/GluingHausdorff.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "T-abs-gluing-hausdorff/1-pushout-iff",
+      "source": [
+        {
+          "paper": "Sbierski, arXiv 1309.7591",
+          "statement": "Definition 3.5 (corresponding boundary points)",
+          "text_lines": "references/sbierski/text/sbierski2013existence.txt:707-711; papers/sbierski-mghd/legacy/labeled/Maximal_GHD2.tex:529-531"
+        },
+        {
+          "paper": "Sbierski, arXiv 1309.7591",
+          "statement": "Theorem 2.7, proof that the gluing is Hausdorff",
+          "text_lines": "references/sbierski/text/sbierski2013existence.txt:1064-1079; papers/sbierski-mghd/legacy/labeled/Maximal_GHD2.tex:751"
+        },
+        {
+          "paper": "Chruściel, arXiv 1112.5779",
+          "statement": "Lemma 3.3 and the first paragraph of its proof",
+          "text_lines": "references/sbierski/text/chrusciel2013maximal.txt:866-880"
+        }
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.Gluing.IsCorrespondingBoundaryPair",
+        "Causal.Gluing.t2Space_iff_forall_not_isCorrespondingBoundaryPair",
+        "Causal.Gluing.t2Space_iff_t2Space_and_forall_not_isCorrespondingBoundaryPair",
+        "Causal.Gluing.isCorrespondingBoundaryPair_iff",
+        "Causal.Gluing.IsCorrespondingBoundaryPair.not_separated",
+        "Causal.Gluing.correspondingPairs_eq_Cdist",
+        "Causal.Gluing.forall_nhds_iff_mem_closure_graph",
+        "Causal.Gluing.forall_nhds_iff_exists_filter",
+        "Causal.Gluing.forall_nhds_iff_exists_seq"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M, M' (M1, M2) Hausdorff (manifolds)",
+          "here": "carried",
+          "note": "[T2Space X] [T2Space Y] in the source form; the hypothesis-free form t2Space_iff_t2Space_and_forall_not_isCorrespondingBoundaryPair proves T2(gluing) <-> T2 X and T2 Y and no corresponding pair"
+        },
+        {
+          "paper": "U a CGHD, psi an isometric embedding (O open, Psi_O isometry)",
+          "here": "weakened",
+          "note": "j1, j2 open embeddings of an arbitrary space W; no metric, no causality"
+        },
+        {
+          "paper": "U the MCGHD / (O, Psi_O) maximal (Thm 3.13, Lemma 3.3)",
+          "here": "weakened",
+          "note": "not used: maximality is what proves that there are no corresponding boundary points; here that absence is the right-hand side of the criterion"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "In the proof of Sbierski's Thm 2.7 the separation step says 'For all neighbourhoods V of p and V′ of p′' for the point called q there (sbierski2013existence.txt:1077; papers/sbierski-mghd/legacy/labeled/Maximal_GHD2.tex:751). This is a slip of notation with no mathematical consequence."
+      ],
+      "questions": [
+        "Definition of corresponding boundary points. Reading taken: Sbierski's Def 3.5, which requires ψ⁻¹(V′ ∩ ψ(U)) ∩ V ≠ ∅ for all neighbourhoods V of p and V′ of p′ (Maximal_GHD2.tex:531), with ∂ the topological boundary of j1(W) in X and of j2(W) in Y. Proved equivalent to: (x, y) in the closure of the graph {(j1 w, j2 w)}; x and y are the limits of one non-trivial filter of W (equivalently one net); under first countability, one sequence of W (the form used by Chruściel and by ETT). For Hausdorff X, Y it is also equivalent to [x] ≠ [y] and [x], [y] not separated in the gluing (ETT's Cdist). There is no divergence between the sources once boundary membership is included."
+      ]
+    },
+    {
+      "label": "T-abs-gluing-hausdorff/2-family",
+      "source": [
+        {
+          "paper": "Sbierski, arXiv 1309.7591",
+          "statement": "Theorem 2.8, point 1 of the proof (the gluing is Hausdorff)",
+          "text_lines": "references/sbierski/text/sbierski2013existence.txt:1172-1221"
+        },
+        {
+          "paper": "Graf-Ling, arXiv 2307.11034",
+          "statement": "Lemma 29 (a totally ordered family glues to a Hausdorff space)",
+          "text_lines": "references/sbierski/text/graf2023uniqueness.txt:1318-1325"
+        },
+        {
+          "paper": "Chruściel, arXiv 1112.5779",
+          "statement": "Theorem 2.2, proof (the union of a chain is Hausdorff)",
+          "text_lines": "references/sbierski/text/chrusciel2013maximal.txt:349-357"
+        }
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.CBG.FamilyGlueData.t2Space_iff_forall_not_isCorrespondingBoundaryPair",
+        "Causal.CBG.FamilyGlueData.t2Space_iff_t2Space_and_forall_not_isCorrespondingBoundaryPair",
+        "Causal.CBG.FamilyGlueData.isCorrespondingBoundaryPair_iff",
+        "Causal.CBG.FamilyGlueData.t2Space_of_directed",
+        "Causal.CBG.FamilyGlueData.t2Space_of_total",
+        "Causal.CBG.FamilyGlueData.forall_not_isCorrespondingBoundaryPair_of_directed"
+      ],
+      "hypotheses": [
+        {
+          "paper": "a set of GHDs, U_{ik} the MCGHDs, psi_{ik} isometric embeddings; (3.15) an equivalence relation (from MCGHD maximality)",
+          "here": "carried",
+          "note": "the family is Causal.CBG.FamilyGlueData: open U i j ⊆ M i, continuous transitions phi i j : U i j -> M j with the cocycle condition (its fields are exactly what makes (3.15) an equivalence relation); any index type, any topological spaces"
+        },
+        {
+          "paper": "the pieces Hausdorff",
+          "here": "carried",
+          "note": "[∀ i, T2Space (M i)] in the source form; dropped in t2Space_iff_t2Space_and_forall_not_isCorrespondingBoundaryPair"
+        },
+        {
+          "paper": "Graf-Ling: the family totally ordered (N_alpha ≲ N_beta or the reverse)",
+          "here": "weakened",
+          "note": "t2Space_of_directed asks only that any two members embed wholly in a third (U i k = ⊤, U j k = ⊤); t2Space_of_total is the totally ordered case"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "'A family glued along open embeddings into one another' is read as Causal.CBG.FamilyGlueData (pairwise overlaps U i j with transitions satisfying the cocycle condition), the structure the CBG already uses for Sbierski's (3.15). 'No pair of members has corresponding boundary points' is read as: for every ordered pair (i, j), no corresponding boundary points of U i j in M i and M j (i = j is vacuous since U i i = ⊤). 'Directed' (Chruściel's chain, Graf-Ling's total order) is read as: any two members embed wholly in a third."
+      ]
+    },
+    {
+      "label": "T-abs-gluing-hausdorff/3-closed-nonhausdorff",
+      "source": [
+        {
+          "paper": "Chruściel, arXiv 1112.5779",
+          "statement": "proof of Lemma 3.3: 'By elementary topology H is closed (as its complement is open), and we have just seen that H ⊂ ∂O'",
+          "text_lines": "references/sbierski/text/chrusciel2013maximal.txt:877-880"
+        },
+        {
+          "paper": "ETT (papers/ett)",
+          "statement": "prop:C_connexe, second half: 'C is closed in ∂j1(N) × ∂j2(N)'",
+          "text_lines": "papers/ett/legacy/labeled/ETT.tex:2240-2242"
+        }
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.nonHausdorffPoints",
+        "Causal.Gluing.nonHausdorffLeft",
+        "Causal.Gluing.nonHausdorffLeft_eq",
+        "Causal.Gluing.nonHausdorffLeft_subset_frontier",
+        "Causal.Gluing.correspondingPairs",
+        "Causal.Gluing.correspondingPairs_eq",
+        "Causal.Gluing.isClosed_correspondingPairs",
+        "Causal.Gluing.correspondingLeft",
+        "Causal.Gluing.isClosed_correspondingLeft_of_isCompact",
+        "Causal.Gluing.isClosed_nonHausdorffLeft_of_isCompact",
+        "Causal.Gluing.isClosed_nonHausdorffLeft",
+        "Causal.Gluing.not_isClosed_nonHausdorffLeft_expGluing",
+        "Causal.Gluing.not_isClosed_nonHausdorffPoints_expGluing",
+        "Causal.CBG.FamilyGlueData.preimage_ι_nonHausdorffPoints",
+        "Causal.CBG.FamilyGlueData.preimage_ι_nonHausdorffPoints_subset"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M1, M2 Hausdorff, O open, Psi_O an injective isometry",
+          "here": "weakened",
+          "note": "Hausdorff topological spaces, open embeddings"
+        },
+        {
+          "paper": "H closed 'by elementary topology'",
+          "here": "strengthened",
+          "note": "closedness of H needs an added hypothesis: the corresponding points over a neighbourhood of each boundary point lie in a compact set (isClosed_nonHausdorffLeft_of_isCompact; Y compact suffices). Without it the statement is false (not_isClosed_nonHausdorffLeft_expGluing)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "FALSE AS STATED. Chruściel, chrusciel2013maximal.txt:879-880, 'By elementary topology H is closed (as its complement is open)': false as a statement of topology. Counterexample (Causal.Gluing.not_isClosed_nonHausdorffLeft_expGluing): X = Y = R^2, W = (0,∞) × R, j1(a, c) = (a, e^c) onto the open quadrant, j2(a, c) = (a, c) onto the open half-plane. Then H = {0} × (0,∞), and (0,0) ∈ closure(H) \\ H, because the corresponding point (0, log b) of (0, b) escapes to infinity as b -> 0+. The set of Hausdorff points of a space need not be open. The non-Hausdorff points of the gluing are not closed in the gluing either (not_isClosed_nonHausdorffPoints_expGluing). The spaces are Hausdorff, second countable, metrizable 2-manifolds.",
+        "Where it matters: Chruściel uses the closedness at chrusciel2013maximal.txt:900-903 ('{Γα(0)} accumulates at some p* ... consequently Γ ∈ Y', which needs p* ∈ H). Under Lemma 3.3's hypotheses (maximal (O, Psi_O), global hyperbolicity) the closedness has to come from the geometry. This file does not settle whether it holds there. A sufficient hypothesis is local compactness of the correspondence (isClosed_nonHausdorffLeft_of_isCompact). Chruściel's own later step (:996-1000) gets this kind of compactness from J^-(q) ∩ J^+(Psi_O(q1)).",
+        "Strongest true forms proved: (a) the corresponding pairs form a closed subset of X × Y contained in ∂O_X × ∂O_Y, with no hypothesis at all (isClosed_correspondingPairs, correspondingPairs_eq). This is ETT prop:C_connexe second half (ETT.tex:2241-2242) in topological form. (b) H ⊆ ∂O_X for Hausdorff X, Y (Chruściel's 'we have just seen that H ⊂ ∂O'), and H equals Sbierski's C, the points having a corresponding boundary point (nonHausdorffLeft_eq). (c) H is closed under the compactness hypothesis above, e.g. Y compact.",
+        "Two further facts of the sources are not topological (both proved by geometry there; extra counterexample shearLeft(a, c) = (a, a c)). (i) A boundary point can have a continuum of corresponding points (shearGluing_not_unique; Sbierski Prop 3.7's 'at most one corresponding boundary point', sbierski2013existence.txt:724). (ii) Sbierski's C need not be open in ∂U (shearGluing_not_isOpen_in_frontier; Sbierski Lemma 3.8, :787-788; ETT prop:C_connexe first half, ETT.tex:2241). For the programme these are localisation properties (layer 2), not layer-1 facts."
+      ],
+      "questions": [
+        "Side and topology. Reading taken: H is Chruściel's set of non-Hausdorff points of M1, i.e. the points p of X whose class [p] is a non-Hausdorff point of the gluing, taken in the topology of X. Since ∂O_X is closed in X, 'closed in X' and 'closed in ∂O_X' coincide for H. The Y side is symmetric. The roadmap title's assertion 3 is false in that reading and in the gluing reading. The author decides what replaces it: the pair form (proved with no hypothesis), or H closed under the compactness hypothesis.",
+        "Should the compactness hypothesis of isClosed_nonHausdorffLeft_of_isCompact ('the corresponding points over a neighbourhood of each boundary point stay in a compact set') become a localisation-property node of programme/ladder.toml, alongside uniqueness of corresponding points and openness of C in ∂U? None of the three is a consequence of the gluing."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.nonHausdorffPoints",
+    "Causal.t2Space_iff_nonHausdorffPoints_eq_empty",
+    "Causal.Gluing.isCorrespondingBoundaryPair_of_mem_closure_graph",
+    "Causal.Gluing.correspondingPairs_subset_frontier",
+    "Causal.Gluing.correspondingLeft_eq_image",
+    "Causal.Gluing.correspondingLeft_subset_frontier",
+    "Causal.Gluing.isClosed_correspondingLeft",
+    "Causal.Gluing.lineTwoOrigins_isCorrespondingBoundaryPair",
+    "Causal.Gluing.expLeft",
+    "Causal.Gluing.halfPlaneInc",
+    "Causal.Gluing.isOpenEmbedding_expLeft",
+    "Causal.Gluing.isOpenEmbedding_halfPlaneInc",
+    "Causal.Gluing.expGluing_mem_nonHausdorffLeft",
+    "Causal.Gluing.expGluing_origin_not_mem",
+    "Causal.Gluing.expGluing_origin_mem_closure",
+    "Causal.Gluing.shear",
+    "Causal.Gluing.shearLeft",
+    "Causal.Gluing.shearLeft_apply",
+    "Causal.Gluing.isOpenEmbedding_shearLeft",
+    "Causal.Gluing.closure_graph_shear_subset",
+    "Causal.Gluing.shearGluing_isCorrespondingBoundaryPair",
+    "Causal.Gluing.shearGluing_not_unique",
+    "Causal.Gluing.shearGluing_mem_frontier",
+    "Causal.Gluing.shearGluing_correspondingLeft",
+    "Causal.Gluing.shearGluing_not_isOpen_in_frontier"
+  ],
+  "kb_proposals": [
+    "Layer-1 corresponding boundary points are Causal.Gluing.IsCorrespondingBoundaryPair (CausalScaffold.GluingHausdorff), for any open embeddings j1, j2: the neighbourhood condition of Sbierski's Def 3.5 together with both boundary memberships. Causal.CBG.Corresponding.Corresponds is only the neighbourhood condition, in (U, ψ) form, without the boundary memberships, so graph points (p, ψ p) satisfy it; and its module transitively imports models, so a layer-1 file must not import it.",
+    "Closedness of Chruściel's H, openness of Sbierski's C in ∂U, and uniqueness of the corresponding point are NOT facts of topology (counterexamples expGluing and shearGluing in CausalScaffold.GluingHausdorff). Only the closedness of the set of corresponding PAIRS is. Treat the other three as localisation properties."
+  ],
+  "notes": "What already existed: Causal.Pushout's Gluing.t2Space_iff_frontier / t2Space_iff_Cdist_eq_empty / Cdist_eq / C_eq_closure / Cdist_subset_frontier already gave assertion 1 in the vocabulary of separation (every pair of ∂j1(W) × ∂j2(W) has separated images; Cdist = closure(graph) \\ graph). Causal.CBG.FamilyGluing's FamilyGlueData.t2Space_iff / t2Space_iff_Cdist_eq_empty already gave assertion 2 in the vocabulary of Cdist. Neither gave anything of assertion 3. New here, reusing those (imported, not duplicated): (1) Sbierski's notion of corresponding boundary points and its four equivalent forms; (2) assertions 1 and 2 stated in that notion, with hypothesis-free forms; (3) the directed and totally ordered family theorems (Graf-Ling Lemma 29, Chruściel's chain union); (4) all of assertion 3: Chruściel's H, H ⊆ ∂O, H = Sbierski's C, the closedness of the corresponding pairs, closedness of H under a compactness hypothesis, and the counterexample to closedness of H; (5) the shear counterexample to uniqueness and openness. Layer-1 rule checked: the transitive Causal.* imports are ArcConnected, CBG.FamilyGluing, Causality, Curves, Generated, GlobalHyperbolicity, Lines, Local, Minimal, Morphism, Properties, Pushout, PushoutCausal, Reachable, StrongCausality, Subdivision, all in the clean list; mathlib's Analysis.SpecialFunctions.Log.Basic is used for the counterexample. The file is sorry-free. #print axioms on the main theorems gives only propext, Classical.choice, Quot.sound. `lake build CausalScaffold.GluingHausdorff` built only this module (no Causal.* rebuild). The declarations extend the existing namespaces Causal.Gluing and Causal.CBG.FamilyGlueData with fresh names, and nonHausdorffPoints sits in Causal. The scaffold root CausalScaffold.lean does not import the module yet (kb/0025: the master adds it). The docstring marks assertions 1 and 2 in the house form; that is harmless for tools/ledger.py, whose label regex needs a paper prefix."
+}

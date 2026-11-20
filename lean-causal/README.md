@@ -55,6 +55,7 @@ submodule, so the library is grown here in the layout it will have there: gradua
 | `Causal.Cauchy` | `def:cauchy_surface`, `def:cauchy_time_function` | Cauchy surfaces (DEC-14) and Cauchy time functions |
 | `Causal.Geroch` | — | `theo:geroch` (i)⇒(ii) and (ii)⇒(iii), (ii) strict (DEC-15); the Gaussian witness on the timelike line |
 | `Causal.MinkowskiMeasure` | — | `prop:mesure_dieckmann_Lorentz` on `ℝ^{1,n}` (instance; marks no label), from `Causal.Flat.minkowski_frontier_null_measure` (DEC-65); graduated 2026-11-20 |
+| `Causal.GluingHausdorff` | — | ETT programme, layer 1 (`programme/roadmap.toml` T-abs-gluing-hausdorff; no paper label): a gluing along open embeddings, two spaces or a `CBG.FamilyGlueData`, is Hausdorff iff there are no corresponding boundary points (Sbierski 1309.7591 Def 3.5, Thms 2.7–2.8); Chruściel's "H is closed" refuted as topology (`not_isClosed_nonHausdorffLeft_expGluing`), the pair form and a compact form proved; graduated 2026-11-20 |
 | `Causal.GXStructure` | — | (G,X)-manifolds over a maximal atlas (DEC-16); `prop:GX_espace_temps_topo` partial (OQ-18) |
 | `Causal.Static` | — | static spacetimes ℝ × X over a geodesic metric space, with the curve-defined causality of `defi:causal_Ealpha`: absolutely minimal, push-up, tarentin, strongly causal, globally hyperbolic, `J = cl I` |
 | `Causal.Minkowski` | — | Minkowski space `ℝ^{1,n}`; DEC-15's counterexample and the absence of maximal chains as theorems |

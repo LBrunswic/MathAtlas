@@ -48,3 +48,5 @@ rediscover. One fact per entry.
 | [0040](entries/0040-equivalent-is-directional.md) | pitfall | `CommonSubExtension.Equivalent` is directional: fix the reading before refuting uniqueness |
 | [0041](entries/0041-plain-minimal-pushup.md) | pitfall | Plainness plus absolute minimality on a T1 space gives push-up: no local witness otherwise |
 | [0042](entries/0042-cheap-open-relation-on-R.md) | pattern | A cheap open transitive relation on ℝ from two semicontinuous functions |
+| [0043](entries/0043-corresponding-boundary-points.md) | pitfall | Corresponding boundary points in layer 1 are `Gluing.IsCorrespondingBoundaryPair`, not `CBG.Corresponds` |
+| [0044](entries/0044-gluing-closedness-not-topology.md) | pitfall | Closed H, open C and a unique corresponding point are not topology |

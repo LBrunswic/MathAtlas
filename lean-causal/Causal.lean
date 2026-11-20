@@ -204,6 +204,7 @@ import Causal.MinkowskiMeasure
 import Causal.KBorelien
 import Causal.CBG.ETTSubExtension
 import Causal.CBG.SubExtensionAbstract
+import Causal.GluingHausdorff
 
 /-!
 # Causal — topological spacetimes
