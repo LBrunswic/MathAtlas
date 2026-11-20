@@ -1,0 +1,476 @@
+<title>LeanArticles Dependency Atlas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a full-height drawing table — header strip, an infinite blueprint canvas, a reading panel docked right (bottom sheet on phones). */
+:root{
+  --bg:#eef2f5; --canvas:#f6f8fa; --grid:#dfe5eb; --ink:#1b2735; --ink-2:#4d5c6c; --ink-3:#7d8a98;
+  --line:#c3ccd6; --card:#ffffff; --accent:#2c5f8f; --accent-soft:#dbe7f2;
+  --closed:#2f8259; --partial:#c4861a; --stated:#7f8d9b; --terminal:#b8c1ca; --none:#ffffff;
+  --edge:#8d9aa8; --edge-hi:#2c5f8f; --shadow:0 1px 2px rgba(27,39,53,.08),0 4px 14px rgba(27,39,53,.06);
+  --f-display:"Newsreader","Iowan Old Style","Georgia",serif;
+  --f-body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d131b; --canvas:#111923; --grid:#1b2531; --ink:#dce5ef; --ink-2:#a5b3c2; --ink-3:#71808f;
+  --line:#2c3a49; --card:#17212d; --accent:#7fb0de; --accent-soft:#1d3247;
+  --closed:#4fae7f; --partial:#e0a440; --stated:#8795a4; --terminal:#3d4a58; --none:#17212d;
+  --edge:#5d6d7e; --edge-hi:#7fb0de; --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d131b; --canvas:#111923; --grid:#1b2531; --ink:#dce5ef; --ink-2:#a5b3c2; --ink-3:#71808f;
+  --line:#2c3a49; --card:#17212d; --accent:#7fb0de; --accent-soft:#1d3247;
+  --closed:#4fae7f; --partial:#e0a440; --stated:#8795a4; --terminal:#3d4a58; --none:#17212d;
+  --edge:#5d6d7e; --edge-hi:#7fb0de; --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3); color-scheme:dark}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;margin:0;display:flex;flex-direction:column;overflow:hidden}
+.app{display:flex;flex-direction:column;height:100%;min-height:0}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));border-bottom:1px solid var(--line);background:var(--bg)}
+h1{font-family:var(--f-display);font-weight:600;font-size:1.35rem;margin:0;letter-spacing:.005em;white-space:nowrap}
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:4px;font-size:.86rem;min-width:0;flex:1}
+.crumbs button{all:unset;cursor:pointer;color:var(--accent);padding:2px 4px;border-radius:4px;max-width:28ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.crumbs button:hover,.crumbs button:focus-visible{background:var(--accent-soft);outline:none}
+.crumbs .here{color:var(--ink);font-weight:600;cursor:default}
+.crumbs .sep{color:var(--ink-3)}
+.search{display:flex;gap:6px;align-items:center}
+.search input{font:inherit;font-family:var(--f-mono);font-size:.82rem;padding:6px 9px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);width:15rem;max-width:52vw}
+.search input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+main{flex:1;display:flex;min-height:0;position:relative}
+.stage{flex:1;position:relative;min-width:0;background-color:var(--canvas);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px}
+svg#g{width:100%;height:100%;display:block;cursor:grab;touch-action:none}
+svg#g:active{cursor:grabbing}
+.panel>*{flex-shrink:0}
+.panel{width:min(420px,40%);border-left:1px solid var(--line);background:var(--card);overflow:auto;padding-block:18px;padding-left:20px;padding-right:max(20px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:14px}
+.panel h2{font-family:var(--f-display);font-weight:600;font-size:1.25rem;margin:0;text-wrap:balance;line-height:1.2}
+.panel h3{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin:0 0 6px;font-weight:600}
+.panel p{margin:0;line-height:1.5;color:var(--ink-2)}
+.panel .mono{font-family:var(--f-mono);font-size:.8rem;word-break:break-all}
+.panel ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px;color:var(--ink-2);line-height:1.45}
+.panel .tex{border:1px solid var(--line);border-radius:6px;padding:10px 12px;line-height:1.55;overflow-x:auto;font-size:.92rem;background:var(--canvas)}
+.panel .tex pre{white-space:pre-wrap;font-family:var(--f-mono);font-size:.78rem;margin:0;color:var(--ink-2)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:.74rem;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--ink-2);white-space:nowrap}
+.chip.closed{background:var(--closed);border-color:var(--closed);color:#fff}
+.chip.partial{background:var(--partial);border-color:var(--partial);color:#fff}
+.chip.terminal{background:var(--terminal);border-color:var(--terminal);color:var(--ink)}
+.linklist{display:flex;flex-wrap:wrap;gap:6px}
+.linklist button{all:unset;cursor:pointer;font-family:var(--f-mono);font-size:.76rem;color:var(--accent);border:1px solid var(--line);border-radius:4px;padding:1px 6px}
+.linklist button:hover,.linklist button:focus-visible{background:var(--accent-soft)}
+.stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat div{border:1px solid var(--line);border-radius:6px;padding:8px 10px}
+.stat b{display:block;font-family:var(--f-display);font-size:1.3rem;font-variant-numeric:tabular-nums}
+.stat span{font-size:.72rem;color:var(--ink-3)}
+.legend{position:absolute;left:max(12px,env(safe-area-inset-left,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.74rem;color:var(--ink-2);max-width:calc(100% - 24px);box-shadow:var(--shadow)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:5px;border:1px solid var(--line)}
+.hint{position:absolute;right:12px;top:10px;font-size:.74rem;color:var(--ink-3);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:4px 8px}
+.tools{position:absolute;right:12px;bottom:max(12px,env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:6px}
+.tools button{font:inherit;width:34px;height:34px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;font-size:1rem;box-shadow:var(--shadow)}
+.tools button:focus-visible{outline:2px solid var(--accent)}
+/* svg */
+.node{cursor:pointer}
+.node rect.box{fill:var(--card);stroke:var(--line);stroke-width:1}
+.node:hover rect.box,.node.sel rect.box{stroke:var(--accent);stroke-width:2}
+.node:focus-visible{outline:none}.node:focus-visible rect.box{stroke:var(--accent);stroke-width:2.5}
+.node text{fill:var(--ink);font-family:var(--f-body)}
+.node .t-display{font-family:var(--f-display);font-weight:600}
+.node .t-mono{font-family:var(--f-mono)}
+.node .t-dim{fill:var(--ink-3)}
+.node .t-2{fill:var(--ink-2)}
+.node.lib rect.box{fill:var(--accent-soft);stroke:var(--accent)}
+.node.ghost rect.box{fill:none;stroke-dasharray:4 3;stroke:var(--ink-3)}
+.node.ghost text{fill:var(--ink-3)}
+.node.st-closed rect.box{fill:var(--closed);stroke:var(--closed)}
+.node.st-partial rect.box{fill:var(--partial);stroke:var(--partial)}
+.node.st-closed text,.node.st-partial text{fill:#fff}
+.node.st-terminal rect.box{fill:url(#hatch)}
+.node.st-none rect.box{fill:var(--none);stroke-dasharray:5 3;stroke:var(--stated)}
+.node.st-closed:hover rect.box,.node.st-partial:hover rect.box,.node.st-closed.sel rect.box,.node.st-partial.sel rect.box{stroke:var(--ink);stroke-width:2.5}
+.edge path{fill:none;stroke:var(--edge);stroke-opacity:.75}
+.edge.dashed path{stroke-dasharray:6 4}
+.edge.hi path{stroke:var(--edge-hi);stroke-opacity:1}
+.edge text{fill:var(--ink-3);font-size:11px;font-family:var(--f-mono)}
+.cluster rect{fill:none;stroke:var(--line);stroke-dasharray:2 4;rx:14}
+.cluster text{fill:var(--ink-3);font-family:var(--f-body);font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+.world{transition:opacity .22s ease}
+.world.fade{opacity:0}
+@media (prefers-reduced-motion: reduce){.world{transition:none}}
+@media (max-width:760px){
+  main{flex-direction:column}
+  .panel{width:auto;border-left:0;border-top:1px solid var(--line);max-height:42%;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .hint{display:none}
+  h1{font-size:1.15rem}
+}
+</style>
+
+<div class="app">
+<header>
+  <h1>Dependency Atlas</h1>
+  <nav class="crumbs" id="crumbs" aria-label="Level"></nav>
+  <div class="search">
+    <label for="q" class="t-dim" style="font-size:.78rem;color:var(--ink-3)">Find</label>
+    <input id="q" list="labels" placeholder="label, e.g. theo:Galois_cor" autocomplete="off">
+    <datalist id="labels"></datalist>
+  </div>
+</header>
+<main>
+  <div class="stage">
+    <svg id="g" role="img" aria-label="Dependency graph">
+      <defs>
+        <pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <rect width="7" height="7" fill="var(--card)"></rect><line x1="0" y1="0" x2="0" y2="7" stroke="var(--terminal)" stroke-width="4"></line>
+        </pattern>
+        <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="var(--edge)"></path></marker>
+        <marker id="arrhi" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="var(--edge-hi)"></path></marker>
+      </defs>
+      <g id="world" class="world"></g>
+    </svg>
+    <div class="hint" id="hint">Click a block to open it · drag to pan · scroll to zoom · Esc goes up</div>
+    <div class="legend" id="legend"></div>
+    <div class="tools"><button id="zin" aria-label="Zoom in">+</button><button id="zout" aria-label="Zoom out">−</button><button id="zfit" aria-label="Fit to view">⤢</button></div>
+  </div>
+  <aside class="panel" id="panel" aria-live="polite"></aside>
+</main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.5/dagre.min.js"></script>
+<script>
+window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:true,packages:{'[+]':['noerrors','noundefined','ams']}},
+  options:{skipHtmlTags:["script","style","pre","code"]},svg:{fontCache:"global"},startup:{typeset:false}};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg-full.js" async></script>
+<script>
+const DATA = __DATA__;
+const HUB = __HUB__;
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function wrap(text, n, maxLines){
+  const words = String(text).split(/\s+/); const lines=[]; let cur="";
+  for (const w of words){ if ((cur+" "+w).trim().length>n && cur){ lines.push(cur); cur=w; } else cur=(cur+" "+w).trim(); }
+  if (cur) lines.push(cur);
+  if (lines.length>maxLines){ const l=lines.slice(0,maxLines); l[maxLines-1]=l[maxLines-1].replace(/.{0,2}$/,"")+"…"; return l; }
+  return lines;
+}
+function statusOf(n){
+  if (n.lean==="closed") return "closed";
+  if (n.lean==="partial") return "partial";
+  if (n.bucket==="T") return "terminal";
+  return "none";
+}
+const KIND_ABBR={theorem:"Thm",theo:"Thm",proposition:"Prop",lemma:"Lem",corollary:"Cor",definition:"Def",remark:"Rem",example:"Ex",counterexample:"Cex",conjecture:"Conj",claim:"Claim",notation:"Not"};
+function kindLabel(n){ const k=KIND_ABBR[n.kind]||(n.kind||"").slice(0,4); return (k+(n.num?" "+n.num:"")).trim(); }
+function counts(nodes){ const c={closed:0,partial:0,terminal:0,none:0}; nodes.forEach(n=>c[statusOf(n)]++); return c; }
+function shortBlock(t){ const i=t.lastIndexOf(" › "); return i<0?t.replace(/\.$/,""):t.slice(i+3).replace(/\.$/,""); }
+function parentSec(t){ const i=t.lastIndexOf(" › "); return i<0?"":t.slice(0,i).replace(/\.$/,""); }
+
+/* indexes */
+const LABEL = {};  // label -> {p, node}
+for (const p in DATA) for (const n of DATA[p].nodes) LABEL[p+"/"+n.id]={p,n};
+const labelsDL = $("#labels");
+Object.keys(LABEL).sort().forEach(k=>{ const o=document.createElement("option"); o.value=LABEL[k].n.id; o.label=HUB.papers[LABEL[k].p]?.short||LABEL[k].p; labelsDL.appendChild(o); });
+
+/* ---------- svg + zoom ---------- */
+const svg = d3.select("#g"), world = d3.select("#world");
+const zoom = d3.zoom().scaleExtent([0.08,4]).on("zoom", e => world.attr("transform", e.transform));
+svg.call(zoom).on("dblclick.zoom", null);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let bbox = {x:0,y:0,w:100,h:100};
+function fitTransform(pad=40){
+  const W=svg.node().clientWidth, H=svg.node().clientHeight;
+  const k=Math.min(1.25,(W-2*pad)/bbox.w,(H-2*pad)/bbox.h);
+  return d3.zoomIdentity.translate(W/2-k*(bbox.x+bbox.w/2), H/2-k*(bbox.y+bbox.h/2)).scale(k);
+}
+function fit(anim=true){ const t=fitTransform(); (anim&&!reduce?svg.transition().duration(450):svg).call(zoom.transform,t); }
+$("#zin").onclick=()=>svg.transition().duration(200).call(zoom.scaleBy,1.3);
+$("#zout").onclick=()=>svg.transition().duration(200).call(zoom.scaleBy,1/1.3);
+$("#zfit").onclick=()=>fit();
+addEventListener("resize",()=>fit(false));
+
+/* ---------- state ---------- */
+let state = {level:"hub"};
+let selected = null;
+
+function crumbs(){
+  const c=$("#crumbs"); c.innerHTML="";
+  const items=[{t:"Hub",s:{level:"hub"}}];
+  if (state.p) items.push({t:HUB.papers[state.p].short,s:{level:"paper",p:state.p}});
+  if (state.b) items.push({t:shortBlock(DATA[state.p].blocks.find(b=>b.id===state.b).title),s:{level:"block",p:state.p,b:state.b}});
+  items.forEach((it,i)=>{
+    if (i){ const s=document.createElement("span"); s.className="sep"; s.textContent="/"; c.appendChild(s); }
+    const b=document.createElement("button"); b.textContent=it.t; b.title=it.t;
+    if (i===items.length-1) { b.className="here"; b.setAttribute("aria-current","page"); }
+    else b.onclick=()=>go(it.s,null,"up");
+    c.appendChild(b);
+  });
+}
+
+/* ---------- graph builders ---------- */
+function hubGraph(){
+  const nodes=[], edges=[];
+  for (const [id,pp] of Object.entries(HUB.papers)){
+    const d=DATA[id];
+    nodes.push({id, kind:"paper", w:236, h:104, cluster:pp.cluster, drill:!!d, pp, c:d?counts(d.nodes):null, closed:d?d.closed:pp.closed, target:d?d.target:pp.target});
+  }
+  for (const [id,lib] of Object.entries(HUB.libs)) nodes.push({id, kind:"lib", w:216, h:78, cluster:"libs", lib});
+  HUB.edges.forEach(e=>edges.push({v:e.from,w:e.to,label:e.short,dashed:e.dashed,info:e}));
+  return {nodes,edges,rankdir:"TB",clusters:HUB.clusters, nodesep:36, ranksep:62, aspect:1.25};
+}
+function paperGraph(p){
+  const d=DATA[p]; const byBlock={}; d.nodes.forEach(n=>(byBlock[n.block]??=[]).push(n));
+  const blockOf={}; d.nodes.forEach(n=>blockOf[n.id]=n.block);
+  const nodes=d.blocks.map(b=>({id:b.id,kind:"block",w:250,h:92,b,c:counts(byBlock[b.id]||[]),n:(byBlock[b.id]||[]).length,drill:true}));
+  const agg={};
+  d.nodes.forEach(n=>n.deps.forEach(dep=>{ const a=blockOf[dep], b=n.block; if(a&&a!==b){ const k=a+"|"+b; agg[k]=(agg[k]||0)+1; } }));
+  const edges=Object.entries(agg).map(([k,v])=>{const [a,b]=k.split("|"); return {v:a,w:b,weight:v,label:String(v)};});
+  // keep document order as a weak spine so isolated blocks still read top-to-bottom
+  return {nodes,edges,rankdir:"TB",nodesep:36,ranksep:64};
+}
+function blockGraph(p,bid){
+  const d=DATA[p]; const inB=d.nodes.filter(n=>n.block===bid); const ids=new Set(inB.map(n=>n.id));
+  const byId={}; d.nodes.forEach(n=>byId[n.id]=n);
+  const nodes=inB.map(n=>({id:n.id,kind:"stmt",w:200,h:50,n}));
+  const edges=[]; const ghosts={};
+  inB.forEach(n=>n.deps.forEach(dep=>{ if(!ids.has(dep)) ghosts[dep]=byId[dep]; edges.push({v:dep,w:n.id}); }));
+  d.nodes.forEach(n=>{ if(!ids.has(n.id)) n.deps.forEach(dep=>{ if(ids.has(dep)){ ghosts[n.id]=n; edges.push({v:dep,w:n.id}); } }); });
+  for (const [g,n] of Object.entries(ghosts)) nodes.push({id:g,kind:"ghost",w:200,h:44,n});
+  return {nodes,edges,rankdir:"TB",nodesep:22,ranksep:46};
+}
+
+/* ---------- layout + draw ---------- */
+function dagreOne(nodes,edges,G){
+  const g=new dagre.graphlib.Graph({multigraph:true});
+  g.setGraph({rankdir:G.rankdir,nodesep:G.nodesep,ranksep:G.ranksep,marginx:0,marginy:0});
+  g.setDefaultEdgeLabel(()=>({}));
+  nodes.forEach(n=>g.setNode(n.id,{width:n.w,height:n.h}));
+  edges.forEach(e=>g.setEdge(e.v,e.w,{label:e.label,width:e.label?18:0,height:e.label?14:0,labelpos:"c",weight:e.weight||1},"e"+e.i));
+  dagre.layout(g);
+  const gi=g.graph(); return {g,w:gi.width||0,h:gi.height||0};
+}
+function components(nodes,edges){
+  const par={}; nodes.forEach(n=>par[n.id]=n.id);
+  const f=x=>par[x]===x?x:(par[x]=f(par[x]));
+  edges.forEach(e=>{ if(par[e.v]!=null&&par[e.w]!=null) par[f(e.v)]=f(e.w); });
+  const groups={}; nodes.forEach(n=>(groups[f(n.id)]??=[]).push(n)); return Object.values(groups);
+}
+/* Lay out each group with dagre, then shelf-pack the groups into rows; returns absolute geometry. */
+function layout(G){
+  const edges=G.edges.map((e,i)=>({...e,i}));
+  let groups;
+  if (G.clusters) groups=G.clusters.map(c=>({c,nodes:G.nodes.filter(n=>n.cluster===c.id)})).filter(x=>x.nodes.length);
+  else groups=components(G.nodes,edges).map(ns=>({nodes:ns}));
+  const pad=G.clusters?28:0, top=G.clusters?34:0;
+  const parts=groups.map(gr=>{ const ids=new Set(gr.nodes.map(n=>n.id)); const es=edges.filter(e=>ids.has(e.v)&&ids.has(e.w));
+    const r=dagreOne(gr.nodes,es,G); return {...gr,es,r,w:r.w+2*pad,h:r.h+pad+top}; });
+  if (!G.clusters) parts.sort((a,b)=>b.nodes.length-a.nodes.length||b.h-a.h);
+  const area=parts.reduce((a,p)=>a+p.w*p.h,0);
+  const maxW=Math.max(...parts.map(p=>p.w), Math.sqrt(area)*(G.aspect||1.5));
+  const gapX=G.clusters?40:G.nodesep*1.6, gapY=G.clusters?40:G.ranksep;
+  let x=0,y=0,rowH=0,W=0; const out={nodes:{},edges:[],clusters:[]};
+  parts.forEach(p=>{
+    if (x>0 && x+p.w>maxW){ x=0; y+=rowH+gapY; rowH=0; }
+    const ox=x+pad, oy=y+top;
+    p.nodes.forEach(n=>{ const q=p.r.g.node(n.id); out.nodes[n.id]={x:q.x+ox,y:q.y+oy,width:n.w,height:n.h}; });
+    p.r.g.edges().forEach(eo=>{ const e=p.r.g.edge(eo); out.edges.push({src:edges[+eo.name.slice(1)],points:e.points.map(pt=>({x:pt.x+ox,y:pt.y+oy})),x:e.x!=null?e.x+ox:null,y:e.y!=null?e.y+oy:null,label:e.label,v:eo.v,w:eo.w}); });
+    if (p.c) out.clusters.push({title:p.c.title,x,y,w:p.w,h:p.h});
+    x+=p.w+gapX; rowH=Math.max(rowH,p.h); W=Math.max(W,x-gapX);
+  });
+  out.width=W; out.height=y+rowH; return out;
+}
+function bar(sel,c,x,y,w,h){
+  const tot=c.closed+c.partial+c.terminal+c.none||1; let xx=x;
+  [["closed","var(--closed)"],["partial","var(--partial)"],["terminal","url(#hatch)"],["none","var(--grid)"]].forEach(([k,col])=>{
+    const ww=w*c[k]/tot; if(ww>0){ sel.append("rect").attr("x",xx).attr("y",y).attr("width",ww).attr("height",h).attr("fill",col).attr("stroke",k==="terminal"?"var(--terminal)":"none").attr("stroke-width",.5); xx+=ww; }
+  });
+  sel.append("rect").attr("x",x).attr("y",y).attr("width",w).attr("height",h).attr("rx",2).attr("fill","none").attr("stroke","var(--line)");
+}
+let G=null, g=null;
+function draw(){
+  world.selectAll("*").remove();
+  G = state.level==="hub"?hubGraph(): state.level==="paper"?paperGraph(state.p):blockGraph(state.p,state.b);
+  g = layout(G);
+  bbox={x:-20,y:-20,w:g.width+40,h:g.height+40};
+  // clusters
+  for (const c of g.clusters){
+    const cg=world.append("g").attr("class","cluster");
+    cg.append("rect").attr("x",c.x).attr("y",c.y).attr("width",c.w).attr("height",c.h).attr("rx",14);
+    cg.append("text").attr("x",c.x+16).attr("y",c.y+22).text(c.title); }
+  // edges
+  const line=d3.line().x(p=>p.x).y(p=>p.y).curve(d3.curveBasis);
+  const eg=world.append("g");
+  g.edges.forEach(e=>{ const src=e.src;
+    const el=eg.append("g").attr("class","edge"+(src.dashed?" dashed":"")).attr("data-v",e.v).attr("data-w",e.w);
+    el.append("path").attr("d",line(e.points)).attr("marker-end","url(#arr)").attr("stroke-width",src.weight?Math.min(1.2+Math.log2(src.weight)*1.3,6):1.4);
+    if (e.label && e.x!=null) el.append("text").attr("x",e.x).attr("y",e.y+4).attr("text-anchor","middle").text(e.label);
+    if (src.info){ el.style("cursor","pointer").on("click",ev=>{ev.stopPropagation(); showEdge(src.info);}); el.append("title").text(src.info.why); }
+  });
+  // nodes
+  const ng=world.append("g");
+  G.nodes.forEach(N=>{ const p=g.nodes[N.id]; if(!p) return; const x=p.x-N.w/2, y=p.y-N.h/2;
+    const st=N.kind==="stmt"?" st-"+statusOf(N.n):"";
+    const el=ng.append("g").attr("class","node "+N.kind+st).attr("transform",`translate(${x},${y})`).attr("tabindex",0).attr("data-id",N.id)
+      .attr("role","button").attr("aria-label",nodeAria(N));
+    el.append("rect").attr("class","box").attr("width",N.w).attr("height",N.h).attr("rx",N.kind==="stmt"||N.kind==="ghost"?6:10).style("filter",N.kind==="paper"||N.kind==="block"?"drop-shadow(0 2px 5px rgba(20,30,45,.09))":null);
+    drawNode[N.kind](el,N);
+    const act=ev=>{ ev.stopPropagation(); onNode(N, el); };
+    el.on("click",act).on("keydown",ev=>{ if(ev.key==="Enter"||ev.key===" "){ ev.preventDefault(); act(ev);} });
+    el.on("mouseenter",()=>hiEdges(N.id,true)).on("mouseleave",()=>hiEdges(N.id,false));
+  });
+  svg.on("click",()=>{ selected=null; markSel(); panelForLevel(); });
+  crumbs(); legend();
+}
+function nodeAria(N){
+  if (N.kind==="paper") return N.pp.short+(N.drill?", open":"");
+  if (N.kind==="lib") return "Library "+N.id;
+  if (N.kind==="block") return shortBlock(N.b.title)+", "+N.n+" statements, open";
+  return N.id+", "+statusOf(N.n);
+}
+function hiEdges(id,on){ world.selectAll(".edge").each(function(){ const e=d3.select(this); if(e.attr("data-v")===id||e.attr("data-w")===id){ e.classed("hi",on); e.select("path").attr("marker-end",on?"url(#arrhi)":"url(#arr)"); } }); }
+const drawNode={
+  paper(el,N){
+    const pp=N.pp;
+    el.append("text").attr("class","t-display").attr("x",14).attr("y",26).attr("font-size",16).text(pp.short);
+    wrap(pp.title,34,2).forEach((l,i)=>el.append("text").attr("class","t-2").attr("x",14).attr("y",45+i*15).attr("font-size",11.5).text(l));
+    if (N.c){ bar(el,N.c,14,N.h-24,N.w-96,9); }
+    else el.append("text").attr("class","t-dim").attr("x",14).attr("y",N.h-15).attr("font-size",11).text(pp.badge||"");
+    if (N.target!=null) el.append("text").attr("x",N.w-14).attr("y",N.h-14).attr("text-anchor","end").attr("class","t-mono").attr("font-size",13).attr("font-weight",500).text(N.closed+"/"+N.target);
+    if (N.drill) el.append("text").attr("x",N.w-14).attr("y",24).attr("text-anchor","end").attr("class","t-dim").attr("font-size",15).text("⊕");
+  },
+  lib(el,N){
+    const L=N.lib;
+    el.append("text").attr("class","t-mono").attr("x",14).attr("y",25).attr("font-size",13.5).attr("font-weight",500).text(N.id);
+    el.append("text").attr("class","t-2").attr("x",14).attr("y",44).attr("font-size",11.5).text(L.what);
+    el.append("text").attr("class","t-dim t-mono").attr("x",14).attr("y",64).attr("font-size",11).text(L.stats);
+  },
+  block(el,N){
+    const sec=parentSec(N.b.title);
+    if (sec) el.append("text").attr("class","t-dim").attr("x",14).attr("y",20).attr("font-size",10.5).text(wrap(sec,40,1)[0]);
+    wrap(shortBlock(N.b.title),30,2).forEach((l,i)=>el.append("text").attr("class","t-display").attr("x",14).attr("y",(sec?40:30)+i*17).attr("font-size",14.5).text(l));
+    bar(el,N.c,14,N.h-20,N.w-80,8);
+    el.append("text").attr("class","t-mono").attr("x",N.w-14).attr("y",N.h-11).attr("text-anchor","end").attr("font-size",11.5).text(N.c.closed+"/"+N.n);
+  },
+  stmt(el,N){
+    const lab=N.n.id.length>27?N.n.id.slice(0,26)+"…":N.n.id;
+    el.append("text").attr("class","t-mono").attr("x",10).attr("y",21).attr("font-size",11.5).text(lab);
+    el.append("text").attr("x",10).attr("y",39).attr("font-size",11).attr("opacity",.85).text(kindLabel(N.n)+(N.n.title?" · "+N.n.title.slice(0,22):""));
+  },
+  ghost(el,N){
+    const lab=N.n.id.length>27?N.n.id.slice(0,26)+"…":N.n.id;
+    el.append("text").attr("class","t-mono").attr("x",10).attr("y",19).attr("font-size",11).text(lab);
+    el.append("text").attr("x",10).attr("y",35).attr("font-size",10.5).text("in "+wrap(shortBlock(DATA[state.p].blocks.find(b=>b.id===N.n.block).title),26,1)[0]);
+  }
+};
+function markSel(){ world.selectAll(".node").classed("sel",function(){ return d3.select(this).attr("data-id")===selected; }); }
+
+/* ---------- navigation with zoom-in / zoom-out transitions ---------- */
+function go(next, fromNodeId, dir){
+  const W=svg.node().clientWidth,H=svg.node().clientHeight;
+  const after=()=>{ state=next; selected=null; world.classed("fade",true); draw(); panelForLevel();
+    const t=fitTransform();
+    if (reduce){ svg.call(zoom.transform,t); world.classed("fade",false); return; }
+    const pre = dir==="up" ? t.scale(2.2).translate(-(bbox.w/2)*(1-1/2.2),-(bbox.h/2)*(1-1/2.2)) : d3.zoomIdentity.translate(W/2,H/2).scale(t.k*0.25).translate(-bbox.w/2,-bbox.h/2);
+    svg.call(zoom.transform,pre); requestAnimationFrame(()=>{ world.classed("fade",false); svg.transition().duration(480).ease(d3.easeCubicOut).call(zoom.transform,t); });
+  };
+  if (reduce){ after(); return; }
+  if (fromNodeId && g && g.nodes[fromNodeId]){
+    const p=g.nodes[fromNodeId]; const k=Math.min(4,Math.max(W/p.width,H/p.height)*0.9);
+    svg.transition().duration(380).ease(d3.easeCubicIn).call(zoom.transform,d3.zoomIdentity.translate(W/2-k*p.x,H/2-k*p.y).scale(k)).on("end",after);
+    world.classed("fade",true);
+  } else { world.classed("fade",true); setTimeout(after,200); }
+}
+function onNode(N, el){
+  if (N.kind==="paper"){ if (N.drill) go({level:"paper",p:N.id},N.id,"down"); else { selected=N.id; markSel(); showPaperInfo(N.id); } return; }
+  if (N.kind==="lib"){ selected=N.id; markSel(); showLib(N.id); return; }
+  if (N.kind==="block"){ go({level:"block",p:state.p,b:N.id},N.id,"down"); return; }
+  if (N.kind==="ghost"){ openStatement(state.p,N.id); return; }
+  selected=N.id; markSel(); showStmt(state.p,N.n);
+}
+function openStatement(p,id){
+  const n=LABEL[p+"/"+id].n;
+  const after=()=>{ selected=id; markSel(); showStmt(p,n); const q=g.nodes[id]; if(q){ const W=svg.node().clientWidth,H=svg.node().clientHeight; const k=Math.max(fitTransform().k,0.9); svg.transition().delay(reduce?0:520).duration(reduce?0:420).call(zoom.transform,d3.zoomIdentity.translate(W/2-k*q.x,H/2-k*q.y).scale(k)); } };
+  if (state.level==="block"&&state.p===p&&state.b===n.block) { after(); return; }
+  go({level:"block",p,b:n.block},null,"down"); setTimeout(after, reduce?0:260);
+}
+addEventListener("keydown",e=>{
+  if (e.key!=="Escape"||e.target.tagName==="INPUT") return;
+  if (state.level==="block") go({level:"paper",p:state.p},null,"up"); else if (state.level==="paper") go({level:"hub"},null,"up");
+});
+$("#q").addEventListener("change",e=>{ const v=e.target.value.trim(); const hit=Object.keys(LABEL).find(k=>LABEL[k].n.id===v); if(hit){ openStatement(LABEL[hit].p,v); e.target.blur(); } });
+
+/* ---------- panel ---------- */
+const P=$("#panel");
+function chipFor(s){ return `<span class="chip ${s}">${{closed:"closed in Lean",partial:"partial",terminal:"terminal (out of target)",none:"not formalized"}[s]}</span>`; }
+function panelForLevel(){
+  if (state.level==="hub") return P.innerHTML=`
+    <div><h3>The hub</h3><h2>Papers, the Lean libraries under them, and what each one uses</h2></div>
+    <p>Each card is a paper. Its bar splits the paper's ledger rows into closed in Lean, partial, terminal, and not yet formalized; the figure is the ledger closure. An arrow points from the work that is used to the work that uses it. Click an arrow to read why the link exists.</p>
+    <p>Open a paper to see its sections as blocks, with arrows weighted by the number of statement-level dependencies between them. Open a block to see its statements; dashed cards are statements in other blocks that this one uses or feeds.</p>
+    <div class="stat">${["closed","partial","none"].map(k=>`<div><b>${Object.values(DATA).reduce((a,d)=>a+counts(d.nodes)[k],0)}</b><span>${{closed:"rows closed",partial:"rows partial",none:"rows without Lean"}[k]}</span></div>`).join("")}</div>
+    <p style="font-size:.78rem;color:var(--ink-3)">${esc(HUB.provenance)}</p>`;
+  if (state.level==="paper") return showPaperInfo(state.p);
+  const d=DATA[state.p], b=d.blocks.find(x=>x.id===state.b), ns=d.nodes.filter(n=>n.block===state.b), c=counts(ns);
+  P.innerHTML=`<div><h3>${esc(HUB.papers[state.p].short)} · block</h3><h2>${esc(shortBlock(b.title))}</h2>${parentSec(b.title)?`<p style="margin-top:4px">${esc(parentSec(b.title))}</p>`:""}</div>
+    <div class="stat"><div><b>${ns.length}</b><span>statements</span></div><div><b>${c.closed}</b><span>closed</span></div><div><b>${c.partial}</b><span>partial</span></div></div>
+    <p>Select a statement for its text, its status, the Lean declarations that carry it, and what formalizing found in it.</p>
+    <div><h3>Statements</h3><div class="linklist">${ns.map(n=>`<button data-l="${esc(n.id)}">${esc(n.id)}</button>`).join("")}</div></div>`;
+  P.querySelectorAll("[data-l]").forEach(bt=>bt.onclick=()=>openStatement(state.p,bt.dataset.l));
+}
+function showPaperInfo(p){
+  const pp=HUB.papers[p], d=DATA[p];
+  const c=d?counts(d.nodes):null;
+  P.innerHTML=`<div><h3>${esc(pp.authors)}</h3><h2>${esc(pp.title)}</h2></div>
+    ${d?`<div class="stat"><div><b>${d.closed}/${d.target}</b><span>closure</span></div><div><b>${c.partial}</b><span>partial</span></div><div><b>${c.none}</b><span>no Lean yet</span></div></div>`:pp.closed!=null?`<div class="stat"><div><b>${pp.closed}/${pp.target}</b><span>closure</span></div></div>`:""}
+    <div class="chips">${pp.home?`<span class="chip">Lean: ${esc(pp.home)}</span>`:""}${pp.source?`<span class="chip">${esc(pp.source)}</span>`:""}</div>
+    <p>${esc(pp.summary)}</p>
+    ${pp.headline?.length?`<div><h3>Headline Lean</h3><div class="mono">${pp.headline.map(esc).join("<br>")}</div></div>`:""}
+    ${pp.open?`<div><h3>What remains</h3><p>${esc(pp.open)}</p></div>`:""}
+    ${d&&state.level==="hub"?`<p><button class="chip" id="openp" style="cursor:pointer;color:var(--accent)">Open this paper</button></p>`:""}`;
+  const b=$("#openp"); if(b) b.onclick=()=>go({level:"paper",p},p,"down");
+}
+function showLib(id){ const L=HUB.libs[id];
+  P.innerHTML=`<div><h3>Lean library</h3><h2 class="mono" style="font-family:var(--f-mono)">${esc(id)}</h2></div><p>${esc(L.what)}</p>
+  <div class="stat">${L.cells.map(c=>`<div><b>${esc(c[0])}</b><span>${esc(c[1])}</span></div>`).join("")}</div><p>${esc(L.about)}</p>`; }
+function showEdge(e){ P.innerHTML=`<div><h3>Dependency</h3><h2>${esc(HUB.papers[e.from]?.short||e.from)} → ${esc(HUB.papers[e.to]?.short||e.to)}</h2></div><p>${esc(e.why)}</p>${e.dashed?`<p><span class="chip">planned, not yet in Lean</span></p>`:""}`; }
+function showStmt(p,n){
+  const s=statusOf(n), d=DATA[p];
+  const users=d.nodes.filter(m=>m.deps.includes(n.id)).map(m=>m.id);
+  P.innerHTML=`<div><h3>${esc(kindLabel(n))}${n.title?" · "+esc(n.title):""} · l.${n.line}</h3><h2 class="mono" style="font-family:var(--f-mono);font-size:1.02rem">${esc(n.id)}</h2></div>
+   <div class="chips">${chipFor(s)}${n.bucket?`<span class="chip">bucket ${esc(n.bucket)}</span>`:""}<span class="chip">paper: ${esc(n.nl)}</span>${n.twin?`<span class="chip">twin of ${esc(n.twin)}</span>`:""}</div>
+   <div class="tex" id="tex">${texHTML(n.tex)}</div>
+   ${n.decls.length?`<div><h3>Lean (${n.ndecls})</h3><div class="mono">${n.decls.map(esc).join("<br>")}${n.ndecls>n.decls.length?"<br>…":""}</div></div>`:""}
+   ${n.deps.length?`<div><h3>Uses</h3><div class="linklist">${n.deps.map(x=>`<button data-l="${esc(x)}">${esc(x)}</button>`).join("")}</div></div>`:""}
+   ${users.length?`<div><h3>Used by</h3><div class="linklist">${users.map(x=>`<button data-l="${esc(x)}">${esc(x)}</button>`).join("")}</div></div>`:""}
+   ${n.findings.length?`<div><h3>What formalizing found (${n.findings.length})</h3><ul>${n.findings.map(f=>`<li>${esc(f)}</li>`).join("")}</ul></div>`:""}
+   ${n.notes?`<div><h3>Notes</h3><p>${esc(n.notes)}</p></div>`:""}`;
+  P.querySelectorAll("[data-l]").forEach(bt=>bt.onclick=()=>openStatement(p,bt.dataset.l));
+  P.scrollTop=0; typeset(p);
+}
+function texHTML(t){
+  const body=t.replace(/^\\begin\{[a-zA-Z*]+\}(\[[^\]]*\])?/,"").replace(/\\end\{[a-zA-Z*]+\}\s*$/,"")
+    .replace(/\\(begin|end)\{(itemize|enumerate)\}/g,"").replace(/\\item\s*/g,"\n• ").replace(/\\(emph|textit|textbf)\{([^{}]*)\}/g,"$2")
+    .replace(/\\(cite|ref|eqref|cref|Cref)(\[[^\]]*\])?\{[^}]*\}/g,"[·]");
+  return `<div class="mj">${esc(body).replace(/\n\s*\n/g,"<br><br>")}</div>`;
+}
+let mjMacrosFor=null;
+function typeset(p){
+  const el=$("#tex"); if(!el) return;
+  const MJ=window.MathJax; if(!MJ||!MJ.typesetPromise){ setTimeout(()=>typeset(p),300); return; }
+  try{
+    if (mjMacrosFor!==p){ MJ.config.tex.macros=Object.assign({R:"\\mathbb{R}",N:"\\mathbb{N}",Z:"\\mathbb{Z}",C:"\\mathbb{C}"},DATA[p].macros||{}); MJ.startup.getComponents(); mjMacrosFor=p; }
+    MJ.typesetClear&&MJ.typesetClear([el]); MJ.typesetPromise([el]).catch(()=>{});
+  }catch(e){}
+}
+
+function legend(){
+  const L=$("#legend");
+  if (state.level==="block") L.innerHTML=`<span><i style="background:var(--closed);border-color:var(--closed)"></i>closed in Lean</span><span><i style="background:var(--partial);border-color:var(--partial)"></i>partial</span><span><i style="background:url(#);background:repeating-linear-gradient(45deg,var(--terminal) 0 3px,var(--card) 3px 6px)"></i>terminal</span><span><i style="border-style:dashed;border-color:var(--stated)"></i>not formalized</span><span><i style="border-style:dashed;background:none"></i>in another block</span>`;
+  else L.innerHTML=`<span><i style="background:var(--closed);border-color:var(--closed)"></i>closed</span><span><i style="background:var(--partial);border-color:var(--partial)"></i>partial</span><span><i style="background:repeating-linear-gradient(45deg,var(--terminal) 0 3px,var(--card) 3px 6px)"></i>terminal</span><span><i style="background:var(--grid)"></i>no Lean yet</span>${state.level==="paper"?"<span>arrow width = statement dependencies</span>":"<span>arrow: used by</span>"}`;
+}
+
+/* ---------- boot ---------- */
+draw(); panelForLevel(); fit(false);
+</script>
