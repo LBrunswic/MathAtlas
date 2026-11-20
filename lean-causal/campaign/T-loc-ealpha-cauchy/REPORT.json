@@ -1,0 +1,325 @@
+{
+  "package": "T-loc-ealpha-cauchy",
+  "target": "T-loc-ealpha-cauchy",
+  "files": [
+    "scaffold/CausalScaffold/EAlphaCauchy.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "T-loc-ealpha-cauchy/1-cauchy-axis-kept",
+      "source": [
+        {
+          "paper": "programme/roadmap.toml",
+          "statement": "target T-loc-ealpha-cauchy (title and evidence)",
+          "text_lines": "programme/roadmap.toml:395-408"
+        },
+        {
+          "paper": "references/sbierski/SYNTHESIS.md",
+          "statement": "Q4 #4: In E_α × ℝ, {t=0} is Cauchy for all α > 0; with the axis removed it is not; explicit J⁻(x) ∩ {t=0} through axis points",
+          "text_lines": "references/sbierski/SYNTHESIS.md:100"
+        },
+        {
+          "paper": "Hörmann, arXiv 1501.00672",
+          "statement": "§3: {t} × R3 is a Cauchy hypersurface for gα in an appropriate sense (footnote: timelike inextendible curves meet the surface exactly once); proof by strict monotonicity of γ0",
+          "text_lines": "references/sbierski/text/hormann2015conical.txt:271-277, 317-327"
+        },
+        {
+          "paper": "Hörmann, arXiv 1501.00672",
+          "statement": "the conical metric lα = −dt² + dr² + α²r²dϕ² + dz², 0 < α < 1",
+          "text_lines": "references/sbierski/text/hormann2015conical.txt:22-25"
+        }
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.massive_globallyHyperbolic_isCauchySurface",
+        "Causal.massive_isCauchySurface_zero",
+        "Causal.massive_isCauchySurface_slice",
+        "Causal.massive_isCauchyTimeFunction_sub",
+        "Causal.massive_inextensible_singLine",
+        "Causal.singLine_inter_slice",
+        "Causal.massive_globallyHyperbolic",
+        "Causal.staticCausality.isCauchySurface_slice",
+        "Causal.staticCausality.isCauchyTimeFunction_sub_const",
+        "Causal.cosmicString_globallyHyperbolic_isCauchySurface",
+        "Causal.cosmicString_globallyHyperbolic"
+      ],
+      "hypotheses": [
+        {
+          "paper": "α > 0 (target); Hörmann 0 < α_H < 1, a deficit angle, total angle 2πα_H",
+          "here": "weakened",
+          "note": "every α > 0: deficit and excess angles; Hörmann's α_H is α/2π here"
+        },
+        {
+          "paper": "Hörmann: R⁴, 3+1 (E_α × ℝ_z)",
+          "here": "carried",
+          "note": "both: the 2+1 Massive α (the dispatch's reading) and the 3+1 cosmicString α = ℝ_t × (C_α ×₂ ℝ_z)"
+        },
+        {
+          "paper": "Hörmann: Cauchy = met exactly once by every timelike inextendible C¹ curve",
+          "here": "strengthened",
+          "note": "not a hypothesis but the conclusion: DEC-14's Cauchy surface is met exactly once by every inextensible CAUSAL curve (DEC-6 curves, DEC-11/13 inextensibility), which includes the timelike ones and the curves running along or through the axis; the Lean conclusion is at least Hörmann's"
+        },
+        {
+          "paper": "globally hyperbolic (target: provides globally_hyperbolic)",
+          "here": "carried",
+          "note": "Causality.GloballyHyperbolic, the ladder's definition (massive_globallyHyperbolic, already in Causal.Model.Massive; cosmicString_globallyHyperbolic new)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "None against a source: the ETT statement is the classical one with the axis kept as points, and it holds for every cone angle α > 0, excess angles included (Hörmann treats 0 < α_H < 1 only, hormann2015conical.txt:23)."
+      ],
+      "questions": [
+        "\"E_α × ℝ\" (roadmap title, SYNTHESIS.md:100): read by the dispatch as Massive α = ℝ_t × C_α (ETT's 2+1 E_α); Hörmann's and Vickers–Wilson's spacetime is the 3+1 E_α × ℝ_z (hormann2015conical.txt:22-25). Both are proved; the 2+1 names (massive_*) are the ones the dispatch asked for, the 3+1 ones are cosmicString_*. Which is the formalization of record is the author's."
+      ]
+    },
+    {
+      "label": "T-loc-ealpha-cauchy/2-axis-removed",
+      "source": [
+        {
+          "paper": "programme/roadmap.toml",
+          "statement": "target T-loc-ealpha-cauchy (title and evidence)",
+          "text_lines": "programme/roadmap.toml:395-408"
+        },
+        {
+          "paper": "references/sbierski/SYNTHESIS.md",
+          "statement": "Q4 #4: In E_α × ℝ, {t=0} is Cauchy for all α > 0; with the axis removed it is not; explicit J⁻(x) ∩ {t=0} through axis points",
+          "text_lines": "references/sbierski/SYNTHESIS.md:100"
+        },
+        {
+          "paper": "Ellis–Schmidt (Gen. Rel. Grav. 8 (1977)), as quoted by Hörmann",
+          "statement": "\"there can be no global Cauchy surfaces in these space-times\" (the conical spacetime with the singular set deleted)",
+          "text_lines": "references/sbierski/text/hormann2015conical.txt:496-501"
+        },
+        {
+          "paper": "Hörmann, arXiv 1501.00672",
+          "statement": "the initial value surface then cannot be a Cauchy hypersurface in the classical sense (points of non-smoothness deleted)",
+          "text_lines": "references/sbierski/text/hormann2015conical.txt:505-516"
+        }
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.not_isCauchySurfaceOn_regOpens_slice",
+        "Causal.massive_infall",
+        "Causal.not_isCauchySurfaceOn_regOpens_of_subset_slice",
+        "Causal.not_exists_isCauchySurfaceOn_regOpens",
+        "Causal.not_globallyHyperbolicOn_regOpens",
+        "Causal.regOpens",
+        "Causal.coe_regOpens",
+        "Causal.isOpen_regPart",
+        "Causal.massiveRadial",
+        "Causal.dist_massiveRadial",
+        "Causal.dist_massiveRadial_le",
+        "Causal.rad_massiveRadial",
+        "Causal.massiveRadial_eq_apex_iff",
+        "Causal.massiveRadial_isRayTo",
+        "Causal.staticCausality.offOpens",
+        "Causal.staticCausality.mem_offOpens",
+        "Causal.staticCausality.IsRayTo",
+        "Causal.staticCausality.rayCurve",
+        "Causal.staticCausality.IsRayTo.continuous",
+        "Causal.staticCausality.IsRayTo.causalCurveIn",
+        "Causal.staticCausality.IsRayTo.inextensible",
+        "Causal.staticCausality.IsRayTo.infall",
+        "Causal.staticCausality.IsRayTo.not_isCauchySurfaceOn_of_subset_slice",
+        "Causal.staticCausality.IsRayTo.not_exists_isCauchySurfaceOn",
+        "Causal.staticCausality.IsRayTo.not_globallyHyperbolicOn",
+        "Causal.Causality.inextensible_Iio_of_tendsto_not_mem",
+        "Causal.stringAxis",
+        "Causal.isClosed_stringAxis",
+        "Causal.stringOffAxis",
+        "Causal.stringRadial",
+        "Causal.stringRadial_isRayTo",
+        "Causal.cosmicString_not_isCauchySurfaceOn_offAxis_slice",
+        "Causal.cosmicString_not_exists_isCauchySurfaceOn_offAxis",
+        "Causal.cosmicString_not_globallyHyperbolicOn_offAxis"
+      ],
+      "hypotheses": [
+        {
+          "paper": "the axis removed (target: the restriction of the causality to regPart α, an open set)",
+          "here": "carried",
+          "note": "massive α read on the open set regOpens α = ℝ × (C_α \\ {apex}) (kb/0001): IsCauchySurfaceOn, GloballyHyperbolicOn; curves and their extensions inside reg. coe_regOpens : (regOpens α : Set _) = regPart α by rfl"
+        },
+        {
+          "paper": "the slice {t = 0} ∩ reg",
+          "here": "weakened",
+          "note": "any subset of any slice {t = t₀} (not_isCauchySurfaceOn_regOpens_of_subset_slice), and in fact no subset of reg at all (not_exists_isCauchySurfaceOn_regOpens)"
+        },
+        {
+          "paper": "Hörmann: timelike curves",
+          "here": "carried",
+          "note": "the witness massive_infall t₀ is chronal on every segment (uniformly timelike, speed 1/2), so the slice fails for timelike curves as well"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "The target's (2) holds in a much stronger form: reg(E_α) admits NO Cauchy surface whatsoever (not_exists_isCauchySurfaceOn_regOpens), which is exactly Ellis–Schmidt's claim (hormann2015conical.txt:500-501), and reg(E_α) is not globally hyperbolic (not_globallyHyperbolicOn_regOpens: the diamond from (−2, r=1) to (2, r=1) on one ray is not closed in reg). The roadmap title and SYNTHESIS.md:100 ('with the axis removed it is not') may be strengthened to 'with the axis removed there is none'.",
+        "The proof of 'no Cauchy surface' is a three-curve argument on one radial half-plane, valid in any static ℝ × X with the cylinder ℝ × A over a closed A reached by a 1-Lipschitz ray removed (staticCausality.IsRayTo.not_exists_isCauchySurfaceOn): the null ray into A at time 0 meets S at time τ₂ < 0, the null ray into A at time 3τ₂ meets S at τ₁ < 3τ₂, and the curve along the second ray, out along an outgoing null ray, then in along the first, is inextensible and meets S twice. No smooth Geroch theorem is used.",
+        "E_α is globally hyperbolic while its open subset reg(E_α) is not: GH does not pass to open subsets, witnessed on a model (massive_globallyHyperbolic, not_globallyHyperbolicOn_regOpens)."
+      ],
+      "questions": [
+        "Ellis–Schmidt's sentence is known here only through Hörmann's quotation (hormann2015conical.txt:500-501); the 1977 paper is not archived. The Lean statement is the ETT reading: no subset of reg(E_α) is met exactly once by every inextensible causal curve of reg(E_α) (DEC-14)."
+      ]
+    },
+    {
+      "label": "T-loc-ealpha-cauchy/3-past-through-axis",
+      "source": [
+        {
+          "paper": "programme/roadmap.toml",
+          "statement": "target T-loc-ealpha-cauchy (title and evidence)",
+          "text_lines": "programme/roadmap.toml:395-408"
+        },
+        {
+          "paper": "references/sbierski/SYNTHESIS.md",
+          "statement": "Q4 #4: In E_α × ℝ, {t=0} is Cauchy for all α > 0; with the axis removed it is not; explicit J⁻(x) ∩ {t=0} through axis points",
+          "text_lines": "references/sbierski/SYNTHESIS.md:100"
+        },
+        {
+          "paper": "Vickers–Wilson, arXiv gr-qc/9907105",
+          "statement": "for a point x on the axis, the past null cone Ĉ0−(x) is given in quasi-Cartesian coordinates by the usual Minkowskian formula",
+          "text_lines": "references/sbierski/text/vickers2000generalized.txt:1207-1218"
+        },
+        {
+          "paper": "Vickers–Wilson, arXiv gr-qc/9907105",
+          "statement": "the solution at x depends not just on the initial data on C0−(x) ∩ S but also on points in C0−(ξ) ∩ S with ξ ∈ C0−(x) ∩ Λ",
+          "text_lines": "references/sbierski/text/vickers2000generalized.txt:1315-1320"
+        }
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.massive_Jminus_axis_inter_slice",
+        "Causal.massive_nullCone_axis_inter_slice",
+        "Causal.massive_Jminus_inter_slice",
+        "Causal.massive_Jplus_inter_slice",
+        "Causal.isCompact_massive_Jminus_inter_slice",
+        "Causal.massive_Jminus_eq_reg_union_axis",
+        "Causal.staticCausality.Jminus_inter_slice",
+        "Causal.staticCausality.Jplus_inter_slice",
+        "Causal.staticCausality.Iminus_inter_slice",
+        "Causal.staticCausality.Jminus_diff_Iminus_inter_slice",
+        "Causal.staticCausality.isCompact_Jminus_inter_slice",
+        "Causal.staticCausality.Jminus_eq_off_union",
+        "Causal.cosmicString_Jminus_axis_inter_slice",
+        "Causal.cosmicString_nullCone_axis_inter_slice",
+        "Causal.cosmicString_Jminus_eq_offAxis_union"
+      ],
+      "hypotheses": [
+        {
+          "paper": "x on the axis",
+          "here": "carried",
+          "note": "x = (t₀, apex) (2+1), x = (t₀, (apex, z₀)) (3+1); the general formula holds for every x: J⁻(x) ∩ {t = t₁} = {t₁} × closedBall x.2 (x.1 − t₁), J⁺ likewise, both compact"
+        },
+        {
+          "paper": "the past null cone (Vickers–Wilson) vs the causal past (target)",
+          "here": "carried",
+          "note": "both: J⁻(x) ∩ {t = 0} = {r ≤ t₀} and (J⁻ \\ I⁻)(x) ∩ {t = 0} = {r = t₀}; 3+1: r² + (z − z₀)² ≤ t₀² (resp. = t₀²), with t₀ ≥ 0"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Vickers–Wilson's 'usual Minkowskian formula' for an axis point holds exactly, for every cone angle α > 0 and for the causal past as well as the null cone. Their non-sharpness remark has an exact causal counterpart: J⁻(x) = J⁻_reg(x) ∪ ⋃_{ξ ∈ J⁻(x) ∩ axis} J⁻(ξ) (massive_Jminus_eq_reg_union_axis), every causal curve to x either avoids the axis or passes through an axis point ξ ≤ x."
+      ],
+      "questions": [
+        "'J⁻(x) ∩ {t=0} through axis points' (SYNTHESIS.md:100) is read as: x on the axis. The formula for every x and the decomposition of J⁻(x) through the axis points it contains are proved as well, so no other reading is left unproved. Whether the second part of the decomposition is ever needed off the axis (points of reg in J⁻(x) reached only through the apex; expected for α > 2π, where the apex lies on minimising geodesics between directions ≥ π apart, and not for α < 2π) is not settled here."
+      ]
+    },
+    {
+      "label": "T-loc-ealpha-cauchy/4-ladder",
+      "source": [
+        {
+          "paper": "programme/roadmap.toml",
+          "statement": "provides = [\"globally_hyperbolic\"]: every layer-1 theorem using it applies to massive α",
+          "text_lines": "programme/roadmap.toml:401"
+        },
+        {
+          "paper": "lean-causal/kb/entries/0053-named-side-conditions.md",
+          "statement": "state with the named ladder side conditions",
+          "text_lines": "lean-causal/kb/entries/0053-named-side-conditions.md:1-12"
+        }
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.massive_noCausalEndpoint",
+        "Causal.massive_chronalNeighbours",
+        "Causal.massive_causallyOpen",
+        "Causal.massive_causallyOpenFuture",
+        "Causal.massive_stronglyCausalOpen",
+        "Causal.massive_locallyPushUp",
+        "Causal.massive_causallyCompact",
+        "Causal.massive_hasTimeFunction",
+        "Causal.massive_curvesExtend",
+        "Causal.staticCausality.noCausalEndpoint",
+        "Causal.staticCausality.chronalNeighbours",
+        "Causal.staticCausality.causallyOpen",
+        "Causal.staticCausality.stronglyCausalOpen",
+        "Causal.staticCausality.hasTimeFunction",
+        "Causal.cosmicString_isCausal",
+        "Causal.cosmicString_stronglyCausal",
+        "Causal.cosmicString_stronglyCausalOpen",
+        "Causal.cosmicString_globallyHyperbolic",
+        "Causal.cosmicString_pushUp",
+        "Causal.cosmicString_causallyOpen",
+        "Causal.cosmicString_causallyOpenFuture",
+        "Causal.cosmicString_absolutelyMinimal",
+        "Causal.cosmicString_causallyArcConnected",
+        "Causal.cosmicString_tarentin",
+        "Causal.cosmicString_hasTimeFunction",
+        "Causal.cosmicString_curvesExtend",
+        "Causal.cosmicString_noCausalEndpoint",
+        "Causal.cosmicString_chronalNeighbours"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.inextensible_Iio_of_tendsto_not_mem",
+    "Causal.staticCausality.isCauchyTimeFunction_sub_const",
+    "Causal.staticCausality.isCauchySurface_slice",
+    "Causal.staticCausality.noCausalEndpoint",
+    "Causal.staticCausality.chronalNeighbours",
+    "Causal.staticCausality.causallyOpen",
+    "Causal.staticCausality.stronglyCausalOpen",
+    "Causal.staticCausality.hasTimeFunction",
+    "Causal.staticCausality.Jminus_inter_slice",
+    "Causal.staticCausality.Jplus_inter_slice",
+    "Causal.staticCausality.Iminus_inter_slice",
+    "Causal.staticCausality.Jminus_diff_Iminus_inter_slice",
+    "Causal.staticCausality.isCompact_Jminus_inter_slice",
+    "Causal.staticCausality.offOpens",
+    "Causal.staticCausality.mem_offOpens",
+    "Causal.staticCausality.IsRayTo",
+    "Causal.staticCausality.rayCurve",
+    "Causal.staticCausality.IsRayTo.continuous",
+    "Causal.staticCausality.IsRayTo.causalCurveIn",
+    "Causal.staticCausality.IsRayTo.inextensible",
+    "Causal.staticCausality.IsRayTo.infall",
+    "Causal.staticCausality.IsRayTo.not_isCauchySurfaceOn_of_subset_slice",
+    "Causal.staticCausality.IsRayTo.not_exists_isCauchySurfaceOn",
+    "Causal.staticCausality.IsRayTo.not_globallyHyperbolicOn",
+    "Causal.staticCausality.Jminus_eq_off_union",
+    "Causal.withLp_dist_two",
+    "Causal.withLp_dist_fst_le",
+    "Causal.withLp_dist_snd_le",
+    "Causal.GeodesicSpace.withLpTwo",
+    "Causal.properSpace_withLpTwo",
+    "Causal.StringSpace",
+    "Causal.CosmicString",
+    "Causal.cosmicString"
+  ],
+  "kb_proposals": [
+    "A static spacetime ℝ × X with the timelike cylinder ℝ × A over a closed A removed, A reached by a 1-Lipschitz ray (staticCausality.IsRayTo), has no Cauchy surface and is not globally hyperbolic on that open set (IsRayTo.not_exists_isCauchySurfaceOn, .not_globallyHyperbolicOn): cheap non-GH, non-Cauchy open subsets of GH models, e.g. reg(E_α), Minkowski minus a line (T-loc-ealpha-cauchy).",
+    "A causal curve of an open W over ]-∞, b[ that tends to a point outside W at b, with a ≤_W-monotone function unbounded below along it, is inextensible in W: Causality.inextensible_Iio_of_tendsto_not_mem (model-free; the 'curve runs into the boundary' pattern). Hoist candidate to the ETT layer (kb/0047).",
+    "Every slice {t = t₀} of a static spacetime over a complete geodesic space is a Cauchy surface: staticCausality.isCauchySurface_slice (Geroch (ii)⇒(iii) with t − t₀); the generic static side conditions (chronalNeighbours, causallyOpen, stronglyCausalOpen, hasTimeFunction, noCausalEndpoint) are in CausalScaffold.EAlphaCauchy.",
+    "Hörmann's 3+1 conical spacetime is cosmicString α = staticCausality (WithLp 2 (Cone α × ℝ)); WithLp 2 products of geodesic/proper metric spaces are geodesic/proper (instances GeodesicSpace.withLpTwo, properSpace_withLpTwo), WithLp.fst/snd need no group structure, and withLp_dist_two gives the √(d₁² + d₂²) formula. Hörmann's α_H is α/2π."
+  ],
+  "notes": "One new file, scaffold/CausalScaffold/EAlphaCauchy.lean (851 lines), sorry-free and warning-free under lake env lean; lake build CausalScaffold.EAlphaCauchy built only this module (3188 jobs, nothing upstream rebuilt). #print axioms of the main theorems: propext, Classical.choice, Quot.sound only. Imports: Causal.Model.Massive, Causal.CurvesExtend (staticCausality.fst_lt_of_le, staticCausality.curvesExtend, Geroch (ii)⇒(iii) through Causal.Geroch), Causal.LadderLocal (ChronalNeighbours, NoCausalEndpoint, LocallyPushUp, PushUp.causallyOpen_of_chronalNeighbours), Causal.CBG.Pgcd (only for Causality.HasTimeFunction, the ladder's time_function), Mathlib.Analysis.Normed.Lp.ProdLp (the 3+1 L² product). The scaffold root CausalScaffold.lean does not import the module (this agent may not edit it): the axiom sweep cannot see it until the master adds the import or graduates it (kb/0025). With no sorry, it can graduate as is; the generic static part (namespace Causal.staticCausality: slices, side conditions, offOpens/IsRayTo, J∓ on slices) and the model-free Causality.inextensible_Iio_of_tendsto_not_mem could be split into a Static-level module at graduation, the E_α and cosmic-string parts staying model-level. Ladder properties instantiated for massive α (ladder id → Lean name; 'existing' = already in Causal.Model.Massive): is_causal → Causal.massive_isCausal (existing); strongly_causal → Causal.massive_stronglyCausal (existing); strongly_causal_open → Causal.massive_stronglyCausalOpen (new); globally_hyperbolic → Causal.massive_globallyHyperbolic (existing), with the Cauchy surface {t = 0}: Causal.massive_globallyHyperbolic_isCauchySurface (new); push_up → Causal.massive_pushUp (existing); causally_open → Causal.massive_causallyOpen (new); causally_open_future → Causal.massive_causallyOpenFuture (new); absolutely_minimal → Causal.massive_absolutelyMinimal (existing); causally_arc_connected → Causal.massive_causallyArcConnected (existing); tarentin → Causal.massive_tarentin (existing); time_function → Causal.massive_hasTimeFunction (new); curves_extend → Causal.massive_curvesExtend (new); causally_plain → not instantiated (not attempted). Named side conditions of Causal.LadderLocal (not yet ladder nodes): ChronalNeighbours → Causal.massive_chronalNeighbours, NoCausalEndpoint → Causal.massive_noCausalEndpoint, LocallyPushUp → Causal.massive_locallyPushUp; CausallyCompact → Causal.massive_causallyCompact. For the 3+1 conical spacetime cosmicString α: is_causal → Causal.cosmicString_isCausal, strongly_causal → Causal.cosmicString_stronglyCausal, strongly_causal_open → Causal.cosmicString_stronglyCausalOpen, globally_hyperbolic → Causal.cosmicString_globallyHyperbolic, push_up → Causal.cosmicString_pushUp, causally_open → Causal.cosmicString_causallyOpen, causally_open_future → Causal.cosmicString_causallyOpenFuture, absolutely_minimal → Causal.cosmicString_absolutelyMinimal, causally_arc_connected → Causal.cosmicString_causallyArcConnected, tarentin → Causal.cosmicString_tarentin, time_function → Causal.cosmicString_hasTimeFunction, curves_extend → Causal.cosmicString_curvesExtend; ChronalNeighbours → Causal.cosmicString_chronalNeighbours, NoCausalEndpoint → Causal.cosmicString_noCausalEndpoint. For the keeper: reg(E_α) is a GH spacetime's open subset that is not GH (Causal.not_globallyHyperbolicOn_regOpens) and has no Cauchy surface (Causal.not_exists_isCauchySurfaceOn_regOpens); these are statements on an open set (…On), not [[fails]] entries between ladder nodes of one causality. The geometry-sort node cauchy_slice (CBG LocalModel.SliceFuture) is not addressed. The dispatch's three assertions are stated with the names it suggests (massive_*, regOpens α for the axis removed); the 3+1 versions answer the 'E_α × ℝ' reading question without choosing between readings."
+}

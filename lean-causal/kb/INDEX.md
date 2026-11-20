@@ -60,5 +60,7 @@ rediscover. One fact per entry.
 | [0052](entries/0052-same-le-defeq.md) | pattern | Two causalities with the same ≤ share J, diamonds, causal openness and GH by defeq |
 | [0053](entries/0053-named-side-conditions.md) | house-rule | State new theorems with the named ladder side conditions |
 | [0054](entries/0054-ers-uniqueness-skeleton.md) | pattern | ERS Thm 4.64's causal skeleton, and the half of Step 2 that is not layer 1 |
+| [0055](entries/0055-static-cylinder-removed.md) | pattern | Slices of static spacetimes are Cauchy; removing a reachable cylinder kills every Cauchy surface |
+| [0056](entries/0056-withlp-cosmic-string.md) | pattern | Hörmann's 3+1 conical spacetime as a static causality on an L² product |
 | [0057](entries/0057-causal-iso-is-chartiso.md) | pitfall | A causal isomorphism is a global ChartIso; transport lemmas and opensCongr |
 | [0058](entries/0058-time-function-not-causal.md) | pitfall | An ETT time function does not make a causality causal; strict increase does |

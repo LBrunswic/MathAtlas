@@ -1,0 +1,69 @@
+{
+  "target": "T-loc-ealpha-cauchy",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "T-loc-ealpha-cauchy/1-cauchy-axis-kept",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "massive_globallyHyperbolic_isCauchySurface : (massive α).GloballyHyperbolic ∧ (massive α).IsCauchySurface {p | p.1 = 0}, under [Fact (0 < α)] only. Both predicates are the ladder's own: Causality.GloballyHyperbolic (Causal/Properties.lean:144, ladder id globally_hyperbolic) and Causality.IsCauchySurface = IsCauchySurfaceOn ⊤ (Causal/Cauchy.lean:70-74, DEC-14: every inextensible causal curve meets S in exactly one point). Massive α = ℝ × Cone α keeps the apex as points; massive α = staticCausality (Cone α). Every slice (massive_isCauchySurface_slice) via isCauchyTimeFunction_sub_const and Geroch (ii)⇒(iii). Lean ≥ the target and ≥ Hörmann: DEC-14 tests every inextensible causal curve, timelike ones included, so a DEC-14 Cauchy surface is one in Hörmann's sense (hormann2015conical.txt:271-277); the curve-notion gap (ETT 1-Lipschitz graphs vs L∞/C¹) is disclosed in the checklist. α range: the only hypothesis on α is Fact (0 < α), so every total angle α > 0 (Hörmann: 0 < α_H < 1, α = 2π α_H) holds as claimed. The 3+1 reading E_α × ℝ_z is covered with the same strength (cosmicString_globallyHyperbolic_isCauchySurface, every t₀), so the label is certified under either reading of 'E_α × ℝ'."
+    },
+    {
+      "label": "T-loc-ealpha-cauchy/2-axis-removed",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "not_isCauchySurfaceOn_regOpens_slice : ¬ (massive α).IsCauchySurfaceOn (regOpens α) ({p | p.1 = 0} ∩ regPart α). 'Axis removed' is genuinely the open set: regOpens α = staticCausality.offOpens isClosed_singleton = {p | p.2 ∉ {apex}}, coe_regOpens = regPart α by rfl, and staticLe U is defined by 1-Lipschitz graphs lying in U (Causal/Static.lean:305), so ≤_reg and Inextensible (regOpens α) use reg's own curves (kb/0001). Not vacuous: a negated IsCauchySurfaceOn can only be proved by exhibiting an inextensible curve of reg (IsCauchySurfaceOn ∅ S is vacuously true), and the witness massive_infall 0 is proved inextensible in reg over Iio 0, chronal on every segment (speed 1/2), radius −τ/2 > 0 (in reg), first coordinate τ < 0 (misses {t = 0}); since it is timelike, the slice also fails Hörmann's timelike notion. Stronger forms proved: any subset of any slice; no S at all (not_exists_isCauchySurfaceOn_regOpens); not GloballyHyperbolicOn (diamond from (−2, r 1) to (2, r 1) not closed in reg). 3+1 versions on stringOffAxis α likewise. See minor finding on the wording 'exactly Ellis–Schmidt's claim' for the no-Cauchy-surface extra."
+    },
+    {
+      "label": "T-loc-ealpha-cauchy/3-past-through-axis",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "massive_Jminus_axis_inter_slice t₀ : J⁻((t₀, apex)) ∩ {t = 0} = {p | p.1 = 0 ∧ rad p.2 ≤ t₀}: the closed disc of radius t₀ about the axis, the right set (empty for t₀ < 0, the axis point for t₀ = 0), from J⁻(x) ∩ {t = t₁} = {t₁} ×ˢ closedBall x.2 (x.1 − t₁) (static le_top_iff: dist ≤ Δt) and rad = dist apex. Null cone (J⁻ \\ I⁻) ∩ {t = 0} = {rad = t₀}. Jminus ⊤ {x} is the library's J⁻. The reading 'x on the axis' is disclosed, and the formula for every x plus the decomposition J⁻(x) = J⁻_reg(x) ∪ ⋃_{ξ ∈ J⁻(x) ∩ axis} J⁻(ξ) close every other reading. 3+1: r² + (z − z₀)² ≤ t₀² with 0 ≤ t₀, correct for the L² product (the length metric of dr² + r²dθ² + dz²). The open question on when the axis part of the decomposition is needed is hedged, not claimed."
+    },
+    {
+      "label": "T-loc-ealpha-cauchy/4-ladder",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "The target's provides = [globally_hyperbolic] is met by the existing Causal.massive_globallyHyperbolic (Causal.Model.Massive:211), stated with the ladder definition, so layer-1 theorems apply to massive α unchanged. New instantiations use the ladder's Lean names (programme/ladder.toml): StronglyCausalOpen, CausallyOpen, CausallyOpenFuture, HasTimeFunction, CurvesExtend, and kb/0053's named side conditions ChronalNeighbours, NoCausalEndpoint, LocallyPushUp from Causal.LadderLocal; CausallyCompact. For massive α, causally_plain is disclosed as not instantiated (REPORT notes). For cosmicString α the docstring says 'every ladder property' but causally_plain is missing (minor finding); this does not touch the target's provides."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/EAlphaCauchy.lean: exit 0, no output (sha256 94be47be…). grep: 0 occurrences of sorry/admit/axiom/native_decide; no set_option, attribute, scoped or local instance. #print axioms on all 95 declarations the REPORT names (labels' decls + extra_decls), appended to a /tmp copy of the source: every one exists and depends on [propext, Classical.choice, Quot.sound] only. Clash probe: the source elaborated together with `import Causal` (Causal.lean imports every Causal/**/*.lean, checked): no duplicate declaration. Textual name comparison with every other scaffold file, incl. the siblings ErsUniqueness.lean and CausalIsoInvariance.lean: no clash. Instance probe: no MetricSpace instance is added; GeodesicSpace (Causal/Static.lean:114) and ProperSpace are Prop-valued classes, so the two new instances cannot form a non-defeq diamond; `(inferInstance : MetricSpace (ℝ × ℝ)) = Prod.metricSpaceMax` and the same for Massive α hold by rfl (the sup product the models use is untouched); NormedAddCommGroup.toMetricSpace = WithLp.instProdMetricSpace 2 ℝ ℝ by rfl; GeodesicSpace (WithLp 2 (ℝ × ℝ)) now synthesises through withLpTwo rather than ofNormedSpace (harmless, Prop); no other lean-causal module uses ProdLp (only PiLp/EuclideanSpace). Note: the olean .lake/build/lib/lean/CausalScaffold/EAlphaCauchy.olean (23:15:04) predates the last source write (23:16:53), so the REPORT's 'lake build … built only this module' refers to an earlier revision; the current source passes the strict-lib check above, and graduation rebuilds anyway. Probes were written under /tmp/audit_ealpha (as the dispatch asked) and deleted."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/EAlphaCauchy.lean:41-42",
+      "what": "The docstring for label 4 says 'every ladder property for cosmicString α (cosmicString_*)'. programme/ladder.toml has 13 causality-sort properties; causally_plain (Causal.Causality.CausallyPlain) is not instantiated for cosmicString α (nor for massive α, which the REPORT discloses). The overclaim concerns an extra beyond the target's provides list, not the provides itself.",
+      "fix": "Write 'every ladder property but causally_plain', or prove cosmicString_causallyPlain (no static causally-plain lemma exists in the library yet)."
+    },
+    {
+      "severity": "minor",
+      "where": "campaign/T-loc-ealpha-cauchy/REPORT.json labels[1].findings[0]; EAlphaCauchy.lean:28-29, 772",
+      "what": "'reg(E_α) admits NO Cauchy surface whatsoever …, which is exactly Ellis–Schmidt's claim' overstates. A DEC-14 Cauchy surface must be met once by every inextensible CAUSAL curve, so 'no DEC-14 Cauchy surface' is weaker than Ellis–Schmidt's classical 'no Cauchy surface' (tested on timelike curves only), and the three-curve proof of not_exists_isCauchySurfaceOn uses null rays (speed 1), so it does not give the timelike form. The REPORT's question entry does say the Lean is the ETT reading, so this is a wording issue in a finding that would go to the author, not a false finding. The target's own slice assertion is unaffected: its witness massive_infall is chronal.",
+      "fix": "Reword to 'Ellis–Schmidt's claim in ETT's causal-curve reading (DEC-14)'. Optionally redo the three-curve argument with speed-1/2 rays to cover the timelike form."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/EAlphaCauchy.lean:682-688",
+      "what": "Causal.withLp_dist_fst_le and Causal.withLp_dist_snd_le duplicate mathlib's WithLp.dist_fst_le / WithLp.dist_snd_le (Mathlib/Analysis/Normed/Lp/ProdLp.lean:638, 642). CAMPAIGN.md's reuse rule asks to grep mathlib first.",
+      "fix": "Use WithLp.dist_fst_le / dist_snd_le and drop the two local lemmas (or keep them as one-line aliases) at graduation."
+    },
+    {
+      "severity": "minor",
+      "where": "campaign/T-loc-ealpha-cauchy/REPORT.json labels[0].hypotheses[2]",
+      "what": "\"here\": \"strengthened\" is used for a conclusion that is stronger than Hörmann's. In kb/0006's vocabulary '⚠ strengthened' means the Lean ASSUMES more (an added hypothesis, a finding), and the docstring checklist marks the same row '⚠ reading'. A curator reading the REPORT could take it for an added hypothesis on a marked label.",
+      "fix": "Use 'carried' (or 'weakened') with the note, matching the docstring's disclosure."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/EAlphaCauchy.lean:91-152, 154-486",
+      "what": "Placement only, no action needed now. Causality.inextensible_Iio_of_tendsto_not_mem is model-free (only Causality, CausalCurveIn, Inextensible, T2Space) but sits in a model-importing module, which is kb/0047's pitfall. It belongs in the ETT layer (Causal.Inextensible or Causal.CurveComponents, next to inextensible_ordConnectedComponent_of_le). The generic staticCausality block (slices, side conditions, offOpens/IsRayTo, J∓ on slices) belongs next to Causal.Static / Causal.CurvesExtend. The REPORT already proposes both splits.",
+      "fix": "Hoist at or after graduation under the same full names (a T-abs-hoist-style move). The module itself can graduate as is."
+    }
+  ]
+}
