@@ -180,7 +180,7 @@ ol.wit .loc{display:block;font-family:var(--f-mono);font-size:.7rem;color:var(--
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.5/dagre.min.js"></script>
 <script>
 window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:true,packages:{'[+]':['noerrors','noundefined','ams']}},
-  options:{skipHtmlTags:["script","style","pre","code"]},svg:{fontCache:"global"},startup:{typeset:false}};
+  options:{skipHtmlTags:["script","style","pre","code"]},svg:{fontCache:"local"},startup:{typeset:false}};
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg-full.js" async></script>
 <script>
@@ -643,7 +643,7 @@ function stmtLeanHTML(p,n){
 function texHTML(t){
   const body=t.replace(/^\\begin\{[a-zA-Z*]+\}(\[[^\]]*\])?/,"").replace(/\\end\{[a-zA-Z*]+\}\s*$/,"")
     .replace(/\\(begin|end)\{(itemize|enumerate)\}/g,"").replace(/\\item\s*/g,"\n• ").replace(/\\(emph|textit|textbf)\{([^{}]*)\}/g,"$2")
-    .replace(/\\(cite|ref|eqref|cref|Cref)(\[[^\]]*\])?\{[^}]*\}/g,"[·]");
+    .replace(/\\(cite|ref|eqref|cref|Cref)(\[[^\]]*\])?\{[^}]*\}/g,"[·]").trim();
   return `<div class="mj">${esc(body).replace(/\n\s*\n/g,"<br><br>")}</div>`;
 }
 let mjMacrosFor=null;

@@ -51,8 +51,23 @@ class RoadmapRules(unittest.TestCase):
         e = self.errs(target(id="T-a", depends=["T-b"]), target(id="T-b", status="planned"))
         self.assertTrue(any("dependency" in x for x in e), e)
 
-    def test_two_active_fail(self):
-        self.assertTrue(self.errs(target(id="T-a", status="active"), target(id="T-b", status="active")))
+    def test_too_many_active_fail(self):
+        ts = [target(id="T-a%d" % i, status="active") for i in range(rm.MAX_PARALLEL + 1)]
+        self.assertTrue(any("MAX_PARALLEL" in x for x in self.errs(*ts)))
+        self.assertFalse(any("MAX_PARALLEL" in x for x in self.errs(*ts[:rm.MAX_PARALLEL])))
+
+    def test_wave_keeps_targets_independent(self):
+        c = lambda tid, p, labels, **kw: target(id=tid, owner="closer", kind="close", paper=p, labels=labels, **kw)
+        d = {"target": [
+            c("T-a", "ett", ["x"], priority=1), c("T-b", "ett", ["x"], priority=2),      # shares a label with T-a
+            c("T-c", "ett", ["y"], priority=3), c("T-d", "ett", ["z"], priority=4),
+            c("T-e", "ett", ["w"], priority=5),                                          # 4th in lean-causal
+            c("T-f", "gx", ["u"], priority=6, exclusive=True), c("T-g", "gx", ["v"], priority=7),
+            c("T-h", "benzecri", ["t"], priority=8, depends=["T-a"]),                   # dependency not done
+            target(id="T-i", priority=9), target(id="T-j", priority=10)]}               # two builders
+        self.assertEqual(rm.wave(d), ["T-a", "T-c", "T-d", "T-f", "T-i"])
+        d["target"][0]["status"] = "active"                                              # T-a running
+        self.assertEqual(rm.wave(d), ["T-c", "T-d", "T-f", "T-i"])
 
     def test_next_respects_priority_and_owner(self):
         d = {"target": [target(id="T-a", priority=2), target(id="T-b", priority=1, owner="closer", kind="research"),

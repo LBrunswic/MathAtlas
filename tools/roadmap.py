@@ -4,6 +4,7 @@
     python3 tools/roadmap.py check                  every rule below; exit 1 on a violation
     python3 tools/roadmap.py status                 one line per target, grouped by status
     python3 tools/roadmap.py next [--owner OWNER]   the id of the next dispatchable target, or nothing
+    python3 tools/roadmap.py wave [--owner O1,O2]   the targets of the next wave: up to MAX_PARALLEL independent ones
     python3 tools/roadmap.py set ID STATUS [--evidence TEXT] [--oq OQ-n] [--commit SHA]
     python3 tools/roadmap.py gates LOG              a `make -k check` log adds no failure to [gates] known_red
 
@@ -23,6 +24,15 @@ FILE = os.path.join(ROOT, "roadmap", "roadmap.toml")
 STATUS = ["planned", "ready", "active", "needs-ruling", "blocked", "done", "dropped"]
 OWNER = ["closer", "planner", "builder", "master", "author"]
 KIND = ["close", "package", "research", "tooling", "author"]
+# The wave: how many targets one /atlas-team iteration may run at once, and how many of them may
+# share one Lean package (node1: 32 threads, 94 GB; lake builds run under taskset -c 0-11, and each
+# closer/auditor elaborates one module at a time). The skill reads these; change them here only.
+MAX_PARALLEL = 6
+MAX_PER_PACKAGE = 3
+# paper -> the Lean package its closers write in (a target may override it with `package = "..."`)
+PACKAGE_OF = {"ett": "lean-causal", "barbot": "lean-causal", "gx": "lean-gx", "bbs": "lean-gx",
+              "benzecri": "lean-benzecri", "egf": "lean-egf", "syracuse": "lean-syracuse",
+              "yamabe": "lean-yamabe"}
 REQUIRED = ["id", "title", "stream", "kind", "status", "owner", "priority", "evidence", "added", "proposed_by"]
 
 
@@ -61,8 +71,8 @@ def check(data, root=ROOT):
     known = set(ids)
     oqs = open_questions(root)
     active = [t["id"] for t in targets if t.get("status") == "active"]
-    if len(active) > 1:
-        bad(",".join(active), "more than one target is active")
+    if len(active) > MAX_PARALLEL:
+        bad(",".join(active), "more than MAX_PARALLEL=%d targets are active" % MAX_PARALLEL)
     for t in targets:
         tid = t.get("id", "?")
         for k in REQUIRED:
@@ -143,6 +153,50 @@ def next_target(data, owner=None):
     return cands[0]["id"] if cands else None
 
 
+def package_of(t):
+    """The Lean package a target writes in; None for targets that write no Lean (builder, planner)."""
+    if t.get("owner") in ("builder", "planner", "author"):
+        return None
+    return t.get("package") or PACKAGE_OF.get(t.get("paper", ""))
+
+
+def wave(data, owners=("closer", "master", "builder"), limit=MAX_PARALLEL, per_package=MAX_PER_PACKAGE):
+    """The next wave: ready targets in priority order whose dependencies are done, pairwise
+    independent -- no shared label, no dependency between them, at most `per_package` per Lean
+    package, an `exclusive` target alone in its package, at most one builder (it owns
+    reports/atlas) -- and none touching a package that a still-active target holds."""
+    targets = data.get("target", [])
+    done = {t["id"] for t in targets if t.get("status") == "done"}
+    active = [t for t in targets if t.get("status") == "active"]
+    load = {}
+    for t in active:
+        p = package_of(t)
+        if p:
+            load[p] = load.get(p, 0) + (per_package if t.get("exclusive") else 1)
+    chosen = []
+    labels = {(t.get("paper"), l) for t in active for l in t.get("labels", [])}
+    cands = [t for t in targets if t.get("status") == "ready" and t.get("owner") in owners
+             and all(d in done for d in t.get("depends", []))]
+    cands.sort(key=lambda t: (t.get("priority", 99), targets.index(t)))
+    for t in cands:
+        if len(chosen) + len(active) >= limit:
+            break
+        labs = {(t.get("paper"), l) for l in t.get("labels", [])}
+        if labs & labels:
+            continue
+        if t.get("owner") == "builder" and any(c.get("owner") == "builder" for c in chosen + active):
+            continue
+        p = package_of(t)
+        if p:
+            cost = per_package if t.get("exclusive") else 1
+            if load.get(p, 0) + cost > per_package:
+                continue
+            load[p] = load.get(p, 0) + cost
+        chosen.append(t)
+        labels |= labs
+    return [t["id"] for t in chosen]
+
+
 def set_status(text, tid, status, evidence=None, oq=None, commit=None):
     """Edit the block of `tid` in place. Returns the new text."""
     lines = text.split("\n")
@@ -221,6 +275,12 @@ def main(argv):
         n = next_target(data, owner)
         if n:
             print(n)
+        return
+    if cmd == "wave":
+        owners = tuple(argv[argv.index("--owner") + 1].split(",")) if "--owner" in argv else ("closer", "master", "builder")
+        for tid in wave(data, owners):
+            t = next(x for x in data["target"] if x["id"] == tid)
+            print("%-28s %-8s %s" % (tid, t["owner"], package_of(t) or "-"))
         return
     if cmd == "gates":
         bad = new_red(data, open(argv[1], encoding="utf-8", errors="replace").read())

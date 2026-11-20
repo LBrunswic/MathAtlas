@@ -1,11 +1,11 @@
 ---
 name: atlas-team
-description: One iteration of the LeanArticles completion team. Reads the roadmap, picks exactly one action (plan, build the atlas, or close a target), dispatches the matching agent (roadmap-planner, atlas-builder, target-closer, then target-auditor), integrates the result, runs the gates, commits, pushes, and writes the journal. Run it once with /atlas-team, or unattended with /loop /atlas-team. Triggers on '/atlas-team', 'run the team', 'next target', 'complete the atlas'.
+description: One iteration (a wave) of the LeanArticles completion team. Reads the roadmap, picks a wave of up to MAX_PARALLEL independent targets (or one planning run), dispatches the matching agents in parallel (roadmap-planner, atlas-builder, target-closer, then target-auditor), integrates the result, runs the gates, commits, pushes, and writes the journal. Run it once with /atlas-team, or unattended with /loop /atlas-team. Triggers on '/atlas-team', 'run the team', 'next target', 'complete the atlas'.
 argument-hint: "[once | status | <target-id>]"
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, Agent, SendMessage
 ---
 
-# /atlas-team: one iteration of the completion team
+# /atlas-team: one iteration (a wave) of the completion team
 
 You are the **master** of the iteration. The agents write, prove, plan and audit. You alone
 graduate files, curate ledgers, move roadmap statuses, run gates, commit and push. The author
@@ -21,9 +21,11 @@ Arguments:
 1. `hostname` is `node1`. Everything else (gates, lake, commits) is node1-only.
 2. `cd /home/maxbrain/Dropbox/LeanArticles`.
 3. **The lock.** If `.atlas-team.lock` exists and its pid is alive, another iteration is
-   running: stop. Otherwise write `$$ <date>` to it. Remove it at the end, on every path out.
-4. `git status --short` is clean, or shows only an `active` target's campaign files from an
-   interrupted iteration, which you then resume. Anything else means a human or another session
+   running: stop. Otherwise write the pid of this Claude session's own process (not `$$`, which
+   is a short-lived shell), the date and the session id to it. Remove it at the end, on every
+   path out.
+4. `git status --short` is clean, or shows only the campaign and scaffold files of `active`
+   targets from an interrupted wave, which you then resume. Anything else means a human or another session
    is working: stop and say so.
 5. `git pull --ff-only origin main`. If it is not a fast-forward, stop.
 6. `python3 tools/roadmap.py check` passes.
@@ -38,25 +40,64 @@ Arguments:
   counts as a ruling.
 - Read the last three entries of `roadmap/JOURNAL.md`.
 
-## 2. Choose exactly one action
+## 2. Choose the wave
 
-Take the first rule that applies:
+The concurrency caps live in `tools/roadmap.py`: `MAX_PARALLEL` targets per wave and
+`MAX_PER_PACKAGE` per Lean package. Change them there and nowhere else. Take the first rule that
+applies:
 
-1. A target is `active`: **resume** it at the step its campaign directory shows: no REPORT,
-   then close; REPORT but no AUDIT, then audit; AUDIT, then integrate.
+1. Some targets are `active`: **resume** them. Each one resumes at the step its campaign
+   directory shows: no REPORT, then close; REPORT but no AUDIT, then audit; AUDIT, then
+   integrate. Then top the wave up with rule 4.
 2. Fewer than two `ready` closer targets, or the last planner run was five or more iterations
-   ago: **plan**.
-3. `python3 tools/roadmap.py next --owner builder` gives a target, and the last builder run was
-   three or more iterations ago: **build**.
-4. `python3 tools/roadmap.py next --owner closer,master` gives a target: **close** it if the
-   owner is `closer`, **set up** if the owner is `master`.
-5. `python3 tools/roadmap.py next --owner planner` gives a target: **plan** (research).
+   ago: **plan**, alone. The planner edits `roadmap/roadmap.toml`, which the wave's
+   bookkeeping also edits, so a planning run is never part of a wave.
+3. **The wave:** `python3 tools/roadmap.py wave` lists up to `MAX_PARALLEL` ready targets
+   (owners closer, master, builder), in priority order and pairwise independent:
+   - no shared label;
+   - no dependency between them;
+   - at most `MAX_PER_PACKAGE` per package, and a target marked `exclusive = true` alone in
+     its package;
+   - at most one builder;
+   - nothing in a package that an active target fills up.
+
+   Leave the builder out of the wave unless the last builder run was three or more iterations
+   ago, and run the tool again with `--owner closer,master` if so.
+4. Topping up after a resume: the same `wave` command. It already counts the active targets.
+5. The wave is empty and `python3 tools/roadmap.py next --owner planner` gives a target:
+   **plan** (research).
 6. Otherwise nothing is dispatchable: write the journal entry "idle: waiting on rulings" with
    the list of `needs-ruling` questions, then stop the loop.
 
 ## 3. Act
 
-Set the target `active` first: `python3 tools/roadmap.py set <id> active`.
+Set every target of the wave `active` first (`python3 tools/roadmap.py set <id> active`), then:
+
+1. **Dispatch every agent at once.** Send one Agent call per closer and per builder, all in the
+   same message and all in the background. Do the `master` set-ups yourself while they run.
+2. **Audit as each REPORT arrives.** Dispatch its auditor in the background as soon as the
+   closer's report comes in; do not wait for the whole wave. A `major` verdict gets one fix round
+   from the same closer, as below.
+3. **Integrate once, at the end of the wave.** When every agent of the wave has reported:
+   - graduate everything clean, package by package;
+   - run each package's `make -C <package> check` once;
+   - then curate, write the OQ rows and the kb entries, and run `make ledgers` once.
+
+   The strict libraries are frozen while a wave runs (each package's `docs/CAMPAIGN.md`).
+   Graduating, or building a whole package, while closers in that package are still elaborating
+   would rebuild under them.
+4. **A target that fails** (an audit still `major`, an agent that stops without a REPORT, or a
+   gate it alone turns red) leaves the wave as `ready` or `blocked`, with the reason in
+   `evidence`. Its files stay in the scaffold or are reverted. The rest of the wave still
+   integrates.
+
+Dispatch prompts are built per target as described below. Within one package, give each closer
+disjoint new files, and say in each prompt which other targets share the package and which
+files they own. Closers in one package typecheck with `lake env lean <file>`, which writes
+nothing. Each runs `lake build` of its own module only, at its very end. Two `lake build`s of
+the same package must not overlap, so a closer's prompt tells it to retry after a minute if
+another build of the package is in progress (`pgrep -f "lake build"` with that package's
+directory as working directory).
 
 ### plan
 
@@ -84,8 +125,6 @@ Dispatch **atlas-builder** with the target block. Verify the result yourself:
    - the exact new files it may write;
    - its report directory `<package>/campaign/<target-id>/`.
 
-   Packages of different targets may run in parallel only if they do not share a package. By
-   default, run one target at a time.
 2. **Audit.** Dispatch **target-auditor** with the same dispatch and the REPORT. On `major`:
    send the findings back to the same closer (SendMessage to its id) for one fix round, then
    audit again. If it is still `major` after that, nothing graduates:
@@ -138,7 +177,8 @@ commit to the letter: Barbot's `papers/barbot/` (DEC-34) for an external paper, 
   - `make -C lean-<slug> check` green on the empty library.
 
 Then point the paper's `ledger.toml` `[lean] root` at the package. A transcription from a scan
-records in `MANIFEST.json` that the author has to check it. Close with the gates, as for close.
+records in `MANIFEST.json` that the author has to check it. Close with the gates, as for close. When it runs in a wave, you do the set-up yourself
+while the agents work, and integrate it with the rest of the wave.
 
 ## 4. Gates: an iteration may not make anything redder
 
@@ -162,16 +202,17 @@ If a gate fails because of this iteration's work:
 
 **Ledgers come after the Lean commit.** A ledger records the last commit that touched its Lean
 package (`tools/ledger.py`, `git_commit`), so the order is fixed:
-1. commit the work: Lean, curation, registers, kb;
+1. commit the work, **one commit per target** (Lean, curation, registers and kb for that target),
+   so that each target's `done --commit` names its own commit;
 2. `make ledgers` and `make -C reports/atlas`, then commit the regenerated ledgers and atlas.
    That commit touches no Lean, so it leaves the ledgers current, and `papers-check` stays green.
 
-If the target closed, add a last commit:
+Then one last commit for the wave's roadmap statuses:
 
 ```
-python3 tools/roadmap.py set <id> done --commit <sha of the first commit> --evidence "<what closed>"
+python3 tools/roadmap.py set <id> done --commit <sha of that target's commit> --evidence "<what closed>"   # per target
 make -C reports/atlas
-git commit -am "roadmap: <id> done"
+git commit -am "roadmap: wave of <date>: <ids> done"
 ```
 
 Messages follow the repository's style:
@@ -188,12 +229,12 @@ push is rejected, stop the loop and say so.
 Append one entry to `roadmap/JOURNAL.md`:
 
 ```
-## <date> <time> · <action> · <target-id or "—">
-- result: closed N/M labels | partial | blocked on OQ-n | planned K targets | atlas: <change>
-- audit: clean | minor | major (round r)
+## <date> <time> · wave of K · <target-ids, or "plan">
+- per target: <id>: closed N/M labels | partial | blocked on OQ-n | failed (why); audit clean | minor | major (round r)
 - gates: package ✓, roadmap ✓, atlas ✓, hub: no new red
 - commits: <sha> [<sha>]
-- next: <what rule 2 would pick now>
+- wall time: <start–end>; agents in parallel: K
+- next: <what `wave` would pick now>
 ```
 
 Commit it with the work, or on its own if the work commit already went. Remove the lock. Give
@@ -218,6 +259,9 @@ is being waited on.
 - Write a DEC row, or decide a reading.
 - Mark a corrected form without a DEC row ruling it.
 - Edit `legacy/`, the `lean/` submodule, a generated ledger by hand, or `hub.toml [freeze]`.
-- Run two `lake` builds of the same package at once.
+- Run two `lake build`s of the same package at once: not yourself, and not by dispatching two
+  closers whose final builds you have not told to wait for each other.
+- Exceed the caps of `tools/roadmap.py` (`MAX_PARALLEL`, `MAX_PER_PACKAGE`), or put a planner in a
+  wave.
 - Create a worktree (CLAUDE.md: the build is not worktree-portable).
 - Push anything but a fast-forward of `main`.
