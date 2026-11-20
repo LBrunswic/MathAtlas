@@ -1,5 +1,6 @@
 import Causal.CBG.Pgcd
 import Causal.CBG.Corresponding
+import Causal.CompactMinimal
 
 /-!
 # No corresponding boundary points between a development and the MCGHD (Sbierski §3.2)
@@ -45,8 +46,9 @@ and the Hausdorff step of the proof of Thm 2.7 (p. 20).
 
 * **Model-free** (any causality, open sets, kb/0001): `Causality.exists_minimal_of_isCompact` (a
   compact set has a `≤`-minimal point when `M` is causal with closed `J⁻(x)`: Zorn, in place of
-  the design's Geroch time), `Causality.mem_closure_of_mem_Jminus` (a point of `J⁻(p) ∩ J⁺(S)`,
-  `p ∈ closure U`, is in `closure U`: `K⁻` density + `lem:passe_pgcd`),
+  the design's Geroch time; in `Causal.CompactMinimal` since T-abs-hoist-model-free, imported),
+  `Causality.mem_closure_of_mem_Jminus` (a point of `J⁻(p) ∩ J⁺(S)`, `p ∈ closure U`, is in
+  `closure U`: `K⁻` density + `lem:passe_pgcd`),
   `Causality.spacelike_iff` (**(3.10) ⟺ ETT's `J(Σ, p) ∖ {p} ⊆ U`**),
   `Causality.exists_lt_Jminus_compl_subset` (**Sbierski Lemma 3.11**),
   `IsCorrPair.exists_corresponds_of_le` (the core of Lemma 3.9: a boundary point `q ≤ p₀`, `p₀`
@@ -144,49 +146,6 @@ universe u v
 namespace Causality
 
 variable {M : Type u} [TopologicalSpace M] {C : Causality M}
-
-/-- **A compact set has a `≤`-minimal point** (`M` causal, `J⁻(x)` closed, `M` Hausdorff): Zorn on
-the non-empty closed down-sets of `K`, chains having non-empty intersection by compactness. This
-replaces the design's "minimise a Geroch time" (no time function is needed). -/
-theorem exists_minimal_of_isCompact [T2Space M] (hcaus : C.IsCausal)
-    (hcl : ∀ x, IsClosed (C.Jminus ⊤ {x})) {K : Set M} (hK : IsCompact K) (hne : K.Nonempty) :
-    ∃ p ∈ K, ∀ q ∈ K, C.le ⊤ q p → q = p := by
-  set F : Set (Set M) := {A | A ⊆ K ∧ A.Nonempty ∧ IsClosed A ∧
-    ∀ a ∈ A, ∀ b ∈ K, C.le ⊤ b a → b ∈ A} with hF
-  have hKF : K ∈ F := ⟨subset_rfl, hne, hK.isClosed, fun _ _ _ hb _ => hb⟩
-  have hH : ∀ c ⊆ F, IsChain (· ⊆ ·) c → c.Nonempty → ∃ lb ∈ F, ∀ s ∈ c, lb ⊆ s := by
-    intro c hcF hc hcne
-    refine ⟨⋂₀ c, ⟨?_, ?_, isClosed_sInter fun A hA => (hcF hA).2.2.1, ?_⟩,
-      fun _ hs => sInter_subset_of_mem hs⟩
-    · obtain ⟨A, hA⟩ := hcne
-      exact (sInter_subset_of_mem hA).trans (hcF hA).1
-    · haveI : Nonempty c := hcne.to_subtype
-      refine IsCompact.nonempty_sInter_of_directed_nonempty_isCompact_isClosed ?_
-        (fun A hA => (hcF hA).2.1)
-        (fun A hA => hK.of_isClosed_subset (hcF hA).2.2.1 (hcF hA).1)
-        (fun A hA => (hcF hA).2.2.1)
-      intro a ha b hb
-      by_cases hab : a = b
-      · exact ⟨a, ha, subset_rfl, hab ▸ subset_rfl⟩
-      · rcases hc ha hb hab with h | h
-        · exact ⟨a, ha, subset_rfl, h⟩
-        · exact ⟨b, hb, h, subset_rfl⟩
-    · intro a ha b hb hba
-      exact mem_sInter.2 fun A hA => (hcF hA).2.2.2 a (ha A hA) b hb hba
-  obtain ⟨m, -, hm⟩ := zorn_superset_nonempty F hH K hKF
-  · obtain ⟨⟨hmK, ⟨p, hp⟩, -, hmdown⟩, hmin⟩ := hm
-    have hlow : ∀ x ∈ m, K ∩ C.Jminus ⊤ {x} ∈ F := fun x hx =>
-      ⟨inter_subset_left, ⟨x, hmK hx, by simpa using C.le_refl (U := ⊤) (x := x) trivial⟩,
-        hK.isClosed.inter (hcl x), fun a ha b hb hba =>
-          ⟨hb, by
-            have hax : C.le ⊤ a x := by simpa using ha.2
-            simpa using C.le_trans hba hax⟩⟩
-    have hsub : ∀ x ∈ m, K ∩ C.Jminus ⊤ {x} ⊆ m := fun x hx b hb =>
-      hmdown x hx b hb.1 (by simpa using hb.2)
-    refine ⟨p, hmK hp, fun q hq hqp => ?_⟩
-    have hqm : q ∈ m := hmdown p hp q hq hqp
-    have hpq := (hmin (hlow q hqm) (hsub q hqm) hp).2
-    exact hcaus hqp (by simpa using hpq)
 
 /-- **A point of `J⁻(p) ∩ J⁺(S)` is in `closure U`** for `p ∈ closure U`, `U` causally convex,
 `S ⊆ U`: otherwise the open `(closure U)ᶜ ∩ J⁺(S)` around it (`lem:Sigma_separe`'s clause) meets

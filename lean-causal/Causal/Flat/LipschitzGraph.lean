@@ -1,5 +1,6 @@
 import Causal.Flat.Achronal
 import Causal.Flat.Cosmological
+import Causal.DependenceDomain
 
 /-!
 # `Causal.Flat.LipschitzGraph` — 1-Lipschitz (achronal) hypersurfaces of `𝐌ⁿ`: the null-line Cauchy criterion, causal convexity, the hub lemma, (CC′) transfer, domains of dependence
@@ -78,7 +79,8 @@ the labelled file `papers/barbot/legacy/labeled/GHFspace.tex`.
   (`ccPrime_graph_const`) and **the hyperboloid** (`ccPrime_graph_hyperboloid`, via
   `nullSaturated_graph_hyperboloid`): (CC′) holds for a surface that is no Cauchy surface of
   `𝐌ⁿ`, as Cauchy-completeness should.
-* **D.** `dependenceDomain C W S` for a general causality (inextensible curves of `W`);
+* **D.** `dependenceDomain C W S` for a general causality (inextensible curves of `W`; with its
+  general lemmas in `Causal.DependenceDomain` since T-abs-hoist-model-free, imported);
   `graph_subset_interior_dependenceDomain` (`S ⊆ int D(S)` for strictly contracting `f`, by a
   cylinder argument); `dependenceDomain_eq_of_isCauchySurfaceOn`, so `D = 𝐌ⁿ` under the
   criterion (`dependenceDomain_graph_eq_univ`); **`D(hyperboloid) = {p |
@@ -934,35 +936,6 @@ theorem ccPrime_graph_const (a : ℝ) : CCPrime (graph fun _ : EuclideanSpace �
     ring
 
 /-! ### D. The domain of dependence -/
-
-/-- **The domain of dependence** `D(S)` of `S` in the open `W`, for a general causality: the
-points `p ∈ W` such that every inextensible causal curve of `W` through `p` meets `S`. -/
-def dependenceDomain {M : Type*} [TopologicalSpace M] (C : Causality M) (W : Opens M)
-    (S : Set M) : Set M :=
-  {p | p ∈ W ∧ ∀ (I : Set ℝ) (c : ℝ → M), C.Inextensible W I c → p ∈ c '' I →
-    (c '' I ∩ S).Nonempty}
-
-section dependence
-
-variable {M : Type*} [TopologicalSpace M] {C : Causality M} {W : Opens M} {S : Set M}
-
-theorem mem_dependenceDomain {p : M} : p ∈ dependenceDomain C W S ↔ p ∈ W ∧
-    ∀ (I : Set ℝ) (c : ℝ → M), C.Inextensible W I c → p ∈ c '' I → (c '' I ∩ S).Nonempty :=
-  Iff.rfl
-
-theorem dependenceDomain_subset : dependenceDomain C W S ⊆ W := fun _ hp => hp.1
-
-theorem subset_dependenceDomain (hSW : S ⊆ W) : S ⊆ dependenceDomain C W S :=
-  fun p hp => ⟨hSW hp, fun _ _ _ hpc => ⟨p, hpc, hp⟩⟩
-
-/-- A Cauchy surface of `W` has all of `W` for domain of dependence. -/
-theorem dependenceDomain_eq_of_isCauchySurfaceOn (h : C.IsCauchySurfaceOn W S) :
-    dependenceDomain C W S = W :=
-  Subset.antisymm dependenceDomain_subset fun _ hp => ⟨hp, fun I c hc _ => by
-    obtain ⟨x, hx, -⟩ := h I c hc
-    exact ⟨x, hx⟩⟩
-
-end dependence
 
 /-- Under the null-line criterion, the domain of dependence of a strictly contracting graph is
 all of `𝐌ⁿ`. -/

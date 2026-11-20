@@ -52,7 +52,7 @@ rediscover. One fact per entry.
 | [0044](entries/0044-gluing-closedness-not-topology.md) | pitfall | Closed H, open C and a unique corresponding point are not topology |
 | [0045](entries/0045-inextensibility-not-monotone-under-nesting.md) | pitfall | Inextensibility is not monotone under nesting |
 | [0046](entries/0046-cutline-counterexample.md) | pattern | A cheap local counterexample for nesting questions: the cut line |
-| [0047](entries/0047-model-free-lemmas-stranded.md) | pitfall | Model-free lemmas stranded in model-importing modules |
+| [0047](entries/0047-model-free-lemmas-stranded.md) | pitfall | Model-free lemmas once stranded in model-importing modules: now in the ETT layer |
 | [0048](entries/0048-causal-ladder-tactic.md) | pattern | The `causal_ladder` tactic, and regenerating its rules |
 | [0049](entries/0049-locating-an-extension.md) | pattern | Locating an extension is a characterisation, and needs a chronal neighbour |
 | [0050](entries/0050-isolated-line.md) | pattern | A cheap plain, causally open, arc-connected line with a chronologically isolated point |

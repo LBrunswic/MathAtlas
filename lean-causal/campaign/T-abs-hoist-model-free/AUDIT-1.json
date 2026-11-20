@@ -1,0 +1,54 @@
+{
+ "target": "T-abs-hoist-model-free",
+ "auditor_round": 1,
+ "verdict": "clean",
+ "labels": [
+  {
+   "label": "T-abs-hoist-model-free/exists_minimal_of_isCompact",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "No paper label is certified and no module docstring carries a mark. Causal.Causality.exists_minimal_of_isCompact moved from Causal.CBG.NoCorresponding to Causal.CompactMinimal. Its type, universe parameters and full binder telescope (names and binder infos) are identical before and after on the compiled environment. Its Zorn proof is replaced by a derivation from exists_minimal_of_isCompact_on at W = ⊤, as documented. exists_minimal_of_isCompact_on was moved from Causal.NestedCausalities and is byte-identical to HEAD (Nested.old:1286-1334 = CompactMinimal:61-109). It is kept because it is more general (any open W, J⁻_W(x) closed only inside K, conclusion J⁻_W(p) ∩ K = {p}, which implies the W = ⊤ form), and that is correct. Axioms: standard. The Sbierski binder's Causal.Causality.exists_minimal_of_isCompact still resolves. lean-gx's positional calls (GX/BTZ/AbsMax.lean:229, Spear.lean:1585) see an unchanged signature."
+  },
+  {
+   "label": "T-abs-hoist-model-free/dependenceDomain",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Causal.Flat.dependenceDomain and its four lemmas moved verbatim from LipschitzGraph:938-965 to DependenceDomain:49-76 (cmp byte-identical) and kept the Causal.Flat namespace. Their types and definition-value hashes are unchanged. Causal.DependenceDomain imports only Causal.Cauchy: 17 Causal modules in its closure, none a model module. Causality.dependenceDomainOn is kept as an abbrev of Flat.dependenceDomain. Its type and binder telescope are unchanged; only its value (now Flat.dependenceDomain C W S, definitionally the old set-builder) and its reducibility (semireducible -> reducible) changed, and the REPORT discloses both. Its three lemmas keep name and type. Every NestedCausalities statement written with dependenceDomainOn, and every Flat user of dependenceDomain, has an identical type. The Barbot curation names only Minkowski-specific D(S) results, which stay in LipschitzGraph."
+  },
+  {
+   "label": "T-abs-hoist-model-free/curveOn_of_rel_imp",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "CausalConvex's whole section Relative (HEAD lines 141-253) is byte-identical to CurveComponents:62-174, and its 12 declarations have unchanged types. Causal.CurveOn.of_rel_imp was removed. A probe restating it from HEAD's text derives it in one line as curveOn_of_rel_imp (fun N _ x y => h N x y) hc, so it is a special case, as claimed (hypothesis on every open instead of the opens below V). Its only user, LeNested.curveNestedOn, was re-pointed and keeps its type. No live file names the removed name: grep of lean-causal/Causal, scaffold, docs, kb, papers/*/certificate, programme, reports/blueprint/build.py and tools finds only CurveComponents' own SCOPE note, kb/0047 and the target's roadmap title. Generated reports/atlas/lean/facts-lean-causal.json and reports/blueprint/index.html are stale until regenerated. Campaign REPORT/AUDIT JSONs are history, and I agree with the closer's reading."
+  },
+  {
+   "label": "T-abs-hoist-model-free/inextensible_ordConnectedComponent_of_le",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "inextensible_ordConnectedComponent_of_le and the relativeTo machinery moved with section Relative. The implicit names are kept (U ambient, W inner), so the (U := ⊤) callers in CBG/Maximal:337, CBG/Ppcm:388 and lean-gx Spear.lean:3129/3221 still resolve. Causal.Causality.inextensible_ordConnectedComponent_on was removed. A probe restating it verbatim from HEAD derives it as inextensible_ordConnectedComponent_of_le hcaus hUW hc ht₀ hU, with the same explicit arguments in the same order. The closer's finding is correct: _on is the same proposition with the two opens' names exchanged, not a more general form, and kb/0047's '(the last for an ambient open W)' misreads _of_le, which is already relative. The 4 calls in ers_theorem_4_77 were re-pointed. ers_theorem_4_77's type is unchanged and its axioms are standard. Nothing live names _on (same grep as above)."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "details": "`taskset -c 0-11 lake build Causal CausalScaffold Causal.CompactMinimal Causal.CurveComponents Causal.DependenceDomain` succeeded with 3804 jobs, all replayed, so the build is up to date with the sources. The only warnings are the 6 permitted scaffold `declaration uses sorry`. scripts/sorry_count.py: strict 0 in 217 files, scaffold 6 in 6 (unchanged). scripts/AxiomSweep.lean: 12916 strict declarations in 218 modules, all within propext/Classical.choice/Quot.sound; the 17 scaffold sorry-dependent declarations are unchanged. A probe (written under the campaign directory, deleted afterwards) ran #print axioms on all 19 moved declarations and on dependenceDomainOn and its 3 lemmas, LeNested.curveNestedOn, ers_theorem_4_77 and exists_spacelike_boundary_point: each depends on [propext, Classical.choice, Quot.sound] only."
+ },
+ "independent_checks": {
+  "declaration_diff": "HEAD's lean-causal was rebuilt in a /tmp copy: git archive of HEAD, build directory copied, packages symlinked and verified untouched (`lake build --no-build` reports up to date; no file under .lake/packages is newer). The copy has since been deleted. In both environments every constant of Causal.* and CausalScaffold.* was dumped with module, kind, universe parameters, reducibility, full pi-telescope binder names and infos (hygienic names erased), alpha-invariant type hash, and definition-value hash. Result: 12992 before, 12990 after. Disappeared: exactly Causal.Causality.inextensible_ordConnectedComponent_on and Causal.CurveOn.of_rel_imp. Added: none. Moved module: exactly the 19 the REPORT lists. Kind, universe parameters, binder telescope and type differ for 0 of the 12990 surviving constants. Reducibility and value differ only for Causal.Causality.dependenceDomainOn (the disclosed abbrev).",
+  "textual": "git diff of the four edited files shows only: deletion of the moved declarations; added imports; docstring and section-header text; the re-pointed calls (LeNested.curveNestedOn; four calls in ers_theorem_4_77, one re-wrapped over two lines); the dependenceDomainOn abbrev and its three one-line proofs. Section Relative and § D are byte-identical in the new modules, and so is exists_minimal_of_isCompact_on. exists_minimal_of_isCompact's statement is verbatim, with a new 6-line proof.",
+  "layer": "Import closures, computed from the sources and confirmed on the compiled environment (25 Causal modules in the closure of the four, none of them Minkowski, Static, SingularFlat, Flat.*, Model.* or Port.*): CompactMinimal 3, CurveComponents 22, DependenceDomain 17, NestedCausalities 25. DependenceDomain declares in the Causal.Flat namespace but imports no Causal.Flat.* module. ETT-layer count recomputed under the REPORT's definition: 44 of 214 at HEAD, 47 of 217 now; the added modules are exactly the three new ones and none was lost.",
+  "ledgers_binders": "These all pass, and git status is unchanged by them: tools/binder.py check (2 binders, all links resolve); tools/ladder.py check; ledger.py check for ett (137/131), barbot (44/39), sbierski-mghd (19/0) and ers-predictability (32/0), each 'all links resolve', exit 0.",
+  "lean_gx": "lean-gx/lakefile.toml and its lake-manifest.json pin Causal at ca2ad78f, so lean-gx is untouched now. Its uses (exists_minimal_of_isCompact positional; inextensible_ordConnectedComponent_of_le (U := ⊤); inextensible_congr_causality) keep their names and binder telescopes. The modules it imports reach the new ones through CausalConvex and NoCorresponding.",
+  "scope": "git status --short lean-causal shows only the 4 allowed modified files, the 3 new modules under Causal/, and this campaign directory. Causal.lean is not edited. programme/ladder.toml, programme/roadmap.toml (status flips), reports/atlas/* and roadmap/roadmap.toml belong to other loops or to the master: the other loop committed bd9c8f8..0975dd8 during this audit, and none of those commits touches lean-causal.",
+  "docstrings": "All three new modules follow kb/0006: title, 'No label ... certified' (no marks), a quote block, a hypothesis checklist, SCOPE and Provenance. Their claims are true. The Barbot quote matches GHFspace.tex:2519-2523. The cited names exist (meets_of_mem_dependenceDomain, mem_dependenceDomain_of_meets, Flat.Cla.CoverMax, IsCorrPair.exists_corresponds_of_le, CGHDData.exists_spacelike_corresponding, exists_spacelike_boundary_point). The pointers in the old modules (NoCorresponding 'Model-free' bullet, CausalConvex item 1, LipschitzGraph item D) are true. NestedCausalities' rewritten SCOPE is true: exists_spacelike_boundary_point still cites NoCorresponding as model-importing, which remains the case."
+ },
+ "findings": [],
+ "notes_for_master": [
+  "Causal.lean does not import the three new modules (as dispatched). They are built by the Causal.* glob and reached transitively by the root, so the sweep sees them. Add the imports when committing.",
+  "kb/0047 is now stale and partly wrong. It says 'Causal.dependenceDomain' where the name is Causal.Flat.dependenceDomain, and it calls _on 'for an ambient open W' when _of_le is already relative. It can be closed as the REPORT proposes.",
+  "reports/atlas/lean/facts-lean-causal.json and reports/blueprint/index.html still list the two removed declarations and the old modules and lines. They are generated, so a regeneration is due with the commit.",
+  "Causal.Causality.dependenceDomainOn is now reducible (abbrev). Statements are unchanged and everything builds, but simp and rw now see through it. This is disclosed and is the alias the dispatch allowed.",
+  "Whether Flat.dependenceDomain should get a Causality-namespace name, now that it lives in an ETT-layer module, is the closer's open question for you, not a defect."
+ ]
+}

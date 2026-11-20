@@ -212,6 +212,9 @@ import Causal.LadderLocal
 import Causal.Ladder.Basic
 import Causal.Ladder.Rules
 import Causal.Ladder.Test
+import Causal.CompactMinimal
+import Causal.CurveComponents
+import Causal.DependenceDomain
 
 /-!
 # Causal — topological spacetimes

@@ -1,5 +1,8 @@
 import Causal.CauchyExtension
 import Causal.Subdivision
+import Causal.CompactMinimal
+import Causal.CurveComponents
+import Causal.DependenceDomain
 import Mathlib.Topology.Connected.LocallyConnected
 
 /-!
@@ -83,14 +86,18 @@ it uses, among these three: item 1 only `≤` at `M` (or at `W`); item 2 inexten
   function, spacelike level sets and their domains of dependence are named hypotheses.
 * 4.77 concludes that `S` is a Cauchy surface of the union; "globally hyperbolic" from it is
   Geroch's (iii)⇒(i), the cited and unproved step of `CausalScaffold.GerochEquiv`, not invoked.
-* `dependenceDomainOn` is definitionally `Causal.dependenceDomain` of `Causal.Flat.LipschitzGraph`
-  (a model module, not importable here): two-sided, as the library's. `D^±` are not treated.
-* `inextensible_ordConnectedComponent_on` restates, for an ambient open `W`, the strict library's
-  `inextensible_ordConnectedComponent` (`W = ⊤`); the proof is that one, with `W` for `⊤`.
-* `exists_minimal_of_isCompact_on` and `exists_spacelike_boundary_point` are the open-set forms of
-  `Causality.exists_minimal_of_isCompact` and of Sbierski's Lemma 3.9 in
-  `Causal.CBG.NoCorresponding` (`W = ⊤`, `J⁻` closed in `M`), which imports a model and cannot be
-  imported here.
+* `dependenceDomainOn` is an `abbrev` of the library's `Flat.dependenceDomain`
+  (`Causal.DependenceDomain`, hoisted out of `Causal.Flat.LipschitzGraph` by
+  T-abs-hoist-model-free): two-sided, as the library's. `D^±` are not treated.
+* The component lemma (an inextensible curve of `W`, cut to an open `U ≤ W`) is the library's
+  `inextensible_ordConnectedComponent_of_le` and the change of relations along a curve its
+  `curveOn_of_rel_imp` (`Causal.CurveComponents`); `futureExtensible_of_final_on` and
+  `not_futureExtensible_of_component_on` are the splicing steps of `Causal.CauchyExtension` in an
+  open `W`.
+* `exists_spacelike_boundary_point` is the open-set form of Sbierski's Lemma 3.9 in
+  `Causal.CBG.NoCorresponding` (`W = ⊤`, `J⁻` closed in `M`), which imports a model; its
+  minimal point is `Causality.exists_minimal_of_isCompact_on` (`Causal.CompactMinimal`), of which
+  `Causality.exists_minimal_of_isCompact` is the case `W = ⊤`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -106,14 +113,6 @@ universe u
 variable {M : Type u} [TopologicalSpace M]
 
 /-! ## 0. Nesting -/
-
-/-- A curve for the relations `r` is a curve for any family `r'` containing them. -/
-theorem CurveOn.of_rel_imp {r r' : Opens M → M → M → Prop} {W : Opens M} {c : ℝ → M} {a b : ℝ}
-    (hc : CurveOn r W c a b) (h : ∀ N x y, r N x y → r' N x y) : CurveOn r' W c a b where
-  mem := hc.mem
-  rel t ht N hN htN := by
-    obtain ⟨l, u, hl, hu, hrel⟩ := hc.rel t ht N hN htN
-    exact ⟨l, u, hl, hu, fun s hs s' hs' h1 h2 h3 => h _ _ _ (hrel s hs s' hs' h1 h2 h3)⟩
 
 namespace Causality
 
@@ -147,7 +146,7 @@ theorem dual_leNested_iff : LeNested C.dual C'.dual ↔ LeNested C C' :=
   ⟨fun h _ _ _ hxy => h hxy, fun h _ _ _ hxy => h hxy⟩
 
 theorem LeNested.curveNestedOn (h : LeNested C C') (W : Opens M) : CurveNestedOn C C' W :=
-  fun _ _ _ hc => CurveOn.of_rel_imp hc fun _ _ _ h' => h h'
+  fun _ _ _ hc => curveOn_of_rel_imp (fun _ _ _ _ h' => h h') hc
 
 theorem CurveNestedOn.causalCurveIn (h : CurveNestedOn C C' W) (hc : C.CausalCurveIn W I c) :
     C'.CausalCurveIn W I c :=
@@ -300,21 +299,20 @@ variable {C C' : Causality M} {U V W : Opens M} {I : Set ℝ} {c : ℝ → M} {S
 
 variable (C) in
 /-- **The domain of dependence** `D(S)` of `S` in the open `W`: the points of `W` every
-inextensible causal curve of `W` through which meets `S`. -/
-def dependenceDomainOn (W : Opens M) (S : Set M) : Set M :=
-  {p | p ∈ W ∧ ∀ (I : Set ℝ) (c : ℝ → M), C.Inextensible W I c → p ∈ c '' I →
-    (c '' I ∩ S).Nonempty}
+inextensible causal curve of `W` through which meets `S`. An `abbrev` of the library's
+`Flat.dependenceDomain C W S` (`Causal.DependenceDomain`), kept so that the statements below read
+as before. -/
+abbrev dependenceDomainOn (W : Opens M) (S : Set M) : Set M :=
+  Flat.dependenceDomain C W S
 
-theorem dependenceDomainOn_subset : C.dependenceDomainOn W S ⊆ W := fun _ hp => hp.1
+theorem dependenceDomainOn_subset : C.dependenceDomainOn W S ⊆ W := Flat.dependenceDomain_subset
 
 theorem subset_dependenceDomainOn (hSW : S ⊆ W) : S ⊆ C.dependenceDomainOn W S :=
-  fun p hp => ⟨hSW hp, fun _ _ _ hpc => ⟨p, hpc, hp⟩⟩
+  Flat.subset_dependenceDomain hSW
 
 theorem dependenceDomainOn_eq_of_isCauchySurfaceOn (h : C.IsCauchySurfaceOn W S) :
     C.dependenceDomainOn W S = W :=
-  Subset.antisymm dependenceDomainOn_subset fun _ hp => ⟨hp, fun I c hc _ => by
-    obtain ⟨x, hx, -⟩ := h I c hc
-    exact ⟨x, hx⟩⟩
+  Flat.dependenceDomain_eq_of_isCauchySurfaceOn h
 
 /-- **Nested domains of dependence**: the wider causality has the smaller domain of dependence,
 when inextensibility is nested. -/
@@ -648,7 +646,7 @@ theorem image_uIcc_subset_of_isCauchySurfaceOn [T2Space M] (hcaus : C.IsCausal) 
   · exact (ordConnectedComponent_subset (hJoc.uIcc_subset ht₀J hσ hu)).2
   · rw [eq_of_mem_uIcc_of_eq hcaus hc.1 hσI hr hσr hu]; exact hSU hσS
 
-/-! ### The component of an inextensible curve, in an open set `W` -/
+/-! ### The splicing steps of `Causal.CauchyExtension`, in an open set `W` -/
 
 /-- `futureExtensible_of_final` (`Causal.CauchyExtension`), in an open set `W` instead of `M`. -/
 theorem futureExtensible_of_final_on (hcaus : ∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y)
@@ -890,42 +888,6 @@ theorem not_futureExtensible_of_component_on [T2Space M]
   have hlimeq := tendsto_nhds_unique (h1.congr' heq') h2
   exact hβU (hlimeq ▸ hcurve.mem hsI')
 
-/-- **The component, in an open `U ≤ W`, of an inextensible causal curve of `W` is an
-inextensible causal curve of `U`** (`M` Hausdorff, `W` causal). For `W = ⊤` this is
-`inextensible_ordConnectedComponent` of `Causal.CauchyExtension`. -/
-theorem inextensible_ordConnectedComponent_on [T2Space M]
-    (hcaus : ∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) (hUW : U ≤ W)
-    (hc : C.Inextensible W I c) {t₀ : ℝ} (ht₀ : t₀ ∈ I)
-    (hU : c t₀ ∈ U) : C.Inextensible U (ordConnectedComponent (I ∩ c ⁻¹' U) t₀) c := by
-  set J := ordConnectedComponent (I ∩ c ⁻¹' U) t₀
-  have ht₀J : t₀ ∈ J := self_mem_ordConnectedComponent.2 ⟨ht₀, hU⟩
-  have hJI : J ⊆ I := fun t ht => (ordConnectedComponent_subset ht).1
-  have hJU : ∀ t ∈ J, c t ∈ U := fun t ht => (ordConnectedComponent_subset ht).2
-  have hJoc : J.OrdConnected := inferInstance
-  have hmax : ∀ t ∈ I, [[t₀, t]] ⊆ c ⁻¹' U → t ∈ J := fun t ht h =>
-    mem_ordConnectedComponent.2 fun x hx => ⟨hc.1.ordConnected.uIcc_subset ht₀ ht hx, h hx⟩
-  have hcurve : C.CausalCurveIn U J c := ⟨⟨t₀, ht₀J⟩, hJoc, fun a ha b hb =>
-    CurveOn.restrict (hc.1.curve a (hJI ha) b (hJI hb)) le_rfl le_rfl hUW
-      (fun t ht => hJU t (hJoc.out ha hb ht))⟩
-  obtain ⟨hpast, hfut⟩ := inextensible_iff.1 hc
-  refine inextensible_iff.2 ⟨⟨hcurve, ?_⟩,
-    ⟨hcurve, not_futureExtensible_of_component_on hcaus hUW hfut hJI ht₀J hJoc hJU hmax⟩⟩
-  have hd : C.dual.FutureInextensible U (-J) (fun t => c (-t)) := by
-    refine ⟨hcurve.reverse, not_futureExtensible_of_component_on (C := C.dual) (t₀ := -t₀)
-      (fun _ _ hxy hyx => hcaus hyx hxy) hUW (dual_futureInextensible_iff.2 hpast)
-      (fun t ht => hJI ht)
-      (show - -t₀ ∈ J by rw [neg_neg]; exact ht₀J)
-      ⟨fun x hx y hy z hz => show -z ∈ J from hJoc.out hy hx ⟨neg_le_neg hz.2, neg_le_neg hz.1⟩⟩
-      (fun t ht => hJU _ ht) fun t ht h => ?_⟩
-    refine hmax (-t) ht fun x hx => ?_
-    have hx' : -x ∈ [[-t₀, t]] := by
-      rcases mem_uIcc.1 hx with h' | h'
-      · exact mem_uIcc.2 (Or.inr ⟨by linarith [h'.2], by linarith [h'.1]⟩)
-      · exact mem_uIcc.2 (Or.inl ⟨by linarith [h'.2], by linarith [h'.1]⟩)
-    have := h hx'
-    simpa using this
-  exact (dual_futureInextensible_iff.1 hd).2
-
 theorem causalCurveOn_of_agree (h : ∀ V : Opens M, V ≤ W → ∀ x y, C.le V x y ↔ C'.le V x y)
     {a b : ℝ} (hc : C.CausalCurveOn W c a b) : C'.CausalCurveOn W c a b where
   mem := hc.mem
@@ -1117,7 +1079,7 @@ here + Theorem 4.64, PDE uniqueness on connected overlaps); its agreement with e
 `hpair` — Remark 4.67 (the intersection of two GHDs is their maximal common GHD, with Cauchy
 hypersurface `S`), from Theorem 4.64 and Lemma 4.70; `hcaus` — the union causal: supplied by no
 lemma of ERS (they obtain global hyperbolicity of `Umax` a posteriori), an added hypothesis, used
-by the component lemma `inextensible_ordConnectedComponent_on` and by the constancy step
+by the component lemma `inextensible_ordConnectedComponent_of_le` and by the constancy step
 `eq_of_mem_uIcc_of_eq`. -/
 theorem ers_theorem_4_77 [T2Space M] {ι : Type*} (U : ι → Opens M) (hSU : ∀ i, S ⊆ U i)
     (hcaus : ∀ ⦃x y : M⦄, C.le (⨆ i, U i) x y → C.le (⨆ i, U i) y x → x = y)
@@ -1135,9 +1097,10 @@ theorem ers_theorem_4_77 [T2Space M] {ι : Type*} (U : ι → Opens M) (hSU : �
     have hs₁Ui : c s₁ ∈ U i := hseg ⟨le_rfl, hs₁r⟩
     have hs₁J : s₁ ∈ ordConnectedComponent (I ∩ c ⁻¹' U i) s₁ :=
       self_mem_ordConnectedComponent.2 ⟨hs₁, hs₁Ui⟩
-    have hJi := inextensible_ordConnectedComponent_on hcaus (hUW i) hc hs₁ hs₁Ui
+    have hJi := inextensible_ordConnectedComponent_of_le hcaus (hUW i) hc hs₁ hs₁Ui
     have hrij : c r ∈ U i ⊓ U j := ⟨hseg ⟨hs₁r, le_rfl⟩, hrj⟩
-    have hJij := inextensible_ordConnectedComponent_on hcaus (inf_le_left.trans (hUW i)) hc hr hrij
+    have hJij :=
+      inextensible_ordConnectedComponent_of_le hcaus (inf_le_left.trans (hUW i)) hc hr hrij
     obtain ⟨_, ⟨⟨σ, hσ, rfl⟩, hσS⟩, -⟩ := hpair i j _ c hJij
     have hσ' := mem_ordConnectedComponent.1 hσ
     have hσJi : σ ∈ ordConnectedComponent (I ∩ c ⁻¹' U i) s₁ := by
@@ -1158,7 +1121,7 @@ theorem ers_theorem_4_77 [T2Space M] {ι : Type*} (U : ι → Opens M) (hSU : �
   intro I c hc
   obtain ⟨t₀, ht₀⟩ := hc.1.nonempty
   obtain ⟨i₀, hi₀⟩ := Opens.mem_iSup.1 (hc.1.mem ht₀)
-  have hJ := inextensible_ordConnectedComponent_on hcaus (hUW i₀) hc ht₀ hi₀
+  have hJ := inextensible_ordConnectedComponent_of_le hcaus (hUW i₀) hc ht₀ hi₀
   obtain ⟨_, ⟨⟨σ, hσ, rfl⟩, hσS⟩, -⟩ := hU i₀ _ c hJ
   have hσI : σ ∈ I := (ordConnectedComponent_subset hσ).1
   have key : ∀ s₁ ∈ I, ∀ s₂ ∈ I, s₁ ≤ s₂ → c s₁ ∈ S → c s₂ ∈ S → c s₂ = c s₁ := by
@@ -1202,7 +1165,7 @@ theorem ers_theorem_4_77 [T2Space M] {ι : Type*} (U : ι → Opens M) (hSU : �
     obtain ⟨i, hi⟩ := hind m
     rw [hm m le_rfl] at hi
     have hs₁Ui : c s₁ ∈ U i := hi ⟨le_rfl, h12⟩
-    have hJi := inextensible_ordConnectedComponent_on hcaus (hUW i) hc hs₁ hs₁Ui
+    have hJi := inextensible_ordConnectedComponent_of_le hcaus (hUW i) hc hs₁ hs₁Ui
     have hs₂J : s₂ ∈ ordConnectedComponent (I ∩ c ⁻¹' U i) s₁ :=
       mem_ordConnectedComponent.2 (by rw [uIcc_of_le h12]; exact fun x hx => ⟨hIcc hx, hi hx⟩)
     obtain ⟨_, -, huniq⟩ := hU i _ c hJi
@@ -1282,56 +1245,6 @@ theorem inter_subset_connectedComponentIn {U₁ U₂ V : Set M} {s₀ q : M}
   have hzF : z ∈ U₁ ∩ U₂ := connectedComponentIn_subset _ _ hzA
   rw [connectedComponentIn_eq hzA]
   exact hconn.subset_connectedComponentIn ⟨hzV, hzF.1⟩ fun y hy => ⟨hy.2, hVU₂ hy.1⟩
-
-/-- **A compact set has a causally minimal point** (`W` causal, `M` Hausdorff, the pasts closed in
-the set). -/
-theorem exists_minimal_of_isCompact_on [T2Space M]
-    (hcaus : ∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) {K : Set M} (hK : IsCompact K)
-    (hKW : K ⊆ W) (hne : K.Nonempty) (hJ : ∀ x ∈ K, IsClosed (C.Jminus W {x} ∩ K)) :
-    ∃ p ∈ K, C.Jminus W {p} ∩ K = {p} := by
-  have hKcl : IsClosed K := hK.isClosed
-  have hdown : ∀ x ∈ K, ∀ y ∈ C.Jminus W {x} ∩ K, C.Jminus W {y} ∩ K ⊆ C.Jminus W {x} ∩ K := by
-    intro x _ y hy z hz
-    have h1 : C.le W z y := by simpa using hz.1
-    have h2 : C.le W y x := by simpa using hy.1
-    exact ⟨by simpa using C.le_trans h1 h2, hz.2⟩
-  have hself : ∀ x ∈ K, x ∈ C.Jminus W {x} ∩ K := fun x hx =>
-    ⟨by simpa using C.le_refl (hKW hx), hx⟩
-  let 𝒮 : Set (Set M) :=
-    {A | A ⊆ K ∧ A.Nonempty ∧ IsClosed A ∧ ∀ x ∈ A, C.Jminus W {x} ∩ K ⊆ A}
-  have hK𝒮 : K ∈ 𝒮 := ⟨subset_rfl, hne, hKcl, fun _ _ => inter_subset_right⟩
-  have hchains : ∀ c ⊆ 𝒮, IsChain (· ⊆ ·) c → c.Nonempty → ∃ lb ∈ 𝒮, ∀ s ∈ c, lb ⊆ s := by
-    intro c hc hchain hcne
-    have hdir : DirectedOn (· ⊇ ·) c := fun A hA B hB => by
-      rcases eq_or_ne A B with rfl | hAB
-      · exact ⟨A, hA, subset_rfl, subset_rfl⟩
-      rcases hchain hA hB hAB with h | h
-      · exact ⟨A, hA, subset_rfl, h⟩
-      · exact ⟨B, hB, h, subset_rfl⟩
-    haveI : Nonempty c := hcne.to_subtype
-    refine ⟨⋂₀ c, ⟨?_, ?_, isClosed_sInter fun A hA => (hc hA).2.2.1, ?_⟩,
-      fun A hA => sInter_subset_of_mem hA⟩
-    · obtain ⟨A, hA⟩ := hcne
-      exact (sInter_subset_of_mem hA).trans (hc hA).1
-    · exact IsCompact.nonempty_sInter_of_directed_nonempty_isCompact_isClosed hdir
-        (fun A hA => (hc hA).2.1) (fun A hA => hK.of_isClosed_subset (hc hA).2.2.1 (hc hA).1)
-        (fun A hA => (hc hA).2.2.1)
-    · intro x hx y hy
-      exact mem_sInter.2 fun A hA => (hc hA).2.2.2 x (mem_sInter.1 hx A hA) hy
-  obtain ⟨m, -, hm⟩ := zorn_superset_nonempty 𝒮 hchains K hK𝒮
-  obtain ⟨hmK, ⟨p, hp⟩, -, hmdown⟩ := hm.prop
-  have heq : ∀ x ∈ m, m = C.Jminus W {x} ∩ K := fun x hx => by
-    have hx𝒮 : C.Jminus W {x} ∩ K ∈ 𝒮 :=
-      ⟨inter_subset_right, ⟨x, hself x (hmK hx)⟩, hJ x (hmK hx), hdown x (hmK hx)⟩
-    exact Subset.antisymm (hm.2 hx𝒮 (hmdown x hx)) (hmdown x hx)
-  refine ⟨p, hmK hp, ?_⟩
-  rw [← heq p hp]
-  refine eq_singleton_iff_unique_mem.2 ⟨hp, fun z hz => ?_⟩
-  have hzp : z ∈ C.Jminus W {p} ∩ K := by rw [← heq p hp]; exact hz
-  have hpz : p ∈ C.Jminus W {z} ∩ K := by rw [← heq z hz]; exact hp
-  have h1 : C.le W z p := by simpa using hzp.1
-  have h2 : C.le W p z := by simpa using hpz.1
-  exact hcaus h1 h2
 
 /-- **(4.65)/(4.85) without null geodesics**: on a closed set `B`, below a point `q` of
 `B ∩ J⁺(S)`, there is a point `p` with `J⁻(p) ∩ B ∩ J⁺(S) = {p}`, when `J⁻(q) ∩ J⁺(S)` is
