@@ -1,0 +1,103 @@
+{
+  "package": "T-bz-c2-projection",
+  "target": "T-bz-c2-projection",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter2/Projection.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bzprop:c2s3p1_projection_non_bornee",
+      "tex_lines": [
+        648,
+        654
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.projection_non_bornee",
+        "Benzecri.projection_non_bornee_of_ne_univ",
+        "Benzecri.ProjectionNonBorneePrinted",
+        "Benzecri.projectionNonBorneePrinted_iff",
+        "Benzecri.not_isBounded_range_of_isBalayable",
+        "Benzecri.projection_non_bornee_hypotheses_model"
+      ],
+      "hypotheses": [
+        {
+          "paper": "V une variété localement affine",
+          "here": "weakened",
+          "note": "[ChartedSpace (Fin n → ℝ) V] [HasGroupoid V (affGroupoid n)] only: Hausdorff, connected and second countable are never used. [Nonempty V] is the reading of « variété » (connected, hence nonempty); for V = ∅ the statement fails (E = ∅, no segment)."
+        },
+        {
+          "paper": "the dimension n (ℝⁿ)",
+          "here": "added",
+          "note": "[NeZero n] in projection_non_bornee: the printed statement is false for n = 0 (projectionNonBorneePrinted_iff). projection_non_bornee_of_ne_univ holds in every dimension with K ≠ ℝⁿ, which is automatic for n ≥ 1."
+        },
+        {
+          "paper": "balayable",
+          "here": "carried",
+          "note": "implied by the generating domain E (⟨E, hEc, hE⟩ : IsBalayable, Déf. 15), not assumed separately"
+        },
+        {
+          "paper": "une projection p sur ℝⁿ compatible avec la structure affine (V est un ouvert étalé au-dessus de ℝⁿ)",
+          "here": "carried",
+          "note": "IsDeveloping (GAR n) p: every jet of p is in J(V) (Ch. 1 Prop. 2), equivalently a morphism to ℝⁿ (isDeveloping_iff_isGXMorphism). « sur » is not read as onto."
+        },
+        {
+          "paper": "E un domaine générateur compact de V",
+          "here": "carried",
+          "note": "IsCompact E and ⋃ g ∈ ⊤, g • E = univ over GXAut (GAR n) (Fin n → ℝ) V, the affine automorphisms, as in Déf. 15 (IsBalayableFor … ⊤)"
+        },
+        {
+          "paper": "K un compact de ℝⁿ",
+          "here": "carried",
+          "note": ""
+        },
+        {
+          "paper": "un segment (M, N) de V tel que M ∈ E, p(N) ∉ K",
+          "here": "carried",
+          "note": "∃ Sg M N, IsAffSegment n Sg M N ∧ M ∈ E ∧ p N ∉ K (Ch. 1 Déf. 14)"
+        },
+        {
+          "paper": "2°: ℝⁿ muni d'une métrique euclidienne",
+          "here": "weakened",
+          "note": "the proof uses the sup norm of Fin n → ℝ; the statement involves no metric"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Prop. 1 (l.648–654) is false as printed in dimension 0. Take V = ℝ⁰ (a point), p = id, E = K = ℝ⁰: every hypothesis holds, and no N has p(N) ∉ ℝ⁰. The theorem projectionNonBorneePrinted_iff shows that the printed form ProjectionNonBorneePrinted n (with V nonempty built in) holds iff 0 < n. The printed proof uses a line of ℝⁿ in both cases a (l.657–662) and b, 1° (l.678–680), so it assumes n ≥ 1. This is the question already open as OQ-45 (a) for the pseudo-length's property 1°.",
+        "In the proof of 1° (l.682–683), the condition « fa/fb < k » does not give 1°'s « ma/ab < k » (l.675). The transcription matches the scan, p. 256. With f, a, b in this order, the points m of the segments (M, B) ⊇ (A, B) fill )f, a], so 1° holds for (a, b) iff fa/ab ≤ k. The printed condition gives only fa/ab < k/(1 − k) for k < 1, and nothing for k ≥ 1, since fa < fb always. Read fa/ab < k, or take a close enough to f. The statement is unaffected, and the formalized proof does not go through 1°."
+      ],
+      "questions": [
+        "Dimension (OQ-45 (a)): is n ≥ 1 implied? Reading taken: the principal theorem projection_non_bornee assumes [NeZero n], and the row is left unmarked because the printed form is false at n = 0. If the author rules (a), projection_non_bornee is at least the paper's statement as it stands (no Hausdorff, connected or countability hypothesis on V), and the bold mark can be added to the module docstring with no change to the Lean.",
+        "« variété » nonempty: reading taken, [Nonempty V], from the standing reading of « variété » as connected (CAMPAIGN.md). Without it the statement fails trivially for V = ∅, and ProjectionNonBorneePrinted builds the reading in. Connectedness, Hausdorffness and second countability are not assumed.",
+        "« une projection p sur ℝⁿ compatible avec la structure affine (V est un ouvert étalé au-dessus de ℝⁿ) »: reading taken, a developing map (IsDeveloping, every jet of p in J(V)), as in the § 1 examples (T-bz-c2-poches). « sur » is read as « to », not « onto ».",
+        "« domaine générateur compact »: reading taken, for the whole group of affine automorphisms (Déf. 15 with G₁ = ⊤, the « balayable » of the statement). A generating domain for a subgroup is one for the whole group, so the theorem covers it."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.isCompact_segment_real",
+    "Benzecri.IsAffSegment.symm",
+    "Benzecri.IsDeveloping.exists_eqOn_smul_chart",
+    "Benzecri.IsAffSegment.exists_eqOn_smul",
+    "Benzecri.IsAffSegment.isCompact_injOn_image",
+    "Benzecri.isAffSegment_of_isDeveloping",
+    "Benzecri.isAffSegment_iff_of_isDeveloping",
+    "Benzecri.IsAffSegment.image_smul_aut",
+    "Benzecri.exists_uniform_chart_radius",
+    "Benzecri.isAffSegment_chart_piece",
+    "Benzecri.IsAffSegment.extend",
+    "Benzecri.exists_smul_mem_of_iUnion_eq_univ",
+    "Benzecri.translationAut",
+    "Benzecri.translationAut_smul"
+  ],
+  "kb_proposals": [
+    "Segments through a developing map: (M, N) is a segment of a locally affine V iff it is compact, contains M and N, and p is injective on it with image [p M, p N] (isAffSegment_iff_of_isDeveloping, from Mathlib's Set.InjOn.exists_mem_nhdsSet). Build segments by lifting through p and concatenating, never by hand-made charts. Automorphisms carry segments to segments (IsAffSegment.image_smul_aut) and act along a segment as one element of GA(n) (IsAffSegment.exists_eqOn_smul), with no connectedness of V.",
+    "A lemma named IsCompact.foo inside namespace Benzecri becomes Benzecri.IsCompact.foo, and hE.foo fails because IsCompact unfolds to a ∀ (lean-causal kb/0010). Name such lemmas without the IsCompact prefix (exists_uniform_chart_radius).",
+    "A positive lower bound for finitely many positive reals: (Filter.eventually_all_finset t).2 with eventually_lt_nhds, filtered to 𝓝[>] 0, then (·.and self_mem_nhdsWithin).exists. No Finset.min' and no nonemptiness case split."
+  ],
+  "notes": "Sorry-free, and the label is unmarked on purpose: the only obstacle is dimension 0 (OQ-45). If the author rules OQ-45 (a), the mark goes on Benzecri.projection_non_bornee as it stands. The file imports only Benzecri.Chapter2.Poches. It compiles under -DwarningAsError=true with no warning. lake build BenzecriScaffold.Chapter2.Projection was green and rebuilt nothing upstream. #print axioms of the five label theorems (all but the def ProjectionNonBorneePrinted) and of isAffSegment_iff_of_isDeveloping gives propext, Classical.choice and Quot.sound only. No new name clashes with Benzecri/ or the scaffold. The scaffold root BenzecriScaffold.lean was not edited, so the master adds the import (lean-causal kb/0025). The formalized proof is not the printed one. It takes 1°'s segment as a near-maximal segment in a fixed direction from a point of E, which removes the case distinction a / b, the components of p⁻¹(l) (the planner's [r]) and every use of Hausdorffness. The SCOPE argues, without formalizing, that the printed 1° fails without Hausdorffness (the line with two origins) while the statement does not need it. For T-bz-result-b: not_isBounded_range_of_isBalayable is the « projection non bornée » of result B, from IsBalayable directly. Prop. 2 (T-bz-c2-hemisphere) is the projective twin, and the affine tools here mirror Mesure's projective ones (kb/0006 already notes a duplicate there)."
+}
