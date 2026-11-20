@@ -9,3 +9,6 @@ gx-specific. One fact per entry; propose one when you finish.
 | id | kind | entry |
 |---|---|---|
 | [0001](entries/0001-btz-terminology.md) | convention | gx's BTZ is BBS's *extreme* BTZ-like; BBS's BTZ-like is gx's `misner_btz` |
+| [0002](entries/0002-pi1-product-order.md) | pitfall | mathlib's π₁ product runs the right factor first |
+| [0003](entries/0003-polygonal-loops.md) | pattern | Relations among polygonal loops in a planar subspace need no explicit homotopy |
+| [0004](entries/0004-annulus-and-winding.md) | pattern | The annulus lemma, and winding numbers as holonomies for counterexamples |

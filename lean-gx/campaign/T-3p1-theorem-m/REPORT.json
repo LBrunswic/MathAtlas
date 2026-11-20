@@ -1,0 +1,231 @@
+{
+  "package": "T-3p1-theorem-m",
+  "target": "T-3p1-theorem-m",
+  "files": [
+    "scaffold/GXScaffold/Interaction/PuncturedSphere.lean",
+    "scaffold/GXScaffold/Interaction/TheoremM.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "N4:M1",
+      "tex_lines": [
+        338,
+        342
+      ],
+      "source": "papers/bbs/NOTES-3+1.md",
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.PunctDisc.cls_boundary",
+        "GX.discHol_eq_prod",
+        "GX.InteractionData.holIn_eq_prod",
+        "GX.discP_small",
+        "GX.theoremM"
+      ],
+      "hypotheses": [
+        {
+          "paper": "D- a disc carrying p1..pa",
+          "here": "weakened",
+          "note": "a continuous map of the model punctured disc GX.punctDisc a (closed rectangle minus a points); embeddedness is not required"
+        },
+        {
+          "paper": "base point on C-, arcs to the p_i in the cyclic order the orientation induces",
+          "here": "read",
+          "note": "the arcs are the images of the model's tethers (PuncturedSphere SCOPE (a)). The model's tethers overlap along x = -1, and a small perturbation separates them. Every disjoint arc system in the cyclic order matches them only after a homeomorphism of the closed disc taking the punctures to the model's, and up to homotopy rel endpoints in the punctured disc (Schoenflies, classical, not formalized). The lasso classes depend only on the tethers' homotopy classes."
+        },
+        {
+          "paper": "P(x) the holonomy of a small positive loop around x",
+          "here": "carried",
+          "note": "GX.discP_small: P(p_k) is the holonomy of a counterclockwise square of any half-side r < 1/2 around the k-th puncture, conjugated by its tether, and inside any prescribed neighbourhood of p_k"
+        },
+        {
+          "paper": "hol the holonomy representation",
+          "here": "weakened",
+          "note": "every group homomorphism pi_1(M, x0) -> G; gx's developing pair in GX.theoremM_developing / GX.theoremM_singular"
+        },
+        {
+          "paper": "only elliptic singularities; Sigma causally regular",
+          "here": "weakened",
+          "note": "not used by the holonomy relation"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "Product and holonomy convention (NOTES l.338): the notes do not say whether hol is a homomorphism or an anti-homomorphism for concatenation, nor where the cyclic order starts. Reading taken: mathlib's group law on pi_1 ([g]*[d] = [d then g]) and gx's holonomy homomorphism; then hol(C-) = P(p1)...P(pa) holds with p_a, ..., p_1 the order in which the arcs leave the base point counterclockwise from the direction in which C- leaves it (as a concatenation, C- = gamma_{p_a} ... gamma_{p_1}, gamma_{p_a} first).",
+        "The sentence 'Lifted to G~, this defines the total angle Theta-' (NOTES l.341-342, with P~(x) the rotation by the real cone angle, l.330-331) is not formalized. Reading taken: Theta- is the angle of the elliptic RP1-circle C- from the hyperbolic side (the notes' second sentence). The session's own reasoning [r], NOT evidence: the canonical lifts do not multiply termwise, since a regular point has P~ = delta (rotation by 2 pi) although its loop is trivial. The session expects hol~(C-) = delta^(1-a) P~(p1)...P~(pa). Its checks are a = 0 (D- = H^2, angle 2 pi), a = 1, and the light-particle limit, where the total deficit is the sum of the deficits. If the notes mean Theta- = angle(P~(p1)...P~(pa)), that is off by 2 pi (a-1).",
+        "pi_1(D- minus {p_i}) is free on the gamma_i (NOTES l.339): not formalized, and not used. The statement of (M1) needs only the relation [C-] = prod [gamma_i], which is proved. Should freeness be its own target?"
+      ]
+    },
+    {
+      "label": "N4:M2",
+      "tex_lines": [
+        343,
+        343
+      ],
+      "source": "papers/bbs/NOTES-3+1.md",
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.InteractionData.holOut_eq_prod",
+        "GX.SphereData.holOut_eq_prod",
+        "GX.discHol_eq_prod",
+        "GX.theoremM"
+      ],
+      "hypotheses": [
+        {
+          "paper": "D+ a disc carrying q1..qb",
+          "here": "carried",
+          "note": "a continuous map of the model punctured disc"
+        },
+        {
+          "paper": "'the proof is the same'",
+          "here": "carried",
+          "note": "literally: GX.discHol_eq_prod serves both discs"
+        },
+        {
+          "paper": "orientation of C+ and of the loops around the q_j",
+          "here": "read",
+          "note": "InteractionData: C+ and the q-loops are oriented as seen from D- union A, i.e. NEGATIVELY for Sigma's orientation; SphereData: positively. The relation hol(C+) = P(q1)...P(qb) holds in either orientation of D+, with that orientation's loops; see the N4:M3 finding"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "Which orientation do 'positive loop around q_j' and 'hol(C+)' use (NOTES l.329, 343)? The orientation of the sphere Sigma, or the one transported from D- across A? The answer decides whether (M3) holds (N4:M3 finding). Reading taken for the record: transported from D- (InteractionData), under which (M1)-(M3) are proved. The other reading is also formalized (SphereData)."
+      ],
+      "total_angle": "Theta+ (NOTES l.343) is not formalized, for the reason given under N4:M1 / N4:M3."
+    },
+    {
+      "label": "N4:M3",
+      "tex_lines": [
+        344,
+        350
+      ],
+      "source": "papers/bbs/NOTES-3+1.md",
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.mk_eq_conj_of_annulus",
+        "GX.InteractionData.holIn_eq_holOut",
+        "GX.theoremM",
+        "GX.SphereData.holIn_mul_holOut",
+        "GX.SphereData.sphere_relation",
+        "GX.SphereData.holIn_eq_holOut_iff",
+        "GX.m3_printed_fails"
+      ],
+      "hypotheses": [
+        {
+          "paper": "A a regular de Sitter annulus joining C- and C+",
+          "here": "carried",
+          "note": "a continuous map of the square into M = reg Sigma, periodic in the second variable, with inner circle C- and outer circle C+"
+        },
+        {
+          "paper": "A and C+- regular",
+          "here": "carried",
+          "note": "the annulus maps into M = reg Sigma"
+        },
+        {
+          "paper": "de Sitter geometry of A (left isotropic foliation, BBS l.2960-3013)",
+          "here": "weakened",
+          "note": "not used by the holonomy half"
+        }
+      ],
+      "sorries": [],
+      "not_stated": [
+        {
+          "claim": "Theta- = Theta+ as real numbers (NOTES l.344, 347-349; BBS l.3013)",
+          "obstruction": "Stating it needs objects that no library has at this pin: HS^2 as a (SO0(1,2), HS^2) model with its analytic action, the photon circles C+- of a singular HS-sphere, their RP1-structures from the hyperbolic side, the universal cover G~ of PSL(2,R) acting on RP1~, and the real angle of an elliptic RP1-circle. Proving it also needs the de Sitter geometry of A. A route, the session's own reasoning [r], NOT evidence: lift the developing map of A to the universal cover of the closed de Sitter annulus dS~ union R- union R+; the two boundary lines then carry the same lifted holonomy g~; the left isotropic foliation identifies R- with R+ G~-equivariantly; so the translation numbers of g~ on R-+ agree. This would give Theta- = Theta+ whenever C+- are elliptic and A is regular."
+        }
+      ],
+      "findings": [
+        "NOTES-3+1.md l.329, l.343-346 against l.214-216, 227-229 (N3) and l.477 (N5). Take one orientation for every loop: P(x) the holonomy of a small loop positive for Sigma's orientation (l.329), and C+- the positive boundaries of D+- ('the proof is the same', l.343). Then (M1)+(M2)+(M3) give P(p1)...P(pa) = P(q1)...P(qb). But on the oriented sphere the annulus runs the positive boundary of D+ backwards, so hol(C-) hol(C+) = 1. This is N3's own relation 'prod P_i = 1' (l.215, 229) and the 'P_in^-1' of N5 (l.477). In that reading (M3) holds iff hol(C-)^2 = 1. Lean: GX.SphereData.holIn_mul_holOut, GX.SphereData.sphere_relation, GX.SphereData.holIn_eq_holOut_iff, all proved. Counterexample GX.m3_printed_fails, proved: on the Riemann sphere, with the incoming particle at 0, the outgoing one at infinity, D- = {|z| <= 1}, A = {1 <= |z| <= 2} and D+ = {|z| >= 2} plus infinity, both boundaries are positive (winding +1 around 0 in the chart z, +1 around infinity in the chart 1/z). For every holonomy rho_g = g^wind with g^2 != 1, rho_g(C-) = g != g^-1 = rho_g(C+). [r], not formalized: the link of a point on a massive particle line (a = b = 1) has holonomy of this form with g the rotation by the deficit, so it violates the positive-positive reading unless the cone angle is pi. Corrected form, proved (GX.InteractionData.holIn_eq_holOut): (M2)-(M3) hold when C+ and the loops around the q_j are oriented as C- transported across A, which is negative for Sigma. In Sigma-positive terms, (M2)+(M3) read hol(C-) = P(qb)^-1 ... P(q1)^-1. One of the two conventions has to be fixed in the notes."
+      ],
+      "questions": [
+        "Orientation convention for C+ and for the outgoing loops: see N4:M2. Physically [r], outgoing momenta should be read with the orientation transported from the past, the spatial orientation, for momentum conservation P_in = P_out to hold. Reading taken for the formalization of record: InteractionData (transported)."
+      ]
+    },
+    {
+      "label": "N4:theorem-M",
+      "tex_lines": [
+        333,
+        360
+      ],
+      "source": "papers/bbs/NOTES-3+1.md",
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.InteractionData",
+        "GX.theoremM",
+        "GX.theoremM_developing",
+        "GX.theoremM_singular",
+        "GX.SphereData",
+        "GX.SphereData.sphere_relation"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Sigma a causally regular HS-sphere (tm:thierry type 1)",
+          "here": "weakened",
+          "note": "any space M. In GX.theoremM_singular, M is the regular part of any singular (G,X)-surface in gx's sense (SingularGXStructure, regChartedSpace). This would cover an HS-sphere only once HS^2 is a (G,X)-model, which it is not at this pin. The decomposition D- union A union D+ is data (GX.InteractionData)."
+        },
+        {
+          "paper": "the holonomy of Sigma",
+          "here": "carried",
+          "note": "GX.theoremM_developing: a developing pair (dev, rho) of the (G,X)-manifold, from GX.developing_theorem_fundamentalGroup; GX.theoremM: every rho"
+        },
+        {
+          "paper": "(not in N4)",
+          "here": "read",
+          "note": "theoremM_developing assumes LocPathConnectedSpace M and SemilocallySimplyConnected M; theoremM_singular assumes LocallyConnectedSpace X, T2Space X, LocPathConnectedSpace S and SemilocallySimplyConnected (reg S). These are the standing hypotheses of gx's developing theorem and of singular_manifold_holonomy_indeed; the regular part of a surface and HS^2 satisfy them. GX.theoremM assumes none of them."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "See N4:M3. Momentum conservation as N4 prints it needs an explicit orientation convention for the outgoing side."
+      ],
+      "questions": [],
+      "physical_reading": "Not formalized: the masses, Theta < 2 pi as BBS Def 4.2, and (M4) with tachyons and photons (NOTES l.351-360)."
+    }
+  ],
+  "extra_decls": [
+    "GX.homotopic_of_convex_subset",
+    "GX.segIn",
+    "GX.segIn_mem",
+    "GX.trans_val_mem",
+    "GX.symm_val_mem",
+    "GX.quot_symm_trans_cancel",
+    "GX.quot_trans_symm_cancel",
+    "GX.quot_symm_trans_distrib",
+    "GX.contractibleSpace_unitInterval",
+    "GX.mk_eq_conj_of_annulus",
+    "GX.punctDisc",
+    "GX.PunctDisc.cls_boundary",
+    "GX.PunctDisc.lassoProd_eq",
+    "GX.PunctDisc.mk_sq_eq_small",
+    "GX.PunctDisc.cls_lasso_eq_small",
+    "GX.PunctDisc.dist_smallSq_le",
+    "GX.discHol",
+    "GX.discP",
+    "GX.discHol_eq_prod",
+    "GX.discP_small",
+    "GX.windingHom"
+  ],
+  "kb_proposals": [
+    "mathlib's FundamentalGroup is End in the fundamental groupoid: fromPath [p] * fromPath [q] = fromPath [q.trans p] (the right factor runs first); say so whenever an ordered product of loops is stated.",
+    "Relations among polygonal loops in a subspace S of R^2 need no homotopy: build the edges with GX.segIn from convex boxes inside S, then close the identity in Path.Homotopic.Quotient with simp only [mk_trans, mk_symm, trans_assoc] plus a cancellation lemma p.symm.trans (p.trans q) = q. Straight lines in convex boxes (GX.homotopic_of_convex_subset) supply the remaining homotopies.",
+    "In an induction over the vertices of a model, clamp the indices (height min k a) so that every edge exists for every k; this avoids dependent membership proofs.",
+    "If a base point is a def equal to a vertex, simp's mk_trans fails silently: the endpoints do not unify at reducible transparency. Make the base point an abbrev.",
+    "I x I is simply connected: haveI : ContractibleSpace I := (convex_Icc 0 1).contractibleSpace _, then the product instance and SimplyConnectedSpace.ofContractible; SimplyConnectedSpace.paths_homotopic then gives the annulus lemma GX.mk_eq_conj_of_annulus.",
+    "gx has a winding number for loops of C minus 0 (GX.cWinding in GX.Branched.Paths); GX.windingHom packages it as a homomorphism pi_1 -> Multiplicative Z, and composing with zpowersHom gives holonomies g^wind for counterexamples."
+  ],
+  "notes": "Research target: nothing is marked; the master decides what to record. Both files typecheck and build: taskset -c 0-11 lake build GXScaffold.Interaction.PuncturedSphere GXScaffold.Interaction.TheoremM; only these two modules were built, with no rebuild of GX.*, Causal.* or mathlib. PuncturedSphere was also built once mid-session, because TheoremM imports it and `lake env lean` needs its olean. There are 0 sorries in the two files, and #print axioms on the main theorems shows only propext, Classical.choice and Quot.sound. Neither module is in the scaffold root GXScaffold.lean (kb/0025: the master adds it). Imports: GX.Branched.Paths (PuncturedSphere); GX.SingularII.Developing, which pulls in GX.Structure.Developing (TheoremM). No Causal.* import. What is not done: (1) the real-angle half of (M3), Theta- = Theta+, is not stated; the obstruction is under N4:M3, not_stated. (2) The G~ / total-angle sentences are not formalized. (3) Freeness of pi_1 of the punctured disc is not formalized; it is not needed. The main finding is an orientation inconsistency between N4 (M2)/(M3) and N3/N5. Theorem M is proved in the transported convention (GX.InteractionData), and the positive-positive convention gives the sphere relation instead (GX.SphereData), with a formal counterexample to the literal (M3) (GX.m3_printed_fails). One instance is declared nowhere: contractibleSpace_unitInterval is a theorem used via haveI, not a global instance.",
+  "audit_round_1_fixes": [
+    "PuncturedSphere.lean SCOPE (a): the false claim that every disjoint arc system is literally an image of the (overlapping) model tethers is replaced by the true one. It holds after a homeomorphism of the disc and up to homotopy rel endpoints in the punctured disc (Schoenflies, not formalized).",
+    "TheoremM.lean checklist: a row for the standing hypotheses of theoremM_developing/theoremM_singular (LocPathConnectedSpace, SemilocallySimplyConnected, LocallyConnectedSpace X, T2Space X), which a surface and HS^2 satisfy.",
+    "TheoremM.lean quote: the cut l.339-342 is marked […] and each line keeps its own number.",
+    "TheoremM.lean l.20: 'e.g. an HS-sphere' is qualified: no HS^2 (G,X)-model exists at this pin.",
+    "REPORT: the N4:M1 arc note and the D- row ('weakened', embeddedness not required) match; N4:theorem-M has the standing-hypotheses row. No statement or proof changed."
+  ]
+}
