@@ -10,7 +10,7 @@
 #         blocked       waits on an OPEN question of registers/DECISIONS.md, named in `oq`
 #         done          closed; `evidence` names the commit
 #         dropped       abandoned; `evidence` says why
-# owner   closer | planner | builder | author
+# owner   closer | planner | builder | master (the loop itself: packages, ledgers, transcriptions) | author
 # kind    close     formalize/prove ledger rows (labels must exist in the paper's ledger)
 #         package   create a Lean package or a ledger for a paper
 #         research  new mathematics (3+1 notes); scaffold-only, marked [r] until proved
@@ -21,7 +21,7 @@
 # Hub gates already red at the team's start (2026-11-20). An iteration may not add a failure;
 # it is not asked to fix these, which need rulings (see T-hub-freeze, T-bbs-ledger).
 known_red = [
-  "gate-tests: tests/test_no_model_in_gates.py runs the gate under FREEZE=1, rejected since the freeze expired 2026-09-25",
+  "gate-tests: tests/test_no_model_in_gates.py runs the whole gate, so it is red while papers-check is (DEC-131 removed its FREEZE=1)",
   "papers-check: papers/bbs has no ledger/ledger.toml",
 ]
 
@@ -84,18 +84,19 @@ proposed_by = "atlas-team seed"
 
 [[target]]
 id = "T-ett-singular-instance"
-title = "Discharge SingularFlatAxioms / BTZAxioms with gx's E₀ model, lifting ETT's bucket-D singular rows"
+title = "Discharge SingularFlatAxioms / BTZAxioms with the ported E₀ model, lifting ETT's bucket-D singular rows"
 stream = "ett"
 kind = "close"
 paper = "ett"
 labels = ["def:singular_spacetime", "defi:causal_E0", "prop:K_calcul", "prop:K_densite_sing", "cor:K_ordre", "theo:geroch_sing"]
-status = "needs-ruling"
+status = "planned"
 owner = "closer"
 priority = 5
 question = "lean-gx imports lean-causal, so the E₀ instance can only live in lean-gx. May ETT ledger rows be anchored to lean-gx declarations, or should the E₀ model be ported into lean-causal (as Causal.Port did for the universal cover)?"
-evidence = "32 ETT rows are bucket D 'under named model hypotheses' (SingularFlatAxioms, BTZAxioms); GX.BTZ.Model/Causality prove the E₀ facts."
+evidence = "DEC-134: the E₀ model is ported into lean-causal, so the ETT ledger keeps one Lean root; 32 ETT rows are bucket D under named model hypotheses."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
+depends = ["T-ett-port-e0"]
 
 [[target]]
 id = "T-ett-minkowski-graduate"
@@ -119,26 +120,24 @@ stream = "gx"
 kind = "close"
 paper = "gx"
 labels = ["rem:definition_semi_locally_simply_connected"]
-status = "needs-ruling"
+status = "ready"
 owner = "closer"
 priority = 7
-question = "The non-compact harmonic archipelago already refutes the 'iff'. Is a compact counterexample wanted?"
-evidence = "Ledger note of the row (WP-35b): 'Is the non-compact archipelago enough?'"
+evidence = "DEC-135: a compact counterexample to the printed 'iff' is wanted, besides the harmonic archipelago."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
 
 [[target]]
 id = "T-gx-troyanov"
-title = "Shrink or discharge the Troyanov named external (GX.TroyanovSuspensionTheorem)"
+title = "Prove Troyanov's theorem (cone metrics on surfaces) and discharge GX.TroyanovSuspensionTheorem"
 stream = "gx"
 kind = "close"
 paper = "gx"
 labels = ["cex:start_singular_manifold_homeomorphic"]
-status = "needs-ruling"
+status = "ready"
 owner = "closer"
 priority = 8
-question = "lean-gx/campaign/POSTWAVE5/BBS-NOTES.md proposes shrinking the Troyanov external; proceed, and to which form?"
-evidence = "DEC-69 made Troyanov a named external; the plan waits for the author."
+evidence = "DEC-136: prove it in full, do not shrink it; DEC-69 made it a named external."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
 
@@ -177,11 +176,10 @@ title = "Transcribe and ledger Chapter 2 (result B) of the thesis"
 stream = "benzecri"
 kind = "package"
 paper = "benzecri"
-status = "needs-ruling"
-owner = "planner"
+status = "ready"
+owner = "master"
 priority = 9
-question = "Extend the Benzécri campaign beyond Chapter 1 (results B, C are terminal today)?"
-evidence = "bzthm:intro_B (Ch. 2) and bzthm:intro_C (Ch. 5) are terminal: not transcribed."
+evidence = "DEC-137: transcribe and ledger Chapter 2 (result B); bzthm:intro_B is terminal today."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
 
@@ -192,11 +190,10 @@ title = "Ledger Barbot–Bonsante–Schlenker, Collisions I (arXiv 1010.3602), a
 stream = "bbs"
 kind = "package"
 paper = "bbs"
-status = "needs-ruling"
-owner = "planner"
+status = "ready"
+owner = "master"
 priority = 2
-question = "Make papers/bbs a counted external paper (labelled snapshot of colI_v1.tex, ledger, reading map, as DEC-34 did for Barbot)? It would also turn papers-check green."
-evidence = "papers_check fails papers/bbs (no ledger); REVIEW.md maps BBS onto gx."
+evidence = "DEC-132: BBS I becomes a counted external paper as DEC-34 did for Barbot; papers_check fails papers/bbs until it has a ledger."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
 
@@ -256,43 +253,40 @@ proposed_by = "atlas-team seed"
 # ------------------------------------------------------------------ the ledger-only papers
 [[target]]
 id = "T-egf-package"
-title = "Create the EGF Lean package and state the headline EGF.main_universality"
+title = "Create the lean-egf package (strict EGF, scaffold EGFScaffold) and point the EGF ledger at it"
 stream = "gfn"
 kind = "package"
 paper = "egf"
-status = "needs-ruling"
-owner = "closer"
+status = "ready"
+owner = "master"
 priority = 3
-question = "Create lean-egf as a package of its own (as DEC-112 did for Benzécri), or wait for the GFN library to be absorbed into lean/ (OQ-1)?"
-evidence = "EGF is first in the author's priority (DEC-4); STORY.md names EGF.main_universality, which does not exist."
+evidence = "DEC-133: a package of its own, as DEC-112; EGF is first in DEC-4's order."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
 
 [[target]]
 id = "T-syracuse-package"
-title = "Create a Lean package for Syracuse and state theo:rep, theo:mr"
+title = "Create the lean-syracuse package and point the Syracuse ledger at it"
 stream = "other"
 kind = "package"
 paper = "syracuse"
-status = "needs-ruling"
-owner = "closer"
+status = "ready"
+owner = "master"
 priority = 9
-question = "Start formalizing Syracuse (new package)? It is fourth in DEC-4's order."
-evidence = "papers/syracuse/ledger: 29 rows, 0 stated."
+evidence = "DEC-138: a new package lean-syracuse."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
 
 [[target]]
 id = "T-yamabe-package"
-title = "Create a Lean package for the Yamabe gap"
+title = "Create the lean-yamabe package, scoped first to the punctured-flat-torus bounds"
 stream = "other"
 kind = "package"
 paper = "yamabe"
-status = "needs-ruling"
-owner = "closer"
+status = "ready"
+owner = "master"
 priority = 10
-question = "Start formalizing the Yamabe gap? Mathlib's Riemannian geometry is thin at this pin: scope to the punctured-torus bounds first?"
-evidence = "papers/yamabe/ledger: 25 rows, 0 stated."
+evidence = "DEC-139: new package, scoped first to §6 (punctured flat tori) and its proofs."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
 
@@ -302,11 +296,10 @@ title = "Create a Lean package for dyniso (free probability)"
 stream = "other"
 kind = "package"
 paper = "dyniso"
-status = "needs-ruling"
+status = "dropped"
 owner = "closer"
 priority = 10
-question = "Start formalizing dyniso? Free probability is absent from mathlib: scope?"
-evidence = "papers/dyniso/ledger: 18 rows, 0 stated."
+evidence = "DEC-140: dyniso is set aside (JPMc work)."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
 
@@ -316,11 +309,10 @@ id = "T-hub-freeze"
 title = "Retire the expired freeze (DEC-2) so the hub gate can go green"
 stream = "hub"
 kind = "author"
-status = "needs-ruling"
+status = "active"
 owner = "author"
 priority = 1
-question = "Retire the freeze (hub.toml [freeze], CLAUDE.md, DEC-2, R-1, the FREEZE=1 test) and rule OQ-1 (absorb GFNBoundsLean)?"
-evidence = "make check fails gate-tests since 2026-09-25 (reports/status-2026-11, §Open items)."
+evidence = "DEC-131: freeze retired; the no-model test skips lib-check through LEANARTICLES_SKIP_LIB; R-1 closed; OQ-1 stays open."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
 
@@ -335,3 +327,32 @@ priority = 3
 evidence = "The ledgers carry only 286 \\ref edges; tools/doubledag.py computes Lean edges with witnesses, so far only for GFN Bounds."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
+
+[[target]]
+id = "T-ett-port-e0"
+title = "Port the E₀ model (BTZ model, its causality and topology) from lean-gx into lean-causal (Causal.Port)"
+stream = "ett"
+kind = "close"
+paper = "ett"
+labels = ["defi:causal_E0", "def:singular_spacetime"]
+status = "ready"
+owner = "closer"
+priority = 4
+evidence = "DEC-134; the precedent is Causal.Port.UniversalCover/Developing (WP-32a); the E₀ facts are proved in GX.BTZ.Model, .Rigid, .Causality, .Topology."
+added = "2026-11-20"
+proposed_by = "atlas-team (DEC-134)"
+
+[[target]]
+id = "T-egf-headline"
+title = "State EGF's headline (EGF.main_universality) and its definitions in lean-egf"
+stream = "gfn"
+kind = "close"
+paper = "egf"
+labels = ["theo:universality_true", "def:egf", "def:universal_family", "def:summably_mixing"]
+status = "planned"
+owner = "closer"
+priority = 3
+depends = ["T-egf-package"]
+evidence = "papers/egf/STORY.md S-egf-1 names these labels and the anchor EGF.main_universality (DEC-133)."
+added = "2026-11-20"
+proposed_by = "atlas-team (DEC-133)"

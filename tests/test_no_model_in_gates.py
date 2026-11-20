@@ -81,7 +81,7 @@ class NoModelInGates(unittest.TestCase):
             stack += [d for d in deps if os.path.exists(os.path.join(TOOLS, d + ".py"))]
 
     def test_the_whole_gate_runs_with_every_ask_refused(self):
-        env = dict(os.environ, FREEZE="1", LEANARTICLES_LLM="off", LEANARTICLES_LLM_CMD="false",
+        env = dict(os.environ, LEANARTICLES_SKIP_LIB="1", LEANARTICLES_LLM="off", LEANARTICLES_LLM_CMD="false",
                    LEANARTICLES_IN_TESTS="1")
         r = subprocess.run(["make", "check"], cwd=ROOT, capture_output=True, text=True, env=env)
         self.assertEqual(r.returncode, 0,

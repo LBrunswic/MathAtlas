@@ -48,7 +48,9 @@ endif
 # gate-registers) the library is a read-only submodule of GFNBoundsLean and its gate is that
 # repository's; this target then only records the pin it would have checked.
 lib-check:
-ifeq ($(FREEZE),1)
+ifeq ($(LEANARTICLES_SKIP_LIB),1)
+	@echo "lib-check: skipped (LEANARTICLES_SKIP_LIB=1, set only by tests/test_no_model_in_gates.py: the library gate builds Lean and calls no model)"
+else ifeq ($(FREEZE),1)
 	@echo "lib-check: FREEZE=1 — lean/ is the read-only submodule at $$(git -C lean rev-parse --short HEAD); its gate is GFNBoundsLean's (DEC-2)"
 else
 	$(MAKE) -C lean check

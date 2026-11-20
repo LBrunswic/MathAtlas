@@ -19,14 +19,12 @@ again with `python3 tools/dropbox_ignore.py` if the directory is ever recreated.
 **Never create a git worktree of this repository.** The Lean build is 8 GB and is not
 worktree-portable; parallel work uses short-lived `lane/*` branches in the single checkout.
 
-## The freeze (until 2026-09-25)
+## The GFN line (freeze retired, DEC-131)
 
-The ICLR 2027 submission is `~/Dropbox/GFNCertified` (paper due 25 Sep 2026). Until then this
-repository only *references* `~/GFNBoundsLean` (submodule `lean/`, read-only) and `~/Dropbox/LeanLink`
-(submodule `tools/leanlink`): nothing in the GFN line is written from here, `lib-check` is skipped
-under `FREEZE=1`, and that variable is a `registers/DECISIONS.md` row whose expiry the gate
-enforces. After 25 Sep, GFNBoundsLean is imported in-tree as the seed of the library and GFNCertified
-becomes `papers/gfnbounds/` (plan, Phase 1).
+The DEC-2 freeze ended with the ICLR deadline and was retired by DEC-131. `lean/` (GFNBoundsLean)
+and `tools/leanlink` stay read-only submodules until OQ-1 rules whether GFNBoundsLean is absorbed
+in-tree; `lib-check` runs GFNBoundsLean's own gate, which regenerates its `docs/` in the submodule:
+restore it with `git -C lean checkout -- .` and never commit it from here.
 
 ## Layout
 

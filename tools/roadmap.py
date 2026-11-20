@@ -21,7 +21,7 @@ import tomllib
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FILE = os.path.join(ROOT, "roadmap", "roadmap.toml")
 STATUS = ["planned", "ready", "active", "needs-ruling", "blocked", "done", "dropped"]
-OWNER = ["closer", "planner", "builder", "author"]
+OWNER = ["closer", "planner", "builder", "master", "author"]
 KIND = ["close", "package", "research", "tooling", "author"]
 REQUIRED = ["id", "title", "stream", "kind", "status", "owner", "priority", "evidence", "added", "proposed_by"]
 
