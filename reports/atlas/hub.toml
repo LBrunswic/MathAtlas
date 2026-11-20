@@ -1,6 +1,7 @@
 # The atlas's curated hub level: papers, clusters, and the cross-paper uses (each with its reason).
-# Edited by the atlas-builder agent; numbers (closure, declarations, sorrys) are NOT written here --
-# build.py reads them from the ledgers and the package checks.
+# Edited by the atlas-builder agent; numbers (closure, declarations, sorrys, row counts) are NOT
+# written here -- build.py reads them from the ledgers, lean/docs/COVERAGE.md and the package checks.
+# A paper set aside by a ruling carries `aside = "<DEC>"`; the card and the panel say so.
 
 provenance = "Generated from papers/*/ledger/ledger.json, roadmap/roadmap.toml and the package checks on node1. Statement text is the labelled legacy TeX. The Lean edges are reports/atlas/lean/edges-*.json: tools/doubledag.py over facts read from each package's compiled environment by reports/atlas/lean_facts.lean."
 
@@ -29,7 +30,7 @@ home = "lean-causal"
 source = "legacy ETT.tex"
 summary = "Causal theory for topological spaces with a causality and no smooth structure, so singular spacetimes (cones E_α, BTZ lines) are first-class. The library proves Geroch (i)⇒(ii)⇒(iii), Lemma K through Levin's theorem, and the universal maximal Cauchy development."
 headline = ["Causal.geroch_i_imp_ii", "Causal.geroch_ii_imp_iii", "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_causallyOpen", "Causal.CBG.cbg_ett"]
-open = "Singular §3–§4 material is proved under named model hypotheses until gx supplies the instance; the CBG rows are not yet anchored; Geroch (iii)⇒(i) is cited; five scaffold sorrys; open questions OQ-10…20."
+open = "Singular §3–§4 material is proved under named model hypotheses until gx supplies the instance; the CBG rows are not yet anchored; Geroch (iii)⇒(i) is cited; the scaffold sorrys are counted on the lean-causal card; open questions OQ-10…20."
 
 [paper.barbot]
 short = "Barbot"
@@ -40,7 +41,7 @@ home = "lean-causal (Causal.Flat)"
 source = "arXiv math/0402257"
 summary = "Theorems A and B (classification of Cauchy-complete and Cauchy-compact GH flat spacetimes) proved with no hypothesis beyond the paper's. Selberg, Bieberbach I, Auslander–Carrière–Dal'bo, Fried–Goldman–Hirsch and Gromov (in place of Benoist) were proved on the way."
 headline = ["Causal.Flat.barbot_A_unconditional", "Causal.Flat.barbot_B_geroch_unconditional", "Causal.Flat.selbergLemma", "Causal.Flat.affAuslanderCarriereDalbo"]
-open = "Only the five terminal rows, off the spine of Theorems A and B: convex cocompactness (Sullivan), the thrice-punctured-sphere computation, CMC foliations."
+open = "Only the terminal rows, off the spine of Theorems A and B: convex cocompactness (Sullivan), the thrice-punctured-sphere computation, CMC foliations."
 
 [paper.gx]
 short = "gx"
@@ -51,18 +52,18 @@ home = "lean-gx"
 source = "arXiv 2010.10610"
 summary = "Singular (G,X)-manifolds, Fox completion, branched coverings and their Galois correspondence, the singular developing theorem, tame and virtually tame singularities, and the uniformization of BTZ-manifolds in its ruled form."
 headline = ["GX.btz_uniformization", "GX.galois_correspondence", "GX.singular_developing_theorem", "GX.developing_theorem", "GX.e0_cbg"]
-open = "Six rows partial by ruling (corrected forms or a named external: Troyanov). Thirteen rows after \\end{document} are terminal."
+open = "The partial rows are partial by ruling: corrected forms, or a named external, Troyanov's theorem, which DEC-136 asks to prove in full. The rows after \\end{document} are terminal."
 
 [paper.benzecri]
 short = "Benzécri"
 cluster = "geo"
 authors = "J.-P. Benzécri · Bull. SMF 88 (1960)"
-title = "Sur les variétés localement affines et localement projectives — Ch. 1"
+title = "Sur les variétés localement affines et localement projectives — Ch. 1–2"
 home = "lean-benzecri"
 source = "Numdam scan, transcription"
-summary = "Locally projective and affine manifolds, affine cones and the functorial equivalence with locally projective manifolds, and Theorem A: V × S¹ is locally affine for compact locally projective V."
-headline = ["Benzecri.theoremA", "Benzecri.coneEquivalence", "Benzecri.ConeCex.not_t2Space_coneBase_dim"]
-open = "The p. 238 universal-cover sentence needs a universal cover, which lean-gx has and mathlib does not. The transcription awaits the author's check."
+summary = "Chapter 1: locally projective and affine manifolds, affine cones and the functorial equivalence with locally projective manifolds, Theorem A (V × S¹ is locally affine for compact locally projective V), and the p. 238 sentence: the universal cover of a compact locally projective manifold is divisible. Chapter 2, transcribed and ledgered by DEC-137, leads to result B: pockets and shells (§ 1), the projective measure and the pseudo-length (§ 2), and the theorem on sweepable manifolds with a pocket (§ 3)."
+headline = ["Benzecri.theoremA", "Benzecri.coneEquivalence", "Benzecri.revetement_universel_divisible_proj", "Benzecri.IsPocheProj", "Benzecri.pseudoLength", "Benzecri.ConeCex.not_t2Space_coneBase_dim"]
+open = "Chapter 1 is closed, its p. 238 row on a Mathlib-only port of the universal cover (2ed332b). In Chapter 2, § 1 and the first definitions of § 2 with its Prop. 1 are closed (T-bz-c2-poches, T-bz-c2-mesure); the rest of § 2 (the properties of the pseudo-length, Déf. 5–6, Prop. 2–7) and § 3 (the theorem, Prop. 1–2) remain, and with them result B (bzthm:intro_B). Result C is terminal: its proof is in Chapter 5, not transcribed. Open questions OQ-45 (the pseudo-length in dimension 0) and OQ-46 (p injective in § 1's examples); the transcriptions await the author's check (T-bz-transcription-check)."
 
 [paper.bbs]
 short = "BBS → 3+1"
@@ -71,9 +72,9 @@ authors = "T. Barbot · F. Bonsante · J.-M. Schlenker · Comm. Math. Phys. 308 
 title = "Collisions of particles in locally AdS spacetimes I: local description and global examples"
 home = "lean-gx"
 source = "arXiv 1010.3602 v1"
-summary = "An external paper counted in the hub (DEC-132, as DEC-34 did for Barbot); its reading map is papers/bbs/STORY.md: singular lines and their links (a singular point is the suspension of its HS-link), particle interactions classified by the topology of their link, and global hyperbolicity with singular lines. Its research side stays REVIEW.md (the review against gx, with the layered Lean roadmap) and NOTES-3+1.md (the 3+1 programme: Theorems M and G, both unverified), whose first layers, the conic, celestial and affine suspensions, are built in lean-gx."
+summary = "An external paper counted in the hub (DEC-132, as DEC-34 did for Barbot); its reading map is papers/bbs/STORY.md: singular lines and their links (a singular point is the suspension of its HS-link), particle interactions classified by the topology of their link, and global hyperbolicity with singular lines. Its research side stays REVIEW.md (the review against gx, with the layered Lean roadmap) and NOTES-3+1.md (the 3+1 programme: Theorem M, whose holonomy half is proved in lean-gx's scaffold, and Theorem G, which rests on it and on the funnel lemma, still a sketch), whose first layers, the conic, celestial and affine suspensions, are built in lean-gx."
 headline = ["GX.Suspension.Conic", "GX.Suspension.Celestial", "GX.Suspension.Affine"]
-open = "The whole ledger: no row is anchored in Lean yet (the suspension modules above are keyed to REVIEW.md, not to ledger labels), and the statement DAG has no edges yet because the authors' \\ref's point at their own labels, which the ledger does not resolve. On the research side: BBS-Q1…Q8, the funnel lemma, Theorem M in Lean; codimension-2 strata need an interface ruling (BBS-Q7)."
+open = "The whole ledger: no row is anchored in Lean yet. The triage (a06acc2) defers every row (bucket D) to a layer not yet built: the suspension modules above are L0–L1 infrastructure and anchor no row, and no row needs only L0–L1, so nothing is dispatched before BBS-Q1, where the L2–L3 layers live (T-bbs-layer-home, the author's). The statement DAG resolves the authors' own \\ref's since 43c0840 (T-ledger-secondary-labels). On the research side: the funnel lemma is to be written out in full (T-3p1-funnel-lemma); Theorem M's real-angle half is blocked (T-3p1-theorem-m-theta, OQ-36); codimension-2 strata need an interface ruling (BBS-Q7)."
 
 [paper.gfnbounds]
 short = "GFN Bounds"
@@ -81,20 +82,20 @@ cluster = "gfn"
 authors = "Brunswic et al."
 title = "Universality and Convergence of Generative Flows — Apps A, B, H"
 home = "lean (GFNBoundsLean, read-only)"
-badge = "98 rows · 4 terminal"
 summary = "Universality, the stable bounds, the Silva et al. comparison and the doubling-graph counterexample, in the GFNBoundsLean submodule pinned at 2e9865c. Not written from this hub."
 headline = []
-open = "Four terminal remarks."
+open = "Only terminal remarks, out of the target."
 
 [paper.egf]
 short = "EGF"
 cluster = "gfn"
 authors = "Brunswic et al. · ICML 2025"
 title = "Ergodic Generative Flows"
+home = "lean-egf"
 source = "camera-ready"
-summary = "Generative flows whose forward policy is a finite family of diffeomorphisms; universality from ergodicity. Ledger only: the Lean anchor named in STORY.md does not exist yet."
-headline = []
-open = "All of it; first in the author's priority order (DEC-4)."
+summary = "Generative flows whose forward policy is a finite family of diffeomorphisms; universality from ergodicity. Formalized in lean-egf, a package of its own (DEC-133): the master universality theorem (theo:universality_true) is EGF.main_universality, proved under weaker hypotheses than printed, with a stronger conclusion and by another route, a truncated Neumann series (742a9c5)."
+headline = ["EGF.main_universality", "EGF.main_universality_of_tendsto", "EGF.IsSummablyL2Mixing"]
+open = "The rest of the paper. The toroidal and spherical families rest on cited spectral-gap theorems, named externals or proofs (T-egf-families, the author's); the sampling theorem with its loss controls (T-egf-sampling) and the backward policy (T-egf-backward-policy) are planned. def:egf and def:universal_family are partial on readings (OQ-48, OQ-49, OQ-50), and the closed rows' marks rest on the λ̂ ≠ λ reading that OQ-47 asks to confirm."
 
 [paper.nonacyclic]
 short = "Non-acyclic GFN"
@@ -111,15 +112,18 @@ short = "Syracuse"
 cluster = "other"
 authors = "L. Brunswic"
 title = "On non-trivial cycles of the 3x+1 problem"
-summary = "An extension of Terras's method constraining non-trivial cycles through upper bounds and cyclotomic arithmetic. Ledger only."
-headline = []
+home = "lean-syracuse"
+summary = "An extension of Terras's method constraining non-trivial cycles through upper bounds and cyclotomic arithmetic. Formalized in lean-syracuse (DEC-138), from § 1 on: ℤ/2ℤ-rings, the maps f_A and T_A, the sequences a_n and p_n, the basic identity and A_u^n (Syracuse.Valuation, Syracuse.Base; 895d501)."
+headline = ["Syracuse.base", "Syracuse.Aun", "Syracuse.ring_maps_rhs"]
+open = "The rows formalized so far are partial on readings of the printed definitions (OQ-42), except A_u^n (def:define_n__n_), marked as printed while OQ-43 asks whether it or its later use is off by one. The rest of § 1 (the 2-adic representation, T-syr-rep; the integer bounds, T-syr-integer-bounds) and §§ 2–3 remain."
 
 [paper.dyniso]
 short = "dyniso"
 cluster = "other"
 authors = ""
 title = "Orthogonal hyper-connections: why the Birkhoff polytope breaks dynamical isometry"
-summary = "Bistochastic skip mixing contracts the non-Perron spectrum over depth; orthogonal skips restore dynamical isometry. Ledger only."
+aside = "DEC-140"
+summary = "Bistochastic skip mixing contracts the non-Perron spectrum over depth; orthogonal skips restore dynamical isometry. Set aside by DEC-140: it is JPMc work, with no package and no target; its ledger stays as a record."
 headline = []
 
 [paper.yamabe]
@@ -127,8 +131,10 @@ short = "Yamabe gap"
 cluster = "other"
 authors = "L. Brunswic"
 title = "The Yamabe gap: inhomogeneity measure and morphological driver of cosmic expansion"
-summary = "The averaged scalar curvature of a void is governed by the Yamabe energy of its leaves; bounds on punctured flat tori. Ledger only."
-headline = []
+home = "lean-yamabe"
+summary = "The averaged scalar curvature of a void is governed by the Yamabe energy of its leaves; bounds on punctured flat tori. Formalized in lean-yamabe, scoped first to § 6, the punctured flat tori, and its proofs (DEC-139): the trace-Sobolev quotient over an abstract measured model (Yamabe.Quotient, Yamabe.Stability; e4e12c0)."
+headline = ["Yamabe.MeasuredModel.stability", "Yamabe.MeasuredModel.rem_sign"]
+open = "lem:stability and rem:sign are partial: an abstract layer, whose Riemannian anchoring waits on which cited analytic theorems become named externals (T-yamabe-scope, the author's). OQ-44 asks to confirm the layer's readings, and reports eq:hoelder's boundary line false as printed when Vol(B_j) < 1."
 
 [lib."lean-causal"]
 what = "Topological spacetimes, flat Lorentzian geometry"
@@ -142,12 +148,27 @@ package = "lean-gx"
 
 [lib."lean-benzecri"]
 what = "Locally affine and projective manifolds"
-about = "Mathlib only by design (DEC-112); a generalization layer is planned."
+about = "Strict library Benzecri, scaffold BenzecriScaffold. Mathlib only by design (DEC-112): the universal cover is ported (Benzecri.Port.UniversalCover), not imported; a generalization layer over lean-gx is planned."
 package = "lean-benzecri"
+
+[lib."lean-egf"]
+what = "Ergodic generative flows"
+about = "Strict library EGF, scaffold EGFScaffold, a package of its own at the hub's pin (DEC-133). Mathlib only: GFNBoundsLean is not required, and absorbing it in-tree is OQ-1."
+package = "lean-egf"
+
+[lib."lean-syracuse"]
+what = "3x+1 cycles, 2-adic valuations"
+about = "Strict library Syracuse, scaffold SyracuseScaffold, a package of its own at the hub's pin (DEC-138). Mathlib only."
+package = "lean-syracuse"
+
+[lib."lean-yamabe"]
+what = "The Yamabe gap, § 6 first"
+about = "Strict library Yamabe, scaffold YamabeScaffold, a package of its own at the hub's pin, scoped first to § 6 (DEC-139). Mathlib only."
+package = "lean-yamabe"
 
 [lib."lean"]
 what = "GFNBoundsLean (read-only submodule)"
-about = "Not written from this hub (DEC-2). Absorbing it in-tree is OQ-1."
+about = "Not written from this hub: DEC-131 ended the DEC-2 freeze and kept the submodule read-only. Absorbing it in-tree is OQ-1."
 package = ""
 
 [[edge]]
@@ -172,7 +193,7 @@ why = "gx's BTZ section uses ETT's causality and proves Choquet-Bruhat–Geroch 
 from = "gx"
 to = "bbs"
 short = "suspensions"
-why = "The 3+1 programme's first layers (conic and celestial suspensions, links in affine spaces) are built in lean-gx."
+why = "The 3+1 programme's first layers (conic and celestial suspensions, links in affine spaces) are built in lean-gx (REVIEW.md §I), and so is Theorem M's holonomy half (GXScaffold.Interaction.TheoremM, 7a47172)."
 
 [[edge]]
 from = "benzecri"
@@ -184,15 +205,14 @@ why = "N7 of the 3+1 notes: Benzécri's affine cones systematize the suspension 
 from = "gx"
 to = "benzecri"
 short = "universal cover"
-dashed = true
-why = "Benzécri's one open row needs a universal cover; lean-gx builds it, but lean-benzecri stays mathlib-only until the generalization layer exists."
+why = "Benzécri's p. 238 row (bzthm:c1s1_revetement_universel_divisible) is closed on Benzecri.Port.UniversalCover, a Mathlib-only port of lean-causal's Causal/Port/UniversalCover.lean, itself ported from gx's GX/Topology/UniversalCover.lean. A copy, not an import, so lean-benzecri stays Mathlib-only (DEC-112; 2ed332b)."
 
 [[edge]]
 from = "gfnbounds"
 to = "egf"
 short = "GFN line"
 dashed = true
-why = "Both belong to the generative-flow line; EGF is to be rebuilt from the Lean, and the GFN library is to be absorbed in-tree after the freeze (OQ-1)."
+why = "Both belong to the generative-flow line, and DEC-3 planned EGF on GFNBounds.Core. lean-egf has so far needed only Mathlib, with GFNBounds.Core as a template (DEC-133; lean-egf/campaign/T-egf-headline/REPORT.json); absorbing GFNBoundsLean in-tree is OQ-1, still open now that DEC-131 has ended the freeze."
 
 [[edge]]
 from = "lean-causal"

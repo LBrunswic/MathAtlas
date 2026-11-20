@@ -1,6 +1,7 @@
 # The dependency atlas: regenerate from the ledgers, hub.toml and roadmap/roadmap.toml
 # (run `make ledgers` at the hub root first). `make LOGS=<dir>` refreshes the declaration counts
-# from `make -C <pkg> check` logs named check-<pkg>.log.
+# from `make -C <pkg> check` logs named check-<pkg>.log, one per package of hub.toml's lib table;
+# a package with no cached count yet is drawn as "not swept", never given a number.
 #
 # The Lean overlay is read from the committed lean/edges-<paper>.json; the default target never
 # runs Lean. Refresh it explicitly:

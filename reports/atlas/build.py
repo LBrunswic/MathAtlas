@@ -2,12 +2,16 @@
 """Assemble the atlas page: data.json (extract.py) + hub.toml + roadmap/roadmap.toml + live numbers.
 
 Numbers are never typed: the library cards read each package's sorry_count.py and the axiom-sweep
-cache sweep.json (refreshed from `make -C <pkg> check` logs by `python3 build.py --logs DIR`); the
-GFN Bounds card reads lean/docs/COVERAGE.md and reports/doubledag/gfnbounds/doubledag.json. The
-Lean overlay reads the committed lean/edges-<paper>.json (lean_edges.py) and never runs Lean.
+cache sweep.json (refreshed from `make -C <pkg> check` logs by `python3 build.py --logs DIR`, one
+check-<pkg>.log per package of hub.toml's lib table); the GFN Bounds card reads lean/docs/COVERAGE.md
+and reports/doubledag/gfnbounds/doubledag.json. The Lean overlay reads the committed
+lean/edges-<paper>.json (lean_edges.py) and never runs Lean.
 """
+import glob
 import json
 import os
+import re
+import subprocess
 import sys
 import tomllib
 
@@ -23,27 +27,90 @@ import lean_edges as le  # noqa: E402
 hub = tomllib.load(open(os.path.join(HERE, "hub.toml"), "rb"))
 road = tomllib.load(open(os.path.join(ROOT, "roadmap", "roadmap.toml"), "rb"))
 logs = sys.argv[sys.argv.index("--logs") + 1] if "--logs" in sys.argv else None
-sweep = sr.read_sweeps(logs, os.path.join(HERE, "sweep.json"))
+
+
+def strict_lib(pkg):
+    """The package's strict library: the one lean_lib its lakefile compiles with warningAsError."""
+    lake = tomllib.load(open(os.path.join(ROOT, pkg, "lakefile.toml"), "rb"))
+    names = [x["name"] for x in lake.get("lean_lib", []) if (x.get("leanOptions") or {}).get("warningAsError")]
+    assert len(names) == 1, "%s/lakefile.toml: expected one strict lean_lib, found %r" % (pkg, names)
+    return names[0]
+
+
+# Every package of the lib table, not only the ones tools/status_report.py lists: a package the hub
+# has just created gets its card from its own lakefile and sorry_count.py.
+PKGS = {l["package"]: strict_lib(l["package"]) for l in hub["lib"].values() if l.get("package")}
+assert all(PKGS.get(p) == lib for p, lib in sr.PACKAGES.items()), \
+    "hub.toml's lib table must list every package of tools/status_report.py, with the same strict lib"
+
+
+def read_sweeps(logdir, cache):
+    """status_report.read_sweeps over PKGS. With --logs every package's check log is read (the same
+    two lines status_report matches); without, the cache is reused, and a package it does not hold
+    yet is drawn as not swept rather than given a number."""
+    sweep = json.load(open(cache)) if os.path.exists(cache) else {}
+    if logdir:
+        for pkg in sorted(PKGS):
+            log = os.path.join(logdir, "check-%s.log" % pkg)
+            text = open(log, encoding="utf-8").read()
+            m = re.search(r"axiom sweep \(strict\): (\d+) declarations in (\d+) modules", text)
+            ok = re.search(r"axiom sweep: all within propext/Classical\.choice/Quot\.sound", text)
+            assert m and ok, "no clean axiom sweep in " + log
+            sweep[pkg] = {"decls": int(m[1]), "modules": int(m[2])}
+    missing = sorted(set(sr.PACKAGES) - set(sweep))
+    assert not missing, "axiom-sweep counts missing for %s: pass --logs once" % ", ".join(missing)
+    return {p: sweep[p] for p in sorted(sweep) if p in PKGS}
+
+
+def package_figures(pkg):
+    """status_report.package_figures for any package of PKGS: strict files, the two sorry counts
+    (the package's scripts/sorry_count.py), and the cached sweep when there is one."""
+    d = os.path.join(ROOT, pkg)
+    files = glob.glob(os.path.join(d, PKGS[pkg], "**", "*.lean"), recursive=True)
+    out = subprocess.run([sys.executable, os.path.join(d, "scripts", "sorry_count.py")], cwd=d,
+                         capture_output=True, text=True)
+    strict = re.search(r"sorry \(strict[^:]*:\s*(\d+)", out.stdout)
+    scaff = re.search(r"sorry \(scaffold[^:]*:\s*(\d+)", out.stdout)
+    assert strict and scaff, "unrecognised sorry_count output in " + pkg + ": " + out.stdout[-300:]
+    f = {"files": len(files), "sorrystrict": int(strict[1]), "sorryscaffold": int(scaff[1])}
+    f.update(sweep.get(pkg, {}))
+    return f
+
+
+sweep = read_sweeps(logs, os.path.join(HERE, "sweep.json"))
 with open(os.path.join(HERE, "sweep.json"), "w") as fh:
     json.dump(sweep, fh, indent=2, sort_keys=True)
     fh.write("\n")
 
 libs = {}
+g = sr.gfn_figures()
 for lid, l in hub["lib"].items():
     L = dict(l)
-    if l.get("package"):
-        f = sr.package_figures(l["package"], sweep)
-        L["stats"] = "{:,} decls · {} strict sorry".format(f["decls"], f["sorrystrict"])
-        L["cells"] = [["{:,}".format(f["decls"]), "strict declarations"], [str(f["modules"]), "modules"],
-                      [str(f["sorryscaffold"]), "scaffold sorrys"]]
+    pkg = l.get("package")
+    if pkg:
+        f = package_figures(pkg)
+        if "decls" in f:
+            L["stats"] = "{:,} decls · {} strict sorry".format(f["decls"], f["sorrystrict"])
+            L["cells"] = [["{:,}".format(f["decls"]), "strict declarations"], [str(f["modules"]), "modules"],
+                          [str(f["sorryscaffold"]), "scaffold sorrys"]]
+            L["prov"] = ("Declarations and modules: the strict axiom sweep of make -C %s check, cached in "
+                         "reports/atlas/sweep.json and refreshed by make -C reports/atlas LOGS=<dir>. "
+                         "Sorrys: %s/scripts/sorry_count.py, read at build." % (pkg, pkg))
+        else:
+            L["stats"] = "not swept · {} strict sorry".format(f["sorrystrict"])
+            L["cells"] = [[str(f["files"]), "strict files"], [str(f["sorrystrict"]), "strict sorrys"],
+                          [str(f["sorryscaffold"]), "scaffold sorrys"]]
+            L["prov"] = ("No axiom sweep of %s has been read yet, so its declarations are not counted here: "
+                         "make -C reports/atlas LOGS=<dir> reads them from make -C %s check. Files: %s/%s/; "
+                         "sorrys: %s/scripts/sorry_count.py, read at build." % (pkg, pkg, pkg, PKGS[pkg], pkg))
     else:
-        g = sr.gfn_figures()
         L["stats"] = "%d/%d rows closed" % (g["closed"], g["statements"])
         L["cells"] = [[str(g["closed"]), "rows closed"], [str(g["statements"]), "rows"], [str(g["open"]), "open (terminal)"]]
+        L["prov"] = "Rows: lean/docs/COVERAGE.md, GFNBoundsLean's own generated coverage."
     libs[lid] = L
 papers = dict(hub["paper"])
-g = sr.gfn_figures()
-papers["gfnbounds"] = dict(papers["gfnbounds"], closed=g["closed"], target=g["statements"] - g["open"])
+papers["gfnbounds"] = dict(papers["gfnbounds"], closed=g["closed"], target=g["statements"] - g["open"],
+                           badge="%d rows · %d terminal" % (g["statements"], g["open"]))
 D = json.loads(open(os.path.join(HERE, "data.json"), encoding="utf-8").read())
 for slug in D:
     if slug not in papers:   # a ledger hub.toml does not curate yet: a placeholder card, said as such

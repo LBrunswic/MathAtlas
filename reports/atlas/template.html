@@ -93,6 +93,7 @@ svg#g:active{cursor:grabbing}
 .node .t-mono{font-family:var(--f-mono)}
 .node .t-dim{fill:var(--ink-3)}
 .node .t-2{fill:var(--ink-2)}
+.node .t-aside{fill:var(--ink-3);font-family:var(--f-body);font-weight:500;font-size:11px;letter-spacing:.02em}
 .node.lib rect.box{fill:var(--accent-soft);stroke:var(--accent)}
 .node.ghost rect.box{fill:none;stroke-dasharray:4 3;stroke:var(--ink-3)}
 .node.ghost text{fill:var(--ink-3)}
@@ -294,7 +295,7 @@ function hubGraph(){
     const d=DATA[id];
     nodes.push({id, kind:"paper", w:236, h:104, cluster:pp.cluster, drill:!!d, pp, c:d?counts(d.nodes):null, closed:d?d.closed:pp.closed, target:d?d.target:pp.target});
   }
-  for (const [id,lib] of Object.entries(HUB.libs)) nodes.push({id, kind:"lib", w:216, h:78, cluster:"libs", lib});
+  for (const [id,lib] of Object.entries(HUB.libs)) nodes.push({id, kind:"lib", w:236, h:90, cluster:"libs", lib});
   HUB.edges.forEach(e=>edges.push({v:e.from,w:e.to,label:e.short,dashed:e.dashed,info:e}));
   return {nodes,edges,rankdir:"TB",clusters:HUB.clusters, nodesep:36, ranksep:62, aspect:1.25};
 }
@@ -438,7 +439,7 @@ function draw(){
   crumbs(); legend(); leanButton();
 }
 function nodeAria(N){
-  if (N.kind==="paper") return N.pp.short+(N.drill?", open":"");
+  if (N.kind==="paper") return N.pp.short+(N.pp.aside?", set aside ("+N.pp.aside+")":"")+(N.drill?", open":"");
   if (N.kind==="lib") return "Library "+N.id;
   if (N.kind==="block") return shortBlock(N.b.title)+", "+N.n+" statements, open";
   return N.id+", "+statusOf(N.n)+(N.badge?", Lean edges to other blocks: uses "+N.badge.uses+", used by "+N.badge.usedby:"");
@@ -447,7 +448,8 @@ function hiEdges(id,on){ world.selectAll(".edge").each(function(){ const e=d3.se
 const drawNode={
   paper(el,N){
     const pp=N.pp;
-    el.append("text").attr("class","t-display").attr("x",14).attr("y",26).attr("font-size",16).text(pp.short);
+    const nm=el.append("text").attr("class","t-display").attr("x",14).attr("y",26).attr("font-size",16).text(pp.short);
+    if (pp.aside) nm.append("tspan").attr("class","t-aside").attr("dx",8).text("set aside · "+pp.aside);
     wrap(pp.title,34,2).forEach((l,i)=>el.append("text").attr("class","t-2").attr("x",14).attr("y",45+i*15).attr("font-size",11.5).text(l));
     if (N.c){ bar(el,N.c,14,N.h-24,N.w-96,9); }
     else el.append("text").attr("class","t-dim").attr("x",14).attr("y",N.h-15).attr("font-size",11).text(pp.badge||"");
@@ -459,8 +461,8 @@ const drawNode={
   lib(el,N){
     const L=N.lib;
     el.append("text").attr("class","t-mono").attr("x",14).attr("y",25).attr("font-size",13.5).attr("font-weight",500).text(N.id);
-    el.append("text").attr("class","t-2").attr("x",14).attr("y",44).attr("font-size",11.5).text(L.what);
-    el.append("text").attr("class","t-dim t-mono").attr("x",14).attr("y",64).attr("font-size",11).text(L.stats);
+    wrap(L.what,34,2).forEach((l,i)=>el.append("text").attr("class","t-2").attr("x",14).attr("y",44+i*15).attr("font-size",11.5).text(l));
+    el.append("text").attr("class","t-dim t-mono").attr("x",14).attr("y",N.h-13).attr("font-size",11).text(L.stats);
   },
   block(el,N){
     const sec=parentSec(N.b.title);
@@ -551,7 +553,7 @@ function showPaperInfo(p){
   const c=d?counts(d.nodes):null;
   P.innerHTML=`<div><h3>${esc(pp.authors)}</h3><h2>${esc(pp.title)}</h2></div>
     ${d?`<div class="stat"><div><b>${d.closed}/${d.target}</b><span>closure</span></div><div><b>${c.partial}</b><span>partial</span></div><div><b>${c.none}</b><span>no Lean yet</span></div></div>`:pp.closed!=null?`<div class="stat"><div><b>${pp.closed}/${pp.target}</b><span>closure</span></div></div>`:""}
-    <div class="chips">${pp.home?`<span class="chip">Lean: ${esc(pp.home)}</span>`:""}${pp.source?`<span class="chip">${esc(pp.source)}</span>`:""}</div>
+    <div class="chips">${pp.aside?`<span class="chip s-blocked">set aside · ${esc(pp.aside)}</span>`:""}${pp.home?`<span class="chip">Lean: ${esc(pp.home)}</span>`:""}${pp.source?`<span class="chip">${esc(pp.source)}</span>`:""}</div>
     <p>${esc(pp.summary)}</p>
     ${pp.headline?.length?`<div><h3>Headline Lean</h3><div class="mono">${pp.headline.map(esc).join("<br>")}</div></div>`:""}
     ${pp.open?`<div><h3>What remains</h3><p>${esc(pp.open)}</p></div>`:""}
@@ -613,7 +615,7 @@ function showAgg(p,a,b,fam){
 }
 function showLib(id){ const L=HUB.libs[id];
   P.innerHTML=`<div><h3>Lean library</h3><h2 class="mono" style="font-family:var(--f-mono)">${esc(id)}</h2></div><p>${esc(L.what)}</p>
-  <div class="stat">${L.cells.map(c=>`<div><b>${esc(c[0])}</b><span>${esc(c[1])}</span></div>`).join("")}</div><p>${esc(L.about)}</p>`; }
+  <div class="stat">${L.cells.map(c=>`<div><b>${esc(c[0])}</b><span>${esc(c[1])}</span></div>`).join("")}</div><p>${esc(L.about)}</p>${L.prov?`<p class="prov">${esc(L.prov)}</p>`:""}`; }
 function showEdge(e){ P.innerHTML=`<div><h3>Dependency</h3><h2>${esc(HUB.papers[e.from]?.short||e.from)} → ${esc(HUB.papers[e.to]?.short||e.to)}</h2></div><p>${esc(e.why)}</p>${e.dashed?`<p><span class="chip">planned, not yet in Lean</span></p>`:""}`; }
 function showStmt(p,n){
   const s=statusOf(n), d=DATA[p];
