@@ -1,0 +1,167 @@
+{
+  "package": "T-ett-geroch-iii-i",
+  "target": "T-ett-geroch-iii-i",
+  "files": [
+    "scaffold/CausalScaffold/LimitCurves.lean",
+    "scaffold/CausalScaffold/GerochCauchy.lean"
+  ],
+  "builds": true,
+  "sorry_count": 1,
+  "labels": [
+    {
+      "label": "theo:geroch",
+      "tex_lines": [
+        1256,
+        1307
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.GerochIIIImpIAsPrinted",
+        "Causal.not_gerochIIIImpIAsPrinted",
+        "Causal.not_geroch_tfae",
+        "Causal.chronoMinkowski",
+        "Causal.chronoMinkowski_counterexample",
+        "Causal.chronoMinkowski_robust",
+        "Causal.chronoMinkowski_admissible",
+        "Causal.Causality.globallyHyperbolic_of_isCauchySurface",
+        "Causal.Causality.geroch_of_isClosed_le",
+        "Causal.Causality.isCompact_diamond_of_isCauchySurface",
+        "Causal.Causality.isCompact_Jminus_inter_Jplus_of_isCauchySurface",
+        "Causal.Causality.isCompact_Jplus_inter_Jminus_of_isCauchySurface"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M metrizable, locally compact",
+          "here": "carried",
+          "note": "counterexample: Minkowski n (second countable, Hausdorff, metrizable, locally compact); repaired form: MetrizableSpace, LocallyCompactSpace carried"
+        },
+        {
+          "paper": "tarentin, causally arc-connected, J^±(p) ≠ {p}",
+          "here": "carried",
+          "note": "all hold on the counterexample"
+        },
+        {
+          "paper": "locally causally convex",
+          "here": "carried",
+          "note": "StronglyCausal (DEC-7); the counterexample also satisfies the open reading StronglyCausalOpen, so the refutation holds under both readings"
+        },
+        {
+          "paper": "a pair (μ₊, μ₋) of admissible measures",
+          "here": "carried",
+          "note": "one measure admissible in the past and in the future on the counterexample (from Causal.Flat.minkowski_frontier_null_measure)"
+        },
+        {
+          "paper": "(iii) a Cauchy hypersurface",
+          "here": "carried",
+          "note": "IsCauchySurface (DEC-14); {t = 0} on the counterexample, met by every inextensible curve (not vacuous)"
+        },
+        {
+          "paper": "(none)",
+          "here": "strengthened",
+          "note": "conjectured repair only (globallyHyperbolic_of_isCauchySurface, geroch_of_isClosed_le, resting on a sorry whose truth here is open): the causal relation ≤_M is closed in M × M. For a tarentin M, (i) implies it by prop:GH_Jferme (ETT.tex:1178), with prop:relation_fermee as its ingredient (GloballyHyperbolic.isClosed_le). The counterexample violates it"
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "Causal.Causality.isCompact_Jminus_inter_Jplus_of_isCauchySurface",
+          "obstruction": "CONJECTURAL: the analogue, under these hypotheses, of O'Neill's compactness lemma (J⁻(q) ∩ J⁺(S) compact for a Cauchy surface S). It is classical for Lorentzian manifolds, but nothing shows it holds in this topological generality even with ≤ closed; more closedness may be needed (local causal closedness, J^±(S) closed). A proof needs a limit of a sequence of causal curves (O'Neill Def. 7, Prop. 8, Thm 35) or a Zorn substitute, and the library has neither in this generality. Causal.Flat.CBGCompact's PastNoncompactAt argument proves only J⁻(q) ∩ S compact, and only when J⁻ of every open set is open (which makes the non-compact points a future set) and J^±(S) are closed; the library does not derive these from the hypotheses here. Proved around it: J(p,q) is closed and lies in (J⁻(q) ∩ J⁺(S)) ∪ (J⁺(p) ∩ J⁻(S)). Four declarations rest on this sorry: isCompact_Jplus_inter_Jminus_of_isCauchySurface, isCompact_diamond_of_isCauchySurface, globallyHyperbolic_of_isCauchySurface, geroch_of_isClosed_le"
+        }
+      ],
+      "findings": [
+        "ETT.tex:1256–1267 with 1301–1306 (and the abstract, l.142–146): (iii)⇒(i) of theo:geroch is FALSE as printed. Lean, sorry-free: Causal.not_gerochIIIImpIAsPrinted. Witness: chronological Minkowski space ℝ^{1,n}, n ≥ 1 (Causal.chronoMinkowski n). Its causal relation is x ≤_U y iff x = y ∈ U or x ≪_U y, with ≪_U that of Minkowski space unchanged, so the null directions are removed. It is metrizable, locally compact, second countable and Hausdorff. It is tarentin, causally arc-connected, strongly causal in both readings, with J^±(p) ≠ {p}, and carries one measure admissible in the past and in the future. The time t is a Cauchy time function strictly increasing along ≤ (ii), and {t = 0} is a Cauchy surface (iii). But J((0,x),(2L,x)) is I⁺ ∩ I⁻ plus its two vertices: not closed, not compact, so (i) fails (Causal.chronoMinkowski_counterexample).",
+        "The counterexample is not an artefact of the library's reading. It is absolutely minimal (a local causality, kb/0014), causally plain, causally open (DEC-8) and has push-up (Causal.chronoMinkowski_robust). Hence none of these properties, used elsewhere in the paper, rescues the step.",
+        "ETT.tex:1304–1306 says O'Neill's proof 'carries over verbatim under the hypotheses of metrizability and local compactness'. It does not: a quasi-limit of causal curves is causal because a Lorentzian causal relation is closed near every point. A topological spacetime's causal relation need not be closed, even locally, and the counterexample is exactly that failure.",
+        "Consequently the equivalence theo:geroch is false as printed (Causal.not_geroch_tfae). (ii)⇒(i) fails too: (ii) and (iii) hold on the counterexample and (i) does not. In the scaffold, GerochEquiv's geroch_iii_imp_i, geroch_tfae_strict and geroch all state false propositions. A throwaway check (/tmp, not committed) derived False from each of geroch_iii_imp_i and geroch with these refutations. The scaffold sorry can never be discharged.",
+        "The SCOPE worry of CausalScaffold.GerochEquiv (a vacuous Cauchy surface S = ∅) is not what fails here: on the counterexample every inextensible causal curve crosses {t = 0}. With the causal relation closed and one measure admissible in the past, a vacuous Cauchy surface cannot occur. Every point then lies on an inextensible causal curve, every point is in J^+(S) ∪ J^-(S), and S is acausal (LimitCurves: exists_inextensible_mem_of_isClosed_le, IsCauchySurface.exists_le_or_le_of_isClosed_le, IsCauchySurface.isAcausal_of_isClosed_le).",
+        "Side finding on prop:cont_ext_cont (ETT.tex:1219), past half: its proof uses 'tarentin and globally hyperbolic' only through the closedness of J^-(p) and of J^+(K), K compact. With the causal relation closed, p ↦ μ(J^-(p)) is continuous and strictly increasing along ≤ without global hyperbolicity (AdmissiblePast.continuous_measure_Jminus_of_isClosed_le, AdmissiblePast.exists_strict_continuous_of_isClosed_le). It is not shown to be a time function in the sense of DEC-10, a strong morphism."
+      ],
+      "questions": [
+        "The repaired form is CONJECTURAL, and two things need the author's ruling. (1) Which repair of (iii)⇒(i) is intended? Reading taken: add 'the causal relation ≤_M is closed in M × M'. For a tarentin M, (i) implies it (prop:GH_Jferme, ETT.tex:1178, with prop:relation_fermee as its ingredient). theo:geroch would then read (i) ⟺ (ii) ∧ ≤ closed ⟺ (iii) ∧ ≤ closed (geroch_of_isClosed_le). Alternatives: (a) a LOCAL causal closedness, i.e. arbitrarily small causally convex open U with ≤_U closed in U × U, or J^±_U(x) = closure(I^±_U(x)) ∩ U as lem:densite_modele (ETT.tex:1464) gives the models. That is O'Neill's actual use, and what theo:geroch_sing would need, since global closedness is not known there before (i). (b) A standing assumption in def:category_topological_spacetimes (ETT.tex:254). The counterexample violates all three. (2) Does the remaining compactness lemma (J⁻(q) ∩ J⁺(S) compact, the analogue of O'Neill's) hold under the chosen repair? It is classical for Lorentzian manifolds, but its truth in this topological setting is open, whether closedness is global or local; it may need more, e.g. J^±(S) closed. The author should not adopt the '≤ closed' repair on the strength of this report alone.",
+        "theo:geroch_sing (ETT.tex:1771–1785): should SingularFlatAxioms gain a model fact of local closedness (lem:densite_modele in charts), so that a repaired theo:geroch applies? As formalized, SingularFlatAxioms + StronglyCausal + ModelMeasures admit the counterexample with an empty singular locus (Causal.not_geroch_sing_of_stronglyCausal). The paper's theorem itself is not refuted: genuine singular flat spacetimes have the models' locally closed relations. Reading taken: none. The finding is recorded, and the statement in CausalScaffold.SingularGeroch is left as is."
+      ]
+    },
+    {
+      "label": "theo:geroch_sing",
+      "tex_lines": [
+        1771,
+        1796
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.not_geroch_sing_of_stronglyCausal",
+        "Causal.chronoMinkowski_singularFlatAxioms",
+        "Causal.chronoMinkowski_modelMeasures"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M a singular flat spacetime",
+          "here": "carried",
+          "note": "as the library formalizes it: SingularFlatAxioms (sing = ∅) + StronglyCausal (DEC-18) + ModelMeasures, all satisfied by chronological Minkowski space ℝ^{1,1}"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "The formalized statement of theo:geroch_sing is false: CausalScaffold.SingularGeroch's geroch_sing_of_stronglyCausal (SingularFlatAxioms, strong causality, ModelMeasures ⇒ TFAE[(i),(ii),(iii)]). Witness: chronological Minkowski space with an empty singular locus (Causal.not_geroch_sing_of_stronglyCausal, sorry-free). A throwaway check derived False from geroch_sing_of_stronglyCausal with it. This refutes the abstraction, not the paper. ETT.tex:1781 'a direct consequence of Theorem theo:geroch' inherits the gap of theo:geroch's (iii)⇒(i). A true singular flat spacetime may still satisfy the theorem through the local closedness of its model relations (lem:densite_modele, ETT.tex:1464), which SingularFlatAxioms does not carry."
+      ],
+      "questions": [
+        "See theo:geroch's questions. Should SingularFlatAxioms carry the local closedness of ≤ (lem:densite_modele in charts)? Reading taken: none, finding only."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.causalCurveIn_insert_of_le",
+    "Causal.Causality.extensible_of_tendsto_of_le",
+    "Causal.Causality.Inextensible.not_tendsto_atBot_of_le",
+    "Causal.Causality.Inextensible.not_tendsto_atTop_of_le",
+    "Causal.Causality.AdmissiblePast.continuous_measure_Jminus_of_isClosed_le",
+    "Causal.Causality.AdmissiblePast.lt_of_le_of_ne_of_isClosed_le",
+    "Causal.Causality.AdmissiblePast.exists_strict_continuous_of_isClosed_le",
+    "Causal.Causality.exists_inextensible_mem_of_isClosed_le",
+    "Causal.Causality.IsCauchySurface.exists_le_or_le_of_isClosed_le",
+    "Causal.Causality.IsCauchySurface.isAcausal_of_isClosed_le",
+    "Causal.Causality.reflChrono",
+    "Causal.Causality.reflChrono_le",
+    "Causal.Causality.reflChrono_lt",
+    "Causal.Causality.reflChrono_le_le",
+    "Causal.Causality.reflChrono_lt_of_le_of_ne",
+    "Causal.Causality.reflChrono_diamond_subset",
+    "Causal.CurveOn.mono_rel",
+    "Causal.Causality.CausalCurveIn.of_reflChrono",
+    "Causal.Causality.reflChrono_causallyArcConnected",
+    "Causal.Causality.reflChrono_stronglyCausal",
+    "Causal.Causality.reflChrono_stronglyCausalOpen",
+    "Causal.Causality.stronglyCausalOpen_of_pushUp",
+    "Causal.Causality.reflChrono_tarentin",
+    "Causal.Causality.reflChrono_pushUp",
+    "Causal.Causality.reflChrono_causallyOpen",
+    "Causal.Causality.reflChrono_causallyPlain",
+    "Causal.Causality.Iminus_subset_reflChrono_Kminus",
+    "Causal.Causality.Iplus_subset_reflChrono_Kplus",
+    "Causal.Causality.IsTimeFunction.reflChrono",
+    "Causal.Causality.reflChrono_le_of_tendsto_atTop",
+    "Causal.Causality.reflChrono_le_of_tendsto_atBot",
+    "Causal.staticCausality.reflChrono_tarentin",
+    "Causal.staticCausality.reflChrono_causallyArcConnected",
+    "Causal.staticCausality.reflChrono_stronglyCausal",
+    "Causal.staticCausality.reflChrono_isCausal",
+    "Causal.staticCausality.reflChrono_stronglyCausalOpen",
+    "Causal.staticCausality.mem_closure_Iplus_Iminus",
+    "Causal.staticCausality.reflChrono_causallyPlain",
+    "Causal.staticCausality.reflChrono_Jplus_ne_singleton",
+    "Causal.staticCausality.reflChrono_Jminus_ne_singleton",
+    "Causal.staticCausality.reflChrono_tendsto_time_atTop",
+    "Causal.staticCausality.reflChrono_tendsto_time_atBot",
+    "Causal.staticCausality.reflChrono_isCauchyTimeFunction_fst",
+    "Causal.staticCausality.reflChrono_isCauchySurface",
+    "Causal.staticCausality.reflChrono_not_globallyHyperbolic",
+    "Causal.staticCausality.reflChrono_admissible_of"
+  ],
+  "kb_proposals": [
+    "A causal relation need not be closed, even locally. The reflexive chronological causality C.reflChrono (x ≤ y iff x = y or x ≪ y; CausalScaffold.GerochCauchy) keeps tarentin, causal arc-connectedness, strong causality (both readings), plainness, causal openness, push-up, absolute minimality and admissible measures, but breaks every compactness of diamonds. Test any compactness or limit-curve claim against chronoMinkowski n first.",
+    "The library's limit-adjoining lemmas (causalCurveIn_insert, extensible_of_tendsto, Inextensible.not_tendsto_at*) use the closedness of J^-(x) only to get p ≤ c t. CausalScaffold.LimitCurves' *_of_le versions take that fact as the hypothesis; use them when pasts are not closed.",
+    "With ≤ closed, prop:cont_ext_cont needs no global hyperbolicity. AdmissiblePast.exists_strict_continuous_of_isClosed_le gives a continuous function strictly increasing along ≤. It is not a DEC-10 time function: openness and the strong-morphism property are not proved. Still, it is enough for Causal.CurvesExtend: inextensible curves through every point, and acausal Cauchy surfaces."
+  ],
+  "notes": "1. The scaffold sorry of GerochEquiv.geroch_iii_imp_i cannot be discharged: the statement is false (not_gerochIIIImpIAsPrinted). geroch, geroch_tfae_strict and SingularGeroch.geroch_sing_of_stronglyCausal state false propositions too (not_geroch_tfae, not_geroch_sing_of_stronglyCausal). A throwaway check in /tmp derived False from each of geroch_iii_imp_i, geroch and geroch_sing_of_stronglyCausal; nothing was written outside the two files. The witnesses timelikeLine_geroch_tfae and timelikeLine_geroch_sing have true conclusions, but they rest on the false general theorem. Per kb/0022, GerochIIIImpIAsPrinted is provided as the printed form's Prop. The ledger rows' blocked_on ('quasi-limits of causal curves') should become the author's ruling on the repair (the questions). No DEC exists yet; nothing in GerochEquiv or SingularGeroch was edited. 2. globallyHyperbolic_of_isCauchySurface and geroch_of_isClosed_le are a CONJECTURED repair, not a proved one, and they add a hypothesis (≤ closed), so they cannot replace the sorry in GerochEquiv. They rest on isCompact_Jminus_inter_Jplus_of_isCauchySurface, the analogue under these hypotheses of O'Neill's compactness lemma. That lemma is classical for Lorentzian manifolds, but its truth in this topological setting is open even with ≤ closed, and more closedness may be needed. Do not mark or adopt the repair until the author rules (kb/0022). 3. Builds: lake build CausalScaffold.LimitCurves and CausalScaffold.GerochCauchy succeed; no Causal.* or mathlib module was rebuilt. LimitCurves is sorry-free and passes lake env lean -DwarningAsError=true. GerochCauchy fails warningAsError only on its one tagged sorry (line 774). #print axioms of not_gerochIIIImpIAsPrinted, not_geroch_tfae, not_geroch_sing_of_stronglyCausal, chronoMinkowski_counterexample and chronoMinkowski_robust gives propext, Classical.choice, Quot.sound only. 4. Split for graduation (DEC-73 style): everything in GerochCauchy except the last five declarations (the 'repaired statement' section) is sorry-free and could go to a strict module. LimitCurves can graduate as is. 5. Imports: LimitCurves imports Causal.Static, Causal.Measure, Causal.CurvesExtend and Causal.Flat.CBGCompact (for isClosed_Jminus_singleton_of_isClosed_le). GerochCauchy imports CausalScaffold.LimitCurves, Causal.Minkowski, Causal.Flat.GerochFlat (the Minkowski measure), Causal.SingularGeroch and Causal.MeasureLocal; not GerochEquiv. Both new modules must be added to scaffold/CausalScaffold.lean (kb/0025). 6. CurveOn.mono_rel is declared _root_.Causal.CurveOn.mono_rel from inside namespace Causality. 7. Audit round 1 (MINOR) fixed, wording only, no statement or proof changed. (i) The repaired form is called a conjecture everywhere: docstrings, the sorry tag, this report and the first author question. (ii) The closedness of ≤ under (i) now cites prop:GH_Jferme (ETT.tex:1178) with prop:relation_fermee. (iii) LimitCurves no longer calls μ(J^-(·)) a time function."
+}

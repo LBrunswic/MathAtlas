@@ -35,3 +35,6 @@ rediscover. One fact per entry.
 | [0027](entries/0027-chart-iso-transport.md) | pattern | Transport curves, causal arc-connectedness and push-up through a `ChartIso` |
 | [0028](entries/0028-minkowski-facts-under-flat.md) | pitfall | Minkowski facts may already exist under `Causal.Flat`: grep `Flat/` first |
 | [0029](entries/0029-btz-points-and-plainness.md) | pitfall | A BTZ point never witnesses a failure of causal plainness |
+| [0030](entries/0030-causal-relations-need-not-be-closed.md) | pitfall | A causal relation need not be closed, even locally: test against `chronoMinkowski` |
+| [0031](entries/0031-limit-adjoining-with-le.md) | pattern | Adjoining a curve's limit point needs only `p ≤ c t`: the `*_of_le` lemmas |
+| [0032](entries/0032-closed-le-gives-strict-function.md) | pattern | With `≤` closed, an admissible past measure gives a strictly increasing continuous function |
