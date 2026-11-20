@@ -65,13 +65,14 @@ id = "T-lad-cbg-geometry-nodes"
 title = "Ladder nodes for the CBG geometry interface, which are the localisation properties of Sbierski's MGHD argument: rigid (A1, Causal.CBG.IsRigidFor), germ_extension (A3, Causal.CBG.LocalModel.GermExtFuture/GermExtPast), cauchy_slice (A4, Causal.CBG.LocalModel.SliceFuture/SlicePast), curves_extend (Causal.Causality.CurvesExtend), time_function (Causal.Causality.HasTimeFunction), as nodes or as edge hypotheses"
 stream = "ladder"
 kind = "ladder"
-status = "ready"
+status = "done"
 owner = "keeper"
 priority = 3
 depends = ["T-lad-seed-check"]
 evidence = "Binders papers/sbierski-mghd/certificate/binder.toml and papers/ers-predictability/certificate/binder.toml (2026-11-20): these five are in `open_localisation` of 17 Sbierski rows and of the ERS rows 4.64, 4.71, 4.72, 4.73, 4.82, for want of a node. Each has a Lean definition (Causal/CBG/Geometry.lean:196, Causal/CBG/FromModel.lean:1049–1093, Causal/CauchyExtension.lean:82, Causal/CBG/Pgcd.lean:133). rigid, germ_extension and cauchy_slice are properties of a geometry (structures and morphisms), not of one causality: programme/README.md allows 'a node or an edge hypothesis'; the keeper chooses, and records the matrix treatment of the second sort. Known implication to record: time_function ⇒ curves_extend (Causal.Causality.curvesExtend_of_timeFunction). Sbierski 1309.7591 Lemmas 3.1, 3.3, 3.8, Thm 3.6; lean-causal/docs/CBG-DESIGN.md §2."
 added = "2026-11-20"
 proposed_by = "programme-planner (binders sbierski-mghd, ers-predictability)"
+commit = "9f5cfce"
 
 [[target]]
 id = "T-lad-nested-nodes"
@@ -160,12 +161,13 @@ title = "The `causal_ladder` tactic: an aesop rule set CausalLadder (Causal/Ladd
 stream = "tactics"
 kind = "tactic"
 package = "lean-causal"
-status = "ready"
+status = "done"
 owner = "tactician"
 priority = 2
 evidence = "The author's choice 2026-11-20: ladder automation. tools/ladder.py emit-lean writes Rules.lean from the checked edges. Found by T-lad-seed-check (2026-11-20): emit-lean was not run, because Rules.lean imports Causal.Ladder.Basic, which this target creates, and because it emits every checked one-premise edge as an aesop SAFE rule, ignoring `under`: AbsolutelyMinimal.causallyOpenFuture, AbsolutelyMinimal.causallyOpen, causallyOpen_of_pushUp and CausallyArcConnected.pushUp would be safe rules with unprovable side goals (pushUp also leaves metavariables). emit-lean must skip or downgrade edges whose `under` is a localisation hypothesis. Asked of this target (planning run 2026-11-20): (1) extend `emit_lean` (.claude/agents/tactics-builder.md allows it) to skip every edge with a non-empty `under` — conservative: it also drops StronglyCausal.isCausal, whose `under` is only [T1Space M], until T-tool-ladder-py gives standing separation hypotheses a field of their own — with a test in tests/test_programme.py; (2) run emit-lean only after (1); (3) Causal/Ladder/Test.lean derives exactly the closure of the EMITTED edges, not `tools/ladder.py matrix`'s closure, which still chains the conditional edges (T-tool-ladder-py fixes matrix; T-lad-local-nodes turns the side conditions into premises)."
 added = "2026-11-20"
 proposed_by = "programme seed"
+commit = "1fcbea8"
 
 [[target]]
 id = "T-tool-ladder-py"
@@ -204,12 +206,13 @@ stream = "abstract"
 kind = "abstract"
 uses = ["causally_open_future", "causally_arc_connected"]
 package = "lean-causal"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 2
 evidence = "Sbierski 1507.00601 Lemma 2.17; Grant-Kunzinger-Sämann 1804.10423 Lemma 3.8 (one side suffices); SYNTHESIS Q4 #2."
 added = "2026-11-20"
 proposed_by = "programme seed"
+commit = "2328498"
 
 [[target]]
 id = "T-abs-nested-causalities"
@@ -262,12 +265,13 @@ stream = "abstract"
 kind = "abstract"
 uses = ["push_up", "causally_open_future", "causally_open", "absolutely_minimal", "causally_arc_connected", "globally_hyperbolic", "is_causal"]
 package = "lean-causal"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 2
 evidence = "The keeper adds no property without a Lean definition (.claude/agents/ladder-keeper.md); its proposals T-lad-local-nodes and T-lad-gh-causal (programme/JOURNAL.md:6) and the binders' T-lad-nested-inextensible and T-lad-development-nodes name properties that exist only as inline hypotheses: the `under` of programme/ladder.toml:146, :156, :165, :173; `hpast`/`hfut` of Causal.Causality.GloballyHyperbolic.inextensibleNestedOn_top (Causal/NestedCausalities.lean:450) and `hJm` of Causal/ChainsCurves.lean:367; `honesided` of Causal.Causality.ers_theorem_4_82 (NestedCausalities.lean:1391, ERS 1802.03020 (4.83)). Witnesses currently stated with the inline forms: Causal/ArcConnected.lean:343, Causal/Minimal.lean:90, :124, Causal/LemmaK.lean:93. A layer-1 module: ETT-layer imports only; each restated witness a one-line corollary of the existing one."
 added = "2026-11-20"
 proposed_by = "programme-planner (keeper proposals, binders)"
+commit = "3e48e55"
 
 [[target]]
 id = "T-abs-hoist-model-free"
@@ -632,12 +636,13 @@ id = "T-pub-blueprint"
 title = "The programme blueprint site (reports/blueprint/): the ladder DAG with witnesses, each binder's three layers, the programme roadmap; generated, reproducible"
 stream = "publish"
 kind = "publish"
-status = "ready"
+status = "done"
 owner = "publisher"
 priority = 2
 evidence = "The author's choice 2026-11-20: a blueprint site; the atlas (reports/atlas) is /atlas-team's and is not edited from here."
 added = "2026-11-20"
 proposed_by = "programme seed"
+commit = "8b5cf06"
 
 [[target]]
 id = "T-pub-progress"
