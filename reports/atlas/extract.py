@@ -1,6 +1,11 @@
-import json,re,sys,os
-ROOT="/home/maxbrain/Dropbox/LeanArticles"
-PAPERS=["ett","barbot","gx","benzecri","egf","syracuse","dyniso","yamabe"]
+import json,re,sys,os,glob,tomllib
+HERE=os.path.dirname(os.path.abspath(__file__))
+ROOT=os.path.dirname(os.path.dirname(HERE))
+# Every paper with a generated ledger: hub.toml's order first, then any ledger hub.toml does not
+# curate yet (build.py gives it a placeholder card), so a newly counted paper cannot be left out.
+_hub=list(tomllib.load(open(os.path.join(HERE,"hub.toml"),"rb"))["paper"])
+_led=sorted(os.path.basename(os.path.dirname(os.path.dirname(f))) for f in glob.glob(os.path.join(ROOT,"papers","*","ledger","ledger.json")))
+PAPERS=[p for p in _hub if p in _led]+[p for p in _led if p not in _hub]
 SPLIT=24
 def clean(s):
     s=re.sub(r"\\label\{[^}]*\}","",s); s=re.sub(r"(?m)^\s*%.*$","",s)
@@ -18,6 +23,8 @@ def title_of(cmd):
     out=re.sub(r"\\label\{[^}]*\}","",out)
     out=re.sub(r"~?\\ref\{[^}]*\}","",out)
     out=out.replace("$\\BTZ$","BTZ").replace("$(G,X)$","(G,X)").replace("$","")
+    out=re.sub(r"\\(AdS|dS|HS)\b",r"\1",out)   # BBS's text macros in section titles
+    out=re.sub(r"\s+"," ",out)
     return out.strip()
 data={}
 for p in PAPERS:

@@ -35,8 +35,9 @@ h1{font-family:var(--f-display);font-weight:600;font-size:1.35rem;margin:0;lette
 .crumbs .here{color:var(--ink);font-weight:600;cursor:default}
 .crumbs .sep{color:var(--ink-3)}
 .roadbtn{font:inherit;font-size:.82rem;font-weight:600;padding:6px 11px;border-radius:6px;border:1px solid var(--accent);background:var(--card);color:var(--accent);cursor:pointer}
-.roadbtn[aria-pressed="true"],.roadbtn:hover{background:var(--accent);color:var(--card)}
+.roadbtn[aria-pressed="true"],.roadbtn:hover:not(:disabled){background:var(--accent);color:var(--card)}
 .roadbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.roadbtn:disabled{opacity:.45;cursor:not-allowed}
 .tgt{border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;background:var(--canvas)}
 .tgt b{font-weight:600;line-height:1.35}
 .tgt .meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.74rem;color:var(--ink-3)}
@@ -76,7 +77,7 @@ svg#g:active{cursor:grabbing}
 .stat div{border:1px solid var(--line);border-radius:6px;padding:8px 10px}
 .stat b{display:block;font-family:var(--f-display);font-size:1.3rem;font-variant-numeric:tabular-nums}
 .stat span{font-size:.72rem;color:var(--ink-3)}
-.legend{position:absolute;left:max(12px,env(safe-area-inset-left,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.74rem;color:var(--ink-2);max-width:calc(100% - 24px);box-shadow:var(--shadow)}
+.legend{position:absolute;left:max(12px,env(safe-area-inset-left,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.74rem;color:var(--ink-2);max-width:calc(100% - 82px);box-shadow:var(--shadow)}
 .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:5px;border:1px solid var(--line)}
 .hint{position:absolute;right:12px;top:10px;font-size:.74rem;color:var(--ink-3);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:4px 8px}
 .tools{position:absolute;right:12px;bottom:max(12px,env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:6px}
@@ -105,6 +106,28 @@ svg#g:active{cursor:grabbing}
 .edge.dashed path{stroke-dasharray:6 4}
 .edge.hi path{stroke:var(--edge-hi);stroke-opacity:1}
 .edge text{fill:var(--ink-3);font-size:11px;font-family:var(--f-mono)}
+/* the Lean overlay: one class per doubledag edge kind */
+.edge.k-both path.vis{stroke:var(--closed);stroke-opacity:.95}
+.edge.k-lean path.vis{stroke:var(--accent);stroke-opacity:.8;stroke-dasharray:5 3}
+.edge.k-tex path.vis{stroke:var(--partial);stroke-opacity:.95;stroke-dasharray:1.5 3.5;stroke-linecap:round}
+.edge.k-texu path.vis{stroke:var(--edge)}
+.edge.k-twin path.vis{stroke:var(--ink-3);stroke-dasharray:8 3 2 3}
+.edge.k-pboth path.vis{stroke:var(--accent);stroke-opacity:.85}
+.edge.k-lean text,.edge.k-pboth text{fill:var(--accent)}
+.edge.hi path.vis{stroke:var(--edge-hi);stroke-opacity:1}
+.edge.dim{opacity:.13}.edge.dim.hi{opacity:1}
+.edge.esel path.vis{stroke-width:2.8px;stroke-opacity:1}
+.edge path.hit{stroke:transparent;stroke-width:12px;stroke-dasharray:none;pointer-events:stroke}
+.legend svg{vertical-align:middle;margin-right:5px;overflow:visible}
+.linklist button.lk{border-left:3px solid var(--line)}
+.lk.k-both{border-left-color:var(--closed)!important}.lk.k-lean{border-left-color:var(--accent)!important}
+.lk.k-tex{border-left-color:var(--partial)!important}.lk.k-twin{border-left-color:var(--ink-3)!important}
+ol.wit{margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:6px;color:var(--ink-2)}
+ol.wit .mono{display:block;font-family:var(--f-mono);font-size:.78rem;word-break:break-all;color:var(--ink)}
+ol.wit .loc{display:block;font-family:var(--f-mono);font-size:.7rem;color:var(--ink-3);word-break:break-all}
+.panel .warn{border-left:3px solid var(--partial);padding-left:10px}
+.panel details summary{cursor:pointer;color:var(--ink-2);font-size:.86rem}
+.panel .prov{font-size:.78rem;color:var(--ink-3)}
 .cluster rect{fill:none;stroke:var(--line);stroke-dasharray:2 4;rx:14}
 .cluster text{fill:var(--ink-3);font-family:var(--f-body);font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
 .world{transition:opacity .22s ease}
@@ -122,6 +145,7 @@ svg#g:active{cursor:grabbing}
 <header>
   <h1>Dependency Atlas</h1>
   <nav class="crumbs" id="crumbs" aria-label="Level"></nav>
+  <button id="leanbtn" class="roadbtn" aria-pressed="false">Lean edges</button>
   <button id="roadbtn" class="roadbtn" aria-pressed="false">Roadmap <span id="roadn"></span></button>
   <div class="search">
     <label for="q" class="t-dim" style="font-size:.78rem;color:var(--ink-3)">Find</label>
@@ -138,6 +162,9 @@ svg#g:active{cursor:grabbing}
         </pattern>
         <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="var(--edge)"></path></marker>
         <marker id="arrhi" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="var(--edge-hi)"></path></marker>
+        <marker id="arr-both" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="var(--closed)"></path></marker>
+        <marker id="arr-lean" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="var(--accent)"></path></marker>
+        <marker id="arr-tex" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="var(--partial)"></path></marker>
       </defs>
       <g id="world" class="world"></g>
     </svg>
@@ -160,6 +187,7 @@ window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$
 const DATA = __DATA__;
 const HUB = __HUB__;
 const ROAD = __ROAD__;
+const LEAN = __LEAN__;
 const OPEN_ST = new Set(["planned","ready","active","needs-ruling","blocked"]);
 const openTargets = ROAD.targets.filter(t=>OPEN_ST.has(t.status));
 const targetsForPaper = p => openTargets.filter(t=>t.paper===p);
@@ -193,6 +221,36 @@ const LABEL = {};  // label -> {p, node}
 for (const p in DATA) for (const n of DATA[p].nodes) LABEL[p+"/"+n.id]={p,n};
 const labelsDL = $("#labels");
 Object.keys(LABEL).sort().forEach(k=>{ const o=document.createElement("option"); o.value=LABEL[k].n.id; o.label=HUB.papers[LABEL[k].p]?.short||LABEL[k].p; labelsDL.appendChild(o); });
+
+/* ---------- the Lean overlay (lean_edges.py over tools/doubledag.py) ---------- */
+const KINDS=["both","lean-only","tex-only","tex-only-unformalized","twin","both-unformalized"];
+const KCLS={"both":"k-both","lean-only":"k-lean","tex-only":"k-tex","tex-only-unformalized":"k-texu","twin":"k-twin","both-unformalized":"k-both"};
+const KMK={"both":"arr-both","lean-only":"arr-lean","tex-only":"arr-tex","both-unformalized":"arr-both"};
+const KNAME={"both":"both","lean-only":"Lean only","tex-only":"draft only","tex-only-unformalized":"draft only, an end without Lean","twin":"twin","both-unformalized":"both, an end without Lean"};
+const KTXT={"both":"cited by the draft and used by the Lean proof","lean-only":"used by the Lean proof, never cited by the draft",
+  "tex-only":"cited by the draft, not reached by the Lean proof","tex-only-unformalized":"cited by the draft; one end has no Lean declaration yet",
+  "twin":"a restatement: a body statement and its full form","both-unformalized":"cited by the draft and reached in Lean; one end has no principal"};
+const LE={};
+for (const [p,L] of Object.entries(LEAN)){
+  if (!DATA[p]) continue;
+  const ids=DATA[p].nodes.map(n=>n.id);
+  const edges=L.edges.map(([s,t,k,w],i)=>({i,s:ids[s],t:ids[t],k:KINDS[k],w}));
+  const bySrc={},byTgt={},pair={};
+  edges.forEach(e=>{ (bySrc[e.s]??=[]).push(e); (byTgt[e.t]??=[]).push(e); pair[e.s+"|"+e.t]=e; });
+  const ord=e=>KINDS.indexOf(e.k);
+  for (const m of [bySrc,byTgt]) for (const k in m) m[k].sort((a,b)=>ord(a)-ord(b)||(a.s+a.t).localeCompare(b.s+b.t));
+  const principals={}; L.principals.forEach(([l,ns])=>principals[ids[l]]=ns.map(i=>L.names[i]));
+  LE[p]={...L,edges,bySrc,byTgt,pair,principals};
+}
+let leanOn=false;
+const hasLean = p => !!(LE[p]&&LE[p].edges.length);
+const leanFor = p => leanOn&&hasLean(p)?LE[p]:null;
+const fmtN = n => Number(n).toLocaleString("en-US");
+function shortDecl(n){ const i=n.lastIndexOf("."); return i<0?n:n.slice(i+1); }
+function edgeTip(p,e){ const L=LE[p];
+  return `${e.s} uses ${e.t}: ${KTXT[e.k]}`+(e.w.length?`\nwitness: ${e.w.map(i=>shortDecl(L.names[i])).join(" → ")}`:"")+"\n(click for the witness)"; }
+function leanEdge(p,e){ return {v:e.t,w:e.s,cls:KCLS[e.k],mk:KMK[e.k]||"arr",tip:edgeTip(p,e),click:()=>showLeanEdge(p,e)}; }
+function swatch(cls){ return `<svg width="24" height="8" aria-hidden="true" class="edge ${cls}"><path class="vis" d="M1,4H23" stroke-width="1.8"></path></svg>`; }
 
 /* ---------- svg + zoom ---------- */
 const svg = d3.select("#g"), world = d3.select("#world");
@@ -246,19 +304,47 @@ function paperGraph(p){
   const nodes=d.blocks.map(b=>({id:b.id,kind:"block",w:250,h:92,b,c:counts(byBlock[b.id]||[]),n:(byBlock[b.id]||[]).length,drill:true}));
   const agg={};
   d.nodes.forEach(n=>n.deps.forEach(dep=>{ const a=blockOf[dep], b=n.block; if(a&&a!==b){ const k=a+"|"+b; agg[k]=(agg[k]||0)+1; } }));
-  const edges=Object.entries(agg).map(([k,v])=>{const [a,b]=k.split("|"); return {v:a,w:b,weight:v,label:String(v)};});
-  // keep document order as a weak spine so isolated blocks still read top-to-bottom
-  return {nodes,edges,rankdir:"TB",nodesep:36,ranksep:64};
+  const L=leanFor(p);
+  const refs=v=>`${v} reference${v>1?"s":""} in the draft`;
+  if (!L){
+    const edges=Object.entries(agg).map(([k,v])=>{const [a,b]=k.split("|");
+      return {v:a,w:b,weight:v,label:String(v),tip:refs(v)+" (click for the list)",click:()=>showAgg(p,a,b,"tex")};});
+    return {nodes,edges,rankdir:"TB",nodesep:36,ranksep:64};
+  }
+  // With the overlay: one arrow per pair of blocks, for the draft's references and the Lean edges
+  // (both + Lean only) between them; its style says which of the two the pair has.
+  const la={};
+  L.edges.forEach(e=>{ if(e.k!=="lean-only"&&e.k!=="both"&&e.k!=="both-unformalized") return;
+    const a=blockOf[e.t], b=blockOf[e.s]; if(a&&b&&a!==b){ const k=a+"|"+b; la[k]=(la[k]||0)+1; } });
+  const keys=[...new Set([...Object.keys(agg),...Object.keys(la)])].sort();
+  const edges=keys.map(k=>{ const [a,b]=k.split("|"), t=agg[k]||0, l=la[k]||0;
+    const lean=`${l} Lean edge${l>1?"s":""}`, click=()=>showAgg(p,a,b,"pair");
+    if (t&&l) return {v:a,w:b,weight:t+l,label:String(t),cls:"k-pboth",mk:"arr-lean",tip:`${refs(t)}; ${lean} (click for the list)`,click};
+    if (t) return {v:a,w:b,weight:t,label:String(t),tip:`${refs(t)}; no Lean edge (click for the list)`,click};
+    return {v:a,w:b,weight:l,cls:"k-lean",mk:"arr-lean",tip:`${lean}, no reference in the draft (click for the list)`,click}; });
+  return {nodes,edges,rankdir:"TB",nodesep:36,ranksep:64,adaptive:true};
 }
 function blockGraph(p,bid){
   const d=DATA[p]; const inB=d.nodes.filter(n=>n.block===bid); const ids=new Set(inB.map(n=>n.id));
   const byId={}; d.nodes.forEach(n=>byId[n.id]=n);
-  const nodes=inB.map(n=>({id:n.id,kind:"stmt",w:200,h:50,n}));
+  const L=leanFor(p);
+  const nodes=inB.map(n=>({id:n.id,kind:"stmt",w:200,h:L?62:50,n}));
   const edges=[]; const ghosts={};
-  inB.forEach(n=>n.deps.forEach(dep=>{ if(!ids.has(dep)) ghosts[dep]=byId[dep]; edges.push({v:dep,w:n.id}); }));
-  d.nodes.forEach(n=>{ if(!ids.has(n.id)) n.deps.forEach(dep=>{ if(ids.has(dep)){ ghosts[n.id]=n; edges.push({v:dep,w:n.id}); } }); });
+  const tex=(user,dep)=>{ const e=L&&L.pair[user+"|"+dep]; return e?leanEdge(p,e):{v:dep,w:user}; };
+  inB.forEach(n=>n.deps.forEach(dep=>{ if(!ids.has(dep)) ghosts[dep]=byId[dep]; edges.push(tex(n.id,dep)); }));
+  d.nodes.forEach(n=>{ if(!ids.has(n.id)) n.deps.forEach(dep=>{ if(ids.has(dep)){ ghosts[n.id]=n; edges.push(tex(n.id,dep)); } }); });
+  if (L){
+    // Lean-only edges: drawn inside the block and to statements already on the page; the rest are
+    // counted on the statement (the paper level draws them between blocks, the panel lists them).
+    const badge={};
+    L.edges.forEach(e=>{ if(e.k!=="lean-only") return; const sIn=ids.has(e.s), tIn=ids.has(e.t); if(!sIn&&!tIn) return;
+      const other=sIn?e.t:e.s;
+      if ((sIn&&tIn)||ghosts[other]) edges.push(leanEdge(p,e));
+      else { const me=sIn?e.s:e.t; const b=(badge[me]??={uses:0,usedby:0}); b[sIn?"uses":"usedby"]++; } });
+    nodes.forEach(N=>N.badge=badge[N.id]);
+  }
   for (const [g,n] of Object.entries(ghosts)) nodes.push({id:g,kind:"ghost",w:200,h:44,n});
-  return {nodes,edges,rankdir:"TB",nodesep:22,ranksep:46};
+  return {nodes,edges,rankdir:"TB",nodesep:22,ranksep:46,adaptive:!!L};
 }
 
 /* ---------- layout + draw ---------- */
@@ -313,6 +399,9 @@ function draw(){
   world.selectAll("*").remove();
   G = state.level==="hub"?hubGraph(): state.level==="paper"?paperGraph(state.p):blockGraph(state.p,state.b);
   g = layout(G);
+  if (G.adaptive){ // the overlay is denser: lay it out across the screen if that shows it larger
+    const W=svg.node().clientWidth||800, H=svg.node().clientHeight||600, k=o=>Math.min(W/(o.width+40),H/(o.height+40));
+    const lr=layout({...G,rankdir:"LR",nodesep:14,ranksep:70}); if (k(lr)>k(g)*1.15) g=lr; }
   bbox={x:-20,y:-20,w:g.width+40,h:g.height+40};
   // clusters
   for (const c of g.clusters){
@@ -322,11 +411,16 @@ function draw(){
   // edges
   const line=d3.line().x(p=>p.x).y(p=>p.y).curve(d3.curveBasis);
   const eg=world.append("g");
-  g.edges.forEach(e=>{ const src=e.src;
-    const el=eg.append("g").attr("class","edge"+(src.dashed?" dashed":"")).attr("data-v",e.v).attr("data-w",e.w);
-    el.append("path").attr("d",line(e.points)).attr("marker-end","url(#arr)").attr("stroke-width",src.weight?Math.min(1.2+Math.log2(src.weight)*1.3,6):1.4);
+  g.edges.forEach(e=>{ const src=e.src, mk=src.mk||"arr", dd=line(e.points);
+    const el=eg.append("g").attr("class","edge"+(src.dashed?" dashed":"")+(src.cls?" "+src.cls:"")).attr("data-v",e.v).attr("data-w",e.w).attr("data-mk",mk);
+    const act=src.info?()=>showEdge(src.info):src.click;
+    if (act) el.append("path").attr("class","hit").attr("d",dd);
+    el.append("path").attr("class","vis").attr("d",dd).attr("marker-end",`url(#${mk})`)
+      .attr("stroke-width",src.weight?(src.cls?Math.min(1+Math.log2(src.weight)*.7,4):Math.min(1.2+Math.log2(src.weight)*1.3,6)):(src.cls?1.6:1.4));
     if (e.label && e.x!=null) el.append("text").attr("x",e.x).attr("y",e.y+4).attr("text-anchor","middle").text(e.label);
-    if (src.info){ el.style("cursor","pointer").on("click",ev=>{ev.stopPropagation(); showEdge(src.info);}); el.append("title").text(src.info.why); }
+    if (act) el.style("cursor","pointer").on("click",ev=>{ev.stopPropagation(); act();
+      if (src.click&&state.level==="block"){ world.selectAll(".edge").classed("esel",false).classed("dim",true); el.classed("esel",true).classed("dim",false); } });
+    const tip=src.info?src.info.why:src.tip; if (tip) el.append("title").text(tip);
   });
   // nodes
   const ng=world.append("g");
@@ -341,15 +435,15 @@ function draw(){
     el.on("mouseenter",()=>hiEdges(N.id,true)).on("mouseleave",()=>hiEdges(N.id,false));
   });
   svg.on("click",()=>{ selected=null; markSel(); panelForLevel(); });
-  crumbs(); legend();
+  crumbs(); legend(); leanButton();
 }
 function nodeAria(N){
   if (N.kind==="paper") return N.pp.short+(N.drill?", open":"");
   if (N.kind==="lib") return "Library "+N.id;
   if (N.kind==="block") return shortBlock(N.b.title)+", "+N.n+" statements, open";
-  return N.id+", "+statusOf(N.n);
+  return N.id+", "+statusOf(N.n)+(N.badge?", Lean edges to other blocks: uses "+N.badge.uses+", used by "+N.badge.usedby:"");
 }
-function hiEdges(id,on){ world.selectAll(".edge").each(function(){ const e=d3.select(this); if(e.attr("data-v")===id||e.attr("data-w")===id){ e.classed("hi",on); e.select("path").attr("marker-end",on?"url(#arrhi)":"url(#arr)"); } }); }
+function hiEdges(id,on){ world.selectAll(".edge").each(function(){ const e=d3.select(this); if(e.attr("data-v")===id||e.attr("data-w")===id){ e.classed("hi",on); e.select("path.vis").attr("marker-end",on?"url(#arrhi)":`url(#${e.attr("data-mk")})`); } }); }
 const drawNode={
   paper(el,N){
     const pp=N.pp;
@@ -383,6 +477,9 @@ const drawNode={
     el.append("text").attr("class","t-mono").attr("x",10).attr("y",21).attr("font-size",11.5).text(lab);
     el.append("text").attr("x",10).attr("y",39).attr("font-size",11).attr("opacity",.85).text(kindLabel(N.n)+(N.n.title?" · "+N.n.title.slice(0,22):""));
     if (targetsForLabel(state.p,N.n.id).length) el.append("path").attr("class","flag").attr("d",`M${N.w-8},0l6,6l-6,6l-6,-6z`);
+    if (N.badge) el.append("text").attr("class","t-mono").attr("x",10).attr("y",55).attr("font-size",9.5).attr("opacity",.8)
+      .text("elsewhere:"+(N.badge.uses?" uses "+N.badge.uses:"")+(N.badge.uses&&N.badge.usedby?" ·":"")+(N.badge.usedby?" used by "+N.badge.usedby:""))
+      .append("title").text("Lean edges to rows of other blocks, not drawn here: the paper level draws them between blocks, and the panel lists each one");
   },
   ghost(el,N){
     const lab=N.n.id.length>27?N.n.id.slice(0,26)+"…":N.n.id;
@@ -390,7 +487,10 @@ const drawNode={
     el.append("text").attr("x",10).attr("y",35).attr("font-size",10.5).text("in "+wrap(shortBlock(DATA[state.p].blocks.find(b=>b.id===N.n.block).title),26,1)[0]);
   }
 };
-function markSel(){ world.selectAll(".node").classed("sel",function(){ return d3.select(this).attr("data-id")===selected; }); }
+function markSel(){ world.selectAll(".node").classed("sel",function(){ return d3.select(this).attr("data-id")===selected; });
+  // with the overlay on, a selected statement keeps its own edges and dims the others
+  const foc=selected&&state.level==="block"&&leanFor(state.p)?selected:null;
+  world.selectAll(".edge").classed("esel",false).classed("dim",function(){ return !!foc&&this.getAttribute("data-v")!==foc&&this.getAttribute("data-w")!==foc; }); }
 
 /* ---------- navigation with zoom-in / zoom-out transitions ---------- */
 function go(next, fromNodeId, dir){
@@ -435,6 +535,7 @@ function panelForLevel(){
     <div><h3>The hub</h3><h2>Papers, the Lean libraries under them, and what each one uses</h2></div>
     <p>Each card is a paper. Its bar splits the paper's ledger rows into closed in Lean, partial, terminal, and not yet formalized; the figure is the ledger closure. An arrow points from the work that is used to the work that uses it. Click an arrow to read why the link exists.</p>
     <p>Open a paper to see its sections as blocks, with arrows weighted by the number of statement-level dependencies between them. Open a block to see its statements; dashed cards are statements in other blocks that this one uses or feeds.</p>
+    <p>Inside a paper whose rows carry Lean declarations, <b>Lean edges</b> overlays the dependencies read off the compiled library: between two rows when a principal declaration of one reaches a principal of the other, each with its witness chain, and classified against the draft's references.</p>
     <div class="stat">${["closed","partial","none"].map(k=>`<div><b>${Object.values(DATA).reduce((a,d)=>a+counts(d.nodes)[k],0)}</b><span>${{closed:"rows closed",partial:"rows partial",none:"rows without Lean"}[k]}</span></div>`).join("")}</div>
     <p style="font-size:.78rem;color:var(--ink-3)">${esc(HUB.provenance)}</p>`;
   if (state.level==="paper") return showPaperInfo(state.p);
@@ -454,10 +555,61 @@ function showPaperInfo(p){
     <p>${esc(pp.summary)}</p>
     ${pp.headline?.length?`<div><h3>Headline Lean</h3><div class="mono">${pp.headline.map(esc).join("<br>")}</div></div>`:""}
     ${pp.open?`<div><h3>What remains</h3><p>${esc(pp.open)}</p></div>`:""}
+    ${leanSummaryHTML(p)}
+    ${pp.dd?`<div><h3>Double DAG</h3><div class="stat"><div><b>${pp.dd.edges_both}</b><span>both</span></div><div><b>${pp.dd.edges_lean_only}</b><span>Lean only</span></div><div><b>${pp.dd.edges_tex_only}</b><span>draft only</span></div></div><p class="prov">As committed in <span class="mono">${esc(pp.ddpath)}</span>: ${pp.dd.labels_with_lean} of ${pp.dd.labels} rows with Lean, ${pp.dd.principals} principals; the draft's rows are not in this atlas, so the edges are not drawn here.</p></div>`:""}
     ${targetsForPaper(p).length?`<div><h3>On the roadmap (${targetsForPaper(p).length})</h3><div style="display:flex;flex-direction:column;gap:8px">${targetsForPaper(p).map(t=>tgtHTML(t,true)).join("")}</div></div>`:""}
     ${d&&state.level==="hub"?`<p><button class="chip" id="openp" style="cursor:pointer;color:var(--accent)">Open this paper</button></p>`:""}`;
-  wireTargets();
+  wireTargets(); wireLean();
   const b=$("#openp"); if(b) b.onclick=()=>go({level:"paper",p},p,"down");
+}
+function leanProv(p){
+  const L=LE[p];
+  return `<p class="prov">Facts read from <span class="mono">${esc(L.package)}</span> at <span class="mono">${esc(L.commit)}</span>${L.dirty?" with uncommitted changes":""} (${fmtN(L.facts.declarations)} declarations in ${L.facts.modules} modules)${L.now&&L.now!==L.commit?`; the package is now at <span class="mono">${esc(L.now)}</span>`:""}; edges by <span class="mono">tools/doubledag.py</span>, principal projection.</p>`
+    +(L.current?"":`<p class="warn">Stale: ${L.why.map(esc).join(" ")}</p>`);
+}
+function leanSummaryHTML(p){
+  const L=LE[p]; if(!L) return "";
+  const s=L.summary;
+  if (!s.labels_with_lean) return `<div><h3>Lean overlay</h3><p>The ledger maps no row to a declaration of <span class="mono">${esc(L.package)}</span> yet, so there is no Lean edge to draw.</p>${leanProv(p)}</div>`;
+  const extra=[s.edges_tex_only_unformalized?`${s.edges_tex_only_unformalized} cited with an end that has no Lean`:"",s.edges_twin?`${s.edges_twin} twin`:""].filter(Boolean);
+  return `<div><h3>Lean overlay · the double DAG</h3>
+    <div class="stat"><div><b>${s.edges_both}</b><span>both</span></div><div><b>${s.edges_lean_only}</b><span>Lean only</span></div><div><b>${s.edges_tex_only}</b><span>draft only</span></div></div>
+    <p style="margin-top:8px">${s.labels_with_lean} of ${s.labels} rows carry Lean declarations: ${s.principals} principals, ${s.subordinates} subordinates.${extra.length?" Also "+extra.join(", ")+".":""} The flat projection, stopping at any declaration of another row, would give ${L.flat.edges_both} both and ${L.flat.edges_lean_only} Lean only.</p>
+    ${L.missing.length?`<details><summary>${L.missing.length} declaration${L.missing.length>1?"s":""} named by the ledger ${L.missing.length>1?"are":"is"} not in the environment</summary><div class="mono" style="margin-top:6px">${L.missing.map(esc).join("<br>")}</div></details>`:""}
+    ${leanProv(p)}
+    ${hasLean(p)?`<p><button class="chip" data-leanon="${esc(p)}" style="cursor:pointer;color:var(--accent)">${leanOn?"Hide":"Show"} the Lean edges</button></p>`:""}</div>`;
+}
+function wireLean(){ P.querySelectorAll("[data-leanon]").forEach(b=>b.onclick=()=>{ const p=b.dataset.leanon;
+    if (state.level==="hub"){ leanOn=true; go({level:"paper",p},p,"down"); } else { setLean(!leanOn); showPaperInfo(p); } });
+  P.querySelectorAll("[data-le]").forEach(b=>b.onclick=()=>{ const [p,i]=b.dataset.le.split("#"); showLeanEdge(p,LE[p].edges[+i]); }); }
+function leanBtn(p,e,other){ return `<button data-le="${esc(p)}#${e.i}" class="lk ${KCLS[e.k]}" title="${esc(KTXT[e.k])}">${esc(other)}</button>`; }
+function showLeanEdge(p,e){
+  const L=LE[p];
+  const why={"both":"The draft cites it, and the Lean proof uses it.","lean-only":"The Lean proof uses it; the draft never cites it.",
+    "tex-only":"The draft cites it; the walk from the first row's principals meets no principal of the second before stopping at another row's.",
+    "tex-only-unformalized":"The draft cites it; one of the two rows has no Lean declaration yet, so there is nothing to compare.",
+    "twin":"A restatement, not a dependency: the two rows share their declarations.","both-unformalized":"The draft cites it and the Lean reaches it, with one end unformalized."}[e.k];
+  P.innerHTML=`<div><h3>${esc(HUB.papers[p].short)} · Lean edge · ${esc(KNAME[e.k])}</h3><h2 style="font-family:var(--f-mono);font-size:1rem;overflow-wrap:anywhere">${esc(e.s)} <span style="font-family:var(--f-body);font-weight:500;color:var(--ink-3)">uses</span> ${esc(e.t)}</h2></div>
+    <p>${esc(why)}</p>
+    ${e.w.length?`<div><h3>Witness · ${e.w.length} declarations</h3><p style="margin-bottom:8px">The shortest chain from a principal of <span class="mono">${esc(e.s)}</span> to a principal of <span class="mono">${esc(e.t)}</span>: each declaration's statement or proof uses the next, directly or through an elaborator auxiliary the chain does not name.</p>
+      <ol class="wit">${e.w.map(i=>`<li><span class="mono">${esc(L.names[i])}</span><span class="loc">${esc(L.where[i])}</span></li>`).join("")}</ol></div>`:""}
+    <div><h3>Rows</h3><div class="linklist"><button data-l="${esc(e.s)}">${esc(e.s)}</button><button data-l="${esc(e.t)}">${esc(e.t)}</button></div></div>
+    ${leanProv(p)}`;
+  P.querySelectorAll("[data-l]").forEach(bt=>bt.onclick=()=>openStatement(p,bt.dataset.l));
+  P.scrollTop=0;
+}
+function showAgg(p,a,b,fam){
+  const d=DATA[p], blockOf={}; d.nodes.forEach(n=>blockOf[n.id]=n.block);
+  const ta=shortBlock(d.blocks.find(x=>x.id===a).title), tb=shortBlock(d.blocks.find(x=>x.id===b).title);
+  const L=LE[p]; let items;
+  if (fam==="pair") items=L.edges.filter(e=>blockOf[e.t]===a&&blockOf[e.s]===b).map(e=>`<li>${leanBtn(p,e,e.s+(e.k==="lean-only"?" uses ":" cites ")+e.t)}</li>`);
+  else items=d.nodes.filter(n=>n.block===b).flatMap(n=>n.deps.filter(x=>blockOf[x]===a).map(x=>{ const e=L&&L.pair[n.id+"|"+x];
+    return `<li>${e?leanBtn(p,e,n.id+" cites "+x):`<button data-l="${esc(n.id)}">${esc(n.id)} cites ${esc(x)}</button>`}</li>`; }));
+  P.innerHTML=`<div><h3>${esc(HUB.papers[p].short)} · ${fam==="pair"?"the double DAG between two blocks":"references in the draft"}</h3><h2>${esc(tb)} → ${esc(ta)}</h2></div>
+    <p>${fam==="pair"?"Every edge of the double DAG from a row of the first block to a row of the second, coloured by kind: a reference of the draft, a Lean edge, or both. Select one for its witness.":"Each reference a row of the first block makes to a row of the second."+(L&&L.edges.length?" With Lean data, a reference opens its classified edge.":"")}</p>
+    ${fam==="pair"?`<p class="prov">${["both","lean-only","tex-only","tex-only-unformalized"].map(k=>`<span class="chip lk ${KCLS[k]}">${KNAME[k]}</span>`).join(" ")}</p>`:""}
+    <ul class="linklist" style="list-style:none;padding:0;flex-direction:column;align-items:flex-start">${items.join("")}</ul>`;
+  wireLean(); P.querySelectorAll("[data-l]").forEach(bt=>bt.onclick=()=>openStatement(p,bt.dataset.l)); P.scrollTop=0;
 }
 function showLib(id){ const L=HUB.libs[id];
   P.innerHTML=`<div><h3>Lean library</h3><h2 class="mono" style="font-family:var(--f-mono)">${esc(id)}</h2></div><p>${esc(L.what)}</p>
@@ -472,11 +624,21 @@ function showStmt(p,n){
    ${n.decls.length?`<div><h3>Lean (${n.ndecls})</h3><div class="mono">${n.decls.map(esc).join("<br>")}${n.ndecls>n.decls.length?"<br>…":""}</div></div>`:""}
    ${n.deps.length?`<div><h3>Uses</h3><div class="linklist">${n.deps.map(x=>`<button data-l="${esc(x)}">${esc(x)}</button>`).join("")}</div></div>`:""}
    ${users.length?`<div><h3>Used by</h3><div class="linklist">${users.map(x=>`<button data-l="${esc(x)}">${esc(x)}</button>`).join("")}</div></div>`:""}
+   ${stmtLeanHTML(p,n)}
    ${n.findings.length?`<div><h3>What formalizing found (${n.findings.length})</h3><ul>${n.findings.map(f=>`<li>${esc(f)}</li>`).join("")}</ul></div>`:""}
    ${n.notes?`<div><h3>Notes</h3><p>${esc(n.notes)}</p></div>`:""}
    ${targetsForLabel(p,n.id).length?`<div><h3>On the roadmap</h3><div style="display:flex;flex-direction:column;gap:8px">${targetsForLabel(p,n.id).map(t=>tgtHTML(t,false)).join("")}</div></div>`:""}`;
   P.querySelectorAll("[data-l]").forEach(bt=>bt.onclick=()=>openStatement(p,bt.dataset.l));
-  P.scrollTop=0; typeset(p);
+  wireLean(); P.scrollTop=0; typeset(p);
+}
+function stmtLeanHTML(p,n){
+  const L=LE[p]; if(!L||!L.summary.labels_with_lean) return "";
+  const pr=L.principals[n.id]||[], out=L.bySrc[n.id]||[], inn=L.byTgt[n.id]||[];
+  if (!pr.length&&!out.length&&!inn.length) return "";
+  return `${pr.length?`<div><h3>Lean principals (${pr.length})</h3><div class="mono">${pr.slice(0,8).map(esc).join("<br>")}${pr.length>8?`<br>… and ${pr.length-8} more`:""}</div></div>`:""}
+   ${out.length?`<div><h3>Lean edges: uses (${out.length})</h3><div class="linklist">${out.map(e=>leanBtn(p,e,e.t)).join("")}</div></div>`:""}
+   ${inn.length?`<div><h3>Lean edges: used by (${inn.length})</h3><div class="linklist">${inn.map(e=>leanBtn(p,e,e.s)).join("")}</div></div>`:""}
+   ${out.length||inn.length?`<p class="prov">Coloured by kind: ${["both","lean-only","tex-only"].map(k=>`<span class="chip lk ${KCLS[k]}">${KNAME[k]}</span>`).join(" ")}. Select one for its witness.</p>`:""}`;
 }
 function texHTML(t){
   const body=t.replace(/^\\begin\{[a-zA-Z*]+\}(\[[^\]]*\])?/,"").replace(/\\end\{[a-zA-Z*]+\}\s*$/,"")
@@ -514,10 +676,28 @@ function showRoadmap(){
 }
 const RB=$("#roadbtn"); $("#roadn").textContent="("+openTargets.length+")";
 RB.onclick=()=>{ const on=RB.getAttribute("aria-pressed")!=="true"; RB.setAttribute("aria-pressed",on); if(on) showRoadmap(); else panelForLevel(); };
+function leanLegend(){
+  const p=state.p, L=leanFor(p); if(!L) return "";
+  if (state.level==="paper") return `<span>${swatch("")}draft references only</span><span>${swatch("k-lean")}Lean edges only</span><span>${swatch("k-pboth")}both</span>${L.current?"":`<span style="color:var(--partial)">stale overlay</span>`}`;
+  const c={}; world.selectAll(".edge").each(function(){ const k=(this.getAttribute("class")||"").match(/k-[a-z]+/); const kk=k?k[0]:"plain"; c[kk]=(c[kk]||0)+1; });
+  return [["k-both","both"],["k-lean","Lean only"],["k-tex","draft only"],["k-texu","an end without Lean"],["k-twin","twin"],["plain","unclassified"]]
+    .filter(([k])=>c[k]).map(([k,t])=>`<span>${swatch(k==="plain"?"":k)}${t} (${c[k]})</span>`).join("")
+    +(G&&G.nodes.some(N=>N.badge)?`<span class="t-mono">elsewhere:</span><span style="margin-left:-8px">Lean edges to other blocks</span>`:"")
+    +(L.current?"":`<span style="color:var(--partial)">stale overlay</span>`);
+}
+function leanButton(){
+  const ok=state.level!=="hub"&&hasLean(state.p);
+  LB.disabled=!ok; LB.setAttribute("aria-pressed",String(leanOn&&ok));
+  LB.title=ok?"Overlay the Lean dependency edges between rows, with their witnesses":state.level==="hub"?"Open a paper to overlay its Lean edges":"No row of this paper carries a Lean declaration yet";
+}
+function setLean(on){ leanOn=on; if(state.level!=="hub"){ const keep=selected; draw(); fit(false); if(keep&&g.nodes[keep]){ selected=keep; markSel(); } } leanButton(); }
+const LB=$("#leanbtn"); LB.onclick=()=>{ setLean(!leanOn); if($("#roadbtn").getAttribute("aria-pressed")==="true") return;
+  if(selected&&state.level==="block"&&LABEL[state.p+"/"+selected]) showStmt(state.p,LABEL[state.p+"/"+selected].n); else panelForLevel(); };
 function legend(){
   const L=$("#legend");
-  if (state.level==="block") L.innerHTML=`<span><i style="background:var(--closed);border-color:var(--closed)"></i>closed in Lean</span><span><i style="background:var(--partial);border-color:var(--partial)"></i>partial</span><span><i style="background:url(#);background:repeating-linear-gradient(45deg,var(--terminal) 0 3px,var(--card) 3px 6px)"></i>terminal</span><span><i style="border-style:dashed;border-color:var(--stated)"></i>not formalized</span><span><i style="border-style:dashed;background:none"></i>in another block</span><span><i style="background:var(--accent);border-color:var(--accent);transform:rotate(45deg) scale(.7)"></i>on the roadmap</span>`;
-  else L.innerHTML=`<span><i style="background:var(--closed);border-color:var(--closed)"></i>closed</span><span><i style="background:var(--partial);border-color:var(--partial)"></i>partial</span><span><i style="background:repeating-linear-gradient(45deg,var(--terminal) 0 3px,var(--card) 3px 6px)"></i>terminal</span><span><i style="background:var(--grid)"></i>no Lean yet</span>${state.level==="paper"?"<span>arrow width = statement dependencies</span>":"<span>arrow: used by</span>"}<span><i style="background:var(--accent);border-color:var(--accent);transform:rotate(45deg) scale(.7)"></i>on the roadmap</span>`;
+  const lean=leanLegend();
+  if (state.level==="block") L.innerHTML=`<span><i style="background:var(--closed);border-color:var(--closed)"></i>closed in Lean</span><span><i style="background:var(--partial);border-color:var(--partial)"></i>partial</span><span><i style="background:url(#);background:repeating-linear-gradient(45deg,var(--terminal) 0 3px,var(--card) 3px 6px)"></i>terminal</span><span><i style="border-style:dashed;border-color:var(--stated)"></i>not formalized</span><span><i style="border-style:dashed;background:none"></i>in another block</span><span><i style="background:var(--accent);border-color:var(--accent);transform:rotate(45deg) scale(.7)"></i>on the roadmap</span>${lean}`;
+  else L.innerHTML=`<span><i style="background:var(--closed);border-color:var(--closed)"></i>closed</span><span><i style="background:var(--partial);border-color:var(--partial)"></i>partial</span><span><i style="background:repeating-linear-gradient(45deg,var(--terminal) 0 3px,var(--card) 3px 6px)"></i>terminal</span><span><i style="background:var(--grid)"></i>no Lean yet</span>${state.level==="paper"?"<span>arrow width = statement dependencies</span>":"<span>arrow: used by</span>"}<span><i style="background:var(--accent);border-color:var(--accent);transform:rotate(45deg) scale(.7)"></i>on the roadmap</span>${lean}`;
 }
 
 /* ---------- boot ---------- */
