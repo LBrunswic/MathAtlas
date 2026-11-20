@@ -1,0 +1,124 @@
+{
+  "package": "T-yamabe-kobayashi",
+  "target": "T-yamabe-kobayashi",
+  "files": [
+    "scaffold/YamabeScaffold/Kobayashi.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "lem:kobayashi",
+      "tex_lines": [
+        613,
+        638
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.lem_kobayashi_a",
+        "Yamabe.MeasuredModel.kobayashi",
+        "Yamabe.MeasuredModel.kobayashi_printed",
+        "Yamabe.MeasuredModel.confAction_ge",
+        "Yamabe.MeasuredModel.scalar_term_ge",
+        "Yamabe.MeasuredModel.le_infConf",
+        "Yamabe.MeasuredModel.le_Y",
+        "Yamabe.MeasuredModel.le_Y_printed",
+        "Yamabe.MeasuredModel.EH_eq_const_mul",
+        "Yamabe.MeasuredModel.Y_le_EH",
+        "Yamabe.MeasuredModel.EH_eq_Y",
+        "Yamabe.MeasuredModel.Y_eq_const_mul",
+        "Yamabe.MeasuredModel.EH_eq_confEnergy_one",
+        "Yamabe.MeasuredModel.minimalBoundary_of_bvol_eq_zero",
+        "Yamabe.MeasuredModel.confAction_of_minimal",
+        "Yamabe.MeasuredModel.action_of_minimal",
+        "Yamabe.CurvedMetric",
+        "Yamabe.CurvedMetric.kobM",
+        "Yamabe.CurvedMetric.kobM_nonpos",
+        "Yamabe.CurvedMetric.kobM_le",
+        "Yamabe.MeasuredModel.action",
+        "Yamabe.MeasuredModel.EH",
+        "Yamabe.MeasuredModel.confAction",
+        "Yamabe.MeasuredModel.confEnergy",
+        "Yamabe.MeasuredModel.MinimalBoundary",
+        "Yamabe.MeasuredModel.Pos",
+        "Yamabe.MeasuredModel.infConf",
+        "Yamabe.MeasuredModel.Y",
+        "Yamabe.toyCurved",
+        "Yamabe.toy_kobM",
+        "Yamabe.toy_EH",
+        "Yamabe.toy_EH_eq_Y"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(Σ, g) compact connected Riemannian N-manifold with boundary ⊔ B_j, N ≥ 3 (l.605)",
+          "here": "reading",
+          "note": "the abstract MeasuredModel + FrameMetric of Yamabe.Quotient (OQ-44), extended by CurvedMetric (the scalar curvature R and the boundary mean curvature H as bounded measurable fields of the metric). N ≥ 3 carried. Compactness carried as IsFiniteMeasure (vol_g). Connectedness and Σ ≠ ∅ are not used: if vol_g = 0 then EH = Y = 0 (EH_eq_Y covers it)."
+        },
+        {
+          "paper": "H_g ≡ 0 (or ∂Σ = ∅) (l.615)",
+          "here": "weakened",
+          "note": "MinimalBoundary: H_g = 0 bvol_j-a.e. for every j. '∂Σ = ∅' (every bvol_j = 0, n = 0 included) implies it (minimalBoundary_of_bvol_eq_zero)."
+        },
+        {
+          "paper": "m := min(0, min_Σ R_g) (l.617)",
+          "here": "weakened",
+          "note": "kobayashi, le_Y, confAction_ge hold for every m ≤ 0 with m ≤ R_g vol_g-a.e. The printed m is CurvedMetric.kobM = min 0 (⨅ x, R x), with kobayashi_printed, le_Y_printed and the assembly lem_kobayashi_a."
+        },
+        {
+          "paper": "u ∈ W^{1,2}(Σ) ∖ {0} (l.617)",
+          "here": "weakened",
+          "note": "kobayashi: every u : D whose values are a.e.-strongly measurable for vol_g, u = 0 included (both sides then reduce to m·Vol^{2/N} ≤ 0). The infimum statements (le_Y, Y_le_EH, EH_eq_Y, lem_kobayashi_a) carry hD: every val u is a.e.-strongly measurable, i.e. D consists of measurable functions, as W^{1,2}(Σ) does."
+        },
+        {
+          "paper": "EH(Σ, u^{4/(N−2)} g), left side of eq:kobayashi",
+          "here": "reading",
+          "note": "confEnergy u := confAction u / ‖u‖²_{L^{p*}}, where confAction u = a_N‖∇u‖²_2 + ∫ R_g u² vol + 2(N−1) Σ_j ∫ H_g (tr u)² bvol_j is the right side of eq:conformal-energy-bdry (l.327–328). The identification with EH of the conformal metric is the cited conformal law (MR1152225, MR1173925), which needs second derivatives the model does not have; it belongs to T-yamabe-scope's anchoring. At φ = 1 it is proved: EH(Σ, g) = confEnergy 1 (EH_eq_confEnergy_one)."
+        },
+        {
+          "paper": "Y_[g](Σ) = inf_{φ>0} EH(Σ, φ^{4/(N−2)} g) (eq:relative-yamabe, l.318)",
+          "here": "reading",
+          "note": "Y := inf of confEnergy over u ∈ D with val u > 0 everywhere (Pos) and 0 < ‖u‖²_{L^{p*}} < ∞ (Adm, as for infF). The lower bound holds over any competitor set (le_infConf)."
+        },
+        {
+          "paper": "R_g constant and non-positive (l.622; 'R_g ≡ m ≤ 0', l.632)",
+          "here": "weakened",
+          "note": "R_g = c vol_g-a.e. with c ≤ 0 (EH_eq_Y, Y_eq_const_mul, lem_kobayashi_a (iii)); the standing hypothesis H_g ≡ 0 is carried."
+        },
+        {
+          "paper": "EH(Σ, g) = S(Σ, g)/Vol(Σ, g)^{(N−2)/N} with S = ∫R_g vol + 2(N−1)∫H_g bvol (eq:EH-action, eq:yamabe-energy-bdry, l.306–311)",
+          "here": "carried",
+          "note": "MeasuredModel.action and MeasuredModel.EH, defined from R and H directly (not through confEnergy)."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Minor, cross-reference (l.606–610, cited at l.627 and l.720). In the align of the Hölder inequalities the interior line l.607 carries \\nonumber, and \\label{eq:hoelder} sits on the boundary line (l.608–609). Both citations, '\\eqref{eq:conformal-energy-bdry} and \\eqref{eq:hoelder} give, since m ≤ 0' (l.627, lem:kobayashi) and 'By \\eqref{eq:hoelder}, (u_k) is bounded in W^{1,2}(Σ)' (l.720, lem:positivity), therefore print the number of the boundary line, which is false as printed (OQ-44; Yamabe.hoelder_boundary_printed_false_of_lt_one). Both arguments use the interior line, which is correct (Yamabe.hoelder_interior, used here in Yamabe.MeasuredModel.scalar_term_ge). Suggested fix: label the interior line, or number both lines and cite the right one.",
+        "Minor, wording (l.617–620). eq:kobayashi is stated 'for every u ∈ W^{1,2}(Σ)∖{0}', but EH(Σ, u^{4/(N−2)} g) is the Yamabe energy of a metric only for smooth u > 0. A W^{1,2} function may vanish or change sign; where it vanishes u^{4/(N−2)} g degenerates, and for negative values u^{4/(N−2)} is not even defined for some N (N = 10: u^{1/2}). The inequality is true for every u once its left side is read as the conformal quotient (the right side of eq:conformal-energy-bdry over ‖u‖²_{p*}): Lean Yamabe.MeasuredModel.kobayashi, for every measurable u, 0 included. Its only uses, l.622 (the infimum over φ > 0) and l.660 (u = ψ|_Σ > 0), take u > 0, so nothing downstream is affected. Suggested fix: write the left side as the quotient, or restrict to u > 0 smooth."
+      ],
+      "questions": [
+        "Left side of eq:kobayashi for general u ∈ W^{1,2}∖{0}: read as the conformal quotient confEnergy u = (a_N‖∇u‖²_2 + ∫R_g u² vol + 2(N−1)∫H_g u² bvol)/‖u‖²_{L^{p*}} (the right side of eq:conformal-energy-bdry over ‖u‖²). Its identification with EH(Σ, u^{4/(N−2)} g) for smooth u > 0 is the cited conformal law (MR1152225, MR1173925, l.324–328). Whether the law becomes a named external or is proved is T-yamabe-scope's ruling, and until then nothing is marked.",
+        "Y_[g](Σ) (eq:relative-yamabe) does not say what regularity φ > 0 has. Read here as the infimum of confEnergy over u ∈ D with val u > 0 everywhere and 0 < ‖u‖²_{L^{p*}} < ∞ (Pos ∧ Adm, the competitor convention of infF), for an arbitrary D. The lower bound holds over every competitor set (le_infConf). The equality needs only that 1 is a competitor.",
+        "The scalar and mean curvatures are carried as data of the metric (CurvedMetric.R, CurvedMetric.H, bounded and measurable). The frame model cannot compute them from the Gram matrix G. That they are the curvatures of g is part of the anchoring (T-yamabe-scope, OQ-44).",
+        "min_Σ R_g read as ⨅ x, R x over the model's points (a minimum for continuous R_g on compact Σ). The lemma is proved for every m ≤ 0 with m ≤ R_g a.e., which contains the printed m. 'H_g ≡ 0' and 'R_g constant' are read a.e. (bvol_j-a.e., resp. vol_g-a.e.).",
+        "Part (b) (l.623, l.632–637) is not formalized. It rests on the Sobolev embedding W^{1,2}(Σ) ↪ L^{p*}(Σ) on compact manifolds with boundary (Hebey1996), one of the cited theorems T-yamabe-scope asks about. The abstract model does not carry it: its differential d is an arbitrary linear map, so no Sobolev inequality follows from the model's fields. In the model, (b) would need the embedding as a field or a hypothesis, which is a ruling."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Yamabe.integral_sq_eq_normSq",
+    "Yamabe.memLp_two_of_pStar",
+    "Yamabe.CurvedMetric.bddBelow_R",
+    "Yamabe.MeasuredModel.integrable_R_mul_sq",
+    "Yamabe.MeasuredModel.integrable_H_mul_sq",
+    "Yamabe.toyCurved_toFrameMetric",
+    "Yamabe.toy_minimal",
+    "Yamabe.toy_isFiniteMeasure"
+  ],
+  "kb_proposals": [
+    "Curvature over the frame model: Yamabe.CurvedMetric extends FrameMetric by the scalar curvature R and the boundary mean curvature H (bounded measurable data). Over it, YamabeScaffold.Kobayashi defines action (S), EH, confAction (the right side of eq:conformal-energy-bdry), confEnergy, MinimalBoundary and Y. The conformal law is not provable in the model (no second derivatives), so EH(Σ, u^{4/(N−2)}g) is confEnergy u by definition; EH = confEnergy 1 is proved. Later §6 users (prop:nonpositive l.640, eq:glue-lower l.660, thm:upper-bound l.724, the closed case of prop:csc-yamabe l.202 via minimalBoundary_of_bvol_eq_zero) reuse kobayashi, EH_eq_Y and Y_eq_const_mul.",
+    "Real infima with a nonpositive lower bound need no nonemptiness: Real.le_sInf (hs : ∀ x ∈ s, a ≤ x) (ha : a ≤ 0) : a ≤ sInf s, since sInf ∅ = 0 (T-yamabe-kobayashi, le_infConf).",
+    "∫ f² = (eLpNorm f 2 ν).toReal² for f ∈ L² (Yamabe.integral_sq_eq_normSq, from MemLp.eLpNorm_eq_integral_rpow_norm); an L^{p*} function is in L² on a finite measure (Yamabe.memLp_two_of_pStar, MemLp.mono_exponent). A junk Bochner integral (non-integrable integrand = 0) can be absorbed by a by_cases when the bound being proved is nonpositive (scalar_term_ge)."
+  ],
+  "notes": "One new module, scaffold/YamabeScaffold/Kobayashi.lean (namespace Yamabe), importing only Yamabe.Quotient (strict) and so Mathlib. Sorry-free, typechecked with -DwarningAsError=true (exit 0, no output), built with `taskset -c 0-11 lake build YamabeScaffold.Kobayashi` (only this module rebuilt: 'Built YamabeScaffold.Kobayashi', 8559 jobs). #print axioms of all 39 top-level declarations, run through a /tmp probe that was deleted afterwards: each is [propext, Classical.choice, Quot.sound]. No existing file was edited. The scaffold root YamabeScaffold.lean does not import the module (lean-causal kb 0025): the master session should add `import YamabeScaffold.Kobayashi` so that the axiom sweep sees it, and change the import if the module graduates. Nothing is marked: the row is partial by design. Part (b) is out of scope. The identification of confEnergy and Y with the paper's EH(Σ, u^{4/(N−2)}g) and Y_[g](Σ) is the cited conformal law, which belongs to T-yamabe-scope's anchoring; the frame model's readings are OQ-44's. The witness: toyCurved (the two-point toyModel/toyMetric with R ≡ −1, H ≡ 0) satisfies every hypothesis of lem_kobayashi_a and EH_eq_Y, with EH = Y = −2^{2/3} ≠ 0 (toy_EH_eq_Y) and printed m = −1 (toy_kobM). Assembly theorem for a future anchor: Yamabe.MeasuredModel.lem_kobayashi_a. For the curation (master): the two findings concern l.627/l.720 (the eq:hoelder reference) and l.617–620 (the left side of eq:kobayashi). The first touches OQ-44's eq:hoelder finding and lem:positivity's l.720."
+}
