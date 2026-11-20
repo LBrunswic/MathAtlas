@@ -17,7 +17,7 @@ import re
 import sys
 import tomllib
 
-FRAG = re.compile(r"^#{2,3}\s+(S-[a-z0-9]+-(\d+))\b(.*)$", re.M)
+FRAG = re.compile(r"^#{2,3}\s+(S-[a-z0-9-]+-(\d+))\b(.*)$", re.M)   # a slug may hold hyphens
 TICK = re.compile(r"`([^`\s]+)`")
 
 

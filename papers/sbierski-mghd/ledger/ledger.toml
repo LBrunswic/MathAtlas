@@ -1,0 +1,32 @@
+# Ledger configuration for sbierski-mghd: J. Sbierski, On the existence of a maximal Cauchy development
+# for the Einstein equations: a dezornification (arXiv 1309.7591 v3, Ann. Henri Poincare 2016), an
+# EXTERNAL paper ledgered for the ETT programme (programme/roadmap.toml T-pkg-sbierski-mghd), as
+# DEC-34 for Barbot. Its Lean home is `lean-causal/` (Causal / CausalScaffold), shared with
+# papers/ett and papers/barbot, whose Causal.CBG follows this paper's proof order (DEC-29); the
+# labels carry mghd-prefixed kinds (mghdthm, mghdlem, ...) so that no other ledger rooted in
+# lean-causal reads this one's docstring marks (kb/0024). Every statement carries its mghd label
+# first, ahead of the author's own label, whose name it reuses.
+[paper]
+root = "../legacy/labeled"
+document = "Maximal_GHD2.tex"
+notation = []
+files = [["Maximal_GHD2.tex", "body", "P"]]
+env_alias = { def1 = "definition", def2 = "definition" }
+label_prefixes = ["mghdthm", "mghdprop", "mghdlem", "mghdcor", "mghddef", "mghdrem"]
+coverage_recursive = false
+
+[paper.titles]
+P = "On the existence of a maximal Cauchy development for the Einstein equations: a dezornification (one file)"
+
+[lean]
+root = "../../../lean-causal"
+strict = ["Causal"]
+scaffold = ["scaffold/CausalScaffold"]
+scope = ["*"]
+
+[output]
+dir = "."
+json = "ledger.json"
+markdown = "LEDGER.md"
+dot = "dag.dot"
+tool_name = "tools/ledger.py"

@@ -45,8 +45,8 @@ LABEL = re.compile(r'\\label\{([^}]*)\}')
 def _rebuild_token():
     global TOKEN, BLOCK_ENVS
     BLOCK_ENVS = STATEMENT_ENVS | PROOF_ENVS | FLOAT_ENVS | MATH_ENVS | set(ALIAS)
-    TOKEN = re.compile(r'\\begin\{([A-Za-z*]+)\}'
-                       r'|\\end\{([A-Za-z*]+)\}'
+    TOKEN = re.compile(r'\\begin\{([A-Za-z][A-Za-z0-9]*\*?)\}'      # digits: \newtheorem{def1}
+                       r'|\\end\{([A-Za-z][A-Za-z0-9]*\*?)\}'
                        r'|\\(subsubsection|subsection|section|appendix)\b(\*?)')
 
 
@@ -446,7 +446,11 @@ def link(g):
     for n in nodes:
         n.pop('_start', None)
 
-    # proof -> statement
+    # proof -> statement; a proof titled by the authors' own (secondary) label proves that statement
+    proof_alias = {}
+    for n in nodes:
+        for a in n.get('aliases', ()):
+            proof_alias.setdefault(a, n['id'])
     pending = []      # statements not yet matched to a proof, most recent last
     for n in nodes:
         if n['kind'] == 'statement':
@@ -454,8 +458,9 @@ def link(g):
         elif n['kind'] == 'proof':
             tgt = None
             m = PROOF_OF.search(n.get('opt', ''))
-            if m and m.group(1) in g.nodes:
-                tgt = g.nodes[m.group(1)]
+            key = m and (m.group(1) if m.group(1) in g.nodes else proof_alias.get(m.group(1)))
+            if key:
+                tgt = g.nodes[key]
             else:
                 while pending:
                     cand = pending.pop()

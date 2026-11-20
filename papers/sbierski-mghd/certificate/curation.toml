@@ -1,0 +1,31 @@
+# Authored. The curated fields of the sbierski-mghd ledger (tools/ledger_curate.py --paper papers/sbierski-mghd).
+# Sbierski, On the existence of a maximal Cauchy development for the Einstein equations: a
+# dezornification (arXiv 1309.7591 v3) is an EXTERNAL paper, ledgered for the ETT programme
+# (programme/roadmap.toml T-pkg-sbierski-mghd, 2026-11-20), as DEC-34 for Barbot: read and
+# formalized, never rewritten. Its Lean home is lean-causal/ (Causal, CausalScaffold), whose
+# Causal.CBG follows this paper's proof order (DEC-29, lean-causal/docs/CBG-DESIGN.md). At wave 0 no
+# row has a Lean anchor and none is marked: the row-by-row correspondence is the binder's
+# (certificate/binder.toml, T-bind-sbierski-mghd), which splits each row into its ETT theorem
+# (layer 1), its localisation properties (ladder ids) and its geometric lemma (smooth vacuum, layer 3).
+#
+# Labels. Every statement environment carries an `mghd<kind>:` label first (mghdthm, mghdprop,
+# mghdlem, mghdcor, mghddef, mghdrem), ahead of the author's own label, whose name it reuses
+# (`CommonExtension` -> `mghdthm:CommonExtension`); the one unlabelled definition has autolabel's
+# slug. So no other ledger rooted in lean-causal (ett, barbot) reads this one's marks (kb/0024).
+# The author's \ref's resolve through the secondary labels, and his proof titles
+# `Proof of Theorem \ref{...}` too since this ledger's set-up (tools/texgraph.py); his two
+# definitions of a CGHD are the environments def1/def2, aliased to definition.
+#
+# Natural-language status. The ledger reads a proof environment that directly follows a statement
+# or names it in its title. Two rows argue elsewhere; the overrides record where (line numbers of
+# legacy/labeled/Maximal_GHD2.tex).
+
+[[row]]
+label = "mghdthm:LocalTheory"
+nl_status_override = "cited"
+nl_reason = "local existence and uniqueness (Choquet-Bruhat 1952), cited right after the statement (l.408: 'proven by Choquet-Bruhat in 1952, see [Choquet52]'); the paper takes it as given"
+
+[[row]]
+label = "mghdthm:TNDVersion"
+nl_status_override = "proved"
+nl_reason = "argued in the sentence before it (l.706): Theorem NotMCGHD by the tertium non datur, applied to the MCGHD of ExMCGHD; the dependency on mghdthm:NotMCGHD is that sentence's \\ref, outside the statement, so the ledger does not draw it"

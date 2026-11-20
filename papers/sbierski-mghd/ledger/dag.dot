@@ -1,0 +1,54 @@
+digraph formalization {
+  rankdir=BT; node [style=filled,fontname="Helvetica",fontsize=9];
+  edge [color="#888888",arrowsize=0.6];
+  subgraph "cluster_P" {
+    label="On the existence of a maximal Cauchy development for the Einstein equations: a dezornification (one file)"; color="#cccccc";
+    "mghddef:globally_hyperbolic_development_ghd" [label="mghddef:globally_hyperbolic_development_ghd\n", shape=box, fillcolor="#ffffff"];
+    "mghddef:extension" [label="mghddef:extension\n", shape=box, fillcolor="#ffffff"];
+    "mghddef:PreDefCGHD" [label="mghddef:PreDefCGHD\n", shape=box, fillcolor="#ffffff"];
+    "mghddef:DefCGHD" [label="mghddef:DefCGHD\n", shape=box, fillcolor="#ffffff"];
+    "mghdrem:RemSym" [label="mghdrem:RemSym\n", shape=note, fillcolor="#ffffff"];
+    "mghdthm:LocalTheory" [label="mghdthm:LocalTheory\n", shape=doubleoctagon, fillcolor="#ffffff"];
+    "mghdthm:CommonExtension" [label="mghdthm:CommonExtension\nGlobal uniqueness", shape=doubleoctagon, fillcolor="#ffffff"];
+    "mghdthm:MGHD" [label="mghdthm:MGHD\nExistence of MGHD", shape=doubleoctagon, fillcolor="#ffffff"];
+    "mghdlem:IsoConnected" [label="mghdlem:IsoConnected\n", shape=ellipse, fillcolor="#ffffff"];
+    "mghdcor:welldefined" [label="mghdcor:welldefined\n", shape=ellipse, fillcolor="#ffffff"];
+    "mghdlem:IsoDiffeo" [label="mghdlem:IsoDiffeo\n", shape=ellipse, fillcolor="#ffffff"];
+    "mghdthm:ExMCGHD" [label="mghdthm:ExMCGHD\nExistence of MCGHD", shape=doubleoctagon, fillcolor="#ffffff"];
+    "mghddef:DefBound" [label="mghddef:DefBound\n", shape=box, fillcolor="#ffffff"];
+    "mghdthm:NotMCGHD" [label="mghdthm:NotMCGHD\n", shape=doubleoctagon, fillcolor="#ffffff"];
+    "mghdprop:EquivCha" [label="mghdprop:EquivCha\n", shape=ellipse, fillcolor="#ffffff"];
+    "mghdlem:ExtendIso" [label="mghdlem:ExtendIso\n", shape=ellipse, fillcolor="#ffffff"];
+    "mghdlem:SpacelikePoint" [label="mghdlem:SpacelikePoint\n", shape=ellipse, fillcolor="#ffffff"];
+    "mghdlem:FuturePoint" [label="mghdlem:FuturePoint\n", shape=ellipse, fillcolor="#ffffff"];
+    "mghdthm:TNDVersion" [label="mghdthm:TNDVersion\n", shape=doubleoctagon, fillcolor="#ffffff"];
+  }
+  "mghdrem:RemSym" -> "mghddef:extension";
+  "mghdrem:RemSym" -> "mghddef:PreDefCGHD";
+  "mghdrem:RemSym" -> "mghddef:DefCGHD";
+  "mghdthm:CommonExtension" -> "mghdthm:TNDVersion";
+  "mghdthm:CommonExtension" -> "mghdthm:ExMCGHD";
+  "mghdthm:MGHD" -> "mghdthm:CommonExtension";
+  "mghdcor:welldefined" -> "mghdlem:IsoConnected";
+  "mghdthm:ExMCGHD" -> "mghdthm:LocalTheory";
+  "mghdthm:ExMCGHD" -> "mghdlem:IsoDiffeo";
+  "mghdthm:ExMCGHD" -> "mghdcor:welldefined";
+  "mghdthm:NotMCGHD" -> "mghdlem:SpacelikePoint";
+  "mghdthm:NotMCGHD" -> "mghdlem:ExtendIso";
+  "mghdthm:NotMCGHD" -> "mghdlem:FuturePoint";
+  "mghdthm:NotMCGHD" -> "mghdthm:LocalTheory";
+  "mghdthm:NotMCGHD" -> "mghdcor:welldefined";
+  "mghdthm:NotMCGHD" -> "mghdlem:IsoConnected";
+  "mghdprop:EquivCha" -> "mghddef:DefBound";
+  "mghdlem:ExtendIso" -> "mghdprop:EquivCha";
+  "mghdlem:SpacelikePoint" -> "mghdlem:ExtendIso";
+  "mghdlem:FuturePoint" -> "mghdlem:SpacelikePoint";
+  subgraph "cluster_legend" {
+    label="legend"; color="#cccccc"; fontsize=10;
+    l0 [label="closed in Lean", fillcolor="#b7e4c7", shape=box];
+    l1 [label="stated, partial", fillcolor="#ffe08a", shape=box];
+    l2 [label="scaffold", fillcolor="#ffd6a5", shape=box];
+    l3 [label="no Lean", fillcolor="#ffffff", shape=box];
+    l0 -> l1 -> l2 -> l3 [style=invis];
+  }
+}
