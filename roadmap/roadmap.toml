@@ -131,12 +131,13 @@ kind = "tooling"
 paper = "ett"
 package = "none"
 labels = ["prop:GH_fortement_causal", "prop:tarentin_topological_spacetime_causality", "def:strongly_causal_spacetime"]
-status = "ready"
+status = "done"
 owner = "master"
 priority = 3
-evidence = "DEC-7 rules OQ-8: 'StronglyCausal is the definition, and prop:GH_fortement_causal is closed as proved, the full diamond being the neighbourhood'. DEC-8 rules OQ-9: 'CausallyOpen is the definition, and prop:tarentin_topological_spacetime_causality is closed as stated'. papers/ett/certificate/curation.toml still gives these three rows lean_proved_override = \"partial\", bucket B and blocked_on = 'OQ-8: …' / 'OQ-9: …' (written 05703e3). The strict modules carry the marks: Causal/GlobalHyperbolicity.lean:8 (citing DEC-7), Causal/StrongCausality.lean:8, Causal/Properties.lean:13. Curate them, keeping the open-diamond finding of prop:GH_fortement_causal as a finding, then make ledgers. If a row should stay partial for another reason, write that reason into its notes."
+evidence = "25da51a: def:strongly_causal_spacetime, prop:GH_fortement_causal, prop:tarentin_topological_spacetime_causality closed as DEC-7 / DEC-8 rule (ETT 57 -> 60 closed)."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "25da51a"
 
 [[target]]
 id = "T-ett-curation-decls"
@@ -339,12 +340,13 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzthm:c1s1_revetement_universel_divisible"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 3
-evidence = "The only open row (bucket D) needs a universal cover; GX.Topology.UniversalCover exists and was already ported once (Causal.Port.UniversalCover, WP-32a), which keeps lean-benzecri mathlib-only (DEC-112)."
+evidence = "2ed332b: Benzecri.Port.UniversalCover (Mathlib-only port) and bzthm:c1s1_revetement_universel_divisible closed and marked; audit minor."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
+commit = "2ed332b"
 
 [[target]]
 id = "T-bz-transcription-check"
@@ -408,12 +410,13 @@ title = "Theorem M (momentum and energy conservation at a 2+1 interaction) state
 stream = "bbs"
 kind = "research"
 paper = "bbs"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 4
-evidence = "papers/bbs/NOTES-3+1.md N4 states M1-M3 on paper [r]; needs π₁ of a punctured disc as a free group and the holonomy product (gx)."
+evidence = "7a47172: Theorem M's holonomy half (M1, M2, holonomy part of M3, conservation) proved in GXScaffold.Interaction, sorry-free; Θ₋ = Θ₊ and the G̃ lift not stated (no HS² / ℝP¹ / G̃ layer yet: for the planner); orientation finding OQ-36; audit minor."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
+commit = "7a47172"
 
 [[target]]
 id = "T-3p1-funnel-lemma"
@@ -492,12 +495,13 @@ title = "Create the lean-egf package (strict EGF, scaffold EGFScaffold) and poin
 stream = "gfn"
 kind = "package"
 paper = "egf"
-status = "ready"
+status = "done"
 owner = "master"
 priority = 3
-evidence = "DEC-133: a package of its own, as DEC-112; EGF is first in DEC-4's order."
+evidence = "4a0e1d4: lean-egf (strict EGF, scaffold EGFScaffold, Mathlib-only wave 0), make check green, Dropbox-ignored; the EGF ledger rooted in lean-egf."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
+commit = "4a0e1d4"
 
 [[target]]
 id = "T-syracuse-package"
@@ -572,13 +576,14 @@ stream = "ett"
 kind = "close"
 paper = "ett"
 labels = ["defi:causal_E0"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 3
 exclusive = true
-evidence = "DEC-134; the precedent is Causal.Port.UniversalCover/Developing (WP-32a, 2.5k lines). Re-scoped 2026-11-20 by the planner: gx's whole E₀ (GX.BTZ.Model, .Rigid, .Causality, .Topology) is 11.8k lines over a ≈52k-line gx import cone, so it is not one dispatch. This first piece is lean-gx/GX/BTZ/Causality.lean l.116–1647. That part builds E₀ on ℝ × ℂ in the paper's (τ, z) 'from the developing map alone' (only btzPaperNull from GX.BTZ.Model, to restate), and proves the local relations, the curve causality, the calculus, absolute minimality, strong tarentinity and GX.E0.btzAxioms in DEC-64's Iplus_of_lt form. The product topology is the natural one (GX.E0.toPaper is a homeomorphism to gx's BTZE0), so GX.BTZ.Topology is not needed. def:singular_spacetime moves to T-ett-port-e0-sfa. A port, so exclusive in lean-causal."
+evidence = "0fe9136: E₀ = ℝ × ℂ and its curve causality ported verbatim from gx c48aa45 (Causal.Port.E0*), Causal.E0.btzAxioms; defi:causal_E0 partial on readings OQ-34/OQ-35; audit minor."
 added = "2026-11-20"
 proposed_by = "atlas-team (DEC-134)"
+commit = "0fe9136"
 
 [[target]]
 id = "T-egf-headline"
@@ -630,12 +635,13 @@ id = "T-ledger-secondary-labels"
 title = "tools/texgraph.py: resolve a \\ref to a statement's secondary \\label (bbs and Barbot have no statement edges)"
 stream = "hub"
 kind = "tooling"
-status = "ready"
+status = "done"
 owner = "master"
 priority = 4
-evidence = "tools/texgraph.py keys a statement on its first \\label (LABEL.search on the body, relabel) and resolves a \\ref only against those keys, so a \\ref to any other label of the statement becomes a 'dangling' edge. This is recorded in papers/bbs/certificate/curation.toml (Edges) and in T-bbs-ledger's evidence. Measured 2026-11-20 on legacy/labeled/ within the ledgers' tex_spans (secondary labels / \\refs to them): barbot 29/70, bbs 33/40, yamabe 17/16, egf 4/6 (equation labels inside statements), ett 1/1 (theo:causalite_engendre ← prop:union_causalite), dyniso 17/0, gx, benzecri and syracuse 0/0. So the fix adds edges to barbot, bbs, yamabe and egf and one to ett, and moves no bucket or closure. Decide whether an \\eqref to an equation inside a statement counts. Add a test under tests/, run make ledgers and make -C reports/atlas."
+evidence = "43c0840: a ref to a statement's secondary label resolves to it (texgraph aliases, ledger deps); bbs 0 -> 17 edges, ett +1; Barbot still 0 (its \\preua proofs are not parsed: a separate gap)."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "43c0840"
 
 [[target]]
 id = "T-gfn-doubledag-refresh"
