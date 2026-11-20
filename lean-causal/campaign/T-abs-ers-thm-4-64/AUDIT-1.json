@@ -1,0 +1,83 @@
+{
+ "target": "T-abs-ers-thm-4-64",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "ersthm:ThmUnique",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "ers_theorem_4_64 concludes agree (U1 ⊓ U2), and ers_theorem_4_64_maxCommonDevelopment concludes V0 = U1 ⊓ U2. That is the printed conclusion (ghd_02_19.tex:859) for agree = EqOn u1 u2 (agreementGlues_eqOn). The added hypotheses are all named and disclosed in the checklist, SCOPE and REPORT: GloballyHyperbolicOn/TarentinOn U1 (ladder globally_hyperbolic, tarentin), IsAcausalOn U1 S (OQ-41), SplitBy, CompactSlabs, hlocal (Prop 4.63), hstay (FrontierStaysIn) and hstep (SliceRestart). Row partial, unmarked. The proof does real work: Step 1 (V0 is a common development, which needs gluing, acausality and the component argument), the frontier point from preconnectedness of U1 ∩ U2 (exists_mem_frontier_inter), Step 2 through exists_spacelike_boundary_point with closed pasts derived from GH+tarentin, and the contradiction with maximality. Neither SliceRestart nor FrontierStaysIn mentions U1 ∩ U2 as a development. Both are hypotheses at spacelike frontier points located in U1 ∩ U2, and both can be supplied from ERS's own Lorentzian arguments for every common development V, not only V0: achronality of ∂V ∩ J+(S,U1) uses only S Cauchy in V and S achronal in U1, and the Step 5 extension V ∪ O works for any V. FrontierStaysIn is needed. exists_spacelike_boundary_point places p in U1 only, and nothing in layer 1 puts it in U2. A restart located in U1 alone is unsuppliable (the slab example in SCOPE is correct). This deviation from the target text ('Step 2 by exists_spacelike_boundary_point') is disclosed. Both paper findings check out against the LaTeX. (1) l.880, the sentence 'gamma([0,1]) ⊆ U2 ... cannot leave U2 without first crossing S', presupposes q ∈ J+_{g(u2)}(S,U2): a past-directed curve from a point of I-(S,U2) never meets S. The closing argument in the REPORT is correct, given that the time orientations agree on V0. (2) The proof (865–912) uses connectedness only of U1 ∩ U2, and Prop 4.63 (l.837) does not assume S connected."
+  },
+  {
+   "label": "ersrem:RemTime",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "ers_remark_4_67 gives IsGreatest among common developments. 'Maximal common GHD' is read without GH, disclosed in SCOPE and as a question. ers_remark_4_67_future/_past state exactly 'x ∈ U1 ∩ U2 in J+(S,U1) ⇒ x ∈ J+(S,U2)', and the past form, with C2 for g(u2). The added hC1, InextensibleThrough U1 and FollowsSolution are named and disclosed. The real content, J+_U(S) ∩ V ⊆ J+_V(S), is proved (Jplus_inter_subset_of_isCauchySurfaceOn). FollowsSolution is wider than its use (minor finding below). Row partial, unmarked."
+  },
+  {
+   "label": "erscor:CorDisCon",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Contrapositive of 4.64. The function form ers_corollary_4_68_eqOn takes ∃ x ∈ U1 ⊓ U2, u1 x ≠ u2 x and concludes ¬ IsPreconnected, which implies the printed 'not connected'. The 4.64 hypotheses are named. Row partial, unmarked."
+  },
+  {
+   "label": "erscor:globally_defined_globally_hyperbolic",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "U1 = ⊤ with the ladder nodes GloballyHyperbolic and Tarentin of C, and S acausal in M. The conclusion agree U2 is u1|U2 = u2. Connectedness of U2, which ERS leave implicit, is derived from S preconnected, S Cauchy in U2 for C2 and InextensibleThrough U2 (isPreconnected_of_inextensibleThrough). This lemma nearly duplicates Causal.isConnected_of_curves (Causal/SubExtension.lean:307, not in this module's closure); not a clash. Row partial, unmarked."
+  },
+  {
+   "label": "erscor:CorSupLum",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Composition of ers_lemma_4_70 (strict library, its named hypotheses and the OQ-41 (b) reading kept) with ers_theorem_4_64. The conclusion agree (U1 ⊓ U2) is the printed one. Row partial, unmarked."
+  },
+  {
+   "label": "erscor:CorUniqueSub",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Composition of ers_lemma_4_72 (S m-acausal for the printed m-achronal: OQ-41 (c), disclosed) with ers_theorem_4_64. The conclusion agree (U1 ⊓ U2) is the printed one. Row partial, unmarked."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "notes": "`lake env lean -DwarningAsError=true scaffold/CausalScaffold/ErsUniqueness.lean`: exit 0, no output. A sentinel `example : False := by decide` appended to a /tmp copy did error, so the file is really elaborated. 'sorry' appears once, in the SCOPE prose. A #print axioms probe in /tmp (deleted) covered 30 declarations, every theorem the REPORT names: each gives a subset of [propext, Classical.choice, Quot.sound]. All 44 names listed in the REPORT exist (#check probe). The transitive Causal import closure has 28 modules and contains no Causal.Minkowski, Static, Flat.*, Model.*, Port.* or SingularFlat. The code has no metric notion ('Lorentzian' and 'Minkowski' occur in docstrings only). No ledger mark (`**`prefix:label`**`, the tools/ledger.py:247 regex) in the file. All six labels fall in the first 4000 characters."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/ErsUniqueness.lean:754-792 (timelikeLine_ers_theorem_4_64); SCOPE l.105-106",
+   "what": "The non-vacuity witness is the degenerate configuration. U1 = U2 = L = ℝ. hlocal is instantiated by U1 ⊓ U2 itself (⟨⊤, hcd⟩, whose .agree is the conclusion). agree = EqOn id id is true on every set. FrontierStaysIn holds only because L = univ ('⊆ L' is trivial), and SliceRestart because V' = ⊤. It shows the hypotheses are jointly satisfiable, which is what kb/0011 asks, and the REPORT notes call it a 'trivial instance'. It does not exercise FrontierStaysIn or a proper sub-development. The SCOPE sentence 'satisfies every hypothesis' does not say the instance is degenerate. Any satisfying instance must have U1 ∩ U2 as a common development (that is Remark 4.67), so this is a weakness of evidence, not of the statement.",
+   "fix": "Add a second witness with U2 ⊊ U1, e.g. timelike line, U1 = ⊤, U2 = Ioo (-1) 1, S = {0}, hlocal from a smaller interval. There FrontierStaysIn is checked through J⁻(q) ∩ J⁺(0) = [0,q] ⊆ (-1,1). Alternatively, say in SCOPE and in the witness docstring that the instance is the degenerate one."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/ErsUniqueness.lean:236-242 (FollowsSolution)",
+   "what": "FollowsSolution C C2 agree quantifies over every open V on which agree holds, and every N ≤ V. Remark 4.67 uses it at V = U1 ⊓ U2 only. The supplier sketch in the docstring ('the time orientations agree once the normal of S is future directed in both developments') covers only agreement regions connected to S within the region where g(u1) = g(u2). Two cases are left out. (a) A component of an agreement set in U1 ∩ U2 away from S, where the two orientations need not match before Theorem 4.64 is known. (b) With agree = EqOn u1 u2 for functions on M, opens outside U1 ∩ U2, where u1, u2, C, C2 are arbitrary extensions. The hypothesis can still be supplied: take agree := V ≤ U1 ⊓ U2 ∧ EqOn …, and use the theorem's conclusion with hconn. It is wider than ERS's stipulation, though, and the docstring does not say how it is met.",
+   "fix": "State hfollow at U1 ⊓ U2 (or for V ≤ U1 ⊓ U2 containing S), or extend the docstring: supplier with agree restricted to U1 ⊓ U2, the orientation argument run on the connected U1 ∩ U2 after Theorem 4.64."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/ErsUniqueness.lean:202-216 (FrontierStaysIn); programme/roadmap.toml T-loc-quasilinear-slice; papers/ers-predictability/certificate/binder.toml:219-224",
+   "what": "The docstring names FrontierStaysIn's supplier as 'layer 3, with T-loc-quasilinear-slice'. That target's title and evidence cover Steps 3–5 and Prop 4.63, not Step 2's 'gamma([0,1]) ⊆ U2' half. The binder row for ersthm:ThmUnique still says Step 2 is exists_spacelike_boundary_point alone. The supplier is plausible (the same Lorentzian layer), but no roadmap row owns it yet. The closer raised this as question 2.",
+   "fix": "At graduation, widen T-loc-quasilinear-slice (or add a row) to own FrontierStaysIn, and update the binder note. Both are master or planner actions, not the closer's."
+  },
+  {
+   "severity": "minor",
+   "where": "campaign/T-abs-ers-thm-4-64/REPORT.json labels[0].decls",
+   "what": "The decls of ersthm:ThmUnique include ers_theorem_4_82_of_sliceRestart and ers_theorem_4_82_of_globallyHyperbolicOn. These are restatements of Theorem 4.82, label ersthm:ThmNotBlocking (binder.toml:369). Mapped under 4.64 they would make 4.82 declarations principals of ThmUnique in the double DAG.",
+   "fix": "Move them to extra_decls, or under ersthm:ThmNotBlocking when the map is curated."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/ErsUniqueness.lean:59,63 (hypothesis checklist)",
+   "what": "Legend nits against kb/0006. 'U1 ∩ U2 connected' carries ✓ while its own text says '(weakened from connected)', so it should be ⚠ weakened. TarentinOn U1 sits under the ✓ of 'u1 a GHD' although the paper does not print it: it is a ladder property the Lorentzian model supplies, so ⚠ named. The SCOPE and REPORT already disclose both, so nothing is hidden.",
+   "fix": "Use ⚠ weakened for the connectedness row, and list TarentinOn as ⚠ named (ladder tarentin)."
+  }
+ ],
+ "scope": "git status --short in lean-causal shows only the two dispatched paths (scaffold/CausalScaffold/ErsUniqueness.lean, campaign/T-abs-ers-thm-4-64/) and the sibling's scaffold/CausalScaffold/EAlphaCauchy.lean. programme/roadmap.toml (status ready→active for this target and T-loc-ealpha-cauchy) is the master's dispatch edit. roadmap/roadmap.toml and lean-benzecri/lean-egf/lean-syracuse belong to other loops. No tracked lean-causal file is modified, and the scaffold root was not edited (kb/0025: the master adds the import).",
+ "graduation": "No full-name clash with Causal/ or scaffold/ (including EAlphaCauchy.lean, which has no shared names) for any of the 40 new declarations. Namespace Causal; definitions in Causal.Causality, AgreementGlues in Causal. TarentinOn and IsAcausalOn are relative forms of Tarentin and IsAcausal, linked by tarentinOn_top and isAcausalOn_top, not duplicates. SplitBy and CompactSlabs name the inline hsplit, hKm and hKp of ers_theorem_4_82, linked definitionally. isPreconnected_of_inextensibleThrough nearly duplicates Causal.isConnected_of_curves (SubExtension), with a different form. The docstring contract holds: title, unmarked labels with tex lines, quotes checked against ghd_02_19.tex, checklist, SCOPE, provenance."
+}

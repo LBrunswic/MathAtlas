@@ -1,0 +1,402 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-ers-thm-4-64",
+ "files": [
+  "scaffold/CausalScaffold/ErsUniqueness.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "ersthm:ThmUnique",
+   "tex_lines": [
+    858,
+    912
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.ers_theorem_4_64",
+    "Causal.Causality.ers_theorem_4_64_maxCommonDevelopment",
+    "Causal.Causality.isCommonDevelopment_maxCommonDevelopment",
+    "Causal.Causality.exists_isSpacelikeBoundaryPoint",
+    "Causal.Causality.exists_mem_frontier_inter",
+    "Causal.Causality.IsCommonDevelopment",
+    "Causal.Causality.maxCommonDevelopment",
+    "Causal.Causality.SliceRestart",
+    "Causal.Causality.FrontierStaysIn",
+    "Causal.Causality.IsSpacelikeBoundaryPoint",
+    "Causal.AgreementGlues",
+    "Causal.agreementGlues_eqOn",
+    "Causal.timelikeLine_ers_theorem_4_64",
+    "Causal.timelikeLine_ers_theorem_4_64_Ioo"
+   ],
+   "hypotheses": [
+    {
+     "paper": "u1 is a GHD: U1 globally hyperbolic for g(u1, du1)",
+     "here": "carried",
+     "note": "GloballyHyperbolicOn U1 (ladder globally_hyperbolic read on the development U1, kb/0001). Supplier: T-loc-quasilinear-causal-ladder (smooth GH gives ETT's GH)."
+    },
+    {
+     "paper": "(used by the proof) U1 tarentin",
+     "here": "named",
+     "note": "TarentinOn U1, a new relative form of the ladder node tarentin (tarentinOn_top: TarentinOn ⊤ ↔ Tarentin). With GH of U1 it gives J^± closed in U1 (GloballyHyperbolicOn.closure_Jminus_inter_subset), the input of exists_spacelike_boundary_point. Supplier: T-loc-quasilinear-causal-ladder (a smooth Lorentzian metric is tarentin). Listed ⚠ named in the checklist: ERS do not print it."
+    },
+    {
+     "paper": "S a Cauchy hypersurface of U1: achronal",
+     "here": "named",
+     "note": "IsAcausalOn U1 S (OQ-41 reading: acausal). Used by Step 1 (S met at most once by curves of V0) and Remark 4.67. Supplier: a spacelike Cauchy hypersurface is acausal (T-loc-quasilinear-causal-ladder); in ETT at M, IsCauchySurface.isAcausal under CurvesExtend + causal arc-connectedness."
+    },
+    {
+     "paper": "S a Cauchy hypersurface of U1: U1 = J+(S) ∪ J-(S)",
+     "here": "named",
+     "note": "SplitBy U1 S (= ers_theorem_4_82's hsplit). Derived in layer 1 from InextensibleThrough U1 + S Cauchy in U1 (splitBy_of_inextensibleThrough). Supplier: every point lies on an inextendible timelike curve (integral curve of a timelike field), T-loc-quasilinear-causal-ladder."
+    },
+    {
+     "paper": "S a Cauchy hypersurface of the GH U1: J-(q) ∩ J+(S) compact (ERS Step 3, l.893)",
+     "here": "named",
+     "note": "CompactSlabs U1 S (= ers_theorem_4_82's hKm, hKp). Supplier: O'Neill Ch. 14, T-loc-quasilinear-causal-ladder. In ETT the implication from a Cauchy surface is conjectural (CausalScaffold.GerochCauchy.isCompact_Jminus_inter_Jplus_of_isCauchySurface)."
+    },
+    {
+     "paper": "u2 is a GHD",
+     "here": "weakened",
+     "note": "not used by the layer-1 argument: U2's GH and Cauchy property are consumed by the suppliers of hlocal, hstay, hstep (and by Lemmas 4.70/4.72 in Cor 4.71/4.73, Remark 4.67(b) through FollowsSolution)."
+    },
+    {
+     "paper": "the same initial data; the solutions u1, u2",
+     "here": "named",
+     "note": "an agreement predicate agree : Opens M → Prop with AgreementGlues (agreement on each member of a family gives agreement on the union). For two functions it is EqOn (agreementGlues_eqOn), proved."
+    },
+    {
+     "paper": "Prop 4.63 in Step 1 (the set of CGHDs is non-empty, l.869)",
+     "here": "named",
+     "note": "hlocal : ∃ V, IsCommonDevelopment S U1 U2 agree V (proposed ladder id local_uniqueness). Supplier: T-loc-quasilinear-slice (energy estimates), with the ETT half (the union of the DS_p) in T-abs-ers-unions."
+    },
+    {
+     "paper": "Step 2, 'γ([0,1]) ⊆ U2' (l.880-881)",
+     "here": "named",
+     "note": "hstay : FrontierStaysIn U1 S V (U1 ∩ U2) for every common development V. Supplier: layer 3 with T-loc-quasilinear-slice (achronality of ∂V ∩ J+(S), null generators in ∂V, g(u1) = g(u2) on closure V ∩ U1 ∩ U2 by continuity, so the generators are g(u2)-causal and cannot leave U2 before S). Not layer 1: see sorries/notes (no ETT relation on the closed ∂V; on one causality it needs extension of past-inextensible curves, which the library lacks)."
+    },
+    {
+     "paper": "Steps 3-5 with Prop 4.63 (l.889-912)",
+     "here": "named",
+     "note": "hstep : SliceRestart U1 S V (U1 ∩ U2) (fun _ => ∃ V', IsCommonDevelopment V' ∧ V < V') for every common development V. SliceRestart is the shape of ers_theorem_4_82's hstep (definitionally: ers_theorem_4_82_of_sliceRestart). Supplier: T-loc-quasilinear-slice (Step 3 = Sbierski Lemma 3.11, causal; Step 4 the τ_q level set, O'Neill Ch.5 Cor.3; Step 5 O'Neill 14.46, domains of dependence, Prop 4.63)."
+    },
+    {
+     "paper": "S a connected hypersurface",
+     "here": "weakened",
+     "note": "not used by Thm 4.64 (non-emptiness of V0 ∩ U1 ∩ U2 comes from SplitBy); IsPreconnected S is used in Cor 4.69, 4.71, 4.73 only."
+    },
+    {
+     "paper": "U1 ∩ U2 connected",
+     "here": "weakened",
+     "note": "IsPreconnected (preconnected only; ⚠ weakened in the checklist)."
+    },
+    {
+     "paper": "CGHD: V globally hyperbolic with Cauchy hypersurface S",
+     "here": "weakened",
+     "note": "IsCommonDevelopment asks S Cauchy in V, not GH of V (GH of the union V0 is Geroch (iii)⇒(i), unproved in ETT); the restart's premise is accordingly wider, which a Lorentzian supplier meets (a Cauchy surface makes an open set GH)."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Step 2 (ghd_02_19.tex:880-881) leaves implicit that q lies in J+(S, U2) for g(u2) too: without it a past-directed g(u2)-causal curve from q could leave U2 without crossing S. It holds (q is a limit of points of V0 ∩ I+(S, U1), which lie in J+(S, V0) by achronality of S in U1, and J+(S, U2) is closed in U2), but the sentence 'it cannot leave U2 without first crossing S' needs it; one clause would close it.",
+    "Thm 4.64 (l.858) does not use that S is connected: the proof needs S non-empty only. Connectedness of S enters only through the lemmas that make U1 ∩ U2 connected (4.69, 4.70, 4.72)."
+   ],
+   "questions": [
+    "Fixed background: the target reads 'one causality'; ERS have g(u1, du1) on U1 and g(u2, du2) on U2. Reading taken: C is the causality of g(u1) (where ERS run Steps 2-3); the second causality never enters the layer-1 argument of 4.64, only the named hypotheses, so the theorem serves both readings (C2 = C or not). Remark 4.67(b), 4.69, 4.71, 4.73 carry C2 explicitly. Acceptable as the formalization of record?",
+    "Step 2 is not only exists_spacelike_boundary_point: the minimal point it gives lies in U1 and must be placed in U2 (ERS's 'γ([0,1]) ⊆ U2'). Taken: a second named hypothesis FrontierStaysIn, separate from the restart (a restart located in U1 alone could not be supplied). Should it be part of a ladder node (with cauchy_slice / local_uniqueness) or folded into the restart?",
+    "Prop 4.63 is used twice (Step 1 non-emptiness, Step 5 near Σ_W). Taken: Step 1's use is the separate hypothesis hlocal (local_uniqueness), Step 5's is inside SliceRestart. The target asked for one restart hypothesis covering Prop 4.63.",
+    "A common development is read with S as Cauchy surface and without global hyperbolicity (ETT cannot conclude GH of the union V0). Acceptable?"
+   ]
+  },
+  {
+   "label": "ersthm:ThmNotBlocking",
+   "tex_lines": [
+    1100,
+    1139
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.ers_theorem_4_82_of_sliceRestart",
+    "Causal.Causality.ers_theorem_4_82_of_globallyHyperbolicOn"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Theorem 4.82 (MGHD with (4.83)): the hstep of ers_theorem_4_82 (Steps 3-5 of Thm 4.64 as used in 4.82)",
+     "here": "named",
+     "note": "written as a SliceRestart (cau i) (dom i) S A_i (dom i) Q_i, definitionally the hypothesis of the strict ers_theorem_4_82 (ers_theorem_4_82_of_sliceRestart); hsplit, hKm, hKp as SplitBy, CompactSlabs. Not a new proof of 4.82: restatements through the shared predicates of this file. Supplier: T-loc-quasilinear-slice."
+    },
+    {
+     "paper": "each GHD: J±(x) closed, ≤ antisymmetric (hJm, hJp, hcaus of ers_theorem_4_82)",
+     "here": "named",
+     "note": "derived from each development GH and tarentin, GloballyHyperbolicOn (dom i), TarentinOn (dom i) (ladder globally_hyperbolic, tarentin read on the development), in ers_theorem_4_82_of_globallyHyperbolicOn. Supplier: T-loc-quasilinear-causal-ladder."
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "The two declarations only restate the strict ers_theorem_4_82 (T-abs-nested-causalities) through SliceRestart and the relative ladder properties; the row's own status is the one T-abs-nested-causalities reported. Map them here, or keep them as extra_decls only?"
+   ]
+  },
+  {
+   "label": "ersrem:RemTime",
+   "tex_lines": [
+    914,
+    916
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.ers_remark_4_67",
+    "Causal.Causality.ers_remark_4_67_future",
+    "Causal.Causality.ers_remark_4_67_past",
+    "Causal.Causality.Jplus_inter_subset_of_isCauchySurfaceOn",
+    "Causal.Causality.Jminus_inter_subset_of_isCauchySurfaceOn",
+    "Causal.Causality.FollowsSolution",
+    "Causal.Causality.FollowsSolution.refl",
+    "Causal.Causality.InextensibleThrough",
+    "Causal.Causality.InextensibleThrough.of_le",
+    "Causal.Causality.splitBy_of_inextensibleThrough"
+   ],
+   "hypotheses": [
+    {
+     "paper": "under the assumptions of Theorem 4.64",
+     "here": "named",
+     "note": "those of ers_theorem_4_64 (see ersthm:ThmUnique); for (b), SplitBy replaced by S Cauchy in U1 + InextensibleThrough U1."
+    },
+    {
+     "paper": "the normal of S future directed in U1 and in U2",
+     "here": "named",
+     "note": "FollowsSolution C C2 agree (U1 ⊓ U2): if the solutions agree on U1 ∩ U2, ≤_{U1∩U2} of C (g(u1)) is contained in that of C2 (g(u2)); nothing is asked on other opens (narrowed in fix round 1, AUDIT-1). Supplier after Thm 4.64: g depends on (u, du), so g(u1) = g(u2) on U1 ∩ U2; the two continuous time orientations agree near S (ERS's stipulation) hence on the connected U1 ∩ U2 ⊇ S (T-loc-quasilinear-causal-ladder). FollowsSolution.refl on one causality."
+    },
+    {
+     "paper": "(used) every point of U1 on an inextendible causal curve",
+     "here": "named",
+     "note": "InextensibleThrough U1 (integral curves of a timelike field, T-loc-quasilinear-causal-ladder); passed to U1 ∩ U2 by components (InextensibleThrough.of_le)."
+    },
+    {
+     "paper": "maximal common globally hyperbolic development",
+     "here": "weakened",
+     "note": "read as the greatest common development with Cauchy surface S (IsGreatest), GH not concluded."
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "'Maximal common GHD' read as IsGreatest among common developments with S as Cauchy surface (no GH): acceptable?"
+   ]
+  },
+  {
+   "label": "erscor:CorDisCon",
+   "tex_lines": [
+    921,
+    923
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.ers_corollary_4_68",
+    "Causal.Causality.ers_corollary_4_68_eqOn"
+   ],
+   "hypotheses": [
+    {
+     "paper": "two GHDs of the same data",
+     "here": "named",
+     "note": "the hypotheses of ers_theorem_4_64 except connectedness (see ersthm:ThmUnique)."
+    },
+    {
+     "paper": "∃ x ∈ U1 ∩ U2, u1(x) ≠ u2(x)",
+     "here": "carried",
+     "note": "function form ers_corollary_4_68_eqOn; abstract form: ¬ agree (U1 ∩ U2)."
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "Conclusion taken as 'not preconnected', formally stronger than 'not connected' and equivalent here since x ∈ U1 ∩ U2."
+   ]
+  },
+  {
+   "label": "erscor:globally_defined_globally_hyperbolic",
+   "tex_lines": [
+    926,
+    928
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.ers_corollary_4_69",
+    "Causal.Causality.isPreconnected_of_inextensibleThrough",
+    "Causal.Causality.tarentinOn_top"
+   ],
+   "hypotheses": [
+    {
+     "paper": "u1 globally defined GHD (U1 = R^{d+1})",
+     "here": "carried",
+     "note": "U1 = ⊤: the ladder nodes globally_hyperbolic and tarentin of C on M, S acausal in M, SplitBy ⊤ S, CompactSlabs ⊤ S (named, as in 4.64)."
+    },
+    {
+     "paper": "u2 a GHD of the same data",
+     "here": "named",
+     "note": "S Cauchy in U2 and InextensibleThrough U2 for any causality C2 (that of g(u2)): they give U2 connected (isPreconnected_of_inextensibleThrough), which ERS leave implicit; hlocal, hstay, hstep as in 4.64."
+    },
+    {
+     "paper": "S connected",
+     "here": "carried",
+     "note": "IsPreconnected S (used for the connectedness of U2)."
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "erscor:CorSupLum",
+   "tex_lines": [
+    959,
+    967
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.ers_corollary_4_71",
+    "Causal.Causality.ers_lemma_4_70",
+    "Causal.Causality.ers_theorem_4_64"
+   ],
+   "hypotheses": [
+    {
+     "paper": "(4.62) T timelike for every g(u, du); maximal integral curves meet S at most once",
+     "here": "named",
+     "note": "those of ers_lemma_4_70: Cτ causal, InextensibleNestedOn Cτ C U1 and Cτ C2 U2 (OQ-41 (b)), hthroughτ, honce; S Cauchy in U1 (C) and U2 (C2); suppliers T-loc-quasilinear-nesting."
+    },
+    {
+     "paper": "two GHDs",
+     "here": "named",
+     "note": "plus the hypotheses of ers_theorem_4_64 (see ersthm:ThmUnique)."
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "Inherits OQ-41 (b) (the inextensible nesting) from ers_lemma_4_70."
+   ]
+  },
+  {
+   "label": "erscor:CorUniqueSub",
+   "tex_lines": [
+    988,
+    991
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.ers_corollary_4_73",
+    "Causal.Causality.ers_lemma_4_72",
+    "Causal.Causality.ers_theorem_4_64"
+   ],
+   "hypotheses": [
+    {
+     "paper": "subluminal; S achronal for m; u1 an m-GHD",
+     "here": "named",
+     "note": "those of ers_lemma_4_72: Cm causal, Cm.CurvesExtend (model fact), S m-acausal (OQ-41 (c): ERS print achronal), U1 m-Cauchy, CurveNestedOn C2 Cm U2, hthrough2; supplier T-loc-quasilinear-nesting, Minkowski facts in the model layer."
+    },
+    {
+     "paper": "two GHDs",
+     "here": "named",
+     "note": "plus the hypotheses of ers_theorem_4_64 for C = g(u1) (see ersthm:ThmUnique)."
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "Inherits OQ-41 (c) (S m-acausal for m-achronal) from ers_lemma_4_72."
+   ]
+  }
+ ],
+ "named_localisation_hypotheses": [
+  {
+   "name": "Causal.AgreementGlues",
+   "role": "the solutions glue (structure)",
+   "supplier": "proved for functions: Causal.agreementGlues_eqOn"
+  },
+  {
+   "name": "Causal.Causality.TarentinOn",
+   "role": "U1 tarentin (relative ladder node tarentin)",
+   "supplier": "T-loc-quasilinear-causal-ladder"
+  },
+  {
+   "name": "Causal.Causality.IsAcausalOn",
+   "role": "S acausal in U1 (OQ-41)",
+   "supplier": "T-loc-quasilinear-causal-ladder; ETT at M: IsCauchySurface.isAcausal"
+  },
+  {
+   "name": "Causal.Causality.SplitBy",
+   "role": "U1 = J+(S) ∪ J-(S) (4.82's hsplit)",
+   "supplier": "T-loc-quasilinear-causal-ladder; ETT: splitBy_of_inextensibleThrough"
+  },
+  {
+   "name": "Causal.Causality.CompactSlabs",
+   "role": "J∓(q) ∩ J±(S) compact (4.82's hKm, hKp)",
+   "supplier": "T-loc-quasilinear-causal-ladder (O'Neill Ch. 14)"
+  },
+  {
+   "name": "Causal.Causality.InextensibleThrough",
+   "role": "an inextensible causal curve through every point",
+   "supplier": "T-loc-quasilinear-causal-ladder (integral curves of a timelike field)"
+  },
+  {
+   "name": "hlocal : ∃ V, IsCommonDevelopment …",
+   "role": "Prop 4.63 at S (Step 1)",
+   "supplier": "T-loc-quasilinear-slice; ETT half T-abs-ers-unions; proposed node local_uniqueness"
+  },
+  {
+   "name": "Causal.Causality.FrontierStaysIn",
+   "role": "Step 2's γ([0,1]) ⊆ U2",
+   "supplier": "layer 3; no roadmap row owns it yet (T-loc-quasilinear-slice is the natural owner; its title covers Steps 3-5 only)"
+  },
+  {
+   "name": "Causal.Causality.SliceRestart",
+   "role": "Steps 3-5 + Prop 4.63 at Σ_W (the restart; 4.82's hstep shape)",
+   "supplier": "T-loc-quasilinear-slice"
+  },
+  {
+   "name": "Causal.Causality.FollowsSolution",
+   "role": "at W = U1 ∩ U2 only: agreement there gives ≤ of g(u1) ⊆ ≤ of g(u2) (Remark 4.67)",
+   "supplier": "T-loc-quasilinear-causal-ladder"
+  }
+ ],
+ "extra_decls": [
+  "Causal.Causality.TarentinOn",
+  "Causal.Causality.tarentinOn_top",
+  "Causal.Causality.dual_tarentinOn",
+  "Causal.Causality.IsAcausalOn",
+  "Causal.Causality.isAcausalOn_top",
+  "Causal.Causality.IsAcausal.isAcausalOn",
+  "Causal.Causality.IsAcausalOn.mono",
+  "Causal.Causality.GloballyHyperbolicOn.closure_Jminus_inter_subset",
+  "Causal.Causality.GloballyHyperbolicOn.closure_Jplus_inter_subset",
+  "Causal.Causality.SplitBy",
+  "Causal.Causality.CompactSlabs",
+  "Causal.Causality.InextensibleThrough",
+  "Causal.Causality.splitBy_of_inextensibleThrough",
+  "Causal.Causality.InextensibleThrough.of_le",
+  "Causal.Causality.isPreconnected_of_inextensibleThrough",
+  "Causal.Causality.exists_mem_frontier_inter",
+  "Causal.Causality.exists_isSpacelikeBoundaryPoint",
+  "Causal.Causality.Jplus_inter_subset_of_isCauchySurfaceOn",
+  "Causal.Causality.Jminus_inter_subset_of_isCauchySurfaceOn",
+  "Causal.Causality.ers_theorem_4_82_of_sliceRestart",
+  "Causal.Causality.ers_theorem_4_82_of_globallyHyperbolicOn",
+  "Causal.timelikeLine_isEMorphism_of_strictMono",
+  "Causal.timelikeLine_isCauchySurfaceOn_range",
+  "Causal.timelikeLine_isCauchySurfaceOn_Ioo"
+ ],
+ "kb_proposals": [
+  "ERS19 Thm 4.64's skeleton is Causal.Causality.ers_theorem_4_64 (scaffold ErsUniqueness): solutions = an agreement predicate with AgreementGlues; common development = IsCommonDevelopment (S Cauchy, GH not asked); the restart is SliceRestart, which is also ers_theorem_4_82's hstep definitionally (ers_theorem_4_82_of_sliceRestart).",
+  "exists_spacelike_boundary_point run in one development gives a point of that development only: placing it in the other (ERS's 'γ ⊆ U2') is FrontierStaysIn, not layer 1, and a restart located in U1 alone is unsuppliable (V0 = U1 ∩ U2 with a spacelike frontier point in U1 \\ U2).",
+  "Relative GH plus relative tarentin (TarentinOn W) give J± closed in W (GloballyHyperbolicOn.closure_Jminus_inter_subset), so 4.82's hJm, hJp are ladder consequences (ers_theorem_4_82_of_globallyHyperbolicOn)."
+ ],
+ "notes": "Sorry-free; no warning; `lake env lean` and `lake build CausalScaffold.ErsUniqueness` pass with nothing upstream rebuilt; #print axioms of every theorem: propext, Classical.choice, Quot.sound. Imports Causal.NestedCausalities and Causal.LadderLocal only (import closure checked: no Causal.Minkowski/Static/Flat.*/Model.*/Port.*/SingularFlat). The scaffold root scaffold/CausalScaffold.lean does not import the new module (kb/0025; not in my dispatch): add `import CausalScaffold.ErsUniqueness` before the axiom sweep. New generic names in Causal.Causality (TarentinOn, IsAcausalOn, SplitBy, CompactSlabs, InextensibleThrough, IsCommonDevelopment, FollowsSolution): check for clashes with the parallel closers at graduation (e.g. T-abs-cbg-initial-data defines a local-uniqueness predicate). The module could graduate as is (no sorry), but every label rests on named layer-3 hypotheses, so no mark. Non-vacuity: Causal.timelikeLine_ers_theorem_4_64_Ioo, a proper instance (timelike line, U1 = R, U2 = ]-1,1[, u1 = id, u2 = clamp to [-1,1], hlocal by ]-1/2,1/2[, FrontierStaysIn through J-(q) ∩ J+(0) = [0,q] ⊆ ]-1,1[, SliceRestart with V' = ]-1,1[; the intervals' Cauchy property transported along c·arctan, timelikeLine_isCauchySurfaceOn_Ioo), and the degenerate Causal.timelikeLine_ers_theorem_4_64 (U1 = U2 = R), kept. Fix round 1 (AUDIT-1, minor): proper witness added; FollowsSolution narrowed to the open U1 ∩ U2 (a weakening of the hypothesis of ers_remark_4_67_future/_past); checklist legend: U1 ∩ U2 connectedness ⚠ weakened, TarentinOn ⚠ named; the two 4.82 restatements moved to ersthm:ThmNotBlocking. Re-checked with lake env lean -DwarningAsError=true."
+}

@@ -1,0 +1,65 @@
+{
+ "target": "T-abs-ers-thm-4-64",
+ "auditor_round": 2,
+ "verdict": "clean",
+ "labels": [
+  {
+   "label": "ersthm:ThmUnique",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "No statement changed (read line by line against round 1): ers_theorem_4_64, _maxCommonDevelopment, Step 1/Step 2 lemmas and all definitions keep the same signatures. New proper witness timelikeLine_ers_theorem_4_64_Ioo (U1 = ℝ, U2 = ]-1,1[, S = {0}, u1 = id, u2 = clamp to [-1,1]) genuinely exercises the hypotheses: the agreement predicate is non-trivial (probe: ¬ EqOn id clamp on ⊤, since id 2 ≠ 1), hlocal is the proper sub-development ]-1/2,1/2[, FrontierStaysIn is checked through J⁻(q) ∩ J⁺(0) = [0,q] ⊆ ]-1,1[ with L ≠ univ, and SliceRestart is proved for every common development V by V < ]-1,1[ (the frontier point p ∈ ]-1,1[ is not in the open V). The restart's target is U1 ∩ U2, which is unavoidable (every satisfying instance has U1 ∩ U2 a common development, Remark 4.67), and the SCOPE says so. The degenerate witness is kept and its docstring now says it is degenerate. Row partial, unmarked."
+  },
+  {
+   "label": "ersthm:ThmNotBlocking",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "New row (AUDIT-1 finding 4): ers_theorem_4_82_of_sliceRestart and ers_theorem_4_82_of_globallyHyperbolicOn moved here from ThmUnique. Their signatures are unchanged and they only restate the strict ers_theorem_4_82 (the hstep is definitionally a SliceRestart; hcaus, hJm, hJp come from GloballyHyperbolicOn + TarentinOn). The module docstring cites ghd_02_19.tex:1100, which is correct (\\begin{theorem}\\label{ersthm:ThmNotBlocking}), unmarked. REPORT tex_lines [1100, 1139] are correct (1139 = \\end{proof}). Status partial, marked false."
+  },
+  {
+   "label": "ersrem:RemTime",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "FollowsSolution C C2 agree W is now agree W → ∀ x y, C.le W x y → C2.le W x y, used at W = U1 ⊓ U2. A probe proved that the round-1 form (∀ V, agree V → ∀ N ≤ V, …) implies the new one (take V = N = W), so the change only weakens the hypothesis. The #check signatures of ers_remark_4_67_future/_past show the conclusions unchanged (∀ x ∈ U1 ⊓ U2, x ∈ C.Jplus U1 S → x ∈ C2.Jplus U2 S, and the past form). The docstring's supplier argument (g(u1) = g(u2) on the connected U1 ∩ U2 ∋ S after Thm 4.64, orientations fixed at S) is now sound for that W. Row partial, unmarked."
+  },
+  {
+   "label": "erscor:CorDisCon",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unchanged since round 1."
+  },
+  {
+   "label": "erscor:globally_defined_globally_hyperbolic",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unchanged since round 1."
+  },
+  {
+   "label": "erscor:CorSupLum",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unchanged since round 1."
+  },
+  {
+   "label": "erscor:CorUniqueSub",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unchanged since round 1."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "notes": "`lake env lean -DwarningAsError=true scaffold/CausalScaffold/ErsUniqueness.lean`: exit 0, no output (no lake build run). 'sorry' occurs once, in the SCOPE prose. `#print axioms` probe in /tmp (deleted) on all 48 REPORT names: each depends on a subset of [propext, Classical.choice, Quot.sound]. Imports are still Causal.NestedCausalities and Causal.LadderLocal only. The transitive Causal closure has 28 modules, with no Minkowski, Static, Flat.*, Model.*, Port.*, SingularFlat or CBG.*. The helpers are ETT-layer. timelikeLine_isEMorphism_of_strictMono re-proves the strict Causal.timelikeLine_isEMorphism_gateArc (Causal/CBG/CausalConvex.lean:1278, model-importing) for any strictly increasing, continuous, open g, without importing that module. It uses Causal/Lines.lean (timelikeLine_le, timelikeLine_lt) and Causal/CauchyExtension.lean (IsEMorphism, IsEMorphismOn.isCauchySurfaceOn_image_iff, :330). timelikeLine_isCauchySurfaceOn_range and timelikeLine_isCauchySurfaceOn_Ioo transport {0} Cauchy in ℝ to range g and to ]-r,r[ along c·arctan. All three are kernel-checked, sorry-free and true as stated. The ledger mark regex matches nothing, and the 7 labels lie in the first 4000 characters."
+ },
+ "findings": [],
+ "resolved_from_audit_1": [
+  "1 (degenerate witness): resolved by timelikeLine_ers_theorem_4_64_Ioo; the degenerate one is labelled as such.",
+  "2 (FollowsSolution too wide): resolved; narrowed to one open W = U1 ⊓ U2, a pure weakening (probe), conclusions unchanged.",
+  "3 (FrontierStaysIn unowned): disclosed in the FrontierStaysIn docstring and REPORT ('no roadmap row owns it yet; T-loc-quasilinear-slice is the natural owner'). The roadmap/binder edit remains a master/planner action, outside the closer's files.",
+  "4 (4.82 wrappers under ThmUnique): resolved; moved to ersthm:ThmNotBlocking.",
+  "5 (checklist legend): resolved; U1 ∩ U2 connected is ⚠ weakened, TarentinOn U1 is its own ⚠ named row."
+ ],
+ "scope": "In lean-causal, git status shows only this target's ErsUniqueness.lean and campaign/T-abs-ers-thm-4-64/, plus the siblings EAlphaCauchy.lean and CausalIsoInvariance.lean. programme/roadmap.toml has only three ready→active status flips (the master's dispatches). No tracked lean-causal file is modified, and the scaffold root is not edited.",
+ "graduation": "No name clash: the 4 new names (timelikeLine_isEMorphism_of_strictMono, timelikeLine_isCauchySurfaceOn_range, timelikeLine_isCauchySurfaceOn_Ioo, timelikeLine_ers_theorem_4_64_Ioo) and all round-1 names are absent from Causal/ and from the siblings EAlphaCauchy.lean and CausalIsoInvariance.lean (exact short-name intersection empty). Causal.CBG.Pgcd has an unrelated structure-namespaced isCauchySurfaceOn_range. Optional: timelikeLine_isEMorphism_of_strictMono generalizes timelikeLine_isEMorphism_gateArc and could later replace its proof. kb/0025: the master adds `import CausalScaffold.ErsUniqueness` to the scaffold root."
+}
