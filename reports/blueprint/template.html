@@ -1,0 +1,894 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ETT Blueprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* The atlas's tokens (reports/atlas/template.html), plus --fails for refuted pairs. */
+:root{
+  --bg:#eef2f5; --canvas:#f6f8fa; --grid:#dfe5eb; --ink:#1b2735; --ink-2:#4d5c6c; --ink-3:#7d8a98;
+  --line:#c3ccd6; --card:#ffffff; --accent:#2c5f8f; --accent-soft:#dbe7f2;
+  --closed:#2f8259; --partial:#c4861a; --stated:#7f8d9b; --terminal:#b8c1ca; --none:#ffffff; --fails:#b04a3c;
+  --closed-soft:#dcefe4; --partial-soft:#f6e7cc; --fails-soft:#f5dcd8;
+  --edge:#8d9aa8; --edge-hi:#2c5f8f; --shadow:0 1px 2px rgba(27,39,53,.08),0 4px 14px rgba(27,39,53,.06);
+  --f-display:"Newsreader","Iowan Old Style","Georgia",serif;
+  --f-body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d131b; --canvas:#111923; --grid:#1b2531; --ink:#dce5ef; --ink-2:#a5b3c2; --ink-3:#71808f;
+  --line:#2c3a49; --card:#17212d; --accent:#7fb0de; --accent-soft:#1d3247;
+  --closed:#4fae7f; --partial:#e0a440; --stated:#8795a4; --terminal:#3d4a58; --none:#17212d; --fails:#e27d6c;
+  --closed-soft:#173326; --partial-soft:#3a2c12; --fails-soft:#3b1d19;
+  --edge:#5d6d7e; --edge-hi:#7fb0de; --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d131b; --canvas:#111923; --grid:#1b2531; --ink:#dce5ef; --ink-2:#a5b3c2; --ink-3:#71808f;
+  --line:#2c3a49; --card:#17212d; --accent:#7fb0de; --accent-soft:#1d3247;
+  --closed:#4fae7f; --partial:#e0a440; --stated:#8795a4; --terminal:#3d4a58; --none:#17212d; --fails:#e27d6c;
+  --closed-soft:#173326; --partial-soft:#3a2c12; --fails-soft:#3b1d19;
+  --edge:#5d6d7e; --edge-hi:#7fb0de; --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3); color-scheme:dark}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;margin:0;display:flex;flex-direction:column;overflow:hidden}
+[hidden]{display:none!important}
+.app{display:flex;flex-direction:column;height:100%;min-height:0}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));border-bottom:1px solid var(--line);background:var(--bg)}
+h1{font-family:var(--f-display);font-weight:600;font-size:1.35rem;margin:0;letter-spacing:.005em;white-space:nowrap}
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tabs button{all:unset;cursor:pointer;font-size:.86rem;font-weight:500;padding:6px 12px;border-radius:6px;color:var(--ink-2);border:1px solid transparent}
+.tabs button:hover{background:var(--accent-soft)}
+.tabs button[aria-selected="true"]{background:var(--card);border-color:var(--line);color:var(--ink);font-weight:600;box-shadow:var(--shadow)}
+.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.tabs .n{font-family:var(--f-mono);font-size:.74rem;color:var(--ink-3);margin-left:4px}
+.spacer{flex:1}
+.roadbtn{font:inherit;font-size:.82rem;font-weight:600;padding:6px 11px;border-radius:6px;border:1px solid var(--accent);background:var(--card);color:var(--accent);cursor:pointer;text-decoration:none;white-space:nowrap}
+.roadbtn[aria-pressed="true"],.roadbtn:hover{background:var(--accent);color:var(--card)}
+.roadbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.search{display:flex;gap:6px;align-items:center}
+.search input{font:inherit;font-family:var(--f-mono);font-size:.82rem;padding:6px 9px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);width:14rem;max-width:48vw}
+.search input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+main{flex:1;display:flex;min-height:0;position:relative}
+.view{flex:1;position:relative;min-width:0;min-height:0}
+.view.scroll{overflow:auto;padding:18px max(18px,env(safe-area-inset-left,0px)) 40px}
+.stage{position:absolute;inset:0;background-color:var(--canvas);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px}
+svg#g{width:100%;height:100%;display:block;cursor:grab;touch-action:none}
+svg#g:active{cursor:grabbing}
+.panel>*{flex-shrink:0}
+.panel{width:min(440px,40%);border-left:1px solid var(--line);background:var(--card);overflow:auto;padding-block:18px;padding-left:20px;padding-right:max(20px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:14px}
+.panel h2{font-family:var(--f-display);font-weight:600;font-size:1.25rem;margin:0;text-wrap:balance;line-height:1.2}
+.panel h2.mono{font-family:var(--f-mono);font-size:1.02rem;font-weight:500;overflow-wrap:anywhere}
+h3{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin:0 0 6px;font-weight:600}
+.panel p{margin:0;line-height:1.5;color:var(--ink-2)}
+.mono{font-family:var(--f-mono);font-size:.8rem;overflow-wrap:anywhere}
+.panel ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px;color:var(--ink-2);line-height:1.45}
+.tex{border:1px solid var(--line);border-radius:6px;padding:10px 12px;line-height:1.55;overflow-x:auto;font-size:.92rem;background:var(--canvas)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chip{font-size:.74rem;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--ink-2);white-space:nowrap;background:var(--card);font-family:var(--f-body)}
+button.chip{cursor:pointer}
+.chip.closed{background:var(--closed);border-color:var(--closed);color:#fff}
+.chip.target{border-color:var(--accent);color:var(--accent);font-family:var(--f-mono);font-size:.72rem}
+.chip.open{border-color:var(--partial);color:var(--partial);border-style:dashed;font-weight:600}
+.chip.none{color:var(--ink-3);border-style:dotted}
+.chip.missing,.chip.fails{background:var(--fails);border-color:var(--fails);color:#fff}
+.chip.cond{border-color:var(--partial);color:var(--partial)}
+.chip .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:0;box-sizing:border-box;background:var(--ink-3)}
+.dot.s-active{background:var(--accent)}.dot.s-ready{background:transparent;border:1.5px solid var(--accent)}.dot.s-needs-ruling{background:var(--partial)}
+.dot.s-blocked{background:var(--fails)}.dot.s-planned{background:transparent;border:1.5px solid var(--ink-3)}.dot.s-done{background:var(--closed)}.dot.s-dropped{background:var(--terminal)}
+.chip.cmp{max-width:100%;overflow:hidden;text-overflow:ellipsis;box-sizing:border-box}
+.brow .chips{min-width:0;max-width:100%}
+.brow .pl{max-width:100%;overflow:hidden;text-overflow:ellipsis;box-sizing:border-box}
+.chip.seed{border-style:dashed}
+.chip.s-ready{border-color:var(--accent);color:var(--accent)}
+.chip.s-active{background:var(--accent);border-color:var(--accent);color:var(--card)}
+.chip.s-needs-ruling{border-color:var(--partial);color:var(--partial);font-weight:600}
+.chip.s-blocked{border-style:dashed;color:var(--fails);border-color:var(--fails)}
+.chip.s-done{background:var(--closed);border-color:var(--closed);color:#fff}
+.chip.s-dropped{text-decoration:line-through;color:var(--ink-3)}
+.chip.s-planned{color:var(--ink-2)}
+.linklist{display:flex;flex-wrap:wrap;gap:6px}
+.pl{all:unset;cursor:pointer;font-family:var(--f-mono);font-size:.76rem;color:var(--accent);border:1px solid var(--line);border-radius:4px;padding:1px 6px;white-space:nowrap}
+.pl:hover,.pl:focus-visible{background:var(--accent-soft)}
+.pl.c{border-style:dashed;border-color:var(--partial)}
+.pl.f{border-color:var(--fails);color:var(--fails)}
+.pl.ghost{color:var(--ink-3);border-style:dashed;cursor:default}
+.pl.ghost:hover{background:none}
+.stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat div{border:1px solid var(--line);border-radius:6px;padding:8px 10px}
+.stat b{display:block;font-family:var(--f-display);font-size:1.3rem;font-variant-numeric:tabular-nums}
+.stat span{font-size:.72rem;color:var(--ink-3)}
+ol.wit{margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:8px;color:var(--ink-2)}
+ol.wit .mono,ul.wit .mono{display:block;color:var(--ink)}
+.loc{display:block;font-family:var(--f-mono);font-size:.7rem;color:var(--ink-3);overflow-wrap:anywhere}
+ul.wit{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
+ul.wit>li{border-left:3px solid var(--line);padding-left:10px}
+ul.wit>li.c{border-left-color:var(--partial)}
+ul.wit>li.f{border-left-color:var(--fails)}
+ul.wit>li.ok{border-left-color:var(--closed)}
+ul.wit>li.tg{border-left-color:var(--accent)}
+.warn{border-left:3px solid var(--partial);padding:2px 0 2px 10px;color:var(--ink-2);font-size:.84rem;line-height:1.45}
+.err{border-left:3px solid var(--fails);padding:2px 0 2px 10px;color:var(--ink-2);font-size:.84rem}
+details summary{cursor:pointer;color:var(--ink-2);font-size:.86rem}
+.prov{font-size:.78rem;color:var(--ink-3);line-height:1.45}
+.legend{position:absolute;left:max(12px,env(safe-area-inset-left,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.74rem;color:var(--ink-2);max-width:calc(100% - 82px);box-shadow:var(--shadow)}
+.legend svg{vertical-align:middle;margin-right:5px;overflow:visible}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:5px;border:2px solid var(--line);background:var(--card)}
+.tools{position:absolute;right:12px;bottom:max(12px,env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:6px}
+.tools button{font:inherit;width:34px;height:34px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;font-size:1rem;box-shadow:var(--shadow)}
+.tools button:focus-visible{outline:2px solid var(--accent)}
+.mode{position:absolute;left:12px;top:10px;display:flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;box-shadow:var(--shadow);z-index:2}
+.mode button{all:unset;cursor:pointer;font-size:.8rem;font-weight:500;padding:5px 12px;background:var(--card);color:var(--ink-2)}
+.mode button[aria-pressed="true"]{background:var(--accent);color:var(--card)}
+.mode button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.hint{position:absolute;right:12px;top:10px;font-size:.74rem;color:var(--ink-3);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:4px 8px}
+/* the ladder graph */
+.node{cursor:pointer}
+.node rect.box{fill:var(--card);stroke:var(--line);stroke-width:1.2}
+.node:hover rect.box{stroke:var(--accent);stroke-width:2}
+.node:focus-visible{outline:none}.node:focus-visible rect.box{stroke:var(--accent);stroke-width:2.5}
+.node text{fill:var(--ink);font-family:var(--f-body)}
+.node .t-mono{font-family:var(--f-mono)}
+.node .t-dim{fill:var(--ink-3)}
+.node.sel rect.box{fill:var(--accent);stroke:var(--accent);stroke-width:2}
+.node.sel text{fill:var(--card)}
+.node.down rect.box{fill:var(--closed-soft);stroke:var(--closed);stroke-width:2}
+.node.up rect.box{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2}
+.node.down.c rect.box,.node.up.c rect.box{stroke:var(--partial);stroke-dasharray:5 3;fill:var(--partial-soft)}
+.node.no rect.box{fill:var(--fails-soft);stroke:var(--fails);stroke-width:2}
+.node.dim{opacity:.45}
+.junction circle{fill:var(--card);stroke:var(--edge);stroke-width:1.4}
+.junction text{fill:var(--ink-2);font-size:11px;font-family:var(--f-body)}
+.junction{cursor:pointer}
+.junction.c circle{stroke:var(--partial)}
+.edge path.vis{fill:none;stroke:var(--edge);stroke-width:1.6;stroke-opacity:.9}
+.edge.seed path.vis{stroke-dasharray:6 4}
+.edge.c path.vis{stroke:var(--partial)}
+.edge.hi path.vis{stroke:var(--edge-hi);stroke-width:2.4;stroke-opacity:1}
+.edge.c.hi path.vis{stroke:var(--partial)}
+.edge text{fill:var(--partial);font-size:10.5px;font-family:var(--f-mono);paint-order:stroke;stroke:var(--canvas);stroke-width:3px}
+.edge path.hit{fill:none;stroke:transparent;stroke-width:12px;pointer-events:stroke;cursor:pointer}
+.edge.dim{opacity:.3}
+/* the pair matrix */
+.matrix{position:absolute;inset:0;overflow:auto;padding:56px 16px 90px;background:var(--canvas)}
+.matrix table{border-collapse:separate;border-spacing:2px;margin:0 auto;font-size:.76rem}
+.matrix th{font-family:var(--f-mono);font-weight:500;color:var(--ink-2);white-space:nowrap}
+.matrix th.row{text-align:right;padding-right:6px}
+.matrix th.col{height:150px;vertical-align:bottom;padding:0}
+.matrix th.col div{writing-mode:vertical-rl;transform:rotate(180deg);padding:4px 0;margin:0 auto}
+.matrix th button{all:unset;cursor:pointer}
+.matrix th button:hover{color:var(--accent)}
+.matrix td{width:26px;height:26px;padding:0}
+.matrix td button{all:unset;display:block;width:26px;height:26px;text-align:center;line-height:26px;border-radius:4px;cursor:pointer;font-size:.86rem;box-sizing:border-box}
+.matrix td button:focus-visible{outline:2px solid var(--accent)}
+.matrix button.m-implied,.mkey b.m-implied{background:var(--closed);color:#fff}
+.matrix button.m-implied-c,.mkey b.m-implied-c{background:repeating-linear-gradient(45deg,var(--closed-soft) 0 4px,var(--partial-soft) 4px 8px);color:var(--ink);border:1.5px dashed var(--partial)}
+.matrix button.m-fails,.mkey b.m-fails{background:var(--fails);color:#fff}
+.matrix button.m-fails-c,.mkey b.m-fails-c{background:var(--fails-soft);color:var(--fails);border:1.5px dashed var(--fails)}
+.matrix button.m-open,.mkey b.m-open{background:var(--card);border:1.5px solid var(--partial);color:var(--partial)}
+.matrix button.m-unknown,.mkey b.m-unknown{background:var(--grid);color:var(--ink-3)}
+.matrix button.m-diag,.mkey b.m-diag{background:transparent;color:var(--ink-3)}
+.matrix button.m-cross,.mkey b.m-cross{background:transparent;color:var(--ink-3);border:1px dotted var(--line)}
+.matrix h3{text-align:center;margin:18px 0 8px}
+.cluster rect{fill:none;stroke:var(--line);stroke-dasharray:2 4}
+.cluster text{fill:var(--ink-3);font-family:var(--f-body);font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+.mkey{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;margin:14px auto 0;font-size:.76rem;color:var(--ink-2);max-width:720px}
+.mkey span{display:inline-flex;align-items:center;gap:6px}
+.mkey b{display:inline-block;width:18px;height:18px;line-height:18px;text-align:center;border-radius:3px;font-weight:400;font-size:.74rem;box-sizing:border-box}
+/* binders and roadmap */
+.paper{max-width:1180px;margin:0 auto 34px}
+.phead{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.phead h2{font-family:var(--f-display);font-weight:600;font-size:1.35rem;margin:0;line-height:1.2;text-wrap:balance}
+.phead p{margin:0;color:var(--ink-2);line-height:1.45;max-width:90ch}
+.cov{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin-top:4px}
+.cov>div{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--card)}
+.cov h4{margin:0 0 5px;font-size:.74rem;color:var(--ink-3);font-weight:600}
+.cov .chips{gap:4px}
+.btable{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card)}
+.brow{display:grid;grid-template-columns:minmax(170px,1.05fr) minmax(170px,1.2fr) minmax(150px,1fr) minmax(190px,1.25fr);border-top:1px solid var(--line);cursor:pointer}
+.brow:first-child{border-top:0}
+.brow:hover{background:var(--accent-soft)}
+.brow.sel{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
+.brow:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.brow>div{padding:9px 11px;min-width:0;display:flex;flex-direction:column;gap:5px;border-left:1px solid var(--grid)}
+.brow>div:first-child{border-left:0}
+.bhead{cursor:default;background:var(--canvas)}
+.bhead:hover{background:var(--canvas)}
+.bhead>div{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.bhead small{font-size:.68rem;letter-spacing:0;text-transform:none;font-weight:400}
+.rname b{font-family:var(--f-display);font-size:1.02rem;font-weight:600}
+.rname .mono{font-size:.72rem;color:var(--ink-3)}
+.small{font-size:.74rem;color:var(--ink-3);line-height:1.4}
+.names{font-family:var(--f-mono);font-size:.72rem;color:var(--ink-2);overflow-wrap:anywhere;line-height:1.45}
+.geo{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.geo .model{font-size:.72rem;font-weight:600;color:var(--ink-2);min-width:7.5em}
+.lbl{display:none;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.cross{border-collapse:collapse;font-size:.76rem;width:100%}
+.cross th,.cross td{border:1px solid var(--line);padding:4px 6px;text-align:center}
+.cross th{font-weight:600;color:var(--ink-3);font-size:.7rem}
+.cross td.p{text-align:left;font-family:var(--f-mono);font-size:.72rem}
+.cross .y{color:#fff;background:var(--closed)}
+.cross .t{color:var(--accent);background:var(--accent-soft)}
+.cross .o{color:var(--partial)}
+.board{max-width:1180px;margin:0 auto 30px}
+.board>h2{font-family:var(--f-display);font-weight:600;font-size:1.3rem;margin:0 0 4px}
+.board>p{margin:0 0 10px;color:var(--ink-2);max-width:90ch;line-height:1.45}
+.sbar{display:flex;height:8px;border-radius:4px;overflow:hidden;border:1px solid var(--line);max-width:420px;margin:6px 0 12px}
+.sbar span{display:block;height:100%}
+.sgroup{margin:8px 0 16px}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:8px}
+.tcard{all:unset;box-sizing:border-box;cursor:pointer;border:1px solid var(--line);border-radius:8px;padding:9px 11px;display:flex;flex-direction:column;gap:6px;background:var(--card)}
+.tcard:hover,.tcard.sel{border-color:var(--accent);box-shadow:var(--shadow)}
+.tcard:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.tcard .meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.72rem;color:var(--ink-3)}
+.tcard b{font-weight:500;line-height:1.35;font-size:.86rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.banner{max-width:1180px;margin:0 auto 14px;border:1px solid var(--fails);border-radius:8px;padding:8px 12px;background:var(--fails-soft);color:var(--ink);font-size:.84rem}
+.banner ul{margin:4px 0 0;padding-left:1.2em}
+@media (max-width:760px){
+  main{flex-direction:column}
+  .view{flex:1 1 auto}
+  .panel{width:auto;border-left:0;border-top:1px solid var(--line);flex:0 0 46%;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .hint{display:none}
+  h1{font-size:1.15rem}
+  .search input{width:9rem}
+  .brow{grid-template-columns:1fr}
+  .brow>div{border-left:0;border-top:1px dashed var(--grid)}
+  .brow>div:first-child{border-top:0}
+  .bhead{display:none}
+  .lbl{display:block}
+  .legend{display:none!important}
+  .search label,.long{display:none}
+  header{gap:8px 10px;padding-block:8px}
+  .roadbtn{padding:5px 9px}
+}
+@media (min-width:761px){.short{display:none}}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <h1>ETT Blueprint</h1>
+  <nav class="tabs" role="tablist" aria-label="View">
+    <button role="tab" id="tab-ladder" data-go="#/ladder" aria-selected="true">Ladder<span class="n" id="n-ladder"></span></button>
+    <button role="tab" id="tab-binders" data-go="#/binders" aria-selected="false">Binders<span class="n" id="n-binders"></span></button>
+    <button role="tab" id="tab-roadmap" data-go="#/roadmap" aria-selected="false">Roadmap<span class="n" id="n-roadmap"></span></button>
+  </nav>
+  <span class="spacer"></span>
+  <div class="search">
+    <label for="q" style="font-size:.78rem;color:var(--ink-3)">Find</label>
+    <input id="q" list="ids" placeholder="property, label or target" autocomplete="off">
+    <datalist id="ids"></datalist>
+  </div>
+  <a class="roadbtn" href="../atlas/atlas.html" title="The dependency atlas of every paper (reports/atlas, kept by /atlas-team)"><span class="long">Dependency atlas</span><span class="short">Atlas</span> ↗</a>
+  <button class="roadbtn" id="theme" title="Colour theme">◐ auto</button>
+</header>
+<main>
+  <div class="view" id="v-ladder" role="tabpanel" aria-labelledby="tab-ladder">
+    <div class="stage">
+      <svg id="g" role="img" aria-label="The causality ladder: properties and implications">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="var(--edge)"></path></marker>
+          <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="var(--partial)"></path></marker>
+          <marker id="arr-hi" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="var(--edge-hi)"></path></marker>
+        </defs>
+        <g id="world"></g>
+      </svg>
+      <div class="matrix" id="matrix" hidden></div>
+      <div class="mode" role="group" aria-label="Ladder display">
+        <button id="m-graph" aria-pressed="true">Graph</button><button id="m-pairs" aria-pressed="false">Pairs</button>
+      </div>
+      <div class="hint" id="hint">Click a property or an arrow · drag to pan · scroll to zoom</div>
+      <div class="legend" id="legend"></div>
+      <div class="tools" id="ztools"><button id="zin" aria-label="Zoom in">+</button><button id="zout" aria-label="Zoom out">−</button><button id="zfit" aria-label="Fit to view">⤢</button></div>
+    </div>
+  </div>
+  <div class="view scroll" id="v-binders" role="tabpanel" aria-labelledby="tab-binders" hidden></div>
+  <div class="view scroll" id="v-roadmap" role="tabpanel" aria-labelledby="tab-roadmap" hidden></div>
+  <aside class="panel" id="panel" aria-live="polite"></aside>
+</main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.5/dagre.min.js"></script>
+<script>
+window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:true,packages:{'[+]':['noerrors','noundefined','ams']}},
+  options:{skipHtmlTags:["script","style","pre","code"]},svg:{fontCache:"local"},startup:{typeset:false}};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg-full.js" async></script>
+<script>
+const DATA = __DATA__;
+const LAD = DATA.ladder, ROAD = DATA.road, BINDERS = DATA.binders, LAYERS = DATA.layers;
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const plural = (n, one, many) => n + " " + (n === 1 ? one : (many || one + "s"));
+const short = n => { const i = n.lastIndexOf("."); return i < 0 ? n : n.slice(i + 1); };
+const enc = encodeURIComponent;
+const LAYER = {}; LAYERS.forEach(l => LAYER[l.n] = l);
+const layerName = n => LAYER[n] ? `Layer ${n} · ${LAYER[n].title}` : `Layer ${n}`;
+const PROP = {}; LAD.props.forEach(p => PROP[p.id] = p);
+const TGT = {}; ROAD.targets.forEach(t => TGT[t.id] = t);
+const BIND = {}; BINDERS.forEach(b => BIND[b.slug] = b);
+const ST_ORDER = ["active","ready","needs-ruling","blocked","planned","done","dropped"].filter(s => ROAD.statuses.includes(s)).concat(ROAD.statuses.filter(s => !["active","ready","needs-ruling","blocked","planned","done","dropped"].includes(s)));
+const ST_LABEL = {planned:"planned",ready:"ready",active:"in progress","needs-ruling":"needs a ruling",blocked:"blocked",done:"done",dropped:"dropped"};
+const ST_COLOR = {active:"var(--accent)",ready:"var(--accent-soft)","needs-ruling":"var(--partial)",blocked:"var(--fails)",planned:"var(--grid)",done:"var(--closed)",dropped:"var(--terminal)"};
+const pair = (a, b) => LAD.pairs[a + "|" + b];
+const IMPL = new Set(["implied","implied-c"]), FAIL = new Set(["fails","fails-c"]);
+const CLS_TEXT = {"implied":"implied","implied-c":"implied only through an edge with a side condition","fails":"refuted by a counterexample",
+  "fails-c":"refuted only through an edge with a side condition","open":"open: recorded as neither proved nor refuted","unknown":"unclassified",
+  "cross":"not a statement: the two properties are of different sorts"};
+const CLS_SYM = {"implied":"⇒","implied-c":"⇒","fails":"⇏","fails-c":"⇏","open":"?","unknown":"","cross":"×"};
+const SORTS = LAD.sorts || [], sortOf = id => PROP[id] ? PROP[id].sort : "";
+
+function propBtn(id, cls){ return PROP[id] ? `<button class="pl ${cls||""}" data-go="#/ladder/p/${enc(id)}">${esc(id)}</button>` : `<span class="pl ghost" title="not a property of programme/ladder.toml">${esc(id)}</span>`; }
+function tgtChip(id, compact){ const t = TGT[id]; if (!t) return `<span class="chip missing" title="not a target of programme/roadmap.toml">${esc(id)}</span>`;
+  const st = esc(ST_LABEL[t.status] || t.status);
+  return compact ? `<button class="chip target cmp" data-go="#/roadmap/${enc(id)}" title="${esc(id)} (${st}): ${esc(t.title)}"><i class="dot s-${esc(t.status)}"></i>${esc(id)}</button>`
+    : `<button class="chip target" data-go="#/roadmap/${enc(id)}" title="${esc(t.title)}"><i class="dot s-${esc(t.status)}"></i>${esc(id)} · ${st}</button>`; }
+function leanLine(name, loc, how){ return `<span class="mono">${esc(name)}</span>${loc ? `<span class="loc">${esc(loc)}${how && how !== "exact" ? " · resolved by " + esc(how) : ""}</span>` : `<span class="loc">location not found by the page's scan</span>`}`; }
+function statusChip(s){ return `<span class="chip ${s === "checked" ? "closed" : "seed"}">${esc(s)}</span>`; }
+function extrasHTML(x){ const k = Object.keys(x || {}); return k.length ? `<div class="prov">${k.map(kk => `<div><span class="mono">${esc(kk)}</span>: ${esc(typeof x[kk] === "string" ? x[kk] : JSON.stringify(x[kk]))}</div>`).join("")}</div>` : ""; }
+function texHTML(t){
+  const body = String(t).replace(/^\\begin\{[a-zA-Z*0-9]+\}(\[[^\]]*\])?/,"").replace(/\\end\{[a-zA-Z*0-9]+\}\s*$/,"")
+    .replace(/\\(begin|end)\{(itemize|enumerate)\}(\[[^\]]*\])?/g,"").replace(/\\item\s*(\[[^\]]*\])?/g,"\n• ").replace(/\\(emph|textit|textbf|it|bf)\{([^{}]*)\}/g,"$2").replace(/\{\\(it|bf|em)\s+([^{}]*)\}/g,"$2")
+    .replace(/~?\\(cite|ref|eqref|cref|Cref)(\[[^\]]*\])?\{[^}]*\}/g," [·]").trim();
+  return `<div class="mj">${esc(body).replace(/\n\s*\n/g,"<br><br>")}</div>`;
+}
+let mjKey = null;
+function typeset(el, macros, key){
+  if (!el) return;
+  const MJ = window.MathJax; if (!MJ || !MJ.typesetPromise){ setTimeout(() => typeset(el, macros, key), 300); return; }
+  try {
+    if (mjKey !== key){ MJ.config.tex.macros = Object.assign({}, macros || {}); MJ.startup.getComponents(); mjKey = key; }
+    MJ.typesetClear && MJ.typesetClear([el]); MJ.typesetPromise([el]).catch(() => {});
+  } catch (e) {}
+}
+const P = $("#panel");
+function panel(html){ P.innerHTML = html; P.scrollTop = 0; }
+
+/* ---------- theme ---------- */
+const THEMES = ["auto","dark","light"]; let theme = "auto";
+try { theme = localStorage.getItem("blueprint-theme") || "auto"; } catch (e) {}
+function applyTheme(){ if (theme === "auto") delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = theme;
+  $("#theme").textContent = "◐ " + theme; $("#theme").title = "Colour theme: " + theme + " (click to change)"; }
+$("#theme").onclick = () => { theme = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length]; try { localStorage.setItem("blueprint-theme", theme); } catch (e) {} applyTheme(); };
+applyTheme();
+
+/* =====================================================================================
+   1. The ladder
+   ===================================================================================== */
+const S = LAD.summary;
+const nChecked = LAD.implies.filter(e => e.status === "checked").length, nCond = LAD.implies.filter(e => e.cond).length;
+function consAt(id){ return LAD.cons.map((c,i) => ({...c,i})).filter(c => c.at === id); }
+function implStr(e){ return `${e.from.map(esc).join(" ∧ ")} ⇒ ${esc(e.to)}`; }
+function edgeLi(i){
+  const e = LAD.implies[i];
+  return `<li class="${e.cond ? "c" : "ok"}"><button class="pl ${e.cond?"c":""}" data-go="#/ladder/edge/${i}" style="white-space:normal">${implStr(e)}</button>
+    ${leanLine(e.witness, e.loc)}<div class="chips" style="margin-top:4px">${statusChip(e.status)}${e.cond ? `<span class="chip cond">under a side condition</span>` : ""}${emitChip(e)}</div>
+    ${e.under ? `<div class="warn" style="margin-top:4px"><b>under</b> ${esc(e.under)}</div>` : ""}</li>`;
+}
+function emitChip(e){ if (!e.emit) return "";
+  return e.emit.rule ? `<span class="chip" title="tools/ladder.py emit-lean makes it a rule of causal_ladder (witness in ${esc(e.emit.module)})">causal_ladder rule</span>`
+    : `<span class="chip none" title="emit-lean skips it: ${esc(e.emit.why)}">not a rule</span>`; }
+function derivationHTML(d){ return d && d.length ? `<ul class="wit">${d.map(edgeLi).join("")}</ul>` : `<p>The two properties coincide.</p>`; }
+function consLi(c, via){
+  return `<li class="${c.status === "checked" ? "ok" : ""}${via && via.c ? " c" : ""}"><span style="color:var(--ink)">${esc(c.statement)}</span>${leanLine(c.witness, c.loc)}
+    <div class="chips" style="margin-top:4px">${statusChip(c.status)}${via ? `<span class="chip ${via.c ? "cond" : ""}">at ${esc(c.at)}${via.c ? ", reached through a side condition" : ""}</span>` : ""}</div>
+    ${c.under ? `<div class="warn" style="margin-top:4px"><b>under</b> ${esc(c.under)}</div>` : ""}${extrasHTML(c.extra)}</li>`;
+}
+
+/* graph */
+const svg = d3.select("#g"), world = d3.select("#world");
+const zoom = d3.zoom().scaleExtent([0.15, 3]).on("zoom", e => world.attr("transform", e.transform));
+svg.call(zoom).on("dblclick.zoom", null);
+let bbox = {x:0,y:0,w:100,h:100}, NODEPOS = {}, drawn = false, selProp = null;
+function fitTransform(pad = 36){
+  const W = svg.node().clientWidth || 800, H = svg.node().clientHeight || 600;
+  const k = Math.min(1.25, (W - 2*pad) / bbox.w, (H - 2*pad - 40) / bbox.h);
+  return d3.zoomIdentity.translate(W/2 - k*(bbox.x + bbox.w/2), H/2 + 10 - k*(bbox.y + bbox.h/2)).scale(k);
+}
+function fit(){ svg.call(zoom.transform, fitTransform()); }
+/* When the whole ladder would be drawn too small to read (a phone), centre the selected property instead. */
+function view(){
+  const t = fitTransform(), p = selProp && NODEPOS[selProp];
+  if (t.k >= 0.45 || !p){ svg.call(zoom.transform, t); return; }
+  const W = svg.node().clientWidth, H = svg.node().clientHeight, k = 0.7;
+  svg.call(zoom.transform, d3.zoomIdentity.translate(W/2 - k*p.x, H/2 - k*p.y).scale(k));
+}
+let lastSize = "";
+new ResizeObserver(() => requestAnimationFrame(() => { const n = svg.node(), sz = n.clientWidth + "x" + n.clientHeight;
+  if (sz !== lastSize && drawn && !$("#v-ladder").hidden && mode === "graph" && n.clientWidth){ lastSize = sz; view(); } })).observe(svg.node());
+$("#zin").onclick = () => svg.transition().duration(200).call(zoom.scaleBy, 1.3);
+$("#zout").onclick = () => svg.transition().duration(200).call(zoom.scaleBy, 1/1.3);
+$("#zfit").onclick = () => fit();
+
+
+function ladderGraph(){
+  const nodes = LAD.props.map(p => ({id:p.id, kind:"prop", w:214, h:64, p}));
+  const edges = [];
+  LAD.implies.forEach((e, i) => {
+    if (!PROP[e.to] || e.from.some(x => !PROP[x])) return;
+    if (e.from.length === 1) edges.push({v:e.from[0], w:e.to, i, arrow:true, label:e.cond ? "under" : ""});
+    else { const j = "∧" + i; nodes.push({id:j, kind:"junction", w:20, h:20, i});
+      e.from.forEach(x => edges.push({v:x, w:j, i, arrow:false}));
+      edges.push({v:j, w:e.to, i, arrow:true, label:e.cond ? "under" : ""}); }
+  });
+  return {nodes, edges};
+}
+function components(nodes, edges){
+  const par = {}; nodes.forEach(n => par[n.id] = n.id);
+  const f = x => par[x] === x ? x : (par[x] = f(par[x]));
+  edges.forEach(e => { par[f(e.v)] = f(e.w); });
+  const groups = {}; nodes.forEach(n => (groups[f(n.id)] ??= []).push(n)); return Object.values(groups);
+}
+/* Each connected component laid out by dagre, then shelf-packed (the atlas's layout). */
+function layout(G){
+  const parts = components(G.nodes, G.edges).map(ns => {
+    const ids = new Set(ns.map(n => n.id)), es = G.edges.filter(e => ids.has(e.v));
+    const g = new dagre.graphlib.Graph({multigraph:true});
+    g.setGraph({rankdir:"TB", nodesep:30, ranksep:58, marginx:0, marginy:0}); g.setDefaultEdgeLabel(() => ({}));
+    ns.forEach(n => g.setNode(n.id, {width:n.w, height:n.h}));
+    es.forEach((e, k) => g.setEdge(e.v, e.w, {label:e.label, width:e.label ? 40 : 0, height:e.label ? 14 : 0, labelpos:"c"}, "e" + G.edges.indexOf(e)));
+    dagre.layout(g); const gi = g.graph(); return {ns, g, w:gi.width || 0, h:gi.height || 0};
+  }).sort((a, b) => b.ns.length - a.ns.length || b.h - a.h);
+  const area = parts.reduce((a, p) => a + p.w*p.h, 0), maxW = Math.max(...parts.map(p => p.w), Math.sqrt(area)*1.6);
+  let x = 0, y = 0, rowH = 0, W = 0; const out = {nodes:{}, edges:[]};
+  parts.forEach(p => {
+    if (x > 0 && x + p.w > maxW){ x = 0; y += rowH + 50; rowH = 0; }
+    p.ns.forEach(n => { const q = p.g.node(n.id); out.nodes[n.id] = {x:q.x + x, y:q.y + y}; });
+    p.g.edges().forEach(eo => { const e = p.g.edge(eo); out.edges.push({src:G.edges[+eo.name.slice(1)], points:e.points.map(pt => ({x:pt.x + x, y:pt.y + y})), lx:e.x != null ? e.x + x : null, ly:e.y != null ? e.y + y : null}); });
+    x += p.w + 60; rowH = Math.max(rowH, p.h); W = Math.max(W, x - 60);
+  });
+  out.width = W; out.height = y + rowH; return out;
+}
+/* One frame per sort of property (programme/ladder.toml's `sort`), when there is more than one and no
+   implication joins two sorts; otherwise one block. */
+function layoutSorts(G){
+  const sortN = n => n.kind === "junction" ? sortOf(LAD.implies[n.i].to) : sortOf(n.id);
+  const crossing = G.edges.some(e => { const a = G.nodes.find(n => n.id === e.v), b = G.nodes.find(n => n.id === e.w); return sortN(a) !== sortN(b); });
+  if (SORTS.length < 2 || crossing){ const L = layout(G); L.clusters = []; return L; }
+  const pad = 26, top = 34, blocks = SORTS.map(s => { const ns = G.nodes.filter(n => sortN(n) === s), ids = new Set(ns.map(n => n.id));
+    const L = layout({nodes:ns, edges:G.edges.filter(e => ids.has(e.v) && ids.has(e.w))}); return {s, L, w:L.width + 2*pad, h:L.height + pad + top}; });
+  const area = blocks.reduce((a, b) => a + b.w*b.h, 0), maxW = Math.max(...blocks.map(b => b.w), Math.sqrt(area)*1.5);
+  let x = 0, y = 0, rowH = 0, W = 0; const out = {nodes:{}, edges:[], clusters:[]};
+  blocks.forEach(b => { if (x > 0 && x + b.w > maxW){ x = 0; y += rowH + 40; rowH = 0; }
+    const ox = x + pad, oy = y + top;
+    for (const [id, q] of Object.entries(b.L.nodes)) out.nodes[id] = {x:q.x + ox, y:q.y + oy};
+    b.L.edges.forEach(E => out.edges.push({...E, points:E.points.map(p => ({x:p.x + ox, y:p.y + oy})), lx:E.lx != null ? E.lx + ox : null, ly:E.ly != null ? E.ly + oy : null}));
+    out.clusters.push({title:"sort: " + b.s, x, y, w:b.w, h:b.h}); x += b.w + 40; rowH = Math.max(rowH, b.h); W = Math.max(W, x - 40); });
+  out.width = W; out.height = y + rowH; return out;
+}
+function drawLadder(){
+  world.selectAll("*").remove();
+  const G = ladderGraph(), L = layoutSorts(G); NODEPOS = L.nodes;
+  L.clusters.forEach(c => { const cg = world.append("g").attr("class", "cluster");
+    cg.append("rect").attr("x", c.x).attr("y", c.y).attr("width", c.w).attr("height", c.h).attr("rx", 14);
+    cg.append("text").attr("x", c.x + 16).attr("y", c.y + 22).text(c.title); });
+  bbox = {x:-20, y:-20, w:L.width + 40, h:L.height + 40};
+  const line = d3.line().x(p => p.x).y(p => p.y).curve(d3.curveBasis), eg = world.append("g");
+  L.edges.forEach(E => { const s = E.src, e = LAD.implies[s.i], dd = line(E.points);
+    const el = eg.append("g").attr("class", "edge" + (e.status !== "checked" ? " seed" : "") + (e.cond ? " c" : "")).attr("data-i", s.i).attr("data-v", s.v).attr("data-w", s.w);
+    el.append("path").attr("class", "hit").attr("d", dd);
+    el.append("path").attr("class", "vis").attr("d", dd).attr("marker-end", s.arrow ? `url(#${e.cond ? "arr-c" : "arr"})` : null);
+    if (s.label && E.lx != null) el.append("text").attr("x", E.lx).attr("y", E.ly + 4).attr("text-anchor", "middle").text(s.label);
+    el.append("title").text(`${e.from.join(" ∧ ")} ⇒ ${e.to}\n${e.witness} (${e.status})${e.under ? "\nunder: " + e.under : ""}\n(click for the edge)`);
+    el.on("click", ev => { ev.stopPropagation(); nav("#/ladder/edge/" + s.i); });
+  });
+  const ng = world.append("g");
+  G.nodes.forEach(N => { const p = L.nodes[N.id]; if (!p) return;
+    if (N.kind === "junction"){ const e = LAD.implies[N.i];
+      const el = ng.append("g").attr("class", "junction" + (e.cond ? " c" : "")).attr("transform", `translate(${p.x},${p.y})`).attr("data-i", N.i);
+      el.append("circle").attr("r", 10); el.append("text").attr("text-anchor", "middle").attr("y", 4).text("∧");
+      el.append("title").text(`${e.from.join(" ∧ ")} ⇒ ${e.to}: the premises are read together (click for the edge)`);
+      el.on("click", ev => { ev.stopPropagation(); nav("#/ladder/edge/" + N.i); }); return; }
+    const pr = N.p, nc = consAt(pr.id).length;
+    const el = ng.append("g").attr("class", "node").attr("data-id", N.id).attr("transform", `translate(${p.x - N.w/2},${p.y - N.h/2})`)
+      .attr("tabindex", 0).attr("role", "button").attr("aria-label", `${pr.id}, ${plural(nc, "consequence")}`);
+    el.append("rect").attr("class", "box").attr("width", N.w).attr("height", N.h).attr("rx", 8).style("filter", "drop-shadow(0 2px 5px rgba(20,30,45,.08))");
+    el.append("text").attr("class", "t-mono").attr("x", 12).attr("y", 22).attr("font-size", 12.5).attr("font-weight", 500).text(pr.id.length > 26 ? pr.id.slice(0, 25) + "…" : pr.id);
+    el.append("text").attr("class", "t-mono t-dim").attr("x", 12).attr("y", 39).attr("font-size", 10.5).text(short(pr.lean || ""));
+    el.append("text").attr("class", "t-dim").attr("x", 12).attr("y", 55).attr("font-size", 10.5).text(nc ? plural(nc, "consequence") : "no consequence recorded");
+    el.append("title").text(pr.what);
+    const go = ev => { ev.stopPropagation(); nav("#/ladder/p/" + enc(pr.id)); };
+    el.on("click", go).on("keydown", ev => { if (ev.key === "Enter" || ev.key === " "){ ev.preventDefault(); go(ev); } });
+  });
+  svg.on("click", () => nav("#/ladder"));
+  drawn = true; markLadder(); view();
+}
+function markLadder(){
+  const P0 = selProp;
+  world.selectAll(".node").each(function(){
+    const id = this.getAttribute("data-id"), el = d3.select(this);
+    let cls = "node";
+    if (P0){
+      if (id === P0) cls += " sel";
+      else { const dn = pair(P0, id), up = pair(id, P0);
+        if (dn && IMPL.has(dn.c)) cls += " down" + (dn.c === "implied-c" ? " c" : "");
+        else if (up && IMPL.has(up.c)) cls += " up" + (up.c === "implied-c" ? " c" : "");
+        else if ((dn && FAIL.has(dn.c)) || (up && FAIL.has(up.c))) cls += " no";
+        else cls += " dim"; }
+    }
+    el.attr("class", cls);
+  });
+  world.selectAll(".edge").each(function(){ const e = LAD.implies[+this.getAttribute("data-i")], el = d3.select(this);
+    const i = +this.getAttribute("data-i");
+    const on = selEdge != null ? i === selEdge : selPair ? selPair.has(i) : !!P0 && (e.to === P0 || e.from.includes(P0));
+    el.classed("hi", on).classed("dim", (P0 != null || selEdge != null) && !on);
+    el.select("path.vis").attr("marker-end", function(){ return this.getAttribute("marker-end") ? `url(#${on && !e.cond ? "arr-hi" : e.cond ? "arr-c" : "arr"})` : null; });
+  });
+}
+let selEdge = null, selPair = null;   // an implication, or the edges of a pair's derivation
+function ladderLegend(){
+  const sw = (cls, dash, col) => `<svg width="26" height="8" aria-hidden="true"><path d="M1,4H25" stroke="${col}" stroke-width="1.8" ${dash ? 'stroke-dasharray="6 4"' : ""}></path></svg>`;
+  $("#legend").innerHTML = `<span>${sw("", false, "var(--edge)")}checked</span><span>${sw("", true, "var(--edge)")}seed</span>
+    <span>${sw("", false, "var(--partial)")}carries <span class="mono" style="font-size:.72rem">under</span></span><span>∧ premises read together</span>
+    <span>arrow: implies</span>${selProp ? `<span><i style="border-color:var(--closed);background:var(--closed-soft)"></i>implied by it</span><span><i style="border-color:var(--accent);background:var(--accent-soft)"></i>implies it</span><span><i style="border-color:var(--partial);border-style:dashed;background:var(--partial-soft)"></i>only through <span class="mono" style="font-size:.72rem">under</span></span><span><i style="border-color:var(--fails);background:var(--fails-soft)"></i>refuted</span>` : ""}`;
+}
+
+/* matrix */
+let mode = "graph";
+function drawMatrix(){
+  const ids = LAD.props.map(p => p.id);
+  if (!S){ $("#matrix").innerHTML = `<p class="err" style="max-width:640px;margin:0 auto">The pairs could not be classified: see the checker's violations in the panel.</p>`; return; }
+  const cell = (a, b) => { if (a === b) return `<td><button class="m-diag" disabled aria-label="${esc(a)}">·</button></td>`;
+    const v = pair(a, b); return `<td><button class="m-${v.c}" data-go="#/ladder/pair/${enc(a)}/${enc(b)}" title="${esc(a)} ⇒ ${esc(b)}: ${esc(CLS_TEXT[v.c])}">${CLS_SYM[v.c]}</button></td>`; };
+  const cnt = k => S[k.replace("-", "_")];
+  const table = sub => `<table aria-label="Ordered pairs of properties: row implies column?"><thead><tr><th class="row" style="vertical-align:bottom;font-family:var(--f-body);color:var(--ink-3);font-size:.7rem">row ⇒ column</th>${sub.map(b => `<th class="col"><div><button data-go="#/ladder/p/${enc(b)}">${esc(b)}</button></div></th>`).join("")}</tr></thead>
+    <tbody>${sub.map(a => `<tr><th class="row"><button data-go="#/ladder/p/${enc(a)}">${esc(a)}</button></th>${sub.map(b => cell(a, b)).join("")}</tr>`).join("")}</tbody></table>`;
+  const groups = SORTS.length > 1 ? SORTS.map(s => [s, ids.filter(i => sortOf(i) === s)]) : [[null, ids]];
+  $("#matrix").innerHTML = groups.map(([s, sub]) => (s ? `<h3>sort: ${esc(s)} · ${plural(sub.length, "property", "properties")}</h3>` : "") + table(sub)).join("")
+    + `<div class="mkey">${["implied","implied-c","fails","fails-c","open","unknown"].map(k => `<span><b class="m-${k}">${CLS_SYM[k]}</b>${esc(CLS_TEXT[k])} (${cnt(k)})</span>`).join("")}</div>`
+    + (S.cross ? `<p class="mkey">${S.cross} ordered pairs join two sorts and are not drawn: <span class="mono">tools/ladder.py matrix</span> lists them as unknown.</p>` : "");
+}
+function setMode(m){
+  mode = m; $("#m-graph").setAttribute("aria-pressed", m === "graph"); $("#m-pairs").setAttribute("aria-pressed", m === "pairs");
+  $("#matrix").hidden = m !== "pairs"; $("#ztools").hidden = m !== "graph"; $("#legend").hidden = m !== "graph"; $("#hint").hidden = m !== "graph";
+  if (m === "pairs" && !$("#matrix").innerHTML) drawMatrix();
+  if (m === "graph" && drawn) view();
+}
+$("#m-graph").onclick = () => setMode("graph"); $("#m-pairs").onclick = () => setMode("pairs");
+
+/* ladder panels */
+function provHTML(){
+  return `<details><summary>Inputs of this build</summary><div class="prov" style="margin-top:6px">${DATA.prov.inputs.map(x => `<div><span class="mono">${esc(x.path)}</span> · sha256 ${esc(x.sha256.slice(0, 12))}</div>`).join("")}
+    <div style="margin-top:4px">Lean names located by scanning <span class="mono">lean-causal/Causal/**/*.lean</span> (${DATA.prov.leanDecls.toLocaleString("en-US")} declarations); the ledgers were built at lean-causal ${Object.entries(DATA.prov.leanCommit).map(([s, c]) => `${esc(s)} <span class="mono">${esc(c)}</span>`).join(", ")}.</div></div></details>`;
+}
+function ladderOverview(){
+  panel(`<div><h3>The causality ladder</h3><h2>Properties, the implications between them, and what holds at each level</h2></div>
+    <p>Read from <span class="mono">programme/ladder.toml</span> through <span class="mono">tools/ladder.py</span>. An arrow is an implication with a Lean witness: solid when the ladder-keeper has read its side conditions against the witness (<i>checked</i>), dashed while it is a <i>seed</i>. An arrow drawn in amber carries <span class="mono">under</span>, a side condition that is not a ladder node; <span class="mono">tools/ladder.py</span>'s closure chains such an edge as if it were unconditional, so this page lists apart the pairs it alone decides.</p>
+    <div class="stat"><div><b>${LAD.props.length}</b><span>properties</span></div><div><b>${nChecked}/${LAD.implies.length}</b><span>implications checked</span></div><div><b>${LAD.cons.length}</b><span>consequences</span></div>
+      <div><b>${S ? S.classified + "/" + S.pairs : "—"}</b><span>ordered pairs classified${S && S.cross ? `; ${S.classified}/${S.within} within one sort` : ""}</span></div><div><b>${S ? S.implied_c + S.fails_c : "—"}</b><span>of them only through <span class="mono">under</span></span></div><div><b>${LAD.fails.length}</b><span>counterexamples</span></div></div>
+    ${S ? `<div class="chips"><span class="chip closed">implied ${S.implied}</span><span class="chip cond">implied through <span class="mono">under</span> ${S.implied_c}</span><span class="chip fails">refuted ${S.fails}</span>${S.fails_c ? `<span class="chip cond">refuted through <span class="mono">under</span> ${S.fails_c}</span>` : ""}<span class="chip open">open ${S.open}</span><span class="chip none">unclassified ${S.unknown}</span>${S.cross ? `<span class="chip none">across two sorts ${S.cross}</span>` : ""}</div>` : ""}
+    ${SORTS.length > 1 ? `<p>The properties come in ${SORTS.length} sorts (the field <span class="mono">${esc(LAD.sortKey)}</span>; without it, ${esc(LAD.defaultSort)}): ${SORTS.map(x => `${esc(x)} ${LAD.props.filter(p => p.sort === x).length}`).join(", ")}. Each is drawn in its own frame and has its own matrix; a pair joining two sorts is not a statement, and <span class="mono">tools/ladder.py matrix</span> lists it as unknown.</p>` : ""}
+    <div><h3>tools/ladder.py check, as this build ran it</h3><p class="mono">ladder: ${esc(LAD.line)}</p>${LAD.errors.map(e => `<p class="err">${esc(e)}</p>`).join("")}</div>
+    <p>${plural(nCond, "implication carries", "implications carry")} <span class="mono">under</span>.${LAD.emitKnown ? ` <span class="mono">tools/ladder.py emit-lean</span> makes ${LAD.implies.filter(e => e.emit && e.emit.rule).length} of the ${LAD.implies.length} implications rules of the <span class="mono">causal_ladder</span> tactic.` : ""}${LAD.emitNote ? ` <span class="err">${esc(LAD.emitNote)}</span>` : ""} Select a property for its implications and their witnesses, the pairs it refutes or leaves open, and the consequences valid from it on; select an arrow for its witness; <b>Pairs</b> shows every ordered pair.</p>
+    <div><h3>Properties</h3><div class="linklist">${LAD.props.map(p => propBtn(p.id)).join("")}</div></div>
+    ${provHTML()}`);
+}
+function showProp(id){
+  const p = PROP[id]; if (!p){ ladderOverview(); return; }
+  const ids = LAD.props.map(x => x.id).filter(x => x !== id);
+  const out = LAD.implies.map((e, i) => i).filter(i => LAD.implies[i].from.includes(id));
+  const inn = LAD.implies.map((e, i) => i).filter(i => LAD.implies[i].to === id);
+  const down = ids.filter(b => pair(id, b) && IMPL.has(pair(id, b).c)), up = ids.filter(a => pair(a, id) && IMPL.has(pair(a, id).c));
+  const nod = ids.filter(b => pair(id, b) && FAIL.has(pair(id, b).c)), noup = ids.filter(a => pair(a, id) && FAIL.has(pair(a, id).c));
+  const opens = LAD.open.map((o, i) => ({...o, i})).filter(o => o.from === id || o.to === id);
+  const unk = ids.filter(b => pair(id, b) && pair(id, b).c === "unknown"), unkIn = ids.filter(a => pair(a, id) && pair(a, id).c === "unknown");
+  const pb = (a, b) => { const v = pair(a, b); return `<button class="pl ${v.c.endsWith("-c") ? "c" : ""} ${FAIL.has(v.c) ? "f" : ""}" data-go="#/ladder/pair/${enc(a)}/${enc(b)}" title="${esc(CLS_TEXT[v.c])}">${esc(a === id ? b : a)}</button>`; };
+  const direct = consAt(id), inherited = down.flatMap(b => consAt(b).map(c => ({c, via:{c:pair(id, b).c === "implied-c"}})));
+  const uses = [];
+  BINDERS.forEach(B => B.rows.forEach(r => { const w = [];
+    if (r.loc.includes(id)) w.push("needs it"); if (r.open.includes(id)) w.push("lists it as open");
+    const ms = r.geo.filter(g => g.proves.includes(id)).map(g => g.model); if (ms.length) w.push("proved for " + ms.join(", "));
+    if (w.length) uses.push({B, r, w}); }));
+  const tg = ROAD.targets.filter(t => (t.uses || []).includes(id) || (t.provides || []).includes(id));
+  const e = p.ett;
+  const cross = ids.filter(b => pair(id, b) && pair(id, b).c === "cross").length;
+  panel(`<div><h3>Ladder property${SORTS.length > 1 ? " · sort " + esc(p.sort) : ""}</h3><h2 class="mono">${esc(p.id)}</h2></div>
+    <p style="color:var(--ink)">${esc(p.what)}</p>
+    <div>${leanLine(p.lean, p.leanloc)}</div>
+    ${p.label ? `<div><h3>In ETT</h3>${e ? `<div class="chips"><span class="chip">${esc(e.kind)}${e.number ? " " + esc(e.number) : ""}${e.title ? " · " + esc(e.title) : ""}</span><span class="chip">${esc(e.file)}:${e.line}</span>${e.lean ? `<span class="chip ${e.lean === "closed" ? "closed" : ""}">ledger: ${esc(e.lean)}</span>` : ""}<span class="mono">${esc(p.label)}</span></div>${e.tex ? `<div class="tex" id="tex" style="margin-top:8px">${texHTML(e.tex)}</div>` : ""}` : `<p class="warn"><span class="mono">${esc(p.label)}</span> is not a row of <span class="mono">papers/ett/ledger/ledger.json</span>.</p>`}</div>` : ""}
+    ${extrasHTML(p.extra)}
+    ${out.length ? `<div><h3>Implies directly (${out.length})</h3><ul class="wit">${out.map(edgeLi).join("")}</ul></div>` : ""}
+    ${inn.length ? `<div><h3>Implied directly by (${inn.length})</h3><ul class="wit">${inn.map(edgeLi).join("")}</ul></div>` : ""}
+    <div><h3>In the closure</h3>
+      <p style="margin-bottom:6px">${id} implies ${plural(down.length, "property", "properties")}${down.filter(b => pair(id,b).c === "implied-c").length ? `, ${down.filter(b => pair(id,b).c === "implied-c").length} of them only through <span class="mono">under</span> (dashed)` : ""}${down.length ? ":" : "."}</p>
+      ${down.length ? `<div class="linklist">${down.map(b => pb(id, b)).join("")}</div>` : ""}
+      <p style="margin:8px 0 6px">${plural(up.length, "property implies", "properties imply")} it${up.length ? ":" : "."}</p>
+      ${up.length ? `<div class="linklist">${up.map(a => pb(a, id)).join("")}</div>` : ""}</div>
+    <div><h3>Non-implications</h3>${nod.length || noup.length ? `${nod.length ? `<p style="margin-bottom:6px">${id} does not imply:</p><div class="linklist">${nod.map(b => pb(id, b)).join("")}</div>` : ""}${noup.length ? `<p style="margin:8px 0 6px">Not implied by:</p><div class="linklist">${noup.map(a => pb(a, id)).join("")}</div>` : ""}` : `<p>No counterexample of the ladder involves ${esc(id)}.</p>`}</div>
+    <div><h3>Open pairs</h3>${opens.length ? `<ul class="wit">${opens.map(o => `<li class="c"><button class="pl" data-go="#/ladder/pair/${enc(o.from)}/${enc(o.to)}">${esc(o.from)} ⇒ ${esc(o.to)} ?</button><p style="margin-top:4px">${esc(o.note)}</p></li>`).join("")}</ul>` : `<p>The ladder records no open pair with ${esc(id)}.</p>`}
+      ${unk.length || unkIn.length ? `<details style="margin-top:8px"><summary>Unclassified within its sort: ${plural(unk.length, "pair")} from it, ${plural(unkIn.length, "pair")} to it</summary><div class="linklist" style="margin-top:6px">${unk.map(b => pb(id, b)).join("")}</div>${unkIn.length ? `<p style="margin:6px 0">to it:</p><div class="linklist">${unkIn.map(a => pb(a, id)).join("")}</div>` : ""}</details>` : ""}
+      ${cross ? `<p class="prov" style="margin-top:6px">With each of the ${cross} properties of another sort, neither implication is a statement.</p>` : ""}</div>
+    <div><h3>Consequences at this level (${direct.length})</h3>${direct.length ? `<ul class="wit">${direct.map(c => consLi(c)).join("")}</ul>` : `<p>The ladder records no consequence at ${esc(id)}.</p>`}</div>
+    ${inherited.length ? `<div><h3>Consequences inherited through the closure (${inherited.length})</h3><ul class="wit">${inherited.map(x => consLi(x.c, x.via)).join("")}</ul></div>` : ""}
+    ${uses.length ? `<div><h3>In the binders (${uses.length})</h3><ul class="wit">${uses.map(u => `<li><button class="pl" data-go="#/binders/${enc(u.B.slug)}/${enc(u.r.label)}">${esc(u.B.slug)} · ${esc(u.r.ref || u.r.label)}</button><span class="loc">${esc(u.w.join("; "))}</span></li>`).join("")}</ul></div>` : ""}
+    ${tg.length ? `<div><h3>On the roadmap (${tg.length})</h3><div class="linklist">${tg.map(t => tgtChip(t.id)).join("")}</div></div>` : ""}`);
+  typeset($("#tex"), DATA.ettMacros, "ett");
+}
+function showPair(a, b){
+  const v = pair(a, b); if (!v){ ladderOverview(); return; }
+  let body = "";
+  if (IMPL.has(v.c)) body = `<div><h3>Derivation (${plural(v.d.length, "edge")})</h3><p style="margin-bottom:8px">Forward chaining from ${esc(a)} along the implications${v.c === "implied-c" ? "; no chain avoids an edge with <span class=\"mono\">under</span>, so the pair holds only under those side conditions" : ""}.</p>${derivationHTML(v.d)}</div>`;
+  else if (FAIL.has(v.c)){ const f = LAD.fails[v.f];
+    body = `<div><h3>Counterexample</h3><ul class="wit"><li class="f"><span style="color:var(--ink)">a space with ${esc(f.from)} and without ${esc(f.to)}</span>${leanLine(f.witness, f.loc)}<div class="chips" style="margin-top:4px">${statusChip(f.status)}</div>${f.under ? `<div class="warn"><b>under</b> ${esc(f.under)}</div>` : ""}</li></ul></div>
+      ${f.from !== a ? `<div><h3>It has ${esc(a)}</h3><p style="margin-bottom:6px">${esc(f.from)} implies ${esc(a)}:</p>${derivationHTML(v.da)}</div>` : ""}
+      ${f.to !== b ? `<div><h3>So it lacks ${esc(b)}</h3><p style="margin-bottom:6px">${esc(b)} implies ${esc(f.to)}:</p>${derivationHTML(v.db)}</div>` : ""}`; }
+  else if (v.c === "open"){ const o = LAD.open[v.o]; body = `<div><h3>Recorded open</h3><p>${esc(o.note)}</p>${extrasHTML(o.extra)}</div>`; }
+  else if (v.c === "cross") body = `<p>${esc(a)} is of sort ${esc(sortOf(a))} and ${esc(b)} of sort ${esc(sortOf(b))}: the ladder compares properties within one sort. <span class="mono">tools/ladder.py matrix</span> lists the pair as unknown.</p>`;
+  else body = `<p>No implication chain, counterexample or <span class="mono">[[open]]</span> entry of <span class="mono">programme/ladder.toml</span> decides this pair.</p>`;
+  const rev = pair(b, a);
+  panel(`<div><h3>Ordered pair</h3><h2 class="mono">${esc(a)} ${CLS_SYM[v.c] || "⇒?"} ${esc(b)}</h2></div>
+    <div class="chips"><span class="chip ${v.c === "implied" ? "closed" : FAIL.has(v.c) ? "fails" : v.c.endsWith("-c") ? "cond" : v.c === "open" ? "open" : "none"}">${esc(CLS_TEXT[v.c])}</span></div>
+    ${body}
+    <div><h3>The two properties</h3><div class="linklist">${propBtn(a)}${propBtn(b)}</div>${rev ? `<p style="margin-top:8px">Converse: <button class="pl" data-go="#/ladder/pair/${enc(b)}/${enc(a)}">${esc(b)} ⇒ ${esc(a)}</button> is ${esc(CLS_TEXT[rev.c])}.</p>` : ""}</div>`);
+}
+function showEdge(i){
+  const e = LAD.implies[i]; if (!e){ ladderOverview(); return; }
+  const users = Object.entries(LAD.pairs).filter(([k, v]) => IMPL.has(v.c) && v.d.includes(i)).map(([k]) => k.split("|"));
+  panel(`<div><h3>Implication · ${esc(e.status)}</h3><h2 class="mono">${implStr(e)}</h2></div>
+    <div class="chips">${statusChip(e.status)}${e.cond ? `<span class="chip cond">under a side condition</span>` : `<span class="chip">no side condition</span>`}${e.from.length > 1 ? `<span class="chip">${e.from.length} premises, read together</span>` : ""}</div>
+    <div><h3>Witness</h3>${leanLine(e.witness, e.loc)}</div>
+    ${e.emit ? `<div><h3>Lean automation</h3><p>${e.emit.rule ? `<span class="mono">tools/ladder.py emit-lean</span> makes it a rule of the <span class="mono">causal_ladder</span> tactic; the witness is in <span class="mono">${esc(e.emit.module)}</span>.` : `<span class="mono">tools/ladder.py emit-lean</span> does not make it a rule: ${esc(e.emit.why)}.`}</p></div>` : ""}
+    ${e.under ? `<div><h3>under</h3><p class="warn">${esc(e.under)}</p><p class="prov" style="margin-top:6px">Not read by <span class="mono">tools/ladder.py</span>: its closure chains this edge as if it were unconditional. Pairs that only this kind of edge decides are marked conditional on this page.</p></div>` : ""}
+    ${extrasHTML(e.extra)}
+    <div><h3>Premises and conclusion</h3><div class="linklist">${e.from.map(x => propBtn(x)).join("")}<span style="color:var(--ink-3)">⇒</span>${propBtn(e.to)}</div></div>
+    ${users.length ? `<div><h3>Pairs whose derivation uses it (${users.length})</h3><div class="linklist">${users.map(([a, b]) => `<button class="pl ${pair(a,b).c === "implied-c" ? "c" : ""}" data-go="#/ladder/pair/${enc(a)}/${enc(b)}">${esc(a)} ⇒ ${esc(b)}</button>`).join("")}</div></div>` : ""}`);
+}
+
+/* =====================================================================================
+   2. The binders
+   ===================================================================================== */
+const PROPOSED = {}; BINDERS.forEach(B => B.proposed.forEach(p => (PROPOSED[B.slug] ??= {})[p.id] = p));
+function refsStatus(refs){
+  if (!refs.length) return {s:"open"};
+  const miss = refs.filter(x => x.t === "missing"), tg = refs.filter(x => x.t === "target");
+  if (miss.length) return {s:"missing", ids:miss.map(x => x.x)};
+  if (tg.length) return {s:"target", ids:tg.map(x => x.x)};
+  return {s:"closed"};
+}
+const L1 = r => refsStatus(r.ett);
+function L2(B, r){
+  if (!r.loc.length && !r.open.length) return {s:"none"};
+  if (!r.open.length) return {s:"closed"};
+  const pr = PROPOSED[B.slug] || {}, un = r.open.filter(id => !(pr[id] && pr[id].target));
+  if (un.length) return {s:"open", ids:un};
+  return {s:"target", ids:[...new Set(r.open.map(id => pr[id].target))]};
+}
+function L3(r){
+  if (!r.geo.length) return {s:(r.loc.length || r.open.length) ? "open" : "none"};
+  const st = r.geo.map(g => refsStatus(g.by));
+  if (st.every(x => x.s === "closed")) return {s:"closed"};
+  if (st.some(x => x.s === "missing")) return {s:"missing", ids:st.flatMap(x => x.s === "missing" ? x.ids : [])};
+  if (st.some(x => x.s === "open")) return {s:"open"};
+  return {s:"target", ids:[...new Set(st.flatMap(x => x.ids || []))]};
+}
+function stChip(st, compact){
+  if (st.s === "closed") return `<span class="chip closed" title="every entry is a declaration of lean-causal's strict library">closed</span>`;
+  if (st.s === "none") return `<span class="chip none">none needed</span>`;
+  if (st.s === "open") return `<span class="chip open">open${st.ids ? ": " + st.ids.map(esc).join(", ") : ""}</span>`;
+  if (st.s === "missing") return `<span class="chip missing">unresolved: ${st.ids.map(esc).join(", ")}</span>`;
+  const ids = compact && st.ids.length > 2 ? st.ids.slice(0, 2) : st.ids;
+  return ids.map(x => tgtChip(x, compact)).join("") + (ids.length < st.ids.length ? `<span class="chip none">+${st.ids.length - ids.length}</span>` : "");
+}
+function namesLine(refs, n = 3){
+  const ln = refs.filter(x => x.t === "lean");
+  return ln.length ? `<div class="names">${ln.slice(0, n).map(x => esc(short(x.x))).join(" · ")}${ln.length > n ? ` <span style="color:var(--ink-3)">+${ln.length - n}</span>` : ""}</div>` : "";
+}
+function models(B){ const m = []; B.rows.forEach(r => r.geo.forEach(g => { if (!m.includes(g.model)) m.push(g.model); })); return m; }
+function coverage(B){
+  const c = {l1:{}, l2:{}, l3:{}, mod:{}}, inc = (o, k) => o[k] = (o[k] || 0) + 1;
+  B.rows.forEach(r => { inc(c.l1, L1(r).s); inc(c.l2, L2(B, r).s); inc(c.l3, L3(r).s);
+    r.geo.forEach(g => inc(c.mod[g.model] ??= {}, refsStatus(g.by).s)); });
+  return c;
+}
+const COV_ORDER = ["closed","target","open","none","missing"], COV_TXT = {closed:"closed",target:"on a target",open:"open",none:"none needed",missing:"unresolved"};
+function covChips(o){ return COV_ORDER.filter(k => o[k]).map(k => `<span class="chip ${k === "target" ? "target" : k}" style="font-family:var(--f-body)">${COV_TXT[k]} ${o[k]}</span>`).join(""); }
+function rowName(r){ const l = r.ledger;
+  return `<b>${esc(r.ref || (l ? l.kind : r.label))}</b>${l && l.title ? `<span style="color:var(--ink-2)">${esc(l.title)}</span>` : ""}<span class="mono">${esc(r.label)}</span>${l ? `<span class="small">${esc(l.kind)} · ${esc(l.file)}:${l.line}${l.nl && l.nl !== l.kind ? " · paper: " + esc(l.nl) : ""}</span>` : `<span class="chip missing">not in the ledger</span>`}`; }
+function binderRowHTML(B, r){
+  const s1 = L1(r), s2 = L2(B, r), s3 = L3(r);
+  return `<div class="brow" role="row" tabindex="0" data-go="#/binders/${enc(B.slug)}/${enc(r.label)}" id="row-${esc(B.slug)}-${esc(r.label)}">
+    <div class="rname">${rowName(r)}</div>
+    <div><span class="lbl">${esc(layerName(1))}</span><div class="chips">${stChip(s1, true)}</div>${namesLine(r.ett)}</div>
+    <div><span class="lbl">${esc(layerName(2))}</span><div class="chips">${stChip(s2, true)}</div>${r.loc.length ? `<div class="linklist">${r.loc.map(x => propBtn(x)).join("")}</div>` : ""}${r.open.length ? `<div class="linklist">${r.open.map(x => PROP[x] ? `<button class="pl c" data-go="#/ladder/p/${enc(x)}" title="in the row's open_localisation; a ladder node since the binder was written">${esc(x)}</button>` : `<span class="pl ghost" title="not a ladder node: ${esc((PROPOSED[B.slug]||{})[x]?.what || "")}">${esc(x)}</span>`).join("")}</div>` : ""}</div>
+    <div><span class="lbl">${esc(layerName(3))}</span>${r.geo.length ? r.geo.map(g => `<div class="geo"><span class="model">${esc(g.model)}</span>${stChip(refsStatus(g.by), true)}</div>`).join("") : `<div class="chips">${stChip(s3)}</div>`}</div>
+  </div>`;
+}
+let bindersDrawn = false;
+function drawBinders(){
+  const v = $("#v-binders");
+  const errs = BINDERS.flatMap(B => B.errors.map(e => B.slug + ": " + e));
+  v.innerHTML = (errs.length ? `<div class="banner"><b>tools/binder.py check reports ${plural(errs.length, "violation")}</b><ul>${errs.map(e => `<li>${esc(e)}</li>`).join("")}</ul></div>` : "")
+   + (BINDERS.length ? "" : `<div class="board"><p>No <span class="mono">papers/*/certificate/binder.toml</span> exists yet.</p></div>`)
+   + BINDERS.map(B => { const c = coverage(B);
+    return `<section class="paper" id="b-${esc(B.slug)}">
+      <div class="phead"><h3>Binder · <span class="mono" style="text-transform:none;letter-spacing:0">${esc(B.path)}</span></h3>
+        <h2>${esc(B.title || B.slug)}</h2>${B.edition ? `<p class="prov">${esc(B.edition)}</p>` : ""}
+        <div class="cov"><div><h4>Rows bound</h4><b style="font-family:var(--f-display);font-size:1.25rem">${B.rows.length}</b> <span class="small">of ${B.ledgerRows} ledger rows</span></div>
+          <div><h4>${esc(layerName(1))}</h4><div class="chips">${covChips(c.l1)}</div></div>
+          <div><h4>${esc(layerName(2))}</h4><div class="chips">${covChips(c.l2)}</div></div>
+          <div><h4>${esc(layerName(3))}, per model entry</h4>${Object.entries(c.mod).map(([m, o]) => `<div class="geo" style="margin-bottom:3px"><span class="model">${esc(m)}</span>${covChips(o)}</div>`).join("")}</div></div>
+        <p style="margin-top:4px"><button class="pl" data-go="#/binders/${enc(B.slug)}">About this binder</button></p></div>
+      <div class="btable" role="table" aria-label="Rows of ${esc(B.slug)}">
+        <div class="brow bhead" role="row"><div>Row of the ledger</div><div>${esc(layerName(1))}<br><small>the ETT theorem</small></div><div>${esc(layerName(2))}<br><small>ladder properties it needs</small></div><div>${esc(layerName(3))}<br><small>the geometric lemma, per model</small></div></div>
+        ${B.rows.map(r => binderRowHTML(B, r)).join("")}
+      </div>
+    </section>`; }).join("");
+  v.querySelectorAll(".brow[data-go]").forEach(el => el.addEventListener("keydown", ev => { if (ev.key === "Enter" || ev.key === " "){ ev.preventDefault(); nav(el.dataset.go); } }));
+  bindersDrawn = true;
+}
+function bindersOverview(){
+  panel(`<div><h3>The binders</h3><h2>Each Sbierski row split into its ETT theorem, its localisation properties and its geometric lemmas</h2></div>
+    <p>A binder is <span class="mono">papers/&lt;slug&gt;/certificate/binder.toml</span>, read through <span class="mono">tools/binder.py</span>; the row's kind, title and line come from the paper's ledger. Each row names its ETT theorem (layer 1), the ladder properties it needs (layer 2) and, per model class, the geometric lemma that proves them (layer 3).</p>
+    <div><h3>Status of a layer</h3><ul>
+      <li><span class="chip closed">closed</span> every entry is a Lean name declared in <span class="mono">lean-causal/Causal</span>, the strict library (where <span class="mono">sorry</span> is a compile error); layer 2: every property the row needs is a ladder node.</li>
+      <li><span class="chip target">T-…</span> an entry is a programme target, with its status; layer 2: a property not yet a ladder node, with the target the binder proposes for it.</li>
+      <li><span class="chip open">open</span> nothing names it: layer 1 or 3 without an entry, or an open property with no target.</li>
+      <li><span class="chip none">none needed</span> the row needs no localisation property.</li></ul>
+      <p class="prov" style="margin-top:6px">A target's dot is its status: <span class="chip"><i class="dot s-done"></i>done</span> <span class="chip"><i class="dot s-active"></i>in progress</span> <span class="chip"><i class="dot s-ready"></i>ready</span> <span class="chip"><i class="dot s-planned"></i>planned</span> <span class="chip"><i class="dot s-needs-ruling"></i>needs a ruling</span> <span class="chip"><i class="dot s-blocked"></i>blocked</span></p></div>
+    ${BINDERS.map(B => { const c = coverage(B); return `<div><h3>${esc(B.slug)}</h3><p>${B.rows.length} of ${B.ledgerRows} ledger rows bound${B.unbound.length ? `, ${B.unbound.length} not bound` : ""}; ${B.proposed.length} proposed properties; <span class="mono">binder.py check</span>: ${B.errors.length ? `<b>${plural(B.errors.length, "violation")}</b>` : "all links resolve"}.</p>
+      <div class="chips" style="margin-top:6px"><span class="small" style="min-width:4.5em">layer 1</span>${covChips(c.l1)}</div><div class="chips" style="margin-top:4px"><span class="small" style="min-width:4.5em">layer 2</span>${covChips(c.l2)}</div><div class="chips" style="margin-top:4px"><span class="small" style="min-width:4.5em">layer 3</span>${covChips(c.l3)}</div>
+      <p style="margin-top:6px"><button class="pl" data-go="#/binders/${enc(B.slug)}">Proposed properties and unbound rows</button></p></div>`; }).join("")}
+    ${provHTML()}`);
+}
+function showBinder(slug){
+  const B = BIND[slug]; if (!B){ bindersOverview(); return; }
+  panel(`<div><h3>Binder · ${esc(slug)}</h3><h2>${esc(B.title || slug)}</h2></div>${B.edition ? `<p class="prov">${esc(B.edition)}</p>` : ""}
+    ${B.errors.length ? `<div>${B.errors.map(e => `<p class="err">${esc(e)}</p>`).join("")}</div>` : ""}
+    <div><h3>Proposed properties (${B.proposed.length})</h3><p style="margin-bottom:8px">Localisation properties the rows need that are not yet ladder nodes; each row lists them in <span class="mono">open_localisation</span>.</p>
+      <ul class="wit">${B.proposed.map(p => `<li class="${PROP[p.id] ? "ok" : "tg"}"><span class="mono" style="font-weight:500">${esc(p.id)}</span>${PROP[p.id] ? `<div class="chips" style="margin:3px 0">${propBtn(p.id)}<span class="chip closed">now a ladder node</span></div>` : ""}<p style="margin:3px 0">${esc(p.what || "")}</p>
+        ${p.lean ? leanLine(p.lean, p.leanloc) : ""}<div class="chips" style="margin-top:4px">${p.target ? tgtChip(p.target) : `<span class="chip open">no target</span>`}<span class="chip none">open in ${B.rows.filter(r => r.open.includes(p.id)).length} rows</span></div>${extrasHTML(Object.fromEntries(Object.entries(p).filter(([k]) => !["id","lean","target","what","leanloc"].includes(k))))}</li>`).join("")}</ul></div>
+    ${B.unbound.length ? `<div><h3>Ledger rows not bound (${B.unbound.length})</h3><ul>${B.unbound.map(u => `<li><span class="mono">${esc(u.label)}</span> · ${esc(u.kind)} · ${esc(u.file)}:${u.line} · ${esc(u.nl)}</li>`).join("")}</ul></div>` : ""}
+    ${extrasHTML(B.other)}`);
+}
+function showRow(slug, label){
+  const B = BIND[slug], r = B && B.rows.find(x => x.label === label); if (!r){ showBinder(slug); return; }
+  document.querySelectorAll(".brow.sel").forEach(e => e.classList.remove("sel"));
+  const el = document.getElementById(`row-${slug}-${label}`); if (el){ el.classList.add("sel"); }
+  const l = r.ledger, pr = PROPOSED[slug] || {};
+  const refLi = x => x.t === "lean" ? `<li class="ok">${leanLine(x.x, x.loc, x.how)}</li>` : x.t === "target" ? `<li class="tg"><div class="chips">${tgtChip(x.x)}</div><p style="margin-top:3px;font-size:.84rem">${esc(TGT[x.x]?.title || "")}</p></li>` : `<li class="f"><span class="mono">${esc(x.x)}</span><span class="chip missing">resolves to neither a Lean name nor a target</span></li>`;
+  const props = [...r.loc, ...r.open.filter(x => !r.loc.includes(x))];
+  const cross = r.geo.length && props.length ? `<table class="cross"><thead><tr><th style="text-align:left">property</th>${r.geo.map(g => `<th>${esc(g.model)}</th>`).join("")}</tr></thead><tbody>
+      ${props.map(p => `<tr><td class="p">${PROP[p] ? propBtn(p) : `<span class="pl ghost">${esc(p)}</span>`}${r.open.includes(p) ? ` <span class="chip open" style="font-size:.66rem">open</span>` : ""}</td>${r.geo.map(g => { const s = refsStatus(g.by).s;
+        return g.proves.includes(p) ? `<td class="${s === "closed" ? "y" : "t"}" title="${esc(g.model)} proves it: ${s}">${s === "closed" ? "✓" : "T"}</td>` : `<td class="o" title="not among this entry's proves">·</td>`; }).join("")}</tr>`).join("")}</tbody></table>
+      <p class="prov" style="margin-top:4px">✓ proved by a closed entry; T by an entry on a target; · not among the entry's <span class="mono">proves</span>.</p>` : "";
+  const users = B.rows.filter(x => x.ledger && x.ledger.deps.includes(label));
+  panel(`<div><h3>${esc(slug)} · ${esc(r.ref || (l ? l.kind : ""))}${l ? " · " + esc(l.file) + ":" + l.line : ""}</h3><h2>${esc(l && l.title ? l.title : r.ref || r.label)}</h2></div>
+    <div class="chips"><span class="mono">${esc(r.label)}</span>${l ? `<span class="chip">${esc(l.kind)}</span><span class="chip">paper: ${esc(l.nl)}</span>${l.proof ? `<span class="chip">proof ${esc(l.proof)}</span>` : ""}` : `<span class="chip missing">not in the ledger</span>`}</div>
+    ${l && l.tex ? `<div class="tex" id="tex">${texHTML(l.tex)}</div>` : ""}
+    ${r.note ? `<div><h3>How it factors (the binder's note)</h3><p>${esc(r.note)}</p></div>` : ""}
+    <div><h3>${esc(layerName(1))}</h3><div class="chips" style="margin-bottom:6px">${stChip(L1(r))}</div><ul class="wit">${r.ett.map(refLi).join("")}</ul></div>
+    <div><h3>${esc(layerName(2))}</h3><div class="chips" style="margin-bottom:6px">${stChip(L2(B, r))}</div>
+      ${r.loc.length ? `<ul class="wit">${r.loc.map(p => `<li class="${PROP[p] ? "ok" : "f"}">${propBtn(p)}<p style="margin-top:3px;font-size:.84rem">${esc(PROP[p]?.what || "not a ladder property")}</p></li>`).join("")}</ul>` : (r.open.length ? "" : `<p>The row needs no localisation property.</p>`)}
+      ${r.open.length ? `<p style="margin:8px 0 6px">Listed as open (<span class="mono">open_localisation</span>)${r.open.some(x => PROP[x]) ? "; those with a ladder link have become ladder nodes since" : ""}:</p><ul class="wit">${r.open.map(p => `<li class="c"><span class="mono" style="font-weight:500">${esc(p)}</span><p style="margin:3px 0;font-size:.84rem">${esc(pr[p]?.what || "")}</p><div class="chips">${pr[p]?.target ? tgtChip(pr[p].target) : `<span class="chip open">no proposed target</span>`}${PROP[p] ? propBtn(p) : ""}</div></li>`).join("")}</ul>` : ""}
+      ${r.open_reason ? `<p class="warn" style="margin-top:8px">${esc(r.open_reason)}</p>` : ""}</div>
+    <div><h3>${esc(layerName(3))}</h3><div class="chips" style="margin-bottom:6px">${stChip(L3(r))}</div>
+      ${r.geo.length ? r.geo.map(g => `<div style="margin-bottom:10px"><div class="chips" style="margin-bottom:5px"><b style="font-size:.86rem">${esc(g.model)}</b>${stChip(refsStatus(g.by))}</div>
+        ${g.proves.length ? `<div class="linklist" style="margin-bottom:5px"><span class="small">proves</span>${g.proves.map(x => propBtn(x)).join("")}</div>` : `<p class="small" style="margin-bottom:5px">proves no ladder property</p>`}
+        <ul class="wit">${g.by.map(refLi).join("")}</ul>${extrasHTML(g.extra)}</div>`).join("") : `<p>No geometric entry.</p>`}
+      ${cross}</div>
+    ${l && l.deps.length ? `<div><h3>The ledger's dependencies (${l.deps.length})</h3><div class="linklist">${l.deps.map(d => B.rows.some(x => x.label === d) ? `<button class="pl" data-go="#/binders/${enc(slug)}/${enc(d)}">${esc(d)}</button>` : `<span class="pl ghost">${esc(d)}</span>`).join("")}</div></div>` : ""}
+    ${users.length ? `<div><h3>Used by (${users.length})</h3><div class="linklist">${users.map(x => `<button class="pl" data-go="#/binders/${enc(slug)}/${enc(x.label)}">${esc(x.label)}</button>`).join("")}</div></div>` : ""}
+    ${extrasHTML(r.extra)}`);
+  typeset($("#tex"), B.macros, slug);
+}
+
+/* =====================================================================================
+   3. The roadmap
+   ===================================================================================== */
+const STREAM_LAYER = {abstract:1, ladder:2, localisation:3};
+const STREAM_TXT = {binders:"Sbierski's papers, ledgered and bound", tactics:"Lean automation and the programme's tools", publish:"The blueprint and the progress reports"};
+const STREAM_ORDER = ["ladder","abstract","localisation","binders","tactics","publish"];
+function streams(){ const s = [...new Set(ROAD.targets.map(t => t.stream || "(none)"))];
+  return STREAM_ORDER.filter(x => s.includes(x)).concat(s.filter(x => !STREAM_ORDER.includes(x)).sort()); }
+function streamTitle(s){ return STREAM_LAYER[s] ? layerName(STREAM_LAYER[s]) : s.charAt(0).toUpperCase() + s.slice(1); }
+function streamText(s){ return STREAM_LAYER[s] ? (LAYER[STREAM_LAYER[s]]?.text || "") : (STREAM_TXT[s] || ""); }
+function tcard(t){
+  return `<button class="tcard" data-go="#/roadmap/${enc(t.id)}" id="t-${esc(t.id)}"><div class="meta"><span class="chip s-${esc(t.status)}">${esc(ST_LABEL[t.status] || t.status)}</span><span class="mono" style="color:var(--ink)">${esc(t.id)}</span><span>p${esc(t.priority)}</span><span>${esc(t.owner)}</span></div>
+    <b>${esc(t.title)}</b>${t.model || t.paper ? `<div class="meta">${t.model ? `<span>model ${esc(t.model)}</span>` : ""}${t.paper ? `<span>paper ${esc(t.paper)}</span>` : ""}</div>` : ""}</button>`;
+}
+function sbar(ts){ const n = ts.length || 1; return `<div class="sbar" aria-hidden="true">${ST_ORDER.map(s => { const k = ts.filter(t => t.status === s).length; return k ? `<span style="width:${(100*k/n).toFixed(3)}%;background:${ST_COLOR[s] || "var(--grid)"}" title="${esc(ST_LABEL[s] || s)} ${k}"></span>` : ""; }).join("")}</div>`; }
+function drawRoadmap(){
+  const v = $("#v-roadmap");
+  v.innerHTML = (ROAD.errors.length ? `<div class="banner"><b>tools/roadmap.py check reports ${plural(ROAD.errors.length, "violation")}</b><ul>${ROAD.errors.map(e => `<li>${esc(e)}</li>`).join("")}</ul></div>` : "")
+   + streams().map(s => { const ts = ROAD.targets.filter(t => (t.stream || "(none)") === s);
+    return `<section class="board" id="s-${esc(s)}"><h2>${esc(streamTitle(s))}</h2><p>${esc(streamText(s))} <span class="mono" style="color:var(--ink-3)">stream = "${esc(s)}"</span> · ${plural(ts.length, "target")}: ${ST_ORDER.filter(x => ts.some(t => t.status === x)).map(x => `${ts.filter(t => t.status === x).length} ${esc(ST_LABEL[x] || x)}`).join(", ")}.</p>${sbar(ts)}
+      ${ST_ORDER.map(st => { const g = ts.filter(t => t.status === st).sort((a, b) => a.priority - b.priority); return g.length ? `<div class="sgroup"><h3>${esc(ST_LABEL[st] || st)} (${g.length})</h3><div class="tgrid">${g.map(tcard).join("")}</div></div>` : ""; }).join("")}</section>`; }).join("");
+}
+function roadOverview(){
+  const cnt = st => ROAD.targets.filter(t => t.status === st).length;
+  panel(`<div><h3>The programme roadmap</h3><h2>Targets, by layer and by status</h2></div>
+    <p>Read from <span class="mono">programme/roadmap.toml</span> through <span class="mono">tools/roadmap.py</span>. Each section is a stream; a stream that is one of the programme's layers carries the layer's name from <span class="mono">programme/README.md</span>. Within a section, targets are grouped by status and sorted by priority.</p>
+    <div class="stat">${["done","ready","needs-ruling","active","blocked","planned"].filter(s => ROAD.statuses.includes(s)).map(s => `<div><b>${cnt(s)}</b><span>${esc(ST_LABEL[s])}</span></div>`).join("")}</div>
+    <p class="mono">roadmap: ${ROAD.targets.length} targets, ${ROAD.errors.length ? plural(ROAD.errors.length, "violation") : "all rules hold"}</p>
+    ${ROAD.known_red.length ? `<div><h3>Gates already red</h3><ul>${ROAD.known_red.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
+    <div><h3>Sections</h3><div class="linklist">${streams().map(s => `<button class="pl" data-scroll="s-${esc(s)}">${esc(streamTitle(s))}</button>`).join("")}</div></div>
+    ${provHTML()}`);
+}
+function showTarget(id){
+  const t = TGT[id]; if (!t){ roadOverview(); return; }
+  document.querySelectorAll(".tcard.sel").forEach(e => e.classList.remove("sel"));
+  const el = document.getElementById("t-" + id); if (el) el.classList.add("sel");
+  const needed = ROAD.targets.filter(x => (x.depends || []).includes(id));
+  const cited = []; BINDERS.forEach(B => B.rows.forEach(r => { const w = [];
+    if (r.ett.some(x => x.x === id)) w.push("layer 1"); r.geo.forEach(g => { if (g.by.some(x => x.x === id)) w.push("layer 3, " + g.model); });
+    if (r.open.some(p => (PROPOSED[B.slug] || {})[p]?.target === id)) w.push("layer 2, proposed property");
+    if (w.length) cited.push({B, r, w}); }));
+  const oq = t.oq && ROAD.oqs[t.oq];
+  const known = new Set(["id","title","stream","kind","status","owner","priority","evidence","added","proposed_by","depends","uses","provides","model","paper","labels","question","oq","commit","package","exclusive"]);
+  const rest = Object.fromEntries(Object.entries(t).filter(([k]) => !known.has(k)));
+  panel(`<div><h3>${esc(streamTitle(t.stream || ""))}</h3><h2>${esc(t.title)}</h2></div>
+    <div class="chips"><span class="chip s-${esc(t.status)}">${esc(ST_LABEL[t.status] || t.status)}</span><span class="mono">${esc(t.id)}</span><span class="chip">kind ${esc(t.kind)}</span><span class="chip">p${esc(t.priority)}</span><span class="chip">owner ${esc(t.owner)}</span>${t.model ? `<span class="chip">model ${esc(t.model)}</span>` : ""}${t.package ? `<span class="chip">package ${esc(t.package)}</span>` : ""}${t.exclusive ? `<span class="chip">exclusive</span>` : ""}${t.commit ? `<span class="chip closed">commit ${esc(t.commit)}</span>` : ""}</div>
+    ${t.question ? `<div><h3>The question for the author</h3><p class="warn">${esc(t.question)}</p></div>` : ""}
+    ${t.oq ? `<div><h3>Waits on ${esc(t.oq)}${oq ? " · " + esc(oq.status) : ""}</h3>${oq ? `<details><summary>The OQ row of registers/DECISIONS.md (${esc(oq.date)})</summary><p style="margin-top:6px;font-size:.84rem">${esc(oq.text)}</p></details>` : `<p>Not found in <span class="mono">registers/DECISIONS.md</span>.</p>`}</div>` : ""}
+    ${(t.uses || []).length ? `<div><h3>Uses (ladder)</h3><div class="linklist">${t.uses.map(x => propBtn(x)).join("")}</div></div>` : t.kind === "abstract" ? `<div><h3>Uses (ladder)</h3><p>No ladder property: pure topology.</p></div>` : ""}
+    ${(t.provides || []).length ? `<div><h3>Provides (ladder)</h3><div class="linklist">${t.provides.map(x => propBtn(x)).join("")}</div></div>` : ""}
+    ${t.paper ? `<div><h3>Paper</h3><p><span class="mono">papers/${esc(t.paper)}</span>${BIND[t.paper] ? ` · <button class="pl" data-go="#/binders/${enc(t.paper)}">its binder</button>` : ""}</p>${(t.labels || []).length ? `<div class="linklist" style="margin-top:6px">${t.labels.map(l => BIND[t.paper] && BIND[t.paper].rows.some(r => r.label === l) ? `<button class="pl" data-go="#/binders/${enc(t.paper)}/${enc(l)}">${esc(l)}</button>` : `<span class="pl ghost">${esc(l)}</span>`).join("")}</div>` : ""}</div>` : ""}
+    ${(t.depends || []).length ? `<div><h3>After (${t.depends.length})</h3><div class="linklist">${t.depends.map(tgtChip).join("")}</div></div>` : ""}
+    ${needed.length ? `<div><h3>Needed by (${needed.length})</h3><div class="linklist">${needed.map(x => tgtChip(x.id)).join("")}</div></div>` : ""}
+    ${cited.length ? `<div><h3>Cited by binder rows (${cited.length})</h3><ul class="wit">${cited.map(c => `<li class="tg"><button class="pl" data-go="#/binders/${enc(c.B.slug)}/${enc(c.r.label)}">${esc(c.B.slug)} · ${esc(c.r.ref || c.r.label)}</button><span class="loc">${esc(c.w.join("; "))}</span></li>`).join("")}</ul></div>` : ""}
+    <div><h3>Evidence</h3><p style="font-size:.86rem">${esc(t.evidence)}</p></div>
+    <p class="prov">Added ${esc(t.added)} · proposed by ${esc(t.proposed_by)}</p>
+    ${extrasHTML(rest)}`);
+}
+
+/* =====================================================================================
+   Routing, search, boot
+   ===================================================================================== */
+const VIEWS = ["ladder","binders","roadmap"];
+let current = null;
+function showView(v){
+  if (current === v) return; current = v;
+  VIEWS.forEach(x => { $("#v-" + x).hidden = x !== v; $("#tab-" + x).setAttribute("aria-selected", x === v); });
+  if (v === "ladder"){ if (!drawn) drawLadder(); else if (mode === "graph") view(); }
+  if (v === "binders" && !bindersDrawn) drawBinders();
+  if (v === "roadmap" && !$("#v-roadmap").innerHTML) drawRoadmap();
+}
+function route(){
+  routed = location.hash;
+  const parts = (location.hash || "#/ladder").replace(/^#\/?/, "").split("/").map(decodeURIComponent);
+  const v = VIEWS.includes(parts[0]) ? parts[0] : "ladder"; showView(v);
+  if (v === "ladder"){
+    selProp = parts[1] === "p" ? parts[2] : null; selEdge = parts[1] === "edge" ? +parts[2] : null;
+    selPair = null;
+    if (parts[1] === "pair"){ selProp = parts[2]; const v = pair(parts[2], parts[3]); if (v) selPair = new Set([...(v.d || []), ...(v.da || []), ...(v.db || [])]); }
+    markLadder(); ladderLegend(); if (drawn && mode === "graph" && selProp && fitTransform().k < 0.45) view();
+    if (parts[1] === "p") showProp(parts[2]); else if (parts[1] === "pair") showPair(parts[2], parts[3]); else if (parts[1] === "edge") showEdge(+parts[2]); else ladderOverview();
+  } else if (v === "binders"){
+    if (parts[2]) showRow(parts[1], parts[2]); else if (parts[1]) { showBinder(parts[1]); const s = document.getElementById("b-" + parts[1]); if (s) s.scrollIntoView({block:"start"}); } else bindersOverview();
+    if (parts[2]){ const el = document.getElementById(`row-${parts[1]}-${parts[2]}`); if (el) el.scrollIntoView({block:"nearest"}); }
+  } else {
+    if (parts[1]){ showTarget(parts[1]); const el = document.getElementById("t-" + parts[1]); if (el) el.scrollIntoView({block:"nearest"}); } else roadOverview();
+  }
+}
+document.addEventListener("click", ev => {
+  const s = ev.target.closest("[data-scroll]"); if (s){ const el = document.getElementById(s.dataset.scroll); if (el) el.scrollIntoView({block:"start"}); return; }
+  const g = ev.target.closest("[data-go]"); if (!g || g.disabled) return;
+  ev.stopPropagation(); nav(g.dataset.go);
+});
+/* Navigation routes at once; the hashchange that follows (or the browser's back button) routes only
+   when the hash differs from the one last routed. */
+let routed = null;
+function nav(h){ if (location.hash !== h) location.hash = h; route(); }
+addEventListener("hashchange", () => { if (location.hash !== routed) route(); });
+addEventListener("keydown", e => { if (e.key === "Escape" && e.target.tagName !== "INPUT"){ const v = current || "ladder"; nav("#/" + v); } });
+/* search */
+const FIND = {};
+LAD.props.forEach(p => FIND[p.id] = "#/ladder/p/" + enc(p.id));
+BINDERS.forEach(B => B.rows.forEach(r => FIND[r.label] = `#/binders/${enc(B.slug)}/${enc(r.label)}`));
+ROAD.targets.forEach(t => FIND[t.id] = "#/roadmap/" + enc(t.id));
+$("#ids").innerHTML = Object.keys(FIND).sort().map(k => `<option value="${esc(k)}"></option>`).join("");
+$("#q").addEventListener("change", e => { const h = FIND[e.target.value.trim()]; if (h){ nav(h); e.target.blur(); } });
+$("#n-ladder").textContent = LAD.props.length;
+$("#n-binders").textContent = BINDERS.reduce((a, B) => a + B.rows.length, 0);
+$("#n-roadmap").textContent = ROAD.targets.length;
+route();
+</script>
+</body>
+</html>
