@@ -1,0 +1,88 @@
+{
+  "target": "T-egf-correct-sign",
+  "round": 1,
+  "verdict": "minor",
+  "scope": "git -C ~/Dropbox/ErgodicGFN arXiv/source diff against HEAD 4e74ce4 (v1 = papers/egf/legacy/orig/main.tex up to the equal-contribution stars); entries C-1..C-5 of papers/egf/programme/corrections.toml; anchors read in lean-egf/EGF/SamplingCorollaries.lean and lean-egf/EGF/Loss.lean. Line numbers are v2 (working copy) unless marked v1.",
+  "entries": [
+    {
+      "id": "C-1",
+      "faithful": true,
+      "hypotheses_ok": true,
+      "refutation_answered": true,
+      "notes": "l.362: deltafinit = max(0, -(f_init + f_in - f_out)) is EGF.deltaFinitDensity (max 0 (-defectDensity)) exactly. l.380: 'delta := int deltafinit dlambda, so that delta = (F_init + F_in - F_out)^-(S) >= 0' is EGF.integral_deltaFinitDensity (int deltaFinitDensity dlam = (inferenceDefect univ).toReal, inferenceDefect = Jordan negative part by inferenceDefect_eq_negPart); its hypotheses are [SigmaFinite lam], F_init finite, F_init << lam, F_out << lam, InflowAC (F_in << lam). All are implied by the setting: lambda is finite (l.155, l.161), and the paper defines d mu/d nu only for mu << nu (l.156) and writes f_init, f_in, f_out as densities d./dlambda (l.196). '>= 0' is integral_nonneg of a max with 0. The bound (equ:control_pinsker) is EGF.pinsker_negative_control_density (in [0, inf]) / _real (in R when KL < inf), hypotheses: GenerativeFlow (pi Markov, F_out finite), F_init probability (F_init(S)=1), kappa probability ('target probability distribution', l.358), sampler F.pathLaw F_init kappaHat (F_term = kappa-hat at inference), the three domination presuppositions; Lean is weaker in the space (any measurable space, lambda sigma-finite) and never reads 'trained on'. Conclusion identical. Refutation: printed_false_of_mem_Ioo and Swap.printed_pinsker_negative_control_false need the printed delta = -E^-(S) < 0; with the negative part the Swap instance has delta = 1/2 and is covered by the proved bound. added_hypotheses = [] and none was added. Anchor gap: the clause 'delta = E^-(S)' is integral_deltaFinitDensity, which is a C-4 anchor, not a C-1 anchor (see findings)."
+    },
+    {
+      "id": "C-2",
+      "faithful": true,
+      "hypotheses_ok": true,
+      "refutation_answered": true,
+      "notes": "The only C-2 edit is the shared definition at l.362 (marker l.363 'EGF-C1, C2'); Eq. (15) (l.364-366) is textually unchanged and now reads as EGF.klwfmLossReal = b int deltaFinitDensity dnu_train - int log ftermHatDensity dkappa (EGF.klwfmLoss adds the +inf off LossFinite, which crossEntropy_posPart_integrable justifies). 'b > 0' (l.367) and nu_train 'a training distribution of paths' are unchanged (Lean: any b, nu_train a measure on states, a reading recorded in Loss.lean's checklist). The v2 text makes no quantitative claim: loss_controls_defect / loss_controls_sampling (b >= 1 + N, lambda <= N nu_train, kappa << lambda, finite entropy, finite loss) are not stated in the TeX, so their hypotheses are not owed here; the b-weight question is C-35 / OQ-84, correctly not applied. l.369 (v1 l.368) 'controls only the negative part of the FM defect' is unchanged and is now consistent with the sign. Refutation: SwapM.printed_loss_tendsto_bot (printed loss -b m - log(1+m) -> -inf) and deltaFinitDensityPrinted_nonpos are answered: the corrected loss on that family is b m - log(1+m) (SwapM.loss_eq), bounded below for every b > 0."
+    },
+    {
+      "id": "C-3",
+      "faithful": true,
+      "hypotheses_ok": false,
+      "refutation_answered": true,
+      "notes": "New l.406 in Algorithm 1: 'deltafinit >= 0 is the negative part ..., so that each factor of p_t lies in (0,1] where f_out > 0, resp. f_in > 0.' Backward factor: EGF.algBackwardFactor_mem_Ioc, (1 + deltaFinitDensity/dens(inflow))^{-1} in Ioc 0 1 under the single hypothesis 0 < dens lam (inflow) s, i.e. f_in(s) > 0; no domination or sigma-finiteness needed. Forward factor: EGF.algForwardFactor_eq, (1 + ftermHat/f_out)^{-1} = f_out/(ftermHat + f_out) and in Ioc 0 1 under 0 < dens lam F_out s. The qualified sentence is exactly the conjunction of these two pointwise statements, the 'resp.' pairing forward with f_out and backward with f_in correctly. The qualifier is necessary, not cosmetic: under the paper's convention x/0 = +inf (the one cont_kappaHat_ae_eq_forwardFactor records for f_out = 0), a factor is 0, outside (0,1], where f_out = 0 < ftermHat, resp. f_in = 0 < deltafinit; so the register's unqualified corrected text 'both factors of p_t lie in (0,1]' would overclaim, and the corrector was right to qualify. Note: the forward factor's membership does not depend on the sign of deltafinit (ftermHat >= 0 always), so 'so that' credits the correction with both factors, a harmless looseness. The anchor cont_kappaHat_ae_eq_forwardFactor states cont = ofReal(algForwardFactor) a.e., not membership in (0,1], and loss_controls_sampling is not claimed by the TeX. Refutation: Swap3.printed_algBackwardFactor_neg (printed factor -1 at s = false) is answered: there f_in = 1 > 0 and the corrected factor is 1/3. Scope: v1 l.395 (now 399: 1/(2B) sum and b on the cross-entropy), v1 l.400 (now 404: (1 + deltafinit/f_in)^{-1}, no f_init) and v1 l.407 (now 413: the squared term) are byte-identical: C-35 (OQ-84) and OQ-83 are not applied, and the new sentence does not say which law B_<- holds. hypotheses_ok is false only because the qualifier is a hypothesis that C-3 does not list (added_hypotheses = [], corrected unqualified); see findings."
+    },
+    {
+      "id": "C-4",
+      "faithful": true,
+      "hypotheses_ok": true,
+      "refutation_answered": true,
+      "notes": "l.430 is unchanged apart from '.' -> ','; it is EGF.integral_ftermHatDensity_eq: int ftermHat dlam = 1 + int deltaFinitDensity dlam, under [SigmaFinite lam], F_init probability, F_init, F_out << lam, InflowAC. All are in context: F_init(S) = 1 is Corollary 3.10's hypothesis, which the discussion continues, and the dominations are presupposed as for C-1. The added l.432 'since int ftermHat - int deltafinit = F_init(S) + F_in(S) - F_out(S) = 1' is a proof sketch whose end '= 1' is the anchor (with kappaHat_eq_withDensity: int ftermHat = kappaHat(S); integral_deltaFinitDensity: int deltafinit = E^-(S); sampling_error_control: kappaHat(S) = 1 + E^-(S)). The middle expression is not literally the statement of any declaration, but each of its two steps is elementary and true in the setting: max(0,x) - max(0,-x) = x integrated against lambda under the dominations, and F_in(S) = (F_out pi)(S) = F_out(S) for a Markov pi, with F_init(S) = 1. That is not an overclaim. Refutation: integral_deltaFinitDensityPrinted (printed int = -E^-(S), so the printed display reads 1 - delta) is answered by the negative part."
+    },
+    {
+      "id": "C-5",
+      "faithful": true,
+      "hypotheses_ok": true,
+      "refutation_answered": true,
+      "notes": "(a) New l.382 in Corollary 3.10: the bound also holds with KL(kappa || kappa-hat/kappa-hat(S)). This is EGF.pinsker_negative_control_density_rev (measure form pinsker_negative_control_rev), whose hypotheses are those of the density form, so it is faithful. The printed direction at l.378 is kept and stays proved (pinsker_negative_control_density). The appositive 'the divergence that the cross-entropy term of (equ:weakFM) controls' is motivation placed inside the statement, and it is looser than any declaration (see findings). (b) l.424: KL(kappa || kappa-hat/kappa-hat(S)) = CE + log int ftermHat dlambda - H(kappa). EGF.kl_decomposition gives exactly this identity (KL finite, and its toReal equals the right side) under kappa probability, kappa << lambda, log dkappa/dlambda in L1(kappa) (finite entropy), kappa << kappa-hat and log ftermHat in L1(kappa) (finite cross-entropy), plus the domination presuppositions. Hypothesis by hypothesis: kappa probability is supplied (l.358). kappa << lambda is supplied by l.416 'the target kappa has unknown density' and by the paper's convention (l.156) that dkappa/dlambda, used in H(kappa) at l.426, exists only for kappa << lambda. kappa << kappa-hat and a finite cross-entropy are NOT needed once the display is read in (-inf, +inf], as KL in [0, inf] and CE in (-inf, +inf] invite. EGF.klDiv_eq_top_iff_crossEntropy gives KL = inf iff not(kappa-a.e. ftermHat > 0 and log ftermHat in L1(kappa)). EGF.crossEntropy_posPart_integrable gives log+ ftermHat in L1(kappa), so each failure means CE = +inf. EGF.ac_kappaHat_iff gives kappa << kappa-hat iff kappa-a.e. ftermHat > 0. log int ftermHat = log(1 + delta) is finite. So both sides are +inf together. Under kappa << lambda and finite entropy the bare display is therefore proved in the strict library, but by more than C-5's anchor kl_decomposition, which covers only the finite case. Finite entropy is presupposed by writing H(kappa) as a number, but it is stated nowhere in the paper. It is the same presupposition as v1's display (the batch only reversed the direction), and EGF/Loss.lean's checklist marks it as read off the notation. Without it the right side can be undefined (inf - inf: kappa-hat = kappa with int k log k dlambda = inf), not false, so it is minor and not an overclaim. Refutation: Null.printed_kl_decomposition_false_finite and Null.printed_kl_decomposition_false refute only KL(kappa-hat/kappa-hat(S) || kappa) on the left; on both instances KL(kappa || kappa-hat/kappa-hat(S)) is finite and equals the right side (the hypotheses of kl_decomposition hold there), so the new display covers them correctly. Consistency: l.369 ('KL divergence between F-hat_term and kappa', no direction), l.419 and l.422 ('the KL term') are unchanged and read consistently with the corollary as extended."
+    }
+  ],
+  "markers": "Six edited passages and six markers: l.363 'EGF-C1, C2' (l.362), l.381 'EGF-C1' (l.380), l.383 'EGF-C5' (l.382), l.407 'EGF-C3' (l.406), l.427 'EGF-C5' (the display l.423-425 together with its where-clause l.426), l.433 'EGF-C4' (l.430-432). The combined l.363 marker spells C-2 as 'C2', not 'EGF-C2', which matters only if a tool ever greps markers literally; none does today (tools/corrections.py has no marker check).",
+  "scope_check": "The diff (4 hunks) touches only v1 l.362 (C-1, C-2), l.379 plus one sentence inside the corollary (C-1, C-5; printed l.377), one sentence after the p_t display (C-3, printed l.400), l.418 (C-5) and l.423 plus one sentence (C-4). No other line is touched. deltafinit appears elsewhere only at l.370 (a v1 TeX comment, not printed), at l.399 and l.404 (Algorithm 1, now read with the corrected definition, as C-3 intends) and at l.413 (the squared term, C-35, deliberately unchanged). No appendix or experiment passage uses deltafinit, min(0, .) or the KL direction (grep of main.tex and math_command.tex). No use of a changed symbol is left inconsistent.",
+  "build": {
+    "ok": true,
+    "undefined": 0,
+    "notes": "latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex in a /tmp copy of the working copy, alongside a /tmp copy at HEAD (v1). Both exit 0 with 20 pages, no undefined reference or citation, and the same single Overfull hbox (9.32pt, the p_t eqnarray*: v1 lines 398-401, v2 lines 402-405), which predates the batch. pdftotext shows the C-3 sentence rendered inside Algorithm 1 and the C-5 sentence inside Corollary 3.10. Both copies were deleted afterwards. The working copy is untouched (git status: M main.tex only)."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "main.tex:406",
+      "what": "C-3, the register against the edit. The applied sentence carries the qualifier 'where f_out > 0, resp. f_in > 0', which the Lean needs (algBackwardFactor_mem_Ioc assumes f_in(s) > 0; the forward membership is EGF.algForwardFactor_eq under f_out(s) > 0) and which is necessary under the paper's x/0 = +inf convention. C-3's `corrected` text ('both factors of p_t lie in (0,1]') omits it, `added_hypotheses` is [], and the forward-factor membership is proved by EGF.algForwardFactor_eq, which is not among C-3's anchors. cont_kappaHat_ae_eq_forwardFactor identifies cont with ofReal of the factor but does not state membership in (0,1].",
+      "fix": "Register only, no TeX change: add EGF.algForwardFactor_eq to C-3's `anchor`; set `corrected` to the applied qualified sentence; add to `added_hypotheses` 'the factor is evaluated where f_out > 0 (forward), resp. f_in > 0 (backward)'."
+    },
+    {
+      "severity": "minor",
+      "where": "main.tex:424",
+      "what": "C-5, the anchor coverage of the bare display. The display carries no side condition. kl_decomposition alone proves it only when kappa << kappa-hat and the cross-entropy is finite. The remaining case (both sides +inf) is EGF.klDiv_eq_top_iff_crossEntropy, with EGF.crossEntropy_posPart_integrable (a non-integrable log ftermHat means CE = +inf) and EGF.ac_kappaHat_iff. None of these is among C-5's anchors. The display claims nothing beyond the strict library, but it does claim more than C-5's listed anchors.",
+      "fix": "Add EGF.klDiv_eq_top_iff_crossEntropy and EGF.crossEntropy_posPart_integrable (optionally EGF.ac_kappaHat_iff) to C-5's `anchor`."
+    },
+    {
+      "severity": "minor",
+      "where": "main.tex:426",
+      "what": "C-5, finite entropy. Every decomposition declaration (kl_decomposition, klDiv_eq_top_iff_crossEntropy, crossEntropy_posPart_integrable) assumes log dkappa/dlambda in L1(kappa), i.e. H(kappa) finite. The TeX defines H(kappa) as 'the entropy of kappa' without saying it is finite, and the paper states it nowhere. Without it the right side can be undefined (inf - inf). v1 had the same presupposition, and EGF/Loss.lean's checklist reads it off the notation, so this is an unstated presupposition, not an overclaim.",
+      "fix": "Either write 'is the entropy of kappa, assumed finite' at l.426 and list 'H(kappa) finite' in C-5's `added_hypotheses`, or record in C-5's `finding` that finite entropy is read as the presupposition of the notation H(kappa)."
+    },
+    {
+      "severity": "minor",
+      "where": "main.tex:382",
+      "what": "C-5, wording inside Corollary 3.10. The appositive 'the divergence that the cross-entropy term of (equ:weakFM) controls' is a claim no declaration makes. kl_decomposition shows that the cross-entropy fixes KL(kappa || kappa-hat/kappa-hat(S)) only up to log int ftermHat = log(1+delta) and the constant H(kappa). The only 'control' theorem, loss_controls_defect, bounds the KL by L - H(kappa) for the whole loss with b >= 1 + N, which is C-35 / OQ-84 territory. The paper itself says four lines later (l.428) that 'the cross-entropy is insufficient to fully control the KL divergence'. The phrase comes from the register's `corrected` text.",
+      "fix": "Replace the appositive with 'the divergence decomposed below' (or 'the divergence whose decomposition below contains the cross-entropy term of (equ:weakFM)'), or move the motivation out of the corollary, and align C-5's `corrected` text."
+    },
+    {
+      "severity": "minor",
+      "where": "main.tex:380",
+      "what": "C-1, the anchor coverage. The applied clause 'so that delta = (F_init + F_in - F_out)^-(S) >= 0' is the statement of EGF.integral_deltaFinitDensity. That declaration is a C-4 anchor but not a C-1 anchor. pinsker_negative_control (with E^-(S)) and pinsker_negative_control_density (with int deltafinit) each state the bound, and neither states the equality.",
+      "fix": "Add EGF.integral_deltaFinitDensity to C-1's `anchor`."
+    }
+  ],
+  "answers": {
+    "corrector_point_1": "Yes. The qualified C-3 sentence is exactly what the Lean proves: algBackwardFactor_mem_Ioc where f_in(s) > 0 and the second conjunct of algForwardFactor_eq where f_out(s) > 0, with nothing more needed. The qualifier is necessary, and EGF.algForwardFactor_eq should be added to C-3's anchor, with the `corrected` and `added_hypotheses` fields brought in line (finding 1).",
+    "corrector_point_2": "The context supplies kappa << lambda: l.416 'the target kappa has unknown density', and the paper's convention l.156 that dkappa/dlambda exists only for kappa << lambda. kappa << kappa-hat and a finite cross-entropy are not needed for the bare display read in (-inf, +inf]: the +inf case is klDiv_eq_top_iff_crossEntropy, with crossEntropy_posPart_integrable and ac_kappaHat_iff, which are not among C-5's anchors (finding 2). Finite entropy is presupposed by the notation H(kappa) but stated nowhere, as in v1. It is minor (finding 3) and not an overclaim. The display does not claim more than the strict library under that presupposition.",
+    "c1_clause": "Faithful. It is integral_deltaFinitDensity, whose hypotheses (F_init, F_out << lambda, InflowAC, lambda sigma-finite, F_init finite) are the paper's presuppositions in Corollary 3.10's setting: densities written as d./dlambda (l.196), defined only under domination (l.156), and lambda finite (l.155, l.161). Anchor gap only (finding 5).",
+    "c4_clause": "Faithful. Its conclusion '= 1' is integral_ftermHatDensity_eq (via kappaHat_eq_withDensity, integral_deltaFinitDensity and sampling_error_control's kappaHat(S) = 1 + delta). Its middle expression F_init(S) + F_in(S) - F_out(S) is elementary: pointwise max(0,x) - max(0,-x) = x, the dominations, F_in(S) = F_out(S) for Markov pi, and F_init(S) = 1 from the corollary's setting."
+  }
+}
