@@ -131,14 +131,15 @@ id = "C-6"
 where = "the density of the star inflow"
 printed = ["main.tex:196", "main.tex:231-234"]
 kind = "missing-hypothesis"
-finding = "f_in* = dF_in*/d lambda presupposes F_in* = F_out* pi* << lambda, which no statement lists. For an EGF it follows from the diffeomorphism decomposition of the policy (the author, 2026-11-21): F_out* pi* = sum_i (Phi_i)_# (alpha^i F_out*) << sum_i (Phi_i)_# lambda << lambda as soon as every Phi_i is nonsingular, (Phi_i)_# lambda << lambda, which holds for diffeomorphisms and a smooth volume, for Haar measure on tori and for isometries of the sphere. Proved today only under (Phi_i)_# lambda = J_i lambda with the Phi_i measurable equivalences (EGF.inflowAC_of_isEGFPolicy, the anchor listed, narrower than the corrected text); the nonsingular form, for measurable Phi_i with no inverse and no Jacobian, is to be EGF.inflow_ac_of_map_ac and EGF.InflowAC.of_map_ac (T-egf-inflow-nonsingular), and Corollary 3.10 for such an EGF without InflowAC EGF.pinsker_negative_control_nonsingular (T-egf-loss); the anchor is then to be switched to them."
-anchor = ["EGF.inflow_ac_of_map_ac", "EGF.InflowAC.of_map_ac", "EGF.inflow_eq_withDensity_of_map_ac", "EGF.pinsker_negative_control_nonsingular"]
+finding = "f_in* = dF_in*/d lambda presupposes F_in* = F_out* pi* << lambda, which no statement lists. For an EGF it follows from the diffeomorphism decomposition of the policy (the author, 2026-11-21): F_out* pi* = sum_i (Phi_i)_# (alpha^i F_out*) << sum_i (Phi_i)_# lambda << lambda as soon as every Phi_i is nonsingular, (Phi_i)_# lambda << lambda, which holds for diffeomorphisms and a smooth volume, for Haar measure on tori and for isometries of the sphere. Proved today only under (Phi_i)_# lambda = J_i lambda with the Phi_i measurable equivalences (EGF.inflowAC_of_isEGFPolicy, the anchor listed, narrower than the corrected text); the nonsingular form, for measurable Phi_i with no inverse and no Jacobian, is to be EGF.inflow_ac_of_map_ac and EGF.InflowAC.of_map_ac (T-egf-inflow-nonsingular), and Corollary 3.10 for such an EGF without InflowAC EGF.pinsker_negative_control_nonsingular (T-egf-loss); the anchor is then to be switched to them. The Riemannian examples of the corrected text (the volume, its Jacobian) rest on standard facts not formalized: Mathlib at the pin has no manifold volume (CHECK-1 of T-egf-correct-backward); the Lean covers Lebesgue/Haar measure on R^d and any lambda equivalent to it."
+anchor = ["EGF.inflow_ac_of_map_ac", "EGF.InflowAC.of_map_ac", "EGF.inflow_eq_withDensity_of_map_ac", "EGF.IsEGFPolicy.inflow_eq_sum_map", "EGF.map_ac_of_diffeomorph", "EGF.pinsker_negative_control_nonsingular"]
 basis = ["OQ-55", "DEC-141"]
-status = "adopted"
-corrected = '''For an EGF, $\Finstar = \sum_i (\Phi_i)_\#(\forwardalpha^i \Foutstar) \ll \lambda$ because each $\Phi_i$ is nonsingular, $(\Phi_i)_\#\lambda \ll \lambda$ (true for diffeomorphisms and the Riemannian volume); hence $\finstar$ exists ($\lambda$ being finite).'''
+status = "applied"
+corrected = '''At l.196: ``the latter presupposes $\Finstar\ll\lambda$, which holds for an EGF since its moves are nonsingular (Section \ref{sec:fundamentals_EGF})''. After l.230: ``Denote by $(\Phi_i)_\#\mu := \mu(\Phi_i^{-1}(\cdot))$ the image of a measure $\mu$ by $\Phi_i$. For an EGF, $\Finstar = \sum_i (\Phi_i)_\#(\forwardalpha^i \Foutstar) \ll \lambda$ because $\Foutstar \ll \lambda$ and each $\Phi_i$ is nonsingular, $(\Phi_i)_\#\lambda \ll \lambda$ (true for diffeomorphisms and the Riemannian volume); hence $\finstar$ exists ($\lambda$ being $\sigma$-finite).'''''
 summary = "The existence of the inflow density f_in* is now derived: the moves Phi_i are nonsingular, (Phi_i)_# lambda << lambda, so F_in* << lambda."
 added_hypotheses = ["(Phi_i)_# lambda << lambda for each i (nonsingular moves; automatic for diffeomorphisms and a smooth volume)"]
 batch = "T-egf-correct-backward"
+v2_commit = "e90ff4b"
 
 [[correction]]
 id = "C-7"
@@ -146,15 +147,16 @@ label = "theo:backward_policy"
 where = "Appendix A, the setting of the backward-policy theorem"
 printed = "main.tex:731-732"
 kind = "false"
-finding = "'a background measure lambda absolutely continuous with respect to Lebesgue measure' does not make F_in = F_out pi* absolutely continuous with respect to lambda, so f_in need not exist: on R with lambda = 1_[0,1) Lebesgue, Phi(x) = x + 1, F_in is singular to lambda."
+finding = "'a background measure lambda absolutely continuous with respect to Lebesgue measure' does not make F_in = F_out pi* absolutely continuous with respect to lambda, so f_in need not exist: on R with lambda = 1_[0,1) Lebesgue, Phi(x) = x + 1, F_in is singular to lambda. The Riemannian examples of the corrected text (the volume, its Jacobian) rest on standard facts not formalized: Mathlib at the pin has no manifold volume (CHECK-1 of T-egf-correct-backward); the Lean covers Lebesgue/Haar measure on R^d and any lambda equivalent to it."
 refutation = ["EGF.printed_inflow_not_ac"]
 anchor = ["EGF.backward_policy", "EGF.backward_policy_rnDeriv", "EGF.map_ac_of_equiv_addHaar"]
 basis = ["OQ-55", "DEC-141"]
-status = "adopted"
+status = "applied"
 corrected = '''A background measure $\lambda$ for which every $\Phi_i$ is nonsingular, $(\Phi_i)_\#\lambda \ll \lambda$ (for instance the Riemannian volume, or any $\lambda$ equivalent to Lebesgue measure).'''
 summary = "Appendix A assumes the moves nonsingular for lambda ((Phi_i)_# lambda << lambda) instead of 'lambda << Lebesgue', which does not give an inflow density."
 added_hypotheses = ["(Phi_i)_# lambda << lambda for each i"]
 batch = "T-egf-correct-backward"
+v2_commit = "e90ff4b"
 
 [[correction]]
 id = "C-8"
@@ -162,15 +164,16 @@ label = "theo:backward_policy"
 where = "the backward-policy formula (Appendix A; also the body, Eq. (equ:tractable_inflow))"
 printed = ["main.tex:735-737"]
 kind = "false"
-finding = "With |J_s Phi_i^{-1}| the coordinate Jacobian determinant, the formulas for f_in and beta^i are false for a background measure other than Lebesgue, even one equivalent to Lebesgue: the true weights are (2/3, 1/3) where the printed ones are (1/2, 1/2). They hold with the Jacobian relative to lambda, d((Phi_i)_# lambda)/d lambda, which equals the coordinate one for Lebesgue (or Haar) measure, the body's setting (l.225)."
+finding = "With |J_s Phi_i^{-1}| the coordinate Jacobian determinant, the formulas for f_in and beta^i are false for a background measure other than Lebesgue, even one equivalent to Lebesgue: the true weights are (2/3, 1/3) where the printed ones are (1/2, 1/2). They hold with the Jacobian relative to lambda, d((Phi_i)_# lambda)/d lambda, which equals the coordinate one for Lebesgue (or Haar) measure, the body's setting (l.225). The Riemannian examples of the corrected text (the volume, its Jacobian) rest on standard facts not formalized: Mathlib at the pin has no manifold volume (CHECK-1 of T-egf-correct-backward); the Lean covers Lebesgue/Haar measure on R^d and any lambda equivalent to it."
 refutation = ["EGF.printed_backward_policy_false"]
-anchor = ["EGF.backward_policy_rnDeriv", "EGF.backward_policy_equiv_addHaar", "EGF.backward_policy_addHaar", "EGF.backward_policy_diffeomorph"]
+anchor = ["EGF.backward_policy_rnDeriv", "EGF.backward_policy_equiv_addHaar", "EGF.backward_policy_addHaar", "EGF.backward_policy_diffeomorph", "EGF.map_eq_withDensity_abs_det"]
 basis = ["OQ-55", "DEC-141"]
-status = "adopted"
+status = "applied"
 corrected = '''Replace $|J_s\Phi_i^{-1}|$ by the Jacobian of $\Phi_i^{-1}$ relative to $\lambda$, $J^\lambda_{\Phi_i^{-1}}(s) := \frac{d((\Phi_i)_\#\lambda)}{d\lambda}(s)$, which is $|\det J_s\Phi_i^{-1}|$ for Lebesgue (or Haar) measure and the Riemannian Jacobian for the volume measure.'''
 summary = "The backward-policy weights use the Jacobian of Phi_i^{-1} relative to lambda; the coordinate determinant is correct only for Lebesgue/Haar measure."
 added_hypotheses = []
 batch = "T-egf-correct-backward"
+v2_commit = "e90ff4b"
 
 [[correction]]
 id = "C-9"
@@ -181,11 +184,12 @@ kind = "gap"
 finding = "beta^i(s) divides by f_in(s), undefined where f_in(s) is 0 or infinite; both sets are F_in-null and a backward policy is only defined F_in-a.e. The formalization sets the quotient to 0 there; the kernel is then Markov F_in-a.e. and unique up to F_in-null sets."
 anchor = ["EGF.backward_policy"]
 basis = ["DEC-141"]
-status = "adopted"
-corrected = '''$\backwardalpha^i$ is defined $\Finstar$-almost everywhere (set to $0$ where $\finstar(s)\in\{0,\infty\}$); the backward policy is unique up to $\Finstar$-null sets.'''
+status = "applied"
+corrected = '''$\backwardalpha^i$ is defined $\Finstar$-almost everywhere (set to $0$ where $\finstar(s)\in\{0,\infty\}$); the backward policy is unique up to $\Finstar$-null sets, setwise: for each measurable $X$, every backward star policy agrees with $\BackwardPolicyStar(s\rightarrow X)$ for $\Finstar$-almost every $s$.'''
 summary = "The backward weights are defined F_in-almost everywhere, and the backward policy is unique up to F_in-null sets."
 added_hypotheses = []
 batch = "T-egf-correct-backward"
+v2_commit = "e90ff4b"
 
 [[correction]]
 id = "C-10"
@@ -194,11 +198,12 @@ printed = ["main.tex:736-737", "main.tex:754-758"]
 kind = "typo"
 finding = "|J_s Phi_i^{-1}| is written for what l.233 writes |det J_s Phi_i^{-1}|; and the proof environment closes (l.758) before the deduction that yields the formula (l.759-766). Nothing to prove in Lean: the formalization reads |J_s Phi_i^{-1}| as the absolute determinant (EGF.coordJac, EGF/BackwardPolicy.lean:466) and certifies the deduction of l.759-766 inside EGF.backward_policy (the same file, :419); editorial (with C-8 the factor becomes the lambda-Jacobian)."
 basis = ["DEC-141"]
-status = "adopted"
+status = "applied"
 corrected = '''Write the Jacobian factor uniformly in Appendix A as the $\lambda$-Jacobian $J^\lambda_{\Phi_i^{-1}}$ of C-8 (which is $|\det J_s\Phi_i^{-1}|$ for Lebesgue measure, as at l.233), at l.736--737 and in l.754--764; and move \verb|\end{proof}| from l.758 to after ``The result follows.'' (l.766).'''
 summary = "Appendix A: |det J| notation made uniform; the proof environment encloses the whole deduction."
 added_hypotheses = []
 batch = "T-egf-correct-backward"
+v2_commit = "e90ff4b"
 
 # --------------------------------------------------------------------------------------------
 # Sampling: the 1/2 of TV, termination, the stopping rule (OQ-60)                       batch C-sampling
