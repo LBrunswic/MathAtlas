@@ -1,5 +1,6 @@
 import Causal.LemmaKReduction
 import Causal.CBG.CausalConvex
+import Causal.LevinTimeFunction
 
 /-!
 # Lemma K, the bare form: what a counterexample must be, and four families that cannot supply one
@@ -39,7 +40,8 @@ named in round 1 cannot supply one.
 * **Tarentin and global hyperbolicity give local compactness**
   (`weaklyLocallyCompactSpace_of_globallyHyperbolic`, `locallyCompactSpace_of_globallyHyperbolic`):
   the diamond is a compact neighbourhood. This excludes the Moore (Niemytzki) plane and every
-  non-locally-compact candidate.
+  non-locally-compact candidate. Both are proved in the ETT-layer `Causal.LevinTimeFunction`
+  since T-abs-hoist-levin (same full names), which this module imports.
 
 ## Hypothesis checklist
 
@@ -261,23 +263,9 @@ theorem not_tarentin_of_branching_past {x : M} {N : Set M} (hN : N ∈ 𝓝 x)
   obtain ⟨y₁, h₁, y₂, h₂, hno⟩ := hbr V hV
   exact hno p hp ⟨(hle y₁ h₁).1, (hle y₂ h₂).1⟩
 
-/-! ### Tarentin and global hyperbolicity give local compactness -/
-
-/-- **A tarentin globally hyperbolic spacetime is weakly locally compact**: a diamond around a
-point is a compact neighbourhood of it. -/
-theorem weaklyLocallyCompactSpace_of_globallyHyperbolic (hT : C.Tarentin)
-    (hG : C.GloballyHyperbolic) : WeaklyLocallyCompactSpace M where
-  exists_compact_mem_nhds x := by
-    obtain ⟨p, -, q, -, hx⟩ := hT x univ univ_mem
-    exact ⟨C.diamond ⊤ p q, hG.2 p q,
-      mem_of_superset (isOpen_openDiamond.mem_nhds hx) openDiamond_subset_diamond⟩
-
-/-- **A Hausdorff tarentin globally hyperbolic spacetime is locally compact** (so the Moore plane,
-which is not, carries no such causality). -/
-theorem locallyCompactSpace_of_globallyHyperbolic [T2Space M] (hT : C.Tarentin)
-    (hG : C.GloballyHyperbolic) : LocallyCompactSpace M :=
-  haveI := weaklyLocallyCompactSpace_of_globallyHyperbolic hT hG
-  inferInstance
+/-! `weaklyLocallyCompactSpace_of_globallyHyperbolic` and
+`locallyCompactSpace_of_globallyHyperbolic` (tarentin and global hyperbolicity give local
+compactness) are in `Causal.LevinTimeFunction` (T-abs-hoist-levin), same full names. -/
 
 end Causality
 

@@ -1,4 +1,5 @@
 import Causal.LemmaKReduction
+import Causal.LevinTimeFunction
 
 /-!
 # Lemma K with second countability — what it buys, and the exact local residue of the bare form
@@ -28,7 +29,9 @@ give, and states the residue exactly, in local form.
   diamond). With second countability it is σ-compact and metrizable
   (`sigmaCompactSpace_of_globallyHyperbolic`, `metrizableSpace_of_globallyHyperbolic`). No
   second countability is needed for local compactness; it discharges the `LocallyCompactSpace`
-  hypotheses of `Causal.Flat.CBGCompact` for every GH spacetime of the library.
+  hypotheses of `Causal.Flat.CBGCompact` for every GH spacetime of the library. Local and
+  σ-compactness are proved in the ETT-layer `Causal.LevinTimeFunction` since T-abs-hoist-levin
+  (same full names), metrizability here.
 * **Second countability kills the long ray** (`countable_of_wellOrdered_chain`): in a second
   countable space with closed `J^+(x)` and causal `≤`, a well-ordered strictly increasing causal
   chain is countable (the sets `J^+(e_i)` strictly decrease; a basic open set around `e_i`
@@ -77,12 +80,13 @@ give, and states the residue exactly, in local form.
   `prop:mesure_admissible`, `ETT.tex:1054`, `1726`) and, using second countability, glued from
   local ones (`prop:mesure_dieckmann_topo`, `ETT.tex:1094`) — never produced from the bare
   hypotheses of Lemma K.
-  *Superseded in round 3:* Levin's theorem is now proved (`Causal.LevinUtility`,
-  `curvesExtend_of_secondCountable`: a continuous time function, hence `CurvesExtend`, in every
-  second countable tarentin globally hyperbolic Hausdorff spacetime), and the characterisations
-  below hold with `hext` discharged (`isCauchySurface_iff_local_of_secondCountable`,
-  `isCauchySurface_iff_isOpen_strictJplus_of_secondCountable`; sharp form in
-  `Causal.LemmaKSCLocal`). As predicted, that does not close Lemma K.
+  *Superseded in round 3:* Levin's theorem is now proved (`Causal.LevinTimeFunction`, in
+  `Causal.LevinUtility` until T-abs-hoist-levin; `curvesExtend_of_secondCountable`: a continuous
+  time function, hence `CurvesExtend`, in every second countable tarentin globally hyperbolic
+  Hausdorff spacetime), and the characterisations below hold with `hext` discharged
+  (`isCauchySurface_iff_local_of_secondCountable`,
+  `isCauchySurface_iff_isOpen_strictJplus_of_secondCountable`, in `Causal.LevinUtility`; sharp
+  form in `Causal.LemmaKSCLocal`). As predicted, that does not close Lemma K.
 * **Why (1') and (2') are hard, in one sentence each.** (1') is lower semicontinuity of
   "`J^-(w) ∩ Σ ≠ {w}`" along `Σ`; it holds where a point just below `w` is in the *chronological*
   past of `w` (push-up and `Z^-`), and fails to follow from `≤` alone where `J^-(w)` has empty
@@ -115,22 +119,11 @@ namespace Causality
 
 variable {C : Causality M}
 
-/-! ### Local compactness, σ-compactness, metrizability -/
+/-! ### Metrizability
 
-/-- **A tarentin globally hyperbolic Hausdorff spacetime is locally compact**: every point lies in
-the interior of a diamond, and diamonds are compact. -/
-theorem locallyCompactSpace_of_globallyHyperbolic [T2Space M] (hT : C.Tarentin)
-    (hG : C.GloballyHyperbolic) : LocallyCompactSpace M := by
-  haveI : WeaklyLocallyCompactSpace M := ⟨fun x => by
-    obtain ⟨p, -, q, -, hx⟩ := hT x univ univ_mem
-    exact ⟨C.diamond ⊤ p q, hG.2 p q, mem_interior_iff_mem_nhds.1 hx⟩⟩
-  infer_instance
-
-/-- With second countability, a tarentin globally hyperbolic Hausdorff spacetime is σ-compact. -/
-theorem sigmaCompactSpace_of_globallyHyperbolic [T2Space M] [SecondCountableTopology M]
-    (hT : C.Tarentin) (hG : C.GloballyHyperbolic) : SigmaCompactSpace M := by
-  haveI := locallyCompactSpace_of_globallyHyperbolic hT hG
-  infer_instance
+Local compactness (`locallyCompactSpace_of_globallyHyperbolic`) and σ-compactness
+(`sigmaCompactSpace_of_globallyHyperbolic`) are in `Causal.LevinTimeFunction`
+(T-abs-hoist-levin), same full names. -/
 
 /-- With second countability, a tarentin globally hyperbolic Hausdorff spacetime is
 metrizable. -/

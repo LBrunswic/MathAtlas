@@ -87,3 +87,5 @@ rediscover. One fact per entry.
 | [0079](entries/0079-rational-line-extras.md) | pattern | The rational line in the ladder: an either-reading witness against local causal openness |
 | [0080](entries/0080-backward-ladder-call.md) | pattern | A ladder failure read backwards through a conjunctive edge is one causal_ladder call |
 | [0081](entries/0081-lines-in-abstract-causality.md) | pattern | Straight lines in an abstract causality, and the slope-δ cone on ℝ × E |
+| [0082](entries/0082-duplicate-theorem-across-modules.md) | pitfall | A theorem declared in two modules with the same type builds silently |
+| [0083](entries/0083-narrowed-imports-change-proof-terms.md) | pitfall | Narrowing a moved declaration's imports can change its proof term |

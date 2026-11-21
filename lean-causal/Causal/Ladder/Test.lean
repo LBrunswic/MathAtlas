@@ -13,9 +13,9 @@ import Causal.Properties
 For `C` a causality on a topological space, `causal_ladder` derives every implication of
 the transitive closure of the rules of `Causal.Ladder.Rules` (the emitted edges of
 `programme/ladder.toml`), from each property and from the premises of each conjunctive rule
-(36 examples, `Derived`). It fails on every other ordered pair of the properties of the
+(38 examples, `Derived`). It fails on every other ordered pair of the properties of the
 sort `causality` written here, and on each conjunctive rule with one premise dropped
-(305 examples, `Not derived`). A pair derived only through a rule with `standing` hypotheses
+(309 examples, `Not derived`). A pair derived only through a rule with `standing` hypotheses
 is derived with exactly the instances its derivation needs among its binders, and is not
 derived without them (`standing dropped`): so Lean checks each edge's `standing` against its
 witness. A pair the ladder's matrix calls `implied` that is not derived goes through an edge
@@ -83,10 +83,14 @@ example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.Tarent
 example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.Tarentin C) (_h2 : Causal.Causality.CausallyOpen C) : Causal.Causality.StronglyCausalOpen C := by causal_ladder
 -- globally_hyperbolic ∧ tarentin ⇒ causally_compact
 example (_h0 : Causal.Causality.GloballyHyperbolic C) (_h1 : Causal.Causality.Tarentin C) : Causal.Causality.CausallyCompact C := by causal_ladder
+-- globally_hyperbolic ∧ tarentin ⇒ curves_extend (standing: T2, second_countable)
+example [T2Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.GloballyHyperbolic C) (_h1 : Causal.Causality.Tarentin C) : Causal.Causality.CurvesExtend C := by causal_ladder
 -- globally_hyperbolic ∧ tarentin ⇒ is_causal
 example (_h0 : Causal.Causality.GloballyHyperbolic C) (_h1 : Causal.Causality.Tarentin C) : Causal.Causality.IsCausal C := by causal_ladder
 -- globally_hyperbolic ∧ tarentin ⇒ strongly_causal (standing: T2)
 example [T2Space M] (_h0 : Causal.Causality.GloballyHyperbolic C) (_h1 : Causal.Causality.Tarentin C) : Causal.Causality.StronglyCausal C := by causal_ladder
+-- globally_hyperbolic ∧ tarentin ⇒ time_function (standing: T2, second_countable)
+example [T2Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.GloballyHyperbolic C) (_h1 : Causal.Causality.Tarentin C) : Causal.Causality.HasTimeFunction C := by causal_ladder
 -- causally_arc_connected ∧ locally_push_up ⇒ absolutely_minimal
 example (_h0 : Causal.Causality.CausallyArcConnected C) (_h1 : Causal.Causality.LocallyPushUp C) : Causal.Precausality.AbsolutelyMinimal C.toPrecausality := by causal_ladder
 -- causally_arc_connected ∧ locally_push_up ⇒ push_up
@@ -1298,9 +1302,17 @@ example (_h0 : Causal.Causality.StronglyCausalOpen C) : True := by
 example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.Tarentin C) (_h2 : Causal.Causality.CausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C := by causal_ladder
   trivial
+-- globally_hyperbolic ∧ tarentin ⇏ curves_extend (standing dropped: T2, second_countable)
+example (_h0 : Causal.Causality.GloballyHyperbolic C) (_h1 : Causal.Causality.Tarentin C) : True := by
+  fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
+  trivial
 -- globally_hyperbolic ∧ tarentin ⇏ strongly_causal (standing dropped: T2)
 example (_h0 : Causal.Causality.GloballyHyperbolic C) (_h1 : Causal.Causality.Tarentin C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausal C := by causal_ladder
+  trivial
+-- globally_hyperbolic ∧ tarentin ⇏ time_function (standing dropped: T2, second_countable)
+example (_h0 : Causal.Causality.GloballyHyperbolic C) (_h1 : Causal.Causality.Tarentin C) : True := by
+  fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
 -- absolutely_minimal ∧ causally_plain ⇏ locally_push_up (standing dropped: T1)
 example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) (_h1 : Causal.Causality.CausallyPlain C) : True := by
@@ -1337,6 +1349,14 @@ example [T1Space M] (_h0 : Causal.Causality.CausallyPlain C) : True := by
 -- absolutely_minimal ⇏ push_up (causally_plain dropped from Causal.Causality.pushUp_of_causallyPlain_of_absolutelyMinimal)
 example [T1Space M] (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
   fail_if_success have : Causal.Causality.PushUp C := by causal_ladder
+  trivial
+-- tarentin ⇏ time_function (globally_hyperbolic dropped from Causal.Causality.GloballyHyperbolic.hasTimeFunction)
+example [T2Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.Tarentin C) : True := by
+  fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
+  trivial
+-- globally_hyperbolic ⇏ time_function (tarentin dropped from Causal.Causality.GloballyHyperbolic.hasTimeFunction)
+example [T2Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.GloballyHyperbolic C) : True := by
+  fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
 
 end

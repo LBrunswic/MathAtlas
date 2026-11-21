@@ -12,3 +12,5 @@ created: 2026-11-21
 instances are in `Causal.Model.CurvesExtendModels` and `Causal.Model.InjectiveMinkowski`.
 `HasTimeFunction` and ETT's `IsTimeFunction` are incomparable: `IsTimeFunction` is only
 non-decreasing (the doubled line, kb/0058), and `HasTimeFunction` asks no openness.
+
+**Update 2026-11-21 (T-abs-hoist-levin):** Levin's time function is in the ETT layer too (`Causal.LevinTimeFunction`: namespace `Causal.Levin`, local and σ-compactness from GH ∧ tarentin, `exists_timeFunction_of_secondCountable`, `curvesExtend_of_secondCountable`, `exists_inextensible_of_secondCountable`); the ladder edge globally_hyperbolic ∧ tarentin ⇒ time_function is `Causality.GloballyHyperbolic.hasTimeFunction` (T2, second countable) and a `causal_ladder` rule. `Causal.LevinUtility` keeps only the two Lemma K corollaries.

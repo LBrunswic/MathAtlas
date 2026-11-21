@@ -5,6 +5,7 @@ import Causal.CurvesExtend
 import Causal.DeuxPushup
 import Causal.GlobalHyperbolicity
 import Causal.LadderLocal
+import Causal.LevinTimeFunction
 import Causal.Properties
 import Causal.StrongCausality
 
@@ -64,6 +65,7 @@ attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.Lo
 attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.HasTimeFunction.curvesExtend
 -- time_function ⇒ is_causal
 attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.HasTimeFunction.isCausal
+-- globally_hyperbolic ∧ tarentin ⇒ time_function (standing: T2, second_countable)
+attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.GloballyHyperbolic.hasTimeFunction
 
--- skipped Causal.Causality.exists_timeFunction_of_secondCountable (globally_hyperbolic ∧ tarentin ⇒ time_function): layer: Causal.Causality.exists_timeFunction_of_secondCountable lives in Causal.LevinUtility, which imports a model (Causal.LevinUtility → Causal.LemmaKSC → Causal.LemmaKReduction → Causal.LemmaKBare → Causal.Model.CurvesExtendModels)
 -- skipped Causal.Causality.LeNested.curveNestedOn (le_nested ⇒ curve_nested): sort: joins a property not of the sort causality

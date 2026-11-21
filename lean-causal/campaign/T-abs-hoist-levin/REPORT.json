@@ -1,0 +1,217 @@
+{
+ "target": "T-abs-hoist-levin",
+ "package": "T-abs-hoist-levin",
+ "files": [
+  "Causal/LevinTimeFunction.lean",
+  "Causal/LevinUtility.lean",
+  "Causal/LemmaKSC.lean",
+  "Causal/LemmaKObstruction.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "T-abs-hoist-levin/hoist-levin",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.Levin.upHull",
+    "Causal.Levin.IsUp",
+    "Causal.Levin.isUp_upHull",
+    "Causal.Levin.subset_upHull",
+    "Causal.Levin.IsUp.compl",
+    "Causal.Levin.isClosed_upHull",
+    "Causal.Levin.isClosed_flip",
+    "Causal.Levin.Good",
+    "Causal.Levin.good_empty",
+    "Causal.Levin.step",
+    "Causal.Levin.glue",
+    "Causal.Levin.exists_cover",
+    "Causal.Levin.PDown",
+    "Causal.Levin.pDown_split",
+    "Causal.Levin.approx_mono_rel",
+    "Causal.Levin.lim_mono_rel",
+    "Causal.Levin.exists_monotone_sep",
+    "Causal.Levin.exists_utility",
+    "Causal.Causality.weaklyLocallyCompactSpace_of_globallyHyperbolic",
+    "Causal.Causality.locallyCompactSpace_of_globallyHyperbolic",
+    "Causal.Causality.sigmaCompactSpace_of_globallyHyperbolic",
+    "Causal.Causality.exists_timeFunction_of_secondCountable",
+    "Causal.Causality.curvesExtend_of_secondCountable",
+    "Causal.Causality.exists_inextensible_of_secondCountable"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "metrizableSpace_of_globallyHyperbolic (LemmaKSC, same section as local and σ-compactness, model-free) is not named by the target. Reading taken: it stays in Causal.LemmaKSC, whose section header became '### Metrizability' with a comment that names the two moved lemmas and their module. Moving it is a five-line cut if the master wants the whole section together."
+   ],
+   "moved": "Byte-identical blocks, each found exactly once in its new place and nowhere else (cut by line range from `git show HEAD:` copies): LevinUtility HEAD :75-454 (prelude `namespace Causal`, `open Set TopologicalSpace Topology Filter Function`, `universe u`, then namespace Levin whole) -> LevinTimeFunction :86-465; LemmaKObstruction HEAD :264-280 (header '### Tarentin and global hyperbolicity give local compactness', weaklyLocallyCompactSpace_of_globallyHyperbolic, locallyCompactSpace_of_globallyHyperbolic) -> LevinTimeFunction :473-489; LemmaKSC HEAD :129-133 (sigmaCompactSpace_of_globallyHyperbolic) -> :491-495; LevinUtility HEAD :456 (header '### In ETT: a time function, hence `CurvesExtend`') -> :497; LevinUtility HEAD :464-493 (exists_timeFunction_of_secondCountable, curvesExtend_of_secondCountable, exists_inextensible_of_secondCountable) -> :499-528. Between the Levin block and the ETT blocks the module repeats the three sources' common prelude (`variable {M : Type u} [TopologicalSpace M]`, `namespace Causality`, `variable {C : Causality M}`), so binder telescopes and universe names are unchanged (dump). curvesExtend_of_secondCountable and exists_inextensible_of_secondCountable were in LevinUtility (checked) and moved with the rest. No private declaration was involved. The term-mode matcher Causal.Levin.isUp_upHull.match_1_1 and the structure's generated constants (Good.mk, .rec, .casesOn, .recOn, .mk._flat_ctor, eight projections) moved with their parents, under the same names."
+  },
+  {
+   "label": "T-abs-hoist-levin/duplicate",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.locallyCompactSpace_of_globallyHyperbolic"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [
+    "Library, not paper: the target's evidence says that because of the duplicate 'no module imports both'. That is not so. The root Causal.lean imports both Causal.LemmaKSC (:63) and Causal.LemmaKObstruction (:64), and it built at HEAD. Lean v4.31.0 accepts two modules that declare the same theorem with the same type and universe parameters (Lean/Environment.lean:2184-2210, subsumesInfo: 'We allow different modules to prove the same theorem'; the proof term is not compared). In the merged environment const2ModIdx keeps the first module (Causal.LemmaKSC), and the ConstantInfo, including the proof term, is the later module's (Causal.LemmaKObstruction's). So the build could not have caught the duplicate. It is visible only to a source grep or to a dump of two closures."
+   ],
+   "questions": [
+    "Which copy to keep. Reading taken: Causal.LemmaKObstruction's (through weaklyLocallyCompactSpace_of_globallyHyperbolic, which moves with it). Three reasons. Its helper moves too. It is byte-identical to a HEAD block. It is the proof term the root environment already carried. LemmaKSC's copy (HEAD :120-127, a self-contained proof through mem_interior_iff_mem_nhds) was deleted, not moved."
+   ],
+   "type_check": "Before merging, each closure was dumped separately at HEAD (import Causal.LemmaKSC; import Causal.LemmaKObstruction). Both copies have type hash 3324761659, universe list [u] and the binder telescope M{},inst[],C{},inst[](T2Space),hT(),hG(). The value hashes differ: LemmaKSC 2586026344, LemmaKObstruction 3386744771. A probe importing both modules also shows that the types are equal: Lean's import accepts the pair only under Expr equality of the types (subsumesInfo)."
+  },
+  {
+   "label": "T-abs-hoist-levin/wrapper",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.GloballyHyperbolic.hasTimeFunction"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Hausdorff, second countable (def:category_topological_spacetimes, ETT.tex:255)",
+     "here": "carried",
+     "note": "[T2Space M] [SecondCountableTopology M], the ladder edge's standing"
+    },
+    {
+     "paper": "globally hyperbolic, tarentin",
+     "here": "carried",
+     "note": "(hG : C.GloballyHyperbolic) (hT : C.Tarentin), in the dispatch's order"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "new": "Causal/LevinTimeFunction.lean:535 `theorem GloballyHyperbolic.hasTimeFunction [T2Space M] [SecondCountableTopology M] (hG : C.GloballyHyperbolic) (hT : C.Tarentin) : C.HasTimeFunction`, in namespace Causal.Causality, variables {M : Type u} [TopologicalSpace M] {C : Causality M}. Its conclusion is exactly the library's Causality.HasTimeFunction (Causal/CurvesExtend.lean:516). Elaborated: ∀ {M : Type u} [TopologicalSpace M] {C : Causal.Causality M} [T2Space M] [SecondCountableTopology M], C.GloballyHyperbolic → C.Tarentin → C.HasTimeFunction. The proof is two tactic lines: obtain from exists_timeFunction_of_secondCountable hT hG (monotonicity dropped), then the anonymous constructor. It is written in tactic mode, so no auxiliary matcher is created (kb/0066), and it is the module's only new constant. Dot notation works: `hG.hasTimeFunction hT`, and `(hG.hasTimeFunction hT).curvesExtend` (probe)."
+  }
+ ],
+ "extra_decls": [
+  "Causal.Causality.GloballyHyperbolic.hasTimeFunction"
+ ],
+ "new_modules": {
+  "Causal.LevinTimeFunction": {
+   "lines": 542,
+   "layer": "ETT layer (layer 1)",
+   "imports": [
+    "Causal.CurvesExtend",
+    "Causal.GlobalHyperbolicity",
+    "Mathlib.Topology.Compactness.Paracompact"
+   ],
+   "import_closure": [
+    "Causal.ArcConnected",
+    "Causal.Cauchy",
+    "Causal.CauchyExtension",
+    "Causal.Causality",
+    "Causal.Curves",
+    "Causal.CurvesExtend",
+    "Causal.Generated",
+    "Causal.Geroch",
+    "Causal.GlobalHyperbolicity",
+    "Causal.Inextensible",
+    "Causal.LevinTimeFunction",
+    "Causal.Lines",
+    "Causal.LinesCurves",
+    "Causal.Local",
+    "Causal.Measure",
+    "Causal.MeasureRemarks",
+    "Causal.Minimal",
+    "Causal.Morphism",
+    "Causal.Properties",
+    "Causal.PushUp",
+    "Causal.Reachable",
+    "Causal.StrongCausality",
+    "Causal.Subdivision"
+   ],
+   "import_closure_size": "23 Causal modules including itself, from a compiled probe (header.moduleNames of an environment importing the module): Causal.CurvesExtend's 22 plus itself. Zero model modules under the Name-prefix rule and under tools/ladder.py's is_model rule, with MODEL_LAYER = Causal.Minkowski, Causal.Static, Causal.SingularFlat, Causal.Flat, Causal.Model, Causal.Port. tools/ladder.py model_path('Causal.LevinTimeFunction', lean_index()['imports']) is None. Also no Causal.CBG*, Causal.Splitting, Causal.LemmaK* or Causal.LevinUtility module (probe).",
+   "content": "38 moved constants and the new wrapper, 39 in all. collectAxioms gives only propext, Classical.choice and Quot.sound for each of the 39. Hypotheses are ladder properties (Tarentin, GloballyHyperbolic) or standing typeclasses (T2Space, SecondCountableTopology). The abstract Levin.* lemmas carry NormalSpace, WeaklyLocallyCompactSpace, SigmaCompactSpace, T1Space and SecondCountableTopology on an abstract X with a closed preorder r. No statement mentions a metric. The docstring quotes def:category_topological_spacetimes (ETT.tex:255) and prop:GH_Jferme (ETT.tex:1178), marks no label, gives a hypothesis checklist, and in SCOPE says that HasTimeFunction is not defi:fonction_temps (ETT.tex:1028), what stayed behind, the merged duplicate, and why the mathlib import is there.",
+   "why_paracompact": "Mathlib.Topology.Compactness.Paracompact is not needed by any proof. Without it the moved exists_timeFunction_of_secondCountable elaborated to a different proof term: value hash 4097358787 against 4138677269 at HEAD, with the same type. The difference was in the instance arguments only. In LevinUtility's HEAD closure, typeclass search reached NormalSpace and RegularSpace through paracompact_of_locallyCompact_sigmaCompact, T4Space.of_paracompactSpace_t2Space and T3Space.toRegularSpace. In the narrower closure it went through instRegularSpaceOfWeaklyLocallyCompactSpaceOfR1Space and T2Space.t1Space. Diagnosed by re-elaborating the HEAD proof text under a probe name: in an environment importing Causal.LemmaKSC it gives exactly 4138677269, in Causal.LevinTimeFunction's closure 4097358787, and with that mathlib module added 4138677269 again. Hence the import, which keeps the moved proof term identical. It is a mathlib module, so the layer is unchanged."
+  }
+ },
+ "edited": {
+  "Causal/LevinUtility.lean": "`import Causal.CurvesExtend` replaced by `import Causal.LevinTimeFunction` (`import Causal.LemmaKSC` kept). HEAD :75-493 cut: the prelude :75-80 stays, the Levin block and the three ETT theorems moved. A 4-line comment names the moved constants and their module. The section header is now '### Lemma K's characterisations without `CurvesExtend`'. The two corollaries isCauchySurface_iff_local_of_secondCountable and isCauchySurface_iff_isOpen_strictJplus_of_secondCountable (HEAD :495-522) are byte-identical at :72-99, under the same prelude (variable M, namespace Causality, variable C). Docstring rewritten for what remains: title 'Lemma K's characterisations in second countable spacetimes, without `CurvesExtend` (Levin's theorem)'; the ETT.tex:255 quote; a paragraph saying where Levin's theorem went; What is proved, the checklist and SCOPE reduced to the corollaries. 522 -> 99 lines.",
+  "Causal/LemmaKSC.lean": "+ `import Causal.LevinTimeFunction` (line 2). HEAD :118-133 replaced: the section header '### Local compactness, σ-compactness, metrizability' becomes '### Metrizability', with a comment naming the two moved lemmas and their module. LemmaKSC's own copy of locallyCompactSpace_of_globallyHyperbolic (HEAD :120-127) is deleted, and sigmaCompactSpace_of_globallyHyperbolic (HEAD :129-133) moved. metrizableSpace_of_globallyHyperbolic stays and now resolves locallyCompactSpace_of_globallyHyperbolic through the import. Docstring: the 'What is proved' local-compactness bullet gains one sentence saying where local and σ-compactness are proved. The SCOPE 'Superseded in round 3' sentence now names Causal.LevinTimeFunction, and Causal.LevinUtility for the two characterisations. 421 -> 414 lines.",
+  "Causal/LemmaKObstruction.lean": "+ `import Causal.LevinTimeFunction` (line 3). HEAD :264-280 (the header and the two theorems) moved, replaced by a 3-line comment naming them and their module. Docstring: the 'Tarentin and global hyperbolicity give local compactness' bullet gains one sentence saying where they are proved. Nothing used them inside the module. 300 -> 288 lines."
+ },
+ "not_edited": "Causal.lean (root) is not edited; the master adds the import. Imports had to change in no module beyond the three edited ones. LemmaKLocal imports LemmaKSC, LemmaKSCLocal imports LevinUtility, and LemmaK imports LemmaKSCLocal; each resolves every moved name through those imports and was rebuilt unchanged. The scaffold's CausalScaffold.LemmaKSCOpen (imports Causal.LemmaKSCLocal) typechecks with `lake env lean`; its one tagged sorry (DEC-44) was already there. Stale prose pointers to Causal.LevinUtility were left alone, because they are outside the files the hoist needs: Causal/CurvesExtend.lean:99 (editing it would rebuild most of the library), Causal/LemmaK.lean:42, Causal/LemmaKSCLocal.lean:13, scaffold/CausalScaffold/LemmaKSCOpen.lean:36 and :78, docs/BARBOT.md:239 and :252, README.md:96, Causal.lean:259. Each still points at a module that reaches the named theorem, but not at the module that declares it (master_changes). After the final build exactly 8 oleans are newer than the 'before' dump: LevinTimeFunction, LevinUtility, LemmaKSC, LemmaKObstruction, LemmaKLocal, LemmaKSCLocal, LemmaK and the root Causal.",
+ "left_behind": [
+  "Nothing the target lists was left behind. curvesExtend_of_secondCountable and exists_inextensible_of_secondCountable were in LevinUtility, so they moved.",
+  "Kept in Causal.LevinUtility as the dispatch says: isCauchySurface_iff_local_of_secondCountable and isCauchySurface_iff_isOpen_strictJplus_of_secondCountable. Both use LemmaKSC's characterisations, which use Causal.LemmaKBare's strictJplus and Causal.LemmaKReduction's isCauchySurface_iff_of_curvesExtend.",
+  "Still in model-reaching modules, and model-free by their direct dependencies (every Causal constant they use is declared in an ETT-layer module or is one of them; dependency dump over `import Causal`). Not in this target. In Causal.LemmaKSC: metrizableSpace_of_globallyHyperbolic, countable_of_wellOrdered_chain, GloballyHyperbolic.countable_of_wellOrdered_chain, timelikeLine_lemmaKSC_hypotheses. In Causal.LemmaKObstruction: everything except isLocallyCauchy_of_vacuousCharts (which uses LemmaKReduction's isCauchySurfaceOn_of_forall_not_inextensible). That is BareLemmaK, HasVacuousChart, not_isCauchySurface_of_vacuousCharts, not_mem_of_vacuous, withoutChronology with its 11 lemmas, CausallyArcConnected.withoutChronology, bareLemmaK_of_withoutChronology, timelikeLine_withoutChronology, Tarentin.exists_bounds_nhds, not_tarentin_of_branching, not_tarentin_of_branching_past and lightlikeLine_bareLemmaK_hypotheses."
+ ],
+ "layer": {
+  "definition": "As in the earlier hoists: a strict module is ETT-layer when neither it nor any module in its transitive import closure is Causal.Minkowski, Causal.Static, Causal.SingularFlat, Causal.Flat.*, Causal.Model.* or Causal.Port.*. Counted from the import lines of every file under Causal/ (root excluded, Causal/Ladder included), with the HEAD text of the three edited files for 'before'. The new module's compiled closure was checked separately by a probe.",
+  "before": "66 of 245",
+  "after": "67 of 246",
+  "added": [
+   "Causal.LevinTimeFunction"
+  ],
+  "lost": [],
+  "still_model_reaching": "Causal.LevinUtility, Causal.LemmaKSC and Causal.LemmaKObstruction, all through Causal.LemmaKReduction -> Causal.LemmaKBare -> Causal.Model.CurvesExtendModels (tools/ladder.py model_path)."
+ },
+ "checks": {
+  "lake build": "`taskset -c 0-11 lake build Causal.LevinTimeFunction Causal.LemmaKSC Causal.LemmaKObstruction Causal.LevinUtility Causal.LemmaKLocal Causal.LemmaKSCLocal Causal.LemmaK`: green. `lake build Causal` was run once (8805 jobs, green), before the mathlib import was added to the new module. After that change the same seven modules were rebuilt by name, then `lake build +Causal` (the root module, 8804 jobs, green). A final `lake build --no-build Causal` reports all 8805 jobs up to date. No mathlib module and no Causal module outside those eight was rebuilt.",
+  "lake env lean -DwarningAsError=true": "clean (no output) on all four files.",
+  "scripts/sorry_count.py": "strict: 0 in 246 files. scaffold: 5 in 6 files, unchanged by this target.",
+  "axioms": "`#print axioms Causal.Causality.GloballyHyperbolic.hasTimeFunction`: [propext, Classical.choice, Quot.sound]. `#print axioms Causal.Causality.exists_timeFunction_of_secondCountable`: [propext, Classical.choice, Quot.sound]. collectAxioms over all 39 constants of Causal.LevinTimeFunction: no other axiom.",
+  "declaration_diff": "Before any edit, lean-causal was clean in git at HEAD 329dda5 and `lake build --no-build Causal` reported 8804 jobs up to date. So the 'before' dumps were taken from the built oleans, with no /tmp copy of HEAD (kb/0063). Dump body: every constant whose module is under Causal, with name, module, kind, universe parameters, Expr.hash of the type, binder telescope (names with macro scopes erased, binder info, hash of each binder type), value hash (for theorems, definitions and opaques; constructor list for inductives, rule hashes for recursors), reducibility, protected, noncomputable, isInternal. Three environments: `import Causal` (root, 14350 constants), `import Causal.LemmaKSC` (2356), `import Causal.LemmaKObstruction` (2683). After (final build): root 14351. ROOT, the authority: removed 0. Added 1, Causal.Causality.GloballyHyperbolic.hasTimeFunction (thm, [u], telescope M{},inst[],C{},inst[],inst[],hG(),hT()). Changed in module only 38: 35 from Causal.LevinUtility (the 18 Levin.* declarations of the target, the 13 generated constants of the structure Levin.Good, the matcher Levin.isUp_upHull.match_1_1, and exists_timeFunction_of_secondCountable, curvesExtend_of_secondCountable, exists_inextensible_of_secondCountable: 18 + 13 + 1 + 3 = 35); 2 attributed to Causal.LemmaKSC (locallyCompactSpace_of_globallyHyperbolic, sigmaCompactSpace_of_globallyHyperbolic); 1 from Causal.LemmaKObstruction (weaklyLocallyCompactSpace_of_globallyHyperbolic). Changed in kind, universe parameters, type hash, binder telescope, value hash, reducibility, protection or computability: 0 of the 14350 surviving constants. LemmaKSC CLOSURE (what LevinUtility's users saw at HEAD): removed 0. Changed in type: 0. Changed in value: exactly 1, the merged duplicate, locallyCompactSpace_of_globallyHyperbolic: 2586026344 (LemmaKSC's copy) -> 3386744771 (LemmaKObstruction's), type, universes and telescope unchanged. This is the one value change a merge must make. The root environment already carried LemmaKObstruction's term, so the root sees no value change. The 37 constants 'added' to this closure are the moved constants that LemmaKSC's closure did not contain before (Levin.* etc.) plus the wrapper. They are not new to the library. LemmaKObstruction CLOSURE: removed 0, changed in type or value 0; 2 changed in module only; 37 'added' for the same reason. An intermediate state, without the mathlib import, had one more value change, exists_timeFunction_of_secondCountable (see new_modules.why_paracompact). That change is gone in the final state.",
+  "textual": "Every moved block was cut by line range from `git show HEAD:` copies and found byte-identical, exactly once, in its new module; none remains in its old file: LevinUtility HEAD :75-454 = LevinTimeFunction :86-465 (380 lines); LemmaKObstruction HEAD :264-280 = :473-489; LemmaKSC HEAD :129-133 = :491-495; LevinUtility HEAD :456 = :497; LevinUtility HEAD :464-493 = :499-528; the kept corollaries LevinUtility HEAD :495-522 = LevinUtility :72-99. LemmaKSC's duplicate copy (HEAD :120-127) appears nowhere.",
+  "causal_ladder": "Simulated in /tmp only. Neither programme/ladder.toml nor Causal/Ladder/*.lean was touched, and `git status --short` was identical before and after. tools/ladder.py emitted(), emit_lean() and emit_test() were run on programme/ladder.toml as it stands and on a copy with this edge's witness switched to the wrapper. Rules and Test were combined into one file (Rules' imports plus Test's, without `import Causal.Ladder.Rules`), and that file was compiled with `lake env lean`. (1) The hoist alone now makes the edge a rule, since its witness's module Causal.LevinTimeFunction is ETT-layer: 21 rules, 1 skipped (LeNested.curveNestedOn, sort). With the old witness the rule is inert, because its conclusion is HasTimeFunction's body unfolded with monotonicity added, not C.HasTimeFunction. The generated Test then FAILS on 2 examples: `[T2Space M] [SecondCountableTopology M] (_h0 : GloballyHyperbolic C) (_h1 : Tarentin C) : HasTimeFunction C` and the same with `CurvesExtend C`. (2) With the wrapper as witness the whole file compiles: 347 derived examples, 309 fail_if_success checks. They include 'globally_hyperbolic ∧ tarentin ⇏ time_function (standing dropped: T2, second_countable)', the curves_extend analogue, and the two one-premise-dropped checks. The model-import guard passes, and Rules gains `import Causal.LevinTimeFunction`.",
+  "tools": "Run read-only; `git status --short` was identical before and after. tools/ladder.py check: green (23 properties, 22 implications, 49 counterexamples, 42 consequences). tools/binder.py check: 2 binders, all links resolve. tools/ledger.py -c papers/<slug>/ledger/ledger.toml check: green for barbot, bbs, benzecri, dyniso, egf, ers-predictability, ett, gx, sbierski-mghd, syracuse and yamabe. nonacyclic is source = 'pdf', as before. No curation file or binder names a moved declaration or one of the three old files (grep of papers/*/certificate/*.toml and papers/*/ledger/). BUT tools/ladder.py emit-lean's output now differs from the Causal/Ladder/Rules.lean and Test.lean on disk, since the witness's module is now ETT-layer. So tests/test_programme.py's staleness test (:260-265) will fail until the master regenerates them (master_changes.ladder).",
+  "lean_gx": "lean-gx is untouched. It pins Causal at ca2ad78 (lean-gx/lake-manifest.json) in its own .lake/packages/Causal. It imports Causal.LevinUtility in GX/BTZ/LocalModel.lean:12 and GX/BTZ/Spear.lean:3. After a pin bump those imports still resolve every moved name, because LevinUtility imports Causal.LevinTimeFunction. Importing Causal.LevinTimeFunction directly would narrow gx's closure, which is for gx's own campaign to decide."
+ },
+ "master_changes": {
+  "root_import": "Causal.lean: add `import Causal.LevinTimeFunction`, e.g. after `import Causal.CurvesExtend` (line 40) or before `import Causal.LemmaKSC` (line 63). The module is reached today through LemmaKSC, LemmaKObstruction and LevinUtility. Optionally update the docstring sentence at Causal.lean:259, which lists Causal.LevinUtility among the Lemma K modules.",
+  "readme_rows": [
+   "| `Causal.LevinTimeFunction` | — | ETT programme, layer 1 (T-abs-hoist-levin; no paper label): Levin's theorem for closed preorders (namespace `Causal.Levin`: order normality, order Urysohn, `exists_utility`), local and σ-compactness from global hyperbolicity and tarentin (`weaklyLocallyCompactSpace_of_globallyHyperbolic`, `locallyCompactSpace_of_globallyHyperbolic`, `sigmaCompactSpace_of_globallyHyperbolic`), `exists_timeFunction_of_secondCountable`, `curvesExtend_of_secondCountable`, `exists_inextensible_of_secondCountable`, moved out of `Causal.LevinUtility`, `Causal.LemmaKSC`, `Causal.LemmaKObstruction` with the same names; new edge `GloballyHyperbolic.hasTimeFunction` (`globally_hyperbolic ∧ tarentin ⇒ time_function`, T2, second countable); 2026-11-21 |",
+   "Replace README.md:96 with: | `Causal.LevinUtility` | — | Lemma K's characterisations in second countable spacetimes without `CurvesExtend` (`isCauchySurface_iff_local_of_secondCountable`, `isCauchySurface_iff_isOpen_strictJplus_of_secondCountable`); Levin's theorem itself is in `Causal.LevinTimeFunction` |"
+  ],
+  "ladder": "REQUIRED, in the same commit as this graduation, or `make check` fails. (a) programme/ladder.toml:583: switch the witness of [[implies]] globally_hyperbolic ∧ tarentin ⇒ time_function (standing T2, second_countable) to Causal.Causality.GloballyHyperbolic.hasTimeFunction. Update the comment at :573 (Causal/LevinUtility.lean -> Causal/LevinTimeFunction.lean; the witness now concludes HasTimeFunction itself, so the sentence 'The witness's conclusion is HasTimeFunction's body with monotonicity along ≤ added' becomes a sentence about the old witness). (b) Run `python3 tools/ladder.py emit-lean`, then build Causal.Ladder.Rules and Causal.Ladder.Test. Without (b), tests/test_programme.py:260-265 fails on stale Rules.lean and Test.lean as soon as this hoist is in the tree. If emit-lean runs without (a), the edge becomes an inert rule and Test.lean fails to build on 2 examples (checks.causal_ladder).",
+  "curation_extra_lean_files": "None needed: no papers/*/certificate/curation.toml, binder.toml or ledger names a moved declaration or Causal/LevinUtility.lean, Causal/LemmaKSC.lean or Causal/LemmaKObstruction.lean (grep), and every ledger check is green.",
+  "prose_pointers": "Optional, outside this dispatch: these name Causal.LevinUtility for the moved theorems. Causal/CurvesExtend.lean:99; Causal/LemmaK.lean:42 and its sigmaCompactSpace pointer at :56 ('Causal.LemmaKSC'); Causal/LemmaKSCLocal.lean:13 ('track A (`Causal.LevinUtility`)'); scaffold/CausalScaffold/LemmaKSCOpen.lean:36 and :78; docs/BARBOT.md:239 and :252.",
+  "kb": [
+   "Update kb/0065 (time-function layer): Levin's time function is in the ETT layer, in Causal.LevinTimeFunction, and the edge globally_hyperbolic ∧ tarentin ⇒ time_function is Causality.GloballyHyperbolic.hasTimeFunction (T2, second countable).",
+   "kb/0047: no correction needed. Its list (T-abs-hoist-model-free's hoists) is still accurate, and its closing advice is confirmed again. Optionally an update line: Levin.*, local and σ-compactness from GH ∧ tarentin and exists_timeFunction_of_secondCountable are hoisted into Causal.LevinTimeFunction (T-abs-hoist-levin). Still stranded behind Causal.LemmaKReduction: metrizableSpace_of_globallyHyperbolic, countable_of_wellOrdered_chain (LemmaKSC), and most of LemmaKObstruction (withoutChronology, the vacuity recipe, not_tarentin_of_branching).",
+   "kb/0061: no correction needed. It is about Causal.E0 / Causal.E0LM and names nothing this target moved.",
+   "New pitfall: duplicate theorems are not a build error. Lean v4.31.0 merges two imported theorems with the same name, type and universes (Lean/Environment.lean:2184 subsumesInfo). The merged constant keeps the first module's index and the later module's proof term. Causal.lean imported both copies of locallyCompactSpace_of_globallyHyperbolic for weeks. Find duplicates by grep or by a dump, not by the build.",
+   "New pitfall: a hoist that narrows the import closure can change a moved proof term through instance search, with the same source text and type. The dump catches it as a value-hash change. Diagnose by re-elaborating the old text under a probe name in the old closure, then restore the term by importing the mathlib module that carried the old instance path (here Mathlib.Topology.Compactness.Paracompact for exists_timeFunction_of_secondCountable)."
+  ]
+ },
+ "for_keeper": {
+  "edge": "globally_hyperbolic ∧ tarentin ⇒ time_function",
+  "witness": "Causal.Causality.GloballyHyperbolic.hasTimeFunction",
+  "witness_module": "Causal.LevinTimeFunction (ETT layer; compiled closure 23 Causal modules, no model; tools/ladder.py model_path is None)",
+  "signature": "theorem Causal.Causality.GloballyHyperbolic.hasTimeFunction {M : Type u} [TopologicalSpace M] {C : Causal.Causality M} [T2Space M] [SecondCountableTopology M] (hG : C.GloballyHyperbolic) (hT : C.Tarentin) : C.HasTimeFunction",
+  "hypotheses": [
+   "(hG : C.GloballyHyperbolic)",
+   "(hT : C.Tarentin)"
+  ],
+  "standing": [
+   "T2",
+   "second_countable"
+  ],
+  "under": "none",
+  "previous_witness": "Causal.Causality.exists_timeFunction_of_secondCountable. Its full name is unchanged and it now lives in Causal.LevinTimeFunction. It concludes HasTimeFunction's body unfolded, with monotonicity along ≤ added, so as an aesop forward rule it never yields C.HasTimeFunction.",
+  "proposed_entry": "[[implies]]\nfrom = [\"globally_hyperbolic\", \"tarentin\"]\nto = \"time_function\"\nwitness = \"Causal.Causality.GloballyHyperbolic.hasTimeFunction\"\nstanding = [\"T2\", \"second_countable\"]\nstatus = \"checked\"",
+  "emit_lean": "Yes. The edge qualifies as a causal_ladder rule: empty under, both ends of sort causality, standing words in the vocabulary, witness in an ETT-layer module, and its conclusion is the Lean form of time_function. Simulated (checks.causal_ladder): with this witness the regenerated Rules+Test compiles. The rule fires with T2Space and SecondCountableTopology in context. 'globally_hyperbolic ∧ tarentin ⇏ time_function (standing dropped)' passes, and so do the one-premise-dropped checks. With the old witness Test fails on 2 examples. The switch and the regeneration must land together with the hoist (master_changes.ladder).",
+  "consequences": [
+   "With time_function ⇒ curves_extend (HasTimeFunction.curvesExtend) and time_function ⇒ is_causal (HasTimeFunction.isCausal) already rules, causal_ladder derives CurvesExtend from GloballyHyperbolic ∧ Tarentin under T2 and second countability (a generated Test example, which passes in the simulation).",
+   "T-lad-consequences gets Levin's time functions in the ETT layer: Causal.LevinTimeFunction can be imported by layer-1 modules."
+  ],
+  "ladder_comment": "programme/ladder.toml:573 names Causal/LevinUtility.lean; the file is now Causal/LevinTimeFunction.lean."
+ },
+ "kb_proposals": [
+  "kb/0065 update: Levin's time function is ETT-layer (Causal.LevinTimeFunction). The edge globally_hyperbolic ∧ tarentin ⇒ time_function is GloballyHyperbolic.hasTimeFunction (T2, second countable). Causal.LevinUtility keeps only the two Lemma K corollaries.",
+  "kb/0047, kb/0061: no correction needed (neither names anything this target moved). Optionally add to 0047 that Levin.* and local/σ-compactness from GH ∧ tarentin are hoisted, and that metrizableSpace_of_globallyHyperbolic, countable_of_wellOrdered_chain and most of LemmaKObstruction are still stranded behind LemmaKReduction.",
+  "New (pitfall): Lean v4.31.0 accepts a theorem declared in two modules with the same type (subsumesInfo, Lean/Environment.lean:2184). A duplicate full name builds, and the root imported both copies of locallyCompactSpace_of_globallyHyperbolic. Grep or dump for duplicates.",
+  "New (pitfall): narrowing a moved declaration's import closure can change its proof term through instance search. Re-elaborate the old text in the old closure to attribute the change, and add the mathlib import that restores the old instance path (Mathlib.Topology.Compactness.Paracompact here)."
+ ],
+ "notes": "Strict-library refactor. No statement changed, no declaration disappeared or was renamed, and exactly one public declaration is new (the wrapper). In the root environment every moved constant has its old type, universes, telescope and proof term (dump). The merged duplicate is one name, as Lean already saw it. Within LemmaKSC's own closure its proof term is now LemmaKObstruction's copy, the term the root already carried. For the master: (1) The ladder witness switch and emit-lean regeneration are REQUIRED in the same commit (master_changes.ladder). Otherwise tests/test_programme.py fails on stale generated files. (2) Root import, README rows and kb are in master_changes. No curation change is needed. (3) The new module's name is Causal.LevinTimeFunction. (4) Evidence, not a ruling: HasTimeFunction is not ETT's defi:fonction_temps (kb/0065), so this edge says nothing about IsTimeFunction. (5) No git command that writes was run. The scratch files are kept outside the repository for the auditor in /tmp/hlev: the HEAD copies of the three files (head/); the dumps (dump/before_*.tsv, *.keep, after_*.tsv) with their generator dump/DumpBody.lean and comparer cmp.py; the instance probes (probe/); the ladder simulation (ladder/sim.py, old_witness.lean, new_witness.lean). The 'before' oleans were overwritten by the build, so the before dumps are the only record of HEAD's compiled state. The working tree also has changes by others: programme/roadmap.toml, roadmap/roadmap.toml, and lean-benzecri, lean-syracuse and lean-yamabe files."
+}

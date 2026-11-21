@@ -243,6 +243,7 @@ import Causal.SingularFlatPlain
 import Causal.Model.FlatTimeCylinder
 import Causal.Model.QuasilinearOneSided
 import Causal.RationalLineExtras
+import Causal.LevinTimeFunction
 
 /-!
 # Causal — topological spacetimes
